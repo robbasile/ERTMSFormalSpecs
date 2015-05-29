@@ -1221,6 +1221,28 @@ namespace GUI
             }
 
             /// <summary>
+            ///     Provides the unique identifier
+            /// </summary>
+            [Category("Meta data")]
+            public virtual string Update
+            {
+                get
+                {
+                    string retVal = "";
+                    ModelElement element = Item as ModelElement;
+                    if (element != null)
+                    {
+                        if (element.Updates != null)
+                        {
+                            retVal = "Updates " + element.Updates.FullName;
+                        }
+                    }
+
+                    return retVal;
+                }
+            }
+
+            /// <summary>
             ///     Constructor
             /// </summary>
             protected NamedEditor()

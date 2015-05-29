@@ -377,8 +377,11 @@ namespace DataDictionary.Functions
             // In addition to indicating the function's update information, we need to create links for each parameter
             foreach (Parameter parameter in FormalParameters)
             {
-                Parameter matchingParameter = sourceProcedure.getFormalParameter(parameter.Name);
-                parameter.setUpdates(matchingParameter.Guid);
+                Parameter baseParameter = sourceProcedure.getFormalParameter(parameter.Name);
+                if (baseParameter != null)
+                {
+                    parameter.SetUpdateInformation(baseParameter);
+                }
             }
 
             foreach (Rule rule in Rules)

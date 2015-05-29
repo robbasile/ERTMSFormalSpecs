@@ -785,13 +785,20 @@ namespace DataDictionary.Types
 
             foreach (State state in States)
             {
-                state.SetUpdateInformation(sourceStateMachine.FindState(state.Name));
+                State baseState = sourceStateMachine.FindState(state.Name);
+                if (baseState != null)
+                {
+                    state.SetUpdateInformation(baseState);
+                }
             }
 
             foreach (Rule rule in Rules)
             {
                 Rule baseRule = sourceStateMachine.FindRule(rule.Name);
-                rule.SetUpdateInformation(baseRule);
+                if (baseRule != null)
+                {
+                    rule.SetUpdateInformation(baseRule);
+                }
             }
         }
     }

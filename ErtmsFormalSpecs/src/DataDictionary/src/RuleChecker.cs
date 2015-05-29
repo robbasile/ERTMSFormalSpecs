@@ -76,6 +76,25 @@ namespace DataDictionary
         }
 
         /// <summary>
+        /// Indicates whether one of the parent of the model element has been updated (by a path)
+        /// </summary>
+        /// <param name="modelElement"></param>
+        /// <returns></returns>
+        private bool ParentHasBeenUpdated(ModelElement modelElement)
+        {
+            bool retVal = false;
+
+            ModelElement current = modelElement;
+            while (current != null && !(current is NameSpace) && !retVal)
+            {
+                retVal = current.UpdatedBy.Count > 0;
+                current = current.Enclosing as ModelElement;
+            }
+
+            return retVal;
+        }
+
+        /// <summary>
         ///     Checks an expression associated to a model element
         /// </summary>
         /// <param name="model">The model element on which the expression is defined</param>
@@ -86,7 +105,7 @@ namespace DataDictionary
             Expression retVal = null;
 
             // Only check expressions for which the model is not updated
-            if (model.UpdatedBy.Count == 0)
+            if (!ParentHasBeenUpdated(model))
             {
                 Parser parser = model.EFSSystem.Parser;
                 try
@@ -127,7 +146,7 @@ namespace DataDictionary
             Statement retVal = null;
 
             // Only check statements for model elements which are not updated
-            if (model.UpdatedBy.Count == 0)
+            if (!ParentHasBeenUpdated(model))
             {
                 Parser parser = model.EFSSystem.Parser;
                 try

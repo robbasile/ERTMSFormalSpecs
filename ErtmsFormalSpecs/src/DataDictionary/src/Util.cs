@@ -88,6 +88,7 @@ namespace DataDictionary
                     string guid = element.Guid;
                 }
 
+                // Make sure that the update information is consistent
                 if (!String.IsNullOrEmpty(element.Guid))
                 {
                     if (element.Updates != null)
@@ -95,6 +96,7 @@ namespace DataDictionary
                         element.SetUpdateInformation(element.Updates);
                     }
                 }
+
                 IExpressionable expressionable = obj as IExpressionable;
                 if (expressionable != null && ConvertObsoleteFile)
                 {

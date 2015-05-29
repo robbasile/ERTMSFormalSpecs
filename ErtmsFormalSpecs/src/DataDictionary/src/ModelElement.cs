@@ -272,7 +272,7 @@ namespace DataDictionary
         /// <param name="source"></param>
         public virtual void SetUpdateInformation(ModelElement source)
         {
-            if (Updates != source)
+            if (string.IsNullOrEmpty(getUpdates()) || getUpdates() != source.Guid )
             {
                 setUpdates(source.Guid);
             }

@@ -588,25 +588,37 @@ namespace DataDictionary.Types
             foreach (StructureElement element in Elements)
             {
                 StructureElement baseElement = sourceStructure.FindStructureElement(element.Name);
-                element.SetUpdateInformation(baseElement);
+                if (baseElement != null)
+                {
+                    element.SetUpdateInformation(baseElement);
+                }
             }
 
             foreach (Procedure procedure in Procedures)
             {
                 Procedure baseProcedure = sourceStructure.FindProcedure(procedure.Name);
-                procedure.SetUpdateInformation(baseProcedure);
+                if (baseProcedure != null)
+                {
+                    procedure.SetUpdateInformation(baseProcedure);
+                }
             }
 
             foreach (Rule rule in Rules)
             {
                 Rule baseRule = sourceStructure.FindRule(rule.Name);
-                rule.SetUpdateInformation(baseRule);
+                if (baseRule != null)
+                {
+                    rule.SetUpdateInformation(baseRule);
+                }
             }
 
             foreach (StateMachine stateMachine in StateMachines)
             {
                 StateMachine baseStateMachine = sourceStructure.FindStateMachine(stateMachine.Name);
-                stateMachine.SetUpdateInformation(baseStateMachine);
+                if (baseStateMachine != null)
+                {
+                    stateMachine.SetUpdateInformation(baseStateMachine);
+                }
             }
         }
     }

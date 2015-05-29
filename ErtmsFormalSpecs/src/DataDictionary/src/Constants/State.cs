@@ -476,7 +476,11 @@ namespace DataDictionary.Constants
 
             if (getStateMachine() != null)
             {
-                StateMachine.SetUpdateInformation(sourceState.StateMachine);                
+                StateMachine baseSataStateMachine = sourceState.StateMachine;
+                if (baseSataStateMachine != null)
+                {
+                    StateMachine.SetUpdateInformation(baseSataStateMachine);
+                }
             }
         }
     }
