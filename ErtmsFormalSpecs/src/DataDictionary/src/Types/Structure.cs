@@ -580,31 +580,32 @@ namespace DataDictionary.Types
         /// Sets the update information for this structure
         /// </summary>
         /// <param name="source">The source structure for which this structure has been created (as an update)</param>
-        private void SetUpdateInformation(Structure source)
+        public override void SetUpdateInformation(ModelElement source)
         {
-            setUpdates(source.Guid);
+            base.SetUpdateInformation(source);
+            Structure sourceStructure = (Structure)source;
 
             foreach (StructureElement element in Elements)
             {
-                StructureElement baseElement = source.FindStructureElement(element.Name);
+                StructureElement baseElement = sourceStructure.FindStructureElement(element.Name);
                 element.SetUpdateInformation(baseElement);
             }
 
             foreach (Procedure procedure in Procedures)
             {
-                Procedure baseProcedure = source.FindProcedure(procedure.Name);
+                Procedure baseProcedure = sourceStructure.FindProcedure(procedure.Name);
                 procedure.SetUpdateInformation(baseProcedure);
             }
 
             foreach (Rule rule in Rules)
             {
-                Rule baseRule = source.FindRule(rule.Name);
+                Rule baseRule = sourceStructure.FindRule(rule.Name);
                 rule.SetUpdateInformation(baseRule);
             }
 
             foreach (StateMachine stateMachine in StateMachines)
             {
-                StateMachine baseStateMachine = source.FindStateMachine(stateMachine.Name);
+                StateMachine baseStateMachine = sourceStructure.FindStateMachine(stateMachine.Name);
                 stateMachine.SetUpdateInformation(baseStateMachine);
             }
         }

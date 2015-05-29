@@ -88,6 +88,13 @@ namespace DataDictionary
                     string guid = element.Guid;
                 }
 
+                if (!String.IsNullOrEmpty(element.Guid))
+                {
+                    if (element.Updates != null)
+                    {
+                        element.SetUpdateInformation(element.Updates);
+                    }
+                }
                 IExpressionable expressionable = obj as IExpressionable;
                 if (expressionable != null && ConvertObsoleteFile)
                 {

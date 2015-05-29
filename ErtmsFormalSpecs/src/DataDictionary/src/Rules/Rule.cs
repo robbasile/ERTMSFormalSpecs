@@ -92,6 +92,16 @@ namespace DataDictionary.Rules
         }
 
         /// <summary>
+        ///     Provides the rule condition which corresponds to the name provided
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public RuleCondition FindRuleCondition(string name)
+        {
+            return (RuleCondition) INamableUtils.findByName(name, RuleConditions);
+        }
+
+        /// <summary>
         ///     The traces to the specifications
         /// </summary>
         public ArrayList Traces
@@ -546,9 +556,19 @@ namespace DataDictionary.Rules
         /// Sets the update information for this rule (this rule updates source)
         /// </summary>
         /// <param name="source"></param>
-        public void SetUpdateInformation(Rule source)
+        public override void SetUpdateInformation(ModelElement source)
         {
-            setUpdates(source.Guid);
+            base.SetUpdateInformation(source);
+            Rule sourceRule = (Rule)source;
+
+            foreach (RuleCondition ruleCondition in RuleConditions)
+            {
+                RuleCondition baseRuleCondition = sourceRule.FindRuleCondition(ruleCondition.Name);
+                if (baseRuleCondition != null)
+                {
+                    ruleCondition.SetUpdateInformation(baseRuleCondition);
+                }
+            }
         }
 
         /// <summary>

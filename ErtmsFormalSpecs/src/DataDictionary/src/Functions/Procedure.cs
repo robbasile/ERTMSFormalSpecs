@@ -182,6 +182,16 @@ namespace DataDictionary.Functions
         }
 
         /// <summary>
+        ///     Provides the rule which corresponds to the name provided
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public Rule FindRule(string name)
+        {
+            return (Rule) INamableUtils.findByName(name, Rules);
+        }
+
+        /// <summary>
         ///     Adds a model element in this model element
         /// </summary>
         /// <param name="copy"></param>
@@ -359,15 +369,25 @@ namespace DataDictionary.Functions
         /// Sets the update information for this procedure
         /// </summary>
         /// <param name="source">The source procedure this procedure updates</param>
-        public void SetUpdateInformation(Procedure source)
+        public override void SetUpdateInformation(ModelElement source)
         {
-            setUpdates(source.Guid);
+            base.SetUpdateInformation(source);
+            Procedure sourceProcedure = (Procedure) source;
 
             // In addition to indicating the function's update information, we need to create links for each parameter
             foreach (Parameter parameter in FormalParameters)
             {
-                Parameter matchingParameter = source.getFormalParameter(parameter.Name);
+                Parameter matchingParameter = sourceProcedure.getFormalParameter(parameter.Name);
                 parameter.setUpdates(matchingParameter.Guid);
+            }
+
+            foreach (Rule rule in Rules)
+            {
+                Rule baseRule = sourceProcedure.FindRule(rule.Name);
+                if (baseRule != null)
+                {
+                    rule.SetUpdateInformation(baseRule);
+                }
             }
         }
     }

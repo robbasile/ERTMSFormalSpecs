@@ -264,7 +264,19 @@ namespace DataDictionary
         /// <summary>
         /// Provides the list of the model elements which update this model element
         /// </summary>
-        public List<ModelElement> UpdatedBy = new List<ModelElement>();  
+        public List<ModelElement> UpdatedBy = new List<ModelElement>();
+
+        /// <summary>
+        /// Sets the update information for this model element (this model element updates source)
+        /// </summary>
+        /// <param name="source"></param>
+        public virtual void SetUpdateInformation(ModelElement source)
+        {
+            if (Updates != source)
+            {
+                setUpdates(source.Guid);
+            }
+        }
     }
 
     public interface TextualExplain

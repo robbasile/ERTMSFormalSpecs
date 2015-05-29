@@ -79,6 +79,16 @@ namespace DataDictionary.Rules
         }
 
         /// <summary>
+        ///     Provides the precondition which corresponds to the name provided
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public PreCondition FindPreCondition(string name)
+        {
+            return (PreCondition) INamableUtils.findByName(name, PreConditions);
+        }
+
+        /// <summary>
         ///     Provides the set of preconditions (both local and from the eclosing rules)
         /// </summary>
         public List<PreCondition> AllPreConditions
@@ -120,6 +130,16 @@ namespace DataDictionary.Rules
         }
 
         /// <summary>
+        ///     Provides the action which corresponds to the name provided
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public Action FindAction(string name)
+        {
+            return (Action) INamableUtils.findByName(name, Actions);
+        }
+
+        /// <summary>
         ///     Provides the sub rules associated to this rule condition
         /// </summary>
         public ArrayList SubRules
@@ -133,6 +153,16 @@ namespace DataDictionary.Rules
                 return allSubRules();
             }
             set { setAllSubRules(value); }
+        }
+
+        /// <summary>
+        ///     Provides the sub rule which corresponds to the name provided
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public Rule FindRule(string name)
+        {
+            return (Rule) INamableUtils.findByName(name, SubRules);
         }
 
         /// <summary>
@@ -464,6 +494,43 @@ namespace DataDictionary.Rules
             }
 
             return retVal;
+        }
+
+        /// <summary>
+        /// Sets the update information for this rule condition (this rule condition updates source)
+        /// </summary>
+        /// <param name="source"></param>
+        public override void SetUpdateInformation(ModelElement source)
+        {
+            base.SetUpdateInformation(source);
+            RuleCondition sourceRuleCondition = (RuleCondition)source;
+
+            foreach (Action action in Actions)
+            {
+                Action baseAction = sourceRuleCondition.FindAction(action.Name);
+                if (baseAction != null)
+                {
+                    action.SetUpdateInformation(baseAction);
+                }
+            }
+
+            foreach (PreCondition preCondition in PreConditions)
+            {
+                PreCondition basePreCondition = sourceRuleCondition.FindPreCondition(preCondition.Name);
+                if (basePreCondition != null)
+                {
+                    preCondition.SetUpdateInformation(basePreCondition);
+                }
+            }
+
+            foreach (Rule rule in SubRules)
+            {
+                Rule baseRule = sourceRuleCondition.FindRule(rule.Name);
+                if (baseRule != null)
+                {
+                    rule.SetUpdateInformation(baseRule);
+                }
+            }
         }
     }
 }

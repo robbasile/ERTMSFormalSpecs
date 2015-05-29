@@ -339,14 +339,5 @@ namespace DataDictionary.Types
 
             return TextualExplainUtilities.Encapsule(retVal);
         }
-
-        /// <summary>
-        /// Sets the update information for this structure element (this structure element updates source)
-        /// </summary>
-        /// <param name="source"></param>
-        public void SetUpdateInformation(StructureElement source)
-        {
-            setUpdates(source.Guid);
-        }
     }
 }

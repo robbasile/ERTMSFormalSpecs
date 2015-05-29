@@ -154,6 +154,16 @@ namespace DataDictionary.Types
         }
 
         /// <summary>
+        /// Provides the rule which corresponds to the name provided
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public Rule FindRule(string name)
+        {
+            return (Rule) INamableUtils.findByName(name, Rules);
+        }
+
+        /// <summary>
         ///     Provides the values whose name matches the name provided
         /// </summary>
         /// <param name="index">the index in names to consider</param>
@@ -185,7 +195,7 @@ namespace DataDictionary.Types
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public State findState(string name)
+        public State FindState(string name)
         {
             State retVal = (State) findValue(name.Split('.'), 0);
 
@@ -768,13 +778,20 @@ namespace DataDictionary.Types
         /// Sets the update information for this state machine (this state machine updates source)
         /// </summary>
         /// <param name="source"></param>
-        public void SetUpdateInformation(StateMachine source)
+        public override void SetUpdateInformation(ModelElement source)
         {
-            setUpdates(source.Guid);
+            base.SetUpdateInformation(source);
+            StateMachine sourceStateMachine = (StateMachine)source;
 
             foreach (State state in States)
             {
-                state.SetUpdateInformation(source.findState(state.Name));
+                state.SetUpdateInformation(sourceStateMachine.FindState(state.Name));
+            }
+
+            foreach (Rule rule in Rules)
+            {
+                Rule baseRule = sourceStateMachine.FindRule(rule.Name);
+                rule.SetUpdateInformation(baseRule);
             }
         }
     }

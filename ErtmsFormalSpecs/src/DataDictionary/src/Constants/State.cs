@@ -469,13 +469,14 @@ namespace DataDictionary.Constants
         /// Sets the update information for this state (this state updates source)
         /// </summary>
         /// <param name="source"></param>
-        public void SetUpdateInformation(State source)
+        public override void SetUpdateInformation(ModelElement source)
         {
-            setUpdates(source.Guid);
+            base.SetUpdateInformation(source);
+            State sourceState = (State) source;
 
             if (getStateMachine() != null)
             {
-                StateMachine.SetUpdateInformation(source.StateMachine);                
+                StateMachine.SetUpdateInformation(sourceState.StateMachine);                
             }
         }
     }

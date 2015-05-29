@@ -33,7 +33,7 @@ namespace DataDictionary.test.updateModel
 
             StateMachine updStateMachine = stateMachine.CreateStateMachineUpdate(dictionary2);
 
-            State updState = updStateMachine.findState("S1");
+            State updState = updStateMachine.FindState("S1");
             State subState = CreateState(updState.StateMachine, "bis");
             updState.StateMachine.setDefault("bis");
 
@@ -69,7 +69,7 @@ namespace DataDictionary.test.updateModel
 
             StateMachine updStateMachine = stateMachine.CreateStateMachineUpdate(dictionary2);
 
-            State updState = updStateMachine.findState("S1");
+            State updState = updStateMachine.FindState("S1");
             State subState = CreateState(updState.StateMachine, "bis");
             updState.StateMachine.setDefault("bis");
 
