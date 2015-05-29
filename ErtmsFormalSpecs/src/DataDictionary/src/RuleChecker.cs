@@ -85,29 +85,34 @@ namespace DataDictionary
         {
             Expression retVal = null;
 
-            Parser parser = model.EFSSystem.Parser;
-            try
+            // Only check expressions for which the model is not updated
+            if (model.UpdatedBy.Count == 0)
             {
-                retVal = parser.Expression(model, expression);
-
-                if (retVal != null)
+                Parser parser = model.EFSSystem.Parser;
+                try
                 {
-                    retVal.checkExpression();
-                    Type type = retVal.GetExpressionType();
-                    if (type == null)
+                    retVal = parser.Expression(model, expression);
+
+                    if (retVal != null)
                     {
-                        model.AddError("Cannot determine expression type (5) for " + retVal.ToString());
+                        retVal.checkExpression();
+                        Type type = retVal.GetExpressionType();
+                        if (type == null)
+                        {
+                            model.AddError("Cannot determine expression type (5) for " + retVal.ToString());
+                        }
+                    }
+                    else
+                    {
+                        model.AddError("Cannot parse expression");
                     }
                 }
-                else
+                catch (Exception exception)
                 {
-                    model.AddError("Cannot parse expression");
+                    model.AddException(exception);
                 }
             }
-            catch (Exception exception)
-            {
-                model.AddException(exception);
-            }
+
             return retVal;
         }
 
@@ -121,23 +126,28 @@ namespace DataDictionary
         {
             Statement retVal = null;
 
-            Parser parser = model.EFSSystem.Parser;
-            try
+            // Only check statements for model elements which are not updated
+            if (model.UpdatedBy.Count == 0)
             {
-                retVal = parser.Statement(model, expression);
-                if (retVal != null)
+                Parser parser = model.EFSSystem.Parser;
+                try
                 {
-                    retVal.CheckStatement();
+                    retVal = parser.Statement(model, expression);
+                    if (retVal != null)
+                    {
+                        retVal.CheckStatement();
+                    }
+                    else
+                    {
+                        model.AddError("Cannot parse statement");
+                    }
                 }
-                else
+                catch (Exception exception)
                 {
-                    model.AddError("Cannot parse statement");
+                    model.AddException(exception);
                 }
             }
-            catch (Exception exception)
-            {
-                model.AddException(exception);
-            }
+
             return retVal;
         }
 
@@ -807,10 +817,6 @@ namespace DataDictionary
                             }
                         }
                     }
-                    else
-                    {
-                        preCondition.AddError("Cannot parse pre condition");
-                    }
                 }
                 catch (Exception exception)
                 {
@@ -832,7 +838,7 @@ namespace DataDictionary
                     action.Messages.Clear();
                     if (!action.ExpressionText.Contains('%'))
                     {
-                        Statement statement = checkStatement(action, action.ExpressionText);
+                        checkStatement(action, action.ExpressionText);
                     }
                 }
                 catch (Exception exception)
@@ -856,9 +862,12 @@ namespace DataDictionary
                     if (!expect.ExpressionText.Contains("%"))
                     {
                         Expression expression = checkExpression(expect, expect.ExpressionText);
-                        if (!expect.EFSSystem.BoolType.Match(expression.GetExpressionType()))
+                        if (expression != null)
                         {
-                            expect.AddError("Expression type should be Boolean");
+                            if (!expect.EFSSystem.BoolType.Match(expression.GetExpressionType()))
+                            {
+                                expect.AddError("Expression type should be Boolean");
+                            }
                         }
                     }
                     if (!string.IsNullOrEmpty(expect.getCondition()) && !expect.getCondition().Contains("%"))
@@ -870,10 +879,6 @@ namespace DataDictionary
                             {
                                 expect.AddError("Condition type should be Boolean");
                             }
-                        }
-                        else
-                        {
-                            expect.AddError("Cannot parse condition " + expect.getCondition());
                         }
                     }
                 }
