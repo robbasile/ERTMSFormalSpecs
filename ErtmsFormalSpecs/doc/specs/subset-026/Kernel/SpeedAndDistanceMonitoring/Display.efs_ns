@@ -14,7 +14,7 @@
  Cacheable="TRUE"
  Default=""
  X="420"
- Y="290"
+ Y="40"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -54,8 +54,8 @@ MA.IsSvL(TargetSpeedMonitoring.MRDT())</Expression>
  Type="Default.BaseTypes.Speed"
  Cacheable="TRUE"
  Default=""
- X="200"
- Y="290"
+ X="310"
+ Y="100"
  Width="100"
  Height="50"
  Pinned="TRUE"
@@ -109,8 +109,8 @@ MA.IsSvL(TargetSpeedMonitoring.MRDT())</Expression>
  Type="Boolean"
  Cacheable="TRUE"
  Default=""
- X="90"
- Y="230"
+ X="310"
+ Y="40"
  Width="100"
  Height="50"
  Pinned="TRUE"
@@ -140,8 +140,8 @@ MA.IsSvL(TargetSpeedMonitoring.MRDT())</Expression>
  Type="Default.BaseTypes.Speed"
  Cacheable="TRUE"
  Default=""
- X="530"
- Y="230"
+ X="420"
+ Y="100"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -190,8 +190,8 @@ MA.IsSvL(TargetSpeedMonitoring.MRDT())</Expression>
 <Rules>
 <Rule
  Priority="Processing"
- X="260"
- Y="130"
+ X="20"
+ Y="160"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -214,12 +214,14 @@ MA.IsSvL(TargetSpeedMonitoring.MRDT())</Expression>
 <Comment>Display the Indication location.</Comment>
 <PreConditions>
 <PreCondition
- Guid="65b61732-a87c-455b-bdb9-03c8e8fcfa36"
->DMI.OUT.IndicationLocationAtMrspSpeedAvailable()</PreCondition></PreConditions>
+ Guid="cfd19f5a-5b93-4c7a-9039-d8c142d73f83"
+>GetMonitoringType() == MonitoringType.CSM
+  OR  
+GetMonitoringType() == MonitoringType.PIM</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="fd2db40b-5d6c-489e-a967-d028d547f0b0"
->DMI.MasterDMI().Out_IndicationLocationAtMrspSpeed.OutputInformation.RequestDisplay()</Action></Actions>
+>DMI.MasterDMI().Out_IndicationLocationAtMrspSpeed.Display()</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Otherwise"
@@ -231,12 +233,12 @@ MA.IsSvL(TargetSpeedMonitoring.MRDT())</Expression>
 <Actions>
 <Action
  Guid="91d92fd2-af3e-4b15-a7b7-5726df3f7c59"
->DMI.MasterDMI().Out_IndicationLocationAtMrspSpeed.OutputInformation.DoNotDisplay()</Action></Actions>
+>DMI.MasterDMI().Out_IndicationLocationAtMrspSpeed.DoNotDisplay()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
- X="40"
- Y="130"
+ X="20"
+ Y="40"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -273,8 +275,8 @@ NOT DMI.MasterDMI().Out_TargetSpeed.OutputInformation.DisplayRequested</PreCondi
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
- X="150"
- Y="130"
+ X="20"
+ Y="100"
  Width="100"
  Height="50"
  Implemented="TRUE"

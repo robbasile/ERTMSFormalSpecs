@@ -8,50 +8,6 @@
 >
 <NameSpaces>
 </NameSpaces>
-<Enumerations>
-<Enum
- Default="None"
- X="960"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="MonitoringType"
- Guid="1f626783-2f5e-4d01-87a0-e0c4cf7b413b"
->
-<ReqRef
- Id="10645ba3-8d86-41ad-9956-71f5be85b4c1"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="fe881505-f76c-4600-81bd-a7d7ee9e8a2d"
->
-</ReqRef><Comment>Provides the sped and distance monitoring type as used by the DMI</Comment>
-<Values>
-<EnumValue
- Value=""
- Name="CSM"
- Guid="fa62acf4-43d2-4dbc-8715-65548c6b8169"
->
-</EnumValue><EnumValue
- Value=""
- Name="PIM"
- Guid="a62b740c-fe43-4308-b8af-fbfbe8e028a4"
->
-</EnumValue><EnumValue
- Value=""
- Name="TSM"
- Guid="e4f8548b-7152-4203-b020-83afff690dd8"
->
-</EnumValue><EnumValue
- Value=""
- Name="RSM"
- Guid="3a80a246-0b82-4d8e-a2e4-0bd2ad2292df"
->
-</EnumValue><EnumValue
- Value=""
- Name="None"
- Guid="5e38e1a4-b390-4757-ba12-f82907a119f5"
->
-</EnumValue></Values>
-</Enum></Enumerations>
 <Structures>
 <Structure
  Default=""
@@ -1245,7 +1201,7 @@
  Guid="05418ba3-2072-44cd-854f-981486368998"
 >
 </StructureElement><StructureElement
- TypeName="MonitoringType"
+ TypeName="Kernel.SpeedAndDistanceMonitoring.MonitoringType"
  Default=""
  Mode="Internal"
  Implemented="TRUE"
@@ -4418,6 +4374,34 @@ IN MRSP</Action></Actions>
 >THIS.OutputInformation.DoNotDisplay()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
+</Procedure><Procedure
+ Implemented="TRUE"
+ Name="DoNotDisplay"
+ Guid="abe1be1f-1aea-42b9-9538-6becf71847cb"
+>
+<Comment>Stop displaying the indication location</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Stop displaying the Indication location"
+ Guid="39217b34-0d2f-49ff-9333-c219d1340da6"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Stop displaying the Indication location"
+ Guid="e4800a56-213b-4e1d-b8ff-663c8fcdcfa0"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="7abef709-ee60-45a2-8756-04abbd17f2fd"
+>THIS.OutputInformation.DoNotDisplay()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
  TypeName="OutputInformation"
@@ -5610,67 +5594,6 @@ TargetDistanceMandatory()</PreCondition></PreConditions>
 <Expression>Kernel.Mode in [Mode.FS]</Expression>
 </Case></Cases>
 </Function><Function
- Type="MonitoringType"
- Cacheable="TRUE"
- Default=""
- X="770"
- Y="120"
- Width="100"
- Height="50"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="GetMonitoringType"
- Guid="81ccd354-aa2f-474c-910d-88a66385c8dc"
->
-<Comment>Returns a enum value for the current speed and distance monitoring type (CSM, TSM, ...)</Comment>
-<Cases>
-<Case
- Name="CSM"
- Guid="6fae8a65-cefb-46d6-bbab-60430fa382c5"
->
-<PreConditions>
-<PreCondition
- Guid="53ca0f91-10e5-4dd6-9f22-b2d224fc39db"
->Kernel.SpeedAndDistanceMonitoring.Monitoring in Kernel.SpeedAndDistanceMonitoring.MonitoringTypeSM.Ceiling</PreCondition></PreConditions>
-<Expression>MonitoringType.CSM</Expression>
-</Case><Case
- Name="RSM"
- Guid="ab09e191-d5d0-47ea-86f7-b616445f8c35"
->
-<PreConditions>
-<PreCondition
- Guid="3f7d104e-b754-41d8-bad2-d90b3d89ee60"
->Kernel.SpeedAndDistanceMonitoring.Monitoring in Kernel.SpeedAndDistanceMonitoring.MonitoringTypeSM.Release</PreCondition></PreConditions>
-<Expression>MonitoringType.RSM</Expression>
-</Case><Case
- Name="PIM"
- Guid="fcc4c295-dfef-4a1c-b298-67754bc3bed5"
->
-<PreConditions>
-<PreCondition
- Guid="83cbb20b-cbe1-4364-967a-c98eb720ea26"
->Kernel.SpeedAndDistanceMonitoring.Monitoring in Kernel.SpeedAndDistanceMonitoring.MonitoringTypeSM.Target</PreCondition><PreCondition
- Guid="ed3001e2-668d-4ae2-8381-1d7db8b7173e"
->Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.d_I( aTarget =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT(), Vmrsp =&gt; Kernel.MRSP.SpeedRestrictions(Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom))) &gt; Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom)</PreCondition><PreCondition
- Guid="0390c7de-4a8c-40ee-b77b-e09a11a4ac1b"
->Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.d_I( aTarget =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT(), Vmrsp =&gt; Kernel.MRSP.SpeedRestrictions(Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom))) != BaseTypes.Distance.Unknown</PreCondition></PreConditions>
-<Expression>MonitoringType.PIM</Expression>
-</Case><Case
- Name="TSM"
- Guid="924a647c-efa7-4ca3-98ed-a77cb55a7fba"
->
-<PreConditions>
-<PreCondition
- Guid="896f70f4-6cd5-4242-b439-75100b519427"
->Kernel.SpeedAndDistanceMonitoring.Monitoring in Kernel.SpeedAndDistanceMonitoring.MonitoringTypeSM.Target</PreCondition></PreConditions>
-<Expression>MonitoringType.TSM</Expression>
-</Case><Case
- Name="Otherwise"
- Guid="db82fc54-36f1-4723-aeac-cbbd58c1af8d"
->
-<Expression>MonitoringType.None</Expression>
-</Case></Cases>
-</Function><Function
  Type="Boolean"
  Default=""
  Y="720"
@@ -6027,9 +5950,7 @@ TargetDistanceMandatory()</PreCondition></PreConditions>
 <PreCondition
  Guid="6171e686-f3f7-443d-bd7d-fc66cb60ad9f"
 >Kernel.Mode in [Mode.FS]</PreCondition></PreConditions>
-<Expression>GetMonitoringType() == MonitoringType.CSM
-  OR  
-GetMonitoringType() == MonitoringType.PIM</Expression>
+<Expression>True</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="3f596a9c-bbf4-4dc7-bfd2-b5cb10cf708c"
