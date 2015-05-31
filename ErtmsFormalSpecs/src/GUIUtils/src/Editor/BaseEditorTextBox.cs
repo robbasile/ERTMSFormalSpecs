@@ -464,8 +464,8 @@ namespace GUI
                         {
                             foreach (INamable namable in subDeclarator.DeclaredElements[subElem])
                             {
-                                if (namable.FullName.EndsWith(searchOptions.EnclosingName + "." + subElem) ||
-                                    subDeclarator is StructureElement)
+                                if (namable.FullName.EndsWith(searchOptions.EnclosingName + "." + subElem) 
+                                    || subDeclarator is StructureElement || subDeclarator is Structure )
                                 {
                                     if (ConsiderOnlyTypes)
                                     {
