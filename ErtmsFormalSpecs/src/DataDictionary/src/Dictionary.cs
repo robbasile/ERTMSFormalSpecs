@@ -826,6 +826,9 @@ namespace DataDictionary
                 visitor.visit(this, true);
                 EFSSystem.INSTANCE.Markings.RegisterCurrentMarking();
             }
+            catch (Exception e)
+            {
+            }
             finally
             {
                 ControllersManager.ActivateAllNotifications();

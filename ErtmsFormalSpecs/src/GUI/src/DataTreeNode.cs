@@ -608,13 +608,20 @@ namespace GUI
         /// <param name="e"></param>
         protected void Check(object sender, EventArgs e)
         {
-            GUIUtils.MDIWindow.ClearMarks();
-            ModelElement modelElement = Model as ModelElement;
-            if (modelElement != null)
+            try
             {
-                RuleCheckerVisitor visitor = new RuleCheckerVisitor(modelElement.Dictionary);
+                GUIUtils.MDIWindow.ClearMarks();
+                ModelElement modelElement = Model as ModelElement;
+                if (modelElement != null)
+                {
+                    RuleCheckerVisitor visitor = new RuleCheckerVisitor(modelElement.Dictionary);
 
-                visitor.visit(modelElement, true);
+                    visitor.visit(modelElement, true);
+                }
+            }
+            catch (Exception excp)
+            {
+                MessageBox.Show("Exception raised", excp.Message);
             }
         }
 
