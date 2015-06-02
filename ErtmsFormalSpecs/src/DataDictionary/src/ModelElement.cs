@@ -154,6 +154,7 @@ namespace DataDictionary
                     {
                         // Ignore state machines because they have the same name as their enclosing state
                         // This is not true for the first state machine in the chain
+                        enclosing = enclosing.Enclosing as ModelElement;
                     }
                     else
                     {
