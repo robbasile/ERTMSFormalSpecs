@@ -397,6 +397,7 @@ namespace DataDictionary.Constants
         /// <param name="copy"></param>
         public override void AddModelElement(IModelElement element)
         {
+            StateMachine.AddModelElement(element);
         }
 
         /// <summary>
