@@ -16,6 +16,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using DataDictionary.Generated;
 using DataDictionary.Interpreter;
@@ -987,14 +988,25 @@ namespace DataDictionary
                         if (type is Types.Range)
                         {
                             Types.Range range = type as Types.Range;
-                            if ((range.getPrecision() == acceptor.PrecisionEnum.aIntegerPrecision &&
-                                 range.Default != null && range.Default.IndexOf('.') > 0)
-                                ||
-                                (range.getPrecision() == acceptor.PrecisionEnum.aDoublePrecision &&
-                                 range.Default != null && range.Default.IndexOf('.') <= 0))
+
+                            try
                             {
-                                type.AddError("Default value's precision does not correspond to the type's precision");
+                                Decimal.Parse(range.Default, CultureInfo.InvariantCulture);
+
+                                if ((range.getPrecision() == acceptor.PrecisionEnum.aIntegerPrecision &&
+                                     range.Default != null && range.Default.IndexOf('.') > 0)
+                                    ||
+                                    (range.getPrecision() == acceptor.PrecisionEnum.aDoublePrecision &&
+                                     range.Default != null && range.Default.IndexOf('.') <= 0))
+                                {
+                                    type.AddError(
+                                        "Default value's precision does not correspond to the type's precision");
+                                }
                             }
+                            catch (Exception)
+                            {                                
+                            }
+
                             foreach (Constants.EnumValue specValue in range.SpecialValues)
                             {
                                 String value = specValue.getValue();
