@@ -27,6 +27,7 @@ namespace GUI.Shortcuts
             : base()
         {
             KeepTrackOfSelection = false;
+            Refactor = false;
         }
 
         /// <summary>
