@@ -293,6 +293,20 @@ namespace GUI
                 foreach (INamable namable in namables)
                 {
                     data += "{\\b " + namable.GetType().Name + "} " + namable.Name + "\\par ";
+                    ICallable callable = namable as ICallable;
+                    if (callable != null)
+                    {
+                        if (callable.FormalParameters.Count > 0)
+                        {
+                            data += "{\\b Parameters : } \\par ";
+                            foreach (Parameter parameter in callable.FormalParameters)
+                            {
+                                data += "    " + parameter.Name + "{\\b : }" + parameter.Type.FullName + "\\par ";
+                            }
+                            data += "\\par ";
+                        }
+                    }
+
                     ICommentable commentable = namable as ICommentable;
                     if (commentable != null)
                     {
