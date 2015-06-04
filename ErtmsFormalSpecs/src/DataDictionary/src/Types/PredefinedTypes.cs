@@ -134,16 +134,19 @@ namespace DataDictionary.Types
         /// <returns></returns>
         public override IValue getValue(string image)
         {
+            IValue retVal = null;
+
             image = image.ToLowerInvariant();
             if (image.CompareTo("false") == 0)
             {
-                return False;
+                retVal = False;
             }
             else if (image.CompareTo("true") == 0)
             {
-                return True;
+                retVal = True;
             }
-            return null;
+
+            return retVal;
         }
 
         /// <summary>
@@ -162,7 +165,7 @@ namespace DataDictionary.Types
 
         public override string Default
         {
-            get { return "false"; }
+            get { return "False"; }
         }
 
         public override bool CompareForEquality(IValue left, IValue right)

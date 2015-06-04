@@ -17,7 +17,6 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using DataDictionary;
@@ -975,7 +974,7 @@ namespace GUI
             {
                 if (AutoComplete)
                 {
-                    if (e.Control == true)
+                    if (e.Control)
                     {
                         switch (e.KeyCode)
                         {
