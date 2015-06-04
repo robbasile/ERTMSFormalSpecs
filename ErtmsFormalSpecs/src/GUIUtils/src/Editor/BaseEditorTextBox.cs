@@ -421,17 +421,18 @@ namespace GUI
         {
             HashSet<ObjectReference> retVal = new HashSet<ObjectReference>();
 
-            while (element != null)
+            IModelElement current = element;
+            while (current != null)
             {
-                ConsiderElement(element, searchOptions, retVal);
+                ConsiderElement(current, searchOptions, retVal);
                 
                 if (searchOptions.ConsiderEnclosing)
                 {
-                    element = element.Enclosing as ModelElement;
+                    current = current.Enclosing as IModelElement;
                 }
                 else
                 {
-                    element = null;
+                    current= null;
                 }
             }
 
@@ -447,7 +448,13 @@ namespace GUI
             return retVal;
         }
 
-        private void ConsiderElement(ModelElement element, SearchOptions searchOptions, HashSet<ObjectReference> matches)
+        /// <summary>
+        /// Considers the element provided to build the matches according to the search options
+        /// </summary>
+        /// <param name="element"></param>
+        /// <param name="searchOptions"></param>
+        /// <param name="matches"></param>
+        private void ConsiderElement(IModelElement element, SearchOptions searchOptions, HashSet<ObjectReference> matches)
         {
             ISubDeclarator subDeclarator = element as ISubDeclarator;
             if (subDeclarator == null)
@@ -506,9 +513,11 @@ namespace GUI
                 }
             }
 
-            if (element.Updates != null)
+            // Also considers the element from which this element comes from
+            ModelElement modelElement = element as ModelElement;
+            if (modelElement != null && modelElement.Updates != null)
             {
-                ConsiderElement(element.Updates, searchOptions, matches);
+                ConsiderElement(modelElement.Updates, searchOptions, matches);
             }
         }
 
