@@ -1661,7 +1661,7 @@ namespace GUI
                         if (editorView != null)
                         {
                             IExpressionable expressionable = model as IExpressionable;
-                            if (expressionable != null)
+                            if (expressionable != null && !(expressionable is DataDictionary.Functions.Function))
                             {
                                 editorView.setChangeHandler(
                                     new ExpressionableTextChangeHandler((ModelElement) expressionable));
