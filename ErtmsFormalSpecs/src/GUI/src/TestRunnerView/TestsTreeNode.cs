@@ -84,7 +84,7 @@ namespace GUI.TestRunnerView
             Frame frame = Frame.createDefault(name);
             Item.appendTests(frame);
 
-            retVal = new FrameTreeNode(frame, false);
+            retVal = new FrameTreeNode(frame, true);
             Nodes.Add(retVal);
             SortSubNodes();
 
