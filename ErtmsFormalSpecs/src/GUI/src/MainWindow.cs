@@ -23,7 +23,6 @@ using System.Windows.Forms;
 using DataDictionary;
 using DataDictionary.Generated;
 using DataDictionary.Specification;
-using GUI.DictionarySelector;
 using GUI.EditorView;
 using GUI.LongOperations;
 using GUI.Report;
@@ -696,113 +695,122 @@ namespace GUI
         /// <param name="fileName"></param>
         public void OpenFile(string fileName)
         {
-            OpenFileDialog openFileDialog;
+            bool allowErrors = false;
+            bool shouldPlace = EFSSystem.Dictionaries.Count == 0;
+
+            OpenFileOperation openFileOperation = new OpenFileOperation(fileName, EFSSystem, allowErrors, true);
+            openFileOperation.ExecuteUsingProgressDialog("Opening file", true);
+
+            // Open the windows
+            if (openFileOperation.Dictionary != null)
+            {
+                SetupWindows(openFileOperation.Dictionary, shouldPlace);
+                SetCoverageStatus(EFSSystem);
+            }
+            else if (!openFileOperation.Dialog.Canceled)
+            {
+                MessageBox.Show("Cannot open file, please see log file (GUI.Log) for more information",
+                    "Cannot open file", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            RefreshModel();
+        }
+
+        /// <summary>
+        /// Setup the window according to the dictionary provided
+        /// </summary>
+        /// <param name="dictionary"></param>
+        /// <param name="shouldPlace"></param>
+        private void SetupWindows(Dictionary dictionary, bool shouldPlace)
+        {
             try
             {
                 HandlingSelection = true;
-                bool allowErrors = false;
-                bool shouldPlace = EFSSystem.Dictionaries.Count == 0;
+                ControllersManager.DesactivateAllNotifications();
 
-                OpenFileOperation openFileOperation = new OpenFileOperation(fileName, EFSSystem, allowErrors, true);
-                openFileOperation.ExecuteUsingProgressDialog("Opening file", true);
-
-                // Open the windows
-                if (openFileOperation.Dictionary != null)
+                // Display the document views
+                // Only open the model view window if model elements are available in the opened file
+                DataDictionaryView.Window modelWindow = null;
+                if (dictionary.NameSpaces.Count > 0)
                 {
-                    Dictionary dictionary = openFileOperation.Dictionary;
-                    ControllersManager.DesactivateAllNotifications();
-
-                    // Display the document views
-                    // Only open the model view window if model elements are available in the opened file
-                    DataDictionaryView.Window modelWindow = null;
-                    if (dictionary.NameSpaces.Count > 0)
-                    {
-                        modelWindow = new DataDictionaryView.Window(dictionary);
-                        AddChildWindow(modelWindow, DockAreas.Document);
-                    }
-                    GenericWindowHandling<TestRunnerView.Window>.AddOrShow(this, TestWindow, DockAreas.Document);
-
-                    TranslationRules.Window translationWindow = null;
-                    if (dictionary.TranslationDictionary != null &&
-                        dictionary.TranslationDictionary.TranslationsCount > 0)
-                    {
-                        translationWindow = new TranslationRules.Window(dictionary.TranslationDictionary);
-                        AddChildWindow(translationWindow, DockAreas.Document);
-                    }
-
-                    // Display the views in the left pane
-                    GenericWindowHandling<SpecificationView.Window>.AddOrShow(this, SpecificationWindow,
-                        DockAreas.DockLeft);
-
-                    // Display the views in the bottom pane
-                    GenericWindowHandling<RequirementsView.Window>.AddOrShow(this, RequirementsWindow,
-                        DockAreas.DockBottom);
-                    GenericWindowHandling<UsageView.Window>.AddOrShow(this, UsageWindow, DockAreas.DockBottom);
-
-                    GenericWindowHandling<MoreInfoView.Window>.AddOrShow(this, MoreInfoWindow, DockAreas.DockBottom);
-                    if (shouldPlace)
-                    {
-                        MoreInfoWindow.Show(RequirementsWindow.Pane, DockAlignment.Right, 0.66);
-                    }
-
-                    GenericWindowHandling<CommentWindow>.AddOrShow(this, CommentEditorWindow, DockAreas.DockBottom);
-                    if (shouldPlace)
-                    {
-                        CommentEditorWindow.Show(MoreInfoWindow.Pane, DockAlignment.Right, 0.5);
-                    }
-                    GenericWindowHandling<TestRunnerView.Watch.Window>.AddOrShow(this, WatchWindow,
-                        DockAreas.DockBottom);
-                    if (shouldPlace)
-                    {
-                        WatchWindow.Show(CommentEditorWindow.Pane, CommentEditorWindow);
-                    }
-                    CommentEditorWindow.Show();
-
-                    // Display the views in the right pane
-                    GenericWindowHandling<PropertyView.Window>.AddOrShow(this, PropertyWindow, DockAreas.DockRight);
-                    GenericWindowHandling<ExpressionWindow>.AddOrShow(this, ExpressionEditorWindow,
-                        DockAreas.DockRight);
-                    if (shouldPlace)
-                    {
-                        ExpressionEditorWindow.Show(PropertyWindow.Pane, DockAlignment.Bottom, 0.6);
-                    }
-                    GenericWindowHandling<HistoryView.Window>.AddOrShow(this, HistoryWindow, DockAreas.DockRight);
-                    if (shouldPlace)
-                    {
-                        HistoryWindow.Show(ExpressionEditorWindow.Pane, ExpressionEditorWindow);
-                    }
-
-                    GenericWindowHandling<Shortcuts.Window>.AddOrShow(this, ShortcutsWindow, DockAreas.DockRight);
-                    if (shouldPlace)
-                    {
-                        ShortcutsWindow.Show(ExpressionEditorWindow.Pane, ExpressionEditorWindow);
-                    }
-
-                    GenericWindowHandling<SelectionHistory.Window>.AddOrShow(this, SelectionHistoryWindow,
-                        DockAreas.DockRight);
-                    if (shouldPlace)
-                    {
-                        SelectionHistoryWindow.Show(ShortcutsWindow.Pane, ShortcutsWindow);
-                    }
-                    ExpressionEditorWindow.Show();
-
-                    GenericWindowHandling<MessagesView.Window>.AddOrShow(this, MessagesWindow, DockAreas.DockRight);
-                    if (shouldPlace)
-                    {
-                        MessagesWindow.Show(HistoryWindow.Pane, DockAlignment.Bottom, 0.3);
-                    }
-
-                    if (modelWindow != null)
-                    {
-                        modelWindow.Focus();
-                    }
-
-                    SetCoverageStatus(EFSSystem);
+                    modelWindow = new DataDictionaryView.Window(dictionary);
+                    AddChildWindow(modelWindow, DockAreas.Document);
                 }
-                else if (!openFileOperation.Dialog.Canceled)
+                GenericWindowHandling<TestRunnerView.Window>.AddOrShow(this, TestWindow, DockAreas.Document);
+
+                TranslationRules.Window translationWindow = null;
+                if (dictionary.TranslationDictionary != null &&
+                    dictionary.TranslationDictionary.TranslationsCount > 0)
                 {
-                    MessageBox.Show("Cannot open file, please see log file (GUI.Log) for more information",
-                        "Cannot open file", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    translationWindow = new TranslationRules.Window(dictionary.TranslationDictionary);
+                    AddChildWindow(translationWindow, DockAreas.Document);
+                }
+
+                // Display the views in the left pane
+                GenericWindowHandling<SpecificationView.Window>.AddOrShow(this, SpecificationWindow,
+                    DockAreas.DockLeft);
+
+                // Display the views in the bottom pane
+                GenericWindowHandling<RequirementsView.Window>.AddOrShow(this, RequirementsWindow,
+                    DockAreas.DockBottom);
+                GenericWindowHandling<UsageView.Window>.AddOrShow(this, UsageWindow, DockAreas.DockBottom);
+
+                GenericWindowHandling<MoreInfoView.Window>.AddOrShow(this, MoreInfoWindow, DockAreas.DockBottom);
+                if (shouldPlace)
+                {
+                    MoreInfoWindow.Show(RequirementsWindow.Pane, DockAlignment.Right, 0.66);
+                }
+
+                GenericWindowHandling<CommentWindow>.AddOrShow(this, CommentEditorWindow, DockAreas.DockBottom);
+                if (shouldPlace)
+                {
+                    CommentEditorWindow.Show(MoreInfoWindow.Pane, DockAlignment.Right, 0.5);
+                }
+                GenericWindowHandling<TestRunnerView.Watch.Window>.AddOrShow(this, WatchWindow,
+                    DockAreas.DockBottom);
+                if (shouldPlace)
+                {
+                    WatchWindow.Show(CommentEditorWindow.Pane, CommentEditorWindow);
+                }
+                CommentEditorWindow.Show();
+
+                // Display the views in the right pane
+                GenericWindowHandling<PropertyView.Window>.AddOrShow(this, PropertyWindow, DockAreas.DockRight);
+                GenericWindowHandling<ExpressionWindow>.AddOrShow(this, ExpressionEditorWindow,
+                    DockAreas.DockRight);
+                if (shouldPlace)
+                {
+                    ExpressionEditorWindow.Show(PropertyWindow.Pane, DockAlignment.Bottom, 0.6);
+                }
+                GenericWindowHandling<HistoryView.Window>.AddOrShow(this, HistoryWindow, DockAreas.DockRight);
+                if (shouldPlace)
+                {
+                    HistoryWindow.Show(ExpressionEditorWindow.Pane, ExpressionEditorWindow);
+                }
+
+                GenericWindowHandling<Shortcuts.Window>.AddOrShow(this, ShortcutsWindow, DockAreas.DockRight);
+                if (shouldPlace)
+                {
+                    ShortcutsWindow.Show(ExpressionEditorWindow.Pane, ExpressionEditorWindow);
+                }
+
+                GenericWindowHandling<SelectionHistory.Window>.AddOrShow(this, SelectionHistoryWindow,
+                    DockAreas.DockRight);
+                if (shouldPlace)
+                {
+                    SelectionHistoryWindow.Show(ShortcutsWindow.Pane, ShortcutsWindow);
+                }
+                ExpressionEditorWindow.Show();
+
+                GenericWindowHandling<MessagesView.Window>.AddOrShow(this, MessagesWindow, DockAreas.DockRight);
+                if (shouldPlace)
+                {
+                    MessagesWindow.Show(HistoryWindow.Pane, DockAlignment.Bottom, 0.3);
+                }
+
+                if (modelWindow != null)
+                {
+                    modelWindow.Focus();
                 }
             }
             finally
@@ -810,8 +818,6 @@ namespace GUI
                 HandlingSelection = false;
                 ControllersManager.ActivateAllNotifications();
             }
-
-            RefreshModel();
         }
 
         #endregion
@@ -1986,6 +1992,43 @@ namespace GUI
                 EFSSystem.AddDictionary(dictionary);
                 RefreshModel();
                 AddChildWindow(new DataDictionaryView.Window(dictionary), DockAreas.Document);
+            }
+        }
+
+        private void closeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Dictionary dictionary = GetActiveDictionary();
+            if (dictionary != null)
+            {
+                // Identify the forms that need to be closed
+                List<BaseForm> toClose = new List<BaseForm>();
+                foreach (Form form in SubForms)
+                {
+                    DataDictionaryView.Window dictionaryWindow = form as DataDictionaryView.Window;
+                    if (dictionaryWindow != null && dictionaryWindow.Dictionary == dictionary)
+                    {
+                        toClose.Add(dictionaryWindow);
+                    }
+
+                    TranslationRules.Window translationWindow = form as TranslationRules.Window;
+                    if (translationWindow != null && translationWindow.TranslationDictionary != null && translationWindow.TranslationDictionary.Dictionary == dictionary)
+                    {
+                        toClose.Add(dictionaryWindow);
+                    }
+                }
+
+                // And close them (this modifies the SubForm list => must be done in two steps
+                foreach ( BaseForm form in toClose)
+                {
+                    form.Close();
+                }
+
+                // Remove all references to the closed dictionary
+                CloseDictionary closeDictionary = new CloseDictionary(dictionary);
+                closeDictionary.ExecuteUsingProgressDialog("Closing dictionary", false);
+
+                // Refresh the display
+                GUIUtils.MDIWindow.RefreshModel();
             }
         }
     }

@@ -75,6 +75,14 @@ namespace GUI.TranslationRules
         }
 
         /// <summary>
+        /// The translation dictionary displayed in this window
+        /// </summary>
+        public TranslationDictionary TranslationDictionary
+        {
+            get { return translationTreeView.Root as TranslationDictionary; }
+        }
+
+        /// <summary>
         ///     Handles the close event
         /// </summary>
         /// <param name="sender"></param>
