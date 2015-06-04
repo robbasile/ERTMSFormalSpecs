@@ -524,12 +524,12 @@ namespace GUI
         /// <summary>
         ///     Provides the current prefix, according to the selection position
         /// </summary>
+        /// <param name="end">The location where the prefix should end</param>
         /// <returns></returns>
-        private string CurrentPrefix()
+        private string CurrentPrefix(int end)
         {
             string retVal = "";
 
-            int end = EditionTextBox.SelectionStart - 1;
             while (end >= EditionTextBox.Text.Length)
             {
                 end = end - 1;
@@ -915,7 +915,7 @@ namespace GUI
         /// </summary>
         private void DisplayComboBox()
         {
-            string prefix = CurrentPrefix().Trim();
+            string prefix = CurrentPrefix(EditionTextBox.SelectionStart - 1).Trim();
             List<ObjectReference> allChoices = AllChoices(prefix, out prefix);
 
             if (prefix.Length <= EditionTextBox.SelectionStart)
@@ -1027,6 +1027,7 @@ namespace GUI
             {
                 if (AutoComplete)
                 {
+                    string prefix;
                     switch (e.KeyChar)
                     {
                         case '.':
@@ -1036,8 +1037,9 @@ namespace GUI
                             break;
 
                         case '{':
+                            prefix = CurrentPrefix(EditionTextBox.SelectionStart - 1).Trim();
                             Expression structureTypeExpression = EFSSystem.Parser.Expression(Instance as ModelElement,
-                                CurrentPrefix().Trim(), IsStructure.INSTANCE, true, null, true);
+                                prefix, IsStructure.INSTANCE, true, null, true);
                             if (structureTypeExpression != null)
                             {
                                 Structure structure = structureTypeExpression.Ref as Structure;
@@ -1052,8 +1054,9 @@ namespace GUI
                             break;
 
                         case '(':
+                            prefix = CurrentPrefix(EditionTextBox.SelectionStart - 1).Trim();
                             Expression callableExpression = EFSSystem.Parser.Expression(Instance as ModelElement,
-                                CurrentPrefix().Trim(), IsCallable.INSTANCE, true, null, true);
+                                prefix, IsCallable.INSTANCE, true, null, true);
                             if (callableExpression != null)
                             {
                                 ICallable callable = callableExpression.Ref as ICallable;
@@ -1063,6 +1066,26 @@ namespace GUI
                                     CreateCallableParameters(builder, callable);
                                     EditionTextBox.SelectedText = builder.ToString();
                                     e.Handled = true;
+                                }
+                            }
+                            break;
+
+                        case '>':
+                        case '-':
+                            prefix = CurrentPrefix(EditionTextBox.SelectionStart - 2).Trim();
+                            char prev = EditionTextBox.Text[EditionTextBox.SelectionStart - 1];
+                            if ((prev == '<' && e.KeyChar == '-') || (prev == '=' && e.KeyChar == '>'))
+                            {
+                                Expression variableExpression= EFSSystem.Parser.Expression(Instance as ModelElement,
+                                    prefix, IsTypedElement.INSTANCE, true, null, true);
+                                if (variableExpression != null)
+                                {
+                                    ITypedElement typedElement = variableExpression.Ref as ITypedElement;
+                                    if (typedElement != null)
+                                    {
+                                        EditionTextBox.SelectedText = e.KeyChar + " " + typedElement.Type.FullName;
+                                        e.Handled = true;
+                                    }
                                 }
                             }
                             break;
