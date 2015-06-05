@@ -313,6 +313,25 @@ SRAuthorisation.Location &lt;= TrainPosition.FrontEndPosition ( DistanceInterval
 >
 <Expression>BaseTypes.Distance.Infinity</Expression>
 </Case></Cases>
+</Function><Function
+ Type="SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target"
+ Default=""
+ NeedsRequirement="FALSE"
+ Name="SREndTarget"
+ Guid="aa5f4f4b-a63b-4d9d-85d3-e39131df8298"
+>
+<Comment>Provides a target with 0 speed at the end of the permitted distacne to run in SR.</Comment>
+<Cases>
+<Case
+ Name="Value"
+ Guid="4e394434-e367-4e8a-86e4-50e71233e107"
+>
+<Expression>SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target{
+    Location =&gt; SREndLocation(),
+    Speed =&gt; 0.0,
+    Length =&gt; 0.0
+}</Expression>
+</Case></Cases>
 </Function></Functions>
 <Procedures>
 <Procedure
