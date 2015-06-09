@@ -2207,24 +2207,26 @@ SupervisedTargets</PreCondition><PreCondition
 </ReqRef><Comment>Condition for transition from Ceiling Speed Monitoring to Target Speed Monitoring.</Comment>
 <Cases>
 <Case
- Name="Pre-indication location already in rear of train"
+ Name="Pre-indication location already in rear of train for at least one target"
  Guid="9e60f7bd-616e-4dcc-92ae-09b6b9a8c5e4"
 >
 <PreConditions>
 <PreCondition
  Guid="a9cf64fe-934f-41fc-b58b-190b853ccc0d"
->PreIndicationLocation.d_preindication() == BaseTypes.Distance.Unknown</PreCondition></PreConditions>
+>THERE_IS aTarget IN TargetsList() | PreIndicationLocation.d_preindication(aTarget) == Default.BaseTypes.Distance.Unknown</PreCondition></PreConditions>
 <Expression>True</Expression>
 </Case><Case
- Name="pre-indication for max dist to run in SR"
- Guid="b03181eb-fb52-4946-a491-60b400c4aa90"
+ Name="Pre-indication location passed for EOA"
+ Guid="f0cd8ffe-2e79-410b-b2e9-034bf769cd3e"
 >
 <PreConditions>
 <PreCondition
- Guid="ec5c9338-6d2d-493a-8b62-04357f0dc7e1"
->TrainPosition.DistanceRunInSR(DistanceInterval.Max) &gt; PreIndicationLocation.d_preindication()</PreCondition><PreCondition
- Guid="f6562426-5200-4773-85de-7b6bebd8476a"
->Mode == Mode.SR</PreCondition></PreConditions>
+ Guid="96175b91-2dbd-4a14-a23b-62cb8fcb040c"
+>MA.IsEOA(MA.ClosestEOA())
+
+  AND  
+
+TrainPosition.FrontEndPosition(DistanceInterval.Nom) &gt; PreIndicationLocation.d_preindication(MA.ClosestEOA())</PreCondition></PreConditions>
 <Expression>True</Expression>
 </Case><Case
  Name="Train passed pre-indication location"
@@ -2233,7 +2235,12 @@ SupervisedTargets</PreCondition><PreCondition
 <PreConditions>
 <PreCondition
  Guid="699a6b10-e831-4c8a-a3ed-591f85155457"
->TrainPosition.FrontEndPosition(DistanceInterval.Max) &gt; PreIndicationLocation.d_preindication()</PreCondition></PreConditions>
+>THERE_IS aTarget IN TargetsList() | 
+(
+  NOT MA.IsEOA(aTarget)
+    AND
+  TrainPosition.FrontEndPosition(DistanceInterval.Max) &gt; PreIndicationLocation.d_preindication(aTarget)
+)</PreCondition></PreConditions>
 <Expression>True</Expression>
 </Case><Case
  Name="Otherwise"
@@ -2427,31 +2434,27 @@ TrainPosition.FrontEndPosition(DistanceInterval.Max) &gt;  ReleaseSpeedMonitorin
 </ReqRef><Comment>Provides the indication location at MRSP speed for the DMI</Comment>
 <Cases>
 <Case
- Name="Target is EOA or SvL and d_I is behind the train"
+ Name="Target is EOA and d_I is behind the train"
  Guid="f4f0cfde-b07c-40dd-b482-58aee844d5a0"
 >
 <PreConditions>
 <PreCondition
  Guid="ef820a57-90ad-4617-a69a-6c1a406ec324"
->( MA.IsEOA(TargetSpeedMonitoring.MRDT())
-  OR  
-MA.IsSvL(TargetSpeedMonitoring.MRDT()) )
+>MA.IsEOA(TargetSpeedMonitoring.MRDT())
 
   AND  
 
-( PreIndicationLocation.d_I_EOA( PreIndicationLocation.TargetSpeed(TargetSpeedMonitoring.MRDT()) ) == BaseTypes.Distance.Unknown)</PreCondition></PreConditions>
+PreIndicationLocation.IndicationLimitAtSpeed_EOA(PreIndicationLocation.IndicationSegment(TargetSpeedMonitoring.MRDT()).Speed ) == BaseTypes.Distance.Unknown</PreCondition></PreConditions>
 <Expression>BaseTypes.Distance.Unknown</Expression>
 </Case><Case
- Name="The target is the EOA or the SvL"
+ Name="The target is the EOA"
  Guid="2d7b4d78-e0c2-4eca-a426-4c460d8b1599"
 >
 <PreConditions>
 <PreCondition
  Guid="2aac3ae2-f418-460d-aaeb-f270e8019b10"
->MA.IsEOA(TargetSpeedMonitoring.MRDT())
-  OR  
-MA.IsSvL(TargetSpeedMonitoring.MRDT())</PreCondition></PreConditions>
-<Expression>PreIndicationLocation.d_I_EOA( PreIndicationLocation.TargetSpeed(TargetSpeedMonitoring.MRDT()) ) - TrainPosition.FrontEndPosition(DistanceInterval.Nom)</Expression>
+>MA.IsEOA(TargetSpeedMonitoring.MRDT())</PreCondition></PreConditions>
+<Expression>PreIndicationLocation.IndicationLimitAtSpeed_EOA(PreIndicationLocation.IndicationSegment(TargetSpeedMonitoring.MRDT()).Speed) - TrainPosition.FrontEndPosition(DistanceInterval.Nom)</Expression>
 </Case><Case
  Name="Another target, d_I behind the train"
  Guid="913a30c9-7476-4590-a80b-3970deaa3894"
@@ -2459,14 +2462,18 @@ MA.IsSvL(TargetSpeedMonitoring.MRDT())</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="fa0c9d7c-78ac-4201-9248-1cf43a6f34ae"
->PreIndicationLocation.d_I( aTarget =&gt; TargetSpeedMonitoring.MRDT(), Vmrsp =&gt; PreIndicationLocation.TargetSpeed(TargetSpeedMonitoring.MRDT()) ) == BaseTypes.Distance.Unknown</PreCondition></PreConditions>
+>PreIndicationLocation.IndicationLimitAtSpeed(
+    aTarget =&gt; TargetSpeedMonitoring.MRDT(),
+    aSpeed =&gt; PreIndicationLocation.IndicationSegment(TargetSpeedMonitoring.MRDT()).Speed)
+ == BaseTypes.Distance.Unknown</PreCondition></PreConditions>
 <Expression>BaseTypes.Distance.Unknown</Expression>
 </Case><Case
  Name="It is another target"
  Guid="8bdffb03-588c-4283-94e4-00ae6887a869"
 >
-<Expression>PreIndicationLocation.d_I( aTarget =&gt; TargetSpeedMonitoring.MRDT(), Vmrsp =&gt; PreIndicationLocation.TargetSpeed(TargetSpeedMonitoring.MRDT()) )
- - TrainPosition.FrontEndPosition(DistanceInterval.Nom)</Expression>
+<Expression>PreIndicationLocation.IndicationLimitAtSpeed(
+    aTarget =&gt; TargetSpeedMonitoring.MRDT(),
+    aSpeed =&gt; PreIndicationLocation.IndicationSegment(TargetSpeedMonitoring.MRDT()).Speed) - TrainPosition.FrontEndPosition(DistanceInterval.Nom)</Expression>
 </Case></Cases>
 </Function><Function
  Type="Kernel.SpeedAndDistanceMonitoring.MonitoringType"
@@ -2510,20 +2517,19 @@ MA.IsSvL(TargetSpeedMonitoring.MRDT())</PreCondition></PreConditions>
  Guid="83cbb20b-cbe1-4364-967a-c98eb720ea26"
 >Monitoring in MonitoringTypeSM.Target</PreCondition><PreCondition
  Guid="ed3001e2-668d-4ae2-8381-1d7db8b7173e"
->PreIndicationLocation.d_I( 
-    aTarget =&gt; TargetSpeedMonitoring.MRDT(), 
-    Vmrsp =&gt; MRSP.SpeedRestrictions(
-        distance=&gt;TrainPosition.FrontEndPosition(
-            PointOfInterest=&gt;DistanceInterval.Nom
-        )
+>PreIndicationLocation.IndicationLimitAtSpeed(
+    aTarget =&gt; TargetSpeedMonitoring.MRDT(),
+    aSpeed =&gt; MRSP.SpeedRestrictions(
+        distance=&gt;TrainPosition.FrontEndPosition(DistanceInterval.Nom)
     )
 ) 
 &gt; 
 TrainPosition.FrontEndPosition(Default.DistanceInterval.Nom)</PreCondition><PreCondition
  Guid="0390c7de-4a8c-40ee-b77b-e09a11a4ac1b"
->PreIndicationLocation.d_I( 
-    aTarget =&gt; TargetSpeedMonitoring.MRDT(), 
-    Vmrsp =&gt; MRSP.SpeedRestrictions(TrainPosition.FrontEndPosition(DistanceInterval.Nom))) 
+>PreIndicationLocation.IndicationLimitAtSpeed(
+    aTarget =&gt; TargetSpeedMonitoring.MRDT(),
+    aSpeed =&gt; MRSP.SpeedRestrictions(TrainPosition.FrontEndPosition(DistanceInterval.Nom))
+)
 != 
 Default.BaseTypes.Distance.Unknown</PreCondition></PreConditions>
 <Expression>MonitoringType.PIM</Expression>

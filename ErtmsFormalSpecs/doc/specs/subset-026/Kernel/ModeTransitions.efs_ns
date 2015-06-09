@@ -7706,9 +7706,7 @@ TIU.NonLeadingPermitted</Expression>
  Guid="abbfdc97-d610-4441-847d-12a8ba8b1a3a"
 >Mode != PrevMode</PreCondition></PreConditions>
 <Actions>
-<Action
- Guid="b813f85d-64b5-4dab-a102-d4cca3850e17"
->PrevMode &lt;- Mode</Action></Actions>
+</Actions>
 <SubRules>
 <Rule
  Priority="Processing"
@@ -8152,6 +8150,7 @@ TrainPosition.RearEndPosition(PointOfInterest =&gt; DistanceInterval.Nom) &lt; (
  Name="LS"
  Guid="82be5964-69bc-427d-95f2-e0caf751a4e4"
 >
+<Comment>Actions to execute when entering LS mode.</Comment>
 <PreConditions>
 <PreCondition
  Guid="649da02e-875c-432f-b874-f3716160e2c9"
@@ -8185,6 +8184,34 @@ TrainPosition.RearEndPosition(PointOfInterest =&gt; DistanceInterval.Nom) &lt; (
 >EndOverride()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Exit LS"
+ Guid="d1000a61-8234-41b0-9155-b25f0400274d"
+>
+<Comment>Actions to execute when exiting LS mode.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="4d038c9f-8d44-415c-a173-d27afce88062"
+>PrevMode == Mode.LS</PreCondition><PreCondition
+ Guid="5a104355-8d71-4d02-b786-74a7e6d2eab7"
+>THERE_IS aProfile IN MA.ModeProfile.Profile | 
+(
+  aProfile.Mode == Mode.ModeProfile.LS
+    AND  
+  aProfile.Location + BaseTypes.LengthToDistance(aProfile.Length) &lt;= TrainPosition.FrontEndPosition(DistanceInterval.Min)
+)</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="3dc9ed1c-bed7-431b-af89-5526173b02a2"
+>REMOVE ALL (
+  X.Mode == Mode.ModeProfile.LS
+    AND  
+  X.Location + BaseTypes.LengthToDistance(X.Length) &lt;= TrainPosition.FrontEndPosition(DistanceInterval.Min)
+    AND
+  MA.ModeProfile.RemoveModeProfile(X)
+)
+IN MA.ModeProfile.Profile</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -8215,6 +8242,29 @@ TrainPosition.RearEndPosition(PointOfInterest =&gt; DistanceInterval.Nom) &lt; (
 >Shunting.ContinueShuntingOnDeskClosure &lt;- False</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Store mode for future cycles"
+ Guid="d004968d-75d3-4604-be2f-e2ea41d8767e"
+>
+<Comment>Updates the value of PrevMode for the next cycle.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Store updated mode for future cycles"
+ Guid="22fc13e6-890f-4c4a-951d-025dfc1bb994"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="b813f85d-64b5-4dab-a102-d4cca3850e17"
+>PrevMode &lt;- Mode</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
