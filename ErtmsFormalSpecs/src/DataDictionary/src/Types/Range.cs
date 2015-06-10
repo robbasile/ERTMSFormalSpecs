@@ -189,9 +189,16 @@ namespace DataDictionary.Types
 
             if (Char.IsLetter(image[0]) || image[0] == '_')
             {
-                if (image.StartsWith(Name + "."))
+                int lastDotPosition = image.LastIndexOf('.');
+                if (lastDotPosition > 0)
                 {
-                    image = image.Substring(Name.Length + 1);
+                    string prefix = image.Substring(0, lastDotPosition);
+                    Expression typeExpression = EFSSystem.Parser.Expression(this, prefix,
+                        Interpreter.Filter.IsType.INSTANCE, true, null, true);
+                    if (typeExpression != null && typeExpression.Ref == this)
+                    {
+                        image = image.Substring(lastDotPosition + 1);
+                    }
                 }
 
                 retVal = findEnumValue(image);
