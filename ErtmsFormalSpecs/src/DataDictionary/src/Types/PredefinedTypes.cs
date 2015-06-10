@@ -128,28 +128,6 @@ namespace DataDictionary.Types
         }
 
         /// <summary>
-        ///     Gets a value based on its image
-        /// </summary>
-        /// <param name="image"></param>
-        /// <returns></returns>
-        public override IValue getValue(string image)
-        {
-            IValue retVal = null;
-
-            image = image.ToLowerInvariant();
-            if (image.CompareTo("false") == 0)
-            {
-                retVal = False;
-            }
-            else if (image.CompareTo("true") == 0)
-            {
-                retVal = True;
-            }
-
-            return retVal;
-        }
-
-        /// <summary>
         ///     Provides all constant values for this type
         /// </summary>
         /// <param name="scope"></param>
