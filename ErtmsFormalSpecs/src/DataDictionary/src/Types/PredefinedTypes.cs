@@ -141,6 +141,45 @@ namespace DataDictionary.Types
             }
         }
 
+        /// <summary>
+        ///     Gets a value based on its image
+        /// </summary>
+        /// <param name="image"></param>
+        /// <returns></returns>
+        public override IValue getValue(string image)
+        {
+            IValue retVal = null;
+
+            if (Char.IsLetter(image[0]) || image[0] == '_')
+            {
+                int lastDotPosition = image.LastIndexOf('.');
+                if (lastDotPosition > 0)
+                {
+                    string prefix = image.Substring(0, lastDotPosition);
+                    Expression typeExpression = EFSSystem.Parser.Expression(this, prefix,
+                        Interpreter.Filter.IsType.INSTANCE, true, null, true);
+                    if (typeExpression != null && typeExpression.Ref == this)
+                    {
+                        image = image.Substring(lastDotPosition + 1);
+                    }
+                }
+
+                List<INamable> tmp = new List<INamable>();
+                ISubDeclaratorUtils.Find(this, image, tmp);
+                if (tmp.Count == 1)
+                {
+                    retVal = tmp[0] as IValue;
+                }
+
+                if (retVal == null)
+                {
+                    Log.Error("Cannot find boolean from " + image);
+                }
+            }
+
+            return retVal;
+        }
+
         public override string Default
         {
             get { return "False"; }
