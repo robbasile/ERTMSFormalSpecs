@@ -33,6 +33,7 @@
             this.structureTreeListView = new BrightIdeasSoftware.TreeListView();
             this.fieldColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.valueColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.actualValueColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.descriptionColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             ((System.ComponentModel.ISupportInitialize)(this.structureTreeListView)).BeginInit();
             this.SuspendLayout();
@@ -41,6 +42,7 @@
             // 
             this.structureTreeListView.AllColumns.Add(this.fieldColumn);
             this.structureTreeListView.AllColumns.Add(this.valueColumn);
+            this.structureTreeListView.AllColumns.Add(this.actualValueColumn);
             this.structureTreeListView.AllColumns.Add(this.descriptionColumn);
             this.structureTreeListView.CellEditActivation = BrightIdeasSoftware.ObjectListView.CellEditActivateMode.SingleClick;
             this.structureTreeListView.CellEditEnterChangesRows = true;
@@ -48,6 +50,7 @@
             this.structureTreeListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.fieldColumn,
             this.valueColumn,
+            this.actualValueColumn,
             this.descriptionColumn});
             this.structureTreeListView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.structureTreeListView.Location = new System.Drawing.Point(0, 0);
@@ -68,14 +71,21 @@
             this.fieldColumn.IsEditable = false;
             this.fieldColumn.Text = "Field name";
             this.fieldColumn.ToolTipText = "The name of the field";
-            this.fieldColumn.Width = 235;
+            this.fieldColumn.Width = 180;
             // 
             // valueColumn
             // 
             this.valueColumn.AspectName = "";
             this.valueColumn.CellPadding = null;
             this.valueColumn.Text = "Value";
-            this.valueColumn.Width = 259;
+            this.valueColumn.Width = 180;
+            // 
+            // actualValueColumn
+            // 
+            this.actualValueColumn.CellPadding = null;
+            this.actualValueColumn.IsEditable = false;
+            this.actualValueColumn.Text = "Actual value";
+            this.actualValueColumn.Width = 180;
             // 
             // descriptionColumn
             // 
@@ -107,5 +117,6 @@
         private BrightIdeasSoftware.OLVColumn fieldColumn;
         private BrightIdeasSoftware.OLVColumn valueColumn;
         private BrightIdeasSoftware.OLVColumn descriptionColumn;
+        private BrightIdeasSoftware.OLVColumn actualValueColumn;
     }
 }

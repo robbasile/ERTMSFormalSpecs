@@ -48,7 +48,8 @@ namespace GUI.StructureValueEditor
             // The text to get for each column
             structureTreeListView.GetColumn(0).AspectGetter = CustomizeTreeView.FieldColumnStringonizer;
             structureTreeListView.GetColumn(1).AspectGetter = CustomizeTreeView.ValueColumnStringonizer;
-            structureTreeListView.GetColumn(2).AspectGetter = CustomizeTreeView.DescriptionColumnStringonizer;
+            structureTreeListView.GetColumn(2).AspectGetter = CustomizeTreeView.ActualValueColumnStringonizer;
+            structureTreeListView.GetColumn(3).AspectGetter = CustomizeTreeView.DescriptionColumnStringonizer;
             structureTreeListView.FormatCell += CustomizeTreeView.FormatCell;
 
             // Tree structure

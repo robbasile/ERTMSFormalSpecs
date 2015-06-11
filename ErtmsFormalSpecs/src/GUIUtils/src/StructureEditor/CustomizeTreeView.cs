@@ -126,6 +126,27 @@ namespace GUI.StructureValueEditor
         /// <returns></returns>
         public static string ValueColumnStringonizer(object obj)
         {
+            return ValueStringonizer(obj, false);
+        }
+
+        /// <summary>
+        ///     Provides the value column string value for the object provided
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public static string ActualValueColumnStringonizer(object obj)
+        {
+            return ValueStringonizer(obj, true);
+        }
+
+        /// <summary>
+        /// Converts a value into a string
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <param name="displayActualDefaultValue">Indicates that the actual default value should be displayed instead of "<default>"</param>
+        /// <returns></returns>
+        private static string ValueStringonizer(object obj, bool displayActualDefaultValue)
+        {
             string retVal;
 
             IVariable variable = obj as IVariable;
@@ -143,13 +164,28 @@ namespace GUI.StructureValueEditor
             }
             else
             {
-                if (IsDefaultValue(variable, value))
+                if (displayActualDefaultValue)
                 {
-                    retVal = DefaultConst;
+                    // Dereference enumeration constants to get the actual value
+                    EnumValue enumValue = value as EnumValue;
+                    while (enumValue != null)
+                    {
+                        value = enumValue.Value;
+                        enumValue = value as EnumValue;
+                    }
+
+                    retVal = value.Name;
                 }
                 else
                 {
-                    retVal = value.Name;
+                    if (IsDefaultValue(variable, value))
+                    {
+                        retVal = DefaultConst;
+                    }
+                    else
+                    {
+                        retVal = value.Name;
+                    }
                 }
             }
 
