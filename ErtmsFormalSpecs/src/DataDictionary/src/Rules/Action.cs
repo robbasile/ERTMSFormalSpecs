@@ -157,7 +157,17 @@ namespace DataDictionary.Rules
         /// </summary>
         public Step Step
         {
-            get { return SubStep.Step; }
+            get
+            {
+                Step retVal = null;
+
+                if (SubStep != null)
+                {
+                    retVal = SubStep.Step;
+                }
+
+                return retVal; 
+            }
         }
 
         /// <summary>
