@@ -254,9 +254,18 @@ namespace DataDictionary.Interpreter.Statement
                 {
                     value = value.RightSide(var, true, true);
                 }
-                Change change = new Change(var, var.Value, value);
-                changes.Add(change, apply, runner);
-                ExplanationPart.CreateSubExplanation(explanation, Root, change);
+
+                Range range = var.Type as Range;
+                if (range != null && range.convert(value) == null)
+                {
+                    AddError("Value " + value + " is outside range");
+                }
+                else
+                {
+                    Change change = new Change(var, var.Value, value);
+                    changes.Add(change, apply, runner);
+                    ExplanationPart.CreateSubExplanation(explanation, Root, change);
+                }
             }
             else
             {
