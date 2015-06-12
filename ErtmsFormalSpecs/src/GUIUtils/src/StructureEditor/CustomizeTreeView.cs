@@ -171,7 +171,14 @@ namespace GUI.StructureValueEditor
                     while (enumValue != null)
                     {
                         value = enumValue.Value;
-                        enumValue = value as EnumValue;
+                        if (value != enumValue.Value)
+                        {
+                            enumValue = value as EnumValue;
+                        }
+                        else
+                        {
+                            enumValue = null;
+                        }
                     }
 
                     retVal = value.Name;
