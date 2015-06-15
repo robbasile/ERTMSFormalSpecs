@@ -27,6 +27,7 @@ using DataDictionary.Generated;
 using DataDictionary.Types;
 using GUI.Converters;
 using GUI.DictionarySelector;
+using GUI.LongOperations;
 using GUI.Properties;
 using Utils;
 using XmlBooster;
@@ -974,8 +975,8 @@ namespace GUI
                 {
                     if (Settings.Default.AllowRefactor)
                     {
-                        EFSSystem.INSTANCE.Compiler.Compile_Synchronous(false, true);
-                        EFSSystem.INSTANCE.Compiler.Refactor(Model as ModelElement, newLabel);
+                        RefactorOperation refactorOperation = new RefactorOperation(EFSSystem.INSTANCE, Model as ModelElement, newLabel);
+                        refactorOperation.ExecuteUsingProgressDialog("Refactoring", false);
                     }
                     else
                     {
