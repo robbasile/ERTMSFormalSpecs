@@ -1,4 +1,5 @@
-﻿using DataDictionary.Functions;
+﻿using DataDictionary.Constants;
+using DataDictionary.Functions;
 using DataDictionary.Rules;
 using DataDictionary.Tests;
 using DataDictionary.Types;
@@ -245,6 +246,56 @@ namespace DataDictionary.test
 
             Assert.AreEqual("Kernel.MA.SpeedRestriction()", expectation.ExpressionText);
             Assert.AreEqual("MIN(Kernel.MA.SpeedRestriction, Kernel.MRSP.SpeedRestriction)", expectation2.ExpressionText);
+        }
+
+        /// <summary>
+        ///     Test refactoring of a state machine
+        /// </summary>
+        [Test]
+        public void TestRefactorStateMachine()
+        {
+            Dictionary dictionary = CreateDictionary("Test");
+            NameSpace nameSpace = CreateNameSpace(dictionary, "N1");
+
+            StateMachine stateMachine = CreateStateMachine(nameSpace, "TestSM");
+            State state1 = CreateState(stateMachine, "S1");
+            State state2 = CreateState(stateMachine, "S2");
+            stateMachine.Default = "S1";
+
+            RuleCondition ruleCondition = CreateRuleAndCondition(stateMachine, "Test");
+            PreCondition preCondition = CreatePreCondition(ruleCondition, "THIS in S1");
+            Action action = CreateAction(ruleCondition, "THIS <- S2");
+
+            Variable var = CreateVariable(nameSpace, "TheVariable", "TestSM");
+            var.setDefaultValue("TestSM.S1");
+
+            Refactor(stateMachine, "TestSM2");
+
+            Assert.AreEqual("THIS in S1", preCondition.ExpressionText);
+            Assert.AreEqual("THIS <- S2", action.ExpressionText);
+            Assert.AreEqual(var.Type, stateMachine);
+        }
+
+        /// <summary>
+        ///     Test that refactoring does not changes the referenced element
+        /// </summary>
+        [Test]
+        public void TestRefactorEnsureSameReference()
+        {
+            Dictionary dictionary = CreateDictionary("Test");
+            NameSpace nameSpace1 = CreateNameSpace(dictionary, "N1");
+            NameSpace nameSpace2 = CreateNameSpace(nameSpace1, "N2");
+
+            Enum enumeration = CreateEnum(nameSpace1, "Mode");
+            CreateEnumValue(enumeration, "E1");
+            CreateEnumValue(enumeration, "E2");
+
+            Function function = CreateFunction(nameSpace2, "Mode", "N1.Mode");
+            Assert.AreEqual(function.ReturnType, enumeration);
+
+            Refactor(nameSpace1, "N3");
+
+            Assert.AreEqual(function.ReturnType, enumeration);
         }
 
     }

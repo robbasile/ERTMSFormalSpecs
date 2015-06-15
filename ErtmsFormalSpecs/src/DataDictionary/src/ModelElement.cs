@@ -137,7 +137,7 @@ namespace DataDictionary
         /// <summary>
         ///     Provides the name of this model element when accessing it from the other model element (provided as parameter)
         /// </summary>
-        /// <param name="modelElement"></param>
+        /// <param name="modelElement">The user of this element</param>
         /// <returns></returns>
         public virtual string ReferenceName(ModelElement modelElement)
         {
@@ -177,6 +177,34 @@ namespace DataDictionary
                         }
                     }
                 }
+            }
+
+            // Check if the name provided still references the same item
+            bool referenceFound = false;
+            Expression expression  = EFSSystem.INSTANCE.Parser.Expression(modelElement, retVal, Interpreter.Filter.AllMatches.INSTANCE, true, null, true);
+
+            foreach (ReturnValueElement target in expression.getReferences(null, Interpreter.Filter.AllMatches.INSTANCE, true).Values)
+            {
+                if (target.Value == this)
+                {
+                    referenceFound = true;
+                    break;
+                }
+            }
+
+            foreach (ReturnValueElement target in expression.getReferences(modelElement, Interpreter.Filter.AllMatches.INSTANCE, true).Values)
+            {
+                if (target.Value == this)
+                {
+                    referenceFound = true;
+                    break;
+                }
+            }
+
+            // If the string created did not reference this, provide the fullname instead (to be on the safe side)
+            if (!referenceFound)
+            {
+                retVal = FullName;
             }
 
             return retVal;

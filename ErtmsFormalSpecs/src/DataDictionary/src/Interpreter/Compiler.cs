@@ -147,10 +147,6 @@ namespace DataDictionary.Interpreter
             }
         }
 
-
-
-
-
         /// <summary>
         ///     The EFS system that need to be compiled
         /// </summary>
@@ -635,7 +631,12 @@ namespace DataDictionary.Interpreter
             {
                 try
                 {
-                    ModelElement enclosing = EnclosingFinder<Structure>.find(user as ModelElement, true);
+                    ModelElement enclosing = EnclosingFinder<Types.StateMachine>.find(user as ModelElement, true);
+
+                    if (enclosing == null)
+                    {
+                        enclosing = EnclosingFinder<Structure>.find(user as ModelElement, true);
+                    }
                     if (enclosing == null)
                     {
                         enclosing = EnclosingFinder<NameSpace>.find(user as ModelElement, true);
@@ -734,8 +735,12 @@ namespace DataDictionary.Interpreter
             {
                 string originalName = element.Name;
                 element.Name = newName;
+
+                new CleanBeforeCompilation(new CompilationOptions(false, true), EFSSystem);
+                    
                 RefactorNameSpaceNames();
                 RefactorElement(element, originalName, newName);
+                Compile_Synchronous(false, true);
             }
         }
 
