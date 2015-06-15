@@ -91,6 +91,20 @@ namespace DataDictionary.Interpreter
             }
 
             /// <summary>
+            /// Clears the cached FullName for all namables
+            /// </summary>
+            /// <param name="obj"></param>
+            /// <param name="visitSubNodes"></param>
+            public override void visit(Generated.Namable obj, bool visitSubNodes)
+            {
+                Namable namable = (Namable)obj;
+
+                namable.ClearFullName();
+
+                base.visit(obj, visitSubNodes);
+            }
+
+            /// <summary>
             ///     Constructor
             /// </summary>
             /// <param name="options"></param>
@@ -604,22 +618,6 @@ namespace DataDictionary.Interpreter
         #endregion
 
         #region Refactoring
-
-        /// <summary>
-        ///     Cleans the caches of the full names
-        /// </summary>
-        private class FullNameCleaner : Generated.Visitor
-        {
-            public override void visit(Generated.Namable obj, bool visitSubNodes)
-            {
-                Namable namable = (Namable) obj;
-
-                namable.ClearFullName();
-
-                base.visit(obj, visitSubNodes);
-            }
-        }
-
         /// <summary>
         ///     Refactors an element which can hold an expression
         /// </summary>
@@ -723,27 +721,20 @@ namespace DataDictionary.Interpreter
         {
             if (element != null)
             {
+                // Recompiles everything to make sure that the references are correct
+                Compile_Synchronous(false, true);
+
+                // Change the element name
                 string originalName = element.Name;
                 element.Name = newName;
+                // Make sure that the element name is taken into consideration
+                new CleanBeforeCompilation(new CompilationOptions(false, true), EFSSystem);                    
 
-                new CleanBeforeCompilation(new CompilationOptions(false, true), EFSSystem);
-                    
-                RefactorNameSpaceNames();
+                // Then, refactor references to the renamed element
                 RefactorElement(element, originalName, newName);
-                Compile_Synchronous(false, true);
-            }
-        }
 
-        /// <summary>
-        ///     Follow the namespace names
-        /// </summary>
-        private void RefactorNameSpaceNames()
-        {
-            // Cleans fullname cache
-            FullNameCleaner cleaner = new FullNameCleaner();
-            foreach (Dictionary dictionary in EFSSystem.INSTANCE.Dictionaries)
-            {
-                cleaner.visit(dictionary);
+                // Recompiles to make sure that references are still correct
+                Compile_Synchronous(false, true);
             }
         }
 
@@ -851,7 +842,6 @@ namespace DataDictionary.Interpreter
         ///     Performs a refactoring of the model then ensure that the namespaces in its inner elements are correct
         /// </summary>
         /// <param name="model"></param>
-        /// <param name="newName"></param>
         public void RefactorAndRelocate(ModelElement model)
         {
             if (model != null)

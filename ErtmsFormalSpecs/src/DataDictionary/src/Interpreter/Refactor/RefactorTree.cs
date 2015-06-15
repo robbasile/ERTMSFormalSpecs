@@ -36,46 +36,63 @@ namespace DataDictionary.Interpreter.Refactor
         /// </summary>
         private ModelElement User { get; set; }
 
+        /// <summary>
+        /// The index where prefixes should be removed
+        /// </summary>
+        private int StartRemove { get; set; }
+        private int EndRemove { get; set; }
+
         protected override void VisitDerefExpression(DerefExpression derefExpression)
         {
             ModelElement context = User;
 
-            int startRemove = int.MaxValue;
-            int endRemove = int.MinValue;
-
+            StartRemove = int.MaxValue;
+            EndRemove = int.MinValue;
             foreach (Expression expression in derefExpression.Arguments)
             {
                 if (expression != null)
                 {
                     if (expression.Ref == Ref)
                     {
-                        string replacementValue = Ref.ReferenceName(User);
-
-                        if (startRemove != int.MaxValue && endRemove != int.MinValue)
-                        {
-                            ReplaceText("", startRemove, endRemove);                            
-                        }
-                        ReplaceText(replacementValue, expression.Start, expression.End);
+                        ReplaceNonTerminal(expression);
                         break;
                     }
 
                     if (expression.Ref is NameSpace || expression.Ref is StateMachine || expression.Ref is State)
                     {
                         // Remove all namespace prefixes, they will be taken into account in ReferenceName function
-                        startRemove = Math.Min(expression.Start, startRemove);
-                        endRemove = Math.Max(expression.End+1, endRemove);
+                        StartRemove = Math.Min(expression.Start, StartRemove);
+                        EndRemove = Math.Max(expression.End+1, EndRemove);
                     }
                     else
                     {
                         VisitExpression(expression);
 
-                        startRemove = int.MaxValue;
-                        endRemove = int.MinValue;
+                        StartRemove = int.MaxValue;
+                        EndRemove = int.MinValue;
                         User = expression.GetExpressionType();
                     }
                 }
             }
             User = context;
+        }
+
+
+        /// <summary>
+        /// Removes the prefix according to the StartRemove and EndRemove values
+        /// </summary>
+        /// <param name="treeNode">The tree node to replace</param>
+        private void ReplaceNonTerminal(InterpreterTreeNode treeNode)
+        {
+            // Removes the prefix
+            if (StartRemove != int.MaxValue && EndRemove != int.MinValue)
+            {
+                ReplaceText("", StartRemove, EndRemove);
+            }
+
+            // Replaces the non terminal
+            string replacementValue = Ref.ReferenceName(User);
+            ReplaceText(replacementValue, treeNode.Start, treeNode.End);
         }
 
         protected override void VisitDesignator(Designator designator)
@@ -85,8 +102,7 @@ namespace DataDictionary.Interpreter.Refactor
                 ModelElement referencedElement = designator.Ref as ModelElement;
                 if ( referencedElement == Ref )
                 {
-                    string replacementValue = referencedElement.ReferenceName(User);
-                    ReplaceText(replacementValue, designator.Start, designator.End);
+                    ReplaceNonTerminal(designator);
                 }
             }
         }
