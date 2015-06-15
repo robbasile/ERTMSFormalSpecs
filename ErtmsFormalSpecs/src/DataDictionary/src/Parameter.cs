@@ -148,9 +148,9 @@ namespace DataDictionary
         /// <summary>
         ///     Provides the name of this model element when accessing it from the other model element (provided as parameter)
         /// </summary>
-        /// <param name="modelElement"></param>
+        /// <param name="user"></param>
         /// <returns></returns>
-        public override string ReferenceName(ModelElement modelElement)
+        public override string ReferenceName(ModelElement user)
         {
             string retVal = Name;
 

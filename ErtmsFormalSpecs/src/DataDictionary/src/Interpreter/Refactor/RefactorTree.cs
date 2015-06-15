@@ -14,7 +14,9 @@
 // --
 // ------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
+using DataDictionary.Constants;
 using DataDictionary.Types;
 
 namespace DataDictionary.Interpreter.Refactor
@@ -38,6 +40,9 @@ namespace DataDictionary.Interpreter.Refactor
         {
             ModelElement context = User;
 
+            int startRemove = int.MaxValue;
+            int endRemove = int.MinValue;
+
             foreach (Expression expression in derefExpression.Arguments)
             {
                 if (expression != null)
@@ -46,17 +51,26 @@ namespace DataDictionary.Interpreter.Refactor
                     {
                         string replacementValue = Ref.ReferenceName(User);
 
+                        if (startRemove != int.MaxValue && endRemove != int.MinValue)
+                        {
+                            ReplaceText("", startRemove, endRemove);                            
+                        }
                         ReplaceText(replacementValue, expression.Start, expression.End);
                         break;
                     }
-                    else if (expression.Ref is NameSpace)
+
+                    if (expression.Ref is NameSpace || expression.Ref is StateMachine || expression.Ref is State)
                     {
                         // Remove all namespace prefixes, they will be taken into account in ReferenceName function
-                        ReplaceText("", expression.Start, expression.End+1);
+                        startRemove = Math.Min(expression.Start, startRemove);
+                        endRemove = Math.Max(expression.End+1, endRemove);
                     }
                     else
                     {
                         VisitExpression(expression);
+
+                        startRemove = int.MaxValue;
+                        endRemove = int.MinValue;
                         User = expression.GetExpressionType();
                     }
                 }
@@ -69,7 +83,7 @@ namespace DataDictionary.Interpreter.Refactor
             if (!designator.IsPredefined())
             {
                 ModelElement referencedElement = designator.Ref as ModelElement;
-                if ( referencedElement != null )
+                if ( referencedElement == Ref )
                 {
                     string replacementValue = referencedElement.ReferenceName(User);
                     ReplaceText(replacementValue, designator.Start, designator.End);

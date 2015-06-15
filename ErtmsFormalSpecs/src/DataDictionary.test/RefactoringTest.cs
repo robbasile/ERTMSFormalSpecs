@@ -52,7 +52,7 @@ namespace DataDictionary.test
             Action action = CreateAction(rc1, "E2.E1 <- False");
 
             Variable variable = CreateVariable(n1, "A", "S1");
-            Action action2 = CreateAction(rc1, "A <- S1 { E1 -> False }");
+            Action action2 = CreateAction(rc1, "A <- S1 { E1 => False }");
 
             Refactor(el1, "NewE1");
             Assert.AreEqual("E2.NewE1 <- False", action.ExpressionText);
@@ -274,6 +274,62 @@ namespace DataDictionary.test
             Assert.AreEqual("THIS in S1", preCondition.ExpressionText);
             Assert.AreEqual("THIS <- S2", action.ExpressionText);
             Assert.AreEqual(var.Type, stateMachine);
+        }
+
+        /// <summary>
+        ///     Test refactoring of a state name and actions using that state name
+        /// </summary>
+        [Test]
+        public void TestRefactorStateMachine2()
+        {
+            Dictionary dictionary = CreateDictionary("Test");
+            NameSpace nameSpace = CreateNameSpace(dictionary, "N1");
+
+            StateMachine stateMachine = CreateStateMachine(nameSpace, "TestSM");
+            State state1 = CreateState(stateMachine, "S1");
+            State state2 = CreateState(stateMachine, "S2");
+            stateMachine.Default = "S1";
+
+            RuleCondition ruleCondition = CreateRuleAndCondition(state1.StateMachine, "Test");
+            Action action = CreateAction(ruleCondition, "THIS <- TestSM.S2");
+
+            Refactor(stateMachine, "TestSM2");
+            Assert.AreEqual("THIS <- TestSM2.S2", action.ExpressionText);
+
+            Refactor(state2, "S3");
+            Assert.AreEqual("THIS <- S3", action.ExpressionText);
+        }
+
+        /// <summary>
+        ///     Test refactoring of a state machine with sub states
+        /// </summary>
+        [Test]
+        public void TestRefactorStateMachine3()
+        {
+            Dictionary dictionary = CreateDictionary("Test");
+            NameSpace nameSpace = CreateNameSpace(dictionary, "N1");
+
+            StateMachine stateMachine = CreateStateMachine(nameSpace, "TestSM");
+            State state1 = CreateState(stateMachine, "S1");
+            State state2 = CreateState(stateMachine, "S2");
+            stateMachine.Default = "S1";
+
+            StateMachine stateMachine2 = state2.StateMachine;
+            State state21 = CreateState(stateMachine2, "S21");
+            State state22 = CreateState(stateMachine2, "S22");
+            stateMachine.Default = "S21";
+
+            RuleCondition ruleCondition = CreateRuleAndCondition(state21.StateMachine, "Test");
+            Action action = CreateAction(ruleCondition, "THIS <- TestSM.S2.S22");
+
+            Refactor(stateMachine, "TestSM2");
+            Assert.AreEqual("THIS <- TestSM2.S2.S22", action.ExpressionText);
+
+            Refactor(state2, "S3");
+            Assert.AreEqual("THIS <- S3.S22", action.ExpressionText);
+
+            Refactor(nameSpace, "N2");
+            Assert.AreEqual("THIS <- S3.S22", action.ExpressionText);
         }
 
         /// <summary>

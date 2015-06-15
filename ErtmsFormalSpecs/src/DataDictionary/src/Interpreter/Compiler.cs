@@ -631,17 +631,7 @@ namespace DataDictionary.Interpreter
             {
                 try
                 {
-                    ModelElement enclosing = EnclosingFinder<Types.StateMachine>.find(user as ModelElement, true);
-
-                    if (enclosing == null)
-                    {
-                        enclosing = EnclosingFinder<Structure>.find(user as ModelElement, true);
-                    }
-                    if (enclosing == null)
-                    {
-                        enclosing = EnclosingFinder<NameSpace>.find(user as ModelElement, true);
-                    }
-                    RefactorTree refactorer = new RefactorTree(element, enclosing);
+                    RefactorTree refactorer = new RefactorTree(element, user as ModelElement);
                     refactorer.PerformUpdate(user);
                 }
                 catch (Exception e)

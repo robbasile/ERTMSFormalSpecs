@@ -137,57 +137,52 @@ namespace DataDictionary
         /// <summary>
         ///     Provides the name of this model element when accessing it from the other model element (provided as parameter)
         /// </summary>
-        /// <param name="modelElement">The user of this element</param>
+        /// <param name="user">The user of this element</param>
         /// <returns></returns>
-        public virtual string ReferenceName(ModelElement modelElement)
+        public virtual string ReferenceName(ModelElement user)
         {
             string retVal = Name;
 
-            if (this != modelElement)
+            ModelElement current = Enclosing as ModelElement;
+            bool validName = CheckNewName(user, retVal);
+            while (current != null && !(current is Dictionary) && current != user && !validName)
             {
-                ModelElement enclosing = Enclosing as ModelElement;
-                while (enclosing != null && !(enclosing is Dictionary) && enclosing != modelElement)
+                StateMachine enclosingStateMachine = current as StateMachine;
+                if (enclosingStateMachine != null && enclosingStateMachine.EnclosingStateMachine != null)
                 {
-                    StateMachine enclosingStateMachine = enclosing as StateMachine;
-
-                    if (enclosingStateMachine != null && enclosingStateMachine.EnclosingStateMachine != null)
-                    {
-                        // Ignore state machines because they have the same name as their enclosing state
-                        // This is not true for the first state machine in the chain
-                        enclosing = enclosing.Enclosing as ModelElement;
-                    }
-                    else
-                    {
-                        bool sharePrefix = false;
-                        ModelElement current = modelElement;
-                        while (!sharePrefix && current != null)
-                        {
-                            sharePrefix = enclosing == current;
-                            current = current.Enclosing as ModelElement;
-                        }
-
-                        if (sharePrefix)
-                        {
-                            enclosing = null;
-                        }
-                        else
-                        {
-                            retVal = enclosing.Name + "." + retVal;
-                            enclosing = enclosing.Enclosing as ModelElement;
-                        }
-                    }
+                    // Ignore state machines because they have the same name as their enclosing state
+                    // This is not true for the first state machine in the chain (no enclosing state)
                 }
+                else
+                {
+                    retVal = current.Name + "." + retVal;
+                }
+
+                current = current.Enclosing as ModelElement;
+                validName = CheckNewName(user, retVal);
             }
 
-            // Check if the name provided still references the same item
-            bool referenceFound = false;
-            Expression expression  = EFSSystem.INSTANCE.Parser.Expression(modelElement, retVal, Interpreter.Filter.AllMatches.INSTANCE, true, null, true);
+            return retVal;
+        }
 
-            foreach (ReturnValueElement target in expression.getReferences(null, Interpreter.Filter.AllMatches.INSTANCE, true).Values)
+        /// <summary>
+        /// Check if the new name references the right element in this context
+        /// </summary>
+        /// <param name="modelElement"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        private bool CheckNewName(ModelElement modelElement, string name)
+        {
+            bool retVal = false;
+
+            Expression expression = EFSSystem.INSTANCE.Parser.Expression(modelElement, name,
+                Interpreter.Filter.AllMatches.INSTANCE, true, null, true);
+
+            foreach ( ReturnValueElement target in expression.getReferences(null, Interpreter.Filter.AllMatches.INSTANCE, true).Values)
             {
                 if (target.Value == this)
                 {
-                    referenceFound = true;
+                    retVal = true;
                     break;
                 }
             }
@@ -196,15 +191,9 @@ namespace DataDictionary
             {
                 if (target.Value == this)
                 {
-                    referenceFound = true;
+                    retVal = true;
                     break;
                 }
-            }
-
-            // If the string created did not reference this, provide the fullname instead (to be on the safe side)
-            if (!referenceFound)
-            {
-                retVal = FullName;
             }
 
             return retVal;
