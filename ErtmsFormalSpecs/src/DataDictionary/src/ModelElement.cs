@@ -156,10 +156,10 @@ namespace DataDictionary
                 else
                 {
                     retVal = current.Name + "." + retVal;
+                    validName = CheckNewName(user, retVal);
                 }
 
                 current = current.Enclosing as ModelElement;
-                validName = CheckNewName(user, retVal);
             }
 
             return retVal;
