@@ -382,19 +382,16 @@ namespace GUI.TestRunnerView.Watch
 
                     if (!string.IsNullOrEmpty(Expression))
                     {
-                        try
+                        ModelElement.DontRaiseError(() =>
                         {
-                            ModelElement.BeSilent = true;
-
-                            retVal = Instance.EFSSystem.Parser.Expression(Instance, Expression);
-                        }
-                        catch (Exception)
-                        {
-                        }
-                        finally
-                        {
-                            ModelElement.BeSilent = false;
-                        }
+                            try
+                            {
+                                retVal = Instance.EFSSystem.Parser.Expression(Instance, Expression);
+                            }
+                            catch (Exception)
+                            {
+                            }
+                        });
                     }
 
                     return retVal;

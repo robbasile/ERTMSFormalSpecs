@@ -77,11 +77,8 @@ namespace DataDictionary.Interpreter.Refactor
                 Text = expressionable.ExpressionText;
                 Delta = 0;
 
-                bool previous = ModelElement.BeSilent;
-                try
+                ModelElement.DontRaiseError(() =>
                 {
-                    ModelElement.BeSilent = true;
-
                     if (expressionable.Tree != null)
                     {
                         VisitInterpreterTreeNode(expressionable.Tree);
@@ -97,11 +94,7 @@ namespace DataDictionary.Interpreter.Refactor
                             }
                         }
                     }
-                }
-                finally
-                {
-                    ModelElement.BeSilent = previous;
-                }
+                });
             }
         }
     }

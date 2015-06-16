@@ -97,7 +97,7 @@ namespace DataDictionary.Interpreter
             /// <param name="visitSubNodes"></param>
             public override void visit(Generated.Namable obj, bool visitSubNodes)
             {
-                Namable namable = (Namable)obj;
+                Namable namable = (Namable) obj;
 
                 namable.ClearFullName();
 
@@ -489,38 +489,35 @@ namespace DataDictionary.Interpreter
         /// </summary>
         private void PerformCompile(CompilationOptions options)
         {
-            try
+            ModelElement.DontRaiseError(options.SilentCompile, () =>
             {
-                ModelElement.BeSilent = options.SilentCompile;
-
-                // Initialises the declared elements
-                CleanBeforeCompilation cleanBeforeCompilation = new CleanBeforeCompilation(options, EFSSystem);
-
-                // Create the update information
-                FindUpdates findUpdates = new FindUpdates(EFSSystem);
-
-                // Compiles each expression and each statement encountered in the nodes
-                foreach (Dictionary dictionary in EFSSystem.Dictionaries)
+                try
                 {
-                    visit(dictionary, true);
-                }
+                    // Initialises the declared elements
+                    CleanBeforeCompilation cleanBeforeCompilation = new CleanBeforeCompilation(options, EFSSystem);
 
-                if (options.Rebuild)
-                {
-                    CreateDependancy createDependancy = new CreateDependancy(EFSSystem);
-                    if (createDependancy.DependancyChange)
+                    // Create the update information
+                    FindUpdates findUpdates = new FindUpdates(EFSSystem);
+
+                    // Compiles each expression and each statement encountered in the nodes
+                    foreach (Dictionary dictionary in EFSSystem.Dictionaries)
                     {
-                        FlattenDependancy flattenDependancy = new FlattenDependancy(EFSSystem);
+                        visit(dictionary, true);
+                    }
+
+                    if (options.Rebuild)
+                    {
+                        CreateDependancy createDependancy = new CreateDependancy(EFSSystem);
+                        if (createDependancy.DependancyChange)
+                        {
+                            FlattenDependancy flattenDependancy = new FlattenDependancy(EFSSystem);
+                        }
                     }
                 }
-            }
-            catch (Exception)
-            {
-            }
-            finally
-            {
-                ModelElement.BeSilent = false;
-            }
+                catch (Exception)
+                {
+                }
+            });
         }
 
         /// <summary>

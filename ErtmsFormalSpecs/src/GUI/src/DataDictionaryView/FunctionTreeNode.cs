@@ -217,10 +217,8 @@ namespace GUI.DataDictionaryView
             retVal.Add(new MenuItem("Delete", new EventHandler(DeleteHandler)));
             retVal.AddRange(base.GetMenuItems());
 
-            bool previousSilentMode = ModelElement.BeSilent;
-            try
+            ModelElement.DontRaiseError(() =>
             {
-                ModelElement.BeSilent = true;
                 InterpretationContext context = new InterpretationContext(Item);
                 if (Item.FormalParameters.Count == 1)
                 {
@@ -241,11 +239,7 @@ namespace GUI.DataDictionaryView
                         retVal.Insert(8, new MenuItem("-"));
                     }
                 }
-            }
-            finally
-            {
-                ModelElement.BeSilent = previousSilentMode;
-            }
+            });
 
             return retVal;
         }

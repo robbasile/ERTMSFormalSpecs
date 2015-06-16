@@ -876,10 +876,8 @@ namespace DataDictionary
         {
             DeclaredElements = new Dictionary<string, List<INamable>>();
 
-            try
+            Util.DontNotify(() =>
             {
-                ControllersManager.DesactivateAllNotifications();
-
                 ISubDeclaratorUtils.AppendNamable(this, EmptyValue);
                 foreach (Type type in PredefinedTypes.Values)
                 {
@@ -911,11 +909,7 @@ namespace DataDictionary
                         }
                     }
                 }
-            }
-            finally
-            {
-                ControllersManager.ActivateAllNotifications();
-            }
+            });
         }
 
         /// <summary>
@@ -1272,20 +1266,14 @@ namespace DataDictionary
             {
                 // Find references
                 ReferenceVisitor visitor = new ReferenceVisitor(model);
-                bool prev = ModelElement.BeSilent;
-                try
+                ModelElement.DontRaiseError(() =>
                 {
-                    ModelElement.BeSilent = true;
                     foreach (Dictionary dictionary in Dictionaries)
                     {
                         visitor.visit(dictionary, true);
                     }
                     visitor.Usages.Sort();
-                }
-                finally
-                {
-                    ModelElement.BeSilent = prev;
-                }
+                });
 
                 retVal = visitor.Usages;
                 foreach ( Usage usage in retVal )
@@ -1316,20 +1304,14 @@ namespace DataDictionary
         {
             // Find references
             ReferenceVisitor visitor = new ReferenceVisitor(filter);
-            bool prev = ModelElement.BeSilent;
-            try
+            ModelElement.DontRaiseError(() =>
             {
-                ModelElement.BeSilent = true;
                 foreach (Dictionary dictionary in Dictionaries)
                 {
                     visitor.visit(dictionary, true);
                 }
                 visitor.Usages.Sort();
-            }
-            finally
-            {
-                ModelElement.BeSilent = prev;
-            }
+            });
 
             return visitor.Usages;
         }

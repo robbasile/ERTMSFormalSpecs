@@ -44,22 +44,20 @@ namespace GUI.LongOperations
         /// <param name="arg"></param>
         public override void ExecuteWork()
         {
-            ControllersManager.DesactivateAllNotifications();
-            try
+            Util.DontNotify(() =>
             {
-                foreach (Dictionary dictionary in EFSSystem.Dictionaries)
+                try
                 {
-                    dictionary.CheckRules();
+                    foreach (Dictionary dictionary in EFSSystem.Dictionaries)
+                    {
+                        dictionary.CheckRules();
+                    }
                 }
-            }
-            catch (Exception excp)
-            {
-                MessageBox.Show("Exception raised", excp.Message);
-            }
-            finally
-            {
-                ControllersManager.ActivateAllNotifications();
-            }
+                catch (Exception excp)
+                {
+                    MessageBox.Show("Exception raised", excp.Message);
+                }
+            });
         }
     }
 }

@@ -351,13 +351,16 @@ namespace GUI.IPCInterface
                         {
                             if (!AllListeners)
                             {
-                                Runner.ExecuteOnePriority(convertStep2Priority(LastStep));
-                                if (LastStep == Step.CleanUp)
+                                Util.DontNotify(() =>
                                 {
-                                    GUIUtils.MDIWindow.Invoke(
-                                        (MethodInvoker) delegate { GUIUtils.MDIWindow.RefreshAfterStep(); });
-                                    ClearFunctionCaches();
-                                }
+                                    Runner.ExecuteOnePriority(convertStep2Priority(LastStep));
+                                    if (LastStep == Step.CleanUp)
+                                    {
+                                        GUIUtils.MDIWindow.Invoke(
+                                            (MethodInvoker) delegate { GUIUtils.MDIWindow.RefreshAfterStep(); });
+                                        ClearFunctionCaches();
+                                    }
+                                });
                             }
                         }
                         catch (Exception)
@@ -603,7 +606,11 @@ namespace GUI.IPCInterface
                     expression);
                 if (expressionTree != null)
                 {
-                    retVal = convertOut(expressionTree.GetValue(new InterpretationContext(), null));
+                    Util.DontNotify(() =>
+                    {
+                        retVal =
+                            convertOut(expressionTree.GetValue(new InterpretationContext(), null));
+                    });
                 }
                 else
                 {
@@ -780,10 +787,13 @@ namespace GUI.IPCInterface
 
                     if (variable != null)
                     {
-                        SyntheticVariableUpdateAction action = new SyntheticVariableUpdateAction(variable,
-                            value.convertBack(variable.Type));
-                        VariableUpdate variableUpdate = new VariableUpdate(action, null, null);
-                        Runner.EventTimeLine.AddModelEvent(variableUpdate, Runner, true);
+                        Util.DontNotify(() =>
+                        {
+                            SyntheticVariableUpdateAction action = new SyntheticVariableUpdateAction(variable,
+                                value.convertBack(variable.Type));
+                            VariableUpdate variableUpdate = new VariableUpdate(action, null, null);
+                            Runner.EventTimeLine.AddModelEvent(variableUpdate, Runner, true);
+                        });
                     }
                     else
                     {
@@ -815,10 +825,13 @@ namespace GUI.IPCInterface
 
                     if (statement != null)
                     {
-                        Action action = (Action) acceptor.getFactory().createAction();
-                        action.ExpressionText = statementText;
-                        VariableUpdate variableUpdate = new VariableUpdate(action, null, null);
-                        Runner.EventTimeLine.AddModelEvent(variableUpdate, Runner, true);
+                        Util.DontNotify(() =>
+                        {
+                            Action action = (Action) acceptor.getFactory().createAction();
+                            action.ExpressionText = statementText;
+                            VariableUpdate variableUpdate = new VariableUpdate(action, null, null);
+                            Runner.EventTimeLine.AddModelEvent(variableUpdate, Runner, true);
+                        });
                     }
                     else
                     {

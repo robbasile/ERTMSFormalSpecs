@@ -53,10 +53,7 @@ namespace GUI.MoreInfoView
         /// </summary>
         public override void RefreshModel()
         {
-            bool silent = ModelElement.BeSilent;
-            try
-            {
-                ModelElement.BeSilent = true;
+            ModelElement.DontRaiseError(()=>{
                 moreInfoRichTextBox.Rtf = EmptyRTF;
                 if (Model != null)
                 {
@@ -64,11 +61,7 @@ namespace GUI.MoreInfoView
                     moreInfoRichTextBox.Rtf = TextualExplainUtilities.Encapsule(Model.getExplain(true));
                 }
                 Refresh();
-            }
-            finally
-            {
-                ModelElement.BeSilent = silent;
-            }
+            });
         }
     }
 }

@@ -642,11 +642,8 @@ namespace GUI.TestRunnerView.TimeLineControl
                 -1, -1, -1);
             ;
 
-            bool previousMode = ModelElement.BeSilent;
-            try
+            ModelElement.DontRaiseError(() =>
             {
-                ModelElement.BeSilent = true;
-
                 Expect expect = evt as Expect;
                 if (expect != null)
                 {
@@ -752,11 +749,7 @@ namespace GUI.TestRunnerView.TimeLineControl
                 {
                     retVal = new EventDisplayAttributes(Color.LightGray, new Pen(Color.Black), "SubStep", -1, -1, -1);
                 }
-            }
-            finally
-            {
-                ModelElement.BeSilent = previousMode;
-            }
+            });
 
             return retVal;
         }

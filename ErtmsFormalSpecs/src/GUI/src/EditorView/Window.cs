@@ -162,7 +162,11 @@ namespace GUI.EditorView
             if (__textChangeHandler != null)
             {
                 int start = editorTextBox.TextBox.SelectionStart;
-                Value = __textChangeHandler.GetText();
+                string newValue = __textChangeHandler.GetText();
+                if (newValue != Value)
+                {
+                    Value = __textChangeHandler.GetText();
+                }
                 editorTextBox.TextBox.SelectionStart = start;
             }
         }

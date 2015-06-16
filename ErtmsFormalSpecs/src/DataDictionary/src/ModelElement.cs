@@ -84,8 +84,67 @@ namespace DataDictionary
         /// <summary>
         ///     Indicates that no logging should occur
         /// </summary>
-        public static bool BeSilent { get; set; }
+        private static bool BeSilent { get; set; }
 
+        /// <summary>
+        /// An action which should not raise errors
+        /// </summary>
+        public delegate void SilentAction();
+
+        /// <summary>
+        /// The number of times DontRaiseError has been recursively called
+        /// </summary>
+        private static int SilentCount = 0;
+
+        /// <summary>
+        /// Do not raise errors while execution the action
+        /// </summary>
+        /// <param name="action"></param>
+        public static void DontRaiseError(SilentAction action)
+        {
+            DontRaiseError(true, action);
+        }
+
+        /// <summary>
+        /// Do not raise errors while execution the action
+        /// </summary>
+        /// <param name="silent">Indicates that the action should be silent</param>
+        /// <param name="action"></param>
+        public static void DontRaiseError(bool silent, SilentAction action)
+        {
+            if (silent)
+            {
+                try
+                {
+                    SilentCount += 1;
+                    if (SilentCount == 1)
+                    {
+                        BeSilent = true;
+                        action();
+                    }
+                    else
+                    {
+                        action();
+                    }
+                }
+                finally
+                {
+                    SilentCount -= 1;
+                    if (SilentCount == 0)
+                    {
+                        BeSilent = false;
+                    }
+                }
+            }
+            else
+            {
+                action();
+            }
+        }
+
+        /// <summary>
+        /// Ensures that the GUID is set for this model element
+        /// </summary>
         public void EnsureGuid()
         {
             if (string.IsNullOrEmpty(getGuid()))

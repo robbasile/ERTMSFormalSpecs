@@ -300,21 +300,15 @@ namespace GUI.TestRunnerView
         /// </summary>
         public void StepOnce()
         {
-            try
+            Util.DontNotify(() =>
             {
-                ControllersManager.DesactivateAllNotifications();
-
                 CheckRunner();
                 if (EFSSystem.Runner != null)
                 {
                     EFSSystem.Runner.RunUntilTime(EFSSystem.Runner.Time + EFSSystem.Runner.Step);
                     GUIUtils.MDIWindow.RefreshAfterStep();
                 }
-            }
-            finally
-            {
-                ControllersManager.ActivateAllNotifications();
-            }
+            });
         }
 
         private void stepOnce_Click(object sender, EventArgs e)

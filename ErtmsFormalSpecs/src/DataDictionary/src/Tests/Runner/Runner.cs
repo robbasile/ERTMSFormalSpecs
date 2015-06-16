@@ -268,9 +268,8 @@ namespace DataDictionary.Tests.Runner
         /// </summary>
         public void Setup()
         {
-            try
+            Util.DontNotify(() =>
             {
-                ControllersManager.DesactivateAllNotifications();
                 // Setup the execution environment
                 Setuper setuper = new Setuper(EFSSystem);
                 ExecutionTimeInitializer executionTimeInitializer = new ExecutionTimeInitializer();
@@ -292,11 +291,7 @@ namespace DataDictionary.Tests.Runner
                 }
 
                 PleaseWait = false;
-            }
-            finally
-            {
-                ControllersManager.ActivateAllNotifications();
-            }
+            });
         }
 
         public class Activation
@@ -396,7 +391,7 @@ namespace DataDictionary.Tests.Runner
         /// </summary>
         public void Cycle()
         {
-            try
+            Util.DontNotify(() =>
             {
                 CurrentPriority = null;
 
@@ -404,7 +399,6 @@ namespace DataDictionary.Tests.Runner
                 {
                     Log.Info("New cycle");
                 }
-                ControllersManager.DesactivateAllNotifications();
 
                 LastActivationTime = Time;
 
@@ -419,11 +413,7 @@ namespace DataDictionary.Tests.Runner
                 RegisterErrors(Utils.ModelElement.Errors);
 
                 EventTimeLine.GarbageCollect();
-            }
-            finally
-            {
-                ControllersManager.ActivateAllNotifications();
-            }
+            });
 
             EventTimeLine.CurrentTime += Step;
         }
@@ -825,9 +815,8 @@ namespace DataDictionary.Tests.Runner
         /// </summary>
         public void SetupSubStep(SubStep subStep)
         {
-            try
+            Util.DontNotify(() =>
             {
-                ControllersManager.DesactivateAllNotifications();
                 LogInstance = subStep;
 
                 // No setup can occur when some expectations are still active
@@ -835,11 +824,7 @@ namespace DataDictionary.Tests.Runner
                 {
                     EventTimeLine.AddModelEvent(new SubStepActivated(subStep, CurrentPriority), this, true);
                 }
-            }
-            finally
-            {
-                ControllersManager.ActivateAllNotifications();
-            }
+            });
         }
 
         /// <summary>
@@ -1269,10 +1254,8 @@ namespace DataDictionary.Tests.Runner
         /// <param name="target"></param>
         public void RunUntilStep(Step target)
         {
-            try
+            Util.DontNotify(() =>
             {
-                ControllersManager.DesactivateAllNotifications();
-
                 currentStepIndex = NO_MORE_STEP;
                 currentTestCaseIndex = NO_MORE_STEP;
 
@@ -1334,11 +1317,7 @@ namespace DataDictionary.Tests.Runner
                         break;
                     }
                 }
-            }
-            finally
-            {
-                ControllersManager.ActivateAllNotifications();
-            }
+            });
         }
 
         /// <summary>

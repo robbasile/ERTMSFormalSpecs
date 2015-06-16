@@ -42,18 +42,13 @@ namespace GUI.LongOperations
         /// <param name="arg"></param>
         public override void ExecuteWork()
         {
-            ControllersManager.DesactivateAllNotifications();
-            try
+            Util.DontNotify(() =>
             {
                 foreach (Dictionary dictionary in EFSSystem.Dictionaries)
                 {
                     dictionary.CheckDeadModel();
                 }
-            }
-            finally
-            {
-                ControllersManager.ActivateAllNotifications();
-            }
+            });
         }
     }
 }

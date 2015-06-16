@@ -277,15 +277,10 @@ namespace DataDictionary.Types
             {
                 if (castFunction == null && CanBeCastInto)
                 {
-                    try
+                    Util.DontNotify(() =>
                     {
-                        ControllersManager.DesactivateAllNotifications();
                         castFunction = new Cast(this);
-                    }
-                    finally
-                    {
-                        ControllersManager.ActivateAllNotifications();
-                    }
+                    });
                 }
 
                 return castFunction;

@@ -178,11 +178,8 @@ namespace GUI
 
             if (expression != null)
             {
-                bool silentMode = ModelElement.BeSilent;
-                try
+                ModelElement.DontRaiseError(() =>
                 {
-                    ModelElement.BeSilent = true;
-
                     InterpretationContext context = new InterpretationContext(Model);
                     context.UseDefaultValue = false;
                     IValue value = expression.GetValue(context, null);
@@ -198,11 +195,7 @@ namespace GUI
                         retVal = EFSSystem.INSTANCE.Parser.Expression(expression.Root, newExpression,
                             AllMatches.INSTANCE, doSemanticalAnalysis, null, silent);
                     }
-                }
-                finally
-                {
-                    ModelElement.BeSilent = silentMode;
-                }
+                });
             }
 
             return retVal;

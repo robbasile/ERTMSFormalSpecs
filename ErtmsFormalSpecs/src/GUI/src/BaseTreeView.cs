@@ -613,26 +613,25 @@ namespace GUI
         public void RefreshModel()
         {
             BaseTreeNode selected = Selected;
-            try
+            Util.DontNotify(() =>
             {
-                ControllersManager.DesactivateAllNotifications();
-
-                SuspendLayout();
-                RefreshNodeContent = false;
-
-                BuildModel();
-                if (selected != null)
+                try
                 {
-                    Select(selected.Model);
-                }
-            }
-            finally
-            {
-                ControllersManager.ActivateAllNotifications();
+                    SuspendLayout();
+                    RefreshNodeContent = false;
 
-                ResumeLayout(true);
-                RefreshNodeContent = true;
-            }
+                    BuildModel();
+                    if (selected != null)
+                    {
+                        Select(selected.Model);
+                    }
+                }
+                finally
+                {
+                    ResumeLayout(true);
+                    RefreshNodeContent = true;
+                }
+            });
         }
 
         /// <summary>

@@ -56,41 +56,42 @@ namespace DataDictionary.Values
             }
             try
             {
-                ControllersManager.DesactivateAllNotifications();
-
-                foreach (StructureElement element in Structure.Elements)
+                Util.DontNotify(() =>
                 {
-                    Variable variable = (Variable) acceptor.getFactory().createVariable();
-                    variable.Enclosing = this;
-                    if (element.Type != null)
-                    {
-                        variable.Type = element.Type;
-                    }
-                    variable.Name = element.Name;
-                    variable.Mode = element.Mode;
-                    variable.Default = element.Default;
 
-                    if (setDefaultValue)
+                    foreach (StructureElement element in Structure.Elements)
                     {
-                        variable.Value = variable.DefaultValue;
-                    }
-                    else
-                    {
-                        if (variable.Type is Types.Collection)
+                        Variable variable = (Variable) acceptor.getFactory().createVariable();
+                        variable.Enclosing = this;
+                        if (element.Type != null)
                         {
-                            variable.Value = new ListValue(variable.Type as Types.Collection, new List<IValue>());
+                            variable.Type = element.Type;
+                        }
+                        variable.Name = element.Name;
+                        variable.Mode = element.Mode;
+                        variable.Default = element.Default;
+
+                        if (setDefaultValue)
+                        {
+                            variable.Value = variable.DefaultValue;
                         }
                         else
                         {
-                            variable.Value = new DefaultValue(variable);
-                        }                    
+                            if (variable.Type is Types.Collection)
+                            {
+                                variable.Value = new ListValue(variable.Type as Types.Collection, new List<IValue>());
+                            }
+                            else
+                            {
+                                variable.Value = new DefaultValue(variable);
+                            }
+                        }
+                        set(variable);
                     }
-                    set(variable);
-                }
+                });
             }
             finally
             {
-                ControllersManager.ActivateAllNotifications();
                 depth -= 1;
                 DeclaredElements = null;
             }
@@ -110,48 +111,48 @@ namespace DataDictionary.Values
 
             try
             {
-                ControllersManager.DesactivateAllNotifications();
-
-                HashSet<string> members = new HashSet<string>();
-                foreach (KeyValuePair<Designator, Expression> pair in structureExpression.Associations)
+                Util.DontNotify(() =>
                 {
-                    IValue val = pair.Value.GetValue(new InterpretationContext(context), explain);
-                    if (val != null)
+                    HashSet<string> members = new HashSet<string>();
+                    foreach (KeyValuePair<Designator, Expression> pair in structureExpression.Associations)
                     {
-                        Variable var = (Variable) acceptor.getFactory().createVariable();
-                        var.Name = pair.Key.Image;
-                        var.Value = val;
-                        var.Enclosing = this;
-                        set(var);
-                        members.Add(var.Name);
-                    }
-                    else
-                    {
-                        structureExpression.AddError("Cannot evaluate value for " + pair.Value);
-                    }
-                }
-
-                foreach (StructureElement element in Structure.Elements)
-                {
-                    if (!members.Contains(element.Name))
-                    {
-                        Variable variable = (Variable) acceptor.getFactory().createVariable();
-                        variable.Enclosing = this;
-                        if (element.Type != null)
+                        IValue val = pair.Value.GetValue(new InterpretationContext(context), explain);
+                        if (val != null)
                         {
-                            variable.Type = element.Type;
+                            Variable var = (Variable) acceptor.getFactory().createVariable();
+                            var.Name = pair.Key.Image;
+                            var.Value = val;
+                            var.Enclosing = this;
+                            set(var);
+                            members.Add(var.Name);
                         }
-                        variable.Name = element.Name;
-                        variable.Mode = element.Mode;
-                        variable.Default = element.Default;
-                        variable.Value = variable.DefaultValue;
-                        set(variable);
+                        else
+                        {
+                            structureExpression.AddError("Cannot evaluate value for " + pair.Value);
+                        }
                     }
-                }
+
+                    foreach (StructureElement element in Structure.Elements)
+                    {
+                        if (!members.Contains(element.Name))
+                        {
+                            Variable variable = (Variable) acceptor.getFactory().createVariable();
+                            variable.Enclosing = this;
+                            if (element.Type != null)
+                            {
+                                variable.Type = element.Type;
+                            }
+                            variable.Name = element.Name;
+                            variable.Mode = element.Mode;
+                            variable.Default = element.Default;
+                            variable.Value = variable.DefaultValue;
+                            set(variable);
+                        }
+                    }
+                });
             }
             finally
             {
-                ControllersManager.ActivateAllNotifications();
                 depth -= 1;
                 DeclaredElements = null;
             }

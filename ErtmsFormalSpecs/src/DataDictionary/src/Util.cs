@@ -713,31 +713,29 @@ namespace DataDictionary
                     file.Close();
                 }
 
-                try
+                DontNotify(() =>
                 {
-                    ControllersManager.DesactivateAllNotifications();
-                    retVal = acceptor.accept(ctxt) as T;
-                    if (retVal != null)
+                    try
                     {
-                        retVal.setFather(enclosing);
-                        if (lockFiles)
+                        retVal = acceptor.accept(ctxt) as T;
+                        if (retVal != null)
                         {
-                            LockFile(filePath);
+                            retVal.setFather(enclosing);
+                            if (lockFiles)
+                            {
+                                LockFile(filePath);
+                            }
                         }
                     }
-                }
-                catch (XmlBException excp)
-                {
-                    Log.Error(ctxt.errorMessage());
-                }
-                catch (Exception e)
-                {
-                    Log.Error(e.Message);
-                }
-                finally
-                {
-                    ControllersManager.ActivateAllNotifications();
-                }
+                    catch (XmlBException excp)
+                    {
+                        Log.Error(ctxt.errorMessage());
+                    }
+                    catch (Exception e)
+                    {
+                        Log.Error(e.Message);
+                    }
+                });
 
                 return retVal;
             }
@@ -816,42 +814,38 @@ namespace DataDictionary
                     }
 
                     // Loads the dependancies for this .efs file
-                    try
+                    DontNotify(() =>
                     {
-                        ControllersManager.DesactivateAllNotifications();
-                        LoadDepends loadDepends = new LoadDepends(retVal.BasePath, loadParams.LockFiles,
-                            loadParams.Errors);
-                        loadDepends.visit(retVal);
-                    }
-                    catch (Exception e)
-                    {
-                        Log.Error(e.Message);
-                        retVal = null;
-                    }
-                    finally
-                    {
-                        ControllersManager.ActivateAllNotifications();
-                    }
+                        try
+                        {
+                            LoadDepends loadDepends = new LoadDepends(retVal.BasePath, loadParams.LockFiles,
+                                loadParams.Errors);
+                            loadDepends.visit(retVal);
+                        }
+                        catch (Exception e)
+                        {
+                            Log.Error(e.Message);
+                            retVal = null;
+                        }
+                    });
                 }
 
                 if (retVal != null)
                 {
                     // Updates the contents of this .efs file
-                    try
+                    DontNotify(() =>
                     {
-                        ControllersManager.DesactivateAllNotifications();
+                        try
+                        {
+                            Updater updater = new Updater(loadParams.UpdateGuid, loadParams.ConvertObsolete);
+                            updater.visit(retVal);
+                        }
+                        catch (Exception e)
+                        {
+                            Log.Error(e.Message);
+                        }
 
-                        Updater updater = new Updater(loadParams.UpdateGuid, loadParams.ConvertObsolete);
-                        updater.visit(retVal);
-                    }
-                    catch (Exception e)
-                    {
-                        Log.Error(e.Message);
-                    }
-                    finally
-                    {
-                        ControllersManager.ActivateAllNotifications();
-                    }
+                    });
                 }
             }
             finally
@@ -1124,6 +1118,45 @@ namespace DataDictionary
             }
 
             return retVal;
+        }
+
+        /// <summary>
+        /// An action that do not notify the controllers
+        /// </summary>
+        public delegate void NonNotifiedAction();
+
+        /// <summary>
+        /// Indicates the number of times a DontNotify has been recursively called
+        /// </summary>
+        private static int DontNotifyCount = 0;
+
+        /// <summary>
+        /// Indicates that notification should not occur for this action
+        /// </summary>
+        /// <param name="action"></param>
+        public static void DontNotify(NonNotifiedAction action)
+        {
+            try
+            {
+                DontNotifyCount += 1;
+                if (DontNotifyCount == 1)
+                {
+                    ControllersManager.DesactivateAllNotifications();
+                    action();
+                }
+                else
+                {
+                    action();
+                }
+            }
+            finally
+            {
+                DontNotifyCount -= 1;
+                if (DontNotifyCount == 0)
+                {
+                    ControllersManager.ActivateAllNotifications();
+                }
+            }
         }
     }
 }

@@ -80,32 +80,35 @@ namespace GUI.BoxArrowDiagram
         /// </summary>
         public void RefreshControl()
         {
-            if (Model.Width == 0 || Model.Height == 0)
+            Util.DontNotify(() =>
             {
-                Size boxSize = Panel.DefaultBoxSize;
-                Model.Width = boxSize.Width;
-                Model.Height = boxSize.Height;
+                if (Model.Width == 0 || Model.Height == 0)
+                {
+                    Size boxSize = Panel.DefaultBoxSize;
+                    Model.Width = boxSize.Width;
+                    Model.Height = boxSize.Height;
 
-                Point p = Panel.GetNextPosition(Model);
-                Model.X = p.X;
-                Model.Y = p.Y;
-            }
-            Size = new Size(Model.Width, Model.Height);
-            SetPosition(Model.X, Model.Y);
+                    Point p = Panel.GetNextPosition(Model);
+                    Model.X = p.X;
+                    Model.Y = p.Y;
+                }
+                Size = new Size(Model.Width, Model.Height);
+                SetPosition(Model.X, Model.Y);
 
-            TextAlign = ContentAlignment.MiddleCenter;
-            if (Model.Hidden)
-            {
-                Text = Model.GraphicalName + "\n(Hidden)";
-                Font = new Font(Font, FontStyle.Italic);
-                ForeColor = Color.Gray;
-            }
-            else
-            {
-                Text = Model.GraphicalName;
-                Font = new Font(Font, FontStyle.Regular);
-                ForeColor = Color.Black;
-            }
+                TextAlign = ContentAlignment.MiddleCenter;
+                if (Model.Hidden)
+                {
+                    Text = Model.GraphicalName + "\n(Hidden)";
+                    Font = new Font(Font, FontStyle.Italic);
+                    ForeColor = Color.Gray;
+                }
+                else
+                {
+                    Text = Model.GraphicalName;
+                    Font = new Font(Font, FontStyle.Regular);
+                    ForeColor = Color.Black;
+                }
+            });
         }
 
         /// <summary>

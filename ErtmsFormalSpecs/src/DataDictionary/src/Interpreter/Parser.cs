@@ -1163,58 +1163,59 @@ namespace DataDictionary.Interpreter
             Expression retVal = null;
 
             NoReentrance.WaitOne();
-            bool previousSilentMode = ModelElement.BeSilent;
-            try
+            ModelElement.DontRaiseError(silent, () =>
             {
-                ControllersManager.DesactivateAllNotifications();
-                ModelElement.BeSilent = ModelElement.BeSilent || silent;
-
-                // Setup context
-                Root = root;
-                RootLog = log;
-                if (RootLog == null)
+                // ReSharper disable once ConvertToLambdaExpression
+                Util.DontNotify(() =>
                 {
-                    RootLog = Root;
-                }
+                    try
+                    {
+                        // Setup context
+                        Root = root;
+                        RootLog = log;
+                        if (RootLog == null)
+                        {
+                            RootLog = Root;
+                        }
 
-                Buffer = expression.ToCharArray();
-                retVal = Expression(0);
+                        Buffer = expression.ToCharArray();
+                        retVal = Expression(0);
 
-                skipWhiteSpaces();
-                if (Index != Buffer.Length)
-                {
-                    retVal = null;
-                    if (Index < Buffer.Length)
-                    {
-                        RootLog.AddError("End of expression expected, but found " + Buffer[Index]);
+                        skipWhiteSpaces();
+                        if (Index != Buffer.Length)
+                        {
+                            retVal = null;
+                            if (Index < Buffer.Length)
+                            {
+                                RootLog.AddError("End of expression expected, but found " + Buffer[Index]);
+                            }
+                            else
+                            {
+                                RootLog.AddError("End of expression expected, but found EOF");
+                            }
+                        }
+                        if (retVal != null && doSemanticalAnalysis)
+                        {
+                            if (filter == null)
+                            {
+                                retVal.SemanticAnalysis(IsVariableOrValue.INSTANCE);
+                            }
+                            else
+                            {
+                                retVal.SemanticAnalysis(filter);
+                            }
+                        }
                     }
-                    else
+                    catch (Exception e)
                     {
-                        RootLog.AddError("End of expression expected, but found EOF");
+                        root.AddException(e);
                     }
-                }
-                if (retVal != null && doSemanticalAnalysis)
-                {
-                    if (filter == null)
+                    finally
                     {
-                        retVal.SemanticAnalysis(IsVariableOrValue.INSTANCE);
+                        NoReentrance.ReleaseMutex();
                     }
-                    else
-                    {
-                        retVal.SemanticAnalysis(filter);
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                root.AddException(e);
-            }
-            finally
-            {
-                NoReentrance.ReleaseMutex();
-                ModelElement.BeSilent = previousSilentMode;
-                ControllersManager.ActivateAllNotifications();
-            }
+                });
+            });
 
             return retVal;
         }
@@ -1402,40 +1403,38 @@ namespace DataDictionary.Interpreter
         public Statement.Statement Statement(ModelElement root, string expression, bool silent = false)
         {
             Statement.Statement retVal = null;
-            bool previousSilentMode = ModelElement.BeSilent;
 
-            try
+            Util.DontNotify(() =>
             {
-                ControllersManager.DesactivateAllNotifications();
-                ModelElement.BeSilent = silent;
-
-                Root = root;
-                Buffer = expression.ToCharArray();
-                retVal = Statement(root);
-
-                skipWhiteSpaces();
-                if (Index != Buffer.Length)
+                // ReSharper disable once ConvertToLambdaExpression
+                ModelElement.DontRaiseError(() =>
                 {
-                    if (Index < Buffer.Length)
+                    try
                     {
-                        throw new ParseErrorException("End of statement expected", Index, Buffer);
-                    }
-                }
+                        Root = root;
+                        Buffer = expression.ToCharArray();
+                        retVal = Statement(root);
 
-                if (retVal != null)
-                {
-                    retVal.SemanticAnalysis();
-                }
-            }
-            catch (Exception exception)
-            {
-                root.AddException(exception);
-            }
-            finally
-            {
-                ModelElement.BeSilent = previousSilentMode;
-                ControllersManager.ActivateAllNotifications();
-            }
+                        skipWhiteSpaces();
+                        if (Index != Buffer.Length)
+                        {
+                            if (Index < Buffer.Length)
+                            {
+                                throw new ParseErrorException("End of statement expected", Index, Buffer);
+                            }
+                        }
+
+                        if (retVal != null)
+                        {
+                            retVal.SemanticAnalysis();
+                        }
+                    }
+                    catch (Exception exception)
+                    {
+                        root.AddException(exception);
+                    }
+                });
+            });
 
             return retVal;
         }

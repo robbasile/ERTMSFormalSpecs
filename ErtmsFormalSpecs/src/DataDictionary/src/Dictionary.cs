@@ -325,9 +325,8 @@ namespace DataDictionary
         /// </summary>
         public void save()
         {
-            try
+            Util.DontNotify(() =>
             {
-                ControllersManager.DesactivateAllNotifications();
                 Updater updater = new Updater(BasePath, true);
                 updater.visit(this);
 
@@ -337,11 +336,7 @@ namespace DataDictionary
 
                 updater = new Updater(BasePath, false);
                 updater.visit(this);
-            }
-            finally
-            {
-                ControllersManager.ActivateAllNotifications();
-            }
+            });
         }
 
         /// <summary>
@@ -812,27 +807,25 @@ namespace DataDictionary
         /// </summary>
         public void CheckRules()
         {
-            try
+            Util.DontNotify(() =>
             {
-                ControllersManager.DesactivateAllNotifications();
-                ClearMessages();
+                try
+                {
+                    ClearMessages();
 
-                // Rebuilds everything
-                EFSSystem.Compiler.Compile_Synchronous(EFSSystem.ShouldRebuild);
-                EFSSystem.ShouldRebuild = false;
+                    // Rebuilds everything
+                    EFSSystem.Compiler.Compile_Synchronous(EFSSystem.ShouldRebuild);
+                    EFSSystem.ShouldRebuild = false;
 
-                // Check rules
-                RuleCheckerVisitor visitor = new RuleCheckerVisitor(this);
-                visitor.visit(this, true);
-                EFSSystem.INSTANCE.Markings.RegisterCurrentMarking();
-            }
-            catch (Exception e)
-            {
-            }
-            finally
-            {
-                ControllersManager.ActivateAllNotifications();
-            }
+                    // Check rules
+                    RuleCheckerVisitor visitor = new RuleCheckerVisitor(this);
+                    visitor.visit(this, true);
+                    EFSSystem.INSTANCE.Markings.RegisterCurrentMarking();
+                }
+                catch (Exception e)
+                {
+                }
+            });
         }
 
         /// <summary>
@@ -840,9 +833,8 @@ namespace DataDictionary
         /// </summary>
         public void CheckDeadModel()
         {
-            try
+            Util.DontNotify(() =>
             {
-                ControllersManager.DesactivateAllNotifications();
                 ClearMessages();
 
                 // Rebuilds everything
@@ -853,11 +845,7 @@ namespace DataDictionary
                 UsageChecker visitor = new UsageChecker(this);
                 visitor.visit(this, true);
                 EFSSystem.INSTANCE.Markings.RegisterCurrentMarking();
-            }
-            finally
-            {
-                ControllersManager.ActivateAllNotifications();
-            }
+            });
         }
 
         private class UnimplementedItemVisitor : Visitor

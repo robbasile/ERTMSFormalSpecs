@@ -61,7 +61,10 @@ namespace GUI.EditorView
 
             if (expressionable != null)
             {
-                expressionable.ExpressionText = text;
+                if (expressionable.ExpressionText != text)
+                {
+                    expressionable.ExpressionText = text;
+                }
             }
         }
     }
