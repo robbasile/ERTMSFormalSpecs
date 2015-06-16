@@ -175,25 +175,27 @@ namespace DataDictionary
         {
             bool retVal = false;
 
-            Expression expression = EFSSystem.INSTANCE.Parser.Expression(modelElement, name,
-                Interpreter.Filter.AllMatches.INSTANCE, true, null, true);
-
-            foreach ( ReturnValueElement target in expression.getReferences(null, Interpreter.Filter.AllMatches.INSTANCE, true).Values)
+            bool previousSilent = ModelElement.BeSilent;
+            try
             {
-                if (target.Value == this)
+                ModelElement.BeSilent = true;
+                Expression expression = EFSSystem.INSTANCE.Parser.Expression(modelElement, name,
+                    Interpreter.Filter.AllMatches.INSTANCE, true, null, true);
+
+                foreach (
+                    ReturnValueElement target in
+                        expression.getReferences(null, Interpreter.Filter.AllMatches.INSTANCE, true).Values)
                 {
-                    retVal = true;
-                    break;
+                    if (target.Value == this)
+                    {
+                        retVal = true;
+                        break;
+                    }
                 }
             }
-
-            foreach (ReturnValueElement target in expression.getReferences(modelElement, Interpreter.Filter.AllMatches.INSTANCE, true).Values)
+            finally
             {
-                if (target.Value == this)
-                {
-                    retVal = true;
-                    break;
-                }
+                ModelElement.BeSilent = previousSilent;
             }
 
             return retVal;

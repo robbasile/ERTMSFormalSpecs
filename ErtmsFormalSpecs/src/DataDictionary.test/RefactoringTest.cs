@@ -354,5 +354,35 @@ namespace DataDictionary.test
             Assert.AreEqual(function.ReturnType, enumeration);
         }
 
+        /// <summary>
+        ///     Test that cleanup updates the dereferences correctly
+        /// </summary>
+        [Test]
+        public void TestCleanUp1()
+        {
+            Dictionary dictionary = CreateDictionary("Test");
+            NameSpace nameSpace1 = CreateNameSpace(dictionary, "N1");
+            NameSpace nameSpace2 = CreateNameSpace(nameSpace1, "N2");
+
+            Enum enumeration = CreateEnum(nameSpace2, "Mode");
+            CreateEnumValue(enumeration, "E1");
+            CreateEnumValue(enumeration, "E2");
+
+            Variable variable1 = CreateVariable(nameSpace1, "V", "N1.N2.Mode");
+            variable1.Default = "N1.N2.Mode.E1";
+
+            RuleCondition ruleCondition = CreateRuleAndCondition(nameSpace1, "Test");
+            PreCondition preCondition= CreatePreCondition(ruleCondition, "V == N1.N2.Mode.E1");
+            Action action = CreateAction(ruleCondition, "V <- N1.N2.Mode.E2");
+
+            Variable variable2 = CreateVariable(nameSpace2, "V2", "Mode");
+            variable2.Default = "N1.N2.Mode.E1";
+
+            CleanUpModel();
+            Assert.AreEqual("V == N2.Mode.E1", preCondition.ExpressionText);
+            Assert.AreEqual("V <- N2.Mode.E2", action.ExpressionText);
+            Assert.AreEqual("N2.Mode.E1", variable1.Default);
+            Assert.AreEqual("Mode.E1", variable2.Default);
+        }
     }
 }

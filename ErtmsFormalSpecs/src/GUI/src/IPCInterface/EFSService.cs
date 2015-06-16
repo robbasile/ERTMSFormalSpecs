@@ -381,7 +381,6 @@ namespace GUI.IPCInterface
             }
             catch (Exception)
             {
-                Debugger.Break();
             }
             finally
             {

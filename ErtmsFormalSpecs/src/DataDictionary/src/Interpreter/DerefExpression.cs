@@ -93,61 +93,8 @@ namespace DataDictionary.Interpreter
             {
                 Ref = null;
 
-                ReturnValue tmp = Arguments[0].getReferences(instance, AllMatches.INSTANCE, false);
-                if (tmp.IsEmpty)
-                {
-                    tmp = Arguments[0].getReferenceTypes(instance, AllMatches.INSTANCE, false);
-                }
+                ReturnValue tmp = getReferences(instance, expectation, false);
 
-                // When variables & parameters are found, only consider the first one
-                // which is the one that is closer in the tree
-                {
-                    ReturnValue tmp2 = tmp;
-                    tmp = new ReturnValue();
-
-                    ReturnValueElement variable = null;
-                    foreach (ReturnValueElement elem in tmp2.Values)
-                    {
-                        if (elem.Value is Parameter || elem.Value is IVariable)
-                        {
-                            if (variable == null)
-                            {
-                                variable = elem;
-                                tmp.Values.Add(elem);
-                            }
-                        }
-                        else
-                        {
-                            tmp.Values.Add(elem);
-                        }
-                    }
-                }
-
-                if (!tmp.IsEmpty)
-                {
-                    for (int i = 1; i < Arguments.Count; i++)
-                    {
-                        ReturnValue tmp2 = tmp;
-                        tmp = new ReturnValue(Arguments[i]);
-
-                        foreach (ReturnValueElement elem in tmp2.Values)
-                        {
-                            bool last = i == (Arguments.Count - 1);
-                            tmp.Merge(elem, Arguments[i].getReferences(elem.Value, AllMatches.INSTANCE, last));
-                        }
-
-                        if (tmp.IsEmpty)
-                        {
-                            AddError("Cannot find " + Arguments[i].ToString() + " in " + Arguments[i - 1].ToString());
-                        }
-                    }
-                }
-                else
-                {
-                    AddError("Cannot evaluate " + Arguments[0].ToString());
-                }
-
-                tmp.filter(expectation);
                 if (tmp.IsUnique)
                 {
                     // Unique element has been found. Reference it and perform the semantic analysis 
@@ -182,6 +129,75 @@ namespace DataDictionary.Interpreter
                     AddError("Expression " + ToString() + " has no interpretation");
                 }
             }
+
+            return retVal;
+        }
+
+
+        /// <summary>
+        ///     Provides the possible references for this expression (only available during semantic analysis)
+        /// </summary>
+        /// <param name="instance">the instance on which this element should be found.</param>
+        /// <param name="expectation">the expectation on the element found</param>
+        /// <param name="last">indicates that this is the last element in a dereference chain</param>
+        /// <returns></returns>
+        public override ReturnValue getReferences(INamable instance, BaseFilter expectation, bool last)
+        {
+            ReturnValue retVal = Arguments[0].getReferences(instance, AllMatches.INSTANCE, false);
+
+            if (retVal.IsEmpty)
+            {
+                retVal = Arguments[0].getReferenceTypes(instance, AllMatches.INSTANCE, false);
+            }
+
+            // When variables & parameters are found, only consider the first one
+            // which is the one that is closer in the tree
+            {
+                ReturnValue tmp2 = retVal;
+                retVal = new ReturnValue();
+
+                ReturnValueElement variable = null;
+                foreach (ReturnValueElement elem in tmp2.Values)
+                {
+                    if (elem.Value is Parameter || elem.Value is IVariable)
+                    {
+                        if (variable == null)
+                        {
+                            variable = elem;
+                            retVal.Values.Add(elem);
+                        }
+                    }
+                    else
+                    {
+                        retVal.Values.Add(elem);
+                    }
+                }
+            }
+
+            if (!retVal.IsEmpty)
+            {
+                for (int i = 1; i < Arguments.Count; i++)
+                {
+                    ReturnValue tmp2 = retVal;
+                    retVal = new ReturnValue(Arguments[i]);
+
+                    foreach (ReturnValueElement elem in tmp2.Values)
+                    {
+                        retVal.Merge(elem, Arguments[i].getReferences(elem.Value, AllMatches.INSTANCE, i == (Arguments.Count - 1)));
+                    }
+
+                    if (retVal.IsEmpty)
+                    {
+                        AddError("Cannot find " + Arguments[i].ToString() + " in " + Arguments[i - 1].ToString());
+                    }
+                }
+            }
+            else
+            {
+                AddError("Cannot evaluate " + Arguments[0].ToString());
+            }
+
+            retVal.filter(expectation);
 
             return retVal;
         }

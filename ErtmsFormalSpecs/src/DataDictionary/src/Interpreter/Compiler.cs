@@ -852,6 +852,46 @@ namespace DataDictionary.Interpreter
                 relocator.visit(model);
             }
         }
+
+        /// <summary>
+        /// Cleans the model by removing all useless prefixes
+        /// </summary>
+        private class CleanUpModelVisitor : Generated.Visitor
+        {
+            /// <summary>
+            /// Constructor
+            /// </summary>
+            /// <param name="system"></param>
+            public CleanUpModelVisitor(EFSSystem system)
+            {
+                foreach (Dictionary dictionary in system.Dictionaries)
+                {
+                    visit(dictionary, true);
+                }
+            }
+
+            /// <summary>
+            /// Refactors all IExpressionables
+            /// </summary>
+            /// <param name="obj"></param>
+            /// <param name="visitSubNodes"></param>
+            public override void visit(BaseModelElement obj, bool visitSubNodes)
+            {
+                IExpressionable expressionable = obj as IExpressionable;
+                if (expressionable != null)
+                {
+                    RefactorIExpressionable(null, expressionable);
+                }
+
+                base.visit(obj, visitSubNodes);
+            }
+        }
+
+        public void CleanUpModel()
+        {
+            new CleanUpModelVisitor(EFSSystem);
+        }
+
         #endregion
     }
 }

@@ -2031,5 +2031,11 @@ namespace GUI
                 GUIUtils.MDIWindow.RefreshModel();
             }
         }
+
+        private void refactorToolStripMenuItem_Click_1(object sender, EventArgs e)
+        {
+            CleanUpModelOperation cleanUpModel = new CleanUpModelOperation(EFSSystem.INSTANCE);
+            cleanUpModel.ExecuteUsingProgressDialog("Cleaning up");
+        }
     }
 }

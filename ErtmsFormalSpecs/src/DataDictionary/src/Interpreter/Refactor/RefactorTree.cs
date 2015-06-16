@@ -18,6 +18,7 @@ using System;
 using System.Collections.Generic;
 using DataDictionary.Constants;
 using DataDictionary.Types;
+using Utils;
 
 namespace DataDictionary.Interpreter.Refactor
 {
@@ -37,73 +38,124 @@ namespace DataDictionary.Interpreter.Refactor
         private ModelElement User { get; set; }
 
         /// <summary>
-        /// The index where prefixes should be removed
+        /// Indicates that all references should be updated
+        /// </summary>
+        private bool ReplaceAllReferences { get { return Ref == null; } }
+
+        /// <summary>
+        /// The start index where prefixes should be removed
         /// </summary>
         private int StartRemove { get; set; }
+
+        /// <summary>
+        /// The start index where prefixes should be removed
+        /// </summary>
         private int EndRemove { get; set; }
 
-        protected override void VisitDerefExpression(DerefExpression derefExpression)
+        /// <summary>
+        /// Resets the StartRemove and EndRemove indexes to their default value (meaning : no removal)
+        /// </summary>
+        private void ResetRemoveIndexes()
         {
-            ModelElement context = User;
-
             StartRemove = int.MaxValue;
             EndRemove = int.MinValue;
-            foreach (Expression expression in derefExpression.Arguments)
-            {
-                if (expression != null)
-                {
-                    if (expression.Ref == Ref)
-                    {
-                        ReplaceNonTerminal(expression);
-                        break;
-                    }
-
-                    if (expression.Ref is NameSpace || expression.Ref is StateMachine || expression.Ref is State)
-                    {
-                        // Remove all namespace prefixes, they will be taken into account in ReferenceName function
-                        StartRemove = Math.Min(expression.Start, StartRemove);
-                        EndRemove = Math.Max(expression.End+1, EndRemove);
-                    }
-                    else
-                    {
-                        VisitExpression(expression);
-
-                        StartRemove = int.MaxValue;
-                        EndRemove = int.MinValue;
-                        User = expression.GetExpressionType();
-                    }
-                }
-            }
-            User = context;
         }
 
+        /// <summary>
+        /// Indicates that the prefix should be removed
+        /// </summary>
+        private bool ShouldRemovePrefix
+        {
+            get { return StartRemove != int.MaxValue && EndRemove != int.MinValue && StartRemove != EndRemove; }
+        }
 
         /// <summary>
         /// Removes the prefix according to the StartRemove and EndRemove values
         /// </summary>
         /// <param name="treeNode">The tree node to replace</param>
-        private void ReplaceNonTerminal(InterpreterTreeNode treeNode)
+        /// <param name="referencedElement">The element that should be replaced</param>
+        /// <returns>if the replacement has been done</returns>
+        private bool ReplaceNonTerminal(InterpreterTreeNode treeNode, ModelElement referencedElement)
         {
-            // Removes the prefix
-            if (StartRemove != int.MaxValue && EndRemove != int.MinValue)
+            bool retVal;
+
+            if (ReplaceAllReferences)
             {
-                ReplaceText("", StartRemove, EndRemove);
+                // Only do the repleacement for elements defined in a dictionary
+                retVal = EnclosingFinder<Dictionary>.find(referencedElement) != null;
+            }
+            else
+            {
+                // Check that the reference corresponds to the specific reference for this visitor
+                retVal = referencedElement == Ref;
             }
 
-            // Replaces the non terminal
-            string replacementValue = Ref.ReferenceName(User);
-            ReplaceText(replacementValue, treeNode.Start, treeNode.End);
+            if (retVal)
+            {
+                // Removes the prefix
+                if (ShouldRemovePrefix)
+                {
+                    ReplaceText("", StartRemove, EndRemove);
+                    ResetRemoveIndexes();
+                }
+
+                string replacementValue = referencedElement.ReferenceName(User);
+                ReplaceText(replacementValue, treeNode.Start, treeNode.End);
+            }
+
+            return retVal;
+        }
+
+        protected override void VisitDerefExpression(DerefExpression derefExpression)
+        {
+            ModelElement context = User;
+
+            ResetRemoveIndexes();
+            int i = 1;
+            foreach (Expression expression in derefExpression.Arguments)
+            {
+                if (expression != null)
+                {
+                    bool replaced = false;
+                    if (ReplaceAllReferences)
+                    {
+                        if (i == derefExpression.Arguments.Count)
+                        {
+                            replaced = ReplaceNonTerminal(expression, expression.Ref as ModelElement);
+                        }
+                    }
+                    else
+                    {
+                        replaced = ReplaceNonTerminal(expression, expression.Ref as ModelElement);                        
+                    }
+
+                    if (!replaced)
+                    {
+                        if (expression.Ref is NameSpace || expression.Ref is StateMachine || expression.Ref is State)
+                        {
+                            // Remove all namespace prefixes, they will be taken into account in ReferenceName function
+                            StartRemove = Math.Min(expression.Start, StartRemove);
+                            EndRemove = Math.Max(expression.End + 1, EndRemove);
+                        }
+                        else
+                        {
+                            VisitExpression(expression);
+
+                            ResetRemoveIndexes();
+                            User = expression.GetExpressionType();
+                        }
+                    }
+                }
+                i += 1;
+            }
+            User = context;
         }
 
         protected override void VisitDesignator(Designator designator)
         {
             if (!designator.IsPredefined())
             {
-                ModelElement referencedElement = designator.Ref as ModelElement;
-                if ( referencedElement == Ref )
-                {
-                    ReplaceNonTerminal(designator);
-                }
+                ReplaceNonTerminal(designator, designator.Ref as ModelElement);
             }
         }
 
@@ -117,18 +169,21 @@ namespace DataDictionary.Interpreter.Refactor
             Structure structure = null;
             if (structExpression.Structure != null)
             {
-                VisitExpression(structExpression.Structure);
                 structure = structExpression.Structure.GetExpressionType() as Structure;
+                VisitExpression(structExpression.Structure);
             }
 
             foreach (KeyValuePair<Designator, Expression> pair in structExpression.Associations)
             {
+                ResetRemoveIndexes();
                 if (pair.Key != null)
                 {
                     User = structure;
                     VisitDesignator(pair.Key);
                     User = backup;
                 }
+
+                ResetRemoveIndexes();
                 if (pair.Value != null)
                 {
                     VisitExpression(pair.Value);
@@ -139,10 +194,8 @@ namespace DataDictionary.Interpreter.Refactor
         /// <summary>
         ///     Constructor
         /// </summary>
-        /// <param name="interpreterTreeNode"></param>
-        /// <param name="text"></param>
-        /// <param name="reference"></param>
-        /// <param name="replacementValue"></param>
+        /// <param name="reference">The specific reference to replace. If null, all references to a dictionary element should be updated</param>
+        /// <param name="user"></param>
         public RefactorTree(ModelElement reference, ModelElement user)
         {
             Ref = reference;

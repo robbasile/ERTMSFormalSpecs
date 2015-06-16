@@ -179,6 +179,13 @@ namespace DataDictionary.test
             Compiler.RefactorAndRelocate(element);
         }
 
+        /// <summary>
+        ///     Performs a dictionary cleanup
+        /// </summary>
+        protected void CleanUpModel()
+        {
+            Compiler.CleanUpModel();        
+        }
         #endregion
 
         #region Object creation
