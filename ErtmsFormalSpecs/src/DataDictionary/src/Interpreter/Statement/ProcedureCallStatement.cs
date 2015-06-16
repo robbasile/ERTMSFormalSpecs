@@ -303,7 +303,7 @@ namespace DataDictionary.Interpreter.Statement
                     }
 
                     ExplanationPart part = ExplanationPart.CreateSubExplanation(explanation, procedure);
-                    if (ctxt.Instance is Variables.IVariable)
+                    if (ctxt.Instance is IVariable)
                     {
                         ExplanationPart.SetNamable(part, ctxt.Instance);
                         ExplanationPart instanceExplanation = ExplanationPart.CreateSubExplanation(part, "instance = ");

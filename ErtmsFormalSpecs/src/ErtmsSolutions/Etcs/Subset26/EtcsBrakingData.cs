@@ -31,58 +31,58 @@ namespace ErtmsSolutions.Etcs.Subset26.BrakingCurves
             public static SiTime SEC = SiTime.One;
 
             public SiSpeed dV_ebi_min = 7.5*KM_H;
-                /*   Speed difference between Permitted speed and Emergency Brake Intervention supervision limits, minimum value                             */
+            /*   Speed difference between Permitted speed and Emergency Brake Intervention supervision limits, minimum value                             */
 
             public SiSpeed dV_ebi_max = 15.0*KM_H;
-                /*   Speed difference between Permitted speed and Emergency Brake Intervention supervision limits, maximum value                             */
+            /*   Speed difference between Permitted speed and Emergency Brake Intervention supervision limits, maximum value                             */
 
             public SiSpeed V_ebi_min = 110.0*KM_H;
-                /*   Value of MRSP where dV_ebi starts to increase to dV_ebi_max                                                                             */
+            /*   Value of MRSP where dV_ebi starts to increase to dV_ebi_max                                                                             */
 
             public SiSpeed V_ebi_max = 210.0*KM_H;
-                /*   Value of MRSP where dV_ebi stops to increase to dV_ebi_max                                                                              */
+            /*   Value of MRSP where dV_ebi stops to increase to dV_ebi_max                                                                              */
 
             public SiSpeed dV_sbi_min = 5.5*KM_H;
-                /*   Speed difference between Permitted speed and Service Brake Intervention supervision limits, minimum value                               */
+            /*   Speed difference between Permitted speed and Service Brake Intervention supervision limits, minimum value                               */
 
             public SiSpeed dV_sbi_max = 10.0*KM_H;
-                /*   Speed difference between Permitted speed and Service Brake Intervention supervision limits, maximum value                               */
+            /*   Speed difference between Permitted speed and Service Brake Intervention supervision limits, maximum value                               */
 
             public SiSpeed V_sbi_min = 110.0*KM_H;
-                /*   Value of MRSP where dV_sbi starts to increase to dV_sbi_max                                                                             */
+            /*   Value of MRSP where dV_sbi starts to increase to dV_sbi_max                                                                             */
 
             public SiSpeed V_sbi_max = 210.0*KM_H;
-                /*   Value of MRSP where dV_sbi stops to increase to dV_sbi_max                                                                              */
+            /*   Value of MRSP where dV_sbi stops to increase to dV_sbi_max                                                                              */
 
             public SiSpeed dV_warning_min = 4.0*KM_H;
-                /*   Speed difference between Permitted speed and Warning supervision limits, minimum value                                                  */
+            /*   Speed difference between Permitted speed and Warning supervision limits, minimum value                                                  */
 
             public SiSpeed dV_warning_max = 5.0*KM_H;
-                /*   Speed difference between Permitted speed and Warning supervision limits, maximum value                                                  */
+            /*   Speed difference between Permitted speed and Warning supervision limits, maximum value                                                  */
 
             public SiSpeed V_warning_min = 110.0*KM_H;
-                /*   Value of MRSP where dV_warning starts to increase to dV_warning_max                                                                     */
+            /*   Value of MRSP where dV_warning starts to increase to dV_warning_max                                                                     */
 
             public SiSpeed V_warning_max = 140.0*KM_H;
-                /*   Value of MRSP where dV_warning stops to increase                                                                                        */
+            /*   Value of MRSP where dV_warning stops to increase                                                                                        */
 
             public SiTime T_warning = 2.0*SEC;
-                /*   Time between Warning supervision limit and FLOI                                                                                         */
+            /*   Time between Warning supervision limit and FLOI                                                                                         */
 
             public SiTime T_driver = 4.0*SEC;
-                /*   Driver reaction time between Permitted speed supervision limit and FLOI                                                                 */
+            /*   Driver reaction time between Permitted speed supervision limit and FLOI                                                                 */
 
             public SiTime T_preindication = 7.0*SEC;
-                /*   Time between the pre-indication location and the indication supervision limit valid for MRSP speed.                                     */
+            /*   Time between the pre-indication location and the indication supervision limit valid for MRSP speed.                                     */
 
             public double M_rotating_max = 15/100.0;
-                /*   Maximum possible rotating mass as a percentage of the total weight of the train                                                         */
+            /*   Maximum possible rotating mass as a percentage of the total weight of the train                                                         */
 
             public double M_rotating_min = 2/100.0;
-                /*    Minimum possible rotating mass as a percentage of the total weight of the train                                                        */
+            /*    Minimum possible rotating mass as a percentage of the total weight of the train                                                        */
 
             public SiSpeed V_delta0rsob = 2.0*KM_H;
-                /*   Compensation of the speed measurement inaccuracy used for the on-board calculation of the release speed                                 */
+            /*   Compensation of the speed measurement inaccuracy used for the on-board calculation of the release speed                                 */
         }
 
         /************************************************************/

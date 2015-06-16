@@ -16,7 +16,6 @@
 
 using System;
 using System.Collections;
-using System.Security.Policy;
 using System.Windows.Forms;
 using DataDictionary;
 
@@ -72,7 +71,8 @@ namespace GUI.DictionarySelector
         /// </summary>
         /// <param name="efsSystem">The EFSSystem for which this rule set selector is created</param>
         /// <param name="Options">The options used to filter the selection</param>
-        public DictionarySelector(EFSSystem efsSystem, FilterOptions Options = FilterOptions.None, Dictionary UpdatedDictionary = null)
+        public DictionarySelector(EFSSystem efsSystem, FilterOptions Options = FilterOptions.None,
+            Dictionary UpdatedDictionary = null)
         {
             InitializeComponent();
 
@@ -129,14 +129,14 @@ namespace GUI.DictionarySelector
         {
             bool retVal = true;
 
-            if (options == FilterOptions.HideUpdates && 
-                    dictionary.Updates != null)
+            if (options == FilterOptions.HideUpdates &&
+                dictionary.Updates != null)
             {
                 // The options restrict the selection to non-update dictionaries
                 retVal = false;
             }
-            else if (options == FilterOptions.Updates && 
-                    !updatedDictionary.IsUpdatedBy(dictionary))
+            else if (options == FilterOptions.Updates &&
+                     !updatedDictionary.IsUpdatedBy(dictionary))
             {
                 // The options restrict the selection to updates of a particular dictionary
                 retVal = false;
@@ -173,7 +173,8 @@ namespace GUI.DictionarySelector
                 }
                 else if (options == FilterOptions.HideUpdates)
                 {
-                    noRelevantDictionaries = "There are no dictionaries that are not updates currently loaded in ERTMSFormalSpecs.";
+                    noRelevantDictionaries =
+                        "There are no dictionaries that are not updates currently loaded in ERTMSFormalSpecs.";
                 }
                 MessageBox.Show(noRelevantDictionaries);
             }

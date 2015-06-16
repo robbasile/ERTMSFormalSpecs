@@ -107,7 +107,7 @@ namespace GUI.GraphView
                 InterpretationContext context = new InterpretationContext(function);
                 if (function.FormalParameters.Count == 1)
                 {
-                    Parameter parameter = (Parameter)function.FormalParameters[0];
+                    Parameter parameter = (Parameter) function.FormalParameters[0];
                     Graph graph = function.createGraph(context, parameter, explain);
                     if (graph != null)
                     {
@@ -213,7 +213,7 @@ namespace GUI.GraphView
         /// <summary>
         ///     Colors used to display functions
         /// </summary>
-        private static string[] COLORS = { "blue", "red", "green", "orange", "black", "purple", "yellow" };
+        private static string[] COLORS = {"blue", "red", "green", "orange", "black", "purple", "yellow"};
 
         /// <summary>
         ///     Creates the picture associated to this graph
@@ -235,7 +235,7 @@ namespace GUI.GraphView
                 InterpretationContext context = new InterpretationContext(function);
                 if (function.FormalParameters.Count == 1)
                 {
-                    Parameter parameter = (Parameter)function.FormalParameters[0];
+                    Parameter parameter = (Parameter) function.FormalParameters[0];
                     Graph graph = function.createGraph(context, parameter, null);
                     if (graph != null)
                     {
@@ -293,12 +293,12 @@ namespace GUI.GraphView
                     if (graph.IsFlat())
                     {
                         FlatSpeedDistanceCurve curve = graph.FlatSpeedDistanceCurve(expectedEndX);
-                        display.AddCurve(curve, function.FullName, COLORS[i % COLORS.Length]);
+                        display.AddCurve(curve, function.FullName, COLORS[i%COLORS.Length]);
                     }
                     else
                     {
                         QuadraticSpeedDistanceCurve curve = graph.QuadraticSpeedDistanceCurve(expectedEndX);
-                        display.AddCurve(curve, function.FullName, COLORS[i % COLORS.Length]);
+                        display.AddCurve(curve, function.FullName, COLORS[i%COLORS.Length]);
                     }
 
                     if (name == null)

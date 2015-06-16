@@ -140,10 +140,13 @@ namespace GUI.StructureValueEditor
         }
 
         /// <summary>
-        /// Converts a value into a string
+        ///     Converts a value into a string
         /// </summary>
         /// <param name="obj"></param>
-        /// <param name="displayActualDefaultValue">Indicates that the actual default value should be displayed instead of "<default>"</param>
+        /// <param name="displayActualDefaultValue">
+        ///     Indicates that the actual default value should be displayed instead of "
+        ///     <default>"
+        /// </param>
         /// <returns></returns>
         private static string ValueStringonizer(object obj, bool displayActualDefaultValue)
         {
@@ -358,6 +361,7 @@ namespace GUI.StructureValueEditor
 
             return retVal;
         }
+
         #endregion
 
         #region Contextual menu
@@ -419,7 +423,7 @@ namespace GUI.StructureValueEditor
             }
 
             /// <summary>
-            /// Provides the parent model 
+            ///     Provides the parent model
             /// </summary>
             public object ParentModel
             {
@@ -691,6 +695,7 @@ namespace GUI.StructureValueEditor
 
             args.MenuStrip = menuStrip;
         }
+
         #endregion
 
         #region Edition

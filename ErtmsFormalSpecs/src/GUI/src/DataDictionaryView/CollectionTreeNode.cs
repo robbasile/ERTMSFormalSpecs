@@ -19,9 +19,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing.Design;
 using System.Windows.Forms;
+using DataDictionary;
 using DataDictionary.Types;
 using GUI.Converters;
-using ModelElement = DataDictionary.ModelElement;
 
 namespace GUI.DataDictionaryView
 {
@@ -124,7 +124,7 @@ namespace GUI.DataDictionaryView
         /// <param name="args"></param>
         private void AddCollectionUpdate(object sender, EventArgs args)
         {
-            DataDictionary.Dictionary dictionary = GetPatchDictionary();
+            Dictionary dictionary = GetPatchDictionary();
 
             if (dictionary != null)
             {

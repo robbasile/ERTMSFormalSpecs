@@ -47,7 +47,7 @@ namespace DataDictionary.Interpreter
         }
 
         /// <summary>
-        /// Sets the list elements for the list expression
+        ///     Sets the list elements for the list expression
         /// </summary>
         /// <param name="elements"></param>
         public void SetListElements(List<Expression> elements)

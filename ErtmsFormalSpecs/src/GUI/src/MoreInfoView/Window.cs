@@ -53,7 +53,8 @@ namespace GUI.MoreInfoView
         /// </summary>
         public override void RefreshModel()
         {
-            ModelElement.DontRaiseError(()=>{
+            ModelElement.DontRaiseError(() =>
+            {
                 moreInfoRichTextBox.Rtf = EmptyRTF;
                 if (Model != null)
                 {

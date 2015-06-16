@@ -26,6 +26,7 @@ using DataDictionary.Interpreter;
 using GUI.Converters;
 using GUI.StateDiagram;
 using WeifenLuo.WinFormsUI.Docking;
+using Dictionary = DataDictionary.Dictionary;
 using Function = DataDictionary.Functions.Function;
 using NameSpace = DataDictionary.Types.NameSpace;
 using Parameter = DataDictionary.Parameter;
@@ -196,7 +197,7 @@ namespace GUI.DataDictionaryView
 
         public void AddVariableUpdate(object sender, EventArgs args)
         {
-            DataDictionary.Dictionary dictionary = GetPatchDictionary();
+            Dictionary dictionary = GetPatchDictionary();
 
             if (dictionary != null)
             {

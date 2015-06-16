@@ -154,7 +154,7 @@ namespace DataDictionary.Types
         }
 
         /// <summary>
-        /// Provides the rule which corresponds to the name provided
+        ///     Provides the rule which corresponds to the name provided
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
@@ -492,9 +492,12 @@ namespace DataDictionary.Types
                                                     if (enclosingAction != null)
                                                     {
                                                         // No precondition could be found => one can reach this state at anytime
-                                                        if (!findMatchingTransition(enclosingAction.RuleCondition, null, targetState))
+                                                        if (
+                                                            !findMatchingTransition(enclosingAction.RuleCondition, null,
+                                                                targetState))
                                                         {
-                                                            Transitions.Add(new Transition(null, null, update, targetState));
+                                                            Transitions.Add(new Transition(null, null, update,
+                                                                targetState));
                                                         }
                                                     }
                                                 }
@@ -510,7 +513,7 @@ namespace DataDictionary.Types
                         }
                     }
                     catch (Exception e)
-                    {                        
+                    {
                     }
                 }
 
@@ -756,14 +759,14 @@ namespace DataDictionary.Types
         }
 
         /// <summary>
-        /// Creates a copy of the state machine in the designated dictionary. The namespace structure is copied over.
-        /// The new state machine is set to update this one.
+        ///     Creates a copy of the state machine in the designated dictionary. The namespace structure is copied over.
+        ///     The new state machine is set to update this one.
         /// </summary>
         /// <param name="dictionary">The target dictionary of the copy</param>
         /// <returns></returns>
         public StateMachine CreateStateMachineUpdate(Dictionary dictionary)
         {
-            StateMachine retVal = (StateMachine)Duplicate();
+            StateMachine retVal = (StateMachine) Duplicate();
             retVal.SetUpdateInformation(this);
 
             String[] names = FullName.Split('.');
@@ -775,13 +778,13 @@ namespace DataDictionary.Types
         }
 
         /// <summary>
-        /// Sets the update information for this state machine (this state machine updates source)
+        ///     Sets the update information for this state machine (this state machine updates source)
         /// </summary>
         /// <param name="source"></param>
         public override void SetUpdateInformation(ModelElement source)
         {
             base.SetUpdateInformation(source);
-            StateMachine sourceStateMachine = (StateMachine)source;
+            StateMachine sourceStateMachine = (StateMachine) source;
 
             foreach (State state in States)
             {

@@ -17,9 +17,9 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using DataDictionary;
 using DataDictionary.Types;
 using GUI.FunctionalView;
-using DataDictionary;
 
 namespace GUI.DataDictionaryView
 {
@@ -192,13 +192,13 @@ namespace GUI.DataDictionaryView
         }
 
         /// <summary>
-        /// Adds a copy of the current namespace to the selected dictionary, if a copy does not already exist
+        ///     Adds a copy of the current namespace to the selected dictionary, if a copy does not already exist
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="args"></param>
         public void AddNameSpaceUpdate(object sender, EventArgs args)
         {
-            DataDictionary.Dictionary dictionary = GetPatchDictionary();
+            Dictionary dictionary = GetPatchDictionary();
 
             if (dictionary != null)
             {

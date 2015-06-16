@@ -22,6 +22,7 @@ using System.Windows.Forms;
 using DataDictionary;
 using DataDictionary.Generated;
 using GUI.Converters;
+using Dictionary = DataDictionary.Dictionary;
 using Enum = DataDictionary.Types.Enum;
 using EnumValue = DataDictionary.Constants.EnumValue;
 using NameSpace = DataDictionary.Types.NameSpace;
@@ -151,7 +152,7 @@ namespace GUI.DataDictionaryView
 
         private void AddEnumUpdate(object sender, EventArgs args)
         {
-            DataDictionary.Dictionary dictionary = GetPatchDictionary();
+            Dictionary dictionary = GetPatchDictionary();
 
             if (dictionary != null)
             {

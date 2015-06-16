@@ -100,7 +100,7 @@ namespace GUI.DataDictionaryView
 
         public void AddProcedureUpdate(object sender, EventArgs args)
         {
-            DataDictionary.Dictionary dictionary = GetPatchDictionary();
+            Dictionary dictionary = GetPatchDictionary();
 
             if (dictionary != null)
             {

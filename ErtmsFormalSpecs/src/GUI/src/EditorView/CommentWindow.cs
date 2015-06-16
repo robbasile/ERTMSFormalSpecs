@@ -14,6 +14,10 @@
 // --
 // ------------------------------------------------------------------------------
 
+using System.ComponentModel;
+using System.Drawing;
+using System.Windows.Forms;
+
 namespace GUI.EditorView
 {
     /// <summary>
@@ -28,18 +32,17 @@ namespace GUI.EditorView
 
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CommentWindow));
+            ComponentResourceManager resources = new ComponentResourceManager(typeof (CommentWindow));
             this.SuspendLayout();
             // 
             // CommentWindow
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.ClientSize = new System.Drawing.Size(699, 218);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Sizable;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.AutoScaleDimensions = new SizeF(6F, 13F);
+            this.ClientSize = new Size(699, 218);
+            this.FormBorderStyle = FormBorderStyle.Sizable;
+            this.Icon = ((Icon) (resources.GetObject("$this.Icon")));
             this.Name = "CommentWindow";
             this.ResumeLayout(false);
-
         }
     }
 }

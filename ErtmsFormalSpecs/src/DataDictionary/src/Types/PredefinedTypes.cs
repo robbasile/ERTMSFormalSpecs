@@ -20,6 +20,7 @@ using System.Globalization;
 using DataDictionary.Functions;
 using DataDictionary.Generated;
 using DataDictionary.Interpreter;
+using DataDictionary.Interpreter.Filter;
 using DataDictionary.Values;
 using Utils;
 using EnumValue = DataDictionary.Constants.EnumValue;
@@ -157,7 +158,7 @@ namespace DataDictionary.Types
                 {
                     string prefix = image.Substring(0, lastDotPosition);
                     Expression typeExpression = EFSSystem.Parser.Expression(this, prefix,
-                        Interpreter.Filter.IsType.INSTANCE, true, null, true);
+                        IsType.INSTANCE, true, null, true);
                     if (typeExpression != null && typeExpression.Ref == this)
                     {
                         image = image.Substring(lastDotPosition + 1);

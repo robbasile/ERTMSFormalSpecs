@@ -9,7 +9,7 @@ namespace DataDictionary.test.updateModel
     public class UpdateStructureTest : BaseModelTest
     {
         /// <summary>
-        ///     Tests that a structure can be updated 
+        ///     Tests that a structure can be updated
         /// </summary>
         [Test]
         public void TestUpdateFunction()

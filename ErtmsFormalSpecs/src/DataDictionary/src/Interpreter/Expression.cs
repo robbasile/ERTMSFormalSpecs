@@ -334,7 +334,7 @@ namespace DataDictionary.Interpreter
         }
 
         /// <summary>
-        /// Removes the elements that have been updated by another element
+        ///     Removes the elements that have been updated by another element
         /// </summary>
         public void RemoveUpdated()
         {
@@ -371,8 +371,8 @@ namespace DataDictionary.Interpreter
         }
 
         /// <summary>
-        /// According to updates, several path may lead to the same model element. 
-        /// Since that model element is uniquely idenfied, keep only one instance
+        ///     According to updates, several path may lead to the same model element.
+        ///     Since that model element is uniquely idenfied, keep only one instance
         /// </summary>
         /// <param name="list">The list of elements from which we remove duplicates</param>
         /// <returns>The list of individual ReturnValueElements derived from List</returns>

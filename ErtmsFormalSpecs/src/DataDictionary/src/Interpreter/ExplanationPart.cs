@@ -17,6 +17,7 @@
 using System.Collections.Generic;
 using DataDictionary.Functions;
 using DataDictionary.Rules;
+using DataDictionary.Types;
 using DataDictionary.Values;
 using Utils;
 
@@ -61,9 +62,9 @@ namespace DataDictionary.Interpreter
 
                 if (RightPart != null && !(RightPart is Procedure))
                 {
-                    if ( LeftPart is DataDictionary.Rules.RuleCondition )
+                    if (LeftPart is RuleCondition)
                     {
-                        if  ( RightPart == EFSSystem.INSTANCE.BoolType.True )
+                        if (RightPart == EFSSystem.INSTANCE.BoolType.True)
                         {
                             retVal = "SATISFIED " + retVal;
                         }
@@ -84,7 +85,7 @@ namespace DataDictionary.Interpreter
         }
 
         /// <summary>
-        /// Explains a left part
+        ///     Explains a left part
         /// </summary>
         /// <param name="leftPart"></param>
         /// <returns></returns>
@@ -96,20 +97,20 @@ namespace DataDictionary.Interpreter
             if (namable != null)
             {
                 retVal = namable.Name;
-                if ( namable is Function)
+                if (namable is Function)
                 {
                     retVal += "(...)";
                 }
-                else if ( namable is Procedure )
+                else if (namable is Procedure)
                 {
                     retVal += "(...)";
-                    Types.ITypedElement instance = RightPart as Types.ITypedElement;
-                    if ( instance != null )
+                    ITypedElement instance = RightPart as ITypedElement;
+                    if (instance != null)
                     {
                         retVal = instance.Type.Name + "." + retVal;
                     }
                 }
-                else if ( namable is Case )
+                else if (namable is Case)
                 {
                     retVal = "CASE " + retVal;
                 }
@@ -118,7 +119,7 @@ namespace DataDictionary.Interpreter
             {
                 retVal = leftPart.ToString();
             }
-            
+
             if (RightPart != null && !(leftPart is RuleCondition) && !(leftPart is Procedure))
             {
                 retVal += " = ";
@@ -251,7 +252,8 @@ namespace DataDictionary.Interpreter
         /// <param name="leftPart"></param>
         /// <param name="rightPart"></param>
         /// <returns></returns>
-        public static ExplanationPart CreateSubExplanation(ExplanationPart explain, object leftPart, INamable rightPart = null)
+        public static ExplanationPart CreateSubExplanation(ExplanationPart explain, object leftPart,
+            INamable rightPart = null)
         {
             ExplanationPart retVal = null;
 
@@ -268,7 +270,7 @@ namespace DataDictionary.Interpreter
         ///     Creates a sub explanation for the explain provided as parameter
         /// </summary>
         /// <param name="explain"></param>
-        /// <param name="message"></param> 
+        /// <param name="message"></param>
         /// <param name="leftPart"></param>
         /// <returns></returns>
         public static ExplanationPart CreateNamedSubExplanation(ExplanationPart explain, string message, object leftPart)

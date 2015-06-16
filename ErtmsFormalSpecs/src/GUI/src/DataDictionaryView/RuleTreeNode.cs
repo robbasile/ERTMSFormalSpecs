@@ -18,9 +18,9 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
+using DataDictionary;
 using DataDictionary.Generated;
 using GUI.Converters;
-using ModelElement = DataDictionary.ModelElement;
 using Dictionary = DataDictionary.Dictionary;
 using Rule = DataDictionary.Rules.Rule;
 
@@ -116,7 +116,7 @@ namespace GUI.DataDictionaryView
 
         private void AddRuleUpdate(object sender, EventArgs args)
         {
-            DataDictionary.Dictionary dictionary = GetPatchDictionary();
+            Dictionary dictionary = GetPatchDictionary();
 
             if (dictionary != null)
             {

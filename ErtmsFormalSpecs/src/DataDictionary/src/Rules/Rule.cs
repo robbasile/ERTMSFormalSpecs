@@ -534,14 +534,14 @@ namespace DataDictionary.Rules
         }
 
         /// <summary>
-        /// Creates a copy of the rule in the designated dictionary. The namespace structure is copied over.
-        /// The new rule is set to update this one.
+        ///     Creates a copy of the rule in the designated dictionary. The namespace structure is copied over.
+        ///     The new rule is set to update this one.
         /// </summary>
         /// <param name="dictionary">The target dictionary of the copy</param>
         /// <returns></returns>
         public Rule CreateRuleUpdate(Dictionary dictionary)
         {
-            Rule retVal = (Rule)Duplicate();
+            Rule retVal = (Rule) Duplicate();
             retVal.SetUpdateInformation(this);
 
             String[] names = FullName.Split('.');
@@ -553,13 +553,13 @@ namespace DataDictionary.Rules
         }
 
         /// <summary>
-        /// Sets the update information for this rule (this rule updates source)
+        ///     Sets the update information for this rule (this rule updates source)
         /// </summary>
         /// <param name="source"></param>
         public override void SetUpdateInformation(ModelElement source)
         {
             base.SetUpdateInformation(source);
-            Rule sourceRule = (Rule)source;
+            Rule sourceRule = (Rule) source;
 
             foreach (RuleCondition ruleCondition in RuleConditions)
             {

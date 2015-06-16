@@ -16,7 +16,6 @@
 
 using System.Collections;
 using System.Collections.Generic;
-using System.Net;
 using DataDictionary.Generated;
 using DataDictionary.Values;
 using DataDictionary.Variables;
@@ -467,7 +466,7 @@ namespace DataDictionary.Constants
         }
 
         /// <summary>
-        /// Sets the update information for this state (this state updates source)
+        ///     Sets the update information for this state (this state updates source)
         /// </summary>
         /// <param name="source"></param>
         public override void SetUpdateInformation(ModelElement source)

@@ -425,14 +425,14 @@ namespace GUI
             while (current != null)
             {
                 ConsiderElement(current, searchOptions, retVal);
-                
+
                 if (searchOptions.ConsiderEnclosing)
                 {
                     current = current.Enclosing as IModelElement;
                 }
                 else
                 {
-                    current= null;
+                    current = null;
                 }
             }
 
@@ -449,12 +449,13 @@ namespace GUI
         }
 
         /// <summary>
-        /// Considers the element provided to build the matches according to the search options
+        ///     Considers the element provided to build the matches according to the search options
         /// </summary>
         /// <param name="element"></param>
         /// <param name="searchOptions"></param>
         /// <param name="matches"></param>
-        private void ConsiderElement(IModelElement element, SearchOptions searchOptions, HashSet<ObjectReference> matches)
+        private void ConsiderElement(IModelElement element, SearchOptions searchOptions,
+            HashSet<ObjectReference> matches)
         {
             ISubDeclarator subDeclarator = element as ISubDeclarator;
             if (subDeclarator == null)
@@ -484,8 +485,8 @@ namespace GUI
                         {
                             foreach (INamable namable in subDeclarator.DeclaredElements[subElem])
                             {
-                                if (namable.FullName.EndsWith(searchOptions.EnclosingName + "." + subElem) 
-                                    || subDeclarator is StructureElement || subDeclarator is Structure )
+                                if (namable.FullName.EndsWith(searchOptions.EnclosingName + "." + subElem)
+                                    || subDeclarator is StructureElement || subDeclarator is Structure)
                                 {
                                     if (ConsiderOnlyTypes)
                                     {
@@ -1076,7 +1077,7 @@ namespace GUI
                             char prev = EditionTextBox.Text[EditionTextBox.SelectionStart - 1];
                             if ((prev == '<' && e.KeyChar == '-') || (prev == '=' && e.KeyChar == '>'))
                             {
-                                Expression variableExpression= EFSSystem.Parser.Expression(Instance as ModelElement,
+                                Expression variableExpression = EFSSystem.Parser.Expression(Instance as ModelElement,
                                     prefix, IsTypedElement.INSTANCE, true, null, true);
                                 if (variableExpression != null)
                                 {

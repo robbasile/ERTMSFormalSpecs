@@ -5,14 +5,6 @@ using DataDictionary.Tests;
 using DataDictionary.Types;
 using DataDictionary.Variables;
 using NUnit.Framework;
-using Action = DataDictionary.Rules.Action;
-using Enum = DataDictionary.Types.Enum;
-using EnumValue = DataDictionary.Constants.EnumValue;
-using Frame = DataDictionary.Tests.Frame;
-using NameSpace = DataDictionary.Types.NameSpace;
-using RuleCondition = DataDictionary.Rules.RuleCondition;
-using Structure = DataDictionary.Types.Structure;
-using StructureElement = DataDictionary.Types.StructureElement;
 
 namespace DataDictionary.test
 {
@@ -210,7 +202,7 @@ namespace DataDictionary.test
             Dictionary test = CreateDictionary("Test");
             NameSpace MANamespace = CreateNameSpace(test, "MA");
             NameSpace ModeProfileNamespace = CreateNameSpace(MANamespace, "ModeProfile");
-            Variables.Variable TackVariable = CreateVariable(ModeProfileNamespace, "Tack", "Boolean");
+            Variable TackVariable = CreateVariable(ModeProfileNamespace, "Tack", "Boolean");
 
             NameSpace KernelNameSpace = CreateNameSpace(test, "Kernel");
             RuleCondition ruleCondition = CreateRuleAndCondition(KernelNameSpace, "R");
@@ -240,7 +232,8 @@ namespace DataDictionary.test
             Step step = CreateStep(testCase, "Step");
             SubStep subStep = CreateSubStep(step, "SubStep");
             Expectation expectation = CreateExpectation(subStep, "Kernel.MA.SpeedRestriction()");
-            Expectation expectation2 = CreateExpectation(subStep, "MIN(Kernel.MA.SpeedRestriction, Kernel.MRSP.SpeedRestriction)");
+            Expectation expectation2 = CreateExpectation(subStep,
+                "MIN(Kernel.MA.SpeedRestriction, Kernel.MRSP.SpeedRestriction)");
 
             Refactor(function1, "SpeedRestriction");
 
@@ -372,7 +365,7 @@ namespace DataDictionary.test
             variable1.Default = "N1.N2.Mode.E1";
 
             RuleCondition ruleCondition = CreateRuleAndCondition(nameSpace1, "Test");
-            PreCondition preCondition= CreatePreCondition(ruleCondition, "V == N1.N2.Mode.E1");
+            PreCondition preCondition = CreatePreCondition(ruleCondition, "V == N1.N2.Mode.E1");
             Action action = CreateAction(ruleCondition, "V <- N1.N2.Mode.E2");
 
             Variable variable2 = CreateVariable(nameSpace2, "V2", "Mode");

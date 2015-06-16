@@ -17,7 +17,6 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using DataDictionary.Functions;
 using DataDictionary.Interpreter;
 using DataDictionary.Rules;
 using DataDictionary.Variables;
@@ -132,21 +131,21 @@ namespace GUI.TestRunnerView
         }
 
         /// <summary>
-        /// Handles a double click event on a tree node
+        ///     Handles a double click event on a tree node
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void explainTreeView_DoubleClick(object sender, EventArgs e)
+        private void explainTreeView_DoubleClick(object sender, EventArgs e)
         {
             MouseEventArgs mouseEventArgs = e as MouseEventArgs;
-            if ( mouseEventArgs != null )
+            if (mouseEventArgs != null)
             {
                 SelectModelElement(explainTreeView.GetNodeAt(mouseEventArgs.Location) as ExplainTreeNode);
             }
         }
 
         /// <summary>
-        /// Handles the context menu entry "Select" 
+        ///     Handles the context menu entry "Select"
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -156,8 +155,8 @@ namespace GUI.TestRunnerView
         }
 
         /// <summary>
-        /// Selects the model element which corresponds to the explain tree node
-        /// If the current node does not refer to a model element, selects the one from its parent node
+        ///     Selects the model element which corresponds to the explain tree node
+        ///     If the current node does not refer to a model element, selects the one from its parent node
         /// </summary>
         /// <param name="node"></param>
         private void SelectModelElement(ExplainTreeNode node)

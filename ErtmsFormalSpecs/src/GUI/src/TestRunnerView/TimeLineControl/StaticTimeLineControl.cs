@@ -446,7 +446,7 @@ namespace GUI.TestRunnerView.TimeLineControl
             }
 
             /// <summary>
-            /// Gets the test case in which steps should be created
+            ///     Gets the test case in which steps should be created
             /// </summary>
             private TestCase GetTestCase()
             {
@@ -464,7 +464,7 @@ namespace GUI.TestRunnerView.TimeLineControl
                         else
                         {
                             retVal = (TestCase) TimeLineControl.SubSequence.TestCases[
-                                        TimeLineControl.SubSequence.TestCases.Count - 1];
+                                TimeLineControl.SubSequence.TestCases.Count - 1];
                         }
                     }
                 }

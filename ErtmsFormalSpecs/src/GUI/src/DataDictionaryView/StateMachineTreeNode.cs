@@ -18,12 +18,12 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
+using DataDictionary;
 using DataDictionary.Constants;
 using DataDictionary.Rules;
 using DataDictionary.Types;
 using GUI.Converters;
 using GUI.StateDiagram;
-using DataDictionary;
 
 namespace GUI.DataDictionaryView
 {
@@ -176,7 +176,7 @@ namespace GUI.DataDictionaryView
 
         public void AddStateMachineUpdate(object sender, EventArgs args)
         {
-            DataDictionary.Dictionary dictionary = GetPatchDictionary();
+            Dictionary dictionary = GetPatchDictionary();
 
             if (dictionary != null)
             {

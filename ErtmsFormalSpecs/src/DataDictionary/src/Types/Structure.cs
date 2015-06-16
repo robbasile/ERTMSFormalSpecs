@@ -214,7 +214,7 @@ namespace DataDictionary.Types
         /// <returns></returns>
         public Procedure FindProcedure(string name)
         {
-            return (Procedure)INamableUtils.findByName(name, Procedures);
+            return (Procedure) INamableUtils.findByName(name, Procedures);
         }
 
         /// <summary>
@@ -224,7 +224,7 @@ namespace DataDictionary.Types
         /// <returns></returns>
         public Rule FindRule(string name)
         {
-            return (Rule)INamableUtils.findByName(name, Rules);
+            return (Rule) INamableUtils.findByName(name, Rules);
         }
 
         /// <summary>
@@ -234,7 +234,7 @@ namespace DataDictionary.Types
         /// <returns></returns>
         public StateMachine FindStateMachine(string name)
         {
-            return (StateMachine)INamableUtils.findByName(name, StateMachines);
+            return (StateMachine) INamableUtils.findByName(name, StateMachines);
         }
 
         public override ArrayList EnclosingCollection
@@ -558,14 +558,14 @@ namespace DataDictionary.Types
         }
 
         /// <summary>
-        /// Creates a copy of the structure in the designated dictionary. The namespace structure is copied over.
-        /// The new structure is set to update this one.
+        ///     Creates a copy of the structure in the designated dictionary. The namespace structure is copied over.
+        ///     The new structure is set to update this one.
         /// </summary>
         /// <param name="dictionary">The target dictionary of the copy</param>
         /// <returns></returns>
         public Structure CreateStructureUpdate(Dictionary dictionary)
         {
-            Structure retVal = (Structure)Duplicate();
+            Structure retVal = (Structure) Duplicate();
             retVal.SetUpdateInformation(this);
 
             String[] names = FullName.Split('.');
@@ -577,13 +577,13 @@ namespace DataDictionary.Types
         }
 
         /// <summary>
-        /// Sets the update information for this structure
+        ///     Sets the update information for this structure
         /// </summary>
         /// <param name="source">The source structure for which this structure has been created (as an update)</param>
         public override void SetUpdateInformation(ModelElement source)
         {
             base.SetUpdateInformation(source);
-            Structure sourceStructure = (Structure)source;
+            Structure sourceStructure = (Structure) source;
 
             foreach (StructureElement element in Elements)
             {

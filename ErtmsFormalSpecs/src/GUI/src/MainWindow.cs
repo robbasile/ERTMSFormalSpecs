@@ -685,7 +685,7 @@ namespace GUI
         }
 
         /// <summary>
-        /// Opens a specific file
+        ///     Opens a specific file
         /// </summary>
         /// <param name="fileName"></param>
         public void OpenFile(string fileName)
@@ -712,7 +712,7 @@ namespace GUI
         }
 
         /// <summary>
-        /// Setup the window according to the dictionary provided
+        ///     Setup the window according to the dictionary provided
         /// </summary>
         /// <param name="dictionary"></param>
         /// <param name="shouldPlace"></param>
@@ -2007,14 +2007,15 @@ namespace GUI
                     }
 
                     TranslationRules.Window translationWindow = form as TranslationRules.Window;
-                    if (translationWindow != null && translationWindow.TranslationDictionary != null && translationWindow.TranslationDictionary.Dictionary == dictionary)
+                    if (translationWindow != null && translationWindow.TranslationDictionary != null &&
+                        translationWindow.TranslationDictionary.Dictionary == dictionary)
                     {
                         toClose.Add(dictionaryWindow);
                     }
                 }
 
                 // And close them (this modifies the SubForm list => must be done in two steps
-                foreach ( BaseForm form in toClose)
+                foreach (BaseForm form in toClose)
                 {
                     form.Close();
                 }

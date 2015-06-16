@@ -64,7 +64,7 @@ namespace GUI.BoxArrowDiagram
             contextMenu.Opening += contextMenu_Opening;
         }
 
-        void contextMenu_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        private void contextMenu_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
             Point location = PointToClient(Cursor.Position);
 
@@ -436,14 +436,14 @@ namespace GUI.BoxArrowDiagram
         }
 
         /// <summary>
-        /// Provides the box at a given location
+        ///     Provides the box at a given location
         /// </summary>
         /// <param name="location"></param>
         /// <returns></returns>
         protected BoxControl<BoxModel, ArrowModel> BoxForLocation(Point location)
         {
             BoxControl<BoxModel, ArrowModel> retVal = null;
- 
+
             foreach (BoxControl<BoxModel, ArrowModel> box in boxes.Values)
             {
                 if ((location.X > box.Location.X && location.X < box.Location.X + box.Width) &&
@@ -458,7 +458,7 @@ namespace GUI.BoxArrowDiagram
         }
 
         /// <summary>
-        /// Provides the arrow at a given location
+        ///     Provides the arrow at a given location
         /// </summary>
         /// <param name="location"></param>
         /// <returns></returns>

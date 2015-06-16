@@ -578,14 +578,14 @@ namespace DataDictionary.Variables
         }
 
         /// <summary>
-        /// Creates a copy of the variable in the designated dictionary. The namespace structure is copied over.
-        /// The new variable is set to update this one.
+        ///     Creates a copy of the variable in the designated dictionary. The namespace structure is copied over.
+        ///     The new variable is set to update this one.
         /// </summary>
         /// <param name="dictionary">The target dictionary of the copy</param>
         /// <returns></returns>
         public Variable CreateVariableUpdate(Dictionary dictionary)
         {
-            Variable retVal = (Variable)Duplicate();
+            Variable retVal = (Variable) Duplicate();
             retVal.setUpdates(Guid);
 
             String[] names = FullName.Split('.');

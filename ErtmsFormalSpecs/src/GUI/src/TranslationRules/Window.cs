@@ -75,7 +75,7 @@ namespace GUI.TranslationRules
         }
 
         /// <summary>
-        /// The translation dictionary displayed in this window
+        ///     The translation dictionary displayed in this window
         /// </summary>
         public TranslationDictionary TranslationDictionary
         {

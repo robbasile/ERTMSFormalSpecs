@@ -16,9 +16,9 @@
 
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using DataDictionary.Generated;
 using DataDictionary.Interpreter;
+using DataDictionary.Interpreter.Filter;
 using DataDictionary.Values;
 using Utils;
 
@@ -109,7 +109,7 @@ namespace DataDictionary.Types
         private Type __type;
 
         /// <summary>
-        /// Indicates that the type is being computed (no reentrance)
+        ///     Indicates that the type is being computed (no reentrance)
         /// </summary>
         private bool ComputingType { get; set; }
 
@@ -124,7 +124,8 @@ namespace DataDictionary.Types
                 {
                     ComputingType = true;
 
-                    Expression typeExpression = EFSSystem.Parser.Expression(this, getTypeName(), Interpreter.Filter.IsType.INSTANCE, true, null, true);
+                    Expression typeExpression = EFSSystem.Parser.Expression(this, getTypeName(), IsType.INSTANCE, true,
+                        null, true);
                     if (typeExpression != null)
                     {
                         __type = typeExpression.Ref as Type;

@@ -16,7 +16,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.ServiceModel;
 using System.Threading;
 using System.Windows.Forms;
@@ -33,11 +32,13 @@ using GUI.IPCInterface.Values;
 using Utils;
 using Action = DataDictionary.Rules.Action;
 using BoolValue = DataDictionary.Values.BoolValue;
+using Dictionary = DataDictionary.Dictionary;
 using DoubleValue = DataDictionary.Values.DoubleValue;
 using Enum = System.Enum;
 using EnumValue = DataDictionary.Constants.EnumValue;
 using IntValue = DataDictionary.Values.IntValue;
 using ListValue = DataDictionary.Values.ListValue;
+using NameSpace = DataDictionary.Types.NameSpace;
 using State = DataDictionary.Constants.State;
 using StringValue = DataDictionary.Values.StringValue;
 using StructureValue = DataDictionary.Values.StructureValue;
@@ -392,26 +393,26 @@ namespace GUI.IPCInterface
         }
 
         /// <summary>
-        /// Cleanup function cache every 
+        ///     Cleanup function cache every
         /// </summary>
         private int CacheCycle = 1;
 
         /// <summary>
-        /// The number of cycles after which a clear cache is required
+        ///     The number of cycles after which a clear cache is required
         /// </summary>
         private const int CLEAN_UP_CYCLE_COUNT = 50;
 
         /// <summary>
-        /// Clears the function cache after each full cycle
+        ///     Clears the function cache after each full cycle
         /// </summary>
         private void ClearFunctionCaches()
         {
-            CacheCycle = (CacheCycle + 1) % CLEAN_UP_CYCLE_COUNT;
+            CacheCycle = (CacheCycle + 1)%CLEAN_UP_CYCLE_COUNT;
             if (CacheCycle == 0)
             {
-                foreach (DataDictionary.Dictionary dictionary in EFSSystem.INSTANCE.Dictionaries)
+                foreach (Dictionary dictionary in EFSSystem.INSTANCE.Dictionaries)
                 {
-                    foreach (DataDictionary.Types.NameSpace nameSpace in dictionary.NameSpaces)
+                    foreach (NameSpace nameSpace in dictionary.NameSpaces)
                     {
                         ClearNameSpaceFunctionCaches(nameSpace);
                     }
@@ -420,17 +421,17 @@ namespace GUI.IPCInterface
         }
 
         /// <summary>
-        /// Manually do the recursive call (instead of using a visitor
+        ///     Manually do the recursive call (instead of using a visitor
         /// </summary>
         /// <param name="nameSpace"></param>
-        private void ClearNameSpaceFunctionCaches(DataDictionary.Types.NameSpace nameSpace)
+        private void ClearNameSpaceFunctionCaches(NameSpace nameSpace)
         {
-            foreach ( Function function in nameSpace.Functions )
+            foreach (Function function in nameSpace.Functions)
             {
                 function.ClearCache();
             }
 
-            foreach ( DataDictionary.Types.NameSpace subNameSpace in nameSpace.NameSpaces )
+            foreach (NameSpace subNameSpace in nameSpace.NameSpaces)
             {
                 ClearNameSpaceFunctionCaches(subNameSpace);
             }

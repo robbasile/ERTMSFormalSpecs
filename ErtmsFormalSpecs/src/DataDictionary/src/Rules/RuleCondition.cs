@@ -312,7 +312,8 @@ namespace DataDictionary.Rules
             {
                 try
                 {
-                    ExplanationPart subExplanation = ExplanationPart.CreateNamedSubExplanation(explanation, "PreCondition ", preCondition);
+                    ExplanationPart subExplanation = ExplanationPart.CreateNamedSubExplanation(explanation,
+                        "PreCondition ", preCondition);
                     BoolValue value = preCondition.Expression.GetValue(context, subExplanation) as BoolValue;
                     ExplanationPart.SetNamable(subExplanation, value);
                     if (value != null)
@@ -497,13 +498,13 @@ namespace DataDictionary.Rules
         }
 
         /// <summary>
-        /// Sets the update information for this rule condition (this rule condition updates source)
+        ///     Sets the update information for this rule condition (this rule condition updates source)
         /// </summary>
         /// <param name="source"></param>
         public override void SetUpdateInformation(ModelElement source)
         {
             base.SetUpdateInformation(source);
-            RuleCondition sourceRuleCondition = (RuleCondition)source;
+            RuleCondition sourceRuleCondition = (RuleCondition) source;
 
             foreach (Action action in Actions)
             {

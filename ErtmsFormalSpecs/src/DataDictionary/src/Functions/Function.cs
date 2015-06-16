@@ -18,9 +18,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using DataDictionary.Generated;
 using DataDictionary.Interpreter;
+using DataDictionary.Interpreter.Filter;
 using DataDictionary.Types;
 using DataDictionary.Values;
 using DataDictionary.Variables;
@@ -78,7 +78,7 @@ namespace DataDictionary.Functions
                 if (returnType == null)
                 {
                     Expression returnTypeExpression = EFSSystem.Parser.Expression(this, getTypeName(),
-                        Interpreter.Filter.IsType.INSTANCE, true, null, true);
+                        IsType.INSTANCE, true, null, true);
 
                     if (returnTypeExpression != null)
                     {
@@ -231,7 +231,7 @@ namespace DataDictionary.Functions
                         retVal = ReturnType.ValidBinaryOperation(operation, otherFunction.ReturnType);
                     }
                 }
-                else if ( ReturnType != this )
+                else if (ReturnType != this)
                 {
                     retVal = ReturnType.ValidBinaryOperation(operation, otherType);
                 }
@@ -1430,8 +1430,8 @@ namespace DataDictionary.Functions
         }
 
         /// <summary>
-        /// Creates a copy of the function in the designated dictionary. The namespace structure is copied over.
-        /// The new function is set to update this one.
+        ///     Creates a copy of the function in the designated dictionary. The namespace structure is copied over.
+        ///     The new function is set to update this one.
         /// </summary>
         /// <param name="dictionary">The target dictionary of the copy</param>
         /// <returns></returns>

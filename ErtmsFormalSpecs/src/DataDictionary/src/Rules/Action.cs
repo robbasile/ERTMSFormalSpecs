@@ -166,7 +166,7 @@ namespace DataDictionary.Rules
                     retVal = SubStep.Step;
                 }
 
-                return retVal; 
+                return retVal;
             }
         }
 

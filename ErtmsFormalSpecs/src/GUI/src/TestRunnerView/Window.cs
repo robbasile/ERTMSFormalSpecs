@@ -18,14 +18,11 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using DataDictionary;
-using DataDictionary.Generated;
+using DataDictionary.Tests;
 using DataDictionary.Tests.Runner;
 using GUI.IPCInterface;
 using Utils;
-using Dictionary = DataDictionary.Dictionary;
-using Frame = DataDictionary.Tests.Frame;
 using Step = DataDictionary.Tests.Step;
-using SubSequence = DataDictionary.Tests.SubSequence;
 
 namespace GUI.TestRunnerView
 {

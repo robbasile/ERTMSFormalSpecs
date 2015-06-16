@@ -282,14 +282,14 @@ namespace DataDictionary.Types
         }
 
         /// <summary>
-        /// Creates a copy of the collection in the designated dictionary. The namespace structure is copied over.
-        /// The new collection is set to update this one.
+        ///     Creates a copy of the collection in the designated dictionary. The namespace structure is copied over.
+        ///     The new collection is set to update this one.
         /// </summary>
         /// <param name="dictionary">The target dictionary of the copy</param>
         /// <returns></returns>
         public Collection CreateCollectionUpdate(Dictionary dictionary)
         {
-            Collection retVal = (Collection)Duplicate();
+            Collection retVal = (Collection) Duplicate();
             retVal.setUpdates(Guid);
 
             String[] names = FullName.Split('.');

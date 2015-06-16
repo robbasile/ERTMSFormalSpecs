@@ -38,22 +38,25 @@ namespace DataDictionary.Interpreter.Refactor
         private ModelElement User { get; set; }
 
         /// <summary>
-        /// Indicates that all references should be updated
+        ///     Indicates that all references should be updated
         /// </summary>
-        private bool ReplaceAllReferences { get { return Ref == null; } }
+        private bool ReplaceAllReferences
+        {
+            get { return Ref == null; }
+        }
 
         /// <summary>
-        /// The start index where prefixes should be removed
+        ///     The start index where prefixes should be removed
         /// </summary>
         private int StartRemove { get; set; }
 
         /// <summary>
-        /// The start index where prefixes should be removed
+        ///     The start index where prefixes should be removed
         /// </summary>
         private int EndRemove { get; set; }
 
         /// <summary>
-        /// Resets the StartRemove and EndRemove indexes to their default value (meaning : no removal)
+        ///     Resets the StartRemove and EndRemove indexes to their default value (meaning : no removal)
         /// </summary>
         private void ResetRemoveIndexes()
         {
@@ -62,7 +65,7 @@ namespace DataDictionary.Interpreter.Refactor
         }
 
         /// <summary>
-        /// Indicates that the prefix should be removed
+        ///     Indicates that the prefix should be removed
         /// </summary>
         private bool ShouldRemovePrefix
         {
@@ -70,7 +73,7 @@ namespace DataDictionary.Interpreter.Refactor
         }
 
         /// <summary>
-        /// Removes the prefix according to the StartRemove and EndRemove values
+        ///     Removes the prefix according to the StartRemove and EndRemove values
         /// </summary>
         /// <param name="treeNode">The tree node to replace</param>
         /// <param name="referencedElement">The element that should be replaced</param>
@@ -126,7 +129,7 @@ namespace DataDictionary.Interpreter.Refactor
                     }
                     else
                     {
-                        replaced = ReplaceNonTerminal(expression, expression.Ref as ModelElement);                        
+                        replaced = ReplaceNonTerminal(expression, expression.Ref as ModelElement);
                     }
 
                     if (!replaced)
@@ -194,7 +197,10 @@ namespace DataDictionary.Interpreter.Refactor
         /// <summary>
         ///     Constructor
         /// </summary>
-        /// <param name="reference">The specific reference to replace. If null, all references to a dictionary element should be updated</param>
+        /// <param name="reference">
+        ///     The specific reference to replace. If null, all references to a dictionary element should be
+        ///     updated
+        /// </param>
         /// <param name="user"></param>
         public RefactorTree(ModelElement reference, ModelElement user)
         {

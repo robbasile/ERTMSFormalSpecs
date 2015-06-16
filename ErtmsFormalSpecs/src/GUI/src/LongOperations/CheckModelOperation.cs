@@ -17,8 +17,6 @@
 using System;
 using System.Windows.Forms;
 using DataDictionary;
-using DataDictionary.Generated;
-using Dictionary = DataDictionary.Dictionary;
 
 namespace GUI.LongOperations
 {

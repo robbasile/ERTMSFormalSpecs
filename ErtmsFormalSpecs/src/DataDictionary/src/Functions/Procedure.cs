@@ -346,14 +346,14 @@ namespace DataDictionary.Functions
         }
 
         /// <summary>
-        /// Creates a copy of the procedure in the designated dictionary. The namespace structure is copied over.
-        /// The new procedure is set to update this one.
+        ///     Creates a copy of the procedure in the designated dictionary. The namespace structure is copied over.
+        ///     The new procedure is set to update this one.
         /// </summary>
         /// <param name="dictionary">The target dictionary of the copy</param>
         /// <returns></returns>
         public Procedure CreateProcedureUpdate(Dictionary dictionary)
         {
-            Procedure retVal = (Procedure)Duplicate();
+            Procedure retVal = (Procedure) Duplicate();
 
             retVal.SetUpdateInformation(this);
 
@@ -366,7 +366,7 @@ namespace DataDictionary.Functions
         }
 
         /// <summary>
-        /// Sets the update information for this procedure
+        ///     Sets the update information for this procedure
         /// </summary>
         /// <param name="source">The source procedure this procedure updates</param>
         public override void SetUpdateInformation(ModelElement source)

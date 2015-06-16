@@ -192,7 +192,5 @@ namespace GUI.StructureValueEditor
                 }
             }
         }
-
-
     }
 }

@@ -300,14 +300,14 @@ namespace DataDictionary.Types
         }
 
         /// <summary>
-        /// Creates a copy of the enum in the designated dictionary. The namespace structure is copied over.
-        /// The new enum is set to update this one.
+        ///     Creates a copy of the enum in the designated dictionary. The namespace structure is copied over.
+        ///     The new enum is set to update this one.
         /// </summary>
         /// <param name="dictionary">The target dictionary of the copy</param>
         /// <returns></returns>
         public Enum CreateEnumUpdate(Dictionary dictionary)
         {
-            Enum retVal = (Enum)Duplicate();
+            Enum retVal = (Enum) Duplicate();
             retVal.setUpdates(Guid);
 
             String[] names = FullName.Split('.');

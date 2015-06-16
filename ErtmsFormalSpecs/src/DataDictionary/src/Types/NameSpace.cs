@@ -16,7 +16,6 @@
 
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using DataDictionary.Generated;
 using DataDictionary.Variables;
 using Utils;
@@ -621,8 +620,8 @@ namespace DataDictionary.Types
         }
 
         /// <summary>
-        /// Creates a copy of the namespace in the designated dictionary. The enclosing namespace structure is copied over.
-        /// The new namespace is set to update this one.
+        ///     Creates a copy of the namespace in the designated dictionary. The enclosing namespace structure is copied over.
+        ///     The new namespace is set to update this one.
         /// </summary>
         /// <param name="dictionary">The target dictionary of the copy</param>
         /// <returns></returns>
@@ -633,7 +632,7 @@ namespace DataDictionary.Types
         }
 
         /// <summary>
-        /// Finds or creates a new namespace, and indicates that the original namespace is updated
+        ///     Finds or creates a new namespace, and indicates that the original namespace is updated
         /// </summary>
         /// <param name="name">The name of the namespace to find or create</param>
         /// <param name="initialNameSpace">The namespace that is updated</param>
@@ -644,7 +643,7 @@ namespace DataDictionary.Types
 
             if (retVal == null)
             {
-                retVal = (NameSpace)acceptor.getFactory().createNameSpace();
+                retVal = (NameSpace) acceptor.getFactory().createNameSpace();
                 retVal.setName(name);
                 appendNameSpaces(retVal);
 
@@ -654,6 +653,5 @@ namespace DataDictionary.Types
 
             return retVal;
         }
-
     }
 }

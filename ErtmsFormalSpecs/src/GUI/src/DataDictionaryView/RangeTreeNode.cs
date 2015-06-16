@@ -22,6 +22,7 @@ using System.Windows.Forms;
 using DataDictionary;
 using DataDictionary.Generated;
 using GUI.Converters;
+using Dictionary = DataDictionary.Dictionary;
 using Range = DataDictionary.Types.Range;
 
 namespace GUI.DataDictionaryView
@@ -130,7 +131,7 @@ namespace GUI.DataDictionaryView
 
         public void AddRangeUpdate(object sender, EventArgs args)
         {
-            DataDictionary.Dictionary dictionary = GetPatchDictionary();
+            Dictionary dictionary = GetPatchDictionary();
 
             if (dictionary != null)
             {

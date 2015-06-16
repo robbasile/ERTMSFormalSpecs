@@ -822,7 +822,7 @@ namespace DataDictionary.Functions
                         new SiSpeed(segment.Start, SiSpeed_SubUnits.KiloMeter_per_Hour),
                         new SiSpeed(end, SiSpeed_SubUnits.KiloMeter_per_Hour),
                         new SiAcceleration(-segment.Expression.v0, SiAcceleration_SubUnits.Meter_per_SecondSquare));
-                        // decelerations are negative
+                    // decelerations are negative
                 }
             }
 

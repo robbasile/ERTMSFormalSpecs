@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using System.Text;
 using DataDictionary.Generated;
 using DataDictionary.Interpreter;
+using DataDictionary.Interpreter.Filter;
 using Utils;
 using XmlBooster;
 using StateMachine = DataDictionary.Types.StateMachine;
@@ -87,17 +88,17 @@ namespace DataDictionary
         private static bool BeSilent { get; set; }
 
         /// <summary>
-        /// An action which should not raise errors
+        ///     An action which should not raise errors
         /// </summary>
         public delegate void SilentAction();
 
         /// <summary>
-        /// The number of times DontRaiseError has been recursively called
+        ///     The number of times DontRaiseError has been recursively called
         /// </summary>
         private static int SilentCount = 0;
 
         /// <summary>
-        /// Do not raise errors while execution the action
+        ///     Do not raise errors while execution the action
         /// </summary>
         /// <param name="action"></param>
         public static void DontRaiseError(SilentAction action)
@@ -106,7 +107,7 @@ namespace DataDictionary
         }
 
         /// <summary>
-        /// Do not raise errors while execution the action
+        ///     Do not raise errors while execution the action
         /// </summary>
         /// <param name="silent">Indicates that the action should be silent</param>
         /// <param name="action"></param>
@@ -143,7 +144,7 @@ namespace DataDictionary
         }
 
         /// <summary>
-        /// Ensures that the GUID is set for this model element
+        ///     Ensures that the GUID is set for this model element
         /// </summary>
         public void EnsureGuid()
         {
@@ -225,7 +226,7 @@ namespace DataDictionary
         }
 
         /// <summary>
-        /// Check if the new name references the right element in this context
+        ///     Check if the new name references the right element in this context
         /// </summary>
         /// <param name="modelElement"></param>
         /// <param name="name"></param>
@@ -234,16 +235,16 @@ namespace DataDictionary
         {
             bool retVal = false;
 
-            bool previousSilent = ModelElement.BeSilent;
+            bool previousSilent = BeSilent;
             try
             {
-                ModelElement.BeSilent = true;
+                BeSilent = true;
                 Expression expression = EFSSystem.INSTANCE.Parser.Expression(modelElement, name,
-                    Interpreter.Filter.AllMatches.INSTANCE, true, null, true);
+                    AllMatches.INSTANCE, true, null, true);
 
                 foreach (
                     ReturnValueElement target in
-                        expression.getReferences(null, Interpreter.Filter.AllMatches.INSTANCE, true).Values)
+                        expression.getReferences(null, AllMatches.INSTANCE, true).Values)
                 {
                     if (target.Value == this)
                     {
@@ -254,7 +255,7 @@ namespace DataDictionary
             }
             finally
             {
-                ModelElement.BeSilent = previousSilent;
+                BeSilent = previousSilent;
             }
 
             return retVal;
@@ -323,7 +324,7 @@ namespace DataDictionary
         }
 
         /// <summary>
-        /// Provides the model element that has been updated by this one (if any)
+        ///     Provides the model element that has been updated by this one (if any)
         /// </summary>
         public ModelElement Updates
         {
@@ -341,17 +342,17 @@ namespace DataDictionary
         }
 
         /// <summary>
-        /// Provides the list of the model elements which update this model element
+        ///     Provides the list of the model elements which update this model element
         /// </summary>
         public List<ModelElement> UpdatedBy = new List<ModelElement>();
 
         /// <summary>
-        /// Sets the update information for this model element (this model element updates source)
+        ///     Sets the update information for this model element (this model element updates source)
         /// </summary>
         /// <param name="source"></param>
         public virtual void SetUpdateInformation(ModelElement source)
         {
-            if (string.IsNullOrEmpty(getUpdates()) || getUpdates() != source.Guid )
+            if (string.IsNullOrEmpty(getUpdates()) || getUpdates() != source.Guid)
             {
                 setUpdates(source.Guid);
             }

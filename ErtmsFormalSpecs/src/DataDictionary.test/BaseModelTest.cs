@@ -1,23 +1,29 @@
-﻿using DataDictionary.Functions;
+﻿using DataDictionary.Generated;
 using DataDictionary.Interpreter;
-using DataDictionary.Tests;
 using NUnit.Framework;
 using Utils;
 using Action = DataDictionary.Rules.Action;
 using Case = DataDictionary.Functions.Case;
 using Enum = DataDictionary.Types.Enum;
 using EnumValue = DataDictionary.Constants.EnumValue;
+using Expectation = DataDictionary.Tests.Expectation;
+using Frame = DataDictionary.Tests.Frame;
 using Function = DataDictionary.Functions.Function;
 using NameSpace = DataDictionary.Types.NameSpace;
 using PreCondition = DataDictionary.Rules.PreCondition;
+using Procedure = DataDictionary.Functions.Procedure;
 using Range = DataDictionary.Types.Range;
 using Rule = DataDictionary.Rules.Rule;
 using RuleCondition = DataDictionary.Rules.RuleCondition;
 using State = DataDictionary.Constants.State;
 using StateMachine = DataDictionary.Types.StateMachine;
+using Step = DataDictionary.Tests.Step;
 using Structure = DataDictionary.Types.Structure;
 using StructureElement = DataDictionary.Types.StructureElement;
 using StructureRef = DataDictionary.Types.StructureRef;
+using SubSequence = DataDictionary.Tests.SubSequence;
+using SubStep = DataDictionary.Tests.SubStep;
+using TestCase = DataDictionary.Tests.TestCase;
 using Variable = DataDictionary.Variables.Variable;
 using Visitor = DataDictionary.Generated.Visitor;
 
@@ -31,7 +37,7 @@ namespace DataDictionary.test
         [TestFixtureSetUp]
         public void Initialise()
         {
-            Generated.acceptor.setFactory(new ObjectFactory());
+            acceptor.setFactory(new ObjectFactory());
         }
 
         /// <summary>
@@ -55,7 +61,7 @@ namespace DataDictionary.test
             /// </summary>
             public ElementLog ErrorMessageFound { get; private set; }
 
-            public override void visit(Generated.BaseModelElement obj, bool visitSubNodes)
+            public override void visit(BaseModelElement obj, bool visitSubNodes)
             {
                 foreach (ElementLog log in obj.Messages)
                 {
@@ -136,9 +142,9 @@ namespace DataDictionary.test
         /// <summary>
         ///     The factory used to create elements
         /// </summary>
-        protected Generated.Factory Factory
+        protected Factory Factory
         {
-            get { return Generated.acceptor.getFactory(); }
+            get { return acceptor.getFactory(); }
         }
 
         #endregion
@@ -184,8 +190,9 @@ namespace DataDictionary.test
         /// </summary>
         protected void CleanUpModel()
         {
-            Compiler.CleanUpModel();        
+            Compiler.CleanUpModel();
         }
+
         #endregion
 
         #region Object creation
@@ -259,7 +266,7 @@ namespace DataDictionary.test
         /// <param name="minValue"></param>
         /// <param name="maxValue"></param>
         /// <returns></returns>
-        protected Range CreateRange(NameSpace enclosing, string name, Generated.acceptor.PrecisionEnum precision, string minValue,
+        protected Range CreateRange(NameSpace enclosing, string name, acceptor.PrecisionEnum precision, string minValue,
             string maxValue)
         {
             Range retVal = (Range) Factory.createRange();
@@ -406,7 +413,7 @@ namespace DataDictionary.test
         }
 
         /// <summary>
-        ///     Creates a rule and a rule condition in the namespace 
+        ///     Creates a rule and a rule condition in the namespace
         /// </summary>
         /// <param name="enclosing"></param>
         /// <param name="name"></param>
@@ -421,14 +428,14 @@ namespace DataDictionary.test
         }
 
         /// <summary>
-        ///     Creates a rule and a rule condition in the state machine 
+        ///     Creates a rule and a rule condition in the state machine
         /// </summary>
         /// <param name="enclosing"></param>
         /// <param name="name"></param>
         /// <returns></returns>
         protected RuleCondition CreateRuleAndCondition(StateMachine enclosing, string name)
         {
-            Rule rule = (Rule)Factory.createRule();
+            Rule rule = (Rule) Factory.createRule();
             enclosing.appendRules(rule);
             rule.Name = name;
 
@@ -443,7 +450,7 @@ namespace DataDictionary.test
         /// <returns></returns>
         protected RuleCondition CreateRuleAndCondition(Structure enclosing, string name)
         {
-            Rule rule = (Rule)Factory.createRule();
+            Rule rule = (Rule) Factory.createRule();
             enclosing.appendRules(rule);
             rule.Name = name;
 
@@ -458,14 +465,15 @@ namespace DataDictionary.test
         /// <returns></returns>
         protected RuleCondition CreateRuleAndCondition(Procedure enclosing, string name)
         {
-            Rule rule = (Rule)Factory.createRule();
+            Rule rule = (Rule) Factory.createRule();
             enclosing.appendRules(rule);
             rule.Name = name;
 
             return CreateRuleCondition(rule, name);
         }
+
         /// <summary>
-        /// Creates a rule condition in a rule
+        ///     Creates a rule condition in a rule
         /// </summary>
         /// <param name="rule"></param>
         /// <param name="name"></param>
@@ -520,7 +528,7 @@ namespace DataDictionary.test
         /// <returns></returns>
         protected Procedure CreateProcedure(NameSpace enclosing, string name)
         {
-            Procedure retVal = (Procedure)Factory.createProcedure();
+            Procedure retVal = (Procedure) Factory.createProcedure();
             enclosing.appendProcedures(retVal);
             retVal.Name = name;
 
@@ -535,7 +543,7 @@ namespace DataDictionary.test
         /// <returns></returns>
         protected Procedure CreateProcedure(Structure enclosing, string name)
         {
-            Procedure retVal = (Procedure)Factory.createProcedure();
+            Procedure retVal = (Procedure) Factory.createProcedure();
             enclosing.appendProcedures(retVal);
             retVal.Name = name;
 
@@ -551,7 +559,7 @@ namespace DataDictionary.test
         /// <returns></returns>
         protected Parameter CreateParameter(Procedure procedure, string name, string type)
         {
-            Parameter retVal = (Parameter)Factory.createParameter();
+            Parameter retVal = (Parameter) Factory.createParameter();
             procedure.appendParameters(retVal);
             retVal.Name = name;
             retVal.TypeName = type;
@@ -637,7 +645,7 @@ namespace DataDictionary.test
         /// <returns></returns>
         protected Frame CreateTestFrame(Dictionary enclosing, string name)
         {
-            Frame retVal = (Frame)Factory.createFrame();
+            Frame retVal = (Frame) Factory.createFrame();
             enclosing.appendTests(retVal);
             retVal.Name = name;
 
@@ -652,7 +660,7 @@ namespace DataDictionary.test
         /// <returns></returns>
         protected SubSequence CreateSubSequence(Frame enclosing, string name)
         {
-            SubSequence retVal = (SubSequence)Factory.createSubSequence();
+            SubSequence retVal = (SubSequence) Factory.createSubSequence();
             enclosing.appendSubSequences(retVal);
             retVal.Name = name;
 
@@ -660,14 +668,14 @@ namespace DataDictionary.test
         }
 
         /// <summary>
-        ///     Creates a test case in the enclosing test sub sequence 
+        ///     Creates a test case in the enclosing test sub sequence
         /// </summary>
         /// <param name="enclosing"></param>
         /// <param name="name"></param>
         /// <returns></returns>
         protected TestCase CreateTestCase(SubSequence enclosing, string name)
         {
-            TestCase retVal = (TestCase)Factory.createTestCase();
+            TestCase retVal = (TestCase) Factory.createTestCase();
             enclosing.appendTestCases(retVal);
             retVal.Name = name;
 
@@ -675,14 +683,14 @@ namespace DataDictionary.test
         }
 
         /// <summary>
-        ///     Creates a step in a test case 
+        ///     Creates a step in a test case
         /// </summary>
         /// <param name="enclosing"></param>
         /// <param name="name"></param>
         /// <returns></returns>
         protected Step CreateStep(TestCase enclosing, string name)
         {
-            Step retVal = (Step)Factory.createStep();
+            Step retVal = (Step) Factory.createStep();
             enclosing.appendSteps(retVal);
             retVal.Name = name;
 
@@ -690,14 +698,14 @@ namespace DataDictionary.test
         }
 
         /// <summary>
-        ///     Creates a step in a test case 
+        ///     Creates a step in a test case
         /// </summary>
         /// <param name="enclosing"></param>
         /// <param name="name"></param>
         /// <returns></returns>
         protected SubStep CreateSubStep(Step enclosing, string name)
         {
-            SubStep retVal = (SubStep)Factory.createSubStep();
+            SubStep retVal = (SubStep) Factory.createSubStep();
             enclosing.appendSubSteps(retVal);
             retVal.Name = name;
 
@@ -712,7 +720,7 @@ namespace DataDictionary.test
         /// <returns></returns>
         protected Expectation CreateExpectation(SubStep enclosing, string name)
         {
-            Expectation retVal = (Expectation)Factory.createExpectation();
+            Expectation retVal = (Expectation) Factory.createExpectation();
             enclosing.appendExpectations(retVal);
             retVal.ExpressionText = name;
 

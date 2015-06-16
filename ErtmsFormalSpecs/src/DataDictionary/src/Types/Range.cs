@@ -21,6 +21,7 @@ using System.Globalization;
 using System.Linq;
 using DataDictionary.Generated;
 using DataDictionary.Interpreter;
+using DataDictionary.Interpreter.Filter;
 using DataDictionary.Values;
 using Utils;
 using EnumValue = DataDictionary.Constants.EnumValue;
@@ -51,7 +52,7 @@ namespace DataDictionary.Types
         private double minValueAsDouble;
 
         /// <summary>
-        /// Sets the minimum value (both decimal and double)
+        ///     Sets the minimum value (both decimal and double)
         /// </summary>
         private void SetMinValue()
         {
@@ -106,7 +107,7 @@ namespace DataDictionary.Types
         private double maxValueAsDouble;
 
         /// <summary>
-        /// Sets the maximum value (both decimal and double)
+        ///     Sets the maximum value (both decimal and double)
         /// </summary>
         private void SetMaxValue()
         {
@@ -194,7 +195,7 @@ namespace DataDictionary.Types
                 {
                     string prefix = image.Substring(0, lastDotPosition);
                     Expression typeExpression = EFSSystem.Parser.Expression(this, prefix,
-                        Interpreter.Filter.IsType.INSTANCE, true, null, true);
+                        IsType.INSTANCE, true, null, true);
                     if (typeExpression != null && typeExpression.Ref == this)
                     {
                         image = image.Substring(lastDotPosition + 1);
@@ -757,14 +758,14 @@ namespace DataDictionary.Types
         }
 
         /// <summary>
-        /// Creates a copy of the range in the designated dictionary. The namespace structure is copied over.
-        /// The new range is set to update this one.
+        ///     Creates a copy of the range in the designated dictionary. The namespace structure is copied over.
+        ///     The new range is set to update this one.
         /// </summary>
         /// <param name="dictionary">The target dictionary of the copy</param>
         /// <returns></returns>
         public Range CreateRangeUpdate(Dictionary dictionary)
         {
-            Range retVal = (Range)Duplicate();
+            Range retVal = (Range) Duplicate();
             retVal.setUpdates(Guid);
 
             String[] names = FullName.Split('.');

@@ -504,7 +504,6 @@ namespace DataDictionary.Tests.Runner
                     ExplanationPart explanation = new ExplanationPart(rule, "Rule evaluation");
                     rule.Evaluate(this, priority, rule, activations, explanation);
                 }
-                
             }
 
             foreach (IVariable variable in nameSpace.Variables)

@@ -231,12 +231,13 @@ namespace GUI.StateDiagram
                 action.ExpressionText = "THIS <- " + ((State) StateMachine.States[1]).LiteralName;
                 ruleCondition.appendActions(action);
 
-                foreach ( Form form in GUIUtils.MDIWindow.SubForms )
+                foreach (Form form in GUIUtils.MDIWindow.SubForms)
                 {
-                    DataDictionaryView.Window dataDictionaryWindows = form as DataDictionaryView.Window;
+                    Window dataDictionaryWindows = form as Window;
                     if (dataDictionaryWindows != null)
                     {
-                        StateTreeNode stateNode = dataDictionaryWindows.FindNode((State)StateMachine.States[0]) as StateTreeNode;
+                        StateTreeNode stateNode =
+                            dataDictionaryWindows.FindNode((State) StateMachine.States[0]) as StateTreeNode;
                         if (stateNode != null)
                         {
                             if (!stateNode.SubNodesBuilt)

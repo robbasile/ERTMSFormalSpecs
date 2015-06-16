@@ -91,7 +91,7 @@ namespace DataDictionary.Interpreter
             }
 
             /// <summary>
-            /// Clears the cached FullName for all namables
+            ///     Clears the cached FullName for all namables
             /// </summary>
             /// <param name="obj"></param>
             /// <param name="visitSubNodes"></param>
@@ -615,6 +615,7 @@ namespace DataDictionary.Interpreter
         #endregion
 
         #region Refactoring
+
         /// <summary>
         ///     Refactors an element which can hold an expression
         /// </summary>
@@ -725,7 +726,7 @@ namespace DataDictionary.Interpreter
                 string originalName = element.Name;
                 element.Name = newName;
                 // Make sure that the element name is taken into consideration
-                new CleanBeforeCompilation(new CompilationOptions(false, true), EFSSystem);                    
+                new CleanBeforeCompilation(new CompilationOptions(false, true), EFSSystem);
 
                 // Then, refactor references to the renamed element
                 RefactorElement(element, originalName, newName);
@@ -851,12 +852,12 @@ namespace DataDictionary.Interpreter
         }
 
         /// <summary>
-        /// Cleans the model by removing all useless prefixes
+        ///     Cleans the model by removing all useless prefixes
         /// </summary>
         private class CleanUpModelVisitor : Generated.Visitor
         {
             /// <summary>
-            /// Constructor
+            ///     Constructor
             /// </summary>
             /// <param name="system"></param>
             public CleanUpModelVisitor(EFSSystem system)
@@ -868,7 +869,7 @@ namespace DataDictionary.Interpreter
             }
 
             /// <summary>
-            /// Refactors all IExpressionables
+            ///     Refactors all IExpressionables
             /// </summary>
             /// <param name="obj"></param>
             /// <param name="visitSubNodes"></param>

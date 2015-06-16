@@ -4,17 +4,17 @@ using Utils;
 namespace GUI.LongOperations
 {
     /// <summary>
-    /// Closes a dictionary
+    ///     Closes a dictionary
     /// </summary>
     public class CloseDictionary : BaseLongOperation
     {
         /// <summary>
-        /// The dictionary to close
+        ///     The dictionary to close
         /// </summary>
         private Dictionary Dictionary { get; set; }
 
         /// <summary>
-        /// Constructor
+        ///     Constructor
         /// </summary>
         /// <param name="dictionary"></param>
         public CloseDictionary(Dictionary dictionary)

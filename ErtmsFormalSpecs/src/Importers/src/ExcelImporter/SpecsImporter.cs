@@ -162,7 +162,7 @@ namespace Importers.ExcelImporter
                             {
                                 aParagraph.Text += "STOP: " + text + "\n";
                                 skipRow = true;
-                                    // the remaining information of the following document is identical => let's skip it
+                                // the remaining information of the following document is identical => let's skip it
                             }
                         }
                     }

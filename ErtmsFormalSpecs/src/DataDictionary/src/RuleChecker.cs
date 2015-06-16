@@ -77,7 +77,7 @@ namespace DataDictionary
         }
 
         /// <summary>
-        /// Indicates whether one of the parent of the model element has been updated (by a path)
+        ///     Indicates whether one of the parent of the model element has been updated (by a path)
         /// </summary>
         /// <param name="modelElement"></param>
         /// <returns></returns>
@@ -232,7 +232,6 @@ namespace DataDictionary
                         else
                         {
                             step.AddWarning("All steps should have a name");
-                            
                         }
                     }
                 }
@@ -1004,7 +1003,7 @@ namespace DataDictionary
                                 }
                             }
                             catch (Exception)
-                            {                                
+                            {
                             }
 
                             foreach (Constants.EnumValue specValue in range.SpecialValues)
@@ -1282,7 +1281,6 @@ namespace DataDictionary
                 {
                     range.AddError("Invalid max value for float range : must have a decimal part");
                 }
-
             }
             try
             {

@@ -18,12 +18,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Security.Cryptography;
 using DataDictionary.Generated;
-using DataDictionary.Interpreter;
 using DataDictionary.Specification;
-using log4net.Core;
 using Utils;
 using XmlBooster;
 using Chapter = DataDictionary.Specification.Chapter;
@@ -40,7 +36,6 @@ using StateMachine = DataDictionary.Types.StateMachine;
 using SubSequence = DataDictionary.Tests.SubSequence;
 using TranslationDictionary = DataDictionary.Tests.Translations.TranslationDictionary;
 using Type = DataDictionary.Types.Type;
-using Visitor = DataDictionary.Generated.Visitor;
 
 namespace DataDictionary
 {
@@ -1374,8 +1369,8 @@ namespace DataDictionary
         }
 
         /// <summary>
-        /// Either provides the requested namespace or creates it if it cannot be found
-        /// This method can create many levels of nested namespaces
+        ///     Either provides the requested namespace or creates it if it cannot be found
+        ///     This method can create many levels of nested namespaces
         /// </summary>
         /// <param name="levels">The name of the namespace, with the levels separated into separate Strings</param>
         /// <param name="initialDictionary">The dictionary the namespace structure is being copied form</param>
@@ -1431,7 +1426,7 @@ namespace DataDictionary
                     break;
                 }
 
-                dictionary = (Dictionary)dictionary.Updates;
+                dictionary = (Dictionary) dictionary.Updates;
             }
 
             return retVal;

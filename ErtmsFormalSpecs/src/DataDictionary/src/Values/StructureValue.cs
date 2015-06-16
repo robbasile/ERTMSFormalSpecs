@@ -21,6 +21,7 @@ using DataDictionary.Generated;
 using DataDictionary.Interpreter;
 using DataDictionary.Variables;
 using Utils;
+using Collection = DataDictionary.Types.Collection;
 using Structure = DataDictionary.Types.Structure;
 using StructureElement = DataDictionary.Types.StructureElement;
 using Variable = DataDictionary.Variables.Variable;
@@ -58,7 +59,6 @@ namespace DataDictionary.Values
             {
                 Util.DontNotify(() =>
                 {
-
                     foreach (StructureElement element in Structure.Elements)
                     {
                         Variable variable = (Variable) acceptor.getFactory().createVariable();
@@ -77,9 +77,9 @@ namespace DataDictionary.Values
                         }
                         else
                         {
-                            if (variable.Type is Types.Collection)
+                            if (variable.Type is Collection)
                             {
-                                variable.Value = new ListValue(variable.Type as Types.Collection, new List<IValue>());
+                                variable.Value = new ListValue(variable.Type as Collection, new List<IValue>());
                             }
                             else
                             {

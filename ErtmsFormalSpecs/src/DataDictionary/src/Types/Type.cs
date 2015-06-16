@@ -277,10 +277,7 @@ namespace DataDictionary.Types
             {
                 if (castFunction == null && CanBeCastInto)
                 {
-                    Util.DontNotify(() =>
-                    {
-                        castFunction = new Cast(this);
-                    });
+                    Util.DontNotify(() => { castFunction = new Cast(this); });
                 }
 
                 return castFunction;

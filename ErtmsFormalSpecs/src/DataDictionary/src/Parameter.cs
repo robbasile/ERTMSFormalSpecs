@@ -17,6 +17,7 @@
 using System.Collections;
 using DataDictionary.Generated;
 using DataDictionary.Interpreter;
+using DataDictionary.Interpreter.Filter;
 using DataDictionary.Types;
 using DataDictionary.Variables;
 using Utils;
@@ -62,7 +63,7 @@ namespace DataDictionary
                 if (type == null)
                 {
                     Expression typeExpression = EFSSystem.Parser.Expression(this, getTypeName(),
-                        Interpreter.Filter.IsType.INSTANCE, true, null, true);
+                        IsType.INSTANCE, true, null, true);
 
                     if (typeExpression != null)
                     {

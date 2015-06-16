@@ -32,6 +32,7 @@ using GUI.Properties;
 using Utils;
 using XmlBooster;
 using Chapter = DataDictionary.Specification.Chapter;
+using Dictionary = DataDictionary.Dictionary;
 using Frame = DataDictionary.Tests.Frame;
 using ModelElement = DataDictionary.ModelElement;
 using ReqRef = DataDictionary.ReqRef;
@@ -975,7 +976,8 @@ namespace GUI
                 {
                     if (Settings.Default.AllowRefactor)
                     {
-                        RefactorOperation refactorOperation = new RefactorOperation(EFSSystem.INSTANCE, Model as ModelElement, newLabel);
+                        RefactorOperation refactorOperation = new RefactorOperation(EFSSystem.INSTANCE,
+                            Model as ModelElement, newLabel);
                         refactorOperation.ExecuteUsingProgressDialog("Refactoring", false);
                     }
                     else
@@ -1093,9 +1095,9 @@ namespace GUI
         ///     Provides the dictionary on which operation should be performed
         /// </summary>
         /// <returns></returns>
-        public DataDictionary.Dictionary GetPatchDictionary()
+        public Dictionary GetPatchDictionary()
         {
-            DataDictionary.Dictionary retVal = null;
+            Dictionary retVal = null;
 
             MainWindow mainWindow = GUIUtils.MDIWindow;
             EFSSystem efsSystem = mainWindow.EFSSystem;
@@ -1105,7 +1107,7 @@ namespace GUI
                 if (modelElement != null)
                 {
                     int updates = 0;
-                    foreach (DataDictionary.Dictionary dict in efsSystem.Dictionaries)
+                    foreach (Dictionary dict in efsSystem.Dictionaries)
                     {
                         if (modelElement.Dictionary.IsUpdatedBy(dict))
                         {
@@ -1120,7 +1122,8 @@ namespace GUI
                         // if there are 0 or 1 possible updates, it will already have the correct value
                         // if there are more, choose the update from a list of possibilities
                         DictionarySelector.DictionarySelector dictionarySelector =
-                            new DictionarySelector.DictionarySelector(efsSystem, FilterOptions.Updates, modelElement.Dictionary);
+                            new DictionarySelector.DictionarySelector(efsSystem, FilterOptions.Updates,
+                                modelElement.Dictionary);
                         dictionarySelector.ShowDictionaries(mainWindow);
 
                         if (dictionarySelector.Selected != null)
@@ -1128,7 +1131,6 @@ namespace GUI
                             retVal = dictionarySelector.Selected;
                         }
                     }
-                    
                 }
             }
 

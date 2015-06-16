@@ -30,7 +30,7 @@ using DataDictionary.Variables;
 using GUI.DataDictionaryView;
 using Utils;
 using Action = DataDictionary.Rules.Action;
-using ModelElement = DataDictionary.ModelElement;
+using ModelElement = Utils.ModelElement;
 using Window = GUI.StructureValueEditor.Window;
 
 namespace GUI
@@ -97,7 +97,7 @@ namespace GUI
                     MainWindow mdiWindow = GUIUtils.MDIWindow;
                     if (mdiWindow != null)
                     {
-                        mdiWindow.Select(instances[0] as Utils.ModelElement, true);
+                        mdiWindow.Select(instances[0] as ModelElement, true);
                     }
                 }
             }
@@ -178,7 +178,7 @@ namespace GUI
 
             if (expression != null)
             {
-                ModelElement.DontRaiseError(() =>
+                DataDictionary.ModelElement.DontRaiseError(() =>
                 {
                     InterpretationContext context = new InterpretationContext(Model);
                     context.UseDefaultValue = false;
@@ -311,7 +311,7 @@ namespace GUI
             {
                 const bool doSemanticalAnalysis = true;
                 const bool silent = true;
-                ModelElement root = Instance as ModelElement;
+                DataDictionary.ModelElement root = Instance as DataDictionary.ModelElement;
                 if (root == null)
                 {
                     root = EFSSystem.INSTANCE.Dictionaries[0];

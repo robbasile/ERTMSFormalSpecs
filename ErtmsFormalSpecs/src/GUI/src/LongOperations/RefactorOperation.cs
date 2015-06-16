@@ -13,6 +13,7 @@
 // -- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 // --
 // ------------------------------------------------------------------------------
+
 using DataDictionary;
 
 namespace GUI.LongOperations
@@ -25,12 +26,12 @@ namespace GUI.LongOperations
         private EFSSystem EFSSystem { get; set; }
 
         /// <summary>
-        /// The element to be refactored
+        ///     The element to be refactored
         /// </summary>
         private ModelElement Model { get; set; }
 
         /// <summary>
-        /// The new element name
+        ///     The new element name
         /// </summary>
         private string NewName { get; set; }
 
@@ -38,7 +39,7 @@ namespace GUI.LongOperations
         ///     Constructor
         /// </summary>
         /// <param name="system"></param>
-        /// <param name="model"></param> 
+        /// <param name="model"></param>
         /// <param name="newName"></param>
         public RefactorOperation(EFSSystem system, ModelElement model, string newName)
         {

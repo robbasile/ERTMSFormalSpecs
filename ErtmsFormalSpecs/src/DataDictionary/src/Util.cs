@@ -844,7 +844,6 @@ namespace DataDictionary
                         {
                             Log.Error(e.Message);
                         }
-
                     });
                 }
             }
@@ -1121,17 +1120,17 @@ namespace DataDictionary
         }
 
         /// <summary>
-        /// An action that do not notify the controllers
+        ///     An action that do not notify the controllers
         /// </summary>
         public delegate void NonNotifiedAction();
 
         /// <summary>
-        /// Indicates the number of times a DontNotify has been recursively called
+        ///     Indicates the number of times a DontNotify has been recursively called
         /// </summary>
         private static int DontNotifyCount = 0;
 
         /// <summary>
-        /// Indicates that notification should not occur for this action
+        ///     Indicates that notification should not occur for this action
         /// </summary>
         /// <param name="action"></param>
         public static void DontNotify(NonNotifiedAction action)

@@ -485,7 +485,7 @@ namespace DataDictionary.Functions
                     if (start < expectedEndX)
                     {
                         double end = segment.End;
-                        if (end == double.MaxValue || end >= expectedEndX )
+                        if (end == double.MaxValue || end >= expectedEndX)
                         {
                             end = expectedEndX;
                         }

@@ -49,7 +49,7 @@ namespace DataDictionary.Interpreter
         }
 
         /// <summary>
-        /// Setup the variable => value association
+        ///     Setup the variable => value association
         /// </summary>
         /// <param name="associations"></param>
         public void SetAssociation(Dictionary<Designator, Expression> associations)

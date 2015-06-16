@@ -18,18 +18,15 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing.Design;
-using System.Linq;
 using System.Windows.Forms;
 using DataDictionary;
 using DataDictionary.Functions;
 using DataDictionary.Generated;
 using DataDictionary.Interpreter;
 using GUI.Converters;
-using Utils;
 using Case = DataDictionary.Functions.Case;
 using Dictionary = DataDictionary.Dictionary;
 using Function = DataDictionary.Functions.Function;
-using ModelElement = DataDictionary.ModelElement;
 using Parameter = DataDictionary.Parameter;
 
 namespace GUI.DataDictionaryView
@@ -176,7 +173,7 @@ namespace GUI.DataDictionaryView
 
         public void AddFunctionUpdate(object sender, EventArgs args)
         {
-            DataDictionary.Dictionary dictionary = GetPatchDictionary();
+            Dictionary dictionary = GetPatchDictionary();
 
             if (dictionary != null)
             {
