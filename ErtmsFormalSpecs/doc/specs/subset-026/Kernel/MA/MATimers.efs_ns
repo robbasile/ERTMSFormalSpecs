@@ -130,7 +130,7 @@ SectionStartLocation(X) + X.TimeOut.Distance &gt; TrainPosition.FrontEndPosition
   AND 
 X.TimeOut.TimerStart + X.TimeOut.TimeOut &lt; DateAndTime.CurrentTime)</PreCondition><PreCondition
  Guid="87a7ac1d-9861-4a39-a1bd-90d0182d96e6"
->Kernel.Level.Value.Value != Level.L3</PreCondition></PreConditions>
+>Level.Value.Value != Default.Level.L3</PreCondition></PreConditions>
 <Expression>FIRST X IN MA.Sections | 
 (   Available(X.TimeOut)
   AND
@@ -153,8 +153,8 @@ X.TimeOut.TimerStart + X.TimeOut.TimeOut &lt; DateAndTime.CurrentTime)</PreCondi
     MA.EndSection.TimeOut.TimerStart + MA.EndSection.TimeOut.TimeOut &lt; DateAndTime.CurrentTime
 )</PreCondition><PreCondition
  Guid="eb1eb2c2-ee01-4da8-95fb-684a3c9d0fcd"
->Kernel.Level.Value.Value != Level.L3</PreCondition></PreConditions>
-<Expression>Kernel.MA.SectionStruct{
+>Level.Value.Value != Default.Level.L3</PreCondition></PreConditions>
+<Expression>SectionStruct{
     Length =&gt; MA.EndSection.Length,
     TimeOut =&gt; MA.EndSection.TimeOut
 }</Expression>
@@ -252,9 +252,9 @@ X.TimeOut.TimerStart + X.TimeOut.TimeOut &lt; DateAndTime.CurrentTime)</PreCondi
  Guid="60ac98eb-f87f-4a83-b636-ea89d0c00d73"
 >HandlingOfAcceptedAndStoredInformation.SvLShiftedDueToOverlapTimeout &lt;- True</Action><Action
  Guid="a201db5e-1464-408f-b6e0-527ae199b982"
->MA.MA.EndSection.Overlap &lt;- EMPTY</Action><Action
+>MA.EndSection.Overlap &lt;- EMPTY</Action><Action
  Guid="7fc9aece-b4b1-44d9-8ec3-044e13911666"
->MA.MA.TargetSpeed &lt;- 0.0</Action><Action
+>MA.TargetSpeed &lt;- 0.0</Action><Action
  Guid="0833bca7-b3f6-4aa8-a810-9134c26fe7d7"
 >OverlapTimerStart &lt;- BaseTypes.Time.NA</Action></Actions>
 </RuleCondition></Conditions>
@@ -339,7 +339,7 @@ LOATimerStart + MA.TargetSpeedTimeOut &lt;= DateAndTime.CurrentTime</PreConditio
  Guid="4622259b-4b1e-41e7-8a6f-d5719cd20cd5"
 >MA.EndSection.Overlap != EMPTY
   AND  
-(TrainPosition.FrontEndPosition(PointOfInterest=&gt;DistanceInterval.Nom) &gt; EndOfMA() - MA.MA.EndSection.Overlap.TimerDistance )</PreCondition><PreCondition
+(TrainPosition.FrontEndPosition(PointOfInterest=&gt;DistanceInterval.Nom) &gt; EndOfMA() - MA.EndSection.Overlap.TimerDistance )</PreCondition><PreCondition
  Guid="b4790add-4047-43c2-b414-3748923bc727"
 ><Comment>Doesn&apos;t reassign the Overlap timer start once it has already been started.</Comment>
 OverlapTimerStart == BaseTypes.Time.NA</PreCondition></PreConditions>
@@ -366,11 +366,11 @@ OverlapTimerStart == BaseTypes.Time.NA</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="4550ef6f-589d-4c2d-b6b8-bb16a4a704a4"
->MA.MA.EndSection.Overlap != EMPTY
+>MA.EndSection.Overlap != EMPTY
   AND
 OverlapTimerStart != BaseTypes.Time.NA
   AND  
-(DateAndTime.CurrentTime &gt; OverlapTimerStart + MA.MA.EndSection.Overlap.TimeOut)</PreCondition></PreConditions>
+(DateAndTime.CurrentTime &gt; OverlapTimerStart + MA.EndSection.Overlap.TimeOut)</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="9cf7b65e-05f0-43cf-8a21-9e0fdac2bd4b"
@@ -546,9 +546,9 @@ Note that the &quot;TimeOut&quot; here is not the End Section time-out value, bu
 <PreConditions>
 <PreCondition
  Guid="6ca30b00-39b9-4c23-b458-4088373dd895"
->MA.MA.EndSection != EMPTY
+>MA.EndSection != EMPTY
   AND  
-(TrainPosition.FrontEndPosition(PointOfInterest=&gt;DistanceInterval.Max) &gt; EndOfMA() - MA.MA.EndSection.EndSectionTimeOut.Distance)</PreCondition><PreCondition
+(TrainPosition.FrontEndPosition(PointOfInterest=&gt;DistanceInterval.Max) &gt; EndOfMA() - MA.EndSection.EndSectionTimeOut.Distance)</PreCondition><PreCondition
  Guid="22692d30-56a8-4f47-a757-885cf72f478f"
 ><Comment>Doesn&apos;t reassign the End Section timer start once it has already been started.</Comment>
 EndSectionTimerStart != BaseTypes.Time.NA</PreCondition></PreConditions>

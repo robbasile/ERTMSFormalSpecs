@@ -68,7 +68,7 @@ IsMaxDistToRunInSR(aTarget)</PreCondition></PreConditions>
  Guid="e744ba80-63dc-46f3-837d-ede2f1c0ffb4"
 >
 <Expression>FullDecelerationForTarget (
-    Target=&gt;Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target{
+    Target=&gt;TargetSpeedMonitoring.Target{
     Location =&gt; aTarget.Location,
     Speed =&gt; aTarget.Speed + CeilingSpeedMonitoring.dV_ebi(aTarget.Speed),
     Length =&gt; aTarget.Length
@@ -506,7 +506,7 @@ BaseTypes.SpeedToMS ( BaseTypes.MaxSpeed ( X1 =&gt; Vest + Vdelta0() + Vdelta1(N
 <PreConditions>
 <PreCondition
  Guid="cf6f9fc7-ccd1-4d65-a066-2ba3eebe0aad"
->Kernel.TrainData.TrainData.Value.TractionCutOffInterfaceIsImplemented</PreCondition></PreConditions>
+>TrainData.TrainData.Value.TractionCutOffInterfaceIsImplemented</PreCondition></PreConditions>
 <Expression>BaseTypes.MaxTime ( X1 =&gt; ( TrainData.BrakingParameters.T_traction_cut_off (NoA_est) - ( TargetSpeedMonitoring.T_warning + TargetSpeedMonitoring.T_bs2 ) ), X2 =&gt; 0.0 )</Expression>
 </Case><Case
  Name="Traction cut-off is not implemented"
@@ -655,7 +655,7 @@ BaseTypes.SpeedToMS ( BaseTypes.MaxSpeed ( X1 =&gt; Vest + Vdelta0() + Vdelta1(N
 <PreConditions>
 <PreCondition
  Guid="47e945e0-0d82-416d-8a82-055c5554df35"
->Mode == Mode.SR</PreCondition></PreConditions>
+>Mode == Default.Mode.SR</PreCondition></PreConditions>
 <Expression>aTarget.Location == NationalValues.ApplicableNationalValues.Value.MaxPermDistToRunInStaffResponsibleMode
   AND  
 aTarget.Speed == 0.0</Expression>

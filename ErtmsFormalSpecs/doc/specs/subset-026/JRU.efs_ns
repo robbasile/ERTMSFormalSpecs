@@ -269,7 +269,7 @@ SERVICE_BRAKE_COMMAND_STATE =&gt; CreateSBCommandStateMessage()
 <PreConditions>
 <PreCondition
  Guid="30005dec-9a3f-4f5d-94e6-65c3b4f1b049"
->JRU.TelegramFromBaliseRecieved()</PreCondition></PreConditions>
+>TelegramFromBaliseRecieved()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="e8d247c7-1e71-428a-bf8d-240c42f3a3b6"
@@ -305,7 +305,7 @@ SERVICE_BRAKE_COMMAND_STATE =&gt; CreateSBCommandStateMessage()
 <PreConditions>
 <PreCondition
  Guid="5ae64df4-66eb-4a2f-89dc-3f9a09fb9a81"
->JRU.MessageFromRbcRecieved(EURORADIO.CurrentRBCConnection())</PreCondition></PreConditions>
+>MessageFromRbcRecieved(EURORADIO.CurrentRBCConnection())</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="bd0cd303-3d8b-4d90-a66d-3e88424cb4f1"
@@ -341,7 +341,7 @@ FROM_RBC =&gt; CreateMessageFromRbcMessage(EURORADIO.CurrentRBCConnection(), EUR
 <PreConditions>
 <PreCondition
  Guid="10fe01aa-af34-48b4-aa33-1e179a03aef0"
->JRU.MessageToRbcReady(EURORADIO.CurrentRBCConnection())</PreCondition></PreConditions>
+>MessageToRbcReady(EURORADIO.CurrentRBCConnection())</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="aeca0d65-1fde-41db-a827-19ebff8bf7d4"
@@ -387,7 +387,7 @@ TO_RBC =&gt; CreateMessageToRbcMessage(EURORADIO.CurrentRBCConnection(), EURORAD
  Guid="f5f5fe71-29ba-4927-b45c-fd8ea8e75cca"
 >INSERT Messages.JRU.MESSAGE.Message
 {
-  DRIVER_S_ACTIONS =&gt; JRU.CreateDriversActionsMessage(THIS)
+  DRIVER_S_ACTIONS =&gt; CreateDriversActionsMessage(THIS)
 }
 IN
   JRUMessages</Action></Actions>
@@ -508,7 +508,7 @@ JRUMessages</Action></Actions>
  Guid="150a90b0-b2c6-4fbb-b954-89ad9a224e09"
 >INSERT Messages.JRU.MESSAGE.Message
 {
-  DMI_SYSTEM_STATUS_MESSAGE =&gt; JRU.CreateDMISystemStatusMessage()
+  DMI_SYSTEM_STATUS_MESSAGE =&gt; CreateDMISystemStatusMessage()
 }
 IN
   JRUMessages</Action></Actions>
@@ -613,7 +613,7 @@ NTC_SELECTED =&gt; CreateNtcSelectedMessage()
 <PreConditions>
 <PreCondition
  Guid="6149369f-d154-4348-a74b-b0f2bc89ff3b"
->JRU.SendSleepingInput(
+>SendSleepingInput(
     jru=&gt;THIS
 )</PreCondition></PreConditions>
 <Actions>
@@ -882,14 +882,14 @@ ADDITIONAL_BRAKE_STATUS =&gt; CreateAditionalBrakeStatusMessage()
 <PreConditions>
 <PreCondition
  Guid="7d3e988c-03a6-40fc-87ff-eef88ae4b560"
->JRU.SendCabStatusMessage(
+>SendCabStatusMessage(
     jru=&gt;THIS
 )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="1e0810d8-3803-4205-b78d-db639f49c094"
 >INSERT Messages.JRU.MESSAGE.Message {
-CAB_STATUS =&gt; JRU.CreateCabStatusJruMessage()
+CAB_STATUS =&gt; CreateCabStatusJruMessage()
 } IN JRUMessages</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
@@ -920,14 +920,14 @@ CAB_STATUS =&gt; JRU.CreateCabStatusJruMessage()
 <PreConditions>
 <PreCondition
  Guid="b9b57d4e-ca25-4110-a5ca-96b2ea9e0256"
->JRU.SendTrainDirectionControllerMessage(
+>SendTrainDirectionControllerMessage(
     jru=&gt;THIS
 )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="735a84c2-e94c-467f-9d11-757a9d892b0c"
 >INSERT Messages.JRU.MESSAGE.Message {
- DIRECTION_CONTROLLER_POSITION=&gt; JRU.CreateDirectionControllerPositionJruMessage()
+ DIRECTION_CONTROLLER_POSITION=&gt; CreateDirectionControllerPositionJruMessage()
 } IN JRUMessages</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
@@ -953,14 +953,14 @@ CAB_STATUS =&gt; JRU.CreateCabStatusJruMessage()
 <PreConditions>
 <PreCondition
  Guid="7507ddd7-d0ac-4aaf-a486-1c49b868ed83"
->JRU.SendTractionStatusMessage(
+>SendTractionStatusMessage(
     jru=&gt;THIS
 )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="5c69cf29-bce1-4a15-94be-bfc6ffadfc0c"
 >INSERT Messages.JRU.MESSAGE.Message {
- TRACTION_STATUS=&gt; JRU.CreateTractionStatusMessage()
+ TRACTION_STATUS=&gt; CreateTractionStatusMessage()
 } IN JRUMessages</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
@@ -996,7 +996,7 @@ CAB_STATUS =&gt; JRU.CreateCabStatusJruMessage()
 <Action
  Guid="8ebcca6e-ab8e-426c-9a8c-69670da14009"
 >INSERT Messages.JRU.MESSAGE.Message {
- TYPE_OF_TRAIN_DATA_ENTRY=&gt; JRU.CreateTrainDataEntryMessage()
+ TYPE_OF_TRAIN_DATA_ENTRY=&gt; CreateTrainDataEntryMessage()
 } IN JRUMessages</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
@@ -1310,7 +1310,7 @@ IN JRUMessages</Action></Actions>
 <Actions>
 <Action
  Guid="1dd375f4-1c36-44bc-8f3f-fbd3204b191e"
->JRU.JRU1.PreviousTime &lt;- Kernel.DateAndTime.CurrentTime</Action></Actions>
+>JRU1.PreviousTime &lt;- Kernel.DateAndTime.CurrentTime</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>

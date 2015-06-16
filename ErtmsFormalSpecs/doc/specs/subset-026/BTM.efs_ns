@@ -52,7 +52,7 @@
 <Comment>The identity number of the LRBG.</Comment>
 </StructureElement><StructureElement
  TypeName="Default.Orientation"
- Default="Orientation.Unknown"
+ Default="Default.Orientation.Unknown"
  Mode="Internal"
  Implemented="TRUE"
  Name="Orientation"
@@ -525,7 +525,7 @@ b) is just a placeholder for a missed balise.</Comment>
  Name="Always"
  Guid="d615b552-1523-4e37-9f1f-bfd4a9de8af3"
 >
-<Expression>BTM.Position
+<Expression>Position
 {
   OverReadingAmountOdo =&gt; Odometry.Accuracy.D_ora,
   Position =&gt; Odometry.NominalDistance,
@@ -3797,7 +3797,7 @@ The list is updated in case two LRBGs provide the same MRSP, this should count a
 <Actions>
 <Action
  Guid="0ed7fcdc-0c4d-4e64-b329-3a748a11b5b8"
->LRBG &lt;- BTM.BaliseGroupStruct
+>LRBG &lt;- BaliseGroupStruct
 {
   Timestamp =&gt; BGLocationReference.Timestamp,
   NID =&gt; Nid_BG,
@@ -4101,7 +4101,7 @@ If all the messages of the current balise group have been received, calls Handle
 <Actions>
 <Action
  Guid="97fe5801-fbb2-4588-b755-7418c4969256"
->BGLocationReference &lt;- BTM.LocationReferenceStruct{
+>BGLocationReference &lt;- LocationReferenceStruct{
     Position =&gt; PositionFromOdometry(),
     Timestamp =&gt; Kernel.DateAndTime.Now()
 }</Action></Actions>
@@ -4577,9 +4577,9 @@ The parameter DistanceFromLRBG is needed for the case when the handled BG will b
 >HandleNewLRBG(BG_To_LRBG(Nid_BG =&gt; Message.NID_BG), DistanceFromLRBG =&gt; DistanceFromLRBG)</Action><Action
  Guid="eec330f2-bae4-4027-998f-3bed4d222121"
 >INSERT
-  BTM.PreviousBaliseGroupStruct
+  PreviousBaliseGroupStruct
   {
-      BaliseGroup =&gt; BTM.BaliseGroupStruct
+      BaliseGroup =&gt; BaliseGroupStruct
       {
           Position =&gt; BGLocationReference.Position,
           NID =&gt; Message.NID_BG,
@@ -4612,9 +4612,9 @@ The parameter DistanceFromLRBG is needed for the case when the handled BG will b
 >HandleUnlinkedBG(Message)</Action><Action
  Guid="e0d92db1-ce43-4385-ae52-42c474a91e91"
 >INSERT
-  BTM.PreviousBaliseGroupStruct
+  PreviousBaliseGroupStruct
   {
-      BaliseGroup =&gt; BTM.BaliseGroupStruct
+      BaliseGroup =&gt; BaliseGroupStruct
       {
           Position =&gt; BGLocationReference.Position,
           NID =&gt; Message.NID_BG,
@@ -4638,9 +4638,9 @@ The parameter DistanceFromLRBG is needed for the case when the handled BG will b
 <Action
  Guid="a0a2bd8f-ac0c-44b6-aa24-93d5263d8371"
 >INSERT
-  BTM.PreviousBaliseGroupStruct
+  PreviousBaliseGroupStruct
   {
-      BaliseGroup =&gt; BTM.BaliseGroupStruct
+      BaliseGroup =&gt; BaliseGroupStruct
       {
           Position =&gt; BGLocationReference.Position,
           NID =&gt; Message.NID_BG,

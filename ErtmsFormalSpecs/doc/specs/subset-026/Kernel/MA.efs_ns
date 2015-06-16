@@ -789,10 +789,10 @@ INITIAL_VALUE CreateTarget (
 <PreCondition
  Guid="0a772204-e922-463b-8a9a-6a03d5ca620b"
 >ERTMSSection.Q_SECTIONTIMER == Messages.Q_SECTIONTIMER.Section_Timer_information_to_follow</PreCondition></PreConditions>
-<Expression>Kernel.MA.SectionStruct
+<Expression>SectionStruct
 {
     Length =&gt; MessageTypes.QScaleLength ( length =&gt; ERTMSSection.L_SECTION, scale =&gt; Scale),
-    TimeOut =&gt;Kernel.MA.MATimers.TimeOut
+    TimeOut =&gt;MATimers.TimeOut
     {
         Distance =&gt; MessageTypes.QScaleDistance ( distance =&gt; ERTMSSection.D_SECTIONTIMERSTOPLOC, scale =&gt; Scale ),
         TimeOut =&gt; BaseTypes.Time ( ERTMSSection.T_SECTIONTIMER ),
@@ -807,7 +807,7 @@ INITIAL_VALUE CreateTarget (
 <PreCondition
  Guid="8fdfbf3a-d43f-4049-9248-8a65ef1a013f"
 >ERTMSSection.Q_SECTIONTIMER == Messages.Q_SECTIONTIMER.No_Section_Timer_information</PreCondition></PreConditions>
-<Expression>Kernel.MA.SectionStruct
+<Expression>SectionStruct
 {
     Length =&gt; MessageTypes.QScaleLength ( length =&gt; ERTMSSection.L_SECTION, scale =&gt; Scale),
     TimeOut =&gt; EMPTY
@@ -1003,7 +1003,7 @@ INITIAL_VALUE CreateTarget (
 <PreConditions>
 <PreCondition
  Guid="882879c9-2057-45f9-afa8-3b11d5abd62a"
->Kernel.Level.Value.Value == Level.L1</PreCondition><PreCondition
+>Level.Value.Value == Default.Level.L1</PreCondition><PreCondition
  Guid="10848d71-717a-4061-bb58-ba05a566ffb4"
 >SignallingRelatedSpeedRestriction.End == BaseTypes.Distance.Unknown
   OR
@@ -1457,7 +1457,7 @@ INITIAL_VALUE CreateTarget (
 >AbsoluteDistance ( aSection ) &lt; InfillDistance</PreCondition><PreCondition
  Guid="0b67ce90-36ac-48f6-a81a-77307bf2b355"
 >InfillDistance &lt; AbsoluteDistance ( aSection ) + BaseTypes.LengthToDistance  ( aSection.Length )</PreCondition></PreConditions>
-<Expression>Kernel.MA.SectionStruct
+<Expression>SectionStruct
 {
     Length =&gt; BaseTypes.LengthToDistance ( InfillDistance - AbsoluteDistance ( aSection ) ),
     TimeOut =&gt; aSection.TimeOut
@@ -1670,7 +1670,7 @@ USING X IN
 <PreConditions>
 <PreCondition
  Guid="df6aa353-159b-4d1e-aab6-259ec49faed8"
->Mode == Mode.TR</PreCondition></PreConditions>
+>Mode == Default.Mode.TR</PreCondition></PreConditions>
 <Expression>Boolean.False</Expression>
 </Case><Case
  Name="Otherwise"
@@ -1681,7 +1681,7 @@ USING X IN
   (
     Infill.Data != EMPTY
       AND
-    Kernel.Mode in [ Mode.FS, Mode.LS ] 
+    Mode in [ Default.Mode.FS, Default.Mode.LS ] 
       AND
     BTM.Linking.DistanceToBaliseGroup ( Infill.Data.NID_BG ) != BaseTypes.Distance.Unknown
   )</Expression>
@@ -2031,7 +2031,7 @@ This is used for when a new reference location is received and the MA is relocat
     aSection=&gt;aSection,
     Distance=&gt;Distance
 )</PreCondition></PreConditions>
-<Expression>Kernel.MA.SectionStruct{
+<Expression>SectionStruct{
     Length =&gt; aSection.Length - BaseTypes.DistanceToLength ( Distance - SectionStartLocation(aSection) ),
     TimeOut =&gt; aSection.TimeOut
 }</Expression>
@@ -2078,9 +2078,9 @@ This is used for when a new reference location is received and the MA is relocat
 <PreConditions>
 <PreCondition
  Guid="f924c4c6-4cde-4b20-af66-c70d48f076d4"
->Kernel.TrackDescription.StaticSpeedProfile.SSP == []
+>TrackDescription.StaticSpeedProfile.SSP == []
   OR
-Kernel.TrackDescription.StaticSpeedProfile.SSPEnd ( Current =&gt; LAST X IN Kernel.TrackDescription.StaticSpeedProfile.SSP )
+TrackDescription.StaticSpeedProfile.SSPEnd ( Current =&gt; LAST X IN TrackDescription.StaticSpeedProfile.SSP )
   &lt; 
 BaseTypes.LengthToDistance( aDistanceInterval )</PreCondition></PreConditions>
 <Expression>False</Expression>
@@ -2091,9 +2091,9 @@ BaseTypes.LengthToDistance( aDistanceInterval )</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="7a11d20e-5b84-4027-b9dc-cdcb8e629093"
->Kernel.TrackDescription.Gradient.Gradients == []
+>TrackDescription.Gradient.Gradients == []
   OR
-Kernel.TrackDescription.Gradient.GradientEnd(Current =&gt; LAST X IN Kernel.TrackDescription.Gradient.Gradients)
+TrackDescription.Gradient.GradientEnd(Current =&gt; LAST X IN TrackDescription.Gradient.Gradients)
   &lt;
 BaseTypes.LengthToDistance ( aDistanceInterval )</PreCondition></PreConditions>
 <Expression>False</Expression>
@@ -2516,7 +2516,7 @@ SvL() != EMPTY</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="0dab86fc-3cea-42d4-a180-592e92f08cc4"
->ShorteningHandler &lt;- Kernel.MA.MaShorteningHandlerStruct
+>ShorteningHandler &lt;- MaShorteningHandlerStruct
 {
     Location =&gt; SvL().Location,
     IsSvL =&gt; True
@@ -2534,7 +2534,7 @@ SvL() != EMPTY</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="2da3de98-5d2c-4ec0-ab71-2dcfd1efb4f5"
->ShorteningHandler &lt;- Kernel.MA.MaShorteningHandlerStruct
+>ShorteningHandler &lt;- MaShorteningHandlerStruct
 {
     Location =&gt; BaseTypes.Distance.Unknown,
     IsSvL =&gt; False
@@ -2598,7 +2598,7 @@ SvL() != EMPTY</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="5b63b2df-359c-4b16-a541-ccc42b459fce"
->MA &lt;- Kernel.MA.MAStruct
+>MA &lt;- MAStruct
 {
     TargetSpeed =&gt; MessageTypes.SpeedResolution ( Packet.V_LOA, 5.0 ),
     TargetSpeedTimeOut =&gt; BaseTypes.Time ( Packet.T_LOA )
@@ -2657,7 +2657,7 @@ SvL() != EMPTY</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="1e6e687c-5882-4108-bab0-9fc4a8b43011"
->Kernel.Infill.Data != EMPTY</PreCondition></PreConditions>
+>Infill.Data != EMPTY</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="72e4e499-b2a3-4def-8b72-ed0903b42191"
@@ -2917,7 +2917,7 @@ In this case, the EOA should be moved to the train&apos;s current position with 
 <Actions>
 <Action
  Guid="87500986-c033-4c28-8541-ba9f21d938cd"
->MA.EndSection.EndSectionTimeOut &lt;- Kernel.MA.MATimers.TimeOut
+>MA.EndSection.EndSectionTimeOut &lt;- MATimers.TimeOut
 {
     Distance =&gt; MessageTypes.QScaleDistance ( distance =&gt; Packet.D_ENDTIMERSTARTLOC, scale =&gt; Packet.Q_SCALE ),
     TimeOut =&gt; BaseTypes.Time( Packet.T_ENDTIMER )
@@ -2982,7 +2982,7 @@ In this case, the EOA should be moved to the train&apos;s current position with 
 <Actions>
 <Action
  Guid="accafb31-0bfe-4626-8086-677db8bffb6e"
->MA.EndSection.TimeOut &lt;- Kernel.MA.MATimers.TimeOut
+>MA.EndSection.TimeOut &lt;- MATimers.TimeOut
 {
     Distance =&gt; MessageTypes.QScaleDistance ( distance =&gt; Packet.D_SECTIONTIMERSTOPLOC, scale =&gt; Packet.Q_SCALE ),
     TimeOut =&gt; BaseTypes.Time ( Packet.T_SECTIONTIMER )
@@ -3057,7 +3057,7 @@ In this case, the EOA should be moved to the train&apos;s current position with 
 <Actions>
 <Action
  Guid="97964995-0ab1-4bb4-93bc-94059d238ec4"
->MA.EndSection.DangerPoint &lt;- Kernel.MA.DangerPointStruct
+>MA.EndSection.DangerPoint &lt;- DangerPointStruct
 {
     Distance =&gt; MessageTypes.QScaleDistance ( distance =&gt; Packet.D_DP, scale =&gt; Packet.Q_SCALE ),
     ReleaseSpeed =&gt; CreateReleaseSpeed ( Packet.V_RELEASEDP )
@@ -3142,7 +3142,7 @@ In this case, the EOA should be moved to the train&apos;s current position with 
 <Actions>
 <Action
  Guid="1c3b0bf9-cffa-411d-98f9-5d356a986aa2"
->MA.EndSection.Overlap &lt;- Kernel.MA.OverlapStruct
+>MA.EndSection.Overlap &lt;- OverlapStruct
 {
     Distance =&gt; MessageTypes.QScaleDistance ( distance =&gt; Packet.D_OL, scale =&gt; Packet.Q_SCALE ),
     ReleaseSpeed =&gt; CreateReleaseSpeed ( Packet.V_RELEASEOL ),
@@ -3752,11 +3752,11 @@ IN EOAs</Action><Action
 <PreConditions>
 <PreCondition
  Guid="7c58a301-5e31-4d0c-91de-e2e64df6d1f7"
->MA.MA.EndSection.EndSectionTimeOut != EMPTY
+>MA.EndSection.EndSectionTimeOut != EMPTY
   AND
-MA.MATimers.EndSectionTimerStart != BaseTypes.Time.NA
+MATimers.EndSectionTimerStart != BaseTypes.Time.NA
   AND  
-(DateAndTime.CurrentTime &gt; MATimers.EndSectionTimerStart + MA.MA.EndSection.EndSectionTimeOut.TimeOut)</PreCondition></PreConditions>
+(DateAndTime.CurrentTime &gt; MATimers.EndSectionTimerStart + MA.EndSection.EndSectionTimeOut.TimeOut)</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="87845b6e-e345-4f5d-b307-e656fca337bb"
@@ -4454,7 +4454,7 @@ SvL().Location &lt; ShorteningHandler.Location</PreCondition></PreConditions>
 <Action
  Guid="7fb541c1-0d75-45be-a1ef-915b09be7db9"
 >INSERT
-Kernel.MA.SectionStruct
+SectionStruct
 {
     Length =&gt; MA.EndSection.Length,
     TimeOut =&gt; MA.EndSection.TimeOut

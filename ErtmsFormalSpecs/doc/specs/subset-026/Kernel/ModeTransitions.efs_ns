@@ -53,7 +53,7 @@
 >
 <Expression>TrainPosition.Position.DataState == DataState.Valid AND
   MA.ClosestEOA().Location &lt;= BTM.AntennaPosition ( DistanceInterval.Min ) AND
-  Kernel.Level.Value.Value == Level.L1</Expression>
+  Level.Value.Value == Default.Level.L1</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -191,7 +191,7 @@ NOT MA.ModeProfile.ModeProfileIsApplicable()</Expression>
 >
 <Expression>TrainPosition.Position.DataState == DataState.Valid AND
   MA.ClosestEOA().Location &lt;= TrainPosition.FrontEndPosition ( DistanceInterval.Min ) AND
-  Kernel.Level.Value.Value in [Level.L2, Level.L3]</Expression>
+  Level.Value.Value in [Default.Level.L2, Default.Level.L3]</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -372,13 +372,13 @@ DMI.DesksAreClosed()</Expression>
 >
 <Expression>MA.ModeProfile.ModeProfileIsApplicable()
   AND
-MA.ModeProfile.CurrentMode() == Mode.ModeProfile.OS
+MA.ModeProfile.CurrentMode() == Default.Mode.ModeProfile.OS
   AND
 NOT
   (
-    ( FIRST X IN MA.ModeProfile.Profile | X.Mode == Mode.ModeProfile.LS ) == EMPTY
+    ( FIRST X IN MA.ModeProfile.Profile | X.Mode == Default.Mode.ModeProfile.LS ) == EMPTY
       OR
-    MA.ModeProfile.AcknAreaReached ( FIRST X IN MA.ModeProfile.Profile | X.Mode == Mode.ModeProfile.LS )
+    MA.ModeProfile.AcknAreaReached ( FIRST X IN MA.ModeProfile.Profile | X.Mode == Default.Mode.ModeProfile.LS )
   )</Expression>
 </Case></Cases>
 </Function><Function
@@ -582,7 +582,7 @@ DMI.MasterDMI().In_AcknOfSRMode.InputInformation.DriverAnswered</Expression>
 <Comment>The condition &quot;driver selects Shunting&quot; is satisfied by the state machine HandleModeChange being in the state ShuntingInitiatedByDriver, since it is only possible to enter that state if the driver selects shunting.</Comment>
 <Expression>HandleModeChange in HandleModeChangeSM.ShuntingInitiatedByDriver.D020
   AND
-Level.Value.Value in [Level.L0, Level.LNTC, Level.L1]</Expression>
+Level.Value.Value in [Default.Level.L0, Default.Level.LNTC, Default.Level.L1]</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -623,7 +623,7 @@ Level.Value.Value in [Level.L0, Level.LNTC, Level.L1]</Expression>
 <Comment>The condition &quot;driver selects Shunting&quot; is satisfied by the state machine HandleModeChange being in the state ShuntingInitiatedByDriver, since it is only possible to enter that state if the driver selects shunting.</Comment>
 <Expression>HandleModeChange in HandleModeChangeSM.ShuntingInitiatedByDriver.S050
   AND
-Level.Value.Value in [Level.L2, Level.L3]
+Level.Value.Value in [Default.Level.L2, Default.Level.L3]
   AND  
 Available ( EURORADIO.CurrentRBCConnection().MessageIn.Message.SH_AUTHORISED )</Expression>
 </Case></Cases>
@@ -768,7 +768,7 @@ HandleModeChange not in HandleModeChangeSM.Override</Expression>
 >
 <Expression>HandleModeChange in HandleModeChangeSM.Override
   AND  
-Level.Value.Value == Level.L1</Expression>
+Level.Value.Value == Default.Level.L1</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -890,7 +890,7 @@ TIU.NonLeadingPermitted</Expression>
   AND  
 NOT THERE_IS EmergencyStop IN EmergencyStops | (NOT EmergencyStop.IsConditional)
   AND  
-Level.Value.Value in [Level.L2, Level.L3]</Expression>
+Level.Value.Value in [Default.Level.L2, Default.Level.L3]</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -945,7 +945,7 @@ Level.Value.Value in [Level.L2, Level.L3]</Expression>
 >
 <Expression>MA.ModeProfile.ModeProfileIsApplicable()
   AND
-MA.ModeProfile.CurrentMode() == Mode.ModeProfile.SH</Expression>
+MA.ModeProfile.CurrentMode() == Default.Mode.ModeProfile.SH</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -995,9 +995,9 @@ MA.ModeProfile.CurrentMode() == Mode.ModeProfile.SH</Expression>
 >
 <Expression>MA.ModeProfile.ModeProfileIsApplicable()
   AND
-MA.ModeProfile.CurrentMode() == Mode.ModeProfile.SH
+MA.ModeProfile.CurrentMode() == Default.Mode.ModeProfile.SH
   AND
-Level.Value.Value in [Level.L1, Level.L2, Level.L3]</Expression>
+Level.Value.Value in [Default.Level.L1, Default.Level.L2, Default.Level.L3]</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -1050,7 +1050,7 @@ Level.Value.Value in [Level.L1, Level.L2, Level.L3]</Expression>
  Name="Value"
  Guid="ec0576c6-5e8d-4205-8a1a-5c5ee771fd68"
 >
-<Expression>Level.Value.Value == Level.LNTC</Expression>
+<Expression>Level.Value.Value == Default.Level.LNTC</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -1322,7 +1322,7 @@ HandleModeChange not in HandleModeChangeSM.Override</Expression>
  Name="Value"
  Guid="e1e5a254-55f8-496c-8269-0f2331f0b6f2"
 >
-<Expression>Kernel.Level.Value.Value in [Level.L1, Level.L2, Level.L3]
+<Expression>Level.Value.Value in [Default.Level.L1, Default.Level.L2, Default.Level.L3]
   AND
 Available ( MA.MA )
   AND
@@ -1531,7 +1531,7 @@ TIU.PassiveShuntingPermitted</Expression>
  Name="Value"
  Guid="59d96538-41f7-4367-8877-a4782790499e"
 >
-<Expression>Kernel.SpeedAndDistanceMonitoring.TrainTripped
+<Expression>SpeedAndDistanceMonitoring.TrainTripped
   AND  
 HandleModeChange not in HandleModeChangeSM.Override</Expression>
 </Case></Cases>
@@ -1640,7 +1640,7 @@ Shunting.StopShuntingOnDeskOpening</Expression>
  Name="Value"
  Guid="352b596a-a555-4dcb-8e37-9775c7755e6a"
 >
-<Expression>Kernel.Level.Value.Value == Level.L0</Expression>
+<Expression>Level.Value.Value == Default.Level.L0</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -1883,7 +1883,7 @@ HandleModeChange not in HandleModeChangeSM.Override</Expression>
   AND
 MA.ModeProfile.ModeProfileIsApplicable()
   AND
-MA.ModeProfile.CurrentMode() == Mode.ModeProfile.OS</Expression>
+MA.ModeProfile.CurrentMode() == Default.Mode.ModeProfile.OS</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -1921,7 +1921,7 @@ MA.ModeProfile.CurrentMode() == Mode.ModeProfile.OS</Expression>
  Name="Value"
  Guid="9f989227-1a5b-40c0-bdc9-f6354a483985"
 >
-<Expression>Level.Value.Value in [Level.L1, Level.L2, Level.L3]
+<Expression>Level.Value.Value in [Default.Level.L1, Default.Level.L2, Default.Level.L3]
   AND
 MA.MA == EMPTY</Expression>
 </Case></Cases>
@@ -1989,7 +1989,7 @@ TrackDescription.Gradient.Gradients != []
   AND
 NOT MA.ModeProfile.ModeProfileIsApplicable()
   AND
-Level.Value.Value == Level.L1
+Level.Value.Value == Default.Level.L1
   AND
 SpeedAndDistanceMonitoring.TrainTripped == False</Expression>
 </Case></Cases>
@@ -2057,7 +2057,7 @@ TrackDescription.Gradient.Gradients != []
   AND
 NOT MA.ModeProfile.ModeProfileIsApplicable()
   AND
-Level.Value.Value in [Level.L2, Level.L3]</Expression>
+Level.Value.Value in [Default.Level.L2, Default.Level.L3]</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -2171,7 +2171,7 @@ NOT TIU.PassiveShuntingPermitted</Expression>
   AND
 MA.ModeProfile.ModeProfileIsApplicable()
   AND
-MA.ModeProfile.CurrentMode() == Mode.ModeProfile.OS</Expression>
+MA.ModeProfile.CurrentMode() == Default.Mode.ModeProfile.OS</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -2387,7 +2387,7 @@ NOT (TrackDescription.Gradient.GradientProfileStart() &lt;= TrainPosition.FrontE
 >
 <Expression>MA.ModeProfile.ModeProfileIsApplicable()
   AND
-MA.ModeProfile.CurrentMode() == Mode.ModeProfile.LS</Expression>
+MA.ModeProfile.CurrentMode() == Default.Mode.ModeProfile.LS</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -2437,9 +2437,9 @@ MA.ModeProfile.CurrentMode() == Mode.ModeProfile.LS</Expression>
 >
 <Expression>MA.ModeProfile.ModeProfileIsApplicable()
   AND
-MA.ModeProfile.CurrentMode() == Mode.ModeProfile.LS
+MA.ModeProfile.CurrentMode() == Default.Mode.ModeProfile.LS
   AND
-Level.Value.Value in [Level.L1, Level.L2, Level.L3]</Expression>
+Level.Value.Value in [Default.Level.L1, Default.Level.L2, Default.Level.L3]</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -2577,7 +2577,7 @@ BTM.CurrentBaliseGroup != []
  Name="Value"
  Guid="254a42ce-42ff-4bfa-bb57-6311a6aca2a6"
 >
-<Expression>Level.Value.Value == Level.L1
+<Expression>Level.Value.Value == Default.Level.L1
   AND  
 THERE_IS EmergencyStop IN EmergencyStops
   AND  
@@ -2674,13 +2674,13 @@ HandleModeChange not in HandleModeChangeSM.Override</Expression>
 >
 <Expression>MA.ModeProfile.ModeProfileIsApplicable()
   AND
-MA.ModeProfile.CurrentMode() == Mode.ModeProfile.LS
+MA.ModeProfile.CurrentMode() == Default.Mode.ModeProfile.LS
   AND
 NOT
   (
-    ( FIRST X IN MA.ModeProfile.Profile | X.Mode == Mode.ModeProfile.OS ) == EMPTY
+    ( FIRST X IN MA.ModeProfile.Profile | X.Mode == Default.Mode.ModeProfile.OS ) == EMPTY
       OR
-    MA.ModeProfile.AcknAreaReached ( FIRST X IN MA.ModeProfile.Profile | X.Mode == Mode.ModeProfile.OS )
+    MA.ModeProfile.AcknAreaReached ( FIRST X IN MA.ModeProfile.Profile | X.Mode == Default.Mode.ModeProfile.OS )
   )</Expression>
 </Case></Cases>
 </Function><Function
@@ -2888,7 +2888,7 @@ NOT MA.ModeProfile.ModeProfileIsApplicable()</Expression>
 >
 <Expression>HandleModeChange in HandleModeChangeSM.TrainTrip
   AND
-Level.Value.Value in [Level.L2, Level.L3]
+Level.Value.Value in [Default.Level.L2, Default.Level.L3]
   AND
 DMI.MasterDMI().In_OverrideRequest.InputInformation.DriverAnswered</Expression>
 </Case></Cases>
@@ -3198,7 +3198,7 @@ TIU.NonLeadingPermitted</Expression>
 <PreConditions>
 <PreCondition
  Guid="637c50bc-03df-4996-ae13-ed0ee66f0cf7"
->Mode == Mode.NP</PreCondition></PreConditions>
+>Mode == Default.Mode.NP</PreCondition></PreConditions>
 <Actions>
 </Actions>
 <SubRules>
@@ -3228,7 +3228,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="82e077d0-e74d-42db-84e2-99fd0141f0f2"
->Mode &lt;- Mode.IS</Action></Actions>
+>Mode &lt;- Default.Mode.IS</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="NP -&gt; SB"
@@ -3256,7 +3256,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="ee94747a-9874-4e1b-b90d-a6cd463f4bb5"
->Mode &lt;- Mode.SB</Action><Action
+>Mode &lt;- Default.Mode.SB</Action><Action
  Guid="c1fa9ed0-f8e5-4c64-9aae-544df9ed2468"
 >EURORADIO.RegisterMobileTerminals ( EURORADIO.LastKnownNetworkId )</Action></Actions>
 </RuleCondition></Conditions>
@@ -3270,7 +3270,7 @@ TIU.NonLeadingPermitted</Expression>
 <PreConditions>
 <PreCondition
  Guid="8a69d0e4-714f-41a4-ab4a-0bffeaf5ccd0"
->Mode == Mode.SB</PreCondition></PreConditions>
+>Mode == Default.Mode.SB</PreCondition></PreConditions>
 <Actions>
 </Actions>
 <SubRules>
@@ -3299,7 +3299,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="7ef4304a-4034-4ac7-8536-469d48e5a312"
->Mode &lt;- Mode.IS</Action></Actions>
+>Mode &lt;- Default.Mode.IS</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="SB -&gt; NP"
@@ -3317,7 +3317,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="e7bd4475-61c5-4f4b-a7e8-8101e0880733"
->Mode &lt;- Mode.NP</Action></Actions>
+>Mode &lt;- Default.Mode.NP</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="SB -&gt; SF"
@@ -3335,7 +3335,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="45a2ff52-2b54-4d61-87fd-d0860cf6ad87"
->Mode &lt;- Mode.SF</Action></Actions>
+>Mode &lt;- Default.Mode.SF</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="SB -&gt; TR"
@@ -3363,7 +3363,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="6bd2c59a-d001-444e-abad-375c759f1a6c"
->Mode &lt;- Mode.TR</Action><Action
+>Mode &lt;- Default.Mode.TR</Action><Action
  Guid="742fe7d2-5e50-49c4-b328-8c87d39a2fc6"
 >HandleModeChange &lt;- HandleModeChangeSM.TrainTrip</Action></Actions>
 </RuleCondition><RuleCondition
@@ -3393,7 +3393,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="42130fe9-d7c2-4872-abf1-9727683463c3"
->Mode &lt;- Mode.SL</Action></Actions>
+>Mode &lt;- Default.Mode.SL</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="SB -&gt; NL"
@@ -3436,7 +3436,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="b9f02acb-1a57-4aa3-9132-d976eb86917a"
->Mode &lt;- Mode.NL</Action><Action
+>Mode &lt;- Default.Mode.NL</Action><Action
  Guid="0d16166b-3f10-4b18-a85c-80fba29cabd5"
 >DMI.MasterDMI().In_NonLeadingRequest.InputInformation.Disable()</Action><Action
  Guid="3a19531c-605b-4225-bdff-76d2aaedf965"
@@ -3538,7 +3538,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="c2085532-7c0c-4943-82b1-3a68ddc99512"
->Mode &lt;- Mode.SH</Action></Actions>
+>Mode &lt;- Default.Mode.SH</Action></Actions>
 <SubRules>
 <Rule
  Priority="Processing"
@@ -3590,7 +3590,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="42a694d7-6181-4d08-aa1c-ffe35a05f9d6"
->Mode &lt;- Mode.FS</Action><Action
+>Mode &lt;- Default.Mode.FS</Action><Action
  Guid="40b8d473-3d7c-439d-bab1-c6ce77e33b98"
 >MissionIsOnGoing &lt;- True</Action></Actions>
 </RuleCondition><RuleCondition
@@ -3625,7 +3625,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="9a2e9fbb-f744-4591-8852-5f86807195b1"
->Mode &lt;- Mode.LS</Action><Action
+>Mode &lt;- Default.Mode.LS</Action><Action
  Guid="87dcd821-f086-414d-8c36-65fd3564a7ec"
 >MissionIsOnGoing &lt;- True</Action><Action
  Guid="26961c38-f889-4f3d-b7a0-c8703bf9d31a"
@@ -3652,7 +3652,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="ec99669d-79ce-4749-a553-c2d81d00d837"
->Mode &lt;- Mode.SR</Action></Actions>
+>Mode &lt;- Default.Mode.SR</Action></Actions>
 <SubRules>
 <Rule
  Priority="Processing"
@@ -3756,7 +3756,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="f90ad43c-3a24-4329-9826-81c480d5f52b"
->Mode &lt;- Mode.OS</Action><Action
+>Mode &lt;- Default.Mode.OS</Action><Action
  Guid="edb51d2a-e7fa-4f50-948f-b930517328b7"
 >DMI.MasterDMI().In_AcknOfOSMode.InputInformation.Disable()</Action><Action
  Guid="5d08e1db-7caa-444c-9127-90562a204aa2"
@@ -3788,7 +3788,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="7538c314-9121-4b7b-ab06-f821f7710269"
->Mode &lt;- Mode.UN</Action><Action
+>Mode &lt;- Default.Mode.UN</Action><Action
  Guid="2182ed1f-2929-4b59-919b-b99284d6b7ef"
 >DMI.MasterDMI().In_AcknOfUNMode.InputInformation.Disable()</Action><Action
  Guid="57bff81f-7c98-42f0-8b15-305f0d22b5d6"
@@ -3855,7 +3855,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="c5272313-c116-4ea2-a0f2-94d90d220f35"
->Mode &lt;- Mode.SN</Action><Action
+>Mode &lt;- Default.Mode.SN</Action><Action
  Guid="30193c8b-7c56-45af-9898-eb8838f13bcd"
 >DMI.MasterDMI().In_AcknOfSNMode.InputInformation.RequestStatus&lt;- Request.Disabled</Action><Action
  Guid="7e340a3b-c274-4e06-83cf-fe98531e8b62"
@@ -3907,7 +3907,7 @@ TIU.NonLeadingPermitted</Expression>
 <PreConditions>
 <PreCondition
  Guid="af53a8ee-eaca-4c79-a01d-85f3e0f2daa7"
->Mode == Mode.PS</PreCondition></PreConditions>
+>Mode == Default.Mode.PS</PreCondition></PreConditions>
 <Actions>
 </Actions>
 <SubRules>
@@ -3937,7 +3937,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="1deb49e4-46a1-44d2-8c09-8aeedb85a632"
->Mode &lt;- Mode.IS</Action></Actions>
+>Mode &lt;- Default.Mode.IS</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="PS -&gt; NP"
@@ -3955,7 +3955,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="4eebe104-8617-40a8-813c-fa8e0b054b94"
->Mode &lt;- Mode.NP</Action></Actions>
+>Mode &lt;- Default.Mode.NP</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="PS -&gt; SF"
@@ -3973,7 +3973,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="d557dfe1-8174-43e9-984a-77f06bc12f1e"
->Mode &lt;- Mode.SF</Action></Actions>
+>Mode &lt;- Default.Mode.SF</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="PS -&gt; SB"
@@ -3991,7 +3991,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="7e0e6a1c-b1fc-4558-9e80-92ce7bd95a91"
->Mode &lt;- Mode.SB</Action></Actions>
+>Mode &lt;- Default.Mode.SB</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="PS -&gt; SH"
@@ -4009,7 +4009,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="e1a55a0a-00e5-401a-923d-91c644f26142"
->Mode &lt;- Mode.SH</Action></Actions>
+>Mode &lt;- Default.Mode.SH</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="PS -&gt; SL"
@@ -4032,7 +4032,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="0c3b7701-d294-4cbe-9b23-b120ab1bf4ab"
->Mode &lt;- Mode.SL</Action><Action
+>Mode &lt;- Default.Mode.SL</Action><Action
  Guid="cdecfa16-06e3-4ee2-a9fb-13f92d29907d"
 >HandleModeChange &lt;- HandleModeChangeSM.EndOfMission</Action></Actions>
 </RuleCondition></Conditions>
@@ -4047,7 +4047,7 @@ TIU.NonLeadingPermitted</Expression>
 <PreConditions>
 <PreCondition
  Guid="e365c02c-bff3-45a5-8fea-b1b644fb7a9c"
->Mode == Mode.SH</PreCondition></PreConditions>
+>Mode == Default.Mode.SH</PreCondition></PreConditions>
 <Actions>
 </Actions>
 <SubRules>
@@ -4077,7 +4077,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="e1d7d77d-dab9-46fa-8f57-5739b41806da"
->Mode &lt;- Mode.IS</Action></Actions>
+>Mode &lt;- Default.Mode.IS</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="SH -&gt; NP"
@@ -4095,7 +4095,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="6bd4436d-b109-4afa-b427-3905a431dbb4"
->Mode &lt;- Mode.NP</Action></Actions>
+>Mode &lt;- Default.Mode.NP</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="SH -&gt; SF"
@@ -4113,7 +4113,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="4ca105b6-0e36-4b2f-a2bb-b93c1738a4d2"
->Mode &lt;- Mode.SF</Action></Actions>
+>Mode &lt;- Default.Mode.SF</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="SH -&gt; TR"
@@ -4136,7 +4136,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="6aa2cd3b-3475-4776-8e2b-42601bdef416"
->Mode &lt;- Mode.TR</Action><Action
+>Mode &lt;- Default.Mode.TR</Action><Action
  Guid="1792e4b9-7ba6-469d-8ed1-6b648d805376"
 >HandleModeChange &lt;- HandleModeChangeSM.TrainTrip</Action></Actions>
 </RuleCondition><RuleCondition
@@ -4156,7 +4156,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="34e4fa64-d835-49f0-a949-a4e46ac3ae52"
->Mode &lt;- Mode.SB</Action></Actions>
+>Mode &lt;- Default.Mode.SB</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="SH -&gt; PS"
@@ -4174,7 +4174,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="2a3a6a88-5726-4389-8d8d-65130efa0e60"
->Mode &lt;- Mode.PS</Action></Actions>
+>Mode &lt;- Default.Mode.PS</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="SH -&gt; NL"
@@ -4192,7 +4192,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="b80cc54e-8c7b-4ffa-83f6-6a3726117f50"
->Mode &lt;- Mode.NL</Action></Actions>
+>Mode &lt;- Default.Mode.NL</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition><RuleCondition
@@ -4205,7 +4205,7 @@ TIU.NonLeadingPermitted</Expression>
 <PreConditions>
 <PreCondition
  Guid="36e7f05f-671b-4eb0-bdbc-ae2ca938a6af"
->Mode == Mode.FS</PreCondition></PreConditions>
+>Mode == Default.Mode.FS</PreCondition></PreConditions>
 <Actions>
 </Actions>
 <SubRules>
@@ -4235,7 +4235,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="5cfe8754-edf7-4d29-9e2d-fb0c97e4c9ca"
->Mode &lt;- Mode.IS</Action></Actions>
+>Mode &lt;- Default.Mode.IS</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="FS -&gt; NP"
@@ -4253,7 +4253,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="bd565579-add2-4686-8aec-19d9a432c130"
->Mode &lt;- Mode.NP</Action></Actions>
+>Mode &lt;- Default.Mode.NP</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="FS -&gt; SF"
@@ -4271,7 +4271,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="6984560d-3165-437e-8831-30773bb71fe2"
->Mode &lt;- Mode.SF</Action></Actions>
+>Mode &lt;- Default.Mode.SF</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="FS -&gt; TR"
@@ -4314,7 +4314,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="98497e5d-445a-4bab-bbf4-b6400148078d"
->Mode &lt;- Mode.TR</Action><Action
+>Mode &lt;- Default.Mode.TR</Action><Action
  Guid="24c59973-f236-4d49-8e22-69740b3f5554"
 >HandleModeChange &lt;- HandleModeChangeSM.TrainTrip</Action></Actions>
 </RuleCondition><RuleCondition
@@ -4339,7 +4339,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="93e57994-cc6e-4359-ad2b-2447aead68fe"
->Mode &lt;- Mode.SB</Action><Action
+>Mode &lt;- Default.Mode.SB</Action><Action
  Guid="6869cc3f-9c83-4cad-a289-e7fe12ec9459"
 >HandleModeChange &lt;- HandleModeChangeSM.EndOfMission</Action></Actions>
 </RuleCondition><RuleCondition
@@ -4389,7 +4389,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="9fe0a95f-f89e-4f08-9e17-cb2bb00c610d"
->Mode &lt;- Mode.SH</Action><Action
+>Mode &lt;- Default.Mode.SH</Action><Action
  Guid="62c05706-a8e9-4700-baa8-e12085fcd574"
 >HandleModeChange &lt;- HandleModeChangeSM.EndOfMission</Action></Actions>
 <SubRules>
@@ -4469,7 +4469,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="8ed5d931-ad69-4b26-bae8-126c4719c5aa"
->Mode &lt;- Mode.LS</Action></Actions>
+>Mode &lt;- Default.Mode.LS</Action></Actions>
 <SubRules>
 <Rule
  Priority="Processing"
@@ -4539,7 +4539,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="710496db-b7d6-47d5-9b66-6924aaa03904"
->Mode &lt;- Mode.SR</Action></Actions>
+>Mode &lt;- Default.Mode.SR</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="FS -&gt; OS"
@@ -4582,7 +4582,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="4a5aafff-cfdc-43fa-a707-173de0e02127"
->Mode &lt;- Mode.OS</Action></Actions>
+>Mode &lt;- Default.Mode.OS</Action></Actions>
 <SubRules>
 <Rule
  Priority="Processing"
@@ -4653,7 +4653,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="7adb368b-c277-412b-a337-d049e8f6ca08"
->Mode &lt;- Mode.NL</Action></Actions>
+>Mode &lt;- Default.Mode.NL</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="FS -&gt; UN"
@@ -4671,7 +4671,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="20fa1336-1807-46cd-93de-021b547e767c"
->Mode &lt;- Mode.UN</Action></Actions>
+>Mode &lt;- Default.Mode.UN</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="FS -&gt; SN"
@@ -4689,7 +4689,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="9fee2875-8814-483d-b6c4-79d6e6ae5261"
->Mode &lt;- Mode.SN</Action></Actions>
+>Mode &lt;- Default.Mode.SN</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="FS -&gt; RV"
@@ -4717,7 +4717,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="629238c8-c022-471f-ba86-bf62fdc40211"
->Mode &lt;- Mode.RV</Action></Actions>
+>Mode &lt;- Default.Mode.RV</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition><RuleCondition
@@ -4730,7 +4730,7 @@ TIU.NonLeadingPermitted</Expression>
 <PreConditions>
 <PreCondition
  Guid="2f6c0ff5-2f6f-4859-8efb-d1c02197b864"
->Mode == Mode.LS</PreCondition></PreConditions>
+>Mode == Default.Mode.LS</PreCondition></PreConditions>
 <Actions>
 </Actions>
 <SubRules>
@@ -4760,7 +4760,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="875eea56-c776-484f-a953-c5b5b84333b5"
->Mode &lt;- Mode.IS</Action></Actions>
+>Mode &lt;- Default.Mode.IS</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="LS -&gt; NP"
@@ -4778,7 +4778,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="eebccfac-cf6a-4a7c-845f-8d8a076e75ae"
->Mode &lt;- Mode.NP</Action></Actions>
+>Mode &lt;- Default.Mode.NP</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="LS -&gt; SF"
@@ -4796,7 +4796,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="fe83d849-5a7e-4193-b24d-ed7d481e340a"
->Mode &lt;- Mode.SF</Action></Actions>
+>Mode &lt;- Default.Mode.SF</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="LS -&gt; TR"
@@ -4839,7 +4839,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="5d3b8533-1fe2-4229-80a7-43e869507125"
->Mode &lt;- Mode.TR</Action><Action
+>Mode &lt;- Default.Mode.TR</Action><Action
  Guid="73e838aa-c6d9-4acc-873d-73387e38f461"
 >HandleModeChange &lt;- HandleModeChangeSM.TrainTrip</Action></Actions>
 </RuleCondition><RuleCondition
@@ -4864,7 +4864,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="4ea4b783-3512-4556-a391-2dc7bc052b17"
->Mode &lt;- Mode.SB</Action><Action
+>Mode &lt;- Default.Mode.SB</Action><Action
  Guid="3fc08de2-97aa-4d19-8cf0-828697f34978"
 >HandleModeChange &lt;- HandleModeChangeSM.EndOfMission</Action></Actions>
 </RuleCondition><RuleCondition
@@ -4919,7 +4919,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="b5215a1a-fc01-4533-9260-a393853372c1"
->Mode &lt;- Mode.SH</Action><Action
+>Mode &lt;- Default.Mode.SH</Action><Action
  Guid="764bf138-023d-46b4-85b1-f88869e49d21"
 >HandleModeChange &lt;- HandleModeChangeSM.EndOfMission</Action></Actions>
 <SubRules>
@@ -4983,7 +4983,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="eef8b759-ec90-4fb9-b77d-fa8bd4502f38"
->Mode &lt;- Mode.FS</Action></Actions>
+>Mode &lt;- Default.Mode.FS</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="LS -&gt; SR"
@@ -5001,7 +5001,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="e9cb6850-4ae4-45c9-ac65-b4b686b8f082"
->Mode &lt;- Mode.SR</Action></Actions>
+>Mode &lt;- Default.Mode.SR</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="LS -&gt; OS"
@@ -5049,7 +5049,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="e47fa42a-3e9e-4569-a4f2-1b887d8af248"
->Mode &lt;- Mode.OS</Action></Actions>
+>Mode &lt;- Default.Mode.OS</Action></Actions>
 <SubRules>
 <Rule
  Priority="Processing"
@@ -5120,7 +5120,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="6e44fd78-c0f5-4336-85bb-78bfee33303d"
->Mode &lt;- Mode.NL</Action></Actions>
+>Mode &lt;- Default.Mode.NL</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="LS -&gt; UN"
@@ -5138,7 +5138,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="99f4d4fd-0786-4410-b529-b27fc3e64620"
->Mode &lt;- Mode.UN</Action></Actions>
+>Mode &lt;- Default.Mode.UN</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="LS -&gt; SN"
@@ -5156,7 +5156,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="2c1be58d-d8e6-4d24-b4dc-f3370fb6f573"
->Mode &lt;- Mode.SN</Action></Actions>
+>Mode &lt;- Default.Mode.SN</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="LS -&gt; RV"
@@ -5184,7 +5184,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="f2884d3e-4cad-472d-be86-4096e70d4729"
->Mode &lt;- Mode.RV</Action></Actions>
+>Mode &lt;- Default.Mode.RV</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition><RuleCondition
@@ -5197,7 +5197,7 @@ TIU.NonLeadingPermitted</Expression>
 <PreConditions>
 <PreCondition
  Guid="3de7cd4a-920c-4c9d-962f-d854620d8317"
->Mode == Mode.SR</PreCondition></PreConditions>
+>Mode == Default.Mode.SR</PreCondition></PreConditions>
 <Actions>
 </Actions>
 <SubRules>
@@ -5227,7 +5227,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="185ca0e5-c635-4a6c-96c9-01e8a5fdc86d"
->Mode &lt;- Mode.IS</Action></Actions>
+>Mode &lt;- Default.Mode.IS</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="SR -&gt; NP"
@@ -5245,7 +5245,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="d54df452-49c8-48b9-a1aa-648a5da0634e"
->Mode &lt;- Mode.NP</Action></Actions>
+>Mode &lt;- Default.Mode.NP</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="SR -&gt; SF"
@@ -5263,7 +5263,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="5ce27f5a-7c96-4dec-b769-9e1081b32ab6"
->Mode &lt;- Mode.SF</Action></Actions>
+>Mode &lt;- Default.Mode.SF</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="SR -&gt;TR"
@@ -5291,7 +5291,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="30aae68f-aef1-4144-996d-e9b36ffa866d"
->Mode &lt;- Mode.TR</Action><Action
+>Mode &lt;- Default.Mode.TR</Action><Action
  Guid="271c7794-55ab-42a0-a07a-0550e0e2d6a1"
 >HandleModeChange &lt;- HandleModeChangeSM.TrainTrip</Action></Actions>
 </RuleCondition><RuleCondition
@@ -5316,7 +5316,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="a3e8fc6a-8129-4726-8d80-60fb09633636"
->Mode &lt;- Mode.SB</Action><Action
+>Mode &lt;- Default.Mode.SB</Action><Action
  Guid="b3ab42be-c628-4c0e-81ec-c447a7b1b0a4"
 >HandleModeChange &lt;- HandleModeChangeSM.EndOfMission</Action></Actions>
 </RuleCondition><RuleCondition
@@ -5361,7 +5361,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="82cc1ef7-931c-4187-a7ac-ff6a9835f7d9"
->Mode &lt;- Mode.SH</Action><Action
+>Mode &lt;- Default.Mode.SH</Action><Action
  Guid="6af85193-39ba-4242-8da3-688249bd858d"
 >HandleModeChange &lt;- HandleModeChangeSM.EndOfMission</Action></Actions>
 <SubRules>
@@ -5425,7 +5425,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="b74c20ae-7528-4fb4-92ab-b44a2d744b7f"
->Mode &lt;- Mode.FS</Action></Actions>
+>Mode &lt;- Default.Mode.FS</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="SR -&gt; LS"
@@ -5468,7 +5468,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="4c840344-d9cf-4223-ad71-0750c092e32f"
->Mode &lt;- Mode.LS</Action><Action
+>Mode &lt;- Default.Mode.LS</Action><Action
  Guid="d51269c6-e0cd-4dc2-9e45-5eca391e69b7"
 >DMI.MasterDMI().In_AcknOfLSMode.InitiateRequest()</Action></Actions>
 </RuleCondition><RuleCondition
@@ -5518,7 +5518,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="af0ed0bb-a5dd-4609-a5e8-23db04de20d2"
->Mode &lt;- Mode.OS</Action><Action
+>Mode &lt;- Default.Mode.OS</Action><Action
  Guid="3d5160f0-1b0d-4e8e-a21a-15df79e87404"
 >DMI.MasterDMI().In_AcknOfOSMode.InitiateRequest()</Action></Actions>
 </RuleCondition><RuleCondition
@@ -5538,7 +5538,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="ab773132-5797-4b06-94c6-143748f6768e"
->Mode &lt;- Mode.NL</Action></Actions>
+>Mode &lt;- Default.Mode.NL</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="SR -&gt; UN"
@@ -5556,7 +5556,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="534643f8-cfce-479c-898d-de4a260aa139"
->Mode &lt;- Mode.UN</Action></Actions>
+>Mode &lt;- Default.Mode.UN</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="SR -&gt; SN"
@@ -5574,7 +5574,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="8e217703-f528-4888-943a-2e9ddae94db0"
->Mode &lt;- Mode.SN</Action></Actions>
+>Mode &lt;- Default.Mode.SN</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition><RuleCondition
@@ -5587,7 +5587,7 @@ TIU.NonLeadingPermitted</Expression>
 <PreConditions>
 <PreCondition
  Guid="f48cc7ea-a6d2-44bb-9a69-81aa7d019ced"
->Mode == Mode.OS</PreCondition></PreConditions>
+>Mode == Default.Mode.OS</PreCondition></PreConditions>
 <Actions>
 </Actions>
 <SubRules>
@@ -5617,7 +5617,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="8330fe14-fb3f-4891-bf8f-3b12b60c1304"
->Mode &lt;- Mode.IS</Action></Actions>
+>Mode &lt;- Default.Mode.IS</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="OS -&gt; NP"
@@ -5635,7 +5635,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="ee61c8f5-868a-47dc-a616-103a8ebe33c3"
->Mode &lt;- Mode.NP</Action></Actions>
+>Mode &lt;- Default.Mode.NP</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="OS -&gt; SF"
@@ -5653,7 +5653,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="17e05713-e86b-4c41-b8e8-1ded9e4c4411"
->Mode &lt;- Mode.SF</Action></Actions>
+>Mode &lt;- Default.Mode.SF</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="OS -&gt; TR"
@@ -5696,7 +5696,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="c2096ab8-a3d6-44c6-8dcc-f5da22096232"
->Mode &lt;- Mode.TR</Action><Action
+>Mode &lt;- Default.Mode.TR</Action><Action
  Guid="bb532e41-aaa3-41d4-994a-145d365de736"
 >HandleModeChange &lt;- HandleModeChangeSM.TrainTrip</Action></Actions>
 </RuleCondition><RuleCondition
@@ -5721,7 +5721,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="19d3e929-6a5f-4a29-97fc-797fb370c6c7"
->Mode &lt;- Mode.SB</Action><Action
+>Mode &lt;- Default.Mode.SB</Action><Action
  Guid="ff5abac9-f739-4db6-8ddf-355083d9b07b"
 >HandleModeChange &lt;- HandleModeChangeSM.EndOfMission</Action></Actions>
 </RuleCondition><RuleCondition
@@ -5776,7 +5776,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="0c866550-24d3-48f6-a67a-7944f909d0e3"
->Mode &lt;- Mode.SH</Action><Action
+>Mode &lt;- Default.Mode.SH</Action><Action
  Guid="65c1ab30-db8f-4aa5-b86d-f35799bc5075"
 >HandleModeChange &lt;- HandleModeChangeSM.EndOfMission</Action></Actions>
 <SubRules>
@@ -5840,7 +5840,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="17287fb1-833c-4b40-b586-ca52f4276551"
->Mode &lt;- Mode.FS</Action></Actions>
+>Mode &lt;- Default.Mode.FS</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="OS -&gt; LS"
@@ -5883,7 +5883,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="ea2646e0-08cd-4c99-9f78-94a3751f2b29"
->Mode &lt;- Mode.LS</Action></Actions>
+>Mode &lt;- Default.Mode.LS</Action></Actions>
 <SubRules>
 <Rule
  Priority="Processing"
@@ -5953,7 +5953,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="54178808-2fce-4e35-b0c9-a834a37967ea"
->Mode &lt;- Mode.SR</Action></Actions>
+>Mode &lt;- Default.Mode.SR</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="OS -&gt; NL"
@@ -5971,7 +5971,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="7815435e-150c-4822-8986-441a5ca20223"
->Mode &lt;- Mode.NL</Action></Actions>
+>Mode &lt;- Default.Mode.NL</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="OS -&gt; UN"
@@ -5989,7 +5989,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="dd5300c6-f872-4045-91fe-8900fd4f5e2e"
->Mode &lt;- Mode.UN</Action></Actions>
+>Mode &lt;- Default.Mode.UN</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="OS -&gt; SN"
@@ -6007,7 +6007,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="3ee88f53-b96b-4509-a6f4-2d10635fec15"
->Mode &lt;- Mode.SN</Action></Actions>
+>Mode &lt;- Default.Mode.SN</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="OS -&gt; RV"
@@ -6035,7 +6035,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="21240c8f-5498-4fa1-8826-904165792208"
->Mode &lt;- Mode.RV</Action></Actions>
+>Mode &lt;- Default.Mode.RV</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition><RuleCondition
@@ -6048,7 +6048,7 @@ TIU.NonLeadingPermitted</Expression>
 <PreConditions>
 <PreCondition
  Guid="d5cccc85-6b47-48f6-9d7d-b1ed6a8009ff"
->Mode == Mode.SL</PreCondition></PreConditions>
+>Mode == Default.Mode.SL</PreCondition></PreConditions>
 <Actions>
 </Actions>
 <SubRules>
@@ -6078,7 +6078,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="59d2c6a7-b391-499c-8319-bbde89950868"
->Mode &lt;- Mode.IS</Action></Actions>
+>Mode &lt;- Default.Mode.IS</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="SL -&gt; NP"
@@ -6096,7 +6096,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="d1d7c0a8-f217-4acb-9266-6a5b4a7701e5"
->Mode &lt;- Mode.NP</Action></Actions>
+>Mode &lt;- Default.Mode.NP</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="SL -&gt; SB"
@@ -6114,7 +6114,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="29cdcf0c-0f35-460e-9dcf-80b4731bc284"
->Mode &lt;- Mode.SB</Action></Actions>
+>Mode &lt;- Default.Mode.SB</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition><RuleCondition
@@ -6127,7 +6127,7 @@ TIU.NonLeadingPermitted</Expression>
 <PreConditions>
 <PreCondition
  Guid="d9747df3-cfdd-49ce-bceb-47661c99d496"
->Mode == Mode.NL</PreCondition></PreConditions>
+>Mode == Default.Mode.NL</PreCondition></PreConditions>
 <Actions>
 </Actions>
 <SubRules>
@@ -6157,7 +6157,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="91ba698b-c98c-461c-aa3d-6e240081c6bb"
->Mode &lt;- Mode.IS</Action></Actions>
+>Mode &lt;- Default.Mode.IS</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="NL -&gt; NP"
@@ -6175,7 +6175,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="4a9f79ce-d9a5-46e1-9d38-a49401cdaf64"
->Mode &lt;- Mode.NP</Action></Actions>
+>Mode &lt;- Default.Mode.NP</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="NL -&gt; SB"
@@ -6198,7 +6198,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="3d11cfba-57de-4314-a94d-d3e8c0157dea"
->Mode &lt;- Mode.SB</Action><Action
+>Mode &lt;- Default.Mode.SB</Action><Action
  Guid="9bd4ba9b-979b-4cdb-832b-e0dda64c4f93"
 >HandleModeChange &lt;- HandleModeChangeSM.EndOfMission</Action></Actions>
 </RuleCondition></Conditions>
@@ -6213,7 +6213,7 @@ TIU.NonLeadingPermitted</Expression>
 <PreConditions>
 <PreCondition
  Guid="0f62ee0c-4e18-4353-bc36-5edc9ae12e2e"
->Mode == Mode.UN</PreCondition></PreConditions>
+>Mode == Default.Mode.UN</PreCondition></PreConditions>
 <Actions>
 </Actions>
 <SubRules>
@@ -6243,7 +6243,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="4c0fbb9a-7054-49ea-8f3e-c2c53875209e"
->Mode &lt;- Mode.IS</Action></Actions>
+>Mode &lt;- Default.Mode.IS</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="UN -&gt; NP"
@@ -6261,7 +6261,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="4e3da8b5-56dd-4203-b2ca-168756e50aad"
->Mode &lt;- Mode.NP</Action></Actions>
+>Mode &lt;- Default.Mode.NP</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="UN -&gt; SF"
@@ -6279,7 +6279,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="342f36d6-9443-4c25-9657-3e9b457af0c8"
->Mode &lt;- Mode.SF</Action></Actions>
+>Mode &lt;- Default.Mode.SF</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="UN -&gt; SR"
@@ -6297,7 +6297,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="5de5ffb4-33d8-4901-93ea-8d9aeb2c82a3"
->Mode &lt;- Mode.SR</Action></Actions>
+>Mode &lt;- Default.Mode.SR</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="UN -&gt; TR"
@@ -6325,7 +6325,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="082ef426-2891-4e8c-95de-e6d644d806b8"
->Mode &lt;- Mode.TR</Action><Action
+>Mode &lt;- Default.Mode.TR</Action><Action
  Guid="eaad072e-80af-41ca-8af4-04d4a47f82be"
 >HandleModeChange &lt;- HandleModeChangeSM.TrainTrip</Action></Actions>
 </RuleCondition><RuleCondition
@@ -6350,7 +6350,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="c923caf2-7f09-4a29-a752-542ab4ac0661"
->Mode &lt;- Mode.SB</Action><Action
+>Mode &lt;- Default.Mode.SB</Action><Action
  Guid="42833db6-4ff7-4c84-b4d4-246e41cd6446"
 >HandleModeChange &lt;- HandleModeChangeSM.EndOfMission</Action></Actions>
 </RuleCondition><RuleCondition
@@ -6395,7 +6395,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="269fd4a9-45eb-4a45-9008-9c5f70eef35e"
->Mode &lt;- Mode.SH</Action><Action
+>Mode &lt;- Default.Mode.SH</Action><Action
  Guid="2aff7b26-bdff-4e7c-8683-2c13ee100ed8"
 >HandleModeChange &lt;- HandleModeChangeSM.EndOfMission</Action></Actions>
 <SubRules>
@@ -6454,7 +6454,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="9d894321-6eff-4e33-923b-e3220149572f"
->Mode &lt;- Mode.FS</Action></Actions>
+>Mode &lt;- Default.Mode.FS</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="UN -&gt; LS"
@@ -6492,7 +6492,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="4a2fecb9-7f60-4c36-aaa9-6917cc42e9a1"
->Mode &lt;- Mode.LS</Action><Action
+>Mode &lt;- Default.Mode.LS</Action><Action
  Guid="0e2930ae-a2a5-40b1-8f2c-d9cd93434271"
 >DMI.MasterDMI().In_AcknOfLSMode.InitiateRequest()</Action></Actions>
 </RuleCondition><RuleCondition
@@ -6537,7 +6537,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="1bbfef7a-2e2f-4b99-a229-24c1008fd599"
->Mode &lt;- Mode.OS</Action><Action
+>Mode &lt;- Default.Mode.OS</Action><Action
  Guid="27afde8d-3f8b-4eae-97ad-0068b9529bea"
 >DMI.MasterDMI().In_AcknOfOSMode.InitiateRequest()</Action></Actions>
 </RuleCondition><RuleCondition
@@ -6557,7 +6557,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="f7ba3168-98ae-452d-94c3-ae0857216d29"
->Mode &lt;- Mode.SN</Action></Actions>
+>Mode &lt;- Default.Mode.SN</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition><RuleCondition
@@ -6570,7 +6570,7 @@ TIU.NonLeadingPermitted</Expression>
 <PreConditions>
 <PreCondition
  Guid="37cfe800-193f-46a8-976c-6e2afad3c523"
->Mode == Mode.TR</PreCondition></PreConditions>
+>Mode == Default.Mode.TR</PreCondition></PreConditions>
 <Actions>
 </Actions>
 <SubRules>
@@ -6600,7 +6600,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="e1a35e2b-8336-4f74-9644-6a1fb26d22ed"
->Mode &lt;- Mode.IS</Action></Actions>
+>Mode &lt;- Default.Mode.IS</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="TR -&gt; NP"
@@ -6618,7 +6618,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="c1725c5e-58f1-43b1-b542-b73f2ce9d168"
->Mode &lt;- Mode.NP</Action></Actions>
+>Mode &lt;- Default.Mode.NP</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="TR -&gt; SF"
@@ -6636,7 +6636,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="a0e8904c-98dd-4c65-abd4-1b2e67deb5fe"
->Mode &lt;- Mode.SF</Action></Actions>
+>Mode &lt;- Default.Mode.SF</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="TR -&gt; SH"
@@ -6659,7 +6659,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="00c19f05-2a30-44a6-84d4-99d1afb27c6f"
->Mode &lt;- Mode.SH</Action><Action
+>Mode &lt;- Default.Mode.SH</Action><Action
  Guid="3aba4a7b-6bd6-4e4e-afc9-cf564928f397"
 >HandleModeChange &lt;- HandleModeChangeSM.NoProcedure</Action></Actions>
 </RuleCondition><RuleCondition
@@ -6684,7 +6684,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="29c43483-ffec-42c2-97cc-0b9890299e29"
->Mode &lt;- Mode.UN</Action><Action
+>Mode &lt;- Default.Mode.UN</Action><Action
  Guid="f46dd9eb-eb24-45c4-8e7f-32808b0cf673"
 >HandleModeChange &lt;- HandleModeChangeSM.NoProcedure</Action></Actions>
 </RuleCondition><RuleCondition
@@ -6709,7 +6709,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="694ffd28-9a9e-4839-a8cd-cdd75be71e1d"
->Mode &lt;- Mode.PT</Action><Action
+>Mode &lt;- Default.Mode.PT</Action><Action
  Guid="9af31329-6766-4c1c-b1fc-c90b2e327f2f"
 >HandleModeChange &lt;- HandleModeChangeSM.TrainTrip.D110</Action><Action
  Guid="381d75e5-0bf3-48e7-aa69-24bae8454f9c"
@@ -6738,7 +6738,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="b2bfe329-a4e6-4715-9c56-f6f6fe5ffcc2"
->Mode &lt;- Mode.SN</Action><Action
+>Mode &lt;- Default.Mode.SN</Action><Action
  Guid="2b1d5435-d255-4eb3-8d53-5395de3a4b7f"
 >HandleModeChange &lt;- HandleModeChangeSM.NoProcedure</Action></Actions>
 </RuleCondition></Conditions>
@@ -6753,7 +6753,7 @@ TIU.NonLeadingPermitted</Expression>
 <PreConditions>
 <PreCondition
  Guid="7ea60917-9844-4b3a-bf33-2ee50741f88a"
->Mode == Mode.PT</PreCondition></PreConditions>
+>Mode == Default.Mode.PT</PreCondition></PreConditions>
 <Actions>
 </Actions>
 <SubRules>
@@ -6783,7 +6783,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="d9216efc-63a0-4585-a028-d64f5fb5a567"
->Mode &lt;- Mode.IS</Action></Actions>
+>Mode &lt;- Default.Mode.IS</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="PT -&gt; NP"
@@ -6801,7 +6801,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="5bc6a317-98a8-4153-976a-b60da0e39030"
->Mode &lt;- Mode.NP</Action></Actions>
+>Mode &lt;- Default.Mode.NP</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="PT -&gt; SF"
@@ -6819,7 +6819,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="f019fcff-c09d-443d-871c-36c808ffd428"
->Mode &lt;- Mode.SF</Action></Actions>
+>Mode &lt;- Default.Mode.SF</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="PT -&gt; SB"
@@ -6842,7 +6842,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="076eedcf-7582-4a55-92a3-469ccb8c9d74"
->Mode &lt;- Mode.SB</Action></Actions>
+>Mode &lt;- Default.Mode.SB</Action></Actions>
 <SubRules>
 <Rule
  Priority="Processing"
@@ -6909,7 +6909,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="ea5b92b7-bc51-4dff-b9c4-f5f319ab86c3"
->Mode &lt;- Mode.SH</Action></Actions>
+>Mode &lt;- Default.Mode.SH</Action></Actions>
 <SubRules>
 <Rule
  Priority="Processing"
@@ -6992,7 +6992,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="8384575e-6553-4ba9-9b0a-0b58070fb664"
->Mode &lt;- Mode.FS</Action><Action
+>Mode &lt;- Default.Mode.FS</Action><Action
  Guid="5482a40a-4385-4217-98cf-c8eed5b5fc2e"
 >HandleModeChange &lt;- HandleModeChangeSM.NoProcedure</Action></Actions>
 </RuleCondition><RuleCondition
@@ -7022,7 +7022,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="d1b0f51b-01e7-4f35-8b91-cd90455e7067"
->Mode &lt;- Mode.LS</Action><Action
+>Mode &lt;- Default.Mode.LS</Action><Action
  Guid="ffbf191c-1c71-4800-be9d-a646a22b0343"
 >DMI.MasterDMI().In_AcknOfLSMode.InputInformation.Disable()</Action><Action
  Guid="0b206b75-fdbb-4598-af28-83fe3421144c"
@@ -7049,7 +7049,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="024e9551-6a68-407a-b56d-26bdf360beff"
->Mode &lt;- Mode.SR</Action></Actions>
+>Mode &lt;- Default.Mode.SR</Action></Actions>
 <SubRules>
 <Rule
  Priority="Processing"
@@ -7132,7 +7132,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="97a7f9d5-8f23-49dd-98e4-03e542791e15"
->Mode &lt;- Mode.OS</Action><Action
+>Mode &lt;- Default.Mode.OS</Action><Action
  Guid="9830d5cb-6ee9-4d48-b29b-9d321753b759"
 >DMI.MasterDMI().In_AcknOfOSMode.InputInformation.Disable()</Action><Action
  Guid="ac721fb1-402f-43c7-a022-b2e946076ca9"
@@ -7149,7 +7149,7 @@ TIU.NonLeadingPermitted</Expression>
 <PreConditions>
 <PreCondition
  Guid="5ddfc4f0-99e1-447d-87db-c4200984e80b"
->Mode == Mode.SF</PreCondition></PreConditions>
+>Mode == Default.Mode.SF</PreCondition></PreConditions>
 <Actions>
 </Actions>
 <SubRules>
@@ -7179,7 +7179,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="33c477bb-6a5f-41a0-88ac-d20031d5e81c"
->Mode &lt;- Mode.IS</Action></Actions>
+>Mode &lt;- Default.Mode.IS</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="SF -&gt; NP"
@@ -7197,7 +7197,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="855958a8-869e-45f1-a4d2-a129f383b70c"
->Mode &lt;- Mode.NP</Action></Actions>
+>Mode &lt;- Default.Mode.NP</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition><RuleCondition
@@ -7210,7 +7210,7 @@ TIU.NonLeadingPermitted</Expression>
 <PreConditions>
 <PreCondition
  Guid="9bc9968f-5c84-42ec-b404-3aa18a08f13a"
->Mode == Mode.IS</PreCondition></PreConditions>
+>Mode == Default.Mode.IS</PreCondition></PreConditions>
 <Actions>
 </Actions>
 </RuleCondition><RuleCondition
@@ -7223,7 +7223,7 @@ TIU.NonLeadingPermitted</Expression>
 <PreConditions>
 <PreCondition
  Guid="97358ff8-ee94-4de8-b68e-ed00b790fda3"
->Mode == Mode.SN</PreCondition></PreConditions>
+>Mode == Default.Mode.SN</PreCondition></PreConditions>
 <Actions>
 </Actions>
 <SubRules>
@@ -7253,7 +7253,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="0d5e00ca-b0f7-416a-9724-01aed7b1309d"
->Mode &lt;- Mode.IS</Action></Actions>
+>Mode &lt;- Default.Mode.IS</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="SN -&gt; NP"
@@ -7271,7 +7271,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="eca02fcc-0a52-40f6-afb3-6b0366e128b3"
->Mode &lt;- Mode.NP</Action></Actions>
+>Mode &lt;- Default.Mode.NP</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="SN -&gt; SF"
@@ -7289,7 +7289,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="759c7540-5df7-4966-a8e3-76d599ea0d64"
->Mode &lt;- Mode.SF</Action></Actions>
+>Mode &lt;- Default.Mode.SF</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="SN -&gt; SR"
@@ -7307,7 +7307,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="a8d07cf8-ee86-44e1-b78c-c23c2f8261d7"
->Mode &lt;- Mode.SR</Action></Actions>
+>Mode &lt;- Default.Mode.SR</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="SN -&gt; TR"
@@ -7335,7 +7335,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="bb9c8a03-3951-4332-9066-55dc76dd7dd5"
->Mode &lt;- Mode.TR</Action><Action
+>Mode &lt;- Default.Mode.TR</Action><Action
  Guid="bd612182-aaca-4f0f-b48b-e56b91045f94"
 >HandleModeChange &lt;- HandleModeChangeSM.TrainTrip</Action></Actions>
 </RuleCondition><RuleCondition
@@ -7360,7 +7360,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="dd1cd4a5-2a2b-4f77-933d-cbbd37e52694"
->Mode &lt;- Mode.SB</Action><Action
+>Mode &lt;- Default.Mode.SB</Action><Action
  Guid="4f35bb84-df30-4b4c-9679-1db13764b84f"
 >HandleModeChange &lt;- HandleModeChangeSM.EndOfMission</Action></Actions>
 </RuleCondition><RuleCondition
@@ -7405,7 +7405,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="904b5ada-2482-458a-b8eb-b9a738e6781e"
->Mode &lt;- Mode.SH</Action><Action
+>Mode &lt;- Default.Mode.SH</Action><Action
  Guid="e6ac087d-797f-45f2-868b-f0c29860cf78"
 >HandleModeChange &lt;- HandleModeChangeSM.EndOfMission</Action></Actions>
 <SubRules>
@@ -7464,7 +7464,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="ad8fab30-df72-4863-b2a1-d3b92dcb3583"
->Mode &lt;- Mode.FS</Action></Actions>
+>Mode &lt;- Default.Mode.FS</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="SN -&gt; LS"
@@ -7502,7 +7502,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="4067aa5e-a57f-41f3-8d6a-8e10e7fe2500"
->Mode &lt;- Mode.LS</Action><Action
+>Mode &lt;- Default.Mode.LS</Action><Action
  Guid="231bf4ed-ea40-4eee-8423-9b537733d58c"
 >DMI.MasterDMI().In_AcknOfLSMode.InitiateRequest()</Action></Actions>
 </RuleCondition><RuleCondition
@@ -7552,7 +7552,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="1d352d9c-4b06-429a-a738-a773484211fb"
->Mode &lt;- Mode.OS</Action><Action
+>Mode &lt;- Default.Mode.OS</Action><Action
  Guid="c45b50d9-6abc-4bea-b924-e0316b4ee103"
 >DMI.MasterDMI().In_AcknOfOSMode.InitiateRequest()</Action></Actions>
 </RuleCondition><RuleCondition
@@ -7577,7 +7577,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="cee54f2d-4a81-4185-b85a-6c3390e4e3a2"
->Mode &lt;- Mode.UN</Action></Actions>
+>Mode &lt;- Default.Mode.UN</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition><RuleCondition
@@ -7590,7 +7590,7 @@ TIU.NonLeadingPermitted</Expression>
 <PreConditions>
 <PreCondition
  Guid="290576b6-d4ec-4291-9e01-20482e7c53a1"
->Mode == Mode.RV</PreCondition></PreConditions>
+>Mode == Default.Mode.RV</PreCondition></PreConditions>
 <Actions>
 </Actions>
 <SubRules>
@@ -7620,7 +7620,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="093b819b-51d0-42f1-9c56-8d4984e96560"
->Mode &lt;- Mode.IS</Action></Actions>
+>Mode &lt;- Default.Mode.IS</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="RV -&gt; NP"
@@ -7638,7 +7638,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="0d1a41f5-3ce2-42e1-91f6-8d827e57abcb"
->Mode &lt;- Mode.NP</Action></Actions>
+>Mode &lt;- Default.Mode.NP</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="RV -&gt; SF"
@@ -7656,7 +7656,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="a9ac7011-81fc-4b0a-94b2-77eb43271c16"
->Mode &lt;- Mode.SF</Action></Actions>
+>Mode &lt;- Default.Mode.SF</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="RV -&gt; SB"
@@ -7679,7 +7679,7 @@ TIU.NonLeadingPermitted</Expression>
 <Actions>
 <Action
  Guid="7fae856a-be74-40e3-9210-d5f2d3e8771b"
->Mode &lt;- Mode.SB</Action><Action
+>Mode &lt;- Default.Mode.SB</Action><Action
  Guid="8ec0888a-aa39-42c0-9c93-6e75566ad705"
 >HandleModeChange &lt;- HandleModeChangeSM.EndOfMission</Action></Actions>
 </RuleCondition></Conditions>
@@ -7730,11 +7730,11 @@ TIU.NonLeadingPermitted</Expression>
 <PreConditions>
 <PreCondition
  Guid="58542aca-0898-4eea-9437-50175e65bc57"
->Level.Value.Value in [Level.L2, Level.L3]</PreCondition><PreCondition
+>Level.Value.Value in [Default.Level.L2, Default.Level.L3]</PreCondition><PreCondition
  Guid="803992df-272e-44be-ae5d-0ca02c53a945"
->Mode == Mode.SL
+>Mode == Default.Mode.SL
   OR  
-PrevMode == Mode.SL</PreCondition></PreConditions>
+PrevMode == Default.Mode.SL</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="3fc3fdc4-a55e-460d-b562-e9e19afbc77a"
@@ -7767,7 +7767,7 @@ PrevMode == Mode.SL</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="404ac5b2-ae79-45ad-98d4-bc52a6848844"
->Mode == Mode.SH</PreCondition></PreConditions>
+>Mode == Default.Mode.SH</PreCondition></PreConditions>
 <Actions>
 </Actions>
 <SubRules>
@@ -7822,7 +7822,7 @@ PrevMode == Mode.SL</PreCondition></PreConditions>
   OR
 TrainPosition.RearEndPosition(PointOfInterest =&gt; DistanceInterval.Nom) &lt; (FIRST X IN TrackDescription.StaticSpeedProfile.SSP).Location</PreCondition><PreCondition
  Guid="3fe81a1f-a14a-42cf-86f4-2c6b8b82bf29"
->Mode == Mode.FS</PreCondition></PreConditions>
+>Mode == Default.Mode.FS</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="0227ac5d-5147-488a-b254-c00debe67dd3"
@@ -7857,7 +7857,7 @@ TrainPosition.RearEndPosition(PointOfInterest =&gt; DistanceInterval.Nom) &lt; (
 <PreConditions>
 <PreCondition
  Guid="d1fb763d-8eb4-449e-b9fb-3ab9c203ce8f"
->Mode == Mode.SR</PreCondition></PreConditions>
+>Mode == Default.Mode.SR</PreCondition></PreConditions>
 <Actions>
 </Actions>
 <SubRules>
@@ -7904,7 +7904,7 @@ TrainPosition.RearEndPosition(PointOfInterest =&gt; DistanceInterval.Nom) &lt; (
 <PreConditions>
 <PreCondition
  Guid="3e6ea886-5b5f-4381-be51-f5bbba1f6269"
->Level.Value.Value in [Level.L2, Level.L3]</PreCondition><PreCondition
+>Level.Value.Value in [Default.Level.L2, Default.Level.L3]</PreCondition><PreCondition
  Guid="c6fe72fa-111f-4ee5-bc98-fee5bfd679f6"
 >Condition37()</PreCondition></PreConditions>
 <Actions>
@@ -7946,7 +7946,7 @@ TrainPosition.RearEndPosition(PointOfInterest =&gt; DistanceInterval.Nom) &lt; (
 <PreConditions>
 <PreCondition
  Guid="710695f4-e0d4-4472-9df0-8f99ee86f7dc"
->Mode == Mode.OS</PreCondition></PreConditions>
+>Mode == Default.Mode.OS</PreCondition></PreConditions>
 <Actions>
 </Actions>
 <SubRules>
@@ -8027,7 +8027,7 @@ TrainPosition.RearEndPosition(PointOfInterest =&gt; DistanceInterval.Nom) &lt; (
 <PreConditions>
 <PreCondition
  Guid="6c469476-d2fa-465d-a71d-a4774e401885"
->Mode == Mode.TR</PreCondition></PreConditions>
+>Mode == Default.Mode.TR</PreCondition></PreConditions>
 <Actions>
 </Actions>
 <SubRules>
@@ -8078,7 +8078,7 @@ TrainPosition.RearEndPosition(PointOfInterest =&gt; DistanceInterval.Nom) &lt; (
 <PreConditions>
 <PreCondition
  Guid="590661a1-9c69-43fd-bd8b-a9f6e58ad12d"
->Mode == Mode.PT</PreCondition></PreConditions>
+>Mode == Default.Mode.PT</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="fce2ce78-cae7-4636-a542-10255cd0c722"
@@ -8113,7 +8113,7 @@ TrainPosition.RearEndPosition(PointOfInterest =&gt; DistanceInterval.Nom) &lt; (
 <PreConditions>
 <PreCondition
  Guid="bf00fb51-2642-44e1-bed0-64e08637278f"
->Mode == Mode.RV</PreCondition></PreConditions>
+>Mode == Default.Mode.RV</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="cfe2c845-a9f2-49cc-a9ac-eb8e870263d8"
@@ -8154,7 +8154,7 @@ TrainPosition.RearEndPosition(PointOfInterest =&gt; DistanceInterval.Nom) &lt; (
 <PreConditions>
 <PreCondition
  Guid="649da02e-875c-432f-b874-f3716160e2c9"
->Mode == Mode.LS</PreCondition></PreConditions>
+>Mode == Default.Mode.LS</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="0aa12865-2a4e-4155-b6cb-66ce493b30d1"
@@ -8193,11 +8193,11 @@ TrainPosition.RearEndPosition(PointOfInterest =&gt; DistanceInterval.Nom) &lt; (
 <PreConditions>
 <PreCondition
  Guid="4d038c9f-8d44-415c-a173-d27afce88062"
->PrevMode == Mode.LS</PreCondition><PreCondition
+>PrevMode == Default.Mode.LS</PreCondition><PreCondition
  Guid="5a104355-8d71-4d02-b786-74a7e6d2eab7"
 >THERE_IS aProfile IN MA.ModeProfile.Profile | 
 (
-  aProfile.Mode == Mode.ModeProfile.LS
+  aProfile.Mode == Default.Mode.ModeProfile.LS
     AND  
   aProfile.Location + BaseTypes.LengthToDistance(aProfile.Length) &lt;= TrainPosition.FrontEndPosition(DistanceInterval.Min)
 )</PreCondition></PreConditions>
@@ -8205,7 +8205,7 @@ TrainPosition.RearEndPosition(PointOfInterest =&gt; DistanceInterval.Nom) &lt; (
 <Action
  Guid="3dc9ed1c-bed7-431b-af89-5526173b02a2"
 >REMOVE ALL (
-  X.Mode == Mode.ModeProfile.LS
+  X.Mode == Default.Mode.ModeProfile.LS
     AND  
   X.Location + BaseTypes.LengthToDistance(X.Length) &lt;= TrainPosition.FrontEndPosition(DistanceInterval.Min)
     AND
@@ -8235,7 +8235,7 @@ IN MA.ModeProfile.Profile</Action></Actions>
 <PreConditions>
 <PreCondition
  Guid="e33521a1-766d-4be5-a28a-ef3ee818bdcf"
->Mode == Mode.PS</PreCondition></PreConditions>
+>Mode == Default.Mode.PS</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="95b757a7-c19e-4ffc-ba3d-afbc5c486d8f"
@@ -8271,7 +8271,7 @@ IN MA.ModeProfile.Profile</Action></Actions>
 <Variables>
 <Variable
  Type="Default.Mode"
- DefaultValue="Mode.Unknown"
+ DefaultValue="Default.Mode.Unknown"
  VariableMode="Internal"
  X="120"
  Y="620"

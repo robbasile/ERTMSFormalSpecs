@@ -1078,7 +1078,7 @@ Outside the distances provided by the gradient, the gradient value is defined as
  Name="Value"
  Guid="6d7ed6e7-c960-4fcd-8285-ba5f72e50a28"
 >
-<Expression>Kernel.TrackDescription.Gradient.GradientStruct
+<Expression>GradientStruct
 {
     Location =&gt; aGradient.Location - TrainPosition.FrontEndPosition(DistanceInterval.Nom),
     Gradient =&gt; aGradient.Gradient
@@ -1184,7 +1184,7 @@ Outside the distances provided by the gradient, the gradient value is defined as
 <PreConditions>
 <PreCondition
  Guid="1bfb5b6a-6356-4305-b8a8-5d2e4877e086"
->Mode != Mode.TR</PreCondition></PreConditions>
+>Mode != Default.Mode.TR</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="879d940c-79ed-4325-8e15-cfe834f37953"
@@ -1208,13 +1208,13 @@ Outside the distances provided by the gradient, the gradient value is defined as
 <PreConditions>
 <PreCondition
  Guid="59013953-7efc-43db-b2a9-50e3db5f6300"
->Mode != Mode.TR</PreCondition></PreConditions>
+>Mode != Default.Mode.TR</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="7036cebd-f595-4bb8-be2e-2bb5ce2840bc"
 >StoreSingleProfileInfo
 ( 
-  Kernel.TrackDescription.Gradient.GradientStruct
+  GradientStruct
   {
     Location =&gt; MessageTypes.QScaleDistance ( distance =&gt; Packet.D_GRADIENT, scale =&gt; Packet.Q_SCALE ),
     Gradient =&gt; CreateGradient ( Q_GDIR =&gt; Packet.Q_GDIR, G_A =&gt; Packet.G_A )
@@ -1239,14 +1239,14 @@ Outside the distances provided by the gradient, the gradient value is defined as
 <PreConditions>
 <PreCondition
  Guid="8e65a098-c6d1-4f88-9505-559d53b4aa90"
->Mode != Mode.TR</PreCondition></PreConditions>
+>Mode != Default.Mode.TR</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="0cd68bff-b294-4500-b732-62890eaa683e"
 >APPLY  
   StoreSingleProfileInfo
   ( 
-    Kernel.TrackDescription.Gradient.GradientStruct
+    GradientStruct
     {
       Location =&gt; AbsoluteDistance ( Gradients =&gt; Packet.Sequence1, Gradient =&gt; X, Scale =&gt; Packet.Q_SCALE ) + MessageTypes.QScaleDistance ( distance =&gt; Packet.D_GRADIENT,  scale =&gt; Packet.Q_SCALE ),
       Gradient =&gt; CreateGradient ( Q_GDIR =&gt; X.Q_GDIR, G_A =&gt; X.G_A )

@@ -397,8 +397,8 @@
  Guid="e99f2a0f-e29a-48ef-9495-d81af331b46a"
 >anAck.Type == AckTypeEnum.FixedTextInformation</PreCondition><PreCondition
  Guid="8e2cc8a3-63fd-46f8-8ee3-2459c57e50a4"
->DMI.MasterDMI().In_AcknOfFixedTextInformation.Text == anAck.Text</PreCondition></PreConditions>
-<Expression>DMI.MasterDMI().In_AcknOfFixedTextInformation.InputInformation.RequestStatus == Request.Request</Expression>
+>MasterDMI().In_AcknOfFixedTextInformation.Text == anAck.Text</PreCondition></PreConditions>
+<Expression>MasterDMI().In_AcknOfFixedTextInformation.InputInformation.RequestStatus == Request.Request</Expression>
 </Case><Case
  Name="Acknowledgement is displayed, plain text information"
  Guid="1698f55f-64c8-4c81-bbac-68e6ada495d7"
@@ -408,8 +408,8 @@
  Guid="19821586-e405-461d-98a7-2baa176aca70"
 >anAck.Type == AckTypeEnum.PlainTextInformation</PreCondition><PreCondition
  Guid="65b5dafe-5c33-4134-8649-2d851d567819"
->DMI.MasterDMI().In_AcknOfPlainTextInformation.Text == anAck.Text</PreCondition></PreConditions>
-<Expression>DMI.MasterDMI().In_AcknOfPlainTextInformation.InputInformation.RequestStatus == Request.Request</Expression>
+>MasterDMI().In_AcknOfPlainTextInformation.Text == anAck.Text</PreCondition></PreConditions>
+<Expression>MasterDMI().In_AcknOfPlainTextInformation.InputInformation.RequestStatus == Request.Request</Expression>
 </Case><Case
  Name="Acknowledgement is displayed, level transition"
  Guid="8dfbc3f9-4dc6-4634-82bf-018ffa3f9ee4"
@@ -419,8 +419,8 @@
  Guid="5f76ca96-363f-40f5-91ce-ef57d1b14531"
 >anAck.Type == AckTypeEnum.LevelTransition</PreCondition><PreCondition
  Guid="e17252a9-92c2-4b6a-bd9c-0e77dadfe11f"
->DMI.MasterDMI().In_AcknOfLevelTransition.Level == anAck.Level</PreCondition></PreConditions>
-<Expression>DMI.MasterDMI().In_AcknOfLevelTransition.InputInformation.RequestStatus == Request.Request</Expression>
+>MasterDMI().In_AcknOfLevelTransition.Level == anAck.Level</PreCondition></PreConditions>
+<Expression>MasterDMI().In_AcknOfLevelTransition.InputInformation.RequestStatus == Request.Request</Expression>
 </Case><Case
  Name="Acknowledgement is displayed, other types"
  Guid="b28c90c5-eb44-4915-b871-670d00e36a91"
@@ -686,7 +686,7 @@ anAcknowledgement == AckTypeEnum.PlainTextInformation</PreCondition></PreConditi
     Level =&gt; aLevel
   }
 IN
-  Acknowledgements.Acknowledgements</Action></Actions>
+  Acknowledgements</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
@@ -778,7 +778,7 @@ IN
 </ReqRef><Comment>Indicates if a new acknowledgement can be displayed. Set to true if there is no other acknowledgement displayed and if at least 1 second has elapsed from the last driver acknowledgement.</Comment>
 </Variable><Variable
  Type="Default.BaseTypes.Time"
- DefaultValue="Default.BaseTypes.Time.NA"
+ DefaultValue="BaseTypes.Time.NA"
  VariableMode="Internal"
  X="250"
  Y="10"
@@ -873,13 +873,13 @@ IN
  Guid="3a65010c-6a46-4d91-abe1-07a6848dcd4c"
 >DisplayAllowed == False</PreCondition><PreCondition
  Guid="56e29de6-6f87-4f2e-b74e-27fd7c6bc295"
->LastDriverAcknowledgementTime != Default.BaseTypes.Time.NA</PreCondition><PreCondition
+>LastDriverAcknowledgementTime != BaseTypes.Time.NA</PreCondition><PreCondition
  Guid="424e8fc8-9992-4ec9-bf32-2689f8f02756"
 >LastDriverAcknowledgementTime + AcknowledgementInterval &lt;= Kernel.DateAndTime.CurrentTime</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="8e93fb8b-6fc9-419c-b817-ffa5046117a8"
->LastDriverAcknowledgementTime &lt;- Default.BaseTypes.Time.NA</Action><Action
+>LastDriverAcknowledgementTime &lt;- BaseTypes.Time.NA</Action><Action
  Guid="a1c0a642-3dd4-462f-9ea6-c5995e05d660"
 >DisplayAllowed &lt;- True</Action></Actions>
 </RuleCondition></Conditions>

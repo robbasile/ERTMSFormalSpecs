@@ -715,7 +715,7 @@ Returns the time required by the driver to performs the necessary tasks before a
  Name="Make a new struct"
  Guid="527c8c9f-dc30-4ae8-aae0-75ed499011a7"
 >
-<Expression>Kernel.TrackDescription.TrackConditions.General.TCDisplay.TCAnnouncementStruct{
+<Expression>TCAnnouncementStruct{
     Type =&gt; TCType,
     Distance =&gt; Distance,
     Length =&gt; Length,
@@ -925,7 +925,7 @@ Announcement.Type == TCTypeEnum.EddyCurrentBrakeForSB
 Announcement.Type == TCTypeEnum.MagneticShoeBrake
   OR  
 Announcement.Type == TCTypeEnum.RegenerativeBrake</PreCondition></PreConditions>
-<Expression>Kernel.TrackDescription.TrackConditions.General.TCDisplay.TCAnnouncementStruct{
+<Expression>TCAnnouncementStruct{
     Type =&gt; Announcement.Type,
     Distance =&gt; Announcement.Distance,
     Length =&gt; Announcement.Length,
@@ -935,7 +935,7 @@ Announcement.Type == TCTypeEnum.RegenerativeBrake</PreCondition></PreConditions>
  Name="End"
  Guid="c46e3fa1-e865-42e0-a198-544bbdbe0281"
 >
-<Expression>Kernel.TrackDescription.TrackConditions.General.TCDisplay.TCAnnouncementStruct{
+<Expression>TCAnnouncementStruct{
     Type =&gt; Announcement.Type,
     Distance =&gt; Announcement.Distance,
     Length =&gt; Announcement.Length,
@@ -1247,7 +1247,7 @@ Condition.Type == TCTypeEnum.SoundHorn</PreCondition></PreConditions>
 >Condition.Type == TCTypeEnum.NonStoppingArea</PreCondition></PreConditions>
 <Expression>Odometry.TrainSpeed() &gt;= VirtualSBIForTarget(
     Distance=&gt;TrainPosition.FrontEndPosition(DistanceInterval.Max),
-    Target=&gt;Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target{
+    Target=&gt;SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target{
         Location =&gt; Condition.Distance + BaseTypes.LengthToDistance(Condition.Length),
         Speed =&gt; 0.0,
         Length =&gt; BaseTypes.Length.Infinity}
@@ -1792,8 +1792,8 @@ INITIAL_VALUE BaseTypes.Distance.Infinity</Expression>
  Guid="546cd297-955f-444f-8d22-b8f9fd70b613"
 >INSERT NewAnnouncement(
     TCType=&gt;TCTypeEnum.AirTightness,
-    Distance=&gt;AnnouncementLocation(TrackCondition =&gt; Kernel.TrackDescription.TrackConditions.General.TrackConditionStruct{AirTightness =&gt; True}, Distance =&gt; Distance),
-    Length=&gt;BaseTypes.DistanceToLength(Distance - AnnouncementLocation(TrackCondition =&gt; Kernel.TrackDescription.TrackConditions.General.TrackConditionStruct{AirTightness =&gt; True}, Distance =&gt; Distance)),
+    Distance=&gt;AnnouncementLocation(TrackCondition =&gt; TrackConditionStruct{AirTightness =&gt; True}, Distance =&gt; Distance),
+    Length=&gt;BaseTypes.DistanceToLength(Distance - AnnouncementLocation(TrackCondition =&gt; TrackConditionStruct{AirTightness =&gt; True}, Distance =&gt; Distance)),
     Announcement =&gt; True
 )
 IN Announcements</Action></Actions>
@@ -1812,8 +1812,8 @@ IN Announcements</Action></Actions>
  Guid="85a0948f-1d9c-4cab-bf12-37a4ddf0a300"
 >INSERT NewAnnouncement(
     TCType=&gt;TCTypeEnum.EddyCurrentBrakeForEB,
-    Distance=&gt;AnnouncementLocation(TrackCondition =&gt; Kernel.TrackDescription.TrackConditions.General.TrackConditionStruct{SwitchOffEddyCurrentBrakeForEB =&gt; True}, Distance =&gt; Distance),
-    Length=&gt;BaseTypes.DistanceToLength(Distance - AnnouncementLocation(TrackCondition =&gt; Kernel.TrackDescription.TrackConditions.General.TrackConditionStruct{SwitchOffEddyCurrentBrakeForEB =&gt; True}, Distance =&gt; Distance)),
+    Distance=&gt;AnnouncementLocation(TrackCondition =&gt; TrackConditionStruct{SwitchOffEddyCurrentBrakeForEB =&gt; True}, Distance =&gt; Distance),
+    Length=&gt;BaseTypes.DistanceToLength(Distance - AnnouncementLocation(TrackCondition =&gt; TrackConditionStruct{SwitchOffEddyCurrentBrakeForEB =&gt; True}, Distance =&gt; Distance)),
     Announcement =&gt; True
 )
 IN Announcements</Action></Actions>
@@ -1832,8 +1832,8 @@ IN Announcements</Action></Actions>
  Guid="ac6e5758-3e61-4776-bcfb-524f3b05d73c"
 >INSERT NewAnnouncement(
     TCType=&gt;TCTypeEnum.EddyCurrentBrakeForSB,
-    Distance=&gt;AnnouncementLocation(TrackCondition =&gt; Kernel.TrackDescription.TrackConditions.General.TrackConditionStruct{SwitchOffEddyCurrentBrakeForSB =&gt; True}, Distance =&gt; Distance),
-    Length=&gt;BaseTypes.DistanceToLength(Distance - AnnouncementLocation(TrackCondition =&gt; Kernel.TrackDescription.TrackConditions.General.TrackConditionStruct{SwitchOffEddyCurrentBrakeForSB =&gt; True}, Distance =&gt; Distance)),
+    Distance=&gt;AnnouncementLocation(TrackCondition =&gt; TrackConditionStruct{SwitchOffEddyCurrentBrakeForSB =&gt; True}, Distance =&gt; Distance),
+    Length=&gt;BaseTypes.DistanceToLength(Distance - AnnouncementLocation(TrackCondition =&gt; TrackConditionStruct{SwitchOffEddyCurrentBrakeForSB =&gt; True}, Distance =&gt; Distance)),
     Announcement =&gt; True
 )
 IN Announcements</Action></Actions>
@@ -1852,8 +1852,8 @@ IN Announcements</Action></Actions>
  Guid="9392e167-71c3-4d68-a559-63642bd48557"
 >INSERT NewAnnouncement(
     TCType=&gt;TCTypeEnum.LowerPantograph,
-    Distance=&gt;AnnouncementLocation(TrackCondition =&gt; Kernel.TrackDescription.TrackConditions.General.TrackConditionStruct{PowerlessSection_LowerPantograph =&gt; True}, Distance =&gt; Distance),
-    Length=&gt;BaseTypes.DistanceToLength(Distance - AnnouncementLocation(TrackCondition =&gt; Kernel.TrackDescription.TrackConditions.General.TrackConditionStruct{PowerlessSection_LowerPantograph =&gt; True}, Distance =&gt; Distance)),
+    Distance=&gt;AnnouncementLocation(TrackCondition =&gt; TrackConditionStruct{PowerlessSection_LowerPantograph =&gt; True}, Distance =&gt; Distance),
+    Length=&gt;BaseTypes.DistanceToLength(Distance - AnnouncementLocation(TrackCondition =&gt; TrackConditionStruct{PowerlessSection_LowerPantograph =&gt; True}, Distance =&gt; Distance)),
     Announcement =&gt; True
 )
 IN Announcements</Action></Actions>
@@ -1872,8 +1872,8 @@ IN Announcements</Action></Actions>
  Guid="57592127-9e52-4396-aea6-5310995f0887"
 >INSERT NewAnnouncement(
     TCType=&gt;TCTypeEnum.MagneticShoeBrake,
-    Distance=&gt;AnnouncementLocation(TrackCondition =&gt; Kernel.TrackDescription.TrackConditions.General.TrackConditionStruct{SwitchOffMagneticShoeBrake =&gt; True}, Distance =&gt; Distance),
-    Length=&gt;BaseTypes.DistanceToLength(Distance - AnnouncementLocation(TrackCondition =&gt; Kernel.TrackDescription.TrackConditions.General.TrackConditionStruct{SwitchOffMagneticShoeBrake =&gt; True}, Distance =&gt; Distance)),
+    Distance=&gt;AnnouncementLocation(TrackCondition =&gt; TrackConditionStruct{SwitchOffMagneticShoeBrake =&gt; True}, Distance =&gt; Distance),
+    Length=&gt;BaseTypes.DistanceToLength(Distance - AnnouncementLocation(TrackCondition =&gt; TrackConditionStruct{SwitchOffMagneticShoeBrake =&gt; True}, Distance =&gt; Distance)),
     Announcement =&gt; True
 )
 IN Announcements</Action></Actions>
@@ -1892,8 +1892,8 @@ IN Announcements</Action></Actions>
  Guid="46f0625a-6ab1-4ce8-ade6-9c33ba9da756"
 >INSERT NewAnnouncement(
     TCType=&gt;TCTypeEnum.NonStoppingArea,
-    Distance=&gt;AnnouncementLocation(TrackCondition =&gt; Kernel.TrackDescription.TrackConditions.General.TrackConditionStruct{NonStoppingArea =&gt; True}, Distance =&gt; Distance),
-    Length=&gt;BaseTypes.DistanceToLength(Distance - AnnouncementLocation(TrackCondition =&gt; Kernel.TrackDescription.TrackConditions.General.TrackConditionStruct{NonStoppingArea =&gt; True}, Distance =&gt; Distance)),
+    Distance=&gt;AnnouncementLocation(TrackCondition =&gt; TrackConditionStruct{NonStoppingArea =&gt; True}, Distance =&gt; Distance),
+    Length=&gt;BaseTypes.DistanceToLength(Distance - AnnouncementLocation(TrackCondition =&gt; TrackConditionStruct{NonStoppingArea =&gt; True}, Distance =&gt; Distance)),
     Announcement =&gt; True
 )
 IN Announcements</Action></Actions>
@@ -1912,8 +1912,8 @@ IN Announcements</Action></Actions>
  Guid="912d4674-e6c2-469b-9e78-fc95e2754131"
 >INSERT NewAnnouncement(
     TCType=&gt;TCTypeEnum.RegenerativeBrake,
-    Distance=&gt;AnnouncementLocation(TrackCondition =&gt; Kernel.TrackDescription.TrackConditions.General.TrackConditionStruct{SwitchOffRegenerativeBrake =&gt; True}, Distance =&gt; Distance),
-    Length=&gt;BaseTypes.DistanceToLength(Distance - AnnouncementLocation(TrackCondition =&gt; Kernel.TrackDescription.TrackConditions.General.TrackConditionStruct{SwitchOffRegenerativeBrake =&gt; True}, Distance =&gt; Distance)),
+    Distance=&gt;AnnouncementLocation(TrackCondition =&gt; TrackConditionStruct{SwitchOffRegenerativeBrake =&gt; True}, Distance =&gt; Distance),
+    Length=&gt;BaseTypes.DistanceToLength(Distance - AnnouncementLocation(TrackCondition =&gt; TrackConditionStruct{SwitchOffRegenerativeBrake =&gt; True}, Distance =&gt; Distance)),
     Announcement =&gt; True
 )
 IN Announcements</Action></Actions>
@@ -1932,8 +1932,8 @@ IN Announcements</Action></Actions>
  Guid="8ac4a9fa-54bc-40b3-99d1-a7675c9cf70f"
 >INSERT NewAnnouncement(
     TCType=&gt;TCTypeEnum.TunnelStoppingArea,
-    Distance=&gt;AnnouncementLocation(Distance=&gt;Distance, TrackCondition=&gt;Kernel.TrackDescription.TrackConditions.General.TrackConditionStruct{TunnelStoppingArea =&gt; True}),
-    Length=&gt; BaseTypes.DistanceToLength(Distance - AnnouncementLocation(Distance=&gt;Distance, TrackCondition=&gt;Kernel.TrackDescription.TrackConditions.General.TrackConditionStruct{TunnelStoppingArea =&gt; True})),
+    Distance=&gt;AnnouncementLocation(Distance=&gt;Distance, TrackCondition=&gt;TrackConditionStruct{TunnelStoppingArea =&gt; True}),
+    Length=&gt; BaseTypes.DistanceToLength(Distance - AnnouncementLocation(Distance=&gt;Distance, TrackCondition=&gt;TrackConditionStruct{TunnelStoppingArea =&gt; True})),
     Announcement =&gt; True
 )
 IN Announcements</Action></Actions>
@@ -1952,8 +1952,8 @@ IN Announcements</Action></Actions>
  Guid="d67a9eaf-803f-41e3-8dd8-09bdc24c02ad"
 >INSERT NewAnnouncement(
     TCType=&gt;TCTypeEnum.TurnOffMainSwitch,
-    Distance=&gt;AnnouncementLocation(TrackCondition =&gt; Kernel.TrackDescription.TrackConditions.General.TrackConditionStruct{PowerlessSection_SwitchOffTheMainPowerSwitch =&gt; True}, Distance =&gt; Distance),
-    Length=&gt;BaseTypes.DistanceToLength(Distance - AnnouncementLocation(TrackCondition =&gt; Kernel.TrackDescription.TrackConditions.General.TrackConditionStruct{PowerlessSection_SwitchOffTheMainPowerSwitch =&gt; True}, Distance =&gt; Distance)),
+    Distance=&gt;AnnouncementLocation(TrackCondition =&gt; TrackConditionStruct{PowerlessSection_SwitchOffTheMainPowerSwitch =&gt; True}, Distance =&gt; Distance),
+    Length=&gt;BaseTypes.DistanceToLength(Distance - AnnouncementLocation(TrackCondition =&gt; TrackConditionStruct{PowerlessSection_SwitchOffTheMainPowerSwitch =&gt; True}, Distance =&gt; Distance)),
     Announcement =&gt; True
 )
 IN Announcements</Action></Actions>
@@ -2122,8 +2122,8 @@ IN Announcements</Action></Actions>
  Guid="29a7d128-8f8d-4279-8062-ee877dbe399f"
 >INSERT NewAnnouncement(
     TCType=&gt;TCTypeEnum.SoundHorn,
-    Distance=&gt;AnnouncementLocation(TrackCondition =&gt; Kernel.TrackDescription.TrackConditions.General.TrackConditionStruct{SoundHorn =&gt; True}, Distance =&gt; Distance),
-    Length=&gt;BaseTypes.DistanceToLength(Distance - AnnouncementLocation(TrackCondition =&gt; Kernel.TrackDescription.TrackConditions.General.TrackConditionStruct{SoundHorn =&gt; True}, Distance =&gt; Distance)) + Length,
+    Distance=&gt;AnnouncementLocation(TrackCondition =&gt; TrackConditionStruct{SoundHorn =&gt; True}, Distance =&gt; Distance),
+    Length=&gt;BaseTypes.DistanceToLength(Distance - AnnouncementLocation(TrackCondition =&gt; TrackConditionStruct{SoundHorn =&gt; True}, Distance =&gt; Distance)) + Length,
     Announcement =&gt; False
 )
 IN Announcements</Action></Actions>

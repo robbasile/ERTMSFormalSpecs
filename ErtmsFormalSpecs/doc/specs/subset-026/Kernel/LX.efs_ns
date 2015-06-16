@@ -406,7 +406,7 @@ INITIAL_VALUE BaseTypes.MaxSpeedFunction) (Distance)</Expression>
 <PreCondition
  Guid="fe8a1ccd-112a-435e-bfef-c05500940864"
 >aLevelCrossing.Id == Packet.NID_LX</PreCondition></PreConditions>
-<Expression>Kernel.LX.LevelCrossingStruct
+<Expression>LevelCrossingStruct
 {
     Id =&gt; Packet.NID_LX,
     Location =&gt; MessageTypes.QScaleDistance ( distance =&gt; Packet.D_LX, scale =&gt; Packet.Q_SCALE ),
@@ -461,7 +461,7 @@ INITIAL_VALUE BaseTypes.MaxSpeedFunction) (Distance)</Expression>
 >
 <Expression>REDUCE LXCollection
   USING X IN ClosestLX(LX1=&gt;X, LX2=&gt;RESULT)
-  INITIAL_VALUE Kernel.LX.LevelCrossingStruct{Location =&gt; BaseTypes.Distance.Infinity}</Expression>
+  INITIAL_VALUE LevelCrossingStruct{Location =&gt; BaseTypes.Distance.Infinity}</Expression>
 </Case></Cases>
 </Function><Function
  Type="LevelCrossingStruct"
@@ -996,7 +996,7 @@ SBI1IsMostRestrictive( aLX =&gt; aLX )</PreCondition></PreConditions>
 <Action
  Guid="1fbdbe23-78ce-493f-b852-1d0303540840"
 >INSERT
-Kernel.LX.LevelCrossingStruct
+LevelCrossingStruct
 {
     Id =&gt; Packet.NID_LX,
     Location =&gt; MessageTypes.QScaleDistance ( distance =&gt; Packet.D_LX, scale =&gt; Packet.Q_SCALE ),
@@ -1076,7 +1076,7 @@ IN MRSPLevelCrossings</Action><Action
 <Action
  Guid="d82b35d5-7000-4fb9-9fda-9cb95ca822f4"
 >INSERT
-Kernel.LX.LevelCrossingStruct
+LevelCrossingStruct
 {
     Id =&gt; Packet.NID_LX,
     Location =&gt; MessageTypes.QScaleDistance ( distance =&gt; Packet.D_LX, scale =&gt; Packet.Q_SCALE ),
@@ -1130,7 +1130,7 @@ IN SupervisedLevelCrossings</Action><Action
 <Action
  Guid="31f55fb6-5217-49b5-8a68-ba5ad5434dfa"
 >INSERT
-Kernel.LX.LevelCrossingStruct
+LevelCrossingStruct
 {
     Id =&gt; Packet.NID_LX,
     Location =&gt; MessageTypes.QScaleDistance ( distance =&gt; Packet.D_LX, scale =&gt; Packet.Q_SCALE ),
@@ -1178,7 +1178,7 @@ IN MRSPLevelCrossings</Action></Actions>
 <Action
  Guid="dfcc7301-9185-4609-a9f4-c8af81ea6994"
 >INSERT
-Kernel.LX.LevelCrossingStruct
+LevelCrossingStruct
 {
     Id =&gt; Packet.NID_LX,
     Location =&gt; MessageTypes.QScaleDistance ( distance =&gt; Packet.D_LX, scale =&gt; Packet.Q_SCALE ),
@@ -1665,7 +1665,7 @@ SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT().Speed == 0.0</PreConditi
  Guid="59536c72-3242-4ff5-b2ee-668c56877ea9"
 >DMI.MasterDMI().Out_LXStatusNotProtected.OutputInformation.DisplayRequested == True</PreCondition><PreCondition
  Guid="570cd62d-e6c3-4bf4-98a5-66f73c5b5f58"
->THERE_IS aLX IN Kernel.LX.MRSPLevelCrossings |
+>THERE_IS aLX IN MRSPLevelCrossings |
   aLX.Location + aLX.Length &lt;= TrainPosition.FrontEndPosition( PointOfInterest =&gt; DistanceInterval.Min )</PreCondition></PreConditions>
 <Actions>
 <Action

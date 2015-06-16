@@ -10,7 +10,7 @@
 </NameSpaces>
 <Enumerations>
 <Enum
- Default="PositionReport.PositionReportSpecialLocation.DoNotSend"
+ Default="PositionReportSpecialLocation.DoNotSend"
  X="190"
  Y="100"
  Width="100"
@@ -451,7 +451,7 @@
  Name="Value"
  Guid="38910f57-eaaa-45c2-8562-0f00ec822b4b"
 >
-<Expression>PositionReport.PositionReportEventsTracker.HasActiveSession != HasActiveSession()
+<Expression>PositionReportEventsTracker.HasActiveSession != HasActiveSession()
   AND
 HasActiveSession()</Expression>
 </Case></Cases>
@@ -482,7 +482,7 @@ HasActiveSession()</Expression>
  Name="Value"
  Guid="2267941e-218a-4012-9fe6-34f016f07663"
 >
-<Expression>PositionReport.PositionReportEventsTracker.Level != Kernel.Level.Value.Value</Expression>
+<Expression>PositionReportEventsTracker.Level != Kernel.Level.Value.Value</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -506,7 +506,7 @@ HasActiveSession()</Expression>
  Name="Value"
  Guid="971ecd82-8414-41b3-b1b4-7dd8e9b80181"
 >
-<Expression>PositionReport.PositionReportEventsTracker.TrainIntegrityStatus != TIU.TrainIntegrity.Status
+<Expression>PositionReportEventsTracker.TrainIntegrityStatus != TIU.TrainIntegrity.Status
   AND
 TIU.TrainIntegrity.Status == Messages.Q_LENGTH.Train_integrity_lost</Expression>
 </Case></Cases>
@@ -558,7 +558,7 @@ TIU.TrainIntegrity.Status == Messages.Q_LENGTH.Train_integrity_lost</Expression>
  Name="Value"
  Guid="5dceb123-fe06-4e6a-8ded-c6c2984cebe4"
 >
-<Expression>PositionReport.PositionReportEventsTracker.Mode != Kernel.Mode</Expression>
+<Expression>PositionReportEventsTracker.Mode != Kernel.Mode</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -582,7 +582,7 @@ TIU.TrainIntegrity.Status == Messages.Q_LENGTH.Train_integrity_lost</Expression>
  Name="Value"
  Guid="aaa72c64-bb2e-466c-93eb-5bf924372ffc"
 >
-<Expression>Kernel.DateAndTime.CurrentTime &gt;= PositionReport.LastPositionReport.Time + PositionReport.PositionReportParameters.Values.TimeInterval AND PositionReport.PositionReportParameters.DataState == DataState.Valid AND PositionReport.PositionReportParameters.Values.TimeInterval != 0.0</Expression>
+<Expression>Kernel.DateAndTime.CurrentTime &gt;= LastPositionReport.Time + PositionReportParameters.Values.TimeInterval AND PositionReportParameters.DataState == DataState.Valid AND PositionReportParameters.Values.TimeInterval != 0.0</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -606,7 +606,7 @@ TIU.TrainIntegrity.Status == Messages.Q_LENGTH.Train_integrity_lost</Expression>
  Name="Value"
  Guid="3bcde522-0efd-4e95-9c56-00ee9dbe3059"
 >
-<Expression>(Odometry.NominalDistance &gt;= (PositionReport.LastPositionReport.Position + PositionReport.PositionReportParameters.Values.DistanceInterval)) AND (PositionReport.PositionReportParameters.DataState == DataState.Valid) AND (PositionReport.PositionReportParameters.Values.DistanceInterval != BaseTypes.Distance.Infinity)</Expression>
+<Expression>(Odometry.NominalDistance &gt;= (LastPositionReport.Position + PositionReportParameters.Values.DistanceInterval)) AND (PositionReportParameters.DataState == DataState.Valid) AND (PositionReportParameters.Values.DistanceInterval != BaseTypes.Distance.Infinity)</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -630,7 +630,7 @@ TIU.TrainIntegrity.Status == Messages.Q_LENGTH.Train_integrity_lost</Expression>
  Name="Value"
  Guid="d39cbac2-cb23-4eef-a013-bccca1716554"
 >
-<Expression>PositionReport.PositionReportParameters.Values.SpecialLocation == PositionReport.PositionReportSpecialLocation.Now</Expression>
+<Expression>PositionReportParameters.Values.SpecialLocation == PositionReportSpecialLocation.Now</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -654,7 +654,7 @@ TIU.TrainIntegrity.Status == Messages.Q_LENGTH.Train_integrity_lost</Expression>
  Name="Value"
  Guid="9067bdff-9b40-4532-9e37-c911b007f3db"
 >
-<Expression>PositionReport.PositionReportEventsTracker.Speed != Odometry.TrainSpeed() AND Odometry.TrainSpeed() == 0.0</Expression>
+<Expression>PositionReportEventsTracker.Speed != Odometry.TrainSpeed() AND Odometry.TrainSpeed() == 0.0</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -678,7 +678,7 @@ TIU.TrainIntegrity.Status == Messages.Q_LENGTH.Train_integrity_lost</Expression>
  Name="Value"
  Guid="b4a5f2d7-356a-4eb5-b5c5-e979531e600f"
 >
-<Expression>PositionReport.PositionReportEventsTracker.TrainIntegrityStatus != TIU.TrainIntegrity.Status
+<Expression>PositionReportEventsTracker.TrainIntegrityStatus != TIU.TrainIntegrity.Status
   AND 
 TIU.TrainIntegrity.Status in [
   Messages.Q_LENGTH.Train_integrity_confirmed_by_driver,
@@ -712,7 +712,7 @@ TIU.TrainIntegrity.Status in [
  Name="Value"
  Guid="8e7cde14-f71d-4b3b-afd0-3d60e81ba553"
 >
-<Expression>PositionReport.SendReportDueToSpecialLocationNow() OR PositionReport.SendReportDueToSpecialLocationLRBGCompliantBG()</Expression>
+<Expression>SendReportDueToSpecialLocationNow() OR SendReportDueToSpecialLocationLRBGCompliantBG()</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -736,9 +736,9 @@ TIU.TrainIntegrity.Status in [
  Name="Value"
  Guid="48204b28-2e0f-4a18-b93d-684c07d63427"
 >
-<Expression>PositionReport.PositionReportEventsTracker.LRBG != BTM.LRBG
+<Expression>PositionReportEventsTracker.LRBG != BTM.LRBG
   AND
-PositionReport.PositionReportParameters.DataState != DataState.Valid</Expression>
+PositionReportParameters.DataState != DataState.Valid</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -767,7 +767,7 @@ PositionReport.PositionReportParameters.DataState != DataState.Valid</Expression
  Name="Value"
  Guid="3cdf6774-c76a-42dd-9aa8-76d918c9c115"
 >
-<Expression>PositionReport.PositionReportEventsTracker.LevelTransitionBorderPassed == True</Expression>
+<Expression>PositionReportEventsTracker.LevelTransitionBorderPassed == True</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -917,18 +917,18 @@ PositionReport.PositionReportParameters.DataState != DataState.Valid</Expression
 )
     AND
 (
-    PositionReport.SendReportDueToStandstillReached() OR 
-    PositionReport.SendReportDueToModeChange() OR 
-    PositionReport.SendReportDueToTrainIntegrityConfirmedByDriver() OR 
-    PositionReport.SendReportDueToLossOfTrainIntegrityDetected() OR 
-    PositionReport.SendReportDueToLevelTransitionBorderPassedWithMinSafeRearEnd() OR 
-    PositionReport.SendReportDueToLevelChange() OR 
-    PositionReport.SendReportDueToCommunicationSessionIsEstablished() OR 
-    PositionReport.SendReportDueToLRBGCompliantBGPassed() OR 
-    PositionReport.SendReportDueToPositionReportDistanceReached() OR 
-    PositionReport.SendReportDueToPositionReportSpecialLocationReached() OR
-    PositionReport.SendReportDueToPositionReportTimeReached()  OR 
-    PositionReport.SendReportDueToNotConsistentMessageReceived()
+    SendReportDueToStandstillReached() OR 
+    SendReportDueToModeChange() OR 
+    SendReportDueToTrainIntegrityConfirmedByDriver() OR 
+    SendReportDueToLossOfTrainIntegrityDetected() OR 
+    SendReportDueToLevelTransitionBorderPassedWithMinSafeRearEnd() OR 
+    SendReportDueToLevelChange() OR 
+    SendReportDueToCommunicationSessionIsEstablished() OR 
+    SendReportDueToLRBGCompliantBGPassed() OR 
+    SendReportDueToPositionReportDistanceReached() OR 
+    SendReportDueToPositionReportSpecialLocationReached() OR
+    SendReportDueToPositionReportTimeReached()  OR 
+    SendReportDueToNotConsistentMessageReceived()
 
 )</Expression>
 </Case></Cases>
@@ -961,7 +961,7 @@ PositionReport.PositionReportParameters.DataState != DataState.Valid</Expression
 <PreCondition
  Guid="35c794c0-5225-4e97-b992-64e1cc0f9013"
 >M_LOC == 0</PreCondition></PreConditions>
-<Expression>PositionReport.PositionReportSpecialLocation.Now</Expression>
+<Expression>PositionReportSpecialLocation.Now</Expression>
 </Case><Case
  Name="LRBG"
  Guid="94794676-4b38-47b1-bdc8-7d102b9b4ab7"
@@ -970,7 +970,7 @@ PositionReport.PositionReportParameters.DataState != DataState.Valid</Expression
 <PreCondition
  Guid="7a286dfe-aba0-4dbf-84ec-4a50e6e6f4ae"
 >M_LOC == 1</PreCondition></PreConditions>
-<Expression>PositionReport.PositionReportSpecialLocation.LRBG</Expression>
+<Expression>PositionReportSpecialLocation.LRBG</Expression>
 </Case><Case
  Name="DoNotSend"
  Guid="5f8d4ff4-9ae7-4625-b2fa-8bf772e3d0e7"
@@ -979,7 +979,7 @@ PositionReport.PositionReportParameters.DataState != DataState.Valid</Expression
 <PreCondition
  Guid="95161b86-ce17-4022-8323-28087be8111d"
 >M_LOC == 2</PreCondition></PreConditions>
-<Expression>PositionReport.PositionReportSpecialLocation.DoNotSend</Expression>
+<Expression>PositionReportSpecialLocation.DoNotSend</Expression>
 </Case></Cases>
 </Function><Function
  Type="Default.BaseTypes.Length"
@@ -1137,13 +1137,13 @@ PositionReport.PositionReportParameters.DataState != DataState.Valid</Expression
     {
         Q_SCALE =&gt; Messages.Q_SCALE._1_m_scaleC,
         NID_LRBG =&gt; BTM.LRBG.NID,
-        D_LRBG =&gt; PositionReport.FillDistance(),
+        D_LRBG =&gt; FillDistance(),
         Q_DIRLRBG =&gt; Q_DIRLRBG ( Kernel.TrainPosition.Position.DirectionalPositionInformation.TrainOrientation ),
         Q_DLRBG =&gt; Q_DLRBG ( Kernel.TrainPosition.Position.DirectionalPositionInformation.TrainFrontEndPosition ),
         L_DOUBTOVER =&gt; MessageTypes.UnScaleLength ( Kernel.ConfidenceInterval.ConfidenceInterval(ConfidenceInterval.L_DOUBTOVER), Messages.Q_SCALE._1_m_scaleC ),
         L_DOUBTUNDER =&gt; MessageTypes.UnScaleLength ( Kernel.ConfidenceInterval.ConfidenceInterval(ConfidenceInterval.L_DOUBTUNDER), Messages.Q_SCALE._1_m_scaleC ),
         Q_LENGTH =&gt; TIU.TrainIntegrity.Status,
-        L_TRAININT =&gt; MessageTypes.UnScaleLength ( PositionReport.FillTrainIntegrityInformation(), Messages.Q_SCALE._1_m_scaleC),
+        L_TRAININT =&gt; MessageTypes.UnScaleLength ( FillTrainIntegrityInformation(), Messages.Q_SCALE._1_m_scaleC),
         V_TRAIN =&gt; MessageTypes.UnResolveSpeed ( Odometry.TrainSpeed(), 5.0 ),
         Q_DIRTRAIN =&gt; Q_DIRTRAIN ( Kernel.TrainPosition.Position.DirectionalPositionInformation.TrainRunningDirection ),
         M_MODE =&gt; EFSModeConverter(Kernel.Mode),
@@ -1166,13 +1166,13 @@ PositionReport.PositionReportParameters.DataState != DataState.Valid</Expression
         Q_SCALE =&gt; Messages.Q_SCALE._1_m_scaleC,
         NID_LRBG =&gt; BTM.LRBG.NID,
         NID_PRVLRBG =&gt; Messages.NID_PRVBG ( BTM.PreviousLRBG().NID ),
-        D_LRBG =&gt; PositionReport.FillDistance(),
+        D_LRBG =&gt; FillDistance(),
         Q_DIRLRBG =&gt; Q_DIRLRBG ( Kernel.TrainPosition.Position.DirectionalPositionInformation.TrainOrientation ),
         Q_DLRBG =&gt; Q_DLRBG ( Kernel.TrainPosition.Position.DirectionalPositionInformation.TrainFrontEndPosition ),
         L_DOUBTOVER =&gt; MessageTypes.UnScaleLength ( length =&gt; Kernel.ConfidenceInterval.ConfidenceInterval ( ConfidenceInterval.L_DOUBTOVER ), scale =&gt; Messages.Q_SCALE._1_m_scaleC ),
         L_DOUBTUNDER =&gt; MessageTypes.UnScaleLength ( Kernel.ConfidenceInterval.ConfidenceInterval ( ConfidenceInterval.L_DOUBTUNDER ), scale =&gt; Messages.Q_SCALE._1_m_scaleC ),
         Q_LENGTH =&gt; TIU.TrainIntegrity.Status,
-        L_TRAININT =&gt; MessageTypes.UnScaleLength ( PositionReport.FillTrainIntegrityInformation(), Messages.Q_SCALE._1_m_scaleC),
+        L_TRAININT =&gt; MessageTypes.UnScaleLength ( FillTrainIntegrityInformation(), Messages.Q_SCALE._1_m_scaleC),
         V_TRAIN =&gt; MessageTypes.UnResolveSpeed ( Odometry.TrainSpeed(), 5.0 ),
         Q_DIRTRAIN =&gt; Q_DIRTRAIN ( Kernel.TrainPosition.Position.DirectionalPositionInformation.TrainRunningDirection ),
         M_MODE =&gt; EFSModeConverter(Kernel.Mode),
@@ -1189,13 +1189,13 @@ PositionReport.PositionReportParameters.DataState != DataState.Valid</Expression
     {
         Q_SCALE =&gt; Messages.Q_SCALE._1_m_scaleC,
         NID_LRBG =&gt; BTM.LRBG.NID,
-        D_LRBG =&gt; PositionReport.FillDistance(),
+        D_LRBG =&gt; FillDistance(),
         Q_DIRLRBG =&gt; Q_DIRLRBG ( Kernel.TrainPosition.Position.DirectionalPositionInformation.TrainOrientation ),
         Q_DLRBG =&gt; Q_DLRBG ( Kernel.TrainPosition.Position.DirectionalPositionInformation.TrainFrontEndPosition ),
         L_DOUBTOVER =&gt; MessageTypes.UnScaleLength ( Kernel.ConfidenceInterval.ConfidenceInterval(ConfidenceInterval.L_DOUBTOVER), Messages.Q_SCALE._1_m_scaleC ),
         L_DOUBTUNDER =&gt; MessageTypes.UnScaleLength ( Kernel.ConfidenceInterval.ConfidenceInterval(ConfidenceInterval.L_DOUBTUNDER), Messages.Q_SCALE._1_m_scaleC ),
         Q_LENGTH =&gt; TIU.TrainIntegrity.Status,
-        L_TRAININT =&gt; MessageTypes.UnScaleLength ( PositionReport.FillTrainIntegrityInformation(), Messages.Q_SCALE._1_m_scaleC),
+        L_TRAININT =&gt; MessageTypes.UnScaleLength ( FillTrainIntegrityInformation(), Messages.Q_SCALE._1_m_scaleC),
         V_TRAIN =&gt; MessageTypes.UnResolveSpeed ( Odometry.TrainSpeed(), 5.0 ),
         Q_DIRTRAIN =&gt; Q_DIRTRAIN ( Kernel.TrainPosition.Position.DirectionalPositionInformation.TrainRunningDirection ),
         M_MODE =&gt; EFSModeConverter(Kernel.Mode),
@@ -1368,13 +1368,13 @@ PositionReport.PositionReportParameters.DataState != DataState.Valid</Expression
 <Actions>
 <Action
  Guid="bb7d9795-fec8-42f3-a619-fb767260a89d"
->PositionReport.PositionReportParameters.DataState &lt;- DataState.Valid</Action><Action
+>PositionReportParameters.DataState &lt;- DataState.Valid</Action><Action
  Guid="f3e0c810-5538-4ebf-b190-2e4fa7161c79"
->PositionReport.PositionReportParameters.Values.TimeInterval &lt;- BaseTypes.Time ( Packet.T_CYCLOC )</Action><Action
+>PositionReportParameters.Values.TimeInterval &lt;- BaseTypes.Time ( Packet.T_CYCLOC )</Action><Action
  Guid="bbed578f-bec0-45d5-a457-6c3e192bcb6b"
->PositionReport.PositionReportParameters.Values.DistanceInterval &lt;- MessageTypes.QScaleDistance ( Packet.D_CYCLOC, Packet.Q_SCALE)</Action><Action
+>PositionReportParameters.Values.DistanceInterval &lt;- MessageTypes.QScaleDistance ( Packet.D_CYCLOC, Packet.Q_SCALE)</Action><Action
  Guid="89290f52-e348-42cd-abb6-f2b2841c62fb"
->PositionReport.PositionReportParameters.Values.SpecialLocation &lt;- PositionReport.ERTMSSpecialLocationConverter(Packet.M_LOC)</Action></Actions>
+>PositionReportParameters.Values.SpecialLocation &lt;- ERTMSSpecialLocationConverter(Packet.M_LOC)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -1437,7 +1437,7 @@ PositionReport.PositionReportParameters.DataState != DataState.Valid</Expression
 <Actions>
 <Action
  Guid="89164f10-4804-45f9-b404-1ba1447d422b"
->PositionReport.NumberOfReportsSentToHandingOverRBC &lt;- 1</Action><Action
+>NumberOfReportsSentToHandingOverRBC &lt;- 1</Action><Action
  Guid="7a5a51e3-0abe-4698-93ed-043abb09e4d1"
 >CurrentRBCConnection().SendPositionReport()</Action></Actions>
 </RuleCondition></Conditions>
@@ -1580,9 +1580,9 @@ ON
  Guid="35b07ffe-860e-42d4-98bd-0a84888dd618"
 >SecondaryRBCConnection().SendPositionReport()</Action><Action
  Guid="11e2aab1-4355-4fc4-be65-995e9d79f494"
->PositionReport.NumberOfReportsSentToHandingOverRBC &lt;- PositionReport.NumberOfReportsSentToHandingOverRBC + 1</Action><Action
+>NumberOfReportsSentToHandingOverRBC &lt;- NumberOfReportsSentToHandingOverRBC + 1</Action><Action
  Guid="10b43a01-1386-4f3f-b773-a520fe5bdd33"
->PositionReport.SecondRBCHandoverPositionReportTime &lt;- Kernel.DateAndTime.CurrentTime</Action></Actions>
+>SecondRBCHandoverPositionReportTime &lt;- Kernel.DateAndTime.CurrentTime</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Only one RBC connection is available"
@@ -1596,9 +1596,9 @@ ON
  Guid="4e660aad-b808-4b8f-af10-18728cbb118c"
 >CurrentRBCConnection().SendPositionReport()</Action><Action
  Guid="98ee005b-0814-4319-b1f3-3ac3f5840ced"
->PositionReport.NumberOfReportsSentToHandingOverRBC &lt;- PositionReport.NumberOfReportsSentToHandingOverRBC + 1</Action><Action
+>NumberOfReportsSentToHandingOverRBC &lt;- NumberOfReportsSentToHandingOverRBC + 1</Action><Action
  Guid="42025d97-0b92-40d7-97ee-d7e5a5385fde"
->PositionReport.SecondRBCHandoverPositionReportTime &lt;- Kernel.DateAndTime.CurrentTime</Action></Actions>
+>SecondRBCHandoverPositionReportTime &lt;- Kernel.DateAndTime.CurrentTime</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -1665,7 +1665,7 @@ ON
 <PreConditions>
 <PreCondition
  Guid="c0cd5727-43a9-490a-adb3-b7ab7cfac417"
->PositionReport.SendReportNow()</PreCondition></PreConditions>
+>SendReportNow()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="caed2442-a4dd-49e2-9bb4-55a01c80b907"
@@ -1974,17 +1974,17 @@ ON
 <PreConditions>
 <PreCondition
  Guid="8759fa6c-ccb2-4799-901c-da387590d178"
->PositionReport.NumberOfReportsSentToHandingOverRBC == 0
+>NumberOfReportsSentToHandingOverRBC == 0
   AND
-Kernel.TrainPosition.FrontEndPosition ( PointOfInterest =&gt; DistanceInterval.Max ) &gt;= PositionReport.RBCTransitionLocation</PreCondition><PreCondition
+Kernel.TrainPosition.FrontEndPosition ( PointOfInterest =&gt; DistanceInterval.Max ) &gt;= RBCTransitionLocation</PreCondition><PreCondition
  Guid="8ddbf2b5-1a20-4b70-abcd-734965454ea6"
->PositionReport.RBCTransitionLocation != BaseTypes.Distance.Unknown</PreCondition><PreCondition
+>RBCTransitionLocation != BaseTypes.Distance.Unknown</PreCondition><PreCondition
  Guid="9180eede-7378-46a7-8bf8-a4dc3cd4677c"
 >Kernel.ActiveFunctions.ManageRBC_RBCHandover()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="daf467de-6386-457f-8555-9fbf8706549b"
->PositionReport.SendFirstRBCHandoverPositionReport()</Action></Actions>
+>SendFirstRBCHandoverPositionReport()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -2083,17 +2083,17 @@ Kernel.TrainPosition.FrontEndPosition ( PointOfInterest =&gt; DistanceInterval.M
 <PreConditions>
 <PreCondition
  Guid="2e4c2276-a2dd-4f4c-8fcb-9857d72cb4c8"
->PositionReport.RBCTransitionLocation != BaseTypes.Distance.Unknown</PreCondition><PreCondition
+>RBCTransitionLocation != BaseTypes.Distance.Unknown</PreCondition><PreCondition
  Guid="9e01e492-5354-4383-a8cf-c25c076c9526"
->PositionReport.NumberOfReportsSentToHandingOverRBC == 1
+>NumberOfReportsSentToHandingOverRBC == 1
   AND
-Kernel.TrainPosition.RearEndPosition ( PointOfInterest =&gt; DistanceInterval.Min ) &gt;= PositionReport.RBCTransitionLocation</PreCondition><PreCondition
+Kernel.TrainPosition.RearEndPosition ( PointOfInterest =&gt; DistanceInterval.Min ) &gt;= RBCTransitionLocation</PreCondition><PreCondition
  Guid="3c744592-d68e-46b8-bcab-764b7e40c095"
 >Kernel.ActiveFunctions.ManageRBC_RBCHandover()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="6c6ff4dc-2494-496b-b9bf-11fe670cc4b7"
->PositionReport.SendSecondRBCHandoverPositionReport()</Action></Actions>
+>SendSecondRBCHandoverPositionReport()</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Handing Over RBC has sent an order to terminate the session"
@@ -2109,7 +2109,7 @@ Kernel.TrainPosition.RearEndPosition ( PointOfInterest =&gt; DistanceInterval.Mi
 <Actions>
 <Action
  Guid="56171646-7f3d-4717-8553-731700087a4f"
->PositionReport.NumberOfReportsSentToHandingOverRBC &lt;- 0</Action></Actions>
+>NumberOfReportsSentToHandingOverRBC &lt;- 0</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="No order to terminate the session received from Handing Over RBC before the timeout =&gt; send a new position report."
@@ -2124,17 +2124,17 @@ Kernel.TrainPosition.RearEndPosition ( PointOfInterest =&gt; DistanceInterval.Mi
 <PreConditions>
 <PreCondition
  Guid="b18ba555-56bf-429c-8587-9d2262a83d58"
->PositionReport.NumberOfReportsSentToHandingOverRBC &gt; 0</PreCondition><PreCondition
+>NumberOfReportsSentToHandingOverRBC &gt; 0</PreCondition><PreCondition
  Guid="bb5277e0-aa5c-48e6-a9b9-1ef76c7ff93a"
->PositionReport.SecondRBCHandoverPositionReportTime + TimeBeforeMessageRepetition &lt; Kernel.DateAndTime.CurrentTime</PreCondition><PreCondition
+>SecondRBCHandoverPositionReportTime + TimeBeforeMessageRepetition &lt; Kernel.DateAndTime.CurrentTime</PreCondition><PreCondition
  Guid="aa7bc635-025b-4bfa-b27c-d05d3984511b"
->PositionReport.NumberOfSentReportRepetitions &lt; NumberOfMessageRepetitions</PreCondition><PreCondition
+>NumberOfSentReportRepetitions &lt; NumberOfMessageRepetitions</PreCondition><PreCondition
  Guid="cb496351-7929-4a7e-ab9a-14bf9a5bdbf8"
 >Kernel.ActiveFunctions.ManageRBC_RBCHandover()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="2dd104eb-cbba-403c-96ba-4318538874a7"
->PositionReport.SendSecondRBCHandoverPositionReport()</Action></Actions>
+>SendSecondRBCHandoverPositionReport()</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="No order to terminate the session received from Handing Over RBC, max number of requests reached"
@@ -2149,11 +2149,11 @@ Kernel.TrainPosition.RearEndPosition ( PointOfInterest =&gt; DistanceInterval.Mi
 <PreConditions>
 <PreCondition
  Guid="2351d843-a038-4af6-af2c-0388a7b3a7cb"
->PositionReport.NumberOfSentReportRepetitions == NumberOfMessageRepetitions</PreCondition><PreCondition
+>NumberOfSentReportRepetitions == NumberOfMessageRepetitions</PreCondition><PreCondition
  Guid="22623cd7-98dd-4219-a3da-8d0a348c1178"
->PositionReport.NumberOfReportsSentToHandingOverRBC &gt; 0</PreCondition><PreCondition
+>NumberOfReportsSentToHandingOverRBC &gt; 0</PreCondition><PreCondition
  Guid="d30495ba-3762-4c19-96f3-456143f7ae70"
->PositionReport.SecondRBCHandoverPositionReportTime + TimeBeforeMessageRepetition &lt; Kernel.DateAndTime.CurrentTime</PreCondition><PreCondition
+>SecondRBCHandoverPositionReportTime + TimeBeforeMessageRepetition &lt; Kernel.DateAndTime.CurrentTime</PreCondition><PreCondition
  Guid="770bd4c3-89dd-445f-b09b-7dc617030f18"
 >Kernel.ActiveFunctions.ManageRBC_RBCHandover()</PreCondition></PreConditions>
 <Actions>
@@ -2205,11 +2205,11 @@ Kernel.TrainPosition.RearEndPosition ( PointOfInterest =&gt; DistanceInterval.Mi
 <PreConditions>
 <PreCondition
  Guid="b5b3bdcf-5b20-47eb-a2c1-2cc56eeffb29"
->PositionReport.PositionReportEventsTracker.HasActiveSession != HasActiveSession()</PreCondition></PreConditions>
+>PositionReportEventsTracker.HasActiveSession != HasActiveSession()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="f253a472-4a0b-4830-9daf-dc9f1d297a47"
->PositionReport.PositionReportEventsTracker.HasActiveSession &lt;- HasActiveSession()</Action></Actions>
+>PositionReportEventsTracker.HasActiveSession &lt;- HasActiveSession()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="CleanUp"
@@ -2230,11 +2230,11 @@ Kernel.TrainPosition.RearEndPosition ( PointOfInterest =&gt; DistanceInterval.Mi
 <PreConditions>
 <PreCondition
  Guid="49677e46-1ad5-40a9-af59-160a893d7fa9"
->PositionReport.PositionReportEventsTracker.Level != Kernel.Level.Value.Value</PreCondition></PreConditions>
+>PositionReportEventsTracker.Level != Kernel.Level.Value.Value</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="515acf5a-9876-4a6f-a73b-ca4bf8d4188f"
->PositionReport.PositionReportEventsTracker.Level &lt;- Kernel.Level.Value.Value</Action></Actions>
+>PositionReportEventsTracker.Level &lt;- Kernel.Level.Value.Value</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="CleanUp"
@@ -2255,11 +2255,11 @@ Kernel.TrainPosition.RearEndPosition ( PointOfInterest =&gt; DistanceInterval.Mi
 <PreConditions>
 <PreCondition
  Guid="5db42a2c-f937-4f32-a925-9c7b4f8337fd"
->PositionReport.PositionReportEventsTracker.Mode != Kernel.Mode</PreCondition></PreConditions>
+>PositionReportEventsTracker.Mode != Kernel.Mode</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="a40ed2af-fb9d-49e3-a621-997105f90762"
->PositionReport.PositionReportEventsTracker.Mode &lt;- Kernel.Mode</Action></Actions>
+>PositionReportEventsTracker.Mode &lt;- Kernel.Mode</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="CleanUp"
@@ -2280,11 +2280,11 @@ Kernel.TrainPosition.RearEndPosition ( PointOfInterest =&gt; DistanceInterval.Mi
 <PreConditions>
 <PreCondition
  Guid="e9d87099-edc8-4dea-bdd4-ab5fd6b85fae"
->PositionReport.PositionReportEventsTracker.TrainIntegrityStatus != TIU.TrainIntegrity.Status</PreCondition></PreConditions>
+>PositionReportEventsTracker.TrainIntegrityStatus != TIU.TrainIntegrity.Status</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="03674022-99fb-4c9a-913c-c3686ac1025e"
->PositionReport.PositionReportEventsTracker.TrainIntegrityStatus &lt;- TIU.TrainIntegrity.Status</Action></Actions>
+>PositionReportEventsTracker.TrainIntegrityStatus &lt;- TIU.TrainIntegrity.Status</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="CleanUp"
@@ -2305,11 +2305,11 @@ Kernel.TrainPosition.RearEndPosition ( PointOfInterest =&gt; DistanceInterval.Mi
 <PreConditions>
 <PreCondition
  Guid="4ff8ab1e-553f-4bc5-9e31-9cdf9c890e0a"
->PositionReport.PositionReportEventsTracker.Speed != Odometry.TrainSpeed()</PreCondition></PreConditions>
+>PositionReportEventsTracker.Speed != Odometry.TrainSpeed()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="f06ea1a9-ebb0-4f14-89bd-3d61fbc07ba2"
->PositionReport.PositionReportEventsTracker.Speed &lt;- Odometry.TrainSpeed()</Action></Actions>
+>PositionReportEventsTracker.Speed &lt;- Odometry.TrainSpeed()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="CleanUp"
@@ -2330,15 +2330,15 @@ Kernel.TrainPosition.RearEndPosition ( PointOfInterest =&gt; DistanceInterval.Mi
 <PreConditions>
 <PreCondition
  Guid="01e9965d-e63e-492a-8fd6-d2abb46ca74d"
->PositionReport.PositionReportParameters.Values.SpecialLocation == PositionReport.PositionReportSpecialLocation.Now</PreCondition></PreConditions>
+>PositionReportParameters.Values.SpecialLocation == PositionReportSpecialLocation.Now</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="ce1b2dac-1a95-4367-9e31-0328b192cae8"
->PositionReport.PositionReportParameters.Values.SpecialLocation &lt;- PositionReport.PositionReportSpecialLocation.DoNotSend</Action><Action
+>PositionReportParameters.Values.SpecialLocation &lt;- PositionReportSpecialLocation.DoNotSend</Action><Action
  Guid="465e9a0b-308d-4a86-a7e3-75ee18e0f703"
->PositionReport.LastPositionReport.Time &lt;- Kernel.DateAndTime.CurrentTime</Action><Action
+>LastPositionReport.Time &lt;- Kernel.DateAndTime.CurrentTime</Action><Action
  Guid="6541046c-0889-4cf3-9a50-e0778f68cb93"
->PositionReport.LastPositionReport.Position &lt;- Odometry.NominalDistance</Action></Actions>
+>LastPositionReport.Position &lt;- Odometry.NominalDistance</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="CleanUp"
@@ -2359,11 +2359,11 @@ Kernel.TrainPosition.RearEndPosition ( PointOfInterest =&gt; DistanceInterval.Mi
 <PreConditions>
 <PreCondition
  Guid="06f45f9c-043b-4bbc-b95c-80f3dff05f14"
->PositionReport.SendReportDueToPositionReportTimeReached()</PreCondition></PreConditions>
+>SendReportDueToPositionReportTimeReached()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="d52d054b-2c95-4bcb-b1f0-f2cb70ee9265"
->PositionReport.LastPositionReport.Time &lt;- Kernel.DateAndTime.CurrentTime</Action></Actions>
+>LastPositionReport.Time &lt;- Kernel.DateAndTime.CurrentTime</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="CleanUp"
@@ -2384,11 +2384,11 @@ Kernel.TrainPosition.RearEndPosition ( PointOfInterest =&gt; DistanceInterval.Mi
 <PreConditions>
 <PreCondition
  Guid="5dfc878b-69eb-4c7a-bb0e-ce7e410d873a"
->PositionReport.SendReportDueToPositionReportDistanceReached()</PreCondition></PreConditions>
+>SendReportDueToPositionReportDistanceReached()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="62ca8361-552c-4f8d-a5af-7a2d6bd64455"
->PositionReport.LastPositionReport.Position &lt;- Odometry.NominalDistance</Action></Actions>
+>LastPositionReport.Position &lt;- Odometry.NominalDistance</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -2409,11 +2409,11 @@ Kernel.TrainPosition.RearEndPosition ( PointOfInterest =&gt; DistanceInterval.Mi
 <PreConditions>
 <PreCondition
  Guid="9e597c5e-8972-45f9-9d7b-02b17dd66b8c"
->PositionReport.NumberOfReportsSentToHandingOverRBC == 2</PreCondition></PreConditions>
+>NumberOfReportsSentToHandingOverRBC == 2</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="ba49bc15-c471-41a1-b203-6cf28b8868a4"
->PositionReport.NumberOfReportsSentToHandingOverRBC &lt;- 0</Action></Actions>
+>NumberOfReportsSentToHandingOverRBC &lt;- 0</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="CleanUp"
@@ -2434,11 +2434,11 @@ Kernel.TrainPosition.RearEndPosition ( PointOfInterest =&gt; DistanceInterval.Mi
 <PreConditions>
 <PreCondition
  Guid="ae6c8ef1-2194-4108-a559-adccefd1179a"
->PositionReport.PositionReportEventsTracker.LRBG != BTM.LRBG</PreCondition></PreConditions>
+>PositionReportEventsTracker.LRBG != BTM.LRBG</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="e19bb715-6e05-4bc2-a5dc-f0842d91b312"
->PositionReport.PositionReportEventsTracker.LRBG &lt;- BTM.LRBG</Action></Actions>
+>PositionReportEventsTracker.LRBG &lt;- BTM.LRBG</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition></Conditions>

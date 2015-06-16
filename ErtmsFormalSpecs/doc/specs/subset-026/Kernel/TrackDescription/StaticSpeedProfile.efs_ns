@@ -269,7 +269,7 @@
 <PreCondition
  Guid="7f6dc22b-756b-4bbd-a279-def78e406e66"
 >aSSP.TrainLengthDelay == Messages.Q_FRONT.Train_length_delay_on_validity_end_point_of_profile_element</PreCondition></PreConditions>
-<Expression>SSPEnd(aSSP) - aSSP.Location + Kernel.TrainData.TrainData.Value.TrainLength</Expression>
+<Expression>SSPEnd(aSSP) - aSSP.Location + TrainData.TrainData.Value.TrainLength</Expression>
 </Case><Case
  Name="NoTrainLengthDelay"
  Guid="e5943792-4cfa-46ac-befd-3c30fe17d42b"
@@ -316,7 +316,7 @@
  Guid="b3fadbe3-c52f-409c-bf9e-f100bb6a5585"
 >
 <Expression>REDUCE
-    aSSR.Categories | X.Qualifier == Messages.Q_DIFF.Cant_Deficiency_specific_category AND X.CantDeficiency &lt;= NC_CTRAIN_to_NC_CDDIFF_Converter(Kernel.TrainData.TrainData.Value.TrainCategories.CantDeficiency)
+    aSSR.Categories | X.Qualifier == Messages.Q_DIFF.Cant_Deficiency_specific_category AND X.CantDeficiency &lt;= NC_CTRAIN_to_NC_CDDIFF_Converter(TrainData.TrainData.Value.TrainCategories.CantDeficiency)
 USING X IN
     MaxCategory (X =&gt; X.CantDeficiency, Y =&gt; RESULT)
 INITIAL_VALUE
@@ -481,7 +481,7 @@ INITIAL_VALUE
  Name="Value"
  Guid="911f9e12-9e9e-444b-9f69-eb1556d30683"
 >
-<Expression>Kernel.TrackDescription.StaticSpeedProfile.StaticSpeedRestrictionStruct
+<Expression>StaticSpeedRestrictionStruct
 {
     Location =&gt; Location,
     BasicSpeed =&gt; BasicSpeed,
@@ -823,7 +823,7 @@ INITIAL_VALUE
  Name="Value"
  Guid="39b3f53b-79a9-41ad-bc42-6742ae462189"
 >
-<Expression>THERE_IS X IN Kernel.TrainData.TrainData.Value.TrainCategories.OtherInternational | X == Category</Expression>
+<Expression>THERE_IS X IN TrainData.TrainData.Value.TrainCategories.OtherInternational | X == Category</Expression>
 </Case></Cases>
 </Function><Function
  Type="Default.BaseTypes.Speed"
@@ -1013,7 +1013,7 @@ INITIAL_VALUE
 <PreConditions>
 <PreCondition
  Guid="c91e4218-6727-4554-8526-ff60ecb48e17"
->Mode != Mode.TR</PreCondition></PreConditions>
+>Mode != Default.Mode.TR</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="cc434071-3c30-4ef5-ac05-dfbaaf5a9c9c"
@@ -1057,7 +1057,7 @@ IN
  Guid="cad0ebcd-1de5-4a6d-84d3-498b13ce5bc3"
 >Packet.V_STATIC == 127</PreCondition><PreCondition
  Guid="b944bd42-2395-49b2-b993-a87989972d98"
->Mode != Mode.TR</PreCondition></PreConditions>
+>Mode != Default.Mode.TR</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="e59b778c-47ac-4e37-94a0-45b10846d56a"
@@ -1123,7 +1123,7 @@ IN
 <PreConditions>
 <PreCondition
  Guid="db763405-16a3-419b-97f0-7a3d86ec89e0"
->Mode != Mode.TR</PreCondition></PreConditions>
+>Mode != Default.Mode.TR</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="1353f5e7-b5ab-4b5e-9b25-07b8c3448625"
@@ -1211,7 +1211,7 @@ ON
 <Action
  Guid="368e58a1-239c-4e8a-bd8b-37f1d4c829d8"
 >INSERT
-    Kernel.TrackDescription.StaticSpeedProfile.StaticSpeedRestrictionStruct
+    StaticSpeedRestrictionStruct
     {
         Location =&gt; Location,
         BasicSpeed =&gt; MessageTypes.SpeedResolution ( speed =&gt; aSSP.V_STATIC, resolution =&gt; 5.0 ),
@@ -1236,7 +1236,7 @@ IN
 <Action
  Guid="65d681d5-c87b-4c85-b562-87d5fcd83f47"
 >INSERT
-    Kernel.TrackDescription.StaticSpeedProfile.StaticSpeedRestrictionStruct
+    StaticSpeedRestrictionStruct
     {
         Location =&gt; Location,
         BasicSpeed =&gt; BaseTypes.Speed.Infinity,

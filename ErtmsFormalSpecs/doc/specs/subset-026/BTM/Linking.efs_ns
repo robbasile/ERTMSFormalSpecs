@@ -146,7 +146,7 @@
 Since this only stores what is inside Q_LOCACC (which can only be in the range of 0 to 63) it should be safe to use an ordinary length type here.</Comment>
 </StructureElement><StructureElement
  TypeName="Default.Orientation"
- Default="Orientation.Unknown"
+ Default="Default.Orientation.Unknown"
  Mode="Internal"
  Implemented="TRUE"
  Verified="TRUE"
@@ -324,7 +324,7 @@ Since this only stores what is inside Q_LOCACC (which can only be in the range o
  Name="Value"
  Guid="26c7601d-ea48-4264-a247-cbc27a17b8af"
 >
-<Expression>BTM.Linking.LinkingDataStruct {
+<Expression>LinkingDataStruct {
   Distance =&gt; MessageTypes.QScaleDistance ( distance =&gt; D_LINK, scale =&gt; Q_SCALE ),
   BaliseGroupIdentifier =&gt; NID_BG,
   Orientation =&gt; LinkingOrientationConverter ( Q_LINKORIENTATION ),
@@ -988,7 +988,7 @@ CurrentBGWithinFrame()</PreCondition></PreConditions>
  Name="Value"
  Guid="973e721c-5881-4502-b5ba-5956531d9a1d"
 >
-<Expression>BTM.Linking.LinkingDataStruct{
+<Expression>LinkingDataStruct{
     LocationAccuracy =&gt; (FIRST X IN Linkings | X != (FIRST X IN Linkings)).LocationAccuracy,
     Orientation =&gt; (FIRST X IN Linkings | X != (FIRST X IN Linkings)).Orientation,
     Reaction =&gt; (FIRST X IN Linkings | X != (FIRST X IN Linkings)).Reaction,
@@ -2441,7 +2441,7 @@ As the first part of this procedure deletes the first (inconsistent) BG from the
 <PreConditions>
 <PreCondition
  Guid="252f8f77-05b8-42b2-9b28-8f095360190a"
->LinkingReaction == LinkingReaction.CommandServiceBrake</PreCondition></PreConditions>
+>LinkingReaction == Linking.LinkingReaction.CommandServiceBrake</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="bfc6430f-ae00-42e0-8bd9-645cf6379bf4"
@@ -2476,7 +2476,7 @@ IN Kernel.EmergencyStops</Action><Action
 <PreConditions>
 <PreCondition
  Guid="dc77f423-8ec6-4f72-a26c-5a8f78d45398"
->LinkingReaction == LinkingReaction.TrainTrip</PreCondition></PreConditions>
+>LinkingReaction == Linking.LinkingReaction.TrainTrip</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="ae19ed3a-7f6d-4b56-88d8-3ad85658ff6d"

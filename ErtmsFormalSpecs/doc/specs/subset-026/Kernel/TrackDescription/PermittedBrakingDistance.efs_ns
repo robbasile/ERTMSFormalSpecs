@@ -253,7 +253,7 @@
  Name="Value"
  Guid="58a6586b-b703-4c7f-a7ab-c0a008b09195"
 >
-<Expression>Kernel.TrackDescription.PermittedBrakingDistance.SRPBDStruct
+<Expression>SRPBDStruct
 {
     BrakingDistance =&gt; PermittedBrakingDistance,
     BrakeType =&gt; BrakeType,
@@ -607,7 +607,7 @@
 >
 <Expression>(
     REDUCE
-        TrackDescription.AdhesionFactors.AdhFactors
+        AdhesionFactors.AdhFactors
     USING X IN
         Override
         (
@@ -725,7 +725,7 @@
 <PreConditions>
 <PreCondition
  Guid="49182ebe-0de5-436a-bc60-ccb48241b9e0"
->d &lt; anAdhFactor.Location + BaseTypes.LengthToDistance ( TrackDescription.AdhesionFactors.AdhFactorLength ( anAdhFactor ) )</PreCondition><PreCondition
+>d &lt; anAdhFactor.Location + BaseTypes.LengthToDistance ( AdhesionFactors.AdhFactorLength ( anAdhFactor ) )</PreCondition><PreCondition
  Guid="96d93cb8-5eac-4f52-b211-9fc3b66f1670"
 >anAdhFactor.Location &lt;= d</PreCondition><PreCondition
  Guid="db33952f-0acc-4003-8b05-5fcf9b2fa7c3"
@@ -875,7 +875,7 @@
 <PreCondition
  Guid="e650e13e-81be-4737-a404-293cace431a0"
 >TrainData.BrakingParameters.ConversionModel.ConversionModelIsUsed()</PreCondition></PreConditions>
-<Expression>TrainData.BrakingParameters.ConversionModel.A_brake_service ( V ) + A_gradient(Gradient)</Expression>
+<Expression>Kernel.TrainData.BrakingParameters.ConversionModel.A_brake_service ( V ) + A_gradient(Gradient)</Expression>
 </Case></Cases>
 </Function><Function
  Type="Default.BaseTypes.Speed"
@@ -1114,7 +1114,7 @@ TrainData.BrakingParameters.Default_brk_emergency(V)</Expression>
 <PreCondition
  Guid="572e8bb1-06af-4554-aad8-8dee18cd6e36"
 >TrainData.BrakingParameters.ConversionModel.ConversionModelIsUsed()</PreCondition></PreConditions>
-<Expression>BaseTypes.Acceleration ( NationalValues.Kv_int ( V ) * NationalValues.Kr_int ( TrainData.TrainData.Value.TrainLength ) ) * TrainData.BrakingParameters.ConversionModel.A_brake_emergency ( V )</Expression>
+<Expression>BaseTypes.Acceleration ( NationalValues.Kv_int ( V ) * NationalValues.Kr_int ( TrainData.TrainData.Value.TrainLength ) ) * Kernel.TrainData.BrakingParameters.ConversionModel.A_brake_emergency ( V )</Expression>
 </Case></Cases>
 </Function><Function
  Type="Default.BaseTypes.Speed"
@@ -1726,7 +1726,7 @@ STOP_CONDITION
  Guid="702c41be-b661-4a44-b0a3-9f3e6660c5a8"
 >Packet.Q_TRACKINIT == Messages.Q_TRACKINIT.Empty_profile__initial_states_to_be_resumed</PreCondition><PreCondition
  Guid="c8150dfb-72db-4741-be81-ff85bc0005f8"
->Mode != Mode.TR</PreCondition></PreConditions>
+>Mode != Default.Mode.TR</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="0f51ade6-1ab1-4d5e-a2e6-5ba1d3e16c12"
@@ -1764,7 +1764,7 @@ STOP_CONDITION
  Guid="ec6b53e9-a181-4239-8179-888b316dcb5c"
 >Packet.Q_TRACKINIT == Messages.Q_TRACKINIT.No_initial_states_to_be_resumed__profile_to_follow</PreCondition><PreCondition
  Guid="30d32994-64d1-4b57-8f4b-d2cf299c84ad"
->Mode != Mode.TR</PreCondition></PreConditions>
+>Mode != Default.Mode.TR</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="a2eaa572-8996-4e14-bb01-e726ed4ecfb1"
@@ -1820,7 +1820,7 @@ STOP_CONDITION
  Guid="4a1ce079-132b-43f6-8ba0-72284dca49b8"
 >Packet.Q_TRACKINIT == Messages.Q_TRACKINIT.No_initial_states_to_be_resumed__profile_to_follow</PreCondition><PreCondition
  Guid="b67878e1-ff87-4b16-ade4-3944247f14da"
->Mode != Mode.TR</PreCondition></PreConditions>
+>Mode != Default.Mode.TR</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="2afd30de-c39b-432c-9bcf-27501908073d"
@@ -1828,14 +1828,14 @@ STOP_CONDITION
     Location =&gt; MessageTypes.QScaleDistance ( distance =&gt; Packet.D_PBDSR, scale =&gt; Packet.Q_SCALE ),
     Length =&gt; MessageTypes.QScaleLength ( length =&gt; Packet.L_PBDSR, scale =&gt; Packet.Q_SCALE ),
     PermittedBrakingDistance =&gt;  MessageTypes.QScaleDistance ( distance =&gt; Packet.D_PBD, scale =&gt; Packet.Q_SCALE ),
-    Gradient =&gt; TrackDescription.Gradient.CreateGradient ( Q_GDIR =&gt; Packet.Q_GDIR, G_A =&gt; Packet.G_PBDSR ),
+    Gradient =&gt; Gradient.CreateGradient ( Q_GDIR =&gt; Packet.Q_GDIR, G_A =&gt; Packet.G_PBDSR ),
     BrakeType =&gt; Packet.Q_PBDSR )</Action><Action
  Guid="4acb943c-c5f1-4bae-ac1d-9c276e643663"
 >APPLY
     AddNewSpeedRestriction ( Location =&gt; MessageTypes.QScaleDistance ( distance =&gt; X.D_PBDSR, scale =&gt; Packet.Q_SCALE ),
                                                 Length =&gt; MessageTypes.QScaleLength ( length =&gt; X.L_PBDSR, scale =&gt; Packet.Q_SCALE ),
                                                 PermittedBrakingDistance =&gt;  MessageTypes.QScaleDistance ( distance =&gt; X.D_PBD, scale =&gt; Packet.Q_SCALE ),
-                                                Gradient =&gt; TrackDescription.Gradient.CreateGradient ( Q_GDIR =&gt; X.Q_GDIR, G_A =&gt;  X.G_PBDSR ),
+                                                Gradient =&gt; Gradient.CreateGradient ( Q_GDIR =&gt; X.Q_GDIR, G_A =&gt;  X.G_PBDSR ),
                                                 BrakeType =&gt; X.Q_PBDSR )
 ON
     Packet.Sequence1</Action></Actions>
@@ -1863,7 +1863,7 @@ ON
 <PreConditions>
 <PreCondition
  Guid="1bc57ee6-f129-4a6d-93c3-62b19efddc9c"
->Mode != Mode.TR</PreCondition></PreConditions>
+>Mode != Default.Mode.TR</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="812f3ae6-01ea-41a2-9abe-58774618967b"
@@ -2097,7 +2097,7 @@ SpeedRestrictionsProfile.SpeedRestrictions != []</PreCondition></PreConditions>
 <Variables>
 <Variable
  Type="SRPBDProfileStruct"
- DefaultValue="Kernel.TrackDescription.PermittedBrakingDistance.SRPBDProfileStruct
+ DefaultValue="SRPBDProfileStruct
 {
     InitialState =&gt; Messages.Q_TRACKINIT.No_initial_states_to_be_resumed__profile_to_follow, 
     EmptyProfileDistance =&gt; 0.0, 

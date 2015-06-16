@@ -353,7 +353,7 @@
 <Expression>NOT
 (
   GaugesMatch ( aLineGauge =&gt; anItem.LineGauge,
-                           aLoadingGauge =&gt; Kernel.TrainData.TrainData.Value.LoadingGauge)
+                           aLoadingGauge =&gt; TrainData.TrainData.Value.LoadingGauge)
 )
   AND
 NOT THERE_IS X IN
@@ -363,7 +363,7 @@ NOT THERE_IS X IN
     X.Location == anItem.Location
       AND
     GaugesMatch ( aLineGauge =&gt; X.LineGauge,
-                             aLoadingGauge =&gt; Kernel.TrainData.TrainData.Value.LoadingGauge)</Expression>
+                             aLoadingGauge =&gt; TrainData.TrainData.Value.LoadingGauge)</Expression>
 </Case><Case
  Name="Axle load"
  Guid="2161906b-ab60-44ec-864b-1b522510851f"
@@ -890,11 +890,11 @@ THERE_IS X IN Packet.Sequence1 | X.Q_SUITABILITY == Messages.Q_SUITABILITY.Max_a
 <PreConditions>
 <PreCondition
  Guid="e339442a-3327-4071-b829-0be6b8002a29"
->Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile == EMPTY</PreCondition></PreConditions>
+>RouteSuitabilityProfile == EMPTY</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="473b1205-1429-4bbd-ab83-a5909aecd1bd"
->Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile &lt;-Kernel.TrackDescription.RouteSuitability.RouteSuitabilityInformationStruct
+>RouteSuitabilityProfile &lt;-RouteSuitabilityInformationStruct
  {
     InitialState =&gt; 1,
     EmptyProfileDistance =&gt; 0.0,
@@ -1068,7 +1068,7 @@ ON
     aTractionSystem =&gt; aRouteSuitability.M_VOLTAGE,
     aNidCTraction =&gt; aRouteSuitability.NID_CTRACTION )
 IN
-    Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.Items</Action></Actions>
+    RouteSuitabilityProfile.Items</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure

@@ -216,7 +216,7 @@
  Guid="30b40833-011c-494f-bd47-713f9a91c456"
 >
 <Comment>Case created just to make the model work</Comment>
-<Expression>Kernel.TrackDescription.TrackConditions.TractionSystems.TractionSystemStruct{
+<Expression>TractionSystemStruct{
     CountryIdentifier =&gt; Messages.NID_CTRACTION((FIRST X IN TrainData.TrainData.Value.TractionSystems).Country),
     SystemType =&gt; (FIRST X IN TrainData.TrainData.Value.TractionSystems).Voltage
 }</Expression>
@@ -450,14 +450,14 @@
 <Actions>
 <Action
  Guid="999301d6-e625-436c-b54d-0a413831fb96"
->INSERT Kernel.TrackDescription.TrackConditions.TractionSystems.TractionSystemInformationStruct
+>INSERT TractionSystemInformationStruct
 {
     Location =&gt; MessageTypes.QScaleDistance
     (
         distance=&gt;Packet.D_TRACTION,
         scale=&gt;Packet.Q_SCALE
     ),
-    Value =&gt; Kernel.TrackDescription.TrackConditions.TractionSystems.TractionSystemStruct
+    Value =&gt; TractionSystemStruct
     {
         CountryIdentifier =&gt; Packet.NID_CTRACTION,
         SystemType =&gt; Packet.M_VOLTAGE
@@ -525,7 +525,7 @@ IN
 >INSERT General.TCDisplay.NewAnnouncement(
     TCType=&gt; PacketToAnnouncement(Packet.M_VOLTAGE),
     Distance=&gt; General.TCDisplay.AnnouncementLocation(
-        TrackCondition =&gt; Kernel.TrackDescription.TrackConditions.General.TrackConditionStruct{},
+        TrackCondition =&gt; General.TrackConditionStruct{},
         Distance=&gt;MessageTypes.QScaleDistance(
             distance=&gt;Packet.D_TRACTION,
             scale=&gt;Packet.Q_SCALE)
@@ -533,7 +533,7 @@ IN
     Length=&gt; BaseTypes.DistanceToLength(
                  MessageTypes.QScaleDistance(distance=&gt;Packet.D_TRACTION, scale=&gt;Packet.Q_SCALE) -
                  General.TCDisplay.AnnouncementLocation(
-                     TrackCondition =&gt; Kernel.TrackDescription.TrackConditions.General.TrackConditionStruct{},
+                     TrackCondition =&gt; General.TrackConditionStruct{},
                      Distance=&gt;MessageTypes.QScaleDistance(distance=&gt;Packet.D_TRACTION, scale=&gt;Packet.Q_SCALE)
                  )
         ),

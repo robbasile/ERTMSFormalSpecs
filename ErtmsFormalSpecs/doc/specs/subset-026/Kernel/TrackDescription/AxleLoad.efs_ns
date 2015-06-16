@@ -549,7 +549,7 @@ USING X IN
  Guid="c2336483-6933-444a-a639-460c167fcd61"
 >anAxleLoad.Location  &lt;= Distance</PreCondition></PreConditions>
 <Expression>REDUCE
-    anAxleLoad.Values | X.Category &lt;= Kernel.TrainData.TrainData.Value.AxleLoadCategory
+    anAxleLoad.Values | X.Category &lt;= TrainData.TrainData.Value.AxleLoadCategory
     USING X IN
         BaseTypes.MinSpeed (X1 =&gt; X.Speed, X2 =&gt; RESULT)
     INITIAL_VALUE
@@ -631,7 +631,7 @@ USING X IN
  Guid="5d71078b-ef97-4758-aac1-4ba5b2f40779"
 >Packet.Q_TRACKINIT == Messages.Q_TRACKINIT.Empty_profile__initial_states_to_be_resumed</PreCondition><PreCondition
  Guid="32711449-c906-4471-ab6a-9217e29a8f35"
->Mode != Mode.TR</PreCondition></PreConditions>
+>Mode != Default.Mode.TR</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="f0af1c31-9fef-4462-8e7c-c02a1a4f3762"
@@ -650,7 +650,7 @@ USING X IN
  Guid="ccf11f0a-f6de-4d68-a793-4eeae4640d18"
 >Packet.Q_TRACKINIT == Messages.Q_TRACKINIT.No_initial_states_to_be_resumed__profile_to_follow</PreCondition><PreCondition
  Guid="afc78fb4-1dc1-4744-bef0-1bb4c503a210"
->Mode != Mode.TR</PreCondition></PreConditions>
+>Mode != Default.Mode.TR</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="ed03174f-9bce-4ab2-ab99-5381a1db832c"

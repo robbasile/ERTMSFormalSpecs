@@ -602,24 +602,24 @@ The confidence level (K) is defined as a level of probability that the true posi
 <Actions>
 <Action
  Guid="b92908d8-bb37-433f-bb12-af688ebed023"
->Odometry.CurrentTime &lt;- Message.T_ODO</Action><Action
+>CurrentTime &lt;- Message.T_ODO</Action><Action
  Guid="ab9780a3-2b2c-4004-aaeb-2efb4c699d69"
->Odometry.NominalDistance &lt;- Message.D_NOM</Action><Action
+>NominalDistance &lt;- Message.D_NOM</Action><Action
  Guid="a7bc8e19-3c2d-40e0-8fcd-019a376526a0"
->Odometry.Accuracy.D_ura &lt;- BaseTypes.DistanceToLength(Message.D_MAX - Message.D_NOM)</Action><Action
+>Accuracy.D_ura &lt;- BaseTypes.DistanceToLength(Message.D_MAX - Message.D_NOM)</Action><Action
  Guid="77e6e519-84b4-4ee9-9090-7bfe385d539a"
->Odometry.Accuracy.D_ora &lt;- BaseTypes.DistanceToLength(Message.D_NOM - Message.D_MIN)</Action><Action
+>Accuracy.D_ora &lt;- BaseTypes.DistanceToLength(Message.D_NOM - Message.D_MIN)</Action><Action
  Guid="63cfd51a-a706-4c38-bf84-6496ef309c84"
 >EstimatedSpeed &lt;- Message.V_NOM</Action><Action
  Guid="24d8010e-c271-4470-96c1-5303813aaafe"
->Odometry.EstimatedAcceleration &lt;- CalculateAcceleration(
+>EstimatedAcceleration &lt;- CalculateAcceleration(
     Time =&gt; Message.T_ODO,
     Speed =&gt; Message.V_NOM
 )</Action><Action
  Guid="be1750f6-f121-4bb4-9192-25785d00bc32"
->Odometry.Accuracy.V_ora &lt;- Message.V_NOM - Message.V_MIN</Action><Action
+>Accuracy.V_ora &lt;- Message.V_NOM - Message.V_MIN</Action><Action
  Guid="7a4376a7-9f06-403b-87a3-14f47c6b2890"
->Odometry.Accuracy.V_ura &lt;- Message.V_MAX - Message.V_NOM</Action></Actions>
+>Accuracy.V_ura &lt;- Message.V_MAX - Message.V_NOM</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
@@ -785,11 +785,11 @@ OdometerAccuracy.UpperBoundConfidenceInterval is obtained by computing Distance.
 <PreConditions>
 <PreCondition
  Guid="57d2ef17-78d5-457e-85e4-e49008d580c9"
->Available ( Odometry.Message )</PreCondition></PreConditions>
+>Available ( Message )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="23d419d0-8ffb-4a8b-b4ba-cdcfcc1766a8"
->Odometry.Message &lt;- EMPTY</Action><Action
+>Message &lt;- EMPTY</Action><Action
  Guid="4433bbad-1426-41b2-b90b-7923057a565f"
 >PreviousTime &lt;- CurrentTime</Action><Action
  Guid="5ee92494-7a41-432d-937e-a24f22bcf92c"

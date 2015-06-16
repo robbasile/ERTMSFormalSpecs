@@ -107,7 +107,7 @@
 >
 </ReqRef><StructureElement
  TypeName="Default.DataState"
- Default="DataState.Invalid"
+ Default="Default.DataState.Invalid"
  Mode="Internal"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
@@ -1691,12 +1691,12 @@
  Name="Value"
  Guid="aeac79be-36aa-4c26-8c2f-cd1ed795aee9"
 >
-<Expression>Kernel.NationalValues.NationalValuesStruct
+<Expression>NationalValuesStruct
 {
     DataState =&gt; DataState.Valid,
     ApplicableStartLocation =&gt; MessageTypes.QScaleDistance ( distance =&gt; Packet.D_VALIDNV, scale =&gt; Packet.Q_SCALE ),
     NID_C =&gt; NID_C,
-    Value =&gt; Kernel.NationalValues.NationalDefaultDataStruct
+    Value =&gt; NationalDefaultDataStruct
     {
         ModificationOfAdhesionFactorByDriver =&gt; Packet.Q_NVDRIVER_ADHES,
         ShuntingModeSpeedLimit =&gt; MessageTypes.SpeedResolution ( Packet.V_NVSHUNT, 5.0 ),
@@ -1781,10 +1781,10 @@
 <PreConditions>
 <PreCondition
  Guid="3d5a36d0-595f-42e5-a36a-49a44199a640"
->NationalValues.ApplicableNationalValues.DataState == DataState.Valid</PreCondition><PreCondition
+>ApplicableNationalValues.DataState == DataState.Valid</PreCondition><PreCondition
  Guid="97ff3cda-e064-42fd-9ef4-2561e441b7cc"
 >HandleModeChange in HandleModeChangeSM.Override</PreCondition></PreConditions>
-<Expression>NationalValues.ApplicableNationalValues.Value.OverrideSpeedLimitToBeSupervisedWhenOverrideIsActive</Expression>
+<Expression>ApplicableNationalValues.Value.OverrideSpeedLimitToBeSupervisedWhenOverrideIsActive</Expression>
 </Case><Case
  Name="DefaultValue"
  Guid="10e22cc9-fc2e-4997-8935-445d4869c0ed"
@@ -1792,10 +1792,10 @@
 <PreConditions>
 <PreCondition
  Guid="6fe49ff5-1abc-44f8-9fbe-0809314bf327"
->NationalValues.ApplicableNationalValues.DataState != DataState.Valid</PreCondition><PreCondition
+>ApplicableNationalValues.DataState != DataState.Valid</PreCondition><PreCondition
  Guid="fdd71851-17b9-4fca-940a-4c6865621452"
 >HandleModeChange in HandleModeChangeSM.Override</PreCondition></PreConditions>
-<Expression>NationalValues.DefaultValues.OverrideSpeedLimitToBeSupervisedWhenOverrideIsActive</Expression>
+<Expression>DefaultValues.OverrideSpeedLimitToBeSupervisedWhenOverrideIsActive</Expression>
 </Case><Case
  Name="OverrideNotActive"
  Guid="926d0bc3-585c-4bd1-9c29-04a3a0526a09"
@@ -1875,7 +1875,7 @@
 <PreConditions>
 <PreCondition
  Guid="c74660cf-9016-4488-aff2-22f1b3e04e9b"
->Kernel.TrainData.TrainData.Value.BrakePosition in [TrainData.BrakingParameters.BrakePositions.FreightTrainInP,TrainData.BrakingParameters.BrakePositions.FreightTrainInG]</PreCondition><PreCondition
+>TrainData.TrainData.Value.BrakePosition in [TrainData.BrakingParameters.BrakePositions.FreightTrainInP,TrainData.BrakingParameters.BrakePositions.FreightTrainInG]</PreCondition><PreCondition
  Guid="c36d932b-6fb7-4575-b5d8-204440e0d288"
 >ApplicableNationalValues.DataState == DataState.Valid</PreCondition></PreConditions>
 <Expression>ApplicableNationalValues.Value.MaxDecelValueUnderReducedAdhesionCond3</Expression>
@@ -1886,7 +1886,7 @@
 <PreConditions>
 <PreCondition
  Guid="ec044d5e-b1aa-40e9-b086-ee870ec96593"
->Kernel.TrainData.TrainData.Value.BrakePosition in [TrainData.BrakingParameters.BrakePositions.FreightTrainInP,TrainData.BrakingParameters.BrakePositions.FreightTrainInG]</PreCondition></PreConditions>
+>TrainData.TrainData.Value.BrakePosition in [TrainData.BrakingParameters.BrakePositions.FreightTrainInP,TrainData.BrakingParameters.BrakePositions.FreightTrainInG]</PreCondition></PreConditions>
 <Expression>DefaultValues.MaxDecelValueUnderReducedAdhesionCond3</Expression>
 </Case><Case
  Name="PassengerTrainWithBrakesIndependentFromWheelRailAdhesion_NV"
@@ -1895,7 +1895,7 @@
 <PreConditions>
 <PreCondition
  Guid="62e0ee78-f62c-40f0-8088-bcee31304ad7"
->Kernel.TrainData.TrainData.Value.BrakePosition == TrainData.BrakingParameters.BrakePositions.PassengerTrainInP</PreCondition><PreCondition
+>TrainData.TrainData.Value.BrakePosition == TrainData.BrakingParameters.BrakePositions.PassengerTrainInP</PreCondition><PreCondition
  Guid="5891c969-d31e-43b7-92a0-bb72d17d9fe0"
 >TrainData.BrakingParameters.ContributionOfSpecialBrakeIsTakenIntoAccount()</PreCondition><PreCondition
  Guid="df7504cc-63f7-471f-94bb-9497d55a6b23"
@@ -1908,7 +1908,7 @@
 <PreConditions>
 <PreCondition
  Guid="d29a5b14-527a-4849-9999-53b52218c701"
->Kernel.TrainData.TrainData.Value.BrakePosition == TrainData.BrakingParameters.BrakePositions.PassengerTrainInP</PreCondition><PreCondition
+>TrainData.TrainData.Value.BrakePosition == TrainData.BrakingParameters.BrakePositions.PassengerTrainInP</PreCondition><PreCondition
  Guid="b1aac6b3-1fa5-47df-aae0-287baecf0607"
 >TrainData.BrakingParameters.ContributionOfSpecialBrakeIsTakenIntoAccount()</PreCondition></PreConditions>
 <Expression>DefaultValues.MaxDecelValueUnderReducedAdhesionCond1</Expression>
@@ -1919,7 +1919,7 @@
 <PreConditions>
 <PreCondition
  Guid="b0e1e819-ae1e-47aa-b0f4-05f1cf67d2c7"
->Kernel.TrainData.TrainData.Value.BrakePosition == TrainData.BrakingParameters.BrakePositions.PassengerTrainInP</PreCondition><PreCondition
+>TrainData.TrainData.Value.BrakePosition == TrainData.BrakingParameters.BrakePositions.PassengerTrainInP</PreCondition><PreCondition
  Guid="0aae850b-97c9-46c9-a0d2-a0f698d84d30"
 >NOT TrainData.BrakingParameters.ContributionOfSpecialBrakeIsTakenIntoAccount()</PreCondition><PreCondition
  Guid="856c721e-e6ec-4e26-a4c6-5fe4817c460e"
@@ -1932,7 +1932,7 @@
 <PreConditions>
 <PreCondition
  Guid="38a5768c-d031-45e0-b83c-b27f068618a9"
->Kernel.TrainData.TrainData.Value.BrakePosition == TrainData.BrakingParameters.BrakePositions.PassengerTrainInP</PreCondition><PreCondition
+>TrainData.TrainData.Value.BrakePosition == TrainData.BrakingParameters.BrakePositions.PassengerTrainInP</PreCondition><PreCondition
  Guid="818c6748-3268-4671-947e-4d911770f422"
 >NOT TrainData.BrakingParameters.ContributionOfSpecialBrakeIsTakenIntoAccount()</PreCondition></PreConditions>
 <Expression>DefaultValues.MaxDecelValueUnderReducedAdhesionCond2</Expression>
@@ -2572,7 +2572,7 @@
  Guid="0cb8f8e9-a841-4bff-bbb0-a534c9774614"
 >StaffResponsible.SREndLocation() &lt;= Distance</PreCondition><PreCondition
  Guid="085f5adc-b43b-426c-90bb-1e23251bbef5"
->Mode == Mode.SR</PreCondition></PreConditions>
+>Mode == Default.Mode.SR</PreCondition></PreConditions>
 <Expression>0.0</Expression>
 </Case><Case
  Name="No speed restriction"
@@ -2607,12 +2607,12 @@
 <PreCondition
  Guid="aa5bd5dd-1ce3-4977-b2da-111cc04d3b4e"
 >ApplicableNationalValues.DataState == DataState.Valid</PreCondition></PreConditions>
-<Expression>NationalValues.ApplicableNationalValues.Value.PermToUseGuidanceCurves == Messages.Q_NVGUIPERM.Yes</Expression>
+<Expression>ApplicableNationalValues.Value.PermToUseGuidanceCurves == Messages.Q_NVGUIPERM.Yes</Expression>
 </Case><Case
  Name="DefaultValues"
  Guid="abae21fc-3c0d-44ab-8963-5946ae86bf4d"
 >
-<Expression>NationalValues.DefaultValues.PermToUseGuidanceCurves == Messages.Q_NVGUIPERM.Yes</Expression>
+<Expression>DefaultValues.PermToUseGuidanceCurves == Messages.Q_NVGUIPERM.Yes</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -2641,12 +2641,12 @@
 <PreCondition
  Guid="5829c109-7ddc-455d-8b9f-d97942937fcb"
 >ApplicableNationalValues.DataState == DataState.Valid</PreCondition></PreConditions>
-<Expression>NationalValues.ApplicableNationalValues.Value.PermToInhibitTheCompOfTheSpeedMeasurementInaccuracy == Messages.Q_NVINHSMICPERM.Yes</Expression>
+<Expression>ApplicableNationalValues.Value.PermToInhibitTheCompOfTheSpeedMeasurementInaccuracy == Messages.Q_NVINHSMICPERM.Yes</Expression>
 </Case><Case
  Name="DefaultValues"
  Guid="03de849d-6080-448f-a377-81e2ef891307"
 >
-<Expression>NationalValues.ApplicableNationalValues.Value.PermToInhibitTheCompOfTheSpeedMeasurementInaccuracy == Messages.Q_NVINHSMICPERM.Yes</Expression>
+<Expression>ApplicableNationalValues.Value.PermToInhibitTheCompOfTheSpeedMeasurementInaccuracy == Messages.Q_NVINHSMICPERM.Yes</Expression>
 </Case></Cases>
 </Function><Function
  Type="Default.BaseTypes.Speed"
@@ -2709,12 +2709,12 @@
 <PreCondition
  Guid="23adcbd6-175f-450b-abf2-6134351c71a3"
 >ApplicableNationalValues.DataState == DataState.Valid</PreCondition></PreConditions>
-<Expression>NationalValues.ApplicableNationalValues.Value.PermToUseTheServiceBrakeFeedback == Messages.Q_NVSBFBPERM.Yes</Expression>
+<Expression>ApplicableNationalValues.Value.PermToUseTheServiceBrakeFeedback == Messages.Q_NVSBFBPERM.Yes</Expression>
 </Case><Case
  Name="DefaultValues"
  Guid="4efe5695-306f-4efb-9734-95fe7b45f1b3"
 >
-<Expression>NationalValues.DefaultValues.PermToUseTheServiceBrakeFeedback == Messages.Q_NVSBFBPERM.Yes</Expression>
+<Expression>DefaultValues.PermToUseTheServiceBrakeFeedback == Messages.Q_NVSBFBPERM.Yes</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -2742,7 +2742,7 @@
 <PreCondition
  Guid="076e8f62-4c7e-40a8-ad88-47cc8bd4416c"
 >ApplicableNationalValues.DataState == DataState.Valid</PreCondition></PreConditions>
-<Expression>NationalValues.ApplicableNationalValues.Value.PermToReleaseEmergencyBrake == Messages.Q_NVEMRRLS.Revoke_emergency_brake_command_at_standstill AND Odometry.TrainSpeed() == 0.0</Expression>
+<Expression>ApplicableNationalValues.Value.PermToReleaseEmergencyBrake == Messages.Q_NVEMRRLS.Revoke_emergency_brake_command_at_standstill AND Odometry.TrainSpeed() == 0.0</Expression>
 </Case><Case
  Name="NationalValues_SpeedSupervisionLimitIsNoLongerExceeded"
  Guid="c42b9ca4-4e17-4e9c-8e6e-e9970071fd9c"
@@ -2751,17 +2751,17 @@
 <PreCondition
  Guid="f7f7c12d-3963-40da-83ea-2d25e6986142"
 >ApplicableNationalValues.DataState == DataState.Valid</PreCondition></PreConditions>
-<Expression>NationalValues.ApplicableNationalValues.Value.PermToReleaseEmergencyBrake == Messages.Q_NVEMRRLS.Revoke_emergency_brake_command_when_permitted_speed_supervision_limit_is_no_longer_exceeded AND Odometry.TrainSpeed() &lt;= MRSP.SpeedRestrictions (TrainPosition.FrontEndPosition(DistanceInterval.Nom))</Expression>
+<Expression>ApplicableNationalValues.Value.PermToReleaseEmergencyBrake == Messages.Q_NVEMRRLS.Revoke_emergency_brake_command_when_permitted_speed_supervision_limit_is_no_longer_exceeded AND Odometry.TrainSpeed() &lt;= MRSP.SpeedRestrictions (TrainPosition.FrontEndPosition(DistanceInterval.Nom))</Expression>
 </Case><Case
  Name="DefaultValues_Standstill"
  Guid="1492cda9-b98a-41ed-a5e9-08df618081eb"
 >
-<Expression>NationalValues.DefaultValues.PermToReleaseEmergencyBrake == Messages.Q_NVEMRRLS.Revoke_emergency_brake_command_at_standstill AND Odometry.TrainSpeed() == 0.0</Expression>
+<Expression>DefaultValues.PermToReleaseEmergencyBrake == Messages.Q_NVEMRRLS.Revoke_emergency_brake_command_at_standstill AND Odometry.TrainSpeed() == 0.0</Expression>
 </Case><Case
  Name="DefaultValues_SpeedSupervisionLimitIsNoLongerExceeded"
  Guid="cb889c73-68c2-4ad3-8c17-9640a862ddaa"
 >
-<Expression>NationalValues.DefaultValues.PermToReleaseEmergencyBrake == Messages.Q_NVEMRRLS.Revoke_emergency_brake_command_when_permitted_speed_supervision_limit_is_no_longer_exceeded AND Odometry.TrainSpeed() &lt;= MRSP.SpeedRestrictions (TrainPosition.FrontEndPosition(DistanceInterval.Nom))</Expression>
+<Expression>DefaultValues.PermToReleaseEmergencyBrake == Messages.Q_NVEMRRLS.Revoke_emergency_brake_command_when_permitted_speed_supervision_limit_is_no_longer_exceeded AND Odometry.TrainSpeed() &lt;= MRSP.SpeedRestrictions (TrainPosition.FrontEndPosition(DistanceInterval.Nom))</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -3548,23 +3548,23 @@
 <Actions>
 <Action
  Guid="bbc3c1b4-d070-43aa-865e-959c2773e688"
->NationalValues.ApplicableNationalValues.DataState &lt;- DataState.Valid</Action><Action
+>ApplicableNationalValues.DataState &lt;- DataState.Valid</Action><Action
  Guid="e3cde4ea-42d7-4706-be4c-a9c93882a255"
->NationalValues.ApplicableNationalValues.Value.ConfLevelForEmergBrakeSafeDecelerationOnDryRails &lt;- Messages.M_NVEBCL.Confidence_level___99_9999999</Action><Action
+>ApplicableNationalValues.Value.ConfLevelForEmergBrakeSafeDecelerationOnDryRails &lt;- Messages.M_NVEBCL.Confidence_level___99_9999999</Action><Action
  Guid="8a82144b-7f5b-4e0f-ad91-a908a70d0aaa"
->NationalValues.ApplicableNationalValues.Value.MaxDecelValueUnderReducedAdhesionCond1 &lt;- 1.0</Action><Action
+>ApplicableNationalValues.Value.MaxDecelValueUnderReducedAdhesionCond1 &lt;- 1.0</Action><Action
  Guid="4aed9178-1526-4a91-899f-bd865fe2d49f"
->NationalValues.ApplicableNationalValues.Value.MaxDecelValueUnderReducedAdhesionCond2 &lt;- 0.7</Action><Action
+>ApplicableNationalValues.Value.MaxDecelValueUnderReducedAdhesionCond2 &lt;- 0.7</Action><Action
  Guid="465ca94d-ee21-4672-8c1a-5fdaa7717ee9"
->NationalValues.ApplicableNationalValues.Value.MaxDecelValueUnderReducedAdhesionCond3 &lt;- 0.7</Action><Action
+>ApplicableNationalValues.Value.MaxDecelValueUnderReducedAdhesionCond3 &lt;- 0.7</Action><Action
  Guid="f3e98582-ca2a-4096-a4bd-d7c1b49f25b4"
->NationalValues.ApplicableNationalValues.Value.MaxDecelValueUnderReducedAdhesionCond3 &lt;- 0.7</Action><Action
+>ApplicableNationalValues.Value.MaxDecelValueUnderReducedAdhesionCond3 &lt;- 0.7</Action><Action
  Guid="40e175f6-3218-47e0-b853-e3d5eb431c03"
->NationalValues.ApplicableNationalValues.Value.PermToInhibitTheCompOfTheSpeedMeasurementInaccuracy &lt;- Messages.Q_NVINHSMICPERM.Yes</Action><Action
+>ApplicableNationalValues.Value.PermToInhibitTheCompOfTheSpeedMeasurementInaccuracy &lt;- Messages.Q_NVINHSMICPERM.Yes</Action><Action
  Guid="93d45e34-8118-44ae-afd4-6d81b80dd945"
->NationalValues.ApplicableNationalValues.Value.UseServiceBrakeInTargetSpeedMonitoring &lt;- Messages.Q_NVSBTSMPERM.Yes</Action><Action
+>ApplicableNationalValues.Value.UseServiceBrakeInTargetSpeedMonitoring &lt;- Messages.Q_NVSBTSMPERM.Yes</Action><Action
  Guid="1cdfb05c-f525-493b-950f-d6abc0939671"
->NationalValues.ApplicableNationalValues.Value.WeightingFactorForAvailableWheelRailAdhesion &lt;- 0.0</Action></Actions>
+>ApplicableNationalValues.Value.WeightingFactorForAvailableWheelRailAdhesion &lt;- 0.0</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
@@ -3691,7 +3691,7 @@
 <PreConditions>
 <PreCondition
  Guid="7e45de5e-66de-4df6-b95a-f34fd63cfab1"
->Kernel.TrainPosition.FrontEndPosition( PointOfInterest =&gt; DistanceInterval.Nom ) &gt;= NotApplicableNationalValues.ApplicableStopLocation</PreCondition></PreConditions>
+>TrainPosition.FrontEndPosition( PointOfInterest =&gt; DistanceInterval.Nom ) &gt;= NotApplicableNationalValues.ApplicableStopLocation</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="d4d252df-e8b1-4358-8386-899d255eaa97"
@@ -3712,7 +3712,7 @@
 <PreConditions>
 <PreCondition
  Guid="36a832ac-f673-4b9f-8989-1a9304523d0c"
->Kernel.TrainPosition.FrontEndPosition( PointOfInterest =&gt; DistanceInterval.Nom ) &gt;= NotApplicableNationalValues.ApplicableStartLocation</PreCondition><PreCondition
+>TrainPosition.FrontEndPosition( PointOfInterest =&gt; DistanceInterval.Nom ) &gt;= NotApplicableNationalValues.ApplicableStartLocation</PreCondition><PreCondition
  Guid="3d66c648-74f2-4bdc-8264-633197a17194"
 >NotApplicableNationalValues.DataState == DataState.Valid</PreCondition></PreConditions>
 <Actions>

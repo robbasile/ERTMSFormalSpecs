@@ -143,7 +143,7 @@
  Name="Value"
  Guid="98759279-000a-4ddb-a0f6-e737236f7520"
 >
-<Expression>Kernel.BaliseGroup
+<Expression>BaliseGroup
 {
     NewCountry =&gt; Q_NEWCOUNTRY_To_Bool ( aBaliseGroup.Q_NEWCOUNTRY ),
     NID_C =&gt; aBaliseGroup.NID_C,
@@ -305,7 +305,7 @@ SRAuthorisation.Location &lt;= TrainPosition.FrontEndPosition ( DistanceInterval
 <PreConditions>
 <PreCondition
  Guid="5be1ab52-7de5-4475-b907-4648223d1b23"
->Kernel.Mode == Mode.SR</PreCondition></PreConditions>
+>Mode == Default.Mode.SR</PreCondition></PreConditions>
 <Expression>DistanceToRun() + TrainPosition.SRStartDistance - BTM.LRBG.Position.Position</Expression>
 </Case><Case
  Name="Otherwise"
@@ -390,7 +390,7 @@ SRAuthorisation.Location &lt;= TrainPosition.FrontEndPosition ( DistanceInterval
 <Actions>
 <Action
  Guid="342b18cc-bb34-4c17-8157-1bebc9fb9941"
->SRAuthorisation &lt;- Kernel.StaffResponsible.SRStruct
+>SRAuthorisation &lt;- SRStruct
 {
     Location =&gt; MessageTypes.QScaleDistance ( distance =&gt; Packet.D_SR, scale =&gt; Packet.Q_SCALE ),
     BGs =&gt; CreateBaliseGroups ( BaliseGroups =&gt; Packet.Sequence1 ),
@@ -414,7 +414,7 @@ SRAuthorisation.Location &lt;= TrainPosition.FrontEndPosition ( DistanceInterval
 <PreConditions>
 <PreCondition
  Guid="ca00b5c3-749e-4688-81da-05727f081038"
->Mode == Mode.SR</PreCondition></PreConditions>
+>Mode == Default.Mode.SR</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="96ee091d-b9e9-4509-b1a7-1c630d2fd21e"
@@ -604,9 +604,9 @@ SRAuthorisation.Location &lt;= TrainPosition.FrontEndPosition ( DistanceInterval
 <PreConditions>
 <PreCondition
  Guid="b352c267-ea89-4d92-96e6-906fec9cd522"
->Mode == Mode.SR</PreCondition><PreCondition
+>Mode == Default.Mode.SR</PreCondition><PreCondition
  Guid="38a2855c-a564-4a2f-b1cf-ab9373fbe4af"
->Level.Value.Value in [Level.L2, Level.L3]</PreCondition><PreCondition
+>Level.Value.Value in [Default.Level.L2, Default.Level.L3]</PreCondition><PreCondition
  Guid="e8a7ae96-cd47-4d9e-8a00-715ca0a3e838"
 >DMI.MasterDMI().In_Start.InputInformation.RequestStatus == Request.Disabled</PreCondition></PreConditions>
 <Actions>
@@ -637,9 +637,9 @@ SRAuthorisation.Location &lt;= TrainPosition.FrontEndPosition ( DistanceInterval
 <PreConditions>
 <PreCondition
  Guid="4532d348-879a-4cf6-b646-604abda0d8a0"
->Mode == Mode.SR</PreCondition><PreCondition
+>Mode == Default.Mode.SR</PreCondition><PreCondition
  Guid="d9198f6b-ab29-4800-8177-3582c9f6b6f5"
->Level.Value.Value in [Level.L2, Level.L3]</PreCondition><PreCondition
+>Level.Value.Value in [Default.Level.L2, Default.Level.L3]</PreCondition><PreCondition
  Guid="b141a80f-70a4-4c16-ab6a-2c1a644b9b5b"
 >DMI.MasterDMI().In_Start.InputInformation.DriverAnswered</PreCondition></PreConditions>
 <Actions>

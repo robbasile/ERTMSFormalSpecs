@@ -188,7 +188,7 @@
 >
 </StructureElement><StructureElement
  TypeName="BrakingModelValue"
- Default="Kernel.TrainData.BrakingParameters.BrakingModelValue{SpeedStep=&gt;0.0, Acceleration=&gt;0.0}"
+ Default="BrakingModelValue{SpeedStep=&gt;0.0, Acceleration=&gt;0.0}"
  Mode="Internal"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
@@ -3193,7 +3193,7 @@ A_brake_emergency ( d =&gt; d, V =&gt; V )</Expression>
 <PreCondition
  Guid="ca2037ad-a983-429a-97ec-af613a65ca03"
 >ConversionModel.ConversionModelIsUsed()</PreCondition></PreConditions>
-<Expression>BaseTypes.Acceleration ( NationalValues.Kv_int ( V ) * NationalValues.Kr_int ( TrainData.Value.TrainLength ) ) * ConversionModel.A_brake_emergency ( V )</Expression>
+<Expression>BaseTypes.Acceleration ( NationalValues.Kv_int ( V ) * NationalValues.Kr_int ( TrainData.Value.TrainLength ) ) * Kernel.TrainData.BrakingParameters.ConversionModel.A_brake_emergency ( V )</Expression>
 </Case></Cases>
 </Function><Function
  Type="Kdry_rstValues"
@@ -4022,7 +4022,7 @@ A_brake_emergency ( d =&gt; d, V =&gt; V )</Expression>
 <PreCondition
  Guid="a6625a6e-4404-4d76-b69b-8cf100fd1a4c"
 >ConversionModel.ConversionModelIsUsed()</PreCondition></PreConditions>
-<Expression>ConversionModel.A_brake_service ( V ) + TrackDescription.Gradient.A_gradient ( d )</Expression>
+<Expression>Kernel.TrainData.BrakingParameters.ConversionModel.A_brake_service ( V ) + TrackDescription.Gradient.A_gradient ( d )</Expression>
 </Case></Cases>
 </Function><Function
  Type="Default.BaseTypes.Time"
@@ -4511,7 +4511,7 @@ A_brake_emergency ( d =&gt; d, V =&gt; V )</Expression>
 <Actions>
 <Action
  Guid="a33077c7-164c-4515-bec1-0c5c5b461893"
->Kernel.TrainData.TrainData.Value.EBModels.Kdry_rstValuesSet.EddyCurrent_Magnetic_Regenerative.Cl__99_9999999 &lt;- Kernel.TrainData.BrakingParameters.CorrectFactorValue
+>TrainData.Value.EBModels.Kdry_rstValuesSet.EddyCurrent_Magnetic_Regenerative.Cl__99_9999999 &lt;- CorrectFactorValue
 {
     CF0 =&gt; 1.0,
     CF1 =&gt; 1.0,
@@ -4522,7 +4522,7 @@ A_brake_emergency ( d =&gt; d, V =&gt; V )</Expression>
     CF6 =&gt; 1.0
 }</Action><Action
  Guid="7e7f2da9-15b2-4500-9a7e-beeaa4765077"
->Kernel.TrainData.TrainData.Value.EBModels.Kdry_rstValuesSet.Magnetic_Regenerative.Cl__99_9999999 &lt;- Kernel.TrainData.BrakingParameters.CorrectFactorValue
+>TrainData.Value.EBModels.Kdry_rstValuesSet.Magnetic_Regenerative.Cl__99_9999999 &lt;- CorrectFactorValue
 {
     CF0 =&gt; 1.0,
     CF1 =&gt; 1.0,
@@ -4533,7 +4533,7 @@ A_brake_emergency ( d =&gt; d, V =&gt; V )</Expression>
     CF6 =&gt; 1.0
 }</Action><Action
  Guid="1f51258f-2c97-43b8-afb9-a6c8e54a3359"
->Kernel.TrainData.TrainData.Value.EBModels.Kwet_rstValuesSet.EddyCurrent_Magnetic_Regenerative &lt;- Kernel.TrainData.BrakingParameters.CorrectFactorValue
+>TrainData.Value.EBModels.Kwet_rstValuesSet.EddyCurrent_Magnetic_Regenerative &lt;- CorrectFactorValue
 {
     CF0 =&gt; 1.0,
     CF1 =&gt; 1.0,
@@ -4544,7 +4544,7 @@ A_brake_emergency ( d =&gt; d, V =&gt; V )</Expression>
     CF6 =&gt; 1.0
 }</Action><Action
  Guid="28247bc5-b4d1-443d-abdb-c9d78de37a9c"
->Kernel.TrainData.TrainData.Value.EBModels.Kwet_rstValuesSet.Magnetic_Regenerative &lt;- Kernel.TrainData.BrakingParameters.CorrectFactorValue
+>TrainData.Value.EBModels.Kwet_rstValuesSet.Magnetic_Regenerative &lt;- CorrectFactorValue
 {
     CF0 =&gt; 1.0,
     CF1 =&gt; 1.0,
@@ -4555,67 +4555,67 @@ A_brake_emergency ( d =&gt; d, V =&gt; V )</Expression>
     CF6 =&gt; 1.0
 }</Action><Action
  Guid="167f3030-0360-436f-8aaa-5461b29a9300"
->Kernel.TrainData.TrainData.Value.EBModels.ModelSet.EddyCurrent_Magnetic_Regenerative.Val0 &lt;- Kernel.TrainData.BrakingParameters.BrakingModelValue
+>TrainData.Value.EBModels.ModelSet.EddyCurrent_Magnetic_Regenerative.Val0 &lt;- BrakingModelValue
 {
     SpeedStep =&gt; 0.0,
     Acceleration =&gt; 1.0
 }</Action><Action
  Guid="2d565349-283a-4e2e-b7e9-c50f18a7aad1"
->Kernel.TrainData.TrainData.Value.EBModels.ModelSet.EddyCurrent_Magnetic_Regenerative.Val1 &lt;- Kernel.TrainData.BrakingParameters.BrakingModelValue
+>TrainData.Value.EBModels.ModelSet.EddyCurrent_Magnetic_Regenerative.Val1 &lt;- BrakingModelValue
 {
     SpeedStep =&gt; BaseTypes.Speed.Infinity,
     Acceleration =&gt; 1.0
 }</Action><Action
  Guid="b0bb769c-c10e-4a0b-ad3c-9e8a34a7d447"
->Kernel.TrainData.TrainData.Value.EBModels.ModelSet.Magnetic_Regenerative.Val0 &lt;- Kernel.TrainData.BrakingParameters.BrakingModelValue
+>TrainData.Value.EBModels.ModelSet.Magnetic_Regenerative.Val0 &lt;- BrakingModelValue
 {
     SpeedStep =&gt; 0.0,
     Acceleration =&gt; 0.8
 }</Action><Action
  Guid="9e946eb1-fbf9-4aa4-bb20-42fcfff2795f"
->Kernel.TrainData.TrainData.Value.EBModels.ModelSet.Magnetic_Regenerative.Val1 &lt;- Kernel.TrainData.BrakingParameters.BrakingModelValue
+>TrainData.Value.EBModels.ModelSet.Magnetic_Regenerative.Val1 &lt;- BrakingModelValue
 {
     SpeedStep =&gt; BaseTypes.Speed.Infinity,
     Acceleration =&gt; 0.8
 }</Action><Action
  Guid="323aa94c-71aa-4d07-819a-53f5d193f23f"
->Kernel.TrainData.TrainData.Value.EddyCurrentBrakeInterface &lt;- Kernel.TrainData.BrakingParameters.BrakeInterfaceStatus.Both</Action><Action
+>TrainData.Value.EddyCurrentBrakeInterface &lt;- BrakeInterfaceStatus.Both</Action><Action
  Guid="d72fcd10-b85a-481f-bd1e-4c040e7db41d"
->Kernel.TrainData.TrainData.Value.MagneticShoeBrakeInterface &lt;- Kernel.TrainData.BrakingParameters.BrakeInterfaceStatus.EB</Action><Action
+>TrainData.Value.MagneticShoeBrakeInterface &lt;- BrakeInterfaceStatus.EB</Action><Action
  Guid="fefdb53c-464b-402b-a454-215cd1e05456"
->Kernel.TrainData.TrainData.Value.RegenerativeBrakeInterface &lt;- Kernel.TrainData.BrakingParameters.BrakeInterfaceStatus.Both</Action><Action
+>TrainData.Value.RegenerativeBrakeInterface &lt;- BrakeInterfaceStatus.Both</Action><Action
  Guid="2bdfdcaa-7036-4a51-80c2-790e3ca55354"
->Kernel.TrainData.TrainData.Value.SBModels.ModelSet.EddyCurrent_Regenerative.Val0 &lt;- Kernel.TrainData.BrakingParameters.BrakingModelValue
+>TrainData.Value.SBModels.ModelSet.EddyCurrent_Regenerative.Val0 &lt;- BrakingModelValue
 {
     SpeedStep =&gt; 0.0,
     Acceleration =&gt; 1.0
 }</Action><Action
  Guid="8e938a00-c711-4be7-b232-e19d6665747e"
->Kernel.TrainData.TrainData.Value.SBModels.ModelSet.EddyCurrent_Regenerative.Val1 &lt;- Kernel.TrainData.BrakingParameters.BrakingModelValue
+>TrainData.Value.SBModels.ModelSet.EddyCurrent_Regenerative.Val1 &lt;- BrakingModelValue
 {
     SpeedStep =&gt; BaseTypes.Speed.Infinity,
     Acceleration =&gt; 1.0
 }</Action><Action
  Guid="af7e9fe1-d498-413e-8e3b-3d58cf9352a4"
->Kernel.TrainData.TrainData.Value.SBModels.ModelSet.Regenerative.Val0 &lt;- Kernel.TrainData.BrakingParameters.BrakingModelValue
+>TrainData.Value.SBModels.ModelSet.Regenerative.Val0 &lt;- BrakingModelValue
 {
     SpeedStep =&gt; 0.0,
     Acceleration =&gt; 1.0
 }</Action><Action
  Guid="12a57242-17c4-4102-927d-f5d27dc743a2"
->Kernel.TrainData.TrainData.Value.SBModels.ModelSet.Regenerative.Val1 &lt;- Kernel.TrainData.BrakingParameters.BrakingModelValue
+>TrainData.Value.SBModels.ModelSet.Regenerative.Val1 &lt;- BrakingModelValue
 {
     SpeedStep =&gt; BaseTypes.Speed.Infinity,
     Acceleration =&gt; 1.0
 }</Action><Action
  Guid="94b46c6a-e4a9-4d83-abe8-ca9962f9a1f6"
->Kernel.TrainData.TrainData.Value.T_brake_emergency.EddyCurrent_Magnetic_Regenerative &lt;- 2.5</Action><Action
+>TrainData.Value.T_brake_emergency.EddyCurrent_Magnetic_Regenerative &lt;- 2.5</Action><Action
  Guid="ca632082-5fc8-40dc-aba8-ecc7508c5ab3"
->Kernel.TrainData.TrainData.Value.T_brake_emergency.Magnetic_Regenerative &lt;- 2.0</Action><Action
+>TrainData.Value.T_brake_emergency.Magnetic_Regenerative &lt;- 2.0</Action><Action
  Guid="7b0da0bf-d15b-4b38-b096-28bb9bfe21f4"
->Kernel.TrainData.TrainData.Value.T_brake_service.EddyCurrent_Regenerative &lt;- 2.5</Action><Action
+>TrainData.Value.T_brake_service.EddyCurrent_Regenerative &lt;- 2.5</Action><Action
  Guid="4d6fc214-8b0b-479f-a868-0fc4f28de186"
->Kernel.TrainData.TrainData.Value.T_brake_service.Regenerative &lt;- 2.0</Action><Action
+>TrainData.Value.T_brake_service.Regenerative &lt;- 2.0</Action><Action
  Guid="02b895f4-1f03-4575-bf38-a593fe4cb558"
 >TIU.SpecialBrakeStatus.EddyCurrentBrakeIsActive &lt;- True</Action><Action
  Guid="5c55cd1a-20e5-4d70-bd82-c8fb142d6438"
@@ -4723,7 +4723,7 @@ A_brake_emergency ( d =&gt; d, V =&gt; V )</Expression>
 <Actions>
 <Action
  Guid="8ee34668-2266-41e4-84ac-2a60cd95921f"
->Kernel.HandleModeChange &lt;- Kernel.HandleModeChange.SystemFailure</Action></Actions>
+>HandleModeChange &lt;- HandleModeChange.SystemFailure</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </NameSpace>

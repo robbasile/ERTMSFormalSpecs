@@ -64,7 +64,7 @@
  Guid="899257bb-ad06-4587-a62f-242a76900e2d"
 >InputInformation.DriverAnswered</PreCondition><PreCondition
  Guid="6f929bf6-4cae-4324-9cc4-cb3773da8e8d"
->Level.Value in [Level.L2, Level.L3]</PreCondition><PreCondition
+>Level.Value in [Default.Level.L2, Default.Level.L3]</PreCondition><PreCondition
  Guid="816bea88-f7c1-4116-8b88-2ca3a0ad554b"
 >NOT EURORADIO.HasActiveSession()</PreCondition></PreConditions>
 <Actions>
@@ -1676,15 +1676,15 @@
 <PreConditions>
 <PreCondition
  Guid="5572fcd3-71a6-4fce-91e3-03f994294492"
->StartTime != Default.BaseTypes.Time.NA</PreCondition><PreCondition
+>StartTime != BaseTypes.Time.NA</PreCondition><PreCondition
  Guid="08841d53-1313-454d-8f2d-2590fea1bf0a"
->StartTime + IN.Acknowledgements.Tack &lt;= Kernel.DateAndTime.CurrentTime</PreCondition></PreConditions>
+>StartTime + Acknowledgements.Tack &lt;= Kernel.DateAndTime.CurrentTime</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="62fd7a18-4152-4c77-84ab-a04f6e72c0f6"
 >Kernel.ApplySBCommand(Kernel.BrakeReason.LevelTransitionTimeOut)</Action><Action
  Guid="6c4365a6-3ad1-45f9-9345-7c142dece26e"
->StartTime &lt;- Default.BaseTypes.Time.NA</Action></Actions>
+>StartTime &lt;- BaseTypes.Time.NA</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 <Procedures>
@@ -1724,7 +1724,7 @@
  Guid="64835c6d-c282-4078-825d-1d54c5a07cd0"
 >Acknowledgements.LastDriverAcknowledgementTime &lt;- Kernel.DateAndTime.CurrentTime</Action><Action
  Guid="1fd1e63d-cc7c-4195-8c58-7ea3b49aec47"
->StartTime &lt;- Default.BaseTypes.Time.NA</Action></Actions>
+>StartTime &lt;- BaseTypes.Time.NA</Action></Actions>
 <SubRules>
 <Rule
  Priority="Processing"
@@ -1878,7 +1878,7 @@
 <Comment>Contains the information about which is the level to perform the transition</Comment>
 </StructureElement><StructureElement
  TypeName="Default.BaseTypes.Time"
- Default="Default.BaseTypes.Time.NA"
+ Default="BaseTypes.Time.NA"
  Mode="Internal"
  Implemented="TRUE"
  Name="StartTime"
@@ -3925,15 +3925,15 @@
 <PreConditions>
 <PreCondition
  Guid="2775ef0b-b3a6-48da-94f9-26d9cfeb65d1"
->StartTime + IN.Acknowledgements.Tack &lt;= Kernel.DateAndTime.CurrentTime</PreCondition><PreCondition
+>StartTime + Acknowledgements.Tack &lt;= Kernel.DateAndTime.CurrentTime</PreCondition><PreCondition
  Guid="3c52fb7e-1a18-4da7-a48f-a4d860adb51b"
->StartTime != Default.BaseTypes.Time.NA</PreCondition></PreConditions>
+>StartTime != BaseTypes.Time.NA</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="0032d2ab-08bf-4c4f-ab15-68154487a311"
 >Kernel.ApplySBCommand(Kernel.BrakeReason.LSAckTimeOut)</Action><Action
  Guid="6f491ad8-ba42-4a4e-8984-12fd94d47199"
->StartTime &lt;- Default.BaseTypes.Time.NA</Action></Actions>
+>StartTime &lt;- BaseTypes.Time.NA</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 <Procedures>
@@ -3963,7 +3963,7 @@
 <PreConditions>
 <PreCondition
  Guid="ad8524b2-6768-4b82-be41-35fd4464fe9c"
->AcknOfLSMode.InputInformation.RequestStatus == Default.Request.Response</PreCondition><PreCondition
+>AcknOfLSMode.InputInformation.RequestStatus == Request.Response</PreCondition><PreCondition
  Guid="687ef45e-f902-4b23-95a7-db5c8670998f"
 >AcknOfLSModeAvailable()</PreCondition></PreConditions>
 <Actions>
@@ -3971,7 +3971,7 @@
  Guid="7f80394d-d86d-4e0e-9ee9-48ab5ba67ea8"
 >THIS.InputInformation.AcceptDriverResponse()</Action><Action
  Guid="f5739bd9-6bb9-4273-8c76-672925676b7b"
->StartTime &lt;- Default.BaseTypes.Time.NA</Action><Action
+>StartTime &lt;- BaseTypes.Time.NA</Action><Action
  Guid="d3f5b719-8924-41b4-95a7-22f478fe06d6"
 >Acknowledgements.LastDriverAcknowledgementTime &lt;- Kernel.DateAndTime.CurrentTime</Action></Actions>
 <SubRules>
@@ -4117,7 +4117,7 @@
 <Comment>The status of the request</Comment>
 </StructureElement><StructureElement
  TypeName="Default.BaseTypes.Time"
- Default="Default.BaseTypes.Time.NA"
+ Default="BaseTypes.Time.NA"
  Mode="Internal"
  Implemented="TRUE"
  Name="StartTime"
@@ -4178,15 +4178,15 @@
 <PreConditions>
 <PreCondition
  Guid="f98185fc-8d18-4344-ae88-ea11e7b4c5fb"
->StartTime + IN.Acknowledgements.Tack &lt;= Kernel.DateAndTime.CurrentTime</PreCondition><PreCondition
+>StartTime + Acknowledgements.Tack &lt;= Kernel.DateAndTime.CurrentTime</PreCondition><PreCondition
  Guid="e85bb8cf-bf9c-4519-a5bc-eba509a85d92"
->StartTime != Default.BaseTypes.Time.NA</PreCondition></PreConditions>
+>StartTime != BaseTypes.Time.NA</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="456feea0-c81d-4514-89b4-32c53ca3f5d5"
 >Kernel.ApplySBCommand(Kernel.BrakeReason.OSAckTimeOut)</Action><Action
  Guid="b1365a31-e3c0-48a6-8023-123f8107e243"
->StartTime &lt;- Default.BaseTypes.Time.NA</Action></Actions>
+>StartTime &lt;- BaseTypes.Time.NA</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 <Procedures>
@@ -4224,7 +4224,7 @@
  Guid="719101c0-d5a3-40d8-a756-4698d9924399"
 >THIS.InputInformation.AcceptDriverResponse()</Action><Action
  Guid="09400527-1555-4055-9e37-f236e1de2bf6"
->StartTime &lt;- Default.BaseTypes.Time.NA</Action><Action
+>StartTime &lt;- BaseTypes.Time.NA</Action><Action
  Guid="3d47d361-fdc1-4c8f-9c9d-a919f3f1dbbe"
 >Acknowledgements.LastDriverAcknowledgementTime &lt;- Kernel.DateAndTime.CurrentTime</Action></Actions>
 <SubRules>
@@ -4370,7 +4370,7 @@
 <Comment>The status of the request</Comment>
 </StructureElement><StructureElement
  TypeName="Default.BaseTypes.Time"
- Default="Default.BaseTypes.Time.NA"
+ Default="BaseTypes.Time.NA"
  Mode="Internal"
  Implemented="TRUE"
  Name="StartTime"
@@ -4431,15 +4431,15 @@
 <PreConditions>
 <PreCondition
  Guid="88c0a656-36a1-4db8-bf13-a34783b84219"
->StartTime + IN.Acknowledgements.Tack &lt;= Kernel.DateAndTime.CurrentTime</PreCondition><PreCondition
+>StartTime + Acknowledgements.Tack &lt;= Kernel.DateAndTime.CurrentTime</PreCondition><PreCondition
  Guid="b127519d-7a0e-4395-9e35-21f2d50b42bc"
->StartTime != Default.BaseTypes.Time.NA</PreCondition></PreConditions>
+>StartTime != BaseTypes.Time.NA</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="b0b1c0a4-d1df-4954-a400-fe1668407d47"
 >Kernel.ApplySBCommand(Kernel.BrakeReason.SHAckTimeOut)</Action><Action
  Guid="8844602a-4164-40d4-9b74-80b6eecc801c"
->StartTime &lt;- Default.BaseTypes.Time.NA</Action></Actions>
+>StartTime &lt;- BaseTypes.Time.NA</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 <Procedures>
@@ -4477,7 +4477,7 @@
  Guid="24769eb4-f757-4ced-8cd3-4a57859a3edb"
 >THIS.InputInformation.AcceptDriverResponse()</Action><Action
  Guid="849c567f-569a-4156-aa21-b95e33a6f413"
->StartTime &lt;- Default.BaseTypes.Time.NA</Action><Action
+>StartTime &lt;- BaseTypes.Time.NA</Action><Action
  Guid="16c2bfb8-4a51-4bc1-9876-08df1ccae17a"
 >Acknowledgements.LastDriverAcknowledgementTime &lt;- Kernel.DateAndTime.CurrentTime</Action></Actions>
 <SubRules>
@@ -4623,7 +4623,7 @@
 <Comment>The status of the request</Comment>
 </StructureElement><StructureElement
  TypeName="Default.BaseTypes.Time"
- Default="Default.BaseTypes.Time.NA"
+ Default="BaseTypes.Time.NA"
  Mode="Internal"
  Implemented="TRUE"
  Name="StartTime"

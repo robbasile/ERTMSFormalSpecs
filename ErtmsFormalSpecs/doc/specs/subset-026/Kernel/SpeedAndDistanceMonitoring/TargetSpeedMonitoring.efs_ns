@@ -195,7 +195,7 @@
  Guid="e21e5249-9a0e-4300-92e7-262b91c17598"
 >ReleaseSpeedMonitoring.ReleaseSpeedSupervisionApplicable ( aTarget )</PreCondition><PreCondition
  Guid="afbb53f6-839f-4368-8e93-2501f82a48f1"
->TargetSpeedMonitoring.EBIvalue ( Vest =&gt; Vest, aTarget =&gt; aTarget, NoA_est =&gt; False ) &gt;= ReleaseSpeedMonitoring.StartRSM ( ReleaseSpeedMonitoring.ReleaseSpeed )</PreCondition></PreConditions>
+>EBIvalue ( Vest =&gt; Vest, aTarget =&gt; aTarget, NoA_est =&gt; False ) &gt;= ReleaseSpeedMonitoring.StartRSM ( ReleaseSpeedMonitoring.ReleaseSpeed )</PreCondition></PreConditions>
 <Expression>ReleaseSpeedMonitoring.StartRSM ( ReleaseSpeedMonitoring.ReleaseSpeed )</Expression>
 </Case><Case
  Name="Value"
@@ -248,7 +248,7 @@
 >DecelerationCurves.EBD_TargetForSpeed(
     Vest =&gt; Vtarget,
     NoA_est =&gt; False,
-    aTarget =&gt; TargetSpeedMonitoring.MRDT()
+    aTarget =&gt; MRDT()
 ) == BaseTypes.Distance.Unknown</PreCondition></PreConditions>
 <Expression>Vtarget + CeilingSpeedMonitoring.dV_sbi(Vtarget)</Expression>
 </Case><Case
@@ -263,7 +263,7 @@
 DecelerationCurves.EBD_TargetForSpeed(
     Vest =&gt; Vtarget,
     NoA_est =&gt; False,
-    aTarget =&gt; TargetSpeedMonitoring.MRDT()
+    aTarget =&gt; MRDT()
 )</PreCondition></PreConditions>
 <Expression>Vtarget + CeilingSpeedMonitoring.dV_sbi(Vtarget)</Expression>
 </Case><Case
@@ -275,7 +275,7 @@ X1 =&gt; DecelerationCurves.EBD_Target(
     Distance =&gt; Dmaxsafefrontend + 
         BaseTypes.SpeedToMS( Odometry.TrainSpeed() ) * T_bs2 + 
         DecelerationCurves.Dbe_display ( Vest =&gt; Odometry.TrainSpeed(), NoA_est =&gt; NoA_est),
-    aTarget =&gt; TargetSpeedMonitoring.MRDT()
+    aTarget =&gt; MRDT()
 ) - (DecelerationCurves.Vdelta0() + DecelerationCurves.Vdelta1(NoA_est) + DecelerationCurves.Vdelta2(NoA_est)),
 X2=&gt; Vtarget + CeilingSpeedMonitoring.dV_sbi(Vtarget)
 )</Expression>
@@ -312,9 +312,9 @@ X2=&gt; Vtarget + CeilingSpeedMonitoring.dV_sbi(Vtarget)
 <PreConditions>
 <PreCondition
  Guid="fb31b0d5-2e2e-4497-9d5b-424486a3731d"
->Kernel.Mode == Mode.SR</PreCondition><PreCondition
+>Mode == Default.Mode.SR</PreCondition><PreCondition
  Guid="7c22b3ae-26dd-4a92-9147-16b66f97b53b"
->NOT Available(Kernel.MA.MA)</PreCondition></PreConditions>
+>NOT Available(MA.MA)</PreCondition></PreConditions>
 <Expression>BaseTypes.Speed.Infinity</Expression>
 </Case><Case
  Name="Before EOA"
@@ -626,7 +626,7 @@ X2 =&gt; aTarget.Speed
 <PreConditions>
 <PreCondition
  Guid="3a0c2a8a-74d6-4796-be6b-59799791f944"
->Mode == Mode.SR</PreCondition><PreCondition
+>Mode == Default.Mode.SR</PreCondition><PreCondition
  Guid="d95afede-c96a-425e-8056-2fe078c73a94"
 >MRDT().Location == NationalValues.ApplicableNationalValues.Value.MaxPermDistToRunInStaffResponsibleMode
   AND  
@@ -1282,7 +1282,7 @@ This protection is used in the case where V_SBI_DMI is calculated but the train 
 <PreConditions>
 <PreCondition
  Guid="d7ba719f-1746-439b-a044-d8afca29cefb"
->Mode == Mode.SR</PreCondition></PreConditions>
+>Mode == Default.Mode.SR</PreCondition></PreConditions>
 <Expression>MA.ClosestTarget(
     Target1 =&gt; StaffResponsible.SREndTarget(),
     Target2 =&gt; MA.ClosestEOA()

@@ -170,10 +170,10 @@
 <PreConditions>
 <PreCondition
  Guid="c238a5b1-36a6-4190-9b53-2dca70c6fa61"
->Kernel.MA.MARequest.MARequestParameters != EMPTY
+>MARequestParameters != EMPTY
   AND
-Kernel.MA.MARequest.MARequestParameters.HandleRepetitions</PreCondition></PreConditions>
-<Expression>LastMARequestRepetitionTime + Kernel.MA.MARequest.MARequestParameters.RepetitionTime &lt;= DateAndTime.CurrentTime</Expression>
+MARequestParameters.HandleRepetitions</PreCondition></PreConditions>
+<Expression>LastMARequestRepetitionTime + MARequestParameters.RepetitionTime &lt;= DateAndTime.CurrentTime</Expression>
 </Case><Case
  Name="No MA request parameters available"
  Guid="55ec0701-fd5e-43b2-9640-bc3cb868d66c"
@@ -206,7 +206,7 @@ Kernel.MA.MARequest.MARequestParameters.HandleRepetitions</PreCondition></PreCon
  Name="Value"
  Guid="6f39c4fd-7076-42ba-a872-3d10a271f0f8"
 >
-<Expression>(SpeedAndDistanceMonitoring.PreIndicationLocation.Compute_d_preindication( aTarget =&gt; MA.ClosestEOA() ) - TrainPosition.FrontEndPosition( PointOfInterest=&gt;DistanceInterval.Nom ))
+<Expression>(SpeedAndDistanceMonitoring.PreIndicationLocation.Compute_d_preindication( aTarget =&gt; ClosestEOA() ) - TrainPosition.FrontEndPosition( PointOfInterest=&gt;DistanceInterval.Nom ))
   /
 (MRSP.V_MRSP() + SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_warning( V =&gt; MRSP.V_MRSP() ))</Expression>
 </Case></Cases>

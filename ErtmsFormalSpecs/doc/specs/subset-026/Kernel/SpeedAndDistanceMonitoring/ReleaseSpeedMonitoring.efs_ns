@@ -398,7 +398,7 @@ X2 =&gt; ComputeStartRSM_otherTargets(Vrelease)
 <Expression>REDUCE
     TARGETS (MRSP.SpeedRestrictions) |
         StartRSM ( ComputeReleaseSpeed () ) &lt;= X.Location AND X.Location &lt;= d_tripEOA() OR
-        StartRSM ( ComputeReleaseSpeed () ) &lt;= X.Location + BaseTypes.LengthToDistance ( X.Length ) AND X.Location + BaseTypes.LengthToDistance ( X.Length ) &lt;= ReleaseSpeedMonitoring.d_tripEOA() OR
+        StartRSM ( ComputeReleaseSpeed () ) &lt;= X.Location + BaseTypes.LengthToDistance ( X.Length ) AND X.Location + BaseTypes.LengthToDistance ( X.Length ) &lt;= d_tripEOA() OR
         X.Location &lt;= StartRSM ( ComputeReleaseSpeed () ) AND d_tripEOA() &lt;= X.Location + BaseTypes.LengthToDistance ( X.Length )
 USING X IN
     BaseTypes.MinSpeed ( X1 =&gt; X.Speed, X2 =&gt; RESULT )
@@ -486,7 +486,7 @@ INITIAL_VALUE
 <PreConditions>
 <PreCondition
  Guid="6987e771-1b6a-40d7-86d1-6ee0972c1e4a"
->Level.Value.Value == Level.L1</PreCondition></PreConditions>
+>Level.Value.Value == Default.Level.L1</PreCondition></PreConditions>
 <Expression>1.0</Expression>
 </Case><Case
  Name="Level 2 or 3"
@@ -495,7 +495,7 @@ INITIAL_VALUE
 <PreConditions>
 <PreCondition
  Guid="c2818a11-3cd6-4d37-9f07-66a869d1737c"
->Level.Value.Value in [Level.L2, Level.L3]</PreCondition></PreConditions>
+>Level.Value.Value in [Default.Level.L2, Default.Level.L3]</PreCondition></PreConditions>
 <Expression>0.0</Expression>
 </Case></Cases>
 </Function><Function
@@ -590,8 +590,8 @@ INITIAL_VALUE
 <Actions>
 <Action
  Guid="8d371a70-ef2e-4e1b-8637-313df835dbd9"
->ReleaseSpeedMonitoring.ReleaseSpeed &lt;- 
-ReleaseSpeedMonitoring.ReleaseSpeedValue(
+>ReleaseSpeed &lt;- 
+ReleaseSpeedValue(
     Vrel=&gt;BaseTypes.Speed.UseNV
 )</Action></Actions>
 </RuleCondition><RuleCondition
@@ -610,11 +610,11 @@ ReleaseSpeedMonitoring.ReleaseSpeedValue(
  Guid="63ee2938-1c1a-4777-96a9-abd7cce122a7"
 >Available ( MA.MA )</PreCondition><PreCondition
  Guid="5104ac8b-6652-4a39-aa1c-04a024112f3c"
->Kernel.MA.MA.EndSection.Overlap != EMPTY</PreCondition></PreConditions>
+>MA.MA.EndSection.Overlap != EMPTY</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="bdeef7f9-b1e9-4712-8e10-b086f369f67d"
->ReleaseSpeedMonitoring.ReleaseSpeed &lt;- ReleaseSpeedMonitoring.ReleaseSpeedValue ( MA.MA.EndSection.Overlap.ReleaseSpeed )</Action></Actions>
+>ReleaseSpeed &lt;- ReleaseSpeedValue ( MA.MA.EndSection.Overlap.ReleaseSpeed )</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="DangerPoint"
@@ -631,11 +631,11 @@ ReleaseSpeedMonitoring.ReleaseSpeedValue(
  Guid="2dfb6bca-97de-4a27-9a24-87ed725e3a3f"
 >Available ( MA.MA )</PreCondition><PreCondition
  Guid="09c83eb2-8447-4577-b46e-0613ffc3a94e"
->Kernel.MA.MA.EndSection.DangerPoint != EMPTY</PreCondition></PreConditions>
+>MA.MA.EndSection.DangerPoint != EMPTY</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="b92f4e34-c91d-4c82-ab5a-8de9b327c19f"
->ReleaseSpeedMonitoring.ReleaseSpeed &lt;- ReleaseSpeedMonitoring.ReleaseSpeedValue ( MA.MA.EndSection.DangerPoint.ReleaseSpeed )</Action></Actions>
+>ReleaseSpeed &lt;- ReleaseSpeedValue ( MA.MA.EndSection.DangerPoint.ReleaseSpeed )</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="NoReleaseSpeed"
@@ -652,7 +652,7 @@ ReleaseSpeedMonitoring.ReleaseSpeedValue(
 <Actions>
 <Action
  Guid="372aa3b8-cfb2-47c7-a29e-99cc9f9d0cd3"
->ReleaseSpeedMonitoring.ReleaseSpeed &lt;- 0.0</Action></Actions>
+>ReleaseSpeed &lt;- 0.0</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
