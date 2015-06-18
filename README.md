@@ -1,6 +1,5 @@
 ERTMSFormalSpecs
 ================
-
 To try EFS, please download the installer package on the website http://www.ertmssolutions.com/online. To get it, you should connect to the site (and maybe create a login + password for this), and contact us to get a download authorization for the installer file (laurent@ertmssolutions.com or stan@ertmssolutions.com or svitlana@ertmssolutions.com)
 
 To get help, following items are available:
