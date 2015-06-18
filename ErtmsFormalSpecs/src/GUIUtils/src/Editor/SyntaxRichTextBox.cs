@@ -68,15 +68,14 @@ namespace GUI
         /// </summary>
         public SyntaxRichTextBox()
         {
-            Pattern commentPattern = new Pattern(Color.Green, Font, "//.*$");
-            Pattern holeInTemplatePattern = new Pattern(Color.OrangeRed, Font, "<[a-zA-Z\\b]+>");
-            Pattern integerPattern = new Pattern(Color.BlueViolet, Font, "\\b(?:[0-9]*\\.)?[0-9]+\\b");
-            Pattern stringPattern = new Pattern(Color.BlueViolet, Font, "\'[^\']*\'");
-            ConstantPattern constantPattern = new ConstantPattern(Color.BlueViolet, Font, QualifiedName);
-            Pattern keywordPattern = new ListPattern(Color.Black, new Font(Font, FontStyle.Bold), Keywords);
-            Pattern modelElementPattern = new ListPattern(Color.Black,
-                new Font(Font, FontStyle.Bold | FontStyle.Underline), ModelElements);
-            TypePattern typePattern = new TypePattern(Color.Blue, Font, QualifiedName);
+            Pattern commentPattern = new Pattern("//.*$") { Color = Color.Green };
+            Pattern holeInTemplatePattern = new Pattern("<[a-zA-Z\\b]+>"){Color = Color.OrangeRed };
+            Pattern integerPattern = new Pattern("\\b(?:[0-9]*\\.)?[0-9]+\\b") { Color = Color.BlueViolet};
+            Pattern stringPattern = new Pattern("\'[^\']*\'") { Color = Color.BlueViolet };
+            ConstantPattern constantPattern = new ConstantPattern(QualifiedName) { Color = Color.BlueViolet};
+            Pattern keywordPattern = new ListPattern(Keywords) { FontStyle = FontStyle.Bold };
+            Pattern modelElementPattern = new ListPattern(ModelElements) { FontStyle = FontStyle.Bold | FontStyle.Underline };
+            TypePattern typePattern = new TypePattern(QualifiedName) { Color = Color.Blue };
 
             Patterns = new List<Pattern>
             {
@@ -181,8 +180,11 @@ namespace GUI
         {
             if (ApplyPatterns)
             {
-                // Save the position and make the whole line black
-                int nPosition = SelectionStart;
+                // Save SelectionStart and SelectionLength because syntax highlighting will change 
+                int savedSelectionStart = SelectionStart;
+                int savedSelectionLength = SelectionLength;
+                Color savedSelectionColor = SelectionBackColor;
+
                 SelectionStart = start;
                 SelectionLength = line.Length;
                 SelectionColor = Color.Black;
@@ -194,9 +196,9 @@ namespace GUI
                     pattern.Colorize(this, Instance, start, line, colored);
                 }
 
-                SelectionStart = nPosition;
-                SelectionLength = 0;
-                SelectionColor = Color.Black;
+                SelectionStart = savedSelectionStart;
+                SelectionLength = savedSelectionLength;
+                SelectionColor = savedSelectionColor;
             }
         }
 
@@ -214,7 +216,7 @@ namespace GUI
                 {
                     ProcessLine(start, line);
 
-                    start = start + line.Length;
+                    start = start + line.Length + 1;
                 }
 
                 CanPaint = true;
@@ -242,26 +244,25 @@ namespace GUI
         public Color Color { get; set; }
 
         /// <summary>
-        /// The font to be applied when the pattern is found
-        /// </summary>
-        public Font Font { get; set; }
-
-        /// <summary>
         /// The regular expression to find the pattern
         /// </summary>
         public Regex RegExp { get; set; }
 
         /// <summary>
+        /// The font style to use when applying this pattern
+        /// </summary>
+        public FontStyle FontStyle { get; set; }
+
+        /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="color"></param>
-        /// <param name="font"></param>
         /// <param name="regExp"></param>
-        public Pattern(Color color, Font font, string regExp)
+        public Pattern(string regExp)
         {
             RegExp = new Regex(regExp, RegexOptions.Compiled);
-            Color = color;
-            Font = font;
+            Color = Color.Black;
+            FontStyle = FontStyle.Regular;
         }
 
         /// <summary>
@@ -274,6 +275,8 @@ namespace GUI
         /// <param name="colorizedLocations">The location where coloring already occured</param>
         public void Colorize(SyntaxRichTextBox textBox, ModelElement instance, int start, string line, List<ColorizedLocation> colorizedLocations)
         {
+            Font font = new Font(textBox.Font, FontStyle);
+
             foreach (Match match in RegExp.Matches(line))
             {
                 if (CheckLocation(match, colorizedLocations))
@@ -288,7 +291,7 @@ namespace GUI
                         textBox.SelectionStart = start + match.Index;
                         textBox.SelectionLength = match.Length;
                         textBox.SelectionColor = Color;
-                        textBox.SelectionFont = Font;
+                        textBox.SelectionFont = font;
                     }
                 }
             }
@@ -342,11 +345,9 @@ namespace GUI
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="color"></param>
-        /// <param name="font"></param>
         /// <param name="regExp"></param>
-        public TypePattern(Color color, Font font, string regExp)
-            : base(color, font, regExp)
+        public TypePattern(string regExp)
+            : base(regExp)
         {
         }
 
@@ -378,11 +379,9 @@ namespace GUI
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="color"></param>
-        /// <param name="font"></param>
         /// <param name="regExp"></param>
-        public ConstantPattern(Color color, Font font, string regExp)
-            : base(color, font, regExp)
+        public ConstantPattern(string regExp)
+            : base(regExp)
         {
         }
 
@@ -414,11 +413,9 @@ namespace GUI
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="color"></param>
-        /// <param name="font"></param>
         /// <param name="elements"></param>
-        public ListPattern(Color color, Font font, params string[] elements)
-            : base(color, font, ComputeRegExp(elements))
+        public ListPattern(params string[] elements)
+            : base(ComputeRegExp(elements))
         {
         }
 
