@@ -153,7 +153,10 @@ namespace DataDictionary.Interpreter
                     {
                         // find the model element updated by obj and add to its list of updates
                         ModelElement baseElement = GuidCache.INSTANCE.GetModel(modelElement.getUpdates());
-                        baseElement.UpdatedBy.Add(modelElement);
+                        if (baseElement != null)
+                        {
+                            baseElement.UpdatedBy.Add(modelElement);
+                        }
 
                         base.visit(obj, visitSubNodes);
                     }
@@ -516,6 +519,9 @@ namespace DataDictionary.Interpreter
                 }
                 catch (Exception)
                 {
+                    // TODO : I don't know what to do. 
+                    // Please, at least, don't remove this
+                    System.Diagnostics.Debugger.Break();
                 }
             });
         }
