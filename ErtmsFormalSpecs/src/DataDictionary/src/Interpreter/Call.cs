@@ -585,36 +585,36 @@ namespace DataDictionary.Interpreter
         }
 
         /// <summary>
-        ///     Provides the indented expression text
+        ///     Builds the explanation of the element
         /// </summary>
-        /// <param name="indentLevel"></param>
-        /// <returns></returns>
-        public override string ToString(int indentLevel)
+        /// <param name="explanation"></param>
+        /// <param name="explainSubElements">Precises if we need to explain the sub elements (if any)</param>
+        public override void GetExplain(TextualExplanation explanation, bool explainSubElements = true)
         {
-            string retVal = Called.ToString(indentLevel) + "(";
+            Called.GetExplain(explanation);
+            explanation.Write("(");
+            explanation.ExplainList(ActualParameters, explainSubElements, ", ",
+                element => element.GetExplain(explanation));
 
-            bool first = true;
-            foreach (Expression argument in ActualParameters)
+            if (NamedActualParameters.Count > 0)
             {
-                if (!first)
+                explanation.Indent(2, () =>
                 {
-                    retVal += ", ";
-                }
-                first = false;
-                retVal += argument.ToString(indentLevel);
+                    if (ActualParameters.Count > 0)
+                    {
+                        explanation.Write(", ");
+                    }
+                    explanation.ExplainList(NamedActualParameters, explainSubElements, ", ", pair =>
+                    {
+                        explanation.WriteLine();
+                        explanation.Pad();
+                        pair.Key.GetExplain(explanation);
+                        explanation.Write(" => ");
+                        pair.Value.GetExplain(explanation);
+                    });
+                });
             }
-            foreach (KeyValuePair<Designator, Expression> pair in NamedActualParameters)
-            {
-                if (!first)
-                {
-                    retVal += ", ";
-                }
-                first = false;
-                retVal += pair.Key.ToString(indentLevel) + " => " + pair.Value.ToString(indentLevel);
-            }
-            retVal = retVal + ")";
-
-            return retVal;
+            explanation.Write(")");
         }
 
         /// <summary>

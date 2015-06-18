@@ -335,9 +335,19 @@ namespace DataDictionary.Interpreter.Statement
             context.LocalScope.PopContext(index);
         }
 
-        public override string ToString()
+        /// <summary>
+        ///     Builds the explanation of the element
+        /// </summary>
+        /// <param name="explanation"></param>
+        /// <param name="explainSubElements">Precises if we need to explain the sub elements (if any)</param>
+        public override void GetExplain(TextualExplanation explanation, bool explainSubElements = true)
         {
-            return "REPLACE " + Condition.ToString() + " IN " + ListExpression.ToString() + " BY " + Value.ToString();
+            explanation.Write("REPLACE ");
+            Condition.GetExplain(explanation);
+            explanation.Write(" IN ");
+            ListExpression.GetExplain(explanation);
+            explanation.Write(" BY ");
+            Value.GetExplain(explanation);
         }
 
         /// <summary>

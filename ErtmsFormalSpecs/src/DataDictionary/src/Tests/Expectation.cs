@@ -240,16 +240,24 @@ namespace DataDictionary.Tests
 
             if (!string.IsNullOrEmpty(getCondition()))
             {
-                explanation.PadLine("IF " + getCondition() + " THEN");
-                if (Expression != null)
+                explanation.Pad("IF ");
+                if (ConditionTree != null)
                 {
-                    explanation.Indent(2, () => explanation.PadLine(Expression.ToString()));
+                    ConditionTree.GetExplain(explanation);
                 }
+                else
+                {
+                    explanation.Write(getCondition());
+                }
+                explanation.WriteLine(" THEN");
+                explanation.Indent(2, () => explanation.Expression(this));
                 explanation.PadLine("END IF");
+
             }
             else
             {
-                explanation.PadLine(Expression.ToString());
+                explanation.Expression(this);
+                explanation.WriteLine();
             }
         }
     }

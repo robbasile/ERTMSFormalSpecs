@@ -549,7 +549,7 @@ namespace DataDictionary.Interpreter
      * Expression_iCont -> Epsilon                                   *
      * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-    public abstract class Expression : InterpreterTreeNode, IReference
+    public abstract class Expression : InterpreterTreeNode, IReference, ITextualExplain
     {
         /// <summary>
         ///     Constructor
@@ -813,23 +813,6 @@ namespace DataDictionary.Interpreter
 
             return retVal;
         }
-
-
-        /// <summary>
-        ///     Provides the expression text
-        /// </summary>
-        /// <returns></returns>
-        public override string ToString()
-        {
-            return ToString(0);
-        }
-
-        /// <summary>
-        ///     Provides the indented expression text
-        /// </summary>
-        /// <param name="indentLevel"></param>
-        /// <returns></returns>
-        public abstract string ToString(int indentLevel);
 
         /// <summary>
         ///     Checks the expression and appends errors to the root tree node when inconsistencies are found

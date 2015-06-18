@@ -1119,19 +1119,15 @@ namespace DataDictionary.Interpreter
         }
 
         /// <summary>
-        ///     Provides the indented expression text
+        ///     Builds the explanation of the element
         /// </summary>
-        /// <param name="indentLevel"></param>
-        /// <returns></returns>
-        public override string ToString(int indentLevel)
+        /// <param name="explanation"></param>
+        /// <param name="explainSubElements">Precises if we need to explain the sub elements (if any)</param>
+        public override void GetExplain(TextualExplanation explanation, bool explainSubElements = true)
         {
-            string retVal = "";
-
-            retVal = Left.ToString(indentLevel);
-            retVal += " " + Image(Operation) + " ";
-            retVal += Right.ToString(indentLevel);
-
-            return retVal;
+            Left.GetExplain(explanation);
+            explanation.Write(" " + Image(Operation) + " ");
+            Right.GetExplain(explanation);
         }
 
         /// <summary>

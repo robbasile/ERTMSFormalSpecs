@@ -178,44 +178,28 @@ namespace DataDictionary.Interpreter
         }
 
         /// <summary>
-        ///     Provides the indented expression text
+        ///     Builds the explanation of the element
         /// </summary>
-        /// <param name="indentLevel"></param>
-        /// <returns></returns>
-        public override string ToString(int indentLevel)
+        /// <param name="explanation"></param>
+        /// <param name="explainSubElements">Precises if we need to explain the sub elements (if any)</param>
+        public override void GetExplain(TextualExplanation explanation, bool explainSubElements = true)
         {
-            string indentText = "";
-            for (int i = 0; i < indentLevel; i++)
-            {
-                indentText += "    ";
-            }
-
-            string retVal = "";
-
             if (ListElements.Count > 0)
             {
-                retVal = "\n" + indentText + "[\n" + indentText + "    ";
-
-                bool first = true;
-                foreach (Expression expr in ListElements)
+                explanation.Write("[");
+                explanation.Indent(2, () =>
                 {
-                    if (!first)
+                    explanation.ExplainList(ListElements, explainSubElements, ", ", element =>
                     {
-                        retVal += ", ";
-                    }
-                    retVal += expr.ToString(indentLevel + 1);
-
-                    first = false;
-                }
-
-                retVal += "\n" + indentText + "]";
+                        element.GetExplain(explanation, explainSubElements);
+                    });
+                });
+                explanation.Write("]");
             }
             else
             {
-                retVal = "[]";
+                explanation.Write("[]");
             }
-
-            return retVal;
         }
     }
 }

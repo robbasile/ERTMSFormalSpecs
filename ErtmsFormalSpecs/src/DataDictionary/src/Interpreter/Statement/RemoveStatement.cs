@@ -360,32 +360,37 @@ namespace DataDictionary.Interpreter.Statement
             }
         }
 
-        public override string ToString()
+        /// <summary>
+        ///     Builds the explanation of the element
+        /// </summary>
+        /// <param name="explanation"></param>
+        /// <param name="explainSubElements">Precises if we need to explain the sub elements (if any)</param>
+        public override void GetExplain(TextualExplanation explanation, bool explainSubElements = true)
         {
-            string retVal = "REMOVE ";
+            explanation.Write("REMOVE ");
 
             switch (Position)
             {
                 case PositionEnum.First:
-                    retVal += "FIRST ";
+                    explanation.Write( "FIRST ");
                     break;
 
                 case PositionEnum.Last:
-                    retVal += "LAST ";
+                    explanation.Write("LAST ");
                     break;
 
                 case PositionEnum.All:
-                    retVal += "ALL ";
+                    explanation.Write("ALL ");
                     break;
             }
 
             if (Condition != null)
             {
-                retVal += Condition.ToString();
+                Condition.GetExplain(explanation);
             }
-            retVal += " IN " + ListExpression.ToString();
 
-            return retVal;
+            explanation.Write(" IN ");
+            ListExpression.GetExplain(explanation);
         }
 
         /// <summary>

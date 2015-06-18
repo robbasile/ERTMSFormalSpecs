@@ -90,20 +90,23 @@ namespace DataDictionary.Interpreter.ListOperators
         }
 
         /// <summary>
-        ///     Provides the indented expression text
+        ///     Builds the explanation of the element
         /// </summary>
-        /// <param name="indentLevel"></param>
-        /// <returns></returns>
-        public override string ToString(int indentLevel)
+        /// <param name="explanation"></param>
+        /// <param name="explainSubElements">Precises if we need to explain the sub elements (if any)</param>
+        public override void GetExplain(TextualExplanation explanation, bool explainSubElements = true)
         {
-            string retVal = OPERATOR + " " + IteratorVariable.Name + " IN " + ListExpression.ToString(indentLevel);
+            explanation.Write(OPERATOR);
+            explanation.Write(" ");
+            explanation.Write(IteratorVariable.Name);
+            explanation.Write(" IN ");
+            ListExpression.GetExplain(explanation);
 
             if (Condition != null)
             {
-                retVal += " | " + Condition.ToString(indentLevel);
+                explanation.Write(" | ");
+                Condition.GetExplain(explanation);
             }
-
-            return retVal;
         }
     }
 }

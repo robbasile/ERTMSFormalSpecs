@@ -437,7 +437,7 @@ namespace DataDictionary
         /// Pads a given string
         /// </summary>
         /// <param name="data"></param>
-        public void Pad(string data)
+        public void Pad(string data = "")
         {
             Data.Append(IndentString);
             Data.Append(data);
@@ -447,7 +447,7 @@ namespace DataDictionary
         /// Pads the data and adds a newline
         /// </summary>
         /// <param name="data"></param>
-        public void PadLine(string data)
+        public void PadLine(string data = "")
         {
             Pad(data);
             Data.Append("\n");
@@ -457,7 +457,7 @@ namespace DataDictionary
         /// Appends a string to the current result
         /// </summary>
         /// <param name="data"></param>
-        public void Write(string data)
+        public void Write(string data = "")
         {
             Data.Append(data);
         }
@@ -478,18 +478,23 @@ namespace DataDictionary
         /// <param name="element"></param>
         public void Expression(ModelElement element)
         {
-            string retVal = "";
-
             IExpressionable expressionable = element as IExpressionable;
             if (expressionable != null)
             {
-                if (string.IsNullOrEmpty(expressionable.ExpressionText))
+                if (expressionable.Tree != null)
                 {
-                    Pad("<Undefined expression or statement>");
+                    expressionable.Tree.GetExplain(this);
                 }
                 else
                 {
-                    Pad(expressionable.ExpressionText);
+                    if (string.IsNullOrEmpty(expressionable.ExpressionText))
+                    {
+                        Pad("<Undefined expression or statement>");
+                    }
+                    else
+                    {
+                        Pad(expressionable.ExpressionText);
+                    }
                 }
             }
         }
@@ -540,6 +545,34 @@ namespace DataDictionary
         {
             Comment(element);
             Name(element);
+        }
+
+        /// <summary>
+        /// Method used to explain a single element
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="element"></param>
+        public delegate void ExplainElement<T>(T element);
+
+        /// <summary>
+        /// Explains a list of elements
+        /// </summary>
+        /// <param name="elements"></param>
+        /// <param name="explainSubElements"></param>
+        /// <param name="separator"></param>
+        /// <param name="explainElement">The action used to explain a single element</param>
+        public void ExplainList<T>(IEnumerable<T> elements, bool explainSubElements, string separator, ExplainElement<T> explainElement)
+        {
+            bool first = true;
+            foreach (T element in elements)
+            {
+                if (!first)
+                {
+                    Write(separator);
+                }
+                first = false;
+                explainElement(element);
+            }
         }
     }
 }

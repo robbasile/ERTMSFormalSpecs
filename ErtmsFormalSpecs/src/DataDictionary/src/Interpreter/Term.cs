@@ -23,7 +23,7 @@ using Utils;
 
 namespace DataDictionary.Interpreter
 {
-    public class Term : InterpreterTreeNode, IReference
+    public class Term : InterpreterTreeNode, IReference, ITextualExplain
     {
         /// <summary>
         ///     The designator of this term
@@ -261,33 +261,20 @@ namespace DataDictionary.Interpreter
         }
 
         /// <summary>
-        ///     Provides the expression text
+        ///     Builds the explanation of the element
         /// </summary>
-        /// <returns></returns>
-        public override string ToString()
+        /// <param name="explanation"></param>
+        /// <param name="explainSubElements">Precises if we need to explain the sub elements (if any)</param>
+        public override void GetExplain(TextualExplanation explanation, bool explainSubElements = true)
         {
-            return ToString(0);
-        }
-
-        /// <summary>
-        ///     Provides the indented expression text
-        /// </summary>
-        /// <param name="indentLevel"></param>
-        /// <returns></returns>
-        public string ToString(int indentLevel)
-        {
-            string retVal = null;
-
             if (Designator != null)
             {
-                retVal = Designator.ToString(indentLevel);
+                Designator.GetExplain(explanation);
             }
             else if (LiteralValue != null)
             {
-                retVal = LiteralValue.ToString(indentLevel);
+                LiteralValue.GetExplain(explanation);
             }
-
-            return retVal;
         }
 
         /// <summary>

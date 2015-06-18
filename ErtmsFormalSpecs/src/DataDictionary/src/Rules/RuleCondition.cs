@@ -349,8 +349,11 @@ namespace DataDictionary.Rules
         /// <param name="explainSubElements">Precises if we need to explain the sub elements (if any)</param>
         public virtual void GetExplain(TextualExplanation explanation, bool explainSubElements)
         {
+            int indent = 0;
+
             if (PreConditions.Count > 0)
             {
+                indent = 2;
                 explanation.Pad("IF ");
                 if (PreConditions.Count > 1)
                 {
@@ -369,22 +372,24 @@ namespace DataDictionary.Rules
                     preCondition.GetExplain(explanation, explainSubElements);
                     first = false;
                 }
-                explanation.WriteLine(" THEN");
+                explanation.WriteLine();
+                explanation.PadLine("THEN");
             }
             else
             {
                 explanation.WriteLine();
             }
 
-            if (Name.CompareTo(EnclosingRule.Name) != 0)
+            explanation.Indent(indent, () =>
             {
-                explanation.Comment(Name);
-            }
+                if (Name.CompareTo(EnclosingRule.Name) != 0)
+                {
+                    explanation.Comment(Name);
+                }
 
-            explanation.Indent(2, () =>
-            {
                 foreach (Action action in Actions)
                 {
+                    explanation.Pad();
                     action.GetExplain(explanation, explainSubElements);
                     explanation.WriteLine();
                 }

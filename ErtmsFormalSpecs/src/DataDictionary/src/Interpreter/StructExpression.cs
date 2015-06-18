@@ -142,45 +142,23 @@ namespace DataDictionary.Interpreter
         }
 
         /// <summary>
-        ///     Provides the indented expression text
+        ///     Builds the explanation of the element
         /// </summary>
-        /// <param name="indentLevel"></param>
-        /// <returns></returns>
-        public override string ToString(int indentLevel)
+        /// <param name="explanation"></param>
+        /// <param name="explainSubElements">Precises if we need to explain the sub elements (if any)</param>
+        public override void GetExplain(TextualExplanation explanation, bool explainSubElements = true)
         {
-            string retVal = Structure.ToString(indentLevel);
-            string indentAccolade = "";
-            for (int i = 0; i < indentLevel; i++)
+            Structure.GetExplain(explanation);
+            explanation.WriteLine("{");
+            explanation.Indent(2, () => explanation.ExplainList(Associations, explainSubElements, ", ", element =>
             {
-                indentAccolade += "    ";
-            }
-            string indentText = indentAccolade + "    ";
-            bool first = true;
-            retVal = retVal + "\n" + indentAccolade + "{";
-            foreach (KeyValuePair<Designator, Expression> pair in Associations)
-            {
-                if (first)
-                {
-                    retVal = retVal + "\n" + indentText;
-                    first = false;
-                }
-                else
-                {
-                    retVal = retVal + ",\n" + indentText;
-                }
-                StructExpression expression = pair.Value as StructExpression;
-                if (expression != null)
-                {
-                    retVal = retVal + pair.Key.Image + " => " + expression.ToString(indentLevel + 1);
-                }
-                else
-                {
-                    retVal = retVal + pair.Key.Image + " => " + pair.Value.ToString(indentLevel + 1);
-                }
-            }
-            retVal = retVal + "\n" + indentAccolade + "}";
-
-            return retVal;
+                explanation.Pad();
+                element.Key.GetExplain(explanation);
+                explanation.Write(" => ");
+                element.Value.GetExplain(explanation);
+                explanation.WriteLine();
+            }));
+            explanation.Write("}");
         }
 
         /// <summary>

@@ -230,28 +230,21 @@ namespace DataDictionary.Interpreter
         }
 
         /// <summary>
-        ///     Provides the indented expression text
+        ///     Builds the explanation of the element
         /// </summary>
-        /// <param name="indentLevel"></param>
-        /// <returns></returns>
-        public override string ToString(int indentLevel)
+        /// <param name="explanation"></param>
+        /// <param name="explainSubElements">Precises if we need to explain the sub elements (if any)</param>
+        public override void GetExplain(TextualExplanation explanation, bool explainSubElements = true)
         {
-            string retVal = "FUNCTION ";
-
-            bool first = true;
-            foreach (Parameter parameter in Parameters)
+            explanation.Write("FUNCTION ");
+            explanation.ExplainList(Parameters, explainSubElements, ", ", parameter =>
             {
-                if (!first)
-                {
-                    retVal += ", ";
-                }
-                retVal += parameter.Name + " : " + parameter.TypeName;
-                first = false;
-            }
-
-            retVal += " => " + Expression.ToString(indentLevel);
-
-            return retVal;
+                explanation.Write(parameter.Name);
+                explanation.Write(" : ");
+                explanation.Write(parameter.TypeName);
+            });
+            explanation.Write(" => ");
+            Expression.GetExplain(explanation);
         }
 
         /// <summary>

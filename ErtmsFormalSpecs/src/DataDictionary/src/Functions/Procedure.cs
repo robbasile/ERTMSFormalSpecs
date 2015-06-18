@@ -233,7 +233,7 @@ namespace DataDictionary.Functions
         public virtual void GetExplain(TextualExplanation explanation, bool explainSubElements)
         {
             explanation.Comment(this);
-            explanation.PadLine("PROCEDURE " + Name);
+            explanation.Pad("PROCEDURE " + Name);
 
             if (FormalParameters.Count > 0)
             {

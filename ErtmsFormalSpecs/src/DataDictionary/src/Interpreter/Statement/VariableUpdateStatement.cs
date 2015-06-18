@@ -273,9 +273,16 @@ namespace DataDictionary.Interpreter.Statement
             }
         }
 
-        public override string ToString()
+        /// <summary>
+        ///     Builds the explanation of the element
+        /// </summary>
+        /// <param name="explanation"></param>
+        /// <param name="explainSubElements">Precises if we need to explain the sub elements (if any)</param>
+        public override void GetExplain(TextualExplanation explanation, bool explainSubElements = true)
         {
-            return VariableIdentification.ToString() + " <- " + Expression.ToString();
+            VariableIdentification.GetExplain(explanation);
+            explanation.Write(" <- ");
+            Expression.GetExplain(explanation);
         }
 
         /// <summary>

@@ -20,7 +20,7 @@ using Utils;
 
 namespace DataDictionary.Interpreter
 {
-    public class InterpreterTreeNode : INamable
+    public abstract class InterpreterTreeNode : INamable, ITextualExplain
     {
         /// <summary>
         ///     Some logging facility
@@ -135,6 +135,20 @@ namespace DataDictionary.Interpreter
             {
                 RootLog.AddWarning(message);
             }
+        }
+
+        /// <summary>
+        ///     Builds the explanation of the element
+        /// </summary>
+        /// <param name="explanation"></param>
+        /// <param name="explainSubElements">Precises if we need to explain the sub elements (if any)</param>
+        public abstract void GetExplain(TextualExplanation explanation, bool explainSubElements = true);
+
+        public string ToString()
+        {
+            TextualExplanation explanation = new TextualExplanation();
+            GetExplain(explanation);
+            return explanation.Text;
         }
     }
 }
