@@ -125,14 +125,17 @@ namespace GUI
         /// <param name="e"></param>
         private void SyntaxRichTextBox_TextChanged(object sender, EventArgs e)
         {
-            CanPaint = false;
+            if (CanPaint)
+            {
+                CanPaint = false;
 
-            // Process the current line.
-            int start = StartLine(SelectionStart);
-            int end = EndLine(SelectionStart);
-            ProcessLine(start, Text.Substring(start, end - start));
+                // Process the current line.
+                int start = StartLine(SelectionStart);
+                int end = EndLine(SelectionStart);
+                ProcessLine(start, Text.Substring(start, end - start));
 
-            CanPaint = true;
+                CanPaint = true;
+            }
         }
 
         /// <summary>
