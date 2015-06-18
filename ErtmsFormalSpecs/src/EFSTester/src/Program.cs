@@ -15,7 +15,6 @@
 // ------------------------------------------------------------------------------
 
 using System;
-using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using DataDictionary;
 using DataDictionary.Generated;
@@ -34,7 +33,7 @@ namespace EFSTester
         /// <summary>
         /// Checks if there is any error in the model
         /// </summary>
-        private class IsThereAnyError : DataDictionary.Generated.Visitor
+        private class IsThereAnyError : Visitor
         {
             /// <summary>
             /// The list of errors
@@ -115,71 +114,69 @@ namespace EFSTester
 
                 if (retVal == 0)
                 {
-                    // Perform functional test for each loaded dictionary
-                    foreach (Dictionary dictionary in efsSystem.Dictionaries)
+                    // Perform functional test for last loaded dictionary
+                    Dictionary dictionary = efsSystem.Dictionaries.FindLast(x => true);
+                    Console.Out.WriteLine("Processing tests from dictionary " + dictionary.Name);
+                    foreach (Frame frame in dictionary.Tests)
                     {
-                        Console.Out.WriteLine("Processing tests from dictionary " + dictionary.Name);
-                        foreach (Frame frame in dictionary.Tests)
+                        Console.Out.WriteLine("Executing frame " + frame.FullName);
+                        foreach (SubSequence subSequence in frame.SubSequences)
                         {
-                            Console.Out.WriteLine("Executing frame " + frame.FullName);
-                            foreach (SubSequence subSequence in frame.SubSequences)
+                            Console.Out.WriteLine("Executing sub sequence " + subSequence.FullName);
+                            if (subSequence.getCompleted())
                             {
-                                Console.Out.WriteLine("Executing sub sequence " + subSequence.FullName);
-                                if (subSequence.getCompleted())
+                                if (dictionary.TranslationDictionary != null)
                                 {
-                                    if (dictionary.TranslationDictionary != null)
-                                    {
-                                        Console.Out.WriteLine("  -> Translating sub sequence ");
-                                        subSequence.Translate(dictionary.TranslationDictionary);
-                                    }
+                                    Console.Out.WriteLine("  -> Translating sub sequence ");
+                                    subSequence.Translate(dictionary.TranslationDictionary);
+                                }
 
-                                    Runner runner = new Runner(subSequence, false, false, true);
-                                    runner.RunUntilStep(null);
+                                Runner runner = new Runner(subSequence, false, false, true);
+                                runner.RunUntilStep(null);
 
-                                    bool failed = false;
-                                    foreach (ModelEvent evt in runner.FailedExpectations())
+                                bool failed = false;
+                                foreach (ModelEvent evt in runner.FailedExpectations())
+                                {
+                                    Expect expect = evt as Expect;
+                                    if (expect != null)
                                     {
-                                        Expect expect = evt as Expect;
-                                        if (expect != null)
+                                        string message = expect.Message.Replace('\n', ' ');
+                                        TestCase testCase = EnclosingFinder<TestCase>.find(expect.Expectation);
+                                        if (testCase.ImplementationCompleted)
                                         {
-                                            string message = expect.Message.Replace('\n', ' ');
-                                            TestCase testCase = EnclosingFinder<TestCase>.find(expect.Expectation);
-                                            if (testCase.ImplementationCompleted)
-                                            {
-                                                Console.Out.WriteLine(" failed (unexpected) :" + message);
-                                                failed = true;
-                                            }
-                                            else
-                                            {
-                                                Console.Out.WriteLine(" failed (expected) : " + message);
-                                            }
+                                            Console.Out.WriteLine(" failed (unexpected) :" + message);
+                                            failed = true;
                                         }
                                         else
                                         {
-                                            ModelInterpretationFailure modelInterpretationFailure =
-                                                evt as ModelInterpretationFailure;
-                                            if (modelInterpretationFailure != null)
-                                            {
-                                                Console.Out.WriteLine(" failed : " + modelInterpretationFailure.Message);
-                                                failed = true;
-                                            }
+                                            Console.Out.WriteLine(" failed (expected) : " + message);
                                         }
-                                    }
-
-                                    if (failed)
-                                    {
-                                        Console.Out.WriteLine("  -> Failed");
-                                        retVal = -1;
                                     }
                                     else
                                     {
-                                        Console.Out.WriteLine("  -> Success");
+                                        ModelInterpretationFailure modelInterpretationFailure =
+                                            evt as ModelInterpretationFailure;
+                                        if (modelInterpretationFailure != null)
+                                        {
+                                            Console.Out.WriteLine(" failed : " + modelInterpretationFailure.Message);
+                                            failed = true;
+                                        }
                                     }
+                                }
+
+                                if (failed)
+                                {
+                                    Console.Out.WriteLine("  -> Failed");
+                                    retVal = -1;
                                 }
                                 else
                                 {
-                                    Console.Out.WriteLine("  -> Not executed because it is not marked as completed");
+                                    Console.Out.WriteLine("  -> Success");
                                 }
+                            }
+                            else
+                            {
+                                Console.Out.WriteLine("  -> Not executed because it is not marked as completed");
                             }
                         }
                     }
