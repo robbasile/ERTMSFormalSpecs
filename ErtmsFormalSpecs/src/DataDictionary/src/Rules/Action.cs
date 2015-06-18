@@ -31,7 +31,7 @@ using Translation = DataDictionary.Tests.Translations.Translation;
 
 namespace DataDictionary.Rules
 {
-    public class Action : Generated.Action, IExpressionable, TextualExplain, ICommentable
+    public class Action : Generated.Action, IExpressionable, ITextualExplain, ICommentable
     {
         public override string Name
         {
@@ -299,17 +299,6 @@ namespace DataDictionary.Rules
         }
 
         /// <summary>
-        ///     Explains the pre Condition
-        /// </summary>
-        /// <returns></returns>
-        public override string getExplain()
-        {
-            string retVal = ExpressionText;
-
-            return retVal;
-        }
-
-        /// <summary>
         ///     Indicates the name of the updated variable, if any
         /// </summary>
         /// <returns></returns>
@@ -348,31 +337,14 @@ namespace DataDictionary.Rules
         }
 
         /// <summary>
-        ///     Provides an explanation of the step's behaviour
+        ///     Builds the explanation of the element
         /// </summary>
-        /// <param name="indentLevel">the number of white spaces to add at the beginning of each line</param>
-        /// <returns></returns>
-        public string getExplain(int indentLevel, bool explainSubElements)
-        {
-            string retVal = TextualExplainUtilities.Comment(this, indentLevel);
-
-            retVal += TextualExplainUtilities.Pad(ExpressionText, indentLevel);
-
-            return retVal;
-        }
-
-        /// <summary>
-        ///     Provides an explanation of the step's behaviour
-        /// </summary>
+        /// <param name="explanation"></param>
         /// <param name="explainSubElements">Precises if we need to explain the sub elements (if any)</param>
-        /// <returns></returns>
-        public string getExplain(bool explainSubElements)
+        public virtual void GetExplain(TextualExplanation explanation, bool explainSubElements)
         {
-            string retVal = "";
-
-            retVal = getExplain(0, explainSubElements);
-
-            return retVal;
+            explanation.Comment(this);
+            explanation.Expression(this);
         }
 
         /// <summary>

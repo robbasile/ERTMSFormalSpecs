@@ -58,7 +58,7 @@ namespace GUI.EditorView
         {
             ICommentable commentable = Instance as ICommentable;
 
-            if (commentable != null)
+            if (commentable != null && commentable.Comment != text)
             {
                 commentable.Comment = text;
             }

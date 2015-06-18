@@ -27,7 +27,7 @@ using Type = DataDictionary.Types.Type;
 
 namespace DataDictionary.Constants
 {
-    public class State : Generated.State, IValue, ISubDeclarator, TextualExplain, IGraphicalDisplay
+    public class State : Generated.State, IValue, ISubDeclarator, ITextualExplain, IGraphicalDisplay
     {
         public string LiteralName
         {
@@ -400,42 +400,22 @@ namespace DataDictionary.Constants
         }
 
         /// <summary>
-        ///     Provides an explanation of the rule's behaviour
+        ///     Builds the explanation of the element
         /// </summary>
-        /// <param name="indentLevel">the number of white spaces to add at the beginning of each line</param>
-        /// <returns></returns>
-        public string getExplain(int indentLevel, bool getExplain)
+        /// <param name="explanation"></param>
+        /// <param name="explainSubElements">Precises if we need to explain the sub elements (if any)</param>
+        public virtual void GetExplain(TextualExplanation explanation, bool explainSubElements)
         {
-            string retVal = "";
+            explanation.PadLine("STATE " + Name);
 
-            retVal =
-                TextualExplainUtilities.Pad(
-                    "{\\cf11 // " + TextualExplainUtilities.Iterate('*', 6 + Name.Length) + "}\\cf1\\par", indentLevel)
-                + TextualExplainUtilities.Pad("{\\cf11 // State " + Name + "}\\cf1\\par", indentLevel)
-                +
-                TextualExplainUtilities.Pad(
-                    "{\\cf11 // " + TextualExplainUtilities.Iterate('*', 6 + Name.Length) + "}\\cf1\\par", indentLevel);
-
-            if (getExplain)
+            if (explainSubElements)
             {
                 foreach (Rule rule in StateMachine.Rules)
                 {
-                    retVal += "\\par" + rule.getExplain(indentLevel, true);
+                    rule.GetExplain(explanation, explainSubElements);
+                    explanation.WriteLine();
                 }
             }
-
-            return retVal;
-        }
-
-        /// <summary>
-        ///     Provides an explanation of the rule's behaviour
-        /// </summary>
-        /// <returns></returns>
-        public string getExplain(bool explainSubElements)
-        {
-            string retVal = getExplain(0, explainSubElements);
-
-            return TextualExplainUtilities.Encapsule(retVal);
         }
 
         /// <summary>

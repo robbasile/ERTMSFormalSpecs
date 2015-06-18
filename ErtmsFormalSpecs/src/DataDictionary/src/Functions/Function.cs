@@ -32,7 +32,7 @@ using Type = DataDictionary.Types.Type;
 
 namespace DataDictionary.Functions
 {
-    public class Function : Generated.Function, ISubDeclarator, IValue, TextualExplain, ICallable
+    public class Function : Generated.Function, ISubDeclarator, IValue, ITextualExplain, ICallable
     {
         /// <summary>
         ///     The time spent evaluating this function
@@ -1221,36 +1221,36 @@ namespace DataDictionary.Functions
         }
 
         /// <summary>
-        ///     Provides an explanation of the function's behaviour
+        ///     Builds the explanation of the element
         /// </summary>
-        /// <param name="indentLevel">the number of white spaces to add at the beginning of each line</param>
-        /// <returns></returns>
-        public string getExplain(int indentLevel)
+        /// <param name="explanation"></param>
+        /// <param name="explainSubElements">Precises if we need to explain the sub elements (if any)</param>
+        public override void GetExplain(TextualExplanation explanation, bool explainSubElements)
         {
-            string retVal = TextualExplainUtilities.Comment(this, indentLevel);
-
-            // Creates the function header
-            retVal += TextualExplainUtilities.Pad("{ {\\b FUNCTION} " + Name + "(", indentLevel);
+            explanation.Comment(this);
+            explanation.Pad("FUNCTION " + Name + "(");
             if (FormalParameters.Count > 0)
             {
-                bool first = true;
-                foreach (Parameter parameter in FormalParameters)
+                explanation.Indent(2, () =>
                 {
-                    if (!first)
+                    bool first = true;
+                    foreach (Parameter parameter in FormalParameters)
                     {
-                        retVal += ",";
-                    }
-                    retVal = retVal + "\\par" +
-                             TextualExplainUtilities.Pad(parameter.Name + " : " + parameter.TypeName, indentLevel + 2);
-                }
-                retVal += "\\par";
-                retVal += TextualExplainUtilities.Pad(") {\\b RETURNS } { \\cf2" + TypeName + "}}\\par", indentLevel);
+                        if (first)
+                        {
+                            explanation.WriteLine();
+                            first = false;
+                        }
+                        else
+                        {
+                            explanation.WriteLine(",");
+                        }
+                        explanation.Pad(parameter.Name + " : " + parameter.TypeName);
+                    }                    
+                });
             }
-            else
-            {
-                retVal += ")";
-                retVal += TextualExplainUtilities.Pad("{\\b RETURNS } { \\cf2" + TypeName + "}}\\par", indentLevel);
-            }
+            explanation.WriteLine(")");
+            explanation.PadLine("RETURNS " + TypeName);
 
             {
                 bool first = true;
@@ -1258,29 +1258,14 @@ namespace DataDictionary.Functions
                 {
                     if (!first)
                     {
-                        retVal = retVal + TextualExplainUtilities.Pad("{\\b ELSE }", indentLevel);
+                        explanation.Pad("ELSE ");
                     }
-                    retVal += cas.getExplain(indentLevel + 2) + "\\par ";
+                    cas.GetExplain(explanation, explainSubElements);
+                    explanation.WriteLine();
                     first = false;
                 }
             }
-
-            retVal += TextualExplainUtilities.Pad("{ {\\b END FUNCTION } ", indentLevel);
-
-
-            return retVal;
-        }
-
-        /// <summary>
-        ///     Provides an explanation of the rule's behaviour
-        /// </summary>
-        /// <param name="explainSubElements">Precises if we need to explain the sub elements (if any)</param>
-        /// <returns></returns>
-        public override string getExplain(bool explainSubElements)
-        {
-            string retVal = getExplain(0);
-
-            return TextualExplainUtilities.Encapsule(retVal);
+            explanation.Pad("END FUNCTION");
         }
 
         /// <summary>

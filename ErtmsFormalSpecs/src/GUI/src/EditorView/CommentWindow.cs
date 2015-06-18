@@ -43,6 +43,8 @@ namespace GUI.EditorView
             this.Icon = ((Icon) (resources.GetObject("$this.Icon")));
             this.Name = "CommentWindow";
             this.ResumeLayout(false);
+
+            this.SyntaxHighlight = false;
         }
     }
 }

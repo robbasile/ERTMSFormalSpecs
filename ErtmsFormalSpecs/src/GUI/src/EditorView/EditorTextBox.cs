@@ -16,7 +16,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Windows.Forms;
 using BrightIdeasSoftware;
 using DataDictionary;
@@ -69,7 +68,11 @@ namespace GUI
                 }
                 return _instance;
             }
-            set { _instance = value; }
+            set
+            {
+                _instance = value;
+                EditionTextBox.Instance = value as DataDictionary.ModelElement;
+            }
         }
 
         /// <summary>
@@ -142,11 +145,11 @@ namespace GUI
                         StructureTreeNode structureTreeNode = sourceNode as StructureTreeNode;
                         if (structureTreeNode != null)
                         {
-                            StringBuilder text = new StringBuilder();
+                            TextualExplanation text = new TextualExplanation();
 
                             Structure structure = structureTreeNode.Item;
                             CreateDefaultStructureValue(text, structure);
-                            EditionTextBox.SelectedText = text.ToString();
+                            EditionTextBox.SelectedText = text.Text;
                         }
                         else
                         {

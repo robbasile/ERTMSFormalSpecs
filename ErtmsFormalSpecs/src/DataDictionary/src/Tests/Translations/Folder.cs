@@ -20,13 +20,12 @@ using Utils;
 
 namespace DataDictionary.Tests.Translations
 {
-    public class Folder : Generated.Folder, TextualExplain
+    public class Folder : Generated.Folder, ITextualExplain
     {
         /// <summary>
         ///     Constructor
         /// </summary>
         public Folder()
-            : base()
         {
         }
 
@@ -125,37 +124,33 @@ namespace DataDictionary.Tests.Translations
         }
 
         /// <summary>
-        ///     Explains the Folder
+        ///     Builds the explanation of the element
         /// </summary>
-        /// <returns></returns>
-        public string getExplain(bool explainSubElements)
+        /// <param name="explanation"></param>
+        /// <param name="explainSubElements">Precises if we need to explain the sub elements (if any)</param>
+        public virtual void GetExplain(TextualExplanation explanation, bool explainSubElements)
         {
-            string result = TextualExplainUtilities.Pad("{\\b FOLDER} " + Name + "\\par", 0);
+            explanation.PadLine("FOLDER " + Name);
+
             if (explainSubElements)
             {
-                foreach (Folder folder in Folders)
+                explanation.Indent(2, () =>
                 {
-                    result += folder.getExplain();
+                    foreach (Folder folder in Folders)
+                    {
+                        folder.GetExplain(explanation, explainSubElements);
+                    }
+                });
+            }
+
+            explanation.Indent(2, () =>
+            {
+                foreach (Translation translation in Translations)
+                {
+                    translation.GetExplain(explanation, explainSubElements);
                 }
-                result += explainFolder();
-            }
-            else
-            {
-                result += explainFolder();
-            }
-            result += "\\par";
-            return result;
-        }
-
-
-        private string explainFolder()
-        {
-            string result = "";
-            foreach (Translation translation in Translations)
-            {
-                result += translation.getExplain(false, 2);
-            }
-            return result;
+            });
+            explanation.PadLine("END FOLDER " + Name);
         }
     }
 }

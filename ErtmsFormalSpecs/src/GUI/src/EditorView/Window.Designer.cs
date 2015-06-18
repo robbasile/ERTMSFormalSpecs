@@ -56,8 +56,6 @@ namespace GUI.EditorView
             this.editorTextBox.Location = new System.Drawing.Point(0, 0);
             this.editorTextBox.Name = "editorTextBox";
             this.editorTextBox.ReadOnly = false;
-            this.editorTextBox.Rtf = "{\\rtf1\\ansi\\ansicpg1252\\deff0\\deflang2060{\\fonttbl{\\f0\\fnil\\fcharset0 Microsoft S" +
-    "ans Serif;}}\r\n\\viewkind4\\uc1\\pard\\f0\\fs17\\par\r\n}\r\n";
             this.editorTextBox.Size = new System.Drawing.Size(699, 218);
             this.editorTextBox.TabIndex = 0;
             // 

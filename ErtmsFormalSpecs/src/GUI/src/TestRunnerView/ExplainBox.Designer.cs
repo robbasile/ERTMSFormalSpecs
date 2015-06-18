@@ -144,8 +144,6 @@ namespace GUI.TestRunnerView
             this.explainRichTextBox.Location = new System.Drawing.Point(0, 0);
             this.explainRichTextBox.Name = "explainRichTextBox";
             this.explainRichTextBox.ReadOnly = false;
-            this.explainRichTextBox.Rtf = "{\\rtf1\\ansi\\ansicpg1252\\deff0\\deflang2060{\\fonttbl{\\f0\\fnil\\fcharset0 Microsoft S" +
-    "ans Serif;}}\r\n\\viewkind4\\uc1\\pard\\f0\\fs17\\par\r\n}\r\n";
             this.explainRichTextBox.Size = new System.Drawing.Size(819, 135);
             this.explainRichTextBox.TabIndex = 0;
             // 

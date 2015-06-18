@@ -21,7 +21,7 @@ namespace DataDictionary
     /// <summary>
     ///     Something that can be graphically displayed
     /// </summary>
-    public interface IGraphicalDisplay : IModelElement, INamable, TextualExplain
+    public interface IGraphicalDisplay : IModelElement, ITextualExplain
     {
         /// <summary>
         ///     The X position

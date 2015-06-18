@@ -17,7 +17,6 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 using DataDictionary;
 using DataDictionary.Functions;
@@ -285,43 +284,21 @@ namespace GUI
         /// <param name="sensibleToMouseMove">Indicates that the explain box should be closed when the mouse moves</param>
         private void ExplainAndShow(List<INamable> namables, Point location, bool sensibleToMouseMove)
         {
-            explainRichTextBox.Rtf = CleanText;
+            explainRichTextBox.Text = "";
             if (namables != null)
             {
-                string data = "";
+                TextualExplanation explanation = new TextualExplanation();
                 foreach (INamable namable in namables)
                 {
-                    data += "{\\b " + namable.GetType().Name + "} " + namable.Name + "\\par ";
-                    ICallable callable = namable as ICallable;
-                    if (callable != null)
+                    ITextualExplain textualExplain = namable as ITextualExplain;
+                    if (textualExplain != null)
                     {
-                        if (callable.FormalParameters.Count > 0)
-                        {
-                            data += "{\\b Parameters : } \\par ";
-                            foreach (Parameter parameter in callable.FormalParameters)
-                            {
-                                data += "    " + parameter.Name + "{\\b : }" + parameter.Type.FullName + "\\par ";
-                            }
-                            data += "\\par ";
-                        }
+                        textualExplain.GetExplain(explanation, false);
                     }
-
-                    ICommentable commentable = namable as ICommentable;
-                    if (commentable != null)
-                    {
-                        if (String.IsNullOrEmpty(commentable.Comment))
-                        {
-                            data += "{\\i No description available }";
-                        }
-                        else
-                        {
-                            data += commentable.Comment;
-                        }
-                    }
-                    data += "\\par\\par";
                 }
 
-                explainRichTextBox.Rtf = TextualExplainUtilities.Encapsule(data);
+                explainRichTextBox.Text = explanation.Text;
+                explainRichTextBox.ProcessAllLines();
 
                 if (location == Point.Empty)
                 {
@@ -374,6 +351,7 @@ namespace GUI
         public void Cut()
         {
             EditionTextBox.Cut();
+            EditionTextBox.ProcessAllLines();
         }
 
         private void cutToolStripMenuItem_Click(object sender, EventArgs e)
@@ -384,6 +362,7 @@ namespace GUI
         public void Paste()
         {
             EditionTextBox.Paste();
+            EditionTextBox.ProcessAllLines();
         }
 
         private void pasteToolStripMenuItem_Click(object sender, EventArgs e)
@@ -394,6 +373,7 @@ namespace GUI
         public void Undo()
         {
             EditionTextBox.Undo();
+            EditionTextBox.ProcessAllLines();
         }
 
         private void undoToolStripMenuItem_Click(object sender, EventArgs e)
@@ -404,6 +384,7 @@ namespace GUI
         public void Redo()
         {
             EditionTextBox.Redo();
+            EditionTextBox.ProcessAllLines();
         }
 
         private void redoToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1046,9 +1027,10 @@ namespace GUI
                                 Structure structure = structureTypeExpression.Ref as Structure;
                                 if (structure != null)
                                 {
-                                    StringBuilder builder = new StringBuilder("{\n");
-                                    CreateDefaultStructureValue(builder, structure, false);
-                                    EditionTextBox.SelectedText = builder.ToString();
+                                    TextualExplanation text = new TextualExplanation();
+                                    text.WriteLine("{");
+                                    CreateDefaultStructureValue(text, structure, false);
+                                    EditionTextBox.SelectedText = text.Text;
                                     e.Handled = true;
                                 }
                             }
@@ -1063,9 +1045,9 @@ namespace GUI
                                 ICallable callable = callableExpression.Ref as ICallable;
                                 if (callable != null)
                                 {
-                                    StringBuilder builder = new StringBuilder();
-                                    CreateCallableParameters(builder, callable);
-                                    EditionTextBox.SelectedText = builder.ToString();
+                                    TextualExplanation text = new TextualExplanation();;
+                                    CreateCallableParameters(text, callable);
+                                    EditionTextBox.SelectedText = text.Text;
                                     e.Handled = true;
                                 }
                             }
@@ -1151,9 +1133,9 @@ namespace GUI
         /// <param name="variable"></param>
         protected string SetVariable(Variable variable)
         {
-            StringBuilder text = new StringBuilder();
+            TextualExplanation text = new TextualExplanation();
 
-            text.Append(StripUseless(variable.FullName, WritingContext()) + " <- ");
+            text.Write(StripUseless(variable.FullName, WritingContext()) + " <- ");
             Structure structure = variable.Type as Structure;
             if (structure != null)
             {
@@ -1161,18 +1143,18 @@ namespace GUI
             }
             else
             {
-                text.Append(variable.DefaultValue.FullName);
+                text.Write(variable.DefaultValue.FullName);
             }
 
-            return text.ToString();
+            return text.Text;
         }
 
-        protected void CreateDefaultStructureValue(StringBuilder text, Structure structure,
+        protected void CreateDefaultStructureValue(TextualExplanation text, Structure structure,
             bool displayStructureName = true)
         {
             if (displayStructureName)
             {
-                text.Append(StripUseless(structure.FullName, WritingContext()) + "{\n");
+                text.WriteLine(StripUseless(structure.FullName, WritingContext()) + "{");
             }
 
             bool first = true;
@@ -1180,57 +1162,64 @@ namespace GUI
             {
                 if (!first)
                 {
-                    text.Append(",\n");
+                    text.WriteLine(",");
                 }
-                InsertElement(element, text, 4);
+                InsertElement(element, text);
                 first = false;
             }
-            text.Append("\n}");
+            text.WriteLine();
+            text.Write("}");
         }
 
-        protected void CreateCallableParameters(StringBuilder text, ICallable callable)
+        protected void CreateCallableParameters(TextualExplanation text, ICallable callable)
         {
             if (callable.FormalParameters.Count > 0)
             {
-                text.Append("(\n");
-                bool first = true;
-                foreach (Parameter parameter in callable.FormalParameters)
+                text.WriteLine("(");
+                text.Indent(4, () =>
                 {
-                    if (!first)
+                    bool first = true;
+                    foreach (Parameter parameter in callable.FormalParameters)
                     {
-                        text.Append(",\n");
+                        if (!first)
+                        {
+                            text.WriteLine(",");
+                        }
+                        text.Write(parameter.Name + "=>" + parameter.Type.Default);
+                        first = false;
                     }
-                    text.Append(TextualExplainUtilities.Pad(parameter.Name + "=>" + parameter.Type.Default, 4));
-                    first = false;
-                }
-                text.Append("\n)");
+                });
+                text.WriteLine();
+                text.Write(")");
             }
             else
             {
-                text.Append("()");
+                text.Write("()");
             }
         }
 
-        protected void InsertElement(ITypedElement element, StringBuilder text, int indent)
+        protected void InsertElement(ITypedElement element, TextualExplanation text)
         {
-            text.Append(TextualExplainUtilities.Pad(element.Name + " => ", indent));
+            text.Pad(element.Name + " => ");
             Structure structure = element.Type as Structure;
             if (structure != null)
             {
-                indent = indent + 4;
-                text.Append(StripUseless(structure.FullName, WritingContext()) + "{\n");
-                bool first = true;
-                foreach (StructureElement subElement in structure.Elements)
+                text.WriteLine(StripUseless(structure.FullName, WritingContext()) + "{");
+                text.Indent(4, () =>
                 {
-                    if (!first)
+                    bool first = true;
+                    foreach (StructureElement subElement in structure.Elements)
                     {
-                        text.Append(",\n");
-                    }
-                    InsertElement(subElement, text, indent);
-                    first = false;
-                }
-                indent -= 4;
-                text.Append("\n" + TextualExplainUtilities.Pad("}", indent));
+                        if (!first)
+                        {
+                            text.WriteLine(",");
+                        }
+                        InsertElement(subElement, text);
+                        first = false;
+                    }                    
+                });
+                text.WriteLine();
+                text.Pad("}");
             }
             else
             {
@@ -1253,7 +1242,7 @@ namespace GUI
 
                 if (value != null)
                 {
-                    text.Append(StripUseless(value.FullName, WritingContext()));
+                    text.Write(StripUseless(value.FullName, WritingContext()));
                 }
             }
         }
@@ -1331,22 +1320,6 @@ namespace GUI
             return retVal;
         }
 
-        private string _lastRtf = "";
-
-        public string Rtf
-        {
-            get { return EditionTextBox.Rtf; }
-            set
-            {
-                if (value != _lastRtf)
-                {
-                    _lastRtf = value;
-                    EditionTextBox.Rtf = InitialRTF;
-                    EditionTextBox.Rtf = TextualExplainUtilities.Encapsule(value);
-                }
-            }
-        }
-
         public bool ReadOnly
         {
             get { return EditionTextBox.ReadOnly; }
@@ -1362,6 +1335,7 @@ namespace GUI
                 {
                     EditionTextBox.Rtf = InitialRTF;
                     EditionTextBox.Text = value.Trim();
+                    EditionTextBox.ProcessAllLines();
                 }
             }
         }

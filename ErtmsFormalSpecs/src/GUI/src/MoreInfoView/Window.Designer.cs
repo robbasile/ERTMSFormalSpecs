@@ -41,8 +41,6 @@
             this.moreInfoRichTextBox.Location = new System.Drawing.Point(0, 0);
             this.moreInfoRichTextBox.Name = "moreInfoRichTextBox";
             this.moreInfoRichTextBox.ReadOnly = true;
-            this.moreInfoRichTextBox.Rtf = "{\\rtf1\\ansi\\ansicpg1252\\deff0\\deflang2060{\\fonttbl{\\f0\\fnil\\fcharset0 Microsoft S" +
-    "ans Serif;}}\r\n\\viewkind4\\uc1\\pard\\f0\\fs17\\par\r\n}\r\n";
             this.moreInfoRichTextBox.Size = new System.Drawing.Size(1004, 165);
             this.moreInfoRichTextBox.TabIndex = 0;
             // 

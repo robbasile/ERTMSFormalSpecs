@@ -32,7 +32,7 @@ using Visitor = DataDictionary.Generated.Visitor;
 
 namespace DataDictionary.Rules
 {
-    public class Rule : Generated.Rule, TextualExplain, IGraphicalDisplay
+    public class Rule : Generated.Rule, ITextualExplain, IGraphicalDisplay
     {
         /// <summary>
         ///     Provides the execution time for this rule, in milliseconds
@@ -204,78 +204,31 @@ namespace DataDictionary.Rules
         }
 
         /// <summary>
-        ///     Provides an explanation of the rule's behaviour
+        ///     Builds the explanation of the element
         /// </summary>
-        /// <param name="indentLevel">the number of white spaces to add at the beginning of each line</param>
-        /// <returns></returns>
-        public string getExplain(int indentLevel, bool explainSubRules)
+        /// <param name="explanation"></param>
+        /// <param name="explainSubElements">Precises if we need to explain the sub elements (if any)</param>
+        public virtual void GetExplain(TextualExplanation explanation, bool explainSubElements)
         {
-            string retVal = TextualExplainUtilities.Header(this, indentLevel);
+            explanation.Comment(this);
 
             bool first = true;
             bool condition = false;
             foreach (RuleCondition ruleCondition in RuleConditions)
             {
-                retVal += ruleCondition.getExplain(indentLevel, first, explainSubRules);
+                if (!first)
+                {
+                    explanation.PadLine("ELSE");
+                }
+                ruleCondition.GetExplain(explanation, explainSubElements);
                 first = false;
                 condition = condition || ruleCondition.PreConditions.Count > 0;
             }
 
             if (condition)
             {
-                retVal = retVal + TextualExplainUtilities.Pad("{\\b END IF}\\par", indentLevel);
+                explanation.PadLine("END IF");
             }
-
-            return retVal;
-        }
-
-        /// <summary>
-        ///     Provides an explanation of the rule's behaviour
-        /// </summary>
-        /// <param name="explainSubElements">Precises if we need to explain the sub elements (if any)</param>
-        /// <returns></returns>
-        public string getExplain(bool explainSubRules)
-        {
-            string retVal = "";
-
-            List<PreCondition> enclosingPreConditions = new List<PreCondition>();
-
-            if (EnclosingRuleCondition != null)
-            {
-                enclosingPreConditions = EnclosingRuleCondition.AllPreConditions;
-            }
-
-            if (enclosingPreConditions.Count == 0 || explainSubRules)
-            {
-                retVal = retVal + getExplain(0, explainSubRules);
-            }
-            else // we will only display enclosing preconditions for the report, when explainSubRules == true
-            {
-                bool first = true;
-                foreach (PreCondition preCondition in enclosingPreConditions)
-                {
-                    if (first)
-                    {
-                        retVal = retVal + "{\\b IF} " + preCondition.getExplain(true);
-                        first = false;
-                    }
-                    else
-                    {
-                        retVal = retVal + "{\\b AND} " + preCondition.getExplain(true);
-                    }
-                }
-                if (!first)
-                {
-                    retVal = retVal + "{\\b THEN}\\par";
-                }
-                retVal = retVal + getExplain(2, explainSubRules);
-                if (!first)
-                {
-                    retVal = retVal + "{\\b END IF}\\par";
-                }
-            }
-
-            return TextualExplainUtilities.Encapsule(retVal);
         }
 
         /// <summary>

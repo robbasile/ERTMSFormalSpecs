@@ -99,12 +99,6 @@ namespace Utils
         /// </summary>
         /// <param name="copy"></param>
         void AddModelElement(IModelElement element);
-
-        /// <summary>
-        ///     Provides an RTF explanation of the model element
-        /// </summary>
-        /// <returns></returns>
-        string getExplain();
     }
 
     public abstract class ModelElement : XmlBBase, IModelElement
@@ -405,15 +399,6 @@ namespace Utils
         /// </summary>
         public static Dictionary<ModelElement, List<ElementLog>> Errors =
             new Dictionary<ModelElement, List<ElementLog>>();
-
-        /// <summary>
-        ///     Provides an RTF explanation of the model element
-        /// </summary>
-        /// <returns></returns>
-        public virtual string getExplain()
-        {
-            return "";
-        }
 
         /// <summary>
         ///     The reverse cache dependancy.

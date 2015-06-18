@@ -9,9 +9,7 @@ namespace GUI.MoreInfoView
         /// <summary>
         ///     The element for which this message window is built
         /// </summary>
-        private TextualExplain Model { get; set; }
-
-        private string EmptyRTF { get; set; }
+        private ITextualExplain Model { get; set; }
 
         /// <summary>
         ///     Constructor
@@ -19,12 +17,11 @@ namespace GUI.MoreInfoView
         public Window()
         {
             InitializeComponent();
-            EmptyRTF = moreInfoRichTextBox.Rtf;
 
             moreInfoRichTextBox.ReadOnly = true;
             moreInfoRichTextBox.Enabled = true;
 
-            FormClosed += new FormClosedEventHandler(Window_FormClosed);
+            FormClosed += Window_FormClosed;
             DockAreas = DockAreas.DockBottom;
         }
 
@@ -42,7 +39,7 @@ namespace GUI.MoreInfoView
         ///     Sets the model element for which messages should be displayed
         /// </summary>
         /// <param name="model"></param>
-        public void SetModel(TextualExplain model)
+        public void SetModel(ITextualExplain model)
         {
             Model = model;
             RefreshModel();
@@ -55,11 +52,11 @@ namespace GUI.MoreInfoView
         {
             ModelElement.DontRaiseError(() =>
             {
-                moreInfoRichTextBox.Rtf = EmptyRTF;
+                moreInfoRichTextBox.Text = "";
                 if (Model != null)
                 {
                     moreInfoRichTextBox.Instance = Model as ModelElement;
-                    moreInfoRichTextBox.Rtf = TextualExplainUtilities.Encapsule(Model.getExplain(true));
+                    moreInfoRichTextBox.Text = TextualExplanationUtils.GetText(Model, true); ;
                 }
                 Refresh();
             });

@@ -95,7 +95,7 @@ namespace DataDictionary
         /// <summary>
         ///     The number of times DontRaiseError has been recursively called
         /// </summary>
-        private static int SilentCount = 0;
+        private static int SilentCount { get; set; }
 
         /// <summary>
         ///     Do not raise errors while execution the action
@@ -161,7 +161,6 @@ namespace DataDictionary
         {
             get
             {
-                ObjectFactory factory = (ObjectFactory) acceptor.getFactory();
                 if (string.IsNullOrEmpty(getGuid()))
                 {
                     EnsureGuid();
@@ -169,29 +168,6 @@ namespace DataDictionary
 
                 return getGuid();
             }
-        }
-
-        /// <summary>
-        ///     Provides the common prefix between s1 and s2
-        /// </summary>
-        /// <param name="s1"></param>
-        /// <param name="s2"></param>
-        /// <returns></returns>
-        private string CommonPrefix(string s1, string s2)
-        {
-            int i = 0;
-            while (i < s1.Length && i < s2.Length && s1[i] == s2[i])
-            {
-                i += 1;
-            }
-
-            do
-            {
-                i -= 1;
-            } while (i >= 0 && s1[i] != '.');
-            i += 1;
-
-            return s1.Substring(0, i);
         }
 
         /// <summary>
@@ -316,7 +292,7 @@ namespace DataDictionary
                 RegererateGuidVisitor visitor = new RegererateGuidVisitor();
                 visitor.visit(retVal, true);
             }
-            catch (Exception e)
+            catch (Exception)
             {
             }
 
@@ -359,39 +335,148 @@ namespace DataDictionary
         }
     }
 
-    public interface TextualExplain
+    /// <summary>
+    /// Something that can be explained
+    /// </summary>
+    public interface ITextualExplain
     {
         /// <summary>
-        ///     The explanation of the element
+        ///     Builds the explanation of the element
         /// </summary>
+        /// <param name="explanation"></param>
         /// <param name="explainSubElements">Precises if we need to explain the sub elements (if any)</param>
-        /// <returns></returns>
-        string getExplain(bool explainSubElements);
+        void GetExplain(TextualExplanation explanation, bool explainSubElements);
     }
 
     /// <summary>
-    ///     Utilities for RTF explain boxes
+    ///     Utilities for explain boxes
     /// </summary>
-    public class TextualExplainUtilities
+    public static class TextualExplanationUtils
     {
         /// <summary>
-        ///     Left pads the string provided
+        /// Provides the explanation associated to the ITextualExplain
         /// </summary>
-        /// <param name="data">the data to pad</param>
-        /// <param name="padlen">the size of the pad</param>
+        /// <param name="textualExplain"></param>
+        /// <param name="explainSubElements"></param>
         /// <returns></returns>
-        public static string Pad(string data, int padlen)
+        public static string GetText(ITextualExplain textualExplain, bool explainSubElements)
         {
-            return "".PadLeft(padlen) + data;
+            TextualExplanation text = new TextualExplanation();
+            textualExplain.GetExplain(text, explainSubElements);
+            return text.Text;
+        }
+    }
+
+    /// <summary>
+    ///     Utilities for explain boxes
+    /// </summary>
+    public class TextualExplanation
+    {
+        /// <summary>
+        /// The data currently being built
+        /// </summary>
+        private StringBuilder Data { get; set; }
+
+        /// <summary>
+        /// The current indent level
+        /// </summary>
+        private int IndentLevel { get; set; }
+
+        /// <summary>
+        /// The current indent string
+        /// </summary>
+        private string IndentString{ get; set; }
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        public TextualExplanation()
+        {
+            Data = new StringBuilder();
+            IndentLevel = 0;
+            IndentString = "";
+        }
+
+        /// <summary>
+        /// Provides the textual explanation
+        /// </summary>
+        public string Text
+        {
+            get { return Data.ToString(); }
+        }
+
+        /// <summary>
+        /// This code creates explanation which shall be indented
+        /// </summary>
+        public delegate void CodeToIndent();
+
+        /// <summary>
+        /// Increases the indent level
+        /// </summary>
+        /// <param name="size"></param>
+        /// <param name="indentCode">The action used to create the indented code</param>
+        public void Indent(int size, CodeToIndent indentCode)
+        {
+            int previousIndentLevel = IndentLevel;
+            string previousIndentString = IndentString;
+
+            IndentLevel += size;
+            IndentString = "".PadLeft(IndentLevel);
+            try
+            {
+                indentCode();
+            }
+            finally
+            {
+                IndentLevel = previousIndentLevel;
+                IndentString = previousIndentString;
+            }
+        }
+
+        /// <summary>
+        /// Pads a given string
+        /// </summary>
+        /// <param name="data"></param>
+        public void Pad(string data)
+        {
+            Data.Append(IndentString);
+            Data.Append(data);
+        }
+
+        /// <summary>
+        /// Pads the data and adds a newline
+        /// </summary>
+        /// <param name="data"></param>
+        public void PadLine(string data)
+        {
+            Pad(data);
+            Data.Append("\n");
+        }
+
+        /// <summary>
+        /// Appends a string to the current result
+        /// </summary>
+        /// <param name="data"></param>
+        public void Write(string data)
+        {
+            Data.Append(data);
+        }
+
+        /// <summary>
+        /// Appends a string to the current result and adds an end of line
+        /// </summary>
+        /// <param name="data"></param>
+        public void WriteLine(string data = "")
+        {
+            Write(data);
+            Data.Append("\n");
         }
 
         /// <summary>
         ///     Provides the expression
         /// </summary>
         /// <param name="element"></param>
-        /// <param name="padlen"></param>
-        /// <returns></returns>
-        public static string Expression(ModelElement element, int padlen)
+        public void Expression(ModelElement element)
         {
             string retVal = "";
 
@@ -400,208 +485,61 @@ namespace DataDictionary
             {
                 if (string.IsNullOrEmpty(expressionable.ExpressionText))
                 {
-                    retVal = Pad("<Undefined expression or statement>", padlen);
+                    Pad("<Undefined expression or statement>");
                 }
                 else
                 {
-                    retVal = Pad(expressionable.ExpressionText, padlen);
+                    Pad(expressionable.ExpressionText);
                 }
             }
-
-            return retVal;
         }
 
         /// <summary>
         ///     Comments a section of text
         /// </summary>
         /// <param name="data">the data to pad</param>
-        /// <param name="padlen">the size of the pad</param>
-        /// <returns></returns>
-        public static string Comment(string data, int padlen)
+        public void Comment(string data)
         {
-            string retVal = "";
-
             foreach (string line in data.Split('\n'))
             {
-                retVal = retVal + Pad("{\\cf11//" + line + "}\\cf1\\par ", padlen);
+                PadLine("// " + line);
             }
-
-            return retVal;
         }
 
         /// <summary>
         ///     Comments an Icommentable
         /// </summary>
         /// <param name="element"></param>
-        /// <param name="padlen"></param>
-        /// <returns></returns>
-        public static string Comment(ModelElement element, int padlen)
+        public void Comment(ModelElement element)
         {
-            string retVal = "";
-
             ICommentable commentable = element as ICommentable;
             if (commentable != null && !string.IsNullOrEmpty(commentable.Comment))
             {
-                retVal = Comment(commentable.Comment, padlen);
+                Comment(commentable.Comment);
             }
-
-            return retVal;
         }
 
         /// <summary>
         ///     The name of the element
         /// </summary>
         /// <param name="element"></param>
-        /// <param name="padlen"></param>
-        /// <returns></returns>
-        public static string Name(ModelElement element, int padlen)
+        public void Name(ModelElement element)
         {
-            string retVal = "";
-
             Namable namable = element as Namable;
             if (namable != null)
             {
-                retVal = Pad("{\\cf11 // " + namable.Name + "}\\cf1\\par", padlen);
+                Comment(namable.Name);
             }
-
-            return retVal;
         }
 
         /// <summary>
         ///     Provides the header of the element
         /// </summary>
         /// <param name="element"></param>
-        /// <param name="padlen"></param>
-        /// <returns></returns>
-        public static string Header(ModelElement element, int padlen)
+        public void Header(ModelElement element)
         {
-            string retVal = "";
-
-            retVal += Comment(element, padlen);
-            retVal += Name(element, padlen);
-
-            return retVal;
-        }
-
-        /// <summary>
-        ///     Iterates the same character a given number of times
-        /// </summary>
-        /// <param name="c">the character to iterate</param>
-        /// <param name="padlen">the size of the expected result</param>
-        /// <returns></returns>
-        public static string Iterate(char c, int len)
-        {
-            string retVal = "";
-            for (int i = 0; i < len; i++)
-            {
-                retVal = retVal + c;
-            }
-            return retVal;
-        }
-
-        /// <summary>
-        ///     The kind of opening brace
-        /// </summary>
-        private enum BraceType
-        {
-            command,
-            character
-        };
-
-        /// <summary>
-        ///     Adds RTF prefixes and postfixes
-        /// </summary>
-        /// <param name="data"></param>
-        /// <returns></returns>
-        public static string Encapsule(string data)
-        {
-            string retVal = data;
-
-            if (!retVal.StartsWith("{\\rtf"))
-            {
-                // Replaces all end of lines with \par
-                retVal = retVal.Replace("\n", "\\par ");
-
-                // Replaces braces
-                // Hyp : Braces are always balanced
-                Stack<BraceType> braces = new Stack<BraceType>();
-                StringBuilder tmp = new StringBuilder();
-                for (int i = 0; i < retVal.Length; i++)
-                {
-                    if (retVal[i] == '{')
-                    {
-                        if (i < retVal.Length - 4)
-                        {
-                            if (retVal[i + 1] == '{')
-                            {
-                                tmp.Append("{");
-                                braces.Push(BraceType.command);
-                            }
-                            if (retVal[i + 1] == ' ')
-                            {
-                                tmp.Append("{");
-                                braces.Push(BraceType.command);
-                            }
-                            else if (retVal[i + 1] != '\\')
-                            {
-                                tmp.Append("\\{");
-                                braces.Push(BraceType.character);
-                            }
-                            else if (retVal.Substring(i + 2, 3) == "par")
-                            {
-                                tmp.Append("\\{ ");
-                                braces.Push(BraceType.character);
-                            }
-                            else
-                            {
-                                tmp.Append("{");
-                                braces.Push(BraceType.command);
-                            }
-                        }
-                        else
-                        {
-                            tmp.Append("\\{");
-                            braces.Push(BraceType.character);
-                        }
-                    }
-                    else if (retVal[i] == '}')
-                    {
-                        if (braces.Count > 0)
-                        {
-                            BraceType braceType = braces.Pop();
-                            switch (braceType)
-                            {
-                                case BraceType.character:
-                                    tmp.Append("\\}");
-                                    break;
-
-                                case BraceType.command:
-                                    tmp.Append("}");
-                                    break;
-                            }
-                        }
-                        else
-                        {
-                            tmp.Append("\\}");
-                        }
-                    }
-                    else
-                    {
-                        tmp.Append(retVal[i]);
-                    }
-                }
-                retVal = tmp.ToString();
-
-                // This is used to ensure that the right style is used for the text
-                retVal = "{\\cf11}\\cf1 " + retVal;
-
-                // Common prefix to handle the colors
-                retVal =
-                    "{\\rtf1\\ansi{\\colortbl;\\red0\\green0\\blue0;\\red0\\green0\\blue255;\\red0\\green255\\blue255;\\red0\\green255\\blue0;\\red255\\green0\\blue255;\\red255\\green0\\blue0;\\red255\\green255\\blue0;\\red255\\green255\\blue255;\\red0\\green0\\blue128;\\red0\\green128\\blue128;\\red0\\green128\\blue0;\\red128\\green0\\blue128;\\red128\\green0\\blue0;\\red128\\green128\\blue0;\\red128\\green128\\blue128;\\red192\\green192\\blue192;}" +
-                    retVal + "}";
-            }
-
-            return retVal;
+            Comment(element);
+            Name(element);
         }
     }
 }

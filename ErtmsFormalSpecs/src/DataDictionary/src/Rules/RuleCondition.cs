@@ -29,7 +29,7 @@ using Structure = DataDictionary.Types.Structure;
 
 namespace DataDictionary.Rules
 {
-    public class RuleCondition : Generated.RuleCondition, TextualExplain
+    public class RuleCondition : Generated.RuleCondition, ITextualExplain
     {
         /// <summary>
         ///     Constructor
@@ -343,86 +343,60 @@ namespace DataDictionary.Rules
         }
 
         /// <summary>
-        ///     Provides an explanation of the rule's behaviour
+        ///     Builds the explanation of the element
         /// </summary>
-        /// <param name="indentLevel">the number of white spaces to add at the beginning of each line</param>
-        /// <param name="firstCondition">indicates whether this is the first condition or a following condition in a rule</param>
-        /// <returns></returns>
-        public string getExplain(int indentLevel, bool firstCondition, bool getExplain)
+        /// <param name="explanation"></param>
+        /// <param name="explainSubElements">Precises if we need to explain the sub elements (if any)</param>
+        public virtual void GetExplain(TextualExplanation explanation, bool explainSubElements)
         {
-            string retVal = "";
-
-            int subIndent = 0;
             if (PreConditions.Count > 0)
             {
-                subIndent = 2;
+                explanation.Pad("IF ");
+                if (PreConditions.Count > 1)
+                {
+                    // Prepare the space for the following ANDs
+                    explanation.Write("   ");
+                }
+
                 bool first = true;
                 foreach (PreCondition preCondition in PreConditions)
                 {
-                    if (first)
+                    if (!first)
                     {
-                        if (firstCondition)
-                        {
-                            retVal = retVal +
-                                     TextualExplainUtilities.Pad("{\\b IF} " + preCondition.getExplain(true),
-                                         indentLevel);
-                        }
-                        else
-                        {
-                            retVal = retVal +
-                                     TextualExplainUtilities.Pad("{\\b ELSIF} " + preCondition.getExplain(true),
-                                         indentLevel);
-                        }
-                        first = false;
+                        explanation.WriteLine();
+                        explanation.Write("   AND ");
                     }
-                    else
-                    {
-                        retVal = retVal + " {\\b AND} " + preCondition.getExplain(true);
-                    }
+                    preCondition.GetExplain(explanation, explainSubElements);
+                    first = false;
                 }
-                retVal = retVal + " {\\b THEN}\\par";
+                explanation.WriteLine(" THEN");
             }
             else
             {
-                if (!firstCondition)
-                {
-                    subIndent = 2;
-                    retVal = retVal + TextualExplainUtilities.Pad("{\\b ELSE\\par} ", indentLevel);
-                }
+                explanation.WriteLine();
             }
 
             if (Name.CompareTo(EnclosingRule.Name) != 0)
             {
-                retVal = retVal +
-                         TextualExplainUtilities.Pad("{\\cf11//" + Name + "}\\cf1\\par", indentLevel + subIndent);
+                explanation.Comment(Name);
             }
 
-            foreach (Action action in Actions)
+            explanation.Indent(2, () =>
             {
-                retVal = retVal + "{ " +
-                         TextualExplainUtilities.Pad(action.getExplain() + "\\par}", indentLevel + subIndent);
-            }
-
-            if (getExplain)
-            {
-                foreach (Rule subRule in SubRules)
+                foreach (Action action in Actions)
                 {
-                    retVal = retVal + subRule.getExplain(indentLevel + subIndent, true);
+                    action.GetExplain(explanation, explainSubElements);
+                    explanation.WriteLine();
                 }
-            }
 
-            return retVal;
-        }
-
-        /// <summary>
-        ///     Provides an explanation of the rule's behaviour
-        /// </summary>
-        /// <returns></returns>
-        public string getExplain(bool explainSubElements)
-        {
-            string retVal = getExplain(0, true, true);
-
-            return TextualExplainUtilities.Encapsule(retVal);
+                if (explainSubElements)
+                {
+                    foreach (Rule subRule in SubRules)
+                    {
+                        subRule.GetExplain(explanation, explainSubElements);
+                    }
+                }
+            });
         }
 
         /// <summary>

@@ -30,7 +30,7 @@ using Type = DataDictionary.Types.Type;
 
 namespace DataDictionary.Variables
 {
-    public class Variable : Generated.Variable, IVariable, ISubDeclarator, TextualExplain, IDefaultValueElement,
+    public class Variable : Generated.Variable, IVariable, ISubDeclarator, ITextualExplain, IDefaultValueElement,
         IGraphicalDisplay
     {
         /// <summary>
@@ -413,33 +413,23 @@ namespace DataDictionary.Variables
         }
 
         /// <summary>
-        ///     Explains the current item
+        ///     Builds the explanation of the element
         /// </summary>
-        /// <param name="subElements"></param>
-        /// <returns></returns>
-        public string getExplain(bool subElements)
+        /// <param name="explanation"></param>
+        /// <param name="explainSubElements">Precises if we need to explain the sub elements (if any)</param>
+        public virtual void GetExplain(TextualExplanation explanation, bool explainSubElements)
         {
-            string retVal = "";
-
             if (Type != null)
             {
-                if (!Utils.Utils.isEmpty(Type.Comment))
-                {
-                    retVal = retVal + TextualExplainUtilities.Comment(Type.Comment, 0) + "\n";
-                }
+                explanation.Comment(Type);
             }
+            explanation.Comment(this);
 
-            if (!Utils.Utils.isEmpty(Comment))
-            {
-                retVal = retVal + TextualExplainUtilities.Comment(Comment, 0) + "\n";
-            }
 
             if (Value != null)
             {
-                retVal = retVal + Name + " : " + TypeName + " = " + Value.LiteralName;
+                explanation.PadLine(Name + " : " + TypeName + " = " + Value.LiteralName);
             }
-
-            return TextualExplainUtilities.Encapsule(retVal);
         }
 
         public override string ToString()

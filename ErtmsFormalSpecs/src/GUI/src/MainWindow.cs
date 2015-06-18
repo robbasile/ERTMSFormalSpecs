@@ -1635,7 +1635,7 @@ namespace GUI
                         MoreInfoView.Window moreInfoView = MoreInfoWindow;
                         if (moreInfoView != null)
                         {
-                            moreInfoView.SetModel(model as TextualExplain);
+                            moreInfoView.SetModel(model as ITextualExplain);
                         }
 
                         // Properties

@@ -298,5 +298,15 @@ namespace DataDictionary.Specification
                 subRequirementSet.setDefaultRequirementSets(paragraph);
             }
         }
+
+        /// <summary>
+        ///     Builds the explanation of the element
+        /// </summary>
+        /// <param name="explanation"></param>
+        /// <param name="explainSubElements">Precises if we need to explain the sub elements (if any)</param>
+        public virtual void GetExplain(TextualExplanation explanation, bool explainSubElements)
+        {
+            explanation.PadLine("REQUIREMENT SET "+ Name);
+        }
     }
 }

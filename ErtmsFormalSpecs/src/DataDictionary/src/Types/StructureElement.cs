@@ -24,7 +24,7 @@ using Utils;
 
 namespace DataDictionary.Types
 {
-    public class StructureElement : Generated.StructureElement, ITypedElement, ISubDeclarator, TextualExplain,
+    public class StructureElement : Generated.StructureElement, ITypedElement, ISubDeclarator, ITextualExplain,
         IDefaultValueElement
     {
         public NameSpace NameSpace
@@ -301,44 +301,21 @@ namespace DataDictionary.Types
         }
 
         /// <summary>
-        ///     Adds a model element in this model element
+        ///     Builds the explanation of the element
         /// </summary>
-        /// <param name="copy"></param>
-        public override void AddModelElement(IModelElement element)
+        /// <param name="explanation"></param>
+        /// <param name="explainSubElements">Precises if we need to explain the sub elements (if any)</param>
+        public virtual void GetExplain(TextualExplanation explanation, bool explainSubElements)
         {
-            base.AddModelElement(element);
-        }
+            explanation.Comment(this);
 
-        /// <summary>
-        ///     Provides an explanation of the structure element
-        /// </summary>
-        /// <param name="indentLevel">the number of white spaces to add at the beginning of each line</param>
-        /// <returns></returns>
-        public string getExplain(int indentLevel)
-        {
-            string retVal = TextualExplainUtilities.Comment(this, indentLevel);
             string typeName = TypeName;
-
             if (Type != null)
             {
                 typeName = Type.FullName;
             }
 
-            retVal += TextualExplainUtilities.Pad(Name + " : " + typeName, indentLevel);
-
-            return retVal;
-        }
-
-        /// <summary>
-        ///     Provides an explanation of the range
-        /// </summary>
-        /// <param name="explainSubElements">Precises if we need to explain the sub elements (if any)</param>
-        /// <returns></returns>
-        public string getExplain(bool explainSubElements)
-        {
-            string retVal = getExplain(0);
-
-            return TextualExplainUtilities.Encapsule(retVal);
+            explanation.PadLine("FIELD " + Name + " : " + typeName);
         }
     }
 }

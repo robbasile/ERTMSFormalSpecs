@@ -640,13 +640,13 @@ namespace DataDictionary.Types
         }
 
         /// <summary>
-        ///     Provides an explanation of the range
+        ///     Builds the explanation of the element
         /// </summary>
+        /// <param name="explanation"></param>
         /// <param name="explainSubElements">Precises if we need to explain the sub elements (if any)</param>
-        /// <returns></returns>
-        public virtual string getExplain(bool explainSubElements)
+        public virtual void GetExplain(TextualExplanation explanation, bool explainSubElements)
         {
-            return Name + " {\\b : STATE MACHINE}";
+            explanation.Comment(this);
         }
     }
 

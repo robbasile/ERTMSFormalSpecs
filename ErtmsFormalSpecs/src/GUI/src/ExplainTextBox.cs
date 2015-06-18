@@ -51,30 +51,30 @@ namespace GUI
         {
             SuspendLayout();
 
-            TextualExplain explainable = Instance as TextualExplain;
+            ITextualExplain explainable = Instance as ITextualExplain;
 
             if (explainable != null)
             {
-                string explanation = explainable.getExplain(true);
+                string text = TextualExplanationUtils.GetText(explainable, true);
 
-                if (explanation != null)
+                if (text != null)
                 {
-                    if (explanation != LastExplanation)
+                    if (text != LastExplanation)
                     {
-                        LastExplanation = explanation;
-                        Rtf = explanation;
+                        LastExplanation = text;
+                        Text = text;
                     }
                 }
                 else
                 {
                     LastExplanation = "";
-                    Rtf = "";
+                    Text = "";
                 }
             }
             else
             {
                 LastExplanation = "";
-                Rtf = "";
+                Text = "";
             }
 
             ResumeLayout();

@@ -28,7 +28,7 @@ using EnumValue = DataDictionary.Constants.EnumValue;
 
 namespace DataDictionary.Types
 {
-    public class Range : Generated.Range, IEnumerateValues, ISubDeclarator, TextualExplain
+    public class Range : Generated.Range, IEnumerateValues, ISubDeclarator, ITextualExplain
     {
         /// <summary>
         ///     The min value of the range
@@ -688,34 +688,22 @@ namespace DataDictionary.Types
         }
 
         /// <summary>
-        ///     Provides an explanation of the range
+        ///     Builds the explanation of the element
         /// </summary>
-        /// <param name="indentLevel">the number of white spaces to add at the beginning of each line</param>
-        /// <returns></returns>
-        public string getExplain(int indentLevel)
-        {
-            string retVal = TextualExplainUtilities.Comment(this, indentLevel);
-
-            retVal += TextualExplainUtilities.Pad(Name + "{\\b : RANGE FROM }" + MinValue + " {\\b TO }" + MaxValue,
-                indentLevel);
-            foreach (EnumValue enumValue in SpecialValues)
-            {
-                retVal += "\\par " + enumValue.getExplain(indentLevel + 2);
-            }
-
-            return retVal;
-        }
-
-        /// <summary>
-        ///     Provides an explanation of the range
-        /// </summary>
+        /// <param name="explanation"></param>
         /// <param name="explainSubElements">Precises if we need to explain the sub elements (if any)</param>
-        /// <returns></returns>
-        public override string getExplain(bool explainSubElements)
+        public override void GetExplain(TextualExplanation explanation, bool explainSubElements)
         {
-            string retVal = getExplain(0);
+            base.GetExplain(explanation, explainSubElements);
+            explanation.PadLine("RANGE "+ Name +" FROM "+ MinValue + " TO " + MaxValue);
 
-            return TextualExplainUtilities.Encapsule(retVal);
+            explanation.Indent(2, () =>
+            {
+                foreach (EnumValue enumValue in SpecialValues)
+                {
+                    enumValue.GetExplain(explanation, explainSubElements);
+                }                
+            });
         }
 
         /// <summary>

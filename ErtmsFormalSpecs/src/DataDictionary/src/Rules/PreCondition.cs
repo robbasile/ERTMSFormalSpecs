@@ -27,7 +27,7 @@ using Translation = DataDictionary.Tests.Translations.Translation;
 
 namespace DataDictionary.Rules
 {
-    public class PreCondition : Generated.PreCondition, IExpressionable, TextualExplain, ICommentable
+    public class PreCondition : Generated.PreCondition, IExpressionable, ITextualExplain, ICommentable
     {
         /// <summary>
         ///     The precondition display name
@@ -279,33 +279,15 @@ namespace DataDictionary.Rules
         }
 
         /// <summary>
-        ///     Explains the pre Condition
+        ///     Builds the explanation of the element
         /// </summary>
-        /// <returns></returns>
-        public string getExplain(int level)
-        {
-            string retVal = "";
-
-            if (Expression != null)
-            {
-                retVal = Expression.ToString();
-            }
-
-            return retVal;
-        }
-
-        /// <summary>
-        ///     Provides an explanation of the rule's behaviour
-        /// </summary>
+        /// <param name="explanation"></param>
         /// <param name="explainSubElements">Precises if we need to explain the sub elements (if any)</param>
-        /// <returns></returns>
-        public string getExplain(bool explainSubElements)
+        public virtual void GetExplain(TextualExplanation explanation, bool explainSubElements)
         {
-            string retVal = getExplain(0);
-
-            return TextualExplainUtilities.Encapsule(retVal);
+            explanation.Comment(this);
+            explanation.Expression(this);
         }
-
 
         /// <summary>
         ///     Adds a model element in this model element

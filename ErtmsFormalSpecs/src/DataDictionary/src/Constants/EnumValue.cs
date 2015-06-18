@@ -179,31 +179,22 @@ namespace DataDictionary.Constants
         }
 
         /// <summary>
-        ///     Provides an explanation of the enumeration
+        ///     Builds the explanation of the element
         /// </summary>
-        /// <param name="indentLevel">the number of white spaces to add at the beginning of each line</param>
-        /// <returns></returns>
-        public string getExplain(int indentLevel)
+        /// <param name="explanation"></param>
+        /// <param name="explainSubElements">Precises if we need to explain the sub elements (if any)</param>
+        public virtual void GetExplain(TextualExplanation explanation, bool explainSubElements)
         {
-            string retVal = TextualExplainUtilities.Comment(this, indentLevel);
-
-            retVal += Name;
+            explanation.Comment(this);
+            explanation.Pad(Name);
             if (!String.IsNullOrEmpty(getValue()))
             {
-                retVal += " : " + getValue();
+                explanation.WriteLine(" : " + getValue());
             }
-
-            return TextualExplainUtilities.Pad(retVal, indentLevel);
-        }
-
-        /// <summary>
-        ///     The explanation of the element
-        /// </summary>
-        /// <param name="explainSubElements">Precises if we need to explain the sub elements (if any)</param>
-        /// <returns></returns>
-        public string getExplain(bool subElements)
-        {
-            return getExplain(0);
+            else
+            {
+                explanation.WriteLine();
+            }
         }
 
         /// <summary>

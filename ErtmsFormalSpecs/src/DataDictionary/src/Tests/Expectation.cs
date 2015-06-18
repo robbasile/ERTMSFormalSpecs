@@ -21,7 +21,7 @@ using Utils;
 
 namespace DataDictionary.Tests
 {
-    public class Expectation : Generated.Expectation, IExpressionable, TextualExplain
+    public class Expectation : Generated.Expectation, IExpressionable, ITextualExplain
     {
         /// <summary>
         ///     The enclosing step, if any
@@ -230,44 +230,27 @@ namespace DataDictionary.Tests
         }
 
         /// <summary>
-        ///     Provides an explanation of the step's behaviour
+        ///     Builds the explanation of the element
         /// </summary>
-        /// <param name="indentLevel">the number of white spaces to add at the beginning of each line</param>
-        /// <returns></returns>
-        public string getExplain(int indentLevel, bool explainSubElements)
+        /// <param name="explanation"></param>
+        /// <param name="explainSubElements">Precises if we need to explain the sub elements (if any)</param>
+        public virtual void GetExplain(TextualExplanation explanation, bool explainSubElements)
         {
-            string retVal = TextualExplainUtilities.Comment(this, indentLevel);
+            explanation.Comment(this);
 
             if (!string.IsNullOrEmpty(getCondition()))
             {
-                retVal += " {\\b IF }" + getCondition() + " {\\b THEN }\\par";
+                explanation.PadLine("IF " + getCondition() + " THEN");
                 if (Expression != null)
                 {
-                    retVal += TextualExplainUtilities.Pad(Expression.ToString(), indentLevel + 2);
+                    explanation.Indent(2, () => explanation.PadLine(Expression.ToString()));
                 }
-                retVal += "\\par {\\b END IF}\\par";
+                explanation.PadLine("END IF");
             }
             else
             {
-                if (Expression != null)
-                {
-                    retVal += TextualExplainUtilities.Pad(Expression.ToString(), indentLevel);
-                }
+                explanation.PadLine(Expression.ToString());
             }
-
-            return retVal;
-        }
-
-        /// <summary>
-        ///     Provides an explanation of the step's behaviour
-        /// </summary>
-        /// <param name="explainSubElements">Precises if we need to explain the sub elements (if any)</param>
-        /// <returns></returns>
-        public string getExplain(bool explainSubElements)
-        {
-            string retVal = getExplain(0, explainSubElements);
-
-            return retVal;
         }
     }
 }

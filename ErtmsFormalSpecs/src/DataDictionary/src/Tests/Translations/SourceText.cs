@@ -15,12 +15,13 @@
 // ------------------------------------------------------------------------------
 
 using System.Collections;
+using System.Net.Mime;
 using DataDictionary.Interpreter;
 using Utils;
 
 namespace DataDictionary.Tests.Translations
 {
-    public class SourceText : Generated.SourceText, IExpressionable
+    public class SourceText : Generated.SourceText, IExpressionable, ITextualExplain
     {
         public ArrayList Comments
         {
@@ -57,24 +58,6 @@ namespace DataDictionary.Tests.Translations
         /// <param name="copy"></param>
         public override void AddModelElement(IModelElement element)
         {
-        }
-
-        /// <summary>
-        ///     Explains the SourceText
-        /// </summary>
-        /// <returns></returns>
-        public string getExplain(bool explainSubElements)
-        {
-            return getExplain(explainSubElements, 2);
-        }
-
-        /// <summary>
-        ///     Explains the SourceText with indentation
-        /// </summary>
-        /// <returns></returns>
-        public string getExplain(bool explainSubElements, int indent)
-        {
-            return TextualExplainUtilities.Pad(Name, indent);
         }
 
         /// <summary>
@@ -117,6 +100,24 @@ namespace DataDictionary.Tests.Translations
         public InterpreterTreeNode Compile()
         {
             return null;
+        }
+
+        /// <summary>
+        ///     Builds the explanation of the element
+        /// </summary>
+        /// <param name="explanation"></param>
+        /// <param name="explainSubElements">Precises if we need to explain the sub elements (if any)</param>
+        public virtual void GetExplain(TextualExplanation explanation, bool explainSubElements)
+        {
+            explanation.PadLine("SOURCE TEXT ");
+            explanation.PadLine(Name);
+            explanation.Indent(2, () =>
+            {
+                foreach (SourceTextComment comment in this.Comments)
+                {
+                    explanation.PadLine("COMMENT" + comment.Name);
+                }
+            });
         }
     }
 }

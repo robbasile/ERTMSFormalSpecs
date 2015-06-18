@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             this.SelectionComboBox = new System.Windows.Forms.ComboBox();
-            this.EditionTextBox = new System.Windows.Forms.RichTextBox();
+            this.EditionTextBox = new SyntaxRichTextBox();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -38,7 +38,7 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.undoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.redoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.explainRichTextBox = new System.Windows.Forms.RichTextBox();
+            this.explainRichTextBox = new SyntaxRichTextBox();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -122,7 +122,7 @@
             this.explainRichTextBox.Location = new System.Drawing.Point(76, 30);
             this.explainRichTextBox.Name = "explainRichTextBox";
             this.explainRichTextBox.ReadOnly = true;
-            this.explainRichTextBox.Size = new System.Drawing.Size(236, 78);
+            this.explainRichTextBox.Size = new System.Drawing.Size(400, 200);
             this.explainRichTextBox.TabIndex = 2;
             this.explainRichTextBox.Text = "";
             this.explainRichTextBox.Visible = false;
@@ -151,7 +151,7 @@
         private System.Windows.Forms.ToolStripMenuItem undoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem redoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem copyToolStripMenuItem;
-        private System.Windows.Forms.RichTextBox explainRichTextBox;
-        protected System.Windows.Forms.RichTextBox EditionTextBox;
+        private SyntaxRichTextBox explainRichTextBox;
+        public SyntaxRichTextBox EditionTextBox;
     }
 }

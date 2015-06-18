@@ -16,6 +16,7 @@
 
 using System.Collections;
 using System.Reflection;
+using DataDictionary;
 using DataDictionary.Generated;
 using log4net;
 using MigraDoc.DocumentObjectModel;
@@ -610,7 +611,10 @@ namespace Reports.Model
                 }
                 AddRow(aRule.Comment);
                 AddRow("Activation priority", aRule.getPriority_AsString());
-                AddRow(RTFConvertor.RTFToPlainText(aRule.getExplain(false)));
+
+                TextualExplanation explanation = new TextualExplanation();
+                aRule.GetExplain(explanation, false);
+                AddRow(explanation.Text);
             }
             else
             {

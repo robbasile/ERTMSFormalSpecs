@@ -44,24 +44,6 @@ namespace DataDictionary.Tests.Translations
         }
 
         /// <summary>
-        ///     Explains the SourceText
-        /// </summary>
-        /// <returns></returns>
-        public string getExplain(bool explainSubElements)
-        {
-            return getExplain(explainSubElements, 2);
-        }
-
-        /// <summary>
-        ///     Explains the SourceText with indentation
-        /// </summary>
-        /// <returns></returns>
-        public string getExplain(bool explainSubElements, int indent)
-        {
-            return TextualExplainUtilities.Pad(Name, indent);
-        }
-
-        /// <summary>
         ///     The expression text for this expressionable
         /// </summary>
         public override string ExpressionText

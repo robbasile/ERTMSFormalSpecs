@@ -195,7 +195,7 @@ namespace GUI.BoxArrowDiagram
                 BoxControl<BoxModel, ArrowModel> control = model as BoxControl<BoxModel, ArrowModel>;
                 propertyGrid.SelectedObject = createBoxEditor(control);
                 descriptionRichTextBox.ResetText();
-                descriptionRichTextBox.Rtf = control.Model.getExplain(false);
+                descriptionRichTextBox.Text = TextualExplanationUtils.GetText(control.Model, false);
                 if (alsoSelectInOtherWindows)
                 {
                     GUIUtils.MDIWindow.Select(control.Model);
@@ -208,20 +208,21 @@ namespace GUI.BoxArrowDiagram
                 descriptionRichTextBox.ResetText();
                 if (control.Model.ReferencedModel != null)
                 {
-                    TextualExplain explainable = control.Model.ReferencedModel as TextualExplain;
+                    ITextualExplain explainable = control.Model.ReferencedModel as ITextualExplain;
                     if (explainable != null)
                     {
-                        descriptionRichTextBox.Rtf = explainable.getExplain(true);
+                        descriptionRichTextBox.Text = TextualExplanationUtils.GetText(explainable, true);
                     }
                     else
                     {
-                        descriptionRichTextBox.Rtf = "";
+                        descriptionRichTextBox.Text = "";
                     }
                 }
                 else
                 {
-                    descriptionRichTextBox.Rtf = "";
+                    descriptionRichTextBox.Text = "";
                 }
+
                 if (alsoSelectInOtherWindows)
                 {
                     GUIUtils.MDIWindow.Select(control.Model.ReferencedModel);

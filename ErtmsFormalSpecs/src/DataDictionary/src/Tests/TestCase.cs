@@ -22,7 +22,7 @@ using TranslationDictionary = DataDictionary.Tests.Translations.TranslationDicti
 
 namespace DataDictionary.Tests
 {
-    public class TestCase : Generated.TestCase, TextualExplain, ICommentable
+    public class TestCase : Generated.TestCase, ITextualExplain, ICommentable
     {
         public ArrayList Steps
         {
@@ -149,33 +149,22 @@ namespace DataDictionary.Tests
         }
 
         /// <summary>
-        ///     Provides an explanation of the test case's behaviour
+        ///     Builds the explanation of the element
         /// </summary>
-        /// <param name="indentLevel">the number of white spaces to add at the beginning of each line</param>
-        /// <returns></returns>
-        public string getExplain(int indentLevel, bool explainSubElements)
-        {
-            string retVal = TextualExplainUtilities.Header(this, indentLevel);
-
-            foreach (Step step in Steps)
-            {
-                retVal += step.getExplain(indentLevel + 2, explainSubElements) + "\\par";
-            }
-            return retVal;
-        }
-
-        /// <summary>
-        ///     Provides an explanation of the test case's behaviour
-        /// </summary>
+        /// <param name="explanation"></param>
         /// <param name="explainSubElements">Precises if we need to explain the sub elements (if any)</param>
-        /// <returns></returns>
-        public string getExplain(bool explainSubElements)
+        public virtual void GetExplain(TextualExplanation explanation, bool explainSubElements)
         {
-            string retVal = "";
+            explanation.Comment(this);
 
-            retVal = getExplain(0, explainSubElements);
-
-            return retVal;
+            explanation.Indent(2, () =>
+            {
+                foreach (Step step in Steps)
+                {
+                    step.GetExplain(explanation, explainSubElements);
+                    explanation.WriteLine();
+                }                
+            });
         }
 
         /// <summary>

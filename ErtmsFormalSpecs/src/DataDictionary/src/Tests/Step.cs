@@ -26,7 +26,7 @@ using TranslationDictionary = DataDictionary.Tests.Translations.TranslationDicti
 
 namespace DataDictionary.Tests
 {
-    public class Step : Generated.Step, ICommentable, TextualExplain
+    public class Step : Generated.Step, ICommentable, ITextualExplain
     {
         public override string Name
         {
@@ -92,22 +92,6 @@ namespace DataDictionary.Tests
         public override ArrayList EnclosingCollection
         {
             get { return TestCase.Steps; }
-        }
-
-        /// <summary>
-        ///     The explanation of this step, as RTF pseudo code
-        /// </summary>
-        /// <returns></returns>
-        public override string getExplain()
-        {
-            string retVal = "";
-
-            foreach (SubStep subStep in SubSteps)
-            {
-                retVal += subStep.getExplain();
-            }
-
-            return retVal;
         }
 
         /// <summary>
@@ -241,33 +225,22 @@ namespace DataDictionary.Tests
         }
 
         /// <summary>
-        ///     Provides an explanation of the step's behaviour
+        ///     Builds the explanation of the element
         /// </summary>
-        /// <param name="indentLevel">the number of white spaces to add at the beginning of each line</param>
-        /// <returns></returns>
-        public string getExplain(int indentLevel, bool explainSubElements)
-        {
-            string retVal = TextualExplainUtilities.Header(this, indentLevel);
-
-            foreach (SubStep subStep in SubSteps)
-            {
-                retVal += subStep.getExplain(indentLevel + 2, explainSubElements) + "\\par";
-            }
-            return retVal;
-        }
-
-        /// <summary>
-        ///     Provides an explanation of the step's behaviour
-        /// </summary>
+        /// <param name="explanation"></param>
         /// <param name="explainSubElements">Precises if we need to explain the sub elements (if any)</param>
-        /// <returns></returns>
-        public string getExplain(bool explainSubElements)
+        public virtual void GetExplain(TextualExplanation explanation, bool explainSubElements)
         {
-            string retVal = "";
+            explanation.Comment(this);
 
-            retVal = getExplain(0, explainSubElements);
-
-            return retVal;
+            explanation.Indent(2, () =>
+            {
+                foreach (SubStep subStep in SubSteps)
+                {
+                    subStep.GetExplain(explanation, explainSubElements);
+                    explanation.WriteLine();
+                }                
+            });
         }
 
         /// <summary>

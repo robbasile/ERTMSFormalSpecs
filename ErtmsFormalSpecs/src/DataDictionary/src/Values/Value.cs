@@ -25,7 +25,7 @@ using Type = DataDictionary.Types.Type;
 
 namespace DataDictionary.Values
 {
-    public interface IValue : INamable, ITypedElement, TextualExplain
+    public interface IValue : INamable, ITypedElement, ITextualExplain
     {
         /// <summary>
         ///     Provides the EFS system in which this value is created
@@ -238,32 +238,13 @@ namespace DataDictionary.Values
         }
 
         /// <summary>
-        ///     Provides an RTF explanation of the value
+        ///     Builds the explanation of the element
         /// </summary>
-        /// <returns></returns>
-        public string getExplain()
-        {
-            return LiteralName;
-        }
-
-        /// <summary>
-        ///     Provides an explanation of the enumeration
-        /// </summary>
-        /// <param name="indentLevel">the number of white spaces to add at the beginning of each line</param>
-        /// <returns></returns>
-        public string getExplain(int indentLevel)
-        {
-            return TextualExplainUtilities.Pad("{" + LiteralName + "}", indentLevel);
-        }
-
-        /// <summary>
-        ///     The explanation of the element
-        /// </summary>
+        /// <param name="explanation"></param>
         /// <param name="explainSubElements">Precises if we need to explain the sub elements (if any)</param>
-        /// <returns></returns>
-        public string getExplain(bool subElements)
+        public virtual void GetExplain(TextualExplanation explanation, bool explainSubElements)
         {
-            return getExplain(0);
+            explanation.WriteLine( LiteralName );
         }
 
         /// <summary>

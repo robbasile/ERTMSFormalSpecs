@@ -194,9 +194,6 @@ namespace GUI.HistoryView
             this.beforeRichTextBox.Location = new System.Drawing.Point(3, 16);
             this.beforeRichTextBox.Name = "beforeRichTextBox";
             this.beforeRichTextBox.ReadOnly = true;
-            this.beforeRichTextBox.Rtf = "{\\rtf1\\ansi\\ansicpg1252\\deff0\\deflang2060{\\fonttbl{\\f0\\fnil\\fcharset0 Microsoft S" +
-    "ans Serif;}}\r\n{\\colortbl ;\\red0\\green0\\blue0;}\r\n\\viewkind4\\uc1\\pard\\f0\\fs24\\par\r" +
-    "\n\\fs17\\par\r\n\\cf1\\par\r\n}\r\n";
             this.beforeRichTextBox.Size = new System.Drawing.Size(346, 134);
             this.beforeRichTextBox.TabIndex = 0;
             // 
@@ -220,9 +217,6 @@ namespace GUI.HistoryView
             this.afterRichTextBox.Location = new System.Drawing.Point(3, 16);
             this.afterRichTextBox.Name = "afterRichTextBox";
             this.afterRichTextBox.ReadOnly = true;
-            this.afterRichTextBox.Rtf = "{\\rtf1\\ansi\\ansicpg1252\\deff0\\deflang2060{\\fonttbl{\\f0\\fnil\\fcharset0 Microsoft S" +
-    "ans Serif;}}\r\n{\\colortbl ;\\red0\\green0\\blue0;}\r\n\\viewkind4\\uc1\\pard\\f0\\fs24\\par\r" +
-    "\n\\fs17\\par\r\n\\cf1\\par\r\n}\r\n";
             this.afterRichTextBox.Size = new System.Drawing.Size(346, 132);
             this.afterRichTextBox.TabIndex = 0;
             // 

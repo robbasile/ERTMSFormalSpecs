@@ -99,13 +99,13 @@ namespace DataDictionary.Tests.Runner.Events
         }
 
         /// <summary>
-        ///     The explanation of the element
+        ///     Builds the explanation of the element
         /// </summary>
+        /// <param name="explanation"></param>
         /// <param name="explainSubElements">Precises if we need to explain the sub elements (if any)</param>
-        /// <returns></returns>
-        public override string getExplain(bool explainSubElements)
+        public override void GetExplain(TextualExplanation explanation, bool explainSubElements)
         {
-            return TextualExplainUtilities.Encapsule(Changes.ToString());
+            explanation.WriteLine(Changes.ToString());
         }
     }
 }

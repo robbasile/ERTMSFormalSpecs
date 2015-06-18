@@ -38,7 +38,7 @@ using StructureElement = DataDictionary.Types.StructureElement;
 
 namespace DataDictionary.Tests.Translations
 {
-    public class Translation : Generated.Translation, ICommentable, TextualExplain
+    public class Translation : Generated.Translation, ICommentable, ITextualExplain
     {
         /// <summary>
         ///     Constructor
@@ -100,47 +100,28 @@ namespace DataDictionary.Tests.Translations
         }
 
         /// <summary>
-        ///     The explanation of this translation, as RTF pseudo code
+        ///     Builds the explanation of the element
         /// </summary>
-        /// <returns></returns>
-        public override string getExplain()
-        {
-            string retVal = "";
-
-            string indent = "";
+        /// <param name="explanation"></param>
+        /// <param name="explainSubElements">Precises if we need to explain the sub elements (if any)</param>
+        public virtual void GetExplain(TextualExplanation explanation, bool explainSubElements)
+        {      
+            explanation.PadLine("TRANSLATION " + Name);
 
             if (SourceTexts.Count > 0)
             {
-                if (SourceTexts.Count == 1)
-                {
-                    retVal = retVal + "Source text\n";
-                }
-                else
-                {
-                    retVal = retVal + "Source texts\n";
-                }
-                indent = "  ";
                 foreach (SourceText text in SourceTexts)
                 {
-                    retVal = retVal + indent + text.Name + "\n";
-                }
-                indent = "";
-                if (SourceTexts.Count == 1)
-                {
-                    retVal = retVal + "Is translated as\n";
-                }
-                else
-                {
-                    retVal = retVal + "Are translated as\n";
+                    text.GetExplain(explanation, explainSubElements);
                 }
             }
 
             foreach (SubStep subStep in SubSteps)
             {
-                retVal = retVal + subStep.getExplain();
+                subStep.GetExplain(explanation, explainSubElements);
             }
 
-            return retVal;
+            explanation.PadLine("END TRANSLATION ");
         }
 
         /// <summary>
@@ -260,59 +241,6 @@ namespace DataDictionary.Tests.Translations
         }
 
 
-        /// <summary>
-        ///     Explains the Translation with indentation
-        /// </summary>
-        /// <returns></returns>
-        public string getExplain(bool explainSubElements)
-        {
-            return getExplain(explainSubElements, 0);
-        }
-
-        /// <summary>
-        ///     Explains the Translation with indentation
-        /// </summary>
-        /// <returns></returns>
-        public string getExplain(bool explainSubElements, int indent)
-        {
-            string result = "";
-
-            // The source textes for this translation
-            if (SourceTexts.Count > 1)
-            {
-                int i = 1;
-                result += TextualExplainUtilities.Pad("{\\b SOURCE TEXTS}\\par", indent);
-                foreach (SourceText sourceText in SourceTexts)
-                {
-                    result += TextualExplainUtilities.Pad("{\\b SOURCE TEXT " + i + "}\\par", indent);
-                    result += sourceText.getExplain(explainSubElements, indent + 2) + "\\par";
-                    i += 1;
-                }
-            }
-            else
-            {
-                result += TextualExplainUtilities.Pad("{\\b SOURCE TEXT}\\par", indent);
-                foreach (SourceText sourceText in SourceTexts)
-                {
-                    result += sourceText.getExplain(explainSubElements, indent + 2) + "\\par";
-                }
-            }
-
-            // The translation itself
-            if (explainSubElements)
-            {
-                result += TextualExplainUtilities.Pad("\\par{\\b TRANSLATION }\\par", indent);
-
-                foreach (SubStep subStep in SubSteps)
-                {
-                    result += subStep.getExplain(indent + 2, explainSubElements) + "\\par";
-                }
-            }
-
-            result += "\\par";
-
-            return result;
-        }
 
         public string getSourceTextExplain()
         {

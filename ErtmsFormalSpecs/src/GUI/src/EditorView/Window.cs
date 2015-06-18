@@ -119,6 +119,14 @@ namespace GUI.EditorView
         }
 
         /// <summary>
+        ///     Indicates whether auto completion is available
+        /// </summary>
+        public bool SyntaxHighlight
+        {
+            set { editorTextBox.EditionTextBox.ApplyPatterns = value; }
+        }
+
+        /// <summary>
         ///     The delegate method that need to be called when the text of the text box has been changed
         /// </summary>
         private HandleTextChange __textChangeHandler = null;

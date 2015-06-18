@@ -25,7 +25,7 @@ using Utils;
 
 namespace DataDictionary.Functions
 {
-    public class Case : Generated.Case, TextualExplain, IExpressionable, ICommentable
+    public class Case : Generated.Case, ITextualExplain, IExpressionable, ICommentable
     {
         private Expression expression;
 
@@ -166,52 +166,50 @@ namespace DataDictionary.Functions
         }
 
         /// <summary>
-        ///     Provides an explanation of the rule's behaviour
+        ///     Builds the explanation of the element
         /// </summary>
-        /// <param name="indentLevel">the number of white spaces to add at the beginning of each line</param>
-        /// <returns></returns>
-        public string getExplain(int indentLevel)
+        /// <param name="explanation"></param>
+        /// <param name="explainSubElements">Precises if we need to explain the sub elements (if any)</param>
+        public virtual void GetExplain(TextualExplanation explanation, bool explainSubElements)
         {
-            string retVal = "";
             if (PreConditions.Count > 0)
             {
-                retVal = retVal + " {\\b IF }";
+                explanation.Pad("IF ");
+                if (PreConditions.Count > 1)
+                {
+                    // Prepare the space for the following ANDs
+                    explanation.Write("   ");
+                }
+
                 bool first = true;
                 foreach (PreCondition preCondition in PreConditions)
                 {
-                    if (first)
+                    if (!first)
                     {
-                        retVal = retVal + TextualExplainUtilities.Pad(preCondition.getExplain(true), 0);
-                        first = false;
+                        explanation.WriteLine();
+                        explanation.Write("   AND ");
                     }
-                    else
-                    {
-                        retVal = retVal + " {\\b AND} " + preCondition.getExplain(true);
-                    }
+
+                    preCondition.GetExplain(explanation, explainSubElements);
+                    first = false;
                 }
-                retVal = retVal + " {\\b THEN }\\par";
-                retVal = retVal + TextualExplainUtilities.Header(this, indentLevel);
-                retVal = retVal + TextualExplainUtilities.Expression(this, indentLevel + 2);
+                explanation.PadLine(" THEN");
+
+                explanation.Indent(2, () =>
+                {
+                    explanation.Header(this);
+                    explanation.Expression(this);
+                });
             }
             else
             {
-                retVal = retVal + TextualExplainUtilities.Header(this, indentLevel);
-                retVal = retVal + TextualExplainUtilities.Expression(this, indentLevel + 2);
+                explanation.WriteLine();
+                explanation.Indent(2, () =>
+                {
+                    explanation.Header(this);
+                    explanation.Expression(this);
+                });
             }
-
-            return retVal;
-        }
-
-        /// <summary>
-        ///     Provides an explanation of the rule's behaviour
-        /// </summary>
-        /// <param name="explainSubElements">Precises if we need to explain the sub elements (if any)</param>
-        /// <returns></returns>
-        public string getExplain(bool explainSubElements)
-        {
-            string retVal = getExplain(0);
-
-            return TextualExplainUtilities.Encapsule(retVal);
         }
 
         /// <summary>

@@ -804,5 +804,27 @@ namespace DataDictionary.Types
                 }
             }
         }
+
+        /// <summary>
+        ///     Builds the explanation of the element
+        /// </summary>
+        /// <param name="explanation"></param>
+        /// <param name="explainSubElements">Precises if we need to explain the sub elements (if any)</param>
+        public override void GetExplain(TextualExplanation explanation, bool explainSubElements)
+        {
+            base.GetExplain(explanation, explainSubElements);
+            explanation.PadLine("STATE MACHINE " + Name);
+            explanation.Indent(2, () =>
+            {
+                foreach (State state in States)
+                {
+                    state.GetExplain(explanation, false);
+                }
+                foreach (Rule rule in Rules)
+                {
+                    rule.GetExplain(explanation, explainSubElements);
+                }
+            });
+        }
     }
 }

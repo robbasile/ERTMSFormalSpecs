@@ -27,7 +27,7 @@ using Utils;
 
 namespace DataDictionary.Types
 {
-    public class Structure : Generated.Structure, ISubDeclarator, IFinder, TextualExplain
+    public class Structure : Generated.Structure, ISubDeclarator, IFinder, ITextualExplain
     {
         /// <summary>
         ///     Constructor
@@ -381,108 +381,65 @@ namespace DataDictionary.Types
         }
 
         /// <summary>
-        ///     Provides an explanation of the structure
+        ///     Builds the explanation of the element
         /// </summary>
-        /// <param name="indentLevel">the number of white spaces to add at the beginning of each line</param>
-        /// <returns></returns>
-        public string getExplain(int indentLevel)
+        /// <param name="explanation"></param>
+        /// <param name="explainSubElements">Precises if we need to explain the sub elements (if any)</param>
+        public override void GetExplain(TextualExplanation explanation, bool explainSubElements)
         {
-            string retVal = TextualExplainUtilities.Comment(this, indentLevel);
+            explanation.Comment(this);
 
             if (!IsAbstract)
             {
-                retVal += TextualExplainUtilities.Pad("{\\b STRUCTURE }" + Name + " \\par ", indentLevel);
+                explanation.PadLine("STRUCTURE " + Name);
             }
             else
             {
-                retVal += TextualExplainUtilities.Pad("{\\b INTERFACE }" + Name + " \\par ", indentLevel);
-            }
-            foreach (StructureElement element in Elements)
-            {
-                if (StructureElementIsInherited(element))
-                {
-                    retVal += "\\i" + element.getExplain(indentLevel + 2) + "\\i0\\par ";
-                }
-                else
-                {
-                    retVal += element.getExplain(indentLevel + 2) + "\\par ";
-                }
+                explanation.PadLine("INTERFACE " + Name);
             }
 
-            retVal += "\\par ";
-            retVal += TextualExplainUtilities.Comment("-------------------", indentLevel + 2);
-            retVal += TextualExplainUtilities.Comment("Implemented interfaces", indentLevel + 2);
-            retVal += TextualExplainUtilities.Comment("-------------------", indentLevel + 2);
-            foreach (Structure structure in Interfaces)
+            explanation.Indent(2, () =>
             {
-                if (structure != null)
+                foreach (Structure structure in Interfaces)
                 {
-                    retVal += structure.Name + "\\par ";
-                    retVal += "\\par ";
+                    if (structure != null)
+                    {
+                        explanation.PadLine("IMPLEMENTS " + structure.Name);
+                    }
                 }
-            }
+
+                foreach (StructureElement element in Elements)
+                {
+                    element.GetExplain(explanation, explainSubElements);
+                }
+
+                if (!IsAbstract)
+                {
+                    foreach (Procedure procedure in Procedures)
+                    {
+                        procedure.GetExplain(explanation, explainSubElements);
+                    }
+
+                    foreach (StateMachine stateMachine in StateMachines)
+                    {
+                        stateMachine.GetExplain(explanation, explainSubElements);
+                    }
+
+                    foreach (Rule rule in Rules)
+                    {
+                        rule.GetExplain(explanation, explainSubElements);
+                    }
+                }
+            });
 
             if (!IsAbstract)
             {
-                retVal += "\\par ";
-                retVal += TextualExplainUtilities.Comment("-------------------", indentLevel + 2);
-                retVal += TextualExplainUtilities.Comment("Procedures", indentLevel + 2);
-                retVal += TextualExplainUtilities.Comment("-------------------", indentLevel + 2);
-                foreach (Procedure procedure in Procedures)
-                {
-                    retVal += procedure.getExplain(indentLevel + 2, false) + "\\par ";
-                    retVal += "\\par ";
-                }
-
-                retVal += "\\par ";
-                retVal += TextualExplainUtilities.Comment("-------------------", indentLevel + 2);
-                retVal += TextualExplainUtilities.Comment("State machines", indentLevel + 2);
-                retVal += TextualExplainUtilities.Comment("-------------------", indentLevel + 2);
-                foreach (StateMachine stateMachine in StateMachines)
-                {
-                    retVal += stateMachine.Name + "\\par ";
-                    retVal += "\\par ";
-                }
-
-                retVal += "\\par ";
-                retVal += TextualExplainUtilities.Comment("-------------------", indentLevel + 2);
-                retVal += TextualExplainUtilities.Comment("Rules", indentLevel + 2);
-                retVal += TextualExplainUtilities.Comment("-------------------", indentLevel + 2);
-                foreach (Rule rule in Rules)
-                {
-                    retVal += rule.getExplain(indentLevel + 2, false) + "\\par ";
-                    retVal += "\\par ";
-                }
-                retVal += TextualExplainUtilities.Pad("{\\b END STRUCTURE }", indentLevel);
+                explanation.PadLine("END STRUCTURE");
             }
             else
             {
-                retVal += TextualExplainUtilities.Pad("{\\b END INTERFACE }", indentLevel);
+                explanation.PadLine("END INTERFACE");                
             }
-
-            return retVal;
-        }
-
-        /// <summary>
-        ///     Provides an explanation of the range
-        /// </summary>
-        /// <param name="explainSubElements">Precises if we need to explain the sub elements (if any)</param>
-        /// <returns></returns>
-        public override string getExplain(bool explainSubElements)
-        {
-            string retVal = getExplain(0);
-
-            return TextualExplainUtilities.Encapsule(retVal);
-        }
-
-        /// <summary>
-        ///     The explanation of the element
-        /// </summary>
-        /// <param name="explainSubElements">Precises if we need to explain the sub elements (if any)</param>
-        /// <returns></returns>
-        public override string getExplain()
-        {
-            return getExplain(0);
         }
 
         /// <summary>

@@ -21,7 +21,7 @@ using NameSpace = DataDictionary.Types.NameSpace;
 
 namespace DataDictionary.Tests.Runner.Events
 {
-    public abstract class ModelEvent : TextualExplain
+    public abstract class ModelEvent : ITextualExplain
     {
         /// <summary>
         ///     The event Id
@@ -154,13 +154,13 @@ namespace DataDictionary.Tests.Runner.Events
         }
 
         /// <summary>
-        ///     The explanation of the element
+        ///     Builds the explanation of the element
         /// </summary>
+        /// <param name="explanation"></param>
         /// <param name="explainSubElements">Precises if we need to explain the sub elements (if any)</param>
-        /// <returns></returns>
-        public virtual string getExplain(bool explainSubElements)
+        public virtual void GetExplain(TextualExplanation explanation, bool explainSubElements)
         {
-            return TextualExplainUtilities.Encapsule(Message);
+            explanation.PadLine("MODEL EVENT "+ this.ToString());
         }
     }
 }

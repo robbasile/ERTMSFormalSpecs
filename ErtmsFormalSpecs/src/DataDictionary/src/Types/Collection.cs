@@ -24,7 +24,7 @@ using Utils;
 
 namespace DataDictionary.Types
 {
-    public class Collection : Generated.Collection, TextualExplain, ITypedElement
+    public class Collection : Generated.Collection, ITypedElement
     {
         public override string ExpressionText
         {
@@ -256,29 +256,14 @@ namespace DataDictionary.Types
         }
 
         /// <summary>
-        ///     Provides an explanation of the collection
+        ///     Builds the explanation of the element
         /// </summary>
-        /// <param name="indentLevel">the number of white spaces to add at the beginning of each line</param>
-        /// <returns></returns>
-        public string getExplain(int indentLevel)
-        {
-            string retVal = TextualExplainUtilities.Comment(this, indentLevel);
-
-            retVal += TextualExplainUtilities.Pad(Name + "{\\b : COLLECTION OF }" + getTypeName(), indentLevel);
-
-            return retVal;
-        }
-
-        /// <summary>
-        ///     Provides an explanation of the collection
-        /// </summary>
+        /// <param name="explanation"></param>
         /// <param name="explainSubElements">Precises if we need to explain the sub elements (if any)</param>
-        /// <returns></returns>
-        public override string getExplain(bool explainSubElements)
+        public override void GetExplain(TextualExplanation explanation, bool explainSubElements)
         {
-            string retVal = getExplain(0);
-
-            return TextualExplainUtilities.Encapsule(retVal);
+            base.GetExplain(explanation, explainSubElements);
+            explanation.PadLine("COLLECTION "+ Name+ " OF " + getTypeName());
         }
 
         /// <summary>

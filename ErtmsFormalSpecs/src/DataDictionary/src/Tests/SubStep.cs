@@ -23,7 +23,7 @@ using Translation = DataDictionary.Tests.Translations.Translation;
 
 namespace DataDictionary.Tests
 {
-    public class SubStep : Generated.SubStep, TextualExplain, ICommentable
+    public class SubStep : Generated.SubStep, ITextualExplain, ICommentable
     {
         /// <summary>
         ///     This step changes
@@ -130,31 +130,6 @@ namespace DataDictionary.Tests
         }
 
         /// <summary>
-        ///     The explanation of this step, as RTF pseudo code
-        /// </summary>
-        /// <returns></returns>
-        public override string getExplain()
-        {
-            string retVal = "";
-
-            foreach (Action action in Actions)
-            {
-                retVal = retVal + action.Name + "\n";
-            }
-
-            if (Expectations.Count > 0)
-            {
-                retVal = retVal + "implies\n";
-                foreach (Expectation expectation in Expectations)
-                {
-                    retVal = retVal + "  " + expectation.getExplain() + "\n";
-                }
-            }
-
-            return retVal;
-        }
-
-        /// <summary>
         ///     Creates a sub step and sets its default values
         /// </summary>
         /// <param name="name"></param>
@@ -167,41 +142,34 @@ namespace DataDictionary.Tests
             return retVal;
         }
 
-
         /// <summary>
-        ///     Provides an explanation of the step's behaviour
+        ///     Builds the explanation of the element
         /// </summary>
-        /// <param name="indentLevel">the number of white spaces to add at the beginning of each line</param>
-        /// <returns></returns>
-        public string getExplain(int indentLevel, bool explainSubElements)
-        {
-            string retVal = TextualExplainUtilities.Pad("{\\cf11 // " + Name + "}\\cf1\\par", indentLevel);
-
-            foreach (Action action in Actions)
-            {
-                retVal += action.getExplain(indentLevel + 2, explainSubElements) + "\\par";
-            }
-            retVal += TextualExplainUtilities.Pad("{\\b IMPLIES}\\par", indentLevel);
-            foreach (Expectation expectation in Expectations)
-            {
-                retVal += expectation.getExplain(indentLevel + 2, explainSubElements) + "\\par";
-            }
-
-            return retVal;
-        }
-
-        /// <summary>
-        ///     Provides an explanation of the step's behaviour
-        /// </summary>
+        /// <param name="explanation"></param>
         /// <param name="explainSubElements">Precises if we need to explain the sub elements (if any)</param>
-        /// <returns></returns>
-        public string getExplain(bool explainSubElements)
+        public virtual void GetExplain(TextualExplanation explanation, bool explainSubElements)
         {
-            string retVal = "";
+            explanation.Comment(Name);
 
-            retVal = getExplain(0, explainSubElements);
+            explanation.Indent(2, () =>
+            {
+                foreach (Action action in Actions)
+                {
+                    action.GetExplain(explanation, explainSubElements);
+                    explanation.WriteLine();
+                }                
+            });
 
-            return retVal;
+            explanation.PadLine("IMPLIES");
+
+            explanation.Indent(2, () =>
+            {
+                foreach (Expectation expectation in Expectations)
+                {
+                    expectation.GetExplain(explanation, explainSubElements);
+                    explanation.WriteLine();
+                }
+            });
         }
 
         /// <summary>

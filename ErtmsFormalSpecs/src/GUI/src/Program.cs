@@ -100,7 +100,7 @@ namespace ERTMSFormalSpecs
                 {
                     window.OpenFile(file);
                 }
-                Application.Run(window);
+                 Application.Run(window);
                 CloseEFSService();
             }
             finally

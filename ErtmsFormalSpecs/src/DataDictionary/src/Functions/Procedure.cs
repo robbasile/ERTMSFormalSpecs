@@ -26,7 +26,7 @@ using Type = DataDictionary.Types.Type;
 
 namespace DataDictionary.Functions
 {
-    public class Procedure : Generated.Procedure, ISubDeclarator, ICallable, TextualExplain, IGraphicalDisplay
+    public class Procedure : Generated.Procedure, ISubDeclarator, ICallable, ITextualExplain, IGraphicalDisplay
     {
         /// <summary>
         ///     Constructor
@@ -226,62 +226,54 @@ namespace DataDictionary.Functions
         }
 
         /// <summary>
-        ///     Provides an explanation of the rule's behaviour
+        ///     Builds the explanation of the element
         /// </summary>
-        /// <param name="indentLevel">the number of white spaces to add at the beginning of each line</param>
-        /// <returns></returns>
-        public string getExplain(int indentLevel, bool getExplain)
+        /// <param name="explanation"></param>
+        /// <param name="explainSubElements">Precises if we need to explain the sub elements (if any)</param>
+        public virtual void GetExplain(TextualExplanation explanation, bool explainSubElements)
         {
-            string retVal = TextualExplainUtilities.Comment(this, indentLevel);
+            explanation.Comment(this);
+            explanation.PadLine("PROCEDURE " + Name);
 
-            // Creates the procedure header
-            retVal += TextualExplainUtilities.Pad("{ {\\b PROCEDURE } " + Name, indentLevel);
             if (FormalParameters.Count > 0)
             {
                 bool first = true;
-                retVal += "(";
+                explanation.Write("(");
                 if (FormalParameters.Count > 1)
                 {
-                    retVal += "\\par";
+                    explanation.WriteLine();
                 }
-                foreach (Parameter parameter in FormalParameters)
+
+                explanation.Indent(4, () =>
                 {
-                    if (!first)
+                    foreach (Parameter parameter in FormalParameters)
                     {
-                        retVal = retVal + ",\\par";
+                        if (!first)
+                        {
+                            explanation.WriteLine(",");
+                        }
+                        explanation.Pad(parameter.Name + ":" + parameter.TypeName);
+                        first = false;
                     }
-                    retVal = retVal +
-                             TextualExplainUtilities.Pad(parameter.Name + ":" + parameter.TypeName, indentLevel + 4);
-                    first = false;
-                }
-                retVal = retVal + ")}\\par";
+                });
+                explanation.WriteLine(")");
             }
             else
             {
-                retVal += "()\\par";
+                explanation.WriteLine("()");
             }
 
-            foreach (Rule rule in Rules)
+            explanation.Indent(2, () =>
             {
-                retVal += "\\par" + rule.getExplain(indentLevel + 2, true);
-            }
+                foreach (Rule rule in Rules)
+                {
+                    rule.GetExplain(explanation, explainSubElements);
+                    explanation.WriteLine();
+                }                
+            });
 
-            retVal += TextualExplainUtilities.Pad("{ {\\b END PROCEDURE } ", indentLevel);
-
-            return retVal;
+            explanation.PadLine("END PROCEDURE ");
         }
-
-        /// <summary>
-        ///     Provides an explanation of the rule's behaviour
-        /// </summary>
-        /// <returns></returns>
-        public string getExplain(bool explainSubElements)
-        {
-            string retVal = getExplain(0, true);
-
-            return TextualExplainUtilities.Encapsule(retVal);
-        }
-
 
         /// <summary>
         ///     The X position

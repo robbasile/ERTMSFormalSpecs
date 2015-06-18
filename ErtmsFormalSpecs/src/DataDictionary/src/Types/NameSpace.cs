@@ -580,29 +580,14 @@ namespace DataDictionary.Types
         }
 
         /// <summary>
-        ///     Provides an explanation of the namespace
+        ///     Builds the explanation of the element
         /// </summary>
-        /// <param name="indentLevel">the number of white spaces to add at the beginning of each line</param>
-        /// <returns></returns>
-        public string getExplain(int indentLevel)
+        /// <param name="explanation"></param>
+        /// <param name="explainSubElements">Precises if we need to explain the sub elements (if any)</param>
+        public virtual void GetExplain(TextualExplanation explanation, bool explainSubElements)
         {
-            string retVal = TextualExplainUtilities.Comment(this, indentLevel);
-
-            retVal += TextualExplainUtilities.Pad("{\\b NAMESPACE} " + Name, indentLevel);
-
-            return retVal;
-        }
-
-        /// <summary>
-        ///     An explanation of the namespace
-        /// </summary>
-        /// <param name="inner"></param>
-        /// <returns></returns>
-        public string getExplain(bool inner)
-        {
-            string retVal = getExplain(0);
-
-            return retVal;
+            explanation.Comment(this);
+            explanation.PadLine("NAMESPACE " + Name);
         }
 
         /// <summary>
