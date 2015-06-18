@@ -123,7 +123,7 @@
 >
 </ReqRef><Comment>Represents the linking data provided by the trackside.</Comment>
 <StructureElement
- TypeName="Default.BaseTypes.Length"
+ TypeName="BaseTypes.Length"
  Default="BaseTypes.Length.NA"
  Mode="Internal"
  Implemented="TRUE"
@@ -185,7 +185,7 @@ Since this only stores what is inside Q_LOCACC (which can only be in the range o
 >
 </ReqRef><Comment>Reaction to be used in cas of data inconsistencies.</Comment>
 </StructureElement><StructureElement
- TypeName="Default.BaseTypes.Distance"
+ TypeName="BaseTypes.Distance"
  Default="BaseTypes.Distance.Unknown"
  Mode="Internal"
  Implemented="TRUE"
@@ -231,7 +231,7 @@ Since this only stores what is inside Q_LOCACC (which can only be in the range o
 >
 </ReqRef><Comment>Holds the balise ID and the end of the expectation window of the BG supervised by the RAMS supervision function.</Comment>
 <StructureElement
- TypeName="Default.BaseTypes.Distance"
+ TypeName="BaseTypes.Distance"
  Default="0.0"
  Mode="Internal"
  Implemented="TRUE"
@@ -289,7 +289,7 @@ Since this only stores what is inside Q_LOCACC (which can only be in the range o
 <Comment>Create an element of Linking data for use in the BTM.Linkings variable</Comment>
 <Parameters>
 <Parameter
- Type="Default.MessageTypes.Distance"
+ Type="MessageTypes.Distance"
  Name="D_LINK"
  Guid="c2792e76-3c01-4dd6-af5a-c30fde497bfe"
 >
@@ -490,7 +490,7 @@ BaliseGroupOrientation() == CurrentLinking().Orientation</Expression>
 <Expression>True</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  Default=""
  X="670"
  Y="260"
@@ -1619,7 +1619,7 @@ Activate the service brake if a second linked BG in a row is missed.</Comment>
  Guid="646bc014-8b5c-47e1-9466-bd062ff89279"
 >Kernel.HandlingOfAcceptedAndStoredInformation.RAMSSupervisionFunctionLedToServiceBrake &lt;- True</Action><Action
  Guid="a4b0baca-b8ed-4220-8590-842a578e8b8f"
->Kernel.ApplySBCommand(Kernel.BrakeReason.RAMSSupervisionTriggered)</Action></Actions>
+>Kernel.BrakeCommands.ApplySBCommand(Kernel.BrakeCommands.BrakeReason.RAMSSupervisionTriggered)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -2223,7 +2223,7 @@ If the BG was passed in the right direction, handle the message. If not, the tra
  Guid="f7aea1c2-1e1f-4d47-8f36-412e4107ba4b"
 >Kernel.HandlingOfAcceptedAndStoredInformation.RAMSSupervisionFunctionLedToServiceBrake &lt;- True</Action><Action
  Guid="294b1490-c94d-4bac-b054-feaef3d222b4"
->Kernel.ApplySBCommand(Kernel.BrakeReason.RAMSSupervisionTriggered)</Action></Actions>
+>Kernel.BrakeCommands.ApplySBCommand(Kernel.BrakeCommands.BrakeReason.RAMSSupervisionTriggered)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -2402,7 +2402,7 @@ As the first part of this procedure deletes the first (inconsistent) BG from the
 </ReqRef><Comment>Applies the linking reaction of the current linking.</Comment>
 <Parameters>
 <Parameter
- Type="LinkingReaction"
+ Type="Linking.LinkingReaction"
  Name="LinkingReaction"
  Guid="c41689f1-1eb1-48f2-bde6-d55e1c8c8136"
 >
@@ -2447,13 +2447,13 @@ As the first part of this procedure deletes the first (inconsistent) BG from the
  Guid="bfc6430f-ae00-42e0-8bd9-645cf6379bf4"
 >Kernel.SpeedAndDistanceMonitoring.TriggerSBCommand()</Action><Action
  Guid="98a091b7-4d8f-4619-befd-170f98fbc874"
->INSERT Kernel.EmergencyStopStruct{
+>INSERT Kernel.BrakeCommands.EmergencyStopStruct{
     IsConditional =&gt; False,
     Id =&gt; 0,
     StopLocation =&gt; 0.0,
-    Reason =&gt; Kernel.BrakeReason.BaliseGroupMessageConsistencyProblem
+    Reason =&gt; Kernel.BrakeCommands.BrakeReason.BaliseGroupMessageConsistencyProblem
 }
-IN Kernel.EmergencyStops</Action><Action
+IN Kernel.BrakeCommands.EmergencyStops</Action><Action
  Guid="dcddda32-ea7d-4603-a874-b66bdda37327"
 >DMI.MasterDMI().Out_BrakeReason.Display()</Action></Actions>
 </RuleCondition><RuleCondition
@@ -2484,13 +2484,13 @@ IN Kernel.EmergencyStops</Action><Action
  Guid="dfa06d79-132e-4330-a9e1-9cf9c3095a11"
 >DMI.MasterDMI().Out_BrakeReason.Display()</Action><Action
  Guid="14f5f361-4018-437e-aa02-d290a7048a2b"
->INSERT Kernel.EmergencyStopStruct{
+>INSERT Kernel.BrakeCommands.EmergencyStopStruct{
     IsConditional =&gt; False,
     Id =&gt; 0,
     StopLocation =&gt; 0.0,
-    Reason =&gt; Kernel.BrakeReason.BaliseGroupMessageConsistencyProblem
+    Reason =&gt; Kernel.BrakeCommands.BrakeReason.BaliseGroupMessageConsistencyProblem
 }
-IN Kernel.EmergencyStops</Action></Actions>
+IN Kernel.BrakeCommands.EmergencyStops</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -2525,7 +2525,7 @@ IN Kernel.EmergencyStops</Action></Actions>
 </ReqRef><Comment>Deletes the linking information beyond the provided location.</Comment>
 <Parameters>
 <Parameter
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  Name="aLocation"
  Guid="5ca1491d-789e-42f9-a622-728c9bb3eba4"
 >
@@ -2619,7 +2619,7 @@ IN Kernel.EmergencyStops</Action></Actions>
 >
 <Comment>Used to determine whether the current Balise message has been rejected due to linking or VBC.</Comment>
 </Variable><Variable
- Type="RAMSSupervisionStruct"
+ Type="Linking.RAMSSupervisionStruct"
  DefaultValue="EMPTY"
  VariableMode="Internal"
  X="340"
@@ -2637,7 +2637,7 @@ IN Kernel.EmergencyStops</Action></Actions>
 >
 </ReqRef><Comment>The currently supervised BG for the RAMS (EMPTY unless the previous linked BG was not found before the end of its expectation window).</Comment>
 </Variable><Variable
- Type="RAMSSupervisionStruct"
+ Type="Linking.RAMSSupervisionStruct"
  DefaultValue="EMPTY"
  VariableMode="Internal"
  X="450"

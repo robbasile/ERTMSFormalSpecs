@@ -29,7 +29,7 @@
 >
 </ReqRef><Comment>Structure defining a target: provides the start location, the maximum speed and the length over which the speed restriction takes effect.</Comment>
 <StructureElement
- TypeName="Default.BaseTypes.Distance"
+ TypeName="BaseTypes.Distance"
  Default="0.0"
  Mode="Internal"
  Implemented="TRUE"
@@ -39,7 +39,7 @@
 >
 <Comment>Start location of the target, measured from the LRBG reference location.</Comment>
 </StructureElement><StructureElement
- TypeName="Default.BaseTypes.Speed"
+ TypeName="BaseTypes.Speed"
  Default="0.0"
  Mode="Internal"
  Implemented="TRUE"
@@ -49,7 +49,7 @@
 >
 <Comment>Speed restriction btween (Location) and (Location + Length)</Comment>
 </StructureElement><StructureElement
- TypeName="Default.BaseTypes.Length"
+ TypeName="BaseTypes.Length"
  Default="0.0"
  Mode="Internal"
  Implemented="TRUE"
@@ -80,7 +80,7 @@
 </Collection></Collections>
 <Functions>
 <Function
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  Cacheable="TRUE"
  Default=""
  X="600"
@@ -109,7 +109,7 @@
 </ReqRef><Comment>Provides the distance d_SBI2.</Comment>
 <Parameters>
 <Parameter
- Type="Default.BaseTypes.Speed"
+ Type="BaseTypes.Speed"
  Name="Vest"
  Guid="ef4e3d67-de48-4bd6-bc1c-dee6ea188efb"
 >
@@ -141,7 +141,7 @@
 <Expression>EBIvalue ( Vest =&gt; Vest, aTarget =&gt; aTarget, NoA_est =&gt; NoA_est )  - BaseTypes.SpeedToMS ( Vest ) * T_bs2</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  Cacheable="TRUE"
  Default=""
  X="380"
@@ -175,7 +175,7 @@
 </ReqRef><Comment>Provides the location of the EBI supervision limit.</Comment>
 <Parameters>
 <Parameter
- Type="Default.BaseTypes.Speed"
+ Type="BaseTypes.Speed"
  Name="Vest"
  Guid="5eef95c0-266d-4452-9c08-920bc4be143f"
 >
@@ -204,7 +204,7 @@
 <Expression>EBIvalue ( Vest =&gt; Vest, aTarget =&gt; aTarget, NoA_est =&gt; False )</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Speed"
+ Type="BaseTypes.Speed"
  Default=""
  X="110"
  Y="430"
@@ -222,12 +222,12 @@
 </ReqRef><Comment>Provides the SBI2 speed for the estimated train front end, for display purpose only.</Comment>
 <Parameters>
 <Parameter
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  Name="Dmaxsafefrontend"
  Guid="3cc56ab9-cd50-4bcd-a28a-ce08a5d1992d"
 >
 </Parameter><Parameter
- Type="Default.BaseTypes.Speed"
+ Type="BaseTypes.Speed"
  Name="Vtarget"
  Guid="8443afba-91bf-4019-a2da-f85044de80c5"
 >
@@ -281,7 +281,7 @@ X2=&gt; Vtarget + CeilingSpeedMonitoring.dV_sbi(Vtarget)
 )</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Speed"
+ Type="BaseTypes.Speed"
  Cacheable="TRUE"
  Default=""
  Y="430"
@@ -299,7 +299,7 @@ X2=&gt; Vtarget + CeilingSpeedMonitoring.dV_sbi(Vtarget)
 </ReqRef><Comment>Provides the SBI1 speed for the estimated train front end, for display purpose only.</Comment>
 <Parameters>
 <Parameter
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  Name="Destfront"
  Guid="09ed4c58-e9a7-4b17-a5c6-530136032e82"
 >
@@ -335,7 +335,7 @@ X2=&gt; Vtarget + CeilingSpeedMonitoring.dV_sbi(Vtarget)
 <Expression>0.0</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  Cacheable="TRUE"
  Default=""
  X="600"
@@ -354,7 +354,7 @@ X2=&gt; Vtarget + CeilingSpeedMonitoring.dV_sbi(Vtarget)
 </ReqRef><Comment>Provides the SBI distance, calculated from the EBD curve, taken from the most restrictive target amongst the EBD based targets.</Comment>
 <Parameters>
 <Parameter
- Type="Default.BaseTypes.Speed"
+ Type="BaseTypes.Speed"
  Name="Vest"
  Guid="90356ed0-f9a4-427a-aabb-661c5b7c9ae7"
 >
@@ -386,7 +386,7 @@ INITIAL_VALUE
     BaseTypes.Distance.Infinity</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Speed"
+ Type="BaseTypes.Speed"
  Default=""
  X="220"
  Y="280"
@@ -424,12 +424,12 @@ INITIAL_VALUE
 </ReqRef><Comment>The permitted speed of an EOA target, as used in the calculation of the MRDT.</Comment>
 <Parameters>
 <Parameter
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  Name="d_estfront"
  Guid="8e0a7656-cae6-4169-9913-594f836cb945"
 >
 </Parameter><Parameter
- Type="Default.BaseTypes.Speed"
+ Type="BaseTypes.Speed"
  Name="Vest"
  Guid="b53b2821-ad3b-4e56-b39c-37df100eba8b"
 >
@@ -474,7 +474,7 @@ INITIAL_VALUE
 <Expression>0.0</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Speed"
+ Type="BaseTypes.Speed"
  Default=""
  X="110"
  Y="280"
@@ -512,7 +512,7 @@ INITIAL_VALUE
 </ReqRef><Comment>The permitted speed as used in the calculation of the MRDT.</Comment>
 <Parameters>
 <Parameter
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  Name="d_maxsafefront"
  Guid="9d0d9740-70a0-4e00-91b9-22507eb04f5c"
 >
@@ -522,7 +522,7 @@ INITIAL_VALUE
  Guid="66a7c1ee-0117-4b52-a235-d68da4f21e6f"
 >
 </Parameter><Parameter
- Type="Default.BaseTypes.Speed"
+ Type="BaseTypes.Speed"
  Name="Vest"
  Guid="bbc0930b-32a4-4df4-abed-036218611ac2"
 >
@@ -602,7 +602,7 @@ X2 =&gt; aTarget.Speed
 <Expression>aTarget.Speed</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Speed"
+ Type="BaseTypes.Speed"
  Cacheable="TRUE"
  Default=""
  Y="280"
@@ -792,7 +792,7 @@ V_P_EBD_Target(
 <Expression>X2</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Speed"
+ Type="BaseTypes.Speed"
  Cacheable="TRUE"
  Default=""
  X="420"
@@ -820,7 +820,7 @@ V_P_EBD_Target(
 )</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Speed"
+ Type="BaseTypes.Speed"
  Cacheable="TRUE"
  Default=""
  X="310"
@@ -875,7 +875,7 @@ V_P_EBD_Target(
 )</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  Cacheable="TRUE"
  Default=""
  X="490"
@@ -914,7 +914,7 @@ V_P_EBD_Target(
 </ReqRef><Comment>Provides the distance d_SBI1.</Comment>
 <Parameters>
 <Parameter
- Type="Default.BaseTypes.Speed"
+ Type="BaseTypes.Speed"
  Name="Vest"
  Guid="62759084-4403-4c1c-b5ee-224fba41c002"
 >
@@ -954,7 +954,7 @@ V_P_EBD_Target(
 )  - BaseTypes.SpeedToMS ( Vest ) * T_bs1</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  Default=""
  X="600"
  Y="340"
@@ -982,7 +982,7 @@ V_P_EBD_Target(
 </ReqRef><Comment>Returns the closest distance at which the EBI value is equal to a provided speed (calculated from Vest and aTarget.Speed).</Comment>
 <Parameters>
 <Parameter
- Type="Default.BaseTypes.Speed"
+ Type="BaseTypes.Speed"
  Name="Vest"
  Guid="d1a8330c-ead3-4993-b78a-39e9eef5f008"
 >
@@ -1047,12 +1047,12 @@ DecelerationCurves.EBD_TargetForSpeed(aTarget=&gt;aTarget, Vest=&gt;Vest, NoA_es
 </ReqRef><Comment>Checks that the MA ends with a EOA and, if so, returns true if the SBD curve is closer than the EBD</Comment>
 <Parameters>
 <Parameter
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  Name="d_SBI1"
  Guid="dad67edd-3fe4-4175-a913-c3a4ad872b4b"
 >
 </Parameter><Parameter
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  Name="d_SBI2"
  Guid="175339e3-7d3f-4c7b-b400-62a0f1c45654"
 >
@@ -1076,7 +1076,7 @@ DecelerationCurves.EBD_TargetForSpeed(aTarget=&gt;aTarget, Vest=&gt;Vest, NoA_es
 d_SBI2 - TrainPosition.FrontEndPosition(DistanceInterval.Max)</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  Cacheable="TRUE"
  Default=""
  X="220"
@@ -1193,7 +1193,7 @@ ActiveFunctions.SuperviseTrainSpeed_All_Information()</PreCondition></PreConditi
   USING X IN X</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Speed"
+ Type="BaseTypes.Speed"
  Cacheable="TRUE"
  Default=""
  X="110"
@@ -1209,7 +1209,7 @@ ActiveFunctions.SuperviseTrainSpeed_All_Information()</PreCondition></PreConditi
 This protection is used in the case where V_SBI_DMI is calculated but the train has no MA (the JRU can do this in SR Mode)</Comment>
 <Parameters>
 <Parameter
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  Name="Dmaxsafefrontend"
  Guid="3c8a6b79-3cf2-4c92-9799-64ee4f57ade5"
 >
@@ -1235,7 +1235,7 @@ This protection is used in the case where V_SBI_DMI is calculated but the train 
 <Expression>0.0</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  Default=""
  X="220"
  Y="340"
@@ -1307,7 +1307,7 @@ This protection is used in the case where V_SBI_DMI is calculated but the train 
 }</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  Cacheable="TRUE"
  Default=""
  X="490"
@@ -1341,7 +1341,7 @@ This protection is used in the case where V_SBI_DMI is calculated but the train 
 </ReqRef><Comment>Provides the distance d_I for a given target and for the current MRSP speed.</Comment>
 <Parameters>
 <Parameter
- Type="Default.BaseTypes.Speed"
+ Type="BaseTypes.Speed"
  Name="Vest"
  Guid="a679d79b-6b64-4bad-8798-bde3ea65acb4"
 >
@@ -1379,7 +1379,7 @@ This protection is used in the case where V_SBI_DMI is calculated but the train 
     Vest =&gt; Vest )</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  Cacheable="TRUE"
  Default=""
  X="380"
@@ -1423,7 +1423,7 @@ This protection is used in the case where V_SBI_DMI is calculated but the train 
  Guid="b58b45bb-a4c8-495c-9a62-6b4931d211f9"
 >
 </Parameter><Parameter
- Type="Default.BaseTypes.Speed"
+ Type="BaseTypes.Speed"
  Name="Vest"
  Guid="bc46c78e-bd91-4056-be71-83dc179d5819"
 >
@@ -1503,7 +1503,7 @@ This protection is used in the case where V_SBI_DMI is calculated but the train 
     X2 =&gt; DistanceForSpeed ( Function =&gt; FUNCTION d : Default.BaseTypes.Distance =&gt; DecelerationCurves.GUI_Target ( Distance =&gt; d, aTarget =&gt; aTarget ), Speed =&gt; Vest ) )</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  Default=""
  X="380"
  Y="340"
@@ -1517,7 +1517,7 @@ This protection is used in the case where V_SBI_DMI is calculated but the train 
 <Comment>Provides the distance d_SBI1 for the provided target.</Comment>
 <Parameters>
 <Parameter
- Type="Default.BaseTypes.Speed"
+ Type="BaseTypes.Speed"
  Name="Vest"
  Guid="b6ae4883-4a43-4eb6-8b24-168c2b7c4558"
 >
@@ -1538,7 +1538,7 @@ This protection is used in the case where V_SBI_DMI is calculated but the train 
 ), Speed =&gt; Vest )  - BaseTypes.SpeedToMS ( Vest ) * T_bs1</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  Cacheable="TRUE"
  Default=""
  X="600"
@@ -1572,7 +1572,7 @@ This protection is used in the case where V_SBI_DMI is calculated but the train 
 </ReqRef><Comment>Provide the distance d_W for the given target.</Comment>
 <Parameters>
 <Parameter
- Type="Default.BaseTypes.Speed"
+ Type="BaseTypes.Speed"
  Name="Vest"
  Guid="858de658-9932-4f69-bf0c-a532d954bb11"
 >
@@ -1603,7 +1603,7 @@ This protection is used in the case where V_SBI_DMI is calculated but the train 
 ) - BaseTypes.SpeedToMS ( Vest ) * T_warning</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  Cacheable="TRUE"
  Default=""
  X="490"
@@ -1627,7 +1627,7 @@ This protection is used in the case where V_SBI_DMI is calculated but the train 
  Guid="c02d7eed-d37a-432d-8aae-271c683cfd82"
 >
 </Parameter><Parameter
- Type="Default.BaseTypes.Speed"
+ Type="BaseTypes.Speed"
  Name="Vest"
  Guid="b50aac75-365c-443a-96f9-ea95ded78096"
 >
@@ -1756,7 +1756,7 @@ This protection is used in the case where V_SBI_DMI is calculated but the train 
 </Procedure></Procedures>
 <Variables>
 <Variable
- Type="Default.BaseTypes.Time"
+ Type="BaseTypes.Time"
  DefaultValue="0.0"
  VariableMode="Internal"
  X="540"
@@ -1783,7 +1783,7 @@ This protection is used in the case where V_SBI_DMI is calculated but the train 
 >
 </ReqRef><Comment>Time interval used to compute d_SBI1.</Comment>
 </Variable><Variable
- Type="Default.BaseTypes.Time"
+ Type="BaseTypes.Time"
  DefaultValue="0.0"
  VariableMode="Internal"
  X="650"
@@ -1810,7 +1810,7 @@ This protection is used in the case where V_SBI_DMI is calculated but the train 
 >
 </ReqRef><Comment>Time interval used to compute d_SBI2.</Comment>
 </Variable><Variable
- Type="Default.BaseTypes.Time"
+ Type="BaseTypes.Time"
  DefaultValue="4.0"
  VariableMode="Internal"
  X="320"
@@ -1843,7 +1843,7 @@ This protection is used in the case where V_SBI_DMI is calculated but the train 
 >
 </ReqRef><Comment>Driver reaction time between Permitted speed supervision limit and FLOI.</Comment>
 </Variable><Variable
- Type="Default.BaseTypes.Time"
+ Type="BaseTypes.Time"
  DefaultValue="2.0"
  VariableMode="Internal"
  X="430"
@@ -1875,7 +1875,7 @@ This protection is used in the case where V_SBI_DMI is calculated but the train 
 >
 </ReqRef><Comment>Time between Warning supervision limit and FLOI.</Comment>
 </Variable><Variable
- Type="Target"
+ Type="TargetSpeedMonitoring.Target"
  DefaultValue="EMPTY"
  VariableMode="Internal"
  X="320"

@@ -81,7 +81,7 @@ The confidence interval can be computed using Kernel.ConfidenceInterval.Confiden
 >
 </ReqRef><Comment>This structure represents the directional train position information, in reference to the balise group orientation.</Comment>
 <StructureElement
- TypeName="Default.Orientation"
+ TypeName="Orientation"
  Default=""
  Mode="Internal"
  Implemented="TRUE"
@@ -95,7 +95,7 @@ The confidence interval can be computed using Kernel.ConfidenceInterval.Confiden
 >
 </ReqRef><Comment>Position of the train front end, corresponds to Q_DLRBG.</Comment>
 </StructureElement><StructureElement
- TypeName="Default.Orientation"
+ TypeName="Orientation"
  Default=""
  Mode="Internal"
  Implemented="TRUE"
@@ -109,7 +109,7 @@ The confidence interval can be computed using Kernel.ConfidenceInterval.Confiden
 >
 </ReqRef><Comment>Train orientation, corresponds to Q_DIRLRBG.</Comment>
 </StructureElement><StructureElement
- TypeName="Default.Orientation"
+ TypeName="Orientation"
  Default=""
  Mode="Internal"
  Implemented="TRUE"
@@ -125,7 +125,7 @@ The confidence interval can be computed using Kernel.ConfidenceInterval.Confiden
 </StructureElement></Structure></Structures>
 <Functions>
 <Function
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  Default=""
  X="180"
  Y="260"
@@ -158,7 +158,7 @@ The confidence interval can be computed using Kernel.ConfidenceInterval.Confiden
 </ReqRef><Comment>This function is used to compute the estimated front end position, the max and min safe front end position of the train. The parameter specifies which of the values must be returned.</Comment>
 <Parameters>
 <Parameter
- Type="Default.DistanceInterval"
+ Type="DistanceInterval"
  Name="PointOfInterest"
  Guid="7af4ee52-9fbb-44c4-9f46-527d61a913b0"
 >
@@ -211,7 +211,7 @@ The confidence interval can be computed using Kernel.ConfidenceInterval.Confiden
 <Expression>Odometry.NominalDistance - BaseTypes.LengthToDistance(ConfidenceInterval.ConfidenceInterval(Default.ConfidenceInterval.L_DOUBTOVER)) - BTM.LRBG.Position.Position</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  Default=""
  X="70"
  Y="260"
@@ -239,7 +239,7 @@ The confidence interval can be computed using Kernel.ConfidenceInterval.Confiden
 </ReqRef><Comment>This function is used to compute the estimated rear end position, the max and min safe rear end position of the train. The parameter specifies which of the values must be returned. These values are computed iff the train integrity status is valid (confirmed by driver or by integrity monitoring device).</Comment>
 <Parameters>
 <Parameter
- Type="Default.DistanceInterval"
+ Type="DistanceInterval"
  Name="PointOfInterest"
  Guid="649fb3a6-63d6-4a5e-94a2-a5430c53f384"
 >
@@ -320,7 +320,7 @@ The confidence interval can be computed using Kernel.ConfidenceInterval.Confiden
 ]</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  Cacheable="TRUE"
  Default=""
  X="480"
@@ -349,7 +349,7 @@ The confidence interval can be computed using Kernel.ConfidenceInterval.Confiden
 </ReqRef><Comment>Provides the distance the train has run in SR mode, for comparison wit hthe maxmum distance allowed to run in SR.</Comment>
 <Parameters>
 <Parameter
- Type="Default.DistanceInterval"
+ Type="DistanceInterval"
  Name="PointOfInterest"
  Guid="9039d245-ee58-4fd1-845e-23a0e2693a98"
 >
@@ -384,7 +384,7 @@ The confidence interval can be computed using Kernel.ConfidenceInterval.Confiden
 <Expression>Odometry.NominalDistance - BaseTypes.LengthToDistance(ConfidenceInterval.ConfidenceInterval(Default.ConfidenceInterval.L_DOUBTOVER)) - SRStartDistance</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Length"
+ Type="BaseTypes.Length"
  Default=""
  X="70"
  Y="320"
@@ -519,7 +519,7 @@ BTM.LRBG.NID != Messages.NID_LRBG.Unknown</PreCondition></PreConditions>
  Guid="bbfa7a99-0ee1-4ecc-859d-b11eb3c977fc"
 >
 </ReqRef></Variable><Variable
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  DefaultValue="0.0"
  VariableMode="Internal"
  X="370"

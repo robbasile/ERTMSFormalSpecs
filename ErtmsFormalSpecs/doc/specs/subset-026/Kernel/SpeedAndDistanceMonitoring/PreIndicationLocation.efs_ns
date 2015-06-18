@@ -10,7 +10,7 @@
 </NameSpaces>
 <Functions>
 <Function
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  Default=""
  X="20"
  Y="160"
@@ -54,7 +54,7 @@
 </ReqRef><Comment>Provides the location of the EBI supervision limit.</Comment>
 <Parameters>
 <Parameter
- Type="Default.BaseTypes.Speed"
+ Type="BaseTypes.Speed"
  Name="Vmrsp"
  Guid="55a81856-c78d-4268-b3ab-6a25fab54e07"
 >
@@ -91,7 +91,7 @@
  - BaseTypes.SpeedToMS( Vmrsp + f41 ( Vmrsp ) ) * ( T_beremind() + T_tractionind() )</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  Default=""
  X="20"
  Y="220"
@@ -110,7 +110,7 @@
 </ReqRef><Comment>Provides the distance d_SBI2.</Comment>
 <Parameters>
 <Parameter
- Type="Default.BaseTypes.Speed"
+ Type="BaseTypes.Speed"
  Name="Vmrsp"
  Guid="b48a3e8a-35b5-483a-87e0-86b3a3d4039d"
 >
@@ -139,7 +139,7 @@
 <Expression>d_EBI ( aTarget =&gt; aTarget, Vmrsp =&gt; Vmrsp )  - BaseTypes.SpeedToMS(Vmrsp) * T_bs2ind()</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  Cacheable="TRUE"
  Default=""
  X="130"
@@ -159,7 +159,7 @@
 </ReqRef><Comment>The permitted speed supervision limit of a EOA or SvL target.</Comment>
 <Parameters>
 <Parameter
- Type="Default.BaseTypes.Speed"
+ Type="BaseTypes.Speed"
  Name="Vmrsp"
  Guid="a7d49188-5325-4de5-b567-e40c0cdcb9df"
 >
@@ -192,7 +192,7 @@
 <Expression>BaseTypes.MinDistance ( X1 =&gt; d_SBI1 ( Vmrsp ) - BaseTypes.SpeedToMS(Vmrsp) * TargetSpeedMonitoring.T_driver, X2 =&gt; DecelerationCurves.GUI_TargetForSpeed( Vest =&gt;Vmrsp, aTarget =&gt; TargetSpeedMonitoring.MovementEnd() ) )</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  Cacheable="TRUE"
  Default=""
  X="130"
@@ -331,7 +331,7 @@ IndicationLimitAtSpeed(
 <Expression>IndicationSegment(aTarget).Location + BaseTypes.LengthToDistance(IndicationSegment(aTarget).Length) - BaseTypes.SpeedToMS(IndicationSegment(aTarget).Speed) * T_preindication</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  Default=""
  X="240"
  Y="160"
@@ -350,7 +350,7 @@ IndicationLimitAtSpeed(
 </ReqRef><Comment>The permitted speed supervision limit.</Comment>
 <Parameters>
 <Parameter
- Type="Default.BaseTypes.Speed"
+ Type="BaseTypes.Speed"
  Name="Vmrsp"
  Guid="6508e397-bc4d-4595-8635-f9557fc76553"
 >
@@ -400,7 +400,7 @@ d_SBI2 ( aTarget =&gt; aTarget, Vmrsp =&gt; Vmrsp ) == BaseTypes.Distance.Unknow
 <Expression>BaseTypes.MinDistance ( X1 =&gt; d_SBI2 ( aTarget =&gt; aTarget, Vmrsp =&gt; Vmrsp ) - BaseTypes.SpeedToMS(Vmrsp) * TargetSpeedMonitoring.T_driver, X2 =&gt; DecelerationCurves.GUI_TargetForSpeed( aTarget =&gt; aTarget, Vest =&gt; Vmrsp ) )</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  Cacheable="TRUE"
  Default=""
  X="20"
@@ -462,7 +462,7 @@ d_SBI2 ( aTarget =&gt; aTarget, Vmrsp =&gt; Vmrsp ) == BaseTypes.Distance.Unknow
 <Expression>BaseTypes.Distance.Infinity</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Time"
+ Type="BaseTypes.Time"
  Cacheable="TRUE"
  Default=""
  X="330"
@@ -496,7 +496,7 @@ d_SBI2 ( aTarget =&gt; aTarget, Vmrsp =&gt; Vmrsp ) == BaseTypes.Distance.Unknow
 <Expression>0.0</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Time"
+ Type="BaseTypes.Time"
  Cacheable="TRUE"
  Default=""
  X="110"
@@ -529,7 +529,7 @@ d_SBI2 ( aTarget =&gt; aTarget, Vmrsp =&gt; Vmrsp ) == BaseTypes.Distance.Unknow
 <Expression>0.0</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Time"
+ Type="BaseTypes.Time"
  Cacheable="TRUE"
  Default=""
  X="220"
@@ -577,7 +577,7 @@ d_SBI2 ( aTarget =&gt; aTarget, Vmrsp =&gt; Vmrsp ) == BaseTypes.Distance.Unknow
 <Expression>TrainData.BrakingParameters.T_traction_cut_off (NoA_est =&gt; True)</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Time"
+ Type="BaseTypes.Time"
  Cacheable="TRUE"
  Default=""
  X="330"
@@ -606,7 +606,7 @@ d_SBI2 ( aTarget =&gt; aTarget, Vmrsp =&gt; Vmrsp ) == BaseTypes.Distance.Unknow
 <Expression>BaseTypes.MaxTime ( X1 =&gt; TrainData.BrakingParameters.T_be () - T_tractionind (), X2 =&gt; 0.0 )</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  Cacheable="TRUE"
  Default=""
  X="440"
@@ -624,7 +624,7 @@ d_SBI2 ( aTarget =&gt; aTarget, Vmrsp =&gt; Vmrsp ) == BaseTypes.Distance.Unknow
 </ReqRef><Comment>Provides the SBI curve corresponding to an EOA for the calculation of the indication location</Comment>
 <Parameters>
 <Parameter
- Type="Default.BaseTypes.Speed"
+ Type="BaseTypes.Speed"
  Name="Vmrsp"
  Guid="3e91ee82-1b5f-4cdb-939a-344ba106ce6e"
 >
@@ -968,7 +968,7 @@ TargetSpeedMonitoring.Target{
 </Function></Functions>
 <Variables>
 <Variable
- Type="Default.BaseTypes.Time"
+ Type="BaseTypes.Time"
  DefaultValue="7.0"
  VariableMode="Constant"
  X="440"

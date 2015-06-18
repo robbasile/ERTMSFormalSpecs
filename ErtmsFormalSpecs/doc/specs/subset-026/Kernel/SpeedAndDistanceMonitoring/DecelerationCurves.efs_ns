@@ -10,7 +10,7 @@
 </NameSpaces>
 <Functions>
 <Function
- Type="Default.BaseTypes.Speed"
+ Type="BaseTypes.Speed"
  Default=""
  X="230"
  Y="390"
@@ -38,7 +38,7 @@
 </ReqRef><Comment>We don&apos;t explicitely compute the location of EBD foot since we don&apos;t need it (our curves are computed entirely, going until the speed 0 even for MRPS or LOA targets).</Comment>
 <Parameters>
 <Parameter
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  Name="Distance"
  Guid="cd5be458-075b-4dc4-815b-076a138762c0"
 >
@@ -77,7 +77,7 @@ IsMaxDistToRunInSR(aTarget)</PreCondition></PreConditions>
 )(Distance)</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  Default=""
  X="230"
  Y="450"
@@ -91,7 +91,7 @@ IsMaxDistToRunInSR(aTarget)</PreCondition></PreConditions>
 <Comment>Returns the distance at which the EBD deceleration curve for a given target has the given speed.</Comment>
 <Parameters>
 <Parameter
- Type="Default.BaseTypes.Speed"
+ Type="BaseTypes.Speed"
  Name="Vest"
  Guid="7ebdcb56-85ff-439b-999d-e866f2c509e9"
 >
@@ -117,7 +117,7 @@ IsMaxDistToRunInSR(aTarget)</PreCondition></PreConditions>
         Speed =&gt; Vbec ( Vest =&gt; Vest, Vtarget =&gt; aTarget.Speed, NoA_est =&gt; NoA_est) )</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Speed"
+ Type="BaseTypes.Speed"
  Default=""
  X="10"
  Y="190"
@@ -135,12 +135,12 @@ IsMaxDistToRunInSR(aTarget)</PreCondition></PreConditions>
 </ReqRef><Comment>Provides the compensated speed during the time elapsed between the Emergency brake intervention and the full application of the braking effort.</Comment>
 <Parameters>
 <Parameter
- Type="Default.BaseTypes.Speed"
+ Type="BaseTypes.Speed"
  Name="Vest"
  Guid="71cc6d66-bbc7-41bc-ba70-27313e68520d"
 >
 </Parameter><Parameter
- Type="Default.BaseTypes.Speed"
+ Type="BaseTypes.Speed"
  Name="Vtarget"
  Guid="824c9500-7f29-4dc0-9a3b-3d7c71c8a180"
 >
@@ -158,7 +158,7 @@ IsMaxDistToRunInSR(aTarget)</PreCondition></PreConditions>
 <Expression>BaseTypes.MaxSpeed ( X1 =&gt; Vest + Vdelta0() + Vdelta1(NoA_est), X2 =&gt; Vtarget ) + Vdelta2(NoA_est)</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  Default=""
  X="120"
  Y="190"
@@ -181,12 +181,12 @@ IsMaxDistToRunInSR(aTarget)</PreCondition></PreConditions>
 </ReqRef><Comment>Provides the distance travelled during the time elapsed between the Emergency brake intervention and the full application of the braking effort.</Comment>
 <Parameters>
 <Parameter
- Type="Default.BaseTypes.Speed"
+ Type="BaseTypes.Speed"
  Name="Vest"
  Guid="f798737c-2c3a-49e1-8c10-d823d19612a7"
 >
 </Parameter><Parameter
- Type="Default.BaseTypes.Speed"
+ Type="BaseTypes.Speed"
  Name="Vtarget"
  Guid="485fb655-b7f7-4830-89fa-be6dfdf1c3dd"
 >
@@ -205,7 +205,7 @@ IsMaxDistToRunInSR(aTarget)</PreCondition></PreConditions>
 BaseTypes.SpeedToMS ( BaseTypes.MaxSpeed ( X1 =&gt; Vest + Vdelta0() + Vdelta1(NoA_est), X2 =&gt; Vtarget ) + Vdelta2(NoA_est) / 2.0 )  * T_berem(NoA_est)</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Acceleration"
+ Type="BaseTypes.Acceleration"
  Cacheable="TRUE"
  Default=""
  X="10"
@@ -230,7 +230,7 @@ BaseTypes.SpeedToMS ( BaseTypes.MaxSpeed ( X1 =&gt; Vest + Vdelta0() + Vdelta1(N
 <Expression>BaseTypes.MinAcceleration ( X1 =&gt; 0.4, X2 =&gt; BaseTypes.MaxAcceleration ( X1 =&gt; 0.0, X2 =&gt; Odometry.TrainAcceleration() ) )</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Acceleration"
+ Type="BaseTypes.Acceleration"
  Cacheable="TRUE"
  Default=""
  X="120"
@@ -264,7 +264,7 @@ BaseTypes.SpeedToMS ( BaseTypes.MaxSpeed ( X1 =&gt; Vest + Vdelta0() + Vdelta1(N
 <Expression>0.0</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Speed"
+ Type="BaseTypes.Speed"
  Cacheable="TRUE"
  Default=""
  X="330"
@@ -308,7 +308,7 @@ BaseTypes.SpeedToMS ( BaseTypes.MaxSpeed ( X1 =&gt; Vest + Vdelta0() + Vdelta1(N
 <Expression>Odometry.Accuracy.V_ura</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Speed"
+ Type="BaseTypes.Speed"
  Cacheable="TRUE"
  Default=""
  X="440"
@@ -354,7 +354,7 @@ BaseTypes.SpeedToMS ( BaseTypes.MaxSpeed ( X1 =&gt; Vest + Vdelta0() + Vdelta1(N
 <Expression>Aest1() * T_traction(NoA_est)</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Speed"
+ Type="BaseTypes.Speed"
  Cacheable="TRUE"
  Default=""
  X="550"
@@ -400,7 +400,7 @@ BaseTypes.SpeedToMS ( BaseTypes.MaxSpeed ( X1 =&gt; Vest + Vdelta0() + Vdelta1(N
 <Expression>Aest2() * T_berem(NoA_est)</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Speed"
+ Type="BaseTypes.Speed"
  Default=""
  X="340"
  Y="200"
@@ -419,7 +419,7 @@ BaseTypes.SpeedToMS ( BaseTypes.MaxSpeed ( X1 =&gt; Vest + Vdelta0() + Vdelta1(N
  Guid="5566a9f8-2b1f-4cec-a053-8f5c6b9f5b76"
 >
 </Parameter><Parameter
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  Name="Distance"
  Guid="6c241985-66a6-48a8-b2e0-4e8ecc3418a9"
 >
@@ -450,7 +450,7 @@ BaseTypes.SpeedToMS ( BaseTypes.MaxSpeed ( X1 =&gt; Vest + Vdelta0() + Vdelta1(N
 <Expression>aTarget.Speed + CeilingSpeedMonitoring.dV_ebi ( aTarget.Speed )</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Time"
+ Type="BaseTypes.Time"
  Cacheable="TRUE"
  Default=""
  X="550"
@@ -515,7 +515,7 @@ BaseTypes.SpeedToMS ( BaseTypes.MaxSpeed ( X1 =&gt; Vest + Vdelta0() + Vdelta1(N
 <Expression>TrainData.BrakingParameters.T_traction_cut_off (NoA_est)</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Time"
+ Type="BaseTypes.Time"
  Cacheable="TRUE"
  Default=""
  X="440"
@@ -558,7 +558,7 @@ BaseTypes.SpeedToMS ( BaseTypes.MaxSpeed ( X1 =&gt; Vest + Vdelta0() + Vdelta1(N
 <Expression>BaseTypes.MaxTime ( X1 =&gt; 0.8 * TrainData.BrakingParameters.T_bs(), X2 =&gt; 5.0 )</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Time"
+ Type="BaseTypes.Time"
  Cacheable="TRUE"
  Default=""
  X="330"
@@ -666,7 +666,7 @@ aTarget.Speed == 0.0</Expression>
 <Expression>False</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  Default=""
  X="10"
  Y="250"
@@ -694,7 +694,7 @@ aTarget.Speed == 0.0</Expression>
 </ReqRef><Comment>The distance offset used in the calculation of the SBI curves for display purposes.</Comment>
 <Parameters>
 <Parameter
- Type="Default.BaseTypes.Speed"
+ Type="BaseTypes.Speed"
  Name="Vest"
  Guid="5c4cece7-dc06-4396-9beb-f73d89fc50fe"
 >
@@ -716,7 +716,7 @@ BaseTypes.SpeedToMS( Vest + Vdelta0() + Vdelta1(NoA_est) + Vdelta2(NoA_est)/2.0
 ) * T_berem(NoA_est)</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Speed"
+ Type="BaseTypes.Speed"
  Default=""
  X="10"
  Y="390"
@@ -734,7 +734,7 @@ BaseTypes.SpeedToMS( Vest + Vdelta0() + Vdelta1(NoA_est) + Vdelta2(NoA_est)/2.0
 </ReqRef><Comment>Provides the deceleration profile based on the MRSP and deceleration factors for the given target.</Comment>
 <Parameters>
 <Parameter
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  Name="Distance"
  Guid="8f4624dd-8b20-4778-ba7f-9c3202f4412d"
 >
@@ -755,7 +755,7 @@ BaseTypes.SpeedToMS( Vest + Vdelta0() + Vdelta1(NoA_est) + Vdelta2(NoA_est)/2.0
 )(Distance)</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Speed"
+ Type="BaseTypes.Speed"
  Cacheable="TRUE"
  Default=""
  X="120"
@@ -789,7 +789,7 @@ BaseTypes.SpeedToMS( Vest + Vdelta0() + Vdelta1(NoA_est) + Vdelta2(NoA_est)/2.0
 </ReqRef><Comment>Provides the deceleration profile based on the MRSP and deceleration factors.</Comment>
 <Parameters>
 <Parameter
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  Name="Distance"
  Guid="23bddcb1-5ccf-4509-baaa-6ded3d3e37f2"
 >
@@ -819,7 +819,7 @@ BaseTypes.SpeedToMS( Vest + Vdelta0() + Vdelta1(NoA_est) + Vdelta2(NoA_est)/2.0
 ) (Distance)</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  Default=""
  X="120"
  Y="450"
@@ -833,7 +833,7 @@ BaseTypes.SpeedToMS( Vest + Vdelta0() + Vdelta1(NoA_est) + Vdelta2(NoA_est)/2.0
 <Comment>Returns the distance at which the EBD deceleration curve for a given target has the given speed.</Comment>
 <Parameters>
 <Parameter
- Type="Default.BaseTypes.Speed"
+ Type="BaseTypes.Speed"
  Name="Vest"
  Guid="5adf2764-19a7-48cf-addd-30e7791ff59f"
 >
@@ -855,7 +855,7 @@ BaseTypes.SpeedToMS( Vest + Vdelta0() + Vdelta1(NoA_est) + Vdelta2(NoA_est)/2.0
 )</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  Default=""
  Width="100"
  Height="50"
@@ -867,7 +867,7 @@ BaseTypes.SpeedToMS( Vest + Vdelta0() + Vdelta1(NoA_est) + Vdelta2(NoA_est)/2.0
 <Comment>Returns the distance at which the GUI deceleration curve for a given target has the given speed.</Comment>
 <Parameters>
 <Parameter
- Type="Default.BaseTypes.Speed"
+ Type="BaseTypes.Speed"
  Name="Vest"
  Guid="82adb4d9-0905-4248-baf0-f4f32fe28ffa"
 >

@@ -103,6 +103,10 @@
  Name="TrackAheadFree"
  Guid="ce8ea0b2-9a21-45f2-b90f-db2be131ec8b"
 >
+</NameSpaceRef><NameSpaceRef
+ Name="BrakeCommands"
+ Guid="10080934-fab8-47ef-bd9b-dc8667dba958"
+>
 </NameSpaceRef></NameSpaces>
 <Enumerations>
 <Enum
@@ -152,85 +156,6 @@
  Value=""
  Name="Intervention"
  Guid="4a408ece-65d9-422b-9c10-cc70fbeae70c"
->
-</EnumValue></Values>
-</Enum><Enum
- Default="BrakeReason.SupervisingStandstill"
- X="410"
- Y="10"
- Width="100"
- Height="50"
- Pinned="TRUE"
- Implemented="TRUE"
- Name="BrakeReason"
- Guid="0fb8e0ec-b6c6-4517-b005-253d3c0ebdea"
->
-<ReqRef
- Id="ce7d1ef1-5c76-4031-a912-dd0416fd0924"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="6b8d455d-eb79-4af0-a1a2-a854ac0ed25e"
->
-</ReqRef><Comment>Enumerates all the possible reasons for the emergency brakes to be tripped</Comment>
-<Values>
-<EnumValue
- Value=""
- Name="OrderFromRBC"
- Guid="0b225f61-844c-4a87-8946-d28a505473e4"
->
-</EnumValue><EnumValue
- Value=""
- Name="BaliseGroupMessageConsistencyProblem"
- Guid="e008b5cc-8185-4108-9ae7-3d5a8e532bcf"
->
-</EnumValue><EnumValue
- Value=""
- Name="RAMSSupervisionTriggered"
- Guid="31bfc0c1-770f-4d78-8706-6f1e43dbc5c6"
->
-</EnumValue><EnumValue
- Value=""
- Name="SpeedAndDistanceMonitoring"
- Guid="d3eeb92d-e1ef-4689-b1b2-889c691cac61"
->
-</EnumValue><EnumValue
- Value=""
- Name="SupervisingStandstill"
- Guid="dbdb40ad-af6e-4af1-9431-43d70d92385b"
->
-</EnumValue><EnumValue
- Value=""
- Name="RadioSequenceError"
- Guid="6d4ca0b1-2154-4eb7-9ea7-7e240d59ac35"
->
-</EnumValue><EnumValue
- Value=""
- Name="RadioMessageConsistencyError"
- Guid="bf743a0f-d096-463c-a36a-658f55eab25f"
->
-</EnumValue><EnumValue
- Value=""
- Name="NoRadioMessageInDueTime"
- Guid="25562908-959f-403c-8c52-1eaa49012735"
->
-</EnumValue><EnumValue
- Value=""
- Name="LSAckTimeOut"
- Guid="d35436c1-e751-4fd2-84c1-b0bb6419f2fa"
->
-</EnumValue><EnumValue
- Value=""
- Name="OSAckTimeOut"
- Guid="338ef8a2-6bf9-4cad-98c2-0181cc205fca"
->
-</EnumValue><EnumValue
- Value=""
- Name="SHAckTimeOut"
- Guid="5e8d54a2-8912-4abc-aa1a-8af63befba3a"
->
-</EnumValue><EnumValue
- Value=""
- Name="LevelTransitionTimeOut"
- Guid="5ed77a1e-e3bc-41dd-bc6f-01148d2c74f0"
 >
 </EnumValue></Values>
 </Enum></Enumerations>
@@ -298,7 +223,7 @@
 >
 </ReqRef><Comment>Represents the ERTMS/ETCS level of the train.</Comment>
 <StructureElement
- TypeName="Default.LevelDataStruct"
+ TypeName="LevelDataStruct"
  Default="LevelDataStruct
 {
     NTC =&gt; NID_NTC.NOT_APPLICABLE,
@@ -371,66 +296,6 @@ The bcd notation as required by 7.5.92 is not possible in the model. Hence we st
  Guid="05113c78-77d6-46b4-945c-774d691df742"
 >
 </ReqRef><Comment>Data state of the train running number.</Comment>
-</StructureElement></Structure><Structure
- Default=""
- X="360"
- Y="120"
- Width="100"
- Height="50"
- Pinned="TRUE"
- Implemented="TRUE"
- Name="EmergencyStopStruct"
- Guid="7b0227c8-823b-44f7-9095-f54804077a15"
->
-<ReqRef
- Id="2b2cca84-5637-4f57-be10-029b36aa0f1a"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="b3eb6b9f-b1c1-453c-9d67-32adc227b25b"
->
-</ReqRef><Comment>Represents a received emergency stop (conditional or unconditional).</Comment>
-<StructureElement
- TypeName="Boolean"
- Default="Boolean.False"
- Mode="Internal"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="IsConditional"
- Guid="885852da-4124-46b9-b30e-2dee3e29e568"
->
-<Comment>Indicates if this emergency stop is conditional or not.</Comment>
-</StructureElement><StructureElement
- TypeName="Messages.NID_EM"
- Default="0"
- Mode="Internal"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Id"
- Guid="8348abbd-53c8-4857-9938-7fb0f933f091"
->
-<ReqRef
- Id="ce7d1ef1-5c76-4031-a912-dd0416fd0924"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="82e334c9-325e-4b85-a43f-f2a5ebb174b2"
->
-</ReqRef><Comment>The id of the emergency stop.</Comment>
-</StructureElement><StructureElement
- TypeName="Default.BaseTypes.Distance"
- Default=""
- Mode="Internal"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="StopLocation"
- Guid="fc9c12ce-a392-4872-b338-33898df64176"
->
-<Comment>The stop location of this emergency stop.</Comment>
-</StructureElement><StructureElement
- TypeName="BrakeReason"
- Default=""
- Mode="Internal"
- Implemented="TRUE"
- Name="Reason"
- Guid="3f89f43d-554f-45d9-b2ea-ad274c34225c"
->
 </StructureElement></Structure><Structure
  Default=""
  X="200"
@@ -574,7 +439,7 @@ The bcd notation as required by 7.5.92 is not possible in the model. Hence we st
 >
 </ReqRef><Comment>Structure of the elements supervised for the end of the override function.</Comment>
 <StructureElement
- TypeName="Default.BaseTypes.Time"
+ TypeName="BaseTypes.Time"
  Default="BaseTypes.Time.Infinity"
  Mode="Internal"
  Implemented="TRUE"
@@ -588,7 +453,7 @@ The bcd notation as required by 7.5.92 is not possible in the model. Hence we st
 >
 </ReqRef><Comment>When the train reached the maximum allowed time to run with Override active (a national value), Override ends.</Comment>
 </StructureElement><StructureElement
- TypeName="Default.BaseTypes.Distance"
+ TypeName="BaseTypes.Distance"
  Default="BaseTypes.Distance.Infinity"
  Mode="Internal"
  Implemented="TRUE"
@@ -602,7 +467,7 @@ The bcd notation as required by 7.5.92 is not possible in the model. Hence we st
 >
 </ReqRef><Comment>When the train covers the maximum allowed distance to run with Override active (a national value), Override ends.</Comment>
 </StructureElement><StructureElement
- TypeName="Default.BaseTypes.Distance"
+ TypeName="BaseTypes.Distance"
  Default="BaseTypes.Distance.Infinity"
  Mode="Internal"
  Implemented="TRUE"
@@ -616,7 +481,7 @@ The bcd notation as required by 7.5.92 is not possible in the model. Hence we st
 >
 </ReqRef><Comment>When the former EOA (if the mode was SR before the driver pressed &quot;Override&quot;) is passed with the active antenna, the Override ends.</Comment>
 </StructureElement><StructureElement
- TypeName="Default.BaseTypes.Distance"
+ TypeName="BaseTypes.Distance"
  Default="BaseTypes.Distance.Infinity"
  Mode="Internal"
  Implemented="TRUE"
@@ -653,7 +518,7 @@ The bcd notation as required by 7.5.92 is not possible in the model. Hence we st
 >
 <Comment>Used for elements caracterized by a location.</Comment>
 <StructureElement
- TypeName="Default.BaseTypes.Distance"
+ TypeName="BaseTypes.Distance"
  Default="0.0"
  Mode="Internal"
  Implemented="TRUE"
@@ -676,7 +541,7 @@ The bcd notation as required by 7.5.92 is not possible in the model. Hence we st
 >
 <Comment>Used for elements characterized by a location and a length.</Comment>
 <StructureElement
- TypeName="Default.BaseTypes.Length"
+ TypeName="BaseTypes.Length"
  Default="0.0"
  Mode="Internal"
  Implemented="TRUE"
@@ -686,7 +551,7 @@ The bcd notation as required by 7.5.92 is not possible in the model. Hence we st
 >
 <Comment>Represents the length of the element.</Comment>
 </StructureElement><StructureElement
- TypeName="Default.BaseTypes.Distance"
+ TypeName="BaseTypes.Distance"
  Default="0.0"
  Mode="Internal"
  Implemented="TRUE"
@@ -704,34 +569,6 @@ The bcd notation as required by 7.5.92 is not possible in the model. Hence we st
 </Structure></Structures>
 <Collections>
 <Collection
- TypeName="EmergencyStopStruct"
- Default="[]"
- X="200"
- Y="180"
- Width="100"
- Height="50"
- Pinned="TRUE"
- Implemented="TRUE"
- Name="EmergencyStopsCol"
- Guid="9543cdba-100d-4b27-90d5-f248e12b2645"
->
-<ReqRef
- Id="2b2cca84-5637-4f57-be10-029b36aa0f1a"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="86a8a1ef-1413-4149-a201-8321cc79420a"
->
-</ReqRef><ReqRef
- Id="19082c8b-d1cc-4d23-a9da-8581737a0760"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="a005923c-ed2e-44ff-84c8-450e7870ef82"
->
-</ReqRef><ReqRef
- Id="fed0816f-33b0-4ae0-82ce-ac9e35a4efc2"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="73f066da-96ea-453a-89c4-ae5c66e9727f"
->
-</ReqRef><Comment>Collection holding structures of type Kernel.EmergencyStop</Comment>
-</Collection><Collection
  TypeName="BaliseGroup"
  MaxSize="20"
  Default="[]"
@@ -771,18 +608,6 @@ The bcd notation as required by 7.5.92 is not possible in the model. Hence we st
  Guid="5b8e157e-cc08-4e80-b8fb-5d051468dfa1"
 >
 </ReqRef><Comment>Collection of safety critical faults.</Comment>
-</Collection><Collection
- TypeName="BrakeReason"
- Default="[]"
- X="480"
- Y="120"
- Width="100"
- Height="50"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="ServiceBrakesCol"
- Guid="6669d59f-32a9-4f72-a752-3f117d072ea4"
->
 </Collection><Collection
  TypeName="LocationInterface"
  Default="[]"
@@ -7572,7 +7397,7 @@ If there are pending emergency stops, go to S130.</Comment>
 <PreConditions>
 <PreCondition
  Guid="9dc5b1d9-05dc-49e3-89a1-97efd85b048c"
->EmergencyStops == []</PreCondition></PreConditions>
+>BrakeCommands.EmergencyStops == []</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="6369faef-bf0e-4161-8a3d-8873f1c1f0ac"
@@ -7591,7 +7416,7 @@ If there are pending emergency stops, go to S130.</Comment>
 <PreConditions>
 <PreCondition
  Guid="8ea2e2cc-f1f2-415b-bca4-fe21fb4e80bb"
->EmergencyStops != []</PreCondition></PreConditions>
+>BrakeCommands.EmergencyStops != []</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="bb6f0559-f476-4f61-8234-749ad0a46b84"
@@ -7645,7 +7470,7 @@ If there are pending emergency stops, go to S130.</Comment>
 <PreConditions>
 <PreCondition
  Guid="b3a80965-8ba1-411b-bbcd-61295bb0c42b"
->EmergencyStops == []</PreCondition></PreConditions>
+>BrakeCommands.EmergencyStops == []</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="c4b36227-358d-4f92-822b-c239e4063ec8"
@@ -10649,133 +10474,6 @@ OverrideSupervision.FormerSRDistance &lt; TrainPosition.FrontEndPosition(Distanc
 </StateMachine></StateMachines>
 <Functions>
 <Function
- Type="EmergencyStopStruct"
- Default=""
- X="230"
- Y="530"
- Width="100"
- Height="50"
- Pinned="TRUE"
- Implemented="TRUE"
- Name="CreateEmergencyStop"
- Guid="ed5c4ddd-670a-414d-961c-9ef4c2963243"
->
-<ReqRef
- Id="2b2cca84-5637-4f57-be10-029b36aa0f1a"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="d1d46788-be76-4ae3-a73b-8dba6b6c10e8"
->
-</ReqRef><Comment>Creates an EmergencyStop from a Conditional or Unconditional Emergency Stop messages</Comment>
-<Parameters>
-<Parameter
- Type="Boolean"
- Name="aIsConditional"
- Guid="641cccc5-1c47-4e1e-9928-d7a0d1128dbc"
->
-</Parameter><Parameter
- Type="Messages.NID_EM"
- Name="aId"
- Guid="e5980230-2325-4db0-b47e-ba389b5f6219"
->
-</Parameter><Parameter
- Type="Default.BaseTypes.Distance"
- Name="aStopLocation"
- Guid="95bdb748-fd62-4493-beab-82cc872754c0"
->
-</Parameter></Parameters>
-<Cases>
-<Case
- Name="Value"
- Guid="d21e63ba-bec7-41f2-a0f1-e5ad05e4c49a"
->
-<Expression>EmergencyStopStruct
- {
-    Reason =&gt; BrakeReason.OrderFromRBC,
-    IsConditional =&gt; aIsConditional,
-    Id =&gt; aId,
-    StopLocation =&gt; aStopLocation
- }</Expression>
-</Case></Cases>
-</Function><Function
- Type="EmergencyStopStruct"
- Default=""
- X="450"
- Y="530"
- Width="100"
- Height="50"
- Pinned="TRUE"
- Implemented="TRUE"
- Name="ClosestStopLocation"
- Guid="60af8f56-9ae5-4e3d-b04a-709236d5e630"
->
-<ReqRef
- Id="4f290d49-e10d-41ae-a385-d9a756df04d3"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="b04396c3-8252-4401-9f39-534abc4e286e"
->
-</ReqRef><Comment>Takes a collection of Emergency Stops and returns the closest conditional emergency stop</Comment>
-<Parameters>
-<Parameter
- Type="EmergencyStopsCol"
- Name="aESCol"
- Guid="ac51e9d6-df83-443b-a2dc-d4b7dfa198c1"
->
-</Parameter></Parameters>
-<Cases>
-<Case
- Name="Return the closest conditional ES"
- Guid="6504658f-9677-4b71-97ed-e60c579ccab0"
->
-<Expression>REDUCE aESCol | ( X.Reason == BrakeReason.OrderFromRBC AND X.IsConditional )
-    USING X IN MinEmergencyStopDistance( EmergencyStop1 =&gt; X, EmergencyStop2 =&gt; RESULT )
-INITIAL_VALUE EmergencyStopStruct
-                            {
-                                StopLocation =&gt; BaseTypes.Distance.Infinity
-                            }</Expression>
-</Case></Cases>
-</Function><Function
- Type="EmergencyStopStruct"
- Default=""
- X="340"
- Y="530"
- Width="100"
- Height="50"
- Pinned="TRUE"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="MinEmergencyStopDistance"
- Guid="760d41cd-34f8-4a83-8e8d-d49e57d0c208"
->
-<Comment>Returns the EmergencyStop item with the closest StopLocation, chosen amongst the conditional emergency stops received from the RBC</Comment>
-<Parameters>
-<Parameter
- Type="EmergencyStopStruct"
- Name="EmergencyStop1"
- Guid="9e4b6b95-8fc6-4c63-82ae-6cb3353e472b"
->
-</Parameter><Parameter
- Type="EmergencyStopStruct"
- Name="EmergencyStop2"
- Guid="96fac747-08ca-4dbf-b46c-6a0b449f934c"
->
-</Parameter></Parameters>
-<Cases>
-<Case
- Name="First emergency stop is closer"
- Guid="b6da9bf5-c399-43a3-9512-93fc756fa03f"
->
-<PreConditions>
-<PreCondition
- Guid="d6a8ab20-c3ba-4803-81b5-94d9115414fd"
->EmergencyStop1.StopLocation &lt; EmergencyStop2.StopLocation</PreCondition></PreConditions>
-<Expression>EmergencyStop1</Expression>
-</Case><Case
- Name="Otherwise"
- Guid="da188692-c1fd-43cd-9f56-3e4f3ed573be"
->
-<Expression>EmergencyStop2</Expression>
-</Case></Cases>
-</Function><Function
  Type="Boolean"
  Default=""
  X="120"
@@ -10964,7 +10662,7 @@ INITIAL_VALUE EmergencyStopStruct
  Guid="9b053e48-7d17-4dc9-8668-fba83515bc52"
 >
 </Parameter><Parameter
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  Name="anAdditionalDistance"
  Guid="89778873-c3aa-422e-91e6-cc64e4937f87"
 >
@@ -10988,12 +10686,12 @@ INITIAL_VALUE EmergencyStopStruct
 >
 <Parameters>
 <Parameter
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  Name="aLocation"
  Guid="8673483e-16de-43eb-a5cc-8c8cab50a60c"
 >
 </Parameter><Parameter
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  Name="anAdditionalDistance"
  Guid="c788ee6c-0003-47e9-bc04-de9421ec50ea"
 >
@@ -11468,188 +11166,6 @@ ActiveFunctions.SuperviseTrainSpeed_MRSP()</PreCondition><PreCondition
 <Action
  Guid="5298da62-c34c-4732-a368-5c9e79af8089"
 >SpeedAndDistanceMonitoring.StopMonitoring()</Action></Actions>
-</RuleCondition></Conditions>
-</Rule></Rules>
-</Procedure><Procedure
- X="670"
- Y="610"
- Width="100"
- Height="50"
- Pinned="TRUE"
- Implemented="TRUE"
- Name="AddEmergencyStop"
- Guid="ceb27117-9325-44f7-88ca-b8341a1a09d6"
->
-<ReqRef
- Id="2b2cca84-5637-4f57-be10-029b36aa0f1a"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="4195cc84-95a8-4f19-ac0f-26a5d2694cb3"
->
-</ReqRef><ReqRef
- Id="c3434cd8-a28d-4f6f-9aff-3f72b485a528"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="d622edaf-ffd8-40b0-b71c-b535341b6463"
->
-</ReqRef><Comment>Adds an emergency stop item to the list from a conditional emergency stop message or from an unconditional emergency stop message.</Comment>
-<Parameters>
-<Parameter
- Type="Messages.MESSAGE.TRACK_TO_TRAIN.Message"
- Name="aMessage"
- Guid="b1406273-1565-491b-b8e1-82c7a2f264b3"
->
-</Parameter></Parameters>
-<Rules>
-<Rule
- Priority="Processing"
- Implemented="TRUE"
- Name="Add emergency stop"
- Guid="7482b271-0036-4a99-8046-791fdabca1e8"
->
-<Comment>Received emergency stops are added to a list containing the ID and reason or each emergency stop</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Add Conditional Emergency Stop"
- Guid="17059008-89b6-4e10-a7e3-9938cfc666eb"
->
-<Comment>Adds the conditional emergency stop received in the RBC message</Comment>
-<PreConditions>
-<PreCondition
- Guid="e240d531-4475-416c-bb30-c3574d5dcda4"
->Available ( aMessage.CONDITIONAL_EMERGENCY_STOP )</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="9a5fa779-e4b0-4c4a-b5bf-584bb7826348"
->INSERT
-CreateEmergencyStop (
-    aIsConditional =&gt; Boolean.True,
-    aId =&gt; aMessage.CONDITIONAL_EMERGENCY_STOP.NID_EM,
-    aStopLocation =&gt; MessageTypes.QScaleDistance (
-        distance =&gt; aMessage.CONDITIONAL_EMERGENCY_STOP.D_EMERGENCYSTOP,
-        scale =&gt; aMessage.CONDITIONAL_EMERGENCY_STOP.Q_SCALE
-     )
- )
-
-IN
-EmergencyStops</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- Name="Add Unconditional Emergency Stop"
- Guid="ca987d81-cf62-4efd-b7b6-f4b669f0f48e"
->
-<Comment>Adds the unconditional emergency stop received in the RBC message</Comment>
-<PreConditions>
-<PreCondition
- Guid="ba56b109-d68e-48b6-8d69-8c00d3011ebf"
->Available ( aMessage.UNCONDITIONAL_EMERGENCY_STOP )</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="f4288555-85c3-46ca-85a6-a4a6c45ca5e7"
->INSERT
-CreateEmergencyStop (
-    aIsConditional =&gt; Boolean.False,
-    aId =&gt; aMessage.UNCONDITIONAL_EMERGENCY_STOP.NID_EM,
-    aStopLocation =&gt; 0.0
- )
-
-IN
-EmergencyStops</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- Implemented="TRUE"
- Name="Display emergency stops"
- Guid="4268dff1-3142-445f-81e3-f146701a7451"
->
-<ReqRef
- Id="c3434cd8-a28d-4f6f-9aff-3f72b485a528"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="124f7681-01bf-4cba-ad11-122aa21910a8"
->
-</ReqRef><Comment>The received emergency stops are displayed to the driver</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Display emergency stops"
- Guid="eb963954-587d-4ac4-8ee7-64cca604e788"
->
-<PreConditions>
-</PreConditions>
-<Actions>
-<Action
- Guid="2f4ad37d-fe37-4706-8e7a-4d05f4ffae50"
->DMI.MasterDMI().Out_AcceptedEmergencyStops.Display()</Action></Actions>
-</RuleCondition></Conditions>
-</Rule></Rules>
-</Procedure><Procedure
- X="780"
- Y="610"
- Width="100"
- Height="50"
- Pinned="TRUE"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="RemoveEmergencyStop"
- Guid="f336793a-dd82-40af-b8d5-efe066418065"
->
-<Comment>Remove the emergency stop from the list.</Comment>
-<Parameters>
-<Parameter
- Type="Messages.NID_EM"
- Name="aId"
- Guid="bdba32de-72c1-49b0-a2df-7f1a7ea0acb4"
->
-</Parameter></Parameters>
-<Rules>
-<Rule
- Priority="Processing"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Remove emergency stop from the list"
- Guid="038fc7be-b42d-40e9-81ef-b47310f0a49e"
->
-<Comment>Remove the stored emergency stop with the provided ID.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Remove emergency stop from the list"
- Guid="3def3988-ff76-4cd0-94db-b21625735b26"
->
-<PreConditions>
-</PreConditions>
-<Actions>
-<Action
- Guid="eb928e38-b0ef-4a1d-8bc9-6a68b0de2c13"
->REMOVE ALL X.Id == aId IN EmergencyStops</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Remove driver notification for empty list"
- Guid="fe50f981-7c59-47b7-b6b0-a1f72c7f1116"
->
-<Comment>If this empties the list of emergency stops, the notification to the driver is removed.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Remove driver notification for empty list"
- Guid="2c54b49c-05a7-4cce-b224-8b4cacb10cdb"
->
-<PreConditions>
-<PreCondition
- Guid="ed27c8f0-85f6-4b6b-a0a1-49ed462fa9b1"
->FORALL X IN EmergencyStops | X.Reason != BrakeReason.OrderFromRBC</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="e2602b9e-3c0d-4aac-a5bf-d0678874da0e"
->DMI.MasterDMI().Out_AcceptedEmergencyStops.OutputInformation.DoNotDisplay()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -12206,150 +11722,6 @@ JRU.SendNewMessage(JRU.JRU1)</PreCondition></PreConditions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
- X="450"
- Y="610"
- Width="100"
- Height="50"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="ApplySBCommand"
- Guid="5a495d62-a2ef-479c-a3b7-11df30c8c67c"
->
-<Comment>Adds a new SB command to the list of SB commands and applies the SB brake.</Comment>
-<Parameters>
-<Parameter
- Type="BrakeReason"
- Name="Command"
- Guid="a5c11b88-65cd-4366-9e8b-7b131dc64ed3"
->
-</Parameter></Parameters>
-<Rules>
-<Rule
- Priority="Processing"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Add if not present"
- Guid="ec11b3ba-2c81-42d4-9855-519dca1f21cd"
->
-<Comment>Add the specified SB command into the list of SB commands (only if the specified command is not present in that list).</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Add if not present"
- Guid="5884d6e5-3bb9-42f2-8e7c-fd5b7d5f55be"
->
-<PreConditions>
-<PreCondition
- Guid="c7497b8b-3030-47ee-a3a3-f9eb29a145f9"
->NOT THERE_IS X IN ServiceBrakeCommands | X == Command</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="64ab9c81-b890-4cad-a60e-97c4f903ec11"
->INSERT Command IN ServiceBrakeCommands</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Apply service brake"
- Guid="15e7d76d-06e8-4b8e-ba23-45581c13f259"
->
-<Comment>Apply the SB.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Apply service brake"
- Guid="76e82511-e7bb-4f0b-aefb-906009db8b37"
->
-<PreConditions>
-</PreConditions>
-<Actions>
-<Action
- Guid="d1b15984-7f88-4de5-b646-340cf09b706b"
->TIU.CommandServiceBrake( brakeSet =&gt; True )</Action></Actions>
-</RuleCondition></Conditions>
-</Rule></Rules>
-</Procedure><Procedure
- X="560"
- Y="610"
- Width="100"
- Height="50"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="RemoveSBCommand"
- Guid="09f7fe8a-1a47-4e68-97e6-b24cb889655e"
->
-<ReqRef
- Id="c4b29bf1-b564-4981-9967-9bc22c91b8f9"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="fc1a78db-902f-419e-a94e-55bff1098421"
->
-</ReqRef><ReqRef
- Id="33d6b46d-2f8a-4411-8e48-aa43acd4cce3"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="757762f4-7296-4aba-9fa3-ec0c47c4c755"
->
-</ReqRef><Comment>Removes the specified SB command.</Comment>
-<Parameters>
-<Parameter
- Type="BrakeReason"
- Name="Command"
- Guid="9fc434a0-e53e-4ee8-95b2-a9dd17195ade"
->
-</Parameter></Parameters>
-<Rules>
-<Rule
- Priority="Processing"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Delete from SB commands"
- Guid="caee3add-47e5-4262-aee0-5b811736ed66"
->
-<Comment>Remove the specified SB command from the list of SB commands.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Delete from SB commands"
- Guid="12f7528c-7738-41cf-abd0-ffafacc69e5c"
->
-<PreConditions>
-</PreConditions>
-<Actions>
-<Action
- Guid="38d53262-df6c-44d6-b1c6-41d228de97e8"
->REMOVE FIRST X == Command IN ServiceBrakeCommands</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- Implemented="TRUE"
- Name="Release SB if all the commands are deleted"
- Guid="2f6d4e79-cb45-4b0a-84d3-550de253d9a4"
->
-<Comment>If all the SB commands were removed, release the SB brake.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Release SB if all the commands are deleted"
- Guid="b1de203a-3e96-4524-ac84-49432e8b3bc9"
->
-<PreConditions>
-<PreCondition
- Guid="700ff52c-030d-40fb-96f6-2f1b8b7660e4"
->ServiceBrakeCommands == []</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="99971623-f14d-4e7b-943d-cc5eb194599b"
->TIU.CommandServiceBrake( brakeSet =&gt; False )</Action></Actions>
-</RuleCondition></Conditions>
-</Rule></Rules>
-</Procedure><Procedure
  X="230"
  Y="610"
  Width="100"
@@ -12467,7 +11839,7 @@ JRU.SendNewMessage(JRU.JRU1)</PreCondition></PreConditions>
 <Comment>Handles the level changes.</Comment>
 <Parameters>
 <Parameter
- Type="Default.LevelDataStruct"
+ Type="LevelDataStruct"
  Name="aLevel"
  Guid="de7a8125-2f80-45ef-9ff1-b7e2a5595ddc"
 >
@@ -12651,42 +12023,7 @@ JRU.SendNewMessage(JRU.JRU1)</PreCondition></PreConditions>
  Guid="6c3a18c6-85a4-4324-822d-6b1faaf9e5fe"
 >
 </ReqRef></Variable><Variable
- Type="EmergencyStopsCol"
- DefaultValue=""
- VariableMode="Internal"
- X="10"
- Y="180"
- Width="100"
- Height="50"
- Pinned="TRUE"
- Implemented="TRUE"
- Name="EmergencyStops"
- Guid="13961675-22c5-406e-905d-a628ef0abf5a"
->
-<ReqRef
- Id="2b2cca84-5637-4f57-be10-029b36aa0f1a"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="ff0f661b-1ff8-4d89-b9c3-9920c2e5be19"
->
-<Comment>Store the emergency stop messages for reference</Comment>
-</ReqRef><ReqRef
- Id="19082c8b-d1cc-4d23-a9da-8581737a0760"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="ff01a9c0-064c-49da-9e3c-7e0a6350c0c7"
->
-</ReqRef><ReqRef
- Id="3e7cc969-494c-45a5-b39a-09b8d70e8ee3"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="3ee345c2-0b99-4b40-8956-1b00f302aabf"
->
-</ReqRef><ReqRef
- Id="8bf47cec-0b77-42d2-b42f-49c0c29dbcec"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="a52fdbc3-f937-4ba4-b42e-e622867cc194"
->
-</ReqRef><Comment>This holds all the different emergency stop messages the train currently has.</Comment>
-</Variable><Variable
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  DefaultValue=""
  VariableMode="Internal"
  X="900"
@@ -12810,7 +12147,7 @@ JRU.SendNewMessage(JRU.JRU1)</PreCondition></PreConditions>
 >
 </ReqRef><Comment>Indicates if the train has started a mission.</Comment>
 </Variable><Variable
- Type="Default.BaseTypes.Time"
+ Type="BaseTypes.Time"
  DefaultValue="0.34"
  VariableMode="Internal"
  X="790"
@@ -12873,7 +12210,7 @@ JRU.SendNewMessage(JRU.JRU1)</PreCondition></PreConditions>
 >
 </ReqRef><Comment>Indicates if the train data was validated by the driver.</Comment>
 </Variable><Variable
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  DefaultValue="300.0"
  VariableMode="Constant"
  X="790"
@@ -12941,20 +12278,6 @@ JRU.SendNewMessage(JRU.JRU1)</PreCondition></PreConditions>
  Guid="3e3e788d-551a-408d-8658-bedfe6e02eca"
 >
 </ReqRef><Comment>The detected safety critical faults that need to be handled.</Comment>
-</Variable><Variable
- Type="ServiceBrakesCol"
- DefaultValue="[]"
- VariableMode="Internal"
- X="630"
- Y="120"
- Width="100"
- Height="50"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="ServiceBrakeCommands"
- Guid="61248a07-d7a9-462c-b84e-8b9fbf6afbc0"
->
-<Comment>The list of current events that trigger the service brake.</Comment>
 </Variable><Variable
  Type="OverrideStruct"
  DefaultValue=""
@@ -13181,42 +12504,6 @@ When the rear end of the train passes the start of the profiles, the message is 
 <Action
  Guid="1cb44512-e85f-49fd-b1d2-d6050b977813"
 >DMI.MasterDMI().Out_EntryInFsOs.OutputInformation.DoNotDisplay()</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- X="670"
- Y="690"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="Display brake reason"
- Guid="620ca4e2-a41d-40ed-bcb7-c86a3d0a2888"
->
-<ReqRef
- Id="3e7cc969-494c-45a5-b39a-09b8d70e8ee3"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="fbba527c-f509-4b37-b6b8-4c7c291fdc02"
->
-</ReqRef><Comment>In trip mode, the reason for the train trip is displayed to the driver, if available.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Display reason for TR mode"
- Guid="1da3a6c2-3279-4f23-b795-09b96bfb7ae0"
->
-<PreConditions>
-<PreCondition
- Guid="db698431-04ed-49bb-b877-65c637a29172"
->Mode == Default.Mode.TR</PreCondition><PreCondition
- Guid="9b89c340-ef51-4c14-bb62-8a7b2d72fba4"
->EmergencyStops != []</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="a3fc4c17-da7a-44f6-a07b-e0a9591ad4dc"
->DMI.MasterDMI().Out_TripReason.Display(
-    reason =&gt; (FIRST X IN EmergencyStops).Reason
-)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"

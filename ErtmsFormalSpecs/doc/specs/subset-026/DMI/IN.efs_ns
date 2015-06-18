@@ -120,7 +120,7 @@
 <Comment>Initiate the ERTMS ETCS Level request</Comment>
 <Parameters>
 <Parameter
- Type="Default.LevelDataStruct"
+ Type="LevelDataStruct"
  Name="Level"
  Guid="0c2d6225-8fb1-4915-8f1c-716d41ef8e54"
 >
@@ -135,7 +135,7 @@
  Guid="8c30120f-4f34-4693-bb84-825087b2c539"
 >
 </Parameter><Parameter
- Type="Default.Levels"
+ Type="Levels"
  Name="NTCLevels"
  Guid="6bac262c-8687-468e-a35d-a0d9954f82d8"
 >
@@ -214,7 +214,7 @@
 </Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
- TypeName="InputInformation"
+ TypeName="DMI.InputInformation"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -224,7 +224,7 @@
 >
 <Comment>Provides information about this request status</Comment>
 </StructureElement><StructureElement
- TypeName="Default.LevelDataStruct"
+ TypeName="LevelDataStruct"
  Default=""
  Mode="Incoming"
  Implemented="TRUE"
@@ -234,7 +234,7 @@
 >
 <Comment>This is the level proposed to the driver and, after the driver has selected a level, the one that has been selected</Comment>
 </StructureElement><StructureElement
- TypeName="DriverAction"
+ TypeName="DMI.DriverAction"
  Default=""
  Mode="Outgoing"
  Implemented="TRUE"
@@ -244,7 +244,7 @@
 >
 <Comment>Provides the available driver actions (enter / revalidate)</Comment>
 </StructureElement><StructureElement
- TypeName="Default.Levels"
+ TypeName="Levels"
  Default="[]"
  Mode="Outgoing"
  Implemented="TRUE"
@@ -373,7 +373,7 @@
 </Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
- TypeName="InputInformation"
+ TypeName="DMI.InputInformation"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -383,7 +383,7 @@
 >
 <Comment>Request Status</Comment>
 </StructureElement><StructureElement
- TypeName="Default.Language"
+ TypeName="Language"
  Default=""
  Mode="Incoming"
  Implemented="TRUE"
@@ -512,7 +512,7 @@
 </Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
- TypeName="InputInformation"
+ TypeName="DMI.InputInformation"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -655,7 +655,7 @@
 </Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
- TypeName="InputInformation"
+ TypeName="DMI.InputInformation"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -795,7 +795,7 @@
 </Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
- TypeName="InputInformation"
+ TypeName="DMI.InputInformation"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -933,7 +933,7 @@
 </Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
- TypeName="InputInformation"
+ TypeName="DMI.InputInformation"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -1064,7 +1064,7 @@
 </Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
- TypeName="InputInformation"
+ TypeName="DMI.InputInformation"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -1192,7 +1192,7 @@
 </Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
- TypeName="InputInformation"
+ TypeName="DMI.InputInformation"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -1346,7 +1346,7 @@
 </Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
- TypeName="InputInformation"
+ TypeName="DMI.InputInformation"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -1476,7 +1476,7 @@
 </Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
- TypeName="InputInformation"
+ TypeName="DMI.InputInformation"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -1618,7 +1618,7 @@
 </Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
- TypeName="InputInformation"
+ TypeName="DMI.InputInformation"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -1682,7 +1682,7 @@
 <Actions>
 <Action
  Guid="62fd7a18-4152-4c77-84ab-a04f6e72c0f6"
->Kernel.ApplySBCommand(Kernel.BrakeReason.LevelTransitionTimeOut)</Action><Action
+>Kernel.BrakeCommands.ApplySBCommand(Kernel.BrakeCommands.BrakeReason.LevelTransitionTimeOut)</Action><Action
  Guid="6c4365a6-3ad1-45f9-9345-7c142dece26e"
 >StartTime &lt;- BaseTypes.Time.NA</Action></Actions>
 </RuleCondition></Conditions>
@@ -1748,11 +1748,11 @@
 <PreConditions>
 <PreCondition
  Guid="188a9d02-c244-4384-914e-7b38ba3387a5"
->TIU.ServiceBrakeCommanded</PreCondition></PreConditions>
+>TIU.Brakes.ServiceBrakes.Commanded()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="fb3a834b-5301-4613-b62c-7cb025633ba8"
->Kernel.RemoveSBCommand(Kernel.BrakeReason.LevelTransitionTimeOut)</Action></Actions>
+>Kernel.BrakeCommands.RemoveSBCommand(Kernel.BrakeCommands.BrakeReason.LevelTransitionTimeOut)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition></Conditions>
@@ -1808,7 +1808,7 @@
 </ReqRef><Comment>Allows to initiate the request</Comment>
 <Parameters>
 <Parameter
- Type="Default.LevelDataStruct"
+ Type="LevelDataStruct"
  Name="Level"
  Guid="a2575882-c585-47b2-b62d-129a8a319646"
 >
@@ -1858,7 +1858,7 @@
 </Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
- TypeName="InputInformation"
+ TypeName="DMI.InputInformation"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -1868,7 +1868,7 @@
 >
 <Comment>Provides information about the request status</Comment>
 </StructureElement><StructureElement
- TypeName="Default.LevelDataStruct"
+ TypeName="LevelDataStruct"
  Default=""
  Mode="Outgoing"
  Implemented="TRUE"
@@ -1877,7 +1877,7 @@
 >
 <Comment>Contains the information about which is the level to perform the transition</Comment>
 </StructureElement><StructureElement
- TypeName="Default.BaseTypes.Time"
+ TypeName="BaseTypes.Time"
  Default="BaseTypes.Time.NA"
  Mode="Internal"
  Implemented="TRUE"
@@ -2023,7 +2023,7 @@
 </Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
- TypeName="InputInformation"
+ TypeName="DMI.InputInformation"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -2168,7 +2168,7 @@
 </Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
- TypeName="InputInformation"
+ TypeName="DMI.InputInformation"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -2306,7 +2306,7 @@
 </Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
- TypeName="InputInformation"
+ TypeName="DMI.InputInformation"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -2451,7 +2451,7 @@
 </Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
- TypeName="InputInformation"
+ TypeName="DMI.InputInformation"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -2461,7 +2461,7 @@
 >
 <Comment>The request status</Comment>
 </StructureElement><StructureElement
- TypeName="Default.BaseTypes.Speed"
+ TypeName="BaseTypes.Speed"
  Default="0.0"
  Mode="Outgoing"
  Implemented="TRUE"
@@ -2476,7 +2476,7 @@
 >
 </ReqRef><Comment>The speed to acknowledge</Comment>
 </StructureElement><StructureElement
- TypeName="Default.BaseTypes.Distance"
+ TypeName="BaseTypes.Distance"
  Default="0.0"
  Mode="Outgoing"
  Implemented="TRUE"
@@ -2635,7 +2635,7 @@
 </Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
- TypeName="InputInformation"
+ TypeName="DMI.InputInformation"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -2774,7 +2774,7 @@
 </Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
- TypeName="InputInformation"
+ TypeName="DMI.InputInformation"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -2929,7 +2929,7 @@
 </Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
- TypeName="InputInformation"
+ TypeName="DMI.InputInformation"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -2949,7 +2949,7 @@
 >
 <Comment>Represents the train running number. This sub-element&apos;s mode is In/Out because it can be sent by the kernel to the DMI in order to validate the stored information or by the DMI to Kernel in order to update the train running number stored on-board.</Comment>
 </StructureElement><StructureElement
- TypeName="DriverAction"
+ TypeName="DMI.DriverAction"
  Default=""
  Mode="Outgoing"
  Implemented="TRUE"
@@ -3053,7 +3053,7 @@
 <Comment>Allows to initiate the Ack of SN mode</Comment>
 <Parameters>
 <Parameter
- Type="Default.NID_NTC"
+ Type="NID_NTC"
  Name="NationalSystemId"
  Guid="d3360296-4a1a-47fe-ae79-3322dea62e65"
 >
@@ -3093,7 +3093,7 @@
 </Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
- TypeName="InputInformation"
+ TypeName="DMI.InputInformation"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -3103,7 +3103,7 @@
 >
 <Comment>The request status</Comment>
 </StructureElement><StructureElement
- TypeName="Default.NID_NTC"
+ TypeName="NID_NTC"
  Default=""
  Mode="Outgoing"
  Implemented="TRUE"
@@ -3248,7 +3248,7 @@
 </Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
- TypeName="InputInformation"
+ TypeName="DMI.InputInformation"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -3423,7 +3423,7 @@
 </Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
- TypeName="InputInformation"
+ TypeName="DMI.InputInformation"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -3443,7 +3443,7 @@
 >
 <Comment>Represents the driver id. This sub-element&apos;s mode is In/Out because it can be sent by the kernel to the DMI in order to validate the stored information or by the DMI to Kernel in order to update the driver id stored on-board.</Comment>
 </StructureElement><StructureElement
- TypeName="DriverAction"
+ TypeName="DMI.DriverAction"
  Default=""
  Mode="Outgoing"
  Implemented="TRUE"
@@ -3644,7 +3644,7 @@
 </Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
- TypeName="InputInformation"
+ TypeName="DMI.InputInformation"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -3858,7 +3858,7 @@
 </Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
- TypeName="InputInformation"
+ TypeName="DMI.InputInformation"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -3931,7 +3931,7 @@
 <Actions>
 <Action
  Guid="0032d2ab-08bf-4c4f-ab15-68154487a311"
->Kernel.ApplySBCommand(Kernel.BrakeReason.LSAckTimeOut)</Action><Action
+>Kernel.BrakeCommands.ApplySBCommand(Kernel.BrakeCommands.BrakeReason.LSAckTimeOut)</Action><Action
  Guid="6f491ad8-ba42-4a4e-8984-12fd94d47199"
 >StartTime &lt;- BaseTypes.Time.NA</Action></Actions>
 </RuleCondition></Conditions>
@@ -4002,11 +4002,11 @@
 <PreConditions>
 <PreCondition
  Guid="8aabeab3-afc1-42ca-9b2c-cad529ebca08"
->TIU.ServiceBrakeCommanded</PreCondition></PreConditions>
+>TIU.Brakes.ServiceBrakes.Commanded()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="3a2cc182-7529-49e3-9916-9532d3bce44a"
->Kernel.RemoveSBCommand(Kernel.BrakeReason.LSAckTimeOut)</Action></Actions>
+>Kernel.BrakeCommands.RemoveSBCommand(Kernel.BrakeCommands.BrakeReason.LSAckTimeOut)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition></Conditions>
@@ -4106,7 +4106,7 @@
 </Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
- TypeName="InputInformation"
+ TypeName="DMI.InputInformation"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -4116,7 +4116,7 @@
 >
 <Comment>The status of the request</Comment>
 </StructureElement><StructureElement
- TypeName="Default.BaseTypes.Time"
+ TypeName="BaseTypes.Time"
  Default="BaseTypes.Time.NA"
  Mode="Internal"
  Implemented="TRUE"
@@ -4184,7 +4184,7 @@
 <Actions>
 <Action
  Guid="456feea0-c81d-4514-89b4-32c53ca3f5d5"
->Kernel.ApplySBCommand(Kernel.BrakeReason.OSAckTimeOut)</Action><Action
+>Kernel.BrakeCommands.ApplySBCommand(Kernel.BrakeCommands.BrakeReason.OSAckTimeOut)</Action><Action
  Guid="b1365a31-e3c0-48a6-8023-123f8107e243"
 >StartTime &lt;- BaseTypes.Time.NA</Action></Actions>
 </RuleCondition></Conditions>
@@ -4255,11 +4255,11 @@
 <PreConditions>
 <PreCondition
  Guid="178e3c68-b137-4aa5-9766-4cbc0bccf9e1"
->TIU.ServiceBrakeCommanded</PreCondition></PreConditions>
+>TIU.Brakes.ServiceBrakes.Commanded()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="a7ee2c5a-218a-4499-86a3-bbacb67e5cf3"
->Kernel.RemoveSBCommand(Kernel.BrakeReason.OSAckTimeOut)</Action></Actions>
+>Kernel.BrakeCommands.RemoveSBCommand(Kernel.BrakeCommands.BrakeReason.OSAckTimeOut)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition></Conditions>
@@ -4359,7 +4359,7 @@
 </Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
- TypeName="InputInformation"
+ TypeName="DMI.InputInformation"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -4369,7 +4369,7 @@
 >
 <Comment>The status of the request</Comment>
 </StructureElement><StructureElement
- TypeName="Default.BaseTypes.Time"
+ TypeName="BaseTypes.Time"
  Default="BaseTypes.Time.NA"
  Mode="Internal"
  Implemented="TRUE"
@@ -4437,7 +4437,7 @@
 <Actions>
 <Action
  Guid="b0b1c0a4-d1df-4954-a400-fe1668407d47"
->Kernel.ApplySBCommand(Kernel.BrakeReason.SHAckTimeOut)</Action><Action
+>Kernel.BrakeCommands.ApplySBCommand(Kernel.BrakeCommands.BrakeReason.SHAckTimeOut)</Action><Action
  Guid="8844602a-4164-40d4-9b74-80b6eecc801c"
 >StartTime &lt;- BaseTypes.Time.NA</Action></Actions>
 </RuleCondition></Conditions>
@@ -4508,11 +4508,11 @@
 <PreConditions>
 <PreCondition
  Guid="2625d89b-c74d-4ddd-81e7-ae1b5c3a666f"
->TIU.ServiceBrakeCommanded</PreCondition></PreConditions>
+>TIU.Brakes.ServiceBrakes.Commanded()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="37ca531d-d501-4938-a1e6-523aa489e1f0"
->Kernel.RemoveSBCommand(Kernel.BrakeReason.SHAckTimeOut)</Action></Actions>
+>Kernel.BrakeCommands.RemoveSBCommand(Kernel.BrakeCommands.BrakeReason.SHAckTimeOut)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition></Conditions>
@@ -4612,7 +4612,7 @@
 </Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
- TypeName="InputInformation"
+ TypeName="DMI.InputInformation"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -4622,7 +4622,7 @@
 >
 <Comment>The status of the request</Comment>
 </StructureElement><StructureElement
- TypeName="Default.BaseTypes.Time"
+ TypeName="BaseTypes.Time"
  Default="BaseTypes.Time.NA"
  Mode="Internal"
  Implemented="TRUE"
@@ -4766,7 +4766,7 @@
 </Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
- TypeName="InputInformation"
+ TypeName="DMI.InputInformation"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -4901,7 +4901,7 @@
 </Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
- TypeName="InputInformation"
+ TypeName="DMI.InputInformation"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -5036,7 +5036,7 @@
 </Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
- TypeName="InputInformation"
+ TypeName="DMI.InputInformation"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -5171,7 +5171,7 @@
 </Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
- TypeName="InputInformation"
+ TypeName="DMI.InputInformation"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -5306,7 +5306,7 @@
 </Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
- TypeName="InputInformation"
+ TypeName="DMI.InputInformation"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -5441,7 +5441,7 @@
 </Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
- TypeName="InputInformation"
+ TypeName="DMI.InputInformation"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -5577,7 +5577,7 @@
 </Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
- TypeName="InputInformation"
+ TypeName="DMI.InputInformation"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -5713,7 +5713,7 @@
 </Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
- TypeName="InputInformation"
+ TypeName="DMI.InputInformation"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -5849,7 +5849,7 @@
 </Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
- TypeName="InputInformation"
+ TypeName="DMI.InputInformation"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -5977,7 +5977,7 @@
 </Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
- TypeName="InputInformation"
+ TypeName="DMI.InputInformation"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -6106,7 +6106,7 @@
 </Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
- TypeName="InputInformation"
+ TypeName="DMI.InputInformation"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -6234,7 +6234,7 @@
 </Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
- TypeName="InputInformation"
+ TypeName="DMI.InputInformation"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -6373,7 +6373,7 @@
 </Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
- TypeName="InputInformation"
+ TypeName="DMI.InputInformation"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -6504,7 +6504,7 @@
 </Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
- TypeName="InputInformation"
+ TypeName="DMI.InputInformation"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -6514,7 +6514,7 @@
 >
 <Comment>The request status</Comment>
 </StructureElement><StructureElement
- TypeName="Default.BaseTypes.Speed"
+ TypeName="BaseTypes.Speed"
  Default="0.0"
  Mode="Outgoing"
  Implemented="TRUE"
@@ -6524,7 +6524,7 @@
 >
 <Comment>The speed to acknowledge</Comment>
 </StructureElement><StructureElement
- TypeName="Default.BaseTypes.Distance"
+ TypeName="BaseTypes.Distance"
  Default="0.0"
  Mode="Outgoing"
  Implemented="TRUE"

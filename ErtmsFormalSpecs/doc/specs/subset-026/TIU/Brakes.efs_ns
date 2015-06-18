@@ -1,0 +1,42 @@
+<NameSpace
+ X="140"
+ Y="20"
+ Width="100"
+ Height="50"
+ Name="Brakes"
+ Guid="34e8e541-83ab-4b8d-a084-a275ccb9e0ea"
+>
+<NameSpaces>
+<NameSpaceRef
+ Name="EmergencyBrakes"
+ Guid="83de58a4-138d-4e68-9695-8241674bf752"
+>
+</NameSpaceRef><NameSpaceRef
+ Name="ServiceBrakes"
+ Guid="5ea7f68a-f3c6-41e1-b712-3b8a5b43cfd8"
+>
+</NameSpaceRef></NameSpaces>
+<Functions>
+<Function
+ Type="Boolean"
+ Default=""
+ Width="100"
+ Height="50"
+ Name="BrakeCommanded"
+ Guid="bc1cda6d-c1cd-4eb2-83a6-5e97c19ceb4a"
+>
+<ReqRef
+ Id="fb80787f-cd4c-4a33-82fd-ed9a873bf58c"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c40d7026-6f99-4528-be63-40ed90a10815"
+>
+</ReqRef><Comment>Indicates that any brake is commanded</Comment>
+<Cases>
+<Case
+ Name="Always"
+ Guid="74152fd8-1b44-46ec-a959-c94b1b32439c"
+>
+<Expression>EmergencyBrakes.Commanded() OR ServiceBrakes.Commanded()</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>

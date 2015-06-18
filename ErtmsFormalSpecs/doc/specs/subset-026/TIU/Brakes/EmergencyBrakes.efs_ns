@@ -1,0 +1,137 @@
+<NameSpace
+ X="110"
+ Y="60"
+ Width="100"
+ Height="50"
+ Name="EmergencyBrakes"
+ Guid="8811d0c3-efef-461d-b017-aecaec2e0965"
+>
+<NameSpaces>
+</NameSpaces>
+<Functions>
+<Function
+ Type="Boolean"
+ Default=""
+ X="30"
+ Y="160"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="Commanded"
+ Guid="2f81aaf8-6867-4fdb-9fca-5ecff25cf2be"
+>
+<ReqRef
+ Id="2b2cca84-5637-4f57-be10-029b36aa0f1a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="bbb4afa5-e6b8-4213-a5b9-8923784d7374"
+>
+</ReqRef><ReqRef
+ Id="fb41e572-9cb9-4c36-8844-8019df4bd95e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b4d7e7d6-020f-4e74-a4b7-77e96af15382"
+>
+</ReqRef><ReqRef
+ Id="b19b213b-b887-4ef8-b210-439b95753041"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f932f846-f957-4227-b24a-07a6449341a2"
+>
+</ReqRef><ReqRef
+ Id="f26aa00e-0ded-4d0d-bed9-58813a2d45eb"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="06414421-a2c6-41b5-8826-b268570abfeb"
+>
+</ReqRef><ReqRef
+ Id="e0714dd3-9891-467d-9584-cfde98bcc4fc"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9e05d541-a917-44b8-ab31-28ed2c25d514"
+>
+</ReqRef><ReqRef
+ Id="987011eb-4ef7-491c-8292-26c140669ff8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9402c134-044f-4a0d-b776-0215b36f4210"
+>
+</ReqRef><ReqRef
+ Id="d5c3e2f6-7747-4faf-95c2-ec06309fe9ac"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="fada2318-5142-4736-9dd9-64f601d00b8a"
+>
+</ReqRef><ReqRef
+ Id="458c52b6-b128-424e-b29e-05cf4a057a91"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c6a9c94f-187d-4481-bbaf-a57b705f30c0"
+>
+</ReqRef><ReqRef
+ Id="07aa4451-7a3c-41ac-8176-3eab54039e3c"
+ SpecId="33a01dd1-de78-4ea3-9e96-a198d1a29277"
+ Guid="9ceeb9ee-52d1-45dc-a331-a88b5d8d4309"
+>
+</ReqRef><Comment>Indicates whether the EB is commanded</Comment>
+<Cases>
+<Case
+ Name="Always"
+ Guid="76f42d3c-2d8e-41a3-94a1-f3805216d01e"
+>
+<Expression>SpeedAndDistanceRelatedEB OR ModeRelatedEB OR SRandNotStandstill
+</Expression>
+</Case></Cases>
+</Function></Functions>
+<Variables>
+<Variable
+ Type="Boolean"
+ VariableMode="Internal"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="ModeRelatedEB"
+ Guid="4b727370-ee7e-43d0-8ef8-135f5f3f265c"
+>
+<ReqRef
+ Id="8aacc5c1-b1bc-4b80-b068-82d6acb6bc59"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="1c1acffa-0439-45a8-99d5-37baead2a771"
+>
+</ReqRef><Comment>Indicates that the EB is set according to the mode</Comment>
+</Variable><Variable
+ Type="Boolean"
+ VariableMode="Internal"
+ X="110"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="SpeedAndDistanceRelatedEB"
+ Guid="4a4dbf16-ff60-4f63-b34f-1d9193311452"
+>
+<ReqRef
+ Id="987011eb-4ef7-491c-8292-26c140669ff8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9d3a971c-dd4c-40af-9d11-8c2d05509c6e"
+>
+</ReqRef><ReqRef
+ Id="e0714dd3-9891-467d-9584-cfde98bcc4fc"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="1b30ab1f-bad7-4d2d-b811-fe5e940b45b3"
+>
+</ReqRef><ReqRef
+ Id="f26aa00e-0ded-4d0d-bed9-58813a2d45eb"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="51f50b66-a0a0-4e20-9434-1aa9817e80b3"
+>
+</ReqRef><Comment>Indicates that the EB is set according to speed and distance monitoring</Comment>
+</Variable><Variable
+ Type="Boolean"
+ VariableMode="Internal"
+ X="220"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="SRandNotStandstill"
+ Guid="54d86a1c-ec65-4fef-b19a-c503cf127d1f"
+>
+<ReqRef
+ Id="a527b959-0a75-42e2-a5d7-aa805d764a9e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b6fd19d8-5271-4b54-b238-7984f53ddd18"
+>
+</ReqRef><Comment>Indicates that the EB is commanded due to the fact that the train is moving and entering SR mode (permitted speed and distance to run).</Comment>
+</Variable></Variables>
+</NameSpace>

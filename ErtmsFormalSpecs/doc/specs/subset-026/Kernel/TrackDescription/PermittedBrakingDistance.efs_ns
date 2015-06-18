@@ -37,7 +37,7 @@
 >
 </ReqRef><Comment>Represents a speed restriction to ensure permitted braking distance.</Comment>
 <StructureElement
- TypeName="Default.BaseTypes.Distance"
+ TypeName="BaseTypes.Distance"
  Default="0.0"
  Mode="Internal"
  Implemented="TRUE"
@@ -50,7 +50,7 @@
  Guid="a966914c-62fc-4780-8c66-82812e8e0f01"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="Default.BaseTypes.Length"
+ TypeName="BaseTypes.Length"
  Default="0.0"
  Mode="Internal"
  Implemented="TRUE"
@@ -63,7 +63,7 @@
  Guid="346c6365-ded8-411a-9145-e4363ed58fc4"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="Default.BaseTypes.Speed"
+ TypeName="BaseTypes.Speed"
  Default="0.0"
  Mode="Internal"
  Implemented="TRUE"
@@ -72,7 +72,7 @@
  Guid="786f9486-a6b3-4963-a237-83bdfa2c8241"
 >
 </StructureElement><StructureElement
- TypeName="Default.BaseTypes.Gradient"
+ TypeName="BaseTypes.Gradient"
  Default="0.0"
  Mode="Internal"
  Implemented="TRUE"
@@ -98,7 +98,7 @@
  Guid="95fc612c-34ff-4545-873c-4092264fa4e3"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="Default.BaseTypes.Distance"
+ TypeName="BaseTypes.Distance"
  Default="0.0"
  Mode="Internal"
  Implemented="TRUE"
@@ -141,7 +141,7 @@
  Guid="0f9f8452-842e-4f9a-9b11-e4082079edcc"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="Default.BaseTypes.Distance"
+ TypeName="BaseTypes.Distance"
  Default="0.0"
  Mode="Internal"
  Implemented="TRUE"
@@ -223,22 +223,22 @@
 </ReqRef><Comment>Creates a new speed restriction to ensure permitted braking distance.</Comment>
 <Parameters>
 <Parameter
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  Name="Location"
  Guid="8a3fe94e-0b07-4e78-ac40-152eece069a4"
 >
 </Parameter><Parameter
- Type="Default.BaseTypes.Length"
+ Type="BaseTypes.Length"
  Name="Length"
  Guid="c9e0a857-4edc-4a30-b4de-4c47c97b1fab"
 >
 </Parameter><Parameter
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  Name="PermittedBrakingDistance"
  Guid="9ed4fb41-7caf-4f1d-a650-eea9c8d86186"
 >
 </Parameter><Parameter
- Type="Default.BaseTypes.Gradient"
+ Type="BaseTypes.Gradient"
  Name="Gradient"
  Guid="90200558-cac3-47b1-bed3-059689e38ef1"
 >
@@ -264,7 +264,7 @@
 }</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Speed"
+ Type="BaseTypes.Speed"
  Default=""
  X="120"
  Y="250"
@@ -317,12 +317,12 @@
 </ReqRef><Comment>Computes the permitted speed for a speed restriction to ensure permitted braking distance.</Comment>
 <Parameters>
 <Parameter
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  Name="PermittedBrakingDistance"
  Guid="8c3c1d97-0e20-43d2-bd6d-70486581351d"
 >
 </Parameter><Parameter
- Type="Default.BaseTypes.Gradient"
+ Type="BaseTypes.Gradient"
  Name="Gradient"
  Guid="1b8c19c7-e7e5-4fa9-8f8c-d56294ae35f7"
 >
@@ -357,7 +357,7 @@
 )</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Speed"
+ Type="BaseTypes.Speed"
  Default=""
  X="230"
  Y="250"
@@ -390,12 +390,12 @@
 </ReqRef><Comment>Computes SB ceiling speed intervention value for a speed restriction to ensure permitted braking distance.</Comment>
 <Parameters>
 <Parameter
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  Name="PermittedBrakingDistance"
  Guid="3fe2a803-b212-4030-affa-1a99a5c9ff82"
 >
 </Parameter><Parameter
- Type="Default.BaseTypes.Gradient"
+ Type="BaseTypes.Gradient"
  Name="Gradient"
  Guid="035c5457-66f1-437d-b55e-7bf9056a9282"
 >
@@ -411,7 +411,7 @@
 )</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  Default=""
  X="120"
  Y="310"
@@ -454,12 +454,12 @@
 </ReqRef><Comment>Provides the distance travelled during the time elapsed between the Emergency brake intervention and the full application of the braking effort.</Comment>
 <Parameters>
 <Parameter
- Type="Default.BaseTypes.Speed"
+ Type="BaseTypes.Speed"
  Name="V_PBD"
  Guid="88a3ad4a-103b-4e84-b8c1-2509d26f5507"
 >
 </Parameter><Parameter
- Type="Default.BaseTypes.Speed"
+ Type="BaseTypes.Speed"
  Name="dV"
  Guid="8524eab8-3ef9-46c6-acb8-3c0cdbefe540"
 >
@@ -472,7 +472,7 @@
 <Expression>BaseTypes.SpeedToMS( V_PBD + dV + Vdelta0PBD(V_PBD) ) * ( SpeedAndDistanceMonitoring.DecelerationCurves.T_traction(True) + SpeedAndDistanceMonitoring.DecelerationCurves.T_berem(True) )</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Speed"
+ Type="BaseTypes.Speed"
  Default=""
  X="340"
  Y="310"
@@ -510,7 +510,7 @@
 </ReqRef><Comment>Provides the value of Vdelta0 for speed restrictions to ensure permitted braking distance.</Comment>
 <Parameters>
 <Parameter
- Type="Default.BaseTypes.Speed"
+ Type="BaseTypes.Speed"
  Name="V_PBD"
  Guid="cf3822cd-3178-49e6-a46d-c0f600a54143"
 >
@@ -532,7 +532,7 @@
 <Expression>SpeedAndDistanceMonitoring.f41(V_PBD)</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Acceleration"
+ Type="BaseTypes.Acceleration"
  Default=""
  X="10"
  Y="190"
@@ -585,17 +585,17 @@
 </ReqRef><Comment>Computes the safe deceleration of the train, with gradient 0.</Comment>
 <Parameters>
 <Parameter
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  Name="d"
  Guid="5ba89e8d-d904-4e28-a126-f873efb6867b"
 >
 </Parameter><Parameter
- Type="Default.BaseTypes.Speed"
+ Type="BaseTypes.Speed"
  Name="V"
  Guid="368784ff-fe45-40af-b9af-3b3acc4146ac"
 >
 </Parameter><Parameter
- Type="Default.BaseTypes.Gradient"
+ Type="BaseTypes.Gradient"
  Name="Gradient"
  Guid="ad610295-3eb0-4d5d-babd-ffbfc8186b48"
 >
@@ -620,7 +620,7 @@
 (d, V)</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Acceleration"
+ Type="BaseTypes.Acceleration"
  Default=""
  X="230"
  Y="190"
@@ -693,17 +693,17 @@
  Guid="ad9ff0e8-6784-4bcb-8310-c6ee0f1274dd"
 >
 </Parameter><Parameter
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  Name="d"
  Guid="6ad193c2-7fb9-44e0-9404-703569bfc21a"
 >
 </Parameter><Parameter
- Type="Default.BaseTypes.Speed"
+ Type="BaseTypes.Speed"
  Name="V"
  Guid="87ea9f1c-57cc-4716-ba4e-f7aebac9bcf4"
 >
 </Parameter><Parameter
- Type="Default.BaseTypes.Gradient"
+ Type="BaseTypes.Gradient"
  Name="Gradient"
  Guid="25fc3bc1-4f88-4ead-8ee1-6f6f0f67ed2b"
 >
@@ -733,7 +733,7 @@
 <Expression>( MIN ( A_brake_safe (V), NationalValues.A_MAXREDADH () ) + A_gradient(Gradient) ) (V)</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Acceleration"
+ Type="BaseTypes.Acceleration"
  Default=""
  X="120"
  Y="190"
@@ -771,17 +771,17 @@
 </ReqRef><Comment>Computes the value of A_safe for normal adhesion conditions with gradient 0.</Comment>
 <Parameters>
 <Parameter
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  Name="d"
  Guid="b3dbb352-f33b-46ea-a90a-bd92dc1095ee"
 >
 </Parameter><Parameter
- Type="Default.BaseTypes.Speed"
+ Type="BaseTypes.Speed"
  Name="V"
  Guid="3233c94f-0f10-451f-bc10-c796eb0e0f2b"
 >
 </Parameter><Parameter
- Type="Default.BaseTypes.Gradient"
+ Type="BaseTypes.Gradient"
  Name="Gradient"
  Guid="22af61f1-eb6a-4c30-9475-b213da74018e"
 >
@@ -794,7 +794,7 @@
 <Expression>A_brake_safe (V) + A_gradient(Gradient)</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Acceleration"
+ Type="BaseTypes.Acceleration"
  Default=""
  X="340"
  Y="190"
@@ -847,12 +847,12 @@
 </ReqRef><Comment>Provides the value of the expected deceleration of the train, with gradient 0.</Comment>
 <Parameters>
 <Parameter
- Type="Default.BaseTypes.Speed"
+ Type="BaseTypes.Speed"
  Name="V"
  Guid="581285a2-d199-4610-a3df-8ec1d08eec82"
 >
 </Parameter><Parameter
- Type="Default.BaseTypes.Gradient"
+ Type="BaseTypes.Gradient"
  Name="Gradient"
  Guid="ee6092e5-e433-4498-bf57-431f11c65b03"
 >
@@ -878,7 +878,7 @@
 <Expression>Kernel.TrainData.BrakingParameters.ConversionModel.A_brake_service ( V ) + A_gradient(Gradient)</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Speed"
+ Type="BaseTypes.Speed"
  Default=""
  X="10"
  Y="250"
@@ -911,7 +911,7 @@
 </ReqRef><Comment>Provides the speed profile due to speed restrictions to ensure permitted braking distance.</Comment>
 <Parameters>
 <Parameter
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  Name="Distance"
  Guid="78111422-c910-44bf-8e2e-42bb5506c2b6"
 >
@@ -928,7 +928,7 @@
 INITIAL_VALUE BaseTypes.MaxSpeedFunction ) (Distance)</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Speed"
+ Type="BaseTypes.Speed"
  Default=""
  X="450"
  Y="310"
@@ -947,7 +947,7 @@ INITIAL_VALUE BaseTypes.MaxSpeedFunction ) (Distance)</Expression>
  Guid="ada73484-df4f-465a-9111-63fb7a01cdf8"
 >
 </Parameter><Parameter
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  Name="Distance"
  Guid="9642ec10-c6d1-4384-82e4-2424852c1b64"
 >
@@ -971,7 +971,7 @@ INITIAL_VALUE BaseTypes.MaxSpeedFunction ) (Distance)</Expression>
 <Expression>BaseTypes.Speed.MaxSpeed</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Acceleration"
+ Type="BaseTypes.Acceleration"
  Default=""
  X="560"
  Y="190"
@@ -989,7 +989,7 @@ INITIAL_VALUE BaseTypes.MaxSpeedFunction ) (Distance)</Expression>
 </ReqRef><Comment>Returns the acceleration due to the provided gradient, with compensation for nominal rotating mass</Comment>
 <Parameters>
 <Parameter
- Type="Default.BaseTypes.Gradient"
+ Type="BaseTypes.Gradient"
  Name="Gradient"
  Guid="1c15b776-3692-4568-8037-92b0bd69109f"
 >
@@ -1002,7 +1002,7 @@ INITIAL_VALUE BaseTypes.MaxSpeedFunction ) (Distance)</Expression>
 <Expression>BaseTypes.Acceleration.g * Gradient.CompensateGradientWithRotatingMass(Gradient)</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Acceleration"
+ Type="BaseTypes.Acceleration"
  Default=""
  X="450"
  Y="190"
@@ -1085,7 +1085,7 @@ INITIAL_VALUE BaseTypes.MaxSpeedFunction ) (Distance)</Expression>
 </ReqRef><Comment>Computes the safe emergency brake deceleration. Its value can be computed from the information provided by the Train Data or from the Conversion Model.</Comment>
 <Parameters>
 <Parameter
- Type="Default.BaseTypes.Speed"
+ Type="BaseTypes.Speed"
  Name="V"
  Guid="ee8bef9e-7b94-4b71-92d2-6b44883c63e6"
 >
@@ -1117,7 +1117,7 @@ TrainData.BrakingParameters.Default_brk_emergency(V)</Expression>
 <Expression>BaseTypes.Acceleration ( NationalValues.Kv_int ( V ) * NationalValues.Kr_int ( TrainData.TrainData.Value.TrainLength ) ) * Kernel.TrainData.BrakingParameters.ConversionModel.A_brake_emergency ( V )</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Speed"
+ Type="BaseTypes.Speed"
  Default=""
  X="340"
  Y="250"
@@ -1176,12 +1176,12 @@ Also, as d_offset+D_bec increases, V_PBD increases and V_EBD decreases.
 If the first condition is not satisfied for V_PBD = 0, or if V_EBD is less than V_PBD for the smallest value of d_offset+D_bec, then there will be no solution to the second inequality and the function returns 0, otherwise we look for the value that solves the first inequality in equation form.</Comment>
 <Parameters>
 <Parameter
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  Name="d_PBD"
  Guid="0ffad4a2-4cae-4d59-942f-0a3e19c37a3c"
 >
 </Parameter><Parameter
- Type="Default.BaseTypes.Gradient"
+ Type="BaseTypes.Gradient"
  Name="Gradient"
  Guid="189643af-1122-459e-ad10-b7dc07a80538"
 >
@@ -1224,7 +1224,7 @@ STOP_CONDITION
     BaseTypes.AbsoluteSpeed ( CURRENT - PREVIOUS ) &lt;= epsilon</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  Default=""
  X="230"
  Y="310"
@@ -1247,7 +1247,7 @@ STOP_CONDITION
 </ReqRef><Comment>Returns the offset between the train&apos;s antenna at the time the Balise was read and the front end position when the brakes are applied.</Comment>
 <Parameters>
 <Parameter
- Type="Default.BaseTypes.Speed"
+ Type="BaseTypes.Speed"
  Name="V"
  Guid="9f141ce0-217c-4265-a31b-a38d7aafbf63"
 >
@@ -1260,7 +1260,7 @@ STOP_CONDITION
 <Expression>BTM.ActiveAntennaPosition + BaseTypes.SpeedToMS( V ) * T41</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Speed"
+ Type="BaseTypes.Speed"
  Default=""
  X="450"
  Y="250"
@@ -1333,12 +1333,12 @@ STOP_CONDITION
 </ReqRef><Comment>See comment on ComputePermittedSpeedForEB for details of the calculation</Comment>
 <Parameters>
 <Parameter
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  Name="d_PBD"
  Guid="9da7a53c-5268-40e3-bb24-b643ceec4b01"
 >
 </Parameter><Parameter
- Type="Default.BaseTypes.Gradient"
+ Type="BaseTypes.Gradient"
  Name="Gradient"
  Guid="de89272a-1993-47f3-be2f-23b1462c95ff"
 >
@@ -1376,7 +1376,7 @@ STOP_CONDITION
     BaseTypes.AbsoluteSpeed ( CURRENT - PREVIOUS ) &lt;= epsilon</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Speed"
+ Type="BaseTypes.Speed"
  Default=""
  X="560"
  Y="250"
@@ -1444,12 +1444,12 @@ STOP_CONDITION
 </ReqRef><Comment>See comment on ComputePermittedSpeedForEB for details of the calculation</Comment>
 <Parameters>
 <Parameter
- Type="Default.BaseTypes.Gradient"
+ Type="BaseTypes.Gradient"
  Name="Gradient"
  Guid="d8b06889-dda5-4233-946c-059f9f33780b"
 >
 </Parameter><Parameter
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  Name="d_PBD"
  Guid="2b0023a7-6217-485f-879e-e19f0dbe65e1"
 >
@@ -1487,7 +1487,7 @@ STOP_CONDITION
     BaseTypes.AbsoluteSpeed ( CURRENT - PREVIOUS ) &lt;= epsilon</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Speed"
+ Type="BaseTypes.Speed"
  Default=""
  X="10"
  Y="370"
@@ -1520,12 +1520,12 @@ STOP_CONDITION
 </ReqRef><Comment>Iteratively calculates the value of V_PBD from the EBD curve</Comment>
 <Parameters>
 <Parameter
- Type="Default.BaseTypes.Speed"
+ Type="BaseTypes.Speed"
  Name="V_previous"
  Guid="a28559f0-0dcb-4e89-98f6-ef3ea795c3d8"
 >
 </Parameter><Parameter
- Type="Default.BaseTypes.Gradient"
+ Type="BaseTypes.Gradient"
  Name="Gradient"
  Guid="02142f39-90ff-4971-90b9-8dfad21c0a4f"
 >
@@ -1547,7 +1547,7 @@ STOP_CONDITION
  - Vdelta0PBD(V_previous)</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Speed"
+ Type="BaseTypes.Speed"
  Default=""
  X="120"
  Y="370"
@@ -1575,12 +1575,12 @@ STOP_CONDITION
 </ReqRef><Comment>Calculates V_PBD iteratively (for the SBD) in the case when it is to be achieved with the service brake</Comment>
 <Parameters>
 <Parameter
- Type="Default.BaseTypes.Speed"
+ Type="BaseTypes.Speed"
  Name="V_previous"
  Guid="42b8f8bb-6b14-4ecb-9965-e1aba1c8e5cb"
 >
 </Parameter><Parameter
- Type="Default.BaseTypes.Gradient"
+ Type="BaseTypes.Gradient"
  Name="Gradient"
  Guid="a5bd25f5-7aba-40a6-b71f-93db1e5aa804"
 >
@@ -1601,7 +1601,7 @@ STOP_CONDITION
 )( d_offset(V_previous + SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_sbi(V_previous)) + ( V_previous + SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_sbi(V_previous) ) * SpeedAndDistanceMonitoring.TargetSpeedMonitoring.T_bs1 )</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Speed"
+ Type="BaseTypes.Speed"
  Default=""
  X="230"
  Y="370"
@@ -1634,12 +1634,12 @@ STOP_CONDITION
 </ReqRef><Comment>Calculates V_PBD iteratively (for the EBD) in the case when it is to be achieved with the service brake</Comment>
 <Parameters>
 <Parameter
- Type="Default.BaseTypes.Speed"
+ Type="BaseTypes.Speed"
  Name="V_previous"
  Guid="3d98fdd9-64a3-4b17-9205-ba0f5b28da50"
 >
 </Parameter><Parameter
- Type="Default.BaseTypes.Gradient"
+ Type="BaseTypes.Gradient"
  Name="Gradient"
  Guid="3917eae1-23e9-479d-93d2-2a9f523468f9"
 >
@@ -1887,22 +1887,22 @@ ON
 <Comment>Adds a new speed restriction to the speed restriction profile.</Comment>
 <Parameters>
 <Parameter
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  Name="Location"
  Guid="39537a4c-f5e3-4a14-a4c5-c6a17f8acfd2"
 >
 </Parameter><Parameter
- Type="Default.BaseTypes.Length"
+ Type="BaseTypes.Length"
  Name="Length"
  Guid="dbc83436-90e5-4b67-9deb-f077f0efac48"
 >
 </Parameter><Parameter
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  Name="PermittedBrakingDistance"
  Guid="5ee54604-5acc-4e67-be72-2db366245110"
 >
 </Parameter><Parameter
- Type="Default.BaseTypes.Gradient"
+ Type="BaseTypes.Gradient"
  Name="Gradient"
  Guid="40b22e6d-6438-49d5-a9c5-f88099f19811"
 >
@@ -2015,7 +2015,7 @@ IN SpeedRestrictionsProfile.SpeedRestrictions</Action></Actions>
 </ReqRef><Comment>Deletes the PBD profile information beyond the provided location.</Comment>
 <Parameters>
 <Parameter
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  Name="aLocation"
  Guid="4fae866a-ade5-47ab-b348-0f6a648243cf"
 >
@@ -2188,7 +2188,7 @@ SpeedRestrictionsProfile.SpeedRestrictions != []</PreCondition></PreConditions>
 >
 </ReqRef><Comment>Keeps the previous value of the National Value, Compensation for speed inaccuracy inhibited</Comment>
 </Variable><Variable
- Type="Default.BaseTypes.Time"
+ Type="BaseTypes.Time"
  DefaultValue="1.0"
  VariableMode="Internal"
  X="670"
@@ -2207,7 +2207,7 @@ SpeedRestrictionsProfile.SpeedRestrictions != []</PreCondition></PreConditions>
 </ReqRef><Comment>Delay between receiving a Balise message and applying the emergency brake.
 Value provided by Subset-041, paragraph 5.2.1.1</Comment>
 </Variable><Variable
- Type="Default.BaseTypes.Speed"
+ Type="BaseTypes.Speed"
  DefaultValue="1.0"
  VariableMode="Internal"
  X="780"

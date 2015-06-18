@@ -375,7 +375,7 @@ If the RBC does not send a consistent message within the period T_NVCONTACT, the
  Guid="1927d6d3-b902-49fb-8659-ba192ce507d3"
 >Kernel.DateAndTime.CurrentTime &gt; OnboardReference_MessageTimer + Kernel.NationalValues.ApplicableNationalValues.Value.MaxTimeSinceCreationInTheRBCOfLastReceivedTelegram</PreCondition><PreCondition
  Guid="48586d1f-c5f2-41a2-a230-9552e9516335"
->NOT THERE_IS BrakeCommand IN Kernel.ServiceBrakeCommands | BrakeCommand == Kernel.BrakeReason.NoRadioMessageInDueTime</PreCondition><PreCondition
+>NOT THERE_IS BrakeCommand IN Kernel.BrakeCommands.ServiceBrakeCommands | BrakeCommand == Kernel.BrakeCommands.BrakeReason.NoRadioMessageInDueTime</PreCondition><PreCondition
  Guid="047d557f-5809-47bc-bd4b-a2ebcda881e8"
 >ContactTimerSupervised</PreCondition></PreConditions>
 <Actions>
@@ -411,13 +411,13 @@ Keep the reason for it to be displayed to the driver.</Comment>
  Guid="35c7ae19-379e-4fe1-9f80-bbfeed7fb8e3"
 >TrainTripDueToMaxTimeBetweenMessagesExceeded &lt;- True</Action><Action
  Guid="df2fb773-415b-49bc-8066-df20f0a0c275"
->INSERT Kernel.EmergencyStopStruct{
+>INSERT Kernel.BrakeCommands.EmergencyStopStruct{
     IsConditional =&gt; False,
     Id =&gt; 0,
     StopLocation =&gt; 0.0,
-    Reason =&gt; Kernel.BrakeReason.NoRadioMessageInDueTime
+    Reason =&gt; Kernel.BrakeCommands.BrakeReason.NoRadioMessageInDueTime
 }
-IN Kernel.EmergencyStops</Action></Actions>
+IN Kernel.BrakeCommands.EmergencyStops</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Apply service brake"
@@ -437,7 +437,7 @@ Keep the reason for it to be displayed to the driver.</Comment>
 <Actions>
 <Action
  Guid="f97da9de-0e29-4726-9112-51860fdea0f0"
->Kernel.ApplySBCommand(Kernel.BrakeReason.NoRadioMessageInDueTime)</Action></Actions>
+>Kernel.BrakeCommands.ApplySBCommand(Kernel.BrakeCommands.BrakeReason.NoRadioMessageInDueTime)</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="No reaction"
@@ -476,7 +476,7 @@ Keep the reason for it to be displayed to the driver.</Comment>
 <PreConditions>
 <PreCondition
  Guid="c5a8af33-3e15-4fc3-97f7-d563354a6ec6"
->THERE_IS BrakeCommand IN Kernel.ServiceBrakeCommands | BrakeCommand == Kernel.BrakeReason.NoRadioMessageInDueTime
+>THERE_IS BrakeCommand IN Kernel.BrakeCommands.ServiceBrakeCommands | BrakeCommand == Kernel.BrakeCommands.BrakeReason.NoRadioMessageInDueTime
 
   AND  
 
@@ -488,7 +488,7 @@ Available(MessageIn)
 <Actions>
 <Action
  Guid="ec756cc9-1422-4ce1-9f0c-f25195a8d5c9"
->Kernel.RemoveSBCommand(Kernel.BrakeReason.NoRadioMessageInDueTime)</Action></Actions>
+>Kernel.BrakeCommands.RemoveSBCommand(Kernel.BrakeCommands.BrakeReason.NoRadioMessageInDueTime)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Verification"
@@ -2282,7 +2282,7 @@ NOT IncomingMessageIsConsistent(MessageIn)</PreCondition></PreConditions>
 </ReqRef><Comment>Sends the message indicating that the shortened MA is granted.</Comment>
 <Parameters>
 <Parameter
- Type="Default.MessageTypes.Time"
+ Type="MessageTypes.Time"
  Name="TimeStamp"
  Guid="54af5444-8191-4280-b5d4-60f99316da84"
 >
@@ -2344,7 +2344,7 @@ NOT IncomingMessageIsConsistent(MessageIn)</PreCondition></PreConditions>
 </ReqRef><Comment>Sends the message indicating that the shortened MA is rejected.</Comment>
 <Parameters>
 <Parameter
- Type="Default.MessageTypes.Time"
+ Type="MessageTypes.Time"
  Name="TimeStamp"
  Guid="b9c1c363-b714-43c5-ac5d-f3de0a693de2"
 >
@@ -2531,7 +2531,7 @@ NOT IncomingMessageIsConsistent(MessageIn)</PreCondition></PreConditions>
 >
 <Comment>Data needed to establish a communication session.</Comment>
 </StructureElement><StructureElement
- TypeName="Default.BaseTypes.Time"
+ TypeName="BaseTypes.Time"
  Default="0.0"
  Mode="Internal"
  Implemented="TRUE"
@@ -2571,7 +2571,7 @@ NOT IncomingMessageIsConsistent(MessageIn)</PreCondition></PreConditions>
 - establishing of  a safe radio connection
 - termination the communication session</Comment>
 </StructureElement><StructureElement
- TypeName="Default.BaseTypes.Time"
+ TypeName="BaseTypes.Time"
  Default="BaseTypes.Time.Infinity"
  Mode="Internal"
  Implemented="TRUE"
@@ -2608,7 +2608,7 @@ NOT IncomingMessageIsConsistent(MessageIn)</PreCondition></PreConditions>
 >
 <Comment>In case of RBC/RBC handover with two simultaneous connections, this flag indicates which RBC is the main one. In the beginning of the handover the main RBC is the Handing Over RBC, but after the transfer of train supervision to the Accepting RBC, the latter becomes the main RBC.</Comment>
 </StructureElement><StructureElement
- TypeName="Default.BaseTypes.Time"
+ TypeName="BaseTypes.Time"
  Default="BaseTypes.Time.NA"
  Mode="Internal"
  Implemented="TRUE"
@@ -4620,7 +4620,7 @@ Aftter a defined number of repetitions, if no acknowledgement is received from t
 >
 </ReqRef><Comment>Indicates whether the order applies also to Sleeping units.</Comment>
 </StructureElement><StructureElement
- TypeName="Default.BaseTypes.Distance"
+ TypeName="BaseTypes.Distance"
  Default="BaseTypes.Distance.Unknown"
  Mode="Internal"
  Implemented="TRUE"
@@ -5438,7 +5438,7 @@ After that, if an order to contact an Accepting RBC was received, it will be han
 >
 </ReqRef><Comment>Allows to request the list of available and allowed networkds, based on a request to the Mobile Terminal(s).</Comment>
 <StructureElement
- TypeName="Default.Request"
+ TypeName="Request"
  Default="Request.Disabled"
  Mode="Internal"
  Implemented="TRUE"
@@ -7913,7 +7913,7 @@ Terminal1.RBCConnection.SafeRadioConnectionStatus == SafeRadioConnectionStatusEn
  Guid="cc9777a1-c95d-4abd-9469-632ab302b08b"
 >Available ( aMessage.MOVEMENT_AUTHORITY )</PreCondition><PreCondition
  Guid="0a1244f7-fc1f-4b75-b7ab-0ca339366842"
->NOT (THERE_IS X IN Kernel.EmergencyStops | X.Reason == Kernel.BrakeReason.OrderFromRBC)</PreCondition></PreConditions>
+>NOT (THERE_IS X IN Kernel.BrakeCommands.EmergencyStops | X.Reason == Kernel.BrakeCommands.BrakeReason.OrderFromRBC)</PreCondition></PreConditions>
 <Actions>
 </Actions>
 <SubRules>
@@ -8209,7 +8209,7 @@ Terminal1.RBCConnection.SafeRadioConnectionStatus == SafeRadioConnectionStatusEn
  Guid="324ed534-7ece-4d2d-83d2-634f8405934d"
 >Available ( aMessage.REQUEST_TO_SHORTEN_MA )</PreCondition><PreCondition
  Guid="ac3c42b9-2925-4f5d-a63b-8248eade008e"
->NOT (THERE_IS X IN Kernel.EmergencyStops | X.Reason == Kernel.BrakeReason.OrderFromRBC)</PreCondition></PreConditions>
+>NOT (THERE_IS X IN Kernel.BrakeCommands.EmergencyStops | X.Reason == Kernel.BrakeCommands.BrakeReason.OrderFromRBC)</PreCondition></PreConditions>
 <Actions>
 </Actions>
 <SubRules>
@@ -8416,7 +8416,7 @@ MessageTypes.QScaleDistance(
 <Actions>
 <Action
  Guid="13e508f8-8fd5-4eab-af3b-ebd073c96e70"
->Kernel.AddEmergencyStop( aMessage )</Action><Action
+>Kernel.BrakeCommands.AddEmergencyStop( aMessage )</Action><Action
  Guid="0c732be4-110b-4fc8-97df-216421d855ca"
 >Kernel.HandlingOfAcceptedAndStoredInformation.ConditionalEmergencyStopExecuted &lt;- True</Action></Actions>
 </RuleCondition><RuleCondition
@@ -8474,7 +8474,7 @@ MessageTypes.QScaleDistance(
 <Actions>
 <Action
  Guid="14b50c09-3233-48b7-8e73-bbdeae756ac9"
->Kernel.AddEmergencyStop( aMessage )</Action></Actions>
+>Kernel.BrakeCommands.AddEmergencyStop( aMessage )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="UpdateINTERNAL"
@@ -8637,7 +8637,7 @@ MessageTypes.QScaleDistance(
  Guid="4b26ec5f-a027-4caa-bca8-cd8c1bb56153"
 >Available ( aMessage.MA_WITH_SHIFTED_LOCATION_REFERENCE )</PreCondition><PreCondition
  Guid="1d3581de-d6a2-4ce9-aa78-ab337178f1a0"
->NOT (THERE_IS X IN Kernel.EmergencyStops | X.Reason == Kernel.BrakeReason.OrderFromRBC)</PreCondition></PreConditions>
+>NOT (THERE_IS X IN Kernel.BrakeCommands.EmergencyStops | X.Reason == Kernel.BrakeCommands.BrakeReason.OrderFromRBC)</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="4f874ce0-62dc-4762-ae3b-b8e6efe9f83b"
@@ -8797,7 +8797,7 @@ MessageTypes.QScaleDistance(
  Guid="2218137b-5a46-48c7-996e-77239bd0276d"
 >Available ( aMessage.INFILL_MA )</PreCondition><PreCondition
  Guid="ef9e6dde-adf6-4d12-a2ca-7091646da7e6"
->NOT (THERE_IS X IN Kernel.EmergencyStops | X.Reason == Kernel.BrakeReason.OrderFromRBC)</PreCondition></PreConditions>
+>NOT (THERE_IS X IN Kernel.BrakeCommands.EmergencyStops | X.Reason == Kernel.BrakeCommands.BrakeReason.OrderFromRBC)</PreCondition></PreConditions>
 <Actions>
 </Actions>
 <SubRules>
@@ -9846,7 +9846,7 @@ But at the end of the cycle the conditions required for sending of position repo
  Guid="bda35355-3c76-4016-a9da-f08035e0829f"
 >
 </Parameter><Parameter
- Type="Default.MessageTypes.Time"
+ Type="MessageTypes.Time"
  Name="Time"
  Guid="3c06eb6f-b270-4cdc-ba27-ac3485ff984f"
 >
@@ -10252,7 +10252,7 @@ But at the end of the cycle the conditions required for sending of position repo
 </Procedure></Procedures>
 <Variables>
 <Variable
- Type="Default.BaseTypes.Time"
+ Type="BaseTypes.Time"
  DefaultValue="15.0"
  VariableMode="Constant"
  X="1090"
@@ -10509,7 +10509,7 @@ But at the end of the cycle the conditions required for sending of position repo
 >
 </ReqRef><Comment>System versions supported by the on-board.</Comment>
 </Variable><Variable
- Type="Default.BaseTypes.Time"
+ Type="BaseTypes.Time"
  DefaultValue="300.0"
  VariableMode="Constant"
  X="970"
@@ -10532,7 +10532,7 @@ But at the end of the cycle the conditions required for sending of position repo
 >
 </ReqRef><Comment>Maximum time to maintain a communication session in case of failed re-connection attempts.</Comment>
 </Variable><Variable
- Type="Default.BaseTypes.Time"
+ Type="BaseTypes.Time"
  DefaultValue="45.0"
  VariableMode="Constant"
  X="850"
@@ -10573,7 +10573,7 @@ But at the end of the cycle the conditions required for sending of position repo
 >
 </ReqRef><Comment>Stores the messages sent by the Accepting RBC before it becomes the supervising RBC.</Comment>
 </Variable><Variable
- Type="ContactOrderStruct"
+ Type="EURORADIO.ContactOrderStruct"
  DefaultValue="EMPTY"
  VariableMode="Internal"
  X="140"
@@ -10632,7 +10632,7 @@ But at the end of the cycle the conditions required for sending of position repo
 >
 </ReqRef><Comment>Indicates that the train is curently in a radio hole. Used to determine when the train leaves a radio hole.</Comment>
 </Variable><Variable
- Type="Default.BaseTypes.Time"
+ Type="BaseTypes.Time"
  DefaultValue="60.0"
  VariableMode="Constant"
  X="850"

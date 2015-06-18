@@ -31,7 +31,7 @@
 >
 </ReqRef><Comment>Represents the information about the Last Relevant Balise Group.</Comment>
 <StructureElement
- TypeName="Position"
+ TypeName="BTM.Position"
  Default=""
  Mode="Internal"
  Implemented="TRUE"
@@ -75,7 +75,7 @@
 >
 </ReqRef><Comment>Indicates of the orientation of the LRBG can be determined.</Comment>
 </StructureElement><StructureElement
- TypeName="Default.DateAndTime"
+ TypeName="DateAndTime"
  Default=""
  Mode="Internal"
  Implemented="TRUE"
@@ -98,7 +98,7 @@
 >
 <Comment>Saves the information provided by the odometry at the moment where a balise group is passed. Used to compute the position, over and under reading amount relative to that balise group.</Comment>
 <StructureElement
- TypeName="Default.BaseTypes.Distance"
+ TypeName="BaseTypes.Distance"
  Default="0.0"
  Mode="Internal"
  Implemented="TRUE"
@@ -108,7 +108,7 @@
 >
 <Comment>Estimated position of the train.</Comment>
 </StructureElement><StructureElement
- TypeName="Default.BaseTypes.Length"
+ TypeName="BaseTypes.Length"
  Default="0.0"
  Mode="Internal"
  Implemented="TRUE"
@@ -118,7 +118,7 @@
 >
 <Comment>The under-reading amount.</Comment>
 </StructureElement><StructureElement
- TypeName="Default.BaseTypes.Length"
+ TypeName="BaseTypes.Length"
  Default="0.0"
  Mode="Internal"
  Implemented="TRUE"
@@ -185,7 +185,7 @@
 >
 <Comment>Keeps the location and time of passage over the location reference of a Balise group.</Comment>
 <StructureElement
- TypeName="Position"
+ TypeName="BTM.Position"
  Default=""
  Mode="Internal"
  Implemented="TRUE"
@@ -194,7 +194,7 @@
  Guid="b15b81c8-faa3-40b9-adf3-745bf7b8b4ff"
 >
 </StructureElement><StructureElement
- TypeName="Default.DateAndTime"
+ TypeName="DateAndTime"
  Default=""
  Mode="Internal"
  Implemented="TRUE"
@@ -274,7 +274,7 @@ b) is just a placeholder for a missed balise.</Comment>
 </Collection></Collections>
 <Functions>
 <Function
- Type="Default.BaseTypes.Length"
+ Type="BaseTypes.Length"
  Default=""
  X="260"
  Y="80"
@@ -533,7 +533,7 @@ b) is just a placeholder for a missed balise.</Comment>
 }</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.Orientation"
+ Type="Orientation"
  Default=""
  X="370"
  Y="80"
@@ -899,7 +899,7 @@ If the train direction is unknown, this function returns true only if the packet
 PacketOrientation == Messages.Q_DIR.Both_directions</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  Default=""
  X="260"
  Y="200"
@@ -918,7 +918,7 @@ PacketOrientation == Messages.Q_DIR.Both_directions</Expression>
 </ReqRef><Comment>Gives the distance between the safe front end of the train and the active antenna.</Comment>
 <Parameters>
 <Parameter
- Type="Default.DistanceInterval"
+ Type="DistanceInterval"
  Name="PointOfInterest"
  Guid="b6c13f39-419b-454b-b453-09051b6ed9cd"
 >
@@ -1303,7 +1303,7 @@ PacketOrientation == Messages.Q_DIR.Both_directions</Expression>
 <Expression>False</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  Default=""
  X="150"
  Y="320"
@@ -3046,7 +3046,7 @@ FORALL X IN Balise.Sequence1 |
  Guid="73175fa3-6e28-4a7d-af6d-805fb341b09c"
 >
 </Parameter><Parameter
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  Name="DistanceFromLRBG"
  Guid="de3e8c92-4f0c-455c-bda5-61148adb4598"
 >
@@ -3088,11 +3088,11 @@ FORALL X IN Balise.Sequence1 |
 <PreConditions>
 <PreCondition
  Guid="2d7660db-7e10-4467-b71a-c7944f926f7b"
->Kernel.EmergencyStops != []</PreCondition></PreConditions>
+>Kernel.BrakeCommands.EmergencyStops != []</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="64a5b203-43ab-41ec-b698-757a66aa1143"
->Kernel.EmergencyStops &lt;- MAP Kernel.EmergencyStops USING X IN Kernel.EmergencyStopStruct{
+>Kernel.BrakeCommands.EmergencyStops &lt;- MAP Kernel.BrakeCommands.EmergencyStops USING X IN Kernel.BrakeCommands.EmergencyStopStruct{
     IsConditional =&gt; X.IsConditional,
     Id =&gt; X.Id,
     StopLocation =&gt; X.StopLocation - DistanceFromLRBG,
@@ -3892,7 +3892,7 @@ The list is updated in case two LRBGs provide the same MRSP, this should count a
  Guid="a26ba75b-6d2a-41ca-ab13-bd5ff4eb3365"
 >
 </Parameter><Parameter
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  Name="DistanceFromLRBG"
  Guid="1710621e-09dd-41b0-bcb5-76def8b0b4e3"
 >
@@ -4500,7 +4500,7 @@ IN CurrentBaliseGroup</Action></Actions>
 The parameter DistanceFromLRBG is needed for the case when the handled BG will become the new LRBG. All stored distances in the EVC will need to be updated by this distance.</Comment>
 <Parameters>
 <Parameter
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  Name="DistanceFromLRBG"
  Guid="00cc1678-5c47-4c30-bd58-4999361f7398"
 >
@@ -4938,7 +4938,7 @@ ON CurrentBaliseGroup | BaliseTelegramToBeHandled ( X )</Action></Actions>
 </ReqRef><Comment>Check the contents of the message before the contents are handled by the on-board.</Comment>
 <Parameters>
 <Parameter
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  Name="DistanceFromLRBG"
  Guid="d26b4561-9b2c-4e0b-8088-f7fe08665fd3"
 >
@@ -5396,7 +5396,7 @@ IN CurrentBaliseGroup</Action></Actions>
 </Procedure></Procedures>
 <Variables>
 <Variable
- Type="Default.BaseTypes.Length"
+ Type="BaseTypes.Length"
  DefaultValue="0.0"
  VariableMode="Constant"
  X="560"
@@ -5440,7 +5440,7 @@ IN CurrentBaliseGroup</Action></Actions>
 >
 </ReqRef><Comment>This variable holds the balise message to be processed.</Comment>
 </Variable><Variable
- Type="BaliseGroupStruct"
+ Type="BTM.BaliseGroupStruct"
  DefaultValue="EMPTY"
  VariableMode="Internal"
  X="690"
@@ -5459,7 +5459,7 @@ IN CurrentBaliseGroup</Action></Actions>
 >
 </ReqRef><Comment>This variable holds information about the LRBG</Comment>
 </Variable><Variable
- Type="Position"
+ Type="BTM.Position"
  DefaultValue=""
  VariableMode="Internal"
  X="560"
@@ -5518,7 +5518,7 @@ IN CurrentBaliseGroup</Action></Actions>
 >
 <Comment>This variable holds the messages from the current balise group until the complete balise group has been encountered</Comment>
 </Variable><Variable
- Type="LocationReferenceStruct"
+ Type="BTM.LocationReferenceStruct"
  DefaultValue="EMPTY"
  VariableMode="Internal"
  X="440"
@@ -5548,7 +5548,7 @@ IN CurrentBaliseGroup</Action></Actions>
 >
 </ReqRef><Comment>This is the position of the first balise (N_PIG == 0) in the balise group</Comment>
 </Variable><Variable
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  DefaultValue="0.0"
  VariableMode="Internal"
  X="690"
@@ -5568,7 +5568,7 @@ IN CurrentBaliseGroup</Action></Actions>
 </ReqRef><Comment>Distance between the front end of the train and the active Eurobalise antenna.
 [stan@ertmssolutions.com] We assume that ActiveAntennaPosition &gt; 0</Comment>
 </Variable><Variable
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  DefaultValue=""
  VariableMode="Internal"
  X="940"
@@ -5582,7 +5582,7 @@ IN CurrentBaliseGroup</Action></Actions>
 >
 <Comment>Keeps the position of the last seen balise in the current group.</Comment>
 </Variable><Variable
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  DefaultValue="12.0"
  VariableMode="Constant"
  X="930"

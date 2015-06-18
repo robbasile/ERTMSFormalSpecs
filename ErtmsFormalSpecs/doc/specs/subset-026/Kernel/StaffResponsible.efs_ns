@@ -62,7 +62,7 @@
 >
 </ReqRef><Comment>Retains whether a list of BGs that can be passed in SR mode has been received.</Comment>
 </StructureElement><StructureElement
- TypeName="Default.BaseTypes.Distance"
+ TypeName="BaseTypes.Distance"
  Default="0.0"
  Mode="Internal"
  Implemented="TRUE"
@@ -79,7 +79,7 @@
 </Structure></Structures>
 <Functions>
 <Function
- Type="BaliseGroups"
+ Type="Kernel.BaliseGroups"
  Default=""
  X="20"
  Y="150"
@@ -220,7 +220,7 @@ SRAuthorisation.Location &lt;= TrainPosition.FrontEndPosition ( DistanceInterval
 (FIRST Balise IN BaliseGroup).Telegram.NID_BG == StaffResponsibleBG.NID_BG</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  Default=""
  X="20"
  Y="270"
@@ -285,7 +285,7 @@ SRAuthorisation.Location &lt;= TrainPosition.FrontEndPosition ( DistanceInterval
 <Expression>NationalValues.DefaultValues.MaxPermDistToRunInStaffResponsibleMode</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  Default=""
  X="130"
  Y="270"
@@ -316,6 +316,8 @@ SRAuthorisation.Location &lt;= TrainPosition.FrontEndPosition ( DistanceInterval
 </Function><Function
  Type="SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target"
  Default=""
+ Width="100"
+ Height="50"
  NeedsRequirement="FALSE"
  Name="SREndTarget"
  Guid="aa5f4f4b-a63b-4d9d-85d3-e39131df8298"
@@ -507,7 +509,7 @@ SRAuthorisation.Location &lt;= TrainPosition.FrontEndPosition ( DistanceInterval
 </Procedure></Procedures>
 <Variables>
 <Variable
- Type="SRStruct"
+ Type="StaffResponsible.SRStruct"
  DefaultValue="EMPTY"
  VariableMode="Internal"
  X="310"
@@ -666,6 +668,11 @@ SRAuthorisation.Location &lt;= TrainPosition.FrontEndPosition ( DistanceInterval
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="56d9d598-3e24-439d-ad48-8415359734e9"
 >
+</ReqRef><ReqRef
+ Id="4e8c1c55-62b9-4117-bfb0-fb984f83aa6b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="616a4822-2c47-4f7d-adb2-469e2a4e7649"
+>
 </ReqRef><Comment>If train movement is detected while the driver is entering new SR speed and distance information, activate the brakes.</Comment>
 <SubRules></SubRules>
 <Conditions>
@@ -676,18 +683,12 @@ SRAuthorisation.Location &lt;= TrainPosition.FrontEndPosition ( DistanceInterval
 >
 <PreConditions>
 <PreCondition
- Guid="2730f0b8-455b-4be6-b2c0-7875882680c5"
->NOT Odometry.TrainIsAtStandstill()</PreCondition><PreCondition
  Guid="0ebb6c20-ebff-423e-ae86-7373db4b82ef"
 >DMI.MasterDMI().In_SRModeSpeedLimitAndDistance.InputInformation.RequestStatus == Request.Request</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="eec5ece7-4498-4b79-8af7-6b2f2683b723"
->TIU.CommandEmergencyBrake(
-    brakeSet=&gt;True
-)</Action><Action
- Guid="2b2f0cf0-8ffd-4ac5-b69b-67424acc856f"
->ApplySBCommand(BrakeReason.SupervisingStandstill)</Action></Actions>
+>TIU.Brakes.EmergencyBrakes.SRandNotStandstill &lt;- NOT Odometry.TrainIsAtStandstill()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"

@@ -888,7 +888,7 @@ TIU.NonLeadingPermitted</Expression>
 >
 <Expression>HandleModeChange in HandleModeChangeSM.Override
   AND  
-NOT THERE_IS EmergencyStop IN EmergencyStops | (NOT EmergencyStop.IsConditional)
+NOT THERE_IS EmergencyStop IN BrakeCommands.EmergencyStops | (NOT EmergencyStop.IsConditional)
   AND  
 Level.Value.Value in [Default.Level.L2, Default.Level.L3]</Expression>
 </Case></Cases>
@@ -1673,10 +1673,10 @@ Shunting.StopShuntingOnDeskOpening</Expression>
  Name="Value"
  Guid="eb07c999-d231-4dc5-b70f-9699310621f7"
 >
-<Expression>THERE_IS X IN EmergencyStops | (
+<Expression>THERE_IS X IN BrakeCommands.EmergencyStops | (
     NOT(X.IsConditional) 
 AND 
-    X.Reason == BrakeReason.OrderFromRBC
+    X.Reason == BrakeCommands.BrakeReason.OrderFromRBC
 )</Expression>
 </Case></Cases>
 </Function><Function
@@ -2579,7 +2579,7 @@ BTM.CurrentBaliseGroup != []
 >
 <Expression>Level.Value.Value == Default.Level.L1
   AND  
-THERE_IS EmergencyStop IN EmergencyStops
+THERE_IS EmergencyStop IN BrakeCommands.EmergencyStops
   AND  
 HandleModeChange not in HandleModeChangeSM.Override</Expression>
 </Case></Cases>
@@ -6702,6 +6702,11 @@ TIU.NonLeadingPermitted</Expression>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="740eaff3-aec9-43f7-b26e-e7d06fc73111"
 >
+</ReqRef><ReqRef
+ Id="a7faf903-999e-4ba6-87e3-e88f11355da6"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="14d846a0-0590-47e5-a335-a4101e42e052"
+>
 </ReqRef><PreConditions>
 <PreCondition
  Guid="5bfa2492-6ad3-4a3c-b9e2-c0659f783065"
@@ -6713,9 +6718,7 @@ TIU.NonLeadingPermitted</Expression>
  Guid="9af31329-6766-4c1c-b1fc-c90b2e327f2f"
 >HandleModeChange &lt;- HandleModeChangeSM.TrainTrip.D110</Action><Action
  Guid="381d75e5-0bf3-48e7-aa69-24bae8454f9c"
->TIU.CommandEmergencyBrake(
-    brakeSet=&gt;False
-)</Action></Actions>
+>TIU.Brakes.EmergencyBrakes.ModeRelatedEB &lt;- Boolean.False</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="TR -&gt; SN"
@@ -7910,7 +7913,7 @@ TrainPosition.RearEndPosition(PointOfInterest =&gt; DistanceInterval.Nom) &lt; (
 <Actions>
 <Action
  Guid="12cd0b21-f7bb-489e-a62c-37d6a11a5429"
->EmergencyStops &lt;- []</Action></Actions>
+>BrakeCommands.EmergencyStops &lt;- []</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition></Conditions>
@@ -8055,36 +8058,6 @@ TrainPosition.RearEndPosition(PointOfInterest =&gt; DistanceInterval.Nom) &lt; (
 >EndOverride()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- Implemented="TRUE"
- Name="PT"
- Guid="a5cd555e-8c5c-4d1f-ab95-1e98fe4523f0"
->
-<ReqRef
- Id="a7faf903-999e-4ba6-87e3-e88f11355da6"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="10bf59db-3355-49a5-a8c0-16183ab6b52f"
->
-</ReqRef><Comment>Release the emergency brake when the mode switches to PT.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Release emergency brake"
- Guid="85da0d49-5870-41d9-9e0d-a11cd3cd56a0"
->
-<PreConditions>
-<PreCondition
- Guid="590661a1-9c69-43fd-bd8b-a9f6e58ad12d"
->Mode == Default.Mode.PT</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="fce2ce78-cae7-4636-a542-10255cd0c722"
->TIU.CommandEmergencyBrake(
-    brakeSet=&gt;False
-)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"

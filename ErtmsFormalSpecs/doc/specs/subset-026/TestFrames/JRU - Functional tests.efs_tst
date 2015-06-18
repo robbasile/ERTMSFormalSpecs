@@ -101,7 +101,7 @@
 <Actions>
 <Action
  Guid="125667fb-2011-4636-9cf7-678ee98acb0f"
->TIU.EmergencyBrakeCommanded &lt;- True</Action></Actions>
+>TIU.Brakes.EmergencyBrakes.SpeedAndDistanceRelatedEB &lt;- True</Action></Actions>
 <Expectations>
 <Expectation
  Kind="Instantaneous"
@@ -153,7 +153,7 @@
 <Actions>
 <Action
  Guid="d058c056-de67-4dea-8146-4e362aaa3633"
->TIU.EmergencyBrakeCommanded &lt;- False</Action></Actions>
+>TIU.Brakes.EmergencyBrakes.SpeedAndDistanceRelatedEB &lt;- False</Action></Actions>
 <Expectations>
 <Expectation
  Kind="Instantaneous"
@@ -3124,7 +3124,9 @@ Priority =&gt; EURORADIO.MessagePriorityEnum.Normal
 <Actions>
 <Action
  Guid="e97294f7-e3a2-4be6-a29e-cef86ea38e9d"
->TIU.ServiceBrakeCommanded &lt;- True</Action></Actions>
+>INSERT Kernel.BrakeCommands.BrakeReason.OrderFromRBC 
+  IN Kernel.BrakeCommands.ServiceBrakeCommands 
+</Action></Actions>
 <Expectations>
 <Expectation
  Kind="Instantaneous"
@@ -3180,7 +3182,8 @@ Priority =&gt; EURORADIO.MessagePriorityEnum.Normal
 <Actions>
 <Action
  Guid="e47ff9db-a132-41e2-87a6-da59c4154d48"
->TIU.ServiceBrakeCommanded &lt;- False</Action></Actions>
+>Kernel.BrakeCommands.ServiceBrakeCommands &lt;- []
+</Action></Actions>
 <Expectations>
 <Expectation
  Kind="Instantaneous"

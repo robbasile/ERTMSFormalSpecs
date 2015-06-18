@@ -13,7 +13,7 @@
 </NameSpaceRef></NameSpaces>
 <Functions>
 <Function
- Type="Default.BaseTypes.Speed"
+ Type="BaseTypes.Speed"
  Default=""
  X="660"
  Y="140"
@@ -67,7 +67,7 @@ STOP_CONDITION
 <Expression>aTarget.Speed</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  Cacheable="TRUE"
  Default=""
  X="660"
@@ -91,7 +91,7 @@ STOP_CONDITION
 </ReqRef><Comment>The distance travelled in the time interval between a brake command being given and the brakes actually being applied.</Comment>
 <Parameters>
 <Parameter
- Type="Default.BaseTypes.Speed"
+ Type="BaseTypes.Speed"
  Name="Vrelease"
  Guid="af1462c0-1c70-4255-b967-7c239f548024"
 >
@@ -104,7 +104,7 @@ STOP_CONDITION
 <Expression>BaseTypes.SpeedToMS( Vrelease + Vdelta0rsob ( Vrelease ) ) * ( DecelerationCurves.T_traction(NoA_est=&gt;True) + DecelerationCurves.T_berem(NoA_est=&gt;True) )</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Speed"
+ Type="BaseTypes.Speed"
  Default=""
  X="440"
  Y="70"
@@ -127,7 +127,7 @@ STOP_CONDITION
 </ReqRef><Comment>Computes the compensation of the inaccuracy of the speed measurement. For speed greater than 30km/h, the value is computed using the formula (1/47) * Speed + 7 - (1/47)</Comment>
 <Parameters>
 <Parameter
- Type="Default.BaseTypes.Speed"
+ Type="BaseTypes.Speed"
  Name="Vrelease"
  Guid="3fcb6864-906f-470d-be46-65919de270c8"
 >
@@ -149,7 +149,7 @@ STOP_CONDITION
 <Expression>0.0</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  Cacheable="TRUE"
  Default=""
  X="660"
@@ -179,7 +179,7 @@ BaseTypes.MaxDistance(
     X2 =&gt; ( TrainPosition.FrontEndPosition ( DistanceInterval.Max ) - TrainPosition.FrontEndPosition ( DistanceInterval.Min ) ) )</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Speed"
+ Type="BaseTypes.Speed"
  Default=""
  X="330"
  Y="70"
@@ -202,7 +202,7 @@ BaseTypes.MaxDistance(
 </ReqRef><Comment>Used to compute the release speed on-board.</Comment>
 <Parameters>
 <Parameter
- Type="Default.BaseTypes.Speed"
+ Type="BaseTypes.Speed"
  Name="Vrelease_prev"
  Guid="1805aa0c-0d02-4572-98ea-abed7e76dbd5"
 >
@@ -276,7 +276,7 @@ BaseTypes.MaxDistance(
 <Expression>False</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  Cacheable="TRUE"
  Default=""
  X="220"
@@ -295,7 +295,7 @@ BaseTypes.MaxDistance(
 </ReqRef><Comment>Provides the start location of the release speed monitoring for the release speed received as parameter.</Comment>
 <Parameters>
 <Parameter
- Type="Default.BaseTypes.Speed"
+ Type="BaseTypes.Speed"
  Name="Vrelease"
  Guid="e203dfb6-fbb5-4357-8b6a-8267a6b58496"
 >
@@ -333,7 +333,7 @@ X2 =&gt; ComputeStartRSM_otherTargets(Vrelease)
 )</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  Cacheable="TRUE"
  Default=""
  X="550"
@@ -357,7 +357,7 @@ X2 =&gt; ComputeStartRSM_otherTargets(Vrelease)
 <Expression>MA.ClosestEOA().Location</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Speed"
+ Type="BaseTypes.Speed"
  Cacheable="TRUE"
  Default=""
  X="220"
@@ -381,7 +381,7 @@ X2 =&gt; ComputeStartRSM_otherTargets(Vrelease)
 </ReqRef><Comment>Calculates the value of the release speed.</Comment>
 <Parameters>
 <Parameter
- Type="Default.BaseTypes.Speed"
+ Type="BaseTypes.Speed"
  Name="Vrel"
  Guid="d28ac036-41fe-4197-a581-5de5b2ba3614"
 >
@@ -420,7 +420,7 @@ INITIAL_VALUE
 <Expression>Vrel</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Speed"
+ Type="BaseTypes.Speed"
  Default=""
  X="550"
  Y="140"
@@ -499,7 +499,7 @@ INITIAL_VALUE
 <Expression>0.0</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  Cacheable="TRUE"
  Default=""
  X="330"
@@ -518,7 +518,7 @@ INITIAL_VALUE
 </ReqRef><Comment>Gets the minimum SBI distance for targets between the EOA trip location and the SvL, if any</Comment>
 <Parameters>
 <Parameter
- Type="Default.BaseTypes.Speed"
+ Type="BaseTypes.Speed"
  Name="Vrelease"
  Guid="462352d6-884e-4837-bad4-401ec3bb14df"
 >
@@ -658,7 +658,7 @@ ReleaseSpeedValue(
 </Procedure></Procedures>
 <Variables>
 <Variable
- Type="Default.BaseTypes.Speed"
+ Type="BaseTypes.Speed"
  DefaultValue="1.0"
  VariableMode="Constant"
  X="80"
@@ -676,7 +676,7 @@ ReleaseSpeedValue(
 >
 </ReqRef><Comment>Used for stabilization of release speed computation.</Comment>
 </Variable><Variable
- Type="Default.BaseTypes.Speed"
+ Type="BaseTypes.Speed"
  DefaultValue="0.0"
  VariableMode="Internal"
  X="190"

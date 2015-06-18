@@ -1180,7 +1180,7 @@ PreviousMode: represents the train mode displayed on the DMI during the previous
 <Actions>
 <Action
  Guid="9815ae9e-cf79-4c63-8626-c190486f58da"
->Out_AcceptedEmergencyStops.EmergencyStops &lt;- Kernel.EmergencyStops</Action></Actions>
+>Out_AcceptedEmergencyStops.EmergencyStops &lt;- Kernel.BrakeCommands.EmergencyStops</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="UpdateOUT"
@@ -1959,12 +1959,12 @@ MAP Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.Items | Ker
 <PreConditions>
 <PreCondition
  Guid="582c7ddc-38fe-4560-8f7a-f5c0febe7f11"
->Kernel.EmergencyStops != []</PreCondition></PreConditions>
+>Kernel.BrakeCommands.EmergencyStops != []</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="2b04e6eb-9e9b-49a8-b5be-bfaa91b8fa8a"
 >APPLY Out_BrakeReason.AddEmergencyBrake(X)
-ON Kernel.EmergencyStops</Action></Actions>
+ON Kernel.BrakeCommands.EmergencyStops</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -1985,12 +1985,12 @@ ON Kernel.EmergencyStops</Action></Actions>
 <PreConditions>
 <PreCondition
  Guid="39a71975-ea64-4b73-94ca-297f56203894"
->Kernel.ServiceBrakeCommands != []</PreCondition></PreConditions>
+>Kernel.BrakeCommands.ServiceBrakeCommands != []</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="b3535a8d-262e-4cdc-8ab6-c9834f4f6472"
 >APPLY Out_BrakeReason.AddServiceBrake(X)
-ON Kernel.ServiceBrakeCommands</Action></Actions>
+ON Kernel.BrakeCommands.ServiceBrakeCommands</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition></Conditions>
@@ -2920,7 +2920,7 @@ ON Kernel.ServiceBrakeCommands</Action></Actions>
  Guid="30d1a1d4-41f9-4a71-9085-d24b33e0c144"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="Default.Mode"
+ TypeName="Mode"
  Default="Mode.Unknown"
  Mode="Internal"
  Implemented="TRUE"
@@ -3010,7 +3010,7 @@ ON Kernel.ServiceBrakeCommands</Action></Actions>
 >
 </ReqRef><Comment>Indicates if the current DMI is master or slave.</Comment>
 </StructureElement><StructureElement
- TypeName="DisplayLanguage"
+ TypeName="DMI.DisplayLanguage"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -3339,7 +3339,7 @@ ON Kernel.ServiceBrakeCommands</Action></Actions>
 </Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
- TypeName="Default.Request"
+ TypeName="Request"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -3514,7 +3514,7 @@ ON Kernel.ServiceBrakeCommands</Action></Actions>
  Guid="5149ee9b-9815-4513-8dfa-599519c5e2cb"
 >
 </StructureElement><StructureElement
- TypeName="Default.Language"
+ TypeName="Language"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -3545,7 +3545,7 @@ ON Kernel.ServiceBrakeCommands</Action></Actions>
 >
 <Comment>The brake applied.</Comment>
 </StructureElement><StructureElement
- TypeName="Kernel.BrakeReason"
+ TypeName="Kernel.BrakeCommands.BrakeReason"
  Default=""
  Mode="Internal"
  Implemented="TRUE"

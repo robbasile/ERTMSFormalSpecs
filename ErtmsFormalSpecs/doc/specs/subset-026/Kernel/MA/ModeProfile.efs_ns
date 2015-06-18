@@ -27,7 +27,7 @@
 >
 </ReqRef><Comment>Represents a mode profile.</Comment>
 <StructureElement
- TypeName="Default.BaseTypes.Distance"
+ TypeName="BaseTypes.Distance"
  Default="0.0"
  Mode="Internal"
  Implemented="TRUE"
@@ -50,7 +50,7 @@
  Guid="bc352759-7f8a-49fc-9f7f-0b8e62c25a97"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="Default.Mode.ModeProfile"
+ TypeName="Mode.ModeProfile"
  Default="Default.Mode.ModeProfile.LS"
  Mode="Internal"
  Implemented="TRUE"
@@ -63,7 +63,7 @@
  Guid="ccce08ec-2fef-49c7-9fb0-d52b0756649a"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="Default.BaseTypes.Speed"
+ TypeName="BaseTypes.Speed"
  Default="0.0"
  Mode="Internal"
  Implemented="TRUE"
@@ -76,7 +76,7 @@
  Guid="85c542ce-4562-4198-9944-84b7baedd20b"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="Default.BaseTypes.Length"
+ TypeName="BaseTypes.Length"
  Default="0.0"
  Mode="Internal"
  Implemented="TRUE"
@@ -89,7 +89,7 @@
  Guid="bedd835e-b271-412b-8672-72de428e3996"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="Default.BaseTypes.Length"
+ TypeName="BaseTypes.Length"
  Default="0.0"
  Mode="Internal"
  Implemented="TRUE"
@@ -264,7 +264,7 @@ TrainPosition.FrontEndPosition ( DistanceInterval.Min ) &lt; aModeProfile.Locati
 <Expression>DistanceIsWithinAModeProfile ( FIRST X IN Profile )</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.Mode.ModeProfile"
+ Type="Mode.ModeProfile"
  Default=""
  X="40"
  Y="80"
@@ -364,7 +364,7 @@ aProfile.Mode == Default.Mode.ModeProfile.LS</PreCondition></PreConditions>
  Guid="5edee4a2-0bce-4cdb-b56b-560b902fb90a"
 >
 </Parameter><Parameter
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  Name="aLocation"
  Guid="93793903-c8a7-4a12-a92c-12c9a0ed3fe5"
 >
@@ -403,7 +403,7 @@ aProfile.Mode == Default.Mode.ModeProfile.LS</PreCondition></PreConditions>
 }</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.Mode.ModeProfile"
+ Type="Mode.ModeProfile"
  Default=""
  X="150"
  Y="80"
@@ -624,7 +624,7 @@ aProfile.Mode == Default.Mode.ModeProfile.LS</PreCondition></PreConditions>
 <Expression>FIRST X IN Profile | NOT DistanceIsWithinAModeProfile ( X ) AND (X.Mode != Mode)</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Speed"
+ Type="BaseTypes.Speed"
  Cacheable="TRUE"
  Default=""
  X="150"
@@ -648,7 +648,7 @@ aProfile.Mode == Default.Mode.ModeProfile.LS</PreCondition></PreConditions>
 </ReqRef><Comment>Converts the speed received in a Mode Profile packet to EFS speed, accounting for the special value.</Comment>
 <Parameters>
 <Parameter
- Type="Default.MessageTypes.Speed"
+ Type="MessageTypes.Speed"
  Name="V_MAMODE"
  Guid="b0e5bacb-91e5-4022-ab6f-46a554c924cc"
 >
@@ -834,17 +834,17 @@ ON
 </ReqRef><Comment>Adds the new mode profile element received from the trackside.</Comment>
 <Parameters>
 <Parameter
- Type="Default.MessageTypes.Length"
+ Type="MessageTypes.Length"
  Name="L_ACKMAMODE"
  Guid="8b987134-a0aa-4a09-90b1-fdd88cb4b5ee"
 >
 </Parameter><Parameter
- Type="Default.MessageTypes.Distance"
+ Type="MessageTypes.Distance"
  Name="D_MAMODE"
  Guid="b1613141-f964-47a2-9297-e05209779fab"
 >
 </Parameter><Parameter
- Type="Default.MessageTypes.Length"
+ Type="MessageTypes.Length"
  Name="L_MAMODE"
  Guid="4b4fd8b9-5a5b-440e-a5f6-6eae6ff0a57d"
 >
@@ -854,7 +854,7 @@ ON
  Guid="c9f8ac70-6ee6-44d8-ae44-59a7c353b0c8"
 >
 </Parameter><Parameter
- Type="Default.MessageTypes.Speed"
+ Type="MessageTypes.Speed"
  Name="V_MAMODE"
  Guid="37ad71fc-21ba-44b2-a0e2-23a407780ba7"
 >
@@ -1081,7 +1081,7 @@ IN
 </ReqRef><Comment>Removes the mode profile elements situated beyond the given location.</Comment>
 <Parameters>
 <Parameter
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  Name="aLocation"
  Guid="4ba7841a-3c00-4427-99b9-5d572de530c9"
 >

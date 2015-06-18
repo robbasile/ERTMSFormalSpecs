@@ -340,7 +340,7 @@
 >Kernel.HandleModeChange in Kernel.HandleModeChange.TrainTrip.D110</Expectation><Expectation
  Kind="Instantaneous"
  Guid="4675ea20-ecab-41d2-80d0-c23c7b298dd3"
->TIU.EmergencyBrakeCommanded == False</Expectation></Expectations>
+>NOT TIU.Brakes.EmergencyBrakes.Commanded()</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step></Steps>
 </TestCase></TestCases>
@@ -1809,11 +1809,11 @@
 <Actions>
 <Action
  Guid="c10f2e8a-ea9f-4770-90da-eec77ddfdd35"
->Kernel.EmergencyStops &lt;- 
+>Kernel.BrakeCommands.EmergencyStops &lt;- 
 [
-  Kernel.EmergencyStopStruct
+  Kernel.BrakeCommands.EmergencyStopStruct
   {
-    Reason =&gt; Kernel.BrakeReason.OSAckTimeOut,
+    Reason =&gt; Kernel.BrakeCommands.BrakeReason.OSAckTimeOut,
     IsConditional =&gt; True,
     StopLocation =&gt; 1040.0
   }
@@ -1861,7 +1861,7 @@
  Guid="972165d7-5181-44b2-b7f7-14bc4e0e52b1"
 >Kernel.HandleModeChange &lt;- Kernel.HandleModeChange.TrainTrip.D130</Action><Action
  Guid="30df498b-3e21-4236-b7ec-856518bb4cea"
->Kernel.EmergencyStops &lt;- []</Action></Actions>
+>Kernel.BrakeCommands.EmergencyStops &lt;- []</Action></Actions>
 <Expectations>
 <Expectation
  Kind="Instantaneous"
@@ -2336,7 +2336,7 @@
  Guid="e738cf87-25ef-4cde-81da-948d924b9a09"
 >Kernel.HandleModeChange &lt;- Kernel.HandleModeChange.TrainTrip.S130</Action><Action
  Guid="668adc1e-64d1-411d-8319-eab209aa3359"
->Kernel.EmergencyStops &lt;- []</Action></Actions>
+>Kernel.BrakeCommands.EmergencyStops &lt;- []</Action></Actions>
 <Expectations>
 <Expectation
  Kind="Instantaneous"

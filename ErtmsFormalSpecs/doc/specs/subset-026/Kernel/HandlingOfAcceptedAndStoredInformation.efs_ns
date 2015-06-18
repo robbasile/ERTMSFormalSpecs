@@ -239,7 +239,7 @@ Odometry.TrainIsAtStandstill()</Expression>
  Name="Value"
  Guid="2449a365-c01d-4827-bdf0-d5610c5e93ee"
 >
-<Expression>THERE_IS X IN ServiceBrakeCommands | X == BrakeReason.NoRadioMessageInDueTime
+<Expression>THERE_IS X IN BrakeCommands.ServiceBrakeCommands | X == BrakeCommands.BrakeReason.NoRadioMessageInDueTime
   AND  
 Odometry.TrainIsAtStandstill()</Expression>
 </Case></Cases>
@@ -462,7 +462,7 @@ SituationM()</Expression>
 <Expression>SituationK()</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  Default=""
  X="330"
  Y="120"
@@ -489,7 +489,7 @@ SituationM()</Expression>
 <PreCondition
  Guid="3600c3ab-9812-4b99-b79a-33f537fa4169"
 >SituationA()</PreCondition></PreConditions>
-<Expression>(FIRST ES IN EmergencyStops | ES.IsConditional).StopLocation</Expression>
+<Expression>(FIRST ES IN BrakeCommands.EmergencyStops | ES.IsConditional).StopLocation</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="3f7e4011-7228-4928-8234-f689bb722c1d"
@@ -2842,7 +2842,7 @@ SituationN()</Expression>
 <Actions>
 <Action
  Guid="0784c2ed-f324-42d7-9bd4-521fff65505e"
->EmergencyStops &lt;- MAP EmergencyStops | X.IsConditional == True USING X IN X</Action></Actions>
+>BrakeCommands.EmergencyStops &lt;- MAP BrakeCommands.EmergencyStops | X.IsConditional == True USING X IN X</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Situations of the first category"
@@ -2906,7 +2906,7 @@ SituationN()</Expression>
 <Actions>
 <Action
  Guid="48be1006-ef93-4bf2-8a2c-fe5478962fa2"
->EmergencyStops &lt;- MAP EmergencyStops | X.IsConditional == False USING X IN X</Action></Actions>
+>BrakeCommands.EmergencyStops &lt;- MAP BrakeCommands.EmergencyStops | X.IsConditional == False USING X IN X</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Situations of the first category"

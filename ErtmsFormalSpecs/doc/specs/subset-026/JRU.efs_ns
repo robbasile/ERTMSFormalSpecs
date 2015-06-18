@@ -1197,9 +1197,9 @@ IN JRUMessages</Action></Actions>
  Guid="5c8c2f52-cb6b-4ce4-9022-2a9f1a863452"
 >PreviousCabAStatus &lt;- TIU.CabA</Action><Action
  Guid="206fd4c8-709e-46c9-8eca-1a121a0cf55f"
->PreviousSBStatus &lt;- TIU.ServiceBrakeCommanded</Action><Action
+>PreviousSBStatus &lt;- TIU.Brakes.ServiceBrakes.Commanded()</Action><Action
  Guid="c4ddae0a-1491-4a0b-a46d-bd0947ad8b0e"
->PreviousEBStatus &lt;- TIU.EmergencyBrakeCommanded</Action><Action
+>PreviousEBStatus &lt;- TIU.Brakes.EmergencyBrakes.Commanded()</Action><Action
  Guid="22c9d4de-9284-4627-9d4b-5a958d7d0250"
 >PreviousKernelLevel &lt;- Kernel.Level.Value</Action><Action
  Guid="d1059a2b-c836-41a2-858f-bde87944278a"
@@ -1317,7 +1317,7 @@ Kernel.ActiveFunctions.SuperviseTrainSpeed_MRSP_DistInSRMode()</PreCondition></P
 </Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
- TypeName="Default.BaseTypes.Time"
+ TypeName="BaseTypes.Time"
  Default="0.0"
  Mode="Internal"
  Implemented="TRUE"
@@ -1345,7 +1345,7 @@ Kernel.ActiveFunctions.SuperviseTrainSpeed_MRSP_DistInSRMode()</PreCondition></P
 >
 </ReqRef><Comment>It will reflex the previous System Version</Comment>
 </StructureElement><StructureElement
- TypeName="Default.Mode"
+ TypeName="Mode"
  Default=""
  Mode="Internal"
  Implemented="TRUE"
@@ -1359,7 +1359,7 @@ Kernel.ActiveFunctions.SuperviseTrainSpeed_MRSP_DistInSRMode()</PreCondition></P
 >
 </ReqRef><Comment>Used to determine whether the status of Kernel Mode has changed or not</Comment>
 </StructureElement><StructureElement
- TypeName="Default.LevelDataStruct"
+ TypeName="LevelDataStruct"
  Default=""
  Mode="Internal"
  Implemented="TRUE"
@@ -1687,7 +1687,7 @@ Kernel.ActiveFunctions.SuperviseTrainSpeed_MRSP_DistInSRMode()</PreCondition></P
 >
 </ReqRef><Comment>Will store the previous value of the M_SDMTYPE variable</Comment>
 </StructureElement><StructureElement
- TypeName="Default.BaseTypes.Speed"
+ TypeName="BaseTypes.Speed"
  Default=""
  Mode="Internal"
  Implemented="TRUE"
@@ -1706,7 +1706,7 @@ Kernel.ActiveFunctions.SuperviseTrainSpeed_MRSP_DistInSRMode()</PreCondition></P
 >
 </ReqRef><Comment>This will store the previous value of the permitted speed</Comment>
 </StructureElement><StructureElement
- TypeName="Default.BaseTypes.Speed"
+ TypeName="BaseTypes.Speed"
  Default=""
  Mode="Internal"
  Implemented="TRUE"
@@ -1725,7 +1725,7 @@ Kernel.ActiveFunctions.SuperviseTrainSpeed_MRSP_DistInSRMode()</PreCondition></P
 >
 </ReqRef><Comment>It will store the previous value of the first line of intervention variable</Comment>
 </StructureElement><StructureElement
- TypeName="Default.BaseTypes.Speed"
+ TypeName="BaseTypes.Speed"
  Default=""
  Mode="Internal"
  Implemented="TRUE"
@@ -1744,7 +1744,7 @@ Kernel.ActiveFunctions.SuperviseTrainSpeed_MRSP_DistInSRMode()</PreCondition></P
 >
 </ReqRef><Comment>It will store the previous value of the target speed variable</Comment>
 </StructureElement><StructureElement
- TypeName="Default.BaseTypes.Distance"
+ TypeName="BaseTypes.Distance"
  Default=""
  Mode="Internal"
  Implemented="TRUE"
@@ -1763,7 +1763,7 @@ Kernel.ActiveFunctions.SuperviseTrainSpeed_MRSP_DistInSRMode()</PreCondition></P
 >
 </ReqRef><Comment>This will store the previous value of the TargetDistance variable</Comment>
 </StructureElement><StructureElement
- TypeName="Default.BaseTypes.Speed"
+ TypeName="BaseTypes.Speed"
  Default=""
  Mode="Internal"
  Implemented="TRUE"
@@ -2714,7 +2714,7 @@ M_AIRTIGHT =&gt; TypeConvertors.ToJRUMAirTight(Kernel.TrainData.TrainData.Value.
 <PreConditions>
 <PreCondition
  Guid="35dcd78c-b14d-4060-8844-be5380644fe4"
->TIU.EmergencyBrakeCommanded != jru.PreviousEBStatus</PreCondition></PreConditions>
+>TIU.Brakes.EmergencyBrakes.Commanded() != jru.PreviousEBStatus</PreCondition></PreConditions>
 <Expression>True</Expression>
 </Case><Case
  Name="Otherwise"
@@ -2917,7 +2917,7 @@ M_BRAKE_COMMAND_STATE=&gt;TypeConvertors.ToJRUSBCommanded()
 <PreConditions>
 <PreCondition
  Guid="75e4c8e8-7341-45d7-abfb-9d8eece8564c"
->TIU.ServiceBrakeCommanded != jru.PreviousSBStatus</PreCondition></PreConditions>
+>TIU.Brakes.ServiceBrakes.Commanded() != jru.PreviousSBStatus</PreCondition></PreConditions>
 <Expression>True</Expression>
 </Case><Case
  Name="Otherwise"

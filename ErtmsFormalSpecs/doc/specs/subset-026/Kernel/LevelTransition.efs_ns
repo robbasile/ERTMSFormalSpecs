@@ -39,7 +39,7 @@
 >
 </ReqRef><Comment>Contains a possible value of the level together with its acknowledgement length.</Comment>
 <StructureElement
- TypeName="Default.BaseTypes.Length"
+ TypeName="BaseTypes.Length"
  Default=""
  Mode="Internal"
  Implemented="TRUE"
@@ -52,7 +52,7 @@
  Guid="af193e56-1121-4498-a70f-d19d01f96aac"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="Default.LevelDataStruct"
+ TypeName="LevelDataStruct"
  Default=""
  Mode="Internal"
  Implemented="TRUE"
@@ -102,7 +102,7 @@
 >
 </ReqRef><Comment>Represents a level transition order. Composed of the distance of the level transition and a list of possible levels with their acknowledgement legths. Can be conditional or not.</Comment>
 <StructureElement
- TypeName="Default.BaseTypes.Distance"
+ TypeName="BaseTypes.Distance"
  Default=""
  Mode="Internal"
  Implemented="TRUE"
@@ -128,7 +128,7 @@
  Guid="93b3e829-47db-4fdf-aa99-a5d0304a65e1"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="Default.LevelDataStruct"
+ TypeName="LevelDataStruct"
  Default=""
  Mode="Internal"
  Implemented="TRUE"
@@ -301,7 +301,7 @@
 </ReqRef><Comment>Level NTC remains a non-implemented case because we have no information here which NTC/STM is relevant (and how this is modelled).</Comment>
 <Parameters>
 <Parameter
- Type="Default.LevelDataStruct"
+ Type="LevelDataStruct"
  Name="Level"
  Guid="46695204-7578-4c8a-9699-e0c5e4ed1123"
 >
@@ -345,7 +345,7 @@
 <Expression>Boolean.False</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  Default=""
  X="20"
  Y="360"
@@ -363,7 +363,7 @@
 </ReqRef><Comment>Converts the distance received from the trackside to the distance used on-board. If D_LEVELTR equals 32767 (= special value &quot;Now&quot;), the stored distance will equal BTM.TravelledDistanceFromLRBG(), otherwise it is translated as usually.</Comment>
 <Parameters>
 <Parameter
- Type="Default.MessageTypes.Distance"
+ Type="MessageTypes.Distance"
  Name="aDistance"
  Guid="4dead16f-9ec4-4761-9b58-f020c2dbca8e"
 >
@@ -520,7 +520,7 @@
 </ReqRef><Comment>Inserts a new level transition order in the list of level transition orders stored on-board.</Comment>
 <Parameters>
 <Parameter
- Type="Default.MessageTypes.Length"
+ Type="MessageTypes.Length"
  Name="L_ACKLEVELTR"
  Guid="61d38eaa-05d3-4cae-8d6c-318c10a31f9c"
 >
@@ -1145,7 +1145,7 @@ Packet.Sequence1</Action></Actions>
 </Procedure></Procedures>
 <Variables>
 <Variable
- Type="LevelTransitionOrderStruct"
+ Type="LevelTransition.LevelTransitionOrderStruct"
  DefaultValue="EMPTY"
  VariableMode="Internal"
  X="20"
@@ -1178,7 +1178,7 @@ Packet.Sequence1</Action></Actions>
 >
 </ReqRef><Comment>Level transition order  received from the track side</Comment>
 </Variable><Variable
- Type="LevelTransitionStruct"
+ Type="LevelTransition.LevelTransitionStruct"
  DefaultValue="EMPTY"
  VariableMode="Internal"
  X="380"

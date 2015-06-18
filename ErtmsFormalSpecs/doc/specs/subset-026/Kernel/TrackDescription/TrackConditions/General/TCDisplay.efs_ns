@@ -224,7 +224,7 @@
 >
 </ReqRef><Comment>The regenerative brake should be disabled</Comment>
 </StructureElement><StructureElement
- TypeName="Default.BaseTypes.Distance"
+ TypeName="BaseTypes.Distance"
  Default=""
  Mode="Internal"
  Implemented="TRUE"
@@ -310,7 +310,7 @@
 >
 </ReqRef><Comment>Area where the train is not permitted to stop</Comment>
 </StructureElement><StructureElement
- TypeName="Default.BaseTypes.Distance"
+ TypeName="BaseTypes.Distance"
  Default=""
  Mode="Internal"
  Implemented="TRUE"
@@ -360,7 +360,7 @@
 >
 <Comment>The type of announcement displayed</Comment>
 </StructureElement><StructureElement
- TypeName="Default.BaseTypes.Distance"
+ TypeName="BaseTypes.Distance"
  Default="0.0"
  Mode="Internal"
  Implemented="TRUE"
@@ -370,7 +370,7 @@
 >
 <Comment>Distance at which the announcement becomes displayed</Comment>
 </StructureElement><StructureElement
- TypeName="Default.BaseTypes.Length"
+ TypeName="BaseTypes.Length"
  Default="BaseTypes.Length.Infinity"
  Mode="Internal"
  Implemented="TRUE"
@@ -380,7 +380,7 @@
 >
 <Comment>Length over which the announcement is displayed (not used for all announcements - some are displayed for a fixed time. In that case, the length is given as NA)</Comment>
 </StructureElement><StructureElement
- TypeName="Default.BaseTypes.Time"
+ TypeName="BaseTypes.Time"
  Default="BaseTypes.Time.Infinity"
  Mode="Internal"
  Implemented="TRUE"
@@ -503,7 +503,7 @@
 </Collection></Collections>
 <Functions>
 <Function
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  Default=""
  X="390"
  Y="400"
@@ -576,7 +576,7 @@
 </ReqRef><Comment>Calculates the announcement location (used in the DMI) of a track condition at the train&apos;s current speed</Comment>
 <Parameters>
 <Parameter
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  Name="Distance"
  Guid="00bb0340-e1cd-4be5-b2b5-ee143c7846bf"
 >
@@ -594,7 +594,7 @@
 <Expression>Distance - BaseTypes.SpeedToMS( Odometry.TrainSpeed() ) * DriverReactionTime(TrackCondition)</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Time"
+ Type="BaseTypes.Time"
  Default=""
  X="390"
  Y="470"
@@ -695,12 +695,12 @@ Returns the time required by the driver to performs the necessary tasks before a
  Guid="ae9f629f-5e3b-486f-a916-3f678296fd7c"
 >
 </Parameter><Parameter
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  Name="Distance"
  Guid="13d9fa29-7670-4a17-9113-cba4196da35f"
 >
 </Parameter><Parameter
- Type="Default.BaseTypes.Length"
+ Type="BaseTypes.Length"
  Name="Length"
  Guid="319d953c-72c3-4efb-9f7f-a2c2b4c35c27"
 >
@@ -1286,7 +1286,7 @@ Condition.Type == TCTypeEnum.SoundHorn</PreCondition></PreConditions>
 <Expression>TrainPosition.FrontEndPosition(DistanceInterval.Max) &gt;= Condition.Distance</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Speed"
+ Type="BaseTypes.Speed"
  Default=""
  X="150"
  Y="540"
@@ -1314,7 +1314,7 @@ Condition.Type == TCTypeEnum.SoundHorn</PreCondition></PreConditions>
 </ReqRef><Comment>Creates a SBI deceleration curve ending at the target</Comment>
 <Parameters>
 <Parameter
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  Name="Distance"
  Guid="a5bed748-c7c1-4fb4-874f-b749d688adb1"
 >
@@ -1339,7 +1339,7 @@ Condition.Type == TCTypeEnum.SoundHorn</PreCondition></PreConditions>
 )(Distance)</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Speed"
+ Type="BaseTypes.Speed"
  Default=""
  X="270"
  Y="400"
@@ -1362,7 +1362,7 @@ Condition.Type == TCTypeEnum.SoundHorn</PreCondition></PreConditions>
 </ReqRef><Comment>Creates a speed restriction function where the train may travel at max speed up to the given distance, where the max allowed speed becomes 0</Comment>
 <Parameters>
 <Parameter
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  Name="Distance"
  Guid="70e22ed7-0c40-4621-b333-d82e16d3ef6e"
 >
@@ -1389,7 +1389,7 @@ Condition.Type == TCTypeEnum.SoundHorn</PreCondition></PreConditions>
 <Expression>0.0</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  Cacheable="TRUE"
  Default=""
  X="270"
@@ -1493,7 +1493,7 @@ INITIAL_VALUE BaseTypes.Distance.Infinity</Expression>
 </ReqRef><Comment>Removes the tunnel stopping area and non stopping area information from the displayed track conditions when the ends are passed (these conditions do not end at a fixed location, so this must be done dynamically)</Comment>
 <Parameters>
 <Parameter
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  Name="Distance"
  Guid="f7c2579a-aaa5-4a0b-aa28-ac3d48ef713b"
 >
@@ -1757,12 +1757,12 @@ INITIAL_VALUE BaseTypes.Distance.Infinity</Expression>
  Guid="a0acc450-81bf-483c-8e8f-b3ddc7413426"
 >
 </Parameter><Parameter
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  Name="Distance"
  Guid="944681be-ed77-428d-8dea-9ce0baf3f986"
 >
 </Parameter><Parameter
- Type="Default.BaseTypes.Length"
+ Type="BaseTypes.Length"
  Name="Length"
  Guid="5498fbcf-248e-4e57-a49a-3d6b7241f69e"
 >
@@ -2649,7 +2649,7 @@ ON TractionSystems.TCTractionSystems</Action></Actions>
 >
 </ReqRef><Comment>List containing announcements for all the upcoming track conditions</Comment>
 </Variable><Variable
- Type="Default.BaseTypes.Time"
+ Type="BaseTypes.Time"
  DefaultValue="5.0"
  VariableMode="Internal"
  X="30"

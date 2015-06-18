@@ -2070,7 +2070,7 @@ SupervisedTargets</PreCondition><PreCondition
 </StateMachine></StateMachines>
 <Functions>
 <Function
- Type="Default.BaseTypes.Speed"
+ Type="BaseTypes.Speed"
  Cacheable="TRUE"
  Default=""
  X="270"
@@ -2130,7 +2130,7 @@ SupervisedTargets</PreCondition><PreCondition
 </ReqRef><Comment>Computes the compensation of the inaccuracy of the speed measurement. For speed greater than 30km/h, the value is computed using the formula (1/47) * Speed + 7 - (1/47)</Comment>
 <Parameters>
 <Parameter
- Type="Default.BaseTypes.Speed"
+ Type="BaseTypes.Speed"
  Name="V"
  Guid="55c660e8-c7d5-45aa-a698-c5f1cc010f34"
 >
@@ -2415,7 +2415,7 @@ TrainPosition.FrontEndPosition(DistanceInterval.Max) &gt;  ReleaseSpeedMonitorin
 <Expression>Kernel.SupervisionStatus.Intervention</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Distance"
+ Type="BaseTypes.Distance"
  Cacheable="TRUE"
  Default=""
  X="610"
@@ -2476,7 +2476,7 @@ PreIndicationLocation.IndicationLimitAtSpeed_EOA(PreIndicationLocation.Indicatio
     aSpeed =&gt; PreIndicationLocation.IndicationSegment(TargetSpeedMonitoring.MRDT()).Speed) - TrainPosition.FrontEndPosition(DistanceInterval.Nom)</Expression>
 </Case></Cases>
 </Function><Function
- Type="Kernel.SpeedAndDistanceMonitoring.MonitoringType"
+ Type="MonitoringType"
  Cacheable="TRUE"
  Default=""
  X="720"
@@ -2750,7 +2750,7 @@ ActiveFunctions.SuperviseTrainSpeed_MRSP_DistInSRMode()</PreCondition></PreCondi
  Guid="d89cc423-fae2-4789-8127-68c610145693"
 >SBSpecified &lt;- True</Action><Action
  Guid="e696e822-c0ee-4d0e-b934-9457870a1b12"
->ApplySBCommand(BrakeReason.SpeedAndDistanceMonitoring)</Action></Actions>
+>BrakeCommands.ApplySBCommand(BrakeCommands.BrakeReason.SpeedAndDistanceMonitoring)</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  NeedsRequirement="FALSE"
@@ -2763,9 +2763,7 @@ ActiveFunctions.SuperviseTrainSpeed_MRSP_DistInSRMode()</PreCondition></PreCondi
 <Actions>
 <Action
  Guid="37d9f842-c365-4e03-8f5e-df6d7484dba6"
->TIU.CommandEmergencyBrake(
-    brakeSet=&gt;True
-)</Action><Action
+>TIU.Brakes.EmergencyBrakes.SpeedAndDistanceRelatedEB &lt;- True</Action><Action
  Guid="fd5d023f-77fd-4fd2-8faf-4daa2289d1ad"
 >SBSpecified &lt;- True</Action></Actions>
 </RuleCondition></Conditions>
@@ -2848,9 +2846,7 @@ ActiveFunctions.SuperviseTrainSpeed_MRSP_DistInSRMode()</PreCondition></PreCondi
 <Actions>
 <Action
  Guid="0d9b886e-0bc6-4a1e-b674-689aabe86f85"
->TIU.CommandEmergencyBrake(
-    brakeSet=&gt;False
-)</Action></Actions>
+>TIU.Brakes.EmergencyBrakes.SpeedAndDistanceRelatedEB &lt;- Boolean.False</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition><RuleCondition
@@ -2870,9 +2866,7 @@ Odometry.TrainIsAtStandstill()</PreCondition></PreConditions>
  Guid="c69226a6-2c28-4bc4-91a1-ff49993f5956"
 >EBSpecified &lt;- False</Action><Action
  Guid="887e30d6-0424-450f-9820-8621c7adf272"
->TIU.CommandEmergencyBrake(
-    brakeSet=&gt;False
-)</Action></Actions>
+>TIU.Brakes.EmergencyBrakes.SpeedAndDistanceRelatedEB &lt;- False</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -2933,7 +2927,7 @@ Odometry.TrainIsAtStandstill()</PreCondition></PreConditions>
  Guid="4c3aacf3-5346-42c8-950b-be161a915d5f"
 >SBSpecified &lt;- False</Action><Action
  Guid="8e9bb0b4-29f2-4783-8066-9b7d714df901"
->RemoveSBCommand(BrakeReason.SpeedAndDistanceMonitoring)</Action></Actions>
+>BrakeCommands.RemoveSBCommand(BrakeCommands.BrakeReason.SpeedAndDistanceMonitoring)</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  NeedsRequirement="FALSE"
@@ -3119,9 +3113,7 @@ Odometry.TrainIsAtStandstill()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="5f2ab883-f8e5-4aed-ad31-ba3342346cd7"
->TIU.CommandEmergencyBrake(
-    brakeSet=&gt;True
-)</Action><Action
+>TIU.Brakes.EmergencyBrakes.SpeedAndDistanceRelatedEB &lt;- True</Action><Action
  Guid="07dd4121-f8b5-4cd2-926b-3e6778eb77b2"
 >EBSpecified &lt;- True</Action></Actions>
 </RuleCondition></Conditions>

@@ -64,7 +64,7 @@ TrainData.Value.TrainLength &lt;= Lmax()</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Acceleration"
+ Type="BaseTypes.Acceleration"
  Default=""
  X="110"
  Y="120"
@@ -102,12 +102,12 @@ TrainData.Value.TrainLength &lt;= Lmax()</PreCondition></PreConditions>
 </ReqRef><Comment>Computes the acceleration value for A_brake_emergency or A_brake_service that will be applicable after the speed V provided as parameter, according to the algorithm described in 3.A3.7.</Comment>
 <Parameters>
 <Parameter
- Type="Default.BaseTypes.Speed"
+ Type="BaseTypes.Speed"
  Name="V"
  Guid="5bcfac88-66b3-4636-81d9-ff186c9ab369"
 >
 </Parameter><Parameter
- Type="Default.Percentage"
+ Type="Percentage"
  Name="aBrakePercentage"
  Guid="7553dceb-ea49-46b3-b9c3-92a2ca1807b1"
 >
@@ -156,7 +156,7 @@ TrainData.Value.TrainLength &lt;= Lmax()</PreCondition></PreConditions>
 <Expression>0.00000000323 * aBrakePercentage * aBrakePercentage * aBrakePercentage + 0.00000166 * aBrakePercentage * aBrakePercentage + 0.00506 * aBrakePercentage + 0.0559</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Speed"
+ Type="BaseTypes.Speed"
  Default=""
  X="220"
  Y="120"
@@ -174,7 +174,7 @@ TrainData.Value.TrainLength &lt;= Lmax()</PreCondition></PreConditions>
 </ReqRef><Comment>Computes the nexr speed step for A_brake_emergency or A_brake_service, according to the algorithm described in 3.A3.7.</Comment>
 <Parameters>
 <Parameter
- Type="Default.BaseTypes.Speed"
+ Type="BaseTypes.Speed"
  Name="V"
  Guid="6c96d34a-e9df-46c7-9cf3-f8d396636228"
 >
@@ -223,7 +223,7 @@ TrainData.Value.TrainLength &lt;= Lmax()</PreCondition></PreConditions>
 <Expression>BaseTypes.Speed.Infinity</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Time"
+ Type="BaseTypes.Time"
  Default=""
  X="330"
  Y="120"
@@ -327,7 +327,7 @@ TrainData.Value.TrainLength &lt;= Lmax()</PreCondition></PreConditions>
 <Expression>1.0 + 0.16</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Time"
+ Type="BaseTypes.Time"
  Default=""
  X="550"
  Y="120"
@@ -379,7 +379,7 @@ TrainData.Value.TrainLength &lt;= Lmax()</PreCondition></PreConditions>
                                            ( L_eb() / 100.0 ) )</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Acceleration"
+ Type="BaseTypes.Acceleration"
  Default=""
  Y="180"
  Width="100"
@@ -396,7 +396,7 @@ TrainData.Value.TrainLength &lt;= Lmax()</PreCondition></PreConditions>
 </ReqRef><Comment>Provides the value of A_brake_emergency(V) computed by the conversion model.</Comment>
 <Parameters>
 <Parameter
- Type="Default.BaseTypes.Speed"
+ Type="BaseTypes.Speed"
  Name="V"
  Guid="2c316db0-7b6a-4def-a700-048aa331b5f9"
 >
@@ -409,7 +409,7 @@ TrainData.Value.TrainLength &lt;= Lmax()</PreCondition></PreConditions>
 <Expression>BrakingModelFunction ( BrakingModel =&gt; A_brake_emergency, Speed =&gt; V )</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Time"
+ Type="BaseTypes.Time"
  Default=""
  X="110"
  Y="180"
@@ -447,7 +447,7 @@ TrainData.Value.TrainLength &lt;= Lmax()</PreCondition></PreConditions>
 <Expression>T_brake_service_cmt</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Time"
+ Type="BaseTypes.Time"
  Default=""
  X="220"
  Y="180"
@@ -485,7 +485,7 @@ TrainData.Value.TrainLength &lt;= Lmax()</PreCondition></PreConditions>
 <Expression>T_brake_emergency_cmt</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Acceleration"
+ Type="BaseTypes.Acceleration"
  Default=""
  X="330"
  Y="180"
@@ -503,7 +503,7 @@ TrainData.Value.TrainLength &lt;= Lmax()</PreCondition></PreConditions>
 </ReqRef><Comment>Provides the value of A_brake_service(V) computed by the conversion model.</Comment>
 <Parameters>
 <Parameter
- Type="Default.BaseTypes.Speed"
+ Type="BaseTypes.Speed"
  Name="V"
  Guid="deffff49-7147-4f0e-831d-ba5f9da684b9"
 >
@@ -516,7 +516,7 @@ TrainData.Value.TrainLength &lt;= Lmax()</PreCondition></PreConditions>
 <Expression>BrakingModelFunction ( BrakingModel =&gt; A_brake_service, Speed =&gt; V )</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.BaseTypes.Speed"
+ Type="BaseTypes.Speed"
  Default=""
  X="440"
  Y="180"
@@ -1181,7 +1181,7 @@ TrainData.Value.BrakePosition == BrakePositions.FreightTrainInP</PreCondition></
  Guid="c0d8df87-fa28-4ff9-8edd-04d8887bdabc"
 >
 </Parameter><Parameter
- Type="Default.Percentage"
+ Type="Percentage"
  Name="aBrakePercentage"
  Guid="8fc994fd-18b9-4446-9ec6-84ce32b0aae3"
 >
@@ -1543,7 +1543,7 @@ TrainData.Value.BrakePosition == BrakePositions.FreightTrainInP</PreCondition></
 </Procedure></Procedures>
 <Variables>
 <Variable
- Type="Default.BaseTypes.Time"
+ Type="BaseTypes.Time"
  DefaultValue="BaseTypes.Time.NA"
  VariableMode="Internal"
  Width="100"
@@ -1579,7 +1579,7 @@ TrainData.Value.BrakePosition == BrakePositions.FreightTrainInP</PreCondition></
 >
 </ReqRef><Comment>The value of the equivalent emergency brake build up time to be used when the target speed (V_target) is equal to zero.</Comment>
 </Variable><Variable
- Type="Default.BaseTypes.Time"
+ Type="BaseTypes.Time"
  DefaultValue="BaseTypes.Time.NA"
  VariableMode="Internal"
  X="110"
@@ -1616,7 +1616,7 @@ TrainData.Value.BrakePosition == BrakePositions.FreightTrainInP</PreCondition></
 >
 </ReqRef><Comment>The value of the equivalent emergency brake build up time to be used when the target speed (V_target) is different zero.</Comment>
 </Variable><Variable
- Type="Default.BaseTypes.Time"
+ Type="BaseTypes.Time"
  DefaultValue="BaseTypes.Time.NA"
  VariableMode="Internal"
  X="220"
@@ -1653,7 +1653,7 @@ TrainData.Value.BrakePosition == BrakePositions.FreightTrainInP</PreCondition></
 >
 </ReqRef><Comment>The value of the equivalent service brake build up time to be used when the target speed (V_target) is equal to zero.</Comment>
 </Variable><Variable
- Type="Default.BaseTypes.Time"
+ Type="BaseTypes.Time"
  DefaultValue="BaseTypes.Time.NA"
  VariableMode="Internal"
  X="330"
@@ -1690,7 +1690,7 @@ TrainData.Value.BrakePosition == BrakePositions.FreightTrainInP</PreCondition></
 >
 </ReqRef><Comment>The value of the equivalent service brake build up time to be used when the target speed (V_target) is different from zero.</Comment>
 </Variable><Variable
- Type="BrakingModel"
+ Type="BrakingParameters.BrakingModel"
  DefaultValue="EMPTY"
  VariableMode="Internal"
  X="440"
@@ -1717,7 +1717,7 @@ TrainData.Value.BrakePosition == BrakePositions.FreightTrainInP</PreCondition></
 >
 </ReqRef><Comment>The speed dependent deceleration model for the emergency brake, derived from the brake percentage using the conversion model (if no speed dependent deceleration model for emergency brake was acquired as part of Train Data).</Comment>
 </Variable><Variable
- Type="BrakingModel"
+ Type="BrakingParameters.BrakingModel"
  DefaultValue="EMPTY"
  VariableMode="Internal"
  X="550"
