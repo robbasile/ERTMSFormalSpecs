@@ -1,4 +1,4 @@
-.PHONY: all release gitclone nightbuild java clean
+.PHONY: all release test gitclone nightbuild java clean
 
 all:
 	make -C depends all
@@ -20,8 +20,11 @@ java:
 	cs2j-2013.0.1/CS2JTranslator/bin/cs2j.exe -net-templates-dir=cs2j-2013.0.1/NetFramework/ -out-java-dir=java/interpreter/translated -cs-dir=src/DataDictionary/src
 	cs2j-2013.0.1/CS2JTranslator/bin/cs2j.exe -net-templates-dir=cs2j-2013.0.1/NetFramework/ -out-java-dir=java/interpreter/translated -cs-dir=src/DataDictionary/generated
 
-nightbuild: release
-	bin/EFSTester.exe "doc/specs/subset-026.efs" "doc/specs/braking curves verification.efs" "../../efs_contrib/Subset76/subset-076.efs"
+test:
+	bin/EFSTester.exe "doc/specs/subset-026.efs" 
+	bin/EFSTester.exe "doc/specs/subset-026.efs" "doc/specs/braking curves verification.efs"
+
+nightbuild: release test
 	echo "done."
 
 clean:
