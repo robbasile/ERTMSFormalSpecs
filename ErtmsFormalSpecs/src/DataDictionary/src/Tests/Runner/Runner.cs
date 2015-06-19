@@ -713,6 +713,9 @@ namespace DataDictionary.Tests.Runner
             List<VariableUpdate> updatesToProcess = updates;
             updates = new List<VariableUpdate>();
 
+            // Avoid considering twice the same transition
+            List<Tuple<State, State>> transitions = new List<Tuple<State, State>>();
+
             while (updatesToProcess.Count > 0)
             {
                 List<VariableUpdate> newUpdates = new List<VariableUpdate>();
@@ -725,10 +728,29 @@ namespace DataDictionary.Tests.Runner
                     {
                         if (change.Variable.Type is StateMachine)
                         {
-                            HandleLeaveState(priority, newUpdates, change.Variable, (State) change.Variable.Value,
-                                (State) change.NewValue);
-                            HandleEnterState(priority, newUpdates, change.Variable, (State) change.Variable.Value,
-                                (State) change.NewValue);
+                            State leavingState = (State) change.Variable.Value;
+                            State enteringState = (State) change.NewValue;
+
+                            bool transitionFound = false;
+                            foreach (Tuple<State, State> transition in transitions)
+                            {
+                                if ((transition.Item1 == leavingState) && (transition.Item2 == enteringState))
+                                {
+                                    transitionFound = true;
+                                    break;
+                                }
+                            }
+
+                            if (! transitionFound )
+                            {
+                                Tuple<State, State> transition = new Tuple<State, State>(leavingState, enteringState);
+                                transitions.Add(transition);
+
+                                HandleLeaveState(priority, newUpdates, change.Variable, (State)change.Variable.Value,
+                                    (State)change.NewValue);
+                                HandleEnterState(priority, newUpdates, change.Variable, (State)change.Variable.Value,
+                                    (State)change.NewValue);                                
+                            }
                         }
                     }
                 }
@@ -736,6 +758,8 @@ namespace DataDictionary.Tests.Runner
                 updatesToProcess = newUpdates;
             }
         }
+
+        private HashSet<State>  ProcessedStates = new HashSet<State>();
 
         /// <summary>
         ///     Add actions when entering a state
@@ -747,23 +771,30 @@ namespace DataDictionary.Tests.Runner
         private void HandleEnterState(acceptor.RulePriority priority, List<VariableUpdate> updates, IVariable variable,
             State leaveState, State enterState)
         {
-            if (!enterState.getStateMachine().Contains(enterState, leaveState))
+            if (!ProcessedStates.Contains(enterState))
             {
-                if (enterState.getEnterAction() != null)
+                ProcessedStates.Add(enterState);
+
+                if (!enterState.getStateMachine().Contains(enterState, leaveState))
                 {
-                    Rules.Rule rule = (Rules.Rule) enterState.getEnterAction();
-                    ExplanationPart explanation = new ExplanationPart(rule, "Rule evaluation");
-                    HashSet<Activation> newActivations = new HashSet<Activation>();
-                    List<VariableUpdate> newUpdates = new List<VariableUpdate>();
-                    rule.Evaluate(this, priority, variable, newActivations, explanation);
-                    EvaluateActivations(newActivations, priority, ref newUpdates);
-                    updates.AddRange(newUpdates);
+                    if (enterState.getEnterAction() != null)
+                    {
+                        Rules.Rule rule = (Rules.Rule) enterState.getEnterAction();
+                        ExplanationPart explanation = new ExplanationPart(rule, "Rule evaluation");
+                        HashSet<Activation> newActivations = new HashSet<Activation>();
+                        List<VariableUpdate> newUpdates = new List<VariableUpdate>();
+                        rule.Evaluate(this, priority, variable, newActivations, explanation);
+                        EvaluateActivations(newActivations, priority, ref newUpdates);
+                        updates.AddRange(newUpdates);
+                    }
+
+                    if (enterState.EnclosingState != null)
+                    {
+                        HandleEnterState(priority, updates, variable, leaveState, enterState.EnclosingState);
+                    }                
                 }
 
-                if (enterState.EnclosingState != null)
-                {
-                    HandleEnterState(priority, updates, variable, leaveState, enterState.EnclosingState);
-                }
+                ProcessedStates.Remove(enterState);
             }
         }
 
@@ -777,23 +808,30 @@ namespace DataDictionary.Tests.Runner
         private void HandleLeaveState(acceptor.RulePriority priority, List<VariableUpdate> updates, IVariable variable,
             State leaveState, State enterState)
         {
-            if (!leaveState.getStateMachine().Contains(leaveState, enterState))
+            if (!ProcessedStates.Contains(leaveState))
             {
-                if (leaveState.getLeaveAction() != null)
+                ProcessedStates.Add(leaveState);
+
+                if (!leaveState.getStateMachine().Contains(leaveState, enterState))
                 {
-                    Rules.Rule rule = (Rules.Rule) leaveState.getLeaveAction();
-                    ExplanationPart explanation = new ExplanationPart(rule, "Rule evaluation");
-                    HashSet<Activation> newActivations = new HashSet<Activation>();
-                    List<VariableUpdate> newUpdates = new List<VariableUpdate>();
-                    rule.Evaluate(this, priority, variable, newActivations, explanation);
-                    EvaluateActivations(newActivations, priority, ref newUpdates);
-                    updates.AddRange(newUpdates);
+                    if (leaveState.getLeaveAction() != null)
+                    {
+                        Rules.Rule rule = (Rules.Rule) leaveState.getLeaveAction();
+                        ExplanationPart explanation = new ExplanationPart(rule, "Rule evaluation");
+                        HashSet<Activation> newActivations = new HashSet<Activation>();
+                        List<VariableUpdate> newUpdates = new List<VariableUpdate>();
+                        rule.Evaluate(this, priority, variable, newActivations, explanation);
+                        EvaluateActivations(newActivations, priority, ref newUpdates);
+                        updates.AddRange(newUpdates);
+                    }
+
+                    if (leaveState.EnclosingState != null)
+                    {
+                        HandleLeaveState(priority, updates, variable, leaveState.EnclosingState, enterState);
+                    }
                 }
 
-                if (leaveState.EnclosingState != null)
-                {
-                    HandleLeaveState(priority, updates, variable, leaveState.EnclosingState, enterState);
-                }
+                ProcessedStates.Remove(leaveState);
             }
         }
 
