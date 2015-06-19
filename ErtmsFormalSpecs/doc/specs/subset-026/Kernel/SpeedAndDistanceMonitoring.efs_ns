@@ -733,7 +733,212 @@ SupervisedTargets</PreCondition></PreConditions>
 >DetermineSupervisionStatus(Target)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
-</StateMachine><LeaveAction>
+</StateMachine><EnterAction>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Enter action"
+ Guid="baab8185-f07d-4a04-8ae1-e03968fe1ad9"
+>
+<ReqRef
+ Id="8468de24-42eb-4959-a546-99c00cccb22a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="7841c06d-959d-45f4-94dc-2a2bc0f7e795"
+>
+</ReqRef><ReqRef
+ Id="da801456-beb5-47fa-b81e-22d23298cdb1"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="72324f71-08b0-4f33-ada0-3d4863a5e901"
+>
+</ReqRef><ReqRef
+ Id="452e7369-8988-4a04-9d16-d7e769201a71"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a2a7de28-b5a8-4b8b-8b8a-55c8c8c0b4ce"
+>
+</ReqRef><ReqRef
+ Id="f26aa00e-0ded-4d0d-bed9-58813a2d45eb"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e5d177ea-10d0-47fc-91ca-c324d368cd0e"
+>
+</ReqRef><ReqRef
+ Id="c8000537-75f6-4a09-8790-4dca0585d9f8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a21c0364-6a6b-46a9-bb82-8bbdf55f60da"
+>
+</ReqRef><ReqRef
+ Id="3935be43-6132-47c6-8ef3-28195e4f690c"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="634e2621-8cb1-4675-8ac2-fd7618205e63"
+>
+</ReqRef><Comment>Select the supervision status when Ceiling speed monitoring is initiated.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Normal status applies"
+ Guid="e5dbddc5-3979-4277-88f9-1d0f3d2a3d7c"
+>
+<ReqRef
+ Id="4715e18d-a2df-4bd6-ac06-759df725f4f9"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="1dfb5768-d90d-478a-a7b9-f3e168031af1"
+>
+</ReqRef><ReqRef
+ Id="644aa967-53f8-4d2c-b5ba-6a857c9cda54"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f574bb64-e88e-4c3f-ac45-704f13ce7e51"
+>
+</ReqRef><Comment>Enter CSM in Normal status.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="a02f42d0-a075-4612-8d0f-8345aa72c90a"
+>CeilingSpeedMonitoring.SupervisionStatus.t1()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="d6187b28-2b41-4ed3-9aeb-7c5e735ba55f"
+>THIS &lt;- Normal</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Intervention status applies"
+ Guid="c05df55b-db74-4b97-9f6c-58524e63b5f5"
+>
+<ReqRef
+ Id="0b1f3e7f-3acf-435f-8d5e-c7e079fd5ed6"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="fa3c67ce-065c-4554-839d-6c772748101e"
+>
+</ReqRef><ReqRef
+ Id="1d80a2a9-35e8-42c0-b7af-767e7c110d32"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="3b823e2b-9617-44e8-b834-5e489d332bf7"
+>
+</ReqRef><ReqRef
+ Id="58cc5fd9-b319-4df9-87ac-13d82ceb4312"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ea8e581a-a9ef-4763-abcb-9c4ef3e6e3ea"
+>
+</ReqRef><Comment>Enter CSM in Intervention status.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="f770c255-0b82-4b35-a189-943caf05bd1e"
+>CeilingSpeedMonitoring.SupervisionStatus.t4()
+  OR  
+CeilingSpeedMonitoring.SupervisionStatus.t5()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="e3722557-8a81-4fcb-ba02-2e22a11c1483"
+>THIS &lt;- Intervention</Action></Actions>
+<SubRules>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Command service brake"
+ Guid="91456b6b-b006-4de6-acbd-9667838d259d"
+>
+<Comment>Activate the service brake.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="t4"
+ Guid="5c92a076-d2b4-4d5e-8d7f-e0840a566276"
+>
+<ReqRef
+ Id="d5e287e8-9591-4f40-9968-b9a12d5f800f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a2263a02-fe24-44eb-9380-c6cd39ba1414"
+>
+</ReqRef><PreConditions>
+<PreCondition
+ Guid="24d119e0-da2d-4e69-9b2c-4bb86b219a33"
+>CeilingSpeedMonitoring.SupervisionStatus.t4()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="e4dc1ce9-c0d8-414d-8cd0-a1eedf02d8af"
+>TriggerSBCommand()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Command emergency brake"
+ Guid="aa1e75fa-3dfe-4210-97ff-406de242752b"
+>
+<Comment>Activate the emergency brake.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="t5"
+ Guid="c00a818a-2c3d-4145-8e1e-4ac6a5a19f32"
+>
+<ReqRef
+ Id="e4afc252-6ba4-4996-b8f6-072d60e63987"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="3a4f0873-1bc3-464e-8b09-669fd0ab62a9"
+>
+</ReqRef><PreConditions>
+<PreCondition
+ Guid="37283f81-0783-4c75-baa7-85aca232a919"
+>CeilingSpeedMonitoring.SupervisionStatus.t5()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="4a246bad-c832-4e27-ad91-7e2358ade28f"
+>EBSpecified &lt;- True</Action><Action
+ Guid="6461f0dd-9ce1-41ae-bdec-ff0aabd54c40"
+>TIU.Brakes.EmergencyBrakes.SpeedAndDistanceRelatedEB &lt;- Boolean.True</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></SubRules>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Warning status applies"
+ Guid="ad323a5f-635e-4a80-a275-a0d36d180145"
+>
+<ReqRef
+ Id="c7bd0529-99a5-4600-bea6-5ef4c7039d03"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a00202c4-b1a3-4c6f-bd1e-e9123504346d"
+>
+</ReqRef><ReqRef
+ Id="baee7a52-b664-4831-ae79-468f1bfa2015"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="46f397df-567d-42f3-888e-b26857ef9b2a"
+>
+</ReqRef><Comment>Enter CSM in Warning status.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="b8dc44ad-e0e1-421a-94d9-38cdf6024c58"
+>CeilingSpeedMonitoring.SupervisionStatus.t3()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="51007ebe-4db8-4db4-87b6-cdf390745f1e"
+>THIS &lt;- Warning</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Overspeed status applies"
+ Guid="a937fcdf-6981-4471-8cc4-ec172ed07a0f"
+>
+<ReqRef
+ Id="af305487-640b-4993-8058-a5d544510580"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a09952c7-51ee-466b-aa9a-d2bbdb4996d5"
+>
+</ReqRef><ReqRef
+ Id="ec408fb0-3a70-40f7-81a8-7756f7442566"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="dc426ac1-a7bd-41be-9730-106a13d9d5d2"
+>
+</ReqRef><Comment>Enter CSM in Overspeed status.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="79857882-a082-4c14-99e2-93abcf7d0705"
+>CeilingSpeedMonitoring.SupervisionStatus.t2()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="adfd9eca-92ea-4811-9d2f-0afc0f0b0374"
+>THIS &lt;- Overspeed</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></EnterAction>
+<LeaveAction>
 <Rule
  Priority="Processing"
  Implemented="TRUE"
@@ -1905,7 +2110,101 @@ SupervisedTargets</PreCondition></PreConditions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </StateMachine></State></States>
-</StateMachine><LeaveAction>
+</StateMachine><EnterAction>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Enter action"
+ Guid="9fc4baf1-6184-4e92-8a28-3aed9784acea"
+>
+<ReqRef
+ Id="452e7369-8988-4a04-9d16-d7e769201a71"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0ee1a16d-3d29-4375-b728-6b51d3c9d54a"
+>
+</ReqRef><ReqRef
+ Id="dce4a4ca-1d9d-4bec-bbd0-b82a791c93bb"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e4694e3e-6a91-41bd-85be-32156beb3420"
+>
+</ReqRef><ReqRef
+ Id="cc58f785-b8ad-4070-9b9a-b6ec8e0f6e2a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6021a7a0-a964-4a77-bf4e-a6fa9c7b114b"
+>
+</ReqRef><ReqRef
+ Id="b1282fd5-cab1-48c7-bdf8-26de1ac6a0f5"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c92469b2-fc26-4fe4-986f-5cc5d2673547"
+>
+</ReqRef><ReqRef
+ Id="896f9fb5-9ef6-459b-b93e-c681a1ec59d4"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="8d655bde-2884-4acd-9110-410bd58ce492"
+>
+</ReqRef><ReqRef
+ Id="f71170cc-f625-404a-93f9-5cb4b527f0d1"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="632c978b-4dc5-4df1-a1ce-15003f705620"
+>
+</ReqRef><Comment>Select the supervision status when Release speed monitoring is initiated.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Indication status applies"
+ Guid="6353f416-5dcc-4626-b958-4640ea6ba829"
+>
+<ReqRef
+ Id="dd0da099-d404-4f93-b840-c25c06defab7"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0802c119-af73-4eb6-bc03-7a1d7e7b91a0"
+>
+</ReqRef><ReqRef
+ Id="bbfaaf11-9b3a-4835-9998-6de8e5069412"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b0aaa8c6-7916-48a5-a250-f2de74a0bd46"
+>
+</ReqRef><Comment>Enter RSM in Indication status.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="eeb86196-9962-4beb-b791-304d0c60a32e"
+>ReleaseSpeedMonitoring.SupervisionStatus.t1()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="e9f9f67e-7673-40c3-a302-57d1c8ed8843"
+>THIS &lt;- Indication</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Intervention status applies"
+ Guid="d1619bf0-e910-4f49-8432-02cd766440a0"
+>
+<ReqRef
+ Id="21b938e6-12e3-485f-ad6f-9dd55a927ce3"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="af72131f-b469-4bed-90b0-fbdfdacc48ca"
+>
+</ReqRef><ReqRef
+ Id="4bd9437c-f793-4471-b3f2-d0e50cda8c6a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="3f75d182-a08c-47f4-a9da-3d9f6584bb75"
+>
+</ReqRef><Comment>Enter RSM in Intervention status.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="813438a7-194e-4224-8324-5311298845f7"
+>ReleaseSpeedMonitoring.SupervisionStatus.t2()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="7e43b837-8286-402d-96cf-9acbf8f348f6"
+>EBSpecified &lt;- True</Action><Action
+ Guid="7a458f67-b9dd-4ccb-8b7b-497284b314ac"
+>TIU.Brakes.EmergencyBrakes.SpeedAndDistanceRelatedEB &lt;- Boolean.True</Action><Action
+ Guid="2cd41d7a-3e5b-483b-8d4b-49cc63802660"
+>THIS &lt;- Intervention</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></EnterAction>
+<LeaveAction>
 <Rule
  Priority="Processing"
  Implemented="TRUE"
