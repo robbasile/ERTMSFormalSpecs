@@ -160,7 +160,7 @@ namespace DataDictionary.Tests
                 }                
             });
 
-            explanation.PadLine("IMPLIES");
+            explanation.WriteLine("IMPLIES");
 
             explanation.Indent(2, () =>
             {

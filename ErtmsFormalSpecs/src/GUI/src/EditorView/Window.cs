@@ -169,13 +169,13 @@ namespace GUI.EditorView
         {
             if (__textChangeHandler != null)
             {
-                int start = editorTextBox.TextBox.SelectionStart;
                 string newValue = __textChangeHandler.GetText();
-                if (newValue != Value)
+                if (newValue != Value && !(string.IsNullOrEmpty(newValue) && string.IsNullOrEmpty(Value)))
                 {
-                    Value = __textChangeHandler.GetText();
+                    int start = editorTextBox.TextBox.SelectionStart;
+                    Value = newValue;
+                    editorTextBox.TextBox.SelectionStart = start;
                 }
-                editorTextBox.TextBox.SelectionStart = start;
             }
         }
 
@@ -199,6 +199,7 @@ namespace GUI.EditorView
                 editorTextBox.TextBox.Font = new Font("Courier New", 8.25F, FontStyle.Regular, GraphicsUnit.Point,
                     ((byte) (0)));
                 editorTextBox.TextBox.Text = value;
+                editorTextBox.TextBox.ProcessAllLines();
             }
         }
 

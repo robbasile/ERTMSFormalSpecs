@@ -149,15 +149,15 @@ namespace DataDictionary.Interpreter
         public override void GetExplain(TextualExplanation explanation, bool explainSubElements = true)
         {
             Structure.GetExplain(explanation);
-            explanation.WriteLine("{");
+            explanation.Write("{");
             explanation.Indent(2, () => explanation.ExplainList(Associations, explainSubElements, ", ", element =>
             {
-                explanation.Pad();
+                explanation.WriteLine();
                 element.Key.GetExplain(explanation);
                 explanation.Write(" => ");
                 element.Value.GetExplain(explanation);
-                explanation.WriteLine();
             }));
+            explanation.WriteLine();
             explanation.Write("}");
         }
 

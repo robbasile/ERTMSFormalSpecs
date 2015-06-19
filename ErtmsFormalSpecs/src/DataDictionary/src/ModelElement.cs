@@ -378,6 +378,11 @@ namespace DataDictionary
         private StringBuilder Data { get; set; }
 
         /// <summary>
+        /// Indicates that we are at the beginning of a new line
+        /// </summary>
+        private bool NewLine { get; set; }
+
+        /// <summary>
         /// The current indent level
         /// </summary>
         private int IndentLevel { get; set; }
@@ -395,6 +400,7 @@ namespace DataDictionary
             Data = new StringBuilder();
             IndentLevel = 0;
             IndentString = "";
+            NewLine = true;
         }
 
         /// <summary>
@@ -434,31 +440,16 @@ namespace DataDictionary
         }
 
         /// <summary>
-        /// Pads a given string
-        /// </summary>
-        /// <param name="data"></param>
-        public void Pad(string data = "")
-        {
-            Data.Append(IndentString);
-            Data.Append(data);
-        }
-
-        /// <summary>
-        /// Pads the data and adds a newline
-        /// </summary>
-        /// <param name="data"></param>
-        public void PadLine(string data = "")
-        {
-            Pad(data);
-            Data.Append("\n");
-        }
-
-        /// <summary>
         /// Appends a string to the current result
         /// </summary>
         /// <param name="data"></param>
         public void Write(string data = "")
         {
+            if (NewLine)
+            {
+                Data.Append(IndentString);
+                NewLine = false;
+            }
             Data.Append(data);
         }
 
@@ -470,6 +461,7 @@ namespace DataDictionary
         {
             Write(data);
             Data.Append("\n");
+            NewLine = true;
         }
 
         /// <summary>
@@ -489,11 +481,11 @@ namespace DataDictionary
                 {
                     if (string.IsNullOrEmpty(expressionable.ExpressionText))
                     {
-                        Pad("<Undefined expression or statement>");
+                        Write("<Undefined expression or statement>");
                     }
                     else
                     {
-                        Pad(expressionable.ExpressionText);
+                        Write(expressionable.ExpressionText);
                     }
                 }
             }
@@ -507,7 +499,7 @@ namespace DataDictionary
         {
             foreach (string line in data.Split('\n'))
             {
-                PadLine("// " + line);
+                WriteLine("// " + line);
             }
         }
 

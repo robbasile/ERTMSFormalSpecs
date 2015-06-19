@@ -276,7 +276,9 @@ namespace DataDictionary.Types
         public override void GetExplain(TextualExplanation explanation, bool explainSubElements)
         {
             base.GetExplain(explanation, explainSubElements);
-            explanation.PadLine("ENUMERATION " + Name);
+            explanation.Write("ENUMERATION ");
+            explanation.WriteLine(Name);
+
             explanation.Indent(2, () =>
             {
                 foreach (EnumValue enumValue in Values)

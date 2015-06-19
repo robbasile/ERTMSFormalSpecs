@@ -233,7 +233,8 @@ namespace DataDictionary.Functions
         public virtual void GetExplain(TextualExplanation explanation, bool explainSubElements)
         {
             explanation.Comment(this);
-            explanation.Pad("PROCEDURE " + Name);
+            explanation.Write("PROCEDURE ");
+            explanation.Write(Name);
 
             if (FormalParameters.Count > 0)
             {
@@ -252,7 +253,9 @@ namespace DataDictionary.Functions
                         {
                             explanation.WriteLine(",");
                         }
-                        explanation.Pad(parameter.Name + ":" + parameter.TypeName);
+                        explanation.Write(parameter.Name);
+                        explanation.Write(" : ");
+                        explanation.Write(parameter.TypeName);
                         first = false;
                     }
                 });
@@ -272,7 +275,7 @@ namespace DataDictionary.Functions
                 }                
             });
 
-            explanation.PadLine("END PROCEDURE ");
+            explanation.WriteLine("END PROCEDURE ");
         }
 
         /// <summary>

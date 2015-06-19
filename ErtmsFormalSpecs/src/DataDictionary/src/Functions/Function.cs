@@ -1228,7 +1228,9 @@ namespace DataDictionary.Functions
         public override void GetExplain(TextualExplanation explanation, bool explainSubElements)
         {
             explanation.Comment(this);
-            explanation.Pad("FUNCTION " + Name + "(");
+            explanation.Write("FUNCTION ");
+            explanation.Write(Name);
+            explanation.Write(" (");
             if (FormalParameters.Count > 0)
             {
                 explanation.Indent(2, () =>
@@ -1245,12 +1247,15 @@ namespace DataDictionary.Functions
                         {
                             explanation.WriteLine(",");
                         }
-                        explanation.Pad(parameter.Name + " : " + parameter.TypeName);
+                        explanation.Write(parameter.Name);
+                        explanation.Write(" : ");
+                        explanation.Write(parameter.TypeName);
                     }                    
                 });
             }
             explanation.WriteLine(")");
-            explanation.PadLine("RETURNS " + TypeName);
+            explanation.Write("RETURNS ");
+            explanation.WriteLine(TypeName);
 
             {
                 bool first = true;
@@ -1258,14 +1263,14 @@ namespace DataDictionary.Functions
                 {
                     if (!first)
                     {
-                        explanation.Pad("ELSE ");
+                        explanation.Write("ELSE ");
                     }
                     cas.GetExplain(explanation, explainSubElements);
                     explanation.WriteLine();
                     first = false;
                 }
             }
-            explanation.Pad("END FUNCTION");
+            explanation.Write("END FUNCTION");
         }
 
         /// <summary>

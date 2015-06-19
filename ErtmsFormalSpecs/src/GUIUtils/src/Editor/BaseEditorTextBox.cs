@@ -47,11 +47,6 @@ namespace GUI
         private bool PendingSelection { get; set; }
 
         /// <summary>
-        ///     The initial RTF data, used to initialise back the control and remove all formatting information
-        /// </summary>
-        private string InitialRTF { get; set; }
-
-        /// <summary>
         ///     Provides the instance on which this editor is based
         /// </summary>
         public virtual object Instance { get; set; }
@@ -99,7 +94,6 @@ namespace GUI
         public BaseEditorTextBox()
         {
             InitializeComponent();
-            InitialRTF = EditionTextBox.Rtf;
 
             AutoComplete = true;
             EditionTextBox.KeyUp += Editor_KeyUp;
@@ -333,7 +327,7 @@ namespace GUI
         /// <summary>
         ///     The text box
         /// </summary>
-        public RichTextBox TextBox
+        public SyntaxRichTextBox TextBox
         {
             get { return EditionTextBox; }
         }
@@ -1200,7 +1194,8 @@ namespace GUI
 
         protected void InsertElement(ITypedElement element, TextualExplanation text)
         {
-            text.Pad(element.Name + " => ");
+            text.Write(element.Name);
+            text.Write(" => ");
             Structure structure = element.Type as Structure;
             if (structure != null)
             {
@@ -1219,7 +1214,7 @@ namespace GUI
                     }                    
                 });
                 text.WriteLine();
-                text.Pad("}");
+                text.Write("}");
             }
             else
             {
@@ -1333,7 +1328,6 @@ namespace GUI
             {
                 if (value != EditionTextBox.Text)
                 {
-                    EditionTextBox.Rtf = InitialRTF;
                     EditionTextBox.Text = value.Trim();
                     EditionTextBox.ProcessAllLines();
                 }

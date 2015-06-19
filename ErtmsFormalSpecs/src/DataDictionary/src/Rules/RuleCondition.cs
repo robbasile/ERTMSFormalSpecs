@@ -354,7 +354,7 @@ namespace DataDictionary.Rules
             if (PreConditions.Count > 0)
             {
                 indent = 2;
-                explanation.Pad("IF ");
+                explanation.Write("IF ");
                 if (PreConditions.Count > 1)
                 {
                     // Prepare the space for the following ANDs
@@ -373,7 +373,7 @@ namespace DataDictionary.Rules
                     first = false;
                 }
                 explanation.WriteLine();
-                explanation.PadLine("THEN");
+                explanation.WriteLine("THEN");
             }
             else
             {
@@ -389,7 +389,7 @@ namespace DataDictionary.Rules
 
                 foreach (Action action in Actions)
                 {
-                    explanation.Pad();
+                    explanation.Write();
                     action.GetExplain(explanation, explainSubElements);
                     explanation.WriteLine();
                 }

@@ -695,7 +695,12 @@ namespace DataDictionary.Types
         public override void GetExplain(TextualExplanation explanation, bool explainSubElements)
         {
             base.GetExplain(explanation, explainSubElements);
-            explanation.PadLine("RANGE "+ Name +" FROM "+ MinValue + " TO " + MaxValue);
+            explanation.Write("RANGE ");
+            explanation.Write(Name);
+            explanation.Write(" FROM ");
+            explanation.Write(MinValue);
+            explanation.Write(" TO ");
+            explanation.WriteLine(MaxValue);
 
             explanation.Indent(2, () =>
             {

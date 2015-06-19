@@ -263,7 +263,10 @@ namespace DataDictionary.Types
         public override void GetExplain(TextualExplanation explanation, bool explainSubElements)
         {
             base.GetExplain(explanation, explainSubElements);
-            explanation.PadLine("COLLECTION "+ Name+ " OF " + getTypeName());
+            explanation.Write("COLLECTION ");
+            explanation.Write(Name);
+            explanation.Write(" OF ");
+            explanation.WriteLine(getTypeName());
         }
 
         /// <summary>

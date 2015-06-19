@@ -406,7 +406,8 @@ namespace DataDictionary.Constants
         /// <param name="explainSubElements">Precises if we need to explain the sub elements (if any)</param>
         public virtual void GetExplain(TextualExplanation explanation, bool explainSubElements)
         {
-            explanation.PadLine("STATE " + Name);
+            explanation.Write("STATE ");
+            explanation.WriteLine(Name);
 
             if (explainSubElements)
             {

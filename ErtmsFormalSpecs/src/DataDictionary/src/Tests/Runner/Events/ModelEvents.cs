@@ -150,7 +150,7 @@ namespace DataDictionary.Tests.Runner.Events
         /// </summary>
         public override string ToString()
         {
-            return Time.ToString() + ": " + Message;
+            return Time + ": " + Message;
         }
 
         /// <summary>
@@ -160,7 +160,8 @@ namespace DataDictionary.Tests.Runner.Events
         /// <param name="explainSubElements">Precises if we need to explain the sub elements (if any)</param>
         public virtual void GetExplain(TextualExplanation explanation, bool explainSubElements)
         {
-            explanation.PadLine("MODEL EVENT "+ this.ToString());
+            explanation.Write("MODEL EVENT ");
+            explanation.WriteLine(ToString());
         }
     }
 }

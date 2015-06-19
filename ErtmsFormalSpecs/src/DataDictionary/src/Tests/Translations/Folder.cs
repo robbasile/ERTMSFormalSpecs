@@ -130,7 +130,8 @@ namespace DataDictionary.Tests.Translations
         /// <param name="explainSubElements">Precises if we need to explain the sub elements (if any)</param>
         public virtual void GetExplain(TextualExplanation explanation, bool explainSubElements)
         {
-            explanation.PadLine("FOLDER " + Name);
+            explanation.Write("FOLDER ");
+            explanation.WriteLine(Name);
 
             if (explainSubElements)
             {
@@ -150,7 +151,8 @@ namespace DataDictionary.Tests.Translations
                     translation.GetExplain(explanation, explainSubElements);
                 }
             });
-            explanation.PadLine("END FOLDER " + Name);
+            explanation.Write("END FOLDER ");
+            explanation.WriteLine(Name);
         }
     }
 }

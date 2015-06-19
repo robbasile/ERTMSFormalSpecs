@@ -306,7 +306,8 @@ namespace DataDictionary.Specification
         /// <param name="explainSubElements">Precises if we need to explain the sub elements (if any)</param>
         public virtual void GetExplain(TextualExplanation explanation, bool explainSubElements)
         {
-            explanation.PadLine("REQUIREMENT SET "+ Name);
+            explanation.Write("REQUIREMENT SET ");
+            explanation.WriteLine(Name);
         }
     }
 }

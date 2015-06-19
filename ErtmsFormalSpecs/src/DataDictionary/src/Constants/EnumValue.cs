@@ -186,7 +186,7 @@ namespace DataDictionary.Constants
         public virtual void GetExplain(TextualExplanation explanation, bool explainSubElements)
         {
             explanation.Comment(this);
-            explanation.Pad(Name);
+            explanation.Write(Name);
             if (!String.IsNullOrEmpty(getValue()))
             {
                 explanation.WriteLine(" : " + getValue());

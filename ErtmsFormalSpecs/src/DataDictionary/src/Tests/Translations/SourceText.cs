@@ -109,13 +109,14 @@ namespace DataDictionary.Tests.Translations
         /// <param name="explainSubElements">Precises if we need to explain the sub elements (if any)</param>
         public virtual void GetExplain(TextualExplanation explanation, bool explainSubElements)
         {
-            explanation.PadLine("SOURCE TEXT ");
-            explanation.PadLine(Name);
+            explanation.WriteLine("SOURCE TEXT ");
+            explanation.WriteLine(Name);
             explanation.Indent(2, () =>
             {
                 foreach (SourceTextComment comment in this.Comments)
                 {
-                    explanation.PadLine("COMMENT" + comment.Name);
+                    explanation.Write("COMMENT");
+                    explanation.WriteLine(comment.Name);
                 }
             });
         }

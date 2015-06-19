@@ -391,12 +391,13 @@ namespace DataDictionary.Types
 
             if (!IsAbstract)
             {
-                explanation.PadLine("STRUCTURE " + Name);
+                explanation.Write("STRUCTURE ");
             }
             else
             {
-                explanation.PadLine("INTERFACE " + Name);
+                explanation.Write("INTERFACE ");
             }
+            explanation.WriteLine(Name);
 
             explanation.Indent(2, () =>
             {
@@ -404,7 +405,8 @@ namespace DataDictionary.Types
                 {
                     if (structure != null)
                     {
-                        explanation.PadLine("IMPLEMENTS " + structure.Name);
+                        explanation.Write("IMPLEMENTS ");
+                        explanation.WriteLine(structure.Name);
                     }
                 }
 
@@ -434,11 +436,11 @@ namespace DataDictionary.Types
 
             if (!IsAbstract)
             {
-                explanation.PadLine("END STRUCTURE");
+                explanation.WriteLine("END STRUCTURE");
             }
             else
             {
-                explanation.PadLine("END INTERFACE");                
+                explanation.WriteLine("END INTERFACE");                
             }
         }
 

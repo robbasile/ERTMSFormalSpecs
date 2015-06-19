@@ -105,8 +105,9 @@ namespace DataDictionary.Tests.Translations
         /// <param name="explanation"></param>
         /// <param name="explainSubElements">Precises if we need to explain the sub elements (if any)</param>
         public virtual void GetExplain(TextualExplanation explanation, bool explainSubElements)
-        {      
-            explanation.PadLine("TRANSLATION " + Name);
+        {
+            explanation.Write("TRANSLATION ");
+            explanation.WriteLine(Name);
 
             if (SourceTexts.Count > 0)
             {
@@ -121,7 +122,7 @@ namespace DataDictionary.Tests.Translations
                 subStep.GetExplain(explanation, explainSubElements);
             }
 
-            explanation.PadLine("END TRANSLATION ");
+            explanation.WriteLine("END TRANSLATION ");
         }
 
         /// <summary>

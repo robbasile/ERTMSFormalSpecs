@@ -587,7 +587,8 @@ namespace DataDictionary.Types
         public virtual void GetExplain(TextualExplanation explanation, bool explainSubElements)
         {
             explanation.Comment(this);
-            explanation.PadLine("NAMESPACE " + Name);
+            explanation.Write("NAMESPACE ");
+            explanation.WriteLine(Name);
         }
 
         /// <summary>

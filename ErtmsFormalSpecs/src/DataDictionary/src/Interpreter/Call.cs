@@ -606,8 +606,10 @@ namespace DataDictionary.Interpreter
                     }
                     explanation.ExplainList(NamedActualParameters, explainSubElements, ", ", pair =>
                     {
-                        explanation.WriteLine();
-                        explanation.Pad();
+                        if (AllParameters.Count > 1)
+                        {
+                            explanation.WriteLine();
+                        }
                         pair.Key.GetExplain(explanation);
                         explanation.Write(" => ");
                         pair.Value.GetExplain(explanation);

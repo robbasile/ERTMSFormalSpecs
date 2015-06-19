@@ -218,7 +218,7 @@ namespace DataDictionary.Rules
             {
                 if (!first)
                 {
-                    explanation.PadLine("ELSE");
+                    explanation.WriteLine("ELSE");
                 }
                 ruleCondition.GetExplain(explanation, explainSubElements);
                 first = false;
@@ -227,7 +227,7 @@ namespace DataDictionary.Rules
 
             if (condition)
             {
-                explanation.PadLine("END IF");
+                explanation.WriteLine("END IF");
             }
         }
 

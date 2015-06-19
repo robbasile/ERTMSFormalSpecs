@@ -174,7 +174,7 @@ namespace DataDictionary.Functions
         {
             if (PreConditions.Count > 0)
             {
-                explanation.Pad("IF ");
+                explanation.Write("IF ");
                 if (PreConditions.Count > 1)
                 {
                     // Prepare the space for the following ANDs
@@ -193,7 +193,7 @@ namespace DataDictionary.Functions
                     preCondition.GetExplain(explanation, explainSubElements);
                     first = false;
                 }
-                explanation.PadLine(" THEN");
+                explanation.WriteLine(" THEN");
 
                 explanation.Indent(2, () =>
                 {

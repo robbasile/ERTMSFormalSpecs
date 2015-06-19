@@ -315,7 +315,10 @@ namespace DataDictionary.Types
                 typeName = Type.FullName;
             }
 
-            explanation.PadLine("FIELD " + Name + " : " + typeName);
+            explanation.Write("FIELD ");
+            explanation.Write(Name);
+            explanation.Write(" : ");
+            explanation.WriteLine(typeName);
         }
     }
 }

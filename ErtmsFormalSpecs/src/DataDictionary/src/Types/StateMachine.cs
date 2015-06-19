@@ -813,7 +813,8 @@ namespace DataDictionary.Types
         public override void GetExplain(TextualExplanation explanation, bool explainSubElements)
         {
             base.GetExplain(explanation, explainSubElements);
-            explanation.PadLine("STATE MACHINE " + Name);
+            explanation.Write("STATE MACHINE ");
+            explanation.WriteLine(Name);
             explanation.Indent(2, () =>
             {
                 foreach (State state in States)

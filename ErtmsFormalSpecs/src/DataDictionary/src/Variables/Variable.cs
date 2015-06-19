@@ -419,17 +419,27 @@ namespace DataDictionary.Variables
         /// <param name="explainSubElements">Precises if we need to explain the sub elements (if any)</param>
         public virtual void GetExplain(TextualExplanation explanation, bool explainSubElements)
         {
-            if (Type != null)
+            if (string.IsNullOrEmpty(Comment))
             {
-                explanation.Comment(Type);
+                if (Type != null)
+                {
+                    explanation.Comment(Type);
+                }
             }
-            explanation.Comment(this);
+            else
+            {
+                explanation.Comment(this);                
+            }
 
-
+            explanation.Write(Name);
+            explanation.Write(" : ");
+            explanation.Write(TypeName);
             if (Value != null)
             {
-                explanation.PadLine(Name + " : " + TypeName + " = " + Value.LiteralName);
+                explanation.Write(" = ");
+                explanation.Write(Value.LiteralName);
             }
+            explanation.WriteLine();
         }
 
         public override string ToString()

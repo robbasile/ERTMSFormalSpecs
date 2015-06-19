@@ -240,7 +240,7 @@ namespace DataDictionary.Tests
 
             if (!string.IsNullOrEmpty(getCondition()))
             {
-                explanation.Pad("IF ");
+                explanation.Write("IF ");
                 if (ConditionTree != null)
                 {
                     ConditionTree.GetExplain(explanation);
@@ -251,7 +251,7 @@ namespace DataDictionary.Tests
                 }
                 explanation.WriteLine(" THEN");
                 explanation.Indent(2, () => explanation.Expression(this));
-                explanation.PadLine("END IF");
+                explanation.WriteLine("END IF");
 
             }
             else
