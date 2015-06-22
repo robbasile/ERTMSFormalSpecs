@@ -755,7 +755,7 @@ SupervisedTargets</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="acffd539-8dfa-4740-9930-3f8c6adee307"
->DetermineSupervisionStatus(Target)</Action></Actions>
+>THIS &lt;- Target</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -2102,7 +2102,7 @@ SupervisedTargets</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="47aa0936-dd4f-438f-981f-372a69f1a293"
->DetermineSupervisionStatus(Release)</Action></Actions>
+>THIS &lt;- Release</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -2433,6 +2433,56 @@ TargetSpeedMonitoring.SupervisionStatus.t6()</PreCondition></PreConditions>
 <Action
  Guid="99cfef32-2db0-4b56-bf19-0e91ceb84880"
 >JRU.JRU1.SpeedAndDistanceSupervisionTypeChanged &lt;- True</Action></Actions>
+<SubRules>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Revoke commands"
+ Guid="c27978fc-4998-4d1d-b1ae-88bd84af2911"
+>
+<ReqRef
+ Id="4ef8d95d-9b39-4a31-af31-f673833b0f7b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="edd298f5-b628-457c-a19f-abe64ddacb76"
+>
+</ReqRef><ReqRef
+ Id="16a2ffa9-a581-4832-8287-d3a982f4ddd7"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="587e86d8-11e3-47c5-8158-382a8774a38d"
+>
+</ReqRef><Comment>Handle revokation of the TCO and the SB.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Going to RSM"
+ Guid="e598c689-57d5-40e8-967f-10e0836b5ada"
+>
+<Comment>When transitioning to RSM, the traction cut-off and service brake commands are immediately revoked.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="5376fa4e-d943-4895-84bf-5afef5b8654b"
+>Condition2()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="b5d82b4e-2855-459f-97af-a6a157e62ae9"
+>TCOTriggered &lt;- Boolean.False</Action><Action
+ Guid="bdabe09b-4865-4c78-a537-f3dcdfc15995"
+>RevokeSBCommand()</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Going to CSM"
+ Guid="4daf9a79-94bf-4848-bd3e-9723053e6c70"
+>
+<Comment>When transitioning to CSM, the traction cut-off command is immediately revoked.</Comment>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="6e2d2b7a-9ab6-4e29-802b-70e64ca75e17"
+>TCOTriggered &lt;- Boolean.False</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></SubRules>
 </RuleCondition></Conditions>
 </Rule></LeaveAction>
 </State><State
@@ -3441,7 +3491,7 @@ ActiveFunctions.SuperviseTrainSpeed_MRSP_DistInSRMode()</PreCondition></PreCondi
 <Actions>
 <Action
  Guid="9fa14273-a356-4624-b65d-d653232c55c9"
->DetermineSupervisionStatus(MonitoringTypeSM.Release)</Action></Actions>
+>Monitoring &lt;- Kernel.SpeedAndDistanceMonitoring.MonitoringTypeSM.Release</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Target speed monitoring"
@@ -3461,7 +3511,7 @@ ActiveFunctions.SuperviseTrainSpeed_MRSP_DistInSRMode()</PreCondition></PreCondi
 <Actions>
 <Action
  Guid="5958ef9e-9907-4aa3-a87a-6fde142da01b"
->DetermineSupervisionStatus(MonitoringTypeSM.Target)</Action></Actions>
+>Monitoring &lt;- Kernel.SpeedAndDistanceMonitoring.MonitoringTypeSM.Target</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Ceiling speed monitoring"
@@ -3475,7 +3525,7 @@ ActiveFunctions.SuperviseTrainSpeed_MRSP_DistInSRMode()</PreCondition></PreCondi
 <Actions>
 <Action
  Guid="deecb83d-3be9-418a-ab8d-8ac5f524776f"
->DetermineSupervisionStatus(MonitoringTypeSM.Ceiling)</Action></Actions>
+>Monitoring &lt;- Kernel.SpeedAndDistanceMonitoring.MonitoringTypeSM.Ceiling</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -3722,137 +3772,6 @@ Odometry.TrainIsAtStandstill()</PreCondition></PreConditions>
 <Action
  Guid="8e4ef373-8406-40ac-8590-06ac5a6d17e7"
 >RevokeEBCommand()</Action></Actions>
-</RuleCondition></Conditions>
-</Rule></Rules>
-</Procedure><Procedure
- X="150"
- Y="240"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="DetermineSupervisionStatus"
- Guid="e859e947-8a55-4351-a7e5-e7ed69d5e6a5"
->
-<ReqRef
- Id="452e7369-8988-4a04-9d16-d7e769201a71"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="0c2fd63b-9ad1-474c-a4b6-060ceb67f368"
->
-</ReqRef><Comment>Sets the supervision status according to the type of speed and distance monitoring</Comment>
-<Parameters>
-<Parameter
- Type="MonitoringTypeSM"
- Name="MonitoringType"
- Guid="48561c68-d98c-4bb0-801d-1db3d690f533"
->
-</Parameter></Parameters>
-<Rules>
-<Rule
- Priority="Processing"
- Implemented="TRUE"
- Name="Revoke commands"
- Guid="633bddbb-f48c-495d-9434-0ebf177a01a2"
->
-<ReqRef
- Id="4ef8d95d-9b39-4a31-af31-f673833b0f7b"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="e63ae8c7-d2b7-4aff-81e9-65190d512755"
->
-</ReqRef><ReqRef
- Id="16a2ffa9-a581-4832-8287-d3a982f4ddd7"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="11603de7-288b-454f-b12c-d38a4f0ae9a3"
->
-</ReqRef><Comment>First handle the revocation of traction cut-off and service break if switching from target speed monitoring.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Revoke TCO and SB"
- Guid="63e77da2-5072-4745-9380-d29004a03766"
->
-<Comment>If switching to release speed monitoring, revoke TCO and SB commands.</Comment>
-<PreConditions>
-<PreCondition
- Guid="45f18bce-f81d-4f4c-9c04-e09b52bca20c"
->Monitoring in MonitoringTypeSM.Target</PreCondition><PreCondition
- Guid="dd4bbcaa-711f-4430-92d2-b231a4c42955"
->Condition2()</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="26a14c8c-2a37-48c9-bcb6-5f2bceeeca84"
->TCOTriggered &lt;- False</Action><Action
- Guid="ea5f6ece-dcce-4ae6-abad-20810e593cd8"
->RevokeSBCommand()</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- Name="Revoke TCO"
- Guid="209ce184-96ea-4cbf-9a87-bb99ffd22b2d"
->
-<Comment>If switching to ceiling speed monitoring, revoke TCO command.</Comment>
-<PreConditions>
-<PreCondition
- Guid="3b919df2-96fd-46bd-be00-adfe57e283ab"
->Monitoring in MonitoringTypeSM.Target</PreCondition><PreCondition
- Guid="c83c8401-56d3-4c12-aa65-dcc7ea3965f6"
->NOT Condition1()</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="68c2dfcd-31b1-4949-832f-b0467a5a94ca"
->TCOTriggered &lt;- False</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- Implemented="TRUE"
- Name="Determine supervision status"
- Guid="60074a77-efbb-468c-ac79-6f3f207a3aec"
->
-<Comment>Get the supervision status by applying the triggers of the new monitoring type</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="To target monitoring"
- Guid="42b3eca4-28b5-42db-9a3d-d04f839b45ff"
->
-<Comment>Supervision status for a train in TSM.</Comment>
-<PreConditions>
-<PreCondition
- Guid="734c0cfb-8504-4804-8e92-7d445b1644b3"
->MonitoringType in MonitoringTypeSM.Target</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="646147c7-d863-488e-83c8-2dad26e8f09b"
->TargetSpeedMonitoring.SupervisionStatus.TSMStatusTriggers()</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- Name="To ceiling monitoring"
- Guid="4f66c5e1-779a-41c9-8ebc-921feddf5c33"
->
-<Comment>Supervision status for a train in CSM.</Comment>
-<PreConditions>
-<PreCondition
- Guid="d670d6a1-c1ac-44f1-b831-99c4d17bd838"
->MonitoringType in MonitoringTypeSM.Ceiling</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="b1c0ff01-91ce-4c1f-9bcf-aaf67396cf63"
->CeilingSpeedMonitoring.SupervisionStatus.CSMStatusTriggers()</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- Name="To release monitoring"
- Guid="f6f7adb9-bc1e-4b39-ae9b-49cab9466bf1"
->
-<Comment>Supervision status for a train in RSM.</Comment>
-<PreConditions>
-<PreCondition
- Guid="0d0b9a1b-65da-4d93-bfa4-45805bdddd01"
->MonitoringType in MonitoringTypeSM.Release</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="4984d1e4-bfdd-4b2a-aa8f-4885ab876f30"
->ReleaseSpeedMonitoring.SupervisionStatus.RSMStatusTriggers()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
