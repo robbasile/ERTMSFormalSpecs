@@ -47,6 +47,7 @@ namespace DataDictionary.test
         public void CleanUp()
         {
             System.Dictionaries.Clear();
+            Utils.ModelElement.Errors.Clear();
         }
 
         #region Rule checking
@@ -310,6 +311,7 @@ namespace DataDictionary.test
             enclosing.appendVariables(retVal);
             retVal.Name = name;
             retVal.TypeName = typeName;
+            retVal.Type = System.findType(enclosing, typeName);
 
             return retVal;
         }

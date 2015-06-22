@@ -171,9 +171,39 @@ namespace DataDictionary
             return retVal;
         }
 
+        /// <summary>
+        ///     Checks the consistency of this model's update
+        /// </summary>
+        /// <param name="model"></param>
+        private void checkUpdate(ModelElement model)
+        {
+            if (model.UpdatedBy.Count > 1)
+            {
+                if (!(model is Dictionary || model is NameSpace))
+                {
+                    model.AddError("Updates conflict: this model element is updated in multiple patches.");
+                    foreach (ModelElement element in model.UpdatedBy)
+                    {
+                        element.AddError("Updates conflict: the update target has also been updated in another patch.");
+                    }
+                }
+            }
+
+            if (model.getUpdates() != null  &&  model.Updates == null)
+            {
+                model.AddError("Cannot find the element updated by this.");
+            }
+        }
+
         public override void visit(BaseModelElement obj, bool visitSubNodes)
         {
             checkComment(obj as ICommentable);
+
+            ModelElement model = obj as ModelElement;
+            if (model != null)
+            {
+                checkUpdate(model);
+            }
 
             base.visit(obj, visitSubNodes);
         }
