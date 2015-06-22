@@ -1025,6 +1025,7 @@ namespace GUI
                                     text.WriteLine("{");
                                     CreateDefaultStructureValue(text, structure, false);
                                     EditionTextBox.SelectedText = text.Text;
+                                    EditionTextBox.ProcessAllLines();
                                     e.Handled = true;
                                 }
                             }
@@ -1042,6 +1043,7 @@ namespace GUI
                                     TextualExplanation text = new TextualExplanation();;
                                     CreateCallableParameters(text, callable);
                                     EditionTextBox.SelectedText = text.Text;
+                                    EditionTextBox.ProcessAllLines();
                                     e.Handled = true;
                                 }
                             }
