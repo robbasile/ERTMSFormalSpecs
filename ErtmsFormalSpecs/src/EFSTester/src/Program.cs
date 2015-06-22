@@ -96,6 +96,25 @@ namespace EFSTester
                     }
                 }
 
+                // Translate the sub sequences, if required
+                Console.Out.WriteLine("Translating sub sequences");
+                foreach (var dictionary in efsSystem.Dictionaries)
+                {
+                    foreach (Frame frame in dictionary.Tests)
+                    {
+                        foreach (SubSequence subSequence in frame.SubSequences)
+                        {
+                            if (subSequence.getCompleted())
+                            {
+                                if (dictionary.TranslationDictionary != null)
+                                {
+                                    subSequence.Translate(dictionary.TranslationDictionary);
+                                }
+                            }
+                        }
+                    }
+                }
+
                 // Ensure the model is consistent
                 IsThereAnyError isThereAnyError = new IsThereAnyError();
                 foreach (Dictionary dictionary in efsSystem.Dictionaries)
@@ -106,13 +125,15 @@ namespace EFSTester
                 }
 
                 // Dumps all errors found
-                foreach (ElementLog error in isThereAnyError.ErrorsFound)
+                if (isThereAnyError.ErrorsFound.Count > 0)
                 {
-                    Console.Out.WriteLine(error.Log);
-                    retVal = -1;                    
+                    foreach (ElementLog error in isThereAnyError.ErrorsFound)
+                    {
+                        Console.Out.WriteLine(error.Log);
+                    }
+                    return -1;
                 }
 
-                if (retVal == 0)
                 {
                     // Perform functional test for last loaded dictionary
                     Dictionary dictionary = efsSystem.Dictionaries.FindLast(x => true);
@@ -125,12 +146,6 @@ namespace EFSTester
                             Console.Out.WriteLine("Executing sub sequence " + subSequence.FullName);
                             if (subSequence.getCompleted())
                             {
-                                if (dictionary.TranslationDictionary != null)
-                                {
-                                    Console.Out.WriteLine("  -> Translating sub sequence ");
-                                    subSequence.Translate(dictionary.TranslationDictionary);
-                                }
-
                                 Runner runner = new Runner(subSequence, false, false, true);
                                 runner.RunUntilStep(null);
 
