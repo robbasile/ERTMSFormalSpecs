@@ -211,10 +211,8 @@ namespace DataDictionary
         {
             bool retVal = false;
 
-            bool previousSilent = BeSilent;
-            try
+            DontRaiseError(() =>
             {
-                BeSilent = true;
                 Expression expression = EFSSystem.INSTANCE.Parser.Expression(modelElement, name,
                     AllMatches.INSTANCE, true, null, true);
 
@@ -228,11 +226,7 @@ namespace DataDictionary
                         break;
                     }
                 }
-            }
-            finally
-            {
-                BeSilent = previousSilent;
-            }
+            });
 
             return retVal;
         }
