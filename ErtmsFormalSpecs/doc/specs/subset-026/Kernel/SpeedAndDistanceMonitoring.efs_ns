@@ -631,13 +631,26 @@ SupervisedTargets</PreCondition></PreConditions>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="d277a5e6-fb3d-4fba-a0c1-cebedac35673"
 >
+</ReqRef><ReqRef
+ Id="ec0c435b-0145-4656-99a6-3a16788797ff"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0521420a-3ec3-48a1-b950-13af166b8c91"
+>
 </ReqRef><Comment>Revoke intervention status to normal status, priority 1.</Comment>
 <PreConditions>
 <PreCondition
  Guid="52406f8d-f9c7-4772-82d9-fe1016c6c270"
 >CeilingSpeedMonitoring.SupervisionStatus.r0()
   OR  
-CeilingSpeedMonitoring.SupervisionStatus.r1()</PreCondition><PreCondition
+(
+  (
+    NOT EBSpecified
+      OR  
+    NationalValues.ReleaseOfEBIsPermitted()
+  )
+    AND
+  CeilingSpeedMonitoring.SupervisionStatus.r1()
+)</PreCondition><PreCondition
  Guid="a33ec6cb-8c51-4892-942e-5ca81a52e64b"
 >TargetsList()
 ==
@@ -662,7 +675,17 @@ SupervisedTargets</PreCondition></PreConditions>
  Guid="c808d167-6474-40d9-b6a0-39693e5449f5"
 >
 <PreConditions>
-</PreConditions>
+<PreCondition
+ Guid="22440471-cc8c-4e77-8242-0ad2c7476db6"
+>CeilingSpeedMonitoring.SupervisionStatus.r0()
+  OR  
+(
+  NationalValues.ReleaseOfEBIsPermitted()
+    AND  
+  CeilingSpeedMonitoring.SupervisionStatus.r1()
+)</PreCondition><PreCondition
+ Guid="58d9209c-f330-429b-8f64-e6636a3ef92d"
+>EBSpecified</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="cb71f196-1145-4d1a-ba4b-b09787db41b0"
@@ -685,7 +708,9 @@ SupervisedTargets</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="c8edc09c-aebf-4999-8dc0-0bf8987a6478"
->CeilingSpeedMonitoring.SupervisionStatus.r1()</PreCondition></PreConditions>
+>CeilingSpeedMonitoring.SupervisionStatus.r1()</PreCondition><PreCondition
+ Guid="9e4377e2-0cf2-4dcf-95f4-e2603fe22a65"
+>SBSpecified</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="76c888f8-a330-4870-ae69-0bd7a0fd8b13"
@@ -731,6 +756,93 @@ SupervisedTargets</PreCondition></PreConditions>
 <Action
  Guid="acffd539-8dfa-4740-9930-3f8c6adee307"
 >DetermineSupervisionStatus(Target)</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Revoke EB command"
+ Guid="e10749b0-c07d-4d0d-9284-d7355a198a6c"
+>
+<ReqRef
+ Id="4ef8d95d-9b39-4a31-af31-f673833b0f7b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="7f144931-f3c2-45f4-bbeb-dcf765c7d277"
+>
+</ReqRef><ReqRef
+ Id="ec0c435b-0145-4656-99a6-3a16788797ff"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b8fe8f98-ddb7-4e84-b495-eff425ee0479"
+>
+</ReqRef><ReqRef
+ Id="4f24d434-b967-4e8b-b2b1-e0b3f4d6c2dc"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="fe6aa726-b452-42c8-aef8-91e78f63fd0b"
+>
+</ReqRef><Comment>Revoke the EB command if it is applied and the revokation condition is met.
+This is used to handle the case where a previous brake command was not revoked before the monitoring type changed (see 3.13.10.6.2).</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="EB commanded"
+ Guid="2c39971c-5608-4bf6-ba58-06a7bd8ded3c"
+>
+<PreConditions>
+<PreCondition
+ Guid="18ed81eb-d759-4600-bf0d-b65de16ba822"
+>EBSpecified</PreCondition><PreCondition
+ Guid="ba2d5d10-548d-4d8b-9ffb-90416e35045f"
+>CeilingSpeedMonitoring.SupervisionStatus.r0()
+  OR  
+(
+  NationalValues.ReleaseOfEBIsPermitted()
+    AND  
+  CeilingSpeedMonitoring.SupervisionStatus.r1()
+)</PreCondition><PreCondition
+ Guid="6e383709-198a-4022-b704-cdda4e7fa6b8"
+>THIS not in Intervention</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="b433482f-4bca-4601-847e-971895a08735"
+>RevokeEBCommand()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Revoke SB command"
+ Guid="61694b26-e88d-4cdd-a639-c0318a3269d7"
+>
+<ReqRef
+ Id="4ef8d95d-9b39-4a31-af31-f673833b0f7b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="edc60b1d-1d94-4d91-844d-265542077d6b"
+>
+</ReqRef><ReqRef
+ Id="ec0c435b-0145-4656-99a6-3a16788797ff"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="1c614116-56f4-4e70-a068-b910f0f79f33"
+>
+</ReqRef><Comment>Revoke the SB command if it is applied and the revokation condition is met.
+This is used to handle the case where a previous brake command was not revoked before the monitoring type changed (see 3.13.10.6.2).</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="SB commanded"
+ Guid="e61dd03a-0729-485f-9e5d-0ed56921a06d"
+>
+<PreConditions>
+<PreCondition
+ Guid="5afc9a75-50b7-4403-b867-8e5cb6cd826f"
+>THIS not in Intervention</PreCondition><PreCondition
+ Guid="be96773f-ef9a-4716-aa64-d88a3d1fe8f6"
+>SBSpecified</PreCondition><PreCondition
+ Guid="0dd5e148-39c4-4b87-b032-62c0ff4db389"
+>CeilingSpeedMonitoring.SupervisionStatus.r1()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="f46f7791-f7bb-45b2-bcbd-39fe148da8d7"
+>RevokeSBCommand()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </StateMachine><EnterAction>
@@ -1855,11 +1967,22 @@ SupervisedTargets</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="8ad546a7-3fae-409d-80a5-bd48d333a7a7"
->TargetSpeedMonitoring.SupervisionStatus.r0() 
+><Comment>The status can only be revoked, in the case where the EB is triggered, if permitted by the national values. Therefore, the precondition can only be satisfied if r0() is true, is the EB is not specified, or if the national values permit it.</Comment>
+TargetSpeedMonitoring.SupervisionStatus.r0() 
   OR  
-TargetSpeedMonitoring.SupervisionStatus.r1() 
-  OR  
-TargetSpeedMonitoring.SupervisionStatus.r2()</PreCondition><PreCondition
+(
+  (
+    NationalValues.ReleaseOfEBIsPermitted()
+      OR  
+    NOT EBSpecified
+  )
+  AND
+  (
+    TargetSpeedMonitoring.SupervisionStatus.r1()
+      OR  
+    TargetSpeedMonitoring.SupervisionStatus.r2()
+  )
+)</PreCondition><PreCondition
  Guid="135eec21-3034-495d-b0d7-5775c861ed3b"
 >TargetsList()
 ==
@@ -1884,7 +2007,19 @@ SupervisedTargets</PreCondition></PreConditions>
  Guid="ff114340-0ca8-4af3-9247-1979f1e707dd"
 >
 <PreConditions>
-</PreConditions>
+<PreCondition
+ Guid="eeabc95e-4df1-474e-84bb-6a1c03f0eaea"
+>TargetSpeedMonitoring.SupervisionStatus.r0() 
+  OR  
+(
+  NationalValues.ReleaseOfEBIsPermitted()
+    AND
+  (
+    TargetSpeedMonitoring.SupervisionStatus.r1() 
+      OR  
+    TargetSpeedMonitoring.SupervisionStatus.r2()
+  )
+)</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="0242f129-75bb-4b22-8a7e-4eb495129f89"
@@ -1968,6 +2103,158 @@ SupervisedTargets</PreCondition></PreConditions>
 <Action
  Guid="47aa0936-dd4f-438f-981f-372a69f1a293"
 >DetermineSupervisionStatus(Release)</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Revoke SB command"
+ Guid="64ff6938-112d-4a91-8f6e-9e3c7d7caaa0"
+>
+<ReqRef
+ Id="d5c3e2f6-7747-4faf-95c2-ec06309fe9ac"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="14e3ecb3-7494-4596-bba0-c2651d1d922a"
+>
+</ReqRef><ReqRef
+ Id="c67a3f36-61c7-4021-a4d9-2d9bbe0d08aa"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="fdb3e8d2-846b-4056-b4dc-637eed011014"
+>
+</ReqRef><ReqRef
+ Id="8f56c788-64ae-457b-b163-9023aca9643c"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="97c3c1c6-291b-4c52-9164-5463a296e7e4"
+>
+</ReqRef><ReqRef
+ Id="5b666657-27b5-46b4-9ee5-194c4319dd17"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="efdb2cd3-cdbc-41f3-9d8f-db976d1385b6"
+>
+</ReqRef><ReqRef
+ Id="2c0f9388-fcbe-4608-aafb-aad27bc06d88"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="8ed370b7-f685-4384-a0d0-48d562c99d63"
+>
+</ReqRef><ReqRef
+ Id="9e577947-88cc-41b1-857e-6a7b33567ea5"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="3aef65bc-ac6d-4838-800c-88af783a8bab"
+>
+</ReqRef><ReqRef
+ Id="d1eb1a87-f8ea-4a77-bf6c-5d1b53c98b42"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="cf0120c5-c52e-425f-aa1e-978407c11043"
+>
+</ReqRef><Comment>Revoke the SB command if it is applied and the revokation condition is met.
+This is used to handle the case where a previous brake command was not revoked before the monitoring type changed (see 3.13.10.6.2).</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="SB commanded"
+ Guid="0f97662d-e8e0-4ab4-8920-1af8e08a5014"
+>
+<PreConditions>
+<PreCondition
+ Guid="f47a2b74-fe47-4744-ab8a-8827832e5cf8"
+>THIS not in Intervention</PreCondition><PreCondition
+ Guid="e00bdd73-5703-4cd4-9566-fa3472b3b1d8"
+>TargetSpeedMonitoring.SupervisionStatus.r1()
+  OR  
+TargetSpeedMonitoring.SupervisionStatus.r2()
+  OR  
+TargetSpeedMonitoring.SupervisionStatus.r3()</PreCondition><PreCondition
+ Guid="3b8f0daa-b19b-4a0a-b528-2d6f4fcb2662"
+>SBSpecified</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="60f0485d-848a-4cc0-a28f-9d97ae37e8dc"
+>RevokeSBCommand()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Revoke EB command"
+ Guid="c0828251-fd64-4288-ac32-a67b3e5deac9"
+>
+<ReqRef
+ Id="d5c3e2f6-7747-4faf-95c2-ec06309fe9ac"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="2a111b01-e693-4b5e-9a29-fbb2aec8c879"
+>
+</ReqRef><ReqRef
+ Id="775d91cf-e44c-4da5-964b-d0cb40ab524b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="3b49c8b6-721e-4ea1-96e4-92697e1ce0c5"
+>
+</ReqRef><ReqRef
+ Id="95129f07-4e8c-4a36-be22-0671888b69bb"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="4dd6f433-4a51-47fb-aaf6-e851d5c459ad"
+>
+</ReqRef><ReqRef
+ Id="2c0f9388-fcbe-4608-aafb-aad27bc06d88"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="845c8dd8-f4e5-4ea4-990f-d43f241cfb7f"
+>
+</ReqRef><ReqRef
+ Id="9e577947-88cc-41b1-857e-6a7b33567ea5"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6c24eea5-e8a1-4186-91d0-2b0d4310b40d"
+>
+</ReqRef><ReqRef
+ Id="d1eb1a87-f8ea-4a77-bf6c-5d1b53c98b42"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0a0ec592-9c6c-45f3-94f8-e1edee1951c6"
+>
+</ReqRef><ReqRef
+ Id="5b666657-27b5-46b4-9ee5-194c4319dd17"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="44625dc3-d668-4415-8556-9040842028fc"
+>
+</ReqRef><ReqRef
+ Id="8f56c788-64ae-457b-b163-9023aca9643c"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="5af4bc4a-dcca-453d-a6e6-bf41ae6012d2"
+>
+</ReqRef><ReqRef
+ Id="c67a3f36-61c7-4021-a4d9-2d9bbe0d08aa"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="8021f342-93e5-49c4-812c-28ab20177661"
+>
+</ReqRef><Comment>Revoke the EB command if it is applied and the revokation condition is met.
+This is used to handle the case where a previous brake command was not revoked before the monitoring type changed (see 3.13.10.6.2).</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="EB commanded"
+ Guid="bb273959-9fa2-4af5-a37f-68d1e62aacc1"
+>
+<PreConditions>
+<PreCondition
+ Guid="84785f48-ae5d-4bdf-a7c8-4a64232f77aa"
+>THIS not in Intervention</PreCondition><PreCondition
+ Guid="966ac758-ac03-4851-b9a5-d9505b7b260f"
+>TargetSpeedMonitoring.SupervisionStatus.r0()
+  OR  
+(
+  NationalValues.ReleaseOfEBIsPermitted()
+    AND  
+  (
+    TargetSpeedMonitoring.SupervisionStatus.r1()
+      OR  
+    TargetSpeedMonitoring.SupervisionStatus.r2()
+      OR  
+    TargetSpeedMonitoring.SupervisionStatus.r3()
+  )
+)</PreCondition><PreCondition
+ Guid="97a28e8f-7bf1-45bb-8acc-6c64a8dff61e"
+>EBSpecified</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="0707da0b-ad6f-466c-86a8-78029248b81a"
+>RevokeEBCommand()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </StateMachine><EnterAction>
@@ -2265,6 +2552,46 @@ SupervisedTargets</PreCondition></PreConditions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </StateMachine></State></States>
+<Rules>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Revoke EB command"
+ Guid="d8790369-f290-4449-9602-b380066e6646"
+>
+<ReqRef
+ Id="9b034e20-6738-4ae4-ba40-0ac20a7bf5cd"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="bc389d9e-368d-44fc-9bae-d47d2a18e2f7"
+>
+</ReqRef><ReqRef
+ Id="d5c3e2f6-7747-4faf-95c2-ec06309fe9ac"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="8faaf571-f6d6-4aa3-8954-a53bc9635bc9"
+>
+</ReqRef><Comment>Revoke the EB command if it is applied and the revokation condition is met.
+This is used to handle the case where a previous brake command was not revoked before the monitoring type changed (see 3.13.10.6.2).</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="EB commanded"
+ Guid="d8a9e324-a23f-49c8-850c-e614cd01f572"
+>
+<PreConditions>
+<PreCondition
+ Guid="28aa3645-ad8c-44a4-8f88-5dcbcf2d4dbb"
+>EBSpecified</PreCondition><PreCondition
+ Guid="807fdc20-55c9-472c-999c-994c30ff1291"
+>THIS not in Intervention</PreCondition><PreCondition
+ Guid="bcca89cc-d192-41f8-802e-09bf205730cb"
+>ReleaseSpeedMonitoring.SupervisionStatus.r0()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="4c9a1a22-88ae-4562-8a6e-2ac5a1aa8e96"
+>RevokeEBCommand()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
 </StateMachine><EnterAction>
 <Rule
  Priority="Processing"
@@ -3771,7 +4098,7 @@ Odometry.TrainIsAtStandstill()</PreCondition></PreConditions>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="95dd4898-2b4b-450a-8ef2-62b60ac891aa"
 >
-</ReqRef><Comment>Indicates if the SB command was specified. Use to determine wheter EB command was triggered due to SBI supervision limit or EBI supervision limit.</Comment>
+</ReqRef><Comment>Indicates if the SB command was specified. Use to determine whether EB command was triggered due to SBI supervision limit or EBI supervision limit.</Comment>
 </Variable><Variable
  Type="Boolean"
  DefaultValue="Boolean.False"
