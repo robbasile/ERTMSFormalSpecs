@@ -58,6 +58,7 @@ Source: ..\..\bin\Utils.pdb; DestDir: {app}\bin; Flags: ignoreversion
 Source: ..\..\bin\gnuplot\*; DestDir: {app}\bin\gnuplot; Flags: recursesubdirs
 
 Source: ..\..\doc\EFSW_User_Guide.pdf; DestDir: {app}\doc;
+Source: ..\..\doc\EFS_Product_Release_Info.pdf; DestDir: {app}\doc;
 Source: ..\..\doc\specs\subset-026.efs; DestDir: {userdocs}\ERTMSFormalSpecs;
 Source: ..\..\doc\specs\subset-026\*; DestDir: {userdocs}\ERTMSFormalSpecs\subset-026; Flags: recursesubdirs
 Source: ..\..\doc\specs\braking curves verification.efs; DestDir: {userdocs}\ERTMSFormalSpecs;
@@ -65,6 +66,7 @@ Source: ..\..\doc\specs\braking curves verification\*; DestDir: {userdocs}\ERTMS
 
 [Icons]
 Name: "{group}\docs\User's Manual"; Filename: "{app}\doc\EFSW_User_Guide.pdf";
+Name: "{group}\docs\EFS Product release info"; Filename: "{app}\doc\EFS_Product_Release_Info.pdf";
 Name: "{group}\EFS Workbench"; Filename: "{app}\bin\ERTMSFormalSpecs.exe";
 Name: "{group}\Uninstall EFS"; Filename: "{app}\unins000.exe";
 
