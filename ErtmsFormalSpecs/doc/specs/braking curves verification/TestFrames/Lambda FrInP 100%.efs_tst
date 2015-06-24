@@ -1,7 +1,7 @@
 <Frame
  CycleDuration="Kernel.CycleDuration"
  Name="Lambda FrInP 100%"
- Guid="f3af2446-d687-4625-857d-e728ae2642d9"
+ Guid="38a087d4-898e-4cf8-8239-349d89785636"
 >
 <SubSequences>
 <SubSequence
@@ -15,7 +15,7 @@
  RBC_ID=""
  RBCPhone=""
  Name="Lambda FrInP 100%"
- Guid="70c9d460-543c-4214-a3f7-737185d95e46"
+ Guid="e747861c-1eae-4406-a925-65229fba72e3"
 >
 <TestCases>
 <TestCase
@@ -23,7 +23,7 @@
  Case="0"
  NeedsRequirement="FALSE"
  Name="Setup"
- Guid="9b68ef9d-46de-4821-8969-e8329f0cc938"
+ Guid="7471386e-db8d-4b03-a431-e1e48dc627f1"
 >
 <Steps>
 <Step
@@ -34,28 +34,47 @@
  ModeOUT="NA"
  TranslationRequired="FALSE"
  Name="Step1 - Setup"
- Guid="bc72378a-436c-4743-96e4-0161289ead11"
+ Guid="dd9307fb-8d9e-4d15-9986-90921fac2a1f"
 >
 <SubSteps>
 <SubStep
  SkipEngine="TRUE"
  Name="SubStep1 - Setup"
- Guid="cc324545-f2b9-4e8d-b975-af50f58d204b"
+ Guid="d0f3c47e-9b46-4d63-9456-e92a8a6dbf70"
 >
 <Actions>
 <Action
- Guid="4f4dfab9-b9da-4365-bf59-abadba2bc71e"
+ Guid="23c5275c-a6ea-4c5f-8438-1664b4f4bc7b"
 >Kernel.PowerOn &lt;- True</Action><Action
- Guid="572db962-f66a-4eb7-83ce-6662e298d68a"
+ Guid="953d7f96-7722-4cb8-8d21-26e1d6027542"
 >Kernel.Mode &lt;- Mode.FS</Action><Action
- Guid="9c31cc01-8c60-4f63-a0fc-36b8f01692d1"
+ Guid="7bfe8539-9c07-4140-ad63-0f59f10f5b79"
 >Kernel.Level &lt;- Kernel.LevelData
 {
     Value =&gt; LevelDataStruct { Value =&gt; Level.L1 },
     DataState =&gt; DataState.Valid
 }</Action><Action
- Guid="a8eaf5a3-ded2-4c17-8066-367547704c98"
->Odometry.NominalDistance &lt;- 0.0</Action></Actions>
+ Guid="86fd188d-554a-41d2-aa8b-92955ef84e18"
+>Odometry.NominalDistance &lt;- 0.0</Action><Action
+ Guid="67668d88-236e-4872-9a4c-35593a515808"
+>BTM.LRBG &lt;- BTM.BaliseGroupStruct{
+    NID =&gt; 0,
+    Orientation =&gt; Default.Orientation.Nominal,
+    Position =&gt; BTM.Position{
+        Position =&gt; 0.0,
+        UnderReadingAmountOdo =&gt; 0.0,
+        OverReadingAmountOdo =&gt; 0.0
+    },
+    Timestamp =&gt; Default.DateAndTime{
+        Year =&gt; 2012,
+        Month =&gt; 12,
+        Day =&gt; 20,
+        Hour =&gt; 20,
+        Minute =&gt; 12,
+        Second =&gt; 20,
+        TTS =&gt; 600
+    }
+}</Action></Actions>
 </SubStep></SubSteps>
 </Step></Steps>
 </TestCase><TestCase
@@ -63,7 +82,7 @@
  Case="0"
  NeedsRequirement="FALSE"
  Name="Initialize input"
- Guid="ccd50eb8-4915-4bad-8667-4af98955cf42"
+ Guid="74c9f852-db19-453d-8b79-8f92558531b0"
 >
 <Steps>
 <Step
@@ -74,58 +93,58 @@
  ModeOUT="NA"
  TranslationRequired="FALSE"
  Name="Step1 - Initialize input"
- Guid="d02fa971-fd6d-4992-864b-0f3f9c09ab95"
+ Guid="efc35450-b8b1-44bd-b10b-73cabf872a0a"
 >
 <SubSteps>
 <SubStep
  SkipEngine="TRUE"
  Name="SubStep1 - Train data"
- Guid="c66b526a-e1dd-4045-a153-87fd01318dd0"
+ Guid="ad9e480c-50d8-4de5-a7ec-9ea563189143"
 >
 <Actions>
 <Action
- Guid="b650ffa4-3453-4f5c-8b19-d19c7b284bd4"
+ Guid="e8337014-5094-42f5-ab42-75a211602db8"
 >Kernel.TrainData.TrainData.Value.EBModels &lt;- EMPTY</Action><Action
- Guid="6bfe417e-367e-477a-9eab-cbacdccf3e9d"
+ Guid="f384d8ba-b430-4156-923a-0fc5f1920a40"
 >Kernel.TrainData.TrainData.Value.SBModels &lt;- EMPTY</Action><Action
- Guid="94be5ba1-9b4d-4c5a-ba5a-861226f20a1e"
+ Guid="de600bcf-f23a-4c17-ba88-cbcd13b0f268"
 >Kernel.TrainData.TrainData.Value.NormalServiceBrakeModels &lt;- EMPTY</Action><Action
- Guid="880e3d3c-83fa-4fa7-a288-f0eb594bf6cb"
+ Guid="d45d5776-81a1-469d-a57b-ecf2454587a3"
 >Kernel.TrainData.TrainData.Value.T_brake_emergency &lt;- EMPTY</Action><Action
- Guid="3b5da28f-37b6-4dca-80d1-dc13736602e6"
+ Guid="68ef3dcf-2caa-4f1e-9b91-a518aa064146"
 >Kernel.TrainData.TrainData.Value.T_brake_service &lt;- EMPTY</Action><Action
- Guid="f2caf24a-3805-463a-ba5e-d3c031d89c6c"
+ Guid="39119350-3838-41ad-85fa-09ab8a607a0f"
 >Kernel.TrainData.TrainData.Value.MaximumSpeed &lt;- 180.0</Action><Action
- Guid="350a9350-c7a1-404d-b412-7929963d98a2"
+ Guid="6ca4b4fc-8825-4e03-88a6-31c2591335db"
 >Kernel.TrainData.TrainData.Value.BrakePosition &lt;- Kernel.TrainData.BrakingParameters.BrakePositions.FreightTrainInP</Action><Action
- Guid="8c94ad53-9309-4ce8-8116-94984b04f2f9"
+ Guid="1e2fa7fe-aebc-418a-90ad-6a1882e7dfef"
 >Kernel.TrainData.TrainData.Value.TractionModel &lt;- Kernel.TrainData.TractionModel
 {
     Coefficient =&gt; 0.0,
     Constant    =&gt; 0.0
 }</Action><Action
- Guid="b18f000a-47f5-492b-8a37-2ce16286fcc1"
+ Guid="475c8f41-065a-47dc-bf92-dbe41602a770"
 >Kernel.TrainData.TrainData.Value.SBCommandIsImplemented &lt;- False</Action><Action
- Guid="3575fd62-6f7a-476d-b4fc-2734b11bc85f"
+ Guid="86683de4-2c8e-4a89-b0fd-8fc73ef31708"
 >Kernel.TrainData.TrainData.Value.TractionCutOffInterfaceIsImplemented &lt;- False</Action><Action
- Guid="f5355557-6e7d-4f3f-ba2f-64ba66583661"
+ Guid="e74f79ff-ab0a-427a-9ca7-fe8ca112516d"
 >Kernel.TrainData.BrakingParameters.ContributionOfSpecialBrakeIsAllowed &lt;- True</Action><Action
- Guid="39bf4a5f-796d-4083-880f-bfe7e2437bc1"
+ Guid="0b6c4554-a82f-436a-9a5f-82c2ee417601"
 >Kernel.TrainData.TrainData.Value.TrainLength &lt;- 700.0</Action><Action
- Guid="acff4615-0f1d-47a3-aaac-81c37c2d210b"
+ Guid="46a6fe65-3934-47a2-bad6-27e871a8ffe1"
 >Kernel.TrainData.TrainData.Value.M_rotating_nom &lt;- Default.Percentage.NA</Action><Action
- Guid="069437fe-43e3-446f-85f2-2b7f6585c882"
+ Guid="381f91a4-dba9-4242-a189-7edbf0cfac53"
 >BTM.ActiveAntennaPosition &lt;- 5.0</Action></Actions>
 </SubStep><SubStep
  SkipEngine="TRUE"
  Name="SubStep2 - Track data"
- Guid="49c1d147-455c-4c0d-a15b-91d6994ffd41"
+ Guid="73aeb74f-6d8c-4078-aa5e-ca7faac35a85"
 >
 <Actions>
 <Action
- Guid="a6e27955-506e-41a6-ade8-bb8c8dc4cf62"
+ Guid="75835c61-b0b3-4cb0-b569-27731897d633"
 >Kernel.TrackDescription.TrackConditions.General.TCProfile &lt;- []</Action><Action
- Guid="76640016-795b-4e51-84e7-73ca662cc6d0"
+ Guid="34662e9a-0c60-4198-ad84-5f67657fcb31"
 >Kernel.MA.MA &lt;- Kernel.MA.MAStruct
 {
     TargetSpeed =&gt; 0.0,
@@ -143,18 +162,18 @@
     },
     TargetSpeedTimeOut =&gt; 0.0
 }</Action><Action
- Guid="6378f9ce-f270-47f3-8e1b-b8106be28ab1"
+ Guid="f25d5845-bb7d-4379-b404-e1ef682bbe95"
 >DMI.DMI1.Cab &lt;- DMI.CabEnum.CabA</Action><Action
- Guid="d8f15516-3ab8-4b28-9d91-3fca377ca6b6"
+ Guid="cd65ef81-c60e-4f18-a3f4-6554a6034679"
 >TIU.CabA.Desk1IsActive &lt;- Boolean.True</Action><Action
- Guid="754163a4-ccfd-405f-9699-560cf5b8fdd3"
+ Guid="5c1437be-f19e-4038-92aa-c837461557e2"
 >TIU.CabA.IsFittedWithSingleDesk &lt;- Boolean.True</Action><Action
- Guid="490a43b5-400f-4297-9b14-b0c2bf9b0cd0"
+ Guid="d95ef076-cf8e-4f36-9f43-8e6243ac2039"
 >Kernel.MA.SignallingRelatedSpeedRestriction &lt;- Kernel.MA.SignallingRelatedSRStruct{
     Value =&gt; 160.0,
     End =&gt; 8000.0
 }</Action><Action
- Guid="4a4da1ee-2731-428d-8d9a-e8f05ccf821c"
+ Guid="7106eb3b-8b83-4335-aaab-ef18ccc8899e"
 >INSERT
     Kernel.TrackDescription.Gradient.GradientStruct
     {
@@ -162,116 +181,123 @@
         Gradient =&gt; 0.0
     }
 IN
-    Kernel.TrackDescription.Gradient.Gradients</Action></Actions>
+    Kernel.TrackDescription.Gradient.Gradients</Action><Action
+ Guid="a6b567ad-39ac-4f2a-81ca-c23c38405bf2"
+>Kernel.TrackDescription.StaticSpeedProfile.SSP &lt;- [Kernel.TrackDescription.StaticSpeedProfile.StaticSpeedRestrictionStruct{
+    Location =&gt; 0.0,
+    BasicSpeed =&gt; Default.BaseTypes.Speed.MaxSpeed,
+    TrainLengthDelay =&gt; Messages.Q_FRONT.No_train_length_delay_on_validity_end_point_of_profile_element,
+    Categories =&gt; []
+}]</Action></Actions>
 </SubStep><SubStep
  SkipEngine="TRUE"
  Name="SubStep3 - National values"
- Guid="e96d0577-4c32-4ecd-9bb6-4fd200bb5b9c"
+ Guid="2fe9f274-b40e-4c24-9309-c3ae5797f5f8"
 >
 <Actions>
 <Action
- Guid="990e3923-7db3-4ada-bcb6-b179c355bc8c"
+ Guid="a64a373d-0637-4bd2-a654-103a94ea5dcd"
 >Kernel.NationalValues.ApplicableNationalValues.DataState &lt;- Default.DataState.Valid</Action><Action
- Guid="46e0fc10-f13e-40e6-8e4c-ed1127511cda"
+ Guid="533af8f1-a072-4d9e-b398-aeeb07f9ad04"
 >Kernel.NationalValues.ApplicableNationalValues.Value.UseServiceBrakeInTargetSpeedMonitoring &lt;- Messages.Q_NVSBTSMPERM.Yes</Action><Action
- Guid="687a2a88-63cb-4bc2-8715-c8d0270c0192"
+ Guid="ea74805c-2d4f-4c31-8a3a-c02b6474eef9"
 >Kernel.NationalValues.ApplicableNationalValues.Value.PermToInhibitTheCompOfTheSpeedMeasurementInaccuracy &lt;- Messages.Q_NVINHSMICPERM.Yes</Action><Action
- Guid="3e3ec031-47a1-4c8f-ba13-39f412fdcfdb"
+ Guid="d330eb13-bb3a-449b-bd8f-6bbbb914a563"
 >Kernel.NationalValues.ApplicableNationalValues.Value.MaxDecelValueUnderReducedAdhesionCond1 &lt;- 1.0</Action><Action
- Guid="071d1971-056d-42ee-85b9-20cf68935d26"
+ Guid="ee5a953a-cb2e-42fc-b662-5a4afbe08d63"
 >Kernel.NationalValues.ApplicableNationalValues.Value.MaxDecelValueUnderReducedAdhesionCond2 &lt;- 0.7</Action><Action
- Guid="14eb8ce8-a218-4a32-b3ce-3e8037ba00e0"
+ Guid="3d896f8e-1985-48c0-b3dd-9a210103e57b"
 >Kernel.NationalValues.ApplicableNationalValues.Value.MaxDecelValueUnderReducedAdhesionCond3 &lt;- 0.7</Action><Action
- Guid="edc557a5-5e48-44ec-8d89-51f68b8cc622"
+ Guid="b1afdd53-2801-4fc4-a6b4-bc9421b29b40"
 >Kernel.NationalValues.ApplicableNationalValues.Value.WeightingFactorForAvailableWheelRailAdhesion &lt;- 0.0</Action><Action
- Guid="5b52ba12-dfd4-4275-8449-546b6908d42e"
+ Guid="83c3bb37-e00e-47f9-a0e3-01633d53931f"
 >Kernel.NationalValues.ApplicableNationalValues.Value.ConfLevelForEmergBrakeSafeDecelerationOnDryRails &lt;- Messages.M_NVEBCL.Confidence_level___99_9999999</Action></Actions>
 </SubStep><SubStep
  SkipEngine="TRUE"
  Name="SubStep4 - Fixed values"
- Guid="3d7e3d71-6027-4391-a953-6260fb18a909"
+ Guid="2c19dab4-b4a7-4b78-9741-58d4fbd1435f"
 >
 <Actions>
 <Action
- Guid="79d7b259-62c0-495a-92bf-6118994da5af"
+ Guid="f9bda64a-2994-47bc-b74d-e485b019a402"
 >Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_ebi_min &lt;- 7.5</Action><Action
- Guid="b53ac7a8-b2d4-44c3-b928-05a99926c12b"
+ Guid="9116a076-b686-48d2-85d3-84cb8da4eacd"
 >Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_ebi_max &lt;- 15.0</Action><Action
- Guid="ef2a877d-f2fa-4caf-818d-17fe0ee84bd1"
+ Guid="7fa759ed-04f9-47ed-b5b3-eb6a012fcd00"
 >Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.V_ebi_min &lt;- 110.0</Action><Action
- Guid="50da9c15-6c21-4dc7-bf0a-f1d568da7054"
+ Guid="45bd5090-aa6f-4e60-8838-6c3d5e5f1193"
 >Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.V_ebi_max &lt;- 210.0</Action><Action
- Guid="db933a60-4ebe-415b-b9db-2fd32d9d6a9d"
+ Guid="4237b645-3f7b-448f-8d4e-5692fad72da9"
 >Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_sbi_min &lt;- 5.5</Action><Action
- Guid="bf016884-a256-44c7-9c2c-86c81572c7ac"
+ Guid="62eea6e7-ca8f-4ccb-bd1c-d63540146245"
 >Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_sbi_max &lt;- 10.0</Action><Action
- Guid="95414c7a-4255-4688-a389-f0739dd36275"
+ Guid="7421c96a-4ff5-4fc9-9815-ef86af9de2a2"
 >Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.V_sbi_min &lt;- 110.0</Action><Action
- Guid="51918af0-5420-40d5-bdba-bd75405741a3"
+ Guid="a166ec6b-2905-408d-b5d3-8fcee7564ade"
 >Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.V_sbi_max &lt;- 210.0</Action><Action
- Guid="eae4f5ce-ab67-429e-b7e4-e2c372677709"
+ Guid="18f7f512-84cf-4802-a4bf-92da4a337a1e"
 >Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_warning_min &lt;- 4.0</Action><Action
- Guid="de52c50b-79ea-4d24-b434-bbd949d0a543"
+ Guid="1b274b49-6992-4b85-976b-f9ce56cd4a10"
 >Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_warning_max &lt;- 5.0</Action><Action
- Guid="cf90a061-b46c-4bac-916f-d02b44f7a63f"
+ Guid="4914848e-132f-4535-97f7-3ba0b99e358a"
 >Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.V_warning_min &lt;- 110.0</Action><Action
- Guid="e40827ff-71ff-42bf-bc6b-e9a4f645e9fe"
+ Guid="b1980d60-b6af-4c56-9fe4-b7d934bf94f1"
 >Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.V_warning_max &lt;- 140.0</Action><Action
- Guid="89d993e3-41b8-435e-88ce-ef4b258884e2"
+ Guid="85f13a75-37ac-455c-92f7-b6797693e10d"
 >Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.T_warning &lt;- 2.0</Action><Action
- Guid="b6e07518-ef5c-4bae-95e1-b1677ef8cfd4"
+ Guid="5efca834-243b-444b-b3ad-e07cb852954a"
 >Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.T_driver &lt;- 4.0</Action><Action
- Guid="235b9eb1-7c02-4ed7-8ae8-5d5c73a088e1"
+ Guid="bc353c15-d174-4b16-ad85-db6d1304cc60"
 >Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.T_preindication &lt;- 7.0</Action><Action
- Guid="2f4f2394-abb8-41d8-aac7-22556e0e0ad9"
+ Guid="ae035fc3-f741-4a91-8522-79a1b88c4f75"
 >Kernel.TrackDescription.Gradient.M_rotating_max &lt;- 15.0</Action><Action
- Guid="dc08d8a7-18ac-4e07-a649-4601b4a9eed6"
+ Guid="1940736f-97d3-4573-a2d6-91aeea8d6359"
 >Kernel.TrackDescription.Gradient.M_rotating_min &lt;- 2.0</Action></Actions>
 </SubStep><SubStep
  SkipEngine="TRUE"
  Name="SubStep5 - Brake parameters"
- Guid="829ed2d5-c77c-428f-890c-f6b1b87ca04e"
+ Guid="acf0f083-b2db-4c78-91c2-6b880b95b89b"
 >
 <Actions>
 <Action
- Guid="df3ba888-106a-4a98-9883-ea333a663191"
+ Guid="09c5e7da-0b5c-4a0f-b3d6-2b267238ec41"
 >Kernel.TrainData.TrainData.Value.BrakePercentage &lt;- 100.0</Action></Actions>
 </SubStep><SubStep
  SkipEngine="TRUE"
  Name="SubStep6 - Integrated correction factors"
- Guid="9523d477-42c2-4bcd-829f-8a57e7e29c11"
+ Guid="be36df25-736d-4a65-a440-01a8c5b62ee3"
 >
 <Actions>
 <Action
- Guid="03ed37b7-d6ea-433e-9bac-12f7cb440af7"
+ Guid="ab6588f7-1d7b-4813-b5dd-e74f83b32c9e"
 >Kernel.NationalValues.ApplicableNationalValues.Value.IntegratedCorrectionFactorKrInt.Val0 &lt;- Kernel.NationalValues.KrIntValueStruct
 {
     LengthStep =&gt; 0.0,
     Value =&gt; 1.0
 }</Action><Action
- Guid="8bd2b43f-6caa-4360-886f-c8a03b2b06e8"
+ Guid="f0e3117b-6761-4c2d-bfe2-a2152530016d"
 >Kernel.NationalValues.ApplicableNationalValues.Value.IntegratedCorrectionFactorKrInt.Val1 &lt;- Kernel.NationalValues.KrIntValueStruct
 {
     LengthStep =&gt; Default.BaseTypes.Length.Infinity,
     Value =&gt; 1.0
 }</Action><Action
- Guid="b7eeb6f7-9548-4c8c-ba2e-95750b91a657"
+ Guid="7d8eec8b-f043-4522-ae7c-c7e6f85856bf"
 >Kernel.NationalValues.ApplicableNationalValues.Value.IntegratedCorrectionFactorKvInt_FreightTrain.Val0 &lt;- Kernel.NationalValues.KvIntValue_FreightTrainStruct
 {
     SpeedStep =&gt; 0.0,
     Value =&gt; 0.97
 }</Action><Action
- Guid="1ca9503e-cec8-48e4-850f-a818c7781d37"
+ Guid="e167d39b-ffaa-446f-92ee-d7c238ab868a"
 >Kernel.NationalValues.ApplicableNationalValues.Value.IntegratedCorrectionFactorKvInt_FreightTrain.Val1 &lt;- Kernel.NationalValues.KvIntValue_FreightTrainStruct
 {
     SpeedStep =&gt; Default.BaseTypes.Speed.Infinity,
     Value =&gt; 0.97
 }</Action><Action
- Guid="fdebfac3-2939-4d8e-b0a8-28fd1d39d481"
+ Guid="fd82f157-516b-4640-96e7-351ac8bf2360"
 >Kernel.NationalValues.ApplicableNationalValues.Value.IntegratedCorrectionFactorKvInt_PassengerTrain.A_NVP12 &lt;- 1.0</Action><Action
- Guid="eae94cf5-d6af-4811-a237-342d0d4b79a6"
+ Guid="fac00bcd-0e57-464e-883a-eaf85fc7b4a0"
 >Kernel.NationalValues.ApplicableNationalValues.Value.IntegratedCorrectionFactorKvInt_PassengerTrain.A_NVP23 &lt;- 1.3</Action><Action
- Guid="55b08a14-50d7-4c01-9079-545721d8709b"
+ Guid="998f05c1-6440-4357-b1be-4cab92bf50cc"
 >Kernel.NationalValues.ApplicableNationalValues.Value.IntegratedCorrectionFactorForBrakeBuildUpTime &lt;- 1.0</Action></Actions>
 </SubStep></SubSteps>
 </Step></Steps>
@@ -280,7 +306,7 @@ IN
  Case="0"
  NeedsRequirement="FALSE"
  Name="Verify input"
- Guid="e1d3a9a9-ae38-432d-8835-e624b2378fc9"
+ Guid="14ea47df-7c23-4f22-9975-f5dd020922fc"
 >
 <Steps>
 <Step
@@ -291,106 +317,106 @@ IN
  ModeOUT="NA"
  TranslationRequired="FALSE"
  Name="Step1 - Verify input"
- Guid="46cae711-6bf9-4939-82f4-6fff400ed4fb"
+ Guid="45cc25f9-3ab8-4f50-8c80-cfd49c64dccd"
 >
 <SubSteps>
 <SubStep
  Name="SubStep1 - Train data"
- Guid="84a3c921-b088-48b1-af70-5a37bbc01198"
+ Guid="07dded02-cf5e-46b0-a59f-f1cfbd3d3b0f"
 >
 <Actions>
 <Action
- Guid="0633a457-9737-4397-bfb2-99bb2dbe3c38"
+ Guid="ef3cecc6-5bfe-4436-99cd-a9e3d23f068f"
 >Kernel.TrainData.BrakingParameters.ConversionModel.Initialize()</Action><Action
- Guid="6511facf-3e1e-419f-9d7f-2bd65e8bbdd7"
+ Guid="97d300fa-27dc-4366-bdb7-9a6853ba8c58"
 >Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.UpdateReleaseSpeed()</Action></Actions>
 <Expectations>
 <Expectation
  Kind="Instantaneous"
- Guid="a7880892-7524-4ed3-a6f4-3e587b2ecc5e"
+ Guid="35d60e0e-e7a1-49e4-a6d0-8b4cd700e450"
 >Kernel.TrainData.BrakingParameters.ConversionModel.ConversionModelIsUsed() == True</Expectation></Expectations>
 </SubStep><SubStep
  Name="SubStep2 - Brake parameters"
- Guid="5a2ac0a3-be20-4e34-9359-d9ab574220e2"
+ Guid="330b82a3-f3f1-4c42-ba06-84a968b6afe7"
 >
 <Actions>
 <Action
- Guid="f82fb4eb-2966-4a5f-b72b-d73e54510067"
+ Guid="fea3c1be-7c9f-441e-b1b8-80bd0335554e"
 >Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.InitializeTimeIntervals()</Action></Actions>
 <Expectations>
 <Expectation
  Kind="Instantaneous"
- Guid="051319a7-58c9-459d-95fd-cb6806ef5515"
+ Guid="1a0b0857-680a-4446-a9ae-b3ad12f82c42"
 >Kernel.TrainData.BrakingParameters.ConversionModel.kto() == 1.2</Expectation><Expectation
  Kind="Instantaneous"
- Guid="800f32bb-a54d-49e1-97f2-fd95532a05b7"
+ Guid="04de5572-a984-473e-8376-7fe17fe5bf78"
 >Kernel.TrainData.BrakingParameters.ConversionModel.T_brake_emergency_cm0 == 10.63</Expectation><Expectation
  Kind="Instantaneous"
- Guid="ca7e5756-db9a-46ec-b4a0-8375479d6b0a"
+ Guid="54f10b70-c28b-4a4e-a8cf-ab661970a9c4"
 >Kernel.TrainData.BrakingParameters.ConversionModel.T_brake_service_cm0 == 22.39</Expectation><Expectation
  Kind="Instantaneous"
- Guid="369ef835-f67d-4571-aee6-b74f5f63852f"
+ Guid="01670caf-d2d8-46e9-9f25-2d8083726d81"
 >Kernel.TrainData.BrakingParameters.T_be() == 10.63</Expectation><Expectation
  Kind="Instantaneous"
- Guid="20c082eb-2a67-4712-8a86-55bf1b9d094a"
+ Guid="b3d706de-f84b-497b-8f5e-e4291c959623"
 >Kernel.TrainData.BrakingParameters.T_bs() == 22.39</Expectation></Expectations>
 </SubStep><SubStep
  Name="SubStep3 - Brake parameters (A_brake_emergency)"
- Guid="53f28ba0-1b84-4618-bfd8-26773957dfe4"
+ Guid="8d2e1ccb-aa32-4984-bc18-99a2bd1492d3"
 >
 <Expectations>
 <Expectation
  Kind="Instantaneous"
- Guid="62ff9c0f-a709-404b-9eb8-ae5730de314b"
+ Guid="49348ccf-9bc0-4b46-ac43-7ab68487c762"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; Kernel.TrainData.BrakingParameters.ConversionModel.A_brake_emergency(V =&gt; 0.0),
     Val2 =&gt; 0.826
 )</Expectation><Expectation
  Kind="Instantaneous"
- Guid="56d511ed-729b-4c62-835a-9880d5872def"
+ Guid="e73bdd52-0ffa-4606-ad88-4830a6ccd835"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; Kernel.TrainData.BrakingParameters.ConversionModel.A_brake_emergency(V =&gt; 120.948338078),
     Val2 =&gt; 0.826
 )</Expectation><Expectation
  Kind="Instantaneous"
- Guid="14369330-5dfa-438e-aee5-a47ad2c866e9"
+ Guid="89d21420-a498-40ce-bb70-5c6736eefe19"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; Kernel.TrainData.BrakingParameters.ConversionModel.A_brake_emergency(V =&gt; 120.94833808),
     Val2 =&gt; 0.6171
 )</Expectation><Expectation
  Kind="Instantaneous"
- Guid="459c7ac3-1764-426c-a50e-99485dc515ee"
+ Guid="0dde2c37-4d24-4dc0-b68f-6fb96111436b"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; Kernel.TrainData.BrakingParameters.ConversionModel.A_brake_emergency(V =&gt; 149.999999999),
     Val2 =&gt; 0.6171
 )</Expectation><Expectation
  Kind="Instantaneous"
- Guid="f684f238-fcf4-4ae7-9bf0-72aa2deb987f"
+ Guid="b115ce5c-b3f5-4c31-b1e3-bd96978e6697"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; Kernel.TrainData.BrakingParameters.ConversionModel.A_brake_emergency(V =&gt; 150.0),
     Val2 =&gt; 0.5915
 )</Expectation><Expectation
  Kind="Instantaneous"
- Guid="00ac5550-5a65-45a0-9b82-3886329242c2"
+ Guid="c1f30122-6507-425c-8384-77920eab2403"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; Kernel.TrainData.BrakingParameters.ConversionModel.A_brake_emergency(V =&gt; 179.999999999),
     Val2 =&gt; 0.5915
 )</Expectation><Expectation
  Kind="Instantaneous"
- Guid="1f143dae-6803-41c4-bcaa-f5288dfaec37"
+ Guid="22a3d32b-8a27-4412-94e0-36e71b864848"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; Kernel.TrainData.BrakingParameters.ConversionModel.A_brake_emergency(V =&gt; 180.0),
     Val2 =&gt; 0.58173
 )</Expectation><Expectation
  Kind="Instantaneous"
- Guid="945cb9ac-9bec-4aa7-bc11-425c8415984a"
+ Guid="bfc118a0-6850-48d5-aef0-48067e075c2f"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; Kernel.TrainData.BrakingParameters.ConversionModel.A_brake_emergency.Val1.SpeedStep,
@@ -398,61 +424,61 @@ IN
 )</Expectation></Expectations>
 </SubStep><SubStep
  Name="SubStep4 - Brake parameters (A_brake_service)"
- Guid="494d6f01-f404-4acc-ba85-7b895266f6b1"
+ Guid="70f052d1-757d-42b5-954e-509c3f382374"
 >
 <Expectations>
 <Expectation
  Kind="Instantaneous"
- Guid="63f57800-7a73-403c-9c36-2942c6120273"
+ Guid="81995731-88c0-4bc5-a282-db0ef97c530a"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; Kernel.TrainData.BrakingParameters.ConversionModel.A_brake_service(V =&gt; 0.0),
     Val2 =&gt; 0.826
 )</Expectation><Expectation
  Kind="Instantaneous"
- Guid="e9480c0b-db69-459e-93fe-dba2bfe20cbe"
+ Guid="dabeb4f8-fab0-4b6d-a69e-eb208c2fe2fd"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; Kernel.TrainData.BrakingParameters.ConversionModel.A_brake_service(V =&gt; 120.948338078),
     Val2 =&gt; 0.826
 )</Expectation><Expectation
  Kind="Instantaneous"
- Guid="f8a4f193-274c-4884-967b-f1baa9908210"
+ Guid="2bd87fcd-b62a-4d7e-8ab5-781a075deeca"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; Kernel.TrainData.BrakingParameters.ConversionModel.A_brake_service(V =&gt; 120.94833808),
     Val2 =&gt; 0.6171
 )</Expectation><Expectation
  Kind="Instantaneous"
- Guid="0b6c711b-7c64-4ba5-9d33-d9921aa0a409"
+ Guid="29af8a48-1610-4922-81e1-4ffaa220462b"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; Kernel.TrainData.BrakingParameters.ConversionModel.A_brake_service(V =&gt; 149.999999999),
     Val2 =&gt; 0.6171
 )</Expectation><Expectation
  Kind="Instantaneous"
- Guid="9c582f52-e9bd-4cf5-ac3f-dd037cd59cae"
+ Guid="b4b59b5d-5096-49eb-abd4-99679b7e6219"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; Kernel.TrainData.BrakingParameters.ConversionModel.A_brake_service(V =&gt; 150.0),
     Val2 =&gt; 0.5915
 )</Expectation><Expectation
  Kind="Instantaneous"
- Guid="47bf78c9-3c79-4c69-86f6-c12d9160801c"
+ Guid="142330ae-de3f-4214-aedc-6312e277dc25"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; Kernel.TrainData.BrakingParameters.ConversionModel.A_brake_service(V =&gt; 179.999999999),
     Val2 =&gt; 0.5915
 )</Expectation><Expectation
  Kind="Instantaneous"
- Guid="0d2b06b9-b02e-4ea5-b06b-1fbccbc82458"
+ Guid="5b1be8c2-df35-429a-8656-73a195f28b1a"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; Kernel.TrainData.BrakingParameters.ConversionModel.A_brake_service(V =&gt; 180.0),
     Val2 =&gt; 0.58173
 )</Expectation><Expectation
  Kind="Instantaneous"
- Guid="93d1b1aa-cad8-46c9-8881-2ecb2dc87cc6"
+ Guid="fdd85410-f6e5-40ce-8b9b-42b768d07150"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; Kernel.TrainData.BrakingParameters.ConversionModel.A_brake_service.Val1.SpeedStep,
@@ -465,7 +491,7 @@ IN
  Case="0"
  NeedsRequirement="FALSE"
  Name="Verify output"
- Guid="571eba81-316a-4f73-8af4-e98d4df63b70"
+ Guid="a21922e9-73cd-4d55-ac6d-7d0599e3151c"
 >
 <Steps>
 <Step
@@ -476,18 +502,18 @@ IN
  ModeOUT="NA"
  TranslationRequired="FALSE"
  Name="Step1 - EBD"
- Guid="a9d63a74-70f1-426b-8b0b-4b31cff90dc0"
+ Guid="f3c98704-4c59-442d-84e0-1472e55843ea"
 >
 <SubSteps>
 <SubStep
  Name="SubStep1 - Verify EBD values"
- Guid="ad19a820-0e26-4d13-8778-4a69b33cfc56"
+ Guid="9743123f-ad6c-4e83-860c-0efb16859c7f"
 >
 <Expectations>
 <Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="eef8282d-0d5e-4398-ac71-b40202b617ad"
+ Guid="d1ac51b2-fd65-4e18-821d-4f4968a3ea77"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.EBDDistanceFromTarget (
@@ -500,7 +526,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="dca37fa3-18ea-4015-9b5f-c80e0d698007"
+ Guid="a6a53348-7cf8-4cbd-ad7c-58aa972c6ecf"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.EBDDistanceFromTarget (
@@ -513,7 +539,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="233a3ba5-61ca-4187-bdc0-6f2e38a9f38e"
+ Guid="eae5050c-9a51-489a-ac38-592fea4cf63e"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.EBDDistanceFromTarget (
@@ -526,7 +552,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="ea1a8df6-e195-4426-9a70-cbb9cd54d9db"
+ Guid="e3acc6d8-f91e-4349-90e5-18906a947b7b"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.EBDDistanceFromTarget (
@@ -539,7 +565,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="ff624aa6-c0bc-4ed6-9b01-f03f47939bad"
+ Guid="09680e92-bf01-4729-9b2e-94cc3c24c37d"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.EBDDistanceFromTarget (
@@ -552,7 +578,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="1f0a35e3-2304-4c82-bf31-4681d9adea33"
+ Guid="856afaf3-701b-4aef-9c89-8718ecef0abe"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.EBDDistanceFromTarget (
@@ -565,7 +591,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="3f3f2dcb-d149-4fd9-9a2b-d8dd4f784043"
+ Guid="a7d8f599-9c19-48c8-af97-09517ebf234a"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.EBDDistanceFromTarget (
@@ -578,7 +604,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="8e3838d5-b044-4d0f-8a8a-73a72114df7d"
+ Guid="fa0de747-757f-4107-8cfe-7f4903909a90"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.EBDDistanceFromTarget (
@@ -591,7 +617,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="521b0199-a2f0-4203-a288-423e19d2afa4"
+ Guid="776fc17c-f6b8-43ad-9b33-b9c2dab3786c"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.EBDDistanceFromTarget (
@@ -604,7 +630,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="3504caf8-5cab-4795-a468-480f693b7f51"
+ Guid="d2c115f6-7a78-4a5b-92ae-d6c611a1f91d"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.EBDDistanceFromTarget (
@@ -617,7 +643,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="ae106204-5812-4e90-99ee-8f81d73b182a"
+ Guid="676906a6-3e0f-4b97-92b6-8d5e71c9dce7"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.EBDDistanceFromTarget (
@@ -630,7 +656,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="b45b3f02-b4bb-43a0-98f9-580271fb9c3e"
+ Guid="689dd70b-4eb5-4775-8dd6-3a3ae6519b89"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.EBDDistanceFromTarget (
@@ -643,7 +669,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="b70bfe93-50d0-43b6-985e-793ec34248e0"
+ Guid="ba2b9838-0fc1-42d8-8aff-c984bec7b735"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.EBDDistanceFromTarget (
@@ -656,7 +682,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="ed1ab265-a979-4186-b023-d4354239f44e"
+ Guid="1df8fe50-42a9-40eb-b572-461670006e1f"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.EBDDistanceFromTarget (
@@ -669,7 +695,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="03ae52d8-9a0f-4a2f-94c7-b142cca4db28"
+ Guid="8b7b835e-97fd-4a3f-b053-e17484d6d2ea"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.EBDDistanceFromTarget (
@@ -682,7 +708,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="f8c414ef-e5c9-4521-9a15-9f8c39026b18"
+ Guid="fe78ddff-979e-4fea-b5bb-e4aa23a60149"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.EBDDistanceFromTarget (
@@ -695,7 +721,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="42515869-948d-4654-9a22-e2e6253a7d6f"
+ Guid="350d7fa7-4720-4a00-b8d1-70a595f228ce"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.EBDDistanceFromTarget (
@@ -708,7 +734,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="c959e2b3-35df-40a3-9632-76ef87c2e85e"
+ Guid="acb3ab2c-4193-4b83-aaae-4651af0cb70a"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.EBDDistanceFromTarget (
@@ -721,7 +747,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="9c5aed2b-8c0e-4f7c-8d1d-1ac5fa4b7031"
+ Guid="e1d304fb-a109-44be-861f-5deba9d03add"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.EBDDistanceFromTarget (
@@ -734,7 +760,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="f3060772-1343-45be-b95f-27e59ccdadd8"
+ Guid="d9614dc0-a11f-4c4b-bbd7-c782c69861c6"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.EBDDistanceFromTarget (
@@ -747,7 +773,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="88bbcba1-4692-411f-ad2a-dcc4145a44af"
+ Guid="314b0493-9afd-4fd1-9132-65230d317ceb"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.EBDDistanceFromTarget (
@@ -760,7 +786,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="058f2539-aff2-42fd-8c06-765046d42ee0"
+ Guid="052e1ced-31c8-41e1-8b7b-f6c9b020a4b7"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.EBDDistanceFromTarget (
@@ -773,7 +799,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="1a1f3156-5730-4c4e-b88c-f34a7df2d5db"
+ Guid="ac43afd1-5b96-43f6-a2d6-54e8d6848112"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.EBDDistanceFromTarget (
@@ -786,7 +812,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="c5896bbb-d4be-4afb-8f7a-1de2723581ae"
+ Guid="ac7e1c0f-1ad2-41f1-8cee-752785e464e7"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.EBDDistanceFromTarget (
@@ -799,7 +825,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="01d7cd5e-2adb-49a2-be8f-0b88c04b60dc"
+ Guid="bfa50d37-8729-4e49-8085-68d5031bbe7a"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.EBDDistanceFromTarget (
@@ -812,7 +838,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="53d98d60-5514-47ba-9f96-78eb992996e6"
+ Guid="d1f928a1-2d32-421b-bd42-7a6b42debe28"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.EBDDistanceFromTarget (
@@ -825,7 +851,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="7bbb682d-cfef-4fd2-9f43-066a53890b3c"
+ Guid="0f1d307b-3ea2-444f-aa3b-e89b0d0d12cc"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.EBDDistanceFromTarget (
@@ -838,7 +864,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="48260bc0-dcfa-4ec6-b93c-f34a8b9c53ed"
+ Guid="74b6d7bf-cb95-4a18-a5ea-3d922bb5c050"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.EBDDistanceFromTarget (
@@ -851,7 +877,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="f1cb43a7-8ecb-43ca-8206-caad4ea2555c"
+ Guid="6f08da1f-af16-4c74-8d47-013e4fdfe95c"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.EBDDistanceFromTarget (
@@ -864,7 +890,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="149e092c-d27a-4984-88cb-4cac91d8ba9c"
+ Guid="099a5d54-c0c3-415e-8516-1936271b6930"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.EBDDistanceFromTarget (
@@ -877,7 +903,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="cf795b39-f4f9-4dfe-a791-5511694245a7"
+ Guid="c47ec4dc-16ee-4fea-8f26-c594121c1ed9"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.EBDDistanceFromTarget (
@@ -890,7 +916,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="5f256e29-ee5a-4fe8-ba1b-c38f8f1016c0"
+ Guid="66f85355-5d3d-4171-afe5-c83a5752b133"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.EBDDistanceFromTarget (
@@ -903,7 +929,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="23f2669e-73b2-4f52-9773-328b38912c20"
+ Guid="1cfefe02-761a-4ebc-84de-03c3f3bcdb49"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.EBDDistanceFromTarget (
@@ -916,7 +942,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="4d765557-c44f-4b99-a2f9-1ccbd7944ade"
+ Guid="3c86dc05-7cc1-4cf6-be9a-1e615bf9f43c"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.EBDDistanceFromTarget (
@@ -929,7 +955,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="a2da7b28-b29f-4bc0-9ed8-5e0ceea119ed"
+ Guid="4840b475-1469-455f-8038-f0f9787c209c"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.EBDDistanceFromTarget (
@@ -942,7 +968,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="189dfaed-851a-4561-abe0-bd1480074c8f"
+ Guid="6ddfdc6d-2e1b-46d4-87af-5c219ed50469"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.EBDDistanceFromTarget (
@@ -955,7 +981,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="b3b81c10-f9ee-4fdd-a072-aa7464d29a76"
+ Guid="5ad371c0-c978-4b44-a835-6e0d20dc0821"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.EBDDistanceFromTarget (
@@ -968,7 +994,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="9eb21b45-8a4c-4701-a464-cb92b142c480"
+ Guid="3ccd46a7-0a17-4195-956c-948878b09f92"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.EBDDistanceFromTarget (
@@ -981,7 +1007,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="2ba3647f-367e-4653-aba5-9913a3ef0910"
+ Guid="742cea09-d1e7-452e-a58f-fa18c1188e56"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.EBDDistanceFromTarget (
@@ -1000,35 +1026,19 @@ IN
  ModeIN="NA"
  ModeOUT="NA"
  TranslationRequired="FALSE"
- Name="Step2 - SBD"
- Guid="d01a3c8d-07d9-41a3-9a2b-b1be093f5148"
->
-<SubSteps>
-<SubStep
- Name="SubStep1 - Verify SBD values"
- Guid="c63fad2e-8521-42be-b184-1cd5616e0e6b"
->
-</SubStep></SubSteps>
-</Step><Step
- IO="NA"
- LevelIN="NA"
- LevelOUT="NA"
- ModeIN="NA"
- ModeOUT="NA"
- TranslationRequired="FALSE"
- Name="Step3 - EBI"
- Guid="528dd58f-16f6-4819-8f4a-3ef235daa4c6"
+ Name="Step2 - EBI"
+ Guid="8e1df7e2-02d4-4e45-89a3-9900dd746c31"
 >
 <SubSteps>
 <SubStep
  Name="SubStep1 - Verify EBI values"
- Guid="32a9ca4f-8c4e-4b70-8221-d775ba706ca1"
+ Guid="485c4b2e-fc2b-4e39-be00-f2bff797cc0f"
 >
 <Expectations>
 <Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="17c99be5-7b64-4b0b-a6f4-1a6edc2011e1"
+ Guid="6b1c48f1-3258-4e49-9526-5e93009d8580"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.EBIDistanceFromTarget (
@@ -1041,7 +1051,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="0b8fc43d-b907-48b8-8d27-0b3e55b60b54"
+ Guid="6184e282-55f2-45bc-8bc9-0f00ad9fb155"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.EBIDistanceFromTarget (
@@ -1054,7 +1064,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="8658900f-cff1-4c18-b48c-6dbd8c670f10"
+ Guid="628f23ff-7abd-4441-94fc-4bc3992c38c2"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.EBIDistanceFromTarget (
@@ -1067,7 +1077,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="be5a28eb-afcb-4b15-a7a9-a5164c5995af"
+ Guid="e14314b1-839b-4520-8a7c-28403120cc9f"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.EBIDistanceFromTarget (
@@ -1080,7 +1090,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="95244ce1-e610-4134-88fd-f861401ae271"
+ Guid="a9c227ae-c6d8-49e6-baf8-6131920f2060"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.EBIDistanceFromTarget (
@@ -1093,7 +1103,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="081b44bf-2d80-45e2-825f-564ba262277f"
+ Guid="c8965660-6a5b-42e5-8497-d3af492ed7bb"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.EBIDistanceFromTarget (
@@ -1106,7 +1116,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="19e45e19-1724-4641-8eff-93af617f5305"
+ Guid="729c408c-aa48-49b4-a4ec-7640b2be8467"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.EBIDistanceFromTarget (
@@ -1119,7 +1129,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="d15cb29e-97f2-4327-b2f8-105c4e2bfa9d"
+ Guid="1859ca04-a57f-4dbd-9a62-0661fa0cbbf9"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.EBIDistanceFromTarget (
@@ -1132,7 +1142,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="b84dfcb8-254e-4d9b-8978-55b5e75732df"
+ Guid="a7df7b30-a9f8-4c51-a99d-ef272790cb9a"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.EBIDistanceFromTarget (
@@ -1145,7 +1155,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="012cc8ad-7e84-4f12-a2ff-c7f4c4662ea1"
+ Guid="bfe84e38-bef6-4d63-8dac-3ab140f3a9c7"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.EBIDistanceFromTarget (
@@ -1158,7 +1168,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="a37c5e99-c4e9-494d-83a7-59184f40d053"
+ Guid="4649543a-d827-4168-9ef6-982d6ba8b7f4"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.EBIDistanceFromTarget (
@@ -1171,7 +1181,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="489c11a2-bbbc-4172-b195-191808639735"
+ Guid="d54be560-0446-4f3d-808f-1626ab7433bb"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.EBIDistanceFromTarget (
@@ -1184,7 +1194,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="172eee48-7f99-4cd4-83ff-dc6327fda0c6"
+ Guid="af8ba451-7082-4870-b78b-c324274491f1"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.EBIDistanceFromTarget (
@@ -1197,7 +1207,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="862304d0-59e0-4c3c-b9d6-2830937e6c76"
+ Guid="be6fdacf-cd39-45c6-911a-0ea4a6efc961"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.EBIDistanceFromTarget (
@@ -1210,7 +1220,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="2c303a87-e68e-4cea-9972-3666e109035a"
+ Guid="9e2b37bb-d3d9-4ddc-9b01-62d595efb5b1"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.EBIDistanceFromTarget (
@@ -1223,7 +1233,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="b10306b3-c20f-4f43-b826-3012cf3abc79"
+ Guid="8ae55309-ce2b-4279-8609-0de9e749b433"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.EBIDistanceFromTarget (
@@ -1236,7 +1246,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="9d4b91dd-969b-4641-89ed-d5e3e27505de"
+ Guid="2f51be76-c441-4e6a-9f7c-865b75cf858e"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.EBIDistanceFromTarget (
@@ -1249,7 +1259,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="73f8b122-2ad7-44eb-8574-a5eb5dced452"
+ Guid="cf440e54-fc82-467f-816c-464d65d2edf1"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.EBIDistanceFromTarget (
@@ -1262,7 +1272,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="7c2871fe-182d-49f7-8403-a93a1af4a07b"
+ Guid="bf624868-ee55-4b80-bd8e-27f8b46644e2"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.EBIDistanceFromTarget (
@@ -1275,7 +1285,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="a65303c3-a412-4791-8985-df83f65e80fd"
+ Guid="7cdd0c6e-8a3f-4ec3-bd3b-e85d176f0c31"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.EBIDistanceFromTarget (
@@ -1288,7 +1298,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="294902aa-73ac-4b4f-84a7-c011d760e2ac"
+ Guid="6aa549e3-9a55-4408-bd09-1d2ba78ec83c"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.EBIDistanceFromTarget (
@@ -1301,7 +1311,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="01fbaa28-0555-4379-bb90-8d81d02168be"
+ Guid="2fd87f8c-75b2-435b-8b1e-0cd4c79318dd"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.EBIDistanceFromTarget (
@@ -1314,7 +1324,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="14721053-7374-4e38-9190-e32b9cbeacdd"
+ Guid="8caebfc8-52d1-41a9-87e0-973661facac2"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.EBIDistanceFromTarget (
@@ -1327,7 +1337,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="8b79117d-81a7-4b40-8c38-5b90ec930866"
+ Guid="9a9a421c-5bed-4504-8941-111d75590ba3"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.EBIDistanceFromTarget (
@@ -1340,7 +1350,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="cfedaa60-1b35-43e2-b5de-ad0abba853f7"
+ Guid="98a17b74-663d-47e8-a67a-b6eccbb3ab9e"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.EBIDistanceFromTarget (
@@ -1353,7 +1363,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="cd37589a-ebf1-49ff-898c-4f9b4a45f846"
+ Guid="36dc69e1-c909-42f3-8152-c7038c5f0a9f"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.EBIDistanceFromTarget (
@@ -1366,7 +1376,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="ea430871-7369-4598-a16f-88bc4f7eda49"
+ Guid="a38a42a4-78de-4d41-8a5a-58a4eb02962e"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.EBIDistanceFromTarget (
@@ -1379,7 +1389,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="72a6052e-bbd3-4285-b761-3ef46c99af68"
+ Guid="e17d1351-d038-4880-8098-7ada6630128e"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.EBIDistanceFromTarget (
@@ -1392,7 +1402,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="e1002549-c415-41ca-bf5d-ddea72070d21"
+ Guid="1cf7c249-e115-443c-b968-151c37f7b790"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.EBIDistanceFromTarget (
@@ -1405,7 +1415,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="fb56e2fb-8e46-4b09-b35e-af1cc46ee952"
+ Guid="faa795c9-7b1f-4088-bea6-d4a326624857"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.EBIDistanceFromTarget (
@@ -1418,7 +1428,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="9d05722d-a0f8-43a5-a8a1-a6c2ac094ae5"
+ Guid="04496018-82fa-4360-ba8a-0fcefaa849fe"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.EBIDistanceFromTarget (
@@ -1431,7 +1441,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="491d4cfc-2ea8-418e-9894-046bfdfacc8f"
+ Guid="ade8dc76-8c20-4f6f-8bef-605743be82d8"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.EBIDistanceFromTarget (
@@ -1444,7 +1454,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="e6555a02-f08d-43e0-ad4f-106a23f7f6c6"
+ Guid="0c7da2fd-3c1e-4ecb-92cb-961c6a1e33bb"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.EBIDistanceFromTarget (
@@ -1463,35 +1473,19 @@ IN
  ModeIN="NA"
  ModeOUT="NA"
  TranslationRequired="FALSE"
- Name="Step4 - SBI1"
- Guid="fe6494e0-c80e-4927-b9ec-bde5fd753b33"
->
-<SubSteps>
-<SubStep
- Name="SubStep1 - Verify SBI1 values"
- Guid="8e7f0ac5-a00a-43c9-85bf-2d4c70634ea3"
->
-</SubStep></SubSteps>
-</Step><Step
- IO="NA"
- LevelIN="NA"
- LevelOUT="NA"
- ModeIN="NA"
- ModeOUT="NA"
- TranslationRequired="FALSE"
- Name="Step5 - SBI2"
- Guid="761acb33-83a2-40c6-ab1d-d7b066886b20"
+ Name="Step3 - SBI2"
+ Guid="44f5abe0-cc84-401f-a23e-f2ea1289ccf3"
 >
 <SubSteps>
 <SubStep
  Name="SubStep1 - Verify SBI2 values"
- Guid="fa6268e3-004d-4aa5-aa84-fb5de01c42fd"
+ Guid="b2b4aa51-22a4-4932-b5d8-e51e65e58ed9"
 >
 <Expectations>
 <Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="94c96548-937e-4ea4-9085-bc9275dddfe4"
+ Guid="57cea5ad-c208-4550-8dc0-57c1434948c5"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.SBIDistanceFromTarget (
@@ -1504,7 +1498,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="c081b490-5095-4e6e-9722-6bb3690afe97"
+ Guid="f3112140-7ba3-43da-9816-d30d9a1cf6a3"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.SBIDistanceFromTarget (
@@ -1517,7 +1511,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="953bcc23-96f8-4fef-a2a3-5c79c1bf2a4e"
+ Guid="d8922214-c963-49cf-adaf-328cf1797c5d"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.SBIDistanceFromTarget (
@@ -1530,7 +1524,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="d904d2cf-255a-4a60-afa7-5c05ffa9b603"
+ Guid="3aaf02c0-06c0-4a75-9f78-db22f917352f"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.SBIDistanceFromTarget (
@@ -1543,7 +1537,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="ba53a648-c1fb-4147-a13e-c95a7e15ab8b"
+ Guid="5016865a-1e43-458b-ad46-ec70c7c96b0b"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.SBIDistanceFromTarget (
@@ -1556,7 +1550,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="df20b9fe-d788-4803-af1c-84160a07df82"
+ Guid="b8a29c7d-5d1e-43c1-87f4-e867bd3b0456"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.SBIDistanceFromTarget (
@@ -1569,7 +1563,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="fffce220-974c-489c-ac66-f2d1cee4d598"
+ Guid="13337d20-20da-43f1-b918-976fc442e1e3"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.SBIDistanceFromTarget (
@@ -1582,7 +1576,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="258f2db5-c028-4a2e-8593-2f59377cb40d"
+ Guid="97733a81-c788-4b6e-a5ab-437ce84f3e53"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.SBIDistanceFromTarget (
@@ -1595,7 +1589,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="52202551-d912-414b-946d-4c0cda793613"
+ Guid="7cc86a83-e373-4018-b23c-10350788da81"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.SBIDistanceFromTarget (
@@ -1608,7 +1602,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="b2244c03-fe4f-48c0-b0fd-424141fa51cc"
+ Guid="6434926a-a2cd-464c-896a-cf8ab893f161"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.SBIDistanceFromTarget (
@@ -1621,7 +1615,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="fdfd0894-9191-43cc-a5c9-7e5b9c90106c"
+ Guid="f2a914e5-e32f-4142-a8dc-071249307c69"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.SBIDistanceFromTarget (
@@ -1634,7 +1628,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="45bdf9b2-56ac-4110-b3cd-4ecc14a43ffa"
+ Guid="98f0c3c8-a32e-48c0-9e59-f9bc25751606"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.SBIDistanceFromTarget (
@@ -1647,7 +1641,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="d7b99b9b-cc62-4243-8a3d-2980d92ff828"
+ Guid="437f0de0-01e3-4780-936f-753740b0df02"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.SBIDistanceFromTarget (
@@ -1660,7 +1654,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="d69f30e5-ffde-4236-92f9-abd78fc2abb8"
+ Guid="982b83a5-31c5-4519-95fc-b5c2d9ac3b1e"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.SBIDistanceFromTarget (
@@ -1673,7 +1667,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="8ad67b9c-a409-484e-bb2b-166774bcb0d9"
+ Guid="6b2def2b-1851-49d0-897e-7d88390776f2"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.SBIDistanceFromTarget (
@@ -1686,7 +1680,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="0857500a-67bd-435e-bece-5b4f988f1f76"
+ Guid="5da4b40b-1811-4382-a290-71959b69391d"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.SBIDistanceFromTarget (
@@ -1699,7 +1693,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="a2b688f6-25c9-4ed1-9708-03365cb23b0e"
+ Guid="21960392-ddcc-4b12-9117-16097b42a137"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.SBIDistanceFromTarget (
@@ -1712,7 +1706,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="528d942b-6447-4aae-95fb-29a4cdf8f618"
+ Guid="656b0fa8-b89d-40bc-bca6-063dbac3fa46"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.SBIDistanceFromTarget (
@@ -1725,7 +1719,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="b5a0db22-ef84-4640-bff3-0f7f2b47db1d"
+ Guid="97854d1b-f1b4-4aac-a255-4201705a0b85"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.SBIDistanceFromTarget (
@@ -1738,7 +1732,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="f5be18cb-4caf-41c1-ad20-54fedfe8578f"
+ Guid="7e796481-4a5b-472b-88a6-0c054bd00533"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.SBIDistanceFromTarget (
@@ -1751,7 +1745,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="0d9a257d-de94-47e4-b256-817d93c53029"
+ Guid="e443ddd4-2ab7-4245-9cf5-36f4fac8340d"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.SBIDistanceFromTarget (
@@ -1764,7 +1758,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="d0a10928-0697-4764-8b0a-20603afb53ad"
+ Guid="5ba20ac1-020b-42f6-b8bb-ece46b91d3a0"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.SBIDistanceFromTarget (
@@ -1777,7 +1771,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="b5ba18d6-7407-4be2-8fb9-f243b551b9b5"
+ Guid="23aafab1-a8ab-4792-9ace-e3070362d05c"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.SBIDistanceFromTarget (
@@ -1790,7 +1784,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="5cf38d4a-1b6d-4668-8373-c537e6e6c5fe"
+ Guid="5e91398e-ede0-4833-847e-9e5d069a0323"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.SBIDistanceFromTarget (
@@ -1803,7 +1797,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="cad73210-31e0-4edd-8e60-58d9382fc3db"
+ Guid="8f17e245-f9ae-42e9-9411-3ba2745282e8"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.SBIDistanceFromTarget (
@@ -1816,7 +1810,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="33502011-07d8-402f-b332-e4288e7f03b6"
+ Guid="5ffe2283-7a72-436f-85ff-1a9f1435b2d3"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.SBIDistanceFromTarget (
@@ -1829,7 +1823,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="550272a2-49d8-4c95-a81e-2bdc71c2f630"
+ Guid="2333192d-7712-4c75-b65d-a3f73329be06"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.SBIDistanceFromTarget (
@@ -1842,7 +1836,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="bb26b653-29db-413f-8b78-1abb9e491ae2"
+ Guid="0ec1d2f9-a001-4256-b70d-18e2a393ba08"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.SBIDistanceFromTarget (
@@ -1855,7 +1849,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="409a02fe-688e-4e47-a2d3-deb9a7a214a1"
+ Guid="f2a60205-7bfe-419b-bfe9-73051957b39c"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.SBIDistanceFromTarget (
@@ -1868,7 +1862,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="a8cc332c-90b3-4a62-b6e3-2bb9ed303729"
+ Guid="8496d6d1-58ba-4bf5-8188-6c63c3e237ba"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.SBIDistanceFromTarget (
@@ -1881,7 +1875,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="4e20cf43-076f-4646-9354-ff623ea0d549"
+ Guid="5184df63-5281-46ab-8ec3-c9497f6af1af"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.SBIDistanceFromTarget (
@@ -1894,7 +1888,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="8af00bf8-5e9d-471d-84b5-176a574d22a5"
+ Guid="d29f46e4-5114-43bd-9ba1-132ddce89ad0"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.SBIDistanceFromTarget (
@@ -1913,19 +1907,19 @@ IN
  ModeIN="NA"
  ModeOUT="NA"
  TranslationRequired="FALSE"
- Name="Step6 - Warning"
- Guid="fdae1ab7-4d0d-4e11-8f42-b75e302a4696"
+ Name="Step4 - Warning"
+ Guid="4f3efea8-c37d-40c6-9985-1f10817b6dfe"
 >
 <SubSteps>
 <SubStep
  Name="SubStep1 - Verify Warning values"
- Guid="33a70b99-5622-4c63-8705-fdb2e2afcfa0"
+ Guid="218a2257-16a3-48fe-b90c-7ec49b4e3a17"
 >
 <Expectations>
 <Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="6d043c6e-6f4f-4e53-9440-3cd8737c8cb4"
+ Guid="f2e12bf2-b971-444f-a079-4d10dbd3c728"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.WarningDistanceFromTarget (
@@ -1939,7 +1933,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="cd9b49c8-8b0d-4b51-bf42-9027554313a7"
+ Guid="fb8b1203-70c6-4bef-8c9c-ef6ca5d3bc66"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.WarningDistanceFromTarget (
@@ -1953,7 +1947,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="02b03984-6b60-4292-92f9-8faa6f8f094b"
+ Guid="cd78d288-d077-4b45-8f58-45d8c63241ee"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.WarningDistanceFromTarget (
@@ -1967,7 +1961,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="5209b2ca-b75a-44f4-a78a-187305fb78a1"
+ Guid="4024f033-7159-4161-a73b-e0f3687e2a71"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.WarningDistanceFromTarget (
@@ -1981,7 +1975,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="accdf09e-d7a1-49ae-b6c3-c089d52e7254"
+ Guid="9774df65-50ae-4f6b-bd36-0bb00362771f"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.WarningDistanceFromTarget (
@@ -1995,7 +1989,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="a633fb0b-11e9-4b77-b102-6cba5a9fd120"
+ Guid="d242e335-9c0e-4150-b0c3-7abf2b0f7b71"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.WarningDistanceFromTarget (
@@ -2009,7 +2003,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="56054cb9-c53b-47dc-9e3b-8d484d4a7da2"
+ Guid="5220a0f8-fc67-4d17-8355-8cc0c3ce29e5"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.WarningDistanceFromTarget (
@@ -2023,7 +2017,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="33e446f9-f3cd-4ac6-86a9-a4509c8c632e"
+ Guid="c85b5215-1637-409b-a13e-3a2b03cfe534"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.WarningDistanceFromTarget (
@@ -2037,7 +2031,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="da6fb7be-13eb-4fa8-84b9-29f7b905bb24"
+ Guid="14b32d41-fcc5-4702-8407-728d79d49ee9"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.WarningDistanceFromTarget (
@@ -2051,7 +2045,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="331ad039-aa04-4e75-89b5-3a8d2ac1ec59"
+ Guid="a7482431-3006-41c0-9dd7-6887845fd630"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.WarningDistanceFromTarget (
@@ -2065,7 +2059,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="03b1d215-a654-4fc2-8a54-00d02c90811b"
+ Guid="41cfb041-7003-4223-8d49-327cc31529c5"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.WarningDistanceFromTarget (
@@ -2079,7 +2073,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="2d0b94e0-ec0a-4e13-bef3-7fdef6201a66"
+ Guid="154b72a3-5819-4ea6-aef8-5085edd07921"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.WarningDistanceFromTarget (
@@ -2093,7 +2087,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="f025c535-6215-4f76-9a76-17ca8dd5e735"
+ Guid="10281f83-5038-48ad-ae48-9aba6ff74e89"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.WarningDistanceFromTarget (
@@ -2107,7 +2101,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="a7e00828-846c-4efd-b2fd-cfe5bce6eaf9"
+ Guid="8e69e55e-6ca4-409b-9509-4674c6106310"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.WarningDistanceFromTarget (
@@ -2121,7 +2115,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="282a7ee8-38a5-4321-801b-75e249ade146"
+ Guid="4eba1205-9fc5-40b1-a447-4636e4bffd3d"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.WarningDistanceFromTarget (
@@ -2135,7 +2129,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="10265dfb-074b-4471-b58a-c4034789ea0b"
+ Guid="712c6674-f2d6-4392-8358-611980968ebd"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.WarningDistanceFromTarget (
@@ -2149,7 +2143,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="fcb32358-9730-4c80-8f97-b1a75b9ae8b4"
+ Guid="c5b6b0b8-b579-4c3b-b09a-a9dfc17a5ea4"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.WarningDistanceFromTarget (
@@ -2163,7 +2157,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="82dfb3dd-b427-48ea-a6a6-95b03863cda5"
+ Guid="2dccb1b8-82ec-4bd8-813c-ba2c35d154ef"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.WarningDistanceFromTarget (
@@ -2177,7 +2171,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="1c4e9265-9a69-4702-b493-b4b0aeca69eb"
+ Guid="9415d659-32ac-4dc8-910a-aa0debe1c95e"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.WarningDistanceFromTarget (
@@ -2191,7 +2185,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="8a47a05a-ef31-449e-a503-8b1ca535fd8a"
+ Guid="894ae69a-e193-43da-a83f-478c6915b134"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.WarningDistanceFromTarget (
@@ -2205,7 +2199,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="d897194e-1d3a-4ea2-8bcc-d6c74795bb58"
+ Guid="25f0778e-cb06-4245-a5a3-0a5b6fd2695e"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.WarningDistanceFromTarget (
@@ -2219,7 +2213,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="70e054b4-3325-4856-899c-b9d7f639d750"
+ Guid="d516a038-feed-42e9-98ae-c41f72373af8"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.WarningDistanceFromTarget (
@@ -2233,7 +2227,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="31f922c1-86c6-4a1c-a1e1-f87e120f5392"
+ Guid="19ddc396-fe13-4d35-b178-9ef2f919c33e"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.WarningDistanceFromTarget (
@@ -2247,7 +2241,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="ad04421d-ac97-4df3-8806-a67b4f35b982"
+ Guid="b423943e-041d-4fa7-87ca-172d2dab0f8b"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.WarningDistanceFromTarget (
@@ -2261,7 +2255,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="67c66ae1-4443-47a9-a56e-3383fa0b63de"
+ Guid="75a64a4a-c12f-44c3-9f1f-0f59b83785b5"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.WarningDistanceFromTarget (
@@ -2275,7 +2269,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="68f7b7d0-2dfb-4f75-951b-42cc8c27e86a"
+ Guid="63476f90-2274-430a-bc9c-314491212f9e"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.WarningDistanceFromTarget (
@@ -2289,7 +2283,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="a2880309-8475-4cb2-b2b5-e6c22517f5b5"
+ Guid="b1b23434-18ca-445e-9789-2dcb19a4275f"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.WarningDistanceFromTarget (
@@ -2303,7 +2297,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="58d5c3c9-2ef1-4384-8c57-e6d5ff5b703c"
+ Guid="cb0c1f74-dc47-40b5-8cb0-3666340ca088"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.WarningDistanceFromTarget (
@@ -2317,7 +2311,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="54390f9b-18b0-4591-8ef3-b09fbc9cd30e"
+ Guid="d9d6e1d7-6580-46ac-9f71-d5e5232d01d7"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.WarningDistanceFromTarget (
@@ -2331,7 +2325,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="03faca97-bbd9-482a-8da3-68729332f9e7"
+ Guid="12fff501-7c84-414f-9651-1863f0194953"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.WarningDistanceFromTarget (
@@ -2345,7 +2339,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="6437d07b-73e0-48d4-9e65-84181d883537"
+ Guid="c149ed13-138d-4114-aeb5-f6297058223a"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.WarningDistanceFromTarget (
@@ -2359,7 +2353,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="b348c215-08f4-4092-b871-6f4ca7f1c82c"
+ Guid="e2d2f6fd-283a-4dfe-b36c-8efd3a14f4eb"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.WarningDistanceFromTarget (
@@ -2373,7 +2367,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="b04de57e-087e-4181-b3ab-797f710361d1"
+ Guid="7fa354de-dfed-4ffc-8421-c0b1544bf565"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.WarningDistanceFromTarget (
@@ -2393,19 +2387,19 @@ IN
  ModeIN="NA"
  ModeOUT="NA"
  TranslationRequired="FALSE"
- Name="Step7 - Permitted"
- Guid="33a63817-4d80-4048-839f-e6db61ff6e10"
+ Name="Step5 - Permitted"
+ Guid="10762795-f081-4717-a8cd-163efc13230a"
 >
 <SubSteps>
 <SubStep
  Name="SubStep1 - Verify Permitted values"
- Guid="b5c14cd8-fdeb-4f32-974e-8fc59aecd504"
+ Guid="c1669d65-c40e-456a-8963-4cc6761a3881"
 >
 <Expectations>
 <Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="6af95676-8b21-46d7-b0e0-a3b41b819114"
+ Guid="ed3aea58-2eed-4696-b787-1b62732eb624"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.PermittedDistanceFromTarget (
@@ -2419,7 +2413,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="5d15f1cb-1f49-42b4-8cdb-367cbc266acc"
+ Guid="34b2ac2e-eaac-42b0-a95e-58fe191d1333"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.PermittedDistanceFromTarget (
@@ -2433,7 +2427,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="7d7a4de4-1d20-495b-80ec-2210c97abefb"
+ Guid="6d339fe2-52a1-4f36-ba38-3e564731ecfb"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.PermittedDistanceFromTarget (
@@ -2447,7 +2441,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="72b16276-9942-4ae1-a823-0ed3fb8931cd"
+ Guid="5ee9c352-dde8-414d-a47d-5c1c83144048"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.PermittedDistanceFromTarget (
@@ -2461,7 +2455,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="e0eeeb22-4217-497d-8931-a922c96da3db"
+ Guid="9a2f1bc7-ea5d-4586-b9d4-d59cc2326143"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.PermittedDistanceFromTarget (
@@ -2475,7 +2469,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="a1a97533-69b6-423a-ade3-3ce5e4fc0792"
+ Guid="44385d4e-644e-4d1f-b897-367885006f16"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.PermittedDistanceFromTarget (
@@ -2489,7 +2483,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="789db512-f4e9-47a4-9cc3-e2724938a040"
+ Guid="4fd197f9-5f3c-4694-bf44-46fcaf3ac71d"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.PermittedDistanceFromTarget (
@@ -2503,7 +2497,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="ff38d4c5-fd00-4bd5-b12d-1ea69bc0044d"
+ Guid="fe2ddce3-17d6-44a7-bc57-fbea7ee74683"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.PermittedDistanceFromTarget (
@@ -2517,7 +2511,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="8b3e588b-9f25-41a0-a89f-2a11be628561"
+ Guid="4a338e92-38e3-4e59-83ff-45afeee292e4"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.PermittedDistanceFromTarget (
@@ -2531,7 +2525,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="4a9c0c6a-f3c9-4faf-bebb-2a2425335ed9"
+ Guid="b8df6b46-a818-4e48-a359-01573b4fcb6d"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.PermittedDistanceFromTarget (
@@ -2545,7 +2539,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="ef1adb51-6953-4088-8a7e-d6e9be2630e1"
+ Guid="c008018c-1777-4a82-8dcd-b40d2b4e6e4d"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.PermittedDistanceFromTarget (
@@ -2559,7 +2553,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="ca2865a9-53b1-4b53-8e22-0a4a98db0551"
+ Guid="1c8ffe6e-1903-4990-964f-a889c55a6f9c"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.PermittedDistanceFromTarget (
@@ -2573,7 +2567,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="92bf889d-8d57-44b0-8206-5e9a3d5b1104"
+ Guid="5ea83203-aa2b-44dc-a855-7902b4b6ff28"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.PermittedDistanceFromTarget (
@@ -2587,7 +2581,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="3a0f7787-3c68-44a6-80c9-1f0e7cda32a9"
+ Guid="255dff71-aaf0-4238-acdc-960b17028879"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.PermittedDistanceFromTarget (
@@ -2601,7 +2595,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="5cc4c736-8752-4c3b-9f69-619d5ff728a5"
+ Guid="1624852a-8061-49f1-b88e-0aea7d73d791"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.PermittedDistanceFromTarget (
@@ -2615,7 +2609,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="5aeeb776-8d25-483a-a744-2653d27b8523"
+ Guid="85e7cc82-1ab9-426c-a339-e209e94644bc"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.PermittedDistanceFromTarget (
@@ -2629,7 +2623,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="d7c19faa-d4e2-44ff-a9a8-f4ca2223d438"
+ Guid="f1bcb943-fda3-44f2-be0f-6e31a7c44abf"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.PermittedDistanceFromTarget (
@@ -2643,7 +2637,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="881dc8a0-0162-4563-9405-956dd5d5d783"
+ Guid="8c114de0-1630-476b-9a4c-bc7bbefdea26"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.PermittedDistanceFromTarget (
@@ -2657,7 +2651,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="b59812aa-67d8-4919-a51d-e1177d7cfacc"
+ Guid="bc1343d6-af86-4597-bdf9-a84ba7efe69a"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.PermittedDistanceFromTarget (
@@ -2671,7 +2665,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="70d2728d-bbb3-4130-bde8-14ea71188833"
+ Guid="3b75a927-aca3-4e31-80a0-f66269f9a30e"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.PermittedDistanceFromTarget (
@@ -2685,7 +2679,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="bd10372b-1311-4884-a74d-e7335ab4dab0"
+ Guid="0a2f5615-a200-43b9-b09e-55f28428b9d0"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.PermittedDistanceFromTarget (
@@ -2699,7 +2693,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="62cdf8c9-ce4c-4000-8c03-d7c2dd716e6f"
+ Guid="2f1e56d8-c8eb-4fe8-ab20-b2d952d8682c"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.PermittedDistanceFromTarget (
@@ -2713,7 +2707,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="9ea5593f-37c1-47f9-8990-9b1befaf8df8"
+ Guid="8597b60c-0c8c-41e2-9132-e95897ad51b2"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.PermittedDistanceFromTarget (
@@ -2727,7 +2721,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="a35eee0b-d9a3-4fa4-8040-444f583e248a"
+ Guid="1aa3891a-4be3-4374-8e2c-53dfaf11ac74"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.PermittedDistanceFromTarget (
@@ -2741,7 +2735,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="845478ec-1247-44db-ad86-330435c97b3e"
+ Guid="2902941a-c4b8-4f42-bccc-b1a5981b6d65"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.PermittedDistanceFromTarget (
@@ -2755,7 +2749,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="a294d113-3df8-4ced-ba31-16173adc1515"
+ Guid="d86b6230-1b69-472d-a540-a4c2515b8895"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.PermittedDistanceFromTarget (
@@ -2769,7 +2763,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="23e6fc73-5d68-4740-9b28-942560c82220"
+ Guid="035e6d0f-1ee7-4e94-afed-fc6472964836"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.PermittedDistanceFromTarget (
@@ -2783,7 +2777,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="6237310c-de6a-4d08-9fee-8e041ce3443d"
+ Guid="78af64a0-7637-4b10-a9d1-0bc1196dfe7a"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.PermittedDistanceFromTarget (
@@ -2797,7 +2791,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="ee5f345a-b22f-4a3a-be01-7960f2dbb304"
+ Guid="751b43f9-8641-4d6a-9c28-245867b0306e"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.PermittedDistanceFromTarget (
@@ -2811,7 +2805,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="875d4d55-d132-4830-a44c-276bd33fbb31"
+ Guid="e017a276-dab3-4812-9a1d-33092c607a21"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.PermittedDistanceFromTarget (
@@ -2825,7 +2819,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="7a56dffd-c8e9-4f97-8f02-9d3509499a3a"
+ Guid="0ba4221f-faa9-4d65-87a1-21bfb38d21a0"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.PermittedDistanceFromTarget (
@@ -2839,7 +2833,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="4e81f1d3-93cc-4f8a-a78a-50e0479ccb54"
+ Guid="d544640d-3eea-45ef-bf8c-19340e9e213c"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.PermittedDistanceFromTarget (
@@ -2853,7 +2847,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="cb234e9d-73b5-4e5f-8222-7f1ecd317fd2"
+ Guid="17b28cc1-b3de-4d92-b02f-06c3e7083219"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.PermittedDistanceFromTarget (
@@ -2873,19 +2867,19 @@ IN
  ModeIN="NA"
  ModeOUT="NA"
  TranslationRequired="FALSE"
- Name="Step8 - Indication"
- Guid="81ca6ebe-b7c9-4e97-84a2-2eb190f54a07"
+ Name="Step6 - Indication"
+ Guid="15588203-35b8-4554-b85d-2105875c6444"
 >
 <SubSteps>
 <SubStep
  Name="SubStep1 - Verify Indication values"
- Guid="0f8a5498-4f84-40fe-9dfb-e02edda3af76"
+ Guid="deaa9036-4001-49c5-8892-d3ef8527ab62"
 >
 <Expectations>
 <Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="1dd76040-bd65-4254-a928-9626fea5253a"
+ Guid="586e3618-9ee7-4ca4-8b1a-add37599caa9"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.IndicationDistanceFromTarget (
@@ -2899,7 +2893,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="4ecce261-335f-477f-81f1-23f56e7fdd97"
+ Guid="ca84996c-1bb9-43c3-a602-21d97fce6b1e"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.IndicationDistanceFromTarget (
@@ -2913,7 +2907,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="32a47e5b-8f30-42ac-a038-c1ad3cb6efee"
+ Guid="e1722b41-365f-4ab6-b6fe-7c13c6169282"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.IndicationDistanceFromTarget (
@@ -2927,7 +2921,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="dd58a8d0-1bd4-41e1-9908-819856195eb1"
+ Guid="b6c76522-9eb0-4a6a-a9ad-d7d2e95b42be"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.IndicationDistanceFromTarget (
@@ -2941,7 +2935,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="07abd530-da92-44e6-8443-db298aa1b93c"
+ Guid="8305e411-53fd-466f-afc6-d5995f973741"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.IndicationDistanceFromTarget (
@@ -2955,7 +2949,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="991f5c96-d129-400c-8eb5-8feefeefad6a"
+ Guid="1fbb025e-bd2a-4a96-b3da-06cd5f9019dd"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.IndicationDistanceFromTarget (
@@ -2969,7 +2963,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="736918db-5bae-48bd-a628-8555c1d71eee"
+ Guid="88e2faee-879d-49df-b57e-c57f3bb47ccb"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.IndicationDistanceFromTarget (
@@ -2983,7 +2977,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="2654413a-2fca-4e2d-a1de-9caefd6ee870"
+ Guid="6496a89c-a3c5-4768-a4ea-461e2ad313cb"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.IndicationDistanceFromTarget (
@@ -2997,7 +2991,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="97cfb7d2-0cf0-4bc9-9106-712a2bcdd831"
+ Guid="b1fe2ac1-06be-4f81-aa2d-a0964ddc58e1"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.IndicationDistanceFromTarget (
@@ -3011,7 +3005,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="092c67f3-9cfa-47c5-aeb9-6a19259e84d1"
+ Guid="71748596-9bc0-4c36-9c4d-f789bfa903dd"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.IndicationDistanceFromTarget (
@@ -3025,7 +3019,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="6eb72a64-915f-4919-921d-de95f8deab7f"
+ Guid="9bf50b7c-064a-47e8-b6e5-d4bf6ac2e8d4"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.IndicationDistanceFromTarget (
@@ -3039,7 +3033,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="9c214748-3d4e-4159-9128-b7d340ca7605"
+ Guid="dd51b319-ec10-4ba8-ab40-861d57950317"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.IndicationDistanceFromTarget (
@@ -3053,7 +3047,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="dced458f-316d-4e39-88c2-d49109d75596"
+ Guid="9f2910da-3f02-4139-8ecf-d0bb1f301983"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.IndicationDistanceFromTarget (
@@ -3067,7 +3061,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="5b5a078a-fa1a-4fc0-927f-499e3bd4e75f"
+ Guid="aad47b4f-2b73-46e9-9958-dbd021721efc"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.IndicationDistanceFromTarget (
@@ -3081,7 +3075,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="e48878d9-795c-41bc-9e85-e1cd13684364"
+ Guid="c5fd23a2-cd7c-4114-b461-cd44326c08ca"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.IndicationDistanceFromTarget (
@@ -3095,7 +3089,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="27ed9413-2716-4017-bf51-725dc3bf871d"
+ Guid="5e5d039a-138a-4b43-9711-b384bfb3d93d"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.IndicationDistanceFromTarget (
@@ -3109,7 +3103,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="a8de215f-82f4-4227-ae9f-b7d0c223166c"
+ Guid="6068a0ff-8251-4a2b-9ac8-6a3454816bbb"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.IndicationDistanceFromTarget (
@@ -3123,7 +3117,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="01aaa3c4-7d9b-438d-bee2-3a1a61bd4d34"
+ Guid="67782224-0ce8-44be-b7e6-8ba6f5f56188"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.IndicationDistanceFromTarget (
@@ -3137,7 +3131,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="3e6f5776-e795-4585-88f8-e60e370e2ba7"
+ Guid="e1023101-4d4a-4e6e-be22-616f438f98a3"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.IndicationDistanceFromTarget (
@@ -3151,7 +3145,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="3eea2855-327c-4af0-ab47-6562bdf4a951"
+ Guid="4e852451-2287-473d-995d-4497214dcf8b"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.IndicationDistanceFromTarget (
@@ -3165,7 +3159,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="3f5a6877-3a81-4a74-938b-91afcfb21d42"
+ Guid="58493b52-2345-4c2b-8772-b0fc11ec44d0"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.IndicationDistanceFromTarget (
@@ -3179,7 +3173,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="1c7ec525-bdfa-4f73-80dd-49f1e42215d1"
+ Guid="d4d7871a-df40-4205-80fb-dc8524ad8a77"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.IndicationDistanceFromTarget (
@@ -3193,7 +3187,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="a3666650-53ce-4878-98c6-61a704540ac0"
+ Guid="4e4f65a5-57b4-43ff-bf3a-ac8a19aae9c3"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.IndicationDistanceFromTarget (
@@ -3207,7 +3201,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="c3710391-00b2-4767-9fdf-929ebae71c71"
+ Guid="442dd3ba-1c24-4aba-ba42-467cf4754133"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.IndicationDistanceFromTarget (
@@ -3221,7 +3215,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="c5e42e4e-111f-483a-8947-bf8bad511d5f"
+ Guid="65d13d0e-a41c-4489-820f-c0ba3dce95f0"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.IndicationDistanceFromTarget (
@@ -3235,7 +3229,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="5ab12dae-6f43-40a9-8fad-b53ec18d3e5c"
+ Guid="f5868dfb-788a-4abb-a0f8-3d285b3fd500"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.IndicationDistanceFromTarget (
@@ -3249,7 +3243,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="0db03964-6bfe-4562-8c5c-d9567951665e"
+ Guid="59af9782-4fa7-4dcf-9fbb-18efade66dbb"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.IndicationDistanceFromTarget (
@@ -3263,7 +3257,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="23a937c7-dc26-4987-85f2-c7d829c3fb3d"
+ Guid="e0f0c069-d57e-4929-8ae5-890757ac68ee"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.IndicationDistanceFromTarget (
@@ -3277,7 +3271,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="0a874f72-7889-429d-87d7-caaf03f7b590"
+ Guid="2178a172-e559-4a7b-bd97-bad917e55a02"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.IndicationDistanceFromTarget (
@@ -3291,7 +3285,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="47c36352-75a0-40e2-87bb-e687121fd65e"
+ Guid="5734bbce-13b1-4cee-b4b8-0250a1744fb7"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.IndicationDistanceFromTarget (
@@ -3305,7 +3299,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="c0567b66-75a9-412a-ad2e-efbd7244285a"
+ Guid="ce15a874-66fe-4984-9015-1c83253131a4"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.IndicationDistanceFromTarget (
@@ -3319,7 +3313,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="0d3eacf4-8ffd-4e5b-8f65-e5bdb3b67d86"
+ Guid="b7ff35d9-9a6e-41d6-9214-ce33dff21494"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.IndicationDistanceFromTarget (
@@ -3333,7 +3327,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="7a4d840d-4b2b-48e7-b0f3-0aa5ff634072"
+ Guid="6cd57416-7b2d-4eb1-b929-7ffb98372a1d"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.IndicationDistanceFromTarget (
@@ -3347,7 +3341,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="e66692df-7955-46e0-b2c1-53db29b07be8"
+ Guid="0addb8f7-d0f7-4e80-adaa-d0c37bb632d5"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.IndicationDistanceFromTarget (
@@ -3361,7 +3355,7 @@ IN
 )</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
- Guid="ca61fe96-90d5-41fa-b17b-31621879d4f4"
+ Guid="1b2cc59d-1d9a-4c0e-9442-4a29d3e12e5d"
 >ERA_BrakingCurvesVerification.Compare
 (
     Val1 =&gt; ERA_BrakingCurvesVerification.IndicationDistanceFromTarget (

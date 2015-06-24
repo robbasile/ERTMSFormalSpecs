@@ -175,6 +175,27 @@ namespace Importers.ExcelImporter
             TestAction odometryInitialization = new TestAction();
             odometryInitialization.ExpressionText = "Odometry.NominalDistance <- 0.0";
             aSubStep.AddModelElement(odometryInitialization);
+
+            TestAction LRBGInitialization = new TestAction();
+            LRBGInitialization.ExpressionText = "BTM.LRBG <- BTM.BaliseGroupStruct{\n" +
+                                                "    NID => 0,\n" +
+                                                "    Orientation => Default.Orientation.Nominal,\n" +
+                                                "    Position => BTM.Position{\n" +
+                                                "        Position => 0.0,\n" +
+                                                "        UnderReadingAmountOdo => 0.0,\n" +
+                                                "        OverReadingAmountOdo => 0.0\n" +
+                                                "    },\n" +
+                                                "    Timestamp => Default.DateAndTime{\n" +
+                                                "        Year => 2012,\n" +
+                                                "        Month => 12,\n" +
+                                                "        Day => 20,\n" +
+                                                "        Hour => 20,\n" +
+                                                "        Minute => 12,\n" +
+                                                "        Second => 20,\n" +
+                                                "        TTS => 600\n" +
+                                                "    }\n" +
+                                                "}";
+            aSubStep.AddModelElement(LRBGInitialization);
         }
 
 
@@ -300,7 +321,7 @@ namespace Importers.ExcelImporter
             aStep.AddModelElement(aSubStep);
 
             /* This is a lambda train => track condition brake inhibition profile is not applicable */
-            addAction(aSubStep, String.Format("Kernel.TrackDescription.TrackConditions.General.TCProfile <- EMPTY"));
+            addAction(aSubStep, String.Format("Kernel.TrackDescription.TrackConditions.General.TCProfile <- []"));
 
             aWorksheet = workbook.Sheets[2] as Worksheet;
             importCommonTrackDataInformation(aSubStep, aWorksheet);
@@ -364,14 +385,14 @@ namespace Importers.ExcelImporter
                     doubleValue = temp;
                     addAction(aSubStep,
                         String.Format(CultureInfo.InvariantCulture,
-                            "Kernel.NationalValues.ApplicableNationalValues.Value.IntegratedCorrectionFactorKrInt.Val{0} <- Kernel.NationalValues.KrIntValue\n{{\n    LengthStep => {1:0.0},\n    Value => {2:0.0####}\n}}",
+                            "Kernel.NationalValues.ApplicableNationalValues.Value.IntegratedCorrectionFactorKrInt.Val{0} <- Kernel.NationalValues.KrIntValueStruct\n{{\n    LengthStep => {1:0.0},\n    Value => {2:0.0####}\n}}",
                             index, location, doubleValue));
                     index++;
                 }
             }
             addAction(aSubStep,
                 String.Format(CultureInfo.InvariantCulture,
-                    "Kernel.NationalValues.ApplicableNationalValues.Value.IntegratedCorrectionFactorKrInt.Val{0} <- Kernel.NationalValues.KrIntValue\n{{\n    LengthStep => Default.BaseTypes.Length.Infinity,\n    Value => {1:0.0####}\n}}",
+                    "Kernel.NationalValues.ApplicableNationalValues.Value.IntegratedCorrectionFactorKrInt.Val{0} <- Kernel.NationalValues.KrIntValueStruct\n{{\n    LengthStep => Default.BaseTypes.Length.Infinity,\n    Value => {1:0.0####}\n}}",
                     index, doubleValue));
 
 
@@ -394,14 +415,14 @@ namespace Importers.ExcelImporter
                         b = tempB;
                         addAction(aSubStep,
                             String.Format(CultureInfo.InvariantCulture,
-                                "Kernel.NationalValues.ApplicableNationalValues.Value.IntegratedCorrectionFactorKvInt_PassengerTrain.Val{0} <- Kernel.NationalValues.KvIntValue_PassengerTrain\n{{\n    SpeedStep => {1:0.0},\n    ValueA => {2:0.0#},\n    ValueB => {3:0.0#}\n}}",
+                                "Kernel.NationalValues.ApplicableNationalValues.Value.IntegratedCorrectionFactorKvInt_PassengerTrain.Val{0} <- Kernel.NationalValues.KvIntValue_PassengerTrainStruct\n{{\n    SpeedStep => {1:0.0},\n    ValueA => {2:0.0#},\n    ValueB => {3:0.0#}\n}}",
                                 index, speed, a, b));
                         index++;
                     }
                 }
                 addAction(aSubStep,
                     String.Format(CultureInfo.InvariantCulture,
-                        "Kernel.NationalValues.ApplicableNationalValues.Value.IntegratedCorrectionFactorKvInt_PassengerTrain.Val{0} <- Kernel.NationalValues.KvIntValue_PassengerTrain\n{{\n    SpeedStep => Default.BaseTypes.Speed.Infinity,\n    ValueA => {1:0.0#},\n    ValueB => {2:0.0#}\n}}",
+                        "Kernel.NationalValues.ApplicableNationalValues.Value.IntegratedCorrectionFactorKvInt_PassengerTrain.Val{0} <- Kernel.NationalValues.KvIntValue_PassengerTrainStruct\n{{\n    SpeedStep => Default.BaseTypes.Speed.Infinity,\n    ValueA => {1:0.0#},\n    ValueB => {2:0.0#}\n}}",
                         index, a, b));
             }
             else /* Case of freight trains */
@@ -418,14 +439,14 @@ namespace Importers.ExcelImporter
                         doubleValue = temp;
                         addAction(aSubStep,
                             String.Format(CultureInfo.InvariantCulture,
-                                "Kernel.NationalValues.ApplicableNationalValues.Value.IntegratedCorrectionFactorKvInt_FreightTrain.Val{0} <- Kernel.NationalValues.KvIntValue_FreightTrain\n{{\n    SpeedStep => {1:0.0},\n    Value => {2:0.0#}\n}}",
+                                "Kernel.NationalValues.ApplicableNationalValues.Value.IntegratedCorrectionFactorKvInt_FreightTrain.Val{0} <- Kernel.NationalValues.KvIntValue_FreightTrainStruct\n{{\n    SpeedStep => {1:0.0},\n    Value => {2:0.0#}\n}}",
                                 index, speed, doubleValue));
                         index++;
                     }
                 }
                 addAction(aSubStep,
                     String.Format(CultureInfo.InvariantCulture,
-                        "Kernel.NationalValues.ApplicableNationalValues.Value.IntegratedCorrectionFactorKvInt_FreightTrain.Val{0} <- Kernel.NationalValues.KvIntValue_FreightTrain\n{{\n    SpeedStep => Default.BaseTypes.Speed.Infinity,\n    Value => {1:0.0#}\n}}",
+                        "Kernel.NationalValues.ApplicableNationalValues.Value.IntegratedCorrectionFactorKvInt_FreightTrain.Val{0} <- Kernel.NationalValues.KvIntValue_FreightTrainStruct\n{{\n    SpeedStep => Default.BaseTypes.Speed.Infinity,\n    Value => {1:0.0#}\n}}",
                         index, doubleValue));
             }
 
@@ -598,9 +619,10 @@ namespace Importers.ExcelImporter
 
 
             /* Initializing the initial speed */
+            double MAspeedRestriction = (double) (aRange.Cells[4, 2] as Range).Value2;
             addAction(aSubStep,
-                String.Format(CultureInfo.InvariantCulture, "Kernel.MA.SignallingRelatedSpeedRestriction <- {0:0.0}",
-                    (double) (aRange.Cells[4, 2] as Range).Value2));
+                String.Format(CultureInfo.InvariantCulture, "Kernel.MA.SignallingRelatedSpeedRestriction <- Kernel.MA.SignallingRelatedSRStruct{{\n    Value => {0:0.0},\n    End => {1:0.0}\n}}",
+                   MAspeedRestriction, MAdistance));
 
 
             /* Initializing the reduced adhesion interval */
@@ -621,12 +643,22 @@ namespace Importers.ExcelImporter
                 {
                     addAction(aSubStep,
                         String.Format(CultureInfo.InvariantCulture,
-                            "INSERT\n    Kernel.TrackDescription.Gradient.GradientInfo\n    {{\n        Distance => {0:0.0},\n        Gradient => {1:0.0}\n    }}\nIN\n    Kernel.TrackDescription.Gradient.Gradients",
+                            "INSERT\n    Kernel.TrackDescription.Gradient.GradientStruct\n    {{\n        Location => {0:0.0},\n        Gradient => {1:0.0}\n    }}\nIN\n    Kernel.TrackDescription.Gradient.Gradients",
                             gradientDistance, gradientValue));
                     gradientDistance = (double) (aRange.Cells[i, 1] as Range).Value2;
                     gradientValue = temp;
                 }
             }
+
+
+            /* Initializing the International Static Speed Profile */
+            addAction(aSubStep, 
+                "Kernel.TrackDescription.StaticSpeedProfile.SSP <- [Kernel.TrackDescription.StaticSpeedProfile.StaticSpeedRestrictionStruct{\n" +
+                "    Location => 0.0,\n" +
+                "    BasicSpeed => Default.BaseTypes.Speed.MaxSpeed,\n" +
+                "    TrainLengthDelay => Messages.Q_FRONT.No_train_length_delay_on_validity_end_point_of_profile_element,\n" +
+                "    Categories => []\n" +
+                "}]");
 
 
             /* Initializing the distance EOA/SvL */
@@ -1246,22 +1278,28 @@ namespace Importers.ExcelImporter
 
                 if (trainIsGamma) // then we create steps for A_Safe and A_Expected
                 {
-                    fillBrakingParametersExpectations(aTestCase,
-                        stepNumber++,
-                        "A_Safe",
-                        "ERA_BrakingCurvesVerification.CompareAcceleration\n(\n    Val1 => Kernel.TrainData.BrakingParameters.A_safe (\n        d => ERA_BrakingCurvesVerification.ConvertTargetDistance (\n            aTarget => " +
-                        target + ",\n            d => {0:0.0}),\n        V => {1:0.0}),\n    Val2 => {2:0.0####}\n)",
-                        ebdValues,
-                        speedValues,
-                        aSafeValues);
-                    fillBrakingParametersExpectations(aTestCase,
-                        stepNumber++,
-                        "A_Safe",
-                        "ERA_BrakingCurvesVerification.CompareAcceleration\n(\n    Val1 => Kernel.TrainData.BrakingParameters.A_expected (\n        d => ERA_BrakingCurvesVerification.ConvertTargetDistance (\n            aTarget => " +
-                        target + ",\n            d => {0:0.0}),\n        V => {1:0.0}),\n    Val2 => {2:0.0####}\n)",
-                        sbdValues,
-                        speedValues,
-                        aExpectedValues);
+                    if (FillEBD)
+                    {
+                        fillBrakingParametersExpectations(aTestCase,
+                            stepNumber++,
+                            "A_Safe",
+                            "ERA_BrakingCurvesVerification.CompareAcceleration\n(\n    Val1 => Kernel.TrainData.BrakingParameters.A_safe (\n        d => ERA_BrakingCurvesVerification.ConvertTargetDistance (\n            aTarget => " +
+                            target + ",\n            d => {0:0.0}),\n        V => {1:0.0}),\n    Val2 => {2:0.0####}\n)",
+                            ebdValues,
+                            speedValues,
+                            aSafeValues);
+                    }
+                    if (FillSBD)
+                    {
+                        fillBrakingParametersExpectations(aTestCase,
+                            stepNumber++,
+                            "A_Expected",
+                            "ERA_BrakingCurvesVerification.CompareAcceleration\n(\n    Val1 => Kernel.TrainData.BrakingParameters.A_expected (\n        d => ERA_BrakingCurvesVerification.ConvertTargetDistance (\n            aTarget => " +
+                            target + ",\n            d => {0:0.0}),\n        V => {1:0.0}),\n    Val2 => {2:0.0####}\n)",
+                            sbdValues,
+                            speedValues,
+                            aExpectedValues);
+                    }
                 }
 
                 if (FillEBD)
