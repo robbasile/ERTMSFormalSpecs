@@ -14,9 +14,9 @@
 // --
 // ------------------------------------------------------------------------------
 
-namespace EFSService
+namespace EFSServiceClient.EFSService
 {
-    public partial class StateValue : Value
+    public partial class ListValue : Value
     {
         /// <summary>
         ///     Provides the display value of this value
@@ -24,7 +24,21 @@ namespace EFSService
         /// <returns></returns>
         public override string DisplayValue()
         {
-            return Name.ToString();
+            string retVal = "[";
+
+            foreach (Value item in Value)
+            {
+                if (retVal.Length != 1)
+                {
+                    retVal += ", ";
+                }
+
+                retVal += item.ToString();
+            }
+
+            retVal += "]";
+
+            return retVal;
         }
     }
 }

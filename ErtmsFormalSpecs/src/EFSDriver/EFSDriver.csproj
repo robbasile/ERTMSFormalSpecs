@@ -10,8 +10,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>EFSDriver</RootNamespace>
     <AssemblyName>EFSDriver</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -22,6 +23,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -31,6 +33,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -54,20 +57,6 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Service References\EFSService\Reference.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Compile>
-    <Compile Include="Values\BoolValue.cs" />
-    <Compile Include="Values\EnumValue.cs" />
-    <Compile Include="Values\StateValue.cs" />
-    <Compile Include="Values\DoubleValue.cs" />
-    <Compile Include="Values\IntValue.cs" />
-    <Compile Include="Values\ListValue.cs" />
-    <Compile Include="Values\StringValue.cs" />
-    <Compile Include="Values\StructureValue.cs" />
-    <Compile Include="Values\Value.cs" />
     <EmbeddedResource Include="EFSDriver.resx">
       <DependentUpon>EFSDriver.cs</DependentUpon>
     </EmbeddedResource>
@@ -79,6 +68,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="app.config">
       <SubType>Designer</SubType>
@@ -92,43 +82,12 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <None Include="Service References\EFSService\Arrays.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\EFSService\EFSDriver.EFSService.Value.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\EFSService\GUI.IPCInterface.Values.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\EFSService\GUI.IPCInterface.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\EFSService\service.wsdl" />
-    <None Include="Service References\EFSService\service.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\EFSService\service1.xsd">
-      <SubType>Designer</SubType>
-    </None>
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadata Include="Service References\" />
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadataStorage Include="Service References\EFSService\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\EFSService\configuration91.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\EFSService\configuration.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\EFSService\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
+    <ProjectReference Include="..\EFSServiceClient\EFSServiceClient.csproj">
+      <Project>{0aa79a6a-df06-43d9-bf67-f7701ada7371}</Project>
+      <Name>EFSServiceClient</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

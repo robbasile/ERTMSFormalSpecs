@@ -14,19 +14,29 @@
 // --
 // ------------------------------------------------------------------------------
 
-using System;
-
-namespace EFSService
+namespace EFSServiceClient.EFSService
 {
-    public partial class Value
+    /// <summary>
+    ///     Manually written code to access EFSModel
+    /// </summary>
+    public partial class EnumValue
     {
+        /// <summary>
+        ///     Constructor
+        /// </summary>
+        /// <param name="image"></param>
+        public EnumValue(string image)
+        {
+            Name = image;
+        }
+
         /// <summary>
         ///     Provides the display value of this value
         /// </summary>
         /// <returns></returns>
-        public virtual string DisplayValue()
+        public override string DisplayValue()
         {
-            throw new NotImplementedException();
+            return Name;
         }
     }
 }

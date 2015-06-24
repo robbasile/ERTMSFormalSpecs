@@ -4,7 +4,9 @@
   <xs:import namespace="http://schemas.datacontract.org/2004/07/GUI.IPCInterface" />
   <xs:element name="ConnectUsingDefaultValues">
     <xs:complexType>
-      <xs:sequence />
+      <xs:sequence>
+        <xs:element minOccurs="0" name="listener" type="xs:boolean" />
+      </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="ConnectUsingDefaultValuesResponse">
@@ -17,6 +19,7 @@
   <xs:element name="Connect">
     <xs:complexType>
       <xs:sequence>
+        <xs:element minOccurs="0" name="listener" type="xs:boolean" />
         <xs:element minOccurs="0" name="explain" type="xs:boolean" />
         <xs:element minOccurs="0" name="logEvents" type="xs:boolean" />
         <xs:element minOccurs="0" name="cycleDuration" type="xs:int" />
@@ -72,6 +75,18 @@
       <xs:sequence />
     </xs:complexType>
   </xs:element>
+  <xs:element name="ApplyStatement">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="statement" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ApplyStatementResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
   <xs:element name="Cycle">
     <xs:complexType>
       <xs:sequence>
@@ -82,7 +97,9 @@
   </xs:element>
   <xs:element name="CycleResponse">
     <xs:complexType>
-      <xs:sequence />
+      <xs:sequence>
+        <xs:element minOccurs="0" name="CycleResult" type="xs:boolean" />
+      </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="Restart">

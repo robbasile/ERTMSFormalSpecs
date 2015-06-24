@@ -14,9 +14,9 @@
 // --
 // ------------------------------------------------------------------------------
 
-namespace EFSService
+namespace EFSServiceClient.EFSService
 {
-    public partial class DoubleValue : Value
+    public partial class StateValue : Value
     {
         /// <summary>
         ///     Provides the display value of this value
@@ -24,7 +24,7 @@ namespace EFSService
         /// <returns></returns>
         public override string DisplayValue()
         {
-            return Image;
+            return Name;
         }
     }
 }

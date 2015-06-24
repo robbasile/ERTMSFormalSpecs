@@ -5,16 +5,6 @@
     <xs:sequence />
   </xs:complexType>
   <xs:element name="Value" nillable="true" type="tns:Value" />
-  <xs:complexType name="IntValue">
-    <xs:complexContent mixed="false">
-      <xs:extension base="tns:Value">
-        <xs:sequence>
-          <xs:element minOccurs="0" name="Image" nillable="true" type="xs:string" />
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
-  <xs:element name="IntValue" nillable="true" type="tns:IntValue" />
   <xs:complexType name="StructureValue">
     <xs:complexContent mixed="false">
       <xs:extension base="tns:Value">
@@ -25,6 +15,16 @@
     </xs:complexContent>
   </xs:complexType>
   <xs:element name="StructureValue" nillable="true" type="tns:StructureValue" />
+  <xs:complexType name="EnumValue">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:Value">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="EnumValue" nillable="true" type="tns:EnumValue" />
   <xs:complexType name="BoolValue">
     <xs:complexContent mixed="false">
       <xs:extension base="tns:Value">
@@ -35,7 +35,7 @@
     </xs:complexContent>
   </xs:complexType>
   <xs:element name="BoolValue" nillable="true" type="tns:BoolValue" />
-  <xs:complexType name="DoubleValue">
+  <xs:complexType name="IntValue">
     <xs:complexContent mixed="false">
       <xs:extension base="tns:Value">
         <xs:sequence>
@@ -44,7 +44,7 @@
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
-  <xs:element name="DoubleValue" nillable="true" type="tns:DoubleValue" />
+  <xs:element name="IntValue" nillable="true" type="tns:IntValue" />
   <xs:complexType name="StringValue">
     <xs:complexContent mixed="false">
       <xs:extension base="tns:Value">
@@ -65,16 +65,6 @@
     </xs:complexContent>
   </xs:complexType>
   <xs:element name="StateValue" nillable="true" type="tns:StateValue" />
-  <xs:complexType name="EnumValue">
-    <xs:complexContent mixed="false">
-      <xs:extension base="tns:Value">
-        <xs:sequence>
-          <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
-  <xs:element name="EnumValue" nillable="true" type="tns:EnumValue" />
   <xs:complexType name="ListValue">
     <xs:complexContent mixed="false">
       <xs:extension base="tns:Value">
@@ -91,4 +81,14 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="ArrayOfValue" nillable="true" type="tns:ArrayOfValue" />
+  <xs:complexType name="DoubleValue">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:Value">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Image" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="DoubleValue" nillable="true" type="tns:DoubleValue" />
 </xs:schema>

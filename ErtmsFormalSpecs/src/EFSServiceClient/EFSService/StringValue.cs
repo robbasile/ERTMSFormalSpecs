@@ -14,17 +14,29 @@
 // --
 // ------------------------------------------------------------------------------
 
-namespace EFSService
+namespace EFSServiceClient.EFSService
 {
-    public partial class IntValue : Value
+    /// <summary>
+    ///     Manually written code to access EFSModel
+    /// </summary>
+    public partial class StringValue
     {
+        /// <summary>
+        ///     Constructor
+        /// </summary>
+        /// <param name="value"></param>
+        public StringValue(string value)
+        {
+            Value = value;
+        }
+
         /// <summary>
         ///     Provides the display value of this value
         /// </summary>
         /// <returns></returns>
         public override string DisplayValue()
         {
-            return Image;
+            return Value.ToString();
         }
     }
 }

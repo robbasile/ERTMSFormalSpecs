@@ -14,10 +14,22 @@
 // --
 // ------------------------------------------------------------------------------
 
-namespace EFSService
+namespace EFSServiceClient.EFSService
 {
-    public partial class BoolValue : Value
+    /// <summary>
+    ///     Manually written code to access EFSModel
+    /// </summary>
+    public partial class BoolValue
     {
+        /// <summary>
+        ///     Constructor
+        /// </summary>
+        /// <param name="value"></param>
+        public BoolValue(bool value)
+        {
+            Value = value;
+        }
+
         /// <summary>
         ///     Provides the display value of this value
         /// </summary>

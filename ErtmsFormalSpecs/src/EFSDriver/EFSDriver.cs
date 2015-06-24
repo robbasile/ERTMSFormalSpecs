@@ -3,7 +3,7 @@ using System.Globalization;
 using System.ServiceModel;
 using System.Threading;
 using System.Windows.Forms;
-using EFSService;
+using EFSServiceClient.EFSService;
 
 namespace EFSDriver
 {
@@ -12,7 +12,7 @@ namespace EFSDriver
         /// <summary>
         ///     Access to EFS as a client
         /// </summary>
-        private EFSServiceClient EFS { get; set; }
+        private EFSServiceClient.EFSService.EFSServiceClient EFS { get; set; }
 
         /// <summary>
         ///     The client ID for EFS Service
@@ -69,11 +69,11 @@ namespace EFSDriver
         {
             while (!CommunicationEstablished)
             {
-                EFS = new EFSServiceClient();
+                EFS = new EFSServiceClient.EFSService.EFSServiceClient();
                 try
                 {
                     EFS.Open();
-                    ClientId = EFS.ConnectUsingDefaultValues();
+                    ClientId = EFS.ConnectUsingDefaultValues(false);
 
                     CommunicationEstablished = true;
                 }

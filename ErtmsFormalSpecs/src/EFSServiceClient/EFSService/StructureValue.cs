@@ -14,12 +14,24 @@
 // --
 // ------------------------------------------------------------------------------
 
-using System.Collections.Generic;
-
-namespace EFSService
+namespace EFSServiceClient.EFSService
 {
-    public partial class StructureValue : Value
+    using System.Collections.Generic;
+
+    /// <summary>
+    ///     Manually written code to access EFSModel
+    /// </summary>
+    public partial class StructureValue
     {
+        /// <summary>
+        ///     Constructor
+        /// </summary>
+        /// <param name="value"></param>
+        public StructureValue()
+        {
+            Value = new Dictionary<string, Value>();
+        }
+
         /// <summary>
         ///     Provides the display value of this value
         /// </summary>
@@ -35,7 +47,7 @@ namespace EFSService
                     retVal += ", ";
                 }
 
-                retVal += item.Key + " => " + item.Value.ToString();
+                retVal += item.Key + " => " + item.Value;
             }
 
             retVal += "}";

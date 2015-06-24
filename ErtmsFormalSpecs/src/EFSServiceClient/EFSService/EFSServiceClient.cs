@@ -14,17 +14,26 @@
 // --
 // ------------------------------------------------------------------------------
 
-namespace EFSService
+namespace EFSServiceClient.EFSService
 {
-    public partial class StringValue : Value
+    public partial class EFSServiceClient
     {
         /// <summary>
-        ///     Provides the display value of this value
+        ///     Gets the value of an expression, using the EFS engine
         /// </summary>
+        /// <param name="expression"></param>
         /// <returns></returns>
-        public override string DisplayValue()
+        public double GetDoubleValue(string expression)
         {
-            return Value.ToString();
+            double retVal = 0.0;
+
+            DoubleValue tmp = GetExpressionValue(expression) as DoubleValue;
+            if (tmp != null)
+            {
+                retVal = tmp.Value;
+            }
+
+            return retVal;
         }
     }
 }

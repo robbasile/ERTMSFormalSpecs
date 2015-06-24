@@ -14,17 +14,19 @@
 // --
 // ------------------------------------------------------------------------------
 
-namespace EFSService
+using System;
+
+namespace EFSServiceClient.EFSService
 {
-    public partial class EnumValue : Value
+    public partial class Value
     {
         /// <summary>
         ///     Provides the display value of this value
         /// </summary>
         /// <returns></returns>
-        public override string DisplayValue()
+        public virtual string DisplayValue()
         {
-            return Name.ToString();
+            throw new NotImplementedException();
         }
     }
 }
