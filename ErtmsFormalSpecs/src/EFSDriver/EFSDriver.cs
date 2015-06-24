@@ -118,7 +118,7 @@ namespace EFSDriver
             {
                 if (!string.IsNullOrEmpty(variableNameTextBox.Text))
                 {
-                    Value value = EFS.GetVariableValue(variableNameTextBox.Text);
+                    Value value = EFS.GetExpressionValue(variableNameTextBox.Text);
                     DisplayVariableValue(value);
                 }
             }

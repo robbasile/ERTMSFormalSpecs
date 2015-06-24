@@ -724,6 +724,36 @@ namespace GUI.IPCInterface
                 }
             }
 
+            // Handles the function case
+            {
+                DataDictionary.Functions.Function v = value as DataDictionary.Functions.Function;
+                if (v != null)
+                {
+                    List<Segment> segments = new List<Segment>();
+
+                    if (v.FormalParameters.Count == 1)
+                    {
+                        DataDictionary.Functions.Graph graph = v.createGraph(new InterpretationContext(), (DataDictionary.Parameter) v.FormalParameters[0], null );
+
+                        if (graph != null)
+                        {
+                            foreach (DataDictionary.Functions.Graph.Segment segment in graph.Segments)
+                            {
+                                segments.Add(new Segment
+                                {
+                                    A = segment.Expression.a,
+                                    V0 = segment.Expression.v0,
+                                    D0 = segment.Expression.d0,
+                                    Length = segment.End - segment.Start
+                                });
+                            }
+                        }
+                    }
+
+                    return new FunctionValue(segments);
+                }
+            }
+
             // Handles the 'empty' value
             {
                 EmptyValue emptyValue = value as EmptyValue;
@@ -791,7 +821,7 @@ namespace GUI.IPCInterface
                         Util.DontNotify(() =>
                         {
                             SyntheticVariableUpdateAction action = new SyntheticVariableUpdateAction(variable,
-                                value.convertBack(variable.Type));
+                                value.ConvertBack(variable.Type));
                             VariableUpdate variableUpdate = new VariableUpdate(action, null, null);
                             Runner.EventTimeLine.AddModelEvent(variableUpdate, Runner, true);
                         });

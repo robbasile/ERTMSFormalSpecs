@@ -51,7 +51,7 @@ namespace GUI.IPCInterface.Values
         ///     Converts the value provided as an EFS value
         /// </summary>
         /// <returns></returns>
-        public override IValue convertBack(Type type)
+        public override IValue ConvertBack(Type type)
         {
             IValue retVal = type.getValue(Value.ToString());
 

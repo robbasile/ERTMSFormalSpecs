@@ -66,7 +66,7 @@ namespace GUI.IPCInterface.Values
         ///     Converts the value provided as an EFS value
         /// </summary>
         /// <returns></returns>
-        public override IValue convertBack(Type type)
+        public override IValue ConvertBack(Type type)
         {
             IValue retVal = null;
 
@@ -79,7 +79,7 @@ namespace GUI.IPCInterface.Values
                 foreach (Value item in Value)
                 {
                     i += 1;
-                    values.Add(item.convertBack(collectionType.Type));
+                    values.Add(item.ConvertBack(collectionType.Type));
                 }
 
                 retVal = new DataDictionary.Values.ListValue(collectionType, values);

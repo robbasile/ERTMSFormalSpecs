@@ -78,14 +78,15 @@ namespace EFSServiceClient.EFSService {
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
     [System.Runtime.Serialization.DataContractAttribute(Name="Value", Namespace="http://schemas.datacontract.org/2004/07/GUI.IPCInterface.Values")]
     [System.SerializableAttribute()]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(ListValue))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(StructureValue))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(EnumValue))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(BoolValue))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(FunctionValue))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(DoubleValue))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(IntValue))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(BoolValue))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(EnumValue))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(StringValue))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(StateValue))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(ListValue))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(DoubleValue))]
     public partial class Value : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
         [System.NonSerializedAttribute()]
@@ -107,6 +108,29 @@ namespace EFSServiceClient.EFSService {
             System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
             if ((propertyChanged != null)) {
                 propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ListValue", Namespace="http://schemas.datacontract.org/2004/07/GUI.IPCInterface.Values")]
+    [System.SerializableAttribute()]
+    public partial class ListValue : Value {
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private Value[] ValueField;
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public Value[] Value {
+            get {
+                return this.ValueField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.ValueField, value) != true)) {
+                    this.ValueField = value;
+                    this.RaisePropertyChanged("Value");
+                }
             }
         }
     }
@@ -136,22 +160,68 @@ namespace EFSServiceClient.EFSService {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="EnumValue", Namespace="http://schemas.datacontract.org/2004/07/GUI.IPCInterface.Values")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="FunctionValue", Namespace="http://schemas.datacontract.org/2004/07/GUI.IPCInterface.Values")]
     [System.SerializableAttribute()]
-    public partial class EnumValue : Value {
+    public partial class FunctionValue : Value {
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string NameField;
+        private Segment[] SegmentsField;
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public string Name {
+        public Segment[] Segments {
             get {
-                return this.NameField;
+                return this.SegmentsField;
             }
             set {
-                if ((object.ReferenceEquals(this.NameField, value) != true)) {
-                    this.NameField = value;
-                    this.RaisePropertyChanged("Name");
+                if ((object.ReferenceEquals(this.SegmentsField, value) != true)) {
+                    this.SegmentsField = value;
+                    this.RaisePropertyChanged("Segments");
+                }
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="DoubleValue", Namespace="http://schemas.datacontract.org/2004/07/GUI.IPCInterface.Values")]
+    [System.SerializableAttribute()]
+    public partial class DoubleValue : Value {
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string ImageField;
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Image {
+            get {
+                return this.ImageField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.ImageField, value) != true)) {
+                    this.ImageField = value;
+                    this.RaisePropertyChanged("Image");
+                }
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="IntValue", Namespace="http://schemas.datacontract.org/2004/07/GUI.IPCInterface.Values")]
+    [System.SerializableAttribute()]
+    public partial class IntValue : Value {
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string ImageField;
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Image {
+            get {
+                return this.ImageField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.ImageField, value) != true)) {
+                    this.ImageField = value;
+                    this.RaisePropertyChanged("Image");
                 }
             }
         }
@@ -182,22 +252,22 @@ namespace EFSServiceClient.EFSService {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="IntValue", Namespace="http://schemas.datacontract.org/2004/07/GUI.IPCInterface.Values")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="EnumValue", Namespace="http://schemas.datacontract.org/2004/07/GUI.IPCInterface.Values")]
     [System.SerializableAttribute()]
-    public partial class IntValue : Value {
+    public partial class EnumValue : Value {
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string ImageField;
+        private string NameField;
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public string Image {
+        public string Name {
             get {
-                return this.ImageField;
+                return this.NameField;
             }
             set {
-                if ((object.ReferenceEquals(this.ImageField, value) != true)) {
-                    this.ImageField = value;
-                    this.RaisePropertyChanged("Image");
+                if ((object.ReferenceEquals(this.NameField, value) != true)) {
+                    this.NameField = value;
+                    this.RaisePropertyChanged("Name");
                 }
             }
         }
@@ -251,46 +321,93 @@ namespace EFSServiceClient.EFSService {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="ListValue", Namespace="http://schemas.datacontract.org/2004/07/GUI.IPCInterface.Values")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="Segment", Namespace="http://schemas.datacontract.org/2004/07/GUI.IPCInterface.Values")]
     [System.SerializableAttribute()]
-    public partial class ListValue : Value {
+    public partial class Segment : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private Value[] ValueField;
+        private double AField;
         
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public Value[] Value {
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private double D0Field;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private double LengthField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private double V0Field;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
             get {
-                return this.ValueField;
+                return this.extensionDataField;
             }
             set {
-                if ((object.ReferenceEquals(this.ValueField, value) != true)) {
-                    this.ValueField = value;
-                    this.RaisePropertyChanged("Value");
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public double A {
+            get {
+                return this.AField;
+            }
+            set {
+                if ((this.AField.Equals(value) != true)) {
+                    this.AField = value;
+                    this.RaisePropertyChanged("A");
                 }
             }
         }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="DoubleValue", Namespace="http://schemas.datacontract.org/2004/07/GUI.IPCInterface.Values")]
-    [System.SerializableAttribute()]
-    public partial class DoubleValue : Value {
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string ImageField;
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public string Image {
+        public double D0 {
             get {
-                return this.ImageField;
+                return this.D0Field;
             }
             set {
-                if ((object.ReferenceEquals(this.ImageField, value) != true)) {
-                    this.ImageField = value;
-                    this.RaisePropertyChanged("Image");
+                if ((this.D0Field.Equals(value) != true)) {
+                    this.D0Field = value;
+                    this.RaisePropertyChanged("D0");
                 }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public double Length {
+            get {
+                return this.LengthField;
+            }
+            set {
+                if ((this.LengthField.Equals(value) != true)) {
+                    this.LengthField = value;
+                    this.RaisePropertyChanged("Length");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public double V0 {
+            get {
+                return this.V0Field;
+            }
+            set {
+                if ((this.V0Field.Equals(value) != true)) {
+                    this.V0Field = value;
+                    this.RaisePropertyChanged("V0");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
             }
         }
     }

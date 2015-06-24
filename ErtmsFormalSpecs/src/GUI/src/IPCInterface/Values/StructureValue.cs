@@ -71,7 +71,7 @@ namespace GUI.IPCInterface.Values
         ///     Converts the value provided as an EFS value
         /// </summary>
         /// <returns></returns>
-        public override IValue convertBack(Type type)
+        public override IValue ConvertBack(Type type)
         {
             DataDictionary.Values.StructureValue retVal = null;
 
@@ -87,7 +87,7 @@ namespace GUI.IPCInterface.Values
                     {
                         Variable variable = (Variable) acceptor.getFactory().createVariable();
                         variable.Name = element.Name;
-                        variable.Value = pair.Value.convertBack(element.Type);
+                        variable.Value = pair.Value.ConvertBack(element.Type);
                         retVal.set(variable);
                     }
                     else

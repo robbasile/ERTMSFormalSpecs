@@ -30,6 +30,7 @@ namespace GUI.IPCInterface.Values
     [KnownType(typeof (EnumValue))]
     [KnownType(typeof (ListValue))]
     [KnownType(typeof (StructureValue))]
+    [KnownType(typeof (FunctionValue))]
     public abstract class Value
     {
         /// <summary>
@@ -43,7 +44,7 @@ namespace GUI.IPCInterface.Values
         /// </summary>
         /// <param name="type">the value expected type</param>
         /// <returns></returns>
-        public abstract IValue convertBack(Type type);
+        public abstract IValue ConvertBack(Type type);
 
         /// <summary>
         ///     Checks the return value for a conversion to EFS type
