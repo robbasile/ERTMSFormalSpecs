@@ -1024,9 +1024,28 @@ namespace GUI
             /// <summary>
             /// Indicates that the element has been removed
             /// </summary>
-            public Boolean Removed
+            public string Removed
             {
-                get { return Item.IsRemoved; }
+                get
+                {
+                    string retVal = "False";
+
+                    ModelElement model = Item as ModelElement;
+
+                    if (model != null && model.IsRemoved)
+                    {
+                        if (model.getIsRemoved())
+                        {
+                            retVal = "True";
+                        }
+                        else
+                        {
+                            retVal = "In update";
+                        }
+                    }
+
+                    return retVal;
+                }
             }
 
             /// <summary>
