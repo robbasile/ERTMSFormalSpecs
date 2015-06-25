@@ -14,6 +14,7 @@ all:
 	@make -C GUIUtils all 
 	@make -C GUI all 
 	@make -C EFSTester all
+	@make -C EFSServiceClient all
 
 clean:
 	@make -C Utils clean
@@ -23,6 +24,7 @@ clean:
 	@make -C GUIUtils clean 
 	@make -C GUI clean 
 	@make -C EFSTester clean 
+	@make -C EFSServiceClient clean
 
 increase_release_number:
 	@echo === Increase build number
