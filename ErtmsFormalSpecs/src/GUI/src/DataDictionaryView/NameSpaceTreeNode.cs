@@ -192,26 +192,28 @@ namespace GUI.DataDictionaryView
         }
 
         /// <summary>
-        ///     Adds a copy of the current namespace to the selected dictionary, if a copy does not already exist
+        /// Find or creates an update for the current element
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="args"></param>
-        public void AddNameSpaceUpdate(object sender, EventArgs args)
+        /// <returns></returns>
+        protected override ModelElement FindOrCreateUpdate()
         {
-            Dictionary dictionary = GetPatchDictionary();
+            ModelElement retVal = null;
 
+            Dictionary dictionary = GetPatchDictionary();
             if (dictionary != null)
             {
-                ModelElement updatedElement = dictionary.findByFullName(Item.FullName) as ModelElement;
-                if (updatedElement == null)
+                retVal = dictionary.findByFullName(Item.FullName) as ModelElement;
+                if (retVal == null)
                 {
                     // If the element does not already exist in the patch, add a copy to it
-                    updatedElement = Item.CreateUpdateInDictionary(dictionary);
+                    retVal = Item.CreateUpdateInDictionary(dictionary);
                 }
                 // navigate to the namespace, whether it was created or not
                 GUIUtils.MDIWindow.RefreshModel();
-                GUIUtils.MDIWindow.Select(updatedElement);
+                GUIUtils.MDIWindow.Select(retVal);
             }
+
+            return retVal;
         }
 
         /// <summary>
@@ -234,9 +236,13 @@ namespace GUI.DataDictionaryView
             newItem.MenuItems.Add(new MenuItem("Procedure", new EventHandler(AddProcedureHandler)));
             newItem.MenuItems.Add(new MenuItem("Variable", new EventHandler(AddVariableHandler)));
             newItem.MenuItems.Add(new MenuItem("Rule", new EventHandler(AddRuleHandler)));
-            newItem.MenuItems.Add(new MenuItem("-"));
-            newItem.MenuItems.Add(new MenuItem("Update", new EventHandler(AddNameSpaceUpdate)));
             retVal.Add(newItem);
+
+            MenuItem updatesItem = new MenuItem("Update...");
+            updatesItem.MenuItems.Add(new MenuItem("Update", new EventHandler(AddUpdate)));
+            updatesItem.MenuItems.Add(new MenuItem("Remove", new EventHandler(RemoveInUpdate)));
+            retVal.Add(updatesItem);
+
             retVal.Add(new MenuItem("Delete", new EventHandler(DeleteHandler)));
             retVal.AddRange(base.GetMenuItems());
             retVal.Insert(5, new MenuItem("-"));

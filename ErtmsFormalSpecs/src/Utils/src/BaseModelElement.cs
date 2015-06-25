@@ -95,6 +95,11 @@ namespace Utils
         bool HasMessage(ElementLog.LevelEnum levelEnum);
 
         /// <summary>
+        /// Indicates whether the model element is removed
+        /// </summary>
+        bool IsRemoved { get; }
+
+        /// <summary>
         ///     Adds a model element in this model element
         /// </summary>
         /// <param name="copy"></param>
@@ -259,6 +264,11 @@ namespace Utils
             }
             Messages.Clear();
         }
+
+        /// <summary>
+        /// Indicates whether the model element is removed
+        /// </summary>
+        public abstract bool IsRemoved { get; }
 
         /// <summary>
         ///     Adds a new element log attached to this model element

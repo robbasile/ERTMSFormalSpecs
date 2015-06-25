@@ -493,14 +493,14 @@ namespace DataDictionary.test
         /// </summary>
         /// <param name="enclosing"></param>
         /// <param name="name"></param>
-        /// <param name="type"></param>
+        /// <param name="typeName"></param>
         /// <returns></returns>
-        protected Function CreateFunction(NameSpace enclosing, string name, string type)
+        protected Function CreateFunction(NameSpace enclosing, string name, string typeName)
         {
             Function retVal = (Function) Factory.createFunction();
             enclosing.appendFunctions(retVal);
             retVal.Name = name;
-            retVal.TypeName = type;
+            retVal.TypeName = typeName;
 
             return retVal;
         }

@@ -1022,6 +1022,14 @@ namespace GUI
             }
 
             /// <summary>
+            /// Indicates that the element has been removed
+            /// </summary>
+            public Boolean Removed
+            {
+                get { return Item.IsRemoved; }
+            }
+
+            /// <summary>
             ///     The node that holds the item.
             /// </summary>
             private ModelElementTreeNode<T> node;
@@ -1117,6 +1125,12 @@ namespace GUI
                         }
                     }
 
+                    if (updates == 0)
+                    {
+                        MessageBox.Show("No updates loaded for the current dictionary.");
+
+                    }
+
                     if (updates > 1)
                     {
                         // if there are 0 or 1 possible updates, it will already have the correct value
@@ -1135,6 +1149,42 @@ namespace GUI
             }
 
             return retVal;
+        }
+
+        /// <summary>
+        ///     Adds a copy of the current model element to the selected dictionary, if a copy does not already exist
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        public void AddUpdate(object sender, EventArgs args)
+        {
+            FindOrCreateUpdate();
+        }
+
+        /// <summary>
+        /// Find or creates an update for the current element
+        /// </summary>
+        /// <returns></returns>
+        protected virtual ModelElement FindOrCreateUpdate()
+        {
+            return null;
+        }
+
+        /// <summary>
+        ///     Marks the item as removed from the model. The tool will treat it as if it was deleted.
+        /// </summary>
+        protected void RemoveInUpdate(object sender, EventArgs args)
+        {
+            ModelElement model = Item as ModelElement;
+            if (model.Updates == null)
+            {
+                model = FindOrCreateUpdate();
+            }
+
+            if (model != null)
+            {
+                model.setIsRemoved(true);
+            }
         }
 
         /// <summary>
@@ -1165,7 +1215,6 @@ namespace GUI
                 }
             }
             RefreshNode();
-
 
             base.HandleExpand();
         }

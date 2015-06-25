@@ -499,11 +499,8 @@ namespace DataDictionary.Tests.Runner
             foreach (Rules.Rule rule in nameSpace.Rules)
             {
                 // We only apply rules that have not been updated
-                if (rule.UpdatedBy.Count == 0)
-                {
-                    ExplanationPart explanation = new ExplanationPart(rule, "Rule evaluation");
-                    rule.Evaluate(this, priority, rule, activations, explanation);
-                }
+                ExplanationPart explanation = new ExplanationPart(rule, "Rule evaluation");
+                rule.Evaluate(this, priority, rule, activations, explanation);
             }
 
             foreach (IVariable variable in nameSpace.Variables)

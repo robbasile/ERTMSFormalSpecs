@@ -113,23 +113,30 @@ namespace GUI.DataDictionaryView
             }
         }
 
-
-        private void AddRuleUpdate(object sender, EventArgs args)
+        /// <summary>
+        ///     Finds or creates an update for the current element.
+        /// </summary>
+        /// <returns></returns>
+        protected override ModelElement FindOrCreateUpdate()
         {
+            ModelElement retVal = null;
+
             Dictionary dictionary = GetPatchDictionary();
 
             if (dictionary != null)
             {
-                ModelElement updatedElement = dictionary.findByFullName(Item.FullName) as ModelElement;
-                if (updatedElement == null)
+                retVal = dictionary.findByFullName(Item.FullName) as ModelElement;
+                if (retVal == null)
                 {
                     // If the element does not already exist in the patch, add a copy to it
-                    updatedElement = Item.CreateRuleUpdate(dictionary);
+                    retVal = Item.CreateRuleUpdate(dictionary);
                 }
                 // navigate to the rule, whether it was created or not
                 GUIUtils.MDIWindow.RefreshModel();
-                GUIUtils.MDIWindow.Select(updatedElement);
+                GUIUtils.MDIWindow.Select(retVal);
             }
+
+            return retVal;
         }
 
         /// <summary>
@@ -140,9 +147,10 @@ namespace GUI.DataDictionaryView
         {
             List<MenuItem> retVal = new List<MenuItem>();
 
-            MenuItem newItem = new MenuItem("Add...");
-            newItem.MenuItems.Add(new MenuItem("Update", new EventHandler(AddRuleUpdate)));
-            retVal.Add(newItem);
+            MenuItem updateItem = new MenuItem("Update...");
+            updateItem.MenuItems.Add(new MenuItem("Update", new EventHandler(AddUpdate)));
+            updateItem.MenuItems.Add(new MenuItem("Remove", new EventHandler(RemoveInUpdate)));
+            retVal.Add(updateItem);
             retVal.Add(new MenuItem("Delete", new EventHandler(DeleteHandler)));
             retVal.AddRange(base.GetMenuItems());
             retVal.Insert(5, new MenuItem("-"));

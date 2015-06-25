@@ -328,10 +328,10 @@ namespace DataDictionary.Rules
         {
             bool retVal = false;
 
-            long start = Environment.TickCount;
-
-            if (Disabled == false && ActivationPriorities.Contains(priority))
+            if (UpdatedBy.Count == 0 && !IsRemoved && ActivationPriorities.Contains(priority))
             {
+                long start = Environment.TickCount;
+
                 foreach (RuleCondition ruleCondition in RuleConditions)
                 {
                     retVal = ruleCondition.Evaluate(runner, priority, instance, activations, explanation);
@@ -340,12 +340,12 @@ namespace DataDictionary.Rules
                         break;
                     }
                 }
-            }
 
-            // Guard evaluation execution time
-            long stop = Environment.TickCount;
-            long span = (stop - start);
-            ExecutionTimeInMilli += span;
+                // Guard evaluation execution time
+                long stop = Environment.TickCount;
+                long span = (stop - start);
+                ExecutionTimeInMilli += span;
+            }
 
             return retVal;
         }

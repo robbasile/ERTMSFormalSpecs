@@ -246,6 +246,7 @@ namespace DataDictionary.Interpreter
         public void filter(BaseFilter accept)
         {
             RemoveUpdated();
+            DiscardRemoved();
 
             // Only keep the most specific elements.
             string mostSpecific = null;
@@ -331,6 +332,32 @@ namespace DataDictionary.Interpreter
 
                 Values = tmp;
             }
+        }
+
+        /// <summary>
+        ///     Removes the elements that have been marked as removed from the model
+        /// </summary>
+        public void DiscardRemoved()
+        {
+            Values.RemoveAll(ValueIsRemoved);
+        }
+
+        /// <summary>
+        /// Indicates that the referenced value has been removed
+        /// </summary>
+        /// <param name="element"></param>
+        /// <returns></returns>
+        private bool ValueIsRemoved(ReturnValueElement element)
+        {
+            bool retVal = false;
+
+            ModelElement model = element.Value as ModelElement;
+            if (model != null)
+            {
+                retVal = model.IsRemoved;
+            }
+
+            return retVal;
         }
 
         /// <summary>

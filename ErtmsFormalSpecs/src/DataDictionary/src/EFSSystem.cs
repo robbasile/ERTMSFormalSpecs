@@ -870,6 +870,11 @@ namespace DataDictionary
         }
 
         /// <summary>
+        /// Indicates that the element is removed
+        /// </summary>
+        public bool IsRemoved { get { return false; }}
+
+        /// <summary>
         ///     Initialises the declared elements
         /// </summary>
         public void InitDeclaredElements()

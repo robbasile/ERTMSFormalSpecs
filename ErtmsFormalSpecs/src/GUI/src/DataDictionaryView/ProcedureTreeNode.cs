@@ -98,23 +98,27 @@ namespace GUI.DataDictionaryView
             return new ItemEditor();
         }
 
-        public void AddProcedureUpdate(object sender, EventArgs args)
+        protected override ModelElement FindOrCreateUpdate()
         {
+            ModelElement retVal = null;
+
             Dictionary dictionary = GetPatchDictionary();
 
             if (dictionary != null)
             {
-                ModelElement updatedElement = dictionary.findByFullName(Item.FullName) as ModelElement;
-                if (updatedElement == null)
+                retVal = dictionary.findByFullName(Item.FullName) as ModelElement;
+                if (retVal == null)
                 {
                     // If the element does not already exist in the patch, add a copy of the function to it
                     // Get the enclosing namespace (by splitting the fullname and asking a recursive function to provide or make it)
-                    updatedElement = Item.CreateProcedureUpdate(dictionary);
+                    retVal = Item.CreateProcedureUpdate(dictionary);
                 }
                 // navigate to the procedure, whether it was created or not
                 GUIUtils.MDIWindow.RefreshModel();
-                GUIUtils.MDIWindow.Select(updatedElement);
+                GUIUtils.MDIWindow.Select(retVal);
             }
+
+            return retVal;
         }
 
         /// <summary>
@@ -125,9 +129,10 @@ namespace GUI.DataDictionaryView
         {
             List<MenuItem> retVal = new List<MenuItem>();
 
-            MenuItem newItem = new MenuItem("Add...");
-            newItem.MenuItems.Add(new MenuItem("Update", new EventHandler(AddProcedureUpdate)));
-            retVal.Add(newItem);
+            MenuItem updateItem = new MenuItem("Update...");
+            updateItem.MenuItems.Add(new MenuItem("Update", new EventHandler(AddUpdate)));
+            updateItem.MenuItems.Add(new MenuItem("Remove", new EventHandler(RemoveInUpdate)));
+            retVal.Add(updateItem);
             retVal.Add(new MenuItem("Delete", new EventHandler(DeleteHandler)));
             retVal.AddRange(base.GetMenuItems());
 

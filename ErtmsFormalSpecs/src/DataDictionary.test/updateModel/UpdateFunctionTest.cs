@@ -211,5 +211,30 @@ namespace DataDictionary.test.updateModel
             IValue value = expression.GetValue(new InterpretationContext(), null);
             Assert.AreEqual(System.BoolType.True, value);
         }
+
+        [Test]
+        public void TestUpdateRemoved()
+        {
+            Dictionary dictionary = CreateDictionary("Test");
+            NameSpace nameSpace = CreateNameSpace(dictionary, "N1");
+            Function function = CreateFunction(nameSpace, "f", "Bool");
+            Case cas1 = CreateCase(function, "Case 1", "q()");
+
+            Function function2 = CreateFunction(nameSpace, "q", "Bool");
+            Case cas2 = CreateCase(function2, "Case 1", "True");
+
+
+            Dictionary dictionary2 = CreateDictionary("TestUpdate");
+            dictionary2.setUpdates(dictionary.Guid);
+
+            Function updatedFunction = function.CreateFunctionUpdate(dictionary2);
+            updatedFunction.setIsRemoved(true);
+
+            Compiler.Compile_Synchronous(true);
+
+            Expression expression = Parser.Expression(dictionary, "N1.f()");
+
+            Assert.AreEqual(Utils.ModelElement.Errors.Count, 1);
+        }
     }
 }

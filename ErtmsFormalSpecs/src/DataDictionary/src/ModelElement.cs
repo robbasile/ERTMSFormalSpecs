@@ -327,6 +327,31 @@ namespace DataDictionary
                 setUpdates(source.Guid);
             }
         }
+
+        /// <summary>
+        ///     Indicates that this model element should be ignored
+        /// </summary>
+        public override bool IsRemoved
+        {
+            get
+            {
+                bool retVal = getIsRemoved();
+
+                if (!retVal)
+                {
+                    foreach (ModelElement update in UpdatedBy)
+                    {
+                        if (update.IsRemoved)
+                        {
+                            retVal = true;
+                            break;
+                        }
+                    }
+                }
+
+                return retVal;
+            }
+        }
     }
 
     /// <summary>

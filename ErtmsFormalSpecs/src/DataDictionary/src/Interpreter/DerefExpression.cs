@@ -183,8 +183,18 @@ namespace DataDictionary.Interpreter
 
                     foreach (ReturnValueElement elem in tmp2.Values)
                     {
-                        retVal.Merge(elem,
-                            Arguments[i].getReferences(elem.Value, AllMatches.INSTANCE, i == (Arguments.Count - 1)));
+                        bool removed = false;
+                        ModelElement model = elem.Value as ModelElement;
+                        if (model != null)
+                        {
+                            removed = model.IsRemoved;
+                        }
+
+                        if (!removed)
+                        {
+                            retVal.Merge(elem,
+                                Arguments[i].getReferences(elem.Value, AllMatches.INSTANCE, i == (Arguments.Count - 1)));
+                        }
                     }
 
                     if (retVal.IsEmpty)

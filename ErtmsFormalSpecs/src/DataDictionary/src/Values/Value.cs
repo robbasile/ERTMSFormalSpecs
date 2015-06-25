@@ -222,6 +222,11 @@ namespace DataDictionary.Values
         }
 
         /// <summary>
+        /// Indicates that the element is removed
+        /// </summary>
+        public bool IsRemoved { get { return false; } }
+
+        /// <summary>
         ///     The sub elements of this model element
         /// </summary>
         public ArrayList SubElements
