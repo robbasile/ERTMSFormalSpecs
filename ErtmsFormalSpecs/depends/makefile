@@ -13,7 +13,6 @@ DEPENDANCIES+=$(DIR_EXEC)/log4net.dll
 DEPENDANCIES+=$(DIR_EXEC)/Microsoft.Office.Interop.Excel.dll
 DEPENDANCIES+=$(DIR_EXEC)/LibGit2Sharp.dll
 DEPENDANCIES+=$(DIR_EXEC)/ICSharpCode.SharpZipLib.dll
-DEPENDANCIES+=$(DIR_EXEC)/WeifenLuo.WinFormsUI.Docking.dll
 DEPENDANCIES+=$(DIR_EXEC)/ObjectListView.dll
 DEPENDANCIES+=InnoInstaller5
 
@@ -30,7 +29,7 @@ $(DIR_EXEC):
 $(DIR_EXEC)/gnuplot: gnuplot.zip
 	@echo "---- Unzipping $< "
 	@unzip -u -o -q $<
-	@mv gnuplot $@
+	@mv gnuplot $(DIR_EXEC)
 	@chmod -R 777 $@
 	@touch --reference=$<  $@
 
@@ -69,12 +68,6 @@ $(DIR_EXEC)/LibGit2Sharp.dll: LibGit2Sharp/LibGit2Sharp.dll
 $(DIR_EXEC)/ICSharpCode.SharpZipLib.dll: ICSharpCode.SharpZipLib.dll
 	@echo "---- Copying $< "
 	@cp $< ../bin
-
-$(DIR_EXEC)/WeifenLuo.WinFormsUI.Docking.dll: DockPanel_2_9_0.zip
-	@echo "---- Unzipping $< "
-	@unzip -u -o -q -d DockPanel_2_9_0 $<
-	@echo "---- Copying WeifenLuo.WinFormsUI.Docking.dll "
-	@cp DockPanel_2_9_0/WeifenLuo.WinFormsUI.Docking.dll ../bin
 
 $(DIR_EXEC)/ObjectListView.dll: ObjectListView.dll
 	@cp ObjectListView.dll ../bin
