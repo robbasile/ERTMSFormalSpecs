@@ -499,8 +499,30 @@ namespace DataDictionary.Rules
 
             String[] names = FullName.Split('.');
             names = names.Take(names.Count() - 1).ToArray();
-            NameSpace nameSpace = dictionary.GetNameSpaceUpdate(names, Dictionary);
-            nameSpace.appendRules(retVal);
+
+            if (Enclosing is NameSpace)
+            {
+
+                NameSpace nameSpace = dictionary.GetNameSpaceUpdate(names, Dictionary);
+                nameSpace.appendRules(retVal);
+            }
+            else
+            {
+                String[] nameSpaceRef = names.Take(names.Count() - 1).ToArray();
+
+                if (EnclosingStateMachine != null)
+                {
+                    NameSpace nameSpace = dictionary.GetNameSpaceUpdate(nameSpaceRef, Dictionary);
+                    StateMachine stateMachine = nameSpace.GetStateMachineUpdate(names.Last(), (NameSpace)nameSpace.Updates);
+                    stateMachine.appendRules(retVal);
+                }
+                else if (EnclosingStructure != null)
+                {
+                    NameSpace nameSpace = dictionary.GetNameSpaceUpdate(nameSpaceRef, Dictionary);
+                    Structure structure = nameSpace.GetStructureUpdate(names.Last(), (NameSpace)nameSpace.Updates);
+                    structure.appendRules(retVal);
+                }
+            }
 
             return retVal;
         }

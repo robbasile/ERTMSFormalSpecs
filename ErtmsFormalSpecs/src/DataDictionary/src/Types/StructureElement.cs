@@ -14,8 +14,10 @@
 // --
 // ------------------------------------------------------------------------------
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using DataDictionary.Generated;
 using DataDictionary.Interpreter;
 using DataDictionary.Interpreter.Filter;
@@ -319,6 +321,28 @@ namespace DataDictionary.Types
             explanation.Write(Name);
             explanation.Write(" : ");
             explanation.WriteLine(typeName);
+        }
+
+        /// <summary>
+        ///     Creates a copy of the structure element in the designated dictionary. The namespace structure is copied over.
+        ///     The new structure element is set to update this one.
+        /// </summary>
+        /// <param name="dictionary">The target dictionary of the copy</param>
+        /// <returns></returns>
+        public StructureElement CreateStructureElementUpdate(Dictionary dictionary)
+        {
+            StructureElement retVal = (StructureElement)Duplicate();
+            retVal.setUpdates(Guid);
+
+            String[] names = FullName.Split('.');
+            names = names.Take(names.Count() - 1).ToArray();
+            String[] nameSpaceRef = names.Take(names.Count() - 1).ToArray();
+
+            NameSpace nameSpace = dictionary.GetNameSpaceUpdate(nameSpaceRef, Dictionary);
+            Structure structure = nameSpace.GetStructureUpdate(names.Last(), (NameSpace)nameSpace.Updates);
+            structure.appendElements(retVal);
+
+            return retVal;
         }
     }
 }
