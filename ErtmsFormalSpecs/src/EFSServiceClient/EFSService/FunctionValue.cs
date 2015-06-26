@@ -91,7 +91,7 @@ namespace EFSServiceClient.EFSService
             double start = 0;
             foreach (Segment segment in Segments)
             {
-                if (x >= start && x <= segment.Length)
+                if (x >= start && x < start + segment.Length)
                 {
                     retVal = segment.Evaluate(x);
                     break;
