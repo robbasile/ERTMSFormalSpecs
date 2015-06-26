@@ -525,6 +525,10 @@ namespace DataDictionary.Types
         public Structure CreateStructureUpdate(Dictionary dictionary)
         {
             Structure retVal = (Structure) Duplicate();
+            retVal.Elements.Clear();
+            retVal.Procedures.Clear();
+            retVal.Rules.Clear();
+            retVal.StateMachines.Clear();
             retVal.SetUpdateInformation(this);
 
             String[] names = FullName.Split('.');

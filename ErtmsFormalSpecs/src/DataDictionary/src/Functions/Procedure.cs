@@ -354,8 +354,23 @@ namespace DataDictionary.Functions
 
             String[] names = FullName.Split('.');
             names = names.Take(names.Count() - 1).ToArray();
-            NameSpace nameSpace = dictionary.GetNameSpaceUpdate(names, Dictionary);
-            nameSpace.appendProcedures(retVal);
+
+            if (Enclosing is NameSpace)
+            {
+                NameSpace nameSpace = dictionary.GetNameSpaceUpdate(names, Dictionary);
+                nameSpace.appendProcedures(retVal);
+            }
+            else
+            {
+                String[] nameSpaceRef = names.Take(names.Count() - 1).ToArray();
+
+                if (Enclosing is Structure)
+                {
+                    NameSpace nameSpace = dictionary.GetNameSpaceUpdate(nameSpaceRef, Dictionary);
+                    Structure structure = nameSpace.GetStructureUpdate(names.Last(), (NameSpace)nameSpace.Updates);
+                    structure.appendProcedures(retVal);
+                }
+            }
 
             return retVal;
         }

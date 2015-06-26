@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing.Design;
 using System.Windows.Forms;
+using DataDictionary;
 using DataDictionary.Generated;
 using GUI.Converters;
 using NameSpace = DataDictionary.Types.NameSpace;
@@ -129,6 +130,29 @@ namespace GUI.DataDictionaryView
             return new ItemEditor();
         }
 
+
+        protected override DataDictionary.ModelElement FindOrCreateUpdate()
+        {
+            ModelElement retVal = null;
+
+            DataDictionary.Dictionary dictionary = GetPatchDictionary();
+
+            if (dictionary != null)
+            {
+                retVal = dictionary.findByFullName(Item.FullName) as ModelElement;
+                if (retVal == null)
+                {
+                    // If the 
+                    retVal = Item.CreateStructureElementUpdate(dictionary);
+                }
+                GUIUtils.MDIWindow.RefreshModel();
+                GUIUtils.MDIWindow.Select(retVal);
+            }
+
+            return retVal;
+        }
+
+
         /// <summary>
         ///     The menu items for this tree node
         /// </summary>
@@ -136,6 +160,11 @@ namespace GUI.DataDictionaryView
         protected override List<MenuItem> GetMenuItems()
         {
             List<MenuItem> retVal = new List<MenuItem>();
+
+            MenuItem updatesItem = new MenuItem("Update...");
+            updatesItem.MenuItems.Add(new MenuItem("Update", new EventHandler(AddUpdate)));
+            updatesItem.MenuItems.Add(new MenuItem("Remove", new EventHandler(RemoveInUpdate)));
+            retVal.Add(updatesItem);
 
             retVal.Add(new MenuItem("Delete", new EventHandler(DeleteHandler)));
             retVal.AddRange(base.GetMenuItems());

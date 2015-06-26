@@ -374,6 +374,26 @@ namespace DataDictionary.Types
         }
 
         /// <summary>
+        ///     Provides the structure which corresponds to the given name
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public Structure findStructureByName(string name)
+        {
+            return (Structure)INamableUtils.findByName(name, Structures);
+        }
+
+        /// <summary>
+        ///     Provides the state machine which corresponds to the given name
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public StateMachine findStateMachineByName(string name)
+        {
+            return (StateMachine)INamableUtils.findByName(name, StateMachines);
+        }
+
+        /// <summary>
         ///     Provides the type which corresponds to the given name
         /// </summary>
         /// <param name="name"></param>
@@ -637,6 +657,50 @@ namespace DataDictionary.Types
                 retVal.setUpdates(initialNameSpace.Guid);
             }
 
+            return retVal;
+        }
+
+        /// <summary>
+        ///     Either provides the requested structure or creates it if it cannot be found
+        /// </summary>
+        /// <param name="name">The name pf the structure</param>
+        /// <param name="initialNameSpace">The namespace the structure is being copied from</param>
+        /// <returns></returns>
+        public Structure GetStructureUpdate(string name, NameSpace initialNameSpace)
+        {
+            Structure retVal = null;
+
+            if (name != null)
+            {
+                retVal = findStructureByName(name);
+                Structure initialStructure = initialNameSpace.findStructureByName(name);
+                if (retVal == null)
+                {
+                    retVal = initialStructure.CreateStructureUpdate(Dictionary);
+                }
+            }
+            return retVal;
+        }
+
+        /// <summary>
+        ///     Either provides the requested state machine or creates it if it cannot be found
+        /// </summary>
+        /// <param name="name">The name pf the state machine</param>
+        /// <param name="initialNameSpace">The namespace the state machine is being copied from</param>
+        /// <returns></returns>
+        public StateMachine GetStateMachineUpdate(string name, NameSpace initialNameSpace)
+        {
+            StateMachine retVal = null;
+
+            if (name != null)
+            {
+                retVal = findStateMachineByName(name);
+                StateMachine initialStateMachine = initialNameSpace.findStateMachineByName(name);
+                if (retVal == null)
+                {
+                    retVal = initialStateMachine.CreateStateMachineUpdate(Dictionary);
+                }
+            }
             return retVal;
         }
     }
