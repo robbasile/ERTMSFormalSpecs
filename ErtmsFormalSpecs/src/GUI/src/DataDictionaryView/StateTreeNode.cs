@@ -18,7 +18,9 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
+using DataDictionary;
 using DataDictionary.Generated;
+using DataDictionary.Interpreter;
 using GUI.Converters;
 using GUI.StateDiagram;
 using Rule = DataDictionary.Rules.Rule;
@@ -188,6 +190,27 @@ namespace GUI.DataDictionaryView
             ViewDiagram();
         }
 
+        protected override ModelElement FindOrCreateUpdate()
+        {
+            ModelElement retVal = null;
+
+            DataDictionary.Dictionary dictionary = GetPatchDictionary();
+
+            if (dictionary != null)
+            {
+                retVal = dictionary.findByFullName(Item.FullName) as ModelElement;
+                if (retVal == null)
+                {
+                    // If the 
+                    retVal = Item.CreateStateUpdate(dictionary);
+                }
+                GUIUtils.MDIWindow.RefreshModel();
+                GUIUtils.MDIWindow.Select(retVal);
+            }
+
+            return retVal;
+        }
+
         /// <summary>
         ///     The menu items for this tree node
         /// </summary>
@@ -197,6 +220,10 @@ namespace GUI.DataDictionaryView
             List<MenuItem> retVal = new List<MenuItem>();
 
             retVal.Add(new MenuItem("Add sub state", new EventHandler(AddStateHandler)));
+            MenuItem updatesItem = new MenuItem("Update...");
+            updatesItem.MenuItems.Add(new MenuItem("Update", new EventHandler(AddUpdate)));
+            updatesItem.MenuItems.Add(new MenuItem("Remove", new EventHandler(RemoveInUpdate)));
+            retVal.Add(updatesItem);
             retVal.Add(new MenuItem("Delete", new EventHandler(DeleteHandler)));
             retVal.AddRange(base.GetMenuItems());
             retVal.Insert(6, new MenuItem("-"));

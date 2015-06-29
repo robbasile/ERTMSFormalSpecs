@@ -14,9 +14,12 @@
 // --
 // ------------------------------------------------------------------------------
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.Remoting.Messaging;
 using DataDictionary.Generated;
+using DataDictionary.Interpreter.ListOperators;
 using DataDictionary.Values;
 using DataDictionary.Variables;
 using Utils;
@@ -463,6 +466,76 @@ namespace DataDictionary.Constants
                     StateMachine.SetUpdateInformation(baseSataStateMachine);
                 }
             }
+        }
+
+        /// <summary>
+        ///     Creates a copy of the state in the designated dictionary. The namespace structure is copied over.
+        ///     The new state is set to update this one.
+        /// </summary>
+        /// <param name="dictionary">The target dictionary of the copy</param>
+        /// <returns></returns>
+        public State CreateStateUpdate(Dictionary dictionary)
+        {
+            State retVal = null;
+
+            // Find the enclosing state machine to then work down to the state being updated
+            ModelElement refElement = (ModelElement)Enclosing;
+            List<string> names = new List<string>();
+            names.Add(Name);
+            // Stop when refState points to the state machine
+            while (!(refElement.Enclosing is NameSpace))
+            {
+                // Just in case...
+                if (refElement == null){ break; }
+
+                // Find the base state machine ( -> keep it in refElement )
+                // Keep the path from the state machine to the updated state, ignoring the sub-state machines (whose name is null)
+                if (refElement.Name != null)
+                {
+                    names.Add(refElement.Name);
+                }
+                refElement = (ModelElement)refElement.Enclosing;
+            }
+            names.Reverse();
+
+            // Find or create the update for the state machine
+            StateMachine updateSM = dictionary.findByFullName(refElement.FullName) as StateMachine;
+            if (updateSM == null)
+            {
+                // If the element does not already exist in the patch, add a copy to it
+                updateSM = ((StateMachine)refElement).CreateStateMachineUpdate(dictionary);
+            }
+
+            // Create the states down to the update for this element
+            State refState = ((StateMachine)refElement).FindState(names[0]);
+            while (names.Count > 0)
+            {
+                if (updateSM.FindState(names[0]) == null)
+                {
+                    retVal = new State();
+                    retVal.Name = refState.Name;
+                    retVal.SetUpdateInformation(refState);
+
+                    updateSM.States.Add(retVal);
+                    retVal.setFather(updateSM);
+                }
+                else
+                {
+                    retVal = updateSM.FindState(names[0]);
+                }
+
+                // Remove the sub-state after the update has been found/created
+                names.Remove(names[0]);
+
+                if (names.Count > 0)
+                {
+                    retVal.StateMachine = new StateMachine();
+                    updateSM = retVal.StateMachine;
+                    refState = refState.findSubState(names[0]);
+                }
+            }
+
+            return retVal;
         }
     }
 }

@@ -766,27 +766,23 @@ namespace DataDictionary.Types
         /// <returns></returns>
         public StateMachine CreateStateMachineUpdate(Dictionary dictionary)
         {
-            StateMachine retVal = (StateMachine) Duplicate();
+            StateMachine retVal = new StateMachine();
+            retVal.Name = Name;
             retVal.SetUpdateInformation(this);
 
             String[] names = FullName.Split('.');
-            names = names.Take(names.Count() - 1).ToArray();
+
+            String[] nameSpaceRef = NameSpace.FullName.Split('.');
+            NameSpace nameSpace = dictionary.GetNameSpaceUpdate(nameSpaceRef, Dictionary);
 
             if (Enclosing is NameSpace)
             {
-                NameSpace nameSpace = dictionary.GetNameSpaceUpdate(names, Dictionary);
                 nameSpace.appendStateMachines(retVal);
             }
-            else
+            else if (Enclosing is Structure)
             {
-                String[] nameSpaceRef = names.Take(names.Count() - 1).ToArray();
-
-                if (Enclosing is Structure)
-                {
-                    NameSpace nameSpace = dictionary.GetNameSpaceUpdate(nameSpaceRef, Dictionary);
-                    Structure structure = nameSpace.GetStructureUpdate(names.Last(), (NameSpace)nameSpace.Updates);
-                    structure.appendStateMachines(retVal);
-                }
+                Structure structure = nameSpace.GetStructureUpdate(names.Last(), (NameSpace)nameSpace.Updates);
+                structure.appendStateMachines(retVal);
             }
 
             return retVal;
