@@ -115,7 +115,12 @@ namespace EFSTester
                     }
                 }
 
+                // Make sure everything is recompiled
+                Console.Out.WriteLine("Recompiling everything");
+                efsSystem.Compiler.Compile_Synchronous(true, false);
+
                 // Ensure the model is consistent
+                Console.Out.WriteLine("Checking model");
                 IsThereAnyError isThereAnyError = new IsThereAnyError();
                 foreach (Dictionary dictionary in efsSystem.Dictionaries)
                 {
