@@ -739,12 +739,18 @@ namespace GUI.IPCInterface
                         {
                             foreach (DataDictionary.Functions.Graph.Segment segment in graph.Segments)
                             {
+                                double length = segment.End - segment.Start;
+                                double speed = segment.Expression.v0;
+                                if (segment.Expression.a != 0)
+                                {
+                                    speed = Math.Sqrt((segment.Expression.v0/3.6) * (segment.Expression.v0/3.6) - (length) * (2 * segment.Expression.a)) * 3.6;
+                                }
                                 segments.Add(new Segment
                                 {
                                     A = segment.Expression.a,
-                                    V0 = segment.Expression.v0,
+                                    V0 = speed,
                                     D0 = segment.Start,
-                                    Length = segment.End - segment.Start
+                                    Length = length
                                 });
                             }
                         }
