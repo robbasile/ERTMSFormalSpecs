@@ -277,7 +277,7 @@ INITIAL_VALUE BaseTypes.MaxSpeedFunction) (Distance)</Expression>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="a8b8f6ca-6729-4300-afd9-72b0c6146013"
 >
-</ReqRef><Comment>We don&apos;t explicitly compute the location of EBD foot since we don&apos;t need it (our curves are computed entirely, going until the speed 0 even for MRPS or LOA targets).</Comment>
+</ReqRef><Comment>Computes the minimum between the EBI and the EBD curves at all positions on the track.</Comment>
 <Parameters>
 <Parameter
  Type="BaseTypes.Distance"
@@ -291,7 +291,9 @@ INITIAL_VALUE BaseTypes.MaxSpeedFunction) (Distance)</Expression>
  Guid="1529fd2f-2eb1-49c8-94c8-feb16efd487c"
 >
 <Expression>DecelerationProfile ( 
-  SpeedRestrictions =&gt; Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.EBI, 
+  SpeedRestrictions =&gt; AddIncrement(
+    Function =&gt; Kernel.MRSP.SpeedRestrictions, 
+    Increment =&gt; Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_ebi)(Distance), 
   DecelerationFactor =&gt; Kernel.TrainData.BrakingParameters.A_safe )
 ( Distance )</Expression>
 </Case></Cases>
