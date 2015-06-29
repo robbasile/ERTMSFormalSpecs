@@ -743,7 +743,7 @@ namespace GUI.IPCInterface
                                 {
                                     A = segment.Expression.a,
                                     V0 = segment.Expression.v0,
-                                    D0 = segment.Expression.d0,
+                                    D0 = segment.Start,
                                     Length = segment.End - segment.Start
                                 });
                             }
