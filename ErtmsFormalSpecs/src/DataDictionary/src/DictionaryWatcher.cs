@@ -53,6 +53,16 @@ namespace DataDictionary
         private Thread WaitEndOfBurst { get; set; }
 
         /// <summary>
+        /// The time from witch watching is allowed.
+        /// </summary>
+        private DateTime? WatchTime { get; set; }
+
+        /// <summary>
+        /// A mutex to enter the critical region
+        /// </summary>
+        private Mutex CriticalRegion { get; set; }
+
+        /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="dictionary"></param>
@@ -63,17 +73,20 @@ namespace DataDictionary
             LastChange = DateTime.Now;
             DeltaTime = new TimeSpan(0, 0, 2);
 
+            CriticalRegion = new Mutex(false, "Critical region");
+
             string path = Path.GetDirectoryName(dictionary.FilePath) + Path.DirectorySeparatorChar  + Path.GetFileNameWithoutExtension(dictionary.FilePath);
             path = Path.GetFullPath(path);
             Watcher = new FileSystemWatcher(path, "*.*")
             {
                 IncludeSubdirectories = true,
-                EnableRaisingEvents = true,
                 NotifyFilter = NotifyFilters.LastWrite
             };
             Watcher.Changed += Watcher_Changed;
             Watcher.Created += Watcher_Changed;
             Watcher.Deleted += Watcher_Changed;
+
+            StartWatching();
         }
 
         /// <summary>
@@ -83,6 +96,8 @@ namespace DataDictionary
         /// <param name="e"></param>
         void Watcher_Changed(object sender, FileSystemEventArgs e)
         {
+            CriticalRegion.WaitOne();
+
             LastChange = DateTime.Now;
 
             if (WaitEndOfBurst == null || !WaitEndOfBurst.IsAlive)
@@ -90,6 +105,8 @@ namespace DataDictionary
                 WaitEndOfBurst = new Thread(SendChangeEvent);
                 WaitEndOfBurst.Start();
             }
+
+            CriticalRegion.ReleaseMutex();
         }
 
         /// <summary>
@@ -97,13 +114,38 @@ namespace DataDictionary
         /// </summary>
         private void SendChangeEvent()
         {
+            DateTime now;
+
             // Wait for the end of the burst
             do
             {
                 Thread.Sleep(100);
-            } while (DateTime.Now - LastChange > DeltaTime);
+                now = DateTime.Now;
+            } while (now - LastChange > DeltaTime);
 
-            System.OnDictionaryChangesOnFileSystem(Dictionary);
+            if (WatchTime != null && now >= WatchTime)
+            {
+                System.OnDictionaryChangesOnFileSystem(Dictionary);
+            }
+        }
+
+        /// <summary>
+        /// Stops alerting when file changes
+        /// </summary>
+        public void StopWatching()
+        {
+            Watcher.EnableRaisingEvents = false;
+            WatchTime = null;
+        }
+
+        /// <summary>
+        /// Start alerting when file changes
+        /// </summary>
+        public void StartWatching()
+        {
+            // Wait 10 seconds before actually handling change events
+            WatchTime = DateTime.Now + new TimeSpan(0, 0, 10);
+            Watcher.EnableRaisingEvents = true;
         }
     }
 }

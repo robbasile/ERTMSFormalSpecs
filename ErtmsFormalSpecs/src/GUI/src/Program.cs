@@ -119,11 +119,14 @@ namespace ERTMSFormalSpecs
         /// Handles the change of a dictionary on the file system
         /// </summary>
         /// <param name="dictionary"></param>
-        static void HandleInstanceDictionaryChangesOnFileSystem(Dictionary dictionary)
+        private static void HandleInstanceDictionaryChangesOnFileSystem(Dictionary dictionary)
         {
             OpenFileOperation openFile = new OpenFileOperation(dictionary.FilePath, EFSSystem.INSTANCE, false, true);
-            openFile.ExecuteUsingProgressDialog("Refreshing dictionary " + Path.GetFileNameWithoutExtension(dictionary.FilePath));
-            GUIUtils.MDIWindow.Invoke((MethodInvoker) GUIUtils.MDIWindow.RefreshModel);
+            openFile.ExecuteUsingProgressDialog("Refreshing dictionary " +
+                                                Path.GetFileNameWithoutExtension(dictionary.FilePath));
+
+            RefreshModel refreshModel = new RefreshModel();
+            refreshModel.ExecuteUsingProgressDialog("Refreshing model", false);
         }
     }
 }

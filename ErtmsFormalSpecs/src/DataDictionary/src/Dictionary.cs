@@ -316,13 +316,21 @@ namespace DataDictionary
         }
 
         /// <summary>
+        /// The dictionary watcher
+        /// </summary>
+        public DictionaryWatcher Watcher { get; set; }
+
+        /// <summary>
         ///     Saves the dictionary according to its filename
         /// </summary>
         public void save()
         {
             Util.DontNotify(() =>
             {
-                EFSSystem.PleaseFollowFsChanges = false;
+                if (Watcher != null)
+                {
+                    Watcher.StopWatching();
+                }
 
                 Updater updater = new Updater(BasePath, true);
                 updater.visit(this);
@@ -334,7 +342,10 @@ namespace DataDictionary
                 updater = new Updater(BasePath, false);
                 updater.visit(this);
 
-                EFSSystem.PleaseFollowFsChanges = true;
+                if (Watcher != null)
+                {
+                    Watcher.StartWatching();
+                }
             });
         }
 
