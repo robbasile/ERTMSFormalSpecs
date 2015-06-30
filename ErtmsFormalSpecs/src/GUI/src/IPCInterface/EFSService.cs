@@ -741,6 +741,10 @@ namespace GUI.IPCInterface
                             {
                                 double length = segment.End - segment.Start;
                                 double speed = segment.Expression.v0;
+                                /* In EFS the deceleration curves are computed from the end => v0 represents the target speed of the segment.
+                                 * But logically v0 should represent the initial speed of the segment. The computation below computes
+                                 * the initial speed from v0 of the segment, using the following fomula:
+                                 *  v = sqrt ( v0² - (d1 - d0) * 2 a ) */
                                 if (segment.Expression.a != 0)
                                 {
                                     speed = Math.Sqrt((segment.Expression.v0/3.6) * (segment.Expression.v0/3.6) - (length) * (2 * segment.Expression.a)) * 3.6;
