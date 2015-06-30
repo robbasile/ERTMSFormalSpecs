@@ -16,6 +16,7 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using DataDictionary.Functions.PredefinedFunctions;
 using DataDictionary.Generated;
 using DataDictionary.Interpreter;
@@ -119,6 +120,42 @@ namespace DataDictionary
         public History History { get; private set; }
 
         /// <summary>
+        /// The watches to keep track of file system changes for all opened dictionaries
+        /// </summary>
+        private List<DictionaryWatcher> DictionaryWatchers { get; set; }
+
+        /// <summary>
+        /// The delegate to be called when the dictionary changed on the file system
+        /// </summary>
+        /// <param name="dictionary"></param>
+        public delegate void HandleDictionaryChangesOnFileSystem(Dictionary dictionary);
+
+        /// <summary>
+        /// The event raised when the dictionary changed on the file system
+        /// </summary>
+        public event HandleDictionaryChangesOnFileSystem DictionaryChangesOnFileSystem;
+
+        /// <summary>
+        /// To be called when a dictionary changes on the file system
+        /// </summary>
+        /// <param name="dictionary"></param>
+        public virtual void OnDictionaryChangesOnFileSystem(Dictionary dictionary)
+        {
+            if (DictionaryChangesOnFileSystem != null)
+            {
+                if (PleaseFollowFsChanges)
+                {
+                    DictionaryChangesOnFileSystem(dictionary);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Indicates that we should be awaken on file system changes
+        /// </summary>
+        public bool PleaseFollowFsChanges { get; set; }
+
+        /// <summary>
         ///     Constructor
         /// </summary>
         private EFSSystem()
@@ -142,6 +179,9 @@ namespace DataDictionary
             CacheFunctions = true;
 
             ControllersManager.BaseModelElementController.Listeners.Insert(0, new BaseModelElementChangeListener(this));
+
+            DictionaryWatchers = new List<DictionaryWatcher>();
+            PleaseFollowFsChanges = true;
         }
 
         /// <summary>
@@ -152,8 +192,19 @@ namespace DataDictionary
         {
             if (dictionary != null)
             {
+                // Remove the existing dictionaries
+                int removed = Dictionaries.RemoveAll(other => other.FilePath == dictionary.FilePath);
+
+                // Add the new one
                 dictionary.Enclosing = this;
                 Dictionaries.Add(dictionary);
+
+                // This is the first time this dictionary is added in the system. Watch it
+                if (removed == 0)
+                {
+                    DictionaryWatcher watcher = new DictionaryWatcher(this, dictionary);
+                    DictionaryWatchers.Add(watcher);
+                }
             }
         }
 

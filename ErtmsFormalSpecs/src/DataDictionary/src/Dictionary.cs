@@ -322,6 +322,8 @@ namespace DataDictionary
         {
             Util.DontNotify(() =>
             {
+                EFSSystem.PleaseFollowFsChanges = false;
+
                 Updater updater = new Updater(BasePath, true);
                 updater.visit(this);
 
@@ -331,6 +333,8 @@ namespace DataDictionary
 
                 updater = new Updater(BasePath, false);
                 updater.visit(this);
+
+                EFSSystem.PleaseFollowFsChanges = true;
             });
         }
 
@@ -700,12 +704,20 @@ namespace DataDictionary
             return retVal;
         }
 
+        /// <summary>
+        /// Should be called when the file system changes
+        /// </summary>
+        public delegate void HandleFSChange();
+
+        /// <summary>
+        /// The event raised when the file system changed
+        /// </summary>
+        public event HandleFSChange FileSystemChange;
 
         /// <summary>
         ///     Constructor
         /// </summary>
         public Dictionary()
-            : base()
         {
             FinderRepository.INSTANCE.Register(this);
         }
@@ -1441,5 +1453,6 @@ namespace DataDictionary
         ///     The name of the requirement set for scoping information
         /// </summary>
         public const string SCOPE_NAME = "Scope";
+
     }
 }

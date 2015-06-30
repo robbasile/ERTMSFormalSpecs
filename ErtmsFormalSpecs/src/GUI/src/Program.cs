@@ -24,6 +24,7 @@ using System.Windows.Forms;
 using DataDictionary;
 using GUI;
 using GUI.IPCInterface;
+using GUI.LongOperations;
 using GUI.Options;
 using log4net;
 using log4net.Config;
@@ -84,6 +85,7 @@ namespace ERTMSFormalSpecs
                 XmlConfigurator.Configure(new FileInfo("logconfig.xml"));
 
                 Options.setSettings(EFSSystem.INSTANCE);
+                EFSSystem.INSTANCE.DictionaryChangesOnFileSystem += HandleInstanceDictionaryChangesOnFileSystem;
 
                 MainWindow window = new MainWindow();
                 Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
@@ -100,7 +102,7 @@ namespace ERTMSFormalSpecs
                 {
                     window.OpenFile(file);
                 }
-                 Application.Run(window);
+                Application.Run(window);
                 CloseEFSService();
             }
             finally
@@ -111,6 +113,17 @@ namespace ERTMSFormalSpecs
 
             EFSSystem.INSTANCE.Stop();
             SynchronizerList.Stop();
+        }
+
+        /// <summary>
+        /// Handles the change of a dictionary on the file system
+        /// </summary>
+        /// <param name="dictionary"></param>
+        static void HandleInstanceDictionaryChangesOnFileSystem(Dictionary dictionary)
+        {
+            OpenFileOperation openFile = new OpenFileOperation(dictionary.FilePath, EFSSystem.INSTANCE, false, true);
+            openFile.ExecuteUsingProgressDialog("Refreshing dictionary " + Path.GetFileNameWithoutExtension(dictionary.FilePath));
+            GUIUtils.MDIWindow.Invoke((MethodInvoker) GUIUtils.MDIWindow.RefreshModel);
         }
     }
 }
