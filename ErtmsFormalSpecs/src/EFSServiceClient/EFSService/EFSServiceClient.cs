@@ -25,7 +25,7 @@ namespace EFSServiceClient.EFSService
         /// <returns></returns>
         public double GetDoubleValue(string expression)
         {
-            double retVal = 0.0;
+            double retVal = double.NaN;
 
             DoubleValue tmp = GetExpressionValue(expression) as DoubleValue;
             if (tmp != null)
