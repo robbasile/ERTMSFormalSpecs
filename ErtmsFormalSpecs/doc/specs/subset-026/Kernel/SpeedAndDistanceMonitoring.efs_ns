@@ -3117,7 +3117,7 @@ TrainPosition.FrontEndPosition(DistanceInterval.Nom) &gt; PreIndicationLocation.
  Guid="35a78385-5ce1-4613-91ce-27ae1fc32d9e"
 >ReleaseSpeedMonitoring.ReleaseSpeedSupervisionApplicable(TargetSpeedMonitoring.MRDT())
 AND
-ReleaseSpeedMonitoring.StartRSM(ReleaseSpeedMonitoring.ReleaseSpeed) == BaseTypes.Distance.Unknown</PreCondition></PreConditions>
+ReleaseSpeedMonitoring.StartRSM(ReleaseSpeedMonitoring.ReleaseSpeedForTarget(TargetSpeedMonitoring.MRDT())) == BaseTypes.Distance.Unknown</PreCondition></PreConditions>
 <Expression>True</Expression>
 </Case><Case
  Name="Front end passed RSM start location"
@@ -3128,7 +3128,7 @@ ReleaseSpeedMonitoring.StartRSM(ReleaseSpeedMonitoring.ReleaseSpeed) == BaseType
  Guid="5acecc19-8795-458f-bf25-d3d7788ef394"
 >ReleaseSpeedMonitoring.ReleaseSpeedSupervisionApplicable(TargetSpeedMonitoring.MRDT())
 AND
-TrainPosition.FrontEndPosition(DistanceInterval.Max) &gt;  ReleaseSpeedMonitoring.StartRSM(ReleaseSpeedMonitoring.ReleaseSpeed)</PreCondition></PreConditions>
+TrainPosition.FrontEndPosition(DistanceInterval.Max) &gt;  ReleaseSpeedMonitoring.StartRSM(ReleaseSpeedMonitoring.ReleaseSpeedForTarget(TargetSpeedMonitoring.MRDT()))</PreCondition></PreConditions>
 <Expression>True</Expression>
 </Case><Case
  Name="Otherwise"

@@ -268,7 +268,7 @@ BaseTypes.MaxDistance(
 <PreCondition
  Guid="866eeedb-a5c6-4e3c-8ebd-dc36fd0b41d8"
 >Available ( MA.MA )</PreCondition></PreConditions>
-<Expression>ReleaseSpeed != 0.0 AND ( MA.IsSvL ( aTarget ) OR MA.IsEOA ( aTarget) )</Expression>
+<Expression>ReleaseSpeedForTarget(aTarget) != 0.0 AND ( MA.IsSvL ( aTarget ) OR MA.IsEOA ( aTarget) )</Expression>
 </Case><Case
  Name="No MA available"
  Guid="adc1392e-9efe-4722-8768-64a0c90b707b"
@@ -542,6 +542,81 @@ INITIAL_VALUE
           X2 =&gt; RESULT
         )
   INITIAL_VALUE BaseTypes.Distance.Infinity</Expression>
+</Case></Cases>
+</Function><Function
+ Type="BaseTypes.Speed"
+ Default=""
+ X="220"
+ Y="210"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="ReleaseSpeedForTarget"
+ Guid="68ee0744-90ae-412a-b0e6-b43a20070741"
+>
+<ReqRef
+ Id="beedf65d-aba6-4017-83dd-0fe57bc88e85"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6c8e4023-cfb1-4496-9e22-8adb70c97aa4"
+>
+</ReqRef><ReqRef
+ Id="6b1f5744-6c85-45eb-a7de-1eba5bad0131"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="1c557a12-5816-42b3-a9d4-49b12e57039d"
+>
+</ReqRef><ReqRef
+ Id="f2ddac1e-eea7-4f30-ade6-5ace543c21ae"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="5a60dae6-23a8-4aac-a437-e4927997fd48"
+>
+</ReqRef><ReqRef
+ Id="81828a4c-73e2-440d-8353-e050603f323f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="3f784a9c-1bd6-4e1f-a7ea-3a1067f655b3"
+>
+</ReqRef><Comment>Returns the release speed for the provided EOAl or SvL.</Comment>
+<Parameters>
+<Parameter
+ Type="TargetSpeedMonitoring.Target"
+ Name="aTarget"
+ Guid="0cd76e62-92e9-449c-9f09-78250ae3929e"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Not EOA or SvL"
+ Guid="f3bb6718-a596-4a1a-b61c-3e9a60e3d188"
+>
+<PreConditions>
+<PreCondition
+ Guid="b47be892-7e1d-4e83-95fc-d39166364d07"
+>NOT MA.IsEOA(aTarget)</PreCondition><PreCondition
+ Guid="cb49e0da-1358-4a5a-aff6-eb1bdf150648"
+>NOT MA.IsSvL(aTarget)</PreCondition></PreConditions>
+<Expression>0.0</Expression>
+</Case><Case
+ Name="Mode profile"
+ Guid="d8b715c9-084f-4b26-8fb7-33bec5d613bb"
+>
+<PreConditions>
+<PreCondition
+ Guid="53389fa3-8d36-4c88-aa4b-c7d413f92d48"
+>aTarget == MA.ModeProfile.EOA()</PreCondition></PreConditions>
+<Expression>0.0</Expression>
+</Case><Case
+ Name="Route unsuitability"
+ Guid="22814e0a-2c19-4ee9-b420-5030b6280b45"
+>
+<PreConditions>
+<PreCondition
+ Guid="c921b3f6-9fb1-4068-ad8a-2d4602f27b37"
+>aTarget == TrackDescription.RouteSuitability.EOA()</PreCondition></PreConditions>
+<Expression>0.0</Expression>
+</Case><Case
+ Name="Value"
+ Guid="c611c496-3e60-46fb-8e5d-11118b4d158f"
+>
+<Expression>ReleaseSpeed</Expression>
 </Case></Cases>
 </Function></Functions>
 <Procedures>
