@@ -1075,15 +1075,15 @@ d &lt; SignallingRelatedSpeedRestriction.End</PreCondition></PreConditions>
  Guid="0b34f057-a897-49ad-8c7c-70b508ae5178"
 >Available ( MA )</PreCondition><PreCondition
  Guid="2217fe28-281b-4814-8139-79c47dc4b92c"
->MA.TargetSpeed == 0.0</PreCondition><PreCondition
+>IsEOA(ClosestEOA())</PreCondition><PreCondition
  Guid="bdd0dd49-4e89-48c7-ac0a-a7fabcb2b107"
->Distance &lt; ClosestEOA().Location</PreCondition></PreConditions>
-<Expression>BaseTypes.Speed.MaxSpeed</Expression>
+>Distance &gt;= ClosestEOA().Location</PreCondition></PreConditions>
+<Expression>0.0</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="1a14e0bc-fded-4f5f-932e-365d8fe7cf64"
 >
-<Expression>0.0</Expression>
+<Expression>BaseTypes.Speed.MaxSpeed</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -2137,6 +2137,76 @@ BaseTypes.LengthToDistance ( aDistanceInterval )</PreCondition></PreConditions>
 </Case><Case
  Name="Before SvL"
  Guid="68888f36-e2f9-4b64-802f-0722fcc4b5d1"
+>
+<Expression>BaseTypes.Speed.MaxSpeed</Expression>
+</Case></Cases>
+</Function><Function
+ Type="BaseTypes.Speed"
+ Default=""
+ X="140"
+ Y="130"
+ Width="100"
+ Height="50"
+ Pinned="TRUE"
+ Implemented="TRUE"
+ Name="LOASpeedRestriction"
+ Guid="f8d65fdd-3afd-492f-9f55-4af8e59fecc3"
+>
+<ReqRef
+ Id="02854410-9ddb-4b94-993c-b26498a498bf"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e04d9a9e-0d18-409b-87e3-f1ca2620389e"
+>
+</ReqRef><ReqRef
+ Id="50a11b55-dc19-4427-b0fd-d81384417f79"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="96a3bca1-6ecd-4d61-8706-67a3d66d6a26"
+>
+</ReqRef><ReqRef
+ Id="5e616edd-93b3-48b1-9e3c-e0c863f4a609"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="933188c2-7c75-43a7-a8c6-1d2c937986f1"
+>
+</ReqRef><ReqRef
+ Id="3db576cb-65c4-4a7c-b6a3-7092c89448db"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="dd0bf05b-6f95-4460-8a61-f123dceb6683"
+>
+</ReqRef><ReqRef
+ Id="68cdb140-3c4e-4bdc-a122-88e2b2e22f7f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="00d30d77-a133-44be-b5a0-f35f87f8af8a"
+>
+</ReqRef><ReqRef
+ Id="690e9583-3caf-46eb-b721-bed7b3d89e9b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="29e08cbd-8992-40e8-8b49-4aab7ab0f615"
+>
+</ReqRef><Comment>Provides speed restriction for LOA (if applicable). Used to calculate the EBD curve.</Comment>
+<Parameters>
+<Parameter
+ Type="BaseTypes.Distance"
+ Name="Distance"
+ Guid="fe1464ab-2dd1-4b82-892a-1babef5b709a"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="After LOA"
+ Guid="75a8de46-ee96-4000-8644-e07c0f7dec29"
+>
+<PreConditions>
+<PreCondition
+ Guid="fdc562b4-07a4-40ae-852f-6ac0cbb391bb"
+>Available ( MA )</PreCondition><PreCondition
+ Guid="599c9a06-029b-4811-8241-f713c12788ef"
+>NOT IsEOA(ClosestEOA())</PreCondition><PreCondition
+ Guid="6def6bec-cefd-4905-8d23-2e603f44aef8"
+>Distance &gt;= ClosestEOA().Location</PreCondition></PreConditions>
+<Expression>MA.TargetSpeed</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="32220be7-920f-4a7c-94c9-0ab813a228a6"
 >
 <Expression>BaseTypes.Speed.MaxSpeed</Expression>
 </Case></Cases>

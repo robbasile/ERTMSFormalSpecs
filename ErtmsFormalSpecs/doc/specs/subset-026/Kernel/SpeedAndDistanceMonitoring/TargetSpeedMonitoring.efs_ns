@@ -187,6 +187,15 @@
 </Parameter></Parameters>
 <Cases>
 <Case
+ Name="Target is EOA"
+ Guid="8712ede0-dfe3-4798-ad22-166c9e136030"
+>
+<PreConditions>
+<PreCondition
+ Guid="65546442-3705-4e59-b830-1df5a25f1dba"
+>MA.IsEOA(aTarget)</PreCondition></PreConditions>
+<Expression>BaseTypes.Distance.Unknown</Expression>
+</Case><Case
  Name="Release speed"
  Guid="f861860a-db19-489d-b147-5173feb7b3a0"
 >
@@ -1186,10 +1195,19 @@ ActiveFunctions.SuperviseTrainSpeed_All_Information()</PreCondition></PreConditi
  Name="Value"
  Guid="432773f1-009d-4b37-a703-f1ec3389f415"
 >
-<Expression>MAP TARGETS(MIN(
-    First=&gt;  MRSP.SpeedRestrictions,
-    Second=&gt; NationalValues.MaxDistInSRSpeedRestriction)
-) | X.Location &gt; TrainPosition.FrontEndPosition(DistanceInterval.Nom)
+<Expression>MAP TARGETS(
+MIN(
+    First =&gt; MIN(
+        First =&gt; MRSP.SpeedRestrictions,
+        Second =&gt; NationalValues.MaxDistInSRSpeedRestriction
+    ),
+    Second =&gt; MIN(
+        First=&gt;MA.LOASpeedRestriction,
+        Second=&gt;MA.SvLSpeedRestriction
+    )
+)
+)
+ | X.Location &gt; TrainPosition.FrontEndPosition(DistanceInterval.Nom)
   USING X IN X</Expression>
 </Case></Cases>
 </Function><Function

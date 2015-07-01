@@ -45,6 +45,16 @@
  Name="Vtarget"
  Guid="8ff05368-f045-4e1c-8962-9f351666d2ed"
 >
+</Parameter><Parameter
+ Type="Boolean"
+ Name="NoAest"
+ Guid="946f34d8-1d71-4231-8ce4-e2063c311228"
+>
+</Parameter><Parameter
+ Type="BaseTypes.Speed"
+ Name="Vest"
+ Guid="e3dd55b9-be4c-48d5-b992-a9f0d0cc2a92"
+>
 </Parameter></Parameters>
 <Cases>
 <Case
@@ -60,7 +70,19 @@
  Name="Value"
  Guid="372b9a78-c790-4590-90ae-5fc9ed1a311e"
 >
-<Expression>DistanceForSpeed ( Function =&gt; EBD, Speed =&gt; Vtarget + Kernel.SpeedAndDistanceMonitoring.f41 ( Vtarget ) ) - ( Vtarget + Kernel.SpeedAndDistanceMonitoring.f41 (Vtarget ) ) * ( Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.T_berem(NoA_est =&gt; True) + Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.T_traction(NoA_est =&gt; True) )</Expression>
+<Expression>DistanceForSpeed ( 
+    Function =&gt; EBD,
+    Speed =&gt; Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.Vbec(
+        Vest =&gt; Vest,
+        Vtarget =&gt; Vtarget,
+        NoA_est =&gt; NoAest
+    )
+)
+ - Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.Dbec(
+    Vest =&gt; Vest,
+    Vtarget =&gt; Vtarget,
+    NoA_est =&gt; NoAest
+)</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Distance"
@@ -93,13 +115,21 @@
 <PreConditions>
 <PreCondition
  Guid="d164c315-df41-48a4-aa11-d21cee4593c2"
->d_EBI ( Vtarget ) == BaseTypes.Distance.Unknown</PreCondition></PreConditions>
+>d_EBI (
+    Vtarget =&gt; Vtarget,
+    NoAest =&gt; True,
+    Vest =&gt; 0.0
+) == BaseTypes.Distance.Unknown</PreCondition></PreConditions>
 <Expression>BaseTypes.Distance.Unknown</Expression>
 </Case><Case
  Name="Value"
  Guid="7e0f93ea-6373-4564-a9fc-832150d2356b"
 >
-<Expression>d_EBI ( Vtarget ) - Vtarget * ( Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.T_driver + Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.T_bs2 )</Expression>
+<Expression>d_EBI (
+    Vtarget =&gt; Vtarget,
+    NoAest =&gt; True,
+    Vest =&gt; 0.0
+) - Vtarget * ( Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.T_driver + Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.T_bs2 )</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Speed"
@@ -291,9 +321,7 @@ INITIAL_VALUE BaseTypes.MaxSpeedFunction) (Distance)</Expression>
  Guid="1529fd2f-2eb1-49c8-94c8-feb16efd487c"
 >
 <Expression>DecelerationProfile ( 
-  SpeedRestrictions =&gt; AddIncrement(
-    Function =&gt; Kernel.MRSP.SpeedRestrictions, 
-    Increment =&gt; Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_ebi)(Distance), 
+  SpeedRestrictions =&gt; EBDTargetSpeedRestrictions,
   DecelerationFactor =&gt; Kernel.TrainData.BrakingParameters.A_safe )
 ( Distance )</Expression>
 </Case></Cases>
@@ -385,6 +413,40 @@ INITIAL_VALUE BaseTypes.MaxSpeedFunction) (Distance)</Expression>
     Distance =&gt; Distance,
     aTarget =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT()
 )</Expression>
+</Case></Cases>
+</Function><Function
+ Type="BaseTypes.Speed"
+ Default=""
+ Width="100"
+ Height="50"
+ Name="EBDTargetSpeedRestrictions"
+ Guid="7877e0b5-78e3-49b1-8898-d8a4ba4fc8c2"
+>
+<Parameters>
+<Parameter
+ Type="BaseTypes.Distance"
+ Name="Distance"
+ Guid="36a2e1a5-4562-422b-a3f4-1a329fd793d3"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="3b7a5ecd-78a6-4674-bcc2-7a90976569d6"
+>
+<Expression>MIN(
+    First =&gt; MIN(
+        First =&gt; AddIncrement(
+            Function =&gt; Kernel.MRSP.SpeedRestrictions,
+            Increment =&gt; Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_ebi
+),
+        Second =&gt; Kernel.NationalValues.MaxDistInSRSpeedRestriction
+    ),
+    Second =&gt; MIN(
+        First =&gt; Kernel.MA.LOASpeedRestriction,
+        Second =&gt; Kernel.MA.SvLSpeedRestriction
+    )
+)(Distance)</Expression>
 </Case></Cases>
 </Function></Functions>
 </NameSpace>
