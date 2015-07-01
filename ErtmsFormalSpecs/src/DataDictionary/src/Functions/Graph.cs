@@ -453,7 +453,7 @@ namespace DataDictionary.Functions
             {
                 Start = other.Start;
                 End = other.End;
-                Expression = other.Expression;
+                Expression = new Curve(other.Expression.a, other.Expression.v0, other.Expression.d0);
             }
 
             /// <summary>
