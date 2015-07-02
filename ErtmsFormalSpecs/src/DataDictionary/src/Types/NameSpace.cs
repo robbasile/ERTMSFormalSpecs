@@ -432,6 +432,13 @@ namespace DataDictionary.Types
                 retVal = EnclosingNameSpace.innerFindTypeByName(name, true);
             }
 
+            //HacK: get the unified structure to take care of Updates
+            Structure structure = retVal as Structure;
+            if (structure != null)
+            {
+                retVal = structure.UnifiedStructure;
+            }
+
             return retVal;
         }
 

@@ -21,6 +21,7 @@ using System.Linq;
 using DataDictionary.Functions;
 using DataDictionary.Interpreter;
 using DataDictionary.Rules;
+using DataDictionary.src;
 using DataDictionary.Values;
 using DataDictionary.Variables;
 using Utils;
@@ -141,8 +142,10 @@ namespace DataDictionary.Types
             }
         }
 
-        public void ClearCache()
+        public override void ClearCache()
         {
+            base.ClearCache();
+            _unifiedStructure = null;
         }
 
         /// <summary>
@@ -524,11 +527,9 @@ namespace DataDictionary.Types
         /// <returns></returns>
         public Structure CreateStructureUpdate(Dictionary dictionary)
         {
-            Structure retVal = (Structure) Duplicate();
-            retVal.Elements.Clear();
-            retVal.Procedures.Clear();
-            retVal.Rules.Clear();
-            retVal.StateMachines.Clear();
+            Structure retVal = new Structure();
+            retVal.Name = Name;
+            retVal.Comment = Comment;
             retVal.SetUpdateInformation(this);
 
             String[] names = FullName.Split('.');
@@ -537,6 +538,49 @@ namespace DataDictionary.Types
             nameSpace.appendStructures(retVal);
 
             return retVal;
+        }
+
+        /// <summary>
+        ///     The unified structure of this with its updates and updated structures
+        /// </summary>
+        private Structure _unifiedStructure;
+
+        /// <summary>
+        ///     Creates a structure that is the combination of this and the updating structure (if there is only one)
+        /// </summary>
+        /// <returns>A combination of this structure and its update</returns>
+        public Structure UnifiedStructure
+        {
+            get
+            {
+                if (_unifiedStructure == null)
+                {
+                    if (Updates != null || UpdatedBy.Count > 0)
+                    {
+                        _unifiedStructure = new UnifiedStructure(this);
+                    }
+                    else
+                    {
+                        _unifiedStructure = this;
+                    }
+                }
+
+                return _unifiedStructure;
+            }
+            set { _unifiedStructure = value; }
+        }
+
+        /// <summary>
+        ///     Checks that the proposed new value for the unified structure used this and, in that case,
+        ///     sets the Unified structure to the proposed value
+        /// </summary>
+        /// <param name="newValue">The proposed new value for the unified structure</param>
+        public void ResetUnifiedStructure(UnifiedStructure newValue)
+        {
+            if (newValue.MergedStructures.Contains(this))
+            {
+                UnifiedStructure = newValue;
+            }
         }
 
         /// <summary>

@@ -325,6 +325,7 @@ namespace Utils
         ///     Adds an error associated to this model element
         /// </summary>
         /// <param name="message"></param>
+        /// <param name="failedExpectation"></param>
         /// <returns></returns>
         public ElementLog AddError(string message, bool failedExpectation = false)
         {

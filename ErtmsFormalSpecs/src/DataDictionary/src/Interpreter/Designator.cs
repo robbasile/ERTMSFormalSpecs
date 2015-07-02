@@ -380,7 +380,7 @@ namespace DataDictionary.Interpreter
                 }
             }
 
-            values.RemoveUpdated();
+            values.ApplyUpdates();
 
             return retVal;
         }

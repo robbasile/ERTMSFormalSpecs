@@ -245,7 +245,7 @@ namespace DataDictionary.Interpreter
         /// <param name="accept"></param>
         public void filter(BaseFilter accept)
         {
-            RemoveUpdated();
+            ApplyUpdates();
             DiscardRemoved();
 
             // Only keep the most specific elements.
@@ -361,9 +361,9 @@ namespace DataDictionary.Interpreter
         }
 
         /// <summary>
-        ///     Removes the elements that have been updated by another element
+        ///     Applies data dictionary updates by merging structures and removing other updated model elements
         /// </summary>
-        public void RemoveUpdated()
+        public void ApplyUpdates()
         {
             // We collect all the values that have been redefined to filter them out of the list
             HashSet<ModelElement> redefined = new HashSet<ModelElement>();
@@ -384,7 +384,14 @@ namespace DataDictionary.Interpreter
                 {
                     if (!redefined.Contains(modelElement))
                     {
-                        tmp.Add(element);
+                        // If the element is a structure, the uppdate must be combined with its base
+                        Structure ElementAsStruct = element.Value as Structure;
+                        if (ElementAsStruct != null)
+                        {
+                            element.Value = ElementAsStruct.UnifiedStructure;
+                        }
+                        
+                        tmp.Add(element);                            
                     }
                 }
                 else

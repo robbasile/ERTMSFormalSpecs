@@ -331,7 +331,10 @@ namespace DataDictionary.Types
         /// <returns></returns>
         public StructureElement CreateStructureElementUpdate(Dictionary dictionary)
         {
-            StructureElement retVal = (StructureElement)Duplicate();
+            StructureElement retVal = new StructureElement();
+            retVal.Name = Name;
+            retVal.TypeName = TypeName;
+            retVal.Comment = Comment;
             retVal.setUpdates(Guid);
 
             String[] names = FullName.Split('.');
