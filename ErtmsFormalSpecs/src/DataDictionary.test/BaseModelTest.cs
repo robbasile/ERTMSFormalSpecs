@@ -208,7 +208,7 @@ namespace DataDictionary.test
             Dictionary retVal = (Dictionary) Factory.createDictionary();
 
             System.AddDictionary(retVal);
-            retVal.Name = name;
+            retVal.FilePath = name;
 
             return retVal;
         }
