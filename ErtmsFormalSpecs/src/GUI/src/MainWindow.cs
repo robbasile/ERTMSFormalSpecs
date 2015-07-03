@@ -2011,7 +2011,7 @@ namespace GUI
                     if (translationWindow != null && translationWindow.TranslationDictionary != null &&
                         translationWindow.TranslationDictionary.Dictionary == dictionary)
                     {
-                        toClose.Add(dictionaryWindow);
+                        toClose.Add(translationWindow);
                     }
                 }
 
