@@ -77,6 +77,7 @@ namespace DataDictionary
 
             string path = Path.GetDirectoryName(dictionary.FilePath) + Path.DirectorySeparatorChar  + Path.GetFileNameWithoutExtension(dictionary.FilePath);
             path = Path.GetFullPath(path);
+            Directory.CreateDirectory(path);
             Watcher = new FileSystemWatcher(path, "*.*")
             {
                 IncludeSubdirectories = true,
