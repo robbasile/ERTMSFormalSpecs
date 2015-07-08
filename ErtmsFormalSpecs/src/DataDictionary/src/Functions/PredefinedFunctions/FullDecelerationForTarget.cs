@@ -41,6 +41,11 @@ namespace DataDictionary.Functions.PredefinedFunctions
         /// </summary>
         public Parameter DecelerationFactor { get; private set; }
 
+        /// <summary>
+        ///     The end speed for the calculation
+        /// </summary>
+        public Parameter EndSpeed { get; private set; }
+
         public FullDecelerationForTarget(EFSSystem efsSystem)
             : base(efsSystem, "FullDecelerationForTarget")
         {
@@ -55,6 +60,13 @@ namespace DataDictionary.Functions.PredefinedFunctions
             DecelerationFactor.Type = EFSSystem.AnyType;
             DecelerationFactor.setFather(this);
             FormalParameters.Add(DecelerationFactor);
+
+            // Third parameter end speed
+            EndSpeed = (Parameter)acceptor.getFactory().createParameter();
+            EndSpeed.Name = "EndSpeed";
+            EndSpeed.Type = EFSSystem.AnyType;
+            EndSpeed.setFather(this);
+            FormalParameters.Add(EndSpeed);
         }
 
         /// <summary>
@@ -68,6 +80,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
         {
             CheckFunctionalParameter(root, context, actualParameters[Target.Name], 1);
             CheckFunctionalParameter(root, context, actualParameters[DecelerationFactor.Name], 2);
+            CheckFunctionalParameter(root, context, actualParameters[EndSpeed.Name], 3);
         }
 
         /// <summary>
@@ -114,14 +127,30 @@ namespace DataDictionary.Functions.PredefinedFunctions
                             retVal.addSegment(new Graph.Segment(0, double.MaxValue, new Graph.Segment.Curve(0, 0, 0)));
                         }
 
-
+                        SiSpeed finalSpeed = new SiSpeed(getDoubleValue(context.findOnStack(EndSpeed).Value), SiSpeed_SubUnits.KiloMeter_per_Hour);
                         for (int i = 0; i < BrakingCurve.SegmentCount; i++)
                         {
                             QuadraticCurveSegment segment = BrakingCurve[i];
 
+                            SiSpeed endSpeed = SiSpeed.Max(finalSpeed, segment.Get(segment.X.X1));
+                            if (double.IsNaN(endSpeed.Value))
+                            {
+                                endSpeed = finalSpeed;
+                            }
+
+                            SiDistance endDistance;
+                            if (endSpeed == finalSpeed)
+                            {
+                                endDistance = segment.IntersectAt(endSpeed);
+                            }
+                            else
+                            {
+                                endDistance = segment.X.X1;
+                            }
+
                             Graph.Segment newSegment = new Graph.Segment(
                                 segment.X.X0.ToUnits(),
-                                segment.X.X1.ToUnits(),
+                                endDistance.ToUnits(),
                                 new Graph.Segment.Curve(
                                     segment.A.ToSubUnits(SiAcceleration_SubUnits.Meter_per_SecondSquare),
                                     segment.V0.ToSubUnits(SiSpeed_SubUnits.KiloMeter_per_Hour),
@@ -129,6 +158,11 @@ namespace DataDictionary.Functions.PredefinedFunctions
                                     )
                                 );
                             retVal.addSegment(newSegment);
+
+                            if (endSpeed == finalSpeed)
+                            {
+                                break;
+                            }
                         }
                     }
                 }

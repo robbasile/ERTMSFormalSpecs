@@ -235,7 +235,9 @@ namespace ErtmsSolutions.Etcs.Subset26.BrakingCurves
             SiAcceleration current_acceleration = current_curve.A;
 
             /* Finally we can add the segment because next_position has been computed. */
-            result.Add(current_curve.X.X0, current_curve.X.X1, current_acceleration, current_speed, current_position);
+            SiDistance refLocation = current_curve.X.X0;
+            SiSpeed refSpeed = current_curve.Get(refLocation);
+            result.Add(current_curve.X.X0, current_curve.X.X1, current_acceleration, refSpeed, refLocation);
 
             result.Dump("result so far ");
         }
