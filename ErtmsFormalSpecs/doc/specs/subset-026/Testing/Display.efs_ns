@@ -460,10 +460,7 @@ INITIAL_VALUE BaseTypes.MaxSpeedFunction) (Distance)</Expression>
 >
 <Expression>MIN(
     First =&gt; MIN(
-        First =&gt; AddIncrement(
-            Function =&gt; Kernel.MRSP.SpeedRestrictions,
-            Increment =&gt; Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_ebi
-),
+        First =&gt; Kernel.MRSP.SpeedRestrictions,
         Second =&gt; Kernel.NationalValues.MaxDistInSRSpeedRestriction
     ),
     Second =&gt; MIN(
@@ -471,6 +468,24 @@ INITIAL_VALUE BaseTypes.MaxSpeedFunction) (Distance)</Expression>
         Second =&gt; Kernel.MA.SvLSpeedRestriction
     )
 )(Distance)</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Targets"
+ Default=""
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="EBDTargetsList"
+ Guid="659c5caf-3a1b-460c-9ad1-ab3b6f2c1ea8"
+>
+<Comment>Provides the list of EBD targest.</Comment>
+<Cases>
+<Case
+ Name="Value"
+ Guid="e0e7bd7a-b085-430d-ba00-3899f5ffee30"
+>
+<Expression>MAP TARGETS(EBDTargetSpeedRestrictions) | X.Location &gt; Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom) USING X IN X</Expression>
 </Case></Cases>
 </Function></Functions>
 </NameSpace>

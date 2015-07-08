@@ -1541,7 +1541,8 @@ STOP_CONDITION
  Guid="397b8239-33a2-46be-9332-726e4bc51b28"
 >
 <Expression>FullDecelerationForTarget (
-        Target =&gt; Target,
+    Target =&gt; Target,
+    EndSpeed =&gt; 0.0,
     DecelerationFactor =&gt; FUNCTION d : BaseTypes.Distance, V : BaseTypes.Speed =&gt; A_safe( d =&gt; d, V =&gt; V, Gradient =&gt; Gradient )
 )( d_offset(V_previous + SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_ebi(V_previous)) + Dbec(V_PBD=&gt;V_previous, dV=&gt;SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_ebi(V_previous)) )
  - Vdelta0PBD(V_previous)</Expression>
@@ -1596,7 +1597,8 @@ STOP_CONDITION
  Guid="62e96d19-c1f0-4c40-9356-0052296487f6"
 >
 <Expression>FullDecelerationForTarget (
-        Target =&gt; Target,
+    Target =&gt; Target,
+    EndSpeed =&gt; 0.0,
     DecelerationFactor =&gt; FUNCTION V : BaseTypes.Speed, d : BaseTypes.Distance =&gt; A_expected( V =&gt; V, Gradient =&gt; Gradient )
 )( d_offset(V_previous + SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_sbi(V_previous)) + ( V_previous + SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_sbi(V_previous) ) * SpeedAndDistanceMonitoring.TargetSpeedMonitoring.T_bs1 )</Expression>
 </Case></Cases>
@@ -1655,7 +1657,8 @@ STOP_CONDITION
  Guid="1e9d1e7a-6914-423f-88dc-aeebb2c97838"
 >
 <Expression>FullDecelerationForTarget (
-        Target =&gt; Target,
+    Target =&gt; Target,
+    EndSpeed =&gt; 0.0,
     DecelerationFactor =&gt; FUNCTION d : BaseTypes.Distance, V : BaseTypes.Speed =&gt; A_safe( d =&gt; d, V =&gt; V, Gradient =&gt; Gradient )
 )( d_offset(V_previous + SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_sbi(V_previous)) + Dbec(V_PBD=&gt;V_previous, dV=&gt;SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_sbi(V_previous)) + BaseTypes.SpeedToMS(V_previous + SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_sbi(V_previous))*SpeedAndDistanceMonitoring.TargetSpeedMonitoring.T_bs2 )
  - Vdelta0PBD(V_previous)</Expression>

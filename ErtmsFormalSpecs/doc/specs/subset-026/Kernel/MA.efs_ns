@@ -2210,6 +2210,44 @@ BaseTypes.LengthToDistance ( aDistanceInterval )</PreCondition></PreConditions>
 >
 <Expression>BaseTypes.Speed.MaxSpeed</Expression>
 </Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="IsLOA"
+ Guid="b8adb55b-bb40-458d-90f3-46b0bbab0e06"
+>
+<ReqRef
+ Id="96719821-5827-4475-bf1c-8200e9c230e4"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="75190a4e-76da-466e-afc1-c6abf2bccab7"
+>
+</ReqRef><Comment>Indicates whether the target is the Limit of Authority.</Comment>
+<Parameters>
+<Parameter
+ Type="SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target"
+ Name="aTarget"
+ Guid="cd7e9cbb-0024-403b-a312-bc5116041a87"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="LOA defined"
+ Guid="73958804-b23c-46f7-a0c4-5b82a8fcbb5e"
+>
+<PreConditions>
+<PreCondition
+ Guid="668d5eea-df0b-4924-a0e6-00866076b288"
+>MA.TargetSpeed != 0.0</PreCondition></PreConditions>
+<Expression>aTarget.Speed == MA.TargetSpeed AND aTarget.Location == ClosestEOA().Location</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="0d85991e-96d7-4f30-8df5-ac99ec296c1c"
+>
+<Expression>False</Expression>
+</Case></Cases>
 </Function></Functions>
 <Procedures>
 <Procedure
