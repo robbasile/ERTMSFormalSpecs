@@ -305,7 +305,9 @@ SRAuthorisation.Location &lt;= TrainPosition.FrontEndPosition ( DistanceInterval
 <PreConditions>
 <PreCondition
  Guid="5be1ab52-7de5-4475-b907-4648223d1b23"
->Mode == Default.Mode.SR</PreCondition></PreConditions>
+>Mode == Default.Mode.SR</PreCondition><PreCondition
+ Guid="046fb2aa-7b29-4a72-854f-dd5cef4fb70c"
+>DistanceToRun() != BaseTypes.Distance.Infinity</PreCondition></PreConditions>
 <Expression>DistanceToRun() + TrainPosition.SRStartDistance - BTM.LRBG.Position.Position</Expression>
 </Case><Case
  Name="Otherwise"
