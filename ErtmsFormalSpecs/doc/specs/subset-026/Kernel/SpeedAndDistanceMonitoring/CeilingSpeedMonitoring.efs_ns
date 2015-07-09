@@ -365,7 +365,7 @@
 <Parameters>
 <Parameter
  Type="BaseTypes.Distance"
- Name="distance"
+ Name="aDistance"
  Guid="5cedb7b6-1bdb-4462-a662-68c7fee2d996"
 >
 </Parameter></Parameters>
@@ -377,7 +377,7 @@
 <Expression>MIN(
     First =&gt; MRSP.SpeedRestrictions,
     Second =&gt; MA.SpeedRestrictions
-)(distance)</Expression>
+)(aDistance)</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Speed"
@@ -405,7 +405,7 @@
 <Parameters>
 <Parameter
  Type="BaseTypes.Distance"
- Name="distance"
+ Name="aDistance"
  Guid="6d9ee821-4746-49c3-a227-6eb11317eb0f"
 >
 </Parameter></Parameters>
@@ -417,11 +417,11 @@
 <PreConditions>
 <PreCondition
  Guid="06ac8f78-3db7-48f6-9384-4a9f597d0b2b"
->P ( distance ) &gt; 0.0</PreCondition></PreConditions>
+>P ( aDistance ) &gt; 0.0</PreCondition></PreConditions>
 <Expression>AddIncrement (
   Function =&gt; P, 
   Increment =&gt; dV_warning
-) (distance)</Expression>
+) (aDistance)</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="c973c1e5-a273-4e6a-95eb-d03697825c81"
@@ -484,7 +484,7 @@
 <Parameters>
 <Parameter
  Type="BaseTypes.Distance"
- Name="Distance"
+ Name="aDistance"
  Guid="f2f6a5fe-c1e5-4ae3-992d-9977c9f127b0"
 >
 </Parameter></Parameters>
@@ -496,7 +496,7 @@
 <Expression>AddIncrement (
   Function =&gt; P, 
   Increment =&gt; dV_sbi
-) ( Distance )</Expression>
+) ( aDistance )</Expression>
 </Case></Cases>
 </Function></Functions>
 <Variables>
