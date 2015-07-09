@@ -23,6 +23,9 @@ namespace DataDictionary.src
             Name = structure.Name;
 
             KeepAllUpdates(structure);
+
+            Enclosing = MergedStructures[0].Enclosing;
+
             ApplyUpdates();
         }
 

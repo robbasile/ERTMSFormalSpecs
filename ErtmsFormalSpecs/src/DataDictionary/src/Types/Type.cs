@@ -20,6 +20,7 @@ using DataDictionary.Functions;
 using DataDictionary.Functions.PredefinedFunctions;
 using DataDictionary.Generated;
 using DataDictionary.Interpreter;
+using DataDictionary.src;
 using DataDictionary.Values;
 using Utils;
 using Function = DataDictionary.Functions.Function;
@@ -503,6 +504,54 @@ namespace DataDictionary.Types
                 }
             }
 
+            // Check unified structures
+            if (!retVal)
+            {
+                retVal = MatchStructures(this as Structure, otherType as UnifiedStructure) ||
+                         MatchStructures(otherType as Structure, this as UnifiedStructure);
+            }
+
+            // Check unified state machines
+            if (!retVal)
+            {
+                retVal = MatchStateMachines(this as StateMachine, otherType as UnifiedStateMachine) ||
+                         MatchStateMachines(otherType as StateMachine, this as UnifiedStateMachine);
+            }
+            
+            return retVal;
+        }
+
+        /// <summary>
+        ///     Checks that the unified structure includes the structure and, in that case, 
+        /// indicates that the types match
+        /// </summary>
+        /// <param name="structureType"></param>
+        /// <param name="unifiedStructureType"></param>
+        /// <returns></returns>
+        private bool MatchStructures(Structure structureType, UnifiedStructure unifiedStructureType)
+        {
+            bool retVal = false;
+            if (structureType != null && unifiedStructureType != null)
+            {
+                retVal = unifiedStructureType.MergedStructures.Contains(structureType);
+            }
+            return retVal;
+        }
+
+        /// <summary>
+        ///     Checks that the unified state machine includes the state machine and, in that case,
+        /// indicates that the types match
+        /// </summary>
+        /// <param name="stateMachineType"></param>
+        /// <param name="unifiedstateMachineType"></param>
+        /// <returns></returns>
+        private bool MatchStateMachines(StateMachine stateMachineType, UnifiedStateMachine unifiedstateMachineType)
+        {
+            bool retVal = false;
+            if (stateMachineType != null && unifiedstateMachineType != null)
+            {
+                retVal = unifiedstateMachineType.MergedStateMachines.Contains(stateMachineType);
+            }
             return retVal;
         }
 

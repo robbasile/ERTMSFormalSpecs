@@ -390,6 +390,12 @@ namespace DataDictionary.Interpreter
                         {
                             element.Value = ElementAsStruct.UnifiedStructure;
                         }
+
+                        StateMachine ElementAsSM = element.Value as StateMachine;
+                        if (ElementAsSM != null)
+                        {
+                            element.Value = ElementAsSM.UnifiedStateMachine;
+                        }
                         
                         tmp.Add(element);                            
                     }

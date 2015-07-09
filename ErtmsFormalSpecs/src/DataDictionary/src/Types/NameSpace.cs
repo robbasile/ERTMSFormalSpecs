@@ -439,6 +439,13 @@ namespace DataDictionary.Types
                 retVal = structure.UnifiedStructure;
             }
 
+            //HacK: get the unified state machine to take care of Updates
+            StateMachine stateMachine = retVal as StateMachine;
+            if (stateMachine != null)
+            {
+                retVal = stateMachine.UnifiedStateMachine;
+            }
+
             return retVal;
         }
 

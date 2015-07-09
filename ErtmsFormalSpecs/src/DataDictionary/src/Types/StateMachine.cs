@@ -22,6 +22,7 @@ using DataDictionary.Generated;
 using DataDictionary.Interpreter;
 using DataDictionary.Interpreter.Statement;
 using DataDictionary.Rules;
+using DataDictionary.src;
 using DataDictionary.Values;
 using Utils;
 using Action = DataDictionary.Rules.Action;
@@ -759,6 +760,44 @@ namespace DataDictionary.Types
         }
 
         /// <summary>
+        ///     The combination of this state machine with its updates and updated elements
+        /// </summary>
+        private StateMachine _unifiedStateMachine;
+
+        public StateMachine UnifiedStateMachine
+        {
+            get
+            {
+                if (_unifiedStateMachine == null)
+                {
+                    if (Updates != null || UpdatedBy.Count > 0)
+                    {
+                        _unifiedStateMachine = new UnifiedStateMachine(this);
+                    }
+                    else
+                    {
+                        _unifiedStateMachine = this;
+                    }
+                }
+
+                return _unifiedStateMachine;
+            }
+            set { _unifiedStateMachine = value; }
+        }
+
+        /// <summary>
+        ///     If the proposed value contains this in its MergedStateMachines, it is accepted as the new UnifiedStateMachine
+        /// </summary>
+        /// <param name="newValue"></param>
+        public void ResetUnifiedStateMachine(UnifiedStateMachine newValue)
+        {
+            if (newValue.MergedStateMachines.Contains(this))
+            {
+                UnifiedStateMachine = newValue;
+            }
+        }
+
+        /// <summary>
         ///     Creates a copy of the state machine in the designated dictionary. The namespace structure is copied over.
         ///     The new state machine is set to update this one.
         /// </summary>
@@ -768,6 +807,9 @@ namespace DataDictionary.Types
         {
             StateMachine retVal = new StateMachine();
             retVal.Name = Name;
+
+            string initialState = getInitialState();
+            retVal.setInitialState(initialState);
             retVal.SetUpdateInformation(this);
 
             String[] names = FullName.Split('.');

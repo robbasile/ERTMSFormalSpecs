@@ -11,7 +11,29 @@ namespace DataDictionary.test.updateModel
     [TestFixture]
     internal class UpdateStateMachineTest : BaseModelTest
     {
-        // Tests removed until the changes to state machines are complete
-        // It's ok to delete them because they will need to be completely rewritten, anyway
+        [Test]
+        public void TestUpdateStateMachine()
+        {
+            Dictionary dictionary = CreateDictionary("Test");
+            NameSpace nameSpace = CreateNameSpace(dictionary, "N1");
+            StateMachine stateMachine = CreateStateMachine(nameSpace, "SM");
+            State state = CreateState(stateMachine, "State1");
+            stateMachine.Default = "State1";
+
+            Variable variable = CreateVariable(nameSpace, "Variable", "SM");
+
+            Dictionary dictionary2 = CreateDictionary("TestUpdate");
+            dictionary2.setUpdates(dictionary.Guid);
+
+            StateMachine stateMachineUpdate = stateMachine.CreateStateMachineUpdate(dictionary2);
+            State state2 = CreateState(stateMachineUpdate, "State2");
+            stateMachineUpdate.Default = "State2";
+
+            Compiler.Compile_Synchronous(true);
+
+            Expression expression = Parser.Expression(dictionary, "N1.Variable");
+            IValue value = expression.GetValue(new InterpretationContext(), null);
+            Assert.AreEqual(value, state);
+        }
     }
 }
