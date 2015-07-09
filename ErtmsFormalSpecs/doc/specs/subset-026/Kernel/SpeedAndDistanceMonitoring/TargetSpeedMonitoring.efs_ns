@@ -1589,7 +1589,7 @@ This protection is used in the case where V_SBI_DMI is calculated but the train 
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="85d22f0a-301a-41f0-afbf-e87182a36bcf"
 >
-</ReqRef><Comment>Provide the distance d_W for the given target.</Comment>
+</ReqRef><Comment>Provides the distance d_W for the given target.</Comment>
 <Parameters>
 <Parameter
  Type="BaseTypes.Speed"
@@ -1604,6 +1604,17 @@ This protection is used in the case where V_SBI_DMI is calculated but the train 
 </Parameter></Parameters>
 <Cases>
 <Case
+ Name="Supervised target is the EOA, SBI1 unknown"
+ Guid="ef872010-6c93-46ef-8c75-fd147510ab27"
+>
+<PreConditions>
+<PreCondition
+ Guid="4144dff3-a0e4-411f-840a-ec1a996924f8"
+>MA.IsEOA(aTarget)</PreCondition><PreCondition
+ Guid="2ad343fe-edd6-4f2e-bec1-dc1cc5f3a2dd"
+>d_SBI1( Vest ) == BaseTypes.Distance.Unknown</PreCondition></PreConditions>
+<Expression>BaseTypes.Distance.Unknown</Expression>
+</Case><Case
  Name="Supervised target is the EOA"
  Guid="56f5504f-4623-45f1-a42e-25eaf3e5ec0d"
 >
@@ -1613,10 +1624,25 @@ This protection is used in the case where V_SBI_DMI is calculated but the train 
 >MA.IsEOA(aTarget)</PreCondition></PreConditions>
 <Expression>d_SBI1( Vest ) - BaseTypes.SpeedToMS ( Vest ) * T_warning</Expression>
 </Case><Case
+ Name="Supervised target is an EBD based target, SBI2 unknown"
+ Guid="da9ceb61-3e60-4085-b503-6976af46efda"
+>
+<PreConditions>
+<PreCondition
+ Guid="3cd74d09-8677-4423-a4c7-ceb4e55b9e9c"
+>d_SBI2
+(
+    Vest =&gt; Vest,
+    aTarget =&gt; aTarget,
+    NoA_est =&gt; False
+) == BaseTypes.Distance.Unknown</PreCondition></PreConditions>
+<Expression>BaseTypes.Distance.Unknown</Expression>
+</Case><Case
  Name="Supervised target is an EBD based target"
  Guid="b013cd22-029f-4431-b065-367593d90bc6"
 >
-<Expression>d_SBI2 (
+<Expression>d_SBI2
+(
     Vest =&gt; Vest,
     aTarget =&gt; aTarget,
     NoA_est =&gt; False
