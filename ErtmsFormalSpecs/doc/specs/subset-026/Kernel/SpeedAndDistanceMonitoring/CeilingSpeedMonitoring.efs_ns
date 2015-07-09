@@ -480,7 +480,7 @@
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="8124b3f4-5df4-4e72-8d4c-f630e20785bb"
 >
-</ReqRef><Comment>Provides the service brake intervention curve based on the permitted speed</Comment>
+</ReqRef><Comment>Provides the service brake intervention curve based on the permitted speed.</Comment>
 <Parameters>
 <Parameter
  Type="BaseTypes.Distance"
@@ -496,6 +496,46 @@
 <Expression>AddIncrement (
   Function =&gt; P, 
   Increment =&gt; dV_sbi
+) ( aDistance )</Expression>
+</Case></Cases>
+</Function><Function
+ Type="BaseTypes.Speed"
+ Default=""
+ X="380"
+ Y="10"
+ Width="100"
+ Height="50"
+ Pinned="TRUE"
+ Implemented="TRUE"
+ Name="EBI"
+ Guid="354828fb-4d43-469a-a224-3b9c17ed1622"
+>
+<ReqRef
+ Id="6765b559-5f02-43f0-814e-5c9a289e1f5e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f0855ad0-c1d2-402b-95d3-0c97e96bc614"
+>
+</ReqRef><ReqRef
+ Id="22e031b2-e119-4b8b-bb4c-e1ed3946ed60"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f053cdf8-f5dd-4233-beba-c3c185e8e465"
+>
+</ReqRef><Comment>Provides the emergency brake intervention curve based on the permitted speed.</Comment>
+<Parameters>
+<Parameter
+ Type="BaseTypes.Distance"
+ Name="aDistance"
+ Guid="406c7055-761d-47fc-ac32-114a9d831b51"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="ab3d970f-ae89-4061-ab83-1c6ac25c2b96"
+>
+<Expression>AddIncrement (
+  Function =&gt; P, 
+  Increment =&gt; dV_ebi
 ) ( aDistance )</Expression>
 </Case></Cases>
 </Function></Functions>
