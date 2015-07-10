@@ -54,6 +54,11 @@ namespace DataDictionary.Interpreter
         private Variable CurrentIteration { get; set; }
 
         /// <summary>
+        ///     The list of all values iterated through. Checks for cycles.
+        /// </summary>
+        private List<IValue> IterationsList; 
+
+        /// <summary>
         ///     Constructor
         /// </summary>
         /// <param name="root"></param>
@@ -164,6 +169,7 @@ namespace DataDictionary.Interpreter
         {
             ExplanationPart stabilizeExpressionExplanation = ExplanationPart.CreateSubExplanation(explain, this);
 
+            IterationsList = new List<IValue>();
             LastIteration.Value = InitialValue.GetValue(context, explain);
 
             int i = 0;
@@ -193,6 +199,35 @@ namespace DataDictionary.Interpreter
                 {
                     AddError("Cannot evaluate condition " + Condition.ToString());
                     stop = true;
+                }
+
+                if (!stop && IterationsList.Exists(x => x.LiteralName == CurrentIteration.Value.LiteralName))
+                {
+                    IterationsList.Add(CurrentIteration.Value);
+                    string CycleReport = "Execution cycled: ";
+
+                    bool keepvalues = false;
+                    foreach (IValue value in IterationsList)
+                    {
+                        if (keepvalues)
+                        {
+                            CycleReport += ", " + value.LiteralName;
+                        }
+                        else if (value.LiteralName == CurrentIteration.Value.LiteralName)
+                        {
+                            keepvalues = true;
+                            CycleReport += value.LiteralName;
+                        }
+                    }
+
+                    ExplanationPart executioncycleExplanation =
+                        ExplanationPart.CreateSubExplanation(stabilizeExpressionExplanation, CycleReport);
+
+                    return EFSSystem.EmptyValue;
+                }
+                else
+                {
+                    IterationsList.Add(CurrentIteration.Value);
                 }
 
                 context.LocalScope.PopContext(token);
