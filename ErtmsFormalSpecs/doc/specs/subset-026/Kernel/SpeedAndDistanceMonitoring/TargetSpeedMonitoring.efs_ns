@@ -1479,6 +1479,25 @@ This protection is used in the case where V_SBI_DMI is calculated but the train 
 ) == BaseTypes.Distance.Unknown</PreCondition></PreConditions>
 <Expression>BaseTypes.Distance.Infinity</Expression>
 </Case><Case
+ Name="GUI inhibited, target is EOA and SvL"
+ Guid="a42c1bd2-14b0-4580-b061-2254cb519513"
+>
+<PreConditions>
+<PreCondition
+ Guid="65a5614d-60ca-4a36-a627-5106f5cb7398"
+>MA.IsEOA(aTarget)  AND  MA.IsSvL(aTarget)</PreCondition><PreCondition
+ Guid="f8b12caf-4941-4c55-b89d-a3482b613d38"
+>NOT NationalValues.ComputationOfGUIIsEnabled()</PreCondition></PreConditions>
+<Expression>BaseTypes.MinDistance(
+    X1 =&gt; d_SBI1(Vest),
+    X2 =&gt; d_SBI2
+    (
+        Vest =&gt; Vest,
+        aTarget =&gt; aTarget,
+        NoA_est =&gt; NoA_est
+    )
+) - BaseTypes.SpeedToMS ( Vest ) * T_driver</Expression>
+</Case><Case
  Name="GUI inhibited, target is EOA"
  Guid="e10687c2-894c-4b95-a293-4ff0b2eda62d"
 >
@@ -1503,6 +1522,26 @@ This protection is used in the case where V_SBI_DMI is calculated but the train 
     aTarget =&gt; aTarget,
     NoA_est =&gt; NoA_est
 ) - BaseTypes.SpeedToMS ( Vest ) * T_driver</Expression>
+</Case><Case
+ Name="GUI enabled, target is EOA and SvL"
+ Guid="f848e959-57c7-4a2e-995b-00d8efadb351"
+>
+<PreConditions>
+<PreCondition
+ Guid="ef0a59de-6723-4391-98f0-4e31d544e6fe"
+>MA.IsEOA(aTarget)  AND  MA.IsSvL(aTarget)</PreCondition></PreConditions>
+<Expression>BaseTypes.MinDistance (
+    X1 =&gt; BaseTypes.MinDistance(
+        X1 =&gt; d_SBI1(Vest),
+        X2 =&gt; d_SBI2
+        (
+            Vest =&gt; Vest,
+            aTarget =&gt; aTarget,
+            NoA_est =&gt; NoA_est
+        )
+    ) - BaseTypes.SpeedToMS ( Vest ) * T_driver,
+    X2 =&gt; DistanceForSpeed ( Function =&gt; FUNCTION d : Default.BaseTypes.Distance =&gt; DecelerationCurves.GUI_Target ( Distance =&gt; d, aTarget =&gt; aTarget ), Speed =&gt; Vest )
+)</Expression>
 </Case><Case
  Name="GUI enabled, target is EOA"
  Guid="1a97b839-c0ea-49d7-9973-e4f7d632d92a"
@@ -1604,6 +1643,31 @@ This protection is used in the case where V_SBI_DMI is calculated but the train 
 </Parameter></Parameters>
 <Cases>
 <Case
+ Name="Supervised target is both EOA and SvL"
+ Guid="0351d0c8-4eb4-40fd-8b47-5ef9492f4f5d"
+>
+<PreConditions>
+<PreCondition
+ Guid="7c6e9266-5b4e-4edd-8437-f7a60a50df1e"
+>MA.IsEOA(aTarget)  AND  MA.IsSvL(aTarget)</PreCondition><PreCondition
+ Guid="2952f66f-195c-4a20-986e-90e3a323c202"
+>d_SBI1( Vest ) != BaseTypes.Distance.Unknown</PreCondition><PreCondition
+ Guid="e7774ac0-6c83-47c5-bcd6-3170af6e52e7"
+>d_SBI2
+(
+    Vest =&gt; Vest,
+    aTarget =&gt; aTarget,
+    NoA_est =&gt; False
+) != BaseTypes.Distance.Unknown</PreCondition></PreConditions>
+<Expression>BaseTypes.MinDistance(
+    X1 =&gt; d_SBI2(
+        Vest =&gt; Vest,
+        aTarget =&gt; aTarget,
+        NoA_est =&gt; False
+    ),
+    X2 =&gt; d_SBI1( Vest )
+) - BaseTypes.SpeedToMS ( Vest ) * T_warning</Expression>
+</Case><Case
  Name="Supervised target is the EOA, SBI1 unknown"
  Guid="ef872010-6c93-46ef-8c75-fd147510ab27"
 >
