@@ -1277,44 +1277,13 @@ d &lt; SignallingRelatedSpeedRestriction.End</PreCondition></PreConditions>
  Name="Value"
  Guid="d5943e59-55e7-4a4d-85cc-f9ba7ae48a02"
 >
-<Expression>aTarget == SvL()</Expression>
-</Case><Case
- Name="EOA"
- Guid="10f59b21-0503-4601-adc1-87c764ddfe9d"
->
 <PreConditions>
 <PreCondition
- Guid="e1e43fec-1bd9-430b-b9f2-f22b19ec4150"
->MA.EndSection.DangerPoint == EMPTY</PreCondition><PreCondition
- Guid="7a95d802-6408-440b-9b7a-9223467452cb"
->MA.EndSection.Overlap == EMPTY</PreCondition><PreCondition
- Guid="6381d018-885c-4985-b83c-b453a20ee559"
->MA.TargetSpeed == 0.0</PreCondition></PreConditions>
-<Expression>aTarget.Location == ClosestEOA().Location AND aTarget.Speed == 0.0</Expression>
-</Case><Case
- Name="Danger point"
- Guid="d6d4cbe1-70bd-4bc9-a89c-9d45c55ff73e"
->
-<PreConditions>
-<PreCondition
- Guid="0cab5958-0cf8-4753-b8cd-d251eb116d58"
->MA.TargetSpeed == 0.0</PreCondition><PreCondition
- Guid="5f43d9e1-4b2b-4bd7-91c6-d47900a1c2a1"
->MA.EndSection.DangerPoint != EMPTY</PreCondition><PreCondition
- Guid="1ff6e623-15fe-4587-91b5-2df42c73f753"
->MA.EndSection.Overlap == EMPTY</PreCondition></PreConditions>
-<Expression>aTarget.Location == DangerPointLocation() AND aTarget.Speed == 0.0</Expression>
-</Case><Case
- Name="Overlap"
- Guid="30fa9e2c-b484-4add-83d8-429d6c2c5608"
->
-<PreConditions>
-<PreCondition
- Guid="57131efa-61d8-458c-9dbb-e6b2791f8338"
->MA.EndSection.Overlap != EMPTY</PreCondition><PreCondition
- Guid="272584d5-9f9c-49ab-922e-579b2b33737f"
->MA.TargetSpeed == 0.0</PreCondition></PreConditions>
-<Expression>aTarget.Location == OverlapLocation() AND aTarget.Speed == 0.0</Expression>
+ Guid="68c98959-5719-4240-adc2-65c6fe2557a9"
+>Available( Element =&gt; SvL())</PreCondition></PreConditions>
+<Expression>aTarget.Speed == SvL().Speed
+  AND
+aTarget.Location == SvL().Location</Expression>
 </Case><Case
  Name="No SvL defined"
  Guid="056f0d64-169b-43ef-91ed-958eba8bc866"
