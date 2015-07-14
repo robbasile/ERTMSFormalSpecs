@@ -386,6 +386,24 @@ namespace GUI.SpecificationView
             remover.visit(Item);
         }
 
+        private void FindOrCreateUpdate(object sender, EventArgs args)
+        {
+            Dictionary dictionary = GetPatchDictionary();
+
+            if (dictionary != null)
+            {
+                Paragraph paragraphUpdate = dictionary.findByFullName(Item.FullName) as Paragraph;
+                if (paragraphUpdate == null)
+                {
+                    // If the element does not already exist in the patch, add a copy to it
+                    paragraphUpdate = Item.CreateParagraphUpdate(dictionary);
+                }
+                // navigate to the function, whether it was created or not
+                GUIUtils.MDIWindow.RefreshModel();
+                GUIUtils.MDIWindow.Select(paragraphUpdate);
+            }
+        }
+
         /// <summary>
         ///     The menu items for this tree node
         /// </summary>
@@ -397,6 +415,8 @@ namespace GUI.SpecificationView
             retVal.Add(new MenuItem("Add paragraph", new EventHandler(AddParagraphHandler)));
             retVal.Add(new MenuItem("Add paragraph from clipboard", new EventHandler(AddParagraphFromClipboardHandler)));
             retVal.Add(new MenuItem("Delete", new EventHandler(DeleteHandler)));
+            retVal.Add(new MenuItem("-"));
+            retVal.Add(new MenuItem("Update", new EventHandler(FindOrCreateUpdate)));
             retVal.AddRange(base.GetMenuItems());
             MenuItem newItem = new MenuItem("Mark as...");
             newItem.MenuItems.Add(new MenuItem("Reviewed", new EventHandler(ReviewedHandler)));

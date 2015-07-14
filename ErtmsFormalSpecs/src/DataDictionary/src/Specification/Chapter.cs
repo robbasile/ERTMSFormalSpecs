@@ -255,5 +255,87 @@ namespace DataDictionary.Specification
         ///     The chapter ref which instanciated this chapter
         /// </summary>
         public ChapterRef ChapterRef { get; set; }
+
+        /// <summary>
+        ///     Provides the update to this chapter in target dictionary, if any
+        /// </summary>
+        /// <param name="dictionary"></param>
+        /// <returns></returns>
+        public Chapter FindChapterUpdate(Dictionary dictionary)
+        {
+            Chapter retVal = null;
+
+            foreach (ModelElement update in UpdatedBy)
+            {
+                if (update.Dictionary == dictionary)
+                {
+                    Chapter chapterUpdate = update as Chapter;
+                    if (chapterUpdate != null)
+                        retVal = chapterUpdate;
+                    break;
+                }
+            }
+
+            return retVal;
+        }
+
+        /// <summary>
+        ///     Creates an update of this chapter in the provided specification
+        /// </summary>
+        /// <param name="specification">The specification update</param>
+        /// <returns></returns>
+        public Chapter CreateChapterUpdate(Specification specification)
+        {
+            Chapter retVal = new Chapter();
+            retVal.setId(getId());
+            retVal.setUpdates(Guid);
+
+            specification.appendChapters(retVal);
+            ArrayList tmp = new ArrayList();
+            foreach (Chapter chapter in EnclosingSpecification.Chapters)
+            {
+                if (chapter.UpdatedBy != null)
+                {
+                    tmp.Add(chapter.UpdatedBy);
+                }
+                if (chapter == this)
+                {
+                    tmp.Add(retVal);
+                }
+            }
+
+            UpdatedBy.Add(retVal);
+
+            return retVal;
+        }
+
+        /// <summary>
+        ///     Inserts a paragraph update at the right location in the list
+        /// </summary>
+        /// <param name="paragraphUpdate">The updated paragraph</param>
+        /// <param name="baseCollection">The base collection of elements, used as a reference for the order</param>
+        public void InsertParagraph(Paragraph paragraphUpdate, ArrayList baseCollection)
+        {
+            ArrayList tmp = new ArrayList();
+            int index = 0;
+            foreach (Paragraph par in baseCollection)
+            {
+                if (Paragraphs.Count > index)
+                {
+                    ModelElement currentParagraphUpdate = Paragraphs[index] as ModelElement;
+                    if (currentParagraphUpdate != null && par.UpdatedBy.Contains(currentParagraphUpdate))
+                    {
+                        tmp.Add(currentParagraphUpdate);
+                        index++;
+                    }
+                }
+                if (paragraphUpdate.Updates == par)
+                {
+                    tmp.Add(paragraphUpdate);
+                }
+            }
+
+            Paragraphs = tmp;
+        }
     }
 }

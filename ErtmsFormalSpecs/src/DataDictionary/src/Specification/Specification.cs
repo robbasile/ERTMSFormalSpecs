@@ -849,5 +849,50 @@ namespace DataDictionary.Specification
                 }
             }
         }
+
+        /// <summary>
+        ///     Searches the dictionary for an update to this.
+        /// </summary>
+        /// <param name="dictionary"></param>
+        /// <returns></returns>
+        public Specification FindOrCreateSpecificationUpdate(Dictionary dictionary)
+        {
+            Specification retVal = null;
+
+            foreach (ModelElement update in UpdatedBy)
+            {
+                if (update.Dictionary == dictionary)
+                {
+                    Specification specUpdate = update as Specification;
+                    if (specUpdate != null)
+                        retVal = specUpdate;
+                    break;
+                }
+            }
+
+            if (retVal == null)
+            {
+                retVal = CreateSpecificationUpdate(dictionary);
+                UpdatedBy.Add(retVal);
+            }
+
+            return retVal;
+        }
+
+        /// <summary>
+        ///     Creates an update of this specification in the provided dictionary
+        /// </summary>
+        /// <param name="dictionary">The update dictionary</param>
+        /// <returns>An update of this specification</returns>
+        public Specification CreateSpecificationUpdate(Dictionary dictionary)
+        {
+            Specification retVal = new Specification();
+            retVal.Name = Name;
+            retVal.setUpdates(Guid);
+
+            dictionary.appendSpecifications(retVal);
+
+            return retVal;
+        }
     }
 }

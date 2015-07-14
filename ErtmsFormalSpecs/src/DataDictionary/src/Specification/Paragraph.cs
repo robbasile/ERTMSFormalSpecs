@@ -17,8 +17,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using DataDictionary.Generated;
+using DataDictionary.Interpreter;
 using Utils;
+using Visitor = DataDictionary.Generated.Visitor;
 
 namespace DataDictionary.Specification
 {
@@ -213,7 +216,7 @@ namespace DataDictionary.Specification
                 }
                 else
                 {
-                    Chapter chapter = getFather() as Chapter;
+                    Chapter chapter = EnclosingChapter;
                     if (chapter != null)
                     {
                         retVal = chapter.Paragraphs;
@@ -226,6 +229,11 @@ namespace DataDictionary.Specification
         public Paragraph EnclosingParagraph
         {
             get { return getFather() as Paragraph; }
+        }
+
+        public Chapter EnclosingChapter
+        {
+            get { return getFather() as Chapter; }
         }
 
         public bool SubParagraphBelongsToRequirementSet(RequirementSet requirementSet)
@@ -800,6 +808,124 @@ namespace DataDictionary.Specification
 
                 return retVal;
             }
+        }
+
+        /// <summary>
+        ///     Finds the chapter enclosing this paragraph
+        /// </summary>
+        /// <returns></returns>
+        public Chapter FindEnclosingChapter()
+        {
+            Chapter retVal = null;
+
+            Paragraph current = this;
+            bool found = false;
+            while (!found)
+            {
+                if (current.EnclosingChapter != null)
+                {
+                    retVal = current.EnclosingChapter;
+                    found = true;
+                }
+                else if (current.EnclosingParagraph != null)
+                {
+                    current = current.EnclosingParagraph;
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            return retVal;
+        }
+
+        /// <summary>
+        ///     Finds the specification enclosing this paragraph
+        /// </summary>
+        /// <returns></returns>
+        public Specification FindEnclosingSpecification()
+        {
+            Specification retVal = null;
+
+            Chapter enclosingChapter = FindEnclosingChapter();
+            if (enclosingChapter != null)
+            {
+                retVal = FindEnclosingChapter().EnclosingSpecification;
+            }
+
+            return retVal;
+        }
+
+        /// <summary>
+        ///     Creates an update for this paragraph in the provided dictionary.
+        /// </summary>
+        /// <param name="dictionary">The dictionary to put the updated paragraph in</param>
+        /// <returns>The updated paragraph</returns>
+        public Paragraph CreateParagraphUpdate(Dictionary dictionary)
+        {
+            Paragraph retVal = new Paragraph();
+            retVal.FullId = FullId;
+            retVal.Text = Text;
+            retVal.setUpdates(Guid);
+
+            Specification specUpdate = FindEnclosingSpecification().FindOrCreateSpecificationUpdate(dictionary);
+
+            // If the enclosing is a paragraph, find or create the enclosing paragraph update
+            // If it is a chapter, find or create the chapter update
+            if (EnclosingParagraph != null)
+            {
+                string parentId = FullId.Substring(0, FullId.LastIndexOf('.'));
+                Paragraph parent = specUpdate.FindParagraphByNumber(parentId);
+                if (parent == null)
+                {
+                    parent = EnclosingParagraph.CreateParagraphUpdate(dictionary);
+                }
+                parent.InsertParagraph(retVal, EnclosingParagraph.SubParagraphs);
+            }
+            else if (EnclosingChapter != null)
+            {
+                string chapterId = FullId.Substring(0, FullId.IndexOf('.'));
+                Chapter parent = EnclosingChapter.FindChapterUpdate(dictionary);
+                if (parent == null)
+                {
+                    parent = EnclosingChapter.CreateChapterUpdate(specUpdate);
+                }
+                parent.InsertParagraph(retVal, EnclosingChapter.Paragraphs);
+            }
+
+            UpdatedBy.Add(retVal);
+
+            return retVal;
+        }
+
+        /// <summary>
+        ///     Inserts a paragraph update at the right location in the list
+        /// </summary>
+        /// <param name="paragraphUpdate">The updated paragraph</param>
+        /// <param name="baseCollection">The base collection of elements, used as a reference for the order</param>
+        public void InsertParagraph(Paragraph paragraphUpdate, ArrayList baseCollection)
+        {
+            ArrayList tmp = new ArrayList();
+            int index = 0;
+            foreach (Paragraph par in baseCollection)
+            {
+                if (SubParagraphs.Count > index)
+                {
+                    ModelElement currentParagraphUpdate = SubParagraphs[index] as ModelElement;
+                    if (currentParagraphUpdate != null && par.UpdatedBy.Contains(currentParagraphUpdate))
+                    {
+                        tmp.Add(currentParagraphUpdate);
+                        index++;
+                    }
+                }
+                if (paragraphUpdate.Updates == par)
+                {
+                    tmp.Add(paragraphUpdate);
+                }
+            }
+
+            SubParagraphs = tmp;
         }
     }
 }
