@@ -512,5 +512,28 @@ namespace DataDictionary.Rules
                 }
             }
         }
+
+        /// <summary>
+        ///     Ensures that all update information has been deleted
+        /// </summary>
+        public override void RecoverUpdateInformation()
+        {
+            base.RecoverUpdateInformation();
+
+            foreach (Action action in Actions)
+            {
+                action.RecoverUpdateInformation();
+            }
+
+            foreach (PreCondition precondition in PreConditions)
+            {
+                precondition.RecoverUpdateInformation();
+            }
+
+            foreach (Rule rule in SubRules)
+            {
+                rule.RecoverUpdateInformation();
+            }
+        }
     }
 }

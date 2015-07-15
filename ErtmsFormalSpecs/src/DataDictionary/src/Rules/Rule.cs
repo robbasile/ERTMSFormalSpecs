@@ -547,6 +547,19 @@ namespace DataDictionary.Rules
         }
 
         /// <summary>
+        ///     Ensures that all update information for this rule has been removed
+        /// </summary>
+        public override void RecoverUpdateInformation()
+        {
+            base.RecoverUpdateInformation();
+
+            foreach (RuleCondition ruleCondition in RuleConditions)
+            {
+                ruleCondition.RecoverUpdateInformation();
+            }
+        }
+
+        /// <summary>
         ///     The X position
         /// </summary>
         public int X

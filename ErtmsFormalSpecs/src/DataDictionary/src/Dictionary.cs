@@ -24,6 +24,7 @@ using Utils;
 using XmlBooster;
 using Chapter = DataDictionary.Specification.Chapter;
 using ChapterRef = DataDictionary.Specification.ChapterRef;
+using Enum = DataDictionary.Generated.Enum;
 using Frame = DataDictionary.Tests.Frame;
 using FrameRef = DataDictionary.Tests.FrameRef;
 using NameSpaceRef = DataDictionary.Types.NameSpaceRef;
@@ -1453,6 +1454,60 @@ namespace DataDictionary
             }
 
             return retVal;
+        }
+
+        public void MergeUpdate()
+        {
+            MergeUpdateVisitor mergeVisitor = new MergeUpdateVisitor();
+            foreach (NameSpace nameSpace in NameSpaces)
+            {
+                mergeVisitor.visit(nameSpace);
+            }
+
+            foreach (Specification.Specification specification in Specifications)
+            {
+                mergeVisitor.visit(specification);
+            }
+        }
+
+        private class MergeUpdateVisitor : Visitor
+        {
+            /// <summary>
+            ///     Override for visiting a model element. If the model element is not a namespace,
+            ///     but its direct enclosing is a namespace, the element is imported and the visitor does
+            ///     not go further down the subnodes.
+            /// </summary>
+            /// <param name="obj"></param>
+            public override void visit(BaseModelElement obj)
+            {
+                bool visitSubNodes = true;
+
+                ModelElement element = obj as ModelElement;
+                if (element != null && !(element is NameSpace))
+                {
+                    if (element.Enclosing is NameSpace)
+                    {
+                        element.Merge();
+                    }
+
+                    visitSubNodes = false;
+                }
+
+                base.visit(obj, visitSubNodes);
+            }
+
+            /// <summary>
+            ///     For a paragraph, it can be merged
+            /// </summary>
+            /// <param name="obj"></param>
+            public override void visit(Paragraph obj)
+            {
+                obj.Merge();
+                base.visit(obj);
+            }
+
+            // If specific behaviour is required for other types of model element,
+            // it can be added here (structures/state machines)
         }
 
         /// <summary>

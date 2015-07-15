@@ -817,6 +817,24 @@ namespace DataDictionary.Types
         }
 
         /// <summary>
+        ///     Ensures that all the update information ffor this state machine has been removed.
+        /// </summary>
+        public override void RecoverUpdateInformation()
+        {
+            base.RecoverUpdateInformation();
+
+            foreach (State state in States)
+            {
+                state.RecoverUpdateInformation();
+            }
+
+            foreach (Rule rule in Rules)
+            {
+                rule.RecoverUpdateInformation();
+            }
+        }
+
+        /// <summary>
         ///     Builds the explanation of the element
         /// </summary>
         /// <param name="explanation"></param>

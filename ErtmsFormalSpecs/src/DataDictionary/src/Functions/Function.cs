@@ -1444,5 +1444,18 @@ namespace DataDictionary.Functions
 
             return retVal;
         }
+
+        /// <summary>
+        ///     Ensures that all update information in this model function is deleted
+        /// </summary>
+        public override void RecoverUpdateInformation()
+        {
+            base.RecoverUpdateInformation();
+
+            foreach (Parameter parameter in FormalParameters)
+            {
+                parameter.RecoverUpdateInformation();
+            }
+        }
     }
 }

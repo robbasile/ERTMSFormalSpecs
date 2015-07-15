@@ -136,7 +136,12 @@ namespace GUI.DictionarySelector
                 retVal = false;
             }
             else if (options == FilterOptions.Updates &&
-                     !updatedDictionary.IsUpdatedBy(dictionary))
+                     updatedDictionary == null)
+            {
+                retVal = dictionary.Updates != null;
+            }
+            else if (options == FilterOptions.Updates &&
+                      !updatedDictionary.IsUpdatedBy(dictionary))
             {
                 // The options restrict the selection to updates of a particular dictionary
                 retVal = false;
@@ -168,8 +173,12 @@ namespace GUI.DictionarySelector
                 }
                 else if (options == FilterOptions.Updates)
                 {
-                    noRelevantDictionaries = "There are no updates for " + updatedDictionary.Name +
-                                             " currently loaded in ERTMSFormalSpecs.\nTo create one, select File-> New-> Update.";
+                    noRelevantDictionaries = "There are no updates";
+                    if (updatedDictionary != null)
+                    {
+                        noRelevantDictionaries += " for " + updatedDictionary.Name;
+                    } 
+                    noRelevantDictionaries += " currently loaded in ERTMSFormalSpecs.\nTo create one, select File-> New-> Update.";
                 }
                 else if (options == FilterOptions.HideUpdates)
                 {

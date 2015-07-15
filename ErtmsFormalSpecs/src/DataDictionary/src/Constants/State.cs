@@ -469,6 +469,19 @@ namespace DataDictionary.Constants
         }
 
         /// <summary>
+        ///     Ensures that all update information for this state (and sub-states) is removed
+        /// </summary>
+        public override void RecoverUpdateInformation()
+        {
+            base.RecoverUpdateInformation();
+
+            if (StateMachine != null)
+            {
+                StateMachine.RecoverUpdateInformation();
+            }
+        }
+
+        /// <summary>
         ///     Creates a copy of the state in the designated dictionary. The namespace structure is copied over.
         ///     The new state is set to update this one.
         /// </summary>

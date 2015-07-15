@@ -864,7 +864,7 @@ namespace DataDictionary.Specification
         /// <returns>The updated paragraph</returns>
         public Paragraph CreateParagraphUpdate(Dictionary dictionary)
         {
-            Paragraph retVal = new Paragraph();
+            Paragraph retVal = (Paragraph)acceptor.getFactory().createParagraph();
             retVal.FullId = FullId;
             retVal.Text = Text;
             retVal.setUpdates(Guid);

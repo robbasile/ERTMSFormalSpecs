@@ -29,6 +29,7 @@ using GUI.Report;
 using GUI.RequirementSetDiagram;
 using GUI.RulePerformances;
 using GUI.SpecificationView;
+using GUI.src.LongOperations;
 using GUI.StateDiagram;
 using Importers.ExcelImporter;
 using Utils;
@@ -2033,6 +2034,12 @@ namespace GUI
         {
             CleanUpModelOperation cleanUpModel = new CleanUpModelOperation(EFSSystem.INSTANCE);
             cleanUpModel.ExecuteUsingProgressDialog("Cleaning up");
+        }
+
+        private void mergeUpdateToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MergeUpdateOperation merge = new MergeUpdateOperation(EFSSystem.INSTANCE);
+            merge.ExecuteWork();
         }
     }
 }

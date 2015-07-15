@@ -628,5 +628,33 @@ namespace DataDictionary.Types
                 }
             }
         }
+
+        /// <summary>
+        ///     Ensures that all update information has been deleted
+        /// </summary>
+        public override void RecoverUpdateInformation()
+        {
+            base.RecoverUpdateInformation();
+
+            foreach (StructureElement element in Elements)
+            {
+                element.RecoverUpdateInformation();
+            }
+
+            foreach (Procedure procedure in Procedures)
+            {
+                procedure.RecoverUpdateInformation();
+            }
+
+            foreach (Rule rule in Rules)
+            {
+                rule.RecoverUpdateInformation();
+            }
+
+            foreach (StateMachine stateMachine in StateMachines)
+            {
+                stateMachine.RecoverUpdateInformation();
+            }
+        }
     }
 }

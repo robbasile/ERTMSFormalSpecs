@@ -403,5 +403,23 @@ namespace DataDictionary.Functions
                 }
             }
         }
+
+        /// <summary>
+        ///     Ensures that all the update information is removed from this procedure
+        /// </summary>
+        public override void RecoverUpdateInformation()
+        {
+            base.RecoverUpdateInformation();
+
+            foreach (Parameter parameter in FormalParameters)
+            {
+                parameter.RecoverUpdateInformation();
+            }
+
+            foreach (Rule rule in Rules)
+            {
+                rule.RecoverUpdateInformation();
+            }
+        }
     }
 }

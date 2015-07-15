@@ -329,6 +329,134 @@ namespace DataDictionary
         }
 
         /// <summary>
+        ///     Brings the model element from an update dictionary to the updated dictionary
+        /// </summary>
+        public void Merge()
+        {
+            if (Updates == null)
+            {
+                ModelElement parent = Enclosing as ModelElement;
+                if (parent != null)
+                {
+                    Types.NameSpace newParent = parent.Updates as Types.NameSpace;
+                    if (newParent != null)
+                    {
+                        newParent.AddModelElement(Duplicate());
+                    }
+                }
+            }
+            else
+            {
+                ModelElement baseElement = Updates;
+                if (baseElement != null)
+                {
+                    ModelElement mergedElement = Duplicate();
+
+                    // Erase all update information
+                    mergedElement.RecoverUpdateInformation();
+
+                    // Keep references from the baseElement
+                    mergedElement.KeepTraceability(baseElement);
+
+                    // Keep the size and position in the graphical view of the base element
+                    mergedElement.TakeGraphicalPosition(baseElement);
+
+                    // Keep requirement sets of the base and the sub-paragraphs, for paragraphs
+                    mergedElement.KeepRequirementSets(baseElement);
+                    mergedElement.KeepSubParagraphs(baseElement);
+
+                    // Finally, replace the old model element
+                    mergedElement.setFather(baseElement.getFather());
+                    baseElement.EnclosingCollection.Add(mergedElement);
+                    baseElement.Delete();
+                }
+            }
+        }
+
+        /// <summary>
+        ///     Base function to remove update information
+        /// </summary>
+        public virtual void RecoverUpdateInformation()
+        {
+            if (Updates != null)
+            {
+                setUpdates(Updates.getUpdates());
+            }
+        }
+
+        /// <summary>
+        ///     When this element is merged into an updated dictionary, keeps the old traceability.
+        /// </summary>
+        /// <param name="baseElement"></param>
+        private void KeepTraceability(ModelElement baseElement)
+        {
+            ReqRelated reqElement = baseElement as ReqRelated;
+            ReqRelated reqMerged = this as ReqRelated;
+            if (reqElement != null && reqMerged != null)
+            {
+                foreach (ReqRef reference in reqElement.Requirements)
+                {
+                    bool isPresent = false;
+                    foreach (ReqRef mergedRef in reqMerged.Requirements)
+                    {
+                        isPresent = isPresent || (reference.Paragraph == mergedRef.Paragraph);
+                    }
+
+                    if (!isPresent)
+                    {
+                        reqMerged.Requirements.Add(reference);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        ///     Takes the graphical size and position of the target element
+        /// </summary>
+        /// <param name="baseElement"></param>
+        private void TakeGraphicalPosition(ModelElement baseElement)
+        {
+            IGraphicalDisplay baseGraphical = baseElement as IGraphicalDisplay;
+            IGraphicalDisplay mergedGraphical = this as IGraphicalDisplay;
+            if (baseGraphical != null && mergedGraphical != null)
+            {
+                mergedGraphical.X = baseGraphical.X;
+                mergedGraphical.Y = baseGraphical.Y;
+
+                mergedGraphical.Height = baseGraphical.Height;
+                mergedGraphical.Width = baseGraphical.Width;
+            }
+        }
+
+        /// <summary>
+        ///     Keeps the requirement sets of the replaced paragraph
+        /// </summary>
+        /// <param name="baseElement"></param>
+        private void KeepRequirementSets(ModelElement baseElement)
+        {
+            Specification.Paragraph mergedParagraph = this as Specification.Paragraph;
+            Specification.Paragraph baseParagraph = baseElement as Specification.Paragraph;
+            if (baseParagraph != null && mergedParagraph != null)
+            {
+                mergedParagraph.setAllRequirementSets(baseParagraph.allRequirementSets());
+            }
+        }
+
+        /// <summary>
+        ///     Recovers the sub-paragraphs of the base paragraph to be added to the merged paragraph
+        /// </summary>
+        /// <param name="baseElement"></param>
+        private void KeepSubParagraphs(ModelElement baseElement)
+        {
+            Specification.Paragraph mergedParagraph = this as Specification.Paragraph;
+            Specification.Paragraph baseParagraph = baseElement as Specification.Paragraph;
+            if (baseParagraph != null && mergedParagraph != null)
+            {
+                mergedParagraph.SubParagraphs = baseParagraph.SubParagraphs;
+            }
+        }
+
+        /// <summary>
         ///     Indicates that this model element should be ignored
         /// </summary>
         public override bool IsRemoved
