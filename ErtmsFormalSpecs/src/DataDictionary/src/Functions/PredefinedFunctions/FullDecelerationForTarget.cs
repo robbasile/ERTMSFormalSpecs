@@ -132,16 +132,16 @@ namespace DataDictionary.Functions.PredefinedFunctions
                         {
                             QuadraticCurveSegment segment = BrakingCurve[i];
 
-                            SiSpeed endSpeed = SiSpeed.Max(finalSpeed, segment.Get(segment.X.X1));
-                            if (double.IsNaN(endSpeed.Value))
-                            {
-                                endSpeed = finalSpeed;
-                            }
+                            SiSpeed endSpeed = Max(finalSpeed, segment.Get(segment.X.X1));
 
                             SiDistance endDistance;
                             if (endSpeed == finalSpeed)
                             {
-                                endDistance = segment.IntersectAt(endSpeed - new SiSpeed(0.001));
+                                // Ensures that a braking curve is calculated until the finalSpeed
+                                // but not further than the end of the curve segment
+                                SiSpeed tmp = Max(  segment.Get(segment.X.X1),
+                                                            endSpeed - new SiSpeed(0.001));
+                                endDistance = segment.IntersectAt(tmp);
                             }
                             else
                             {
@@ -167,6 +167,32 @@ namespace DataDictionary.Functions.PredefinedFunctions
                     }
                 }
             }
+            return retVal;
+        }
+
+        /// <summary>
+        ///     Returns the maximum, non-NaN speed
+        /// </summary>
+        /// <param name="first"></param>
+        /// <param name="second"></param>
+        /// <returns></returns>
+        private SiSpeed Max(SiSpeed first, SiSpeed second)
+        {
+            SiSpeed retVal;
+
+            if (double.IsNaN(first.Value))
+            {
+                retVal = second;
+            }
+            else if (double.IsNaN(second.Value))
+            {
+                retVal = first;
+            }
+            else
+            {
+                retVal = SiSpeed.Max(first, second);
+            }
+
             return retVal;
         }
 

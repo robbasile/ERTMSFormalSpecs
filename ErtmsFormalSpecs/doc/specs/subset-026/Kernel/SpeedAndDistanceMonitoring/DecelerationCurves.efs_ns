@@ -50,30 +50,13 @@
 </Parameter></Parameters>
 <Cases>
 <Case
- Name="Target is SvL"
- Guid="89965c75-54ea-4943-a28e-90a2bf3c3c74"
->
-<PreConditions>
-<PreCondition
- Guid="ac0d0078-99a7-4f27-80e8-3a0377e0a324"
->MA.IsSvL(aTarget)
-  OR  
-IsMaxDistToRunInSR(aTarget)
-  OR  
-MA.IsLOA(aTarget)</PreCondition></PreConditions>
-<Expression>FullDecelerationForTarget (
-    Target=&gt; aTarget,
-    DecelerationFactor=&gt;TrainData.BrakingParameters.A_safe,
-    EndSpeed =&gt; 0.0
-)(Distance)</Expression>
-</Case><Case
  Name="Value"
  Guid="e744ba80-63dc-46f3-837d-ede2f1c0ffb4"
 >
 <Expression>FullDecelerationForTarget (
     Target=&gt;TargetSpeedMonitoring.Target{
     Location =&gt; aTarget.Location,
-    Speed =&gt; aTarget.Speed + CeilingSpeedMonitoring.dV_ebi(aTarget.Speed),
+    Speed =&gt; aTarget.Speed + TargetSpeed_Offset(aTarget),
     Length =&gt; aTarget.Length
 },
     DecelerationFactor=&gt;TrainData.BrakingParameters.A_safe,
@@ -892,6 +875,56 @@ BaseTypes.SpeedToMS( Vest + Vdelta0() + Vdelta1(NoA_est) + Vdelta2(NoA_est)/2.0
     Function =&gt;
         FUNCTION d : Default.BaseTypes.Distance =&gt; GUI_Target ( Distance =&gt; d, aTarget =&gt; aTarget ),
         Speed =&gt; Vest )</Expression>
+</Case></Cases>
+</Function><Function
+ Type="BaseTypes.Speed"
+ Default=""
+ Implemented="TRUE"
+ Name="TargetSpeed_Offset"
+ Guid="d5df0061-1f3b-4056-aa45-ade5d4817d37"
+>
+<ReqRef
+ Id="2c3d2e5e-98aa-4eda-9eb9-f2fd1ee0a60d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="4d8c372a-af4e-4174-b413-cebdcc479bf3"
+>
+</ReqRef><ReqRef
+ Id="2b4c3cb7-6f06-408a-bfd7-85f5c5069e00"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="3d6e1082-dd31-4731-ba94-cb7d718fda97"
+>
+</ReqRef><ReqRef
+ Id="690e9583-3caf-46eb-b721-bed7b3d89e9b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="8dcea2c6-9771-427b-b20a-48f175543996"
+>
+</ReqRef><Comment>Calculates the offset in speed for the calculation of the EBD of this target.</Comment>
+<Parameters>
+<Parameter
+ Type="TargetSpeedMonitoring.Target"
+ Name="aTarget"
+ Guid="314a43e6-5668-4dd0-a211-3012ca9b585d"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Target is LOA, SvL, max dist in SR"
+ Guid="8750cfb0-21a5-4722-879f-d0be9150f3b6"
+>
+<PreConditions>
+<PreCondition
+ Guid="ac0d0078-99a7-4f27-80e8-3a0377e0a324"
+>MA.IsSvL(aTarget)
+  OR  
+IsMaxDistToRunInSR(aTarget)
+  OR  
+MA.IsLOA(aTarget)</PreCondition></PreConditions>
+<Expression>0.0</Expression>
+</Case><Case
+ Name="MRSP target"
+ Guid="a47742d5-a4be-44d1-8e0e-b8577889392f"
+>
+<Expression>CeilingSpeedMonitoring.dV_ebi(aTarget.Speed)</Expression>
 </Case></Cases>
 </Function></Functions>
 </NameSpace>

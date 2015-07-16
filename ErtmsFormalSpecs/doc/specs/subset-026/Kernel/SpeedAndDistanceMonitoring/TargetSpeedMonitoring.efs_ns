@@ -628,6 +628,11 @@ X2 =&gt; aTarget.Speed
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="e23e205e-c96d-4701-8d67-907847c9d5e3"
 >
+</ReqRef><ReqRef
+ Id="06815a39-d3d2-4de8-9e48-9737e56724ca"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="deeee241-4d3e-4090-9381-a1eadd58ff24"
+>
 </ReqRef><Comment>The permitted speed of the MRDT.</Comment>
 <Cases>
 <Case
@@ -646,6 +651,24 @@ MRDT().Speed == 0.0</PreCondition></PreConditions>
     d_maxsafefront =&gt; TrainPosition.DistanceRunInSR(DistanceInterval.Max),
     aTarget =&gt; MRDT(),
     Vest =&gt; Odometry.TrainSpeed()
+)</Expression>
+</Case><Case
+ Name="MRDT is EOA and SvL"
+ Guid="430f4d66-7d96-4911-b664-34103125c36f"
+>
+<PreConditions>
+<PreCondition
+ Guid="43fd7b3b-ae4b-4db8-8d6a-66c4945d6c5a"
+>MA.IsEOA(MRDT())</PreCondition><PreCondition
+ Guid="b9e5861d-1cf0-4bb8-8775-388619535030"
+>MA.IsSvL(MRDT())</PreCondition></PreConditions>
+<Expression>BaseTypes.MinSpeed(
+    X1=&gt;V_P_EBD_Target(
+    d_maxsafefront =&gt; TrainPosition.FrontEndPosition(DistanceInterval.Max),
+    aTarget =&gt; MRDT(),
+    Vest =&gt; Odometry.TrainSpeed()
+),
+    X2=&gt;V_P_EOA(d_estfront=&gt;TrainPosition.FrontEndPosition(DistanceInterval.Nom), Vest=&gt;Odometry.TrainSpeed())
 )</Expression>
 </Case><Case
  Name="MRDT is the EOA"
@@ -1435,6 +1458,11 @@ This protection is used in the case where V_SBI_DMI is calculated but the train 
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="ae1e67a8-cbcf-4e20-b8cf-c1c31bb2746d"
 >
+</ReqRef><ReqRef
+ Id="06815a39-d3d2-4de8-9e48-9737e56724ca"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="dea0fcd2-d5fd-4547-8d3c-125168eb4ef2"
+>
 </ReqRef><Comment>Provide the distance d_P fore the given target at the current MRSP speed.</Comment>
 <Parameters>
 <Parameter
@@ -1627,6 +1655,11 @@ This protection is used in the case where V_SBI_DMI is calculated but the train 
  Id="489ea7da-1016-4fd4-8a89-0ce129ff23a5"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="85d22f0a-301a-41f0-afbf-e87182a36bcf"
+>
+</ReqRef><ReqRef
+ Id="06815a39-d3d2-4de8-9e48-9737e56724ca"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="7c3d1b66-1259-4f07-920a-3fc17480f768"
 >
 </ReqRef><Comment>Provides the distance d_W for the given target.</Comment>
 <Parameters>

@@ -55,6 +55,38 @@ namespace DataDictionary
     public class RuleCheckerVisitor : Visitor
     {
         /// <summary>
+        /// Checks if there is any error in the model
+        /// </summary>
+        public class IsThereAnyError : Visitor
+        {
+            /// <summary>
+            /// The list of errors
+            /// </summary>
+            public List<ElementLog> ErrorsFound { get; private set; }
+
+            /// <summary>
+            /// Constructor
+            /// </summary>
+            public IsThereAnyError()
+            {
+                ErrorsFound = new List<ElementLog>();
+            }
+
+            public override void visit(BaseModelElement obj, bool visitSubNodes)
+            {
+                foreach (ElementLog log in obj.Messages)
+                {
+                    if (log.Level == ElementLog.LevelEnum.Error)
+                    {
+                        ErrorsFound.Add(log);
+                    }
+                }
+
+                base.visit(obj, visitSubNodes);
+            }
+        }
+
+        /// <summary>
         ///     The dictionary used for this visit
         /// </summary>
         private Dictionary dictionary;

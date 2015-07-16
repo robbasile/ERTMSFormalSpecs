@@ -821,7 +821,7 @@ namespace GUI
         /// <summary>
         ///     Generates new GUID for the element
         /// </summary>
-        private class RegererateGuidVisitor : Visitor
+        private class RegenerateGuidVisitor : Visitor
         {
             /// <summary>
             ///     Ensures that all elements have a new Guid
@@ -834,7 +834,6 @@ namespace GUI
 
                 // Side effect : creates a new Guid if it is empty
                 element.setGuid(null);
-                string guid = element.Guid;
 
                 base.visit(obj, visitSubNodes);
             }
@@ -854,7 +853,7 @@ namespace GUI
                 try
                 {
                     ModelElement copy = acceptor.accept(ctxt) as ModelElement;
-                    RegererateGuidVisitor visitor = new RegererateGuidVisitor();
+                    RegenerateGuidVisitor visitor = new RegenerateGuidVisitor();
                     visitor.visit(copy, true);
 
                     Model.AddModelElement(copy);
