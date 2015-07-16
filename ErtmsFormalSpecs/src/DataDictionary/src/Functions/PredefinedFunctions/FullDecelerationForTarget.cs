@@ -141,7 +141,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
                             SiDistance endDistance;
                             if (endSpeed == finalSpeed)
                             {
-                                endDistance = segment.IntersectAt(endSpeed);
+                                endDistance = segment.IntersectAt(endSpeed - new SiSpeed(0.001));
                             }
                             else
                             {
@@ -167,7 +167,6 @@ namespace DataDictionary.Functions.PredefinedFunctions
                     }
                 }
             }
-
             return retVal;
         }
 

@@ -619,6 +619,10 @@ namespace GUI.IPCInterface
                         new EFSServiceFault("Cannot evaluate expression " + expression));
                 }
             }
+            catch(Exception e)
+            {
+                // TODO
+            }
             finally
             {
                 EFSAccess.ReleaseMutex();
