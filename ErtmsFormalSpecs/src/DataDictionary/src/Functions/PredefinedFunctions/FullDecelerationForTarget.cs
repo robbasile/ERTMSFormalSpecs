@@ -141,7 +141,11 @@ namespace DataDictionary.Functions.PredefinedFunctions
                             SiDistance endDistance;
                             if (endSpeed == finalSpeed)
                             {
-                                endDistance = segment.IntersectAt(endSpeed - new SiSpeed(0.001));
+                                // Ensures that a braking curve is calculated until the finalSpeed
+                                // but not further than the end of the curve segment
+                                SiSpeed tmp = SiSpeed.Max(  segment.Get(segment.X.X1),
+                                                            endSpeed - new SiSpeed(0.001));
+                                endDistance = segment.IntersectAt(tmp);
                             }
                             else
                             {
