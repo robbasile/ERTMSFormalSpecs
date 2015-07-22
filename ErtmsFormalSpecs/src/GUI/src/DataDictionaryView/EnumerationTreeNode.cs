@@ -188,7 +188,7 @@ namespace GUI.DataDictionaryView
             newItem.MenuItems.Add(new MenuItem("Value", new EventHandler(AddValueHandler)));
             retVal.Add(newItem);
 
-            MenuItem updateItem = new MenuItem("Add...");
+            MenuItem updateItem = new MenuItem("Update...");
             updateItem.MenuItems.Add(new MenuItem("Update", new EventHandler(AddUpdate)));
             updateItem.MenuItems.Add(new MenuItem("Remove", new EventHandler(RemoveInUpdate)));
             retVal.Add(updateItem);

@@ -299,6 +299,12 @@ namespace DataDictionary.Types
             Enum retVal = (Enum) Duplicate();
             retVal.setUpdates(Guid);
 
+            foreach (EnumValue value in retVal.Values)
+            {
+                EnumValue matchingValue = findEnumValue(value.Name);
+                value.setUpdates(matchingValue.Guid);
+            }
+
             String[] names = FullName.Split('.');
             names = names.Take(names.Count() - 1).ToArray();
             NameSpace nameSpace = dictionary.GetNameSpaceUpdate(names, Dictionary);
