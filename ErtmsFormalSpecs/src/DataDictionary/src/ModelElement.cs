@@ -355,7 +355,7 @@ namespace DataDictionary
                     // Erase all update information
                     mergedElement.RecoverUpdateInformation();
 
-                    // Keep references from the baseElement
+                    // Keep the references of the baseElement
                     mergedElement.KeepTraceability(baseElement);
 
                     // Keep the size and position in the graphical view of the base element

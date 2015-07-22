@@ -1478,10 +1478,8 @@ namespace DataDictionary
             ///     not go further down the subnodes.
             /// </summary>
             /// <param name="obj"></param>
-            public override void visit(BaseModelElement obj)
+            public override void visit(BaseModelElement obj, bool visitSubNodes)
             {
-                bool visitSubNodes = true;
-
                 ModelElement element = obj as ModelElement;
                 if (element != null && !(element is NameSpace))
                 {
