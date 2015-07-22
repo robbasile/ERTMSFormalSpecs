@@ -530,6 +530,7 @@ namespace DataDictionary.Types
             Structure retVal = new Structure();
             retVal.Name = Name;
             retVal.Comment = Comment;
+            retVal.IsAbstract = IsAbstract;
             retVal.SetUpdateInformation(this);
 
             String[] names = FullName.Split('.');
