@@ -578,10 +578,10 @@ namespace GUI.IPCInterface
                 {
                     retVal = convertOut(variable.Value);
                 }
-                else
-                {
-                    throw new FaultException<EFSServiceFault>(new EFSServiceFault("Cannot find variable " + variableName));
-                }
+            }
+            catch (Exception e)
+            {
+                // TODO
             }
             finally
             {
@@ -612,11 +612,6 @@ namespace GUI.IPCInterface
                         retVal =
                             convertOut(expressionTree.GetValue(new InterpretationContext(), null));
                     });
-                }
-                else
-                {
-                    throw new FaultException<EFSServiceFault>(
-                        new EFSServiceFault("Cannot evaluate expression " + expression));
                 }
             }
             catch(Exception e)
@@ -869,12 +864,11 @@ namespace GUI.IPCInterface
                             Runner.EventTimeLine.AddModelEvent(variableUpdate, Runner, true);
                         });
                     }
-                    else
-                    {
-                        throw new FaultException<EFSServiceFault>(
-                            new EFSServiceFault("Cannot create statement for " + statementText));
-                    }
                 }
+            }
+            catch (Exception e)
+            {
+                // TODO
             }
             finally
             {
