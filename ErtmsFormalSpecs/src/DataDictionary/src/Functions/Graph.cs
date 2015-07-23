@@ -16,6 +16,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using DataDictionary.Generated;
 using DataDictionary.Interpreter;
@@ -473,12 +474,7 @@ namespace DataDictionary.Functions
             /// <returns></returns>
             public double Val(double d)
             {
-                double retVal = 0;
-
-                if (Contains(d))
-                {
-                    retVal = Expression.Val(d);
-                }
+                double retVal = Expression.Val(d);
 
                 return retVal;
             }
@@ -678,7 +674,7 @@ namespace DataDictionary.Functions
 
             foreach (Segment segment in Segments)
             {
-                if (segment.Contains(x))
+                if (segment.Contains(x) || ( segment == Segments.Last() && x == segment.End) )
                 {
                     retVal = segment.Val(x);
                     break;
@@ -1329,7 +1325,7 @@ namespace DataDictionary.Functions
             return retVal;
         }
 
-        private const double EPSILON = 0.0000001;
+        private const double EPSILON = 0.01;
 
         /// <summary>
         ///     Performs double equality, with a margin of epsilon
@@ -1355,41 +1351,22 @@ namespace DataDictionary.Functions
         {
             double retVal = double.MaxValue;
 
-            double upY = double.MaxValue;
-            double downY = double.MinValue;
-            double upX = 0;
-            double downX = 0;
-
+            Segment current = null;
             foreach (Segment segment in Segments)
             {
                 double up = segment.Val(segment.Start);
-                if (up < upY && (up > Y || Equals(up, Y)))
-                {
-                    upY = up;
-                    upX = segment.Start;
-                }
-                double down = 0;
-                if (segment.End < double.MaxValue)
-                {
-                    down = segment.Val(segment.End - 0.0001);
-                    if (down > downY && (down < Y || Equals(down, Y)))
-                    {
-                        downY = down;
-                        downX = segment.End;
-                    }
-                }
-                if (up < down)
-                {
-                    double tmp = up;
-                    up = down;
-                    down = tmp;
-                }
+                double down = segment.Val(segment.End);
 
                 if ((Y < up || Equals(Y, up)) && ((Y > down) || Equals(Y, down)))
                 {
-                    retVal = segment.IntersectsAt(Y);
+                    current = segment;
                     break;
                 }
+            }
+
+            if (current != null)
+            {
+                retVal = current.IntersectsAt(Y);               
             }
 
             return retVal;
