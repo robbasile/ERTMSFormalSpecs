@@ -30,6 +30,25 @@ namespace DataDictionary.src
         }
 
         /// <summary>
+        ///     Constructor for merging
+        /// </summary>
+        /// <param name="baseStateMachine"></param>
+        /// <param name="updateStateMachine"></param>
+        public UnifiedStructure(Structure baseStateMachine, Structure updateStateMachine)
+        {
+            Name = updateStateMachine.Name;
+
+            MergedStructures = new List<Structure>();
+            MergedStructures.Add(baseStateMachine);
+            MergedStructures.Add(updateStateMachine);
+
+            Enclosing = MergedStructures[0].Enclosing;
+            setUpdates(MergedStructures[0].Guid);
+
+            ApplyUpdates();
+        }
+
+        /// <summary>
         ///     Adds all the structures that are updated (directly or indirectly) to the list of merged structures,
         ///     then adds all structures updating it, as long as there is only one update per structure 
         /// </summary>

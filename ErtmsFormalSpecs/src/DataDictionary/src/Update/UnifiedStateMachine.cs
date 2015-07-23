@@ -31,6 +31,24 @@ namespace DataDictionary.src
             ApplyUpdates();
         }
 
+        /// <summary>
+        ///     Constructor for merging
+        /// </summary>
+        /// <param name="baseStateMachine"></param>
+        /// <param name="updateStateMachine"></param>
+        public UnifiedStateMachine(StateMachine baseStateMachine, StateMachine updateStateMachine)
+        {
+            Name = updateStateMachine.Name;
+
+            MergedStateMachines = new List<StateMachine>();
+            MergedStateMachines.Add(baseStateMachine);
+            MergedStateMachines.Add(updateStateMachine);
+
+            Enclosing = MergedStateMachines[0].Enclosing;
+
+            ApplyUpdates();
+        }
+
         public override string FullName
         {
             get { return MergedStateMachines[0].FullName; }
@@ -44,7 +62,7 @@ namespace DataDictionary.src
         {
             MergedStateMachines = new List<StateMachine>();
 
-            // Find the base structure
+            // Find the base state machine
             StateMachine current = stateMachine;
             StateMachine next = current.Updates as StateMachine;
             while (next != null)
@@ -53,7 +71,7 @@ namespace DataDictionary.src
                 next = current.Updates as StateMachine;
             }
 
-            // current is now the structure at the start of the update chain
+            // current is now the state machine at the start of the update chain
             while (current != null)
             {
                 MergedStateMachines.Add(current);
