@@ -14061,5 +14061,1087 @@ namespace DataDictionary.Compare
             }
         }
 
+        /// <summary>
+        /// Duplicates a source Namable into its target
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="target"></param>
+        public static void DuplicateNamable(Generated.Namable source, Generated.Namable target)
+        {
+            if ( source != null && target != null )
+            { 
+                target.setName(source.getName());
+            }	  
+        }
+
+        /// <summary>
+        /// Duplicates a source ReferencesParagraph into its target
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="target"></param>
+        public static void DuplicateReferencesParagraph(Generated.ReferencesParagraph source, Generated.ReferencesParagraph target)
+        {
+            if ( source != null && target != null )
+            { 
+	            DuplicateNamable (source, target);
+
+                target.setComment(source.getComment());
+            }	  
+        }
+
+        /// <summary>
+        /// Duplicates a source ReqRelated into its target
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="target"></param>
+        public static void DuplicateReqRelated(Generated.ReqRelated source, Generated.ReqRelated target)
+        {
+            if ( source != null && target != null )
+            { 
+	            DuplicateReferencesParagraph (source, target);
+
+                target.setImplemented(source.getImplemented());
+                target.setVerified(source.getVerified());
+                target.setNeedsRequirement(source.getNeedsRequirement());
+            }	  
+        }
+
+        /// <summary>
+        /// Duplicates a source Dictionary into its target
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="target"></param>
+        public static void DuplicateDictionary(Generated.Dictionary source, Generated.Dictionary target)
+        {
+            if ( source != null && target != null )
+            { 
+                target.setXsi(source.getXsi());
+                target.setXsiLocation(source.getXsiLocation());
+            }	  
+        }
+
+        /// <summary>
+        /// Duplicates a source RuleDisabling into its target
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="target"></param>
+        public static void DuplicateRuleDisabling(Generated.RuleDisabling source, Generated.RuleDisabling target)
+        {
+            if ( source != null && target != null )
+            { 
+	            DuplicateReqRelated (source, target);
+
+                target.setRule(source.getRule());
+            }	  
+        }
+
+        /// <summary>
+        /// Duplicates a source NameSpaceRef into its target
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="target"></param>
+        public static void DuplicateNameSpaceRef(Generated.NameSpaceRef source, Generated.NameSpaceRef target)
+        {
+            if ( source != null && target != null )
+            { 
+	            DuplicateNamable (source, target);
+
+            }	  
+        }
+
+        /// <summary>
+        /// Duplicates a source NameSpace into its target
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="target"></param>
+        public static void DuplicateNameSpace(Generated.NameSpace source, Generated.NameSpace target)
+        {
+            if ( source != null && target != null )
+            { 
+	            DuplicateNamable (source, target);
+
+                target.setComment(source.getComment());
+            }	  
+        }
+
+        /// <summary>
+        /// Duplicates a source ReqRef into its target
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="target"></param>
+        public static void DuplicateReqRef(Generated.ReqRef source, Generated.ReqRef target)
+        {
+            if ( source != null && target != null )
+            { 
+                target.setComment(source.getComment());
+            }	  
+        }
+
+        /// <summary>
+        /// Duplicates a source Type into its target
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="target"></param>
+        public static void DuplicateType(Generated.Type source, Generated.Type target)
+        {
+            if ( source != null && target != null )
+            { 
+	            DuplicateReqRelated (source, target);
+
+                target.setDefault(source.getDefault());
+                target.setWidth(source.getWidth());
+                target.setHeight(source.getHeight());
+                target.setX(source.getX());
+                target.setY(source.getY());
+                target.setHidden(source.getHidden());
+                target.setPinned(source.getPinned());
+            }	  
+        }
+
+        /// <summary>
+        /// Duplicates a source Enum into its target
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="target"></param>
+        public static void DuplicateEnum(Generated.Enum source, Generated.Enum target)
+        {
+            if ( source != null && target != null )
+            { 
+	            DuplicateType (source, target);
+
+            }	  
+        }
+
+        /// <summary>
+        /// Duplicates a source EnumValue into its target
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="target"></param>
+        public static void DuplicateEnumValue(Generated.EnumValue source, Generated.EnumValue target)
+        {
+            if ( source != null && target != null )
+            { 
+	            DuplicateNamable (source, target);
+
+                target.setValue(source.getValue());
+                target.setForbidArithmeticOperation(source.getForbidArithmeticOperation());
+            }	  
+        }
+
+        /// <summary>
+        /// Duplicates a source Range into its target
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="target"></param>
+        public static void DuplicateRange(Generated.Range source, Generated.Range target)
+        {
+            if ( source != null && target != null )
+            { 
+	            DuplicateType (source, target);
+
+                target.setMinValue(source.getMinValue());
+                target.setMaxValue(source.getMaxValue());
+                target.setPrecision(source.getPrecision());
+            }	  
+        }
+
+        /// <summary>
+        /// Duplicates a source Structure into its target
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="target"></param>
+        public static void DuplicateStructure(Generated.Structure source, Generated.Structure target)
+        {
+            if ( source != null && target != null )
+            { 
+	            DuplicateType (source, target);
+
+                target.setIsAbstract(source.getIsAbstract());
+            }	  
+        }
+
+        /// <summary>
+        /// Duplicates a source StructureRef into its target
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="target"></param>
+        public static void DuplicateStructureRef(Generated.StructureRef source, Generated.StructureRef target)
+        {
+            if ( source != null && target != null )
+            { 
+	            DuplicateNamable (source, target);
+
+            }	  
+        }
+
+        /// <summary>
+        /// Duplicates a source StructureElement into its target
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="target"></param>
+        public static void DuplicateStructureElement(Generated.StructureElement source, Generated.StructureElement target)
+        {
+            if ( source != null && target != null )
+            { 
+	            DuplicateReqRelated (source, target);
+
+                target.setTypeName(source.getTypeName());
+                target.setDefault(source.getDefault());
+                target.setMode(source.getMode());
+            }	  
+        }
+
+        /// <summary>
+        /// Duplicates a source Collection into its target
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="target"></param>
+        public static void DuplicateCollection(Generated.Collection source, Generated.Collection target)
+        {
+            if ( source != null && target != null )
+            { 
+	            DuplicateType (source, target);
+
+                target.setTypeName(source.getTypeName());
+                target.setMaxSize(source.getMaxSize());
+            }	  
+        }
+
+        /// <summary>
+        /// Duplicates a source Function into its target
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="target"></param>
+        public static void DuplicateFunction(Generated.Function source, Generated.Function target)
+        {
+            if ( source != null && target != null )
+            { 
+	            DuplicateType (source, target);
+
+                target.setTypeName(source.getTypeName());
+                target.setCacheable(source.getCacheable());
+            }	  
+        }
+
+        /// <summary>
+        /// Duplicates a source Parameter into its target
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="target"></param>
+        public static void DuplicateParameter(Generated.Parameter source, Generated.Parameter target)
+        {
+            if ( source != null && target != null )
+            { 
+	            DuplicateNamable (source, target);
+
+                target.setTypeName(source.getTypeName());
+            }	  
+        }
+
+        /// <summary>
+        /// Duplicates a source Case into its target
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="target"></param>
+        public static void DuplicateCase(Generated.Case source, Generated.Case target)
+        {
+            if ( source != null && target != null )
+            { 
+	            DuplicateNamable (source, target);
+
+                target.setExpression(source.getExpression());
+                target.setComment(source.getComment());
+            }	  
+        }
+
+        /// <summary>
+        /// Duplicates a source Procedure into its target
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="target"></param>
+        public static void DuplicateProcedure(Generated.Procedure source, Generated.Procedure target)
+        {
+            if ( source != null && target != null )
+            { 
+	            DuplicateReqRelated (source, target);
+
+                target.setWidth(source.getWidth());
+                target.setHeight(source.getHeight());
+                target.setX(source.getX());
+                target.setY(source.getY());
+                target.setHidden(source.getHidden());
+                target.setPinned(source.getPinned());
+            }	  
+        }
+
+        /// <summary>
+        /// Duplicates a source StateMachine into its target
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="target"></param>
+        public static void DuplicateStateMachine(Generated.StateMachine source, Generated.StateMachine target)
+        {
+            if ( source != null && target != null )
+            { 
+	            DuplicateType (source, target);
+
+                target.setInitialState(source.getInitialState());
+            }	  
+        }
+
+        /// <summary>
+        /// Duplicates a source State into its target
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="target"></param>
+        public static void DuplicateState(Generated.State source, Generated.State target)
+        {
+            if ( source != null && target != null )
+            { 
+	            DuplicateReqRelated (source, target);
+
+                target.setWidth(source.getWidth());
+                target.setHeight(source.getHeight());
+                target.setX(source.getX());
+                target.setY(source.getY());
+                target.setPinned(source.getPinned());
+            }	  
+        }
+
+        /// <summary>
+        /// Duplicates a source Variable into its target
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="target"></param>
+        public static void DuplicateVariable(Generated.Variable source, Generated.Variable target)
+        {
+            if ( source != null && target != null )
+            { 
+	            DuplicateReqRelated (source, target);
+
+                target.setTypeName(source.getTypeName());
+                target.setDefaultValue(source.getDefaultValue());
+                target.setVariableMode(source.getVariableMode());
+                target.setWidth(source.getWidth());
+                target.setHeight(source.getHeight());
+                target.setX(source.getX());
+                target.setY(source.getY());
+                target.setHidden(source.getHidden());
+                target.setPinned(source.getPinned());
+            }	  
+        }
+
+        /// <summary>
+        /// Duplicates a source Rule into its target
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="target"></param>
+        public static void DuplicateRule(Generated.Rule source, Generated.Rule target)
+        {
+            if ( source != null && target != null )
+            { 
+	            DuplicateReqRelated (source, target);
+
+                target.setPriority(source.getPriority());
+                target.setWidth(source.getWidth());
+                target.setHeight(source.getHeight());
+                target.setX(source.getX());
+                target.setY(source.getY());
+                target.setHidden(source.getHidden());
+                target.setPinned(source.getPinned());
+            }	  
+        }
+
+        /// <summary>
+        /// Duplicates a source RuleCondition into its target
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="target"></param>
+        public static void DuplicateRuleCondition(Generated.RuleCondition source, Generated.RuleCondition target)
+        {
+            if ( source != null && target != null )
+            { 
+	            DuplicateReqRelated (source, target);
+
+            }	  
+        }
+
+        /// <summary>
+        /// Duplicates a source PreCondition into its target
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="target"></param>
+        public static void DuplicatePreCondition(Generated.PreCondition source, Generated.PreCondition target)
+        {
+            if ( source != null && target != null )
+            { 
+                target.setCondition(source.getCondition());
+                target.setComment(source.getComment());
+            }	  
+        }
+
+        /// <summary>
+        /// Duplicates a source Action into its target
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="target"></param>
+        public static void DuplicateAction(Generated.Action source, Generated.Action target)
+        {
+            if ( source != null && target != null )
+            { 
+                target.setExpression(source.getExpression());
+                target.setComment(source.getComment());
+            }	  
+        }
+
+        /// <summary>
+        /// Duplicates a source FrameRef into its target
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="target"></param>
+        public static void DuplicateFrameRef(Generated.FrameRef source, Generated.FrameRef target)
+        {
+            if ( source != null && target != null )
+            { 
+	            DuplicateNamable (source, target);
+
+            }	  
+        }
+
+        /// <summary>
+        /// Duplicates a source Frame into its target
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="target"></param>
+        public static void DuplicateFrame(Generated.Frame source, Generated.Frame target)
+        {
+            if ( source != null && target != null )
+            { 
+	            DuplicateNamable (source, target);
+
+                target.setCycleDuration(source.getCycleDuration());
+                target.setComment(source.getComment());
+            }	  
+        }
+
+        /// <summary>
+        /// Duplicates a source SubSequence into its target
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="target"></param>
+        public static void DuplicateSubSequence(Generated.SubSequence source, Generated.SubSequence target)
+        {
+            if ( source != null && target != null )
+            { 
+	            DuplicateNamable (source, target);
+
+                target.setD_LRBG(source.getD_LRBG());
+                target.setLevel(source.getLevel());
+                target.setMode(source.getMode());
+                target.setNID_LRBG(source.getNID_LRBG());
+                target.setQ_DIRLRBG(source.getQ_DIRLRBG());
+                target.setQ_DIRTRAIN(source.getQ_DIRTRAIN());
+                target.setQ_DLRBG(source.getQ_DLRBG());
+                target.setRBC_ID(source.getRBC_ID());
+                target.setRBCPhone(source.getRBCPhone());
+                target.setComment(source.getComment());
+                target.setCompleted(source.getCompleted());
+            }	  
+        }
+
+        /// <summary>
+        /// Duplicates a source TestCase into its target
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="target"></param>
+        public static void DuplicateTestCase(Generated.TestCase source, Generated.TestCase target)
+        {
+            if ( source != null && target != null )
+            { 
+	            DuplicateReqRelated (source, target);
+
+                target.setFeature(source.getFeature());
+                target.setCase(source.getCase());
+            }	  
+        }
+
+        /// <summary>
+        /// Duplicates a source Step into its target
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="target"></param>
+        public static void DuplicateStep(Generated.Step source, Generated.Step target)
+        {
+            if ( source != null && target != null )
+            { 
+	            DuplicateReferencesParagraph (source, target);
+
+                target.setTCS_Order(source.getTCS_Order());
+                target.setDistance(source.getDistance());
+                target.setDescription(source.getDescription());
+                target.setObsoleteComment(source.getObsoleteComment());
+                target.setUserComment(source.getUserComment());
+                target.setIO(source.getIO());
+                target.setInterface(source.getInterface());
+                target.setLevelIN(source.getLevelIN());
+                target.setLevelOUT(source.getLevelOUT());
+                target.setModeIN(source.getModeIN());
+                target.setModeOUT(source.getModeOUT());
+                target.setTranslationRequired(source.getTranslationRequired());
+                target.setTranslated(source.getTranslated());
+            }	  
+        }
+
+        /// <summary>
+        /// Duplicates a source SubStep into its target
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="target"></param>
+        public static void DuplicateSubStep(Generated.SubStep source, Generated.SubStep target)
+        {
+            if ( source != null && target != null )
+            { 
+	            DuplicateNamable (source, target);
+
+                target.setSkipEngine(source.getSkipEngine());
+                target.setComment(source.getComment());
+            }	  
+        }
+
+        /// <summary>
+        /// Duplicates a source Expectation into its target
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="target"></param>
+        public static void DuplicateExpectation(Generated.Expectation source, Generated.Expectation target)
+        {
+            if ( source != null && target != null )
+            { 
+	            DuplicateNamable (source, target);
+
+                target.setValue(source.getValue());
+                target.setBlocking(source.getBlocking());
+                target.setKind(source.getKind());
+                target.setDeadLine(source.getDeadLine());
+                target.setCondition(source.getCondition());
+                target.setComment(source.getComment());
+                target.setCyclePhase(source.getCyclePhase());
+            }	  
+        }
+
+        /// <summary>
+        /// Duplicates a source DBMessage into its target
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="target"></param>
+        public static void DuplicateDBMessage(Generated.DBMessage source, Generated.DBMessage target)
+        {
+            if ( source != null && target != null )
+            { 
+	            DuplicateNamable (source, target);
+
+                target.setMessageOrder(source.getMessageOrder());
+                target.setMessageType(source.getMessageType());
+            }	  
+        }
+
+        /// <summary>
+        /// Duplicates a source DBPacket into its target
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="target"></param>
+        public static void DuplicateDBPacket(Generated.DBPacket source, Generated.DBPacket target)
+        {
+            if ( source != null && target != null )
+            { 
+	            DuplicateNamable (source, target);
+
+            }	  
+        }
+
+        /// <summary>
+        /// Duplicates a source DBField into its target
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="target"></param>
+        public static void DuplicateDBField(Generated.DBField source, Generated.DBField target)
+        {
+            if ( source != null && target != null )
+            { 
+	            DuplicateNamable (source, target);
+
+                target.setVariable(source.getVariable());
+                target.setValue(source.getValue());
+            }	  
+        }
+
+        /// <summary>
+        /// Duplicates a source TranslationDictionary into its target
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="target"></param>
+        public static void DuplicateTranslationDictionary(Generated.TranslationDictionary source, Generated.TranslationDictionary target)
+        {
+            if ( source != null && target != null )
+            { 
+	            DuplicateNamable (source, target);
+
+            }	  
+        }
+
+        /// <summary>
+        /// Duplicates a source Folder into its target
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="target"></param>
+        public static void DuplicateFolder(Generated.Folder source, Generated.Folder target)
+        {
+            if ( source != null && target != null )
+            { 
+	            DuplicateNamable (source, target);
+
+            }	  
+        }
+
+        /// <summary>
+        /// Duplicates a source Translation into its target
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="target"></param>
+        public static void DuplicateTranslation(Generated.Translation source, Generated.Translation target)
+        {
+            if ( source != null && target != null )
+            { 
+	            DuplicateReferencesParagraph (source, target);
+
+                target.setImplemented(source.getImplemented());
+            }	  
+        }
+
+        /// <summary>
+        /// Duplicates a source SourceText into its target
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="target"></param>
+        public static void DuplicateSourceText(Generated.SourceText source, Generated.SourceText target)
+        {
+            if ( source != null && target != null )
+            { 
+	            DuplicateNamable (source, target);
+
+            }	  
+        }
+
+        /// <summary>
+        /// Duplicates a source SourceTextComment into its target
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="target"></param>
+        public static void DuplicateSourceTextComment(Generated.SourceTextComment source, Generated.SourceTextComment target)
+        {
+            if ( source != null && target != null )
+            { 
+	            DuplicateNamable (source, target);
+
+            }	  
+        }
+
+        /// <summary>
+        /// Duplicates a source ShortcutDictionary into its target
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="target"></param>
+        public static void DuplicateShortcutDictionary(Generated.ShortcutDictionary source, Generated.ShortcutDictionary target)
+        {
+            if ( source != null && target != null )
+            { 
+	            DuplicateNamable (source, target);
+
+            }	  
+        }
+
+        /// <summary>
+        /// Duplicates a source ShortcutFolder into its target
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="target"></param>
+        public static void DuplicateShortcutFolder(Generated.ShortcutFolder source, Generated.ShortcutFolder target)
+        {
+            if ( source != null && target != null )
+            { 
+	            DuplicateNamable (source, target);
+
+            }	  
+        }
+
+        /// <summary>
+        /// Duplicates a source Shortcut into its target
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="target"></param>
+        public static void DuplicateShortcut(Generated.Shortcut source, Generated.Shortcut target)
+        {
+            if ( source != null && target != null )
+            { 
+	            DuplicateNamable (source, target);
+
+                target.setShortcutName(source.getShortcutName());
+            }	  
+        }
+
+        /// <summary>
+        /// Duplicates a source RequirementSet into its target
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="target"></param>
+        public static void DuplicateRequirementSet(Generated.RequirementSet source, Generated.RequirementSet target)
+        {
+            if ( source != null && target != null )
+            { 
+	            DuplicateNamable (source, target);
+
+                target.setWidth(source.getWidth());
+                target.setHeight(source.getHeight());
+                target.setX(source.getX());
+                target.setY(source.getY());
+                target.setRecursiveSelection(source.getRecursiveSelection());
+                target.setObsoleteRequirementsStatus(source.getObsoleteRequirementsStatus());
+                target.setDefault(source.getDefault());
+                target.setPinned(source.getPinned());
+            }	  
+        }
+
+        /// <summary>
+        /// Duplicates a source RequirementSetDependancy into its target
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="target"></param>
+        public static void DuplicateRequirementSetDependancy(Generated.RequirementSetDependancy source, Generated.RequirementSetDependancy target)
+        {
+            if ( source != null && target != null )
+            { 
+	            DuplicateNamable (source, target);
+
+                target.setTarget(source.getTarget());
+            }	  
+        }
+
+        /// <summary>
+        /// Duplicates a source Specification into its target
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="target"></param>
+        public static void DuplicateSpecification(Generated.Specification source, Generated.Specification target)
+        {
+            if ( source != null && target != null )
+            { 
+	            DuplicateNamable (source, target);
+
+                target.setVersion(source.getVersion());
+            }	  
+        }
+
+        /// <summary>
+        /// Duplicates a source ChapterRef into its target
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="target"></param>
+        public static void DuplicateChapterRef(Generated.ChapterRef source, Generated.ChapterRef target)
+        {
+            if ( source != null && target != null )
+            { 
+	            DuplicateNamable (source, target);
+
+            }	  
+        }
+
+        /// <summary>
+        /// Duplicates a source Chapter into its target
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="target"></param>
+        public static void DuplicateChapter(Generated.Chapter source, Generated.Chapter target)
+        {
+            if ( source != null && target != null )
+            { 
+	            DuplicateNamable (source, target);
+
+                target.setId(source.getId());
+            }	  
+        }
+
+        /// <summary>
+        /// Duplicates a source Paragraph into its target
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="target"></param>
+        public static void DuplicateParagraph(Generated.Paragraph source, Generated.Paragraph target)
+        {
+            if ( source != null && target != null )
+            { 
+	            DuplicateReferencesParagraph (source, target);
+
+                target.setId(source.getId());
+                target.setType(source.getType());
+                target.setBl(source.getBl());
+                target.setOptional(source.getOptional());
+                target.setText(source.getText());
+                target.setVersion(source.getVersion());
+                target.setReviewed(source.getReviewed());
+                target.setImplementationStatus(source.getImplementationStatus());
+                target.setMoreInfoRequired(source.getMoreInfoRequired());
+                target.setSpecIssue(source.getSpecIssue());
+                target.setTested(source.getTested());
+            }	  
+        }
+
+        /// <summary>
+        /// Duplicates a source RequirementSetReference into its target
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="target"></param>
+        public static void DuplicateRequirementSetReference(Generated.RequirementSetReference source, Generated.RequirementSetReference target)
+        {
+            if ( source != null && target != null )
+            { 
+                target.setTarget(source.getTarget());
+            }	  
+        }
+
+        /// <summary>
+        /// Duplicates a source ParagraphRevision into its target
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="target"></param>
+        public static void DuplicateParagraphRevision(Generated.ParagraphRevision source, Generated.ParagraphRevision target)
+        {
+            if ( source != null && target != null )
+            { 
+                target.setText(source.getText());
+                target.setVersion(source.getVersion());
+            }	  
+        }
+
+        /// <summary>
+        /// Generically duplicates a source into its target
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="target"></param>
+        public static void Duplicate(Generated.BaseModelElement source, Generated.BaseModelElement target)
+        {
+			if ( source is Generated.Namable && target is Generated.Namable )
+			{ 
+				DuplicateNamable ( (Generated.Namable) source, (Generated.Namable) target);
+			}		
+			if ( source is Generated.ReferencesParagraph && target is Generated.ReferencesParagraph )
+			{ 
+				DuplicateReferencesParagraph ( (Generated.ReferencesParagraph) source, (Generated.ReferencesParagraph) target);
+			}		
+			if ( source is Generated.ReqRelated && target is Generated.ReqRelated )
+			{ 
+				DuplicateReqRelated ( (Generated.ReqRelated) source, (Generated.ReqRelated) target);
+			}		
+			if ( source is Generated.Dictionary && target is Generated.Dictionary )
+			{ 
+				DuplicateDictionary ( (Generated.Dictionary) source, (Generated.Dictionary) target);
+			}		
+			if ( source is Generated.RuleDisabling && target is Generated.RuleDisabling )
+			{ 
+				DuplicateRuleDisabling ( (Generated.RuleDisabling) source, (Generated.RuleDisabling) target);
+			}		
+			if ( source is Generated.NameSpaceRef && target is Generated.NameSpaceRef )
+			{ 
+				DuplicateNameSpaceRef ( (Generated.NameSpaceRef) source, (Generated.NameSpaceRef) target);
+			}		
+			if ( source is Generated.NameSpace && target is Generated.NameSpace )
+			{ 
+				DuplicateNameSpace ( (Generated.NameSpace) source, (Generated.NameSpace) target);
+			}		
+			if ( source is Generated.ReqRef && target is Generated.ReqRef )
+			{ 
+				DuplicateReqRef ( (Generated.ReqRef) source, (Generated.ReqRef) target);
+			}		
+			if ( source is Generated.Type && target is Generated.Type )
+			{ 
+				DuplicateType ( (Generated.Type) source, (Generated.Type) target);
+			}		
+			if ( source is Generated.Enum && target is Generated.Enum )
+			{ 
+				DuplicateEnum ( (Generated.Enum) source, (Generated.Enum) target);
+			}		
+			if ( source is Generated.EnumValue && target is Generated.EnumValue )
+			{ 
+				DuplicateEnumValue ( (Generated.EnumValue) source, (Generated.EnumValue) target);
+			}		
+			if ( source is Generated.Range && target is Generated.Range )
+			{ 
+				DuplicateRange ( (Generated.Range) source, (Generated.Range) target);
+			}		
+			if ( source is Generated.Structure && target is Generated.Structure )
+			{ 
+				DuplicateStructure ( (Generated.Structure) source, (Generated.Structure) target);
+			}		
+			if ( source is Generated.StructureRef && target is Generated.StructureRef )
+			{ 
+				DuplicateStructureRef ( (Generated.StructureRef) source, (Generated.StructureRef) target);
+			}		
+			if ( source is Generated.StructureElement && target is Generated.StructureElement )
+			{ 
+				DuplicateStructureElement ( (Generated.StructureElement) source, (Generated.StructureElement) target);
+			}		
+			if ( source is Generated.Collection && target is Generated.Collection )
+			{ 
+				DuplicateCollection ( (Generated.Collection) source, (Generated.Collection) target);
+			}		
+			if ( source is Generated.Function && target is Generated.Function )
+			{ 
+				DuplicateFunction ( (Generated.Function) source, (Generated.Function) target);
+			}		
+			if ( source is Generated.Parameter && target is Generated.Parameter )
+			{ 
+				DuplicateParameter ( (Generated.Parameter) source, (Generated.Parameter) target);
+			}		
+			if ( source is Generated.Case && target is Generated.Case )
+			{ 
+				DuplicateCase ( (Generated.Case) source, (Generated.Case) target);
+			}		
+			if ( source is Generated.Procedure && target is Generated.Procedure )
+			{ 
+				DuplicateProcedure ( (Generated.Procedure) source, (Generated.Procedure) target);
+			}		
+			if ( source is Generated.StateMachine && target is Generated.StateMachine )
+			{ 
+				DuplicateStateMachine ( (Generated.StateMachine) source, (Generated.StateMachine) target);
+			}		
+			if ( source is Generated.State && target is Generated.State )
+			{ 
+				DuplicateState ( (Generated.State) source, (Generated.State) target);
+			}		
+			if ( source is Generated.Variable && target is Generated.Variable )
+			{ 
+				DuplicateVariable ( (Generated.Variable) source, (Generated.Variable) target);
+			}		
+			if ( source is Generated.Rule && target is Generated.Rule )
+			{ 
+				DuplicateRule ( (Generated.Rule) source, (Generated.Rule) target);
+			}		
+			if ( source is Generated.RuleCondition && target is Generated.RuleCondition )
+			{ 
+				DuplicateRuleCondition ( (Generated.RuleCondition) source, (Generated.RuleCondition) target);
+			}		
+			if ( source is Generated.PreCondition && target is Generated.PreCondition )
+			{ 
+				DuplicatePreCondition ( (Generated.PreCondition) source, (Generated.PreCondition) target);
+			}		
+			if ( source is Generated.Action && target is Generated.Action )
+			{ 
+				DuplicateAction ( (Generated.Action) source, (Generated.Action) target);
+			}		
+			if ( source is Generated.FrameRef && target is Generated.FrameRef )
+			{ 
+				DuplicateFrameRef ( (Generated.FrameRef) source, (Generated.FrameRef) target);
+			}		
+			if ( source is Generated.Frame && target is Generated.Frame )
+			{ 
+				DuplicateFrame ( (Generated.Frame) source, (Generated.Frame) target);
+			}		
+			if ( source is Generated.SubSequence && target is Generated.SubSequence )
+			{ 
+				DuplicateSubSequence ( (Generated.SubSequence) source, (Generated.SubSequence) target);
+			}		
+			if ( source is Generated.TestCase && target is Generated.TestCase )
+			{ 
+				DuplicateTestCase ( (Generated.TestCase) source, (Generated.TestCase) target);
+			}		
+			if ( source is Generated.Step && target is Generated.Step )
+			{ 
+				DuplicateStep ( (Generated.Step) source, (Generated.Step) target);
+			}		
+			if ( source is Generated.SubStep && target is Generated.SubStep )
+			{ 
+				DuplicateSubStep ( (Generated.SubStep) source, (Generated.SubStep) target);
+			}		
+			if ( source is Generated.Expectation && target is Generated.Expectation )
+			{ 
+				DuplicateExpectation ( (Generated.Expectation) source, (Generated.Expectation) target);
+			}		
+			if ( source is Generated.DBMessage && target is Generated.DBMessage )
+			{ 
+				DuplicateDBMessage ( (Generated.DBMessage) source, (Generated.DBMessage) target);
+			}		
+			if ( source is Generated.DBPacket && target is Generated.DBPacket )
+			{ 
+				DuplicateDBPacket ( (Generated.DBPacket) source, (Generated.DBPacket) target);
+			}		
+			if ( source is Generated.DBField && target is Generated.DBField )
+			{ 
+				DuplicateDBField ( (Generated.DBField) source, (Generated.DBField) target);
+			}		
+			if ( source is Generated.TranslationDictionary && target is Generated.TranslationDictionary )
+			{ 
+				DuplicateTranslationDictionary ( (Generated.TranslationDictionary) source, (Generated.TranslationDictionary) target);
+			}		
+			if ( source is Generated.Folder && target is Generated.Folder )
+			{ 
+				DuplicateFolder ( (Generated.Folder) source, (Generated.Folder) target);
+			}		
+			if ( source is Generated.Translation && target is Generated.Translation )
+			{ 
+				DuplicateTranslation ( (Generated.Translation) source, (Generated.Translation) target);
+			}		
+			if ( source is Generated.SourceText && target is Generated.SourceText )
+			{ 
+				DuplicateSourceText ( (Generated.SourceText) source, (Generated.SourceText) target);
+			}		
+			if ( source is Generated.SourceTextComment && target is Generated.SourceTextComment )
+			{ 
+				DuplicateSourceTextComment ( (Generated.SourceTextComment) source, (Generated.SourceTextComment) target);
+			}		
+			if ( source is Generated.ShortcutDictionary && target is Generated.ShortcutDictionary )
+			{ 
+				DuplicateShortcutDictionary ( (Generated.ShortcutDictionary) source, (Generated.ShortcutDictionary) target);
+			}		
+			if ( source is Generated.ShortcutFolder && target is Generated.ShortcutFolder )
+			{ 
+				DuplicateShortcutFolder ( (Generated.ShortcutFolder) source, (Generated.ShortcutFolder) target);
+			}		
+			if ( source is Generated.Shortcut && target is Generated.Shortcut )
+			{ 
+				DuplicateShortcut ( (Generated.Shortcut) source, (Generated.Shortcut) target);
+			}		
+			if ( source is Generated.RequirementSet && target is Generated.RequirementSet )
+			{ 
+				DuplicateRequirementSet ( (Generated.RequirementSet) source, (Generated.RequirementSet) target);
+			}		
+			if ( source is Generated.RequirementSetDependancy && target is Generated.RequirementSetDependancy )
+			{ 
+				DuplicateRequirementSetDependancy ( (Generated.RequirementSetDependancy) source, (Generated.RequirementSetDependancy) target);
+			}		
+			if ( source is Generated.Specification && target is Generated.Specification )
+			{ 
+				DuplicateSpecification ( (Generated.Specification) source, (Generated.Specification) target);
+			}		
+			if ( source is Generated.ChapterRef && target is Generated.ChapterRef )
+			{ 
+				DuplicateChapterRef ( (Generated.ChapterRef) source, (Generated.ChapterRef) target);
+			}		
+			if ( source is Generated.Chapter && target is Generated.Chapter )
+			{ 
+				DuplicateChapter ( (Generated.Chapter) source, (Generated.Chapter) target);
+			}		
+			if ( source is Generated.Paragraph && target is Generated.Paragraph )
+			{ 
+				DuplicateParagraph ( (Generated.Paragraph) source, (Generated.Paragraph) target);
+			}		
+			if ( source is Generated.RequirementSetReference && target is Generated.RequirementSetReference )
+			{ 
+				DuplicateRequirementSetReference ( (Generated.RequirementSetReference) source, (Generated.RequirementSetReference) target);
+			}		
+			if ( source is Generated.ParagraphRevision && target is Generated.ParagraphRevision )
+			{ 
+				DuplicateParagraphRevision ( (Generated.ParagraphRevision) source, (Generated.ParagraphRevision) target);
+			}		
+        }
+
     }
 }

@@ -490,6 +490,76 @@ BEGIN
     END; -- IF
   END; -- FOR element
 
+  -- 
+  -- Generate simple copy methods
+  -- 
+  FOR element IN doc.RecursiveGetElementChildNodes("ELEMENT") DO  
+
+    IF InheritsFrom(element, "ModelElement") THEN
+      FILE1.WriteList ({
+`        /// <summary>
+`        /// Duplicates a source `element.NAME` into its target
+`        /// </summary>
+`        /// <param name="source"></param>
+`        /// <param name="target"></param>
+`        public static void Duplicate`ValidName (element.NAME)`(Generated.`ValidName (element.NAME)` source, Generated.`ValidName (element.NAME)` target)
+`        {
+`            if ( source != null && target != null )
+`            { 
+      });
+
+      IF ( element CAN BaseElement ) AND InheritsFrom(element.BaseElement,"ModelElement") THEN
+      FILE1.WriteList ({
+`	            Duplicate`ValidName (element.BaseElement.NAME)` (source, target);
+`
+      });
+      END;
+
+      FOR field IN element.RecursiveGetElementChildNodes ("FIELD") DO
+        IF ( field CAN TYPE ) OR ( field CAN ENUMTYPE ) THEN
+          IF NOT IgnoreFromComparison (field) THEN
+              FILE1.WriteList ({
+`                target.set`field.NAME`(source.get`field.NAME`());
+              });
+          END; -- IF
+        END; -- IF
+      END; -- FOR field
+      FILE1.WriteList ({
+`            }	  
+`        }
+`
+      });
+    END; -- IF
+  END; -- FOR element
+
+	-- 
+	-- Generate generic copy method
+	-- 
+	FILE1.WriteList ({
+`        /// <summary>
+`        /// Generically duplicates a source into its target
+`        /// </summary>
+`        /// <param name="source"></param>
+`        /// <param name="target"></param>
+`        public static void Duplicate(Generated.BaseModelElement source, Generated.BaseModelElement target)
+`        {
+	});
+	FOR element IN doc.RecursiveGetElementChildNodes("ELEMENT") DO  
+		IF InheritsFrom(element, "ModelElement") THEN
+			FILE1.WriteList ({
+`			if ( source is Generated.`ValidName (element.NAME)` && target is Generated.`ValidName (element.NAME)` )
+`			{ 
+`				Duplicate`ValidName (element.NAME)` ( (Generated.`ValidName (element.NAME)`) source, (Generated.`ValidName (element.NAME)`) target);
+`			}		
+			});
+		END; -- IF
+	END; -- FOR
+	
+    FILE1.WriteList ({
+`        }
+`
+    });
+  
   FILE1.WriteList ({
 `    }
 `}

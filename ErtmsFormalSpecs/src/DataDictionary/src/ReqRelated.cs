@@ -77,5 +77,43 @@ namespace DataDictionary
 
             return retVal;
         }
+
+
+        protected override void UpdateModelElementAccordingToSource(ModelElement source)
+        {
+            base.UpdateModelElementAccordingToSource(source);
+
+            KeepTraceability(source);
+        }
+
+        /// <summary>
+        ///     Copy traceability information from the element provided in parameter (source) to the current one (target)
+        ///     Do the union between traceability information
+        /// </summary>
+        /// <param name="source"></param>
+        protected void KeepTraceability(ModelElement source)
+        {
+            ReqRelated reqSource = source as ReqRelated;
+            if (reqSource != null)
+            {
+                foreach (ReqRef sourceReqRef in reqSource.Requirements)
+                {
+                    bool isPresent = false;
+                    foreach (ReqRef reqRef in Requirements)
+                    {
+                        if (sourceReqRef.Paragraph.SourceOfUpdateChain == reqRef.Paragraph.SourceOfUpdateChain)
+                        {
+                            isPresent = true;
+                            break;
+                        }
+                    }
+
+                    if (!isPresent)
+                    {
+                        Requirements.Add(sourceReqRef.Duplicate());
+                    }
+                }
+            }
+        }
     }
 }

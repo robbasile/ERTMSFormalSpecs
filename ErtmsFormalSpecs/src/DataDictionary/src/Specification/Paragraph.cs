@@ -899,6 +899,11 @@ namespace DataDictionary.Specification
             return retVal;
         }
 
+        protected override void UpdateModelElementAccordingToSource(ModelElement source)
+        {
+            base.UpdateModelElementAccordingToSource(source);
+        }
+
         /// <summary>
         ///     Inserts a paragraph update at the right location in the list
         /// </summary>

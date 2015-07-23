@@ -245,7 +245,7 @@ namespace DataDictionary.Types
 
                 if (EnclosingNameSpace != null)
                 {
-                    retVal = EnclosingNameSpace.Structures;
+                    retVal = EnclosingNameSpace.StateMachines;
                 }
                 else
                 {
