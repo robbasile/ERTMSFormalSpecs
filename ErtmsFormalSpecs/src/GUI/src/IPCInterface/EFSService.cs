@@ -618,10 +618,6 @@ namespace GUI.IPCInterface
             {
                 // TODO
             }
-            catch(Exception e)
-            {
-                // TODO
-            }
             finally
             {
                 EFSAccess.ReleaseMutex();
