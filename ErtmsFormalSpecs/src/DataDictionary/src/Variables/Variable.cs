@@ -595,5 +595,13 @@ namespace DataDictionary.Variables
 
             return retVal;
         }
+
+        public override void ClearCache()
+        {
+            base.ClearCache();
+
+            // Remove the cached type
+            type = null;
+        }
     }
 }

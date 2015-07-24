@@ -53,10 +53,10 @@ namespace DataDictionary.Interpreter
             /// <param name="visitSubNodes"></param>
             public override void visit(IXmlBBase obj, bool visitSubNodes)
             {
-                IFinder finder = obj as IFinder;
-                if (finder != null)
+                ModelElement modelElement = obj as ModelElement;
+                if (modelElement != null)
                 {
-                    finder.ClearCache();
+                    modelElement.ClearCache();
                 }
 
                 ISubDeclarator subDeclarator = obj as ISubDeclarator;
@@ -496,6 +496,9 @@ namespace DataDictionary.Interpreter
             {
                 try
                 {
+                    // Clears all caches
+                    FinderRepository.INSTANCE.ClearCache();
+
                     // Initialises the declared elements
                     CleanBeforeCompilation cleanBeforeCompilation = new CleanBeforeCompilation(options, EFSSystem);
 
