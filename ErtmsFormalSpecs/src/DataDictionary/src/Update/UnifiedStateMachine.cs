@@ -96,7 +96,7 @@ namespace DataDictionary.src
                 CombineWithUpdate(merged);
             }
 
-            // Indicates to all the merged structure that this is their Unified Structure
+            // Indicates to all the merged state machines that this is their Unified State Machine
             foreach (StateMachine stateMachine in MergedStateMachines)
             {
                 stateMachine.ResetUnifiedStateMachine(this);
