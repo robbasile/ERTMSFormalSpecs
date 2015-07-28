@@ -16,6 +16,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using DataDictionary.Generated;
 using DataDictionary.Interpreter;
@@ -294,6 +295,36 @@ namespace DataDictionary
         }
 
         /// <summary>
+        ///     Returns the path from the parent to the object as a list of element names.
+        ///     The list includes the parent's name (not FullName) and, if the object is not
+        ///     a direct descendant of the parent, an empty list.
+        /// </summary>
+        /// <param name="objName"></param>
+        /// <param name="parentName"></param>
+        /// <returns></returns>
+        public List<string> GetRelativePathFrom(string objName, string parentName)
+        {
+            List<string> retVal = new List<string>();
+
+            if (objName.StartsWith(parentName))
+            {
+                string[] fullNames = objName.Split('.');
+                string[] topNames = parentName.Split('.');
+
+                retVal.Add(topNames[topNames.Count()-1]);
+                foreach (string name in fullNames)
+                {
+                    if (!topNames.Contains(name))
+                    {
+                        retVal.Add(name);
+                    }
+                }
+            }
+
+            return retVal;
+        }
+
+        /// <summary>
         /// Provides the source of the update chain
         /// </summary>
         public ModelElement SourceOfUpdateChain 
@@ -357,10 +388,28 @@ namespace DataDictionary
                 ModelElement parent = Enclosing as ModelElement;
                 if (parent != null)
                 {
-                    Types.NameSpace newParent = parent.Updates as Types.NameSpace;
-                    if (newParent != null)
+                    Types.NameSpace parentNameSpace = parent.Updates as Types.NameSpace;
+                    if (parentNameSpace != null)
                     {
-                        newParent.AddModelElement(Duplicate());
+                        parentNameSpace.AddModelElement(Duplicate());
+                    }
+
+                    Specification.Paragraph parentParagraph = parent.Updates as Specification.Paragraph;
+                    if (parentParagraph != null)
+                    {
+                        parentParagraph.AddModelElement(Duplicate());
+                    }
+
+                    Types.Structure parentStructure = parent.Updates as Types.Structure;
+                    if (parentStructure != null)
+                    {
+                        parentStructure.AddModelElement(Duplicate());
+                    }
+
+                    Types.StateMachine parentStateMachine = parent.Updates as Types.StateMachine;
+                    if (parentStateMachine != null)
+                    {
+                        parentStateMachine.AddModelElement(Duplicate());
                     }
                 }
             }

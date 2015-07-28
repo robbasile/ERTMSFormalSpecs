@@ -142,6 +142,31 @@ namespace GUI
         }
 
         /// <summary>
+        ///     Finds or creates an update for the current element
+        /// </summary>
+        /// <returns></returns>
+        protected override ModelElement FindOrCreateUpdate()
+        {
+            ModelElement retVal = null;
+
+            Dictionary dictionary = GetPatchDictionary();
+
+            if (dictionary != null)
+            {
+                ModelElement model = dictionary.findByFullName(Item.Model.FullName) as ModelElement;
+                if (model != null)
+                {
+                    retVal = Item.CreateReqRefUpdate(model);
+                }
+                // navigate to the rule, whether it was created or not
+                GUIUtils.MDIWindow.RefreshModel();
+                GUIUtils.MDIWindow.Select(retVal);
+            }
+
+            return retVal;
+        }
+
+        /// <summary>
         ///     The menu items for this tree node
         /// </summary>
         /// <returns></returns>
@@ -150,6 +175,9 @@ namespace GUI
             List<MenuItem> retVal = new List<MenuItem>();
 
             retVal.Add(new MenuItem("Select", new EventHandler(SelectHandler)));
+            MenuItem updateItem = new MenuItem("Update...");
+            updateItem.MenuItems.Add(new MenuItem("Remove link", new EventHandler(RemoveInUpdate)));
+            retVal.Add(updateItem);
 
             if (CanBeDeleted)
             {

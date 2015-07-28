@@ -1429,6 +1429,7 @@ namespace DataDictionary.Functions
         {
             Function retVal = (Function) Duplicate();
             retVal.setUpdates(Guid);
+            retVal.ClearAllRequirements();
 
             // In addition to indicating the function's update information, we need to create links for each parameter
             foreach (Parameter parameter in retVal.FormalParameters)

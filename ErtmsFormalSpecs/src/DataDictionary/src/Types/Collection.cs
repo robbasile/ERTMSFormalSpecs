@@ -279,6 +279,7 @@ namespace DataDictionary.Types
         {
             Collection retVal = (Collection) Duplicate();
             retVal.setUpdates(Guid);
+            retVal.ClearAllRequirements();
 
             String[] names = FullName.Split('.');
             names = names.Take(names.Count() - 1).ToArray();

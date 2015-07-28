@@ -18,13 +18,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using DataDictionary.Functions;
+using DataDictionary.Generated;
 using DataDictionary.Interpreter;
-using DataDictionary.Rules;
 using DataDictionary.src;
 using DataDictionary.Values;
 using DataDictionary.Variables;
 using Utils;
+using Procedure = DataDictionary.Functions.Procedure;
+using Rule = DataDictionary.Rules.Rule;
 
 namespace DataDictionary.Types
 {
@@ -527,7 +528,7 @@ namespace DataDictionary.Types
         /// <returns></returns>
         public Structure CreateStructureUpdate(Dictionary dictionary)
         {
-            Structure retVal = new Structure();
+            Structure retVal = (Structure)acceptor.getFactory().createStructure();
             retVal.Name = Name;
             retVal.Comment = Comment;
             retVal.IsAbstract = IsAbstract;
@@ -626,46 +627,6 @@ namespace DataDictionary.Types
                 if (baseStateMachine != null)
                 {
                     stateMachine.SetUpdateInformation(baseStateMachine);
-                }
-            }
-        }
-
-        /// <summary>
-        ///     Override of the merge function that uses the UnifiedStructure instead of just the update
-        /// </summary>
-        public override void Merge()
-        {
-            if (Updates == null)
-            {
-                ModelElement parent = Enclosing as ModelElement;
-                if (parent != null)
-                {
-                    Types.NameSpace newParent = parent.Updates as Types.NameSpace;
-                    if (newParent != null)
-                    {
-                        newParent.AddModelElement(Duplicate());
-                    }
-                }
-            }
-            else
-            {
-                Structure baseStructure = Updates as Structure;
-                if (baseStructure != null)
-                {
-                    UnifiedStructure mergedElement = new UnifiedStructure(baseStructure, this);
-                    // Erase all update information
-                    mergedElement.RecoverUpdateInformation();
-
-                    // Keep the references of the baseElement
-                    mergedElement.KeepTraceability(baseStructure);
-
-                    // Keep the size and position in the graphical view of the base element
-                    mergedElement.TakeGraphicalPosition(baseStructure);
-
-                    // Finally, replace the old model element
-                    mergedElement.setFather(baseStructure.getFather());
-                    baseStructure.EnclosingCollection.Add(mergedElement);
-                    baseStructure.Delete();
                 }
             }
         }

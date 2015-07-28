@@ -587,6 +587,7 @@ namespace DataDictionary.Variables
         {
             Variable retVal = (Variable) Duplicate();
             retVal.setUpdates(Guid);
+            retVal.ClearAllRequirements();
 
             String[] names = FullName.Split('.');
             names = names.Take(names.Count() - 1).ToArray();

@@ -881,7 +881,8 @@ namespace DataDictionary.Specification
                 {
                     parent = EnclosingParagraph.CreateParagraphUpdate(dictionary);
                 }
-                parent.InsertParagraph(retVal, EnclosingParagraph.SubParagraphs);
+                parent.appendParagraphs(retVal);
+                parent.SubParagraphs.Sort();
             }
             else if (EnclosingChapter != null)
             {
@@ -891,46 +892,13 @@ namespace DataDictionary.Specification
                 {
                     parent = EnclosingChapter.CreateChapterUpdate(specUpdate);
                 }
-                parent.InsertParagraph(retVal, EnclosingChapter.Paragraphs);
+                parent.appendParagraphs(retVal);
+                parent.Paragraphs.Sort();
             }
 
             UpdatedBy.Add(retVal);
 
             return retVal;
-        }
-
-        protected override void UpdateModelElementAccordingToSource(ModelElement source)
-        {
-            base.UpdateModelElementAccordingToSource(source);
-        }
-
-        /// <summary>
-        ///     Inserts a paragraph update at the right location in the list
-        /// </summary>
-        /// <param name="paragraphUpdate">The updated paragraph</param>
-        /// <param name="baseCollection">The base collection of elements, used as a reference for the order</param>
-        public void InsertParagraph(Paragraph paragraphUpdate, ArrayList baseCollection)
-        {
-            ArrayList tmp = new ArrayList();
-            int index = 0;
-            foreach (Paragraph par in baseCollection)
-            {
-                if (SubParagraphs.Count > index)
-                {
-                    ModelElement currentParagraphUpdate = SubParagraphs[index] as ModelElement;
-                    if (currentParagraphUpdate != null && par.UpdatedBy.Contains(currentParagraphUpdate))
-                    {
-                        tmp.Add(currentParagraphUpdate);
-                        index++;
-                    }
-                }
-                if (paragraphUpdate.Updates == par)
-                {
-                    tmp.Add(paragraphUpdate);
-                }
-            }
-
-            SubParagraphs = tmp;
         }
     }
 }

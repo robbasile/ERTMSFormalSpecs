@@ -760,6 +760,7 @@ namespace DataDictionary.Types
         {
             Range retVal = (Range) Duplicate();
             retVal.setUpdates(Guid);
+            retVal.ClearAllRequirements();
 
             String[] names = FullName.Split('.');
             names = names.Take(names.Count() - 1).ToArray();
@@ -767,6 +768,21 @@ namespace DataDictionary.Types
             nameSpace.appendRanges(retVal);
 
             return retVal;
+        }
+
+        /// <summary>
+        ///     When importing a range, keep the special values then copy all fields
+        /// </summary>
+        /// <param name="source"></param>
+        protected override void UpdateModelElementAccordingToSource(ModelElement source)
+        {
+            Range sourceRange = source as Range;
+            if (sourceRange != null)
+            {
+                SpecialValues = sourceRange.SpecialValues;
+            }
+
+            base.UpdateModelElementAccordingToSource(source);
         }
     }
 }

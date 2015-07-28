@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using DataDictionary;
 using DataDictionary.Generated;
+using DataDictionary.Interpreter;
 using GUI.DictionarySelector;
 using GUI.LongOperations;
 using Dictionary = DataDictionary.Dictionary;
@@ -33,6 +34,9 @@ namespace GUI.src.LongOperations
             {
                 UpdateDictionary.MergeUpdate();
             }
+
+            GUIUtils.MDIWindow.RefreshModel();
+            efsSystem.Compiler.Compile_Synchronous(true);
         }
 
         /// <summary>

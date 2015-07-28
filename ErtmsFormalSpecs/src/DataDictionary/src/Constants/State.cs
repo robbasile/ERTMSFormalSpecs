@@ -17,6 +17,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.Remoting.Messaging;
 using DataDictionary.Generated;
 using DataDictionary.Interpreter.ListOperators;
@@ -489,66 +490,33 @@ namespace DataDictionary.Constants
         /// <returns></returns>
         public State CreateStateUpdate(Dictionary dictionary)
         {
-            State retVal = null;
+            State retVal = (State)acceptor.getFactory().createState();
+            retVal.Name = Name;
+            retVal.SetUpdateInformation(this);
 
-            // Find the enclosing state machine to then work down to the state being updated
-            ModelElement refElement = (ModelElement)Enclosing;
-            List<string> names = new List<string>();
-            names.Add(Name);
-            // Stop when refState points to the state machine
-            while (!(refElement.Enclosing is NameSpace))
+            // Find the update for the enclosing state machine to add retVal to
+            StateMachine enclosingSmUpdate = EnclosingStateMachine.CreateSubStateMachineUpdate(dictionary);
+            
+            enclosingSmUpdate.States.Add(retVal);
+            retVal.setFather(enclosingSmUpdate);
+
+            // If retVal is the first state added to the enclosing state machine update, it is the initial state
+            if (enclosingSmUpdate.States.Count == 1)
             {
-                // Just in case...
-                if (refElement == null){ break; }
-
-                // Find the base state machine ( -> keep it in refElement )
-                // Keep the path from the state machine to the updated state, ignoring the sub-state machines (whose name is null)
-                if (refElement.Name != null)
-                {
-                    names.Add(refElement.Name);
-                }
-                refElement = (ModelElement)refElement.Enclosing;
-            }
-            names.Reverse();
-
-            // Find or create the update for the state machine
-            StateMachine updateSM = dictionary.findByFullName(refElement.FullName) as StateMachine;
-            if (updateSM == null)
-            {
-                // If the element does not already exist in the patch, add a copy to it
-                updateSM = ((StateMachine)refElement).CreateStateMachineUpdate(dictionary);
-            }
-
-            // Create the states down to the update for this element
-            State refState = ((StateMachine)refElement).FindState(names[0]);
-            while (names.Count > 0)
-            {
-                if (updateSM.FindState(names[0]) == null)
-                {
-                    retVal = new State();
-                    retVal.Name = refState.Name;
-                    retVal.SetUpdateInformation(refState);
-
-                    updateSM.States.Add(retVal);
-                    retVal.setFather(updateSM);
-                }
-                else
-                {
-                    retVal = updateSM.FindState(names[0]);
-                }
-
-                // Remove the sub-state after the update has been found/created
-                names.Remove(names[0]);
-
-                if (names.Count > 0)
-                {
-                    retVal.StateMachine = new StateMachine();
-                    updateSM = retVal.StateMachine;
-                    refState = refState.findSubState(names[0]);
-                }
+                enclosingSmUpdate.Default = retVal.Name;
             }
 
             return retVal;
+        }
+
+        /// <summary>
+        ///     Merges this state, combining the state machine with the base
+        /// </summary>
+        public override void Merge()
+        {
+            StateMachine.Merge();
+
+            base.Merge();
         }
     }
 }

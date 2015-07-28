@@ -78,12 +78,23 @@ namespace DataDictionary
             return retVal;
         }
 
-
+        /// <summary>
+        ///     Ensures that the traceability of merged elements is updated correctly
+        /// </summary>
+        /// <param name="source"></param>
         protected override void UpdateModelElementAccordingToSource(ModelElement source)
         {
             base.UpdateModelElementAccordingToSource(source);
 
             KeepTraceability(source);
+        }
+
+        /// <summary>
+        ///     Removes al requirements from this element
+        /// </summary>
+        public virtual void ClearAllRequirements()
+        {
+            Requirements.Clear();
         }
 
         /// <summary>

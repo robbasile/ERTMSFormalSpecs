@@ -158,12 +158,22 @@ namespace DataDictionary.Types
         {
             EnumValue retVal = (EnumValue) INamableUtils.findByName(name, Values);
 
-            if (retVal != null && EnclosingEnum != null)
+            if (retVal == null && EnclosingEnum != null)
             {
                 retVal = EnclosingEnum.findEnumValue(name);
             }
 
             return retVal;
+        }
+
+        /// <summary>
+        ///     Provides the sub enum which corresponds to the name provided
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public Enum findSubEnum(string name)
+        {
+            return (Enum)INamableUtils.findByName(name, SubEnums);
         }
 
         /// <summary>
@@ -296,21 +306,84 @@ namespace DataDictionary.Types
         /// <returns></returns>
         public Enum CreateEnumUpdate(Dictionary dictionary)
         {
-            Enum retVal = (Enum) Duplicate();
-            retVal.setUpdates(Guid);
+            Enum retVal = (Enum)GetTopLevelEnum().Duplicate();
+            retVal.SetUpdateInformation(GetTopLevelEnum());
+            retVal.ClearAllRequirements();
 
-            foreach (EnumValue value in retVal.Values)
-            {
-                EnumValue matchingValue = findEnumValue(value.Name);
-                value.setUpdates(matchingValue.Guid);
-            }
-
-            String[] names = FullName.Split('.');
+            String[] names = GetTopLevelEnum().FullName.Split('.');
             names = names.Take(names.Count() - 1).ToArray();
             NameSpace nameSpace = dictionary.GetNameSpaceUpdate(names, Dictionary);
-            nameSpace.appendEnumerations(retVal);
+            if (nameSpace != null)
+            {
+                nameSpace.appendEnumerations(retVal);
+            }
 
             return retVal;
+        }
+
+        /// <summary>
+        ///     Looks through enclosing elements for the enumeration that is at the name space level
+        /// </summary>
+        /// <returns></returns>
+        private Enum GetTopLevelEnum()
+        {
+            Enum retVal = this;
+
+            String[] names = FullName.Split('.');
+            string fullName = names[0];
+            int i = 0;
+            while (!(Dictionary.findByFullName(fullName) is Enum))
+            {
+                i++;
+                fullName += "." + names[i];
+            }
+
+            if (fullName != FullName)
+            {
+                retVal = Dictionary.findByFullName(fullName) as Enum;
+            }
+
+            return retVal;
+        }
+
+        /// <summary>
+        ///     Handles setting all the update information for this element (this updates source)
+        /// </summary>
+        /// <param name="source"></param>
+        public override void SetUpdateInformation(ModelElement source)
+        {
+            base.SetUpdateInformation(source);
+
+            Enum sourceEnum = source as Enum;
+            if (sourceEnum != null)
+            {
+                Requirements.Clear();
+                setUpdates(source.Guid);
+
+                foreach (EnumValue value in Values)
+                {
+                    EnumValue matchingValue = sourceEnum.findEnumValue(value.Name);
+                    value.setUpdates(matchingValue.Guid);
+                }
+                foreach (Enum subEnum in SubEnums)
+                {
+                    Enum matchingEnum = sourceEnum.findSubEnum(subEnum.Name);
+                    subEnum.SetUpdateInformation(matchingEnum);
+                }
+            }
+        }
+
+        /// <summary>
+        ///     Deletes all requirements for this enum and all sub elements
+        /// </summary>
+        public override void ClearAllRequirements()
+        {
+            base.ClearAllRequirements();
+
+            foreach (Enum subEnum in SubEnums)
+            {
+                subEnum.ClearAllRequirements();
+            }
         }
     }
 }

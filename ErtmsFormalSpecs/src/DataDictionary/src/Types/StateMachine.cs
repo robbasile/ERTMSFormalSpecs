@@ -807,10 +807,8 @@ namespace DataDictionary.Types
         {
             StateMachine retVal = new StateMachine();
             retVal.Name = Name;
-
-            string initialState = getInitialState();
-            retVal.setInitialState(initialState);
             retVal.SetUpdateInformation(this);
+            retVal.Requirements.Clear();
 
             String[] names = FullName.Split('.');
 
@@ -828,6 +826,101 @@ namespace DataDictionary.Types
             }
 
             return retVal;
+        }
+
+        /// <summary>
+        ///     Provides the update of the state machine enclosing a rule or state.
+        /// </summary>
+        /// <param name="dictionary"></param>
+        /// <returns></returns>
+        public StateMachine CreateSubStateMachineUpdate(Dictionary dictionary)
+        {
+            StateMachine retVal = null;
+            if (this != FindTopLevelStateMachine())
+            {
+                State refState = EnclosingStateUpdate(dictionary);
+                retVal = refState.StateMachine;
+            }
+            else
+            {
+                StateMachine updateSm = dictionary.findByFullName(FullName) as StateMachine;
+                if (updateSm == null)
+                {
+                    // If the element does not already exist in the patch, add a copy to it
+                    updateSm = CreateStateMachineUpdate(dictionary);
+                }
+
+                retVal = updateSm;
+            }
+
+            return retVal;
+        }
+
+        /// <summary>
+        ///     Returns the update of the enclosing state in the dictionary.
+        ///     If it cannot be found, it is created.
+        /// </summary>
+        /// <param name="dictionary"></param>
+        /// <returns></returns>
+        State EnclosingStateUpdate(Dictionary dictionary)
+        {
+            State retVal = null;
+
+            if (EnclosingState != null && dictionary.Updates == Dictionary)
+            {
+                State updatedState = dictionary.findByFullName(EnclosingState.FullName) as State;
+                if (updatedState == null)
+                {
+                    retVal = EnclosingState.CreateStateUpdate(dictionary);
+                }
+            }
+
+            return retVal;
+        }
+
+        /// <summary>
+        ///     Returns highest-level enclosing state machine
+        /// </summary>
+        /// <returns></returns>
+        public StateMachine FindTopLevelStateMachine()
+        {
+            StateMachine retVal = this;
+
+            ModelElement refElement = retVal;
+            while (!(refElement.Enclosing is NameSpace))
+            {
+                // Just in case...
+                if (refElement == null) { break; }
+
+                refElement = (ModelElement)refElement.Enclosing;
+            }
+
+            retVal = refElement as StateMachine;
+
+            return retVal;
+        }
+
+        public override void Merge()
+        {
+            MergeElements();
+
+            base.Merge();
+        }
+
+        /// <summary>
+        ///     Applies the effect of an update
+        /// </summary>
+        private void MergeElements()
+        {
+            foreach (State state in States)
+            {
+                state.Merge();
+            }
+
+            foreach (Rule rule in Rules)
+            {
+                rule.Merge();
+            }
         }
 
         /// <summary>

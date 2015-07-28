@@ -496,6 +496,7 @@ namespace DataDictionary.Rules
         {
             Rule retVal = (Rule) Duplicate();
             retVal.SetUpdateInformation(this);
+            retVal.ClearAllRequirements();
 
             String[] names = FullName.Split('.');
             names = names.Take(names.Count() - 1).ToArray();
@@ -512,8 +513,7 @@ namespace DataDictionary.Rules
 
                 if (EnclosingStateMachine != null)
                 {
-                    NameSpace nameSpace = dictionary.GetNameSpaceUpdate(nameSpaceRef, Dictionary);
-                    StateMachine stateMachine = nameSpace.GetStateMachineUpdate(names.Last(), (NameSpace)nameSpace.Updates);
+                    StateMachine stateMachine = EnclosingStateMachine.CreateSubStateMachineUpdate(dictionary);
                     stateMachine.appendRules(retVal);
                 }
                 else if (EnclosingStructure != null)
@@ -525,6 +525,24 @@ namespace DataDictionary.Rules
             }
 
             return retVal;
+        }
+
+        /// <summary>
+        ///     Deletes all requirements linked to this rule and all sub-elements
+        /// </summary>
+        public override void ClearAllRequirements()
+        {
+            base.ClearAllRequirements();
+
+            foreach (RuleCondition condition in RuleConditions)
+            {
+                condition.ClearAllRequirements();
+                condition.Requirements.Clear();
+                foreach (Rule subRule in condition.SubRules)
+                {
+                    subRule.ClearAllRequirements();
+                }
+            }
         }
 
         /// <summary>

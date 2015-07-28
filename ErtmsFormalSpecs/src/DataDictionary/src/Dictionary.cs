@@ -1483,29 +1483,11 @@ namespace DataDictionary
                 ModelElement element = obj as ModelElement;
                 if (element != null && !(element is NameSpace))
                 {
-                    if (element.Enclosing is NameSpace)
-                    {
-                        element.Merge();
-                    }
-
-                    visitSubNodes = false;
+                    element.Merge();
                 }
 
                 base.visit(obj, visitSubNodes);
             }
-
-            /// <summary>
-            ///     For a paragraph, it can be merged
-            /// </summary>
-            /// <param name="obj"></param>
-            public override void visit(Paragraph obj)
-            {
-                obj.Merge();
-                base.visit(obj);
-            }
-
-            // If specific behaviour is required for other types of model element,
-            // it can be added here (structures/state machines)
         }
 
         /// <summary>

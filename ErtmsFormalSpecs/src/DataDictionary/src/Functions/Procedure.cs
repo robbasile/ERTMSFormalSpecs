@@ -349,8 +349,8 @@ namespace DataDictionary.Functions
         public Procedure CreateProcedureUpdate(Dictionary dictionary)
         {
             Procedure retVal = (Procedure) Duplicate();
-
             retVal.SetUpdateInformation(this);
+            retVal.ClearAllRequirements();
 
             String[] names = FullName.Split('.');
             names = names.Take(names.Count() - 1).ToArray();
@@ -373,6 +373,18 @@ namespace DataDictionary.Functions
             }
 
             return retVal;
+        }
+
+        /// <summary>
+        ///     Clears all requirements from this procedure and all sub-rules
+        /// </summary>
+        public override void ClearAllRequirements()
+        {
+            base.ClearAllRequirements();
+            foreach (Rule rule in Rules)
+            {
+                rule.ClearAllRequirements();
+            }
         }
 
         /// <summary>

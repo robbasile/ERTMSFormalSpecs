@@ -203,5 +203,36 @@ namespace DataDictionary
 
             return retVal;
         }
+
+        /// <summary>
+        ///     Merge deleted reqrefs into the base, removing both elements.
+        /// </summary>
+        public override void Merge()
+        {
+            if (IsRemoved)
+            {
+                Updates.Delete();
+                Delete();
+            }
+        }
+
+        /// <summary>
+        ///     Creates an update for the reqref. Used to delete references in an update.
+        /// </summary>
+        /// <param name="modelUpdate"></param>
+        /// <returns></returns>
+        public ReqRef CreateReqRefUpdate(ModelElement modelUpdate)
+        {
+            ReqRef retVal = (ReqRef) Duplicate();
+            retVal.setUpdates(Guid);
+            ReqRelated reqRelatedUpdate = modelUpdate as ReqRelated;
+            if (reqRelatedUpdate != null)
+            {
+                reqRelatedUpdate.appendRequirements(retVal);
+            }
+
+
+            return retVal;
+        }
     }
 }
