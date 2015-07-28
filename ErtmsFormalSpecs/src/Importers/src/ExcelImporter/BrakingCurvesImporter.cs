@@ -24,6 +24,7 @@ using log4net;
 using Microsoft.Office.Interop.Excel;
 using Utils;
 using TestAction = DataDictionary.Rules.Action;
+using Utils = Utils.Utils;
 
 
 namespace Importers.ExcelImporter
@@ -890,6 +891,8 @@ namespace Importers.ExcelImporter
                 sbBrakesCombination += sbBrakesCombination == "" ? "Regenerative" : "_Regenerative";
             }
 
+            ebBrakesCombination = string.IsNullOrEmpty(ebBrakesCombination) ? "No_Special_Brakes" : ebBrakesCombination;
+            sbBrakesCombination = string.IsNullOrEmpty(sbBrakesCombination) ? "No_Special_Brakes" : sbBrakesCombination;
 
             /* Initializing EB deceleration */
             double doubleValue = -1;
