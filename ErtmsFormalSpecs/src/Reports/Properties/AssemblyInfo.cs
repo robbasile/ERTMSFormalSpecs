@@ -22,11 +22,11 @@ using System.Runtime.InteropServices;
 // associated with an assembly.
 
 [assembly: AssemblyTitle("Reports")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Creates reports on ERTMSFormalSpecs model and tests")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Microsoft")]
-[assembly: AssemblyProduct("Reports")]
-[assembly: AssemblyCopyright("Copyright © Microsoft 2011")]
+[assembly: AssemblyCompany("ERTMSSolutions")]
+[assembly: AssemblyProduct("ERTMSFormalSpecs Reports")]
+[assembly: AssemblyCopyright("Copyright © ERTMSSolutions 2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -51,5 +51,5 @@ using System.Runtime.InteropServices;
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyVersion("1.0.63.*")]
+[assembly: AssemblyFileVersion("1.0.63")]

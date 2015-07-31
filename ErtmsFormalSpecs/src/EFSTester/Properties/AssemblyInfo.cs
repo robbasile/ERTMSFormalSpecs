@@ -22,11 +22,11 @@ using System.Runtime.InteropServices;
 // associated with an assembly.
 
 [assembly: AssemblyTitle("EFSTester")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Allows to load an EFS Dictionary and check that the dictionary is correct, according to the static checks and unit tests")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Microsoft")]
-[assembly: AssemblyProduct("EFSTester")]
-[assembly: AssemblyCopyright("Copyright © Microsoft 2011")]
+[assembly: AssemblyCompany("ERTMS Solutions")]
+[assembly: AssemblyProduct("ERTMSFormalSpecs Tester")]
+[assembly: AssemblyCopyright("Copyright © ERTMSSolutions 2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -51,5 +51,5 @@ using System.Runtime.InteropServices;
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyVersion("1.0.63.*")]
+[assembly: AssemblyFileVersion("1.0.63")]

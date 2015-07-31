@@ -12,6 +12,8 @@ all:
 	@make -C Reports all 
 	@make -C Importers all 
 	@make -C GUIUtils all 
+	@make -C HistoricalData all
+	@make -C Reports all
 	@make -C GUI all 
 	@make -C EFSTester all
 	@make -C EFSServiceClient all
@@ -22,13 +24,24 @@ clean:
 	@make -C Reports clean 
 	@make -C Importers clean 
 	@make -C GUIUtils clean 
+	@make -C HistoricalData clean
+	@make -C Reports clean
 	@make -C GUI clean 
 	@make -C EFSTester clean 
 	@make -C EFSServiceClient clean
 
 increase_release_number:
 	@echo === Increase build number
+	@-$(XMLB_CALL) -SCRIPT update_release_number.rcs Utils/Properties/AssemblyInfo.cs > /dev/null
+	@-$(XMLB_CALL) -SCRIPT update_release_number.rcs DataDictionary/Properties/AssemblyInfo.cs > /dev/null
+	@-$(XMLB_CALL) -SCRIPT update_release_number.rcs Reports/Properties/AssemblyInfo.cs > /dev/null
+	@-$(XMLB_CALL) -SCRIPT update_release_number.rcs Importers/Properties/AssemblyInfo.cs > /dev/null
+	@-$(XMLB_CALL) -SCRIPT update_release_number.rcs HistoricalData/Properties/AssemblyInfo.cs > /dev/null
+	@-$(XMLB_CALL) -SCRIPT update_release_number.rcs Reports/Properties/AssemblyInfo.cs > /dev/null
+	@-$(XMLB_CALL) -SCRIPT update_release_number.rcs GUIUtils/Properties/AssemblyInfo.cs > /dev/null
 	@-$(XMLB_CALL) -SCRIPT update_release_number.rcs GUI/Properties/AssemblyInfo.cs > /dev/null
+	@-$(XMLB_CALL) -SCRIPT update_release_number.rcs EFSTester/Properties/AssemblyInfo.cs > /dev/null
+	@-$(XMLB_CALL) -SCRIPT update_release_number.rcs EFSServiceClient/Properties/AssemblyInfo.cs > /dev/null
 
 patch_configuration_file:
 	@echo === Patch configuration file

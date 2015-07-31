@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // associated with an assembly.
 
 [assembly: AssemblyTitle("GUIUtils")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Utilities shared between ERTMSFormalSpecs GUI and other utilities")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("GUIUtils")]
-[assembly: AssemblyCopyright("Copyright ©  2015")]
+[assembly: AssemblyCompany("ERTMS Solutions")]
+[assembly: AssemblyProduct("ERTMSFormalSpecs GUIUtils")]
+[assembly: AssemblyCopyright("Copyright © ERTMSSolutions 2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -35,5 +35,5 @@ using System.Runtime.InteropServices;
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyVersion("1.0.63.*")]
+[assembly: AssemblyFileVersion("1.0.63")]
