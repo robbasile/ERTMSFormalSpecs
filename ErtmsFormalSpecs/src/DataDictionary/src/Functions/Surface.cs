@@ -907,7 +907,7 @@ namespace DataDictionary.Functions
             {
                 if (x >= segment.Start && x < segment.End)
                 {
-                    retVal = segment.Graph.Val(y);
+                    retVal = segment.Graph.Evaluate(y);
                     break;
                 }
             }

@@ -129,7 +129,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
                 Graph graph = function.Graph;
                 if (graph != null && graph.Segments.Count > 1)
                 {
-                    double prevSpeed = graph.Segments[0].Val(graph.Segments[0].Start);
+                    double prevSpeed = graph.Segments[0].Evaluate(graph.Segments[0].Start);
                     for (int i = 1; i < graph.Segments.Count; i++)
                     {
                         Graph.Segment s = graph.Segments[i];
@@ -150,7 +150,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
                         speed.Mode = acceptor.VariableModeEnumType.aInternal;
                         speed.Default = "0.0";
                         speed.Enclosing = value;
-                        speed.Value = new DoubleValue(EFSSystem.DoubleType, s.Val(s.Start));
+                        speed.Value = new DoubleValue(EFSSystem.DoubleType, s.Evaluate(s.Start));
                         value.set(speed);
 
                         Variable location = (Variable) acceptor.getFactory().createVariable();
@@ -178,12 +178,12 @@ namespace DataDictionary.Functions.PredefinedFunctions
                         value.set(length);
 
                         // Only add the target for the current segment to the collection if it brings a reduction in permitted speed
-                        if (s.Val(s.Start) < prevSpeed)
+                        if (s.Evaluate(s.Start) < prevSpeed)
                         {
                             collection.Val.Add(value);
                         }
                         // But even if it is not added to the collection of targets, this segment is now the reference speed
-                        prevSpeed = s.Val(s.Start);
+                        prevSpeed = s.Evaluate(s.Start);
                     }
                 }
             }

@@ -15,13 +15,14 @@
 // ------------------------------------------------------------------------------
 
 using System;
+using DataDictionary.Functions;
 
 namespace EFSServiceClient.EFSService
 {
     /// <summary>
     ///     Manually written code to access EFSModel
     /// </summary>
-    public partial class Segment
+    public partial class Segment: ISegment
     {
         /// <summary>
         ///     Provides the display value of this value
@@ -52,7 +53,7 @@ namespace EFSServiceClient.EFSService
     /// <summary>
     ///     Manually written code to access EFSModel
     /// </summary>
-    public partial class FunctionValue : Value, IFunctionValue
+    public partial class FunctionValue : Value, IFunctionValue, IGraph
     {
         /// <summary>
         ///     Provides the display value of this value
@@ -77,6 +78,16 @@ namespace EFSServiceClient.EFSService
             retVal += ">";
 
             return retVal;
+        }
+
+        public int CountSegments()
+        {
+            return Segments.Length;
+        }
+
+        public ISegment GetSegment(int i)
+        {
+            return Segments[i];
         }
 
         /// <summary>

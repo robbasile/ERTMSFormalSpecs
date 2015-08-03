@@ -126,7 +126,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
                     for (int i = 0; i < graph.Segments.Count; i++)
                     {
                         Graph.Segment s = graph.Segments[i];
-                        StructureValue value = CreateTarget(s.Start, s.End - s.Start, s.Val(s.Start));
+                        StructureValue value = CreateTarget(s.Start, s.End - s.Start, s.Evaluate(s.Start));
 
                         collection.Val.Add(value);
                     }

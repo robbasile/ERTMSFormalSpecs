@@ -29,16 +29,69 @@ using Utils;
 
 namespace DataDictionary.Functions
 {
+    public interface ISegment
+    {
+        /// <summary>
+        ///     Acceleration
+        /// </summary>
+        double A { get; set;  }
+
+        /// <summary>
+        ///     Initial speed
+        /// </summary>
+        double V0 { get; set; }
+
+        /// <summary>
+        ///     Initial distance
+        /// </summary>
+        double D0 { get; set; }
+
+        /// <summary>
+        ///     The segment length 
+        /// </summary>
+        double Length { get; }
+
+        /// <summary>
+        /// Evaluates the segment value, when the d provided corresponds to the bounds
+        /// </summary>
+        /// <param name="d"></param>
+        /// <returns></returns>
+        double Evaluate(double d);
+    }
+
+    public interface IGraph
+    {
+        /// <summary>
+        /// Provides the number of segments in the graph
+        /// </summary>
+        /// <returns></returns>
+        int CountSegments();
+
+        /// <summary>
+        /// Provides the ith segment
+        /// </summary>
+        /// <param name="i"></param>
+        /// <returns></returns>
+        ISegment GetSegment(int i);
+
+        /// <summary>
+        /// Gets the value of the graph at a given location
+        /// </summary>
+        /// <param name="x"></param>
+        /// <returns></returns>
+        double Evaluate(double x);
+    }
+
     /// <summary>
     ///     The graph of a function is the complete representation of the function based on its parameters.
     ///     In EVC, the graph of a function is represented as non interrupted sequence of polynoms of the third degree
     /// </summary>
-    public class Graph
+    public class Graph: IGraph
     {
         private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
 
-        public class Segment : IComparable<Segment>
+        public class Segment : IComparable<Segment>, ISegment
         {
             /// <summary>
             ///     This class represents the expression val(x) = sqrt ( v0² + 2a ( d - d0 ) )
@@ -446,6 +499,25 @@ namespace DataDictionary.Functions
                 Expression = new Curve(c.a, c.v0, c.d0);
             }
 
+            public double A
+            {
+                get { return Expression.a; }
+                set { Expression.a = value; }
+            }
+
+            public double V0
+            {
+                get { return Expression.v0; }
+                set { Expression.v0 = value; }
+            }
+
+            public double D0
+            {
+                get { return Expression.d0; }
+                set { Expression.d0 = value; }
+            }
+            public double Length { get { return End - Start; } }
+
             /// <summary>
             ///     Constructor
             /// </summary>
@@ -472,7 +544,7 @@ namespace DataDictionary.Functions
             /// </summary>
             /// <param name="d">Distance</param>
             /// <returns></returns>
-            public double Val(double d)
+            public double Evaluate(double d)
             {
                 double retVal = Expression.Val(d);
 
@@ -664,11 +736,30 @@ namespace DataDictionary.Functions
         }
 
         /// <summary>
+        /// Provides the number of segments
+        /// </summary>
+        /// <returns></returns>
+        public int CountSegments()
+        {
+            return Segments.Count;
+        }
+
+        /// <summary>
+        /// Provides the ith segment
+        /// </summary>
+        /// <param name="i"></param>
+        /// <returns></returns>
+        public ISegment GetSegment(int i)
+        {
+            return Segments[i];
+        }
+
+        /// <summary>
         ///     Computes the value of the function for a given x value
         /// </summary>
         /// <param name="x"></param>
         /// <returns></returns>
-        public double Val(double x)
+        public double Evaluate(double x)
         {
             double retVal = 0;
 
@@ -676,7 +767,7 @@ namespace DataDictionary.Functions
             {
                 if (segment.Contains(x) || ( segment == Segments.Last() && x == segment.End) )
                 {
-                    retVal = segment.Val(x);
+                    retVal = segment.Evaluate(x);
                     break;
                 }
             }
@@ -1354,8 +1445,8 @@ namespace DataDictionary.Functions
             Segment current = null;
             foreach (Segment segment in Segments)
             {
-                double up = segment.Val(segment.Start);
-                double down = segment.Val(segment.End);
+                double up = segment.Evaluate(segment.Start);
+                double down = segment.Evaluate(segment.End);
 
                 if ((Y < up || Equals(Y, up)) && ((Y > down) || Equals(Y, down)))
                 {

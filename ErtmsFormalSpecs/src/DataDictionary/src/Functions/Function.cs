@@ -1134,7 +1134,7 @@ namespace DataDictionary.Functions
                 {
                     if (FormalParameters.Count == 0)
                     {
-                        retVal = new DoubleValue(EFSSystem.DoubleType, Graph.Val(0));
+                        retVal = new DoubleValue(EFSSystem.DoubleType, Graph.Evaluate(0));
                     }
                     else if (FormalParameters.Count == 1)
                     {
@@ -1147,7 +1147,7 @@ namespace DataDictionary.Functions
                                 x = getDoubleValue(pair.Value);
                             }
                         }
-                        retVal = new DoubleValue(EFSSystem.DoubleType, Graph.Val(x));
+                        retVal = new DoubleValue(EFSSystem.DoubleType, Graph.Evaluate(x));
                     }
                 }
                 context.LocalScope.PopContext(token);

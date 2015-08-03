@@ -505,7 +505,7 @@ namespace DataDictionary.Types
                         {
                             if (graph.Segments.Count == 1)
                             {
-                                retVal = graph.Val(0);
+                                retVal = graph.Evaluate(0);
                             }
                         }
                     }
