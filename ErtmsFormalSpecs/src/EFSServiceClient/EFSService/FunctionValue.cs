@@ -44,7 +44,11 @@ namespace EFSServiceClient.EFSService
             // f(x) = Sqrt(V0^2 + (2.0 * A * (x-D0))
             // Where dx is the delta between
             // In case of a step function, A = 0
-            double retVal = Math.Sqrt(V0*V0 + 2*A*(x - D0));
+
+            // V0 is expressed in km/h and has to be
+            // converted to m/s
+            double speedInKmH = V0/3.6;
+            double retVal = Math.Sqrt(speedInKmH*speedInKmH + 2*A*(x - D0));
 
             return retVal;
         }
