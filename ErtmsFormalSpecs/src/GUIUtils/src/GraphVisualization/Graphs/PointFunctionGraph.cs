@@ -29,7 +29,7 @@ namespace GUIUtils.GraphVisualization.Graphs
             if (pointFunction != null)
             {
                 Data.ChartType = SeriesChartType.Point;
-                if (GraphVisualizer.RecordPreviousValuesInTSM)
+                if (GraphVisualizer.RecordPreviousValuesInTsm)
                 {
                     DisplayPreviousData();
                 }

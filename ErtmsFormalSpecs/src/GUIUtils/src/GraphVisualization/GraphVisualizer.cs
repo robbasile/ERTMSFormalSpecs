@@ -59,16 +59,23 @@ namespace GUIUtils.GraphVisualization
         /// <summary>
         /// Indicates if the previously computed values of the functions should be recorded
         /// </summary>
-        public bool RecordPreviousValuesInTSM { get; set; }
+        public bool RecordPreviousValuesInTsm { get; set; }
+
+        /// <summary>
+        /// Gives the number of points computed to draw deceleration curves
+        /// </summary>
+        public int DecelerationCurvePrecision { get; set; }
 
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="recordPreviousValues"></param>
-        public GraphVisualizer(bool recordPreviousValues)
+        /// <param name="decelerationCurvePrecision"></param>
+        public GraphVisualizer(bool recordPreviousValues, int decelerationCurvePrecision)
         {
             Graphs = new List<Graph>();
-            RecordPreviousValuesInTSM = recordPreviousValues;
+            RecordPreviousValuesInTsm = recordPreviousValues;
+            DecelerationCurvePrecision = decelerationCurvePrecision;
         }
 
         /// <summary>
