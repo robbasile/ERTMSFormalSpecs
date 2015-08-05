@@ -18,6 +18,8 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
+using DataDictionary;
+using GUI.Properties;
 using Utils;
 using WeifenLuo.WinFormsUI.Docking;
 using ModelElement = DataDictionary.ModelElement;
@@ -33,91 +35,68 @@ namespace GUI.SelectionHistory
         {
             InitializeComponent();
 
-            FormClosed += new FormClosedEventHandler(Window_FormClosed);
-            historyDataGridView.DoubleClick += new EventHandler(historyDataGridView_DoubleClick);
-
-            Visible = false;
-            Text = "Selection history view";
+            historyDataGridView.DoubleClick += historyDataGridView_DoubleClick;
+            Text = Resources.Window_Window_Selection_history_view;
 
             DockAreas = DockAreas.DockRight;
-            Refresh();
         }
 
+        /// <summary>
+        /// Selects an historical data element
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void historyDataGridView_DoubleClick(object sender, EventArgs e)
         {
             ModelElement selected = null;
 
             if (historyDataGridView.SelectedCells.Count == 1)
             {
-                selected =
-                    ((List<HistoryObject>) historyDataGridView.DataSource)[
-                        historyDataGridView.SelectedCells[0].OwningRow.Index].Reference;
+                int i = historyDataGridView.SelectedCells[0].OwningRow.Index;
+                List<HistoryObject> historyObjects = (List<HistoryObject>) historyDataGridView.DataSource;
+                selected =historyObjects[i].Reference;
             }
 
             if (selected != null)
             {
-                int i = GUIUtils.MDIWindow.SelectionHistory.IndexOf(selected);
-                while (i > 0)
+                MouseEventArgs mouseEventArgs = e as MouseEventArgs;
+                if (mouseEventArgs != null)
                 {
-                    GUIUtils.MDIWindow.SelectionHistory.RemoveAt(0);
-                    i -= 1;
+                    EFSSystem.INSTANCE.Context.ClearHistoryUntilElement(selected);
+                    Context.SelectionCriteria criteria = GuiUtils.SelectionCriteriaBasedOnMouseEvent(mouseEventArgs);
+                    EFSSystem.INSTANCE.Context.SelectElement(selected, this, criteria);
                 }
-
-                GUIUtils.MDIWindow.Select(selected, true);
-                RefreshModel();
             }
         }
 
         /// <summary>
-        ///     Handles the close event
+        ///     Allows to refresh the view, when the selected model changed
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Window_FormClosed(object sender, FormClosedEventArgs e)
+        /// <param name="context"></param>
+        /// <returns>true if refresh should be performed</returns>
+        public override bool HandleSelectionChange(Context.SelectionContext context)
         {
-            GUIUtils.MDIWindow.HandleSubWindowClosed(this);
-        }
+            bool retVal = base.HandleSelectionChange(context);
 
-        /// <summary>
-        ///     Refreshed the model of the window
-        /// </summary>
-        public override void RefreshModel()
-        {
-            if (GUIUtils.MDIWindow != null)
+            if (retVal)
             {
-                List<HistoryObject> history = new List<HistoryObject>();
-
-                foreach (IModelElement element in GUIUtils.MDIWindow.SelectionHistory)
+                if (GuiUtils.MdiWindow != null)
                 {
-                    ModelElement modelElement = element as ModelElement;
-                    if (modelElement != null)
+                    List<HistoryObject> history = new List<HistoryObject>();
+                    foreach (Context.SelectionContext selectionContext in EFSSystem.INSTANCE.Context.SelectionHistory)
                     {
-                        history.Add(new HistoryObject(modelElement));
+                        ModelElement historyElement = selectionContext.Element as ModelElement;
+                        if (historyElement != null)
+                        {
+                            history.Add(new HistoryObject(historyElement));
+                        }
                     }
-                }
 
-                historyDataGridView.DataSource = history;
+                    historyDataGridView.DataSource = history;
+                }
             }
 
-            Refresh();
-        }
-
-        /// <summary>
-        ///     Provides the model element currently selected in this IBaseForm
-        /// </summary>
-        public override IModelElement Selected
-        {
-            get
-            {
-                IModelElement retVal = null;
-
-                if (TreeView != null && TreeView.Selected != null)
-                {
-                    retVal = TreeView.Selected.Model;
-                }
-
-                return retVal;
-            }
+            return retVal;
         }
 
         private class HistoryObject
@@ -131,6 +110,7 @@ namespace GUI.SelectionHistory
             /// <summary>
             ///     The identification of the history element
             /// </summary>
+            // ReSharper disable once UnusedMember.Local
             public string Model
             {
                 get { return Reference.Name; }
@@ -139,6 +119,7 @@ namespace GUI.SelectionHistory
             /// <summary>
             ///     The type of the referenced object
             /// </summary>
+            // ReSharper disable once UnusedMember.Local
             public string Type
             {
                 get { return Reference.GetType().Name; }

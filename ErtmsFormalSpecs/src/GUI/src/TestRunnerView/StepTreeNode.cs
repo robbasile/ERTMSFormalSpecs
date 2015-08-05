@@ -25,7 +25,6 @@ using DataDictionary.Tests.Runner;
 using DataDictionary.Values;
 using GUI.LongOperations;
 using Utils;
-using WeifenLuo.WinFormsUI.Docking;
 using DBMessage = DataDictionary.Tests.DBElements.DBMessage;
 using Step = DataDictionary.Tests.Step;
 using SubStep = DataDictionary.Tests.SubStep;
@@ -41,14 +40,6 @@ namespace GUI.TestRunnerView
         /// </summary>
         private class ItemEditor : ReferencesParagraphEditor
         {
-            /// <summary>
-            ///     Constructor
-            /// </summary>
-            public ItemEditor()
-                : base()
-            {
-            }
-
             /// <summary>
             ///     The step name
             /// </summary>
@@ -72,6 +63,7 @@ namespace GUI.TestRunnerView
             ///     The step description
             /// </summary>
             [Category("Description")]
+            // ReSharper disable once UnusedMember.Local
             public string Description
             {
                 get { return Item.getDescription(); }
@@ -82,6 +74,7 @@ namespace GUI.TestRunnerView
             ///     The step order number
             /// </summary>
             [Category("Subset76")]
+            // ReSharper disable once UnusedMember.Local
             public int Order
             {
                 get { return Item.getTCS_Order(); }
@@ -92,6 +85,7 @@ namespace GUI.TestRunnerView
             ///     The step distance
             /// </summary>
             [Category("Subset76")]
+            // ReSharper disable once UnusedMember.Local
             public int Distance
             {
                 get { return Item.getDistance(); }
@@ -102,6 +96,7 @@ namespace GUI.TestRunnerView
             ///     The step I/O mode
             /// </summary>
             [Category("Subset76")]
+            // ReSharper disable once UnusedMember.Local
             public acceptor.ST_IO InputOutput
             {
                 get { return Item.getIO(); }
@@ -112,6 +107,7 @@ namespace GUI.TestRunnerView
             ///     The step Interface
             /// </summary>
             [Category("Subset76")]
+            // ReSharper disable once UnusedMember.Local
             public acceptor.ST_INTERFACE Interface
             {
                 get { return Item.getInterface(); }
@@ -122,6 +118,7 @@ namespace GUI.TestRunnerView
             ///     The step level in
             /// </summary>
             [Category("Subset76")]
+            // ReSharper disable once UnusedMember.Local
             public acceptor.ST_LEVEL TestLevelIn
             {
                 get { return Item.getLevelIN(); }
@@ -132,6 +129,7 @@ namespace GUI.TestRunnerView
             ///     The step level out
             /// </summary>
             [Category("Subset76")]
+            // ReSharper disable once UnusedMember.Local
             public acceptor.ST_LEVEL TestLevelOut
             {
                 get { return Item.getLevelOUT(); }
@@ -142,6 +140,7 @@ namespace GUI.TestRunnerView
             ///     The step mode in
             /// </summary>
             [Category("Subset76")]
+            // ReSharper disable once UnusedMember.Local
             public acceptor.ST_MODE TestModeIn
             {
                 get { return Item.getModeIN(); }
@@ -152,6 +151,7 @@ namespace GUI.TestRunnerView
             ///     The step mode out
             /// </summary>
             [Category("Subset76")]
+            // ReSharper disable once UnusedMember.Local
             public acceptor.ST_MODE TestModeOut
             {
                 get { return Item.getModeOUT(); }
@@ -162,6 +162,7 @@ namespace GUI.TestRunnerView
             ///     The step is translated or not
             /// </summary>
             [Category("Subset76")]
+            // ReSharper disable once UnusedMember.Local
             public bool TranslationRequired
             {
                 get { return Item.getTranslationRequired(); }
@@ -172,6 +173,7 @@ namespace GUI.TestRunnerView
             ///     The step is translated or not
             /// </summary>
             [Category("Subset76")]
+            // ReSharper disable once UnusedMember.Local
             public bool Translated
             {
                 get { return Item.getTranslated(); }
@@ -182,6 +184,7 @@ namespace GUI.TestRunnerView
             ///     The item user comment
             /// </summary>
             [Category("Subset76")]
+            // ReSharper disable once UnusedMember.Local
             public string UserComment
             {
                 get { return Item.getUserComment(); }
@@ -193,6 +196,7 @@ namespace GUI.TestRunnerView
         ///     Constructor
         /// </summary>
         /// <param name="item"></param>
+        /// <param name="buildSubNodes"></param>
         public StepTreeNode(Step item, bool buildSubNodes)
             : base(item, buildSubNodes)
         {
@@ -201,14 +205,15 @@ namespace GUI.TestRunnerView
         /// <summary>
         ///     Builds the subnodes of this node
         /// </summary>
-        /// <param name="buildSubNodes">Indicates whether the subnodes of the nodes should also be built</param>
-        public override void BuildSubNodes(bool buildSubNodes)
+        /// <param name="subNodes"></param>
+        /// <param name="recursive">Indicates whether the subnodes of the nodes should also be built</param>
+        public override void BuildSubNodes(List<BaseTreeNode> subNodes, bool recursive)
         {
-            base.BuildSubNodes(buildSubNodes);
+            base.BuildSubNodes(subNodes, recursive);
 
             foreach (SubStep subStep in Item.SubSteps)
             {
-                Nodes.Add(new SubStepTreeNode(subStep, buildSubNodes));
+                subNodes.Add(new SubStepTreeNode(subStep, recursive));
             }
         }
 
@@ -216,7 +221,7 @@ namespace GUI.TestRunnerView
         ///     Creates the editor for this tree node
         /// </summary>
         /// <returns></returns>
-        protected override Editor createEditor()
+        protected override Editor CreateEditor()
         {
             return new ItemEditor();
         }
@@ -270,7 +275,7 @@ namespace GUI.TestRunnerView
                 {
                     // Finds the translation window which corresponds to this translation
                     TranslationRules.Window translationWindow = null;
-                    foreach (IBaseForm form in GUIUtils.MDIWindow.SubWindows)
+                    foreach (IBaseForm form in GuiUtils.MdiWindow.SubWindows)
                     {
                         translationWindow = form as TranslationRules.Window;
                         if (translationWindow != null)
@@ -287,12 +292,10 @@ namespace GUI.TestRunnerView
                     if (translationWindow == null)
                     {
                         translationWindow = new TranslationRules.Window(translation.TranslationDictionary);
-                        GUIUtils.MDIWindow.AddChildWindow(translationWindow, DockAreas.Document);
+                        GuiUtils.MdiWindow.AddChildWindow(translationWindow);
                     }
 
-                    const bool getFocus = true;
-                    GUIUtils.MDIWindow.Select(translation, getFocus);
-                    translationWindow.Show();
+                    EFSSystem.INSTANCE.Context.SelectElement(translation, this, Context.SelectionCriteria.DoubleClick);
                 }
             }
         }
@@ -306,7 +309,7 @@ namespace GUI.TestRunnerView
         {
             FinderRepository.INSTANCE.ClearCache();
             Item.Translate(Item.Dictionary.TranslationDictionary);
-            GUIUtils.MDIWindow.RefreshModel();
+            EFSSystem.INSTANCE.Context.HandleChangeEvent(Item, Context.ChangeKind.Translation);
         }
 
         /// <summary>
@@ -315,8 +318,8 @@ namespace GUI.TestRunnerView
         private void CheckRunner()
         {
             Window window = BaseForm as Window;
-            if (window != null && window.EFSSystem.Runner != null &&
-                window.EFSSystem.Runner.SubSequence != Item.SubSequence)
+            if (window != null && window.EfsSystem.Runner != null &&
+                window.EfsSystem.Runner.SubSequence != Item.SubSequence)
             {
                 window.Clear();
             }
@@ -329,25 +332,7 @@ namespace GUI.TestRunnerView
         /// <param name="args"></param>
         public void AddSubStepHandler(object sender, EventArgs args)
         {
-            SubStep subStep = (SubStep) acceptor.getFactory().createSubStep();
-            subStep.Name = "Sub-step" + (Nodes.Count + 1);
-            subStep.Enclosing = Item;
-            createSubStep(subStep);
-        }
-
-        /// <summary>
-        ///     Creates a new sub-step
-        /// </summary>
-        /// <param name="testCase"></param>
-        /// <returns></returns>
-        public SubStepTreeNode createSubStep(SubStep subStep)
-        {
-            SubStepTreeNode retVal = new SubStepTreeNode(subStep, true);
-
-            Item.appendSubSteps(subStep);
-            Nodes.Add(retVal);
-
-            return retVal;
+            Item.appendSubSteps(SubStep.CreateDefault(Item.SubSteps));
         }
 
         private class ExecuteTestsHandler : BaseLongOperation
@@ -387,8 +372,8 @@ namespace GUI.TestRunnerView
             {
                 if (Window != null)
                 {
-                    Window.setSubSequence(Step.SubSequence);
-                    Runner runner = Window.getRunner(Step.SubSequence);
+                    Window.SetSubSequence(Step.SubSequence);
+                    Runner runner = Window.GetRunner(Step.SubSequence);
 
                     runner.RunUntilStep(Step);
                     foreach (SubStep subStep in Step.SubSteps)
@@ -425,7 +410,7 @@ namespace GUI.TestRunnerView
                 ExecuteTestsHandler executeTestHandler = new ExecuteTestsHandler(window, Item, false);
                 executeTestHandler.ExecuteUsingProgressDialog("Executing test steps");
 
-                GUIUtils.MDIWindow.RefreshAfterStep();
+                EFSSystem.INSTANCE.Context.HandleChangeEvent(null);
                 window.tabControl1.SelectedTab = window.testExecutionTabPage;
             }
         }
@@ -445,7 +430,7 @@ namespace GUI.TestRunnerView
                 ExecuteTestsHandler executeTestHandler = new ExecuteTestsHandler(window, Item, false);
                 executeTestHandler.ExecuteUsingProgressDialog("Executing test steps");
 
-                GUIUtils.MDIWindow.RefreshAfterStep();
+                EFSSystem.INSTANCE.Context.HandleChangeEvent(null);
                 window.tabControl1.SelectedTab = window.testExecutionTabPage;
             }
         }
@@ -456,21 +441,24 @@ namespace GUI.TestRunnerView
         /// <returns></returns>
         protected override List<MenuItem> GetMenuItems()
         {
-            List<MenuItem> retVal = new List<MenuItem>();
+            List<MenuItem> retVal = new List<MenuItem>
+            {
+                new MenuItem("Add sub-step", AddSubStepHandler),
+                new MenuItem("Delete", DeleteHandler)
+            };
 
-            retVal.Add(new MenuItem("Add sub-step", new EventHandler(AddSubStepHandler)));
-            retVal.Add(new MenuItem("Delete", new EventHandler(DeleteHandler)));
             retVal.AddRange(base.GetMenuItems());
 
+            // ReSharper disable RedundantAssignment
             int index = 6;
-            retVal.Insert(index++, new MenuItem("Show messages", new EventHandler(ShowMessagesHandler)));
-            retVal.Insert(index++, new MenuItem("Show translation rule", new EventHandler(ShowTranslationHandler)));
-            retVal.Insert(index++, new MenuItem("Apply translation rules", new EventHandler(TranslateHandler)));
+            retVal.Insert(index++, new MenuItem("Show messages", ShowMessagesHandler));
+            retVal.Insert(index++, new MenuItem("Show translation rule", ShowTranslationHandler));
+            retVal.Insert(index++, new MenuItem("Apply translation rules", TranslateHandler));
             retVal.Insert(index++, new MenuItem("-"));
-            retVal.Insert(index++, new MenuItem("Run, not checking expectations", new EventHandler(RunHandler)));
-            retVal.Insert(index++,
-                new MenuItem("Run until expectation reached", new EventHandler(RunForExpectationsHandler)));
+            retVal.Insert(index++, new MenuItem("Run, not checking expectations", RunHandler));
+            retVal.Insert(index++, new MenuItem("Run until expectation reached", RunForExpectationsHandler));
             retVal.Insert(index++, new MenuItem("-"));
+            // ReSharper restore RedundantAssignment
 
             return retVal;
         }
@@ -478,17 +466,16 @@ namespace GUI.TestRunnerView
         /// <summary>
         ///     Handles the drop event
         /// </summary>
-        /// <param name="SourceNode"></param>
-        public override void AcceptDrop(BaseTreeNode SourceNode)
+        /// <param name="sourceNode"></param>
+        public override void AcceptDrop(BaseTreeNode sourceNode)
         {
-            base.AcceptDrop(SourceNode);
-            if (SourceNode is SubStepTreeNode)
+            base.AcceptDrop(sourceNode);
+            if (sourceNode is SubStepTreeNode)
             {
-                SubStepTreeNode subStep = SourceNode as SubStepTreeNode;
+                SubStepTreeNode subStep = sourceNode as SubStepTreeNode;
 
                 subStep.Delete();
-
-                createSubStep(subStep.Item);
+                Item.appendSubSteps(subStep.Item);
             }
         }
     }

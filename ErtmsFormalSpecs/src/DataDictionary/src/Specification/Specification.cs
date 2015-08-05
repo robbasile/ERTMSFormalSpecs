@@ -501,7 +501,7 @@ namespace DataDictionary.Specification
             {
                 Paragraph paragraph = (Paragraph) obj;
 
-                if (paragraph.isApplicable())
+                if (paragraph.IsApplicable())
                 {
                     paragraph.AddInfo("Applicable paragraph");
                 }
@@ -516,7 +516,7 @@ namespace DataDictionary.Specification
             {
                 Paragraph paragraph = (Paragraph) obj;
 
-                if (!paragraph.isApplicable())
+                if (!paragraph.IsApplicable())
                 {
                     paragraph.AddInfo("Non applicable paragraph");
                 }
@@ -891,6 +891,22 @@ namespace DataDictionary.Specification
             retVal.setUpdates(Guid);
 
             dictionary.appendSpecifications(retVal);
+
+            return retVal;
+        }
+
+        /// <summary>
+        ///     Creates the status message 
+        /// </summary>
+        /// <returns>the status string for the selected element</returns>
+        public override string CreateStatusMessage()
+        {
+            string retVal = base.CreateStatusMessage();
+
+            List<Paragraph> paragraphs = new List<Paragraph>();
+            GetParagraphs(paragraphs);
+
+            retVal += Paragraph.CreateParagraphSetStatus(paragraphs);
 
             return retVal;
         }

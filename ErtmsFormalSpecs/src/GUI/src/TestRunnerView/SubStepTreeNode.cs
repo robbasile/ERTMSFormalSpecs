@@ -18,7 +18,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
-using DataDictionary.Generated;
 using GUI.DataDictionaryView;
 using Action = DataDictionary.Rules.Action;
 using Expectation = DataDictionary.Tests.Expectation;
@@ -33,15 +32,8 @@ namespace GUI.TestRunnerView
         /// </summary>
         private class ItemEditor : CommentableEditor
         {
-            /// <summary>
-            ///     Constructor
-            /// </summary>
-            public ItemEditor()
-                : base()
-            {
-            }
-
             [Category("Description")]
+            // ReSharper disable once UnusedMember.Local
             public bool SkipEngine
             {
                 get { return Item.getSkipEngine(); }
@@ -49,76 +41,36 @@ namespace GUI.TestRunnerView
             }
         }
 
-        private ActionsTreeNode actions;
-        private ExpectationsTreeNode expectations;
-
         /// <summary>
         ///     Constructor
         /// </summary>
         /// <param name="item"></param>
+        /// <param name="buildSubNodes"></param>
         public SubStepTreeNode(SubStep item, bool buildSubNodes)
             : base(item, buildSubNodes, null, true)
         {
         }
 
         /// <summary>
-        ///     Handles a selection change event
-        /// </summary>
-        /// <param name="displayStatistics">Indicates that statistics should be displayed in the MDI window</param>
-        public override void SelectionChanged(bool displayStatistics)
-        {
-            base.SelectionChanged(displayStatistics);
-            if (Item.Translation != null)
-            {
-                if (BaseTreeView != null && BaseTreeView.RefreshNodeContent)
-                {
-                    IBaseForm baseForm = BaseForm;
-                    if (baseForm != null)
-                    {
-                        if (baseForm.RequirementsTextBox != null)
-                        {
-                            baseForm.RequirementsTextBox.Text = Item.Translation.getSourceTextExplain();
-                        }
-                    }
-                }
-            }
-        }
-
-        /// <summary>
         ///     Builds the subnodes of this node
         /// </summary>
-        /// <param name="buildSubNodes">Indicates whether the subnodes of the nodes should also be built</param>
-        public override void BuildSubNodes(bool buildSubNodes)
+        /// <param name="subNodes"></param>
+        /// <param name="recursive">Indicates whether the subnodes of the nodes should also be built</param>
+        public override void BuildSubNodes(List<BaseTreeNode> subNodes, bool recursive)
         {
-            base.BuildSubNodes(buildSubNodes);
+            base.BuildSubNodes(subNodes, recursive);
 
-            actions = new ActionsTreeNode(Item, buildSubNodes);
-            expectations = new ExpectationsTreeNode(Item, buildSubNodes);
-
-            Nodes.Add(actions);
-            Nodes.Add(expectations);
+            subNodes.Add(new ActionsTreeNode(Item, recursive));
+            subNodes.Add(new ExpectationsTreeNode(Item, recursive));
         }
 
         /// <summary>
         ///     Creates the editor for this tree node
         /// </summary>
         /// <returns></returns>
-        protected override Editor createEditor()
+        protected override Editor CreateEditor()
         {
             return new ItemEditor();
-        }
-
-        /// <summary>
-        ///     Ensures that the runner corresponds to test case
-        /// </summary>
-        private void CheckRunner()
-        {
-            Window window = BaseForm as Window;
-            if (window != null && window.EFSSystem.Runner != null &&
-                window.EFSSystem.Runner.SubSequence != Item.Step.SubSequence)
-            {
-                window.Clear();
-            }
         }
 
         /// <summary>
@@ -128,25 +80,7 @@ namespace GUI.TestRunnerView
         /// <param name="args"></param>
         public void AddActionHandler(object sender, EventArgs args)
         {
-            Action action = (Action) acceptor.getFactory().createAction();
-            action.Enclosing = Item;
-            action.Name = "Action" + actions.Nodes.Count;
-            createAction(action);
-        }
-
-        /// <summary>
-        ///     Creates a new action
-        /// </summary>
-        /// <param name="testCase"></param>
-        /// <returns></returns>
-        public ActionTreeNode createAction(Action action)
-        {
-            ActionTreeNode retVal = new ActionTreeNode(action, true);
-
-            Item.appendActions(action);
-            actions.Nodes.Add(retVal);
-
-            return retVal;
+            Item.appendActions(Action.CreateDefault(Item.Actions));
         }
 
         /// <summary>
@@ -156,25 +90,7 @@ namespace GUI.TestRunnerView
         /// <param name="args"></param>
         public void AddExpectationHandler(object sender, EventArgs args)
         {
-            Expectation expectation = (Expectation) acceptor.getFactory().createExpectation();
-            expectation.Enclosing = Item;
-            expectation.Name = "Expectation" + expectations.Nodes.Count;
-            createExpectation(expectation);
-        }
-
-        /// <summary>
-        ///     Creates a new expectation
-        /// </summary>
-        /// <param name="testCase"></param>
-        /// <returns></returns>
-        public ExpectationTreeNode createExpectation(Expectation expectation)
-        {
-            ExpectationTreeNode retVal = new ExpectationTreeNode(expectation, true);
-
-            Item.appendExpectations(expectation);
-            expectations.Nodes.Add(retVal);
-
-            return retVal;
+            Item.appendExpectations(Expectation.CreateDefault(Item.Expectations));
         }
 
         /// <summary>
@@ -186,10 +102,10 @@ namespace GUI.TestRunnerView
             List<MenuItem> retVal = new List<MenuItem>();
 
             MenuItem newItem = new MenuItem("Add...");
-            newItem.MenuItems.Add(new MenuItem("Action", new EventHandler(AddActionHandler)));
-            newItem.MenuItems.Add(new MenuItem("Expectation", new EventHandler(AddExpectationHandler)));
+            newItem.MenuItems.Add(new MenuItem("Action", AddActionHandler));
+            newItem.MenuItems.Add(new MenuItem("Expectation", AddExpectationHandler));
             retVal.Add(newItem);
-            retVal.Add(new MenuItem("Delete", new EventHandler(DeleteHandler)));
+            retVal.Add(new MenuItem("Delete", DeleteHandler));
             retVal.AddRange(base.GetMenuItems());
 
             return retVal;
@@ -198,24 +114,23 @@ namespace GUI.TestRunnerView
         /// <summary>
         ///     Handles the drop event
         /// </summary>
-        /// <param name="SourceNode"></param>
-        public override void AcceptDrop(BaseTreeNode SourceNode)
+        /// <param name="sourceNode"></param>
+        public override void AcceptDrop(BaseTreeNode sourceNode)
         {
-            base.AcceptDrop(SourceNode);
-            if (SourceNode is ActionTreeNode)
+            base.AcceptDrop(sourceNode);
+
+            ActionTreeNode action = sourceNode as ActionTreeNode;
+            if (action != null)
             {
-                ActionTreeNode action = SourceNode as ActionTreeNode;
-                if (action.Parent is ActionsTreeNode)
-                {
-                    createAction(action.Item);
-                }
                 action.Delete();
+                Item.appendActions(action.Item);
             }
-            else if (SourceNode is ExpectationTreeNode)
+
+            ExpectationTreeNode expectation = sourceNode as ExpectationTreeNode;
+            if (expectation != null)
             {
-                ExpectationTreeNode expectation = SourceNode as ExpectationTreeNode;
-                createExpectation(expectation.Item);
                 expectation.Delete();
+                Item.appendExpectations(expectation.Item);
             }
         }
     }

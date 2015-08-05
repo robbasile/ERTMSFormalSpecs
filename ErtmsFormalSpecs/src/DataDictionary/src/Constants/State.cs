@@ -14,13 +14,9 @@
 // --
 // ------------------------------------------------------------------------------
 
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Remoting.Messaging;
 using DataDictionary.Generated;
-using DataDictionary.Interpreter.ListOperators;
 using DataDictionary.Values;
 using DataDictionary.Variables;
 using Utils;
@@ -31,7 +27,7 @@ using Type = DataDictionary.Types.Type;
 
 namespace DataDictionary.Constants
 {
-    public class State : Generated.State, IValue, ISubDeclarator, ITextualExplain, IGraphicalDisplay
+    public class State : Generated.State, IValue, ISubDeclarator, IGraphicalDisplay
     {
         public string LiteralName
         {
@@ -94,10 +90,13 @@ namespace DataDictionary.Constants
         /// <summary>
         ///     Clears the messages associated to this model element
         /// </summary>
-        public override void ClearMessages()
+        /// <param name="precise">Indicates that the MessagePathInfo should be recomputed precisely
+        ///  according to the sub elements and should update the enclosing elements</param>
+        public override void ClearMessages(bool precise)
         {
             LogCount -= Messages.Count;
             base.Messages.Clear();
+            UpdateMessageInfoAfterClear(precise);
         }
 
 
@@ -145,9 +144,9 @@ namespace DataDictionary.Constants
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public State findSubState(string name)
+        public State FindSubState(string name)
         {
-            return findSubState(name.Split('.'), 0);
+            return FindSubState(name.Split('.'), 0);
         }
 
         /// <summary>
@@ -155,7 +154,7 @@ namespace DataDictionary.Constants
         /// </summary>
         /// <param name="index">the index in names to consider</param>
         /// <param name="names">the simple value names</param>
-        public State findSubState(string[] names, int index)
+        public State FindSubState(string[] names, int index)
         {
             State retVal = null;
 
@@ -166,7 +165,7 @@ namespace DataDictionary.Constants
                     retVal = state;
                     if (index < names.Length - 1)
                     {
-                        retVal = retVal.findSubState(names, index + 1);
+                        retVal = retVal.FindSubState(names, index + 1);
                     }
                     break;
                 }
@@ -346,6 +345,7 @@ namespace DataDictionary.Constants
         ///     Creates a valid right side IValue, according to the target variable (left side)
         /// </summary>
         /// <param name="variable">The target variable</param>
+        /// <param name="duplicate"></param>
         /// <param name="setEnclosing">Indicates that the new value enclosing element should be set</param>
         /// <returns></returns>
         public virtual IValue RightSide(IVariable variable, bool duplicate, bool setEnclosing)
@@ -390,14 +390,14 @@ namespace DataDictionary.Constants
         /// </summary>
         public string Default
         {
-            get { return this.FullName; }
+            get { return FullName; }
             set { }
         }
 
         /// <summary>
         ///     Adds a model element in this model element
         /// </summary>
-        /// <param name="copy"></param>
+        /// <param name="element"></param>
         public override void AddModelElement(IModelElement element)
         {
             StateMachine.AddModelElement(element);
@@ -417,6 +417,7 @@ namespace DataDictionary.Constants
             {
                 foreach (Rule rule in StateMachine.Rules)
                 {
+                    // ReSharper disable once ConditionIsAlwaysTrueOrFalse
                     rule.GetExplain(explanation, explainSubElements);
                     explanation.WriteLine();
                 }
@@ -517,6 +518,19 @@ namespace DataDictionary.Constants
             StateMachine.Merge();
 
             base.Merge();
+        }
+
+        /// <summary>
+        /// Creates a default element
+        /// </summary>
+        /// <param name="enclosingCollection"></param>
+        /// <returns></returns>
+        public static State CreateDefault(ICollection enclosingCollection)
+        {
+            State retVal = (State)acceptor.getFactory().createState();
+            retVal.Name = "State" + GetElementNumber(enclosingCollection);
+
+            return retVal;
         }
     }
 }

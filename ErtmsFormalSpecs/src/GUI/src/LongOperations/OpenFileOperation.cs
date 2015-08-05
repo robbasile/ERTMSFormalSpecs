@@ -100,7 +100,7 @@ namespace GUI.LongOperations
         /// </summary>
         public override void ExecuteWork()
         {
-            Dictionary = Util.load(System, new Util.LoadParams(FileName)
+            Dictionary = Util.Load(System, new Util.LoadParams(FileName)
             {
                 LockFiles = PleaseLockFiles,
                 Errors = ErrorsDuringLoad,

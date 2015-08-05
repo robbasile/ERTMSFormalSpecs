@@ -21,10 +21,12 @@ using System.Windows.Forms;
 using DataDictionary;
 using DataDictionary.Generated;
 using GUI.BoxArrowDiagram;
+using Utils;
 using Collection = DataDictionary.Types.Collection;
 using Dictionary = DataDictionary.Dictionary;
 using Enum = DataDictionary.Types.Enum;
 using Function = DataDictionary.Functions.Function;
+using ModelElement = DataDictionary.ModelElement;
 using NameSpace = DataDictionary.Types.NameSpace;
 using Procedure = DataDictionary.Functions.Procedure;
 using Range = DataDictionary.Types.Range;
@@ -40,17 +42,9 @@ namespace GUI.ModelDiagram
     /// <summary>
     ///     The panel used to display model elements (types, variables, rules, ...)
     /// </summary>
-    public class ModelDiagramPanel : BoxArrowPanel<IGraphicalDisplay, ModelArrow>
+    public class ModelDiagramPanel : BoxArrowPanel<IModelElement, IGraphicalDisplay, ModelArrow>
     {
-        private ToolStripMenuItem addRangeMenuItem;
-
-        /// <summary>
-        ///     Constructor
-        /// </summary>
-        public ModelDiagramPanel()
-            : base()
-        {
-        }
+        private ToolStripMenuItem _addRangeMenuItem;
 
         /// <summary>
         ///     Adds the menu items related to this model element
@@ -62,9 +56,9 @@ namespace GUI.ModelDiagram
                 // 
                 // Add range
                 // 
-                addRangeMenuItem = new ToolStripMenuItem();
-                addRangeMenuItem.Text = "Add range";
-                addRangeMenuItem.Click += new EventHandler(addRangeMenuItem_Click);
+                _addRangeMenuItem = new ToolStripMenuItem();
+                _addRangeMenuItem.Text = "Add range";
+                _addRangeMenuItem.Click += addRangeMenuItem_Click;
             }
         }
 
@@ -104,7 +98,7 @@ namespace GUI.ModelDiagram
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public override BoxControl<IGraphicalDisplay, ModelArrow> createBox(IGraphicalDisplay model)
+        public override BoxControl<IModelElement, IGraphicalDisplay, ModelArrow> CreateBox(IGraphicalDisplay model)
         {
             ModelControl retVal = null;
 
@@ -183,7 +177,7 @@ namespace GUI.ModelDiagram
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public override ArrowControl<IGraphicalDisplay, ModelArrow> createArrow(ModelArrow model)
+        public override ArrowControl<IModelElement, IGraphicalDisplay, ModelArrow> CreateArrow(ModelArrow model)
         {
             ModelArrowControl retVal = new ModelArrowControl(model);
 
@@ -194,7 +188,7 @@ namespace GUI.ModelDiagram
         ///     Provides the boxes representing the models displayed in this panel
         /// </summary>
         /// <returns></returns>
-        public override List<IGraphicalDisplay> getBoxes()
+        public override List<IGraphicalDisplay> GetBoxes()
         {
             List<IGraphicalDisplay> retVal = new List<IGraphicalDisplay>();
 
@@ -246,11 +240,11 @@ namespace GUI.ModelDiagram
         ///     Provides the arrows between the models displayed in this panel
         /// </summary>
         /// <returns></returns>
-        public override List<ModelArrow> getArrows()
+        public override List<ModelArrow> GetArrows()
         {
             List<ModelArrow> retVal = new List<ModelArrow>();
 
-            List<IGraphicalDisplay> boxes = getBoxes();
+            List<IGraphicalDisplay> boxes = GetBoxes();
             foreach (IGraphicalDisplay item in boxes)
             {
                 Variable variable = item as Variable;

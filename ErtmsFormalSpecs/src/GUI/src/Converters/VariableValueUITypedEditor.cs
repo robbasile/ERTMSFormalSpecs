@@ -68,7 +68,7 @@ namespace GUI.Converters
                     form.AutoComplete = true;
                     VariableValueTextChangeHandler handler = new VariableValueTextChangeHandler(variable as ModelElement);
                     form.setChangeHandler(handler);
-                    GUIUtils.MDIWindow.AddChildWindow(form, DockAreas.Float);
+                    GuiUtils.MdiWindow.AddChildWindow(form, DockAreas.Float);
                 }
             }
 

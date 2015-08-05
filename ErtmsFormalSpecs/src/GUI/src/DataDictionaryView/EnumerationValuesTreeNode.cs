@@ -17,7 +17,6 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using DataDictionary.Generated;
 using Enum = DataDictionary.Types.Enum;
 using EnumValue = DataDictionary.Constants.EnumValue;
 
@@ -29,6 +28,7 @@ namespace GUI.DataDictionaryView
         ///     Constructor
         /// </summary>
         /// <param name="item"></param>
+        /// <param name="buildSubNodes"></param>
         public EnumerationValuesTreeNode(Enum item, bool buildSubNodes)
             : base(item, buildSubNodes, "Values", true, false)
         {
@@ -37,32 +37,23 @@ namespace GUI.DataDictionaryView
         /// <summary>
         ///     Builds the subnodes of this node
         /// </summary>
-        /// <param name="buildSubNodes">Indicates whether the subnodes of the nodes should also be built</param>
-        public override void BuildSubNodes(bool buildSubNodes)
+        /// <param name="subNodes"></param>
+        /// <param name="recursive">Indicates whether the subnodes of the nodes should also be built</param>
+        public override void BuildSubNodes(List<BaseTreeNode> subNodes, bool recursive)
         {
-            Nodes.Clear();
+            // Do not use the base version
+            SubNodesBuilt = true;
 
             foreach (EnumValue value in Item.Values)
             {
-                Nodes.Add(new EnumerationValueTreeNode(value, buildSubNodes));
+                subNodes.Add(new EnumerationValueTreeNode(value, recursive));
             }
-            SortSubNodes();
-            SubNodesBuilt = true;
+            subNodes.Sort();
         }
 
         public void AddEnumValueHandler(object sender, EventArgs args)
         {
-            EnumValue value = (EnumValue) acceptor.getFactory().createEnumValue();
-            AddValue(value);
-        }
-
-        public void AddValue(EnumValue value)
-        {
-            value.Name = "<EnumValue" + (GetNodeCount(false) + 1) + ">";
-            value.setValue("");
-            Item.appendValues(value);
-            Nodes.Add(new EnumerationValueTreeNode(value, true));
-            SortSubNodes();
+            Item.appendValues(EnumValue.CreateDefault(Item.Values));
         }
 
         /// <summary>
@@ -71,9 +62,7 @@ namespace GUI.DataDictionaryView
         /// <returns></returns>
         protected override List<MenuItem> GetMenuItems()
         {
-            List<MenuItem> retVal = new List<MenuItem>();
-
-            retVal.Add(new MenuItem("Add", new EventHandler(AddEnumValueHandler)));
+            List<MenuItem> retVal = new List<MenuItem> {new MenuItem("Add", AddEnumValueHandler)};
 
             return retVal;
         }

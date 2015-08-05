@@ -14,6 +14,7 @@
 // --
 // ------------------------------------------------------------------------------
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using DataDictionary.Generated;
@@ -199,7 +200,6 @@ namespace DataDictionary.Types
         public void ClearCache()
         {
             cachedVariables = null;
-            types = null;
             DeclaredElements = null;
         }
 
@@ -268,41 +268,36 @@ namespace DataDictionary.Types
         }
 
         /// <summary>
-        ///     Provides all the types available through this namespace
+        /// Provides the types available in this namespace
         /// </summary>
-        private List<Type> types;
-
         public List<Type> Types
         {
             get
             {
-                if (types == null)
-                {
-                    types = new List<Type>();
+                List<Type> retVal = new List<Type>();
 
-                    foreach (Range range in Ranges)
-                    {
-                        types.Add(range);
-                    }
-                    foreach (Enum enumeration in Enumerations)
-                    {
-                        types.Add(enumeration);
-                    }
-                    foreach (Structure structure in Structures)
-                    {
-                        types.Add(structure);
-                    }
-                    foreach (Collection collection in Collections)
-                    {
-                        types.Add(collection);
-                    }
-                    foreach (StateMachine stateMachine in StateMachines)
-                    {
-                        types.Add(stateMachine);
-                    }
+                foreach (Range range in Ranges)
+                {
+                    retVal.Add(range);
+                }
+                foreach (Enum enumeration in Enumerations)
+                {
+                    retVal.Add(enumeration);
+                }
+                foreach (Structure structure in Structures)
+                {
+                    retVal.Add(structure);
+                }
+                foreach (Collection collection in Collections)
+                {
+                    retVal.Add(collection);
+                }
+                foreach (StateMachine stateMachine in StateMachines)
+                {
+                    retVal.Add(stateMachine);
                 }
 
-                return types;
+                return retVal;
             }
         }
 
@@ -716,6 +711,81 @@ namespace DataDictionary.Types
                 }
             }
             return retVal;
+        }
+
+        /// <summary>
+        ///     Creates the status message 
+        /// </summary>
+        /// <returns>the status string for the selected element</returns>
+        public override string CreateStatusMessage()
+        {
+            string result = base.CreateStatusMessage();
+
+            List<NameSpace> allNamespaces = new List<NameSpace>();
+            CollectNamespaces(allNamespaces);
+
+            int ranges = 0;
+            int enumerations = 0;
+            int structures = 0;
+            int collections = 0;
+            int functions = 0;
+            int procedures = 0;
+            int variables = 0;
+            int rules = 0;
+            int subNameSpaces = allNamespaces.Count - 1;
+
+            foreach (NameSpace aNamespace in allNamespaces)
+            {
+                ranges += aNamespace.Ranges.Count;
+                enumerations += aNamespace.Enumerations.Count;
+                structures += aNamespace.Structures.Count;
+                collections += aNamespace.Collections.Count;
+                functions += aNamespace.Functions.Count;
+                procedures += aNamespace.Procedures.Count;
+                variables += aNamespace.Variables.Count;
+                rules += aNamespace.Rules.Count;
+            }
+
+            result += "Namespace " + Name + " containing " + 
+                      subNameSpaces + (subNameSpaces > 1 ? " sub-namespaces, " : " sub-namespace, ") +
+                      ranges + (ranges > 1 ? " ranges, " : " range, ") +
+                      enumerations + (enumerations > 1 ? " enumerations, " : " enumeration, ") +
+                      structures + (structures > 1 ? " structures, " : " structure, ") +
+                      collections + (collections > 1 ? " collections, " : " collection, ") +
+                      functions + (functions > 1 ? " functions, " : " function, ") +
+                      procedures + (procedures > 1 ? " procedures, " : " procedure, ") +
+                      variables + (variables > 1 ? " variables and " : " variable and ") +
+                      rules + (rules > 1 ? " rules." : " rule.");
+
+            return result;
+        }
+
+        /// <summary>
+        /// Provides the set of namespaces enclosed in this namespace
+        /// </summary>
+        /// <param name="retVal">The return value</param>
+        /// <returns></returns>
+        private void CollectNamespaces(List<NameSpace> retVal)
+        {
+            retVal.Add(this);
+
+            foreach (NameSpace subNamespace in NameSpaces)
+            {
+                subNamespace.CollectNamespaces(retVal);
+            }
+        }
+   
+        /// <summary>
+        /// Creates a default element
+        /// </summary>
+        /// <param name="enclosingCollection"></param>
+        /// <returns></returns>
+        public static NameSpace CreateDefault(ICollection enclosingCollection)
+        {
+            NameSpace nameSpace = (NameSpace)acceptor.getFactory().createNameSpace();
+            nameSpace.Name = "NameSpace" + GetElementNumber(enclosingCollection);
+
+            return nameSpace;
         }
     }
 }

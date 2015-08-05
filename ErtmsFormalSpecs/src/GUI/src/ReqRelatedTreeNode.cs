@@ -34,7 +34,6 @@ namespace GUI
             ///     Constructor
             /// </summary>
             protected ReqRelatedEditor()
-                : base()
             {
             }
 
@@ -72,8 +71,11 @@ namespace GUI
         /// <summary>
         ///     Constructor
         /// </summary>
-        /// <param name="name"></param>
         /// <param name="item"></param>
+        /// <param name="buildSubNodes"></param>
+        /// <param name="name"></param>
+        /// <param name="isFolder"></param>
+        /// <param name="addRequirements"></param>
         protected ReqRelatedTreeNode(T item, bool buildSubNodes, string name = null, bool isFolder = false,
             bool addRequirements = true)
             : base(item, buildSubNodes, name, isFolder, addRequirements)
@@ -114,8 +116,8 @@ namespace GUI
             List<MenuItem> retVal = base.GetMenuItems();
 
             MenuItem newItem = new MenuItem("Mark as...");
-            newItem.MenuItems.Add(new MenuItem("Implemented", new EventHandler(ImplementedHandler)));
-            newItem.MenuItems.Add(new MenuItem("Verified", new EventHandler(VerifiedHandler)));
+            newItem.MenuItems.Add(new MenuItem("Implemented", ImplementedHandler));
+            newItem.MenuItems.Add(new MenuItem("Verified", VerifiedHandler));
             retVal.Insert(2, newItem);
 
             return retVal;

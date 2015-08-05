@@ -318,5 +318,19 @@ namespace DataDictionary.Rules
             get { return getComment(); }
             set { setComment(value); }
         }
+
+        /// <summary>
+        /// Creates a default element
+        /// </summary>
+        /// <param name="enclosingCollection"></param>
+        /// <returns></returns>
+        public static PreCondition CreateDefault(ICollection enclosingCollection)
+        {
+            PreCondition retVal = (PreCondition)acceptor.getFactory().createPreCondition();
+            retVal.Name = "PreCondition" + GetElementNumber(enclosingCollection);
+            retVal.Condition = "";
+
+            return retVal;
+        }
     }
 }

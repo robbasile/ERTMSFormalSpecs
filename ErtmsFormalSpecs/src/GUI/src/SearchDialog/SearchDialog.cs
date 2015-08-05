@@ -80,28 +80,24 @@ namespace GUI.SearchDialog
         /// <param name="searchString"></param>
         private void searchOccurences(string searchString)
         {
-            List<ModelElement> occurences = new List<ModelElement>();
-            foreach (Dictionary dictionary in EFSSystem.Dictionaries)
+            MarkingHistory.PerformMark(() =>
             {
-                Comparer.searchDictionary(dictionary, searchString, occurences);
-            }
+                List<ModelElement> occurences = new List<ModelElement>();
+                foreach (Dictionary dictionary in EFSSystem.Dictionaries)
+                {
+                    Comparer.searchDictionary(dictionary, searchString, occurences);
+                }
+                foreach (ModelElement element in occurences)
+                {
+                    element.AddInfo("Found " + searchString);
+                }
 
-            // Clears all messages and mark the occurences
-            foreach (Dictionary dictionary in EFSSystem.Dictionaries)
-            {
-                dictionary.ClearMessages();
-            }
-            foreach (ModelElement element in occurences)
-            {
-                element.AddInfo("Found " + searchString);
-            }
-            EFSSystem.INSTANCE.Markings.RegisterCurrentMarking();
-
-            if (occurences.Count == 0)
-            {
-                MessageBox.Show("Cannot find " + searchString, "Search complete", MessageBoxButtons.OK,
-                    MessageBoxIcon.Information);
-            }
+                if (occurences.Count == 0)
+                {
+                    MessageBox.Show("Cannot find " + searchString, "Search complete", MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+                }
+            });
             Close();
         }
 

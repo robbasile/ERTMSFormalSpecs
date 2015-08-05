@@ -86,7 +86,7 @@ namespace DataDictionary.Shortcuts
         /// <returns></returns>
         public Namable GetReference()
         {
-            return (Namable) EFSSystem.findByFullName(ShortcutName);
+            return (Namable) EFSSystem.FindByFullName(ShortcutName);
         }
     }
 }

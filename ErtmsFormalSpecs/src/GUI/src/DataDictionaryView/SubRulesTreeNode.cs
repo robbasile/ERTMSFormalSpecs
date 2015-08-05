@@ -17,7 +17,6 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using DataDictionary.Generated;
 using Rule = DataDictionary.Rules.Rule;
 using RuleCondition = DataDictionary.Rules.RuleCondition;
 
@@ -29,78 +28,51 @@ namespace GUI.DataDictionaryView
         ///     Constructor
         /// </summary>
         /// <param name="item"></param>
+        /// <param name="buildSubNodes"></param>
         public SubRulesTreeNode(RuleCondition item, bool buildSubNodes)
-            : base(item, buildSubNodes, "Sub rules", true, false)
+            : base(item, buildSubNodes, "Sub rules", false)
         {
         }
 
         /// <summary>
         ///     Builds the subnodes of this node
         /// </summary>
-        /// <param name="buildSubNodes">Indicates whether the subnodes of the nodes should also be built</param>
-        public override void BuildSubNodes(bool buildSubNodes)
+        /// <param name="subNodes"></param>
+        /// <param name="recursive">Indicates whether the subnodes of the nodes should also be built</param>
+        public override void BuildSubNodes(List<BaseTreeNode> subNodes, bool recursive)
         {
-            Nodes.Clear();
+            // Do not use the base version
+            SubNodesBuilt = true;
 
             foreach (Rule rule in Item.SubRules)
             {
-                Nodes.Add(new RuleTreeNode(rule, buildSubNodes));
+                subNodes.Add(new RuleTreeNode(rule, recursive));
             }
-            SubNodesBuilt = true;
-        }
-
-        private static List<BaseTreeNode> sort(List<BaseTreeNode> nodes)
-        {
-            nodes.Sort();
-            return nodes;
-        }
-
-        /// <summary>
-        ///     Adds a rule in this set of sub rules
-        /// </summary>
-        /// <param name="rule"></param>
-        public RuleTreeNode AddRule(Rule rule)
-        {
-            RuleTreeNode retVal = new RuleTreeNode(rule, true);
-
-            Item.appendSubRules(rule);
-            Nodes.Add(retVal);
-
-            Item.setVerified(false);
-
-            return retVal;
         }
 
         public void AddHandler(object sender, EventArgs args)
         {
-            Rule rule = (Rule) acceptor.getFactory().createRule();
-            rule.Name = "<Rule" + (GetNodeCount(false) + 1) + ">";
-
-            RuleCondition condition = (RuleCondition) acceptor.getFactory().createRuleCondition();
-            condition.Name = "<Condition1>";
-            rule.appendConditions(condition);
-
-            RuleTreeNode node = AddRule(rule);
-            node.ExpandAll();
+            Item.appendSubRules(Rule.CreateDefault(Item.SubRules));
+            Item.setVerified(false);
         }
 
         /// <summary>
         ///     Handles a drop event
         /// </summary>
-        /// <param name="SourceNode"></param>
-        public override void AcceptDrop(BaseTreeNode SourceNode)
+        /// <param name="sourceNode"></param>
+        public override void AcceptDrop(BaseTreeNode sourceNode)
         {
-            if (SourceNode is RuleTreeNode)
+            RuleTreeNode ruleTreeNode = sourceNode as RuleTreeNode;
+            if (ruleTreeNode != null)
             {
                 if (
                     MessageBox.Show("Are you sure you want to move the corresponding rule ?", "Move rule",
                         MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
-                    RuleTreeNode ruleTreeNode = (RuleTreeNode) SourceNode;
-
                     Rule rule = ruleTreeNode.Item;
                     ruleTreeNode.Delete();
-                    AddRule(rule);
+                    Item.appendSubRules(rule);
+                    Item.setVerified(false);
                 }
             }
         }

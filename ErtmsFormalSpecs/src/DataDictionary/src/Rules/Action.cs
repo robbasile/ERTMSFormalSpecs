@@ -355,5 +355,36 @@ namespace DataDictionary.Rules
             get { return getComment(); }
             set { setComment(value); }
         }
+
+        /// <summary>
+        ///     Provides the description of the requirements related to this model element
+        /// </summary>
+        /// <returns></returns>
+        public override string RequirementDescription()
+        {
+            string retVal = base.RequirementDescription();
+
+            if (Translation != null)
+            {
+                // TODO : Check, this seems strange
+                retVal = Translation.getSourceTextExplain();
+            }
+
+            return retVal;
+        }
+
+        /// <summary>
+        /// Creates a default element
+        /// </summary>
+        /// <param name="enclosingCollection"></param>
+        /// <returns></returns>
+        public static Action CreateDefault(ICollection enclosingCollection)
+        {
+            Action retVal = (Action)acceptor.getFactory().createAction();
+            retVal.Name = "Action" + GetElementNumber(enclosingCollection);
+            retVal.ExpressionText = "";
+
+            return retVal;
+        }
     }
 }

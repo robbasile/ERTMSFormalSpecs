@@ -31,20 +31,13 @@ namespace GUI.DataDictionaryView
     {
         private class ItemEditor : NamedEditor
         {
-            /// <summary>
-            ///     Constructor
-            /// </summary>
-            public ItemEditor()
-                : base()
-            {
-            }
         }
 
         /// <summary>
         ///     Constructor
         /// </summary>
         /// <param name="item"></param>
-        /// <param name="name"></param>
+        /// <param name="buildSubNodes"></param>
         public FunctionsTreeNode(NameSpace item, bool buildSubNodes)
             : base(item, buildSubNodes, "Functions", true)
         {
@@ -53,56 +46,31 @@ namespace GUI.DataDictionaryView
         /// <summary>
         ///     Builds the subnodes of this node
         /// </summary>
-        /// <param name="buildSubNodes">Indicates whether the subnodes of the nodes should also be built</param>
-        public override void BuildSubNodes(bool buildSubNodes)
+        /// <param name="subNodes"></param>
+        /// <param name="recursive">Indicates whether the subnodes of the nodes should also be built</param>
+        public override void BuildSubNodes(List<BaseTreeNode> subNodes, bool recursive)
         {
-            base.BuildSubNodes(buildSubNodes);
+            base.BuildSubNodes(subNodes, recursive);
 
             foreach (Function function in Item.Functions)
             {
-                Nodes.Add(new FunctionTreeNode(function, buildSubNodes));
+                subNodes.Add(new FunctionTreeNode(function, recursive));
             }
-            SortSubNodes();
+            subNodes.Sort();
         }
 
         /// <summary>
         ///     Creates the editor for this tree node
         /// </summary>
         /// <returns></returns>
-        protected override Editor createEditor()
+        protected override Editor CreateEditor()
         {
             return new ItemEditor();
         }
 
         public void AddHandler(object sender, EventArgs args)
         {
-            DataDictionaryTreeView treeView = BaseTreeView as DataDictionaryTreeView;
-            if (treeView != null)
-            {
-                Function function = (Function) acceptor.getFactory().createFunction();
-                function.Name = "<Function" + (GetNodeCount(false) + 1) + ">";
-                AddFunction(function);
-            }
-        }
-
-        /// <summary>
-        ///     Adds a new function
-        /// </summary>
-        /// <param name="function"></param>
-        public FunctionTreeNode AddFunction(Function function)
-        {
-            // Ensure that functions always have a type
-            if (function.ReturnType == null)
-            {
-                function.ReturnType = function.EFSSystem.BoolType;
-            }
-
-            Item.appendFunctions(function);
-            FunctionTreeNode retVal = new FunctionTreeNode(function, true);
-            Nodes.Add(retVal);
-            SortSubNodes();
-
-            return retVal;
+            Item.appendFunctions(Function.CreateDefault(Item.Functions));
         }
 
         /// <summary>
@@ -111,9 +79,7 @@ namespace GUI.DataDictionaryView
         /// <returns></returns>
         protected override List<MenuItem> GetMenuItems()
         {
-            List<MenuItem> retVal = new List<MenuItem>();
-
-            retVal.Add(new MenuItem("Add", new EventHandler(AddHandler)));
+            List<MenuItem> retVal = new List<MenuItem> {new MenuItem("Add", AddHandler)};
 
             return retVal;
         }
@@ -121,14 +87,14 @@ namespace GUI.DataDictionaryView
         /// <summary>
         ///     Accepts drop of a tree node, in a drag & drop operation
         /// </summary>
-        /// <param name="SourceNode"></param>
-        public override void AcceptDrop(BaseTreeNode SourceNode)
+        /// <param name="sourceNode"></param>
+        public override void AcceptDrop(BaseTreeNode sourceNode)
         {
-            base.AcceptDrop(SourceNode);
+            base.AcceptDrop(sourceNode);
 
-            if (SourceNode is FunctionTreeNode)
+            if (sourceNode is FunctionTreeNode)
             {
-                FunctionTreeNode node = SourceNode as FunctionTreeNode;
+                FunctionTreeNode node = sourceNode as FunctionTreeNode;
                 Function function = node.Item;
                 Function duplFunction = OverallFunctionFinder.INSTANCE.findByName(function.Dictionary, function.Name);
                 if (duplFunction != null) // If there is a function with the same name, we must delete it
@@ -140,24 +106,24 @@ namespace GUI.DataDictionaryView
                         for (int i = 0; i < Nodes.Count; i++)
                         {
                             FunctionTreeNode temp = Nodes[i] as FunctionTreeNode;
-                            if (temp.Item.Name == function.Name)
+                            if (temp != null && temp.Item.Name == function.Name)
                             {
                                 temp.Delete();
                             }
                         }
                         node.Delete();
-                        AddFunction(function);
+                        Item.appendFunctions(function);
                     }
                 }
                 else
                 {
                     node.Delete();
-                    AddFunction(function);
+                    Item.appendFunctions(function);
                 }
             }
-            else if (SourceNode is ParagraphTreeNode)
+            else if (sourceNode is ParagraphTreeNode)
             {
-                ParagraphTreeNode node = SourceNode as ParagraphTreeNode;
+                ParagraphTreeNode node = sourceNode as ParagraphTreeNode;
                 Paragraph paragaph = node.Item;
 
                 Function function = (Function) acceptor.getFactory().createFunction();
@@ -166,20 +132,8 @@ namespace GUI.DataDictionaryView
                 ReqRef reqRef = (ReqRef) acceptor.getFactory().createReqRef();
                 reqRef.Name = paragaph.FullId;
                 function.appendRequirements(reqRef);
-                AddFunction(function);
+                Item.appendFunctions(function);
             }
-        }
-
-        /// <summary>
-        ///     Update counts according to the selected folder
-        /// </summary>
-        /// <param name="displayStatistics">Indicates that statistics should be displayed in the MDI window</param>
-        public override void SelectionChanged(bool displayStatistics)
-        {
-            base.SelectionChanged(false);
-
-            GUIUtils.MDIWindow.SetStatus(Item.Functions.Count +
-                                         (Item.Functions.Count > 1 ? " functions " : " function ") + "selected.");
         }
     }
 }

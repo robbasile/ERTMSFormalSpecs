@@ -29,7 +29,7 @@ namespace GUI.DataDictionaryView
         ///     Constructor
         /// </summary>
         /// <param name="item"></param>
-        /// <param name="children"></param>
+        /// <param name="buildSubNodes"></param>
         public PreConditionsTreeNode(Case item, bool buildSubNodes)
             : base(item, buildSubNodes, "Pre condition", true)
         {
@@ -38,56 +38,43 @@ namespace GUI.DataDictionaryView
         /// <summary>
         ///     Builds the subnodes of this node
         /// </summary>
-        /// <param name="buildSubNodes">Indicates whether the subnodes of the nodes should also be built</param>
-        public override void BuildSubNodes(bool buildSubNodes)
+        /// <param name="subNodes"></param>
+        /// <param name="recursive">Indicates whether the subnodes of the nodes should also be built</param>
+        public override void BuildSubNodes(List<BaseTreeNode> subNodes, bool recursive)
         {
-            Nodes.Clear();
+            // Do not use the base version
+            SubNodesBuilt = true;
 
             foreach (PreCondition preCondition in Item.PreConditions)
             {
-                Nodes.Add(new PreConditionTreeNode(preCondition, buildSubNodes));
+                subNodes.Add(new PreConditionTreeNode(preCondition, recursive));
             }
-            SubNodesBuilt = true;
         }
 
         /// <summary>
         ///     Create structure based on the subsystem structure
         /// </summary>
-        /// <param name="SourceNode"></param>
-        public override void AcceptDrop(BaseTreeNode SourceNode)
+        /// <param name="sourceNode"></param>
+        public override void AcceptDrop(BaseTreeNode sourceNode)
         {
-            base.AcceptDrop(SourceNode);
+            base.AcceptDrop(sourceNode);
 
-            if (SourceNode is PreConditionTreeNode)
+            PreConditionTreeNode preConditionTreeNode = sourceNode as PreConditionTreeNode;
+            if (preConditionTreeNode != null)
             {
                 if (
                     MessageBox.Show("Are you sure you want to move the corresponding function ?", "Move action",
                         MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
-                    PreConditionTreeNode node = SourceNode as PreConditionTreeNode;
-                    PreCondition preCondition = node.Item;
-                    node.Delete();
-                    AddPreCondition(preCondition);
+                    preConditionTreeNode.Delete();
+                    Item.appendPreConditions(preConditionTreeNode.Item);
                 }
             }
         }
 
         public void AddHandler(object sender, EventArgs args)
         {
-            PreCondition preCondition = (PreCondition) acceptor.getFactory().createPreCondition();
-            preCondition.Condition = "<empty>";
-            AddPreCondition(preCondition);
-        }
-
-        /// <summary>
-        ///     Adds a preCondition to the modelized item
-        /// </summary>
-        /// <param name="preCondition"></param>
-        public void AddPreCondition(PreCondition preCondition)
-        {
-            Item.appendPreConditions(preCondition);
-            Nodes.Add(new PreConditionTreeNode(preCondition, true));
-            SortSubNodes();
+            Item.appendPreConditions(PreCondition.CreateDefault(Item.PreConditions));
         }
 
         /// <summary>
@@ -96,9 +83,7 @@ namespace GUI.DataDictionaryView
         /// <returns></returns>
         protected override List<MenuItem> GetMenuItems()
         {
-            List<MenuItem> retVal = new List<MenuItem>();
-
-            retVal.Add(new MenuItem("Add", new EventHandler(AddHandler)));
+            List<MenuItem> retVal = new List<MenuItem> {new MenuItem("Add", AddHandler)};
 
             return retVal;
         }

@@ -14,7 +14,6 @@
 // --
 // ------------------------------------------------------------------------------
 
-using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using DataDictionary;
@@ -26,19 +25,13 @@ namespace GUI.Shortcuts
     {
         private class ItemEditor : NamedEditor
         {
-            /// <summary>
-            ///     Constructor
-            /// </summary>
-            public ItemEditor()
-                : base()
-            {
-            }
         }
 
         /// <summary>
         ///     Constructor
         /// </summary>
         /// <param name="item"></param>
+        /// <param name="buildSubNodes"></param>
         public ShortcutTreeNode(Shortcut item, bool buildSubNodes)
             : base(item, buildSubNodes)
         {
@@ -48,17 +41,9 @@ namespace GUI.Shortcuts
         ///     Creates the editor for this tree node
         /// </summary>
         /// <returns></returns>
-        protected override Editor createEditor()
+        protected override Editor CreateEditor()
         {
             return new ItemEditor();
-        }
-
-        /// <param name="displayStatistics">Indicates that statistics should be displayed in the MDI window</param>
-        public override void SelectionChanged(bool displayStatistics)
-        {
-            base.SelectionChanged(displayStatistics);
-
-            RefreshNode();
         }
 
         /// <summary>
@@ -67,10 +52,11 @@ namespace GUI.Shortcuts
         /// <returns></returns>
         protected override List<MenuItem> GetMenuItems()
         {
-            List<MenuItem> retVal = new List<MenuItem>();
-
-            retVal.Add(new MenuItem("Rename", new EventHandler(LabelEditHandler)));
-            retVal.Add(new MenuItem("Delete", new EventHandler(DeleteHandler)));
+            List<MenuItem> retVal = new List<MenuItem>
+            {
+                new MenuItem("Rename", LabelEditHandler),
+                new MenuItem("Delete", DeleteHandler)
+            };
 
             return retVal;
         }
@@ -82,7 +68,7 @@ namespace GUI.Shortcuts
             Namable element = Item.GetReference();
             if (element != null)
             {
-                MainWindow mainWindow = GUIUtils.MDIWindow;
+                MainWindow mainWindow = GuiUtils.MdiWindow;
 
                 if (mainWindow.DataDictionaryWindow != null)
                 {

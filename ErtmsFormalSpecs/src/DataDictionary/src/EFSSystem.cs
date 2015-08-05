@@ -16,7 +16,6 @@
 
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using DataDictionary.Functions.PredefinedFunctions;
 using DataDictionary.Generated;
@@ -61,6 +60,11 @@ namespace DataDictionary
         public Runner Runner { get; set; }
 
         /// <summary>
+        /// The context used to wake up listeners
+        /// </summary>
+        public Context Context { get; set; }
+
+        /// <summary>
         ///     Indicates wheter the model should be recompiled (after a change or a load)
         /// </summary>
         public bool ShouldRebuild { get; set; }
@@ -74,42 +78,7 @@ namespace DataDictionary
         ///     The marking history
         /// </summary>
         public MarkingHistory Markings { get; private set; }
-
-        /// <summary>
-        ///     Listener to model changes
-        /// </summary>
-        public class BaseModelElementChangeListener : IListener<BaseModelElement>
-        {
-            /// <summary>
-            ///     The system for which this listener listens
-            /// </summary>
-            private EFSSystem System { get; set; }
-
-            /// <summary>
-            ///     Constructor
-            /// </summary>
-            /// <param name="system"></param>
-            public BaseModelElementChangeListener(EFSSystem system)
-            {
-                System = system;
-            }
-
-            #region Listens to namable changes
-
-            public void HandleChangeEvent(BaseModelElement sender)
-            {
-                System.ShouldRebuild = true;
-                System.ShouldSave = true;
-            }
-
-            public void HandleChangeEvent(Lock aLock, BaseModelElement sender)
-            {
-                HandleChangeEvent(sender);
-            }
-
-            #endregion
-        }
-
+        
         /// <summary>
         ///     The compiler used to compile the system
         /// </summary>
@@ -149,14 +118,15 @@ namespace DataDictionary
         private EFSSystem()
         {
             Dictionaries = new List<Dictionary>();
-
+            Context = new Context();
+            Context.ValueChange += Context_ValueChange;
             acceptor.setFactory(new ObjectFactory());
             Compiler = new Compiler(this);
-            Markings = new MarkingHistory(this);
+            Markings = new MarkingHistory();
 
             // Reads the history file and updates the blame information stored in it
             Factory historyFactory = Factory.INSTANCE;
-            History = (History) HistoryUtils.Load(History.HISTORY_FILE_NAME, historyFactory);
+            History = (History) HistoryUtils.Load(HistoricalData.History.HISTORY_FILE_NAME, historyFactory);
             if (History == null)
             {
                 History = (History) historyFactory.createHistory();
@@ -165,8 +135,24 @@ namespace DataDictionary
 
             CheckParentRelationship = true;
             CacheFunctions = true;
+        }
 
-            ControllersManager.BaseModelElementController.Listeners.Insert(0, new BaseModelElementChangeListener(this));
+        /// <summary>
+        /// The delegate used to handle the change of the value of a model element
+        /// </summary>
+        /// <param name="modelElement"></param>
+        /// <param name="changeKind">Indicates the reason why the change occured</param>
+        private void Context_ValueChange(IModelElement modelElement, Context.ChangeKind changeKind)
+        {
+            if (changeKind == Context.ChangeKind.ModelChange)
+            {
+                ShouldRebuild = true;
+                ShouldSave = true;
+            }
+            else if (changeKind == Context.ChangeKind.Load)
+            {
+                ShouldRebuild = true;
+            }
         }
 
         /// <summary>
@@ -254,7 +240,6 @@ namespace DataDictionary
         /// <summary>
         ///     The expression text data of this model element
         /// </summary>
-        /// <param name="text"></param>
         public string ExpressionText
         {
             get { return null; }
@@ -269,14 +254,36 @@ namespace DataDictionary
             get { return new List<ElementLog>(); }
         }
 
+
         /// <summary>
-        ///     Clears the messages associated to the system
+        ///     Clears all marks related to model elements
         /// </summary>
-        public void ClearMessages()
+        private class ClearMarksVisitor : Visitor
         {
+            public override void visit(IXmlBBase obj, bool visitSubNodes)
+            {
+                IModelElement element = obj as IModelElement;
+
+                if (element != null)
+                {
+                    element.ClearMessages(false);
+                }
+
+                base.visit(obj, visitSubNodes);
+            }
+        }
+
+        /// <summary>
+        ///     Clears the messages associated to this model element
+        /// </summary>
+        /// <param name="precise">Indicates that the MessagePathInfo should be recomputed precisely
+        ///  according to the sub elements and should update the enclosing elements</param>
+        public void ClearMessages(bool precise)
+        {
+            ClearMarksVisitor visitor = new ClearMarksVisitor();
             foreach (Dictionary dictionary in Dictionaries)
             {
-                dictionary.ClearMessages();
+                visitor.visit(dictionary, true);
             }
         }
 
@@ -300,119 +307,119 @@ namespace DataDictionary
         /// <summary>
         ///     The predefined empty value
         /// </summary>
-        private EmptyValue emptyValue;
+        private EmptyValue _emptyValue;
 
         public EmptyValue EmptyValue
         {
             get
             {
-                if (emptyValue == null)
+                if (_emptyValue == null)
                 {
-                    emptyValue = new EmptyValue(this);
+                    _emptyValue = new EmptyValue(this);
                 }
-                return emptyValue;
+                return _emptyValue;
             }
         }
 
         /// <summary>
         ///     The predefined any type
         /// </summary>
-        private AnyType anyType;
+        private AnyType _anyType;
 
         public AnyType AnyType
         {
             get
             {
-                if (anyType == null)
+                if (_anyType == null)
                 {
-                    anyType = new AnyType(this);
+                    _anyType = new AnyType(this);
                 }
-                return anyType;
+                return _anyType;
             }
         }
 
         /// <summary>
         ///     The predefined no type
         /// </summary>
-        private NoType noType;
+        private NoType _noType;
 
         public NoType NoType
         {
             get
             {
-                if (noType == null)
+                if (_noType == null)
                 {
-                    noType = new NoType(this);
+                    _noType = new NoType(this);
                 }
-                return noType;
+                return _noType;
             }
         }
 
         /// <summary>
         ///     The predefined bool type
         /// </summary>
-        private BoolType boolType;
+        private BoolType _boolType;
 
         public BoolType BoolType
         {
             get
             {
-                if (boolType == null)
+                if (_boolType == null)
                 {
-                    boolType = new BoolType(this);
+                    _boolType = new BoolType(this);
                 }
-                return boolType;
+                return _boolType;
             }
         }
 
         /// <summary>
         ///     The predefined integer type
         /// </summary>
-        private IntegerType integerType;
+        private IntegerType _integerType;
 
         public IntegerType IntegerType
         {
             get
             {
-                if (integerType == null)
+                if (_integerType == null)
                 {
-                    integerType = new IntegerType(this);
+                    _integerType = new IntegerType(this);
                 }
-                return integerType;
+                return _integerType;
             }
         }
 
         /// <summary>
         ///     The predefined double type
         /// </summary>
-        private DoubleType doubleType;
+        private DoubleType _doubleType;
 
         public DoubleType DoubleType
         {
             get
             {
-                if (doubleType == null)
+                if (_doubleType == null)
                 {
-                    doubleType = new DoubleType(this);
+                    _doubleType = new DoubleType(this);
                 }
-                return doubleType;
+                return _doubleType;
             }
         }
 
         /// <summary>
         ///     The predefined string type
         /// </summary>
-        private StringType stringType;
+        private StringType _stringType;
 
         public StringType StringType
         {
             get
             {
-                if (stringType == null)
+                if (_stringType == null)
                 {
-                    stringType = new StringType(this);
+                    _stringType = new StringType(this);
                 }
-                return stringType;
+                return _stringType;
             }
         }
 
@@ -420,31 +427,31 @@ namespace DataDictionary
         ///     The generic collection type
         /// </summary>
         /// <returns></returns>
-        private Collection genericCollection;
+        private Collection _genericCollection;
 
         public Collection GenericCollection
         {
             get
             {
-                if (genericCollection == null)
+                if (_genericCollection == null)
                 {
-                    genericCollection = new GenericCollection(this);
+                    _genericCollection = new GenericCollection(this);
                 }
 
-                return genericCollection;
+                return _genericCollection;
             }
         }
 
         /// <summary>
         ///     The predefined types
         /// </summary>
-        private Dictionary<string, Type> predefinedTypes;
+        private Dictionary<string, Type> _predefinedTypes;
 
         public Dictionary<string, Type> PredefinedTypes
         {
             get
             {
-                if (predefinedTypes == null)
+                if (_predefinedTypes == null)
                 {
                     PredefinedTypes = new Dictionary<string, Type>();
                     PredefinedTypes[BoolType.Name] = BoolType;
@@ -452,9 +459,9 @@ namespace DataDictionary
                     PredefinedTypes[DoubleType.Name] = DoubleType;
                     PredefinedTypes[StringType.Name] = StringType;
                 }
-                return predefinedTypes;
+                return _predefinedTypes;
             }
-            set { predefinedTypes = value; }
+            set { _predefinedTypes = value; }
         }
 
         /// <summary>
@@ -464,64 +471,68 @@ namespace DataDictionary
         /// <returns></returns>
         public IValue GetBoolean(bool val)
         {
+            IValue retVal;
+
             if (val)
             {
-                return BoolType.True;
+                retVal = BoolType.True;
             }
             else
             {
-                return BoolType.False;
+                retVal = BoolType.False;
             }
+
+            return retVal;
         }
 
         /// <summary>
         ///     The predefined allocate function
         /// </summary>
-        private Allocate allocatePredefinedFunction;
+        private Allocate _allocatePredefinedFunction;
 
         public Allocate AllocatePredefinedFunction
         {
             get
             {
-                if (allocatePredefinedFunction == null)
+                if (_allocatePredefinedFunction == null)
                 {
-                    allocatePredefinedFunction = new Allocate(this);
+                    _allocatePredefinedFunction = new Allocate(this);
                 }
-                return allocatePredefinedFunction;
+                return _allocatePredefinedFunction;
             }
         }
 
         /// <summary>
         ///     The predefined available function
         /// </summary>
-        private Available availablePredefinedFunction;
+        private Available _availablePredefinedFunction;
 
         public Available AvailablePredefinedFunction
         {
             get
             {
-                if (availablePredefinedFunction == null)
+                if (_availablePredefinedFunction == null)
                 {
-                    availablePredefinedFunction = new Available(this);
+                    _availablePredefinedFunction = new Available(this);
                 }
-                return availablePredefinedFunction;
+                return _availablePredefinedFunction;
             }
         }
 
         /// <summary>
         ///     The predefined not function
         /// </summary>
-        private Not notPredefinedFunction;
+        private Not _notPredefinedFunction;
 
         public Not NotPredefinedFunction
         {
             get
             {
-                if (notPredefinedFunction == null)
+                if (_notPredefinedFunction == null)
                 {
-                    notPredefinedFunction = new Not(this);
+                    _notPredefinedFunction = new Not(this);
                 }
-                return notPredefinedFunction;
+                return _notPredefinedFunction;
             }
         }
 
@@ -529,335 +540,335 @@ namespace DataDictionary
         /// <summary>
         ///     The predefined min function
         /// </summary>
-        private Min minPredefinedFunction;
+        private Min _minPredefinedFunction;
 
         public Min MinPredefinedFunction
         {
             get
             {
-                if (minPredefinedFunction == null)
+                if (_minPredefinedFunction == null)
                 {
-                    minPredefinedFunction = new Min(this);
+                    _minPredefinedFunction = new Min(this);
                 }
-                return minPredefinedFunction;
+                return _minPredefinedFunction;
             }
         }
 
         /// <summary>
         ///     The predefined MinSurface function
         /// </summary>
-        private MinSurface minSurfacePredefinedFunction;
+        private MinSurface _minSurfacePredefinedFunction;
 
         public MinSurface MinSurfacePredefinedFunction
         {
             get
             {
-                if (minSurfacePredefinedFunction == null)
+                if (_minSurfacePredefinedFunction == null)
                 {
-                    minSurfacePredefinedFunction = new MinSurface(this);
+                    _minSurfacePredefinedFunction = new MinSurface(this);
                 }
-                return minSurfacePredefinedFunction;
+                return _minSurfacePredefinedFunction;
             }
         }
 
         /// <summary>
         ///     The predefined max function
         /// </summary>
-        private Max maxPredefinedFunction;
+        private Max _maxPredefinedFunction;
 
         public Max MaxPredefinedFunction
         {
             get
             {
-                if (maxPredefinedFunction == null)
+                if (_maxPredefinedFunction == null)
                 {
-                    maxPredefinedFunction = new Max(this);
+                    _maxPredefinedFunction = new Max(this);
                 }
-                return maxPredefinedFunction;
+                return _maxPredefinedFunction;
             }
         }
 
         /// <summary>
         ///     The predefined targets function
         /// </summary>
-        private Targets targetsPredefinedFunction;
+        private Targets _targetsPredefinedFunction;
 
         public Targets TargetsPredefinedFunction
         {
             get
             {
-                if (targetsPredefinedFunction == null)
+                if (_targetsPredefinedFunction == null)
                 {
-                    targetsPredefinedFunction = new Targets(this);
+                    _targetsPredefinedFunction = new Targets(this);
                 }
-                return targetsPredefinedFunction;
+                return _targetsPredefinedFunction;
             }
         }
 
         /// <summary>
         ///     The predefined discontinuities function
         /// </summary>
-        private Discontinuities discontPredefinedFunction;
+        private Discontinuities _discontPredefinedFunction;
 
         public Discontinuities DiscontPredefinedFunction
         {
             get
             {
-                if (discontPredefinedFunction == null)
+                if (_discontPredefinedFunction == null)
                 {
-                    discontPredefinedFunction = new Discontinuities(this);
+                    _discontPredefinedFunction = new Discontinuities(this);
                 }
-                return discontPredefinedFunction;
+                return _discontPredefinedFunction;
             }
         }
 
         /// <summary>
         ///     The predefined RoundToMultiple function
         /// </summary>
-        private RoundToMultiple roundToMultiplePredefinedFunction;
+        private RoundToMultiple _roundToMultiplePredefinedFunction;
 
         public RoundToMultiple RoundToMultiplePredefinedFunction
         {
             get
             {
-                if (roundToMultiplePredefinedFunction == null)
+                if (_roundToMultiplePredefinedFunction == null)
                 {
-                    roundToMultiplePredefinedFunction = new RoundToMultiple(this);
+                    _roundToMultiplePredefinedFunction = new RoundToMultiple(this);
                 }
-                return roundToMultiplePredefinedFunction;
+                return _roundToMultiplePredefinedFunction;
             }
         }
 
         /// <summary>
         ///     The predefined DoubleToInteger function
         /// </summary>
-        private DoubleToInteger doubleToIntegerPredefinedFunction;
+        private DoubleToInteger _doubleToIntegerPredefinedFunction;
 
         public DoubleToInteger DoubleToIntegerPredefinedFunction
         {
             get
             {
-                if (doubleToIntegerPredefinedFunction == null)
+                if (_doubleToIntegerPredefinedFunction == null)
                 {
-                    doubleToIntegerPredefinedFunction = new DoubleToInteger(this);
+                    _doubleToIntegerPredefinedFunction = new DoubleToInteger(this);
                 }
-                return doubleToIntegerPredefinedFunction;
+                return _doubleToIntegerPredefinedFunction;
             }
         }
 
         /// <summary>
         ///     The predefined deceleration profile function
         /// </summary>
-        private DecelerationProfile decelerationProfilePredefinedFunction;
+        private DecelerationProfile _decelerationProfilePredefinedFunction;
 
         public DecelerationProfile DecelerationProfilePredefinedFunction
         {
             get
             {
-                if (decelerationProfilePredefinedFunction == null)
+                if (_decelerationProfilePredefinedFunction == null)
                 {
-                    decelerationProfilePredefinedFunction = new DecelerationProfile(this);
+                    _decelerationProfilePredefinedFunction = new DecelerationProfile(this);
                 }
-                return decelerationProfilePredefinedFunction;
+                return _decelerationProfilePredefinedFunction;
             }
         }
 
         /// <summary>
         ///     The predefined before function
         /// </summary>
-        private Before beforePredefinedFunction;
+        private Before _beforePredefinedFunction;
 
         public Before BeforePredefinedFunction
         {
             get
             {
-                if (beforePredefinedFunction == null)
+                if (_beforePredefinedFunction == null)
                 {
-                    beforePredefinedFunction = new Before(this);
+                    _beforePredefinedFunction = new Before(this);
                 }
-                return beforePredefinedFunction;
+                return _beforePredefinedFunction;
             }
         }
 
         /// <summary>
         ///     The predefined checkNumber function
         /// </summary>
-        private CheckNumber checkNumberPredefinedFunction;
+        private CheckNumber _checkNumberPredefinedFunction;
 
         public CheckNumber CheckNumberPredefinedFunction
         {
             get
             {
-                if (checkNumberPredefinedFunction == null)
+                if (_checkNumberPredefinedFunction == null)
                 {
-                    checkNumberPredefinedFunction = new CheckNumber(this);
+                    _checkNumberPredefinedFunction = new CheckNumber(this);
                 }
-                return checkNumberPredefinedFunction;
+                return _checkNumberPredefinedFunction;
             }
         }
 
         /// <summary>
         ///     The predefined AddIncrement function
         /// </summary>
-        private AddIncrement addIncrementPredefinedFunction;
+        private AddIncrement _addIncrementPredefinedFunction;
 
         public AddIncrement AddIncrementPredefinedFunction
         {
             get
             {
-                if (addIncrementPredefinedFunction == null)
+                if (_addIncrementPredefinedFunction == null)
                 {
-                    addIncrementPredefinedFunction = new AddIncrement(this);
+                    _addIncrementPredefinedFunction = new AddIncrement(this);
                 }
-                return addIncrementPredefinedFunction;
+                return _addIncrementPredefinedFunction;
             }
         }
 
         /// <summary>
         ///     The predefined AddToDate function
         /// </summary>
-        private AddToDate addToDatePredefinedFunction;
+        private AddToDate _addToDatePredefinedFunction;
 
         public AddToDate AddToDatePredefinedFunction
         {
             get
             {
-                if (addToDatePredefinedFunction == null)
+                if (_addToDatePredefinedFunction == null)
                 {
-                    addToDatePredefinedFunction = new AddToDate(this);
+                    _addToDatePredefinedFunction = new AddToDate(this);
                 }
-                return addToDatePredefinedFunction;
+                return _addToDatePredefinedFunction;
             }
         }
 
         /// <summary>
         ///     The predefined override function
         /// </summary>
-        private Override overridePredefinedFunction;
+        private Override _overridePredefinedFunction;
 
         public Override OverridePredefinedFunction
         {
             get
             {
-                if (overridePredefinedFunction == null)
+                if (_overridePredefinedFunction == null)
                 {
-                    overridePredefinedFunction = new Override(this);
+                    _overridePredefinedFunction = new Override(this);
                 }
-                return overridePredefinedFunction;
+                return _overridePredefinedFunction;
             }
         }
 
         /// <summary>
         ///     The predefined DistanceForSpeed function
         /// </summary>
-        private DistanceForSpeed distanceForSpeedPredefinedFunction;
+        private DistanceForSpeed _distanceForSpeedPredefinedFunction;
 
         public DistanceForSpeed DistanceForSpeedPredefinedFunction
         {
             get
             {
-                if (distanceForSpeedPredefinedFunction == null)
+                if (_distanceForSpeedPredefinedFunction == null)
                 {
-                    distanceForSpeedPredefinedFunction = new DistanceForSpeed(this);
+                    _distanceForSpeedPredefinedFunction = new DistanceForSpeed(this);
                 }
-                return distanceForSpeedPredefinedFunction;
+                return _distanceForSpeedPredefinedFunction;
             }
         }
 
         /// <summary>
         ///     The predefined IntersectAt function
         /// </summary>
-        private IntersectAt intersectAtFunction;
+        private IntersectAt _intersectAtFunction;
 
         public IntersectAt IntersectAtFunction
         {
             get
             {
-                if (intersectAtFunction == null)
+                if (_intersectAtFunction == null)
                 {
-                    intersectAtFunction = new IntersectAt(this);
+                    _intersectAtFunction = new IntersectAt(this);
                 }
-                return intersectAtFunction;
+                return _intersectAtFunction;
             }
         }
 
         /// <summary>
         ///     The predefined Full Deceleration For Target function
         /// </summary>
-        private FullDecelerationForTarget fullDecelerationForTargetPredefinedFunction;
+        private FullDecelerationForTarget _fullDecelerationForTargetPredefinedFunction;
 
         public FullDecelerationForTarget FullDecelerationForTargetPredefinedFunction
         {
             get
             {
-                if (fullDecelerationForTargetPredefinedFunction == null)
+                if (_fullDecelerationForTargetPredefinedFunction == null)
                 {
-                    fullDecelerationForTargetPredefinedFunction = new FullDecelerationForTarget(this);
+                    _fullDecelerationForTargetPredefinedFunction = new FullDecelerationForTarget(this);
                 }
-                return fullDecelerationForTargetPredefinedFunction;
+                return _fullDecelerationForTargetPredefinedFunction;
             }
         }
 
         /// <summary>
         ///     The predefined functions
         /// </summary>
-        private Dictionary<string, PredefinedFunction> predefinedFunctions;
+        private Dictionary<string, PredefinedFunction> _predefinedFunctions;
 
         public Dictionary<string, PredefinedFunction> PredefinedFunctions
         {
             get
             {
-                if (predefinedFunctions == null)
+                if (_predefinedFunctions == null)
                 {
-                    predefinedFunctions = new Dictionary<string, PredefinedFunction>();
-                    predefinedFunctions[AvailablePredefinedFunction.Name] = AvailablePredefinedFunction;
-                    predefinedFunctions[AllocatePredefinedFunction.Name] = AllocatePredefinedFunction;
-                    predefinedFunctions[NotPredefinedFunction.Name] = NotPredefinedFunction;
-                    predefinedFunctions[MinPredefinedFunction.Name] = MinPredefinedFunction;
-                    predefinedFunctions[MinSurfacePredefinedFunction.Name] = MinSurfacePredefinedFunction;
-                    predefinedFunctions[MaxPredefinedFunction.Name] = MaxPredefinedFunction;
-                    predefinedFunctions[TargetsPredefinedFunction.Name] = TargetsPredefinedFunction;
-                    predefinedFunctions[DiscontPredefinedFunction.Name] = DiscontPredefinedFunction;
-                    predefinedFunctions[RoundToMultiplePredefinedFunction.Name] = RoundToMultiplePredefinedFunction;
-                    predefinedFunctions[DoubleToIntegerPredefinedFunction.Name] = DoubleToIntegerPredefinedFunction;
-                    predefinedFunctions[DecelerationProfilePredefinedFunction.Name] =
+                    _predefinedFunctions = new Dictionary<string, PredefinedFunction>();
+                    _predefinedFunctions[AvailablePredefinedFunction.Name] = AvailablePredefinedFunction;
+                    _predefinedFunctions[AllocatePredefinedFunction.Name] = AllocatePredefinedFunction;
+                    _predefinedFunctions[NotPredefinedFunction.Name] = NotPredefinedFunction;
+                    _predefinedFunctions[MinPredefinedFunction.Name] = MinPredefinedFunction;
+                    _predefinedFunctions[MinSurfacePredefinedFunction.Name] = MinSurfacePredefinedFunction;
+                    _predefinedFunctions[MaxPredefinedFunction.Name] = MaxPredefinedFunction;
+                    _predefinedFunctions[TargetsPredefinedFunction.Name] = TargetsPredefinedFunction;
+                    _predefinedFunctions[DiscontPredefinedFunction.Name] = DiscontPredefinedFunction;
+                    _predefinedFunctions[RoundToMultiplePredefinedFunction.Name] = RoundToMultiplePredefinedFunction;
+                    _predefinedFunctions[DoubleToIntegerPredefinedFunction.Name] = DoubleToIntegerPredefinedFunction;
+                    _predefinedFunctions[DecelerationProfilePredefinedFunction.Name] =
                         DecelerationProfilePredefinedFunction;
-                    predefinedFunctions[BeforePredefinedFunction.Name] = BeforePredefinedFunction;
-                    predefinedFunctions[CheckNumberPredefinedFunction.Name] = CheckNumberPredefinedFunction;
-                    predefinedFunctions[AddIncrementPredefinedFunction.Name] = AddIncrementPredefinedFunction;
-                    predefinedFunctions[AddToDatePredefinedFunction.Name] = AddToDatePredefinedFunction;
-                    predefinedFunctions[OverridePredefinedFunction.Name] = OverridePredefinedFunction;
-                    predefinedFunctions[DistanceForSpeedPredefinedFunction.Name] = DistanceForSpeedPredefinedFunction;
-                    predefinedFunctions[IntersectAtFunction.Name] = IntersectAtFunction;
-                    predefinedFunctions[FullDecelerationForTargetPredefinedFunction.Name] =
+                    _predefinedFunctions[BeforePredefinedFunction.Name] = BeforePredefinedFunction;
+                    _predefinedFunctions[CheckNumberPredefinedFunction.Name] = CheckNumberPredefinedFunction;
+                    _predefinedFunctions[AddIncrementPredefinedFunction.Name] = AddIncrementPredefinedFunction;
+                    _predefinedFunctions[AddToDatePredefinedFunction.Name] = AddToDatePredefinedFunction;
+                    _predefinedFunctions[OverridePredefinedFunction.Name] = OverridePredefinedFunction;
+                    _predefinedFunctions[DistanceForSpeedPredefinedFunction.Name] = DistanceForSpeedPredefinedFunction;
+                    _predefinedFunctions[IntersectAtFunction.Name] = IntersectAtFunction;
+                    _predefinedFunctions[FullDecelerationForTargetPredefinedFunction.Name] =
                         FullDecelerationForTargetPredefinedFunction;
                 }
-                return predefinedFunctions;
+                return _predefinedFunctions;
             }
-            set { predefinedFunctions = value; }
+            set { _predefinedFunctions = value; }
         }
 
 
         /// <summary>
         ///     All predefined items in the system
         /// </summary>
-        private Dictionary<string, INamable> predefinedItems;
+        private Dictionary<string, INamable> _predefinedItems;
 
         public Dictionary<string, INamable> PredefinedItems
         {
             get
             {
-                if (predefinedItems == null)
+                if (_predefinedItems == null)
                 {
-                    predefinedItems = new Dictionary<string, INamable>();
+                    _predefinedItems = new Dictionary<string, INamable>();
 
                     foreach (KeyValuePair<string, PredefinedFunction> pair in PredefinedFunctions)
                     {
-                        predefinedItems.Add(pair.Key, pair.Value);
+                        _predefinedItems.Add(pair.Key, pair.Value);
                     }
                     foreach (KeyValuePair<string, Type> pair in PredefinedTypes)
                     {
-                        predefinedItems.Add(pair.Key, pair.Value);
+                        _predefinedItems.Add(pair.Key, pair.Value);
                         IEnumerateValues enumerator = pair.Value as IEnumerateValues;
                         if (enumerator != null)
                         {
@@ -865,9 +876,10 @@ namespace DataDictionary
                             enumerator.Constants("", constants);
                             foreach (KeyValuePair<string, object> pair2 in constants)
                             {
-                                if (pair2.Value is INamable)
+                                INamable namable = pair2.Value as INamable;
+                                if (namable != null)
                                 {
-                                    predefinedItems.Add(pair2.Key, (INamable) pair2.Value);
+                                    _predefinedItems.Add(pair2.Key, namable);
                                 }
                             }
                         }
@@ -876,9 +888,9 @@ namespace DataDictionary
                     PredefinedItems.Add(EmptyValue.Name, EmptyValue);
                 }
 
-                return predefinedItems;
+                return _predefinedItems;
             }
-            set { predefinedItems = value; }
+            set { _predefinedItems = value; }
         }
 
         /// <summary>
@@ -886,25 +898,13 @@ namespace DataDictionary
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public INamable getPredefinedItem(string name)
+        public INamable GetPredefinedItem(string name)
         {
-            INamable namable = null;
+            INamable namable;
 
             PredefinedItems.TryGetValue(name, out namable);
 
             return namable;
-        }
-
-        /// <summary>
-        ///     Indicates that at least one message of type levelEnum is attached to the element
-        /// </summary>
-        /// <param name="levelEnum"></param>
-        /// <returns></returns>
-        public bool HasMessage(ElementLog.LevelEnum levelEnum)
-        {
-            bool retVal = false;
-
-            return retVal;
         }
 
         /// <summary>
@@ -974,7 +974,7 @@ namespace DataDictionary
         ///     Finds all namable which match the full name provided
         /// </summary>
         /// <param name="fullname">The full name used to search the namable</param>
-        public INamable findByFullName(string fullname)
+        public INamable FindByFullName(string fullname)
         {
             INamable retVal = null;
 
@@ -997,7 +997,7 @@ namespace DataDictionary
         /// <param name="nameSpace"></param>
         /// <param name="name"></param>
         /// <returns></returns>
-        public Type findType(NameSpace nameSpace, string name)
+        public Type FindType(NameSpace nameSpace, string name)
         {
             Type retVal = null;
 
@@ -1026,7 +1026,7 @@ namespace DataDictionary
         /// </summary>
         /// <param name="fullName"></param>
         /// <returns></returns>
-        public Rule findRule(string fullName)
+        public Rule FindRule(string fullName)
         {
             Rule retVal = null;
 
@@ -1046,7 +1046,7 @@ namespace DataDictionary
         /// <summary>
         ///     Adds a model element in this model element
         /// </summary>
-        /// <param name="copy"></param>
+        /// <param name="element"></param>
         public void AddModelElement(IModelElement element)
         {
             {
@@ -1059,11 +1059,22 @@ namespace DataDictionary
         }
 
         /// <summary>
+        ///     Indicates whether this is a parent of the element.
+        ///     It also returns true then parent==element
+        /// </summary>
+        /// <param name="element"></param>
+        /// <returns></returns>
+        public bool IsParent(IModelElement element)
+        {
+            return true;
+        }
+
+        /// <summary>
         ///     Indicates whether a rule is disabled
         /// </summary>
         /// <param name="rule"></param>
         /// <returns></returns>
-        public bool isDisabled(Rule rule)
+        public bool IsDisabled(Rule rule)
         {
             bool retVal = false;
 
@@ -1083,17 +1094,17 @@ namespace DataDictionary
         /// <summary>
         ///     The evaluator for this dictionary
         /// </summary>
-        private Parser parser;
+        private Parser _parser;
 
         public Parser Parser
         {
             get
             {
-                if (parser == null)
+                if (_parser == null)
                 {
-                    parser = new Parser(this);
+                    _parser = new Parser(this);
                 }
-                return parser;
+                return _parser;
             }
         }
 
@@ -1111,17 +1122,17 @@ namespace DataDictionary
         /// <summary>
         ///     The EFS System instance
         /// </summary>
-        private static EFSSystem instance = null;
+        private static EFSSystem _instance;
 
         public static EFSSystem INSTANCE
         {
             get
             {
-                if (instance == null)
+                if (_instance == null)
                 {
-                    instance = new EFSSystem();
+                    _instance = new EFSSystem();
                 }
-                return instance;
+                return _instance;
             }
         }
 
@@ -1129,7 +1140,7 @@ namespace DataDictionary
         ///     Provides an RTF explanation of the system
         /// </summary>
         /// <returns></returns>
-        public string getExplain()
+        public string GetExplain()
         {
             return "";
         }
@@ -1179,7 +1190,7 @@ namespace DataDictionary
             /// <summary>
             ///     Takes an interpreter tree into consideration
             /// </summary>
-            /// <param name="statement"></param>
+            /// <param name="tree"></param>
             private void ConsiderInterpreterTreeNode(InterpreterTreeNode tree)
             {
                 if (tree != null && tree.StaticUsage != null)
@@ -1402,9 +1413,9 @@ namespace DataDictionary
         /// <summary>
         ///     Indicates if the element holds messages, or is part of a path to a message
         /// </summary>
-        public MessagePathInfoEnum MessagePathInfo
+        public MessageInfoEnum MessagePathInfo
         {
-            get { return MessagePathInfoEnum.Nothing; }
+            get { return MessageInfoEnum.NoMessage; }
         }
 
         /// <summary>
@@ -1453,10 +1464,9 @@ namespace DataDictionary
             /// </summary>
             /// <param name="requirementSet"></param>
             /// <param name="belonging">
-            ///     Indicates whether the paragraph should belong to the requirement set
-            ///     <param name="notImplemented">Indicates that the the elements that should be marked are the not implemented ones</param>
+            ///     Indicates whether the paragraph should belong to the requirement set</param>
+            /// <param name="notImplemented">Indicates that the the elements that should be marked are the not implemented ones</param>
             ///     or whether the requirement should not belong to that requirement set
-            /// </param>
             public RequirementSetMarker(RequirementSet requirementSet, bool belonging, bool notImplemented)
             {
                 RequirementSet = requirementSet;
@@ -1490,6 +1500,7 @@ namespace DataDictionary
                 {
                     foreach (Paragraph subParagraph in paragraph.SubParagraphs)
                     {
+                        // ReSharper disable once ConditionIsAlwaysTrueOrFalse
                         MarkBelongingParagraph(subParagraph, recursively);
                     }
                 }
@@ -1535,13 +1546,14 @@ namespace DataDictionary
         /// <param name="requirementSet"></param>
         public void MarkRequirementsForRequirementSet(RequirementSet requirementSet)
         {
-            RequirementSetMarker marker = new RequirementSetMarker(requirementSet, true, false);
-            foreach (Dictionary dictionary in Dictionaries)
+            MarkingHistory.PerformMark(() =>
             {
-                dictionary.ClearMessages();
-                marker.visit(dictionary);
-            }
-            INSTANCE.Markings.RegisterCurrentMarking();
+                RequirementSetMarker marker = new RequirementSetMarker(requirementSet, true, false);
+                foreach (Dictionary dictionary in Dictionaries)
+                {
+                    marker.visit(dictionary);
+                }
+            });
         }
 
         /// <summary>
@@ -1550,13 +1562,14 @@ namespace DataDictionary
         /// <param name="requirementSet"></param>
         public void MarkRequirementsWhichDoNotBelongToRequirementSet(RequirementSet requirementSet)
         {
-            RequirementSetMarker marker = new RequirementSetMarker(requirementSet, false, false);
-            foreach (Dictionary dictionary in Dictionaries)
+            MarkingHistory.PerformMark(() =>
             {
-                dictionary.ClearMessages();
-                marker.visit(dictionary);
-            }
-            INSTANCE.Markings.RegisterCurrentMarking();
+                RequirementSetMarker marker = new RequirementSetMarker(requirementSet, false, false);
+                foreach (Dictionary dictionary in Dictionaries)
+                {
+                    marker.visit(dictionary);
+                }
+            });
         }
 
         /// <summary>
@@ -1565,13 +1578,14 @@ namespace DataDictionary
         /// <param name="requirementSet"></param>
         public void MarkNotImplementedRequirements(RequirementSet requirementSet)
         {
-            RequirementSetMarker marker = new RequirementSetMarker(requirementSet, true, true);
-            foreach (Dictionary dictionary in Dictionaries)
+            MarkingHistory.PerformMark(() =>
             {
-                dictionary.ClearMessages();
-                marker.visit(dictionary);
-            }
-            INSTANCE.Markings.RegisterCurrentMarking();
+                RequirementSetMarker marker = new RequirementSetMarker(requirementSet, true, true);
+                foreach (Dictionary dictionary in Dictionaries)
+                {
+                    marker.visit(dictionary);
+                }
+            });
         }
 
         /// <summary>
@@ -1579,7 +1593,7 @@ namespace DataDictionary
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public RequirementSet findRequirementSet(string name)
+        public RequirementSet FindRequirementSet(string name)
         {
             RequirementSet retVal = null;
 
@@ -1597,5 +1611,22 @@ namespace DataDictionary
 
             return retVal;
         }
+
+        /// <summary>
+        ///     Creates the status message 
+        /// </summary>
+        /// <returns>the status string for the selected element</returns>
+        public string CreateStatusMessage()
+        {
+            string retVal;
+
+            List<Paragraph> paragraphs = new List<Paragraph>();
+            GetParagraphs(paragraphs);
+
+            retVal = Paragraph.CreateParagraphSetStatus(paragraphs);
+
+            return retVal;
+        }
+
     }
 }

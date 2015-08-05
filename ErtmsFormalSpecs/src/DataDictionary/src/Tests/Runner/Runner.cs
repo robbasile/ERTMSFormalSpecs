@@ -62,14 +62,6 @@ namespace DataDictionary.Tests.Runner
         public bool Explain { get; set; }
 
         /// <summary>
-        ///     The data dictionary
-        /// </summary>
-        public virtual EFSSystem EFSSystem
-        {
-            get { return EFSSystem.INSTANCE; }
-        }
-
-        /// <summary>
         ///     The test case for which this runner has been created
         /// </summary>
         public SubSequence SubSequence { get; private set; }
@@ -77,12 +69,12 @@ namespace DataDictionary.Tests.Runner
         /// <summary>
         ///     The step between two activations
         /// </summary>
-        private double step = 0.1;
+        private double _step = 0.1;
 
         public double Step
         {
-            get { return step; }
-            set { step = value; }
+            get { return _step; }
+            set { _step = value; }
         }
 
         /// <summary>
@@ -100,26 +92,6 @@ namespace DataDictionary.Tests.Runner
         public double LastActivationTime { get; set; }
 
         /// <summary>
-        ///     Event when the execution is terminated
-        /// </summary>
-        /// <param name="priority"></param>
-        public delegate void CycleExecutionTerminatedDelegate(Runner runner, acceptor.RulePriority priority);
-
-        public static event CycleExecutionTerminatedDelegate CycleExecutionTerminated;
-
-        /// <summary>
-        ///     Launches the event CycleExecutionTerminated
-        /// </summary>
-        /// <param name="priority"></param>
-        public virtual void OnCycleExecutionTerminated(acceptor.RulePriority priority)
-        {
-            if (CycleExecutionTerminated != null)
-            {
-                CycleExecutionTerminated(this, priority);
-            }
-        }
-
-        /// <summary>
         ///     Indicates that clients should wait
         /// </summary>
         public bool PleaseWait { get; set; }
@@ -135,15 +107,15 @@ namespace DataDictionary.Tests.Runner
         {
             EventTimeLine = new EventTimeLine();
             SubSequence = subSequence;
-            EFSSystem.Runner = this;
+            EFSSystem.INSTANCE.Runner = this;
             LogEvents = logEvents;
             Explain = explain;
 
             if (ensureCompilation)
             {
                 // Compile everything
-                EFSSystem.Compiler.Compile_Synchronous(EFSSystem.ShouldRebuild);
-                EFSSystem.ShouldRebuild = false;
+                EFSSystem.INSTANCE.Compiler.Compile_Synchronous(EFSSystem.INSTANCE.ShouldRebuild);
+                EFSSystem.INSTANCE.ShouldRebuild = false;
             }
 
             Setup();
@@ -157,15 +129,15 @@ namespace DataDictionary.Tests.Runner
         {
             EventTimeLine = new EventTimeLine();
             SubSequence = null;
-            Step = 100;
+            Step = step;
             EventTimeLine.MaxNumberOfEvents = storeEventCount;
-            EFSSystem.Runner = this;
+            EFSSystem.INSTANCE.Runner = this;
             LogEvents = logEvents;
             Explain = explain;
 
             // Compile everything
-            EFSSystem.Compiler.Compile_Synchronous(EFSSystem.ShouldRebuild);
-            EFSSystem.ShouldRebuild = false;
+            EFSSystem.INSTANCE.Compiler.Compile_Synchronous(EFSSystem.INSTANCE.ShouldRebuild);
+            EFSSystem.INSTANCE.ShouldRebuild = false;
 
             Setup();
         }
@@ -175,20 +147,6 @@ namespace DataDictionary.Tests.Runner
         /// </summary>
         private class Setuper : Visitor
         {
-            /// <summary>
-            ///     The EFS system for which this setuper is created
-            /// </summary>
-            public EFSSystem EFSSystem { get; private set; }
-
-            /// <summary>
-            ///     Constructor
-            /// </summary>
-            /// <param name="efsSystem"></param>
-            public Setuper(EFSSystem efsSystem)
-            {
-                EFSSystem = efsSystem;
-            }
-
             /// <summary>
             ///     Sets the default values to each variable
             /// </summary>
@@ -246,8 +204,11 @@ namespace DataDictionary.Tests.Runner
             {
                 Functions.Function function = obj as Functions.Function;
 
-                function.ExecutionCount = 0;
-                function.ExecutionTimeInMilli = 0L;
+                if (function != null)
+                {
+                    function.ExecutionCount = 0;
+                    function.ExecutionTimeInMilli = 0L;                    
+                }
 
                 base.visit(obj, visitSubNodes);
             }
@@ -256,8 +217,11 @@ namespace DataDictionary.Tests.Runner
             {
                 Rules.Rule rule = obj as Rules.Rule;
 
-                rule.ExecutionCount = 0;
-                rule.ExecutionTimeInMilli = 0L;
+                if (rule != null)
+                {
+                    rule.ExecutionCount = 0;
+                    rule.ExecutionTimeInMilli = 0L;                    
+                }
 
                 base.visit(obj, visitSubNodes);
             }
@@ -271,9 +235,9 @@ namespace DataDictionary.Tests.Runner
             Util.DontNotify(() =>
             {
                 // Setup the execution environment
-                Setuper setuper = new Setuper(EFSSystem);
+                Setuper setuper = new Setuper();
                 ExecutionTimeInitializer executionTimeInitializer = new ExecutionTimeInitializer();
-                foreach (Dictionary dictionary in EFSSystem.Dictionaries)
+                foreach (Dictionary dictionary in EFSSystem.INSTANCE.Dictionaries)
                 {
                     setuper.visit(dictionary);
                     executionTimeInitializer.visit(dictionary);
@@ -316,6 +280,7 @@ namespace DataDictionary.Tests.Runner
             /// </summary>
             /// <param name="ruleCondition">The rule condition which leads to this activation</param>
             /// <param name="instance">The instance on which this rule condition's preconditions are evaluated to true</param>
+            /// <param name="explanation"></param>
             public Activation(RuleCondition ruleCondition, IModelElement instance, ExplanationPart explanation)
             {
                 RuleCondition = ruleCondition;
@@ -341,7 +306,7 @@ namespace DataDictionary.Tests.Runner
                     {
                         if (other.Instance != null)
                         {
-                            retVal = retVal && Instance.Equals(other.Instance);
+                            retVal = Instance.Equals(other.Instance);
                         }
                         else
                         {
@@ -372,13 +337,13 @@ namespace DataDictionary.Tests.Runner
         /// <summary>
         ///     Provides the order in which rules should be activated
         /// </summary>
-        public static acceptor.RulePriority[] PRIORITIES_ORDER =
+        public static acceptor.RulePriority[] PrioritiesOrder =
         {
             acceptor.RulePriority.aVerification,
             acceptor.RulePriority.aUpdateINTERNAL,
             acceptor.RulePriority.aProcessing,
             acceptor.RulePriority.aUpdateOUT,
-            acceptor.RulePriority.aCleanUp,
+            acceptor.RulePriority.aCleanUp
         };
 
         /// <summary>
@@ -404,9 +369,9 @@ namespace DataDictionary.Tests.Runner
 
                 Utils.ModelElement.Errors = new Dictionary<Utils.ModelElement, List<ElementLog>>();
 
-                foreach (acceptor.RulePriority priority in PRIORITIES_ORDER)
+                foreach (acceptor.RulePriority priority in PrioritiesOrder)
                 {
-                    innerExecuteOnePriority(priority);
+                    InnerExecuteOnePriority(priority);
                 }
                 CurrentPriority = null;
 
@@ -422,7 +387,7 @@ namespace DataDictionary.Tests.Runner
         ///     Executes a single rule priority (shared version of the method)
         /// </summary>
         /// <param name="priority"></param>
-        private void innerExecuteOnePriority(acceptor.RulePriority priority)
+        private void InnerExecuteOnePriority(acceptor.RulePriority priority)
         {
             CurrentPriority = priority;
             if (LogEvents)
@@ -432,11 +397,11 @@ namespace DataDictionary.Tests.Runner
 
             // Activates the processing engine
             HashSet<Activation> activations = new HashSet<Activation>();
-            foreach (Dictionary dictionary in EFSSystem.Dictionaries)
+            foreach (Dictionary dictionary in EFSSystem.INSTANCE.Dictionaries)
             {
                 foreach (NameSpace nameSpace in dictionary.NameSpaces)
                 {
-                    SetupNameSpaceActivations(priority, activations, nameSpace, this);
+                    SetupNameSpaceActivations(priority, activations, nameSpace);
                 }
             }
 
@@ -444,9 +409,6 @@ namespace DataDictionary.Tests.Runner
             EvaluateActivations(activations, priority, ref updates);
             ApplyUpdates(updates);
             CheckExpectationsState(priority);
-
-            // Indicates that the execution of this cycle priority is complete
-            OnCycleExecutionTerminated(priority);
         }
 
         /// <summary>
@@ -463,7 +425,7 @@ namespace DataDictionary.Tests.Runner
                 Utils.ModelElement.Errors = new Dictionary<Utils.ModelElement, List<ElementLog>>();
 
                 // Executes a single rule priority
-                innerExecuteOnePriority(priority);
+                InnerExecuteOnePriority(priority);
 
                 EventTimeLine.GarbageCollect();
             }
@@ -484,16 +446,14 @@ namespace DataDictionary.Tests.Runner
         /// <param name="priority">The priority for which this activation is requested</param>
         /// <param name="activations">The set of activations to be filled</param>
         /// <param name="nameSpace">The namespace to consider</param>
-        /// <param name="explanation">The explanation part to be filled</param>
-        /// <param name="runner"></param>
         /// <returns></returns>
         protected void SetupNameSpaceActivations(acceptor.RulePriority priority, HashSet<Activation> activations,
-            NameSpace nameSpace, Runner runner)
+            NameSpace nameSpace)
         {
             // Finds all activations in sub namespaces
             foreach (NameSpace subNameSpace in nameSpace.NameSpaces)
             {
-                SetupNameSpaceActivations(priority, activations, subNameSpace, runner);
+                SetupNameSpaceActivations(priority, activations, subNameSpace);
             }
 
             foreach (Rules.Rule rule in nameSpace.Rules)
@@ -506,7 +466,7 @@ namespace DataDictionary.Tests.Runner
             foreach (IVariable variable in nameSpace.Variables)
             {
                 EvaluateVariable(priority, activations, variable,
-                    new ExplanationPart(variable as ModelElement, "Evaluating variable"), runner);
+                    new ExplanationPart(variable as ModelElement, "Evaluating variable"));
             }
         }
 
@@ -517,11 +477,10 @@ namespace DataDictionary.Tests.Runner
         /// <param name="activations">The activation list result of this evaluation</param>
         /// <param name="variable">The variable to evaluate</param>
         /// <param name="explanation">The explanation part to be filled</param>
-        /// <param name="runner"></param>
         private void EvaluateVariable(acceptor.RulePriority priority, HashSet<Activation> activations,
-            IVariable variable, ExplanationPart explanation, Runner runner)
+            IVariable variable, ExplanationPart explanation)
         {
-            if (variable != null && variable.Value != EFSSystem.EmptyValue)
+            if (variable != null && variable.Value != EFSSystem.INSTANCE.EmptyValue)
             {
                 if (variable.Type is Structure)
                 {
@@ -536,31 +495,33 @@ namespace DataDictionary.Tests.Runner
                     {
                         foreach (IVariable subVariable in value.SubVariables.Values)
                         {
-                            EvaluateVariable(priority, activations, subVariable, explanation, runner);
+                            EvaluateVariable(priority, activations, subVariable, explanation);
                         }
                     }
                 }
                 else if (variable.Type is StateMachine)
                 {
-                    EvaluateStateMachine(activations, priority, variable, explanation, runner);
+                    EvaluateStateMachine(activations, priority, variable, explanation);
                 }
                 else if (variable.Type is Collection)
                 {
                     Collection collectionType = variable.Type as Collection;
-                    if (variable.Value != EFSSystem.EmptyValue)
+                    if (variable.Value != EFSSystem.INSTANCE.EmptyValue)
                     {
                         ListValue val = variable.Value as ListValue;
 
                         if (val != null)
                         {
-                            Variables.Variable tmp = new Variables.Variable();
-                            tmp.Name = "list_entry";
-                            tmp.Type = collectionType.Type;
+                            Variables.Variable tmp = new Variables.Variable
+                            {
+                                Name = "list_entry",
+                                Type = collectionType.Type
+                            };
 
                             foreach (IValue subVal in val.Val)
                             {
                                 tmp.Value = subVal;
-                                EvaluateVariable(priority, activations, tmp, explanation, runner);
+                                EvaluateVariable(priority, activations, tmp, explanation);
                             }
                         }
                         else
@@ -586,25 +547,27 @@ namespace DataDictionary.Tests.Runner
         ///     Try to find a rule, in this state machine, or in a sub state machine
         ///     which
         /// </summary>
-        /// <param name="ruleConditions">The rule conditions activated during the evaluation of this state machine</param>
+        /// <param name="activations"></param>
         /// <param name="priority">The priority when this evaluation occurs</param>
         /// <param name="currentStateVariable">The variable which holds the current state of the procedure</param>
         /// <param name="explanation">The explanation part to be filled</param>
-        /// <param name="runner"></param>
         private void EvaluateStateMachine(HashSet<Activation> activations, acceptor.RulePriority priority,
-            IVariable currentStateVariable, ExplanationPart explanation, Runner runner)
+            IVariable currentStateVariable, ExplanationPart explanation)
         {
             if (currentStateVariable != null)
             {
                 State currentState = currentStateVariable.Value as State;
-                StateMachine currentStateMachine = currentState.StateMachine;
-                while (currentStateMachine != null)
+                if (currentState != null)
                 {
-                    foreach (Rules.Rule rule in currentStateMachine.Rules)
+                    StateMachine currentStateMachine = currentState.StateMachine;
+                    while (currentStateMachine != null)
                     {
-                        rule.Evaluate(this, priority, currentStateVariable, activations, explanation);
+                        foreach (Rules.Rule rule in currentStateMachine.Rules)
+                        {
+                            rule.Evaluate(this, priority, currentStateVariable, activations, explanation);
+                        }
+                        currentStateMachine = currentStateMachine.EnclosingStateMachine;
                     }
-                    currentStateMachine = currentStateMachine.EnclosingStateMachine;
                 }
             }
         }
@@ -617,7 +580,9 @@ namespace DataDictionary.Tests.Runner
         /// <summary>
         ///     Applies the selected actions and update the system state
         /// </summary>
+        /// <param name="activations"></param>
         /// <param name="updates"></param>
+        /// <param name="priority"></param>
         public void EvaluateActivations(HashSet<Activation> activations, acceptor.RulePriority priority,
             ref List<VariableUpdate> updates)
         {
@@ -756,21 +721,22 @@ namespace DataDictionary.Tests.Runner
             }
         }
 
-        private HashSet<State>  ProcessedStates = new HashSet<State>();
+        private readonly HashSet<State>  _processedStates = new HashSet<State>();
 
         /// <summary>
         ///     Add actions when entering a state
         /// </summary>
         /// <param name="priority"></param>
         /// <param name="updates"></param>
+        /// <param name="variable"></param>
         /// <param name="leaveState"></param>
         /// <param name="enterState"></param>
         private void HandleEnterState(acceptor.RulePriority priority, List<VariableUpdate> updates, IVariable variable,
             State leaveState, State enterState)
         {
-            if (!ProcessedStates.Contains(enterState))
+            if (!_processedStates.Contains(enterState))
             {
-                ProcessedStates.Add(enterState);
+                _processedStates.Add(enterState);
 
                 if (!enterState.getStateMachine().Contains(enterState, leaveState))
                 {
@@ -791,7 +757,7 @@ namespace DataDictionary.Tests.Runner
                     }                
                 }
 
-                ProcessedStates.Remove(enterState);
+                _processedStates.Remove(enterState);
             }
         }
 
@@ -800,14 +766,15 @@ namespace DataDictionary.Tests.Runner
         /// </summary>
         /// <param name="priority"></param>
         /// <param name="updates"></param>
+        /// <param name="variable"></param>
         /// <param name="leaveState"></param>
         /// <param name="enterState"></param>
         private void HandleLeaveState(acceptor.RulePriority priority, List<VariableUpdate> updates, IVariable variable,
             State leaveState, State enterState)
         {
-            if (!ProcessedStates.Contains(leaveState))
+            if (!_processedStates.Contains(leaveState))
             {
-                ProcessedStates.Add(leaveState);
+                _processedStates.Add(leaveState);
 
                 if (!leaveState.getStateMachine().Contains(leaveState, enterState))
                 {
@@ -828,7 +795,7 @@ namespace DataDictionary.Tests.Runner
                     }
                 }
 
-                ProcessedStates.Remove(leaveState);
+                _processedStates.Remove(leaveState);
             }
         }
 
@@ -836,7 +803,7 @@ namespace DataDictionary.Tests.Runner
         ///     Applies the updates on the system
         /// </summary>
         /// <param name="updates"></param>
-        private void ApplyUpdates(List<VariableUpdate> updates)
+        private void ApplyUpdates(IEnumerable<VariableUpdate> updates)
         {
             foreach (VariableUpdate update in updates)
             {
@@ -999,7 +966,7 @@ namespace DataDictionary.Tests.Runner
         /// <returns></returns>
         private bool getBoolValue(ModelElement instance, Expression expression, ExplanationPart explain)
         {
-            bool retVal = false;
+            bool retVal;
 
             InterpretationContext context = new InterpretationContext(instance);
             BoolValue val = expression.GetValue(context, explain) as BoolValue;
@@ -1051,32 +1018,32 @@ namespace DataDictionary.Tests.Runner
         /// <summary>
         ///     Indicates that no test has been run yet
         /// </summary>
-        private static int TEST_NOT_RUN = -1;
+        private const int TestNotRun = -1;
 
         /// <summary>
         ///     Indicates that the current test case & current step & current sub-step must be rebuilt from the time line
         /// </summary>
-        private static int REBUILD_CURRENT_SUB_STEP = -2;
+        private const int RebuildCurrentSubStep = -2;
 
         /// <summary>
         ///     Indicates that the current test case & current step & current sub-step must be rebuilt from the time line
         /// </summary>
-        private static int NO_MORE_STEP = -3;
+        private const int NoMoreStep = -3;
 
         /// <summary>
         ///     The index of the last activated sub-step in the current test case
         /// </summary>
-        private int currentSubStepIndex = TEST_NOT_RUN;
+        private int _currentSubStepIndex = TestNotRun;
 
         /// <summary>
         ///     The index of the last activated step in the current test case
         /// </summary>
-        private int currentStepIndex = TEST_NOT_RUN;
+        private int _currentStepIndex = TestNotRun;
 
         /// <summary>
         ///     The index of the test case in which the last activated step belongs
         /// </summary>
-        private int currentTestCaseIndex = TEST_NOT_RUN;
+        private int _currentTestCaseIndex = TestNotRun;
 
         /// <summary>
         ///     Provides the next test case
@@ -1086,11 +1053,11 @@ namespace DataDictionary.Tests.Runner
         {
             TestCase retVal = null;
 
-            if (SubSequence != null && currentTestCaseIndex != NO_MORE_STEP)
+            if (SubSequence != null && _currentTestCaseIndex != NoMoreStep)
             {
-                if (currentTestCaseIndex >= 0 && currentTestCaseIndex < SubSequence.TestCases.Count)
+                if (_currentTestCaseIndex >= 0 && _currentTestCaseIndex < SubSequence.TestCases.Count)
                 {
-                    retVal = (TestCase) SubSequence.TestCases[currentTestCaseIndex];
+                    retVal = (TestCase) SubSequence.TestCases[_currentTestCaseIndex];
                 }
             }
 
@@ -1102,28 +1069,28 @@ namespace DataDictionary.Tests.Runner
         /// </summary>
         private void NextTestCase()
         {
-            if (currentTestCaseIndex != NO_MORE_STEP)
+            if (_currentTestCaseIndex != NoMoreStep)
             {
-                if (currentTestCaseIndex == REBUILD_CURRENT_SUB_STEP)
+                if (_currentTestCaseIndex == RebuildCurrentSubStep)
                 {
-                    currentStepIndex = REBUILD_CURRENT_SUB_STEP;
+                    _currentStepIndex = RebuildCurrentSubStep;
                     NextStep();
                 }
                 else
                 {
-                    currentTestCaseIndex += 1;
+                    _currentTestCaseIndex += 1;
                     TestCase testCase = CurrentTestCase();
                     while (testCase != null && testCase.Steps.Count == 0 &&
-                           currentTestCaseIndex < SubSequence.TestCases.Count)
+                           _currentTestCaseIndex < SubSequence.TestCases.Count)
                     {
-                        currentTestCaseIndex += 1;
+                        _currentTestCaseIndex += 1;
                         testCase = CurrentTestCase();
                     }
 
                     if (testCase == null)
                     {
-                        currentTestCaseIndex = NO_MORE_STEP;
-                        currentStepIndex = NO_MORE_STEP;
+                        _currentTestCaseIndex = NoMoreStep;
+                        _currentStepIndex = NoMoreStep;
                     }
                 }
             }
@@ -1137,14 +1104,14 @@ namespace DataDictionary.Tests.Runner
         {
             Step retVal = null;
 
-            if (currentStepIndex != NO_MORE_STEP)
+            if (_currentStepIndex != NoMoreStep)
             {
                 TestCase testCase = CurrentTestCase();
                 if (testCase != null)
                 {
-                    if (currentStepIndex >= 0 && currentStepIndex < testCase.Steps.Count)
+                    if (_currentStepIndex >= 0 && _currentStepIndex < testCase.Steps.Count)
                     {
-                        retVal = (Step) testCase.Steps[currentStepIndex];
+                        retVal = (Step) testCase.Steps[_currentStepIndex];
                     }
                 }
             }
@@ -1157,15 +1124,15 @@ namespace DataDictionary.Tests.Runner
         /// </summary>
         private void NextStep()
         {
-            if (currentStepIndex != NO_MORE_STEP)
+            if (_currentStepIndex != NoMoreStep)
             {
                 Step step = CurrentStep();
 
                 do
                 {
-                    if (currentStepIndex != REBUILD_CURRENT_SUB_STEP)
+                    if (_currentStepIndex != RebuildCurrentSubStep)
                     {
-                        currentStepIndex += 1;
+                        _currentStepIndex += 1;
                         TestCase testCase = CurrentTestCase();
                         if (testCase == null)
                         {
@@ -1173,18 +1140,18 @@ namespace DataDictionary.Tests.Runner
                             testCase = CurrentTestCase();
                         }
 
-                        if (testCase != null && currentStepIndex >= testCase.Steps.Count)
+                        if (testCase != null && _currentStepIndex >= testCase.Steps.Count)
                         {
                             NextTestCase();
                             testCase = CurrentTestCase();
                             if (testCase != null)
                             {
-                                currentStepIndex = 0;
+                                _currentStepIndex = 0;
                             }
                             else
                             {
-                                currentTestCaseIndex = NO_MORE_STEP;
-                                currentStepIndex = NO_MORE_STEP;
+                                _currentTestCaseIndex = NoMoreStep;
+                                _currentStepIndex = NoMoreStep;
                             }
                         }
                         step = CurrentStep();
@@ -1201,40 +1168,40 @@ namespace DataDictionary.Tests.Runner
         {
             SubStep retVal = null;
 
-            if (currentSubStepIndex != NO_MORE_STEP)
+            if (_currentSubStepIndex != NoMoreStep)
             {
-                if (currentSubStepIndex == REBUILD_CURRENT_SUB_STEP)
+                if (_currentSubStepIndex == RebuildCurrentSubStep)
                 {
-                    currentTestCaseIndex = -1;
-                    currentStepIndex = -1;
-                    currentSubStepIndex = -1;
-                    int previousTestCaseIndex = currentTestCaseIndex;
-                    int previousStepIndex = currentStepIndex;
-                    int previousSubStepIndex = currentSubStepIndex;
+                    _currentTestCaseIndex = -1;
+                    _currentStepIndex = -1;
+                    _currentSubStepIndex = -1;
+                    int previousTestCaseIndex = _currentTestCaseIndex;
+                    int previousStepIndex = _currentStepIndex;
+                    int previousSubStepIndex = _currentSubStepIndex;
 
                     NextSubStep();
                     retVal = CurrentSubStep();
                     while (retVal != null && EventTimeLine.SubStepActivationCache.ContainsKey(retVal))
                     {
-                        previousTestCaseIndex = currentTestCaseIndex;
-                        previousStepIndex = currentStepIndex;
-                        previousSubStepIndex = currentSubStepIndex;
+                        previousTestCaseIndex = _currentTestCaseIndex;
+                        previousStepIndex = _currentStepIndex;
+                        previousSubStepIndex = _currentSubStepIndex;
 
                         NextSubStep();
                         retVal = CurrentSubStep();
                     }
 
-                    currentTestCaseIndex = previousTestCaseIndex;
-                    currentStepIndex = previousStepIndex;
-                    currentSubStepIndex = previousSubStepIndex;
+                    _currentTestCaseIndex = previousTestCaseIndex;
+                    _currentStepIndex = previousStepIndex;
+                    _currentSubStepIndex = previousSubStepIndex;
                 }
 
                 Step step = CurrentStep();
                 if (step != null)
                 {
-                    if (currentSubStepIndex >= 0 && currentSubStepIndex < step.SubSteps.Count)
+                    if (_currentSubStepIndex >= 0 && _currentSubStepIndex < step.SubSteps.Count)
                     {
-                        retVal = (SubStep) step.SubSteps[currentSubStepIndex];
+                        retVal = (SubStep) step.SubSteps[_currentSubStepIndex];
                     }
                 }
             }
@@ -1247,14 +1214,14 @@ namespace DataDictionary.Tests.Runner
         /// </summary>
         private void NextSubStep()
         {
-            if (currentSubStepIndex != NO_MORE_STEP)
+            if (_currentSubStepIndex != NoMoreStep)
             {
                 SubStep subStep = CurrentSubStep();
                 Step step;
 
                 do
                 {
-                    currentSubStepIndex++;
+                    _currentSubStepIndex++;
                     step = CurrentStep();
                     if (step == null)
                     {
@@ -1262,18 +1229,18 @@ namespace DataDictionary.Tests.Runner
                         step = CurrentStep();
                     }
 
-                    if (step != null && currentSubStepIndex >= step.SubSteps.Count)
+                    if (step != null && _currentSubStepIndex >= step.SubSteps.Count)
                     {
                         NextStep();
                         step = CurrentStep();
                         if (step != null)
                         {
-                            currentSubStepIndex = 0;
+                            _currentSubStepIndex = 0;
                         }
                         else
                         {
-                            currentTestCaseIndex = NO_MORE_STEP;
-                            currentStepIndex = NO_MORE_STEP;
+                            _currentTestCaseIndex = NoMoreStep;
+                            _currentStepIndex = NoMoreStep;
                         }
                     }
                     subStep = CurrentSubStep();
@@ -1290,8 +1257,8 @@ namespace DataDictionary.Tests.Runner
         {
             Util.DontNotify(() =>
             {
-                currentStepIndex = NO_MORE_STEP;
-                currentTestCaseIndex = NO_MORE_STEP;
+                _currentStepIndex = NoMoreStep;
+                _currentTestCaseIndex = NoMoreStep;
 
                 if (target != null)
                 {
@@ -1309,8 +1276,8 @@ namespace DataDictionary.Tests.Runner
                     {
                         if (step == target)
                         {
-                            currentStepIndex = REBUILD_CURRENT_SUB_STEP;
-                            currentTestCaseIndex = REBUILD_CURRENT_SUB_STEP;
+                            _currentStepIndex = RebuildCurrentSubStep;
+                            _currentTestCaseIndex = RebuildCurrentSubStep;
                             break;
                         }
 
@@ -1332,7 +1299,7 @@ namespace DataDictionary.Tests.Runner
                                 }
                                 else
                                 {
-                                    foreach (acceptor.RulePriority priority in PRIORITIES_ORDER)
+                                    foreach (acceptor.RulePriority priority in PrioritiesOrder)
                                     {
                                         CheckExpectationsState(priority);
                                     }
@@ -1346,7 +1313,7 @@ namespace DataDictionary.Tests.Runner
                         }
                     }
 
-                    if (currentTestCaseIndex == REBUILD_CURRENT_SUB_STEP)
+                    if (_currentTestCaseIndex == RebuildCurrentSubStep)
                     {
                         break;
                     }
@@ -1358,7 +1325,7 @@ namespace DataDictionary.Tests.Runner
         ///     Runs the test case until the step provided is encountered
         ///     This does not execute the corresponding step.
         /// </summary>
-        /// <param name="Item"></param>
+        /// <param name="targetTime"></param>
         public void RunUntilTime(double targetTime)
         {
             while (EventTimeLine.CurrentTime < targetTime)
@@ -1394,10 +1361,10 @@ namespace DataDictionary.Tests.Runner
         /// </summary>
         public void StepBack()
         {
-            EventTimeLine.StepBack(step);
-            currentSubStepIndex = REBUILD_CURRENT_SUB_STEP;
-            currentStepIndex = REBUILD_CURRENT_SUB_STEP;
-            currentTestCaseIndex = REBUILD_CURRENT_SUB_STEP;
+            EventTimeLine.StepBack(_step);
+            _currentSubStepIndex = RebuildCurrentSubStep;
+            _currentStepIndex = RebuildCurrentSubStep;
+            _currentTestCaseIndex = RebuildCurrentSubStep;
         }
 
         /// <summary>
@@ -1423,42 +1390,10 @@ namespace DataDictionary.Tests.Runner
         public void EndExecution()
         {
             ExecutionTimeInitializer initializer = new ExecutionTimeInitializer();
-            foreach (Dictionary dictionary in EFSSystem.Dictionaries)
+            foreach (Dictionary dictionary in EFSSystem.INSTANCE.Dictionaries)
             {
                 initializer.visit(dictionary);
             }
-        }
-
-        /// <summary>
-        ///     Provides the next rule priority according to the current one
-        /// </summary>
-        /// <returns></returns>
-        private acceptor.RulePriority NextPriority()
-        {
-            acceptor.RulePriority retVal = acceptor.RulePriority.defaultRulePriority;
-
-            if (CurrentPriority != null)
-            {
-                bool currentFound = false;
-                foreach (acceptor.RulePriority next in PRIORITIES_ORDER)
-                {
-                    if (next == CurrentPriority)
-                    {
-                        currentFound = true;
-                    }
-                    else if (currentFound)
-                    {
-                        retVal = next;
-                    }
-                }
-            }
-
-            if (retVal == acceptor.RulePriority.defaultRulePriority)
-            {
-                retVal = acceptor.RulePriority.aVerification;
-            }
-
-            return retVal;
         }
 
         /// <summary>
@@ -1475,7 +1410,7 @@ namespace DataDictionary.Tests.Runner
                     {
                         case ElementLog.LevelEnum.Error:
                             ModelInterpretationFailure modelInterpretationFailure = new ModelInterpretationFailure(log,
-                                pair.Key as INamable, null);
+                                pair.Key, null);
                             ModelElement modelElement = pair.Key as ModelElement;
                             if (modelElement != null)
                             {

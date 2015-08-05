@@ -18,79 +18,179 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 using DataDictionary;
+using Utils;
 using WeifenLuo.WinFormsUI.Docking;
 
 namespace GUI.BoxArrowDiagram
 {
-    public abstract partial class BoxArrowWindow<BoxModel, ArrowModel> : DockContent
-        where BoxModel : class, IGraphicalDisplay
-        where ArrowModel : class, IGraphicalArrow<BoxModel>
+    public abstract partial class BoxArrowWindow<TEnclosing, TBoxModel, TArrowModel> : BaseBoxArrowWindow
+        where TEnclosing : class
+        where TBoxModel : class, IGraphicalDisplay
+        where TArrowModel : class, IGraphicalArrow<TBoxModel>
     {
+        /// <summary>
+        /// The enclosing model
+        /// </summary>
+        protected TEnclosing Model { get; set; }
+
         /// <summary>
         ///     Constructor
         /// </summary>
-        public BoxArrowWindow()
+        protected BoxArrowWindow()
         {
-            descriptionRichTextBox = new EditorTextBox();
             InitializeComponent();
-
-            FormClosed += new FormClosedEventHandler(BoxArrowDiagramWindow_FormClosed);
-            splitContainer1.FixedPanel = FixedPanel.Panel2;
 
             DockAreas = DockAreas.Document;
         }
 
         /// <summary>
-        ///     Method used to create a panel
+        ///     The selected control 
+        /// </summary>
+        protected Control Selected { get; set; }
+
+        /// <summary>
+        ///     Indicates whether the control is selected
+        /// </summary>
+        /// <param name="control"></param>
+        /// <returns></returns>
+        public bool IsSelected(Control control)
+        {
+            return control == Selected;
+        }
+
+        /// <summary>
+        /// Provides the box control which corresponds to the model provided as parameter
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public abstract BoxArrowPanel<BoxModel, ArrowModel> createPanel();
-
-        private void BoxArrowDiagramWindow_FormClosed(object sender, FormClosedEventArgs e)
+        protected BoxControl<TEnclosing, TBoxModel, TArrowModel> BoxForModel(IModelElement model)
         {
-            GUIUtils.MDIWindow.HandleSubWindowClosed(this);
+            BoxControl<TEnclosing, TBoxModel, TArrowModel> retVal = null;
+
+            TBoxModel boxModel = model as TBoxModel;
+            if (boxModel != null)
+            {
+                retVal = BoxArrowContainerPanel.GetBoxControl(boxModel);
+            }
+
+            return retVal;
         }
+
+        /// <summary>
+        /// Provides the arrow control which corresponds to the model provided as parameter
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        protected ArrowControl<TEnclosing, TBoxModel, TArrowModel> ArrowForModel(IModelElement model)
+        {
+            ArrowControl<TEnclosing, TBoxModel, TArrowModel> retVal = null;
+
+            TArrowModel arrowModel = model as TArrowModel;
+            if (arrowModel != null)
+            {
+                retVal = BoxArrowContainerPanel.GetArrowControl(arrowModel);
+            }
+
+            return retVal;
+        }
+
+        /// <summary>
+        /// Creates the editor for the selected object
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public override object CreateEditor(IModelElement model)
+        {
+            object retVal = base.CreateEditor(model);
+
+            if (retVal == null)
+            {
+                BoxControl<TEnclosing, TBoxModel, TArrowModel> boxControl = BoxForModel(model);
+                if (boxControl != null)
+                {
+                    Selected = boxControl;
+                    retVal = CreateBoxEditor(boxControl);
+                }
+
+                ArrowControl<TEnclosing, TBoxModel, TArrowModel> arrowControl = ArrowForModel(model);
+                if (arrowControl != null)
+                {
+                    Selected = arrowControl;
+                    retVal = CreateArrowEditor(arrowControl);
+                }
+            }
+            return retVal;
+        }
+
+        /// <summary>
+        ///     Allows to refresh the view, when the selected model changed
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns>true if refresh should be performed</returns>
+        public override bool HandleSelectionChange(Context.SelectionContext context)
+        {
+            bool retVal = base.HandleSelectionChange(context);
+
+            BoxControl<TEnclosing, TBoxModel, TArrowModel> boxControl = BoxForModel(context.Element);
+            if (boxControl != null)
+            {
+                Selected = boxControl;
+            }
+
+            ArrowControl<TEnclosing, TBoxModel, TArrowModel> arrowControl = ArrowForModel(context.Element);
+            if (arrowControl != null)
+            {
+                Selected = arrowControl;
+            }
+
+            return retVal;
+        }
+
+        /// <summary>
+        ///     Method used to create a panel
+        /// </summary>
+        /// <returns></returns>
+        public abstract BoxArrowPanel<TEnclosing, TBoxModel, TArrowModel> CreatePanel();
 
         /// <summary>
         ///     A box editor
         /// </summary>
         protected class BoxEditor
         {
-            public BoxControl<BoxModel, ArrowModel> control;
+            public BoxControl<TEnclosing, TBoxModel, TArrowModel> Control;
 
             /// <summary>
             ///     Constructor
             /// </summary>
             /// <param name="control"></param>
-            public BoxEditor(BoxControl<BoxModel, ArrowModel> control)
+            public BoxEditor(BoxControl<TEnclosing, TBoxModel, TArrowModel> control)
             {
-                this.control = control;
+                Control = control;
             }
 
             [Category("Description")]
             public virtual string Name
             {
-                get { return control.Model.GraphicalName; }
+                get { return Control.Model.GraphicalName; }
                 set
                 {
-                    control.Model.Name = value;
-                    control.RefreshControl();
+                    Control.Model.Name = value;
+                    Control.RefreshControl();
                 }
             }
 
             [Category("Description")]
             public Point Position
             {
-                get { return new Point(control.Model.X, control.Model.Y); }
+                get { return new Point(Control.Model.X, Control.Model.Y); }
                 set
                 {
-                    control.Model.X = value.X;
-                    control.Model.Y = value.Y;
-                    control.RefreshControl();
-                    if (control.Panel != null)
+                    Control.Model.X = value.X;
+                    Control.Model.Y = value.Y;
+                    Control.RefreshControl();
+                    if (Control.Panel != null)
                     {
-                        control.Panel.UpdateArrowPosition();
+                        Control.Panel.UpdateArrowPosition();
                     }
                 }
             }
@@ -98,15 +198,15 @@ namespace GUI.BoxArrowDiagram
             [Category("Description")]
             public Point Size
             {
-                get { return new Point(control.Model.Width, control.Model.Height); }
+                get { return new Point(Control.Model.Width, Control.Model.Height); }
                 set
                 {
-                    control.Model.Width = value.X;
-                    control.Model.Height = value.Y;
-                    control.RefreshControl();
-                    if (control.Panel != null)
+                    Control.Model.Width = value.X;
+                    Control.Model.Height = value.Y;
+                    Control.RefreshControl();
+                    if (Control.Panel != null)
                     {
-                        control.Panel.UpdateArrowPosition();
+                        Control.Panel.UpdateArrowPosition();
                     }
                 }
             }
@@ -114,13 +214,13 @@ namespace GUI.BoxArrowDiagram
             [Category("Description")]
             public bool Hidden
             {
-                get { return control.Model.Hidden; }
+                get { return Control.Model.Hidden; }
                 set
                 {
-                    control.Model.Hidden = value;
-                    if (control.Panel != null)
+                    Control.Model.Hidden = value;
+                    if (Control.Panel != null)
                     {
-                        control.Panel.RefreshControl();
+                        Control.Panel.RefreshControl();
                     }
                 }
             }
@@ -131,7 +231,7 @@ namespace GUI.BoxArrowDiagram
         /// </summary>
         /// <param name="control"></param>
         /// <returns></returns>
-        protected virtual BoxEditor createBoxEditor(BoxControl<BoxModel, ArrowModel> control)
+        protected virtual BoxEditor CreateBoxEditor(BoxControl<TEnclosing, TBoxModel, TArrowModel> control)
         {
             BoxEditor retVal = new BoxEditor(control);
 
@@ -143,21 +243,21 @@ namespace GUI.BoxArrowDiagram
         /// </summary>
         protected class ArrowEditor
         {
-            public ArrowControl<BoxModel, ArrowModel> control;
+            public ArrowControl<TEnclosing, TBoxModel, TArrowModel> Control;
 
             /// <summary>
             ///     Constructor
             /// </summary>
             /// <param name="control"></param>
-            public ArrowEditor(ArrowControl<BoxModel, ArrowModel> control)
+            public ArrowEditor(ArrowControl<TEnclosing, TBoxModel, TArrowModel> control)
             {
-                this.control = control;
+                Control = control;
             }
 
             [Category("Description")]
             public string Name
             {
-                get { return control.Model.GraphicalName; }
+                get { return Control.Model.GraphicalName; }
             }
         }
 
@@ -166,7 +266,7 @@ namespace GUI.BoxArrowDiagram
         /// </summary>
         /// <param name="control"></param>
         /// <returns></returns>
-        protected virtual ArrowEditor createArrowEditor(ArrowControl<BoxModel, ArrowModel> control)
+        protected virtual ArrowEditor CreateArrowEditor(ArrowControl<TEnclosing, TBoxModel, TArrowModel> control)
         {
             ArrowEditor retVal = new ArrowEditor(control);
 
@@ -174,79 +274,24 @@ namespace GUI.BoxArrowDiagram
         }
 
         /// <summary>
-        ///     The selected object
+        ///     Allows to refresh the view, when the value of a model changed
         /// </summary>
-        protected object Selected { get; set; }
-
-        /// <summary>
-        ///     Selects a model element
-        /// </summary>
-        /// <param name="model"></param>
-        /// <param name="alsoSelectInOtherWindows">
-        ///     Indicates that the element should also be selected in the other windows + get
-        ///     focus
-        /// </param>
-        public void Select(object model, bool alsoSelectInOtherWindows)
+        /// <param name="modelElement"></param>
+        /// <param name="changeKind"></param>
+        /// <returns>True if the view should be refreshed</returns>
+        public override bool HandleValueChange(IModelElement modelElement, Context.ChangeKind changeKind)
         {
-            Selected = model;
-            BoxArrowContainerPanel.Selected = model;
-            if (model is BoxControl<BoxModel, ArrowModel>)
+            bool retVal = base.HandleValueChange(modelElement, changeKind);
+
+            if (retVal)
             {
-                BoxControl<BoxModel, ArrowModel> control = model as BoxControl<BoxModel, ArrowModel>;
-                propertyGrid.SelectedObject = createBoxEditor(control);
-                descriptionRichTextBox.ResetText();
-                descriptionRichTextBox.Text = TextualExplanationUtils.GetText(control.Model, false);
-                if (alsoSelectInOtherWindows)
+                if (modelElement == Model)
                 {
-                    GUIUtils.MDIWindow.Select(control.Model);
+                    BoxArrowContainerPanel.RefreshControl();
                 }
             }
-            else if (model is ArrowControl<BoxModel, ArrowModel>)
-            {
-                ArrowControl<BoxModel, ArrowModel> control = model as ArrowControl<BoxModel, ArrowModel>;
-                propertyGrid.SelectedObject = createArrowEditor(control);
-                descriptionRichTextBox.ResetText();
-                if (control.Model.ReferencedModel != null)
-                {
-                    ITextualExplain explainable = control.Model.ReferencedModel as ITextualExplain;
-                    if (explainable != null)
-                    {
-                        descriptionRichTextBox.Text = TextualExplanationUtils.GetText(explainable, true);
-                    }
-                    else
-                    {
-                        descriptionRichTextBox.Text = "";
-                    }
-                }
-                else
-                {
-                    descriptionRichTextBox.Text = "";
-                }
 
-                if (alsoSelectInOtherWindows)
-                {
-                    GUIUtils.MDIWindow.Select(control.Model.ReferencedModel);
-                }
-            }
-            else
-            {
-                propertyGrid.SelectedObject = null;
-            }
-        }
-
-        /// <summary>
-        ///     Indicates whether the control is selected
-        /// </summary>
-        /// <param name="control"></param>
-        /// <returns></returns>
-        internal bool isSelected(Control control)
-        {
-            return control == Selected;
-        }
-
-        public void RefreshAfterStep()
-        {
-            BoxArrowContainerPanel.Refresh();
+            return retVal;
         }
     }
 }

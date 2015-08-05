@@ -27,19 +27,13 @@ namespace GUI.TranslationRules
     {
         private class ItemEditor : NamedEditor
         {
-            /// <summary>
-            ///     Constructor
-            /// </summary>
-            public ItemEditor()
-                : base()
-            {
-            }
         }
 
         /// <summary>
         ///     Constructor
         /// </summary>
         /// <param name="item"></param>
+        /// <param name="buildSubNodes"></param>
         public SourceTextsTreeNode(Translation item, bool buildSubNodes)
             : base(item, buildSubNodes, "Source texts", true)
         {
@@ -48,49 +42,33 @@ namespace GUI.TranslationRules
         /// <summary>
         ///     Builds the subnodes of this node
         /// </summary>
-        /// <param name="buildSubNodes">Indicates whether the subnodes of the nodes should also be built</param>
-        public override void BuildSubNodes(bool buildSubNodes)
+        /// <param name="subNodes"></param>
+        /// <param name="recursive">Indicates whether the subnodes of the nodes should also be built</param>
+        public override void BuildSubNodes(List<BaseTreeNode> subNodes, bool recursive)
         {
-            base.BuildSubNodes(buildSubNodes);
+            base.BuildSubNodes(subNodes, recursive);
 
             foreach (SourceText sourceText in Item.SourceTexts)
             {
-                Nodes.Add(new SourceTextTreeNode(sourceText, buildSubNodes));
+                subNodes.Add(new SourceTextTreeNode(sourceText, recursive));
             }
-            SortSubNodes();
+            subNodes.Sort();
         }
 
         /// <summary>
         ///     Creates the editor for this tree node
         /// </summary>
         /// <returns></returns>
-        protected override Editor createEditor()
+        protected override Editor CreateEditor()
         {
             return new ItemEditor();
-        }
-
-        /// <summary>
-        ///     Creates a new source text
-        /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
-        public SourceTextTreeNode createSourceText(SourceText sourceText)
-        {
-            SourceTextTreeNode retVal;
-
-            Item.appendSourceTexts(sourceText);
-            retVal = new SourceTextTreeNode(sourceText, true);
-            Nodes.Add(retVal);
-            SortSubNodes();
-
-            return retVal;
         }
 
         public void AddHandler(object sender, EventArgs args)
         {
             SourceText sourceText = (SourceText) acceptor.getFactory().createSourceText();
             sourceText.Name = "<SourceText " + (Item.SourceTexts.Count + 1) + ">";
-            createSourceText(sourceText);
+            Item.appendSourceTexts(sourceText);
         }
 
         /// <summary>
@@ -99,43 +77,24 @@ namespace GUI.TranslationRules
         /// <returns></returns>
         protected override List<MenuItem> GetMenuItems()
         {
-            List<MenuItem> retVal = new List<MenuItem>();
-
-            retVal.Add(new MenuItem("Add", new EventHandler(AddHandler)));
-            retVal.Add(new MenuItem("-"));
-            retVal.Add(new MenuItem("Delete", new EventHandler(DeleteHandler)));
+            List<MenuItem> retVal = new List<MenuItem>
+            {
+                new MenuItem("Add", AddHandler),
+                new MenuItem("-"),
+                new MenuItem("Delete", DeleteHandler)
+            };
 
             return retVal;
         }
 
         /// <summary>
-        ///     Handles a selection change event
-        /// </summary>
-        /// <param name="displayStatistics">Indicates that statistics should be displayed in the MDI window</param>
-        public override void SelectionChanged(bool displayStatistics)
-        {
-            base.SelectionChanged(displayStatistics);
-            if (BaseTreeView != null && BaseTreeView.RefreshNodeContent)
-            {
-                IBaseForm baseForm = BaseForm;
-                if (baseForm != null)
-                {
-                    if (baseForm.RequirementsTextBox != null)
-                    {
-                        baseForm.RequirementsTextBox.Text = Item.getSourceTextExplain();
-                    }
-                }
-            }
-        }
-
-        /// <summary>
         ///     Handles drop event
         /// </summary>
-        /// <param name="SourceNode"></param>
-        public override void AcceptDrop(BaseTreeNode SourceNode)
+        /// <param name="sourceNode"></param>
+        public override void AcceptDrop(BaseTreeNode sourceNode)
         {
-            base.AcceptDrop(SourceNode);
-            TranslationTreeNode.AcceptDropForTranslation((TranslationTreeNode) Parent, SourceNode);
+            base.AcceptDrop(sourceNode);
+            TranslationTreeNode.AcceptDropForTranslation((TranslationTreeNode) Parent, sourceNode);
         }
     }
 }

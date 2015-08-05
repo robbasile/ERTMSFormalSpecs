@@ -167,7 +167,7 @@ namespace EFSInterface
                 {
                     Console.Out.WriteLine("Loading dictionary " + arg);
 
-                    Dictionary dictionary = Util.load(efsSystem, new Util.LoadParams(arg)
+                    Dictionary dictionary = Util.Load(efsSystem, new Util.LoadParams(arg)
                     {
                         LockFiles = false,
                         Errors = null,

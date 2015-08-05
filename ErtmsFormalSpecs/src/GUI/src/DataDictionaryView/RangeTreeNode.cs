@@ -34,15 +34,8 @@ namespace GUI.DataDictionaryView
         /// </summary>
         private class ItemEditor : TypeEditor
         {
-            /// <summary>
-            ///     Constructor
-            /// </summary>
-            public ItemEditor()
-                : base()
-            {
-            }
-
             [Category("Description"), TypeConverter(typeof (RangePrecisionConverter))]
+            // ReSharper disable once UnusedMember.Local
             public acceptor.PrecisionEnum Precision
             {
                 get { return Item.getPrecision(); }
@@ -50,6 +43,7 @@ namespace GUI.DataDictionaryView
             }
 
             [Category("Description")]
+            // ReSharper disable once UnusedMember.Local
             public string MinValue
             {
                 get { return Item.getMinValue(); }
@@ -57,6 +51,7 @@ namespace GUI.DataDictionaryView
             }
 
             [Category("Description")]
+            // ReSharper disable once UnusedMember.Local
             public string MaxValue
             {
                 get { return Item.getMaxValue(); }
@@ -69,6 +64,7 @@ namespace GUI.DataDictionaryView
             [Category("Description")]
             [Editor(typeof (DefaultValueUITypedEditor), typeof (UITypeEditor))]
             [TypeConverter(typeof (DefaultValueUITypeConverter))]
+            // ReSharper disable once UnusedMember.Local
             public Range DefaultValue
             {
                 get { return Item; }
@@ -80,13 +76,11 @@ namespace GUI.DataDictionaryView
             }
         }
 
-        private RangeValuesTreeNode specialValues;
-
         /// <summary>
         ///     Constructor
         /// </summary>
-        /// <param name="name"></param>
         /// <param name="item"></param>
+        /// <param name="buildSubNodes"></param>
         public RangeTreeNode(Range item, bool buildSubNodes)
             : base(item, buildSubNodes)
         {
@@ -95,8 +89,11 @@ namespace GUI.DataDictionaryView
         /// <summary>
         ///     Constructor
         /// </summary>
-        /// <param name="name"></param>
         /// <param name="item"></param>
+        /// <param name="buildSubNodes"></param>
+        /// <param name="name"></param>
+        /// <param name="isFolder"></param>
+        /// <param name="addRequirements"></param>
         public RangeTreeNode(Range item, bool buildSubNodes, string name, bool isFolder, bool addRequirements)
             : base(item, buildSubNodes, name, isFolder, addRequirements)
         {
@@ -105,27 +102,27 @@ namespace GUI.DataDictionaryView
         /// <summary>
         ///     Builds the subnodes of this node
         /// </summary>
-        /// <param name="buildSubNodes">Indicates whether the subnodes of the nodes should also be built</param>
-        public override void BuildSubNodes(bool buildSubNodes)
+        /// <param name="subNodes"></param>
+        /// <param name="recursive">Indicates whether the subnodes of the nodes should also be built</param>
+        public override void BuildSubNodes(List<BaseTreeNode> subNodes, bool recursive)
         {
-            base.BuildSubNodes(buildSubNodes);
+            base.BuildSubNodes(subNodes, recursive);
 
-            specialValues = new RangeValuesTreeNode(Item, buildSubNodes);
-            Nodes.Add(specialValues);
+            subNodes.Add(new RangeValuesTreeNode(Item, recursive));
         }
 
         /// <summary>
         ///     Creates the editor for this tree node
         /// </summary>
         /// <returns></returns>
-        protected override Editor createEditor()
+        protected override Editor CreateEditor()
         {
             return new ItemEditor();
         }
 
         public virtual void AddSpecialValueHandler(object sender, EventArgs e)
         {
-            specialValues.AddSpecialValueHandler(sender, e);
+            Item.appendSpecialValues(DataDictionary.Constants.EnumValue.CreateDefault(Item.SpecialValues));
         }
 
         /// <summary>
@@ -147,9 +144,8 @@ namespace GUI.DataDictionaryView
                     // Get the enclosing namespace (by splitting the fullname and asking a recursive function to provide or make it)
                     retVal = Item.CreateRangeUpdate(dictionary);
                 }
-                // navigate to the range, whether it was created or not
-                GUIUtils.MDIWindow.RefreshModel();
-                GUIUtils.MDIWindow.Select(retVal);
+                // Navigate to the element, whether it was created or not
+                EFSSystem.INSTANCE.Context.SelectElement(retVal, this, Context.SelectionCriteria.DoubleClick);
             }
 
             return retVal;
@@ -164,14 +160,14 @@ namespace GUI.DataDictionaryView
             List<MenuItem> retVal = new List<MenuItem>();
 
             MenuItem newItem = new MenuItem("Add...");
-            newItem.MenuItems.Add(new MenuItem("Special value", new EventHandler(AddSpecialValueHandler)));
+            newItem.MenuItems.Add(new MenuItem("Special value", AddSpecialValueHandler));
             retVal.Add(newItem);
 
             MenuItem updateItem = new MenuItem("Update...");
-            updateItem.MenuItems.Add(new MenuItem("Update", new EventHandler(AddUpdate)));
-            updateItem.MenuItems.Add(new MenuItem("Remove", new EventHandler(RemoveInUpdate)));
+            updateItem.MenuItems.Add(new MenuItem("Update", AddUpdate));
+            updateItem.MenuItems.Add(new MenuItem("Remove", RemoveInUpdate));
             retVal.Add(updateItem);
-            retVal.Add(new MenuItem("Delete", new EventHandler(DeleteHandler)));
+            retVal.Add(new MenuItem("Delete", DeleteHandler));
             retVal.AddRange(base.GetMenuItems());
 
             return retVal;

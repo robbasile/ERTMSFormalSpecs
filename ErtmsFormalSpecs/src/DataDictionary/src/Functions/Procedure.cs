@@ -18,10 +18,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using DataDictionary.Generated;
 using DataDictionary.Interpreter;
-using DataDictionary.Rules;
-using DataDictionary.Types;
 using Utils;
+using NameSpace = DataDictionary.Types.NameSpace;
+using Rule = DataDictionary.Rules.Rule;
+using Structure = DataDictionary.Types.Structure;
 using Type = DataDictionary.Types.Type;
 
 namespace DataDictionary.Functions
@@ -432,6 +434,32 @@ namespace DataDictionary.Functions
             {
                 rule.RecoverUpdateInformation();
             }
+        }
+
+        /// <summary>
+        ///     Creates the status message 
+        /// </summary>
+        /// <returns>the status string for the selected element</returns>
+        public override string CreateStatusMessage()
+        {
+            string result = base.CreateStatusMessage();
+
+            result += "Procedure " + Name + " with " + Rules.Count + " rules";
+
+            return result;
+        }
+
+        /// <summary>
+        /// Creates a default element
+        /// </summary>
+        /// <param name="enclosingCollection"></param>
+        /// <returns></returns>
+        public static Procedure CreateDefault(ICollection enclosingCollection)
+        {
+            Procedure retVal = (Procedure)acceptor.getFactory().createProcedure();
+            retVal.Name = "Procedure" + GetElementNumber(enclosingCollection);
+
+            return retVal;
         }
     }
 }

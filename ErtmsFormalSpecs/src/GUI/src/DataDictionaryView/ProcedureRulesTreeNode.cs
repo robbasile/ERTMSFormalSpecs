@@ -33,20 +33,13 @@ namespace GUI.DataDictionaryView
         /// </summary>
         private class ItemEditor : NamedEditor
         {
-            /// <summary>
-            ///     Constructor
-            /// </summary>
-            public ItemEditor()
-                : base()
-            {
-            }
         }
 
         /// <summary>
         ///     Constructor
         /// </summary>
         /// <param name="item"></param>
-        /// <param name="name"></param>
+        /// <param name="buildSubNodes"></param>
         public ProcedureRulesTreeNode(Procedure item, bool buildSubNodes)
             : base(item, buildSubNodes, "Rules", true)
         {
@@ -55,14 +48,15 @@ namespace GUI.DataDictionaryView
         /// <summary>
         ///     Builds the subnodes of this node
         /// </summary>
-        /// <param name="buildSubNodes">Indicates whether the subnodes of the nodes should also be built</param>
-        public override void BuildSubNodes(bool buildSubNodes)
+        /// <param name="subNodes"></param>
+        /// <param name="recursive">Indicates whether the subnodes of the nodes should also be built</param>
+        public override void BuildSubNodes(List<BaseTreeNode> subNodes, bool recursive)
         {
-            base.BuildSubNodes(buildSubNodes);
+            base.BuildSubNodes(subNodes, recursive);
 
             foreach (Rule rule in Item.Rules)
             {
-                Nodes.Add(new RuleTreeNode(rule, buildSubNodes));
+                subNodes.Add(new RuleTreeNode(rule, recursive));
             }
         }
 
@@ -70,7 +64,7 @@ namespace GUI.DataDictionaryView
         ///     Creates the editor for this tree node
         /// </summary>
         /// <returns></returns>
-        protected override Editor createEditor()
+        protected override Editor CreateEditor()
         {
             return new ItemEditor();
         }
@@ -79,20 +73,7 @@ namespace GUI.DataDictionaryView
         {
             Rule rule = (Rule) acceptor.getFactory().createRule();
             rule.Name = "<Rule" + (GetNodeCount(false) + 1) + ">";
-            AddRule(rule);
-        }
-
-        /// <summary>
-        ///     Adds a rule in the corresponding namespace
-        /// </summary>
-        /// <param name="variable"></param>
-        public RuleTreeNode AddRule(Rule rule)
-        {
             Item.appendRules(rule);
-            RuleTreeNode retVal = new RuleTreeNode(rule, true);
-            Nodes.Add(retVal);
-
-            return retVal;
         }
 
         /// <summary>
@@ -101,9 +82,7 @@ namespace GUI.DataDictionaryView
         /// <returns></returns>
         protected override List<MenuItem> GetMenuItems()
         {
-            List<MenuItem> retVal = new List<MenuItem>();
-
-            retVal.Add(new MenuItem("Add", new EventHandler(AddHandler)));
+            List<MenuItem> retVal = new List<MenuItem> {new MenuItem("Add", AddHandler)};
 
             return retVal;
         }
@@ -111,22 +90,22 @@ namespace GUI.DataDictionaryView
         /// <summary>
         ///     Accepts drop of a tree node, in a drag & drop operation
         /// </summary>
-        /// <param name="SourceNode"></param>
-        public override void AcceptDrop(BaseTreeNode SourceNode)
+        /// <param name="sourceNode"></param>
+        public override void AcceptDrop(BaseTreeNode sourceNode)
         {
-            base.AcceptDrop(SourceNode);
+            base.AcceptDrop(sourceNode);
 
-            if (SourceNode is RuleTreeNode)
+            if (sourceNode is RuleTreeNode)
             {
-                RuleTreeNode ruleTreeNode = SourceNode as RuleTreeNode;
+                RuleTreeNode ruleTreeNode = sourceNode as RuleTreeNode;
                 Rule rule = ruleTreeNode.Item;
 
                 ruleTreeNode.Delete();
-                AddRule(rule);
+                Item.appendRules(rule);
             }
-            else if (SourceNode is ParagraphTreeNode)
+            else if (sourceNode is ParagraphTreeNode)
             {
-                ParagraphTreeNode node = SourceNode as ParagraphTreeNode;
+                ParagraphTreeNode node = sourceNode as ParagraphTreeNode;
                 Paragraph paragaph = node.Item;
 
                 Rule rule = (Rule) acceptor.getFactory().createRule();
@@ -135,7 +114,7 @@ namespace GUI.DataDictionaryView
                 ReqRef reqRef = (ReqRef) acceptor.getFactory().createReqRef();
                 reqRef.Name = paragaph.FullId;
                 rule.appendRequirements(reqRef);
-                AddRule(rule);
+                Item.appendRules(rule);
             }
         }
     }

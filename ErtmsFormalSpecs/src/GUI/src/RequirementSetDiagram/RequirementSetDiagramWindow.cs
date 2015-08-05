@@ -21,34 +21,12 @@ using GUI.Converters;
 
 namespace GUI.RequirementSetDiagram
 {
-    public partial class RequirementSetDiagramWindow : BoxArrowWindow<RequirementSet, RequirementSetDependancy>
+    public class RequirementSetDiagramWindow : BoxArrowWindow<IHoldsRequirementSets, RequirementSet, RequirementSetDependancy>
     {
-        /// <summary>
-        ///     The enclosing for which the requirement set diagram is built
-        /// </summary>
-        public IHoldsRequirementSets Enclosing { get; private set; }
-
-        /// <summary>
-        ///     Required method for Designer support - do not modify
-        ///     the contents of this method with the code editor.
-        /// </summary>
-        private void InitializeComponent()
-        {
-        }
-
-        /// <summary>
-        ///     Constructor
-        /// </summary>
-        /// <param name="system"></param>
-        public RequirementSetDiagramWindow()
-            : base()
-        {
-        }
-
         /// <summary>
         ///     The panel used to display the state diagram
         /// </summary>
-        private RequirementSetPanel Panel
+        public RequirementSetPanel Panel
         {
             get { return (RequirementSetPanel) BoxArrowContainerPanel; }
         }
@@ -59,15 +37,14 @@ namespace GUI.RequirementSetDiagram
         /// <param name="enclosing"></param>
         public void SetEnclosing(IHoldsRequirementSets enclosing)
         {
-            Enclosing = enclosing;
+            Model = enclosing;
 
-            Panel.Enclosing = enclosing;
-            Panel.RefreshControl();
+            Panel.Model = enclosing;
         }
 
-        public override BoxArrowPanel<RequirementSet, RequirementSetDependancy> createPanel()
+        public override BoxArrowPanel<IHoldsRequirementSets, RequirementSet, RequirementSetDependancy> CreatePanel()
         {
-            BoxArrowPanel<RequirementSet, RequirementSetDependancy> retVal = new RequirementSetPanel();
+            BoxArrowPanel<IHoldsRequirementSets, RequirementSet, RequirementSetDependancy> retVal = new RequirementSetPanel();
 
             return retVal;
         }
@@ -81,7 +58,7 @@ namespace GUI.RequirementSetDiagram
             ///     Constructor
             /// </summary>
             /// <param name="control"></param>
-            public RequirementSetEditor(BoxControl<RequirementSet, RequirementSetDependancy> control)
+            public RequirementSetEditor(BoxControl<IHoldsRequirementSets, RequirementSet, RequirementSetDependancy> control)
                 : base(control)
             {
             }
@@ -89,15 +66,15 @@ namespace GUI.RequirementSetDiagram
             [Category("Related Requirements behaviour")]
             public bool Recursive
             {
-                get { return control.Model.getRecursiveSelection(); }
-                set { control.Model.setRecursiveSelection(value); }
+                get { return Control.Model.getRecursiveSelection(); }
+                set { Control.Model.setRecursiveSelection(value); }
             }
 
             [Category("Related Requirements behaviour")]
             public bool Default
             {
-                get { return control.Model.getDefault(); }
-                set { control.Model.setDefault(value); }
+                get { return Control.Model.getDefault(); }
+                set { Control.Model.setDefault(value); }
             }
         }
 
@@ -106,7 +83,7 @@ namespace GUI.RequirementSetDiagram
         /// </summary>
         /// <param name="control"></param>
         /// <returns></returns>
-        protected override BoxEditor createBoxEditor(BoxControl<RequirementSet, RequirementSetDependancy> control)
+        protected override BoxEditor CreateBoxEditor(BoxControl<IHoldsRequirementSets, RequirementSet, RequirementSetDependancy> control)
         {
             BoxEditor retVal = new RequirementSetEditor(control);
 
@@ -119,8 +96,8 @@ namespace GUI.RequirementSetDiagram
                 GetStandardValues(ITypeDescriptorContext context)
             {
                 TransitionEditor instance = (TransitionEditor) context.Instance;
-                RequirementSetPanel panel = (RequirementSetPanel) instance.control.BoxArrowPanel;
-                return GetValues(panel.Enclosing);
+                RequirementSetPanel panel = (RequirementSetPanel) instance.Control.BoxArrowPanel;
+                return GetValues(panel.Model);
             }
         }
 
@@ -133,7 +110,7 @@ namespace GUI.RequirementSetDiagram
             ///     Constructor
             /// </summary>
             /// <param name="control"></param>
-            public TransitionEditor(ArrowControl<RequirementSet, RequirementSetDependancy> control)
+            public TransitionEditor(ArrowControl<IHoldsRequirementSets, RequirementSet, RequirementSetDependancy> control)
                 : base(control)
             {
             }
@@ -145,23 +122,23 @@ namespace GUI.RequirementSetDiagram
                 {
                     string retVal = "";
 
-                    if (control.Model.Source != null)
+                    if (Control.Model.Source != null)
                     {
-                        retVal = control.Model.Source.Name;
+                        retVal = Control.Model.Source.Name;
                     }
                     return retVal;
                 }
                 set
                 {
-                    RequirementSetDependancyControl transitionControl = (RequirementSetDependancyControl) control;
+                    RequirementSetDependancyControl transitionControl = (RequirementSetDependancyControl) Control;
                     IHoldsRequirementSets enclosing = transitionControl.Model.Source.Enclosing as IHoldsRequirementSets;
                     if (enclosing != null)
                     {
                         RequirementSet newSource = enclosing.findRequirementSet(value, false);
                         if (newSource != null)
                         {
-                            control.SetInitialBox(newSource);
-                            control.RefreshControl();
+                            Control.SetInitialBox(newSource);
+                            Control.RefreshControl();
                         }
                     }
                 }
@@ -174,24 +151,24 @@ namespace GUI.RequirementSetDiagram
                 {
                     string retVal = "";
 
-                    if (control.Model != null && control.Model.Target != null)
+                    if (Control.Model != null && Control.Model.Target != null)
                     {
-                        retVal = control.Model.Target.Name;
+                        retVal = Control.Model.Target.Name;
                     }
 
                     return retVal;
                 }
                 set
                 {
-                    RequirementSetDependancyControl transitionControl = (RequirementSetDependancyControl) control;
+                    RequirementSetDependancyControl transitionControl = (RequirementSetDependancyControl) Control;
                     IHoldsRequirementSets enclosing = transitionControl.Model.Source.Enclosing as IHoldsRequirementSets;
                     if (enclosing != null)
                     {
                         RequirementSet newTarget = enclosing.findRequirementSet(value, false);
                         if (newTarget != null)
                         {
-                            control.SetTargetBox(newTarget);
-                            control.RefreshControl();
+                            Control.SetTargetBox(newTarget);
+                            Control.RefreshControl();
                         }
                     }
                 }
@@ -203,7 +180,7 @@ namespace GUI.RequirementSetDiagram
         /// </summary>
         /// <param name="control"></param>
         /// <returns></returns>
-        protected override ArrowEditor createArrowEditor(ArrowControl<RequirementSet, RequirementSetDependancy> control)
+        protected override ArrowEditor CreateArrowEditor(ArrowControl<IHoldsRequirementSets, RequirementSet, RequirementSetDependancy> control)
         {
             ArrowEditor retVal = new TransitionEditor(control);
 

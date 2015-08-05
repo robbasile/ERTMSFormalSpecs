@@ -30,20 +30,13 @@ namespace GUI.DataDictionaryView
     {
         private class ItemEditor : NamedEditor
         {
-            /// <summary>
-            ///     Constructor
-            /// </summary>
-            public ItemEditor()
-                : base()
-            {
-            }
         }
 
         /// <summary>
         ///     Constructor
         /// </summary>
         /// <param name="item"></param>
-        /// <param name="name"></param>
+        /// <param name="buildSubNodes"></param>
         public InterfacesTreeNode(NameSpace item, bool buildSubNodes)
             : base(item, buildSubNodes, "Interfaces", true)
         {
@@ -63,27 +56,28 @@ namespace GUI.DataDictionaryView
         /// <summary>
         ///     Builds the subnodes of this node
         /// </summary>
-        /// <param name="buildSubNodes">Indicates whether the subnodes of the nodes should also be built</param>
-        public override void BuildSubNodes(bool buildSubNodes)
+        /// <param name="subNodes"></param>
+        /// <param name="recursive">Indicates whether the subnodes of the nodes should also be built</param>
+        public override void BuildSubNodes(List<BaseTreeNode> subNodes, bool recursive)
         {
-            base.BuildSubNodes(buildSubNodes);
+            base.BuildSubNodes(subNodes, recursive);
 
             foreach (Structure structure in Item.Structures)
             {
                 if (structure.IsAbstract)
                 {
-                    Nodes.Add(new InterfaceTreeNode(structure, buildSubNodes));
+                    subNodes.Add(new InterfaceTreeNode(structure, recursive));
                 }
             }
 
-            SortSubNodes();
+            subNodes.Sort();
         }
 
         /// <summary>
         ///     Creates the editor for this tree node
         /// </summary>
         /// <returns></returns>
-        protected override Editor createEditor()
+        protected override Editor CreateEditor()
         {
             return new ItemEditor();
         }
@@ -95,42 +89,7 @@ namespace GUI.DataDictionaryView
         /// <param name="args"></param>
         public virtual void AddHandler(object sender, EventArgs args)
         {
-            Structure structure = (Structure) acceptor.getFactory().createStructure();
-            structure.Name = "<Interface" + (GetNodeCount(false) + 1) + ">";
-            structure.IsAbstract = true;
-            AddInterface(structure);
-        }
-
-        /// <summary>
-        ///     Adds an interface in this collection of interfaces
-        /// </summary>
-        /// <param name="structure"></param>
-        /// <returns></returns>
-        public InterfaceTreeNode AddInterface(Structure structure)
-        {
-            Item.appendStructures(structure);
-
-            InterfaceTreeNode retVal = new InterfaceTreeNode(structure, true);
-            Nodes.Add(retVal);
-            SortSubNodes();
-
-            return retVal;
-        }
-
-        /// <summary>
-        ///     Adds a structure in this collection of structures
-        /// </summary>
-        /// <param name="structure"></param>
-        /// <returns></returns>
-        public StructureTreeNode AddStructure(Structure structure)
-        {
-            Item.appendStructures(structure);
-
-            StructureTreeNode retVal = new StructureTreeNode(structure, true);
-            Nodes.Add(retVal);
-            SortSubNodes();
-
-            return retVal;
+            Item.appendStructures(Structure.CreateDefault(Item.Structures, true));
         }
 
         /// <summary>
@@ -139,9 +98,7 @@ namespace GUI.DataDictionaryView
         /// <returns></returns>
         protected override List<MenuItem> GetMenuItems()
         {
-            List<MenuItem> retVal = new List<MenuItem>();
-
-            retVal.Add(new MenuItem("Add", new EventHandler(AddHandler)));
+            List<MenuItem> retVal = new List<MenuItem> {new MenuItem("Add", AddHandler)};
 
             return retVal;
         }
@@ -150,53 +107,33 @@ namespace GUI.DataDictionaryView
         /// <summary>
         ///     Accepts drop of a tree node, in a drag & drop operation
         /// </summary>
-        /// <param name="SourceNode"></param>
-        public override void AcceptDrop(BaseTreeNode SourceNode)
+        /// <param name="sourceNode"></param>
+        public override void AcceptDrop(BaseTreeNode sourceNode)
         {
-            base.AcceptDrop(SourceNode);
+            base.AcceptDrop(sourceNode);
 
-            if (SourceNode is InterfaceTreeNode)
+            if (sourceNode is InterfaceTreeNode)
             {
-                InterfaceTreeNode interfaceTreeNode = SourceNode as InterfaceTreeNode;
+                InterfaceTreeNode interfaceTreeNode = sourceNode as InterfaceTreeNode;
                 Structure structure = interfaceTreeNode.Item;
 
                 interfaceTreeNode.Delete();
-                AddStructure(structure);
+                Item.appendStructures(structure);
             }
         }
-
-        /// <summary>
-        ///     Update counts according to the selected folder
-        /// </summary>
-        /// <param name="displayStatistics">Indicates that statistics should be displayed in the MDI window</param>
-        public override void SelectionChanged(bool displayStatistics)
-        {
-            base.SelectionChanged(false);
-
-            GUIUtils.MDIWindow.SetStatus(Item.Structures.Count +
-                                         (Item.Structures.Count > 1 ? " interfaces " : " interface ") + "selected.");
-        }
     }
-
 
     public class StructuresTreeNode : InterfacesTreeNode
     {
         private class ItemEditor : NamedEditor
         {
-            /// <summary>
-            ///     Constructor
-            /// </summary>
-            public ItemEditor()
-                : base()
-            {
-            }
         }
 
         /// <summary>
         ///     Constructor
         /// </summary>
         /// <param name="item"></param>
-        /// <param name="name"></param>
+        /// <param name="buildSubNodes"></param>
         public StructuresTreeNode(NameSpace item, bool buildSubNodes)
             : base(item, buildSubNodes, "Structures", true)
         {
@@ -205,28 +142,28 @@ namespace GUI.DataDictionaryView
         /// <summary>
         ///     Builds the subnodes of this node
         /// </summary>
-        /// <param name="buildSubNodes">Indicates whether the subnodes of the nodes should also be built</param>
-        public override void BuildSubNodes(bool buildSubNodes)
+        /// <param name="subNodes"></param>
+        /// <param name="recursive">Indicates whether the subnodes of the nodes should also be built</param>
+        public override void BuildSubNodes(List<BaseTreeNode> subNodes, bool recursive)
         {
-            base.BuildSubNodes(buildSubNodes);
-            Nodes.Clear();
+            base.BuildSubNodes(subNodes, recursive);
 
             foreach (Structure structure in Item.Structures)
             {
                 if (!structure.IsAbstract)
                 {
-                    Nodes.Add(new StructureTreeNode(structure, buildSubNodes));
+                    subNodes.Add(new StructureTreeNode(structure, recursive));
                 }
             }
 
-            SortSubNodes();
+            subNodes.Sort();
         }
 
         /// <summary>
         ///     Creates the editor for this tree node
         /// </summary>
         /// <returns></returns>
-        protected override Editor createEditor()
+        protected override Editor CreateEditor()
         {
             return new ItemEditor();
         }
@@ -238,31 +175,28 @@ namespace GUI.DataDictionaryView
         /// <param name="args"></param>
         public override void AddHandler(object sender, EventArgs args)
         {
-            Structure structure = (Structure) acceptor.getFactory().createStructure();
-            structure.Name = "<Structure" + (GetNodeCount(false) + 1) + ">";
-            AddStructure(structure);
+            Item.appendStructures(Structure.CreateDefault(Item.Structures, false));
         }
-
 
         /// <summary>
         ///     Accepts drop of a tree node, in a drag & drop operation
         /// </summary>
-        /// <param name="SourceNode"></param>
-        public override void AcceptDrop(BaseTreeNode SourceNode)
+        /// <param name="sourceNode"></param>
+        public override void AcceptDrop(BaseTreeNode sourceNode)
         {
-            base.AcceptDrop(SourceNode);
+            base.AcceptDrop(sourceNode);
 
-            if (SourceNode is StructureTreeNode)
+            if (sourceNode is StructureTreeNode)
             {
-                StructureTreeNode structureTreeNode = SourceNode as StructureTreeNode;
+                StructureTreeNode structureTreeNode = sourceNode as StructureTreeNode;
                 Structure structure = structureTreeNode.Item;
 
                 structureTreeNode.Delete();
-                AddStructure(structure);
+                Item.appendStructures(structure);
             }
-            else if (SourceNode is ParagraphTreeNode)
+            else if (sourceNode is ParagraphTreeNode)
             {
-                ParagraphTreeNode node = SourceNode as ParagraphTreeNode;
+                ParagraphTreeNode node = sourceNode as ParagraphTreeNode;
                 Paragraph paragaph = node.Item;
 
                 Structure structure = (Structure) acceptor.getFactory().createStructure();
@@ -271,20 +205,8 @@ namespace GUI.DataDictionaryView
                 ReqRef reqRef = (ReqRef) acceptor.getFactory().createReqRef();
                 reqRef.Name = paragaph.FullId;
                 structure.appendRequirements(reqRef);
-                AddStructure(structure);
+                Item.appendStructures(structure);
             }
-        }
-
-        /// <summary>
-        ///     Update counts according to the selected folder
-        /// </summary>
-        /// <param name="displayStatistics">Indicates that statistics should be displayed in the MDI window</param>
-        public override void SelectionChanged(bool displayStatistics)
-        {
-            base.SelectionChanged(false);
-
-            GUIUtils.MDIWindow.SetStatus(Item.Structures.Count +
-                                         (Item.Structures.Count > 1 ? " structures " : " structure ") + "selected.");
         }
     }
 }

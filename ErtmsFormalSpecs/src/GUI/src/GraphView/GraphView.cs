@@ -22,9 +22,11 @@ using DataDictionary;
 using DataDictionary.Functions;
 using DataDictionary.Interpreter;
 using GUI.DataDictionaryView;
+using GUI.Properties;
 using GUI.Shortcuts;
 using WeifenLuo.WinFormsUI.Docking;
 using Graph = DataDictionary.Functions.Graph;
+using Utils;
 
 namespace GUI.GraphView
 {
@@ -41,7 +43,6 @@ namespace GUI.GraphView
         public GraphView()
         {
             InitializeComponent();
-            FormClosed += GraphView_FormClosed;
 
             AllowDrop = true;
             DragEnter += GraphView_DragEnter;
@@ -118,21 +119,14 @@ namespace GUI.GraphView
                     }
                     else
                     {
-                        MessageBox.Show("Cannot add this function to the display view", "Cannot display function",
-                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show(
+                            Resources.GraphView_AddFunction_Cannot_add_this_function_to_the_display_view, 
+                            Resources.GraphView_AddFunction_Cannot_display_function,
+                            MessageBoxButtons.OK, 
+                            MessageBoxIcon.Error);
                     }
                 }
             }
-        }
-
-        /// <summary>
-        ///     Handles the close event
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void GraphView_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            GUIUtils.MDIWindow.HandleSubWindowClosed(this);
         }
 
         /// <summary>
@@ -144,11 +138,21 @@ namespace GUI.GraphView
         }
 
         /// <summary>
-        ///     Refreshes the model
+        ///     Allows to refresh the view, when the value of a model changed
         /// </summary>
-        public override void RefreshModel()
+        /// <param name="modelElement"></param>
+        /// <param name="changeKind"></param>
+        /// <returns>True if the view should be refreshed</returns>
+        public override bool HandleValueChange(IModelElement modelElement, Context.ChangeKind changeKind)
         {
-            // The model is always the same function
+            bool retVal = base.HandleValueChange(modelElement, changeKind);
+
+            if (retVal)
+            {
+                Refresh();
+            }
+
+            return retVal;
         }
 
         /// <summary>
@@ -204,7 +208,6 @@ namespace GUI.GraphView
             {
             }
 
-            int i = 0;
             // Creates the graphs
             foreach (KeyValuePair<Function, Graph> pair in graphs)
             {
@@ -221,7 +224,6 @@ namespace GUI.GraphView
                         name = function.Name;
                     }
                 }
-                i += 1;
             }
 
             // Creates the surfaces
@@ -280,12 +282,7 @@ namespace GUI.GraphView
                 GraphVisualiser.DrawGraphs(expectedEndX);
             }
         }
-
-        public void RefreshAfterStep()
-        {
-            Refresh();
-        }
-
+        
         private void ValueChanged(object sender, EventArgs e)
         {
             Refresh();

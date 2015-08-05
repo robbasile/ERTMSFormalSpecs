@@ -314,9 +314,13 @@ namespace DataDictionary
             return retVal;
         }
 
+        /// <summary>
+        /// Rule disabling is obsolete
+        /// </summary>
+        /// <returns></returns>
         public override RuleDisabling createRuleDisabling()
         {
-            RuleDisabling retVal = new Rules.RuleDisabling();
+            RuleDisabling retVal = new RuleDisabling();
 
             DefaultValueSetter.visit(retVal);
 

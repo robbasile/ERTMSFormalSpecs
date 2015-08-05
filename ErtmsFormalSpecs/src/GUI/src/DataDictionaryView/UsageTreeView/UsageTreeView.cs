@@ -14,6 +14,7 @@
 // --
 // ------------------------------------------------------------------------------
 
+using System.Collections.Generic;
 using System.Windows.Forms;
 using DataDictionary.Interpreter;
 using DataDictionary.Tests;
@@ -25,55 +26,19 @@ namespace GUI.DataDictionaryView.UsageTreeView
 {
     public class UsageTreeView : TypedTreeView<IModelElement>
     {
-        private UsageTreeNode __tests = null;
-
-        private UsageTreeNode TestNode
-        {
-            get
-            {
-                if (__tests == null)
-                {
-                    __tests = new UsageTreeNode("Test", true);
-                    __tests.setImageIndex(false);
-                    Nodes.Add(__tests);
-                }
-
-                return __tests;
-            }
-            set { __tests = value; }
-        }
-
-        private UsageTreeNode __models = null;
-
-        private UsageTreeNode ModelNode
-        {
-            get
-            {
-                if (__models == null)
-                {
-                    __models = new UsageTreeNode("Model", true);
-                    __models.setImageIndex(false);
-                    Nodes.Add(__models);
-                }
-
-                return __models;
-            }
-            set { __models = value; }
-        }
-
         /// <summary>
         ///     Constructor
         /// </summary>
         public UsageTreeView()
-            : base()
         {
-            KeepTrackOfSelection = false;
-            MouseMove += new MouseEventHandler(UsageTreeView_MouseMove);
+            SilentSelect = true;
+            MouseMove += UsageTreeView_MouseMove;
+            LabelEdit = false;
         }
 
         private void UsageTreeView_MouseMove(object sender, MouseEventArgs e)
         {
-            ToolTip toolTip = GUIUtils.MDIWindow.ToolTip;
+            ToolTip toolTip = GuiUtils.MdiWindow.ToolTip;
 
             TreeNode theNode = GetNodeAt(e.X, e.Y);
             if ((theNode != null))
@@ -134,43 +99,59 @@ namespace GUI.DataDictionaryView.UsageTreeView
             return retVal;
         }
 
-        private ModelElement previousModel = null;
+        private ModelElement _previousModel;
 
-        protected override void BuildModel()
+        /// <summary>
+        ///     Build the model of this tree view
+        /// </summary>
+        /// <returns>the root nodes of the tree</returns>
+        protected override List<BaseTreeNode> BuildModel()
         {
-            ModelElement model = Root as ModelElement;
-            if (model != null && model != previousModel)
-            {
-                previousModel = model;
+            List<BaseTreeNode> retVal = new List<BaseTreeNode>();
 
-                Nodes.Clear();
-                ModelNode = null;
-                TestNode = null;
+            ModelElement model = Root as ModelElement;
+            if (model != null && model != _previousModel)
+            {
+                _previousModel = model;
+
+                UsageTreeNode models = new UsageTreeNode("Model", true);
+                models.SetImageIndex(false);
+                retVal.Add(models);
+
+                UsageTreeNode tests = new UsageTreeNode("Test", true);
+                tests.SetImageIndex(false);
+                retVal.Add(tests);
+
                 foreach (Usage usage in model.EFSSystem.FindReferences(model))
                 {
                     UsageTreeNode current = new UsageTreeNode(usage, true);
-                    current.setImageIndex(false);
+                    current.SetImageIndex(false);
 
                     if (IsModel(usage.User))
                     {
-                        ModelNode.Nodes.Add(current);
+                        models.Nodes.Add(current);
                     }
                     else if (IsTest(usage.User))
                     {
-                        TestNode.Nodes.Add(current);
+                        tests.Nodes.Add(current);
                     }
                     else
                     {
-                        Nodes.Add(current);
+                        retVal.Add(current);
                     }
                 }
 
                 Sort();
-                if (__models != null)
+            }
+            else
+            {
+                foreach (BaseTreeNode node in Nodes)
                 {
-                    ModelNode.ExpandAll();
+                    retVal.Add(node);
                 }
             }
+
+            return retVal;
         }
     }
 }

@@ -14,7 +14,6 @@
 // --
 // ------------------------------------------------------------------------------
 
-using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
@@ -28,14 +27,6 @@ namespace GUI.DataDictionaryView
         private class ItemEditor : ReqRelatedEditor
         {
             /// <summary>
-            ///     Constructor
-            /// </summary>
-            public ItemEditor()
-                : base()
-            {
-            }
-
-            /// <summary>
             ///     The item name
             /// </summary>
             [Category("Description")]
@@ -47,19 +38,10 @@ namespace GUI.DataDictionaryView
         }
 
         /// <summary>
-        ///     The rules associates to this procedure
-        /// </summary>
-        public ProcedureRulesTreeNode rules;
-
-        /// <summary>
-        ///     The parameters of this procedure
-        /// </summary>
-        public ProcedureParametersTreeNode parameters;
-
-        /// <summary>
         ///     Constructor
         /// </summary>
         /// <param name="item"></param>
+        /// <param name="buildSubNodes"></param>
         public ProcedureTreeNode(Procedure item, bool buildSubNodes)
             : base(item, buildSubNodes)
         {
@@ -68,8 +50,11 @@ namespace GUI.DataDictionaryView
         /// <summary>
         ///     Constructor
         /// </summary>
-        /// <param name="name"></param>
         /// <param name="item"></param>
+        /// <param name="buildSubNodes"></param>
+        /// <param name="name"></param>
+        /// <param name="isFolder"></param>
+        /// <param name="addRequirements"></param>
         public ProcedureTreeNode(Procedure item, bool buildSubNodes, string name, bool isFolder, bool addRequirements)
             : base(item, buildSubNodes, name, isFolder, addRequirements)
         {
@@ -78,22 +63,21 @@ namespace GUI.DataDictionaryView
         /// <summary>
         ///     Builds the subnodes of this node
         /// </summary>
-        /// <param name="buildSubNodes">Indicates whether the subnodes of the nodes should also be built</param>
-        public override void BuildSubNodes(bool buildSubNodes)
+        /// <param name="subNodes"></param>
+        /// <param name="recursive">Indicates whether the subnodes of the nodes should also be built</param>
+        public override void BuildSubNodes(List<BaseTreeNode> subNodes, bool recursive)
         {
-            base.BuildSubNodes(buildSubNodes);
+            base.BuildSubNodes(subNodes, recursive);
 
-            rules = new ProcedureRulesTreeNode(Item, buildSubNodes);
-            parameters = new ProcedureParametersTreeNode(Item, buildSubNodes);
-            Nodes.Add(parameters);
-            Nodes.Add(rules);
+            subNodes.Add(new ProcedureRulesTreeNode(Item, recursive));
+            subNodes.Add(new ProcedureParametersTreeNode(Item, recursive));
         }
 
         /// <summary>
         ///     Creates the editor for this tree node
         /// </summary>
         /// <returns></returns>
-        protected override Editor createEditor()
+        protected override Editor CreateEditor()
         {
             return new ItemEditor();
         }
@@ -113,9 +97,9 @@ namespace GUI.DataDictionaryView
                     // Get the enclosing namespace (by splitting the fullname and asking a recursive function to provide or make it)
                     retVal = Item.CreateProcedureUpdate(dictionary);
                 }
-                // navigate to the procedure, whether it was created or not
-                GUIUtils.MDIWindow.RefreshModel();
-                GUIUtils.MDIWindow.Select(retVal);
+
+                // Navigate to the procedure, whether it was created or not
+                EFSSystem.INSTANCE.Context.SelectElement(retVal, this, Context.SelectionCriteria.DoubleClick);
             }
 
             return retVal;
@@ -130,10 +114,10 @@ namespace GUI.DataDictionaryView
             List<MenuItem> retVal = new List<MenuItem>();
 
             MenuItem updateItem = new MenuItem("Update...");
-            updateItem.MenuItems.Add(new MenuItem("Update", new EventHandler(AddUpdate)));
-            updateItem.MenuItems.Add(new MenuItem("Remove", new EventHandler(RemoveInUpdate)));
+            updateItem.MenuItems.Add(new MenuItem("Update", AddUpdate));
+            updateItem.MenuItems.Add(new MenuItem("Remove", RemoveInUpdate));
             retVal.Add(updateItem);
-            retVal.Add(new MenuItem("Delete", new EventHandler(DeleteHandler)));
+            retVal.Add(new MenuItem("Delete", DeleteHandler));
             retVal.AddRange(base.GetMenuItems());
 
             return retVal;

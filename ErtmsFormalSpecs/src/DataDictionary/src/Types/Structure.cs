@@ -658,5 +658,49 @@ namespace DataDictionary.Types
                 stateMachine.RecoverUpdateInformation();
             }
         }
+
+        /// <summary>
+        ///     Creates the status message 
+        /// </summary>
+        /// <returns>the status string for the selected element</returns>
+        public override string CreateStatusMessage()
+        {
+            string result = base.CreateStatusMessage();
+
+            if (IsAbstract)
+            {
+                result += "Interface " + Name;
+            }
+            else
+            {
+                result += "Structure " + Name;
+            }
+            result += " with " + Elements.Count + " elements and " + Procedures.Count + " procedures";
+
+            return result;
+        }
+
+        /// <summary>
+        /// Creates a default element
+        /// </summary>
+        /// <param name="enclosingCollection"></param>
+        /// <param name="isInterface"></param>
+        /// <returns></returns>
+        public static Structure CreateDefault(ICollection enclosingCollection, bool isInterface)
+        {
+            Structure retVal = (Structure)acceptor.getFactory().createStructure();
+
+            if (isInterface)
+            {
+                retVal.Name = "Interface" + GetElementNumber(enclosingCollection);
+                retVal.IsAbstract = true;
+            }
+            else
+            {
+                retVal.Name = "Structure" + GetElementNumber(enclosingCollection);                
+            }
+
+            return retVal;
+        }
     }
 }

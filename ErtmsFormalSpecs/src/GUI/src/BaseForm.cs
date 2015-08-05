@@ -15,9 +15,9 @@
 // ------------------------------------------------------------------------------
 
 using System;
-using System.Drawing;
 using System.Reflection;
 using System.Windows.Forms;
+using DataDictionary;
 using Utils;
 using WeifenLuo.WinFormsUI.Docking;
 
@@ -26,19 +26,9 @@ namespace GUI
     public interface IBaseForm
     {
         /// <summary>
-        ///     The property grid used to edit elements properties
+        ///     Provides the model element currently selected in this IBaseForm
         /// </summary>
-        MyPropertyGrid Properties { get; }
-
-        /// <summary>
-        ///     The requirements text box used to display the associated requirements
-        /// </summary>
-        EditorTextBox RequirementsTextBox { get; }
-
-        /// <summary>
-        ///     The text box used to edit expression
-        /// </summary>
-        EditorTextBox ExpressionEditorTextBox { get; }
+        IModelElement DisplayedModel { get; }
 
         /// <summary>
         ///     The main tree view of the form
@@ -46,57 +36,26 @@ namespace GUI
         BaseTreeView TreeView { get; }
 
         /// <summary>
-        ///     The sub tree view of the form
+        ///     Allows to refresh the view, when the selected model changed
         /// </summary>
-        BaseTreeView subTreeView { get; }
+        /// <param name="context"></param>
+        /// <returns>true if refresh should be performed</returns>
+        bool HandleSelectionChange(Context.SelectionContext context);
 
         /// <summary>
-        ///     The explain text box
+        ///     Allows to refresh the view, when the value of a model changed
         /// </summary>
-        ExplainTextBox ExplainTextBox { get; }
-
-        /// <summary>
-        ///     Refreshed the view, while no structural model occurred
-        /// </summary>
-        void Refresh();
-
-        /// <summary>
-        ///     Allows to refresh the view, according to the fact that the structure for the model could change
-        /// </summary>
-        void RefreshModel();
-
-        /// <summary>
-        ///     Provides the model element currently selected in this IBaseForm
-        /// </summary>
-        IModelElement Selected { get; }
+        /// <param name="modelElement"></param>
+        /// <param name="changeKind"></param>
+        /// <returns>True if the view should be refreshed</returns>
+        bool HandleValueChange(IModelElement modelElement, Context.ChangeKind changeKind);
     }
 
-    public class BaseForm : DockContent, IBaseForm
+    /// <summary>
+    /// The base class for all forms displayed in the GUI
+    /// </summary>
+    public abstract class BaseForm : DockContent, IBaseForm
     {
-        /// <summary>
-        ///     The property grid used to edit elements properties
-        /// </summary>
-        public virtual MyPropertyGrid Properties
-        {
-            get { return null; }
-        }
-
-        /// <summary>
-        ///     The requirements text box used to display the associated requirements
-        /// </summary>
-        public virtual EditorTextBox RequirementsTextBox
-        {
-            get { return null; }
-        }
-
-        /// <summary>
-        ///     The text box used to edit expression
-        /// </summary>
-        public virtual EditorTextBox ExpressionEditorTextBox
-        {
-            get { return null; }
-        }
-
         /// <summary>
         ///     The main tree view of the form
         /// </summary>
@@ -106,95 +65,202 @@ namespace GUI
         }
 
         /// <summary>
-        ///     The sub tree view of the form
+        ///     Allows to refresh the view, when the selected model changed
         /// </summary>
-        public virtual BaseTreeView subTreeView
+        /// <param name="context"></param>
+        /// <returns>true if refresh should be performed</returns>
+        public virtual bool HandleSelectionChange(Context.SelectionContext context)
         {
-            get { return null; }
+            bool retVal = ShouldDisplay(context.Element);
+
+            if (retVal)
+            {
+                retVal = DisplayedModel != context.Element;
+                DisplayedModel = context.Element;
+
+                if (TreeView != null)
+                {
+                    BaseTreeNode node = context.Sender as BaseTreeNode;
+                    if (node == null || node.TreeView != TreeView)
+                    {
+                        node = TreeView.FindNode(context.Element, true);
+                    }
+
+                    if (node != null)
+                    {
+                        TreeView.SilentSelect = true;
+                        TreeView.Selected = node;
+                        TreeView.SilentSelect = false;
+                        if ((context.Criteria & Context.SelectionCriteria.DoubleClick) != 0)
+                        {
+                            Focus();
+                        }
+                    }
+                }
+            }
+
+            return retVal;
         }
 
         /// <summary>
-        ///     The explain text box
+        /// Indicates that the model element should be displayed
         /// </summary>
-        public virtual ExplainTextBox ExplainTextBox
+        /// <param name="modelElement"></param>
+        /// <returns></returns>
+        protected virtual bool ShouldDisplay(IModelElement modelElement)
         {
-            get { return null; }
+            bool retVal = !IsActivated;
+
+            if (modelElement != null)
+            {
+                if (TreeView != null)
+                {
+                    BaseTreeNode correspondingNode = TreeView.FindNode(modelElement, true);
+                    retVal = correspondingNode != null;
+                }
+            }
+
+            return retVal;
         }
 
         /// <summary>
-        ///     Allows to refresh the view, according to the fact that the structure for the model could change
+        ///     Allows to refresh the view, when the value of a model changed
         /// </summary>
-        public virtual void RefreshModel()
+        /// <param name="modelElement"></param>
+        /// <param name="changeKind"></param>
+        /// <returns>True if the view should be refreshed</returns>
+        public virtual bool HandleValueChange(IModelElement modelElement, Context.ChangeKind changeKind)
         {
+            return modelElement == null || DisplayedModel == null || DisplayedModel.IsParent(modelElement);
+        }
+
+        /// <summary>
+        ///     Allows to refresh the view, when the information message changed
+        /// </summary>
+        /// <param name="modelElement"></param>
+        /// <returns>True if the view should be refreshed</returns>
+        public virtual bool HandleInfoMessageChange(IModelElement modelElement)
+        {
+            bool retVal = modelElement == null || DisplayedModel == null || DisplayedModel.IsParent(modelElement);
+
+            if (retVal)
+            {
+                if (TreeView != null)
+                {
+                    if (modelElement != null)
+                    {
+                        BaseTreeNode node = TreeView.FindNode(modelElement, false);
+                        while (node != null)
+                        {
+                            bool changed = node.UpdateColor();
+                            if (changed)
+                            {
+                                node = node.Parent as BaseTreeNode;
+                            }
+                            else
+                            {
+                                node = null;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        foreach (BaseTreeNode node in TreeView.Nodes)
+                        {
+                            node.RecursiveUpdateNodeColor();
+                        }
+                    }
+                }
+            }
+
+            return retVal;
         }
 
         /// <summary>
         ///     Provides the model element currently selected in this IBaseForm
         /// </summary>
-        public virtual IModelElement Selected
-        {
-            get
-            {
-                IModelElement retVal = null;
-
-                if (TreeView != null && TreeView.Selected != null)
-                {
-                    retVal = TreeView.Selected.Model;
-                }
-
-                return retVal;
-            }
-        }
-
-        /// <summary>
-        ///     The thread used to synchronize node names with their model
-        /// </summary>
-        private class Synchronizer : GenericSynchronizationHandler<BaseForm>
-        {
-            /// <summary>
-            ///     Constructor
-            /// </summary>
-            /// <param name="instance"></param>
-            public Synchronizer(BaseForm instance, int cycleTime)
-                : base(instance, cycleTime)
-            {
-            }
-
-            /// <summary>
-            ///     Synchronization
-            /// </summary>
-            /// <param name="instance"></param>
-            public override void HandleSynchronization(BaseForm instance)
-            {
-                instance.Invoke((MethodInvoker) delegate { instance.SynchronizeForm(); });
-            }
-        }
-
-        /// <summary>
-        ///     Indicates that synchronization is required
-        /// </summary>
-        private Synchronizer FormSynchronizer { get; set; }
+        public virtual IModelElement DisplayedModel {get; set;}
 
         /// <summary>
         ///     Constructor
         /// </summary>
-        public BaseForm()
-            : base()
+        protected BaseForm()
         {
+            // By default, a form is displayed in the document part of the window
             DockAreas = DockAreas.Document;
-            FormSynchronizer = new Synchronizer(this, 300);
-            ParentChanged += new EventHandler(BaseForm_ParentChanged);
+            Visible = false;
+
+            // Handles a selection change in the system
+            EFSSystem.INSTANCE.Context.SelectionChange += Context_SelectionChange;
+            EFSSystem.INSTANCE.Context.ValueChange += Context_ValueChange;
+            EFSSystem.INSTANCE.Context.InfoMessageChange += Context_InfoMessageChange;
+
+            // Allow to dock back the form
+            ParentChanged += BaseForm_ParentChanged;
+            FormClosed += Window_FormClosed;
         }
 
+        /// <summary>
+        ///     Handles the close event
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Window_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            EFSSystem.INSTANCE.Context.SelectionChange -= Context_SelectionChange;
+            EFSSystem.INSTANCE.Context.ValueChange -= Context_ValueChange;
+            EFSSystem.INSTANCE.Context.InfoMessageChange -= Context_InfoMessageChange;
+
+            GuiUtils.MdiWindow.HandleSubWindowClosed(this);
+        }
+
+        /// <summary>
+        /// Tries the find the corresponding node when the selection occurs
+        /// </summary>
+        /// <param name="context"></param>
+        protected virtual void Context_SelectionChange(Context.SelectionContext context)
+        {
+            HandleSelectionChange(context);
+        }
+
+        /// <summary>
+        /// The delegate used to handle the change of the value of a model element
+        /// </summary>
+        /// <param name="modelElement"></param>
+        /// <param name="changeKind">Indicates the reason why the change occured</param>
+        protected virtual void Context_ValueChange(IModelElement modelElement, Context.ChangeKind changeKind)
+        {
+            BeginInvoke((MethodInvoker) (() => HandleValueChange(modelElement, changeKind)));
+        }
+
+        /// <summary>
+        /// Handles the change of the information message for a model element
+        /// </summary>
+        /// <param name="modelElement"></param>
+        protected virtual void Context_InfoMessageChange(IModelElement modelElement)
+        {
+            BeginInvoke((MethodInvoker)(() => HandleInfoMessageChange(modelElement)));
+        }
+
+        /// <summary>
+        /// Allows to dock back a window
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BaseForm_ParentChanged(object sender, EventArgs e)
         {
             FloatWindow window = ParentForm as FloatWindow;
             if (window != null)
             {
-                ParentForm.Move += new EventHandler(ParentForm_Move);
+                ParentForm.Move += ParentForm_Move;
             }
         }
 
+        /// <summary>
+        /// When the parent of the current form changes, dock back this form
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ParentForm_Move(object sender, EventArgs e)
         {
             if (ModifierKeys == Keys.Control)
@@ -202,48 +268,8 @@ namespace GUI
                 Hide();
                 DockAreas = DockAreas.Document;
                 DockState = DockState.Document;
-                Show(GUIUtils.MDIWindow.dockPanel, DockState.Document);
+                Show(GuiUtils.MdiWindow.dockPanel, DockState.Document);
             }
-        }
-
-        /// <summary>
-        ///     Stop the synchronizer when the form is closed
-        /// </summary>
-        /// <param name="e"></param>
-        protected override void OnClosed(EventArgs e)
-        {
-            FormSynchronizer.Stop();
-        }
-
-        /// <summary>
-        ///     Synchronizes the form with its model
-        /// </summary>
-        public virtual void SynchronizeForm()
-        {
-            if (Properties != null)
-            {
-                if (!Properties.ContainsFocus && !(Properties.ActiveControl is Button))
-                {
-                    Properties.Refresh();
-                }
-            }
-
-            if (TreeView != null && TreeView.SelectedNode != null)
-            {
-                ((BaseTreeNode) TreeView.SelectedNode).RefreshViewAccordingToModel(this, true);
-            }
-        }
-
-        private void InitializeComponent()
-        {
-            this.SuspendLayout();
-            // 
-            // BaseForm
-            // 
-            this.ClientSize = new Size(284, 262);
-            this.Font = new Font("Microsoft Sans Serif", 8.25F, FontStyle.Regular, GraphicsUnit.Point, ((byte) (0)));
-            this.Name = "BaseForm";
-            this.ResumeLayout(false);
         }
 
         /// <summary>
@@ -259,35 +285,21 @@ namespace GUI
             {
                 if (control.GetType().Name == "DocComment")
                 {
-                    FieldInfo fieldInfo = control.GetType().BaseType.GetField("userSized",
-                        BindingFlags.Instance |
-                        BindingFlags.NonPublic);
-                    fieldInfo.SetValue(control, true);
-                    control.Height = height;
-                    return;
+                    Type baseType = control.GetType().BaseType;
+                    if (baseType != null)
+                    {
+                        FieldInfo fieldInfo = baseType.GetField("userSized",
+                            BindingFlags.Instance |
+                            BindingFlags.NonPublic);
+                        if (fieldInfo != null)
+                        {
+                            fieldInfo.SetValue(control, true);
+                            control.Height = height;
+                        }
+                    }
+                    break;
                 }
             }
-        }
-    }
-
-    public class FormsUtils
-    {
-        public static Form EnclosingForm(Control control)
-        {
-            while (control != null && !(control is Form))
-            {
-                control = control.Parent;
-            }
-            return control as Form;
-        }
-
-        public static IBaseForm EnclosingIBaseForm(Control control)
-        {
-            while (control != null && !(control is IBaseForm))
-            {
-                control = control.Parent;
-            }
-            return control as IBaseForm;
         }
     }
 }

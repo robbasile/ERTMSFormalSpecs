@@ -50,20 +50,22 @@ namespace Utils
         /// <summary>
         ///     Finds an enclosing element whose type is T
         /// </summary>
-        /// <param name="el"></param>
+        /// <param name="source"></param>
+        /// <param name="consiredThisOne">Indicates that the first parameter should be considered for the output</param>
         /// <returns></returns>
-        public static T find(IEnclosed el, bool consiredThisOne = false)
+        public static T find(IEnclosed source, bool consiredThisOne = false)
         {
-            object current = null;
+            object current;
 
-            if (el != null && !consiredThisOne)
+            if (source != null && !consiredThisOne)
             {
-                current = el.Enclosing;
+                current = source.Enclosing;
             }
             else
             {
-                current = el;
+                current = source;
             }
+
             while (current != null && !(current is T))
             {
                 if (current is IEnclosed)

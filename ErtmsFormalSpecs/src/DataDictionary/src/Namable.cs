@@ -22,7 +22,7 @@ namespace DataDictionary
     /// <summary>
     ///     Something that has a name
     /// </summary>
-    public abstract class Namable : Generated.Namable, INamable, IComparable<Namable>, IComparable
+    public abstract class Namable : Generated.Namable, IComparable<Namable>, IComparable
     {
         /// <summary>
         ///     The name separator

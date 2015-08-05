@@ -17,23 +17,24 @@
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
+using DataDictionary;
 using DataDictionary.Types;
 using DataDictionary.Types.AccessMode;
 using GUI.BoxArrowDiagram;
+using GUI.Properties;
 
 namespace GUI.FunctionalView
 {
-    public partial class FunctionalBlockControl : BoxControl<NameSpace, AccessMode>
+    public class FunctionalBlockControl : BoxControl<IEnclosesNameSpaces, NameSpace, AccessMode>
     {
         /// <summary>
         ///     Constructor
         /// </summary>
         public FunctionalBlockControl()
-            : base()
         {
             BoxMode = BoxModeEnum.RoundedCorners;
             BackColor = Color.Transparent;
-            MouseDoubleClick += new MouseEventHandler(HandleMouseDoubleClick);
+            MouseDoubleClick += HandleMouseDoubleClick;
         }
 
         /// <summary>
@@ -45,7 +46,7 @@ namespace GUI.FunctionalView
         {
             BoxMode = BoxModeEnum.RoundedCorners;
             BackColor = Color.Transparent;
-            MouseDoubleClick += new MouseEventHandler(HandleMouseDoubleClick);
+            MouseDoubleClick += HandleMouseDoubleClick;
         }
 
         /// <summary>
@@ -55,15 +56,14 @@ namespace GUI.FunctionalView
         /// <param name="e"></param>
         private void HandleMouseDoubleClick(object sender, MouseEventArgs e)
         {
-            SelectBox();
-
             FunctionalAnalysisPanel panel = (FunctionalAnalysisPanel) Panel;
             if (panel != null)
             {
                 FunctionalAnalysisWindow window = new FunctionalAnalysisWindow();
-                GUIUtils.MDIWindow.AddChildWindow(window);
+                GuiUtils.MdiWindow.AddChildWindow(window);
                 window.SetNameSpaceContainer(Model);
-                window.Text = Model.Name + " functional analysis";
+                window.Text = Model.Name + @" " +
+                              Resources.FunctionalBlockControl_HandleMouseDoubleClick_functional_analysis;
             }
         }
     }

@@ -21,7 +21,6 @@ using System.Windows.Forms;
 using DataDictionary.Generated;
 using Chapter = DataDictionary.Specification.Chapter;
 using Paragraph = DataDictionary.Specification.Paragraph;
-using RequirementSet = DataDictionary.Specification.RequirementSet;
 using RequirementSetReference = DataDictionary.Specification.RequirementSetReference;
 
 namespace GUI.SpecificationView
@@ -33,15 +32,8 @@ namespace GUI.SpecificationView
         /// </summary>
         private class ItemEditor : Editor
         {
-            /// <summary>
-            ///     Constructor
-            /// </summary>
-            public ItemEditor()
-                : base()
-            {
-            }
-
             [Category("Description")]
+            // ReSharper disable once UnusedMember.Local
             public string Identifier
             {
                 get { return Item.getId(); }
@@ -53,6 +45,7 @@ namespace GUI.SpecificationView
             }
 
             [Category("Description")]
+            // ReSharper disable once UnusedMember.Local
             public string Name
             {
                 get { return Item.Name; }
@@ -63,6 +56,7 @@ namespace GUI.SpecificationView
         ///     Constructor
         /// </summary>
         /// <param name="item"></param>
+        /// <param name="buildSubNodes"></param>
         public ChapterTreeNode(Chapter item, bool buildSubNodes)
             : base(item, buildSubNodes, null, true)
         {
@@ -71,14 +65,15 @@ namespace GUI.SpecificationView
         /// <summary>
         ///     Builds the subnodes of this node
         /// </summary>
-        /// <param name="buildSubNodes">Indicates whether the subnodes of the nodes should also be built</param>
-        public override void BuildSubNodes(bool buildSubNodes)
+        /// <param name="subNodes"></param>
+        /// <param name="recursive">Indicates whether the subnodes of the nodes should also be built</param>
+        public override void BuildSubNodes(List<BaseTreeNode> subNodes, bool recursive)
         {
-            base.BuildSubNodes(buildSubNodes);
+            base.BuildSubNodes(subNodes, recursive);
 
             foreach (Paragraph paragraph in Item.Paragraphs)
             {
-                Nodes.Add(new ParagraphTreeNode(paragraph, buildSubNodes));
+                subNodes.Add(new ParagraphTreeNode(paragraph, recursive));
             }
         }
 
@@ -86,41 +81,16 @@ namespace GUI.SpecificationView
         ///     Creates the editor for this tree node
         /// </summary>
         /// <returns></returns>
-        protected override Editor createEditor()
+        protected override Editor CreateEditor()
         {
             return new ItemEditor();
         }
 
-        /// <summary>
-        ///     Adds a new paragraph to this chapter
-        /// </summary>
-        /// <param name="paragraph"></param>
-        public void AddParagraph(Paragraph paragraph)
-        {
-            Item.appendParagraphs(paragraph);
-            Nodes.Add(new ParagraphTreeNode(paragraph, true));
-            RefreshNode();
-        }
-
         public void AddParagraphHandler(object sender, EventArgs args)
         {
-            Paragraph paragraph = (Paragraph) acceptor.getFactory().createParagraph();
-            paragraph.FullId = Item.getId() + "." + (Item.countParagraphs() + 1);
-            paragraph.Text = "";
-
-            SetupDefaultRequirementSets(paragraph);
-
-            AddParagraph(paragraph);
+            Item.appendParagraphs(Paragraph.CreateDefault(Item.Paragraphs, Item.getId()));
         }
-
-        private void SetupDefaultRequirementSets(Paragraph paragraph)
-        {
-            foreach (RequirementSet requirementSet in Item.EFSSystem.RequirementSets)
-            {
-                requirementSet.setDefaultRequirementSets(paragraph);
-            }
-        }
-
+        
         public void ChangeRequirementToNoteHandler(object sender, EventArgs args)
         {
             foreach (Paragraph paragraph in Item.Paragraphs)
@@ -132,20 +102,19 @@ namespace GUI.SpecificationView
         /// <summary>
         ///     Handles a drop event
         /// </summary>
-        /// <param name="SourceNode"></param>
-        public override void AcceptDrop(BaseTreeNode SourceNode)
+        /// <param name="sourceNode"></param>
+        public override void AcceptDrop(BaseTreeNode sourceNode)
         {
-            if (SourceNode is ParagraphTreeNode)
+            ParagraphTreeNode paragraphTreeNode = sourceNode as ParagraphTreeNode;
+            if (paragraphTreeNode != null)
             {
                 if (
                     MessageBox.Show("Are you sure you want to move the corresponding paragraph?", "Move paragraph",
                         MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
-                    ParagraphTreeNode paragraphTreeNode = (ParagraphTreeNode) SourceNode;
-
                     Paragraph paragraph = paragraphTreeNode.Item;
                     paragraphTreeNode.Delete();
-                    AddParagraph(paragraph);
+                    Item.appendParagraphs(paragraph);
                 }
             }
         }
@@ -170,36 +139,20 @@ namespace GUI.SpecificationView
         {
             List<MenuItem> retVal = base.GetMenuItems();
 
-            retVal.Add(new MenuItem("Add paragraph", new EventHandler(AddParagraphHandler)));
+            retVal.Add(new MenuItem("Add paragraph", AddParagraphHandler));
             retVal.Add(new MenuItem("-"));
-            retVal.Add(new MenuItem("Change 'Requirement' to 'Note'", new EventHandler(ChangeRequirementToNoteHandler)));
+            retVal.Add(new MenuItem("Change 'Requirement' to 'Note'", ChangeRequirementToNoteHandler));
             retVal.Add(new MenuItem("-"));
-            retVal.Add(new MenuItem("Delete", new EventHandler(DeleteHandler)));
+            retVal.Add(new MenuItem("Delete", DeleteHandler));
 
             MenuItem recursiveActions = retVal.Find(x => x.Text.StartsWith("Recursive"));
             if (recursiveActions != null)
             {
                 recursiveActions.MenuItems.Add(new MenuItem("-"));
-                recursiveActions.MenuItems.Add(new MenuItem("Remove requirement sets",
-                    new EventHandler(RemoveRequirementSets)));
+                recursiveActions.MenuItems.Add(new MenuItem("Remove requirement sets", RemoveRequirementSets));
             }
 
             return retVal;
-        }
-
-        /// <summary>
-        ///     Update counts according to the selected chapter
-        /// </summary>
-        /// <param name="displayStatistics">Indicates that statistics should be displayed in the MDI window</param>
-        public override void SelectionChanged(bool displayStatistics)
-        {
-            base.SelectionChanged(false);
-
-            Window window = BaseForm as Window;
-            if (window != null)
-            {
-                GUIUtils.MDIWindow.SetCoverageStatus(Item);
-            }
         }
     }
 }

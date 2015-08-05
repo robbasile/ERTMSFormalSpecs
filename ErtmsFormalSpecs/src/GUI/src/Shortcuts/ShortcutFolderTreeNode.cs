@@ -27,20 +27,14 @@ namespace GUI.Shortcuts
     public class ShortcutFolderTreeNode : ModelElementTreeNode<ShortcutFolder>
     {
         private class ItemEditor : NamedEditor
-        {
-            /// <summary>
-            ///     Constructor
-            /// </summary>
-            public ItemEditor()
-                : base()
-            {
-            }
+        {            
         }
 
         /// <summary>
         ///     Constructor
         /// </summary>
         /// <param name="item"></param>
+        /// <param name="buildSubNodes"></param>
         public ShortcutFolderTreeNode(ShortcutFolder item, bool buildSubNodes)
             : base(item, buildSubNodes, null, true)
         {
@@ -49,19 +43,19 @@ namespace GUI.Shortcuts
         /// <summary>
         ///     Builds the subnodes of this node
         /// </summary>
-        /// <param name="buildSubNodes">Indicates whether the subnodes of the nodes should also be built</param>
-        public override void BuildSubNodes(bool buildSubNodes)
+        /// <param name="subNodes"></param>
+        /// <param name="recursive">Indicates whether the subnodes of the nodes should also be built</param>
+        public override void BuildSubNodes(List<BaseTreeNode> subNodes, bool recursive)
         {
-            base.BuildSubNodes(buildSubNodes);
+            base.BuildSubNodes(subNodes, recursive);
 
             foreach (ShortcutFolder folder in Item.Folders)
             {
-                Nodes.Add(new ShortcutFolderTreeNode(folder, buildSubNodes));
+                subNodes.Add(new ShortcutFolderTreeNode(folder, recursive));
             }
-
             foreach (Shortcut shortcut in Item.Shortcuts)
             {
-                Nodes.Add(new ShortcutTreeNode(shortcut, buildSubNodes));
+                subNodes.Add(new ShortcutTreeNode(shortcut, recursive));
             }
         }
 
@@ -69,164 +63,70 @@ namespace GUI.Shortcuts
         ///     Creates the editor for this tree node
         /// </summary>
         /// <returns></returns>
-        protected override Editor createEditor()
+        protected override Editor CreateEditor()
         {
             return new ItemEditor();
-        }
-
-        /// <summary>
-        ///     Creates a new folderTreeNode
-        /// </summary>
-        /// <param name="folder"></param>
-        /// <returns></returns>
-        public ShortcutFolderTreeNode createFolder(ShortcutFolder folder)
-        {
-            ShortcutFolderTreeNode retVal;
-
-            Item.appendFolders(folder);
-            retVal = new ShortcutFolderTreeNode(folder, true);
-            Nodes.Add(retVal);
-            SortSubNodes();
-
-            return retVal;
         }
 
         public void AddFolderHandler(object sender, EventArgs args)
         {
             ShortcutFolder folder = (ShortcutFolder) acceptor.getFactory().createShortcutFolder();
             folder.Name = "<Folder" + (Item.Folders.Count + 1) + ">";
-            AddFolder(folder);
-        }
-
-        /// <summary>
-        ///     Adds a sub folder in the corresponding folder
-        /// </summary>
-        /// <param name="nameSpace"></param>
-        public ShortcutFolderTreeNode AddFolder(ShortcutFolder folder)
-        {
             Item.appendFolders(folder);
-            ShortcutFolderTreeNode retVal = new ShortcutFolderTreeNode(folder, true);
-            Nodes.Add(retVal);
-            SortSubNodes();
-
-            return retVal;
         }
-
-        /// <summary>
-        ///     Creates a new shortcut based on a namable element
-        /// </summary>
-        /// <param name="step"></param>
-        private void createShortcut(Namable namable)
-        {
-            Shortcut shortcut = (Shortcut) acceptor.getFactory().createShortcut();
-
-            createShortcut(shortcut);
-        }
-
-        /// <summary>
-        ///     Creates a new shortcut
-        /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
-        public ShortcutTreeNode createShortcut(Shortcut shortcut)
-        {
-            ShortcutTreeNode retVal;
-
-            Item.appendShortcuts(shortcut);
-            retVal = new ShortcutTreeNode(shortcut, true);
-            Nodes.Add(retVal);
-            SortSubNodes();
-
-            return retVal;
-        }
-
+        
         /// <summary>
         ///     The menu items for this tree node
         /// </summary>
         /// <returns></returns>
         protected override List<MenuItem> GetMenuItems()
         {
-            List<MenuItem> retVal = new List<MenuItem>();
-
-            retVal.Add(new MenuItem("Add folder", new EventHandler(AddFolderHandler)));
-            retVal.Add(new MenuItem("-"));
-            retVal.Add(new MenuItem("Rename", new EventHandler(LabelEditHandler)));
-            retVal.Add(new MenuItem("Delete", new EventHandler(DeleteHandler)));
+            List<MenuItem> retVal = new List<MenuItem>
+            {
+                new MenuItem("Add folder", AddFolderHandler),
+                new MenuItem("-"),
+                new MenuItem("Rename", LabelEditHandler),
+                new MenuItem("Delete", DeleteHandler)
+            };
 
             return retVal;
         }
 
         /// <summary>
-        ///     Sorts the sub nodes of this node
-        /// </summary>
-        public override void SortSubNodes()
-        {
-            List<BaseTreeNode> folders = new List<BaseTreeNode>();
-            List<BaseTreeNode> shortcuts = new List<BaseTreeNode>();
-
-            foreach (BaseTreeNode node in Nodes)
-            {
-                if (node is ShortcutFolderTreeNode)
-                {
-                    folders.Add(node);
-                }
-                else if (node is ShortcutTreeNode)
-                {
-                    shortcuts.Add(node);
-                }
-            }
-            folders.Sort();
-            shortcuts.Sort();
-
-            Nodes.Clear();
-
-            foreach (BaseTreeNode node in folders)
-            {
-                Nodes.Add(node);
-            }
-            foreach (BaseTreeNode node in shortcuts)
-            {
-                Nodes.Add(node);
-            }
-        }
-
-        /// <summary>
         ///     Handles drop event
         /// </summary>
-        /// <param name="SourceNode"></param>
-        public override void AcceptDrop(BaseTreeNode SourceNode)
+        /// <param name="sourceNode"></param>
+        public override void AcceptDrop(BaseTreeNode sourceNode)
         {
-            if (SourceNode is ShortcutTreeNode)
+            if (sourceNode is ShortcutTreeNode)
             {
-                ShortcutTreeNode shortcut = SourceNode as ShortcutTreeNode;
+                ShortcutTreeNode shortcut = sourceNode as ShortcutTreeNode;
 
                 if (shortcut.Item.Dictionary == Item.Dictionary)
                 {
                     Shortcut otherShortcut = (Shortcut) shortcut.Item.Duplicate();
-                    createShortcut(otherShortcut);
-
+                    Item.appendShortcuts(otherShortcut);
                     shortcut.Delete();
                 }
             }
-            else if (SourceNode is ShortcutFolderTreeNode)
+            else if (sourceNode is ShortcutFolderTreeNode)
             {
-                ShortcutFolderTreeNode folder = SourceNode as ShortcutFolderTreeNode;
+                ShortcutFolderTreeNode folder = sourceNode as ShortcutFolderTreeNode;
 
                 if (folder.Item.Dictionary == Item.Dictionary)
                 {
                     ShortcutFolder otherFolder = (ShortcutFolder) folder.Item.Duplicate();
-                    createFolder(otherFolder);
-
+                    Item.appendFolders(otherFolder);
                     folder.Delete();
                 }
             }
             else
             {
-                Namable namable = SourceNode.Model as Namable;
+                Namable namable = sourceNode.Model as Namable;
 
                 Shortcut shortcut = (Shortcut) acceptor.getFactory().createShortcut();
                 shortcut.CopyFrom(namable);
-                createShortcut(shortcut);
+                Item.appendShortcuts(shortcut);
             }
         }
     }

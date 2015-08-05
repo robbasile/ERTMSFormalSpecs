@@ -24,20 +24,21 @@ using DataDictionary.Generated;
 using DataDictionary.Specification;
 using GUI.BoxArrowDiagram;
 using Utils;
+using Paragraph = DataDictionary.Specification.Paragraph;
 using RequirementSet = DataDictionary.Specification.RequirementSet;
 using RequirementSetDependancy = DataDictionary.Specification.RequirementSetDependancy;
 
 namespace GUI.RequirementSetDiagram
 {
-    public class RequirementSetPanel : BoxArrowPanel<RequirementSet, RequirementSetDependancy>
+    public class RequirementSetPanel : BoxArrowPanel<IHoldsRequirementSets, RequirementSet, RequirementSetDependancy>
     {
-        private ToolStripMenuItem addRequirementSetMenuItem;
-        private ToolStripMenuItem addDependanceMenuItem;
-        private ToolStripMenuItem selectParagraphsMenuItem;
-        private ToolStripMenuItem selectRequirementsWhichDoNotBelongMenuItem;
-        private ToolStripMenuItem selectNotImplementedRequirementsMenuItem;
-        private ToolStripSeparator toolStripSeparator;
-        private ToolStripMenuItem deleteMenuItem;
+        private ToolStripMenuItem _addRequirementSetMenuItem;
+        private ToolStripMenuItem _addDependanceMenuItem;
+        private ToolStripMenuItem _selectParagraphsMenuItem;
+        private ToolStripMenuItem _selectRequirementsWhichDoNotBelongMenuItem;
+        private ToolStripMenuItem _selectNotImplementedRequirementsMenuItem;
+        private ToolStripSeparator _toolStripSeparator;
+        private ToolStripMenuItem _deleteMenuItem;
 
         /// <summary>
         ///     Initializes the start menu
@@ -46,74 +47,74 @@ namespace GUI.RequirementSetDiagram
         {
             base.InitializeStartMenu();
 
-            addRequirementSetMenuItem = new ToolStripMenuItem();
-            addDependanceMenuItem = new ToolStripMenuItem();
-            selectParagraphsMenuItem = new ToolStripMenuItem();
-            selectRequirementsWhichDoNotBelongMenuItem = new ToolStripMenuItem();
-            selectNotImplementedRequirementsMenuItem = new ToolStripMenuItem();
-            toolStripSeparator = new ToolStripSeparator();
-            deleteMenuItem = new ToolStripMenuItem();
+            _addRequirementSetMenuItem = new ToolStripMenuItem();
+            _addDependanceMenuItem = new ToolStripMenuItem();
+            _selectParagraphsMenuItem = new ToolStripMenuItem();
+            _selectRequirementsWhichDoNotBelongMenuItem = new ToolStripMenuItem();
+            _selectNotImplementedRequirementsMenuItem = new ToolStripMenuItem();
+            _toolStripSeparator = new ToolStripSeparator();
+            _deleteMenuItem = new ToolStripMenuItem();
             // 
             // addRequirementSetMenuItem
             // 
-            addRequirementSetMenuItem.Name = "addRequirementSetMenuItem";
-            addRequirementSetMenuItem.Size = new Size(161, 22);
-            addRequirementSetMenuItem.Text = "Add requirement set";
-            addRequirementSetMenuItem.Click += new EventHandler(addBoxMenuItem_Click);
+            _addRequirementSetMenuItem.Name = "addRequirementSetMenuItem";
+            _addRequirementSetMenuItem.Size = new Size(161, 22);
+            _addRequirementSetMenuItem.Text = "Add requirement set";
+            _addRequirementSetMenuItem.Click += addBoxMenuItem_Click;
             // 
             // addDependanceMenuItem
             // 
-            addDependanceMenuItem.Name = "addDependanceMenuItem";
-            addDependanceMenuItem.Size = new Size(161, 22);
-            addDependanceMenuItem.Text = "Add dependance";
-            addDependanceMenuItem.Click += new EventHandler(addArrowMenuItem_Click);
+            _addDependanceMenuItem.Name = "addDependanceMenuItem";
+            _addDependanceMenuItem.Size = new Size(161, 22);
+            _addDependanceMenuItem.Text = "Add dependancy";
+            _addDependanceMenuItem.Click += addArrowMenuItem_Click;
             // 
             // toolStripSeparator1
             // 
-            toolStripSeparator.Name = "toolStripSeparator1";
-            toolStripSeparator.Size = new Size(158, 6);
+            _toolStripSeparator.Name = "toolStripSeparator1";
+            _toolStripSeparator.Size = new Size(158, 6);
             // 
             // selectParagraphsMenuItem
             // 
-            selectParagraphsMenuItem.Name = "selectParagraphsMenuItem";
-            selectParagraphsMenuItem.Size = new Size(161, 22);
-            selectParagraphsMenuItem.Text = "Select paragraphs";
-            selectParagraphsMenuItem.Click += new EventHandler(selectRequirements_Click);
+            _selectParagraphsMenuItem.Name = "selectParagraphsMenuItem";
+            _selectParagraphsMenuItem.Size = new Size(161, 22);
+            _selectParagraphsMenuItem.Text = "Select paragraphs";
+            _selectParagraphsMenuItem.Click += selectRequirements_Click;
             // 
             // selectRequirementsWhichDoNotBelongMenuItem
             // 
-            selectRequirementsWhichDoNotBelongMenuItem.Name = "selectRequirementsWhichDoNotBelongMenuItem";
-            selectRequirementsWhichDoNotBelongMenuItem.Size = new Size(161, 22);
-            selectRequirementsWhichDoNotBelongMenuItem.Text =
+            _selectRequirementsWhichDoNotBelongMenuItem.Name = "selectRequirementsWhichDoNotBelongMenuItem";
+            _selectRequirementsWhichDoNotBelongMenuItem.Size = new Size(161, 22);
+            _selectRequirementsWhichDoNotBelongMenuItem.Text =
                 "Select requirements which do not belong to requirement set";
-            selectRequirementsWhichDoNotBelongMenuItem.Click +=
-                new EventHandler(selectRequirementsWhichDoNotBelongMenuItem_Click);
+            _selectRequirementsWhichDoNotBelongMenuItem.Click +=
+                selectRequirementsWhichDoNotBelongMenuItem_Click;
             // 
             // selectNotImplementedRequirements
             // 
-            selectNotImplementedRequirementsMenuItem.Name = "selectNotImplementedRequirementsMenuItem";
-            selectNotImplementedRequirementsMenuItem.Size = new Size(161, 22);
-            selectNotImplementedRequirementsMenuItem.Text = "Select not implemented requirements";
-            selectNotImplementedRequirementsMenuItem.Click +=
-                new EventHandler(selectNotImplementedRequirementsMenuItem_Click);
+            _selectNotImplementedRequirementsMenuItem.Name = "selectNotImplementedRequirementsMenuItem";
+            _selectNotImplementedRequirementsMenuItem.Size = new Size(161, 22);
+            _selectNotImplementedRequirementsMenuItem.Text = "Select not implemented requirements";
+            _selectNotImplementedRequirementsMenuItem.Click +=
+                selectNotImplementedRequirementsMenuItem_Click;
             // 
             // toolStripMenuItem1
             // 
-            deleteMenuItem.Name = "toolStripMenuItem1";
-            deleteMenuItem.Size = new Size(153, 22);
-            deleteMenuItem.Text = "Delete selected";
-            deleteMenuItem.Click += new EventHandler(deleteMenuItem1_Click);
+            _deleteMenuItem.Name = "toolStripMenuItem1";
+            _deleteMenuItem.Size = new Size(153, 22);
+            _deleteMenuItem.Text = "Delete selected";
+            _deleteMenuItem.Click += deleteMenuItem1_Click;
 
             contextMenu.Items.AddRange(new ToolStripItem[]
             {
-                addRequirementSetMenuItem,
-                addDependanceMenuItem,
-                toolStripSeparator,
-                selectParagraphsMenuItem,
-                selectRequirementsWhichDoNotBelongMenuItem,
-                selectNotImplementedRequirementsMenuItem,
-                toolStripSeparator,
-                deleteMenuItem
+                _addRequirementSetMenuItem,
+                _addDependanceMenuItem,
+                _toolStripSeparator,
+                _selectParagraphsMenuItem,
+                _selectRequirementsWhichDoNotBelongMenuItem,
+                _selectNotImplementedRequirementsMenuItem,
+                _toolStripSeparator,
+                _deleteMenuItem
             });
         }
 
@@ -130,7 +131,6 @@ namespace GUI.RequirementSetDiagram
         ///     Constructor
         /// </summary>
         public RequirementSetPanel()
-            : base()
         {
             Init();
         }
@@ -140,7 +140,6 @@ namespace GUI.RequirementSetDiagram
         /// </summary>
         /// <param name="container"></param>
         public RequirementSetPanel(IContainer container)
-            : base()
         {
             container.Add(this);
 
@@ -148,14 +147,37 @@ namespace GUI.RequirementSetDiagram
         }
 
         /// <summary>
+        /// Metrics related to all requirement sets 
+        /// </summary>
+        public Dictionary<RequirementSet, Paragraph.ParagraphSetMetrics> Metrics { get; set; }
+
+        /// <summary>
+        /// Computes the metrics for all displayed requirement sets
+        /// </summary>
+        public override IHoldsRequirementSets Model
+        {
+            set
+            {
+                base.Model = value; 
+
+                Metrics = new Dictionary<RequirementSet, Paragraph.ParagraphSetMetrics>();
+                foreach (RequirementSet requirementSet in Model.RequirementSets)
+                {
+                    List<Paragraph> paragraphs = new List<Paragraph>();
+                    requirementSet.GetParagraphs(paragraphs);
+                    Metrics.Add(requirementSet, Paragraph.CreateParagraphSetMetrics(paragraphs));
+                }
+            }
+        }
+
+        /// <summary>
         ///     Method used to create a box
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public override BoxControl<RequirementSet, RequirementSetDependancy> createBox(RequirementSet model)
+        public override BoxControl<IHoldsRequirementSets, RequirementSet, RequirementSetDependancy> CreateBox(RequirementSet model)
         {
-            BoxControl<RequirementSet, RequirementSetDependancy> retVal = new RequirementSetControl();
-            retVal.Model = model;
+            var retVal = new RequirementSetControl {Model = model};
 
             return retVal;
         }
@@ -165,27 +187,22 @@ namespace GUI.RequirementSetDiagram
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public override ArrowControl<RequirementSet, RequirementSetDependancy> createArrow(
+        public override ArrowControl<IHoldsRequirementSets, RequirementSet, RequirementSetDependancy> CreateArrow(
             RequirementSetDependancy model)
         {
-            ArrowControl<RequirementSet, RequirementSetDependancy> retVal = new RequirementSetDependancyControl();
+            ArrowControl<IHoldsRequirementSets, RequirementSet, RequirementSetDependancy> retVal = new RequirementSetDependancyControl();
             retVal.Model = model;
 
             return retVal;
         }
 
         /// <summary>
-        ///     The enclosing element, which holds requirement setsEFSSystem for which this panel is built
-        /// </summary>
-        public IHoldsRequirementSets Enclosing { get; set; }
-
-        /// <summary>
         ///     Provides the boxes that need be displayed
         /// </summary>
         /// <returns></returns>
-        public override List<RequirementSet> getBoxes()
+        public override List<RequirementSet> GetBoxes()
         {
-            List<RequirementSet> retVal = Enclosing.RequirementSets;
+            List<RequirementSet> retVal = Model.RequirementSets;
 
             return retVal;
         }
@@ -194,11 +211,11 @@ namespace GUI.RequirementSetDiagram
         ///     Provides the arrows that need be displayed
         /// </summary>
         /// <returns></returns>
-        public override List<RequirementSetDependancy> getArrows()
+        public override List<RequirementSetDependancy> GetArrows()
         {
             List<RequirementSetDependancy> retVal = new List<RequirementSetDependancy>();
 
-            foreach (RequirementSet requirementSet in Enclosing.RequirementSets)
+            foreach (RequirementSet requirementSet in Model.RequirementSets)
             {
                 foreach (RequirementSetDependancy dependance in requirementSet.Dependancies)
                 {
@@ -212,32 +229,32 @@ namespace GUI.RequirementSetDiagram
         private void addBoxMenuItem_Click(object sender, EventArgs e)
         {
             RequirementSet requirementSet = (RequirementSet) acceptor.getFactory().createRequirementSet();
-            requirementSet.Name = "<set " + (Enclosing.RequirementSets.Count + 1) + ">";
+            requirementSet.Name = "<set " + (Model.RequirementSets.Count + 1) + ">";
 
-            Enclosing.AddRequirementSet(requirementSet);
+            Model.AddRequirementSet(requirementSet);
             RefreshControl();
         }
 
         private void addArrowMenuItem_Click(object sender, EventArgs e)
         {
-            if (Enclosing.RequirementSets.Count > 1)
+            if (Model.RequirementSets.Count > 1)
             {
-                RequirementSet source = null;
-                RequirementSet target = null;
+                RequirementSet source;
+                RequirementSet target;
                 RequirementSetControl sourceControl = Selected as RequirementSetControl;
                 if (sourceControl != null)
                 {
                     source = sourceControl.Model;
-                    target = Enclosing.RequirementSets[0];
+                    target = Model.RequirementSets[0];
                     if (target == source)
                     {
-                        target = Enclosing.RequirementSets[1];
+                        target = Model.RequirementSets[1];
                     }
                 }
                 else
                 {
-                    source = Enclosing.RequirementSets[0];
-                    target = Enclosing.RequirementSets[1];
+                    source = Model.RequirementSets[0];
+                    target = Model.RequirementSets[1];
                 }
 
                 RequirementSetDependancy dependancy =
@@ -245,11 +262,7 @@ namespace GUI.RequirementSetDiagram
                 dependancy.setTarget(target.Guid);
                 source.appendDependancies(dependancy);
 
-                RefreshControl();
-                Refresh();
-
-                ArrowControl<RequirementSet, RequirementSetDependancy> control = getArrowControl(dependancy);
-                Select(control, false);
+                EFSSystem.INSTANCE.Context.SelectElement(dependancy, this, Context.SelectionCriteria.LeftClick);
             }
         }
 
@@ -288,10 +301,8 @@ namespace GUI.RequirementSetDiagram
         {
             IModelElement model = null;
 
-            BoxControl<RequirementSet, RequirementSetDependancy> box =
-                Selected as BoxControl<RequirementSet, RequirementSetDependancy>;
-            ArrowControl<RequirementSet, RequirementSetDependancy> arrow =
-                Selected as ArrowControl<RequirementSet, RequirementSetDependancy>;
+            var box = Selected as BoxControl<IHoldsRequirementSets, RequirementSet, RequirementSetDependancy>;
+            var arrow = Selected as ArrowControl<IHoldsRequirementSets, RequirementSet, RequirementSetDependancy>;
 
             if (box != null)
             {
@@ -301,11 +312,11 @@ namespace GUI.RequirementSetDiagram
             {
                 model = arrow.Model;
             }
-            model.Delete();
 
-            Select(null, false);
-            RefreshControl();
-            Refresh();
+            if (model != null)
+            {
+                model.Delete();
+            }
         }
     }
 }

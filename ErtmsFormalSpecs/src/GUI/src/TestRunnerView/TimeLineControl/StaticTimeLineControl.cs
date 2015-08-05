@@ -25,6 +25,7 @@ using DataDictionary.Tests.Runner.Events;
 using DataDictionary.Values;
 using GUI.DataDictionaryView;
 using GUI.EditorView;
+using GUI.Properties;
 using Utils;
 using WeifenLuo.WinFormsUI.Docking;
 using Action = DataDictionary.Rules.Action;
@@ -47,18 +48,18 @@ namespace GUI.TestRunnerView.TimeLineControl
         /// <summary>
         ///     The subsequence currently being displayed
         /// </summary>
-        private SubSequence __subSequence;
+        private SubSequence _subSequence;
 
         /// <summary>
         ///     The test case for which this time line is built
         /// </summary>
         public SubSequence SubSequence
         {
-            get { return __subSequence; }
+            get { return _subSequence; }
             set
             {
-                __testCase = null;
-                __subSequence = value;
+                _testCase = null;
+                _subSequence = value;
                 __translation = null;
                 CleanEventPositions();
             }
@@ -67,18 +68,18 @@ namespace GUI.TestRunnerView.TimeLineControl
         /// <summary>
         ///     The test case
         /// </summary>
-        private TestCase __testCase;
+        private TestCase _testCase;
 
         /// <summary>
         ///     The test case for which this time line is built
         /// </summary>
         public TestCase TestCase
         {
-            get { return __testCase; }
+            get { return _testCase; }
             set
             {
-                __subSequence = null;
-                __testCase = value;
+                _subSequence = null;
+                _testCase = value;
                 __translation = null;
                 CleanEventPositions();
             }
@@ -97,8 +98,8 @@ namespace GUI.TestRunnerView.TimeLineControl
             set
             {
                 __translation = value;
-                __testCase = null;
-                __subSequence = null;
+                _testCase = null;
+                _subSequence = null;
                 CleanEventPositions();
             }
         }
@@ -133,19 +134,18 @@ namespace GUI.TestRunnerView.TimeLineControl
         ///     Constructor
         /// </summary>
         public StaticTimeLineControl()
-            : base()
-        {
+       {
             AllowDrop = true;
-            DragEnter += new DragEventHandler(TimeLineControl_DragEnter);
-            DragDrop += new DragEventHandler(TimeLineControl_DragDrop);
+            DragEnter += TimeLineControl_DragEnter;
+            DragDrop += TimeLineControl_DragDrop;
 
-            DoubleClick += new EventHandler(TimeLineControl_DoubleClick);
-            MouseDown += new MouseEventHandler(StaticTimeLineControl_MouseDown);
+            DoubleClick += TimeLineControl_DoubleClick;
+            MouseDown += StaticTimeLineControl_MouseDown;
             TestCase = null;
             SubSequence = null;
         }
 
-        private const int CTRL = 8;
+        private const int Ctrl = 8;
 
         /// <summary>
         ///     Changes the cursor according to the modifier key when a drag & drop operation is performed
@@ -154,7 +154,7 @@ namespace GUI.TestRunnerView.TimeLineControl
         /// <param name="e"></param>
         private void TimeLineControl_DragEnter(object sender, DragEventArgs e)
         {
-            if ((e.KeyState & CTRL) != 0)
+            if ((e.KeyState & Ctrl) != 0)
             {
                 e.Effect = DragDropEffects.Copy;
             }
@@ -196,8 +196,7 @@ namespace GUI.TestRunnerView.TimeLineControl
 
                             if (expression != null)
                             {
-                                InterpretationContext context = new InterpretationContext();
-                                context.UseDefaultValue = false;
+                                InterpretationContext context = new InterpretationContext {UseDefaultValue = false};
                                 value = expression.GetValue(context, null);
                             }
 
@@ -214,7 +213,7 @@ namespace GUI.TestRunnerView.TimeLineControl
                             // Create the action or the expectation according to the keyboard modifier keys
                             if (value != null)
                             {
-                                if ((e.KeyState & CTRL) != 0)
+                                if ((e.KeyState & Ctrl) != 0)
                                 {
                                     Expectation expectation = (Expectation) acceptor.getFactory().createExpectation();
                                     expectation.ExpressionText = variableNode.Item.FullName + " == " + value.FullName;
@@ -226,12 +225,14 @@ namespace GUI.TestRunnerView.TimeLineControl
                                     action.ExpressionText = variableNode.Item.FullName + " <- " + value.FullName;
                                     subStep.appendActions(action);
                                 }
-                                RefreshTimeLineAndWindow();
                             }
                             else
                             {
-                                MessageBox.Show("Cannot evaluate variable default value", "Cannot create event",
-                                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                MessageBox.Show(
+                                    Resources.StaticTimeLineControl_TimeLineControl_DragDrop_Cannot_evaluate_variable_default_value, 
+                                    Resources.StaticTimeLineControl_TimeLineControl_DragDrop_Cannot_create_event,
+                                    MessageBoxButtons.OK, 
+                                    MessageBoxIcon.Error);
                             }
                         }
                     }
@@ -272,19 +273,7 @@ namespace GUI.TestRunnerView.TimeLineControl
 
             return retVal;
         }
-
-        /// <summary>
-        ///     Refreshes the time line and the enclosing window
-        /// </summary>
-        private void RefreshTimeLineAndWindow()
-        {
-            HandledEvents = -1;
-            IBaseForm enclosingForm = FormsUtils.EnclosingIBaseForm(this);
-
-            enclosingForm.RefreshModel();
-            enclosingForm.Refresh();
-        }
-
+        
         /// <summary>
         ///     A base menu item element
         /// </summary>
@@ -298,16 +287,15 @@ namespace GUI.TestRunnerView.TimeLineControl
             /// <summary>
             ///     The time line control for which this menu item is built
             /// </summary>
-            protected StaticTimeLineControl TimeLineControl { get; set; }
+            protected StaticTimeLineControl TimeLineControl { get; private set; }
 
             /// <summary>
             ///     Constructor
             /// </summary>
             /// <param name="timeLineControl"></param>
             /// <param name="modelEvent"></param>
-            /// <param name="testCase"></param>
             /// <param name="caption"></param>
-            public BaseToolStripButton(StaticTimeLineControl timeLineControl, ModelEvent modelEvent, string caption)
+            protected BaseToolStripButton(StaticTimeLineControl timeLineControl, ModelEvent modelEvent, string caption)
                 : base(caption)
             {
                 TimeLineControl = timeLineControl;
@@ -317,7 +305,7 @@ namespace GUI.TestRunnerView.TimeLineControl
             /// <summary>
             ///     Provides the step enclosing the selected event
             /// </summary>
-            public Step Step
+            protected Step Step
             {
                 get
                 {
@@ -326,7 +314,6 @@ namespace GUI.TestRunnerView.TimeLineControl
                     if (Selected != null)
                     {
                         retVal = EnclosingFinder<Step>.find(Selected.Instance as IEnclosed, true);
-                        ;
                     }
 
                     return retVal;
@@ -336,7 +323,7 @@ namespace GUI.TestRunnerView.TimeLineControl
             /// <summary>
             ///     Provides the substep enclosing the selected event
             /// </summary>
-            public SubStep SubStep
+            protected SubStep SubStep
             {
                 get
                 {
@@ -345,21 +332,10 @@ namespace GUI.TestRunnerView.TimeLineControl
                     if (Selected != null)
                     {
                         retVal = EnclosingFinder<SubStep>.find(Selected.Instance as IEnclosed, true);
-                        ;
                     }
 
                     return retVal;
                 }
-            }
-
-            /// <summary>
-            ///     Refreshes the time line after click action has been performed
-            /// </summary>
-            /// <param name="e"></param>
-            protected override void OnClick(EventArgs e)
-            {
-                TimeLineControl.RefreshTimeLineAndWindow();
-                base.OnClick(e);
             }
         }
 
@@ -388,10 +364,13 @@ namespace GUI.TestRunnerView.TimeLineControl
                 if (Selected != null && Selected.Instance != null)
                 {
                     IModelElement model = Selected.Instance as IModelElement;
-                    ArrayList collection = model.EnclosingCollection;
-                    if (collection != null)
+                    if (model != null)
                     {
-                        collection.Remove(model);
+                        ArrayList collection = model.EnclosingCollection;
+                        if (collection != null)
+                        {
+                            collection.Remove(model);
+                        }
                     }
                 }
                 base.OnClick(e);
@@ -617,8 +596,6 @@ namespace GUI.TestRunnerView.TimeLineControl
         /// <summary>
         ///     Sets the string value into the right property
         /// </summary>
-        /// <param name="instance"></param>
-        /// <param name="value"></param>
         private class TimeLineExpressionableTextChangeHandler : ExpressionableTextChangeHandler
         {
             /// <summary>
@@ -629,6 +606,7 @@ namespace GUI.TestRunnerView.TimeLineControl
             /// <summary>
             ///     Constructor
             /// </summary>
+            /// <param name="timeLine"></param>
             /// <param name="instance"></param>
             public TimeLineExpressionableTextChangeHandler(StaticTimeLineControl timeLine, IExpressionable instance)
                 : base(instance as ModelElement)
@@ -663,7 +641,7 @@ namespace GUI.TestRunnerView.TimeLineControl
                 TimeLineExpressionableTextChangeHandler handler = new TimeLineExpressionableTextChangeHandler(this,
                     variableUpdate.Action);
                 form.setChangeHandler(handler);
-                GUIUtils.MDIWindow.AddChildWindow(form, DockAreas.Float);
+                GuiUtils.MdiWindow.AddChildWindow(form, DockAreas.Float);
             }
 
             Expect expect = evt as Expect;
@@ -673,7 +651,7 @@ namespace GUI.TestRunnerView.TimeLineControl
                 TimeLineExpressionableTextChangeHandler handler = new TimeLineExpressionableTextChangeHandler(this,
                     expect.Expectation);
                 form.setChangeHandler(handler);
-                GUIUtils.MDIWindow.AddChildWindow(form, DockAreas.Float);
+                GuiUtils.MdiWindow.AddChildWindow(form, DockAreas.Float);
             }
         }
 
@@ -723,8 +701,7 @@ namespace GUI.TestRunnerView.TimeLineControl
                     }
                     else
                     {
-                        StepActivation stepActivated = new StepActivation(step);
-                        stepActivated.Time = currentTime;
+                        StepActivation stepActivated = new StepActivation(step) {Time = currentTime};
                         PositionHandler.RegisterEvent(stepActivated);
                         currentTime += 1;
                     }
@@ -752,8 +729,7 @@ namespace GUI.TestRunnerView.TimeLineControl
         /// <returns></returns>
         private void PositionSubStep(double currentTime, SubStep subStep)
         {
-            SubStepActivated subStepActivated = new SubStepActivated(subStep, null);
-            subStepActivated.Time = currentTime;
+            SubStepActivated subStepActivated = new SubStepActivated(subStep, null) {Time = currentTime};
             PositionHandler.RegisterEvent(subStepActivated);
             foreach (Action action in subStep.Actions)
             {

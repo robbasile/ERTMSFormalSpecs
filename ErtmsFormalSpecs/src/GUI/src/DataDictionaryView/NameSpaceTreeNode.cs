@@ -18,8 +18,10 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using DataDictionary;
-using DataDictionary.Types;
 using GUI.FunctionalView;
+using GUI.Properties;
+using Dictionary = DataDictionary.Dictionary;
+using NameSpace = DataDictionary.Types.NameSpace;
 
 namespace GUI.DataDictionaryView
 {
@@ -27,155 +29,117 @@ namespace GUI.DataDictionaryView
     {
         private class ItemEditor : CommentableEditor
         {
-            /// <summary>
-            ///     Constructor
-            /// </summary>
-            public ItemEditor()
-                : base()
-            {
-            }
         }
 
-        private NameSpaceSubNameSpacesTreeNode subNameSpaces;
-        private RangesTreeNode ranges;
-        private EnumerationsTreeNode enumerations;
-        private InterfacesTreeNode interfaces;
-        private StructuresTreeNode structures;
-        private CollectionsTreeNode collections;
-        private StateMachinesTreeNode stateMachines;
-        private FunctionsTreeNode functions;
-        private NameSpaceProceduresTreeNode procedures;
-        private NameSpaceVariablesTreeNode variables;
-        private NameSpaceRulesTreeNode rules;
-
-        private bool isDirectory = false;
+        private readonly bool _isDirectory;
 
         /// <summary>
         ///     Constructor
         /// </summary>
         /// <param name="item"></param>
-        /// <param name="name"></param>
+        /// <param name="buildSubNodes"></param>
         public NameSpaceTreeNode(NameSpace item, bool buildSubNodes)
             : base(item, buildSubNodes, null, false)
         {
         }
 
         /// <summary>
-        ///     Builds the subnodes of this node
-        /// </summary>
-        /// <param name="buildSubNodes">Indicates whether the subnodes of the nodes should also be built</param>
-        public override void BuildSubNodes(bool buildSubNodes)
-        {
-            base.BuildSubNodes(buildSubNodes);
-
-            subNameSpaces = new NameSpaceSubNameSpacesTreeNode(Item, buildSubNodes);
-            ranges = new RangesTreeNode(Item, buildSubNodes);
-            enumerations = new EnumerationsTreeNode(Item, buildSubNodes);
-            interfaces = new InterfacesTreeNode(Item, buildSubNodes);
-            structures = new StructuresTreeNode(Item, buildSubNodes);
-            collections = new CollectionsTreeNode(Item, buildSubNodes);
-            stateMachines = new StateMachinesTreeNode(Item, buildSubNodes);
-            functions = new FunctionsTreeNode(Item, buildSubNodes);
-            procedures = new NameSpaceProceduresTreeNode(Item, buildSubNodes);
-            variables = new NameSpaceVariablesTreeNode(Item, buildSubNodes);
-            rules = new NameSpaceRulesTreeNode(Item, buildSubNodes);
-
-            Nodes.Add(subNameSpaces);
-            Nodes.Add(ranges);
-            Nodes.Add(enumerations);
-            Nodes.Add(interfaces);
-            Nodes.Add(structures);
-            Nodes.Add(collections);
-            Nodes.Add(stateMachines);
-            Nodes.Add(functions);
-            Nodes.Add(procedures);
-            Nodes.Add(variables);
-            Nodes.Add(rules);
-        }
-
-        /// <summary>
         ///     Constructor
         /// </summary>
         /// <param name="item"></param>
+        /// <param name="buildSubNodes"></param>
         /// <param name="name"></param>
+        /// <param name="isFolder"></param>
         protected NameSpaceTreeNode(NameSpace item, bool buildSubNodes, string name, bool isFolder)
             : base(item, buildSubNodes, name, isFolder)
         {
-            isDirectory = true;
+            _isDirectory = true;
+        }
+
+        /// <summary>
+        ///     Builds the subnodes of this node
+        /// </summary>
+        /// <param name="subNodes"></param>
+        /// <param name="recursive">Indicates whether the subnodes of the nodes should also be built</param>
+        public override void BuildSubNodes(List<BaseTreeNode> subNodes, bool recursive)
+        {
+            base.BuildSubNodes(subNodes, recursive);
+
+            subNodes.Add(new NameSpaceSubNameSpacesTreeNode(Item, recursive));
+            subNodes.Add(new RangesTreeNode(Item, recursive));
+            subNodes.Add(new EnumerationsTreeNode(Item, recursive));
+            subNodes.Add(new InterfacesTreeNode(Item, recursive));
+            subNodes.Add(new StructuresTreeNode(Item, recursive));
+            subNodes.Add(new CollectionsTreeNode(Item, recursive));
+            subNodes.Add(new StateMachinesTreeNode(Item, recursive));
+            subNodes.Add(new FunctionsTreeNode(Item, recursive));
+            subNodes.Add(new NameSpaceProceduresTreeNode(Item, recursive));
+            subNodes.Add(new NameSpaceVariablesTreeNode(Item, recursive));
+            subNodes.Add(new NameSpaceRulesTreeNode(Item, recursive));
         }
 
         /// <summary>
         ///     Creates the editor for this tree node
         /// </summary>
         /// <returns></returns>
-        protected override Editor createEditor()
+        protected override Editor CreateEditor()
         {
             return new ItemEditor();
         }
 
         private void AddNamespaceHandler(object sender, EventArgs args)
         {
-            subNameSpaces.AddHandler(sender, args);
+            Item.appendNameSpaces(NameSpace.CreateDefault(Item.NameSpaces));
         }
 
         private void AddRangeHandler(object sender, EventArgs args)
         {
-            ranges.AddHandler(sender, args);
+            Item.appendRanges(DataDictionary.Types.Range.CreateDefault(Item.Ranges));
         }
 
         private void AddEnumerationHandler(object sender, EventArgs args)
         {
-            enumerations.AddHandler(sender, args);
+            Item.appendEnumerations(DataDictionary.Types.Enum.CreateDefault(Item.Enumerations));
         }
 
         private void AddInterfaceHandler(object sender, EventArgs args)
         {
-            interfaces.AddHandler(sender, args);
+            Item.appendStructures(DataDictionary.Types.Structure.CreateDefault(Item.Structures, true));
         }
 
         private void AddStructureHandler(object sender, EventArgs args)
         {
-            structures.AddHandler(sender, args);
+            Item.appendStructures(DataDictionary.Types.Structure.CreateDefault(Item.Structures, false));
         }
 
         private void AddCollectionHandler(object sender, EventArgs args)
         {
-            collections.AddHandler(sender, args);
+            Item.appendCollections(DataDictionary.Types.Collection.CreateDefault(Item.Collections));
         }
 
         private void AddStateMachineHandler(object sender, EventArgs args)
         {
-            stateMachines.AddHandler(sender, args);
+            Item.appendStateMachines(DataDictionary.Types.StateMachine.CreateDefault(Item.StateMachines));
         }
 
         private void AddFunctionHandler(object sender, EventArgs args)
         {
-            functions.AddHandler(sender, args);
+            Item.appendFunctions(DataDictionary.Functions.Function.CreateDefault(Item.Functions));
         }
 
         private void AddProcedureHandler(object sender, EventArgs args)
         {
-            procedures.AddHandler(sender, args);
+            Item.appendProcedures(DataDictionary.Functions.Procedure.CreateDefault(Item.Procedures));
         }
 
         private void AddVariableHandler(object sender, EventArgs args)
         {
-            variables.AddHandler(sender, args);
+            Item.appendVariables(DataDictionary.Variables.Variable.CreateDefault(Item.Variables));
         }
 
         private void AddRuleHandler(object sender, EventArgs args)
         {
-            rules.AddHandler(sender, args);
-        }
-
-
-        /// <summary>
-        ///     Adds a namespace in the corresponding namespace
-        /// </summary>
-        /// <param name="nameSpace"></param>
-        public NameSpaceTreeNode AddNameSpace(NameSpace nameSpace)
-        {
-            return subNameSpaces.AddSubNameSpace(nameSpace);
+            Item.appendRules(DataDictionary.Rules.Rule.CreateDefault(Item.Rules));
         }
 
         /// <summary>
@@ -186,9 +150,9 @@ namespace GUI.DataDictionaryView
         protected void ShowFunctionalViewHandler(object sender, EventArgs args)
         {
             FunctionalAnalysisWindow window = new FunctionalAnalysisWindow();
-            GUIUtils.MDIWindow.AddChildWindow(window);
+            GuiUtils.MdiWindow.AddChildWindow(window);
             window.SetNameSpaceContainer(Item);
-            window.Text = Item.Name + " functional view";
+            window.Text = Item.Name + @" " + Resources.NameSpaceTreeNode_ShowFunctionalViewHandler_functional_view;
         }
 
         /// <summary>
@@ -208,9 +172,8 @@ namespace GUI.DataDictionaryView
                     // If the element does not already exist in the patch, add a copy to it
                     retVal = Item.CreateUpdateInDictionary(dictionary);
                 }
-                // navigate to the namespace, whether it was created or not
-                GUIUtils.MDIWindow.RefreshModel();
-                GUIUtils.MDIWindow.Select(retVal);
+                // Navigate to the element, whether it was created or not
+                EFSSystem.INSTANCE.Context.SelectElement(retVal, this, Context.SelectionCriteria.DoubleClick);
             }
 
             return retVal;
@@ -225,28 +188,28 @@ namespace GUI.DataDictionaryView
             List<MenuItem> retVal = new List<MenuItem>();
 
             MenuItem newItem = new MenuItem("Add...");
-            newItem.MenuItems.Add(new MenuItem("Namespace", new EventHandler(AddNamespaceHandler)));
-            newItem.MenuItems.Add(new MenuItem("Range", new EventHandler(AddRangeHandler)));
-            newItem.MenuItems.Add(new MenuItem("Enumeration", new EventHandler(AddEnumerationHandler)));
-            newItem.MenuItems.Add(new MenuItem("Interface", new EventHandler(AddInterfaceHandler)));
-            newItem.MenuItems.Add(new MenuItem("Structure", new EventHandler(AddStructureHandler)));
-            newItem.MenuItems.Add(new MenuItem("Collection", new EventHandler(AddCollectionHandler)));
-            newItem.MenuItems.Add(new MenuItem("State machine", new EventHandler(AddStateMachineHandler)));
-            newItem.MenuItems.Add(new MenuItem("Function", new EventHandler(AddFunctionHandler)));
-            newItem.MenuItems.Add(new MenuItem("Procedure", new EventHandler(AddProcedureHandler)));
-            newItem.MenuItems.Add(new MenuItem("Variable", new EventHandler(AddVariableHandler)));
-            newItem.MenuItems.Add(new MenuItem("Rule", new EventHandler(AddRuleHandler)));
+            newItem.MenuItems.Add(new MenuItem("Namespace", AddNamespaceHandler));
+            newItem.MenuItems.Add(new MenuItem("Range", AddRangeHandler));
+            newItem.MenuItems.Add(new MenuItem("Enumeration", AddEnumerationHandler));
+            newItem.MenuItems.Add(new MenuItem("Interface", AddInterfaceHandler));
+            newItem.MenuItems.Add(new MenuItem("Structure", AddStructureHandler));
+            newItem.MenuItems.Add(new MenuItem("Collection", AddCollectionHandler));
+            newItem.MenuItems.Add(new MenuItem("State machine", AddStateMachineHandler));
+            newItem.MenuItems.Add(new MenuItem("Function", AddFunctionHandler));
+            newItem.MenuItems.Add(new MenuItem("Procedure", AddProcedureHandler));
+            newItem.MenuItems.Add(new MenuItem("Variable", AddVariableHandler));
+            newItem.MenuItems.Add(new MenuItem("Rule", AddRuleHandler));
             retVal.Add(newItem);
 
             MenuItem updatesItem = new MenuItem("Update...");
-            updatesItem.MenuItems.Add(new MenuItem("Update", new EventHandler(AddUpdate)));
-            updatesItem.MenuItems.Add(new MenuItem("Remove", new EventHandler(RemoveInUpdate)));
+            updatesItem.MenuItems.Add(new MenuItem("Update", AddUpdate));
+            updatesItem.MenuItems.Add(new MenuItem("Remove", RemoveInUpdate));
             retVal.Add(updatesItem);
 
-            retVal.Add(new MenuItem("Delete", new EventHandler(DeleteHandler)));
+            retVal.Add(new MenuItem("Delete", DeleteHandler));
             retVal.AddRange(base.GetMenuItems());
             retVal.Insert(5, new MenuItem("-"));
-            retVal.Insert(6, new MenuItem("Functional view", new EventHandler(ShowFunctionalViewHandler)));
+            retVal.Insert(6, new MenuItem("Functional view", ShowFunctionalViewHandler));
 
             return retVal;
         }
@@ -254,146 +217,78 @@ namespace GUI.DataDictionaryView
         /// <summary>
         ///     Accepts a drop event
         /// </summary>
-        /// <param name="SourceNode"></param>
-        public override void AcceptDrop(BaseTreeNode SourceNode)
+        /// <param name="sourceNode"></param>
+        public override void AcceptDrop(BaseTreeNode sourceNode)
         {
-            base.AcceptDrop(SourceNode);
+            base.AcceptDrop(sourceNode);
 
-            if (isDirectory)
+            if (_isDirectory)
             {
                 BaseTreeNode parent = Parent as BaseTreeNode;
-                parent.AcceptDrop(SourceNode);
+                if (parent != null)
+                {
+                    parent.AcceptDrop(sourceNode);
+                }
             }
             else
             {
-                if (SourceNode is VariableTreeNode)
+                if (sourceNode is VariableTreeNode)
                 {
-                    variables.AcceptDrop(SourceNode);
+                    NameSpaceVariablesTreeNode node = SubNode<NameSpaceVariablesTreeNode>();
+                    if (node != null)
+                    {
+                        node.AcceptDrop(sourceNode);                        
+                    }
                 }
-                else if (SourceNode is ProcedureTreeNode)
+                else if (sourceNode is ProcedureTreeNode)
                 {
-                    procedures.AcceptDrop(SourceNode);
+                    NameSpaceProceduresTreeNode node = SubNode<NameSpaceProceduresTreeNode>();
+                    if (node != null)
+                    {
+                        node.AcceptDrop(sourceNode);
+                    }
                 }
-                else if (SourceNode is RuleTreeNode)
+                else if (sourceNode is RuleTreeNode)
                 {
-                    rules.AcceptDrop(SourceNode);
+                    NameSpaceRulesTreeNode node = SubNode<NameSpaceRulesTreeNode>();
+                    if (node != null)
+                    {
+                        node.AcceptDrop(sourceNode);
+                    }
                 }
-                else if (SourceNode is InterfaceTreeNode)
+                else if (sourceNode is StructureTreeNode)
                 {
-                    interfaces.AcceptDrop(SourceNode);
+                    StructuresTreeNode node = SubNode<StructuresTreeNode>();
+                    if (node != null)
+                    {
+                        node.AcceptDrop(sourceNode);
+                    }
                 }
-                else if (SourceNode is StructureTreeNode)
+                else if (sourceNode is InterfaceTreeNode)
                 {
-                    structures.AcceptDrop(SourceNode);
+                    InterfacesTreeNode node = SubNode<InterfacesTreeNode>();
+                    if (node != null)
+                    {
+                        node.AcceptDrop(sourceNode);
+                    }
                 }
-                else if (SourceNode is NameSpaceTreeNode)
+                else if (sourceNode is NameSpaceTreeNode)
                 {
-                    DialogResult result = MessageBox.Show("This will move the namespace, are you sure ? ",
-                        "Confirm moving the namespace", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+                    DialogResult result = MessageBox.Show(
+                        Resources.NameSpaceTreeNode_AcceptDrop_This_will_move_the_namespace__are_you_sure___,
+                        Resources.NameSpaceTreeNode_AcceptDrop_Confirm_moving_the_namespace, 
+                        MessageBoxButtons.OKCancel, 
+                        MessageBoxIcon.Question);
                     if (result == DialogResult.OK)
                     {
-                        NameSpaceTreeNode nameSpaceTreeNode = SourceNode as NameSpaceTreeNode;
+                        NameSpaceTreeNode nameSpaceTreeNode = sourceNode as NameSpaceTreeNode;
                         NameSpace nameSpace = nameSpaceTreeNode.Item;
 
                         nameSpaceTreeNode.Delete();
-                        AddNameSpace(nameSpace);
+                        Item.appendNameSpaces(nameSpace);
                     }
                 }
             }
-        }
-
-
-        /// <summary>
-        ///     Update counts according to the selected namespace
-        /// </summary>
-        /// <param name="displayStatistics">Indicates that statistics should be displayed in the MDI window</param>
-        public override void SelectionChanged(bool displayStatistics)
-        {
-            base.SelectionChanged(false);
-
-            List<NameSpace> namespaces = new List<NameSpace>();
-            namespaces.Add(Item);
-            Window window = BaseForm as Window;
-            if (window != null && window.modelDiagramPanel.Model != Item)
-            {
-                window.modelDiagramPanel.Model = Item;
-                window.modelDiagramPanel.RefreshControl();
-            }
-
-            GUIUtils.MDIWindow.SetStatus(CreateStatMessage(namespaces, false));
-        }
-
-
-        /// <summary>
-        ///     Creates the stat message according to the list of namespaces provided
-        /// </summary>
-        /// <param name="paragraphs"></param>
-        /// <returns></returns>
-        public static string CreateStatMessage(List<NameSpace> namespaces, bool isFolder)
-        {
-            string result = "";
-
-            int ranges = 0;
-            int enumerations = 0;
-            int structures = 0;
-            int collections = 0;
-            int functions = 0;
-            int procedures = 0;
-            int variables = 0;
-            int rules = 0;
-
-            List<NameSpace> allNamespaces = new List<NameSpace>();
-            foreach (NameSpace aNamespace in namespaces)
-            {
-                allNamespaces.AddRange(collectNamespaces(aNamespace));
-            }
-
-            foreach (NameSpace aNamespace in allNamespaces)
-            {
-                ranges += aNamespace.Ranges.Count;
-                enumerations += aNamespace.Enumerations.Count;
-                structures += aNamespace.Structures.Count;
-                collections += aNamespace.Collections.Count;
-                functions += aNamespace.Functions.Count;
-                procedures += aNamespace.Procedures.Count;
-                variables += aNamespace.Variables.Count;
-                rules += aNamespace.Rules.Count;
-            }
-
-            if (!isFolder)
-            {
-                result += "The namespace " + namespaces[0].Name + " contains ";
-            }
-            else
-            {
-                result += namespaces.Count + (namespaces.Count > 1 ? " namespaces " : " namespace ") +
-                          "selected, containing ";
-            }
-
-            result += (allNamespaces.Count - namespaces.Count) +
-                      (allNamespaces.Count - namespaces.Count > 1 ? " sub-namespaces, " : " sub-namespace, ") +
-                      ranges + (ranges > 1 ? " ranges, " : " range, ") +
-                      enumerations + (enumerations > 1 ? " enumerations, " : " enumeration, ") +
-                      structures + (structures > 1 ? " structures, " : " structure, ") +
-                      collections + (collections > 1 ? " collections, " : " collection, ") +
-                      functions + (functions > 1 ? " functions, " : " function, ") +
-                      procedures + (procedures > 1 ? " procedures, " : " procedure, ") +
-                      variables + (variables > 1 ? " variables and " : " variable and ") +
-                      rules + (rules > 1 ? " rules." : " rule.");
-
-            return result;
-        }
-
-
-        private static List<NameSpace> collectNamespaces(NameSpace aNamespace)
-        {
-            List<NameSpace> result = new List<NameSpace>();
-            result.Add(aNamespace);
-            foreach (NameSpace aSubNamespace in aNamespace.NameSpaces)
-            {
-                result.AddRange(collectNamespaces(aSubNamespace));
-            }
-            return result;
         }
     }
 }

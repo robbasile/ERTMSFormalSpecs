@@ -27,21 +27,13 @@ namespace GUI.TranslationRules
     {
         private class ItemEditor : CommentableEditor
         {
-            /// <summary>
-            ///     Constructor
-            /// </summary>
-            public ItemEditor()
-                : base()
-            {
-            }
         }
-
-        private SourceTextCommentsTreeNode comments = null;
 
         /// <summary>
         ///     Constructor
         /// </summary>
         /// <param name="item"></param>
+        /// <param name="buildSubNodes"></param>
         public SourceTextTreeNode(SourceText item, bool buildSubNodes)
             : base(item, buildSubNodes)
         {
@@ -50,71 +42,15 @@ namespace GUI.TranslationRules
         /// <summary>
         ///     Builds the subnodes of this node
         /// </summary>
-        /// <param name="buildSubNodes">Indicates whether the subnodes of the nodes should also be built</param>
-        public override void BuildSubNodes(bool buildSubNodes)
+        /// <param name="subNodes"></param>
+        /// <param name="recursive">Indicates whether the subnodes of the nodes should also be built</param>
+        public override void BuildSubNodes(List<BaseTreeNode> subNodes, bool recursive)
         {
-            base.BuildSubNodes(buildSubNodes);
+            base.BuildSubNodes(subNodes, recursive);
 
             if (Item.countComments() > 0)
             {
-                comments = createFolder();
-            }
-        }
-
-        /// <summary>
-        ///     Creates the folder for comments
-        /// </summary>
-        /// <returns></returns>
-        private SourceTextCommentsTreeNode createFolder()
-        {
-            if (comments == null)
-            {
-                comments = new SourceTextCommentsTreeNode(Item, true);
-                Nodes.Add(comments);
-            }
-
-            return comments;
-        }
-
-        /// <summary>
-        ///     Creates a new source text
-        /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
-        public SourceTextCommentTreeNode createComment(SourceTextComment comment)
-        {
-            SourceTextCommentTreeNode retVal;
-
-            if (comments == null)
-            {
-                comments = createFolder();
-            }
-
-            retVal = comments.createComment(comment);
-            return retVal;
-        }
-
-
-        /// <summary>
-        ///     Handles a selection change event
-        /// </summary>
-        /// <param name="displayStatistics">Indicates that statistics should be displayed in the MDI window</param>
-        public override void SelectionChanged(bool displayStatistics)
-        {
-            base.SelectionChanged(displayStatistics);
-            if (Item.Translation != null)
-            {
-                if (BaseTreeView != null && BaseTreeView.RefreshNodeContent)
-                {
-                    IBaseForm baseForm = BaseForm;
-                    if (baseForm != null)
-                    {
-                        if (baseForm.RequirementsTextBox != null)
-                        {
-                            baseForm.RequirementsTextBox.Text = Item.Translation.getSourceTextExplain();
-                        }
-                    }
-                }
+                subNodes.Add(new SourceTextCommentsTreeNode(Item, true));
             }
         }
 
@@ -122,7 +58,7 @@ namespace GUI.TranslationRules
         ///     Creates the editor for this tree node
         /// </summary>
         /// <returns></returns>
-        protected override Editor createEditor()
+        protected override Editor CreateEditor()
         {
             return new ItemEditor();
         }
@@ -133,10 +69,11 @@ namespace GUI.TranslationRules
         /// <returns></returns>
         protected override List<MenuItem> GetMenuItems()
         {
-            List<MenuItem> retVal = new List<MenuItem>();
-
-            retVal.Add(new MenuItem("Add comment", new EventHandler(AddHandler)));
-            retVal.Add(new MenuItem("Delete", new EventHandler(DeleteHandler)));
+            List<MenuItem> retVal = new List<MenuItem>
+            {
+                new MenuItem("Add comment", AddHandler),
+                new MenuItem("Delete", DeleteHandler)
+            };
 
             return retVal;
         }
@@ -148,24 +85,7 @@ namespace GUI.TranslationRules
         {
             SourceTextComment comment = (SourceTextComment) acceptor.getFactory().createSourceTextComment();
             comment.Name = "<unknown>";
-            createComment(comment);
-        }
-
-        /// <summary>
-        ///     Accepts the drop event
-        /// </summary>
-        /// <param name="sourceTextTreeNode"></param>
-        /// <param name="SourceNode"></param>
-        public static void AcceptDropForSourceText(SourceTextTreeNode sourceTextTreeNode, BaseTreeNode SourceNode)
-        {
-            if (SourceNode is SourceTextCommentTreeNode)
-            {
-                SourceTextCommentTreeNode comment = SourceNode as SourceTextCommentTreeNode;
-
-                SourceTextComment otherText = (SourceTextComment) comment.Item.Duplicate();
-                sourceTextTreeNode.createComment(otherText);
-                comment.Delete();
-            }
+            Item.appendComments(comment);
         }
     }
 }

@@ -24,14 +24,12 @@ using Utils;
 using XmlBooster;
 using Chapter = DataDictionary.Specification.Chapter;
 using ChapterRef = DataDictionary.Specification.ChapterRef;
-using Enum = DataDictionary.Generated.Enum;
 using Frame = DataDictionary.Tests.Frame;
 using FrameRef = DataDictionary.Tests.FrameRef;
 using NameSpaceRef = DataDictionary.Types.NameSpaceRef;
 using Paragraph = DataDictionary.Generated.Paragraph;
 using RequirementSet = DataDictionary.Specification.RequirementSet;
 using Rule = DataDictionary.Rules.Rule;
-using RuleDisabling = DataDictionary.Rules.RuleDisabling;
 using ShortcutDictionary = DataDictionary.Shortcuts.ShortcutDictionary;
 using StateMachine = DataDictionary.Types.StateMachine;
 using SubSequence = DataDictionary.Tests.SubSequence;
@@ -563,7 +561,7 @@ namespace DataDictionary
 
                     foreach (RuleDisabling ruleDisabling in RuleDisablings)
                     {
-                        Rule disabledRule = EFSSystem.findRule(ruleDisabling.getRule());
+                        Rule disabledRule = EFSSystem.FindRule(ruleDisabling.getRule());
                         if (disabledRule != null)
                         {
                             cachedRuleDisablings.Add(disabledRule, ruleDisabling);
@@ -830,18 +828,18 @@ namespace DataDictionary
             {
                 try
                 {
-                    ClearMessages();
-
                     // Rebuilds everything
                     EFSSystem.Compiler.Compile_Synchronous(EFSSystem.ShouldRebuild);
                     EFSSystem.ShouldRebuild = false;
 
-                    // Check rules
-                    RuleCheckerVisitor visitor = new RuleCheckerVisitor(this);
-                    visitor.visit(this, true);
-                    EFSSystem.INSTANCE.Markings.RegisterCurrentMarking();
+                    MarkingHistory.PerformMark(() =>
+                    {
+                        // Check rules
+                        RuleCheckerVisitor visitor = new RuleCheckerVisitor(this);
+                        visitor.visit(this, true);
+                    });
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                 }
             });
@@ -854,16 +852,16 @@ namespace DataDictionary
         {
             Util.DontNotify(() =>
             {
-                ClearMessages();
-
                 // Rebuilds everything
                 EFSSystem.Compiler.Compile_Synchronous(EFSSystem.ShouldRebuild);
                 EFSSystem.ShouldRebuild = false;
 
-                // Check dead model
-                UsageChecker visitor = new UsageChecker(this);
-                visitor.visit(this, true);
-                EFSSystem.INSTANCE.Markings.RegisterCurrentMarking();
+                MarkingHistory.PerformMark(() =>
+                {
+                    // Check dead model
+                    UsageChecker visitor = new UsageChecker(this);
+                    visitor.visit(this, true);
+                });
             });
         }
 
@@ -954,10 +952,8 @@ namespace DataDictionary
         /// </summary>
         public void MarkUnimplementedItems()
         {
-            ClearMessages();
             UnimplementedItemVisitor visitor = new UnimplementedItemVisitor();
             visitor.visit(this, true);
-            EFSSystem.INSTANCE.Markings.RegisterCurrentMarking();
         }
 
         private class NotVerifiedRuleVisitor : Visitor
@@ -980,28 +976,8 @@ namespace DataDictionary
         /// </summary>
         public void MarkNotVerifiedRules()
         {
-            ClearMessages();
             NotVerifiedRuleVisitor visitor = new NotVerifiedRuleVisitor();
             visitor.visit(this, true);
-            EFSSystem.INSTANCE.Markings.RegisterCurrentMarking();
-        }
-
-        /// <summary>
-        ///     Clears all marks related to model elements
-        /// </summary>
-        private class ClearMarksVisitor : Visitor
-        {
-            public override void visit(IXmlBBase obj, bool visitSubNodes)
-            {
-                IModelElement element = obj as IModelElement;
-
-                if (element != null)
-                {
-                    element.ClearMessages();
-                }
-
-                base.visit(obj, visitSubNodes);
-            }
         }
 
         /// <summary>
@@ -1048,15 +1024,6 @@ namespace DataDictionary
                 visitor.visit(this, true);
                 return visitor.ParagraphsReqRefs;
             }
-        }
-
-        /// <summary>
-        ///     Clear all marks
-        /// </summary>
-        public new void ClearMessages()
-        {
-            ClearMarksVisitor visitor = new ClearMarksVisitor();
-            visitor.visit(this, true);
         }
 
         /// <summary>
@@ -1500,5 +1467,61 @@ namespace DataDictionary
         /// </summary>
         public const string SCOPE_NAME = "Scope";
 
+
+        /// <summary>
+        ///     Provides the set of covered requirements by the tests
+        /// </summary>
+        /// <returns></returns>
+        public HashSet<Specification.Paragraph> CoveredRequirements()
+        {
+            HashSet<Specification.Paragraph> retVal = new HashSet<Specification.Paragraph>();
+            ICollection<Specification.Paragraph> applicableParagraphs = ApplicableParagraphs;
+            Dictionary<Specification.Paragraph, List<ReqRef>> paragraphsReqRefDictionary = ParagraphsReqRefs;
+
+            foreach (Specification.Paragraph paragraph in applicableParagraphs)
+            {
+                bool implemented = paragraph.getImplementationStatus() ==
+                                   acceptor.SPEC_IMPLEMENTED_ENUM.Impl_Implemented;
+                bool tested = false;
+                if (implemented)
+                {
+                    if (paragraphsReqRefDictionary.ContainsKey(paragraph))
+                    {
+                        List<ReqRef> implementations = paragraphsReqRefDictionary[paragraph];
+                        foreach (ReqRef reqRef in implementations)
+                        {
+                            ReqRelated reqRelated = reqRef.Enclosing as ReqRelated;
+                            if (reqRelated is TestCase && reqRelated.ImplementationCompleted)
+                            {
+                                tested = true;
+                            }
+                        }
+                    }
+                }
+
+                if (implemented && tested)
+                {
+                    retVal.Add(paragraph);
+                }
+            }
+
+            return retVal;
+        }
+
+        /// <summary>
+        ///     Creates the status message 
+        /// </summary>
+        /// <returns>the status string for the selected element</returns>
+        public override string CreateStatusMessage()
+        {
+            string retVal = base.CreateStatusMessage();
+
+            List<Specification.Paragraph> paragraphs = new List<Specification.Paragraph>();
+            GetParagraphs(paragraphs);
+
+            retVal += Specification.Paragraph.CreateParagraphSetStatus(paragraphs);
+
+            return retVal;
+        }
     }
 }

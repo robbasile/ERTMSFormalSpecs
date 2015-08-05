@@ -17,21 +17,17 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Reflection;
 using System.Windows.Forms;
 using DataDictionary;
-using System.IO;
-using System.Globalization;
-using ErtmsSolutions.Utils.RunProcessExec;
 
 namespace GUI.BoxArrowDiagram
 {
-    public abstract partial class BoxArrowPanel<BoxModel, ArrowModel> : Panel
-        where BoxModel : class, IGraphicalDisplay
-        where ArrowModel : class, IGraphicalArrow<BoxModel>
+    public abstract partial class BoxArrowPanel<TEnclosing, TBoxModel, TArrowModel> : Panel
+        where TEnclosing : class
+        where TBoxModel : class, IGraphicalDisplay
+        where TArrowModel : class, IGraphicalArrow<TBoxModel>
     {
-        private ToolStripMenuItem refreshMenuItem;
-        private ToolStripMenuItem reDisplayMenuItem;
+        private ToolStripMenuItem _refreshMenuItem;
 
         /// <summary>
         ///     Initializes the context menu items
@@ -41,25 +37,18 @@ namespace GUI.BoxArrowDiagram
             // 
             // Refresh
             // 
-            refreshMenuItem = new ToolStripMenuItem();
-            refreshMenuItem.Name = "refreshMenuItem";
-            refreshMenuItem.Size = new Size(161, 22);
-            refreshMenuItem.Text = "Refresh";
-            refreshMenuItem.Click += refreshMenuItem_Click;
-            // 
-            // Redisplay
-            // 
-            reDisplayMenuItem = new ToolStripMenuItem();
-            reDisplayMenuItem.Name = "reDisplayMenuItem";
-            reDisplayMenuItem.Size = new Size(250, 22);
-            reDisplayMenuItem.Text = "Redisplay items";
-            reDisplayMenuItem.Click += ReDisplayMenuItem_Click;
+            _refreshMenuItem = new ToolStripMenuItem
+            {
+                Name = "refreshMenuItem",
+                Size = new Size(161, 22),
+                Text = @"Refresh"
+            };
+            _refreshMenuItem.Click += refreshMenuItem_Click;
 
             contextMenu.Items.Clear();
             contextMenu.Items.AddRange(new ToolStripItem[]
             {
-                reDisplayMenuItem,
-                refreshMenuItem
+                _refreshMenuItem
             });
             contextMenu.Opening += contextMenu_Opening;
         }
@@ -100,12 +89,12 @@ namespace GUI.BoxArrowDiagram
         /// <summary>
         ///     The model
         /// </summary>
-        private object _model = null;
+        private TEnclosing _model;
 
         /// <summary>
         ///     The model element for which this panel is built
         /// </summary>
-        public object Model
+        public virtual TEnclosing Model
         {
             get { return _model; }
             set
@@ -118,7 +107,7 @@ namespace GUI.BoxArrowDiagram
         /// <summary>
         ///     Constructor
         /// </summary>
-        public BoxArrowPanel()
+        protected BoxArrowPanel()
         {
             InitializeComponent();
             InitializeStartMenu();
@@ -136,8 +125,6 @@ namespace GUI.BoxArrowDiagram
             Images = new ImageList();
             Images.Images.Add(Properties.Resources.pin);
             Images.Images.Add(Properties.Resources.unpin);
-
-            Paint += BoxArrowPanel_Paint;
         }
 
         private void BoxArrowPanel_Click(object sender, EventArgs e)
@@ -149,7 +136,7 @@ namespace GUI.BoxArrowDiagram
                 BaseForm baseForm = EnclosingForm as BaseForm;
                 if (baseForm != null && baseForm.TreeView != null)
                 {
-                    BaseTreeNode node = baseForm.TreeView.FindNode(Model as ModelElement);
+                    BaseTreeNode node = baseForm.TreeView.FindNode(Model as ModelElement, true);
                     ContextMenu menu = node.ContextMenu;
                     menu.Show(this, mouseEvent.Location);
                 }
@@ -186,9 +173,6 @@ namespace GUI.BoxArrowDiagram
             e.Effect = DragDropEffects.Move;
         }
 
-        private const int CTRL = 8;
-        private const int ALT = 32;
-
         /// <summary>
         ///     Called when the drop operation is performed on a node
         /// </summary>
@@ -202,9 +186,9 @@ namespace GUI.BoxArrowDiagram
                 BaseTreeNode sourceNode = data as BaseTreeNode;
                 if (sourceNode != null)
                 {
-                    BoxControl<BoxModel, ArrowModel> target = null;
+                    BoxControl<TEnclosing, TBoxModel, TArrowModel> target = null;
 
-                    foreach (BoxControl<BoxModel, ArrowModel> box in boxes.Values)
+                    foreach (BoxControl<TEnclosing, TBoxModel, TArrowModel> box in _boxes.Values)
                     {
                         Rectangle rectangle = box.DisplayRectangle;
                         rectangle.Offset(box.PointToScreen(Location));
@@ -234,147 +218,6 @@ namespace GUI.BoxArrowDiagram
         }
 
         /// <summary>
-        ///     Refreshes the panel
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ReDisplayMenuItem_Click(object sender, EventArgs e)
-        {
-            string filePath = System.IO.Path.GetTempFileName();
-            try
-            {
-                // Generate the .dot file
-                StreamWriter writer = new StreamWriter(filePath);
-                writer.WriteLine("digraph Test {");
-                Dictionary<string, BoxModel> theBoxes = new Dictionary<string, BoxModel>();
-                Dictionary<string, List<BoxModel>> theBoxesByType = new Dictionary<string, List<BoxModel>>();
-                foreach (BoxModel box in getBoxes())
-                {
-                    // Keep track of the boxes
-                    theBoxes[box.Guid] = box;
-                    string boxType = box.GetType().ToString();
-                    if (!theBoxesByType.ContainsKey(boxType))
-                    {
-                        theBoxesByType[boxType] = new List<BoxModel>();
-                    }
-                    theBoxesByType[boxType].Add(box);
-
-                    string name = box.GraphicalName;
-                    if (name.Length > 12)
-                    {
-                        name = name.Substring(0, 12) + "...";
-                    }
-
-                    string pinned = "";
-                    if (box.Pinned)
-                    {
-                        pinned = "!";
-                    }
-                    writer.WriteLine(string.Format(CultureInfo.InvariantCulture,
-                        "  \"{0}\"[shape=record,width={1},height={2},label={3},pos=\"{4},{5}{6}\"];", box.Guid,
-                        DefaultBoxSize.Width/100.0, DefaultBoxSize.Height/100.0, box.GraphicalName, box.X/100.0,
-                        box.Y/100.0, pinned));
-                }
-
-                // Generate the arrows
-                foreach (ArrowModel arrow in getArrows())
-                {
-                    string sourceGuid = "";
-                    if (arrow.Source != null)
-                    {
-                        sourceGuid = arrow.Source.Guid;
-                    }
-                    string targetGuid = "";
-                    if (arrow.Target != null)
-                    {
-                        targetGuid = arrow.Target.Guid;
-                    }
-                    writer.WriteLine(string.Format(CultureInfo.InvariantCulture, "  \"{0}\" -> \"{1}\";", sourceGuid,
-                        targetGuid));
-                }
-
-                // Generate dependancies betweens boxes
-                foreach (List<BoxModel> boxesOfAKind in theBoxesByType.Values)
-                {
-                    for (int i = 0; i < boxesOfAKind.Count - 1; i++)
-                    {
-                        for (int j = i + 1; j < boxesOfAKind.Count; j++)
-                        {
-                            writer.WriteLine(string.Format(CultureInfo.InvariantCulture,
-                                "  \"{0}\" -> \"{1}\"[penwidth=0,arrowhead=none,len={2}];", boxesOfAKind[i].Guid,
-                                boxesOfAKind[j].Guid, ((boxesOfAKind.Count + 5)/5)*DefaultBoxSize.Width/100.0));
-                        }
-                    }
-                }
-
-                writer.WriteLine("}");
-                writer.Close();
-
-                // Run graphviz
-                RunProcessExec pe = new RunProcessExec(
-                    /* WorkingDirectory,    */ @".",
-                        /* Path,                */ @"c:\Program Files (x86)\Graphviz 2.28\bin",
-                        /* Program,             */ "neato.exe",
-                        /* Arguments,           */ "-O -Tplain " + filePath,
-                        /* FName_StandardInput, */ null,
-                        /* FName_StandardOutput,*/ null,
-                        /* FName_StandardError, */ null,
-                        /* TimeSpan TimeOut)    */ new TimeSpan(0, 0, 0, 1 /*second*/));
-
-                // Retrieve results
-                RunProcessExec.ProcessExecResult_Struct result = pe.StartAndWait();
-                if (result.ExecResult == RunProcessExec.ProcessExecResult_Enum.OK)
-                {
-                    StreamReader reader = new StreamReader(filePath + ".plain");
-                    while (!reader.EndOfStream)
-                    {
-                        string line = reader.ReadLine();
-                        string[] words = line.Split(' ');
-                        if (words.Length > 0)
-                        {
-                            if (words[0] == "node" && words.Length >= 6)
-                            {
-                                string guid = words[1].Substring(1, words[1].Length - 2); // Remove the quotes
-                                if (theBoxes.ContainsKey(guid))
-                                {
-                                    BoxModel box = theBoxes[guid];
-                                    if (!box.Pinned)
-                                    {
-                                        box.X = (int) (Decimal.Parse(words[2], CultureInfo.InvariantCulture)*100);
-                                        box.Y = (int) (Decimal.Parse(words[3], CultureInfo.InvariantCulture)*100);
-                                        box.Width = DefaultBoxSize.Width;
-                                        box.Height = DefaultBoxSize.Height;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-
-                RefreshControl();
-            }
-            catch (Exception excp)
-            {
-                MessageBox.Show("Cannot perfom operation due to error " + excp.Message, "Cannot perform operation",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                try
-                {
-                    if (filePath != null)
-                    {
-                        File.Delete(filePath);
-                        File.Delete(filePath + ".plain");
-                    }
-                }
-                catch (Exception)
-                {
-                }
-            }
-        }
-
-        /// <summary>
         ///     The selected object
         /// </summary>
         public object Selected { get; set; }
@@ -384,19 +227,19 @@ namespace GUI.BoxArrowDiagram
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public abstract BoxControl<BoxModel, ArrowModel> createBox(BoxModel model);
+        public abstract BoxControl<TEnclosing, TBoxModel, TArrowModel> CreateBox(TBoxModel model);
 
         /// <summary>
         ///     Method used to create an arrow
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public abstract ArrowControl<BoxModel, ArrowModel> createArrow(ArrowModel model);
+        public abstract ArrowControl<TEnclosing, TBoxModel, TArrowModel> CreateArrow(TArrowModel model);
 
         /// <summary>
         ///     The arrow that is currently being changed
         /// </summary>
-        private ArrowControl<BoxModel, ArrowModel> changingArrow = null;
+        private ArrowControl<TEnclosing, TBoxModel, TArrowModel> _changingArrow;
 
         /// <summary>
         ///     The action that is applied on the arrow
@@ -408,27 +251,27 @@ namespace GUI.BoxArrowDiagram
             TargetBox
         };
 
-        private ChangeAction chaningArrowAction = ChangeAction.None;
+        private ChangeAction _chaningArrowAction = ChangeAction.None;
 
         private void BoxArrowPanel_MouseDown(object sender, MouseEventArgs e)
         {
-            if (e.Button == System.Windows.Forms.MouseButtons.Left)
+            if (e.Button == MouseButtons.Left)
             {
                 Point clickPoint = new Point(e.X, e.Y);
-                foreach (ArrowControl<BoxModel, ArrowModel> arrow in arrows.Values)
+                foreach (ArrowControl<TEnclosing, TBoxModel, TArrowModel> arrow in _arrows.Values)
                 {
-                    if (around(arrow.StartLocation, clickPoint))
+                    if (Around(arrow.StartLocation, clickPoint))
                     {
-                        changingArrow = arrow;
-                        changingArrow.Parent = this; // I do not know why...
-                        chaningArrowAction = ChangeAction.InitialBox;
+                        _changingArrow = arrow;
+                        _changingArrow.Parent = this; // I do not know why...
+                        _chaningArrowAction = ChangeAction.InitialBox;
                         break;
                     }
-                    if (around(arrow.TargetLocation, clickPoint))
+                    if (Around(arrow.TargetLocation, clickPoint))
                     {
-                        changingArrow = arrow;
-                        changingArrow.Parent = this; // I do not know why...
-                        chaningArrowAction = ChangeAction.TargetBox;
+                        _changingArrow = arrow;
+                        _changingArrow.Parent = this; // I do not know why...
+                        _chaningArrowAction = ChangeAction.TargetBox;
                         break;
                     }
                 }
@@ -440,11 +283,11 @@ namespace GUI.BoxArrowDiagram
         /// </summary>
         /// <param name="location"></param>
         /// <returns></returns>
-        protected BoxControl<BoxModel, ArrowModel> BoxForLocation(Point location)
+        protected BoxControl<TEnclosing, TBoxModel, TArrowModel> BoxForLocation(Point location)
         {
-            BoxControl<BoxModel, ArrowModel> retVal = null;
+            BoxControl<TEnclosing, TBoxModel, TArrowModel> retVal = null;
 
-            foreach (BoxControl<BoxModel, ArrowModel> box in boxes.Values)
+            foreach (BoxControl<TEnclosing, TBoxModel, TArrowModel> box in _boxes.Values)
             {
                 if ((location.X > box.Location.X && location.X < box.Location.X + box.Width) &&
                     (location.Y > box.Location.Y && location.Y < box.Location.Y + box.Height))
@@ -462,11 +305,11 @@ namespace GUI.BoxArrowDiagram
         /// </summary>
         /// <param name="location"></param>
         /// <returns></returns>
-        protected ArrowControl<BoxModel, ArrowModel> ArrowForLocation(Point location)
+        protected ArrowControl<TEnclosing, TBoxModel, TArrowModel> ArrowForLocation(Point location)
         {
-            ArrowControl<BoxModel, ArrowModel> retVal = null;
+            ArrowControl<TEnclosing, TBoxModel, TArrowModel> retVal = null;
 
-            foreach (ArrowControl<BoxModel, ArrowModel> arrow in arrows.Values)
+            foreach (ArrowControl<TEnclosing, TBoxModel, TArrowModel> arrow in _arrows.Values)
             {
                 if ((location.X > arrow.Location.X && location.X < arrow.Location.X + arrow.Width) &&
                     (location.Y > arrow.Location.Y && location.Y < arrow.Location.Y + arrow.Height))
@@ -486,25 +329,25 @@ namespace GUI.BoxArrowDiagram
         /// <param name="e"></param>
         private void BoxArrowPanel_MouseMove(object sender, MouseEventArgs e)
         {
-            if (changingArrow != null && chaningArrowAction != ChangeAction.None)
+            if (_changingArrow != null && _chaningArrowAction != ChangeAction.None)
             {
-                BoxControl<BoxModel, ArrowModel> box = BoxForLocation(e.Location);
+                BoxControl<TEnclosing, TBoxModel, TArrowModel> box = BoxForLocation(e.Location);
                 if (box != null)
                 {
-                    switch (chaningArrowAction)
+                    switch (_chaningArrowAction)
                     {
                         case ChangeAction.InitialBox:
-                            if (changingArrow.Model.Source != box.Model)
+                            if (_changingArrow.Model.Source != box.Model)
                             {
-                                changingArrow.SetInitialBox(box.Model);
+                                _changingArrow.SetInitialBox(box.Model);
                             }
                             break;
                         case ChangeAction.TargetBox:
-                            if (changingArrow.Model.Target != box.Model)
+                            if (_changingArrow.Model.Target != box.Model)
                             {
-                                if (changingArrow.Model.Source != null)
+                                if (_changingArrow.Model.Source != null)
                                 {
-                                    changingArrow.SetTargetBox(box.Model);
+                                    _changingArrow.SetTargetBox(box.Model);
                                 }
                             }
                             break;
@@ -515,14 +358,14 @@ namespace GUI.BoxArrowDiagram
 
         private void BoxArrowPanel_MouseUp(object sender, MouseEventArgs e)
         {
-            changingArrow = null;
-            chaningArrowAction = ChangeAction.None;
+            _changingArrow = null;
+            _chaningArrowAction = ChangeAction.None;
         }
 
         /// <summary>
         ///     The maximum delta when considering if two points are near one from the other
         /// </summary>
-        private const int MAX_DELTA = 5;
+        private const int MaxDelta = 5;
 
         /// <summary>
         ///     Indicates whether two points are near one from the other
@@ -530,49 +373,31 @@ namespace GUI.BoxArrowDiagram
         /// <param name="p1"></param>
         /// <param name="p2"></param>
         /// <returns></returns>
-        private bool around(Point p1, Point p2)
+        private bool Around(Point p1, Point p2)
         {
-            return Math.Abs(p1.X - p2.X) < MAX_DELTA && Math.Abs(p1.Y - p2.Y) < MAX_DELTA;
+            return Math.Abs(p1.X - p2.X) < MaxDelta && Math.Abs(p1.Y - p2.Y) < MaxDelta;
         }
-
-        /// <summary>
-        ///     Handles the add box event
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void AddBoxHandler(object sender, EventArgs e)
-        {
-        }
-
-        /// <summary>
-        ///     Handles the add arrow event
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void AddArrowHandler(object sender, EventArgs e)
-        {
-        }
-
+        
         /// <summary>
         ///     The dictionary used to keep the relation between boxe controls and their model
         /// </summary>
-        private Dictionary<BoxModel, BoxControl<BoxModel, ArrowModel>> boxes =
-            new Dictionary<BoxModel, BoxControl<BoxModel, ArrowModel>>();
+        private readonly Dictionary<TBoxModel, BoxControl<TEnclosing, TBoxModel, TArrowModel>> _boxes =
+            new Dictionary<TBoxModel, BoxControl<TEnclosing, TBoxModel, TArrowModel>>();
 
         /// <summary>
         ///     Provides the box control which corresponds to the model provided
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public BoxControl<BoxModel, ArrowModel> getBoxControl(BoxModel model)
+        public BoxControl<TEnclosing, TBoxModel, TArrowModel> GetBoxControl(TBoxModel model)
         {
-            BoxControl<BoxModel, ArrowModel> retVal = null;
+            BoxControl<TEnclosing, TBoxModel, TArrowModel> retVal = null;
 
             if (model != null)
             {
-                if (boxes.ContainsKey(model))
+                if (_boxes.ContainsKey(model))
                 {
-                    retVal = boxes[model];
+                    retVal = _boxes[model];
                 }
             }
 
@@ -582,21 +407,21 @@ namespace GUI.BoxArrowDiagram
         /// <summary>
         ///     The dictionary used to keep the relation between arrows and their model
         /// </summary>
-        private Dictionary<ArrowModel, ArrowControl<BoxModel, ArrowModel>> arrows =
-            new Dictionary<ArrowModel, ArrowControl<BoxModel, ArrowModel>>();
+        private readonly Dictionary<TArrowModel, ArrowControl<TEnclosing, TBoxModel, TArrowModel>> _arrows =
+            new Dictionary<TArrowModel, ArrowControl<TEnclosing, TBoxModel, TArrowModel>>();
 
         /// <summary>
         ///     Provides the arrow control which corresponds to the model provided
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public ArrowControl<BoxModel, ArrowModel> getArrowControl(ArrowModel model)
+        public ArrowControl<TEnclosing, TBoxModel, TArrowModel> GetArrowControl(TArrowModel model)
         {
-            ArrowControl<BoxModel, ArrowModel> retVal = null;
+            ArrowControl<TEnclosing, TBoxModel, TArrowModel> retVal = null;
 
-            if (arrows.ContainsKey(model))
+            if (_arrows.ContainsKey(model))
             {
-                retVal = arrows[model];
+                retVal = _arrows[model];
             }
 
             return retVal;
@@ -607,11 +432,11 @@ namespace GUI.BoxArrowDiagram
         /// </summary>
         /// <param name="referencedModel"></param>
         /// <returns></returns>
-        public ArrowControl<BoxModel, ArrowModel> getArrowControl(DataDictionary.ModelElement referencedModel)
+        public ArrowControl<TEnclosing, TBoxModel, TArrowModel> GetArrowControl(ModelElement referencedModel)
         {
-            ArrowControl<BoxModel, ArrowModel> retVal = null;
+            ArrowControl<TEnclosing, TBoxModel, TArrowModel> retVal = null;
 
-            foreach (ArrowControl<BoxModel, ArrowModel> control in arrows.Values)
+            foreach (ArrowControl<TEnclosing, TBoxModel, TArrowModel> control in _arrows.Values)
             {
                 if (control.Model.ReferencedModel == referencedModel)
                 {
@@ -626,14 +451,14 @@ namespace GUI.BoxArrowDiagram
         /// <summary>
         ///     Indicates whether the layout should be suspended
         /// </summary>
-        private bool refreshingControl = false;
+        private bool _refreshingControl;
 
         /// <summary>
         ///     Refreshes the layout, if it is not suspended
         /// </summary>
         public override void Refresh()
         {
-            if (!refreshingControl)
+            if (!_refreshingControl)
             {
                 base.Refresh();
             }
@@ -643,13 +468,13 @@ namespace GUI.BoxArrowDiagram
         ///     Provides the boxes that need be displayed
         /// </summary>
         /// <returns></returns>
-        public abstract List<BoxModel> getBoxes();
+        public abstract List<TBoxModel> GetBoxes();
 
         /// <summary>
         ///     Provides the arrows that need be displayed
         /// </summary>
         /// <returns></returns>
-        public abstract List<ArrowModel> getArrows();
+        public abstract List<TArrowModel> GetArrows();
 
         /// <summary>
         ///     Refreshes the control according to the model
@@ -658,37 +483,38 @@ namespace GUI.BoxArrowDiagram
         {
             try
             {
-                refreshingControl = true;
+                _refreshingControl = true;
                 pleaseWaitLabel.Visible = true;
                 SuspendLayout();
 
-                foreach (BoxControl<BoxModel, ArrowModel> control in boxes.Values)
+                foreach (BoxControl<TEnclosing, TBoxModel, TArrowModel> control in _boxes.Values)
                 {
                     control.Parent = null;
                 }
-                boxes.Clear();
+                _boxes.Clear();
 
-                foreach (ArrowControl<BoxModel, ArrowModel> control in arrows.Values)
+                foreach (ArrowControl<TEnclosing, TBoxModel, TArrowModel> control in _arrows.Values)
                 {
                     control.Parent = null;
                 }
-                arrows.Clear();
+                _arrows.Clear();
 
-                List<BoxModel> theBoxes = getBoxes();
-                foreach (BoxModel model in theBoxes)
+                List<TBoxModel> theBoxes = GetBoxes();
+                foreach (TBoxModel model in theBoxes)
                 {
-                    BoxControl<BoxModel, ArrowModel> boxControl = createBox(model);
+                    BoxControl<TEnclosing, TBoxModel, TArrowModel> boxControl = CreateBox(model);
                     boxControl.Parent = this;
                     boxControl.RefreshControl();
-                    boxes[model] = boxControl;
+                    _boxes[model] = boxControl;
                 }
 
-                List<ArrowModel> theArrows = getArrows();
-                foreach (ArrowModel model in theArrows)
+                List<TArrowModel> theArrows = GetArrows();
+                foreach (TArrowModel model in theArrows)
                 {
                     bool showArrow = true;
                     if (model.Source != null)
                     {
+                        // ReSharper disable once ConditionIsAlwaysTrueOrFalse
                         showArrow = showArrow && !model.Source.Hidden;
                     }
 
@@ -699,9 +525,9 @@ namespace GUI.BoxArrowDiagram
 
                     if (showArrow)
                     {
-                        ArrowControl<BoxModel, ArrowModel> arrowControl = createArrow(model);
+                        ArrowControl<TEnclosing, TBoxModel, TArrowModel> arrowControl = CreateArrow(model);
                         arrowControl.Parent = this;
-                        arrows[model] = arrowControl;
+                        _arrows[model] = arrowControl;
                     }
                 }
 
@@ -709,7 +535,7 @@ namespace GUI.BoxArrowDiagram
             }
             finally
             {
-                refreshingControl = false;
+                _refreshingControl = false;
                 pleaseWaitLabel.Visible = false;
                 ResumeLayout(true);
             }
@@ -725,15 +551,8 @@ namespace GUI.BoxArrowDiagram
             /// <summary>
             ///     The allocated rectangles
             /// </summary>
-            private List<Rectangle> AllocatedBoxes = new List<Rectangle>();
-
-            /// <summary>
-            ///     Constructor
-            /// </summary>
-            public BoxAllocation()
-            {
-            }
-
+            private readonly List<Rectangle> _allocatedBoxes = new List<Rectangle>();
+            
             /// <summary>
             ///     Finds a rectangle which intersects with the current rectangle
             /// </summary>
@@ -743,7 +562,7 @@ namespace GUI.BoxArrowDiagram
             {
                 Rectangle retVal = Rectangle.Empty;
 
-                foreach (Rectangle current in AllocatedBoxes)
+                foreach (Rectangle current in _allocatedBoxes)
                 {
                     if (current.IntersectsWith(rectangle))
                     {
@@ -761,14 +580,14 @@ namespace GUI.BoxArrowDiagram
             /// <param name="rectangle"></param>
             public void Allocate(Rectangle rectangle)
             {
-                AllocatedBoxes.Add(rectangle);
+                _allocatedBoxes.Add(rectangle);
             }
         }
 
         /// <summary>
         ///     The allocated boxes
         /// </summary>
-        private BoxAllocation AllocatedBoxes;
+        private BoxAllocation _allocatedBoxes;
 
         /// <summary>
         ///     Provides a distance between two points
@@ -776,7 +595,7 @@ namespace GUI.BoxArrowDiagram
         /// <param name="p1"></param>
         /// <param name="p2"></param>
         /// <returns></returns>
-        private int distance(Point p1, Point p2)
+        private int Distance(Point p1, Point p2)
         {
             return Math.Abs(p1.X - p2.X) + Math.Abs(p1.Y - p2.Y);
         }
@@ -795,30 +614,29 @@ namespace GUI.BoxArrowDiagram
         /// <summary>
         ///     The size of the shift between arrows to be used when overlap occurs (more or less horizontally)
         /// </summary>
-        private static int HORIZONTAL_SHIFT_SIZE = 40;
+        private const int HorizontalShiftSize = 40;
 
         /// <summary>
         ///     The size of the shift between arrows to be used when overlap occurs (more or less horizontally)
         /// </summary>
-        private static int VERTICAL_SHIFT_SIZE = 20;
+        private const int VerticalShiftSize = 20;
 
         /// <summary>
         ///     Ensures that two arrowss do not overlap by computing an offset between the arrows
         /// </summary>
         private void ComputeArrowPosition()
         {
-            List<ArrowControl<BoxModel, ArrowModel>> workingSet = new List<ArrowControl<BoxModel, ArrowModel>>();
-            workingSet.AddRange(arrows.Values);
+            List<ArrowControl<TEnclosing, TBoxModel, TArrowModel>> workingSet = new List<ArrowControl<TEnclosing, TBoxModel, TArrowModel>>();
+            workingSet.AddRange(_arrows.Values);
 
             while (workingSet.Count > 1)
             {
-                ArrowControl<BoxModel, ArrowModel> t1 = workingSet[0];
+                ArrowControl<TEnclosing, TBoxModel, TArrowModel> t1 = workingSet[0];
                 workingSet.Remove(t1);
 
                 // Compute the set of arrows overlapping with t1
-                List<ArrowControl<BoxModel, ArrowModel>> overlap = new List<ArrowControl<BoxModel, ArrowModel>>();
-                overlap.Add(t1);
-                foreach (ArrowControl<BoxModel, ArrowModel> t in workingSet)
+                List<ArrowControl<TEnclosing, TBoxModel, TArrowModel>> overlap = new List<ArrowControl<TEnclosing, TBoxModel, TArrowModel>> { t1 };
+                foreach (ArrowControl<TEnclosing, TBoxModel, TArrowModel> t in workingSet)
                 {
                     if (t.Model.Source == t1.Model.Source &&
                         t.Model.Target == t1.Model.Target)
@@ -833,7 +651,7 @@ namespace GUI.BoxArrowDiagram
                 }
 
                 // Remove all arrows of this overlap class from the working set
-                foreach (ArrowControl<BoxModel, ArrowModel> t in overlap)
+                foreach (ArrowControl<TEnclosing, TBoxModel, TArrowModel> t in overlap)
                 {
                     workingSet.Remove(t);
                 }
@@ -849,25 +667,25 @@ namespace GUI.BoxArrowDiagram
                         (angle < -Math.PI/4 && angle > -3*Math.PI/4))
                     {
                         // Horizontal shift
-                        shift = new Point(-(overlap.Count - 1)*HORIZONTAL_SHIFT_SIZE/2, 0);
-                        offset = new Point(HORIZONTAL_SHIFT_SIZE, 0);
+                        shift = new Point(-(overlap.Count - 1)*HorizontalShiftSize/2, 0);
+                        offset = new Point(HorizontalShiftSize, 0);
                     }
                     else
                     {
                         // Vertical shift
-                        shift = new Point(0, -(overlap.Count - 1)*VERTICAL_SHIFT_SIZE/2);
-                        offset = new Point(0, VERTICAL_SHIFT_SIZE);
+                        shift = new Point(0, -(overlap.Count - 1)*VerticalShiftSize/2);
+                        offset = new Point(0, VerticalShiftSize);
                     }
 
                     int i = 0;
-                    foreach (ArrowControl<BoxModel, ArrowModel> arrow in overlap)
+                    foreach (ArrowControl<TEnclosing, TBoxModel, TArrowModel> arrow in overlap)
                     {
                         arrow.Offset = shift;
                         shift.Offset(offset);
 
                         if (arrow.TargetBoxControl == null)
                         {
-                            arrow.EndOffset = new Point(0, VERTICAL_SHIFT_SIZE*i/2);
+                            arrow.EndOffset = new Point(0, VerticalShiftSize*i/2);
                         }
                         i = i + 1;
                     }
@@ -880,34 +698,34 @@ namespace GUI.BoxArrowDiagram
         /// </summary>
         private void ComputeArrowTextPosition()
         {
-            AllocatedBoxes = new BoxAllocation();
+            _allocatedBoxes = new BoxAllocation();
 
             // Allocate all boxes as non available
-            foreach (BoxControl<BoxModel, ArrowModel> box in boxes.Values)
+            foreach (BoxControl<TEnclosing, TBoxModel, TArrowModel> box in _boxes.Values)
             {
                 Rectangle rectangle = box.DisplayRectangle;
                 rectangle.Offset(box.Location);
-                AllocatedBoxes.Allocate(rectangle);
+                _allocatedBoxes.Allocate(rectangle);
             }
 
-            foreach (ArrowControl<BoxModel, ArrowModel> arrow in arrows.Values)
+            foreach (ArrowControl<TEnclosing, TBoxModel, TArrowModel> arrow in _arrows.Values)
             {
-                Point center = arrow.getCenter();
-                Point upSlide = Slide(arrow, center, ArrowControl<BoxModel, ArrowModel>.SlideDirection.Up);
-                Point downSlide = Slide(arrow, center, ArrowControl<BoxModel, ArrowModel>.SlideDirection.Down);
+                Point center = arrow.GetCenter();
+                Point upSlide = Slide(arrow, center, ArrowControl<TEnclosing, TBoxModel, TArrowModel>.SlideDirection.Up);
+                Point downSlide = Slide(arrow, center, ArrowControl<TEnclosing, TBoxModel, TArrowModel>.SlideDirection.Down);
 
                 Rectangle boundingBox;
-                if (distance(center, upSlide) <= distance(center, downSlide))
+                if (Distance(center, upSlide) <= Distance(center, downSlide))
                 {
-                    boundingBox = arrow.getTextBoundingBox(upSlide);
+                    boundingBox = arrow.GetTextBoundingBox(upSlide);
                 }
                 else
                 {
-                    boundingBox = arrow.getTextBoundingBox(downSlide);
+                    boundingBox = arrow.GetTextBoundingBox(downSlide);
                 }
 
                 arrow.Location = new Point(boundingBox.X, boundingBox.Y);
-                AllocatedBoxes.Allocate(boundingBox);
+                _allocatedBoxes.Allocate(boundingBox);
             }
         }
 
@@ -917,17 +735,18 @@ namespace GUI.BoxArrowDiagram
         /// </summary>
         /// <param name="arrow"></param>
         /// <param name="center"></param>
+        /// <param name="direction"></param>
         /// <returns></returns>
-        private Point Slide(ArrowControl<BoxModel, ArrowModel> arrow, Point center,
-            ArrowControl<BoxModel, ArrowModel>.SlideDirection direction)
+        private Point Slide(ArrowControl<TEnclosing, TBoxModel, TArrowModel> arrow, Point center,
+            ArrowControl<TEnclosing, TBoxModel, TArrowModel>.SlideDirection direction)
         {
             Point retVal = center;
-            Rectangle colliding = AllocatedBoxes.Intersects(arrow.getTextBoundingBox(retVal));
+            Rectangle colliding = _allocatedBoxes.Intersects(arrow.GetTextBoundingBox(retVal));
 
             while (colliding != Rectangle.Empty)
             {
                 retVal = arrow.Slide(retVal, colliding, direction);
-                colliding = AllocatedBoxes.Intersects(arrow.getTextBoundingBox(retVal));
+                colliding = _allocatedBoxes.Intersects(arrow.GetTextBoundingBox(retVal));
             }
 
             return retVal;
@@ -950,34 +769,36 @@ namespace GUI.BoxArrowDiagram
         ///     Provides the next available position in the box-arrow diagram
         /// </summary>
         /// <returns></returns>
-        public virtual Point GetNextPosition(BoxModel model)
+        public virtual Point GetNextPosition(TBoxModel model)
         {
             Point retVal = new Point(CurrentPosition.X, CurrentPosition.Y);
 
             // Prepare the next call for GetNextPosition
-            int X_OFFSET = model.Width + 10;
-            int Y_OFFSET = model.Height + 10;
+            int xOffset = model.Width + 10;
+            int yOffset = model.Height + 10;
 
-            CurrentPosition.Offset(X_OFFSET, 0);
+            CurrentPosition.Offset(xOffset, 0);
             if (CurrentPosition.X > Size.Width - model.Width)
             {
-                CurrentPosition = new Point(1, CurrentPosition.Y + Y_OFFSET);
+                CurrentPosition = new Point(1, CurrentPosition.Y + yOffset);
             }
 
             return retVal;
         }
 
-        private void BoxArrowPanel_Paint(object sender, PaintEventArgs e)
+        protected override void OnPaint(PaintEventArgs e)
         {
+            base.OnPaint(e);
+
             try
             {
                 Graphics g = e.Graphics;
-                foreach (BoxControl<BoxModel, ArrowModel> control in boxes.Values)
+                foreach (BoxControl<TEnclosing, TBoxModel, TArrowModel> control in _boxes.Values)
                 {
                     control.PaintInBoxArrowPanel(g);
                 }
 
-                foreach (ArrowControl<BoxModel, ArrowModel> control in arrows.Values)
+                foreach (ArrowControl<TEnclosing, TBoxModel, TArrowModel> control in _arrows.Values)
                 {
                     control.PaintInBoxArrowPanel(g);
                 }
@@ -995,40 +816,9 @@ namespace GUI.BoxArrowDiagram
         /// <summary>
         ///     Provides the enclosing form
         /// </summary>
-        protected BoxArrowWindow<BoxModel, ArrowModel> EnclosingWindow
+        protected BoxArrowWindow<TEnclosing, TBoxModel, TArrowModel> EnclosingWindow
         {
-            get { return GUIUtils.EnclosingFinder<BoxArrowWindow<BoxModel, ArrowModel>>.find(this); }
-        }
-
-        /// <summary>
-        ///     Selects a model element
-        /// </summary>
-        /// <param name="model"></param>
-        /// <param name="alsoSelectInOtherWindows">
-        ///     Indicates that the element should also be selected in the other windows + get
-        ///     focus
-        /// </param>
-        public void Select(object model, bool alsoSelectInOtherWindows)
-        {
-            if (EnclosingWindow != null)
-            {
-                EnclosingWindow.Select(model, alsoSelectInOtherWindows);
-            }
-            else if (alsoSelectInOtherWindows)
-            {
-                if (model is BoxControl<BoxModel, ArrowModel>)
-                {
-                    BoxControl<BoxModel, ArrowModel> control = model as BoxControl<BoxModel, ArrowModel>;
-                    GUIUtils.MDIWindow.Select(control.Model);
-                }
-                else if (model is ArrowControl<BoxModel, ArrowModel>)
-                {
-                    ArrowControl<BoxModel, ArrowModel> control = model as ArrowControl<BoxModel, ArrowModel>;
-                    GUIUtils.MDIWindow.Select(control.Model.ReferencedModel);
-                }
-            }
-
-            Refresh();
+            get { return GuiUtils.EnclosingFinder<BoxArrowWindow<TEnclosing, TBoxModel, TArrowModel>>.Find(this); }
         }
 
         /// <summary>
@@ -1036,13 +826,13 @@ namespace GUI.BoxArrowDiagram
         /// </summary>
         /// <param name="control"></param>
         /// <returns></returns>
-        internal bool isSelected(Control control)
+        internal bool IsSelected(Control control)
         {
             bool retVal = false;
 
             if (EnclosingWindow != null)
             {
-                retVal = EnclosingWindow.isSelected(control);
+                retVal = EnclosingWindow.IsSelected(control);
             }
 
             return retVal;

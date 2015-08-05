@@ -19,12 +19,14 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 using DataDictionary;
+using Utils;
 
 namespace GUI.BoxArrowDiagram
 {
-    public abstract partial class ArrowControl<BoxModel, ArrowModel> : Label
-        where BoxModel : class, IGraphicalDisplay
-        where ArrowModel : class, IGraphicalArrow<BoxModel>
+    public abstract partial class ArrowControl<TEnclosing, TBoxModel, TArrowModel> : Label
+        where TEnclosing : class
+        where TBoxModel : class, IGraphicalDisplay
+        where TArrowModel : class, IGraphicalArrow<TBoxModel>
     {
         /// <summary>
         ///     The display mode the each arrow
@@ -58,22 +60,22 @@ namespace GUI.BoxArrowDiagram
         /// <summary>
         ///     Constructor
         /// </summary>
-        public ArrowControl()
+        protected ArrowControl()
         {
             InitializeComponent();
             InitializeColors();
 
             ArrowMode = ArrowModeEnum.Full;
             ArrowFill = ArrowFillEnum.Line;
-            MouseClick += new MouseEventHandler(MouseClickHandler);
-            MouseDoubleClick += new MouseEventHandler(MouseDoubleClickHandler);
+            MouseClick += MouseClickHandler;
+            MouseDoubleClick += MouseDoubleClickHandler;
         }
 
         /// <summary>
         ///     Constructor
         /// </summary>
         /// <param name="container"></param>
-        public ArrowControl(IContainer container)
+        protected ArrowControl(IContainer container)
         {
             container.Add(this);
 
@@ -82,8 +84,8 @@ namespace GUI.BoxArrowDiagram
 
             ArrowMode = ArrowModeEnum.Full;
             ArrowFill = ArrowFillEnum.Line;
-            MouseClick += new MouseEventHandler(MouseClickHandler);
-            MouseDoubleClick += new MouseEventHandler(MouseDoubleClickHandler);
+            MouseClick += MouseClickHandler;
+            MouseDoubleClick += MouseDoubleClickHandler;
         }
 
         /// <summary>
@@ -91,48 +93,58 @@ namespace GUI.BoxArrowDiagram
         /// </summary>
         private void InitializeColors()
         {
-            NORMAL_COLOR = Color.Black;
-            NORMAL_PEN = new Pen(NORMAL_COLOR);
+            NormalColor = Color.Black;
+            NormalPen = new Pen(NormalColor);
 
-            DEDUCED_CASE_COLOR = Color.MediumPurple;
-            DEDUCED_CASE_PEN = new Pen(DEDUCED_CASE_COLOR);
+            DeducedCaseColor = Color.MediumPurple;
+            DeducedCasePen = new Pen(DeducedCaseColor);
 
-            DISABLED_COLOR = Color.Red;
-            DISABLED_PEN = new Pen(DISABLED_COLOR);
+            DisabledColor = Color.Red;
+            DisabledPen = new Pen(DisabledColor);
 
-            ACTIVATED_COLOR = Color.Blue;
-            ACTIVATED_PEN = new Pen(ACTIVATED_COLOR, 4);
+            ActivatedColor = Color.Blue;
+            ActivatedPen = new Pen(ActivatedColor, 4);
 
-            EXTERNAL_BOX_COLOR = Color.Green;
-            EXTERNAL_BOX_PEN = new Pen(EXTERNAL_BOX_COLOR, 2);
+            ExternalBoxColor = Color.Green;
+            ExternalBoxPen = new Pen(ExternalBoxColor, 2);
         }
 
         /// <summary>
         ///     Handles a mouse click event
         /// </summary>
         /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void MouseClickHandler(object sender, MouseEventArgs e)
+        /// <param name="mouseEventArgs"></param>
+        private void MouseClickHandler(object sender, MouseEventArgs mouseEventArgs)
         {
-            SelectArrow();
+            IModelElement modelElement = Model as IModelElement;
+            if (modelElement != null)
+            {
+                Context.SelectionCriteria criteria = GuiUtils.SelectionCriteriaBasedOnMouseEvent(mouseEventArgs);
+                EFSSystem.INSTANCE.Context.SelectElement(modelElement, this, criteria);
+            }
         }
 
         /// <summary>
         ///     Handles a mouse click event on an arrow
         /// </summary>
         /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void MouseDoubleClickHandler(object sender, MouseEventArgs e)
+        /// <param name="mouseEventArgs"></param>
+        private void MouseDoubleClickHandler(object sender, MouseEventArgs mouseEventArgs)
         {
-            SelectArrow();
+            IModelElement modelElement = Model as IModelElement;
+            if (modelElement != null)
+            {
+                Context.SelectionCriteria criteria = GuiUtils.SelectionCriteriaBasedOnMouseEvent(mouseEventArgs);
+                EFSSystem.INSTANCE.Context.SelectElement(modelElement, this, criteria);
+            }
         }
 
         /// <summary>
         ///     The parent box-arrow panel
         /// </summary>
-        public BoxArrowPanel<BoxModel, ArrowModel> BoxArrowPanel
+        public BoxArrowPanel<TEnclosing, TBoxModel, TArrowModel> BoxArrowPanel
         {
-            get { return GUIUtils.EnclosingFinder<BoxArrowPanel<BoxModel, ArrowModel>>.find(this); }
+            get { return GuiUtils.EnclosingFinder<BoxArrowPanel<TEnclosing, TBoxModel, TArrowModel>>.Find(this); }
         }
 
         /// <summary>
@@ -140,36 +152,28 @@ namespace GUI.BoxArrowDiagram
         /// </summary>
         public Form EnclosingForm
         {
-            get { return GUIUtils.EnclosingFinder<Form>.find(this); }
-        }
-
-        /// <summary>
-        ///     Selects the current arrow
-        /// </summary>
-        public void SelectArrow()
-        {
-            BoxArrowPanel.Select(this, ModifierKeys == Keys.Control);
+            get { return GuiUtils.EnclosingFinder<Form>.Find(this); }
         }
 
         /// <summary>
         ///     Provides the enclosing box-arrow diagram panel
         /// </summary>
-        public BoxArrowPanel<BoxModel, ArrowModel> Panel
+        public BoxArrowPanel<TEnclosing, TBoxModel, TArrowModel> Panel
         {
-            get { return GUIUtils.EnclosingFinder<BoxArrowPanel<BoxModel, ArrowModel>>.find(this); }
+            get { return GuiUtils.EnclosingFinder<BoxArrowPanel<TEnclosing, TBoxModel, TArrowModel>>.Find(this); }
         }
 
         /// <summary>
         ///     The Model
         /// </summary>
-        private ArrowModel __model;
+        private TArrowModel _model;
 
-        public virtual ArrowModel Model
+        public virtual TArrowModel Model
         {
-            get { return __model; }
+            get { return _model; }
             set
             {
-                __model = value;
+                _model = value;
                 RefreshControl();
             }
         }
@@ -191,15 +195,15 @@ namespace GUI.BoxArrowDiagram
         /// <summary>
         ///     Provides the box control which corresponds to the initial state
         /// </summary>
-        public BoxControl<BoxModel, ArrowModel> SourceBoxControl
+        public BoxControl<TEnclosing, TBoxModel, TArrowModel> SourceBoxControl
         {
             get
             {
-                BoxControl<BoxModel, ArrowModel> retVal = null;
+                BoxControl<TEnclosing, TBoxModel, TArrowModel> retVal = null;
 
                 if (Model.Source != null)
                 {
-                    retVal = Panel.getBoxControl(Model.Source);
+                    retVal = Panel.GetBoxControl(Model.Source);
                 }
 
                 return retVal;
@@ -209,13 +213,11 @@ namespace GUI.BoxArrowDiagram
         /// <summary>
         ///     Provides the box control which corresponds to the target state
         /// </summary>
-        public BoxControl<BoxModel, ArrowModel> TargetBoxControl
+        public BoxControl<TEnclosing, TBoxModel, TArrowModel> TargetBoxControl
         {
             get
             {
-                BoxControl<BoxModel, ArrowModel> retVal = null;
-
-                retVal = Panel.getBoxControl(Model.Target);
+                BoxControl<TEnclosing, TBoxModel, TArrowModel> retVal = Panel.GetBoxControl(Model.Target);
 
                 return retVal;
             }
@@ -224,10 +226,10 @@ namespace GUI.BoxArrowDiagram
         /// <summary>
         ///     The default size of a arrow. This is used when one of the control ending the arrow does not belong to the diagram
         /// </summary>
-        public int DEFAULT_ARROW_LENGTH = 40;
+        public int DefaultArrowLength = 40;
 
-        private static double ARROW_LENGTH = 10.0;
-        private static double ARROW_ANGLE = Math.PI/6;
+        private const double ArrowLength = 10.0;
+        private const double ArrowAngle = Math.PI/6;
 
         /// <summary>
         ///     Provides the angle the arrow performs
@@ -281,26 +283,6 @@ namespace GUI.BoxArrowDiagram
         }
 
         /// <summary>
-        ///     Indicates whether the angle is nearly vertical
-        /// </summary>
-        /// <param name="angle"></param>
-        /// <returns></returns>
-        private bool aroundVertical(double angle)
-        {
-            // Ensure the angle is in the first or second quadrant 
-            while (angle < 0)
-            {
-                angle = angle + 2*Math.PI;
-            }
-            while (angle > Math.PI)
-            {
-                angle = angle - Math.PI;
-            }
-
-            return (angle > 3*Math.PI/8) && (angle < 5*Math.PI/8);
-        }
-
-        /// <summary>
         ///     Provides the start location of the arrow
         /// </summary>
         public Point StartLocation
@@ -309,19 +291,16 @@ namespace GUI.BoxArrowDiagram
             {
                 Point retVal;
 
-                int x;
-                int y;
-
-                BoxControl<BoxModel, ArrowModel> initialBoxControl = SourceBoxControl;
-                BoxControl<BoxModel, ArrowModel> targetBoxControl = TargetBoxControl;
+                BoxControl<TEnclosing, TBoxModel, TArrowModel> initialBoxControl = SourceBoxControl;
+                BoxControl<TEnclosing, TBoxModel, TArrowModel> targetBoxControl = TargetBoxControl;
 
                 if (initialBoxControl != null)
                 {
                     Point center = initialBoxControl.Center;
                     double angle = Angle;
 
-                    x = center.X + (int) (Math.Cos(angle)*initialBoxControl.Width/2);
-                    y = center.Y + (int) (Math.Sin(angle)*initialBoxControl.Height/2);
+                    int x = center.X + (int) (Math.Cos(angle)*initialBoxControl.Width/2);
+                    int y = center.Y + (int) (Math.Sin(angle)*initialBoxControl.Height/2);
 
                     if (targetBoxControl != null)
                     {
@@ -344,7 +323,7 @@ namespace GUI.BoxArrowDiagram
                 }
                 else if (targetBoxControl != null)
                 {
-                    retVal = new Point(targetBoxControl.Center.X, targetBoxControl.Location.Y - DEFAULT_ARROW_LENGTH);
+                    retVal = new Point(targetBoxControl.Center.X, targetBoxControl.Location.Y - DefaultArrowLength);
                 }
                 else
                 {
@@ -365,19 +344,16 @@ namespace GUI.BoxArrowDiagram
             {
                 Point retVal;
 
-                int x;
-                int y;
-
-                BoxControl<BoxModel, ArrowModel> initialBoxControl = SourceBoxControl;
-                BoxControl<BoxModel, ArrowModel> targetBoxControl = TargetBoxControl;
+                BoxControl<TEnclosing, TBoxModel, TArrowModel> initialBoxControl = SourceBoxControl;
+                BoxControl<TEnclosing, TBoxModel, TArrowModel> targetBoxControl = TargetBoxControl;
 
                 if (targetBoxControl != null)
                 {
                     Point center = targetBoxControl.Center;
                     double angle = Math.PI + Angle;
 
-                    x = center.X + (int) (Math.Cos(angle)*targetBoxControl.Width/2);
-                    y = center.Y + (int) (Math.Sin(angle)*targetBoxControl.Height/2);
+                    int x = center.X + (int) (Math.Cos(angle)*targetBoxControl.Width/2);
+                    int y = center.Y + (int) (Math.Sin(angle)*targetBoxControl.Height/2);
 
                     if (initialBoxControl != null)
                     {
@@ -401,11 +377,11 @@ namespace GUI.BoxArrowDiagram
                 else if (initialBoxControl != null)
                 {
                     retVal = new Point(initialBoxControl.Center.X,
-                        initialBoxControl.Location.Y + initialBoxControl.Height + DEFAULT_ARROW_LENGTH);
+                        initialBoxControl.Location.Y + initialBoxControl.Height + DefaultArrowLength);
                 }
                 else
                 {
-                    retVal = new Point(50, 50 + DEFAULT_ARROW_LENGTH);
+                    retVal = new Point(50, 50 + DefaultArrowLength);
                 }
 
                 retVal.Offset(EndOffset); // This offset is used to have final arrows unaligned
@@ -420,6 +396,7 @@ namespace GUI.BoxArrowDiagram
         /// <param name="color"></param>
         private void SetColor(Color color)
         {
+            // ReSharper disable once RedundantCheckBeforeAssignment
             if (ForeColor != color)
             {
                 ForeColor = color;
@@ -429,37 +406,37 @@ namespace GUI.BoxArrowDiagram
         /// <summary>
         ///     A normal pen
         /// </summary>
-        public Color NORMAL_COLOR;
+        public Color NormalColor;
 
-        public Pen NORMAL_PEN;
+        public Pen NormalPen;
 
         /// <summary>
         ///     A degraded case pen
         /// </summary>
-        public Color DEDUCED_CASE_COLOR;
+        public Color DeducedCaseColor;
 
-        public Pen DEDUCED_CASE_PEN;
+        public Pen DeducedCasePen;
 
         /// <summary>
         ///     A pen indicating that the arrow is disabled
         /// </summary>
-        public Color DISABLED_COLOR;
+        public Color DisabledColor;
 
-        public Pen DISABLED_PEN;
+        public Pen DisabledPen;
 
         /// <summary>
         ///     A activated pen
         /// </summary>
-        public Color ACTIVATED_COLOR;
+        public Color ActivatedColor;
 
-        public Pen ACTIVATED_PEN;
+        public Pen ActivatedPen;
 
         /// <summary>
         ///     An external box
         /// </summary>
-        public Color EXTERNAL_BOX_COLOR;
+        public Color ExternalBoxColor;
 
-        public Pen EXTERNAL_BOX_PEN;
+        public Pen ExternalBoxPen;
 
         /// <summary>
         ///     Indicates that the arrow should be displayed in the DISABLED color
@@ -491,7 +468,7 @@ namespace GUI.BoxArrowDiagram
         /// <summary>
         ///     Draws the arrow within the box-arrow panel
         /// </summary>
-        /// <param name="e"></param>
+        /// <param name="g"></param>
         public void PaintInBoxArrowPanel(Graphics g)
         {
             if (Visible)
@@ -504,27 +481,27 @@ namespace GUI.BoxArrowDiagram
                 Pen pen;
                 if (IsDisabled())
                 {
-                    pen = DISABLED_PEN;
-                    SetColor(DISABLED_COLOR);
+                    pen = DisabledPen;
+                    SetColor(DisabledColor);
                 }
                 else if (IsActive())
                 {
-                    pen = ACTIVATED_PEN;
-                    SetColor(ACTIVATED_COLOR);
+                    pen = ActivatedPen;
+                    SetColor(ActivatedColor);
                 }
                 else if (IsDeduced())
                 {
                     // A degraded case is a arrow that is not defined in any state machine
-                    pen = DEDUCED_CASE_PEN;
-                    SetColor(DEDUCED_CASE_COLOR);
+                    pen = DeducedCasePen;
+                    SetColor(DeducedCaseColor);
                 }
                 else
                 {
-                    pen = NORMAL_PEN;
-                    SetColor(NORMAL_COLOR);
+                    pen = NormalPen;
+                    SetColor(NormalColor);
                 }
 
-                if (Panel.isSelected(this))
+                if (Panel.IsSelected(this))
                 {
                     // Change the pen when the arrow is selected
                     pen = new Pen(pen.Color, 4);
@@ -539,37 +516,37 @@ namespace GUI.BoxArrowDiagram
                     case ArrowFillEnum.Line:
                         if (ArrowMode == ArrowModeEnum.Full || ArrowMode == ArrowModeEnum.Half)
                         {
-                            int x = target.X - (int) (Math.Cos(angle + ARROW_ANGLE)*ARROW_LENGTH);
-                            int y = target.Y - (int) (Math.Sin(angle + ARROW_ANGLE)*ARROW_LENGTH);
+                            int x = target.X - (int) (Math.Cos(angle + ArrowAngle)*ArrowLength);
+                            int y = target.Y - (int) (Math.Sin(angle + ArrowAngle)*ArrowLength);
                             g.DrawLine(pen, target, new Point(x, y));
                         }
                         if (ArrowMode == ArrowModeEnum.Full)
                         {
-                            int x = target.X - (int) (Math.Cos(angle - ARROW_ANGLE)*ARROW_LENGTH);
-                            int y = target.Y - (int) (Math.Sin(angle - ARROW_ANGLE)*ARROW_LENGTH);
+                            int x = target.X - (int) (Math.Cos(angle - ArrowAngle)*ArrowLength);
+                            int y = target.Y - (int) (Math.Sin(angle - ArrowAngle)*ArrowLength);
                             g.DrawLine(pen, target, new Point(x, y));
                         }
                         break;
 
                     case ArrowFillEnum.Fill:
                         Brush brush = new SolidBrush(pen.Color);
-                        int x1 = target.X - (int) (Math.Cos(angle)*ARROW_LENGTH);
-                        int y1 = target.Y - (int) (Math.Sin(angle)*ARROW_LENGTH);
+                        int x1 = target.X - (int) (Math.Cos(angle)*ArrowLength);
+                        int y1 = target.Y - (int) (Math.Sin(angle)*ArrowLength);
 
                         if (ArrowMode == ArrowModeEnum.Full || ArrowMode == ArrowModeEnum.Half)
                         {
-                            int x2 = target.X - (int) (Math.Cos(angle + ARROW_ANGLE)*ARROW_LENGTH);
-                            int y2 = target.Y - (int) (Math.Sin(angle + ARROW_ANGLE)*ARROW_LENGTH);
+                            int x2 = target.X - (int) (Math.Cos(angle + ArrowAngle)*ArrowLength);
+                            int y2 = target.Y - (int) (Math.Sin(angle + ArrowAngle)*ArrowLength);
 
-                            Point[] points = new Point[] {target, new Point(x1, y1), new Point(x2, y2)};
+                            Point[] points = {target, new Point(x1, y1), new Point(x2, y2)};
                             g.FillPolygon(brush, points);
                         }
                         if (ArrowMode == ArrowModeEnum.Full)
                         {
-                            int x2 = target.X - (int) (Math.Cos(angle - ARROW_ANGLE)*ARROW_LENGTH);
-                            int y2 = target.Y - (int) (Math.Sin(angle - ARROW_ANGLE)*ARROW_LENGTH);
+                            int x2 = target.X - (int) (Math.Cos(angle - ArrowAngle)*ArrowLength);
+                            int y2 = target.Y - (int) (Math.Sin(angle - ArrowAngle)*ArrowLength);
 
-                            Point[] points = new Point[] {target, new Point(x1, y1), new Point(x2, y2)};
+                            Point[] points = {target, new Point(x1, y1), new Point(x2, y2)};
                             g.FillPolygon(brush, points);
                         }
                         break;
@@ -578,12 +555,12 @@ namespace GUI.BoxArrowDiagram
                 if (TargetBoxControl == null)
                 {
                     Font boldFont = new Font(Font, FontStyle.Bold);
-                    string targetStateName = getTargetName();
+                    string targetStateName = GetTargetName();
 
                     SizeF size = g.MeasureString(targetStateName, boldFont);
                     int x = target.X - (int) (size.Width/2);
                     int y = target.Y + 10;
-                    g.DrawString(targetStateName, boldFont, EXTERNAL_BOX_PEN.Brush, new Point(x, y));
+                    g.DrawString(targetStateName, boldFont, ExternalBoxPen.Brush, new Point(x, y));
                 }
             }
         }
@@ -592,7 +569,7 @@ namespace GUI.BoxArrowDiagram
         ///     Provides the name of the target state
         /// </summary>
         /// <returns></returns>
-        public virtual string getTargetName()
+        public virtual string GetTargetName()
         {
             string retVal = "<unknown>";
 
@@ -608,7 +585,7 @@ namespace GUI.BoxArrowDiagram
         ///     Sets the initial box of the arrow controlled by this arrow control
         /// </summary>
         /// <param name="box"></param>
-        public void SetInitialBox(BoxModel box)
+        public void SetInitialBox(TBoxModel box)
         {
             Model.SetInitialBox(box);
             RefreshControl();
@@ -618,7 +595,7 @@ namespace GUI.BoxArrowDiagram
         ///     Sets the target box of the arrow controlled by this arrow control
         /// </summary>
         /// <param name="box"></param>
-        public void SetTargetBox(BoxModel box)
+        public void SetTargetBox(TBoxModel box)
         {
             Model.SetTargetBox(box);
             RefreshControl();
@@ -638,18 +615,18 @@ namespace GUI.BoxArrowDiagram
         ///     Provides the center of the arrow
         /// </summary>
         /// <returns></returns>
-        public Point getCenter()
+        public Point GetCenter()
         {
             // Set the start & end location of the arrow
             Point startLocation = StartLocation;
             Point targetLocation = TargetLocation;
 
             // Set the location of the text
-            Span Xspan = new Span(startLocation.X, targetLocation.X);
-            Span Yspan = new Span(startLocation.Y, targetLocation.Y);
+            Span xSpan = new Span(startLocation.X, targetLocation.X);
+            Span ySpan = new Span(startLocation.Y, targetLocation.Y);
 
-            int x = Math.Min(startLocation.X, targetLocation.X) + Xspan.Center;
-            int y = Math.Min(startLocation.Y, targetLocation.Y) + Yspan.Center;
+            int x = Math.Min(startLocation.X, targetLocation.X) + xSpan.Center;
+            int y = Math.Min(startLocation.Y, targetLocation.Y) + ySpan.Center;
 
             return new Point(x, y);
         }
@@ -660,7 +637,7 @@ namespace GUI.BoxArrowDiagram
         /// </summary>
         /// <param name="center">The center of the box</param>
         /// <returns></returns>
-        public Rectangle getTextBoundingBox(Point center)
+        public Rectangle GetTextBoundingBox(Point center)
         {
             int x = center.X - Width/2;
             int y = center.Y - Height/2;
@@ -668,7 +645,7 @@ namespace GUI.BoxArrowDiagram
             // Position of the text box for initial arrows
             if (SourceBoxControl == null)
             {
-                y = y - DEFAULT_ARROW_LENGTH/2;
+                y = y - DefaultArrowLength/2;
             }
 
             return new Rectangle(x, y, Width, Height);
@@ -677,7 +654,7 @@ namespace GUI.BoxArrowDiagram
         /// <summary>
         ///     The delta applied when sliding the arrow
         /// </summary>
-        private const int DELTA = 5;
+        private const int Delta = 5;
 
         /// <summary>
         ///     Direction of the slide
@@ -694,6 +671,7 @@ namespace GUI.BoxArrowDiagram
         /// </summary>
         /// <param name="center">The current center of the text box</param>
         /// <param name="colliding">The colliding rectangle</param>
+        /// <param name="direction"></param>
         /// <returns></returns>
         public Point Slide(Point center, Rectangle colliding, SlideDirection direction)
         {
@@ -702,11 +680,11 @@ namespace GUI.BoxArrowDiagram
             double angle = Angle;
             if (direction == SlideDirection.Up)
             {
-                retVal = new Point((int) (center.X + Math.Cos(angle)*DELTA), (int) (center.Y + Math.Sin(angle)*DELTA));
+                retVal = new Point((int) (center.X + Math.Cos(angle)*Delta), (int) (center.Y + Math.Sin(angle)*Delta));
             }
             else
             {
-                retVal = new Point((int) (center.X - Math.Cos(angle)*DELTA), (int) (center.Y - Math.Sin(angle)*DELTA));
+                retVal = new Point((int) (center.X - Math.Cos(angle)*Delta), (int) (center.Y - Math.Sin(angle)*Delta));
             }
 
             return retVal;

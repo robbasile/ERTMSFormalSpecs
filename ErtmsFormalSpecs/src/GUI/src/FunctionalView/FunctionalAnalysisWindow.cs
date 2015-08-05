@@ -22,29 +22,8 @@ using GUI.BoxArrowDiagram;
 
 namespace GUI.FunctionalView
 {
-    public partial class FunctionalAnalysisWindow : BoxArrowWindow<NameSpace, AccessMode>
+    public class FunctionalAnalysisWindow : BoxArrowWindow<IEnclosesNameSpaces, NameSpace, AccessMode>
     {
-        /// <summary>
-        ///     The namespace currently displayed
-        /// </summary>
-        public IEnclosesNameSpaces NameSpaceContainer { get; private set; }
-
-        /// <summary>
-        ///     Required method for Designer support - do not modify
-        ///     the contents of this method with the code editor.
-        /// </summary>
-        private void InitializeComponent()
-        {
-        }
-
-        /// <summary>
-        ///     Constructor
-        /// </summary>
-        public FunctionalAnalysisWindow()
-            : base()
-        {
-        }
-
         /// <summary>
         ///     The panel used to display the state diagram
         /// </summary>
@@ -56,18 +35,17 @@ namespace GUI.FunctionalView
         /// <summary>
         ///     Sets the state machine type
         /// </summary>
-        /// <param name="stateMachine"></param>
         public void SetNameSpaceContainer(IEnclosesNameSpaces nameSpaceContainer)
         {
-            NameSpaceContainer = nameSpaceContainer;
+            Model = nameSpaceContainer;
 
-            FunctionalAnalysisPanel.NameSpaceContainer = NameSpaceContainer;
+            FunctionalAnalysisPanel.NameSpaceContainer = Model;
             FunctionalAnalysisPanel.RefreshControl();
         }
 
-        public override BoxArrowPanel<NameSpace, AccessMode> createPanel()
+        public override BoxArrowPanel<IEnclosesNameSpaces, NameSpace, AccessMode> CreatePanel()
         {
-            BoxArrowPanel<NameSpace, AccessMode> retVal = new FunctionalAnalysisPanel();
+            BoxArrowPanel<IEnclosesNameSpaces, NameSpace, AccessMode> retVal = new FunctionalAnalysisPanel();
 
             return retVal;
         }
@@ -81,7 +59,7 @@ namespace GUI.FunctionalView
             ///     Constructor
             /// </summary>
             /// <param name="control"></param>
-            public NameSpaceEditor(BoxControl<NameSpace, AccessMode> control)
+            public NameSpaceEditor(BoxControl<IEnclosesNameSpaces, NameSpace, AccessMode> control)
                 : base(control)
             {
             }
@@ -90,7 +68,7 @@ namespace GUI.FunctionalView
             [ReadOnly(true)]
             public override string Name
             {
-                get { return control.Model.GraphicalName; }
+                get { return Control.Model.GraphicalName; }
             }
         }
 
@@ -99,7 +77,7 @@ namespace GUI.FunctionalView
         /// </summary>
         /// <param name="control"></param>
         /// <returns></returns>
-        protected override BoxEditor createBoxEditor(BoxControl<NameSpace, AccessMode> control)
+        protected override BoxEditor CreateBoxEditor(BoxControl<IEnclosesNameSpaces, NameSpace, AccessMode> control)
         {
             BoxEditor retVal = new NameSpaceEditor(control);
 
@@ -115,7 +93,7 @@ namespace GUI.FunctionalView
             ///     Constructor
             /// </summary>
             /// <param name="control"></param>
-            public AccessModeEditor(ArrowControl<NameSpace, AccessMode> control)
+            public AccessModeEditor(ArrowControl<IEnclosesNameSpaces, NameSpace, AccessMode> control)
                 : base(control)
             {
             }
@@ -126,7 +104,7 @@ namespace GUI.FunctionalView
         /// </summary>
         /// <param name="control"></param>
         /// <returns></returns>
-        protected override ArrowEditor createArrowEditor(ArrowControl<NameSpace, AccessMode> control)
+        protected override ArrowEditor CreateArrowEditor(ArrowControl<IEnclosesNameSpaces, NameSpace, AccessMode> control)
         {
             ArrowEditor retVal = new AccessModeEditor(control);
 

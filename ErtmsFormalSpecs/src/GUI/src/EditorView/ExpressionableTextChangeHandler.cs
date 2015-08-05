@@ -22,8 +22,6 @@ namespace GUI.EditorView
     /// <summary>
     ///     Sets the string value into the right property
     /// </summary>
-    /// <param name="instance"></param>
-    /// <param name="value"></param>
     public class ExpressionableTextChangeHandler : Window.HandleTextChange
     {
         /// <summary>
@@ -57,11 +55,13 @@ namespace GUI.EditorView
         /// <returns></returns>
         public override void SetText(string text)
         {
-            IExpressionable expressionable = Instance as IExpressionable;
+            text = RemoveUselessCharacters(text);
 
+            IExpressionable expressionable = Instance as IExpressionable;
             if (expressionable != null)
             {
-                if (expressionable.ExpressionText != text)
+                string originalText = RemoveUselessCharacters(expressionable.ExpressionText);
+                if (originalText != text)
                 {
                     expressionable.ExpressionText = text;
                 }
@@ -73,8 +73,6 @@ namespace GUI.EditorView
     /// <summary>
     ///     Sets the string value into the right property
     /// </summary>
-    /// <param name="instance"></param>
-    /// <param name="value"></param>
     public class ConditionTextChangeHandler : Window.HandleTextChange
     {
         /// <summary>

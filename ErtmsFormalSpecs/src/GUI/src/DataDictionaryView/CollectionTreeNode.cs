@@ -14,7 +14,6 @@
 // --
 // ------------------------------------------------------------------------------
 
-using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing.Design;
@@ -27,28 +26,11 @@ namespace GUI.DataDictionaryView
 {
     public class CollectionTreeNode : TypeTreeNode<Collection>
     {
-        private class InternalTypesConverter : TypesConverter
-        {
-            public override StandardValuesCollection
-                GetStandardValues(ITypeDescriptorContext context)
-            {
-                return GetValues(((ItemEditor) context.Instance).Item);
-            }
-        }
-
         /// <summary>
         ///     The editor for Range types
         /// </summary>
         private class ItemEditor : TypeEditor
         {
-            /// <summary>
-            ///     Constructor
-            /// </summary>
-            public ItemEditor()
-                : base()
-            {
-            }
-
             [Category("Description")]
             public override string Name
             {
@@ -62,6 +44,7 @@ namespace GUI.DataDictionaryView
             [Category("Description")]
             [Editor(typeof (TypeUITypedEditor), typeof (UITypeEditor))]
             [TypeConverter(typeof (TypeUITypeConverter))]
+            // ReSharper disable once UnusedMember.Local
             public Collection Type
             {
                 get { return Item; }
@@ -78,6 +61,7 @@ namespace GUI.DataDictionaryView
             [Category("Description")]
             [Editor(typeof (DefaultValueUITypedEditor), typeof (UITypeEditor))]
             [TypeConverter(typeof (DefaultValueUITypeConverter))]
+            // ReSharper disable once UnusedMember.Local
             public Collection DefaultValue
             {
                 get { return Item; }
@@ -92,6 +76,7 @@ namespace GUI.DataDictionaryView
             ///     The default value of the variable
             /// </summary>
             [Category("Description")]
+            // ReSharper disable once UnusedMember.Local
             public int MaxSize
             {
                 get { return Item.getMaxSize(); }
@@ -103,6 +88,7 @@ namespace GUI.DataDictionaryView
         ///     Constructor
         /// </summary>
         /// <param name="item"></param>
+        /// <param name="buildSubNodes"></param>
         public CollectionTreeNode(Collection item, bool buildSubNodes)
             : base(item, buildSubNodes)
         {
@@ -112,7 +98,7 @@ namespace GUI.DataDictionaryView
         ///     Creates the editor for this tree node
         /// </summary>
         /// <returns></returns>
-        protected override Editor createEditor()
+        protected override Editor CreateEditor()
         {
             return new ItemEditor();
         }
@@ -135,9 +121,8 @@ namespace GUI.DataDictionaryView
                     // If the element does not already exist in the patch, add a copy to it
                     retVal = Item.CreateCollectionUpdate(dictionary);
                 }
-                // navigate to the collection, whether it was created or not
-                GUIUtils.MDIWindow.RefreshModel();
-                GUIUtils.MDIWindow.Select(retVal);
+                // Navigate to the element, whether it was created or not
+                EFSSystem.INSTANCE.Context.SelectElement(retVal, this, Context.SelectionCriteria.DoubleClick);
             }
 
             return retVal;
@@ -152,10 +137,10 @@ namespace GUI.DataDictionaryView
             List<MenuItem> retVal = new List<MenuItem>();
 
             MenuItem updateItem = new MenuItem("Update...");
-            updateItem.MenuItems.Add(new MenuItem("Update", new EventHandler(AddUpdate)));
-            updateItem.MenuItems.Add(new MenuItem("Remove", new EventHandler(RemoveInUpdate)));
+            updateItem.MenuItems.Add(new MenuItem("Update", AddUpdate));
+            updateItem.MenuItems.Add(new MenuItem("Remove", RemoveInUpdate));
             retVal.Add(updateItem);
-            retVal.Add(new MenuItem("Delete", new EventHandler(DeleteHandler)));
+            retVal.Add(new MenuItem("Delete", DeleteHandler));
             retVal.AddRange(base.GetMenuItems());
 
             return retVal;

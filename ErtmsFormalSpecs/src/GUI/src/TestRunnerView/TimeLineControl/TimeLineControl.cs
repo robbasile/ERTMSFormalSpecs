@@ -16,7 +16,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
@@ -38,11 +37,6 @@ namespace GUI.TestRunnerView.TimeLineControl
     public abstract class TimeLineControl : Panel
     {
         /// <summary>
-        ///     Components for the tool tip
-        /// </summary>
-        private IContainer components;
-
-        /// <summary>
         ///     This label is used to allow auto scrolling by positionning it at the botton right bounds of the visible rectangle
         /// </summary>
         protected Label AutoScrollEnabler { get; set; }
@@ -54,24 +48,15 @@ namespace GUI.TestRunnerView.TimeLineControl
 
         private void InitializeComponent()
         {
-            this.components = new Container();
             AutoScroll = true;
             AutoSize = false;
             DoubleBuffered = true;
 
-            Click += new EventHandler(TimeLineControl_Click);
+            Click += TimeLineControl_Click;
 
-            AutoScrollEnabler = new Label();
-            AutoScrollEnabler.Text = "";
-            AutoScrollEnabler.Parent = this;
-            AutoScrollEnabler.Location = new Point(0, 0);
-            AutoScrollEnabler.Visible = true;
+            AutoScrollEnabler = new Label {Text = "", Parent = this, Location = new Point(0, 0), Visible = true};
 
-            AutoPanelSize = new Label();
-            AutoPanelSize.Text = "";
-            AutoPanelSize.Parent = this;
-            AutoPanelSize.Location = new Point(0, 0);
-            AutoPanelSize.Visible = true;
+            AutoPanelSize = new Label {Text = "", Parent = this, Location = new Point(0, 0), Visible = true};
         }
 
         /// <summary>
@@ -108,86 +93,37 @@ namespace GUI.TestRunnerView.TimeLineControl
             RuleFired ruleFired = evt as RuleFired;
             if (ruleFired != null)
             {
-                if (GUIUtils.MDIWindow.DataDictionaryWindow != null)
-                {
-                    GUIUtils.MDIWindow.DataDictionaryWindow.TreeView.Select(ruleFired.RuleCondition);
-                }
+                EFSSystem.INSTANCE.Context.SelectElement(ruleFired.RuleCondition, this, Context.SelectionCriteria.LeftClick);
             }
 
             VariableUpdate variableUpdate = evt as VariableUpdate;
             if (variableUpdate != null)
             {
-                BaseTreeNode treeNode = null;
-
-                if (GUIUtils.MDIWindow.DataDictionaryWindow != null)
-                {
-                    treeNode = GUIUtils.MDIWindow.DataDictionaryWindow.TreeView.Select(variableUpdate.Action);
-                }
-
-                if (treeNode == null)
-                {
-                    if (GUIUtils.MDIWindow.TestWindow != null)
-                    {
-                        treeNode = GUIUtils.MDIWindow.TestWindow.TreeView.Select(variableUpdate.Action);
-                    }
-                }
-
-                if (treeNode == null)
-                {
-                    foreach (Form form in GUIUtils.MDIWindow.SubWindows)
-                    {
-                        TranslationRules.Window translationWindow = form as TranslationRules.Window;
-                        if (translationWindow != null)
-                        {
-                            translationWindow.TreeView.Select(variableUpdate.Action);
-                        }
-                    }
-                }
+                EFSSystem.INSTANCE.Context.SelectElement(variableUpdate.Action, this, Context.SelectionCriteria.LeftClick);
             }
 
             Expect expect = evt as Expect;
             if (expect != null)
             {
-                if (GUIUtils.MDIWindow.TestWindow != null)
-                {
-                    GUIUtils.MDIWindow.TestWindow.TreeView.Select(expect.Expectation);
-                }
-
-                foreach (Form form in GUIUtils.MDIWindow.SubWindows)
-                {
-                    TranslationRules.Window translationWindow = form as TranslationRules.Window;
-                    if (translationWindow != null)
-                    {
-                        translationWindow.TreeView.Select(expect.Expectation);
-                    }
-                }
+                EFSSystem.INSTANCE.Context.SelectElement(expect.Expectation, this, Context.SelectionCriteria.LeftClick);
             }
 
             ModelInterpretationFailure failure = evt as ModelInterpretationFailure;
             if (failure != null)
             {
-                if (GUIUtils.MDIWindow.DataDictionaryWindow != null)
-                {
-                    GUIUtils.MDIWindow.DataDictionaryWindow.TreeView.Select(failure.Instance as IModelElement);
-                }
+                EFSSystem.INSTANCE.Context.SelectElement(failure.Instance as IModelElement, this, Context.SelectionCriteria.LeftClick);
             }
 
             SubStepActivated subStepActivated = evt as SubStepActivated;
             if (subStepActivated != null)
             {
-                if (GUIUtils.MDIWindow.TestWindow != null)
-                {
-                    GUIUtils.MDIWindow.TestWindow.TreeView.Select(subStepActivated.SubStep);
-                }
+                EFSSystem.INSTANCE.Context.SelectElement(subStepActivated.SubStep, this, Context.SelectionCriteria.LeftClick);
             }
 
             StepActivation stepActivation = evt as StepActivation;
             if (stepActivation != null)
             {
-                if (GUIUtils.MDIWindow.TestWindow != null)
-                {
-                    GUIUtils.MDIWindow.TestWindow.TreeView.Select(stepActivation.Step);
-                }
+                EFSSystem.INSTANCE.Context.SelectElement(stepActivation.Step, this, Context.SelectionCriteria.LeftClick);
             }
         }
 
@@ -225,7 +161,7 @@ namespace GUI.TestRunnerView.TimeLineControl
         /// <summary>
         ///     Constructor
         /// </summary>
-        public TimeLineControl()
+        protected TimeLineControl()
         {
             InitializeComponent();
 
@@ -316,18 +252,6 @@ namespace GUI.TestRunnerView.TimeLineControl
             }
 
             /// <summary>
-            ///     Provides the column of a single event
-            /// </summary>
-            /// <param name="evt"></param>
-            /// <returns></returns>
-            private int EventColumn(ModelEvent evt)
-            {
-                int retVal = (int) (evt.Time/EFSSystem.INSTANCE.Runner.Step);
-
-                return retVal;
-            }
-
-            /// <summary>
             ///     Clears the position of all events
             /// </summary>
             public void CleanPositions()
@@ -394,7 +318,7 @@ namespace GUI.TestRunnerView.TimeLineControl
                             {
                                 // Extends the step size
                                 Rectangle lastRectangle = EventPositions[LastStepActivation];
-                                lastRectangle.Width = lastRectangle.Width + EVENT_MARGING.Width + STEP_SIZE.Width;
+                                lastRectangle.Width = lastRectangle.Width + _eventMarging.Width + _stepSize.Width;
                                 EventPositions[LastStepActivation] = lastRectangle;
                             }
                             else
@@ -402,12 +326,12 @@ namespace GUI.TestRunnerView.TimeLineControl
                                 // Create a new step activation
                                 LastStepActivation = new StepActivation(currentSubStepActivation.SubStep.Step);
                                 Point location =
-                                    new Point((AllocatedPositions.Count - 1)*(STEP_SIZE.Width + EVENT_MARGING.Width),
+                                    new Point((AllocatedPositions.Count - 1)*(_stepSize.Width + _eventMarging.Width),
                                         NextY);
                                 events.Add(LastStepActivation);
-                                EventPositions.Add(LastStepActivation, new Rectangle(location, STEP_SIZE));
+                                EventPositions.Add(LastStepActivation, new Rectangle(location, _stepSize));
                             }
-                            NextY += STEP_SIZE.Height;
+                            NextY += _stepSize.Height;
                         }
 
                         // Setup the substep activation size
@@ -417,27 +341,27 @@ namespace GUI.TestRunnerView.TimeLineControl
                             // Increase the previous sub step activation size as it belongs to the same step
                             // This is used to remove gaps between substeps of the same step
                             Rectangle lastRectangle = EventPositions[LastSubStepActivation];
-                            lastRectangle.Width = lastRectangle.Width + (EVENT_MARGING.Width + 1)/2;
+                            lastRectangle.Width = lastRectangle.Width + (_eventMarging.Width + 1)/2;
                             EventPositions[LastSubStepActivation] = lastRectangle;
 
                             events.Add(evt);
                             Point location =
                                 new Point(
-                                    (AllocatedPositions.Count - 1)*(EVENT_SIZE.Width + EVENT_MARGING.Width) -
-                                    (EVENT_MARGING.Width/2), NextY);
+                                    (AllocatedPositions.Count - 1)*(_eventSize.Width + _eventMarging.Width) -
+                                    (_eventMarging.Width/2), NextY);
                             EventPositions.Add(evt,
                                 new Rectangle(location,
-                                    new Size(SUBSTEP_SIZE.Width + EVENT_MARGING.Width/2, SUBSTEP_SIZE.Height)));
+                                    new Size(_substepSize.Width + _eventMarging.Width/2, _substepSize.Height)));
                         }
                         else
                         {
                             events.Add(evt);
                             Point location =
-                                new Point((AllocatedPositions.Count - 1)*(SUBSTEP_SIZE.Width + EVENT_MARGING.Width),
+                                new Point((AllocatedPositions.Count - 1)*(_substepSize.Width + _eventMarging.Width),
                                     NextY);
-                            EventPositions.Add(evt, new Rectangle(location, SUBSTEP_SIZE));
+                            EventPositions.Add(evt, new Rectangle(location, _substepSize));
                         }
-                        NextY += SUBSTEP_SIZE.Height + EVENT_MARGING.Height;
+                        NextY += _substepSize.Height + _eventMarging.Height;
                     }
                     else
                     {
@@ -445,9 +369,9 @@ namespace GUI.TestRunnerView.TimeLineControl
                         {
                             events.Add(evt);
                             Point location =
-                                new Point((AllocatedPositions.Count - 1)*(EVENT_SIZE.Width + EVENT_MARGING.Width), NextY);
-                            EventPositions.Add(evt, new Rectangle(location, EVENT_SIZE));
-                            NextY += EVENT_SIZE.Height + EVENT_MARGING.Height;
+                                new Point((AllocatedPositions.Count - 1)*(_eventSize.Width + _eventMarging.Width), NextY);
+                            EventPositions.Add(evt, new Rectangle(location, _eventSize));
+                            NextY += _eventSize.Height + _eventMarging.Height;
                         }
                     }
                 }
@@ -457,7 +381,7 @@ namespace GUI.TestRunnerView.TimeLineControl
                     {
                         // Extent the sub step activation
                         Rectangle lastRectangle = EventPositions[evt];
-                        lastRectangle.Width = lastRectangle.Width + EVENT_SIZE.Width + EVENT_MARGING.Width;
+                        lastRectangle.Width = lastRectangle.Width + _eventSize.Width + _eventMarging.Width;
                         EventPositions[evt] = lastRectangle;
                     }
                 }
@@ -515,22 +439,22 @@ namespace GUI.TestRunnerView.TimeLineControl
         /// <summary>
         ///     The size of an event
         /// </summary>
-        private static Size EVENT_SIZE = new Size(71, 44);
+        private static Size _eventSize = new Size(71, 44);
 
         /// <summary>
         ///     The size of a substep event
         /// </summary>
-        private static Size SUBSTEP_SIZE = new Size(71, 33);
+        private static Size _substepSize = new Size(71, 33);
 
         /// <summary>
         ///     The size of a substep event
         /// </summary>
-        private static Size STEP_SIZE = new Size(71, 20);
+        private static Size _stepSize = new Size(71, 20);
 
         /// <summary>
         ///     The marging between events
         /// </summary>
-        private static Size EVENT_MARGING = new Size(5, 2);
+        private static Size _eventMarging = new Size(5, 2);
 
         /// <summary>
         ///     Updates the size of the panel according to the number of events to handle
@@ -554,18 +478,18 @@ namespace GUI.TestRunnerView.TimeLineControl
         protected override void OnPaint(PaintEventArgs pe)
         {
             pe.Graphics.TranslateTransform(AutoScrollPosition.X, AutoScrollPosition.Y);
-            drawEvents(pe);
+            DrawEvents(pe);
         }
 
         /// <summary>
         ///     Draws the event for the panel
         /// </summary>
         /// <param name="pe"></param>
-        private void drawEvents(PaintEventArgs pe)
+        private void DrawEvents(PaintEventArgs pe)
         {
             foreach (KeyValuePair<ModelEvent, Rectangle> pair in PositionHandler.EventPositions)
             {
-                drawEvent(pe, pair.Key, pair.Value);
+                DrawEvent(pe, pair.Key, pair.Value);
             }
         }
 
@@ -636,19 +560,18 @@ namespace GUI.TestRunnerView.TimeLineControl
         /// </summary>
         /// <param name="evt"></param>
         /// <returns></returns>
-        private EventDisplayAttributes GetDisplayAttributes(Graphics graphics, ModelEvent evt)
+        private EventDisplayAttributes GetDisplayAttributes(ModelEvent evt)
         {
             EventDisplayAttributes retVal = new EventDisplayAttributes(Color.White, new Pen(Color.Black), "<undefined>",
                 -1, -1, -1);
-            ;
 
             ModelElement.DontRaiseError(() =>
             {
                 Expect expect = evt as Expect;
                 if (expect != null)
                 {
-                    string name = GUIUtils.AdjustForDisplay(graphics, ShortName(expect.Expectation.Name),
-                        EVENT_SIZE.Width - 4, BOTTOM_FONT);
+                    string name = GuiUtils.AdjustForDisplay(ShortName(expect.Expectation.Name),
+                        _eventSize.Width - 4, BottomFont);
 
                     switch (expect.State)
                     {
@@ -679,8 +602,8 @@ namespace GUI.TestRunnerView.TimeLineControl
                 ModelInterpretationFailure modelInterpretationFailure = evt as ModelInterpretationFailure;
                 if (modelInterpretationFailure != null)
                 {
-                    string name = GUIUtils.AdjustForDisplay(graphics, modelInterpretationFailure.Message,
-                        EVENT_SIZE.Width - 4, BOTTOM_FONT);
+                    string name = GuiUtils.AdjustForDisplay(modelInterpretationFailure.Message,
+                        _eventSize.Width - 4, BottomFont);
 
                     retVal = new EventDisplayAttributes(Color.Red, new Pen(Color.DarkRed), name, ErrorImageIndex,
                         GetImageIndex(modelInterpretationFailure.Instance as ModelElement), -1);
@@ -689,8 +612,8 @@ namespace GUI.TestRunnerView.TimeLineControl
                 RuleFired ruleFired = evt as RuleFired;
                 if (ruleFired != null)
                 {
-                    string name = GUIUtils.AdjustForDisplay(graphics, ShortName(ruleFired.RuleCondition.Name),
-                        EVENT_SIZE.Width - 4, BOTTOM_FONT);
+                    string name = GuiUtils.AdjustForDisplay(ShortName(ruleFired.RuleCondition.Name),
+                        _eventSize.Width - 4, BottomFont);
 
                     retVal = new EventDisplayAttributes(Color.LightBlue, new Pen(Color.Blue), name, -1,
                         GetImageIndex(ruleFired.RuleCondition), ToolsImageIndex);
@@ -729,7 +652,7 @@ namespace GUI.TestRunnerView.TimeLineControl
                                 break;
                         }
                     }
-                    name = GUIUtils.AdjustForDisplay(graphics, ShortName(name), EVENT_SIZE.Width - 4, BOTTOM_FONT);
+                    name = GuiUtils.AdjustForDisplay(ShortName(name), _eventSize.Width - 4, BottomFont);
 
                     NameSpace nameSpace = EnclosingFinder<NameSpace>.find(variableUpdate.Action);
                     if (nameSpace == null)
@@ -800,38 +723,43 @@ namespace GUI.TestRunnerView.TimeLineControl
         /// <summary>
         ///     The font used to display the top text
         /// </summary>
-        private static Font TOP_FONT = new Font(FontFamily.GenericSansSerif, 8.0f, FontStyle.Bold);
+        private static readonly Font TopFont = new Font(FontFamily.GenericSansSerif, 8.0f, FontStyle.Bold);
 
         /// <summary>
         ///     The font used to display the bottom text
         /// </summary>
-        private static Font BOTTOM_FONT = new Font(FontFamily.GenericSansSerif, 8.0f);
+        private static readonly Font BottomFont = new Font(FontFamily.GenericSansSerif, 8.0f);
 
         /// <summary>
         ///     Draws a single event
         /// </summary>
         /// <param name="pe"></param>
         /// <param name="evt"></param>
-        /// <param name="X">The column in which the event should be drawn</param>
-        /// <param name="Y">The line in which the event should be drawn</param>
-        private void drawEvent(PaintEventArgs pe, ModelEvent evt, Rectangle bounds)
+        /// <param name="bounds">The location where the event should be displayed</param>
+        private void DrawEvent(PaintEventArgs pe, ModelEvent evt, Rectangle bounds)
         {
-            EventDisplayAttributes attributes = GetDisplayAttributes(pe.Graphics, evt);
-            int CornerRadius = 5;
+            Rectangle displayRectangle = pe.ClipRectangle;
+            displayRectangle.Offset(HorizontalScroll.Value, VerticalScroll.Value);
+            if (!displayRectangle.IntersectsWith(bounds))
+            {
+                return;
+            }
+
+            EventDisplayAttributes attributes = GetDisplayAttributes(evt);
+            const int cornerRadius = 5;
 
             StepActivation stepActivation = evt as StepActivation;
             if (stepActivation != null)
             {
-                string name = GUIUtils.AdjustForDisplay(pe.Graphics, stepActivation.Step.Name, bounds.Width - 4,
-                    TOP_FONT);
-                pe.Graphics.FillRectangle(STEP_BOX_PEN, bounds);
+                string name = GuiUtils.AdjustForDisplay(stepActivation.Step.Name, bounds.Width - 4, TopFont);
+                pe.Graphics.FillRectangle(StepBoxPen, bounds);
                 pe.Graphics.DrawString(
                     name,
-                    TOP_FONT,
-                    new SolidBrush(STEP_BOX_COLOR),
+                    TopFont,
+                    new SolidBrush(StepBoxColor),
                     new Rectangle(new Point(bounds.Left + 2, bounds.Top + 2),
                         new Size(bounds.Width - 4, Bounds.Height - 4)));
-                pe.Graphics.DrawLine(new Pen(STEP_BOX_COLOR), bounds.Left, bounds.Bottom - 1, bounds.Right - 1,
+                pe.Graphics.DrawLine(new Pen(StepBoxColor), bounds.Left, bounds.Bottom - 1, bounds.Right - 1,
                     bounds.Bottom - 1);
             }
             else
@@ -845,11 +773,11 @@ namespace GUI.TestRunnerView.TimeLineControl
                         int index = subStepActivation.SubStep.EnclosingCollection.IndexOf(subStepActivation.SubStep) + 1;
                         if (index == 1)
                         {
-                            pe.Graphics.DrawString("Substep", BOTTOM_FONT, new SolidBrush(attributes.DrawPen.Color),
+                            pe.Graphics.DrawString("Substep", BottomFont, new SolidBrush(attributes.DrawPen.Color),
                                 new Point(bounds.Left + 2, bounds.Top + 2));
                         }
-                        pe.Graphics.DrawString("" + index, BOTTOM_FONT, new SolidBrush(attributes.DrawPen.Color),
-                            new Point(bounds.Left + bounds.Width/2, bounds.Bottom - 2 - BOTTOM_FONT.Height));
+                        pe.Graphics.DrawString("" + index, BottomFont, new SolidBrush(attributes.DrawPen.Color),
+                            new Point(bounds.Left + bounds.Width/2, bounds.Bottom - 2 - BottomFont.Height));
                     }
                 }
                 else
@@ -860,18 +788,18 @@ namespace GUI.TestRunnerView.TimeLineControl
                     attributes.DrawPen.EndCap = attributes.DrawPen.StartCap = LineCap.Round;
 
                     GraphicsPath gfxPath = new GraphicsPath();
-                    gfxPath.AddArc(bounds.X, bounds.Y, CornerRadius, CornerRadius, 180, 90);
-                    gfxPath.AddArc(bounds.X + bounds.Width - CornerRadius, bounds.Y, CornerRadius, CornerRadius, 270, 90);
-                    gfxPath.AddArc(bounds.X + bounds.Width - CornerRadius, bounds.Y + bounds.Height - CornerRadius,
-                        CornerRadius, CornerRadius, 0, 90);
-                    gfxPath.AddArc(bounds.X, bounds.Y + bounds.Height - CornerRadius, CornerRadius, CornerRadius, 90, 90);
+                    gfxPath.AddArc(bounds.X, bounds.Y, cornerRadius, cornerRadius, 180, 90);
+                    gfxPath.AddArc(bounds.X + bounds.Width - cornerRadius, bounds.Y, cornerRadius, cornerRadius, 270, 90);
+                    gfxPath.AddArc(bounds.X + bounds.Width - cornerRadius, bounds.Y + bounds.Height - cornerRadius,
+                        cornerRadius, cornerRadius, 0, 90);
+                    gfxPath.AddArc(bounds.X, bounds.Y + bounds.Height - cornerRadius, cornerRadius, cornerRadius, 90, 90);
                     gfxPath.CloseAllFigures();
 
                     pe.Graphics.FillPath(new SolidBrush(attributes.FillColor), gfxPath);
                     pe.Graphics.DrawPath(attributes.DrawPen, gfxPath);
 
-                    pe.Graphics.DrawString(attributes.BottomText, BOTTOM_FONT, new SolidBrush(attributes.DrawPen.Color),
-                        new Point(bounds.Left + 2, bounds.Bottom - 2 - BOTTOM_FONT.Height));
+                    pe.Graphics.DrawString(attributes.BottomText, BottomFont, new SolidBrush(attributes.DrawPen.Color),
+                        new Point(bounds.Left + 2, bounds.Bottom - 2 - BottomFont.Height));
 
                     if (attributes.LeftIconImageIndex >= 0)
                     {
@@ -904,12 +832,12 @@ namespace GUI.TestRunnerView.TimeLineControl
         /// <summary>
         ///     The color used to display a step box
         /// </summary>
-        private static Color STEP_BOX_COLOR = Color.Black;
+        private static readonly Color StepBoxColor = Color.Black;
 
         /// <summary>
         ///     The pen used to display a step box
         /// </summary>
-        private static Brush STEP_BOX_PEN = new SolidBrush(Color.LightGray);
+        private static readonly Brush StepBoxPen = new SolidBrush(Color.LightGray);
 
         /// <summary>
         ///     Reduces the string to the most important thing in it
@@ -953,10 +881,8 @@ namespace GUI.TestRunnerView.TimeLineControl
                         {
                             break;
                         }
-                        else
-                        {
-                            prefix = prefix + retVal[i];
-                        }
+
+                        prefix = prefix + retVal[i];
                     }
                 }
                 else

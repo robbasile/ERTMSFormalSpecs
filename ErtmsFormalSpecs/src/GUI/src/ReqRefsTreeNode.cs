@@ -16,9 +16,7 @@
 
 using System.Collections.Generic;
 using System.Windows.Forms;
-using DataDictionary.Generated;
 using GUI.SpecificationView;
-using Paragraph = DataDictionary.Specification.Paragraph;
 using ReferencesParagraph = DataDictionary.ReferencesParagraph;
 using ReqRef = DataDictionary.ReqRef;
 
@@ -31,19 +29,13 @@ namespace GUI
         /// </summary>
         protected class ItemEditor : NamedEditor
         {
-            /// <summary>
-            ///     Constructor
-            /// </summary>
-            public ItemEditor()
-                : base()
-            {
-            }
         }
 
         /// <summary>
         ///     Constructor
         /// </summary>
         /// <param name="item"></param>
+        /// <param name="buildSubNodes"></param>
         public ReqRefsTreeNode(ReferencesParagraph item, bool buildSubNodes)
             : base(item, buildSubNodes, "Requirements", true)
         {
@@ -52,74 +44,46 @@ namespace GUI
         /// <summary>
         ///     Builds the subnodes of this node
         /// </summary>
-        /// <param name="buildSubNodes">Indicates whether the subnodes of the nodes should also be built</param>
-        public override void BuildSubNodes(bool buildSubNodes)
+        /// <param name="subNodes"></param>
+        /// <param name="recursive">Indicates whether the subnodes of the nodes should also be built</param>
+        public override void BuildSubNodes(List<BaseTreeNode> subNodes, bool recursive)
         {
-            base.BuildSubNodes(buildSubNodes);
+            base.BuildSubNodes(subNodes, recursive);
 
             foreach (ReqRef req in Item.Requirements)
             {
-                Nodes.Add(new ReqRefTreeNode(req, buildSubNodes, true));
+                subNodes.Add(new ReqRefTreeNode(req, recursive, true));
             }
-            SortSubNodes();
+            subNodes.Sort();
         }
 
         /// <summary>
         ///     Creates the editor for this tree node
         /// </summary>
         /// <returns></returns>
-        protected override Editor createEditor()
+        protected override Editor CreateEditor()
         {
             return new ItemEditor();
         }
-
-        /// <summary>
-        ///     Creates are reference to a requirement
-        /// </summary>
-        /// <param name="paragraph"></param>
-        public void CreateReqRef(Paragraph paragraph)
-        {
-            bool found = false;
-            foreach (ReqRef reqRef in Item.Requirements)
-            {
-                if (reqRef.Paragraph == paragraph)
-                {
-                    found = true;
-                    break;
-                }
-            }
-
-            if (!found)
-            {
-                ReqRef req = (ReqRef) acceptor.getFactory().createReqRef();
-                req.Paragraph = paragraph;
-                Item.appendRequirements(req);
-                Nodes.Add(new ReqRefTreeNode(req, true, true));
-                SortSubNodes();
-                RefreshNode();
-            }
-            else
-            {
-                MessageBox.Show("Reference to paragraph " + paragraph.FullId +
-                                " has not been added because it already exists.");
-            }
-        }
-
+        
         /// <summary>
         ///     Handles a drop event
         /// </summary>
-        /// <param name="SourceNode"></param>
-        public override void AcceptDrop(BaseTreeNode SourceNode)
+        /// <param name="sourceNode"></param>
+        public override void AcceptDrop(BaseTreeNode sourceNode)
         {
-            if (SourceNode is ParagraphTreeNode)
+            ParagraphTreeNode paragraphTreeNode = sourceNode as ParagraphTreeNode;
+            if (paragraphTreeNode != null)
             {
-                ParagraphTreeNode paragraphTreeNode = (ParagraphTreeNode) SourceNode;
-                CreateReqRef(paragraphTreeNode.Item);
+                Item.FindOrCreateReqRef(paragraphTreeNode.Item);
             }
-            else if (SourceNode is ReqRefTreeNode)
+            else
             {
-                ReqRefTreeNode reqRefTreeNode = (ReqRefTreeNode) SourceNode;
-                CreateReqRef(reqRefTreeNode.Item.Paragraph);
+                ReqRefTreeNode reqRefTreeNode = sourceNode as ReqRefTreeNode;
+                if (reqRefTreeNode != null)
+                {
+                    Item.FindOrCreateReqRef(reqRefTreeNode.Item.Paragraph);
+                }
             }
         }
 

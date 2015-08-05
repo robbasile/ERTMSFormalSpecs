@@ -311,7 +311,7 @@ namespace DataDictionary.test
             enclosing.appendVariables(retVal);
             retVal.Name = name;
             retVal.TypeName = typeName;
-            retVal.Type = System.findType(enclosing, typeName);
+            retVal.Type = System.FindType(enclosing, typeName);
 
             return retVal;
         }

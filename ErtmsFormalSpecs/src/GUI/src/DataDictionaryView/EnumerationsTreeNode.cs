@@ -30,20 +30,13 @@ namespace GUI.DataDictionaryView
     {
         private class ItemEditor : NamedEditor
         {
-            /// <summary>
-            ///     Constructor
-            /// </summary>
-            public ItemEditor()
-                : base()
-            {
-            }
         }
 
         /// <summary>
         ///     Constructor
         /// </summary>
         /// <param name="item"></param>
-        /// <param name="name"></param>
+        /// <param name="buildSubNodes"></param>
         public EnumerationsTreeNode(NameSpace item, bool buildSubNodes)
             : base(item, buildSubNodes, "Enumerations", true)
         {
@@ -52,47 +45,31 @@ namespace GUI.DataDictionaryView
         /// <summary>
         ///     Builds the subnodes of this node
         /// </summary>
-        /// <param name="buildSubNodes">Indicates whether the subnodes of the nodes should also be built</param>
-        public override void BuildSubNodes(bool buildSubNodes)
+        /// <param name="subNodes"></param>
+        /// <param name="recursive">Indicates whether the subnodes of the nodes should also be built</param>
+        public override void BuildSubNodes(List<BaseTreeNode> subNodes, bool recursive)
         {
-            base.BuildSubNodes(buildSubNodes);
+            base.BuildSubNodes(subNodes, recursive);
 
             foreach (Enum enumeration in Item.Enumerations)
             {
-                Nodes.Add(new EnumerationTreeNode(enumeration, buildSubNodes));
+                subNodes.Add(new EnumerationTreeNode(enumeration, recursive));
             }
-            SortSubNodes();
+            subNodes.Sort();
         }
 
         /// <summary>
         ///     Creates the editor for this tree node
         /// </summary>
         /// <returns></returns>
-        protected override Editor createEditor()
+        protected override Editor CreateEditor()
         {
             return new ItemEditor();
         }
 
         public void AddHandler(object sender, EventArgs args)
         {
-            DataDictionaryTreeView treeView = BaseTreeView as DataDictionaryTreeView;
-            if (treeView != null)
-            {
-                Enum enumeration = (Enum) acceptor.getFactory().createEnum();
-                enumeration.Name = "<Enumeration" + (GetNodeCount(false) + 1) + ">";
-                AddEnum(enumeration);
-            }
-        }
-
-        /// <summary>
-        ///     Adds a new enumeration
-        /// </summary>
-        /// <param name="enumeration"></param>
-        public void AddEnum(Enum enumeration)
-        {
-            Item.appendEnumerations(enumeration);
-            Nodes.Add(new EnumerationTreeNode(enumeration, true));
-            SortSubNodes();
+            Item.appendEnumerations(Enum.CreateDefault(Item.Enumerations));
         }
 
         /// <summary>
@@ -101,9 +78,7 @@ namespace GUI.DataDictionaryView
         /// <returns></returns>
         protected override List<MenuItem> GetMenuItems()
         {
-            List<MenuItem> retVal = new List<MenuItem>();
-
-            retVal.Add(new MenuItem("Add", new EventHandler(AddHandler)));
+            List<MenuItem> retVal = new List<MenuItem> {new MenuItem("Add", AddHandler)};
 
             return retVal;
         }
@@ -111,22 +86,22 @@ namespace GUI.DataDictionaryView
         /// <summary>
         ///     Accepts drop of a tree node, in a drag & drop operation
         /// </summary>
-        /// <param name="SourceNode"></param>
-        public override void AcceptDrop(BaseTreeNode SourceNode)
+        /// <param name="sourceNode"></param>
+        public override void AcceptDrop(BaseTreeNode sourceNode)
         {
-            base.AcceptDrop(SourceNode);
+            base.AcceptDrop(sourceNode);
 
-            if (SourceNode is EnumerationTreeNode)
+            if (sourceNode is EnumerationTreeNode)
             {
-                EnumerationTreeNode enumerationTreeNode = SourceNode as EnumerationTreeNode;
+                EnumerationTreeNode enumerationTreeNode = sourceNode as EnumerationTreeNode;
                 Enum enumeration = enumerationTreeNode.Item;
 
                 enumerationTreeNode.Delete();
-                AddEnum(enumeration);
+                Item.appendEnumerations(enumeration);
             }
-            else if (SourceNode is ParagraphTreeNode)
+            else if (sourceNode is ParagraphTreeNode)
             {
-                ParagraphTreeNode node = SourceNode as ParagraphTreeNode;
+                ParagraphTreeNode node = sourceNode as ParagraphTreeNode;
                 Paragraph paragaph = node.Item;
 
                 Enum enumeration = (Enum) acceptor.getFactory().createEnum();
@@ -135,21 +110,8 @@ namespace GUI.DataDictionaryView
                 ReqRef reqRef = (ReqRef) acceptor.getFactory().createReqRef();
                 reqRef.Name = paragaph.FullId;
                 enumeration.appendRequirements(reqRef);
-                AddEnum(enumeration);
+                Item.appendEnumerations(enumeration);
             }
-        }
-
-        /// <summary>
-        ///     Update counts according to the selected folder
-        /// </summary>
-        /// <param name="displayStatistics">Indicates that statistics should be displayed in the MDI window</param>
-        public override void SelectionChanged(bool displayStatistics)
-        {
-            base.SelectionChanged(false);
-
-            GUIUtils.MDIWindow.SetStatus(Item.Enumerations.Count +
-                                         (Item.Enumerations.Count > 1 ? " enumerations " : " enumeration ") +
-                                         "selected.");
         }
     }
 }

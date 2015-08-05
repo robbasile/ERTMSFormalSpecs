@@ -15,7 +15,6 @@
 // ------------------------------------------------------------------------------
 
 using System.Drawing;
-using System.Windows.Forms;
 using DataDictionary.Types;
 
 namespace GUI.ModelDiagram
@@ -31,22 +30,8 @@ namespace GUI.ModelDiagram
         public NameSpaceModelControl(NameSpace model)
             : base(model)
         {
-            NORMAL_COLOR = Color.LightGreen;
+            NormalColor = Color.LightGreen;
             BoxMode = BoxModeEnum.RoundedCorners;
-            MouseDoubleClick += new MouseEventHandler(HandleMouseDoubleClick);
-        }
-
-        /// <summary>
-        ///     Handles a simple click event on the control
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void HandleMouseDoubleClick(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left)
-            {
-                Panel.Select(this, true);
-            }
         }
 
         /// <summary>

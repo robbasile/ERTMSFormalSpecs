@@ -134,16 +134,15 @@ namespace DataDictionary.Tests
         }
 
         /// <summary>
-        ///     Creates a test case and sets its default values
+        /// Creates a default element
         /// </summary>
-        /// <param name="name"></param>
+        /// <param name="enclosingCollection"></param>
         /// <returns></returns>
-        public static TestCase createDefault(string name)
+        public static TestCase CreateDefault(ICollection enclosingCollection)
         {
-            TestCase retVal = (TestCase) acceptor.getFactory().createTestCase();
-            retVal.Name = name;
-
-            retVal.appendSteps(Step.createDefault("Step1"));
+            TestCase retVal = (TestCase)acceptor.getFactory().createTestCase();
+            retVal.Name = "TestCase" + GetElementNumber(enclosingCollection);
+            retVal.appendSteps(Step.CreateDefault(retVal.Steps));
 
             return retVal;
         }

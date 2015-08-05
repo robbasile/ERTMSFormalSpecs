@@ -15,9 +15,7 @@
 // ------------------------------------------------------------------------------
 namespace GUI.BoxArrowDiagram
 {
-    public partial class BoxControl<BoxModel, ArrowModel>
-        where BoxModel : class, DataDictionary.IGraphicalDisplay
-        where ArrowModel : class, DataDictionary.IGraphicalArrow<BoxModel>
+    public partial class BoxControl<TEnclosing, TBoxModel, TArrowModel>
     {
         /// <summary>
         /// Required designer variable.

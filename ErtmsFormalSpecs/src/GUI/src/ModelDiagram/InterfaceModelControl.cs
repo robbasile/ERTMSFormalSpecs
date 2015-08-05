@@ -30,7 +30,7 @@ namespace GUI.ModelDiagram
         public InterfaceModelControl(Structure model)
             : base(model)
         {
-            NORMAL_COLOR = Color.LightGoldenrodYellow;
+            NormalColor = Color.LightGoldenrodYellow;
         }
 
         /// <summary>

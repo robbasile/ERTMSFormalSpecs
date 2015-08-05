@@ -26,23 +26,13 @@ namespace GUI.DataDictionaryView
     {
         private class ItemEditor : ReqRelatedEditor
         {
-            /// <summary>
-            ///     Constructor
-            /// </summary>
-            public ItemEditor()
-                : base()
-            {
-            }
-        }
-
-        private RulePreConditionsTreeNode PreConditions;
-        private ActionsTreeNode Actions;
-        private SubRulesTreeNode SubRules;
+        };
 
         /// <summary>
         ///     Constructor
         /// </summary>
         /// <param name="item"></param>
+        /// <param name="buildSubNodes"></param>
         public RuleConditionTreeNode(RuleCondition item, bool buildSubNodes)
             : base(item, buildSubNodes)
         {
@@ -52,7 +42,10 @@ namespace GUI.DataDictionaryView
         ///     Constructor
         /// </summary>
         /// <param name="item"></param>
-        public RuleConditionTreeNode(RuleCondition item, bool buildSubNodes, string name, bool isFolder = false,
+        /// <param name="buildSubNodes"></param>
+        /// <param name="name"></param>
+        /// <param name="addRequirements"></param>
+        public RuleConditionTreeNode(RuleCondition item, bool buildSubNodes, string name, 
             bool addRequirements = true)
             : base(item, buildSubNodes, name, false, addRequirements)
         {
@@ -61,26 +54,22 @@ namespace GUI.DataDictionaryView
         /// <summary>
         ///     Builds the subnodes of this node
         /// </summary>
-        /// <param name="buildSubNodes">Indicates whether the subnodes of the nodes should also be built</param>
-        public override void BuildSubNodes(bool buildSubNodes)
+        /// <param name="subNodes"></param>
+        /// <param name="recursive">Indicates whether the subnodes of the nodes should also be built</param>
+        public override void BuildSubNodes(List<BaseTreeNode> subNodes, bool recursive)
         {
-            base.BuildSubNodes(buildSubNodes);
+            base.BuildSubNodes(subNodes, recursive);
 
-            PreConditions = new RulePreConditionsTreeNode(Item, buildSubNodes);
-            Nodes.Add(PreConditions);
-
-            Actions = new ActionsTreeNode(Item, buildSubNodes);
-            Nodes.Add(Actions);
-
-            SubRules = new SubRulesTreeNode(Item, buildSubNodes);
-            Nodes.Add(SubRules);
+            subNodes.Add(new RulePreConditionsTreeNode(Item, recursive));
+            subNodes.Add(new ActionsTreeNode(Item, recursive));
+            subNodes.Add(new SubRulesTreeNode(Item, recursive));
         }
 
         /// <summary>
         ///     Creates the editor for this tree node
         /// </summary>
         /// <returns></returns>
-        protected override Editor createEditor()
+        protected override Editor CreateEditor()
         {
             return new ItemEditor();
         }
@@ -88,22 +77,34 @@ namespace GUI.DataDictionaryView
         /// <summary>
         ///     Handles a drop event
         /// </summary>
-        /// <param name="SourceNode"></param>
-        public override void AcceptDrop(BaseTreeNode SourceNode)
+        /// <param name="sourceNode"></param>
+        public override void AcceptDrop(BaseTreeNode sourceNode)
         {
-            base.AcceptDrop(SourceNode);
+            base.AcceptDrop(sourceNode);
 
-            if (SourceNode is ActionTreeNode)
+            if (sourceNode is ActionTreeNode)
             {
-                Actions.AcceptDrop(SourceNode);
+                ActionsTreeNode actionsTreeNode = SubNode<ActionsTreeNode>();
+                if (actionsTreeNode != null)
+                {
+                    actionsTreeNode.AcceptDrop(sourceNode);                    
+                }
             }
-            else if (SourceNode is PreConditionTreeNode)
+            else if (sourceNode is PreConditionTreeNode)
             {
-                PreConditions.AcceptDrop(SourceNode);
+                RulePreConditionsTreeNode preConditionsTreeNode = SubNode<RulePreConditionsTreeNode>();
+                if (preConditionsTreeNode != null)
+                {
+                    preConditionsTreeNode.AcceptDrop(sourceNode);
+                }
             }
-            else if (SourceNode is RuleTreeNode)
+            else if (sourceNode is RuleTreeNode)
             {
-                SubRules.AcceptDrop(SourceNode);
+                SubRulesTreeNode subRulesTreeNode = SubNode<SubRulesTreeNode>();
+                if (subRulesTreeNode != null)
+                {
+                    subRulesTreeNode.AcceptDrop(sourceNode);
+                }
             }
         }
 
@@ -112,17 +113,7 @@ namespace GUI.DataDictionaryView
         /// </summary>
         public void AddPreConditionHandler(object sender, EventArgs args)
         {
-            PreConditions.AddHandler(sender, args);
-        }
-
-        /// <summary>
-        ///     Adds a precondition
-        /// </summary>
-        /// <param name="preCondition"></param>
-        /// <returns></returns>
-        public virtual PreConditionTreeNode AddPreCondition(PreCondition preCondition)
-        {
-            return PreConditions.AddPreCondition(preCondition);
+            Item.appendPreConditions(PreCondition.CreateDefault(Item.PreConditions));
         }
 
         /// <summary>
@@ -130,17 +121,7 @@ namespace GUI.DataDictionaryView
         /// </summary>
         public void AddActionHandler(object sender, EventArgs args)
         {
-            Actions.AddHandler(sender, args);
-        }
-
-        /// <summary>
-        ///     Adds an action
-        /// </summary>
-        /// <param name="action"></param>
-        /// <returns></returns>
-        public virtual ActionTreeNode AddAction(Action action)
-        {
-            return Actions.AddAction(action);
+            Item.appendActions(Action.CreateDefault(Item.Actions));
         }
 
         /// <summary>
@@ -152,10 +133,10 @@ namespace GUI.DataDictionaryView
             List<MenuItem> retVal = new List<MenuItem>();
 
             MenuItem newItem = new MenuItem("Add...");
-            newItem.MenuItems.Add(new MenuItem("Pre-condition", new EventHandler(AddPreConditionHandler)));
-            newItem.MenuItems.Add(new MenuItem("Action", new EventHandler(AddActionHandler)));
+            newItem.MenuItems.Add(new MenuItem("Pre-condition", AddPreConditionHandler));
+            newItem.MenuItems.Add(new MenuItem("Action", AddActionHandler));
             retVal.Add(newItem);
-            retVal.Add(new MenuItem("Delete", new EventHandler(DeleteHandler)));
+            retVal.Add(new MenuItem("Delete", DeleteHandler));
             retVal.AddRange(base.GetMenuItems());
 
             return retVal;

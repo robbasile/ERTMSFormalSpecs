@@ -18,20 +18,21 @@ using System.ComponentModel;
 using System.Windows.Forms;
 using DataDictionary.Constants;
 using DataDictionary.Rules;
+using DataDictionary.Types;
 using DataDictionary.Variables;
 using GUI.BoxArrowDiagram;
+using GUI.Properties;
 
 namespace GUI.StateDiagram
 {
-    public partial class StateControl : BoxControl<State, Transition>
+    public class StateControl : BoxControl<StateMachine, State, Transition>
     {
         /// <summary>
         ///     Constructor
         /// </summary>
         public StateControl()
-            : base()
         {
-            MouseDoubleClick += new MouseEventHandler(HandleMouseDoubleClick);
+            MouseDoubleClick += HandleMouseDoubleClick;
         }
 
         /// <summary>
@@ -41,7 +42,7 @@ namespace GUI.StateDiagram
         public StateControl(IContainer container)
             : base(container)
         {
-            MouseDoubleClick += new MouseEventHandler(HandleMouseDoubleClick);
+            MouseDoubleClick += HandleMouseDoubleClick;
         }
 
         /// <summary>
@@ -56,7 +57,7 @@ namespace GUI.StateDiagram
             {
                 StatePanel panel = (StatePanel) Panel;
                 IVariable variable = panel.StateMachineVariable;
-                if (variable != null && panel.StateMachine.Contains(Model, variable.Value))
+                if (variable != null && panel.Model.Contains(Model, variable.Value))
                 {
                     retVal = true;
                 }
@@ -72,15 +73,13 @@ namespace GUI.StateDiagram
         /// <param name="e"></param>
         private void HandleMouseDoubleClick(object sender, MouseEventArgs e)
         {
-            SelectBox();
-
             StatePanel panel = (StatePanel) Panel;
             if (panel != null)
             {
                 StateDiagramWindow window = new StateDiagramWindow();
-                GUIUtils.MDIWindow.AddChildWindow(window);
+                GuiUtils.MdiWindow.AddChildWindow(window);
                 window.SetStateMachine(panel.StateMachineVariable, Model.StateMachine);
-                window.Text = Model.Name + " state diagram";
+                window.Text = Model.Name + @" " + Resources.StateControl_HandleMouseDoubleClick_state_diagram;
             }
         }
     }

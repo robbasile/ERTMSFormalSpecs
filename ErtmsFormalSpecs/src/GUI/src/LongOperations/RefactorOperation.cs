@@ -56,5 +56,19 @@ namespace GUI.LongOperations
         {
             EFSSystem.Compiler.Refactor(Model, NewName);
         }
+
+        /// <summary>
+        ///     Executes the operation in background using a progress handler
+        /// </summary>
+        /// <param name="message">The message to display on the dialog window</param>
+        /// <param name="allowCancel">Indicates that the opeation can be canceled</param>
+        public override void ExecuteUsingProgressDialog(string message, bool allowCancel = true)
+        {
+            base.ExecuteUsingProgressDialog(message, allowCancel);
+
+            // Long operations to not notify the listeners. 
+            // Update the entire model
+            EFSSystem.INSTANCE.Context.HandleChangeEvent(null);
+        }
     }
 }

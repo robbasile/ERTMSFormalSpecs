@@ -30,17 +30,10 @@ namespace GUI.DataDictionaryView
     {
         private class ItemEditor : CommentableEditor
         {
-            /// <summary>
-            ///     Constructor
-            /// </summary>
-            public ItemEditor()
-                : base()
-            {
-            }
-
             [Category("Description")]
             [Editor(typeof (ExpressionableUITypedEditor), typeof (UITypeEditor))]
             [TypeConverter(typeof (ExpressionableUITypeConverter))]
+            // ReSharper disable once UnusedMember.Local
             public Case Expression
             {
                 get { return Item; }
@@ -52,34 +45,21 @@ namespace GUI.DataDictionaryView
             }
         }
 
-
-        private PreConditionsTreeNode PreConditions;
-
         /// <summary>
         ///     Constructor
         /// </summary>
-        /// <param name="item"></param>
+        /// <param name="aCase"></param>
+        /// <param name="buildSubNodes"></param>
         public CaseTreeNode(Case aCase, bool buildSubNodes)
             : base(aCase, buildSubNodes)
         {
         }
 
         /// <summary>
-        ///     Builds the subnodes of this node
-        /// </summary>
-        /// <param name="buildSubNodes">Indicates whether the subnodes of the nodes should also be built</param>
-        public override void BuildSubNodes(bool buildSubNodes)
-        {
-            base.BuildSubNodes(buildSubNodes);
-
-            PreConditions = new PreConditionsTreeNode(Item, buildSubNodes);
-            Nodes.Add(PreConditions);
-        }
-
-        /// <summary>
         ///     Protected contstructor for Precondition folder
         /// </summary>
         /// <param name="aCase"></param>
+        /// <param name="buildSubNodes"></param>
         /// <param name="name"></param>
         /// <param name="isFolder"></param>
         protected CaseTreeNode(Case aCase, bool buildSubNodes, string name, bool isFolder)
@@ -88,10 +68,22 @@ namespace GUI.DataDictionaryView
         }
 
         /// <summary>
+        ///     Builds the subnodes of this node
+        /// </summary>
+        /// <param name="subNodes"></param>
+        /// <param name="recursive">Indicates whether the subnodes of the nodes should also be built</param>
+        public override void BuildSubNodes(List<BaseTreeNode> subNodes, bool recursive)
+        {
+            base.BuildSubNodes(subNodes, recursive);
+
+            subNodes.Add(new PreConditionsTreeNode(Item, recursive));
+        }
+
+        /// <summary>
         ///     Creates the editor for this tree node
         /// </summary>
         /// <returns></returns>
-        protected override Editor createEditor()
+        protected override Editor CreateEditor()
         {
             return new ItemEditor();
         }
@@ -100,7 +92,7 @@ namespace GUI.DataDictionaryView
         {
             PreCondition preCondition = (PreCondition) acceptor.getFactory().createPreCondition();
             preCondition.Condition = "<empty>";
-            PreConditions.AddPreCondition(preCondition);
+            Item.appendPreConditions(preCondition);
         }
 
         /// <summary>
@@ -109,10 +101,11 @@ namespace GUI.DataDictionaryView
         /// <returns></returns>
         protected override List<MenuItem> GetMenuItems()
         {
-            List<MenuItem> retVal = new List<MenuItem>();
-
-            retVal.Add(new MenuItem("Add pre-condition", new EventHandler(AddPreConditionHandler)));
-            retVal.Add(new MenuItem("Delete", new EventHandler(DeleteHandler)));
+            List<MenuItem> retVal = new List<MenuItem>
+            {
+                new MenuItem("Add pre-condition", AddPreConditionHandler),
+                new MenuItem("Delete", DeleteHandler)
+            };
 
             return retVal;
         }

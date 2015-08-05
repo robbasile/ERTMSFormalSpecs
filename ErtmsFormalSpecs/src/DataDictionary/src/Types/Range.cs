@@ -784,5 +784,33 @@ namespace DataDictionary.Types
 
             base.UpdateModelElementAccordingToSource(source);
         }
+
+        /// <summary>
+        ///     Creates the status message 
+        /// </summary>
+        /// <returns>the status string for the selected element</returns>
+        public override string CreateStatusMessage()
+        {
+            string result = base.CreateStatusMessage();
+
+            result += "Range " + Name + " with " + SpecialValues.Count + " special values";
+
+            return result;
+        }
+
+        /// <summary>
+        /// Creates a default element
+        /// </summary>
+        /// <param name="enclosingCollection"></param>
+        /// <returns></returns>
+        public static Range CreateDefault(ICollection enclosingCollection)
+        {
+            Range retVal = (Range)acceptor.getFactory().createRange();
+            retVal.Name = "Range" + GetElementNumber(enclosingCollection);
+            retVal.MinValue = "0";
+            retVal.MaxValue = "1";
+
+            return retVal;
+        }
     }
 }

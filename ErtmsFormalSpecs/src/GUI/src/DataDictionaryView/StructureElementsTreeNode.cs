@@ -33,6 +33,7 @@ namespace GUI.DataDictionaryView
         ///     Constructor
         /// </summary>
         /// <param name="item"></param>
+        /// <param name="buildSubNodes"></param>
         public StructureElementsTreeNode(Structure item, bool buildSubNodes)
             : base(item, buildSubNodes, "Sub elements", true, false)
         {
@@ -41,40 +42,28 @@ namespace GUI.DataDictionaryView
         /// <summary>
         ///     Builds the subnodes of this node
         /// </summary>
-        /// <param name="buildSubNodes">Indicates whether the subnodes of the nodes should also be built</param>
-        public override void BuildSubNodes(bool buildSubNodes)
+        /// <param name="subNodes"></param>
+        /// <param name="recursive">Indicates whether the subnodes of the nodes should also be built</param>
+        public override void BuildSubNodes(List<BaseTreeNode> subNodes, bool recursive)
         {
-            Nodes.Clear();
+            // Do not use the base version
+            SubNodesBuilt = true;
 
             foreach (StructureElement structureElement in Item.Elements)
             {
-                StructureElementTreeNode aNode = new StructureElementTreeNode(structureElement, buildSubNodes);
+                StructureElementTreeNode aNode = new StructureElementTreeNode(structureElement, recursive);
                 if (Item.StructureElementIsInherited(structureElement))
                 {
                     aNode.NodeFont = new Font("Arial", 8, FontStyle.Italic);
                 }
-                Nodes.Add(aNode);
+                subNodes.Add(aNode);
             }
-            SortSubNodes();
-            SubNodesBuilt = true;
-        }
-
-        /// <summary>
-        ///     Adds a structure element to the model
-        /// </summary>
-        /// <param name="element"></param>
-        public void AddElement(StructureElement element)
-        {
-            Item.appendElements(element);
-            Nodes.Add(new StructureElementTreeNode(element, true));
-            SortSubNodes();
+            subNodes.Sort();
         }
 
         public void AddHandler(object sender, EventArgs args)
         {
-            StructureElement element = (StructureElement) acceptor.getFactory().createStructureElement();
-            element.Name = "<Element" + (GetNodeCount(false) + 1) + ">";
-            AddElement(element);
+            Item.appendElements(StructureElement.CreateDefault(Item.Elements));
         }
 
         /// <summary>
@@ -83,9 +72,7 @@ namespace GUI.DataDictionaryView
         /// <returns></returns>
         protected override List<MenuItem> GetMenuItems()
         {
-            List<MenuItem> retVal = new List<MenuItem>();
-
-            retVal.Add(new MenuItem("Add", new EventHandler(AddHandler)));
+            List<MenuItem> retVal = new List<MenuItem> {new MenuItem("Add", AddHandler)};
 
             return retVal;
         }
@@ -93,22 +80,22 @@ namespace GUI.DataDictionaryView
         /// <summary>
         ///     Accepts drop of a tree node, in a drag & drop operation
         /// </summary>
-        /// <param name="SourceNode"></param>
-        public override void AcceptDrop(BaseTreeNode SourceNode)
+        /// <param name="sourceNode"></param>
+        public override void AcceptDrop(BaseTreeNode sourceNode)
         {
-            base.AcceptDrop(SourceNode);
+            base.AcceptDrop(sourceNode);
 
-            if (SourceNode is StructureElementTreeNode)
+            if (sourceNode is StructureElementTreeNode)
             {
-                StructureElementTreeNode structureElementTreeNode = SourceNode as StructureElementTreeNode;
+                StructureElementTreeNode structureElementTreeNode = sourceNode as StructureElementTreeNode;
                 StructureElement element = structureElementTreeNode.Item;
 
                 structureElementTreeNode.Delete();
-                AddElement(element);
+                Item.appendElements(element);
             }
-            else if (SourceNode is ParagraphTreeNode)
+            else if (sourceNode is ParagraphTreeNode)
             {
-                ParagraphTreeNode node = SourceNode as ParagraphTreeNode;
+                ParagraphTreeNode node = sourceNode as ParagraphTreeNode;
                 Paragraph paragaph = node.Item;
 
                 StructureElement element = (StructureElement) acceptor.getFactory().createStructureElement();
@@ -117,7 +104,7 @@ namespace GUI.DataDictionaryView
                 ReqRef reqRef = (ReqRef) acceptor.getFactory().createReqRef();
                 reqRef.Name = paragaph.FullId;
                 element.appendRequirements(reqRef);
-                AddElement(element);
+                Item.appendElements(element);
             }
         }
     }

@@ -17,13 +17,18 @@
 using System;
 using System.Windows.Forms;
 using DataDictionary;
+using GUI.Properties;
 using Utils;
 using WeifenLuo.WinFormsUI.Docking;
+using ReqRef = DataDictionary.ReqRef;
 
 namespace GUI.SpecificationView
 {
     public partial class Window : BaseForm
     {
+        /// <summary>
+        /// The tree view used to display the requirements
+        /// </summary>
         public override BaseTreeView TreeView
         {
             get { return specBrowserTreeView; }
@@ -32,47 +37,57 @@ namespace GUI.SpecificationView
         /// <summary>
         ///     Constructor
         /// </summary>
-        /// <param name="specification"></param>
         public Window()
         {
             InitializeComponent();
-            SpecificInitialisation();
+            DockAreas = DockAreas.DockLeft;
 
             specBrowserTreeView.Root = EFSSystem.INSTANCE;
         }
 
         /// <summary>
-        ///     Perform speicific initializations
+        ///     Allows to refresh the view, when the selected model changed
         /// </summary>
-        private void SpecificInitialisation()
+        /// <param name="context"></param>
+        /// <returns>true if refresh should be performed</returns>
+        public override bool HandleSelectionChange(Context.SelectionContext context)
         {
-            FormClosed += new FormClosedEventHandler(Window_FormClosed);
-            Visible = false;
-            DockAreas = DockAreas.DockLeft;
+            bool retVal = base.HandleSelectionChange(context);
+
+            if (retVal)
+            {
+                specBrowserRuleView.Nodes.Clear();
+                DataDictionary.Specification.Paragraph paragraph = DisplayedModel as DataDictionary.Specification.Paragraph;
+                if (paragraph != null)
+                {
+                    foreach (ReqRef reqRef in paragraph.Implementations)
+                    {
+                        specBrowserRuleView.Nodes.Add(new ReqRefTreeNode(reqRef, true, false, reqRef.Model.Name));
+                    }
+
+                    functionalBlocksTreeView.SetRoot(DisplayedModel);
+                }
+            }
+
+            return retVal;
         }
 
         /// <summary>
-        ///     Handles the close event
+        ///     Allows to refresh the view, when the value of a model changed
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Window_FormClosed(object sender, FormClosedEventArgs e)
+        /// <param name="modelElement"></param>
+        /// <param name="changeKind"></param>
+        /// <returns>True if the view should be refreshed</returns>
+        public override bool HandleValueChange(IModelElement modelElement, Context.ChangeKind changeKind)
         {
-            GUIUtils.MDIWindow.HandleSubWindowClosed(this);
-        }
+            bool retVal = base.HandleValueChange(modelElement, changeKind);
 
-        public override void Refresh()
-        {
-            specBrowserTreeView.Refresh();
-            base.Refresh();
-        }
+            if (retVal)
+            {
+                specBrowserTreeView.RefreshModel(modelElement);
+            }
 
-        /// <summary>
-        ///     Refreshes the model of the window
-        /// </summary>
-        public override void RefreshModel()
-        {
-            specBrowserTreeView.RefreshModel();
+            return retVal;
         }
 
         /// <summary>
@@ -107,18 +122,24 @@ namespace GUI.SpecificationView
 
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
-            if (!EFSSystem.INSTANCE.Markings.selectPreviousMarking())
+            if (!EFSSystem.INSTANCE.Markings.SelectPreviousMarking())
             {
-                MessageBox.Show("No more marking to show", "No more markings", MessageBoxButtons.OK,
+                MessageBox.Show(
+                    Resources.Window_toolStripButton1_Click_No_more_marking_to_show, 
+                    Resources.Window_toolStripButton1_Click_No_more_markings, 
+                    MessageBoxButtons.OK,
                     MessageBoxIcon.Information);
             }
         }
 
         private void toolStripButton2_Click(object sender, EventArgs e)
         {
-            if (!EFSSystem.INSTANCE.Markings.selectNextMarking())
+            if (!EFSSystem.INSTANCE.Markings.SelectNextMarking())
             {
-                MessageBox.Show("No more marking to show", "No more markings", MessageBoxButtons.OK,
+                MessageBox.Show(
+                    Resources.Window_toolStripButton1_Click_No_more_marking_to_show, 
+                    Resources.Window_toolStripButton1_Click_No_more_markings, 
+                    MessageBoxButtons.OK,
                     MessageBoxIcon.Information);
             }
         }

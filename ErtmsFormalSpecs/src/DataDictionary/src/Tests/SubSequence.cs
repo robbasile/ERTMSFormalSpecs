@@ -142,18 +142,16 @@ namespace DataDictionary.Tests
             }
         }
 
-
         /// <summary>
-        ///     Creates a sub sequence and sets its default value
+        /// Creates a default element
         /// </summary>
-        /// <param name="name"></param>
+        /// <param name="enclosingCollection"></param>
         /// <returns></returns>
-        public static SubSequence createDefault(string name)
+        public static SubSequence CreateDefault(ICollection enclosingCollection)
         {
-            SubSequence retVal = (SubSequence) acceptor.getFactory().createSubSequence();
-            retVal.Name = name;
-
-            retVal.appendTestCases(TestCase.createDefault("Test case1"));
+            SubSequence retVal = (SubSequence)acceptor.getFactory().createSubSequence();
+            retVal.Name = "SubSequence" + GetElementNumber(enclosingCollection);
+            retVal.appendTestCases(TestCase.CreateDefault(retVal.TestCases));
 
             return retVal;
         }

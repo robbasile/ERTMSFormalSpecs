@@ -20,47 +20,24 @@ using System.ComponentModel;
 using System.Drawing.Design;
 using System.Windows.Forms;
 using DataDictionary;
-using DataDictionary.Generated;
 using GUI.Converters;
 using Dictionary = DataDictionary.Dictionary;
 using Enum = DataDictionary.Types.Enum;
 using EnumValue = DataDictionary.Constants.EnumValue;
-using NameSpace = DataDictionary.Types.NameSpace;
-using Type = DataDictionary.Types.Type;
 
 namespace GUI.DataDictionaryView
 {
     public class EnumerationTreeNode : TypeTreeNode<Enum>
     {
-        private class InternalValuesConverter : ValuesConverter
-        {
-            public override StandardValuesCollection
-                GetStandardValues(ITypeDescriptorContext context)
-            {
-                ItemEditor editor = (ItemEditor) context.Instance;
-                NameSpace nameSpace = editor.Item.NameSpace;
-                Type type = editor.Item;
-
-                return GetValues(nameSpace, type);
-            }
-        }
-
         private class ItemEditor : TypeEditor
         {
-            /// <summary>
-            ///     Constructor
-            /// </summary>
-            public ItemEditor()
-                : base()
-            {
-            }
-
             /// <summary>
             ///     The enumeration default value
             /// </summary>
             [Category("Description")]
             [Editor(typeof (DefaultValueUITypedEditor), typeof (UITypeEditor))]
             [TypeConverter(typeof (DefaultValueUITypeConverter))]
+            // ReSharper disable once UnusedMember.Local
             public Enum DefaultValue
             {
                 get { return Item; }
@@ -75,6 +52,7 @@ namespace GUI.DataDictionaryView
              Editor(
                  @"System.Windows.Forms.Design.StringCollectionEditor,System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a",
                  typeof (UITypeEditor))]
+            // ReSharper disable once UnusedMember.Local
             public List<string> Values
             {
                 get
@@ -91,21 +69,18 @@ namespace GUI.DataDictionaryView
                     Item.Values.Clear();
                     foreach (string s in value)
                     {
-                        EnumValue val = new EnumValue();
-                        val.Name = s;
+                        EnumValue val = new EnumValue {Name = s};
                         Item.Values.Add(val);
                     }
                 }
             }
         }
 
-        private EnumerationValuesTreeNode valuesTreeNode;
-
         /// <summary>
         ///     Constructor
         /// </summary>
-        /// <param name="name"></param>
         /// <param name="item"></param>
+        /// <param name="buildSubNodes"></param>
         public EnumerationTreeNode(Enum item, bool buildSubNodes)
             : base(item, buildSubNodes)
         {
@@ -114,8 +89,11 @@ namespace GUI.DataDictionaryView
         /// <summary>
         ///     Constructor
         /// </summary>
-        /// <param name="name"></param>
         /// <param name="item"></param>
+        /// <param name="buildSubNodes"></param>
+        /// <param name="name"></param>
+        /// <param name="isFolder"></param>
+        /// <param name="addRequirements"></param>
         public EnumerationTreeNode(Enum item, bool buildSubNodes, string name, bool isFolder, bool addRequirements)
             : base(item, buildSubNodes, name, isFolder, addRequirements)
         {
@@ -124,29 +102,28 @@ namespace GUI.DataDictionaryView
         /// <summary>
         ///     Builds the subnodes of this node
         /// </summary>
-        /// <param name="buildSubNodes">Indicates whether the subnodes of the nodes should also be built</param>
-        public override void BuildSubNodes(bool buildSubNodes)
+        /// <param name="subNodes"></param>
+        /// <param name="recursive">Indicates whether the subnodes of the nodes should also be built</param>
+        public override void BuildSubNodes(List<BaseTreeNode> subNodes, bool recursive)
         {
-            base.BuildSubNodes(buildSubNodes);
+            base.BuildSubNodes(subNodes, recursive);
 
-            valuesTreeNode = new EnumerationValuesTreeNode(Item, buildSubNodes);
-            Nodes.Add(valuesTreeNode);
-            Nodes.Add(new SubEnumerationsTreeNode(Item, buildSubNodes));
+            subNodes.Add(new EnumerationValuesTreeNode(Item, recursive));
+            subNodes.Add(new SubEnumerationsTreeNode(Item, recursive));
         }
 
         /// <summary>
         ///     Creates the editor for this tree node
         /// </summary>
         /// <returns></returns>
-        protected override Editor createEditor()
+        protected override Editor CreateEditor()
         {
             return new ItemEditor();
         }
 
         public void AddValueHandler(object sender, EventArgs args)
         {
-            EnumValue value = (EnumValue) acceptor.getFactory().createEnumValue();
-            valuesTreeNode.AddValue(value);
+            Item.appendValues(EnumValue.CreateDefault(Item.Values));
         }
 
         /// <summary>
@@ -168,9 +145,8 @@ namespace GUI.DataDictionaryView
                     // Get the enclosing namespace (by splitting the fullname and asking a recursive function to provide or make it)
                     retVal = Item.CreateEnumUpdate(dictionary);
                 }
-                // navigate to the enum, whether it was created or not
-                GUIUtils.MDIWindow.RefreshModel();
-                GUIUtils.MDIWindow.Select(retVal);
+                // Navigate to the element, whether it was created or not
+                EFSSystem.INSTANCE.Context.SelectElement(retVal, this, Context.SelectionCriteria.DoubleClick);
             }
 
             return retVal;
@@ -185,15 +161,15 @@ namespace GUI.DataDictionaryView
             List<MenuItem> retVal = new List<MenuItem>();
 
             MenuItem newItem = new MenuItem("Add...");
-            newItem.MenuItems.Add(new MenuItem("Value", new EventHandler(AddValueHandler)));
+            newItem.MenuItems.Add(new MenuItem("Value", AddValueHandler));
             retVal.Add(newItem);
 
             MenuItem updateItem = new MenuItem("Update...");
-            updateItem.MenuItems.Add(new MenuItem("Update", new EventHandler(AddUpdate)));
-            updateItem.MenuItems.Add(new MenuItem("Remove", new EventHandler(RemoveInUpdate)));
+            updateItem.MenuItems.Add(new MenuItem("Update", AddUpdate));
+            updateItem.MenuItems.Add(new MenuItem("Remove", RemoveInUpdate));
             retVal.Add(updateItem);
 
-            retVal.Add(new MenuItem("Delete", new EventHandler(DeleteHandler)));
+            retVal.Add(new MenuItem("Delete", DeleteHandler));
             retVal.AddRange(base.GetMenuItems());
 
             return retVal;

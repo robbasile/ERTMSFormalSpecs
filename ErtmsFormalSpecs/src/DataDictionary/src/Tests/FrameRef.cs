@@ -22,14 +22,6 @@ namespace DataDictionary.Tests
     public class FrameRef : Generated.FrameRef
     {
         /// <summary>
-        ///     Constructor
-        /// </summary>
-        public FrameRef()
-            : base()
-        {
-        }
-
-        /// <summary>
         ///     The file name which corresponds to this frame ref
         /// </summary>
         public string FileName
@@ -45,7 +37,7 @@ namespace DataDictionary.Tests
                 }
 
                 return Dictionary.BasePath + Path.DirectorySeparatorChar + "TestFrames" + Path.DirectorySeparatorChar +
-                       Util.validFilePath(retVal);
+                       Util.ValidFilePath(retVal);
             }
         }
 
@@ -70,7 +62,7 @@ namespace DataDictionary.Tests
         /// <returns></returns>
         public Frame LoadFrame(bool lockFiles, bool allowErrors)
         {
-            return Util.loadFrame(FileName, Enclosing as ModelElement, lockFiles, allowErrors);
+            return Util.LoadFrame(FileName, Enclosing as ModelElement, lockFiles, allowErrors);
         }
 
         /// <summary>

@@ -28,38 +28,23 @@ namespace GUI.SpecificationView
         /// </summary>
         private class ItemEditor : NamedEditor
         {
-            /// <summary>
-            ///     Constructor
-            /// </summary>
-            public ItemEditor()
-                : base()
-            {
-            }
         }
 
         /// <summary>
         ///     Constructor
         /// </summary>
         /// <param name="item"></param>
+        /// <param name="buildSubNodes"></param>
         public RequirementSetReferenceTreeNode(RequirementSetReference item, bool buildSubNodes)
             : base(item, buildSubNodes, null, true)
         {
         }
 
         /// <summary>
-        ///     Builds the subnodes of this node
-        /// </summary>
-        /// <param name="buildSubNodes">Indicates whether the subnodes of the nodes should also be built</param>
-        public override void BuildSubNodes(bool buildSubNodes)
-        {
-            base.BuildSubNodes(buildSubNodes);
-        }
-
-        /// <summary>
         ///     Creates the editor for this tree node
         /// </summary>
         /// <returns></returns>
-        protected override Editor createEditor()
+        protected override Editor CreateEditor()
         {
             return new ItemEditor();
         }
@@ -70,9 +55,7 @@ namespace GUI.SpecificationView
         /// <returns></returns>
         protected override List<MenuItem> GetMenuItems()
         {
-            List<MenuItem> retVal = new List<MenuItem>();
-
-            retVal.Add(new MenuItem("Delete", new EventHandler(DeleteHandler)));
+            List<MenuItem> retVal = new List<MenuItem> {new MenuItem("Delete", DeleteHandler)};
 
             return retVal;
         }
@@ -83,15 +66,7 @@ namespace GUI.SpecificationView
         public override void DeleteHandler(object sender, EventArgs args)
         {
             base.Delete();
-            BaseTreeView.RefreshModel();
-        }
-
-        /// <summary>
-        ///     Handles a selection change event
-        /// </summary>
-        /// <param name="displayStatistics">Indicates that statistics should be displayed in the MDI window</param>
-        public override void SelectionChanged(bool displayStatistics)
-        {
+            BaseTreeView.RefreshModel(Item);
         }
     }
 }

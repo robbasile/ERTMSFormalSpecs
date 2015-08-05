@@ -110,7 +110,6 @@ namespace ERTMSFormalSpecs
                 Util.UnlockAllFiles();
             }
 
-
             EFSSystem.INSTANCE.Stop();
             SynchronizerList.Stop();
         }

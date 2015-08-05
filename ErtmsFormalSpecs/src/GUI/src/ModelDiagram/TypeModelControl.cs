@@ -15,7 +15,6 @@
 // ------------------------------------------------------------------------------
 
 using System.Drawing;
-using System.Windows.Forms;
 using DataDictionary.Types;
 
 namespace GUI.ModelDiagram
@@ -28,24 +27,10 @@ namespace GUI.ModelDiagram
         /// <summary>
         ///     Constructor
         /// </summary>
-        public TypeModelControl(Type model)
+        protected TypeModelControl(Type model)
             : base(model)
         {
-            NORMAL_COLOR = Color.LightSteelBlue;
-            MouseClick += new MouseEventHandler(HandleMouseClick);
-        }
-
-        /// <summary>
-        ///     Handles a simple click event on the control
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void HandleMouseClick(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left)
-            {
-                Panel.Select(this, true);
-            }
+            NormalColor = Color.LightSteelBlue;
         }
     }
 }

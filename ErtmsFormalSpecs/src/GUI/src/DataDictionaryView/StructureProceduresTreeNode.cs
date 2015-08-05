@@ -33,20 +33,13 @@ namespace GUI.DataDictionaryView
         /// </summary>
         private class ItemEditor : NamedEditor
         {
-            /// <summary>
-            ///     Constructor
-            /// </summary>
-            public ItemEditor()
-                : base()
-            {
-            }
         }
 
         /// <summary>
         ///     Constructor
         /// </summary>
         /// <param name="item"></param>
-        /// <param name="name"></param>
+        /// <param name="buildSubNodes"></param>
         public StructureProceduresTreeNode(Structure item, bool buildSubNodes)
             : base(item, buildSubNodes, "Procedures", true)
         {
@@ -55,23 +48,24 @@ namespace GUI.DataDictionaryView
         /// <summary>
         ///     Builds the subnodes of this node
         /// </summary>
-        /// <param name="buildSubNodes">Indicates whether the subnodes of the nodes should also be built</param>
-        public override void BuildSubNodes(bool buildSubNodes)
+        /// <param name="subNodes"></param>
+        /// <param name="recursive">Indicates whether the subnodes of the nodes should also be built</param>
+        public override void BuildSubNodes(List<BaseTreeNode> subNodes, bool recursive)
         {
-            base.BuildSubNodes(buildSubNodes);
+            base.BuildSubNodes(subNodes, recursive);
 
             foreach (Procedure procedure in Item.Procedures)
             {
-                Nodes.Add(new ProcedureTreeNode(procedure, buildSubNodes));
+                subNodes.Add(new ProcedureTreeNode(procedure, recursive));
             }
-            SortSubNodes();
+            subNodes.Sort();
         }
 
         /// <summary>
         ///     Creates the editor for this tree node
         /// </summary>
         /// <returns></returns>
-        protected override Editor createEditor()
+        protected override Editor CreateEditor()
         {
             return new ItemEditor();
         }
@@ -80,21 +74,7 @@ namespace GUI.DataDictionaryView
         {
             Procedure procedure = (Procedure) acceptor.getFactory().createProcedure();
             procedure.Name = "<Procedure" + (GetNodeCount(false) + 1) + ">";
-            AddProcedure(procedure);
-        }
-
-        /// <summary>
-        ///     Adds a procedure in the corresponding namespace
-        /// </summary>
-        /// <param name="procedure"></param>
-        public ProcedureTreeNode AddProcedure(Procedure procedure)
-        {
             Item.appendProcedures(procedure);
-            ProcedureTreeNode retVal = new ProcedureTreeNode(procedure, true);
-            Nodes.Add(retVal);
-            SortSubNodes();
-
-            return retVal;
         }
 
         /// <summary>
@@ -103,9 +83,7 @@ namespace GUI.DataDictionaryView
         /// <returns></returns>
         protected override List<MenuItem> GetMenuItems()
         {
-            List<MenuItem> retVal = new List<MenuItem>();
-
-            retVal.Add(new MenuItem("Add", new EventHandler(AddHandler)));
+            List<MenuItem> retVal = new List<MenuItem> {new MenuItem("Add", AddHandler)};
 
             return retVal;
         }
@@ -113,22 +91,22 @@ namespace GUI.DataDictionaryView
         /// <summary>
         ///     Accepts a new procedure
         /// </summary>
-        /// <param name="SourceNode"></param>
-        public override void AcceptDrop(BaseTreeNode SourceNode)
+        /// <param name="sourceNode"></param>
+        public override void AcceptDrop(BaseTreeNode sourceNode)
         {
-            base.AcceptDrop(SourceNode);
+            base.AcceptDrop(sourceNode);
 
-            if (SourceNode is ProcedureTreeNode)
+            if (sourceNode is ProcedureTreeNode)
             {
-                ProcedureTreeNode procedureTreeNode = SourceNode as ProcedureTreeNode;
+                ProcedureTreeNode procedureTreeNode = sourceNode as ProcedureTreeNode;
                 Procedure procedure = procedureTreeNode.Item;
 
                 procedureTreeNode.Delete();
-                AddProcedure(procedure);
+                Item.appendProcedures(procedure);
             }
-            else if (SourceNode is ParagraphTreeNode)
+            else if (sourceNode is ParagraphTreeNode)
             {
-                ParagraphTreeNode node = SourceNode as ParagraphTreeNode;
+                ParagraphTreeNode node = sourceNode as ParagraphTreeNode;
                 Paragraph paragaph = node.Item;
 
                 Procedure procedure = (Procedure) acceptor.getFactory().createProcedure();
@@ -137,20 +115,8 @@ namespace GUI.DataDictionaryView
                 ReqRef reqRef = (ReqRef) acceptor.getFactory().createReqRef();
                 reqRef.Name = paragaph.FullId;
                 procedure.appendRequirements(reqRef);
-                AddProcedure(procedure);
+                Item.appendProcedures(procedure);
             }
-        }
-
-        /// <summary>
-        ///     Update counts according to the selected folder
-        /// </summary>
-        /// <param name="displayStatistics">Indicates that statistics should be displayed in the MDI window</param>
-        public override void SelectionChanged(bool displayStatistics)
-        {
-            base.SelectionChanged(false);
-
-            GUIUtils.MDIWindow.SetStatus(Item.Procedures.Count +
-                                         (Item.Procedures.Count > 1 ? " procedures " : " procedure ") + "selected.");
         }
     }
 }

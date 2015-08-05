@@ -13,6 +13,9 @@
 // -- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 // --
 // ------------------------------------------------------------------------------
+
+using DataDictionary.Interpreter;
+
 namespace GUI.TestRunnerView
 {
     partial class ExplainBox
@@ -191,6 +194,5 @@ namespace GUI.TestRunnerView
         private System.Windows.Forms.TextBox searchTextBox;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.CheckBox caseSensitiveCheckBox;
-
     }
 }

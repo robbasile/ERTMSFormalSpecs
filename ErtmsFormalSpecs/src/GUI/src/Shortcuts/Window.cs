@@ -14,7 +14,6 @@
 // --
 // ------------------------------------------------------------------------------
 
-using System.Windows.Forms;
 using DataDictionary;
 using Utils;
 using WeifenLuo.WinFormsUI.Docking;
@@ -24,15 +23,20 @@ namespace GUI.Shortcuts
     public partial class Window : BaseForm
     {
         /// <summary>
+        /// The tree view used to display shortcuts
+        /// </summary>
+        public override BaseTreeView TreeView
+        {
+            get { return shortcutTreeView; }
+        }
+
+        /// <summary>
         ///     Constructor
         /// </summary>
         public Window()
         {
             InitializeComponent();
 
-            FormClosed += new FormClosedEventHandler(Window_FormClosed);
-
-            Visible = false;
             shortcutTreeView.Root = EFSSystem.INSTANCE;
             Text = "Shortcuts view";
 
@@ -41,45 +45,18 @@ namespace GUI.Shortcuts
         }
 
         /// <summary>
-        ///     Handles the close event
+        ///     Allows to refresh the view, when the value of a model changed
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Window_FormClosed(object sender, FormClosedEventArgs e)
+        /// <param name="modelElement"></param>
+        /// <param name="changeKind"></param>
+        /// <returns>True if the view should be refreshed</returns>
+        public override bool HandleValueChange(IModelElement modelElement, Context.ChangeKind changeKind)
         {
-            GUIUtils.MDIWindow.HandleSubWindowClosed(this);
-        }
+            bool retVal = base.HandleValueChange(modelElement, changeKind);
 
-        /// <summary>
-        ///     Refreshed the model of the window
-        /// </summary>
-        public override void RefreshModel()
-        {
-            shortcutTreeView.RefreshModel();
-            Refresh();
-        }
+            shortcutTreeView.RefreshModel(modelElement);
 
-        public override BaseTreeView TreeView
-        {
-            get { return shortcutTreeView; }
-        }
-
-        /// <summary>
-        ///     Provides the model element currently selected in this IBaseForm
-        /// </summary>
-        public override IModelElement Selected
-        {
-            get
-            {
-                IModelElement retVal = null;
-
-                if (TreeView != null && TreeView.Selected != null)
-                {
-                    retVal = TreeView.Selected.Model;
-                }
-
-                return retVal;
-            }
+            return retVal;
         }
     }
 }

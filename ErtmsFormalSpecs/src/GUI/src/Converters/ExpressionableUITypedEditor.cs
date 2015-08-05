@@ -48,7 +48,7 @@ namespace GUI.Converters
                     ExpressionableTextChangeHandler handler =
                         new ExpressionableTextChangeHandler(expressionable as ModelElement);
                     form.setChangeHandler(handler);
-                    GUIUtils.MDIWindow.AddChildWindow(form, DockAreas.Float);
+                    GuiUtils.MdiWindow.AddChildWindow(form, DockAreas.Float);
                 }
             }
 
@@ -78,7 +78,7 @@ namespace GUI.Converters
                     Window form = new Window();
                     ConditionTextChangeHandler handler = new ConditionTextChangeHandler(expectation);
                     form.setChangeHandler(handler);
-                    GUIUtils.MDIWindow.AddChildWindow(form, DockAreas.Float);
+                    GuiUtils.MdiWindow.AddChildWindow(form, DockAreas.Float);
                 }
             }
 

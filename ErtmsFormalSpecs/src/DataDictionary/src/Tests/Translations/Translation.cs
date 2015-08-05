@@ -519,7 +519,7 @@ namespace DataDictionary.Tests.Translations
             EFSSystem system = EFSSystem.INSTANCE;
 
             NameSpace nameSpace = findNameSpace("Messages.EUROBALISE");
-            Structure structureType = (Structure) system.findType(nameSpace, "Message");
+            Structure structureType = (Structure) system.FindType(nameSpace, "Message");
             StructureValue structure = new StructureValue(structureType);
 
             int currentIndex = 0;
@@ -545,8 +545,8 @@ namespace DataDictionary.Tests.Translations
         {
             ListValue retVal;
 
-            Collection collectionType = (Collection) system.findType(nameSpace, "Collection1");
-            Structure subStructure1Type = (Structure) system.findType(nameSpace, "SubStructure1");
+            Collection collectionType = (Collection) system.FindType(nameSpace, "Collection1");
+            Structure subStructure1Type = (Structure) system.FindType(nameSpace, "SubStructure1");
 
             string packetLocation = "Messages.PACKET.";
             if (nameSpace.FullName.Contains("TRAIN_TO_TRACK"))
@@ -558,7 +558,7 @@ namespace DataDictionary.Tests.Translations
                 packetLocation += "TRACK_TO_TRAIN.Message";
             }
 
-            Structure packetStructureType = (Structure) system.findType(nameSpace, packetLocation);
+            Structure packetStructureType = (Structure) system.FindType(nameSpace, packetLocation);
 
             retVal = new ListValue(collectionType, new List<IValue>());
 
@@ -628,7 +628,7 @@ namespace DataDictionary.Tests.Translations
                 foreach (NameSpace packetNameSpace in subNameSpace.NameSpaces)
                 {
                     Structure structureType =
-                        (Structure) system.findType(packetNameSpace, packetNameSpace.FullName + ".Message");
+                        (Structure) system.FindType(packetNameSpace, packetNameSpace.FullName + ".Message");
                     StructureValue structureValue = new StructureValue(structureType);
 
                     foreach (KeyValuePair<string, IVariable> pair in structureValue.SubVariables)
@@ -726,7 +726,7 @@ namespace DataDictionary.Tests.Translations
                     {
                         KeyValuePair<string, IVariable> sequencePair = aStructure.SubVariables.ElementAt(j);
                         IVariable sequenceVariable = sequencePair.Value;
-                        Collection collectionType = (Collection) system.findType(aNameSpace, sequenceVariable.TypeName);
+                        Collection collectionType = (Collection) system.FindType(aNameSpace, sequenceVariable.TypeName);
                         ListValue sequence = new ListValue(collectionType, new List<IValue>());
 
                         int value = int.Parse(field.Value);
@@ -734,7 +734,7 @@ namespace DataDictionary.Tests.Translations
                         {
                             currentIndex++;
                             Structure structureType =
-                                (Structure) system.findType(aNameSpace, sequence.CollectionType.Type.FullName);
+                                (Structure) system.FindType(aNameSpace, sequence.CollectionType.Type.FullName);
                             StructureValue structureValue = new StructureValue(structureType);
                             FillStructure(aNameSpace, fields, ref currentIndex, structureValue);
                             sequence.Val.Add(structureValue);
@@ -762,7 +762,7 @@ namespace DataDictionary.Tests.Translations
             EFSSystem system = EFSSystem.INSTANCE;
 
             NameSpace nameSpace = findNameSpace("Messages.EUROLOOP");
-            Structure structureType = (Structure) system.findType(nameSpace, "Message");
+            Structure structureType = (Structure) system.FindType(nameSpace, "Message");
             StructureValue structure = new StructureValue(structureType);
 
             int currentIndex = 0;
@@ -803,12 +803,12 @@ namespace DataDictionary.Tests.Translations
 
             // The EURORADIO messages are defined in the namespaces TRACK_TO_TRAIN and TRAIN_TO_TRACK, which enclose the specific message namespaces
             // So we get the message type from nameSpace.EnclosingNameSpace and the actual structure corresponding to the message in nameSpace
-            Structure enclosingStructureType = (Structure) system.findType(nameSpace.EnclosingNameSpace, "Message");
+            Structure enclosingStructureType = (Structure) system.FindType(nameSpace.EnclosingNameSpace, "Message");
             StructureValue Message = new StructureValue(enclosingStructureType);
 
 
             // Within the message, get the appropriate field and get that structure
-            Structure structureType = (Structure) system.findType(nameSpace, "Message");
+            Structure structureType = (Structure) system.FindType(nameSpace, "Message");
             StructureValue structure = new StructureValue(structureType);
 
 

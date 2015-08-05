@@ -1464,5 +1464,32 @@ namespace DataDictionary.Functions
                 parameter.RecoverUpdateInformation();
             }
         }
+
+        /// <summary>
+        ///     Creates the status message 
+        /// </summary>
+        /// <returns>the status string for the selected element</returns>
+        public override string CreateStatusMessage()
+        {
+            string result = base.CreateStatusMessage();
+
+            result += "Function" + Name + " with " + Cases.Count + " cases";
+
+            return result;
+        }
+
+        /// <summary>
+        /// Creates a default element
+        /// </summary>
+        /// <param name="enclosingCollection"></param>
+        /// <returns></returns>
+        public static Function CreateDefault(ICollection enclosingCollection)
+        {
+            Function retVal = (Function)acceptor.getFactory().createFunction();
+            retVal.Name = "Function" + GetElementNumber(enclosingCollection);
+            retVal.ReturnType = EFSSystem.INSTANCE.BoolType;
+
+            return retVal;
+        }
     }
 }

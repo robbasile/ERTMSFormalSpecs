@@ -667,7 +667,7 @@ namespace DataDictionary
             Structure enclosingStructure = obj.Enclosing as Structure;
             if (enclosingStructure != null)
             {
-                Structure structure = Dictionary.EFSSystem.findType(enclosingStructure.NameSpace, obj.Name) as Structure;
+                Structure structure = Dictionary.EFSSystem.FindType(enclosingStructure.NameSpace, obj.Name) as Structure;
                 if (structure != null)
                 {
                     if (structure.IsAbstract)
@@ -1139,7 +1139,7 @@ namespace DataDictionary
                 switch (paragraph.getImplementationStatus())
                 {
                     case acceptor.SPEC_IMPLEMENTED_ENUM.Impl_Implemented:
-                        if (!paragraph.isApplicable())
+                        if (!paragraph.IsApplicable())
                         {
                             paragraph.AddWarning(
                                 "Paragraph state does not correspond to implementation status (Implemented but not applicable)");
@@ -1152,7 +1152,7 @@ namespace DataDictionary
 
                     case acceptor.SPEC_IMPLEMENTED_ENUM.Impl_NA:
                     case acceptor.SPEC_IMPLEMENTED_ENUM.defaultSPEC_IMPLEMENTED_ENUM:
-                        if (!paragraph.isApplicable())
+                        if (!paragraph.IsApplicable())
                         {
                             paragraph.AddWarning(
                                 "Paragraph state does not correspond to implementation status (N/A but not applicable)");
@@ -1160,7 +1160,7 @@ namespace DataDictionary
                         break;
 
                     case acceptor.SPEC_IMPLEMENTED_ENUM.Impl_NotImplementable:
-                        if (paragraph.isApplicable())
+                        if (paragraph.IsApplicable())
                         {
                             paragraph.AddWarning(
                                 "Paragraph state does not correspond to implementation status (Not implementable but applicable)");

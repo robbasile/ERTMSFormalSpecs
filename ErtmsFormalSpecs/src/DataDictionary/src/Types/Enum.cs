@@ -18,9 +18,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using DataDictionary.Constants;
+using DataDictionary.Generated;
 using DataDictionary.Values;
 using Utils;
+using EnumValue = DataDictionary.Constants.EnumValue;
 
 namespace DataDictionary.Types
 {
@@ -384,6 +385,32 @@ namespace DataDictionary.Types
             {
                 subEnum.ClearAllRequirements();
             }
+        }
+
+        /// <summary>
+        ///     Creates the status message 
+        /// </summary>
+        /// <returns>the status string for the selected element</returns>
+        public override string CreateStatusMessage()
+        {
+            string result = base.CreateStatusMessage();
+
+            result += "Enumeration " + Name + " with " + Values.Count + " values";
+
+            return result;
+        }
+
+        /// <summary>
+        /// Creates a default element
+        /// </summary>
+        /// <param name="enclosingCollection"></param>
+        /// <returns></returns>
+        public static Enum CreateDefault(ICollection enclosingCollection)
+        {
+            Enum retVal = (Enum)acceptor.getFactory().createEnum();
+            retVal.Name = "Enumeration" + GetElementNumber(enclosingCollection);
+
+            return retVal;
         }
     }
 }

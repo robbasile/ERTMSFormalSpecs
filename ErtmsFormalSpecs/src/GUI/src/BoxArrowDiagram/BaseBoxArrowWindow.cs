@@ -1,4 +1,4 @@
-// ------------------------------------------------------------------------------
+﻿// ------------------------------------------------------------------------------
 // -- Copyright ERTMS Solutions
 // -- Licensed under the EUPL V.1.1
 // -- http://joinup.ec.europa.eu/software/page/eupl/licence-eupl
@@ -14,37 +14,20 @@
 // --
 // ------------------------------------------------------------------------------
 
-
-using System.Collections;
 using Utils;
 
-namespace DataDictionary.Rules
+namespace GUI.BoxArrowDiagram
 {
-    public class RuleDisabling : Generated.RuleDisabling
+    public class BaseBoxArrowWindow : BaseForm
     {
         /// <summary>
-        ///     Constructor
+        /// Creates the editor for the selected object
         /// </summary>
-        public RuleDisabling()
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public virtual object CreateEditor(IModelElement model)
         {
-        }
-
-
-        /// <summary>
-        ///     Adds a model element in this model element
-        /// </summary>
-        /// <param name="copy"></param>
-        public override void AddModelElement(IModelElement element)
-        {
-        }
-
-
-        /// <summary>
-        ///     Provides the enclosing collection for this rule disabling
-        /// </summary>
-        public override ArrayList EnclosingCollection
-        {
-            get { return Dictionary.allRuleDisablings(); }
+            return null;
         }
     }
 }

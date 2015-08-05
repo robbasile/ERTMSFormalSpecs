@@ -35,11 +35,11 @@ namespace DataDictionary
             /// <summary>
             ///     Constructor
             /// </summary>
-            public Gatherer(EFSSystem system)
+            public Gatherer()
             {
                 Markings = new Dictionary<ModelElement, List<ElementLog>>();
 
-                foreach (Dictionary dictionary in system.Dictionaries)
+                foreach (Dictionary dictionary in EFSSystem.INSTANCE.Dictionaries)
                 {
                     visit(dictionary);
                 }
@@ -68,10 +68,9 @@ namespace DataDictionary
         /// <summary>
         ///     Creates a marking for the current system
         /// </summary>
-        /// <param name="system"></param>
-        public Marking(EFSSystem system)
+        public Marking()
         {
-            TheGatherer = new Gatherer(system);
+            TheGatherer = new Gatherer();
         }
 
         /// <summary>
@@ -81,7 +80,10 @@ namespace DataDictionary
         {
             foreach (KeyValuePair<ModelElement, List<ElementLog>> pair in TheGatherer.Markings)
             {
-                pair.Key.Messages.AddRange(pair.Value);
+                foreach (ElementLog log in pair.Value)
+                {
+                    pair.Key.AddElementLog(log);
+                }
             }
         }
     }

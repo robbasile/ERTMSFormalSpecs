@@ -130,14 +130,14 @@ namespace DataDictionary.Tests
         }
 
         /// <summary>
-        ///     Creates a sub step and sets its default values
+        /// Creates a default element
         /// </summary>
-        /// <param name="name"></param>
+        /// <param name="enclosingCollection"></param>
         /// <returns></returns>
-        public static SubStep createDefault(string name)
+        public static SubStep CreateDefault(ICollection enclosingCollection)
         {
-            SubStep retVal = (SubStep) acceptor.getFactory().createSubStep();
-            retVal.Name = name;
+            SubStep retVal = (SubStep)acceptor.getFactory().createSubStep();
+            retVal.Name = "SubStep" + GetElementNumber(enclosingCollection);
 
             return retVal;
         }
@@ -207,6 +207,21 @@ namespace DataDictionary.Tests
                     break;
                 }
             }
+
+            return retVal;
+        }
+
+
+        /// <summary>
+        /// Creates a default element
+        /// </summary>
+        /// <param name="enclosingCollection"></param>
+        /// <param name="enclosingId"></param>
+        /// <returns></returns>
+        public static SubStep CreateDefault(ICollection enclosingCollection, string enclosingId)
+        {
+            SubStep retVal = (SubStep)acceptor.getFactory().createSubStep();
+            retVal.Name = "SubStep" + GetElementNumber(enclosingCollection);
 
             return retVal;
         }

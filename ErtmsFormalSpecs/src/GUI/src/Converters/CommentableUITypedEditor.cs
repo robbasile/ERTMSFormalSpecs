@@ -63,7 +63,7 @@ namespace GUI.Converters
                     form.AutoComplete = false;
                     CommentableTextChangeHandler handler = new CommentableTextChangeHandler(commentable as ModelElement);
                     form.setChangeHandler(handler);
-                    GUIUtils.MDIWindow.AddChildWindow(form, DockAreas.Float);
+                    GuiUtils.MdiWindow.AddChildWindow(form, DockAreas.Float);
                 }
             }
 

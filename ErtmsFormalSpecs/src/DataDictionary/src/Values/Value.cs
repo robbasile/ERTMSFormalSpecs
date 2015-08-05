@@ -25,13 +25,8 @@ using Type = DataDictionary.Types.Type;
 
 namespace DataDictionary.Values
 {
-    public interface IValue : INamable, ITypedElement, ITextualExplain
+    public interface IValue : ITypedElement, ITextualExplain
     {
-        /// <summary>
-        ///     Provides the EFS system in which this value is created
-        /// </summary>
-        EFSSystem EFSSystem { get; }
-
         /// <summary>
         ///     The complete name to access the value
         /// </summary>
@@ -54,7 +49,7 @@ namespace DataDictionary.Values
         string ToExpressionWithDefault();
     }
 
-    public abstract class Value : IValue, IEnclosed
+    public abstract class Value : IValue
     {
         public virtual string Name
         {
@@ -73,25 +68,10 @@ namespace DataDictionary.Values
         }
 
         /// <summary>
-        ///     Provides the EFS system in which this value is created
-        /// </summary>
-        public EFSSystem EFSSystem
-        {
-            get
-            {
-                if (Type != null)
-                {
-                    return Type.EFSSystem;
-                }
-                return null;
-            }
-        }
-
-        /// <summary>
         ///     Constructor
         /// </summary>
         /// <param name="type"></param>
-        public Value(Type type)
+        protected Value(Type type)
         {
             Type = type;
         }
@@ -107,7 +87,7 @@ namespace DataDictionary.Values
         {
             if (setEnclosing)
             {
-                this.Enclosing = variable;
+                Enclosing = variable;
             }
 
             return this;
@@ -148,7 +128,7 @@ namespace DataDictionary.Values
         /// </summary>
         public string Default
         {
-            get { return this.FullName; }
+            get { return FullName; }
             set { }
         }
 
@@ -189,7 +169,6 @@ namespace DataDictionary.Values
         /// <summary>
         ///     The expression text data of this model element
         /// </summary>
-        /// <param name="text"></param>
         public string ExpressionText
         {
             get { return null; }
@@ -205,20 +184,20 @@ namespace DataDictionary.Values
         }
 
         /// <summary>
-        ///     Nothing to do
+        ///     Clears the messages associated to this model element
         /// </summary>
-        public void ClearMessages()
+        /// <param name="precise">Indicates that the MessagePathInfo should be recomputed precisely
+        ///  according to the sub elements and should update the enclosing elements</param>
+        public void ClearMessages(bool precise)
         {
         }
 
         /// <summary>
-        ///     Indicates that at least one message of type levelEnum is attached to the element
+        ///     Indicates if the element holds messages, or is part of a path to a message
         /// </summary>
-        /// <param name="levelEnum"></param>
-        /// <returns></returns>
-        public bool HasMessage(ElementLog.LevelEnum levelEnum)
+        public MessageInfoEnum MessagePathInfo
         {
-            return false;
+            get { return MessageInfoEnum.NoMessage; }
         }
 
         /// <summary>
@@ -237,9 +216,20 @@ namespace DataDictionary.Values
         /// <summary>
         ///     Adds a model element in this model element
         /// </summary>
-        /// <param name="copy"></param>
+        /// <param name="element"></param>
         public void AddModelElement(IModelElement element)
         {
+        }
+
+        /// <summary>
+        ///     Indicates whether this is a parent of the element.
+        ///     It also returns true then parent==element
+        /// </summary>
+        /// <param name="element"></param>
+        /// <returns></returns>
+        public bool IsParent(IModelElement element)
+        {
+            return element == this;
         }
 
         /// <summary>
@@ -250,14 +240,6 @@ namespace DataDictionary.Values
         public virtual void GetExplain(TextualExplanation explanation, bool explainSubElements)
         {
             explanation.WriteLine( LiteralName );
-        }
-
-        /// <summary>
-        ///     Indicates if the element holds messages, or is part of a path to a message
-        /// </summary>
-        public MessagePathInfoEnum MessagePathInfo
-        {
-            get { return MessagePathInfoEnum.Nothing; }
         }
 
         /// <summary>
@@ -279,26 +261,20 @@ namespace DataDictionary.Values
         }
     }
 
-    public abstract class BaseValue<CorrespondingType, StorageType> : Value
-        where CorrespondingType : Type
+    public abstract class BaseValue<TCorrespondingType, TStorageType> : Value
+        where TCorrespondingType : Type
     {
         /// <summary>
         ///     The actual value of this value
         /// </summary>
-        private StorageType val;
-
-        public StorageType Val
-        {
-            get { return val; }
-            set { val = value; }
-        }
+        public TStorageType Val { get; set; }
 
         /// <summary>
         ///     Constructor
         /// </summary>
         /// <param name="type"></param>
         /// <param name="val"></param>
-        public BaseValue(CorrespondingType type, StorageType val)
+        protected BaseValue(TCorrespondingType type, TStorageType val)
             : base(type)
         {
             Val = val;

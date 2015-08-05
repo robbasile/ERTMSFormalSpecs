@@ -16,12 +16,13 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using DataDictionary.Generated;
 using DataDictionary.Interpreter;
-using DataDictionary.Rules;
 using DataDictionary.Types;
 using DataDictionary.Values;
 using DataDictionary.Variables;
 using Utils;
+using PreCondition = DataDictionary.Rules.PreCondition;
 
 namespace DataDictionary.Functions
 {
@@ -68,8 +69,11 @@ namespace DataDictionary.Functions
             }
             set
             {
-                setExpression(value);
-                expression = null;
+                if (value != getExpression())
+                {
+                    setExpression(value);
+                    expression = null;
+                }
             }
         }
 
@@ -283,6 +287,19 @@ namespace DataDictionary.Functions
         {
             get { return getComment(); }
             set { setComment(value); }
+        }
+
+        /// <summary>
+        /// Creates a default element
+        /// </summary>
+        /// <param name="enclosingCollection"></param>
+        /// <returns></returns>
+        public static Case CreateDefault(ICollection enclosingCollection)
+        {
+            Case retVal = (Case)acceptor.getFactory().createCase();
+            retVal.Name = "Case" + GetElementNumber(enclosingCollection);
+
+            return retVal;
         }
     }
 }

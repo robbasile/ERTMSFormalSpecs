@@ -23,13 +23,12 @@ using GUI.BoxArrowDiagram;
 
 namespace GUI.FunctionalView
 {
-    public class FunctionalAnalysisPanel : BoxArrowPanel<NameSpace, AccessMode>
+    public class FunctionalAnalysisPanel : BoxArrowPanel<IEnclosesNameSpaces, NameSpace, AccessMode>
     {
         /// <summary>
         ///     Constructor
         /// </summary>
         public FunctionalAnalysisPanel()
-            : base()
         {
         }
 
@@ -38,7 +37,6 @@ namespace GUI.FunctionalView
         /// </summary>
         /// <param name="container"></param>
         public FunctionalAnalysisPanel(IContainer container)
-            : base()
         {
             container.Add(this);
         }
@@ -48,9 +46,9 @@ namespace GUI.FunctionalView
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public override BoxControl<NameSpace, AccessMode> createBox(NameSpace model)
+        public override BoxControl<IEnclosesNameSpaces, NameSpace, AccessMode> CreateBox(NameSpace model)
         {
-            BoxControl<NameSpace, AccessMode> retVal = new FunctionalBlockControl();
+            BoxControl<IEnclosesNameSpaces, NameSpace, AccessMode> retVal = new FunctionalBlockControl();
             retVal.Model = model;
 
             return retVal;
@@ -61,9 +59,9 @@ namespace GUI.FunctionalView
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public override ArrowControl<NameSpace, AccessMode> createArrow(AccessMode model)
+        public override ArrowControl<IEnclosesNameSpaces, NameSpace, AccessMode> CreateArrow(AccessMode model)
         {
-            ArrowControl<NameSpace, AccessMode> retVal = new AccessToControl();
+            ArrowControl<IEnclosesNameSpaces, NameSpace, AccessMode> retVal = new AccessToControl();
             retVal.Model = model;
 
             return retVal;
@@ -78,7 +76,7 @@ namespace GUI.FunctionalView
         ///     Provides the boxes that need be displayed
         /// </summary>
         /// <returns></returns>
-        public override List<NameSpace> getBoxes()
+        public override List<NameSpace> GetBoxes()
         {
             List<NameSpace> retVal = new List<NameSpace>();
 
@@ -94,7 +92,7 @@ namespace GUI.FunctionalView
         ///     Provides the arrows that need be displayed
         /// </summary>
         /// <returns></returns>
-        public override List<AccessMode> getArrows()
+        public override List<AccessMode> GetArrows()
         {
             return IEnclosesNameSpacesUtils.getAccesses(NameSpaceContainer.EFSSystem, NameSpaceContainer);
         }

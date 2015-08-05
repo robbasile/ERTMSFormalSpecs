@@ -33,17 +33,10 @@ namespace GUI.TranslationRules
         private class ItemEditor : ReferencesParagraphEditor
         {
             /// <summary>
-            ///     Constructor
-            /// </summary>
-            public ItemEditor()
-                : base()
-            {
-            }
-
-            /// <summary>
             ///     The step name
             /// </summary>
             [Category("Description")]
+            // ReSharper disable once UnusedMember.Local
             public bool Implemented
             {
                 get { return Item.getImplemented(); }
@@ -51,12 +44,11 @@ namespace GUI.TranslationRules
             }
         }
 
-        private SourceTextsTreeNode sources;
-
         /// <summary>
         ///     Constructor
         /// </summary>
         /// <param name="item"></param>
+        /// <param name="buildSubNodes"></param>
         public TranslationTreeNode(Translation item, bool buildSubNodes)
             : base(item, buildSubNodes)
         {
@@ -65,17 +57,16 @@ namespace GUI.TranslationRules
         /// <summary>
         ///     Builds the subnodes of this node
         /// </summary>
-        /// <param name="buildSubNodes">Indicates whether the subnodes of the nodes should also be built</param>
-        public override void BuildSubNodes(bool buildSubNodes)
+        /// <param name="subNodes"></param>
+        /// <param name="recursive">Indicates whether the subnodes of the nodes should also be built</param>
+        public override void BuildSubNodes(List<BaseTreeNode> subNodes, bool recursive)
         {
-            base.BuildSubNodes(buildSubNodes);
+            base.BuildSubNodes(subNodes, recursive);
 
-            sources = new SourceTextsTreeNode(Item, buildSubNodes);
-            Nodes.Add(sources);
-
+            subNodes.Add(new SourceTextsTreeNode(Item, recursive));
             foreach (SubStep subStep in Item.SubSteps)
             {
-                Nodes.Add(new SubStepTreeNode(subStep, buildSubNodes));
+                subNodes.Add(new SubStepTreeNode(subStep, recursive));
             }
         }
 
@@ -83,39 +74,16 @@ namespace GUI.TranslationRules
         ///     Creates the editor for this tree node
         /// </summary>
         /// <returns></returns>
-        protected override Editor createEditor()
+        protected override Editor CreateEditor()
         {
             return new ItemEditor();
         }
 
-        /// <summary>
-        ///     Creates a new source text
-        /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
-        public SourceTextTreeNode createSourceText(SourceText sourceText)
-        {
-            return sources.createSourceText(sourceText);
-        }
-
         public void AddSourceHandler(object sender, EventArgs args)
         {
-            sources.AddHandler(sender, args);
-        }
-
-        /// <summary>
-        ///     Creates a new sub-step
-        /// </summary>
-        /// <param name="testCase"></param>
-        /// <returns></returns>
-        public SubStepTreeNode createSubStep(SubStep subStep)
-        {
-            SubStepTreeNode retVal = new SubStepTreeNode(subStep, true);
-
-            Item.appendSubSteps(subStep);
-            Nodes.Add(retVal);
-
-            return retVal;
+            SourceText sourceText = (SourceText)acceptor.getFactory().createSourceText();
+            sourceText.Name = "<SourceText " + (Item.SourceTexts.Count + 1) + ">";
+            Item.appendSourceTexts(sourceText);
         }
 
         /// <summary>
@@ -128,7 +96,7 @@ namespace GUI.TranslationRules
             SubStep subStep = (SubStep) acceptor.getFactory().createSubStep();
             subStep.Name = "Sub-step" + Nodes.Count;
             subStep.Enclosing = Item;
-            createSubStep(subStep);
+            Item.appendSubSteps(subStep);
         }
 
         /// <summary>
@@ -139,7 +107,7 @@ namespace GUI.TranslationRules
             /// <summary>
             ///     The translation to be found
             /// </summary>
-            public Translation Translation { get; private set; }
+            private Translation Translation { get; set; }
 
             /// <summary>
             ///     Constructor
@@ -171,12 +139,14 @@ namespace GUI.TranslationRules
         /// <param name="args"></param>
         public void MarkUsageHandler(object sender, EventArgs args)
         {
-            GUIUtils.MDIWindow.ClearMarks();
-            MarkUsageVisitor finder = new MarkUsageVisitor(Item);
-            foreach (Dictionary dictionary in EFSSystem.INSTANCE.Dictionaries)
+            MarkingHistory.PerformMark(() =>
             {
-                finder.visit(dictionary);
-            }
+                MarkUsageVisitor finder = new MarkUsageVisitor(Item);
+                foreach (Dictionary dictionary in EFSSystem.INSTANCE.Dictionaries)
+                {
+                    finder.visit(dictionary);
+                }
+            });
         }
 
         /// <summary>
@@ -185,14 +155,15 @@ namespace GUI.TranslationRules
         /// <returns></returns>
         protected override List<MenuItem> GetMenuItems()
         {
-            List<MenuItem> retVal = new List<MenuItem>();
-
-            retVal.Add(new MenuItem("Add source text", new EventHandler(AddSourceHandler)));
-            retVal.Add(new MenuItem("Add sub-step", new EventHandler(AddSubStepHandler)));
-            retVal.Add(new MenuItem("-"));
-            retVal.Add(new MenuItem("Mark usages", new EventHandler(MarkUsageHandler)));
-            retVal.Add(new MenuItem("-"));
-            retVal.Add(new MenuItem("Delete", new EventHandler(DeleteHandler)));
+            List<MenuItem> retVal = new List<MenuItem>
+            {
+                new MenuItem("Add source text", AddSourceHandler),
+                new MenuItem("Add sub-step", AddSubStepHandler),
+                new MenuItem("-"),
+                new MenuItem("Mark usages", MarkUsageHandler),
+                new MenuItem("-"),
+                new MenuItem("Delete", DeleteHandler)
+            };
 
             return retVal;
         }
@@ -200,31 +171,31 @@ namespace GUI.TranslationRules
         /// <summary>
         ///     Handles drop event
         /// </summary>
-        /// <param name="SourceNode"></param>
-        public override void AcceptDrop(BaseTreeNode SourceNode)
+        /// <param name="sourceNode"></param>
+        public override void AcceptDrop(BaseTreeNode sourceNode)
         {
-            base.AcceptDrop(SourceNode);
-            AcceptDropForTranslation(this, SourceNode);
+            base.AcceptDrop(sourceNode);
+            AcceptDropForTranslation(this, sourceNode);
         }
 
         /// <summary>
         ///     Accepts the drop event
         /// </summary>
         /// <param name="translationTreeNode"></param>
-        /// <param name="SourceNode"></param>
-        public static void AcceptDropForTranslation(TranslationTreeNode translationTreeNode, BaseTreeNode SourceNode)
+        /// <param name="sourceNode"></param>
+        public static void AcceptDropForTranslation(TranslationTreeNode translationTreeNode, BaseTreeNode sourceNode)
         {
-            if (SourceNode is SourceTextTreeNode)
+            if (sourceNode is SourceTextTreeNode)
             {
-                SourceTextTreeNode text = SourceNode as SourceTextTreeNode;
+                SourceTextTreeNode text = sourceNode as SourceTextTreeNode;
 
                 SourceText otherText = (SourceText) text.Item.Duplicate();
-                translationTreeNode.createSourceText(otherText);
+                translationTreeNode.Item.appendSourceTexts(otherText);
                 text.Delete();
             }
-            else if (SourceNode is StepTreeNode)
+            else if (sourceNode is StepTreeNode)
             {
-                StepTreeNode step = SourceNode as StepTreeNode;
+                StepTreeNode step = sourceNode as StepTreeNode;
 
                 if (string.IsNullOrEmpty(step.Item.getDescription()))
                 {
@@ -233,33 +204,7 @@ namespace GUI.TranslationRules
                 }
                 else
                 {
-                    translationTreeNode.createSourceText(step.Item.createSourceText());
-                }
-            }
-        }
-
-        /// <summary>
-        ///     Handles a selection change event
-        /// </summary>
-        /// <param name="displayStatistics">Indicates that statistics should be displayed in the MDI window</param>
-        public override void SelectionChanged(bool displayStatistics)
-        {
-            base.SelectionChanged(displayStatistics);
-            if (BaseTreeView != null && BaseTreeView.RefreshNodeContent)
-            {
-                IBaseForm baseForm = BaseForm;
-                if (baseForm != null)
-                {
-                    if (baseForm.RequirementsTextBox != null)
-                    {
-                        baseForm.RequirementsTextBox.Text = Item.getSourceTextExplain();
-                    }
-
-                    Window window = baseForm as Window;
-                    if (window != null)
-                    {
-                        window.SetSelection(Item);
-                    }
+                    translationTreeNode.Item.appendSourceTexts(step.Item.createSourceText());
                 }
             }
         }

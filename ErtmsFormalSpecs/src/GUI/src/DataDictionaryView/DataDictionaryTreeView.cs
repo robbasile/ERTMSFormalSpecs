@@ -14,16 +14,24 @@
 // --
 // ------------------------------------------------------------------------------
 
+using System.Collections.Generic;
 using DataDictionary;
 
 namespace GUI.DataDictionaryView
 {
     public class DataDictionaryTreeView : TypedTreeView<Dictionary>
     {
-        protected override void BuildModel()
+        /// <summary>
+        ///     Build the model of this tree view
+        /// </summary>
+        /// <returns>the root nodes of the tree</returns>
+        protected override List<BaseTreeNode> BuildModel()
         {
-            Nodes.Clear();
-            Nodes.Add(new NameSpacesTreeNode(Root, true));
+            List<BaseTreeNode> retVal = new List<BaseTreeNode>();
+
+            retVal.Add(new NameSpacesTreeNode(Root, true));
+
+            return retVal;
         }
     }
 }

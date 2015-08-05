@@ -20,13 +20,12 @@ using GUI.BoxArrowDiagram;
 
 namespace GUI.RequirementSetDiagram
 {
-    public partial class RequirementSetDependancyControl : ArrowControl<RequirementSet, RequirementSetDependancy>
+    public class RequirementSetDependancyControl : ArrowControl<IHoldsRequirementSets, RequirementSet, RequirementSetDependancy>
     {
         /// <summary>
         ///     Constructor
         /// </summary>
         public RequirementSetDependancyControl()
-            : base()
         {
         }
 
@@ -35,7 +34,6 @@ namespace GUI.RequirementSetDiagram
         /// </summary>
         /// <param name="container"></param>
         public RequirementSetDependancyControl(IContainer container)
-            : base()
         {
             container.Add(this);
         }

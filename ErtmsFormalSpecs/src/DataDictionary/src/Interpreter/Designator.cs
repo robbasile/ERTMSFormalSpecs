@@ -209,7 +209,7 @@ namespace DataDictionary.Interpreter
                 }
 
                 // . In the predefined elements
-                addReference(EFSSystem.getPredefinedItem(Image), expectation, false, retVal);
+                addReference(EFSSystem.GetPredefinedItem(Image), expectation, false, retVal);
                 if (lastElement && !retVal.IsEmpty)
                 {
                     return retVal;
@@ -595,7 +595,7 @@ namespace DataDictionary.Interpreter
                                 {
                                     // There is still an exception : when the element is declared in the default namespace
                                     if (subDeclarator != EFSSystem.INSTANCE ||
-                                        enclosed != EFSSystem.INSTANCE.findByFullName("Default"))
+                                        enclosed != EFSSystem.INSTANCE.FindByFullName("Default"))
                                     {
                                         AddError(
                                             "Consistency check failed : enclosed element's father relationship is inconsistent");

@@ -84,7 +84,7 @@ namespace GUI.HistoryView
         ///     Instanciates the editor
         /// </summary>
         /// <returns></returns>
-        protected override Editor createEditor()
+        protected override Editor CreateEditor()
         {
             return new ChangeEditor();
         }
@@ -96,20 +96,6 @@ namespace GUI.HistoryView
         public ChangeTreeNode(Change item, bool buildSubNodes)
             : base(item, buildSubNodes)
         {
-        }
-
-        /// <summary>
-        ///     Raised when the selection has changed
-        /// </summary>
-        public override void SelectionChanged(bool displayStatistics)
-        {
-            Window window = BaseForm as Window;
-            if (window != null)
-            {
-                window.SelectionChanged(Item);
-            }
-
-            base.SelectionChanged(displayStatistics);
         }
     }
 }

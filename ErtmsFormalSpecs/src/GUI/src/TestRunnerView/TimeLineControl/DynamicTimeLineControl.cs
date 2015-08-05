@@ -15,6 +15,7 @@
 // ------------------------------------------------------------------------------
 
 using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 using DataDictionary;
 using DataDictionary.Interpreter;
@@ -52,11 +53,10 @@ namespace GUI.TestRunnerView.TimeLineControl
         ///     Constructor
         /// </summary>
         public DynamicTimeLineControl()
-            : base()
         {
             ContextMenu = new ContextMenu();
-            ContextMenu.MenuItems.Add(new MenuItem("Configure filter...", new EventHandler(OpenFilter)));
-            DoubleClick += new EventHandler(TimeLineControl_DoubleClick);
+            ContextMenu.MenuItems.Add(new MenuItem("Configure filter...", OpenFilter));
+            DoubleClick += TimeLineControl_DoubleClick;
 
             FilterConfiguration = new FilterConfiguration();
         }
@@ -74,7 +74,7 @@ namespace GUI.TestRunnerView.TimeLineControl
         private void OpenFilter(object sender, EventArgs e)
         {
             Filtering filtering = new Filtering();
-            filtering.Configure(GUIUtils.MDIWindow.EFSSystem, FilterConfiguration);
+            filtering.Configure(GuiUtils.MdiWindow.EfsSystem, FilterConfiguration);
             filtering.ShowDialog(this);
             filtering.UpdateConfiguration(FilterConfiguration);
             CleanEventPositions();
@@ -99,8 +99,8 @@ namespace GUI.TestRunnerView.TimeLineControl
             {
                 ExplanationPart explain = variableUpdate.Explanation;
                 ExplainBox explainTextBox = new ExplainBox();
-                explainTextBox.setExplanation(explain);
-                GUIUtils.MDIWindow.AddChildWindow(explainTextBox);
+                explainTextBox.SetExplanation(explain);
+                GuiUtils.MdiWindow.AddChildWindow(explainTextBox);
             }
 
             RuleFired rulefired = evt as RuleFired;
@@ -108,8 +108,8 @@ namespace GUI.TestRunnerView.TimeLineControl
             {
                 ExplanationPart explain = rulefired.Explanation;
                 ExplainBox explainTextBox = new ExplainBox();
-                explainTextBox.setExplanation(explain);
-                GUIUtils.MDIWindow.AddChildWindow(explainTextBox);
+                explainTextBox.SetExplanation(explain);
+                GuiUtils.MdiWindow.AddChildWindow(explainTextBox);
             }
 
             Expect expect = evt as Expect;
@@ -126,8 +126,8 @@ namespace GUI.TestRunnerView.TimeLineControl
                     }
 
                     ExplainBox explainTextBox = new ExplainBox();
-                    explainTextBox.setExplanation(explanation);
-                    GUIUtils.MDIWindow.AddChildWindow(explainTextBox);
+                    explainTextBox.SetExplanation(explanation);
+                    GuiUtils.MdiWindow.AddChildWindow(explainTextBox);
                 }
             }
 
@@ -135,8 +135,8 @@ namespace GUI.TestRunnerView.TimeLineControl
             if (modelInterpretationFailure != null)
             {
                 ExplainBox explainTextBox = new ExplainBox();
-                explainTextBox.setExplanation(modelInterpretationFailure.Explanation);
-                GUIUtils.MDIWindow.AddChildWindow(explainTextBox);
+                explainTextBox.SetExplanation(modelInterpretationFailure.Explanation);
+                GuiUtils.MdiWindow.AddChildWindow(explainTextBox);
             }
         }
 
@@ -171,7 +171,8 @@ namespace GUI.TestRunnerView.TimeLineControl
             PositionHandler.CleanPositions();
             if (TimeLine != null)
             {
-                foreach (ModelEvent evt in TimeLine.Events)
+                List<ModelEvent> events = new List<ModelEvent>(TimeLine.Events);
+                foreach (ModelEvent evt in events)
                 {
                     if (FilterConfiguration.VisibleEvent(evt) || evt is SubStepActivated)
                     {

@@ -17,56 +17,55 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using DataDictionary.Generated;
-using DataDictionary.Interpreter;
 using Utils;
+using Frame = DataDictionary.Tests.Frame;
 using Visitor = DataDictionary.Generated.Visitor;
 
 namespace DataDictionary.Specification
 {
-    public class Paragraph : Generated.Paragraph, IComparable<IModelElement>, IHoldsParagraphs
+    public class Paragraph : Generated.Paragraph, IHoldsParagraphs
     {
-        private static int A = Char.ConvertToUtf32("a", 0);
+        private static readonly int A = Char.ConvertToUtf32("a", 0);
 
-        private int[] id;
+        private int[] _id;
 
         public int[] Id
         {
             get
             {
-                if (id == null)
+                if (_id == null)
                 {
                     string[] levels = getId().Split('.');
-                    id = new int[levels.Length];
+                    _id = new int[levels.Length];
                     for (int i = 0; i < levels.Length; i++)
                     {
                         try
                         {
-                            id[i] = Int16.Parse(levels[i]);
+                            _id[i] = Int16.Parse(levels[i]);
                         }
-                        catch (FormatException excp)
+                        catch (FormatException)
                         {
-                            id[i] = 0;
+                            _id[i] = 0;
                             for (int j = 0; j < levels[i].Length; j++)
                             {
                                 if (Char.IsLetterOrDigit(levels[i][j]))
                                 {
                                     if (Char.IsDigit(levels[i][j]))
                                     {
-                                        id[i] = id[i]*10 + Char.Parse(levels[i][j] + "");
+                                        _id[i] = _id[i]*10 + Char.Parse(levels[i][j] + "");
                                     }
                                     else
                                     {
                                         int v = (Char.ConvertToUtf32(Char.ToLower(levels[i][j]) + "", 0) - A);
-                                        id[i] = id[i]*100 + v;
+                                        _id[i] = _id[i]*100 + v;
                                     }
                                 }
                             }
                         }
                     }
                 }
-                return id;
+                return _id;
             }
             set
             {
@@ -130,9 +129,9 @@ namespace DataDictionary.Specification
         /// <summary>
         ///     The maximum size of the text to be displayed
         /// </summary>
-        private static int MAX_TEXT_LENGTH = 50;
+        private const int MaxTextLength = 50;
 
-        private static bool STRIP_LONG_TEXT = false;
+        private const bool StripLongText = false;
 
         /// <summary>
         ///     The paragraph name
@@ -150,9 +149,9 @@ namespace DataDictionary.Specification
                 else
                 {
                     string textStart = getText();
-                    if (STRIP_LONG_TEXT && textStart.Length > MAX_TEXT_LENGTH)
+                    if (StripLongText && textStart.Length > MaxTextLength)
                     {
-                        textStart = textStart.Substring(0, MAX_TEXT_LENGTH) + "...";
+                        textStart = textStart.Substring(0, MaxTextLength) + "...";
                     }
                     retVal = retVal + " " + textStart;
                 }
@@ -180,12 +179,15 @@ namespace DataDictionary.Specification
             {
                 string retVal = getText();
 
-                if (retVal == null || retVal.Length == 0)
+                if (string.IsNullOrEmpty(retVal))
                 {
                     if (getMessage() != null)
                     {
                         Message msg = getMessage() as Message;
-                        retVal += msg.Text;
+                        if (msg != null)
+                        {
+                            retVal += msg.Text;
+                        }
                     }
                     if (allTypeSpecs() != null)
                     {
@@ -253,10 +255,10 @@ namespace DataDictionary.Specification
             return retVal;
         }
 
-        public void SetType(acceptor.Paragraph_type Type)
+        public void SetType(acceptor.Paragraph_type type)
         {
-            setType(Type);
-            switch (Type)
+            setType(type);
+            switch (type)
             {
                 case acceptor.Paragraph_type.aREQUIREMENT:
                     break;
@@ -270,9 +272,8 @@ namespace DataDictionary.Specification
         /// <summary>
         ///     Tells if the paragraph is of the selected type
         /// </summary>
-        /// <param name="Type"></param>
         /// <returns></returns>
-        public bool isTitle
+        public bool IsTitle
         {
             get { return (getType() == acceptor.Paragraph_type.aTITLE); }
         }
@@ -334,27 +335,31 @@ namespace DataDictionary.Specification
         public string GetNewSubParagraphId(bool letter)
         {
             string retVal;
+
             if (letter)
             {
-                retVal = this.FullId + ".a";
+                retVal = FullId + ".a";
             }
             else
             {
-                retVal = this.FullId + ".1";
+                retVal = FullId + ".1";
             }
 
             if (SubParagraphs.Count > 0)
             {
                 Paragraph lastParagraph = SubParagraphs[SubParagraphs.Count - 1] as Paragraph;
-                int[] ids = lastParagraph.Id;
-                int lastId = ids[ids.Length - 1];
-                if (letter)
+                if (lastParagraph != null)
                 {
-                    retVal = this.FullId + "." + (char) ('a' + (lastId + 1));
-                }
-                else
-                {
-                    retVal = this.FullId + "." + (lastId + 1).ToString();
+                    int[] ids = lastParagraph.Id;
+                    int lastId = ids[ids.Length - 1];
+                    if (letter)
+                    {
+                        retVal = FullId + "." + (char) ('a' + (lastId + 1));
+                    }
+                    else
+                    {
+                        retVal = FullId + "." + (lastId + 1);
+                    }
                 }
             }
 
@@ -463,7 +468,7 @@ namespace DataDictionary.Specification
          * Indicates that the paragraph need an implementation
          */
 
-        public bool isApplicable()
+        public bool IsApplicable()
         {
             bool retVal = false;
 
@@ -499,24 +504,12 @@ namespace DataDictionary.Specification
             /// <summary>
             ///     Provides the paragraph currently looked for
             /// </summary>
-            private Paragraph paragraph;
-
-            public Paragraph Paragraph
-            {
-                get { return paragraph; }
-                private set { paragraph = value; }
-            }
+            private Paragraph Paragraph { get; set; }
 
             /// <summary>
             ///     Provides the req refs which implement this paragraph
             /// </summary>
-            private List<ReqRef> implementations;
-
-            public List<ReqRef> Implementations
-            {
-                get { return implementations; }
-                private set { implementations = value; }
-            }
+            public List<ReqRef> Implementations { get; private set; }
 
             /// <summary>
             ///     Constructor
@@ -604,7 +597,7 @@ namespace DataDictionary.Specification
         ///     Provides all sub paragraphs of this paragraph
         /// </summary>
         /// <returns></returns>
-        public List<Paragraph> getSubParagraphs()
+        public List<Paragraph> GetSubParagraphs()
         {
             List<Paragraph> retVal = new List<Paragraph>();
 
@@ -616,7 +609,7 @@ namespace DataDictionary.Specification
         /// <summary>
         ///     Adds a model element in this model element
         /// </summary>
-        /// <param name="copy"></param>
+        /// <param name="element"></param>
         public override void AddModelElement(IModelElement element)
         {
             {
@@ -749,7 +742,7 @@ namespace DataDictionary.Specification
             {
                 HashSet<RequirementSet> retVal = new HashSet<RequirementSet>();
 
-                FillApplicableRequirementSets(retVal, false);
+                FillApplicableRequirementSets(retVal);
 
                 return retVal;
             }
@@ -759,9 +752,7 @@ namespace DataDictionary.Specification
         ///     Provides the list of applicable requirement sets
         /// </summary>
         /// <param name="applicableRequirementSets"></param>
-        /// <param name="onlyConsiderRecursiveRequirementSets">Indicates that only recursive requirement sets should be considered</param>
-        private void FillApplicableRequirementSets(HashSet<RequirementSet> applicableRequirementSets,
-            bool onlyConsiderRecursiveRequirementSets)
+        private void FillApplicableRequirementSets(HashSet<RequirementSet> applicableRequirementSets)
         {
             foreach (RequirementSetReference reference in RequirementSetReferences)
             {
@@ -775,7 +766,7 @@ namespace DataDictionary.Specification
             Paragraph enclosing = EnclosingParagraph;
             if (enclosing != null)
             {
-                enclosing.FillApplicableRequirementSets(applicableRequirementSets, true);
+                enclosing.FillApplicableRequirementSets(applicableRequirementSets);
             }
         }
 
@@ -886,7 +877,6 @@ namespace DataDictionary.Specification
             }
             else if (EnclosingChapter != null)
             {
-                string chapterId = FullId.Substring(0, FullId.IndexOf('.'));
                 Chapter parent = EnclosingChapter.FindChapterUpdate(dictionary);
                 if (parent == null)
                 {
@@ -897,6 +887,177 @@ namespace DataDictionary.Specification
             }
 
             UpdatedBy.Add(retVal);
+
+            return retVal;
+        }
+
+        /// <summary>
+        ///     Creates the status message 
+        /// </summary>
+        /// <returns>the status string for the selected element</returns>
+        public override string CreateStatusMessage()
+        {
+            string retVal = base.CreateStatusMessage();
+
+            List<Paragraph> paragraphs = new List<Paragraph> {this};
+            GetParagraphs(paragraphs);
+
+            retVal += CreateParagraphSetStatus(paragraphs);
+
+            return retVal;
+        }
+
+        /// <summary>
+        /// Creates the status string for a set of paragraphs
+        /// </summary>
+        /// <param name="paragraphs"></param>
+        /// <returns></returns>
+        public static string CreateParagraphSetStatus(List<Paragraph> paragraphs)
+        {
+            String retVal = "Statistics : ";
+
+            ParagraphSetMetrics metrics = CreateParagraphSetMetrics(paragraphs);
+            if (metrics.SubParagraphCount > 0 && metrics.ImplementableCount > 0)
+            {
+                retVal += metrics.SubParagraphCount + " requirements, ";
+                retVal += +metrics.ImplementableCount + " implementable (" +
+                          Math.Round(((float) metrics.ImplementableCount/metrics.SubParagraphCount*100), 2) + "%), ";
+                retVal += metrics.ImplementedCount + " implemented (" +
+                          Math.Round(((float) metrics.ImplementedCount/metrics.ImplementableCount*100), 2) + "%), ";
+                retVal += +metrics.UnImplementedCount + " not implemented (" +
+                          Math.Round(((float) metrics.UnImplementedCount/metrics.ImplementableCount*100), 2) + "%), ";
+                retVal += metrics.NewRevisionAvailable + " with new revision (" +
+                          Math.Round(((float) metrics.NewRevisionAvailable/metrics.ImplementableCount*100), 2) + "%), ";
+                retVal += metrics.TestedCount + " tested (" +
+                          Math.Round(((float) metrics.TestedCount/metrics.ImplementableCount*100), 2) + "%)";
+            }
+            else
+            {
+                retVal += "No implementable requirement selected";
+            }
+
+            return retVal;
+        }
+
+        /// <summary>
+        ///     Holds metrics computed on a set of paragraphs
+        /// </summary>
+        public struct ParagraphSetMetrics
+        {
+            public int SubParagraphCount;
+            public int ImplementableCount;
+            public int ImplementedCount;
+            public int UnImplementedCount;
+            public int NotImplementable;
+            public int NewRevisionAvailable;
+            public int TestedCount;
+        }
+
+        /// <summary>
+        ///     Creates the stat message according to the list of paragraphs provided
+        /// </summary>
+        /// <param name="paragraphs"></param>
+        /// <returns></returns>
+        public static ParagraphSetMetrics CreateParagraphSetMetrics(List<Paragraph> paragraphs)
+        {
+            ParagraphSetMetrics retVal = new ParagraphSetMetrics {SubParagraphCount = paragraphs.Count};
+
+            Dictionary<Paragraph, List<ReqRef>> paragraphsReqRefDictionary = null;
+            foreach (Paragraph p in paragraphs)
+            {
+                if (paragraphsReqRefDictionary == null)
+                {
+                    paragraphsReqRefDictionary = p.Dictionary.ParagraphsReqRefs;
+                }
+
+                switch (p.getImplementationStatus())
+                {
+                    case acceptor.SPEC_IMPLEMENTED_ENUM.Impl_Implemented:
+                        retVal.ImplementableCount += 1;
+
+                        bool implemented = true;
+                        if (paragraphsReqRefDictionary.ContainsKey(p))
+                        {
+                            List<ReqRef> implementations = paragraphsReqRefDictionary[p];
+                            foreach (ReqRef implementation in implementations)
+                            {
+                                // the implementation may be also a ReqRef
+                                ReqRelated reqRelated = implementation.Enclosing as ReqRelated; 
+                                if (reqRelated != null)
+                                {                                    
+                                    // Do not consider tests
+                                    if (EnclosingFinder<Frame>.find(reqRelated) == null)
+                                    {
+                                        implemented = implemented && reqRelated.ImplementationCompleted;
+                                    }
+                                }
+                            }
+                        }
+                        if (implemented)
+                        {
+                            retVal.ImplementedCount += 1;
+                        }
+                        else
+                        {
+                            retVal.UnImplementedCount += 1;
+                        }
+                        break;
+
+                    case acceptor.SPEC_IMPLEMENTED_ENUM.Impl_NA:
+                    case acceptor.SPEC_IMPLEMENTED_ENUM.defaultSPEC_IMPLEMENTED_ENUM:
+                        retVal.ImplementableCount += 1;
+                        retVal.UnImplementedCount += 1;
+                        break;
+
+                    case acceptor.SPEC_IMPLEMENTED_ENUM.Impl_NotImplementable:
+                        retVal.NotImplementable += 1;
+                        break;
+
+                    case acceptor.SPEC_IMPLEMENTED_ENUM.Impl_NewRevisionAvailable:
+                        retVal.ImplementableCount += 1;
+                        retVal.NewRevisionAvailable += 1;
+                        break;
+                }
+            }
+
+            // Count the tested paragraphs
+            HashSet<Paragraph> testedParagraphs = new HashSet<Paragraph>();
+            foreach (Dictionary dictionary in EFSSystem.INSTANCE.Dictionaries)
+            {
+                foreach (Paragraph p in dictionary.CoveredRequirements())
+                {
+                    testedParagraphs.Add(p);
+                }
+            }
+
+            foreach (Paragraph p in paragraphs)
+            {
+                if (testedParagraphs.Contains(p))
+                {
+                    retVal.TestedCount += 1;
+                }
+            }
+
+            return retVal;
+        }
+
+        /// <summary>
+        /// Creates a default element
+        /// </summary>
+        /// <param name="enclosingCollection"></param>
+        /// <param name="enclosingId"></param>
+        /// <returns></returns>
+        public static Paragraph CreateDefault(ICollection enclosingCollection, string enclosingId)
+        {
+            Paragraph retVal = (Paragraph) acceptor.getFactory().createParagraph();
+            retVal.FullId = enclosingId + "." + GetElementNumber(enclosingCollection);
+            retVal.Text = "";
+            retVal.setType(acceptor.Paragraph_type.aREQUIREMENT);
+
+            foreach (RequirementSet requirementSet in EFSSystem.INSTANCE.RequirementSets)
+            {
+                requirementSet.SetDefaultRequirementSets(retVal);
+            }
 
             return retVal;
         }

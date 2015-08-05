@@ -14,7 +14,6 @@
 // --
 // ------------------------------------------------------------------------------
 
-using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing.Design;
@@ -22,46 +21,14 @@ using System.Windows.Forms;
 using DataDictionary;
 using DataDictionary.Generated;
 using GUI.Converters;
-using NameSpace = DataDictionary.Types.NameSpace;
 using StructureElement = DataDictionary.Types.StructureElement;
-using Type = DataDictionary.Types.Type;
 
 namespace GUI.DataDictionaryView
 {
     public class StructureElementTreeNode : ReqRelatedTreeNode<StructureElement>
     {
-        private class InternalTypesConverter : TypesConverter
-        {
-            public override StandardValuesCollection
-                GetStandardValues(ITypeDescriptorContext context)
-            {
-                return GetValues(((ItemEditor) context.Instance).Item);
-            }
-        }
-
-        private class InternalValuesConverter : ValuesConverter
-        {
-            public override StandardValuesCollection
-                GetStandardValues(ITypeDescriptorContext context)
-            {
-                ItemEditor editor = (ItemEditor) context.Instance;
-                NameSpace nameSpace = editor.Item.NameSpace;
-                Type type = editor.Item.Type;
-
-                return GetValues(nameSpace, type);
-            }
-        }
-
         private class ItemEditor : ReqRelatedEditor
         {
-            /// <summary>
-            ///     Constructor
-            /// </summary>
-            public ItemEditor()
-                : base()
-            {
-            }
-
             [Category("Description")]
             public override string Name
             {
@@ -75,6 +42,7 @@ namespace GUI.DataDictionaryView
             [Category("Description")]
             [Editor(typeof (TypeUITypedEditor), typeof (UITypeEditor))]
             [TypeConverter(typeof (TypeUITypeConverter))]
+            // ReSharper disable once UnusedMember.Local
             public StructureElement Type
             {
                 get { return Item; }
@@ -91,6 +59,7 @@ namespace GUI.DataDictionaryView
             [Category("Description")]
             [Editor(typeof (DefaultValueUITypedEditor), typeof (UITypeEditor))]
             [TypeConverter(typeof (DefaultValueUITypeConverter))]
+            // ReSharper disable once UnusedMember.Local
             public StructureElement DefaultValue
             {
                 get { return Item; }
@@ -105,6 +74,7 @@ namespace GUI.DataDictionaryView
             ///     The variable mode
             /// </summary>
             [Category("Description"), TypeConverter(typeof (VariableModeConverter))]
+            // ReSharper disable once UnusedMember.Local
             public acceptor.VariableModeEnumType Mode
             {
                 get { return Item.Mode; }
@@ -116,6 +86,7 @@ namespace GUI.DataDictionaryView
         ///     Constructor
         /// </summary>
         /// <param name="item"></param>
+        /// <param name="buildSubNodes"></param>
         public StructureElementTreeNode(StructureElement item, bool buildSubNodes)
             : base(item, buildSubNodes, null, false)
         {
@@ -125,13 +96,13 @@ namespace GUI.DataDictionaryView
         ///     Creates the editor for this tree node
         /// </summary>
         /// <returns></returns>
-        protected override Editor createEditor()
+        protected override Editor CreateEditor()
         {
             return new ItemEditor();
         }
 
 
-        protected override DataDictionary.ModelElement FindOrCreateUpdate()
+        protected override ModelElement FindOrCreateUpdate()
         {
             ModelElement retVal = null;
 
@@ -142,11 +113,11 @@ namespace GUI.DataDictionaryView
                 retVal = dictionary.findByFullName(Item.FullName) as ModelElement;
                 if (retVal == null)
                 {
-                    // If the 
+                    // If the element does not already exist in the patch, add a copy to it
                     retVal = Item.CreateStructureElementUpdate(dictionary);
                 }
-                GUIUtils.MDIWindow.RefreshModel();
-                GUIUtils.MDIWindow.Select(retVal);
+                // Navigate to the element, whether it was created or not
+                EFSSystem.INSTANCE.Context.SelectElement(retVal, this, Context.SelectionCriteria.DoubleClick);
             }
 
             return retVal;
@@ -162,11 +133,11 @@ namespace GUI.DataDictionaryView
             List<MenuItem> retVal = new List<MenuItem>();
 
             MenuItem updatesItem = new MenuItem("Update...");
-            updatesItem.MenuItems.Add(new MenuItem("Update", new EventHandler(AddUpdate)));
-            updatesItem.MenuItems.Add(new MenuItem("Remove", new EventHandler(RemoveInUpdate)));
+            updatesItem.MenuItems.Add(new MenuItem("Update", AddUpdate));
+            updatesItem.MenuItems.Add(new MenuItem("Remove", RemoveInUpdate));
             retVal.Add(updatesItem);
 
-            retVal.Add(new MenuItem("Delete", new EventHandler(DeleteHandler)));
+            retVal.Add(new MenuItem("Delete", DeleteHandler));
             retVal.AddRange(base.GetMenuItems());
 
             return retVal;

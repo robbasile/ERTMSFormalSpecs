@@ -14,20 +14,27 @@
 // --
 // ------------------------------------------------------------------------------
 
+using System.Collections.Generic;
 using DataDictionary.Specification;
 
 namespace GUI.SpecificationView
 {
     public class RequirementSetsTreeView : TypedTreeView<Paragraph>
     {
-        protected override void BuildModel()
+        /// <summary>
+        ///     Build the model of this tree view
+        /// </summary>
+        /// <returns>the root nodes of the tree</returns>
+        protected override List<BaseTreeNode> BuildModel()
         {
-            Nodes.Clear();
+            List<BaseTreeNode> retVal = new List<BaseTreeNode>();
 
             foreach (RequirementSetReference reference in Root.RequirementSetReferences)
             {
-                Nodes.Add(new RequirementSetReferenceTreeNode(reference, true));
+                retVal.Add(new RequirementSetReferenceTreeNode(reference, true));
             }
+
+            return retVal;
         }
     }
 }

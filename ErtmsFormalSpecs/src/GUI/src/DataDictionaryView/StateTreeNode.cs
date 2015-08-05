@@ -19,9 +19,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
 using DataDictionary;
-using DataDictionary.Generated;
-using DataDictionary.Interpreter;
 using GUI.Converters;
+using GUI.Properties;
 using GUI.StateDiagram;
 using Rule = DataDictionary.Rules.Rule;
 using State = DataDictionary.Constants.State;
@@ -42,14 +41,6 @@ namespace GUI.DataDictionaryView
 
         private class ItemEditor : ReqRelatedEditor
         {
-            /// <summary>
-            ///     Constructor
-            /// </summary>
-            public ItemEditor()
-                : base()
-            {
-            }
-
             [Category("Default")]
             public override string Name
             {
@@ -58,6 +49,7 @@ namespace GUI.DataDictionaryView
             }
 
             [Category("Default"), TypeConverter(typeof (InternalStateTypeConverter))]
+            // ReSharper disable once UnusedMember.Local
             public string InitialState
             {
                 get { return Item.StateMachine.Default; }
@@ -66,16 +58,10 @@ namespace GUI.DataDictionaryView
         }
 
         /// <summary>
-        ///     The sub state machine
-        /// </summary>
-        public StateSubStatesTreeNode SubStates;
-
-        public StateRulesTreeNode Rules;
-
-        /// <summary>
         ///     Constructor
         /// </summary>
         /// <param name="item"></param>
+        /// <param name="buildSubNodes"></param>
         public StateTreeNode(State item, bool buildSubNodes)
             : base(item, buildSubNodes, null, false, true)
         {
@@ -84,23 +70,22 @@ namespace GUI.DataDictionaryView
         /// <summary>
         ///     Builds the subnodes of this node
         /// </summary>
-        /// <param name="buildSubNodes">Indicates whether the subnodes of the nodes should also be built</param>
-        public override void BuildSubNodes(bool buildSubNodes)
+        /// <param name="subNodes"></param>
+        /// <param name="recursive">Indicates whether the subnodes of the nodes should also be built</param>
+        public override void BuildSubNodes(List<BaseTreeNode> subNodes, bool recursive)
         {
-            base.BuildSubNodes(buildSubNodes);
+            base.BuildSubNodes(subNodes, recursive);
 
-            SubStates = new StateSubStatesTreeNode(Item, buildSubNodes);
-            Nodes.Add(SubStates);
-            Rules = new StateRulesTreeNode(Item, buildSubNodes);
-            Nodes.Add(Rules);
+            subNodes.Add(new StateSubStatesTreeNode(Item, recursive));
+            subNodes.Add(new StateRulesTreeNode(Item, recursive));
 
             if (Item.getEnterAction() != null)
             {
-                Nodes.Add(new RuleTreeNode((Rule) Item.getEnterAction(), buildSubNodes));
+                subNodes.Add(new RuleTreeNode((Rule)Item.getEnterAction(), recursive));
             }
             if (Item.getLeaveAction() != null)
             {
-                Nodes.Add(new RuleTreeNode((Rule) Item.getLeaveAction(), buildSubNodes));
+                subNodes.Add(new RuleTreeNode((Rule)Item.getLeaveAction(), recursive));
             }
         }
 
@@ -108,65 +93,48 @@ namespace GUI.DataDictionaryView
         ///     Creates the editor for this tree node
         /// </summary>
         /// <returns></returns>
-        protected override Editor createEditor()
+        protected override Editor CreateEditor()
         {
             return new ItemEditor();
         }
 
         public void AddStateHandler(object sender, EventArgs args)
         {
-            State state = (State) acceptor.getFactory().createState();
-            state.Name = "State" + (GetNodeCount(true) + 1);
-            Item.StateMachine.appendStates(state);
-            Nodes.Add(new StateTreeNode(state, true));
-            SortSubNodes();
+            Item.StateMachine.appendStates(State.CreateDefault(Item.StateMachine.States));
         }
 
         public void AddEnterActionHandler(object sender, EventArgs args)
         {
-            Rule rule = (Rule) acceptor.getFactory().createRule();
-            rule.Name = "Enter action";
-            Item.setEnterAction(rule);
-            Nodes.Add(new RuleTreeNode(rule, true));
-            SortSubNodes();
+            Item.setEnterAction(Rule.CreateDefault(null));
+            Item.getEnterAction().Name = "Enter action";
         }
 
         public void AddLeaveActionHandler(object sender, EventArgs args)
         {
-            Rule rule = (Rule) acceptor.getFactory().createRule();
-            rule.Name = "Leave action";
-            Item.setLeaveAction(rule);
-            Nodes.Add(new RuleTreeNode(rule, true));
-            SortSubNodes();
+            Item.setLeaveAction(Rule.CreateDefault(null));
+            Item.getLeaveAction().Name = "Leave action";
         }
 
         /// <summary>
         ///     Handles the drop event
         /// </summary>
-        /// <param name="SourceNode"></param>
-        public override void AcceptDrop(BaseTreeNode SourceNode)
+        /// <param name="sourceNode"></param>
+        public override void AcceptDrop(BaseTreeNode sourceNode)
         {
-            if (SourceNode is StateMachineTreeNode)
+            StateMachineTreeNode stateMachineTreeNode = sourceNode as StateMachineTreeNode;
+            if (stateMachineTreeNode != null)
             {
                 if (
                     MessageBox.Show("Are you sure you want to override the state machine ? ", "Override state machine",
                         MessageBoxButtons.OKCancel) == DialogResult.OK)
                 {
-                    StateMachineTreeNode stateMachineTreeNode = (StateMachineTreeNode) SourceNode;
                     StateMachine stateMachine = stateMachineTreeNode.Item;
                     stateMachineTreeNode.Delete();
-
-                    // Update the model
                     Item.StateMachine = stateMachine;
-
-                    // Update the view
-                    TreeNode parent = Parent;
-                    parent.Nodes.Remove(this);
-                    parent.Nodes.Add(stateMachineTreeNode);
                 }
             }
 
-            base.AcceptDrop(SourceNode);
+            base.AcceptDrop(sourceNode);
         }
 
         /// <summary>
@@ -175,9 +143,9 @@ namespace GUI.DataDictionaryView
         public void ViewDiagram()
         {
             StateDiagramWindow window = new StateDiagramWindow();
-            GUIUtils.MDIWindow.AddChildWindow(window);
+            GuiUtils.MdiWindow.AddChildWindow(window);
             window.SetStateMachine(Item.StateMachine);
-            window.Text = Item.Name + " state diagram";
+            window.Text = Item.Name + @" "+Resources.StateTreeNode_ViewDiagram_state_diagram;
         }
 
         protected void ViewStateDiagramHandler(object sender, EventArgs args)
@@ -194,18 +162,17 @@ namespace GUI.DataDictionaryView
         {
             ModelElement retVal = null;
 
-            DataDictionary.Dictionary dictionary = GetPatchDictionary();
-
+            Dictionary dictionary = GetPatchDictionary();
             if (dictionary != null)
             {
                 retVal = dictionary.findByFullName(Item.FullName) as ModelElement;
                 if (retVal == null)
                 {
-                    // If the 
+                    // If the element does not already exist in the patch, add a copy to it
                     retVal = Item.CreateStateUpdate(dictionary);
                 }
-                GUIUtils.MDIWindow.RefreshModel();
-                GUIUtils.MDIWindow.Select(retVal);
+                // Navigate to the element, whether it was created or not
+                EFSSystem.INSTANCE.Context.SelectElement(retVal, this, Context.SelectionCriteria.DoubleClick);
             }
 
             return retVal;
@@ -217,20 +184,22 @@ namespace GUI.DataDictionaryView
         /// <returns></returns>
         protected override List<MenuItem> GetMenuItems()
         {
-            List<MenuItem> retVal = new List<MenuItem>();
+            List<MenuItem> retVal = new List<MenuItem>
+            {
+                new MenuItem("Add sub state", AddStateHandler)
+            };
 
-            retVal.Add(new MenuItem("Add sub state", new EventHandler(AddStateHandler)));
             MenuItem updatesItem = new MenuItem("Update...");
-            updatesItem.MenuItems.Add(new MenuItem("Update", new EventHandler(AddUpdate)));
-            updatesItem.MenuItems.Add(new MenuItem("Remove", new EventHandler(RemoveInUpdate)));
+            updatesItem.MenuItems.Add(new MenuItem("Update", AddUpdate));
+            updatesItem.MenuItems.Add(new MenuItem("Remove", RemoveInUpdate));
             retVal.Add(updatesItem);
-            retVal.Add(new MenuItem("Delete", new EventHandler(DeleteHandler)));
+            retVal.Add(new MenuItem("Delete", DeleteHandler));
             retVal.AddRange(base.GetMenuItems());
             retVal.Insert(6, new MenuItem("-"));
-            retVal.Insert(7, new MenuItem("Add enter action", new EventHandler(AddEnterActionHandler)));
-            retVal.Insert(8, new MenuItem("Add leave action", new EventHandler(AddLeaveActionHandler)));
+            retVal.Insert(7, new MenuItem("Add enter action", AddEnterActionHandler));
+            retVal.Insert(8, new MenuItem("Add leave action", AddLeaveActionHandler));
             retVal.Insert(9, new MenuItem("-"));
-            retVal.Insert(10, new MenuItem("View state diagram", new EventHandler(ViewStateDiagramHandler)));
+            retVal.Insert(10, new MenuItem("View state diagram", ViewStateDiagramHandler));
 
             return retVal;
         }

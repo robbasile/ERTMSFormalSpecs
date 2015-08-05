@@ -16,6 +16,7 @@
 
 using System.ComponentModel;
 using System.Drawing;
+using DataDictionary;
 using DataDictionary.Interpreter;
 using DataDictionary.Types;
 using DataDictionary.Types.AccessMode;
@@ -23,13 +24,12 @@ using GUI.BoxArrowDiagram;
 
 namespace GUI.FunctionalView
 {
-    public partial class AccessToControl : ArrowControl<NameSpace, AccessMode>
+    public class AccessToControl : ArrowControl<IEnclosesNameSpaces, NameSpace, AccessMode>
     {
         /// <summary>
         ///     Constructor
         /// </summary>
         public AccessToControl()
-            : base()
         {
             ArrowMode = ArrowModeEnum.Half;
             ArrowFill = ArrowFillEnum.Fill;
@@ -40,7 +40,6 @@ namespace GUI.FunctionalView
         /// </summary>
         /// <param name="container"></param>
         public AccessToControl(IContainer container)
-            : base()
         {
             container.Add(this);
         }
@@ -57,18 +56,18 @@ namespace GUI.FunctionalView
                     switch (accessToVariable.AccessMode)
                     {
                         case Usage.ModeEnum.Read:
-                            NORMAL_COLOR = Color.Green;
-                            NORMAL_PEN = new Pen(NORMAL_COLOR);
+                            NormalColor = Color.Green;
+                            NormalPen = new Pen(NormalColor);
                             break;
 
                         case Usage.ModeEnum.ReadAndWrite:
-                            NORMAL_COLOR = Color.Orange;
-                            NORMAL_PEN = new Pen(NORMAL_COLOR);
+                            NormalColor = Color.Orange;
+                            NormalPen = new Pen(NormalColor);
                             break;
 
                         case Usage.ModeEnum.Write:
-                            NORMAL_COLOR = Color.Red;
-                            NORMAL_PEN = new Pen(NORMAL_COLOR);
+                            NormalColor = Color.Red;
+                            NormalPen = new Pen(NormalColor);
                             break;
                     }
                 }
@@ -79,7 +78,7 @@ namespace GUI.FunctionalView
         ///     Provides the name of the target state
         /// </summary>
         /// <returns></returns>
-        public override string getTargetName()
+        public override string GetTargetName()
         {
             string retVal = "<Unknown>";
 

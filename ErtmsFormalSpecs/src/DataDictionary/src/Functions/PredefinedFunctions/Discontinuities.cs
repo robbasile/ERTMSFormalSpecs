@@ -42,7 +42,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
             get
             {
                 return
-                    EFSSystem.findType(
+                    EFSSystem.FindType(
                         OverallNameSpaceFinder.INSTANCE.findByName(EFSSystem.Dictionaries[0],
                             "Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring"),
                         "Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Targets");
@@ -92,7 +92,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
 
             Collection collectionType =
                 (Collection)
-                    EFSSystem.findType(
+                    EFSSystem.FindType(
                         OverallNameSpaceFinder.INSTANCE.findByName(EFSSystem.Dictionaries[0],
                             "Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring"),
                         "Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.SpeedRestrictions");
@@ -145,7 +145,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
         {
             Structure structureType =
                 (Structure)
-                    EFSSystem.findType(
+                    EFSSystem.FindType(
                         OverallNameSpaceFinder.INSTANCE.findByName(EFSSystem.Dictionaries[0],
                             "Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring"),
                         "Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target");
@@ -153,7 +153,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
 
             Variable speedV = (Variable) acceptor.getFactory().createVariable();
             speedV.Type =
-                EFSSystem.findType(
+                EFSSystem.FindType(
                     OverallNameSpaceFinder.INSTANCE.findByName(EFSSystem.Dictionaries[0], "Default.BaseTypes"),
                     "Default.BaseTypes.Speed");
             speedV.Name = "Speed";
@@ -165,7 +165,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
 
             Variable location = (Variable) acceptor.getFactory().createVariable();
             location.Type =
-                EFSSystem.findType(
+                EFSSystem.FindType(
                     OverallNameSpaceFinder.INSTANCE.findByName(EFSSystem.Dictionaries[0], "Default.BaseTypes"),
                     "Default.BaseTypes.Distance");
             location.Name = "Location";
@@ -177,7 +177,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
 
             Variable lengthV = (Variable) acceptor.getFactory().createVariable();
             lengthV.Type =
-                EFSSystem.findType(
+                EFSSystem.FindType(
                     OverallNameSpaceFinder.INSTANCE.findByName(EFSSystem.Dictionaries[0], "Default.BaseTypes"),
                     "Default.BaseTypes.Length");
             lengthV.Name = "Length";

@@ -120,23 +120,13 @@ namespace DataDictionary.Specification
         }
 
         /// <summary>
-        ///     The explanation of the element
-        /// </summary>
-        /// <param name="explainSubElements">Precises if we need to explain the sub elements (if any)</param>
-        /// <returns></returns>
-        public string getExplain(bool explainSubElements)
-        {
-            return Name;
-        }
-
-        /// <summary>
         ///     The collection in which this model element lies
         /// </summary>
         public override ArrayList EnclosingCollection
         {
             get
             {
-                ArrayList retVal = null;
+                ArrayList retVal;
 
                 RequirementSet enclosingSet = Enclosing as RequirementSet;
                 if (enclosingSet != null)
@@ -162,12 +152,13 @@ namespace DataDictionary.Specification
             /// <summary>
             ///     The list of paragraphs to be filled
             /// </summary>
-            public List<Paragraph> Paragraphs { get; private set; }
+            private List<Paragraph> Paragraphs { get; set; }
 
             /// <summary>
             ///     Constructor
             /// </summary>
             /// <param name="requirementSet"></param>
+            /// <param name="paragraphs"></param>
             public ParagraphForRequirementSet(RequirementSet requirementSet, List<Paragraph> paragraphs)
             {
                 RequirementSet = requirementSet;
@@ -271,23 +262,23 @@ namespace DataDictionary.Specification
         /// <summary>
         ///     The name of the requireement set for scoping information
         /// </summary>
-        public const string ONBOARD_SCOPE_NAME = "Onboard";
+        public const string OnboardScopeName = "Onboard";
 
         /// <summary>
         ///     The name of the requireement set for scoping information
         /// </summary>
-        public const string TRACKSIDE_SCOPE_NAME = "Trackside";
+        public const string TracksideScopeName = "Trackside";
 
         /// <summary>
         ///     The name of the requireement set for scoping information
         /// </summary>
-        public const string ROLLING_STOCK_SCOPE_NAME = "Rolling stock";
+        public const string RollingStockScopeName = "Rolling stock";
 
         /// <summary>
         ///     Sets the default requirement sets for the paragraph
         /// </summary>
         /// <param name="paragraph"></param>
-        public void setDefaultRequirementSets(Paragraph paragraph)
+        public void SetDefaultRequirementSets(Paragraph paragraph)
         {
             if (getDefault())
             {
@@ -295,7 +286,7 @@ namespace DataDictionary.Specification
             }
             foreach (RequirementSet subRequirementSet in RequirementSets)
             {
-                subRequirementSet.setDefaultRequirementSets(paragraph);
+                subRequirementSet.SetDefaultRequirementSets(paragraph);
             }
         }
 
@@ -308,6 +299,21 @@ namespace DataDictionary.Specification
         {
             explanation.Write("REQUIREMENT SET ");
             explanation.WriteLine(Name);
+        }
+
+        /// <summary>
+        ///     Creates the status message 
+        /// </summary>
+        /// <returns>the status string for the selected element</returns>
+        public override string CreateStatusMessage()
+        {
+            string retVal = base.CreateStatusMessage();
+
+            List<Paragraph> paragraphs = new List<Paragraph>();
+            GetParagraphs(paragraphs);
+            retVal += Paragraph.CreateParagraphSetStatus(paragraphs);
+
+            return retVal;
         }
     }
 }

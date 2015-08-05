@@ -22,7 +22,6 @@ using System.Windows.Forms;
 using DataDictionary;
 using GUI.Converters;
 using GUI.SpecificationView;
-using Window = GUI.DataDictionaryView.Window;
 
 namespace GUI
 {
@@ -43,15 +42,8 @@ namespace GUI
 
         private class ItemEditor : Editor
         {
-            /// <summary>
-            ///     Constructor
-            /// </summary>
-            public ItemEditor()
-                : base()
-            {
-            }
-
             [Category("Description"), TypeConverter(typeof (InternalTracesConverter))]
+            // ReSharper disable once UnusedMember.Local
             public string Name
             {
                 get { return Item.Name; }
@@ -60,6 +52,7 @@ namespace GUI
             [Category("Description")]
             [Editor(typeof (CommentableUITypedEditor), typeof (UITypeEditor))]
             [TypeConverter(typeof (CommentableUITypeConverter))]
+            // ReSharper disable once UnusedMember.Local
             public ReqRef Comment
             {
                 get { return Item; }
@@ -74,8 +67,10 @@ namespace GUI
         /// <summary>
         ///     Constructor
         /// </summary>
-        /// <param name="name"></param>
         /// <param name="item"></param>
+        /// <param name="buildSubNodes"></param>
+        /// <param name="canBeDeleted"></param>
+        /// <param name="name"></param>
         public ReqRefTreeNode(ReqRef item, bool buildSubNodes, bool canBeDeleted, string name = null)
             : base(item, buildSubNodes, name)
         {
@@ -86,51 +81,15 @@ namespace GUI
         ///     Creates the editor for this tree node
         /// </summary>
         /// <returns></returns>
-        protected override Editor createEditor()
+        protected override Editor CreateEditor()
         {
             return new ItemEditor();
         }
 
         public override void DoubleClickHandler()
         {
-            base.DoubleClickHandler();
-
-            MainWindow mainWindow = GUIUtils.MDIWindow;
-
-            foreach (Form form in mainWindow.SubWindows)
-            {
-                {
-                    Window window = form as Window;
-                    if (window != null)
-                    {
-                        window.TreeView.Select(Item.Model);
-                    }
-                }
-
-                {
-                    SpecificationView.Window window = form as SpecificationView.Window;
-                    if (window != null)
-                    {
-                        window.TreeView.Select(Item.Paragraph);
-                    }
-                }
-
-                {
-                    TestRunnerView.Window window = form as TestRunnerView.Window;
-                    if (window != null)
-                    {
-                        window.TreeView.Select(Item.Model);
-                    }
-                }
-
-                {
-                    TranslationRules.Window window = form as TranslationRules.Window;
-                    if (window != null)
-                    {
-                        window.TreeView.Select(Item.Model);
-                    }
-                }
-            }
+            EFSSystem.INSTANCE.Context.SelectElement(Item.Paragraph, this, Context.SelectionCriteria.DoubleClick);
+            EFSSystem.INSTANCE.Context.SelectElement(Item.Model, this, Context.SelectionCriteria.DoubleClick);
         }
 
         /// <summary>
@@ -158,9 +117,8 @@ namespace GUI
                 {
                     retVal = Item.CreateReqRefUpdate(model);
                 }
-                // navigate to the rule, whether it was created or not
-                GUIUtils.MDIWindow.RefreshModel();
-                GUIUtils.MDIWindow.Select(retVal);
+                // Navigate to the element, whether it was created or not
+                EFSSystem.INSTANCE.Context.SelectElement(retVal, this, Context.SelectionCriteria.DoubleClick);
             }
 
             return retVal;
@@ -172,17 +130,16 @@ namespace GUI
         /// <returns></returns>
         protected override List<MenuItem> GetMenuItems()
         {
-            List<MenuItem> retVal = new List<MenuItem>();
+            List<MenuItem> retVal = new List<MenuItem> {new MenuItem("Select", SelectHandler)};
 
-            retVal.Add(new MenuItem("Select", new EventHandler(SelectHandler)));
             MenuItem updateItem = new MenuItem("Update...");
-            updateItem.MenuItems.Add(new MenuItem("Remove link", new EventHandler(RemoveInUpdate)));
+            updateItem.MenuItems.Add(new MenuItem("Remove link", RemoveInUpdate));
             retVal.Add(updateItem);
 
             if (CanBeDeleted)
             {
                 retVal.Add(new MenuItem("-"));
-                retVal.Add(new MenuItem("Delete", new EventHandler(DeleteHandler)));
+                retVal.Add(new MenuItem("Delete", DeleteHandler));
             }
 
             return retVal;
@@ -192,14 +149,14 @@ namespace GUI
         /// <summary>
         ///     Accepts a drop event
         /// </summary>
-        /// <param name="SourceNode"></param>
-        public override void AcceptDrop(BaseTreeNode SourceNode)
+        /// <param name="sourceNode"></param>
+        public override void AcceptDrop(BaseTreeNode sourceNode)
         {
-            base.AcceptDrop(SourceNode);
+            base.AcceptDrop(sourceNode);
 
-            if (SourceNode is ParagraphTreeNode)
+            if (sourceNode is ParagraphTreeNode)
             {
-                ParagraphTreeNode paragraph = SourceNode as ParagraphTreeNode;
+                ParagraphTreeNode paragraph = sourceNode as ParagraphTreeNode;
 
                 Item.Name = paragraph.Item.FullId;
                 RefreshNode();

@@ -21,8 +21,6 @@ namespace GUI.EditorView
     /// <summary>
     ///     Sets the string value into the right property
     /// </summary>
-    /// <param name="instance"></param>
-    /// <param name="value"></param>
     public class CommentableTextChangeHandler : Window.HandleTextChange
     {
         /// <summary>
@@ -56,11 +54,18 @@ namespace GUI.EditorView
         /// <returns></returns>
         public override void SetText(string text)
         {
-            ICommentable commentable = Instance as ICommentable;
+            text = RemoveUselessCharacters(text);
 
-            if (commentable != null && commentable.Comment != text)
+            ICommentable commentable = Instance as ICommentable;
+            if (commentable != null)
             {
-                commentable.Comment = text;
+                // We don't care about changes in only \r
+                string originalText = RemoveUselessCharacters(commentable.Comment);
+
+                if (originalText != text)
+                {
+                    commentable.Comment = text;
+                }
             }
         }
     }

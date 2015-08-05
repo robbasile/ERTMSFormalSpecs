@@ -15,13 +15,13 @@
 // ------------------------------------------------------------------------------
 
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using DataDictionary;
 using DataDictionary.Interpreter;
 using GUI.Properties;
 using Utils;
-using ModelElement = Utils.ModelElement;
 
 namespace GUI
 {
@@ -32,17 +32,7 @@ namespace GUI
         /// </summary>
         public IBaseForm ParentForm
         {
-            get
-            {
-                Control parent = Parent;
-
-                while (parent != null && !(parent is IBaseForm))
-                {
-                    parent = parent.Parent;
-                }
-
-                return parent as IBaseForm;
-            }
+            get { return GuiUtils.EnclosingFinder<IBaseForm>.Find(this); }
         }
 
         public static int FileImageIndex;
@@ -59,101 +49,6 @@ namespace GUI
         public static int InterfaceImageIndex;
         public static int RedefinesImageIndex;
 
-
-        /// <summary>
-        ///     The thread used to synchronize node names with their model
-        /// </summary>
-        private class ColorSynchronizer : GenericSynchronizationHandler<BaseTreeView>
-        {
-            /// <summary>
-            ///     The last count of messages
-            /// </summary>
-            private int LastMessageCount { get; set; }
-
-            /// <summary>
-            ///     Constructor
-            /// </summary>
-            /// <param name="instance"></param>
-            public ColorSynchronizer(BaseTreeView instance, int cycleTime)
-                : base(instance, cycleTime)
-            {
-                LastMessageCount = 0;
-            }
-
-            /// <summary>
-            ///     Synchronization
-            /// </summary>
-            /// <param name="instance"></param>
-            public override void HandleSynchronization(BaseTreeView instance)
-            {
-                if (LastMessageCount != ModelElement.LogCount)
-                {
-                    LastMessageCount = ModelElement.LogCount;
-
-                    foreach (BaseTreeNode node in instance.Nodes)
-                    {
-                        if (node.Model is DataDictionary.ModelElement)
-                        {
-                            Util.UpdateMessageInfo((DataDictionary.ModelElement) node.Model);
-                        }
-                    }
-                    instance.Invoke((MethodInvoker) delegate
-                    {
-                        instance.SuspendLayout();
-                        foreach (BaseTreeNode node in instance.Nodes)
-                        {
-                            node.UpdateColor();
-                        }
-                        instance.ResumeLayout(true);
-                    });
-                }
-            }
-        }
-
-        /// <summary>
-        ///     The thread used to synchronize node names with their model
-        /// </summary>
-        private class NameSynchronizer : GenericSynchronizationHandler<BaseTreeView>
-        {
-            /// <summary>
-            ///     Constructor
-            /// </summary>
-            /// <param name="instance"></param>
-            public NameSynchronizer(BaseTreeView instance, int cycleTime)
-                : base(instance, cycleTime)
-            {
-            }
-
-            /// <summary>
-            ///     Synchronization
-            /// </summary>
-            /// <param name="instance"></param>
-            public override void HandleSynchronization(BaseTreeView instance)
-            {
-                instance.Invoke((MethodInvoker) delegate
-                {
-                    instance.SuspendLayout();
-                    if (instance.Selected != null)
-                    {
-                        instance.Selected.UpdateText();
-                    }
-                    instance.ResumeLayout();
-                });
-            }
-        }
-
-        /// <summary>
-        ///     Indicates that synchronization is required
-        /// </summary>
-        private ColorSynchronizer NodeColorSynchronizer { get; set; }
-
-        private NameSynchronizer NodeNameSynchronizer { get; set; }
-
-        /// <summary>
-        ///     Indicates that selection should be taken into account while considering history
-        /// </summary>
-        protected bool KeepTrackOfSelection { get; set; }
-
         /// <summary>
         ///     Indicates whether refactoring should occur during drag & drop
         /// </summary>
@@ -163,20 +58,18 @@ namespace GUI
         ///     Constructor
         /// </summary>
         protected BaseTreeView()
-            : base()
         {
-            BeforeSelect += new TreeViewCancelEventHandler(BeforeSelectHandler);
-            AfterSelect += new TreeViewEventHandler(AfterSelectHandler);
-            DoubleClick += new EventHandler(DoubleClickHandler);
-            ItemDrag += new ItemDragEventHandler(ItemDragHandler);
-            DragEnter += new DragEventHandler(DragEnterHandler);
-            DragDrop += new DragEventHandler(DragDropHandler);
+            AfterSelect += AfterSelectHandler;
+            DoubleClick += DoubleClickHandler;
+            ItemDrag += ItemDragHandler;
+            DragEnter += DragEnterHandler;
+            DragDrop += DragDropHandler;
             AllowDrop = true;
 
-            BeforeExpand += new TreeViewCancelEventHandler(BeforeExpandHandler);
-            BeforeCollapse += new TreeViewCancelEventHandler(BeforeCollapseHandler);
-            KeyUp += new KeyEventHandler(BaseTreeView_KeyUp);
-            AfterLabelEdit += new NodeLabelEditEventHandler(LabelEditHandler);
+            BeforeExpand += BeforeExpandHandler;
+            BeforeCollapse += BeforeCollapseHandler;
+            KeyUp += BaseTreeView_KeyUp;
+            AfterLabelEdit += LabelEditHandler;
             LabelEdit = true;
             HideSelection = false;
 
@@ -210,10 +103,6 @@ namespace GUI
             InterfaceImageIndex = 11;
             RedefinesImageIndex = 12;
 
-            NodeColorSynchronizer = new ColorSynchronizer(this, 300);
-            NodeNameSynchronizer = new NameSynchronizer(this, 300);
-
-            KeepTrackOfSelection = true;
             DoubleBuffered = true;
 
             Selecting = false;
@@ -237,7 +126,7 @@ namespace GUI
         /// <summary>
         ///     Indicates that an expand all operation is currently being done
         /// </summary>
-        private bool ExpandingAll = false;
+        private bool _expandingAll;
 
         /// <summary>
         ///     Handles an expand event
@@ -246,33 +135,25 @@ namespace GUI
         /// <param name="e"></param>
         private void BeforeExpandHandler(object sender, TreeViewCancelEventArgs e)
         {
-            try
+            BaseTreeNode node = e.Node as BaseTreeNode;
+            if (node != null)
             {
-                GUIUtils.MDIWindow.HandlingSelection = true;
-                Selected = e.Node as BaseTreeNode;
-                if (Selected != null)
+                if (ModifierKeys == Keys.Control && !_expandingAll && !Selecting)
                 {
-                    if (ModifierKeys == Keys.Control && !ExpandingAll && !Selecting)
+                    try
                     {
-                        try
-                        {
-                            ExpandingAll = true;
-                            Selected.ExpandAll();
-                        }
-                        finally
-                        {
-                            ExpandingAll = false;
-                        }
+                        _expandingAll = true;
+                        node.ExpandAll();
                     }
-                    else
+                    finally
                     {
-                        Selected.HandleExpand();
+                        _expandingAll = false;
                     }
                 }
-            }
-            finally
-            {
-                GUIUtils.MDIWindow.HandlingSelection = false;
+                else
+                {
+                    node.HandleExpand();
+                }
             }
         }
 
@@ -283,15 +164,10 @@ namespace GUI
         /// <param name="e"></param>
         private void BeforeCollapseHandler(object sender, TreeViewCancelEventArgs e)
         {
-            try
+            BaseTreeNode node = e.Node as BaseTreeNode;
+            if (node != null)
             {
-                GUIUtils.MDIWindow.HandlingSelection = true;
-                Selected = e.Node as BaseTreeNode;
-                Selected.HandleCollapse();
-            }
-            finally
-            {
-                GUIUtils.MDIWindow.HandlingSelection = false;
+                node.HandleCollapse();
             }
         }
 
@@ -303,7 +179,10 @@ namespace GUI
         public void LabelEditHandler(object sender, NodeLabelEditEventArgs e)
         {
             Selected = e.Node as BaseTreeNode;
-            Selected.HandleLabelEdit(e.Label);
+            if (Selected != null)
+            {
+                Selected.HandleLabelEdit(e.Label);
+            }
         }
 
         /// <summary>
@@ -326,8 +205,8 @@ namespace GUI
             e.Effect = DragDropEffects.Move;
         }
 
-        private const int CTRL = 8;
-        private const int ALT = 32;
+        private const int Ctrl = 8;
+        private const int Alt = 32;
 
         /// <summary>
         ///     Called when the drop operation is performed on a node
@@ -342,13 +221,13 @@ namespace GUI
                 BaseTreeNode destinationNode = (BaseTreeNode) ((BaseTreeView) sender).GetNodeAt(pt);
                 object data = e.Data.GetData("WindowsForms10PersistentObject");
                 BaseTreeNode sourceNode = data as BaseTreeNode;
-                if (destinationNode != null)
+                if (sourceNode != null && destinationNode != null)
                 {
-                    if ((e.KeyState & CTRL) != 0)
+                    if ((e.KeyState & Ctrl) != 0)
                     {
                         destinationNode.AcceptCopy(sourceNode);
                     }
-                    else if ((e.KeyState & ALT) != 0)
+                    else if ((e.KeyState & Alt) != 0)
                     {
                         destinationNode.AcceptMove(sourceNode);
                     }
@@ -374,7 +253,7 @@ namespace GUI
         {
             foreach (BaseTreeNode node in Nodes)
             {
-                RefreshNode(node as BaseTreeNode);
+                RefreshNode(node);
             }
         }
 
@@ -400,22 +279,9 @@ namespace GUI
         }
 
         /// <summary>
-        ///     The node that is currently selected
+        /// Indicates that the selection should not trigger AfterSelect
         /// </summary>
-        private BaseTreeNode currentSelection;
-
-        /// <summary>
-        ///     Handler called before another node is selected
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void BeforeSelectHandler(object sender, TreeViewCancelEventArgs e)
-        {
-            if (currentSelection != null)
-            {
-                currentSelection.BeforeSelectionChange();
-            }
-        }
+        public bool SilentSelect { get; set; }
 
         /// <summary>
         ///     Handles a selection event
@@ -424,14 +290,12 @@ namespace GUI
         /// <param name="e"></param>
         public void AfterSelectHandler(object sender, TreeViewEventArgs e)
         {
-            Selected = e.Node as BaseTreeNode;
-            currentSelection = Selected;
-            if (Selected != null)
+            if (!SilentSelect)
             {
-                Selected.SelectionChanged(true);
-                if (KeepTrackOfSelection)
+                BaseTreeNode node = e.Node as BaseTreeNode;
+                if (node != null)
                 {
-                    GUIUtils.MDIWindow.HandleSelection(Selected);
+                    node.SelectionHandler();
                 }
             }
         }
@@ -470,38 +334,17 @@ namespace GUI
         /// <summary>
         ///     Sets the root elements of the tree view (untyped)
         /// </summary>
-        /// <param name="Model"></param>
-        public abstract void SetRoot(IModelElement Model);
-
-
-        /// <summary>
-        ///     Indicates whether the second argument (parent) is a parent of the first argument (element).
-        ///     It also returns true then parent==element
-        /// </summary>
-        /// <param name="element"></param>
-        /// <param name="parent"></param>
-        /// <returns></returns>
-        private bool IsParent(IModelElement element, IModelElement parent)
-        {
-            bool retVal;
-
-            IModelElement current = element;
-            do
-            {
-                retVal = current == parent;
-                current = EnclosingFinder<IModelElement>.find(current);
-            } while (!retVal && current != null);
-
-            return retVal;
-        }
+        /// <param name="model"></param>
+        public abstract void SetRoot(IModelElement model);
 
         /// <summary>
         ///     Finds the node which references the element provided
         /// </summary>
         /// <param name="node"></param>
         /// <param name="element"></param>
+        /// <param name="buildSubNodes">Indicates that the sub nodes should be built before trying to select a sub element</param>
         /// <returns></returns>
-        private BaseTreeNode InnerFindNode(BaseTreeNode node, IModelElement element)
+        private BaseTreeNode InnerFindNode(BaseTreeNode node, IModelElement element, bool buildSubNodes)
         {
             BaseTreeNode retVal = null;
 
@@ -512,17 +355,16 @@ namespace GUI
             else
             {
                 // Ensures that the sub nodes have been built before trying to find the corresponding element
-                if (!node.SubNodesBuilt)
+                if (buildSubNodes && !node.SubNodesBuilt)
                 {
-                    node.BuildSubNodes(false);
-                    node.UpdateColor();
+                    node.BuildOrRefreshSubNodes(null);
                 }
 
                 foreach (BaseTreeNode subNode in node.Nodes)
                 {
-                    if (IsParent(element, subNode.Model))
+                    if (subNode.Model.IsParent(element))
                     {
-                        retVal = InnerFindNode(subNode, element);
+                        retVal = InnerFindNode(subNode, element, buildSubNodes);
                         if (retVal != null)
                         {
                             break;
@@ -538,14 +380,15 @@ namespace GUI
         ///     Provides the node which corresponds to the model element provided
         /// </summary>
         /// <param name="model"></param>
+        /// <param name="buildSubNodes"></param>
         /// <returns></returns>
-        public BaseTreeNode FindNode(IModelElement model)
+        public BaseTreeNode FindNode(IModelElement model, bool buildSubNodes)
         {
             BaseTreeNode retVal = null;
 
             foreach (BaseTreeNode node in Nodes)
             {
-                retVal = InnerFindNode(node, model);
+                retVal = InnerFindNode(node, model, buildSubNodes);
                 if (retVal != null)
                 {
                     break;
@@ -575,14 +418,18 @@ namespace GUI
                 Selecting = true;
                 if (element != null)
                 {
-                    retVal = FindNode(element);
+                    retVal = FindNode(element, true);
                     if (retVal != null)
                     {
-                        Selected = retVal;
+                        // ReSharper disable once RedundantCheckBeforeAssignment
+                        if (Selected != retVal)
+                        {
+                            Selected = retVal;
+                        }
 
                         if (getFocus)
                         {
-                            Form form = GUIUtils.EnclosingFinder<Form>.find(this);
+                            Form form = GuiUtils.EnclosingFinder<Form>.Find(this);
                             form.BringToFront();
                         }
                     }
@@ -599,7 +446,8 @@ namespace GUI
         /// <summary>
         ///     Build the model of this tree view
         /// </summary>
-        protected abstract void BuildModel();
+        /// <returns>the root nodes of the tree</returns>
+        protected abstract List<BaseTreeNode> BuildModel();
 
         /// <summary>
         ///     Indicates that the node contents should be refreshed
@@ -609,7 +457,8 @@ namespace GUI
         /// <summary>
         ///     Refreshes the model of the tree view
         /// </summary>
-        public void RefreshModel()
+        /// <param name="modifiedElement">The element that has been modified</param>
+        public void RefreshModel(IModelElement modifiedElement)
         {
             BaseTreeNode selected = Selected;
             Util.DontNotify(() =>
@@ -619,7 +468,26 @@ namespace GUI
                     SuspendLayout();
                     RefreshNodeContent = false;
 
-                    BuildModel();
+                    // Ensure the root nodes are correct
+                    List<BaseTreeNode> rootNodes = BuildModel();
+                    if (rootNodes.Count != Nodes.Count)
+                    {
+                        Nodes.Clear();
+                        foreach (BaseTreeNode node in rootNodes)
+                        {
+                            Nodes.Add(node);
+                        }
+                    }
+
+                    // Refresh the selected node
+                    foreach (BaseTreeNode node in Nodes)
+                    {
+                        if (node.Model != null && node.Model.IsParent(modifiedElement))
+                        {
+                            node.BuildOrRefreshSubNodes(modifiedElement);
+                        }
+                    }
+
                     if (selected != null)
                     {
                         Select(selected.Model);
@@ -640,7 +508,7 @@ namespace GUI
         /// <param name="node">the node from which the selection process must begin</param>
         /// <param name="levelEnum"></param>
         /// <param name="considerThisOne">Indicates that the current node should be considered by the search</param>
-        /// <returns>the node to select</returns>
+        /// <returns>The node which corresponds to the search criteria, null otherwise</returns>
         private BaseTreeNode RecursivelySelectNext(IModelElement current, BaseTreeNode node,
             ElementLog.LevelEnum levelEnum, bool considerThisOne)
         {
@@ -648,9 +516,18 @@ namespace GUI
 
             if (current != null)
             {
-                if (considerThisOne && (node.Parent == null || node.Model != ((BaseTreeNode) node.Parent).Model))
+                IModelElement model = node.Model;
+                if (considerThisOne && (node.Parent == null || node.Model != ((BaseTreeNode)node.Parent).Model))
                 {
-                    if (node.Model.HasMessage(levelEnum) && node.Model != current)
+                    if (levelEnum == ElementLog.LevelEnum.Error && (model.MessagePathInfo & MessageInfoEnum.Error) != 0)
+                    {
+                        retVal = node;                        
+                    }
+                    else if (levelEnum == ElementLog.LevelEnum.Warning && (model.MessagePathInfo & MessageInfoEnum.Warning) != 0)
+                    {
+                        retVal = node;
+                    }
+                    else if (levelEnum == ElementLog.LevelEnum.Info && (model.MessagePathInfo & MessageInfoEnum.Info) != 0)
                     {
                         retVal = node;
                     }
@@ -658,44 +535,46 @@ namespace GUI
 
                 if (retVal == null)
                 {
-                    if (!node.SubNodesBuilt)
+                    if (levelEnum == ElementLog.LevelEnum.Error && (model.MessagePathInfo & MessageInfoEnum.PathToError) != 0)
                     {
-                        // Maybe the correspponding subnodes have not yet been built
-                        // Do we need to look through these ? 
-                        if (levelEnum == ElementLog.LevelEnum.Error &&
-                            (current.MessagePathInfo == MessagePathInfoEnum.PathToError ||
-                             current.MessagePathInfo == MessagePathInfoEnum.Error))
-                        {
-                            node.BuildSubNodes(false);
-                            node.UpdateColor();
-                        }
-                        else if (levelEnum == ElementLog.LevelEnum.Warning &&
-                                 (current.MessagePathInfo == MessagePathInfoEnum.PathToError ||
-                                  current.MessagePathInfo == MessagePathInfoEnum.Error ||
-                                  current.MessagePathInfo == MessagePathInfoEnum.Warning ||
-                                  current.MessagePathInfo == MessagePathInfoEnum.PathToWarning))
-                        {
-                            node.BuildSubNodes(false);
-                            node.UpdateColor();
-                        }
-                        else if (levelEnum == ElementLog.LevelEnum.Info &&
-                                 current.MessagePathInfo != MessagePathInfoEnum.Nothing)
-                        {
-                            node.BuildSubNodes(false);
-                            node.UpdateColor();
-                        }
+                        retVal = InnerSelectNext(current, node, levelEnum);
                     }
-                    if (node.Nodes.Count > 0)
+                    else if (levelEnum == ElementLog.LevelEnum.Warning && (model.MessagePathInfo & MessageInfoEnum.PathToWarning) != 0)
                     {
-                        foreach (BaseTreeNode subNode in node.Nodes)
-                        {
-                            retVal = RecursivelySelectNext(current, subNode, levelEnum, true);
-                            if (retVal != null)
-                            {
-                                break;
-                            }
-                        }
+                        retVal = InnerSelectNext(current, node, levelEnum);
                     }
+                    else if (levelEnum == ElementLog.LevelEnum.Info && (model.MessagePathInfo & MessageInfoEnum.PathToInfo) != 0)
+                    {
+                        retVal = InnerSelectNext(current, node, levelEnum);
+                    }
+                }
+            }
+
+            return retVal;
+        }
+
+        /// <summary>
+        /// Builds the subnodes if needed, then try to select the next Error/Warning/Info
+        /// </summary>
+        /// <param name="current">the model element that is currently displayed</param>
+        /// <param name="node">the node from which the selection process must begin</param>
+        /// <param name="levelEnum"></param>
+        /// <returns>The node which corresponds to the search criteria, null otherwise</returns>
+        private BaseTreeNode InnerSelectNext(IModelElement current, BaseTreeNode node, ElementLog.LevelEnum levelEnum)
+        {
+            BaseTreeNode retVal = null;
+
+            if (!node.SubNodesBuilt)
+            {
+                node.BuildOrRefreshSubNodes(null);
+            }
+
+            foreach (BaseTreeNode subNode in node.Nodes)
+            {
+                retVal = RecursivelySelectNext(current, subNode, levelEnum, true);
+                if (retVal != null)
+                {
+                    break;
                 }
             }
 
@@ -709,7 +588,7 @@ namespace GUI
         public void SelectNext(ElementLog.LevelEnum levelEnum)
         {
             BaseTreeNode node = Selected;
-            BaseTreeNode toSelect = null;
+            BaseTreeNode toSelect;
 
             if (node != null)
             {
@@ -736,36 +615,35 @@ namespace GUI
 
             if (toSelect != null)
             {
-                Selected = toSelect;
+                EFSSystem.INSTANCE.Context.SelectElement(toSelect.Model, toSelect, Context.SelectionCriteria.DoubleClick);
             }
             else
             {
-                MessageBox.Show("No more element found", "End of selection");
+                MessageBox.Show(
+                    Resources.BaseTreeView_SelectNext_No_more_element_found, 
+                    Resources.BaseTreeView_SelectNext_End_of_selection);
             }
         }
     }
 
-    public abstract class TypedTreeView<RootType> : BaseTreeView
-        where RootType : class, IModelElement
+    public abstract class TypedTreeView<T> : BaseTreeView
+        where T : class, IModelElement
     {
         /// <summary>
         ///     The root of this tree view
         /// </summary>
-        private RootType root;
+        private T _root;
 
-        public RootType Root
+        public T Root
         {
-            get { return root; }
+            get { return _root; }
             set
             {
-                root = value;
+                Nodes.Clear();
+                _root = value;
                 if (value != null)
                 {
-                    RefreshModel();
-                }
-                else
-                {
-                    Nodes.Clear();
+                    RefreshModel(null);
                 }
             }
         }
@@ -773,10 +651,10 @@ namespace GUI
         /// <summary>
         ///     Sets the root of this tree view
         /// </summary>
-        /// <param name="Model"></param>
-        public override void SetRoot(IModelElement Model)
+        /// <param name="model"></param>
+        public override void SetRoot(IModelElement model)
         {
-            Root = Model as RootType;
+            Root = model as T;
         }
 
         /// <summary>

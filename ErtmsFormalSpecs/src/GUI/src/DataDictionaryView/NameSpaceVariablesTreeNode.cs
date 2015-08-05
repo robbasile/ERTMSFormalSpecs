@@ -34,20 +34,13 @@ namespace GUI.DataDictionaryView
         /// </summary>
         private class ItemEditor : NamedEditor
         {
-            /// <summary>
-            ///     Constructor
-            /// </summary>
-            public ItemEditor()
-                : base()
-            {
-            }
         }
 
         /// <summary>
         ///     Constructor
         /// </summary>
         /// <param name="item"></param>
-        /// <param name="name"></param>
+        /// <param name="buildSubNodes"></param>
         public NameSpaceVariablesTreeNode(NameSpace item, bool buildSubNodes)
             : base(item, buildSubNodes, "Variables", true)
         {
@@ -56,52 +49,31 @@ namespace GUI.DataDictionaryView
         /// <summary>
         ///     Builds the subnodes of this node
         /// </summary>
-        /// <param name="buildSubNodes">Indicates whether the subnodes of the nodes should also be built</param>
-        public override void BuildSubNodes(bool buildSubNodes)
+        /// <param name="subNodes"></param>
+        /// <param name="recursive">Indicates whether the subnodes of the nodes should also be built</param>
+        public override void BuildSubNodes(List<BaseTreeNode> subNodes, bool recursive)
         {
-            base.BuildSubNodes(buildSubNodes);
+            base.BuildSubNodes(subNodes, recursive);
 
             foreach (Variable variable in Item.Variables)
             {
-                Nodes.Add(new VariableTreeNode(variable, buildSubNodes, new HashSet<Type>()));
+                subNodes.Add(new VariableTreeNode(variable, recursive, new HashSet<Type>()));
             }
-            SortSubNodes();
+            subNodes.Sort();
         }
 
         /// <summary>
         ///     Creates the editor for this tree node
         /// </summary>
         /// <returns></returns>
-        protected override Editor createEditor()
+        protected override Editor CreateEditor()
         {
             return new ItemEditor();
         }
 
         public void AddHandler(object sender, EventArgs args)
         {
-            Variable variable = (Variable) acceptor.getFactory().createVariable();
-            variable.Name = "<Variable" + (GetNodeCount(false) + 1) + ">";
-            AddVariable(variable);
-        }
-
-        /// <summary>
-        ///     Adds a variable in the corresponding namespace
-        /// </summary>
-        /// <param name="variable"></param>
-        public VariableTreeNode AddVariable(Variable variable)
-        {
-            // Ensure that variables always have a type
-            if (variable.Type == null)
-            {
-                variable.Type = variable.EFSSystem.BoolType;
-            }
-
-            Item.appendVariables(variable);
-            VariableTreeNode retVal = new VariableTreeNode(variable, true, new HashSet<Type>());
-            Nodes.Add(retVal);
-            SortSubNodes();
-
-            return retVal;
+            Item.appendVariables(Variable.CreateDefault(Item.Variables));
         }
 
         /// <summary>
@@ -110,9 +82,7 @@ namespace GUI.DataDictionaryView
         /// <returns></returns>
         protected override List<MenuItem> GetMenuItems()
         {
-            List<MenuItem> retVal = new List<MenuItem>();
-
-            retVal.Add(new MenuItem("Add", new EventHandler(AddHandler)));
+            List<MenuItem> retVal = new List<MenuItem> {new MenuItem("Add", AddHandler)};
 
             return retVal;
         }
@@ -120,22 +90,22 @@ namespace GUI.DataDictionaryView
         /// <summary>
         ///     Accepts drop of a tree node, in a drag & drop operation
         /// </summary>
-        /// <param name="SourceNode"></param>
-        public override void AcceptDrop(BaseTreeNode SourceNode)
+        /// <param name="sourceNode"></param>
+        public override void AcceptDrop(BaseTreeNode sourceNode)
         {
-            base.AcceptDrop(SourceNode);
+            base.AcceptDrop(sourceNode);
 
-            if (SourceNode is VariableTreeNode)
+            if (sourceNode is VariableTreeNode)
             {
-                VariableTreeNode variableTreeNode = SourceNode as VariableTreeNode;
+                VariableTreeNode variableTreeNode = sourceNode as VariableTreeNode;
                 Variable variable = variableTreeNode.Item;
 
                 variableTreeNode.Delete();
-                AddVariable(variable);
+                Item.appendVariables(variable);
             }
-            else if (SourceNode is ParagraphTreeNode)
+            else if (sourceNode is ParagraphTreeNode)
             {
-                ParagraphTreeNode node = SourceNode as ParagraphTreeNode;
+                ParagraphTreeNode node = sourceNode as ParagraphTreeNode;
                 Paragraph paragaph = node.Item;
 
                 Variable variable = (Variable) acceptor.getFactory().createVariable();
@@ -144,20 +114,8 @@ namespace GUI.DataDictionaryView
                 ReqRef reqRef = (ReqRef) acceptor.getFactory().createReqRef();
                 reqRef.Name = paragaph.FullId;
                 variable.appendRequirements(reqRef);
-                AddVariable(variable);
+                Item.appendVariables(variable);
             }
-        }
-
-        /// <summary>
-        ///     Update counts according to the selected folder
-        /// </summary>
-        /// <param name="displayStatistics">Indicates that statistics should be displayed in the MDI window</param>
-        public override void SelectionChanged(bool displayStatistics)
-        {
-            base.SelectionChanged(false);
-
-            GUIUtils.MDIWindow.SetStatus(Item.Variables.Count +
-                                         (Item.Variables.Count > 1 ? " variables " : " variable ") + "selected.");
         }
     }
 }

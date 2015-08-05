@@ -1,7 +1,22 @@
-﻿using System;
+﻿// ------------------------------------------------------------------------------
+// -- Copyright ERTMS Solutions
+// -- Licensed under the EUPL V.1.1
+// -- http://joinup.ec.europa.eu/software/page/eupl/licence-eupl
+// --
+// -- This file is part of ERTMSFormalSpec software and documentation
+// --
+// --  ERTMSFormalSpec is free software: you can redistribute it and/or modify
+// --  it under the terms of the EUPL General Public License, v.1.1
+// --
+// -- ERTMSFormalSpec is distributed in the hope that it will be useful,
+// -- but WITHOUT ANY WARRANTY; without even the implied warranty of
+// -- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// --
+// ------------------------------------------------------------------------------
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Windows.Forms;
 using DataDictionary;
 using Utils;
 using WeifenLuo.WinFormsUI.Docking;
@@ -11,21 +26,15 @@ namespace GUI.MessagesView
     public partial class Window : BaseForm
     {
         /// <summary>
-        ///     The element for which this message window is built
-        /// </summary>
-        private IModelElement Model { get; set; }
-
-        /// <summary>
         ///     Constructor
         /// </summary>
         public Window()
         {
             InitializeComponent();
 
-            FormClosed += new FormClosedEventHandler(Window_FormClosed);
             DockAreas = DockAreas.DockRight;
 
-            messagesDataGridView.DoubleClick += new EventHandler(messagesDataGridView_DoubleClick);
+            messagesDataGridView.DoubleClick += messagesDataGridView_DoubleClick;
         }
 
         /// <summary>
@@ -52,60 +61,51 @@ namespace GUI.MessagesView
         }
 
         /// <summary>
-        ///     Handles the close event
+        ///     Allows to refresh the view, when the selected model changed
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Window_FormClosed(object sender, FormClosedEventArgs e)
+        /// <param name="context"></param>
+        /// <returns>true if refresh should be performed</returns>
+        public override bool HandleSelectionChange(Context.SelectionContext context)
         {
-            GUIUtils.MDIWindow.HandleSubWindowClosed(this);
-        }
+            bool retVal = base.HandleSelectionChange(context);
 
-
-        /// <summary>
-        ///     Sets the model element for which messages should be displayed
-        /// </summary>
-        /// <param name="model"></param>
-        public void SetModel(IModelElement model)
-        {
-            Model = model;
-            RefreshModel();
-        }
-
-        /// <summary>
-        ///     Refreshes the displayed messages according to the window model
-        /// </summary>
-        public override void RefreshModel()
-        {
-            List<MessageEntry> messages = new List<MessageEntry>();
-
-            IModelElement current = Model;
-            while (current != null)
+            if (retVal)
             {
-                if (current.Messages != null)
+                messagesDataGridView.DataSource = null;
+                if (DisplayedModel != null)
                 {
-                    foreach (ElementLog log in Model.Messages)
+                    IModelElement current = DisplayedModel;
+                    List<MessageEntry> messages = new List<MessageEntry>();
+                    while (current != null)
                     {
-                        messages.Add(new MessageEntry(log));
-                    }
-                }
+                        if (current.Messages != null)
+                        {
+                            foreach (ElementLog log in current.Messages)
+                            {
+                                messages.Add(new MessageEntry(log));
+                            }
+                        }
 
-                if (EFSSystem.INSTANCE.DisplayEnclosingMessages)
-                {
-                    current = current.Enclosing as IModelElement;
-                }
-                else
-                {
-                    current = null;
+                        if (EFSSystem.INSTANCE.DisplayEnclosingMessages)
+                        {
+                            current = current.Enclosing as IModelElement;
+                        }
+                        else
+                        {
+                            current = null;
+                        }
+                    }
+
+                    messagesDataGridView.DataSource = messages;
+
+                    // ReSharper disable PossibleNullReferenceException
+                    messagesDataGridView.Columns["Level"].FillWeight = 10F;
+                    messagesDataGridView.Columns["Message"].FillWeight = 90F;
+                    // ReSharper restore PossibleNullReferenceException
                 }
             }
 
-            messagesDataGridView.DataSource = null;
-            messagesDataGridView.DataSource = messages;
-
-            messagesDataGridView.Columns["Level"].FillWeight = 10F;
-            messagesDataGridView.Columns["Message"].FillWeight = 90F;
-            Refresh();
+            return retVal;
         }
 
         /// <summary>
@@ -122,6 +122,7 @@ namespace GUI.MessagesView
             /// <summary>
             ///     The message level
             /// </summary>
+            // ReSharper disable once UnusedMember.Local
             public ElementLog.LevelEnum Level
             {
                 get { return Log.Level; }
@@ -130,6 +131,7 @@ namespace GUI.MessagesView
             /// <summary>
             ///     The message
             /// </summary>
+            // ReSharper disable once UnusedMember.Local
             public String Message
             {
                 get { return Log.Log; }

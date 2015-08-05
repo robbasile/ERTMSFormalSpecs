@@ -24,13 +24,12 @@ using Utils;
 
 namespace GUI.StateDiagram
 {
-    public partial class TransitionControl : ArrowControl<State, Transition>
+    public class TransitionControl : ArrowControl<StateMachine, State, Transition>
     {
         /// <summary>
         ///     Constructor
         /// </summary>
         public TransitionControl()
-            : base()
         {
         }
 
@@ -39,7 +38,6 @@ namespace GUI.StateDiagram
         /// </summary>
         /// <param name="container"></param>
         public TransitionControl(IContainer container)
-            : base()
         {
             container.Add(this);
         }
@@ -66,7 +64,7 @@ namespace GUI.StateDiagram
                     {
                         StatePanel panel = (StatePanel) Panel;
                         if (Model.RuleCondition != null &&
-                            panel.StateMachine.Rules.Contains(Model.RuleCondition.EnclosingRule))
+                            panel.Model.Rules.Contains(Model.RuleCondition.EnclosingRule))
                         {
                             // A deduced case is a arrow that is defined in the rules of the state machines (not in its states)
                             retVal = true;
@@ -132,7 +130,7 @@ namespace GUI.StateDiagram
         ///     Provides the name of the target state
         /// </summary>
         /// <returns></returns>
-        public override string getTargetName()
+        public override string GetTargetName()
         {
             string retVal = "<Unknown>";
 

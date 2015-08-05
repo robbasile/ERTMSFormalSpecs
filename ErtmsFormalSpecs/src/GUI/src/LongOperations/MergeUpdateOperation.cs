@@ -35,7 +35,6 @@ namespace GUI.src.LongOperations
                 UpdateDictionary.MergeUpdate();
             }
 
-            GUIUtils.MDIWindow.RefreshModel();
             efsSystem.Compiler.Compile_Synchronous(true);
         }
 
@@ -47,7 +46,7 @@ namespace GUI.src.LongOperations
         {
             Dictionary retVal = null;
 
-            MainWindow mainWindow = GUIUtils.MDIWindow;
+            MainWindow mainWindow = GuiUtils.MdiWindow;
             if (efsSystem != null)
             {
                 DictionarySelector.DictionarySelector dictionarySelector =

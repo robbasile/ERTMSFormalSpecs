@@ -16,41 +16,23 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Windows.Forms;
 using DataDictionary.Generated;
-using GUI.Converters;
 using State = DataDictionary.Constants.State;
 
 namespace GUI.DataDictionaryView
 {
     public class StateSubStatesTreeNode : ModelElementTreeNode<State>
     {
-        private class InternalStateTypeConverter : StateTypeConverter
-        {
-            public override StandardValuesCollection
-                GetStandardValues(ITypeDescriptorContext context)
-            {
-                return GetValues(((ItemEditor) context.Instance).Item);
-            }
-        }
-
         private class ItemEditor : NamedEditor
         {
-            /// <summary>
-            ///     Constructor
-            /// </summary>
-            public ItemEditor()
-                : base()
-            {
-            }
         }
 
         /// <summary>
         ///     Constructor
         /// </summary>
         /// <param name="item"></param>
-        /// <param name="children"></param>
+        /// <param name="buildSubNodes"></param>
         public StateSubStatesTreeNode(State item, bool buildSubNodes)
             : base(item, buildSubNodes, "States", true)
         {
@@ -59,45 +41,31 @@ namespace GUI.DataDictionaryView
         /// <summary>
         ///     Builds the subnodes of this node
         /// </summary>
-        /// <param name="buildSubNodes">Indicates whether the subnodes of the nodes should also be built</param>
-        public override void BuildSubNodes(bool buildSubNodes)
+        /// <param name="subNodes"></param>
+        /// <param name="recursive">Indicates whether the subnodes of the nodes should also be built</param>
+        public override void BuildSubNodes(List<BaseTreeNode> subNodes, bool recursive)
         {
-            base.BuildSubNodes(buildSubNodes);
+            base.BuildSubNodes(subNodes, recursive);
 
             foreach (State state in Item.StateMachine.States)
             {
-                Nodes.Add(new StateTreeNode(state, buildSubNodes));
+                subNodes.Add(new StateTreeNode(state, recursive));
             }
-            SortSubNodes();
+            subNodes.Sort();
         }
 
         /// <summary>
         ///     Creates the editor for this tree node
         /// </summary>
         /// <returns></returns>
-        protected override Editor createEditor()
+        protected override Editor CreateEditor()
         {
             return new ItemEditor();
         }
 
         public void AddHandler(object sender, EventArgs args)
         {
-            State state = (State) acceptor.getFactory().createState();
-            state.Name = "<State" + (GetNodeCount(false) + 1) + ">";
-            AddState(state);
-        }
-
-        /// <summary>
-        ///     Adds a new state
-        /// </summary>
-        /// <param name="state"></param>
-        public StateTreeNode AddState(State state)
-        {
-            Item.StateMachine.appendStates(state);
-            StateTreeNode retVal = new StateTreeNode(state, true);
-            Nodes.Add(retVal);
-            SortSubNodes();
-            return retVal;
+            Item.StateMachine.appendStates(State.CreateDefault(Item.StateMachine.States));
         }
 
         /// <summary>
@@ -106,9 +74,7 @@ namespace GUI.DataDictionaryView
         /// <returns></returns>
         protected override List<MenuItem> GetMenuItems()
         {
-            List<MenuItem> retVal = new List<MenuItem>();
-
-            retVal.Add(new MenuItem("Add", new EventHandler(AddHandler)));
+            List<MenuItem> retVal = new List<MenuItem> {new MenuItem("Add", AddHandler)};
 
             return retVal;
         }

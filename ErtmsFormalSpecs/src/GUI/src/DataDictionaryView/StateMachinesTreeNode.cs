@@ -30,20 +30,13 @@ namespace GUI.DataDictionaryView
     {
         private class ItemEditor : NamedEditor
         {
-            /// <summary>
-            ///     Constructor
-            /// </summary>
-            public ItemEditor()
-                : base()
-            {
-            }
         }
 
         /// <summary>
         ///     Constructor
         /// </summary>
         /// <param name="item"></param>
-        /// <param name="name"></param>
+        /// <param name="buildSubNodes"></param>
         public StateMachinesTreeNode(NameSpace item, bool buildSubNodes)
             : base(item, buildSubNodes, "State Machines", true)
         {
@@ -52,50 +45,31 @@ namespace GUI.DataDictionaryView
         /// <summary>
         ///     Builds the subnodes of this node
         /// </summary>
-        /// <param name="buildSubNodes">Indicates whether the subnodes of the nodes should also be built</param>
-        public override void BuildSubNodes(bool buildSubNodes)
+        /// <param name="subNodes"></param>
+        /// <param name="recursive">Indicates whether the subnodes of the nodes should also be built</param>
+        public override void BuildSubNodes(List<BaseTreeNode> subNodes, bool recursive)
         {
-            base.BuildSubNodes(buildSubNodes);
+            base.BuildSubNodes(subNodes, recursive);
 
             foreach (StateMachine stateMachine in Item.StateMachines)
             {
-                Nodes.Add(new StateMachineTreeNode(stateMachine, buildSubNodes));
+                subNodes.Add(new StateMachineTreeNode(stateMachine, recursive));
             }
-            SortSubNodes();
+            subNodes.Sort();
         }
 
         /// <summary>
         ///     Creates the editor for this tree node
         /// </summary>
         /// <returns></returns>
-        protected override Editor createEditor()
+        protected override Editor CreateEditor()
         {
             return new ItemEditor();
         }
 
         public void AddHandler(object sender, EventArgs args)
         {
-            DataDictionaryTreeView treeView = BaseTreeView as DataDictionaryTreeView;
-            if (treeView != null)
-            {
-                StateMachine stateMachine = (StateMachine) acceptor.getFactory().createStateMachine();
-                stateMachine.Name = "<StateMachine" + (GetNodeCount(false) + 1) + ">";
-                AddStateMachine(stateMachine);
-            }
-        }
-
-        /// <summary>
-        ///     Adds a new state machine
-        /// </summary>
-        /// <param name="collection"></param>
-        public StateMachineTreeNode AddStateMachine(StateMachine stateMachine)
-        {
-            StateMachineTreeNode retVal = new StateMachineTreeNode(stateMachine, true);
-            Item.appendStateMachines(stateMachine);
-            Nodes.Add(retVal);
-            SortSubNodes();
-
-            return retVal;
+            Item.appendStateMachines(StateMachine.CreateDefault(Item.StateMachines));
         }
 
         /// <summary>
@@ -104,9 +78,7 @@ namespace GUI.DataDictionaryView
         /// <returns></returns>
         protected override List<MenuItem> GetMenuItems()
         {
-            List<MenuItem> retVal = new List<MenuItem>();
-
-            retVal.Add(new MenuItem("Add", new EventHandler(AddHandler)));
+            List<MenuItem> retVal = new List<MenuItem> {new MenuItem("Add", AddHandler)};
 
             return retVal;
         }
@@ -115,22 +87,22 @@ namespace GUI.DataDictionaryView
         /// <summary>
         ///     Accepts drop of a tree node, in a drag & drop operation
         /// </summary>
-        /// <param name="SourceNode"></param>
-        public override void AcceptDrop(BaseTreeNode SourceNode)
+        /// <param name="sourceNode"></param>
+        public override void AcceptDrop(BaseTreeNode sourceNode)
         {
-            base.AcceptDrop(SourceNode);
+            base.AcceptDrop(sourceNode);
 
-            if (SourceNode is StateMachineTreeNode)
+            if (sourceNode is StateMachineTreeNode)
             {
-                StateMachineTreeNode stateMachineTreeNode = SourceNode as StateMachineTreeNode;
+                StateMachineTreeNode stateMachineTreeNode = sourceNode as StateMachineTreeNode;
                 StateMachine stateMachine = stateMachineTreeNode.Item;
 
                 stateMachineTreeNode.Delete();
-                AddStateMachine(stateMachine);
+                Item.appendStateMachines(stateMachine);
             }
-            else if (SourceNode is ParagraphTreeNode)
+            else if (sourceNode is ParagraphTreeNode)
             {
-                ParagraphTreeNode node = SourceNode as ParagraphTreeNode;
+                ParagraphTreeNode node = sourceNode as ParagraphTreeNode;
                 Paragraph paragaph = node.Item;
 
                 StateMachine stateMachine = (StateMachine) acceptor.getFactory().createStateMachine();
@@ -139,20 +111,8 @@ namespace GUI.DataDictionaryView
                 ReqRef reqRef = (ReqRef) acceptor.getFactory().createReqRef();
                 reqRef.Name = paragaph.FullId;
                 stateMachine.appendRequirements(reqRef);
-                AddStateMachine(stateMachine);
+                Item.appendStateMachines(stateMachine);
             }
-        }
-
-        /// <summary>
-        ///     Update counts according to the selected folder
-        /// </summary>
-        /// <param name="displayStatistics">Indicates that statistics should be displayed in the MDI window</param>
-        public override void SelectionChanged(bool displayStatistics)
-        {
-            base.SelectionChanged(false);
-
-            GUIUtils.MDIWindow.SetStatus(Item.Collections.Count +
-                                         (Item.Collections.Count > 1 ? " collections " : " collection ") + "selected.");
         }
     }
 }

@@ -30,13 +30,13 @@ using Type = DataDictionary.Types.Type;
 
 namespace DataDictionary.Variables
 {
-    public class Variable : Generated.Variable, IVariable, ISubDeclarator, ITextualExplain, IDefaultValueElement,
+    public class Variable : Generated.Variable, IVariable, IDefaultValueElement,
         IGraphicalDisplay
     {
         /// <summary>
         ///     Indicates that the DeclaredElement dictionary is currently being built
         /// </summary>
-        private bool BuildingDeclaredElements = false;
+        private bool _buildingDeclaredElements;
 
         /// <summary>
         ///     Initialises the declared elements
@@ -54,11 +54,11 @@ namespace DataDictionary.Variables
             {
                 Dictionary<string, List<INamable>> retVal = new Dictionary<string, List<INamable>>();
 
-                if (!BuildingDeclaredElements)
+                if (!_buildingDeclaredElements)
                 {
                     try
                     {
-                        BuildingDeclaredElements = true;
+                        _buildingDeclaredElements = true;
 
                         StructureValue structureValue = Value as StructureValue;
                         if (structureValue != null)
@@ -72,7 +72,7 @@ namespace DataDictionary.Variables
                     }
                     finally
                     {
-                        BuildingDeclaredElements = false;
+                        _buildingDeclaredElements = false;
                     }
                 }
 
@@ -111,11 +111,11 @@ namespace DataDictionary.Variables
         /// <param name="retVal"></param>
         public void Find(string name, List<INamable> retVal)
         {
-            if (!BuildingDeclaredElements)
+            if (!_buildingDeclaredElements)
             {
                 try
                 {
-                    BuildingDeclaredElements = true;
+                    _buildingDeclaredElements = true;
 
                     StructureValue structureValue = Value as StructureValue;
                     if (structureValue != null)
@@ -132,7 +132,7 @@ namespace DataDictionary.Variables
                 }
                 finally
                 {
-                    BuildingDeclaredElements = false;
+                    _buildingDeclaredElements = false;
                 }
             }
         }
@@ -180,27 +180,27 @@ namespace DataDictionary.Variables
             set
             {
                 Default = value;
-                __expression = null;
+                _expression = null;
             }
         }
 
         /// <summary>
         ///     Provides the expression tree associated to this action's expression
         /// </summary>
-        private Expression __expression;
+        private Expression _expression;
 
         public Expression Expression
         {
             get
             {
-                if (__expression == null)
+                if (_expression == null)
                 {
-                    __expression = EFSSystem.Parser.Expression(this, ExpressionText);
+                    _expression = EFSSystem.Parser.Expression(this, ExpressionText);
                 }
 
-                return __expression;
+                return _expression;
             }
-            set { __expression = value; }
+            set { _expression = value; }
         }
 
         public InterpreterTreeNode Tree
@@ -225,7 +225,6 @@ namespace DataDictionary.Variables
             return Tree;
         }
 
-
         /// <summary>
         ///     Indicates that the expression is valid for this IExpressionable
         /// </summary>
@@ -233,7 +232,8 @@ namespace DataDictionary.Variables
         /// <returns></returns>
         public bool checkValidExpression(string expression)
         {
-            bool retVal = false;
+            // ReSharper disable once JoinDeclarationAndInitializer
+            bool retVal;
 
             Expression tree = EFSSystem.Parser.Expression(this, expression, null, false, null, true);
             retVal = tree != null;
@@ -255,32 +255,32 @@ namespace DataDictionary.Variables
             set
             {
                 setTypeName(value);
-                type = null;
-                theValue = null;
+                _type = null;
+                _value = null;
 
                 // Ensure types and typename are synchronized
-                type = Type;
+                _type = Type;
             }
         }
 
         /// <summary>
         ///     The type associated to this variable
         /// </summary>
-        private Type type;
+        private Type _type;
 
         public Type Type
         {
             get
             {
-                if (type == null)
+                if (_type == null)
                 {
-                    type = EFSSystem.findType(NameSpace, getTypeName());
+                    _type = EFSSystem.FindType(NameSpace, getTypeName());
                 }
-                return type;
+                return _type;
             }
             set
             {
-                type = value;
+                _type = value;
                 if (value != null)
                 {
                     setTypeName(value.FullName);
@@ -299,7 +299,7 @@ namespace DataDictionary.Variables
         {
             get
             {
-                Dictionary<string, IVariable> retVal = retVal = new Dictionary<string, IVariable>();
+                Dictionary<string, IVariable> retVal = new Dictionary<string, IVariable>();
 
                 StructureValue structureValue = Value as StructureValue;
                 if (structureValue != null)
@@ -388,28 +388,19 @@ namespace DataDictionary.Variables
         /// <summary>
         ///     The variable's value
         /// </summary>
-        public IValue theValue;
+        private IValue _value;
 
         public IValue Value
         {
             get
             {
-                if (theValue == null)
+                if (_value == null)
                 {
-                    theValue = DefaultValue;
+                    _value = DefaultValue;
                 }
-                return theValue;
+                return _value;
             }
-            set { theValue = value; }
-        }
-
-        /// <summary>
-        ///     Adds a model element in this model element
-        /// </summary>
-        /// <param name="copy"></param>
-        public override void AddModelElement(IModelElement element)
-        {
-            base.AddModelElement(element);
+            set { _value = value; }
         }
 
         /// <summary>
@@ -447,7 +438,7 @@ namespace DataDictionary.Variables
             string retVal = "Variable " + Name + " : " + TypeName;
             if (Value != null)
             {
-                retVal += " = " + Value.ToString();
+                retVal += " = " + Value;
             }
             else
             {
@@ -602,7 +593,34 @@ namespace DataDictionary.Variables
             base.ClearCache();
 
             // Remove the cached type
-            type = null;
+            _type = null;
+        }
+
+        /// <summary>
+        ///     Creates the status message 
+        /// </summary>
+        /// <returns>the status string for the selected element</returns>
+        public override string CreateStatusMessage()
+        {
+            string result = base.CreateStatusMessage();
+
+            result += "Variable " + Name;
+
+            return result;
+        }
+
+        /// <summary>
+        /// Creates a default element
+        /// </summary>
+        /// <param name="enclosingCollection"></param>
+        /// <returns></returns>
+        public static Variable CreateDefault(ICollection enclosingCollection)
+        {
+            Variable retVal = (Variable)acceptor.getFactory().createVariable();
+            retVal.Name = "Variable" + GetElementNumber(enclosingCollection);
+            retVal.Type = EFSSystem.INSTANCE.BoolType;
+
+            return retVal;
         }
     }
 }

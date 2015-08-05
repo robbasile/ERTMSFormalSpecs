@@ -18,7 +18,6 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Windows.Forms;
 using DataDictionary;
 using DataDictionary.Generated;
@@ -31,6 +30,7 @@ using GUI.RulePerformances;
 using GUI.SpecificationView;
 using GUI.src.LongOperations;
 using GUI.StateDiagram;
+using GUI.Status;
 using Importers.ExcelImporter;
 using Utils;
 using WeifenLuo.WinFormsUI.Docking;
@@ -60,9 +60,10 @@ namespace GUI
 
                 foreach (Form form in SubForms)
                 {
-                    if (form is IBaseForm)
+                    IBaseForm baseForm = form as IBaseForm;
+                    if (baseForm != null)
                     {
-                        retVal.Add((IBaseForm) form);
+                        retVal.Add(baseForm);
                     }
                 }
 
@@ -81,41 +82,14 @@ namespace GUI
 
                 foreach (Form form in SubForms)
                 {
-                    if (form is Window)
+                    Window window = form as Window;
+                    if (window != null)
                     {
-                        retVal.Add((Window) form);
+                        retVal.Add(window);
                     }
                 }
 
                 return retVal;
-            }
-        }
-
-        /// <summary>
-        ///     Selects the model element in all opened sub windows
-        /// </summary>
-        /// <param name="model"></param>
-        /// <param name="getFocus">Indicates whether the focus should be given to the enclosing form</param>
-        public void Select(IModelElement model, bool getFocus = false)
-        {
-            if (model != null)
-            {
-                foreach (IBaseForm iBaseForm in SubWindows)
-                {
-                    BaseTreeView treeView = iBaseForm.TreeView;
-                    if (treeView != null)
-                    {
-                        BaseTreeNode node = treeView.Select(model, getFocus);
-                        if (node != null)
-                        {
-                            Form form = iBaseForm as Form;
-                            if (form != null)
-                            {
-                                form.Focus();
-                            }
-                        }
-                    }
-                }
             }
         }
 
@@ -144,9 +118,9 @@ namespace GUI
             /// <summary>
             ///     Finds the specified element in the collection provided
             /// </summary>
-            /// <param name="?"></param>
+            /// <param name="subWindows">The collection of forms in which the search should be performed</param>
             /// <returns></returns>
-            public static T find(ICollection<Form> subWindows)
+            public static T Find(ICollection<Form> subWindows)
             {
                 T retVal = null;
 
@@ -167,7 +141,7 @@ namespace GUI
             /// </summary>
             /// <param name="subWindows"></param>
             /// <returns></returns>
-            public static T find(ICollection<IBaseForm> subWindows)
+            public static T Find(ICollection<IBaseForm> subWindows)
             {
                 T retVal = null;
 
@@ -189,7 +163,6 @@ namespace GUI
             /// <param name="window"></param>
             /// <param name="subWindow"></param>
             /// <param name="area"></param>
-            /// <param name="force">Indicates that the doc area should be set before trying to open the window</param>
             public static void AddOrShow(MainWindow window, T subWindow, DockAreas area)
             {
                 if (subWindow == null)
@@ -209,7 +182,7 @@ namespace GUI
         /// </summary>
         public MessagesView.Window MessagesWindow
         {
-            get { return GenericWindowHandling<MessagesView.Window>.find(SubWindows); }
+            get { return GenericWindowHandling<MessagesView.Window>.Find(SubWindows); }
         }
 
         /// <summary>
@@ -217,7 +190,7 @@ namespace GUI
         /// </summary>
         public MoreInfoView.Window MoreInfoWindow
         {
-            get { return GenericWindowHandling<MoreInfoView.Window>.find(SubWindows); }
+            get { return GenericWindowHandling<MoreInfoView.Window>.Find(SubWindows); }
         }
 
         /// <summary>
@@ -225,7 +198,7 @@ namespace GUI
         /// </summary>
         public PropertyView.Window PropertyWindow
         {
-            get { return GenericWindowHandling<PropertyView.Window>.find(SubWindows); }
+            get { return GenericWindowHandling<PropertyView.Window>.Find(SubWindows); }
         }
 
         /// <summary>
@@ -233,7 +206,7 @@ namespace GUI
         /// </summary>
         public RequirementsView.Window RequirementsWindow
         {
-            get { return GenericWindowHandling<RequirementsView.Window>.find(SubWindows); }
+            get { return GenericWindowHandling<RequirementsView.Window>.Find(SubWindows); }
         }
 
         /// <summary>
@@ -241,7 +214,7 @@ namespace GUI
         /// </summary>
         public UsageView.Window UsageWindow
         {
-            get { return GenericWindowHandling<UsageView.Window>.find(SubWindows); }
+            get { return GenericWindowHandling<UsageView.Window>.Find(SubWindows); }
         }
 
 
@@ -250,7 +223,7 @@ namespace GUI
         /// </summary>
         public DataDictionaryView.Window DataDictionaryWindow
         {
-            get { return GenericWindowHandling<DataDictionaryView.Window>.find(SubWindows); }
+            get { return GenericWindowHandling<DataDictionaryView.Window>.Find(SubWindows); }
         }
 
         /// <summary>
@@ -258,7 +231,7 @@ namespace GUI
         /// </summary>
         public SpecificationView.Window SpecificationWindow
         {
-            get { return GenericWindowHandling<SpecificationView.Window>.find(SubWindows); }
+            get { return GenericWindowHandling<SpecificationView.Window>.Find(SubWindows); }
         }
 
         /// <summary>
@@ -266,7 +239,7 @@ namespace GUI
         /// </summary>
         public HistoryView.Window HistoryWindow
         {
-            get { return GenericWindowHandling<HistoryView.Window>.find(SubWindows); }
+            get { return GenericWindowHandling<HistoryView.Window>.Find(SubWindows); }
         }
 
         /// <summary>
@@ -274,7 +247,7 @@ namespace GUI
         /// </summary>
         public TestRunnerView.Window TestWindow
         {
-            get { return GenericWindowHandling<TestRunnerView.Window>.find(SubWindows); }
+            get { return GenericWindowHandling<TestRunnerView.Window>.Find(SubWindows); }
         }
 
         /// <summary>
@@ -282,7 +255,7 @@ namespace GUI
         /// </summary>
         public TestRunnerView.Watch.Window WatchWindow
         {
-            get { return GenericWindowHandling<TestRunnerView.Watch.Window>.find(SubWindows); }
+            get { return GenericWindowHandling<TestRunnerView.Watch.Window>.Find(SubWindows); }
         }
 
         /// <summary>
@@ -297,7 +270,7 @@ namespace GUI
                 if (dictionary != null)
                 {
                     retVal = new TranslationRules.Window(dictionary.TranslationDictionary);
-                    AddChildWindow(retVal, DockAreas.Document);
+                    AddChildWindow(retVal);
                 }
                 return retVal;
             }
@@ -308,7 +281,7 @@ namespace GUI
         /// </summary>
         private Shortcuts.Window ShortcutsWindow
         {
-            get { return GenericWindowHandling<Shortcuts.Window>.find(SubWindows); }
+            get { return GenericWindowHandling<Shortcuts.Window>.Find(SubWindows); }
         }
 
         /// <summary>
@@ -316,7 +289,7 @@ namespace GUI
         /// </summary>
         private SelectionHistory.Window SelectionHistoryWindow
         {
-            get { return GenericWindowHandling<SelectionHistory.Window>.find(SubWindows); }
+            get { return GenericWindowHandling<SelectionHistory.Window>.Find(SubWindows); }
         }
 
 
@@ -325,7 +298,7 @@ namespace GUI
         /// </summary>
         private ExpressionWindow ExpressionEditorWindow
         {
-            get { return GenericWindowHandling<ExpressionWindow>.find(SubWindows); }
+            get { return GenericWindowHandling<ExpressionWindow>.Find(SubWindows); }
         }
 
         /// <summary>
@@ -333,126 +306,13 @@ namespace GUI
         /// </summary>
         private CommentWindow CommentEditorWindow
         {
-            get { return GenericWindowHandling<CommentWindow>.find(SubWindows); }
-        }
-
-
-        /// <summary>
-        ///     The thread used to synchronize node names with their model
-        /// </summary>
-        private class Synchronizer : GenericSynchronizationHandler<MainWindow>
-        {
-            /// <summary>
-            ///     Constructor
-            /// </summary>
-            /// <param name="instance"></param>
-            public Synchronizer(MainWindow instance, int cycleTime)
-                : base(instance, cycleTime)
-            {
-            }
-
-            /// <summary>
-            ///     Synchronization
-            /// </summary>
-            /// <param name="instance"></param>
-            public override void HandleSynchronization(MainWindow instance)
-            {
-                instance.Invoke((MethodInvoker) delegate
-                {
-                    instance.UpdateTitle();
-                    foreach (Window editor in instance.Editors)
-                    {
-                        if (!editor.EditorTextBoxHasFocus())
-                        {
-                            editor.RefreshText();
-                        }
-                    }
-                });
-            }
+            get { return GenericWindowHandling<CommentWindow>.Find(SubWindows); }
         }
 
         /// <summary>
-        ///     Indicates that synchronization is required
+        /// The status handler
         /// </summary>
-        private Synchronizer WindowSynchronizerTask { get; set; }
-
-
-        /// <summary>
-        ///     The class that is used to update the status
-        /// </summary>
-        private class StatusSynchronizer : GenericSynchronizationHandler<MainWindow>
-        {
-            /// <summary>
-            ///     The model element used to update the status bar
-            /// </summary>
-            private IHoldsParagraphs Model { get; set; }
-
-            /// <summary>
-            ///     Indicates that the model has changed
-            /// </summary>
-            private bool ModelChanged { get; set; }
-
-            /// <summary>
-            ///     Constructor
-            /// </summary>
-            /// <param name="window"></param>
-            public StatusSynchronizer(MainWindow window)
-                : base(window, 100)
-            {
-                Model = null;
-                ModelChanged = false;
-            }
-
-            /// <summary>
-            ///     Sets the instance to display
-            /// </summary>
-            /// <param name="model"></param>
-            public void SetModel(IHoldsParagraphs model)
-            {
-                Model = model;
-                ModelChanged = true;
-                Instance.Invoke((MethodInvoker) delegate { Instance.SetStatus("Computing coverage..."); });
-            }
-
-            /// <summary>
-            ///     Synchronization
-            /// </summary>
-            /// <param name="instance"></param>
-            public override void HandleSynchronization(MainWindow instance)
-            {
-                if (ModelChanged)
-                {
-                    ModelChanged = false;
-                    Instance.Invoke((MethodInvoker) delegate { Instance.SetStatus("Computing coverage..."); });
-
-                    List<Paragraph> paragraphs = new List<Paragraph>();
-                    Model.GetParagraphs(paragraphs);
-                    Paragraph p = Model as Paragraph;
-                    if (p != null)
-                    {
-                        paragraphs.Add(p);
-                    }
-
-                    string message = ParagraphTreeNode.CreateStatMessage(EFSSystem.INSTANCE, paragraphs, false);
-                    instance.Invoke((MethodInvoker) delegate { instance.SetStatus(message); });
-                }
-            }
-        }
-
-        /// <summary>
-        ///     Indicates that synchronization is required
-        /// </summary>
-        private StatusSynchronizer StatusSynchronizerTask { get; set; }
-
-        /// <summary>
-        ///     The maximum size of the history
-        /// </summary>
-        private const int MAX_SELECTION_HISTORY = 100;
-
-        /// <summary>
-        ///     The selection history
-        /// </summary>
-        public List<IModelElement> SelectionHistory { get; private set; }
+        private StatusHandler StatusHandler { get; set; }
 
         /// <summary>
         ///     Constructor
@@ -461,16 +321,14 @@ namespace GUI
         {
             InitializeComponent();
             SubForms = new HashSet<Form>();
-            AllowRefresh = true;
-            GUIUtils.MDIWindow = this;
-            GUIUtils.Graphics = CreateGraphics();
-            SelectionHistory = new List<IModelElement>();
+            GuiUtils.MdiWindow = this;
+            GuiUtils.Graphics = CreateGraphics();
+            StatusHandler = new StatusHandler();
 
-            FormClosing += new FormClosingEventHandler(MainWindow_FormClosing);
-            WindowSynchronizerTask = new Synchronizer(this, 300);
-            StatusSynchronizerTask = new StatusSynchronizer(this);
-            KeyUp += new KeyEventHandler(MainWindow_KeyUp);
-            Refresh();
+            EFSSystem.INSTANCE.Context.ValueChange += (element, cycle) => BeginInvoke((MethodInvoker) UpdateTitle);
+
+            FormClosing += MainWindow_FormClosing;
+            KeyUp += MainWindow_KeyUp;
         }
 
         /// <summary>
@@ -510,13 +368,13 @@ namespace GUI
         {
             try
             {
-                GUIUtils.Graphics.Dispose();
-                GUIUtils.Graphics = null;
+                GuiUtils.Graphics.Dispose();
+                GuiUtils.Graphics = null;
             }
             catch (Exception)
             {
             }
-            GUIUtils.MDIWindow = null;
+            GuiUtils.MdiWindow = null;
         }
 
         /// <summary>
@@ -526,12 +384,12 @@ namespace GUI
         {
             String windowTitle = "ERTMSFormalSpecs Workbench";
 
-            foreach (Dictionary dictionary in EFSSystem.Dictionaries)
+            foreach (Dictionary dictionary in EfsSystem.Dictionaries)
             {
                 windowTitle += " " + dictionary.FilePath;
             }
 
-            if (EFSSystem != null && EFSSystem.ShouldSave)
+            if (EfsSystem != null && EfsSystem.ShouldSave)
             {
                 windowTitle += " [modified]";
             }
@@ -539,7 +397,10 @@ namespace GUI
             Text = windowTitle;
         }
 
-        private Dictionary<Form, Rectangle> InitialRectangle = new Dictionary<Form, Rectangle>();
+        /// <summary>
+        /// Provides the initial rectangle for each child window to provide a location for undocking
+        /// </summary>
+        private readonly Dictionary<Form, Rectangle> _initialRectangle = new Dictionary<Form, Rectangle>();
 
         /// <summary>
         ///     Adds a child window to this parent MDI
@@ -551,7 +412,7 @@ namespace GUI
         {
             if (window != null)
             {
-                InitialRectangle[window] = new Rectangle(new Point(50, 50), window.Size);
+                _initialRectangle[window] = new Rectangle(new Point(50, 50), window.Size);
 
                 DockContent docContent = window as DockContent;
                 if (docContent != null)
@@ -583,84 +444,7 @@ namespace GUI
                 }
             }
         }
-
-        /// <summary>
-        ///     Ensures that a window is closed
-        /// </summary>
-        /// <param name="window"></param>
-        /// <returns></returns>
-        private void EnsureIsClosed(Form window)
-        {
-            if (window != null)
-            {
-                try
-                {
-                    window.Close();
-                    window.MdiParent = null;
-                    SubForms.Remove(window);
-                    RemoveOwnedForm(window);
-                }
-                catch (Exception)
-                {
-                }
-            }
-        }
-
-        /// <summary>
-        ///     Closes all child windows of this MDI window
-        /// </summary>
-        private void CloseChildWindows()
-        {
-            while (SubWindows.Count > 0)
-            {
-                Form window = (Form) SubWindows.First();
-                EnsureIsClosed(window);
-            }
-        }
-
-        /// <summary>
-        ///     Indicates that the refresh should be performed
-        /// </summary>
-        public bool AllowRefresh { get; set; }
-
-        /// <summary>
-        ///     Refreshes the content of the window based on the associated model
-        ///     (changes may have occured)
-        /// </summary>
-        public void RefreshModel()
-        {
-            if (AllowRefresh)
-            {
-                foreach (Form form in SubForms)
-                {
-                    IBaseForm baseForm = form as IBaseForm;
-                    if (baseForm != null)
-                    {
-                        baseForm.RefreshModel();
-                    }
-                    form.Refresh();
-                }
-            }
-        }
-
-        /// <summary>
-        ///     Refreshes the display of the windows.
-        ///     No structural model change occurred.
-        /// </summary>
-        public override void Refresh()
-        {
-            Util.DontNotify(() =>
-            {
-                foreach (IBaseForm form in SubWindows)
-                {
-                    form.Refresh();
-                }
-                UpdateTitle();
-            });
-
-            base.Refresh();
-        }
-
+        
         #region OpenFile
 
         /// ------------------------------------------------------
@@ -669,7 +453,7 @@ namespace GUI
         /// <summary>
         ///     The efs system
         /// </summary>
-        public EFSSystem EFSSystem
+        public EFSSystem EfsSystem
         {
             get { return EFSSystem.INSTANCE; }
         }
@@ -692,24 +476,21 @@ namespace GUI
         public void OpenFile(string fileName)
         {
             bool allowErrors = false;
-            bool shouldPlace = EFSSystem.Dictionaries.Count == 0;
+            bool shouldPlace = EfsSystem.Dictionaries.Count == 0;
 
-            OpenFileOperation openFileOperation = new OpenFileOperation(fileName, EFSSystem, allowErrors, true);
+            OpenFileOperation openFileOperation = new OpenFileOperation(fileName, EfsSystem, allowErrors, true);
             openFileOperation.ExecuteUsingProgressDialog("Opening file", true);
 
             // Open the windows
             if (openFileOperation.Dictionary != null)
             {
                 SetupWindows(openFileOperation.Dictionary, shouldPlace);
-                SetCoverageStatus(EFSSystem);
             }
             else if (!openFileOperation.Dialog.Canceled)
             {
                 MessageBox.Show("Cannot open file, please see log file (GUI.Log) for more information",
                     "Cannot open file", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
-            RefreshModel();
         }
 
         /// <summary>
@@ -721,98 +502,89 @@ namespace GUI
         {
             Util.DontNotify(() =>
             {
-                try
+                // Display the document views
+                // Only open the model view window if model elements are available in the opened file
+                DataDictionaryView.Window modelWindow = null;
+                if (dictionary.NameSpaces.Count > 0)
                 {
-                    HandlingSelection = true;
-
-                    // Display the document views
-                    // Only open the model view window if model elements are available in the opened file
-                    DataDictionaryView.Window modelWindow = null;
-                    if (dictionary.NameSpaces.Count > 0)
-                    {
-                        modelWindow = new DataDictionaryView.Window(dictionary);
-                        AddChildWindow(modelWindow, DockAreas.Document);
-                    }
-                    GenericWindowHandling<TestRunnerView.Window>.AddOrShow(this, TestWindow, DockAreas.Document);
-
-                    TranslationRules.Window translationWindow = null;
-                    if (dictionary.TranslationDictionary != null &&
-                        dictionary.TranslationDictionary.TranslationsCount > 0)
-                    {
-                        translationWindow = new TranslationRules.Window(dictionary.TranslationDictionary);
-                        AddChildWindow(translationWindow, DockAreas.Document);
-                    }
-
-                    // Display the views in the left pane
-                    GenericWindowHandling<SpecificationView.Window>.AddOrShow(this, SpecificationWindow,
-                        DockAreas.DockLeft);
-
-                    // Display the views in the bottom pane
-                    GenericWindowHandling<RequirementsView.Window>.AddOrShow(this, RequirementsWindow,
-                        DockAreas.DockBottom);
-                    GenericWindowHandling<UsageView.Window>.AddOrShow(this, UsageWindow, DockAreas.DockBottom);
-
-                    GenericWindowHandling<MoreInfoView.Window>.AddOrShow(this, MoreInfoWindow, DockAreas.DockBottom);
-                    if (shouldPlace)
-                    {
-                        MoreInfoWindow.Show(RequirementsWindow.Pane, DockAlignment.Right, 0.66);
-                    }
-
-                    GenericWindowHandling<CommentWindow>.AddOrShow(this, CommentEditorWindow, DockAreas.DockBottom);
-                    if (shouldPlace)
-                    {
-                        CommentEditorWindow.Show(MoreInfoWindow.Pane, DockAlignment.Right, 0.5);
-                    }
-                    GenericWindowHandling<TestRunnerView.Watch.Window>.AddOrShow(this, WatchWindow,
-                        DockAreas.DockBottom);
-                    if (shouldPlace)
-                    {
-                        WatchWindow.Show(CommentEditorWindow.Pane, CommentEditorWindow);
-                    }
-                    CommentEditorWindow.Show();
-
-                    // Display the views in the right pane
-                    GenericWindowHandling<PropertyView.Window>.AddOrShow(this, PropertyWindow, DockAreas.DockRight);
-                    GenericWindowHandling<ExpressionWindow>.AddOrShow(this, ExpressionEditorWindow,
-                        DockAreas.DockRight);
-                    if (shouldPlace)
-                    {
-                        ExpressionEditorWindow.Show(PropertyWindow.Pane, DockAlignment.Bottom, 0.6);
-                    }
-                    GenericWindowHandling<HistoryView.Window>.AddOrShow(this, HistoryWindow, DockAreas.DockRight);
-                    if (shouldPlace)
-                    {
-                        HistoryWindow.Show(ExpressionEditorWindow.Pane, ExpressionEditorWindow);
-                    }
-
-                    GenericWindowHandling<Shortcuts.Window>.AddOrShow(this, ShortcutsWindow, DockAreas.DockRight);
-                    if (shouldPlace)
-                    {
-                        ShortcutsWindow.Show(ExpressionEditorWindow.Pane, ExpressionEditorWindow);
-                    }
-
-                    GenericWindowHandling<SelectionHistory.Window>.AddOrShow(this, SelectionHistoryWindow,
-                        DockAreas.DockRight);
-                    if (shouldPlace)
-                    {
-                        SelectionHistoryWindow.Show(ShortcutsWindow.Pane, ShortcutsWindow);
-                    }
-                    ExpressionEditorWindow.Show();
-
-                    GenericWindowHandling<MessagesView.Window>.AddOrShow(this, MessagesWindow, DockAreas.DockRight);
-                    if (shouldPlace)
-                    {
-                        MessagesWindow.Show(HistoryWindow.Pane, DockAlignment.Bottom, 0.3);
-                    }
-
-                    if (modelWindow != null)
-                    {
-                        modelWindow.Focus();
-                    }
+                    modelWindow = new DataDictionaryView.Window(dictionary);
+                    AddChildWindow(modelWindow, DockAreas.Document);
                 }
-                finally
+                GenericWindowHandling<TestRunnerView.Window>.AddOrShow(this, TestWindow, DockAreas.Document);
+
+                TranslationRules.Window translationWindow = null;
+                if (dictionary.TranslationDictionary != null &&
+                    dictionary.TranslationDictionary.TranslationsCount > 0)
                 {
-                    HandlingSelection = false;
+                    translationWindow = new TranslationRules.Window(dictionary.TranslationDictionary);
+                    AddChildWindow(translationWindow, DockAreas.Document);
+                }
+
+                // Display the views in the left pane
+                GenericWindowHandling<SpecificationView.Window>.AddOrShow(this, SpecificationWindow,
+                    DockAreas.DockLeft);
+
+                // Display the views in the bottom pane
+                GenericWindowHandling<RequirementsView.Window>.AddOrShow(this, RequirementsWindow,
+                    DockAreas.DockBottom);
+                GenericWindowHandling<UsageView.Window>.AddOrShow(this, UsageWindow, DockAreas.DockBottom);
+
+                GenericWindowHandling<MoreInfoView.Window>.AddOrShow(this, MoreInfoWindow, DockAreas.DockBottom);
+                if (shouldPlace)
+                {
+                    MoreInfoWindow.Show(RequirementsWindow.Pane, DockAlignment.Right, 0.66);
+                }
+
+                GenericWindowHandling<CommentWindow>.AddOrShow(this, CommentEditorWindow, DockAreas.DockBottom);
+                if (shouldPlace)
+                {
+                    CommentEditorWindow.Show(MoreInfoWindow.Pane, DockAlignment.Right, 0.5);
+                }
+                GenericWindowHandling<TestRunnerView.Watch.Window>.AddOrShow(this, WatchWindow,
+                    DockAreas.DockBottom);
+                if (shouldPlace)
+                {
+                    WatchWindow.Show(CommentEditorWindow.Pane, CommentEditorWindow);
+                }
+                CommentEditorWindow.Show();
+
+                // Display the views in the right pane
+                GenericWindowHandling<PropertyView.Window>.AddOrShow(this, PropertyWindow, DockAreas.DockRight);
+                GenericWindowHandling<ExpressionWindow>.AddOrShow(this, ExpressionEditorWindow,
+                    DockAreas.DockRight);
+                if (shouldPlace)
+                {
+                    ExpressionEditorWindow.Show(PropertyWindow.Pane, DockAlignment.Bottom, 0.6);
+                }
+                GenericWindowHandling<HistoryView.Window>.AddOrShow(this, HistoryWindow, DockAreas.DockRight);
+                if (shouldPlace)
+                {
+                    HistoryWindow.Show(ExpressionEditorWindow.Pane, ExpressionEditorWindow);
+                }
+
+                GenericWindowHandling<Shortcuts.Window>.AddOrShow(this, ShortcutsWindow, DockAreas.DockRight);
+                if (shouldPlace)
+                {
+                    ShortcutsWindow.Show(ExpressionEditorWindow.Pane, ExpressionEditorWindow);
+                }
+
+                GenericWindowHandling<SelectionHistory.Window>.AddOrShow(this, SelectionHistoryWindow,
+                    DockAreas.DockRight);
+                if (shouldPlace)
+                {
+                    SelectionHistoryWindow.Show(ShortcutsWindow.Pane, ShortcutsWindow);
+                }
+                ExpressionEditorWindow.Show();
+
+                GenericWindowHandling<MessagesView.Window>.AddOrShow(this, MessagesWindow, DockAreas.DockRight);
+                if (shouldPlace)
+                {
+                    MessagesWindow.Show(HistoryWindow.Pane, DockAlignment.Bottom, 0.3);
+                }
+
+                if (modelWindow != null)
+                {
+                    modelWindow.Focus();
                 }
             });
         }
@@ -832,16 +604,16 @@ namespace GUI
         {
             Dictionary retVal = null;
 
-            if (EFSSystem != null)
+            if (EfsSystem != null)
             {
-                if (EFSSystem.Dictionaries.Count == 1)
+                if (EfsSystem.Dictionaries.Count == 1)
                 {
-                    retVal = EFSSystem.Dictionaries[0];
+                    retVal = EfsSystem.Dictionaries[0];
                 }
-                else if (EFSSystem.Dictionaries.Count > 1)
+                else if (EfsSystem.Dictionaries.Count > 1)
                 {
                     DictionarySelector.DictionarySelector dictionarySelector =
-                        new DictionarySelector.DictionarySelector(EFSSystem);
+                        new DictionarySelector.DictionarySelector(EfsSystem);
                     dictionarySelector.ShowDialog(this);
 
                     if (dictionarySelector.Selected != null)
@@ -883,7 +655,7 @@ namespace GUI
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            foreach (Dictionary dictionary in EFSSystem.Dictionaries)
+            foreach (Dictionary dictionary in EfsSystem.Dictionaries)
             {
                 SaveOperation operation = new SaveOperation(this, dictionary);
                 operation.ExecuteUsingProgressDialog("Saving file " + dictionary.Name, false);
@@ -892,7 +664,7 @@ namespace GUI
 
         private void saveToolStripButton_Click(object sender, EventArgs e)
         {
-            foreach (Dictionary dictionary in EFSSystem.Dictionaries)
+            foreach (Dictionary dictionary in EfsSystem.Dictionaries)
             {
                 SaveOperation operation = new SaveOperation(this, dictionary);
                 operation.ExecuteUsingProgressDialog("Saving file " + dictionary.Name, false);
@@ -914,7 +686,7 @@ namespace GUI
         {
             bool retVal = false;
 
-            if (EFSSystem.ShouldSave)
+            if (EfsSystem.ShouldSave)
             {
                 DialogResult result = MessageBox.Show("Model has been changed, do you want to save it ?",
                     "Model changed", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Information,
@@ -922,7 +694,7 @@ namespace GUI
                 switch (result)
                 {
                     case DialogResult.Yes:
-                        SaveOperation operation = new SaveOperation(this, EFSSystem);
+                        SaveOperation operation = new SaveOperation(this, EfsSystem);
                         operation.ExecuteUsingProgressDialog("Saving files", false);
                         break;
 
@@ -1025,10 +797,10 @@ namespace GUI
 
         private void checkModelToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            CheckModelOperation operation = new CheckModelOperation(EFSSystem);
+            CheckModelOperation operation = new CheckModelOperation(EfsSystem);
             operation.ExecuteUsingProgressDialog("Check model");
 
-            MessageCounter counter = new MessageCounter(EFSSystem);
+            MessageCounter counter = new MessageCounter(EfsSystem);
             MessageBox.Show(
                 counter.Error + " error(s)\n" + counter.Warning + " warning(s)\n" + counter.Info +
                 " info message(s) found", "Check result", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -1038,54 +810,58 @@ namespace GUI
 
         private void implementedToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            foreach (Dictionary dictionary in EFSSystem.Dictionaries)
+            MarkingHistory.PerformMark(() =>
             {
-                dictionary.ClearMessages();
-                if (dictionary.Specifications != null)
+                foreach (Dictionary dictionary in EfsSystem.Dictionaries)
                 {
-                    foreach (Specification specification in dictionary.Specifications)
+                    if (dictionary.Specifications != null)
                     {
-                        specification.CheckImplementation();
+                        foreach (Specification specification in dictionary.Specifications)
+                        {
+                            specification.CheckImplementation();
+                        }
                     }
                 }
-            }
-            EFSSystem.INSTANCE.Markings.RegisterCurrentMarking();
-            Refresh();
+            });
         }
 
         private void implementationRequiredToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            foreach (Dictionary dictionary in EFSSystem.Dictionaries)
+            MarkingHistory.PerformMark(() =>
             {
-                dictionary.MarkUnimplementedItems();
-            }
-            Refresh();
+                foreach (Dictionary dictionary in EfsSystem.Dictionaries)
+                {
+                    dictionary.MarkUnimplementedItems();
+                }
+            });
         }
 
         private void verificationRequiredToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            foreach (Dictionary dictionary in EFSSystem.Dictionaries)
+            MarkingHistory.PerformMark(() =>
             {
-                dictionary.MarkNotVerifiedRules();
-            }
-            Refresh();
+                foreach (Dictionary dictionary in EfsSystem.Dictionaries)
+                {
+                    dictionary.MarkNotVerifiedRules();
+                }
+            });
         }
 
         private void reviewedToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            foreach (Dictionary dictionary in EFSSystem.Dictionaries)
+            MarkingHistory.PerformMark(() =>
             {
-                dictionary.ClearMessages();
-                if (dictionary.Specifications != null)
+                foreach (Dictionary dictionary in EfsSystem.Dictionaries)
                 {
-                    foreach (Specification specification in dictionary.Specifications)
+                    if (dictionary.Specifications != null)
                     {
-                        specification.CheckReview();
+                        foreach (Specification specification in dictionary.Specifications)
+                        {
+                            specification.CheckReview();
+                        }
                     }
                 }
-            }
-            EFSSystem.INSTANCE.Markings.RegisterCurrentMarking();
-            Refresh();
+            });
         }
 
         /// ------------------------------------------------------
@@ -1093,157 +869,142 @@ namespace GUI
         /// ------------------------------------------------------
         private void clearMarksToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ClearMarks();
+            MarkingHistory.PerformMark(() => {});
         }
-
-        /// <summary>
-        ///     Clears all marks from the model/spec/tests/...
-        /// </summary>
-        public void ClearMarks()
-        {
-            foreach (Dictionary dictionary in EFSSystem.Dictionaries)
-            {
-                dictionary.ClearMessages();
-            }
-            Refresh();
-        }
-
+        
         private void markRequirementsWhereMoreInfoIsRequiredToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            foreach (Dictionary dictionary in EFSSystem.Dictionaries)
+            MarkingHistory.PerformMark(() =>
             {
-                dictionary.ClearMessages();
-                if (dictionary.Specifications != null)
+                foreach (Dictionary dictionary in EfsSystem.Dictionaries)
                 {
-                    foreach (Specification specification in dictionary.Specifications)
+                    if (dictionary.Specifications != null)
                     {
-                        specification.CheckMoreInfo();
+                        foreach (Specification specification in dictionary.Specifications)
+                        {
+                            specification.CheckMoreInfo();
+                        }
                     }
                 }
-            }
-            EFSSystem.INSTANCE.Markings.RegisterCurrentMarking();
-            Refresh();
+            });
         }
 
         private void markImplementedButNoFunctionalTestToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            foreach (Dictionary dictionary in EFSSystem.Dictionaries)
+            MarkingHistory.PerformMark(() =>
             {
-                dictionary.ClearMessages();
-                if (dictionary.Specifications != null)
+                foreach (Dictionary dictionary in EfsSystem.Dictionaries)
                 {
-                    foreach (Specification specification in dictionary.Specifications)
+                    if (dictionary.Specifications != null)
                     {
-                        specification.CheckImplementedWithNoFunctionalTest();
+                        foreach (Specification specification in dictionary.Specifications)
+                        {
+                            specification.CheckImplementedWithNoFunctionalTest();
+                        }
                     }
                 }
-            }
-            EFSSystem.INSTANCE.Markings.RegisterCurrentMarking();
-            Refresh();
+            });
         }
 
         private void markNotImplementedButImplementationExistsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            foreach (Dictionary dictionary in EFSSystem.Dictionaries)
+            MarkingHistory.PerformMark(() =>
             {
-                dictionary.ClearMessages();
-                if (dictionary.Specifications != null)
+                foreach (Dictionary dictionary in EfsSystem.Dictionaries)
                 {
-                    foreach (Specification specification in dictionary.Specifications)
+                    if (dictionary.Specifications != null)
                     {
-                        specification.CheckNotImplementedButImplementationExists();
+                        foreach (Specification specification in dictionary.Specifications)
+                        {
+                            specification.CheckNotImplementedButImplementationExists();
+                        }
                     }
                 }
-            }
-            EFSSystem.INSTANCE.Markings.RegisterCurrentMarking();
-            Refresh();
+            });
         }
 
         private void markApplicableParagraphsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            foreach (Dictionary dictionary in EFSSystem.Dictionaries)
+            MarkingHistory.PerformMark(() =>
             {
-                dictionary.ClearMessages();
-                if (dictionary.Specifications != null)
+                foreach (Dictionary dictionary in EfsSystem.Dictionaries)
                 {
-                    foreach (Specification specification in dictionary.Specifications)
+                    if (dictionary.Specifications != null)
                     {
-                        specification.CheckApplicable();
+                        foreach (Specification specification in dictionary.Specifications)
+                        {
+                            specification.CheckApplicable();
+                        }
                     }
                 }
-            }
-            EFSSystem.INSTANCE.Markings.RegisterCurrentMarking();
-            Refresh();
+            });
         }
 
         private void markImplementationRequiredToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            foreach (Dictionary dictionary in EFSSystem.Dictionaries)
+            MarkingHistory.PerformMark(() =>
             {
-                dictionary.ClearMessages();
-                dictionary.MarkUnimplementedTests();
-            }
-            EFSSystem.INSTANCE.Markings.RegisterCurrentMarking();
-
-            Refresh();
+                foreach (Dictionary dictionary in EfsSystem.Dictionaries)
+                {
+                    dictionary.MarkUnimplementedTests();
+                }
+            });
         }
 
         private void markNotTranslatedToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            foreach (Dictionary dictionary in EFSSystem.Dictionaries)
+            MarkingHistory.PerformMark(() =>
             {
-                dictionary.ClearMessages();
-                dictionary.MarkNotTranslatedTests();
-            }
-            EFSSystem.INSTANCE.Markings.RegisterCurrentMarking();
-
-            Refresh();
+                foreach (Dictionary dictionary in EfsSystem.Dictionaries)
+                {
+                    dictionary.MarkNotTranslatedTests();
+                }
+            });
         }
 
         private void markNotImplementedTranslationsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            foreach (Dictionary dictionary in EFSSystem.Dictionaries)
+            MarkingHistory.PerformMark(() =>
             {
-                dictionary.ClearMessages();
-                dictionary.MarkNotImplementedTranslations();
-            }
-            EFSSystem.INSTANCE.Markings.RegisterCurrentMarking();
-
-            Refresh();
+                foreach (Dictionary dictionary in EfsSystem.Dictionaries)
+                {
+                    dictionary.MarkNotImplementedTranslations();
+                }
+            });
         }
 
         private void markNonApplicableRequirementsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            foreach (Dictionary dictionary in EFSSystem.Dictionaries)
+            MarkingHistory.PerformMark(() =>
             {
-                dictionary.ClearMessages();
-                if (dictionary.Specifications != null)
+                foreach (Dictionary dictionary in EfsSystem.Dictionaries)
                 {
-                    foreach (Specification specification in dictionary.Specifications)
+                    if (dictionary.Specifications != null)
                     {
-                        specification.CheckNonApplicable();
+                        foreach (Specification specification in dictionary.Specifications)
+                        {
+                            specification.CheckNonApplicable();
+                        }
                     }
                 }
-            }
-            EFSSystem.INSTANCE.Markings.RegisterCurrentMarking();
-            Refresh();
+            });
         }
 
         private void markSpecIssuesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            foreach (Dictionary dictionary in EFSSystem.Dictionaries)
+            MarkingHistory.PerformMark(() =>
             {
-                dictionary.ClearMessages();
-                if (dictionary.Specifications != null)
+                foreach (Dictionary dictionary in EfsSystem.Dictionaries)
                 {
-                    foreach (Specification specification in dictionary.Specifications)
+                    if (dictionary.Specifications != null)
                     {
-                        specification.CheckSpecIssues();
+                        foreach (Specification specification in dictionary.Specifications)
+                        {
+                            specification.CheckSpecIssues();
+                        }
                     }
                 }
-            }
-            EFSSystem.INSTANCE.Markings.RegisterCurrentMarking();
-            Refresh();
+            });
         }
 
         #region Import test database
@@ -1264,13 +1025,6 @@ namespace GUI
                     ImportTestDataBaseOperation operation = new ImportTestDataBaseOperation(openFileDialog.FileName,
                         dictionary, ImportTestDataBaseOperation.Mode.File);
                     operation.ExecuteUsingProgressDialog("Import database");
-
-                    // Updates the test tree view data
-                    if (TestWindow != null)
-                    {
-                        TestWindow.TreeView.RefreshModel();
-                        Refresh();
-                    }
                 }
             }
         }
@@ -1287,13 +1041,6 @@ namespace GUI
                         new ImportTestDataBaseOperation(selectFolderDialog.SelectedPath, dictionary,
                             ImportTestDataBaseOperation.Mode.Directory);
                     operation.ExecuteUsingProgressDialog("Import database directory");
-
-                    // Updates the test tree view data
-                    if (TestWindow != null)
-                    {
-                        TestWindow.TreeView.RefreshModel();
-                        Refresh();
-                    }
                 }
             }
         }
@@ -1353,6 +1100,7 @@ namespace GUI
                 {
                     frame.Translate(dictionary.TranslationDictionary);
                 }
+                EFSSystem.INSTANCE.Context.HandleChangeEvent(dictionary, Context.ChangeKind.Translation);
 
                 SpecIssuesReport aReport = new SpecIssuesReport(dictionary);
                 aReport.ShowDialog(this);
@@ -1382,7 +1130,7 @@ namespace GUI
         private void searchToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             SearchDialog.SearchDialog dialog = new SearchDialog.SearchDialog();
-            dialog.Initialise(EFSSystem);
+            dialog.Initialise(EfsSystem);
             dialog.ShowDialog(this);
         }
 
@@ -1392,13 +1140,11 @@ namespace GUI
             EFSSystem efsSystem = EFSSystem.INSTANCE;
             efsSystem.Compiler.Compile_Synchronous(efsSystem.ShouldRebuild);
             efsSystem.ShouldRebuild = false;
-
-            RefreshModel();
         }
 
         private void showRulePerformancesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            RulesPerformances rulePerformances = new RulesPerformances(EFSSystem);
+            RulesPerformances rulePerformances = new RulesPerformances(EfsSystem);
             AddChildWindow(rulePerformances, DockAreas.Document);
         }
 
@@ -1450,16 +1196,16 @@ namespace GUI
 
         private void resetCountersToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (EFSSystem != null)
+            if (EfsSystem != null)
             {
-                ResetTimeStamps reset = new ResetTimeStamps(EFSSystem);
+                ResetTimeStamps reset = new ResetTimeStamps(EfsSystem);
             }
         }
 
         private void showFunctionsPerformancesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FunctionsPerformances.FunctionsPerformances functionsPerformances =
-                new FunctionsPerformances.FunctionsPerformances(EFSSystem);
+                new FunctionsPerformances.FunctionsPerformances(EfsSystem);
             AddChildWindow(functionsPerformances, DockAreas.Document);
         }
 
@@ -1477,8 +1223,7 @@ namespace GUI
                 Dictionary dictionary = new Dictionary();
                 dictionary.FilePath = filePath;
                 dictionary.Name = Path.GetFileNameWithoutExtension(filePath);
-                EFSSystem.AddDictionary(dictionary);
-                RefreshModel();
+                EfsSystem.AddDictionary(dictionary);
 
                 // Open a data dictionary window if none is yet present
                 bool found = false;
@@ -1500,17 +1245,16 @@ namespace GUI
 
         private void markParagraphsFromNewRevisionToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            foreach (Dictionary dictionary in EFSSystem.Dictionaries)
+            MarkingHistory.PerformMark(() =>
             {
-                dictionary.ClearMessages();
-
-                foreach (Specification specification in dictionary.Specifications)
+                foreach (Dictionary dictionary in EfsSystem.Dictionaries)
                 {
-                    specification.CheckNewRevision();
+                    foreach (Specification specification in dictionary.Specifications)
+                    {
+                        specification.CheckNewRevision();
+                    }
                 }
-            }
-            EFSSystem.INSTANCE.Markings.RegisterCurrentMarking();
-            Refresh();
+            });
         }
 
         private void generateERTMSAcademyReportToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1563,161 +1307,7 @@ namespace GUI
                 Refresh();
             }
         }
-
-        public bool AfterStep = false;
-
-        /// <summary>
-        ///     Refreshes all graph views
-        /// </summary>
-        public void RefreshAfterStep()
-        {
-            try
-            {
-                AfterStep = true;
-
-                foreach (Form form in SubForms)
-                {
-                    if (form is GraphView.GraphView)
-                    {
-                        ((GraphView.GraphView) form).RefreshAfterStep();
-                    }
-                    if (form is StateDiagramWindow)
-                    {
-                        ((StateDiagramWindow) form).RefreshAfterStep();
-                    }
-                    if (form is TestRunnerView.Window)
-                    {
-                        ((TestRunnerView.Window) form).RefreshAfterStep();
-                    }
-                    if (form is TestRunnerView.Watch.Window)
-                    {
-                        ((TestRunnerView.Watch.Window) form).RefreshAfterStep();
-                    }
-                    if (form is StructureValueEditor.Window)
-                    {
-                        ((StructureValueEditor.Window) form).RefreshAfterStep();
-                    }
-                }
-            }
-            finally
-            {
-                AfterStep = false;
-            }
-        }
-
-        /// <summary>
-        ///     Indicates that the MDI window is currently handling a selection change
-        /// </summary>
-        public bool HandlingSelection { get; set; }
-
-        /// <summary>
-        ///     Keeps track of a new selection
-        /// </summary>
-        /// <param name="selected"></param>
-        public void HandleSelection(BaseTreeNode selected)
-        {
-            if (selected != null && selected.Model != null)
-            {
-                IModelElement model = selected.Model;
-                if (!HandlingSelection)
-                {
-                    try
-                    {
-                        HandlingSelection = true;
-
-                        // Messages
-                        MessagesView.Window messageView = MessagesWindow;
-                        if (messageView != null)
-                        {
-                            messageView.SetModel(model);
-                        }
-
-                        // More info
-                        MoreInfoView.Window moreInfoView = MoreInfoWindow;
-                        if (moreInfoView != null)
-                        {
-                            moreInfoView.SetModel(model as ITextualExplain);
-                        }
-
-                        // Properties
-                        PropertyView.Window propertyView = PropertyWindow;
-                        if (propertyView != null)
-                        {
-                            propertyView.SetModel(selected);
-                        }
-
-                        // Related requirements
-                        RequirementsView.Window requirementsView = RequirementsWindow;
-                        if (requirementsView != null)
-                        {
-                            requirementsView.SetModel(model as ModelElement);
-                        }
-
-                        // Expression editor view
-                        ExpressionWindow editorView = ExpressionEditorWindow;
-                        if (editorView != null)
-                        {
-                            IExpressionable expressionable = model as IExpressionable;
-                            if (expressionable != null && !(expressionable is DataDictionary.Functions.Function))
-                            {
-                                editorView.setChangeHandler(
-                                    new ExpressionableTextChangeHandler((ModelElement) expressionable));
-                            }
-                            else
-                            {
-                                Paragraph paragraph = model as Paragraph;
-                                if (paragraph != null)
-                                {
-                                    editorView.setChangeHandler(new ParagraphTextChangeHandler(paragraph));
-                                }
-
-                                else
-                                {
-                                    editorView.setChangeHandler(null);
-                                }
-                            }
-                        }
-
-                        // Comment editor view
-                        CommentWindow commentView = CommentEditorWindow;
-                        if (commentView != null)
-                        {
-                            commentView.setChangeHandler(
-                                new CommentableTextChangeHandler((ModelElement) (model as ICommentable)));
-                        }
-
-                        // Uages 
-                        UsageView.Window usageView = UsageWindow;
-                        if (usageView != null)
-                        {
-                            usageView.SetModel(model as ModelElement);
-                        }
-
-                        // History
-                        if (SelectionHistory.Count > MAX_SELECTION_HISTORY)
-                        {
-                            SelectionHistory.RemoveAt(SelectionHistory.Count - 1);
-                        }
-
-                        if (SelectionHistory.Count == 0 || SelectionHistory[0] != model)
-                        {
-                            SelectionHistory.Insert(0, model);
-                            SelectionHistory.Window selectionHistoryWindow =
-                                GenericWindowHandling<SelectionHistory.Window>.find(SubForms);
-                            if (selectionHistoryWindow != null)
-                            {
-                                selectionHistoryWindow.RefreshModel();
-                            }
-                        }
-                    }
-                    finally
-                    {
-                        HandlingSelection = false;
-                    }
-                }
-            }
-        }
-
+        
         private void generateFunctionalAnalysisReportToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Dictionary dictionary = GetActiveDictionary();
@@ -1736,7 +1326,7 @@ namespace GUI
                 if (dockContent.DockAreas == DockAreas.Document)
                 {
                     dockContent.Hide();
-                    Rectangle rectangle = InitialRectangle[dockContent];
+                    Rectangle rectangle = _initialRectangle[dockContent];
                     dockContent.DockAreas = DockAreas.Float;
                     dockContent.DockState = DockState.Float;
                     dockContent.Show(dockPanel, rectangle);
@@ -1791,7 +1381,7 @@ namespace GUI
 
         private void showTranslationViewToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            AddChildWindow(TranslationWindow, DockAreas.Document);
+            AddChildWindow(TranslationWindow);
         }
 
         /// <summary>
@@ -1800,23 +1390,13 @@ namespace GUI
         /// <param name="statusText"></param>
         public void SetStatus(string statusText)
         {
-            toolStripStatusLabel.Text = statusText;
-        }
-
-        /// <summary>
-        ///     Sets the default status
-        /// </summary>
-        public void SetCoverageStatus(IHoldsParagraphs model)
-        {
-            StatusSynchronizerTask.SetModel(model);
+            BeginInvoke((MethodInvoker)(() => toolStripStatusLabel.Text=statusText));
         }
 
         private void blameUntilToolStripMenuItem_Click(object sender, EventArgs e)
         {
             // Compares with the active dictionary
             Dictionary dictionary = GetActiveDictionary();
-            string workingDir = Path.GetDirectoryName(dictionary.FilePath);
-            string historyLocation = workingDir + Path.DirectorySeparatorChar + dictionary.Name + ".hst";
 
             // Retrieve the hash tag
             VersionSelector.VersionSelector selector = new VersionSelector.VersionSelector(dictionary);
@@ -1833,33 +1413,33 @@ namespace GUI
             if (HistoryWindow == null)
             {
                 HistoryView.Window window = new HistoryView.Window();
-                AddChildWindow(window, DockAreas.Document);
+                AddChildWindow(window);
             }
         }
 
         private void markNotTestedButFunctionalTestToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            foreach (Dictionary dictionary in EFSSystem.Dictionaries)
+            MarkingHistory.PerformMark(() =>
             {
-                dictionary.ClearMessages();
-                if (dictionary.Specifications != null)
+                foreach (Dictionary dictionary in EfsSystem.Dictionaries)
                 {
-                    foreach (Specification specification in dictionary.Specifications)
+                    if (dictionary.Specifications != null)
                     {
-                        specification.CheckNotTestedWithFunctionalTests();
+                        foreach (Specification specification in dictionary.Specifications)
+                        {
+                            specification.CheckNotTestedWithFunctionalTests();
+                        }
                     }
                 }
-            }
-            EFSSystem.INSTANCE.Markings.RegisterCurrentMarking();
-            Refresh();
+            });
         }
 
         private void checkModelToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            CheckModelOperation operation = new CheckModelOperation(EFSSystem);
+            CheckModelOperation operation = new CheckModelOperation(EfsSystem);
             operation.ExecuteUsingProgressDialog("Check model");
 
-            MessageCounter counter = new MessageCounter(EFSSystem);
+            MessageCounter counter = new MessageCounter(EfsSystem);
             MessageBox.Show(
                 counter.Error + " error(s)\n" + counter.Warning + " warning(s)\n" + counter.Info +
                 " info message(s) found", "Check result", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -1867,10 +1447,10 @@ namespace GUI
 
         private void checkToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            CheckDeadModelOperation operation = new CheckDeadModelOperation(EFSSystem);
+            CheckDeadModelOperation operation = new CheckDeadModelOperation(EfsSystem);
             operation.ExecuteUsingProgressDialog("Check dead model");
 
-            MessageCounter counter = new MessageCounter(EFSSystem);
+            MessageCounter counter = new MessageCounter(EfsSystem);
             MessageBox.Show(
                 counter.Error + " error(s)\n" + counter.Warning + " warning(s)\n" + counter.Info +
                 " info message(s) found", "Check result", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -1879,11 +1459,12 @@ namespace GUI
         private void showRequirementSetToolStripMenuItem_Click(object sender, EventArgs e)
         {
             RequirementSetDiagramWindow window = new RequirementSetDiagramWindow();
-            GUIUtils.MDIWindow.AddChildWindow(window);
+            GuiUtils.MdiWindow.AddChildWindow(window);
 
-            Dictionary dictionary = GUIUtils.MDIWindow.GetActiveDictionary();
-            window.SetEnclosing(dictionary);
+            Dictionary dictionary = GuiUtils.MdiWindow.GetActiveDictionary();
             window.Text = "Requirement sets for " + dictionary.Name;
+            OpenRequirementSetOperation openRequirementSet = new OpenRequirementSetOperation(window, dictionary);
+            openRequirementSet.ExecuteUsingProgressDialog("Opening requirement set for " + dictionary.Name);
         }
 
         private void showWatchViewToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1964,7 +1545,7 @@ namespace GUI
             string updatedGuid = "";
             {
                 DictionarySelector.DictionarySelector dictionarySelector =
-                    new DictionarySelector.DictionarySelector(EFSSystem);
+                    new DictionarySelector.DictionarySelector(EfsSystem);
                 dictionarySelector.ShowDictionaries(this);
 
                 if (dictionarySelector.Selected != null)
@@ -1986,8 +1567,7 @@ namespace GUI
                 dictionary.FilePath = filePath;
                 dictionary.Name = Path.GetFileNameWithoutExtension(filePath);
                 dictionary.setUpdates(updatedGuid);
-                EFSSystem.AddDictionary(dictionary);
-                RefreshModel();
+                EfsSystem.AddDictionary(dictionary);
                 AddChildWindow(new DataDictionaryView.Window(dictionary), DockAreas.Document);
             }
         }
@@ -2024,9 +1604,6 @@ namespace GUI
                 // Remove all references to the closed dictionary
                 CloseDictionary closeDictionary = new CloseDictionary(dictionary);
                 closeDictionary.ExecuteUsingProgressDialog("Closing dictionary", false);
-
-                // Refresh the display
-                GUIUtils.MDIWindow.RefreshModel();
             }
         }
 

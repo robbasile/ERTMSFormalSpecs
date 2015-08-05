@@ -36,7 +36,6 @@ namespace GUI
             ///     Constructor
             /// </summary>
             protected ReferencesParagraphEditor()
-                : base()
             {
             }
         }
@@ -50,7 +49,6 @@ namespace GUI
             ///     Constructor
             /// </summary>
             protected UnnamedReferencesParagraphEditor()
-                : base()
             {
             }
 
@@ -69,11 +67,6 @@ namespace GUI
         }
 
         /// <summary>
-        ///     The tree node that holds the references to requirements
-        /// </summary>
-        protected ReqRefsTreeNode ReqReferences;
-
-        /// <summary>
         ///     Indicates whether this node handles requirements
         /// </summary>
         protected bool HandleRequirements { get; private set; }
@@ -82,52 +75,59 @@ namespace GUI
         ///     Constructor
         /// </summary>
         /// <param name="item"></param>
+        /// <param name="buildSubNodes"></param>
+        /// <param name="name"></param>
+        /// <param name="isFolder"></param>
+        /// <param name="addRequirements"></param>
         protected ReferencesParagraphTreeNode(T item, bool buildSubNodes, string name = null, bool isFolder = false,
             bool addRequirements = true)
             : base(item, buildSubNodes, name, isFolder)
         {
             HandleRequirements = addRequirements;
 
-            // State of the node changed, rebuild the subnodes.
-            BaseBuildSubNodes(buildSubNodes);
+            if (buildSubNodes)
+            {
+                // State of the node changed, rebuild the subnodes.
+                BuildOrRefreshSubNodes(null);
+            }
+        }
+
+        /// <summary>
+        /// Indicates that requirements are handled by this tree node and there are requirements to display
+        /// </summary>
+        /// <returns></returns>
+        private bool HasRequirements()
+        {
+            return HandleRequirements && Item.Requirements.Count > 0;
         }
 
         /// <summary>
         ///     Builds the subnodes of this node
         /// </summary>
-        /// <param name="buildSubNodes">Indicates whether the subnodes of the nodes should also be built</param>
-        public override void BuildSubNodes(bool buildSubNodes)
+        /// <param name="subNodes"></param>
+        /// <param name="recursive">Indicates whether the subnodes of the nodes should also be built</param>
+        public override void BuildSubNodes(List<BaseTreeNode> subNodes, bool recursive)
         {
-            base.BuildSubNodes(buildSubNodes);
+            base.BuildSubNodes(subNodes, recursive);
 
-            if (HandleRequirements && Item.Requirements.Count > 0)
+            if (HasRequirements())
             {
-                ReqReferences = new ReqRefsTreeNode(Item, buildSubNodes);
-                Nodes.Add(ReqReferences);
+                subNodes.Add(new ReqRefsTreeNode(Item, recursive));
             }
         }
 
         /// <summary>
         ///     Handles a drop event
         /// </summary>
-        /// <param name="SourceNode"></param>
-        public override void AcceptDrop(BaseTreeNode SourceNode)
+        /// <param name="sourceNode"></param>
+        public override void AcceptDrop(BaseTreeNode sourceNode)
         {
-            base.AcceptDrop(SourceNode);
+            base.AcceptDrop(sourceNode);
 
-            if (SourceNode is ParagraphTreeNode)
+            ParagraphTreeNode paragraphTreeNode = sourceNode as ParagraphTreeNode;
+            if (paragraphTreeNode != null)
             {
-                if (HandleRequirements && ReqReferences == null)
-                {
-                    ReqReferences = new ReqRefsTreeNode(Item, false);
-                    Nodes.Add(ReqReferences);
-                }
-
-                if (ReqReferences != null)
-                {
-                    ParagraphTreeNode paragraphTreeNode = (ParagraphTreeNode) SourceNode;
-                    ReqReferences.CreateReqRef(paragraphTreeNode.Item);
-                }
+                Item.FindOrCreateReqRef(paragraphTreeNode.Item);
             }
         }
 

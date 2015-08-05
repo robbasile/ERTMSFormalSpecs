@@ -87,7 +87,7 @@ namespace Reports.Tests
             }
 
             double applicableParagraphsCount = aDictionary.ApplicableParagraphs.Count;
-            double coveredParagraphsCount = CoveredRequirements(aDictionary).Count;
+            double coveredParagraphsCount = aDictionary.CoveredRequirements().Count;
             double coveredPercentage = (coveredParagraphsCount/applicableParagraphsCount)*100;
             double nonCoveredParagraphsCount = applicableParagraphsCount - coveredParagraphsCount;
             double nonCoveredPercentage = 100 - coveredPercentage;
@@ -302,48 +302,6 @@ namespace Reports.Tests
             {
                 AddParagraph(titleOfParagraph);
             }
-        }
-
-
-        /// <summary>
-        ///     Provides the set of covered requirements by the tests
-        /// </summary>
-        /// <param name="aDictionary">The model</param>
-        /// <returns></returns>
-        public static HashSet<Paragraph> CoveredRequirements(Dictionary aDictionary)
-        {
-            HashSet<Paragraph> retVal = new HashSet<Paragraph>();
-            ICollection<Paragraph> applicableParagraphs = aDictionary.ApplicableParagraphs;
-            Dictionary<Paragraph, List<ReqRef>> paragraphsReqRefDictionary = aDictionary.ParagraphsReqRefs;
-
-            foreach (Paragraph paragraph in applicableParagraphs)
-            {
-                bool implemented = paragraph.getImplementationStatus() ==
-                                   acceptor.SPEC_IMPLEMENTED_ENUM.Impl_Implemented;
-                bool tested = false;
-                if (implemented)
-                {
-                    if (paragraphsReqRefDictionary.ContainsKey(paragraph))
-                    {
-                        List<ReqRef> implementations = paragraphsReqRefDictionary[paragraph];
-                        for (int i = 0; i < implementations.Count; i++)
-                        {
-                            ReqRelated reqRelated = implementations[i].Enclosing as ReqRelated;
-                            if (reqRelated is TestCase && reqRelated.ImplementationCompleted == true)
-                            {
-                                tested = true;
-                            }
-                        }
-                    }
-                }
-
-                if (implemented && tested)
-                {
-                    retVal.Add(paragraph);
-                }
-            }
-
-            return retVal;
         }
     }
 }

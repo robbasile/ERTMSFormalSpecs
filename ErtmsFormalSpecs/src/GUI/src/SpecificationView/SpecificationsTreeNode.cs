@@ -36,7 +36,7 @@ namespace GUI.SpecificationView
         ///     Instanciates the editor
         /// </summary>
         /// <returns></returns>
-        protected override Editor createEditor()
+        protected override Editor CreateEditor()
         {
             return new SpecificationEditor();
         }
@@ -45,6 +45,7 @@ namespace GUI.SpecificationView
         ///     Constructor
         /// </summary>
         /// <param name="item"></param>
+        /// <param name="buildSubNodes"></param>
         public SpecificationsTreeNode(Dictionary item, bool buildSubNodes)
             : base(item, buildSubNodes, "Specifications", true)
         {
@@ -53,34 +54,24 @@ namespace GUI.SpecificationView
         /// <summary>
         ///     Builds the subnodes of this node
         /// </summary>
-        /// <param name="buildSubNodes">Indicates whether the subnodes of the nodes should also be built</param>
-        public override void BuildSubNodes(bool buildSubNodes)
+        /// <param name="subNodes"></param>
+        /// <param name="recursive">Indicates whether the subnodes of the nodes should also be built</param>
+        public override void BuildSubNodes(List<BaseTreeNode> subNodes, bool recursive)
         {
-            base.BuildSubNodes(buildSubNodes);
+            base.BuildSubNodes(subNodes, recursive);
 
             foreach (Specification specification in Item.Specifications)
             {
-                Nodes.Add(new SpecificationTreeNode(specification, buildSubNodes));
+                subNodes.Add(new SpecificationTreeNode(specification, recursive));
             }
-            SortSubNodes();
-        }
-
-        /// <summary>
-        ///     Adds a new specification to this dictionary
-        /// </summary>
-        /// <param name="specification"></param>
-        public void AddSpecification(Specification specification)
-        {
-            Item.appendSpecifications(specification);
-            Nodes.Add(new SpecificationTreeNode(specification, true));
-            RefreshNode();
+            subNodes.Sort();
         }
 
         public void AddSpecificationHandler(object sender, EventArgs args)
         {
             Specification specification = (Specification) acceptor.getFactory().createSpecification();
             specification.setName("Specification" + (Item.countSpecifications() + 1));
-            AddSpecification(specification);
+            Item.appendSpecifications(specification);
         }
 
         /// <summary>
@@ -91,24 +82,9 @@ namespace GUI.SpecificationView
         {
             List<MenuItem> retVal = base.GetMenuItems();
 
-            retVal.Add(new MenuItem("Add specification", new EventHandler(AddSpecificationHandler)));
+            retVal.Add(new MenuItem("Add specification", AddSpecificationHandler));
 
             return retVal;
-        }
-
-        /// <summary>
-        ///     Update counts according to the selected chapter
-        /// </summary>
-        /// <param name="displayStatistics">Indicates that statistics should be displayed in the MDI window</param>
-        public override void SelectionChanged(bool displayStatistics)
-        {
-            base.SelectionChanged(false);
-
-            Window window = BaseForm as Window;
-            if (window != null)
-            {
-                GUIUtils.MDIWindow.SetCoverageStatus(Item);
-            }
         }
     }
 }

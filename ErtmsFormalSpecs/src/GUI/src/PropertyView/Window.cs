@@ -1,15 +1,29 @@
-﻿using System.Windows.Forms;
+﻿// ------------------------------------------------------------------------------
+// -- Copyright ERTMS Solutions
+// -- Licensed under the EUPL V.1.1
+// -- http://joinup.ec.europa.eu/software/page/eupl/licence-eupl
+// --
+// -- This file is part of ERTMSFormalSpec software and documentation
+// --
+// --  ERTMSFormalSpec is free software: you can redistribute it and/or modify
+// --  it under the terms of the EUPL General Public License, v.1.1
+// --
+// -- ERTMSFormalSpec is distributed in the hope that it will be useful,
+// -- but WITHOUT ANY WARRANTY; without even the implied warranty of
+// -- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// --
+// ------------------------------------------------------------------------------
+
+using System.Windows.Forms;
+using DataDictionary;
+using GUI.BoxArrowDiagram;
+using Utils;
 using WeifenLuo.WinFormsUI.Docking;
 
 namespace GUI.PropertyView
 {
     public partial class Window : BaseForm
     {
-        /// <summary>
-        ///     The editor used to edit these properties
-        /// </summary>
-        private BaseTreeNode.BaseEditor Editor { get; set; }
-
         /// <summary>
         ///     Constructor
         /// </summary>
@@ -18,40 +32,56 @@ namespace GUI.PropertyView
             InitializeComponent();
             ResizeDescriptionArea(propertyGrid, 0);
 
-            FormClosed += new FormClosedEventHandler(Window_FormClosed);
             DockAreas = DockAreas.DockRight;
         }
 
         /// <summary>
-        ///     Handles the close event
+        ///     Allows to refresh the view, when the selected model changed
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Window_FormClosed(object sender, FormClosedEventArgs e)
+        /// <param name="context"></param>
+        /// <returns>true if refresh should be performed</returns>
+        public override bool HandleSelectionChange(Context.SelectionContext context)
         {
-            GUIUtils.MDIWindow.HandleSubWindowClosed(this);
-        }
+            bool retVal = base.HandleSelectionChange(context);
 
-        /// <summary>
-        ///     Sets the model element for which messages should be displayed
-        /// </summary>
-        /// <param name="editor"></param>
-        public void SetModel(BaseTreeNode node)
-        {
-            if (node != null && node.NodeEditor != null)
+            if (retVal)
             {
-                Editor = node.NodeEditor;
-                RefreshModel();
+                propertyGrid.SelectedObject = null;
+
+                BaseTreeNode node = GuiUtils.SourceNode(context);
+                if (node != null)
+                {
+                    propertyGrid.SelectedObject = node.GetEditor();
+                }
+                else
+                {
+                    BaseBoxArrowWindow boxArrowWindow = GuiUtils.EnclosingFinder<BaseBoxArrowWindow>.Find(context.Sender as Control);
+                    if (boxArrowWindow != null)
+                    {
+                        propertyGrid.SelectedObject = boxArrowWindow.CreateEditor(context.Element);
+                    }
+                }
             }
+
+            return retVal;
         }
 
         /// <summary>
-        ///     Refreshes the displayed messages according to the window model
+        ///     Allows to refresh the view, when the value of a model changed
         /// </summary>
-        public override void RefreshModel()
+        /// <param name="modelElement"></param>
+        /// <param name="changeKind"></param>
+        /// <returns>True if the view should be refreshed</returns>
+        public override bool HandleValueChange(IModelElement modelElement, Context.ChangeKind changeKind)
         {
-            propertyGrid.SelectedObject = Editor;
-            Refresh();
+            bool retVal = base.HandleValueChange(modelElement, changeKind);
+
+            if (retVal)
+            {
+                propertyGrid.Refresh();
+            }
+
+            return retVal;
         }
     }
 }

@@ -14,6 +14,7 @@
 // --
 // ------------------------------------------------------------------------------
 
+using System.Collections.Generic;
 using HistoricalData;
 using Utils;
 using History = DataDictionary.Compare.History;
@@ -23,9 +24,14 @@ namespace GUI.HistoryView
 {
     public class HistoryTreeView : TypedTreeView<IModelElement>
     {
-        protected override void BuildModel()
+        /// <summary>
+        ///     Build the model of this tree view
+        /// </summary>
+        /// <returns>the root nodes of the tree</returns>
+        protected override List<BaseTreeNode> BuildModel()
         {
-            Nodes.Clear();
+            List<BaseTreeNode> retVal = new List<BaseTreeNode>();
+
             ModelElement modelElement = Root as ModelElement;
             if (modelElement != null)
             {
@@ -33,9 +39,11 @@ namespace GUI.HistoryView
                 foreach (Change change in history.GetChanges(modelElement))
                 {
                     ChangeTreeNode node = new ChangeTreeNode(change, true);
-                    Nodes.Add(node);
+                    retVal.Add(node);
                 }
             }
+
+            return retVal;
         }
     }
 }

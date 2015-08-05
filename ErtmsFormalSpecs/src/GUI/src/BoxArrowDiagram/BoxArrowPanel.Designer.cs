@@ -15,7 +15,7 @@
 // ------------------------------------------------------------------------------
 namespace GUI.BoxArrowDiagram
 {
-    partial class BoxArrowPanel<BoxModel, ArrowModel>
+    partial class BoxArrowPanel<TEnclosing, TBoxModel, TArrowModel>
     {
         /// <summary>
         /// Required designer variable.

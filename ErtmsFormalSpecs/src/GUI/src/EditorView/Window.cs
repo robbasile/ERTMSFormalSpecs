@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Text;
 using System.Windows.Forms;
 using DataDictionary;
 using DataDictionary.Generated;
@@ -28,7 +29,8 @@ namespace GUI.EditorView
             ///     Constructor
             /// </summary>
             /// <param name="instance"></param>
-            public HandleTextChange(ModelElement instance, string identifyingMessage)
+            /// <param name="identifyingMessage"></param>
+            protected HandleTextChange(ModelElement instance, string identifyingMessage)
             {
                 Instance = instance;
                 IdentifyingMessage = identifyingMessage;
@@ -45,6 +47,29 @@ namespace GUI.EditorView
             /// </summary>
             /// <returns></returns>
             public abstract void SetText(string text);
+
+            /// <summary>
+            /// Removes all useless characters from a source string
+            /// </summary>
+            /// <param name="source"></param>
+            /// <returns></returns>
+            public string RemoveUselessCharacters(string source)
+            {
+                StringBuilder retVal = new StringBuilder();
+
+                if (source != null)
+                {
+                    foreach (char c in source)
+                    {
+                        if (c != '\r')
+                        {
+                            retVal.Append(c);
+                        }
+                    }
+                }
+
+                return retVal.ToString();
+            }
         }
 
         /// <summary>
@@ -62,9 +87,8 @@ namespace GUI.EditorView
         {
             InitializeComponent();
 
-            editorTextBox.TextBox.TextChanged += new EventHandler(TextChangedHandler);
-            editorTextBox.TextBox.KeyUp += new KeyEventHandler(TextBox_KeyUp);
-            FormClosed += new FormClosedEventHandler(Window_FormClosed);
+            editorTextBox.TextBox.TextChanged += TextChangedHandler;
+            editorTextBox.TextBox.KeyUp += TextBox_KeyUp;
             Text = EditorName;
         }
 
@@ -75,25 +99,12 @@ namespace GUI.EditorView
                 case Keys.Escape:
                     if (DockState == DockState.Float || DockState == DockState.Unknown)
                     {
-                        __textChangeHandler.SetText(editorTextBox.TextBox.Text);
+                        _textChangeHandler.SetText(editorTextBox.TextBox.Text);
                         Close();
                         e.Handled = true;
                     }
                     break;
-
-                default:
-                    break;
             }
-        }
-
-        /// <summary>
-        ///     Handles the close event
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Window_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            GUIUtils.MDIWindow.HandleSubWindowClosed(this);
         }
 
         /// <summary>
@@ -104,9 +115,9 @@ namespace GUI.EditorView
         /// <param name="e"></param>
         private void TextChangedHandler(object sender, EventArgs e)
         {
-            if (__textChangeHandler != null)
+            if (_textChangeHandler != null)
             {
-                __textChangeHandler.SetText(editorTextBox.TextBox.Text);
+                _textChangeHandler.SetText(editorTextBox.TextBox.Text);
             }
         }
 
@@ -129,7 +140,7 @@ namespace GUI.EditorView
         /// <summary>
         ///     The delegate method that need to be called when the text of the text box has been changed
         /// </summary>
-        private HandleTextChange __textChangeHandler = null;
+        private HandleTextChange _textChangeHandler;
 
         /// <summary>
         ///     The name of the editor
@@ -144,16 +155,16 @@ namespace GUI.EditorView
         /// </summary>
         public void setChangeHandler(HandleTextChange handleTextChange)
         {
-            __textChangeHandler = handleTextChange;
-            if (__textChangeHandler != null && __textChangeHandler.Instance != null)
+            _textChangeHandler = handleTextChange;
+            if (_textChangeHandler != null && _textChangeHandler.Instance != null)
             {
-                Text = __textChangeHandler.IdentifyingMessage + " " + __textChangeHandler.Instance.FullName;
-                editorTextBox.Instance = __textChangeHandler.Instance;
+                Text = _textChangeHandler.IdentifyingMessage + @" " + _textChangeHandler.Instance.FullName;
+                editorTextBox.Instance = _textChangeHandler.Instance;
                 editorTextBox.Enabled = true;
             }
             else
             {
-                __textChangeHandler = null;
+                _textChangeHandler = null;
                 Text = EditorName;
                 editorTextBox.Text = "";
                 editorTextBox.Instance = null;
@@ -167,9 +178,9 @@ namespace GUI.EditorView
         /// </summary>
         public void RefreshText()
         {
-            if (__textChangeHandler != null)
+            if (_textChangeHandler != null)
             {
-                string newValue = __textChangeHandler.GetText();
+                string newValue = _textChangeHandler.GetText();
                 if (newValue != Value && !(string.IsNullOrEmpty(newValue) && string.IsNullOrEmpty(Value)))
                 {
                     int start = editorTextBox.TextBox.SelectionStart;
@@ -196,8 +207,7 @@ namespace GUI.EditorView
             get { return editorTextBox.TextBox.Text; }
             set
             {
-                editorTextBox.TextBox.Font = new Font("Courier New", 8.25F, FontStyle.Regular, GraphicsUnit.Point,
-                    ((byte) (0)));
+                editorTextBox.TextBox.Font = new Font("Courier New", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
                 editorTextBox.TextBox.Text = value;
                 editorTextBox.TextBox.ProcessAllLines();
             }
@@ -212,9 +222,9 @@ namespace GUI.EditorView
             {
                 BaseModelElement retVal = null;
 
-                if (__textChangeHandler != null)
+                if (_textChangeHandler != null)
                 {
-                    retVal = __textChangeHandler.Instance;
+                    retVal = _textChangeHandler.Instance;
                 }
 
                 return retVal;

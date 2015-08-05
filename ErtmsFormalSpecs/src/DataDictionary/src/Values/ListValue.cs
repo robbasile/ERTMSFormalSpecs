@@ -98,6 +98,7 @@ namespace DataDictionary.Values
         ///     Constructor
         /// </summary>
         /// <param name="type"></param>
+        /// <param name="val"></param>
         public ListValue(Collection type, List<IValue> val)
             : base(type, val)
         {
@@ -106,7 +107,7 @@ namespace DataDictionary.Values
         /// <summary>
         ///     Constructor
         /// </summary>
-        /// <param name="type"></param>
+        /// <param name="other"></param>
         public ListValue(ListValue other)
             : base(other.CollectionType, new List<IValue>())
         {
@@ -141,7 +142,7 @@ namespace DataDictionary.Values
             Collection collectionType = variable.Type as Collection;
             if (collectionType != null)
             {
-                EmptyValue emptyValue = EFSSystem.EmptyValue;
+                EmptyValue emptyValue = EFSSystem.INSTANCE.EmptyValue;
                 while (retVal.Val.Count < collectionType.getMaxSize())
                 {
                     retVal.Val.Add(emptyValue);

@@ -24,11 +24,11 @@ using DataDictionary.Functions;
 using DataDictionary.Generated;
 using DataDictionary.Interpreter;
 using GUI.Converters;
+using GUI.Properties;
 using GUI.StateDiagram;
 using WeifenLuo.WinFormsUI.Docking;
 using Dictionary = DataDictionary.Dictionary;
 using Function = DataDictionary.Functions.Function;
-using NameSpace = DataDictionary.Types.NameSpace;
 using Parameter = DataDictionary.Parameter;
 using StateMachine = DataDictionary.Types.StateMachine;
 using Type = DataDictionary.Types.Type;
@@ -38,42 +38,11 @@ namespace GUI.DataDictionaryView
 {
     public class VariableTreeNode : ReqRelatedTreeNode<Variable>
     {
-        private class InternalTypesConverter : TypesConverter
-        {
-            public override StandardValuesCollection
-                GetStandardValues(ITypeDescriptorContext context)
-            {
-                ItemEditor editor = (ItemEditor) context.Instance;
-                return GetValues(editor.Item);
-            }
-        }
-
-        private class InternalValuesConverter : ValuesConverter
-        {
-            public override StandardValuesCollection
-                GetStandardValues(ITypeDescriptorContext context)
-            {
-                ItemEditor editor = (ItemEditor) context.Instance;
-                NameSpace nameSpace = editor.Item.NameSpace;
-                Type type = editor.Item.Type;
-
-                return GetValues(nameSpace, type);
-            }
-        }
-
         /// <summary>
         ///     The editor for Train data variables
         /// </summary>
         private class ItemEditor : ReqRelatedEditor
         {
-            /// <summary>
-            ///     Constructor
-            /// </summary>
-            public ItemEditor()
-                : base()
-            {
-            }
-
             [Category("Description")]
             public override string Name
             {
@@ -87,6 +56,7 @@ namespace GUI.DataDictionaryView
             [Category("Description")]
             [Editor(typeof (TypeUITypedEditor), typeof (UITypeEditor))]
             [TypeConverter(typeof (TypeUITypeConverter))]
+            // ReSharper disable once UnusedMember.Local
             public Variable Type
             {
                 get { return Item; }
@@ -103,6 +73,7 @@ namespace GUI.DataDictionaryView
             [Category("Description")]
             [Editor(typeof (DefaultValueUITypedEditor), typeof (UITypeEditor))]
             [TypeConverter(typeof (DefaultValueUITypeConverter))]
+            // ReSharper disable once UnusedMember.Local
             public Variable DefaultValue
             {
                 get { return Item; }
@@ -117,6 +88,7 @@ namespace GUI.DataDictionaryView
             ///     The variable mode
             /// </summary>
             [Category("Description"), TypeConverter(typeof (VariableModeConverter))]
+            // ReSharper disable once UnusedMember.Local
             public acceptor.VariableModeEnumType Mode
             {
                 get { return Item.getVariableMode(); }
@@ -129,6 +101,7 @@ namespace GUI.DataDictionaryView
             [Category("Description")]
             [Editor(typeof (VariableValueUITypedEditor), typeof (UITypeEditor))]
             [TypeConverter(typeof (VariableValueUITypeConverter))]
+            // ReSharper disable once UnusedMember.Local
             public Variable Value
             {
                 get { return Item; }
@@ -144,7 +117,7 @@ namespace GUI.DataDictionaryView
         ///     Constructor
         /// </summary>
         /// <param name="item"></param>
-        /// <param name="children"></param>
+        /// <param name="buildSubNodes"></param>
         /// <param name="encounteredTypes">the types that have already been encountered in the path to create this variable </param>
         public VariableTreeNode(Variable item, bool buildSubNodes, HashSet<Type> encounteredTypes)
             : base(item, buildSubNodes)
@@ -157,8 +130,9 @@ namespace GUI.DataDictionaryView
         ///     Constructor
         /// </summary>
         /// <param name="item"></param>
-        /// <param name="children"></param>
+        /// <param name="name"></param>
         /// <param name="encounteredTypes">the types that have already been encountered in the path to create this variable </param>
+        /// <param name="buildSubNodes"></param>
         public VariableTreeNode(Variable item, bool buildSubNodes, string name, HashSet<Type> encounteredTypes)
             : base(item, buildSubNodes, name, false)
         {
@@ -170,7 +144,7 @@ namespace GUI.DataDictionaryView
         ///     Creates the editor for this tree node
         /// </summary>
         /// <returns></returns>
-        protected override Editor createEditor()
+        protected override Editor CreateEditor()
         {
             return new ItemEditor();
         }
@@ -183,9 +157,9 @@ namespace GUI.DataDictionaryView
             if (Item.Type is StateMachine)
             {
                 StateDiagramWindow window = new StateDiagramWindow();
-                GUIUtils.MDIWindow.AddChildWindow(window);
+                GuiUtils.MdiWindow.AddChildWindow(window);
                 window.SetStateMachine(Item);
-                window.Text = Item.Name + " state diagram";
+                window.Text = Item.Name + @" "+ Resources.VariableTreeNode_ViewDiagram_state_diagram;
             }
         }
 
@@ -200,7 +174,6 @@ namespace GUI.DataDictionaryView
             ModelElement retVal = null;
 
             Dictionary dictionary = GetPatchDictionary();
-
             if (dictionary != null)
             {
                 retVal = dictionary.findByFullName(Item.FullName) as ModelElement;
@@ -209,9 +182,8 @@ namespace GUI.DataDictionaryView
                     // If the element does not already exist in the patch, add a copy to it
                     retVal = Item.CreateVariableUpdate(dictionary);
                 }
-                // navigate to the variable, whether it was created or not
-                GUIUtils.MDIWindow.RefreshModel();
-                GUIUtils.MDIWindow.Select(retVal);
+                // Navigate to the element, whether it was created or not
+                EFSSystem.INSTANCE.Context.SelectElement(retVal, this, Context.SelectionCriteria.DoubleClick);
             }
 
             return retVal;
@@ -226,10 +198,10 @@ namespace GUI.DataDictionaryView
             List<MenuItem> retVal = new List<MenuItem>();
 
             MenuItem updateItem = new MenuItem("Update...");
-            updateItem.MenuItems.Add(new MenuItem("Update", new EventHandler(AddUpdate)));
-            updateItem.MenuItems.Add(new MenuItem("Remove", new EventHandler(RemoveInUpdate)));
+            updateItem.MenuItems.Add(new MenuItem("Update", AddUpdate));
+            updateItem.MenuItems.Add(new MenuItem("Remove", RemoveInUpdate));
             retVal.Add(updateItem);
-            retVal.Add(new MenuItem("Delete", new EventHandler(DeleteHandler)));
+            retVal.Add(new MenuItem("Delete", DeleteHandler));
             retVal.AddRange(base.GetMenuItems());
 
             Function function = Item.Value as Function;
@@ -242,7 +214,7 @@ namespace GUI.DataDictionaryView
                     Graph graph = function.createGraph(context, parameter, null);
                     if (graph != null && graph.Segments.Count != 0)
                     {
-                        retVal.Insert(6, new MenuItem("Display", new EventHandler(DisplayHandler)));
+                        retVal.Insert(6, new MenuItem("Display", DisplayHandler));
                     }
                 }
                 else if (function.FormalParameters.Count == 2)
@@ -250,20 +222,20 @@ namespace GUI.DataDictionaryView
                     Surface surface = function.createSurface(context, null);
                     if (surface != null && surface.Segments.Count != 0)
                     {
-                        retVal.Insert(6, new MenuItem("Display", new EventHandler(DisplayHandler)));
+                        retVal.Insert(6, new MenuItem("Display", DisplayHandler));
                     }
                 }
             }
             else
             {
                 retVal.Insert(5, new MenuItem("-"));
-                retVal.Insert(6, new MenuItem("Display", new EventHandler(DisplayHandler)));
+                retVal.Insert(6, new MenuItem("Display", DisplayHandler));
             }
 
             if (Item.Type is StateMachine)
             {
                 retVal.Insert(5, new MenuItem("-"));
-                retVal.Insert(6, new MenuItem("View state diagram", new EventHandler(ViewStateDiagramHandler)));
+                retVal.Insert(6, new MenuItem("View state diagram", ViewStateDiagramHandler));
             }
 
             return retVal;
@@ -280,7 +252,7 @@ namespace GUI.DataDictionaryView
             if (function != null)
             {
                 GraphView.GraphView view = new GraphView.GraphView();
-                GUIUtils.MDIWindow.AddChildWindow(view);
+                GuiUtils.MdiWindow.AddChildWindow(view);
                 view.Functions.Add(function);
                 view.Refresh();
             }
@@ -289,10 +261,10 @@ namespace GUI.DataDictionaryView
                 StructureValueEditor.Window window = new StructureValueEditor.Window();
                 window.SetVariable(Item);
 
-                if (GUIUtils.MDIWindow.DataDictionaryWindow != null)
+                if (GuiUtils.MdiWindow.DataDictionaryWindow != null)
                 {
-                    GUIUtils.MDIWindow.AddChildWindow(window, DockAreas.Document);
-                    window.Show(GUIUtils.MDIWindow.DataDictionaryWindow.Pane, DockAlignment.Right, 0.20);
+                    GuiUtils.MdiWindow.AddChildWindow(window);
+                    window.Show(GuiUtils.MdiWindow.DataDictionaryWindow.Pane, DockAlignment.Right, 0.20);
                 }
             }
         }

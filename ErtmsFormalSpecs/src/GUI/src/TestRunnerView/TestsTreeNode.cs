@@ -30,19 +30,13 @@ namespace GUI.TestRunnerView
     {
         private class ItemEditor : NamedEditor
         {
-            /// <summary>
-            ///     Constructor
-            /// </summary>
-            public ItemEditor()
-                : base()
-            {
-            }
         }
 
         /// <summary>
         ///     Constructor
         /// </summary>
         /// <param name="item"></param>
+        /// <param name="buildSubNodes"></param>
         public TestsTreeNode(Dictionary item, bool buildSubNodes)
             : base(item, buildSubNodes, null, true)
         {
@@ -51,49 +45,31 @@ namespace GUI.TestRunnerView
         /// <summary>
         ///     Builds the subnodes of this node
         /// </summary>
-        /// <param name="buildSubNodes">Indicates whether the subnodes of the nodes should also be built</param>
-        public override void BuildSubNodes(bool buildSubNodes)
+        /// <param name="subNodes"></param>
+        /// <param name="recursive">Indicates whether the subnodes of the nodes should also be built</param>
+        public override void BuildSubNodes(List<BaseTreeNode> subNodes, bool recursive)
         {
-            base.BuildSubNodes(buildSubNodes);
+            base.BuildSubNodes(subNodes, recursive);
 
             foreach (Frame frame in Item.Tests)
             {
-                Nodes.Add(new FrameTreeNode(frame, buildSubNodes));
+                subNodes.Add(new FrameTreeNode(frame, recursive));
             }
-            SortSubNodes();
+            subNodes.Sort();
         }
 
         /// <summary>
         ///     Creates the editor for this tree node
         /// </summary>
         /// <returns></returns>
-        protected override Editor createEditor()
+        protected override Editor CreateEditor()
         {
             return new ItemEditor();
         }
 
-        /// <summary>
-        ///     Creates a new frame
-        /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
-        public FrameTreeNode createFrame(string name)
-        {
-            FrameTreeNode retVal;
-
-            Frame frame = Frame.createDefault(name);
-            Item.appendTests(frame);
-
-            retVal = new FrameTreeNode(frame, true);
-            Nodes.Add(retVal);
-            SortSubNodes();
-
-            return retVal;
-        }
-
         public void AddHandler(object sender, EventArgs args)
         {
-            createFrame("Frame" + (GetNodeCount(false) + 1));
+            Item.appendTests(Frame.CreateDefault(Item.Tests));
         }
 
         private void ClearAll()
@@ -102,7 +78,10 @@ namespace GUI.TestRunnerView
             if (treeView != null)
             {
                 Window window = treeView.ParentForm as Window;
-                window.Clear();
+                if (window != null)
+                {
+                    window.Clear();
+                }
             }
         }
 
@@ -111,22 +90,9 @@ namespace GUI.TestRunnerView
         private class ExecuteTestsHandler : BaseLongOperation
         {
             /// <summary>
-            ///     The window for which theses tests should be executed
-            /// </summary>
-            private Window Window { get; set; }
-
-            /// <summary>
             ///     The subsequence which should be executed
             /// </summary>
             private Dictionary Dictionary { get; set; }
-
-            /// <summary>
-            ///     The EFS system
-            /// </summary>
-            private EFSSystem EFSSystem
-            {
-                get { return Dictionary.EFSSystem; }
-            }
 
             /// <summary>
             ///     The number of failed tests
@@ -136,18 +102,15 @@ namespace GUI.TestRunnerView
             /// <summary>
             ///     Constructor
             /// </summary>
-            /// <param name="window"></param>
             /// <param name="dictionary"></param>
-            public ExecuteTestsHandler(Window window, Dictionary dictionary)
+            public ExecuteTestsHandler(Dictionary dictionary)
             {
-                Window = window;
                 Dictionary = dictionary;
             }
 
             /// <summary>
             ///     Executes the tests in the background thread
             /// </summary>
-            /// <param name="arg"></param>
             public override void ExecuteWork()
             {
                 DateTime start = DateTime.Now;
@@ -155,8 +118,8 @@ namespace GUI.TestRunnerView
                 SynchronizerList.SuspendSynchronization();
 
                 // Compile everything
-                EFSSystem.Compiler.Compile_Synchronous(EFSSystem.ShouldRebuild);
-                EFSSystem.ShouldRebuild = false;
+                EFSSystem.INSTANCE.Compiler.Compile_Synchronous(EFSSystem.INSTANCE.ShouldRebuild);
+                EFSSystem.INSTANCE.ShouldRebuild = false;
 
                 Failed = 0;
                 ArrayList tests = Dictionary.Tests;
@@ -172,7 +135,7 @@ namespace GUI.TestRunnerView
                         Failed += 1;
                     }
                 }
-                Dictionary.EFSSystem.Runner = null;
+                EFSSystem.INSTANCE.Runner = null;
                 SynchronizerList.ResumeSynchronization();
 
                 Span = DateTime.Now.Subtract(start);
@@ -189,7 +152,7 @@ namespace GUI.TestRunnerView
             ClearAll();
             ClearMessages();
 
-            ExecuteTestsHandler executeTestsHandler = new ExecuteTestsHandler(BaseForm as Window, Item);
+            ExecuteTestsHandler executeTestsHandler = new ExecuteTestsHandler(Item);
             executeTestsHandler.ExecuteUsingProgressDialog("Executing test frames");
 
             if (!executeTestsHandler.Dialog.Canceled)
@@ -221,16 +184,16 @@ namespace GUI.TestRunnerView
         /// <returns></returns>
         protected override List<MenuItem> GetMenuItems()
         {
-            List<MenuItem> retVal = new List<MenuItem>();
-
-            retVal.Add(new MenuItem("Add frame", new EventHandler(AddHandler)));
-            retVal.Add(new MenuItem("-"));
-            retVal.Add(new MenuItem("Import braking curves verification set",
-                new EventHandler(ImportBrakingCurvesHandler)));
-            retVal.Add(new MenuItem("Mark as not translatable", new EventHandler(DoNotTranslateHandler)));
-            retVal.Add(new MenuItem("-"));
-            retVal.Add(new MenuItem("Execute", new EventHandler(RunHandler)));
-            retVal.Add(new MenuItem("Create report", new EventHandler(ReportHandler)));
+            List<MenuItem> retVal = new List<MenuItem>
+            {
+                new MenuItem("Add frame", AddHandler),
+                new MenuItem("-"),
+                new MenuItem("Import braking curves verification set", ImportBrakingCurvesHandler),
+                new MenuItem("Mark as not translatable", DoNotTranslateHandler),
+                new MenuItem("-"),
+                new MenuItem("Execute", RunHandler),
+                new MenuItem("Create report", ReportHandler)
+            };
 
             return retVal;
         }
@@ -268,21 +231,9 @@ namespace GUI.TestRunnerView
             Window window = BaseForm as Window;
             if (window != null)
             {
-                Frm_ExcelImport excelImport = new Frm_ExcelImport(this.Item);
+                Frm_ExcelImport excelImport = new Frm_ExcelImport(Item);
                 excelImport.ShowDialog();
-                GUIUtils.MDIWindow.RefreshModel();
             }
-        }
-
-        /// <summary>
-        ///     Display the number of frames
-        /// </summary>
-        /// <param name="displayStatistics"></param>
-        public override void SelectionChanged(bool displayStatistics)
-        {
-            base.SelectionChanged(false);
-
-            GUIUtils.MDIWindow.SetStatus(Item.Tests.Count + " test frames");
         }
     }
 }

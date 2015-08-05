@@ -17,7 +17,6 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using DataDictionary.Generated;
 using EnumValue = DataDictionary.Constants.EnumValue;
 using Range = DataDictionary.Types.Range;
 
@@ -29,6 +28,7 @@ namespace GUI.DataDictionaryView
         ///     Constructor
         /// </summary>
         /// <param name="item"></param>
+        /// <param name="buildSubNodes"></param>
         public RangeValuesTreeNode(Range item, bool buildSubNodes)
             : base(item, buildSubNodes, "Special values", true, false)
         {
@@ -37,35 +37,23 @@ namespace GUI.DataDictionaryView
         /// <summary>
         ///     Builds the subnodes of this node
         /// </summary>
-        /// <param name="buildSubNodes">Indicates whether the subnodes of the nodes should also be built</param>
-        public override void BuildSubNodes(bool buildSubNodes)
+        /// <param name="subNodes"></param>
+        /// <param name="recursive">Indicates whether the subnodes of the nodes should also be built</param>
+        public override void BuildSubNodes(List<BaseTreeNode> subNodes, bool recursive)
         {
-            Nodes.Clear();
+            // Do not use the base version
+            SubNodesBuilt = true;
 
             foreach (EnumValue value in Item.SpecialValues)
             {
-                Nodes.Add(new EnumerationValueTreeNode(value, buildSubNodes));
+                subNodes.Add(new EnumerationValueTreeNode(value, recursive));
             }
-            SortSubNodes();
-            SubNodesBuilt = true;
+            subNodes.Sort();
         }
 
         public override void AddSpecialValueHandler(object sender, EventArgs e)
         {
-            EnumValue value = (EnumValue) acceptor.getFactory().createEnumValue();
-            value.Name = "<unnamed>";
-            AppendSpecialValue(value);
-        }
-
-        /// <summary>
-        ///     Adds a new special value to this range
-        /// </summary>
-        /// <param name="value"></param>
-        public void AppendSpecialValue(EnumValue value)
-        {
-            Item.appendSpecialValues(value);
-            Nodes.Add(new EnumerationValueTreeNode(value, true));
-            SortSubNodes();
+            Item.appendSpecialValues(EnumValue.CreateDefault(Item.SpecialValues));
         }
 
         /// <summary>
@@ -74,9 +62,7 @@ namespace GUI.DataDictionaryView
         /// <returns></returns>
         protected override List<MenuItem> GetMenuItems()
         {
-            List<MenuItem> retVal = new List<MenuItem>();
-
-            retVal.Add(new MenuItem("Add", new EventHandler(AddSpecialValueHandler)));
+            List<MenuItem> retVal = new List<MenuItem> {new MenuItem("Add", AddSpecialValueHandler)};
 
             return retVal;
         }

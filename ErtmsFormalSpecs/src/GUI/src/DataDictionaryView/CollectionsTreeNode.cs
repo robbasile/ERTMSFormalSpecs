@@ -30,20 +30,13 @@ namespace GUI.DataDictionaryView
     {
         private class ItemEditor : NamedEditor
         {
-            /// <summary>
-            ///     Constructor
-            /// </summary>
-            public ItemEditor()
-                : base()
-            {
-            }
         }
 
         /// <summary>
         ///     Constructor
         /// </summary>
         /// <param name="item"></param>
-        /// <param name="name"></param>
+        /// <param name="buildSubNodes"></param>
         public CollectionsTreeNode(NameSpace item, bool buildSubNodes)
             : base(item, buildSubNodes, "Collections", true)
         {
@@ -52,47 +45,31 @@ namespace GUI.DataDictionaryView
         /// <summary>
         ///     Builds the subnodes of this node
         /// </summary>
-        /// <param name="buildSubNodes">Indicates whether the subnodes of the nodes should also be built</param>
-        public override void BuildSubNodes(bool buildSubNodes)
+        /// <param name="subNodes"></param>
+        /// <param name="recursive">Indicates whether the subnodes of the nodes should also be built</param>
+        public override void BuildSubNodes(List<BaseTreeNode> subNodes, bool recursive)
         {
-            base.BuildSubNodes(buildSubNodes);
+            base.BuildSubNodes(subNodes, recursive);
 
             foreach (Collection collection in Item.Collections)
             {
-                Nodes.Add(new CollectionTreeNode(collection, buildSubNodes));
+                subNodes.Add(new CollectionTreeNode(collection, recursive));
             }
-            SortSubNodes();
+            subNodes.Sort();
         }
 
         /// <summary>
         ///     Creates the editor for this tree node
         /// </summary>
         /// <returns></returns>
-        protected override Editor createEditor()
+        protected override Editor CreateEditor()
         {
             return new ItemEditor();
         }
 
         public void AddHandler(object sender, EventArgs args)
         {
-            DataDictionaryTreeView treeView = BaseTreeView as DataDictionaryTreeView;
-            if (treeView != null)
-            {
-                Collection collection = (Collection) acceptor.getFactory().createCollection();
-                collection.Name = "<Collection" + (GetNodeCount(false) + 1) + ">";
-                AddCollection(collection);
-            }
-        }
-
-        /// <summary>
-        ///     Adds a new collection
-        /// </summary>
-        /// <param name="collection"></param>
-        public void AddCollection(Collection collection)
-        {
-            Item.appendCollections(collection);
-            Nodes.Add(new CollectionTreeNode(collection, true));
-            SortSubNodes();
+            Item.appendCollections(Collection.CreateDefault(Item.Collections));
         }
 
         /// <summary>
@@ -101,33 +78,30 @@ namespace GUI.DataDictionaryView
         /// <returns></returns>
         protected override List<MenuItem> GetMenuItems()
         {
-            List<MenuItem> retVal = new List<MenuItem>();
-
-            retVal.Add(new MenuItem("Add", new EventHandler(AddHandler)));
+            List<MenuItem> retVal = new List<MenuItem> {new MenuItem("Add", AddHandler)};
 
             return retVal;
         }
 
-
         /// <summary>
         ///     Accepts drop of a tree node, in a drag & drop operation
         /// </summary>
-        /// <param name="SourceNode"></param>
-        public override void AcceptDrop(BaseTreeNode SourceNode)
+        /// <param name="sourceNode"></param>
+        public override void AcceptDrop(BaseTreeNode sourceNode)
         {
-            base.AcceptDrop(SourceNode);
+            base.AcceptDrop(sourceNode);
 
-            if (SourceNode is CollectionTreeNode)
+            if (sourceNode is CollectionTreeNode)
             {
-                CollectionTreeNode collectionTreeNode = SourceNode as CollectionTreeNode;
+                CollectionTreeNode collectionTreeNode = sourceNode as CollectionTreeNode;
                 Collection collection = collectionTreeNode.Item;
 
                 collectionTreeNode.Delete();
-                AddCollection(collection);
+                Item.appendCollections(collection);
             }
-            else if (SourceNode is ParagraphTreeNode)
+            else if (sourceNode is ParagraphTreeNode)
             {
-                ParagraphTreeNode node = SourceNode as ParagraphTreeNode;
+                ParagraphTreeNode node = sourceNode as ParagraphTreeNode;
                 Paragraph paragaph = node.Item;
 
                 Collection collection = (Collection) acceptor.getFactory().createCollection();
@@ -136,20 +110,8 @@ namespace GUI.DataDictionaryView
                 ReqRef reqRef = (ReqRef) acceptor.getFactory().createReqRef();
                 reqRef.Name = paragaph.FullId;
                 collection.appendRequirements(reqRef);
-                AddCollection(collection);
+                Item.appendCollections(collection);
             }
-        }
-
-        /// <summary>
-        ///     Update counts according to the selected folder
-        /// </summary>
-        /// <param name="displayStatistics">Indicates that statistics should be displayed in the MDI window</param>
-        public override void SelectionChanged(bool displayStatistics)
-        {
-            base.SelectionChanged(false);
-
-            GUIUtils.MDIWindow.SetStatus(Item.Collections.Count +
-                                         (Item.Collections.Count > 1 ? " collections " : " collection ") + "selected.");
         }
     }
 }

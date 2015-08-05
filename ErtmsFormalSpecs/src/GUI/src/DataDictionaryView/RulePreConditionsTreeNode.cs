@@ -17,7 +17,6 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using DataDictionary.Generated;
 using PreCondition = DataDictionary.Rules.PreCondition;
 using RuleCondition = DataDictionary.Rules.RuleCondition;
 
@@ -29,69 +28,51 @@ namespace GUI.DataDictionaryView
         ///     Constructor
         /// </summary>
         /// <param name="item"></param>
-        /// <param name="children"></param>
+        /// <param name="buildSubNodes"></param>
         public RulePreConditionsTreeNode(RuleCondition item, bool buildSubNodes)
-            : base(item, buildSubNodes, "Pre conditions", true, false)
+            : base(item, buildSubNodes, "Pre conditions", false)
         {
         }
 
         /// <summary>
         ///     Builds the subnodes of this node
         /// </summary>
-        /// <param name="buildSubNodes">Indicates whether the subnodes of the nodes should also be built</param>
-        public override void BuildSubNodes(bool buildSubNodes)
+        /// <param name="subNodes"></param>
+        /// <param name="recursive">Indicates whether the subnodes of the nodes should also be built</param>
+        public override void BuildSubNodes(List<BaseTreeNode> subNodes, bool recursive)
         {
-            Nodes.Clear();
+            // Do not use the base version
+            SubNodesBuilt = true;
 
             foreach (PreCondition preCondition in Item.PreConditions)
             {
-                Nodes.Add(new PreConditionTreeNode(preCondition, buildSubNodes));
+                subNodes.Add(new PreConditionTreeNode(preCondition, recursive));
             }
-            SubNodesBuilt = true;
-        }
-
-        /// <summary>
-        ///     Adds a preCondition to the modelized item
-        /// </summary>
-        /// <param name="preCondition"></param>
-        /// <returns></returns>
-        public override PreConditionTreeNode AddPreCondition(PreCondition preCondition)
-        {
-            PreConditionTreeNode retVal = new PreConditionTreeNode(preCondition, true);
-
-            Item.appendPreConditions(preCondition);
-            Nodes.Add(retVal);
-            SortSubNodes();
-
-            Item.setVerified(false);
-
-            return retVal;
         }
 
         public void AddHandler(object sender, EventArgs args)
         {
-            PreCondition preCondition = (PreCondition) acceptor.getFactory().createPreCondition();
-            preCondition.Condition = "";
-            AddPreCondition(preCondition);
+            Item.appendPreConditions(PreCondition.CreateDefault(Item.PreConditions));
+            Item.setVerified(false);
         }
 
         /// <summary>
         ///     Handles a drop event
         /// </summary>
-        /// <param name="SourceNode"></param>
-        public override void AcceptDrop(BaseTreeNode SourceNode)
+        /// <param name="sourceNode"></param>
+        public override void AcceptDrop(BaseTreeNode sourceNode)
         {
-            if (SourceNode is PreConditionTreeNode)
+            PreConditionTreeNode preConditionTreeNode = sourceNode as PreConditionTreeNode;
+            if (preConditionTreeNode != null)
             {
                 if (
                     MessageBox.Show("Are you sure you want to move the corresponding pre-condition ?",
                         "Move pre-condition", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
-                    PreConditionTreeNode preConditionTreeNode = (PreConditionTreeNode) SourceNode;
-
                     PreCondition preCondition = preConditionTreeNode.Item;
                     preConditionTreeNode.Delete();
-                    AddPreCondition(preCondition);
+                    Item.appendPreConditions(preCondition);
+                    Item.setVerified(false);
                 }
             }
         }
@@ -102,9 +83,7 @@ namespace GUI.DataDictionaryView
         /// <returns></returns>
         protected override List<MenuItem> GetMenuItems()
         {
-            List<MenuItem> retVal = new List<MenuItem>();
-
-            retVal.Add(new MenuItem("Add", new EventHandler(AddHandler)));
+            List<MenuItem> retVal = new List<MenuItem> {new MenuItem("Add", AddHandler)};
 
             return retVal;
         }

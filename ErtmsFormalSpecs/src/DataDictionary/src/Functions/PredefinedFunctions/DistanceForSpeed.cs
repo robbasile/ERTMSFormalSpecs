@@ -98,7 +98,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
                 if (solutionX == double.MaxValue)
                 {
                     // No value found, return Unknown
-                    Range distanceType = (Range) EFSSystem.findByFullName("Default.BaseTypes.Distance");
+                    Range distanceType = (Range) EFSSystem.FindByFullName("Default.BaseTypes.Distance");
                     EnumValue unknownDistance = distanceType.findEnumValue("Unknown");
                     retVal = Graph.createGraph(distanceType.getValueAsDouble(unknownDistance));
                 }
@@ -143,7 +143,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
                 double solutionX = graph.SolutionX(speed);
                 if (solutionX == double.MaxValue)
                 {
-                    Range distanceType = (Range) EFSSystem.findByFullName("Default.BaseTypes.Distance");
+                    Range distanceType = (Range) EFSSystem.FindByFullName("Default.BaseTypes.Distance");
                     retVal = distanceType.findEnumValue("Unknown");
                 }
                 else

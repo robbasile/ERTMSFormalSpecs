@@ -65,18 +65,11 @@ namespace GUI.StructureValueEditor
             structureTreeListView.CellEditFinishing += CustomizeTreeView.HandleCellEditFinishing;
 
             structureTreeListView.ItemDrag += structureTreeListView_ItemDrag;
-
-            FormClosed += Window_FormClosed;
         }
 
         private void structureTreeListView_ItemDrag(object sender, ItemDragEventArgs e)
         {
             DoDragDrop(e.Item, DragDropEffects.Move);
-        }
-
-        private void Window_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            GUIUtils.MDIWindow.HandleSubWindowClosed(this);
         }
 
         /// <summary>
@@ -115,34 +108,42 @@ namespace GUI.StructureValueEditor
             Variable = variable;
 
             Text = Variable.FullName;
-            List<IVariable> objectModel = new List<IVariable>();
-            objectModel.Add(variable);
+            List<IVariable> objectModel = new List<IVariable> {variable};
             structureTreeListView.SetObjects(objectModel);
         }
 
         /// <summary>
-        ///     Refresh the window contents when the model may have changed
+        ///     Allows to refresh the view, when the value of a model changed
         /// </summary>
-        public void RefreshAfterStep()
+        /// <param name="modelElement"></param>
+        /// <param name="changeKind"></param>
+        /// <returns>True if the view should be refreshed</returns>
+        public override bool HandleValueChange(IModelElement modelElement, Context.ChangeKind changeKind)
         {
-            if (Variable != null)
+            bool retVal = base.HandleValueChange(modelElement, changeKind);
+
+            if (retVal)
             {
-                Expression expression = EFSSystem.INSTANCE.Parser.Expression(
-                    EnclosingFinder<Dictionary>.find(Variable), Variable.FullName);
-                IVariable variable = expression.GetVariable(new InterpretationContext());
-                if (variable != Variable)
+                if (Variable != null)
                 {
-                    SetVariable(variable);
-                }
-                else
-                {
-                    structureTreeListView.RefreshObject(Variable);
-                    structureTreeListView.Refresh();
+                    Expression expression = EFSSystem.INSTANCE.Parser.Expression(
+                        EnclosingFinder<Dictionary>.find(Variable), Variable.FullName);
+                    IVariable variable = expression.GetVariable(new InterpretationContext());
+                    if (variable != Variable)
+                    {
+                        SetVariable(variable);
+                    }
+                    else
+                    {
+                        structureTreeListView.RefreshObject(Variable);
+                        structureTreeListView.Refresh();
+                    }
                 }
             }
+
+            return retVal;
         }
-
-
+        
         /// <summary>
         ///     Shows the state machine which corresponds to the variable
         /// </summary>
@@ -170,9 +171,9 @@ namespace GUI.StructureValueEditor
             protected override void OnClick(EventArgs e)
             {
                 StateDiagramWindow window = new StateDiagramWindow();
-                GUIUtils.MDIWindow.AddChildWindow(window);
+                GuiUtils.MdiWindow.AddChildWindow(window);
                 window.SetStateMachine(Variable);
-                window.Text = Variable.Name + " state diagram";
+                window.Text = Variable.Name + @" " + Resources.ToolStripShowStateMachine_OnClick_state_diagram;
 
                 base.OnClick(e);
             }

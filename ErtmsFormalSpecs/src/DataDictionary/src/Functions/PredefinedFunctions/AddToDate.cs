@@ -70,7 +70,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
             get
             {
                 return
-                    EFSSystem.findType(
+                    EFSSystem.FindType(
                         OverallNameSpaceFinder.INSTANCE.findByName(EFSSystem.Dictionaries[0], "Default"),
                         "Default.DateAndTime");
             }

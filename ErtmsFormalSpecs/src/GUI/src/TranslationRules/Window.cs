@@ -15,7 +15,6 @@
 // ------------------------------------------------------------------------------
 
 using System;
-using System.Windows.Forms;
 using DataDictionary.Tests.Translations;
 using Utils;
 
@@ -23,26 +22,9 @@ namespace GUI.TranslationRules
 {
     public partial class Window : BaseForm
     {
-        public override MyPropertyGrid Properties
-        {
-            get { return null; }
-        }
-
-        public override EditorTextBox RequirementsTextBox
-        {
-            get { return null; }
-        }
-
-        public override EditorTextBox ExpressionEditorTextBox
-        {
-            get { return null; }
-        }
-
-        public override ExplainTextBox ExplainTextBox
-        {
-            get { return null; }
-        }
-
+        /// <summary>
+        /// The treeview used to display the several translations
+        /// </summary>
         public override BaseTreeView TreeView
         {
             get { return translationTreeView; }
@@ -51,11 +33,9 @@ namespace GUI.TranslationRules
         /// <summary>
         ///     Constructor
         /// </summary>
-        /// <param name="dictionary"></param>
         public Window()
         {
             InitializeComponent();
-            FormClosed += new FormClosedEventHandler(Window_FormClosed);
         }
 
         /// <summary>
@@ -66,12 +46,10 @@ namespace GUI.TranslationRules
         {
             InitializeComponent();
 
-            FormClosed += new FormClosedEventHandler(Window_FormClosed);
-            Visible = false;
             translationTreeView.Root = dictionary;
+            testBrowserStatusLabel.Text = translationTreeView.Root.TranslationsCount + " translation rule(s) loaded";
+            translationTreeView.AfterSelect += translationTreeView_AfterSelect;
             Text = dictionary.Dictionary.Name + " test translation view";
-
-            Refresh();
         }
 
         /// <summary>
@@ -79,29 +57,7 @@ namespace GUI.TranslationRules
         /// </summary>
         public TranslationDictionary TranslationDictionary
         {
-            get { return translationTreeView.Root as TranslationDictionary; }
-        }
-
-        /// <summary>
-        ///     Handles the close event
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Window_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            GUIUtils.MDIWindow.HandleSubWindowClosed(this);
-        }
-
-        /// <summary>
-        ///     Refreshes the display
-        /// </summary>
-        public override void Refresh()
-        {
-            translationTreeView.Refresh();
-            staticTimeLineControl.Refresh();
-
-            testBrowserStatusLabel.Text = translationTreeView.Root.TranslationsCount + " translation rule(s) loaded";
-            base.Refresh();
+            get { return translationTreeView.Root; }
         }
 
         /// <summary>
@@ -110,15 +66,7 @@ namespace GUI.TranslationRules
         public void Clear()
         {
             translationTreeView.ClearMessages();
-            GUIUtils.MDIWindow.Refresh();
-        }
-
-        /// <summary>
-        ///     Refreshed the model of the window
-        /// </summary>
-        public override void RefreshModel()
-        {
-            translationTreeView.RefreshModel();
+            GuiUtils.MdiWindow.Refresh();
         }
 
         /// <summary>
@@ -152,13 +100,13 @@ namespace GUI.TranslationRules
         }
 
         /// <summary>
-        ///     Selects the current translation
+        /// Handles the selection of a translation
         /// </summary>
-        /// <param name="translation"></param>
-        public void SetSelection(Translation translation)
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void translationTreeView_AfterSelect(object sender, System.Windows.Forms.TreeViewEventArgs e)
         {
-            staticTimeLineControl.Translation = translation;
-            staticTimeLineControl.Refresh();
+            staticTimeLineControl.Translation = DisplayedModel as Translation;
         }
     }
 }

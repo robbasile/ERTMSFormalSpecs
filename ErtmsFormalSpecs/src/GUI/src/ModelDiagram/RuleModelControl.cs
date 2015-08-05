@@ -15,7 +15,6 @@
 // ------------------------------------------------------------------------------
 
 using System.Drawing;
-using System.Windows.Forms;
 using DataDictionary.Rules;
 
 namespace GUI.ModelDiagram
@@ -32,21 +31,7 @@ namespace GUI.ModelDiagram
             : base(model)
         {
             BoxMode = BoxModeEnum.RoundedCorners;
-            NORMAL_COLOR = Color.LightBlue;
-            MouseClick += new MouseEventHandler(HandleMouseClick);
-        }
-
-        /// <summary>
-        ///     Handles a simple click event on the control
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void HandleMouseClick(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left)
-            {
-                Panel.Select(this, true);
-            }
+            NormalColor = Color.LightBlue;
         }
 
         /// <summary>

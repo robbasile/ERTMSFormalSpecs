@@ -29,7 +29,6 @@ using DataDictionary.Variables;
 using GUI.DataDictionaryView;
 using Utils;
 using Action = DataDictionary.Rules.Action;
-using ModelElement = Utils.ModelElement;
 using Window = GUI.StructureValueEditor.Window;
 
 namespace GUI
@@ -64,7 +63,7 @@ namespace GUI
             {
                 if (_instance == null && EnclosingForm != null)
                 {
-                    _instance = EnclosingForm.Selected;
+                    _instance = EnclosingForm.DisplayedModel;
                 }
                 return _instance;
             }
@@ -90,17 +89,18 @@ namespace GUI
             EditionTextBox.LostFocus += Editor_LostFocus;
         }
 
-        private void EditionTextBox_MouseClick(object sender, MouseEventArgs e)
+        private void EditionTextBox_MouseClick(object sender, MouseEventArgs mouseEventArgs)
         {
             if (ModifierKeys == Keys.Control)
             {
-                List<INamable> instances = GetInstances(e.Location);
+                List<INamable> instances = GetInstances(mouseEventArgs.Location);
                 if (instances.Count == 1)
                 {
-                    MainWindow mdiWindow = GUIUtils.MDIWindow;
-                    if (mdiWindow != null)
+                    IModelElement modelElement = instances[0] as IModelElement;
+                    if (modelElement != null)
                     {
-                        mdiWindow.Select(instances[0] as ModelElement, true);
+                        Context.SelectionCriteria criteria = GuiUtils.SelectionCriteriaBasedOnMouseEvent(mouseEventArgs);
+                        EFSSystem.INSTANCE.Context.SelectElement(modelElement, this, criteria);
                     }
                 }
             }
@@ -108,17 +108,17 @@ namespace GUI
 
         private void Editor_LostFocus(object sender, EventArgs e)
         {
-            if (GUIUtils.MDIWindow != null)
+            if (GuiUtils.MdiWindow != null)
             {
-                GUIUtils.MDIWindow.SelectedRichTextBox = null;
+                GuiUtils.MdiWindow.SelectedRichTextBox = null;
             }
         }
 
         private void Editor_GotFocus(object sender, EventArgs e)
         {
-            if (GUIUtils.MDIWindow != null)
+            if (GuiUtils.MdiWindow != null)
             {
-                GUIUtils.MDIWindow.SelectedRichTextBox = this;
+                GuiUtils.MdiWindow.SelectedRichTextBox = this;
             }
         }
 
@@ -183,8 +183,7 @@ namespace GUI
             {
                 DataDictionary.ModelElement.DontRaiseError(() =>
                 {
-                    InterpretationContext context = new InterpretationContext(Model);
-                    context.UseDefaultValue = false;
+                    InterpretationContext context = new InterpretationContext(Model) {UseDefaultValue = false};
                     IValue value = expression.GetValue(context, null);
                     if (value != null)
                     {
@@ -229,7 +228,7 @@ namespace GUI
                 }
                 else if (unaryExpression.Term != null)
                 {
-                    visitTerm(unaryExpression.Term);
+                    VisitTerm(unaryExpression.Term);
                 }
             }
 
@@ -255,7 +254,7 @@ namespace GUI
         ///     Browse through the Term to find the value to edit
         /// </summary>
         /// <param name="term"></param>
-        private void visitTerm(Term term)
+        private void VisitTerm(Term term)
         {
             if (term.LiteralValue != null)
             {

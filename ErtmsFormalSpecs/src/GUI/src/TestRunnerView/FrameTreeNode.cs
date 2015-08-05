@@ -19,11 +19,13 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
+using DataDictionary;
 using DataDictionary.Tests;
 using DataDictionary.Tests.Runner;
 using GUI.LongOperations;
 using GUI.Report;
 using Utils;
+using ModelElement = Utils.ModelElement;
 
 namespace GUI.TestRunnerView
 {
@@ -35,17 +37,10 @@ namespace GUI.TestRunnerView
         private class ItemEditor : CommentableEditor
         {
             /// <summary>
-            ///     Constructor
-            /// </summary>
-            public ItemEditor()
-                : base()
-            {
-            }
-
-            /// <summary>
             ///     The variable that identifies the time in the current system
             /// </summary>
             [Category("Description")]
+            // ReSharper disable once UnusedMember.Local
             public string CycleDuration
             {
                 get { return Item.getCycleDuration(); }
@@ -57,6 +52,7 @@ namespace GUI.TestRunnerView
         ///     Constructor
         /// </summary>
         /// <param name="item"></param>
+        /// <param name="buildSubNodes"></param>
         public FrameTreeNode(Frame item, bool buildSubNodes)
             : base(item, buildSubNodes, null, true)
         {
@@ -65,44 +61,26 @@ namespace GUI.TestRunnerView
         /// <summary>
         ///     Builds the subnodes of this node
         /// </summary>
-        /// <param name="buildSubNodes">Indicates whether the subnodes of the nodes should also be built</param>
-        public override void BuildSubNodes(bool buildSubNodes)
+        /// <param name="subNodes"></param>
+        /// <param name="recursive">Indicates whether the subnodes of the nodes should also be built</param>
+        public override void BuildSubNodes(List<BaseTreeNode> subNodes, bool recursive)
         {
-            base.BuildSubNodes(buildSubNodes);
+            base.BuildSubNodes(subNodes, recursive);
 
             foreach (SubSequence subSequence in Item.SubSequences)
             {
-                Nodes.Add(new SubSequenceTreeNode(subSequence, buildSubNodes));
+                subNodes.Add(new SubSequenceTreeNode(subSequence, recursive));
             }
-            SortSubNodes();
+            subNodes.Sort();
         }
 
         /// <summary>
         ///     Creates the editor for this tree node
         /// </summary>
         /// <returns></returns>
-        protected override Editor createEditor()
+        protected override Editor CreateEditor()
         {
             return new ItemEditor();
-        }
-
-        /// <summary>
-        ///     Creates a new sub sequence in the corresponding frame
-        /// </summary>
-        /// <param name="subSequenceName"></param>
-        /// <returns></returns>
-        public SubSequenceTreeNode createSubSequence(SubSequence subSequence)
-        {
-            SubSequenceTreeNode retVal;
-
-            subSequence.Enclosing = Item;
-            Item.appendSubSequences(subSequence);
-
-            retVal = new SubSequenceTreeNode(subSequence, true);
-            Nodes.Add(retVal);
-            SortSubNodes();
-
-            return retVal;
         }
 
         /// <summary>
@@ -114,8 +92,7 @@ namespace GUI.TestRunnerView
         {
             ApplyRulesOperation applyRulesOperation = new ApplyRulesOperation(Item);
             ProgressDialog progress = new ProgressDialog("Applying translation rules", applyRulesOperation);
-            progress.ShowDialog(GUIUtils.MDIWindow);
-            GUIUtils.MDIWindow.RefreshModel();
+            progress.ShowDialog(GuiUtils.MdiWindow);
         }
 
         #region Apply rules
@@ -143,6 +120,7 @@ namespace GUI.TestRunnerView
             {
                 FinderRepository.INSTANCE.ClearCache();
                 Frame.Translate(Frame.Dictionary.TranslationDictionary);
+                EFSSystem.INSTANCE.Context.HandleChangeEvent(Frame, Context.ChangeKind.Translation);
             }
         }
 
@@ -150,7 +128,7 @@ namespace GUI.TestRunnerView
 
         public void AddHandler(object sender, EventArgs args)
         {
-            createSubSequence(SubSequence.createDefault("Sequence" + (GetNodeCount(false) + 1)));
+            Item.appendSubSequences(SubSequence.CreateDefault(Item.SubSequences));
         }
 
         private void ClearAll()
@@ -159,7 +137,10 @@ namespace GUI.TestRunnerView
             if (treeView != null)
             {
                 Window window = treeView.ParentForm as Window;
-                window.Clear();
+                if (window != null)
+                {
+                    window.Clear();
+                }
             }
         }
 
@@ -196,13 +177,12 @@ namespace GUI.TestRunnerView
             /// <summary>
             ///     Executes the work in the background task
             /// </summary>
-            /// <param name="arg"></param>
             public override void ExecuteWork()
             {
                 SynchronizerList.SuspendSynchronization();
                 if (Window != null)
                 {
-                    Window.setFrame(Frame);
+                    Window.SetFrame(Frame);
 
                     try
                     {
@@ -287,43 +267,34 @@ namespace GUI.TestRunnerView
         /// <returns></returns>
         protected override List<MenuItem> GetMenuItems()
         {
-            List<MenuItem> retVal = new List<MenuItem>();
+            List<MenuItem> retVal = new List<MenuItem>
+            {
+                new MenuItem("Add sub-sequence", AddHandler),
+                new MenuItem("Delete", DeleteHandler)
+            };
 
-            retVal.Add(new MenuItem("Add sub-sequence", new EventHandler(AddHandler)));
-            retVal.Add(new MenuItem("Delete", new EventHandler(DeleteHandler)));
             retVal.AddRange(base.GetMenuItems());
             retVal.Insert(5, new MenuItem("-"));
-            retVal.Insert(6, new MenuItem("Apply translation rules", new EventHandler(TranslateHandler)));
+            retVal.Insert(6, new MenuItem("Apply translation rules", TranslateHandler));
             retVal.Insert(7, new MenuItem("-"));
-            retVal.Insert(8, new MenuItem("Execute", new EventHandler(RunHandler)));
-            retVal.Insert(9, new MenuItem("Create report", new EventHandler(ReportHandler)));
+            retVal.Insert(8, new MenuItem("Execute", RunHandler));
+            retVal.Insert(9, new MenuItem("Create report", ReportHandler));
 
             return retVal;
         }
 
         /// <summary>
-        ///     Finds the subsequence tree node which corresponds to the name provided
-        /// </summary>
-        /// <param name="subSequenceName"></param>
-        /// <returns></returns>
-        public SubSequenceTreeNode findSubSequence(string subSequenceName)
-        {
-            return findSubNode(subSequenceName) as SubSequenceTreeNode;
-        }
-
-        /// <summary>
         ///     Handles the drop event
         /// </summary>
-        /// <param name="SourceNode"></param>
-        public override void AcceptDrop(BaseTreeNode SourceNode)
+        /// <param name="sourceNode"></param>
+        public override void AcceptDrop(BaseTreeNode sourceNode)
         {
-            base.AcceptDrop(SourceNode);
-            if (SourceNode is SubSequenceTreeNode)
+            base.AcceptDrop(sourceNode);
+            if (sourceNode is SubSequenceTreeNode)
             {
-                SubSequenceTreeNode subSequence = SourceNode as SubSequenceTreeNode;
+                SubSequenceTreeNode subSequence = sourceNode as SubSequenceTreeNode;
                 subSequence.Delete();
-
-                createSubSequence(subSequence.Item);
+                Item.appendSubSequences(subSequence.Item);
             }
         }
     }

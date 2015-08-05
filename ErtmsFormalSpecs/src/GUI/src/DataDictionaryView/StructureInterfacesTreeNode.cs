@@ -17,9 +17,8 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using DataDictionary.Generated;
 using Structure = DataDictionary.Types.Structure;
-using StructureRef = DataDictionary.Generated.StructureRef;
+using StructureRef = DataDictionary.Types.StructureRef;
 
 namespace GUI.DataDictionaryView
 {
@@ -27,20 +26,13 @@ namespace GUI.DataDictionaryView
     {
         private class ItemEditor : NamedEditor
         {
-            /// <summary>
-            ///     Constructor
-            /// </summary>
-            public ItemEditor()
-                : base()
-            {
-            }
         }
 
         /// <summary>
         ///     Constructor
         /// </summary>
         /// <param name="item"></param>
-        /// <param name="name"></param>
+        /// <param name="buildSubNodes"></param>
         public StructureInterfacesTreeNode(Structure item, bool buildSubNodes)
             : base(item, buildSubNodes, "Interfaces", true)
         {
@@ -49,23 +41,24 @@ namespace GUI.DataDictionaryView
         /// <summary>
         ///     Builds the subnodes of this node
         /// </summary>
-        /// <param name="buildSubNodes">Indicates whether the subnodes of the nodes should also be built</param>
-        public override void BuildSubNodes(bool buildSubNodes)
+        /// <param name="subNodes"></param>
+        /// <param name="recursive">Indicates whether the subnodes of the nodes should also be built</param>
+        public override void BuildSubNodes(List<BaseTreeNode> subNodes, bool recursive)
         {
-            base.BuildSubNodes(buildSubNodes);
+            base.BuildSubNodes(subNodes, recursive);
 
             foreach (StructureRef structureRef in Item.InterfaceRefs)
             {
-                Nodes.Add(new StructureInterfaceTreeNode(structureRef, buildSubNodes));
+                subNodes.Add(new StructureInterfaceTreeNode(structureRef, recursive));
             }
-            SortSubNodes();
+            subNodes.Sort();
         }
 
         /// <summary>
         ///     Creates the editor for this tree node
         /// </summary>
         /// <returns></returns>
-        protected override Editor createEditor()
+        protected override Editor CreateEditor()
         {
             return new ItemEditor();
         }
@@ -76,9 +69,8 @@ namespace GUI.DataDictionaryView
         /// <returns></returns>
         protected override List<MenuItem> GetMenuItems()
         {
-            List<MenuItem> retVal = new List<MenuItem>();
+            List<MenuItem> retVal = new List<MenuItem> {new MenuItem("Add", AddHandler)};
 
-            retVal.Add(new MenuItem("Add", new EventHandler(AddHandler)));
             retVal.AddRange(base.GetMenuItems());
 
             return retVal;
@@ -86,20 +78,7 @@ namespace GUI.DataDictionaryView
 
         public void AddHandler(object sender, EventArgs args)
         {
-            StructureRef structureRef = (StructureRef) acceptor.getFactory().createStructureRef();
-            structureRef.Name = "<Interface" + (GetNodeCount(false) + 1) + ">";
-            AddInterface(structureRef);
-        }
-
-        /// <summary>
-        ///     Adds a new structure interface to the structure
-        /// </summary>
-        /// <param name="rule"></param>
-        public void AddInterface(StructureRef structureRef)
-        {
-            Item.appendInterfaces(structureRef);
-            Nodes.Add(new StructureInterfaceTreeNode(structureRef, true));
-            SortSubNodes();
+            Item.appendInterfaces(StructureRef.CreateDefault(Item.Interfaces));
         }
     }
 }

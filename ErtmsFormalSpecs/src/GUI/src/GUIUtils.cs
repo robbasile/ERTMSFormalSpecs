@@ -15,39 +15,19 @@
 // ------------------------------------------------------------------------------
 
 using System.Drawing;
-using System.Reflection;
 using System.Windows.Forms;
-using DataDictionary.Generated;
-using GUI.EditorView;
+using DataDictionary;
+using GUI.BoxArrowDiagram;
 using Utils;
-using Type = System.Type;
 
 namespace GUI
 {
-    public class GUIUtils
+    public static class GuiUtils
     {
         /// <summary>
         ///     The main window of the application
         /// </summary>
-        public static MainWindow MDIWindow { get; set; }
-
-        /// <summary>
-        ///     Refreshes the view according to the model element that has been changed
-        /// </summary>
-        /// <param name="model"></param>
-        public static void RefreshViewAccordingToModel(BaseModelElement model)
-        {
-            MDIWindow.Invoke((MethodInvoker) delegate
-            {
-                foreach (Window editor in MDIWindow.Editors)
-                {
-                    if (editor.Instance == model)
-                    {
-                        editor.RefreshText();
-                    }
-                }
-            });
-        }
+        public static MainWindow MdiWindow { get; set; }
 
         /// <summary>
         ///     Access to a graphics item
@@ -77,7 +57,7 @@ namespace GUI
             /// </summary>
             /// <param name="el"></param>
             /// <returns></returns>
-            public static T find(Control el)
+            public static T Find(Control el)
             {
                 while (el != null && !(el is T))
                 {
@@ -95,58 +75,88 @@ namespace GUI
             }
         }
 
-        public static void ResizePropertyGridSplitter(
-            PropertyGrid propertyGrid,
-            int labelColumnPercentageWidth)
-        {
-            double width =
-                propertyGrid.Width*(labelColumnPercentageWidth/100.0);
-
-            // Go up in hierarchy until found real property grid type.
-            Type realType = propertyGrid.GetType();
-            while (realType != null && realType != typeof (PropertyGrid))
-            {
-                realType = realType.BaseType;
-            }
-
-            FieldInfo gvf = realType.GetField(@"gridView",
-                BindingFlags.NonPublic |
-                BindingFlags.GetField |
-                BindingFlags.Instance);
-            object gv = gvf.GetValue(propertyGrid);
-
-            MethodInfo mtf = gv.GetType().GetMethod(@"MoveSplitterTo",
-                BindingFlags.NonPublic |
-                BindingFlags.InvokeMethod |
-                BindingFlags.Instance);
-            mtf.Invoke(gv, new object[] {(int) width});
-        }
-
         /// <summary>
         ///     Adjust the text size according to the display size
         /// </summary>
-        /// <param name="text"></param>
-        /// <param name="width"></param>
-        /// <param name="font"></param>
-        public static string AdjustForDisplay(Graphics graphics, string text, int width, Font font)
+        /// <param name="text">The text to be adjusted</param>
+        /// <param name="width">The desired width</param>
+        /// <param name="font">The font used to display the text</param>
+        public static string AdjustForDisplay(string text, int width, Font font)
         {
             string retVal = text;
 
-            if (graphics.MeasureString(text, font).Width > width)
+            if (Graphics.MeasureString(text, font).Width > width)
             {
-                width = (int) (width - graphics.MeasureString("...", font).Width);
+                width = (int) (width - Graphics.MeasureString("...", font).Width);
                 int i = text.Length;
                 int step = i/2;
-                while (step > 0 && graphics.MeasureString(text.Substring(0, i), font).Width > width)
+                while (step > 0 && Graphics.MeasureString(text.Substring(0, i), font).Width > width)
                 {
                     i = i - step;
                     step = step/2;
-                    while (graphics.MeasureString(text.Substring(0, i), font).Width < width && step > 0)
+                    while (Graphics.MeasureString(text.Substring(0, i), font).Width < width && step > 0)
                     {
                         i = i + step;
                     }
                 }
                 retVal = text.Substring(0, i) + "...";
+            }
+
+            return retVal;
+        }
+
+        /// <summary>
+        /// Provides the selection criteria according to the mouse event arg
+        /// </summary>
+        /// <param name="mouseEventArgs"></param>
+        /// <returns></returns>
+        public static Context.SelectionCriteria SelectionCriteriaBasedOnMouseEvent(MouseEventArgs mouseEventArgs)
+        {
+            Context.SelectionCriteria retVal = Context.SelectionCriteria.None;
+
+            if (mouseEventArgs != null)
+            {
+                if (mouseEventArgs.Button == MouseButtons.Left)
+                {
+                    retVal = retVal | Context.SelectionCriteria.LeftClick;
+                }
+                if (mouseEventArgs.Button == MouseButtons.Right)
+                {
+                    retVal = retVal | Context.SelectionCriteria.RightClick;
+                }
+                if (mouseEventArgs.Clicks > 1)
+                {
+                    retVal = retVal | Context.SelectionCriteria.DoubleClick;
+                }
+                if (Control.ModifierKeys == Keys.Control)
+                {
+                    retVal = retVal | Context.SelectionCriteria.Ctrl;
+                }
+                if (Control.ModifierKeys == Keys.Alt)
+                {
+                    retVal = retVal | Context.SelectionCriteria.Alt;
+                }
+            }
+
+            return retVal;
+        }
+
+        /// <summary>
+        /// Provides the node corresponding to the model element
+        /// </summary>
+        /// <param name="selectionContext"></param>
+        /// <returns></returns>
+        public static BaseTreeNode SourceNode(Context.SelectionContext selectionContext)
+        {
+            BaseTreeNode retVal = selectionContext.Sender as BaseTreeNode;
+
+            if (retVal == null)
+            {
+                IBaseForm form = EnclosingFinder<IBaseForm>.Find(selectionContext.Sender as Control);
+                if (form != null && form.TreeView != null)
+                {
+                    retVal = form.TreeView.FindNode(selectionContext.Element, true);
+                }
             }
 
             return retVal;

@@ -64,7 +64,7 @@ namespace GUI.Converters
                     form.ConsiderOnlyTypes = true;
                     TypeTextChangeHandler handler = new TypeTextChangeHandler(typedElement as ModelElement);
                     form.setChangeHandler(handler);
-                    GUIUtils.MDIWindow.AddChildWindow(form, DockAreas.Float);
+                    GuiUtils.MdiWindow.AddChildWindow(form, DockAreas.Float);
                 }
             }
 

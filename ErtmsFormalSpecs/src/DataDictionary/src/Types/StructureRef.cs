@@ -14,7 +14,9 @@
 // --
 // ------------------------------------------------------------------------------
 
+using System.Collections;
 using System.Collections.Generic;
+using DataDictionary.Generated;
 using DataDictionary.Interpreter;
 using DataDictionary.Interpreter.Filter;
 
@@ -133,5 +135,19 @@ namespace DataDictionary.Types
 
             return ReferencedStructureExpression;
         }
+
+        /// <summary>
+        /// Creates a default element
+        /// </summary>
+        /// <param name="enclosingCollection"></param>
+        /// <returns></returns>
+        public static StructureRef CreateDefault(ICollection enclosingCollection)
+        {
+            StructureRef retVal = (StructureRef)acceptor.getFactory().createStructureRef();
+            retVal.Name = "Interface" + GetElementNumber(enclosingCollection);
+
+            return retVal;
+        }
+
     }
 }

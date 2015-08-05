@@ -68,7 +68,7 @@ namespace DataDictionary.Types
             {
                 if (type == null)
                 {
-                    type = EFSSystem.findType(NameSpace, getTypeName());
+                    type = EFSSystem.FindType(NameSpace, getTypeName());
                 }
                 return type;
             }
@@ -285,6 +285,32 @@ namespace DataDictionary.Types
             names = names.Take(names.Count() - 1).ToArray();
             NameSpace nameSpace = dictionary.GetNameSpaceUpdate(names, Dictionary);
             nameSpace.appendCollections(retVal);
+
+            return retVal;
+        }
+
+        /// <summary>
+        ///     Creates the status message 
+        /// </summary>
+        /// <returns>the status string for the selected element</returns>
+        public override string CreateStatusMessage()
+        {
+            string result = base.CreateStatusMessage();
+
+            result += "Collection selected";
+
+            return result;
+        }
+
+        /// <summary>
+        /// Creates a default element
+        /// </summary>
+        /// <param name="enclosingCollection"></param>
+        /// <returns></returns>
+        public static Collection CreateDefault(ICollection enclosingCollection)
+        {
+            Collection retVal = (Collection)acceptor.getFactory().createCollection();
+            retVal.Name = "Collection" + GetElementNumber(enclosingCollection);
 
             return retVal;
         }

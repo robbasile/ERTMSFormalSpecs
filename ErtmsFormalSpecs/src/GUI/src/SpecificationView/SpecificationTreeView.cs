@@ -14,19 +14,27 @@
 // --
 // ------------------------------------------------------------------------------
 
+using System.Collections.Generic;
 using DataDictionary;
 
 namespace GUI.SpecificationView
 {
     public class SpecificationTreeView : TypedTreeView<EFSSystem>
     {
-        protected override void BuildModel()
+        /// <summary>
+        ///     Build the model of this tree view
+        /// </summary>
+        /// <returns>the root nodes of the tree</returns>
+        protected override List<BaseTreeNode> BuildModel()
         {
-            Nodes.Clear();
+            List<BaseTreeNode> retVal = new List<BaseTreeNode>();
+
             foreach (Dictionary dictionary in Root.Dictionaries)
             {
-                Nodes.Add(new SpecificationsTreeNode(dictionary, true));
+                retVal.Add(new SpecificationsTreeNode(dictionary, true));
             }
+
+            return retVal;
         }
     }
 }

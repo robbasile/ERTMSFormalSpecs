@@ -15,31 +15,24 @@
 // ------------------------------------------------------------------------------
 
 using System.Drawing;
-using System.Windows.Forms;
 using DataDictionary;
 using GUI.BoxArrowDiagram;
+using Utils;
 
 namespace GUI.ModelDiagram
 {
     /// <summary>
     ///     The boxes that represent a model element
     /// </summary>
-    public abstract class ModelControl : BoxControl<IGraphicalDisplay, ModelArrow>
+    public abstract class ModelControl : BoxControl<IModelElement, IGraphicalDisplay, ModelArrow>
     {
         /// <summary>
         ///     Constructor
         /// </summary>
-        public ModelControl(IGraphicalDisplay model)
-            : base()
+        protected ModelControl(IGraphicalDisplay model)
         {
             Model = model;
             BoxMode = BoxModeEnum.Rectangle;
-
-            MouseUp += new MouseEventHandler(ModelControl_MouseUp);
-        }
-
-        private void ModelControl_MouseUp(object sender, MouseEventArgs e)
-        {
         }
 
         /// <summary>
@@ -62,7 +55,7 @@ namespace GUI.ModelDiagram
 
             Font bold = new Font(Font, FontStyle.Bold);
 
-            string typeName = GUIUtils.AdjustForDisplay(graphics, ModelName, Width - 4, bold);
+            string typeName = GuiUtils.AdjustForDisplay(ModelName, Width - 4, bold);
             Brush textBrush = new SolidBrush(Color.Black);
             graphics.DrawString(typeName, bold, textBrush, Location.X + 2, Location.Y + 2);
             Pen border = new Pen(Color.Black);
@@ -70,7 +63,7 @@ namespace GUI.ModelDiagram
                 new Point(Location.X + Width, Location.Y + Font.Height + 2));
 
             // Center the element name
-            string name = GUIUtils.AdjustForDisplay(graphics, Model.GraphicalName, Width, Font);
+            string name = GuiUtils.AdjustForDisplay(Model.GraphicalName, Width, Font);
             SizeF textSize = graphics.MeasureString(name, Font);
             int boxHeight = Height - bold.Height - 4;
             graphics.DrawString(name, Font, textBrush, Location.X + Width/2 - textSize.Width/2,

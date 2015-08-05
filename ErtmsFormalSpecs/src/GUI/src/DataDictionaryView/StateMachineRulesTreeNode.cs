@@ -17,7 +17,6 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using DataDictionary.Generated;
 using Rule = DataDictionary.Rules.Rule;
 using StateMachine = DataDictionary.Types.StateMachine;
 
@@ -27,43 +26,38 @@ namespace GUI.DataDictionaryView
     {
         private class ItemEditor : TypeEditor
         {
-            /// <summary>
-            ///     Constructor
-            /// </summary>
-            public ItemEditor()
-                : base()
-            {
-            }
-        }
-
-        /// <summary>
-        ///     Builds the subnodes of this node
-        /// </summary>
-        /// <param name="buildSubNodes">Indicates whether the subnodes of the nodes should also be built</param>
-        public override void BuildSubNodes(bool buildSubNodes)
-        {
-            base.BuildSubNodes(buildSubNodes);
-
-            foreach (Rule rule in Item.Rules)
-            {
-                Nodes.Add(new RuleTreeNode(rule, buildSubNodes));
-            }
         }
 
         /// <summary>
         ///     Constructor
         /// </summary>
         /// <param name="item"></param>
+        /// <param name="buildSubNodes"></param>
         public StateMachineRulesTreeNode(StateMachine item, bool buildSubNodes)
             : base(item, buildSubNodes, "Rules", true, false)
         {
+        }
+        
+        /// <summary>
+        ///     Builds the subnodes of this node
+        /// </summary>
+        /// <param name="subNodes"></param>
+        /// <param name="recursive">Indicates whether the subnodes of the nodes should also be built</param>
+        public override void BuildSubNodes(List<BaseTreeNode> subNodes, bool recursive)
+        {
+            base.BuildSubNodes(subNodes, recursive);
+
+            foreach (Rule rule in Item.Rules)
+            {
+                subNodes.Add(new RuleTreeNode(rule, recursive));
+            }
         }
 
         /// <summary>
         ///     Creates the editor for this tree node
         /// </summary>
         /// <returns></returns>
-        protected override Editor createEditor()
+        protected override Editor CreateEditor()
         {
             return new ItemEditor();
         }
@@ -71,41 +65,23 @@ namespace GUI.DataDictionaryView
         /// <summary>
         ///     Create structure based on the subsystem structure
         /// </summary>
-        /// <param name="SourceNode"></param>
-        public override void AcceptDrop(BaseTreeNode SourceNode)
+        /// <param name="sourceNode"></param>
+        public override void AcceptDrop(BaseTreeNode sourceNode)
         {
-            base.AcceptDrop(SourceNode);
+            base.AcceptDrop(sourceNode);
 
-            if (SourceNode is RuleTreeNode)
+            if (sourceNode is RuleTreeNode)
             {
-                RuleTreeNode node = SourceNode as RuleTreeNode;
+                RuleTreeNode node = sourceNode as RuleTreeNode;
                 Rule rule = node.Item;
                 node.Delete();
-                AddRule(rule);
+                Item.appendRules(rule);
             }
         }
 
         public void AddHandler(object sender, EventArgs args)
         {
-            Rule rule = (Rule) acceptor.getFactory().createRule();
-            rule.Name = "<Rule" + (GetNodeCount(false) + 1) + ">";
-            AddRule(rule);
-        }
-
-        /// <summary>
-        ///     Adds a new rule to the model
-        /// </summary>
-        /// <param name="rule"></param>
-        /// <returns></returns>
-        public RuleTreeNode AddRule(Rule rule)
-        {
-            RuleTreeNode retVal = new RuleTreeNode(rule, true);
-
-            Item.appendRules(rule);
-            Nodes.Add(retVal);
-            SortSubNodes();
-
-            return retVal;
+            Item.appendRules(Rule.CreateDefault(Item.Rules));
         }
 
         /// <summary>
@@ -114,9 +90,7 @@ namespace GUI.DataDictionaryView
         /// <returns></returns>
         protected override List<MenuItem> GetMenuItems()
         {
-            List<MenuItem> retVal = new List<MenuItem>();
-
-            retVal.Add(new MenuItem("Add", new EventHandler(AddHandler)));
+            List<MenuItem> retVal = new List<MenuItem> {new MenuItem("Add", AddHandler)};
 
             return retVal;
         }

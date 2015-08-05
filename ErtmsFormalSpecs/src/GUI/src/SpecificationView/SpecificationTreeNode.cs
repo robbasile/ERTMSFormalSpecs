@@ -18,7 +18,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
-using DataDictionary.Generated;
 using Importers.RtfDeltaImporter;
 using Reports.Importer;
 using Chapter = DataDictionary.Specification.Chapter;
@@ -35,17 +34,10 @@ namespace GUI.SpecificationView
         private class ItemEditor : Editor
         {
             /// <summary>
-            ///     Constructor
-            /// </summary>
-            public ItemEditor()
-                : base()
-            {
-            }
-
-            /// <summary>
             ///     The specification document name
             /// </summary>
             [Category("Description")]
+            // ReSharper disable once UnusedMember.Local
             public string Document
             {
                 get { return Item.Name; }
@@ -60,6 +52,7 @@ namespace GUI.SpecificationView
             ///     The specification version
             /// </summary>
             [Category("Description")]
+            // ReSharper disable once UnusedMember.Local
             public string Version
             {
                 get { return Item.Version; }
@@ -75,6 +68,7 @@ namespace GUI.SpecificationView
         ///     Constructor
         /// </summary>
         /// <param name="item"></param>
+        /// <param name="buildSubNodes"></param>
         public SpecificationTreeNode(Specification item, bool buildSubNodes)
             : base(item, buildSubNodes, null, true)
         {
@@ -83,45 +77,31 @@ namespace GUI.SpecificationView
         /// <summary>
         ///     Builds the subnodes of this node
         /// </summary>
-        /// <param name="buildSubNodes">Indicates whether the subnodes of the nodes should also be built</param>
-        public override void BuildSubNodes(bool buildSubNodes)
+        /// <param name="subNodes"></param>
+        /// <param name="recursive">Indicates whether the subnodes of the nodes should also be built</param>
+        public override void BuildSubNodes(List<BaseTreeNode> subNodes, bool recursive)
         {
-            base.BuildSubNodes(buildSubNodes);
+            base.BuildSubNodes(subNodes, recursive);
 
             foreach (Chapter chapter in Item.Chapters)
             {
-                Nodes.Add(new ChapterTreeNode(chapter, buildSubNodes));
+                subNodes.Add(new ChapterTreeNode(chapter, recursive));
             }
-
-            SortSubNodes();
+            subNodes.Sort();
         }
 
         /// <summary>
         ///     Creates the editor for this tree node
         /// </summary>
         /// <returns></returns>
-        protected override Editor createEditor()
+        protected override Editor CreateEditor()
         {
             return new ItemEditor();
         }
 
-
-        /// <summary>
-        ///     Adds a new chapter to this specification
-        /// </summary>
-        /// <param name="chapter"></param>
-        public void AddChapter(Chapter chapter)
-        {
-            Item.appendChapters(chapter);
-            Nodes.Add(new ChapterTreeNode(chapter, true));
-            RefreshNode();
-        }
-
         public void AddChapterHandler(object sender, EventArgs args)
         {
-            Chapter chapter = (Chapter) acceptor.getFactory().createChapter();
-            chapter.setId("" + (Item.countChapters() + 1));
-            AddChapter(chapter);
+            Item.appendChapters(Chapter.CreateDefault(Item.Chapters));
         }
 
         /// <summary>
@@ -144,69 +124,50 @@ namespace GUI.SpecificationView
         {
             List<MenuItem> retVal = base.GetMenuItems();
 
-            retVal.Add(new MenuItem("Add chapter", new EventHandler(AddChapterHandler)));
+            retVal.Add(new MenuItem("Add chapter", AddChapterHandler));
             retVal.Add(new MenuItem("-"));
-            retVal.Add(new MenuItem("Import new specification release",
-                new EventHandler(ImportNewSpecificationReleaseHandler)));
+            retVal.Add(new MenuItem("Import new specification release", ImportNewSpecificationReleaseHandler));
 
             MenuItem recursiveActions = retVal.Find(x => x.Text.StartsWith("Recursive"));
             if (recursiveActions != null)
             {
                 recursiveActions.MenuItems.Add(new MenuItem("-"));
-                recursiveActions.MenuItems.Add(new MenuItem("Remove requirement sets",
-                    new EventHandler(RemoveRequirementSets)));
+                recursiveActions.MenuItems.Add(new MenuItem("Remove requirement sets", RemoveRequirementSets));
             }
 
             return retVal;
         }
-
-        /// <summary>
-        ///     Update counts according to the selected chapter
-        /// </summary>
-        /// <param name="displayStatistics">Indicates that statistics should be displayed in the MDI window</param>
-        public override void SelectionChanged(bool displayStatistics)
-        {
-            base.SelectionChanged(false);
-
-            Window window = BaseForm as Window;
-            if (window != null)
-            {
-                GUIUtils.MDIWindow.SetCoverageStatus(Item);
-            }
-        }
-
 
         /// ------------------------------------------------------
         /// IMPORT SPEC OPERATIONS
         /// ------------------------------------------------------
         private void ImportNewSpecificationReleaseHandler(object sender, EventArgs args)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Title = "Open original specification file";
-            openFileDialog.Filter = "RTF Files (*.rtf)|*.rtf|All Files (*.*)|*.*";
-            if (openFileDialog.ShowDialog(GUIUtils.MDIWindow) == DialogResult.OK)
+            OpenFileDialog openFileDialog = new OpenFileDialog
             {
-                string OriginalFileName = openFileDialog.FileName;
+                Title = "Open original specification file",
+                Filter = "RTF Files (*.rtf)|*.rtf|All Files (*.*)|*.*"
+            };
+            if (openFileDialog.ShowDialog(GuiUtils.MdiWindow) == DialogResult.OK)
+            {
+                string originalFileName = openFileDialog.FileName;
                 openFileDialog.Title = "Open new specification file";
                 openFileDialog.Filter = "RTF Files (*.rtf)|*.rtf|All Files (*.*)|*.*";
-                if (openFileDialog.ShowDialog(GUIUtils.MDIWindow) == DialogResult.OK)
+                if (openFileDialog.ShowDialog(GuiUtils.MdiWindow) == DialogResult.OK)
                 {
-                    string NewFileName = openFileDialog.FileName;
+                    string newFileName = openFileDialog.FileName;
+                    string baseFileName = createBaseFileName(originalFileName, newFileName);
 
-                    string baseFileName = createBaseFileName(OriginalFileName, NewFileName);
-
-                    /// Perform the importation
-                    Importer importer = new Importer(OriginalFileName, NewFileName, Item);
+                    // Perform the importation
+                    Importer importer = new Importer(originalFileName, newFileName, Item);
                     ProgressDialog dialog = new ProgressDialog("Opening file", importer);
                     dialog.ShowDialog();
 
-                    /// Creates the report based on the importation result
+                    // Creates the report based on the importation result
                     DeltaImportReportHandler reportHandler = new DeltaImportReportHandler(Item.Dictionary,
                         importer.NewDocument, baseFileName);
                     dialog = new ProgressDialog("Opening file", reportHandler);
                     dialog.ShowDialog();
-
-                    GUIUtils.MDIWindow.RefreshModel();
                 }
             }
         }
@@ -214,17 +175,17 @@ namespace GUI.SpecificationView
         /// <summary>
         ///     Creates the base file name for the report
         /// </summary>
-        /// <param name="OriginalFileName"></param>
-        /// <param name="NewFileName"></param>
+        /// <param name="originalFileName"></param>
+        /// <param name="newFileName"></param>
         /// <returns></returns>
-        private string createBaseFileName(string OriginalFileName, string NewFileName)
+        public string createBaseFileName(string originalFileName, string newFileName)
         {
             string baseFileName = "";
-            for (int i = 0; i < OriginalFileName.Length && i < NewFileName.Length; i++)
+            for (int i = 0; i < originalFileName.Length && i < newFileName.Length; i++)
             {
-                if (OriginalFileName[i] == NewFileName[i])
+                if (originalFileName[i] == newFileName[i])
                 {
-                    baseFileName += OriginalFileName[i];
+                    baseFileName += originalFileName[i];
                 }
                 else
                 {

@@ -21,6 +21,7 @@ using DataDictionary;
 using DataDictionary.Tests;
 using DataDictionary.Tests.Runner;
 using GUI.IPCInterface;
+using GUI.Properties;
 using Utils;
 using Step = DataDictionary.Tests.Step;
 
@@ -28,80 +29,55 @@ namespace GUI.TestRunnerView
 {
     public partial class Window : BaseForm
     {
-        public override MyPropertyGrid Properties
-        {
-            get { return null; }
-        }
-
-        public override EditorTextBox RequirementsTextBox
-        {
-            get { return null; }
-        }
-
-        public override EditorTextBox ExpressionEditorTextBox
-        {
-            get { return null; }
-        }
-
-
         public override BaseTreeView TreeView
         {
             get { return testBrowserTreeView; }
         }
 
-        public override ExplainTextBox ExplainTextBox
-        {
-            get { return null; }
-        }
-
         /// <summary>
         ///     The data dictionary for this view
         /// </summary>
-        private EFSSystem efsSystem;
+        private EFSSystem _efsSystem;
 
-        public EFSSystem EFSSystem
+        public EFSSystem EfsSystem
         {
-            get { return efsSystem; }
+            get { return _efsSystem; }
             private set
             {
-                efsSystem = value;
-                testBrowserTreeView.Root = efsSystem;
+                _efsSystem = value;
+                testBrowserTreeView.Root = _efsSystem;
             }
         }
 
         /// <summary>
         ///     The runner
         /// </summary>
-        public Runner getRunner(SubSequence subSequence)
+        public Runner GetRunner(SubSequence subSequence)
         {
-            Runner runner = EFSSystem.Runner;
+            Runner runner = EfsSystem.Runner;
 
             if (runner == null || runner.SubSequence != subSequence)
             {
                 if (subSequence != null)
                 {
-                    EFSSystem.Runner = new Runner(subSequence, false, false, true);
+                    EfsSystem.Runner = new Runner(subSequence, false, false, true);
                 }
             }
 
-            return EFSSystem.Runner;
+            return EfsSystem.Runner;
         }
 
         /// <summary>
         ///     Constructor
         /// </summary>
-        /// <param name="dictionary"></param>
         public Window()
         {
             InitializeComponent();
 
-            FormClosed += new FormClosedEventHandler(Window_FormClosed);
-            frameToolStripComboBox.DropDown += new EventHandler(frameToolStripComboBox_DropDown);
-            subSequenceSelectorComboBox.DropDown += new EventHandler(subSequenceSelectorComboBox_DropDown);
-            Text = "System test view";
-            Visible = false;
-            EFSSystem = EFSSystem.INSTANCE;
-            Refresh();
+            frameToolStripComboBox.DropDown += frameToolStripComboBox_DropDown;
+            subSequenceSelectorComboBox.DropDown += subSequenceSelectorComboBox_DropDown;
+            Text = Resources.Window_Window_System_test_view;
+            EfsSystem = EFSSystem.INSTANCE;
         }
 
         private void frameToolStripComboBox_DropDown(object sender, EventArgs e)
@@ -115,16 +91,6 @@ namespace GUI.TestRunnerView
         }
 
         /// <summary>
-        ///     Handles the close event
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Window_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            GUIUtils.MDIWindow.HandleSubWindowClosed(this);
-        }
-
-        /// <summary>
         ///     Indicates that a refresh is ongoing
         /// </summary>
         private bool DoingRefresh { get; set; }
@@ -133,7 +99,7 @@ namespace GUI.TestRunnerView
         ///     Sets the current frame parameters
         /// </summary>
         /// <param name="frame"></param>
-        public void setFrame(Frame frame)
+        public void SetFrame(Frame frame)
         {
             Invoke((MethodInvoker) delegate
             {
@@ -146,12 +112,12 @@ namespace GUI.TestRunnerView
         ///     Sets the current sub sequence window parameters
         /// </summary>
         /// <param name="subSequence"></param>
-        public void setSubSequence(SubSequence subSequence)
+        public void SetSubSequence(SubSequence subSequence)
         {
             Invoke((MethodInvoker) delegate
             {
                 subSequenceSelectorComboBox.Text = subSequence.Name;
-                setFrame(subSequence.Frame);
+                SetFrame(subSequence.Frame);
                 Refresh();
             });
         }
@@ -168,38 +134,32 @@ namespace GUI.TestRunnerView
                     DoingRefresh = true;
 
                     string selectedFrame = frameToolStripComboBox.Text;
-                    string selectedSequence = subSequenceSelectorComboBox.Text;
-
-                    if (EFSSystem.Runner == null)
+                    if (EfsSystem.Runner == null)
                     {
-                        toolStripTimeTextBox.Text = "0";
-                        toolStripCurrentStepTextBox.Text = "<none>";
+                        toolStripTimeTextBox.Text = @"0";
+                        toolStripCurrentStepTextBox.Text = Resources.Window_Refresh__none_;
                     }
                     else
                     {
-                        toolStripTimeTextBox.Text = "" + EFSSystem.Runner.Time;
-                        Step currentStep = EFSSystem.Runner.CurrentStep();
+                        toolStripTimeTextBox.Text = "" + EfsSystem.Runner.Time;
+                        Step currentStep = EfsSystem.Runner.CurrentStep();
                         if (currentStep != null)
                         {
                             toolStripCurrentStepTextBox.Text = currentStep.Name;
                         }
                         else
                         {
-                            toolStripCurrentStepTextBox.Text = "<none>";
+                            toolStripCurrentStepTextBox.Text = Resources.Window_Refresh__none_;
                         }
 
-                        if (EFSSystem.Runner.SubSequence != null && EFSSystem.Runner.SubSequence.Frame != null)
+                        if (EfsSystem.Runner.SubSequence != null && EfsSystem.Runner.SubSequence.Frame != null)
                         {
-                            Frame = EFSSystem.Runner.SubSequence.Frame;
-                            selectedFrame = EFSSystem.Runner.SubSequence.Frame.Name;
-                            selectedSequence = EFSSystem.Runner.SubSequence.Name;
+                            Frame = EfsSystem.Runner.SubSequence.Frame;
+                            selectedFrame = EfsSystem.Runner.SubSequence.Frame.Name;
                         }
                     }
 
-                    if (!GUIUtils.MDIWindow.AfterStep)
-                    {
-                        testBrowserTreeView.Refresh();
-                    }
+                    testBrowserTreeView.Refresh();
                     testDescriptionTimeLineControl.Refresh();
                     testExecutionTimeLineControl.Refresh();
 
@@ -207,19 +167,19 @@ namespace GUI.TestRunnerView
                     frameToolStripComboBox.Text = selectedFrame;
                     frameToolStripComboBox.ToolTipText = selectedFrame;
 
-                    if (Frame == null || frameToolStripComboBox.Text.CompareTo(Frame.Name) != 0)
+                    if (Frame == null || !frameToolStripComboBox.Text.Equals(Frame.Name))
                     {
                         RebuildSubSequencesComboBox();
 
-                        if (EFSSystem.Runner != null && EFSSystem.Runner.SubSequence != null)
+                        if (EfsSystem.Runner != null && EfsSystem.Runner.SubSequence != null)
                         {
-                            EFSSystem.Runner = null;
+                            EfsSystem.Runner = null;
                         }
                     }
 
-                    if (EFSSystem.Runner != null && EFSSystem.Runner.SubSequence != null)
+                    if (EfsSystem.Runner != null && EfsSystem.Runner.SubSequence != null)
                     {
-                        subSequenceSelectorComboBox.Text = EFSSystem.Runner.SubSequence.Name;
+                        subSequenceSelectorComboBox.Text = EfsSystem.Runner.SubSequence.Name;
                     }
 
                     subSequenceSelectorComboBox.ToolTipText = subSequenceSelectorComboBox.Text;
@@ -240,7 +200,7 @@ namespace GUI.TestRunnerView
         {
             frameToolStripComboBox.Items.Clear();
             List<string> frames = new List<string>();
-            foreach (Dictionary dictionary in EFSSystem.Dictionaries)
+            foreach (Dictionary dictionary in EfsSystem.Dictionaries)
             {
                 foreach (Frame frame in dictionary.Tests)
                 {
@@ -264,7 +224,7 @@ namespace GUI.TestRunnerView
         private void RebuildSubSequencesComboBox()
         {
             subSequenceSelectorComboBox.Items.Clear();
-            foreach (Dictionary dictionary in EFSSystem.Dictionaries)
+            foreach (Dictionary dictionary in EfsSystem.Dictionaries)
             {
                 Frame = dictionary.findFrame(frameToolStripComboBox.Text);
                 if (Frame != null)
@@ -300,10 +260,10 @@ namespace GUI.TestRunnerView
             Util.DontNotify(() =>
             {
                 CheckRunner();
-                if (EFSSystem.Runner != null)
+                if (EfsSystem.Runner != null)
                 {
-                    EFSSystem.Runner.RunUntilTime(EFSSystem.Runner.Time + EFSSystem.Runner.Step);
-                    GUIUtils.MDIWindow.RefreshAfterStep();
+                    EfsSystem.Runner.RunUntilTime(EfsSystem.Runner.Time + EfsSystem.Runner.Step);
+                    EFSSystem.INSTANCE.Context.HandleChangeEvent(null, Context.ChangeKind.EndOfCycle);
                 }
             });
         }
@@ -316,24 +276,20 @@ namespace GUI.TestRunnerView
 
         private void restart_Click(object sender, EventArgs e)
         {
-            if (EFSSystem.Runner != null)
+            if (EfsSystem.Runner != null)
             {
-                EFSSystem.Runner.EndExecution();
-                EFSSystem.Runner = null;
+                EfsSystem.Runner.EndExecution();
+                EfsSystem.Runner = null;
             }
             Clear();
-            GUIUtils.MDIWindow.RefreshAfterStep();
+            EFSSystem.INSTANCE.Context.HandleChangeEvent(null, Context.ChangeKind.EndOfCycle);
             tabControl1.SelectedTab = testExecutionTabPage;
         }
 
         public void Clear()
         {
-            EFSSystem.Runner = null;
-
-            foreach (Dictionary dictionary in EFSSystem.Dictionaries)
-            {
-                dictionary.ClearMessages();
-            }
+            EfsSystem.Runner = null;
+            EfsSystem.ClearMessages(false);
         }
 
         /// <summary>
@@ -341,19 +297,19 @@ namespace GUI.TestRunnerView
         /// </summary>
         private void CheckRunner()
         {
-            if (EFSSystem.Runner == null)
+            if (EfsSystem.Runner == null)
             {
                 if (Frame != null)
                 {
                     SubSequence subSequence = Frame.findSubSequence(subSequenceSelectorComboBox.Text);
                     if (subSequence != null)
                     {
-                        EFSSystem.Runner = new Runner(subSequence, true, false, true);
+                        EfsSystem.Runner = new Runner(subSequence, true, false, true);
                     }
                 }
                 else
                 {
-                    EFSSystem.Runner = EFSService.INSTANCE.Runner;
+                    EfsSystem.Runner = EFSService.INSTANCE.Runner;
                 }
             }
         }
@@ -367,30 +323,72 @@ namespace GUI.TestRunnerView
         public void StepBack()
         {
             CheckRunner();
-            if (EFSSystem.Runner != null)
+            if (EfsSystem.Runner != null)
             {
-                EFSSystem.Runner.StepBack();
-                GUIUtils.MDIWindow.RefreshAfterStep();
+                EfsSystem.Runner.StepBack();
+                EFSSystem.INSTANCE.Context.HandleChangeEvent(null, Context.ChangeKind.EndOfCycle);
             }
         }
 
         private void testCaseSelectorComboBox_SelectionChanged(object sender, EventArgs e)
         {
-            Runner runner = EFSSystem.Runner;
+            Runner runner = EfsSystem.Runner;
             if (runner != null &&
                 (runner.SubSequence == null || runner.SubSequence.Name.CompareTo(subSequenceSelectorComboBox.Text) != 0))
             {
-                EFSSystem.Runner = null;
+                EfsSystem.Runner = null;
             }
             Refresh();
         }
 
         /// <summary>
-        ///     Refreshes the model of the window
+        ///     Allows to refresh the view, when the value of a model changed
         /// </summary>
-        public override void RefreshModel()
+        /// <param name="modelElement"></param>
+        /// <param name="changeKind"></param>
+        /// <returns>True if the view should be refreshed</returns>
+        public override bool HandleValueChange(IModelElement modelElement, Context.ChangeKind changeKind)
         {
-            testBrowserTreeView.RefreshModel();
+            bool retVal = base.HandleValueChange(modelElement, changeKind);
+
+            if (retVal)
+            {
+                testBrowserTreeView.RefreshModel(modelElement);
+                Refresh();
+            }
+
+            return retVal;
+        }
+
+        /// <summary>
+        ///     Allows to refresh the view, when the selected model changed
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns>true if refresh should be performed</returns>
+        public override bool HandleSelectionChange(Context.SelectionContext context)
+        {
+            bool retVal = base.HandleSelectionChange(context);
+
+            if (retVal)
+            {
+                SubSequence subSequence = DisplayedModel as SubSequence;
+                if (subSequence != null)
+                {
+                    testDescriptionTimeLineControl.SubSequence = subSequence;
+                    testDescriptionTimeLineControl.Refresh();
+                    tabControl1.SelectedTab = testDescriptionTabPage;
+                }
+
+                TestCase testCase = DisplayedModel as TestCase;
+                if (testCase != null)
+                {
+                    testDescriptionTimeLineControl.TestCase = testCase;
+                    testDescriptionTimeLineControl.Refresh();
+                    tabControl1.SelectedTab = testDescriptionTabPage;
+                }
+            }
+
+            return retVal;
         }
 
         /// <summary>
@@ -400,12 +398,12 @@ namespace GUI.TestRunnerView
         /// <param name="e"></param>
         private void toolStripLabel4_Click(object sender, EventArgs e)
         {
-            if (EFSSystem.Runner != null)
+            if (EfsSystem.Runner != null)
             {
-                Step step = EFSSystem.Runner.CurrentStep();
+                Step step = EfsSystem.Runner.CurrentStep();
                 if (step != null)
                 {
-                    GUIUtils.MDIWindow.Select(step);
+                    EFSSystem.INSTANCE.Context.SelectElement(step, this, Context.SelectionCriteria.DoubleClick);
                 }
             }
         }
@@ -417,12 +415,12 @@ namespace GUI.TestRunnerView
         /// <param name="e"></param>
         private void toolStripLabel2_Click(object sender, EventArgs e)
         {
-            if (EFSSystem.Runner != null)
+            if (EfsSystem.Runner != null)
             {
-                SubSequence subSequence = EFSSystem.Runner.SubSequence;
+                SubSequence subSequence = EfsSystem.Runner.SubSequence;
                 if (subSequence != null)
                 {
-                    GUIUtils.MDIWindow.Select(subSequence);
+                    EFSSystem.INSTANCE.Context.SelectElement(subSequence, this, Context.SelectionCriteria.DoubleClick);
                 }
             }
         }
@@ -464,39 +462,40 @@ namespace GUI.TestRunnerView
 
         private void frameSelectorComboBox_SelectionChanged(object sender, EventArgs e)
         {
-            if (Frame == null || Frame.Name.CompareTo(frameToolStripComboBox.Text) != 0)
+            if (Frame == null || !Frame.Name.Equals(frameToolStripComboBox.Text))
             {
-                EFSSystem.Runner = null;
+                EfsSystem.Runner = null;
             }
-            Refresh();
-        }
-
-        public void RefreshAfterStep()
-        {
             Refresh();
         }
 
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
-            if (!EFSSystem.INSTANCE.Markings.selectPreviousMarking())
+            if (!EFSSystem.INSTANCE.Markings.SelectPreviousMarking())
             {
-                MessageBox.Show("No more marking to show", "No more markings", MessageBoxButtons.OK,
+                MessageBox.Show(
+                    Resources.Window_toolStripButton1_Click_No_more_marking_to_show, 
+                    Resources.Window_toolStripButton1_Click_No_more_markings, 
+                    MessageBoxButtons.OK,
                     MessageBoxIcon.Information);
             }
         }
 
         private void toolStripButton2_Click(object sender, EventArgs e)
         {
-            if (!EFSSystem.INSTANCE.Markings.selectNextMarking())
+            if (!EFSSystem.INSTANCE.Markings.SelectNextMarking())
             {
-                MessageBox.Show("No more marking to show", "No more markings", MessageBoxButtons.OK,
+                MessageBox.Show(
+                    Resources.Window_toolStripButton1_Click_No_more_marking_to_show, 
+                    Resources.Window_toolStripButton1_Click_No_more_markings, 
+                    MessageBoxButtons.OK,
                     MessageBoxIcon.Information);
             }
         }
 
         private void toolStripButton4_Click(object sender, EventArgs e)
         {
-            Runner runner = EFSSystem.Runner;
+            Runner runner = EfsSystem.Runner;
             if (runner != null)
             {
                 runner.PleaseWait = !runner.PleaseWait;

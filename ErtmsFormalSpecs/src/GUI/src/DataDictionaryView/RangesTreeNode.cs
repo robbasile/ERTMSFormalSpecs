@@ -30,20 +30,13 @@ namespace GUI.DataDictionaryView
     {
         private class ItemEditor : NamedEditor
         {
-            /// <summary>
-            ///     Constructor
-            /// </summary>
-            public ItemEditor()
-                : base()
-            {
-            }
         }
 
         /// <summary>
         ///     Constructor
         /// </summary>
         /// <param name="item"></param>
-        /// <param name="name"></param>
+        /// <param name="buildSubNodes"></param>
         public RangesTreeNode(NameSpace item, bool buildSubNodes)
             : base(item, buildSubNodes, "Ranges", true)
         {
@@ -52,45 +45,31 @@ namespace GUI.DataDictionaryView
         /// <summary>
         ///     Builds the subnodes of this node
         /// </summary>
-        /// <param name="buildSubNodes">Indicates whether the subnodes of the nodes should also be built</param>
-        public override void BuildSubNodes(bool buildSubNodes)
+        /// <param name="subNodes"></param>
+        /// <param name="recursive">Indicates whether the subnodes of the nodes should also be built</param>
+        public override void BuildSubNodes(List<BaseTreeNode> subNodes, bool recursive)
         {
-            base.BuildSubNodes(buildSubNodes);
+            base.BuildSubNodes(subNodes, recursive);
 
             foreach (Range range in Item.Ranges)
             {
-                Nodes.Add(new RangeTreeNode(range, buildSubNodes));
+                subNodes.Add(new RangeTreeNode(range, recursive));
             }
-            SortSubNodes();
+            subNodes.Sort();
         }
 
         /// <summary>
         ///     Creates the editor for this tree node
         /// </summary>
         /// <returns></returns>
-        protected override Editor createEditor()
+        protected override Editor CreateEditor()
         {
             return new ItemEditor();
         }
 
         public void AddHandler(object sender, EventArgs args)
         {
-            Range range = (Range) acceptor.getFactory().createRange();
-            range.Name = "<Range" + (GetNodeCount(false) + 1) + ">";
-            range.MinValue = "0";
-            range.MaxValue = "1";
-            AddRange(range);
-        }
-
-        /// <summary>
-        ///     Adds a range
-        /// </summary>
-        /// <param name="range"></param>
-        public void AddRange(Range range)
-        {
-            Item.appendRanges(range);
-            Nodes.Add(new RangeTreeNode(range, true));
-            SortSubNodes();
+            Item.appendRanges(Range.CreateDefault(Item.Ranges));
         }
 
         /// <summary>
@@ -99,9 +78,7 @@ namespace GUI.DataDictionaryView
         /// <returns></returns>
         protected override List<MenuItem> GetMenuItems()
         {
-            List<MenuItem> retVal = new List<MenuItem>();
-
-            retVal.Add(new MenuItem("Add", new EventHandler(AddHandler)));
+            List<MenuItem> retVal = new List<MenuItem> {new MenuItem("Add", AddHandler)};
 
             return retVal;
         }
@@ -109,22 +86,22 @@ namespace GUI.DataDictionaryView
         /// <summary>
         ///     Accepts drop of a tree node, in a drag & drop operation
         /// </summary>
-        /// <param name="SourceNode"></param>
-        public override void AcceptDrop(BaseTreeNode SourceNode)
+        /// <param name="sourceNode"></param>
+        public override void AcceptDrop(BaseTreeNode sourceNode)
         {
-            base.AcceptDrop(SourceNode);
+            base.AcceptDrop(sourceNode);
 
-            if (SourceNode is RangeTreeNode)
+            if (sourceNode is RangeTreeNode)
             {
-                RangeTreeNode rangeTreeNode = SourceNode as RangeTreeNode;
+                RangeTreeNode rangeTreeNode = sourceNode as RangeTreeNode;
                 Range range = rangeTreeNode.Item;
 
                 rangeTreeNode.Delete();
-                AddRange(range);
+                Item.appendRanges(range);
             }
-            else if (SourceNode is ParagraphTreeNode)
+            else if (sourceNode is ParagraphTreeNode)
             {
-                ParagraphTreeNode node = SourceNode as ParagraphTreeNode;
+                ParagraphTreeNode node = sourceNode as ParagraphTreeNode;
                 Paragraph paragaph = node.Item;
 
                 Range range = (Range) acceptor.getFactory().createRange();
@@ -133,20 +110,8 @@ namespace GUI.DataDictionaryView
                 ReqRef reqRef = (ReqRef) acceptor.getFactory().createReqRef();
                 reqRef.Name = paragaph.FullId;
                 range.appendRequirements(reqRef);
-                AddRange(range);
+                Item.appendRanges(range);
             }
-        }
-
-        /// <summary>
-        ///     Update counts according to the selected folder
-        /// </summary>
-        /// <param name="displayStatistics">Indicates that statistics should be displayed in the MDI window</param>
-        public override void SelectionChanged(bool displayStatistics)
-        {
-            base.SelectionChanged(false);
-
-            GUIUtils.MDIWindow.SetStatus(Item.Ranges.Count + (Item.Ranges.Count > 1 ? " ranges " : " range ") +
-                                         "selected.");
         }
     }
 }

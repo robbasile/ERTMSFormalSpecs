@@ -26,29 +26,8 @@ using Utils;
 
 namespace GUI.StateDiagram
 {
-    public partial class StateDiagramWindow : BoxArrowWindow<State, Transition>
+    public class StateDiagramWindow : BoxArrowWindow<StateMachine, State, Transition>
     {
-        /// <summary>
-        ///     The state machine currently displayed
-        /// </summary>
-        public StateMachine StateMachine { get; private set; }
-
-        /// <summary>
-        ///     Required method for Designer support - do not modify
-        ///     the contents of this method with the code editor.
-        /// </summary>
-        private void InitializeComponent()
-        {
-        }
-
-        /// <summary>
-        ///     Constructor
-        /// </summary>
-        public StateDiagramWindow()
-            : base()
-        {
-        }
-
         /// <summary>
         ///     The panel used to display the state diagram
         /// </summary>
@@ -63,9 +42,9 @@ namespace GUI.StateDiagram
         /// <param name="stateMachine"></param>
         public void SetStateMachine(StateMachine stateMachine)
         {
-            StateMachine = stateMachine;
+            Model = stateMachine;
 
-            StatePanel.StateMachine = StateMachine;
+            StatePanel.Model = stateMachine;
             StatePanel.RefreshControl();
         }
 
@@ -86,10 +65,10 @@ namespace GUI.StateDiagram
 
             if (stateMachineType != null)
             {
-                StateMachine = stateMachineType;
+                Model = stateMachineType;
             }
 
-            StatePanel.StateMachine = StateMachine;
+            StatePanel.Model = Model;
             if (stateMachine != null)
             {
                 StatePanel.StateMachineVariableExpression =
@@ -103,9 +82,9 @@ namespace GUI.StateDiagram
             StatePanel.RefreshControl();
         }
 
-        public override BoxArrowPanel<State, Transition> createPanel()
+        public override BoxArrowPanel<StateMachine, State, Transition> CreatePanel()
         {
-            BoxArrowPanel<State, Transition> retVal = new StatePanel();
+            BoxArrowPanel<StateMachine, State, Transition> retVal = new StatePanel();
 
             return retVal;
         }
@@ -119,7 +98,7 @@ namespace GUI.StateDiagram
             ///     Constructor
             /// </summary>
             /// <param name="control"></param>
-            public StateEditor(BoxControl<State, Transition> control)
+            public StateEditor(BoxControl<StateMachine, State, Transition> control)
                 : base(control)
             {
             }
@@ -130,7 +109,7 @@ namespace GUI.StateDiagram
         /// </summary>
         /// <param name="control"></param>
         /// <returns></returns>
-        protected override BoxEditor createBoxEditor(BoxControl<State, Transition> control)
+        protected override BoxEditor CreateBoxEditor(BoxControl<StateMachine, State, Transition> control)
         {
             BoxEditor retVal = new StateEditor(control);
 
@@ -143,8 +122,8 @@ namespace GUI.StateDiagram
                 GetStandardValues(ITypeDescriptorContext context)
             {
                 TransitionEditor instance = (TransitionEditor) context.Instance;
-                StatePanel panel = (StatePanel) instance.control.BoxArrowPanel;
-                return GetValues(panel.StateMachine);
+                StatePanel panel = (StatePanel) instance.Control.BoxArrowPanel;
+                return GetValues(panel.Model);
             }
         }
 
@@ -157,7 +136,7 @@ namespace GUI.StateDiagram
             ///     Constructor
             /// </summary>
             /// <param name="control"></param>
-            public TransitionEditor(ArrowControl<State, Transition> control)
+            public TransitionEditor(ArrowControl<StateMachine, State, Transition> control)
                 : base(control)
             {
             }
@@ -169,21 +148,21 @@ namespace GUI.StateDiagram
                 {
                     string retVal = "";
 
-                    if (control.Model.Source != null)
+                    if (Control.Model.Source != null)
                     {
-                        retVal = control.Model.Source.Name;
+                        retVal = Control.Model.Source.Name;
                     }
                     return retVal;
                 }
                 set
                 {
-                    TransitionControl transitionControl = (TransitionControl) control;
+                    TransitionControl transitionControl = (TransitionControl) Control;
                     StatePanel statePanel = (StatePanel) transitionControl.Panel;
-                    State state = OverallStateFinder.INSTANCE.findByName(statePanel.StateMachine, value);
+                    State state = OverallStateFinder.INSTANCE.findByName(statePanel.Model, value);
                     if (state != null)
                     {
-                        control.SetInitialBox(state);
-                        control.RefreshControl();
+                        Control.SetInitialBox(state);
+                        Control.RefreshControl();
                     }
                 }
             }
@@ -195,22 +174,22 @@ namespace GUI.StateDiagram
                 {
                     string retVal = "";
 
-                    if (control.Model != null && control.Model.Target != null)
+                    if (Control.Model != null && Control.Model.Target != null)
                     {
-                        retVal = control.Model.Target.Name;
+                        retVal = Control.Model.Target.Name;
                     }
 
                     return retVal;
                 }
                 set
                 {
-                    TransitionControl transitionControl = (TransitionControl) control;
+                    TransitionControl transitionControl = (TransitionControl) Control;
                     StatePanel statePanel = (StatePanel) transitionControl.Panel;
-                    State state = OverallStateFinder.INSTANCE.findByName(statePanel.StateMachine, value);
+                    State state = OverallStateFinder.INSTANCE.findByName(statePanel.Model, value);
                     if (state != null)
                     {
-                        control.SetTargetBox(state);
-                        control.RefreshControl();
+                        Control.SetTargetBox(state);
+                        Control.RefreshControl();
                     }
                 }
             }
@@ -221,7 +200,7 @@ namespace GUI.StateDiagram
         /// </summary>
         /// <param name="control"></param>
         /// <returns></returns>
-        protected override ArrowEditor createArrowEditor(ArrowControl<State, Transition> control)
+        protected override ArrowEditor CreateArrowEditor(ArrowControl<StateMachine, State, Transition> control)
         {
             ArrowEditor retVal = new TransitionEditor(control);
 

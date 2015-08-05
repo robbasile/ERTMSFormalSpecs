@@ -17,6 +17,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DataDictionary.Generated;
 using Utils;
 
 namespace DataDictionary.Specification
@@ -107,7 +108,7 @@ namespace DataDictionary.Specification
 
         private void applicableParagraphs(Paragraph paragraph, ICollection<Paragraph> retVal)
         {
-            if (paragraph.isApplicable())
+            if (paragraph.IsApplicable())
             {
                 retVal.Add(paragraph);
             }
@@ -336,6 +337,36 @@ namespace DataDictionary.Specification
             }
 
             Paragraphs = tmp;
+        }
+
+        /// <summary>
+        ///     Creates the status message 
+        /// </summary>
+        /// <returns>the status string for the selected element</returns>
+        public override string CreateStatusMessage()
+        {
+            string retVal = base.CreateStatusMessage();
+
+            List<Paragraph> paragraphs = new List<Paragraph>();
+            GetParagraphs(paragraphs);
+
+            retVal += Paragraph.CreateParagraphSetStatus(paragraphs);
+
+            return retVal;
+        }
+
+        /// <summary>
+        /// Creates a default element
+        /// </summary>
+        /// <param name="enclosingCollection"></param>
+        /// <returns></returns>
+        public static Chapter CreateDefault(ICollection enclosingCollection)
+        {
+            Chapter retVal = (Chapter)acceptor.getFactory().createChapter();
+            retVal.Name = "Chapter" + GetElementNumber(enclosingCollection);
+            retVal.setId(GetElementNumber(enclosingCollection).ToString());
+
+            return retVal;
         }
     }
 }

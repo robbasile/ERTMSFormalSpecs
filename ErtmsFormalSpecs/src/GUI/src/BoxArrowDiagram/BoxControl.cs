@@ -19,13 +19,16 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 using DataDictionary;
+using DataDictionary.Generated;
+using GUI.Properties;
 using ModelElement = Utils.ModelElement;
 
 namespace GUI.BoxArrowDiagram
 {
-    public partial class BoxControl<BoxModel, ArrowModel> : Label
-        where BoxModel : class, IGraphicalDisplay
-        where ArrowModel : class, IGraphicalArrow<BoxModel>
+    public partial class BoxControl<TEnclosing, TBoxModel, TArrowModel> : Label
+        where TEnclosing : class
+        where TBoxModel : class, IGraphicalDisplay
+        where TArrowModel : class, IGraphicalArrow<TBoxModel>
     {
         /// <summary>
         ///     The mode of displaying boxes
@@ -46,14 +49,14 @@ namespace GUI.BoxArrowDiagram
         /// <summary>
         ///     The grid size used to place boxes
         /// </summary>
-        public int GRID_SIZE = 10;
+        public int GridSize = 10;
 
         /// <summary>
         ///     Provides the enclosing box-arrow panel
         /// </summary>
-        public BoxArrowPanel<BoxModel, ArrowModel> Panel
+        public BoxArrowPanel<TEnclosing, TBoxModel, TArrowModel> Panel
         {
-            get { return GUIUtils.EnclosingFinder<BoxArrowPanel<BoxModel, ArrowModel>>.find(this); }
+            get { return GuiUtils.EnclosingFinder<BoxArrowPanel<TEnclosing, TBoxModel, TArrowModel>>.Find(this); }
         }
 
         /// <summary>
@@ -61,19 +64,13 @@ namespace GUI.BoxArrowDiagram
         /// </summary>
         public Form EnclosingForm
         {
-            get { return GUIUtils.EnclosingFinder<Form>.find(this); }
+            get { return GuiUtils.EnclosingFinder<Form>.Find(this); }
         }
 
         /// <summary>
         ///     The model for this control
         /// </summary>
-        private BoxModel __model;
-
-        public virtual BoxModel Model
-        {
-            get { return __model; }
-            set { __model = value; }
-        }
+        public virtual TBoxModel Model { get; set; }
 
         /// <summary>
         ///     Refreshes the control according to the related model
@@ -98,7 +95,7 @@ namespace GUI.BoxArrowDiagram
                 TextAlign = ContentAlignment.MiddleCenter;
                 if (Model.Hidden)
                 {
-                    Text = Model.GraphicalName + "\n(Hidden)";
+                    Text = Model.GraphicalName + Resources.BoxControl_RefreshControl_;
                     Font = new Font(Font, FontStyle.Italic);
                     ForeColor = Color.Gray;
                 }
@@ -125,6 +122,7 @@ namespace GUI.BoxArrowDiagram
                 color = Color.Transparent;
             }
 
+            // ReSharper disable once RedundantCheckBeforeAssignment
             if (color != BackColor)
             {
                 BackColor = color;
@@ -134,23 +132,23 @@ namespace GUI.BoxArrowDiagram
         /// <summary>
         ///     A normal pen
         /// </summary>
-        public Color NORMAL_COLOR = Color.LightGray;
+        public Color NormalColor = Color.LightGray;
 
-        public Pen NORMAL_PEN = new Pen(Color.Black);
+        public Pen NormalPen = new Pen(Color.Black);
 
         /// <summary>
         ///     A normal pen
         /// </summary>
-        public Color HIDDEN_COLOR = Color.Transparent;
+        public Color HiddenColor = Color.Transparent;
 
-        public Pen HIDDEN_PEN = new Pen(Color.Gray);
+        public Pen HiddenPen = new Pen(Color.Gray);
 
         /// <summary>
         ///     A activated pen
         /// </summary>
-        public Color ACTIVATED_COLOR = Color.Blue;
+        public Color ActivatedColor = Color.Blue;
 
-        public Pen ACTIVATED_PEN = new Pen(Color.Black, 4);
+        public Pen ActivatedPen = new Pen(Color.Black, 4);
 
         /// <summary>
         ///     Indicates that the box should be displayed in the ACTIVE color
@@ -173,30 +171,30 @@ namespace GUI.BoxArrowDiagram
         /// <summary>
         ///     The size of a round corner
         /// </summary>
-        private int ROUND_SIZE = 10;
+        private const int RoundSize = 10;
 
         /// <summary>
         ///     Draws the box within the box-arrow panel
         /// </summary>
-        /// <param name="e"></param>
+        /// <param name="g"></param>
         public virtual void PaintInBoxArrowPanel(Graphics g)
         {
             // Select the right pen, according to the model
             Pen pen;
             if (IsActive())
             {
-                pen = ACTIVATED_PEN;
-                SetColor(ACTIVATED_COLOR);
+                pen = ActivatedPen;
+                SetColor(ActivatedColor);
             }
             else if (IsHidden())
             {
-                pen = HIDDEN_PEN;
-                SetColor(HIDDEN_COLOR);
+                pen = HiddenPen;
+                SetColor(HiddenColor);
             }
             else
             {
-                pen = NORMAL_PEN;
-                SetColor(NORMAL_COLOR);
+                pen = NormalPen;
+                SetColor(NormalColor);
             }
 
             // Draw the box
@@ -208,26 +206,26 @@ namespace GUI.BoxArrowDiagram
 
                 case BoxModeEnum.Rectangle:
                 {
-                    Brush innerBrush = new SolidBrush(NORMAL_COLOR);
+                    Brush innerBrush = new SolidBrush(NormalColor);
                     g.FillRectangle(innerBrush, Location.X, Location.Y, Width, Height);
                     break;
                 }
 
                 case BoxModeEnum.RoundedCorners:
                 {
-                    Point[] points = new Point[]
+                    Point[] points =
                     {
-                        new Point(Location.X + ROUND_SIZE, Location.Y),
-                        new Point(Location.X + Width - ROUND_SIZE, Location.Y),
-                        new Point(Location.X + Width, Location.Y + ROUND_SIZE),
-                        new Point(Location.X + Width, Location.Y + Height - ROUND_SIZE),
-                        new Point(Location.X + Width - ROUND_SIZE, Location.Y + Height),
-                        new Point(Location.X + ROUND_SIZE, Location.Y + Height),
-                        new Point(Location.X, Location.Y + Height - ROUND_SIZE),
-                        new Point(Location.X, Location.Y + ROUND_SIZE),
+                        new Point(Location.X + RoundSize, Location.Y),
+                        new Point(Location.X + Width - RoundSize, Location.Y),
+                        new Point(Location.X + Width, Location.Y + RoundSize),
+                        new Point(Location.X + Width, Location.Y + Height - RoundSize),
+                        new Point(Location.X + Width - RoundSize, Location.Y + Height),
+                        new Point(Location.X + RoundSize, Location.Y + Height),
+                        new Point(Location.X, Location.Y + Height - RoundSize),
+                        new Point(Location.X, Location.Y + RoundSize)
                     };
 
-                    Brush innerBrush = new SolidBrush(NORMAL_COLOR);
+                    Brush innerBrush = new SolidBrush(NormalColor);
                     g.FillRectangle(innerBrush,
                         new Rectangle(points[0], new Size(points[4].X - points[0].X, points[4].Y - points[0].Y)));
                     g.FillRectangle(innerBrush,
@@ -238,23 +236,22 @@ namespace GUI.BoxArrowDiagram
                     g.DrawLine(pen, points[4], points[5]);
                     g.DrawLine(pen, points[6], points[7]);
 
-                    Size rectangleSize = new Size(2*ROUND_SIZE, 2*ROUND_SIZE);
-                    Rectangle rectangle;
-                    rectangle = new Rectangle(new Point(points[0].X - ROUND_SIZE, points[0].Y), rectangleSize);
+                    Size rectangleSize = new Size(2*RoundSize, 2*RoundSize);
+                    Rectangle rectangle = new Rectangle(new Point(points[0].X - RoundSize, points[0].Y), rectangleSize);
                     g.FillPie(innerBrush, rectangle, 180.0f, 90.0f);
                     g.DrawArc(pen, rectangle, 180.0f, 90.0f);
 
-                    rectangle = new Rectangle(new Point(points[2].X - 2*ROUND_SIZE, points[2].Y - ROUND_SIZE),
+                    rectangle = new Rectangle(new Point(points[2].X - 2*RoundSize, points[2].Y - RoundSize),
                         rectangleSize);
                     g.FillPie(innerBrush, rectangle, 270.0f, 90.0f);
                     g.DrawArc(pen, rectangle, 270.0f, 90.0f);
 
-                    rectangle = new Rectangle(new Point(points[4].X - ROUND_SIZE, points[4].Y - 2*ROUND_SIZE),
+                    rectangle = new Rectangle(new Point(points[4].X - RoundSize, points[4].Y - 2*RoundSize),
                         rectangleSize);
                     g.FillPie(innerBrush, rectangle, 0.0f, 90.0f);
                     g.DrawArc(pen, rectangle, 0.0f, 90.0f);
 
-                    rectangle = new Rectangle(new Point(points[6].X, points[6].Y - ROUND_SIZE), rectangleSize);
+                    rectangle = new Rectangle(new Point(points[6].X, points[6].Y - RoundSize), rectangleSize);
                     g.FillPie(innerBrush, rectangle, 90.0f, 90.0f);
                     g.DrawArc(pen, rectangle, 90.0f, 90.0f);
                     break;
@@ -265,11 +262,11 @@ namespace GUI.BoxArrowDiagram
             Image image;
             if (Model.Pinned)
             {
-                image = Panel.Images.Images[BoxArrowPanel<BoxModel, ArrowModel>.PinnedImageIndex];
+                image = Panel.Images.Images[BoxArrowPanel<TEnclosing, TBoxModel, TArrowModel>.PinnedImageIndex];
             }
             else
             {
-                image = Panel.Images.Images[BoxArrowPanel<BoxModel, ArrowModel>.UnPinnedImageIndex];
+                image = Panel.Images.Images[BoxArrowPanel<TEnclosing, TBoxModel, TArrowModel>.UnPinnedImageIndex];
             }
             g.DrawImage(image, Location.X + Width - 16, Location.Y, 16, 16);
         }
@@ -282,10 +279,11 @@ namespace GUI.BoxArrowDiagram
             InitializeComponent();
 
             BoxMode = BoxModeEnum.Rectangle3D;
-            MouseDown += new MouseEventHandler(HandleMouseDown);
-            MouseUp += new MouseEventHandler(HandleMouseUp);
-            MouseMove += new MouseEventHandler(HandleMouseMove);
-            MouseClick += new MouseEventHandler(HandleMouseClick);
+            MouseDown += HandleMouseDown;
+            MouseUp += HandleMouseUp;
+            MouseMove += HandleMouseMove;
+            MouseClick += HandleMouseClick;
+            DoubleClick += HandleMouseDoubleClick;
         }
 
         /// <summary>
@@ -298,34 +296,36 @@ namespace GUI.BoxArrowDiagram
 
             BoxMode = BoxModeEnum.Rectangle3D;
             InitializeComponent();
-            MouseDown += new MouseEventHandler(HandleMouseDown);
-            MouseUp += new MouseEventHandler(HandleMouseUp);
-            MouseMove += new MouseEventHandler(HandleMouseMove);
-            MouseClick += new MouseEventHandler(HandleMouseClick);
+            MouseDown += HandleMouseDown;
+            MouseUp += HandleMouseUp;
+            MouseMove += HandleMouseMove;
+            MouseClick += HandleMouseClick;
         }
 
         /// <summary>
         ///     Selects the current box
         /// </summary>
-        public virtual void SelectBox()
+        /// <param name="mouseEventArgs"></param>
+        public virtual void SelectBox(MouseEventArgs mouseEventArgs)
         {
-            Panel.Select(this, ModifierKeys == Keys.Control);
+            Context.SelectionCriteria criteria = GuiUtils.SelectionCriteriaBasedOnMouseEvent(mouseEventArgs);
+            EFSSystem.INSTANCE.Context.SelectElement(Model, Panel, criteria);
         }
 
         /// <summary>
         ///     The location where the mouse down occured
         /// </summary>
-        private Point moveStartLocation;
+        private Point _moveStartLocation;
 
         /// <summary>
         ///     The control location where the mouse down occured
         /// </summary>
-        private Point positionBeforeMove;
+        private Point _positionBeforeMove;
 
         /// <summary>
         ///     In a move operation ?
         /// </summary>
-        private bool moving = false;
+        private bool _moving;
 
         /// <summary>
         ///     Handles a mouse down event
@@ -334,9 +334,9 @@ namespace GUI.BoxArrowDiagram
         /// <param name="e"></param>
         private void HandleMouseDown(object sender, MouseEventArgs e)
         {
-            moving = true;
-            moveStartLocation = e.Location;
-            positionBeforeMove = new Point(Model.X, Model.Y);
+            _moving = true;
+            _moveStartLocation = e.Location;
+            _positionBeforeMove = new Point(Model.X, Model.Y);
         }
 
         /// <summary>
@@ -346,11 +346,10 @@ namespace GUI.BoxArrowDiagram
         /// <param name="e"></param>
         private void HandleMouseUp(object sender, MouseEventArgs e)
         {
-            moving = false;
-            if (Model.X != positionBeforeMove.X || Model.Y != positionBeforeMove.Y)
+            _moving = false;
+            if (Model.X != _positionBeforeMove.X || Model.Y != _positionBeforeMove.Y)
             {
-                Panel.ControlHasMoved();
-                Panel.Refresh();
+                EFSSystem.INSTANCE.Context.HandleChangeEvent(Model as BaseModelElement);
             }
         }
 
@@ -361,20 +360,23 @@ namespace GUI.BoxArrowDiagram
         /// <param name="e"></param>
         private void HandleMouseMove(object sender, MouseEventArgs e)
         {
-            if (moving)
+            if (_moving)
             {
                 Point mouseMoveLocation = e.Location;
 
-                int deltaX = mouseMoveLocation.X - moveStartLocation.X;
-                int deltaY = mouseMoveLocation.Y - moveStartLocation.Y;
+                int deltaX = mouseMoveLocation.X - _moveStartLocation.X;
+                int deltaY = mouseMoveLocation.Y - _moveStartLocation.Y;
 
                 if (Math.Abs(deltaX) > 5 || Math.Abs(deltaY) > 5)
                 {
                     int newX = Model.X + deltaX;
                     int newY = Model.Y + deltaY;
-                    if (Panel.Location.X <= newX && Panel.Location.Y <= newY)
+                    if (Panel != null)
                     {
-                        SetPosition(newX, newY);
+                        if (Panel.Location.X <= newX && Panel.Location.Y <= newY)
+                        {
+                            SetPosition(newX, newY);
+                        }
                     }
                 }
             }
@@ -387,16 +389,19 @@ namespace GUI.BoxArrowDiagram
         /// <param name="y"></param>
         private void SetPosition(int x, int y)
         {
-            int posX = (x)/GRID_SIZE;
-            posX = posX*GRID_SIZE;
+            Util.DontNotify(() =>
+            {
+                int posX = (x) / GridSize;
+                posX = posX * GridSize;
 
-            int posY = (y)/GRID_SIZE;
-            posY = posY*GRID_SIZE;
+                int posY = (y) / GridSize;
+                posY = posY * GridSize;
 
-            Model.X = posX;
-            Model.Y = posY;
+                Model.X = posX;
+                Model.Y = posY;
 
-            Location = new Point(Model.X, Model.Y);
+                Location = new Point(Model.X, Model.Y);                
+            });
         }
 
         /// <summary>
@@ -419,34 +424,47 @@ namespace GUI.BoxArrowDiagram
         ///     Handles a mouse click event
         /// </summary>
         /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void HandleMouseClick(object sender, MouseEventArgs e)
+        /// <param name="mouseEventArgs"></param>
+        private void HandleMouseClick(object sender, MouseEventArgs mouseEventArgs)
         {
-            if (e.Button == MouseButtons.Left)
+            if (mouseEventArgs.Button == MouseButtons.Left)
             {
-                if (e.X >= Width - 18 && e.Y <= 18)
+                if (mouseEventArgs.X >= Width - 18 && mouseEventArgs.Y <= 18)
                 {
                     Model.Pinned = !Model.Pinned;
                     Refresh();
                 }
                 else
                 {
-                    SelectBox();
+                    Context.SelectionCriteria criteria = GuiUtils.SelectionCriteriaBasedOnMouseEvent(mouseEventArgs);
+                    EFSSystem.INSTANCE.Context.SelectElement(Model, Panel, criteria);
                 }
             }
-            else
+            else if ( mouseEventArgs.Button == MouseButtons.Right )            
             {
+                // Show the context menu, according to the tree view of the base form
                 BaseForm baseForm = EnclosingForm as BaseForm;
                 if (baseForm != null && baseForm.TreeView != null)
                 {
-                    BaseTreeNode node = baseForm.TreeView.FindNode(Model);
+                    BaseTreeNode node = baseForm.TreeView.FindNode(Model, true);
                     if (node != null)
                     {
                         ContextMenu menu = node.ContextMenu;
-                        menu.Show(this, e.Location);
+                        menu.Show(this, mouseEventArgs.Location);
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Handles a double click event
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void HandleMouseDoubleClick(object sender, EventArgs e)
+        {
+            Context.SelectionCriteria criteria = GuiUtils.SelectionCriteriaBasedOnMouseEvent(e as MouseEventArgs);
+            EFSSystem.INSTANCE.Context.SelectElement(Model, Panel, criteria);
         }
 
         /// <summary>

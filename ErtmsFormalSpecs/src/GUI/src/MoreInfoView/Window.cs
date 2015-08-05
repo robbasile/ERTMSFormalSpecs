@@ -1,16 +1,29 @@
-﻿using System.Windows.Forms;
+﻿// ------------------------------------------------------------------------------
+// -- Copyright ERTMS Solutions
+// -- Licensed under the EUPL V.1.1
+// -- http://joinup.ec.europa.eu/software/page/eupl/licence-eupl
+// --
+// -- This file is part of ERTMSFormalSpec software and documentation
+// --
+// --  ERTMSFormalSpec is free software: you can redistribute it and/or modify
+// --  it under the terms of the EUPL General Public License, v.1.1
+// --
+// -- ERTMSFormalSpec is distributed in the hope that it will be useful,
+// -- but WITHOUT ANY WARRANTY; without even the implied warranty of
+// -- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// --
+// ------------------------------------------------------------------------------
+
 using DataDictionary;
+using DataDictionary.Types;
+using Utils;
 using WeifenLuo.WinFormsUI.Docking;
+using ModelElement = DataDictionary.ModelElement;
 
 namespace GUI.MoreInfoView
 {
     public partial class Window : BaseForm
     {
-        /// <summary>
-        ///     The element for which this message window is built
-        /// </summary>
-        private ITextualExplain Model { get; set; }
-
         /// <summary>
         ///     Constructor
         /// </summary>
@@ -21,45 +34,77 @@ namespace GUI.MoreInfoView
             moreInfoRichTextBox.ReadOnly = true;
             moreInfoRichTextBox.Enabled = true;
 
-            FormClosed += Window_FormClosed;
             DockAreas = DockAreas.DockBottom;
         }
 
         /// <summary>
-        ///     Handles the close event
+        /// Indicates that the model element should be displayed
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Window_FormClosed(object sender, FormClosedEventArgs e)
+        /// <param name="modelElement"></param>
+        /// <returns></returns>
+        protected override bool ShouldDisplay(IModelElement modelElement)
         {
-            GUIUtils.MDIWindow.HandleSubWindowClosed(this);
+            bool retVal = base.ShouldDisplay(modelElement);
+
+            if (retVal)
+            {
+                retVal = (modelElement is IDefaultValueElement) || !(modelElement is IExpressionable);
+            }
+
+            return retVal;
         }
 
         /// <summary>
-        ///     Sets the model element for which messages should be displayed
+        ///     Allows to refresh the view, when the selected model changed
         /// </summary>
-        /// <param name="model"></param>
-        public void SetModel(ITextualExplain model)
+        /// <param name="context"></param>
+        /// <returns>true if refresh should be performed</returns>
+        public override bool HandleSelectionChange(Context.SelectionContext context)
         {
-            Model = model;
-            RefreshModel();
+            bool retVal = base.HandleSelectionChange(context);
+
+            if (retVal)
+            {
+                SetMoreInfo();                
+            }
+
+            return retVal;
         }
 
         /// <summary>
-        ///     Refreshes the displayed messages according to the window model
+        /// Sets the more information according to the displayed model
         /// </summary>
-        public override void RefreshModel()
+        private void SetMoreInfo()
         {
             ModelElement.DontRaiseError(() =>
             {
                 moreInfoRichTextBox.Text = "";
-                if (Model != null)
+                ITextualExplain textualExplain = DisplayedModel as ITextualExplain;
+                if (textualExplain != null)
                 {
-                    moreInfoRichTextBox.Instance = Model as ModelElement;
-                    moreInfoRichTextBox.Text = TextualExplanationUtils.GetText(Model, true); ;
+                    moreInfoRichTextBox.Instance = DisplayedModel;
+                    moreInfoRichTextBox.Text = TextualExplanationUtils.GetText(textualExplain, true);
                 }
                 Refresh();
             });
+        }
+
+        /// <summary>
+        ///     Allows to refresh the view, when the value of a model changed
+        /// </summary>
+        /// <param name="modelElement"></param>
+        /// <param name="changeKind"></param>
+        /// <returns>True if the view should be refreshed</returns>
+        public override bool HandleValueChange(IModelElement modelElement, Context.ChangeKind changeKind)
+        {
+            bool retVal = base.HandleValueChange(modelElement, changeKind);
+
+            if ( retVal )
+            {
+                SetMoreInfo();                
+            }
+
+            return retVal;
         }
     }
 }

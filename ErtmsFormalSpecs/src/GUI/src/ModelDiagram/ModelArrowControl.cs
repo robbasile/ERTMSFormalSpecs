@@ -17,6 +17,8 @@
 using DataDictionary;
 using DataDictionary.Variables;
 using GUI.BoxArrowDiagram;
+using Utils;
+using ModelElement = DataDictionary.ModelElement;
 
 namespace GUI.ModelDiagram
 {
@@ -82,7 +84,7 @@ namespace GUI.ModelDiagram
     /// <summary>
     ///     An arrow between the models
     /// </summary>
-    public class ModelArrowControl : ArrowControl<IGraphicalDisplay, ModelArrow>
+    public class ModelArrowControl : ArrowControl<IModelElement, IGraphicalDisplay, ModelArrow>
     {
         /// <summary>
         ///     Constructor
@@ -91,7 +93,7 @@ namespace GUI.ModelDiagram
         public ModelArrowControl(ModelArrow model)
         {
             Model = model;
-            DEFAULT_ARROW_LENGTH = 30;
+            DefaultArrowLength = 30;
 
             if (Model.Source is Variable)
             {

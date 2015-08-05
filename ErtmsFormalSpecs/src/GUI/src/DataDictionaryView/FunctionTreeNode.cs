@@ -21,10 +21,8 @@ using System.Drawing.Design;
 using System.Windows.Forms;
 using DataDictionary;
 using DataDictionary.Functions;
-using DataDictionary.Generated;
 using DataDictionary.Interpreter;
 using GUI.Converters;
-using GUIUtils.GraphVisualization;
 using Case = DataDictionary.Functions.Case;
 using Dictionary = DataDictionary.Dictionary;
 using Function = DataDictionary.Functions.Function;
@@ -34,26 +32,8 @@ namespace GUI.DataDictionaryView
 {
     public class FunctionTreeNode : ReqRelatedTreeNode<Function>
     {
-        private class InternalTypesConverter : TypesConverter
-        {
-            public override StandardValuesCollection
-                GetStandardValues(ITypeDescriptorContext context)
-            {
-                ItemEditor editor = (ItemEditor) context.Instance;
-                return GetValues(editor.Item);
-            }
-        }
-
         private class ItemEditor : TypeEditor
         {
-            /// <summary>
-            ///     Constructor
-            /// </summary>
-            public ItemEditor()
-                : base()
-            {
-            }
-
             [Category("Description")]
             public override string Name
             {
@@ -67,6 +47,7 @@ namespace GUI.DataDictionaryView
             [Category("Description")]
             [Editor(typeof (TypeUITypedEditor), typeof (UITypeEditor))]
             [TypeConverter(typeof (TypeUITypeConverter))]
+            // ReSharper disable once UnusedMember.Local
             public Function Type
             {
                 get { return Item; }
@@ -81,6 +62,7 @@ namespace GUI.DataDictionaryView
             ///     Indicates that the function result can be cached, from one cycle to the other
             /// </summary>
             [Category("Description")]
+            // ReSharper disable once UnusedMember.Local
             public bool IsCacheable
             {
                 get { return Item.getCacheable(); }
@@ -88,28 +70,18 @@ namespace GUI.DataDictionaryView
             }
         }
 
-        private CasesTreeNode Cases;
-        private ParametersTreeNode Parameters;
-
-
         /// <summary>
         ///     The editor for message variables
         /// </summary>
         protected class TypeEditor : ReqRelatedEditor
         {
-            /// <summary>
-            ///     Constructor
-            /// </summary>
-            public TypeEditor()
-                : base()
-            {
-            }
         }
 
         /// <summary>
         ///     Constructor
         /// </summary>
         /// <param name="item"></param>
+        /// <param name="buildSubNodes"></param>
         public FunctionTreeNode(Function item, bool buildSubNodes)
             : base(item, buildSubNodes)
         {
@@ -118,22 +90,24 @@ namespace GUI.DataDictionaryView
         /// <summary>
         ///     Builds the subnodes of this node
         /// </summary>
-        /// <param name="buildSubNodes">Indicates whether the subnodes of the nodes should also be built</param>
-        public override void BuildSubNodes(bool buildSubNodes)
+        /// <param name="subNodes"></param>
+        /// <param name="recursive">Indicates whether the subnodes of the nodes should also be built</param>
+        public override void BuildSubNodes(List<BaseTreeNode> subNodes, bool recursive)
         {
-            base.BuildSubNodes(buildSubNodes);
+            base.BuildSubNodes(subNodes, recursive);
 
-            Parameters = new ParametersTreeNode(Item, buildSubNodes);
-            Nodes.Add(Parameters);
-            Cases = new CasesTreeNode(Item, buildSubNodes);
-            Nodes.Add(Cases);
+            subNodes.Add(new ParametersTreeNode(Item, recursive));
+            subNodes.Add(new CasesTreeNode(Item, recursive));
         }
 
         /// <summary>
         ///     Constructor
         /// </summary>
-        /// <param name="name"></param>
         /// <param name="item"></param>
+        /// <param name="buildSubNodes"></param>
+        /// <param name="name"></param>
+        /// <param name="isFolder"></param>
+        /// <param name="addRequirements"></param>
         public FunctionTreeNode(Function item, bool buildSubNodes, string name, bool isFolder = false,
             bool addRequirements = true)
             : base(item, buildSubNodes, name, isFolder, addRequirements)
@@ -144,40 +118,26 @@ namespace GUI.DataDictionaryView
         ///     Creates the editor for this tree node
         /// </summary>
         /// <returns></returns>
-        protected override Editor createEditor()
+        protected override Editor CreateEditor()
         {
             return new ItemEditor();
         }
 
         public void AddParameterHandler(object sender, EventArgs args)
         {
-            DataDictionaryTreeView treeView = BaseTreeView as DataDictionaryTreeView;
-            if (treeView != null)
-            {
-                Parameter parameter = (Parameter) acceptor.getFactory().createParameter();
-                parameter.Name = "Parameter" + (Item.FormalParameters.Count + 1);
-                Parameters.AddParameter(parameter);
-            }
+            Item.appendParameters(Parameter.CreateDefault(Item.FormalParameters));
         }
 
         public void AddCaseHandler(object sender, EventArgs args)
         {
-            DataDictionaryTreeView treeView = BaseTreeView as DataDictionaryTreeView;
-            if (treeView != null)
-            {
-                Case aCase = (Case) acceptor.getFactory().createCase();
-                aCase.Name = "Case" + (Item.Cases.Count + 1);
-                Cases.AddCase(aCase);
-            }
+            Item.appendCases(Case.CreateDefault(Item.Cases));
         }
-
 
         protected override ModelElement FindOrCreateUpdate()
         {
             ModelElement retVal = null;
 
             Dictionary dictionary = GetPatchDictionary();
-
             if (dictionary != null)
             {
                 retVal = dictionary.findByFullName(Item.FullName) as ModelElement;
@@ -186,9 +146,8 @@ namespace GUI.DataDictionaryView
                     // If the element does not already exist in the patch, add a copy to it
                     retVal = Item.CreateFunctionUpdate(dictionary);
                 }
-                // navigate to the function, whether it was created or not
-                GUIUtils.MDIWindow.RefreshModel();
-                GUIUtils.MDIWindow.Select(retVal);
+                // Navigate to the element, whether it was created or not
+                EFSSystem.INSTANCE.Context.SelectElement(retVal, this, Context.SelectionCriteria.DoubleClick);
             }
 
             return retVal;
@@ -197,7 +156,7 @@ namespace GUI.DataDictionaryView
         public void DisplayHandler(object sender, EventArgs args)
         {
             GraphView.GraphView view = new GraphView.GraphView();
-            GUIUtils.MDIWindow.AddChildWindow(view);
+            GuiUtils.MdiWindow.AddChildWindow(view);
             view.Functions.Add(Item);
             view.Refresh();
         }
@@ -211,15 +170,15 @@ namespace GUI.DataDictionaryView
             List<MenuItem> retVal = new List<MenuItem>();
 
             MenuItem newItem = new MenuItem("Add...");
-            newItem.MenuItems.Add(new MenuItem("Parameter", new EventHandler(AddParameterHandler)));
-            newItem.MenuItems.Add(new MenuItem("Case", new EventHandler(AddCaseHandler)));
+            newItem.MenuItems.Add(new MenuItem("Parameter", AddParameterHandler));
+            newItem.MenuItems.Add(new MenuItem("Case", AddCaseHandler));
             retVal.Add(newItem);
 
             MenuItem updateItem = new MenuItem("Update...");
-            updateItem.MenuItems.Add(new MenuItem("Update", new EventHandler(AddUpdate)));
-            updateItem.MenuItems.Add(new MenuItem("Remove", new EventHandler(RemoveInUpdate)));
+            updateItem.MenuItems.Add(new MenuItem("Update", AddUpdate));
+            updateItem.MenuItems.Add(new MenuItem("Remove", RemoveInUpdate));
             retVal.Add(updateItem);
-            retVal.Add(new MenuItem("Delete", new EventHandler(DeleteHandler)));
+            retVal.Add(new MenuItem("Delete", DeleteHandler));
             retVal.AddRange(base.GetMenuItems());
 
             ModelElement.DontRaiseError(() =>
@@ -231,7 +190,7 @@ namespace GUI.DataDictionaryView
                     Graph graph = Item.createGraph(context, parameter, null);
                     if (graph != null && graph.Segments.Count != 0)
                     {
-                        retVal.Insert(7, new MenuItem("Display", new EventHandler(DisplayHandler)));
+                        retVal.Insert(7, new MenuItem("Display", DisplayHandler));
                     }
                 }
                 else if (Item.FormalParameters.Count == 2)
@@ -239,7 +198,7 @@ namespace GUI.DataDictionaryView
                     Surface surface = Item.createSurface(context, null);
                     if (surface != null && surface.Segments.Count != 0)
                     {
-                        retVal.Insert(7, new MenuItem("Display", new EventHandler(DisplayHandler)));
+                        retVal.Insert(7, new MenuItem("Display", DisplayHandler));
                     }
                 }
             });

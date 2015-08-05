@@ -438,7 +438,7 @@ namespace DataDictionary.Rules
         /// </summary>
         public bool Disabled
         {
-            get { return EFSSystem.isDisabled(this); }
+            get { return EFSSystem.IsDisabled(this); }
         }
 
         /// <summary>
@@ -637,6 +637,36 @@ namespace DataDictionary.Rules
         {
             get { return getPinned(); }
             set { setPinned(value); }
+        }
+
+        /// <summary>
+        ///     Creates the status message 
+        /// </summary>
+        /// <returns>the status string for the selected element</returns>
+        public override string CreateStatusMessage()
+        {
+            string result = base.CreateStatusMessage();
+
+            result += "Rule " + Name + " with " + RuleConditions.Count + " rule conditions";
+
+            return result;
+        }
+
+        /// <summary>
+        /// Creates a default element
+        /// </summary>
+        /// <param name="enclosingCollection"></param>
+        /// <returns></returns>
+        public static Rule CreateDefault(ICollection enclosingCollection)
+        {
+            Rule retVal = (Rule)acceptor.getFactory().createRule();
+            retVal.Name = "Rule" + GetElementNumber(enclosingCollection);
+            
+            RuleCondition condition = (RuleCondition)acceptor.getFactory().createRuleCondition();
+            condition.Name = "<Condition1>";
+            retVal.appendConditions(condition);
+
+            return retVal;
         }
     }
 }

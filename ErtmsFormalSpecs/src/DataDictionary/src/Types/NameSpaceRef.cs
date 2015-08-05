@@ -45,7 +45,7 @@ namespace DataDictionary.Types
                     current = current.Enclosing as IModelElement;
                 }
 
-                return Dictionary.BasePath + Path.DirectorySeparatorChar + Util.validFilePath(retVal);
+                return Dictionary.BasePath + Path.DirectorySeparatorChar + Util.ValidFilePath(retVal);
             }
         }
 
@@ -70,7 +70,7 @@ namespace DataDictionary.Types
         /// <returns></returns>
         public NameSpace LoadNameSpace(bool lockFiles, bool allowErrors)
         {
-            return Util.loadNameSpace(FileName, Enclosing as ModelElement, lockFiles, allowErrors);
+            return Util.LoadNameSpace(FileName, Enclosing as ModelElement, lockFiles, allowErrors);
         }
 
         /// <summary>

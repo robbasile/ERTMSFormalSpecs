@@ -14,32 +14,25 @@
 // --
 // ------------------------------------------------------------------------------
 
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
-using DataDictionary;
 using DataDictionary.Specification;
 using GUI.BoxArrowDiagram;
-using GUI.SpecificationView;
+using GUI.LongOperations;
+using GUI.Properties;
 using ModelElement = Utils.ModelElement;
 
 namespace GUI.RequirementSetDiagram
 {
-    public partial class RequirementSetControl : BoxControl<RequirementSet, RequirementSetDependancy>
+    public class RequirementSetControl : BoxControl<IHoldsRequirementSets, RequirementSet, RequirementSetDependancy>
     {
-        /// <summary>
-        ///     The metrics associates to this requirements set
-        /// </summary>
-        private ParagraphTreeNode.ParagraphSetMetrics Metrics { get; set; }
-
         /// <summary>
         ///     Constructor
         /// </summary>
         public RequirementSetControl()
-            : base()
         {
-            MouseDoubleClick += new MouseEventHandler(HandleMouseDoubleClick);
+            MouseDoubleClick += HandleMouseDoubleClick;
         }
 
         /// <summary>
@@ -49,18 +42,7 @@ namespace GUI.RequirementSetDiagram
         public RequirementSetControl(IContainer container)
             : base(container)
         {
-            MouseDoubleClick += new MouseEventHandler(HandleMouseDoubleClick);
-        }
-
-        public override RequirementSet Model
-        {
-            set
-            {
-                base.Model = value;
-                List<Paragraph> paragraphs = new List<Paragraph>();
-                Model.GetParagraphs(paragraphs);
-                Metrics = ParagraphTreeNode.CreateParagraphSetMetrics(EFSSystem.INSTANCE, paragraphs);
-            }
+            MouseDoubleClick += HandleMouseDoubleClick;
         }
 
         public override void AcceptDrop(ModelElement element)
@@ -73,20 +55,15 @@ namespace GUI.RequirementSetDiagram
             {
                 if (!paragraph.AppendToRequirementSet(Model))
                 {
-                    MessageBox.Show("Paragraph not added to the requirement set because it already belongs to it",
-                        "Paragraph not added", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show(
+                        Resources.RequirementSetControl_AcceptDrop_Paragraph_not_added_to_the_requirement_set_because_it_already_belongs_to_it,
+                        Resources.RequirementSetControl_AcceptDrop_Paragraph_not_added, 
+                        MessageBoxButtons.OK, 
+                        MessageBoxIcon.Information);
                 }
-                GUIUtils.MDIWindow.SpecificationWindow.TreeView.Selected.SelectionChanged(false);
             }
         }
-
-        public override void SelectBox()
-        {
-            base.SelectBox();
-
-            GUIUtils.MDIWindow.SetCoverageStatus(Model);
-        }
-
+        
         /// <summary>
         ///     Handles a double click event on the control
         /// </summary>
@@ -94,31 +71,30 @@ namespace GUI.RequirementSetDiagram
         /// <param name="e"></param>
         private void HandleMouseDoubleClick(object sender, MouseEventArgs e)
         {
-            SelectBox();
-
             RequirementSetPanel panel = (RequirementSetPanel) Panel;
             if (panel != null)
             {
                 RequirementSetDiagramWindow window = new RequirementSetDiagramWindow();
-                GUIUtils.MDIWindow.AddChildWindow(window);
-                window.SetEnclosing(Model);
+                GuiUtils.MdiWindow.AddChildWindow(window);
                 window.Text = Model.Name;
+                OpenRequirementSetOperation openRequirementSet = new OpenRequirementSetOperation(window, Model);
+                openRequirementSet.ExecuteUsingProgressDialog("Opening requirement set " + Name);
             }
         }
 
         /// <summary>
         ///     Implemented color
         /// </summary>
-        public static Color IMPLEMENTED_COLOR = Color.Green;
+        public static Color ImplementedColor = Color.Green;
 
-        public static Pen IMPLEMENTED_PEN = new Pen(IMPLEMENTED_COLOR);
+        public static Pen ImplementedPen = new Pen(ImplementedColor);
 
         /// <summary>
         ///     Tested color
         /// </summary>
-        public static Color TESTED_COLOR = Color.Yellow;
+        public static Color TestedColor = Color.Yellow;
 
-        public static Pen TESTED_PEN = new Pen(TESTED_COLOR);
+        public static Pen TestedPen = new Pen(TestedColor);
 
         /// <summary>
         ///     Draws the box within the box-arrow panel
@@ -129,13 +105,17 @@ namespace GUI.RequirementSetDiagram
             SetColor(Color.Transparent);
 
             // Draws the enclosing box
-            g.FillRectangle(new SolidBrush(NORMAL_COLOR), Location.X, Location.Y, Width, Height);
-            g.DrawRectangle(NORMAL_PEN, Location.X, Location.Y, Width, Height);
+            g.FillRectangle(new SolidBrush(NormalColor), Location.X, Location.Y, Width, Height);
+            g.DrawRectangle(NormalPen, Location.X, Location.Y, Width, Height);
 
             // Draws the completion box
-            g.DrawRectangle(NORMAL_PEN, Location.X + 10, Location.Y + Height - 20, Width - 20, 10);
-            FillCompletion(g, Metrics.implementedCount, Metrics.implementableCount, IMPLEMENTED_COLOR, 10);
-            FillCompletion(g, Metrics.testedCount, Metrics.implementableCount, TESTED_COLOR, 5);
+            g.DrawRectangle(NormalPen, Location.X + 10, Location.Y + Height - 20, Width - 20, 10);
+            Paragraph.ParagraphSetMetrics metrics;
+            if (((RequirementSetPanel) Panel).Metrics.TryGetValue(Model, out metrics))
+            {
+                FillCompletion(g, metrics.ImplementedCount, metrics.ImplementableCount, ImplementedColor, 10);
+                FillCompletion(g, metrics.TestedCount, metrics.ImplementableCount, TestedColor, 5);                
+            }
         }
 
         /// <summary>
@@ -145,12 +125,15 @@ namespace GUI.RequirementSetDiagram
         /// <param name="performed"></param>
         /// <param name="total"></param>
         /// <param name="color"></param>
+        /// <param name="width"></param>
         private void FillCompletion(Graphics g, int performed, int total, Color color, int width)
         {
             double ratio = 1;
             if (total > 0)
             {
+                // ReSharper disable RedundantCast
                 ratio = (double) performed/(double) total;
+                // ReSharper restore RedundantCast
             }
             g.FillRectangle(new SolidBrush(color), Location.X + 10 + 1, Location.Y + Height - 20 + 10 - width + 1,
                 (int) ((Width - 20)*ratio) - 1, width - 1);

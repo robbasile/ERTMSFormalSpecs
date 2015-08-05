@@ -61,7 +61,7 @@ namespace DataDictionary
         /// <param name="visitSubNodes"></param>
         public override void visit(BaseModelElement obj, bool visitSubNodes)
         {
-            count(obj);
+            Count(obj);
 
             base.visit(obj, visitSubNodes);
         }
@@ -73,7 +73,7 @@ namespace DataDictionary
         /// <param name="visitSubNodes"></param>
         public override void visit(Generated.Namable obj, bool visitSubNodes)
         {
-            count(obj);
+            Count(obj);
 
             base.visit(obj, visitSubNodes);
         }
@@ -82,7 +82,7 @@ namespace DataDictionary
         ///     Actually counts
         /// </summary>
         /// <param name="obj"></param>
-        private void count(BaseModelElement obj)
+        private void Count(BaseModelElement obj)
         {
             foreach (ElementLog log in obj.Messages)
             {

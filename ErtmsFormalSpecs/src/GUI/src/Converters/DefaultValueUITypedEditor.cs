@@ -64,7 +64,7 @@ namespace GUI.Converters
                     DefaultValueTextChangeHandler handler =
                         new DefaultValueTextChangeHandler(defaultValueElement as ModelElement);
                     form.setChangeHandler(handler);
-                    GUIUtils.MDIWindow.AddChildWindow(form, DockAreas.Float);
+                    GuiUtils.MdiWindow.AddChildWindow(form, DockAreas.Float);
                 }
             }
 

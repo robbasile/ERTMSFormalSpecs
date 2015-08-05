@@ -226,18 +226,18 @@ namespace DataDictionary.Tests
 
             return retVal;
         }
-
+        
         /// <summary>
-        ///     Creates the frame and sets its default values
+        /// Creates a default element
         /// </summary>
-        /// <param name="name"></param>
+        /// <param name="enclosingCollection"></param>
         /// <returns></returns>
-        public static Frame createDefault(string name)
+        public static Frame CreateDefault(ICollection enclosingCollection)
         {
-            Frame retVal = (Frame) acceptor.getFactory().createFrame();
-            retVal.Name = name;
+            Frame retVal = (Frame)acceptor.getFactory().createFrame();
+            retVal.Name = "Frame" + GetElementNumber(enclosingCollection);
             retVal.setCycleDuration("0.1");
-            retVal.appendSubSequences(SubSequence.createDefault("Sequence1"));
+            retVal.appendSubSequences(SubSequence.CreateDefault(retVal.SubSequences));
 
             return retVal;
         }

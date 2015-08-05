@@ -76,24 +76,17 @@ namespace DataDictionary.Compare
     public class VersionDiff : Commit
     {
         /// <summary>
-        ///     Constructor
-        /// </summary>
-        public VersionDiff()
-            : base()
-        {
-        }
-
-        /// <summary>
         ///     Marks the model according to the version changes
         /// </summary>
-        public void markVersionChanges(Dictionary dictionary)
+        public void MarkVersionChanges(Dictionary dictionary)
         {
-            dictionary.ClearMessages();
-            foreach (Diff diff in Changes)
+            MarkingHistory.PerformMark(() =>
             {
-                diff.markModel();
-            }
-            EFSSystem.INSTANCE.Markings.RegisterCurrentMarking();
+                foreach (Diff diff in Changes)
+                {
+                    diff.markModel();
+                }
+            });
         }
     }
 }

@@ -17,7 +17,6 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using DataDictionary.Generated;
 using Parameter = DataDictionary.Parameter;
 using Procedure = DataDictionary.Functions.Procedure;
 
@@ -27,19 +26,13 @@ namespace GUI.DataDictionaryView
     {
         private class ItemEditor : NamedEditor
         {
-            /// <summary>
-            ///     Constructor
-            /// </summary>
-            public ItemEditor()
-                : base()
-            {
-            }
         }
 
         /// <summary>
         ///     Constructor (for function)
         /// </summary>
         /// <param name="item"></param>
+        /// <param name="buildSubNodes"></param>
         public ProcedureParametersTreeNode(Procedure item, bool buildSubNodes)
             : base(item, buildSubNodes, "Parameters", true, false)
         {
@@ -48,23 +41,24 @@ namespace GUI.DataDictionaryView
         /// <summary>
         ///     Builds the subnodes of this node
         /// </summary>
-        /// <param name="buildSubNodes">Indicates whether the subnodes of the nodes should also be built</param>
-        public override void BuildSubNodes(bool buildSubNodes)
+        /// <param name="subNodes"></param>
+        /// <param name="recursive">Indicates whether the subnodes of the nodes should also be built</param>
+        public override void BuildSubNodes(List<BaseTreeNode> subNodes, bool recursive)
         {
-            Nodes.Clear();
+            // Do not use the base version
+            SubNodesBuilt = true;
 
             foreach (Parameter parameter in Item.FormalParameters)
             {
-                Nodes.Add(new ParameterTreeNode(parameter, buildSubNodes));
+                subNodes.Add(new ParameterTreeNode(parameter, recursive));
             }
-            SubNodesBuilt = true;
         }
 
         /// <summary>
         ///     Creates the editor for this tree node
         /// </summary>
         /// <returns></returns>
-        protected override Editor createEditor()
+        protected override Editor CreateEditor()
         {
             return new ItemEditor();
         }
@@ -72,42 +66,23 @@ namespace GUI.DataDictionaryView
         /// <summary>
         ///     Create structure based on the subsystem structure
         /// </summary>
-        /// <param name="SourceNode"></param>
-        public override void AcceptDrop(BaseTreeNode SourceNode)
+        /// <param name="sourceNode"></param>
+        public override void AcceptDrop(BaseTreeNode sourceNode)
         {
-            base.AcceptDrop(SourceNode);
+            base.AcceptDrop(sourceNode);
 
-            if (SourceNode is ParameterTreeNode)
+            if (sourceNode is ParameterTreeNode)
             {
-                ParameterTreeNode node = SourceNode as ParameterTreeNode;
+                ParameterTreeNode node = sourceNode as ParameterTreeNode;
                 Parameter parameter = node.Item;
                 node.Delete();
-                AddParameter(parameter);
+                Item.appendParameters(parameter);
             }
         }
 
         public void AddHandler(object sender, EventArgs args)
         {
-            DataDictionaryTreeView treeView = BaseTreeView as DataDictionaryTreeView;
-            if (treeView != null)
-            {
-                Parameter parameter = (Parameter) acceptor.getFactory().createParameter();
-                parameter.Name = "<Parameter" + (GetNodeCount(false) + 1) + ">";
-                AddParameter(parameter);
-            }
-        }
-
-        /// <summary>
-        ///     Adds a new parameter
-        /// </summary>
-        /// <param name="function"></param>
-        public ParameterTreeNode AddParameter(Parameter parameter)
-        {
-            Item.appendParameters(parameter);
-            ParameterTreeNode retVal = new ParameterTreeNode(parameter, true);
-            Nodes.Add(retVal);
-
-            return retVal;
+            Item.appendParameters(Parameter.CreateDefault(Item.FormalParameters));
         }
 
         /// <summary>
@@ -116,9 +91,7 @@ namespace GUI.DataDictionaryView
         /// <returns></returns>
         protected override List<MenuItem> GetMenuItems()
         {
-            List<MenuItem> retVal = new List<MenuItem>();
-
-            retVal.Add(new MenuItem("Add", new EventHandler(AddHandler)));
+            List<MenuItem> retVal = new List<MenuItem> {new MenuItem("Add", AddHandler)};
 
             return retVal;
         }

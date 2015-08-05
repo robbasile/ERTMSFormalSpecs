@@ -22,6 +22,7 @@ using DataDictionary;
 using DataDictionary.Tests;
 using DataDictionary.Tests.Runner;
 using GUI.LongOperations;
+using GUI.Properties;
 using GUI.Report;
 using Utils;
 using Action = DataDictionary.Rules.Action;
@@ -36,16 +37,10 @@ namespace GUI.TestRunnerView
         /// </summary>
         private class ItemEditor : CommentableEditor
         {
-            /// <summary>
-            ///     Constructor
-            /// </summary>
-            public ItemEditor()
-                : base()
-            {
-            }
-
-            [Category("Process"),
-             Description("This flag indicates that the sequence is complete and can be executed during nightbuild")]
+            [Category("Process")]
+            [DisplayName("Completed")]
+            [Description("This flag indicates that the sequence is complete and can be executed during nightbuild")]
+            // ReSharper disable once UnusedMember.Local
             public Boolean Completed
             {
                 get { return Item.getCompleted(); }
@@ -53,55 +48,73 @@ namespace GUI.TestRunnerView
             }
 
             [Category("Subset-076 Description")]
-            public string D_LRBG
+            [DisplayName("D_LRBG")]
+            // ReSharper disable once UnusedMember.Local
+            public string DLrbg
             {
                 get { return Item.getD_LRBG(); }
             }
 
             [Category("Subset-076 Description")]
+            [DisplayName("Level")]
+            // ReSharper disable once UnusedMember.Local
             public string Level
             {
                 get { return Item.getLevel(); }
             }
 
             [Category("Subset-076 Description")]
+            [DisplayName("Mode")]
+            // ReSharper disable once UnusedMember.Local
             public string Mode
             {
                 get { return Item.getMode(); }
             }
 
             [Category("Subset-076 Description")]
-            public string NID_LRBG
+            [DisplayName("NID_LRBG")]
+            // ReSharper disable once UnusedMember.Local
+            public string NidLrbg
             {
                 get { return Item.getNID_LRBG(); }
             }
 
             [Category("Subset-076 Description")]
-            public string Q_DIRLRBG
+            [DisplayName("Q_DIRLRBG")]
+            // ReSharper disable once UnusedMember.Local
+            public string QDirlrbg
             {
                 get { return Item.getQ_DIRLRBG(); }
             }
 
             [Category("Subset-076 Description")]
-            public string Q_DIRTRAIN
+            [DisplayName("Q_DIRTRAIN")]
+            // ReSharper disable once UnusedMember.Local
+            public string QDirtrain
             {
                 get { return Item.getQ_DIRTRAIN(); }
             }
 
             [Category("Subset-076 Description")]
-            public string Q_DLRBG
+            [DisplayName("Q_DLRBG")]
+            // ReSharper disable once UnusedMember.Local
+            public string QDlrbg
             {
                 get { return Item.getQ_DLRBG(); }
             }
 
             [Category("Subset-076 Description")]
-            public string RBC_Phone
+            [DisplayName("RBC_Phone")]
+            // ReSharper disable once UnusedMember.Local
+            public string RbcPhone
             {
                 get { return Item.getRBCPhone(); }
             }
 
             [Category("Subset-076 Description")]
-            public string RBC_ID
+            [DisplayName("RBC_ID")]
+            // ReSharper disable once UnusedMember.Local
+            public string RbcId
             {
                 get { return Item.getRBC_ID(); }
             }
@@ -111,6 +124,7 @@ namespace GUI.TestRunnerView
         ///     Constructor
         /// </summary>
         /// <param name="item"></param>
+        /// <param name="buildSubNodes"></param>
         public SubSequenceTreeNode(SubSequence item, bool buildSubNodes)
             : base(item, buildSubNodes, null, true)
         {
@@ -119,14 +133,15 @@ namespace GUI.TestRunnerView
         /// <summary>
         ///     Builds the subnodes of this node
         /// </summary>
-        /// <param name="buildSubNodes">Indicates whether the subnodes of the nodes should also be built</param>
-        public override void BuildSubNodes(bool buildSubNodes)
+        /// <param name="subNodes"></param>
+        /// <param name="recursive">Indicates whether the subnodes of the nodes should also be built</param>
+        public override void BuildSubNodes(List<BaseTreeNode> subNodes, bool recursive)
         {
-            base.BuildSubNodes(buildSubNodes);
+            base.BuildSubNodes(subNodes, recursive);
 
             foreach (TestCase testCase in Item.TestCases)
             {
-                Nodes.Add(new TestCaseTreeNode(testCase, buildSubNodes));
+                subNodes.Add(new TestCaseTreeNode(testCase, recursive));
             }
         }
 
@@ -134,24 +149,9 @@ namespace GUI.TestRunnerView
         ///     Creates the editor for this tree node
         /// </summary>
         /// <returns></returns>
-        protected override Editor createEditor()
+        protected override Editor CreateEditor()
         {
             return new ItemEditor();
-        }
-
-        /// <summary>
-        ///     Creates a new test case (e.g. feature + test case)
-        /// </summary>
-        /// <param name="testCase"></param>
-        /// <returns></returns>
-        public TestCaseTreeNode createTestCase(TestCase testCase)
-        {
-            TestCaseTreeNode retVal = new TestCaseTreeNode(testCase, true);
-
-            Item.appendTestCases(testCase);
-            Nodes.Add(retVal);
-
-            return retVal;
         }
 
         #region Apply translation rules
@@ -175,11 +175,11 @@ namespace GUI.TestRunnerView
             /// <summary>
             ///     Generates the file in the background thread
             /// </summary>
-            /// <param name="arg"></param>
             public override void ExecuteWork()
             {
                 FinderRepository.INSTANCE.ClearCache();
                 SubSequence.Translate(SubSequence.Dictionary.TranslationDictionary);
+                EFSSystem.INSTANCE.Context.HandleChangeEvent(SubSequence, Context.ChangeKind.Translation);
             }
         }
 
@@ -194,24 +194,12 @@ namespace GUI.TestRunnerView
         {
             ApplyTranslationRulesHandler applyTranslationRulesHandler = new ApplyTranslationRulesHandler(Item);
             ProgressDialog progress = new ProgressDialog("Applying translation rules", applyTranslationRulesHandler);
-            progress.ShowDialog(GUIUtils.MDIWindow);
-            GUIUtils.MDIWindow.RefreshModel();
+            progress.ShowDialog(GuiUtils.MdiWindow);
         }
 
         public void AddHandler(object sender, EventArgs args)
         {
-            TestCase testCase = TestCase.createDefault("Test case" + (Item.TestCases.Count + 1));
-            testCase.Enclosing = Item;
-
-            createTestCase(testCase);
-        }
-
-        /// <summary>
-        ///     Provides the EFS System in which this element belongs
-        /// </summary>
-        public EFSSystem EFSSystem
-        {
-            get { return EnclosingFinder<EFSSystem>.find(Item); }
+            Item.appendTestCases(TestCase.CreateDefault(Item.TestCases));
         }
 
         #region Execute tests
@@ -229,14 +217,6 @@ namespace GUI.TestRunnerView
             private SubSequence SubSequence { get; set; }
 
             /// <summary>
-            ///     The EFS system
-            /// </summary>
-            private EFSSystem EFSSystem
-            {
-                get { return SubSequence.EFSSystem; }
-            }
-
-            /// <summary>
             ///     Constructor
             /// </summary>
             /// <param name="window"></param>
@@ -250,14 +230,13 @@ namespace GUI.TestRunnerView
             /// <summary>
             ///     Executes the tests in the background thread
             /// </summary>
-            /// <param name="arg"></param>
             public override void ExecuteWork()
             {
                 if (Window != null)
                 {
-                    Window.setSubSequence(SubSequence);
-                    EFSSystem.Runner = new Runner(SubSequence, true, false, true);
-                    EFSSystem.Runner.RunUntilStep(null);
+                    Window.SetSubSequence(SubSequence);
+                    EFSSystem.INSTANCE.Runner = new Runner(SubSequence, true, false, true);
+                    EFSSystem.INSTANCE.Runner.RunUntilStep(null);
                 }
             }
         }
@@ -290,11 +269,13 @@ namespace GUI.TestRunnerView
             if (!executeTestHandler.Dialog.Canceled)
             {
                 MessageBox.Show(
-                    "Sub sequence execution report.\n" + runtimeErrors + "Test duration : " +
-                    Math.Round(executeTestHandler.Span.TotalSeconds) + " seconds", "Execution report");
+                    Resources.SubSequenceTreeNode_RunHandler_ + runtimeErrors +
+                    Resources.SubSequenceTreeNode_RunHandler_Test_duration___ +
+                    Math.Round(executeTestHandler.Span.TotalSeconds) + Resources.SubSequenceTreeNode_RunHandler__seconds,
+                    Resources.SubSequenceTreeNode_RunHandler_Execution_report);
             }
 
-            GUIUtils.MDIWindow.RefreshAfterStep();
+            EFSSystem.INSTANCE.Context.HandleChangeEvent(null, Context.ChangeKind.EndOfCycle);
         }
 
         #endregion
@@ -326,24 +307,31 @@ namespace GUI.TestRunnerView
                 }
             }
 
-            TestCase duplicate = driverId.Duplicate() as TestCase;
-            duplicate.Name = "IN " + dataEntry.Value;
-            foreach (Step step in duplicate.Steps)
+            if (driverId != null)
             {
-                foreach (SubStep subStep in step.SubSteps)
+                TestCase duplicate = driverId.Duplicate() as TestCase;
+                if (duplicate != null)
                 {
-                    foreach (Action action in subStep.Actions)
+                    duplicate.Name = "IN " + dataEntry.Value;
+                    foreach (Step step in duplicate.Steps)
                     {
-                        action.ExpressionText = action.ExpressionText.Replace("DriverId", dataEntry.Value);
-                    }
-                    foreach (Expectation expectation in subStep.Expectations)
-                    {
-                        expectation.ExpressionText = expectation.ExpressionText.Replace("DriverId", dataEntry.Value);
+                        foreach (SubStep subStep in step.SubSteps)
+                        {
+                            foreach (Action action in subStep.Actions)
+                            {
+                                action.ExpressionText = action.ExpressionText.Replace("DriverId", dataEntry.Value);
+                            }
+                            foreach (Expectation expectation in subStep.Expectations)
+                            {
+                                expectation.ExpressionText = expectation.ExpressionText.Replace("DriverId",
+                                    dataEntry.Value);
+                            }
+                        }
                     }
                 }
-            }
 
-            createTestCase(duplicate);
+                Item.appendTestCases(duplicate);
+            }
         }
 
         /// <summary>
@@ -352,17 +340,19 @@ namespace GUI.TestRunnerView
         /// <returns></returns>
         protected override List<MenuItem> GetMenuItems()
         {
-            List<MenuItem> retVal = new List<MenuItem>();
+            List<MenuItem> retVal = new List<MenuItem>
+            {
+                new MenuItem("Add test case", AddHandler),
+                new MenuItem("Delete", DeleteHandler)
+            };
 
-            retVal.Add(new MenuItem("Add test case", new EventHandler(AddHandler)));
-            retVal.Add(new MenuItem("Delete", new EventHandler(DeleteHandler)));
             retVal.AddRange(base.GetMenuItems());
-            retVal.Insert(6, new MenuItem("Apply translation rules", new EventHandler(TranslateHandler)));
+            retVal.Insert(6, new MenuItem("Apply translation rules", TranslateHandler));
             retVal.Insert(7, new MenuItem("-"));
-            retVal.Insert(8, new MenuItem("Execute", new EventHandler(RunHandler)));
-            retVal.Insert(9, new MenuItem("Create report", new EventHandler(ReportHandler)));
+            retVal.Insert(8, new MenuItem("Execute", RunHandler));
+            retVal.Insert(9, new MenuItem("Create report", ReportHandler));
             retVal.Insert(10, new MenuItem("-"));
-            retVal.Insert(9, new MenuItem("Insert test", new EventHandler(InsertTest)));
+            retVal.Insert(9, new MenuItem("Insert test", InsertTest));
 
             return retVal;
         }
@@ -370,28 +360,16 @@ namespace GUI.TestRunnerView
         /// <summary>
         ///     Handles the drop event
         /// </summary>
-        /// <param name="SourceNode"></param>
-        public override void AcceptDrop(BaseTreeNode SourceNode)
+        /// <param name="sourceNode"></param>
+        public override void AcceptDrop(BaseTreeNode sourceNode)
         {
-            base.AcceptDrop(SourceNode);
-            if (SourceNode is TestCaseTreeNode)
+            base.AcceptDrop(sourceNode);
+            if (sourceNode is TestCaseTreeNode)
             {
-                TestCaseTreeNode testCase = SourceNode as TestCaseTreeNode;
+                TestCaseTreeNode testCase = sourceNode as TestCaseTreeNode;
                 testCase.Delete();
 
-                createTestCase(testCase.Item);
-            }
-        }
-
-        public override void SelectionChanged(bool displayStatistics)
-        {
-            base.SelectionChanged(displayStatistics);
-
-            Window window = BaseForm as Window;
-            if (window != null)
-            {
-                window.testDescriptionTimeLineControl.SubSequence = Item;
-                window.testDescriptionTimeLineControl.Refresh();
+                Item.appendTestCases(testCase.Item);
             }
         }
     }

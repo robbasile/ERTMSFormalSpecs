@@ -46,7 +46,7 @@ namespace DataDictionary.Specification
                 }
 
                 retVal = Dictionary.BasePath + Path.DirectorySeparatorChar + "Specifications" +
-                         Path.DirectorySeparatorChar + Util.validFilePath(retVal);
+                         Path.DirectorySeparatorChar + Util.ValidFilePath(retVal);
 
                 return retVal;
             }
@@ -99,12 +99,12 @@ namespace DataDictionary.Specification
 
             try
             {
-                retVal = Util.loadChapter(FileName, Enclosing as ModelElement, lockFiles, allowErrors);
+                retVal = Util.LoadChapter(FileName, Enclosing as ModelElement, lockFiles, allowErrors);
             }
             catch (Exception)
             {
                 // Maybe the other naming  ?
-                retVal = Util.loadChapter(PreviousFileName, Enclosing as ModelElement, lockFiles, allowErrors);
+                retVal = Util.LoadChapter(PreviousFileName, Enclosing as ModelElement, lockFiles, allowErrors);
             }
 
             return retVal;

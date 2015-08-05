@@ -347,5 +347,18 @@ namespace DataDictionary.Types
 
             return retVal;
         }
+
+        /// <summary>
+        /// Creates a default element
+        /// </summary>
+        /// <param name="enclosingCollection"></param>
+        /// <returns></returns>
+        public static StructureElement CreateDefault(ICollection enclosingCollection)
+        {
+            StructureElement retVal = (StructureElement)acceptor.getFactory().createStructureElement();
+            retVal.Name = "Element" + GetElementNumber(enclosingCollection);
+
+            return retVal;
+        }
     }
 }

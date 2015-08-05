@@ -20,11 +20,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Design;
-using System.Reflection;
 using System.Windows.Forms;
 using DataDictionary;
 using DataDictionary.Generated;
-using DataDictionary.Types;
 using GUI.Converters;
 using GUI.DictionarySelector;
 using GUI.LongOperations;
@@ -35,9 +33,7 @@ using Chapter = DataDictionary.Specification.Chapter;
 using Dictionary = DataDictionary.Dictionary;
 using Frame = DataDictionary.Tests.Frame;
 using ModelElement = DataDictionary.ModelElement;
-using ReqRef = DataDictionary.ReqRef;
 using ReqRelated = DataDictionary.Generated.ReqRelated;
-using ShortcutDictionary = DataDictionary.Shortcuts.ShortcutDictionary;
 using Specification = DataDictionary.Specification.Specification;
 using Step = DataDictionary.Tests.Step;
 using SubSequence = DataDictionary.Tests.SubSequence;
@@ -48,7 +44,7 @@ namespace GUI
     /// <summary>
     ///     The base class for all tree nodes
     /// </summary>
-    public class BaseTreeNode : TreeNode, IComparable<BaseTreeNode>
+    public abstract class BaseTreeNode : TreeNode, IComparable<BaseTreeNode>
     {
         /// <summary>
         ///     The editor for this tree node
@@ -64,7 +60,6 @@ namespace GUI
             /// <summary>
             ///     Constructor
             /// </summary>
-            /// <param name="model"></param>
             protected BaseEditor()
             {
             }
@@ -73,18 +68,19 @@ namespace GUI
         /// <summary>
         ///     The editor used to edit the node contents
         /// </summary>
-        public BaseEditor NodeEditor { get; set; }
+        public BaseEditor NodeEditor { protected get; set; }
+
+        /// <summary>
+        /// Provides the editor
+        /// </summary>
+        /// <returns></returns>
+        public abstract BaseEditor GetEditor();
+
 
         /// <summary>
         ///     The fixed node name
         /// </summary>
-        private string defaultName;
-
-        private string DefaultName
-        {
-            get { return defaultName; }
-            set { defaultName = value; }
-        }
+        private string DefaultName { get; set; }
 
         /// <summary>
         ///     The model represented by this node
@@ -104,18 +100,7 @@ namespace GUI
         /// </summary>
         public IBaseForm BaseForm
         {
-            get
-            {
-                IBaseForm retVal = null;
-
-                BaseTreeView treeView = BaseTreeView;
-                if (treeView != null)
-                {
-                    retVal = treeView.ParentForm;
-                }
-
-                return retVal;
-            }
+            get { return GuiUtils.EnclosingFinder<IBaseForm>.Find(BaseTreeView); }
         }
 
         /// <summary>
@@ -132,9 +117,8 @@ namespace GUI
             {
                 DefaultName = name;
             }
-
-            setImageIndex(isFolder);
-            RefreshNode();
+            UpdateText();
+            SetImageIndex(isFolder);
         }
 
         /// <summary>
@@ -145,11 +129,70 @@ namespace GUI
         /// <summary>
         ///     Builds the subnodes of this node
         /// </summary>
-        /// <param name="buildSubNodes">Indicates whether the subnodes of the nodes should also be built</param>
-        public virtual void BuildSubNodes(bool buildSubNodes)
+        /// <param name="subNodes"></param>
+        /// <param name="recursive">Indicates whether the subnodes of the nodes should also be built</param>
+        public virtual void BuildSubNodes(List<BaseTreeNode> subNodes, bool recursive)
         {
-            Nodes.Clear();
             SubNodesBuilt = true;
+        }
+
+        /// <summary>
+        ///     Builds the sub nodes of this node if required
+        /// </summary>
+        /// <param name="modifiedElement">The element that has been modified</param>
+        public void BuildOrRefreshSubNodes(IModelElement modifiedElement)
+        {
+            List<BaseTreeNode> subNodes = new List<BaseTreeNode>();
+            BuildSubNodes(subNodes, false);
+
+            if (SubNodesAreDifferent(subNodes))
+            {
+                Nodes.Clear();
+                foreach (BaseTreeNode node in subNodes)
+                {
+                    Nodes.Add(node);
+                }
+            }
+
+            foreach (BaseTreeNode node in Nodes)
+            {
+                if (node.Model.IsParent(modifiedElement))
+                {
+                    node.BuildOrRefreshSubNodes(modifiedElement);
+                }
+            }
+
+            UpdateColor();
+            RefreshNode();
+        }
+
+        /// <summary>
+        /// Indicates that the sub nodes provided are different from the ones stored in this data tree node
+        /// </summary>
+        /// <param name="subNodes"></param>
+        /// <returns></returns>
+        private bool SubNodesAreDifferent(List<BaseTreeNode> subNodes)
+        {
+            bool retVal = Nodes.Count != subNodes.Count;
+
+            if (!retVal)
+            {
+                for (int i = 0; i < Nodes.Count; i++)
+                {
+                    BaseTreeNode source = Nodes[i] as BaseTreeNode;
+                    if (source != null)
+                    {
+                        BaseTreeNode target = subNodes[i];
+                        if (source.Model != target.Model)
+                        {
+                            retVal = true;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            return retVal;
         }
 
         /// <summary>
@@ -166,7 +209,7 @@ namespace GUI
         ///     Sets the image index for this node
         /// </summary>
         /// <param name="isFolder">Indicates whether this item represents a folder</param>
-        public virtual void setImageIndex(bool isFolder)
+        public virtual void SetImageIndex(bool isFolder)
         {
             if (ImageIndex == -1)
             {
@@ -203,131 +246,11 @@ namespace GUI
         }
 
         /// <summary>
-        ///     Called before the selection changes
+        ///     Handles a selection event
         /// </summary>
-        public virtual void BeforeSelectionChange()
+        public virtual void SelectionHandler()
         {
-        }
-
-        /// <summary>
-        ///     Handles a selection change event
-        /// </summary>
-        /// <param name="displayStatistics">Indicates that statistics should be displayed in the MDI window</param>
-        public virtual void SelectionChanged(bool displayStatistics)
-        {
-            if (Model != null && BaseTreeView != null && BaseTreeView.RefreshNodeContent)
-            {
-                IBaseForm baseForm = BaseForm;
-                if (baseForm != null)
-                {
-                    RefreshViewAccordingToModel(baseForm, false);
-                }
-            }
-
-            if (displayStatistics && !isShortCut())
-            {
-                GUIUtils.MDIWindow.SetCoverageStatus(EFSSystem.INSTANCE);
-            }
-
-            ModelElement modelElement = Model as ModelElement;
-            if (modelElement != null && GUIUtils.MDIWindow.HistoryWindow != null)
-            {
-                if (!isShortCut())
-                {
-                    GUIUtils.MDIWindow.HistoryWindow.Model = modelElement;
-                }
-            }
-        }
-
-        /// <summary>
-        ///     Indicates that the model is related to a shortcut
-        /// </summary>
-        /// <returns></returns>
-        private bool isShortCut()
-        {
-            return EnclosingFinder<ShortcutDictionary>.find(Model) != null
-                   || (Model is ShortcutDictionary);
-        }
-
-        /// <summary>
-        ///     Indicates whether the explain box should be displayed
-        /// </summary>
-        /// <returns></returns>
-        private bool ShouldExplain()
-        {
-            bool retVal = (Model is IDefaultValueElement) || !(Model is IExpressionable);
-
-            return retVal;
-        }
-
-        /// <summary>
-        ///     Refreshes the view according to the model
-        /// </summary>
-        /// <param name="baseForm"></param>
-        /// <param name="ignoreFocused"></param>
-        public void RefreshViewAccordingToModel(IBaseForm baseForm, bool ignoreFocused)
-        {
-            if (baseForm.subTreeView != null)
-            {
-                baseForm.subTreeView.SetRoot(Model);
-            }
-
-            // By default, the explain text box is visible
-            if (baseForm.ExplainTextBox != null && ShouldExplain())
-            {
-                if (!(baseForm.ExplainTextBox.ContainsFocus && ignoreFocused))
-                {
-                    baseForm.ExplainTextBox.SetModel(Model);
-                    if (!baseForm.ExplainTextBox.Visible)
-                    {
-                        baseForm.ExplainTextBox.Visible = true;
-                        if (baseForm.ExpressionEditorTextBox != null)
-                        {
-                            baseForm.ExpressionEditorTextBox.Visible = false;
-                        }
-                    }
-                }
-            }
-
-            if (baseForm.RequirementsTextBox != null && !ignoreFocused)
-            {
-                string requirements = "";
-
-                ReqRef reqRef = Model as ReqRef;
-                if (reqRef != null && reqRef.Paragraph != null)
-                {
-                    requirements = reqRef.RequirementDescription();
-                }
-                else
-                {
-                    DataDictionary.ReqRelated reqRelated = EnclosingFinder<DataDictionary.ReqRelated>.find(Model, true);
-                    if (reqRelated != null)
-                    {
-                        requirements = reqRelated.RequirementDescription();
-                    }
-                }
-
-                baseForm.RequirementsTextBox.Text = requirements;
-            }
-
-            // Display the expression editor instead of the explain text box when the element can hold an expression
-            if (baseForm.ExpressionEditorTextBox != null)
-            {
-                if (!(baseForm.ExpressionEditorTextBox.ContainsFocus && ignoreFocused))
-                {
-                    IExpressionable expressionable = Model as IExpressionable;
-                    if (expressionable != null && !ShouldExplain())
-                    {
-                        baseForm.ExpressionEditorTextBox.Instance = Model as ModelElement;
-                        baseForm.ExpressionEditorTextBox.Text = expressionable.ExpressionText;
-                        if (!baseForm.ExpressionEditorTextBox.Visible)
-                        {
-                            baseForm.ExpressionEditorTextBox.Visible = true;
-                            baseForm.ExplainTextBox.Visible = false;
-                        }
-                    }
-                }
-            }
+            EFSSystem.INSTANCE.Context.SelectElement(Model, this, Context.SelectionCriteria.LeftClick);            
         }
 
         /// <summary>
@@ -335,7 +258,7 @@ namespace GUI
         /// </summary>
         public virtual void DoubleClickHandler()
         {
-            // By default, nothing to do
+            EFSSystem.INSTANCE.Context.SelectElement(Model, this, Context.SelectionCriteria.DoubleClick);
         }
 
         /// <summary>
@@ -345,164 +268,124 @@ namespace GUI
         /// <returns></returns>
         public int CompareTo(BaseTreeNode other)
         {
+            int retVal;
+
             if (Model != null && other.Model != null)
             {
-                return Model.CompareTo(other.Model);
+                retVal = Model.CompareTo(other.Model);
             }
             else
             {
-                return Text.CompareTo(other.Text);
-            }
-        }
-
-        /// <summary>
-        ///     Updates the node color according to the associated messages
-        /// </summary>
-        public virtual void UpdateColor()
-        {
-            Color color = ComputedColor;
-
-            if (color != ForeColor)
-            {
-                ForeColor = color;
+                retVal = String.Compare(Text, other.Text);
             }
 
-            foreach (BaseTreeNode node in Nodes)
-            {
-                node.UpdateColor();
-            }
+            return retVal;
         }
 
         /// <summary>
         ///     The colors used to display things
         /// </summary>
-        private Color ERROR_COLOR = Color.Red;
-
-        private Color PATH_TO_ERROR_COLOR = Color.Orange;
-        private Color WARNING_COLOR = Color.Brown;
-        private Color PATH_TO_WARNING_COLOR = Color.LightCoral;
-        private Color INFO_COLOR = Color.Blue;
-        private Color PATH_TO_INFO_COLOR = Color.LightBlue;
-        private Color NOTHING_COLOR = Color.Black;
+        private static readonly Color ErrorColor = Color.Red;
+        private static readonly Color PathToErrorColor = Color.Orange;
+        private static readonly Color WarningColor = Color.Brown;
+        private static readonly Color PathToWarningColor = Color.LightCoral;
+        private static readonly Color InfoColor = Color.Blue;
+        private static readonly Color PathToInfoColor = Color.LightBlue;
+        private static readonly Color NothingColor = Color.Black;
 
         /// <summary>
         ///     Provides the color according to the info status
         /// </summary>
         /// <param name="info"></param>
         /// <returns></returns>
-        protected Color ColorBasedOnInfo(MessagePathInfoEnum info)
+        protected Color ColorBasedOnInfo(MessageInfoEnum info)
         {
-            Color retVal = NOTHING_COLOR;
+            Color retVal = NothingColor;
 
-            switch (info)
+            if ((info & MessageInfoEnum.Error) != 0)
             {
-                case MessagePathInfoEnum.Error:
-                    retVal = ERROR_COLOR;
-                    break;
+                retVal = ErrorColor;
+            }
+            else if ((info & MessageInfoEnum.PathToError) != 0)
+            {
+                retVal = PathToErrorColor;
+            }
+            else if ((info & MessageInfoEnum.Warning) != 0)
+            {
+                retVal = WarningColor;
+            }
+            else if ((info & MessageInfoEnum.PathToWarning) != 0)
+            {
+                retVal = PathToWarningColor;
+            }
+            else if ((info & MessageInfoEnum.Info) != 0)
+            {
+                retVal = InfoColor;
+            }
+            else if ((info & MessageInfoEnum.PathToInfo) != 0)
+            {
+                retVal = PathToInfoColor;
+            }
 
-                case MessagePathInfoEnum.PathToError:
-                    retVal = PATH_TO_ERROR_COLOR;
-                    break;
+            return retVal;
+        }
+        
+        /// <summary>
+        ///     Updates the node color according to the associated messages
+        /// </summary>
+        /// <returns>true if the node color has been changed</returns>
+        public bool UpdateColor()
+        {
+            bool retVal = false;
+            Color color = NothingColor;
 
-                case MessagePathInfoEnum.Warning:
-                    retVal = WARNING_COLOR;
-                    break;
+            if (Model != null)
+            {
+                MessageInfoEnum info;
 
-                case MessagePathInfoEnum.PathToWarning:
-                    retVal = PATH_TO_WARNING_COLOR;
-                    break;
+                BaseTreeNode parent = Parent as BaseTreeNode;
+                if (parent != null && parent.Model != Model)
+                {
+                    info = Model.MessagePathInfo;
+                }
+                else
+                {
+                    // The color of this node is computed according to the color of its sub nodes
+                    if (!SubNodesBuilt)
+                    {
+                        BuildOrRefreshSubNodes(null);
+                    }
 
-                case MessagePathInfoEnum.Info:
-                    retVal = INFO_COLOR;
-                    break;
+                    info = MessageInfoEnum.NoMessage;
+                    foreach (BaseTreeNode subNode in Nodes)
+                    {
+                        info = info | subNode.Model.MessagePathInfo;
+                    }
+                }
 
-                case MessagePathInfoEnum.PathToInfo:
-                    retVal = PATH_TO_INFO_COLOR;
-                    break;
+                color = ColorBasedOnInfo(info);
+            }
 
-                case MessagePathInfoEnum.Nothing:
-                case MessagePathInfoEnum.NotComputed:
-                    retVal = NOTHING_COLOR;
-                    break;
+            // ReSharper disable once RedundantCheckBeforeAssignment
+            if (color != ForeColor)
+            {
+                retVal = true;
+                ForeColor = color;
             }
 
             return retVal;
         }
 
         /// <summary>
-        ///     Provides the path to a message info
+        /// Recursively updates the node colors
         /// </summary>
-        /// <param name="info"></param>
-        /// <returns></returns>
-        private MessagePathInfoEnum PathTo(MessagePathInfoEnum info)
+        public void RecursiveUpdateNodeColor()
         {
-            MessagePathInfoEnum retVal = info;
-
-            if (info == MessagePathInfoEnum.Error)
-            {
-                retVal = MessagePathInfoEnum.PathToError;
-            }
-            else if (info == MessagePathInfoEnum.Warning)
-            {
-                retVal = MessagePathInfoEnum.PathToWarning;
-            }
-            else if (info == MessagePathInfoEnum.Info)
-            {
-                retVal = MessagePathInfoEnum.PathToInfo;
-            }
-
-            return retVal;
-        }
-
-        /// <summary>
-        ///     Combines two colors
-        /// </summary>
-        /// <param name="c1"></param>
-        /// <param name="c2"></param>
-        /// <returns></returns>
-        private MessagePathInfoEnum CombineInfo(MessagePathInfoEnum info1, MessagePathInfoEnum info2)
-        {
-            MessagePathInfoEnum retVal;
-
-            if (info1 < info2)
-            {
-                retVal = info2;
-            }
-            else
-            {
-                retVal = info1;
-            }
-
-            return retVal;
-        }
-
-        /// <summary>
-        ///     Computes this node's color based on its sub nodes
-        /// </summary>
-        /// <returns></returns>
-        protected Color ComputeColorBasedOnItsSubNodes()
-        {
-            if (!SubNodesBuilt)
-            {
-                BuildSubNodes(false);
-                UpdateColor();
-            }
-
-            MessagePathInfoEnum retVal = MessagePathInfoEnum.Nothing;
+            UpdateColor();
             foreach (BaseTreeNode subNode in Nodes)
             {
-                retVal = CombineInfo(retVal, PathTo(subNode.Model.MessagePathInfo));
+                subNode.RecursiveUpdateNodeColor();
             }
-
-            return ColorBasedOnInfo(retVal);
-        }
-
-        /// <summary>
-        ///     Provides the computed color
-        /// </summary>
-        public virtual Color ComputedColor
-        {
-            get { return Color.Black; }
         }
 
         /// <summary>
@@ -534,14 +417,14 @@ namespace GUI
         public virtual void Delete()
         {
             BaseTreeNode parent = Parent as BaseTreeNode;
-            if ((parent != null) && (parent.Nodes != null))
+            if ((parent != null))
             {
                 parent.Nodes.Remove(this);
                 Model.Delete();
 
-                if (Model is DataDictionary.ReqRelated)
+                DataDictionary.ReqRelated reqRelated = Model as DataDictionary.ReqRelated;
+                if (reqRelated != null)
                 {
-                    DataDictionary.ReqRelated reqRelated = (DataDictionary.ReqRelated) Model;
                     reqRelated.setVerified(false);
                 }
 
@@ -571,10 +454,11 @@ namespace GUI
             /// </summary>
             public MarkAsImplementedVisitor(IModelElement element)
             {
-                if (element is ModelElement)
+                ModelElement modelElement = element as ModelElement;
+                if (modelElement != null)
                 {
-                    visit((ModelElement) element);
-                    dispatch((ModelElement) element);
+                    visit(modelElement);
+                    dispatch(modelElement);
                 }
             }
 
@@ -610,9 +494,8 @@ namespace GUI
         /// <param name="e"></param>
         protected void Check(object sender, EventArgs e)
         {
-            try
+            MarkingHistory.PerformMark(() =>
             {
-                GUIUtils.MDIWindow.ClearMarks();
                 ModelElement modelElement = Model as ModelElement;
                 if (modelElement != null)
                 {
@@ -620,11 +503,7 @@ namespace GUI
 
                     visitor.visit(modelElement, true);
                 }
-            }
-            catch (Exception excp)
-            {
-                MessageBox.Show("Exception raised", excp.Message);
-            }
+            });
         }
 
         /// <summary>
@@ -647,10 +526,11 @@ namespace GUI
             /// </summary>
             public MarkAsVerifiedVisitor(IModelElement element)
             {
-                if (element is ModelElement)
+                ModelElement modelElement = element as ModelElement;
+                if (modelElement != null)
                 {
-                    visit((ModelElement) element);
-                    dispatch((ModelElement) element);
+                    visit(modelElement);
+                    dispatch(modelElement);
                 }
             }
 
@@ -710,37 +590,21 @@ namespace GUI
         }
 
         /// <summary>
-        ///     Selects this element to display its history in the history view
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="args"></param>
-        public void ShowHistoryHandler(object sender, EventArgs args)
-        {
-            if (GUIUtils.MDIWindow.HistoryWindow != null)
-            {
-                GUIUtils.MDIWindow.HistoryWindow.Model = Model;
-            }
-        }
-
-        /// <summary>
         ///     Provides the menu items for this tree node
         /// </summary>
         /// <returns></returns>
         protected virtual List<MenuItem> GetMenuItems()
         {
-            List<MenuItem> retVal = new List<MenuItem>();
+            List<MenuItem> retVal = new List<MenuItem> {new MenuItem("Rename", LabelEditHandler), new MenuItem("-")};
 
-            retVal.Add(new MenuItem("Rename", new EventHandler(LabelEditHandler)));
-            retVal.Add(new MenuItem("-"));
             MenuItem newItem = new MenuItem("Recursive actions...");
-            newItem.MenuItems.Add(new MenuItem("Mark as implemented", new EventHandler(MarkAsImplemented)));
-            newItem.MenuItems.Add(new MenuItem("Mark as verified", new EventHandler(MarkAsVerified)));
+            newItem.MenuItems.Add(new MenuItem("Mark as implemented", MarkAsImplemented));
+            newItem.MenuItems.Add(new MenuItem("Mark as verified", MarkAsVerified));
             retVal.Add(newItem);
             retVal.Add(new MenuItem("-"));
-            retVal.Add(new MenuItem("Show history", new EventHandler(ShowHistoryHandler)));
-            retVal.Add(new MenuItem("Check", new EventHandler(Check)));
+            retVal.Add(new MenuItem("Check", Check));
             retVal.Add(new MenuItem("-"));
-            retVal.Add(new MenuItem("Refresh", new EventHandler(RefreshNodeHandler)));
+            retVal.Add(new MenuItem("Refresh", RefreshNodeHandler));
 
             return retVal;
         }
@@ -758,7 +622,7 @@ namespace GUI
         /// </summary>
         /// <param name="text"></param>
         /// <returns></returns>
-        public BaseTreeNode findSubNode(string text)
+        public BaseTreeNode FindSubNode(string text)
         {
             BaseTreeNode retVal = null;
 
@@ -787,34 +651,14 @@ namespace GUI
         /// </summary>
         public void ClearMessages()
         {
-            EFSSystem.INSTANCE.ClearMessages();
-        }
-
-        /// <summary>
-        ///     Sort the sub nodes of this node
-        /// </summary>
-        public virtual void SortSubNodes()
-        {
-            List<BaseTreeNode> subNodes = new List<BaseTreeNode>();
-
-            foreach (BaseTreeNode node in Nodes)
-            {
-                subNodes.Add(node);
-            }
-            subNodes.Sort();
-
-            Nodes.Clear();
-            foreach (BaseTreeNode node in subNodes)
-            {
-                Nodes.Add(node);
-            }
+            EFSSystem.INSTANCE.ClearMessages(false);
         }
 
         /// <summary>
         ///     Accepts the drop of a base tree node on this node
         /// </summary>
-        /// <param name="SourceNode"></param>
-        public virtual void AcceptDrop(BaseTreeNode SourceNode)
+        /// <param name="sourceNode"></param>
+        public virtual void AcceptDrop(BaseTreeNode sourceNode)
         {
         }
 
@@ -840,12 +684,34 @@ namespace GUI
         }
 
         /// <summary>
+        /// Provides the sub node of the corresponding type
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        protected T SubNode<T>()
+            where T : class
+        {
+            T retVal = null;
+
+            foreach (TreeNode node in Nodes)
+            {
+                retVal = node as T;
+                if (retVal != null)
+                {
+                    break;
+                }
+            }
+
+            return retVal;
+        }
+
+        /// <summary>
         ///     Accepts the drop of a base tree node on this node
         /// </summary>
-        /// <param name="SourceNode"></param>
-        public virtual void AcceptCopy(BaseTreeNode SourceNode)
+        /// <param name="sourceNode"></param>
+        public virtual void AcceptCopy(BaseTreeNode sourceNode)
         {
-            XmlBBase xmlBBase = SourceNode.Model as XmlBBase;
+            XmlBBase xmlBBase = sourceNode.Model as XmlBBase;
             if (xmlBBase != null)
             {
                 string data = xmlBBase.ToXMLString();
@@ -853,52 +719,51 @@ namespace GUI
                 try
                 {
                     ModelElement copy = acceptor.accept(ctxt) as ModelElement;
-                    RegenerateGuidVisitor visitor = new RegenerateGuidVisitor();
-                    visitor.visit(copy, true);
-
-                    Model.AddModelElement(copy);
-                    ArrayList targetCollection = copy.EnclosingCollection;
-                    copy.Delete();
-                    INamable namable = copy as INamable;
-                    if (namable != null && targetCollection != null)
+                    if (copy != null)
                     {
-                        int previousIndex = -1;
-                        int index = 0;
-                        while (previousIndex != index)
+                        RegenerateGuidVisitor visitor = new RegenerateGuidVisitor();
+                        visitor.visit(copy, true);
+
+                        Model.AddModelElement(copy);
+                        ArrayList targetCollection = copy.EnclosingCollection;
+                        copy.Delete();
+                        if (targetCollection != null)
                         {
-                            previousIndex = index;
-                            foreach (INamable other in targetCollection)
+                            int previousIndex = -1;
+                            int index = 0;
+                            while (previousIndex != index)
                             {
-                                if (index > 0)
+                                previousIndex = index;
+                                foreach (INamable other in targetCollection)
                                 {
-                                    if (other.Name.Equals(namable.Name + "_" + index))
+                                    if (index > 0)
                                     {
-                                        index += 1;
-                                        break;
+                                        if (other.Name.Equals(copy.Name + "_" + index))
+                                        {
+                                            index += 1;
+                                            break;
+                                        }
                                     }
-                                }
-                                else
-                                {
-                                    if (other.Name.Equals(namable.Name))
+                                    else
                                     {
-                                        index += 1;
-                                        break;
+                                        if (other.Name.Equals(copy.Name))
+                                        {
+                                            index += 1;
+                                            break;
+                                        }
                                     }
                                 }
                             }
+
+                            // Renaming is mandatory
+                            if (index > 0)
+                            {
+                                copy.Name = copy.Name + "_" + index;
+                            }
                         }
 
-                        // Renaming is mandatory
-                        if (index > 0)
-                        {
-                            namable.Name = namable.Name + "_" + index;
-                        }
+                        Model.AddModelElement(copy);
                     }
-
-                    Model.AddModelElement(copy);
-                    Nodes.Clear();
-                    BuildSubNodes(true);
-                    UpdateColor();
                 }
                 catch (Exception)
                 {
@@ -910,34 +775,23 @@ namespace GUI
         /// <summary>
         ///     Accepts the move of a base tree node on this node
         /// </summary>
-        /// <param name="SourceNode"></param>
-        public virtual void AcceptMove(BaseTreeNode SourceNode)
+        /// <param name="sourceNode"></param>
+        public virtual void AcceptMove(BaseTreeNode sourceNode)
         {
-            ArrayList SourceCollection = SourceNode.Model.EnclosingCollection;
-            ArrayList ThisCollection = Model.EnclosingCollection;
+            ArrayList sourceCollection = sourceNode.Model.EnclosingCollection;
+            ArrayList thisCollection = Model.EnclosingCollection;
 
-            if (ThisCollection != null && SourceCollection == ThisCollection)
+            if (thisCollection != null && sourceCollection == thisCollection)
             {
                 // This is a reordering
-                int sourceIndex = ThisCollection.IndexOf(SourceNode.Model);
-                int thisIndex = ThisCollection.IndexOf(Model);
+                int sourceIndex = thisCollection.IndexOf(sourceNode.Model);
+                int thisIndex = thisCollection.IndexOf(Model);
                 if (thisIndex >= 0 && thisIndex >= 0 && thisIndex != sourceIndex)
                 {
-                    ThisCollection.Remove(SourceNode.Model);
-                    thisIndex = ThisCollection.IndexOf(Model);
-                    ThisCollection.Insert(thisIndex, SourceNode.Model);
-
-                    BaseTreeNode parentNode = Parent as BaseTreeNode;
-                    if (parentNode != null)
-                    {
-                        parentNode.Nodes.Clear();
-                        parentNode.BuildSubNodes(true);
-                        parentNode.UpdateColor();
-                    }
-                    else
-                    {
-                        GUIUtils.MDIWindow.RefreshModel();
-                    }
+                    thisCollection.Remove(sourceNode.Model);
+                    thisIndex = thisCollection.IndexOf(Model);
+                    thisCollection.Insert(thisIndex, sourceNode.Model);
+                    EFSSystem.INSTANCE.Context.HandleChangeEvent(Model as BaseModelElement);
                 }
             }
         }
@@ -986,6 +840,7 @@ namespace GUI
                 }
             }
         }
+
     }
 
     /// <summary>
@@ -1000,21 +855,20 @@ namespace GUI
         ///     An editor for an item. It is the responsibility of this class to implement attributes
         ///     for the elements to be edited.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
         public abstract class Editor : BaseEditor
         {
             /// <summary>
             ///     The item that is edited.
             /// </summary>
-            private T item;
+            private T _item;
 
             [Browsable(false)]
             public T Item
             {
-                get { return item; }
+                get { return _item; }
                 set
                 {
-                    item = value;
+                    _item = value;
                     Model = value;
                     UpdateActivation();
                 }
@@ -1050,13 +904,7 @@ namespace GUI
             /// <summary>
             ///     The node that holds the item.
             /// </summary>
-            private ModelElementTreeNode<T> node;
-
-            internal ModelElementTreeNode<T> Node
-            {
-                get { return node; }
-                set { node = value; }
-            }
+            internal ModelElementTreeNode<T> Node { get; set; }
 
             public void RefreshNode()
             {
@@ -1069,32 +917,10 @@ namespace GUI
             }
 
             /// <summary>
-            ///     Constructor
-            /// </summary>
-            protected Editor()
-                : base()
-            {
-            }
-
-            /// <summary>
             ///     Updates the field activation according to the displayed data
             /// </summary>
             protected virtual void UpdateActivation()
             {
-            }
-
-            /// <summary>
-            ///     Updates the activation of a single field
-            /// </summary>
-            /// <param name="name"></param>
-            /// <param name="value"></param>
-            protected void UpdateFieldActivation(string name, bool value)
-            {
-                PropertyDescriptor descriptor = TypeDescriptor.GetProperties(this.GetType())[name];
-                ReadOnlyAttribute attribute = (ReadOnlyAttribute) descriptor.Attributes[typeof (ReadOnlyAttribute)];
-                FieldInfo fieldToChange = attribute.GetType()
-                    .GetField("isReadOnly", BindingFlags.NonPublic | BindingFlags.Instance);
-                fieldToChange.SetValue(attribute, value);
             }
         }
 
@@ -1114,7 +940,10 @@ namespace GUI
             : base(item, name, isFolder)
         {
             Item = item;
-            BaseBuildSubNodes(buildSubNodes);
+            if (buildSubNodes)
+            {
+                BuildOrRefreshSubNodes(null);                
+            }
         }
 
         /// <summary>
@@ -1125,8 +954,8 @@ namespace GUI
         {
             Dictionary retVal = null;
 
-            MainWindow mainWindow = GUIUtils.MDIWindow;
-            EFSSystem efsSystem = mainWindow.EFSSystem;
+            MainWindow mainWindow = GuiUtils.MdiWindow;
+            EFSSystem efsSystem = mainWindow.EfsSystem;
             if (efsSystem != null)
             {
                 ModelElement modelElement = Item as ModelElement;
@@ -1146,7 +975,6 @@ namespace GUI
                     if (updates == 0)
                     {
                         MessageBox.Show("No updates loaded for the current dictionary.");
-
                     }
 
                     if (updates > 1)
@@ -1194,7 +1022,7 @@ namespace GUI
         protected void RemoveInUpdate(object sender, EventArgs args)
         {
             ModelElement model = Item as ModelElement;
-            if (model.Updates == null)
+            if (model != null && model.Updates == null)
             {
                 model = FindOrCreateUpdate();
             }
@@ -1202,20 +1030,6 @@ namespace GUI
             if (model != null)
             {
                 model.setIsRemoved(true);
-            }
-        }
-
-        /// <summary>
-        ///     Builds the sub nodes of this node if required
-        /// </summary>
-        /// <param name="buildSubNodes"></param>
-        protected void BaseBuildSubNodes(bool buildSubNodes)
-        {
-            if (buildSubNodes)
-            {
-                BuildSubNodes(false);
-                UpdateColor();
-                RefreshNode();
             }
         }
 
@@ -1228,8 +1042,7 @@ namespace GUI
             {
                 if (!node.SubNodesBuilt)
                 {
-                    node.BuildSubNodes(false);
-                    node.UpdateColor();
+                    node.BuildOrRefreshSubNodes(null);
                 }
             }
             RefreshNode();
@@ -1251,7 +1064,17 @@ namespace GUI
             [Category("Description")]
             public virtual string Name
             {
-                get { return Item.Name; }
+                get
+                {
+                    string retVal = "";
+
+                    if (Item != null)
+                    {
+                        retVal = Item.Name;
+                    }
+
+                    return retVal;
+                }
                 set
                 {
                     if (Item.EnclosingCollection != null)
@@ -1259,9 +1082,7 @@ namespace GUI
                         bool unique = true;
                         foreach (IModelElement model in Item.EnclosingCollection)
                         {
-                            INamable namable = model as INamable;
-                            INamable namableItem = Item as INamable;
-                            if (namable != namableItem && namable != null && namable.Name.CompareTo(value) == 0)
+                            if (model != null && model != Item && model.Name.CompareTo(value) == 0)
                             {
                                 unique = false;
                                 break;
@@ -1270,7 +1091,16 @@ namespace GUI
 
                         if (unique)
                         {
-                            Item.Name = value;
+                            if (Settings.Default.AllowRefactor)
+                            {
+                                RefactorOperation refactorOperation = new RefactorOperation(EFSSystem.INSTANCE,
+                                    Model as ModelElement, value);
+                                refactorOperation.ExecuteUsingProgressDialog("Refactoring", false);
+                            }
+                            else
+                            {
+                                Item.Name = value;
+                            }
                         }
                         else
                         {
@@ -1294,7 +1124,17 @@ namespace GUI
             [Category("Meta data")]
             public virtual string UniqueIdentifier
             {
-                get { return Item.FullName; }
+                get
+                {
+                    string retVal = "";
+
+                    if (Item != null)
+                    {
+                        retVal = Item.FullName;
+                    }
+
+                    return retVal;
+                }
             }
 
             /// <summary>
@@ -1318,13 +1158,6 @@ namespace GUI
                     return retVal;
                 }
             }
-
-            /// <summary>
-            ///     Constructor
-            /// </summary>
-            protected NamedEditor()
-            {
-            }
         }
 
         /// <summary>
@@ -1344,117 +1177,43 @@ namespace GUI
                     RefreshNode();
                 }
             }
-
-            /// <summary>
-            ///     Constructor
-            /// </summary>
-            protected CommentableEditor()
-            {
-            }
         }
 
         /// <summary>
         ///     Creates the editor for this tree node
         /// </summary>
-        /// <param name="item"></param>
         /// <returns></returns>
-        protected abstract Editor createEditor();
+        protected abstract Editor CreateEditor();
 
         /// <summary>
         ///     Handles a selection change event
         /// </summary>
-        /// <param name="displayStatistics">Indicates that statistics should be displayed in the MDI window</param>
-        public override void SelectionChanged(bool displayStatistics)
+        public override void SelectionHandler()
         {
-            base.SelectionChanged(displayStatistics);
+            NodeEditor = GetEditor();
 
-            if (BaseTreeView != null && BaseTreeView.RefreshNodeContent)
-            {
-                IBaseForm baseForm = BaseForm;
-                if (baseForm != null)
-                {
-                    Editor editor = createEditor();
-                    editor.Item = Item;
-                    editor.Node = this;
-                    NodeEditor = editor;
-
-                    if (baseForm.Properties != null)
-                    {
-                        baseForm.Properties.SelectedObject = NodeEditor;
-                    }
-                }
-            }
+            base.SelectionHandler();
         }
 
-        public override Color ComputedColor
+        /// <summary>
+        /// Provides the editor for this node, and link the editor with the edited model element
+        /// </summary>
+        /// <returns></returns>
+        public override BaseEditor GetEditor()
         {
-            get
+            BaseEditor retVal = NodeEditor;
+
+            if (retVal == null)
             {
-                Color retVal = base.ComputedColor;
+                Editor editor = CreateEditor();
+                editor.Item = Item;
+                editor.Node = this;
 
-                if (Item != null)
-                {
-                    BaseTreeNode parentNode;
 
-                    switch (Item.MessagePathInfo)
-                    {
-                        case MessagePathInfoEnum.Nothing:
-                        case MessagePathInfoEnum.NotComputed:
-                            retVal = Color.Black;
-                            break;
-
-                        case MessagePathInfoEnum.Error:
-                            parentNode = (BaseTreeNode) Parent;
-                            if (parentNode == null || parentNode.Model != Model)
-                            {
-                                retVal = Color.Red;
-                            }
-                            else
-                            {
-                                retVal = ComputeColorBasedOnItsSubNodes();
-                            }
-                            break;
-
-                        case MessagePathInfoEnum.PathToError:
-                            retVal = ComputeColorBasedOnItsSubNodes();
-                            break;
-
-                        case MessagePathInfoEnum.Warning:
-                            parentNode = (BaseTreeNode) Parent;
-                            if (parentNode == null || parentNode.Model != Model)
-                            {
-                                retVal = Color.Brown;
-                            }
-                            else
-                            {
-                                retVal = ComputeColorBasedOnItsSubNodes();
-                            }
-                            break;
-
-                        case MessagePathInfoEnum.PathToWarning:
-                            retVal = ComputeColorBasedOnItsSubNodes();
-                            break;
-
-                        case MessagePathInfoEnum.Info:
-                            parentNode = (BaseTreeNode) Parent;
-                            if (parentNode == null || parentNode.Model != Model)
-                            {
-                                retVal = Color.Blue;
-                            }
-                            else
-                            {
-                                retVal = ComputeColorBasedOnItsSubNodes();
-                            }
-                            break;
-
-                        case MessagePathInfoEnum.PathToInfo:
-                            retVal = ComputeColorBasedOnItsSubNodes();
-                            break;
-                    }
-                }
-
-                return retVal;
+                retVal = editor;
             }
+
+            return retVal;
         }
     }
 }

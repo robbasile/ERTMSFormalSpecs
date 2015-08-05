@@ -17,7 +17,6 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using DataDictionary.Generated;
 using GUI.DataDictionaryView;
 using Action = DataDictionary.Rules.Action;
 using SubStep = DataDictionary.Tests.SubStep;
@@ -31,19 +30,13 @@ namespace GUI.TestRunnerView
         /// </summary>
         private class ItemEditor : NamedEditor
         {
-            /// <summary>
-            ///     Constructor
-            /// </summary>
-            public ItemEditor()
-                : base()
-            {
-            }
         }
 
         /// <summary>
         ///     Constructor
         /// </summary>
         /// <param name="item"></param>
+        /// <param name="buildSubNodes"></param>
         public ActionsTreeNode(SubStep item, bool buildSubNodes)
             : base(item, buildSubNodes, "Actions", true)
         {
@@ -52,45 +45,31 @@ namespace GUI.TestRunnerView
         /// <summary>
         ///     Builds the subnodes of this node
         /// </summary>
-        /// <param name="buildSubNodes">Indicates whether the subnodes of the nodes should also be built</param>
-        public override void BuildSubNodes(bool buildSubNodes)
+        /// <param name="subNodes"></param>
+        /// <param name="recursive">Indicates whether the subnodes of the nodes should also be built</param>
+        public override void BuildSubNodes(List<BaseTreeNode> subNodes, bool recursive)
         {
-            base.BuildSubNodes(buildSubNodes);
+            base.BuildSubNodes(subNodes, recursive);
 
             foreach (Action action in Item.Actions)
             {
-                Nodes.Add(new ActionTreeNode(action, buildSubNodes));
+                subNodes.Add(new ActionTreeNode(action, recursive));
             }
-            SortSubNodes();
+            subNodes.Sort();
         }
 
         /// <summary>
         ///     Creates the editor for this tree node
         /// </summary>
         /// <returns></returns>
-        protected override Editor createEditor()
+        protected override Editor CreateEditor()
         {
             return new ItemEditor();
         }
 
-        /// <summary>
-        ///     Adds the given action to the list of actions
-        /// </summary>
-        /// <param name="action"></param>
-        public void addAction(Action action)
-        {
-            action.Enclosing = Item;
-            ActionTreeNode actionNode = new ActionTreeNode(action, true);
-            Item.appendActions(action);
-            Nodes.Add(actionNode);
-            SortSubNodes();
-        }
-
         public void AddHandler(object sender, EventArgs args)
         {
-            Action action = (Action) acceptor.getFactory().createAction();
-            action.ExpressionText = "";
-            addAction(action);
+            Item.appendActions(Action.CreateDefault(Item.Actions));
         }
 
         /// <summary>
@@ -99,9 +78,7 @@ namespace GUI.TestRunnerView
         /// <returns></returns>
         protected override List<MenuItem> GetMenuItems()
         {
-            List<MenuItem> retVal = new List<MenuItem>();
-
-            retVal.Add(new MenuItem("Add", new EventHandler(AddHandler)));
+            List<MenuItem> retVal = new List<MenuItem> {new MenuItem("Add", AddHandler)};
 
             return retVal;
         }
@@ -109,38 +86,15 @@ namespace GUI.TestRunnerView
         /// <summary>
         ///     Handles the drop event
         /// </summary>
-        /// <param name="SourceNode"></param>
-        public override void AcceptDrop(BaseTreeNode SourceNode)
+        /// <param name="sourceNode"></param>
+        public override void AcceptDrop(BaseTreeNode sourceNode)
         {
-            base.AcceptDrop(SourceNode);
-            if (SourceNode is ActionTreeNode)
+            base.AcceptDrop(sourceNode);
+            if (sourceNode is ActionTreeNode)
             {
-                ActionTreeNode action = SourceNode as ActionTreeNode;
+                ActionTreeNode action = sourceNode as ActionTreeNode;
                 action.Delete();
-                addAction(action.Item);
-            }
-        }
-
-        /// <summary>
-        ///     Handles a selection change event
-        /// </summary>
-        /// <param name="displayStatistics">Indicates that statistics should be displayed in the MDI window</param>
-        public override void SelectionChanged(bool displayStatistics)
-        {
-            base.SelectionChanged(displayStatistics);
-            if (Item.Translation != null)
-            {
-                if (BaseTreeView != null && BaseTreeView.RefreshNodeContent)
-                {
-                    IBaseForm baseForm = BaseForm;
-                    if (baseForm != null)
-                    {
-                        if (baseForm.RequirementsTextBox != null)
-                        {
-                            baseForm.RequirementsTextBox.Text = Item.Translation.getSourceTextExplain();
-                        }
-                    }
-                }
+                Item.appendActions(action.Item);
             }
         }
     }

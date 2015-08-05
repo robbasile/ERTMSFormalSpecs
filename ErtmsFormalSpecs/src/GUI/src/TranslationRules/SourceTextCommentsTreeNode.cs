@@ -27,19 +27,13 @@ namespace GUI.TranslationRules
     {
         private class ItemEditor : NamedEditor
         {
-            /// <summary>
-            ///     Constructor
-            /// </summary>
-            public ItemEditor()
-                : base()
-            {
-            }
         }
 
         /// <summary>
         ///     Constructor
         /// </summary>
         /// <param name="item"></param>
+        /// <param name="buildSubNodes"></param>
         public SourceTextCommentsTreeNode(SourceText item, bool buildSubNodes)
             : base(item, buildSubNodes, "Comments", true)
         {
@@ -48,49 +42,33 @@ namespace GUI.TranslationRules
         /// <summary>
         ///     Builds the subnodes of this node
         /// </summary>
-        /// <param name="buildSubNodes">Indicates whether the subnodes of the nodes should also be built</param>
-        public override void BuildSubNodes(bool buildSubNodes)
+        /// <param name="subNodes"></param>
+        /// <param name="recursive">Indicates whether the subnodes of the nodes should also be built</param>
+        public override void BuildSubNodes(List<BaseTreeNode> subNodes, bool recursive)
         {
-            base.BuildSubNodes(buildSubNodes);
+            base.BuildSubNodes(subNodes, recursive);
 
             foreach (SourceTextComment comment in Item.Comments)
             {
-                Nodes.Add(new SourceTextCommentTreeNode(comment, buildSubNodes));
+                subNodes.Add(new SourceTextCommentTreeNode(comment, recursive));
             }
-            SortSubNodes();
+            subNodes.Sort();subNodes.Sort();
         }
 
         /// <summary>
         ///     Creates the editor for this tree node
         /// </summary>
         /// <returns></returns>
-        protected override Editor createEditor()
+        protected override Editor CreateEditor()
         {
             return new ItemEditor();
-        }
-
-        /// <summary>
-        ///     Creates a new source text
-        /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
-        public SourceTextCommentTreeNode createComment(SourceTextComment comment)
-        {
-            SourceTextCommentTreeNode retVal;
-
-            Item.appendComments(comment);
-            retVal = new SourceTextCommentTreeNode(comment, true);
-            Nodes.Add(retVal);
-            SortSubNodes();
-
-            return retVal;
         }
 
         public void AddHandler(object sender, EventArgs args)
         {
             SourceTextComment comment = (SourceTextComment) acceptor.getFactory().createSourceTextComment();
             comment.Name = "<Comment" + (Item.Comments.Count + 1) + ">";
-            createComment(comment);
+            Item.appendComments(comment);
         }
 
         /// <summary>
@@ -99,9 +77,7 @@ namespace GUI.TranslationRules
         /// <returns></returns>
         protected override List<MenuItem> GetMenuItems()
         {
-            List<MenuItem> retVal = new List<MenuItem>();
-
-            retVal.Add(new MenuItem("Add comment", new EventHandler(AddHandler)));
+            List<MenuItem> retVal = new List<MenuItem> {new MenuItem("Add comment", AddHandler)};
 
             return retVal;
         }
@@ -109,11 +85,36 @@ namespace GUI.TranslationRules
         /// <summary>
         ///     Handles drop event
         /// </summary>
-        /// <param name="SourceNode"></param>
-        public override void AcceptDrop(BaseTreeNode SourceNode)
+        /// <param name="sourceNode"></param>
+        public override void AcceptDrop(BaseTreeNode sourceNode)
         {
-            base.AcceptDrop(SourceNode);
-            SourceTextTreeNode.AcceptDropForSourceText((SourceTextTreeNode) Parent, SourceNode);
+            base.AcceptDrop(sourceNode);
+
+            SourceTextTreeNode sourceTextTreeNode = Parent as SourceTextTreeNode;
+            SourceTextCommentTreeNode comment = sourceNode as SourceTextCommentTreeNode; 
+            if (comment != null && sourceTextTreeNode != null)
+            {
+                SourceTextComment otherText = (SourceTextComment)comment.Item.Duplicate();
+                sourceTextTreeNode.Item.appendComments(otherText);
+                comment.Delete();
+            }
+        }
+
+        /// <summary>
+        ///     Accepts the drop event
+        /// </summary>
+        /// <param name="sourceTextTreeNode"></param>
+        /// <param name="sourceNode"></param>
+        public static void AcceptDropForSourceText(SourceTextTreeNode sourceTextTreeNode, BaseTreeNode sourceNode)
+        {
+            if (sourceNode is SourceTextCommentTreeNode)
+            {
+                SourceTextCommentTreeNode comment = sourceNode as SourceTextCommentTreeNode;
+
+                SourceTextComment otherText = (SourceTextComment)comment.Item.Duplicate();
+                sourceTextTreeNode.Item.appendComments(otherText);
+                comment.Delete();
+            }
         }
     }
 }

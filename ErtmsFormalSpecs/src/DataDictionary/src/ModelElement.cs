@@ -15,6 +15,7 @@
 // ------------------------------------------------------------------------------
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -63,6 +64,7 @@ namespace DataDictionary
                 else
                 {
                     base.AddElementLog(log);
+                    EFSSystem.Context.HandleInfoMessageChangeEvent(this);
                 }
             }
         }
@@ -266,6 +268,7 @@ namespace DataDictionary
 
                 // Side effect : creates a new Guid if it is empty
                 element.setGuid(null);
+                // ReSharper disable once UnusedVariable
                 string guid = element.Guid;
 
                 base.visit(obj, visitSubNodes);
@@ -406,7 +409,7 @@ namespace DataDictionary
                         parentStructure.AddModelElement(Duplicate());
                     }
 
-                    Types.StateMachine parentStateMachine = parent.Updates as Types.StateMachine;
+                    StateMachine parentStateMachine = parent.Updates as StateMachine;
                     if (parentStateMachine != null)
                     {
                         parentStateMachine.AddModelElement(Duplicate());
@@ -490,6 +493,32 @@ namespace DataDictionary
 
                 return retVal;
             }
+        }
+
+        /// <summary>
+        ///     Creates the status message 
+        /// </summary>
+        /// <returns>the status string for the selected element</returns>
+        public virtual string CreateStatusMessage()
+        {
+            return "";
+        }
+
+        /// <summary>
+        /// Provides the number of a new element in the collection provided
+        /// </summary>
+        /// <param name="enclosingCollection"></param>
+        /// <returns></returns>
+        public static int GetElementNumber(ICollection enclosingCollection)
+        {
+            int retVal = 1;
+
+            if (enclosingCollection != null)
+            {
+                retVal = enclosingCollection.Count + 1;
+            }
+
+            return retVal;
         }
     }
 
@@ -702,7 +731,7 @@ namespace DataDictionary
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="element"></param>
-        public delegate void ExplainElement<T>(T element);
+        public delegate void ExplainElement<in T>(T element);
 
         /// <summary>
         /// Explains a list of elements

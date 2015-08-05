@@ -23,7 +23,9 @@ using DataDictionary;
 using DataDictionary.Interpreter;
 using DataDictionary.Values;
 using DataDictionary.Variables;
+using Utils;
 using WeifenLuo.WinFormsUI.Docking;
+using ModelElement = DataDictionary.ModelElement;
 using Shortcut = DataDictionary.Shortcuts.Shortcut;
 using Type = DataDictionary.Types.Type;
 
@@ -34,25 +36,20 @@ namespace GUI.TestRunnerView.Watch
         /// <summary>
         ///     Constructor
         /// </summary>
-        /// <param name="dictionary"></param>
         public Window()
         {
             InitializeComponent();
 
-            FormClosed += new FormClosedEventHandler(Window_FormClosed);
             DockAreas = DockAreas.DockBottom;
 
             watchDataGridView.AllowDrop = true;
-            watchDataGridView.DragEnter += new DragEventHandler(watchDataGridView_DragEnter);
-            watchDataGridView.DragDrop += new DragEventHandler(watchDataGridView_DragDrop);
-            watchDataGridView.CellEndEdit += new DataGridViewCellEventHandler(watchDataGridView_CellEndEdit);
-            watchDataGridView.KeyUp += new KeyEventHandler(watchDataGridView_KeyUp);
-            watchDataGridView.DoubleClick += new EventHandler(watchDataGridView_DoubleClick);
-            List<WatchedExpression> watches = new List<WatchedExpression>();
-            watches.Add(new WatchedExpression(Instance, ""));
+            watchDataGridView.DragEnter += watchDataGridView_DragEnter;
+            watchDataGridView.DragDrop += watchDataGridView_DragDrop;
+            watchDataGridView.CellEndEdit += watchDataGridView_CellEndEdit;
+            watchDataGridView.KeyUp += watchDataGridView_KeyUp;
+            watchDataGridView.DoubleClick += watchDataGridView_DoubleClick;
+            List<WatchedExpression> watches = new List<WatchedExpression> {new WatchedExpression(Instance, "")};
             watchDataGridView.DataSource = watches;
-
-            Refresh();
         }
 
         /// <summary>
@@ -83,12 +80,12 @@ namespace GUI.TestRunnerView.Watch
             /// <summary>
             ///     The column that is edited
             /// </summary>
-            public string ColumnName { get; private set; }
+            private string ColumnName { get; set; }
 
             /// <summary>
             ///     Constructor
             /// </summary>
-            /// <param name="dictionary"></param>
+            /// <param name="instance"></param>
             /// <param name="watch"></param>
             /// <param name="columnName"></param>
             public TextChangeHandler(ModelElement instance, WatchedExpression watch, string columnName)
@@ -104,7 +101,7 @@ namespace GUI.TestRunnerView.Watch
             /// <returns></returns>
             public override string GetText()
             {
-                string retVal = "";
+                string retVal;
 
                 if (ColumnName == "Expression")
                 {
@@ -160,8 +157,7 @@ namespace GUI.TestRunnerView.Watch
                     DataGridViewCell selectedCell = watchDataGridView.SelectedCells[0];
                     if (selectedCell.ColumnIndex == 0)
                     {
-                        EditorView.Window form = new EditorView.Window();
-                        form.AutoComplete = true;
+                        EditorView.Window form = new EditorView.Window {AutoComplete = true};
                         TextChangeHandler handler = new TextChangeHandler(Instance, selected,
                             selectedCell.OwningColumn.Name);
                         form.setChangeHandler(handler);
@@ -175,8 +171,8 @@ namespace GUI.TestRunnerView.Watch
                     else if (selectedCell.ColumnIndex == 1)
                     {
                         ExplainBox explainTextBox = new ExplainBox();
-                        explainTextBox.setExplanation(selected.ExpressionTree.Explain());
-                        GUIUtils.MDIWindow.AddChildWindow(explainTextBox);
+                        explainTextBox.SetExplanation(selected.ExpressionTree.Explain());
+                        GuiUtils.MdiWindow.AddChildWindow(explainTextBox);
                     }
                 }
             }
@@ -279,8 +275,6 @@ namespace GUI.TestRunnerView.Watch
             e.Effect = DragDropEffects.Move;
         }
 
-        private const int CTRL = 8;
-
         /// <summary>
         ///     Handles a drop event
         /// </summary>
@@ -332,29 +326,38 @@ namespace GUI.TestRunnerView.Watch
         }
 
         /// <summary>
-        ///     Handles the close event
+        ///     Allows to refresh the view, when the selected model changed
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Window_FormClosed(object sender, FormClosedEventArgs e)
+        /// <param name="context"></param>
+        /// <returns>true if refresh should be performed</returns>
+        public override bool HandleSelectionChange(Context.SelectionContext context)
         {
-            GUIUtils.MDIWindow.HandleSubWindowClosed(this);
+            bool retVal = base.HandleSelectionChange(context);
+
+            if (retVal)
+            {
+                Refresh();
+            }
+
+            return retVal;
         }
 
         /// <summary>
-        ///     Refreshed the model of the window
+        ///     Allows to refresh the view, when the value of a model changed
         /// </summary>
-        public override void RefreshModel()
+        /// <param name="modelElement"></param>
+        /// <param name="changeKind"></param>
+        /// <returns>True if the view should be refreshed</returns>
+        public override bool HandleValueChange(IModelElement modelElement, Context.ChangeKind changeKind)
         {
-            Refresh();
-        }
+            bool retVal = base.HandleValueChange(modelElement, changeKind);
 
-        /// <summary>
-        ///     Refreshes after a change in the system
-        /// </summary>
-        public void RefreshAfterStep()
-        {
-            Refresh();
+            if (retVal)
+            {
+                Refresh();
+            }
+
+            return retVal;
         }
 
         private class WatchedExpression

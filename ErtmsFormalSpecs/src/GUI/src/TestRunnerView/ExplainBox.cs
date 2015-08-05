@@ -17,12 +17,13 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using DataDictionary;
 using DataDictionary.Interpreter;
 using DataDictionary.Rules;
 using DataDictionary.Variables;
 using GUI.DataDictionaryView;
-using Utils;
 using WeifenLuo.WinFormsUI.Docking;
+using ModelElement = Utils.ModelElement;
 
 namespace GUI.TestRunnerView
 {
@@ -46,31 +47,7 @@ namespace GUI.TestRunnerView
             {
                 Explanation = explanation;
             }
-
-            /// <summary>
-            ///     Provides the explain box in which this node lies
-            /// </summary>
-            private ExplainBox ExplainBox
-            {
-                get { return GUIUtils.EnclosingFinder<ExplainBox>.find(TreeView); }
-            }
-
-            /// <summary>
-            ///     Selects the corresponding model element
-            /// </summary>
-            public void SelectModel(bool selectModel)
-            {
-                if (Explanation != null && Explanation.Element != null)
-                {
-                    if (selectModel)
-                    {
-                        GUIUtils.MDIWindow.Select(Explanation.Element, true);
-                    }
-                    ExplainBox.explainRichTextBox.Instance = Explanation;
-                    ExplainBox.explainRichTextBox.Text = Explanation.Message;
-                }
-            }
-
+            
             /// <summary>
             ///     Updates the node text according to the explanation
             /// </summary>
@@ -120,10 +97,10 @@ namespace GUI.TestRunnerView
         {
             InitializeComponent();
 
-            explainTreeView.AfterSelect += new TreeViewEventHandler(explainTreeView_AfterSelect);
-            explainTreeView.BeforeExpand += new TreeViewCancelEventHandler(explainTreeView_BeforeExpand);
-            explainTreeView.DragEnter += new DragEventHandler(explainTreeView_DragEnter);
-            explainTreeView.DragDrop += new DragEventHandler(explainTreeView_DragDrop);
+            explainTreeView.AfterSelect += explainTreeView_AfterSelect;
+            explainTreeView.BeforeExpand += explainTreeView_BeforeExpand;
+            explainTreeView.DragEnter += explainTreeView_DragEnter;
+            explainTreeView.DragDrop += explainTreeView_DragDrop;
             searchTextBox.KeyPress += searchTextBox_KeyPress;
             explainTreeView.ContextMenu = new ContextMenu();
             explainTreeView.ContextMenu.MenuItems.Add("Select", SelectModel);
@@ -140,7 +117,8 @@ namespace GUI.TestRunnerView
             MouseEventArgs mouseEventArgs = e as MouseEventArgs;
             if (mouseEventArgs != null)
             {
-                SelectModelElement(explainTreeView.GetNodeAt(mouseEventArgs.Location) as ExplainTreeNode);
+                ExplainTreeNode node = explainTreeView.GetNodeAt(mouseEventArgs.Location) as ExplainTreeNode;
+                SelectModelElement(node, mouseEventArgs);
             }
         }
 
@@ -151,7 +129,7 @@ namespace GUI.TestRunnerView
         /// <param name="e"></param>
         private void SelectModel(object sender, EventArgs e)
         {
-            SelectModelElement(explainTreeView.SelectedNode as ExplainTreeNode);
+            SelectModelElement(explainTreeView.SelectedNode as ExplainTreeNode, null);
         }
 
         /// <summary>
@@ -159,13 +137,15 @@ namespace GUI.TestRunnerView
         ///     If the current node does not refer to a model element, selects the one from its parent node
         /// </summary>
         /// <param name="node"></param>
-        private void SelectModelElement(ExplainTreeNode node)
+        /// <param name="mouseEventArgs"></param>
+        private void SelectModelElement(ExplainTreeNode node, MouseEventArgs mouseEventArgs)
         {
             while (node != null)
             {
                 if (node.Explanation.Element != null)
                 {
-                    GUIUtils.MDIWindow.Select(node.Explanation.Element);
+                    Context.SelectionCriteria criteria = GuiUtils.SelectionCriteriaBasedOnMouseEvent(mouseEventArgs);
+                    EFSSystem.INSTANCE.Context.SelectElement(node.Explanation.Element, this, criteria);
                     node = null;
                 }
                 else
@@ -255,6 +235,7 @@ namespace GUI.TestRunnerView
             /// <returns></returns>
             private bool MatchName(string text)
             {
+                // ReSharper disable once RedundantAssignment
                 bool retVal = false;
 
                 if (!CaseSensitive)
@@ -281,6 +262,7 @@ namespace GUI.TestRunnerView
                 {
                     if (Variable != null)
                     {
+                        // ReSharper disable once ConditionIsAlwaysTrueOrFalse
                         retVal = retVal || change.ImpactVariable(Variable);
                     }
                     if (VariablePartName != null)
@@ -363,7 +345,7 @@ namespace GUI.TestRunnerView
                 foreach (ExplainTreeNode subNode in node.Nodes)
                 {
                     subNode.Nodes.Clear();
-                    innerSetExplanation(subNode.Explanation, subNode, 1);
+                    InnerSetExplanation(subNode.Explanation, subNode, 1);
                 }
 
                 foreach (ExplainTreeNode subNode in node.Nodes)
@@ -374,12 +356,31 @@ namespace GUI.TestRunnerView
         }
 
         /// <summary>
+        ///     Sets the explanation for this explain box
+        /// </summary>
+        /// <param name="explanation"></param>
+        public void SetExplanation(ExplanationPart explanation)
+        {
+            Explanation = explanation;
+
+            explainTreeView.Nodes.Clear();
+            if (explanation != null)
+            {
+                ExplainTreeNode node = new ExplainTreeNode(explanation);
+                node.UpdateText();
+                InnerSetExplanation(explanation, node, 0);
+                explainTreeView.Nodes.Add(node);
+            }
+        }
+
+
+        /// <summary>
         ///     Sets the node, and its subnode according to the content of the explanation
         /// </summary>
         /// <param name="part"></param>
         /// <param name="node"></param>
-        /// <param param name="level">the level in which the explanation is inserted</param>
-        private void innerSetExplanation(ExplanationPart part, ExplainTreeNode node, int level)
+        /// <param name="level">the level in which the explanation is inserted</param>
+        private void InnerSetExplanation(ExplanationPart part, ExplainTreeNode node, int level)
         {
             if (part != null)
             {
@@ -394,28 +395,10 @@ namespace GUI.TestRunnerView
                     if (level < 2)
                     {
                         ExplainTreeNode subNode = new ExplainTreeNode(subPart);
-                        innerSetExplanation(subPart, subNode, nextLevel);
+                        InnerSetExplanation(subPart, subNode, nextLevel);
                         node.Nodes.Add(subNode);
                     }
                 }
-            }
-        }
-
-        /// <summary>
-        ///     Sets the explanation for this explain box
-        /// </summary>
-        /// <param name="explanation"></param>
-        public void setExplanation(ExplanationPart explanation)
-        {
-            Explanation = explanation;
-
-            explainTreeView.Nodes.Clear();
-            if (explanation != null)
-            {
-                ExplainTreeNode node = new ExplainTreeNode(explanation);
-                node.UpdateText();
-                innerSetExplanation(explanation, node, 0);
-                explainTreeView.Nodes.Add(node);
             }
         }
 
@@ -427,9 +410,15 @@ namespace GUI.TestRunnerView
         private void explainTreeView_AfterSelect(object sender, TreeViewEventArgs e)
         {
             ExplainTreeNode node = explainTreeView.SelectedNode as ExplainTreeNode;
-            if (node != null)
+            if (node != null && node.Explanation != null && node.Explanation.Element != null)
             {
-                node.SelectModel(ModifierKeys == Keys.Control);
+                if (ModifierKeys == Keys.Control)
+                {
+                    EFSSystem.INSTANCE.Context.SelectElement(node.Explanation.Element, this, Context.SelectionCriteria.DoubleClick);
+
+                }
+                explainRichTextBox.Instance = Explanation;
+                explainRichTextBox.Text = Explanation.Message;
             }
         }
 

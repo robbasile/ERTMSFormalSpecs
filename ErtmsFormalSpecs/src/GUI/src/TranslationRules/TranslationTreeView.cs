@@ -14,6 +14,7 @@
 // --
 // ------------------------------------------------------------------------------
 
+using System.Collections.Generic;
 using DataDictionary.Tests.Translations;
 
 namespace GUI.TranslationRules
@@ -21,36 +22,22 @@ namespace GUI.TranslationRules
     public class TranslationTreeView : TypedTreeView<TranslationDictionary>
     {
         /// <summary>
-        ///     The tests tree node
-        /// </summary>
-        private TranslationDictionaryTreeNode dictionary;
-
-        /// <summary>
         ///     Constructor
         /// </summary>
-        public TranslationTreeView() : base()
+        public TranslationTreeView()
         {
             Refactor = false;
         }
 
         /// <summary>
-        ///     Builds the tree model according to the root node
+        ///     Build the model of this tree view
         /// </summary>
-        protected override void BuildModel()
+        /// <returns>the root nodes of the tree</returns>
+        protected override List<BaseTreeNode> BuildModel()
         {
-            Nodes.Clear();
-            dictionary = new TranslationDictionaryTreeNode(Root, true);
-            Nodes.Add(dictionary);
-        }
+            List<BaseTreeNode> retVal = new List<BaseTreeNode> {new TranslationDictionaryTreeNode(Root, true)};
 
-        /// <summary>
-        ///     Creates a new frame
-        /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
-        public TranslationTreeNode createTranslation(Translation translation)
-        {
-            return dictionary.createTranslation(translation);
+            return retVal;
         }
     }
 }

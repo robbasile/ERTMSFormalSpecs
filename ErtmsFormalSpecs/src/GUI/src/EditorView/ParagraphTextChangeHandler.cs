@@ -22,8 +22,6 @@ namespace GUI.EditorView
     /// <summary>
     ///     Sets the string value into the right property
     /// </summary>
-    /// <param name="instance"></param>
-    /// <param name="value"></param>
     public class ParagraphTextChangeHandler : Window.HandleTextChange
     {
         /// <summary>
@@ -57,11 +55,18 @@ namespace GUI.EditorView
         /// <returns></returns>
         public override void SetText(string text)
         {
-            Paragraph paragraph = Instance as Paragraph;
+            text = RemoveUselessCharacters(text);
 
+            Paragraph paragraph = Instance as Paragraph;
             if (paragraph != null)
             {
-                paragraph.setText(text);
+                // We don't care about changes in only \r
+                string originalText = RemoveUselessCharacters(paragraph.Text);
+
+                if (originalText != text)
+                {
+                    paragraph.Text = text;
+                }
             }
         }
     }

@@ -17,6 +17,8 @@
 using System;
 using System.Windows.Forms;
 using DataDictionary;
+using GUI.ModelDiagram;
+using GUI.Properties;
 using Utils;
 
 namespace GUI.DataDictionaryView
@@ -31,16 +33,19 @@ namespace GUI.DataDictionaryView
         /// <summary>
         ///     The Dictionary handled by this view
         /// </summary>
-        private Dictionary dictionary;
+        private Dictionary _dictionary;
 
+        /// <summary>
+        ///     The Dictionary handled by this view
+        /// </summary>
         public Dictionary Dictionary
         {
-            get { return dictionary; }
+            get { return _dictionary; }
             set
             {
-                dictionary = value;
-                dataDictTree.Root = dictionary;
-                Text = dictionary.Name + " model view";
+                _dictionary = value;
+                dataDictTree.Root = _dictionary;
+                Text = _dictionary.Name + @" " + Resources.Window_Dictionary_model_view;
             }
         }
 
@@ -50,7 +55,6 @@ namespace GUI.DataDictionaryView
         public Window()
         {
             InitializeComponent();
-            SpecificInitialization();
         }
 
         /// <summary>
@@ -60,47 +64,75 @@ namespace GUI.DataDictionaryView
         public Window(Dictionary dictionary)
         {
             InitializeComponent();
-            SpecificInitialization();
-
             Dictionary = dictionary;
-
-            Refresh();
         }
-
+        
         /// <summary>
-        ///     Perform specific initialization
+        ///     Allows to refresh the view, when the selected model changed
         /// </summary>
-        private void SpecificInitialization()
+        /// <param name="context"></param>
+        /// <returns>true if refresh should be performed</returns>
+        public override bool HandleSelectionChange(Context.SelectionContext context)
         {
-            FormClosed += new FormClosedEventHandler(Window_FormClosed);
-            Visible = false;
-        }
+            bool retVal = base.HandleSelectionChange(context);
 
-        /// <summary>
-        ///     Handles the close event
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Window_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            GUIUtils.MDIWindow.HandleSubWindowClosed(this);
-        }
-
-        public override void Refresh()
-        {
-            if (!GUIUtils.MDIWindow.AfterStep)
+            Dictionary enclosing = EnclosingFinder<Dictionary>.find(context.Element, true);
+            if (enclosing == Dictionary)
             {
-                dataDictTree.Refresh();
+                if (context.Sender is ModelDiagramPanel)
+                {
+                    if ((context.Criteria & Context.SelectionCriteria.DoubleClick) != 0)
+                    {
+                        UpdateModelView(context);
+                    }
+                }
+                else
+                {
+                    UpdateModelView(context);
+                }
             }
-            base.Refresh();
+
+            return retVal;
         }
 
         /// <summary>
-        ///     Refreshes the model of the window
+        /// Updates the model view, according to the element selected in the context
         /// </summary>
-        public override void RefreshModel()
+        /// <param name="context"></param>
+        private void UpdateModelView(Context.SelectionContext context)
         {
-            dataDictTree.RefreshModel();
+            if (context.Element != modelDiagramPanel.Model)
+            {
+                modelDiagramPanel.Model = context.Element;
+                modelDiagramPanel.RefreshControl();               
+            }
+        }
+
+        /// <summary>
+        ///     Allows to refresh the view, when the value of a model changed
+        /// </summary>
+        /// <param name="modelElement"></param>
+        /// <param name="changeKind"></param>
+        /// <returns>True if the view should be refreshed</returns>
+        public override bool HandleValueChange(IModelElement modelElement, Context.ChangeKind changeKind)
+        {
+            bool retVal = base.HandleValueChange(modelElement, changeKind);
+
+            if (retVal)
+            {
+                if (changeKind != Context.ChangeKind.EndOfCycle)
+                {
+                    modelDiagramPanel.RefreshControl();
+
+                    Dictionary enclosing = EnclosingFinder<Dictionary>.find(modelElement, true);
+                    if (modelElement == null || enclosing == Dictionary)
+                    {
+                        dataDictTree.RefreshModel(modelElement);
+                    }
+                }
+            }
+
+            return retVal;
         }
 
         /// <summary>
@@ -110,7 +142,7 @@ namespace GUI.DataDictionaryView
         /// <returns></returns>
         public BaseTreeNode FindNode(IModelElement model)
         {
-            return TreeView.FindNode(model);
+            return TreeView.FindNode(model, true);
         }
 
         /// <summary>
@@ -145,18 +177,24 @@ namespace GUI.DataDictionaryView
 
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
-            if (!EFSSystem.INSTANCE.Markings.selectPreviousMarking())
+            if (!EFSSystem.INSTANCE.Markings.SelectPreviousMarking())
             {
-                MessageBox.Show("No more marking to show", "No more markings", MessageBoxButtons.OK,
+                MessageBox.Show(
+                    Resources.Window_toolStripButton1_Click_No_more_marking_to_show, 
+                    Resources.Window_toolStripButton1_Click_No_more_markings, 
+                    MessageBoxButtons.OK,
                     MessageBoxIcon.Information);
             }
         }
 
         private void toolStripButton2_Click(object sender, EventArgs e)
         {
-            if (!EFSSystem.INSTANCE.Markings.selectNextMarking())
+            if (!EFSSystem.INSTANCE.Markings.SelectNextMarking())
             {
-                MessageBox.Show("No more marking to show", "No more markings", MessageBoxButtons.OK,
+                MessageBox.Show(
+                    Resources.Window_toolStripButton1_Click_No_more_marking_to_show, 
+                    Resources.Window_toolStripButton1_Click_No_more_markings, 
+                    MessageBoxButtons.OK,
                     MessageBoxIcon.Information);
             }
         }

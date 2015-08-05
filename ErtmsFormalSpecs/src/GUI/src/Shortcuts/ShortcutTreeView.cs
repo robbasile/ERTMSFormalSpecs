@@ -14,6 +14,7 @@
 // --
 // ------------------------------------------------------------------------------
 
+using System.Collections.Generic;
 using DataDictionary;
 
 namespace GUI.Shortcuts
@@ -24,27 +25,30 @@ namespace GUI.Shortcuts
         ///     Constructor
         /// </summary>
         public ShortcutTreeView()
-            : base()
         {
-            KeepTrackOfSelection = false;
+            SilentSelect = true;
             Refactor = false;
         }
 
         /// <summary>
-        ///     Builds the tree model according to the root node
+        ///     Build the model of this tree view
         /// </summary>
-        protected override void BuildModel()
+        /// <returns>the root nodes of the tree</returns>
+        protected override List<BaseTreeNode> BuildModel()
         {
-            Nodes.Clear();
+            List<BaseTreeNode> retVal = new List<BaseTreeNode>();
+
             foreach (Dictionary dictionary in Root.Dictionaries)
             {
-                Nodes.Add(new ShortcutDictionaryTreeNode(dictionary.ShortcutsDictionary, true));
+                retVal.Add(new ShortcutDictionaryTreeNode(dictionary.ShortcutsDictionary, true));
             }
 
             foreach (BaseTreeNode node in Nodes)
             {
                 node.Expand();
             }
+
+            return retVal;
         }
     }
 }

@@ -15,6 +15,8 @@
 // ------------------------------------------------------------------------------
 
 using System.Windows.Forms;
+using DataDictionary;
+using DataDictionary.Shortcuts;
 using HistoricalData;
 using Utils;
 using WeifenLuo.WinFormsUI.Docking;
@@ -23,115 +25,112 @@ namespace GUI.HistoryView
 {
     public partial class Window : BaseForm
     {
-        public override MyPropertyGrid Properties
+        /// <summary>
+        /// The property grid used to display information about the selected history information
+        /// </summary>
+        public MyPropertyGrid Properties
         {
             get { return propertyGrid; }
         }
 
-        public RichTextBox ExpressionTextBox
-        {
-            get { return null; }
-        }
-
+        /// <summary>
+        /// The tree view which displays all history information
+        /// </summary>
         public override BaseTreeView TreeView
         {
             get { return historyTreeView; }
         }
 
         /// <summary>
-        ///     The rule set which is used to check the specifications
+        ///     Constructor
         /// </summary>
-        private IModelElement model;
-
-        public IModelElement Model
+        public Window()
         {
-            get { return model; }
-            set
-            {
-                model = value;
-                historyTreeView.Root = model;
+            InitializeComponent();
+            DockAreas = DockAreas.DockRight;
 
-                INamable namable = model as INamable;
+            historyTreeView.AfterSelect += historyTreeView_AfterSelect;
+            ResizeDescriptionArea(propertyGrid, 20);
+        }
+
+        /// <summary>
+        /// Indicates that the model element should be displayed
+        /// </summary>
+        /// <param name="modelElement"></param>
+        /// <returns></returns>
+        protected override bool ShouldDisplay(IModelElement modelElement)
+        {
+            bool retVal = base.ShouldDisplay(modelElement);
+
+            if (retVal)
+            {
+                // Don't handle shortcuts in history
+                retVal = EnclosingFinder<ShortcutDictionary>.find(modelElement, true) == null;                
+            }
+
+            return retVal;
+        }
+
+        /// <summary>
+        ///     Allows to refresh the view, when the selected model changed
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns>true if refresh should be performed</returns>
+        public override bool HandleSelectionChange(Context.SelectionContext context)
+        {
+            bool retVal = base.HandleSelectionChange(context);
+
+            if (retVal)
+            {
+                INamable namable = DisplayedModel;
                 if (namable != null)
                 {
                     Text = namable.Name + " history";
                 }
                 else
                 {
-                    Text = "history";
+                    Text = "History";
                 }
 
+                historyTreeView.Root = DisplayedModel;
                 if (historyTreeView.Nodes.Count > 0)
                 {
-                    BaseTreeNode node = historyTreeView.Nodes[0] as BaseTreeNode;
-                    historyTreeView.Select(node.Model);
-                    node.SelectionChanged(true);
+                    historyTreeView.SelectedNode = historyTreeView.Nodes[0] as ChangeTreeNode;
                 }
                 else
                 {
-                    SelectionChanged(null);
+                    historyTreeView.SelectedNode = null;
                     Properties.SelectedObject = null;
                 }
             }
-        }
 
-        /// <summary>
-        ///     Constructor
-        /// </summary>
-        /// <param name="specification"></param>
-        public Window()
-        {
-            InitializeComponent();
-
-            FormClosed += new FormClosedEventHandler(Window_FormClosed);
-            Visible = false;
-
-            ResizeDescriptionArea(propertyGrid, 20);
-
-            Refresh();
-
-            DockAreas = DockAreas.DockRight;
-        }
-
-        /// <summary>
-        ///     Handles the close event
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Window_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            GUIUtils.MDIWindow.HandleSubWindowClosed(this);
-        }
-
-        public override void Refresh()
-        {
-            historyTreeView.Refresh();
-            base.Refresh();
-        }
-
-        /// <summary>
-        ///     Refreshes the model of the window
-        /// </summary>
-        public override void RefreshModel()
-        {
-            historyTreeView.RefreshModel();
+            return retVal;
         }
 
         /// <summary>
         ///     Updates the window according to the new selected change
         /// </summary>
-        /// <param name="Item"></param>
-        public void SelectionChanged(Change Item)
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void historyTreeView_AfterSelect(object sender, TreeViewEventArgs e)
         {
-            if (Item != null)
+            Properties.SelectedObject = null;
+
+            ChangeTreeNode changeTreeNode = e.Node as ChangeTreeNode;
+            if (changeTreeNode != null)
             {
-                beforeRichTextBox.Text = Item.getBefore();
-                afterRichTextBox.Text = Item.getAfter();
-            }
-            else
-            {
-                beforeRichTextBox.Text = "";
-                afterRichTextBox.Text = "";
+                Change item = changeTreeNode.Item;
+                if (item != null)
+                {
+                    beforeRichTextBox.Text = item.getBefore();
+                    afterRichTextBox.Text = item.getAfter();
+                    Properties.SelectedObject = item;
+                }
+                else
+                {
+                    beforeRichTextBox.Text = "";
+                    afterRichTextBox.Text = "";
+                }
             }
         }
     }

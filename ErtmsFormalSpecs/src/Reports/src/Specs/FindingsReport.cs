@@ -136,7 +136,7 @@ namespace Reports.Specs
         {
             if (paragraph.getReviewed() == ReviewedParagraphs)
             {
-                if (!paragraph.isTitle)
+                if (!paragraph.IsTitle)
                 {
                     AddSubParagraph(entryType + " " + paragraph.FullId);
                     AddParagraph(paragraph.ExpressionText);

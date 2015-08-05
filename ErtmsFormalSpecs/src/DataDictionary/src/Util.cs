@@ -15,7 +15,6 @@
 // ------------------------------------------------------------------------------
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -85,6 +84,7 @@ namespace DataDictionary
                 if (UpdateGuid)
                 {
                     // Side effect : creates a new Guid if it is empty
+                    // ReSharper disable once UnusedVariable
                     string guid = element.Guid;
                 }
 
@@ -300,10 +300,10 @@ namespace DataDictionary
 
                 if (paragraph.getObsoleteScopeOnBoard())
                 {
-                    RequirementSet onBoard = scope.findRequirementSet(RequirementSet.ONBOARD_SCOPE_NAME, false);
+                    RequirementSet onBoard = scope.findRequirementSet(RequirementSet.OnboardScopeName, false);
                     if (onBoard == null)
                     {
-                        onBoard = scope.findRequirementSet(RequirementSet.ONBOARD_SCOPE_NAME, true);
+                        onBoard = scope.findRequirementSet(RequirementSet.OnboardScopeName, true);
                         onBoard.setRecursiveSelection(false);
                         onBoard.setDefault(true);
                     }
@@ -313,10 +313,10 @@ namespace DataDictionary
 
                 if (paragraph.getObsoleteScopeTrackside())
                 {
-                    RequirementSet trackSide = scope.findRequirementSet(RequirementSet.TRACKSIDE_SCOPE_NAME, false);
+                    RequirementSet trackSide = scope.findRequirementSet(RequirementSet.TracksideScopeName, false);
                     if (trackSide == null)
                     {
-                        trackSide = scope.findRequirementSet(RequirementSet.TRACKSIDE_SCOPE_NAME, true);
+                        trackSide = scope.findRequirementSet(RequirementSet.TracksideScopeName, true);
                         trackSide.setRecursiveSelection(false);
                         trackSide.setDefault(true);
                     }
@@ -326,11 +326,11 @@ namespace DataDictionary
 
                 if (paragraph.getObsoleteScopeRollingStock())
                 {
-                    RequirementSet rollingStock = scope.findRequirementSet(RequirementSet.ROLLING_STOCK_SCOPE_NAME,
+                    RequirementSet rollingStock = scope.findRequirementSet(RequirementSet.RollingStockScopeName,
                         false);
                     if (rollingStock == null)
                     {
-                        rollingStock = scope.findRequirementSet(RequirementSet.ROLLING_STOCK_SCOPE_NAME, true);
+                        rollingStock = scope.findRequirementSet(RequirementSet.RollingStockScopeName, true);
                         rollingStock.setRecursiveSelection(false);
                         rollingStock.setDefault(false);
                     }
@@ -460,19 +460,14 @@ namespace DataDictionary
         private class LoadDepends : Visitor
         {
             /// <summary>
-            ///     The base path used to load files
-            /// </summary>
-            public string BasePath { get; private set; }
-
-            /// <summary>
             ///     Indicates that the files should be locked
             /// </summary>
-            public bool LockFiles { get; private set; }
+            private bool LockFiles { get; set; }
 
             /// <summary>
             ///     Indicates that errors can occur during load, for instance, for comparison purposes
             /// </summary>
-            public bool AllowErrorsDuringLoad
+            private bool AllowErrorsDuringLoad
             {
                 get { return ErrorsDuringLoad != null; }
             }
@@ -480,17 +475,15 @@ namespace DataDictionary
             /// <summary>
             ///     The errors that occured during the load of the file
             /// </summary>
-            public List<ElementLog> ErrorsDuringLoad { get; private set; }
+            private List<ElementLog> ErrorsDuringLoad { get; set; }
 
             /// <summary>
             ///     Constructor
             /// </summary>
-            /// <param name="basePath"></param>
             /// <param name="lockFiles"></param>
             /// <param name="errors"></param>
-            public LoadDepends(string basePath, bool lockFiles, List<ElementLog> errors)
+            public LoadDepends(bool lockFiles, List<ElementLog> errors)
             {
-                BasePath = basePath;
                 LockFiles = lockFiles;
                 ErrorsDuringLoad = errors;
             }
@@ -600,12 +593,12 @@ namespace DataDictionary
             /// <summary>
             ///     The name of the corresponding file
             /// </summary>
-            public String FileName { get; private set; }
+            private String FileName { get; set; }
 
             /// <summary>
             ///     The stream used to lock the file
             /// </summary>
-            public FileStream Stream { get; private set; }
+            private FileStream Stream { get; set; }
 
             /// <summary>
             ///     The length of the lock section
@@ -652,7 +645,7 @@ namespace DataDictionary
         /// <summary>
         ///     Lock all opened files
         /// </summary>
-        private static List<FileData> openedFiles = new List<FileData>();
+        private static readonly List<FileData> OpenedFiles = new List<FileData>();
 
         /// <summary>
         ///     Locks a single file
@@ -661,7 +654,7 @@ namespace DataDictionary
         private static void LockFile(String filePath)
         {
             FileData data = new FileData(filePath);
-            openedFiles.Add(data);
+            OpenedFiles.Add(data);
         }
 
         /// <summary>
@@ -669,7 +662,7 @@ namespace DataDictionary
         /// </summary>
         public static void UnlockAllFiles()
         {
-            foreach (FileData data in openedFiles)
+            foreach (FileData data in OpenedFiles)
             {
                 data.Unlock();
             }
@@ -680,65 +673,58 @@ namespace DataDictionary
         /// </summary>
         public static void LockAllFiles()
         {
-            foreach (FileData data in openedFiles)
+            foreach (FileData data in OpenedFiles)
             {
                 data.Lock();
             }
         }
 
         /// <summary>
-        ///     Loads a document and handles its associated locks
+        ///     Loads a file and locks it if required
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        private class DocumentLoader<T>
+        /// <param name="filePath"></param>
+        /// <param name="enclosing"></param>
+        /// <param name="lockFiles"></param>
+        /// <returns></returns>
+        public static T LoadFile<T>(string filePath, ModelElement enclosing, bool lockFiles)
             where T : class, IXmlBBase
         {
-            /// <summary>
-            ///     Loads a file and locks it if required
-            /// </summary>
-            /// <param name="filePath"></param>
-            /// <param name="enclosing"></param>
-            /// <param name="lockFiles"></param>
-            /// <returns></returns>
-            public static T loadFile(string filePath, ModelElement enclosing, bool lockFiles)
+            T retVal = null;
+
+            // Do not rely on XmlBFileContext since it does not care about encoding. 
+            // File encoding is UTF-8
+            XmlBStringContext ctxt;
+            using (StreamReader file = new StreamReader(filePath))
             {
-                T retVal = null;
+                ctxt = new XmlBStringContext(file.ReadToEnd());
+                file.Close();
+            }
 
-                // Do not rely on XmlBFileContext since it does not care about encoding. 
-                // File encoding is UTF-8
-                XmlBStringContext ctxt;
-                using (StreamReader file = new StreamReader(filePath))
+            DontNotify(() =>
+            {
+                try
                 {
-                    ctxt = new XmlBStringContext(file.ReadToEnd());
-                    file.Close();
-                }
-
-                DontNotify(() =>
-                {
-                    try
+                    retVal = acceptor.accept(ctxt) as T;
+                    if (retVal != null)
                     {
-                        retVal = acceptor.accept(ctxt) as T;
-                        if (retVal != null)
+                        retVal.setFather(enclosing);
+                        if (lockFiles)
                         {
-                            retVal.setFather(enclosing);
-                            if (lockFiles)
-                            {
-                                LockFile(filePath);
-                            }
+                            LockFile(filePath);
                         }
                     }
-                    catch (XmlBException excp)
-                    {
-                        Log.Error(ctxt.errorMessage());
-                    }
-                    catch (Exception e)
-                    {
-                        Log.Error(e.Message);
-                    }
-                });
+                }
+                catch (XmlBException)
+                {
+                    Log.Error(ctxt.errorMessage());
+                }
+                catch (Exception e)
+                {
+                    Log.Error(e.Message);
+                }
+            });
 
-                return retVal;
-            }
+            return retVal;
         }
 
         /// <summary>
@@ -795,16 +781,16 @@ namespace DataDictionary
         /// <param name="efsSystem">The system for which this dictionary is loaded</param>
         /// <param name="loadParams">The parameters used to load the file</param>
         /// <returns></returns>
-        public static Dictionary load(EFSSystem efsSystem, LoadParams loadParams)
+        public static Dictionary Load(EFSSystem efsSystem, LoadParams loadParams)
         {
             Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
-            Dictionary retVal = null;
+            Dictionary retVal;
 
             ObjectFactory factory = (ObjectFactory) acceptor.getFactory();
             try
             {
                 factory.AutomaticallyGenerateGuid = false;
-                retVal = DocumentLoader<Dictionary>.loadFile(loadParams.FilePath, null, loadParams.LockFiles);
+                retVal = LoadFile<Dictionary>(loadParams.FilePath, null, loadParams.LockFiles);
                 if (retVal != null)
                 {
                     retVal.FilePath = loadParams.FilePath;
@@ -818,8 +804,7 @@ namespace DataDictionary
                     {
                         try
                         {
-                            LoadDepends loadDepends = new LoadDepends(retVal.BasePath, loadParams.LockFiles,
-                                loadParams.Errors);
+                            LoadDepends loadDepends = new LoadDepends(loadParams.LockFiles, loadParams.Errors);
                             loadDepends.visit(retVal);
                         }
                         catch (Exception e)
@@ -854,7 +839,7 @@ namespace DataDictionary
 
             if (efsSystem != null)
             {
-                efsSystem.ShouldRebuild = true;
+                efsSystem.Context.HandleChangeEvent(null, Context.ChangeKind.Load);
             }
 
             return retVal;
@@ -867,11 +852,10 @@ namespace DataDictionary
         /// <param name="dictionary">The dictionary for which the specification is loaded</param>
         /// <param name="lockFiles">Indicates that the files should be locked</param>
         /// <returns></returns>
-        public static Specification.Specification loadSpecification(String filePath, Dictionary dictionary,
+        public static Specification.Specification LoadSpecification(String filePath, Dictionary dictionary,
             bool lockFiles)
         {
-            Specification.Specification retVal = DocumentLoader<Specification.Specification>.loadFile(filePath,
-                dictionary, lockFiles);
+            Specification.Specification retVal = LoadFile<Specification.Specification>(filePath, dictionary, lockFiles);
 
             if (retVal == null)
             {
@@ -888,11 +872,10 @@ namespace DataDictionary
         /// <param name="dictionary"></param>
         /// <param name="lockFiles">Indicates that the files should be locked</param>
         /// <returns></returns>
-        public static TranslationDictionary loadTranslationDictionary(string filePath, Dictionary dictionary,
+        public static TranslationDictionary LoadTranslationDictionary(string filePath, Dictionary dictionary,
             bool lockFiles)
         {
-            TranslationDictionary retVal = DocumentLoader<TranslationDictionary>.loadFile(filePath, dictionary,
-                lockFiles);
+            TranslationDictionary retVal = LoadFile<TranslationDictionary>(filePath, dictionary, lockFiles);
 
             if (retVal == null)
             {
@@ -910,10 +893,10 @@ namespace DataDictionary
         /// <param name="lockFiles"></param>
         /// <param name="allowErrors"></param>
         /// <returns></returns>
-        public static Types.NameSpace loadNameSpace(string filePath, ModelElement enclosing, bool lockFiles,
+        public static Types.NameSpace LoadNameSpace(string filePath, ModelElement enclosing, bool lockFiles,
             bool allowErrors)
         {
-            Types.NameSpace retVal = DocumentLoader<Types.NameSpace>.loadFile(filePath, enclosing, lockFiles);
+            Types.NameSpace retVal = LoadFile<Types.NameSpace>(filePath, enclosing, lockFiles);
 
             if (retVal == null)
             {
@@ -934,9 +917,9 @@ namespace DataDictionary
         /// <param name="lockFiles"></param>
         /// <param name="allowErrors"></param>
         /// <returns></returns>
-        public static Frame loadFrame(string filePath, ModelElement enclosing, bool lockFiles, bool allowErrors)
+        public static Frame LoadFrame(string filePath, ModelElement enclosing, bool lockFiles, bool allowErrors)
         {
-            Frame retVal = DocumentLoader<Frame>.loadFile(filePath, enclosing, lockFiles);
+            Frame retVal = LoadFile<Frame>(filePath, enclosing, lockFiles);
 
             if (retVal == null)
             {
@@ -953,13 +936,13 @@ namespace DataDictionary
         ///     Loads a chapter and locks the file
         /// </summary>
         /// <param name="filePath"></param>
-        /// <param name="dictionary"></param>
+        /// <param name="enclosing"></param>
         /// <param name="lockFiles">Indicates that the files should be locked</param>
         /// <param name="allowErrors"></param>
         /// <returns></returns>
-        public static Chapter loadChapter(string filePath, ModelElement enclosing, bool lockFiles, bool allowErrors)
+        public static Chapter LoadChapter(string filePath, ModelElement enclosing, bool lockFiles, bool allowErrors)
         {
-            Chapter retVal = DocumentLoader<Chapter>.loadFile(filePath, enclosing, lockFiles);
+            Chapter retVal = LoadFile <Chapter>(filePath, enclosing, lockFiles);
 
             if (retVal == null)
             {
@@ -972,114 +955,12 @@ namespace DataDictionary
             return retVal;
         }
 
-        private class MessageInfoVisitor : Visitor
-        {
-            /// <summary>
-            ///     Constructor
-            /// </summary>
-            public MessageInfoVisitor()
-            {
-            }
-
-            /// <summary>
-            ///     Provides the maximum path info
-            /// </summary>
-            /// <param name="v1"></param>
-            /// <param name="v2"></param>
-            /// <returns></returns>
-            private MessagePathInfoEnum Max(MessagePathInfoEnum v1, MessagePathInfoEnum v2)
-            {
-                MessagePathInfoEnum retVal;
-
-                if (v1.CompareTo(v2) > 0)
-                {
-                    retVal = v1;
-                }
-                else
-                {
-                    retVal = v2;
-                }
-
-                return retVal;
-            }
-
-            public void UpdateMessageInfo(ModelElement element)
-            {
-                // Compute the local value of the message path info
-                if (element.HasMessage(ElementLog.LevelEnum.Error))
-                {
-                    element.MessagePathInfo = MessagePathInfoEnum.Error;
-                }
-                else if (element.HasMessage(ElementLog.LevelEnum.Warning))
-                {
-                    element.MessagePathInfo = MessagePathInfoEnum.Warning;
-                }
-                else if (element.HasMessage(ElementLog.LevelEnum.Info))
-                {
-                    element.MessagePathInfo = MessagePathInfoEnum.Info;
-                }
-                else
-                {
-                    element.MessagePathInfo = MessagePathInfoEnum.Nothing;
-                }
-
-                // Grab the list of sub elements
-                ArrayList l = new ArrayList();
-                element.subElements(l);
-
-                // Compute the sub element's message info
-                foreach (object obj in l)
-                {
-                    ModelElement subElement = obj as ModelElement;
-                    if (subElement != null)
-                    {
-                        UpdateMessageInfo(subElement);
-                    }
-                }
-
-                // Combine the message info
-                foreach (object obj in l)
-                {
-                    ModelElement subElement = obj as ModelElement;
-                    if (subElement != null)
-                    {
-                        MessagePathInfoEnum sub = subElement.MessagePathInfo;
-
-                        if (sub == MessagePathInfoEnum.Error)
-                        {
-                            sub = MessagePathInfoEnum.PathToError;
-                        }
-                        else if (sub == MessagePathInfoEnum.Warning)
-                        {
-                            sub = MessagePathInfoEnum.PathToWarning;
-                        }
-                        else if (sub == MessagePathInfoEnum.Info)
-                        {
-                            sub = MessagePathInfoEnum.PathToInfo;
-                        }
-
-                        element.MessagePathInfo = Max(element.MessagePathInfo, sub);
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        ///     Updates the message info according to the model element messages and its sub model elements
-        /// </summary>
-        /// <param name="modelElement"></param>
-        public static void UpdateMessageInfo(ModelElement modelElement)
-        {
-            MessageInfoVisitor visitor = new MessageInfoVisitor();
-            visitor.UpdateMessageInfo(modelElement);
-        }
-
         /// <summary>
         ///     Indicates that the character is a valid character for a file path
         /// </summary>
         /// <param name="c"></param>
         /// <returns></returns>
-        private static bool validChar(char c)
+        private static bool ValidChar(char c)
         {
             bool retVal = true;
 
@@ -1100,13 +981,13 @@ namespace DataDictionary
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
-        public static string validFilePath(string path)
+        public static string ValidFilePath(string path)
         {
             string retVal = "";
 
             foreach (char c in path)
             {
-                if (!validChar(c))
+                if (!ValidChar(c))
                 {
                     retVal += "_";
                 }
@@ -1127,7 +1008,7 @@ namespace DataDictionary
         /// <summary>
         ///     Indicates the number of times a DontNotify has been recursively called
         /// </summary>
-        private static int DontNotifyCount = 0;
+        private static int _dontNotifyCount;
 
         /// <summary>
         ///     Indicates that notification should not occur for this action
@@ -1137,8 +1018,8 @@ namespace DataDictionary
         {
             try
             {
-                DontNotifyCount += 1;
-                if (DontNotifyCount == 1)
+                _dontNotifyCount += 1;
+                if (_dontNotifyCount == 1)
                 {
                     ControllersManager.DesactivateAllNotifications();
                     action();
@@ -1150,8 +1031,8 @@ namespace DataDictionary
             }
             finally
             {
-                DontNotifyCount -= 1;
-                if (DontNotifyCount == 0)
+                _dontNotifyCount -= 1;
+                if (_dontNotifyCount == 0)
                 {
                     ControllersManager.ActivateAllNotifications();
                 }

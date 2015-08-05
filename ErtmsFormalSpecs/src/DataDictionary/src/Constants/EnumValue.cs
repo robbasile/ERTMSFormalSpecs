@@ -206,5 +206,20 @@ namespace DataDictionary.Constants
         {
             return FullName;
         }
+
+
+        /// <summary>
+        /// Creates a default element
+        /// </summary>
+        /// <param name="enclosingCollection"></param>
+        /// <returns></returns>
+        public static EnumValue CreateDefault(ICollection enclosingCollection)
+        {
+            EnumValue retVal = (EnumValue)acceptor.getFactory().createEnumValue();
+            retVal.Name = "Value" + GetElementNumber(enclosingCollection);
+            retVal.setValue("");
+
+            return retVal;
+        }
     }
 }

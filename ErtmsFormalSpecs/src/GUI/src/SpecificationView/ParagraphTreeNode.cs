@@ -21,14 +21,9 @@ using System.Windows.Forms;
 using DataDictionary;
 using DataDictionary.Generated;
 using GUI.Converters;
-using Reports.Tests;
-using Utils;
+using GUI.Properties;
 using Dictionary = DataDictionary.Dictionary;
-using Frame = DataDictionary.Tests.Frame;
 using Paragraph = DataDictionary.Specification.Paragraph;
-using ReqRef = DataDictionary.ReqRef;
-using ReqRelated = DataDictionary.ReqRelated;
-using RequirementSet = DataDictionary.Specification.RequirementSet;
 using RequirementSetReference = DataDictionary.Specification.RequirementSetReference;
 
 namespace GUI.SpecificationView
@@ -41,17 +36,10 @@ namespace GUI.SpecificationView
         private class ItemEditor : UnnamedReferencesParagraphEditor
         {
             /// <summary>
-            ///     Constructor
-            /// </summary>
-            public ItemEditor()
-                : base()
-            {
-            }
-
-            /// <summary>
             ///     The item name
             /// </summary>
             [Category("\t\tDescription")]
+            // ReSharper disable once UnusedMember.Local
             public string Id
             {
                 get { return Item.getId(); }
@@ -66,7 +54,8 @@ namespace GUI.SpecificationView
             ///     Provides the type of the paragraph
             /// </summary>
             [Category("\t\tDescription"), TypeConverter(typeof (SpecTypeConverter))]
-            public virtual acceptor.Paragraph_type Type
+            // ReSharper disable once UnusedMember.Local
+            public acceptor.Paragraph_type Type
             {
                 get { return Item.getType(); }
                 set
@@ -80,7 +69,8 @@ namespace GUI.SpecificationView
             ///     Indicates if the paragraph has been reviewed (content & structure)
             /// </summary>
             [Category("Meta data")]
-            public virtual bool Reviewed
+            // ReSharper disable once UnusedMember.Local
+            public bool Reviewed
             {
                 get { return Item.getReviewed(); }
                 set { Item.setReviewed(value); }
@@ -90,7 +80,8 @@ namespace GUI.SpecificationView
             ///     Indicates if the paragraph can be implemented by the EFS
             /// </summary>
             [Category("Meta data"), TypeConverter(typeof (ImplementationStatusConverter))]
-            public virtual acceptor.SPEC_IMPLEMENTED_ENUM ImplementationStatus
+            // ReSharper disable once UnusedMember.Local
+            public acceptor.SPEC_IMPLEMENTED_ENUM ImplementationStatus
             {
                 get { return Item.getImplementationStatus(); }
                 set { Item.setImplementationStatus(value); }
@@ -100,7 +91,8 @@ namespace GUI.SpecificationView
             ///     Indicates if the paragraph has been tested
             /// </summary>
             [Category("Meta data")]
-            public virtual bool Tested
+            // ReSharper disable once UnusedMember.Local
+            public bool Tested
             {
                 get { return Item.getTested(); }
                 set { Item.setTested(value); }
@@ -110,7 +102,8 @@ namespace GUI.SpecificationView
             ///     Indicates that more information is required to understand the requirement
             /// </summary>
             [Category("Meta data")]
-            public virtual bool MoreInfoRequired
+            // ReSharper disable once UnusedMember.Local
+            public bool MoreInfoRequired
             {
                 get { return Item.getMoreInfoRequired(); }
                 set { Item.setMoreInfoRequired(value); }
@@ -120,7 +113,8 @@ namespace GUI.SpecificationView
             ///     Indicates that this paragraph has an issue
             /// </summary>
             [Category("Meta data")]
-            public virtual bool SpecIssue
+            // ReSharper disable once UnusedMember.Local
+            public bool SpecIssue
             {
                 get { return Item.getSpecIssue(); }
                 set { Item.setSpecIssue(value); }
@@ -131,6 +125,7 @@ namespace GUI.SpecificationView
         ///     Constructor
         /// </summary>
         /// <param name="item"></param>
+        /// <param name="buildSubNodes"></param>
         public ParagraphTreeNode(Paragraph item, bool buildSubNodes)
             : base(item, buildSubNodes)
         {
@@ -139,14 +134,15 @@ namespace GUI.SpecificationView
         /// <summary>
         ///     Builds the subnodes of this node
         /// </summary>
-        /// <param name="buildSubNodes">Indicates whether the subnodes of the nodes should also be built</param>
-        public override void BuildSubNodes(bool buildSubNodes)
+        /// <param name="subNodes"></param>
+        /// <param name="recursive">Indicates whether the subnodes of the nodes should also be built</param>
+        public override void BuildSubNodes(List<BaseTreeNode> subNodes, bool recursive)
         {
-            base.BuildSubNodes(buildSubNodes);
+            base.BuildSubNodes(subNodes, recursive);
 
             foreach (Paragraph paragraph in Item.SubParagraphs)
             {
-                Nodes.Add(new ParagraphTreeNode(paragraph, buildSubNodes));
+                subNodes.Add(new ParagraphTreeNode(paragraph, recursive));
             }
         }
 
@@ -154,87 +150,32 @@ namespace GUI.SpecificationView
         ///     Creates the editor for this tree node
         /// </summary>
         /// <returns></returns>
-        protected override Editor createEditor()
+        protected override Editor CreateEditor()
         {
             return new ItemEditor();
         }
 
-        /// <summary>
-        ///     Update counts according to the selected chapter
-        /// </summary>
-        /// <param name="displayStatistics">Indicates that statistics should be displayed in the MDI window</param>
-        public override void SelectionChanged(bool displayStatistics)
-        {
-            base.SelectionChanged(false);
-
-            Window window = BaseForm as Window;
-            if (window != null)
-            {
-                window.specBrowserRuleView.Nodes.Clear();
-                foreach (ReqRef reqRef in Item.Implementations)
-                {
-                    window.specBrowserRuleView.Nodes.Add(new ReqRefTreeNode(reqRef, true, false, reqRef.Model.Name));
-                }
-
-                window.functionalBlocksTreeView.SetRoot(Model);
-                window.functionalBlocksTreeView.RefreshModel();
-            }
-
-            GUIUtils.MDIWindow.SetCoverageStatus(Item);
-        }
-
         public void ImplementedHandler(object sender, EventArgs args)
         {
-            if (Item.isApplicable())
+            if (Item.IsApplicable())
             {
                 Item.setImplementationStatus(acceptor.SPEC_IMPLEMENTED_ENUM.Impl_Implemented);
             }
-
-            RefreshNode();
         }
 
         public void ReviewedHandler(object sender, EventArgs args)
         {
             Item.setReviewed(true);
-
-            RefreshNode();
         }
 
         public void NotImplementableHandler(object sender, EventArgs args)
         {
             Item.setImplementationStatus(acceptor.SPEC_IMPLEMENTED_ENUM.Impl_NotImplementable);
-            RefreshNode();
-        }
-
-        /// <summary>
-        ///     Adds a new paragraph in this paragraph
-        /// </summary>
-        /// <param name="paragraph"></param>
-        public void AddParagraph(Paragraph paragraph)
-        {
-            Item.appendParagraphs(paragraph);
-            Nodes.Add(new ParagraphTreeNode(paragraph, true));
-            RefreshNode();
         }
 
         public void AddParagraphHandler(object sender, EventArgs args)
         {
-            Paragraph paragraph = (Paragraph) acceptor.getFactory().createParagraph();
-            paragraph.FullId = Item.GetNewSubParagraphId(false);
-            paragraph.Text = "";
-            paragraph.setType(acceptor.Paragraph_type.aREQUIREMENT);
-
-            SetupDefaultRequirementSets(paragraph);
-
-            AddParagraph(paragraph);
-        }
-
-        private void SetupDefaultRequirementSets(Paragraph paragraph)
-        {
-            foreach (RequirementSet requirementSet in Item.EFSSystem.RequirementSets)
-            {
-                requirementSet.setDefaultRequirementSets(paragraph);
-            }
+            Item.appendParagraphs(Paragraph.CreateDefault(Item.SubParagraphs, Item.FullId));
         }
 
         public void AddParagraphFromClipboardHandler(object sender, EventArgs args)
@@ -285,25 +226,24 @@ namespace GUI.SpecificationView
                 data = data.Replace("\r", "");
                 data = data.Replace("\n", "");
 
-                Paragraph paragraph = (Paragraph) acceptor.getFactory().createParagraph();
+                Paragraph paragraph = Paragraph.CreateDefault(Item.SubParagraphs, Item.FullId);
                 paragraph.FullId = id;
                 paragraph.Text = data;
-                paragraph.setType(acceptor.Paragraph_type.aREQUIREMENT);
-                SetupDefaultRequirementSets(paragraph);
-                AddParagraph(paragraph);
+                Item.appendParagraphs(paragraph);
             }
         }
 
         /// <summary>
         ///     Handles a drop event
         /// </summary>
-        /// <param name="SourceNode"></param>
-        public override void AcceptDrop(BaseTreeNode SourceNode)
+        /// <param name="sourceNode"></param>
+        public override void AcceptDrop(BaseTreeNode sourceNode)
         {
-            if (SourceNode is ParagraphTreeNode)
+            ParagraphTreeNode paragraphTreeNode = sourceNode as ParagraphTreeNode;
+            if (paragraphTreeNode != null)
             {
                 Paragraph current = Item;
-                while (current != null && current != SourceNode.Model)
+                while (current != null && current != paragraphTreeNode.Model)
                 {
                     current = current.EnclosingParagraph;
                 }
@@ -311,44 +251,38 @@ namespace GUI.SpecificationView
                 if (current == null)
                 {
                     if (
-                        MessageBox.Show("Are you sure you want to move the corresponding paragraph?", "Move paragraph",
-                            MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                        MessageBox.Show(
+                            Resources.ParagraphTreeNode_AcceptDrop_Are_you_sure_you_want_to_move_the_corresponding_paragraph_, 
+                            Resources.ParagraphTreeNode_AcceptDrop_Move_paragraph,
+                            MessageBoxButtons.YesNo, 
+                            MessageBoxIcon.Question) == DialogResult.Yes)
                     {
-                        ParagraphTreeNode paragraphTreeNode = (ParagraphTreeNode) SourceNode;
-
                         Paragraph paragraph = paragraphTreeNode.Item;
                         paragraphTreeNode.Delete();
-                        AddParagraph(paragraph);
+                        Item.appendParagraphs(paragraph);
                     }
                 }
                 else
                 {
-                    MessageBox.Show("Cannot move a paragraph in its sub paragraphs", "Move paragraph",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(
+                        Resources.ParagraphTreeNode_AcceptDrop_Cannot_move_a_paragraph_in_its_sub_paragraphs, 
+                        Resources.ParagraphTreeNode_AcceptDrop_Move_paragraph,
+                        MessageBoxButtons.OK, 
+                        MessageBoxIcon.Error);
                 }
             }
             else
             {
-                base.AcceptDrop(SourceNode);
+                base.AcceptDrop(sourceNode);
             }
         }
 
-        public override void AcceptCopy(BaseTreeNode SourceNode)
+        public override void AcceptCopy(BaseTreeNode sourceNode)
         {
-            if (SourceNode is ParagraphTreeNode)
+            ParagraphTreeNode paragraphTreeNode = sourceNode as ParagraphTreeNode;
+            if (paragraphTreeNode != null)
             {
-                if (HandleRequirements && ReqReferences == null)
-                {
-                    ReqReferences = new ReqRefsTreeNode(Item, true);
-                    Nodes.Add(ReqReferences);
-                    RefreshNode();
-                }
-
-                if (ReqReferences != null)
-                {
-                    ParagraphTreeNode paragraphTreeNode = (ParagraphTreeNode) SourceNode;
-                    ReqReferences.CreateReqRef(paragraphTreeNode.Item);
-                }
+                Item.FindOrCreateReqRef(paragraphTreeNode.Item);
             }
         }
 
@@ -389,7 +323,6 @@ namespace GUI.SpecificationView
         private void FindOrCreateUpdate(object sender, EventArgs args)
         {
             Dictionary dictionary = GetPatchDictionary();
-
             if (dictionary != null)
             {
                 Paragraph paragraphUpdate = dictionary.findByFullName(Item.FullName) as Paragraph;
@@ -398,9 +331,8 @@ namespace GUI.SpecificationView
                     // If the element does not already exist in the patch, add a copy to it
                     paragraphUpdate = Item.CreateParagraphUpdate(dictionary);
                 }
-                // navigate to the function, whether it was created or not
-                GUIUtils.MDIWindow.RefreshModel();
-                GUIUtils.MDIWindow.Select(paragraphUpdate);
+                // Navigate to the element, whether it was created or not
+                EFSSystem.INSTANCE.Context.SelectElement(paragraphUpdate, this, Context.SelectionCriteria.DoubleClick);
             }
         }
 
@@ -410,171 +342,33 @@ namespace GUI.SpecificationView
         /// <returns></returns>
         protected override List<MenuItem> GetMenuItems()
         {
-            List<MenuItem> retVal = new List<MenuItem>();
+            List<MenuItem> retVal = new List<MenuItem>
+            {
+                new MenuItem("Add paragraph", AddParagraphHandler),
+                new MenuItem("Add paragraph from clipboard", AddParagraphFromClipboardHandler),
+                new MenuItem("Delete", DeleteHandler),
+                new MenuItem("-"),
+                new MenuItem("Update", FindOrCreateUpdate)
+            };
 
-            retVal.Add(new MenuItem("Add paragraph", new EventHandler(AddParagraphHandler)));
-            retVal.Add(new MenuItem("Add paragraph from clipboard", new EventHandler(AddParagraphFromClipboardHandler)));
-            retVal.Add(new MenuItem("Delete", new EventHandler(DeleteHandler)));
-            retVal.Add(new MenuItem("-"));
-            retVal.Add(new MenuItem("Update", new EventHandler(FindOrCreateUpdate)));
             retVal.AddRange(base.GetMenuItems());
             MenuItem newItem = new MenuItem("Mark as...");
-            newItem.MenuItems.Add(new MenuItem("Reviewed", new EventHandler(ReviewedHandler)));
-            newItem.MenuItems.Add(new MenuItem("Implemented", new EventHandler(ImplementedHandler)));
-            newItem.MenuItems.Add(new MenuItem("Not implementable", new EventHandler(NotImplementableHandler)));
+            newItem.MenuItems.Add(new MenuItem("Reviewed", ReviewedHandler));
+            newItem.MenuItems.Add(new MenuItem("Implemented", ImplementedHandler));
+            newItem.MenuItems.Add(new MenuItem("Not implementable", NotImplementableHandler));
             retVal.Insert(4, newItem);
-            retVal.Insert(7, new MenuItem("Add Table to Id", new EventHandler(AddTableHandler)));
-            retVal.Insert(8, new MenuItem("Add Entry to Id", new EventHandler(AddEntryHandler)));
+            retVal.Insert(7, new MenuItem("Add Table to Id", AddTableHandler));
+            retVal.Insert(8, new MenuItem("Add Entry to Id", AddEntryHandler));
 
             MenuItem recursiveActions = retVal.Find(x => x.Text.StartsWith("Recursive"));
             if (recursiveActions != null)
             {
                 recursiveActions.MenuItems.Add(new MenuItem("-"));
-                recursiveActions.MenuItems.Add(new MenuItem("Remove requirement sets",
-                    new EventHandler(RemoveRequirementSets)));
+                recursiveActions.MenuItems.Add(new MenuItem("Remove requirement sets", RemoveRequirementSets));
             }
 
             return retVal;
         }
 
-        /// <summary>
-        ///     Holds metrics computed on a set of paragraphs
-        /// </summary>
-        public struct ParagraphSetMetrics
-        {
-            public int subParagraphCount;
-            public int implementableCount;
-            public int implementedCount;
-            public int unImplementedCount;
-            public int notImplementable;
-            public int newRevisionAvailable;
-            public int testedCount;
-        }
-
-        /// <summary>
-        ///     Creates the stat message according to the list of paragraphs provided
-        /// </summary>
-        /// <param name="efsSystem"></param>
-        /// <param name="paragraphs"></param>
-        /// <returns></returns>
-        public static ParagraphSetMetrics CreateParagraphSetMetrics(EFSSystem efsSystem, List<Paragraph> paragraphs)
-        {
-            ParagraphSetMetrics retVal = new ParagraphSetMetrics();
-
-            retVal.subParagraphCount = paragraphs.Count;
-
-            Dictionary<Paragraph, List<ReqRef>> paragraphsReqRefDictionary = null;
-            foreach (Paragraph p in paragraphs)
-            {
-                if (paragraphsReqRefDictionary == null)
-                {
-                    paragraphsReqRefDictionary = p.Dictionary.ParagraphsReqRefs;
-                }
-
-                switch (p.getImplementationStatus())
-                {
-                    case acceptor.SPEC_IMPLEMENTED_ENUM.Impl_Implemented:
-                        retVal.implementableCount += 1;
-
-                        bool implemented = true;
-                        if (paragraphsReqRefDictionary.ContainsKey(p))
-                        {
-                            List<ReqRef> implementations = paragraphsReqRefDictionary[p];
-                            for (int i = 0; i < implementations.Count; i++)
-                            {
-                                // the implementation may be also a ReqRef
-                                if (implementations[i].Enclosing is ReqRelated)
-                                {
-                                    ReqRelated reqRelated = implementations[i].Enclosing as ReqRelated;
-                                    // Do not consider tests
-                                    if (EnclosingFinder<Frame>.find(reqRelated) == null)
-                                    {
-                                        implemented = implemented && reqRelated.ImplementationCompleted;
-                                    }
-                                }
-                            }
-                        }
-                        if (implemented)
-                        {
-                            retVal.implementedCount += 1;
-                        }
-                        else
-                        {
-                            retVal.unImplementedCount += 1;
-                        }
-                        break;
-
-                    case acceptor.SPEC_IMPLEMENTED_ENUM.Impl_NA:
-                    case acceptor.SPEC_IMPLEMENTED_ENUM.defaultSPEC_IMPLEMENTED_ENUM:
-                        retVal.implementableCount += 1;
-                        retVal.unImplementedCount += 1;
-                        break;
-
-                    case acceptor.SPEC_IMPLEMENTED_ENUM.Impl_NotImplementable:
-                        retVal.notImplementable += 1;
-                        break;
-
-                    case acceptor.SPEC_IMPLEMENTED_ENUM.Impl_NewRevisionAvailable:
-                        retVal.implementableCount += 1;
-                        retVal.newRevisionAvailable += 1;
-                        break;
-                }
-            }
-
-            // Count the tested paragraphs
-            HashSet<Paragraph> testedParagraphs = new HashSet<Paragraph>();
-            foreach (Dictionary dictionary in efsSystem.Dictionaries)
-            {
-                foreach (Paragraph p in TestsCoverageReport.CoveredRequirements(dictionary))
-                {
-                    testedParagraphs.Add(p);
-                }
-            }
-
-            foreach (Paragraph p in paragraphs)
-            {
-                if (testedParagraphs.Contains(p))
-                {
-                    retVal.testedCount += 1;
-                }
-            }
-
-            return retVal;
-        }
-
-        /// <summary>
-        ///     Creates the stat message according to the list of paragraphs provided
-        /// </summary>
-        /// <param name="efsSystem"></param>
-        /// <param name="paragraphs"></param>
-        /// <param name="indicateSelected">Indicates that there are selected requirements</param>
-        /// <returns></returns>
-        public static string CreateStatMessage(EFSSystem efsSystem, List<Paragraph> paragraphs, bool indicateSelected)
-        {
-            string retVal = "Statistics : ";
-
-            ParagraphSetMetrics metrics = CreateParagraphSetMetrics(efsSystem, paragraphs);
-
-            if (metrics.subParagraphCount > 0 && metrics.implementableCount > 0)
-            {
-                retVal += metrics.subParagraphCount + (indicateSelected ? " selected" : "") + " requirements, ";
-                retVal += +metrics.implementableCount + " implementable (" +
-                          Math.Round(((float) metrics.implementableCount/metrics.subParagraphCount*100), 2) + "%), ";
-                retVal += metrics.implementedCount + " implemented (" +
-                          Math.Round(((float) metrics.implementedCount/metrics.implementableCount*100), 2) + "%), ";
-                retVal += +metrics.unImplementedCount + " not implemented (" +
-                          Math.Round(((float) metrics.unImplementedCount/metrics.implementableCount*100), 2) + "%), ";
-                retVal += metrics.newRevisionAvailable + " with new revision (" +
-                          Math.Round(((float) metrics.newRevisionAvailable/metrics.implementableCount*100), 2) + "%), ";
-                retVal += metrics.testedCount + " tested (" +
-                          Math.Round(((float) metrics.testedCount/metrics.implementableCount*100), 2) + "%)";
-            }
-            else
-            {
-                retVal += "No implementable requirement selected";
-            }
-
-            return retVal;
-        }
     }
 }

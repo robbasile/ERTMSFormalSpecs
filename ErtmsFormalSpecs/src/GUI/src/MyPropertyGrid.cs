@@ -34,7 +34,7 @@ namespace GUI
         /// </summary>
         public IBaseForm EnclosingForm
         {
-            get { return GUIUtils.EnclosingFinder<IBaseForm>.find(this); }
+            get { return GuiUtils.EnclosingFinder<IBaseForm>.Find(this); }
         }
 
         /// <summary>

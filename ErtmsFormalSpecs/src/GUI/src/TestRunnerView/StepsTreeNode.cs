@@ -28,19 +28,13 @@ namespace GUI.TestRunnerView
         /// </summary>
         private class ItemEditor : NamedEditor
         {
-            /// <summary>
-            ///     Constructor
-            /// </summary>
-            public ItemEditor()
-                : base()
-            {
-            }
         }
 
         /// <summary>
         ///     Constructor
         /// </summary>
         /// <param name="item"></param>
+        /// <param name="buildSubNodes"></param>
         public StepsTreeNode(TestCase item, bool buildSubNodes)
             : base(item, buildSubNodes, "Steps", true)
         {
@@ -49,14 +43,15 @@ namespace GUI.TestRunnerView
         /// <summary>
         ///     Builds the subnodes of this node
         /// </summary>
-        /// <param name="buildSubNodes">Indicates whether the subnodes of the nodes should also be built</param>
-        public override void BuildSubNodes(bool buildSubNodes)
+        /// <param name="subNodes"></param>
+        /// <param name="recursive">Indicates whether the subnodes of the nodes should also be built</param>
+        public override void BuildSubNodes(List<BaseTreeNode> subNodes, bool recursive)
         {
-            base.BuildSubNodes(buildSubNodes);
+            base.BuildSubNodes(subNodes, recursive);
 
             foreach (Step step in Item.Steps)
             {
-                Nodes.Add(new StepTreeNode(step, buildSubNodes));
+                subNodes.Add(new StepTreeNode(step, recursive));
             }
         }
 
@@ -64,30 +59,14 @@ namespace GUI.TestRunnerView
         ///     Creates the editor for this tree node
         /// </summary>
         /// <returns></returns>
-        protected override Editor createEditor()
+        protected override Editor CreateEditor()
         {
             return new ItemEditor();
         }
 
-        /// <summary>
-        ///     Creates a new step
-        /// </summary>
-        /// <param name="step"></param>
-        /// <returns></returns>
-        public StepTreeNode createStep(Step step)
-        {
-            step.Enclosing = Item;
-            StepTreeNode retVal = new StepTreeNode(step, true);
-
-            Item.appendSteps(step);
-            Nodes.Add(retVal);
-
-            return retVal;
-        }
-
         public void AddHandler(object sender, EventArgs args)
         {
-            createStep(Step.createDefault("Step" + (GetNodeCount(false) + 1)));
+            Item.appendSteps(Step.CreateDefault(Item.Steps));
         }
 
         /// <summary>
@@ -96,9 +75,8 @@ namespace GUI.TestRunnerView
         /// <returns></returns>
         protected override List<MenuItem> GetMenuItems()
         {
-            List<MenuItem> retVal = new List<MenuItem>();
+            List<MenuItem> retVal = new List<MenuItem> {new MenuItem("Add", AddHandler)};
 
-            retVal.Add(new MenuItem("Add", new EventHandler(AddHandler)));
             retVal.AddRange(base.GetMenuItems());
 
             return retVal;
@@ -107,16 +85,15 @@ namespace GUI.TestRunnerView
         /// <summary>
         ///     Handles the drop event
         /// </summary>
-        /// <param name="SourceNode"></param>
-        public override void AcceptDrop(BaseTreeNode SourceNode)
+        /// <param name="sourceNode"></param>
+        public override void AcceptDrop(BaseTreeNode sourceNode)
         {
-            base.AcceptDrop(SourceNode);
-            if (SourceNode is StepTreeNode)
+            base.AcceptDrop(sourceNode);
+            if (sourceNode is StepTreeNode)
             {
-                StepTreeNode step = SourceNode as StepTreeNode;
+                StepTreeNode step = sourceNode as StepTreeNode;
                 step.Delete();
-
-                createStep(step.Item);
+                Item.appendSteps(step.Item);
             }
         }
     }

@@ -19,7 +19,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
 using DataDictionary;
-using DataDictionary.Generated;
 using DataDictionary.Tests.Runner;
 using GUI.Report;
 using Utils;
@@ -36,14 +35,6 @@ namespace GUI.TestRunnerView
         /// </summary>
         private class ItemEditor : ReqRelatedEditor
         {
-            /// <summary>
-            ///     Constructor
-            /// </summary>
-            public ItemEditor()
-                : base()
-            {
-            }
-
             /// <summary>
             ///     The item name
             /// </summary>
@@ -69,6 +60,7 @@ namespace GUI.TestRunnerView
             ///     The item feature
             /// </summary>
             [Category("Description")]
+            // ReSharper disable once UnusedMember.Local
             public int Feature
             {
                 get { return Item.getFeature(); }
@@ -79,6 +71,7 @@ namespace GUI.TestRunnerView
             ///     The item test case
             /// </summary>
             [Category("Description")]
+            // ReSharper disable once UnusedMember.Local
             public int TestCase
             {
                 get { return Item.getCase(); }
@@ -87,14 +80,10 @@ namespace GUI.TestRunnerView
         }
 
         /// <summary>
-        ///     The steps tree node
-        /// </summary>
-        private StepsTreeNode steps = null;
-
-        /// <summary>
         ///     Constructor
         /// </summary>
         /// <param name="item"></param>
+        /// <param name="buildSubNodes"></param>
         public TestCaseTreeNode(TestCase item, bool buildSubNodes)
             : base(item, buildSubNodes)
         {
@@ -103,20 +92,20 @@ namespace GUI.TestRunnerView
         /// <summary>
         ///     Builds the subnodes of this node
         /// </summary>
-        /// <param name="buildSubNodes">Indicates whether the subnodes of the nodes should also be built</param>
-        public override void BuildSubNodes(bool buildSubNodes)
+        /// <param name="subNodes"></param>
+        /// <param name="recursive">Indicates whether the subnodes of the nodes should also be built</param>
+        public override void BuildSubNodes(List<BaseTreeNode> subNodes, bool recursive)
         {
-            base.BuildSubNodes(buildSubNodes);
+            base.BuildSubNodes(subNodes, recursive);
 
-            steps = new StepsTreeNode(Item, buildSubNodes);
-            Nodes.Add(steps);
+            subNodes.Add(new StepsTreeNode(Item, recursive));
         }
 
         /// <summary>
         ///     Creates the editor for this tree node
         /// </summary>
         /// <returns></returns>
-        protected override Editor createEditor()
+        protected override Editor CreateEditor()
         {
             return new ItemEditor();
         }
@@ -127,7 +116,7 @@ namespace GUI.TestRunnerView
         private void CheckRunner()
         {
             Window window = BaseForm as Window;
-            if (Item.EFSSystem.Runner != null && Item.EFSSystem.Runner.SubSequence != Item.SubSequence)
+            if (window != null && Item.EFSSystem.Runner != null && Item.EFSSystem.Runner.SubSequence != Item.SubSequence)
             {
                 window.Clear();
             }
@@ -142,7 +131,7 @@ namespace GUI.TestRunnerView
         {
             FinderRepository.INSTANCE.ClearCache();
             Item.Translate(Item.Dictionary.TranslationDictionary);
-            GUIUtils.MDIWindow.RefreshModel();
+            EFSSystem.INSTANCE.Context.HandleChangeEvent(Item, Context.ChangeKind.Translation);
         }
 
         #region Execute tests
@@ -160,14 +149,6 @@ namespace GUI.TestRunnerView
             private TestCase TestCase { get; set; }
 
             /// <summary>
-            ///     The EFS system
-            /// </summary>
-            private EFSSystem EFSSystem
-            {
-                get { return TestCase.EFSSystem; }
-            }
-
-            /// <summary>
             ///     Constructor
             /// </summary>
             /// <param name="window"></param>
@@ -181,7 +162,6 @@ namespace GUI.TestRunnerView
             /// <summary>
             ///     Executes the tests in the background thread
             /// </summary>
-            /// <param name="arg"></param>
             public override void ExecuteWork()
             {
                 if (Window != null)
@@ -203,7 +183,7 @@ namespace GUI.TestRunnerView
                             found = (current == TestCase);
                         }
 
-                        Runner runner = Window.getRunner(subSequence);
+                        Runner runner = Window.GetRunner(subSequence);
                         runner.RunUntilStep(step);
                     }
                     SynchronizerList.ResumeSynchronization();
@@ -225,12 +205,7 @@ namespace GUI.TestRunnerView
             ProgressDialog dialog = new ProgressDialog("Executing test steps", executeTestsHandler);
             dialog.ShowDialog();
 
-            Window window = BaseForm as Window;
-            if (window != null)
-            {
-                window.RefreshAfterStep();
-                window.tabControl1.SelectedTab = window.testExecutionTabPage;
-            }
+            EFSSystem.INSTANCE.Context.HandleChangeEvent(null);
         }
 
         #endregion
@@ -245,48 +220,10 @@ namespace GUI.TestRunnerView
             TestReport aReport = new TestReport(Item);
             aReport.Show();
         }
-
-        /// <summary>
-        ///     Creates a new step
-        /// </summary>
-        /// <param name="step"></param>
-        public StepTreeNode createStep(Step step)
-        {
-            return steps.createStep(step);
-        }
-
+        
         public void AddHandler(object sender, EventArgs args)
         {
-            steps.AddHandler(sender, args);
-        }
-
-        /// <summary>
-        ///     Extracts the test case in a new subsequence
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="args"></param>
-        public void Extract(object sender, EventArgs args)
-        {
-            MainWindow mainWindow = GUIUtils.MDIWindow;
-            mainWindow.AllowRefresh = false;
-
-            try
-            {
-                SubSequence subSequence = (SubSequence) acceptor.getFactory().createSubSequence();
-                subSequence.Name = Item.Name;
-
-                FrameTreeNode frameTreeNode = Parent.Parent as FrameTreeNode;
-                SubSequenceTreeNode newSubSequence = frameTreeNode.createSubSequence(subSequence);
-
-                SubSequenceTreeNode subSequenceTreeNode = Parent as SubSequenceTreeNode;
-                newSubSequence.AcceptCopy((BaseTreeNode) subSequenceTreeNode.Nodes[0]);
-                newSubSequence.AcceptDrop(this);
-            }
-            finally
-            {
-                mainWindow.AllowRefresh = true;
-                mainWindow.RefreshModel();
-            }
+            Item.appendSteps(Step.CreateDefault(Item.Steps));
         }
 
         /// <summary>
@@ -295,38 +232,21 @@ namespace GUI.TestRunnerView
         /// <returns></returns>
         protected override List<MenuItem> GetMenuItems()
         {
-            List<MenuItem> retVal = new List<MenuItem>();
+            List<MenuItem> retVal = new List<MenuItem>
+            {
+                new MenuItem("Add step", AddHandler),
+                new MenuItem("Delete", DeleteHandler)
+            };
 
-            retVal.Add(new MenuItem("Add step", new EventHandler(AddHandler)));
-            retVal.Add(new MenuItem("Delete", new EventHandler(DeleteHandler)));
             retVal.AddRange(base.GetMenuItems());
-            retVal.Insert(7, new MenuItem("Apply translation rules", new EventHandler(TranslateHandler)));
+            retVal.Insert(7, new MenuItem("Apply translation rules", TranslateHandler));
             retVal.Insert(8, new MenuItem("-"));
-            retVal.Insert(9, new MenuItem("Extract in a new subsequence", new EventHandler(Extract)));
-            retVal.Insert(10, new MenuItem("-"));
-            retVal.Insert(11, new MenuItem("Execute", new EventHandler(RunHandler)));
-            retVal.Insert(12, new MenuItem("Create report", new EventHandler(ReportHandler)));
+
+           retVal.Insert(11, new MenuItem("Execute", RunHandler));
+            retVal.Insert(12, new MenuItem("Create report", ReportHandler));
             retVal.Insert(13, new MenuItem("-"));
 
             return retVal;
-        }
-
-        public override void SelectionChanged(bool displayStatistics)
-        {
-            base.SelectionChanged(displayStatistics);
-
-            // HaCK 
-            // Avoid selecting the test case when selecting a step in the static time line
-            // when the sub sequence is currently displayed
-            if (!GUIUtils.MDIWindow.HandlingSelection)
-            {
-                Window window = BaseForm as Window;
-                if (window != null)
-                {
-                    window.testDescriptionTimeLineControl.TestCase = Item;
-                    window.testDescriptionTimeLineControl.Refresh();
-                }
-            }
         }
     }
 }

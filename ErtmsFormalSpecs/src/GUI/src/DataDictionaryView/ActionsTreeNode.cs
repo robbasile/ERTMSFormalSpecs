@@ -17,7 +17,6 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using DataDictionary.Generated;
 using Action = DataDictionary.Rules.Action;
 using RuleCondition = DataDictionary.Rules.RuleCondition;
 
@@ -29,76 +28,55 @@ namespace GUI.DataDictionaryView
         ///     Constructor
         /// </summary>
         /// <param name="item"></param>
+        /// <param name="buildSubNodes"></param>
         public ActionsTreeNode(RuleCondition item, bool buildSubNodes)
-            : base(item, buildSubNodes, "Actions", true, false)
+            : base(item, buildSubNodes, "Actions", false)
         {
         }
 
         /// <summary>
         ///     Builds the subnodes of this node
         /// </summary>
-        /// <param name="buildSubNodes">Indicates whether the subnodes of the nodes should also be built</param>
-        public override void BuildSubNodes(bool buildSubNodes)
+        /// <param name="subNodes"></param>
+        /// <param name="recursive">Indicates whether the subnodes of the nodes should also be built</param>
+        public override void BuildSubNodes(List<BaseTreeNode> subNodes, bool recursive)
         {
-            Nodes.Clear();
+            // Do not use the base version
+            SubNodesBuilt = true;
 
             foreach (Action action in Item.Actions)
             {
-                Nodes.Add(new ActionTreeNode(action, buildSubNodes));
+                subNodes.Add(new ActionTreeNode(action, recursive));
             }
             if (Item.EnclosingRule != null && !Item.EnclosingRule.BelongsToAProcedure())
             {
-                SortSubNodes();
+                subNodes.Sort();
             }
-            SubNodesBuilt = true;
         }
-
-        public override ActionTreeNode AddAction(Action action)
-        {
-            ActionTreeNode retVal = new ActionTreeNode(action, true);
-            Item.appendActions(action);
-
-            Nodes.Add(retVal);
-            if (Item.EnclosingRule != null && !Item.EnclosingRule.BelongsToAProcedure())
-            {
-                SortSubNodes();
-            }
-
-            Item.setVerified(false);
-            return retVal;
-        }
-
+        
         public void AddHandler(object sender, EventArgs args)
         {
-            Action action = (Action) acceptor.getFactory().createAction();
-            action.ExpressionText = "";
-            AddAction(action);
-        }
-
-        public void AddCustomHandler(object sender, EventArgs args)
-        {
-            CustomAction customAction = new CustomAction(Item.EnclosingStructure);
-            customAction.CreateCustomAction = AddAction;
-            customAction.ShowDialog();
+            Item.appendActions(Action.CreateDefault(Item.Actions));
+            Item.setVerified(false);
         }
 
         /// <summary>
         ///     Handles a drop event
         /// </summary>
-        /// <param name="SourceNode"></param>
-        public override void AcceptDrop(BaseTreeNode SourceNode)
+        /// <param name="sourceNode"></param>
+        public override void AcceptDrop(BaseTreeNode sourceNode)
         {
-            if (SourceNode is ActionTreeNode)
+            ActionTreeNode actionTreeNode = sourceNode as ActionTreeNode;
+            if (actionTreeNode != null)
             {
                 if (
                     MessageBox.Show("Are you sure you want to move the corresponding action ?", "Move action",
                         MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
-                    ActionTreeNode actionTreeNode = (ActionTreeNode) SourceNode;
-
                     Action action = actionTreeNode.Item;
                     actionTreeNode.Delete();
-                    AddAction(action);
+                    Item.appendActions(action);
+                    Item.setVerified(false);
                 }
             }
         }
@@ -109,10 +87,7 @@ namespace GUI.DataDictionaryView
         /// <returns></returns>
         protected override List<MenuItem> GetMenuItems()
         {
-            List<MenuItem> retVal = new List<MenuItem>();
-
-            retVal.Add(new MenuItem("Add", new EventHandler(AddHandler)));
-            retVal.Add(new MenuItem("Add custom...", new EventHandler(AddCustomHandler)));
+            List<MenuItem> retVal = new List<MenuItem> {new MenuItem("Add", AddHandler)};
 
             return retVal;
         }

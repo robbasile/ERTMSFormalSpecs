@@ -137,23 +137,26 @@ namespace DataDictionary.Tests
         {
             if (getTranslationRequired())
             {
-                SubSteps.Clear();
+                Util.DontNotify(() =>
+                {
+                    SubSteps.Clear();
 
-                Translation translation = null;
-                if (translationDictionary != null)
-                {
-                    translation = translationDictionary.findTranslation(getDescription(), Comment);
-                }
+                    Translation translation = null;
+                    if (translationDictionary != null)
+                    {
+                        translation = translationDictionary.findTranslation(getDescription(), Comment);
+                    }
 
-                if (translation != null)
-                {
-                    translation.UpdateStep(this);
-                    setTranslated(true);
-                }
-                else
-                {
-                    AddWarning("Cannot find translation for this step");
-                }
+                    if (translation != null)
+                    {
+                        translation.UpdateStep(this);
+                        setTranslated(true);
+                    }
+                    else
+                    {
+                        AddWarning("Cannot find translation for this step");
+                    }
+                });
             }
         }
 
@@ -210,16 +213,15 @@ namespace DataDictionary.Tests
         }
 
         /// <summary>
-        ///     Creates a step and sets its default values
+        /// Creates a default element
         /// </summary>
-        /// <param name="name"></param>
+        /// <param name="enclosingCollection"></param>
         /// <returns></returns>
-        public static Step createDefault(string name)
+        public static Step CreateDefault(ICollection enclosingCollection)
         {
-            Step retVal = (Step) acceptor.getFactory().createStep();
-            retVal.Name = name;
-
-            retVal.appendSubSteps(SubStep.createDefault("Sub-step1"));
+            Step retVal = (Step)acceptor.getFactory().createStep();
+            retVal.Name = "Step" + GetElementNumber(enclosingCollection);
+            retVal.appendSubSteps(SubStep.CreateDefault(retVal.SubSteps));
 
             return retVal;
         }

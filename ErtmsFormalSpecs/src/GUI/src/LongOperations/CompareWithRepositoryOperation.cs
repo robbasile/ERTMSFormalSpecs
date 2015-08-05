@@ -53,7 +53,7 @@ namespace GUI.LongOperations
                 VersionDiff versionDiff = new VersionDiff();
                 Comparer.ensureGuidDictionary(Dictionary, otherVersion);
                 Comparer.compareDictionary(Dictionary, otherVersion, versionDiff);
-                versionDiff.markVersionChanges(Dictionary);
+                versionDiff.MarkVersionChanges(Dictionary);
             }
             else
             {

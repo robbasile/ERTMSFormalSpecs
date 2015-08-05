@@ -18,6 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using DataDictionary;
+using DataDictionary.Functions;
 using DataDictionary.Types;
 
 namespace GUI.DataDictionaryView
@@ -26,30 +27,13 @@ namespace GUI.DataDictionaryView
     {
         private class ItemEditor : TypeEditor
         {
-            /// <summary>
-            ///     Constructor
-            /// </summary>
-            public ItemEditor()
-                : base()
-            {
-            }
         }
-
-        private NameSpaceTreeNode types
-        {
-            get { return Parent.Parent as NameSpaceTreeNode; }
-        }
-
-
-        public StructureElementsTreeNode Elements;
-        public StructureInterfacesTreeNode Interfaces;
-
 
         /// <summary>
         ///     Constructor
         /// </summary>
-        /// <param name="name"></param>
         /// <param name="item"></param>
+        /// <param name="buildSubNodes"></param>
         public InterfaceTreeNode(Structure item, bool buildSubNodes)
             : base(item, buildSubNodes)
         {
@@ -58,8 +42,11 @@ namespace GUI.DataDictionaryView
         /// <summary>
         ///     Constructor
         /// </summary>
-        /// <param name="name"></param>
         /// <param name="item"></param>
+        /// <param name="buildSubNodes"></param>
+        /// <param name="name"></param>
+        /// <param name="isFolder"></param>
+        /// <param name="addRequirements"></param>
         public InterfaceTreeNode(Structure item, bool buildSubNodes, string name, bool isFolder, bool addRequirements)
             : base(item, buildSubNodes, name, isFolder, addRequirements)
         {
@@ -68,56 +55,44 @@ namespace GUI.DataDictionaryView
         /// <summary>
         ///     Builds the subnodes of this node
         /// </summary>
-        /// <param name="buildSubNodes">Indicates whether the subnodes of the nodes should also be built</param>
-        public override void BuildSubNodes(bool buildSubNodes)
+        /// <param name="subNodes"></param>
+        /// <param name="recursive">Indicates whether the subnodes of the nodes should also be built</param>
+        public override void BuildSubNodes(List<BaseTreeNode> subNodes, bool recursive)
         {
-            base.BuildSubNodes(buildSubNodes);
+            base.BuildSubNodes(subNodes, recursive);
 
-            Elements = new StructureElementsTreeNode(Item, buildSubNodes);
-            Interfaces = new StructureInterfacesTreeNode(Item, buildSubNodes);
-
-            Nodes.Add(Interfaces);
-            Nodes.Add(Elements);
+            subNodes.Add(new StructureElementsTreeNode(Item, recursive));
+            subNodes.Add(new StructureInterfacesTreeNode(Item, recursive));
         }
 
         /// <summary>
         ///     Creates the editor for this tree node
         /// </summary>
         /// <returns></returns>
-        protected override Editor createEditor()
+        protected override Editor CreateEditor()
         {
             return new ItemEditor();
         }
 
         public void AddStructureElementHandler(object sender, EventArgs args)
         {
-            if (Elements != null)
-            {
-                Elements.AddHandler(sender, args);
-            }
+            Item.appendElements(StructureElement.CreateDefault(Item.Elements));
         }
 
         public void AddInterfaceHandler(object sender, EventArgs args)
         {
-            if (Interfaces != null)
-            {
-                Interfaces.AddHandler(sender, args);
-            }
+            Item.appendInterfaces(StructureRef.CreateDefault(Item.Interfaces));
         }
 
         private void GenerateInheritedFieldsHandler(object sender, EventArgs args)
         {
             Item.GenerateInheritedFields();
-            Interfaces.Nodes.Clear();
-            Interfaces.BuildSubNodes(false);
         }
 
         /// <summary>
         ///     Finds or creates an update for the current element.
         ///     Used for both interfaces and structures.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="args"></param>
         protected override ModelElement FindOrCreateUpdate()
         {
             ModelElement retVal = null;
@@ -132,9 +107,8 @@ namespace GUI.DataDictionaryView
                     // If the element does not already exist in the patch, add a copy to it
                     retVal = Item.CreateStructureUpdate(dictionary);
                 }
-                // navigate to the structure, whether it was created or not
-                GUIUtils.MDIWindow.RefreshModel();
-                GUIUtils.MDIWindow.Select(retVal);
+                // Navigate to the rule, whether it was created or not
+                EFSSystem.INSTANCE.Context.SelectElement(Model, this, Context.SelectionCriteria.DoubleClick);
             }
 
             return retVal;
@@ -151,22 +125,22 @@ namespace GUI.DataDictionaryView
             if (Item.IsAbstract) // this is an interface, otherwise it is a structure
             {
                 MenuItem newItem = new MenuItem("Add...");
-                newItem.MenuItems.Add(new MenuItem("Element", new EventHandler(AddStructureElementHandler)));
-                newItem.MenuItems.Add(new MenuItem("Interface", new EventHandler(AddInterfaceHandler)));
+                newItem.MenuItems.Add(new MenuItem("Element", AddStructureElementHandler));
+                newItem.MenuItems.Add(new MenuItem("Interface", AddInterfaceHandler));
                 retVal.Add(newItem);
 
                 MenuItem updateItem = new MenuItem("Update...");
-                updateItem.MenuItems.Add(new MenuItem("Update", new EventHandler(AddUpdate)));
-                updateItem.MenuItems.Add(new MenuItem("Remove", new EventHandler(RemoveInUpdate)));
+                updateItem.MenuItems.Add(new MenuItem("Update", AddUpdate));
+                updateItem.MenuItems.Add(new MenuItem("Remove", RemoveInUpdate));
                 retVal.Add(updateItem);
             }
 
             if (Item.Interfaces.Count > 0)
             {
-                retVal.Add(new MenuItem("Generate inherited fields", new EventHandler(GenerateInheritedFieldsHandler)));
+                retVal.Add(new MenuItem("Generate inherited fields", GenerateInheritedFieldsHandler));
             }
 
-            retVal.Add(new MenuItem("Delete", new EventHandler(DeleteHandler)));
+            retVal.Add(new MenuItem("Delete", DeleteHandler));
             retVal.AddRange(base.GetMenuItems());
 
             return retVal;
@@ -175,21 +149,11 @@ namespace GUI.DataDictionaryView
 
     public class StructureTreeNode : InterfaceTreeNode
     {
-        private NameSpaceTreeNode types
-        {
-            get { return Parent.Parent as NameSpaceTreeNode; }
-        }
-
-        private StructureProceduresTreeNode procedures;
-        private StructureStateMachinesTreeNode stateMachines;
-        private RulesTreeNode rules;
-
-
         /// <summary>
         ///     Constructor
         /// </summary>
-        /// <param name="name"></param>
         /// <param name="item"></param>
+        /// <param name="buildSubNodes"></param>
         public StructureTreeNode(Structure item, bool buildSubNodes)
             : base(item, buildSubNodes)
         {
@@ -198,8 +162,11 @@ namespace GUI.DataDictionaryView
         /// <summary>
         ///     Constructor
         /// </summary>
-        /// <param name="name"></param>
         /// <param name="item"></param>
+        /// <param name="buildSubNodes"></param>
+        /// <param name="name"></param>
+        /// <param name="isFolder"></param>
+        /// <param name="addRequirements"></param>
         public StructureTreeNode(Structure item, bool buildSubNodes, string name, bool isFolder, bool addRequirements)
             : base(item, buildSubNodes, name, isFolder, addRequirements)
         {
@@ -208,35 +175,26 @@ namespace GUI.DataDictionaryView
         /// <summary>
         ///     Builds the subnodes of this node
         /// </summary>
-        /// <param name="buildSubNodes">Indicates whether the subnodes of the nodes should also be built</param>
-        public override void BuildSubNodes(bool buildSubNodes)
+        /// <param name="subNodes"></param>
+        /// <param name="recursive">Indicates whether the subnodes of the nodes should also be built</param>
+        public override void BuildSubNodes(List<BaseTreeNode> subNodes, bool recursive)
         {
-            base.BuildSubNodes(buildSubNodes);
+            base.BuildSubNodes(subNodes, recursive);
 
-            procedures = new StructureProceduresTreeNode(Item, buildSubNodes);
-            stateMachines = new StructureStateMachinesTreeNode(Item, buildSubNodes);
-            rules = new RulesTreeNode(Item, buildSubNodes);
-
-            Nodes.Add(procedures);
-            Nodes.Add(stateMachines);
-            Nodes.Add(rules);
+            subNodes.Add(new StructureProceduresTreeNode(Item, recursive));
+            subNodes.Add(new StructureStateMachinesTreeNode(Item, recursive));
+            subNodes.Add(new RulesTreeNode(Item, recursive));
         }
 
 
         private void AddProcedureHandler(object sender, EventArgs args)
         {
-            if (procedures != null)
-            {
-                procedures.AddHandler(sender, args);
-            }
+            Item.appendProcedures(Procedure.CreateDefault(Item.Procedures));
         }
 
         private void AddStateMachineHandler(object sender, EventArgs args)
         {
-            if (stateMachines != null)
-            {
-                stateMachines.AddHandler(sender, args);
-            }
+            Item.appendStateMachines(StateMachine.CreateDefault(Item.StateMachines));
         }
 
         /// <summary>
@@ -248,15 +206,15 @@ namespace GUI.DataDictionaryView
             List<MenuItem> retVal = new List<MenuItem>();
 
             MenuItem newItem = new MenuItem("Add...");
-            newItem.MenuItems.Add(new MenuItem("Interface", new EventHandler(AddInterfaceHandler)));
-            newItem.MenuItems.Add(new MenuItem("Structure element", new EventHandler(AddStructureElementHandler)));
-            newItem.MenuItems.Add(new MenuItem("Procedure", new EventHandler(AddProcedureHandler)));
-            newItem.MenuItems.Add(new MenuItem("State machine", new EventHandler(AddStateMachineHandler)));
+            newItem.MenuItems.Add(new MenuItem("Interface", AddInterfaceHandler));
+            newItem.MenuItems.Add(new MenuItem("Structure element", AddStructureElementHandler));
+            newItem.MenuItems.Add(new MenuItem("Procedure", AddProcedureHandler));
+            newItem.MenuItems.Add(new MenuItem("State machine", AddStateMachineHandler));
             retVal.Add(newItem);
 
             MenuItem updateItem = new MenuItem("Update...");
-            updateItem.MenuItems.Add(new MenuItem("Update", new EventHandler(AddUpdate)));
-            updateItem.MenuItems.Add(new MenuItem("Remove", new EventHandler(RemoveInUpdate)));
+            updateItem.MenuItems.Add(new MenuItem("Update", AddUpdate));
+            updateItem.MenuItems.Add(new MenuItem("Remove", RemoveInUpdate));
             retVal.Add(updateItem);
             retVal.AddRange(base.GetMenuItems());
 

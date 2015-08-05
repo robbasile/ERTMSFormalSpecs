@@ -638,10 +638,14 @@ namespace DataDictionary.Types
             get
             {
                 TransitionFinder finder = new TransitionFinder(this);
-                foreach (Dictionary dictionary in EFSSystem.Dictionaries)
+                Util.DontNotify((() =>
                 {
-                    finder.visit(dictionary);
-                }
+                    foreach (Dictionary dictionary in EFSSystem.Dictionaries)
+                    {
+                        finder.visit(dictionary);
+                    }
+
+                }));
                 return finder.Transitions;
             }
         }
@@ -990,6 +994,19 @@ namespace DataDictionary.Types
                     rule.GetExplain(explanation, explainSubElements);
                 }
             });
+        }
+
+        /// <summary>
+        /// Creates a default element
+        /// </summary>
+        /// <param name="enclosingCollection"></param>
+        /// <returns></returns>
+        public static StateMachine CreateDefault(ICollection enclosingCollection)
+        {
+            StateMachine retVal = (StateMachine)acceptor.getFactory().createStateMachine();
+            retVal.Name = "StateMachine" + GetElementNumber(enclosingCollection);
+
+            return retVal;
         }
     }
 }

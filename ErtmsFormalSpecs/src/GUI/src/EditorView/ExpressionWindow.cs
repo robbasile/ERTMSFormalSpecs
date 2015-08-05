@@ -14,9 +14,9 @@
 // --
 // ------------------------------------------------------------------------------
 
-using System.ComponentModel;
-using System.Drawing;
-using System.Windows.Forms;
+using DataDictionary;
+using DataDictionary.Specification;
+using Utils;
 
 namespace GUI.EditorView
 {
@@ -30,19 +30,38 @@ namespace GUI.EditorView
             get { return "Expression editor"; }
         }
 
-        private void InitializeComponent()
+        /// <summary>
+        ///     Allows to refresh the view, when the selected model changed
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns>true if refresh should be performed</returns>
+        public override bool HandleSelectionChange(Context.SelectionContext context)
         {
-            ComponentResourceManager resources = new ComponentResourceManager(typeof (ExpressionWindow));
-            this.SuspendLayout();
-            // 
-            // ExpressionWindow
-            // 
-            this.AutoScaleDimensions = new SizeF(6F, 13F);
-            this.ClientSize = new Size(699, 218);
-            this.FormBorderStyle = FormBorderStyle.Sizable;
-            this.Icon = ((Icon) (resources.GetObject("$this.Icon")));
-            this.Name = "ExpressionWindow";
-            this.ResumeLayout(false);
+            bool retVal = base.HandleSelectionChange(context);
+
+            if (retVal)
+            {
+                IExpressionable expressionable = DisplayedModel as IExpressionable;
+                if (expressionable != null && !(expressionable is DataDictionary.Functions.Function))
+                {
+                    setChangeHandler(new ExpressionableTextChangeHandler((DataDictionary.ModelElement)expressionable));
+                }
+                else
+                {
+                    Paragraph paragraph = DisplayedModel as Paragraph;
+                    if (paragraph != null)
+                    {
+                        setChangeHandler(new ParagraphTextChangeHandler(paragraph));
+                    }
+                    else
+                    {
+                        setChangeHandler(null);
+                    }
+                }
+                
+            }
+
+            return retVal;
         }
     }
 }

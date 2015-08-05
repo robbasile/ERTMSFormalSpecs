@@ -30,19 +30,13 @@ namespace GUI.DataDictionaryView
     {
         private class ItemEditor : NamedEditor
         {
-            /// <summary>
-            ///     Constructor
-            /// </summary>
-            public ItemEditor()
-                : base()
-            {
-            }
         }
 
         /// <summary>
         ///     Constructor
         /// </summary>
         /// <param name="item"></param>
+        /// <param name="buildSubNodes"></param>
         public RuleConditionsTreeNode(Rule item, bool buildSubNodes)
             : base(item, buildSubNodes, "Conditions", true)
         {
@@ -51,14 +45,15 @@ namespace GUI.DataDictionaryView
         /// <summary>
         ///     Builds the subnodes of this node
         /// </summary>
-        /// <param name="buildSubNodes">Indicates whether the subnodes of the nodes should also be built</param>
-        public override void BuildSubNodes(bool buildSubNodes)
+        /// <param name="subNodes"></param>
+        /// <param name="recursive">Indicates whether the subnodes of the nodes should also be built</param>
+        public override void BuildSubNodes(List<BaseTreeNode> subNodes, bool recursive)
         {
-            base.BuildSubNodes(buildSubNodes);
+            base.BuildSubNodes(subNodes, recursive);
 
             foreach (RuleCondition ruleCondition in Item.RuleConditions)
             {
-                Nodes.Add(new RuleConditionTreeNode(ruleCondition, buildSubNodes));
+                subNodes.Add(new RuleConditionTreeNode(ruleCondition, recursive));
             }
         }
 
@@ -66,7 +61,7 @@ namespace GUI.DataDictionaryView
         ///     Creates the editor for this tree node
         /// </summary>
         /// <returns></returns>
-        protected override Editor createEditor()
+        protected override Editor CreateEditor()
         {
             return new ItemEditor();
         }
@@ -74,21 +69,21 @@ namespace GUI.DataDictionaryView
         /// <summary>
         ///     Create structure based on the subsystem structure
         /// </summary>
-        /// <param name="SourceNode"></param>
-        public override void AcceptDrop(BaseTreeNode SourceNode)
+        /// <param name="sourceNode"></param>
+        public override void AcceptDrop(BaseTreeNode sourceNode)
         {
-            base.AcceptDrop(SourceNode);
+            base.AcceptDrop(sourceNode);
 
-            if (SourceNode is RuleConditionTreeNode)
+            if (sourceNode is RuleConditionTreeNode)
             {
-                RuleConditionTreeNode node = SourceNode as RuleConditionTreeNode;
+                RuleConditionTreeNode node = sourceNode as RuleConditionTreeNode;
                 RuleCondition ruleCondition = node.Item;
                 node.Delete();
-                AddRuleCondition(ruleCondition);
+                Item.appendConditions(ruleCondition);
             }
-            else if (SourceNode is ParagraphTreeNode)
+            else if (sourceNode is ParagraphTreeNode)
             {
-                ParagraphTreeNode node = SourceNode as ParagraphTreeNode;
+                ParagraphTreeNode node = sourceNode as ParagraphTreeNode;
                 Paragraph paragaph = node.Item;
 
                 RuleCondition ruleCondition = (RuleCondition) acceptor.getFactory().createRuleCondition();
@@ -97,32 +92,22 @@ namespace GUI.DataDictionaryView
                 ReqRef reqRef = (ReqRef) acceptor.getFactory().createReqRef();
                 reqRef.Name = paragaph.FullId;
                 ruleCondition.appendRequirements(reqRef);
-                AddRuleCondition(ruleCondition);
+                Item.appendConditions(ruleCondition);
             }
         }
 
         private void AddHandler(object sender, EventArgs args)
         {
-            RuleCondition rule = (RuleCondition) acceptor.getFactory().createRuleCondition();
+            RuleCondition ruleCondition = (RuleCondition) acceptor.getFactory().createRuleCondition();
             if (Item.RuleConditions.Count == 0)
             {
-                rule.Name = Item.Name;
+                ruleCondition.Name = Item.Name;
             }
             else
             {
-                rule.Name = Item.Name + (Item.RuleConditions.Count + 1);
+                ruleCondition.Name = Item.Name + (Item.RuleConditions.Count + 1);
             }
-            AddRuleCondition(rule);
-        }
-
-        /// <summary>
-        ///     Adds a new rule to the model
-        /// </summary>
-        /// <param name="ruleCondition"></param>
-        public void AddRuleCondition(RuleCondition ruleCondition)
-        {
             Item.appendConditions(ruleCondition);
-            Nodes.Add(new RuleConditionTreeNode(ruleCondition, true));
         }
 
         /// <summary>
@@ -131,9 +116,7 @@ namespace GUI.DataDictionaryView
         /// <returns></returns>
         protected override List<MenuItem> GetMenuItems()
         {
-            List<MenuItem> retVal = new List<MenuItem>();
-
-            retVal.Add(new MenuItem("Add", new EventHandler(AddHandler)));
+            List<MenuItem> retVal = new List<MenuItem> {new MenuItem("Add", AddHandler)};
 
             return retVal;
         }

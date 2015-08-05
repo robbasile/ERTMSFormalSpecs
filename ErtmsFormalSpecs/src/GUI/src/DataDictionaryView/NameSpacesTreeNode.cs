@@ -17,8 +17,8 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using DataDictionary.Generated;
 using GUI.FunctionalView;
+using GUI.Properties;
 using Dictionary = DataDictionary.Dictionary;
 using NameSpace = DataDictionary.Types.NameSpace;
 
@@ -28,20 +28,13 @@ namespace GUI.DataDictionaryView
     {
         private class ItemEditor : NamedEditor
         {
-            /// <summary>
-            ///     Constructor
-            /// </summary>
-            public ItemEditor()
-                : base()
-            {
-            }
         }
 
         /// <summary>
         ///     Constructor
         /// </summary>
         /// <param name="item"></param>
-        /// <param name="name"></param>
+        /// <param name="buildSubNodes"></param>
         public NameSpacesTreeNode(Dictionary item, bool buildSubNodes)
             : base(item, buildSubNodes, "Name spaces", true)
         {
@@ -50,46 +43,31 @@ namespace GUI.DataDictionaryView
         /// <summary>
         ///     Builds the subnodes of this node
         /// </summary>
-        /// <param name="buildSubNodes">Indicates whether the subnodes of the nodes should also be built</param>
-        public override void BuildSubNodes(bool buildSubNodes)
+        /// <param name="subNodes"></param>
+        /// <param name="recursive">Indicates whether the subnodes of the nodes should also be built</param>
+        public override void BuildSubNodes(List<BaseTreeNode> subNodes, bool recursive)
         {
-            base.BuildSubNodes(buildSubNodes);
+            base.BuildSubNodes(subNodes, recursive);
 
             foreach (NameSpace nameSpace in Item.NameSpaces)
             {
-                Nodes.Add(new NameSpaceTreeNode(nameSpace, buildSubNodes));
+                subNodes.Add(new NameSpaceTreeNode(nameSpace, recursive));
             }
-            SortSubNodes();
+            subNodes.Sort();
         }
 
         /// <summary>
         ///     Creates the editor for this tree node
         /// </summary>
         /// <returns></returns>
-        protected override Editor createEditor()
+        protected override Editor CreateEditor()
         {
             return new ItemEditor();
         }
 
         public void AddHandler(object sender, EventArgs args)
         {
-            NameSpace nameSpace = (NameSpace) acceptor.getFactory().createNameSpace();
-            nameSpace.Name = "<NameSpace" + (GetNodeCount(false) + 1) + ">";
-            AddNameSpace(nameSpace);
-        }
-
-        /// <summary>
-        ///     Adds a namespace in the corresponding namespace
-        /// </summary>
-        /// <param name="nameSpace"></param>
-        public NameSpaceTreeNode AddNameSpace(NameSpace nameSpace)
-        {
-            Item.appendNameSpaces(nameSpace);
-            NameSpaceTreeNode retVal = new NameSpaceTreeNode(nameSpace, true);
-            Nodes.Add(retVal);
-            SortSubNodes();
-
-            return retVal;
+            Item.appendNameSpaces(NameSpace.CreateDefault(Item.NameSpaces));
         }
 
         /// <summary>
@@ -100,9 +78,9 @@ namespace GUI.DataDictionaryView
         protected void ShowFunctionalViewHandler(object sender, EventArgs args)
         {
             FunctionalAnalysisWindow window = new FunctionalAnalysisWindow();
-            GUIUtils.MDIWindow.AddChildWindow(window);
+            GuiUtils.MdiWindow.AddChildWindow(window);
             window.SetNameSpaceContainer(Item);
-            window.Text = Item.Name + " functional view";
+            window.Text = Item.Name + @" " + Resources.NameSpacesTreeNode_ShowFunctionalViewHandler_functional_view;
         }
 
         /// <summary>
@@ -111,12 +89,11 @@ namespace GUI.DataDictionaryView
         /// <returns></returns>
         protected override List<MenuItem> GetMenuItems()
         {
-            List<MenuItem> retVal = new List<MenuItem>();
+            List<MenuItem> retVal = new List<MenuItem> {new MenuItem("Add", AddHandler)};
 
-            retVal.Add(new MenuItem("Add", new EventHandler(AddHandler)));
             retVal.AddRange(base.GetMenuItems());
             retVal.Insert(4, new MenuItem("-"));
-            retVal.Insert(5, new MenuItem("Functional view", new EventHandler(ShowFunctionalViewHandler)));
+            retVal.Insert(5, new MenuItem("Functional view", ShowFunctionalViewHandler));
 
             return retVal;
         }
@@ -124,42 +101,19 @@ namespace GUI.DataDictionaryView
         /// <summary>
         ///     Accepts drop of a tree node, in a drag & drop operation
         /// </summary>
-        /// <param name="SourceNode"></param>
-        public override void AcceptDrop(BaseTreeNode SourceNode)
+        /// <param name="sourceNode"></param>
+        public override void AcceptDrop(BaseTreeNode sourceNode)
         {
-            base.AcceptDrop(SourceNode);
+            base.AcceptDrop(sourceNode);
 
-            if (SourceNode is NameSpaceTreeNode)
+            if (sourceNode is NameSpaceTreeNode)
             {
-                NameSpaceTreeNode nameSpaceTreeNode = SourceNode as NameSpaceTreeNode;
+                NameSpaceTreeNode nameSpaceTreeNode = sourceNode as NameSpaceTreeNode;
                 NameSpace nameSpace = nameSpaceTreeNode.Item;
 
                 nameSpaceTreeNode.Delete();
-                AddNameSpace(nameSpace);
+                Item.appendNameSpaces(nameSpace);
             }
-        }
-
-        /// <summary>
-        ///     Update counts according to the selected folder
-        /// </summary>
-        /// <param name="displayStatistics">Indicates that statistics should be displayed in the MDI window</param>
-        public override void SelectionChanged(bool displayStatistics)
-        {
-            base.SelectionChanged(false);
-
-            Window window = BaseForm as Window;
-            if (window != null)
-            {
-                window.modelDiagramPanel.Model = Item;
-                window.modelDiagramPanel.RefreshControl();
-            }
-
-            List<NameSpace> namespaces = new List<NameSpace>();
-            foreach (NameSpace aNamespace in Item.NameSpaces)
-            {
-                namespaces.Add(aNamespace);
-            }
-            GUIUtils.MDIWindow.SetStatus(NameSpaceTreeNode.CreateStatMessage(namespaces, true));
         }
     }
 }

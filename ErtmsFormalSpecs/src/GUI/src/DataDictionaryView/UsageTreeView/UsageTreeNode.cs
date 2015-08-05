@@ -17,6 +17,7 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using BrightIdeasSoftware;
 using DataDictionary;
 using DataDictionary.Interpreter;
 
@@ -31,20 +32,13 @@ namespace GUI.DataDictionaryView.UsageTreeView
 
         private class UsageEditor : NamedEditor
         {
-            /// <summary>
-            ///     Constructor
-            /// </summary>
-            public UsageEditor()
-                : base()
-            {
-            }
         }
 
         /// <summary>
         ///     Creates the editor for this tree node
         /// </summary>
         /// <returns></returns>
-        protected override Editor createEditor()
+        protected override Editor CreateEditor()
         {
             return new UsageEditor();
         }
@@ -52,7 +46,8 @@ namespace GUI.DataDictionaryView.UsageTreeView
         /// <summary>
         ///     Constructor
         /// </summary>
-        /// <param name="item"></param>
+        /// <param name="usage"></param>
+        /// <param name="buildSubNodes"></param>
         public UsageTreeNode(Usage usage, bool buildSubNodes)
             : base(usage.User, buildSubNodes, usage.DisplayName())
         {
@@ -60,7 +55,7 @@ namespace GUI.DataDictionaryView.UsageTreeView
             ToolTipText = usage.User.FullName;
         }
 
-        public override void setImageIndex(bool isFolder)
+        public override void SetImageIndex(bool isFolder)
         {
             if (Usage != null)
             {
@@ -96,11 +91,11 @@ namespace GUI.DataDictionaryView.UsageTreeView
                         break;
                 }
             }
-            else if (Text.CompareTo("Test") == 0)
+            else if (@"Test" == Text )
             {
                 ChangeImageIndex(BaseTreeView.TestImageIndex);
             }
-            else if (Text.CompareTo("Model") == 0)
+            else if (@"Model" == Text)
             {
                 ChangeImageIndex(BaseTreeView.ModelImageIndex);
             }
@@ -109,7 +104,8 @@ namespace GUI.DataDictionaryView.UsageTreeView
         /// <summary>
         ///     Constructor
         /// </summary>
-        /// <param name="item"></param>
+        /// <param name="name"></param>
+        /// <param name="buildSubNodes"></param>
         public UsageTreeNode(string name, bool buildSubNodes)
             : base(null, buildSubNodes, name, true)
         {
@@ -125,43 +121,25 @@ namespace GUI.DataDictionaryView.UsageTreeView
 
             if (Item != null)
             {
-                retVal.Add(new MenuItem("Select", new EventHandler(SelectHandler)));
+                retVal.Add(new MenuItem("Select", SelectHandler));
             }
 
             return retVal;
         }
 
-        /// <summary>
-        ///     Don't do anything when the selection changed
-        /// </summary>
-        /// <param name="displayStatistics">Indicates that statistics should be displayed in the MDI window</param>
-        public override void SelectionChanged(bool displayStatistics)
-        {
-            setImageIndex(false);
-        }
-
-        /// <summary>
-        ///     Selects the elements in the GUI
-        /// </summary>
-        public void SelectInGUI()
+        private void SelectHandler(object sender, EventArgs e)
         {
             if (Item != null)
             {
-                GUIUtils.MDIWindow.Select(Item, true);
+                EFSSystem.INSTANCE.Context.SelectElement(Item, TreeView, Context.SelectionCriteria.LeftClick);
             }
-        }
-
-        private void SelectHandler(object sender, EventArgs e)
-        {
-            SelectInGUI();
         }
 
         public override void DoubleClickHandler()
         {
             if (Item != null)
             {
-                base.DoubleClickHandler();
-                SelectInGUI();
+                EFSSystem.INSTANCE.Context.SelectElement(Item, TreeView, Context.SelectionCriteria.DoubleClick);
             }
         }
     }

@@ -535,5 +535,19 @@ namespace DataDictionary.Rules
                 rule.RecoverUpdateInformation();
             }
         }
+
+        /// <summary>
+        ///     Creates the status message 
+        /// </summary>
+        /// <returns>the status string for the selected element</returns>
+        public override string CreateStatusMessage()
+        {
+            string result = base.CreateStatusMessage();
+
+            result += "Rule condition" + Name + " with " + PreConditions.Count + " preconditions and " + Actions.Count + " actions";
+
+            return result;
+        }
+
     }
 }

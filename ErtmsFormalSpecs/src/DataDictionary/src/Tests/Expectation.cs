@@ -15,9 +15,10 @@
 // ------------------------------------------------------------------------------
 
 using System.Collections;
+using DataDictionary.Generated;
 using DataDictionary.Interpreter;
-using DataDictionary.Tests.Translations;
 using Utils;
+using Translation = DataDictionary.Tests.Translations.Translation;
 
 namespace DataDictionary.Tests
 {
@@ -259,6 +260,36 @@ namespace DataDictionary.Tests
                 explanation.Expression(this);
                 explanation.WriteLine();
             }
+        }
+
+        /// <summary>
+        ///     Provides the description of the requirements related to this model element
+        /// </summary>
+        /// <returns></returns>
+        public override string RequirementDescription()
+        {
+            string retVal = base.RequirementDescription();
+
+            if (Translation != null)
+            {
+                // TODO : Check, this seems strange
+                retVal = Translation.getSourceTextExplain();
+            }
+
+            return retVal;
+        }
+
+        /// <summary>
+        /// Creates a default element
+        /// </summary>
+        /// <param name="enclosingCollection"></param>
+        /// <returns></returns>
+        public static Expectation CreateDefault(ICollection enclosingCollection)
+        {
+            Expectation retVal = (Expectation)acceptor.getFactory().createExpectation();
+            retVal.Name = "Expectation" + GetElementNumber(enclosingCollection);
+
+            return retVal;
         }
     }
 }

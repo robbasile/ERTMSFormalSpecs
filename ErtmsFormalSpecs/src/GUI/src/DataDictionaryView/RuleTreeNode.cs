@@ -14,7 +14,6 @@
 // --
 // ------------------------------------------------------------------------------
 
-using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
@@ -31,17 +30,10 @@ namespace GUI.DataDictionaryView
         private class ItemEditor : ReqRelatedEditor
         {
             /// <summary>
-            ///     Constructor
-            /// </summary>
-            public ItemEditor()
-                : base()
-            {
-            }
-
-            /// <summary>
             ///     The item name
             /// </summary>
             [Category("Description"), TypeConverter(typeof (RulePriorityConverter))]
+            // ReSharper disable once UnusedMember.Local
             public acceptor.RulePriority Priority
             {
                 get { return Item.getPriority(); }
@@ -49,12 +41,11 @@ namespace GUI.DataDictionaryView
             }
         }
 
-        private RuleConditionsTreeNode Conditions;
-
         /// <summary>
         ///     Constructor
         /// </summary>
         /// <param name="item"></param>
+        /// <param name="buildSubNodes"></param>
         public RuleTreeNode(Rule item, bool buildSubNodes)
             : base(item, buildSubNodes)
         {
@@ -63,7 +54,9 @@ namespace GUI.DataDictionaryView
         /// <summary>
         ///     Constructor
         /// </summary>
+        /// <param name="name"></param>
         /// <param name="item"></param>
+        /// <param name="buildSubNodes"></param>
         public RuleTreeNode(string name, Rule item, bool buildSubNodes)
             : base(item, buildSubNodes, name, false, true)
         {
@@ -72,47 +65,24 @@ namespace GUI.DataDictionaryView
         /// <summary>
         ///     Builds the subnodes of this node
         /// </summary>
-        /// <param name="buildSubNodes">Indicates whether the subnodes of the nodes should also be built</param>
-        public override void BuildSubNodes(bool buildSubNodes)
+        /// <param name="subNodes"></param>
+        /// <param name="recursive">Indicates whether the subnodes of the nodes should also be built</param>
+        public override void BuildSubNodes(List<BaseTreeNode> subNodes, bool recursive)
         {
-            base.BuildSubNodes(buildSubNodes);
+            base.BuildSubNodes(subNodes, recursive);
 
-            Conditions = new RuleConditionsTreeNode(Item, buildSubNodes);
-            Nodes.Add(Conditions);
+            subNodes.Add(new RuleConditionsTreeNode(Item, recursive));
         }
 
         /// <summary>
         ///     Creates the editor for this tree node
         /// </summary>
         /// <returns></returns>
-        protected override Editor createEditor()
+        protected override Editor CreateEditor()
         {
             return new ItemEditor();
         }
-
-        /// <summary>
-        ///     Handles a drop event
-        /// </summary>
-        /// <param name="SourceNode"></param>
-        public override void AcceptDrop(BaseTreeNode SourceNode)
-        {
-            base.AcceptDrop(SourceNode);
-        }
-
-        /// <summary>
-        ///     Disable the rule, in a specific data dictionary
-        /// </summary>
-        public void DisableHandler(object sender, EventArgs args)
-        {
-            Dictionary dictionary = GUIUtils.MDIWindow.GetActiveDictionary();
-
-            if (dictionary != null)
-            {
-                dictionary.AppendRuleDisabling(Item);
-                GUIUtils.MDIWindow.RefreshModel();
-            }
-        }
-
+        
         /// <summary>
         ///     Finds or creates an update for the current element.
         /// </summary>
@@ -131,9 +101,8 @@ namespace GUI.DataDictionaryView
                     // If the element does not already exist in the patch, add a copy to it
                     retVal = Item.CreateRuleUpdate(dictionary);
                 }
-                // navigate to the rule, whether it was created or not
-                GUIUtils.MDIWindow.RefreshModel();
-                GUIUtils.MDIWindow.Select(retVal);
+                // Navigate to the rule, whether it was created or not
+                EFSSystem.INSTANCE.Context.SelectElement(Model, this, Context.SelectionCriteria.DoubleClick);
             }
 
             return retVal;
@@ -148,13 +117,11 @@ namespace GUI.DataDictionaryView
             List<MenuItem> retVal = new List<MenuItem>();
 
             MenuItem updateItem = new MenuItem("Update...");
-            updateItem.MenuItems.Add(new MenuItem("Update", new EventHandler(AddUpdate)));
-            updateItem.MenuItems.Add(new MenuItem("Remove", new EventHandler(RemoveInUpdate)));
+            updateItem.MenuItems.Add(new MenuItem("Update", AddUpdate));
+            updateItem.MenuItems.Add(new MenuItem("Remove", RemoveInUpdate));
             retVal.Add(updateItem);
-            retVal.Add(new MenuItem("Delete", new EventHandler(DeleteHandler)));
+            retVal.Add(new MenuItem("Delete", DeleteHandler));
             retVal.AddRange(base.GetMenuItems());
-            retVal.Insert(5, new MenuItem("-"));
-            retVal.Insert(6, new MenuItem("Disable", new EventHandler(DisableHandler)));
 
             return retVal;
         }

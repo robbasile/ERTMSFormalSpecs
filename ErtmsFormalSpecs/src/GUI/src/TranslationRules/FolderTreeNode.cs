@@ -30,19 +30,13 @@ namespace GUI.TranslationRules
     {
         private class ItemEditor : NamedEditor
         {
-            /// <summary>
-            ///     Constructor
-            /// </summary>
-            public ItemEditor()
-                : base()
-            {
-            }
         }
 
         /// <summary>
         ///     Constructor
         /// </summary>
         /// <param name="item"></param>
+        /// <param name="buildSubNodes"></param>
         public FolderTreeNode(Folder item, bool buildSubNodes)
             : base(item, buildSubNodes, null, true)
         {
@@ -51,19 +45,20 @@ namespace GUI.TranslationRules
         /// <summary>
         ///     Builds the subnodes of this node
         /// </summary>
-        /// <param name="buildSubNodes">Indicates whether the subnodes of the nodes should also be built</param>
-        public override void BuildSubNodes(bool buildSubNodes)
+        /// <param name="subNodes"></param>
+        /// <param name="recursive">Indicates whether the subnodes of the nodes should also be built</param>
+        public override void BuildSubNodes(List<BaseTreeNode> subNodes, bool recursive)
         {
-            base.BuildSubNodes(buildSubNodes);
+            base.BuildSubNodes(subNodes, recursive);
 
             foreach (Folder folder in Item.Folders)
             {
-                Nodes.Add(new FolderTreeNode(folder, buildSubNodes));
+                subNodes.Add(new FolderTreeNode(folder, recursive));
             }
 
             foreach (Translation translation in Item.Translations)
             {
-                Nodes.Add(new TranslationTreeNode(translation, buildSubNodes));
+                subNodes.Add(new TranslationTreeNode(translation, recursive));
             }
         }
 
@@ -71,54 +66,36 @@ namespace GUI.TranslationRules
         ///     Creates the editor for this tree node
         /// </summary>
         /// <returns></returns>
-        protected override Editor createEditor()
+        protected override Editor CreateEditor()
         {
             return new ItemEditor();
-        }
-
-        /// <summary>
-        ///     Creates a new folder
-        /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
-        public FolderTreeNode createFolder(Folder folder)
-        {
-            FolderTreeNode retVal = new FolderTreeNode(folder, false);
-
-            Item.appendFolders(folder);
-            Nodes.Add(retVal);
-            SortSubNodes();
-
-            return retVal;
         }
 
         public void AddFolderHandler(object sender, EventArgs args)
         {
             Folder folder = (Folder) acceptor.getFactory().createFolder();
             folder.Name = "<Folder " + (Item.Folders.Count + 1) + ">";
-            createFolder(folder);
+            Item.appendFolders(folder);
         }
 
         /// <summary>
         ///     Creates a new translation based on a step
         /// </summary>
         /// <param name="step"></param>
-        private void createTranslation(Step step)
+        private void CreateTranslation(Step step)
         {
             Translation translation = (Translation) acceptor.getFactory().createTranslation();
             translation.appendSourceTexts(step.createSourceText());
-            createTranslation(translation);
+            CreateTranslation(translation);
         }
 
         /// <summary>
         ///     Creates a new translation
         /// </summary>
-        /// <param name="name"></param>
+        /// <param name="translation"></param>
         /// <returns></returns>
-        public TranslationTreeNode createTranslation(Translation translation)
+        public void CreateTranslation(Translation translation)
         {
-            TranslationTreeNode retVal = null;
-
             Translation existingTranslation = null;
             foreach (SourceText sourceText in translation.SourceTexts)
             {
@@ -139,30 +116,19 @@ namespace GUI.TranslationRules
                 {
                     existingTranslation = null;
                 }
-                else
-                {
-                    retVal = (TranslationTreeNode) BaseTreeView.Select(existingTranslation);
-                }
             }
 
             if (existingTranslation == null)
             {
                 Item.appendTranslations(translation);
-                retVal = new TranslationTreeNode(translation, true);
-                Nodes.Add(retVal);
-                SortSubNodes();
-
-                BaseTreeView.Select(retVal.Item);
             }
-
-            return retVal;
         }
 
         public void AddTranslationHandler(object sender, EventArgs args)
         {
             Translation translation = (Translation) acceptor.getFactory().createTranslation();
             translation.Name = "<Translation " + (Item.Translations.Count + 1) + ">";
-            createTranslation(translation);
+            CreateTranslation(translation);
         }
 
         /// <summary>
@@ -171,69 +137,36 @@ namespace GUI.TranslationRules
         /// <returns></returns>
         protected override List<MenuItem> GetMenuItems()
         {
-            List<MenuItem> retVal = new List<MenuItem>();
-
-            retVal.Add(new MenuItem("Add folder", new EventHandler(AddFolderHandler)));
-            retVal.Add(new MenuItem("Add translation", new EventHandler(AddTranslationHandler)));
-            retVal.Add(new MenuItem("-"));
-            retVal.Add(new MenuItem("Delete", new EventHandler(DeleteHandler)));
+            List<MenuItem> retVal = new List<MenuItem>
+            {
+                new MenuItem("Add folder", AddFolderHandler),
+                new MenuItem("Add translation", AddTranslationHandler),
+                new MenuItem("-"),
+                new MenuItem("Delete", DeleteHandler)
+            };
 
             return retVal;
         }
 
         /// <summary>
-        ///     Sorts the sub nodes of this node
-        /// </summary>
-        public override void SortSubNodes()
-        {
-            List<BaseTreeNode> folders = new List<BaseTreeNode>();
-            List<BaseTreeNode> translations = new List<BaseTreeNode>();
-
-            foreach (BaseTreeNode node in Nodes)
-            {
-                if (node is FolderTreeNode)
-                {
-                    folders.Add(node);
-                }
-                else if (node is TranslationTreeNode)
-                {
-                    translations.Add(node);
-                }
-            }
-            folders.Sort();
-            translations.Sort();
-
-            Nodes.Clear();
-
-            foreach (BaseTreeNode node in folders)
-            {
-                Nodes.Add(node);
-            }
-            foreach (BaseTreeNode node in translations)
-            {
-                Nodes.Add(node);
-            }
-        }
-
-        /// <summary>
         ///     Handles drop event
         /// </summary>
-        /// <param name="SourceNode"></param>
-        public override void AcceptDrop(BaseTreeNode SourceNode)
+        /// <param name="sourceNode"></param>
+        public override void AcceptDrop(BaseTreeNode sourceNode)
         {
-            base.AcceptDrop(SourceNode);
-            if (SourceNode is StepTreeNode)
+            base.AcceptDrop(sourceNode);
+            if (sourceNode is StepTreeNode)
             {
-                StepTreeNode step = SourceNode as StepTreeNode;
+                StepTreeNode step = sourceNode as StepTreeNode;
 
-                createTranslation(step.Item);
+                CreateTranslation(step.Item);
             }
-            else if (SourceNode is TranslationTreeNode)
+            else if (sourceNode is TranslationTreeNode)
             {
-                TranslationTreeNode translation = SourceNode as TranslationTreeNode;
+                TranslationTreeNode translation = sourceNode as TranslationTreeNode;
                 Translation otherTranslation = translation.Item;
                 translation.Delete();
-                createTranslation(otherTranslation);
+                CreateTranslation(otherTranslation);
             }
         }
     }

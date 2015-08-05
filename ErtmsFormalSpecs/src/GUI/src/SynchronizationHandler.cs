@@ -51,8 +51,7 @@ namespace GUI
         ///     Constructor
         /// </summary>
         /// <param name="cycleTime"></param>
-        public SynchronizationHandler(int cycleTime)
-            : base()
+        protected SynchronizationHandler(int cycleTime)
         {
             Synchronize = true;
             Suspend = false;
@@ -93,8 +92,9 @@ namespace GUI
         /// <summary>
         ///     Constructor
         /// </summary>
+        /// <param name="instance"></param>
         /// <param name="cycleTime"></param>
-        public GenericSynchronizationHandler(T instance, int cycleTime)
+        protected GenericSynchronizationHandler(T instance, int cycleTime)
             : base(cycleTime)
         {
             Instance = instance;
@@ -167,7 +167,7 @@ namespace GUI
         /// <summary>
         ///     The registered handlers
         /// </summary>
-        private static List<SynchronizationHandler> Handlers = new List<SynchronizationHandler>();
+        private static readonly List<SynchronizationHandler> Handlers = new List<SynchronizationHandler>();
 
         /// <summary>
         ///     Registers a new handler

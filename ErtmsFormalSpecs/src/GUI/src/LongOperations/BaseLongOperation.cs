@@ -15,6 +15,7 @@
 // ------------------------------------------------------------------------------
 
 using System;
+using DataDictionary;
 using Utils;
 
 namespace GUI.LongOperations
@@ -53,29 +54,32 @@ namespace GUI.LongOperations
         /// </summary>
         /// <param name="message">The message to display on the dialog window</param>
         /// <param name="allowCancel">Indicates that the opeation can be canceled</param>
-        public void ExecuteUsingProgressDialog(string message, bool allowCancel = true)
+        public virtual void ExecuteUsingProgressDialog(string message, bool allowCancel = true)
         {
             DateTime start = DateTime.Now;
 
-            try
+            Util.DontNotify(() =>
             {
-                SynchronizerList.SuspendSynchronization();
+                try
+                {
+                    SynchronizerList.SuspendSynchronization();
 
-                if (ShowDialog)
-                {
-                    Dialog = new ProgressDialog(message, this, allowCancel);
-                    Dialog.ShowDialog();
+                    if (ShowDialog)
+                    {
+                        Dialog = new ProgressDialog(message, this, allowCancel);
+                        Dialog.ShowDialog();
+                    }
+                    else
+                    {
+                        ExecuteWork();
+                    }
                 }
-                else
+                finally
                 {
-                    ExecuteWork();
-                }
-            }
-            finally
-            {
-                Span = DateTime.Now.Subtract(start);
-                SynchronizerList.ResumeSynchronization();
-            }
+                    Span = DateTime.Now.Subtract(start);
+                    SynchronizerList.ResumeSynchronization();
+                }                
+            });
         }
     }
 }

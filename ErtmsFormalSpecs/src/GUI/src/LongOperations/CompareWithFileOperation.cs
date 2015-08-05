@@ -60,7 +60,7 @@ namespace GUI.LongOperations
                 VersionDiff versionDiff = new VersionDiff();
                 Comparer.ensureGuidDictionary(Dictionary, openFileOperation.Dictionary);
                 Comparer.compareDictionary(Dictionary, openFileOperation.Dictionary, versionDiff);
-                versionDiff.markVersionChanges(Dictionary);
+                versionDiff.MarkVersionChanges(Dictionary);
             }
             else
             {

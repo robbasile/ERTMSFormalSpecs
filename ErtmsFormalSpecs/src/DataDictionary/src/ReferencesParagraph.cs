@@ -16,8 +16,9 @@
 
 using System.Collections;
 using System.Collections.Generic;
-using DataDictionary.Specification;
+using DataDictionary.Generated;
 using Utils;
+using Paragraph = DataDictionary.Specification.Paragraph;
 
 namespace DataDictionary
 {
@@ -142,6 +143,34 @@ namespace DataDictionary
             {
                 appendRequirements(reqRef);
             }
+        }
+
+        /// <summary>
+        ///     Creates are reference to a requirement. If already exists, returns that reference
+        /// </summary>
+        /// <param name="paragraph"></param>
+        /// <returns>the req ref created</returns>
+        public ReqRef FindOrCreateReqRef(Paragraph paragraph)
+        {
+            ReqRef retVal = null;
+
+            foreach (ReqRef reqRef in Requirements)
+            {
+                if (reqRef.Paragraph == paragraph)
+                {
+                    retVal = reqRef;
+                    break;
+                }
+            }
+
+            if (retVal == null)
+            {
+                ReqRef req = (ReqRef) acceptor.getFactory().createReqRef();
+                req.Paragraph = paragraph;
+                appendRequirements(req);
+            }
+
+            return retVal;
         }
     }
 }

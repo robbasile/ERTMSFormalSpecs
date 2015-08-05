@@ -18,7 +18,6 @@ using System;
 using System.Collections.Generic;
 using System.ServiceModel;
 using System.Threading;
-using System.Windows.Forms;
 using DataDictionary;
 using DataDictionary.Generated;
 using DataDictionary.Interpreter;
@@ -357,8 +356,7 @@ namespace GUI.IPCInterface
                                     Runner.ExecuteOnePriority(convertStep2Priority(LastStep));
                                     if (LastStep == Step.CleanUp)
                                     {
-                                        GUIUtils.MDIWindow.Invoke(
-                                            (MethodInvoker) delegate { GUIUtils.MDIWindow.RefreshAfterStep(); });
+                                        EFSSystem.INSTANCE.Context.HandleChangeEvent(null, Context.ChangeKind.EndOfCycle);
                                         ClearFunctionCaches();
                                     }
                                 });
@@ -573,13 +571,13 @@ namespace GUI.IPCInterface
             EFSAccess.WaitOne();
             try
             {
-                IVariable variable = EFSSystem.INSTANCE.findByFullName(variableName) as IVariable;
+                IVariable variable = EFSSystem.INSTANCE.FindByFullName(variableName) as IVariable;
                 if (variable != null)
                 {
                     retVal = convertOut(variable.Value);
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 // TODO
             }
@@ -614,7 +612,7 @@ namespace GUI.IPCInterface
                     });
                 }
             }
-            catch(Exception e)
+            catch(Exception)
             {
                 // TODO
             }
@@ -814,7 +812,7 @@ namespace GUI.IPCInterface
             {
                 if (Runner != null)
                 {
-                    IVariable variable = Runner.EFSSystem.findByFullName(variableName) as IVariable;
+                    IVariable variable = EFSSystem.INSTANCE.FindByFullName(variableName) as IVariable;
 
                     if (variable != null)
                     {
@@ -858,7 +856,7 @@ namespace GUI.IPCInterface
                     {
                         Util.DontNotify(() =>
                         {
-                            Action action = (Action) acceptor.getFactory().createAction();
+                            Action action = (Action)acceptor.getFactory().createAction();
                             action.ExpressionText = statementText;
                             VariableUpdate variableUpdate = new VariableUpdate(action, null, null);
                             Runner.EventTimeLine.AddModelEvent(variableUpdate, Runner, true);
@@ -866,7 +864,7 @@ namespace GUI.IPCInterface
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 // TODO
             }

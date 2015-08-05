@@ -17,7 +17,6 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using DataDictionary.Generated;
 using NameSpace = DataDictionary.Types.NameSpace;
 
 namespace GUI.DataDictionaryView
@@ -28,7 +27,7 @@ namespace GUI.DataDictionaryView
         ///     Constructor
         /// </summary>
         /// <param name="item"></param>
-        /// <param name="name"></param>
+        /// <param name="buildSubNodes"></param>
         public NameSpaceSubNameSpacesTreeNode(NameSpace item, bool buildSubNodes)
             : base(item, buildSubNodes, "Namespaces", true)
         {
@@ -37,38 +36,23 @@ namespace GUI.DataDictionaryView
         /// <summary>
         ///     Builds the subnodes of this node
         /// </summary>
-        /// <param name="buildSubNodes">Indicates whether the subnodes of the nodes should also be built</param>
-        public override void BuildSubNodes(bool buildSubNodes)
+        /// <param name="subNodes"></param>
+        /// <param name="recursive">Indicates whether the subnodes of the nodes should also be built</param>
+        public override void BuildSubNodes(List<BaseTreeNode> subNodes, bool recursive)
         {
-            Nodes.Clear();
+            // Do not use the base version
+            SubNodesBuilt = true;
 
             foreach (NameSpace nameSpace in Item.NameSpaces)
             {
-                Nodes.Add(new NameSpaceTreeNode(nameSpace, buildSubNodes));
+                subNodes.Add(new NameSpaceTreeNode(nameSpace, recursive));
             }
-            SortSubNodes();
-            SubNodesBuilt = true;
+            subNodes.Sort();
         }
 
         public void AddHandler(object sender, EventArgs args)
         {
-            NameSpace nameSpace = (NameSpace) acceptor.getFactory().createNameSpace();
-            nameSpace.Name = "<NameSpace" + (GetNodeCount(false) + 1) + ">";
-            AddSubNameSpace(nameSpace);
-        }
-
-        /// <summary>
-        ///     Adds a namespace in the corresponding namespace
-        /// </summary>
-        /// <param name="nameSpace"></param>
-        public NameSpaceTreeNode AddSubNameSpace(NameSpace nameSpace)
-        {
-            Item.appendNameSpaces(nameSpace);
-            NameSpaceTreeNode retVal = new NameSpaceTreeNode(nameSpace, true);
-            Nodes.Add(retVal);
-            SortSubNodes();
-
-            return retVal;
+            Item.appendNameSpaces(NameSpace.CreateDefault(Item.NameSpaces));
         }
 
         /// <summary>
@@ -77,28 +61,9 @@ namespace GUI.DataDictionaryView
         /// <returns></returns>
         protected override List<MenuItem> GetMenuItems()
         {
-            List<MenuItem> retVal = new List<MenuItem>();
-
-            retVal.Add(new MenuItem("Add", new EventHandler(AddHandler)));
+            List<MenuItem> retVal = new List<MenuItem> {new MenuItem("Add", AddHandler)};
 
             return retVal;
-        }
-
-        /// <summary>
-        ///     Update counts according to the selected folder
-        /// </summary>
-        /// <param name="displayStatistics">Indicates that statistics should be displayed in the MDI window</param>
-        public override void SelectionChanged(bool displayStatistics)
-        {
-            base.SelectionChanged(false);
-
-            List<NameSpace> namespaces = new List<NameSpace>();
-            foreach (NameSpace aNamespace in Item.NameSpaces)
-            {
-                namespaces.Add(aNamespace);
-            }
-
-            GUIUtils.MDIWindow.SetStatus(CreateStatMessage(namespaces, true));
         }
     }
 }

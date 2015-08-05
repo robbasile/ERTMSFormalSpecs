@@ -24,19 +24,20 @@ using XmlBooster;
 namespace Utils
 {
     /// <summary>
-    ///     Indicates if the element holds messages, or is part of a path to a message
+    /// Enumeration indicating the status of the current model element
+    /// According to the messages stored in this element and the sub elements
     /// </summary>
-    public enum MessagePathInfoEnum
+    [Flags]
+    public enum MessageInfoEnum
     {
-        NotComputed = 0,
-        Nothing = 4,
-        Error = 10,
-        PathToError = 9,
-        Warning = 8,
-        PathToWarning = 7,
-        Info = 6,
-        PathToInfo = 5
-    };
+        NoMessage = 0,
+        PathToInfo = 1,
+        Info = 2,
+        PathToWarning = 4,
+        Warning = 16,
+        PathToError = 32,
+        Error = 64
+    }
 
     public interface IEnclosed
     {
@@ -69,7 +70,6 @@ namespace Utils
         /// <summary>
         ///     The expression text data of this model element
         /// </summary>
-        /// <param name="text"></param>
         string ExpressionText { get; set; }
 
         /// <summary>
@@ -80,19 +80,14 @@ namespace Utils
         /// <summary>
         ///     Clears the messages associated to this model element
         /// </summary>
-        void ClearMessages();
+        /// <param name="precise">Indicates that the MessagePathInfo should be recomputed precisely
+        ///  according to the sub elements and should update the enclosing elements</param>
+        void ClearMessages(bool precise);
 
         /// <summary>
         ///     Indicates if the element holds messages, or is part of a path to a message
         /// </summary>
-        MessagePathInfoEnum MessagePathInfo { get; }
-
-        /// <summary>
-        ///     Indicates that at least one message of type levelEnum is attached to the element
-        /// </summary>
-        /// <param name="levelEnum"></param>
-        /// <returns></returns>
-        bool HasMessage(ElementLog.LevelEnum levelEnum);
+        MessageInfoEnum MessagePathInfo { get; }
 
         /// <summary>
         /// Indicates whether the model element is removed
@@ -102,8 +97,16 @@ namespace Utils
         /// <summary>
         ///     Adds a model element in this model element
         /// </summary>
-        /// <param name="copy"></param>
+        /// <param name="element"></param>
         void AddModelElement(IModelElement element);
+
+        /// <summary>
+        ///     Indicates whether this is a parent of the element.
+        ///     It also returns true then parent==element
+        /// </summary>
+        /// <param name="element"></param>
+        /// <returns></returns>
+        bool IsParent(IModelElement element);
     }
 
     public abstract class ModelElement : XmlBBase, IModelElement
@@ -112,6 +115,14 @@ namespace Utils
         ///     The Logger
         /// </summary>
         protected static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        protected ModelElement()
+        {
+            Messages = new List<ElementLog>();
+        }
 
         /// <summary>
         ///     The model element name
@@ -126,17 +137,20 @@ namespace Utils
         /// <summary>
         ///     The enclosing model element
         /// </summary>
-        private object enclosing;
+        private object _enclosing;
 
+        /// <summary>
+        ///     The enclosing model element
+        /// </summary>
         public virtual object Enclosing
         {
             get
             {
-                if (enclosing == null)
+                if (_enclosing == null)
                 {
                     return getFather();
                 }
-                return enclosing;
+                return _enclosing;
             }
             set
             {
@@ -147,7 +161,7 @@ namespace Utils
                 }
                 else
                 {
-                    enclosing = value;
+                    _enclosing = value;
                 }
             }
         }
@@ -174,18 +188,18 @@ namespace Utils
         /// <returns></returns>
         public virtual int CompareTo(IModelElement other)
         {
+            int retVal = -1;
+
             if (Name != null)
             {
-                return Name.CompareTo(other.Name);
+                retVal = Name.CompareTo(other.Name);
             }
             else if (this == other)
             {
-                return 0;
+                retVal = 0;
             }
-            else
-            {
-                return -1;
-            }
+
+            return retVal;
         }
 
         /// <summary>
@@ -241,13 +255,7 @@ namespace Utils
         /// <summary>
         ///     Logs associated to this model element
         /// </summary>
-        private List<ElementLog> messages = new List<ElementLog>();
-
-        public virtual List<ElementLog> Messages
-        {
-            get { return messages; }
-            private set { messages = value; }
-        }
+        public virtual List<ElementLog> Messages { get; private set; }
 
         /// The number of log message
         public static int LogCount = 0;
@@ -255,14 +263,54 @@ namespace Utils
         /// <summary>
         ///     Clears the messages associated to this model element
         /// </summary>
-        public virtual void ClearMessages()
+        /// <param name="precise">Indicates that the MessagePathInfo should be recomputed precisely
+        ///  according to the sub elements and should update the enclosing elements</param>
+        public virtual void ClearMessages(bool precise)
         {
             LogCount -= Messages.Count;
             if (LogCount < 0)
             {
                 LogCount = 0;
             }
+
+            UpdateMessageInfoAfterClear(precise);
+        }
+
+        /// <summary>
+        /// Removes the messages after a ClearMessages
+        /// </summary>
+        /// <param name="precise">Indicates that the MessagePathInfo should be recomputed precisely
+        ///  according to the sub elements and should update the enclosing elements</param>
+        protected virtual void UpdateMessageInfoAfterClear(bool precise)
+        {
             Messages.Clear();
+
+            // Build back the message info path
+            MessagePathInfo = MessageInfoEnum.NoMessage;
+            if (precise)
+            {
+                foreach (ModelElement subElement in SubElements)
+                {
+                    if ((subElement.MessagePathInfo & (MessageInfoEnum.Error | MessageInfoEnum.PathToError)) != 0)
+                    {
+                        MessagePathInfo = MessagePathInfo | MessageInfoEnum.PathToError;
+                    }
+                    if ((subElement.MessagePathInfo & (MessageInfoEnum.Warning | MessageInfoEnum.PathToWarning)) != 0)
+                    {
+                        MessagePathInfo = MessagePathInfo | MessageInfoEnum.PathToWarning;
+                    }
+                    if ((subElement.MessagePathInfo & (MessageInfoEnum.Info | MessageInfoEnum.PathToInfo)) != 0)
+                    {
+                        MessagePathInfo = MessagePathInfo | MessageInfoEnum.PathToInfo;
+                    }
+                }
+
+                ModelElement enclosing = Enclosing as ModelElement;
+                if (enclosing != null)
+                {
+                    enclosing.UpdateMessageInfo(MessagePathInfo);
+                }
+            }
         }
 
         /// <summary>
@@ -288,8 +336,10 @@ namespace Utils
                     }
 
                     List<ElementLog> list;
-                    Errors.TryGetValue(this, out list);
-                    list.Add(log);
+                    if ( Errors.TryGetValue(this, out list))
+                    {
+                        list.Add(log);                        
+                    }
                 }
             }
             foreach (ElementLog other in Messages)
@@ -304,8 +354,53 @@ namespace Utils
             if (add)
             {
                 Messages.Add(log);
+                switch (log.Level)
+                {
+                    case ElementLog.LevelEnum.Error:
+                        UpdateMessageInfo(MessageInfoEnum.Error);
+                        break;
+                    case ElementLog.LevelEnum.Warning:
+                        UpdateMessageInfo(MessageInfoEnum.Warning);
+                        break;
+                    case ElementLog.LevelEnum.Info:
+                        UpdateMessageInfo(MessageInfoEnum.Info);
+                        break;
+                }
                 LogCount += 1;
             }
+        }
+
+        /// <summary>
+        /// Updates the message info when a new message is added
+        /// </summary>
+        /// <param name="info"></param>
+        protected void UpdateMessageInfo(MessageInfoEnum info)
+        {
+            if ((MessagePathInfo & info) == 0)
+            {
+                // Flag is not yet handled in this model element
+                MessagePathInfo = MessagePathInfo | info;
+
+                ModelElement enclosing = Enclosing as ModelElement;
+                if (enclosing != null)
+                {
+                    MessageInfoEnum nextInfo = info;
+                    switch (info)
+                    {
+                        case MessageInfoEnum.Error:
+                            nextInfo = MessageInfoEnum.PathToError;
+                            break;
+                        case MessageInfoEnum.Warning:
+                            nextInfo = MessageInfoEnum.PathToWarning;
+                            break;
+                        case MessageInfoEnum.Info:
+                            nextInfo = MessageInfoEnum.PathToInfo;
+                            break;
+                    }
+                    enclosing.UpdateMessageInfo(nextInfo);
+                }
+            }
+
         }
 
         /// <summary>
@@ -372,35 +467,14 @@ namespace Utils
         }
 
         /// <summary>
-        ///     Indicates that at least one message of type levelEnum is attached to the element
-        /// </summary>
-        /// <param name="levelEnum"></param>
-        /// <returns></returns>
-        public bool HasMessage(ElementLog.LevelEnum levelEnum)
-        {
-            bool retVal = false;
-
-            foreach (ElementLog log in Messages)
-            {
-                if (log.Level == levelEnum)
-                {
-                    retVal = true;
-                    break;
-                }
-            }
-
-            return retVal;
-        }
-
-        /// <summary>
         ///     Indicates if the element holds messages, or is part of a path to a message
         /// </summary>
-        public MessagePathInfoEnum MessagePathInfo { get; set; }
+        public MessageInfoEnum MessagePathInfo { get; set; }
 
         /// <summary>
         ///     Adds a model element in this model element
         /// </summary>
-        /// <param name="copy"></param>
+        /// <param name="element"></param>
         public virtual void AddModelElement(IModelElement element)
         {
         }
@@ -476,6 +550,26 @@ namespace Utils
         /// </summary>
         public virtual void ClearCache()
         {
+        }
+
+        /// <summary>
+        ///     Indicates whether this is a parent of the element.
+        ///     It also returns true then parent==element
+        /// </summary>
+        /// <param name="element"></param>
+        /// <returns></returns>
+        public bool IsParent(IModelElement element)
+        {
+            bool retVal;
+
+            IModelElement current = element;
+            do
+            {
+                retVal = current == this;
+                current = EnclosingFinder<IModelElement>.find(current);
+            } while (!retVal && current != null);
+
+            return retVal;
         }
     }
 }
