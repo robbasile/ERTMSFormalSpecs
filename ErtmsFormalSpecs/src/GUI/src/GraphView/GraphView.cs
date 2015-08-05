@@ -16,18 +16,13 @@
 
 using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
-using System.Threading;
 using System.Windows.Forms;
+using System.Windows.Forms.DataVisualization.Charting;
 using DataDictionary;
 using DataDictionary.Functions;
 using DataDictionary.Interpreter;
-using ErtmsSolutions.Etcs.Subset26.BrakingCurves;
-using ErtmsSolutions.SiUnits;
 using GUI.DataDictionaryView;
 using GUI.Shortcuts;
-using GUIUtils.GraphVisualization.Graphs;
 using WeifenLuo.WinFormsUI.Docking;
 using Graph = DataDictionary.Functions.Graph;
 
@@ -41,31 +36,25 @@ namespace GUI.GraphView
         public List<Function> Functions { get; set; }
 
         /// <summary>
-        ///     The bitmap as proposed by gnuplot
-        /// </summary>
-        private Bitmap OriginalBitmap { get; set; }
-
-        /// <summary>
-        ///     The bitmap sized for the picture box
-        /// </summary>
-        private Bitmap SizedBitmap { get; set; }
-
-        /// <summary>
         ///     Constructor
         /// </summary>
         public GraphView()
         {
             InitializeComponent();
-            FormClosed += new FormClosedEventHandler(GraphView_FormClosed);
-            SizeChanged += new EventHandler(GraphView_SizeChanged);
+            FormClosed += GraphView_FormClosed;
 
             AllowDrop = true;
-            DragEnter += new DragEventHandler(GraphView_DragEnter);
-            DragDrop += new DragEventHandler(GraphView_DragDrop);
+            DragEnter += GraphView_DragEnter;
+            DragDrop +=GraphView_DragDrop;
 
             Functions = new List<Function>();
 
             DockAreas = DockAreas.Document;
+
+            foreach (TabPage tabPage in tabControl1.TabPages)
+            {
+                tabPage.MouseEnter += (s, e) => tabPage.Focus();
+            }
         }
 
         private void GraphView_DragEnter(object sender, DragEventArgs e)
@@ -135,37 +124,12 @@ namespace GUI.GraphView
         }
 
         /// <summary>
-        ///     Handles a change of the size of the window
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void GraphView_SizeChanged(object sender, EventArgs e)
-        {
-            if (SizedBitmap != null)
-            {
-                SizedBitmap.Dispose();
-                SizedBitmap = null;
-            }
-
-            // TODO
-            /*if (OriginalBitmap != null)
-            {
-                if (pictureBox.Size.Height > 0 && pictureBox.Size.Width > 0)
-                {
-                    SizedBitmap = new Bitmap(OriginalBitmap, pictureBox.Size);
-                    pictureBox.Image = SizedBitmap;
-                }
-            }*/
-        }
-
-        /// <summary>
         ///     Handles the close event
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void GraphView_FormClosed(object sender, FormClosedEventArgs e)
         {
-            CleanUp();
             GUIUtils.MDIWindow.HandleSubWindowClosed(this);
         }
 
@@ -174,21 +138,7 @@ namespace GUI.GraphView
         /// </summary>
         public override void Refresh()
         {
-            CleanUp();
-            OriginalBitmap = Display();
-            // TODO
-            /*if (OriginalBitmap != null)
-            {
-                if (pictureBox.Size.Height > 0 && pictureBox.Size.Width > 0)
-                {
-                    SizedBitmap = new Bitmap(OriginalBitmap, pictureBox.Size);
-                    pictureBox.Image = SizedBitmap;
-                }
-            }
-            else
-            {
-                pictureBox.Image = null;
-            }*/
+            Display();
         }
 
         /// <summary>
@@ -199,33 +149,16 @@ namespace GUI.GraphView
             // The model is always the same function
         }
 
-        private void CleanUp()
-        {
-            if (OriginalBitmap != null)
-            {
-                OriginalBitmap.Dispose();
-                OriginalBitmap = null;
-            }
-
-            if (SizedBitmap != null)
-            {
-                SizedBitmap.Dispose();
-                SizedBitmap = null;
-            }
-        }
-
         /// <summary>
         /// Displays the graph
         /// </summary>
         /// <returns></returns>
-        public Bitmap Display()
+        public void Display()
         {
-            Bitmap retVal = null;
-
             GraphVisualiser.Reset();
             String name = null;
 
-            /// Computes the expected end to display
+            // Computes the expected end to display
             double expectedEndX = 0;
             Dictionary<Function, Graph> graphs = new Dictionary<Function, Graph>();
             foreach (Function function in Functions)
@@ -269,18 +202,8 @@ namespace GUI.GraphView
             {
             }
 
-            // Don't display surfaces that are too big 
-            try
-            {
-                int maxY = Int32.Parse(maximumYValueTextBox.Text);
-                expectedEndY = Math.Min(expectedEndY, maxY);
-            }
-            catch (Exception)
-            {
-            }
-
             int i = 0;
-            /// Creates the graphs
+            // Creates the graphs
             foreach (KeyValuePair<Function, Graph> pair in graphs)
             {
                 Function function = pair.Key;
@@ -337,10 +260,8 @@ namespace GUI.GraphView
                 {
                 }
 
-                GraphVisualiser.DrawGraphs();
+                GraphVisualiser.DrawGraphs(expectedEndX);
             }
-
-            return retVal;
         }
 
         public void RefreshAfterStep()
@@ -351,6 +272,30 @@ namespace GUI.GraphView
         private void ValueChanged(object sender, EventArgs e)
         {
             Refresh();
+        }
+
+        /// <summary>
+        /// Handles the zoom on the chart
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void GraphVisualiser_MouseWheel(object sender, MouseEventArgs e)
+        {
+            try
+            {
+                Chart chart = sender as Chart;
+                if (chart != null)
+                {
+                    if (e.Location.X >= 0 && e.Location.X <= chart.Size.Width &&
+                        e.Location.Y >= 0 && e.Location.Y <= chart.Size.Height)
+                    {
+                        GraphVisualiser.HandleZoom(sender, e, 0);
+                    }
+                }
+            }
+            catch
+            {
+            }
         }
     }
 }

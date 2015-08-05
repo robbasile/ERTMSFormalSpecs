@@ -51,22 +51,19 @@ namespace GUI.GraphView
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GraphView));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.GraphVisualiser = new GraphVisualizer();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.maximumYValueTextBox = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.maximumValueTextBox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.minimumValueTextBox = new System.Windows.Forms.TextBox();
-            this.GraphVisualiser = new GraphVisualizer();
+            this.label3 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
-            this.tabPage2.SuspendLayout();
-            this.groupBox2.SuspendLayout();
-            this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.GraphVisualiser)).BeginInit();
+            this.tabPage2.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -79,6 +76,7 @@ namespace GUI.GraphView
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(772, 476);
             this.tabControl1.TabIndex = 1;
+            this.tabControl1.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.GraphVisualiser_MouseWheel);
             // 
             // tabPage1
             // 
@@ -91,9 +89,24 @@ namespace GUI.GraphView
             this.tabPage1.Text = "Graph";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // GraphVisualiser
+            // 
+            chartArea1.Name = "ChartArea";
+            this.GraphVisualiser.ChartAreas.Add(chartArea1);
+            this.GraphVisualiser.DecelerationCurvePrecision = 51;
+            this.GraphVisualiser.Dock = System.Windows.Forms.DockStyle.Fill;
+            legend1.Name = "Legend";
+            this.GraphVisualiser.Legends.Add(legend1);
+            this.GraphVisualiser.Location = new System.Drawing.Point(3, 3);
+            this.GraphVisualiser.Name = "GraphVisualiser";
+            this.GraphVisualiser.RecordPreviousValuesInTsm = false;
+            this.GraphVisualiser.Size = new System.Drawing.Size(758, 444);
+            this.GraphVisualiser.TabIndex = 0;
+            this.GraphVisualiser.Text = "graphVisualizer1";
+            this.GraphVisualiser.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.GraphVisualiser_MouseWheel);
+            // 
             // tabPage2
             // 
-            this.tabPage2.Controls.Add(this.groupBox2);
             this.tabPage2.Controls.Add(this.groupBox1);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
@@ -102,35 +115,6 @@ namespace GUI.GraphView
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Properties";
             this.tabPage2.UseVisualStyleBackColor = true;
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.maximumYValueTextBox);
-            this.groupBox2.Controls.Add(this.label3);
-            this.groupBox2.Location = new System.Drawing.Point(9, 95);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(245, 148);
-            this.groupBox2.TabIndex = 7;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Y axis";
-            // 
-            // maximumYValueTextBox
-            // 
-            this.maximumYValueTextBox.Location = new System.Drawing.Point(94, 19);
-            this.maximumYValueTextBox.Name = "maximumYValueTextBox";
-            this.maximumYValueTextBox.Size = new System.Drawing.Size(138, 20);
-            this.maximumYValueTextBox.TabIndex = 2;
-            this.maximumYValueTextBox.Text = "600";
-            this.maximumYValueTextBox.TextChanged += new System.EventHandler(this.ValueChanged);
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(5, 22);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(80, 13);
-            this.label3.TabIndex = 1;
-            this.label3.Text = "Maximum value";
             // 
             // groupBox1
             // 
@@ -181,20 +165,14 @@ namespace GUI.GraphView
             this.minimumValueTextBox.Text = "0";
             this.minimumValueTextBox.TextChanged += new System.EventHandler(this.ValueChanged);
             // 
-            // GraphVisualiser
+            // label3
             // 
-            chartArea1.Name = "ChartArea";
-            this.GraphVisualiser.ChartAreas.Add(chartArea1);
-            this.GraphVisualiser.DecelerationCurvePrecision = 51;
-            this.GraphVisualiser.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend1.Name = "Legend";
-            this.GraphVisualiser.Legends.Add(legend1);
-            this.GraphVisualiser.Location = new System.Drawing.Point(3, 3);
-            this.GraphVisualiser.Name = "GraphVisualiser";
-            this.GraphVisualiser.RecordPreviousValuesInTsm = false;
-            this.GraphVisualiser.Size = new System.Drawing.Size(758, 444);
-            this.GraphVisualiser.TabIndex = 0;
-            this.GraphVisualiser.Text = "graphVisualizer1";
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(5, 22);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(80, 13);
+            this.label3.TabIndex = 1;
+            this.label3.Text = "Maximum value";
             // 
             // GraphView
             // 
@@ -208,14 +186,13 @@ namespace GUI.GraphView
             this.Name = "GraphView";
             this.ShowInTaskbar = false;
             this.Text = "Graph View";
+            this.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.GraphVisualiser_MouseWheel);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.GraphVisualiser)).EndInit();
             this.tabPage2.ResumeLayout(false);
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.GraphVisualiser)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -229,8 +206,6 @@ namespace GUI.GraphView
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox minimumValueTextBox;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.TextBox maximumYValueTextBox;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.GroupBox groupBox1;
         private global::GUIUtils.GraphVisualization.GraphVisualizer GraphVisualiser;
