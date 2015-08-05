@@ -67,6 +67,16 @@ namespace GUIUtils.GraphVisualization
         public int DecelerationCurvePrecision { get; set; }
 
         /// <summary>
+        /// Default contstructor
+        /// </summary>
+        public GraphVisualizer()
+        {
+            Graphs = new List<Graph>();
+            RecordPreviousValuesInTsm = false;
+            DecelerationCurvePrecision = 51;
+        }
+
+        /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="recordPreviousValues"></param>
@@ -177,10 +187,23 @@ namespace GUIUtils.GraphVisualization
         }
 
         /// <summary>
+        /// Clears the data and erases the series
+        /// </summary>
+        public void Reset()
+        {
+            ClearData();
+            Series.Clear();
+        }
+
+        /// <summary>
         /// Draws the functions
         /// </summary>
-        public void DrawGraphs(double end)
+        public void DrawGraphs(double end = double.NaN)
         {
+            if (double.IsNaN(end))
+            {
+                end = MaxX;
+            }
             foreach (Graph graph in Graphs)
             {
                 graph.Display(end);

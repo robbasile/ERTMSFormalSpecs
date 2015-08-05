@@ -63,16 +63,19 @@ namespace GUIUtils.GraphVisualization.Graphs
         /// <param name="tooltip"></param>
         /// <param name="color"></param>
         /// <returns></returns>
-        protected virtual void InitializeProperties(SeriesChartType chartType, string name, string tooltip, Color color)
+        protected virtual void InitializeProperties(SeriesChartType chartType, string name, string tooltip, Color color = default(Color))
         {
             Data.BorderDashStyle = ChartDashStyle.Solid;
             Data.BorderWidth = 4;
             Data.ChartType = chartType;
             Data.LegendText = name;
             Data.LegendToolTip = tooltip;
-            Data.Color = color;
+            if (!color.IsEmpty)
+            {
+                Data.Color = color;
+            }
             Data.Name = name;
-            Data.ChartArea = "ScenarioChartArea";
+            Data.ChartArea = "ChartArea";
             Data.Legend = "Legend";
         }
 

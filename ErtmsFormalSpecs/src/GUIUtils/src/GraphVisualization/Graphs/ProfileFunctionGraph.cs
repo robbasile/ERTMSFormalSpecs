@@ -123,7 +123,7 @@ namespace GUIUtils.GraphVisualization.Graphs
         private void AddDataPoint(double distance, ISegment segment)
         {
             double speed = segment.Evaluate(distance);
-            DataPoint dataPoint = new DataPoint(distance, speed * 3.6); // display the speed in km/h
+            DataPoint dataPoint = new DataPoint(distance, speed);
             Data.Points.Add(dataPoint);
         }
 

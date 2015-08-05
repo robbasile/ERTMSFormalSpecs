@@ -27,7 +27,9 @@ using ErtmsSolutions.Etcs.Subset26.BrakingCurves;
 using ErtmsSolutions.SiUnits;
 using GUI.DataDictionaryView;
 using GUI.Shortcuts;
+using GUIUtils.GraphVisualization.Graphs;
 using WeifenLuo.WinFormsUI.Docking;
+using Graph = DataDictionary.Functions.Graph;
 
 namespace GUI.GraphView
 {
@@ -145,14 +147,15 @@ namespace GUI.GraphView
                 SizedBitmap = null;
             }
 
-            if (OriginalBitmap != null)
+            // TODO
+            /*if (OriginalBitmap != null)
             {
                 if (pictureBox.Size.Height > 0 && pictureBox.Size.Width > 0)
                 {
                     SizedBitmap = new Bitmap(OriginalBitmap, pictureBox.Size);
                     pictureBox.Image = SizedBitmap;
                 }
-            }
+            }*/
         }
 
         /// <summary>
@@ -173,7 +176,8 @@ namespace GUI.GraphView
         {
             CleanUp();
             OriginalBitmap = Display();
-            if (OriginalBitmap != null)
+            // TODO
+            /*if (OriginalBitmap != null)
             {
                 if (pictureBox.Size.Height > 0 && pictureBox.Size.Width > 0)
                 {
@@ -184,7 +188,7 @@ namespace GUI.GraphView
             else
             {
                 pictureBox.Image = null;
-            }
+            }*/
         }
 
         /// <summary>
@@ -211,20 +215,14 @@ namespace GUI.GraphView
         }
 
         /// <summary>
-        ///     Colors used to display functions
+        /// Displays the graph
         /// </summary>
-        private static string[] COLORS = {"blue", "red", "green", "orange", "black", "purple", "yellow"};
-
-        /// <summary>
-        ///     Creates the picture associated to this graph
-        /// </summary>
-        /// <param name="name"></param>
-        /// <returns>the corresponding bitmap</returns>
+        /// <returns></returns>
         public Bitmap Display()
         {
             Bitmap retVal = null;
 
-            SpeedDistanceCurvePlotter display = new SpeedDistanceCurvePlotter();
+            GraphVisualiser.Reset();
             String name = null;
 
             /// Computes the expected end to display
@@ -290,16 +288,8 @@ namespace GUI.GraphView
 
                 if (graph != null)
                 {
-                    if (graph.IsFlat())
-                    {
-                        FlatSpeedDistanceCurve curve = graph.FlatSpeedDistanceCurve(expectedEndX);
-                        display.AddCurve(curve, function.FullName, COLORS[i%COLORS.Length]);
-                    }
-                    else
-                    {
-                        QuadraticSpeedDistanceCurve curve = graph.QuadraticSpeedDistanceCurve(expectedEndX);
-                        display.AddCurve(curve, function.FullName, COLORS[i%COLORS.Length]);
-                    }
+                    EfsProfileFunction efsProfileFunction = new EfsProfileFunction(graph);
+                    GraphVisualiser.AddGraph(new EfsProfileFunctionGraph(GraphVisualiser, efsProfileFunction, function.FullName));
 
                     if (name == null)
                     {
@@ -309,8 +299,8 @@ namespace GUI.GraphView
                 i += 1;
             }
 
-            /// Creates the surfaces
-            foreach (KeyValuePair<Function, Surface> pair in surfaces)
+            // Creates the surfaces
+            /*foreach (KeyValuePair<Function, Surface> pair in surfaces)
             {
                 Function function = pair.Key;
                 Surface surface = pair.Value;
@@ -325,25 +315,14 @@ namespace GUI.GraphView
                         name = function.Name;
                     }
                 }
-            }
+            }*/
 
             if (name != null)
             {
-                display.GnuPlot_Home_Path = Path.GetDirectoryName(Application.ExecutablePath) + "\\gnuplot\\bin";
-                string outputDir = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) +
-                                   "\\ERTMSFormalSpecs";
-                Directory.CreateDirectory(outputDir);
-                display.Output_Path = outputDir;
-                display.Base_Name = "EFSPicture_" + name;
-                display.ImageWidth = 1200;
-                display.ImageHeight = 600;
-                display.EraseTemporaryFiles = false;
-                display.ShowColouredSegments = false;
-
                 try
                 {
                     double val = double.Parse(minimumValueTextBox.Text);
-                    display.Min_X = new SiDistance(val, SiDistance_SubUnits.Meter);
+                    GraphVisualiser.SetMinX(val);
                 }
                 catch (Exception)
                 {
@@ -352,47 +331,13 @@ namespace GUI.GraphView
                 try
                 {
                     double val = double.Parse(maximumValueTextBox.Text);
-                    display.Max_X = new SiDistance(val, SiDistance_SubUnits.Meter);
+                    GraphVisualiser.SetMaxX(val);
                 }
                 catch (Exception)
                 {
                 }
 
-                if (display.Plot())
-                {
-                    // Sometimes, a handle is still open on the corresponding file which forbids opening the stream on it
-                    // Wait a bit until the handle is no more open
-                    FileStream stream = null;
-
-                    DateTime start = DateTime.Now;
-                    while (stream == null && DateTime.Now - start < new TimeSpan(0, 0, 5))
-                    {
-                        try
-                        {
-                            stream = new FileStream(display.ImageFileName, FileMode.Open, FileAccess.Read);
-                        }
-                        catch (Exception)
-                        {
-                            Thread.Sleep(100);
-                        }
-                    }
-
-                    if (stream != null)
-                    {
-                        try
-                        {
-                            retVal = new Bitmap(stream);
-                        }
-                        catch (Exception)
-                        {
-                        }
-                        finally
-                        {
-                            stream.Close();
-                            // System.IO.File.Delete(display.ImageFileName);
-                        }
-                    }
-                }
+                GraphVisualiser.DrawGraphs();
             }
 
             return retVal;

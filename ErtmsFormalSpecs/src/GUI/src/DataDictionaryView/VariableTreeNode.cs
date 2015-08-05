@@ -242,7 +242,6 @@ namespace GUI.DataDictionaryView
                     Graph graph = function.createGraph(context, parameter, null);
                     if (graph != null && graph.Segments.Count != 0)
                     {
-                        retVal.Insert(5, new MenuItem("-"));
                         retVal.Insert(6, new MenuItem("Display", new EventHandler(DisplayHandler)));
                     }
                 }
@@ -251,7 +250,6 @@ namespace GUI.DataDictionaryView
                     Surface surface = function.createSurface(context, null);
                     if (surface != null && surface.Segments.Count != 0)
                     {
-                        retVal.Insert(5, new MenuItem("-"));
                         retVal.Insert(6, new MenuItem("Display", new EventHandler(DisplayHandler)));
                     }
                 }

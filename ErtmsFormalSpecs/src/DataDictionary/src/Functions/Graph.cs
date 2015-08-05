@@ -513,8 +513,8 @@ namespace DataDictionary.Functions
 
             public double D0
             {
-                get { return Expression.d0; }
-                set { Expression.d0 = value; }
+                get { return Start; }
+                set { Start = value; }
             }
             public double Length { get { return End - Start; } }
 

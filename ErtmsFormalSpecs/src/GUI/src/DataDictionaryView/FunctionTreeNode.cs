@@ -24,6 +24,7 @@ using DataDictionary.Functions;
 using DataDictionary.Generated;
 using DataDictionary.Interpreter;
 using GUI.Converters;
+using GUIUtils.GraphVisualization;
 using Case = DataDictionary.Functions.Case;
 using Dictionary = DataDictionary.Dictionary;
 using Function = DataDictionary.Functions.Function;
@@ -231,7 +232,6 @@ namespace GUI.DataDictionaryView
                     if (graph != null && graph.Segments.Count != 0)
                     {
                         retVal.Insert(7, new MenuItem("Display", new EventHandler(DisplayHandler)));
-                        retVal.Insert(8, new MenuItem("-"));
                     }
                 }
                 else if (Item.FormalParameters.Count == 2)
@@ -240,7 +240,6 @@ namespace GUI.DataDictionaryView
                     if (surface != null && surface.Segments.Count != 0)
                     {
                         retVal.Insert(7, new MenuItem("Display", new EventHandler(DisplayHandler)));
-                        retVal.Insert(8, new MenuItem("-"));
                     }
                 }
             });

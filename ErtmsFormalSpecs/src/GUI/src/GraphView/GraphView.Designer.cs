@@ -13,6 +13,9 @@
 // -- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 // --
 // ------------------------------------------------------------------------------
+
+using GUIUtils.GraphVisualization;
+
 namespace GUI.GraphView
 {
     partial class GraphView
@@ -43,8 +46,9 @@ namespace GUI.GraphView
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GraphView));
-            this.pictureBox = new System.Windows.Forms.PictureBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
@@ -56,22 +60,14 @@ namespace GUI.GraphView
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.minimumValueTextBox = new System.Windows.Forms.TextBox();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
+            this.GraphVisualiser = new GraphVisualizer();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.GraphVisualiser)).BeginInit();
             this.SuspendLayout();
-            // 
-            // pictureBox
-            // 
-            this.pictureBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox.Location = new System.Drawing.Point(3, 3);
-            this.pictureBox.Name = "pictureBox";
-            this.pictureBox.Size = new System.Drawing.Size(758, 444);
-            this.pictureBox.TabIndex = 0;
-            this.pictureBox.TabStop = false;
             // 
             // tabControl1
             // 
@@ -86,7 +82,7 @@ namespace GUI.GraphView
             // 
             // tabPage1
             // 
-            this.tabPage1.Controls.Add(this.pictureBox);
+            this.tabPage1.Controls.Add(this.GraphVisualiser);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
@@ -185,6 +181,21 @@ namespace GUI.GraphView
             this.minimumValueTextBox.Text = "0";
             this.minimumValueTextBox.TextChanged += new System.EventHandler(this.ValueChanged);
             // 
+            // GraphVisualiser
+            // 
+            chartArea1.Name = "ChartArea";
+            this.GraphVisualiser.ChartAreas.Add(chartArea1);
+            this.GraphVisualiser.DecelerationCurvePrecision = 51;
+            this.GraphVisualiser.Dock = System.Windows.Forms.DockStyle.Fill;
+            legend1.Name = "Legend";
+            this.GraphVisualiser.Legends.Add(legend1);
+            this.GraphVisualiser.Location = new System.Drawing.Point(3, 3);
+            this.GraphVisualiser.Name = "GraphVisualiser";
+            this.GraphVisualiser.RecordPreviousValuesInTsm = false;
+            this.GraphVisualiser.Size = new System.Drawing.Size(758, 444);
+            this.GraphVisualiser.TabIndex = 0;
+            this.GraphVisualiser.Text = "graphVisualizer1";
+            // 
             // GraphView
             // 
             this.AllowDrop = true;
@@ -197,7 +208,6 @@ namespace GUI.GraphView
             this.Name = "GraphView";
             this.ShowInTaskbar = false;
             this.Text = "Graph View";
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
@@ -205,13 +215,13 @@ namespace GUI.GraphView
             this.groupBox2.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.GraphVisualiser)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.PictureBox pictureBox;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
@@ -223,5 +233,6 @@ namespace GUI.GraphView
         private System.Windows.Forms.TextBox maximumYValueTextBox;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.GroupBox groupBox1;
+        private global::GUIUtils.GraphVisualization.GraphVisualizer GraphVisualiser;
     }
 }
