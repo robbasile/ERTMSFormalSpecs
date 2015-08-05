@@ -49,6 +49,7 @@ namespace EFSServiceClient.EFSService
             // converted to m/s
             double speedInKmH = V0/3.6;
             double retVal = Math.Sqrt(speedInKmH*speedInKmH + 2*A*(x - D0));
+            retVal *= 3.6; // the returned speed is expressed in km/h
 
             return retVal;
         }
