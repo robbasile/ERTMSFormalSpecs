@@ -75,11 +75,76 @@ namespace DataDictionary.Functions
         ISegment GetSegment(int i);
 
         /// <summary>
+        /// Adds a new segment in the ordered list of segments
+        /// </summary>
+        /// <param name="segment">The segment to add</param>
+        void AddSegment(ISegment segment);
+
+        /// <summary>
         /// Gets the value of the graph at a given location
         /// </summary>
         /// <param name="x"></param>
         /// <returns></returns>
         double Evaluate(double x);
+
+        /// <summary>
+        /// Provides the last X value where there is some interest to show the graph
+        /// </summary>
+        /// <returns></returns>
+        double ExpectedEndX();
+
+        /// <summary>
+        /// Negates the values of the curve
+        /// </summary>
+        void Negate();
+
+        /// <summary>
+        /// Reduces the graph to the boundaries provided as parameter
+        /// </summary>
+        /// <param name="boundaries"></param>
+        /// <returns>The reduced graph</returns>
+        void Reduce(List<ISegment> boundaries);
+
+        /// <summary>
+        /// Adds a graph to this graph
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns>the new graph</returns>
+        IGraph AddGraph(IGraph other);
+
+        /// <summary>
+        /// Substract a graph from this graph
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns>the new graph</returns>
+        IGraph SubstractGraph(IGraph other);
+
+        /// <summary>
+        /// Multiply this graph values of another graph
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns>the new graph</returns>
+        IGraph MultGraph(IGraph other);
+
+        /// <summary>
+        /// Divides this graph values by values of another graph
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns>the new graph</returns>
+        IGraph DivGraph(IGraph other);
+
+        /// <summary>
+        /// Provides the graph of the minimal value between this graph and another graph
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        IGraph Min(IGraph other);
+
+        /// <summary>
+        /// Merges a graph within this one
+        /// </summary>
+        /// <param name="subGraph"></param>
+        void Merge(IGraph subGraph);
     }
 
     /// <summary>
@@ -618,25 +683,27 @@ namespace DataDictionary.Functions
             }
 
             /// <summary>
-            ///     Redeuces the size of this segment according to the acceptable boudaries provided
+            ///     Reduces the size of this segment according to the acceptable boudaries provided
             /// </summary>
             /// <param name="boundaries"></param>
             /// <returns></returns>
-            public List<Segment> Reduce(List<Segment> boundaries)
+            public List<ISegment> Reduce(List<ISegment> boundaries)
             {
-                List<Segment> retVal = new List<Segment>();
+                List<ISegment> retVal = new List<ISegment>();
 
                 foreach (Segment other in boundaries)
                 {
-                    double start = Math.Max(Start, other.Start);
-                    ;
-                    double end = Math.Min(End, other.End);
-                    if (start <= end)
+                    if (other != null)
                     {
-                        Segment newSegment = new Segment(this);
-                        newSegment.Start = start;
-                        newSegment.End = end;
-                        retVal.Add(newSegment);
+                        double start = Math.Max(Start, other.Start);
+                        double end = Math.Min(End, other.End);
+                        if (start <= end)
+                        {
+                            Segment newSegment = new Segment(this);
+                            newSegment.Start = start;
+                            newSegment.End = end;
+                            retVal.Add(newSegment);
+                        }
                     }
                 }
 
@@ -683,55 +750,59 @@ namespace DataDictionary.Functions
         }
 
         /// <summary>
-        ///     Adds a new segment in the ordered list of segments
+        /// Adds a new segment in the ordered list of segments
         /// </summary>
         /// <param name="segment">The segment to add</param>
-        public void addSegment(Segment segment)
+        public void AddSegment(ISegment segment)
         {
             // Recompute segment bounds according to existing segments
-            foreach (Segment otherSegment in Segments)
+            Segment segmentToAdd = segment as Segment;
+            if (segmentToAdd != null)
             {
-                if (otherSegment.Start <= segment.Start && otherSegment.End > segment.End)
+                foreach (Segment otherSegment in Segments)
                 {
-                    segment.Start = 0;
-                    segment.End = 0;
-                }
-
-                if (otherSegment.Start <= segment.Start && otherSegment.End > segment.Start)
-                {
-                    segment.Start = otherSegment.End;
-                }
-
-                if (otherSegment.Start <= segment.End && otherSegment.End > segment.End)
-                {
-                    segment.End = otherSegment.Start;
-                }
-            }
-
-            if (segment.Start < segment.End)
-            {
-                // Add the segment in the ordered list of segments
-                // According to first phase, we know that there is no overlap of segments
-                int i = 0;
-                while (i < Segments.Count)
-                {
-                    if (Segments[i].Start >= segment.End)
+                    if (otherSegment.Start <= segmentToAdd.Start && otherSegment.End > segmentToAdd.End)
                     {
-                        Segments.Insert(i, segment);
-                        segment = null;
-                        break;
+                        segmentToAdd.Start = 0;
+                        segmentToAdd.End = 0;
                     }
-                    i = i + 1;
+
+                    if (otherSegment.Start <= segmentToAdd.Start && otherSegment.End > segmentToAdd.Start)
+                    {
+                        segmentToAdd.Start = otherSegment.End;
+                    }
+
+                    if (otherSegment.Start <= segmentToAdd.End && otherSegment.End > segmentToAdd.End)
+                    {
+                        segmentToAdd.End = otherSegment.Start;
+                    }
                 }
 
-                if (segment != null)
+                if (segmentToAdd.Start < segmentToAdd.End)
                 {
-                    Segments.Add(segment);
+                    // Add the segment in the ordered list of segments
+                    // According to first phase, we know that there is no overlap of segments
+                    int i = 0;
+                    while (i < Segments.Count)
+                    {
+                        if (Segments[i].Start >= segmentToAdd.End)
+                        {
+                            Segments.Insert(i, segmentToAdd);
+                            segmentToAdd = null;
+                            break;
+                        }
+                        i = i + 1;
+                    }
+
+                    if (segmentToAdd != null)
+                    {
+                        Segments.Add(segmentToAdd);
+                    }
                 }
-            }
-            else if (segment.Start > segment.End)
-            {
-                throw new Exception("Invalid segment starting at " + segment.Start + " and ending at " + segment.End);
+                else if (segmentToAdd.Start > segmentToAdd.End)
+                {
+                    throw new Exception("Invalid segment starting at " + segmentToAdd.Start + " and ending at " + segmentToAdd.End);
+                }
             }
         }
 
@@ -985,7 +1056,7 @@ namespace DataDictionary.Functions
 
             Segment segment = new Segment(0, double.MaxValue, new Segment.Curve());
             segment.Expression.v0 = value;
-            retVal.addSegment(segment);
+            retVal.AddSegment(segment);
 
             return retVal;
         }
@@ -995,7 +1066,7 @@ namespace DataDictionary.Functions
         /// </summary>
         /// <param name="boundaries"></param>
         /// <returns>The reduced graph</returns>
-        public void Reduce(List<Segment> boundaries)
+        public void Reduce(List<ISegment> boundaries)
         {
             List<Segment> tmp = new List<Segment>();
 
@@ -1014,58 +1085,66 @@ namespace DataDictionary.Functions
         ///     Merges a graph within this one
         /// </summary>
         /// <param name="subGraph"></param>
-        public void Merge(Graph subGraph)
+        public void Merge(IGraph subGraph)
         {
-            List<Segment> toProcess = new List<Segment>(subGraph.Segments);
+            List<ISegment> toProcess = new List<ISegment>();
+            for (int i = 0; i < subGraph.CountSegments(); i++)
+            {
+                toProcess.Add(subGraph.GetSegment(i));
+            }
             List<Segment> toAdd = new List<Segment>();
 
             while (toProcess.Count > 0)
             {
-                Segment segment = toProcess[0];
-                toProcess.Remove(segment);
-
-                // Reduce this segment according to the existing segments
-                foreach (Segment existingSegment in Segments)
+                Segment segment = toProcess[0] as Segment;
+                if (segment != null)
                 {
-                    if (existingSegment.Start <= segment.Start)
+                    toProcess.Remove(segment);
+
+                    // Reduce this segment according to the existing segments
+                    foreach (Segment existingSegment in Segments)
                     {
-                        if (existingSegment.End < segment.End)
-                        {
-                            // The existing segment reduces the start of this segment
-                            segment.Start = Math.Max(segment.Start, existingSegment.End);
-                        }
-                        else
-                        {
-                            // This segment is completely overriden by the existing segment;
-                            segment = null;
-                            break;
-                        }
-                    }
-                    else
-                    {
-                        // existingSegment.Start >= segment.Start
-                        if (existingSegment.Start < segment.End)
+                        if (existingSegment.Start <= segment.Start)
                         {
                             if (existingSegment.End < segment.End)
                             {
-                                // This segment splits the current segment in two.
-                                Segment newSegment = new Segment(existingSegment.End, segment.End, segment.Expression);
-                                toProcess.Insert(0, newSegment);
+                                // The existing segment reduces the start of this segment
+                                segment.Start = Math.Max(segment.Start, existingSegment.End);
                             }
-                            segment.End = existingSegment.Start;
+                            else
+                            {
+                                // This segment is completely overriden by the existing segment;
+                                segment = null;
+                                break;
+                            }
                         }
                         else
                         {
-                            // the existing segment does not impact this segment                            
+                            // existingSegment.Start >= segment.Start
+                            if (existingSegment.Start < segment.End)
+                            {
+                                if (existingSegment.End < segment.End)
+                                {
+                                    // This segment splits the current segment in two.
+                                    Segment newSegment = new Segment(existingSegment.End, segment.End,
+                                        segment.Expression);
+                                    toProcess.Insert(0, newSegment);
+                                }
+                                segment.End = existingSegment.Start;
+                            }
+                            else
+                            {
+                                // the existing segment does not impact this segment                            
+                            }
                         }
                     }
-                }
 
-                if (segment != null)
-                {
-                    if (segment.Start < segment.End)
+                    if (segment != null)
                     {
-                        toAdd.Add(segment);
+                        if (segment.Start < segment.End)
+                        {
+                            toAdd.Add(segment);
+                        }
                     }
                 }
             }
@@ -1101,7 +1180,7 @@ namespace DataDictionary.Functions
         /// <param name="second">the second graph</param>
         /// <param name="operation">the operation to perform on these graphs</param>
         /// <returns>the new graph</returns>
-        private static Graph CombineTwoGraphs(Graph first, Graph second, Segment.Curve.Op operation)
+        private static IGraph CombineTwoGraphs(IGraph first, IGraph second, Segment.Curve.Op operation)
         {
             Graph retVal = new Graph();
 
@@ -1109,49 +1188,54 @@ namespace DataDictionary.Functions
             int j = 0;
 
             double start = 0;
-            while (i < first.Segments.Count && j < second.Segments.Count)
+            while (i < first.CountSegments() && j < second.CountSegments())
             {
-                Segment segment_i = first.Segments[i];
-                Segment segment_j = second.Segments[j];
-
-
-                double end;
-                if (segment_i.End < segment_j.End)
+                Segment segment_i = first.GetSegment(i) as Segment;
+                Segment segment_j = second.GetSegment(j) as Segment;
+                if (segment_i != null && segment_j != null)
                 {
-                    end = segment_i.End;
+                    double end;
+                    if (segment_i.End < segment_j.End)
+                    {
+                        end = segment_i.End;
+                        i = i + 1;
+                    }
+                    else
+                    {
+                        end = segment_j.End;
+                        j = j + 1;
+                    }
+
+                    Segment.Curve val = operation(segment_i.Expression, segment_j.Expression);
+                    retVal.AddSegment(new Segment(start, end, val));
+                    start = end;
+                }
+            }
+
+            while (i < first.CountSegments())
+            {
+                Segment segment_i = first.GetSegment(i) as Segment;
+                if (segment_i != null)
+                {
+                    Segment.Curve val = operation(segment_i.Expression, null);
+                    retVal.AddSegment(new Segment(start, segment_i.End, val));
+
+                    start = segment_i.End;
                     i = i + 1;
                 }
-                else
+            }
+
+            while (j < second.CountSegments())
+            {
+                Segment segment_j = second.GetSegment(j) as Segment;
+                if (segment_j != null)
                 {
-                    end = segment_j.End;
+                    Segment.Curve val = operation(null, segment_j.Expression);
+                    retVal.AddSegment(new Segment(start, segment_j.End, val));
+
+                    start = segment_j.End;
                     j = j + 1;
                 }
-
-                Segment.Curve val = operation(segment_i.Expression, segment_j.Expression);
-                retVal.addSegment(new Segment(start, end, val));
-                start = end;
-            }
-
-            while (i < first.Segments.Count)
-            {
-                Segment segment_i = first.Segments[i];
-
-                Segment.Curve val = operation(segment_i.Expression, null);
-                retVal.addSegment(new Segment(start, segment_i.End, val));
-
-                start = segment_i.End;
-                i = i + 1;
-            }
-
-            while (j < second.Segments.Count)
-            {
-                Segment segment_j = second.Segments[j];
-
-                Segment.Curve val = operation(null, segment_j.Expression);
-                retVal.addSegment(new Segment(start, segment_j.End, val));
-
-                start = segment_j.End;
-                j = j + 1;
             }
 
             retVal.MergeDuplicates();
@@ -1186,7 +1270,7 @@ namespace DataDictionary.Functions
         /// </summary>
         /// <param name="other"></param>
         /// <returns>the new graph</returns>
-        public Graph AddGraph(Graph other)
+        public IGraph AddGraph(IGraph other)
         {
             return CombineTwoGraphs(this, other, Segment.Curve.Add);
         }
@@ -1196,7 +1280,7 @@ namespace DataDictionary.Functions
         /// </summary>
         /// <param name="other"></param>
         /// <returns>the new graph</returns>
-        public Graph SubstractGraph(Graph other)
+        public IGraph SubstractGraph(IGraph other)
         {
             return CombineTwoGraphs(this, other, Segment.Curve.Substract);
         }
@@ -1206,7 +1290,7 @@ namespace DataDictionary.Functions
         /// </summary>
         /// <param name="other"></param>
         /// <returns>the new graph</returns>
-        public Graph MultGraph(Graph other)
+        public IGraph MultGraph(IGraph other)
         {
             return CombineTwoGraphs(this, other, Segment.Curve.Mult);
         }
@@ -1216,7 +1300,7 @@ namespace DataDictionary.Functions
         /// </summary>
         /// <param name="other"></param>
         /// <returns>the new graph</returns>
-        public Graph DivGraph(Graph other)
+        public IGraph DivGraph(IGraph other)
         {
             return CombineTwoGraphs(this, other, Segment.Curve.Div);
         }
@@ -1226,7 +1310,7 @@ namespace DataDictionary.Functions
         /// </summary>
         /// <param name="other"></param>
         /// <returns></returns>
-        public Graph Min(Graph other)
+        public IGraph Min(IGraph other)
         {
             return CombineTwoGraphs(this, other, Segment.Curve.Min);
         }
@@ -1236,7 +1320,7 @@ namespace DataDictionary.Functions
         /// </summary>
         /// <param name="other"></param>
         /// <returns></returns>
-        public Graph Max(Graph other)
+        public IGraph Max(IGraph other)
         {
             return CombineTwoGraphs(this, other, Segment.Curve.Max);
         }
@@ -1268,7 +1352,7 @@ namespace DataDictionary.Functions
                     Segment newSegment = new Segment(segment);
                     newSegment.Start = Math.Max(0, newSegment.Start - position);
                     newSegment.End = newSegment.End - position;
-                    retVal.addSegment(newSegment);
+                    retVal.AddSegment(newSegment);
                 }
             }
 
@@ -1295,7 +1379,7 @@ namespace DataDictionary.Functions
                     {
                         newSegment.Expression.v0 = newValue;
                     }
-                    retVal.addSegment(newSegment);
+                    retVal.AddSegment(newSegment);
                 }
             }
 
@@ -1308,9 +1392,9 @@ namespace DataDictionary.Functions
         /// <param name="Operator">The operator to apply</param>
         /// <param name="value">The value to compare with the values of the graph</param>
         /// <returns></returns>
-        public List<Segment> GetSegments(BinaryExpression.OPERATOR Operator, double value)
+        public List<ISegment> GetSegments(BinaryExpression.OPERATOR Operator, double value)
         {
-            List<Segment> retVal = new List<Segment>();
+            List<ISegment> retVal = new List<ISegment>();
 
             foreach (Segment segment in Segments)
             {
@@ -1388,7 +1472,7 @@ namespace DataDictionary.Functions
                     IValue result = increment.Evaluate(context, actuals, explain);
                     Segment newSegment = new Segment(segment);
                     newSegment.Expression.v0 = segment.Expression.v0 + Function.getDoubleValue(result);
-                    retVal.addSegment(newSegment);
+                    retVal.AddSegment(newSegment);
                 }
             }
 
@@ -1495,7 +1579,7 @@ namespace DataDictionary.Functions
             foreach (Segment segment in Segments)
             {
                 Graph graph = new Graph();
-                graph.addSegment(new Segment(0, double.MaxValue, new Segment.Curve(0, segment.Expression.v0, 0)));
+                graph.AddSegment(new Segment(0, double.MaxValue, new Segment.Curve(0, segment.Expression.v0, 0)));
                 Surface.Segment newSegment = new Surface.Segment(segment.Start, segment.End, graph);
 
                 retVal.AddSegment(newSegment);

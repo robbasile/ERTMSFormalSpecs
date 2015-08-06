@@ -402,7 +402,7 @@ namespace DataDictionary.Types
 
                 if (leftFunction.Graph != null)
                 {
-                    Graph tmp = null;
+                    IGraph tmp = null;
                     switch (Operation)
                     {
                         case BinaryExpression.OPERATOR.ADD:
@@ -421,7 +421,11 @@ namespace DataDictionary.Types
                             tmp = leftFunction.Graph.DivGraph(rigthFunction.Graph);
                             break;
                     }
-                    retVal = tmp.Function;
+                    Graph tmpGraph = tmp as Graph;
+                    if (tmpGraph != null)
+                    {
+                        retVal = tmpGraph.Function;
+                    }
                 }
                 else
                 {

@@ -124,7 +124,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
                         }
                         catch (Exception e)
                         {
-                            retVal.addSegment(new Graph.Segment(0, double.MaxValue, new Graph.Segment.Curve(0, 0, 0)));
+                            retVal.AddSegment(new Graph.Segment(0, double.MaxValue, new Graph.Segment.Curve(0, 0, 0)));
                         }
 
                         SiSpeed finalSpeed = new SiSpeed(getDoubleValue(context.findOnStack(EndSpeed).Value), SiSpeed_SubUnits.KiloMeter_per_Hour);
@@ -157,7 +157,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
                                     segment.D0.ToSubUnits(SiDistance_SubUnits.Meter)
                                     )
                                 );
-                            retVal.addSegment(newSegment);
+                            retVal.AddSegment(newSegment);
 
                             if (endSpeed == finalSpeed)
                             {

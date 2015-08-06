@@ -15,6 +15,7 @@
 // ------------------------------------------------------------------------------
 
 using System;
+using System.Collections.Generic;
 using DataDictionary.Functions;
 
 namespace EFSServiceClient.EFSService
@@ -96,6 +97,15 @@ namespace EFSServiceClient.EFSService
         }
 
         /// <summary>
+        /// Adds a new segment
+        /// </summary>
+        /// <param name="segment"></param>
+        public void AddSegment(ISegment segment)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
         /// Evaluates the function for a given X
         /// </summary>
         /// <param name="x"></param>
@@ -117,6 +127,92 @@ namespace EFSServiceClient.EFSService
             }
 
             return retVal;
+        }
+
+        /// <summary>
+        /// Provides the last X value where there is some interest to show the graph
+        /// </summary>
+        /// <returns></returns>
+        public double ExpectedEndX()
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Negates the values of the curve
+        /// </summary>
+        public void Negate()
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Reduces the graph to the boundaries provided as parameter
+        /// </summary>
+        /// <param name="boundaries"></param>
+        /// <returns>The reduced graph</returns>
+        public void Reduce(List<ISegment> boundaries)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Adds a graph to this graph
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns>the new graph</returns>
+        public IGraph AddGraph(IGraph other)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Substract a graph from this graph
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns>the new graph</returns>
+        public IGraph SubstractGraph(IGraph other)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Multiply this graph values of another graph
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns>the new graph</returns>
+        public IGraph MultGraph(IGraph other)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Divides this graph values by values of another graph
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns>the new graph</returns>
+        public IGraph DivGraph(IGraph other)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Provides the graph of the minimal value between this graph and another graph
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        public IGraph Min(IGraph other)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Merges a graph within this one
+        /// </summary>
+        /// <param name="subGraph"></param>
+        public void Merge(IGraph subGraph)
+        {
+            throw new NotImplementedException();
         }
     }
 }

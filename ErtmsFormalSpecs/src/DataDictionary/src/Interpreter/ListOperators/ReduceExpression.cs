@@ -272,7 +272,7 @@ namespace DataDictionary.Interpreter.ListOperators
         {
             Graph retVal = base.createGraph(context, parameter, explain);
 
-            Graph graph = InitialValue.createGraph(context, parameter, explain);
+            Graph graph = InitialValue.createGraph(context, parameter, explain) as Graph;
             if (graph != null)
             {
                 ListValue value = ListExpression.GetValue(context, explain) as ListValue;

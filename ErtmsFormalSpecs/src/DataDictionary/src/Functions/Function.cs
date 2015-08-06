@@ -476,10 +476,10 @@ namespace DataDictionary.Functions
         /// <param name="parameter"></param>
         /// <param name="explain"></param>
         /// <returns></returns>
-        private List<Graph.Segment> EvaluateBoundaries(InterpretationContext context, PreCondition preCondition,
+        private List<ISegment> EvaluateBoundaries(InterpretationContext context, PreCondition preCondition,
             Parameter parameter, ExplanationPart explain)
         {
-            List<Graph.Segment> retVal = new List<Graph.Segment>();
+            List<ISegment> retVal = new List<ISegment>();
 
             if (parameter != null)
             {
@@ -634,7 +634,7 @@ namespace DataDictionary.Functions
         {
             foreach (PreCondition preCondition in cas.PreConditions)
             {
-                List<Graph.Segment> boundaries = EvaluateBoundaries(context, preCondition, parameter, explain);
+                List<ISegment> boundaries = EvaluateBoundaries(context, preCondition, parameter, explain);
                 graph.Reduce(boundaries);
             }
         }
@@ -865,11 +865,17 @@ namespace DataDictionary.Functions
         /// <summary>
         ///     Indicates that the list of segments spans to the full range (0 .. infinity)
         /// </summary>
-        /// <param name="boudaries"></param>
+        /// <param name="boundaries"></param>
         /// <returns></returns>
-        private bool fullRange(List<Graph.Segment> boudaries)
+        private bool fullRange(List<ISegment> boundaries)
         {
-            return boudaries.Count == 1 && boudaries[0].Start == 0 && boudaries[0].End == double.MaxValue;
+            bool retVal = false;
+            Graph.Segment startingSegment = boundaries[0] as Graph.Segment;
+            if (startingSegment != null)
+            {
+                retVal = boundaries.Count == 1 && startingSegment.Start == 0 && startingSegment.End == double.MaxValue;
+            }
+            return retVal;
         }
 
         /// <summary>
@@ -889,7 +895,7 @@ namespace DataDictionary.Functions
             parameter = null;
             foreach (PreCondition preCondition in cas.PreConditions)
             {
-                List<Graph.Segment> boundaries = EvaluateBoundaries(context, preCondition, surface.XParameter, explain);
+                List<ISegment> boundaries = EvaluateBoundaries(context, preCondition, surface.XParameter, explain);
                 if (boundaries.Count != 0 && !fullRange(boundaries))
                 {
                     if (parameter != surface.YParameter)
@@ -930,7 +936,7 @@ namespace DataDictionary.Functions
                 // Reduces the segments according to this preconditions
                 foreach (PreCondition preCondition in cas.PreConditions)
                 {
-                    List<Graph.Segment> boundaries = EvaluateBoundaries(context, preCondition, surface.XParameter,
+                    List<ISegment> boundaries = EvaluateBoundaries(context, preCondition, surface.XParameter,
                         explain);
                     retVal.Reduce(boundaries);
                 }
@@ -944,7 +950,7 @@ namespace DataDictionary.Functions
                     // Reduces the segments according to this preconditions
                     foreach (PreCondition preCondition in cas.PreConditions)
                     {
-                        List<Graph.Segment> boundaries = EvaluateBoundaries(context, preCondition, surface.YParameter,
+                        List<ISegment> boundaries = EvaluateBoundaries(context, preCondition, surface.YParameter,
                             explain);
                         segment.Graph.Reduce(boundaries);
                     }
@@ -1188,7 +1194,7 @@ namespace DataDictionary.Functions
             Graph retVal = new Graph();
 
             double val = getDoubleValue(value);
-            retVal.addSegment(new Graph.Segment(0, double.MaxValue, new Graph.Segment.Curve(0.0, val, 0.0)));
+            retVal.AddSegment(new Graph.Segment(0, double.MaxValue, new Graph.Segment.Curve(0.0, val, 0.0)));
 
             return retVal;
         }

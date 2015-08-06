@@ -149,7 +149,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
             else
             {
                 DoubleValue val = value as DoubleValue;
-                retVal.addSegment(new Graph.Segment(0, double.MaxValue, new Graph.Segment.Curve(0.0, val.Val, 0.0)));
+                retVal.AddSegment(new Graph.Segment(0, double.MaxValue, new Graph.Segment.Curve(0.0, val.Val, 0.0)));
             }
 
             return retVal;
@@ -175,7 +175,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
             {
                 DoubleValue val = value as DoubleValue;
                 Graph graph = new Graph();
-                graph.addSegment(new Graph.Segment(0, double.MaxValue, new Graph.Segment.Curve(0, val.Val, 0)));
+                graph.AddSegment(new Graph.Segment(0, double.MaxValue, new Graph.Segment.Curve(0, val.Val, 0)));
                 retVal = new Surface(null, null);
                 retVal.AddSegment(new Surface.Segment(0, double.MaxValue, graph));
             }

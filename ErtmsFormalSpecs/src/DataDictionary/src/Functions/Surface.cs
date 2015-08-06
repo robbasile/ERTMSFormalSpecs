@@ -24,9 +24,44 @@ using ErtmsSolutions.SiUnits;
 
 namespace DataDictionary.Functions
 {
-    public class Surface
+    public interface ISurfaceSegment
     {
-        public class Segment : IComparable<Segment>
+        /// <summary>
+        /// The start of the segment
+        /// </summary>
+        double Start { get; set; }
+
+        /// <summary>
+        /// The end of the segment
+        /// </summary>
+        double End { get; set; }
+
+        /// <summary>
+        /// The graph associated to this segment
+        /// </summary>
+        IGraph Graph { get; set; }
+
+        /// <summary>
+        /// Reduces the size of this segment according to the acceptable boudaries provided
+        /// </summary>
+        /// <param name="boundaries"></param>
+        /// <returns></returns>
+        List<ISurfaceSegment> Reduce(List<ISegment> boundaries);
+    }
+
+
+    public interface ISurface
+    {
+        /// <summary>
+        /// The segments of the surface
+        /// </summary>
+        List<ISurfaceSegment> Segments { get; set; }
+    }
+
+
+    public class Surface : ISurface
+    {
+        public class Segment : IComparable<Segment>, ISurfaceSegment
         {
             /// <summary>
             ///     The start of the segment
@@ -41,7 +76,7 @@ namespace DataDictionary.Functions
             /// <summary>
             ///     The graph associated to this segment
             /// </summary>
-            public Graph Graph { get; private set; }
+            public IGraph Graph { get; set; }
 
             /// <summary>
             ///     Constructor
@@ -49,7 +84,7 @@ namespace DataDictionary.Functions
             /// <param name="start">The start of the segment</param>
             /// <param name="end">The end of the segment</param>
             /// <param name="graph">the graph for this segment</param>
-            public Segment(double start, double end, Graph graph)
+            public Segment(double start, double end, IGraph graph)
             {
                 Start = start;
                 End = end;
@@ -117,10 +152,10 @@ namespace DataDictionary.Functions
             /// <summary>
             ///     The operation to perform on the graphs
             /// </summary>
-            /// <param name="coef1"></param>
-            /// <param name="coef2"></param>
+            /// <param name="graph1"></param>
+            /// <param name="graph2"></param>
             /// <returns></returns>
-            public delegate Graph Op(Graph graph1, Graph graph2);
+            public delegate IGraph Op(IGraph graph1, IGraph graph2);
 
             /// <summary>
             ///     Selects and delegates an operation for the coefficients provided.
@@ -130,9 +165,9 @@ namespace DataDictionary.Functions
             /// <param name="coef2">The second coefficients</param>
             /// <param name="op">The operation to delegate</param>
             /// <returns>The resulting coefficients</returns>
-            private static Graph SelectAndDelegateOperation(Graph coef1, Graph coef2, Op op)
+            private static IGraph SelectAndDelegateOperation(IGraph coef1, IGraph coef2, Op op)
             {
-                Graph retVal = null;
+                IGraph retVal = null;
 
                 if (coef1 != null)
                 {
@@ -156,10 +191,10 @@ namespace DataDictionary.Functions
             /// <summary>
             ///     Adds graphs
             /// </summary>
-            /// <param name="coef1"></param>
-            /// <param name="coef2"></param>
+            /// <param name="graph1"></param>
+            /// <param name="graph2"></param>
             /// <returns></returns>
-            private static Graph __add(Graph graph1, Graph graph2)
+            private static IGraph __add(IGraph graph1, IGraph graph2)
             {
                 return graph1.AddGraph(graph2);
             }
@@ -167,10 +202,10 @@ namespace DataDictionary.Functions
             /// <summary>
             ///     Adds graphs
             /// </summary>
-            /// <param name="coef1"></param>
-            /// <param name="coef2"></param>
+            /// <param name="graph1"></param>
+            /// <param name="graph2"></param>
             /// <returns></returns>
-            public static Graph Add(Graph graph1, Graph graph2)
+            public static IGraph Add(IGraph graph1, IGraph graph2)
             {
                 return SelectAndDelegateOperation(graph1, graph2, __add);
             }
@@ -178,10 +213,10 @@ namespace DataDictionary.Functions
             /// <summary>
             ///     Substract graphs
             /// </summary>
-            /// <param name="coef1"></param>
-            /// <param name="coef2"></param>
+            /// <param name="graph1"></param>
+            /// <param name="graph2"></param>
             /// <returns></returns>
-            private static Graph __substract(Graph graph1, Graph graph2)
+            private static IGraph __substract(IGraph graph1, IGraph graph2)
             {
                 return graph1.SubstractGraph(graph2);
             }
@@ -189,10 +224,10 @@ namespace DataDictionary.Functions
             /// <summary>
             ///     Substract graphs
             /// </summary>
-            /// <param name="coef1"></param>
-            /// <param name="coef2"></param>
+            /// <param name="graph1"></param>
+            /// <param name="graph2"></param>
             /// <returns></returns>
-            public static Graph Substract(Graph graph1, Graph graph2)
+            public static IGraph Substract(IGraph graph1, IGraph graph2)
             {
                 return SelectAndDelegateOperation(graph1, graph2, __substract);
             }
@@ -200,10 +235,10 @@ namespace DataDictionary.Functions
             /// <summary>
             ///     Multiplies graphs
             /// </summary>
-            /// <param name="coef1"></param>
-            /// <param name="coef2"></param>
+            /// <param name="graph1"></param>
+            /// <param name="graph2"></param>
             /// <returns></returns>
-            private static Graph __mult(Graph graph1, Graph graph2)
+            private static IGraph __mult(IGraph graph1, IGraph graph2)
             {
                 return graph1.MultGraph(graph2);
             }
@@ -211,10 +246,10 @@ namespace DataDictionary.Functions
             /// <summary>
             ///     Substract graphs
             /// </summary>
-            /// <param name="coef1"></param>
-            /// <param name="coef2"></param>
+            /// <param name="graph1"></param>
+            /// <param name="graph2"></param>
             /// <returns></returns>
-            public static Graph Mult(Graph graph1, Graph graph2)
+            public static IGraph Mult(IGraph graph1, IGraph graph2)
             {
                 return SelectAndDelegateOperation(graph1, graph2, __mult);
             }
@@ -222,10 +257,10 @@ namespace DataDictionary.Functions
             /// <summary>
             ///     Divides graphs
             /// </summary>
-            /// <param name="coef1"></param>
-            /// <param name="coef2"></param>
+            /// <param name="graph1"></param>
+            /// <param name="graph2"></param>
             /// <returns></returns>
-            private static Graph __div(Graph graph1, Graph graph2)
+            private static IGraph __div(IGraph graph1, IGraph graph2)
             {
                 return graph1.DivGraph(graph2);
             }
@@ -233,10 +268,10 @@ namespace DataDictionary.Functions
             /// <summary>
             ///     Divides graphs
             /// </summary>
-            /// <param name="coef1"></param>
-            /// <param name="coef2"></param>
+            /// <param name="graph1"></param>
+            /// <param name="graph2"></param>
             /// <returns></returns>
-            public static Graph Divide(Graph graph1, Graph graph2)
+            public static IGraph Divide(IGraph graph1, IGraph graph2)
             {
                 return SelectAndDelegateOperation(graph1, graph2, __div);
             }
@@ -244,10 +279,10 @@ namespace DataDictionary.Functions
             /// <summary>
             ///     Merges two graphs
             /// </summary>
-            /// <param name="coef1"></param>
-            /// <param name="coef2"></param>
+            /// <param name="graph1"></param>
+            /// <param name="graph2"></param>
             /// <returns></returns>
-            private static Graph __merge(Graph graph1, Graph graph2)
+            private static IGraph __merge(IGraph graph1, IGraph graph2)
             {
                 graph1.Merge(graph2);
 
@@ -257,22 +292,22 @@ namespace DataDictionary.Functions
             /// <summary>
             ///     Merges two graphs
             /// </summary>
-            /// <param name="coef1"></param>
-            /// <param name="coef2"></param>
+            /// <param name="graph1"></param>
+            /// <param name="graph2"></param>
             /// <returns></returns>
-            public static Graph Merge(Graph graph1, Graph graph2)
+            public static IGraph Merge(IGraph graph1, IGraph graph2)
             {
                 return SelectAndDelegateOperation(graph1, graph2, __merge);
             }
 
             /// <summary>
-            ///     Redeuces the size of this segment according to the acceptable boudaries provided
+            /// Reduces the size of this segment according to the acceptable boudaries provided
             /// </summary>
             /// <param name="boundaries"></param>
             /// <returns></returns>
-            public List<Segment> Reduce(List<Graph.Segment> boundaries)
+            public List<ISurfaceSegment> Reduce(List<ISegment> boundaries)
             {
-                List<Segment> retVal = new List<Segment>();
+                List<ISurfaceSegment> retVal = new List<ISurfaceSegment>();
 
                 foreach (Graph.Segment other in boundaries)
                 {
@@ -296,13 +331,13 @@ namespace DataDictionary.Functions
             /// <param name="graph1"></param>
             /// <param name="graph2"></param>
             /// <returns></returns>
-            private static Graph __override(Graph graph1, Graph graph2)
+            private static IGraph __override(IGraph graph1, IGraph graph2)
             {
-                Graph retVal = graph2;
+                Graph retVal = graph2 as Graph;
 
                 if (graph2 == null)
                 {
-                    retVal = graph1;
+                    retVal = graph1 as Graph;
                 }
 
                 return retVal;
@@ -314,7 +349,7 @@ namespace DataDictionary.Functions
             /// <param name="graph1"></param>
             /// <param name="graph2"></param>
             /// <returns></returns>
-            public static Graph Override(Graph graph1, Graph graph2)
+            public static IGraph Override(IGraph graph1, IGraph graph2)
             {
                 return SelectAndDelegateOperation(graph1, graph2, __override);
             }
@@ -325,7 +360,7 @@ namespace DataDictionary.Functions
             /// <param name="graph1"></param>
             /// <param name="graph2"></param>
             /// <returns></returns>
-            private static Graph __min(Graph graph1, Graph graph2)
+            private static IGraph __min(IGraph graph1, IGraph graph2)
             {
                 return graph1.Min(graph2);
             }
@@ -333,10 +368,10 @@ namespace DataDictionary.Functions
             /// <summary>
             ///     Adds graphs
             /// </summary>
-            /// <param name="coef1"></param>
-            /// <param name="coef2"></param>
+            /// <param name="graph1"></param>
+            /// <param name="graph2"></param>
             /// <returns></returns>
-            public static Graph Min(Graph graph1, Graph graph2)
+            public static IGraph Min(IGraph graph1, IGraph graph2)
             {
                 return SelectAndDelegateOperation(graph1, graph2, __min);
             }
@@ -371,7 +406,7 @@ namespace DataDictionary.Functions
         /// <summary>
         ///     The segments associated to this graph
         /// </summary>
-        public List<Segment> Segments { get; private set; }
+        public List<ISurfaceSegment> Segments { get; set; }
 
         /// <summary>
         ///     The X axis for this surface
@@ -422,7 +457,7 @@ namespace DataDictionary.Functions
         /// <param name="Yaxis">The Y axis for this surface</param>
         public Surface(Parameter Xaxis, Parameter Yaxis)
         {
-            Segments = new List<Segment>();
+            Segments = new List<ISurfaceSegment>();
 
             XParameter = Xaxis;
             YParameter = Yaxis;
@@ -477,28 +512,31 @@ namespace DataDictionary.Functions
 
             foreach (Segment segment in Segments)
             {
-                Graph graph = segment.Graph;
-                FlatAccelerationSpeedCurve acc = graph.FlatAccelerationSpeedCurve(expectedEndY);
-                for (int i = 0; i < acc.SegmentCount; i++)
+                Graph graph = segment.Graph as Graph;
+                if (graph != null)
                 {
-                    double start = segment.Start;
-                    if (start < expectedEndX)
+                    FlatAccelerationSpeedCurve acc = graph.FlatAccelerationSpeedCurve(expectedEndY);
+                    for (int i = 0; i < acc.SegmentCount; i++)
                     {
-                        double end = segment.End;
-                        if (end == double.MaxValue || end >= expectedEndX)
+                        double start = segment.Start;
+                        if (start < expectedEndX)
                         {
-                            end = expectedEndX;
-                        }
+                            double end = segment.End;
+                            if (end == double.MaxValue || end >= expectedEndX)
+                            {
+                                end = expectedEndX;
+                            }
 
-                        ConstantCurveSegment<SiSpeed, SiAcceleration> seg = acc[i];
-                        SurfaceTile tile = new SurfaceTile(
-                            new SiDistance(start, SiDistance_SubUnits.Meter),
-                            new SiDistance(end, SiDistance_SubUnits.Meter),
-                            seg.X.X0,
-                            seg.X.X1,
-                            seg.Y
-                            );
-                        retVal.Tiles.Add(tile);
+                            ConstantCurveSegment<SiSpeed, SiAcceleration> seg = acc[i];
+                            SurfaceTile tile = new SurfaceTile(
+                                new SiDistance(start, SiDistance_SubUnits.Meter),
+                                new SiDistance(end, SiDistance_SubUnits.Meter),
+                                seg.X.X0,
+                                seg.X.X1,
+                                seg.Y
+                                );
+                            retVal.Tiles.Add(tile);
+                        }
                     }
                 }
             }
@@ -512,12 +550,12 @@ namespace DataDictionary.Functions
         /// <param name="otherSurface"></param>
         public void MergeX(Surface otherSurface)
         {
-            List<Segment> toProcess = new List<Segment>(otherSurface.Segments);
-            List<Segment> toAdd = new List<Segment>();
+            List<ISurfaceSegment> toProcess = new List<ISurfaceSegment>(otherSurface.Segments);
+            List<ISurfaceSegment> toAdd = new List<ISurfaceSegment>();
 
             while (toProcess.Count > 0)
             {
-                Segment segment = toProcess[0];
+                ISurfaceSegment segment = toProcess[0];
                 toProcess.Remove(segment);
 
                 // Reduce this segment according to the existing segments
@@ -542,7 +580,7 @@ namespace DataDictionary.Functions
                     }
                     else
                     {
-                        // existingSegment.Start >= segment.Start
+                        // existingSegment.Start > segment.Start
                         if (existingSegment.Start < segment.End)
                         {
                             if (existingSegment.End < segment.End)
@@ -574,9 +612,11 @@ namespace DataDictionary.Functions
         }
 
         /// <summary>
-        ///     Merges tow surfaces, using the Y axis as the merge orientation
+        /// Merges tow surfaces, using the Y axis as the merge orientation
         /// </summary>
-        /// <param name="otherSurface"></param>
+        /// <param name="first"></param>
+        /// <param name="second"></param>
+        /// <returns></returns>
         public static Surface MergeY(Surface first, Surface second)
         {
             return CombineTwoSurfaces(first, second, Segment.Merge);
@@ -648,8 +688,8 @@ namespace DataDictionary.Functions
             double start = 0;
             while (i < first.Segments.Count && j < second.Segments.Count)
             {
-                Segment segment_i = first.Segments[i];
-                Segment segment_j = second.Segments[j];
+                ISurfaceSegment segment_i = first.Segments[i];
+                ISurfaceSegment segment_j = second.Segments[j];
 
                 if (segment_i.Start != segment_j.Start && start <= segment_i.Start && start <= segment_j.Start)
                 {
@@ -659,7 +699,7 @@ namespace DataDictionary.Functions
                         if (segment_i.End <= segment_j.Start)
                         {
                             // No overlap
-                            Graph val = operation(segment_i.Graph, null);
+                            IGraph val = operation(segment_i.Graph, null);
                             retVal.AddSegment(new Segment(start, segment_i.End, val));
                             start = segment_i.End;
                             i = i + 1;
@@ -667,7 +707,7 @@ namespace DataDictionary.Functions
                         else
                         {
                             // Overlap between segment_i and segment_j, segment_i is before segment_j
-                            Graph val = operation(segment_i.Graph, null);
+                            IGraph val = operation(segment_i.Graph, null);
                             retVal.AddSegment(new Segment(start, segment_j.Start, val));
                             start = segment_j.Start;
                         }
@@ -678,7 +718,7 @@ namespace DataDictionary.Functions
                         if (segment_j.End <= segment_i.Start)
                         {
                             // No overlap
-                            Graph val = operation(segment_j.Graph, null);
+                            IGraph val = operation(segment_j.Graph, null);
                             retVal.AddSegment(new Segment(start, segment_j.End, val));
                             start = segment_j.End;
                             j = j + 1;
@@ -686,7 +726,7 @@ namespace DataDictionary.Functions
                         else
                         {
                             // Overlap between segment_i and segment_j, segment_j is before segment_i
-                            Graph val = operation(segment_j.Graph, null);
+                            IGraph val = operation(segment_j.Graph, null);
                             retVal.AddSegment(new Segment(start, segment_i.Start, val));
                             start = segment_i.Start;
                         }
@@ -709,7 +749,7 @@ namespace DataDictionary.Functions
                         end = segment_j.End;
                         j = j + 1;
                     }
-                    Graph val = operation(segment_i.Graph, segment_j.Graph);
+                    IGraph val = operation(segment_i.Graph, segment_j.Graph);
                     retVal.AddSegment(new Segment(start, end, val));
                     start = end;
                 }
@@ -717,9 +757,9 @@ namespace DataDictionary.Functions
 
             while (i < first.Segments.Count)
             {
-                Segment segment_i = first.Segments[i];
+                ISurfaceSegment segment_i = first.Segments[i];
 
-                Graph val = operation(segment_i.Graph, null);
+                IGraph val = operation(segment_i.Graph, null);
                 retVal.AddSegment(new Segment(start, segment_i.End, val));
 
                 start = segment_i.End;
@@ -728,9 +768,9 @@ namespace DataDictionary.Functions
 
             while (j < second.Segments.Count)
             {
-                Segment segment_j = second.Segments[j];
+                ISurfaceSegment segment_j = second.Segments[j];
 
-                Graph val = operation(null, segment_j.Graph);
+                IGraph val = operation(null, segment_j.Graph);
                 retVal.AddSegment(new Segment(start, segment_j.End, val));
 
                 start = segment_j.End;
@@ -807,14 +847,14 @@ namespace DataDictionary.Functions
         /// </summary>
         /// <param name="boundaries"></param>
         /// <returns>The reduced graph</returns>
-        public void Reduce(List<Graph.Segment> boundaries)
+        public void Reduce(List<ISegment> boundaries)
         {
-            List<Segment> tmp = new List<Segment>();
+            List<ISurfaceSegment> tmp = new List<ISurfaceSegment>();
 
             int i = 0;
             while (i < Segments.Count)
             {
-                Segment segment = Segments[i];
+                ISurfaceSegment segment = Segments[i];
                 foreach (Segment newSegment in segment.Reduce(boundaries))
                 {
                     tmp.Add(newSegment);
@@ -838,14 +878,13 @@ namespace DataDictionary.Functions
         }
 
         /// <summary>
-        ///     Selects the minimum surface
+        /// Selects the minimum surface
         /// </summary>
-        /// <param name="second"></param>
-        /// <param name="def"></param>
+        /// <param name="otherSurface"></param>
         /// <returns></returns>
-        public Surface Min(Surface second)
+        public Surface Min(Surface otherSurface)
         {
-            return CombineTwoSurfaces(this, second, Segment.Min);
+            return CombineTwoSurfaces(this, otherSurface, Segment.Min);
         }
 
         /// <summary>
@@ -960,7 +999,7 @@ namespace DataDictionary.Functions
                         foreach (Graph.Segment segment in function.Graph.Segments)
                         {
                             Graph graph = new Graph();
-                            graph.addSegment(new Graph.Segment(0, double.MaxValue, segment.Expression));
+                            graph.AddSegment(new Graph.Segment(0, double.MaxValue, segment.Expression));
                             retVal.AddSegment(new Segment(segment.Start, segment.End, graph));
                         }
                     }

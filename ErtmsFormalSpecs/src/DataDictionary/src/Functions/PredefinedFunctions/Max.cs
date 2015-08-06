@@ -114,7 +114,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
                 Graph secondGraph = createGraphForValue(context, secondValue, explain, parameter);
                 if (secondGraph != null)
                 {
-                    retVal = firstGraph.Max(secondGraph);
+                    retVal = firstGraph.Max(secondGraph) as Graph;
                 }
                 else
                 {

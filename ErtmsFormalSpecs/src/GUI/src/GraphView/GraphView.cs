@@ -21,6 +21,7 @@ using System.Windows.Forms.DataVisualization.Charting;
 using DataDictionary;
 using DataDictionary.Functions;
 using DataDictionary.Interpreter;
+using ErtmsSolutions.Etcs.Subset26.BrakingCurves;
 using GUI.DataDictionaryView;
 using GUI.Shortcuts;
 using WeifenLuo.WinFormsUI.Docking;

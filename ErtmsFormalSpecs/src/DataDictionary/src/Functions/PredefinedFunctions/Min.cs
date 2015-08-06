@@ -111,7 +111,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
                 Graph secondGraph = createGraphForValue(context, context.findOnStack(Second).Value, explain);
                 if (secondGraph != null)
                 {
-                    retVal = firstGraph.Min(secondGraph);
+                    retVal = firstGraph.Min(secondGraph) as Graph;
                 }
                 else
                 {

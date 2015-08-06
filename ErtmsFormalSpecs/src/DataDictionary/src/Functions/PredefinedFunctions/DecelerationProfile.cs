@@ -116,7 +116,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
                         catch (Exception e)
                         {
                             retVal = new Graph();
-                            retVal.addSegment(new Graph.Segment(0, double.MaxValue, new Graph.Segment.Curve(0, 0, 0)));
+                            retVal.AddSegment(new Graph.Segment(0, double.MaxValue, new Graph.Segment.Curve(0, 0, 0)));
                         }
 
                         if (BrakingCurve != null)
@@ -160,7 +160,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
                                             )
                                         );
                                 }
-                                retVal.addSegment(newSegment);
+                                retVal.AddSegment(newSegment);
                             }
                         }
                     }

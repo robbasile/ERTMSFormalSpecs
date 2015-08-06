@@ -880,7 +880,11 @@ namespace DataDictionary.Interpreter
 
                 if (rightGraph != null)
                 {
-                    retVal = combineGraph(leftGraph, rightGraph).Function;
+                    Graph combinedGraph = CombineGraph(leftGraph, rightGraph) as Graph;
+                    if (combinedGraph != null)
+                    {
+                        retVal = combinedGraph.Function;
+                    }
                 }
                 else
                 {
@@ -1033,9 +1037,9 @@ namespace DataDictionary.Interpreter
         /// <param name="leftGraph"></param>
         /// <param name="rightGraph"></param>
         /// <returns></returns>
-        private Graph combineGraph(Graph leftGraph, Graph rightGraph)
+        private IGraph CombineGraph(IGraph leftGraph, IGraph rightGraph)
         {
-            Graph retVal = null;
+            IGraph retVal = null;
 
             switch (Operation)
             {
@@ -1279,7 +1283,7 @@ namespace DataDictionary.Interpreter
 
                 if (rightGraph != null)
                 {
-                    retVal = combineGraph(leftGraph, rightGraph);
+                    retVal = CombineGraph(leftGraph, rightGraph) as Graph;
                 }
             }
 
