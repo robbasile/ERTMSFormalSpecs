@@ -24,7 +24,7 @@ using ErtmsSolutions.SiUnits;
 
 namespace DataDictionary.Functions
 {
-    public interface ISurfaceSegment
+    public interface ISurfaceSegment : IComparable<ISurfaceSegment>
     {
         /// <summary>
         /// The start of the segment
@@ -61,7 +61,7 @@ namespace DataDictionary.Functions
 
     public class Surface : ISurface
     {
-        public class Segment : IComparable<Segment>, ISurfaceSegment
+        public class Segment : ISurfaceSegment
         {
             /// <summary>
             ///     The start of the segment
@@ -112,7 +112,7 @@ namespace DataDictionary.Functions
                 return x >= Start && x < End;
             }
 
-            public int CompareTo(Segment other)
+            public int CompareTo(ISurfaceSegment other)
             {
                 int retVal = 0;
 
