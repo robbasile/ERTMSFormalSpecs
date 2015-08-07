@@ -14,6 +14,7 @@
 // --
 // ------------------------------------------------------------------------------
 
+using System.Drawing;
 using System.Windows.Forms.DataVisualization.Charting;
 using GUIUtils.GraphVisualization;
 using GUIUtils.GraphVisualization.Functions;
@@ -21,12 +22,26 @@ using GUIUtils.GraphVisualization.Graphs;
 
 namespace GUI.GraphView
 {
-    public class EfsProfileFunctionGraph : ProfileFunctionGraph
+    public class EfsSurfaceFunctionGraph : SurfaceGraph
     {
-        public EfsProfileFunctionGraph(GraphVisualizer graphVisualizer, ProfileFunction function, string functionName)
+        public EfsSurfaceFunctionGraph(GraphVisualizer graphVisualizer, SurfaceFunction function, string functionName)
             : base(graphVisualizer, function)
         {
             InitializeProperties(SeriesChartType.Line, functionName, functionName);
+        }
+
+        /// <summary>
+        /// Overrides the properties for surfaces graphs
+        /// </summary>
+        /// <param name="chartType"></param>
+        /// <param name="name"></param>
+        /// <param name="tooltip"></param>
+        /// <param name="color"></param>
+        protected override void InitializeProperties(SeriesChartType chartType, string name, string tooltip, System.Drawing.Color color = default(Color))
+        {
+            base.InitializeProperties(chartType, name, tooltip, color);
+            Data.BorderDashStyle = ChartDashStyle.Dash;
+            Data.BorderWidth = 2;
         }
     }
 }

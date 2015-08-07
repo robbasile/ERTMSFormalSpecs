@@ -112,6 +112,11 @@ namespace DataDictionary.Functions
                 return x >= Start && x < End;
             }
 
+            /// <summary>
+            /// Compares two segments
+            /// </summary>
+            /// <param name="other"></param>
+            /// <returns></returns>
             public int CompareTo(ISurfaceSegment other)
             {
                 int retVal = 0;
@@ -668,7 +673,7 @@ namespace DataDictionary.Functions
         /// </summary>
         /// <param name="first">the first surface</param>
         /// <param name="second">the second surface</param>
-        /// <param name="operation" the operation to perform on these graphs
+        /// <param name="operation">the operation to perform on these graphs</param>
         /// <returns>the new graph</returns>
         private static Surface CombineTwoSurfaces(Surface first, Surface second, Segment.Op operation)
         {
@@ -866,11 +871,10 @@ namespace DataDictionary.Functions
         }
 
         /// <summary>
-        ///     Combines two surfaces by replacing in this the value of second
-        ///     on each segment of this == def
+        /// Combines two surfaces by replacing the current by
+        /// the value of the second on each segment
         /// </summary>
         /// <param name="second"></param>
-        /// <param name="def"></param>
         /// <returns></returns>
         public Surface Override(Surface second)
         {
@@ -955,10 +959,11 @@ namespace DataDictionary.Functions
         }
 
         /// <summary>
-        ///     Creates a surface for a single constant value
+        /// Creates a surface for a single constant value
         /// </summary>
-        /// <param name="retVal"></param>
         /// <param name="value"></param>
+        /// <param name="xParam"></param>
+        /// <param name="yParam"></param>
         /// <returns></returns>
         public static Surface createSurface(double value, Parameter xParam, Parameter yParam)
         {
@@ -971,9 +976,9 @@ namespace DataDictionary.Functions
         }
 
         /// <summary>
-        ///     Creates a surface for the value provided expression
+        /// Creates a surface for the value provided expression
         /// </summary>
-        /// <param name="iValue"></param>
+        /// <param name="namable"></param>
         /// <param name="xParam"></param>
         /// <param name="yParam"></param>
         /// <returns></returns>

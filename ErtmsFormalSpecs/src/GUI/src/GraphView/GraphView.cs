@@ -3,12 +3,12 @@
 // -- Licensed under the EUPL V.1.1
 // -- http://joinup.ec.europa.eu/software/page/eupl/licence-eupl
 // --
-// -- This file is part of ERTMSFormalSpec software and documentation
+// -- This file is part of ERTMSFormalSpecs software and documentation
 // --
-// --  ERTMSFormalSpec is free software: you can redistribute it and/or modify
+// --  ERTMSFormalSpecs is free software: you can redistribute it and/or modify
 // --  it under the terms of the EUPL General Public License, v.1.1
 // --
-// -- ERTMSFormalSpec is distributed in the hope that it will be useful,
+// -- ERTMSFormalSpecs is distributed in the hope that it will be useful,
 // -- but WITHOUT ANY WARRANTY; without even the implied warranty of
 // -- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 // --
@@ -21,7 +21,6 @@ using System.Windows.Forms.DataVisualization.Charting;
 using DataDictionary;
 using DataDictionary.Functions;
 using DataDictionary.Interpreter;
-using ErtmsSolutions.Etcs.Subset26.BrakingCurves;
 using GUI.DataDictionaryView;
 using GUI.Shortcuts;
 using WeifenLuo.WinFormsUI.Docking;
@@ -51,6 +50,8 @@ namespace GUI.GraphView
             Functions = new List<Function>();
 
             DockAreas = DockAreas.Document;
+
+            GraphVisualiser.InitializeChart();
 
             foreach (TabPage tabPage in tabControl1.TabPages)
             {
@@ -196,7 +197,7 @@ namespace GUI.GraphView
 
             try
             {
-                int maxX = Int32.Parse(maximumValueTextBox.Text);
+                int maxX = Int32.Parse(Tb_MaxX.Text);
                 expectedEndX = Math.Min(expectedEndX, maxX);
             }
             catch (Exception)
@@ -224,28 +225,27 @@ namespace GUI.GraphView
             }
 
             // Creates the surfaces
-            /*foreach (KeyValuePair<Function, Surface> pair in surfaces)
+            foreach (KeyValuePair<Function, Surface> pair in surfaces)
             {
                 Function function = pair.Key;
                 Surface surface = pair.Value;
 
                 if (surface != null)
                 {
-                    AccelerationSpeedDistanceSurface curve = surface.createAccelerationSpeedDistanceSurface(
-                        expectedEndX, expectedEndY);
-                    display.AddCurve(curve, function.FullName);
+                    EfsSurfaceFunction efsSurfaceFunction = new EfsSurfaceFunction(surface);
+                    GraphVisualiser.AddGraph(new EfsSurfaceFunctionGraph(GraphVisualiser, efsSurfaceFunction, function.FullName));
                     if (name == null)
                     {
                         name = function.Name;
                     }
                 }
-            }*/
+            }
 
             if (name != null)
             {
                 try
                 {
-                    double val = double.Parse(minimumValueTextBox.Text);
+                    double val = double.Parse(Tb_MinX.Text);
                     GraphVisualiser.SetMinX(val);
                 }
                 catch (Exception)
@@ -254,13 +254,29 @@ namespace GUI.GraphView
 
                 try
                 {
-                    double val = double.Parse(maximumValueTextBox.Text);
+                    double val = double.Parse(Tb_MaxX.Text);
                     GraphVisualiser.SetMaxX(val);
                 }
                 catch (Exception)
                 {
                 }
 
+                if (Cb_AutoYSize.Checked)
+                {
+                    GraphVisualiser.SetMaxY(double.NaN);
+                }
+                else
+                {
+                    double height;
+                    if (double.TryParse(Tb_MaxY.Text, out height))
+                    {
+                        GraphVisualiser.SetMaxY(height);
+                    }
+                    else
+                    {
+                        GraphVisualiser.SetMaxY(double.NaN);
+                    }
+                }
                 GraphVisualiser.DrawGraphs(expectedEndX);
             }
         }
@@ -297,6 +313,18 @@ namespace GUI.GraphView
             catch
             {
             }
+        }
+
+        /// <summary>
+        /// Handles CB_AutoYSize check change
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Cb_AutoYSize_CheckedChanged(object sender, EventArgs e)
+        {
+            Lbl_MaxY.Enabled = !Cb_AutoYSize.Checked;
+            Tb_MaxY.Enabled = !Cb_AutoYSize.Checked;
+            ValueChanged(sender, e);
         }
     }
 }

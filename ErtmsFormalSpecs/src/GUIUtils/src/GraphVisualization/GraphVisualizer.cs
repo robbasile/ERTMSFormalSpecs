@@ -93,23 +93,22 @@ namespace GUIUtils.GraphVisualization
         }
 
         /// <summary>
-        /// Constructor
+        /// Initializes the properties
         /// </summary>
         /// <param name="recordPreviousValues"></param>
         /// <param name="decelerationCurvePrecision"></param>
-        public GraphVisualizer(bool recordPreviousValues, int decelerationCurvePrecision)
+        public void InitializeProperties(bool recordPreviousValues, int decelerationCurvePrecision)
         {
-            Graphs = new List<Graph>();
             RecordPreviousValuesInTsm = recordPreviousValues;
             DecelerationCurvePrecision = decelerationCurvePrecision;
         }
 
         /// <summary>
-        /// Initializes the chart areas for scenario and watch view
+        /// Initializes the chart area
         /// </summary>
-        public void Initialize()
+        public void InitializeChart()
         {
-            // Initialization of the scenario chart area
+            // Initialization of the chart area
             ChartAreas[0].AxisX.MajorGrid.LineDashStyle = ChartDashStyle.Dot;
             ChartAreas[0].AxisX.MajorGrid.LineColor = Color.LightGray;
             ChartAreas[0].AxisY.MajorGrid.LineDashStyle = ChartDashStyle.Dot;
@@ -196,10 +195,7 @@ namespace GUIUtils.GraphVisualization
         public void ClearData()
         {
             ClearAnnotations();
-            foreach (Graph graph in Graphs)
-            {
-                graph.ClearData();
-            }
+            Graphs.Clear();
         }
 
         /// <summary>
@@ -214,17 +210,23 @@ namespace GUIUtils.GraphVisualization
         /// <summary>
         /// Draws the functions
         /// </summary>
-        public void DrawGraphs(double end = double.NaN)
+        /// <param name="end"></param>
+        /// <param name="start"></param>
+        /// <param name="height"></param>
+        public void DrawGraphs(double end = double.NaN, double start = double.NaN, double height = double.NaN)
         {
             if (double.IsNaN(end))
             {
                 end = MaxX;
             }
+            if (double.IsNaN(start))
+            {
+                start = 0;
+            }
             foreach (Graph graph in Graphs)
             {
-                graph.Display(end);
+                graph.Display(end, start, height);
             }
-            SetMaxY(double.NaN);
         }
 
         /// <summary>

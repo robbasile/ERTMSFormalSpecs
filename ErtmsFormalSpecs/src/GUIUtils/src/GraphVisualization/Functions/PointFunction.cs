@@ -21,7 +21,7 @@ namespace GUIUtils.GraphVisualization.Functions
     public abstract class PointFunction : Function
     {
         /// <summary>
-        /// The point
+        /// The point to display
         /// </summary>
         public SpeedDistancePoint Point { get; private set; }
 

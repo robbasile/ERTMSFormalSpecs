@@ -17,7 +17,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms.DataVisualization.Charting;
-using GUIUtils.GraphVisualization.Functions;
+using Function = GUIUtils.GraphVisualization.Functions.Function;
 
 namespace GUIUtils.GraphVisualization.Graphs
 {
@@ -101,18 +101,22 @@ namespace GUIUtils.GraphVisualization.Graphs
         /// <param name="maxDistance"></param>
         /// <param name="minDistance"></param>
         /// <param name="height"></param>
-        public void Display(double maxDistance, double minDistance = 0, double height = 0)
+        public void Display(double maxDistance, double minDistance = 0, double height = double.NaN)
         {
             ClearData();
             if (IsEnabled)
             {
                 HandleDisplay(maxDistance, minDistance, height);
             }
-            foreach (DataPoint point in Data.Points)
+            // in case the maximum value of Y axis is not determined automatically => compute it
+            if (!double.IsNaN(GraphVisualizer.MaxY))
             {
-                if (point.YValues[0] > GraphVisualizer.ChartAreas[0].AxisY.Maximum)
+                foreach (DataPoint point in Data.Points)
                 {
-                    GraphVisualizer.ChartAreas[0].AxisY.Maximum = point.YValues[0];
+                    if (point.YValues[0] > GraphVisualizer.ChartAreas[0].AxisY.Maximum && !point.IsEmpty)
+                    {
+                        GraphVisualizer.SetMaxY(point.YValues[0]);
+                    }
                 }
             }
         }

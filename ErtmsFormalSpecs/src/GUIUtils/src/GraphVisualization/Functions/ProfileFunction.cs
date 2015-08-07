@@ -3,12 +3,12 @@
 // -- Licensed under the EUPL V.1.1
 // -- http://joinup.ec.europa.eu/software/page/eupl/licence-eupl
 // --
-// -- This file is part of ERTMSFormalSpec software and documentation
+// -- This file is part of ERTMSFormalSpecs software and documentation
 // --
-// --  ERTMSFormalSpec is free software: you can redistribute it and/or modify
+// --  ERTMSFormalSpecs is free software: you can redistribute it and/or modify
 // --  it under the terms of the EUPL General Public License, v.1.1
 // --
-// -- ERTMSFormalSpec is distributed in the hope that it will be useful,
+// -- ERTMSFormalSpecs is distributed in the hope that it will be useful,
 // -- but WITHOUT ANY WARRANTY; without even the implied warranty of
 // -- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 // --
@@ -21,16 +21,9 @@ namespace GUIUtils.GraphVisualization.Functions
     public abstract class ProfileFunction : Function
     {
         /// <summary>
-        /// The function
+        /// The function to display
         /// </summary>
         public IGraph Function { get; set; }
-
-        /// <summary>
-        /// Contructor
-        /// </summary>
-        public ProfileFunction()
-        {
-        }
 
         /// <summary>
         /// Computes the function value according to the provided parameter
@@ -82,7 +75,7 @@ namespace GUIUtils.GraphVisualization.Functions
         /// </summary>
         /// <param name="currentPosition"></param>
         /// <param name="relocatedPosition"></param>
-        public void RecordCurrentValue(double currentPosition, double relocatedPosition)
+        public virtual void RecordCurrentValue(double currentPosition, double relocatedPosition)
         {
             PreviousData.Add(new SpeedDistancePoint(currentPosition, GetValue(relocatedPosition).Speed));
         }

@@ -3,12 +3,12 @@
 // -- Licensed under the EUPL V.1.1
 // -- http://joinup.ec.europa.eu/software/page/eupl/licence-eupl
 // --
-// -- This file is part of ERTMSFormalSpec software and documentation
+// -- This file is part of ERTMSFormalSpecs software and documentation
 // --
-// --  ERTMSFormalSpec is free software: you can redistribute it and/or modify
+// --  ERTMSFormalSpecs is free software: you can redistribute it and/or modify
 // --  it under the terms of the EUPL General Public License, v.1.1
 // --
-// -- ERTMSFormalSpec is distributed in the hope that it will be useful,
+// -- ERTMSFormalSpecs is distributed in the hope that it will be useful,
 // -- but WITHOUT ANY WARRANTY; without even the implied warranty of
 // -- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 // --
@@ -103,10 +103,10 @@ namespace GUIUtils.GraphVisualization.Graphs
                         double endLocation = maxDistance;
                         if (!double.IsNaN(segment.Length))
                         {
-                            endLocation = Math.Min(segment.D0 + segment.Length, maxDistance);
+                            endLocation = Math.Min(segment.D0 + segment.Length, endLocation);
                         }
 
-                        if (segment.A == 0)  // this is a flat segment
+                        if (segment.A == 0) // this is a flat segment
                         {
                             AddPoint(new DataPoint(startLocation, segment.V0));
                             AddPoint(new DataPoint(endLocation, segment.V0));

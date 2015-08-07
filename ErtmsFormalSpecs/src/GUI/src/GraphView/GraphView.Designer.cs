@@ -53,17 +53,22 @@ namespace GUI.GraphView
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.GraphVisualiser = new GraphVisualizer();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.maximumValueTextBox = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.minimumValueTextBox = new System.Windows.Forms.TextBox();
+            this.Gb_YAxis = new System.Windows.Forms.GroupBox();
+            this.Tb_MaxY = new System.Windows.Forms.TextBox();
+            this.Lbl_MaxY = new System.Windows.Forms.Label();
+            this.Gb_XAsix = new System.Windows.Forms.GroupBox();
+            this.Tb_MaxX = new System.Windows.Forms.TextBox();
+            this.Lbl_MinX = new System.Windows.Forms.Label();
+            this.Lbl_MaxX = new System.Windows.Forms.Label();
+            this.Tb_MinX = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
+            this.Cb_AutoYSize = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.GraphVisualiser)).BeginInit();
             this.tabPage2.SuspendLayout();
-            this.groupBox1.SuspendLayout();
+            this.Gb_YAxis.SuspendLayout();
+            this.Gb_XAsix.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -107,7 +112,8 @@ namespace GUI.GraphView
             // 
             // tabPage2
             // 
-            this.tabPage2.Controls.Add(this.groupBox1);
+            this.tabPage2.Controls.Add(this.Gb_YAxis);
+            this.tabPage2.Controls.Add(this.Gb_XAsix);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
@@ -116,54 +122,84 @@ namespace GUI.GraphView
             this.tabPage2.Text = "Properties";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // groupBox1
+            // Gb_YAxis
             // 
-            this.groupBox1.Controls.Add(this.maximumValueTextBox);
-            this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Controls.Add(this.minimumValueTextBox);
-            this.groupBox1.Location = new System.Drawing.Point(9, 6);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(245, 83);
-            this.groupBox1.TabIndex = 6;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "X axis";
+            this.Gb_YAxis.Controls.Add(this.Cb_AutoYSize);
+            this.Gb_YAxis.Controls.Add(this.Tb_MaxY);
+            this.Gb_YAxis.Controls.Add(this.Lbl_MaxY);
+            this.Gb_YAxis.Location = new System.Drawing.Point(261, 7);
+            this.Gb_YAxis.Name = "Gb_YAxis";
+            this.Gb_YAxis.Size = new System.Drawing.Size(245, 82);
+            this.Gb_YAxis.TabIndex = 7;
+            this.Gb_YAxis.TabStop = false;
+            this.Gb_YAxis.Text = "Y axis";
             // 
-            // maximumValueTextBox
+            // Tb_MaxY
             // 
-            this.maximumValueTextBox.Location = new System.Drawing.Point(94, 45);
-            this.maximumValueTextBox.Name = "maximumValueTextBox";
-            this.maximumValueTextBox.Size = new System.Drawing.Size(138, 20);
-            this.maximumValueTextBox.TabIndex = 5;
-            this.maximumValueTextBox.Text = "5000";
-            this.maximumValueTextBox.TextChanged += new System.EventHandler(this.ValueChanged);
+            this.Tb_MaxY.Location = new System.Drawing.Point(92, 44);
+            this.Tb_MaxY.Name = "Tb_MaxY";
+            this.Tb_MaxY.Size = new System.Drawing.Size(138, 20);
+            this.Tb_MaxY.TabIndex = 6;
+            this.Tb_MaxY.Text = "200";
+            this.Tb_MaxY.TextChanged += new System.EventHandler(this.ValueChanged);
             // 
-            // label1
+            // Lbl_MaxY
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(8, 22);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(77, 13);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Minimum value";
+            this.Lbl_MaxY.AutoSize = true;
+            this.Lbl_MaxY.Location = new System.Drawing.Point(6, 47);
+            this.Lbl_MaxY.Name = "Lbl_MaxY";
+            this.Lbl_MaxY.Size = new System.Drawing.Size(80, 13);
+            this.Lbl_MaxY.TabIndex = 6;
+            this.Lbl_MaxY.Text = "Maximum value";
             // 
-            // label2
+            // Gb_XAsix
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(8, 48);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(80, 13);
-            this.label2.TabIndex = 4;
-            this.label2.Text = "Maximum value";
+            this.Gb_XAsix.Controls.Add(this.Tb_MaxX);
+            this.Gb_XAsix.Controls.Add(this.Lbl_MinX);
+            this.Gb_XAsix.Controls.Add(this.Lbl_MaxX);
+            this.Gb_XAsix.Controls.Add(this.Tb_MinX);
+            this.Gb_XAsix.Location = new System.Drawing.Point(9, 6);
+            this.Gb_XAsix.Name = "Gb_XAsix";
+            this.Gb_XAsix.Size = new System.Drawing.Size(245, 83);
+            this.Gb_XAsix.TabIndex = 6;
+            this.Gb_XAsix.TabStop = false;
+            this.Gb_XAsix.Text = "X axis";
             // 
-            // minimumValueTextBox
+            // Tb_MaxX
             // 
-            this.minimumValueTextBox.Location = new System.Drawing.Point(94, 19);
-            this.minimumValueTextBox.Name = "minimumValueTextBox";
-            this.minimumValueTextBox.Size = new System.Drawing.Size(138, 20);
-            this.minimumValueTextBox.TabIndex = 2;
-            this.minimumValueTextBox.Text = "0";
-            this.minimumValueTextBox.TextChanged += new System.EventHandler(this.ValueChanged);
+            this.Tb_MaxX.Location = new System.Drawing.Point(94, 45);
+            this.Tb_MaxX.Name = "Tb_MaxX";
+            this.Tb_MaxX.Size = new System.Drawing.Size(138, 20);
+            this.Tb_MaxX.TabIndex = 5;
+            this.Tb_MaxX.Text = "5000";
+            this.Tb_MaxX.TextChanged += new System.EventHandler(this.ValueChanged);
+            // 
+            // Lbl_MinX
+            // 
+            this.Lbl_MinX.AutoSize = true;
+            this.Lbl_MinX.Location = new System.Drawing.Point(8, 22);
+            this.Lbl_MinX.Name = "Lbl_MinX";
+            this.Lbl_MinX.Size = new System.Drawing.Size(77, 13);
+            this.Lbl_MinX.TabIndex = 1;
+            this.Lbl_MinX.Text = "Minimum value";
+            // 
+            // Lbl_MaxX
+            // 
+            this.Lbl_MaxX.AutoSize = true;
+            this.Lbl_MaxX.Location = new System.Drawing.Point(8, 48);
+            this.Lbl_MaxX.Name = "Lbl_MaxX";
+            this.Lbl_MaxX.Size = new System.Drawing.Size(80, 13);
+            this.Lbl_MaxX.TabIndex = 4;
+            this.Lbl_MaxX.Text = "Maximum value";
+            // 
+            // Tb_MinX
+            // 
+            this.Tb_MinX.Location = new System.Drawing.Point(94, 19);
+            this.Tb_MinX.Name = "Tb_MinX";
+            this.Tb_MinX.Size = new System.Drawing.Size(138, 20);
+            this.Tb_MinX.TabIndex = 2;
+            this.Tb_MinX.Text = "0";
+            this.Tb_MinX.TextChanged += new System.EventHandler(this.ValueChanged);
             // 
             // label3
             // 
@@ -173,6 +209,17 @@ namespace GUI.GraphView
             this.label3.Size = new System.Drawing.Size(80, 13);
             this.label3.TabIndex = 1;
             this.label3.Text = "Maximum value";
+            // 
+            // Cb_AutoYSize
+            // 
+            this.Cb_AutoYSize.AutoSize = true;
+            this.Cb_AutoYSize.Location = new System.Drawing.Point(9, 20);
+            this.Cb_AutoYSize.Name = "Cb_AutoYSize";
+            this.Cb_AutoYSize.Size = new System.Drawing.Size(175, 17);
+            this.Cb_AutoYSize.TabIndex = 8;
+            this.Cb_AutoYSize.Text = "Compute max size automatically";
+            this.Cb_AutoYSize.UseVisualStyleBackColor = true;
+            this.Cb_AutoYSize.CheckedChanged += new System.EventHandler(this.Cb_AutoYSize_CheckedChanged);
             // 
             // GraphView
             // 
@@ -191,8 +238,10 @@ namespace GUI.GraphView
             this.tabPage1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.GraphVisualiser)).EndInit();
             this.tabPage2.ResumeLayout(false);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
+            this.Gb_YAxis.ResumeLayout(false);
+            this.Gb_YAxis.PerformLayout();
+            this.Gb_XAsix.ResumeLayout(false);
+            this.Gb_XAsix.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -202,12 +251,16 @@ namespace GUI.GraphView
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
-        private System.Windows.Forms.TextBox maximumValueTextBox;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox minimumValueTextBox;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox Tb_MaxX;
+        private System.Windows.Forms.Label Lbl_MaxX;
+        private System.Windows.Forms.TextBox Tb_MinX;
+        private System.Windows.Forms.Label Lbl_MinX;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox Gb_XAsix;
         private global::GUIUtils.GraphVisualization.GraphVisualizer GraphVisualiser;
+        private System.Windows.Forms.GroupBox Gb_YAxis;
+        private System.Windows.Forms.TextBox Tb_MaxY;
+        private System.Windows.Forms.Label Lbl_MaxY;
+        private System.Windows.Forms.CheckBox Cb_AutoYSize;
     }
 }
