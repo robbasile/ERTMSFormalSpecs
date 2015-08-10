@@ -290,7 +290,10 @@ namespace GUIUtils.GraphVisualization
                 start = Math.Max(minValue, start);
                 end = Math.Min(maxValue, end);
 
-                axis.ScaleView.Zoom(start, end);
+                if (start < end)
+                {
+                    axis.ScaleView.Zoom(start, end);
+                }
             }
         }
 
