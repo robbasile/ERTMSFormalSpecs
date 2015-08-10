@@ -36,7 +36,7 @@ namespace GUIUtils.GraphVisualization.Functions
 
             if (Function != null)
             {
-                retVal = new SpeedDistancePoint(parameter, Function.Evaluate(parameter) * 3.6);
+                retVal = new SpeedDistancePoint(parameter, Function.Evaluate(parameter));
             }
 
             return retVal;
