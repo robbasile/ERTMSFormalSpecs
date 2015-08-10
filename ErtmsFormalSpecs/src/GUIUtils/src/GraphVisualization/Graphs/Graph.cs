@@ -130,18 +130,22 @@ namespace GUIUtils.GraphVisualization.Graphs
         protected abstract void HandleDisplay(double maxDistance, double minDistance, double height);
 
         /// <summary>
-        /// Displays the previously recorded data
+        /// Displays the previously recorded data until the provided distance
         /// </summary>
+        /// <param name="maxDistance"></param>
         /// <returns></returns>
-        protected SpeedDistancePoint DisplayPreviousData()
+        protected SpeedDistancePoint DisplayPreviousData(double maxDistance)
         {
             SpeedDistancePoint retVal = new SpeedDistancePoint(0, 0);
             List<SpeedDistancePoint> tmp = new List<SpeedDistancePoint>(Function.PreviousData.Points);
             foreach (SpeedDistancePoint point in tmp)
             {
-                AddPoint(point);
-                retVal.Distance = point.Distance;
-                retVal.Speed = point.Speed;
+                if (point.Distance <= maxDistance)
+                {
+                    AddPoint(point);
+                    retVal.Distance = point.Distance;
+                    retVal.Speed = point.Speed;
+                }
             }
             return retVal;
         }

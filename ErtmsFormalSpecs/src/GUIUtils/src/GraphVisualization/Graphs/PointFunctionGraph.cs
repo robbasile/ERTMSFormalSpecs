@@ -47,7 +47,7 @@ namespace GUIUtils.GraphVisualization.Graphs
                 Data.ChartType = SeriesChartType.Point;
                 if (GraphVisualizer.RecordPreviousValuesInTsm)
                 {
-                    DisplayPreviousData();
+                    DisplayPreviousData(maxDistance);
                 }
                 if (pointFunction.Point != null && !double.IsNaN(pointFunction.Point.Distance))
                 {

@@ -42,7 +42,7 @@ namespace GUIUtils.GraphVisualization.Graphs
         /// <param name="height"></param>
         protected override void HandleDisplay(double maxDistance, double minDistance, double height)
         {
-            SpeedDistancePoint startingPoint = DisplayPreviousData();
+            SpeedDistancePoint startingPoint = DisplayPreviousData(maxDistance);
 
             ProfileSetFunction profileSetFunction = Function as ProfileSetFunction;
             if (profileSetFunction != null)
