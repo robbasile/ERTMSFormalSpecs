@@ -21,25 +21,18 @@ using System.IO;
 using System.Windows.Forms;
 using DataDictionary;
 using DataDictionary.Generated;
-using DataDictionary.Specification;
+using GUI.DictionarySelector;
 using GUI.EditorView;
 using GUI.LongOperations;
 using GUI.Report;
 using GUI.RequirementSetDiagram;
 using GUI.RulePerformances;
-using GUI.SpecificationView;
-using GUI.src.LongOperations;
-using GUI.StateDiagram;
 using GUI.Status;
 using GUIUtils;
 using Importers.ExcelImporter;
-using Utils;
 using WeifenLuo.WinFormsUI.Docking;
 using Dictionary = DataDictionary.Dictionary;
-using ModelElement = DataDictionary.ModelElement;
-using Paragraph = DataDictionary.Specification.Paragraph;
 using Specification = DataDictionary.Specification.Specification;
-using Window = GUI.EditorView.Window;
 
 namespace GUI
 {
@@ -71,29 +64,7 @@ namespace GUI
                 return retVal;
             }
         }
-
-        /// <summary>
-        ///     The editors opened in the MDI
-        /// </summary>
-        public HashSet<Window> Editors
-        {
-            get
-            {
-                HashSet<Window> retVal = new HashSet<Window>();
-
-                foreach (Form form in SubForms)
-                {
-                    Window window = form as Window;
-                    if (window != null)
-                    {
-                        retVal.Add(window);
-                    }
-                }
-
-                return retVal;
-            }
-        }
-
+        
         /// <summary>
         ///     Handles the fact that a sub window has been closed
         /// </summary>
@@ -476,11 +447,11 @@ namespace GUI
         /// <param name="fileName"></param>
         public void OpenFile(string fileName)
         {
-            bool allowErrors = false;
+            const bool allowErrors = false;
             bool shouldPlace = EfsSystem.Dictionaries.Count == 0;
 
             OpenFileOperation openFileOperation = new OpenFileOperation(fileName, EfsSystem, allowErrors, true);
-            openFileOperation.ExecuteUsingProgressDialog("Opening file", true);
+            openFileOperation.ExecuteUsingProgressDialog("Opening file");
 
             // Open the windows
             if (openFileOperation.Dictionary != null)
@@ -648,7 +619,7 @@ namespace GUI
                 if (saveFileDialog.ShowDialog(this) == DialogResult.OK)
                 {
                     activeDictionary.FilePath = saveFileDialog.FileName;
-                    SaveOperation operation = new SaveOperation(this, activeDictionary);
+                    SaveOperation operation = new SaveOperation(activeDictionary);
                     operation.ExecuteUsingProgressDialog("Saving file " + activeDictionary.FilePath, false);
                 }
             }
@@ -658,7 +629,7 @@ namespace GUI
         {
             foreach (Dictionary dictionary in EfsSystem.Dictionaries)
             {
-                SaveOperation operation = new SaveOperation(this, dictionary);
+                SaveOperation operation = new SaveOperation(dictionary);
                 operation.ExecuteUsingProgressDialog("Saving file " + dictionary.Name, false);
             }
         }
@@ -667,7 +638,7 @@ namespace GUI
         {
             foreach (Dictionary dictionary in EfsSystem.Dictionaries)
             {
-                SaveOperation operation = new SaveOperation(this, dictionary);
+                SaveOperation operation = new SaveOperation(dictionary);
                 operation.ExecuteUsingProgressDialog("Saving file " + dictionary.Name, false);
             }
         }
@@ -695,7 +666,7 @@ namespace GUI
                 switch (result)
                 {
                     case DialogResult.Yes:
-                        SaveOperation operation = new SaveOperation(this, EfsSystem);
+                        SaveOperation operation = new SaveOperation();
                         operation.ExecuteUsingProgressDialog("Saving files", false);
                         break;
 
@@ -798,7 +769,7 @@ namespace GUI
 
         private void checkModelToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            CheckModelOperation operation = new CheckModelOperation(EfsSystem);
+            CheckModelOperation operation = new CheckModelOperation();
             operation.ExecuteUsingProgressDialog("Check model");
 
             MessageCounter counter = new MessageCounter(EfsSystem);
@@ -1437,7 +1408,7 @@ namespace GUI
 
         private void checkModelToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            CheckModelOperation operation = new CheckModelOperation(EfsSystem);
+            CheckModelOperation operation = new CheckModelOperation();
             operation.ExecuteUsingProgressDialog("Check model");
 
             MessageCounter counter = new MessageCounter(EfsSystem);
@@ -1448,7 +1419,7 @@ namespace GUI
 
         private void checkToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            CheckDeadModelOperation operation = new CheckDeadModelOperation(EfsSystem);
+            CheckDeadModelOperation operation = new CheckDeadModelOperation();
             operation.ExecuteUsingProgressDialog("Check dead model");
 
             MessageCounter counter = new MessageCounter(EfsSystem);
@@ -1610,14 +1581,21 @@ namespace GUI
 
         private void refactorToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
-            CleanUpModelOperation cleanUpModel = new CleanUpModelOperation(EFSSystem.INSTANCE);
+            CleanUpModelOperation cleanUpModel = new CleanUpModelOperation();
             cleanUpModel.ExecuteUsingProgressDialog("Cleaning up");
         }
 
         private void mergeUpdateToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MergeUpdateOperation merge = new MergeUpdateOperation(EFSSystem.INSTANCE);
-            merge.ExecuteWork();
+            DictionarySelector.DictionarySelector dictionarySelector =
+                new DictionarySelector.DictionarySelector(EFSSystem.INSTANCE, FilterOptions.Updates);
+            dictionarySelector.ShowDictionaries(GuiUtils.MdiWindow);
+
+            if (dictionarySelector.Selected != null)
+            {
+                MergeUpdateOperation merge = new MergeUpdateOperation(dictionarySelector.Selected);
+                merge.ExecuteUsingProgressDialog("Merging", false);
+            }
         }
     }
 }

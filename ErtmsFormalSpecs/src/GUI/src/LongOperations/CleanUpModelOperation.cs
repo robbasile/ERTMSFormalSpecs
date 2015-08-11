@@ -21,26 +21,11 @@ namespace GUI.LongOperations
     public class CleanUpModelOperation : BaseLongOperation
     {
         /// <summary>
-        ///     The system on which the check is performed
+        ///     Cleans up the model
         /// </summary>
-        private EFSSystem EFSSystem { get; set; }
-
-        /// <summary>
-        ///     Constructor
-        /// </summary>
-        /// <param name="system"></param>
-        public CleanUpModelOperation(EFSSystem system)
-        {
-            EFSSystem = system;
-        }
-
-        /// <summary>
-        ///     Generates the file in the background thread
-        /// </summary>
-        /// <param name="arg"></param>
         public override void ExecuteWork()
         {
-            EFSSystem.Compiler.CleanUpModel();
+            EFSSystem.INSTANCE.Compiler.CleanUpModel();
         }
     }
 }

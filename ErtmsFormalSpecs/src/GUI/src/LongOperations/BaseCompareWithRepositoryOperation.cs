@@ -56,7 +56,7 @@ namespace GUI.LongOperations
         ///     Provides the repository related to the Dictionary directory
         /// </summary>
         /// <returns></returns>
-        protected Repository getRepository()
+        protected Repository GetRepository()
         {
             Repository retVal = null;
 
@@ -80,8 +80,7 @@ namespace GUI.LongOperations
         ///     Constructor
         /// </summary>
         /// <param name="dictionary">The dictionary on which the operation should be performed</param>
-        public BaseCompareWithRepositoryOperation(Dictionary dictionary)
-            : base()
+        protected BaseCompareWithRepositoryOperation(Dictionary dictionary)
         {
             Dictionary = dictionary;
         }
@@ -89,7 +88,6 @@ namespace GUI.LongOperations
         /// <summary>
         ///     Retrieves a specific version of a data dictionary
         /// </summary>
-        /// <param name="dictionary">The dictionary from which the version should be found</param>
         /// <param name="commit">The specific version to be found</param>
         /// <returns>The specific version of the dictionary provided as parameter</returns>
         protected Dictionary DictionaryByVersion(Commit commit)
@@ -107,13 +105,15 @@ namespace GUI.LongOperations
                 {
                     // Retrieve the archive of the selected version
 
-                    ProcessStartInfo _processStartInfo = new ProcessStartInfo();
-                    _processStartInfo.WorkingDirectory = workingDir;
-                    _processStartInfo.FileName = "git";
-                    _processStartInfo.Arguments = "archive -o " + tempDirectory + "\\specs.zip " + commit.Id.Sha + " .";
-                    _processStartInfo.CreateNoWindow = true;
-                    _processStartInfo.WindowStyle = ProcessWindowStyle.Hidden;
-                    Process myProcess = Process.Start(_processStartInfo);
+                    ProcessStartInfo processStartInfo = new ProcessStartInfo
+                    {
+                        WorkingDirectory = workingDir,
+                        FileName = "git",
+                        Arguments = "archive -o " + tempDirectory + "\\specs.zip " + commit.Id.Sha + " .",
+                        CreateNoWindow = true,
+                        WindowStyle = ProcessWindowStyle.Hidden
+                    };
+                    Process myProcess = Process.Start(processStartInfo);
                     myProcess.WaitForExit();
                 }
                 catch (Exception exception)
@@ -143,8 +143,7 @@ namespace GUI.LongOperations
                     const bool updateGuid = false;
                     OpenFileOperation openFileOperation =
                         new OpenFileOperation(tempDirectory + Path.DirectorySeparatorChar + DictionaryFileName, null,
-                            allowErrors, updateGuid);
-                    openFileOperation.PleaseLockFiles = false;
+                            allowErrors, updateGuid) {PleaseLockFiles = false};
                     openFileOperation.ExecuteWork();
                     retVal = openFileOperation.Dictionary;
                 }

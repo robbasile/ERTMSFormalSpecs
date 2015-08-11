@@ -44,13 +44,12 @@ namespace GUI.LongOperations
         }
 
         /// <summary>
-        ///     Generates the file in the background thread
+        ///     Compares the files
         /// </summary>
-        /// <param name="arg"></param>
         public override void ExecuteWork()
         {
             // Open the dictionary but do not store it in the EFS System
-            bool allowErrors = true;
+            const bool allowErrors = true;
             OpenFileOperation openFileOperation = new OpenFileOperation(OtherFilePath, null, allowErrors, false);
             openFileOperation.ExecuteWork();
 

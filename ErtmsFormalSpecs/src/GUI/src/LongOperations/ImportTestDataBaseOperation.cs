@@ -27,17 +27,17 @@ namespace GUI.LongOperations
         /// <summary>
         ///     The name of the frame for the subset 76
         /// </summary>
-        private static string SUBSET_076 = "Subset-076";
+        private const string Subset076 = "Subset-076";
 
         /// <summary>
         ///     The password requireed to access the database
         /// </summary>
-        private static string DB_PASSWORD = "papagayo";
+        private const string DbPassword = "papagayo";
 
         /// <summary>
         ///     The dictionary in which the database should be imported
         /// </summary>
-        private Dictionary Dictionary;
+        private readonly Dictionary _dictionary;
 
         /// <summary>
         ///     The name of the database to import
@@ -63,37 +63,37 @@ namespace GUI.LongOperations
         /// </summary>
         /// <param name="fileName"></param>
         /// <param name="dictionary"></param>
+        /// <param name="mode"></param>
         public ImportTestDataBaseOperation(string fileName, Dictionary dictionary, Mode mode)
         {
             FileName = fileName;
-            Dictionary = dictionary;
+            _dictionary = dictionary;
             ImportMode = mode;
         }
 
         /// <summary>
-        ///     Generates the file in the background thread
+        ///     Imports the database
         /// </summary>
-        /// <param name="arg"></param>
         public override void ExecuteWork()
         {
-            Frame frame = Dictionary.findFrame(SUBSET_076);
+            Frame frame = _dictionary.findFrame(Subset076);
             if (frame == null)
             {
                 frame = (Frame) acceptor.getFactory().createFrame();
-                frame.Name = SUBSET_076;
-                Dictionary.appendTests(frame);
+                frame.Name = Subset076;
+                _dictionary.appendTests(frame);
             }
 
             if (ImportMode == Mode.File)
             {
-                TestImporter importer = new TestImporter(FileName, DB_PASSWORD);
+                TestImporter importer = new TestImporter(FileName, DbPassword);
                 importer.Import(frame);
             }
             else
             {
                 foreach (string fName in Directory.GetFiles(FileName, "*.mdb"))
                 {
-                    TestImporter importer = new TestImporter(fName, DB_PASSWORD);
+                    TestImporter importer = new TestImporter(fName, DbPassword);
                     importer.Import(frame);
                 }
             }

@@ -829,8 +829,7 @@ namespace GUI
                 {
                     if (Settings.Default.AllowRefactor)
                     {
-                        RefactorOperation refactorOperation = new RefactorOperation(EFSSystem.INSTANCE,
-                            Model as ModelElement, newLabel);
+                        RefactorOperation refactorOperation = new RefactorOperation(Model as ModelElement, newLabel);
                         refactorOperation.ExecuteUsingProgressDialog("Refactoring", false);
                     }
                     else
@@ -1093,8 +1092,7 @@ namespace GUI
                         {
                             if (Settings.Default.AllowRefactor)
                             {
-                                RefactorOperation refactorOperation = new RefactorOperation(EFSSystem.INSTANCE,
-                                    Model as ModelElement, value);
+                                RefactorOperation refactorOperation = new RefactorOperation(Model as ModelElement, value);
                                 refactorOperation.ExecuteUsingProgressDialog("Refactoring", false);
                             }
                             else

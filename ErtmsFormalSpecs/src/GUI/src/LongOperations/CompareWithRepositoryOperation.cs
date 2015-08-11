@@ -40,9 +40,8 @@ namespace GUI.LongOperations
         }
 
         /// <summary>
-        ///     Generates the file in the background thread
+        ///     Executes the comparison
         /// </summary>
-        /// <param name="arg"></param>
         public override void ExecuteWork()
         {
             Dictionary otherVersion = DictionaryByVersion(Commit);

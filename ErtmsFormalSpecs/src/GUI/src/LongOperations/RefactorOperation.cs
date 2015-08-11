@@ -21,11 +21,6 @@ namespace GUI.LongOperations
     public class RefactorOperation : BaseLongOperation
     {
         /// <summary>
-        ///     The system on which the check is performed
-        /// </summary>
-        private EFSSystem EFSSystem { get; set; }
-
-        /// <summary>
         ///     The element to be refactored
         /// </summary>
         private ModelElement Model { get; set; }
@@ -38,12 +33,10 @@ namespace GUI.LongOperations
         /// <summary>
         ///     Constructor
         /// </summary>
-        /// <param name="system"></param>
         /// <param name="model"></param>
         /// <param name="newName"></param>
-        public RefactorOperation(EFSSystem system, ModelElement model, string newName)
+        public RefactorOperation(ModelElement model, string newName)
         {
-            EFSSystem = system;
             Model = model;
             NewName = newName;
         }
@@ -51,10 +44,9 @@ namespace GUI.LongOperations
         /// <summary>
         ///     Generates the file in the background thread
         /// </summary>
-        /// <param name="arg"></param>
         public override void ExecuteWork()
         {
-            EFSSystem.Compiler.Refactor(Model, NewName);
+            EFSSystem.INSTANCE.Compiler.Refactor(Model, NewName);
         }
 
         /// <summary>
@@ -66,7 +58,7 @@ namespace GUI.LongOperations
         {
             base.ExecuteUsingProgressDialog(message, allowCancel);
 
-            // Long operations to not notify the listeners. 
+            // Long operations do not notify the listeners. 
             // Update the entire model
             EFSSystem.INSTANCE.Context.HandleChangeEvent(null);
         }

@@ -15,6 +15,8 @@
 // ------------------------------------------------------------------------------
 
 using System;
+using System.Threading;
+using System.Windows.Forms;
 using DataDictionary;
 using GUIUtils;
 using Utils;
@@ -44,8 +46,7 @@ namespace GUI.LongOperations
         /// <summary>
         ///     Constructor
         /// </summary>
-        public BaseLongOperation()
-            : base()
+        protected BaseLongOperation()
         {
             ShowDialog = true;
         }
@@ -74,6 +75,13 @@ namespace GUI.LongOperations
                     {
                         ExecuteWork();
                     }
+                }
+                catch (ThreadAbortException)
+                {
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show("Exception raised", e.Message);
                 }
                 finally
                 {

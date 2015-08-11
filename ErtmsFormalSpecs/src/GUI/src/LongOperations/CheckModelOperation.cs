@@ -14,8 +14,6 @@
 // --
 // ------------------------------------------------------------------------------
 
-using System;
-using System.Windows.Forms;
 using DataDictionary;
 
 namespace GUI.LongOperations
@@ -23,39 +21,14 @@ namespace GUI.LongOperations
     public class CheckModelOperation : BaseLongOperation
     {
         /// <summary>
-        ///     The system on which the check is performed
+        ///     Checks the model
         /// </summary>
-        private EFSSystem EFSSystem { get; set; }
-
-        /// <summary>
-        ///     Constructor
-        /// </summary>
-        /// <param name="system"></param>
-        public CheckModelOperation(EFSSystem system)
-        {
-            EFSSystem = system;
-        }
-
-        /// <summary>
-        ///     Generates the file in the background thread
-        /// </summary>
-        /// <param name="arg"></param>
         public override void ExecuteWork()
         {
-            Util.DontNotify(() =>
+            foreach (Dictionary dictionary in EFSSystem.INSTANCE.Dictionaries)
             {
-                try
-                {
-                    foreach (Dictionary dictionary in EFSSystem.Dictionaries)
-                    {
-                        dictionary.CheckRules();
-                    }
-                }
-                catch (Exception excp)
-                {
-                    MessageBox.Show("Exception raised", excp.Message);
-                }
-            });
+                dictionary.CheckRules();
+            }
         }
     }
 }

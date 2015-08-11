@@ -25,47 +25,29 @@ namespace GUI.LongOperations
     public class SaveOperation : BaseLongOperation
     {
         /// <summary>
-        ///     The form that invoked this progress handler
-        /// </summary>
-        private MainWindow MainWindow { get; set; }
-
-        /// <summary>
         ///     The dictionary to save
         /// </summary>
         private Dictionary Dictionary { get; set; }
 
         /// <summary>
-        ///     The system to save
-        /// </summary>
-        private EFSSystem System { get; set; }
-
-        /// <summary>
         ///     Constructor used to save a single dictionary
         /// </summary>
-        /// <param name="mainWindow"></param>
         /// <param name="dictionary"></param>
-        public SaveOperation(MainWindow mainWindow, Dictionary dictionary)
+        public SaveOperation(Dictionary dictionary)
         {
-            MainWindow = mainWindow;
             Dictionary = dictionary;
-            System = Dictionary.EFSSystem;
         }
 
         /// <summary>
         ///     Constructor used to save to complete system
         /// </summary>
-        /// <param name="mainWindow"></param>
-        /// <param name="system"></param>
-        public SaveOperation(MainWindow mainWindow, EFSSystem system)
+        public SaveOperation()
         {
-            MainWindow = mainWindow;
-            System = system;
         }
 
         /// <summary>
         ///     Performs the job as a background task
         /// </summary>
-        /// <param name="arg"></param>
         public override void ExecuteWork()
         {
             Util.UnlockAllFiles();
@@ -79,7 +61,7 @@ namespace GUI.LongOperations
                 else
                 {
                     // Save all dictionaries
-                    foreach (Dictionary dictionary in System.Dictionaries)
+                    foreach (Dictionary dictionary in EFSSystem.INSTANCE.Dictionaries)
                     {
                         dictionary.save();
                     }
@@ -88,8 +70,8 @@ namespace GUI.LongOperations
             finally
             {
                 Util.LockAllFiles();
-                System.ShouldSave = false;
-                MainWindow.Invoke((MethodInvoker) delegate { MainWindow.UpdateTitle(); });
+                EFSSystem.INSTANCE.ShouldSave = false;
+                GuiUtils.MdiWindow.Invoke((MethodInvoker) (() => GuiUtils.MdiWindow.UpdateTitle()));
             }
         }
     }

@@ -1,65 +1,48 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Windows.Forms.VisualStyles;
 using DataDictionary;
-using DataDictionary.Generated;
-using DataDictionary.Interpreter;
-using GUI.DictionarySelector;
-using GUI.LongOperations;
+// ------------------------------------------------------------------------------
+// -- Copyright ERTMS Solutions
+// -- Licensed under the EUPL V.1.1
+// -- http://joinup.ec.europa.eu/software/page/eupl/licence-eupl
+// --
+// -- This file is part of ERTMSFormalSpec software and documentation
+// --
+// --  ERTMSFormalSpec is free software: you can redistribute it and/or modify
+// --  it under the terms of the EUPL General Public License, v.1.1
+// --
+// -- ERTMSFormalSpec is distributed in the hope that it will be useful,
+// -- but WITHOUT ANY WARRANTY; without even the implied warranty of
+// -- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// --
+// ------------------------------------------------------------------------------
+
 using Dictionary = DataDictionary.Dictionary;
 
-namespace GUI.src.LongOperations
+namespace GUI.LongOperations
 {
     public class MergeUpdateOperation: BaseLongOperation
     {
         /// <summary>
-        ///     The EFS system
+        /// The update dictionary
         /// </summary>
-        private EFSSystem efsSystem;
+        private Dictionary UpdateDictionary { get; set; }
 
         /// <summary>
-        ///     Constructor
+        /// Constructor
         /// </summary>
-        public MergeUpdateOperation(EFSSystem System)
+        /// <param name="updateDictionary"></param>
+        public MergeUpdateOperation(Dictionary updateDictionary)
         {
-            efsSystem = System;
+            UpdateDictionary = updateDictionary;
         }
 
+        /// <summary>
+        /// Merges the update
+        /// </summary>
         public override void ExecuteWork()
         {
-            Dictionary UpdateDictionary = GetDictionary();
-
-            if (UpdateDictionary != null)
-            {
-                UpdateDictionary.MergeUpdate();
-            }
-
-            efsSystem.Compiler.Compile_Synchronous(true);
-        }
-
-        /// <summary>
-        ///     Opens a dictionary selector window for the user
-        /// </summary>
-        /// <returns></returns>
-        private Dictionary GetDictionary()
-        {
-            Dictionary retVal = null;
-
-            MainWindow mainWindow = GuiUtils.MdiWindow;
-            if (efsSystem != null)
-            {
-                DictionarySelector.DictionarySelector dictionarySelector =
-                            new DictionarySelector.DictionarySelector(efsSystem, FilterOptions.Updates);
-                dictionarySelector.ShowDictionaries(mainWindow);
-
-                if (dictionarySelector.Selected != null)
-                {
-                    retVal = dictionarySelector.Selected;
-                }
-            }
-
-            return retVal;
+            UpdateDictionary.MergeUpdate();
+            EFSSystem.INSTANCE.Compiler.Compile_Synchronous(true);
         }
     }
 }

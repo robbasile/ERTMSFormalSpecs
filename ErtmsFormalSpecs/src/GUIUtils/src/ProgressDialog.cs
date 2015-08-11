@@ -46,28 +46,31 @@ namespace GUIUtils
         {
             BackgroundWorker worker = sender as BackgroundWorker;
 
-            Thread thread = ThreadUtil.CreateThread("Progress" + Text, Work.TreadStart);
-            thread.Start(Work);
-
-            int percent = 0;
-            while (thread.ThreadState != ThreadState.Stopped)
+            if (worker != null)
             {
-                Thread.Sleep(100);
+                Thread thread = ThreadUtil.CreateThread("Progress" + Text, Work.TreadStart);
+                thread.Start(Work);
 
-                if (worker.CancellationPending)
+                int percent = 0;
+                while (thread.ThreadState != ThreadState.Stopped)
                 {
-                    thread.Abort();
-                    break;
-                }
+                    Thread.Sleep(100);
 
-                // Show something moving
-                percent += 1;
-                if (percent > 100)
-                {
-                    percent = 0;
-                }
+                    if (worker.CancellationPending)
+                    {
+                        thread.Abort();
+                        break;
+                    }
 
-                worker.ReportProgress(percent);
+                    // Show something moving
+                    percent += 1;
+                    if (percent > 100)
+                    {
+                        percent = 0;
+                    }
+
+                    worker.ReportProgress(percent);
+                }
             }
         }
 
@@ -76,18 +79,19 @@ namespace GUIUtils
         /// </summary>
         /// <param name="reason"></param>
         /// <param name="work"></param>
+        /// <param name="allowCancel"></param>
         public ProgressDialog(string reason, ProgressHandler work, bool allowCancel = true)
         {
             InitializeComponent();
 
             btnCancel.Enabled = allowCancel;
-            KeyUp += new KeyEventHandler(ProgressDialog_KeyUp);
+            KeyUp += ProgressDialog_KeyUp;
 
             Canceled = false;
             Work = work;
             Text = reason;
             label1.Text = reason;
-            backgroundWorker1.DoWork += new DoWorkEventHandler(ManageCancel);
+            backgroundWorker1.DoWork += ManageCancel;
         }
 
         /// <summary>

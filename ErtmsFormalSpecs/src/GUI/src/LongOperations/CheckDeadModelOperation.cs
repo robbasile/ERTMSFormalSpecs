@@ -21,28 +21,13 @@ namespace GUI.LongOperations
     public class CheckDeadModelOperation : BaseLongOperation
     {
         /// <summary>
-        ///     The system on which the check is performed
+        ///     Checks for dead model
         /// </summary>
-        private EFSSystem EFSSystem { get; set; }
-
-        /// <summary>
-        ///     Constructor
-        /// </summary>
-        /// <param name="system"></param>
-        public CheckDeadModelOperation(EFSSystem system)
-        {
-            EFSSystem = system;
-        }
-
-        /// <summary>
-        ///     Generates the file in the background thread
-        /// </summary>
-        /// <param name="arg"></param>
         public override void ExecuteWork()
         {
             Util.DontNotify(() =>
             {
-                foreach (Dictionary dictionary in EFSSystem.Dictionaries)
+                foreach (Dictionary dictionary in EFSSystem.INSTANCE.Dictionaries)
                 {
                     dictionary.CheckDeadModel();
                 }

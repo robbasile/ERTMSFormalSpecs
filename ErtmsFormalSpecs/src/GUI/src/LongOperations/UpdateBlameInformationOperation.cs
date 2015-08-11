@@ -46,15 +46,14 @@ namespace GUI.LongOperations
         }
 
         /// <summary>
-        ///     Generates the file in the background thread
+        ///     Performs the job as a background task
         /// </summary>
-        /// <param name="arg"></param>
         public override void ExecuteWork()
         {
             // Retrieve the hash tag
             if (LastCommit != null)
             {
-                Repository repository = getRepository();
+                Repository repository = GetRepository();
 
                 string DictionaryDirectory = Path.GetDirectoryName(Dictionary.FilePath);
                 DictionaryDirectory = DictionaryDirectory.Substring(RepositoryPath.Length + 1,
