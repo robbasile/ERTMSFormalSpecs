@@ -20,7 +20,7 @@ using System.Threading;
 using System.Windows.Forms;
 using Utils;
 
-namespace GUI
+namespace GUIUtils
 {
     /// <summary>
     ///     A progress dialog, for long operations

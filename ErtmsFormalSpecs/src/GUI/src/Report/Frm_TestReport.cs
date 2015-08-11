@@ -20,6 +20,7 @@ using System.Reflection;
 using System.Windows.Forms;
 using DataDictionary;
 using DataDictionary.Tests;
+using GUIUtils;
 using log4net;
 using Reports.Tests;
 

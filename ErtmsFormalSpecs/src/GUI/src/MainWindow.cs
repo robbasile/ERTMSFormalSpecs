@@ -31,6 +31,7 @@ using GUI.SpecificationView;
 using GUI.src.LongOperations;
 using GUI.StateDiagram;
 using GUI.Status;
+using GUIUtils;
 using Importers.ExcelImporter;
 using Utils;
 using WeifenLuo.WinFormsUI.Docking;

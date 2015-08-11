@@ -18,6 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using DataDictionary;
+using GUIUtils;
 using Reports.ERTMSAcademy;
 
 namespace GUI.Report

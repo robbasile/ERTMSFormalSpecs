@@ -16,6 +16,7 @@
 
 using System;
 using DataDictionary;
+using GUIUtils;
 using Utils;
 
 namespace GUI.LongOperations

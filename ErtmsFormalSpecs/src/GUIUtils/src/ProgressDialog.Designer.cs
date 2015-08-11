@@ -13,7 +13,7 @@
 // -- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 // --
 // ------------------------------------------------------------------------------
-namespace GUI
+namespace GUIUtils
 {
     partial class ProgressDialog
     {

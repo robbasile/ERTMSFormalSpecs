@@ -19,6 +19,7 @@ using System.Collections;
 using System.Reflection;
 using System.Windows.Forms;
 using DataDictionary;
+using GUIUtils;
 using log4net;
 using Reports.Specs;
 

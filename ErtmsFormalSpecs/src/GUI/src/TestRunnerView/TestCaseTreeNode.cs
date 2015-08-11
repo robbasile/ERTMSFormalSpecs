@@ -21,6 +21,7 @@ using System.Windows.Forms;
 using DataDictionary;
 using DataDictionary.Tests.Runner;
 using GUI.Report;
+using GUIUtils;
 using Utils;
 using Step = DataDictionary.Tests.Step;
 using SubSequence = DataDictionary.Tests.SubSequence;

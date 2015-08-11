@@ -18,6 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
+using GUIUtils;
 using Importers.RtfDeltaImporter;
 using Reports.Importer;
 using Chapter = DataDictionary.Specification.Chapter;
