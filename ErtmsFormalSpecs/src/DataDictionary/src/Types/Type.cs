@@ -104,7 +104,7 @@ namespace DataDictionary.Types
                 if (retVal == null && Dictionary != null)
                 {
                     // This can be the case for artificial types
-                    retVal = Dictionary.findNameSpace("Default");
+                    retVal = Dictionary.FindNameSpace("Default");
                 }
 
                 return retVal;

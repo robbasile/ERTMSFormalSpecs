@@ -1183,7 +1183,7 @@ namespace DataDictionary
                     }
                 }
 
-                RequirementSet scope = Dictionary.findRequirementSet(Dictionary.SCOPE_NAME, false);
+                RequirementSet scope = Dictionary.findRequirementSet(Dictionary.ScopeName, false);
                 if (scope != null)
                 {
                     bool scopeFound = false;

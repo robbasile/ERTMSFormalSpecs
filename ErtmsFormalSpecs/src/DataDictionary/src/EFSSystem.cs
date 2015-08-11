@@ -980,7 +980,7 @@ namespace DataDictionary
 
             foreach (Dictionary dictionary in Dictionaries)
             {
-                retVal = dictionary.findByFullName(fullname);
+                retVal = dictionary.FindByFullName(fullname);
                 if (retVal != null)
                 {
                     // TODO : only finds the first occurence of the namable in all opened dictionaries.
@@ -1005,7 +1005,7 @@ namespace DataDictionary
             {
                 foreach (Dictionary dictionary in Dictionaries)
                 {
-                    retVal = dictionary.findType(nameSpace, name);
+                    retVal = dictionary.FindType(nameSpace, name);
                     if (retVal != null)
                     {
                         break;
@@ -1032,7 +1032,7 @@ namespace DataDictionary
 
             foreach (Dictionary dictionary in Dictionaries)
             {
-                retVal = dictionary.findRule(fullName);
+                retVal = dictionary.FindRule(fullName);
                 if (retVal != null)
                 {
                     break;
@@ -1068,28 +1068,6 @@ namespace DataDictionary
         {
             return true;
         }
-
-        /// <summary>
-        ///     Indicates whether a rule is disabled
-        /// </summary>
-        /// <param name="rule"></param>
-        /// <returns></returns>
-        public bool IsDisabled(Rule rule)
-        {
-            bool retVal = false;
-
-            foreach (Dictionary dictionary in Dictionaries)
-            {
-                retVal = dictionary.Disabled(rule);
-                if (retVal)
-                {
-                    break;
-                }
-            }
-
-            return retVal;
-        }
-
 
         /// <summary>
         ///     The evaluator for this dictionary

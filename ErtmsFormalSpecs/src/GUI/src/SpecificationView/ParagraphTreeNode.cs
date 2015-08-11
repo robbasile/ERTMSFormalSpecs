@@ -325,7 +325,7 @@ namespace GUI.SpecificationView
             Dictionary dictionary = GetPatchDictionary();
             if (dictionary != null)
             {
-                Paragraph paragraphUpdate = dictionary.findByFullName(Item.FullName) as Paragraph;
+                Paragraph paragraphUpdate = dictionary.FindByFullName(Item.FullName) as Paragraph;
                 if (paragraphUpdate == null)
                 {
                     // If the element does not already exist in the patch, add a copy to it

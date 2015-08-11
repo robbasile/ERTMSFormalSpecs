@@ -112,7 +112,7 @@ namespace GUI
 
             if (dictionary != null)
             {
-                ModelElement model = dictionary.findByFullName(Item.Model.FullName) as ModelElement;
+                ModelElement model = dictionary.FindByFullName(Item.Model.FullName) as ModelElement;
                 if (model != null)
                 {
                     retVal = Item.CreateReqRefUpdate(model);

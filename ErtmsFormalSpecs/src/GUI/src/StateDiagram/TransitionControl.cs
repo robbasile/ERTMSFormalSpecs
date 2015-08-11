@@ -77,28 +77,6 @@ namespace GUI.StateDiagram
         }
 
         /// <summary>
-        ///     Indicates that the arrow should be displayed in the DEDUCED color
-        /// </summary>
-        /// <returns></returns>
-        public override bool IsDisabled()
-        {
-            bool retVal = base.IsDisabled();
-
-            if (!retVal)
-            {
-                if (Model.RuleCondition != null)
-                {
-                    if (Model.RuleCondition.IsDisabled())
-                    {
-                        retVal = true;
-                    }
-                }
-            }
-
-            return retVal;
-        }
-
-        /// <summary>
         ///     Indicates that the arrow should be displayed in the ACTIVE color
         /// </summary>
         /// <returns></returns>

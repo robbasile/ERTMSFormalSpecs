@@ -137,7 +137,7 @@ namespace GUI.DataDictionaryView
 
             if (dictionary != null)
             {
-                retVal = dictionary.findByFullName(Item.FullName) as ModelElement;
+                retVal = dictionary.FindByFullName(Item.FullName) as ModelElement;
                 if (retVal == null)
                 {
                     // If the element does not already exist in the patch, add a copy of the function to it

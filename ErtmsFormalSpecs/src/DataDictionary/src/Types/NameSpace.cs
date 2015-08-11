@@ -365,7 +365,7 @@ namespace DataDictionary.Types
         /// <returns></returns>
         public NameSpace findNameSpaceByName(string name)
         {
-            return (NameSpace) INamableUtils.findByName(name, NameSpaces);
+            return (NameSpace) NamableUtils.FindByName(name, NameSpaces);
         }
 
         /// <summary>
@@ -375,7 +375,7 @@ namespace DataDictionary.Types
         /// <returns></returns>
         public Structure findStructureByName(string name)
         {
-            return (Structure)INamableUtils.findByName(name, Structures);
+            return (Structure)NamableUtils.FindByName(name, Structures);
         }
 
         /// <summary>
@@ -385,7 +385,7 @@ namespace DataDictionary.Types
         /// <returns></returns>
         public StateMachine findStateMachineByName(string name)
         {
-            return (StateMachine)INamableUtils.findByName(name, StateMachines);
+            return (StateMachine)NamableUtils.FindByName(name, StateMachines);
         }
 
         /// <summary>
@@ -411,11 +411,11 @@ namespace DataDictionary.Types
             string[] names = name.Split('.');
             if (names.Length == 1)
             {
-                retVal = (Type) INamableUtils.findByName(name, Types);
+                retVal = (Type) NamableUtils.FindByName(name, Types);
             }
             else
             {
-                NameSpace nameSpace = (NameSpace) INamableUtils.findByName(names[0], NameSpaces);
+                NameSpace nameSpace = (NameSpace) NamableUtils.FindByName(names[0], NameSpaces);
                 if (nameSpace != null)
                 {
                     retVal = nameSpace.innerFindTypeByName(name.Substring(nameSpace.Name.Length + 1), false);

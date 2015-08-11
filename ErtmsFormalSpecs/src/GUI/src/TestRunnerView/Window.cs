@@ -226,7 +226,7 @@ namespace GUI.TestRunnerView
             subSequenceSelectorComboBox.Items.Clear();
             foreach (Dictionary dictionary in EfsSystem.Dictionaries)
             {
-                Frame = dictionary.findFrame(frameToolStripComboBox.Text);
+                Frame = dictionary.FindFrame(frameToolStripComboBox.Text);
                 if (Frame != null)
                 {
                     List<string> subSequences = new List<string>();

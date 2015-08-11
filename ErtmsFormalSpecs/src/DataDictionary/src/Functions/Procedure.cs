@@ -190,7 +190,7 @@ namespace DataDictionary.Functions
         /// <returns></returns>
         public Rule FindRule(string name)
         {
-            return (Rule) INamableUtils.findByName(name, Rules);
+            return (Rule) NamableUtils.FindByName(name, Rules);
         }
 
         /// <summary>

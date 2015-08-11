@@ -76,7 +76,7 @@ namespace GUI.LongOperations
         /// </summary>
         public override void ExecuteWork()
         {
-            Frame frame = _dictionary.findFrame(Subset076);
+            Frame frame = _dictionary.FindFrame(Subset076);
             if (frame == null)
             {
                 frame = (Frame) acceptor.getFactory().createFrame();

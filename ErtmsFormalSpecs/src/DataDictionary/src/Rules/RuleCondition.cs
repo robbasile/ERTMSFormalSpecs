@@ -85,7 +85,7 @@ namespace DataDictionary.Rules
         /// <returns></returns>
         public PreCondition FindPreCondition(string name)
         {
-            return (PreCondition) INamableUtils.findByName(name, PreConditions);
+            return (PreCondition) NamableUtils.FindByName(name, PreConditions);
         }
 
         /// <summary>
@@ -136,7 +136,7 @@ namespace DataDictionary.Rules
         /// <returns></returns>
         public Action FindAction(string name)
         {
-            return (Action) INamableUtils.findByName(name, Actions);
+            return (Action) NamableUtils.FindByName(name, Actions);
         }
 
         /// <summary>
@@ -162,7 +162,7 @@ namespace DataDictionary.Rules
         /// <returns></returns>
         public Rule FindRule(string name)
         {
-            return (Rule) INamableUtils.findByName(name, SubRules);
+            return (Rule) NamableUtils.FindByName(name, SubRules);
         }
 
         /// <summary>
@@ -433,25 +433,6 @@ namespace DataDictionary.Rules
             }
 
             base.AddModelElement(element);
-        }
-
-
-        /// <summary>
-        ///     Indicates that the rule condition has been disabled
-        /// </summary>
-        /// <returns></returns>
-        public bool IsDisabled()
-        {
-            bool retVal = false;
-
-            Rule rule = EnclosingRule;
-            while (rule != null && !retVal)
-            {
-                retVal = retVal || rule.Disabled;
-                rule = rule.EnclosingRule;
-            }
-
-            return retVal;
         }
 
         /// <summary>

@@ -32,14 +32,14 @@ namespace Utils
     /// <summary>
     ///     Utilities for INamables
     /// </summary>
-    public static class INamableUtils
+    public static class NamableUtils
     {
         /// <summary>
         ///     Provides the element which matches the name provided
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public static INamable findByName(string name, IEnumerable elements)
+        public static INamable FindByName(string name, IEnumerable elements)
         {
             INamable retVal = null;
 
@@ -68,7 +68,7 @@ namespace Utils
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public static INamable findByName(string name, IEnumerable<INamable> elements)
+        public static INamable FindByName(string name, IEnumerable<INamable> elements)
         {
             INamable retVal = null;
 
@@ -84,26 +84,13 @@ namespace Utils
             return retVal;
         }
 
-        public static string[] toNameArray(HashSet<INamable> set)
-        {
-            string[] retVal = new string[set.Count];
-
-            int i = 0;
-            foreach (INamable namable in set)
-            {
-                retVal[i] = namable.Name;
-                i = i + 1;
-            }
-
-            return retVal;
-        }
-
         /// <summary>
         ///     Provides the element which matches the fullname provided
         /// </summary>
         /// <param name="name"></param>
+        /// <param name="elements"></param>
         /// <returns></returns>
-        public static INamable findByFullName(string name, IEnumerable elements)
+        public static INamable FindByFullName(string name, IEnumerable elements)
         {
             INamable retVal = null;
 
@@ -123,8 +110,9 @@ namespace Utils
         ///     Provides the element which matches the fullname provided
         /// </summary>
         /// <param name="name"></param>
+        /// <param name="elements"></param>
         /// <returns></returns>
-        public static INamable findByFullName(string name, IEnumerable<INamable> elements)
+        public static INamable FindByFullName(string name, IEnumerable<INamable> elements)
         {
             INamable retVal = null;
 
@@ -145,7 +133,7 @@ namespace Utils
         /// </summary>
         /// <param name="current"></param>
         /// <returns></returns>
-        public static INamable getEnclosing(INamable current)
+        public static INamable GetEnclosing(INamable current)
         {
             INamable retVal = null;
 

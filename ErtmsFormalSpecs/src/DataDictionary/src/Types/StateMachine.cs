@@ -161,7 +161,7 @@ namespace DataDictionary.Types
         /// <returns></returns>
         public Rule FindRule(string name)
         {
-            return (Rule) INamableUtils.findByName(name, Rules);
+            return (Rule) NamableUtils.FindByName(name, Rules);
         }
 
         /// <summary>
@@ -175,7 +175,7 @@ namespace DataDictionary.Types
 
             if (index < names.Length)
             {
-                retVal = (State) INamableUtils.findByName(names[index], States);
+                retVal = (State) NamableUtils.FindByName(names[index], States);
                 ;
 
                 if (retVal != null && index < names.Length - 1)
@@ -847,7 +847,7 @@ namespace DataDictionary.Types
             }
             else
             {
-                StateMachine updateSm = dictionary.findByFullName(FullName) as StateMachine;
+                StateMachine updateSm = dictionary.FindByFullName(FullName) as StateMachine;
                 if (updateSm == null)
                 {
                     // If the element does not already exist in the patch, add a copy to it
@@ -872,7 +872,7 @@ namespace DataDictionary.Types
 
             if (EnclosingState != null && dictionary.Updates == Dictionary)
             {
-                State updatedState = dictionary.findByFullName(EnclosingState.FullName) as State;
+                State updatedState = dictionary.FindByFullName(EnclosingState.FullName) as State;
                 if (updatedState == null)
                 {
                     retVal = EnclosingState.CreateStateUpdate(dictionary);

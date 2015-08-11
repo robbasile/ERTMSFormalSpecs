@@ -56,14 +56,14 @@ namespace GUI.LongOperations
             {
                 if (Dictionary != null)
                 {
-                    Dictionary.save();
+                    Dictionary.Save();
                 }
                 else
                 {
                     // Save all dictionaries
                     foreach (Dictionary dictionary in EFSSystem.INSTANCE.Dictionaries)
                     {
-                        dictionary.save();
+                        dictionary.Save();
                     }
                 }
             }

@@ -296,7 +296,7 @@ namespace DataDictionary
                 // WARNING : do not remove the preceding phase since it still required for previous versions of EFS files
                 // Based on the flag information, place the requirements in their corresponding requirement set
                 // STM was never used, this information is discarded
-                RequirementSet scope = paragraph.Dictionary.findRequirementSet(Dictionary.SCOPE_NAME, true);
+                RequirementSet scope = paragraph.Dictionary.findRequirementSet(Dictionary.ScopeName, true);
 
                 if (paragraph.getObsoleteScopeOnBoard())
                 {
@@ -342,7 +342,7 @@ namespace DataDictionary
                 if (!string.IsNullOrEmpty(paragraph.getObsoleteFunctionalBlockName()))
                 {
                     RequirementSet allFunctionalBlocks =
-                        paragraph.Dictionary.findRequirementSet(Dictionary.FUNCTIONAL_BLOCK_NAME, true);
+                        paragraph.Dictionary.findRequirementSet(Dictionary.FunctionalBlockName, true);
                     RequirementSet functionalBlock =
                         allFunctionalBlocks.findRequirementSet(paragraph.getObsoleteFunctionalBlockName(), true);
                     functionalBlock.setRecursiveSelection(true);

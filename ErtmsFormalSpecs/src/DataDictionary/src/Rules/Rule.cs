@@ -98,7 +98,7 @@ namespace DataDictionary.Rules
         /// <returns></returns>
         public RuleCondition FindRuleCondition(string name)
         {
-            return (RuleCondition) INamableUtils.findByName(name, RuleConditions);
+            return (RuleCondition) NamableUtils.FindByName(name, RuleConditions);
         }
 
         /// <summary>
@@ -431,14 +431,6 @@ namespace DataDictionary.Rules
                     subRule.findRelatedParagraphsRecursively(paragraphs);
                 }
             }
-        }
-
-        /// <summary>
-        ///     Indicates whether the rule is disabled
-        /// </summary>
-        public bool Disabled
-        {
-            get { return EFSSystem.IsDisabled(this); }
         }
 
         /// <summary>

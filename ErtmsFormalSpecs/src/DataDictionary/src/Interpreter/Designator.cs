@@ -91,7 +91,7 @@ namespace DataDictionary.Interpreter
                     }
                     else if (Ref is IVariable)
                     {
-                        INamable current = INamableUtils.getEnclosing(Ref);
+                        INamable current = NamableUtils.GetEnclosing(Ref);
                         while (current != null && retVal == LocationEnum.NotDefined)
                         {
                             if ((current is ListOperatorExpression) ||
@@ -114,7 +114,7 @@ namespace DataDictionary.Interpreter
                                 retVal = LocationEnum.Model;
                             }
 
-                            current = INamableUtils.getEnclosing(current);
+                            current = NamableUtils.GetEnclosing(current);
                         }
                     }
                     else if (Ref is StructureElement)
@@ -239,7 +239,7 @@ namespace DataDictionary.Interpreter
                         return retVal;
                     }
 
-                    NameSpace defaultNameSpace = dictionary.findNameSpace("Default");
+                    NameSpace defaultNameSpace = dictionary.FindNameSpace("Default");
                     if (defaultNameSpace != null)
                     {
                         if (FillBySubdeclarator(defaultNameSpace, expectation, false, retVal) > 0 && lastElement)

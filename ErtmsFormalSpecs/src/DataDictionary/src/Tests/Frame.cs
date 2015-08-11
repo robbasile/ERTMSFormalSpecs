@@ -117,7 +117,7 @@ namespace DataDictionary.Tests
         /// <returns></returns>
         public SubSequence findSubSequence(string name)
         {
-            return (SubSequence) INamableUtils.findByName(name, SubSequences);
+            return (SubSequence) NamableUtils.FindByName(name, SubSequences);
         }
 
         /// <summary>

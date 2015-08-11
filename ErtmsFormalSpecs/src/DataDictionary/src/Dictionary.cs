@@ -44,23 +44,17 @@ namespace DataDictionary
         /// <summary>
         ///     The file path associated to the dictionary
         /// </summary>
-        private string filePath;
-
-        public string FilePath
-        {
-            get { return filePath; }
-            set { filePath = value; }
-        }
+        public string FilePath { get; set; }
 
         /// <summary>
         ///     Used to temporarily store the list of sub-namespaces
         /// </summary>
-        private ArrayList savedNameSpaces;
+        private ArrayList _savedNameSpaces;
 
         /// <summary>
         ///     Used to temporarily store the list of test frames
         /// </summary>
-        private ArrayList savedTests;
+        private ArrayList _savedTests;
 
         /// <summary>
         ///     Updates the dictionary contents before saving it
@@ -70,23 +64,15 @@ namespace DataDictionary
             /// <summary>
             ///     Indicates if the update operation is performed before saving or after
             /// </summary>
-            private bool beforeSave;
-
-            /// <summary>
-            ///     The base path used to save files
-            /// </summary>
-            public string BasePath { get; private set; }
+            private readonly bool _beforeSave;
 
             /// <summary>
             ///     Constructor
             /// </summary>
-            /// <param name="basePath"></param>
             /// <param name="beforeSave"></param>
-            public Updater(string basePath, bool beforeSave)
-                : base()
+            public Updater(bool beforeSave)
             {
-                BasePath = basePath;
-                this.beforeSave = beforeSave;
+                _beforeSave = beforeSave;
             }
 
             public override void visit(Generated.Dictionary obj, bool visitSubNodes)
@@ -95,7 +81,7 @@ namespace DataDictionary
 
                 Dictionary dictionary = (Dictionary) obj;
 
-                if (beforeSave)
+                if (_beforeSave)
                 {
                     dictionary.ClearTempFiles();
                     dictionary.allNameSpaceRefs().Clear();
@@ -130,7 +116,7 @@ namespace DataDictionary
 
                 Types.NameSpace nameSpace = (Types.NameSpace) obj;
 
-                if (beforeSave)
+                if (_beforeSave)
                 {
                     nameSpace.ClearTempFiles();
                     nameSpace.allNameSpaceRefs().Clear();
@@ -156,7 +142,7 @@ namespace DataDictionary
 
                 Specification.Specification specification = (Specification.Specification) obj;
 
-                if (beforeSave)
+                if (_beforeSave)
                 {
                     specification.ClearTempFiles();
                     specification.allChapterRefs().Clear();
@@ -322,7 +308,7 @@ namespace DataDictionary
         /// <summary>
         ///     Saves the dictionary according to its filename
         /// </summary>
-        public void save()
+        public void Save()
         {
             Util.DontNotify(() =>
             {
@@ -331,14 +317,14 @@ namespace DataDictionary
                     Watcher.StopWatching();
                 }
 
-                Updater updater = new Updater(BasePath, true);
+                Updater updater = new Updater(true);
                 updater.visit(this);
 
                 VersionedWriter writer = new VersionedWriter(FilePath);
                 unParse(writer, false);
                 writer.Close();
 
-                updater = new Updater(BasePath, false);
+                updater = new Updater(false);
                 updater.visit(this);
 
                 if (Watcher != null)
@@ -353,17 +339,17 @@ namespace DataDictionary
         /// </summary>
         public void StoreInfo()
         {
-            savedNameSpaces = new ArrayList();
+            _savedNameSpaces = new ArrayList();
             foreach (Types.NameSpace aNameSpace in allNameSpaces())
             {
-                savedNameSpaces.Add(aNameSpace);
+                _savedNameSpaces.Add(aNameSpace);
             }
             allNameSpaces().Clear();
 
-            savedTests = new ArrayList();
+            _savedTests = new ArrayList();
             foreach (Frame aTest in allTests())
             {
-                savedTests.Add(aTest);
+                _savedTests.Add(aTest);
             }
             allTests().Clear();
         }
@@ -374,19 +360,19 @@ namespace DataDictionary
         public void RestoreInfo()
         {
             setAllNameSpaces(new ArrayList());
-            foreach (Types.NameSpace aNameSpace in savedNameSpaces)
+            foreach (Types.NameSpace aNameSpace in _savedNameSpaces)
             {
                 allNameSpaces().Add(aNameSpace);
                 aNameSpace.RestoreInfo();
             }
-            savedNameSpaces.Clear();
+            _savedNameSpaces.Clear();
 
             setAllTests(new ArrayList());
-            foreach (Frame aTest in savedTests)
+            foreach (Frame aTest in _savedTests)
             {
                 allTests().Add(aTest);
             }
-            savedTests.Clear();
+            _savedTests.Clear();
         }
 
         /// <summary>
@@ -447,7 +433,7 @@ namespace DataDictionary
         ///     Finds all namable which match the full name provided
         /// </summary>
         /// <param name="fullname">The full name used to search the namable</param>
-        public INamable findByFullName(string fullname)
+        public INamable FindByFullName(string fullname)
         {
             return OverallNamableFinder.INSTANCE.findByName(this, fullname);
         }
@@ -503,19 +489,19 @@ namespace DataDictionary
         /// <summary>
         ///     Associates the types with their full name
         /// </summary>
-        private Dictionary<string, Type> definedTypes;
+        private Dictionary<string, Type> _definedTypes;
 
         public Dictionary<string, Type> DefinedTypes
         {
             get
             {
-                if (definedTypes == null)
+                if (_definedTypes == null)
                 {
-                    definedTypes = new Dictionary<string, Type>();
+                    _definedTypes = new Dictionary<string, Type>();
 
                     foreach (Type type in EFSSystem.PredefinedTypes.Values)
                     {
-                        definedTypes.Add(type.FullName, type);
+                        _definedTypes.Add(type.FullName, type);
                     }
 
                     foreach (Type type in TypeFinder.INSTANCE.find(this))
@@ -531,40 +517,40 @@ namespace DataDictionary
                                 // Ignore state machines which are not root state machines
                                 if (stateMachine.EnclosingState == null)
                                 {
-                                    definedTypes[type.FullName] = type;
+                                    _definedTypes[type.FullName] = type;
                                 }
                             }
                         }
                         else
                         {
-                            definedTypes[type.FullName] = type;
+                            _definedTypes[type.FullName] = type;
                         }
                     }
                 }
 
-                return definedTypes;
+                return _definedTypes;
             }
         }
 
         /// <summary>
         ///     Associates the types with their full name
         /// </summary>
-        private Dictionary<Rule, RuleDisabling> cachedRuleDisablings;
+        private Dictionary<Rule, RuleDisabling> _cachedRuleDisablings;
 
         public Dictionary<Rule, RuleDisabling> CachedRuleDisablings
         {
             get
             {
-                if (cachedRuleDisablings == null)
+                if (_cachedRuleDisablings == null)
                 {
-                    cachedRuleDisablings = new Dictionary<Rule, RuleDisabling>();
+                    _cachedRuleDisablings = new Dictionary<Rule, RuleDisabling>();
 
                     foreach (RuleDisabling ruleDisabling in RuleDisablings)
                     {
                         Rule disabledRule = EFSSystem.FindRule(ruleDisabling.getRule());
                         if (disabledRule != null)
                         {
-                            cachedRuleDisablings.Add(disabledRule, ruleDisabling);
+                            _cachedRuleDisablings.Add(disabledRule, ruleDisabling);
                         }
                         else
                         {
@@ -573,19 +559,19 @@ namespace DataDictionary
                     }
                 }
 
-                return cachedRuleDisablings;
+                return _cachedRuleDisablings;
             }
         }
 
         /// <summary>
         ///     Clears the caches of this dictionary
         /// </summary>
-        public void ClearCache()
+        public override void ClearCache()
         {
-            definedTypes = null;
-            cachedRuleDisablings = null;
+            _definedTypes = null;
+            _cachedRuleDisablings = null;
             DeclaredElements = null;
-            cache.Clear();
+            _cache.Clear();
         }
 
         /// <summary>
@@ -612,7 +598,7 @@ namespace DataDictionary
         /// <summary>
         ///     The cache for types / namespace + name
         /// </summary>
-        private Dictionary<Types.NameSpace, Dictionary<string, Type>> cache =
+        private readonly Dictionary<Types.NameSpace, Dictionary<string, Type>> _cache =
             new Dictionary<Types.NameSpace, Dictionary<string, Type>>();
 
         /// <summary>
@@ -621,7 +607,7 @@ namespace DataDictionary
         /// <param name="nameSpace">the namespace in which the name should be found</param>
         /// <param name="name"></param>
         /// <returns></returns>
-        public Type findType(Types.NameSpace nameSpace, string name)
+        public Type FindType(Types.NameSpace nameSpace, string name)
         {
             Type retVal = null;
 
@@ -629,11 +615,11 @@ namespace DataDictionary
             {
                 if (nameSpace != null)
                 {
-                    if (!cache.ContainsKey(nameSpace))
+                    if (!_cache.ContainsKey(nameSpace))
                     {
-                        cache[nameSpace] = new Dictionary<string, Type>();
+                        _cache[nameSpace] = new Dictionary<string, Type>();
                     }
-                    Dictionary<string, Type> subCache = cache[nameSpace];
+                    Dictionary<string, Type> subCache = _cache[nameSpace];
 
                     if (!subCache.ContainsKey(name))
                     {
@@ -686,9 +672,9 @@ namespace DataDictionary
         /// <summary>
         ///     Provides the namespace whose name matches the name provided
         /// </summary>
-        public Types.NameSpace findNameSpace(string name)
+        public Types.NameSpace FindNameSpace(string name)
         {
-            Types.NameSpace retVal = (Types.NameSpace) INamableUtils.findByName(name, NameSpaces);
+            Types.NameSpace retVal = (Types.NameSpace) NamableUtils.FindByName(name, NameSpaces);
 
             return retVal;
         }
@@ -698,7 +684,7 @@ namespace DataDictionary
         /// </summary>
         /// <param name="fullName"></param>
         /// <returns></returns>
-        public Rule findRule(string fullName)
+        public Rule FindRule(string fullName)
         {
             Rule retVal = null;
 
@@ -717,12 +703,23 @@ namespace DataDictionary
         /// <summary>
         /// Should be called when the file system changes
         /// </summary>
-        public delegate void HandleFSChange();
+        public delegate void HandleFsChange();
 
         /// <summary>
         /// The event raised when the file system changed
         /// </summary>
-        public event HandleFSChange FileSystemChange;
+        public event HandleFsChange FileSystemChange;
+
+        /// <summary>
+        /// Handles a file system change
+        /// </summary>
+        protected virtual void OnFileSystemChange()
+        {
+            if (FileSystemChange != null)
+            {
+                FileSystemChange();
+            }
+        }
 
         /// <summary>
         ///     Constructor
@@ -985,17 +982,17 @@ namespace DataDictionary
         /// </summary>
         private class ParagraphReqRefFinder : Visitor
         {
-            private Dictionary<Specification.Paragraph, List<ReqRef>> paragraphsReqRefs;
+            private Dictionary<Specification.Paragraph, List<ReqRef>> _paragraphsReqRefs;
 
             public Dictionary<Specification.Paragraph, List<ReqRef>> ParagraphsReqRefs
             {
                 get
                 {
-                    if (paragraphsReqRefs == null)
+                    if (_paragraphsReqRefs == null)
                     {
-                        paragraphsReqRefs = new Dictionary<Specification.Paragraph, List<ReqRef>>();
+                        _paragraphsReqRefs = new Dictionary<Specification.Paragraph, List<ReqRef>>();
                     }
-                    return paragraphsReqRefs;
+                    return _paragraphsReqRefs;
                 }
             }
 
@@ -1010,7 +1007,7 @@ namespace DataDictionary
                         {
                             ParagraphsReqRefs.Add(reqRef.Paragraph, new List<ReqRef>());
                         }
-                        paragraphsReqRefs[reqRef.Paragraph].Add(reqRef);
+                        _paragraphsReqRefs[reqRef.Paragraph].Add(reqRef);
                     }
                 }
             }
@@ -1029,7 +1026,6 @@ namespace DataDictionary
         /// <summary>
         ///     Executes the test cases for this test sequence
         /// </summary>
-        /// <param name="runner">The runner used to execute the tests</param>
         /// <returns>the number of failed test frames</returns>
         public int ExecuteAllTests()
         {
@@ -1076,9 +1072,9 @@ namespace DataDictionary
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public SubSequence findSubSequence(string name)
+        public SubSequence FindSubSequence(string name)
         {
-            return (SubSequence) INamableUtils.findByName(name, SubSequences);
+            return (SubSequence) NamableUtils.FindByName(name, SubSequences);
         }
 
         /// <summary>
@@ -1086,9 +1082,9 @@ namespace DataDictionary
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public Frame findFrame(string name)
+        public Frame FindFrame(string name)
         {
-            return (Frame) INamableUtils.findByName(name, Tests);
+            return (Frame) NamableUtils.FindByName(name, Tests);
         }
 
         /// <summary>
@@ -1125,36 +1121,11 @@ namespace DataDictionary
                 return (ShortcutDictionary) getShortcutDictionary();
             }
         }
-
-        /// <summary>
-        ///     Adds a new rule disabling in this dictionary
-        /// </summary>
-        /// <param name="rule"></param>
-        public void AppendRuleDisabling(Rule rule)
-        {
-            RuleDisabling disabling = (RuleDisabling) acceptor.getFactory().createRuleDisabling();
-
-            disabling.Name = rule.Name;
-            disabling.setRule(rule.FullName);
-            appendRuleDisablings(disabling);
-        }
-
-        /// <summary>
-        ///     Indicates whether a rule is disabled in a dictionary
-        /// </summary>
-        /// <param name="rule"></param>
-        /// <returns></returns>
-        public bool Disabled(Rule rule)
-        {
-            bool retVal = CachedRuleDisablings.ContainsKey(rule);
-
-            return retVal;
-        }
-
+        
         /// <summary>
         ///     Adds a model element in this model element
         /// </summary>
-        /// <param name="copy"></param>
+        /// <param name="element"></param>
         public override void AddModelElement(IModelElement element)
         {
             {
@@ -1372,8 +1343,8 @@ namespace DataDictionary
 
             if (levels.Length > 0)
             {
-                retVal = findNameSpace(levels[0]);
-                Types.NameSpace initialNameSpace = initialDictionary.findNameSpace(levels[0]);
+                retVal = FindNameSpace(levels[0]);
+                Types.NameSpace initialNameSpace = initialDictionary.FindNameSpace(levels[0]);
 
                 if (retVal == null)
                 {
@@ -1445,6 +1416,7 @@ namespace DataDictionary
             ///     not go further down the subnodes.
             /// </summary>
             /// <param name="obj"></param>
+            /// <param name="visitSubNodes"></param>
             public override void visit(BaseModelElement obj, bool visitSubNodes)
             {
                 ModelElement element = obj as ModelElement;
@@ -1460,13 +1432,12 @@ namespace DataDictionary
         /// <summary>
         ///     The name of the requirement set for functional blocs
         /// </summary>
-        public const string FUNCTIONAL_BLOCK_NAME = "Functional blocs";
+        public const string FunctionalBlockName = "Functional blocs";
 
         /// <summary>
         ///     The name of the requirement set for scoping information
         /// </summary>
-        public const string SCOPE_NAME = "Scope";
-
+        public const string ScopeName = "Scope";
 
         /// <summary>
         ///     Provides the set of covered requirements by the tests

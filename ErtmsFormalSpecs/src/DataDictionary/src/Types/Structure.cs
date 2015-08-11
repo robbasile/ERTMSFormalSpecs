@@ -208,7 +208,7 @@ namespace DataDictionary.Types
         /// <returns></returns>
         public StructureElement FindStructureElement(string name)
         {
-            return (StructureElement) INamableUtils.findByName(name, Elements);
+            return (StructureElement) NamableUtils.FindByName(name, Elements);
         }
 
         /// <summary>
@@ -218,7 +218,7 @@ namespace DataDictionary.Types
         /// <returns></returns>
         public Procedure FindProcedure(string name)
         {
-            return (Procedure) INamableUtils.findByName(name, Procedures);
+            return (Procedure) NamableUtils.FindByName(name, Procedures);
         }
 
         /// <summary>
@@ -228,7 +228,7 @@ namespace DataDictionary.Types
         /// <returns></returns>
         public Rule FindRule(string name)
         {
-            return (Rule) INamableUtils.findByName(name, Rules);
+            return (Rule) NamableUtils.FindByName(name, Rules);
         }
 
         /// <summary>
@@ -238,7 +238,7 @@ namespace DataDictionary.Types
         /// <returns></returns>
         public StateMachine FindStateMachine(string name)
         {
-            return (StateMachine) INamableUtils.findByName(name, StateMachines);
+            return (StateMachine) NamableUtils.FindByName(name, StateMachines);
         }
 
         public override ArrayList EnclosingCollection

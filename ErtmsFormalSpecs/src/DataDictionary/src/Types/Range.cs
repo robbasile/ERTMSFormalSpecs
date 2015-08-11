@@ -622,7 +622,7 @@ namespace DataDictionary.Types
         {
             EnumValue retVal = null;
 
-            retVal = (EnumValue) INamableUtils.findByName(name, SpecialValues);
+            retVal = (EnumValue) NamableUtils.FindByName(name, SpecialValues);
 
             return retVal;
         }

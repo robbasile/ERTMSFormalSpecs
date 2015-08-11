@@ -157,7 +157,7 @@ namespace DataDictionary.Types
         /// <returns></returns>
         public EnumValue findEnumValue(string name)
         {
-            EnumValue retVal = (EnumValue) INamableUtils.findByName(name, Values);
+            EnumValue retVal = (EnumValue) NamableUtils.FindByName(name, Values);
 
             if (retVal == null && EnclosingEnum != null)
             {
@@ -174,7 +174,7 @@ namespace DataDictionary.Types
         /// <returns></returns>
         public Enum findSubEnum(string name)
         {
-            return (Enum)INamableUtils.findByName(name, SubEnums);
+            return (Enum)NamableUtils.FindByName(name, SubEnums);
         }
 
         /// <summary>
@@ -333,7 +333,7 @@ namespace DataDictionary.Types
             String[] names = FullName.Split('.');
             string fullName = names[0];
             int i = 0;
-            while (!(Dictionary.findByFullName(fullName) is Enum))
+            while (!(Dictionary.FindByFullName(fullName) is Enum))
             {
                 i++;
                 fullName += "." + names[i];
@@ -341,7 +341,7 @@ namespace DataDictionary.Types
 
             if (fullName != FullName)
             {
-                retVal = Dictionary.findByFullName(fullName) as Enum;
+                retVal = Dictionary.FindByFullName(fullName) as Enum;
             }
 
             return retVal;
