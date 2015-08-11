@@ -4,7 +4,6 @@
 DIR_EXEC=../bin
 DIR_EXEC_EXTRA=$(DIR_EXEC)/res
 
-DEPENDANCIES=$(DIR_EXEC)/gnuplot 
 DEPENDANCIES+=$(DIR_EXEC)/PdfSharp.dll 
 DEPENDANCIES+=$(DIR_EXEC)/PdfSharp.Charting.dll 
 DEPENDANCIES+=$(DIR_EXEC)/MigraDoc.Rendering.dll 
@@ -25,13 +24,6 @@ clean:
 
 $(DIR_EXEC):
 	@-mkdir $(DIR_EXEC)
-
-$(DIR_EXEC)/gnuplot: gnuplot.zip
-	@echo "---- Unzipping $< "
-	@unzip -u -o -q $<
-	@mv gnuplot $(DIR_EXEC)
-	@chmod -R 777 $@
-	@touch --reference=$<  $@
 
 $(DIR_EXEC)/PdfSharp.dll: PdfSharp/1_3_1_binaries_patched/PdfSharp.dll
 	@echo "---- Copying $< "

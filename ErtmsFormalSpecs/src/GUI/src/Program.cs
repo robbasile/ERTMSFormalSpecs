@@ -17,62 +17,53 @@
 using System;
 using System.Globalization;
 using System.IO;
-using System.Reflection;
 using System.ServiceModel;
 using System.Threading;
 using System.Windows.Forms;
 using DataDictionary;
-using GUI;
 using GUI.IPCInterface;
 using GUI.LongOperations;
-using GUI.Options;
-using log4net;
 using log4net.Config;
 using Utils;
 
-namespace ERTMSFormalSpecs
+namespace GUI
 {
     public static class ErtmsFormalSpecGui
     {
         /// <summary>
         ///     The EFS IPC service
         /// </summary>
-        private static ServiceHost host = null;
+        private static ServiceHost _host;
 
         /// <summary>
         ///     Hosts the EFS IPC service
         /// </summary>
         /// <returns>The hosting service</returns>
-        private static void HostEFSService()
+        private static void HostEfsService()
         {
-            host = new ServiceHost(EFSService.INSTANCE);
+            _host = new ServiceHost(EFSService.INSTANCE);
             try
             {
-                host.Open();
+                _host.Open();
             }
             catch (CommunicationException exception)
             {
                 Console.WriteLine("An exception occurred: {0}", exception.Message);
-                host.Abort();
+                _host.Abort();
             }
         }
 
         /// <summary>
         ///     Closes the EFS IPC host service
         /// </summary>
-        private static void CloseEFSService()
+        private static void CloseEfsService()
         {
-            if (host != null)
+            if (_host != null)
             {
                 // Close the ServiceHostBase to shutdown the service.
-                host.Close();
+                _host.Close();
             }
         }
-
-        /// <summary>
-        ///     The main entry point for the application.
-        /// </summary>
-        private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         [STAThread]
         private static void Main(string[] args)
@@ -84,7 +75,7 @@ namespace ERTMSFormalSpecs
 
                 XmlConfigurator.Configure(new FileInfo("logconfig.xml"));
 
-                Options.setSettings(EFSSystem.INSTANCE);
+                Options.Options.setSettings(EFSSystem.INSTANCE);
                 EFSSystem.INSTANCE.DictionaryChangesOnFileSystem += HandleInstanceDictionaryChangesOnFileSystem;
 
                 MainWindow window = new MainWindow();
@@ -94,7 +85,7 @@ namespace ERTMSFormalSpecs
                     // TRICKY SECTION
                     // This thread is mandatory otherwise WCF does not create a new thread to handle the service requests. 
                     // Since the call to Cycle is blocking, creating such threads is mandatory
-                    Thread thread = ThreadUtil.CreateThread("EFS Service", HostEFSService);
+                    Thread thread = ThreadUtil.CreateThread("EFS Service", HostEfsService);
                     thread.Start();
                 }
 
@@ -103,7 +94,7 @@ namespace ERTMSFormalSpecs
                     window.OpenFile(file);
                 }
                 Application.Run(window);
-                CloseEFSService();
+                CloseEfsService();
             }
             finally
             {
