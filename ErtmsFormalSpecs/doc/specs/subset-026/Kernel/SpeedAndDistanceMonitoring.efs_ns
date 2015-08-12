@@ -887,6 +887,25 @@ This is used to handle the case where a previous brake command was not revoked b
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
+ Name="Always"
+ Guid="5d239b24-9a9a-4d95-9738-230a4c78eb2f"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+</Actions>
+<SubRules>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Select supervision status"
+ Guid="86687ff6-f5c6-4395-a70b-12bf4d7dfa7a"
+>
+<Comment>Select the supervision status according to table 3.13.10.3.4.1.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
  Name="Normal status applies"
  Guid="e5dbddc5-3979-4277-88f9-1d0f3d2a3d7c"
 >
@@ -908,7 +927,7 @@ This is used to handle the case where a previous brake command was not revoked b
 <Actions>
 <Action
  Guid="d6187b28-2b41-4ed3-9aeb-7c5e735ba55f"
->THIS &lt;- Normal</Action></Actions>
+>THIS &lt;- Ceiling.Normal</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Intervention status applies"
@@ -939,7 +958,7 @@ CeilingSpeedMonitoring.SupervisionStatus.t5()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="e3722557-8a81-4fcb-ba02-2e22a11c1483"
->THIS &lt;- Intervention</Action></Actions>
+>THIS &lt;- Ceiling.Intervention</Action></Actions>
 <SubRules>
 <Rule
  Priority="Processing"
@@ -1023,7 +1042,7 @@ CeilingSpeedMonitoring.SupervisionStatus.t5()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="51007ebe-4db8-4db4-87b6-cdf390745f1e"
->THIS &lt;- Warning</Action></Actions>
+>THIS &lt;- Ceiling.Warning</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Overspeed status applies"
@@ -1047,7 +1066,36 @@ CeilingSpeedMonitoring.SupervisionStatus.t5()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="adfd9eca-92ea-4811-9d2f-0afc0f0b0374"
->THIS &lt;- Overspeed</Action></Actions>
+>THIS &lt;- Ceiling.Overspeed</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Handle display"
+ Guid="251dbb20-1e73-4dfc-9c41-d2a54b31d244"
+>
+<Comment>Indicate to the DMI that the Indication location at MRSP speed must be displayed and the target distance, target speed and release speed must be hidden.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Handle display"
+ Guid="33e1e100-96c8-4ba3-8d0a-b013e3db0d81"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="48476d01-ced2-4e31-ad66-531bec4d5ca7"
+>DMI.MasterDMI().Out_TargetSpeed.OutputInformation.DoNotDisplay()</Action><Action
+ Guid="4b23e67f-4bdb-4657-8639-29b4820a768e"
+>DMI.MasterDMI().Out_TargetDistance.OutputInformation.DoNotDisplay()</Action><Action
+ Guid="d412c198-94a4-4ca9-830b-c2aba2e4a070"
+>DMI.MasterDMI().Out_IndicationLocationAtMrspSpeed.Display()</Action><Action
+ Guid="c8bad427-25b1-4c98-8dc2-e3555976ef5b"
+>DMI.MasterDMI().Out_ReleaseSpeed.OutputInformation.DoNotDisplay()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></SubRules>
 </RuleCondition></Conditions>
 </Rule></EnterAction>
 <LeaveAction>
@@ -2274,6 +2322,25 @@ This is used to handle the case where a previous brake command was not revoked b
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
+ Name="Always"
+ Guid="d386f705-0ef4-4afc-a8ac-7c8a6db50b15"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+</Actions>
+<SubRules>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Select supervision status"
+ Guid="851fda1c-dbee-4d9d-bec0-eb0b3c0b00d6"
+>
+<Comment>Select the supervision status according to table 3.13.10.4.10.1.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
  Name="Normal status applies"
  Guid="c780f012-191f-48b6-861d-2647a60d9913"
 >
@@ -2410,6 +2477,116 @@ TargetSpeedMonitoring.SupervisionStatus.t6()</PreCondition></PreConditions>
 <Action
  Guid="49d7b6fa-1897-46a0-9877-f770ee1e8d5d"
 >THIS &lt;- Target.Indication</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Handle display"
+ Guid="fd83048d-3fda-4f63-bd22-5cc6ee30422e"
+>
+<Comment>Display the target speed and distance.
+
+If the indication location at MRSP speed has not been passed ,display it.
+
+If the target is the EOA or the SvL, display the release speed.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Handle display"
+ Guid="a6cdc444-3856-4779-907d-faa793da46d5"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="59b49f51-d232-4ac1-a8e9-62c54bd00ced"
+>DMI.MasterDMI().Out_TargetSpeed.Display()</Action><Action
+ Guid="9daf2c2d-f9f8-4aec-9be7-660d3d05ba70"
+>DMI.MasterDMI().Out_TargetDistance.Display()</Action></Actions>
+<SubRules>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Target is EOA or SvL"
+ Guid="b0bd0d04-c328-4708-ab40-51ab85254f98"
+>
+<ReqRef
+ Id="da81dc9e-7c01-462c-ae9b-108704d780bc"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c236aa1b-db00-43ce-9002-6266d9e4a8cf"
+>
+</ReqRef><Comment>If the MRDT is the EOA or the SvL, display the release speed.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Target is EOA or SvL"
+ Guid="8524e7d0-df45-4c5a-9720-4c35a44e8042"
+>
+<Comment>If the displayed target is the EOA or the SvL, display the release speed.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="dc105b6d-902a-433a-828d-d97eff960668"
+>MA.IsEOA(TargetSpeedMonitoring.MRDT())
+  OR  
+MA.IsSvL(TargetSpeedMonitoring.MRDT())</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="e2d474f8-2560-4e21-b082-75300427de64"
+>DMI.MasterDMI().Out_ReleaseSpeed.Display()</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Otherwise"
+ Guid="b4475c04-a145-40ae-af70-258e080b25d2"
+>
+<Comment>If the displayed target is not the EOA or the SvL, hide the release speed.</Comment>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="aa05a83b-bf49-4a59-8844-2783aa8456ea"
+>DMI.MasterDMI().Out_ReleaseSpeed.OutputInformation.DoNotDisplay()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Indication location at MRSP speed not passed"
+ Guid="bc04456c-0626-42d0-b85f-fc245b029469"
+>
+<Comment>Until the Indication location at MRSP speed has been passed, display it to te driver.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Indication location at MRSP speed not passed"
+ Guid="f48ff2bc-f3a9-4cab-8590-c4323967f747"
+>
+<Comment>If the Indication location at MRSP speed has not been passed, display it.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="d9b36c96-db41-480b-910c-607de77845f5"
+>IndicationLocation() &gt; TrainPosition.FrontEndPosition(DistanceInterval.Nom)</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="bdb2a6f3-f5f2-45bd-8f42-d69982048a0c"
+>DMI.MasterDMI().Out_IndicationLocationAtMrspSpeed.Display()</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Otherwise"
+ Guid="d34b9048-eb5a-4a18-a2dd-59c2115d16e8"
+>
+<Comment>If the indication location at MRSP speed has already been passed, hide it.</Comment>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="14a475e7-283f-46a3-8eb3-d6645826a92f"
+>DMI.MasterDMI().Out_IndicationLocationAtMrspSpeed.OutputInformation.DoNotDisplay()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></SubRules>
+</RuleCondition></Conditions>
+</Rule></SubRules>
 </RuleCondition></Conditions>
 </Rule></EnterAction>
 <LeaveAction>
@@ -2684,6 +2861,25 @@ This is used to handle the case where a previous brake command was not revoked b
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
+ Name="Always"
+ Guid="64fd0744-db19-4caa-94d7-0fcc2a505f25"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+</Actions>
+<SubRules>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Select supervision status"
+ Guid="9c170071-0c6d-45bd-9a83-a77aba8aa687"
+>
+<Comment>Select the supervision status according to table 3.13.10.5.4.1.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
  Name="Indication status applies"
  Guid="6353f416-5dcc-4626-b958-4640ea6ba829"
 >
@@ -2705,7 +2901,7 @@ This is used to handle the case where a previous brake command was not revoked b
 <Actions>
 <Action
  Guid="e9f9f67e-7673-40c3-a302-57d1c8ed8843"
->THIS &lt;- Indication</Action></Actions>
+>THIS &lt;- Release.Indication</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Intervention status applies"
@@ -2733,7 +2929,36 @@ This is used to handle the case where a previous brake command was not revoked b
  Guid="7a458f67-b9dd-4ccb-8b7b-497284b314ac"
 >TIU.Brakes.EmergencyBrakes.SpeedAndDistanceRelatedEB &lt;- Boolean.True</Action><Action
  Guid="2cd41d7a-3e5b-483b-8d4b-49cc63802660"
->THIS &lt;- Intervention</Action></Actions>
+>THIS &lt;- Release.Intervention</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Handle display"
+ Guid="cc104831-787f-4d15-954c-99bf6577605e"
+>
+<Comment>Indicate to the DMI that the target distance and release speed must be displayed and the target speed and Indication location at MRSP speed must be hidden.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Handle display"
+ Guid="3c3a3f76-26e6-4238-a10c-e020bab8cda5"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="5214d41d-ca57-4832-bcde-6274e7356b65"
+>DMI.MasterDMI().Out_TargetSpeed.OutputInformation.DoNotDisplay()</Action><Action
+ Guid="9624fff6-f874-499a-ac2f-c015c9f1bd75"
+>DMI.MasterDMI().Out_TargetDistance.Display()</Action><Action
+ Guid="f145bccf-107a-42c3-a097-e3b4d002bebc"
+>DMI.MasterDMI().Out_IndicationLocationAtMrspSpeed.OutputInformation.DoNotDisplay()</Action><Action
+ Guid="7933b0fd-ccd0-4c6b-b283-27ffe12717cd"
+>DMI.MasterDMI().Out_ReleaseSpeed.Display()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></SubRules>
 </RuleCondition></Conditions>
 </Rule></EnterAction>
 <LeaveAction>
