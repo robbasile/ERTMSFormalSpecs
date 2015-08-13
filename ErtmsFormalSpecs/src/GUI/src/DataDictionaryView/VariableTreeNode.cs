@@ -258,7 +258,7 @@ namespace GUI.DataDictionaryView
             }
             else
             {
-                StructureValueEditor.Window window = new StructureValueEditor.Window();
+                StructureEditor.Window window = new StructureEditor.Window();
                 window.SetVariable(Item);
 
                 if (GuiUtils.MdiWindow.DataDictionaryWindow != null)

@@ -33,7 +33,7 @@ using Structure = DataDictionary.Types.Structure;
 using StructureElement = DataDictionary.Types.StructureElement;
 using Variable = DataDictionary.Variables.Variable;
 
-namespace GUI.StructureValueEditor
+namespace GUIUtils.StructureEditor
 {
     /// <summary>
     ///     Customize the tree view according to the model element to display
@@ -44,6 +44,11 @@ namespace GUI.StructureValueEditor
         ///     If set to true, indicates that even empty variables should be displayed
         /// </summary>
         public static bool DisplayAllVariables { get; set; }
+
+        /// <summary>
+        /// The tooltip allowing to display the full name of elements in comboboxes
+        /// </summary>
+        public static ToolTip ToolTip = new ToolTip();
 
         /// <summary>
         ///     Dereferences the variables
@@ -717,7 +722,8 @@ namespace GUI.StructureValueEditor
                         Bounds = e.CellBounds,
                         Font = ((ObjectListView) sender).Font,
                         DropDownStyle = ComboBoxStyle.DropDownList,
-                        Text = (string) e.Value
+                        Text = (string) e.Value,
+                        DrawMode = DrawMode.OwnerDrawFixed
                     };
                     foreach (EnumValue enumValue in enumType.Values)
                     {
@@ -725,6 +731,7 @@ namespace GUI.StructureValueEditor
                     }
                     control.Items.Add(DefaultConst);
                     control.Text = variable.Value.Name;
+                    control.DrawItem += cbb_DrawItem;
                     e.Control = control;
                 }
 
@@ -736,7 +743,8 @@ namespace GUI.StructureValueEditor
                         Bounds = e.CellBounds,
                         Font = ((ObjectListView) sender).Font,
                         DropDownStyle = ComboBoxStyle.DropDown,
-                        Text = (string) e.Value
+                        Text = (string) e.Value,
+                        DrawMode = DrawMode.OwnerDrawFixed
                     };
                     foreach (EnumValue enumValue in rangeType.SpecialValues)
                     {
@@ -744,6 +752,7 @@ namespace GUI.StructureValueEditor
                     }
                     control.Items.Add(DefaultConst);
                     control.Text = variable.Value.Name;
+                    control.DrawItem += cbb_DrawItem;
                     e.Control = control;
                 }
 
@@ -780,6 +789,7 @@ namespace GUI.StructureValueEditor
                     }
                 }
             }
+            ToolTip.RemoveAll();
         }
 
         public static void HandleCellEditFinishing(object sender, CellEditEventArgs e)
@@ -801,6 +811,44 @@ namespace GUI.StructureValueEditor
                     }
                 }
             }
+            ToolTip.RemoveAll();
+        }
+
+        #endregion
+
+        #region ToolTips
+
+        /// <summary>
+        /// Used to redefine the drawin method of comboboxes and add a tooltip
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private static void cbb_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            if (e.Index == -1) { return; }
+
+            ComboBox comboBox = sender as ComboBox;
+            if (comboBox != null)
+            {
+                Point p = new Point(comboBox.Location.X + 100, comboBox.Location.Y + comboBox.Height + (20 + e.Index * 10));
+
+                if ((e.State & DrawItemState.Selected) == DrawItemState.Selected)
+                {
+                    ToolTip.Show(comboBox.Items[e.Index].ToString(), comboBox.FindForm(), p);
+                }
+                e.DrawBackground();
+                e.Graphics.DrawString(comboBox.Items[e.Index].ToString(), e.Font, Brushes.Black, new Point(e.Bounds.X, e.Bounds.Y));
+            }
+        }
+
+        /// <summary>
+        /// Handles event raised when the focus is lost
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public static void HandleFocusLost(object sender, EventArgs e)
+        {
+            ToolTip = new ToolTip();
         }
 
         #endregion

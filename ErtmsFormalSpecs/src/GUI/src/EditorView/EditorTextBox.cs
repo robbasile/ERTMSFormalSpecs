@@ -29,7 +29,7 @@ using DataDictionary.Variables;
 using GUI.DataDictionaryView;
 using Utils;
 using Action = DataDictionary.Rules.Action;
-using Window = GUI.StructureValueEditor.Window;
+using Window = GUI.StructureEditor.Window;
 
 namespace GUI
 {

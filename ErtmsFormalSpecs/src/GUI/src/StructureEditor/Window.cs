@@ -25,9 +25,10 @@ using DataDictionary.Values;
 using DataDictionary.Variables;
 using GUI.Properties;
 using GUI.StateDiagram;
+using GUIUtils.StructureEditor;
 using Utils;
 
-namespace GUI.StructureValueEditor
+namespace GUI.StructureEditor
 {
     public partial class Window : BaseForm
     {
@@ -63,6 +64,8 @@ namespace GUI.StructureValueEditor
             structureTreeListView.CellEditStarting += CustomizeTreeView.HandleCellEditStarting;
             structureTreeListView.CellEditValidating += CustomizeTreeView.HandleCellEditValidating;
             structureTreeListView.CellEditFinishing += CustomizeTreeView.HandleCellEditFinishing;
+
+            structureTreeListView.LostFocus += CustomizeTreeView.HandleFocusLost;
 
             structureTreeListView.ItemDrag += structureTreeListView_ItemDrag;
         }

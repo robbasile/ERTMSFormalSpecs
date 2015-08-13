@@ -1,4 +1,4 @@
-﻿namespace GUI.StructureValueEditor
+﻿namespace GUI.StructureEditor
 {
     partial class Window
     {
