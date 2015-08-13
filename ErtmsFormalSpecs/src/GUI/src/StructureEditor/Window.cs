@@ -65,8 +65,6 @@ namespace GUI.StructureEditor
             structureTreeListView.CellEditValidating += CustomizeTreeView.HandleCellEditValidating;
             structureTreeListView.CellEditFinishing += CustomizeTreeView.HandleCellEditFinishing;
 
-            structureTreeListView.LostFocus += CustomizeTreeView.HandleFocusLost;
-
             structureTreeListView.ItemDrag += structureTreeListView_ItemDrag;
         }
 
