@@ -450,11 +450,6 @@ namespace GUI
         protected abstract List<BaseTreeNode> BuildModel();
 
         /// <summary>
-        ///     Indicates that the node contents should be refreshed
-        /// </summary>
-        public bool RefreshNodeContent { get; private set; }
-
-        /// <summary>
         ///     Refreshes the model of the tree view
         /// </summary>
         /// <param name="modifiedElement">The element that has been modified</param>
@@ -466,7 +461,6 @@ namespace GUI
                 try
                 {
                     SuspendLayout();
-                    RefreshNodeContent = false;
 
                     // Ensure the root nodes are correct
                     List<BaseTreeNode> rootNodes = BuildModel();
@@ -496,7 +490,6 @@ namespace GUI
                 finally
                 {
                     ResumeLayout(true);
-                    RefreshNodeContent = true;
                 }
             });
         }
