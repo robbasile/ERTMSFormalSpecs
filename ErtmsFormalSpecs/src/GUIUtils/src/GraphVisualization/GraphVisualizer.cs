@@ -125,6 +125,9 @@ namespace GUIUtils.GraphVisualization
 
             ChartAreas[0].AxisX.LabelStyle.Format = "{#}";
             ChartAreas[0].AxisY.LabelStyle.Format = "{#}";
+
+            ChartAreas[0].AxisY.IsMarginVisible = false;
+            ChartAreas[0].AxisX.IsMarginVisible = false;
         }
 
         /// <summary>
