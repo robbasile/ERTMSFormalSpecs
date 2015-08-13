@@ -288,6 +288,10 @@ namespace GUI.StructureValueEditor
                                 break;
                             }
                         }
+                        else
+                        {
+                            retVal = DisplayAllVariables;
+                        }
                     }
                     else
                     {
@@ -325,7 +329,7 @@ namespace GUI.StructureValueEditor
                 {
                     if (subVariable.Value is DefaultValue)
                     {
-                        if (subVariable.Type is Structure)
+                        if (subVariable.Type is Structure  && ! DisplayAllVariables)
                         {
                             // Don't add it, it shall be handled by the contextual menus
                         }
