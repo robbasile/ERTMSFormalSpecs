@@ -57,6 +57,7 @@ namespace GUI.DataDictionaryView
             this.dataDictTree = new GUI.DataDictionaryView.DataDictionaryTreeView();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.modelDiagramPanel = new GUI.ModelDiagram.ModelDiagramPanel();
+            this.stateDiagramPanel = new GUI.StateDiagram.StatePanel();
             this.toolStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -178,6 +179,7 @@ namespace GUI.DataDictionaryView
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.modelDiagramPanel);
+            this.splitContainer1.Panel2.Controls.Add(this.stateDiagramPanel);
             this.splitContainer1.Size = new System.Drawing.Size(926, 548);
             this.splitContainer1.SplitterDistance = 306;
             this.splitContainer1.SplitterWidth = 3;
@@ -196,6 +198,18 @@ namespace GUI.DataDictionaryView
             this.modelDiagramPanel.Selected = null;
             this.modelDiagramPanel.Size = new System.Drawing.Size(617, 548);
             this.modelDiagramPanel.TabIndex = 0;
+            // 
+            // stateDiagramPanel
+            // 
+            this.stateDiagramPanel.AllowDrop = true;
+            this.stateDiagramPanel.AutoScroll = true;
+            this.stateDiagramPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.stateDiagramPanel.Location = new System.Drawing.Point(0, 0);
+            this.stateDiagramPanel.Model = null;
+            this.stateDiagramPanel.Name = "stateDiagramPanel";
+            this.stateDiagramPanel.Selected = null;
+            this.stateDiagramPanel.Size = new System.Drawing.Size(617, 548);
+            this.stateDiagramPanel.TabIndex = 0;
             // 
             // Window
             // 
@@ -236,6 +250,7 @@ namespace GUI.DataDictionaryView
         private System.Windows.Forms.ToolStripButton toolStripButton2;
         private DataDictionaryTreeView dataDictTree;
         private System.Windows.Forms.SplitContainer splitContainer1;
-        public ModelDiagram.ModelDiagramPanel modelDiagramPanel;
+        private ModelDiagram.ModelDiagramPanel modelDiagramPanel;
+        private StateDiagram.StatePanel stateDiagramPanel;
     }
 }

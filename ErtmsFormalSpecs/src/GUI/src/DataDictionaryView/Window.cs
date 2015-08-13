@@ -17,7 +17,6 @@
 using System;
 using System.Windows.Forms;
 using DataDictionary;
-using GUI.ModelDiagram;
 using GUI.Properties;
 using Utils;
 
@@ -79,7 +78,7 @@ namespace GUI.DataDictionaryView
             Dictionary enclosing = EnclosingFinder<Dictionary>.find(context.Element, true);
             if (enclosing == Dictionary)
             {
-                if (context.Sender is ModelDiagramPanel)
+                if ((context.Sender == modelDiagramPanel) || (context.Sender == stateDiagramPanel))
                 {
                     if ((context.Criteria & Context.SelectionCriteria.DoubleClick) != 0)
                     {
@@ -101,10 +100,31 @@ namespace GUI.DataDictionaryView
         /// <param name="context"></param>
         private void UpdateModelView(Context.SelectionContext context)
         {
-            if (context.Element != modelDiagramPanel.Model)
+            DataDictionary.Types.StateMachine stateMachine;
+            var state = EnclosingFinder<DataDictionary.Constants.State>.find(context.Element, true);
+            if (state != null && state.StateMachine.countStates() > 0)
             {
+                stateMachine = state.StateMachine;
+            }
+            else
+            {
+                stateMachine = EnclosingFinder<DataDictionary.Types.StateMachine>.find(context.Element, true);
+            }
+
+            if (stateMachine != null)
+            {
+                modelDiagramPanel.Visible = false;
+                stateDiagramPanel.Model = stateMachine;
+                stateDiagramPanel.Visible = true;
+                stateDiagramPanel.RefreshControl();
+            }
+            else
+            {
+                stateDiagramPanel.Visible = false;
                 modelDiagramPanel.Model = context.Element;
-                modelDiagramPanel.RefreshControl();               
+                modelDiagramPanel.Visible = true;
+                modelDiagramPanel.RefreshControl();
+
             }
         }
 
