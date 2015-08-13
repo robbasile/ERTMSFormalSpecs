@@ -54,7 +54,7 @@ namespace GUI
     /// <summary>
     /// The base class for all forms displayed in the GUI
     /// </summary>
-    public abstract class BaseForm : DockContent, IBaseForm
+    public class BaseForm : DockContent, IBaseForm
     {
         /// <summary>
         ///     The main tree view of the form
