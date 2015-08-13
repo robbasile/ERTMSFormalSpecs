@@ -12,8 +12,8 @@
 <Function
  Type="BaseTypes.Distance"
  Default=""
- X="20"
- Y="160"
+ X="400"
+ Y="20"
  Width="100"
  Height="50"
  Pinned="TRUE"
@@ -93,8 +93,8 @@
 </Function><Function
  Type="BaseTypes.Distance"
  Default=""
- X="20"
- Y="220"
+ X="400"
+ Y="80"
  Width="100"
  Height="50"
  Pinned="TRUE"
@@ -142,8 +142,8 @@
  Type="BaseTypes.Distance"
  Cacheable="TRUE"
  Default=""
- X="130"
- Y="160"
+ X="630"
+ Y="140"
  Width="100"
  Height="50"
  Pinned="TRUE"
@@ -195,8 +195,8 @@
  Type="BaseTypes.Distance"
  Cacheable="TRUE"
  Default=""
- X="130"
- Y="300"
+ X="120"
+ Y="20"
  Width="100"
  Height="50"
  Pinned="TRUE"
@@ -333,8 +333,8 @@ IndicationLimitAtSpeed(
 </Function><Function
  Type="BaseTypes.Distance"
  Default=""
- X="240"
- Y="160"
+ X="400"
+ Y="140"
  Width="100"
  Height="50"
  Pinned="TRUE"
@@ -403,8 +403,8 @@ d_SBI2 ( aTarget =&gt; aTarget, Vmrsp =&gt; Vmrsp ) == BaseTypes.Distance.Unknow
  Type="BaseTypes.Distance"
  Cacheable="TRUE"
  Default=""
- X="20"
- Y="300"
+ X="10"
+ Y="20"
  Width="100"
  Height="50"
  Pinned="TRUE"
@@ -465,8 +465,8 @@ d_SBI2 ( aTarget =&gt; aTarget, Vmrsp =&gt; Vmrsp ) == BaseTypes.Distance.Unknow
  Type="BaseTypes.Time"
  Cacheable="TRUE"
  Default=""
- X="330"
- Y="60"
+ X="510"
+ Y="80"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -499,7 +499,8 @@ d_SBI2 ( aTarget =&gt; aTarget, Vmrsp =&gt; Vmrsp ) == BaseTypes.Distance.Unknow
  Type="BaseTypes.Time"
  Cacheable="TRUE"
  Default=""
- X="110"
+ X="740"
+ Y="80"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -532,7 +533,8 @@ d_SBI2 ( aTarget =&gt; aTarget, Vmrsp =&gt; Vmrsp ) == BaseTypes.Distance.Unknow
  Type="BaseTypes.Time"
  Cacheable="TRUE"
  Default=""
- X="220"
+ X="620"
+ Y="20"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -580,7 +582,8 @@ d_SBI2 ( aTarget =&gt; aTarget, Vmrsp =&gt; Vmrsp ) == BaseTypes.Distance.Unknow
  Type="BaseTypes.Time"
  Cacheable="TRUE"
  Default=""
- X="330"
+ X="510"
+ Y="20"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -609,7 +612,8 @@ d_SBI2 ( aTarget =&gt; aTarget, Vmrsp =&gt; Vmrsp ) == BaseTypes.Distance.Unknow
  Type="BaseTypes.Distance"
  Cacheable="TRUE"
  Default=""
- X="440"
+ X="630"
+ Y="80"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -664,6 +668,8 @@ d_SBI2 ( aTarget =&gt; aTarget, Vmrsp =&gt; Vmrsp ) == BaseTypes.Distance.Unknow
  Type="TargetSpeedMonitoring.Target"
  Cacheable="TRUE"
  Default=""
+ X="10"
+ Y="240"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -703,6 +709,8 @@ d_SBI2 ( aTarget =&gt; aTarget, Vmrsp =&gt; Vmrsp ) == BaseTypes.Distance.Unknow
 </Function><Function
  Type="BaseTypes.Distance"
  Default=""
+ X="280"
+ Y="240"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -749,6 +757,23 @@ d_SBI2 ( aTarget =&gt; aTarget, Vmrsp =&gt; Vmrsp ) == BaseTypes.Distance.Unknow
 </Parameter></Parameters>
 <Cases>
 <Case
+ Name="Target is EOA and SvL"
+ Guid="10cd98e5-3c09-4e4e-8392-396c12888a2a"
+>
+<PreConditions>
+<PreCondition
+ Guid="1e5ea735-1a8d-4ad1-b977-61c8d5bcfa20"
+>MA.IsEOA(aTarget)</PreCondition><PreCondition
+ Guid="418dc536-a090-449a-9d33-6f447bda41da"
+>MA.IsSvL(aTarget)</PreCondition></PreConditions>
+<Expression>BaseTypes.MinDistance(
+    X1=&gt;IndicationLimitAtSpeed_EOA(aSpeed),
+    X2=&gt;IndicationLimitAtSpeed_EBDTarget(
+        aTarget =&gt; aTarget,
+        aSpeed =&gt; aSpeed
+    )
+)</Expression>
+</Case><Case
  Name="Target is EOA"
  Guid="6d279dde-6fc3-49db-9bc6-85994754ca68"
 >
@@ -758,29 +783,19 @@ d_SBI2 ( aTarget =&gt; aTarget, Vmrsp =&gt; Vmrsp ) == BaseTypes.Distance.Unknow
 >MA.IsEOA(aTarget)</PreCondition></PreConditions>
 <Expression>IndicationLimitAtSpeed_EOA(aSpeed)</Expression>
 </Case><Case
- Name="EBD below Vmrsp"
- Guid="9a6155ab-b9a7-4f70-ac61-c7de9042f68d"
+ Name="EBD-based target"
+ Guid="b636d492-dd1a-4abb-b1a4-3812e00d104d"
 >
-<PreConditions>
-<PreCondition
- Guid="79fd004c-1345-45b3-ab7c-6523e06a6302"
->d_P(
+<Expression>IndicationLimitAtSpeed_EBDTarget(
     aTarget =&gt; aTarget,
-    Vmrsp =&gt; aSpeed
-) == BaseTypes.Distance.Unknown</PreCondition></PreConditions>
-<Expression>BaseTypes.Distance.Unknown</Expression>
-</Case><Case
- Name="Value"
- Guid="63128214-f1c9-478f-9834-fb7e185646b7"
->
-<Expression>d_P(
-    aTarget =&gt; aTarget,
-    Vmrsp =&gt; aSpeed
-) - BaseTypes.SpeedToMS(aSpeed) * DecelerationCurves.T_indication()</Expression>
+    aSpeed =&gt; aSpeed
+)</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Distance"
  Default=""
+ X="630"
+ Y="240"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -824,6 +839,8 @@ d_SBI2 ( aTarget =&gt; aTarget, Vmrsp =&gt; Vmrsp ) == BaseTypes.Distance.Unknow
 </Function><Function
  Type="TargetSpeedMonitoring.Target"
  Default=""
+ X="10"
+ Y="100"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -868,7 +885,7 @@ d_SBI2 ( aTarget =&gt; aTarget, Vmrsp =&gt; Vmrsp ) == BaseTypes.Distance.Unknow
  Type="Boolean"
  Default=""
  X="120"
- Y="60"
+ Y="100"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -943,7 +960,8 @@ d_SBI2 ( aTarget =&gt; aTarget, Vmrsp =&gt; Vmrsp ) == BaseTypes.Distance.Unknow
 </Function><Function
  Type="TargetSpeedMonitoring.Target"
  Default=""
- Y="70"
+ X="120"
+ Y="160"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -973,6 +991,8 @@ INITIAL_VALUE MA.ClosestEOA()</Expression>
 </Function><Function
  Type="TargetSpeedMonitoring.Target"
  Default=""
+ X="10"
+ Y="160"
  Width="100"
  Height="50"
  NeedsRequirement="FALSE"
@@ -994,14 +1014,85 @@ TargetSpeedMonitoring.Target{
     Length =&gt; BaseTypes.DistanceToLength(NextMRSPSegment(CurrentLocation).Location - CurrentLocation)
 }</Expression>
 </Case></Cases>
+</Function><Function
+ Type="BaseTypes.Distance"
+ Default=""
+ X="400"
+ Y="240"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="IndicationLimitAtSpeed_EBDTarget"
+ Guid="273d9672-5d95-4668-9cae-a14d49eed3e8"
+>
+<ReqRef
+ Id="b10067eb-6ad7-4c8c-9aab-ef1740ef0e13"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="37ca6899-177a-433b-a1a4-bc71f46d0759"
+>
+</ReqRef><ReqRef
+ Id="7436b38b-cdb4-4fc5-9d24-f45da79f42f5"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="1680ba76-9e1d-4ec4-8192-90d9037b8512"
+>
+</ReqRef><ReqRef
+ Id="1c3a3e00-d5be-4e94-b8f4-d89e2b2970a6"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9c721d8c-2d9e-4a3f-98a0-e36eebfbcaa0"
+>
+</ReqRef><ReqRef
+ Id="0c5eaae4-4be7-4f73-ba4d-93cbbc028872"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0e9992e8-4083-4c8b-9059-a89bf466fe72"
+>
+</ReqRef><ReqRef
+ Id="8ff0bb4b-bc97-415b-93b4-fde4c5154544"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="48b5dedf-8fac-41ab-8b3b-b5395a6b4082"
+>
+</ReqRef><Comment>Returns the indication location for the provided EBD-based target at the given speed.</Comment>
+<Parameters>
+<Parameter
+ Type="TargetSpeedMonitoring.Target"
+ Name="aTarget"
+ Guid="9295fb6c-226c-4921-9872-e7cd693ea13f"
+>
+</Parameter><Parameter
+ Type="BaseTypes.Speed"
+ Name="aSpeed"
+ Guid="c0d24a80-4991-42c7-a069-dba90c9160d7"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="EBD below Vmrsp"
+ Guid="9a6155ab-b9a7-4f70-ac61-c7de9042f68d"
+>
+<PreConditions>
+<PreCondition
+ Guid="79fd004c-1345-45b3-ab7c-6523e06a6302"
+>d_P(
+    aTarget =&gt; aTarget,
+    Vmrsp =&gt; aSpeed
+) == BaseTypes.Distance.Unknown</PreCondition></PreConditions>
+<Expression>BaseTypes.Distance.Unknown</Expression>
+</Case><Case
+ Name="Value"
+ Guid="63128214-f1c9-478f-9834-fb7e185646b7"
+>
+<Expression>d_P(
+    aTarget =&gt; aTarget,
+    Vmrsp =&gt; aSpeed
+) - BaseTypes.SpeedToMS(aSpeed) * DecelerationCurves.T_indication()</Expression>
+</Case></Cases>
 </Function></Functions>
 <Variables>
 <Variable
  Type="BaseTypes.Time"
  DefaultValue="7.0"
  VariableMode="Constant"
- X="440"
- Y="160"
+ X="260"
+ Y="20"
  Width="100"
  Height="50"
  Pinned="TRUE"
