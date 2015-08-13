@@ -161,128 +161,133 @@ namespace GUI.GraphView
         /// <returns></returns>
         public void Display()
         {
-            GraphVisualiser.Reset();
-            String name = null;
-
-            // Computes the expected end to display
-            double expectedEndX = 0;
-            Dictionary<Function, Graph> graphs = new Dictionary<Function, Graph>();
-            foreach (Function function in Functions)
+            Util.DontNotify(() =>
             {
-                InterpretationContext context = new InterpretationContext(function);
-                if (function.FormalParameters.Count == 1)
+                GraphVisualiser.Reset();
+                String name = null;
+
+                // Computes the expected end to display
+                double expectedEndX = 0;
+                Dictionary<Function, Graph> graphs = new Dictionary<Function, Graph>();
+                foreach (Function function in Functions)
                 {
-                    Parameter parameter = (Parameter) function.FormalParameters[0];
-                    Graph graph = function.createGraph(context, parameter, null);
+                    InterpretationContext context = new InterpretationContext(function);
+                    if (function.FormalParameters.Count == 1)
+                    {
+                        Parameter parameter = (Parameter) function.FormalParameters[0];
+                        Graph graph = function.createGraph(context, parameter, null);
+                        if (graph != null)
+                        {
+                            expectedEndX = Math.Max(expectedEndX, graph.ExpectedEndX());
+                            graphs.Add(function, graph);
+                        }
+                    }
+                }
+
+                double expectedEndY = 0;
+                Dictionary<Function, Surface> surfaces = new Dictionary<Function, Surface>();
+                foreach (Function function in Functions)
+                {
+                    InterpretationContext context = new InterpretationContext(function);
+                    if (function.FormalParameters.Count == 2)
+                    {
+                        Surface surface = function.createSurface(context, null);
+                        if (surface != null)
+                        {
+                            expectedEndX = Math.Max(expectedEndX, surface.ExpectedEndX());
+                            expectedEndY = Math.Max(expectedEndY, surface.ExpectedEndY());
+                            surfaces.Add(function, surface);
+                        }
+                    }
+                }
+
+                try
+                {
+                    int maxX = Int32.Parse(Tb_MaxX.Text);
+                    expectedEndX = Math.Min(expectedEndX, maxX);
+                }
+                catch (Exception)
+                {
+                }
+
+                // Creates the graphs
+                foreach (KeyValuePair<Function, Graph> pair in graphs)
+                {
+                    Function function = pair.Key;
+                    Graph graph = pair.Value;
+
                     if (graph != null)
                     {
-                        expectedEndX = Math.Max(expectedEndX, graph.ExpectedEndX());
-                        graphs.Add(function, graph);
+                        EfsProfileFunction efsProfileFunction = new EfsProfileFunction(graph);
+                        GraphVisualiser.AddGraph(new EfsProfileFunctionGraph(GraphVisualiser, efsProfileFunction,
+                            function.FullName));
+
+                        if (name == null)
+                        {
+                            name = function.Name;
+                        }
                     }
                 }
-            }
 
-            double expectedEndY = 0;
-            Dictionary<Function, Surface> surfaces = new Dictionary<Function, Surface>();
-            foreach (Function function in Functions)
-            {
-                InterpretationContext context = new InterpretationContext(function);
-                if (function.FormalParameters.Count == 2)
+                // Creates the surfaces
+                foreach (KeyValuePair<Function, Surface> pair in surfaces)
                 {
-                    Surface surface = function.createSurface(context, null);
+                    Function function = pair.Key;
+                    Surface surface = pair.Value;
+
                     if (surface != null)
                     {
-                        expectedEndX = Math.Max(expectedEndX, surface.ExpectedEndX());
-                        expectedEndY = Math.Max(expectedEndY, surface.ExpectedEndY());
-                        surfaces.Add(function, surface);
+                        EfsSurfaceFunction efsSurfaceFunction = new EfsSurfaceFunction(surface);
+                        GraphVisualiser.AddGraph(new EfsSurfaceFunctionGraph(GraphVisualiser, efsSurfaceFunction,
+                            function.FullName));
+                        if (name == null)
+                        {
+                            name = function.Name;
+                        }
                     }
                 }
-            }
 
-            try
-            {
-                int maxX = Int32.Parse(Tb_MaxX.Text);
-                expectedEndX = Math.Min(expectedEndX, maxX);
-            }
-            catch (Exception)
-            {
-            }
-
-            // Creates the graphs
-            foreach (KeyValuePair<Function, Graph> pair in graphs)
-            {
-                Function function = pair.Key;
-                Graph graph = pair.Value;
-
-                if (graph != null)
+                if (name != null)
                 {
-                    EfsProfileFunction efsProfileFunction = new EfsProfileFunction(graph);
-                    GraphVisualiser.AddGraph(new EfsProfileFunctionGraph(GraphVisualiser, efsProfileFunction, function.FullName));
-
-                    if (name == null)
+                    try
                     {
-                        name = function.Name;
+                        double val = double.Parse(Tb_MinX.Text);
+                        GraphVisualiser.SetMinX(val);
                     }
-                }
-            }
-
-            // Creates the surfaces
-            foreach (KeyValuePair<Function, Surface> pair in surfaces)
-            {
-                Function function = pair.Key;
-                Surface surface = pair.Value;
-
-                if (surface != null)
-                {
-                    EfsSurfaceFunction efsSurfaceFunction = new EfsSurfaceFunction(surface);
-                    GraphVisualiser.AddGraph(new EfsSurfaceFunctionGraph(GraphVisualiser, efsSurfaceFunction, function.FullName));
-                    if (name == null)
+                    catch (Exception)
                     {
-                        name = function.Name;
                     }
-                }
-            }
 
-            if (name != null)
-            {
-                try
-                {
-                    double val = double.Parse(Tb_MinX.Text);
-                    GraphVisualiser.SetMinX(val);
-                }
-                catch (Exception)
-                {
-                }
-
-                try
-                {
-                    double val = double.Parse(Tb_MaxX.Text);
-                    GraphVisualiser.SetMaxX(val);
-                }
-                catch (Exception)
-                {
-                }
-
-                if (Cb_AutoYSize.Checked)
-                {
-                    GraphVisualiser.SetMaxY(double.NaN);
-                }
-                else
-                {
-                    double height;
-                    if (double.TryParse(Tb_MaxY.Text, out height))
+                    try
                     {
-                        GraphVisualiser.SetMaxY(height);
+                        double val = double.Parse(Tb_MaxX.Text);
+                        GraphVisualiser.SetMaxX(val);
                     }
-                    else
+                    catch (Exception)
+                    {
+                    }
+
+                    if (Cb_AutoYSize.Checked)
                     {
                         GraphVisualiser.SetMaxY(double.NaN);
                     }
+                    else
+                    {
+                        double height;
+                        if (double.TryParse(Tb_MaxY.Text, out height))
+                        {
+                            GraphVisualiser.SetMaxY(height);
+                        }
+                        else
+                        {
+                            GraphVisualiser.SetMaxY(double.NaN);
+                        }
+                    }
+                    GraphVisualiser.DrawGraphs(expectedEndX);
                 }
-                GraphVisualiser.DrawGraphs(expectedEndX);
-            }
+            });
         }
-        
+
         private void ValueChanged(object sender, EventArgs e)
         {
             Refresh();
