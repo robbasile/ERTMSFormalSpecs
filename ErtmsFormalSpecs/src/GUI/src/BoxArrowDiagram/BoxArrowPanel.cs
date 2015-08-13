@@ -84,7 +84,8 @@ namespace GUI.BoxArrowDiagram
                     ContextMenu menu = BuildContextMenu(element);
                     if (menu != null)
                     {
-                        menu.Show(this, mouseEventArgs.Location);
+                        Point location = new Point(mouseEventArgs.Location.X - HorizontalScroll.Value, mouseEventArgs.Y - VerticalScroll.Value);
+                        menu.Show(this, location);
                     }
                 }
             }
