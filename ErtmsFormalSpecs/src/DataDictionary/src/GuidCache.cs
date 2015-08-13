@@ -16,6 +16,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using DataDictionary.Generated;
 using Utils;
 
@@ -43,6 +44,7 @@ namespace DataDictionary
         public GuidCache(EFSSystem system)
         {
             EFSSystem = system;
+            UniqueAccess = new Mutex(false, "Access to GUID cache");
         }
 
         /// <summary>
@@ -98,6 +100,11 @@ namespace DataDictionary
         }
 
         /// <summary>
+        /// Ensure there is only one thread trying to get a model 
+        /// </summary>
+        private Mutex UniqueAccess { get; set; }
+
+        /// <summary>
         ///     Provides the model element which corresponds to the guid provided
         /// </summary>
         /// <param name="guid"></param>
@@ -106,6 +113,7 @@ namespace DataDictionary
         {
             ModelElement retVal;
 
+            UniqueAccess.WaitOne();
             if (!cache.ContainsKey(guid))
             {
                 // Update cache's contents
@@ -125,6 +133,7 @@ namespace DataDictionary
             {
                 cache.TryGetValue(guid, out retVal);
             }
+            UniqueAccess.ReleaseMutex();
 
             return retVal;
         }
