@@ -27,8 +27,10 @@ namespace GUI.ModelDiagram
         /// <summary>
         ///     Constructor
         /// </summary>
-        public InterfaceModelControl(Structure model)
-            : base(model)
+        /// <param name="panel"></param>
+        /// <param name="model"></param>
+        public InterfaceModelControl(ModelDiagramPanel panel, Structure model)
+            : base(panel, model)
         {
             NormalColor = Color.LightGoldenrodYellow;
         }

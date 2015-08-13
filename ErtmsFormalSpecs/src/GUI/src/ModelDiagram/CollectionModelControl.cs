@@ -26,8 +26,10 @@ namespace GUI.ModelDiagram
         /// <summary>
         ///     Constructor
         /// </summary>
-        public CollectionModelControl(Collection model)
-            : base(model)
+        /// <param name="panel"></param>
+        /// <param name="model"></param>
+        public CollectionModelControl(ModelDiagramPanel panel, Collection model)
+            : base(panel, model)
         {
         }
 

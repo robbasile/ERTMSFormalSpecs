@@ -89,13 +89,14 @@ namespace GUI.ModelDiagram
         /// <summary>
         ///     Constructor
         /// </summary>
+        /// <param name="panel"></param>
         /// <param name="model"></param>
-        public ModelArrowControl(ModelArrow model)
+        public ModelArrowControl(ModelDiagramPanel panel, ModelArrow model)
+            : base (panel, model)
         {
-            Model = model;
             DefaultArrowLength = 30;
 
-            if (Model.Source is Variable)
+            if (TypedModel.Source is Variable)
             {
                 ArrowFill = ArrowFillEnum.Fill;
                 ArrowMode = ArrowModeEnum.Full;

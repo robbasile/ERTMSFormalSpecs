@@ -15,15 +15,12 @@
 // ------------------------------------------------------------------------------
 
 using System;
-using System.ComponentModel;
 using System.Drawing;
-using System.Windows.Forms;
 using DataDictionary;
-using Utils;
 
 namespace GUI.BoxArrowDiagram
 {
-    public abstract partial class ArrowControl<TEnclosing, TBoxModel, TArrowModel> : Label
+    public abstract class ArrowControl<TEnclosing, TBoxModel, TArrowModel> : GraphicElement
         where TEnclosing : class
         where TBoxModel : class, IGraphicalDisplay
         where TArrowModel : class, IGraphicalArrow<TBoxModel>
@@ -60,136 +57,47 @@ namespace GUI.BoxArrowDiagram
         /// <summary>
         ///     Constructor
         /// </summary>
-        protected ArrowControl()
+        /// <param name="panel"></param>
+        /// <param name="model"></param>
+        protected ArrowControl(BoxArrowPanel<TEnclosing, TBoxModel, TArrowModel> panel, TArrowModel model) 
+            : base(panel, model)
         {
-            InitializeComponent();
+            Panel = panel;
             InitializeColors();
 
             ArrowMode = ArrowModeEnum.Full;
             ArrowFill = ArrowFillEnum.Line;
-            MouseClick += MouseClickHandler;
-            MouseDoubleClick += MouseDoubleClickHandler;
         }
 
         /// <summary>
-        ///     Constructor
+        /// The location of the box
         /// </summary>
-        /// <param name="container"></param>
-        protected ArrowControl(IContainer container)
-        {
-            container.Add(this);
-
-            InitializeComponent();
-            InitializeColors();
-
-            ArrowMode = ArrowModeEnum.Full;
-            ArrowFill = ArrowFillEnum.Line;
-            MouseClick += MouseClickHandler;
-            MouseDoubleClick += MouseDoubleClickHandler;
-        }
+        public override Point Location { get; set; }
 
         /// <summary>
-        ///     Initializes the colors of the pens
+        /// The size of the box
         /// </summary>
-        private void InitializeColors()
+        public override Size Size
         {
-            NormalColor = Color.Black;
-            NormalPen = new Pen(NormalColor);
-
-            DeducedCaseColor = Color.MediumPurple;
-            DeducedCasePen = new Pen(DeducedCaseColor);
-
-            DisabledColor = Color.Red;
-            DisabledPen = new Pen(DisabledColor);
-
-            ActivatedColor = Color.Blue;
-            ActivatedPen = new Pen(ActivatedColor, 4);
-
-            ExternalBoxColor = Color.Green;
-            ExternalBoxPen = new Pen(ExternalBoxColor, 2);
-        }
-
-        /// <summary>
-        ///     Handles a mouse click event
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="mouseEventArgs"></param>
-        private void MouseClickHandler(object sender, MouseEventArgs mouseEventArgs)
-        {
-            IModelElement modelElement = Model as IModelElement;
-            if (modelElement != null)
+            get
             {
-                Context.SelectionCriteria criteria = GuiUtils.SelectionCriteriaBasedOnMouseEvent(mouseEventArgs);
-                EFSSystem.INSTANCE.Context.SelectElement(modelElement, this, criteria);
+                SizeF tmp = GuiUtils.Graphics.MeasureString(TypedModel.GraphicalName, Font);
+                return new Size((int)tmp.Width, (int)tmp.Height);
             }
-        }
-
-        /// <summary>
-        ///     Handles a mouse click event on an arrow
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="mouseEventArgs"></param>
-        private void MouseDoubleClickHandler(object sender, MouseEventArgs mouseEventArgs)
-        {
-            IModelElement modelElement = Model as IModelElement;
-            if (modelElement != null)
-            {
-                Context.SelectionCriteria criteria = GuiUtils.SelectionCriteriaBasedOnMouseEvent(mouseEventArgs);
-                EFSSystem.INSTANCE.Context.SelectElement(modelElement, this, criteria);
-            }
+            set { }
         }
 
         /// <summary>
         ///     The parent box-arrow panel
         /// </summary>
-        public BoxArrowPanel<TEnclosing, TBoxModel, TArrowModel> BoxArrowPanel
-        {
-            get { return GuiUtils.EnclosingFinder<BoxArrowPanel<TEnclosing, TBoxModel, TArrowModel>>.Find(this); }
-        }
-
-        /// <summary>
-        ///     Provides the enclosing form
-        /// </summary>
-        public Form EnclosingForm
-        {
-            get { return GuiUtils.EnclosingFinder<Form>.Find(this); }
-        }
-
-        /// <summary>
-        ///     Provides the enclosing box-arrow diagram panel
-        /// </summary>
-        public BoxArrowPanel<TEnclosing, TBoxModel, TArrowModel> Panel
-        {
-            get { return GuiUtils.EnclosingFinder<BoxArrowPanel<TEnclosing, TBoxModel, TArrowModel>>.Find(this); }
-        }
+        public BoxArrowPanel<TEnclosing, TBoxModel, TArrowModel> Panel { get; set; }
 
         /// <summary>
         ///     The Model
         /// </summary>
-        private TArrowModel _model;
-
-        public virtual TArrowModel Model
+        public virtual TArrowModel TypedModel
         {
-            get { return _model; }
-            set
-            {
-                _model = value;
-                RefreshControl();
-            }
-        }
-
-        /// <summary>
-        ///     Refreshes the control contents, according to the modeled arrow
-        /// </summary>
-        public void RefreshControl()
-        {
-            Text = Model.GraphicalName;
-
-            if (Panel != null)
-            {
-                Panel.UpdateArrowPosition();
-                Panel.Refresh();
-            }
+            get { return Model as TArrowModel; }
         }
 
         /// <summary>
@@ -197,17 +105,7 @@ namespace GUI.BoxArrowDiagram
         /// </summary>
         public BoxControl<TEnclosing, TBoxModel, TArrowModel> SourceBoxControl
         {
-            get
-            {
-                BoxControl<TEnclosing, TBoxModel, TArrowModel> retVal = null;
-
-                if (Model.Source != null)
-                {
-                    retVal = Panel.GetBoxControl(Model.Source);
-                }
-
-                return retVal;
-            }
+            get { return Panel.GetBoxControl(TypedModel.Source); }
         }
 
         /// <summary>
@@ -215,12 +113,7 @@ namespace GUI.BoxArrowDiagram
         /// </summary>
         public BoxControl<TEnclosing, TBoxModel, TArrowModel> TargetBoxControl
         {
-            get
-            {
-                BoxControl<TEnclosing, TBoxModel, TArrowModel> retVal = Panel.GetBoxControl(Model.Target);
-
-                return retVal;
-            }
+            get { return Panel.GetBoxControl(TypedModel.Target); }
         }
 
         /// <summary>
@@ -393,15 +286,7 @@ namespace GUI.BoxArrowDiagram
         /// <summary>
         ///     Sets the label color
         /// </summary>
-        /// <param name="color"></param>
-        private void SetColor(Color color)
-        {
-            // ReSharper disable once RedundantCheckBeforeAssignment
-            if (ForeColor != color)
-            {
-                ForeColor = color;
-            }
-        }
+        public Color ForeColor { get; set; }
 
         /// <summary>
         ///     A normal pen
@@ -437,6 +322,29 @@ namespace GUI.BoxArrowDiagram
         public Color ExternalBoxColor;
 
         public Pen ExternalBoxPen;
+
+        /// <summary>
+        ///     Initializes the colors of the pens
+        /// </summary>
+        private void InitializeColors()
+        {
+            NormalColor = Color.Black;
+            NormalPen = new Pen(NormalColor);
+
+            DeducedCaseColor = Color.MediumPurple;
+            DeducedCasePen = new Pen(DeducedCaseColor);
+
+            DisabledColor = Color.Red;
+            DisabledPen = new Pen(DisabledColor);
+
+            ActivatedColor = Color.Blue;
+            ActivatedPen = new Pen(ActivatedColor, 4);
+
+            ExternalBoxColor = Color.Green;
+            ExternalBoxPen = new Pen(ExternalBoxColor, 2);
+
+            ForeColor = NormalColor;
+        }
 
         /// <summary>
         ///     Indicates that the arrow should be displayed in the DISABLED color
@@ -482,23 +390,23 @@ namespace GUI.BoxArrowDiagram
                 if (IsDisabled())
                 {
                     pen = DisabledPen;
-                    SetColor(DisabledColor);
+                    ForeColor = DisabledColor;
                 }
                 else if (IsActive())
                 {
                     pen = ActivatedPen;
-                    SetColor(ActivatedColor);
+                    ForeColor = ActivatedColor;
                 }
                 else if (IsDeduced())
                 {
                     // A degraded case is a arrow that is not defined in any state machine
                     pen = DeducedCasePen;
-                    SetColor(DeducedCaseColor);
+                    ForeColor = DeducedCaseColor;
                 }
                 else
                 {
                     pen = NormalPen;
-                    SetColor(NormalColor);
+                    ForeColor = NormalColor;
                 }
 
                 if (Panel.IsSelected(this))
@@ -555,12 +463,17 @@ namespace GUI.BoxArrowDiagram
                 if (TargetBoxControl == null)
                 {
                     Font boldFont = new Font(Font, FontStyle.Bold);
-                    string targetStateName = GetTargetName();
+                    string targetBoxName = GetTargetName();
 
-                    SizeF size = g.MeasureString(targetStateName, boldFont);
+                    SizeF size = g.MeasureString(targetBoxName, boldFont);
                     int x = target.X - (int) (size.Width/2);
                     int y = target.Y + 10;
-                    g.DrawString(targetStateName, boldFont, ExternalBoxPen.Brush, new Point(x, y));
+                    g.DrawString(targetBoxName, boldFont, ExternalBoxPen.Brush, new Point(x, y));
+                }
+                else
+                {
+                    g.FillRectangle(new SolidBrush(Panel.BackColor), new Rectangle(Location, Size) );
+                    g.DrawString(TypedModel.GraphicalName, Font, new SolidBrush(pen.Color), Location);
                 }
             }
         }
@@ -573,9 +486,9 @@ namespace GUI.BoxArrowDiagram
         {
             string retVal = "<unknown>";
 
-            if (Model.Target != null)
+            if (TypedModel.Target != null)
             {
-                retVal = Model.Target.Name;
+                retVal = TypedModel.Target.Name;
             }
 
             return retVal;
@@ -587,8 +500,7 @@ namespace GUI.BoxArrowDiagram
         /// <param name="box"></param>
         public void SetInitialBox(TBoxModel box)
         {
-            Model.SetInitialBox(box);
-            RefreshControl();
+            TypedModel.SetInitialBox(box);
         }
 
         /// <summary>
@@ -597,8 +509,7 @@ namespace GUI.BoxArrowDiagram
         /// <param name="box"></param>
         public void SetTargetBox(TBoxModel box)
         {
-            Model.SetTargetBox(box);
-            RefreshControl();
+            TypedModel.SetTargetBox(box);
         }
 
         /// <summary>

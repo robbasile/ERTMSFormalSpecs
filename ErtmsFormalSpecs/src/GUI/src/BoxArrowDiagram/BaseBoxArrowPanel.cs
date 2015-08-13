@@ -14,31 +14,21 @@
 // --
 // ------------------------------------------------------------------------------
 
-using DataDictionary.Types;
+using System.Windows.Forms;
+using Utils;
 
-namespace GUI.ModelDiagram
+namespace GUI.BoxArrowDiagram
 {
-    /// <summary>
-    ///     The boxes that represent an enumeration
-    /// </summary>
-    public class EnumModelControl : TypeModelControl
+    public class BaseBoxArrowPanel : Panel
     {
         /// <summary>
-        ///     Constructor
+        /// Creates the editor for the selected object
         /// </summary>
-        /// <param name="panel"></param>
         /// <param name="model"></param>
-        public EnumModelControl(ModelDiagramPanel panel, Enum model)
-            : base(panel, model)
+        /// <returns></returns>
+        public virtual object CreateEditor(IModelElement model)
         {
-        }
-
-        /// <summary>
-        ///     The name of the kind of type
-        /// </summary>
-        public override string ModelName
-        {
-            get { return "Enumeration"; }
+            return null;
         }
     }
 }

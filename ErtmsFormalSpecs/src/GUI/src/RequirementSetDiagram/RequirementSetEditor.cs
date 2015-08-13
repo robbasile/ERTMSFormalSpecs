@@ -14,31 +14,38 @@
 // --
 // ------------------------------------------------------------------------------
 
-using DataDictionary.Types;
+using System.ComponentModel;
+using DataDictionary.Specification;
+using GUI.BoxArrowDiagram;
 
-namespace GUI.ModelDiagram
+namespace GUI.RequirementSetDiagram
 {
     /// <summary>
-    ///     The boxes that represent an enumeration
+    ///     A box editor
     /// </summary>
-    public class EnumModelControl : TypeModelControl
+    public class RequirementSetEditor : BoxEditor<IHoldsRequirementSets, RequirementSet, RequirementSetDependancy>
     {
         /// <summary>
         ///     Constructor
         /// </summary>
-        /// <param name="panel"></param>
-        /// <param name="model"></param>
-        public EnumModelControl(ModelDiagramPanel panel, Enum model)
-            : base(panel, model)
+        /// <param name="control"></param>
+        public RequirementSetEditor(BoxControl<IHoldsRequirementSets, RequirementSet, RequirementSetDependancy> control)
+            : base(control)
         {
         }
 
-        /// <summary>
-        ///     The name of the kind of type
-        /// </summary>
-        public override string ModelName
+        [Category("Related Requirements behaviour")]
+        public bool Recursive
         {
-            get { return "Enumeration"; }
+            get { return Control.TypedModel.getRecursiveSelection(); }
+            set { Control.TypedModel.setRecursiveSelection(value); }
+        }
+
+        [Category("Related Requirements behaviour")]
+        public bool Default
+        {
+            get { return Control.TypedModel.getDefault(); }
+            set { Control.TypedModel.setDefault(value); }
         }
     }
 }

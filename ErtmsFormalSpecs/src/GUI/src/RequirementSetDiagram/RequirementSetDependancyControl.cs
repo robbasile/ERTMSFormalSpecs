@@ -14,7 +14,6 @@
 // --
 // ------------------------------------------------------------------------------
 
-using System.ComponentModel;
 using DataDictionary.Specification;
 using GUI.BoxArrowDiagram;
 
@@ -25,17 +24,11 @@ namespace GUI.RequirementSetDiagram
         /// <summary>
         ///     Constructor
         /// </summary>
-        public RequirementSetDependancyControl()
+        /// <param name="panel"></param>
+        /// <param name="model"></param>
+        public RequirementSetDependancyControl(RequirementSetPanel panel, RequirementSetDependancy model) 
+            : base(panel, model)
         {
-        }
-
-        /// <summary>
-        ///     Constructor
-        /// </summary>
-        /// <param name="container"></param>
-        public RequirementSetDependancyControl(IContainer container)
-        {
-            container.Add(this);
         }
     }
 }

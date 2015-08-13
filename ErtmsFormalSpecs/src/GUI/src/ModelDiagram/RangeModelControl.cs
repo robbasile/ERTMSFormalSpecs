@@ -26,8 +26,10 @@ namespace GUI.ModelDiagram
         /// <summary>
         ///     Constructor
         /// </summary>
-        public RangeModelControl(Range model)
-            : base(model)
+        /// <param name="panel"></param>
+        /// <param name="model"></param>
+        public RangeModelControl(ModelDiagramPanel panel, Range model)
+            : base(panel, model)
         {
         }
 

@@ -28,8 +28,10 @@ namespace GUI.ModelDiagram
         /// <summary>
         ///     Constructor
         /// </summary>
-        public VariableModelControl(Variable model)
-            : base(model)
+        /// <param name="panel"></param>
+        /// <param name="model"></param>
+        public VariableModelControl(ModelDiagramPanel panel, Variable model)
+            : base(panel, model)
         {
             BoxMode = BoxModeEnum.RoundedCorners;
             NormalColor = Color.BlanchedAlmond;

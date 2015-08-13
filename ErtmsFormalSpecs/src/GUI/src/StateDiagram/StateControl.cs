@@ -14,7 +14,6 @@
 // --
 // ------------------------------------------------------------------------------
 
-using System.ComponentModel;
 using System.Windows.Forms;
 using DataDictionary.Constants;
 using DataDictionary.Rules;
@@ -30,19 +29,11 @@ namespace GUI.StateDiagram
         /// <summary>
         ///     Constructor
         /// </summary>
-        public StateControl()
+        /// <param name="panel"></param>
+        /// <param name="model"></param>
+        public StateControl(StatePanel panel, State model)
+            : base (panel, model)
         {
-            MouseDoubleClick += HandleMouseDoubleClick;
-        }
-
-        /// <summary>
-        ///     Constructor
-        /// </summary>
-        /// <param name="container"></param>
-        public StateControl(IContainer container)
-            : base(container)
-        {
-            MouseDoubleClick += HandleMouseDoubleClick;
         }
 
         /// <summary>
@@ -57,7 +48,7 @@ namespace GUI.StateDiagram
             {
                 StatePanel panel = (StatePanel) Panel;
                 IVariable variable = panel.StateMachineVariable;
-                if (variable != null && panel.Model.Contains(Model, variable.Value))
+                if (variable != null && panel.Model.Contains(TypedModel, variable.Value))
                 {
                     retVal = true;
                 }
@@ -66,20 +57,17 @@ namespace GUI.StateDiagram
             return retVal;
         }
 
-        /// <summary>
-        ///     Handles a double click event on the control
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void HandleMouseDoubleClick(object sender, MouseEventArgs e)
+        public override void HandleDoubleClick(object sender, MouseEventArgs mouseEventArgs)
         {
-            StatePanel panel = (StatePanel) Panel;
+            base.HandleDoubleClick(sender, mouseEventArgs);
+
+            StatePanel panel = (StatePanel)Panel;
             if (panel != null)
             {
                 StateDiagramWindow window = new StateDiagramWindow();
                 GuiUtils.MdiWindow.AddChildWindow(window);
-                window.SetStateMachine(panel.StateMachineVariable, Model.StateMachine);
-                window.Text = Model.Name + @" " + Resources.StateControl_HandleMouseDoubleClick_state_diagram;
+                window.SetStateMachine(panel.StateMachineVariable, TypedModel.StateMachine);
+                window.Text = TypedModel.Name + @" " + Resources.StateControl_HandleMouseDoubleClick_state_diagram;
             }
         }
     }

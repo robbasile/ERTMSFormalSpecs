@@ -32,90 +32,79 @@ namespace GUI.RequirementSetDiagram
 {
     public class RequirementSetPanel : BoxArrowPanel<IHoldsRequirementSets, RequirementSet, RequirementSetDependancy>
     {
-        private ToolStripMenuItem _addRequirementSetMenuItem;
-        private ToolStripMenuItem _addDependanceMenuItem;
-        private ToolStripMenuItem _selectParagraphsMenuItem;
-        private ToolStripMenuItem _selectRequirementsWhichDoNotBelongMenuItem;
-        private ToolStripMenuItem _selectNotImplementedRequirementsMenuItem;
-        private ToolStripSeparator _toolStripSeparator;
-        private ToolStripMenuItem _deleteMenuItem;
-
-        /// <summary>
-        ///     Initializes the start menu
-        /// </summary>
-        public override void InitializeStartMenu()
+        protected override ContextMenu BuildContextMenu(GraphicElement element)
         {
-            base.InitializeStartMenu();
+            ContextMenu retVal = base.BuildContextMenu(element);
 
-            _addRequirementSetMenuItem = new ToolStripMenuItem();
-            _addDependanceMenuItem = new ToolStripMenuItem();
-            _selectParagraphsMenuItem = new ToolStripMenuItem();
-            _selectRequirementsWhichDoNotBelongMenuItem = new ToolStripMenuItem();
-            _selectNotImplementedRequirementsMenuItem = new ToolStripMenuItem();
-            _toolStripSeparator = new ToolStripSeparator();
-            _deleteMenuItem = new ToolStripMenuItem();
-            // 
-            // addRequirementSetMenuItem
-            // 
-            _addRequirementSetMenuItem.Name = "addRequirementSetMenuItem";
-            _addRequirementSetMenuItem.Size = new Size(161, 22);
-            _addRequirementSetMenuItem.Text = "Add requirement set";
-            _addRequirementSetMenuItem.Click += addBoxMenuItem_Click;
-            // 
-            // addDependanceMenuItem
-            // 
-            _addDependanceMenuItem.Name = "addDependanceMenuItem";
-            _addDependanceMenuItem.Size = new Size(161, 22);
-            _addDependanceMenuItem.Text = "Add dependancy";
-            _addDependanceMenuItem.Click += addArrowMenuItem_Click;
-            // 
-            // toolStripSeparator1
-            // 
-            _toolStripSeparator.Name = "toolStripSeparator1";
-            _toolStripSeparator.Size = new Size(158, 6);
-            // 
-            // selectParagraphsMenuItem
-            // 
-            _selectParagraphsMenuItem.Name = "selectParagraphsMenuItem";
-            _selectParagraphsMenuItem.Size = new Size(161, 22);
-            _selectParagraphsMenuItem.Text = "Select paragraphs";
-            _selectParagraphsMenuItem.Click += selectRequirements_Click;
-            // 
-            // selectRequirementsWhichDoNotBelongMenuItem
-            // 
-            _selectRequirementsWhichDoNotBelongMenuItem.Name = "selectRequirementsWhichDoNotBelongMenuItem";
-            _selectRequirementsWhichDoNotBelongMenuItem.Size = new Size(161, 22);
-            _selectRequirementsWhichDoNotBelongMenuItem.Text =
-                "Select requirements which do not belong to requirement set";
-            _selectRequirementsWhichDoNotBelongMenuItem.Click +=
-                selectRequirementsWhichDoNotBelongMenuItem_Click;
-            // 
-            // selectNotImplementedRequirements
-            // 
-            _selectNotImplementedRequirementsMenuItem.Name = "selectNotImplementedRequirementsMenuItem";
-            _selectNotImplementedRequirementsMenuItem.Size = new Size(161, 22);
-            _selectNotImplementedRequirementsMenuItem.Text = "Select not implemented requirements";
-            _selectNotImplementedRequirementsMenuItem.Click +=
-                selectNotImplementedRequirementsMenuItem_Click;
-            // 
-            // toolStripMenuItem1
-            // 
-            _deleteMenuItem.Name = "toolStripMenuItem1";
-            _deleteMenuItem.Size = new Size(153, 22);
-            _deleteMenuItem.Text = "Delete selected";
-            _deleteMenuItem.Click += deleteMenuItem1_Click;
-
-            contextMenu.Items.AddRange(new ToolStripItem[]
+            if (element != null)
             {
-                _addRequirementSetMenuItem,
-                _addDependanceMenuItem,
-                _toolStripSeparator,
-                _selectParagraphsMenuItem,
-                _selectRequirementsWhichDoNotBelongMenuItem,
-                _selectNotImplementedRequirementsMenuItem,
-                _toolStripSeparator,
-                _deleteMenuItem
-            });
+                retVal = new ContextMenu();                 
+
+                // 
+                // addRequirementSetMenuItem
+                // 
+                MenuItem addRequirementSetMenuItem = new MenuItem
+                {
+                    Name = "addRequirementSetMenuItem",
+                    Text = "Add requirement set"
+                };
+                addRequirementSetMenuItem.Click += HandleAddRequirement;
+                retVal.MenuItems.Add(addRequirementSetMenuItem);
+                // 
+                // addDependanceMenuItem
+                // 
+                MenuItem addDependanceMenuItem = new MenuItem
+                {
+                    Name = "addDependanceMenuItem", 
+                    Text = "Add dependancy"
+                };
+                addDependanceMenuItem.Click += HandleAddDependancy;
+                retVal.MenuItems.Add(addDependanceMenuItem);
+                // 
+                // selectParagraphsMenuItem
+                // 
+                MenuItem selectParagraphsMenuItem = new MenuItem
+                {
+                    Name = "selectParagraphsMenuItem",
+                    Text = "Select paragraphs"
+                };
+                selectParagraphsMenuItem.Click += HandleSelectParagraph;
+                retVal.MenuItems.Add(selectParagraphsMenuItem);
+                // 
+                // selectRequirementsWhichDoNotBelongMenuItem
+                // 
+                MenuItem selectRequirementsWhichDoNotBelongMenuItem = new MenuItem
+                {
+                    Name = "selectRequirementsWhichDoNotBelongMenuItem",
+                    Text = "Select requirements which do not belong to requirement set"
+                };
+                selectRequirementsWhichDoNotBelongMenuItem.Click +=
+                    HandleSelectRequirementsWhichDoNotBelong;
+                retVal.MenuItems.Add(selectRequirementsWhichDoNotBelongMenuItem);
+                // 
+                // selectNotImplementedRequirements
+                // 
+                MenuItem selectNotImplementedRequirementsMenuItem = new MenuItem
+                {
+                    Name = "selectNotImplementedRequirementsMenuItem",
+                    Text = "Select not implemented requirements"
+                };
+                selectNotImplementedRequirementsMenuItem.Click +=
+                    HandleSelectNotImplementedRequirements;
+                retVal.MenuItems.Add(selectNotImplementedRequirementsMenuItem);
+                // 
+                // toolStripMenuItem1
+                // 
+                MenuItem deleteMenuItem = new MenuItem
+                {
+                    Name = "toolStripMenuItem1", 
+                    Text = "Delete selected"
+                };
+                deleteMenuItem.Click += HandleDelete;
+                retVal.MenuItems.Add(deleteMenuItem);
+            }
+
+            return retVal;
         }
 
         /// <summary>
@@ -123,7 +112,6 @@ namespace GUI.RequirementSetDiagram
         /// </summary>
         private void Init()
         {
-            InitializeStartMenu();
             DefaultBoxSize = new Size(150, 75);
         }
 
@@ -160,6 +148,7 @@ namespace GUI.RequirementSetDiagram
             {
                 base.Model = value; 
 
+                // Precompute the metrics
                 Metrics = new Dictionary<RequirementSet, Paragraph.ParagraphSetMetrics>();
                 foreach (RequirementSet requirementSet in Model.RequirementSets)
                 {
@@ -177,7 +166,7 @@ namespace GUI.RequirementSetDiagram
         /// <returns></returns>
         public override BoxControl<IHoldsRequirementSets, RequirementSet, RequirementSetDependancy> CreateBox(RequirementSet model)
         {
-            var retVal = new RequirementSetControl {Model = model};
+            RequirementSetControl retVal = new RequirementSetControl(this, model);
 
             return retVal;
         }
@@ -190,10 +179,7 @@ namespace GUI.RequirementSetDiagram
         public override ArrowControl<IHoldsRequirementSets, RequirementSet, RequirementSetDependancy> CreateArrow(
             RequirementSetDependancy model)
         {
-            ArrowControl<IHoldsRequirementSets, RequirementSet, RequirementSetDependancy> retVal = new RequirementSetDependancyControl();
-            retVal.Model = model;
-
-            return retVal;
+            return new RequirementSetDependancyControl(this, model);
         }
 
         /// <summary>
@@ -226,7 +212,7 @@ namespace GUI.RequirementSetDiagram
             return retVal;
         }
 
-        private void addBoxMenuItem_Click(object sender, EventArgs e)
+        private void HandleAddRequirement(object sender, EventArgs e)
         {
             RequirementSet requirementSet = (RequirementSet) acceptor.getFactory().createRequirementSet();
             requirementSet.Name = "<set " + (Model.RequirementSets.Count + 1) + ">";
@@ -235,7 +221,7 @@ namespace GUI.RequirementSetDiagram
             RefreshControl();
         }
 
-        private void addArrowMenuItem_Click(object sender, EventArgs e)
+        private void HandleAddDependancy(object sender, EventArgs e)
         {
             if (Model.RequirementSets.Count > 1)
             {
@@ -244,7 +230,7 @@ namespace GUI.RequirementSetDiagram
                 RequirementSetControl sourceControl = Selected as RequirementSetControl;
                 if (sourceControl != null)
                 {
-                    source = sourceControl.Model;
+                    source = sourceControl.TypedModel;
                     target = Model.RequirementSets[0];
                     if (target == source)
                     {
@@ -266,57 +252,66 @@ namespace GUI.RequirementSetDiagram
             }
         }
 
-        private void selectRequirements_Click(object sender, EventArgs e)
+        private void HandleSelectParagraph(object sender, EventArgs e)
         {
             RequirementSetControl control = Selected as RequirementSetControl;
 
             if (control != null)
             {
-                EFSSystem.INSTANCE.MarkRequirementsForRequirementSet(control.Model);
+                EFSSystem.INSTANCE.MarkRequirementsForRequirementSet(control.TypedModel);
             }
         }
 
-        private void selectRequirementsWhichDoNotBelongMenuItem_Click(object sender, EventArgs e)
+        private void HandleSelectRequirementsWhichDoNotBelong(object sender, EventArgs e)
         {
             RequirementSetControl control = Selected as RequirementSetControl;
 
             if (control != null)
             {
-                EFSSystem.INSTANCE.MarkRequirementsWhichDoNotBelongToRequirementSet(control.Model);
+                EFSSystem.INSTANCE.MarkRequirementsWhichDoNotBelongToRequirementSet(control.TypedModel);
             }
         }
 
-        private void selectNotImplementedRequirementsMenuItem_Click(object sender, EventArgs e)
+        private void HandleSelectNotImplementedRequirements(object sender, EventArgs e)
         {
             RequirementSetControl control = Selected as RequirementSetControl;
 
             if (control != null)
             {
-                EFSSystem.INSTANCE.MarkNotImplementedRequirements(control.Model);
+                EFSSystem.INSTANCE.MarkNotImplementedRequirements(control.TypedModel);
             }
         }
 
-
-        private void deleteMenuItem1_Click(object sender, EventArgs e)
+        private void HandleDelete(object sender, EventArgs e)
         {
-            IModelElement model = null;
-
-            var box = Selected as BoxControl<IHoldsRequirementSets, RequirementSet, RequirementSetDependancy>;
-            var arrow = Selected as ArrowControl<IHoldsRequirementSets, RequirementSet, RequirementSetDependancy>;
-
-            if (box != null)
+            if (Selected != null)
             {
-                model = box.Model;
+                IModelElement model = Selected.Model as IModelElement;
+                if (model != null)
+                {
+                    model.Delete();
+                }
             }
-            else if (arrow != null)
-            {
-                model = arrow.Model;
-            }
+        }
 
-            if (model != null)
-            {
-                model.Delete();
-            }
+        /// <summary>
+        ///     Factory for BoxEditor
+        /// </summary>
+        /// <param name="control"></param>
+        /// <returns></returns>
+        protected override BoxEditor<IHoldsRequirementSets, RequirementSet, RequirementSetDependancy> CreateBoxEditor(BoxControl<IHoldsRequirementSets, RequirementSet, RequirementSetDependancy> control)
+        {
+            return new RequirementSetEditor(control);
+        }
+
+        /// <summary>
+        ///     Factory for arrow editor
+        /// </summary>
+        /// <param name="control"></param>
+        /// <returns></returns>
+        protected override ArrowEditor<IHoldsRequirementSets, RequirementSet, RequirementSetDependancy> CreateArrowEditor(ArrowControl<IHoldsRequirementSets, RequirementSet, RequirementSetDependancy> control)
+        {
+            return new TransitionEditor(control);
         }
     }
 }

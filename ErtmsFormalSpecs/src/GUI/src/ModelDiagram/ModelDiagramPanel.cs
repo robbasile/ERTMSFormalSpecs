@@ -14,19 +14,15 @@
 // --
 // ------------------------------------------------------------------------------
 
-using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Windows.Forms;
 using DataDictionary;
-using DataDictionary.Generated;
 using GUI.BoxArrowDiagram;
 using Utils;
 using Collection = DataDictionary.Types.Collection;
 using Dictionary = DataDictionary.Dictionary;
 using Enum = DataDictionary.Types.Enum;
 using Function = DataDictionary.Functions.Function;
-using ModelElement = DataDictionary.ModelElement;
 using NameSpace = DataDictionary.Types.NameSpace;
 using Procedure = DataDictionary.Functions.Procedure;
 using Range = DataDictionary.Types.Range;
@@ -44,37 +40,6 @@ namespace GUI.ModelDiagram
     /// </summary>
     public class ModelDiagramPanel : BoxArrowPanel<IModelElement, IGraphicalDisplay, ModelArrow>
     {
-        private ToolStripMenuItem _addRangeMenuItem;
-
-        /// <summary>
-        ///     Adds the menu items related to this model element
-        /// </summary>
-        public override void InitializeStartMenu()
-        {
-            if ((NameSpace != null))
-            {
-                // 
-                // Add range
-                // 
-                _addRangeMenuItem = new ToolStripMenuItem();
-                _addRangeMenuItem.Text = "Add range";
-                _addRangeMenuItem.Click += addRangeMenuItem_Click;
-            }
-        }
-
-        /// <summary>
-        ///     Adds a new range
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void addRangeMenuItem_Click(object sender, EventArgs e)
-        {
-            Range range = (Range) acceptor.getFactory().createRange();
-            range.Name = "Range";
-            NameSpace.appendRanges(range);
-            RefreshControl();
-        }
-
         /// <summary>
         ///     The namespace for which this panel is built
         /// </summary>
@@ -103,51 +68,52 @@ namespace GUI.ModelDiagram
             ModelControl retVal = null;
 
             NameSpace nameSpace = model as NameSpace;
+            // ReSharper disable once ConditionIsAlwaysTrueOrFalse
             if (retVal == null && nameSpace != null)
             {
-                retVal = new NameSpaceModelControl(nameSpace);
+                retVal = new NameSpaceModelControl(this, nameSpace);
             }
 
             Variable variable = model as Variable;
             if (retVal == null && variable != null)
             {
-                retVal = new VariableModelControl(variable);
+                retVal = new VariableModelControl(this, variable);
             }
 
             Function function = model as Function;
             if (retVal == null && function != null)
             {
-                retVal = new FunctionModelControl(function);
+                retVal = new FunctionModelControl(this, function);
             }
 
             Procedure procedure = model as Procedure;
             if (procedure != null)
             {
-                retVal = new ProcedureModelControl(procedure);
+                retVal = new ProcedureModelControl(this, procedure);
             }
 
             Range range = model as Range;
             if (range != null)
             {
-                retVal = new RangeModelControl(range);
+                retVal = new RangeModelControl(this, range);
             }
 
             Enum enumeration = model as Enum;
             if (enumeration != null)
             {
-                retVal = new EnumModelControl(enumeration);
+                retVal = new EnumModelControl(this, enumeration);
             }
 
             Collection collection = model as Collection;
             if (collection != null)
             {
-                retVal = new CollectionModelControl(collection);
+                retVal = new CollectionModelControl(this, collection);
             }
 
             StateMachine stateMachine = model as StateMachine;
             if (stateMachine != null)
             {
-                retVal = new StateMachineModelControl(stateMachine);
+                retVal = new StateMachineModelControl(this, stateMachine);
             }
 
             Structure structure = model as Structure;
@@ -155,18 +121,18 @@ namespace GUI.ModelDiagram
             {
                 if (structure.IsAbstract)
                 {
-                    retVal = new InterfaceModelControl(structure);
+                    retVal = new InterfaceModelControl(this, structure);
                 }
                 else
                 {
-                    retVal = new StructureModelControl(structure);
+                    retVal = new StructureModelControl(this, structure);
                 }
             }
 
             Rule rule = model as Rule;
             if (rule != null)
             {
-                retVal = new RuleModelControl(rule);
+                retVal = new RuleModelControl(this, rule);
             }
 
             return retVal;
@@ -179,7 +145,7 @@ namespace GUI.ModelDiagram
         /// <returns></returns>
         public override ArrowControl<IModelElement, IGraphicalDisplay, ModelArrow> CreateArrow(ModelArrow model)
         {
-            ModelArrowControl retVal = new ModelArrowControl(model);
+            ModelArrowControl retVal = new ModelArrowControl(this, model);
 
             return retVal;
         }
@@ -284,38 +250,6 @@ namespace GUI.ModelDiagram
             }
 
             return retVal;
-        }
-
-        /// <summary>
-        ///     The last model for wich a displayed position has been computed
-        /// </summary>
-        private IGraphicalDisplay LastComputedPositionModel = null;
-
-        /// <summary>
-        ///     Reinitialises the automatic position handling
-        /// </summary>
-        protected override void InitPositionHandling()
-        {
-            LastComputedPositionModel = null;
-            base.InitPositionHandling();
-        }
-
-        /// <summary>
-        ///     Provides the next control position.
-        ///     Align controls according to their type
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        public override Point GetNextPosition(IGraphicalDisplay model)
-        {
-            if (LastComputedPositionModel != null && model.GetType() != LastComputedPositionModel.GetType())
-            {
-                int Y_OFFSET = model.Height + 10;
-                CurrentPosition = new Point(1, CurrentPosition.Y + Y_OFFSET);
-            }
-            LastComputedPositionModel = model;
-
-            return base.GetNextPosition(model);
         }
     }
 }

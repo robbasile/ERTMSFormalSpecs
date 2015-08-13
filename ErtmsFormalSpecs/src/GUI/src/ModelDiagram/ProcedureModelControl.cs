@@ -26,8 +26,10 @@ namespace GUI.ModelDiagram
         /// <summary>
         ///     Constructor
         /// </summary>
-        public ProcedureModelControl(Procedure model)
-            : base(model)
+        /// <param name="panel"></param>
+        /// <param name="model"></param>
+        public ProcedureModelControl(ModelDiagramPanel panel, Procedure model)
+            : base(panel, model)
         {
         }
 

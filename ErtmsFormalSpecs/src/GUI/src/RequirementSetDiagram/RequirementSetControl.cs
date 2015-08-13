@@ -14,7 +14,6 @@
 // --
 // ------------------------------------------------------------------------------
 
-using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 using DataDictionary.Specification;
@@ -30,19 +29,9 @@ namespace GUI.RequirementSetDiagram
         /// <summary>
         ///     Constructor
         /// </summary>
-        public RequirementSetControl()
+        public RequirementSetControl(RequirementSetPanel panel, RequirementSet model)
+            : base(panel, model)
         {
-            MouseDoubleClick += HandleMouseDoubleClick;
-        }
-
-        /// <summary>
-        ///     Constructor
-        /// </summary>
-        /// <param name="container"></param>
-        public RequirementSetControl(IContainer container)
-            : base(container)
-        {
-            MouseDoubleClick += HandleMouseDoubleClick;
         }
 
         public override void AcceptDrop(ModelElement element)
@@ -53,7 +42,7 @@ namespace GUI.RequirementSetDiagram
             Paragraph paragraph = element as Paragraph;
             if (paragraph != null)
             {
-                if (!paragraph.AppendToRequirementSet(Model))
+                if (!paragraph.AppendToRequirementSet(TypedModel))
                 {
                     MessageBox.Show(
                         Resources.RequirementSetControl_AcceptDrop_Paragraph_not_added_to_the_requirement_set_because_it_already_belongs_to_it,
@@ -63,22 +52,24 @@ namespace GUI.RequirementSetDiagram
                 }
             }
         }
-        
+
         /// <summary>
         ///     Handles a double click event on the control
         /// </summary>
         /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void HandleMouseDoubleClick(object sender, MouseEventArgs e)
+        /// <param name="mouseEventArgs"></param>
+        public override void HandleDoubleClick(object sender, MouseEventArgs mouseEventArgs)
         {
+            base.HandleDoubleClick(sender, mouseEventArgs);
+
             RequirementSetPanel panel = (RequirementSetPanel) Panel;
             if (panel != null)
             {
                 RequirementSetDiagramWindow window = new RequirementSetDiagramWindow();
                 GuiUtils.MdiWindow.AddChildWindow(window);
-                window.Text = Model.Name;
-                OpenRequirementSetOperation openRequirementSet = new OpenRequirementSetOperation(window, Model);
-                openRequirementSet.ExecuteUsingProgressDialog("Opening requirement set " + Name);
+                window.Text = TypedModel.Name;
+                OpenRequirementSetOperation openRequirementSet = new OpenRequirementSetOperation(window, TypedModel);
+                openRequirementSet.ExecuteUsingProgressDialog("Opening requirement set " + TypedModel.Name);
             }
         }
 
@@ -108,10 +99,15 @@ namespace GUI.RequirementSetDiagram
             g.FillRectangle(new SolidBrush(NormalColor), Location.X, Location.Y, Width, Height);
             g.DrawRectangle(NormalPen, Location.X, Location.Y, Width, Height);
 
+            string name = GuiUtils.AdjustForDisplay(TypedModel.GraphicalName, Width, Font);
+            SizeF textSize = g.MeasureString(name, Font);
+            g.DrawString(name, Font, new SolidBrush(NormalPen.Color), Location.X + Width / 2 - textSize.Width / 2,
+                Location.Y + Height / 2 - Font.Height / 2);
+            
             // Draws the completion box
             g.DrawRectangle(NormalPen, Location.X + 10, Location.Y + Height - 20, Width - 20, 10);
             Paragraph.ParagraphSetMetrics metrics;
-            if (((RequirementSetPanel) Panel).Metrics.TryGetValue(Model, out metrics))
+            if (((RequirementSetPanel) Panel).Metrics.TryGetValue(TypedModel, out metrics))
             {
                 FillCompletion(g, metrics.ImplementedCount, metrics.ImplementableCount, ImplementedColor, 10);
                 FillCompletion(g, metrics.TestedCount, metrics.ImplementableCount, TestedColor, 5);                

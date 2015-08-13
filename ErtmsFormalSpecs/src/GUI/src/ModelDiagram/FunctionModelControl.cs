@@ -26,8 +26,10 @@ namespace GUI.ModelDiagram
         /// <summary>
         ///     Constructor
         /// </summary>
-        public FunctionModelControl(Function model)
-            : base(model)
+        /// <param name="panel"></param>
+        /// <param name="model"></param>
+        public FunctionModelControl(ModelDiagramPanel panel, Function model)
+            : base(panel, model)
         {
         }
 

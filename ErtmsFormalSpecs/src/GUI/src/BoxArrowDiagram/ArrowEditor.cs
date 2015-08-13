@@ -14,31 +14,35 @@
 // --
 // ------------------------------------------------------------------------------
 
-using DataDictionary.Types;
+using System.ComponentModel;
+using DataDictionary;
 
-namespace GUI.ModelDiagram
+namespace GUI.BoxArrowDiagram
 {
     /// <summary>
-    ///     The boxes that represent an enumeration
+    ///     An arrow editor
     /// </summary>
-    public class EnumModelControl : TypeModelControl
+    public class ArrowEditor<TEnclosing, TBoxModel, TArrowModel>
+        where TEnclosing : class
+        where TBoxModel : class, IGraphicalDisplay
+        where TArrowModel : class, IGraphicalArrow<TBoxModel>
     {
+        public ArrowControl<TEnclosing, TBoxModel, TArrowModel> Control;
+
         /// <summary>
         ///     Constructor
         /// </summary>
-        /// <param name="panel"></param>
-        /// <param name="model"></param>
-        public EnumModelControl(ModelDiagramPanel panel, Enum model)
-            : base(panel, model)
+        /// <param name="control"></param>
+        public ArrowEditor(ArrowControl<TEnclosing, TBoxModel, TArrowModel> control)
         {
+            Control = control;
         }
 
-        /// <summary>
-        ///     The name of the kind of type
-        /// </summary>
-        public override string ModelName
+        [Category("Description")]
+        public string Name
         {
-            get { return "Enumeration"; }
+            get { return Control.TypedModel.GraphicalName; }
         }
     }
+
 }

@@ -27,8 +27,10 @@ namespace GUI.ModelDiagram
         /// <summary>
         ///     Constructor
         /// </summary>
-        protected TypeModelControl(Type model)
-            : base(model)
+        /// <param name="panel"></param>
+        /// <param name="model"></param>
+        protected TypeModelControl(ModelDiagramPanel panel, Type model)
+            : base(panel, model)
         {
             NormalColor = Color.LightSteelBlue;
         }

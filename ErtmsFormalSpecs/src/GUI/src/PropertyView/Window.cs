@@ -55,10 +55,10 @@ namespace GUI.PropertyView
                 }
                 else
                 {
-                    BaseBoxArrowWindow boxArrowWindow = GuiUtils.EnclosingFinder<BaseBoxArrowWindow>.Find(context.Sender as Control);
-                    if (boxArrowWindow != null)
+                    BaseBoxArrowPanel panel = GuiUtils.EnclosingFinder<BaseBoxArrowPanel>.Find(context.Sender as Control);
+                    if (panel != null)
                     {
-                        propertyGrid.SelectedObject = boxArrowWindow.CreateEditor(context.Element);
+                        propertyGrid.SelectedObject = panel.CreateEditor(context.Element);
                     }
                 }
             }

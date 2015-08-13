@@ -13,6 +13,9 @@
 // -- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 // --
 // ------------------------------------------------------------------------------
+
+using System.Windows.Forms;
+
 namespace GUI.BoxArrowDiagram
 {
     partial class BoxArrowPanel<TEnclosing, TBoxModel, TArrowModel>
@@ -44,35 +47,20 @@ namespace GUI.BoxArrowDiagram
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.contextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.pleaseWaitLabel = new System.Windows.Forms.Label();
+            this.pictureBox = new PictureBox();
             this.SuspendLayout();
-            // 
-            // contextMenu
-            // 
-            this.contextMenu.Name = "contextMenu";
-            this.contextMenu.Size = new System.Drawing.Size(61, 4);
-            // 
-            // pleaseWaitLabel
-            // 
-            this.pleaseWaitLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pleaseWaitLabel.Location = new System.Drawing.Point(0, 0);
-            this.pleaseWaitLabel.Name = "pleaseWaitLabel";
-            this.pleaseWaitLabel.Size = new System.Drawing.Size(100, 23);
-            this.pleaseWaitLabel.TabIndex = 0;
-            this.pleaseWaitLabel.Text = "Building model, please wait...";
-            this.pleaseWaitLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // BoxArrowPanel
             // 
             this.AutoScroll = true;
-            this.ContextMenuStrip = this.contextMenu;
-            this.ResumeLayout(false);
+            this.AutoSize = true;
 
+            // this.Controls.Add(scrollLabel);
+            this.Controls.Add(pictureBox);
+            this.ResumeLayout(false);
         }
 
-        protected System.Windows.Forms.ContextMenuStrip contextMenu;
+        protected PictureBox pictureBox;
         #endregion
-        private System.Windows.Forms.Label pleaseWaitLabel;
     }
 }

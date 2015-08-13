@@ -26,8 +26,10 @@ namespace GUI.ModelDiagram
         /// <summary>
         ///     Constructor
         /// </summary>
-        public StructureModelControl(Structure model)
-            : base(model)
+        /// <param name="panel"></param>
+        /// <param name="model"></param>
+        public StructureModelControl(ModelDiagramPanel panel, Structure model)
+            : base(panel, model)
         {
         }
 

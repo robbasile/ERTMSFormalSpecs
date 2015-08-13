@@ -92,8 +92,9 @@
     <Compile Include="src\BaseTreeView.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="src\BoxArrowDiagram\BaseBoxArrowWindow.cs">
-      <SubType>Form</SubType>
+    <Compile Include="src\BoxArrowDiagram\ArrowEditor.cs" />
+    <Compile Include="src\BoxArrowDiagram\BaseBoxArrowPanel.cs">
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="src\BoxArrowDiagram\BoxArrowWindow.cs">
       <SubType>Form</SubType>
@@ -101,6 +102,8 @@
     <Compile Include="src\BoxArrowDiagram\BoxArrowWindow.Designer.cs">
       <DependentUpon>BoxArrowWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="src\BoxArrowDiagram\BoxEditor.cs" />
+    <Compile Include="src\BoxArrowDiagram\GraphicElement.cs" />
     <Compile Include="src\Converters\CommentableUITypeConverter.cs" />
     <Compile Include="src\Converters\CommentableUITypedEditor.cs" />
     <Compile Include="src\Converters\VariableValueUITypeConverter.cs" />
@@ -110,26 +113,18 @@
     <Compile Include="src\Converters\TypeUITypeConverter.cs" />
     <Compile Include="src\Converters\TypeUITypedEditor.cs" />
     <Compile Include="src\BoxArrowDiagram\Span.cs" />
-    <Compile Include="src\BoxArrowDiagram\BoxControl.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="src\BoxArrowDiagram\BoxControl.Designer.cs">
-      <DependentUpon>BoxControl.cs</DependentUpon>
-    </Compile>
+    <Compile Include="src\BoxArrowDiagram\BoxControl.cs" />
     <Compile Include="src\BoxArrowDiagram\BoxArrowPanel.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="src\BoxArrowDiagram\BoxArrowPanel.Designer.cs">
       <DependentUpon>BoxArrowPanel.cs</DependentUpon>
     </Compile>
-    <Compile Include="src\BoxArrowDiagram\ArrowControl.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="src\BoxArrowDiagram\ArrowControl.Designer.cs">
-      <DependentUpon>ArrowControl.cs</DependentUpon>
-    </Compile>
+    <Compile Include="src\BoxArrowDiagram\ArrowControl.cs" />
     <Compile Include="src\DataDictionaryView\StructureInterfacesTreeNode.cs" />
     <Compile Include="src\EditorView\ParagraphTextChangeHandler.cs" />
+    <Compile Include="src\FunctionalView\AccessModeEditor.cs" />
+    <Compile Include="src\FunctionalView\NameSpaceEditor.cs" />
     <Compile Include="src\GraphView\EfsProfileFunction.cs" />
     <Compile Include="src\GraphView\EfsProfileFunctionGraph.cs" />
     <Compile Include="src\GraphView\EfsSurfaceFunction.cs" />
@@ -141,48 +136,20 @@
     <Compile Include="src\LongOperations\RefreshModel.cs" />
     <Compile Include="src\LongOperations\RefactorOperation.cs" />
     <Compile Include="src\LongOperations\CloseDictionary.cs" />
-    <Compile Include="src\ModelDiagram\CollectionModelControl.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="src\ModelDiagram\InterfaceModelControl.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="src\ModelDiagram\TypeModelControl.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="src\ModelDiagram\RuleModelControl.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="src\ModelDiagram\StateMachineModelControl.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="src\ModelDiagram\EnumModelControl.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="src\ModelDiagram\RangeModelControl.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="src\ModelDiagram\StructureModelControl.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="src\ModelDiagram\ProcedureModelControl.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="src\ModelDiagram\FunctionModelControl.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="src\ModelDiagram\VariableModelControl.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="src\ModelDiagram\NameSpaceModelControl.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="src\ModelDiagram\ModelArrowControl.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="src\ModelDiagram\ModelControl.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="src\ModelDiagram\CollectionModelControl.cs" />
+    <Compile Include="src\ModelDiagram\InterfaceModelControl.cs" />
+    <Compile Include="src\ModelDiagram\TypeModelControl.cs" />
+    <Compile Include="src\ModelDiagram\RuleModelControl.cs" />
+    <Compile Include="src\ModelDiagram\StateMachineModelControl.cs" />
+    <Compile Include="src\ModelDiagram\EnumModelControl.cs" />
+    <Compile Include="src\ModelDiagram\RangeModelControl.cs" />
+    <Compile Include="src\ModelDiagram\StructureModelControl.cs" />
+    <Compile Include="src\ModelDiagram\ProcedureModelControl.cs" />
+    <Compile Include="src\ModelDiagram\FunctionModelControl.cs" />
+    <Compile Include="src\ModelDiagram\VariableModelControl.cs" />
+    <Compile Include="src\ModelDiagram\NameSpaceModelControl.cs" />
+    <Compile Include="src\ModelDiagram\ModelArrowControl.cs" />
+    <Compile Include="src\ModelDiagram\ModelControl.cs" />
     <Compile Include="src\ModelDiagram\ModelDiagramPanel.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -198,6 +165,8 @@
     <Compile Include="src\Report\Frm_FindingsReport.Designer.cs">
       <DependentUpon>Frm_FindingsReport.cs</DependentUpon>
     </Compile>
+    <Compile Include="src\RequirementSetDiagram\RequirementSetEditor.cs" />
+    <Compile Include="src\RequirementSetDiagram\TransitionEditor.cs" />
     <Compile Include="src\SelectionHistory\Window.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -244,18 +213,14 @@
     <Compile Include="src\PropertyView\Window.Designer.cs">
       <DependentUpon>Window.cs</DependentUpon>
     </Compile>
-    <Compile Include="src\RequirementSetDiagram\RequirementSetControl.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="src\RequirementSetDiagram\RequirementSetControl.cs" />
     <Compile Include="src\RequirementSetDiagram\RequirementSetDiagramWindow.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="src\RequirementSetDiagram\RequirementSetPanel.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="src\RequirementSetDiagram\RequirementSetDependancyControl.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="src\RequirementSetDiagram\RequirementSetDependancyControl.cs" />
     <Compile Include="src\DataDictionaryView\StateRulesTreeNode.cs" />
     <Compile Include="src\DataDictionaryView\StateSubStatesTreeNode.cs" />
     <Compile Include="src\DataDictionaryView\StructureProceduresTreeNode.cs" />
@@ -281,18 +246,14 @@
     </Compile>
     <Compile Include="src\Converters\ExpressionableUITypeConverter.cs" />
     <Compile Include="src\Converters\ExpressionableUITypedEditor.cs" />
-    <Compile Include="src\FunctionalView\FunctionalBlockControl.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="src\FunctionalView\FunctionalBlockControl.cs" />
     <Compile Include="src\FunctionalView\FunctionalAnalysisWindow.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="src\FunctionalView\FunctionalAnalysisPanel.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="src\FunctionalView\AccessToControl.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="src\FunctionalView\AccessToControl.cs" />
     <Compile Include="src\FunctionsPerformances\FunctionsPerformances.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -479,18 +440,16 @@
     <Compile Include="src\SpecificationView\RequirementSetsTreeView.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="src\StateDiagram\StateControl.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="src\StateDiagram\StateControl.cs" />
     <Compile Include="src\StateDiagram\StateDiagramWindow.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="src\StateDiagram\StateEditor.cs" />
     <Compile Include="src\StateDiagram\StatePanel.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="src\StateDiagram\TransitionControl.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="src\StateDiagram\TransitionControl.cs" />
+    <Compile Include="src\StateDiagram\TransitionEditor.cs" />
     <Compile Include="src\Status\StatusHandler.cs" />
     <Compile Include="src\StructureEditor\Window.cs">
       <SubType>Form</SubType>
@@ -621,12 +580,10 @@
     </EmbeddedResource>
     <EmbeddedResource Include="src\BoxArrowDiagram\BoxArrowPanel.resx">
       <DependentUpon>BoxArrowPanel.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="src\BoxArrowDiagram\BoxArrowWindow.resx">
       <DependentUpon>BoxArrowWindow.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="src\BoxArrowDiagram\ArrowControl.resx">
-      <DependentUpon>ArrowControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="src\EditorView\CommentWindow.resx">
       <DependentUpon>CommentWindow.cs</DependentUpon>

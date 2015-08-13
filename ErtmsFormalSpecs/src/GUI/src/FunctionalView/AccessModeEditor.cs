@@ -14,31 +14,25 @@
 // --
 // ------------------------------------------------------------------------------
 
+using DataDictionary;
 using DataDictionary.Types;
+using DataDictionary.Types.AccessMode;
+using GUI.BoxArrowDiagram;
 
-namespace GUI.ModelDiagram
+namespace GUI.FunctionalView
 {
     /// <summary>
-    ///     The boxes that represent an enumeration
+    ///     An arrow editor
     /// </summary>
-    public class EnumModelControl : TypeModelControl
+    public class AccessModeEditor : ArrowEditor<IEnclosesNameSpaces, NameSpace, AccessMode>
     {
         /// <summary>
         ///     Constructor
         /// </summary>
-        /// <param name="panel"></param>
-        /// <param name="model"></param>
-        public EnumModelControl(ModelDiagramPanel panel, Enum model)
-            : base(panel, model)
+        /// <param name="control"></param>
+        public AccessModeEditor(ArrowControl<IEnclosesNameSpaces, NameSpace, AccessMode> control)
+            : base(control)
         {
-        }
-
-        /// <summary>
-        ///     The name of the kind of type
-        /// </summary>
-        public override string ModelName
-        {
-            get { return "Enumeration"; }
         }
     }
 }

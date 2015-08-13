@@ -48,10 +48,7 @@ namespace GUI.FunctionalView
         /// <returns></returns>
         public override BoxControl<IEnclosesNameSpaces, NameSpace, AccessMode> CreateBox(NameSpace model)
         {
-            BoxControl<IEnclosesNameSpaces, NameSpace, AccessMode> retVal = new FunctionalBlockControl();
-            retVal.Model = model;
-
-            return retVal;
+            return new FunctionalBlockControl(this, model);
         }
 
         /// <summary>
@@ -61,10 +58,7 @@ namespace GUI.FunctionalView
         /// <returns></returns>
         public override ArrowControl<IEnclosesNameSpaces, NameSpace, AccessMode> CreateArrow(AccessMode model)
         {
-            ArrowControl<IEnclosesNameSpaces, NameSpace, AccessMode> retVal = new AccessToControl();
-            retVal.Model = model;
-
-            return retVal;
+            return new AccessToControl(this, model);
         }
 
         /// <summary>
@@ -95,6 +89,26 @@ namespace GUI.FunctionalView
         public override List<AccessMode> GetArrows()
         {
             return IEnclosesNameSpacesUtils.getAccesses(NameSpaceContainer.EFSSystem, NameSpaceContainer);
+        }
+
+        /// <summary>
+        ///     Factory for BoxEditor
+        /// </summary>
+        /// <param name="control"></param>
+        /// <returns></returns>
+        protected override BoxEditor<IEnclosesNameSpaces, NameSpace, AccessMode> CreateBoxEditor(BoxControl<IEnclosesNameSpaces, NameSpace, AccessMode> control)
+        {
+            return new NameSpaceEditor(control);
+        }
+
+        /// <summary>
+        ///     Factory for arrow editor
+        /// </summary>
+        /// <param name="control"></param>
+        /// <returns></returns>
+        protected override ArrowEditor<IEnclosesNameSpaces, NameSpace, AccessMode> CreateArrowEditor(ArrowControl<IEnclosesNameSpaces, NameSpace, AccessMode> control)
+        {
+            return new AccessModeEditor(control);
         }
     }
 }

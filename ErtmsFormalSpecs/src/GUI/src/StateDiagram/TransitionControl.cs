@@ -14,7 +14,6 @@
 // --
 // ------------------------------------------------------------------------------
 
-using System.ComponentModel;
 using DataDictionary.Constants;
 using DataDictionary.Rules;
 using DataDictionary.Tests.Runner;
@@ -29,17 +28,9 @@ namespace GUI.StateDiagram
         /// <summary>
         ///     Constructor
         /// </summary>
-        public TransitionControl()
+        public TransitionControl(StatePanel panel, Transition model )
+            :  base(panel, model)
         {
-        }
-
-        /// <summary>
-        ///     Constructor
-        /// </summary>
-        /// <param name="container"></param>
-        public TransitionControl(IContainer container)
-        {
-            container.Add(this);
         }
 
         /// <summary>
@@ -52,10 +43,10 @@ namespace GUI.StateDiagram
 
             if (!retVal)
             {
-                if (Name.CompareTo("Initial State") != 0)
+                if (TypedModel.GraphicalName.CompareTo(Transition.InitialTransitionName) != 0)
                 {
-                    StateMachine transitionStateMachine = EnclosingFinder<StateMachine>.find(Model.RuleCondition);
-                    if (transitionStateMachine == null && Name.CompareTo("Initial State") != 0)
+                    StateMachine transitionStateMachine = EnclosingFinder<StateMachine>.find(TypedModel.RuleCondition);
+                    if (transitionStateMachine == null)
                     {
                         // A deduced case is a arrow that is not defined in any state machine
                         retVal = true;
@@ -63,8 +54,8 @@ namespace GUI.StateDiagram
                     else
                     {
                         StatePanel panel = (StatePanel) Panel;
-                        if (Model.RuleCondition != null &&
-                            panel.Model.Rules.Contains(Model.RuleCondition.EnclosingRule))
+                        if (TypedModel.RuleCondition != null &&
+                            panel.Model.Rules.Contains(TypedModel.RuleCondition.EnclosingRule))
                         {
                             // A deduced case is a arrow that is defined in the rules of the state machines (not in its states)
                             retVal = true;
@@ -86,13 +77,13 @@ namespace GUI.StateDiagram
 
             if (!retVal)
             {
-                if (Model.RuleCondition != null)
+                if (TypedModel.RuleCondition != null)
                 {
-                    Runner runner = Model.RuleCondition.EFSSystem.Runner;
+                    Runner runner = TypedModel.RuleCondition.EFSSystem.Runner;
                     if (runner != null)
                     {
                         StatePanel panel = (StatePanel) Panel;
-                        if (runner.RuleActivatedAtTime(Model.RuleCondition, runner.LastActivationTime,
+                        if (runner.RuleActivatedAtTime(TypedModel.RuleCondition, runner.LastActivationTime,
                             panel.StateMachineVariable))
                         {
                             retVal = true;
@@ -112,13 +103,13 @@ namespace GUI.StateDiagram
         {
             string retVal = "<Unknown>";
 
-            if (Model.Target != null)
+            if (TypedModel.Target != null)
             {
-                retVal = Model.Target.FullName;
+                retVal = TypedModel.Target.FullName;
             }
             else
             {
-                State targetState = Model.Update.Expression.Ref as State;
+                State targetState = TypedModel.Update.Expression.Ref as State;
                 if (targetState != null)
                 {
                     retVal = targetState.LiteralName;

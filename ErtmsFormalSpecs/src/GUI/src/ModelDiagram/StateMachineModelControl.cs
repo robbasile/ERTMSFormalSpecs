@@ -26,8 +26,10 @@ namespace GUI.ModelDiagram
         /// <summary>
         ///     Constructor
         /// </summary>
-        public StateMachineModelControl(StateMachine model)
-            : base(model)
+        /// <param name="panel"></param>
+        /// <param name="model"></param>
+        public StateMachineModelControl(ModelDiagramPanel panel, StateMachine model)
+            : base(panel, model)
         {
         }
 

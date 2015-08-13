@@ -27,8 +27,10 @@ namespace GUI.ModelDiagram
         /// <summary>
         ///     Constructor
         /// </summary>
-        public NameSpaceModelControl(NameSpace model)
-            : base(model)
+        /// <param name="panel"></param>
+        /// <param name="model"></param>
+        public NameSpaceModelControl(ModelDiagramPanel panel, NameSpace model)
+            : base(panel, model)
         {
             NormalColor = Color.LightGreen;
             BoxMode = BoxModeEnum.RoundedCorners;

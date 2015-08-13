@@ -27,8 +27,10 @@ namespace GUI.ModelDiagram
         /// <summary>
         ///     Constructor
         /// </summary>
-        public RuleModelControl(Rule model)
-            : base(model)
+        /// <param name="panel"></param>
+        /// <param name="model"></param>
+        public RuleModelControl(ModelDiagramPanel panel, Rule model)
+            : base(panel, model)
         {
             BoxMode = BoxModeEnum.RoundedCorners;
             NormalColor = Color.LightBlue;

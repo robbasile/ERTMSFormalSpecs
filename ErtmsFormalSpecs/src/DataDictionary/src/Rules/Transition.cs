@@ -94,7 +94,6 @@ namespace DataDictionary.Rules
         /// <summary>
         ///     Constructor
         /// </summary>
-        /// <param name="rule"></param>
         /// <param name="preCondition">The precondition which setup the initial state</param>
         /// <param name="initialState">The initial stae of this transition</param>
         /// <param name="update">The statement which set up the target state</param>
@@ -123,7 +122,7 @@ namespace DataDictionary.Rules
         /// <summary>
         ///     Updates (if possible) the initial state for this transition
         /// </summary>
-        /// <param name="initialState"></param>
+        /// <param name="initialBox"></param>
         public void SetInitialBox(IGraphicalDisplay initialBox)
         {
             State initialState = (State) initialBox;
@@ -153,29 +152,32 @@ namespace DataDictionary.Rules
                 else
                 {
                     RuleCondition ruleCondition = Action.Enclosing as RuleCondition;
-                    Rule rule = ruleCondition.EnclosingRule;
-
-                    if (EnclosingFinder<State>.find(rule) == Source)
+                    if (ruleCondition != null)
                     {
-                        if (rule.RuleConditions.Count == 1)
+                        Rule rule = ruleCondition.EnclosingRule;
+
+                        if (EnclosingFinder<State>.find(rule) == Source)
                         {
-                            Source.StateMachine.removeRules(rule);
-                            Source = initialState;
-                            Source.StateMachine.appendRules(rule);
+                            if (rule.RuleConditions.Count == 1)
+                            {
+                                Source.StateMachine.removeRules(rule);
+                                Source = initialState;
+                                Source.StateMachine.appendRules(rule);
+                            }
+                            else
+                            {
+                                rule.removeConditions(ruleCondition);
+                                Source = initialState;
+                                Rule newRule = (Rule) acceptor.getFactory().createRule();
+                                newRule.Name = rule.Name;
+                                newRule.appendConditions(ruleCondition);
+                                Source.StateMachine.appendRules(newRule);
+                            }
                         }
                         else
                         {
-                            rule.removeConditions(ruleCondition);
-                            Source = initialState;
-                            Rule newRule = (Rule) acceptor.getFactory().createRule();
-                            newRule.Name = rule.Name;
-                            newRule.appendConditions(ruleCondition);
-                            Source.StateMachine.appendRules(newRule);
+                            throw new CannotChangeRuleException("Action is not defined directly in the state");
                         }
-                    }
-                    else
-                    {
-                        throw new CannotChangeRuleException("Action is not defined directly in the state");
                     }
                 }
             }
@@ -185,7 +187,7 @@ namespace DataDictionary.Rules
         /// <summary>
         ///     Updates (if possible) the target state of this transition
         /// </summary>
-        /// <param name="targetState"></param>
+        /// <param name="targetBox"></param>
         public void SetTargetBox(IGraphicalDisplay targetBox)
         {
             State targetState = (State) targetBox;
@@ -201,18 +203,18 @@ namespace DataDictionary.Rules
         ///     Provides the name of the target state
         /// </summary>
         /// <returns></returns>
-        public string getTargetStateName()
+        public string GetTargetStateName()
         {
             string retVal = "<Unknown>";
 
-            State TargetState = Target;
-            if (TargetState != null)
+            State targetState = Target;
+            if (targetState != null)
             {
-                retVal = TargetState.FullName;
+                retVal = targetState.FullName;
             }
             else
             {
-                State targetState = Update.Expression.Ref as State;
+                targetState = Update.Expression.Ref as State;
                 if (targetState != null)
                 {
                     retVal = targetState.LiteralName;
@@ -229,13 +231,13 @@ namespace DataDictionary.Rules
         {
             get
             {
-                string retVal = "";
+                string retVal;
 
                 if (RuleCondition != null)
                 {
                     if ((RuleCondition.Name == null) || (RuleCondition.Name.Equals("")))
                     {
-                        retVal = "unnamed transition";
+                        retVal = UnnamedTransitionName;
                     }
                     else
                     {
@@ -244,11 +246,21 @@ namespace DataDictionary.Rules
                 }
                 else
                 {
-                    retVal = "Initial state";
+                    retVal = InitialTransitionName;
                 }
 
                 return retVal;
             }
         }
+
+        /// <summary>
+        /// The name of the initial transition
+        /// </summary>
+        public static string InitialTransitionName = "Initial state";
+
+        /// <summary>
+        /// The name of an unnamed transition
+        /// </summary>
+        public static string UnnamedTransitionName = "<Unnamed transition>";
     }
 }

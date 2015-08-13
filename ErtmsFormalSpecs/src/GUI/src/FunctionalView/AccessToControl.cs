@@ -14,7 +14,6 @@
 // --
 // ------------------------------------------------------------------------------
 
-using System.ComponentModel;
 using System.Drawing;
 using DataDictionary;
 using DataDictionary.Interpreter;
@@ -29,27 +28,25 @@ namespace GUI.FunctionalView
         /// <summary>
         ///     Constructor
         /// </summary>
-        public AccessToControl()
+        /// <param name="panel"></param>
+        /// <param name="model"></param>
+        public AccessToControl(FunctionalAnalysisPanel panel, AccessMode model) 
+            : base(panel, model)
         {
             ArrowMode = ArrowModeEnum.Half;
             ArrowFill = ArrowFillEnum.Fill;
         }
+        
 
         /// <summary>
-        ///     Constructor
+        /// The model on which this element is related
         /// </summary>
-        /// <param name="container"></param>
-        public AccessToControl(IContainer container)
+        public override object Model
         {
-            container.Add(this);
-        }
-
-        public override AccessMode Model
-        {
-            get { return base.Model; }
             set
             {
                 base.Model = value;
+
                 AccessToVariable accessToVariable = value as AccessToVariable;
                 if (accessToVariable != null)
                 {
@@ -82,9 +79,9 @@ namespace GUI.FunctionalView
         {
             string retVal = "<Unknown>";
 
-            if (Model.Target != null)
+            if (TypedModel.Target != null)
             {
-                retVal = Model.Target.FullName;
+                retVal = TypedModel.Target.FullName;
             }
 
             return retVal;

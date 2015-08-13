@@ -14,8 +14,6 @@
 // --
 // ------------------------------------------------------------------------------
 
-using System.ComponentModel;
-using System.Drawing;
 using System.Windows.Forms;
 using DataDictionary;
 using DataDictionary.Types;
@@ -30,39 +28,30 @@ namespace GUI.FunctionalView
         /// <summary>
         ///     Constructor
         /// </summary>
-        public FunctionalBlockControl()
+        /// <param name="panel"></param>
+        /// <param name="model"></param>
+        public FunctionalBlockControl(FunctionalAnalysisPanel panel, NameSpace model)
+            : base(panel, model)
         {
             BoxMode = BoxModeEnum.RoundedCorners;
-            BackColor = Color.Transparent;
-            MouseDoubleClick += HandleMouseDoubleClick;
-        }
-
-        /// <summary>
-        ///     Constructor
-        /// </summary>
-        /// <param name="container"></param>
-        public FunctionalBlockControl(IContainer container)
-            : base(container)
-        {
-            BoxMode = BoxModeEnum.RoundedCorners;
-            BackColor = Color.Transparent;
-            MouseDoubleClick += HandleMouseDoubleClick;
         }
 
         /// <summary>
         ///     Handles a double click event on the control
         /// </summary>
         /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void HandleMouseDoubleClick(object sender, MouseEventArgs e)
+        /// <param name="mouseEventArgs"></param>
+        public override void HandleDoubleClick(object sender, MouseEventArgs mouseEventArgs)
         {
+            base.HandleDoubleClick(sender, mouseEventArgs);
+
             FunctionalAnalysisPanel panel = (FunctionalAnalysisPanel) Panel;
             if (panel != null)
             {
                 FunctionalAnalysisWindow window = new FunctionalAnalysisWindow();
                 GuiUtils.MdiWindow.AddChildWindow(window);
-                window.SetNameSpaceContainer(Model);
-                window.Text = Model.Name + @" " +
+                window.SetNameSpaceContainer(TypedModel);
+                window.Text = TypedModel.Name + @" " +
                               Resources.FunctionalBlockControl_HandleMouseDoubleClick_functional_analysis;
             }
         }

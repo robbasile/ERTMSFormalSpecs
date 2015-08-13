@@ -29,19 +29,10 @@ namespace GUI.ModelDiagram
         /// <summary>
         ///     Constructor
         /// </summary>
-        protected ModelControl(IGraphicalDisplay model)
+        protected ModelControl(ModelDiagramPanel panel, IGraphicalDisplay model)
+            : base(panel, model)
         {
-            Model = model;
-            BoxMode = BoxModeEnum.Rectangle;
-        }
-
-        /// <summary>
-        ///     Avoid the control displaying the graphical name itself.
-        ///     Tt shall be done during the PaintInBoxArrowPanel method
-        /// </summary>
-        public override string Text
-        {
-            get { return ""; }
+            BoxMode = BoxModeEnum.Custom;
         }
 
         /// <summary>
@@ -53,17 +44,24 @@ namespace GUI.ModelDiagram
         {
             base.PaintInBoxArrowPanel(graphics);
 
+            if (BoxMode == BoxModeEnum.Custom)
+            {
+                // Create the box
+                Brush innerBrush = new SolidBrush(NormalColor);
+                graphics.FillRectangle(innerBrush, Location.X, Location.Y, Width, Height);
+            }
+
+            // Write the text
             Font bold = new Font(Font, FontStyle.Bold);
 
             string typeName = GuiUtils.AdjustForDisplay(ModelName, Width - 4, bold);
             Brush textBrush = new SolidBrush(Color.Black);
             graphics.DrawString(typeName, bold, textBrush, Location.X + 2, Location.Y + 2);
-            Pen border = new Pen(Color.Black);
-            graphics.DrawLine(border, new Point(Location.X, Location.Y + Font.Height + 2),
+            graphics.DrawLine(NormalPen, new Point(Location.X, Location.Y + Font.Height + 2),
                 new Point(Location.X + Width, Location.Y + Font.Height + 2));
 
             // Center the element name
-            string name = GuiUtils.AdjustForDisplay(Model.GraphicalName, Width, Font);
+            string name = GuiUtils.AdjustForDisplay(TypedModel.GraphicalName, Width, Font);
             SizeF textSize = graphics.MeasureString(name, Font);
             int boxHeight = Height - bold.Height - 4;
             graphics.DrawString(name, Font, textBrush, Location.X + Width/2 - textSize.Width/2,

@@ -14,22 +14,41 @@
 // --
 // ------------------------------------------------------------------------------
 
-using System;
-using System.ComponentModel;
 using System.Drawing;
-using System.Windows.Forms;
 using DataDictionary;
-using DataDictionary.Generated;
-using GUI.Properties;
 using ModelElement = Utils.ModelElement;
 
 namespace GUI.BoxArrowDiagram
 {
-    public partial class BoxControl<TEnclosing, TBoxModel, TArrowModel> : Label
+    public class BoxControl<TEnclosing, TBoxModel, TArrowModel> : GraphicElement
         where TEnclosing : class
         where TBoxModel : class, IGraphicalDisplay
         where TArrowModel : class, IGraphicalArrow<TBoxModel>
     {
+
+        /// <summary>
+        ///     Constructor
+        /// </summary>
+        /// <param name="panel"></param>
+        /// <param name="model"></param>
+        public BoxControl(BoxArrowPanel<TEnclosing, TBoxModel, TArrowModel> panel, TBoxModel model)
+            : base(panel, model)
+        {
+            BoxMode = BoxModeEnum.Rectangle3D;
+            Panel = panel;
+
+            if (TypedModel.Hidden)
+            {
+                Font = new Font(Font, FontStyle.Italic);
+                ForeColor = Color.Gray;
+            }
+            else
+            {
+                Font = new Font(Font, FontStyle.Regular);
+                ForeColor = Color.Black;
+            }
+        }
+
         /// <summary>
         ///     The mode of displaying boxes
         /// </summary>
@@ -37,7 +56,6 @@ namespace GUI.BoxArrowDiagram
         {
             Custom,
             Rectangle3D,
-            Rectangle,
             RoundedCorners
         };
 
@@ -47,65 +65,42 @@ namespace GUI.BoxArrowDiagram
         protected BoxModeEnum BoxMode { get; set; }
 
         /// <summary>
-        ///     The grid size used to place boxes
-        /// </summary>
-        public int GridSize = 10;
-
-        /// <summary>
         ///     Provides the enclosing box-arrow panel
         /// </summary>
-        public BoxArrowPanel<TEnclosing, TBoxModel, TArrowModel> Panel
-        {
-            get { return GuiUtils.EnclosingFinder<BoxArrowPanel<TEnclosing, TBoxModel, TArrowModel>>.Find(this); }
-        }
-
-        /// <summary>
-        ///     Provides the enclosing form
-        /// </summary>
-        public Form EnclosingForm
-        {
-            get { return GuiUtils.EnclosingFinder<Form>.Find(this); }
-        }
+        public BoxArrowPanel<TEnclosing, TBoxModel, TArrowModel> Panel { get; private set; }
 
         /// <summary>
         ///     The model for this control
         /// </summary>
-        public virtual TBoxModel Model { get; set; }
+        public TBoxModel TypedModel
+        {
+            get { return Model as TBoxModel; }
+        }
 
         /// <summary>
-        ///     Refreshes the control according to the related model
+        /// The location of the box
         /// </summary>
-        public void RefreshControl()
+        public override Point Location
         {
-            Util.DontNotify(() =>
+            get { return new Point(TypedModel.X, TypedModel.Y); }
+            set
             {
-                if (Model.Width == 0 || Model.Height == 0)
-                {
-                    Size boxSize = Panel.DefaultBoxSize;
-                    Model.Width = boxSize.Width;
-                    Model.Height = boxSize.Height;
+                TypedModel.X = value.X;
+                TypedModel.Y = value.Y;
+            }
+        }
 
-                    Point p = Panel.GetNextPosition(Model);
-                    Model.X = p.X;
-                    Model.Y = p.Y;
-                }
-                Size = new Size(Model.Width, Model.Height);
-                SetPosition(Model.X, Model.Y);
-
-                TextAlign = ContentAlignment.MiddleCenter;
-                if (Model.Hidden)
-                {
-                    Text = Model.GraphicalName + Resources.BoxControl_RefreshControl_;
-                    Font = new Font(Font, FontStyle.Italic);
-                    ForeColor = Color.Gray;
-                }
-                else
-                {
-                    Text = Model.GraphicalName;
-                    Font = new Font(Font, FontStyle.Regular);
-                    ForeColor = Color.Black;
-                }
-            });
+        /// <summary>
+        /// The size of the box
+        /// </summary>
+        public override Size Size
+        {
+            get { return new Size(TypedModel.Width, TypedModel.Height); }
+            set
+            {
+                TypedModel.Width = value.Width;
+                TypedModel.Height = value.Height;
+            }
         }
 
         /// <summary>
@@ -114,14 +109,6 @@ namespace GUI.BoxArrowDiagram
         /// <param name="color"></param>
         protected void SetColor(Color color)
         {
-            if (BoxMode == BoxModeEnum.RoundedCorners
-                || BoxMode == BoxModeEnum.Rectangle
-                || BoxMode == BoxModeEnum.Custom)
-            {
-                // The background color is handled manually
-                color = Color.Transparent;
-            }
-
             // ReSharper disable once RedundantCheckBeforeAssignment
             if (color != BackColor)
             {
@@ -165,7 +152,7 @@ namespace GUI.BoxArrowDiagram
         /// <returns></returns>
         public virtual bool IsHidden()
         {
-            return Model.Hidden;
+            return TypedModel.Hidden;
         }
 
         /// <summary>
@@ -201,13 +188,16 @@ namespace GUI.BoxArrowDiagram
             switch (BoxMode)
             {
                 case BoxModeEnum.Rectangle3D:
-                    g.DrawRectangle(pen, Location.X, Location.Y, Width, Height);
-                    break;
-
-                case BoxModeEnum.Rectangle:
                 {
                     Brush innerBrush = new SolidBrush(NormalColor);
                     g.FillRectangle(innerBrush, Location.X, Location.Y, Width, Height);
+                    g.DrawRectangle(pen, Location.X, Location.Y, Width, Height);
+
+                    // Center the element name
+                    string name = GuiUtils.AdjustForDisplay(TypedModel.GraphicalName, Width, Font);
+                    SizeF textSize = g.MeasureString(name, Font);
+                    g.DrawString(name, Font, new SolidBrush(NormalPen.Color), Location.X + Width / 2 - textSize.Width / 2,
+                        Location.Y + Height / 2 - Font.Height / 2);
                     break;
                 }
 
@@ -257,153 +247,8 @@ namespace GUI.BoxArrowDiagram
                     break;
                 }
             }
-
-            // Pinned or not
-            Image image;
-            if (Model.Pinned)
-            {
-                image = Panel.Images.Images[BoxArrowPanel<TEnclosing, TBoxModel, TArrowModel>.PinnedImageIndex];
-            }
-            else
-            {
-                image = Panel.Images.Images[BoxArrowPanel<TEnclosing, TBoxModel, TArrowModel>.UnPinnedImageIndex];
-            }
-            g.DrawImage(image, Location.X + Width - 16, Location.Y, 16, 16);
         }
-
-        /// <summary>
-        ///     Constructor
-        /// </summary>
-        public BoxControl()
-        {
-            InitializeComponent();
-
-            BoxMode = BoxModeEnum.Rectangle3D;
-            MouseDown += HandleMouseDown;
-            MouseUp += HandleMouseUp;
-            MouseMove += HandleMouseMove;
-            MouseClick += HandleMouseClick;
-            DoubleClick += HandleMouseDoubleClick;
-        }
-
-        /// <summary>
-        ///     Constructor
-        /// </summary>
-        /// <param name="container"></param>
-        public BoxControl(IContainer container)
-        {
-            container.Add(this);
-
-            BoxMode = BoxModeEnum.Rectangle3D;
-            InitializeComponent();
-            MouseDown += HandleMouseDown;
-            MouseUp += HandleMouseUp;
-            MouseMove += HandleMouseMove;
-            MouseClick += HandleMouseClick;
-        }
-
-        /// <summary>
-        ///     Selects the current box
-        /// </summary>
-        /// <param name="mouseEventArgs"></param>
-        public virtual void SelectBox(MouseEventArgs mouseEventArgs)
-        {
-            Context.SelectionCriteria criteria = GuiUtils.SelectionCriteriaBasedOnMouseEvent(mouseEventArgs);
-            EFSSystem.INSTANCE.Context.SelectElement(Model, Panel, criteria);
-        }
-
-        /// <summary>
-        ///     The location where the mouse down occured
-        /// </summary>
-        private Point _moveStartLocation;
-
-        /// <summary>
-        ///     The control location where the mouse down occured
-        /// </summary>
-        private Point _positionBeforeMove;
-
-        /// <summary>
-        ///     In a move operation ?
-        /// </summary>
-        private bool _moving;
-
-        /// <summary>
-        ///     Handles a mouse down event
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void HandleMouseDown(object sender, MouseEventArgs e)
-        {
-            _moving = true;
-            _moveStartLocation = e.Location;
-            _positionBeforeMove = new Point(Model.X, Model.Y);
-        }
-
-        /// <summary>
-        ///     Handles a mouse up event
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void HandleMouseUp(object sender, MouseEventArgs e)
-        {
-            _moving = false;
-            if (Model.X != _positionBeforeMove.X || Model.Y != _positionBeforeMove.Y)
-            {
-                EFSSystem.INSTANCE.Context.HandleChangeEvent(Model as BaseModelElement);
-            }
-        }
-
-        /// <summary>
-        ///     Handles a mouse move event, when
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void HandleMouseMove(object sender, MouseEventArgs e)
-        {
-            if (_moving)
-            {
-                Point mouseMoveLocation = e.Location;
-
-                int deltaX = mouseMoveLocation.X - _moveStartLocation.X;
-                int deltaY = mouseMoveLocation.Y - _moveStartLocation.Y;
-
-                if (Math.Abs(deltaX) > 5 || Math.Abs(deltaY) > 5)
-                {
-                    int newX = Model.X + deltaX;
-                    int newY = Model.Y + deltaY;
-                    if (Panel != null)
-                    {
-                        if (Panel.Location.X <= newX && Panel.Location.Y <= newY)
-                        {
-                            SetPosition(newX, newY);
-                        }
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        ///     Sets the position of the control, according to the X & Y provided
-        /// </summary>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        private void SetPosition(int x, int y)
-        {
-            Util.DontNotify(() =>
-            {
-                int posX = (x) / GridSize;
-                posX = posX * GridSize;
-
-                int posY = (y) / GridSize;
-                posY = posY * GridSize;
-
-                Model.X = posX;
-                Model.Y = posY;
-
-                Location = new Point(Model.X, Model.Y);                
-            });
-        }
-
+        
         /// <summary>
         ///     Provides the center of the box control
         /// </summary>
@@ -419,54 +264,7 @@ namespace GUI.BoxArrowDiagram
                 return retVal;
             }
         }
-
-        /// <summary>
-        ///     Handles a mouse click event
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="mouseEventArgs"></param>
-        private void HandleMouseClick(object sender, MouseEventArgs mouseEventArgs)
-        {
-            if (mouseEventArgs.Button == MouseButtons.Left)
-            {
-                if (mouseEventArgs.X >= Width - 18 && mouseEventArgs.Y <= 18)
-                {
-                    Model.Pinned = !Model.Pinned;
-                    Refresh();
-                }
-                else
-                {
-                    Context.SelectionCriteria criteria = GuiUtils.SelectionCriteriaBasedOnMouseEvent(mouseEventArgs);
-                    EFSSystem.INSTANCE.Context.SelectElement(Model, Panel, criteria);
-                }
-            }
-            else if ( mouseEventArgs.Button == MouseButtons.Right )            
-            {
-                // Show the context menu, according to the tree view of the base form
-                BaseForm baseForm = EnclosingForm as BaseForm;
-                if (baseForm != null && baseForm.TreeView != null)
-                {
-                    BaseTreeNode node = baseForm.TreeView.FindNode(Model, true);
-                    if (node != null)
-                    {
-                        ContextMenu menu = node.ContextMenu;
-                        menu.Show(this, mouseEventArgs.Location);
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// Handles a double click event
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void HandleMouseDoubleClick(object sender, EventArgs e)
-        {
-            Context.SelectionCriteria criteria = GuiUtils.SelectionCriteriaBasedOnMouseEvent(e as MouseEventArgs);
-            EFSSystem.INSTANCE.Context.SelectElement(Model, Panel, criteria);
-        }
-
+        
         /// <summary>
         ///     Provides the span of this control, over the X axis
         /// </summary>

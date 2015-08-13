@@ -14,7 +14,6 @@
 // --
 // ------------------------------------------------------------------------------
 
-using System.ComponentModel;
 using DataDictionary;
 using DataDictionary.Types;
 using DataDictionary.Types.AccessMode;
@@ -45,70 +44,7 @@ namespace GUI.FunctionalView
 
         public override BoxArrowPanel<IEnclosesNameSpaces, NameSpace, AccessMode> CreatePanel()
         {
-            BoxArrowPanel<IEnclosesNameSpaces, NameSpace, AccessMode> retVal = new FunctionalAnalysisPanel();
-
-            return retVal;
-        }
-
-        /// <summary>
-        ///     A box editor
-        /// </summary>
-        protected class NameSpaceEditor : BoxEditor
-        {
-            /// <summary>
-            ///     Constructor
-            /// </summary>
-            /// <param name="control"></param>
-            public NameSpaceEditor(BoxControl<IEnclosesNameSpaces, NameSpace, AccessMode> control)
-                : base(control)
-            {
-            }
-
-            [Category("Description")]
-            [ReadOnly(true)]
-            public override string Name
-            {
-                get { return Control.Model.GraphicalName; }
-            }
-        }
-
-        /// <summary>
-        ///     Factory for BoxEditor
-        /// </summary>
-        /// <param name="control"></param>
-        /// <returns></returns>
-        protected override BoxEditor CreateBoxEditor(BoxControl<IEnclosesNameSpaces, NameSpace, AccessMode> control)
-        {
-            BoxEditor retVal = new NameSpaceEditor(control);
-
-            return retVal;
-        }
-
-        /// <summary>
-        ///     An arrow editor
-        /// </summary>
-        protected class AccessModeEditor : ArrowEditor
-        {
-            /// <summary>
-            ///     Constructor
-            /// </summary>
-            /// <param name="control"></param>
-            public AccessModeEditor(ArrowControl<IEnclosesNameSpaces, NameSpace, AccessMode> control)
-                : base(control)
-            {
-            }
-        }
-
-        /// <summary>
-        ///     Factory for arrow editor
-        /// </summary>
-        /// <param name="control"></param>
-        /// <returns></returns>
-        protected override ArrowEditor CreateArrowEditor(ArrowControl<IEnclosesNameSpaces, NameSpace, AccessMode> control)
-        {
-            ArrowEditor retVal = new AccessModeEditor(control);
-
-            return retVal;
+            return new FunctionalAnalysisPanel();
         }
     }
 }

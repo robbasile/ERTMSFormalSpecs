@@ -14,20 +14,33 @@
 // --
 // ------------------------------------------------------------------------------
 
-using Utils;
+using System.ComponentModel;
+using DataDictionary;
+using DataDictionary.Types;
+using DataDictionary.Types.AccessMode;
+using GUI.BoxArrowDiagram;
 
-namespace GUI.BoxArrowDiagram
+namespace GUI.FunctionalView
 {
-    public class BaseBoxArrowWindow : BaseForm
+    /// <summary>
+    ///     A box editor
+    /// </summary>
+    public class NameSpaceEditor : BoxEditor<IEnclosesNameSpaces, NameSpace, AccessMode>
     {
         /// <summary>
-        /// Creates the editor for the selected object
+        ///     Constructor
         /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        public virtual object CreateEditor(IModelElement model)
+        /// <param name="control"></param>
+        public NameSpaceEditor(BoxControl<IEnclosesNameSpaces, NameSpace, AccessMode> control)
+            : base(control)
         {
-            return null;
+        }
+
+        [Category("Description")]
+        [ReadOnly(true)]
+        public override string Name
+        {
+            get { return Control.TypedModel.GraphicalName; }
         }
     }
 }
