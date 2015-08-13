@@ -15,7 +15,6 @@
 // ------------------------------------------------------------------------------
 
 using System.Collections.Generic;
-using System.Windows.Forms;
 using DataDictionary;
 using GUI.Properties;
 using Utils;
@@ -107,40 +106,6 @@ namespace GUI.LongOperations
                 UpdateGuid = UpdateGuid,
                 ConvertObsolete = Settings.Default.ConvertObsoleteVersionOfModelFile
             });
-            if (Dictionary != null && System != null && !AllowErrors)
-            {
-                Dictionary.CheckRules();
-            }
-        }
-
-        /// <summary>
-        ///     Displays errors during load, when the flag AllowErrorDuringLoad is active
-        /// </summary>
-        public void DisplayErrors()
-        {
-            if (AllowErrorsDuringLoad)
-            {
-                if (Dictionary != null)
-                {
-                    if (ErrorsDuringLoad.Count > 0)
-                    {
-                        string errors = "";
-                        foreach (ElementLog log in ErrorsDuringLoad)
-                        {
-                            errors += log.Level + ": " + log.Log + "\n";
-                        }
-
-                        MessageBox.Show("Errors while opening file " + FileName + "\n\n" + errors,
-                            "Errors where encountered while opening file", MessageBoxButtons.OK,
-                            MessageBoxIcon.Information);
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("Cannot open file " + FileName, "Cannot open file", MessageBoxButtons.OK,
-                        MessageBoxIcon.Error);
-                }
-            }
         }
     }
 }

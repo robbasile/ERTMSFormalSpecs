@@ -137,11 +137,19 @@ namespace GUI.DataDictionaryView
             }
             else
             {
-                stateDiagramPanel.Visible = false;
-                modelDiagramPanel.Model = context.Element;
-                modelDiagramPanel.Visible = true;
-                modelDiagramPanel.RefreshControl();
+                IModelElement model = EnclosingFinder<NameSpace>.find(context.Element, true);
+                if (model == null)
+                {
+                    model = EnclosingFinder<Dictionary>.find(context.Element, true);
+                }
 
+                if (model != null)
+                {
+                    stateDiagramPanel.Visible = false;
+                    modelDiagramPanel.Model = model;
+                    modelDiagramPanel.Visible = true;
+                    modelDiagramPanel.RefreshControl();
+                }
             }
         }
 

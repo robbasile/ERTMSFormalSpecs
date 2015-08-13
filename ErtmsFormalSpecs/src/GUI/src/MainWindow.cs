@@ -457,6 +457,9 @@ namespace GUI
             if (openFileOperation.Dictionary != null)
             {
                 SetupWindows(openFileOperation.Dictionary, shouldPlace);
+
+                CheckModelOperation checkModel = new CheckModelOperation();
+                checkModel.ExecuteUsingProgressDialog("Checking model");
             }
             else if (!openFileOperation.Dialog.Canceled)
             {
