@@ -124,11 +124,6 @@ namespace GUI
         }
 
         /// <summary>
-        ///     Indicates that an expand all operation is currently being done
-        /// </summary>
-        private bool _expandingAll;
-
-        /// <summary>
         ///     Handles an expand event
         /// </summary>
         /// <param name="sender"></param>
@@ -138,22 +133,7 @@ namespace GUI
             BaseTreeNode node = e.Node as BaseTreeNode;
             if (node != null)
             {
-                if (ModifierKeys == Keys.Control && !_expandingAll && !Selecting)
-                {
-                    try
-                    {
-                        _expandingAll = true;
-                        node.ExpandAll();
-                    }
-                    finally
-                    {
-                        _expandingAll = false;
-                    }
-                }
-                else
-                {
-                    node.HandleExpand();
-                }
+                node.HandleExpand();
             }
         }
 

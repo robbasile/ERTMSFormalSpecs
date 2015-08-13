@@ -18,7 +18,6 @@ using System;
 using System.Windows.Forms;
 using DataDictionary;
 using DataDictionary.Constants;
-using DataDictionary.Interpreter;
 using DataDictionary.Types;
 using DataDictionary.Variables;
 using GUI.Properties;

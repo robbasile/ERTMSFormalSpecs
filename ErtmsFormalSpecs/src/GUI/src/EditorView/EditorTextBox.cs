@@ -100,7 +100,10 @@ namespace GUI
                     if (modelElement != null)
                     {
                         Context.SelectionCriteria criteria = GuiUtils.SelectionCriteriaBasedOnMouseEvent(mouseEventArgs);
-                        EFSSystem.INSTANCE.Context.SelectElement(modelElement, this, criteria);
+                        if ((criteria & Context.SelectionCriteria.Ctrl) != 0)
+                        {
+                            EFSSystem.INSTANCE.Context.SelectElement(modelElement, this, Context.SelectionCriteria.DoubleClick);                            
+                        }
                     }
                 }
             }
