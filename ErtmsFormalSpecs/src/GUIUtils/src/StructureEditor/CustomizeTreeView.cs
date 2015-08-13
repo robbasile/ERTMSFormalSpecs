@@ -801,7 +801,7 @@ namespace GUIUtils.StructureEditor
                 string text = e.Control.Text;
                 if (DefaultConst == text)
                 {
-                    variable.Value = new DefaultValue(variable);
+                    variable.Value = variable.Type.DefaultValue;
                 }
                 else
                 {
@@ -819,7 +819,7 @@ namespace GUIUtils.StructureEditor
         #region ToolTips
 
         /// <summary>
-        /// Used to redefine the drawin method of comboboxes and add a tooltip
+        /// Used to redefine the drawing method of comboboxes and add a tooltip
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -839,16 +839,6 @@ namespace GUIUtils.StructureEditor
                 e.DrawBackground();
                 e.Graphics.DrawString(comboBox.Items[e.Index].ToString(), e.Font, Brushes.Black, new Point(e.Bounds.X, e.Bounds.Y));
             }
-        }
-
-        /// <summary>
-        /// Handles event raised when the focus is lost
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public static void HandleFocusLost(object sender, EventArgs e)
-        {
-            ToolTip = new ToolTip();
         }
 
         #endregion
