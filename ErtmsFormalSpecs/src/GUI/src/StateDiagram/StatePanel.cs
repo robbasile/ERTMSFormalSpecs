@@ -149,6 +149,11 @@ namespace GUI.StateDiagram
             return Model.Transitions;
         }
 
+        /// <summary>
+        /// Builds teh context menu associated to either the selected element or the panel
+        /// </summary>
+        /// <param name="element"></param>
+        /// <returns></returns>
         protected override ContextMenu BuildContextMenu(GraphicElement element)
         {
             ContextMenu retVal = base.BuildContextMenu(element);

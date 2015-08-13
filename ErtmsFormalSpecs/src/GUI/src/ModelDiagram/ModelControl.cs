@@ -46,9 +46,12 @@ namespace GUI.ModelDiagram
 
             if (BoxMode == BoxModeEnum.Custom)
             {
+                Pen pen = SelectPen();
+
                 // Create the box
                 Brush innerBrush = new SolidBrush(NormalColor);
                 graphics.FillRectangle(innerBrush, Location.X, Location.Y, Width, Height);
+                graphics.DrawRectangle(pen, Location.X, Location.Y, Width, Height);
             }
 
             // Write the text

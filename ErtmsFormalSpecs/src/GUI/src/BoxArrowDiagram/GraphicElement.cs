@@ -153,5 +153,11 @@ namespace GUI.BoxArrowDiagram
         /// The color used for the background
         /// </summary>
         public Color BackColor { get; set; }
+
+        /// <summary>
+        /// Selects the pen according to the graphic element status
+        /// </summary>
+        /// <returns></returns>
+        public abstract Pen SelectPen();
     }
 }

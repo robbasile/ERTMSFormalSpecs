@@ -14,6 +14,8 @@
 // --
 // ------------------------------------------------------------------------------
 
+using System.Windows.Forms;
+using DataDictionary;
 using DataDictionary.Constants;
 using DataDictionary.Rules;
 using DataDictionary.Tests.Runner;
@@ -117,6 +119,21 @@ namespace GUI.StateDiagram
             }
 
             return retVal;
+        }
+
+        /// <summary>
+        ///     Handles a mouse click event on a graphical element
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="mouseEventArgs"></param>
+        public override void HandleClick(object sender, MouseEventArgs mouseEventArgs)
+        {
+            IModelElement model = TypedModel.RuleCondition;
+            if (model != null)
+            {
+                Context.SelectionCriteria criteria = GuiUtils.SelectionCriteriaBasedOnMouseEvent(mouseEventArgs);
+                EFSSystem.INSTANCE.Context.SelectElement(model, Panel, criteria);
+            }
         }
     }
 }

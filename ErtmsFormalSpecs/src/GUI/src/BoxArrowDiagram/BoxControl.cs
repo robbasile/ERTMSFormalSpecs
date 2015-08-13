@@ -167,22 +167,7 @@ namespace GUI.BoxArrowDiagram
         public virtual void PaintInBoxArrowPanel(Graphics g)
         {
             // Select the right pen, according to the model
-            Pen pen;
-            if (IsActive())
-            {
-                pen = ActivatedPen;
-                SetColor(ActivatedColor);
-            }
-            else if (IsHidden())
-            {
-                pen = HiddenPen;
-                SetColor(HiddenColor);
-            }
-            else
-            {
-                pen = NormalPen;
-                SetColor(NormalColor);
-            }
+            Pen pen = SelectPen();
 
             // Draw the box
             switch (BoxMode)
@@ -248,7 +233,39 @@ namespace GUI.BoxArrowDiagram
                 }
             }
         }
-        
+
+        /// <summary>
+        /// Selects the pen, according to the control status
+        /// </summary>
+        /// <returns></returns>
+        public override Pen SelectPen()
+        {
+            Pen retVal;
+
+            if (IsActive())
+            {
+                retVal = ActivatedPen;
+                SetColor(ActivatedColor);
+            }
+            else if (IsHidden())
+            {
+                retVal = HiddenPen;
+                SetColor(HiddenColor);
+            }
+            else
+            {
+                retVal = NormalPen;
+                SetColor(NormalColor);
+            }
+
+            // Bigger pen for selected elements
+            if (Panel.IsSelected(this))
+            {
+                retVal = new Pen(retVal.Color, 4);
+            }
+            return retVal;
+        }
+
         /// <summary>
         ///     Provides the center of the box control
         /// </summary>

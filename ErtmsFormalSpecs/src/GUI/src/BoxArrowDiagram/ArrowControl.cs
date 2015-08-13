@@ -386,34 +386,7 @@ namespace GUI.BoxArrowDiagram
                 Point target = TargetLocation;
 
                 // Select the pen used to draw the arrow
-                Pen pen;
-                if (IsDisabled())
-                {
-                    pen = DisabledPen;
-                    ForeColor = DisabledColor;
-                }
-                else if (IsActive())
-                {
-                    pen = ActivatedPen;
-                    ForeColor = ActivatedColor;
-                }
-                else if (IsDeduced())
-                {
-                    // A degraded case is a arrow that is not defined in any state machine
-                    pen = DeducedCasePen;
-                    ForeColor = DeducedCaseColor;
-                }
-                else
-                {
-                    pen = NormalPen;
-                    ForeColor = NormalColor;
-                }
-
-                if (Panel.IsSelected(this))
-                {
-                    // Change the pen when the arrow is selected
-                    pen = new Pen(pen.Color, 4);
-                }
+                Pen pen = SelectPen();
 
                 // Draw the arrow
                 g.DrawLine(pen, start, target);
@@ -476,6 +449,45 @@ namespace GUI.BoxArrowDiagram
                     g.DrawString(TypedModel.GraphicalName, Font, new SolidBrush(pen.Color), Location);
                 }
             }
+        }
+
+        /// <summary>
+        /// Selects the pen, according to the control status
+        /// </summary>
+        /// <returns></returns>
+        public override Pen SelectPen()
+        {
+            Pen retVal;
+
+            if (IsDisabled())
+            {
+                retVal = DisabledPen;
+                ForeColor = DisabledColor;
+            }
+            else if (IsActive())
+            {
+                retVal = ActivatedPen;
+                ForeColor = ActivatedColor;
+            }
+            else if (IsDeduced())
+            {
+                // A degraded case is a arrow that is not defined in any state machine
+                retVal = DeducedCasePen;
+                ForeColor = DeducedCaseColor;
+            }
+            else
+            {
+                retVal = NormalPen;
+                ForeColor = NormalColor;
+            }
+
+            // Bigger pen for selected elements
+            if (Panel.IsSelected(this))
+            {
+                retVal = new Pen(retVal.Color, 4);
+            }
+
+            return retVal;
         }
 
         /// <summary>

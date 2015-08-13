@@ -93,11 +93,11 @@ namespace GUI.RequirementSetDiagram
         /// <param name="g"></param>
         public override void PaintInBoxArrowPanel(Graphics g)
         {
-            SetColor(Color.Transparent);
+            Pen pen = SelectPen();
 
             // Draws the enclosing box
             g.FillRectangle(new SolidBrush(NormalColor), Location.X, Location.Y, Width, Height);
-            g.DrawRectangle(NormalPen, Location.X, Location.Y, Width, Height);
+            g.DrawRectangle(pen, Location.X, Location.Y, Width, Height);
 
             string name = GuiUtils.AdjustForDisplay(TypedModel.GraphicalName, Width, Font);
             SizeF textSize = g.MeasureString(name, Font);

@@ -75,6 +75,8 @@ namespace GUI.BoxArrowDiagram
                 GraphicElement element = ElementForLocation(mouseEventArgs.Location);
                 if (element != null)
                 {
+                    Selected = element;
+                    Refresh();
                     element.HandleClick(sender, mouseEventArgs);
                 }
 
