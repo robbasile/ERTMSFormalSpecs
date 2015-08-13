@@ -18,6 +18,7 @@ using System;
 using System.Reflection;
 using System.Windows.Forms;
 using DataDictionary;
+using DataDictionary.Variables;
 using Utils;
 using WeifenLuo.WinFormsUI.Docking;
 
@@ -131,7 +132,16 @@ namespace GUI
         /// <returns>True if the view should be refreshed</returns>
         public virtual bool HandleValueChange(IModelElement modelElement, Context.ChangeKind changeKind)
         {
-            return modelElement == null || DisplayedModel == null || DisplayedModel.IsParent(modelElement);
+            bool retVal = modelElement == null || DisplayedModel == null || DisplayedModel.IsParent(modelElement);
+
+            // When end of cycle, only redisplay when the displayed element related to a variable
+            if (retVal && changeKind == Context.ChangeKind.EndOfCycle)
+            {
+                IVariable variable = EnclosingFinder<IVariable>.find(DisplayedModel, true);
+                retVal = (variable != null);
+            }
+
+            return retVal;
         }
 
         /// <summary>

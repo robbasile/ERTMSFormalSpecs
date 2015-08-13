@@ -15,6 +15,7 @@
 // ------------------------------------------------------------------------------
 
 using DataDictionary;
+using DataDictionary.Variables;
 using Utils;
 using WeifenLuo.WinFormsUI.Docking;
 using ModelElement = DataDictionary.ModelElement;

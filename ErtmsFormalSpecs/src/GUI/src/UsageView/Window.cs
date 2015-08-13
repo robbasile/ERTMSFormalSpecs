@@ -15,6 +15,7 @@
 // ------------------------------------------------------------------------------
 
 using DataDictionary;
+using DataDictionary.Variables;
 using Utils;
 using WeifenLuo.WinFormsUI.Docking;
 
@@ -69,7 +70,7 @@ namespace GUI.UsageView
 
             if (retVal)
             {
-                usageTreeView.Root = DisplayedModel;
+                    usageTreeView.Root = DisplayedModel;
             }
 
             return retVal;

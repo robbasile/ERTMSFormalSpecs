@@ -16,6 +16,7 @@
 
 using DataDictionary;
 using DataDictionary.Types;
+using DataDictionary.Variables;
 using Utils;
 using WeifenLuo.WinFormsUI.Docking;
 using ModelElement = DataDictionary.ModelElement;
@@ -99,9 +100,9 @@ namespace GUI.MoreInfoView
         {
             bool retVal = base.HandleValueChange(modelElement, changeKind);
 
-            if ( retVal )
+            if (retVal)
             {
-                SetMoreInfo();                
+                SetMoreInfo();
             }
 
             return retVal;
