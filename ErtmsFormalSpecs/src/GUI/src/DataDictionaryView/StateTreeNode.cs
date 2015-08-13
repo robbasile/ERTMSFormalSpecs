@@ -144,7 +144,7 @@ namespace GUI.DataDictionaryView
         {
             StateDiagramWindow window = new StateDiagramWindow();
             GuiUtils.MdiWindow.AddChildWindow(window);
-            window.SetStateMachine(Item.StateMachine);
+            window.StatePanel.SetStateMachine(Item.StateMachine);
             window.Text = Item.Name + @" "+Resources.StateTreeNode_ViewDiagram_state_diagram;
         }
 

@@ -99,7 +99,7 @@ namespace GUI.DataDictionaryView
         {
             StateDiagramWindow window = new StateDiagramWindow();
             GuiUtils.MdiWindow.AddChildWindow(window);
-            window.SetStateMachine(Item);
+            window.StatePanel.SetStateMachine(Item);
             window.Text = Item.Name + @" " + Resources.StateMachineTreeNode_ViewDiagram_state_diagram;
         }
 

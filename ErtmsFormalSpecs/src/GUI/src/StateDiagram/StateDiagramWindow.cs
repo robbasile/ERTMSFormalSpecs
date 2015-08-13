@@ -14,13 +14,10 @@
 // --
 // ------------------------------------------------------------------------------
 
-using DataDictionary;
 using DataDictionary.Constants;
 using DataDictionary.Rules;
 using DataDictionary.Types;
-using DataDictionary.Variables;
 using GUI.BoxArrowDiagram;
-using Utils;
 
 namespace GUI.StateDiagram
 {
@@ -29,62 +26,14 @@ namespace GUI.StateDiagram
         /// <summary>
         ///     The panel used to display the state diagram
         /// </summary>
-        private StatePanel StatePanel
+        public StatePanel StatePanel
         {
             get { return (StatePanel) BoxArrowContainerPanel; }
         }
 
-        /// <summary>
-        ///     Sets the state machine type
-        /// </summary>
-        /// <param name="stateMachine"></param>
-        public void SetStateMachine(StateMachine stateMachine)
-        {
-            Model = stateMachine;
-
-            StatePanel.Model = stateMachine;
-            StatePanel.RefreshControl();
-        }
-
-        /// <summary>
-        ///     Sets the state machine variable (and type)
-        /// </summary>
-        /// <param name="stateMachine">The state machine variable to display</param>
-        /// <param name="stateMachineType">
-        ///     The state machine type which should be displayed. If null, the default state machine is
-        ///     displayed
-        /// </param>
-        public void SetStateMachine(IVariable stateMachine, StateMachine stateMachineType = null)
-        {
-            if (stateMachineType == null)
-            {
-                stateMachineType = stateMachine.Type as StateMachine;
-            }
-
-            if (stateMachineType != null)
-            {
-                Model = stateMachineType;
-            }
-
-            StatePanel.Model = Model;
-            if (stateMachine != null)
-            {
-                StatePanel.StateMachineVariableExpression =
-                    EFSSystem.INSTANCE.Parser.Expression(EnclosingFinder<Dictionary>.find(stateMachine),
-                        stateMachine.FullName);
-            }
-            else
-            {
-                StatePanel.StateMachineVariableExpression = null;
-            }
-            StatePanel.RefreshControl();
-        }
-
         public override BoxArrowPanel<StateMachine, State, Transition> CreatePanel()
         {
-            BoxArrowPanel<StateMachine, State, Transition> retVal = new StatePanel();
-
-            return retVal;
+            return new StatePanel();
         }
     }
 }

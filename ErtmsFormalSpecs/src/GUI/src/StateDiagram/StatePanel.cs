@@ -53,11 +53,58 @@ namespace GUI.StateDiagram
         {
             return new TransitionControl(this, model);
         }
-        
+
+
+        /// <summary>
+        ///     Sets the state machine type
+        /// </summary>
+        /// <param name="stateMachine"></param>
+        public void SetStateMachine(StateMachine stateMachine)
+        {
+            Model = stateMachine;
+
+            Model = stateMachine;
+            RefreshControl();
+        }
+
+        /// <summary>
+        ///     Sets the state machine variable (and type)
+        /// </summary>
+        /// <param name="stateMachine">The state machine variable to display</param>
+        /// <param name="stateMachineType">
+        ///     The state machine type which should be displayed. If null, the default state machine is
+        ///     displayed
+        /// </param>
+        public void SetStateMachine(IVariable stateMachine, StateMachine stateMachineType = null)
+        {
+            if (stateMachineType == null)
+            {
+                stateMachineType = stateMachine.Type as StateMachine;
+            }
+
+            if (stateMachineType != null)
+            {
+                Model = stateMachineType;
+            }
+
+            Model = Model;
+            if (stateMachine != null)
+            {
+                StateMachineVariableExpression =
+                    EFSSystem.INSTANCE.Parser.Expression(EnclosingFinder<DataDictionary.Dictionary>.find(stateMachine),
+                        stateMachine.FullName);
+            }
+            else
+            {
+                StateMachineVariableExpression = null;
+            }
+            RefreshControl();
+        }
+
         /// <summary>
         ///     The expressiong required to get the state machine variable (if any) displayed by this panel
         /// </summary>
-        public Expression StateMachineVariableExpression { get; set; }
+        private Expression StateMachineVariableExpression { get; set; }
 
         /// <summary>
         ///     Provides the state machine variable (if any)
@@ -114,7 +161,10 @@ namespace GUI.StateDiagram
                     retVal = new ContextMenu();
                     foreach (MenuItem item in tmp.MenuItems)
                     {
-                        retVal.MenuItems.Add(item);
+                        if (item != null)
+                        {
+                            retVal.MenuItems.Add(item);
+                        }
                     }
                 }
                 else

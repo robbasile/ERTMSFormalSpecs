@@ -66,7 +66,7 @@ namespace GUI.StateDiagram
             {
                 StateDiagramWindow window = new StateDiagramWindow();
                 GuiUtils.MdiWindow.AddChildWindow(window);
-                window.SetStateMachine(panel.StateMachineVariable, TypedModel.StateMachine);
+                window.StatePanel.SetStateMachine(panel.StateMachineVariable, TypedModel.StateMachine);
                 window.Text = TypedModel.Name + @" " + Resources.StateControl_HandleMouseDoubleClick_state_diagram;
             }
         }

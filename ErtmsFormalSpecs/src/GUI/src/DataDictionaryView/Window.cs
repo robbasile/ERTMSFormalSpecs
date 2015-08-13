@@ -17,8 +17,13 @@
 using System;
 using System.Windows.Forms;
 using DataDictionary;
+using DataDictionary.Constants;
+using DataDictionary.Interpreter;
+using DataDictionary.Types;
+using DataDictionary.Variables;
 using GUI.Properties;
 using Utils;
+using Dictionary = DataDictionary.Dictionary;
 
 namespace GUI.DataDictionaryView
 {
@@ -100,21 +105,34 @@ namespace GUI.DataDictionaryView
         /// <param name="context"></param>
         private void UpdateModelView(Context.SelectionContext context)
         {
-            DataDictionary.Types.StateMachine stateMachine;
-            var state = EnclosingFinder<DataDictionary.Constants.State>.find(context.Element, true);
+            StateMachine stateMachine;
+            State state = EnclosingFinder<State>.find(context.Element, true);
             if (state != null && state.StateMachine.countStates() > 0)
             {
                 stateMachine = state.StateMachine;
             }
             else
             {
-                stateMachine = EnclosingFinder<DataDictionary.Types.StateMachine>.find(context.Element, true);
+                stateMachine = EnclosingFinder<StateMachine>.find(context.Element, true);
+            }
+
+            Variable variable = context.Element as Variable;
+            if (variable != null )
+            {
+                stateMachine = variable.Type as StateMachine;
             }
 
             if (stateMachine != null)
             {
                 modelDiagramPanel.Visible = false;
-                stateDiagramPanel.Model = stateMachine;
+                if (variable != null)
+                {
+                    stateDiagramPanel.SetStateMachine(variable);
+                }
+                else
+                {
+                    stateDiagramPanel.Model = stateMachine;                    
+                }
                 stateDiagramPanel.Visible = true;
                 stateDiagramPanel.RefreshControl();
             }

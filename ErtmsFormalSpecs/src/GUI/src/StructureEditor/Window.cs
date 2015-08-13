@@ -172,7 +172,7 @@ namespace GUI.StructureValueEditor
             {
                 StateDiagramWindow window = new StateDiagramWindow();
                 GuiUtils.MdiWindow.AddChildWindow(window);
-                window.SetStateMachine(Variable);
+                window.StatePanel.SetStateMachine(Variable);
                 window.Text = Variable.Name + @" " + Resources.ToolStripShowStateMachine_OnClick_state_diagram;
 
                 base.OnClick(e);
