@@ -459,12 +459,26 @@ INITIAL_VALUE BaseTypes.MaxSpeedFunction) (Distance)</Expression>
  Guid="3b7a5ecd-78a6-4674-bcc2-7a90976569d6"
 >
 <Expression>MIN(
-    First =&gt; MIN(
-        First =&gt; Kernel.MRSP.SpeedRestrictions,
-        Second =&gt; Kernel.NationalValues.MaxDistInSRSpeedRestriction
+    First =&gt; MIN
+    (
+        First =&gt; AddIncrement
+        (
+            Function =&gt; Kernel.MRSP.SpeedRestrictions,
+            Increment =&gt; Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_ebi
+        ),
+        Second =&gt; AddIncrement
+        (
+            Function =&gt; Kernel.NationalValues.MaxDistInSRSpeedRestriction,
+            Increment =&gt; Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_ebi
+        )
     ),
-    Second =&gt; MIN(
-        First =&gt; Kernel.MA.LOASpeedRestriction,
+    Second =&gt; MIN
+    (
+        First =&gt; AddIncrement
+        (
+            Function =&gt; Kernel.MA.LOASpeedRestriction,
+            Increment =&gt; Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_ebi
+        ),
         Second =&gt; Kernel.MA.SvLSpeedRestriction
     )
 )(Distance)</Expression>
