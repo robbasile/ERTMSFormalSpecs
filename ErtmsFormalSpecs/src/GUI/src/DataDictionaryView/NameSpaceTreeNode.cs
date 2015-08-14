@@ -264,6 +264,14 @@ namespace GUI.DataDictionaryView
                         node.AcceptDrop(sourceNode);
                     }
                 }
+                else if (sourceNode is FunctionTreeNode)
+                {
+                    FunctionsTreeNode node = SubNode<FunctionsTreeNode>();
+                    if (node != null)
+                    {
+                        node.AcceptDrop(sourceNode);
+                    }
+                }
                 else if (sourceNode is InterfaceTreeNode)
                 {
                     InterfacesTreeNode node = SubNode<InterfacesTreeNode>();
