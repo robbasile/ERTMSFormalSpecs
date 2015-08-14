@@ -215,11 +215,7 @@ namespace GUI
                     }
                     else
                     {
-                        Compiler compiler = EFSSystem.INSTANCE.Compiler;
-                        compiler.Compile_Synchronous(false, true);
-                        
                         destinationNode.AcceptDrop(sourceNode);
-
                         if (Refactor && Settings.Default.AllowRefactor)
                         {
                             RefactorAndRelocateOperation refactorAndRelocate = new RefactorAndRelocateOperation(sourceNode.Model as DataDictionary.ModelElement);

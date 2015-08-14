@@ -20,6 +20,8 @@ using System.Drawing;
 using System.Windows.Forms;
 using DataDictionary;
 using DataDictionary.Generated;
+using GUI.LongOperations;
+using GUI.Properties;
 using Utils;
 using ModelElement = DataDictionary.ModelElement;
 using Util = DataDictionary.Util;
@@ -119,19 +121,31 @@ namespace GUI.BoxArrowDiagram
                 model = Model as IModelElement;
             }
 
+            BaseTreeNode node = CorrespondingNode(model);
+            if (node == null)
+            {
+                node = CorrespondingNode(Model as IModelElement);
+            }
+            if (node != null)
+            {
+                retVal = node.ContextMenu;
+            }
+            return retVal;
+        }
+
+        /// <summary>
+        /// Provides the base tree node associated to a model element
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        protected BaseTreeNode CorrespondingNode(IModelElement model)
+        {
+            BaseTreeNode retVal = null;
+
             IBaseForm baseForm = GuiUtils.EnclosingFinder<IBaseForm>.Find(this);
             if (baseForm != null && baseForm.TreeView != null)
             {
-                BaseTreeNode node = baseForm.TreeView.FindNode(model, true);
-                if (node == null)
-                {
-                    node = baseForm.TreeView.FindNode(Model as IModelElement, true);
-                }
-
-                if (node != null)
-                {
-                    retVal = node.ContextMenu;
-                }
+                retVal = baseForm.TreeView.FindNode(model, true);
             }
 
             return retVal;
@@ -276,9 +290,9 @@ namespace GUI.BoxArrowDiagram
         private BoxControl<TEnclosing, TBoxModel, TArrowModel> _movingBox;
 
         /// <summary>
-        /// Indicates that the moving box has been selected
+        /// Indicates that the moving box moved sufficiently to be actually considered as moving
         /// </summary>
-        private bool _selectedMovingBox;
+        private bool _movingBoxHasMoved;
 
         /// <summary>
         ///     The location where the mouse down occured
@@ -347,7 +361,7 @@ namespace GUI.BoxArrowDiagram
                     if (box != null)
                     {
                         _movingBox = box;
-                        _selectedMovingBox = false;
+                        _movingBoxHasMoved = false;
                         _moveStartLocation = mouseEventArgs.Location;
                         _positionBeforeMove = box.Location;
                     }
@@ -404,11 +418,11 @@ namespace GUI.BoxArrowDiagram
                 if (Math.Abs(deltaX) > 5 || Math.Abs(deltaY) > 5)
                 {
                     IModelElement model = _movingBox.TypedModel;
-                    if (model != null && !_selectedMovingBox)
+                    if (model != null && !_movingBoxHasMoved)
                     {
                         Context.SelectionCriteria criteria = GuiUtils.SelectionCriteriaBasedOnMouseEvent(mouseEventArgs);
                         EFSSystem.INSTANCE.Context.SelectElement(model, this, criteria);
-                        _selectedMovingBox = true;
+                        _movingBoxHasMoved = true;
                     } 
                     
                     Util.DontNotify(() =>
@@ -463,13 +477,39 @@ namespace GUI.BoxArrowDiagram
 
             if (_movingBox != null)
             {
-                // Register the fact that the element has moved
-                if (_movingBox.TypedModel.X != _positionBeforeMove.X || _movingBox.TypedModel.Y != _positionBeforeMove.Y)
+                if (_movingBoxHasMoved)
                 {
-                    EFSSystem.INSTANCE.Context.HandleChangeEvent(_movingBox.Model as BaseModelElement, Context.ChangeKind.ModelChange);
+                    if (element != null)
+                    {
+                        BaseTreeNode targetNode = CorrespondingNode(element.Model as IModelElement);
+                        BaseTreeNode sourceNode = CorrespondingNode(_movingBox.Model as IModelElement);
+
+                        if (targetNode != null && sourceNode != null && sourceNode != targetNode)
+                        {
+                            targetNode.AcceptDrop(sourceNode);
+                            _movingBox.Location = new Point(0, 0);
+
+                            if (Settings.Default.AllowRefactor)
+                            {
+                                RefactorAndRelocateOperation refactorAndRelocate =
+                                    new RefactorAndRelocateOperation(sourceNode.Model as ModelElement);
+                                refactorAndRelocate.ExecuteUsingProgressDialog("Refactoring", false);
+                            }
+                        }
+                    }
+
+                    // Register the fact that the element has moved
+                    // because 
+                    if (_movingBox.TypedModel.X != _positionBeforeMove.X ||
+                        _movingBox.TypedModel.Y != _positionBeforeMove.Y)
+                    {
+                        EFSSystem.INSTANCE.Context.HandleChangeEvent(_movingBox.Model as BaseModelElement,
+                            Context.ChangeKind.ModelChange);
+                    }
                 }
 
                 _movingBox = null;
+                _movingBoxHasMoved = false;
             }
         }
 
@@ -704,7 +744,13 @@ namespace GUI.BoxArrowDiagram
             {
                 if (box.Width == 0 || box.Height == 0)
                 {
+                    // Setup default size
                     box.Size = DefaultBoxSize;
+                }
+
+                if( box.Location.IsEmpty )
+                {
+                    // Setup next location
                     box.Location = GetNextPosition();
                 }
 
