@@ -110,7 +110,7 @@ namespace DataDictionary
         {
             get
             {
-                Paragraph retVal = GuidCache.INSTANCE.GetModel(getId()) as Paragraph;
+                Paragraph retVal = GuidCache.Instance.GetModel(getId()) as Paragraph;
 
                 if (retVal == null)
                 {

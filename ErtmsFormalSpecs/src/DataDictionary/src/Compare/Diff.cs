@@ -30,7 +30,7 @@ namespace DataDictionary.Compare
         /// </summary>
         public ModelElement Model
         {
-            get { return GuidCache.INSTANCE.GetModel(Guid); }
+            get { return GuidCache.Instance.GetModel(Guid); }
         }
 
         /// <summary>

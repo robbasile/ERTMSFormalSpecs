@@ -152,7 +152,7 @@ namespace DataDictionary.Interpreter
                     if (modelElement.getUpdates() != null)
                     {
                         // find the model element updated by obj and add to its list of updates
-                        ModelElement baseElement = GuidCache.INSTANCE.GetModel(modelElement.getUpdates());
+                        ModelElement baseElement = GuidCache.Instance.GetModel(modelElement.getUpdates());
                         if (baseElement != null)
                         {
                             baseElement.UpdatedBy.Add(modelElement);

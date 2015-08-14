@@ -364,7 +364,7 @@ namespace DataDictionary
 
                 if (!string.IsNullOrEmpty(getUpdates()))
                 {
-                    retVal = GuidCache.INSTANCE.GetModel(getUpdates());
+                    retVal = GuidCache.Instance.GetModel(getUpdates());
                 }
 
                 return retVal;

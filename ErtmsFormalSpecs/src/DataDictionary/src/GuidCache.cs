@@ -28,22 +28,15 @@ namespace DataDictionary
     public class GuidCache : IFinder
     {
         /// <summary>
-        ///     The EFS system for this cache
-        /// </summary>
-        private EFSSystem EFSSystem { get; set; }
-
-        /// <summary>
         ///     The cache between guid and ModelElement
         /// </summary>
-        private Dictionary<string, ModelElement> cache = new Dictionary<string, ModelElement>();
+        private readonly Dictionary<string, ModelElement> _cache = new Dictionary<string, ModelElement>();
 
         /// <summary>
         ///     Constructor
         /// </summary>
-        /// <param name="system"></param>
-        public GuidCache(EFSSystem system)
+        public GuidCache()
         {
-            EFSSystem = system;
             UniqueAccess = new Mutex(false, "Access to GUID cache");
         }
 
@@ -52,7 +45,7 @@ namespace DataDictionary
         /// </summary>
         public void ClearCache()
         {
-            cache.Clear();
+            _cache.Clear();
         }
 
         /// <summary>
@@ -63,7 +56,7 @@ namespace DataDictionary
             /// <summary>
             ///     The dictionary to update
             /// </summary>
-            private Dictionary<string, ModelElement> Dictionary;
+            private readonly Dictionary<string, ModelElement> _dictionary;
 
             /// <summary>
             ///     Constructor
@@ -71,7 +64,7 @@ namespace DataDictionary
             /// <param name="dictionary"></param>
             public GuidVisitor(Dictionary<string, ModelElement> dictionary)
             {
-                Dictionary = dictionary;
+                _dictionary = dictionary;
             }
 
             public override void visit(BaseModelElement obj, bool visitSubNodes)
@@ -82,7 +75,7 @@ namespace DataDictionary
                 if (guid != null)
                 {
                     ModelElement cachedElement;
-                    if (Dictionary.TryGetValue(guid, out cachedElement))
+                    if (_dictionary.TryGetValue(guid, out cachedElement))
                     {
                         if (element != cachedElement)
                         {
@@ -91,7 +84,7 @@ namespace DataDictionary
                     }
                     else
                     {
-                        Dictionary[element.Guid] = element;
+                        _dictionary[element.Guid] = element;
                     }
                 }
 
@@ -114,24 +107,21 @@ namespace DataDictionary
             ModelElement retVal;
 
             UniqueAccess.WaitOne();
-            if (!cache.ContainsKey(guid))
+            if (!_cache.TryGetValue(guid, out retVal))
             {
                 // Update cache's contents
-                GuidVisitor visitor = new GuidVisitor(cache);
-                foreach (Dictionary dictionary in EFSSystem.Dictionaries)
+                GuidVisitor visitor = new GuidVisitor(_cache);
+                foreach (Dictionary dictionary in EFSSystem.INSTANCE.Dictionaries)
                 {
                     visitor.visit(dictionary, true);
                 }
 
-                cache.TryGetValue(guid, out retVal);
-                if (retVal == null)
+                // Retrieve the result of the visit
+                if (!_cache.TryGetValue(guid, out retVal))
                 {
-                    cache[guid] = null;
+                    // Avoid revisiting when the id does not exist
+                    _cache[guid] = null;
                 }
-            }
-            else
-            {
-                cache.TryGetValue(guid, out retVal);
             }
             UniqueAccess.ReleaseMutex();
 
@@ -141,22 +131,22 @@ namespace DataDictionary
         /// <summary>
         ///     The guid cache instance singleton
         /// </summary>
-        private static GuidCache __instance;
+        private static GuidCache _instance;
 
         /// <summary>
         ///     The cache instance
         /// </summary>
-        public static GuidCache INSTANCE
+        public static GuidCache Instance
         {
             get
             {
-                if (__instance == null)
+                if (_instance == null)
                 {
-                    __instance = new GuidCache(EFSSystem.INSTANCE);
-                    FinderRepository.INSTANCE.Register(__instance);
+                    _instance = new GuidCache();
+                    FinderRepository.INSTANCE.Register(_instance);
                 }
 
-                return __instance;
+                return _instance;
             }
         }
     }

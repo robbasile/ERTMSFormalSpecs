@@ -1596,14 +1596,10 @@ namespace DataDictionary
         /// <returns>the status string for the selected element</returns>
         public string CreateStatusMessage()
         {
-            string retVal;
-
             List<Paragraph> paragraphs = new List<Paragraph>();
             GetParagraphs(paragraphs);
 
-            retVal = Paragraph.CreateParagraphSetStatus(paragraphs);
-
-            return retVal;
+            return Paragraph.CreateParagraphSetStatus(paragraphs);
         }
 
     }
