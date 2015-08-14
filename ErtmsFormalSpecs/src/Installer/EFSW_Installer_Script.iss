@@ -55,8 +55,6 @@ Source: ..\..\bin\Reports.pdb; DestDir: {app}\bin; Flags: ignoreversion
 Source: ..\..\bin\HistoricalData.pdb; DestDir: {app}\bin; Flags: ignoreversion
 Source: ..\..\bin\Utils.pdb; DestDir: {app}\bin; Flags: ignoreversion
 
-Source: ..\..\bin\gnuplot\*; DestDir: {app}\bin\gnuplot; Flags: recursesubdirs
-
 Source: ..\..\doc\EFSW_User_Guide.pdf; DestDir: {app}\doc;
 Source: ..\..\doc\EFS_Product_Release_Info.pdf; DestDir: {app}\doc;
 Source: ..\..\doc\specs\subset-026.efs; DestDir: {userdocs}\ERTMSFormalSpecs;
