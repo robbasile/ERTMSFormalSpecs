@@ -251,7 +251,13 @@ namespace GUI
         /// <param name="changeKind">Indicates the reason why the change occured</param>
         protected virtual void Context_ValueChange(IModelElement modelElement, Context.ChangeKind changeKind)
         {
-            BeginInvoke((MethodInvoker) (() => HandleValueChange(modelElement, changeKind)));
+            try
+            {
+                BeginInvoke((MethodInvoker) (() => HandleValueChange(modelElement, changeKind)));
+            }
+            catch (Exception)
+            {
+            }
         }
 
         /// <summary>
@@ -260,7 +266,13 @@ namespace GUI
         /// <param name="modelElement"></param>
         protected virtual void Context_InfoMessageChange(IModelElement modelElement)
         {
-            BeginInvoke((MethodInvoker)(() => HandleInfoMessageChange(modelElement)));
+            try
+            {
+                BeginInvoke((MethodInvoker) (() => HandleInfoMessageChange(modelElement)));
+            }
+            catch (Exception)
+            {                
+            }
         }
 
         /// <summary>
