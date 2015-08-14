@@ -216,8 +216,12 @@ namespace DataDictionary.Constants
         public static EnumValue CreateDefault(ICollection enclosingCollection)
         {
             EnumValue retVal = (EnumValue)acceptor.getFactory().createEnumValue();
-            retVal.Name = "Value" + GetElementNumber(enclosingCollection);
-            retVal.setValue("");
+
+            Util.DontNotify(() =>
+            {
+                retVal.Name = "Value" + GetElementNumber(enclosingCollection);
+                retVal.setValue("");                
+            });
 
             return retVal;
         }

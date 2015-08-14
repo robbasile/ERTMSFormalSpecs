@@ -1486,8 +1486,12 @@ namespace DataDictionary.Functions
         public static Function CreateDefault(ICollection enclosingCollection)
         {
             Function retVal = (Function)acceptor.getFactory().createFunction();
-            retVal.Name = "Function" + GetElementNumber(enclosingCollection);
-            retVal.ReturnType = EFSSystem.INSTANCE.BoolType;
+
+            Util.DontNotify(() =>
+            {
+                retVal.Name = "Function" + GetElementNumber(enclosingCollection);
+                retVal.ReturnType = EFSSystem.INSTANCE.BoolType;
+            });
 
             return retVal;
         }

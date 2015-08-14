@@ -167,7 +167,11 @@ namespace DataDictionary
         public static Parameter CreateDefault(ICollection enclosingCollection)
         {
             Parameter retVal = (Parameter)acceptor.getFactory().createParameter();
-            retVal.Name = "Parameter" + GetElementNumber(enclosingCollection);
+            
+            Util.DontNotify(() =>
+            {
+                retVal.Name = "Parameter" + GetElementNumber(enclosingCollection);
+            });
 
             return retVal;
         }

@@ -141,8 +141,12 @@ namespace DataDictionary.Tests
         public static TestCase CreateDefault(ICollection enclosingCollection)
         {
             TestCase retVal = (TestCase)acceptor.getFactory().createTestCase();
-            retVal.Name = "TestCase" + GetElementNumber(enclosingCollection);
-            retVal.appendSteps(Step.CreateDefault(retVal.Steps));
+            
+            Util.DontNotify(() =>
+            {
+                retVal.Name = "TestCase" + GetElementNumber(enclosingCollection);
+                retVal.appendSteps(Step.CreateDefault(retVal.Steps));
+            });
 
             return retVal;
         }

@@ -652,11 +652,15 @@ namespace DataDictionary.Rules
         public static Rule CreateDefault(ICollection enclosingCollection)
         {
             Rule retVal = (Rule)acceptor.getFactory().createRule();
-            retVal.Name = "Rule" + GetElementNumber(enclosingCollection);
-            
-            RuleCondition condition = (RuleCondition)acceptor.getFactory().createRuleCondition();
-            condition.Name = "<Condition1>";
-            retVal.appendConditions(condition);
+
+            Util.DontNotify(() =>
+            {
+                retVal.Name = "Rule" + GetElementNumber(enclosingCollection);
+
+                RuleCondition condition = (RuleCondition) acceptor.getFactory().createRuleCondition();
+                condition.Name = "<Condition1>";
+                retVal.appendConditions(condition);
+            });
 
             return retVal;
         }

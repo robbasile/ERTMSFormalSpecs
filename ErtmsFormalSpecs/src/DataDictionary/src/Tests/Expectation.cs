@@ -287,7 +287,11 @@ namespace DataDictionary.Tests
         public static Expectation CreateDefault(ICollection enclosingCollection)
         {
             Expectation retVal = (Expectation)acceptor.getFactory().createExpectation();
-            retVal.Name = "Expectation" + GetElementNumber(enclosingCollection);
+
+            Util.DontNotify(() =>
+            {
+                retVal.Name = "Expectation" + GetElementNumber(enclosingCollection);
+            });
 
             return retVal;
         }

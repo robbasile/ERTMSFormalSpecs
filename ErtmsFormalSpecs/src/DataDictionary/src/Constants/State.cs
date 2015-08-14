@@ -528,7 +528,11 @@ namespace DataDictionary.Constants
         public static State CreateDefault(ICollection enclosingCollection)
         {
             State retVal = (State)acceptor.getFactory().createState();
-            retVal.Name = "State" + GetElementNumber(enclosingCollection);
+
+            Util.DontNotify(() =>
+            {
+                retVal.Name = "State" + GetElementNumber(enclosingCollection);
+            });
 
             return retVal;
         }

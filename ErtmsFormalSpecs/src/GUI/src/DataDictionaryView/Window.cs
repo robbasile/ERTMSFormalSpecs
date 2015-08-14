@@ -20,6 +20,7 @@ using DataDictionary;
 using DataDictionary.Constants;
 using DataDictionary.Types;
 using DataDictionary.Variables;
+using GUI.LongOperations;
 using GUI.Properties;
 using Utils;
 using Dictionary = DataDictionary.Dictionary;
@@ -151,6 +152,32 @@ namespace GUI.DataDictionaryView
                     modelDiagramPanel.RefreshControl();
                 }
             }
+        }
+
+        /// <summary>
+        /// Indicates that a change event should be displayed
+        /// </summary>
+        /// <param name="modelElement"></param>
+        /// <param name="changeKind"></param>
+        /// <returns></returns>
+        protected override bool ShouldDisplayChange(IModelElement modelElement, Context.ChangeKind changeKind)
+        {
+            bool retVal = modelElement == null;
+
+            if (!retVal)
+            {
+                if (changeKind != Context.ChangeKind.EndOfCycle)
+                {
+                    Dictionary enclosing = EnclosingFinder<Dictionary>.find(modelElement, true);
+                    retVal = (enclosing == Dictionary);
+                }
+                else
+                {
+                    retVal = base.ShouldDisplayChange(modelElement, changeKind);
+                }
+            }
+
+            return retVal;
         }
 
         /// <summary>

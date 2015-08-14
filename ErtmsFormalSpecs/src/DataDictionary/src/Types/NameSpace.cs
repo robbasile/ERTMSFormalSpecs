@@ -783,7 +783,11 @@ namespace DataDictionary.Types
         public static NameSpace CreateDefault(ICollection enclosingCollection)
         {
             NameSpace nameSpace = (NameSpace)acceptor.getFactory().createNameSpace();
-            nameSpace.Name = "NameSpace" + GetElementNumber(enclosingCollection);
+
+            Util.DontNotify(() =>
+            {
+                nameSpace.Name = "NameSpace" + GetElementNumber(enclosingCollection);
+            });
 
             return nameSpace;
         }

@@ -116,34 +116,40 @@ namespace DataDictionary
         /// <param name="action"></param>
         public static void DontRaiseError(bool silent, SilentAction action)
         {
-            if (silent)
+            // Heuristic : 
+            // Do not notify changes in the model when we are not interested 
+            // in the errors raised while performing the action
+            Util.DontNotify(() =>
             {
-                try
+                if (silent)
                 {
-                    SilentCount += 1;
-                    if (SilentCount == 1)
+                    try
                     {
-                        BeSilent = true;
-                        action();
+                        SilentCount += 1;
+                        if (SilentCount == 1)
+                        {
+                            BeSilent = true;
+                            action();
+                        }
+                        else
+                        {
+                            action();
+                        }
                     }
-                    else
+                    finally
                     {
-                        action();
+                        SilentCount -= 1;
+                        if (SilentCount == 0)
+                        {
+                            BeSilent = false;
+                        }
                     }
                 }
-                finally
+                else
                 {
-                    SilentCount -= 1;
-                    if (SilentCount == 0)
-                    {
-                        BeSilent = false;
-                    }
+                    action();
                 }
-            }
-            else
-            {
-                action();
-            }
+            });
         }
 
         /// <summary>
@@ -283,16 +289,19 @@ namespace DataDictionary
         {
             ModelElement retVal = null;
 
-            XmlBStringContext ctxt = new XmlBStringContext(ToXMLString());
-            try
+            Util.DontNotify(() =>
             {
-                retVal = acceptor.accept(ctxt) as ModelElement;
-                RegererateGuidVisitor visitor = new RegererateGuidVisitor();
-                visitor.visit(retVal, true);
-            }
-            catch (Exception)
-            {
-            }
+                XmlBStringContext ctxt = new XmlBStringContext(ToXMLString());
+                try
+                {
+                    retVal = acceptor.accept(ctxt) as ModelElement;
+                    RegererateGuidVisitor visitor = new RegererateGuidVisitor();
+                    visitor.visit(retVal, true);
+                }
+                catch (Exception)
+                {
+                }
+            });
 
             return retVal;
         }

@@ -381,8 +381,12 @@ namespace DataDictionary.Rules
         public static Action CreateDefault(ICollection enclosingCollection)
         {
             Action retVal = (Action)acceptor.getFactory().createAction();
-            retVal.Name = "Action" + GetElementNumber(enclosingCollection);
-            retVal.ExpressionText = "";
+            
+            Util.DontNotify(() =>
+            {
+                retVal.Name = "Action" + GetElementNumber(enclosingCollection);
+                retVal.ExpressionText = "";
+            });
 
             return retVal;
         }

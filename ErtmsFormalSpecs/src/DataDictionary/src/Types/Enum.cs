@@ -408,7 +408,11 @@ namespace DataDictionary.Types
         public static Enum CreateDefault(ICollection enclosingCollection)
         {
             Enum retVal = (Enum)acceptor.getFactory().createEnum();
-            retVal.Name = "Enumeration" + GetElementNumber(enclosingCollection);
+
+            Util.DontNotify(() =>
+            {
+                retVal.Name = "Enumeration" + GetElementNumber(enclosingCollection);
+            });
 
             return retVal;
         }

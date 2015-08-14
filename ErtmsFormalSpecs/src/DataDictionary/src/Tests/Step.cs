@@ -220,8 +220,12 @@ namespace DataDictionary.Tests
         public static Step CreateDefault(ICollection enclosingCollection)
         {
             Step retVal = (Step)acceptor.getFactory().createStep();
-            retVal.Name = "Step" + GetElementNumber(enclosingCollection);
-            retVal.appendSubSteps(SubStep.CreateDefault(retVal.SubSteps));
+
+            Util.DontNotify(() =>
+            {
+                retVal.Name = "Step" + GetElementNumber(enclosingCollection);
+                retVal.appendSubSteps(SubStep.CreateDefault(retVal.SubSteps));
+            });
 
             return retVal;
         }

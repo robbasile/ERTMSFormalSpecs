@@ -150,8 +150,12 @@ namespace DataDictionary.Tests
         public static SubSequence CreateDefault(ICollection enclosingCollection)
         {
             SubSequence retVal = (SubSequence)acceptor.getFactory().createSubSequence();
-            retVal.Name = "SubSequence" + GetElementNumber(enclosingCollection);
-            retVal.appendTestCases(TestCase.CreateDefault(retVal.TestCases));
+
+            Util.DontNotify(() =>
+            {
+                retVal.Name = "SubSequence" + GetElementNumber(enclosingCollection);
+                retVal.appendTestCases(TestCase.CreateDefault(retVal.TestCases));
+            });
 
             return retVal;
         }

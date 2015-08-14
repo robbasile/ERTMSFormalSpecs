@@ -733,7 +733,10 @@ namespace DataDictionary.Interpreter
 
                 // Change the element name
                 string originalName = element.Name;
-                element.Name = newName;
+                if ( newName != originalName )
+                {
+                    element.Name = newName;
+                }
                 // Make sure that the element name is taken into consideration
                 new CleanBeforeCompilation(new CompilationOptions(false, true), EFSSystem);
 

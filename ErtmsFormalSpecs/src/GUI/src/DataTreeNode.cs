@@ -156,7 +156,7 @@ namespace GUI
 
             foreach (BaseTreeNode node in Nodes)
             {
-                bool refreshNode = node.Model.IsParent(modifiedElement) || node.IsExpanded;
+                bool refreshNode = node.Model.IsParent(modifiedElement) || node.SubNodesBuilt;
                 if (Parent != null)
                 {
                     refreshNode = refreshNode || Parent.IsExpanded;
@@ -256,7 +256,7 @@ namespace GUI
         /// </summary>
         public virtual void SelectionHandler()
         {
-            EFSSystem.INSTANCE.Context.SelectElement(Model, this, Context.SelectionCriteria.LeftClick);            
+            EFSSystem.INSTANCE.Context.SelectElement(Model, this, Context.SelectionCriteria.LeftClick);
         }
 
         /// <summary>
@@ -292,6 +292,7 @@ namespace GUI
         ///     The colors used to display things
         /// </summary>
         private static readonly Color ErrorColor = Color.Red;
+
         private static readonly Color PathToErrorColor = Color.Orange;
         private static readonly Color WarningColor = Color.Brown;
         private static readonly Color PathToWarningColor = Color.LightCoral;
@@ -335,7 +336,7 @@ namespace GUI
 
             return retVal;
         }
-        
+
         /// <summary>
         ///     Updates the node color according to the associated messages
         /// </summary>
@@ -669,27 +670,6 @@ namespace GUI
         }
 
         /// <summary>
-        ///     Generates new GUID for the element
-        /// </summary>
-        private class RegenerateGuidVisitor : Visitor
-        {
-            /// <summary>
-            ///     Ensures that all elements have a new Guid
-            /// </summary>
-            /// <param name="obj"></param>
-            /// <param name="visitSubNodes"></param>
-            public override void visit(BaseModelElement obj, bool visitSubNodes)
-            {
-                ModelElement element = (ModelElement) obj;
-
-                // Side effect : creates a new Guid if it is empty
-                element.setGuid(null);
-
-                base.visit(obj, visitSubNodes);
-            }
-        }
-
-        /// <summary>
         /// Provides the sub node of the corresponding type
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -717,64 +697,65 @@ namespace GUI
         /// <param name="sourceNode"></param>
         public virtual void AcceptCopy(BaseTreeNode sourceNode)
         {
-            XmlBBase xmlBBase = sourceNode.Model as XmlBBase;
-            if (xmlBBase != null)
+            try
             {
-                string data = xmlBBase.ToXMLString();
-                XmlBStringContext ctxt = new XmlBStringContext(data);
-                try
+                ModelElement modelElement = sourceNode.Model as ModelElement;
+                if (modelElement != null)
                 {
-                    ModelElement copy = acceptor.accept(ctxt) as ModelElement;
+                    ModelElement copy = modelElement.Duplicate();
                     if (copy != null)
                     {
-                        RegenerateGuidVisitor visitor = new RegenerateGuidVisitor();
-                        visitor.visit(copy, true);
-
-                        Model.AddModelElement(copy);
-                        ArrayList targetCollection = copy.EnclosingCollection;
-                        copy.Delete();
-                        if (targetCollection != null)
+                        Util.DontNotify(() =>
                         {
-                            int previousIndex = -1;
-                            int index = 0;
-                            while (previousIndex != index)
+                            // Trick : This is used to know the enclosing collection in the target
+                            Model.AddModelElement(copy);
+                            ArrayList targetCollection = copy.EnclosingCollection;
+                            copy.Delete();
+                            // End of trick
+
+                            if (targetCollection != null)
                             {
-                                previousIndex = index;
-                                foreach (INamable other in targetCollection)
+                                int previousIndex = -1;
+                                int index = 0;
+                                while (previousIndex != index)
                                 {
-                                    if (index > 0)
+                                    previousIndex = index;
+                                    foreach (INamable other in targetCollection)
                                     {
-                                        if (other.Name.Equals(copy.Name + "_" + index))
+                                        if (index > 0)
                                         {
-                                            index += 1;
-                                            break;
+                                            if (other.Name.Equals(copy.Name + "_" + index))
+                                            {
+                                                index += 1;
+                                                break;
+                                            }
                                         }
-                                    }
-                                    else
-                                    {
-                                        if (other.Name.Equals(copy.Name))
+                                        else
                                         {
-                                            index += 1;
-                                            break;
+                                            if (other.Name.Equals(copy.Name))
+                                            {
+                                                index += 1;
+                                                break;
+                                            }
                                         }
                                     }
                                 }
-                            }
 
-                            // Renaming is mandatory
-                            if (index > 0)
-                            {
-                                copy.Name = copy.Name + "_" + index;
+                                // Renaming is mandatory
+                                if (index > 0)
+                                {
+                                    copy.Name = copy.Name + "_" + index;
+                                }
                             }
-                        }
+                        });
 
                         Model.AddModelElement(copy);
                     }
                 }
-                catch (Exception)
-                {
-                    MessageBox.Show("Cannot copy element\n" + data);
-                }
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Cannot copy element\n");
             }
         }
 
