@@ -14,45 +14,31 @@
 // --
 // ------------------------------------------------------------------------------
 
-using System.Drawing;
-using DataDictionary.Generated;
-using Variable = DataDictionary.Variables.Variable;
+using DataDictionary.Types;
 
-namespace GUI.ModelDiagram
+namespace GUI.ModelDiagram.Boxes
 {
     /// <summary>
-    ///     The boxes that represent a variable
+    ///     The boxes that represent a structure
     /// </summary>
-    public class VariableModelControl : ModelControl
+    public class StructureModelControl : TypeModelControl
     {
         /// <summary>
         ///     Constructor
         /// </summary>
         /// <param name="panel"></param>
         /// <param name="model"></param>
-        public VariableModelControl(ModelDiagramPanel panel, Variable model)
+        public StructureModelControl(ModelDiagramPanel panel, Structure model)
             : base(panel, model)
         {
-            BoxMode = BoxModeEnum.RoundedCorners;
-            NormalColor = Color.BlanchedAlmond;
         }
 
         /// <summary>
-        ///     The name of the kind of model
+        ///     The name of the kind of type
         /// </summary>
         public override string ModelName
         {
-            get
-            {
-                string retVal = "Variable";
-
-                if (((Variable) Model).getVariableMode() == acceptor.VariableModeEnumType.aConstant)
-                {
-                    retVal = "Constant";
-                }
-
-                return retVal;
-            }
+            get { return "Structure"; }
         }
     }
 }

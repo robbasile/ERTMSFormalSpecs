@@ -15,25 +15,26 @@
 // ------------------------------------------------------------------------------
 
 using System.Drawing;
-using DataDictionary.Rules;
+using DataDictionary.Generated;
+using Variable = DataDictionary.Variables.Variable;
 
-namespace GUI.ModelDiagram
+namespace GUI.ModelDiagram.Boxes
 {
     /// <summary>
-    ///     The boxes that represent a rule
+    ///     The boxes that represent a variable
     /// </summary>
-    public class RuleModelControl : ModelControl
+    public class VariableModelControl : ModelControl
     {
         /// <summary>
         ///     Constructor
         /// </summary>
         /// <param name="panel"></param>
         /// <param name="model"></param>
-        public RuleModelControl(ModelDiagramPanel panel, Rule model)
+        public VariableModelControl(ModelDiagramPanel panel, Variable model)
             : base(panel, model)
         {
             BoxMode = BoxModeEnum.RoundedCorners;
-            NormalColor = Color.LightBlue;
+            NormalColor = Color.BlanchedAlmond;
         }
 
         /// <summary>
@@ -41,7 +42,17 @@ namespace GUI.ModelDiagram
         /// </summary>
         public override string ModelName
         {
-            get { return "Rule"; }
+            get
+            {
+                string retVal = "Variable";
+
+                if (((Variable) Model).getVariableMode() == acceptor.VariableModeEnumType.aConstant)
+                {
+                    retVal = "Constant";
+                }
+
+                return retVal;
+            }
         }
     }
 }

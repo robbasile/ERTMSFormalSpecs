@@ -14,34 +14,31 @@
 // --
 // ------------------------------------------------------------------------------
 
-using System.Drawing;
 using DataDictionary.Types;
 
-namespace GUI.ModelDiagram
+namespace GUI.ModelDiagram.Boxes
 {
     /// <summary>
-    ///     The boxes that represent a name space
+    ///     The boxes that represent a state machine
     /// </summary>
-    public class NameSpaceModelControl : ModelControl
+    public class StateMachineModelControl : TypeModelControl
     {
         /// <summary>
         ///     Constructor
         /// </summary>
         /// <param name="panel"></param>
         /// <param name="model"></param>
-        public NameSpaceModelControl(ModelDiagramPanel panel, NameSpace model)
+        public StateMachineModelControl(ModelDiagramPanel panel, StateMachine model)
             : base(panel, model)
         {
-            NormalColor = Color.LightGreen;
-            BoxMode = BoxModeEnum.RoundedCorners;
         }
 
         /// <summary>
-        ///     The name of the kind of model
+        ///     The name of the kind of type
         /// </summary>
         public override string ModelName
         {
-            get { return "Namespace"; }
+            get { return "State machine"; }
         }
     }
 }

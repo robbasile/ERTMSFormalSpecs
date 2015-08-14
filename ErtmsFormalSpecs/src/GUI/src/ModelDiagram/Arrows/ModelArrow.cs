@@ -15,17 +15,14 @@
 // ------------------------------------------------------------------------------
 
 using DataDictionary;
-using DataDictionary.Variables;
-using GUI.BoxArrowDiagram;
-using Utils;
 using ModelElement = DataDictionary.ModelElement;
 
-namespace GUI.ModelDiagram
+namespace GUI.ModelDiagram.Arrows
 {
     /// <summary>
     ///     An arrow
     /// </summary>
-    public class ModelArrow : IGraphicalArrow<IGraphicalDisplay>
+    public abstract class ModelArrow : IGraphicalArrow<IGraphicalDisplay>
     {
         /// <summary>
         ///     Constructor
@@ -34,7 +31,7 @@ namespace GUI.ModelDiagram
         /// <param name="target"></param>
         /// <param name="name"></param>
         /// <param name="model"></param>
-        public ModelArrow(IGraphicalDisplay source, IGraphicalDisplay target, string name, ModelElement model)
+        protected ModelArrow(IGraphicalDisplay source, IGraphicalDisplay target, string name, ModelElement model)
         {
             Source = source;
             Target = target;
@@ -45,30 +42,24 @@ namespace GUI.ModelDiagram
         /// <summary>
         ///     The source of the arrow
         /// </summary>
-        public IGraphicalDisplay Source { get; private set; }
+        public IGraphicalDisplay Source { get; protected set; }
 
         /// <summary>
         ///     Sets the source box for this arrow
         /// </summary>
         /// <param name="initialBox"></param>
-        public void SetInitialBox(IGraphicalDisplay initialBox)
-        {
-            Source = initialBox;
-        }
+        public abstract void SetInitialBox(IGraphicalDisplay initialBox);
 
         /// <summary>
         ///     The target of the arrow
         /// </summary>
-        public IGraphicalDisplay Target { get; private set; }
+        public IGraphicalDisplay Target { get; protected set; }
 
         /// <summary>
         ///     Sets the target box for this arrow
         /// </summary>
         /// <param name="targetBox"></param>
-        public void SetTargetBox(IGraphicalDisplay targetBox)
-        {
-            Target = targetBox;
-        }
+        public abstract void SetTargetBox(IGraphicalDisplay targetBox);
 
         /// <summary>
         ///     The name to be displayed
@@ -79,33 +70,5 @@ namespace GUI.ModelDiagram
         ///     The model element which is referenced by this arrow
         /// </summary>
         public ModelElement ReferencedModel { get; private set; }
-    }
-
-    /// <summary>
-    ///     An arrow between the models
-    /// </summary>
-    public class ModelArrowControl : ArrowControl<IModelElement, IGraphicalDisplay, ModelArrow>
-    {
-        /// <summary>
-        ///     Constructor
-        /// </summary>
-        /// <param name="panel"></param>
-        /// <param name="model"></param>
-        public ModelArrowControl(ModelDiagramPanel panel, ModelArrow model)
-            : base (panel, model)
-        {
-            DefaultArrowLength = 30;
-
-            if (TypedModel.Source is Variable)
-            {
-                ArrowFill = ArrowFillEnum.Fill;
-                ArrowMode = ArrowModeEnum.Full;
-            }
-            else
-            {
-                ArrowFill = ArrowFillEnum.Line;
-                ArrowMode = ArrowModeEnum.Half;
-            }
-        }
     }
 }

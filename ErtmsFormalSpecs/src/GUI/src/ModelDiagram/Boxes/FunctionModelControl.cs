@@ -14,31 +14,31 @@
 // --
 // ------------------------------------------------------------------------------
 
-using DataDictionary.Types;
+using DataDictionary.Functions;
 
-namespace GUI.ModelDiagram
+namespace GUI.ModelDiagram.Boxes
 {
     /// <summary>
-    ///     The boxes that represent an enumeration
+    ///     The boxes that represent a function
     /// </summary>
-    public class EnumModelControl : TypeModelControl
+    public class FunctionModelControl : ModelControl
     {
         /// <summary>
         ///     Constructor
         /// </summary>
         /// <param name="panel"></param>
         /// <param name="model"></param>
-        public EnumModelControl(ModelDiagramPanel panel, Enum model)
+        public FunctionModelControl(ModelDiagramPanel panel, Function model)
             : base(panel, model)
         {
         }
 
         /// <summary>
-        ///     The name of the kind of type
+        ///     The name of the kind of model
         /// </summary>
         public override string ModelName
         {
-            get { return "Enumeration"; }
+            get { return "Function"; }
         }
     }
 }

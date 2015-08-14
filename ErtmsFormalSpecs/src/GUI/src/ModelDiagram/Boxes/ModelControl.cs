@@ -17,9 +17,10 @@
 using System.Drawing;
 using DataDictionary;
 using GUI.BoxArrowDiagram;
+using GUI.ModelDiagram.Arrows;
 using Utils;
 
-namespace GUI.ModelDiagram
+namespace GUI.ModelDiagram.Boxes
 {
     /// <summary>
     ///     The boxes that represent a model element

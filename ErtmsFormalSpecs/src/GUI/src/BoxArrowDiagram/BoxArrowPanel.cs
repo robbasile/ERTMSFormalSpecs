@@ -328,23 +328,28 @@ namespace GUI.BoxArrowDiagram
                     {
                         _changingArrow = arrow;
                         _chaningArrowAction = ChangeAction.InitialBox;
+                        Selected = arrow;
                         break;
                     }
                     if (Around(arrow.TargetLocation, clickPoint))
                     {
                         _changingArrow = arrow;
                         _chaningArrowAction = ChangeAction.TargetBox;
+                        Selected = arrow;
                         break;
                     }
                 }
 
-                var box = BoxForLocation(clickPoint);
-                if (box != null)
+                if (_changingArrow == null)
                 {
-                    _movingBox = box;
-                    _selectedMovingBox = false;
-                    _moveStartLocation = mouseEventArgs.Location;
-                    _positionBeforeMove = box.Location;
+                    var box = BoxForLocation(clickPoint);
+                    if (box != null)
+                    {
+                        _movingBox = box;
+                        _selectedMovingBox = false;
+                        _moveStartLocation = mouseEventArgs.Location;
+                        _positionBeforeMove = box.Location;
+                    }
                 }
             }
         }
@@ -429,8 +434,8 @@ namespace GUI.BoxArrowDiagram
         /// <param name="y"></param>
         private void SetBoxPosition(BoxControl<TEnclosing, TBoxModel, TArrowModel> box, int x, int y)
         {
-            int posX = ((int)(x)/GridSize)*GridSize;
-            int posY = ((int)(y)/GridSize)*GridSize;
+            int posX = (x/GridSize)*GridSize;
+            int posY = (y/GridSize)*GridSize;
 
             box.Location = new Point(posX, posY);
         }
@@ -446,10 +451,14 @@ namespace GUI.BoxArrowDiagram
             if (element != null)
             {
                 element.HandleMouseUp(sender, mouseEventArgs);
-            } 
+            }
 
-            _changingArrow = null;
-            _chaningArrowAction = ChangeAction.None;
+            if (_changingArrow != null)
+            {
+                _changingArrow = null;
+                _chaningArrowAction = ChangeAction.None;
+                RefreshControl();                
+            }
 
             if (_movingBox != null)
             {
@@ -466,7 +475,7 @@ namespace GUI.BoxArrowDiagram
         /// <summary>
         ///     The maximum delta when considering if two points are near one from the other
         /// </summary>
-        private const int MaxDelta = 5;
+        private const int MaxDelta = 10;
 
         /// <summary>
         ///     Indicates whether two points are near one from the other

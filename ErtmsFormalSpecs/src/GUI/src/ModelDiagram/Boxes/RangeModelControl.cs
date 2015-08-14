@@ -16,19 +16,19 @@
 
 using DataDictionary.Types;
 
-namespace GUI.ModelDiagram
+namespace GUI.ModelDiagram.Boxes
 {
     /// <summary>
-    ///     The boxes that represent a state machine
+    ///     The boxes that represent a range
     /// </summary>
-    public class StateMachineModelControl : TypeModelControl
+    public class RangeModelControl : TypeModelControl
     {
         /// <summary>
         ///     Constructor
         /// </summary>
         /// <param name="panel"></param>
         /// <param name="model"></param>
-        public StateMachineModelControl(ModelDiagramPanel panel, StateMachine model)
+        public RangeModelControl(ModelDiagramPanel panel, Range model)
             : base(panel, model)
         {
         }
@@ -38,7 +38,7 @@ namespace GUI.ModelDiagram
         /// </summary>
         public override string ModelName
         {
-            get { return "State machine"; }
+            get { return "Range"; }
         }
     }
 }

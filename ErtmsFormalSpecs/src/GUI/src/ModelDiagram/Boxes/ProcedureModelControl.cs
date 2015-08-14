@@ -14,31 +14,31 @@
 // --
 // ------------------------------------------------------------------------------
 
-using DataDictionary.Types;
+using DataDictionary.Functions;
 
-namespace GUI.ModelDiagram
+namespace GUI.ModelDiagram.Boxes
 {
     /// <summary>
-    ///     The boxes that represent a structure
+    ///     The boxes that represent a procedure
     /// </summary>
-    public class StructureModelControl : TypeModelControl
+    public class ProcedureModelControl : ModelControl
     {
         /// <summary>
         ///     Constructor
         /// </summary>
         /// <param name="panel"></param>
         /// <param name="model"></param>
-        public StructureModelControl(ModelDiagramPanel panel, Structure model)
+        public ProcedureModelControl(ModelDiagramPanel panel, Procedure model)
             : base(panel, model)
         {
         }
 
         /// <summary>
-        ///     The name of the kind of type
+        ///     The name of the kind of model
         /// </summary>
         public override string ModelName
         {
-            get { return "Structure"; }
+            get { return "Procedure"; }
         }
     }
 }

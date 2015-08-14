@@ -17,30 +17,31 @@
 using System.Drawing;
 using DataDictionary.Types;
 
-namespace GUI.ModelDiagram
+namespace GUI.ModelDiagram.Boxes
 {
     /// <summary>
-    ///     The boxes that represent an interface
+    ///     The boxes that represent a name space
     /// </summary>
-    public class InterfaceModelControl : TypeModelControl
+    public class NameSpaceModelControl : ModelControl
     {
         /// <summary>
         ///     Constructor
         /// </summary>
         /// <param name="panel"></param>
         /// <param name="model"></param>
-        public InterfaceModelControl(ModelDiagramPanel panel, Structure model)
+        public NameSpaceModelControl(ModelDiagramPanel panel, NameSpace model)
             : base(panel, model)
         {
-            NormalColor = Color.LightGoldenrodYellow;
+            NormalColor = Color.LightGreen;
+            BoxMode = BoxModeEnum.RoundedCorners;
         }
 
         /// <summary>
-        ///     The name of the kind of type
+        ///     The name of the kind of model
         /// </summary>
         public override string ModelName
         {
-            get { return "Interface"; }
+            get { return "Namespace"; }
         }
     }
 }

@@ -14,31 +14,34 @@
 // --
 // ------------------------------------------------------------------------------
 
-using DataDictionary.Types;
+using System.Drawing;
+using DataDictionary.Rules;
 
-namespace GUI.ModelDiagram
+namespace GUI.ModelDiagram.Boxes
 {
     /// <summary>
-    ///     The boxes that represent a range
+    ///     The boxes that represent a rule
     /// </summary>
-    public class RangeModelControl : TypeModelControl
+    public class RuleModelControl : ModelControl
     {
         /// <summary>
         ///     Constructor
         /// </summary>
         /// <param name="panel"></param>
         /// <param name="model"></param>
-        public RangeModelControl(ModelDiagramPanel panel, Range model)
+        public RuleModelControl(ModelDiagramPanel panel, Rule model)
             : base(panel, model)
         {
+            BoxMode = BoxModeEnum.RoundedCorners;
+            NormalColor = Color.LightBlue;
         }
 
         /// <summary>
-        ///     The name of the kind of type
+        ///     The name of the kind of model
         /// </summary>
         public override string ModelName
         {
-            get { return "Range"; }
+            get { return "Rule"; }
         }
     }
 }

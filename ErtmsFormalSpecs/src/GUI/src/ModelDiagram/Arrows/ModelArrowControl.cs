@@ -14,31 +14,37 @@
 // --
 // ------------------------------------------------------------------------------
 
-using DataDictionary.Functions;
+using DataDictionary;
+using GUI.BoxArrowDiagram;
+using Utils;
 
-namespace GUI.ModelDiagram
+namespace GUI.ModelDiagram.Arrows
 {
     /// <summary>
-    ///     The boxes that represent a procedure
+    ///     An arrow between the models
     /// </summary>
-    public class ProcedureModelControl : ModelControl
+    public class ModelArrowControl : ArrowControl<IModelElement, IGraphicalDisplay, ModelArrow>
     {
         /// <summary>
         ///     Constructor
         /// </summary>
         /// <param name="panel"></param>
         /// <param name="model"></param>
-        public ProcedureModelControl(ModelDiagramPanel panel, Procedure model)
-            : base(panel, model)
+        public ModelArrowControl(ModelDiagramPanel panel, ModelArrow model)
+            : base (panel, model)
         {
-        }
+            DefaultArrowLength = 30;
 
-        /// <summary>
-        ///     The name of the kind of model
-        /// </summary>
-        public override string ModelName
-        {
-            get { return "Procedure"; }
+            if (model is VariableTypeArrow)
+            {
+                ArrowFill = ArrowFillEnum.Fill;
+                ArrowMode = ArrowModeEnum.Full;
+            }
+            else
+            {
+                ArrowFill = ArrowFillEnum.Line;
+                ArrowMode = ArrowModeEnum.Half;
+            }
         }
     }
 }

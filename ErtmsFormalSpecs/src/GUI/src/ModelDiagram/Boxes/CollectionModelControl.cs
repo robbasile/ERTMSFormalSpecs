@@ -14,31 +14,31 @@
 // --
 // ------------------------------------------------------------------------------
 
-using DataDictionary.Functions;
+using DataDictionary.Types;
 
-namespace GUI.ModelDiagram
+namespace GUI.ModelDiagram.Boxes
 {
     /// <summary>
-    ///     The boxes that represent a function
+    ///     The boxes that represent a collection
     /// </summary>
-    public class FunctionModelControl : ModelControl
+    public class CollectionModelControl : TypeModelControl
     {
         /// <summary>
         ///     Constructor
         /// </summary>
         /// <param name="panel"></param>
         /// <param name="model"></param>
-        public FunctionModelControl(ModelDiagramPanel panel, Function model)
+        public CollectionModelControl(ModelDiagramPanel panel, Collection model)
             : base(panel, model)
         {
         }
 
         /// <summary>
-        ///     The name of the kind of model
+        ///     The name of the kind of type
         /// </summary>
         public override string ModelName
         {
-            get { return "Function"; }
+            get { return "Collection"; }
         }
     }
 }

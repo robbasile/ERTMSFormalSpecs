@@ -16,19 +16,19 @@
 
 using DataDictionary.Types;
 
-namespace GUI.ModelDiagram
+namespace GUI.ModelDiagram.Boxes
 {
     /// <summary>
-    ///     The boxes that represent a collection
+    ///     The boxes that represent an enumeration
     /// </summary>
-    public class CollectionModelControl : TypeModelControl
+    public class EnumModelControl : TypeModelControl
     {
         /// <summary>
         ///     Constructor
         /// </summary>
         /// <param name="panel"></param>
         /// <param name="model"></param>
-        public CollectionModelControl(ModelDiagramPanel panel, Collection model)
+        public EnumModelControl(ModelDiagramPanel panel, Enum model)
             : base(panel, model)
         {
         }
@@ -38,7 +38,7 @@ namespace GUI.ModelDiagram
         /// </summary>
         public override string ModelName
         {
-            get { return "Collection"; }
+            get { return "Enumeration"; }
         }
     }
 }

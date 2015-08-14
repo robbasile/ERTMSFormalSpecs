@@ -14,25 +14,42 @@
 // --
 // ------------------------------------------------------------------------------
 
-using System.Drawing;
+using DataDictionary;
 using DataDictionary.Types;
+using DataDictionary.Variables;
 
-namespace GUI.ModelDiagram
+namespace GUI.ModelDiagram.Arrows
 {
     /// <summary>
-    ///     The boxes that represent a type
+    ///     An arrow
     /// </summary>
-    public abstract class TypeModelControl : ModelControl
+    public class InheritanceArrow : ModelArrow
     {
         /// <summary>
         ///     Constructor
         /// </summary>
-        /// <param name="panel"></param>
+        /// <param name="source"></param>
+        /// <param name="target"></param>
         /// <param name="model"></param>
-        protected TypeModelControl(ModelDiagramPanel panel, Type model)
-            : base(panel, model)
+        public InheritanceArrow(Structure source, Structure target, Structure model)
+            : base (source, target, "implements", model)
         {
-            NormalColor = Color.LightSteelBlue;
+        }
+
+        /// <summary>
+        ///     Sets the source box for this arrow
+        /// </summary>
+        /// <param name="initialBox"></param>
+        public override void SetInitialBox(IGraphicalDisplay initialBox)
+        {
+        }
+
+        /// <summary>
+        ///     Sets the target box for this arrow
+        /// </summary>
+        /// <param name="targetBox"></param>
+        public override void SetTargetBox(IGraphicalDisplay targetBox)
+        {
         }
     }
 }

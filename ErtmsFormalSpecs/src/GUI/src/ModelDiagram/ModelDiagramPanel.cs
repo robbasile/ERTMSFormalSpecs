@@ -15,9 +15,10 @@
 // ------------------------------------------------------------------------------
 
 using System.Collections.Generic;
-using System.Drawing;
 using DataDictionary;
 using GUI.BoxArrowDiagram;
+using GUI.ModelDiagram.Arrows;
+using GUI.ModelDiagram.Boxes;
 using Utils;
 using Collection = DataDictionary.Types.Collection;
 using Dictionary = DataDictionary.Dictionary;
@@ -145,9 +146,7 @@ namespace GUI.ModelDiagram
         /// <returns></returns>
         public override ArrowControl<IModelElement, IGraphicalDisplay, ModelArrow> CreateArrow(ModelArrow model)
         {
-            ModelArrowControl retVal = new ModelArrowControl(this, model);
-
-            return retVal;
+            return new ModelArrowControl(this, model);
         }
 
         /// <summary>
@@ -216,13 +215,13 @@ namespace GUI.ModelDiagram
                 Variable variable = item as Variable;
                 if (variable != null && variable.Type != null)
                 {
-                    retVal.Add(new ModelArrow(variable, variable.Type, "type", variable));
+                    retVal.Add(new VariableTypeArrow(variable, variable.Type, variable));
                 }
 
                 Collection collection = item as Collection;
                 if (collection != null && collection.Type != null)
                 {
-                    retVal.Add(new ModelArrow(collection, collection.Type, "of " + collection.getMaxSize(), collection));
+                    retVal.Add(new CollectionTypeArrow(collection, collection.Type, collection));
                 }
 
                 Structure structure = item as Structure;
@@ -234,7 +233,7 @@ namespace GUI.ModelDiagram
                         {
                             if (boxes.Contains(element.Type))
                             {
-                                retVal.Add(new ModelArrow(structure, element.Type, element.Name, element));
+                                retVal.Add(new ElementReferenceArrow(structure, element.Type, element));
                             }
                         }
                     }
@@ -243,7 +242,7 @@ namespace GUI.ModelDiagram
                     {
                         if (boxes.Contains(inheritedStructure))
                         {
-                            retVal.Add(new ModelArrow(structure, inheritedStructure, "implements", inheritedStructure));
+                            retVal.Add(new InheritanceArrow(structure, inheritedStructure, inheritedStructure));
                         }
                     }
                 }
