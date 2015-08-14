@@ -32,7 +32,7 @@ using Action = DataDictionary.Rules.Action;
 using ModelElement = DataDictionary.ModelElement;
 using Type = DataDictionary.Types.Type;
 
-namespace GUI
+namespace GUIUtils.Editor
 {
     public partial class BaseEditorTextBox : UserControl
     {

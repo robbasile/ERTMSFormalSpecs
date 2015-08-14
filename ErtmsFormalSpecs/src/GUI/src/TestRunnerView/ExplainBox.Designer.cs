@@ -15,6 +15,7 @@
 // ------------------------------------------------------------------------------
 
 using DataDictionary.Interpreter;
+using GUI.EditorView;
 
 namespace GUI.TestRunnerView
 {
@@ -52,7 +53,7 @@ namespace GUI.TestRunnerView
             this.button1 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.searchTextBox = new System.Windows.Forms.TextBox();
-            this.explainRichTextBox = new GUI.EditorTextBox();
+            this.explainRichTextBox = new EditorTextBox();
             this.caseSensitiveCheckBox = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();

@@ -1,4 +1,6 @@
-﻿namespace GUI.MoreInfoView
+﻿using GUI.EditorView;
+
+namespace GUI.MoreInfoView
 {
     partial class Window
     {
@@ -29,7 +31,7 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Window));
-            this.moreInfoRichTextBox = new GUI.EditorTextBox();
+            this.moreInfoRichTextBox = new EditorTextBox();
             this.SuspendLayout();
             // 
             // moreInfoRichTextBox

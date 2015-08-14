@@ -9,7 +9,7 @@ using DataDictionary.Functions;
 using DataDictionary.Interpreter;
 using DataDictionary.Interpreter.Filter;
 
-namespace GUI
+namespace GUIUtils.Editor
 {
     public class SyntaxRichTextBox : RichTextBox
     {

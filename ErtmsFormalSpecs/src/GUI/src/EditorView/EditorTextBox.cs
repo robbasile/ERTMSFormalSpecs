@@ -27,11 +27,11 @@ using DataDictionary.Types;
 using DataDictionary.Values;
 using DataDictionary.Variables;
 using GUI.DataDictionaryView;
+using GUIUtils.Editor;
 using Utils;
 using Action = DataDictionary.Rules.Action;
-using Window = GUI.StructureEditor.Window;
 
-namespace GUI
+namespace GUI.EditorView
 {
     public partial class EditorTextBox : BaseEditorTextBox
     {
@@ -190,7 +190,7 @@ namespace GUI
                     IValue value = expression.GetValue(context, null);
                     if (value != null)
                     {
-                        Window window = new Window();
+                        StructureEditor.Window window = new StructureEditor.Window();
                         window.SetModel(value);
                         window.ShowDialog();
 
@@ -291,7 +291,7 @@ namespace GUI
                 IValue value = part.RightPart as IValue;
                 if (value != null)
                 {
-                    Window window = new Window();
+                    StructureEditor.Window window = new StructureEditor.Window();
                     window.SetModel(value);
                     window.ShowDialog();
                     dialogShown = true;

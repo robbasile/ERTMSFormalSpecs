@@ -1,4 +1,4 @@
-﻿namespace GUI
+﻿namespace GUI.EditorView
 {
     partial class EditorTextBox
     {

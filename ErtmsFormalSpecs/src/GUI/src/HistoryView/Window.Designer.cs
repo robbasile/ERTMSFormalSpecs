@@ -13,6 +13,9 @@
 // -- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 // --
 // ------------------------------------------------------------------------------
+
+using GUI.EditorView;
+
 namespace GUI.HistoryView
 {
     partial class Window
@@ -53,9 +56,9 @@ namespace GUI.HistoryView
             this.propertyGrid = new GUI.MyPropertyGrid();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.beforeGroupBox = new System.Windows.Forms.GroupBox();
-            this.beforeRichTextBox = new GUI.EditorTextBox();
+            this.beforeRichTextBox = new EditorTextBox();
             this.afterGroupBox = new System.Windows.Forms.GroupBox();
-            this.afterRichTextBox = new GUI.EditorTextBox();
+            this.afterRichTextBox = new EditorTextBox();
             this.toolStrip3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();

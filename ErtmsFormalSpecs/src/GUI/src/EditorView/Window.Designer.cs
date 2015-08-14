@@ -44,7 +44,7 @@ namespace GUI.EditorView
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Window));
-            this.editorTextBox = new GUI.EditorTextBox();
+            this.editorTextBox = new EditorTextBox();
             this.SuspendLayout();
             // 
             // editorTextBox

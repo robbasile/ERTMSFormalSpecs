@@ -15,6 +15,7 @@
 // ------------------------------------------------------------------------------
 
 using DataDictionary;
+using GUI.EditorView;
 using Utils;
 
 namespace GUI

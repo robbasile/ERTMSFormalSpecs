@@ -1,4 +1,4 @@
-﻿namespace GUI
+﻿namespace GUIUtils.Editor
 {
     partial class BaseEditorTextBox 
     {
