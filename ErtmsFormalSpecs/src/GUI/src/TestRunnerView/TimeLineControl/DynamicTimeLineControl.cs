@@ -148,7 +148,6 @@ namespace GUI.TestRunnerView.TimeLineControl
             if (TimeLine == null)
             {
                 UpdatePositionHandler();
-                UpdatePanelSize();
             }
             else
             {
@@ -156,7 +155,6 @@ namespace GUI.TestRunnerView.TimeLineControl
                 {
                     TimeLine.Changed = false;
                     UpdatePositionHandler();
-                    UpdatePanelSize();
                     HandledEvents = TimeLine.Events.Count;
                     base.Refresh();
                 }
@@ -180,16 +178,8 @@ namespace GUI.TestRunnerView.TimeLineControl
                     }
                 }
             }
-        }
 
-        /// <summary>
-        ///     Updates the size of the panel according to the number of events to handle
-        /// </summary>
-        protected override void UpdatePanelSize()
-        {
-            base.UpdatePanelSize();
-            ScrollControlIntoView(AutoScrollEnabler);
-            VerticalScroll.Value = 0;
+            base.UpdatePositionHandler();
         }
     }
 }

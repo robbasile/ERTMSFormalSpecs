@@ -37,26 +37,32 @@ namespace GUI.TestRunnerView.TimeLineControl
     public abstract class TimeLineControl : Panel
     {
         /// <summary>
-        ///     This label is used to allow auto scrolling by positionning it at the botton right bounds of the visible rectangle
+        /// The draw area
         /// </summary>
-        protected Label AutoScrollEnabler { get; set; }
+        protected PictureBox DrawArea { get; set; }
 
         /// <summary>
-        ///     Label used to define the size of the panel
+        /// The tooltip to display
         /// </summary>
-        protected Label AutoPanelSize { get; set; }
+        protected ToolTip ToolTip { get; set; }
 
         private void InitializeComponent()
         {
             AutoScroll = true;
             AutoSize = false;
-            DoubleBuffered = true;
+            DoubleBuffered = true; 
 
-            Click += TimeLineControl_Click;
-
-            AutoScrollEnabler = new Label {Text = "", Parent = this, Location = new Point(0, 0), Visible = true};
-
-            AutoPanelSize = new Label {Text = "", Parent = this, Location = new Point(0, 0), Visible = true};
+            DrawArea = new PictureBox
+            {
+                Parent = this,
+                Location = new Point(0,0),
+                Visible = true,
+            };
+            DrawArea.Click += TimeLineControl_Click;
+            DrawArea.Paint += DrawArea_Paint;
+            DrawArea.MouseHover += DrawArea_MouseHover;
+            ToolTip = new ToolTip();
+            ToolTip.SetToolTip(DrawArea, null);
         }
 
         /// <summary>
@@ -434,7 +440,15 @@ namespace GUI.TestRunnerView.TimeLineControl
         /// </summary>
         protected int HandledEvents = -1;
 
-        protected abstract void UpdatePositionHandler();
+        /// <summary>
+        /// Updates the position handler
+        /// </summary>
+        protected virtual void UpdatePositionHandler()
+        {
+            // Update the draw area size according to the displayed events
+            Size size = new Size(PositionHandler.BottomRightPosition.X, PositionHandler.BottomRightPosition.Y);
+            DrawArea.Size = size;
+        }
 
         /// <summary>
         ///     The size of an event
@@ -457,39 +471,35 @@ namespace GUI.TestRunnerView.TimeLineControl
         private static Size _eventMarging = new Size(5, 2);
 
         /// <summary>
-        ///     Updates the size of the panel according to the number of events to handle
+        /// Paints the events
         /// </summary>
-        protected virtual void UpdatePanelSize()
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void DrawArea_Paint(object sender, PaintEventArgs e)
         {
-            Point bottomRightPosition = PositionHandler.BottomRightPosition;
-            Point location = new Point(
-                bottomRightPosition.X - HorizontalScroll.Value,
-                bottomRightPosition.Y - VerticalScroll.Value
-                );
-            AutoPanelSize.Location = location;
-
-            location = new Point(
-                location.X,
-                0
-                );
-            AutoScrollEnabler.Location = location;
-        }
-
-        protected override void OnPaint(PaintEventArgs pe)
-        {
-            pe.Graphics.TranslateTransform(AutoScrollPosition.X, AutoScrollPosition.Y);
-            DrawEvents(pe);
+            e.Graphics.TranslateTransform(AutoScrollPosition.X, AutoScrollPosition.Y);
+            foreach (KeyValuePair<ModelEvent, Rectangle> pair in PositionHandler.EventPositions)
+            {
+                DrawEvent(e, pair.Key, pair.Value);
+            }
         }
 
         /// <summary>
-        ///     Draws the event for the panel
+        /// Display the tooltip
         /// </summary>
-        /// <param name="pe"></param>
-        private void DrawEvents(PaintEventArgs pe)
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void DrawArea_MouseHover(object sender, EventArgs e)
         {
-            foreach (KeyValuePair<ModelEvent, Rectangle> pair in PositionHandler.EventPositions)
+            ModelEvent modelEvent = GetEventUnderMouse();
+
+            if (modelEvent != null)
             {
-                DrawEvent(pe, pair.Key, pair.Value);
+                ToolTip.SetToolTip(DrawArea, modelEvent.Message);
+            }
+            else
+            {
+                ToolTip.SetToolTip(DrawArea, null);
             }
         }
 

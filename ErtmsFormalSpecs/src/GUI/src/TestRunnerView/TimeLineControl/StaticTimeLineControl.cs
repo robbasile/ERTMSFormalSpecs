@@ -16,6 +16,7 @@
 
 using System;
 using System.Collections;
+using System.Drawing;
 using System.Windows.Forms;
 using DataDictionary;
 using DataDictionary.Generated;
@@ -663,18 +664,15 @@ namespace GUI.TestRunnerView.TimeLineControl
             if (TestCase != null && TestCase.ActionCount != HandledEvents)
             {
                 UpdatePositionHandler();
-                UpdatePanelSize();
                 HandledEvents = TestCase.ActionCount;
             }
             else if (SubSequence != null)
             {
                 UpdatePositionHandler();
-                UpdatePanelSize();
             }
             else if (Translation != null)
             {
                 UpdatePositionHandler();
-                UpdatePanelSize();
             }
 
             base.Refresh();
@@ -719,6 +717,8 @@ namespace GUI.TestRunnerView.TimeLineControl
                     }
                 }
             }
+
+            base.UpdatePositionHandler();
         }
 
         /// <summary>
