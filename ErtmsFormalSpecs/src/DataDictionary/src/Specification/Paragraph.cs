@@ -1050,14 +1050,18 @@ namespace DataDictionary.Specification
         public static Paragraph CreateDefault(ICollection enclosingCollection, string enclosingId)
         {
             Paragraph retVal = (Paragraph) acceptor.getFactory().createParagraph();
-            retVal.FullId = enclosingId + "." + GetElementNumber(enclosingCollection);
-            retVal.Text = "";
-            retVal.setType(acceptor.Paragraph_type.aREQUIREMENT);
 
-            foreach (RequirementSet requirementSet in EFSSystem.INSTANCE.RequirementSets)
+            Util.DontNotify(() =>
             {
-                requirementSet.SetDefaultRequirementSets(retVal);
-            }
+                retVal.FullId = enclosingId + "." + GetElementNumber(enclosingCollection);
+                retVal.Text = "";
+                retVal.setType(acceptor.Paragraph_type.aREQUIREMENT);
+
+                foreach (RequirementSet requirementSet in EFSSystem.INSTANCE.RequirementSets)
+                {
+                    requirementSet.SetDefaultRequirementSets(retVal);
+                }
+            });
 
             return retVal;
         }

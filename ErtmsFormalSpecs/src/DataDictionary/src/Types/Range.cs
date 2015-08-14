@@ -806,9 +806,13 @@ namespace DataDictionary.Types
         public static Range CreateDefault(ICollection enclosingCollection)
         {
             Range retVal = (Range)acceptor.getFactory().createRange();
-            retVal.Name = "Range" + GetElementNumber(enclosingCollection);
-            retVal.MinValue = "0";
-            retVal.MaxValue = "1";
+
+            Util.DontNotify(() =>
+            {
+                retVal.Name = "Range" + GetElementNumber(enclosingCollection);
+                retVal.MinValue = "0";
+                retVal.MaxValue = "1";
+            });
 
             return retVal;
         }

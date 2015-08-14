@@ -16,6 +16,7 @@
 
 using DataDictionary.Generated;
 using DataDictionary.Specification;
+using XmlBooster;
 using Chapter = DataDictionary.Generated.Chapter;
 using ChapterRef = DataDictionary.Generated.ChapterRef;
 using Message = DataDictionary.Generated.Message;
@@ -39,6 +40,21 @@ namespace DataDictionary
         /// </summary>
         public bool AutomaticallyGenerateGuid { get; set; }
 
+        /// <summary>
+        /// Sets the default values for the element provided as parameter
+        /// </summary>
+        /// <param name="model"></param>
+        public void SetDefaultValue(IXmlBBase model)
+        {
+            // We are creating a new element, notification about changes in that element
+            // are not necessary.
+            Util.DontNotify(() =>
+            {
+                // ReSharper disable once ConvertToLambdaExpression
+                visit(model, true);                
+            });
+        }
+
         public override void visit(BaseModelElement obj, bool visitSubNodes)
         {
             ModelElement element = (ModelElement) obj;
@@ -46,6 +62,7 @@ namespace DataDictionary
             if (AutomaticallyGenerateGuid)
             {
                 // Side effect : creates the guid of the element
+                // ReSharper disable once UnusedVariable
                 string guid = element.Guid;
             }
 
@@ -286,22 +303,22 @@ namespace DataDictionary
         /// <summary>
         ///     The class used to set the default values
         /// </summary>
-        private DefaultValueSetter DefaultValueSetter = new DefaultValueSetter();
+        private readonly DefaultValueSetter _defaultValueSetter = new DefaultValueSetter();
 
         /// <summary>
         ///     Indicates that the Guid should be automatically set when creating a new object
         /// </summary>
         public bool AutomaticallyGenerateGuid
         {
-            get { return DefaultValueSetter.AutomaticallyGenerateGuid; }
-            set { DefaultValueSetter.AutomaticallyGenerateGuid = value; }
+            get { return _defaultValueSetter.AutomaticallyGenerateGuid; }
+            set { _defaultValueSetter.AutomaticallyGenerateGuid = value; }
         }
 
         public override Generated.Dictionary createDictionary()
         {
             Generated.Dictionary retVal = new Dictionary();
 
-            DefaultValueSetter.visit(retVal);
+            _defaultValueSetter.SetDefaultValue(retVal);
 
             return retVal;
         }
@@ -310,7 +327,7 @@ namespace DataDictionary
         {
             Generated.ReqRef retVal = new ReqRef();
 
-            DefaultValueSetter.visit(retVal);
+            _defaultValueSetter.SetDefaultValue(retVal);
             return retVal;
         }
 
@@ -322,7 +339,7 @@ namespace DataDictionary
         {
             RuleDisabling retVal = new RuleDisabling();
 
-            DefaultValueSetter.visit(retVal);
+            _defaultValueSetter.SetDefaultValue(retVal);
 
             return retVal;
         }
@@ -331,7 +348,7 @@ namespace DataDictionary
         {
             NameSpace retVal = new Types.NameSpace();
 
-            DefaultValueSetter.visit(retVal);
+            _defaultValueSetter.SetDefaultValue(retVal);
 
             return retVal;
         }
@@ -340,7 +357,7 @@ namespace DataDictionary
         {
             NameSpaceRef retVal = new Types.NameSpaceRef();
 
-            DefaultValueSetter.visit(retVal);
+            _defaultValueSetter.SetDefaultValue(retVal);
 
             return retVal;
         }
@@ -349,7 +366,7 @@ namespace DataDictionary
         {
             Enum retVal = new Types.Enum();
 
-            DefaultValueSetter.visit(retVal);
+            _defaultValueSetter.SetDefaultValue(retVal);
 
             return retVal;
         }
@@ -358,7 +375,7 @@ namespace DataDictionary
         {
             EnumValue retVal = new Constants.EnumValue();
 
-            DefaultValueSetter.visit(retVal);
+            _defaultValueSetter.SetDefaultValue(retVal);
 
             return retVal;
         }
@@ -367,7 +384,7 @@ namespace DataDictionary
         {
             Range retVal = new Types.Range();
 
-            DefaultValueSetter.visit(retVal);
+            _defaultValueSetter.SetDefaultValue(retVal);
 
             return retVal;
         }
@@ -376,7 +393,7 @@ namespace DataDictionary
         {
             Structure retVal = new Types.Structure();
 
-            DefaultValueSetter.visit(retVal);
+            _defaultValueSetter.SetDefaultValue(retVal);
 
             return retVal;
         }
@@ -385,7 +402,7 @@ namespace DataDictionary
         {
             StructureRef retVal = new Types.StructureRef();
 
-            DefaultValueSetter.visit(retVal);
+            _defaultValueSetter.SetDefaultValue(retVal);
 
             return retVal;
         }
@@ -394,7 +411,7 @@ namespace DataDictionary
         {
             Collection retVal = new Types.Collection();
 
-            DefaultValueSetter.visit(retVal);
+            _defaultValueSetter.SetDefaultValue(retVal);
 
             return retVal;
         }
@@ -403,7 +420,7 @@ namespace DataDictionary
         {
             StructureElement retVal = new Types.StructureElement();
 
-            DefaultValueSetter.visit(retVal);
+            _defaultValueSetter.SetDefaultValue(retVal);
 
             return retVal;
         }
@@ -412,7 +429,7 @@ namespace DataDictionary
         {
             Function retVal = new Functions.Function();
 
-            DefaultValueSetter.visit(retVal);
+            _defaultValueSetter.SetDefaultValue(retVal);
 
             return retVal;
         }
@@ -421,7 +438,7 @@ namespace DataDictionary
         {
             Generated.Parameter retVal = new Parameter();
 
-            DefaultValueSetter.visit(retVal);
+            _defaultValueSetter.SetDefaultValue(retVal);
 
             return retVal;
         }
@@ -430,7 +447,7 @@ namespace DataDictionary
         {
             Case retVal = new Functions.Case();
 
-            DefaultValueSetter.visit(retVal);
+            _defaultValueSetter.SetDefaultValue(retVal);
 
             return retVal;
         }
@@ -439,7 +456,7 @@ namespace DataDictionary
         {
             Procedure retVal = new Functions.Procedure();
 
-            DefaultValueSetter.visit(retVal);
+            _defaultValueSetter.SetDefaultValue(retVal);
 
             return retVal;
         }
@@ -448,7 +465,7 @@ namespace DataDictionary
         {
             StateMachine retVal = new Types.StateMachine();
 
-            DefaultValueSetter.visit(retVal);
+            _defaultValueSetter.SetDefaultValue(retVal);
 
             return retVal;
         }
@@ -457,7 +474,7 @@ namespace DataDictionary
         {
             State retVal = new Constants.State();
 
-            DefaultValueSetter.visit(retVal);
+            _defaultValueSetter.SetDefaultValue(retVal);
 
             return retVal;
         }
@@ -466,7 +483,7 @@ namespace DataDictionary
         {
             Variable retVal = new Variables.Variable();
 
-            DefaultValueSetter.visit(retVal);
+            _defaultValueSetter.SetDefaultValue(retVal);
 
             return retVal;
         }
@@ -475,7 +492,7 @@ namespace DataDictionary
         {
             Rule retVal = new Rules.Rule();
 
-            DefaultValueSetter.visit(retVal);
+            _defaultValueSetter.SetDefaultValue(retVal);
 
             return retVal;
         }
@@ -484,7 +501,7 @@ namespace DataDictionary
         {
             RuleCondition retVal = new Rules.RuleCondition();
 
-            DefaultValueSetter.visit(retVal);
+            _defaultValueSetter.SetDefaultValue(retVal);
 
             return retVal;
         }
@@ -493,7 +510,7 @@ namespace DataDictionary
         {
             PreCondition retVal = new Rules.PreCondition();
 
-            DefaultValueSetter.visit(retVal);
+            _defaultValueSetter.SetDefaultValue(retVal);
 
             return retVal;
         }
@@ -502,7 +519,7 @@ namespace DataDictionary
         {
             Action retVal = new Rules.Action();
 
-            DefaultValueSetter.visit(retVal);
+            _defaultValueSetter.SetDefaultValue(retVal);
 
             return retVal;
         }
@@ -511,7 +528,7 @@ namespace DataDictionary
         {
             FrameRef retVal = new Tests.FrameRef();
 
-            DefaultValueSetter.visit(retVal);
+            _defaultValueSetter.SetDefaultValue(retVal);
 
             return retVal;
         }
@@ -520,7 +537,7 @@ namespace DataDictionary
         {
             Frame retVal = new Tests.Frame();
 
-            DefaultValueSetter.visit(retVal);
+            _defaultValueSetter.SetDefaultValue(retVal);
 
             return retVal;
         }
@@ -529,7 +546,7 @@ namespace DataDictionary
         {
             SubSequence retVal = new Tests.SubSequence();
 
-            DefaultValueSetter.visit(retVal);
+            _defaultValueSetter.SetDefaultValue(retVal);
 
             return retVal;
         }
@@ -538,7 +555,7 @@ namespace DataDictionary
         {
             TestCase retVal = new Tests.TestCase();
 
-            DefaultValueSetter.visit(retVal);
+            _defaultValueSetter.SetDefaultValue(retVal);
 
             return retVal;
         }
@@ -547,7 +564,7 @@ namespace DataDictionary
         {
             Step retVal = new Tests.Step();
 
-            DefaultValueSetter.visit(retVal);
+            _defaultValueSetter.SetDefaultValue(retVal);
 
             return retVal;
         }
@@ -556,7 +573,7 @@ namespace DataDictionary
         {
             SubStep retVal = new Tests.SubStep();
 
-            DefaultValueSetter.visit(retVal);
+            _defaultValueSetter.SetDefaultValue(retVal);
 
             return retVal;
         }
@@ -565,7 +582,7 @@ namespace DataDictionary
         {
             Expectation retVal = new Tests.Expectation();
 
-            DefaultValueSetter.visit(retVal);
+            _defaultValueSetter.SetDefaultValue(retVal);
 
             return retVal;
         }
@@ -574,7 +591,7 @@ namespace DataDictionary
         {
             DBMessage retVal = new Tests.DBElements.DBMessage();
 
-            DefaultValueSetter.visit(retVal);
+            _defaultValueSetter.SetDefaultValue(retVal);
 
             return retVal;
         }
@@ -583,7 +600,7 @@ namespace DataDictionary
         {
             DBPacket retVal = new Tests.DBElements.DBPacket();
 
-            DefaultValueSetter.visit(retVal);
+            _defaultValueSetter.SetDefaultValue(retVal);
 
             return retVal;
         }
@@ -592,7 +609,7 @@ namespace DataDictionary
         {
             DBField retVal = new Tests.DBElements.DBField();
 
-            DefaultValueSetter.visit(retVal);
+            _defaultValueSetter.SetDefaultValue(retVal);
 
             return retVal;
         }
@@ -601,7 +618,7 @@ namespace DataDictionary
         {
             Generated.Specification retVal = new Specification.Specification();
 
-            DefaultValueSetter.visit(retVal);
+            _defaultValueSetter.SetDefaultValue(retVal);
 
             return retVal;
         }
@@ -610,7 +627,7 @@ namespace DataDictionary
         {
             RequirementSet retVal = new Specification.RequirementSet();
 
-            DefaultValueSetter.visit(retVal);
+            _defaultValueSetter.SetDefaultValue(retVal);
 
             return retVal;
         }
@@ -619,7 +636,7 @@ namespace DataDictionary
         {
             RequirementSetDependancy retVal = new Specification.RequirementSetDependancy();
 
-            DefaultValueSetter.visit(retVal);
+            _defaultValueSetter.SetDefaultValue(retVal);
 
             return retVal;
         }
@@ -628,7 +645,7 @@ namespace DataDictionary
         {
             RequirementSetReference retVal = new Specification.RequirementSetReference();
 
-            DefaultValueSetter.visit(retVal);
+            _defaultValueSetter.SetDefaultValue(retVal);
 
             return retVal;
         }
@@ -637,7 +654,7 @@ namespace DataDictionary
         {
             Chapter retVal = new Specification.Chapter();
 
-            DefaultValueSetter.visit(retVal);
+            _defaultValueSetter.SetDefaultValue(retVal);
 
             return retVal;
         }
@@ -646,7 +663,7 @@ namespace DataDictionary
         {
             ChapterRef retVal = new Specification.ChapterRef();
 
-            DefaultValueSetter.visit(retVal);
+            _defaultValueSetter.SetDefaultValue(retVal);
 
             return retVal;
         }
@@ -655,7 +672,7 @@ namespace DataDictionary
         {
             Paragraph retVal = new Specification.Paragraph();
 
-            DefaultValueSetter.visit(retVal);
+            _defaultValueSetter.SetDefaultValue(retVal);
 
             return retVal;
         }
@@ -664,7 +681,7 @@ namespace DataDictionary
         {
             Message retVal = new Specification.Message();
 
-            DefaultValueSetter.visit(retVal);
+            _defaultValueSetter.SetDefaultValue(retVal);
 
             return retVal;
         }
@@ -673,7 +690,7 @@ namespace DataDictionary
         {
             MsgVariable retVal = new Specification.MsgVariable();
 
-            DefaultValueSetter.visit(retVal);
+            _defaultValueSetter.SetDefaultValue(retVal);
 
             return retVal;
         }
@@ -682,7 +699,7 @@ namespace DataDictionary
         {
             TypeSpec retVal = new Specification.TypeSpec();
 
-            DefaultValueSetter.visit(retVal);
+            _defaultValueSetter.SetDefaultValue(retVal);
 
             return retVal;
         }
@@ -691,7 +708,7 @@ namespace DataDictionary
         {
             Generated.Values retVal = new Specification.Values();
 
-            DefaultValueSetter.visit(retVal);
+            _defaultValueSetter.SetDefaultValue(retVal);
 
             return retVal;
         }
@@ -700,7 +717,7 @@ namespace DataDictionary
         {
             special_or_reserved_values retVal = new SpecialOrReservedValues();
 
-            DefaultValueSetter.visit(retVal);
+            _defaultValueSetter.SetDefaultValue(retVal);
 
             return retVal;
         }
@@ -709,7 +726,7 @@ namespace DataDictionary
         {
             special_or_reserved_value retVal = new SpecialOrReservedValue();
 
-            DefaultValueSetter.visit(retVal);
+            _defaultValueSetter.SetDefaultValue(retVal);
 
             return retVal;
         }
@@ -718,7 +735,7 @@ namespace DataDictionary
         {
             mask retVal = new Mask();
 
-            DefaultValueSetter.visit(retVal);
+            _defaultValueSetter.SetDefaultValue(retVal);
 
             return retVal;
         }
@@ -727,7 +744,7 @@ namespace DataDictionary
         {
             match retVal = new Match();
 
-            DefaultValueSetter.visit(retVal);
+            _defaultValueSetter.SetDefaultValue(retVal);
 
             return retVal;
         }
@@ -736,7 +753,7 @@ namespace DataDictionary
         {
             meaning retVal = new Meaning();
 
-            DefaultValueSetter.visit(retVal);
+            _defaultValueSetter.SetDefaultValue(retVal);
 
             return retVal;
         }
@@ -745,7 +762,7 @@ namespace DataDictionary
         {
             match_range retVal = new MatchRange();
 
-            DefaultValueSetter.visit(retVal);
+            _defaultValueSetter.SetDefaultValue(retVal);
 
             return retVal;
         }
@@ -754,7 +771,7 @@ namespace DataDictionary
         {
             resolution_formula retVal = new ResolutionFormula();
 
-            DefaultValueSetter.visit(retVal);
+            _defaultValueSetter.SetDefaultValue(retVal);
 
             return retVal;
         }
@@ -763,7 +780,7 @@ namespace DataDictionary
         {
             value retVal = new Value();
 
-            DefaultValueSetter.visit(retVal);
+            _defaultValueSetter.SetDefaultValue(retVal);
 
             return retVal;
         }
@@ -772,7 +789,7 @@ namespace DataDictionary
         {
             char_value retVal = new CharValue();
 
-            DefaultValueSetter.visit(retVal);
+            _defaultValueSetter.SetDefaultValue(retVal);
 
             return retVal;
         }
@@ -781,7 +798,7 @@ namespace DataDictionary
         {
             ParagraphRevision retVal = new Specification.ParagraphRevision();
 
-            DefaultValueSetter.visit(retVal);
+            _defaultValueSetter.SetDefaultValue(retVal);
 
             return retVal;
         }
@@ -790,7 +807,7 @@ namespace DataDictionary
         {
             TranslationDictionary retVal = new Tests.Translations.TranslationDictionary();
 
-            DefaultValueSetter.visit(retVal);
+            _defaultValueSetter.SetDefaultValue(retVal);
 
             return retVal;
         }
@@ -799,7 +816,7 @@ namespace DataDictionary
         {
             Folder retVal = new Tests.Translations.Folder();
 
-            DefaultValueSetter.visit(retVal);
+            _defaultValueSetter.SetDefaultValue(retVal);
 
             return retVal;
         }
@@ -808,7 +825,7 @@ namespace DataDictionary
         {
             Translation retVal = new Tests.Translations.Translation();
 
-            DefaultValueSetter.visit(retVal);
+            _defaultValueSetter.SetDefaultValue(retVal);
 
             return retVal;
         }
@@ -817,7 +834,7 @@ namespace DataDictionary
         {
             SourceText retVal = new Tests.Translations.SourceText();
 
-            DefaultValueSetter.visit(retVal);
+            _defaultValueSetter.SetDefaultValue(retVal);
 
             return retVal;
         }
@@ -826,7 +843,7 @@ namespace DataDictionary
         {
             SourceTextComment retVal = new Tests.Translations.SourceTextComment();
 
-            DefaultValueSetter.visit(retVal);
+            _defaultValueSetter.SetDefaultValue(retVal);
 
             return retVal;
         }
@@ -835,7 +852,7 @@ namespace DataDictionary
         {
             ShortcutDictionary retVal = new Shortcuts.ShortcutDictionary();
 
-            DefaultValueSetter.visit(retVal);
+            _defaultValueSetter.SetDefaultValue(retVal);
 
             return retVal;
         }
@@ -844,7 +861,7 @@ namespace DataDictionary
         {
             ShortcutFolder retVal = new Shortcuts.ShortcutFolder();
 
-            DefaultValueSetter.visit(retVal);
+            _defaultValueSetter.SetDefaultValue(retVal);
 
             return retVal;
         }
@@ -853,7 +870,7 @@ namespace DataDictionary
         {
             Shortcut retVal = new Shortcuts.Shortcut();
 
-            DefaultValueSetter.visit(retVal);
+            _defaultValueSetter.SetDefaultValue(retVal);
 
             return retVal;
         }

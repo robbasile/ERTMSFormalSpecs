@@ -327,8 +327,12 @@ namespace DataDictionary.Rules
         public static PreCondition CreateDefault(ICollection enclosingCollection)
         {
             PreCondition retVal = (PreCondition)acceptor.getFactory().createPreCondition();
-            retVal.Name = "PreCondition" + GetElementNumber(enclosingCollection);
-            retVal.Condition = "";
+
+            Util.DontNotify(() =>
+            {
+                retVal.Name = "PreCondition" + GetElementNumber(enclosingCollection);
+                retVal.Condition = "";
+            });
 
             return retVal;
         }

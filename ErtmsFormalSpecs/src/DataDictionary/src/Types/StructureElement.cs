@@ -356,7 +356,11 @@ namespace DataDictionary.Types
         public static StructureElement CreateDefault(ICollection enclosingCollection)
         {
             StructureElement retVal = (StructureElement)acceptor.getFactory().createStructureElement();
-            retVal.Name = "Element" + GetElementNumber(enclosingCollection);
+
+            Util.DontNotify(() =>
+            {
+                retVal.Name = "Element" + GetElementNumber(enclosingCollection);
+            });
 
             return retVal;
         }

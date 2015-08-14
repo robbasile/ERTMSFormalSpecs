@@ -144,7 +144,11 @@ namespace DataDictionary.Types
         public static StructureRef CreateDefault(ICollection enclosingCollection)
         {
             StructureRef retVal = (StructureRef)acceptor.getFactory().createStructureRef();
-            retVal.Name = "Interface" + GetElementNumber(enclosingCollection);
+
+            Util.DontNotify(() =>
+            {
+                retVal.Name = "Interface" + GetElementNumber(enclosingCollection);
+            });
 
             return retVal;
         }

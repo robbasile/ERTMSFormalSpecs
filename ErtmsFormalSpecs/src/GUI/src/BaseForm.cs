@@ -132,6 +132,17 @@ namespace GUI
         /// <returns>True if the view should be refreshed</returns>
         public virtual bool HandleValueChange(IModelElement modelElement, Context.ChangeKind changeKind)
         {
+            return ShouldDisplayChange(modelElement, changeKind);
+        }
+
+        /// <summary>
+        /// Indicates that a change event should be displayed
+        /// </summary>
+        /// <param name="modelElement"></param>
+        /// <param name="changeKind"></param>
+        /// <returns></returns>
+        protected virtual bool ShouldDisplayChange(IModelElement modelElement, Context.ChangeKind changeKind)
+        {
             bool retVal = modelElement == null || DisplayedModel == null || DisplayedModel.IsParent(modelElement);
 
             // When end of cycle, only redisplay when the displayed element related to a variable
@@ -240,7 +251,13 @@ namespace GUI
         /// <param name="changeKind">Indicates the reason why the change occured</param>
         protected virtual void Context_ValueChange(IModelElement modelElement, Context.ChangeKind changeKind)
         {
-            BeginInvoke((MethodInvoker) (() => HandleValueChange(modelElement, changeKind)));
+            try
+            {
+                BeginInvoke((MethodInvoker) (() => HandleValueChange(modelElement, changeKind)));
+            }
+            catch (Exception)
+            {
+            }
         }
 
         /// <summary>
@@ -249,7 +266,13 @@ namespace GUI
         /// <param name="modelElement"></param>
         protected virtual void Context_InfoMessageChange(IModelElement modelElement)
         {
-            BeginInvoke((MethodInvoker)(() => HandleInfoMessageChange(modelElement)));
+            try
+            {
+                BeginInvoke((MethodInvoker) (() => HandleInfoMessageChange(modelElement)));
+            }
+            catch (Exception)
+            {                
+            }
         }
 
         /// <summary>

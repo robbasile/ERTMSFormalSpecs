@@ -55,7 +55,7 @@ namespace DataDictionary.Specification
         /// </summary>
         public RequirementSet Ref
         {
-            get { return GuidCache.INSTANCE.GetModel(getTarget()) as RequirementSet; }
+            get { return GuidCache.Instance.GetModel(getTarget()) as RequirementSet; }
         }
 
         /// <summary>

@@ -310,7 +310,11 @@ namespace DataDictionary.Types
         public static Collection CreateDefault(ICollection enclosingCollection)
         {
             Collection retVal = (Collection)acceptor.getFactory().createCollection();
-            retVal.Name = "Collection" + GetElementNumber(enclosingCollection);
+
+            Util.DontNotify(() =>
+            {
+                retVal.Name = "Collection" + GetElementNumber(enclosingCollection);
+            });
 
             return retVal;
         }

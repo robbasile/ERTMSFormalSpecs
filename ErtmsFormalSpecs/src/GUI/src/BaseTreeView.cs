@@ -20,6 +20,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using DataDictionary;
 using DataDictionary.Interpreter;
+using GUI.LongOperations;
 using GUI.Properties;
 using Utils;
 
@@ -214,15 +215,17 @@ namespace GUI
                     else
                     {
                         Compiler compiler = EFSSystem.INSTANCE.Compiler;
-
                         compiler.Compile_Synchronous(false, true);
+                        
                         destinationNode.AcceptDrop(sourceNode);
+
                         if (Refactor && Settings.Default.AllowRefactor)
                         {
-                            compiler.RefactorAndRelocate(sourceNode.Model as DataDictionary.ModelElement);
+                            RefactorAndRelocateOperation refactorAndRelocate = new RefactorAndRelocateOperation(sourceNode.Model as DataDictionary.ModelElement);
+                            refactorAndRelocate.ExecuteUsingProgressDialog("Refactoring", false);
                         }
                     }
-                }
+                }                
             }
         }
 
@@ -456,7 +459,7 @@ namespace GUI
                     // Refresh the selected node
                     foreach (BaseTreeNode node in Nodes)
                     {
-                        if (node.Model != null && node.Model.IsParent(modifiedElement))
+                        if (modifiedElement == null || (node.Model != null && node.Model.IsParent(modifiedElement)))
                         {
                             node.BuildOrRefreshSubNodes(modifiedElement);
                         }

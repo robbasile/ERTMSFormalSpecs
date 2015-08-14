@@ -616,9 +616,13 @@ namespace DataDictionary.Variables
         /// <returns></returns>
         public static Variable CreateDefault(ICollection enclosingCollection)
         {
-            Variable retVal = (Variable)acceptor.getFactory().createVariable();
-            retVal.Name = "Variable" + GetElementNumber(enclosingCollection);
-            retVal.Type = EFSSystem.INSTANCE.BoolType;
+            Variable retVal = (Variable) acceptor.getFactory().createVariable();
+
+            Util.DontNotify(() =>
+            {
+                retVal.Name = "Variable" + GetElementNumber(enclosingCollection);
+                retVal.Type = EFSSystem.INSTANCE.BoolType;
+            });
 
             return retVal;
         }

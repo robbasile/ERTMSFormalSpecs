@@ -297,7 +297,11 @@ namespace DataDictionary.Functions
         public static Case CreateDefault(ICollection enclosingCollection)
         {
             Case retVal = (Case)acceptor.getFactory().createCase();
-            retVal.Name = "Case" + GetElementNumber(enclosingCollection);
+
+            Util.DontNotify(() =>
+            {
+                retVal.Name = "Case" + GetElementNumber(enclosingCollection);
+            });
 
             return retVal;
         }

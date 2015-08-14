@@ -690,15 +690,18 @@ namespace DataDictionary.Types
         {
             Structure retVal = (Structure)acceptor.getFactory().createStructure();
 
-            if (isInterface)
+            Util.DontNotify(() =>
             {
-                retVal.Name = "Interface" + GetElementNumber(enclosingCollection);
-                retVal.IsAbstract = true;
-            }
-            else
-            {
-                retVal.Name = "Structure" + GetElementNumber(enclosingCollection);                
-            }
+                if (isInterface)
+                {
+                    retVal.Name = "Interface" + GetElementNumber(enclosingCollection);
+                    retVal.IsAbstract = true;
+                }
+                else
+                {
+                    retVal.Name = "Structure" + GetElementNumber(enclosingCollection);
+                }
+            });
 
             return retVal;
         }

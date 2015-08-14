@@ -363,8 +363,12 @@ namespace DataDictionary.Specification
         public static Chapter CreateDefault(ICollection enclosingCollection)
         {
             Chapter retVal = (Chapter)acceptor.getFactory().createChapter();
-            retVal.Name = "Chapter" + GetElementNumber(enclosingCollection);
-            retVal.setId(GetElementNumber(enclosingCollection).ToString());
+
+            Util.DontNotify(() =>
+            {
+                retVal.Name = "Chapter" + GetElementNumber(enclosingCollection);
+                retVal.setId(GetElementNumber(enclosingCollection).ToString());
+            });
 
             return retVal;
         }

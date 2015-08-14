@@ -137,7 +137,11 @@ namespace DataDictionary.Tests
         public static SubStep CreateDefault(ICollection enclosingCollection)
         {
             SubStep retVal = (SubStep)acceptor.getFactory().createSubStep();
-            retVal.Name = "SubStep" + GetElementNumber(enclosingCollection);
+
+            Util.DontNotify(() =>
+            {
+                retVal.Name = "SubStep" + GetElementNumber(enclosingCollection);
+            });
 
             return retVal;
         }
@@ -221,7 +225,11 @@ namespace DataDictionary.Tests
         public static SubStep CreateDefault(ICollection enclosingCollection, string enclosingId)
         {
             SubStep retVal = (SubStep)acceptor.getFactory().createSubStep();
-            retVal.Name = "SubStep" + GetElementNumber(enclosingCollection);
+            Util.DontNotify(() =>
+            {
+
+                retVal.Name = "SubStep" + GetElementNumber(enclosingCollection);
+            });
 
             return retVal;
         }

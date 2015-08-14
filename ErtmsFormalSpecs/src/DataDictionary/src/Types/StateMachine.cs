@@ -1004,7 +1004,11 @@ namespace DataDictionary.Types
         public static StateMachine CreateDefault(ICollection enclosingCollection)
         {
             StateMachine retVal = (StateMachine)acceptor.getFactory().createStateMachine();
-            retVal.Name = "StateMachine" + GetElementNumber(enclosingCollection);
+
+            Util.DontNotify(() =>
+            {
+                retVal.Name = "StateMachine" + GetElementNumber(enclosingCollection);
+            });
 
             return retVal;
         }

@@ -235,9 +235,13 @@ namespace DataDictionary.Tests
         public static Frame CreateDefault(ICollection enclosingCollection)
         {
             Frame retVal = (Frame)acceptor.getFactory().createFrame();
-            retVal.Name = "Frame" + GetElementNumber(enclosingCollection);
-            retVal.setCycleDuration("0.1");
-            retVal.appendSubSequences(SubSequence.CreateDefault(retVal.SubSequences));
+
+            Util.DontNotify(() =>
+            {
+                retVal.Name = "Frame" + GetElementNumber(enclosingCollection);
+                retVal.setCycleDuration("0.1");
+                retVal.appendSubSequences(SubSequence.CreateDefault(retVal.SubSequences));
+            });
 
             return retVal;
         }

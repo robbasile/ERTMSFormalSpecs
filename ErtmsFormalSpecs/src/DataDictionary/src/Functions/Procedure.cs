@@ -457,7 +457,11 @@ namespace DataDictionary.Functions
         public static Procedure CreateDefault(ICollection enclosingCollection)
         {
             Procedure retVal = (Procedure)acceptor.getFactory().createProcedure();
-            retVal.Name = "Procedure" + GetElementNumber(enclosingCollection);
+            
+            Util.DontNotify(() =>
+            {
+                retVal.Name = "Procedure" + GetElementNumber(enclosingCollection);
+            });
 
             return retVal;
         }
