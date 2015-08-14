@@ -77,7 +77,7 @@ namespace DataDictionary
                     ModelElement cachedElement;
                     if (_dictionary.TryGetValue(guid, out cachedElement))
                     {
-                        if (element != cachedElement)
+                        if (cachedElement != null && element != cachedElement)
                         {
                             throw new Exception("Model element collision found");
                         }
