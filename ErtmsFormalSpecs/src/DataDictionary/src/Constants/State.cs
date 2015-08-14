@@ -306,7 +306,7 @@ namespace DataDictionary.Constants
 
         public void Constants(string scope, Dictionary<string, object> retVal)
         {
-            string name = Utils.Utils.concat(scope, Name);
+            string name = Utils.Util.concat(scope, Name);
 
             retVal[name] = this;
             if (StateMachine != null)

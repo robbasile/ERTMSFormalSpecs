@@ -90,7 +90,7 @@ namespace DataDictionary.Types
         {
             foreach (EnumValue value in Values)
             {
-                string name = Utils.Utils.concat(scope, value.Name);
+                string name = Utils.Util.concat(scope, value.Name);
                 retVal[name] = retVal;
             }
         }

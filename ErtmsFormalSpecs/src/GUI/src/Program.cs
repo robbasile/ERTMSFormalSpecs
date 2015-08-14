@@ -25,6 +25,7 @@ using GUI.IPCInterface;
 using GUI.LongOperations;
 using log4net.Config;
 using Utils;
+using Util = DataDictionary.Util;
 
 namespace GUI
 {

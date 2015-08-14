@@ -22,6 +22,7 @@ using DataDictionary;
 using DataDictionary.Generated;
 using Utils;
 using ModelElement = DataDictionary.ModelElement;
+using Util = DataDictionary.Util;
 
 namespace GUI.BoxArrowDiagram
 {

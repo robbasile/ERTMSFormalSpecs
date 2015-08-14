@@ -41,6 +41,7 @@ using NameSpace = DataDictionary.Types.NameSpace;
 using State = DataDictionary.Constants.State;
 using StringValue = DataDictionary.Values.StringValue;
 using StructureValue = DataDictionary.Values.StructureValue;
+using Util = DataDictionary.Util;
 using Value = GUI.IPCInterface.Values.Value;
 
 namespace GUI.IPCInterface

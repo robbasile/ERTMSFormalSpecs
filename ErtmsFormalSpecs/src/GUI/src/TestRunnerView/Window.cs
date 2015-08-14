@@ -24,6 +24,7 @@ using GUI.IPCInterface;
 using GUI.Properties;
 using Utils;
 using Step = DataDictionary.Tests.Step;
+using Util = DataDictionary.Util;
 
 namespace GUI.TestRunnerView
 {

@@ -237,7 +237,7 @@ namespace DataDictionary.Types
 
                 try
                 {
-                    if (!Utils.Utils.isEmpty(Default))
+                    if (!Utils.Util.isEmpty(Default))
                     {
                         retVal = getValue(Default);
 

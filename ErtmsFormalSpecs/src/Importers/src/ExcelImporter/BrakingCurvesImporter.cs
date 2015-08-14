@@ -32,7 +32,6 @@ using SubSequence = DataDictionary.Tests.SubSequence;
 using SubStep = DataDictionary.Tests.SubStep;
 using TestAction = DataDictionary.Rules.Action;
 using TestCase = DataDictionary.Tests.TestCase;
-using Utils = Utils.Utils;
 
 
 namespace Importers.ExcelImporter

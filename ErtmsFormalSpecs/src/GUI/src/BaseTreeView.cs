@@ -23,6 +23,7 @@ using DataDictionary.Interpreter;
 using GUI.LongOperations;
 using GUI.Properties;
 using Utils;
+using Util = DataDictionary.Util;
 
 namespace GUI
 {

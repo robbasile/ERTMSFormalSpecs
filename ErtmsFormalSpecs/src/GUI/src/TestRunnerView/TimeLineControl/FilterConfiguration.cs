@@ -122,7 +122,7 @@ namespace GUI.TestRunnerView.TimeLineControl
             }
 
             // Keep messages that match the regular expression
-            if (!Utils.Utils.isEmpty(RegExp))
+            if (!Utils.Util.isEmpty(RegExp))
             {
                 Regex regularExpression = new Regex(RegExp);
                 retVal = retVal || regularExpression.IsMatch(evt.Message);

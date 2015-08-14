@@ -57,7 +57,7 @@ namespace DataDictionary.Tests.Translations
             {
                 string retVal = base.Name;
 
-                if (Utils.Utils.isEmpty(retVal) && countSourceTexts() > 0)
+                if (Utils.Util.isEmpty(retVal) && countSourceTexts() > 0)
                 {
                     retVal = getSourceTexts(0).Name;
                 }

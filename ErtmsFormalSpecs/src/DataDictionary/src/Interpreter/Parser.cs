@@ -771,7 +771,7 @@ namespace DataDictionary.Interpreter
             int first = Index;
 
             List<Expression> derefArguments = new List<Expression>();
-            while (!Utils.Utils.isEmpty(LookAhead(CONTINUATION_OPERATORS)))
+            while (!Utils.Util.isEmpty(LookAhead(CONTINUATION_OPERATORS)))
             {
                 List<Expression> tmp = new List<Expression>();
                 while (LookAhead("."))

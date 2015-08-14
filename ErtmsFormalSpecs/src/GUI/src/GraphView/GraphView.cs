@@ -27,6 +27,7 @@ using GUI.Shortcuts;
 using WeifenLuo.WinFormsUI.Docking;
 using Graph = DataDictionary.Functions.Graph;
 using Utils;
+using Util = DataDictionary.Util;
 
 namespace GUI.GraphView
 {

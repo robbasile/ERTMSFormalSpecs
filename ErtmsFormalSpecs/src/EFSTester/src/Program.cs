@@ -23,6 +23,7 @@ using Dictionary = DataDictionary.Dictionary;
 using Frame = DataDictionary.Tests.Frame;
 using SubSequence = DataDictionary.Tests.SubSequence;
 using TestCase = DataDictionary.Tests.TestCase;
+using Util = DataDictionary.Util;
 
 namespace EFSTester
 {

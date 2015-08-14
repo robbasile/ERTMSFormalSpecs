@@ -20,6 +20,7 @@ using System.Windows.Forms;
 using DataDictionary;
 using GUIUtils;
 using Utils;
+using Util = DataDictionary.Util;
 
 namespace GUI.LongOperations
 {

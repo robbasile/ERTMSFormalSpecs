@@ -202,7 +202,7 @@ namespace Reports.Tests
                     foreach (ReqRef reqRef in aTestCase.Requirements)
                     {
                         string text = "Requirement " + reqRef.Name;
-                        if (!Utils.Utils.isEmpty(reqRef.Comment))
+                        if (!Utils.Util.isEmpty(reqRef.Comment))
                         {
                             text = text + " : " + reqRef.Comment;
                         }

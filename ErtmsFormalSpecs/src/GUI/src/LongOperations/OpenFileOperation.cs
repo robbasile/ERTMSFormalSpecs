@@ -18,6 +18,7 @@ using System.Collections.Generic;
 using DataDictionary;
 using GUI.Properties;
 using Utils;
+using Util = DataDictionary.Util;
 
 namespace GUI.LongOperations
 {

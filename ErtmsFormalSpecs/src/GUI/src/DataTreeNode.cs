@@ -28,7 +28,6 @@ using GUI.DictionarySelector;
 using GUI.LongOperations;
 using GUI.Properties;
 using Utils;
-using XmlBooster;
 using Chapter = DataDictionary.Specification.Chapter;
 using Dictionary = DataDictionary.Dictionary;
 using Frame = DataDictionary.Tests.Frame;
@@ -38,6 +37,7 @@ using Specification = DataDictionary.Specification.Specification;
 using Step = DataDictionary.Tests.Step;
 using SubSequence = DataDictionary.Tests.SubSequence;
 using TestCase = DataDictionary.Tests.TestCase;
+using Util = Utils.Util;
 
 namespace GUI
 {
@@ -108,7 +108,8 @@ namespace GUI
         /// </summary>
         /// <param name="name"></param>
         /// <param name="value"></param>
-        public BaseTreeNode(IModelElement value, string name = null, bool isFolder = false)
+        /// <param name="isFolder">Indicates that this node corresponds to a folder</param>
+        protected BaseTreeNode(IModelElement value, string name = null, bool isFolder = false)
             : base(name)
         {
             Model = value;
@@ -368,6 +369,7 @@ namespace GUI
                     {
                         info = info | subNode.Model.MessagePathInfo;
                     }
+                    info = Util.CreatePathTo(info);
                 }
 
                 color = ColorBasedOnInfo(info);
@@ -412,7 +414,7 @@ namespace GUI
                     name = Model.Name;
                 }
             }
-            if (Text != name && !Utils.Utils.isEmpty(name))
+            if (Text != name && !Util.isEmpty(name))
             {
                 Text = name;
             }
@@ -705,7 +707,7 @@ namespace GUI
                     ModelElement copy = modelElement.Duplicate();
                     if (copy != null)
                     {
-                        Util.DontNotify(() =>
+                        DataDictionary.Util.DontNotify(() =>
                         {
                             // Trick : This is used to know the enclosing collection in the target
                             Model.AddModelElement(copy);
@@ -1041,7 +1043,6 @@ namespace GUI
         ///     An editor for an item. It is the responsibility of this class to implement attributes
         ///     for the elements to be edited.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
         public abstract class NamedEditor : Editor
         {
             /// <summary>

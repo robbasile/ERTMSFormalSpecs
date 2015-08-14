@@ -19,8 +19,33 @@ using System.Collections.Generic;
 
 namespace Utils
 {
-    public class Utils
+    public class Util
     {
+        /// <summary>
+        /// Creates a path to the info provided
+        /// </summary>
+        /// <param name="info"></param>
+        /// <returns></returns>
+        public static MessageInfoEnum CreatePathTo(MessageInfoEnum info)
+        {
+            MessageInfoEnum retVal = MessageInfoEnum.NoMessage;
+            
+            if ((info & (MessageInfoEnum.Error | MessageInfoEnum.PathToError)) != 0)
+            {
+                retVal = retVal | MessageInfoEnum.PathToError;
+            }
+            if ((info & (MessageInfoEnum.Warning | MessageInfoEnum.PathToWarning)) != 0)
+            {
+                retVal = retVal | MessageInfoEnum.PathToWarning;
+            }
+            if ((info & (MessageInfoEnum.Info | MessageInfoEnum.PathToInfo)) != 0)
+            {
+                retVal = retVal | MessageInfoEnum.PathToInfo;
+            }
+
+            return retVal;
+        }
+
         /// <summary>
         ///     Indicates whether the data provided is empty
         /// </summary>

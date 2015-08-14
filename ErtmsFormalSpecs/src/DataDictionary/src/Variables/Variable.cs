@@ -322,7 +322,7 @@ namespace DataDictionary.Variables
 
                 if (Type != null)
                 {
-                    if (Utils.Utils.isEmpty(getDefaultValue()))
+                    if (Utils.Util.isEmpty(getDefaultValue()))
                     {
                         // The variable does not define a default value, get the one from the type
                         retVal = Type.DefaultValue;

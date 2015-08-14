@@ -131,7 +131,7 @@ namespace Utils
         {
             if (namable != null)
             {
-                if (!Utils.isEmpty(namable.Name))
+                if (!Util.isEmpty(namable.Name))
                 {
                     if (!subDeclarator.DeclaredElements.ContainsKey(namable.Name))
                     {
@@ -438,7 +438,7 @@ namespace Utils
                     }
                     foreach (KeyValuePair<string, List<INamable>> element in subDeclarator.DeclaredElements)
                     {
-                        string name = Utils.concat(scope, element.Key);
+                        string name = Util.concat(scope, element.Key);
 
                         List<INamable> values = element.Value;
                         foreach (INamable value in values)

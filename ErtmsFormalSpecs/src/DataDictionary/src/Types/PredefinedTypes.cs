@@ -135,7 +135,7 @@ namespace DataDictionary.Types
         /// <param name="retVal"></param>
         public void Constants(string scope, Dictionary<string, object> retVal)
         {
-            if (Utils.Utils.isEmpty(scope))
+            if (Utils.Util.isEmpty(scope))
             {
                 retVal[True.Name] = True;
                 retVal[False.Name] = False;

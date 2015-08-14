@@ -505,7 +505,7 @@ namespace DataDictionary
         {
             Types.StructureElement element = (Types.StructureElement) obj;
 
-            if (!Utils.Utils.isEmpty(element.getDefault()))
+            if (!Utils.Util.isEmpty(element.getDefault()))
             {
                 checkExpression(element, element.getDefault());
             }
@@ -550,14 +550,14 @@ namespace DataDictionary
                         variable.AddError("Instantiation of abstract types is forbidden");
                     }
                 }
-                if (Utils.Utils.isEmpty(variable.Comment) && variable.Type != null &&
-                    Utils.Utils.isEmpty(variable.Type.Comment))
+                if (Utils.Util.isEmpty(variable.Comment) && variable.Type != null &&
+                    Utils.Util.isEmpty(variable.Type.Comment))
                 {
                     variable.AddInfo(
                         "Missing variable semantics. Update the 'Comment' associated to the variable or to the corresponding type");
                 }
 
-                if (!Utils.Utils.isEmpty(variable.getDefaultValue()))
+                if (!Utils.Util.isEmpty(variable.getDefaultValue()))
                 {
                     checkExpression(variable, variable.getDefaultValue());
                 }
@@ -598,7 +598,7 @@ namespace DataDictionary
                     {
                         element.AddError("Instantiation of abstract types is forbidden");
                     }
-                    if (!Utils.Utils.isEmpty(element.getDefault()))
+                    if (!Utils.Util.isEmpty(element.getDefault()))
                     {
                         checkExpression(element, element.getDefault());
                     }
@@ -982,7 +982,7 @@ namespace DataDictionary
 
                 if (stateMachine.AllValues.Count > 0)
                 {
-                    if (Utils.Utils.isEmpty(stateMachine.Default))
+                    if (Utils.Util.isEmpty(stateMachine.Default))
                     {
                         stateMachine.AddError("Empty initial state");
                     }
@@ -1035,7 +1035,7 @@ namespace DataDictionary
                 {
                     if (!(type is Types.Structure) && !(type is Functions.Function))
                     {
-                        if (Utils.Utils.isEmpty(type.getDefault()))
+                        if (Utils.Util.isEmpty(type.getDefault()))
                         {
                             type.AddError("Types should define their default value");
                         }
@@ -1104,7 +1104,7 @@ namespace DataDictionary
                     }
                 }
 
-                if (!Utils.Utils.isEmpty(type.getDefault()))
+                if (!Utils.Util.isEmpty(type.getDefault()))
                 {
                     checkExpression(type, type.getDefault());
                 }

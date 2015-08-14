@@ -1303,7 +1303,7 @@ namespace GUI
                     i++;
                 }
 
-                if (Utils.Utils.isEmpty(retVal))
+                if (Utils.Util.isEmpty(retVal))
                 {
                     retVal = model.Name;
                 }

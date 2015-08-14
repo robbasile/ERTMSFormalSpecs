@@ -492,7 +492,7 @@ namespace DataDictionary.Interpreter
             {
                 foreach (KeyValuePair<Actual, IValue> pair in parameterValues)
                 {
-                    if (!Utils.Utils.isEmpty(parameters))
+                    if (!Utils.Util.isEmpty(parameters))
                     {
                         parameters += ", ";
                     }

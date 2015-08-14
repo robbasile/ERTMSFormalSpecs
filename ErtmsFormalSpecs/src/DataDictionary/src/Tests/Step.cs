@@ -40,7 +40,7 @@ namespace DataDictionary.Tests
                 }
                 else
                 {
-                    if (Utils.Utils.isEmpty(retVal))
+                    if (Utils.Util.isEmpty(retVal))
                     {
                         retVal = getDescription();
                     }

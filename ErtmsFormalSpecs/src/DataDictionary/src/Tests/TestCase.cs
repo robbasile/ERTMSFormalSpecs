@@ -42,7 +42,7 @@ namespace DataDictionary.Tests
             {
                 string retVal = base.Name;
 
-                if (Utils.Utils.isEmpty(retVal))
+                if (Utils.Util.isEmpty(retVal))
                 {
                     retVal = "Feature " + getFeature() + ", test case " + getCase();
                 }

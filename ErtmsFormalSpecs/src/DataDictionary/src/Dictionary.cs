@@ -625,7 +625,7 @@ namespace DataDictionary
                     {
                         Type tmp = null;
 
-                        if (!Utils.Utils.isEmpty(name))
+                        if (!Utils.Util.isEmpty(name))
                         {
                             tmp = nameSpace.findTypeByName(name);
 

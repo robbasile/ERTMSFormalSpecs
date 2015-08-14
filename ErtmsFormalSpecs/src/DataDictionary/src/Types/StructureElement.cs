@@ -265,7 +265,7 @@ namespace DataDictionary.Types
 
                 if (Type != null)
                 {
-                    if (Utils.Utils.isEmpty(Default))
+                    if (Utils.Util.isEmpty(Default))
                     {
                         retVal = Type.DefaultValue;
                     }
