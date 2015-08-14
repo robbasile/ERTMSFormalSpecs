@@ -3246,67 +3246,6 @@ TrainPosition.FrontEndPosition(DistanceInterval.Max) &gt;  ReleaseSpeedMonitorin
 <Expression>Kernel.SupervisionStatus.Intervention</Expression>
 </Case></Cases>
 </Function><Function
- Type="BaseTypes.Distance"
- Cacheable="TRUE"
- Default=""
- X="610"
- Y="160"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="IndicationLocation"
- Guid="9c99dc6f-90d1-40a8-8f36-618768e23a53"
->
-<ReqRef
- Id="615ccbef-ab0a-4f6f-9624-9ace6361ea83"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="c1d660be-4df4-4aa1-af88-684d71829ff5"
->
-</ReqRef><Comment>Provides the indication location at MRSP speed for the DMI</Comment>
-<Cases>
-<Case
- Name="Target is EOA and d_I is behind the train"
- Guid="f4f0cfde-b07c-40dd-b482-58aee844d5a0"
->
-<PreConditions>
-<PreCondition
- Guid="ef820a57-90ad-4617-a69a-6c1a406ec324"
->MA.IsEOA(TargetSpeedMonitoring.MRDT())
-
-  AND  
-
-PreIndicationLocation.IndicationLimitAtSpeed_EOA(PreIndicationLocation.IndicationSegment(TargetSpeedMonitoring.MRDT()).Speed ) == BaseTypes.Distance.Unknown</PreCondition></PreConditions>
-<Expression>BaseTypes.Distance.Unknown</Expression>
-</Case><Case
- Name="The target is the EOA"
- Guid="2d7b4d78-e0c2-4eca-a426-4c460d8b1599"
->
-<PreConditions>
-<PreCondition
- Guid="2aac3ae2-f418-460d-aaeb-f270e8019b10"
->MA.IsEOA(TargetSpeedMonitoring.MRDT())</PreCondition></PreConditions>
-<Expression>PreIndicationLocation.IndicationLimitAtSpeed_EOA(PreIndicationLocation.IndicationSegment(TargetSpeedMonitoring.MRDT()).Speed) - TrainPosition.FrontEndPosition(DistanceInterval.Nom)</Expression>
-</Case><Case
- Name="Another target, d_I behind the train"
- Guid="913a30c9-7476-4590-a80b-3970deaa3894"
->
-<PreConditions>
-<PreCondition
- Guid="fa0c9d7c-78ac-4201-9248-1cf43a6f34ae"
->PreIndicationLocation.IndicationLimitAtSpeed(
-    aTarget =&gt; TargetSpeedMonitoring.MRDT(),
-    aSpeed =&gt; PreIndicationLocation.IndicationSegment(TargetSpeedMonitoring.MRDT()).Speed)
- == BaseTypes.Distance.Unknown</PreCondition></PreConditions>
-<Expression>BaseTypes.Distance.Unknown</Expression>
-</Case><Case
- Name="It is another target"
- Guid="8bdffb03-588c-4283-94e4-00ae6887a869"
->
-<Expression>PreIndicationLocation.IndicationLimitAtSpeed(
-    aTarget =&gt; TargetSpeedMonitoring.MRDT(),
-    aSpeed =&gt; PreIndicationLocation.IndicationSegment(TargetSpeedMonitoring.MRDT()).Speed) - TrainPosition.FrontEndPosition(DistanceInterval.Nom)</Expression>
-</Case></Cases>
-</Function><Function
  Type="MonitoringType"
  Cacheable="TRUE"
  Default=""

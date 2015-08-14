@@ -898,6 +898,13 @@
  Guid="58d6abc6-f80c-4f6b-b62c-db899acc553c"
 >
 <Comment>Requests to display the corresponding information</Comment>
+<Parameters>
+<Parameter
+ Type="BaseTypes.Speed"
+ Name="aSpeed"
+ Guid="f8e4baf2-e81a-49a5-af0a-57cdf29e4e3c"
+>
+</Parameter></Parameters>
 <Rules>
 <Rule
  Priority="Processing"
@@ -909,17 +916,34 @@
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
- Name="Updates the request status"
+ Name="Display if required"
  Guid="c45ffdd7-d0c1-4d4e-a477-3141d78721b4"
 >
+<Comment>Display if the mode is correct and the all other conditions are satisfied.</Comment>
 <PreConditions>
 <PreCondition
  Guid="30069667-e7bb-4089-b1ba-599e3adb047e"
->TargetSpeedAvailable()</PreCondition></PreConditions>
+>TargetSpeedAvailable()</PreCondition><PreCondition
+ Guid="e6abc4f4-7e89-4c88-b969-a0075ad1c145"
+>Kernel.SpeedAndDistanceMonitoring.Display.DisplayTargetSpeed()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="0f94af17-6998-4edd-80ba-1602e2438a1e"
->THIS.OutputInformation.RequestDisplay()</Action></Actions>
+>THIS.OutputInformation.RequestDisplay()</Action><Action
+ Guid="2ec33526-1c7a-4845-85a0-312e30d57b0e"
+>Speed &lt;- aSpeed</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Hide otherwise"
+ Guid="f8279660-0cdf-43e6-888f-176ad3fb2b87"
+>
+<Comment>Hie otherwise.</Comment>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="5c391809-ac9e-4ac3-8833-2975f10fa195"
+>THIS.OutputInformation.DoNotDisplay()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -927,31 +951,8 @@
  Name="TrackMode"
  Guid="1dfd2a58-a3c6-4357-801d-4bc4450d44d5"
 >
-<Comment>Tracks the changes of the mode</Comment>
-<Rules>
-<Rule
- Priority="Processing"
- Implemented="TRUE"
- Name="Updates the status of the request according to the mode"
- Guid="203267b4-2fe1-444e-b30f-b9a4baf6b9f8"
->
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Updates the status of the request according to the mode"
- Guid="667a68d4-f7ac-4aaa-88c7-93a3634539c1"
->
-<PreConditions>
-<PreCondition
- Guid="64f6d9a0-a347-456f-907a-56ea8f367bf7"
->NOT TargetSpeedAvailable()</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="7bf6bbf2-d3d6-4097-b28b-8ca1e891370c"
->THIS.OutputInformation.DoNotDisplay()</Action></Actions>
-</RuleCondition></Conditions>
-</Rule></Rules>
+<Comment>Tracks the changes of the mode.
+This procedure does not do anything. The mode tracking is not necessary for this variable, as the procedure Display handles the refreshing at each cycle. (this is kept to keep track of the inconsistency with the other DMI variables).</Comment>
 </Procedure></Procedures>
 <StructureElement
  TypeName="DMI.OutputInformation"
@@ -994,6 +995,13 @@
  Guid="51b55bdc-f98d-46b4-abbb-2dbb25b23c69"
 >
 <Comment>Requests to display the corresponding information</Comment>
+<Parameters>
+<Parameter
+ Type="BaseTypes.Speed"
+ Name="aSpeed"
+ Guid="3271aafc-b18b-4f33-bba1-40404a5584de"
+>
+</Parameter></Parameters>
 <Rules>
 <Rule
  Priority="Processing"
@@ -1005,17 +1013,34 @@
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
- Name="Updates the request status"
+ Name="Display if required"
  Guid="2ff175c6-5101-4ed3-a011-f25fc83cc51d"
 >
+<Comment>Display if the mode is correct and the all other conditions are satisfied.</Comment>
 <PreConditions>
 <PreCondition
  Guid="bc5da72e-ae0a-4034-bd54-521e4d8e8f61"
->ReleaseSpeedAvailable()</PreCondition></PreConditions>
+>ReleaseSpeedAvailable()</PreCondition><PreCondition
+ Guid="36ce689c-754b-4a5a-abf5-b6e1c6676ef8"
+>Kernel.SpeedAndDistanceMonitoring.Display.DisplayReleaseSpeed()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="f01ab45d-7d87-491f-9a40-e3aa20e05bf1"
->THIS.OutputInformation.RequestDisplay()</Action></Actions>
+>THIS.OutputInformation.RequestDisplay()</Action><Action
+ Guid="9445c893-05ef-4a24-a7aa-c9b8f93bb000"
+>Speed &lt;- aSpeed</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Hide otherwise"
+ Guid="f2442bac-67a8-49bf-aeae-4dbc0723e93d"
+>
+<Comment>Hie otherwise.</Comment>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="c375654b-37fe-4ca8-921e-1b003d039908"
+>THIS.OutputInformation.DoNotDisplay()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -1023,31 +1048,8 @@
  Name="TrackMode"
  Guid="1d1cd1e1-d195-4af0-970d-37c4790886ec"
 >
-<Comment>Tracks the changes of the mode</Comment>
-<Rules>
-<Rule
- Priority="Processing"
- Implemented="TRUE"
- Name="Updates the status of the request according to the mode"
- Guid="f19e700f-07b5-4295-a7e8-995a2636008d"
->
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Updates the status of the request according to the mode"
- Guid="80ec21f4-80cd-4657-8e13-3eb13834556c"
->
-<PreConditions>
-<PreCondition
- Guid="ae3b27ab-e947-4414-b9cd-144714b72e2c"
->NOT ReleaseSpeedAvailable()</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="da189863-897d-47fc-af9f-3808b2dd6a9b"
->THIS.OutputInformation.DoNotDisplay()</Action></Actions>
-</RuleCondition></Conditions>
-</Rule></Rules>
+<Comment>Tracks the changes of the mode.
+This procedure does not do anything. The mode tracking is not necessary for this variable, as the procedure Display handles the refreshing at each cycle. (this is kept to keep track of the inconsistency with the other DMI variables).</Comment>
 </Procedure></Procedures>
 <StructureElement
  TypeName="DMI.OutputInformation"
@@ -4307,6 +4309,13 @@ IN MRSP</Action></Actions>
  Guid="b392271b-ea2c-469f-aae7-8568706163b9"
 >
 <Comment>Requests to display the corresponding information</Comment>
+<Parameters>
+<Parameter
+ Type="BaseTypes.Distance"
+ Name="aLocation"
+ Guid="5bf7b6ac-73b8-4034-9a93-6fffaf57a9e8"
+>
+</Parameter></Parameters>
 <Rules>
 <Rule
  Priority="Processing"
@@ -4325,11 +4334,15 @@ IN MRSP</Action></Actions>
 <PreConditions>
 <PreCondition
  Guid="53ea4f82-55d1-44b0-8cc5-ae71ac67eef7"
->IndicationLocationAtMrspSpeedAvailable()</PreCondition></PreConditions>
+>IndicationLocationAtMrspSpeedAvailable()</PreCondition><PreCondition
+ Guid="19f4604b-8f19-42af-94a7-479434e0cb44"
+>Kernel.SpeedAndDistanceMonitoring.Display.DisplayIndicationLocationAtMRSPSpeed()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="3d929aee-7492-4a27-8111-e05f356f398a"
->THIS.OutputInformation.RequestDisplay()</Action></Actions>
+>THIS.OutputInformation.RequestDisplay()</Action><Action
+ Guid="572c7f4f-300e-496c-a3f4-58668b4cd494"
+>Location &lt;- aLocation</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Hide otherwise"
@@ -4349,59 +4362,8 @@ IN MRSP</Action></Actions>
  Name="TrackMode"
  Guid="6365a0fc-70b6-464e-a63d-97612460f271"
 >
-<Comment>Tracks the changes of the mode</Comment>
-<Rules>
-<Rule
- Priority="Processing"
- Implemented="TRUE"
- Name="Updates the status of the request according to the mode"
- Guid="a1ac4e2b-3f2b-4d22-8cfc-ccccf260138c"
->
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Updates the status of the request according to the mode"
- Guid="fa0791fb-1bf7-42cb-b499-3041c1e05c22"
->
-<PreConditions>
-<PreCondition
- Guid="ecf67f30-6a9b-4ab0-aee2-95d6b8a09274"
->NOT IndicationLocationAtMrspSpeedAvailable()</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="88697e1e-55c1-449f-9688-c64e2e015772"
->THIS.OutputInformation.DoNotDisplay()</Action></Actions>
-</RuleCondition></Conditions>
-</Rule></Rules>
-</Procedure><Procedure
- Implemented="TRUE"
- Name="DoNotDisplay"
- Guid="abe1be1f-1aea-42b9-9538-6becf71847cb"
->
-<Comment>Stop displaying the indication location</Comment>
-<Rules>
-<Rule
- Priority="Processing"
- Implemented="TRUE"
- Name="Stop displaying the Indication location"
- Guid="39217b34-0d2f-49ff-9333-c219d1340da6"
->
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Stop displaying the Indication location"
- Guid="e4800a56-213b-4e1d-b8ff-663c8fcdcfa0"
->
-<PreConditions>
-</PreConditions>
-<Actions>
-<Action
- Guid="7abef709-ee60-45a2-8756-04abbd17f2fd"
->THIS.OutputInformation.DoNotDisplay()</Action></Actions>
-</RuleCondition></Conditions>
-</Rule></Rules>
+<Comment>Tracks the changes of the mode.
+This procedure does not do anything. The mode tracking is not necessary for this variable, as the procedure Display handles the refreshing at each cycle. (this is kept to keep track of the inconsistency with the other DMI variables).</Comment>
 </Procedure></Procedures>
 <StructureElement
  TypeName="DMI.OutputInformation"
@@ -5038,31 +5000,6 @@ The brake reason.</Comment>
  Guid="383a3a1b-a16a-4709-90b4-bb8ff8f77de5"
 >
 </ReqRef><Comment>Provides the target distance</Comment>
-<Rules>
-<Rule
- Priority="Processing"
- Implemented="TRUE"
- Name="Output when mandatory"
- Guid="3d865a96-3219-4fa5-9196-c591abaaa177"
->
-<Comment>Outputs the value of this element when mandatory</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Output when mandatory"
- Guid="00312ad9-2b30-40ed-a891-89d1c88b018e"
->
-<PreConditions>
-<PreCondition
- Guid="5cbb612a-00ee-48e7-8bb3-82bfcebd43f1"
->TargetDistanceMandatory()</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="6063f444-89c9-4cb8-b693-4e852a7586a8"
->Display()</Action></Actions>
-</RuleCondition></Conditions>
-</Rule></Rules>
 <Procedures>
 <Procedure
  Implemented="TRUE"
@@ -5070,6 +5007,13 @@ The brake reason.</Comment>
  Guid="23b64412-11c8-4605-8618-94efc185d8a1"
 >
 <Comment>Requests to display the corresponding information</Comment>
+<Parameters>
+<Parameter
+ Type="BaseTypes.Distance"
+ Name="aDistance"
+ Guid="54e4f128-d2ba-4970-a052-6e7df215278a"
+>
+</Parameter></Parameters>
 <Rules>
 <Rule
  Priority="Processing"
@@ -5081,19 +5025,36 @@ The brake reason.</Comment>
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
- Name="Updates the request status"
+ Name="Display if required"
  Guid="0b882f74-b29d-44ab-9042-ac7c2c15c0e9"
 >
+<Comment>Display if the mode is correct and the all other conditions are satisfied.</Comment>
 <PreConditions>
 <PreCondition
  Guid="9bf93f18-1f92-4906-8262-0e7b2503abfd"
 >TargetDistanceAvailable()
   OR  
-TargetDistanceMandatory()</PreCondition></PreConditions>
+TargetDistanceMandatory()</PreCondition><PreCondition
+ Guid="087a5d5b-b30a-4179-a45a-68af4d2a3d4c"
+>Kernel.SpeedAndDistanceMonitoring.Display.DisplayTargetDistance()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="e740b498-aca3-49b9-8e2f-17616dcd942b"
->THIS.OutputInformation.RequestDisplay()</Action></Actions>
+>THIS.OutputInformation.RequestDisplay()</Action><Action
+ Guid="97b2140e-76a7-42ad-a4ce-515c0c5af34c"
+>Distance &lt;- aDistance</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Hide otherwise"
+ Guid="7240c926-9bd9-4a20-bf15-3aed1bcad236"
+>
+<Comment>Hie otherwise.</Comment>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="758e52a6-5467-4496-982d-a0f8974953e9"
+>THIS.OutputInformation.DoNotDisplay()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -5101,31 +5062,8 @@ TargetDistanceMandatory()</PreCondition></PreConditions>
  Name="TrackMode"
  Guid="2db3f81d-aac1-4c87-aba8-5abd144297e2"
 >
-<Comment>Tracks the changes of the mode</Comment>
-<Rules>
-<Rule
- Priority="Processing"
- Implemented="TRUE"
- Name="Updates the status of the request according to the mode"
- Guid="ca790b4d-d131-4adc-9ff3-87803f9e21dc"
->
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Updates the status of the request according to the mode"
- Guid="71eb0eca-f045-455f-916a-4548c7cb7772"
->
-<PreConditions>
-<PreCondition
- Guid="88a4a054-933a-466f-bf39-414172c5e81a"
->NOT TargetDistanceAvailable()</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="af77cb71-14ce-47c1-94cf-aabe4eadd752"
->THIS.OutputInformation.DoNotDisplay()</Action></Actions>
-</RuleCondition></Conditions>
-</Rule></Rules>
+<Comment>Tracks the changes of the mode.
+This procedure does not do anything. The mode tracking is not necessary for this variable, as the procedure Display handles the refreshing at each cycle. (this is kept to keep track of the inconsistency with the other DMI variables).</Comment>
 </Procedure></Procedures>
 <StructureElement
  TypeName="DMI.OutputInformation"

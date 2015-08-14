@@ -1,6 +1,6 @@
 <NameSpace
- X="330"
- Y="300"
+ X="440"
+ Y="10"
  Width="100"
  Height="50"
  Pinned="TRUE"
@@ -1402,13 +1402,11 @@ Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom))</Action></Actions>
  Guid="dedfc75e-8039-4cb5-b1a4-25400560f247"
 >
 <PreConditions>
-<PreCondition
- Guid="e7e23d27-d75d-4817-b027-fee6a8e4b996"
->Out_IndicationLocationAtMrspSpeed.OutputInformation.DisplayRequested</PreCondition></PreConditions>
+</PreConditions>
 <Actions>
 <Action
- Guid="3b03cbd3-6227-48c2-89d6-d091e5d898dc"
->Out_IndicationLocationAtMrspSpeed.Location &lt;- Kernel.SpeedAndDistanceMonitoring.IndicationLocation()</Action></Actions>
+ Guid="a3bfd213-94ce-4fe1-b8ec-4bdd2d1f234a"
+>Out_IndicationLocationAtMrspSpeed.Display(Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.IndicationLocation())</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="UpdateOUT"
@@ -1593,15 +1591,11 @@ Kernel.Mode == Mode.RV</PreCondition></PreConditions>
  Guid="93030fc8-cde7-4a29-a4cb-79d4d8d45e7a"
 >
 <PreConditions>
-<PreCondition
- Guid="bfda245f-e56b-40df-b3fd-b22f703f58a4"
->Out_ReleaseSpeed.OutputInformation.DisplayRequested</PreCondition><PreCondition
- Guid="8038d0e6-78ca-47b8-8610-07535136491d"
->Kernel.SpeedAndDistanceMonitoring.Display.DisplayReleaseSpeed()</PreCondition></PreConditions>
+</PreConditions>
 <Actions>
 <Action
- Guid="ac88bf52-f540-44c2-8c94-930fb08165ef"
->Out_ReleaseSpeed.Speed &lt;- Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.ReleaseSpeed</Action></Actions>
+ Guid="0381160c-1b13-44da-aa64-895e20522380"
+>Out_ReleaseSpeed.Display(Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.ReleaseSpeed)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="UpdateOUT"
@@ -1723,19 +1717,16 @@ MAP Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.Items | Ker
 <RuleCondition
  Implemented="TRUE"
  NeedsRequirement="FALSE"
- Name="Update distance to target"
+ Name="Display distance to target"
  Guid="463e57c3-09a7-4c0a-9506-917d7b2b22a0"
 >
+<Comment>Display the distance to the MRDT.</Comment>
 <PreConditions>
-<PreCondition
- Guid="08961521-d25e-4e1e-b5ab-f956b5d776fd"
->Out_TargetDistance.OutputInformation.DisplayRequested</PreCondition><PreCondition
- Guid="f4fa4704-a159-4fbe-9c68-7429576b316f"
->Kernel.SpeedAndDistanceMonitoring.Monitoring in [Kernel.SpeedAndDistanceMonitoring.MonitoringTypeSM.Target, Kernel.SpeedAndDistanceMonitoring.MonitoringTypeSM.Release]</PreCondition></PreConditions>
+</PreConditions>
 <Actions>
 <Action
- Guid="4ec9e0a0-7cd1-4cc2-b31f-830372a7fab2"
->Out_TargetDistance.Distance &lt;- Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.TargetDistance()</Action></Actions>
+ Guid="95abd450-76f6-428e-86cf-f0ea0499e461"
+>Out_TargetDistance.Display(Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.TargetDistance())</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="UpdateOUT"
@@ -1750,19 +1741,16 @@ MAP Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.Items | Ker
 <RuleCondition
  Implemented="TRUE"
  NeedsRequirement="FALSE"
- Name="Update target speed"
+ Name="Display target speed"
  Guid="192abb43-8a6c-4da5-8120-07c256ce6121"
 >
+<Comment>Display the target speed.</Comment>
 <PreConditions>
-<PreCondition
- Guid="cfab63ee-7d53-4866-889d-af9c47e77295"
->Out_TargetSpeed.OutputInformation.DisplayRequested</PreCondition><PreCondition
- Guid="718632bd-e801-4c45-95f0-2a3479af5bb4"
->Kernel.SpeedAndDistanceMonitoring.Monitoring in [Kernel.SpeedAndDistanceMonitoring.MonitoringTypeSM.Target]</PreCondition></PreConditions>
+</PreConditions>
 <Actions>
 <Action
- Guid="c312fe49-c752-4ce5-8361-a09bc8d7ecab"
->Out_TargetSpeed.Speed &lt;- Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT().Speed</Action></Actions>
+ Guid="5219b74e-b386-4878-9e8d-c3ec3d480333"
+>Out_TargetSpeed.Display(Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.TargetSpeed())</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="UpdateOUT"

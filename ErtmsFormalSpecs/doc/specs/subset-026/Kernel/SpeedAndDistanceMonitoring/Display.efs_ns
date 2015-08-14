@@ -13,7 +13,7 @@
  Type="Boolean"
  Cacheable="TRUE"
  Default=""
- X="420"
+ X="150"
  Y="40"
  Width="100"
  Height="50"
@@ -40,7 +40,9 @@
 <PreConditions>
 <PreCondition
  Guid="eae54f73-e54c-496a-b739-536763fd2530"
->Monitoring in MonitoringTypeSM.Target</PreCondition></PreConditions>
+>GetMonitoringType() == MonitoringType.PIM
+  OR  
+GetMonitoringType() == MonitoringType.TSM</PreCondition></PreConditions>
 <Expression>MA.IsEOA(TargetSpeedMonitoring.MRDT())
   OR  
 MA.IsSvL(TargetSpeedMonitoring.MRDT())</Expression>
@@ -48,7 +50,7 @@ MA.IsSvL(TargetSpeedMonitoring.MRDT())</Expression>
  Name="Monitoring release speed"
  Guid="08d09e11-9195-4651-b68a-5e2963886bc4"
 >
-<Expression>Monitoring in MonitoringTypeSM.Release</Expression>
+<Expression>GetMonitoringType() == MonitoringType.RSM</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Speed"
@@ -186,135 +188,95 @@ MA.IsSvL(TargetSpeedMonitoring.MRDT())</Expression>
 >Monitoring in MonitoringTypeSM.Target</PreCondition></PreConditions>
 <Expression>TargetSpeedMonitoring.V_SBI_DMI()</Expression>
 </Case></Cases>
-</Function></Functions>
-<Rules>
-<Rule
- Priority="Processing"
- X="20"
- Y="160"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="Display indication location at MRSP speed"
- Guid="5dc59ca0-f1e7-4d6e-91fe-fffdaf26d2d1"
->
-<ReqRef
- Id="5e511b79-1787-413b-ae27-0d7d6246b010"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="9ba503e2-7680-410b-bae0-8de7fabdab99"
->
-</ReqRef><Comment>Display the upcoming Indication Location at MRSP Speed when in CSM or at teh start of TSM.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="In CSM or PIM"
- Guid="318beb55-bfbd-4d50-95f0-b625034f1951"
->
-<Comment>Display the Indication location.</Comment>
-<PreConditions>
-<PreCondition
- Guid="cfd19f5a-5b93-4c7a-9039-d8c142d73f83"
->GetMonitoringType() == MonitoringType.CSM
-  OR  
-GetMonitoringType() == MonitoringType.PIM</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="fd2db40b-5d6c-489e-a967-d028d547f0b0"
->DMI.MasterDMI().Out_IndicationLocationAtMrspSpeed.Display()</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- Name="Otherwise"
- Guid="44dd1368-dfee-4d7d-9e63-aab23939412a"
->
-<Comment>Do not display the Indication location.</Comment>
-<PreConditions>
-</PreConditions>
-<Actions>
-<Action
- Guid="91d92fd2-af3e-4b15-a7b7-5726df3f7c59"
->DMI.MasterDMI().Out_IndicationLocationAtMrspSpeed.DoNotDisplay()</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- X="20"
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="40"
  Y="40"
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="Display MRDT"
- Guid="ce801b5f-440e-42ac-b2c8-8673d9527ef2"
+ Name="DisplayIndicationLocationAtMRSPSpeed"
+ Guid="1d5d650d-4dbe-4eb6-98b0-8f065c0641ce"
 >
 <ReqRef
- Id="96719821-5827-4475-bf1c-8200e9c230e4"
+ Id="5e511b79-1787-413b-ae27-0d7d6246b010"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="a28ff937-5c77-4818-ac10-f2c1089b9ae5"
+ Guid="da0dbae1-4e49-47e3-ace0-053eb338998f"
 >
-</ReqRef><Comment>When the speed and distance monitoring is in TSM, display the target speed and distance to target information on the DMI.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="In TSM"
- Guid="663134a6-2bdd-40df-a5e6-5328537d077d"
+</ReqRef><ReqRef
+ Id="b10067eb-6ad7-4c8c-9aab-ef1740ef0e13"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="271b7a86-f4c8-48f2-94a4-3bb89f087ed6"
 >
-<PreConditions>
-<PreCondition
- Guid="ed7c18c8-9916-42b4-a148-c8fa749672f4"
->Monitoring in MonitoringTypeSM.Target</PreCondition><PreCondition
- Guid="fa5bd0d4-bc50-4790-a500-786894ea795c"
->NOT DMI.MasterDMI().Out_TargetDistance.OutputInformation.DisplayRequested
+</ReqRef><Comment>Indicates whether the DMI should display the indication location at MRSP speed.</Comment>
+<Cases>
+<Case
+ Name="In CSM or PIM"
+ Guid="9ee1faaa-c254-4694-813e-d2f3b395ff81"
+>
+<Expression>GetMonitoringType() == MonitoringType.CSM
   OR  
-NOT DMI.MasterDMI().Out_TargetSpeed.OutputInformation.DisplayRequested</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="4a411142-5898-4368-94e1-eda1a6d8e0e9"
->DMI.MasterDMI().Out_TargetDistance.Display()</Action><Action
- Guid="379bfbb4-8fac-409a-b268-779785db0b11"
->DMI.MasterDMI().Out_TargetSpeed.Display()</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- X="20"
+GetMonitoringType() == MonitoringType.PIM</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="40"
  Y="100"
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="Display Release Speed"
- Guid="5c92cde1-4120-4c02-8b69-884049fefac5"
+ Name="DisplayTargetSpeed"
+ Guid="9f89dd50-834d-4421-b50c-c7e12fe87e96"
 >
 <ReqRef
- Id="ee7b5ecc-20f6-480c-aa0a-7836d5308d32"
+ Id="96719821-5827-4475-bf1c-8200e9c230e4"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="fd282b9d-7a4a-4a79-b069-3a5e2264465c"
+ Guid="44cb4cfa-f720-422e-afb5-9a0f9fa85c2d"
+>
+</ReqRef><Comment>Indicates whether the DMI should display the target speed.</Comment>
+<Cases>
+<Case
+ Name="In TSM or PIM"
+ Guid="1e9502cd-e9d2-4538-94b0-a6b1ec5dbc9c"
+>
+<Expression>GetMonitoringType() == MonitoringType.PIM
+  OR  
+GetMonitoringType() == MonitoringType.TSM</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="150"
+ Y="100"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="DisplayTargetDistance"
+ Guid="275df331-07bf-45cd-8400-eee36e59fe70"
+>
+<ReqRef
+ Id="96719821-5827-4475-bf1c-8200e9c230e4"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="4db5a85b-0481-4cce-9a5f-319a4f5c45a2"
 >
 </ReqRef><ReqRef
  Id="220617b2-d0d2-4c8e-a475-e9d9a8761441"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="6ba159a6-91e1-44d4-bfa4-fee1a44c3e43"
+ Guid="a887fb02-1b48-4cd5-8834-4417c0d7aae7"
 >
-</ReqRef><Comment>When the speed and distance monitoring is in RSM, display the release speed and distance to target information on the DMI.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="IN RSM"
- Guid="6f864eb3-3c94-47cf-890b-b2fcf6835df8"
+</ReqRef><Comment>Indicates whether the DMI should display the distance to the MRDT.</Comment>
+<Cases>
+<Case
+ Name="In PIM, TSM or RSM"
+ Guid="2d23ed32-c791-4f2c-a838-05eef58b8112"
 >
-<PreConditions>
-<PreCondition
- Guid="674a48a4-12cd-4224-9c99-1d283a29ba91"
->Monitoring in MonitoringTypeSM.Release</PreCondition><PreCondition
- Guid="3a58c397-dc7d-4d8e-8748-37fbf73b5f69"
->NOT DMI.MasterDMI().Out_TargetDistance.OutputInformation.DisplayRequested
+<Expression>GetMonitoringType() == MonitoringType.PIM
   OR  
-NOT DMI.MasterDMI().Out_ReleaseSpeed.OutputInformation.DisplayRequested</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="1fe599b1-6f99-43f1-8625-70b81b394a28"
->DMI.MasterDMI().Out_TargetDistance.Display()</Action><Action
- Guid="e2712580-841c-4dd1-88f4-a8e6583f7ba9"
->DMI.MasterDMI().Out_ReleaseSpeed.Display()</Action></Actions>
-</RuleCondition></Conditions>
-</Rule></Rules>
+GetMonitoringType() == MonitoringType.TSM
+  OR  
+GetMonitoringType() == MonitoringType.RSM</Expression>
+</Case></Cases>
+</Function></Functions>
 </NameSpace>
