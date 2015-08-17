@@ -375,77 +375,79 @@ namespace DataDictionary.Interpreter
         {
             IValue retVal = null;
 
-            ExplanationPart subExplanation = ExplanationPart.CreateSubExplanation(explain, this);
-            Function function = getFunction(context, explain);
-            if (function != null)
+            Util.DontNotify(() =>
             {
-                long start = Environment.TickCount;
+                ExplanationPart subExplanation = ExplanationPart.CreateSubExplanation(explain, this);
+                Function function = getFunction(context, explain);
+                if (function != null)
+                {
+                    long start = Environment.TickCount;
 
-                Dictionary<Actual, IValue> parameterValues = null;
-                try
-                {
-                    parameterValues = AssignParameterValues(context, function, true, subExplanation);
-                    List<Parameter> parameters = GetPlaceHolders(function, parameterValues);
-                    if (parameters == null)
+                    try
                     {
-                        retVal = function.Evaluate(context, parameterValues, subExplanation);
-                        if (retVal == null)
+                        Dictionary<Actual, IValue> parameterValues = AssignParameterValues(context, function, true, subExplanation);
+                        List<Parameter> parameters = GetPlaceHolders(function, parameterValues);
+                        if (parameters == null)
                         {
-                            AddErrorAndExplain(
-                                "Call " + function.Name + " ( " + ParameterValues(parameterValues) +
-                                " ) returned nothing", subExplanation);
+                            retVal = function.Evaluate(context, parameterValues, subExplanation);
+                            if (retVal == null)
+                            {
+                                AddErrorAndExplain(
+                                    "Call " + function.Name + " ( " + ParameterValues(parameterValues) +
+                                    " ) returned nothing", subExplanation);
+                            }
+                        }
+                        else if (parameters.Count == 1) // graph
+                        {
+                            int token = context.LocalScope.PushContext();
+                            context.LocalScope.setGraphParameter(parameters[0]);
+                            Graph graph = function.createGraphForParameter(context, parameters[0], subExplanation);
+                            context.LocalScope.PopContext(token);
+                            if (graph != null)
+                            {
+                                retVal = graph.Function;
+                            }
+                            else
+                            {
+                                AddError("Cannot create graph on Call " + function.Name + " ( " +
+                                         ParameterValues(parameterValues) + " )");
+                            }
+                        }
+                        else // surface
+                        {
+                            Surface surface = function.createSurfaceForParameters(context, parameters[0], parameters[1],
+                                subExplanation);
+                            if (surface != null)
+                            {
+                                retVal = surface.Function;
+                            }
+                            else
+                            {
+                                AddError("Cannot create surface on Call " + function.Name + " ( " +
+                                         ParameterValues(parameterValues) + " )");
+                            }
                         }
                     }
-                    else if (parameters.Count == 1) // graph
+                    catch (Exception e)
                     {
-                        int token = context.LocalScope.PushContext();
-                        context.LocalScope.setGraphParameter(parameters[0]);
-                        Graph graph = function.createGraphForParameter(context, parameters[0], subExplanation);
-                        context.LocalScope.PopContext(token);
-                        if (graph != null)
-                        {
-                            retVal = graph.Function;
-                        }
-                        else
-                        {
-                            AddError("Cannot create graph on Call " + function.Name + " ( " +
-                                     ParameterValues(parameterValues) + " )");
-                        }
+                        AddErrorAndExplain("Cannot evaluate function call " + function.Name, subExplanation);
+                        throw new Exception("inner evaluation failure");
                     }
-                    else // surface
+                    finally
                     {
-                        Surface surface = function.createSurfaceForParameters(context, parameters[0], parameters[1],
-                            subExplanation);
-                        if (surface != null)
-                        {
-                            retVal = surface.Function;
-                        }
-                        else
-                        {
-                            AddError("Cannot create surface on Call " + function.Name + " ( " +
-                                     ParameterValues(parameterValues) + " )");
-                        }
-                    }
-                }
-                catch (Exception e)
-                {
-                    AddErrorAndExplain("Cannot evaluate function call " + function.Name, subExplanation);
-                    throw new Exception("inner evaluation failure");
-                }
-                finally
-                {
-                    long stop = Environment.TickCount;
-                    long span = (stop - start);
-                    function.ExecutionTimeInMilli += span;
-                    function.ExecutionCount += 1;
+                        long stop = Environment.TickCount;
+                        long span = (stop - start);
+                        function.ExecutionTimeInMilli += span;
+                        function.ExecutionCount += 1;
 
-                    ExplanationPart.SetNamable(subExplanation, retVal);
+                        ExplanationPart.SetNamable(subExplanation, retVal);
+                    }
                 }
-            }
-            else
-            {
-                AddErrorAndExplain("Cannot find function for " + ToString(), subExplanation);
-            }
+                else
+                {
+                    AddErrorAndExplain("Cannot find function for " + ToString(), subExplanation);
+                }
+            });
 
             return retVal;
         }
