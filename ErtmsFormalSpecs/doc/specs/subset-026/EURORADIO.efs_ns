@@ -7811,6 +7811,7 @@ Terminal1.RBCConnection.SafeRadioConnectionStatus == SafeRadioConnectionStatusEn
  Y="780"
  Width="100"
  Height="50"
+ Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="ProcessIncomingMessages"
  Guid="b9ea4dd2-c1d7-457b-b33c-62e49af0c65b"
@@ -7825,6 +7826,45 @@ Terminal1.RBCConnection.SafeRadioConnectionStatus == SafeRadioConnectionStatusEn
 </Parameter></Parameters>
 <Rules>
 <Rule
+ Implemented="TRUE"
+ Name="Level transition"
+ Guid="2de45eff-8689-46b3-81c8-51492ec1fe26"
+>
+<ReqRef
+ Id="b5196e2e-7094-49d5-ac1b-4bcf4821fd9a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="8c2e51ca-4751-440b-8864-b9548f1a9a9b"
+>
+</ReqRef><ReqRef
+ Id="c858a6b4-4d06-4efa-83f0-ac640ef8c373"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="cdb5e7eb-4bf0-415f-aebe-0fb335c19411"
+>
+</ReqRef><ReqRef
+ Id="7e7c641f-fe52-42ac-9aa8-12e5c7dfd6b2"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="24e030fe-3725-4d26-b03a-cf76840e60b5"
+>
+</ReqRef><Comment>Handles a new level before any other information, because the other informations may depend in it</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Level transition"
+ Guid="4d20447c-43e0-4db3-aeb9-5bbf7cd1a977"
+>
+<PreConditions>
+<PreCondition
+ Guid="bb4f2ab9-a9d9-4c4b-bdc5-2ea9011cf544"
+>Available(aMessage.GENERAL_MESSAGE) </PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="f500ee30-e279-4200-a5bf-7fff60a3b433"
+>APPLY 
+  Kernel.LevelTransition.LTOReceived(X.LEVEL_TRANSITION_ORDER)
+  ON aMessage.GENERAL_MESSAGE.Sequence1 | Available(X.LEVEL_TRANSITION_ORDER)</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
  Priority="UpdateINTERNAL"
  Implemented="TRUE"
  Name="SR authorisation"
@@ -8506,25 +8546,6 @@ MessageTypes.QScaleDistance(
  Guid="379edce7-f62e-4d83-8b49-c4b6bf2389a9"
 >Available ( aMessage.GENERAL_MESSAGE )</PreCondition></PreConditions>
 <Actions>
-</Actions>
-<SubRules>
-<Rule
- Priority="Processing"
- Implemented="TRUE"
- Name="Handle common packets"
- Guid="d6787fe0-61a4-40b6-9064-f92350a24b90"
->
-<Comment>Handle common packets (as described in Subset-026 Paragraph 8.4.4.4.1.1) received with a general message.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Handle common packets"
- Guid="fa65ce4c-abac-4895-b238-60fcd690e7b8"
->
-<PreConditions>
-</PreConditions>
-<Actions>
 <Action
  Guid="30b31d73-66f4-4e11-a0ae-a3bf2c3166c3"
 >HandleCommonPackets
@@ -8532,8 +8553,6 @@ MessageTypes.QScaleDistance(
     Packets =&gt; aMessage.GENERAL_MESSAGE.Sequence1,
     Time =&gt; aMessage.GENERAL_MESSAGE.T_TRAIN
 )</Action></Actions>
-</RuleCondition></Conditions>
-</Rule></SubRules>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="UpdateINTERNAL"
@@ -9855,52 +9874,6 @@ But at the end of the cycle the conditions required for sending of position repo
 <Rule
  Priority="Processing"
  Implemented="TRUE"
- Name="Handle common packets"
- Guid="7bd1ae1e-434d-46fd-91b9-9d13b3b06186"
->
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Handle common packets"
- Guid="b16f352e-ddaf-4af2-89d7-0a6dc176492a"
->
-<PreConditions>
-</PreConditions>
-<Actions>
-</Actions>
-<SubRules>
-<Rule
- Priority="Processing"
- Implemented="TRUE"
- Name="Level transition order available"
- Guid="36e96b58-9f40-4919-9b4e-07c2b3fbed30"
->
-<ReqRef
- Id="7e7c641f-fe52-42ac-9aa8-12e5c7dfd6b2"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="fae9450d-113e-4c25-8362-ca7a7290c307"
->
-</ReqRef><Comment>Handles reception of level transition orders.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Level transition order available"
- Guid="492fa7fb-64bb-408c-99de-c1b404915089"
->
-<PreConditions>
-<PreCondition
- Guid="aff2ca99-df87-4fce-af4a-c5d94d2935f5"
->THERE_IS X IN Packets | Available ( X.LEVEL_TRANSITION_ORDER )</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="176f516e-fef3-4f21-b17f-0556e8216f5d"
->Kernel.LevelTransition.LTOReceived ( Packet =&gt;  ( FIRST X IN Packets | Available ( X.LEVEL_TRANSITION_ORDER ) ).LEVEL_TRANSITION_ORDER )</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- Implemented="TRUE"
  Name="Session management available"
  Guid="617c0d85-e001-4ba2-9a2e-7ed40b53d7d6"
 >
@@ -10245,8 +10218,6 @@ But at the end of the cycle the conditions required for sending of position repo
         Increment =&gt; MessageTypes.TimeResolution(Time)
     )
 )</Action></Actions>
-</RuleCondition></Conditions>
-</Rule></SubRules>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
