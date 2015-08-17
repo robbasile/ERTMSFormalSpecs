@@ -116,10 +116,12 @@ namespace GUI.DataDictionaryView.UsageTreeView
 
                 UsageTreeNode models = new UsageTreeNode("Model", true);
                 models.SetImageIndex(false);
+                models.SubNodesBuilt = true;
                 retVal.Add(models);
 
                 UsageTreeNode tests = new UsageTreeNode("Test", true);
                 tests.SetImageIndex(false);
+                tests.SubNodesBuilt = true;
                 retVal.Add(tests);
 
                 foreach (Usage usage in model.EFSSystem.FindReferences(model))

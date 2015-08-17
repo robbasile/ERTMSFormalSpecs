@@ -141,7 +141,7 @@ namespace GUI
         ///     Builds the sub nodes of this node if required
         /// </summary>
         /// <param name="modifiedElement">The element that has been modified</param>
-        public void BuildOrRefreshSubNodes(IModelElement modifiedElement)
+        public virtual void BuildOrRefreshSubNodes(IModelElement modifiedElement)
         {
             List<BaseTreeNode> subNodes = new List<BaseTreeNode>();
             BuildSubNodes(subNodes, false);

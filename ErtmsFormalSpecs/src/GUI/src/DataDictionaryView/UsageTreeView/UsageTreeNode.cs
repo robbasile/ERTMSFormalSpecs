@@ -20,6 +20,8 @@ using System.Windows.Forms;
 using BrightIdeasSoftware;
 using DataDictionary;
 using DataDictionary.Interpreter;
+using Utils;
+using ModelElement = DataDictionary.ModelElement;
 
 namespace GUI.DataDictionaryView.UsageTreeView
 {
@@ -109,6 +111,15 @@ namespace GUI.DataDictionaryView.UsageTreeView
         public UsageTreeNode(string name, bool buildSubNodes)
             : base(null, buildSubNodes, name, true)
         {
+        }
+
+        /// <summary>
+        ///     Builds the sub nodes of this node if required
+        /// </summary>
+        /// <param name="modifiedElement">The element that has been modified</param>
+        public override void BuildOrRefreshSubNodes(IModelElement modifiedElement)
+        {
+            // Subnodes are already built and should not be refreshed
         }
 
         /// <summary>
