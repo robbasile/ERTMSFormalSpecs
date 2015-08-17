@@ -39,23 +39,6 @@ namespace GUI.MoreInfoView
         }
 
         /// <summary>
-        /// Indicates that the model element should be displayed
-        /// </summary>
-        /// <param name="modelElement"></param>
-        /// <returns></returns>
-        protected override bool ShouldDisplay(IModelElement modelElement)
-        {
-            bool retVal = base.ShouldDisplay(modelElement);
-
-            if (retVal)
-            {
-                retVal = (modelElement is IDefaultValueElement) || !(modelElement is IExpressionable);
-            }
-
-            return retVal;
-        }
-
-        /// <summary>
         ///     Allows to refresh the view, when the selected model changed
         /// </summary>
         /// <param name="context"></param>
