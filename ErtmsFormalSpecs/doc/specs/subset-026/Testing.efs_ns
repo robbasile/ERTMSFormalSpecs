@@ -444,7 +444,7 @@ DMI2 will be the slave and will be connected to the first desk of the CabB.</Com
  Name="Set FS mode"
  Guid="371c612d-f47d-4ada-8516-5497c6e7b793"
 >
-<Comment>Set the mode to FS.</Comment>
+<Comment>Set the mode and the previous mode (to protect from mode change activations) to FS.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
@@ -457,7 +457,9 @@ DMI2 will be the slave and will be connected to the first desk of the CabB.</Com
 <Actions>
 <Action
  Guid="86929d9e-0c8c-4cea-9ddb-fcbac74fa271"
->Kernel.Mode &lt;- Mode.FS</Action></Actions>
+>Kernel.Mode &lt;- Mode.FS</Action><Action
+ Guid="ecacd905-81cb-43c3-8c0e-e2ca36cb0357"
+>Kernel.ModeTransitions.PrevMode &lt;- Mode.FS</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -663,7 +665,7 @@ Kernel.TrackDescription.StaticSpeedProfile.SSP == []</PreCondition></PreConditio
  Name="Set LS mode"
  Guid="675162e4-02d3-472f-8960-71ab1500ee0c"
 >
-<Comment>Set the mode to LS.</Comment>
+<Comment>Set the mode and the previous mode (to protect from mode change activations) to LS.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
@@ -676,7 +678,9 @@ Kernel.TrackDescription.StaticSpeedProfile.SSP == []</PreCondition></PreConditio
 <Actions>
 <Action
  Guid="c3f3f425-ec4d-4ee2-9646-a5dda9669323"
->Kernel.Mode &lt;- Mode.LS</Action></Actions>
+>Kernel.Mode &lt;- Mode.LS</Action><Action
+ Guid="90608337-33fd-4f9c-b267-e35e55d56e57"
+>Kernel.ModeTransitions.PrevMode &lt;- Mode.LS</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -894,7 +898,7 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
  Name="Set SR mode"
  Guid="df9b0350-3626-4781-8c03-3b3457920b1f"
 >
-<Comment>Set the mode to SR.</Comment>
+<Comment>Set the mode and the previous mode (to protect from mode change activations) to SR.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
@@ -907,7 +911,9 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
 <Actions>
 <Action
  Guid="b501904c-c6c8-45fa-9042-2f1415bd8ba1"
->Kernel.Mode &lt;- Mode.SR</Action></Actions>
+>Kernel.Mode &lt;- Mode.SR</Action><Action
+ Guid="51ea2d4e-f423-4f6b-9402-c80412927cfa"
+>Kernel.ModeTransitions.PrevMode &lt;- Mode.SR</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -1107,7 +1113,7 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
  Name="Set OS mode"
  Guid="399d52b3-5029-4a01-b432-7f71f0b3030f"
 >
-<Comment>Set the mode to OS.</Comment>
+<Comment>Set the mode and the previous mode (to protect from mode change activations) to OS.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
@@ -1120,7 +1126,9 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
 <Actions>
 <Action
  Guid="04ec064e-082f-4ebb-8ef3-d325b13b36ac"
->Kernel.Mode &lt;- Mode.OS</Action></Actions>
+>Kernel.Mode &lt;- Mode.OS</Action><Action
+ Guid="db3c2502-e680-440b-975f-a38c64642b7a"
+>Kernel.ModeTransitions.PrevMode &lt;- Mode.OS</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -1338,7 +1346,7 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
  Name="Set SH mode"
  Guid="5c386fbf-08f4-40ae-a0d0-e31328127161"
 >
-<Comment>Set the mode to SH.</Comment>
+<Comment>Set the mode and the previous mode (to protect from mode change activations) to SH.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
@@ -1351,7 +1359,9 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
 <Actions>
 <Action
  Guid="a21fb837-38d3-4cff-bb4f-1ab8fb17fe0c"
->Kernel.Mode &lt;- Mode.SH</Action></Actions>
+>Kernel.Mode &lt;- Mode.SH</Action><Action
+ Guid="4cc73a50-3b30-4a2a-8f41-33711946d2c4"
+>Kernel.ModeTransitions.PrevMode &lt;- Mode.SH</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -1569,7 +1579,7 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
  Name="Set UN mode"
  Guid="ae69ef75-6d35-4ed7-aff7-527729ae842f"
 >
-<Comment>Set the mode to UN.</Comment>
+<Comment>Set the mode and the previous mode (to protect from mode change activations) to UN.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
@@ -1582,7 +1592,7 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
 <Actions>
 <Action
  Guid="18f95083-f48c-4e85-acaa-8561f304c4e1"
->Kernel.Mode &lt;- Mode.UN</Action></Actions>
+>Kernel.ModeTransitions.PrevMode &lt;- Mode.UN</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -1714,7 +1724,7 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
  Name="Set PS mode"
  Guid="26b32a67-025c-4081-bfb6-a08c9001ec5b"
 >
-<Comment>Set the mode to PS.</Comment>
+<Comment>Set the mode and the previous mode (to protect from mode change activations) to PS.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
@@ -1727,7 +1737,9 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
 <Actions>
 <Action
  Guid="821bbb10-7c7b-4e31-99c4-7c284a5664dd"
->Kernel.Mode &lt;- Mode.PS</Action></Actions>
+>Kernel.Mode &lt;- Mode.PS</Action><Action
+ Guid="72138f19-7ea6-4bd6-9518-357f950fda41"
+>Kernel.ModeTransitions.PrevMode &lt;- Mode.PS</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -1945,7 +1957,7 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
  Name="Set SL mode"
  Guid="1872a9af-8438-43f2-a21b-9ddafaea9249"
 >
-<Comment>Set the mode to SL.</Comment>
+<Comment>Set the mode and the previous mode (to protect from mode change activations) to SL.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
@@ -1958,7 +1970,9 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
 <Actions>
 <Action
  Guid="260f15c2-dac7-42f8-9560-55ef35c9580a"
->Kernel.Mode &lt;- Mode.SL</Action></Actions>
+>Kernel.Mode &lt;- Mode.SL</Action><Action
+ Guid="849768a6-93f7-40bf-9b76-24d187e78de2"
+>Kernel.ModeTransitions.PrevMode &lt;- Mode.SL</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -2064,7 +2078,7 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
  Name="Set SB mode"
  Guid="ce2e06f3-cc23-4810-9065-13bcaf90717a"
 >
-<Comment>Set the mode to SB.</Comment>
+<Comment>Set the mode and the previous mode (to protect from mode change activations) to SB.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
@@ -2077,7 +2091,9 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
 <Actions>
 <Action
  Guid="e5a6f115-262c-493b-84c3-e72f2f98c850"
->Kernel.Mode &lt;- Mode.SB</Action></Actions>
+>Kernel.Mode &lt;- Mode.SB</Action><Action
+ Guid="b3db7698-0efd-402d-92a0-af0c327da9e3"
+>Kernel.ModeTransitions.PrevMode &lt;- Mode.SB</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -2182,7 +2198,7 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
  Name="Set TR mode"
  Guid="235393ed-74c7-401c-8ddc-a131a88c708c"
 >
-<Comment>Set the mode to TR.</Comment>
+<Comment>Set the mode and the previous mode (to protect from mode change activations) to TR.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
@@ -2195,7 +2211,9 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
 <Actions>
 <Action
  Guid="8219f63f-9d53-44c0-b1e2-a11a85aad0be"
->Kernel.Mode &lt;- Mode.TR</Action></Actions>
+>Kernel.Mode &lt;- Mode.TR</Action><Action
+ Guid="4ffc933c-8c2c-4533-bb37-5e4e81e958be"
+>Kernel.ModeTransitions.PrevMode &lt;- Mode.TR</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -2278,7 +2296,7 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
  Name="Set PT mode"
  Guid="e16e88bd-0425-436f-9fa1-ee508a0dff8b"
 >
-<Comment>Set the mode to PT.</Comment>
+<Comment>Set the mode and the previous mode (to protect from mode change activations) to PT.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
@@ -2291,7 +2309,9 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
 <Actions>
 <Action
  Guid="1c08d3a6-3706-4b2f-888c-828ea9a1eeab"
->Kernel.Mode &lt;- Mode.PT</Action></Actions>
+>Kernel.Mode &lt;- Mode.PT</Action><Action
+ Guid="34f681a1-0a1f-4279-b839-ad11a484c20d"
+>Kernel.ModeTransitions.PrevMode &lt;- Mode.PT</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -2374,7 +2394,7 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
  Name="Set SF mode"
  Guid="167fb6e8-2951-4a7b-a111-cfedb2ada1e6"
 >
-<Comment>Set the mode to SF.</Comment>
+<Comment>Set the mode and the previous mode (to protect from mode change activations) to SF.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
@@ -2387,7 +2407,9 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
 <Actions>
 <Action
  Guid="f985d005-afc5-4b21-8c10-33f5fefa510b"
->Kernel.Mode &lt;- Mode.SF</Action></Actions>
+>Kernel.Mode &lt;- Mode.SF</Action><Action
+ Guid="e983fc75-3e63-460d-98fd-a0dcb2f1dd94"
+>Kernel.ModeTransitions.PrevMode &lt;- Mode.SF</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -2449,7 +2471,7 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
  Name="Set IS mode"
  Guid="3a0f7682-7b7c-43f4-bdff-b307ea64e20a"
 >
-<Comment>Set the mode to IS.</Comment>
+<Comment>Set the mode and the previous mode (to protect from mode change activations) to IS.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
@@ -2462,7 +2484,9 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
 <Actions>
 <Action
  Guid="62865b39-ba0a-4ffa-94cc-34a168fc4402"
->Kernel.Mode &lt;- Mode.IS</Action></Actions>
+>Kernel.Mode &lt;- Mode.IS</Action><Action
+ Guid="97727866-7e49-42e0-a4a8-91c7964775bd"
+>Kernel.ModeTransitions.PrevMode &lt;- Mode.IS</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -2524,7 +2548,7 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
  Name="Set SN mode"
  Guid="6eb7c5d0-93df-4d59-b400-1ca504d4f711"
 >
-<Comment>Set the mode to SN.</Comment>
+<Comment>Set the mode and the previous mode (to protect from mode change activations) to SN.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
@@ -2537,7 +2561,9 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
 <Actions>
 <Action
  Guid="9d34974f-3bb4-4617-a3a5-ef6e992b6167"
->Kernel.Mode &lt;- Mode.SN</Action></Actions>
+>Kernel.Mode &lt;- Mode.SN</Action><Action
+ Guid="b70781ce-794d-43ab-b3cc-4c0796502983"
+>Kernel.ModeTransitions.PrevMode &lt;- Mode.SN</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -2668,7 +2694,7 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
  Name="Set NP mode"
  Guid="e7e28a4e-3b6a-4add-9a8c-2e90c2e223b3"
 >
-<Comment>Set the mode to NP.</Comment>
+<Comment>Set the mode and the previous mode (to protect from mode change activations) to NP.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
@@ -2681,7 +2707,9 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
 <Actions>
 <Action
  Guid="ef9fc55f-d1cf-4975-b093-fb771f8614f2"
->Kernel.Mode &lt;- Mode.NP</Action></Actions>
+>Kernel.Mode &lt;- Mode.NP</Action><Action
+ Guid="f47b8d1f-850e-4e10-8ceb-23287bde173a"
+>Kernel.ModeTransitions.PrevMode &lt;- Mode.NP</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -2743,7 +2771,7 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
  Name="Set NL mode"
  Guid="09c02121-9785-48b5-afb1-9a7deef051ba"
 >
-<Comment>Set the mode to NL.</Comment>
+<Comment>Set the mode and the previous mode (to protect from mode change activations) to NL.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
@@ -2756,7 +2784,9 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
 <Actions>
 <Action
  Guid="796568d9-37bb-419b-bde8-5367fe92cc4d"
->Kernel.Mode &lt;- Mode.NL</Action></Actions>
+>Kernel.Mode &lt;- Mode.NL</Action><Action
+ Guid="111cde0c-4dde-41ac-8855-b9eace3932ad"
+>Kernel.ModeTransitions.PrevMode &lt;- Mode.NL</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -2860,7 +2890,7 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
  Name="Set RV mode"
  Guid="959d81fd-867a-4685-9808-15597a47e56b"
 >
-<Comment>Set the mode to RV.</Comment>
+<Comment>Set the mode and the previous mode (to protect from mode change activations) to RV.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
@@ -2873,7 +2903,9 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
 <Actions>
 <Action
  Guid="6c4a7ad9-00c5-48f2-9ca2-4d0cc16a9deb"
->Kernel.Mode &lt;- Mode.RV</Action></Actions>
+>Kernel.Mode &lt;- Mode.RV</Action><Action
+ Guid="2b5b1aec-28a9-4850-95be-4e29f0f64bfd"
+>Kernel.ModeTransitions.PrevMode &lt;- Mode.RV</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
