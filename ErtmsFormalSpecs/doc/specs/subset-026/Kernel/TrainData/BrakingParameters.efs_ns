@@ -2068,12 +2068,12 @@ TrainData.Value.EpBrakeInterface in [BrakeInterfaceStatus.EB, BrakeInterfaceStat
 <PreCondition
  Guid="824adb2b-e2ef-4e5f-be90-7f73efad4943"
 >NoA_est</PreCondition></PreConditions>
-<Expression>BaseTypes.Time ( TrainData.Value.TractionModel.Coefficient * A_traction ( EstimatedTrainAcceleration=&gt;0.0, Gradient=&gt;TrackDescription.Gradient.A_gradient ( Odometry.NominalDistance ) ) + TrainData.Value.TractionModel.Constant )</Expression>
+<Expression>BaseTypes.Time ( TrainData.Value.TractionModel.Coefficient * A_traction ( EstimatedTrainAcceleration=&gt;0.0, Gradient=&gt;TrackDescription.Gradient.A_gradient ( TrainPosition.FrontEndPosition(DistanceInterval.Nom) ) ) + TrainData.Value.TractionModel.Constant )</Expression>
 </Case><Case
  Name="Estimated acceleration is considered"
  Guid="7a0aa919-0a81-41f0-9817-1990ef82106d"
 >
-<Expression>BaseTypes.Time ( TrainData.Value.TractionModel.Coefficient * A_traction ( EstimatedTrainAcceleration=&gt;Odometry.TrainAcceleration(), Gradient=&gt;TrackDescription.Gradient.A_gradient ( Odometry.NominalDistance ) ) + TrainData.Value.TractionModel.Constant )</Expression>
+<Expression>BaseTypes.Time ( TrainData.Value.TractionModel.Coefficient * A_traction ( EstimatedTrainAcceleration=&gt;Odometry.TrainAcceleration(), Gradient=&gt;TrackDescription.Gradient.A_gradient ( TrainPosition.FrontEndPosition(DistanceInterval.Nom) ) ) + TrainData.Value.TractionModel.Constant )</Expression>
 </Case></Cases>
 </Function><Function
  Type="CorrectionFactor"
