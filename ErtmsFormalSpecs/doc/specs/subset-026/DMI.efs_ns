@@ -1549,7 +1549,12 @@ Kernel.Mode == Mode.RV</PreCondition></PreConditions>
  Name="Update RBC contact information"
  Guid="8ca3d038-333d-4b0d-acf4-183ac9b16b65"
 >
-<Comment>Updates the displayed RBC contact information</Comment>
+<ReqRef
+ Id="bc788967-444b-4de1-bb0a-f16853d222c5"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="fbaa4789-1954-44bd-bafa-7953d88b8bba"
+>
+</ReqRef><Comment>Updates the displayed RBC contact information</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
@@ -1561,13 +1566,13 @@ Kernel.Mode == Mode.RV</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="03aa01ef-5c7e-41c1-adb9-bfa449a0ac08"
->Out_RBCContactInformation.OutputInformation.DisplayRequested</PreCondition></PreConditions>
+>Out_RBCContactInformation.OutputInformation.DisplayRequested</PreCondition><PreCondition
+ Guid="f7383b5d-8ced-4f9d-b3fd-979aa3c8c6be"
+>EURORADIO.CurrentRBCConnection() != EMPTY</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="7856aaad-190f-4795-b48c-e29b2d53f82c"
->Out_RBCContactInformation.RBCContactInformation &lt;- EURORADIO.LastKnownRBC</Action><Action
- Guid="a0d2451b-237c-4d9c-bf90-12ec94387235"
->Out_RBCContactInformation.NetworkId &lt;- EURORADIO.LastKnownNetworkId</Action></Actions>
+>Out_RBCContactInformation.RBCContactInformation &lt;- EURORADIO.CurrentRBCConnection().ContactData</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="UpdateOUT"
@@ -1759,7 +1764,32 @@ MAP Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.Items | Ker
  Name="Update train data"
  Guid="358297e0-46fe-4c59-8a59-700a2527bd90"
 >
-<Comment>Updates the displayed train data</Comment>
+<ReqRef
+ Id="2589f2ce-8abb-4ab9-aff1-62dd5f23f754"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="fb47b3bc-cab0-4134-a64e-bb694f82ed2a"
+>
+</ReqRef><ReqRef
+ Id="cc64a008-67ae-4edc-b2da-420e3d3998a1"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="63cbed05-511a-476f-b00c-7aa7e7e1f0c0"
+>
+</ReqRef><ReqRef
+ Id="b5e3cc55-f32d-4a93-9afb-f9a177f51d9a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a1a60425-7e0b-487e-99de-fa2d81eabf43"
+>
+</ReqRef><ReqRef
+ Id="b54aeafa-57aa-479c-a635-a9f08e9d5f82"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9470b561-98d2-4d45-a44e-0ac756a05ac3"
+>
+</ReqRef><ReqRef
+ Id="9b5bc05a-22cc-46c2-b86e-98b08f33de35"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="4d68b97c-2485-402b-92d8-73561abbaa33"
+>
+</ReqRef><Comment>Updates the displayed train data</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
@@ -1784,7 +1814,12 @@ MAP Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.Items | Ker
  Name="Update train running number"
  Guid="9f34dfca-a33b-4a9f-8086-0d6696620d3e"
 >
-<Comment>Updates the displayed train running number</Comment>
+<ReqRef
+ Id="a14fe95a-8673-4454-b89a-54c4ae081318"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6be65c89-59bb-4faf-a989-36b5e734ad26"
+>
+</ReqRef><Comment>Updates the displayed train running number</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
