@@ -2142,6 +2142,40 @@ FORALL X IN Balise.Sequence1 |
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
+ Name="Linking available"
+ Guid="ee5a8bbe-075b-4889-b827-8eb384463824"
+>
+<ReqRef
+ Id="a3ce052d-3ac7-4adb-a97c-c53d647cded7"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="729e4e83-d2d2-40f1-8b2e-3414452f81a9"
+>
+</ReqRef><ReqRef
+ Id="4ae178ee-6db4-474c-aa88-d5f8bd8ea1d7"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="82c4cc0c-66ea-4a14-b302-490fb733c5a2"
+>
+</ReqRef><ReqRef
+ Id="5e8ed861-509f-4d98-8c04-8bea3a8cd6c6"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c406e150-d303-4dd6-a853-f797e41df06a"
+>
+</ReqRef><ReqRef
+ Id="4a52b034-1229-440d-b33c-bd9b65c26dab"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e5f46219-8aa8-4efb-909f-5049863aff96"
+>
+</ReqRef><Comment>Handles linking packet, if available.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="740ed4a7-b7cc-46f8-b0c9-dd3a37c4a2c5"
+>ConsiderPacket ( PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.LINKING.Q_DIR )</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="250427e6-8ddb-431d-a76d-b4432281374f"
+>Linking.LinkingInformationReceived ( Packet.TRACK_TO_TRAIN.LINKING )</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
  Name="National Values available"
  Guid="4574cd3f-8492-4e0c-a1d8-c04d2324f265"
 >
@@ -2164,35 +2198,6 @@ FORALL X IN Balise.Sequence1 |
 <Action
  Guid="2719277d-f12f-479c-8278-abb173a2d862"
 >Kernel.NationalValues.NationalValuesReceived ( Packet=&gt;Packet.TRACK_TO_TRAIN.NATIONAL_VALUES, NID_C=&gt;NID_C )</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- Name="Linking available"
- Guid="ee5a8bbe-075b-4889-b827-8eb384463824"
->
-<ReqRef
- Id="a3ce052d-3ac7-4adb-a97c-c53d647cded7"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="729e4e83-d2d2-40f1-8b2e-3414452f81a9"
->
-</ReqRef><ReqRef
- Id="4ae178ee-6db4-474c-aa88-d5f8bd8ea1d7"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="82c4cc0c-66ea-4a14-b302-490fb733c5a2"
->
-</ReqRef><ReqRef
- Id="5e8ed861-509f-4d98-8c04-8bea3a8cd6c6"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="c406e150-d303-4dd6-a853-f797e41df06a"
->
-</ReqRef><Comment>Handles linking packet, if available.</Comment>
-<PreConditions>
-<PreCondition
- Guid="740ed4a7-b7cc-46f8-b0c9-dd3a37c4a2c5"
->ConsiderPacket ( PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.LINKING.Q_DIR )</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="250427e6-8ddb-431d-a76d-b4432281374f"
->Linking.LinkingInformationReceived ( Packet.TRACK_TO_TRAIN.LINKING )</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Repositioning Information available"

@@ -7827,6 +7827,45 @@ Terminal1.RBCConnection.SafeRadioConnectionStatus == SafeRadioConnectionStatusEn
 <Rules>
 <Rule
  Implemented="TRUE"
+ Name="Linking"
+ Guid="b523ec16-e78f-443e-bc71-c86ea98fb8ce"
+>
+<ReqRef
+ Id="4a52b034-1229-440d-b33c-bd9b65c26dab"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e11cda1a-2dd3-454b-b124-a3b78632dfdd"
+>
+</ReqRef><ReqRef
+ Id="0d145136-9c1d-4c04-bd9a-5987931ed765"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f4d361e3-1cfe-4bbd-94d4-b1a7c56fc916"
+>
+</ReqRef><ReqRef
+ Id="4ae178ee-6db4-474c-aa88-d5f8bd8ea1d7"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c41ff14e-78b1-4f53-9cc0-a7703f6ce438"
+>
+</ReqRef><Comment>Handles a new level before any other information, because the other informations may depend in it</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Linking"
+ Guid="e2260be2-664f-40d6-af8e-f96ae05315b3"
+>
+<PreConditions>
+<PreCondition
+ Guid="6f88e63f-f761-40ce-a6fc-0944953d0bfc"
+>Available(aMessage.GENERAL_MESSAGE)</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="ecfaf44c-80b0-4fa6-b1f1-d6dfaa991828"
+>APPLY 
+  BTM.Linking.LinkingInformationReceived(X.LINKING)
+  ON aMessage.GENERAL_MESSAGE.Sequence1 | Available(X.LINKING)</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Implemented="TRUE"
  Name="Level transition"
  Guid="2de45eff-8689-46b3-81c8-51492ec1fe26"
 >
@@ -7856,7 +7895,7 @@ Terminal1.RBCConnection.SafeRadioConnectionStatus == SafeRadioConnectionStatusEn
 <PreConditions>
 <PreCondition
  Guid="bb4f2ab9-a9d9-4c4b-bdc5-2ea9011cf544"
->Available(aMessage.GENERAL_MESSAGE) </PreCondition></PreConditions>
+>Available(aMessage.GENERAL_MESSAGE)</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="f500ee30-e279-4200-a5bf-7fff60a3b433"
