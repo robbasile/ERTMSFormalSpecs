@@ -170,22 +170,33 @@ namespace GUI
                 {
                     if (modelElement != null)
                     {
-                        BaseTreeNode node = TreeView.FindNode(modelElement, false);
-                        while (node != null)
+                        // Find the first displayed tree node to be colorized
+                        BaseTreeNode displayedNode = null;
+                        while (displayedNode == null && modelElement != null)
                         {
-                            bool changed = node.UpdateColor();
-                            if (changed)
+                            displayedNode = TreeView.FindNode(modelElement, false);
+                            modelElement = modelElement.Enclosing as IModelElement;
+                        }
+
+                        if (displayedNode != null)
+                        {
+                            while (displayedNode != null)
                             {
-                                node = node.Parent as BaseTreeNode;
-                            }
-                            else
-                            {
-                                node = null;
+                                bool changed = displayedNode.UpdateColor();
+                                if (changed)
+                                {
+                                    displayedNode = displayedNode.Parent as BaseTreeNode;
+                                }
+                                else
+                                {
+                                    displayedNode = null;
+                                }
                             }
                         }
                     }
                     else
                     {
+                        // When no model element is provided, the complete tree should be recolored
                         foreach (BaseTreeNode node in TreeView.Nodes)
                         {
                             node.RecursiveUpdateNodeColor();
