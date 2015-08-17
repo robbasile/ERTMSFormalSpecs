@@ -73,8 +73,10 @@ namespace GUI.TestRunnerView.TimeLineControl
         {
             ModelEvent retVal = null;
 
-            Point position = PointToClient(new Point(MousePosition.X, MousePosition.Y));
+            Point mousePosition = MousePosition;
+            Point position = DrawArea.PointToClient(mousePosition);
             position.Offset(HorizontalScroll.Value, VerticalScroll.Value);
+
             foreach (KeyValuePair<ModelEvent, Rectangle> pair in PositionHandler.EventPositions)
             {
                 if (pair.Value.Contains(position))
