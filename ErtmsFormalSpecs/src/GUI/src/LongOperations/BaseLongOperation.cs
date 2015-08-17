@@ -17,7 +17,6 @@
 using System;
 using System.Threading;
 using System.Windows.Forms;
-using DataDictionary;
 using GUIUtils;
 using Utils;
 using Util = DataDictionary.Util;
@@ -82,7 +81,7 @@ namespace GUI.LongOperations
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show("Exception raised", e.Message);
+                    MessageBox.Show(@"Exception raised", e.Message + @"\n" + e.StackTrace);
                 }
                 finally
                 {
