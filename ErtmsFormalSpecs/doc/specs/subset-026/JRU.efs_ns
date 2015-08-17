@@ -1106,10 +1106,15 @@ TRACTION_CUT_OFF_COMMAND_STATE =&gt; CreateTractionCutOffMessage()
 <Actions>
 <Action
  Guid="0106c449-d756-4162-b6a1-629d4ec42579"
->INSERT Messages.JRU.MESSAGE.Message{
-    VIRTUAL_BALISE_COVER_SET_BY_DRIVER =&gt; CreateVBCSetByDriverMessage( FIRST Cover IN Kernel.VirtualBaliseCover.VirtualBaliseCovers | ( NOT (THERE_IS PrevCover IN THIS.PreviousVirtualBaliseCovers | PrevCover == Cover ) )  )
+>INSERT Messages.JRU.MESSAGE.Message
+{
+  VIRTUAL_BALISE_COVER_SET_BY_DRIVER =&gt;
+    CreateVBCSetByDriverMessage
+   (
+      FIRST Cover IN Kernel.VirtualBaliseCover.VirtualBaliseCovers.VBCs |
+      ( NOT (THERE_IS PrevCover IN THIS.PreviousVirtualBaliseCovers | PrevCover == Cover) )
+   )
 }
-
 IN JRUMessages</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
@@ -1209,7 +1214,7 @@ IN JRUMessages</Action></Actions>
  Guid="06d0091f-b48f-486b-8088-c41f6e231e53"
 >PreviousSystemVersion &lt;- Kernel.OperatedSystemVersion.Value</Action><Action
  Guid="3bf2231c-6b43-4768-99dc-85f531bfcf5c"
->PreviousVirtualBaliseCovers &lt;- Kernel.VirtualBaliseCover.VirtualBaliseCovers</Action><Action
+>PreviousVirtualBaliseCovers &lt;- Kernel.VirtualBaliseCover.VirtualBaliseCovers.VBCs</Action><Action
  Guid="65f7cd8d-4303-454d-abfb-ae779fe99371"
 >PreviousDMISymbolStatusMessage &lt;- CreateDMISymbolStatusChangeMessage().DMI_SYMBOL_STATUS</Action><Action
  Guid="eef9b3ad-1029-42e0-bbed-ad777e865c1f"
@@ -5659,7 +5664,7 @@ aJRU.PreviousAdditionalDataMessage.NID_RBC != CreateAdditionalDataMessage().NID_
 <PreConditions>
 <PreCondition
  Guid="29d1eed5-c62b-4411-b0dd-e1d5c53552c9"
->THERE_IS Cover IN Kernel.VirtualBaliseCover.VirtualBaliseCovers | ( 
+>THERE_IS Cover IN Kernel.VirtualBaliseCover.VirtualBaliseCovers.VBCs | ( 
   NOT THERE_IS PrevCover IN jru.PreviousVirtualBaliseCovers | PrevCover == Cover )</PreCondition></PreConditions>
 <Expression>True</Expression>
 </Case><Case

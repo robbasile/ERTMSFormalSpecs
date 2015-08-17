@@ -321,7 +321,17 @@
  Name="Display"
  Guid="50452e6b-0e02-4375-9271-2caa3e947cda"
 >
-<Comment>Requests to display the corresponding information</Comment>
+<ReqRef
+ Id="deb31660-c34c-4152-a1dd-ce89ad2b23f8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="50c9bedc-2e8d-4bcf-840f-cdf317e4d7e9"
+>
+</ReqRef><ReqRef
+ Id="fcb5673f-9b31-48ac-9859-0fdb524bff57"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ba60e256-fb55-48ba-9042-2c61ee9edf0e"
+>
+</ReqRef><Comment>Requests to display the corresponding information</Comment>
 <Rules>
 <Rule
  Priority="Processing"
@@ -419,7 +429,17 @@
  Name="Display"
  Guid="41864c17-5a2a-4f6c-9e52-f23c975aed87"
 >
-<Comment>Requests to display the corresponding information</Comment>
+<ReqRef
+ Id="deb31660-c34c-4152-a1dd-ce89ad2b23f8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ef6e4e51-7765-49e3-a3a7-2f99589a3b99"
+>
+</ReqRef><ReqRef
+ Id="fcb5673f-9b31-48ac-9859-0fdb524bff57"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="15deac3c-bd05-491e-b360-a3f79b28b3e1"
+>
+</ReqRef><Comment>Requests to display the corresponding information</Comment>
 <Rules>
 <Rule
  Priority="Processing"
@@ -524,7 +544,17 @@
  Name="Display"
  Guid="620705e9-5fb0-439b-a8b4-ace071731445"
 >
-<Comment>Requests to display the corresponding information</Comment>
+<ReqRef
+ Id="deb31660-c34c-4152-a1dd-ce89ad2b23f8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="4ff90191-071e-4ff3-8432-280d4dec67f6"
+>
+</ReqRef><ReqRef
+ Id="fcb5673f-9b31-48ac-9859-0fdb524bff57"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="47093bb8-4f81-4c8b-bad4-d3f5ea13589c"
+>
+</ReqRef><Comment>Requests to display the corresponding information</Comment>
 <Rules>
 <Rule
  Priority="Processing"
@@ -5106,7 +5136,17 @@ This procedure does not do anything. The mode tracking is not necessary for this
  Name="Display"
  Guid="af1106c3-a3e8-449d-ad1e-e18ed16333a9"
 >
-<Comment>Requests to display the corresponding information</Comment>
+<ReqRef
+ Id="deb31660-c34c-4152-a1dd-ce89ad2b23f8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="cc33edc2-2c88-4a21-84b9-e4522cc700f3"
+>
+</ReqRef><ReqRef
+ Id="fcb5673f-9b31-48ac-9859-0fdb524bff57"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9dbc25df-1b7d-4a44-bda6-a6107b2c8d3c"
+>
+</ReqRef><Comment>Requests to display the corresponding information</Comment>
 <Rules>
 <Rule
  Priority="Processing"
@@ -5345,7 +5385,17 @@ This procedure does not do anything. The mode tracking is not necessary for this
  Name="Display"
  Guid="92c83905-eb9f-4c66-8277-59719628d5b8"
 >
-<Comment>Requests to display the corresponding information</Comment>
+<ReqRef
+ Id="deb31660-c34c-4152-a1dd-ce89ad2b23f8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="16277961-be38-4426-8c95-3d13bb54d710"
+>
+</ReqRef><ReqRef
+ Id="fcb5673f-9b31-48ac-9859-0fdb524bff57"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c618efcf-fe8f-4f16-b931-9f774a16fead"
+>
+</ReqRef><Comment>Requests to display the corresponding information</Comment>
 <Rules>
 <Rule
  Priority="Processing"
@@ -5691,13 +5741,29 @@ This procedure does not do anything. The mode tracking is not necessary for this
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="87aa1ac6-f46a-41ff-bb44-8142ecbef69d"
 >
+</ReqRef><ReqRef
+ Id="fcb5673f-9b31-48ac-9859-0fdb524bff57"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="7940eed0-141d-4df1-9789-052b64b2c7ab"
+>
 </ReqRef><Comment>Identifies the modes where the output is available</Comment>
 <Cases>
 <Case
  Name="Enumerates the cases where the request is available"
  Guid="c72585be-367d-461e-88a5-58f221664e5d"
 >
-<Expression>Kernel.Mode in [Mode.SB, Mode.SH, Mode.FS, Mode.LS, Mode.SR, Mode.OS, Mode.NL, Mode.UN, Mode.TR, Mode.PT, Mode.SN, Mode.RV]</Expression>
+<PreConditions>
+<PreCondition
+ Guid="6f936051-6a0a-4521-8fbf-89557d23c877"
+>Kernel.DriverId.DataState == DataState.Valid</PreCondition><PreCondition
+ Guid="822d231a-c55e-452d-8006-adfd865b5121"
+>Kernel.Mode in [Mode.SB, Mode.SH, Mode.FS, Mode.LS, Mode.SR, Mode.OS, Mode.NL, Mode.UN, Mode.TR, Mode.PT, Mode.SN, Mode.RV]</PreCondition></PreConditions>
+<Expression>True</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="7ed1cc36-7e42-41db-aaf4-9168f8bd834a"
+>
+<Expression>False</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -6207,13 +6273,31 @@ This procedure does not do anything. The mode tracking is not necessary for this
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="c86fa575-6516-402c-9a35-01c945ace07b"
 >
+</ReqRef><ReqRef
+ Id="fcb5673f-9b31-48ac-9859-0fdb524bff57"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6051d2bf-80a4-4448-96de-aff34a2e186f"
+>
 </ReqRef><Comment>Identifies the modes where the output is available</Comment>
 <Cases>
 <Case
  Name="Enumerates the cases where the request is available"
  Guid="a1d8f728-6d14-4b90-8a6d-48554a0a3ae2"
 >
-<Expression>Kernel.Mode in [Mode.SB, Mode.SH, Mode.FS, Mode.LS, Mode.SR, Mode.OS, Mode.NL, Mode.UN, Mode.TR, Mode.PT, Mode.SN, Mode.RV]</Expression>
+<PreConditions>
+<PreCondition
+ Guid="9e8ca9c5-4a4a-4714-ab99-c890630f8a7c"
+>EURORADIO.CurrentRBCConnection() != EMPTY
+  AND
+EURORADIO.CurrentRBCConnection().ContactData.DataState == DataState.Valid</PreCondition><PreCondition
+ Guid="668da623-2d83-40c9-b8d0-2d5019210036"
+>Kernel.Mode in [Mode.SB, Mode.SH, Mode.FS, Mode.LS, Mode.SR, Mode.OS, Mode.NL, Mode.UN, Mode.TR, Mode.PT, Mode.SN, Mode.RV]</PreCondition></PreConditions>
+<Expression>True</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="652607ae-9aef-476a-a400-5bbc5dffe9f6"
+>
+<Expression>False</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -6640,13 +6724,29 @@ This procedure does not do anything. The mode tracking is not necessary for this
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="f7c835a2-cf45-4b30-807f-8ece8f32cfec"
 >
+</ReqRef><ReqRef
+ Id="fcb5673f-9b31-48ac-9859-0fdb524bff57"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9a84dd23-4227-473c-ba31-972e61c19eab"
+>
 </ReqRef><Comment>Identifies the modes where the output is available</Comment>
 <Cases>
 <Case
  Name="Enumerates the cases where the request is available"
  Guid="d68f08c0-a248-4931-a7e1-81377e69fffa"
 >
-<Expression>Kernel.Mode in [Mode.SB, Mode.FS, Mode.LS, Mode.SR, Mode.OS, Mode.UN, Mode.TR, Mode.PT, Mode.SN, Mode.RV]</Expression>
+<PreConditions>
+<PreCondition
+ Guid="30583a23-f744-4b6a-ac2f-35f6e76e1b54"
+>Kernel.TrainData.TrainData.DataState == DataState.Valid</PreCondition><PreCondition
+ Guid="3d5d5eed-1972-419b-8312-df27e8e88fdc"
+>Kernel.Mode in [Mode.SB, Mode.FS, Mode.LS, Mode.SR, Mode.OS, Mode.UN, Mode.TR, Mode.PT, Mode.SN, Mode.RV]</PreCondition></PreConditions>
+<Expression>True</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="5168289a-5fbc-4c67-8010-ec46436b7771"
+>
+<Expression>False</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -6688,13 +6788,29 @@ This procedure does not do anything. The mode tracking is not necessary for this
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="0d3bedc8-dca6-4a27-a7f7-b8a07b04539a"
 >
+</ReqRef><ReqRef
+ Id="fcb5673f-9b31-48ac-9859-0fdb524bff57"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="31861ff2-34d1-4f0d-81d6-79e8b479e9e6"
+>
 </ReqRef><Comment>Identifies the modes where the output is available</Comment>
 <Cases>
 <Case
  Name="Enumerates the cases where the request is available"
  Guid="23448439-2f4b-4bd2-b3ba-6591cb4d035c"
 >
-<Expression>Kernel.Mode in [Mode.SB, Mode.SH, Mode.FS, Mode.LS, Mode.SR, Mode.OS, Mode.NL, Mode.UN, Mode.TR, Mode.PT, Mode.SN, Mode.RV]</Expression>
+<PreConditions>
+<PreCondition
+ Guid="b73a69e7-e4e5-4525-96e9-48b1fd25e83a"
+>Kernel.TrainRunningNumber.DataState == DataState.Valid</PreCondition><PreCondition
+ Guid="3f4b039a-ded2-4b35-ad89-95c9f9b2d671"
+>Kernel.Mode in [Mode.SB, Mode.SH, Mode.FS, Mode.LS, Mode.SR, Mode.OS, Mode.NL, Mode.UN, Mode.TR, Mode.PT, Mode.SN, Mode.RV]</PreCondition></PreConditions>
+<Expression>True</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="aef6c0fd-9c05-40e8-a165-c9ce3ac59e17"
+>
+<Expression>False</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -6848,13 +6964,29 @@ This procedure does not do anything. The mode tracking is not necessary for this
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="60f5b8a2-460a-4bb5-b45f-bd4a840ca536"
 >
+</ReqRef><ReqRef
+ Id="fcb5673f-9b31-48ac-9859-0fdb524bff57"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="4a9a0a81-b094-4701-8f30-61e5daa17355"
+>
 </ReqRef><Comment>Identifies the modes where the output is available</Comment>
 <Cases>
 <Case
  Name="Enumerates the cases where the request is available"
  Guid="2c5a07d0-3570-49ca-abfc-22e367e9ab86"
 >
-<Expression>Kernel.Mode in [Mode.SB, Mode.SH, Mode.FS, Mode.LS, Mode.SR, Mode.OS, Mode.NL, Mode.UN, Mode.TR, Mode.PT, Mode.SN, Mode.RV]</Expression>
+<PreConditions>
+<PreCondition
+ Guid="db9347d9-c562-405e-8405-78de9252f49b"
+>Kernel.VirtualBaliseCover.VirtualBaliseCovers.DataState == DataState.Valid</PreCondition><PreCondition
+ Guid="6798119e-2545-4df2-8473-7940d0fc138d"
+>Kernel.Mode in [Mode.SB, Mode.SH, Mode.FS, Mode.LS, Mode.SR, Mode.OS, Mode.NL, Mode.UN, Mode.TR, Mode.PT, Mode.SN, Mode.RV]</PreCondition></PreConditions>
+<Expression>True</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="0b1a56ca-fdf4-4eeb-99a3-a9384802b13e"
+>
+<Expression>False</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"

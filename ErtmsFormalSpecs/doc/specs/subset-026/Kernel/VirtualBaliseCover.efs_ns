@@ -56,7 +56,7 @@
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="a1add37e-b1f7-4301-923f-5339b9857c39"
 >
-</ReqRef><Comment>Structure containing all the information describing a Virtual Balise Cover</Comment>
+</ReqRef><Comment>Structure containing all the information describing a Virtual Balise Cover.</Comment>
 <StructureElement
  TypeName="VBCMarkerStruct"
  Default=""
@@ -85,6 +85,24 @@
  Guid="7bf5889b-6bd4-4a92-9a4f-57dbe6e79a94"
 >
 </ReqRef><Comment>The period of time for which the cover is valid. This is measured in days.</Comment>
+</StructureElement></Structure><Structure
+ Y="230"
+ Width="100"
+ Height="50"
+ Name="VBCProfile"
+ Guid="eb74deb7-0bce-4090-b120-bfe373f94200"
+>
+<Comment>Structure containing all the information describing a Virtual Balise Cover and its data state.</Comment>
+<StructureElement
+ TypeName="VBCCol"
+ Name="VBCs"
+ Guid="e3f0909c-248c-4914-9776-cd2f0a622174"
+>
+</StructureElement><StructureElement
+ TypeName="DataState"
+ Name="DataState"
+ Guid="cb37a6d5-b018-4ef7-8985-ddef4262e9f9"
+>
 </StructureElement></Structure></Structures>
 <Collections>
 <Collection
@@ -110,8 +128,8 @@
 <Function
  Type="Default.DateAndTime"
  Default=""
- X="290"
- Y="20"
+ X="111"
+ Y="1"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -190,7 +208,7 @@
 <PreConditions>
 <PreCondition
  Guid="50ad1665-ac04-44dd-8acc-d41eb79969a7"
->THERE_IS Cover IN VirtualBaliseCovers | Cover.Marker == VBCMarkerStruct{
+>THERE_IS Cover IN VirtualBaliseCovers.VBCs | Cover.Marker == VBCMarkerStruct{
     Marker =&gt; Packet.NID_VBCMK,
     Area =&gt; Packet.NID_C
 }</PreCondition><PreCondition
@@ -199,11 +217,15 @@
 <Actions>
 <Action
  Guid="5265f809-c75d-4fba-8a62-07952b5b7954"
->REPLACE X.Marker == VBCMarkerStruct{
+>REPLACE X.Marker == VBCMarkerStruct
+{
     Marker =&gt; Packet.NID_VBCMK,
     Area =&gt; Packet.NID_C
-} IN VirtualBaliseCovers BY VBCStruct{
-    Marker =&gt; VBCMarkerStruct{
+}
+  IN VirtualBaliseCovers.VBCs BY VBCStruct
+{
+    Marker =&gt; VBCMarkerStruct
+    {
         Marker =&gt; Packet.NID_VBCMK,
         Area =&gt; Packet.NID_C
     },
@@ -222,14 +244,16 @@
 <Actions>
 <Action
  Guid="56fbd131-2ecf-4a96-b2d8-6048796c1e5a"
->INSERT VBCStruct{
-    Marker =&gt; VBCMarkerStruct{
+>INSERT VBCStruct
+{
+    Marker =&gt; VBCMarkerStruct
+    {
         Marker =&gt; Packet.NID_VBCMK,
         Area =&gt; Packet.NID_C
     },
     ValidUntil =&gt; EndDate(Packet.T_VBC)
 
-} IN VirtualBaliseCovers</Action></Actions>
+} IN VirtualBaliseCovers.VBCs</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -252,10 +276,11 @@
 <Actions>
 <Action
  Guid="b452e001-075f-4dcd-9135-f8a1c8329c24"
->REMOVE FIRST X.Marker == VBCMarkerStruct{
+>REMOVE FIRST X.Marker == VBCMarkerStruct
+{
     Marker =&gt; Packet.NID_VBCMK,
     Area =&gt; Packet.NID_C
-} IN VirtualBaliseCovers</Action></Actions>
+} IN VirtualBaliseCovers.VBCs</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -303,32 +328,32 @@
 <Actions>
 <Action
  Guid="ef331960-2419-4f15-9ea8-c4fdb56c6c7f"
->REMOVE ALL X.Marker.Area == NID_C IN VirtualBaliseCovers</Action></Actions>
+>REMOVE ALL X.Marker.Area == NID_C IN VirtualBaliseCovers.VBCs</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
 <Variables>
 <Variable
- Type="VBCCol"
+ Type="VBCProfile"
  DefaultValue=""
  VariableMode="Internal"
- Y="230"
+ Y="320"
  Width="100"
  Height="50"
  Implemented="TRUE"
  Name="VirtualBaliseCovers"
- Guid="11cd739f-daa2-4445-aa39-d4868f0a7d7d"
+ Guid="a6cf3fb9-8212-44e7-8189-a68ce64b5dcd"
 >
 <ReqRef
  Id="6b69d020-e8e5-47de-b8db-68bf85bc1b14"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="7dfd2493-d70e-4792-9d5c-6936c8549d3d"
+ Guid="d28ece5d-6731-4228-bc0a-65aaebf93d3f"
 >
-</ReqRef><Comment>The list of Virtual Balise Covers stored on-board</Comment>
-</Variable></Variables>
+</ReqRef></Variable></Variables>
 <Rules>
 <Rule
  Priority="CleanUp"
+ Y="420"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -361,7 +386,7 @@
 >REMOVE ALL DateAndTime.T1LaterThanT2(
     T1 =&gt; DateAndTime.Now(),
     T2 =&gt; X.ValidUntil
-) IN VirtualBaliseCovers</Action></Actions>
+) IN VirtualBaliseCovers.VBCs</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </NameSpace>
