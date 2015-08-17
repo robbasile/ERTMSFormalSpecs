@@ -16,6 +16,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using DataDictionary.Generated;
 using Utils;
 using XmlBooster;
@@ -28,12 +29,32 @@ namespace DataDictionary
     public class Context: IListener<BaseModelElement>
     {
         /// <summary>
+        /// Handling the critical section
+        /// </summary>
+        private Mutex CriticalSection { get; set; }
+
+        /// <summary>
+        /// The changes that occured in the system
+        /// </summary>
+        private Dictionary<IModelElement, HashSet<ChangeKind>> Changes { get; set; }
+
+        /// <summary>
+        /// Notifies of changes
+        /// </summary>
+        private Thread ChangeNotifier { get; set; }
+
+        /// <summary>
         /// Constructor
         /// </summary>
         public Context()
         {
             SelectionHistory = new List<SelectionContext>();
             ControllersManager.BaseModelElementController.Listeners.Add(this);
+
+            CriticalSection = new Mutex(false, "Critical section");
+            Changes = new Dictionary<IModelElement, HashSet<ChangeKind>>();
+            ChangeNotifier = new Thread(NotifyChanges);
+            ChangeNotifier.Start();
         }
 
         /// <summary>
@@ -42,6 +63,7 @@ namespace DataDictionary
         ~Context()
         {
             ControllersManager.BaseModelElementController.Listeners.Remove(this);
+            ChangeNotifier.Abort();
         }
 
         /// <summary>
@@ -215,7 +237,52 @@ namespace DataDictionary
         {
             if (ValueChange != null)
             {
-                ValueChange(value, changeKind);
+                if (value != null)
+                {
+                    CriticalSection.WaitOne();
+                    HashSet<ChangeKind> changeKinds;
+                    if (!Changes.TryGetValue(value, out changeKinds))
+                    {
+                        changeKinds = new HashSet<ChangeKind>();
+                        Changes.Add(value, changeKinds);
+                    }
+                    changeKinds.Add(changeKind);
+                    CriticalSection.ReleaseMutex();
+                }
+                else
+                {
+                    // ReSharper disable once ExpressionIsAlwaysNull
+                    ValueChange(value, changeKind);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Background thread used to notify the changes in the system
+        /// </summary>
+        private void NotifyChanges()
+        {
+            while (true)
+            {
+                // Release the mutex asap
+                CriticalSection.WaitOne();
+                Dictionary<IModelElement, HashSet<ChangeKind>> changes = Changes;
+                Changes = new Dictionary<IModelElement, HashSet<ChangeKind>>();
+                CriticalSection.ReleaseMutex();
+
+                // Notify of changes
+                if (ValueChange != null)
+                {
+                    foreach (var pair in changes)
+                    {
+                        foreach (ChangeKind kind in pair.Value)
+                        {
+                            ValueChange(pair.Key, kind);
+                        }
+                    }
+                }
+
+                Thread.Sleep(250);
             }
         }
 
