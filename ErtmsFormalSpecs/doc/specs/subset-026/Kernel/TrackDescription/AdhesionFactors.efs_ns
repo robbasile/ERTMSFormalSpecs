@@ -170,6 +170,37 @@
 >
 <Expression>NationalValues.DefaultValues.ModificationOfAdhesionFactorByDriver == Messages.Q_NVDRIVER_ADHES.Allowed</Expression>
 </Case></Cases>
+</Function><Function
+ Type="Messages.M_ADHESION"
+ X="111"
+ Y="61"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="CurrentValue"
+ Guid="26cb5c58-fe3e-4a38-8b3c-b528d002f1dc"
+>
+<Comment>Provides the current value of adhesion factor.</Comment>
+<Cases>
+<Case
+ Name="Adhesion factors available"
+ Guid="4d2c8bc7-a9a6-4c2c-9a57-e4cf5b616617"
+>
+<PreConditions>
+<PreCondition
+ Guid="9e1e6f3b-c52b-41a5-bb50-ac64511665dd"
+>THERE_IS AdhFactor IN AdhFactors |
+  AdhFactor.Value == Messages.M_ADHESION.Slippery_rail AND
+  AdhFactor.Location &lt;= TrainPosition.FrontEndPosition(PointOfInterest =&gt; DistanceInterval.Nom ) AND
+  TrainPosition.FrontEndPosition(PointOfInterest =&gt; DistanceInterval.Nom) &lt; AdhFactor.Location + BaseTypes.DistanceToLength(Distance =&gt; AdhFactor.Length)</PreCondition></PreConditions>
+<Expression>Messages.M_ADHESION.Slippery_rail</Expression>
+</Case><Case
+ Name="Adhesion factor selected by driver"
+ Guid="e546857e-a587-42d4-98fd-d1e84fc8628a"
+>
+<Expression>SlipperyRailSelectedByDriver</Expression>
+</Case></Cases>
 </Function></Functions>
 <Procedures>
 <Procedure
@@ -451,6 +482,56 @@ IN
 <Action
  Guid="11a62dee-1252-4610-8f17-8793fd2758a1"
 >SlipperyRailSelectedByDriver &lt;- Messages.M_ADHESION.Non_slippery_rail</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ X="111"
+ Y="1"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="Display"
+ Guid="79e9825d-6e46-4ed3-9707-018cd43849bc"
+>
+<ReqRef
+ Id="b16da260-3d61-423f-b5f4-3d94dbea08c4"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="98867da4-c5e4-4650-bdbd-e7f98f2a206d"
+>
+</ReqRef><Comment>Displays the slippery rail information.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Adhesion factor is displayed"
+ Guid="12cd091d-622b-4bd2-9e33-389f99559d91"
+>
+<Comment>If the information is already displayed but the adhesion factor is not &quot;slippery rail&quot; anymore, the information is hidden.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="8bddee03-addb-48c0-b5cf-13b31a4e314f"
+>DMI.MasterDMI().Out_AdhesionFactorSlipperyRail.OutputInformation.DisplayRequested</PreCondition><PreCondition
+ Guid="b56e2d1a-0e6e-4e57-b65d-5624874686e8"
+>CurrentValue() == Messages.M_ADHESION.Non_slippery_rail</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="383e28a3-e4a8-47d0-9d8a-1790a8d9b6f3"
+>DMI.MasterDMI().Out_AdhesionFactorSlipperyRail.OutputInformation.DoNotDisplay()</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Adhesion factor is not displayed"
+ Guid="23cdfa61-4544-43ba-8032-fcdc5ed9e380"
+>
+<Comment>If the information is not displayed yet, but the adhesion factor is &quot;slippery rail&quot;, it is displayed to the driver.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="8b89ffd0-5918-4270-b29e-717dc6b6710a"
+>NOT DMI.MasterDMI().Out_AdhesionFactorSlipperyRail.OutputInformation.DisplayRequested</PreCondition><PreCondition
+ Guid="4a52e5c3-ad99-431d-8ea5-7fb560a04e9e"
+>CurrentValue() == Messages.M_ADHESION.Slippery_rail</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="5a6a9b3f-4e75-4825-aa0c-6d322674cee7"
+>DMI.MasterDMI().Out_AdhesionFactorSlipperyRail.Display()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </NameSpace>
