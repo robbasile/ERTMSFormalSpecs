@@ -14,31 +14,99 @@
  Y="1"
  Width="100"
  Height="50"
- Implemented="TRUE"
- Name="HandleGradientProfile"
- Guid="80e1740b-e21d-4a29-8fa0-c60306a6ff4c"
+ Name="HandleStoredInformation"
+ Guid="ce9c886a-34c4-4693-98ca-4628cd1056d1"
 >
 <ReqRef
- Id="2f2df53c-e717-4abf-bcd7-995bdf07a8bc"
+ Id="54df0d45-15e2-4548-8648-7a96a61e1227"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="564be91d-01b7-4027-87c0-42f29014cc14"
+ Guid="4fc09b6e-6c35-411a-a172-35ed263aa489"
 >
 </ReqRef><ReqRef
- Id="9a9d1994-65cc-4ce3-8805-06dbf30f991b"
+ Id="f1a72111-334b-4c63-9709-ceaeefe93df9"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="a35b4240-ea63-4108-a81d-7d25270277ba"
+ Guid="fd62e69e-5f88-4373-842e-3153c4d6677f"
 >
 </ReqRef><Rules>
 <Rule
- Priority="Processing"
- Name="HandleGradientProfile"
- Guid="d081a9e7-5380-483a-b329-07d1d73ee114"
+ Name="Handle National Values"
+ Guid="c42f0a6e-4f26-4007-9865-95daee50f3b8"
 >
+<ReqRef
+ Id="0aac2566-835d-44ac-a0b4-c772bd3c545b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="4fdff24a-5a97-4b42-96da-2d88c3a89667"
+>
+</ReqRef><Comment>National values are always unchanged (since &quot;NR&quot; is considered the same as &quot;U&quot;)</Comment>
 <SubRules></SubRules>
+</Rule><Rule
+ Name="Handle Not yet applicable National Values"
+ Guid="55e5fa54-105b-4fa5-b539-ecf5e27768f9"
+>
+<ReqRef
+ Id="de696b0d-7dc0-4f7d-a1a3-a2085fff0c6d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ba274f0b-b61c-4d29-92e5-2daa682d9aac"
+>
+</ReqRef><SubRules></SubRules>
+</Rule><Rule
+ Name="Handle Linking"
+ Guid="f79c567f-e5ca-4f50-9ddf-672c8fdfaba1"
+>
+<ReqRef
+ Id="1d3d434d-574c-4ec5-9655-c85d6721c8d9"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="489b5344-2291-4bce-9229-4ea3817d5fb5"
+>
+</ReqRef><SubRules></SubRules>
+</Rule><Rule
+ Name="Handle Movement Authority"
+ Guid="fdee097b-5c44-4dfc-8642-a77e2c06caf4"
+>
+<ReqRef
+ Id="9a9d1994-65cc-4ce3-8805-06dbf30f991b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ec7020bc-3bf1-4945-877d-8c188b6a6a67"
+>
+</ReqRef><ReqRef
+ Id="9d4797ea-78a8-430b-95ff-ab8ccf427197"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="1bbe1b2e-5d3a-4275-becb-a823e57dbcd4"
+>
+</ReqRef><SubRules></SubRules>
 <Conditions>
 <RuleCondition
- Name="HandleGradientProfile"
- Guid="bbe828d5-2362-4743-a88b-62c8fa509459"
+ Name="HandleMA"
+ Guid="33741c8e-4324-4647-9e25-38f0e333db77"
+>
+<PreConditions>
+<PreCondition
+ Guid="8d3bfbb4-2990-45b9-a602-c17071a67694"
+>Mode in [ Default.Mode.NP, Default.Mode.SB, Default.Mode.PS, Default.Mode.SH, Default.Mode.SR, Default.Mode.SL, Default.Mode.NL, Default.Mode.UN, Default.Mode.TR, Default.Mode.SN, Default.Mode.RV ]</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="3213db86-c76f-4338-af19-87e5e3baa18c"
+>MA.MA &lt;- EMPTY</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Name="Handle Gradient Profile"
+ Guid="008b6cfb-1642-4bcd-817c-c5de4cc750d4"
+>
+<ReqRef
+ Id="9a9d1994-65cc-4ce3-8805-06dbf30f991b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="8be27502-e71e-493b-8c8f-b25ac62a3baa"
+>
+</ReqRef><ReqRef
+ Id="2f2df53c-e717-4abf-bcd7-995bdf07a8bc"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0b2b4498-e23d-42cf-b855-64f587f63ea7"
+>
+</ReqRef><SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Name="Handle Gradient Profile"
+ Guid="0ed42227-74ae-4b09-a641-e2bdc9f4b5d5"
 >
 <PreConditions>
 <PreCondition
@@ -49,32 +117,21 @@
  Guid="83695b4e-6e2e-471e-a33a-b09bb6e1e5fd"
 >TrackDescription.Gradient.Gradients &lt;- []</Action></Actions>
 </RuleCondition></Conditions>
-</Rule></Rules>
-</Procedure><Procedure
- X="110"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="HandleSSP"
- Guid="709c8df4-5dff-4594-9497-8512ae5d6c27"
+</Rule><Rule
+ Name="Handle International SSP"
+ Guid="a50646b0-5b9b-4e23-b00f-f33c1d3add66"
 >
 <ReqRef
- Id="f5d2b12f-7119-4063-9f34-c47c3f83ccdf"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="84bbe618-5ead-4254-9648-209a66cf06ef"
->
-</ReqRef><ReqRef
  Id="9a9d1994-65cc-4ce3-8805-06dbf30f991b"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="179c7fdc-186d-4045-8f20-8202883f9d12"
+ Guid="d9e00ebf-5202-4b5e-849a-39e32e10adbb"
 >
-</ReqRef><Rules>
-<Rule
- Priority="Processing"
- Name="HandleSSP"
- Guid="0c01d286-3619-4f75-b73b-9600198a045a"
+</ReqRef><ReqRef
+ Id="f5d2b12f-7119-4063-9f34-c47c3f83ccdf"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="da642096-1a4d-450f-81d6-a038acd4fc7c"
 >
-<SubRules></SubRules>
+</ReqRef><SubRules></SubRules>
 <Conditions>
 <RuleCondition
  Name="HandleSSP"
@@ -89,33 +146,21 @@
  Guid="bc3cd369-f546-4727-9119-65c20eba5538"
 >TrackDescription.StaticSpeedProfile.SSP &lt;- []</Action></Actions>
 </RuleCondition></Conditions>
-</Rule></Rules>
-</Procedure><Procedure
- X="220"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="HandleAxleLoadSpeed"
- Guid="6c897cb4-f705-45d3-addf-1363d0e0d9f9"
+</Rule><Rule
+ Name="Handle Axle load speed profile"
+ Guid="0723e2ee-e8cb-4631-b60a-4b4b817ab48e"
 >
 <ReqRef
- Id="29c38dc0-760e-489c-b451-a83537cb9e44"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="200e0873-cea1-4504-8071-bcf45200f85d"
->
-</ReqRef><ReqRef
  Id="9a9d1994-65cc-4ce3-8805-06dbf30f991b"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="9f79cd85-129b-44cb-a7b8-d02e8efcd4a8"
+ Guid="e4192a45-9e02-4469-bcf3-58d080fdbdf9"
 >
-</ReqRef><Rules>
-<Rule
- Priority="Processing"
- Implemented="TRUE"
- Name="HandleAxleLoadSpeed"
- Guid="5766482e-83aa-45fa-9098-a0123d8d256f"
+</ReqRef><ReqRef
+ Id="29c38dc0-760e-489c-b451-a83537cb9e44"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e5b1e27a-4115-4815-b6d0-e554fa61dd2b"
 >
-<SubRules></SubRules>
+</ReqRef><SubRules></SubRules>
 <Conditions>
 <RuleCondition
  Name="HandleAxleLoadSpeed"
@@ -134,32 +179,21 @@
     ALs =&gt; []
 }</Action></Actions>
 </RuleCondition></Conditions>
-</Rule></Rules>
-</Procedure><Procedure
- X="330"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="HandleRouteSuitability"
- Guid="8909ca17-ce83-4118-8441-a4edbf9956a0"
+</Rule><Rule
+ Name="Handle Route Suitability Data"
+ Guid="a177dafa-0b69-4574-80b8-f1a740a82b7a"
 >
 <ReqRef
  Id="ed33eb7f-8b9e-4485-9e25-62147cd368ff"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="aaa71d09-cb1b-4a7a-bd2a-c99427fe1b85"
+ Guid="76778f54-3b45-43b2-b257-ce32bfbeca50"
 >
 </ReqRef><ReqRef
  Id="9a9d1994-65cc-4ce3-8805-06dbf30f991b"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="07f28448-362e-4e7d-9c05-8e0f8d8543a2"
+ Guid="65836dc4-f7fe-415a-90dd-06a0ae2a01a4"
 >
-</ReqRef><Rules>
-<Rule
- Priority="Processing"
- Name="HandleRouteSuitability"
- Guid="a493defb-78ea-47e1-8eef-f979ceebcb3a"
->
-<SubRules></SubRules>
+</ReqRef><SubRules></SubRules>
 <Conditions>
 <RuleCondition
  Name="HandleRouteSuitability"
@@ -178,37 +212,26 @@
     Items =&gt; []
 }</Action></Actions>
 </RuleCondition></Conditions>
-</Rule></Rules>
-</Procedure><Procedure
- X="440"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="HandleAdhesionFactors"
- Guid="b4ebf930-5b30-4f81-9fed-7c01523e117d"
+</Rule><Rule
+ Name="Handle Adhesion Factors"
+ Guid="d171824f-953d-446c-8b0f-8778988b2f55"
 >
 <ReqRef
+ Id="9a9d1994-65cc-4ce3-8805-06dbf30f991b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="3ff47421-8a53-491c-9099-791fc28f8370"
+>
+</ReqRef><ReqRef
  Id="941b0b9c-8d1a-40e9-9fdb-b2f562a6ab57"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="080e4663-9baa-43aa-9105-1d143dd85349"
+ Guid="ba08bdcd-f9e5-4deb-bc2e-710bfe764f5f"
 >
 </ReqRef><ReqRef
  Id="2cc71448-b090-4455-95e4-1d187ca9debe"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="44067039-1ffd-4189-8dc4-9a15aef1f5d7"
+ Guid="ebd11de4-7573-4475-ac09-d824209bec63"
 >
-</ReqRef><ReqRef
- Id="9a9d1994-65cc-4ce3-8805-06dbf30f991b"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="822ad749-784f-4286-ae72-62df13773e45"
->
-</ReqRef><Rules>
-<Rule
- Priority="Processing"
- Name="HandleAdhesionFactors"
- Guid="be9f4353-a6d9-49d1-8308-fc977b69df78"
->
-<SubRules></SubRules>
+</ReqRef><SubRules></SubRules>
 <Conditions>
 <RuleCondition
  Name="HandleAdhesionFactor"
@@ -223,32 +246,21 @@
  Guid="51c26205-54cc-4334-9fef-e647f4478723"
 >TrackDescription.AdhesionFactors.AdhFactors &lt;- []</Action></Actions>
 </RuleCondition></Conditions>
-</Rule></Rules>
-</Procedure><Procedure
- X="550"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="HandleTrackConditions1"
- Guid="f31d2448-84c6-4a49-9108-699fd715ed8a"
+</Rule><Rule
+ Name="Handle Track Conditions 1"
+ Guid="0e721665-38cb-4fc4-b13b-4af1800424fd"
 >
 <ReqRef
  Id="c1c2e72d-abfa-40cc-ab4e-10dd67d304e9"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="df50df16-44dd-4c83-842f-0727a6a75d3e"
+ Guid="e1795896-1e90-42f1-a6ed-b3568c18d72b"
 >
 </ReqRef><ReqRef
  Id="9a9d1994-65cc-4ce3-8805-06dbf30f991b"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="649b5960-279b-42d4-a7c3-47e4a7bebc17"
+ Guid="0cb6a7e4-4c78-4330-96d1-8814a04ec8dc"
 >
-</ReqRef><Rules>
-<Rule
- Priority="Processing"
- Name="HandleTrackConditions1"
- Guid="03da9698-e191-4152-9f73-b3d2aab065ab"
->
-<SubRules></SubRules>
+</ReqRef><SubRules></SubRules>
 <Conditions>
 <RuleCondition
  Name="HandleTrackConditions1"
@@ -263,33 +275,91 @@
  Guid="67db5d7f-5b93-4297-87b9-a9bc1fc31e39"
 >TrackDescription.TrackConditions.General.TCProfile &lt;- MAP TrackDescription.TrackConditions.General.TCProfile USING X IN TrackDescription.TrackConditions.General.HandleTCPwhenEnteringGivenMode1( X )</Action></Actions>
 </RuleCondition></Conditions>
-</Rule></Rules>
-</Procedure><Procedure
- X="440"
- Y="60"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="HandleReversingArea"
- Guid="07e3363e-f358-43a8-aa4f-f94db932954c"
+</Rule><Rule
+ Name="Handle Track Conditions 2"
+ Guid="45888872-8b5a-4ce6-90ff-90c44d1cbd8b"
 >
 <ReqRef
- Id="c73c1fbd-5f6c-419c-a6c2-1a8c81cca57b"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="658bb0b6-953a-41fe-bfe7-cc3f9630c875"
->
-</ReqRef><ReqRef
  Id="9a9d1994-65cc-4ce3-8805-06dbf30f991b"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="a3aaa0f1-b098-4f22-a063-3cab6060f90c"
+ Guid="924d4941-0472-4ab5-a4f7-7fed0bd0e2aa"
 >
-</ReqRef><Rules>
-<Rule
- Priority="Processing"
- Name="HandleReversingArea"
- Guid="cebe6f9e-5178-4ae1-b6bb-6fcf7d678cb5"
+</ReqRef><ReqRef
+ Id="81e057d0-016b-449f-8994-c2a6d7b34729"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ceccf6d1-c5f4-465c-9952-0898beddaeee"
 >
-<SubRules></SubRules>
+</ReqRef><SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Name="HandleTrackConditions2"
+ Guid="4e20a0da-fbc1-4dd8-9d40-38433acb61d0"
+>
+<PreConditions>
+<PreCondition
+ Guid="f444f2cc-19a0-451d-9b58-2d4973a19949"
+>Mode in [ Default.Mode.NP, Default.Mode.SB, Default.Mode.PS, Default.Mode.SH, Default.Mode.SR, Default.Mode.SL, Default.Mode.NL, Default.Mode.UN, Default.Mode.TR, Default.Mode.PT, Default.Mode.SN, Default.Mode.RV ]</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="36e7dd40-ce3d-4111-98c0-eba98f5676df"
+>TrackDescription.TrackConditions.General.TCProfile&lt;- MAP TrackDescription.TrackConditions.General.TCProfile USING X IN TrackDescription.TrackConditions.General.HandleTCPwhenEnteringGivenMode2( X )</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Name="Handle Train Data"
+ Guid="b5ecf93a-97fe-4f39-bca3-8aa51d036e47"
+>
+<ReqRef
+ Id="9a9d1994-65cc-4ce3-8805-06dbf30f991b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f9601222-95a6-4a6d-9019-ad5902a41331"
+>
+</ReqRef><ReqRef
+ Id="d73b7418-d053-4ed9-a4a8-f4d09322825b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="99b6e7fe-6ee9-4c0e-baa5-b709aefaf14c"
+>
+</ReqRef><SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Name="Deleted"
+ Guid="7c27df7a-de45-4ba4-b129-933be0f48a46"
+>
+<PreConditions>
+<PreCondition
+ Guid="e4a6977b-91fe-4cd0-8d36-90eac8f70160"
+>Mode in [ Default.Mode.NP ]</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="a7fa7c59-c015-4adc-8b14-1b717c6c824f"
+>TrainData.TrainData.DataState &lt;- DataState.Unknown</Action></Actions>
+</RuleCondition><RuleCondition
+ Name="To Be Revalidated"
+ Guid="a954f9d8-4fd2-49ec-8bb6-01212dec5d15"
+>
+<PreConditions>
+<PreCondition
+ Guid="0de5e303-7fbd-41ef-8706-74718074308f"
+>Mode in [ Default.Mode.SB, Default.Mode.SH ]</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="15b9edf9-aa53-4327-97e1-77a65bdf3a2b"
+>TrainData.TrainData.DataState &lt;- DataState.Invalid</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Name="Handle Reversing Area Information"
+ Guid="cbcd26bc-a7d0-4d9a-a9aa-7bd381816e3a"
+>
+<ReqRef
+ Id="9a9d1994-65cc-4ce3-8805-06dbf30f991b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b62a916a-2353-45c4-9af0-815c7b2c505a"
+>
+</ReqRef><ReqRef
+ Id="c73c1fbd-5f6c-419c-a6c2-1a8c81cca57b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="5a6765ea-a472-4d83-9eef-edd39c29a2d6"
+>
+</ReqRef><SubRules></SubRules>
 <Conditions>
 <RuleCondition
  Name="HandleReversingArea"
@@ -304,33 +374,21 @@
  Guid="320557ce-506b-4c99-ae20-e0d18a68e85e"
 >TrackDescription.ReversingArea.ReversingAreaProfile &lt;- EMPTY</Action></Actions>
 </RuleCondition></Conditions>
-</Rule></Rules>
-</Procedure><Procedure
- X="330"
- Y="60"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="HandlePermittedBrakingDistance"
- Guid="5dbda812-4a4a-404e-b823-e257ea12ce4e"
+</Rule><Rule
+ Name="Handle Permitted Braking Distance Information"
+ Guid="aff11fb8-d3f5-4a16-bda5-704ec341a1c5"
 >
 <ReqRef
- Id="038f5c97-bc09-46ad-b0e4-501cc3a9893a"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="995e43a7-bb65-4299-9634-dde319e829dd"
->
-</ReqRef><ReqRef
  Id="9a9d1994-65cc-4ce3-8805-06dbf30f991b"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="7ab08bf7-2ae8-49c5-97d2-647046309665"
+ Guid="a42aea9e-8650-449c-9564-e6a2e175ab23"
 >
-</ReqRef><Rules>
-<Rule
- Priority="Processing"
- Name="HandlePermittedBrakingDistance"
- Guid="7fe12ef0-28e3-4bc6-8bd1-03dca552ab7e"
+</ReqRef><ReqRef
+ Id="038f5c97-bc09-46ad-b0e4-501cc3a9893a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a03a0e80-9776-4f8d-924b-beee9b1928ec"
 >
-<SubRules></SubRules>
+</ReqRef><SubRules></SubRules>
 <Conditions>
 <RuleCondition
  Name="HandlePermittedBrakingDistance"
@@ -346,237 +404,9 @@
 >TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.SpeedRestrictions &lt;- []</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
-</Procedure><Procedure
- Y="60"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="HandleTrackConditions2"
- Guid="f7dd6c88-1ceb-4f91-84fa-5b71864e6c2a"
->
-<ReqRef
- Id="81e057d0-016b-449f-8994-c2a6d7b34729"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="4a4d0cd3-8e29-40ee-98ba-f0f49cb5b036"
->
-</ReqRef><ReqRef
- Id="9a9d1994-65cc-4ce3-8805-06dbf30f991b"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="76f13301-c539-4569-8713-de2398c41873"
->
-</ReqRef><Rules>
-<Rule
- Priority="Processing"
- Name="HandleTrackConditions2"
- Guid="19f09709-5056-44f9-bad8-da6a516bc7a9"
->
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Name="HandleTrackConditions2"
- Guid="4e20a0da-fbc1-4dd8-9d40-38433acb61d0"
->
-<PreConditions>
-<PreCondition
- Guid="f444f2cc-19a0-451d-9b58-2d4973a19949"
->Mode in [ Default.Mode.NP, Default.Mode.SB, Default.Mode.PS, Default.Mode.SH, Default.Mode.SR, Default.Mode.SL, Default.Mode.NL, Default.Mode.UN, Default.Mode.TR, Default.Mode.PT, Default.Mode.SN, Default.Mode.RV ]</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="36e7dd40-ce3d-4111-98c0-eba98f5676df"
->TrackDescription.TrackConditions.General.TCProfile&lt;- MAP TrackDescription.TrackConditions.General.TCProfile USING X IN TrackDescription.TrackConditions.General.HandleTCPwhenEnteringGivenMode2( X )</Action></Actions>
-</RuleCondition></Conditions>
-</Rule></Rules>
-</Procedure><Procedure
- X="110"
- Y="60"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="HandleMA"
- Guid="c22d9ca1-fe09-4a15-a267-3bf5082107b1"
->
-<ReqRef
- Id="9d4797ea-78a8-430b-95ff-ab8ccf427197"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="493b2349-57bc-4d6d-b15e-b3da53919751"
->
-</ReqRef><ReqRef
- Id="9a9d1994-65cc-4ce3-8805-06dbf30f991b"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="15f60bed-a0ff-4f4d-b19d-0b438403f6de"
->
-</ReqRef><Rules>
-<Rule
- Priority="Processing"
- Name="HandleMA"
- Guid="c6dc0ca7-190b-416d-93e4-5fde1239d18b"
->
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Name="HandleMA"
- Guid="33741c8e-4324-4647-9e25-38f0e333db77"
->
-<PreConditions>
-<PreCondition
- Guid="8d3bfbb4-2990-45b9-a602-c17071a67694"
->Mode in [ Default.Mode.NP, Default.Mode.SB, Default.Mode.PS, Default.Mode.SH, Default.Mode.SR, Default.Mode.SL, Default.Mode.NL, Default.Mode.UN, Default.Mode.TR, Default.Mode.SN, Default.Mode.RV ]</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="3213db86-c76f-4338-af19-87e5e3baa18c"
->MA.MA &lt;- EMPTY</Action></Actions>
-</RuleCondition></Conditions>
-</Rule></Rules>
-</Procedure><Procedure
- X="220"
- Y="60"
- Width="100"
- Height="50"
- Name="HandleTrainData"
- Guid="58eb8b12-722c-49b1-97b2-176c11ff909b"
->
-<ReqRef
- Id="d73b7418-d053-4ed9-a4a8-f4d09322825b"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="c1e751a5-5f10-44ab-b688-bc5110032527"
->
-</ReqRef><ReqRef
- Id="9a9d1994-65cc-4ce3-8805-06dbf30f991b"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="21729d09-78ff-4989-8e84-374147f0d7de"
->
-</ReqRef><Rules>
-<Rule
- Priority="Processing"
- Name="HandleTrainData"
- Guid="ada765cc-100d-492a-916e-2f839104568c"
->
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Name="HandleTrainData"
- Guid="7c27df7a-de45-4ba4-b129-933be0f48a46"
->
-<PreConditions>
-<PreCondition
- Guid="e4a6977b-91fe-4cd0-8d36-90eac8f70160"
->Mode in [ Default.Mode.NP ]</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="a7fa7c59-c015-4adc-8b14-1b717c6c824f"
->TrainData.TrainData.DataState &lt;- DataState.Unknown</Action></Actions>
-</RuleCondition><RuleCondition
- Name="HandleTrainData2"
- Guid="a954f9d8-4fd2-49ec-8bb6-01212dec5d15"
->
-<PreConditions>
-<PreCondition
- Guid="0de5e303-7fbd-41ef-8706-74718074308f"
->Mode in [ Default.Mode.SB, Default.Mode.SH ]</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="15b9edf9-aa53-4327-97e1-77a65bdf3a2b"
->TrainData.TrainData.DataState &lt;- DataState.Invalid</Action></Actions>
-</RuleCondition></Conditions>
-</Rule></Rules>
-</Procedure><Procedure
- X="1"
- Y="121"
- Width="100"
- Height="50"
- Name="HandleStoredInformation"
- Guid="ce9c886a-34c4-4693-98ca-4628cd1056d1"
->
-<ReqRef
- Id="54df0d45-15e2-4548-8648-7a96a61e1227"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="4fc09b6e-6c35-411a-a172-35ed263aa489"
->
-</ReqRef><Rules>
-<Rule
- Name="Handle National Values"
- Guid="c42f0a6e-4f26-4007-9865-95daee50f3b8"
->
-<ReqRef
- Id="0aac2566-835d-44ac-a0b4-c772bd3c545b"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="4fdff24a-5a97-4b42-96da-2d88c3a89667"
->
-</ReqRef><Comment>National values are always unchanged (since &quot;NR&quot; is considered the same as &quot;U&quot;)</Comment>
-<SubRules></SubRules>
-</Rule><Rule
- Name="Handle Not yet applicable National Values"
- Guid="55e5fa54-105b-4fa5-b539-ecf5e27768f9"
->
-<SubRules></SubRules>
-</Rule><Rule
- Name="Handle Linking"
- Guid="f79c567f-e5ca-4f50-9ddf-672c8fdfaba1"
->
-<SubRules></SubRules>
-</Rule><Rule
- Name="Handle Movement Authority"
- Guid="fdee097b-5c44-4dfc-8642-a77e2c06caf4"
->
-<SubRules></SubRules>
-</Rule></Rules>
 </Procedure></Procedures>
 <Rules>
 <Rule
- Priority="Processing"
- Y="190"
- Width="100"
- Height="50"
- Name="ModeHasChanged"
- Guid="de4f47d2-dec5-466b-b3b6-740e7aac6a96"
->
-<ReqRef
- Id="f1a72111-334b-4c63-9709-ceaeefe93df9"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="ab46bbe2-62af-4bbc-b5f8-07cb0fb12f9d"
->
-</ReqRef><ReqRef
- Id="9a9d1994-65cc-4ce3-8805-06dbf30f991b"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="a861e736-d44b-4a82-8358-cf8d77d27a08"
->
-</ReqRef><Comment>Handles data to be deleted or reset when entering a new mode.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Name="ModeHasChanged"
- Guid="af460854-7cfd-48ba-bd46-5e768d117d22"
->
-<PreConditions>
-<PreCondition
- Guid="5b8148fa-83cb-407f-b912-aa5377ade60f"
->PrevMode != Mode</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="90c2c980-19f3-4dbd-a835-86e7b86a6df9"
->HandleGradientProfile()</Action><Action
- Guid="4d079a9f-0a7f-4bd1-9ae7-24a86ee11e35"
->HandleAxleLoadSpeed()</Action><Action
- Guid="1b057ef7-82ea-4da7-ad63-b9821767a9cd"
->HandleSSP()</Action><Action
- Guid="439cfd10-0003-4a8e-8e15-d19658fa8abc"
->HandleAdhesionFactors()</Action><Action
- Guid="25f524e5-0c40-4c77-9a34-d718d01ad278"
->HandleMA()</Action><Action
- Guid="b437d3b8-cb9e-490b-9a5e-313a7b45dffc"
->HandlePermittedBrakingDistance()</Action><Action
- Guid="945f176b-401f-492a-98ec-2339590c7f24"
->HandleReversingArea()</Action><Action
- Guid="95d73e00-a7a0-447d-8ea1-11941f0f52d1"
->HandleRouteSuitability()</Action><Action
- Guid="c0a177d5-4cea-46ad-a9a3-2c4800ce0353"
->HandleTrackConditions1()</Action><Action
- Guid="6d8194bb-2c21-4cfb-8562-787ab7d7d86e"
->HandleTrackConditions2()</Action><Action
- Guid="788dce61-0814-495c-8780-5b5a40c344ca"
->PrevMode &lt;- Mode</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
  Priority="Processing"
  X="771"
  Y="1"
