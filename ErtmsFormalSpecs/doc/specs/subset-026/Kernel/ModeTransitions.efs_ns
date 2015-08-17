@@ -8214,6 +8214,33 @@ IN MA.ModeProfile.Profile</Action></Actions>
  Guid="95b757a7-c19e-4ffc-ba3d-afbc5c486d8f"
 >Shunting.ContinueShuntingOnDeskClosure &lt;- False</Action></Actions>
 </RuleCondition></Conditions>
+</Rule><Rule
+ Implemented="TRUE"
+ Name="NP"
+ Guid="fc0593e9-462b-46ec-bb2a-990b7b72862e"
+>
+<ReqRef
+ Id="7de74199-8020-4f5b-8325-39e1710d1852"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="35e3fa9c-3bf0-4437-9672-961a18018003"
+>
+</ReqRef><Comment>When the on-board equipment is switched off, the not yet applicable national values are deleted.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="NP"
+ Guid="8e0262af-a6e5-41e0-9295-f8d9666e4f3a"
+>
+<PreConditions>
+<PreCondition
+ Guid="d3ad200d-8c2a-4b0b-8fea-c9d5fca28168"
+>Mode == Default.Mode.NP</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="26dbeadc-d871-4a38-80b9-b7a5ecb48f98"
+>NationalValues.NotApplicableNationalValues.DataState &lt;- Default.DataState.Invalid</Action></Actions>
+</RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition></Conditions>
 </Rule><Rule

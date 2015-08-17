@@ -3144,7 +3144,7 @@ NOT IncomingMessageIsConsistent(MessageIn)</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="5f21704f-fd79-4d25-ac8d-54f9ec46d7e7"
->NumberOfSentRequests &lt; NumberOfMessageRepetitions</PreCondition></PreConditions>
+>NumberOfSentRequests &lt; NumberOfTimesToEstablishSafeRadioConnection</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="6c9db820-9596-4dc3-b487-9fb6e343bc2b"
@@ -10659,6 +10659,7 @@ But at the end of the cycle the conditions required for sending of position repo
  Y="310"
  Width="100"
  Height="50"
+ Implemented="TRUE"
  Name="DelayToDisconnect"
  Guid="54e67e1e-4418-45f2-a157-15b133a322f1"
 >
@@ -10681,6 +10682,23 @@ But at the end of the cycle the conditions required for sending of position repo
  Guid="80f94470-f39e-44f1-8045-5bb6c1e0771d"
 >
 <Comment>Indicates whether the check on message time stamps needs to be performed (default is True, is only False for debugging Subset-076 tests).</Comment>
+</Variable><Variable
+ Type="Integer"
+ DefaultValue="3"
+ X="111"
+ Y="181"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="NumberOfTimesToEstablishSafeRadioConnection"
+ Guid="5f2a0228-c803-47a9-b5d4-a66255b13d73"
+>
+<ReqRef
+ Id="8930cc43-c129-487c-beb7-9ed8bd9d1851"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="3d0ce163-1722-4f0e-bd2f-d992faa362ee"
+>
+</ReqRef><Comment>Number of times to try to establish a safe radio connection.</Comment>
 </Variable></Variables>
 <Rules>
 <Rule
