@@ -656,13 +656,13 @@
  Guid="7bd1c3e7-2578-4737-bc35-7bf501ee8089"
 >Testing.InitializeTestEnvironment(100.0)</Action></Actions>
 </SubStep><SubStep
- Name="Sub-step 2 - Initialize elements for MA"
+ Name="Sub-step 2 - Set OS mode"
  Guid="541187c4-5598-48b3-90ab-d35ac17c4909"
 >
 <Actions>
 <Action
- Guid="1837e72a-c7ed-4d04-93b1-a8ad46bd2184"
->Testing.InitializeElementsForMA()</Action></Actions>
+ Guid="143ee9dc-c252-4200-bc5e-e76b5ce6f820"
+>Testing.SetOSMode()</Action></Actions>
 </SubStep><SubStep
  Name="Sub-step 3 - Setup for the BG"
  Guid="b7fc74df-4aa7-47f0-8ab5-43cd83d7857e"
@@ -723,14 +723,6 @@
         Country =&gt; 80
     }
 ]</Action></Actions>
-</SubStep><SubStep
- Name="Sub-step 5 - Set up level and mode"
- Guid="bcd3953c-43a7-41dd-9a24-47d8d49b1216"
->
-<Actions>
-<Action
- Guid="143ee9dc-c252-4200-bc5e-e76b5ce6f820"
->Testing.SetOSMode()</Action></Actions>
 </SubStep></SubSteps>
 </Step><Step
  IO="NA"
@@ -802,18 +794,7 @@
     ]
 }</Action><Action
  Guid="399fb599-76dc-4a54-acf0-c76531a8f4ef"
->BTM.LRBG &lt;- BTM.BaliseGroupStruct
-{
-    NID =&gt; 256,
-    Orientation =&gt; Orientation.Nominal,
-    Position =&gt; BTM.Position
-    {
-        OverReadingAmountOdo =&gt; 2.0,
-        Position =&gt; 250.0,
-        UnderReadingAmountOdo =&gt; 2.0
-
-    }
-}</Action></Actions>
+>Odometry.NominalDistance &lt;- 250.0</Action></Actions>
 </SubStep></SubSteps>
 </Step><Step
  IO="NA"
