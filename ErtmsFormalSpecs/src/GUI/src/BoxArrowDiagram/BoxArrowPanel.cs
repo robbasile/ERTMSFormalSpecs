@@ -231,11 +231,11 @@ namespace GUI.BoxArrowDiagram
         protected
             GraphicElement ElementForLocation(Point location)
         {
-            GraphicElement retVal = BoxForLocation(location);
+            GraphicElement retVal = ArrowForLocation(location);
 
             if (retVal == null)
             {
-                retVal = ArrowForLocation(location);
+                retVal = BoxForLocation(location);
             }
 
             return retVal;
@@ -256,7 +256,6 @@ namespace GUI.BoxArrowDiagram
                     (location.Y > box.Location.Y && location.Y < box.Location.Y + box.Height))
                 {
                     retVal = box;
-                    break;
                 }
             }
 
@@ -278,7 +277,6 @@ namespace GUI.BoxArrowDiagram
                     (location.Y > arrow.Location.Y && location.Y < arrow.Location.Y + arrow.Height))
                 {
                     retVal = arrow;
-                    break;
                 }
             }
 
