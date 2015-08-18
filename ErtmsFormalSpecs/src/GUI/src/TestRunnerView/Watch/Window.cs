@@ -343,6 +343,17 @@ namespace GUI.TestRunnerView.Watch
         }
 
         /// <summary>
+        ///     Indicates that a change event should be displayed
+        /// </summary>
+        /// <param name="modelElement"></param>
+        /// <param name="changeKind"></param>
+        /// <returns></returns>
+        protected override bool ShouldDisplayChange(IModelElement modelElement, Context.ChangeKind changeKind)
+        {
+            return changeKind == Context.ChangeKind.EndOfCycle;
+        }
+
+        /// <summary>
         ///     Allows to refresh the view, when the value of a model changed
         /// </summary>
         /// <param name="modelElement"></param>
