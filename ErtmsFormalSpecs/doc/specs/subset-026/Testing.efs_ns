@@ -437,6 +437,13 @@ DMI2 will be the slave and will be connected to the first desk of the CabB.</Com
  Guid="5544ad42-1088-4018-a928-96fe3bddc890"
 >
 <Comment>Procedure that sets the mode to FS and sets all data so maintain this mode.</Comment>
+<Parameters>
+<Parameter
+ Type="Boolean"
+ Name="HandleModeChange"
+ Guid="495db541-623c-49d7-9aed-85d8f97ac947"
+>
+</Parameter></Parameters>
 <Rules>
 <Rule
  Priority="Processing"
@@ -457,7 +464,25 @@ DMI2 will be the slave and will be connected to the first desk of the CabB.</Com
 <Actions>
 <Action
  Guid="86929d9e-0c8c-4cea-9ddb-fcbac74fa271"
->Kernel.Mode &lt;- Mode.FS</Action><Action
+>Kernel.Mode &lt;- Mode.FS</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Name="Set previous mode to FS"
+ Guid="ffbb0242-653e-4c52-ab07-b5f472cc6593"
+>
+<Comment>If the parameter HandleModeCahnge is set to false, the previous mode is also set to FS to block the mode change effects.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Name="Set previous mode to FS"
+ Guid="b3c90fd8-cfe7-4c57-af5e-c74fcaa322b9"
+>
+<PreConditions>
+<PreCondition
+ Guid="093c64d1-2d06-4a17-b771-118414c49249"
+>NOT HandleModeChange</PreCondition></PreConditions>
+<Actions>
+<Action
  Guid="ecacd905-81cb-43c3-8c0e-e2ca36cb0357"
 >Kernel.ModeTransitions.PrevMode &lt;- Mode.FS</Action></Actions>
 </RuleCondition></Conditions>
@@ -658,6 +683,13 @@ Kernel.TrackDescription.StaticSpeedProfile.SSP == []</PreCondition></PreConditio
  Guid="843f9b0d-e290-43ff-b1cd-4998914a6436"
 >
 <Comment>Procedure that sets the mode to LS and sets all data so maintain this mode.</Comment>
+<Parameters>
+<Parameter
+ Type="Boolean"
+ Name="HandleModeChange"
+ Guid="e28d8842-e6ed-41cf-be8e-1ca2f80766eb"
+>
+</Parameter></Parameters>
 <Rules>
 <Rule
  Priority="Processing"
@@ -678,8 +710,26 @@ Kernel.TrackDescription.StaticSpeedProfile.SSP == []</PreCondition></PreConditio
 <Actions>
 <Action
  Guid="c3f3f425-ec4d-4ee2-9646-a5dda9669323"
->Kernel.Mode &lt;- Mode.LS</Action><Action
- Guid="90608337-33fd-4f9c-b267-e35e55d56e57"
+>Kernel.Mode &lt;- Mode.LS</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Name="Set previous mode to LS"
+ Guid="1e4f6b9c-b3f4-45ac-adc6-5e28476145b7"
+>
+<Comment>If the parameter HandleModeCahnge is set to false, the previous mode is also set to LS to block the mode change effects.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Name="Set previous mode to LS"
+ Guid="c30b814f-8e00-4e82-998a-2d354ec4d1e6"
+>
+<PreConditions>
+<PreCondition
+ Guid="5b512b96-d570-4845-a002-3f0b24a0c943"
+>NOT HandleModeChange</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="b58de7db-c2a4-4ef0-90fb-e41fe6ba5af8"
 >Kernel.ModeTransitions.PrevMode &lt;- Mode.LS</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
@@ -891,6 +941,13 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
  Guid="85e02aac-468a-4ad5-a199-7ed7a4201f73"
 >
 <Comment>Procedure that sets the mode to SR and sets all data so maintain this mode.</Comment>
+<Parameters>
+<Parameter
+ Type="Boolean"
+ Name="HandleModeChange"
+ Guid="ae7015ee-9b0f-4c16-8fb1-6748a41793f8"
+>
+</Parameter></Parameters>
 <Rules>
 <Rule
  Priority="Processing"
@@ -911,8 +968,26 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
 <Actions>
 <Action
  Guid="b501904c-c6c8-45fa-9042-2f1415bd8ba1"
->Kernel.Mode &lt;- Mode.SR</Action><Action
- Guid="51ea2d4e-f423-4f6b-9402-c80412927cfa"
+>Kernel.Mode &lt;- Mode.SR</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Name="Set previous mode to SR"
+ Guid="b64f0d31-b0f4-4bb1-8299-a9b966667d3c"
+>
+<Comment>If the parameter HandleModeChange is set to false, the previous mode is also set to SR to block the mode change effects.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Name="Set previous mode to SR"
+ Guid="a0142416-382d-44b4-a6f5-5da7c532d4f5"
+>
+<PreConditions>
+<PreCondition
+ Guid="82743dbd-4efd-46d1-8031-5ea49b2b86c4"
+>NOT HandleModeChange</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="09eacb09-807e-4a02-81a0-07b6842328d0"
 >Kernel.ModeTransitions.PrevMode &lt;- Mode.SR</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
@@ -1106,6 +1181,13 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
  Guid="70057ba0-9886-4073-9e8d-8543bb873665"
 >
 <Comment>Procedure that sets the mode to OS and sets all data so maintain this mode.</Comment>
+<Parameters>
+<Parameter
+ Type="Boolean"
+ Name="HandleModeChange"
+ Guid="02163610-f24b-4e14-9f6b-0734108b855b"
+>
+</Parameter></Parameters>
 <Rules>
 <Rule
  Priority="Processing"
@@ -1126,8 +1208,26 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
 <Actions>
 <Action
  Guid="04ec064e-082f-4ebb-8ef3-d325b13b36ac"
->Kernel.Mode &lt;- Mode.OS</Action><Action
- Guid="db3c2502-e680-440b-975f-a38c64642b7a"
+>Kernel.Mode &lt;- Mode.OS</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Name="Set previous mode to OS"
+ Guid="165723af-e8a3-4798-a733-596ac4215f5b"
+>
+<Comment>If the parameter HandleModeCahnge is set to false, the previous mode is also set to OS to block the mode change effects.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Name="Set previous mode to OS"
+ Guid="635f39bd-6246-4e1c-9436-7dbffad456a0"
+>
+<PreConditions>
+<PreCondition
+ Guid="74cf8f57-5e03-41aa-9cfe-f9c18b5dbde4"
+>NOT HandleModeChange</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="0740d2d7-2419-4454-ae73-d0347f3f2e64"
 >Kernel.ModeTransitions.PrevMode &lt;- Mode.OS</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
@@ -1339,6 +1439,13 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
  Guid="4f5882fb-240f-446c-ac93-87449b4d3c5b"
 >
 <Comment>Procedure that sets the mode to SH and sets all data so maintain this mode.</Comment>
+<Parameters>
+<Parameter
+ Type="Boolean"
+ Name="HandleModeChange"
+ Guid="83e172e0-e233-4650-a9fe-0c29e15ed0f9"
+>
+</Parameter></Parameters>
 <Rules>
 <Rule
  Priority="Processing"
@@ -1359,8 +1466,26 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
 <Actions>
 <Action
  Guid="a21fb837-38d3-4cff-bb4f-1ab8fb17fe0c"
->Kernel.Mode &lt;- Mode.SH</Action><Action
- Guid="4cc73a50-3b30-4a2a-8f41-33711946d2c4"
+>Kernel.Mode &lt;- Mode.SH</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Name="Set previous mode to SH"
+ Guid="37eeed15-f83f-41f6-897f-112746d9dc8e"
+>
+<Comment>If the parameter HandleModeCahnge is set to false, the previous mode is also set to SH to block the mode change effects.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Name="Set previous mode to SH"
+ Guid="4a634e15-2e68-4135-bc16-4fd761a35294"
+>
+<PreConditions>
+<PreCondition
+ Guid="64d5245f-aaef-4a99-93fa-2c4a76ab45da"
+>NOT HandleModeChange</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="df1e25fb-5847-4a05-8618-d82242574b12"
 >Kernel.ModeTransitions.PrevMode &lt;- Mode.SH</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
@@ -1490,7 +1615,7 @@ Kernel.TrackDescription.StaticSpeedProfile.SSP == []</PreCondition></PreConditio
 [
 Kernel.MA.ModeProfile.ModeProfileStruct{
     Location =&gt; 0.0,
-    Mode =&gt; Mode.ModeProfile.SH,
+    Mode =&gt; Default.Mode.ModeProfile.SH,
     Speed =&gt; BaseTypes.Speed.UseNV,
     Length =&gt; 4500.0,
     AcknLength =&gt; 0.0,
@@ -1572,6 +1697,13 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
  Guid="3e31a580-3b8b-4c84-aa91-29fa5aae9eb8"
 >
 <Comment>Procedure that sets the mode to NL and sets all data so maintain this mode.</Comment>
+<Parameters>
+<Parameter
+ Type="Boolean"
+ Name="HandleModeChange"
+ Guid="6926f0a7-d349-47a0-9b72-f4795fafaad2"
+>
+</Parameter></Parameters>
 <Rules>
 <Rule
  Priority="Processing"
@@ -1591,10 +1723,28 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
 </PreConditions>
 <Actions>
 <Action
- Guid="18f95083-f48c-4e85-acaa-8561f304c4e1"
->Kernel.ModeTransitions.PrevMode &lt;- Mode.UN</Action><Action
  Guid="2c5594ea-dd4a-4970-b41d-f3604dc4ea12"
 >Kernel.Mode &lt;- Mode.UN</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Name="Set previous mode to UN"
+ Guid="dc70e11f-5012-467e-b13c-19ac94b71e1f"
+>
+<Comment>If the parameter HandleModeChange is set to false, the previous mode is also set to UN to block the mode change effects.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Name="Set previous mode to UN"
+ Guid="e617dccb-3eec-44de-b24f-06e7e1aa3d3e"
+>
+<PreConditions>
+<PreCondition
+ Guid="29a659f6-b59b-4be7-9a4e-bcd6896b71a6"
+>NOT HandleModeChange</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="adb7741c-1d5b-44a6-a818-0f7b3d19a667"
+>Kernel.ModeTransitions.PrevMode &lt;- Mode.UN</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -1719,6 +1869,13 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
  Guid="20096fc8-2c56-4bc7-8980-50314f71913e"
 >
 <Comment>Procedure that sets the mode to PS and sets all data so maintain this mode.</Comment>
+<Parameters>
+<Parameter
+ Type="Boolean"
+ Name="HandleModeChange"
+ Guid="88a56bc5-b395-4a70-86d4-caccaaf45125"
+>
+</Parameter></Parameters>
 <Rules>
 <Rule
  Priority="Processing"
@@ -1739,8 +1896,26 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
 <Actions>
 <Action
  Guid="821bbb10-7c7b-4e31-99c4-7c284a5664dd"
->Kernel.Mode &lt;- Mode.PS</Action><Action
- Guid="72138f19-7ea6-4bd6-9518-357f950fda41"
+>Kernel.Mode &lt;- Mode.PS</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Name="Set previous mode to PS"
+ Guid="c9329b69-58fc-47dd-84b1-bfb656b44c18"
+>
+<Comment>If the parameter HandleModeCahnge is set to false, the previous mode is also set to PS to block the mode change effects.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Name="Set previous mode to PS"
+ Guid="ab09c9ed-cb38-4957-ae57-6696bec76f1e"
+>
+<PreConditions>
+<PreCondition
+ Guid="478312cd-cb5d-41a3-a3f5-c9ee6bd524e4"
+>NOT HandleModeChange</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="f20d501c-9ef1-437f-990f-efbcfa5a049d"
 >Kernel.ModeTransitions.PrevMode &lt;- Mode.PS</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
@@ -1952,6 +2127,13 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
  Guid="79fba746-5fc7-477b-b035-7e5199808c03"
 >
 <Comment>Procedure that sets the mode to SL and sets all data so maintain this mode.</Comment>
+<Parameters>
+<Parameter
+ Type="Boolean"
+ Name="HandleModeChange"
+ Guid="eff2982c-61db-4f9b-b8cc-9d7d1ff82603"
+>
+</Parameter></Parameters>
 <Rules>
 <Rule
  Priority="Processing"
@@ -1972,8 +2154,26 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
 <Actions>
 <Action
  Guid="260f15c2-dac7-42f8-9560-55ef35c9580a"
->Kernel.Mode &lt;- Mode.SL</Action><Action
- Guid="849768a6-93f7-40bf-9b76-24d187e78de2"
+>Kernel.Mode &lt;- Mode.SL</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Name="Set previous mode to SL"
+ Guid="47eadf56-0bed-4a36-9e92-b21eef7aa0d9"
+>
+<Comment>If the parameter HandleModeChange is set to false, the previous mode is also set to SL to block the mode change effects.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Name="Set previous mode to SL"
+ Guid="9ac3aed2-c7f4-4125-a7c2-26b298c79465"
+>
+<PreConditions>
+<PreCondition
+ Guid="96810d90-fcd1-4494-9d06-d9483442c4db"
+>NOT HandleModeChange</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="67c81480-60aa-4266-9bd6-456f122577a2"
 >Kernel.ModeTransitions.PrevMode &lt;- Mode.SL</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
@@ -2073,6 +2273,13 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
  Guid="d58d68ec-85fa-47da-ae6a-d78365fffc5e"
 >
 <Comment>Procedure that sets the mode to SB and sets all data so maintain this mode.</Comment>
+<Parameters>
+<Parameter
+ Type="Boolean"
+ Name="HandleModeChange"
+ Guid="73ef50ff-616d-46d0-aa5e-d586902e9fd0"
+>
+</Parameter></Parameters>
 <Rules>
 <Rule
  Priority="Processing"
@@ -2093,8 +2300,26 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
 <Actions>
 <Action
  Guid="e5a6f115-262c-493b-84c3-e72f2f98c850"
->Kernel.Mode &lt;- Mode.SB</Action><Action
- Guid="b3db7698-0efd-402d-92a0-af0c327da9e3"
+>Kernel.Mode &lt;- Mode.SB</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Name="Set previous mode to SB"
+ Guid="5879e6ad-e170-4708-87d2-4c536ec7e625"
+>
+<Comment>If the parameter HandleModeCahnge is set to false, the previous mode is also set to SB to block the mode change effects.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Name="Set previous mode to SB"
+ Guid="ed5c4549-6b47-46c1-8051-a1d51d3cf87b"
+>
+<PreConditions>
+<PreCondition
+ Guid="2350c9ef-0eb2-4b82-a97b-286234844857"
+>NOT HandleModeChange</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="2983528d-25f4-4600-bb1e-f5a208315f81"
 >Kernel.ModeTransitions.PrevMode &lt;- Mode.SB</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
@@ -2193,6 +2418,13 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
  Guid="98d8396e-19e3-4ac3-a5cf-b48101b2f20e"
 >
 <Comment>Procedure that sets the mode to TR and sets all data so maintain this mode.</Comment>
+<Parameters>
+<Parameter
+ Type="Boolean"
+ Name="HandleModeChange"
+ Guid="c960b28f-633c-4d80-8407-74df03e3d521"
+>
+</Parameter></Parameters>
 <Rules>
 <Rule
  Priority="Processing"
@@ -2213,8 +2445,26 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
 <Actions>
 <Action
  Guid="8219f63f-9d53-44c0-b1e2-a11a85aad0be"
->Kernel.Mode &lt;- Mode.TR</Action><Action
- Guid="4ffc933c-8c2c-4533-bb37-5e4e81e958be"
+>Kernel.Mode &lt;- Mode.TR</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Name="Set previous mode to TR"
+ Guid="a1a9e74a-480c-4127-8400-3e7a9dbe646d"
+>
+<Comment>If the parameter HandleModeChange is set to false, the previous mode is also set to TR to block the mode change effects.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Name="Set previous mode to TR"
+ Guid="36ab5c56-50de-495f-8597-85cd3bffcc73"
+>
+<PreConditions>
+<PreCondition
+ Guid="3264a469-44cc-4085-af55-108d60c0daf5"
+>NOT HandleModeChange</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="91ff1545-6803-4a92-bebc-4c97cf782d5e"
 >Kernel.ModeTransitions.PrevMode &lt;- Mode.TR</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
@@ -2291,6 +2541,13 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
  Guid="4481c338-729d-455c-a965-dc029343633d"
 >
 <Comment>Procedure that sets the mode to PT and sets all data so maintain this mode.</Comment>
+<Parameters>
+<Parameter
+ Type="Boolean"
+ Name="HandleModeChange"
+ Guid="aae676db-37cb-4a38-9a3e-8a19886c51a3"
+>
+</Parameter></Parameters>
 <Rules>
 <Rule
  Priority="Processing"
@@ -2311,8 +2568,26 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
 <Actions>
 <Action
  Guid="1c08d3a6-3706-4b2f-888c-828ea9a1eeab"
->Kernel.Mode &lt;- Mode.PT</Action><Action
- Guid="34f681a1-0a1f-4279-b839-ad11a484c20d"
+>Kernel.Mode &lt;- Mode.PT</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Name="Set previous mode to PT"
+ Guid="7d154ef2-1bd4-4921-9a92-78f75ebcc299"
+>
+<Comment>If the parameter HandleModeCahnge is set to false, the previous mode is also set to PT to block the mode change effects.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Name="Set previous mode to PT"
+ Guid="d210a191-7d12-42ca-885c-0d7525de8d26"
+>
+<PreConditions>
+<PreCondition
+ Guid="2a981bfd-3f51-470a-b91b-bd45bef58960"
+>NOT HandleModeChange</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="a3eb066d-81d3-4471-9adc-93a0c989486c"
 >Kernel.ModeTransitions.PrevMode &lt;- Mode.PT</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
@@ -2389,6 +2664,13 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
  Guid="d6c892e7-f049-4524-aeee-cf8201d9e93e"
 >
 <Comment>Procedure that sets the mode to SF and sets all data so maintain this mode.</Comment>
+<Parameters>
+<Parameter
+ Type="Boolean"
+ Name="HandleModeChange"
+ Guid="3c25c8bb-87a6-4b58-beb1-42bb663feb47"
+>
+</Parameter></Parameters>
 <Rules>
 <Rule
  Priority="Processing"
@@ -2409,8 +2691,26 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
 <Actions>
 <Action
  Guid="f985d005-afc5-4b21-8c10-33f5fefa510b"
->Kernel.Mode &lt;- Mode.SF</Action><Action
- Guid="e983fc75-3e63-460d-98fd-a0dcb2f1dd94"
+>Kernel.Mode &lt;- Mode.SF</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Name="Set previous mode to SF"
+ Guid="727a5e04-2acf-4067-a2ee-b82eee156af4"
+>
+<Comment>If the parameter HandleModeCahnge is set to false, the previous mode is also set to SF to block the mode change effects.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Name="Set previous mode to SF"
+ Guid="bd8f8300-909f-4f56-91d8-805db5310b4e"
+>
+<PreConditions>
+<PreCondition
+ Guid="ebfee60e-48ea-48cf-94f9-8f3658fab6a2"
+>NOT HandleModeChange</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="016f5221-e734-47af-a33c-cacb902cef67"
 >Kernel.ModeTransitions.PrevMode &lt;- Mode.SF</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
@@ -2466,6 +2766,13 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
  Guid="c4acf7e9-b54d-4df3-834a-a69a9f06488e"
 >
 <Comment>Procedure that sets the mode to IS and sets all data so maintain this mode.</Comment>
+<Parameters>
+<Parameter
+ Type="Boolean"
+ Name="HandleModeChange"
+ Guid="7671290b-81d3-4716-a730-ab87156b92b5"
+>
+</Parameter></Parameters>
 <Rules>
 <Rule
  Priority="Processing"
@@ -2486,8 +2793,26 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
 <Actions>
 <Action
  Guid="62865b39-ba0a-4ffa-94cc-34a168fc4402"
->Kernel.Mode &lt;- Mode.IS</Action><Action
- Guid="97727866-7e49-42e0-a4a8-91c7964775bd"
+>Kernel.Mode &lt;- Mode.IS</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Name="Set previous mode to IS"
+ Guid="ca624dee-0818-4750-ab41-f6aa09635a73"
+>
+<Comment>If the parameter HandleModeCahnge is set to false, the previous mode is also set to IS to block the mode change effects.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Name="Set previous mode to IS"
+ Guid="9cfa7375-7cfa-416a-bd8b-3150c7eca298"
+>
+<PreConditions>
+<PreCondition
+ Guid="bb241c9e-0858-43ca-8f30-cddf969e0cfe"
+>NOT HandleModeChange</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="6e9eb4c0-bf07-495b-a8e6-172ad074382b"
 >Kernel.ModeTransitions.PrevMode &lt;- Mode.IS</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
@@ -2543,6 +2868,13 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
  Guid="9abbd0bc-2bf7-4a38-bcd2-f4d4372a8e57"
 >
 <Comment>Procedure that sets the mode to SN and sets all data so maintain this mode.</Comment>
+<Parameters>
+<Parameter
+ Type="Boolean"
+ Name="HandleModeChange"
+ Guid="ad0f3516-59d1-4771-bbcf-b6b9edc5b1a1"
+>
+</Parameter></Parameters>
 <Rules>
 <Rule
  Priority="Processing"
@@ -2563,8 +2895,26 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
 <Actions>
 <Action
  Guid="9d34974f-3bb4-4617-a3a5-ef6e992b6167"
->Kernel.Mode &lt;- Mode.SN</Action><Action
- Guid="b70781ce-794d-43ab-b3cc-4c0796502983"
+>Kernel.Mode &lt;- Mode.SN</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Name="Set previous mode to SN"
+ Guid="140d30da-1f50-4eab-ae9b-8b4ea27926c8"
+>
+<Comment>If the parameter HandleModeChange is set to false, the previous mode is also set to SN to block the mode change effects.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Name="Set previous mode to SN"
+ Guid="bdc3a519-00b7-41e6-8117-5c29e6cc1f09"
+>
+<PreConditions>
+<PreCondition
+ Guid="581a5a3e-cb21-4655-83d2-f770ce89287b"
+>NOT HandleModeChange</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="e917c724-9f22-4469-b558-c003a65ecdc2"
 >Kernel.ModeTransitions.PrevMode &lt;- Mode.SN</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
@@ -2689,6 +3039,13 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
  Guid="4ddcaaab-20ca-4199-9a5f-07a1ca5d7e3b"
 >
 <Comment>Procedure that sets the mode to NP and sets all data so maintain this mode.</Comment>
+<Parameters>
+<Parameter
+ Type="Boolean"
+ Name="HandleModeChange"
+ Guid="2df9c72f-1816-4beb-bc6c-87a070e1dadd"
+>
+</Parameter></Parameters>
 <Rules>
 <Rule
  Priority="Processing"
@@ -2709,8 +3066,26 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
 <Actions>
 <Action
  Guid="ef9fc55f-d1cf-4975-b093-fb771f8614f2"
->Kernel.Mode &lt;- Mode.NP</Action><Action
- Guid="f47b8d1f-850e-4e10-8ceb-23287bde173a"
+>Kernel.Mode &lt;- Mode.NP</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Name="Set previous mode to NP"
+ Guid="0c5e6754-e048-4e42-85e4-67d8fd76c868"
+>
+<Comment>If the parameter HandleModeCahnge is set to false, the previous mode is also set to NP to block the mode change effects.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Name="Set previous mode to NP"
+ Guid="8ebdfc9f-c2c5-4b2e-b752-d67355b6c413"
+>
+<PreConditions>
+<PreCondition
+ Guid="32a9adb4-3245-4c1e-b95c-67069794cf4b"
+>NOT HandleModeChange</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="96e5e078-f5b9-41cc-a2f1-93eba1b05570"
 >Kernel.ModeTransitions.PrevMode &lt;- Mode.NP</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
@@ -2766,6 +3141,13 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
  Guid="eb11bfd5-3fb4-4a6d-8247-04a423f4b5ad"
 >
 <Comment>Procedure that sets the mode to NL and sets all data so maintain this mode.</Comment>
+<Parameters>
+<Parameter
+ Type="Boolean"
+ Name="HandleModeChange"
+ Guid="1676187f-6d45-464f-9c32-390f5584512e"
+>
+</Parameter></Parameters>
 <Rules>
 <Rule
  Priority="Processing"
@@ -2786,8 +3168,26 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
 <Actions>
 <Action
  Guid="796568d9-37bb-419b-bde8-5367fe92cc4d"
->Kernel.Mode &lt;- Mode.NL</Action><Action
- Guid="111cde0c-4dde-41ac-8855-b9eace3932ad"
+>Kernel.Mode &lt;- Mode.NL</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Name="Set previous mode to NL"
+ Guid="c07600e2-4182-459b-afb5-6dc4657bebd9"
+>
+<Comment>If the parameter HandleModeCahnge is set to false, the previous mode is also set to NL to block the mode change effects.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Name="Set previous mode to NL"
+ Guid="3b73c4b6-5cb1-42eb-aa1b-c39ab4fc138a"
+>
+<PreConditions>
+<PreCondition
+ Guid="a78ab73b-65c9-4c76-a953-58b97fdc9d61"
+>NOT HandleModeChange</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="084a67aa-2e91-485d-a22e-f1d649b0f0e1"
 >Kernel.ModeTransitions.PrevMode &lt;- Mode.NL</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
@@ -2885,6 +3285,13 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
  Guid="0a9100cb-5bfa-4a3f-85d9-ab268296567a"
 >
 <Comment>Procedure that sets the mode to RV and sets all data so maintain this mode.</Comment>
+<Parameters>
+<Parameter
+ Type="Boolean"
+ Name="HandleModeChange"
+ Guid="09259e83-7359-4d65-b107-73ca88654da6"
+>
+</Parameter></Parameters>
 <Rules>
 <Rule
  Priority="Processing"
@@ -2905,8 +3312,26 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
 <Actions>
 <Action
  Guid="6c4a7ad9-00c5-48f2-9ca2-4d0cc16a9deb"
->Kernel.Mode &lt;- Mode.RV</Action><Action
- Guid="2b5b1aec-28a9-4850-95be-4e29f0f64bfd"
+>Kernel.Mode &lt;- Mode.RV</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Name="Set previous mode to RV"
+ Guid="fbd378bb-5830-44cf-8a48-f2015c264db2"
+>
+<Comment>If the parameter HandleModeCahnge is set to false, the previous mode is also set to RV to block the mode change effects.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Name="Set previous mode to RV"
+ Guid="78d6d2ec-a047-4744-a886-57f89cc7528d"
+>
+<PreConditions>
+<PreCondition
+ Guid="2439538a-0d31-4974-a2a9-beb92863e373"
+>NOT HandleModeChange</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="20cc6c55-0cef-4e3e-8cbd-1930bf899ecb"
 >Kernel.ModeTransitions.PrevMode &lt;- Mode.RV</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
