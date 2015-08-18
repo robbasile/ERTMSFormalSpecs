@@ -37,7 +37,8 @@ namespace GUI.EditorView
         {
             bool retVal = base.HandleSelectionChange(context);
 
-                ICommentable commentable = DisplayedModel as ICommentable;
+            DisplayedModel = context.Element;
+            ICommentable commentable = DisplayedModel as ICommentable;
             if (commentable != null)
             {
                 setChangeHandler(new CommentableTextChangeHandler((ModelElement) commentable));

@@ -39,6 +39,8 @@ namespace GUI.EditorView
         {
             bool retVal = base.HandleSelectionChange(context);
 
+            DisplayedModel = context.Element;
+
             IExpressionable expressionable = DisplayedModel as IExpressionable;
             if (expressionable != null && !(expressionable is Function))
             {
