@@ -105,7 +105,38 @@
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="f429f737-7bc9-4571-b85d-e412fb00facd"
 >
-</ReqRef><StructureElement
+</ReqRef><Comment>Represents the set of national values, identified by their NID_C.</Comment>
+<Rules>
+<Rule
+ Priority="CleanUp"
+ Implemented="TRUE"
+ Name="Delete invalid values"
+ Guid="4788f676-a9e2-436a-aad5-eb7f81c7ec96"
+>
+<ReqRef
+ Id="282cca1e-53d5-447c-b9a4-589f5627a991"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6fc93b3f-8e03-4e15-82b2-c9195eb98261"
+>
+</ReqRef><Comment>If the National Values become invalid, their value is deleted.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Delete invalid values"
+ Guid="e3cf3a86-4bfd-43f5-ab11-d2c8716028fb"
+>
+<PreConditions>
+<PreCondition
+ Guid="dd98f405-5150-47ff-9a74-17a96cef58fb"
+>DataState == DataState.Invalid</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="7c98bafa-15b2-4787-9384-f8c8641eeb7a"
+>Value &lt;- EMPTY</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+<StructureElement
  TypeName="Default.DataState"
  Default="Default.DataState.Invalid"
  Mode="Internal"
@@ -116,7 +147,7 @@
 >
 </StructureElement><StructureElement
  TypeName="NationalDefaultDataStruct"
- Default=""
+ Default="EMPTY"
  Mode="Internal"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
@@ -3572,6 +3603,76 @@
 >ApplicableNationalValues.Value.UseServiceBrakeInTargetSpeedMonitoring &lt;- Messages.Q_NVSBTSMPERM.Yes</Action><Action
  Guid="1cdfb05c-f525-493b-950f-d6abc0939671"
 >ApplicableNationalValues.Value.WeightingFactorForAvailableWheelRailAdhesion &lt;- 0.0</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="331"
+ Y="121"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="CheckNVValidity"
+ Guid="8c001937-3dde-44de-948b-3c8124ce5858"
+>
+<ReqRef
+ Id="282cca1e-53d5-447c-b9a4-589f5627a991"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="2457833e-aaff-40e6-bcbb-555e2335c497"
+>
+</ReqRef><Comment>If the NID_C recevied with a balise group does not correspond to the NID_C of the stored National Values, the stored National Values become invalid.</Comment>
+<Parameters>
+<Parameter
+ Type="Messages.NID_C"
+ Name="NewNID_C"
+ Guid="cf38b48a-9988-4c66-823f-38cc206e02f9"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Check validity of applicable NV"
+ Guid="178f2953-a9fe-4752-ab05-ede3d281e8aa"
+>
+<Comment>Verification of validity of applicable National Values.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Check validity of applicable NV"
+ Guid="149a4213-82ab-4b90-8d0f-40de14980099"
+>
+<PreConditions>
+<PreCondition
+ Guid="1d251459-4031-4574-932c-7aeb54c545ce"
+>NewNID_C != ApplicableNationalValues.NID_C</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="f039d4fe-9946-4e32-b3ea-8e63009c2b98"
+>ApplicableNationalValues.DataState &lt;- Default.DataState.Invalid</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Check validity of not applicable NV"
+ Guid="987a18eb-35b9-49d1-87c8-d711fb27c354"
+>
+<Comment>Verification of validity of not applicable National Values.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Check validity of not applicable NV"
+ Guid="7d0e086d-3655-4742-8017-689740bdc759"
+>
+<PreConditions>
+<PreCondition
+ Guid="97a9d53e-6fa0-47ab-aadd-d4edccaeb238"
+>NewNID_C != NotApplicableNationalValues.NID_C</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="2134d273-bb2d-4f47-8382-637bbcd7727e"
+>NotApplicableNationalValues.DataState &lt;- Default.DataState.Invalid</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
