@@ -8,6 +8,48 @@
 >
 <NameSpaces>
 </NameSpaces>
+<Functions>
+<Function
+ Type="Boolean"
+ X="111"
+ Y="1"
+ Width="100"
+ Height="50"
+ Name="ShouldDeleteLTO"
+ Guid="d0048d72-f70f-4b4a-a2da-f60cb9053759"
+>
+<ReqRef
+ Id="937ae4a5-e171-4a75-90fa-d90a3e16810f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="5fb23795-baa3-4bad-a1ad-670f5668d4cd"
+>
+</ReqRef><Comment>Indicates whether the Level Transition Orders should be deleted due to the mode change.</Comment>
+<Cases>
+<Case
+ Name="Previous mode is SH"
+ Guid="11f2c9ae-b0e6-4a58-a973-f44390d30161"
+>
+<PreConditions>
+<PreCondition
+ Guid="1201950b-d598-4c15-8893-92dff8eed0d2"
+>PrevMode == Mode.SH</PreCondition></PreConditions>
+<Expression>Mode in [Mode.NP, Mode.SH, Mode.SR, Mode.SL, Mode.UN, Mode.SN, Mode.RV]</Expression>
+</Case><Case
+ Name="Previous mode is PS"
+ Guid="24cc2c50-a96a-4ff0-b83d-50204729dbed"
+>
+<PreConditions>
+<PreCondition
+ Guid="bd87c659-fdb7-4e9d-87f3-30e249ad0db2"
+>PrevMode == Mode.PS</PreCondition></PreConditions>
+<Expression>Mode in [Mode.NP, Mode.SR, Mode.NL, Mode.UN, Mode.SN, Mode.RV]</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="3e6ca875-92df-4171-a17e-5e02367eda0a"
+>
+<Expression>Mode in [Mode.NP, Mode.SB, Mode.SH, Mode.SR, Mode.SL, Mode.NL, Mode.UN, Mode.SN, Mode.RV]</Expression>
+</Case></Cases>
+</Function></Functions>
 <Procedures>
 <Procedure
  X="661"
@@ -29,6 +71,7 @@
 >
 </ReqRef><Rules>
 <Rule
+ Implemented="TRUE"
  Name="Handle National Values"
  Guid="c42f0a6e-4f26-4007-9865-95daee50f3b8"
 >
@@ -40,6 +83,7 @@
 </ReqRef><Comment>National values are always unchanged (since &quot;NR&quot; is considered the same as &quot;U&quot;)</Comment>
 <SubRules></SubRules>
 </Rule><Rule
+ Implemented="TRUE"
  Name="Handle Not yet applicable National Values"
  Guid="55e5fa54-105b-4fa5-b539-ecf5e27768f9"
 >
@@ -49,7 +93,29 @@
  Guid="ba274f0b-b61c-4d29-92e5-2daa682d9aac"
 >
 </ReqRef><SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Handle Not yet applicable National Values"
+ Guid="ce3d79e4-8c7d-4c30-958b-80d3be5c6c06"
+>
+<PreConditions>
+<PreCondition
+ Guid="00c16a64-a658-4f4b-bd70-46338b03a3fd"
+>Mode in [Mode.NP]</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="0af5d5ea-f98e-4583-aa8b-97ec549868ec"
+>NationalValues.NotApplicableNationalValues &lt;- Kernel.NationalValues.NationalValuesStruct{
+DataState =&gt; DataState.Invalid,
+Value =&gt; EMPTY,
+ApplicableStartLocation =&gt; BaseTypes.Distance.Infinity,
+NID_C =&gt; 0,
+ApplicableStopLocation =&gt; BaseTypes.Distance.Unknown
+}</Action></Actions>
+</RuleCondition></Conditions>
 </Rule><Rule
+ Implemented="TRUE"
  Name="Handle Linking"
  Guid="f79c567f-e5ca-4f50-9ddf-672c8fdfaba1"
 >
@@ -59,7 +125,23 @@
  Guid="489b5344-2291-4bce-9229-4ea3817d5fb5"
 >
 </ReqRef><SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Handle Linking"
+ Guid="8e238b2b-0aea-464a-aa6a-a78845933006"
+>
+<PreConditions>
+<PreCondition
+ Guid="d04a3bb7-5ed5-4edb-a654-20eb5425da82"
+>Mode in [Mode.NP, Mode.SB, Mode.PS, Mode.SH, Mode.SR, Mode.SL, Mode.NL, Mode.UN, Mode.TR, Mode.SN, Mode.RV]</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="aa75fc56-864c-49d5-8717-a7efeb9e170d"
+>BTM.Linking.Linkings &lt;- []</Action></Actions>
+</RuleCondition></Conditions>
 </Rule><Rule
+ Implemented="TRUE"
  Name="Handle Movement Authority"
  Guid="fdee097b-5c44-4dfc-8642-a77e2c06caf4"
 >
@@ -76,6 +158,7 @@
 </ReqRef><SubRules></SubRules>
 <Conditions>
 <RuleCondition
+ Implemented="TRUE"
  Name="HandleMA"
  Guid="33741c8e-4324-4647-9e25-38f0e333db77"
 >
@@ -89,6 +172,7 @@
 >MA.MA &lt;- EMPTY</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
+ Implemented="TRUE"
  Name="Handle Gradient Profile"
  Guid="008b6cfb-1642-4bcd-817c-c5de4cc750d4"
 >
@@ -105,6 +189,7 @@
 </ReqRef><SubRules></SubRules>
 <Conditions>
 <RuleCondition
+ Implemented="TRUE"
  Name="Handle Gradient Profile"
  Guid="0ed42227-74ae-4b09-a641-e2bdc9f4b5d5"
 >
@@ -118,6 +203,7 @@
 >TrackDescription.Gradient.Gradients &lt;- []</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
+ Implemented="TRUE"
  Name="Handle International SSP"
  Guid="a50646b0-5b9b-4e23-b00f-f33c1d3add66"
 >
@@ -134,6 +220,7 @@
 </ReqRef><SubRules></SubRules>
 <Conditions>
 <RuleCondition
+ Implemented="TRUE"
  Name="HandleSSP"
  Guid="b563b33e-457b-496a-a9d4-570827293730"
 >
@@ -147,6 +234,7 @@
 >TrackDescription.StaticSpeedProfile.SSP &lt;- []</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
+ Implemented="TRUE"
  Name="Handle Axle load speed profile"
  Guid="0723e2ee-e8cb-4631-b60a-4b4b817ab48e"
 >
@@ -163,6 +251,7 @@
 </ReqRef><SubRules></SubRules>
 <Conditions>
 <RuleCondition
+ Implemented="TRUE"
  Name="HandleAxleLoadSpeed"
  Guid="4d48208a-57f5-4741-a8b1-380c1531f5a5"
 >
@@ -180,6 +269,345 @@
 }</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
+ Implemented="TRUE"
+ Name="Handle STM max speed"
+ Guid="30d0428b-09a3-4229-aaff-eabb6e7fbc15"
+>
+<ReqRef
+ Id="9a7ad2f4-9544-47b9-8ecf-e41928b8a0c6"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b6e4dd81-013e-4ddf-b9b3-240bf3ece910"
+>
+</ReqRef><SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Handle STM max speed"
+ Guid="7ac082f8-e805-404a-a17c-5086d3b94b48"
+>
+<PreConditions>
+<PreCondition
+ Guid="a3d36014-1ecf-4238-bbaa-c8f52ed2dd9e"
+>Mode in [Mode.NP, Mode.SB, Mode.PS, Mode.SH, Mode.SR, Mode.SL, Mode.NL, Mode.RV]</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="e288cacc-2801-4c7d-a3e9-06b510230d1e"
+>STM.MaxSpeed &lt;- STM.SpeedSupervision
+{
+    Speed =&gt; BaseTypes.Speed.NA,
+    HasToBeSupervised =&gt; False
+}</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Implemented="TRUE"
+ Name="Handle STM system speed/distance"
+ Guid="d0df241e-fc14-438c-be63-574d6e2a84d1"
+>
+<ReqRef
+ Id="7a9da386-4950-4016-ae38-76f844697442"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="5a1f67fa-34c6-49c4-b0d2-81318bf1c975"
+>
+</ReqRef><SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Handle STM system speed/distance"
+ Guid="50c3f37b-b526-4133-8485-1d6320f35e55"
+>
+<PreConditions>
+<PreCondition
+ Guid="0f479f27-19f7-4ada-bc1c-dcdcfd0e95ce"
+>Mode in [Mode.NP, Mode.SB, Mode.PS, Mode.SH, Mode.SR, Mode.SL, Mode.NL, Mode.RV]</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="48845d4d-7963-486d-aa41-3b43931eeb02"
+>STM.SystemSpeed &lt;- STM.SpeedSupervision{
+Speed =&gt; BaseTypes.Speed.NA,
+HasToBeSupervised =&gt; Boolean.False,
+Distance =&gt; BaseTypes.Distance.Unknown
+}</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Implemented="TRUE"
+ Name="Handle Level Transition Order"
+ Guid="fdcb6290-98ad-46ae-929b-f561a3f00cf6"
+>
+<ReqRef
+ Id="937ae4a5-e171-4a75-90fa-d90a3e16810f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e4571ce7-0102-4054-aab7-e6dbd2e50807"
+>
+</ReqRef><SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Handle Level Transition Order"
+ Guid="a53567fd-144c-4017-9896-f4db0a9988f3"
+>
+<PreConditions>
+<PreCondition
+ Guid="a0250bc5-6a52-46b1-a3ec-8a37cd7f9e95"
+>ShouldDeleteLTO()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="1a3d2506-57f5-4dbe-a364-86c9e37532a3"
+>LevelTransition.LevelTransitionOrder &lt;- EMPTY</Action><Action
+ Guid="17e76a6e-5232-4d2d-b127-3263918b0e04"
+>LevelTransition.LevelTransitionToProcess &lt;- EMPTY</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Implemented="TRUE"
+ Name="Handle Stop Shunting on desk opening"
+ Guid="4d922aaf-9986-415e-9427-f3caf03d279f"
+>
+<ReqRef
+ Id="9f1b84e2-cdfa-44cc-bfbf-cc662287f312"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="05456744-d8b6-4e99-a977-71d720af413f"
+>
+</ReqRef><SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Handle Stop Shunting on desk opening"
+ Guid="f5f97b58-5892-4d57-a608-d50bd76008c1"
+>
+<PreConditions>
+<PreCondition
+ Guid="24625373-64c8-4e0f-b193-fd8dc8109652"
+>Mode in [Mode.NP, Mode.SB, Mode.SL]</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="86bd1476-4411-4751-bba9-de24735c8c5f"
+>Shunting.StopShuntingOnDeskOpening &lt;- Boolean.False</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Implemented="TRUE"
+ Name="Handle List of balises for SH area"
+ Guid="37024921-e65b-4ba1-85be-c1730d2ed2e9"
+>
+<ReqRef
+ Id="d31bcbb5-dfdb-4112-a7a9-b814b89c3433"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="23448fc6-f5c5-4eff-9ac2-40019a9c6e56"
+>
+</ReqRef><SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Handle List of balises for SH area"
+ Guid="978c3138-89a1-4ddf-a81b-de3547d0c071"
+>
+<PreConditions>
+<PreCondition
+ Guid="e6251b16-ea9e-4b3d-b498-4fbd6e4dc644"
+>Mode in [Mode.NP, Mode.SB, Mode.SR, Mode.SL, Mode.NL, Mode.UN, Mode.TR, Mode.SN, Mode.RV]</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="e6c24441-ff92-44c9-8e84-6a1619260895"
+>Shunting.BaliseGroupsForShArea &lt;- Kernel.Shunting.ExpectedBGstruct{
+ListReceived =&gt; Boolean.False,
+BGs =&gt; []
+}</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Implemented="TRUE"
+ Name="Handle MA Request Parameters"
+ Guid="fe023574-eecb-4c80-9777-67ed38525837"
+>
+<ReqRef
+ Id="52f3f9c5-df30-412b-84e1-e25478bd838a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="fa73ba6e-c8ca-4736-bc3f-b983c589d49b"
+>
+</ReqRef><SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Handle MA Request Parameters"
+ Guid="763d51b9-de49-4c7c-9289-bdb261ceca17"
+>
+<PreConditions>
+<PreCondition
+ Guid="a70240ff-3ac0-4ae5-a6c5-3983f5957616"
+>Mode in [Mode.NP]</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="4edd62c4-ef4c-4383-ab61-d01692d23e0b"
+>MA.MARequest.MARequestParameters &lt;- EMPTY</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Implemented="TRUE"
+ Name="Handle Position Report parameters"
+ Guid="d71fc9ba-0f84-41ac-85c4-2a13a7832594"
+>
+<ReqRef
+ Id="3f1c9e72-fa3c-48e3-ac90-5136da5f863c"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c5446f42-7608-4c96-a46e-f47e007327ab"
+>
+</ReqRef><SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Handle Position Report parameters"
+ Guid="5b9e54ec-bec7-4cd2-9044-4351cf4ffe01"
+>
+<PreConditions>
+<PreCondition
+ Guid="2ab9b504-2891-4a29-aa4c-27e4f4dccd4d"
+>Mode in [Mode.NP]</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="6859fea0-bf01-4b24-bd96-dee8bd1f3f11"
+>EURORADIO.PositionReport.PositionReportParameters &lt;- EURORADIO.PositionReport.PositionReportParametersStruct{
+DataState =&gt; DataState.Unknown,
+Values =&gt; EURORADIO.PositionReport.PositionReportParametersValues{
+    TimeInterval =&gt; 0.0,
+    DistanceInterval =&gt; 0.0,
+    SpecialLocation =&gt; EURORADIO.PositionReport.PositionReportSpecialLocation.DoNotSend,
+    Locations =&gt; []
+}
+}</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Implemented="TRUE"
+ Name="Handle List of Balises in SR Authority + SR mode speed limit and distance"
+ Guid="9b9c02eb-02af-453d-94df-11e082b152c1"
+>
+<ReqRef
+ Id="18a7ff9f-b1f5-422b-855c-61dc1bcc5e52"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9bb91e08-7f42-4389-8b2e-799c5640a51a"
+>
+</ReqRef><SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Handle List of Balises in SR Authority + SR mode speed limit and distance"
+ Guid="f2ae0304-06d4-471d-9f9d-4e0446fc3b1f"
+>
+<PreConditions>
+<PreCondition
+ Guid="15f81c23-74f8-492e-8915-66cb8c7faf55"
+>Mode in [Mode.NP, Mode.SB, Mode.PS, Mode.SH, Mode.FS, Mode.LS, Mode.OS, Mode.SL, Mode.NL, Mode.UN, Mode.TR, Mode.SN, Mode.RV]</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="79fa84ec-5bc4-4b75-91f6-7389d2a17361"
+>StaffResponsible.SRAuthorisation &lt;- EMPTY</Action><Action
+ Guid="37532850-e322-451a-84eb-b8a19545d122"
+>ModeRelatedSpeedLimits.TracksideModeRelatedSpeedRestrictions.SR &lt;- Default.BaseTypes.Speed.NA</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Implemented="TRUE"
+ Name="Handle Temporary Speed Restriction"
+ Guid="48d09c47-c0de-4d84-9ac8-f9bf885e1f40"
+>
+<ReqRef
+ Id="5c2862fc-bef8-420c-bafb-f6c8750cfecf"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="65e13560-b0d5-4d9c-ab79-7e9c4d76c412"
+>
+</ReqRef><SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Handle Temporary Speed Restriction"
+ Guid="3b899909-5ab9-4b90-b532-9212930bbec1"
+>
+<PreConditions>
+<PreCondition
+ Guid="a8aeb857-8bdf-4ece-afab-0cfb902fb7dc"
+>Mode in [Mode.NP, Mode.SB, Mode.PS, Mode.SH, Mode.SL, Mode.NL, Mode.SN, Mode.RV]</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="748186ba-7def-4443-95cd-9b81d526d45d"
+>TSR.TSRs &lt;- []</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Implemented="TRUE"
+ Name="Handle Inhibition of revocable TSRs from balises in L2/3"
+ Guid="b5a8a7b9-2528-4ca8-924c-1e332a4afa19"
+>
+<ReqRef
+ Id="673f5519-dfa6-4981-aa5b-ae2c67ca1ef3"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e579aaf4-063f-41ac-9840-c2d2441f6577"
+>
+</ReqRef><SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Handle Inhibition of revocable TSRs from balises in L2/3"
+ Guid="8cc31621-21e2-4897-8a27-9a18df18c4ff"
+>
+<PreConditions>
+<PreCondition
+ Guid="4cf795b5-1f92-4431-a35d-4855c15dcb65"
+>Mode in [Mode.NP, Mode.SB, Mode.PS, Mode.SH, Mode.SR, Mode.SL, Mode.NL, Mode.UN, Mode.SN, Mode.RV]</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="47c8a756-fd11-49df-8c72-7dc4d0a3cbc9"
+>TSR.InhibitRevocableTSRsFromBalises &lt;- Boolean.False</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Implemented="TRUE"
+ Name="Handle Default Gradient for TSR"
+ Guid="e66acf7a-16cb-4100-8d22-5c3412bcdf1a"
+>
+<ReqRef
+ Id="376b24c8-077f-4ae1-bd9b-5c1d37767b48"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="532e6f96-5b8b-4022-bbbb-1c5cedec5df5"
+>
+</ReqRef><SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Handle Default Gradient for TSR"
+ Guid="007a017f-7ae6-4e4d-95a8-6db1f7106e85"
+>
+<PreConditions>
+<PreCondition
+ Guid="a47e6f1c-1018-4c60-82bc-610781a4088e"
+>Mode in [Mode.NP, Mode.SB, Mode.PS, Mode.SH, Mode.SL, Mode.NL, Mode.SN, Mode.RV]</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="986e9d6c-e5cf-408c-9306-b2dbf7fd365e"
+>TrackDescription.Gradient.DefaultGradientForTSR &lt;- EMPTY</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Implemented="TRUE"
+ Name="Handle Signalling related Speed Restriction"
+ Guid="6f4c779d-dd4e-4260-8790-367e6127fa1d"
+>
+<ReqRef
+ Id="531a0e79-feb4-4e88-9189-668392a12ebe"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="7ec6958e-35a6-40c7-a3af-3e0c6ba4c5f3"
+>
+</ReqRef><SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Handle Signalling related Speed Restriction"
+ Guid="3574bf41-2b3a-4c31-9cdf-3611a675147f"
+>
+<PreConditions>
+<PreCondition
+ Guid="55a2b501-1a54-4d21-a8a9-efe78b5a136c"
+>Mode in [Mode.NP, Mode.SB, Mode.PS, Mode.SH, Mode.SR, Mode.SL, Mode.NL, Mode.UN, Mode.TR, Mode.SN, Mode.RV]</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="b6494f93-bf18-406a-b1e6-8c3a007a8004"
+>MA.SignallingRelatedSpeedRestriction &lt;- Kernel.MA.SignallingRelatedSRStruct{
+Value =&gt; BaseTypes.Speed.MaxSpeed,
+End =&gt; BaseTypes.Distance.Unknown
+}</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Implemented="TRUE"
  Name="Handle Route Suitability Data"
  Guid="a177dafa-0b69-4574-80b8-f1a740a82b7a"
 >
@@ -196,6 +624,7 @@
 </ReqRef><SubRules></SubRules>
 <Conditions>
 <RuleCondition
+ Implemented="TRUE"
  Name="HandleRouteSuitability"
  Guid="542e0fcf-3e34-41b3-aa94-3c57ffc3b34c"
 >
@@ -213,6 +642,7 @@
 }</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
+ Implemented="TRUE"
  Name="Handle Adhesion Factors"
  Guid="d171824f-953d-446c-8b0f-8778988b2f55"
 >
@@ -234,6 +664,7 @@
 </ReqRef><SubRules></SubRules>
 <Conditions>
 <RuleCondition
+ Implemented="TRUE"
  Name="HandleAdhesionFactor"
  Guid="3d6deb1d-3a6d-4c77-b03c-4320fb60de7d"
 >
@@ -247,6 +678,7 @@
 >TrackDescription.AdhesionFactors.AdhFactors &lt;- []</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
+ Implemented="TRUE"
  Name="Handle Track Conditions 1"
  Guid="0e721665-38cb-4fc4-b13b-4af1800424fd"
 >
@@ -263,6 +695,7 @@
 </ReqRef><SubRules></SubRules>
 <Conditions>
 <RuleCondition
+ Implemented="TRUE"
  Name="HandleTrackConditions1"
  Guid="3108c1e5-a0b1-4b00-a061-310f34de156f"
 >
@@ -276,6 +709,7 @@
 >TrackDescription.TrackConditions.General.TCProfile &lt;- MAP TrackDescription.TrackConditions.General.TCProfile USING X IN TrackDescription.TrackConditions.General.HandleTCPwhenEnteringGivenMode1( X )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
+ Implemented="TRUE"
  Name="Handle Track Conditions 2"
  Guid="45888872-8b5a-4ce6-90ff-90c44d1cbd8b"
 >
@@ -292,6 +726,7 @@
 </ReqRef><SubRules></SubRules>
 <Conditions>
 <RuleCondition
+ Implemented="TRUE"
  Name="HandleTrackConditions2"
  Guid="4e20a0da-fbc1-4dd8-9d40-38433acb61d0"
 >
