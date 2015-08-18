@@ -53,7 +53,10 @@ namespace GUI.UsageView
             bool retVal = base.HandleSelectionChange(context);
 
             usageTreeView.Root = DisplayedModel;
-            usageTreeView.Nodes[0].EnsureVisible();
+            if (usageTreeView.Nodes.Count > 0)
+            {
+                usageTreeView.Nodes[0].EnsureVisible();
+            }
 
             return retVal;
         }
@@ -71,7 +74,10 @@ namespace GUI.UsageView
             if (retVal)
             {
                 usageTreeView.Root = DisplayedModel;
-                usageTreeView.Nodes[0].EnsureVisible();
+                if (usageTreeView.Nodes.Count > 0)
+                {
+                    usageTreeView.Nodes[0].EnsureVisible();                    
+                }
             }
 
             return retVal;
