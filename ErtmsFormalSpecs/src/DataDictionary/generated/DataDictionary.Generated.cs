@@ -6782,10 +6782,10 @@ ctxt.accept(quoteChar);
 ctxt.skipWhiteSpace();
 } else {
 if (!fl441){
-this.setX(0);
+this.setX(-1);
 } // If
 if (!fl442){
-this.setY(0);
+this.setY(-1);
 } // If
 if (!fl443){
 this.setWidth(0);
@@ -6843,13 +6843,13 @@ if (typeId){
 pw.Write(" xsi:type=\"NameSpace\"");
 } // If
 pw.Write('\n');
-if (this.getX() != 0){
+if (this.getX() != -1){
 pw.Write(" X=\"");
 acceptor.unParsePcData(pw, this.getX());
 pw.Write('"');
 pw.Write('\n');
 } // If
-if (this.getY() != 0){
+if (this.getY() != -1){
 pw.Write(" Y=\"");
 acceptor.unParsePcData(pw, this.getY());
 pw.Write('"');
@@ -8073,10 +8073,10 @@ ctxt.accept(quoteChar);
 ctxt.skipWhiteSpace();
 } else {
 if (!fl481){
-this.setX(0);
+this.setX(-1);
 } // If
 if (!fl482){
-this.setY(0);
+this.setY(-1);
 } // If
 if (!fl483){
 this.setWidth(0);
@@ -8149,13 +8149,13 @@ acceptor.unParsePcData(pw, this.getDefault());
 pw.Write('"');
 pw.Write('\n');
 } // If
-if (this.getX() != 0){
+if (this.getX() != -1){
 pw.Write(" X=\"");
 acceptor.unParsePcData(pw, this.getX());
 pw.Write('"');
 pw.Write('\n');
 } // If
-if (this.getY() != 0){
+if (this.getY() != -1){
 pw.Write(" Y=\"");
 acceptor.unParsePcData(pw, this.getY());
 pw.Write('"');
@@ -9130,10 +9130,10 @@ ctxt.accept(quoteChar);
 ctxt.skipWhiteSpace();
 } else {
 if (!fl541){
-this.setX(0);
+this.setX(-1);
 } // If
 if (!fl542){
-this.setY(0);
+this.setY(-1);
 } // If
 if (!fl543){
 this.setWidth(0);
@@ -9206,13 +9206,13 @@ acceptor.unParsePcData(pw, this.getDefault());
 pw.Write('"');
 pw.Write('\n');
 } // If
-if (this.getX() != 0){
+if (this.getX() != -1){
 pw.Write(" X=\"");
 acceptor.unParsePcData(pw, this.getX());
 pw.Write('"');
 pw.Write('\n');
 } // If
-if (this.getY() != 0){
+if (this.getY() != -1){
 pw.Write(" Y=\"");
 acceptor.unParsePcData(pw, this.getY());
 pw.Write('"');
@@ -10557,10 +10557,10 @@ if (!fl604){
 this.setPrecision(acceptor.PrecisionEnum.aIntegerPrecision);
 } // If
 if (!fl606){
-this.setX(0);
+this.setX(-1);
 } // If
 if (!fl607){
-this.setY(0);
+this.setY(-1);
 } // If
 if (!fl608){
 this.setWidth(0);
@@ -10648,13 +10648,13 @@ acceptor.unParsePcData(pw, this.getDefault());
 pw.Write('"');
 pw.Write('\n');
 } // If
-if (this.getX() != 0){
+if (this.getX() != -1){
 pw.Write(" X=\"");
 acceptor.unParsePcData(pw, this.getX());
 pw.Write('"');
 pw.Write('\n');
 } // If
-if (this.getY() != 0){
+if (this.getY() != -1){
 pw.Write(" Y=\"");
 acceptor.unParsePcData(pw, this.getY());
 pw.Write('"');
@@ -12275,10 +12275,10 @@ if (!fl708){
 this.setIsAbstract( false);
 } // If
 if (!fl710){
-this.setX(0);
+this.setX(-1);
 } // If
 if (!fl711){
-this.setY(0);
+this.setY(-1);
 } // If
 if (!fl712){
 this.setWidth(0);
@@ -12357,13 +12357,13 @@ acceptor.unParsePcData(pw, this.getDefault());
 pw.Write('"');
 pw.Write('\n');
 } // If
-if (this.getX() != 0){
+if (this.getX() != -1){
 pw.Write(" X=\"");
 acceptor.unParsePcData(pw, this.getX());
 pw.Write('"');
 pw.Write('\n');
 } // If
-if (this.getY() != 0){
+if (this.getY() != -1){
 pw.Write(" Y=\"");
 acceptor.unParsePcData(pw, this.getY());
 pw.Write('"');
@@ -13934,10 +13934,10 @@ if (!fl782){
 this.setMaxSize(10);
 } // If
 if (!fl784){
-this.setX(0);
+this.setX(-1);
 } // If
 if (!fl785){
-this.setY(0);
+this.setY(-1);
 } // If
 if (!fl786){
 this.setWidth(0);
@@ -14020,13 +14020,13 @@ acceptor.unParsePcData(pw, this.getDefault());
 pw.Write('"');
 pw.Write('\n');
 } // If
-if (this.getX() != 0){
+if (this.getX() != -1){
 pw.Write(" X=\"");
 acceptor.unParsePcData(pw, this.getX());
 pw.Write('"');
 pw.Write('\n');
 } // If
-if (this.getY() != 0){
+if (this.getY() != -1){
 pw.Write(" Y=\"");
 acceptor.unParsePcData(pw, this.getY());
 pw.Write('"');
@@ -15083,10 +15083,10 @@ if (!fl846){
 this.setCacheable( false);
 } // If
 if (!fl848){
-this.setX(0);
+this.setX(-1);
 } // If
 if (!fl849){
-this.setY(0);
+this.setY(-1);
 } // If
 if (!fl850){
 this.setWidth(0);
@@ -15165,13 +15165,13 @@ acceptor.unParsePcData(pw, this.getDefault());
 pw.Write('"');
 pw.Write('\n');
 } // If
-if (this.getX() != 0){
+if (this.getX() != -1){
 pw.Write(" X=\"");
 acceptor.unParsePcData(pw, this.getX());
 pw.Write('"');
 pw.Write('\n');
 } // If
-if (this.getY() != 0){
+if (this.getY() != -1){
 pw.Write(" Y=\"");
 acceptor.unParsePcData(pw, this.getY());
 pw.Write('"');
@@ -17186,10 +17186,10 @@ ctxt.accept(quoteChar);
 ctxt.skipWhiteSpace();
 } else {
 if (!fl948){
-this.setX(0);
+this.setX(-1);
 } // If
 if (!fl949){
-this.setY(0);
+this.setY(-1);
 } // If
 if (!fl950){
 this.setWidth(0);
@@ -17256,13 +17256,13 @@ if (typeId){
 pw.Write(" xsi:type=\"Procedure\"");
 } // If
 pw.Write('\n');
-if (this.getX() != 0){
+if (this.getX() != -1){
 pw.Write(" X=\"");
 acceptor.unParsePcData(pw, this.getX());
 pw.Write('"');
 pw.Write('\n');
 } // If
-if (this.getY() != 0){
+if (this.getY() != -1){
 pw.Write(" Y=\"");
 acceptor.unParsePcData(pw, this.getY());
 pw.Write('"');
@@ -18313,10 +18313,10 @@ ctxt.accept(quoteChar);
 ctxt.skipWhiteSpace();
 } else {
 if (!fl1008){
-this.setX(0);
+this.setX(-1);
 } // If
 if (!fl1009){
-this.setY(0);
+this.setY(-1);
 } // If
 if (!fl1010){
 this.setWidth(0);
@@ -18395,13 +18395,13 @@ acceptor.unParsePcData(pw, this.getDefault());
 pw.Write('"');
 pw.Write('\n');
 } // If
-if (this.getX() != 0){
+if (this.getX() != -1){
 pw.Write(" X=\"");
 acceptor.unParsePcData(pw, this.getX());
 pw.Write('"');
 pw.Write('\n');
 } // If
-if (this.getY() != 0){
+if (this.getY() != -1){
 pw.Write(" Y=\"");
 acceptor.unParsePcData(pw, this.getY());
 pw.Write('"');
@@ -19135,10 +19135,10 @@ ctxt.accept(quoteChar);
 ctxt.skipWhiteSpace();
 } else {
 if (!fl1044){
-this.setX(0);
+this.setX(-1);
 } // If
 if (!fl1045){
-this.setY(0);
+this.setY(-1);
 } // If
 if (!fl1046){
 this.setWidth(0);
@@ -19202,13 +19202,13 @@ if (typeId){
 pw.Write(" xsi:type=\"State\"");
 } // If
 pw.Write('\n');
-if (this.getX() != 0){
+if (this.getX() != -1){
 pw.Write(" X=\"");
 acceptor.unParsePcData(pw, this.getX());
 pw.Write('"');
 pw.Write('\n');
 } // If
-if (this.getY() != 0){
+if (this.getY() != -1){
 pw.Write(" Y=\"");
 acceptor.unParsePcData(pw, this.getY());
 pw.Write('"');
@@ -20204,10 +20204,10 @@ if (!fl1088){
 this.setVariableMode(acceptor.VariableModeEnumType.aInternal);
 } // If
 if (!fl1089){
-this.setX(0);
+this.setX(-1);
 } // If
 if (!fl1090){
-this.setY(0);
+this.setY(-1);
 } // If
 if (!fl1091){
 this.setWidth(0);
@@ -20293,13 +20293,13 @@ acceptor.unParsePcData(pw,
 pw.Write('"');
 pw.Write('\n');
 } // If
-if (this.getX() != 0){
+if (this.getX() != -1){
 pw.Write(" X=\"");
 acceptor.unParsePcData(pw, this.getX());
 pw.Write('"');
 pw.Write('\n');
 } // If
-if (this.getY() != 0){
+if (this.getY() != -1){
 pw.Write(" Y=\"");
 acceptor.unParsePcData(pw, this.getY());
 pw.Write('"');
@@ -21234,10 +21234,10 @@ ctxt.accept(quoteChar);
 ctxt.skipWhiteSpace();
 } else {
 if (!fl1140){
-this.setX(0);
+this.setX(-1);
 } // If
 if (!fl1141){
-this.setY(0);
+this.setY(-1);
 } // If
 if (!fl1142){
 this.setWidth(0);
@@ -21311,13 +21311,13 @@ acceptor.unParsePcData(pw,
 pw.Write('"');
 pw.Write('\n');
 } // If
-if (this.getX() != 0){
+if (this.getX() != -1){
 pw.Write(" X=\"");
 acceptor.unParsePcData(pw, this.getX());
 pw.Write('"');
 pw.Write('\n');
 } // If
-if (this.getY() != 0){
+if (this.getY() != -1){
 pw.Write(" Y=\"");
 acceptor.unParsePcData(pw, this.getY());
 pw.Write('"');
@@ -36339,10 +36339,10 @@ ctxt.accept(quoteChar);
 ctxt.skipWhiteSpace();
 } else {
 if (!fl1842){
-this.setX(0);
+this.setX(-1);
 } // If
 if (!fl1843){
-this.setY(0);
+this.setY(-1);
 } // If
 if (!fl1844){
 this.setWidth(0);
@@ -36397,13 +36397,13 @@ if (typeId){
 pw.Write(" xsi:type=\"RequirementSet\"");
 } // If
 pw.Write('\n');
-if (this.getX() != 0){
+if (this.getX() != -1){
 pw.Write(" X=\"");
 acceptor.unParsePcData(pw, this.getX());
 pw.Write('"');
 pw.Write('\n');
 } // If
-if (this.getY() != 0){
+if (this.getY() != -1){
 pw.Write(" Y=\"");
 acceptor.unParsePcData(pw, this.getY());
 pw.Write('"');

@@ -749,7 +749,7 @@ namespace GUI.BoxArrowDiagram
                     box.Size = DefaultBoxSize;
                 }
 
-                if (box.Location.IsEmpty)
+                if (box.Location.X == -1 || box.Location.Y == -1)
                 {
                     // Setup next location
                     box.Location = GetNextPosition();

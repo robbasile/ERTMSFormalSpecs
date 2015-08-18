@@ -55,6 +55,21 @@ namespace DataDictionary
             });
         }
 
+        public override void visit(IXmlBBase obj, bool visitSubNodes)
+        {
+            IGraphicalDisplay graphicalDisplay = obj as IGraphicalDisplay;
+            if (graphicalDisplay != null)
+            {
+                graphicalDisplay.X = -1;
+                graphicalDisplay.Y = -1;
+                graphicalDisplay.Width = 0;
+                graphicalDisplay.Height = 0;
+                graphicalDisplay.Hidden = false;
+                graphicalDisplay.Pinned = false;
+            }
+            base.visit(obj);
+        }
+
         public override void visit(BaseModelElement obj, bool visitSubNodes)
         {
             ModelElement element = (ModelElement) obj;
@@ -78,18 +93,6 @@ namespace DataDictionary
             base.visit(obj, visitSubNodes);
         }
 
-        public override void visit(NameSpace obj, bool visitSubNodes)
-        {
-            obj.setX(0);
-            obj.setY(0);
-            obj.setWidth(0);
-            obj.setHeight(0);
-            obj.setHidden(false);
-            obj.setPinned(false);
-
-            base.visit(obj, visitSubNodes);
-        }
-
         public override void visit(EnumValue obj, bool visitSubNodes)
         {
             obj.setValue("0");
@@ -99,12 +102,6 @@ namespace DataDictionary
 
         public override void visit(Type obj, bool visitSubNodes)
         {
-            obj.setX(0);
-            obj.setY(0);
-            obj.setWidth(0);
-            obj.setHeight(0);
-            obj.setHidden(false);
-            obj.setPinned(false);
             obj.setDefault("");
 
             base.visit(obj, visitSubNodes);
@@ -139,37 +136,9 @@ namespace DataDictionary
             base.visit(obj, visitSubNodes);
         }
 
-        public override void visit(Procedure obj, bool visitSubNodes)
-        {
-            obj.setX(0);
-            obj.setY(0);
-            obj.setWidth(0);
-            obj.setHeight(0);
-            obj.setHidden(false);
-            obj.setPinned(false);
-
-            base.visit(obj, visitSubNodes);
-        }
-
-        public override void visit(State obj, bool visitSubNodes)
-        {
-            obj.setX(0);
-            obj.setY(0);
-            obj.setWidth(0);
-            obj.setHeight(0);
-
-            base.visit(obj, visitSubNodes);
-        }
-
         public override void visit(Variable obj, bool visitSubNodes)
         {
             obj.setVariableMode(acceptor.VariableModeEnumType.aInternal);
-            obj.setX(0);
-            obj.setY(0);
-            obj.setWidth(0);
-            obj.setHeight(0);
-            obj.setHidden(false);
-            obj.setPinned(false);
 
             base.visit(obj, visitSubNodes);
         }
@@ -177,12 +146,6 @@ namespace DataDictionary
         public override void visit(Rule obj, bool visitSubNodes)
         {
             obj.setPriority(acceptor.RulePriority.aProcessing);
-            obj.setX(0);
-            obj.setY(0);
-            obj.setWidth(0);
-            obj.setHeight(0);
-            obj.setHidden(false);
-            obj.setPinned(false);
 
             base.visit(obj, visitSubNodes);
         }
