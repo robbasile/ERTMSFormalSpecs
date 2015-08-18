@@ -162,45 +162,42 @@ namespace GUI
         /// <returns>True if the view should be refreshed</returns>
         public virtual bool HandleInfoMessageChange(IModelElement modelElement)
         {
-            bool retVal = modelElement == null || DisplayedModel == null || DisplayedModel.IsParent(modelElement);
+            bool retVal = TreeView != null;
 
             if (retVal)
             {
-                if (TreeView != null)
+                if (modelElement != null)
                 {
-                    if (modelElement != null)
+                    // Find the first displayed tree node to be colorized
+                    BaseTreeNode displayedNode = null;
+                    while (displayedNode == null && modelElement != null)
                     {
-                        // Find the first displayed tree node to be colorized
-                        BaseTreeNode displayedNode = null;
-                        while (displayedNode == null && modelElement != null)
-                        {
-                            displayedNode = TreeView.FindNode(modelElement, false);
-                            modelElement = modelElement.Enclosing as IModelElement;
-                        }
+                        displayedNode = TreeView.FindNode(modelElement, false);
+                        modelElement = modelElement.Enclosing as IModelElement;
+                    }
 
-                        if (displayedNode != null)
+                    if (displayedNode != null)
+                    {
+                        while (displayedNode != null)
                         {
-                            while (displayedNode != null)
+                            bool changed = displayedNode.UpdateColor();
+                            if (changed)
                             {
-                                bool changed = displayedNode.UpdateColor();
-                                if (changed)
-                                {
-                                    displayedNode = displayedNode.Parent as BaseTreeNode;
-                                }
-                                else
-                                {
-                                    displayedNode = null;
-                                }
+                                displayedNode = displayedNode.Parent as BaseTreeNode;
+                            }
+                            else
+                            {
+                                displayedNode = null;
                             }
                         }
                     }
-                    else
+                }
+                else
+                {
+                    // When no model element is provided, the complete tree should be recolored
+                    foreach (BaseTreeNode node in TreeView.Nodes)
                     {
-                        // When no model element is provided, the complete tree should be recolored
-                        foreach (BaseTreeNode node in TreeView.Nodes)
-                        {
-                            node.RecursiveUpdateNodeColor();
-                        }
+                        node.RecursiveUpdateNodeColor();
                     }
                 }
             }

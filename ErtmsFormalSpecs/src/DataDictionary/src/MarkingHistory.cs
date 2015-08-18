@@ -143,11 +143,17 @@ namespace DataDictionary
             {
                 EFSSystem.INSTANCE.ClearMessages(false);
                 EFSSystem.INSTANCE.Context.HandleInfoMessageChangeEvent(null);
+                EFSSystem.INSTANCE.Context.SuppressInfoMessage = true;
                 action();
                 EFSSystem.INSTANCE.Markings.RegisterCurrentMarking();
             }
             catch (Exception)
             {
+            }
+            finally
+            {
+                EFSSystem.INSTANCE.Context.SuppressInfoMessage = false;
+                EFSSystem.INSTANCE.Context.HandleInfoMessageChangeEvent(null);                
             }
         }
     }

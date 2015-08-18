@@ -62,6 +62,8 @@ namespace DataDictionary
             Notify = true;
             ChangeNotifier = new Thread(NotifyChanges);
             ChangeNotifier.Start();
+
+            SuppressInfoMessage = false;
         }
 
         /// <summary>
@@ -361,12 +363,20 @@ namespace DataDictionary
         }
 
         /// <summary>
+        /// Indicates that information message wake up should be suppressed
+        /// </summary>
+        public bool SuppressInfoMessage { get; set; }
+
+        /// <summary>
         ///     Handles the change of a value on a model element
         /// </summary>
         /// <param name="sender"></param>
         public void HandleInfoMessageChangeEvent(IModelElement sender)
         {
-            OnInformationMessageChange(sender);
+            if ( !SuppressInfoMessage )
+            {
+                OnInformationMessageChange(sender);                
+            }
         }
 
         /// <summary>
