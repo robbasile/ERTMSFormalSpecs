@@ -134,14 +134,14 @@ namespace DataDictionary.Tests
         }
 
         /// <summary>
-        /// Creates a default element
+        ///     Creates a default element
         /// </summary>
         /// <param name="enclosingCollection"></param>
         /// <returns></returns>
         public static TestCase CreateDefault(ICollection enclosingCollection)
         {
-            TestCase retVal = (TestCase)acceptor.getFactory().createTestCase();
-            
+            TestCase retVal = (TestCase) acceptor.getFactory().createTestCase();
+
             Util.DontNotify(() =>
             {
                 retVal.Name = "TestCase" + GetElementNumber(enclosingCollection);
@@ -166,7 +166,7 @@ namespace DataDictionary.Tests
                 {
                     step.GetExplain(explanation, explainSubElements);
                     explanation.WriteLine();
-                }                
+                }
             });
         }
 

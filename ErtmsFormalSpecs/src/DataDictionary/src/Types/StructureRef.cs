@@ -137,21 +137,17 @@ namespace DataDictionary.Types
         }
 
         /// <summary>
-        /// Creates a default element
+        ///     Creates a default element
         /// </summary>
         /// <param name="enclosingCollection"></param>
         /// <returns></returns>
         public static StructureRef CreateDefault(ICollection enclosingCollection)
         {
-            StructureRef retVal = (StructureRef)acceptor.getFactory().createStructureRef();
+            StructureRef retVal = (StructureRef) acceptor.getFactory().createStructureRef();
 
-            Util.DontNotify(() =>
-            {
-                retVal.Name = "Interface" + GetElementNumber(enclosingCollection);
-            });
+            Util.DontNotify(() => { retVal.Name = "Interface" + GetElementNumber(enclosingCollection); });
 
             return retVal;
         }
-
     }
 }

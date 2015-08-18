@@ -290,7 +290,7 @@ namespace DataDictionary.Types
         }
 
         /// <summary>
-        ///     Creates the status message 
+        ///     Creates the status message
         /// </summary>
         /// <returns>the status string for the selected element</returns>
         public override string CreateStatusMessage()
@@ -303,18 +303,15 @@ namespace DataDictionary.Types
         }
 
         /// <summary>
-        /// Creates a default element
+        ///     Creates a default element
         /// </summary>
         /// <param name="enclosingCollection"></param>
         /// <returns></returns>
         public static Collection CreateDefault(ICollection enclosingCollection)
         {
-            Collection retVal = (Collection)acceptor.getFactory().createCollection();
+            Collection retVal = (Collection) acceptor.getFactory().createCollection();
 
-            Util.DontNotify(() =>
-            {
-                retVal.Name = "Collection" + GetElementNumber(enclosingCollection);
-            });
+            Util.DontNotify(() => { retVal.Name = "Collection" + GetElementNumber(enclosingCollection); });
 
             return retVal;
         }

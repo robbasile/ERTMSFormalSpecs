@@ -59,7 +59,7 @@ namespace GUI.BoxArrowDiagram
         /// </summary>
         /// <param name="panel"></param>
         /// <param name="model"></param>
-        protected ArrowControl(BoxArrowPanel<TEnclosing, TBoxModel, TArrowModel> panel, TArrowModel model) 
+        protected ArrowControl(BoxArrowPanel<TEnclosing, TBoxModel, TArrowModel> panel, TArrowModel model)
             : base(panel, model)
         {
             Panel = panel;
@@ -70,19 +70,19 @@ namespace GUI.BoxArrowDiagram
         }
 
         /// <summary>
-        /// The location of the box
+        ///     The location of the box
         /// </summary>
         public override Point Location { get; set; }
 
         /// <summary>
-        /// The size of the box
+        ///     The size of the box
         /// </summary>
         public override Size Size
         {
             get
             {
                 SizeF tmp = GuiUtils.Graphics.MeasureString(TypedModel.GraphicalName, Font);
-                return new Size((int)tmp.Width, (int)tmp.Height);
+                return new Size((int) tmp.Width, (int) tmp.Height);
             }
             set { }
         }
@@ -440,14 +440,14 @@ namespace GUI.BoxArrowDiagram
                 }
                 else
                 {
-                    g.FillRectangle(new SolidBrush(Panel.BackColor), new Rectangle(Location, Size) );
+                    g.FillRectangle(new SolidBrush(Panel.BackColor), new Rectangle(Location, Size));
                     g.DrawString(TypedModel.GraphicalName, Font, new SolidBrush(pen.Color), Location);
                 }
             }
         }
 
         /// <summary>
-        /// Selects the pen, according to the control status
+        ///     Selects the pen, according to the control status
         /// </summary>
         /// <returns></returns>
         public override Pen SelectPen()

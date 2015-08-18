@@ -342,25 +342,22 @@ namespace DataDictionary.Types
             String[] nameSpaceRef = names.Take(names.Count() - 1).ToArray();
 
             NameSpace nameSpace = dictionary.GetNameSpaceUpdate(nameSpaceRef, Dictionary);
-            Structure structure = nameSpace.GetStructureUpdate(names.Last(), (NameSpace)nameSpace.Updates);
+            Structure structure = nameSpace.GetStructureUpdate(names.Last(), (NameSpace) nameSpace.Updates);
             structure.appendElements(retVal);
 
             return retVal;
         }
 
         /// <summary>
-        /// Creates a default element
+        ///     Creates a default element
         /// </summary>
         /// <param name="enclosingCollection"></param>
         /// <returns></returns>
         public static StructureElement CreateDefault(ICollection enclosingCollection)
         {
-            StructureElement retVal = (StructureElement)acceptor.getFactory().createStructureElement();
+            StructureElement retVal = (StructureElement) acceptor.getFactory().createStructureElement();
 
-            Util.DontNotify(() =>
-            {
-                retVal.Name = "Element" + GetElementNumber(enclosingCollection);
-            });
+            Util.DontNotify(() => { retVal.Name = "Element" + GetElementNumber(enclosingCollection); });
 
             return retVal;
         }

@@ -31,7 +31,7 @@ namespace GUI.ModelDiagram.Arrows
         /// <param name="target"></param>
         /// <param name="model"></param>
         public ElementReferenceArrow(Structure source, Type target, StructureElement model)
-            : base (source, target, model.Name, model)
+            : base(source, target, model.Name, model)
         {
         }
 

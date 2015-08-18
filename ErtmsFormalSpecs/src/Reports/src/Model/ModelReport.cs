@@ -21,7 +21,6 @@ using DataDictionary.Generated;
 using log4net;
 using MigraDoc.DocumentObjectModel;
 using MigraDoc.DocumentObjectModel.Tables;
-using Utils;
 using Case = DataDictionary.Functions.Case;
 using Collection = DataDictionary.Types.Collection;
 using Enum = DataDictionary.Types.Enum;

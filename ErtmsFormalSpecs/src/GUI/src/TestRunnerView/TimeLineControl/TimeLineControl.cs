@@ -37,12 +37,12 @@ namespace GUI.TestRunnerView.TimeLineControl
     public abstract class TimeLineControl : Panel
     {
         /// <summary>
-        /// The draw area
+        ///     The draw area
         /// </summary>
         protected PictureBox DrawArea { get; set; }
 
         /// <summary>
-        /// The tooltip to display
+        ///     The tooltip to display
         /// </summary>
         protected ToolTip ToolTip { get; set; }
 
@@ -50,12 +50,12 @@ namespace GUI.TestRunnerView.TimeLineControl
         {
             AutoScroll = true;
             AutoSize = false;
-            DoubleBuffered = true; 
+            DoubleBuffered = true;
 
             DrawArea = new PictureBox
             {
                 Parent = this,
-                Location = new Point(0,0),
+                Location = new Point(0, 0),
                 Visible = true,
             };
             DrawArea.Click += TimeLineControl_Click;
@@ -67,7 +67,7 @@ namespace GUI.TestRunnerView.TimeLineControl
 
 
         /// <summary>
-        /// Indicates whether the timeline should display the element
+        ///     Indicates whether the timeline should display the element
         /// </summary>
         /// <param name="element"></param>
         /// <returns></returns>
@@ -109,13 +109,15 @@ namespace GUI.TestRunnerView.TimeLineControl
             RuleFired ruleFired = evt as RuleFired;
             if (ruleFired != null)
             {
-                EFSSystem.INSTANCE.Context.SelectElement(ruleFired.RuleCondition, this, Context.SelectionCriteria.LeftClick);
+                EFSSystem.INSTANCE.Context.SelectElement(ruleFired.RuleCondition, this,
+                    Context.SelectionCriteria.LeftClick);
             }
 
             VariableUpdate variableUpdate = evt as VariableUpdate;
             if (variableUpdate != null)
             {
-                EFSSystem.INSTANCE.Context.SelectElement(variableUpdate.Action, this, Context.SelectionCriteria.LeftClick);
+                EFSSystem.INSTANCE.Context.SelectElement(variableUpdate.Action, this,
+                    Context.SelectionCriteria.LeftClick);
             }
 
             Expect expect = evt as Expect;
@@ -127,13 +129,15 @@ namespace GUI.TestRunnerView.TimeLineControl
             ModelInterpretationFailure failure = evt as ModelInterpretationFailure;
             if (failure != null)
             {
-                EFSSystem.INSTANCE.Context.SelectElement(failure.Instance as IModelElement, this, Context.SelectionCriteria.LeftClick);
+                EFSSystem.INSTANCE.Context.SelectElement(failure.Instance as IModelElement, this,
+                    Context.SelectionCriteria.LeftClick);
             }
 
             SubStepActivated subStepActivated = evt as SubStepActivated;
             if (subStepActivated != null)
             {
-                EFSSystem.INSTANCE.Context.SelectElement(subStepActivated.SubStep, this, Context.SelectionCriteria.LeftClick);
+                EFSSystem.INSTANCE.Context.SelectElement(subStepActivated.SubStep, this,
+                    Context.SelectionCriteria.LeftClick);
             }
 
             StepActivation stepActivation = evt as StepActivation;
@@ -451,7 +455,7 @@ namespace GUI.TestRunnerView.TimeLineControl
         protected int HandledEvents = -1;
 
         /// <summary>
-        /// Updates the position handler
+        ///     Updates the position handler
         /// </summary>
         protected virtual void UpdatePositionHandler()
         {
@@ -481,11 +485,11 @@ namespace GUI.TestRunnerView.TimeLineControl
         private static Size _eventMarging = new Size(5, 2);
 
         /// <summary>
-        /// Paints the events
+        ///     Paints the events
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void DrawArea_Paint(object sender, PaintEventArgs e)
+        private void DrawArea_Paint(object sender, PaintEventArgs e)
         {
             e.Graphics.TranslateTransform(AutoScrollPosition.X, AutoScrollPosition.Y);
             foreach (KeyValuePair<ModelEvent, Rectangle> pair in PositionHandler.EventPositions)
@@ -495,7 +499,7 @@ namespace GUI.TestRunnerView.TimeLineControl
         }
 
         /// <summary>
-        /// Display the tooltip
+        ///     Display the tooltip
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>

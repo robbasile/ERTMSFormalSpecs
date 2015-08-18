@@ -17,8 +17,8 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using EnumValue = DataDictionary.Constants.EnumValue;
-using Range = DataDictionary.Types.Range;
+using DataDictionary.Constants;
+using DataDictionary.Types;
 
 namespace GUI.DataDictionaryView
 {

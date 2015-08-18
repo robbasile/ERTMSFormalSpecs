@@ -1,6 +1,4 @@
-﻿using System.Windows.Forms.VisualStyles;
-using DataDictionary;
-// ------------------------------------------------------------------------------
+﻿// ------------------------------------------------------------------------------
 // -- Copyright ERTMS Solutions
 // -- Licensed under the EUPL V.1.1
 // -- http://joinup.ec.europa.eu/software/page/eupl/licence-eupl
@@ -15,20 +13,19 @@ using DataDictionary;
 // -- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 // --
 // ------------------------------------------------------------------------------
-
-using Dictionary = DataDictionary.Dictionary;
+using DataDictionary;
 
 namespace GUI.LongOperations
 {
-    public class MergeUpdateOperation: BaseLongOperation
+    public class MergeUpdateOperation : BaseLongOperation
     {
         /// <summary>
-        /// The update dictionary
+        ///     The update dictionary
         /// </summary>
         private Dictionary UpdateDictionary { get; set; }
 
         /// <summary>
-        /// Constructor
+        ///     Constructor
         /// </summary>
         /// <param name="updateDictionary"></param>
         public MergeUpdateOperation(Dictionary updateDictionary)
@@ -37,7 +34,7 @@ namespace GUI.LongOperations
         }
 
         /// <summary>
-        /// Merges the update
+        ///     Merges the update
         /// </summary>
         public override void ExecuteWork()
         {

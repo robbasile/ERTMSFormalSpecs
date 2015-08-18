@@ -60,7 +60,7 @@ namespace DataDictionary
         public Runner Runner { get; set; }
 
         /// <summary>
-        /// The context used to wake up listeners
+        ///     The context used to wake up listeners
         /// </summary>
         public Context Context { get; set; }
 
@@ -78,7 +78,7 @@ namespace DataDictionary
         ///     The marking history
         /// </summary>
         public MarkingHistory Markings { get; private set; }
-        
+
         /// <summary>
         ///     The compiler used to compile the system
         /// </summary>
@@ -90,18 +90,18 @@ namespace DataDictionary
         public History History { get; private set; }
 
         /// <summary>
-        /// The delegate to be called when the dictionary changed on the file system
+        ///     The delegate to be called when the dictionary changed on the file system
         /// </summary>
         /// <param name="dictionary"></param>
         public delegate void HandleDictionaryChangesOnFileSystem(Dictionary dictionary);
 
         /// <summary>
-        /// The event raised when the dictionary changed on the file system
+        ///     The event raised when the dictionary changed on the file system
         /// </summary>
         public event HandleDictionaryChangesOnFileSystem DictionaryChangesOnFileSystem;
 
         /// <summary>
-        /// To be called when a dictionary changes on the file system
+        ///     To be called when a dictionary changes on the file system
         /// </summary>
         /// <param name="dictionary"></param>
         public virtual void OnDictionaryChangesOnFileSystem(Dictionary dictionary)
@@ -138,7 +138,7 @@ namespace DataDictionary
         }
 
         /// <summary>
-        /// The delegate used to handle the change of the value of a model element
+        ///     The delegate used to handle the change of the value of a model element
         /// </summary>
         /// <param name="modelElement"></param>
         /// <param name="changeKind">Indicates the reason why the change occured</param>
@@ -276,8 +276,10 @@ namespace DataDictionary
         /// <summary>
         ///     Clears the messages associated to this model element
         /// </summary>
-        /// <param name="precise">Indicates that the MessagePathInfo should be recomputed precisely
-        ///  according to the sub elements and should update the enclosing elements</param>
+        /// <param name="precise">
+        ///     Indicates that the MessagePathInfo should be recomputed precisely
+        ///     according to the sub elements and should update the enclosing elements
+        /// </param>
         public void ClearMessages(bool precise)
         {
             ClearMarksVisitor visitor = new ClearMarksVisitor();
@@ -908,9 +910,12 @@ namespace DataDictionary
         }
 
         /// <summary>
-        /// Indicates that the element is removed
+        ///     Indicates that the element is removed
         /// </summary>
-        public bool IsRemoved { get { return false; }}
+        public bool IsRemoved
+        {
+            get { return false; }
+        }
 
         /// <summary>
         ///     Initialises the declared elements
@@ -1443,9 +1448,10 @@ namespace DataDictionary
             /// </summary>
             /// <param name="requirementSet"></param>
             /// <param name="belonging">
-            ///     Indicates whether the paragraph should belong to the requirement set</param>
+            ///     Indicates whether the paragraph should belong to the requirement set
+            /// </param>
             /// <param name="notImplemented">Indicates that the the elements that should be marked are the not implemented ones</param>
-            ///     or whether the requirement should not belong to that requirement set
+            /// or whether the requirement should not belong to that requirement set
             public RequirementSetMarker(RequirementSet requirementSet, bool belonging, bool notImplemented)
             {
                 RequirementSet = requirementSet;
@@ -1592,7 +1598,7 @@ namespace DataDictionary
         }
 
         /// <summary>
-        ///     Creates the status message 
+        ///     Creates the status message
         /// </summary>
         /// <returns>the status string for the selected element</returns>
         public string CreateStatusMessage()
@@ -1602,6 +1608,5 @@ namespace DataDictionary
 
             return Paragraph.CreateParagraphSetStatus(paragraphs);
         }
-
     }
 }

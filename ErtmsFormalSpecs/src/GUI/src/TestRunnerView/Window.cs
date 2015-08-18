@@ -21,7 +21,6 @@ using DataDictionary;
 using DataDictionary.Tests;
 using DataDictionary.Tests.Runner;
 using GUI.IPCInterface;
-using GUI.LongOperations;
 using GUI.Properties;
 using Utils;
 using Step = DataDictionary.Tests.Step;
@@ -485,8 +484,8 @@ namespace GUI.TestRunnerView
             if (!EFSSystem.INSTANCE.Markings.SelectPreviousMarking())
             {
                 MessageBox.Show(
-                    Resources.Window_toolStripButton1_Click_No_more_marking_to_show, 
-                    Resources.Window_toolStripButton1_Click_No_more_markings, 
+                    Resources.Window_toolStripButton1_Click_No_more_marking_to_show,
+                    Resources.Window_toolStripButton1_Click_No_more_markings,
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Information);
             }
@@ -497,8 +496,8 @@ namespace GUI.TestRunnerView
             if (!EFSSystem.INSTANCE.Markings.SelectNextMarking())
             {
                 MessageBox.Show(
-                    Resources.Window_toolStripButton1_Click_No_more_marking_to_show, 
-                    Resources.Window_toolStripButton1_Click_No_more_markings, 
+                    Resources.Window_toolStripButton1_Click_No_more_marking_to_show,
+                    Resources.Window_toolStripButton1_Click_No_more_markings,
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Information);
             }

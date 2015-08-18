@@ -130,18 +130,15 @@ namespace DataDictionary.Tests
         }
 
         /// <summary>
-        /// Creates a default element
+        ///     Creates a default element
         /// </summary>
         /// <param name="enclosingCollection"></param>
         /// <returns></returns>
         public static SubStep CreateDefault(ICollection enclosingCollection)
         {
-            SubStep retVal = (SubStep)acceptor.getFactory().createSubStep();
+            SubStep retVal = (SubStep) acceptor.getFactory().createSubStep();
 
-            Util.DontNotify(() =>
-            {
-                retVal.Name = "SubStep" + GetElementNumber(enclosingCollection);
-            });
+            Util.DontNotify(() => { retVal.Name = "SubStep" + GetElementNumber(enclosingCollection); });
 
             return retVal;
         }
@@ -161,7 +158,7 @@ namespace DataDictionary.Tests
                 {
                     action.GetExplain(explanation, explainSubElements);
                     explanation.WriteLine();
-                }                
+                }
             });
 
             explanation.WriteLine("IMPLIES");
@@ -217,19 +214,15 @@ namespace DataDictionary.Tests
 
 
         /// <summary>
-        /// Creates a default element
+        ///     Creates a default element
         /// </summary>
         /// <param name="enclosingCollection"></param>
         /// <param name="enclosingId"></param>
         /// <returns></returns>
         public static SubStep CreateDefault(ICollection enclosingCollection, string enclosingId)
         {
-            SubStep retVal = (SubStep)acceptor.getFactory().createSubStep();
-            Util.DontNotify(() =>
-            {
-
-                retVal.Name = "SubStep" + GetElementNumber(enclosingCollection);
-            });
+            SubStep retVal = (SubStep) acceptor.getFactory().createSubStep();
+            Util.DontNotify(() => { retVal.Name = "SubStep" + GetElementNumber(enclosingCollection); });
 
             return retVal;
         }

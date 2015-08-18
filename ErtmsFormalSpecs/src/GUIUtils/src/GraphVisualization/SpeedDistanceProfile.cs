@@ -21,13 +21,13 @@ namespace GUIUtils.GraphVisualization
     public class SpeedDistanceProfile
     {
         /// <summary>
-        /// The points of the profile
+        ///     The points of the profile
         /// </summary>
         public List<SpeedDistancePoint> Points;
 
 
         /// <summary>
-        /// Constructor
+        ///     Constructor
         /// </summary>
         public SpeedDistanceProfile()
         {
@@ -35,7 +35,7 @@ namespace GUIUtils.GraphVisualization
         }
 
         /// <summary>
-        /// Adds the provided point
+        ///     Adds the provided point
         /// </summary>
         /// <param name="point"></param>
         public void Add(SpeedDistancePoint point)
@@ -47,7 +47,7 @@ namespace GUIUtils.GraphVisualization
         }
 
         /// <summary>
-        /// Clears the data
+        ///     Clears the data
         /// </summary>
         public void Clear()
         {
@@ -55,7 +55,7 @@ namespace GUIUtils.GraphVisualization
         }
 
         /// <summary>
-        /// Provides the number of points
+        ///     Provides the number of points
         /// </summary>
         /// <returns></returns>
         public int Count()

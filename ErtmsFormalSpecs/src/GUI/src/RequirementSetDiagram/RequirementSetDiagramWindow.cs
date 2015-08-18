@@ -19,7 +19,8 @@ using GUI.BoxArrowDiagram;
 
 namespace GUI.RequirementSetDiagram
 {
-    public class RequirementSetDiagramWindow : BoxArrowWindow<IHoldsRequirementSets, RequirementSet, RequirementSetDependancy>
+    public class RequirementSetDiagramWindow :
+        BoxArrowWindow<IHoldsRequirementSets, RequirementSet, RequirementSetDependancy>
     {
         /// <summary>
         ///     The panel used to display the state diagram
@@ -41,7 +42,8 @@ namespace GUI.RequirementSetDiagram
 
         public override BoxArrowPanel<IHoldsRequirementSets, RequirementSet, RequirementSetDependancy> CreatePanel()
         {
-            BoxArrowPanel<IHoldsRequirementSets, RequirementSet, RequirementSetDependancy> retVal = new RequirementSetPanel();
+            BoxArrowPanel<IHoldsRequirementSets, RequirementSet, RequirementSetDependancy> retVal =
+                new RequirementSetPanel();
 
             return retVal;
         }

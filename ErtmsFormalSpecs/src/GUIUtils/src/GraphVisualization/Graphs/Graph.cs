@@ -17,29 +17,29 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms.DataVisualization.Charting;
-using Function = GUIUtils.GraphVisualization.Functions.Function;
+using GUIUtils.GraphVisualization.Functions;
 
 namespace GUIUtils.GraphVisualization.Graphs
 {
     public abstract class Graph
     {
         /// <summary>
-        /// The function
+        ///     The function
         /// </summary>
         protected Function Function;
 
         /// <summary>
-        /// The chart on which is displayed this graph
+        ///     The chart on which is displayed this graph
         /// </summary>
         protected GraphVisualizer GraphVisualizer { get; set; }
 
         /// <summary>
-        /// The graphical information
+        ///     The graphical information
         /// </summary>
         public Series Data { get; set; }
 
         /// <summary>
-        /// Indicates if the display of the graph is enabled
+        ///     Indicates if the display of the graph is enabled
         /// </summary>
         public bool IsEnabled
         {
@@ -52,7 +52,7 @@ namespace GUIUtils.GraphVisualization.Graphs
         }
 
         /// <summary>
-        /// The name of the graph
+        ///     The name of the graph
         /// </summary>
         public string Name
         {
@@ -60,7 +60,7 @@ namespace GUIUtils.GraphVisualization.Graphs
         }
 
         /// <summary>
-        /// Constructor
+        ///     Constructor
         /// </summary>
         /// <param name="graphVisualizer"></param>
         public Graph(GraphVisualizer graphVisualizer)
@@ -72,14 +72,15 @@ namespace GUIUtils.GraphVisualization.Graphs
         }
 
         /// <summary>
-        /// Initializes graph properties using provided parameters
+        ///     Initializes graph properties using provided parameters
         /// </summary>
         /// <param name="chartType"></param>
         /// <param name="name"></param>
         /// <param name="tooltip"></param>
         /// <param name="color"></param>
         /// <returns></returns>
-        protected virtual void InitializeProperties(SeriesChartType chartType, string name, string tooltip, Color color = default(Color))
+        protected virtual void InitializeProperties(SeriesChartType chartType, string name, string tooltip,
+            Color color = default(Color))
         {
             Data.BorderDashStyle = ChartDashStyle.Solid;
             Data.BorderWidth = 4;
@@ -96,7 +97,7 @@ namespace GUIUtils.GraphVisualization.Graphs
         }
 
         /// <summary>
-        /// Displays the graph
+        ///     Displays the graph
         /// </summary>
         /// <param name="maxDistance"></param>
         /// <param name="minDistance"></param>
@@ -122,7 +123,7 @@ namespace GUIUtils.GraphVisualization.Graphs
         }
 
         /// <summary>
-        /// Handles the display
+        ///     Handles the display
         /// </summary>
         /// <param name="maxDistance"></param>
         /// <param name="minDistance"></param>
@@ -130,7 +131,7 @@ namespace GUIUtils.GraphVisualization.Graphs
         protected abstract void HandleDisplay(double maxDistance, double minDistance, double height);
 
         /// <summary>
-        /// Displays the previously recorded data until the provided distance
+        ///     Displays the previously recorded data until the provided distance
         /// </summary>
         /// <param name="maxDistance"></param>
         /// <returns></returns>
@@ -151,7 +152,7 @@ namespace GUIUtils.GraphVisualization.Graphs
         }
 
         /// <summary>
-        /// Adds a new point
+        ///     Adds a new point
         /// </summary>
         /// <param name="point"></param>
         protected virtual void AddPoint(SpeedDistancePoint point)
@@ -160,7 +161,7 @@ namespace GUIUtils.GraphVisualization.Graphs
         }
 
         /// <summary>
-        /// Updates and saves the settings
+        ///     Updates and saves the settings
         /// </summary>
         protected abstract void SaveSettings();
 

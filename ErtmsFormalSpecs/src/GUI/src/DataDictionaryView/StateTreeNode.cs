@@ -19,12 +19,12 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
 using DataDictionary;
+using DataDictionary.Constants;
+using DataDictionary.Rules;
+using DataDictionary.Types;
 using GUI.Converters;
 using GUI.Properties;
 using GUI.StateDiagram;
-using Rule = DataDictionary.Rules.Rule;
-using State = DataDictionary.Constants.State;
-using StateMachine = DataDictionary.Types.StateMachine;
 
 namespace GUI.DataDictionaryView
 {
@@ -81,11 +81,11 @@ namespace GUI.DataDictionaryView
 
             if (Item.getEnterAction() != null)
             {
-                subNodes.Add(new RuleTreeNode((Rule)Item.getEnterAction(), recursive));
+                subNodes.Add(new RuleTreeNode((Rule) Item.getEnterAction(), recursive));
             }
             if (Item.getLeaveAction() != null)
             {
-                subNodes.Add(new RuleTreeNode((Rule)Item.getLeaveAction(), recursive));
+                subNodes.Add(new RuleTreeNode((Rule) Item.getLeaveAction(), recursive));
             }
         }
 
@@ -145,7 +145,7 @@ namespace GUI.DataDictionaryView
             StateDiagramWindow window = new StateDiagramWindow();
             GuiUtils.MdiWindow.AddChildWindow(window);
             window.StatePanel.SetStateMachine(Item.StateMachine);
-            window.Text = Item.Name + @" "+Resources.StateTreeNode_ViewDiagram_state_diagram;
+            window.Text = Item.Name + @" " + Resources.StateTreeNode_ViewDiagram_state_diagram;
         }
 
         protected void ViewStateDiagramHandler(object sender, EventArgs args)

@@ -21,12 +21,12 @@ namespace GUIUtils.GraphVisualization.Functions
     public abstract class ProfileFunction : Function
     {
         /// <summary>
-        /// The function to display
+        ///     The function to display
         /// </summary>
         public IGraph Function { get; set; }
 
         /// <summary>
-        /// Computes the function value according to the provided parameter
+        ///     Computes the function value according to the provided parameter
         /// </summary>
         /// <param name="parameter"></param>
         /// <returns></returns>
@@ -43,7 +43,7 @@ namespace GUIUtils.GraphVisualization.Functions
         }
 
         /// <summary>
-        /// Relocates the function according to the LRBG position
+        ///     Relocates the function according to the LRBG position
         /// </summary>
         /// <param name="lrbgPosition"></param>
         protected override void Relocate(double lrbgPosition)
@@ -55,7 +55,7 @@ namespace GUIUtils.GraphVisualization.Functions
         }
 
         /// <summary>
-        /// Updates the provided function and relocates it according to the value of increment
+        ///     Updates the provided function and relocates it according to the value of increment
         /// </summary>
         /// <param name="graph"></param>
         /// <param name="lrbgPosition"></param>
@@ -71,7 +71,7 @@ namespace GUIUtils.GraphVisualization.Functions
         }
 
         /// <summary>
-        /// Records the current value
+        ///     Records the current value
         /// </summary>
         /// <param name="currentPosition"></param>
         /// <param name="relocatedPosition"></param>
@@ -81,7 +81,7 @@ namespace GUIUtils.GraphVisualization.Functions
         }
 
         /// <summary>
-        /// Clears the data related to that function
+        ///     Clears the data related to that function
         /// </summary>
         public override void ClearData()
         {

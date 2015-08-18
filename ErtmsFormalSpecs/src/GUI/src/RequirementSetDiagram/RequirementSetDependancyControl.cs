@@ -19,14 +19,15 @@ using GUI.BoxArrowDiagram;
 
 namespace GUI.RequirementSetDiagram
 {
-    public class RequirementSetDependancyControl : ArrowControl<IHoldsRequirementSets, RequirementSet, RequirementSetDependancy>
+    public class RequirementSetDependancyControl :
+        ArrowControl<IHoldsRequirementSets, RequirementSet, RequirementSetDependancy>
     {
         /// <summary>
         ///     Constructor
         /// </summary>
         /// <param name="panel"></param>
         /// <param name="model"></param>
-        public RequirementSetDependancyControl(RequirementSetPanel panel, RequirementSetDependancy model) 
+        public RequirementSetDependancyControl(RequirementSetPanel panel, RequirementSetDependancy model)
             : base(panel, model)
         {
         }

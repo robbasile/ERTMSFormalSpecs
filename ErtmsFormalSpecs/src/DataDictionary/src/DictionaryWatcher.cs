@@ -23,47 +23,47 @@ namespace DataDictionary
     public class DictionaryWatcher
     {
         /// <summary>
-        /// The system for which this watcher is built
+        ///     The system for which this watcher is built
         /// </summary>
         public EFSSystem System { get; private set; }
 
         /// <summary>
-        /// The dictionary to watch
+        ///     The dictionary to watch
         /// </summary>
         public Dictionary Dictionary { get; private set; }
 
         /// <summary>
-        /// The file system watcher
+        ///     The file system watcher
         /// </summary>
         private FileSystemWatcher Watcher { get; set; }
 
         /// <summary>
-        /// Provides the last time a change occured
+        ///     Provides the last time a change occured
         /// </summary>
         private DateTime LastChange { get; set; }
 
         /// <summary>
-        /// The time between which changes are not taken into consideration
+        ///     The time between which changes are not taken into consideration
         /// </summary>
         private TimeSpan DeltaTime { get; set; }
 
         /// <summary>
-        /// The thread which waits for the end of the burst
+        ///     The thread which waits for the end of the burst
         /// </summary>
         private Thread WaitEndOfBurst { get; set; }
 
         /// <summary>
-        /// The time from witch watching is allowed.
+        ///     The time from witch watching is allowed.
         /// </summary>
         private DateTime? WatchTime { get; set; }
 
         /// <summary>
-        /// A mutex to enter the critical region
+        ///     A mutex to enter the critical region
         /// </summary>
         private Mutex CriticalRegion { get; set; }
 
         /// <summary>
-        /// Constructor
+        ///     Constructor
         /// </summary>
         /// <param name="dictionary"></param>
         public DictionaryWatcher(EFSSystem system, Dictionary dictionary)
@@ -75,7 +75,8 @@ namespace DataDictionary
 
             CriticalRegion = new Mutex(false, "Critical region");
 
-            string path = Path.GetDirectoryName(dictionary.FilePath) + Path.DirectorySeparatorChar  + Path.GetFileNameWithoutExtension(dictionary.FilePath);
+            string path = Path.GetDirectoryName(dictionary.FilePath) + Path.DirectorySeparatorChar +
+                          Path.GetFileNameWithoutExtension(dictionary.FilePath);
             path = Path.GetFullPath(path);
             Directory.CreateDirectory(path);
             Watcher = new FileSystemWatcher(path, "*.*")
@@ -91,11 +92,11 @@ namespace DataDictionary
         }
 
         /// <summary>
-        /// Handles a change event
+        ///     Handles a change event
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void Watcher_Changed(object sender, FileSystemEventArgs e)
+        private void Watcher_Changed(object sender, FileSystemEventArgs e)
         {
             CriticalRegion.WaitOne();
 
@@ -111,7 +112,7 @@ namespace DataDictionary
         }
 
         /// <summary>
-        /// Waits before the end of the change burst before sending the change event
+        ///     Waits before the end of the change burst before sending the change event
         /// </summary>
         private void SendChangeEvent()
         {
@@ -131,7 +132,7 @@ namespace DataDictionary
         }
 
         /// <summary>
-        /// Stops alerting when file changes
+        ///     Stops alerting when file changes
         /// </summary>
         public void StopWatching()
         {
@@ -140,7 +141,7 @@ namespace DataDictionary
         }
 
         /// <summary>
-        /// Start alerting when file changes
+        ///     Start alerting when file changes
         /// </summary>
         public void StartWatching()
         {

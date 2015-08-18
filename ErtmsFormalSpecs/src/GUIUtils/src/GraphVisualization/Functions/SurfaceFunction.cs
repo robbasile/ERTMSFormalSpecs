@@ -21,12 +21,12 @@ namespace GUIUtils.GraphVisualization.Functions
     public abstract class SurfaceFunction : Function
     {
         /// <summary>
-        /// The surface to display
+        ///     The surface to display
         /// </summary>
         public ISurface Surface { get; set; }
 
         /// <summary>
-        /// Provides the maximum value of the surface
+        ///     Provides the maximum value of the surface
         /// </summary>
         /// <returns></returns>
         public double MaxVal()

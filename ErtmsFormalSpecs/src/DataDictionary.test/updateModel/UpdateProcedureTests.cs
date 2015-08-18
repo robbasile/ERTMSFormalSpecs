@@ -1,19 +1,13 @@
-﻿using System.Collections.Generic;
-using DataDictionary.Constants;
-using DataDictionary.Functions;
+﻿using DataDictionary.Functions;
 using DataDictionary.Interpreter;
-using DataDictionary.Interpreter.Statement;
-using DataDictionary.Rules;
-using DataDictionary.Tests.Runner;
 using DataDictionary.Types;
-using DataDictionary.Values;
 using DataDictionary.Variables;
 using NUnit.Framework;
 
 namespace DataDictionary.test.updateModel
 {
     [TestFixture]
-    class UpdateProcedureTests : BaseModelTest
+    internal class UpdateProcedureTests : BaseModelTest
     {
         [Test]
         public void TestUpdateRemoved()

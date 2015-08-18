@@ -18,7 +18,7 @@ using System;
 using System.Globalization;
 
 namespace EFSServiceClient.EFSService
-{   
+{
     /// <summary>
     ///     Manually written code to access EFSModel
     /// </summary>
@@ -34,7 +34,7 @@ namespace EFSServiceClient.EFSService
         }
 
         /// <summary>
-        /// Provides the double value for this
+        ///     Provides the double value for this
         /// </summary>
         public double Value
         {

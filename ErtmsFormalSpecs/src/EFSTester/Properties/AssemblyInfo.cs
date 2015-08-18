@@ -22,7 +22,10 @@ using System.Runtime.InteropServices;
 // associated with an assembly.
 
 [assembly: AssemblyTitle("EFSTester")]
-[assembly: AssemblyDescription("Allows to load an EFS Dictionary and check that the dictionary is correct, according to the static checks and unit tests")]
+[assembly:
+    AssemblyDescription(
+        "Allows to load an EFS Dictionary and check that the dictionary is correct, according to the static checks and unit tests"
+        )]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("ERTMS Solutions")]
 [assembly: AssemblyProduct("ERTMSFormalSpecs Tester")]

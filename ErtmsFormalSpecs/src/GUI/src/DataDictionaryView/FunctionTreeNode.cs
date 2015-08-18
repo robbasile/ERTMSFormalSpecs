@@ -23,10 +23,6 @@ using DataDictionary;
 using DataDictionary.Functions;
 using DataDictionary.Interpreter;
 using GUI.Converters;
-using Case = DataDictionary.Functions.Case;
-using Dictionary = DataDictionary.Dictionary;
-using Function = DataDictionary.Functions.Function;
-using Parameter = DataDictionary.Parameter;
 
 namespace GUI.DataDictionaryView
 {

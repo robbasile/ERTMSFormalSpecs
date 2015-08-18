@@ -15,7 +15,6 @@
 // ------------------------------------------------------------------------------
 
 using System.Collections;
-using System.Net.Mime;
 using DataDictionary.Interpreter;
 using Utils;
 

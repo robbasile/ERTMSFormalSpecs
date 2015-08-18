@@ -644,7 +644,6 @@ namespace DataDictionary.Types
                     {
                         finder.visit(dictionary);
                     }
-
                 }));
                 return finder.Transitions;
             }
@@ -825,7 +824,7 @@ namespace DataDictionary.Types
             }
             else if (Enclosing is Structure)
             {
-                Structure structure = nameSpace.GetStructureUpdate(names.Last(), (NameSpace)nameSpace.Updates);
+                Structure structure = nameSpace.GetStructureUpdate(names.Last(), (NameSpace) nameSpace.Updates);
                 structure.appendStateMachines(retVal);
             }
 
@@ -866,7 +865,7 @@ namespace DataDictionary.Types
         /// </summary>
         /// <param name="dictionary"></param>
         /// <returns></returns>
-        State EnclosingStateUpdate(Dictionary dictionary)
+        private State EnclosingStateUpdate(Dictionary dictionary)
         {
             State retVal = null;
 
@@ -894,9 +893,12 @@ namespace DataDictionary.Types
             while (!(refElement.Enclosing is NameSpace))
             {
                 // Just in case...
-                if (refElement == null) { break; }
+                if (refElement == null)
+                {
+                    break;
+                }
 
-                refElement = (ModelElement)refElement.Enclosing;
+                refElement = (ModelElement) refElement.Enclosing;
             }
 
             retVal = refElement as StateMachine;
@@ -997,18 +999,15 @@ namespace DataDictionary.Types
         }
 
         /// <summary>
-        /// Creates a default element
+        ///     Creates a default element
         /// </summary>
         /// <param name="enclosingCollection"></param>
         /// <returns></returns>
         public static StateMachine CreateDefault(ICollection enclosingCollection)
         {
-            StateMachine retVal = (StateMachine)acceptor.getFactory().createStateMachine();
+            StateMachine retVal = (StateMachine) acceptor.getFactory().createStateMachine();
 
-            Util.DontNotify(() =>
-            {
-                retVal.Name = "StateMachine" + GetElementNumber(enclosingCollection);
-            });
+            Util.DontNotify(() => { retVal.Name = "StateMachine" + GetElementNumber(enclosingCollection); });
 
             return retVal;
         }

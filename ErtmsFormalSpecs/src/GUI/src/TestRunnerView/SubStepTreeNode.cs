@@ -18,10 +18,9 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
+using DataDictionary.Tests;
 using GUI.DataDictionaryView;
 using Action = DataDictionary.Rules.Action;
-using Expectation = DataDictionary.Tests.Expectation;
-using SubStep = DataDictionary.Tests.SubStep;
 
 namespace GUI.TestRunnerView
 {

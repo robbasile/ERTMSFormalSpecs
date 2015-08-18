@@ -521,13 +521,13 @@ namespace DataDictionary.Types
                 retVal = MatchStateMachines(this as StateMachine, otherType as UnifiedStateMachine) ||
                          MatchStateMachines(otherType as StateMachine, this as UnifiedStateMachine);
             }
-            
+
             return retVal;
         }
 
         /// <summary>
-        ///     Checks that the unified structure includes the structure and, in that case, 
-        /// indicates that the types match
+        ///     Checks that the unified structure includes the structure and, in that case,
+        ///     indicates that the types match
         /// </summary>
         /// <param name="structureType"></param>
         /// <param name="unifiedStructureType"></param>
@@ -544,7 +544,7 @@ namespace DataDictionary.Types
 
         /// <summary>
         ///     Checks that the unified state machine includes the state machine and, in that case,
-        /// indicates that the types match
+        ///     indicates that the types match
         /// </summary>
         /// <param name="stateMachineType"></param>
         /// <param name="unifiedstateMachineType"></param>

@@ -185,13 +185,12 @@ namespace DataDictionary.Interpreter
             if (ListElements.Count > 0)
             {
                 explanation.Write("[");
-                explanation.Indent(2, () =>
-                {
-                    explanation.ExplainList(ListElements, explainSubElements, ", ", element =>
+                explanation.Indent(2,
+                    () =>
                     {
-                        element.GetExplain(explanation, explainSubElements);
+                        explanation.ExplainList(ListElements, explainSubElements, ", ",
+                            element => { element.GetExplain(explanation, explainSubElements); });
                     });
-                });
                 explanation.Write("]");
             }
             else

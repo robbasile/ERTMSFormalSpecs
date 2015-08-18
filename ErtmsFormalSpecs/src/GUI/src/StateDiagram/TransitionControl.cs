@@ -30,8 +30,8 @@ namespace GUI.StateDiagram
         /// <summary>
         ///     Constructor
         /// </summary>
-        public TransitionControl(StatePanel panel, Transition model )
-            :  base(panel, model)
+        public TransitionControl(StatePanel panel, Transition model)
+            : base(panel, model)
         {
         }
 

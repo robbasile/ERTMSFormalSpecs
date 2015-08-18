@@ -82,7 +82,7 @@ namespace GUI.DataDictionaryView
         {
             return new ItemEditor();
         }
-        
+
         /// <summary>
         ///     Finds or creates an update for the current element.
         /// </summary>

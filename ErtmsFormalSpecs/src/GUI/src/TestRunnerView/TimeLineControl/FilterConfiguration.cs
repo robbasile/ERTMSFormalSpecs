@@ -19,6 +19,7 @@ using System.Text.RegularExpressions;
 using DataDictionary.Tests.Runner.Events;
 using DataDictionary.Types;
 using DataDictionary.Variables;
+using Utils;
 
 namespace GUI.TestRunnerView.TimeLineControl
 {
@@ -122,7 +123,7 @@ namespace GUI.TestRunnerView.TimeLineControl
             }
 
             // Keep messages that match the regular expression
-            if (!Utils.Util.isEmpty(RegExp))
+            if (!Util.isEmpty(RegExp))
             {
                 Regex regularExpression = new Regex(RegExp);
                 retVal = retVal || regularExpression.IsMatch(evt.Message);

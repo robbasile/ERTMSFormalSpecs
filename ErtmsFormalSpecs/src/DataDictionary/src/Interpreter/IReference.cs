@@ -28,5 +28,4 @@ namespace DataDictionary.Interpreter
         /// </summary>
         INamable Ref { get; }
     }
-
 }

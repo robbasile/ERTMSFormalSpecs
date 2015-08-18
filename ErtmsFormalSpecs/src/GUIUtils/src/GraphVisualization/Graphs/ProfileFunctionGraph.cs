@@ -24,7 +24,7 @@ namespace GUIUtils.GraphVisualization.Graphs
     public class ProfileFunctionGraph : Graph
     {
         /// <summary>
-        /// Constructor
+        ///     Constructor
         /// </summary>
         /// <param name="graphVisualizer"></param>
         /// <param name="function"></param>
@@ -35,7 +35,7 @@ namespace GUIUtils.GraphVisualization.Graphs
         }
 
         /// <summary>
-        /// Handles the display
+        ///     Handles the display
         /// </summary>
         /// <param name="maxDistance"></param>
         /// <param name="minDistance"></param>
@@ -63,7 +63,7 @@ namespace GUIUtils.GraphVisualization.Graphs
         }
 
         /// <summary>
-        /// Adds a new point
+        ///     Adds a new point
         /// </summary>
         /// <param name="point"></param>
         protected override void AddPoint(SpeedDistancePoint point)
@@ -80,7 +80,7 @@ namespace GUIUtils.GraphVisualization.Graphs
         }
 
         /// <summary>
-        /// Displays the provided function
+        ///     Displays the provided function
         /// </summary>
         /// <param name="graph"></param>
         /// <param name="maxDistance"></param>
@@ -97,7 +97,9 @@ namespace GUIUtils.GraphVisualization.Graphs
                 for (int i = 0; i < graph.CountSegments(); i++)
                 {
                     ISegment segment = graph.GetSegment(i);
-                    if (segment.D0 <= maxDistance && (segment.D0 >= startingPoint.Distance || (segment.Length == double.MaxValue || segment.D0 + segment.Length > startingPoint.Distance)))
+                    if (segment.D0 <= maxDistance &&
+                        (segment.D0 >= startingPoint.Distance ||
+                         (segment.Length == double.MaxValue || segment.D0 + segment.Length > startingPoint.Distance)))
                     {
                         double startLocation = Math.Max(startingPoint.Distance, segment.D0);
                         double endLocation = maxDistance;
@@ -113,7 +115,7 @@ namespace GUIUtils.GraphVisualization.Graphs
                         }
                         else // this is a curve
                         {
-                            double distanceInterval = (endLocation - startLocation) /
+                            double distanceInterval = (endLocation - startLocation)/
                                                       GraphVisualizer.DecelerationCurvePrecision;
                             double distance = startLocation;
                             for (int j = 0; j < GraphVisualizer.DecelerationCurvePrecision; j++)
@@ -132,7 +134,7 @@ namespace GUIUtils.GraphVisualization.Graphs
         }
 
         /// <summary>
-        /// Adds a data point for a segment
+        ///     Adds a data point for a segment
         /// </summary>
         /// <param name="distance"></param>
         /// <param name="segment"></param>
@@ -144,7 +146,7 @@ namespace GUIUtils.GraphVisualization.Graphs
         }
 
         /// <summary>
-        /// Nothing to save
+        ///     Nothing to save
         /// </summary>
         protected override void SaveSettings()
         {

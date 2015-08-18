@@ -90,7 +90,7 @@ namespace GUI.SpecificationView
         {
             Item.appendParagraphs(Paragraph.CreateDefault(Item.Paragraphs, Item.getId()));
         }
-        
+
         public void ChangeRequirementToNoteHandler(object sender, EventArgs args)
         {
             foreach (Paragraph paragraph in Item.Paragraphs)

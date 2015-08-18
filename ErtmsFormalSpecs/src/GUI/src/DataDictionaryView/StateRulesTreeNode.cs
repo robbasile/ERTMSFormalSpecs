@@ -17,8 +17,8 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using Rule = DataDictionary.Rules.Rule;
-using State = DataDictionary.Constants.State;
+using DataDictionary.Constants;
+using DataDictionary.Rules;
 
 namespace GUI.DataDictionaryView
 {

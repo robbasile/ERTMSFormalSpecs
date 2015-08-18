@@ -19,12 +19,12 @@ namespace GUIUtils.GraphVisualization.Functions
     public abstract class Function
     {
         /// <summary>
-        /// The list of previously recorded points
+        ///     The list of previously recorded points
         /// </summary>
         public SpeedDistanceProfile PreviousData { get; set; }
 
         /// <summary>
-        /// Constructor
+        ///     Constructor
         /// </summary>
         public Function()
         {
@@ -32,7 +32,7 @@ namespace GUIUtils.GraphVisualization.Functions
         }
 
         /// <summary>
-        /// Erases the data of the function
+        ///     Erases the data of the function
         /// </summary>
         public virtual void ClearData()
         {
@@ -40,14 +40,14 @@ namespace GUIUtils.GraphVisualization.Functions
         }
 
         /// <summary>
-        /// Computes the function value according to the provided parameter
+        ///     Computes the function value according to the provided parameter
         /// </summary>
         /// <param name="parameter"></param>
         /// <returns></returns>
         protected abstract SpeedDistancePoint GetValue(double parameter);
 
         /// <summary>
-        /// Computes the value of the function for the provided parameter
+        ///     Computes the value of the function for the provided parameter
         /// </summary>
         /// <param name="parameter"></param>
         /// <param name="lrbgPosition"></param>
@@ -58,13 +58,13 @@ namespace GUIUtils.GraphVisualization.Functions
         }
 
         /// <summary>
-        /// Relocates the function according to the LRBG position
+        ///     Relocates the function according to the LRBG position
         /// </summary>
         /// <param name="lrbgPosition"></param>
         protected abstract void Relocate(double lrbgPosition);
 
         /// <summary>
-        /// Updates the function value according to the provided parameter
+        ///     Updates the function value according to the provided parameter
         /// </summary>
         /// <param name="parameter"></param>
         /// <returns></returns>

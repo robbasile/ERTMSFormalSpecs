@@ -160,18 +160,15 @@ namespace DataDictionary
 
 
         /// <summary>
-        /// Creates a default element
+        ///     Creates a default element
         /// </summary>
         /// <param name="enclosingCollection"></param>
         /// <returns></returns>
         public static Parameter CreateDefault(ICollection enclosingCollection)
         {
-            Parameter retVal = (Parameter)acceptor.getFactory().createParameter();
-            
-            Util.DontNotify(() =>
-            {
-                retVal.Name = "Parameter" + GetElementNumber(enclosingCollection);
-            });
+            Parameter retVal = (Parameter) acceptor.getFactory().createParameter();
+
+            Util.DontNotify(() => { retVal.Name = "Parameter" + GetElementNumber(enclosingCollection); });
 
             return retVal;
         }

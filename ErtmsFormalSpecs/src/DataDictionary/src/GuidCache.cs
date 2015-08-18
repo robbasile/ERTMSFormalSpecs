@@ -93,7 +93,7 @@ namespace DataDictionary
         }
 
         /// <summary>
-        /// Ensure there is only one thread trying to get a model 
+        ///     Ensure there is only one thread trying to get a model
         /// </summary>
         private Mutex UniqueAccess { get; set; }
 

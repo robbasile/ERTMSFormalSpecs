@@ -303,6 +303,11 @@ namespace DataDictionary.Interpreter.Statement
             AppliedStatement.GetExplain(explanation);
             explanation.Write(" ON ");
             ListExpression.GetExplain(explanation);
+            if (ConditionExpression != null)
+            {
+                explanation.Write(" | ");
+                ConditionExpression.GetExplain(explanation);
+            }
         }
 
         /// <summary>

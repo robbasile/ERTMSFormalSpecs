@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Globalization;
 
 namespace EFSServiceClient.EFSService
 {
@@ -31,7 +26,7 @@ namespace EFSServiceClient.EFSService
         }
 
         /// <summary>
-        /// Provides the integer value for this
+        ///     Provides the integer value for this
         /// </summary>
         public int Value
         {
@@ -43,10 +38,7 @@ namespace EFSServiceClient.EFSService
 
                 return retVal;
             }
-            set
-            {
-                Image = value.ToString(CultureInfo.InvariantCulture);                
-            }
+            set { Image = value.ToString(CultureInfo.InvariantCulture); }
         }
 
         /// <summary>

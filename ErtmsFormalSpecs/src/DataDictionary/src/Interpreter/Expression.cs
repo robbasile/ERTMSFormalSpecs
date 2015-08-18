@@ -246,10 +246,7 @@ namespace DataDictionary.Interpreter
 
             try
             {
-                Util.DontNotify(() =>
-                {
-                    retVal = GetValue(context, explain);                    
-                });
+                Util.DontNotify(() => { retVal = GetValue(context, explain); });
             }
             catch (Exception e)
             {

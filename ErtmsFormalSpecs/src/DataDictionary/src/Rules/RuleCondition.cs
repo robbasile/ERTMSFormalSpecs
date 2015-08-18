@@ -518,17 +518,17 @@ namespace DataDictionary.Rules
         }
 
         /// <summary>
-        ///     Creates the status message 
+        ///     Creates the status message
         /// </summary>
         /// <returns>the status string for the selected element</returns>
         public override string CreateStatusMessage()
         {
             string result = base.CreateStatusMessage();
 
-            result += "Rule condition" + Name + " with " + PreConditions.Count + " preconditions and " + Actions.Count + " actions";
+            result += "Rule condition" + Name + " with " + PreConditions.Count + " preconditions and " + Actions.Count +
+                      " actions";
 
             return result;
         }
-
     }
 }

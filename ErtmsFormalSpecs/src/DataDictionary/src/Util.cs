@@ -942,7 +942,7 @@ namespace DataDictionary
         /// <returns></returns>
         public static Chapter LoadChapter(string filePath, ModelElement enclosing, bool lockFiles, bool allowErrors)
         {
-            Chapter retVal = LoadFile <Chapter>(filePath, enclosing, lockFiles);
+            Chapter retVal = LoadFile<Chapter>(filePath, enclosing, lockFiles);
 
             if (retVal == null)
             {

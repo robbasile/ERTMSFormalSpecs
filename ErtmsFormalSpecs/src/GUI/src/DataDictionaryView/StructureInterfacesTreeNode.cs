@@ -17,8 +17,7 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using Structure = DataDictionary.Types.Structure;
-using StructureRef = DataDictionary.Types.StructureRef;
+using DataDictionary.Types;
 
 namespace GUI.DataDictionaryView
 {

@@ -87,7 +87,7 @@ namespace GUI.LongOperations
                 {
                     Span = DateTime.Now.Subtract(start);
                     SynchronizerList.ResumeSynchronization();
-                }                
+                }
             });
         }
     }

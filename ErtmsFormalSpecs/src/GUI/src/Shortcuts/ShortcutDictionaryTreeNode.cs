@@ -87,7 +87,7 @@ namespace GUI.Shortcuts
 
             return retVal;
         }
-        
+
         /// <summary>
         ///     Accepts a drop event
         /// </summary>

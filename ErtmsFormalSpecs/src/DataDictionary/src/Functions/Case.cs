@@ -290,18 +290,15 @@ namespace DataDictionary.Functions
         }
 
         /// <summary>
-        /// Creates a default element
+        ///     Creates a default element
         /// </summary>
         /// <param name="enclosingCollection"></param>
         /// <returns></returns>
         public static Case CreateDefault(ICollection enclosingCollection)
         {
-            Case retVal = (Case)acceptor.getFactory().createCase();
+            Case retVal = (Case) acceptor.getFactory().createCase();
 
-            Util.DontNotify(() =>
-            {
-                retVal.Name = "Case" + GetElementNumber(enclosingCollection);
-            });
+            Util.DontNotify(() => { retVal.Name = "Case" + GetElementNumber(enclosingCollection); });
 
             return retVal;
         }

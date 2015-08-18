@@ -34,7 +34,7 @@ namespace DataDictionary.Functions
         /// <summary>
         ///     Acceleration
         /// </summary>
-        double A { get; set;  }
+        double A { get; set; }
 
         /// <summary>
         ///     Initial speed
@@ -47,12 +47,12 @@ namespace DataDictionary.Functions
         double D0 { get; set; }
 
         /// <summary>
-        ///     The segment length 
+        ///     The segment length
         /// </summary>
         double Length { get; }
 
         /// <summary>
-        /// Evaluates the segment value, when the d provided corresponds to the bounds
+        ///     Evaluates the segment value, when the d provided corresponds to the bounds
         /// </summary>
         /// <param name="d"></param>
         /// <returns></returns>
@@ -62,86 +62,86 @@ namespace DataDictionary.Functions
     public interface IGraph
     {
         /// <summary>
-        /// Provides the number of segments in the graph
+        ///     Provides the number of segments in the graph
         /// </summary>
         /// <returns></returns>
         int CountSegments();
 
         /// <summary>
-        /// Provides the ith segment
+        ///     Provides the ith segment
         /// </summary>
         /// <param name="i"></param>
         /// <returns></returns>
         ISegment GetSegment(int i);
 
         /// <summary>
-        /// Adds a new segment in the ordered list of segments
+        ///     Adds a new segment in the ordered list of segments
         /// </summary>
         /// <param name="segment">The segment to add</param>
         void AddSegment(ISegment segment);
 
         /// <summary>
-        /// Gets the value of the graph at a given location
+        ///     Gets the value of the graph at a given location
         /// </summary>
         /// <param name="x"></param>
         /// <returns></returns>
         double Evaluate(double x);
 
         /// <summary>
-        /// Provides the last X value where there is some interest to show the graph
+        ///     Provides the last X value where there is some interest to show the graph
         /// </summary>
         /// <returns></returns>
         double ExpectedEndX();
 
         /// <summary>
-        /// Negates the values of the curve
+        ///     Negates the values of the curve
         /// </summary>
         void Negate();
 
         /// <summary>
-        /// Reduces the graph to the boundaries provided as parameter
+        ///     Reduces the graph to the boundaries provided as parameter
         /// </summary>
         /// <param name="boundaries"></param>
         /// <returns>The reduced graph</returns>
         void Reduce(List<ISegment> boundaries);
 
         /// <summary>
-        /// Adds a graph to this graph
+        ///     Adds a graph to this graph
         /// </summary>
         /// <param name="other"></param>
         /// <returns>the new graph</returns>
         IGraph AddGraph(IGraph other);
 
         /// <summary>
-        /// Substract a graph from this graph
+        ///     Substract a graph from this graph
         /// </summary>
         /// <param name="other"></param>
         /// <returns>the new graph</returns>
         IGraph SubstractGraph(IGraph other);
 
         /// <summary>
-        /// Multiply this graph values of another graph
+        ///     Multiply this graph values of another graph
         /// </summary>
         /// <param name="other"></param>
         /// <returns>the new graph</returns>
         IGraph MultGraph(IGraph other);
 
         /// <summary>
-        /// Divides this graph values by values of another graph
+        ///     Divides this graph values by values of another graph
         /// </summary>
         /// <param name="other"></param>
         /// <returns>the new graph</returns>
         IGraph DivGraph(IGraph other);
 
         /// <summary>
-        /// Provides the graph of the minimal value between this graph and another graph
+        ///     Provides the graph of the minimal value between this graph and another graph
         /// </summary>
         /// <param name="other"></param>
         /// <returns></returns>
         IGraph Min(IGraph other);
 
         /// <summary>
-        /// Merges a graph within this one
+        ///     Merges a graph within this one
         /// </summary>
         /// <param name="subGraph"></param>
         void Merge(IGraph subGraph);
@@ -151,7 +151,7 @@ namespace DataDictionary.Functions
     ///     The graph of a function is the complete representation of the function based on its parameters.
     ///     In EVC, the graph of a function is represented as non interrupted sequence of polynoms of the third degree
     /// </summary>
-    public class Graph: IGraph
+    public class Graph : IGraph
     {
         private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
@@ -581,7 +581,11 @@ namespace DataDictionary.Functions
                 get { return Start; }
                 set { Start = value; }
             }
-            public double Length { get { return End - Start; } }
+
+            public double Length
+            {
+                get { return End - Start; }
+            }
 
             /// <summary>
             ///     Constructor
@@ -750,7 +754,7 @@ namespace DataDictionary.Functions
         }
 
         /// <summary>
-        /// Adds a new segment in the ordered list of segments
+        ///     Adds a new segment in the ordered list of segments
         /// </summary>
         /// <param name="segment">The segment to add</param>
         public void AddSegment(ISegment segment)
@@ -801,13 +805,14 @@ namespace DataDictionary.Functions
                 }
                 else if (segmentToAdd.Start > segmentToAdd.End)
                 {
-                    throw new Exception("Invalid segment starting at " + segmentToAdd.Start + " and ending at " + segmentToAdd.End);
+                    throw new Exception("Invalid segment starting at " + segmentToAdd.Start + " and ending at " +
+                                        segmentToAdd.End);
                 }
             }
         }
 
         /// <summary>
-        /// Provides the number of segments
+        ///     Provides the number of segments
         /// </summary>
         /// <returns></returns>
         public int CountSegments()
@@ -816,7 +821,7 @@ namespace DataDictionary.Functions
         }
 
         /// <summary>
-        /// Provides the ith segment
+        ///     Provides the ith segment
         /// </summary>
         /// <param name="i"></param>
         /// <returns></returns>
@@ -836,7 +841,7 @@ namespace DataDictionary.Functions
 
             foreach (Segment segment in Segments)
             {
-                if (segment.Contains(x) || ( segment == Segments.Last() && x == segment.End) )
+                if (segment.Contains(x) || (segment == Segments.Last() && x == segment.End))
                 {
                     retVal = segment.Evaluate(x);
                     break;
@@ -1541,7 +1546,7 @@ namespace DataDictionary.Functions
 
             if (current != null)
             {
-                retVal = current.IntersectsAt(Y);               
+                retVal = current.IntersectsAt(Y);
             }
 
             return retVal;

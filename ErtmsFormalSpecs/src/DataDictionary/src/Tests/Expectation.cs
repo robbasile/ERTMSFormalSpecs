@@ -253,7 +253,6 @@ namespace DataDictionary.Tests
                 explanation.WriteLine(" THEN");
                 explanation.Indent(2, () => explanation.Expression(this));
                 explanation.WriteLine("END IF");
-
             }
             else
             {
@@ -280,18 +279,15 @@ namespace DataDictionary.Tests
         }
 
         /// <summary>
-        /// Creates a default element
+        ///     Creates a default element
         /// </summary>
         /// <param name="enclosingCollection"></param>
         /// <returns></returns>
         public static Expectation CreateDefault(ICollection enclosingCollection)
         {
-            Expectation retVal = (Expectation)acceptor.getFactory().createExpectation();
+            Expectation retVal = (Expectation) acceptor.getFactory().createExpectation();
 
-            Util.DontNotify(() =>
-            {
-                retVal.Name = "Expectation" + GetElementNumber(enclosingCollection);
-            });
+            Util.DontNotify(() => { retVal.Name = "Expectation" + GetElementNumber(enclosingCollection); });
 
             return retVal;
         }

@@ -17,8 +17,8 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using DataDictionary.Rules;
 using Action = DataDictionary.Rules.Action;
-using RuleCondition = DataDictionary.Rules.RuleCondition;
 
 namespace GUI.DataDictionaryView
 {
@@ -53,7 +53,7 @@ namespace GUI.DataDictionaryView
                 subNodes.Sort();
             }
         }
-        
+
         public void AddHandler(object sender, EventArgs args)
         {
             Item.appendActions(Action.CreateDefault(Item.Actions));

@@ -17,9 +17,8 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using DataDictionary.Generated;
-using Case = DataDictionary.Functions.Case;
-using PreCondition = DataDictionary.Rules.PreCondition;
+using DataDictionary.Functions;
+using DataDictionary.Rules;
 
 namespace GUI.DataDictionaryView
 {

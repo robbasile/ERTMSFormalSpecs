@@ -22,12 +22,12 @@ using Utils;
 namespace GUI.BoxArrowDiagram
 {
     /// <summary>
-    /// A thing that is displayed
+    ///     A thing that is displayed
     /// </summary>
     public abstract class GraphicElement
     {
         /// <summary>
-        /// The base class for graphic elements
+        ///     The base class for graphic elements
         /// </summary>
         /// <param name="panel"></param>
         /// <param name="model"></param>
@@ -43,42 +43,51 @@ namespace GUI.BoxArrowDiagram
         }
 
         /// <summary>
-        /// The panel in which this graphic element lies
+        ///     The panel in which this graphic element lies
         /// </summary>
         private Panel Panel { get; set; }
 
         /// <summary>
-        /// The model on which this element is related
+        ///     The model on which this element is related
         /// </summary>
         public virtual object Model { get; set; }
 
         /// <summary>
-        /// The location of the element
+        ///     The location of the element
         /// </summary>
         public abstract Point Location { get; set; }
 
         /// <summary>
-        /// The size of the element
+        ///     The size of the element
         /// </summary>
         public abstract Size Size { get; set; }
 
         /// <summary>
-        /// The rectangle where the graphical element is displayed
+        ///     The rectangle where the graphical element is displayed
         /// </summary>
-        public Rectangle Rectangle { get { return new Rectangle(Location, Size);} }
+        public Rectangle Rectangle
+        {
+            get { return new Rectangle(Location, Size); }
+        }
 
         /// <summary>
-        /// The width of the arrow
+        ///     The width of the arrow
         /// </summary>
-        public int Width { get { return Size.Width; } }
+        public int Width
+        {
+            get { return Size.Width; }
+        }
 
         /// <summary>
-        /// The Height of the arrow
+        ///     The Height of the arrow
         /// </summary>
-        public int Height { get { return Size.Height; } }
+        public int Height
+        {
+            get { return Size.Height; }
+        }
 
         /// <summary>
-        /// Indicates that the element is visible
+        ///     Indicates that the element is visible
         /// </summary>
         public bool Visible { get; set; }
 
@@ -140,22 +149,22 @@ namespace GUI.BoxArrowDiagram
         }
 
         /// <summary>
-        /// The font used to display text
+        ///     The font used to display text
         /// </summary>
         public Font Font { get; set; }
 
         /// <summary>
-        /// The color used for the text and foreground
+        ///     The color used for the text and foreground
         /// </summary>
         public Color ForeColor { get; set; }
 
         /// <summary>
-        /// The color used for the background
+        ///     The color used for the background
         /// </summary>
         public Color BackColor { get; set; }
 
         /// <summary>
-        /// Selects the pen according to the graphic element status
+        ///     Selects the pen according to the graphic element status
         /// </summary>
         /// <returns></returns>
         public abstract Pen SelectPen();

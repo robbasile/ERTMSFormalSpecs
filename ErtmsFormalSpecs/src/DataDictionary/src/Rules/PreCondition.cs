@@ -320,13 +320,13 @@ namespace DataDictionary.Rules
         }
 
         /// <summary>
-        /// Creates a default element
+        ///     Creates a default element
         /// </summary>
         /// <param name="enclosingCollection"></param>
         /// <returns></returns>
         public static PreCondition CreateDefault(ICollection enclosingCollection)
         {
-            PreCondition retVal = (PreCondition)acceptor.getFactory().createPreCondition();
+            PreCondition retVal = (PreCondition) acceptor.getFactory().createPreCondition();
 
             Util.DontNotify(() =>
             {

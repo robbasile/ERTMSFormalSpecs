@@ -15,7 +15,6 @@
 // ------------------------------------------------------------------------------
 
 using DataDictionary;
-using DataDictionary.Variables;
 using Utils;
 using WeifenLuo.WinFormsUI.Docking;
 using ModelElement = DataDictionary.ModelElement;
@@ -54,7 +53,7 @@ namespace GUI.RequirementsView
         }
 
         /// <summary>
-        /// Refreshed the requirements according to the DisplayedModel
+        ///     Refreshed the requirements according to the DisplayedModel
         /// </summary>
         private void RefreshRequirements()
         {

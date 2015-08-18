@@ -254,12 +254,12 @@ namespace DataDictionary.Rules
         }
 
         /// <summary>
-        /// The name of the initial transition
+        ///     The name of the initial transition
         /// </summary>
         public static string InitialTransitionName = "Initial state";
 
         /// <summary>
-        /// The name of an unnamed transition
+        ///     The name of an unnamed transition
         /// </summary>
         public static string UnnamedTransitionName = "<Unnamed transition>";
     }

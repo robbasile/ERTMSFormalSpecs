@@ -31,6 +31,7 @@ using Utils;
 using Action = DataDictionary.Rules.Action;
 using ModelElement = DataDictionary.ModelElement;
 using Type = DataDictionary.Types.Type;
+using Util = Utils.Util;
 
 namespace GUIUtils.Editor
 {
@@ -1040,7 +1041,8 @@ namespace GUIUtils.Editor
                                 ICallable callable = callableExpression.Ref as ICallable;
                                 if (callable != null)
                                 {
-                                    TextualExplanation text = new TextualExplanation();;
+                                    TextualExplanation text = new TextualExplanation();
+                                    ;
                                     CreateCallableParameters(text, callable);
                                     EditionTextBox.SelectedText = text.Text;
                                     EditionTextBox.ProcessAllLines();
@@ -1213,7 +1215,7 @@ namespace GUIUtils.Editor
                         }
                         InsertElement(subElement, text);
                         first = false;
-                    }                    
+                    }
                 });
                 text.WriteLine();
                 text.Write("}");
@@ -1303,7 +1305,7 @@ namespace GUIUtils.Editor
                     i++;
                 }
 
-                if (Utils.Util.isEmpty(retVal))
+                if (Util.isEmpty(retVal))
                 {
                     retVal = model.Name;
                 }

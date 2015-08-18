@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using System.ServiceModel;
 using System.Threading;
 using DataDictionary;
+using DataDictionary.Functions;
 using DataDictionary.Generated;
 using DataDictionary.Interpreter;
 using DataDictionary.Interpreter.Statement;
@@ -35,9 +36,11 @@ using Dictionary = DataDictionary.Dictionary;
 using DoubleValue = DataDictionary.Values.DoubleValue;
 using Enum = System.Enum;
 using EnumValue = DataDictionary.Constants.EnumValue;
+using Function = DataDictionary.Generated.Function;
 using IntValue = DataDictionary.Values.IntValue;
 using ListValue = DataDictionary.Values.ListValue;
 using NameSpace = DataDictionary.Types.NameSpace;
+using Parameter = DataDictionary.Parameter;
 using State = DataDictionary.Constants.State;
 using StringValue = DataDictionary.Values.StringValue;
 using StructureValue = DataDictionary.Values.StructureValue;
@@ -613,7 +616,7 @@ namespace GUI.IPCInterface
                     });
                 }
             }
-            catch(Exception)
+            catch (Exception)
             {
                 // TODO
             }
@@ -731,11 +734,11 @@ namespace GUI.IPCInterface
 
                     if (v.FormalParameters.Count == 1)
                     {
-                        DataDictionary.Functions.Graph graph = v.createGraph(new InterpretationContext(), (DataDictionary.Parameter) v.FormalParameters[0], null );
+                        Graph graph = v.createGraph(new InterpretationContext(), (Parameter) v.FormalParameters[0], null);
 
                         if (graph != null)
                         {
-                            foreach (DataDictionary.Functions.Graph.Segment segment in graph.Segments)
+                            foreach (Graph.Segment segment in graph.Segments)
                             {
                                 double length = segment.End - segment.Start;
                                 segments.Add(new Segment
@@ -857,7 +860,7 @@ namespace GUI.IPCInterface
                     {
                         Util.DontNotify(() =>
                         {
-                            Action action = (Action)acceptor.getFactory().createAction();
+                            Action action = (Action) acceptor.getFactory().createAction();
                             action.ExpressionText = statementText;
                             VariableUpdate variableUpdate = new VariableUpdate(action, null, null);
                             Runner.EventTimeLine.AddModelEvent(variableUpdate, Runner, true);

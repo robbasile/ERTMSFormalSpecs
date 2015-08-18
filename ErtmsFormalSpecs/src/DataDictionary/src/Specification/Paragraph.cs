@@ -20,7 +20,6 @@ using System.Collections.Generic;
 using DataDictionary.Generated;
 using Utils;
 using Frame = DataDictionary.Tests.Frame;
-using Visitor = DataDictionary.Generated.Visitor;
 
 namespace DataDictionary.Specification
 {
@@ -855,7 +854,7 @@ namespace DataDictionary.Specification
         /// <returns>The updated paragraph</returns>
         public Paragraph CreateParagraphUpdate(Dictionary dictionary)
         {
-            Paragraph retVal = (Paragraph)acceptor.getFactory().createParagraph();
+            Paragraph retVal = (Paragraph) acceptor.getFactory().createParagraph();
             retVal.FullId = FullId;
             retVal.Text = Text;
             retVal.setUpdates(Guid);
@@ -892,7 +891,7 @@ namespace DataDictionary.Specification
         }
 
         /// <summary>
-        ///     Creates the status message 
+        ///     Creates the status message
         /// </summary>
         /// <returns>the status string for the selected element</returns>
         public override string CreateStatusMessage()
@@ -908,7 +907,7 @@ namespace DataDictionary.Specification
         }
 
         /// <summary>
-        /// Creates the status string for a set of paragraphs
+        ///     Creates the status string for a set of paragraphs
         /// </summary>
         /// <param name="paragraphs"></param>
         /// <returns></returns>
@@ -982,9 +981,9 @@ namespace DataDictionary.Specification
                             foreach (ReqRef implementation in implementations)
                             {
                                 // the implementation may be also a ReqRef
-                                ReqRelated reqRelated = implementation.Enclosing as ReqRelated; 
+                                ReqRelated reqRelated = implementation.Enclosing as ReqRelated;
                                 if (reqRelated != null)
-                                {                                    
+                                {
                                     // Do not consider tests
                                     if (EnclosingFinder<Frame>.find(reqRelated) == null)
                                     {
@@ -1042,7 +1041,7 @@ namespace DataDictionary.Specification
         }
 
         /// <summary>
-        /// Creates a default element
+        ///     Creates a default element
         /// </summary>
         /// <param name="enclosingCollection"></param>
         /// <param name="enclosingId"></param>

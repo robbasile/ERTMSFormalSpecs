@@ -24,9 +24,8 @@ using DataDictionary.Interpreter;
 using GUI.DataDictionaryView;
 using GUI.Properties;
 using GUI.Shortcuts;
-using WeifenLuo.WinFormsUI.Docking;
-using Graph = DataDictionary.Functions.Graph;
 using Utils;
+using WeifenLuo.WinFormsUI.Docking;
 using Util = DataDictionary.Util;
 
 namespace GUI.GraphView
@@ -47,7 +46,7 @@ namespace GUI.GraphView
 
             AllowDrop = true;
             DragEnter += GraphView_DragEnter;
-            DragDrop +=GraphView_DragDrop;
+            DragDrop += GraphView_DragDrop;
 
             Functions = new List<Function>();
 
@@ -121,9 +120,9 @@ namespace GUI.GraphView
                     else
                     {
                         MessageBox.Show(
-                            Resources.GraphView_AddFunction_Cannot_add_this_function_to_the_display_view, 
+                            Resources.GraphView_AddFunction_Cannot_add_this_function_to_the_display_view,
                             Resources.GraphView_AddFunction_Cannot_display_function,
-                            MessageBoxButtons.OK, 
+                            MessageBoxButtons.OK,
                             MessageBoxIcon.Error);
                     }
                 }
@@ -157,7 +156,7 @@ namespace GUI.GraphView
         }
 
         /// <summary>
-        /// Displays the graph
+        ///     Displays the graph
         /// </summary>
         /// <returns></returns>
         public void Display()
@@ -295,7 +294,7 @@ namespace GUI.GraphView
         }
 
         /// <summary>
-        /// Handles the zoom on the chart
+        ///     Handles the zoom on the chart
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -319,7 +318,7 @@ namespace GUI.GraphView
         }
 
         /// <summary>
-        /// Handles CB_AutoYSize check change
+        ///     Handles CB_AutoYSize check change
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>

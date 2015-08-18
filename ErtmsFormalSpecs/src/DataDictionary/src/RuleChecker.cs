@@ -55,17 +55,17 @@ namespace DataDictionary
     public class RuleCheckerVisitor : Visitor
     {
         /// <summary>
-        /// Checks if there is any error in the model
+        ///     Checks if there is any error in the model
         /// </summary>
         public class IsThereAnyError : Visitor
         {
             /// <summary>
-            /// The list of errors
+            ///     The list of errors
             /// </summary>
             public List<ElementLog> ErrorsFound { get; private set; }
 
             /// <summary>
-            /// Constructor
+            ///     Constructor
             /// </summary>
             public IsThereAnyError()
             {
@@ -221,7 +221,7 @@ namespace DataDictionary
                 }
             }
 
-            if (model.getUpdates() != null  &&  model.Updates == null)
+            if (model.getUpdates() != null && model.Updates == null)
             {
                 model.AddError("Cannot find the element updated by this.");
             }

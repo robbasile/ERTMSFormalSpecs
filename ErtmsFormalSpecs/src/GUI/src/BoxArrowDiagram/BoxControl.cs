@@ -25,7 +25,6 @@ namespace GUI.BoxArrowDiagram
         where TBoxModel : class, IGraphicalDisplay
         where TArrowModel : class, IGraphicalArrow<TBoxModel>
     {
-
         /// <summary>
         ///     Constructor
         /// </summary>
@@ -78,7 +77,7 @@ namespace GUI.BoxArrowDiagram
         }
 
         /// <summary>
-        /// The location of the box
+        ///     The location of the box
         /// </summary>
         public override Point Location
         {
@@ -91,7 +90,7 @@ namespace GUI.BoxArrowDiagram
         }
 
         /// <summary>
-        /// The size of the box
+        ///     The size of the box
         /// </summary>
         public override Size Size
         {
@@ -181,8 +180,8 @@ namespace GUI.BoxArrowDiagram
                     // Center the element name
                     string name = GuiUtils.AdjustForDisplay(TypedModel.GraphicalName, Width, Font);
                     SizeF textSize = g.MeasureString(name, Font);
-                    g.DrawString(name, Font, new SolidBrush(NormalPen.Color), Location.X + Width / 2 - textSize.Width / 2,
-                        Location.Y + Height / 2 - Font.Height / 2);
+                    g.DrawString(name, Font, new SolidBrush(NormalPen.Color), Location.X + Width/2 - textSize.Width/2,
+                        Location.Y + Height/2 - Font.Height/2);
                     break;
                 }
 
@@ -235,7 +234,7 @@ namespace GUI.BoxArrowDiagram
         }
 
         /// <summary>
-        /// Selects the pen, according to the control status
+        ///     Selects the pen, according to the control status
         /// </summary>
         /// <returns></returns>
         public override Pen SelectPen()
@@ -281,7 +280,7 @@ namespace GUI.BoxArrowDiagram
                 return retVal;
             }
         }
-        
+
         /// <summary>
         ///     Provides the span of this control, over the X axis
         /// </summary>

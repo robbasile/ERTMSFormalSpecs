@@ -174,7 +174,7 @@ namespace DataDictionary.Types
         /// <returns></returns>
         public Enum findSubEnum(string name)
         {
-            return (Enum)NamableUtils.FindByName(name, SubEnums);
+            return (Enum) NamableUtils.FindByName(name, SubEnums);
         }
 
         /// <summary>
@@ -295,7 +295,7 @@ namespace DataDictionary.Types
                 foreach (EnumValue enumValue in Values)
                 {
                     enumValue.GetExplain(explanation, explainSubElements);
-                }                
+                }
             });
         }
 
@@ -307,7 +307,7 @@ namespace DataDictionary.Types
         /// <returns></returns>
         public Enum CreateEnumUpdate(Dictionary dictionary)
         {
-            Enum retVal = (Enum)GetTopLevelEnum().Duplicate();
+            Enum retVal = (Enum) GetTopLevelEnum().Duplicate();
             retVal.SetUpdateInformation(GetTopLevelEnum());
             retVal.ClearAllRequirements();
 
@@ -388,7 +388,7 @@ namespace DataDictionary.Types
         }
 
         /// <summary>
-        ///     Creates the status message 
+        ///     Creates the status message
         /// </summary>
         /// <returns>the status string for the selected element</returns>
         public override string CreateStatusMessage()
@@ -401,18 +401,15 @@ namespace DataDictionary.Types
         }
 
         /// <summary>
-        /// Creates a default element
+        ///     Creates a default element
         /// </summary>
         /// <param name="enclosingCollection"></param>
         /// <returns></returns>
         public static Enum CreateDefault(ICollection enclosingCollection)
         {
-            Enum retVal = (Enum)acceptor.getFactory().createEnum();
+            Enum retVal = (Enum) acceptor.getFactory().createEnum();
 
-            Util.DontNotify(() =>
-            {
-                retVal.Name = "Enumeration" + GetElementNumber(enclosingCollection);
-            });
+            Util.DontNotify(() => { retVal.Name = "Enumeration" + GetElementNumber(enclosingCollection); });
 
             return retVal;
         }

@@ -24,9 +24,11 @@ namespace HistoricalData
     public abstract class HistoricalDataElement : ModelElement
     {
         /// <summary>
-        /// Indicates that the element is removed
+        ///     Indicates that the element is removed
         /// </summary>
-        public override bool IsRemoved { get { return false; } }
-
+        public override bool IsRemoved
+        {
+            get { return false; }
+        }
     }
 }

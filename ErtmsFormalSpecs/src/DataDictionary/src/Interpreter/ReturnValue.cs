@@ -213,7 +213,8 @@ namespace DataDictionary.Interpreter
                 List<ReturnValueElement> tmp = new List<ReturnValueElement>();
                 foreach (ReturnValueElement element in Values)
                 {
-                    if (accept.AcceptableChoice(element.Value) && (mostSpecific == null || mostSpecific.Equals(element.Value.FullName)))
+                    if (accept.AcceptableChoice(element.Value) &&
+                        (mostSpecific == null || mostSpecific.Equals(element.Value.FullName)))
                     {
                         tmp.Add(element);
                         variable = variable || element.Value is IVariable;
@@ -247,7 +248,7 @@ namespace DataDictionary.Interpreter
         }
 
         /// <summary>
-        /// Indicates that the referenced value has been removed
+        ///     Indicates that the referenced value has been removed
         /// </summary>
         /// <param name="element"></param>
         /// <returns></returns>

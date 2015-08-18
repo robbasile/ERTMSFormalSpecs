@@ -22,14 +22,14 @@ namespace Utils
     public class Util
     {
         /// <summary>
-        /// Creates a path to the info provided
+        ///     Creates a path to the info provided
         /// </summary>
         /// <param name="info"></param>
         /// <returns></returns>
         public static MessageInfoEnum CreatePathTo(MessageInfoEnum info)
         {
             MessageInfoEnum retVal = MessageInfoEnum.NoMessage;
-            
+
             if ((info & (MessageInfoEnum.Error | MessageInfoEnum.PathToError)) != 0)
             {
                 retVal = retVal | MessageInfoEnum.PathToError;

@@ -17,8 +17,7 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using Case = DataDictionary.Functions.Case;
-using Function = DataDictionary.Functions.Function;
+using DataDictionary.Functions;
 
 namespace GUI.DataDictionaryView
 {

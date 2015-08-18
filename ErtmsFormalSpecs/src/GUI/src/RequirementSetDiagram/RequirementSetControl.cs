@@ -20,7 +20,7 @@ using DataDictionary.Specification;
 using GUI.BoxArrowDiagram;
 using GUI.LongOperations;
 using GUI.Properties;
-using ModelElement = Utils.ModelElement;
+using Utils;
 
 namespace GUI.RequirementSetDiagram
 {
@@ -45,9 +45,10 @@ namespace GUI.RequirementSetDiagram
                 if (!paragraph.AppendToRequirementSet(TypedModel))
                 {
                     MessageBox.Show(
-                        Resources.RequirementSetControl_AcceptDrop_Paragraph_not_added_to_the_requirement_set_because_it_already_belongs_to_it,
-                        Resources.RequirementSetControl_AcceptDrop_Paragraph_not_added, 
-                        MessageBoxButtons.OK, 
+                        Resources
+                            .RequirementSetControl_AcceptDrop_Paragraph_not_added_to_the_requirement_set_because_it_already_belongs_to_it,
+                        Resources.RequirementSetControl_AcceptDrop_Paragraph_not_added,
+                        MessageBoxButtons.OK,
                         MessageBoxIcon.Information);
                 }
             }
@@ -101,16 +102,16 @@ namespace GUI.RequirementSetDiagram
 
             string name = GuiUtils.AdjustForDisplay(TypedModel.GraphicalName, Width, Font);
             SizeF textSize = g.MeasureString(name, Font);
-            g.DrawString(name, Font, new SolidBrush(NormalPen.Color), Location.X + Width / 2 - textSize.Width / 2,
-                Location.Y + Height / 2 - Font.Height / 2);
-            
+            g.DrawString(name, Font, new SolidBrush(NormalPen.Color), Location.X + Width/2 - textSize.Width/2,
+                Location.Y + Height/2 - Font.Height/2);
+
             // Draws the completion box
             g.DrawRectangle(NormalPen, Location.X + 10, Location.Y + Height - 20, Width - 20, 10);
             Paragraph.ParagraphSetMetrics metrics;
             if (((RequirementSetPanel) Panel).Metrics.TryGetValue(TypedModel, out metrics))
             {
                 FillCompletion(g, metrics.ImplementedCount, metrics.ImplementableCount, ImplementedColor, 10);
-                FillCompletion(g, metrics.TestedCount, metrics.ImplementableCount, TestedColor, 5);                
+                FillCompletion(g, metrics.TestedCount, metrics.ImplementableCount, TestedColor, 5);
             }
         }
 

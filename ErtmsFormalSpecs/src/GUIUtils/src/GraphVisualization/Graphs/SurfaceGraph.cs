@@ -15,6 +15,7 @@
 // ------------------------------------------------------------------------------
 
 using System;
+using System.Drawing;
 using System.Windows.Forms.DataVisualization.Charting;
 using DataDictionary.Functions;
 using GUIUtils.GraphVisualization.Functions;
@@ -24,7 +25,7 @@ namespace GUIUtils.GraphVisualization.Graphs
     public class SurfaceGraph : Graph
     {
         /// <summary>
-        /// Constructor
+        ///     Constructor
         /// </summary>
         /// <param name="graphVisualizer"></param>
         /// <param name="function"></param>
@@ -35,7 +36,7 @@ namespace GUIUtils.GraphVisualization.Graphs
         }
 
         /// <summary>
-        /// Handles the display
+        ///     Handles the display
         /// </summary>
         /// <param name="maxDistance"></param>
         /// <param name="minDistance"></param>
@@ -70,7 +71,7 @@ namespace GUIUtils.GraphVisualization.Graphs
         }
 
         /// <summary>
-        /// Draws a vertical line until maxValue
+        ///     Draws a vertical line until maxValue
         /// </summary>
         /// <param name="position"></param>
         /// <param name="maxValue"></param>
@@ -84,7 +85,7 @@ namespace GUIUtils.GraphVisualization.Graphs
         }
 
         /// <summary>
-        /// Draws the provided segment
+        ///     Draws the provided segment
         /// </summary>
         /// <param name="segment"></param>
         /// <param name="start"></param>
@@ -96,13 +97,14 @@ namespace GUIUtils.GraphVisualization.Graphs
             {
                 Data.Points.Add(new DataPoint(start, segment.D0));
                 Data.Points.Add(new DataPoint(end, segment.D0));
-                DataPoint emptyPoint = new DataPoint((start + end) / 2, segment.D0 + (Math.Min(segment.Length, (maxValue - segment.D0)) / 2));
+                DataPoint emptyPoint = new DataPoint((start + end)/2,
+                    segment.D0 + (Math.Min(segment.Length, (maxValue - segment.D0))/2));
                 emptyPoint.IsEmpty = true;
                 Data.Points.Add(emptyPoint);
                 TextAnnotation annotation = new TextAnnotation();
                 annotation.AxisX = GraphVisualizer.ChartAreas[0].AxisX;
                 annotation.AxisY = GraphVisualizer.ChartAreas[0].AxisY;
-                annotation.AnchorAlignment = System.Drawing.ContentAlignment.MiddleCenter;
+                annotation.AnchorAlignment = ContentAlignment.MiddleCenter;
                 annotation.AnchorX = emptyPoint.XValue;
                 annotation.AnchorY = emptyPoint.YValues[0];
                 annotation.Text = segment.V0 + "m/s²";
@@ -111,7 +113,7 @@ namespace GUIUtils.GraphVisualization.Graphs
         }
 
         /// <summary>
-        /// Nothing to save
+        ///     Nothing to save
         /// </summary>
         protected override void SaveSettings()
         {

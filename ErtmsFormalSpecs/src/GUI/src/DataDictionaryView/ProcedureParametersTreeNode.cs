@@ -17,8 +17,8 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using Parameter = DataDictionary.Parameter;
-using Procedure = DataDictionary.Functions.Procedure;
+using DataDictionary;
+using DataDictionary.Functions;
 
 namespace GUI.DataDictionaryView
 {

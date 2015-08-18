@@ -31,13 +31,14 @@ namespace GUI.GraphView
         }
 
         /// <summary>
-        /// Overrides the properties for surfaces graphs
+        ///     Overrides the properties for surfaces graphs
         /// </summary>
         /// <param name="chartType"></param>
         /// <param name="name"></param>
         /// <param name="tooltip"></param>
         /// <param name="color"></param>
-        protected override void InitializeProperties(SeriesChartType chartType, string name, string tooltip, System.Drawing.Color color = default(Color))
+        protected override void InitializeProperties(SeriesChartType chartType, string name, string tooltip,
+            Color color = default(Color))
         {
             base.InitializeProperties(chartType, name, tooltip, color);
             Data.BorderDashStyle = ChartDashStyle.Dash;

@@ -301,7 +301,7 @@ namespace DataDictionary
         }
 
         /// <summary>
-        /// The dictionary watcher
+        ///     The dictionary watcher
         /// </summary>
         public DictionaryWatcher Watcher { get; set; }
 
@@ -701,17 +701,17 @@ namespace DataDictionary
         }
 
         /// <summary>
-        /// Should be called when the file system changes
+        ///     Should be called when the file system changes
         /// </summary>
         public delegate void HandleFsChange();
 
         /// <summary>
-        /// The event raised when the file system changed
+        ///     The event raised when the file system changed
         /// </summary>
         public event HandleFsChange FileSystemChange;
 
         /// <summary>
-        /// Handles a file system change
+        ///     Handles a file system change
         /// </summary>
         protected virtual void OnFileSystemChange()
         {
@@ -1121,7 +1121,7 @@ namespace DataDictionary
                 return (ShortcutDictionary) getShortcutDictionary();
             }
         }
-        
+
         /// <summary>
         ///     Adds a model element in this model element
         /// </summary>
@@ -1480,7 +1480,7 @@ namespace DataDictionary
         }
 
         /// <summary>
-        ///     Creates the status message 
+        ///     Creates the status message
         /// </summary>
         /// <returns>the status string for the selected element</returns>
         public override string CreateStatusMessage()

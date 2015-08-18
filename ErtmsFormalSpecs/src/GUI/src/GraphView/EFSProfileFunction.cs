@@ -22,7 +22,7 @@ namespace GUI.GraphView
     public class EfsProfileFunction : ProfileFunction
     {
         /// <summary>
-        /// Constructor
+        ///     Constructor
         /// </summary>
         /// <param name="graph"></param>
         public EfsProfileFunction(IGraph graph)
@@ -31,7 +31,7 @@ namespace GUI.GraphView
         }
 
         /// <summary>
-        /// Updates the function value according to the provided parameter
+        ///     Updates the function value according to the provided parameter
         /// </summary>
         /// <param name="parameter"></param>
         protected override void UpdateValue(double parameter)

@@ -495,7 +495,6 @@ namespace DataDictionary.Rules
 
             if (Enclosing is NameSpace)
             {
-
                 NameSpace nameSpace = dictionary.GetNameSpaceUpdate(names, Dictionary);
                 nameSpace.appendRules(retVal);
             }
@@ -511,7 +510,7 @@ namespace DataDictionary.Rules
                 else if (EnclosingStructure != null)
                 {
                     NameSpace nameSpace = dictionary.GetNameSpaceUpdate(nameSpaceRef, Dictionary);
-                    Structure structure = nameSpace.GetStructureUpdate(names.Last(), (NameSpace)nameSpace.Updates);
+                    Structure structure = nameSpace.GetStructureUpdate(names.Last(), (NameSpace) nameSpace.Updates);
                     structure.appendRules(retVal);
                 }
             }
@@ -632,7 +631,7 @@ namespace DataDictionary.Rules
         }
 
         /// <summary>
-        ///     Creates the status message 
+        ///     Creates the status message
         /// </summary>
         /// <returns>the status string for the selected element</returns>
         public override string CreateStatusMessage()
@@ -645,13 +644,13 @@ namespace DataDictionary.Rules
         }
 
         /// <summary>
-        /// Creates a default element
+        ///     Creates a default element
         /// </summary>
         /// <param name="enclosingCollection"></param>
         /// <returns></returns>
         public static Rule CreateDefault(ICollection enclosingCollection)
         {
-            Rule retVal = (Rule)acceptor.getFactory().createRule();
+            Rule retVal = (Rule) acceptor.getFactory().createRule();
 
             Util.DontNotify(() =>
             {

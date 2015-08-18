@@ -291,7 +291,7 @@ namespace DataDictionary.Interpreter.Statement
             if (ReplaceElement != null)
             {
                 explanation.Write(" WHEN FULL REPLACE");
-                ReplaceElement.GetExplain(explanation);                
+                ReplaceElement.GetExplain(explanation);
             }
         }
 

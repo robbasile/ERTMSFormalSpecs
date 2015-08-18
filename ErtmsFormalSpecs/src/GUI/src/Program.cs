@@ -107,7 +107,7 @@ namespace GUI
         }
 
         /// <summary>
-        /// Handles the change of a dictionary on the file system
+        ///     Handles the change of a dictionary on the file system
         /// </summary>
         /// <param name="dictionary"></param>
         private static void HandleInstanceDictionaryChangesOnFileSystem(Dictionary dictionary)

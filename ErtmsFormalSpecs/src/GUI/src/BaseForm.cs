@@ -53,7 +53,7 @@ namespace GUI
     }
 
     /// <summary>
-    /// The base class for all forms displayed in the GUI
+    ///     The base class for all forms displayed in the GUI
     /// </summary>
     public class BaseForm : DockContent, IBaseForm
     {
@@ -104,7 +104,7 @@ namespace GUI
         }
 
         /// <summary>
-        /// Indicates that the model element should be displayed
+        ///     Indicates that the model element should be displayed
         /// </summary>
         /// <param name="modelElement"></param>
         /// <returns></returns>
@@ -136,7 +136,7 @@ namespace GUI
         }
 
         /// <summary>
-        /// Indicates that a change event should be displayed
+        ///     Indicates that a change event should be displayed
         /// </summary>
         /// <param name="modelElement"></param>
         /// <param name="changeKind"></param>
@@ -211,7 +211,7 @@ namespace GUI
         /// <summary>
         ///     Provides the model element currently selected in this IBaseForm
         /// </summary>
-        public virtual IModelElement DisplayedModel {get; set;}
+        public virtual IModelElement DisplayedModel { get; set; }
 
         /// <summary>
         ///     Constructor
@@ -247,7 +247,7 @@ namespace GUI
         }
 
         /// <summary>
-        /// Tries the find the corresponding node when the selection occurs
+        ///     Tries the find the corresponding node when the selection occurs
         /// </summary>
         /// <param name="context"></param>
         protected virtual void Context_SelectionChange(Context.SelectionContext context)
@@ -256,7 +256,7 @@ namespace GUI
         }
 
         /// <summary>
-        /// The delegate used to handle the change of the value of a model element
+        ///     The delegate used to handle the change of the value of a model element
         /// </summary>
         /// <param name="modelElement"></param>
         /// <param name="changeKind">Indicates the reason why the change occured</param>
@@ -272,7 +272,7 @@ namespace GUI
         }
 
         /// <summary>
-        /// Handles the change of the information message for a model element
+        ///     Handles the change of the information message for a model element
         /// </summary>
         /// <param name="modelElement"></param>
         protected virtual void Context_InfoMessageChange(IModelElement modelElement)
@@ -282,12 +282,12 @@ namespace GUI
                 BeginInvoke((MethodInvoker) (() => HandleInfoMessageChange(modelElement)));
             }
             catch (Exception)
-            {                
+            {
             }
         }
 
         /// <summary>
-        /// Allows to dock back a window
+        ///     Allows to dock back a window
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -301,7 +301,7 @@ namespace GUI
         }
 
         /// <summary>
-        /// When the parent of the current form changes, dock back this form
+        ///     When the parent of the current form changes, dock back this form
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>

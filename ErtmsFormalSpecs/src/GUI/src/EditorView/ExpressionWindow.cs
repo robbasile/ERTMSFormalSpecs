@@ -15,8 +15,8 @@
 // ------------------------------------------------------------------------------
 
 using DataDictionary;
+using DataDictionary.Functions;
 using DataDictionary.Specification;
-using Utils;
 
 namespace GUI.EditorView
 {
@@ -42,9 +42,9 @@ namespace GUI.EditorView
             if (retVal)
             {
                 IExpressionable expressionable = DisplayedModel as IExpressionable;
-                if (expressionable != null && !(expressionable is DataDictionary.Functions.Function))
+                if (expressionable != null && !(expressionable is Function))
                 {
-                    setChangeHandler(new ExpressionableTextChangeHandler((DataDictionary.ModelElement)expressionable));
+                    setChangeHandler(new ExpressionableTextChangeHandler((ModelElement) expressionable));
                 }
                 else
                 {
@@ -58,7 +58,6 @@ namespace GUI.EditorView
                         setChangeHandler(null);
                     }
                 }
-                
             }
 
             return retVal;

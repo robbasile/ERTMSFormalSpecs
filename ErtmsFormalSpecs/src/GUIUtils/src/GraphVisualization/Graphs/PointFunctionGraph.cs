@@ -22,7 +22,7 @@ namespace GUIUtils.GraphVisualization.Graphs
     public class PointFunctionGraph : Graph
     {
         /// <summary>
-        /// Constructor
+        ///     Constructor
         /// </summary>
         /// <param name="graphVisualizer"></param>
         /// <param name="function"></param>
@@ -34,7 +34,7 @@ namespace GUIUtils.GraphVisualization.Graphs
         }
 
         /// <summary>
-        /// Handles the display
+        ///     Handles the display
         /// </summary>
         /// <param name="maxDistance"></param>
         /// <param name="minDistance"></param>
@@ -73,7 +73,7 @@ namespace GUIUtils.GraphVisualization.Graphs
         }
 
         /// <summary>
-        /// Nothing to save
+        ///     Nothing to save
         /// </summary>
         protected override void SaveSettings()
         {

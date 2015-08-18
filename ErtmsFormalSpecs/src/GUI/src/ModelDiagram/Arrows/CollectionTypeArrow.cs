@@ -31,7 +31,7 @@ namespace GUI.ModelDiagram.Arrows
         /// <param name="target"></param>
         /// <param name="model"></param>
         public CollectionTypeArrow(Collection source, Type target, Collection model)
-            : base (source, target, "of " + source.getMaxSize(), model)
+            : base(source, target, "of " + source.getMaxSize(), model)
         {
         }
 

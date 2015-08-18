@@ -144,7 +144,7 @@ namespace GUI.StructureEditor
 
             return retVal;
         }
-        
+
         /// <summary>
         ///     Shows the state machine which corresponds to the variable
         /// </summary>

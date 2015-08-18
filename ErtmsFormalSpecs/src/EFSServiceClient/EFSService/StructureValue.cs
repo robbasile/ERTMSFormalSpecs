@@ -14,10 +14,10 @@
 // --
 // ------------------------------------------------------------------------------
 
+using System.Collections.Generic;
+
 namespace EFSServiceClient.EFSService
 {
-    using System.Collections.Generic;
-
     /// <summary>
     ///     Manually written code to access EFSModel
     /// </summary>

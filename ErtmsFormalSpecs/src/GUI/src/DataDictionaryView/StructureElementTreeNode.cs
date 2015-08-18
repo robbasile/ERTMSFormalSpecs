@@ -21,6 +21,7 @@ using System.Windows.Forms;
 using DataDictionary;
 using DataDictionary.Generated;
 using GUI.Converters;
+using Dictionary = DataDictionary.Dictionary;
 using StructureElement = DataDictionary.Types.StructureElement;
 
 namespace GUI.DataDictionaryView
@@ -106,7 +107,7 @@ namespace GUI.DataDictionaryView
         {
             ModelElement retVal = null;
 
-            DataDictionary.Dictionary dictionary = GetPatchDictionary();
+            Dictionary dictionary = GetPatchDictionary();
 
             if (dictionary != null)
             {

@@ -19,10 +19,10 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using DataDictionary;
-using DataDictionary.Interpreter;
 using GUI.LongOperations;
 using GUI.Properties;
 using Utils;
+using ModelElement = DataDictionary.ModelElement;
 using Util = DataDictionary.Util;
 
 namespace GUI
@@ -218,11 +218,12 @@ namespace GUI
                         destinationNode.AcceptDrop(sourceNode);
                         if (Refactor && Settings.Default.AllowRefactor)
                         {
-                            RefactorAndRelocateOperation refactorAndRelocate = new RefactorAndRelocateOperation(sourceNode.Model as DataDictionary.ModelElement);
+                            RefactorAndRelocateOperation refactorAndRelocate =
+                                new RefactorAndRelocateOperation(sourceNode.Model as ModelElement);
                             refactorAndRelocate.ExecuteUsingProgressDialog("Refactoring", false);
                         }
                     }
-                }                
+                }
             }
         }
 
@@ -259,7 +260,7 @@ namespace GUI
         }
 
         /// <summary>
-        /// Indicates that the selection should not trigger AfterSelect
+        ///     Indicates that the selection should not trigger AfterSelect
         /// </summary>
         public bool SilentSelect { get; set; }
 
@@ -490,17 +491,19 @@ namespace GUI
             if (current != null)
             {
                 IModelElement model = node.Model;
-                if (considerThisOne && (node.Parent == null || node.Model != ((BaseTreeNode)node.Parent).Model))
+                if (considerThisOne && (node.Parent == null || node.Model != ((BaseTreeNode) node.Parent).Model))
                 {
                     if (levelEnum == ElementLog.LevelEnum.Error && (model.MessagePathInfo & MessageInfoEnum.Error) != 0)
                     {
-                        retVal = node;                        
+                        retVal = node;
                     }
-                    else if (levelEnum == ElementLog.LevelEnum.Warning && (model.MessagePathInfo & MessageInfoEnum.Warning) != 0)
+                    else if (levelEnum == ElementLog.LevelEnum.Warning &&
+                             (model.MessagePathInfo & MessageInfoEnum.Warning) != 0)
                     {
                         retVal = node;
                     }
-                    else if (levelEnum == ElementLog.LevelEnum.Info && (model.MessagePathInfo & MessageInfoEnum.Info) != 0)
+                    else if (levelEnum == ElementLog.LevelEnum.Info &&
+                             (model.MessagePathInfo & MessageInfoEnum.Info) != 0)
                     {
                         retVal = node;
                     }
@@ -508,15 +511,18 @@ namespace GUI
 
                 if (retVal == null)
                 {
-                    if (levelEnum == ElementLog.LevelEnum.Error && (model.MessagePathInfo & MessageInfoEnum.PathToError) != 0)
+                    if (levelEnum == ElementLog.LevelEnum.Error &&
+                        (model.MessagePathInfo & MessageInfoEnum.PathToError) != 0)
                     {
                         retVal = InnerSelectNext(current, node, levelEnum);
                     }
-                    else if (levelEnum == ElementLog.LevelEnum.Warning && (model.MessagePathInfo & MessageInfoEnum.PathToWarning) != 0)
+                    else if (levelEnum == ElementLog.LevelEnum.Warning &&
+                             (model.MessagePathInfo & MessageInfoEnum.PathToWarning) != 0)
                     {
                         retVal = InnerSelectNext(current, node, levelEnum);
                     }
-                    else if (levelEnum == ElementLog.LevelEnum.Info && (model.MessagePathInfo & MessageInfoEnum.PathToInfo) != 0)
+                    else if (levelEnum == ElementLog.LevelEnum.Info &&
+                             (model.MessagePathInfo & MessageInfoEnum.PathToInfo) != 0)
                     {
                         retVal = InnerSelectNext(current, node, levelEnum);
                     }
@@ -527,7 +533,7 @@ namespace GUI
         }
 
         /// <summary>
-        /// Builds the subnodes if needed, then try to select the next Error/Warning/Info
+        ///     Builds the subnodes if needed, then try to select the next Error/Warning/Info
         /// </summary>
         /// <param name="current">the model element that is currently displayed</param>
         /// <param name="node">the node from which the selection process must begin</param>
@@ -593,7 +599,7 @@ namespace GUI
             else
             {
                 MessageBox.Show(
-                    Resources.BaseTreeView_SelectNext_No_more_element_found, 
+                    Resources.BaseTreeView_SelectNext_No_more_element_found,
                     Resources.BaseTreeView_SelectNext_End_of_selection);
             }
         }

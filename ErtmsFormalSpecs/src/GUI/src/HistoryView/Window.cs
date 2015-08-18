@@ -26,7 +26,7 @@ namespace GUI.HistoryView
     public partial class Window : BaseForm
     {
         /// <summary>
-        /// The property grid used to display information about the selected history information
+        ///     The property grid used to display information about the selected history information
         /// </summary>
         public MyPropertyGrid Properties
         {
@@ -34,7 +34,7 @@ namespace GUI.HistoryView
         }
 
         /// <summary>
-        /// The tree view which displays all history information
+        ///     The tree view which displays all history information
         /// </summary>
         public override BaseTreeView TreeView
         {
@@ -54,7 +54,7 @@ namespace GUI.HistoryView
         }
 
         /// <summary>
-        /// Indicates that the model element should be displayed
+        ///     Indicates that the model element should be displayed
         /// </summary>
         /// <param name="modelElement"></param>
         /// <returns></returns>
@@ -65,7 +65,7 @@ namespace GUI.HistoryView
             if (retVal)
             {
                 // Don't handle shortcuts in history
-                retVal = EnclosingFinder<ShortcutDictionary>.find(modelElement, true) == null;                
+                retVal = EnclosingFinder<ShortcutDictionary>.find(modelElement, true) == null;
             }
 
             return retVal;

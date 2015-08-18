@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using DataDictionary;
 using DataDictionary.Functions;
 using DataDictionary.Rules;
 using DataDictionary.Types;
 using Utils;
-using Structure = DataDictionary.Types.Structure;
 
 namespace DataDictionary.src
 {
@@ -50,7 +47,7 @@ namespace DataDictionary.src
 
         /// <summary>
         ///     Adds all the structures that are updated (directly or indirectly) to the list of merged structures,
-        ///     then adds all structures updating it, as long as there is only one update per structure 
+        ///     then adds all structures updating it, as long as there is only one update per structure
         /// </summary>
         /// <param name="structure"></param>
         private void KeepAllUpdates(Structure structure)
@@ -166,7 +163,7 @@ namespace DataDictionary.src
             retVal.FailedExpectation = failedExpectation;
 
             // Get the appropriate structure to add the error
-            
+
 
             AddElementLog(retVal);
             return retVal;

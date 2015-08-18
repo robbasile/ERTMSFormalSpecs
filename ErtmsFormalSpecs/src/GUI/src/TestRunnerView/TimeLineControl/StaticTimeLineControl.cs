@@ -105,13 +105,13 @@ namespace GUI.TestRunnerView.TimeLineControl
         }
 
         /// <summary>
-        /// Indicates whether the timeline should display the element
+        ///     Indicates whether the timeline should display the element
         /// </summary>
         /// <param name="element"></param>
         /// <returns></returns>
         public override bool ShouldDisplayModelElement(IModelElement element)
         {
-            bool retVal = element==null;
+            bool retVal = element == null;
 
             retVal = retVal || (Translation != null && Translation.IsParent(element));
             retVal = retVal || (SubSequence != null && SubSequence.IsParent(element));
@@ -150,7 +150,7 @@ namespace GUI.TestRunnerView.TimeLineControl
         ///     Constructor
         /// </summary>
         public StaticTimeLineControl()
-       {
+        {
             AllowDrop = true;
             DragEnter += TimeLineControl_DragEnter;
             DragDrop += TimeLineControl_DragDrop;
@@ -246,9 +246,10 @@ namespace GUI.TestRunnerView.TimeLineControl
                             else
                             {
                                 MessageBox.Show(
-                                    Resources.StaticTimeLineControl_TimeLineControl_DragDrop_Cannot_evaluate_variable_default_value, 
+                                    Resources
+                                        .StaticTimeLineControl_TimeLineControl_DragDrop_Cannot_evaluate_variable_default_value,
                                     Resources.StaticTimeLineControl_TimeLineControl_DragDrop_Cannot_create_event,
-                                    MessageBoxButtons.OK, 
+                                    MessageBoxButtons.OK,
                                     MessageBoxIcon.Error);
                             }
                         }
@@ -290,7 +291,7 @@ namespace GUI.TestRunnerView.TimeLineControl
 
             return retVal;
         }
-        
+
         /// <summary>
         ///     A base menu item element
         /// </summary>

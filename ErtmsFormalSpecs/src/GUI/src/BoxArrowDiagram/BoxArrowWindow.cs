@@ -26,7 +26,7 @@ namespace GUI.BoxArrowDiagram
         where TArrowModel : class, IGraphicalArrow<TBoxModel>
     {
         /// <summary>
-        /// The enclosing model
+        ///     The enclosing model
         /// </summary>
         protected TEnclosing Model { get; set; }
 

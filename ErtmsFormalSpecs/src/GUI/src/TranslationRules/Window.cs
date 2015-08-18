@@ -15,6 +15,7 @@
 // ------------------------------------------------------------------------------
 
 using System;
+using System.Windows.Forms;
 using DataDictionary.Tests.Translations;
 using Utils;
 
@@ -23,7 +24,7 @@ namespace GUI.TranslationRules
     public partial class Window : BaseForm
     {
         /// <summary>
-        /// The treeview used to display the several translations
+        ///     The treeview used to display the several translations
         /// </summary>
         public override BaseTreeView TreeView
         {
@@ -100,11 +101,11 @@ namespace GUI.TranslationRules
         }
 
         /// <summary>
-        /// Handles the selection of a translation
+        ///     Handles the selection of a translation
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void translationTreeView_AfterSelect(object sender, System.Windows.Forms.TreeViewEventArgs e)
+        private void translationTreeView_AfterSelect(object sender, TreeViewEventArgs e)
         {
             staticTimeLineControl.Translation = DisplayedModel as Translation;
         }

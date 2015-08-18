@@ -226,15 +226,15 @@ namespace DataDictionary.Tests
 
             return retVal;
         }
-        
+
         /// <summary>
-        /// Creates a default element
+        ///     Creates a default element
         /// </summary>
         /// <param name="enclosingCollection"></param>
         /// <returns></returns>
         public static Frame CreateDefault(ICollection enclosingCollection)
         {
-            Frame retVal = (Frame)acceptor.getFactory().createFrame();
+            Frame retVal = (Frame) acceptor.getFactory().createFrame();
 
             Util.DontNotify(() =>
             {

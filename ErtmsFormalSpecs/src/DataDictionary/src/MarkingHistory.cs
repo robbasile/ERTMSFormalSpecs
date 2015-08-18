@@ -129,12 +129,12 @@ namespace DataDictionary
         }
 
         /// <summary>
-        /// The steps required to perform the marking
+        ///     The steps required to perform the marking
         /// </summary>
         public delegate void MarkAction();
 
         /// <summary>
-        /// Mark the model
+        ///     Mark the model
         /// </summary>
         /// <param name="action"></param>
         public static void PerformMark(MarkAction action)

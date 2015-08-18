@@ -27,7 +27,7 @@ namespace GUI.Shortcuts
     public class ShortcutFolderTreeNode : ModelElementTreeNode<ShortcutFolder>
     {
         private class ItemEditor : NamedEditor
-        {            
+        {
         }
 
         /// <summary>
@@ -74,7 +74,7 @@ namespace GUI.Shortcuts
             folder.Name = "<Folder" + (Item.Folders.Count + 1) + ">";
             Item.appendFolders(folder);
         }
-        
+
         /// <summary>
         ///     The menu items for this tree node
         /// </summary>

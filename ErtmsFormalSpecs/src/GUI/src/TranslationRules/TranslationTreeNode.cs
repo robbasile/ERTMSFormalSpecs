@@ -81,7 +81,7 @@ namespace GUI.TranslationRules
 
         public void AddSourceHandler(object sender, EventArgs args)
         {
-            SourceText sourceText = (SourceText)acceptor.getFactory().createSourceText();
+            SourceText sourceText = (SourceText) acceptor.getFactory().createSourceText();
             sourceText.Name = "<SourceText " + (Item.SourceTexts.Count + 1) + ">";
             Item.appendSourceTexts(sourceText);
         }

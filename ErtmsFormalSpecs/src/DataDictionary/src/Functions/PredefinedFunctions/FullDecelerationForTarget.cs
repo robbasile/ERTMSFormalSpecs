@@ -62,7 +62,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
             FormalParameters.Add(DecelerationFactor);
 
             // Third parameter end speed
-            EndSpeed = (Parameter)acceptor.getFactory().createParameter();
+            EndSpeed = (Parameter) acceptor.getFactory().createParameter();
             EndSpeed.Name = "EndSpeed";
             EndSpeed.Type = EFSSystem.AnyType;
             EndSpeed.setFather(this);
@@ -127,7 +127,8 @@ namespace DataDictionary.Functions.PredefinedFunctions
                             retVal.AddSegment(new Graph.Segment(0, double.MaxValue, new Graph.Segment.Curve(0, 0, 0)));
                         }
 
-                        SiSpeed finalSpeed = new SiSpeed(getDoubleValue(context.FindOnStack(EndSpeed).Value), SiSpeed_SubUnits.KiloMeter_per_Hour);
+                        SiSpeed finalSpeed = new SiSpeed(getDoubleValue(context.FindOnStack(EndSpeed).Value),
+                            SiSpeed_SubUnits.KiloMeter_per_Hour);
                         for (int i = 0; i < BrakingCurve.SegmentCount; i++)
                         {
                             QuadraticCurveSegment segment = BrakingCurve[i];
@@ -139,8 +140,8 @@ namespace DataDictionary.Functions.PredefinedFunctions
                             {
                                 // Ensures that a braking curve is calculated until the finalSpeed
                                 // but not further than the end of the curve segment
-                                SiSpeed tmp = Max(  segment.Get(segment.X.X1),
-                                                            endSpeed - new SiSpeed(0.001));
+                                SiSpeed tmp = Max(segment.Get(segment.X.X1),
+                                    endSpeed - new SiSpeed(0.001));
                                 endDistance = segment.IntersectAt(tmp);
                             }
                             else

@@ -18,12 +18,10 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
+using DataDictionary.Specification;
 using GUIUtils;
 using Importers.RtfDeltaImporter;
 using Reports.Importer;
-using Chapter = DataDictionary.Specification.Chapter;
-using RequirementSetReference = DataDictionary.Specification.RequirementSetReference;
-using Specification = DataDictionary.Specification.Specification;
 
 namespace GUI.SpecificationView
 {

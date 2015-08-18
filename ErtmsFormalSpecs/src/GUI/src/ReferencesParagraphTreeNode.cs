@@ -93,7 +93,7 @@ namespace GUI
         }
 
         /// <summary>
-        /// Indicates that requirements are handled by this tree node and there are requirements to display
+        ///     Indicates that requirements are handled by this tree node and there are requirements to display
         /// </summary>
         /// <returns></returns>
         private bool HasRequirements()

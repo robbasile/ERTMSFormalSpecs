@@ -22,7 +22,7 @@ namespace GUI.BoxArrowDiagram
     public class BaseBoxArrowPanel : Panel
     {
         /// <summary>
-        /// Creates the editor for the selected object
+        ///     Creates the editor for the selected object
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>

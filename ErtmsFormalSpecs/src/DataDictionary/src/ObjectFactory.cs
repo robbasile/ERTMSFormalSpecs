@@ -41,7 +41,7 @@ namespace DataDictionary
         public bool AutomaticallyGenerateGuid { get; set; }
 
         /// <summary>
-        /// Sets the default values for the element provided as parameter
+        ///     Sets the default values for the element provided as parameter
         /// </summary>
         /// <param name="model"></param>
         public void SetDefaultValue(IXmlBBase model)
@@ -51,7 +51,7 @@ namespace DataDictionary
             Util.DontNotify(() =>
             {
                 // ReSharper disable once ConvertToLambdaExpression
-                visit(model, true);                
+                visit(model, true);
             });
         }
 
@@ -332,7 +332,7 @@ namespace DataDictionary
         }
 
         /// <summary>
-        /// Rule disabling is obsolete
+        ///     Rule disabling is obsolete
         /// </summary>
         /// <returns></returns>
         public override RuleDisabling createRuleDisabling()

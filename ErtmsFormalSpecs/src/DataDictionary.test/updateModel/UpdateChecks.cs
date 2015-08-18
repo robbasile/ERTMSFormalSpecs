@@ -1,18 +1,13 @@
 ﻿using System.Collections.Generic;
-using DataDictionary.Constants;
-using DataDictionary.Generated;
-using DataDictionary.Interpreter;
-using DataDictionary.Rules;
-using DataDictionary.Values;
+using DataDictionary.Types;
+using DataDictionary.Variables;
 using NUnit.Framework;
-using Case = DataDictionary.Functions.Case;
-using Variable = DataDictionary.Variables.Variable;
-using NameSpace = DataDictionary.Types.NameSpace;
+using Utils;
 
 namespace DataDictionary.test.updateModel
 {
     [TestFixture]
-    class UpdateChecks : BaseModelTest
+    internal class UpdateChecks : BaseModelTest
     {
         /// <summary>
         ///     Test that the checker correctly flags model elements that have been updated more than once
@@ -31,7 +26,7 @@ namespace DataDictionary.test.updateModel
             Dictionary dictionaryUpdate2 = CreateDictionary("TestUpdate2");
             dictionaryUpdate2.setUpdates(dictionary.Guid);
             Variable variableUpdate2 = variable.CreateVariableUpdate(dictionaryUpdate2);
-            
+
             dictionary.CheckRules();
 
             // Check that exactly 3 model elements contain errors
@@ -39,7 +34,7 @@ namespace DataDictionary.test.updateModel
 
             // Check that each model element only contains one error, and what that error is
             int updateErrors = 0;
-            foreach (KeyValuePair<Utils.ModelElement, List<Utils.ElementLog>> pair in ModelElement.Errors)
+            foreach (KeyValuePair<Utils.ModelElement, List<ElementLog>> pair in ModelElement.Errors)
             {
                 Assert.AreEqual(1, pair.Value.Count);
                 if (pair.Value[0].Log.Contains("Updates conflict"))
@@ -61,7 +56,7 @@ namespace DataDictionary.test.updateModel
             Dictionary dictionary = CreateDictionary("Test");
             NameSpace nameSpace = CreateNameSpace(dictionary, "N1");
             Variable variable = CreateVariable(nameSpace, "var", "Boolean");
-            
+
             Dictionary dictionaryUpdate1 = CreateDictionary("TestUpdate1");
             dictionaryUpdate1.setUpdates(dictionary.Guid);
             Variable variableUpdate1 = variable.CreateVariableUpdate(dictionaryUpdate1);
@@ -77,7 +72,7 @@ namespace DataDictionary.test.updateModel
             // The only model element with errors is the variable update
             Assert.That(ModelElement.Errors.ContainsKey(variableUpdate1));
 
-            List<Utils.ElementLog> errorsList = ModelElement.Errors[variableUpdate1];
+            List<ElementLog> errorsList = ModelElement.Errors[variableUpdate1];
             // That model element only has one error
             Assert.AreEqual(errorsList.Count, 1);
 

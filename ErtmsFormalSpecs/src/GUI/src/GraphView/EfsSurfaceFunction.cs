@@ -14,6 +14,7 @@
 // --
 // ------------------------------------------------------------------------------
 
+using System;
 using DataDictionary.Functions;
 using GUIUtils.GraphVisualization;
 using GUIUtils.GraphVisualization.Functions;
@@ -23,7 +24,7 @@ namespace GUI.GraphView
     public class EfsSurfaceFunction : SurfaceFunction
     {
         /// <summary>
-        /// Constructor
+        ///     Constructor
         /// </summary>
         /// <param name="surface"></param>
         public EfsSurfaceFunction(ISurface surface)
@@ -32,17 +33,17 @@ namespace GUI.GraphView
         }
 
         /// <summary>
-        /// Computes the function value according to the provided parameter
+        ///     Computes the function value according to the provided parameter
         /// </summary>
         /// <param name="parameter"></param>
         /// <returns></returns>
         protected override SpeedDistancePoint GetValue(double parameter)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         /// <summary>
-        /// Relocates the function according to the LRBG position
+        ///     Relocates the function according to the LRBG position
         /// </summary>
         /// <param name="lrbgPosition"></param>
         protected override void Relocate(double lrbgPosition)
@@ -51,7 +52,7 @@ namespace GUI.GraphView
         }
 
         /// <summary>
-        /// Updates the function value according to the provided parameter
+        ///     Updates the function value according to the provided parameter
         /// </summary>
         /// <param name="parameter"></param>
         protected override void UpdateValue(double parameter)

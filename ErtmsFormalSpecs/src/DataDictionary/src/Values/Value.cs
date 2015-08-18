@@ -186,8 +186,10 @@ namespace DataDictionary.Values
         /// <summary>
         ///     Clears the messages associated to this model element
         /// </summary>
-        /// <param name="precise">Indicates that the MessagePathInfo should be recomputed precisely
-        ///  according to the sub elements and should update the enclosing elements</param>
+        /// <param name="precise">
+        ///     Indicates that the MessagePathInfo should be recomputed precisely
+        ///     according to the sub elements and should update the enclosing elements
+        /// </param>
         public void ClearMessages(bool precise)
         {
         }
@@ -201,9 +203,12 @@ namespace DataDictionary.Values
         }
 
         /// <summary>
-        /// Indicates that the element is removed
+        ///     Indicates that the element is removed
         /// </summary>
-        public bool IsRemoved { get { return false; } }
+        public bool IsRemoved
+        {
+            get { return false; }
+        }
 
         /// <summary>
         ///     The sub elements of this model element
@@ -239,7 +244,7 @@ namespace DataDictionary.Values
         /// <param name="explainSubElements">Precises if we need to explain the sub elements (if any)</param>
         public virtual void GetExplain(TextualExplanation explanation, bool explainSubElements)
         {
-            explanation.WriteLine( LiteralName );
+            explanation.WriteLine(LiteralName);
         }
 
         /// <summary>

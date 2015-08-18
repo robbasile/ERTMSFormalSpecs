@@ -45,7 +45,7 @@ namespace GUI.DataDictionaryView
         /// <param name="buildSubNodes"></param>
         /// <param name="name"></param>
         /// <param name="addRequirements"></param>
-        public RuleConditionTreeNode(RuleCondition item, bool buildSubNodes, string name, 
+        public RuleConditionTreeNode(RuleCondition item, bool buildSubNodes, string name,
             bool addRequirements = true)
             : base(item, buildSubNodes, name, false, addRequirements)
         {
@@ -87,7 +87,7 @@ namespace GUI.DataDictionaryView
                 ActionsTreeNode actionsTreeNode = SubNode<ActionsTreeNode>();
                 if (actionsTreeNode != null)
                 {
-                    actionsTreeNode.AcceptDrop(sourceNode);                    
+                    actionsTreeNode.AcceptDrop(sourceNode);
                 }
             }
             else if (sourceNode is PreConditionTreeNode)

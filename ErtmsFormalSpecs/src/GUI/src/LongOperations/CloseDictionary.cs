@@ -13,6 +13,7 @@
 // -- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 // --
 // ------------------------------------------------------------------------------
+
 using DataDictionary;
 using Utils;
 
@@ -38,7 +39,7 @@ namespace GUI.LongOperations
         }
 
         /// <summary>
-        /// Closes the dictionary
+        ///     Closes the dictionary
         /// </summary>
         public override void ExecuteWork()
         {

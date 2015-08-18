@@ -22,12 +22,12 @@ namespace GUIUtils.GraphVisualization.Functions
     public abstract class ProfileSetFunction : ProfileFunction
     {
         /// <summary>
-        /// The set of function
+        ///     The set of function
         /// </summary>
         public List<IGraph> Functions;
 
         /// <summary>
-        /// Constructor
+        ///     Constructor
         /// </summary>
         public ProfileSetFunction()
         {
@@ -35,7 +35,7 @@ namespace GUIUtils.GraphVisualization.Functions
         }
 
         /// <summary>
-        /// Erases the data of the function
+        ///     Erases the data of the function
         /// </summary>
         public override void ClearData()
         {
@@ -44,7 +44,7 @@ namespace GUIUtils.GraphVisualization.Functions
         }
 
         /// <summary>
-        /// Relocates the function according to the LRBG position
+        ///     Relocates the function according to the LRBG position
         /// </summary>
         /// <param name="lrbgPosition"></param>
         protected override void Relocate(double lrbgPosition)

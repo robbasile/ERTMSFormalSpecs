@@ -143,13 +143,13 @@ namespace DataDictionary.Tests
         }
 
         /// <summary>
-        /// Creates a default element
+        ///     Creates a default element
         /// </summary>
         /// <param name="enclosingCollection"></param>
         /// <returns></returns>
         public static SubSequence CreateDefault(ICollection enclosingCollection)
         {
-            SubSequence retVal = (SubSequence)acceptor.getFactory().createSubSequence();
+            SubSequence retVal = (SubSequence) acceptor.getFactory().createSubSequence();
 
             Util.DontNotify(() =>
             {

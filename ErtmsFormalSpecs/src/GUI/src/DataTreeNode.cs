@@ -71,7 +71,7 @@ namespace GUI
         public BaseEditor NodeEditor { protected get; set; }
 
         /// <summary>
-        /// Provides the editor
+        ///     Provides the editor
         /// </summary>
         /// <returns></returns>
         public abstract BaseEditor GetEditor();
@@ -174,7 +174,7 @@ namespace GUI
         }
 
         /// <summary>
-        /// Indicates that the sub nodes provided are different from the ones stored in this data tree node
+        ///     Indicates that the sub nodes provided are different from the ones stored in this data tree node
         /// </summary>
         /// <param name="subNodes"></param>
         /// <returns></returns>
@@ -386,7 +386,7 @@ namespace GUI
         }
 
         /// <summary>
-        /// Recursively updates the node colors
+        ///     Recursively updates the node colors
         /// </summary>
         public void RecursiveUpdateNodeColor()
         {
@@ -672,7 +672,7 @@ namespace GUI
         }
 
         /// <summary>
-        /// Provides the sub node of the corresponding type
+        ///     Provides the sub node of the corresponding type
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
@@ -828,7 +828,6 @@ namespace GUI
                 }
             }
         }
-
     }
 
     /// <summary>
@@ -863,7 +862,7 @@ namespace GUI
             }
 
             /// <summary>
-            /// Indicates that the element has been removed
+            ///     Indicates that the element has been removed
             /// </summary>
             public string Removed
             {
@@ -930,7 +929,7 @@ namespace GUI
             Item = item;
             if (buildSubNodes)
             {
-                BuildOrRefreshSubNodes(null);                
+                BuildOrRefreshSubNodes(null);
             }
         }
 
@@ -996,7 +995,7 @@ namespace GUI
         }
 
         /// <summary>
-        /// Find or creates an update for the current element
+        ///     Find or creates an update for the current element
         /// </summary>
         /// <returns></returns>
         protected virtual ModelElement FindOrCreateUpdate()
@@ -1182,7 +1181,7 @@ namespace GUI
         }
 
         /// <summary>
-        /// Provides the editor for this node, and link the editor with the edited model element
+        ///     Provides the editor for this node, and link the editor with the edited model element
         /// </summary>
         /// <returns></returns>
         public override BaseEditor GetEditor()

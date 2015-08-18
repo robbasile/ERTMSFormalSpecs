@@ -17,7 +17,6 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using BrightIdeasSoftware;
 using DataDictionary;
 using DataDictionary.Interpreter;
 using Utils;
@@ -93,7 +92,7 @@ namespace GUI.DataDictionaryView.UsageTreeView
                         break;
                 }
             }
-            else if (@"Test" == Text )
+            else if (@"Test" == Text)
             {
                 ChangeImageIndex(BaseTreeView.TestImageIndex);
             }

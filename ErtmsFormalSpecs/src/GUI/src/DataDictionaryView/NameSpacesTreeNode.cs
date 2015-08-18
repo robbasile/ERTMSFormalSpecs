@@ -17,10 +17,10 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using DataDictionary;
+using DataDictionary.Types;
 using GUI.FunctionalView;
 using GUI.Properties;
-using Dictionary = DataDictionary.Dictionary;
-using NameSpace = DataDictionary.Types.NameSpace;
 
 namespace GUI.DataDictionaryView
 {

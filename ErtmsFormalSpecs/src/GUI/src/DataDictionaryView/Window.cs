@@ -20,10 +20,8 @@ using DataDictionary;
 using DataDictionary.Constants;
 using DataDictionary.Types;
 using DataDictionary.Variables;
-using GUI.LongOperations;
 using GUI.Properties;
 using Utils;
-using Dictionary = DataDictionary.Dictionary;
 
 namespace GUI.DataDictionaryView
 {
@@ -70,7 +68,7 @@ namespace GUI.DataDictionaryView
             InitializeComponent();
             Dictionary = dictionary;
         }
-        
+
         /// <summary>
         ///     Allows to refresh the view, when the selected model changed
         /// </summary>
@@ -100,7 +98,7 @@ namespace GUI.DataDictionaryView
         }
 
         /// <summary>
-        /// Updates the model view, according to the element selected in the context
+        ///     Updates the model view, according to the element selected in the context
         /// </summary>
         /// <param name="context"></param>
         private void UpdateModelView(Context.SelectionContext context)
@@ -117,7 +115,7 @@ namespace GUI.DataDictionaryView
             }
 
             Variable variable = context.Element as Variable;
-            if (variable != null )
+            if (variable != null)
             {
                 stateMachine = variable.Type as StateMachine;
             }
@@ -131,7 +129,7 @@ namespace GUI.DataDictionaryView
                 }
                 else
                 {
-                    stateDiagramPanel.Model = stateMachine;                    
+                    stateDiagramPanel.Model = stateMachine;
                 }
                 stateDiagramPanel.Visible = true;
                 stateDiagramPanel.RefreshControl();
@@ -155,7 +153,7 @@ namespace GUI.DataDictionaryView
         }
 
         /// <summary>
-        /// Indicates that a change event should be displayed
+        ///     Indicates that a change event should be displayed
         /// </summary>
         /// <param name="modelElement"></param>
         /// <param name="changeKind"></param>
@@ -252,8 +250,8 @@ namespace GUI.DataDictionaryView
             if (!EFSSystem.INSTANCE.Markings.SelectPreviousMarking())
             {
                 MessageBox.Show(
-                    Resources.Window_toolStripButton1_Click_No_more_marking_to_show, 
-                    Resources.Window_toolStripButton1_Click_No_more_markings, 
+                    Resources.Window_toolStripButton1_Click_No_more_marking_to_show,
+                    Resources.Window_toolStripButton1_Click_No_more_markings,
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Information);
             }
@@ -264,8 +262,8 @@ namespace GUI.DataDictionaryView
             if (!EFSSystem.INSTANCE.Markings.SelectNextMarking())
             {
                 MessageBox.Show(
-                    Resources.Window_toolStripButton1_Click_No_more_marking_to_show, 
-                    Resources.Window_toolStripButton1_Click_No_more_markings, 
+                    Resources.Window_toolStripButton1_Click_No_more_marking_to_show,
+                    Resources.Window_toolStripButton1_Click_No_more_markings,
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Information);
             }

@@ -86,7 +86,7 @@ namespace GUI.DataDictionaryView
         {
             Item.appendStates(State.CreateDefault(Item.States));
         }
-        
+
         public void AddRuleHandler(object sender, EventArgs args)
         {
             Item.appendRules(Rule.CreateDefault(Item.Rules));
@@ -124,7 +124,7 @@ namespace GUI.DataDictionaryView
             {
                 if (
                     MessageBox.Show(
-                        Resources.StateMachineTreeNode_AcceptDrop_Are_you_sure_you_want_to_override_the_state_machine___, 
+                        Resources.StateMachineTreeNode_AcceptDrop_Are_you_sure_you_want_to_override_the_state_machine___,
                         Resources.StateMachineTreeNode_AcceptDrop_Override_state_machine,
                         MessageBoxButtons.OKCancel) == DialogResult.OK)
                 {
@@ -148,7 +148,7 @@ namespace GUI.DataDictionaryView
         }
 
         /// <summary>
-        /// Finds or creates an update for the current element.
+        ///     Finds or creates an update for the current element.
         /// </summary>
         /// <returns></returns>
         protected override ModelElement FindOrCreateUpdate()

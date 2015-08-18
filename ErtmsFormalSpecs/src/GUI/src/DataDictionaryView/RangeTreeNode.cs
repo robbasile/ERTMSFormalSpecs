@@ -23,6 +23,7 @@ using DataDictionary;
 using DataDictionary.Generated;
 using GUI.Converters;
 using Dictionary = DataDictionary.Dictionary;
+using EnumValue = DataDictionary.Constants.EnumValue;
 using Range = DataDictionary.Types.Range;
 
 namespace GUI.DataDictionaryView
@@ -122,11 +123,11 @@ namespace GUI.DataDictionaryView
 
         public virtual void AddSpecialValueHandler(object sender, EventArgs e)
         {
-            Item.appendSpecialValues(DataDictionary.Constants.EnumValue.CreateDefault(Item.SpecialValues));
+            Item.appendSpecialValues(EnumValue.CreateDefault(Item.SpecialValues));
         }
 
         /// <summary>
-        /// Finds or creates an udate for the current element.
+        ///     Finds or creates an udate for the current element.
         /// </summary>
         /// <returns></returns>
         protected override ModelElement FindOrCreateUpdate()

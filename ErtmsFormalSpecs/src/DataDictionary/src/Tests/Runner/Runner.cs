@@ -207,7 +207,7 @@ namespace DataDictionary.Tests.Runner
                 if (function != null)
                 {
                     function.ExecutionCount = 0;
-                    function.ExecutionTimeInMilli = 0L;                    
+                    function.ExecutionTimeInMilli = 0L;
                 }
 
                 base.visit(obj, visitSubNodes);
@@ -220,7 +220,7 @@ namespace DataDictionary.Tests.Runner
                 if (rule != null)
                 {
                     rule.ExecutionCount = 0;
-                    rule.ExecutionTimeInMilli = 0L;                    
+                    rule.ExecutionTimeInMilli = 0L;
                 }
 
                 base.visit(obj, visitSubNodes);
@@ -703,15 +703,15 @@ namespace DataDictionary.Tests.Runner
                                 }
                             }
 
-                            if (! transitionFound )
+                            if (! transitionFound)
                             {
                                 Tuple<State, State> transition = new Tuple<State, State>(leavingState, enteringState);
                                 transitions.Add(transition);
 
-                                HandleLeaveState(priority, newUpdates, change.Variable, (State)change.Variable.Value,
-                                    (State)change.NewValue);
-                                HandleEnterState(priority, newUpdates, change.Variable, (State)change.Variable.Value,
-                                    (State)change.NewValue);                                
+                                HandleLeaveState(priority, newUpdates, change.Variable, (State) change.Variable.Value,
+                                    (State) change.NewValue);
+                                HandleEnterState(priority, newUpdates, change.Variable, (State) change.Variable.Value,
+                                    (State) change.NewValue);
                             }
                         }
                     }
@@ -721,7 +721,7 @@ namespace DataDictionary.Tests.Runner
             }
         }
 
-        private readonly HashSet<State>  _processedStates = new HashSet<State>();
+        private readonly HashSet<State> _processedStates = new HashSet<State>();
 
         /// <summary>
         ///     Add actions when entering a state
@@ -754,7 +754,7 @@ namespace DataDictionary.Tests.Runner
                     if (enterState.EnclosingState != null)
                     {
                         HandleEnterState(priority, updates, variable, leaveState, enterState.EnclosingState);
-                    }                
+                    }
                 }
 
                 _processedStates.Remove(enterState);

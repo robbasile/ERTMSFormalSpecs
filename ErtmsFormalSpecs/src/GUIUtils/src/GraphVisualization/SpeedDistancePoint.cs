@@ -19,17 +19,17 @@ namespace GUIUtils.GraphVisualization
     public class SpeedDistancePoint
     {
         /// <summary>
-        /// The distance
+        ///     The distance
         /// </summary>
         public double Distance { get; set; }
 
         /// <summary>
-        /// The speed
+        ///     The speed
         /// </summary>
         public double Speed { get; set; }
 
         /// <summary>
-        /// Constructor
+        ///     Constructor
         /// </summary>
         public SpeedDistancePoint()
         {
@@ -38,7 +38,7 @@ namespace GUIUtils.GraphVisualization
         }
 
         /// <summary>
-        /// Constructor
+        ///     Constructor
         /// </summary>
         /// <param name="distance"></param>
         /// <param name="speed"></param>
@@ -54,7 +54,7 @@ namespace GUIUtils.GraphVisualization
         }
 
         /// <summary>
-        /// Reinitializes the data
+        ///     Reinitializes the data
         /// </summary>
         public void ClearData()
         {

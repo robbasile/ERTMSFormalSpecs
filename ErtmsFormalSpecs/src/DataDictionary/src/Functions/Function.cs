@@ -1256,7 +1256,7 @@ namespace DataDictionary.Functions
                         explanation.Write(parameter.Name);
                         explanation.Write(" : ");
                         explanation.Write(parameter.TypeName);
-                    }                    
+                    }
                 });
             }
             explanation.WriteLine(")");
@@ -1466,7 +1466,7 @@ namespace DataDictionary.Functions
         }
 
         /// <summary>
-        ///     Creates the status message 
+        ///     Creates the status message
         /// </summary>
         /// <returns>the status string for the selected element</returns>
         public override string CreateStatusMessage()
@@ -1479,13 +1479,13 @@ namespace DataDictionary.Functions
         }
 
         /// <summary>
-        /// Creates a default element
+        ///     Creates a default element
         /// </summary>
         /// <param name="enclosingCollection"></param>
         /// <returns></returns>
         public static Function CreateDefault(ICollection enclosingCollection)
         {
-            Function retVal = (Function)acceptor.getFactory().createFunction();
+            Function retVal = (Function) acceptor.getFactory().createFunction();
 
             Util.DontNotify(() =>
             {

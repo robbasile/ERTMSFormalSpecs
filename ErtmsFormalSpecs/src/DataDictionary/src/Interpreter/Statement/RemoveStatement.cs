@@ -372,7 +372,7 @@ namespace DataDictionary.Interpreter.Statement
             switch (Position)
             {
                 case PositionEnum.First:
-                    explanation.Write( "FIRST ");
+                    explanation.Write("FIRST ");
                     break;
 
                 case PositionEnum.Last:

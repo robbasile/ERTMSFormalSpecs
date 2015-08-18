@@ -23,7 +23,7 @@ namespace GUI.BoxArrowDiagram
     /// <summary>
     ///     A box editor
     /// </summary>
-    public class BoxEditor<TEnclosing, TBoxModel, TArrowModel> 
+    public class BoxEditor<TEnclosing, TBoxModel, TArrowModel>
         where TEnclosing : class
         where TBoxModel : class, IGraphicalDisplay
         where TArrowModel : class, IGraphicalArrow<TBoxModel>
@@ -43,10 +43,7 @@ namespace GUI.BoxArrowDiagram
         public virtual string Name
         {
             get { return Control.TypedModel.GraphicalName; }
-            set
-            {
-                Control.TypedModel.Name = value;
-            }
+            set { Control.TypedModel.Name = value; }
         }
 
         [Category("Description")]

@@ -29,28 +29,27 @@ namespace GUI.IPCInterface.Values
         /// f(x) = Sqrt(V0^2 + (2.0 * A * (x-D0))
         /// Where dx is the delta between
         /// In case of a step function, A = 0
-
         /// <summary>
-        /// The A factor in the quadratic curve segment
+        ///     The A factor in the quadratic curve segment
         /// </summary>
         [DataMember]
         public double A { get; set; }
 
         /// <summary>
-        /// The V0 factor in the quadratic curve segment
+        ///     The V0 factor in the quadratic curve segment
         /// </summary>
         [DataMember]
         public double V0 { get; set; }
 
         /// <summary>
-        /// The D0 factor in the quadratic curve segment
-        /// This is the start position of the segment
+        ///     The D0 factor in the quadratic curve segment
+        ///     This is the start position of the segment
         /// </summary>
         [DataMember]
         public double D0 { get; set; }
 
         /// <summary>
-        /// The length of the segment
+        ///     The length of the segment
         /// </summary>
         [DataMember]
         public double Length { get; set; }

@@ -16,23 +16,14 @@
 
 using System.Collections.Generic;
 using DataDictionary;
+using DataDictionary.Functions;
+using DataDictionary.Rules;
+using DataDictionary.Types;
+using DataDictionary.Variables;
 using GUI.BoxArrowDiagram;
 using GUI.ModelDiagram.Arrows;
 using GUI.ModelDiagram.Boxes;
 using Utils;
-using Collection = DataDictionary.Types.Collection;
-using Dictionary = DataDictionary.Dictionary;
-using Enum = DataDictionary.Types.Enum;
-using Function = DataDictionary.Functions.Function;
-using NameSpace = DataDictionary.Types.NameSpace;
-using Procedure = DataDictionary.Functions.Procedure;
-using Range = DataDictionary.Types.Range;
-using Rule = DataDictionary.Rules.Rule;
-using StateMachine = DataDictionary.Types.StateMachine;
-using Structure = DataDictionary.Types.Structure;
-using StructureElement = DataDictionary.Types.StructureElement;
-using Type = DataDictionary.Types.Type;
-using Variable = DataDictionary.Variables.Variable;
 
 namespace GUI.ModelDiagram
 {

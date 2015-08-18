@@ -24,8 +24,8 @@ using XmlBooster;
 namespace Utils
 {
     /// <summary>
-    /// Enumeration indicating the status of the current model element
-    /// According to the messages stored in this element and the sub elements
+    ///     Enumeration indicating the status of the current model element
+    ///     According to the messages stored in this element and the sub elements
     /// </summary>
     [Flags]
     public enum MessageInfoEnum
@@ -80,8 +80,10 @@ namespace Utils
         /// <summary>
         ///     Clears the messages associated to this model element
         /// </summary>
-        /// <param name="precise">Indicates that the MessagePathInfo should be recomputed precisely
-        ///  according to the sub elements and should update the enclosing elements</param>
+        /// <param name="precise">
+        ///     Indicates that the MessagePathInfo should be recomputed precisely
+        ///     according to the sub elements and should update the enclosing elements
+        /// </param>
         void ClearMessages(bool precise);
 
         /// <summary>
@@ -90,7 +92,7 @@ namespace Utils
         MessageInfoEnum MessagePathInfo { get; }
 
         /// <summary>
-        /// Indicates whether the model element is removed
+        ///     Indicates whether the model element is removed
         /// </summary>
         bool IsRemoved { get; }
 
@@ -117,7 +119,7 @@ namespace Utils
         protected static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         /// <summary>
-        /// Constructor
+        ///     Constructor
         /// </summary>
         protected ModelElement()
         {
@@ -263,8 +265,10 @@ namespace Utils
         /// <summary>
         ///     Clears the messages associated to this model element
         /// </summary>
-        /// <param name="precise">Indicates that the MessagePathInfo should be recomputed precisely
-        ///  according to the sub elements and should update the enclosing elements</param>
+        /// <param name="precise">
+        ///     Indicates that the MessagePathInfo should be recomputed precisely
+        ///     according to the sub elements and should update the enclosing elements
+        /// </param>
         public virtual void ClearMessages(bool precise)
         {
             LogCount -= Messages.Count;
@@ -277,10 +281,12 @@ namespace Utils
         }
 
         /// <summary>
-        /// Removes the messages after a ClearMessages
+        ///     Removes the messages after a ClearMessages
         /// </summary>
-        /// <param name="precise">Indicates that the MessagePathInfo should be recomputed precisely
-        ///  according to the sub elements and should update the enclosing elements</param>
+        /// <param name="precise">
+        ///     Indicates that the MessagePathInfo should be recomputed precisely
+        ///     according to the sub elements and should update the enclosing elements
+        /// </param>
         protected virtual void UpdateMessageInfoAfterClear(bool precise)
         {
             Messages.Clear();
@@ -314,7 +320,7 @@ namespace Utils
         }
 
         /// <summary>
-        /// Indicates whether the model element is removed
+        ///     Indicates whether the model element is removed
         /// </summary>
         public abstract bool IsRemoved { get; }
 
@@ -336,9 +342,9 @@ namespace Utils
                     }
 
                     List<ElementLog> list;
-                    if ( Errors.TryGetValue(this, out list))
+                    if (Errors.TryGetValue(this, out list))
                     {
-                        list.Add(log);                        
+                        list.Add(log);
                     }
                 }
             }
@@ -371,7 +377,7 @@ namespace Utils
         }
 
         /// <summary>
-        /// Updates the message info when a new message is added
+        ///     Updates the message info when a new message is added
         /// </summary>
         /// <param name="info"></param>
         protected void UpdateMessageInfo(MessageInfoEnum info)
@@ -400,7 +406,6 @@ namespace Utils
                     enclosing.UpdateMessageInfo(nextInfo);
                 }
             }
-
         }
 
         /// <summary>

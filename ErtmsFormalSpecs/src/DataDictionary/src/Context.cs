@@ -24,32 +24,32 @@ using XmlBooster;
 namespace DataDictionary
 {
     /// <summary>
-    /// The context used to display elements in the GUI
+    ///     The context used to display elements in the GUI
     /// </summary>
-    public class Context: IListener<BaseModelElement>
+    public class Context : IListener<BaseModelElement>
     {
         /// <summary>
-        /// Handling the critical section
+        ///     Handling the critical section
         /// </summary>
         private Mutex CriticalSection { get; set; }
 
         /// <summary>
-        /// The changes that occured in the system
+        ///     The changes that occured in the system
         /// </summary>
         private Dictionary<IModelElement, HashSet<ChangeKind>> Changes { get; set; }
 
         /// <summary>
-        /// Notifies of changes
+        ///     Notifies of changes
         /// </summary>
         private Thread ChangeNotifier { get; set; }
 
         /// <summary>
-        /// Indicates that notification should be performed
+        ///     Indicates that notification should be performed
         /// </summary>
         private bool Notify { get; set; }
 
         /// <summary>
-        /// Constructor
+        ///     Constructor
         /// </summary>
         public Context()
         {
@@ -65,7 +65,7 @@ namespace DataDictionary
         }
 
         /// <summary>
-        /// Destructor
+        ///     Destructor
         /// </summary>
         ~Context()
         {
@@ -88,7 +88,7 @@ namespace DataDictionary
         public List<SelectionContext> SelectionHistory { get; private set; }
 
         /// <summary>
-        /// The flags related to this selection
+        ///     The flags related to this selection
         /// </summary>
         [Flags]
         public enum SelectionCriteria
@@ -102,27 +102,27 @@ namespace DataDictionary
         }
 
         /// <summary>
-        /// Provides the context in which this selection occured
+        ///     Provides the context in which this selection occured
         /// </summary>
         public class SelectionContext
         {
             /// <summary>
-            /// The element that has been selected
+            ///     The element that has been selected
             /// </summary>
             public IModelElement Element { get; private set; }
 
             /// <summary>
-            /// The sender of such event
+            ///     The sender of such event
             /// </summary>
             public object Sender { get; private set; }
 
             /// <summary>
-            /// The selection criteria (left click, right click, ...)
+            ///     The selection criteria (left click, right click, ...)
             /// </summary>
             public SelectionCriteria Criteria { get; private set; }
 
             /// <summary>
-            /// Constructor
+            ///     Constructor
             /// </summary>
             /// <param name="element"></param>
             /// <param name="sender"></param>
@@ -136,7 +136,7 @@ namespace DataDictionary
         }
 
         /// <summary>
-        /// Sets the currently selected element
+        ///     Sets the currently selected element
         /// </summary>
         /// <param name="modelElement"></param>
         /// <param name="source"></param>
@@ -168,12 +168,12 @@ namespace DataDictionary
         }
 
         /// <summary>
-        /// Clear the history until the element has been found
+        ///     Clear the history until the element has been found
         /// </summary>
         public void ClearHistoryUntilElement(IModelElement element)
         {
             int index = -1;
-            
+
             foreach (SelectionContext selectionContext in SelectionHistory)
             {
                 index += 1;
@@ -194,18 +194,18 @@ namespace DataDictionary
         }
 
         /// <summary>
-        /// The delegate used to handle the change of the currently selected model element
+        ///     The delegate used to handle the change of the currently selected model element
         /// </summary>
         /// <param name="context"></param>
         public delegate void HandleSelectionChange(SelectionContext context);
 
         /// <summary>
-        /// The event raised when the selection changes
+        ///     The event raised when the selection changes
         /// </summary>
         public event HandleSelectionChange SelectionChange;
 
         /// <summary>
-        /// Handles a change of the currently selected model element
+        ///     Handles a change of the currently selected model element
         /// </summary>
         /// <param name="context"></param>
         protected virtual void OnSelectionChange(SelectionContext context)
@@ -217,7 +217,7 @@ namespace DataDictionary
         }
 
         /// <summary>
-        /// The reason why the change occured
+        ///     The reason why the change occured
         /// </summary>
         public enum ChangeKind
         {
@@ -228,19 +228,19 @@ namespace DataDictionary
         }
 
         /// <summary>
-        /// The delegate used to handle the change of the value of a model element
+        ///     The delegate used to handle the change of the value of a model element
         /// </summary>
         /// <param name="modelElement"></param>
         /// <param name="changeKind">Indicates the reason why the change occured</param>
         public delegate void HandleValueChange(IModelElement modelElement, ChangeKind changeKind);
 
         /// <summary>
-        /// The event raised when the value changes
+        ///     The event raised when the value changes
         /// </summary>
         public event HandleValueChange ValueChange;
 
         /// <summary>
-        /// Handles a change of the value of a model element
+        ///     Handles a change of the value of a model element
         /// </summary>
         /// <param name="value"></param>
         /// <param name="changeKind">Indicates the reason why the change occured</param>
@@ -269,7 +269,7 @@ namespace DataDictionary
         }
 
         /// <summary>
-        /// Background thread used to notify the changes in the system
+        ///     Background thread used to notify the changes in the system
         /// </summary>
         private void NotifyChanges()
         {
@@ -284,7 +284,7 @@ namespace DataDictionary
                 // Notify of changes
                 if (ValueChange != null)
                 {
-                    foreach (var pair in changes)
+                    foreach (KeyValuePair<IModelElement, HashSet<ChangeKind>> pair in changes)
                     {
                         foreach (ChangeKind kind in pair.Value)
                         {
@@ -298,7 +298,7 @@ namespace DataDictionary
         }
 
         /// <summary>
-        /// Handles the change of a value on a model element
+        ///     Handles the change of a value on a model element
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="changeKind">Indicates the reason why the change occured</param>
@@ -308,7 +308,7 @@ namespace DataDictionary
         }
 
         /// <summary>
-        /// Handles the change of a value on a model element
+        ///     Handles the change of a value on a model element
         /// </summary>
         /// <param name="sender"></param>
         public void HandleChangeEvent(BaseModelElement sender)
@@ -317,7 +317,7 @@ namespace DataDictionary
         }
 
         /// <summary>
-        /// Handles the change of a value on a model element
+        ///     Handles the change of a value on a model element
         /// </summary>
         /// <param name="aLock"></param>
         /// <param name="sender"></param>
@@ -338,18 +338,18 @@ namespace DataDictionary
         }
 
         /// <summary>
-        /// The delegate used to handle the change of information message associaated to a model element
+        ///     The delegate used to handle the change of information message associaated to a model element
         /// </summary>
         /// <param name="modelElement"></param>
         public delegate void HandleInfoMessageChange(IModelElement modelElement);
 
         /// <summary>
-        /// The event raised when the informative message changes
+        ///     The event raised when the informative message changes
         /// </summary>
         public event HandleInfoMessageChange InfoMessageChange;
 
         /// <summary>
-        /// Handles a change of the value of a model element
+        ///     Handles a change of the value of a model element
         /// </summary>
         /// <param name="value"></param>
         protected virtual void OnInformationMessageChange(IModelElement value)
@@ -361,7 +361,7 @@ namespace DataDictionary
         }
 
         /// <summary>
-        /// Handles the change of a value on a model element
+        ///     Handles the change of a value on a model element
         /// </summary>
         /// <param name="sender"></param>
         public void HandleInfoMessageChangeEvent(IModelElement sender)
@@ -370,7 +370,7 @@ namespace DataDictionary
         }
 
         /// <summary>
-        /// Stops notifying
+        ///     Stops notifying
         /// </summary>
         public void Stop()
         {

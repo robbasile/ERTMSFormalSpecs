@@ -30,6 +30,7 @@ using GUI.DataDictionaryView;
 using GUIUtils.Editor;
 using Utils;
 using Action = DataDictionary.Rules.Action;
+using ModelElement = DataDictionary.ModelElement;
 
 namespace GUI.EditorView
 {
@@ -70,7 +71,7 @@ namespace GUI.EditorView
             set
             {
                 _instance = value;
-                EditionTextBox.Instance = value as DataDictionary.ModelElement;
+                EditionTextBox.Instance = value as ModelElement;
             }
         }
 
@@ -102,7 +103,8 @@ namespace GUI.EditorView
                         Context.SelectionCriteria criteria = GuiUtils.SelectionCriteriaBasedOnMouseEvent(mouseEventArgs);
                         if ((criteria & Context.SelectionCriteria.Ctrl) != 0)
                         {
-                            EFSSystem.INSTANCE.Context.SelectElement(modelElement, this, Context.SelectionCriteria.DoubleClick);                            
+                            EFSSystem.INSTANCE.Context.SelectElement(modelElement, this,
+                                Context.SelectionCriteria.DoubleClick);
                         }
                     }
                 }
@@ -184,7 +186,7 @@ namespace GUI.EditorView
 
             if (expression != null)
             {
-                DataDictionary.ModelElement.DontRaiseError(() =>
+                ModelElement.DontRaiseError(() =>
                 {
                     InterpretationContext context = new InterpretationContext(Model) {UseDefaultValue = false};
                     IValue value = expression.GetExpressionValue(context, null);
@@ -316,7 +318,7 @@ namespace GUI.EditorView
             {
                 const bool doSemanticalAnalysis = true;
                 const bool silent = true;
-                DataDictionary.ModelElement root = Instance as DataDictionary.ModelElement;
+                ModelElement root = Instance as ModelElement;
                 if (root == null)
                 {
                     root = EFSSystem.INSTANCE.Dictionaries[0];

@@ -66,7 +66,7 @@ namespace GUI.BoxArrowDiagram
         }
 
         /// <summary>
-        /// Handles a click event
+        ///     Handles a click event
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -94,7 +94,8 @@ namespace GUI.BoxArrowDiagram
                             Selected = element;
                         }
 
-                        Point location = new Point(mouseEventArgs.Location.X - HorizontalScroll.Value, mouseEventArgs.Y - VerticalScroll.Value);
+                        Point location = new Point(mouseEventArgs.Location.X - HorizontalScroll.Value,
+                            mouseEventArgs.Y - VerticalScroll.Value);
                         menu.Show(this, location);
                     }
                 }
@@ -102,7 +103,7 @@ namespace GUI.BoxArrowDiagram
         }
 
         /// <summary>
-        /// Builds teh context menu associated to either the selected element or the panel
+        ///     Builds teh context menu associated to either the selected element or the panel
         /// </summary>
         /// <param name="element"></param>
         /// <returns></returns>
@@ -134,7 +135,7 @@ namespace GUI.BoxArrowDiagram
         }
 
         /// <summary>
-        /// Provides the base tree node associated to a model element
+        ///     Provides the base tree node associated to a model element
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
@@ -152,7 +153,7 @@ namespace GUI.BoxArrowDiagram
         }
 
         /// <summary>
-        /// Handles a double click event
+        ///     Handles a double click event
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -223,7 +224,7 @@ namespace GUI.BoxArrowDiagram
         public abstract ArrowControl<TEnclosing, TBoxModel, TArrowModel> CreateArrow(TArrowModel model);
 
         /// <summary>
-        /// Provides the element for the given location
+        ///     Provides the element for the given location
         /// </summary>
         /// <param name="location"></param>
         /// <returns></returns>
@@ -285,12 +286,12 @@ namespace GUI.BoxArrowDiagram
         }
 
         /// <summary>
-        /// The box that is currently being moved
+        ///     The box that is currently being moved
         /// </summary>
         private BoxControl<TEnclosing, TBoxModel, TArrowModel> _movingBox;
 
         /// <summary>
-        /// Indicates that the moving box moved sufficiently to be actually considered as moving
+        ///     Indicates that the moving box moved sufficiently to be actually considered as moving
         /// </summary>
         private bool _movingBoxHasMoved;
 
@@ -322,7 +323,7 @@ namespace GUI.BoxArrowDiagram
         private ChangeAction _chaningArrowAction = ChangeAction.None;
 
         /// <summary>
-        /// Handles a mouse down event
+        ///     Handles a mouse down event
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="mouseEventArgs"></param>
@@ -337,7 +338,7 @@ namespace GUI.BoxArrowDiagram
             if (mouseEventArgs.Button == MouseButtons.Left)
             {
                 Point clickPoint = new Point(mouseEventArgs.X, mouseEventArgs.Y);
-                foreach (var arrow in _arrows.Values)
+                foreach (ArrowControl<TEnclosing, TBoxModel, TArrowModel> arrow in _arrows.Values)
                 {
                     if (Around(arrow.StartLocation, clickPoint))
                     {
@@ -357,7 +358,7 @@ namespace GUI.BoxArrowDiagram
 
                 if (_changingArrow == null)
                 {
-                    var box = BoxForLocation(clickPoint);
+                    BoxControl<TEnclosing, TBoxModel, TArrowModel> box = BoxForLocation(clickPoint);
                     if (box != null)
                     {
                         _movingBox = box;
@@ -380,8 +381,8 @@ namespace GUI.BoxArrowDiagram
             if (element != null)
             {
                 element.HandleMouseMove(sender, mouseEventArgs);
-            } 
-            
+            }
+
             if (_changingArrow != null && _chaningArrowAction != ChangeAction.None)
             {
                 BoxControl<TEnclosing, TBoxModel, TArrowModel> box = BoxForLocation(mouseEventArgs.Location);
@@ -423,13 +424,13 @@ namespace GUI.BoxArrowDiagram
                         Context.SelectionCriteria criteria = GuiUtils.SelectionCriteriaBasedOnMouseEvent(mouseEventArgs);
                         EFSSystem.INSTANCE.Context.SelectElement(model, this, criteria);
                         _movingBoxHasMoved = true;
-                    } 
-                    
+                    }
+
                     Util.DontNotify(() =>
                     {
                         int newX = _positionBeforeMove.X + deltaX;
                         int newY = _positionBeforeMove.Y + deltaY;
-                        SetBoxPosition(_movingBox, newX, newY);                        
+                        SetBoxPosition(_movingBox, newX, newY);
                         UpdatePositions();
                     });
                 }
@@ -456,7 +457,7 @@ namespace GUI.BoxArrowDiagram
         }
 
         /// <summary>
-        /// Handles a mouse up event
+        ///     Handles a mouse up event
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="mouseEventArgs"></param>
@@ -472,7 +473,7 @@ namespace GUI.BoxArrowDiagram
             {
                 _changingArrow = null;
                 _chaningArrowAction = ChangeAction.None;
-                RefreshControl();                
+                RefreshControl();
             }
 
             if (_movingBox != null)
@@ -528,7 +529,7 @@ namespace GUI.BoxArrowDiagram
         {
             return Math.Abs(p1.X - p2.X) < MaxDelta && Math.Abs(p1.Y - p2.Y) < MaxDelta;
         }
-        
+
         /// <summary>
         ///     The dictionary used to keep the relation between boxe controls and their model
         /// </summary>
@@ -674,7 +675,7 @@ namespace GUI.BoxArrowDiagram
             ///     The allocated rectangles
             /// </summary>
             private readonly List<Rectangle> _allocatedBoxes = new List<Rectangle>();
-            
+
             /// <summary>
             ///     Finds a rectangle which intersects with the current rectangle
             /// </summary>
@@ -723,7 +724,7 @@ namespace GUI.BoxArrowDiagram
         }
 
         /// <summary>
-        /// Updates the position of both boxes and arrows
+        ///     Updates the position of both boxes and arrows
         /// </summary>
         private void UpdatePositions()
         {
@@ -733,14 +734,14 @@ namespace GUI.BoxArrowDiagram
         }
 
         /// <summary>
-        /// Update the box location and compute the panel size
+        ///     Update the box location and compute the panel size
         /// </summary>
         private void UpdateBoxPosition()
         {
             Size size = new Size(0, 0);
             const int deltaHeight = 20;
             const int deltaWidth = 20;
-            foreach (var box in _boxes.Values)
+            foreach (BoxControl<TEnclosing, TBoxModel, TArrowModel> box in _boxes.Values)
             {
                 if (box.Width == 0 || box.Height == 0)
                 {
@@ -748,7 +749,7 @@ namespace GUI.BoxArrowDiagram
                     box.Size = DefaultBoxSize;
                 }
 
-                if( box.Location.IsEmpty )
+                if (box.Location.IsEmpty)
                 {
                     // Setup next location
                     box.Location = GetNextPosition();
@@ -805,7 +806,8 @@ namespace GUI.BoxArrowDiagram
         /// </summary>
         private void ComputeArrowPosition()
         {
-            List<ArrowControl<TEnclosing, TBoxModel, TArrowModel>> workingSet = new List<ArrowControl<TEnclosing, TBoxModel, TArrowModel>>();
+            List<ArrowControl<TEnclosing, TBoxModel, TArrowModel>> workingSet =
+                new List<ArrowControl<TEnclosing, TBoxModel, TArrowModel>>();
             workingSet.AddRange(_arrows.Values);
 
             while (workingSet.Count > 1)
@@ -814,7 +816,8 @@ namespace GUI.BoxArrowDiagram
                 workingSet.Remove(t1);
 
                 // Compute the set of arrows overlapping with t1
-                List<ArrowControl<TEnclosing, TBoxModel, TArrowModel>> overlap = new List<ArrowControl<TEnclosing, TBoxModel, TArrowModel>> { t1 };
+                List<ArrowControl<TEnclosing, TBoxModel, TArrowModel>> overlap =
+                    new List<ArrowControl<TEnclosing, TBoxModel, TArrowModel>> {t1};
                 foreach (ArrowControl<TEnclosing, TBoxModel, TArrowModel> t in workingSet)
                 {
                     if (t.TypedModel.Source == t1.TypedModel.Source &&
@@ -891,7 +894,8 @@ namespace GUI.BoxArrowDiagram
             {
                 Point center = arrow.GetCenter();
                 Point upSlide = Slide(arrow, center, ArrowControl<TEnclosing, TBoxModel, TArrowModel>.SlideDirection.Up);
-                Point downSlide = Slide(arrow, center, ArrowControl<TEnclosing, TBoxModel, TArrowModel>.SlideDirection.Down);
+                Point downSlide = Slide(arrow, center,
+                    ArrowControl<TEnclosing, TBoxModel, TArrowModel>.SlideDirection.Down);
 
                 Rectangle boundingBox;
                 if (Distance(center, upSlide) <= Distance(center, downSlide))
@@ -947,7 +951,7 @@ namespace GUI.BoxArrowDiagram
 
                 // Ensure there is no clash
                 Rectangle rectangle = new Rectangle(retVal, DefaultBoxSize);
-                foreach (var box in _boxes.Values)
+                foreach (BoxControl<TEnclosing, TBoxModel, TArrowModel> box in _boxes.Values)
                 {
                     if (box.Rectangle.IntersectsWith(rectangle))
                     {
@@ -969,7 +973,7 @@ namespace GUI.BoxArrowDiagram
 
 
         /// <summary>
-        /// Paints the pannel
+        ///     Paints the pannel
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -1011,7 +1015,8 @@ namespace GUI.BoxArrowDiagram
         /// </summary>
         /// <param name="control"></param>
         /// <returns></returns>
-        protected virtual BoxEditor<TEnclosing, TBoxModel, TArrowModel> CreateBoxEditor(BoxControl<TEnclosing, TBoxModel, TArrowModel> control)
+        protected virtual BoxEditor<TEnclosing, TBoxModel, TArrowModel> CreateBoxEditor(
+            BoxControl<TEnclosing, TBoxModel, TArrowModel> control)
         {
             return new BoxEditor<TEnclosing, TBoxModel, TArrowModel>(control);
         }
@@ -1021,27 +1026,28 @@ namespace GUI.BoxArrowDiagram
         /// </summary>
         /// <param name="control"></param>
         /// <returns></returns>
-        protected virtual ArrowEditor<TEnclosing, TBoxModel, TArrowModel> CreateArrowEditor(ArrowControl<TEnclosing, TBoxModel, TArrowModel> control)
+        protected virtual ArrowEditor<TEnclosing, TBoxModel, TArrowModel> CreateArrowEditor(
+            ArrowControl<TEnclosing, TBoxModel, TArrowModel> control)
         {
             return new ArrowEditor<TEnclosing, TBoxModel, TArrowModel>(control);
         }
 
         /// <summary>
-        /// Creates the editor for the selected object
+        ///     Creates the editor for the selected object
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
         public override object CreateEditor(IModelElement model)
         {
-            object retVal= null;
+            object retVal = null;
 
-            var boxControl = GetBoxControl(model as TBoxModel);
+            BoxControl<TEnclosing, TBoxModel, TArrowModel> boxControl = GetBoxControl(model as TBoxModel);
             if (boxControl != null)
             {
                 retVal = CreateBoxEditor(boxControl);
             }
 
-            var arrowControl = GetArrowControl(model as TArrowModel);
+            ArrowControl<TEnclosing, TBoxModel, TArrowModel> arrowControl = GetArrowControl(model as TArrowModel);
             if (arrowControl != null)
             {
                 retVal = CreateArrowEditor(arrowControl);

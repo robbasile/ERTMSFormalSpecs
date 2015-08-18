@@ -24,7 +24,11 @@ using DataDictionary.Interpreter;
 using DataDictionary.Interpreter.Filter;
 using Utils;
 using XmlBooster;
+using Comparer = DataDictionary.Compare.Comparer;
+using NameSpace = DataDictionary.Types.NameSpace;
+using Paragraph = DataDictionary.Specification.Paragraph;
 using StateMachine = DataDictionary.Types.StateMachine;
+using Structure = DataDictionary.Types.Structure;
 using Visitor = DataDictionary.Generated.Visitor;
 
 namespace DataDictionary
@@ -323,7 +327,7 @@ namespace DataDictionary
                 string[] fullNames = objName.Split('.');
                 string[] topNames = parentName.Split('.');
 
-                retVal.Add(topNames[topNames.Count()-1]);
+                retVal.Add(topNames[topNames.Count() - 1]);
                 foreach (string name in fullNames)
                 {
                     if (!topNames.Contains(name))
@@ -337,9 +341,9 @@ namespace DataDictionary
         }
 
         /// <summary>
-        /// Provides the source of the update chain
+        ///     Provides the source of the update chain
         /// </summary>
-        public ModelElement SourceOfUpdateChain 
+        public ModelElement SourceOfUpdateChain
         {
             get
             {
@@ -353,6 +357,7 @@ namespace DataDictionary
                 return retVal;
             }
         }
+
         /// <summary>
         ///     Provides the model element that has been updated by this one (if any)
         /// </summary>
@@ -400,19 +405,19 @@ namespace DataDictionary
                 ModelElement parent = Enclosing as ModelElement;
                 if (parent != null)
                 {
-                    Types.NameSpace parentNameSpace = parent.Updates as Types.NameSpace;
+                    NameSpace parentNameSpace = parent.Updates as NameSpace;
                     if (parentNameSpace != null)
                     {
                         parentNameSpace.AddModelElement(Duplicate());
                     }
 
-                    Specification.Paragraph parentParagraph = parent.Updates as Specification.Paragraph;
+                    Paragraph parentParagraph = parent.Updates as Paragraph;
                     if (parentParagraph != null)
                     {
                         parentParagraph.AddModelElement(Duplicate());
                     }
 
-                    Types.Structure parentStructure = parent.Updates as Types.Structure;
+                    Structure parentStructure = parent.Updates as Structure;
                     if (parentStructure != null)
                     {
                         parentStructure.AddModelElement(Duplicate());
@@ -439,7 +444,7 @@ namespace DataDictionary
         }
 
         /// <summary>
-        /// Gets all values from source to target
+        ///     Gets all values from source to target
         /// </summary>
         /// <param name="source"></param>
         protected virtual void UpdateModelElementAccordingToSource(ModelElement source)
@@ -454,7 +459,7 @@ namespace DataDictionary
                 int height = targetGraphicalDisplay.Height;
                 bool hidden = targetGraphicalDisplay.Hidden;
 
-                Compare.Comparer.Duplicate(source, this);
+                Comparer.Duplicate(source, this);
 
                 targetGraphicalDisplay.X = x;
                 targetGraphicalDisplay.Y = y;
@@ -464,7 +469,7 @@ namespace DataDictionary
             }
             else
             {
-                Compare.Comparer.Duplicate(source, this);                
+                Comparer.Duplicate(source, this);
             }
         }
 
@@ -505,7 +510,7 @@ namespace DataDictionary
         }
 
         /// <summary>
-        ///     Creates the status message 
+        ///     Creates the status message
         /// </summary>
         /// <returns>the status string for the selected element</returns>
         public virtual string CreateStatusMessage()
@@ -514,7 +519,7 @@ namespace DataDictionary
         }
 
         /// <summary>
-        /// Provides the number of a new element in the collection provided
+        ///     Provides the number of a new element in the collection provided
         /// </summary>
         /// <param name="enclosingCollection"></param>
         /// <returns></returns>
@@ -532,7 +537,7 @@ namespace DataDictionary
     }
 
     /// <summary>
-    /// Something that can be explained
+    ///     Something that can be explained
     /// </summary>
     public interface ITextualExplain
     {
@@ -550,7 +555,7 @@ namespace DataDictionary
     public static class TextualExplanationUtils
     {
         /// <summary>
-        /// Provides the explanation associated to the ITextualExplain
+        ///     Provides the explanation associated to the ITextualExplain
         /// </summary>
         /// <param name="textualExplain"></param>
         /// <param name="explainSubElements"></param>
@@ -569,27 +574,27 @@ namespace DataDictionary
     public class TextualExplanation
     {
         /// <summary>
-        /// The data currently being built
+        ///     The data currently being built
         /// </summary>
         private StringBuilder Data { get; set; }
 
         /// <summary>
-        /// Indicates that we are at the beginning of a new line
+        ///     Indicates that we are at the beginning of a new line
         /// </summary>
         private bool NewLine { get; set; }
 
         /// <summary>
-        /// The current indent level
+        ///     The current indent level
         /// </summary>
         private int IndentLevel { get; set; }
 
         /// <summary>
-        /// The current indent string
+        ///     The current indent string
         /// </summary>
-        private string IndentString{ get; set; }
+        private string IndentString { get; set; }
 
         /// <summary>
-        /// Constructor
+        ///     Constructor
         /// </summary>
         public TextualExplanation()
         {
@@ -600,7 +605,7 @@ namespace DataDictionary
         }
 
         /// <summary>
-        /// Provides the textual explanation
+        ///     Provides the textual explanation
         /// </summary>
         public string Text
         {
@@ -608,12 +613,12 @@ namespace DataDictionary
         }
 
         /// <summary>
-        /// This code creates explanation which shall be indented
+        ///     This code creates explanation which shall be indented
         /// </summary>
         public delegate void CodeToIndent();
 
         /// <summary>
-        /// Increases the indent level
+        ///     Increases the indent level
         /// </summary>
         /// <param name="size"></param>
         /// <param name="indentCode">The action used to create the indented code</param>
@@ -636,7 +641,7 @@ namespace DataDictionary
         }
 
         /// <summary>
-        /// Appends a string to the current result
+        ///     Appends a string to the current result
         /// </summary>
         /// <param name="data"></param>
         public void Write(string data = "")
@@ -650,7 +655,7 @@ namespace DataDictionary
         }
 
         /// <summary>
-        /// Appends a string to the current result and adds an end of line
+        ///     Appends a string to the current result and adds an end of line
         /// </summary>
         /// <param name="data"></param>
         public void WriteLine(string data = "")
@@ -736,20 +741,21 @@ namespace DataDictionary
         }
 
         /// <summary>
-        /// Method used to explain a single element
+        ///     Method used to explain a single element
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="element"></param>
         public delegate void ExplainElement<in T>(T element);
 
         /// <summary>
-        /// Explains a list of elements
+        ///     Explains a list of elements
         /// </summary>
         /// <param name="elements"></param>
         /// <param name="explainSubElements"></param>
         /// <param name="separator"></param>
         /// <param name="explainElement">The action used to explain a single element</param>
-        public void ExplainList<T>(IEnumerable<T> elements, bool explainSubElements, string separator, ExplainElement<T> explainElement)
+        public void ExplainList<T>(IEnumerable<T> elements, bool explainSubElements, string separator,
+            ExplainElement<T> explainElement)
         {
             bool first = true;
             foreach (T element in elements)

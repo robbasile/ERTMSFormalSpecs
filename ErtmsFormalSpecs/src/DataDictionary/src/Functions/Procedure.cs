@@ -274,7 +274,7 @@ namespace DataDictionary.Functions
                 {
                     rule.GetExplain(explanation, explainSubElements);
                     explanation.WriteLine();
-                }                
+                }
             });
 
             explanation.WriteLine("END PROCEDURE ");
@@ -369,7 +369,7 @@ namespace DataDictionary.Functions
                 if (Enclosing is Structure)
                 {
                     NameSpace nameSpace = dictionary.GetNameSpaceUpdate(nameSpaceRef, Dictionary);
-                    Structure structure = nameSpace.GetStructureUpdate(names.Last(), (NameSpace)nameSpace.Updates);
+                    Structure structure = nameSpace.GetStructureUpdate(names.Last(), (NameSpace) nameSpace.Updates);
                     structure.appendProcedures(retVal);
                 }
             }
@@ -437,7 +437,7 @@ namespace DataDictionary.Functions
         }
 
         /// <summary>
-        ///     Creates the status message 
+        ///     Creates the status message
         /// </summary>
         /// <returns>the status string for the selected element</returns>
         public override string CreateStatusMessage()
@@ -450,18 +450,15 @@ namespace DataDictionary.Functions
         }
 
         /// <summary>
-        /// Creates a default element
+        ///     Creates a default element
         /// </summary>
         /// <param name="enclosingCollection"></param>
         /// <returns></returns>
         public static Procedure CreateDefault(ICollection enclosingCollection)
         {
-            Procedure retVal = (Procedure)acceptor.getFactory().createProcedure();
-            
-            Util.DontNotify(() =>
-            {
-                retVal.Name = "Procedure" + GetElementNumber(enclosingCollection);
-            });
+            Procedure retVal = (Procedure) acceptor.getFactory().createProcedure();
+
+            Util.DontNotify(() => { retVal.Name = "Procedure" + GetElementNumber(enclosingCollection); });
 
             return retVal;
         }

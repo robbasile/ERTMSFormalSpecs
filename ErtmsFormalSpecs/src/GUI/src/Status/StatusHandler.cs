@@ -16,7 +16,6 @@
 
 using System.Windows.Forms;
 using DataDictionary;
-using ModelElement = DataDictionary.ModelElement;
 
 namespace GUI.Status
 {
@@ -69,9 +68,9 @@ namespace GUI.Status
                     ModelChanged = false;
 
                     // Build the status message in a background thread, because it can take a long time
-                    Instance.BeginInvoke((MethodInvoker)(() => Instance.SetStatus("Updating status...")));
+                    Instance.BeginInvoke((MethodInvoker) (() => Instance.SetStatus("Updating status...")));
                     string status = Model.CreateStatusMessage();
-                    Instance.BeginInvoke((MethodInvoker)(() => Instance.SetStatus(status)));
+                    Instance.BeginInvoke((MethodInvoker) (() => Instance.SetStatus(status)));
                 }
             }
         }
@@ -82,7 +81,7 @@ namespace GUI.Status
         private StatusSynchronizer StatusSynchronizerTask { get; set; }
 
         /// <summary>
-        /// Handles the displayed status
+        ///     Handles the displayed status
         /// </summary>
         public StatusHandler()
         {
@@ -91,10 +90,10 @@ namespace GUI.Status
         }
 
         /// <summary>
-        /// Updates the status when the selection changes
+        ///     Updates the status when the selection changes
         /// </summary>
         /// <param name="context"></param>
-        void HandleSelectionChange(Context.SelectionContext context)
+        private void HandleSelectionChange(Context.SelectionContext context)
         {
             ModelElement element = context.Element as ModelElement;
             if (element != null)

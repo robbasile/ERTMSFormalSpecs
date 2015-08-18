@@ -16,6 +16,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading;
 using DataDictionary.Generated;
 using DataDictionary.Interpreter.Refactor;
@@ -524,7 +525,7 @@ namespace DataDictionary.Interpreter
                 {
                     // TODO : I don't know what to do. 
                     // Please, at least, don't remove this
-                    System.Diagnostics.Debugger.Break();
+                    Debugger.Break();
                 }
             });
         }
@@ -733,7 +734,7 @@ namespace DataDictionary.Interpreter
 
                 // Change the element name
                 string originalName = element.Name;
-                if ( newName != originalName )
+                if (newName != originalName)
                 {
                     element.Name = newName;
                 }

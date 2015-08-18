@@ -17,8 +17,8 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using Rule = DataDictionary.Rules.Rule;
-using StateMachine = DataDictionary.Types.StateMachine;
+using DataDictionary.Rules;
+using DataDictionary.Types;
 
 namespace GUI.DataDictionaryView
 {
@@ -37,7 +37,7 @@ namespace GUI.DataDictionaryView
             : base(item, buildSubNodes, "Rules", true, false)
         {
         }
-        
+
         /// <summary>
         ///     Builds the subnodes of this node
         /// </summary>

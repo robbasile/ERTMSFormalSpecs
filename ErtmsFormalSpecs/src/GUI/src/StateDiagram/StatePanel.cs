@@ -25,6 +25,7 @@ using DataDictionary.Variables;
 using GUI.BoxArrowDiagram;
 using Utils;
 using Action = DataDictionary.Rules.Action;
+using Dictionary = DataDictionary.Dictionary;
 using Rule = DataDictionary.Rules.Rule;
 using RuleCondition = DataDictionary.Rules.RuleCondition;
 using State = DataDictionary.Constants.State;
@@ -91,7 +92,7 @@ namespace GUI.StateDiagram
             if (stateMachine != null)
             {
                 StateMachineVariableExpression =
-                    EFSSystem.INSTANCE.Parser.Expression(EnclosingFinder<DataDictionary.Dictionary>.find(stateMachine),
+                    EFSSystem.INSTANCE.Parser.Expression(EnclosingFinder<Dictionary>.find(stateMachine),
                         stateMachine.FullName);
             }
             else
@@ -150,7 +151,7 @@ namespace GUI.StateDiagram
         }
 
         /// <summary>
-        /// Builds teh context menu associated to either the selected element or the panel
+        ///     Builds teh context menu associated to either the selected element or the panel
         /// </summary>
         /// <param name="element"></param>
         /// <returns></returns>
@@ -195,7 +196,7 @@ namespace GUI.StateDiagram
         }
 
         /// <summary>
-        /// Adds a transition
+        ///     Adds a transition
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -212,7 +213,7 @@ namespace GUI.StateDiagram
                 rule.appendConditions(ruleCondition);
 
                 Action action = (Action) factory.createAction();
-                action.ExpressionText = "THIS <- " + ((State)Model.States[1]).LiteralName;
+                action.ExpressionText = "THIS <- " + ((State) Model.States[1]).LiteralName;
                 ruleCondition.appendActions(action);
                 State sourceState = Model.States[0] as State;
                 if (sourceState != null)
@@ -225,7 +226,7 @@ namespace GUI.StateDiagram
         }
 
         /// <summary>
-        /// Allow to delete a transition
+        ///     Allow to delete a transition
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -239,7 +240,8 @@ namespace GUI.StateDiagram
             }
             else if (Selected is ArrowControl<StateMachine, State, Transition>)
             {
-                ArrowControl<StateMachine, State, Transition> control = Selected as ArrowControl<StateMachine, State, Transition>;
+                ArrowControl<StateMachine, State, Transition> control =
+                    Selected as ArrowControl<StateMachine, State, Transition>;
                 RuleCondition ruleCondition = control.TypedModel.RuleCondition;
                 Rule rule = ruleCondition.EnclosingRule;
                 if (rule.countConditions() == 1)
@@ -263,7 +265,8 @@ namespace GUI.StateDiagram
         /// </summary>
         /// <param name="control"></param>
         /// <returns></returns>
-        protected override BoxEditor<StateMachine, State, Transition> CreateBoxEditor(BoxControl<StateMachine, State, Transition> control)
+        protected override BoxEditor<StateMachine, State, Transition> CreateBoxEditor(
+            BoxControl<StateMachine, State, Transition> control)
         {
             return new StateEditor(control);
         }
@@ -274,7 +277,8 @@ namespace GUI.StateDiagram
         /// </summary>
         /// <param name="control"></param>
         /// <returns></returns>
-        protected override ArrowEditor<StateMachine, State, Transition> CreateArrowEditor(ArrowControl<StateMachine, State, Transition> control)
+        protected override ArrowEditor<StateMachine, State, Transition> CreateArrowEditor(
+            ArrowControl<StateMachine, State, Transition> control)
         {
             return new TransitionEditor(control);
         }

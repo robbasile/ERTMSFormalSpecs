@@ -46,7 +46,7 @@ namespace GUIUtils.StructureEditor
         public static bool DisplayAllVariables { get; set; }
 
         /// <summary>
-        /// The tooltip allowing to display the full name of elements in comboboxes
+        ///     The tooltip allowing to display the full name of elements in comboboxes
         /// </summary>
         public static ToolTip ToolTip = new ToolTip();
 
@@ -334,7 +334,7 @@ namespace GUIUtils.StructureEditor
                 {
                     if (subVariable.Value is DefaultValue)
                     {
-                        if (subVariable.Type is Structure  && ! DisplayAllVariables)
+                        if (subVariable.Type is Structure && ! DisplayAllVariables)
                         {
                             // Don't add it, it shall be handled by the contextual menus
                         }
@@ -819,25 +819,29 @@ namespace GUIUtils.StructureEditor
         #region ToolTips
 
         /// <summary>
-        /// Used to redefine the drawing method of comboboxes and add a tooltip
+        ///     Used to redefine the drawing method of comboboxes and add a tooltip
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private static void cbb_DrawItem(object sender, DrawItemEventArgs e)
         {
-            if (e.Index == -1) { return; }
+            if (e.Index == -1)
+            {
+                return;
+            }
 
             ComboBox comboBox = sender as ComboBox;
             if (comboBox != null)
             {
-                Point p = new Point(comboBox.Location.X + 100, comboBox.Location.Y + comboBox.Height + (20 + e.Index * 10));
+                Point p = new Point(comboBox.Location.X + 100, comboBox.Location.Y + comboBox.Height + (20 + e.Index*10));
 
                 if ((e.State & DrawItemState.Selected) == DrawItemState.Selected)
                 {
                     ToolTip.Show(comboBox.Items[e.Index].ToString(), comboBox.FindForm(), p);
                 }
                 e.DrawBackground();
-                e.Graphics.DrawString(comboBox.Items[e.Index].ToString(), e.Font, Brushes.Black, new Point(e.Bounds.X, e.Bounds.Y));
+                e.Graphics.DrawString(comboBox.Items[e.Index].ToString(), e.Font, Brushes.Black,
+                    new Point(e.Bounds.X, e.Bounds.Y));
             }
         }
 

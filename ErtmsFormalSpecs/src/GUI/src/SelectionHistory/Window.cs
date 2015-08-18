@@ -20,9 +20,7 @@ using System.ComponentModel;
 using System.Windows.Forms;
 using DataDictionary;
 using GUI.Properties;
-using Utils;
 using WeifenLuo.WinFormsUI.Docking;
-using ModelElement = DataDictionary.ModelElement;
 
 namespace GUI.SelectionHistory
 {
@@ -42,7 +40,7 @@ namespace GUI.SelectionHistory
         }
 
         /// <summary>
-        /// Selects an historical data element
+        ///     Selects an historical data element
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -54,7 +52,7 @@ namespace GUI.SelectionHistory
             {
                 int i = historyDataGridView.SelectedCells[0].OwningRow.Index;
                 List<HistoryObject> historyObjects = (List<HistoryObject>) historyDataGridView.DataSource;
-                selected =historyObjects[i].Reference;
+                selected = historyObjects[i].Reference;
             }
 
             if (selected != null)

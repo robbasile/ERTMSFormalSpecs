@@ -16,20 +16,12 @@
 
 using System;
 using System.Collections.Generic;
-using DataDictionary.Generated;
+using DataDictionary;
+using DataDictionary.Rules;
+using DataDictionary.Tests;
 using DataDictionary.Tests.Runner;
 using MigraDoc.DocumentObjectModel;
-using Dictionary = DataDictionary.Dictionary;
-using Frame = DataDictionary.Tests.Frame;
-using Paragraph = DataDictionary.Specification.Paragraph;
-using ReqRef = DataDictionary.ReqRef;
-using ReqRelated = DataDictionary.ReqRelated;
-using Rule = DataDictionary.Rules.Rule;
-using RuleCondition = DataDictionary.Rules.RuleCondition;
-using Step = DataDictionary.Tests.Step;
-using SubSequence = DataDictionary.Tests.SubSequence;
-using SubStep = DataDictionary.Tests.SubStep;
-using TestCase = DataDictionary.Tests.TestCase;
+using Util = Utils.Util;
 
 namespace Reports.Tests
 {
@@ -202,7 +194,7 @@ namespace Reports.Tests
                     foreach (ReqRef reqRef in aTestCase.Requirements)
                     {
                         string text = "Requirement " + reqRef.Name;
-                        if (!Utils.Util.isEmpty(reqRef.Comment))
+                        if (!Util.isEmpty(reqRef.Comment))
                         {
                             text = text + " : " + reqRef.Comment;
                         }

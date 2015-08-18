@@ -52,7 +52,8 @@ namespace GUI.TranslationRules
             {
                 subNodes.Add(new SourceTextCommentTreeNode(comment, recursive));
             }
-            subNodes.Sort();subNodes.Sort();
+            subNodes.Sort();
+            subNodes.Sort();
         }
 
         /// <summary>
@@ -91,10 +92,10 @@ namespace GUI.TranslationRules
             base.AcceptDrop(sourceNode);
 
             SourceTextTreeNode sourceTextTreeNode = Parent as SourceTextTreeNode;
-            SourceTextCommentTreeNode comment = sourceNode as SourceTextCommentTreeNode; 
+            SourceTextCommentTreeNode comment = sourceNode as SourceTextCommentTreeNode;
             if (comment != null && sourceTextTreeNode != null)
             {
-                SourceTextComment otherText = (SourceTextComment)comment.Item.Duplicate();
+                SourceTextComment otherText = (SourceTextComment) comment.Item.Duplicate();
                 sourceTextTreeNode.Item.appendComments(otherText);
                 comment.Delete();
             }
@@ -111,7 +112,7 @@ namespace GUI.TranslationRules
             {
                 SourceTextCommentTreeNode comment = sourceNode as SourceTextCommentTreeNode;
 
-                SourceTextComment otherText = (SourceTextComment)comment.Item.Duplicate();
+                SourceTextComment otherText = (SourceTextComment) comment.Item.Duplicate();
                 sourceTextTreeNode.Item.appendComments(otherText);
                 comment.Delete();
             }

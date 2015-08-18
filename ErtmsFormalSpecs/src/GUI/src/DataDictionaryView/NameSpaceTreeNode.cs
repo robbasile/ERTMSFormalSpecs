@@ -18,10 +18,13 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using DataDictionary;
+using DataDictionary.Functions;
+using DataDictionary.Rules;
+using DataDictionary.Types;
+using DataDictionary.Variables;
 using GUI.FunctionalView;
 using GUI.Properties;
-using Dictionary = DataDictionary.Dictionary;
-using NameSpace = DataDictionary.Types.NameSpace;
+using Enum = DataDictionary.Types.Enum;
 
 namespace GUI.DataDictionaryView
 {
@@ -94,52 +97,52 @@ namespace GUI.DataDictionaryView
 
         private void AddRangeHandler(object sender, EventArgs args)
         {
-            Item.appendRanges(DataDictionary.Types.Range.CreateDefault(Item.Ranges));
+            Item.appendRanges(Range.CreateDefault(Item.Ranges));
         }
 
         private void AddEnumerationHandler(object sender, EventArgs args)
         {
-            Item.appendEnumerations(DataDictionary.Types.Enum.CreateDefault(Item.Enumerations));
+            Item.appendEnumerations(Enum.CreateDefault(Item.Enumerations));
         }
 
         private void AddInterfaceHandler(object sender, EventArgs args)
         {
-            Item.appendStructures(DataDictionary.Types.Structure.CreateDefault(Item.Structures, true));
+            Item.appendStructures(Structure.CreateDefault(Item.Structures, true));
         }
 
         private void AddStructureHandler(object sender, EventArgs args)
         {
-            Item.appendStructures(DataDictionary.Types.Structure.CreateDefault(Item.Structures, false));
+            Item.appendStructures(Structure.CreateDefault(Item.Structures, false));
         }
 
         private void AddCollectionHandler(object sender, EventArgs args)
         {
-            Item.appendCollections(DataDictionary.Types.Collection.CreateDefault(Item.Collections));
+            Item.appendCollections(Collection.CreateDefault(Item.Collections));
         }
 
         private void AddStateMachineHandler(object sender, EventArgs args)
         {
-            Item.appendStateMachines(DataDictionary.Types.StateMachine.CreateDefault(Item.StateMachines));
+            Item.appendStateMachines(StateMachine.CreateDefault(Item.StateMachines));
         }
 
         private void AddFunctionHandler(object sender, EventArgs args)
         {
-            Item.appendFunctions(DataDictionary.Functions.Function.CreateDefault(Item.Functions));
+            Item.appendFunctions(Function.CreateDefault(Item.Functions));
         }
 
         private void AddProcedureHandler(object sender, EventArgs args)
         {
-            Item.appendProcedures(DataDictionary.Functions.Procedure.CreateDefault(Item.Procedures));
+            Item.appendProcedures(Procedure.CreateDefault(Item.Procedures));
         }
 
         private void AddVariableHandler(object sender, EventArgs args)
         {
-            Item.appendVariables(DataDictionary.Variables.Variable.CreateDefault(Item.Variables));
+            Item.appendVariables(Variable.CreateDefault(Item.Variables));
         }
 
         private void AddRuleHandler(object sender, EventArgs args)
         {
-            Item.appendRules(DataDictionary.Rules.Rule.CreateDefault(Item.Rules));
+            Item.appendRules(Rule.CreateDefault(Item.Rules));
         }
 
         /// <summary>
@@ -156,7 +159,7 @@ namespace GUI.DataDictionaryView
         }
 
         /// <summary>
-        /// Find or creates an update for the current element
+        ///     Find or creates an update for the current element
         /// </summary>
         /// <returns></returns>
         protected override ModelElement FindOrCreateUpdate()
@@ -237,7 +240,7 @@ namespace GUI.DataDictionaryView
                     NameSpaceVariablesTreeNode node = SubNode<NameSpaceVariablesTreeNode>();
                     if (node != null)
                     {
-                        node.AcceptDrop(sourceNode);                        
+                        node.AcceptDrop(sourceNode);
                     }
                 }
                 else if (sourceNode is ProcedureTreeNode)
@@ -284,8 +287,8 @@ namespace GUI.DataDictionaryView
                 {
                     DialogResult result = MessageBox.Show(
                         Resources.NameSpaceTreeNode_AcceptDrop_This_will_move_the_namespace__are_you_sure___,
-                        Resources.NameSpaceTreeNode_AcceptDrop_Confirm_moving_the_namespace, 
-                        MessageBoxButtons.OKCancel, 
+                        Resources.NameSpaceTreeNode_AcceptDrop_Confirm_moving_the_namespace,
+                        MessageBoxButtons.OKCancel,
                         MessageBoxIcon.Question);
                     if (result == DialogResult.OK)
                     {

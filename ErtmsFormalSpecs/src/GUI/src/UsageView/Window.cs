@@ -15,7 +15,6 @@
 // ------------------------------------------------------------------------------
 
 using DataDictionary;
-using DataDictionary.Variables;
 using Utils;
 using WeifenLuo.WinFormsUI.Docking;
 
@@ -35,7 +34,7 @@ namespace GUI.UsageView
         }
 
         /// <summary>
-        /// Indicates that the model element should be displayed
+        ///     Indicates that the model element should be displayed
         /// </summary>
         /// <param name="modelElement"></param>
         /// <returns></returns>
@@ -70,7 +69,7 @@ namespace GUI.UsageView
 
             if (retVal)
             {
-                    usageTreeView.Root = DisplayedModel;
+                usageTreeView.Root = DisplayedModel;
             }
 
             return retVal;

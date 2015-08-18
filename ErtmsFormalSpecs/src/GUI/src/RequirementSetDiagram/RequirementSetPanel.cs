@@ -38,7 +38,7 @@ namespace GUI.RequirementSetDiagram
 
             if (element != null)
             {
-                retVal = new ContextMenu();                 
+                retVal = new ContextMenu();
 
                 // 
                 // addRequirementSetMenuItem
@@ -55,7 +55,7 @@ namespace GUI.RequirementSetDiagram
                 // 
                 MenuItem addDependanceMenuItem = new MenuItem
                 {
-                    Name = "addDependanceMenuItem", 
+                    Name = "addDependanceMenuItem",
                     Text = "Add dependancy"
                 };
                 addDependanceMenuItem.Click += HandleAddDependancy;
@@ -97,7 +97,7 @@ namespace GUI.RequirementSetDiagram
                 // 
                 MenuItem deleteMenuItem = new MenuItem
                 {
-                    Name = "toolStripMenuItem1", 
+                    Name = "toolStripMenuItem1",
                     Text = "Delete selected"
                 };
                 deleteMenuItem.Click += HandleDelete;
@@ -135,18 +135,18 @@ namespace GUI.RequirementSetDiagram
         }
 
         /// <summary>
-        /// Metrics related to all requirement sets 
+        ///     Metrics related to all requirement sets
         /// </summary>
         public Dictionary<RequirementSet, Paragraph.ParagraphSetMetrics> Metrics { get; set; }
 
         /// <summary>
-        /// Computes the metrics for all displayed requirement sets
+        ///     Computes the metrics for all displayed requirement sets
         /// </summary>
         public override IHoldsRequirementSets Model
         {
             set
             {
-                base.Model = value; 
+                base.Model = value;
 
                 // Precompute the metrics
                 Metrics = new Dictionary<RequirementSet, Paragraph.ParagraphSetMetrics>();
@@ -164,7 +164,8 @@ namespace GUI.RequirementSetDiagram
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public override BoxControl<IHoldsRequirementSets, RequirementSet, RequirementSetDependancy> CreateBox(RequirementSet model)
+        public override BoxControl<IHoldsRequirementSets, RequirementSet, RequirementSetDependancy> CreateBox(
+            RequirementSet model)
         {
             RequirementSetControl retVal = new RequirementSetControl(this, model);
 
@@ -299,7 +300,8 @@ namespace GUI.RequirementSetDiagram
         /// </summary>
         /// <param name="control"></param>
         /// <returns></returns>
-        protected override BoxEditor<IHoldsRequirementSets, RequirementSet, RequirementSetDependancy> CreateBoxEditor(BoxControl<IHoldsRequirementSets, RequirementSet, RequirementSetDependancy> control)
+        protected override BoxEditor<IHoldsRequirementSets, RequirementSet, RequirementSetDependancy> CreateBoxEditor(
+            BoxControl<IHoldsRequirementSets, RequirementSet, RequirementSetDependancy> control)
         {
             return new RequirementSetEditor(control);
         }
@@ -309,7 +311,8 @@ namespace GUI.RequirementSetDiagram
         /// </summary>
         /// <param name="control"></param>
         /// <returns></returns>
-        protected override ArrowEditor<IHoldsRequirementSets, RequirementSet, RequirementSetDependancy> CreateArrowEditor(ArrowControl<IHoldsRequirementSets, RequirementSet, RequirementSetDependancy> control)
+        protected override ArrowEditor<IHoldsRequirementSets, RequirementSet, RequirementSetDependancy>
+            CreateArrowEditor(ArrowControl<IHoldsRequirementSets, RequirementSet, RequirementSetDependancy> control)
         {
             return new TransitionEditor(control);
         }

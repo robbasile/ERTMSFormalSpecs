@@ -27,22 +27,22 @@ namespace DataDictionary.Functions
     public interface ISurfaceSegment : IComparable<ISurfaceSegment>
     {
         /// <summary>
-        /// The start of the segment
+        ///     The start of the segment
         /// </summary>
         double Start { get; set; }
 
         /// <summary>
-        /// The end of the segment
+        ///     The end of the segment
         /// </summary>
         double End { get; set; }
 
         /// <summary>
-        /// The graph associated to this segment
+        ///     The graph associated to this segment
         /// </summary>
         IGraph Graph { get; set; }
 
         /// <summary>
-        /// Reduces the size of this segment according to the acceptable boudaries provided
+        ///     Reduces the size of this segment according to the acceptable boudaries provided
         /// </summary>
         /// <param name="boundaries"></param>
         /// <returns></returns>
@@ -53,7 +53,7 @@ namespace DataDictionary.Functions
     public interface ISurface
     {
         /// <summary>
-        /// The segments of the surface
+        ///     The segments of the surface
         /// </summary>
         List<ISurfaceSegment> Segments { get; set; }
     }
@@ -113,7 +113,7 @@ namespace DataDictionary.Functions
             }
 
             /// <summary>
-            /// Compares two segments
+            ///     Compares two segments
             /// </summary>
             /// <param name="other"></param>
             /// <returns></returns>
@@ -306,7 +306,7 @@ namespace DataDictionary.Functions
             }
 
             /// <summary>
-            /// Reduces the size of this segment according to the acceptable boudaries provided
+            ///     Reduces the size of this segment according to the acceptable boudaries provided
             /// </summary>
             /// <param name="boundaries"></param>
             /// <returns></returns>
@@ -617,7 +617,7 @@ namespace DataDictionary.Functions
         }
 
         /// <summary>
-        /// Merges tow surfaces, using the Y axis as the merge orientation
+        ///     Merges tow surfaces, using the Y axis as the merge orientation
         /// </summary>
         /// <param name="first"></param>
         /// <param name="second"></param>
@@ -871,8 +871,8 @@ namespace DataDictionary.Functions
         }
 
         /// <summary>
-        /// Combines two surfaces by replacing the current by
-        /// the value of the second on each segment
+        ///     Combines two surfaces by replacing the current by
+        ///     the value of the second on each segment
         /// </summary>
         /// <param name="second"></param>
         /// <returns></returns>
@@ -882,7 +882,7 @@ namespace DataDictionary.Functions
         }
 
         /// <summary>
-        /// Selects the minimum surface
+        ///     Selects the minimum surface
         /// </summary>
         /// <param name="otherSurface"></param>
         /// <returns></returns>
@@ -959,7 +959,7 @@ namespace DataDictionary.Functions
         }
 
         /// <summary>
-        /// Creates a surface for a single constant value
+        ///     Creates a surface for a single constant value
         /// </summary>
         /// <param name="value"></param>
         /// <param name="xParam"></param>
@@ -976,7 +976,7 @@ namespace DataDictionary.Functions
         }
 
         /// <summary>
-        /// Creates a surface for the value provided expression
+        ///     Creates a surface for the value provided expression
         /// </summary>
         /// <param name="namable"></param>
         /// <param name="xParam"></param>

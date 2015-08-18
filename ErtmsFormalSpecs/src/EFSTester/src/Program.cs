@@ -16,13 +16,10 @@
 
 using System;
 using DataDictionary;
+using DataDictionary.Tests;
 using DataDictionary.Tests.Runner;
 using DataDictionary.Tests.Runner.Events;
 using Utils;
-using Dictionary = DataDictionary.Dictionary;
-using Frame = DataDictionary.Tests.Frame;
-using SubSequence = DataDictionary.Tests.SubSequence;
-using TestCase = DataDictionary.Tests.TestCase;
 using Util = DataDictionary.Util;
 
 namespace EFSTester
@@ -65,7 +62,7 @@ namespace EFSTester
 
                 // Translate the sub sequences, if required
                 Console.Out.WriteLine("Translating sub sequences");
-                foreach (var dictionary in efsSystem.Dictionaries)
+                foreach (Dictionary dictionary in efsSystem.Dictionaries)
                 {
                     foreach (Frame frame in dictionary.Tests)
                     {

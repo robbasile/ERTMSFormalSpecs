@@ -142,7 +142,7 @@ namespace GUI.TestRunnerView.TimeLineControl
         }
 
         /// <summary>
-        /// Indicates whether the timeline should display the element
+        ///     Indicates whether the timeline should display the element
         /// </summary>
         /// <param name="element"></param>
         /// <returns></returns>

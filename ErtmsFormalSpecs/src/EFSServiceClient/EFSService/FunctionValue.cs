@@ -23,7 +23,7 @@ namespace EFSServiceClient.EFSService
     /// <summary>
     ///     Manually written code to access EFSModel
     /// </summary>
-    public partial class Segment: ISegment
+    public partial class Segment : ISegment
     {
         /// <summary>
         ///     Provides the display value of this value
@@ -35,7 +35,7 @@ namespace EFSServiceClient.EFSService
         }
 
         /// <summary>
-        /// Evaluates the value of the function for the given X
+        ///     Evaluates the value of the function for the given X
         /// </summary>
         /// <param name="x"></param>
         /// <returns></returns>
@@ -97,7 +97,7 @@ namespace EFSServiceClient.EFSService
         }
 
         /// <summary>
-        /// Adds a new segment
+        ///     Adds a new segment
         /// </summary>
         /// <param name="segment"></param>
         public void AddSegment(ISegment segment)
@@ -106,7 +106,7 @@ namespace EFSServiceClient.EFSService
         }
 
         /// <summary>
-        /// Evaluates the function for a given X
+        ///     Evaluates the function for a given X
         /// </summary>
         /// <param name="x"></param>
         /// <returns></returns>
@@ -130,7 +130,7 @@ namespace EFSServiceClient.EFSService
         }
 
         /// <summary>
-        /// Provides the last X value where there is some interest to show the graph
+        ///     Provides the last X value where there is some interest to show the graph
         /// </summary>
         /// <returns></returns>
         public double ExpectedEndX()
@@ -139,7 +139,7 @@ namespace EFSServiceClient.EFSService
         }
 
         /// <summary>
-        /// Negates the values of the curve
+        ///     Negates the values of the curve
         /// </summary>
         public void Negate()
         {
@@ -147,7 +147,7 @@ namespace EFSServiceClient.EFSService
         }
 
         /// <summary>
-        /// Reduces the graph to the boundaries provided as parameter
+        ///     Reduces the graph to the boundaries provided as parameter
         /// </summary>
         /// <param name="boundaries"></param>
         /// <returns>The reduced graph</returns>
@@ -157,7 +157,7 @@ namespace EFSServiceClient.EFSService
         }
 
         /// <summary>
-        /// Adds a graph to this graph
+        ///     Adds a graph to this graph
         /// </summary>
         /// <param name="other"></param>
         /// <returns>the new graph</returns>
@@ -167,7 +167,7 @@ namespace EFSServiceClient.EFSService
         }
 
         /// <summary>
-        /// Substract a graph from this graph
+        ///     Substract a graph from this graph
         /// </summary>
         /// <param name="other"></param>
         /// <returns>the new graph</returns>
@@ -177,7 +177,7 @@ namespace EFSServiceClient.EFSService
         }
 
         /// <summary>
-        /// Multiply this graph values of another graph
+        ///     Multiply this graph values of another graph
         /// </summary>
         /// <param name="other"></param>
         /// <returns>the new graph</returns>
@@ -187,7 +187,7 @@ namespace EFSServiceClient.EFSService
         }
 
         /// <summary>
-        /// Divides this graph values by values of another graph
+        ///     Divides this graph values by values of another graph
         /// </summary>
         /// <param name="other"></param>
         /// <returns>the new graph</returns>
@@ -197,7 +197,7 @@ namespace EFSServiceClient.EFSService
         }
 
         /// <summary>
-        /// Provides the graph of the minimal value between this graph and another graph
+        ///     Provides the graph of the minimal value between this graph and another graph
         /// </summary>
         /// <param name="other"></param>
         /// <returns></returns>
@@ -207,7 +207,7 @@ namespace EFSServiceClient.EFSService
         }
 
         /// <summary>
-        /// Merges a graph within this one
+        ///     Merges a graph within this one
         /// </summary>
         /// <param name="subGraph"></param>
         public void Merge(IGraph subGraph)

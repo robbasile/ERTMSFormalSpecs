@@ -419,7 +419,7 @@ namespace DataDictionary.Variables
             }
             else
             {
-                explanation.Comment(this);                
+                explanation.Comment(this);
             }
 
             explanation.Write(Name);
@@ -597,7 +597,7 @@ namespace DataDictionary.Variables
         }
 
         /// <summary>
-        ///     Creates the status message 
+        ///     Creates the status message
         /// </summary>
         /// <returns>the status string for the selected element</returns>
         public override string CreateStatusMessage()
@@ -610,7 +610,7 @@ namespace DataDictionary.Variables
         }
 
         /// <summary>
-        /// Creates a default element
+        ///     Creates a default element
         /// </summary>
         /// <param name="enclosingCollection"></param>
         /// <returns></returns>

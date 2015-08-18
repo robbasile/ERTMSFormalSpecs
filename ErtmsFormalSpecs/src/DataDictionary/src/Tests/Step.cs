@@ -213,13 +213,13 @@ namespace DataDictionary.Tests
         }
 
         /// <summary>
-        /// Creates a default element
+        ///     Creates a default element
         /// </summary>
         /// <param name="enclosingCollection"></param>
         /// <returns></returns>
         public static Step CreateDefault(ICollection enclosingCollection)
         {
-            Step retVal = (Step)acceptor.getFactory().createStep();
+            Step retVal = (Step) acceptor.getFactory().createStep();
 
             Util.DontNotify(() =>
             {
@@ -245,7 +245,7 @@ namespace DataDictionary.Tests
                 {
                     subStep.GetExplain(explanation, explainSubElements);
                     explanation.WriteLine();
-                }                
+                }
             });
         }
 

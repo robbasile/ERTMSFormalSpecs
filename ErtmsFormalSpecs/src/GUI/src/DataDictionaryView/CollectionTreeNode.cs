@@ -104,7 +104,7 @@ namespace GUI.DataDictionaryView
         }
 
         /// <summary>
-        /// Find or creates an update for the current element
+        ///     Find or creates an update for the current element
         /// </summary>
         /// <returns></returns>
         protected override ModelElement FindOrCreateUpdate()

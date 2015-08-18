@@ -17,17 +17,17 @@
 using System;
 using System.Windows.Forms;
 using DataDictionary;
+using DataDictionary.Specification;
 using GUI.Properties;
 using Utils;
 using WeifenLuo.WinFormsUI.Docking;
-using ReqRef = DataDictionary.ReqRef;
 
 namespace GUI.SpecificationView
 {
     public partial class Window : BaseForm
     {
         /// <summary>
-        /// The tree view used to display the requirements
+        ///     The tree view used to display the requirements
         /// </summary>
         public override BaseTreeView TreeView
         {
@@ -57,7 +57,7 @@ namespace GUI.SpecificationView
             if (retVal)
             {
                 specBrowserRuleView.Nodes.Clear();
-                DataDictionary.Specification.Paragraph paragraph = DisplayedModel as DataDictionary.Specification.Paragraph;
+                Paragraph paragraph = DisplayedModel as Paragraph;
                 if (paragraph != null)
                 {
                     foreach (ReqRef reqRef in paragraph.Implementations)
@@ -125,8 +125,8 @@ namespace GUI.SpecificationView
             if (!EFSSystem.INSTANCE.Markings.SelectPreviousMarking())
             {
                 MessageBox.Show(
-                    Resources.Window_toolStripButton1_Click_No_more_marking_to_show, 
-                    Resources.Window_toolStripButton1_Click_No_more_markings, 
+                    Resources.Window_toolStripButton1_Click_No_more_marking_to_show,
+                    Resources.Window_toolStripButton1_Click_No_more_markings,
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Information);
             }
@@ -137,8 +137,8 @@ namespace GUI.SpecificationView
             if (!EFSSystem.INSTANCE.Markings.SelectNextMarking())
             {
                 MessageBox.Show(
-                    Resources.Window_toolStripButton1_Click_No_more_marking_to_show, 
-                    Resources.Window_toolStripButton1_Click_No_more_markings, 
+                    Resources.Window_toolStripButton1_Click_No_more_marking_to_show,
+                    Resources.Window_toolStripButton1_Click_No_more_markings,
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Information);
             }

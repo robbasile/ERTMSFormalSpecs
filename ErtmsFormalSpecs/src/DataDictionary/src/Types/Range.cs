@@ -707,7 +707,7 @@ namespace DataDictionary.Types
                 foreach (EnumValue enumValue in SpecialValues)
                 {
                     enumValue.GetExplain(explanation, explainSubElements);
-                }                
+                }
             });
         }
 
@@ -786,7 +786,7 @@ namespace DataDictionary.Types
         }
 
         /// <summary>
-        ///     Creates the status message 
+        ///     Creates the status message
         /// </summary>
         /// <returns>the status string for the selected element</returns>
         public override string CreateStatusMessage()
@@ -799,13 +799,13 @@ namespace DataDictionary.Types
         }
 
         /// <summary>
-        /// Creates a default element
+        ///     Creates a default element
         /// </summary>
         /// <param name="enclosingCollection"></param>
         /// <returns></returns>
         public static Range CreateDefault(ICollection enclosingCollection)
         {
-            Range retVal = (Range)acceptor.getFactory().createRange();
+            Range retVal = (Range) acceptor.getFactory().createRange();
 
             Util.DontNotify(() =>
             {

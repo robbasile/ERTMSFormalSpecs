@@ -31,7 +31,7 @@ namespace GUI.ModelDiagram.Arrows
         /// <param name="panel"></param>
         /// <param name="model"></param>
         public ModelArrowControl(ModelDiagramPanel panel, ModelArrow model)
-            : base (panel, model)
+            : base(panel, model)
         {
             DefaultArrowLength = 30;
 

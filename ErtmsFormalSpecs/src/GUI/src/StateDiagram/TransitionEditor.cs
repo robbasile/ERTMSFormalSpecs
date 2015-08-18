@@ -34,8 +34,8 @@ namespace GUI.StateDiagram
             public override StandardValuesCollection
                 GetStandardValues(ITypeDescriptorContext context)
             {
-                TransitionEditor instance = (TransitionEditor)context.Instance;
-                StatePanel panel = (StatePanel)instance.Control.Panel;
+                TransitionEditor instance = (TransitionEditor) context.Instance;
+                StatePanel panel = (StatePanel) instance.Control.Panel;
                 return GetValues(panel.Model);
             }
         }
@@ -49,7 +49,7 @@ namespace GUI.StateDiagram
         {
         }
 
-        [Category("Description"), TypeConverter(typeof(InternalStateTypeConverter))]
+        [Category("Description"), TypeConverter(typeof (InternalStateTypeConverter))]
         public string Source
         {
             get
@@ -64,8 +64,8 @@ namespace GUI.StateDiagram
             }
             set
             {
-                TransitionControl transitionControl = (TransitionControl)Control;
-                StatePanel statePanel = (StatePanel)transitionControl.Panel;
+                TransitionControl transitionControl = (TransitionControl) Control;
+                StatePanel statePanel = (StatePanel) transitionControl.Panel;
                 State state = OverallStateFinder.INSTANCE.findByName(statePanel.Model, value);
                 if (state != null)
                 {
@@ -74,7 +74,7 @@ namespace GUI.StateDiagram
             }
         }
 
-        [Category("Description"), TypeConverter(typeof(InternalStateTypeConverter))]
+        [Category("Description"), TypeConverter(typeof (InternalStateTypeConverter))]
         public string Target
         {
             get
@@ -90,8 +90,8 @@ namespace GUI.StateDiagram
             }
             set
             {
-                TransitionControl transitionControl = (TransitionControl)Control;
-                StatePanel statePanel = (StatePanel)transitionControl.Panel;
+                TransitionControl transitionControl = (TransitionControl) Control;
+                StatePanel statePanel = (StatePanel) transitionControl.Panel;
                 State state = OverallStateFinder.INSTANCE.findByName(statePanel.Model, value);
                 if (state != null)
                 {

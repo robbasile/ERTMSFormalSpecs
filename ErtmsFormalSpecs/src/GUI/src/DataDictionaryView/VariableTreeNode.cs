@@ -159,7 +159,7 @@ namespace GUI.DataDictionaryView
                 StateDiagramWindow window = new StateDiagramWindow();
                 GuiUtils.MdiWindow.AddChildWindow(window);
                 window.StatePanel.SetStateMachine(Item);
-                window.Text = Item.Name + @" "+ Resources.VariableTreeNode_ViewDiagram_state_diagram;
+                window.Text = Item.Name + @" " + Resources.VariableTreeNode_ViewDiagram_state_diagram;
             }
         }
 

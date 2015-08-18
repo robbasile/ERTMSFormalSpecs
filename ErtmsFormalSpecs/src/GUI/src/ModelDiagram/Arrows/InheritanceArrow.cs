@@ -16,7 +16,6 @@
 
 using DataDictionary;
 using DataDictionary.Types;
-using DataDictionary.Variables;
 
 namespace GUI.ModelDiagram.Arrows
 {
@@ -32,7 +31,7 @@ namespace GUI.ModelDiagram.Arrows
         /// <param name="target"></param>
         /// <param name="model"></param>
         public InheritanceArrow(Structure source, Structure target, Structure model)
-            : base (source, target, "implements", model)
+            : base(source, target, "implements", model)
         {
         }
 

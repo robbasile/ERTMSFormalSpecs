@@ -141,7 +141,7 @@ namespace GUI.DictionarySelector
                 retVal = dictionary.Updates != null;
             }
             else if (options == FilterOptions.Updates &&
-                      !updatedDictionary.IsUpdatedBy(dictionary))
+                     !updatedDictionary.IsUpdatedBy(dictionary))
             {
                 // The options restrict the selection to updates of a particular dictionary
                 retVal = false;
@@ -177,8 +177,9 @@ namespace GUI.DictionarySelector
                     if (updatedDictionary != null)
                     {
                         noRelevantDictionaries += " for " + updatedDictionary.Name;
-                    } 
-                    noRelevantDictionaries += " currently loaded in ERTMSFormalSpecs.\nTo create one, select File-> New-> Update.";
+                    }
+                    noRelevantDictionaries +=
+                        " currently loaded in ERTMSFormalSpecs.\nTo create one, select File-> New-> Update.";
                 }
                 else if (options == FilterOptions.HideUpdates)
                 {

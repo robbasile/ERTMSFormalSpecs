@@ -15,8 +15,6 @@
 // ------------------------------------------------------------------------------
 
 using DataDictionary;
-using DataDictionary.Types;
-using DataDictionary.Variables;
 using Utils;
 using WeifenLuo.WinFormsUI.Docking;
 using ModelElement = DataDictionary.ModelElement;
@@ -39,7 +37,7 @@ namespace GUI.MoreInfoView
         }
 
         /// <summary>
-        /// Indicates that the model element should be displayed
+        ///     Indicates that the model element should be displayed
         /// </summary>
         /// <param name="modelElement"></param>
         /// <returns></returns>
@@ -59,14 +57,14 @@ namespace GUI.MoreInfoView
 
             if (retVal)
             {
-                SetMoreInfo();                
+                SetMoreInfo();
             }
 
             return retVal;
         }
 
         /// <summary>
-        /// Sets the more information according to the displayed model
+        ///     Sets the more information according to the displayed model
         /// </summary>
         private void SetMoreInfo()
         {

@@ -252,9 +252,10 @@ namespace GUI.SpecificationView
                 {
                     if (
                         MessageBox.Show(
-                            Resources.ParagraphTreeNode_AcceptDrop_Are_you_sure_you_want_to_move_the_corresponding_paragraph_, 
+                            Resources
+                                .ParagraphTreeNode_AcceptDrop_Are_you_sure_you_want_to_move_the_corresponding_paragraph_,
                             Resources.ParagraphTreeNode_AcceptDrop_Move_paragraph,
-                            MessageBoxButtons.YesNo, 
+                            MessageBoxButtons.YesNo,
                             MessageBoxIcon.Question) == DialogResult.Yes)
                     {
                         Paragraph paragraph = paragraphTreeNode.Item;
@@ -265,9 +266,9 @@ namespace GUI.SpecificationView
                 else
                 {
                     MessageBox.Show(
-                        Resources.ParagraphTreeNode_AcceptDrop_Cannot_move_a_paragraph_in_its_sub_paragraphs, 
+                        Resources.ParagraphTreeNode_AcceptDrop_Cannot_move_a_paragraph_in_its_sub_paragraphs,
                         Resources.ParagraphTreeNode_AcceptDrop_Move_paragraph,
-                        MessageBoxButtons.OK, 
+                        MessageBoxButtons.OK,
                         MessageBoxIcon.Error);
                 }
             }
@@ -369,6 +370,5 @@ namespace GUI.SpecificationView
 
             return retVal;
         }
-
     }
 }

@@ -15,23 +15,23 @@
 // ------------------------------------------------------------------------------
 
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using GUIUtils.GraphVisualization.Graphs;
-using System.Collections.Generic;
 
 namespace GUIUtils.GraphVisualization
 {
     public class GraphVisualizer : Chart
     {
         /// <summary>
-        /// The list of displayed graphs
+        ///     The list of displayed graphs
         /// </summary>
         public List<Graph> Graphs { get; private set; }
 
         /// <summary>
-        /// The minimum displayed X value
+        ///     The minimum displayed X value
         /// </summary>
         public double MinX
         {
@@ -39,7 +39,7 @@ namespace GUIUtils.GraphVisualization
         }
 
         /// <summary>
-        /// The maximum displayed X value
+        ///     The maximum displayed X value
         /// </summary>
         public double MaxX
         {
@@ -47,7 +47,7 @@ namespace GUIUtils.GraphVisualization
         }
 
         /// <summary>
-        /// The minimum displayed Y value
+        ///     The minimum displayed Y value
         /// </summary>
         public double MinY
         {
@@ -55,7 +55,7 @@ namespace GUIUtils.GraphVisualization
         }
 
         /// <summary>
-        /// The maximum displayed Y value
+        ///     The maximum displayed Y value
         /// </summary>
         public double MaxY
         {
@@ -63,27 +63,33 @@ namespace GUIUtils.GraphVisualization
         }
 
         /// <summary>
-        /// The axis X
+        ///     The axis X
         /// </summary>
-        public Axis AxisX { get { return ChartAreas[0].AxisX; } }
+        public Axis AxisX
+        {
+            get { return ChartAreas[0].AxisX; }
+        }
 
         /// <summary>
-        /// The axis Y
+        ///     The axis Y
         /// </summary>
-        public Axis AxisY { get { return ChartAreas[0].AxisY; } }
+        public Axis AxisY
+        {
+            get { return ChartAreas[0].AxisY; }
+        }
 
         /// <summary>
-        /// Indicates if the previously computed values of the functions should be recorded
+        ///     Indicates if the previously computed values of the functions should be recorded
         /// </summary>
         public bool RecordPreviousValuesInTsm { get; set; }
 
         /// <summary>
-        /// Gives the number of points computed to draw deceleration curves
+        ///     Gives the number of points computed to draw deceleration curves
         /// </summary>
         public int DecelerationCurvePrecision { get; set; }
 
         /// <summary>
-        /// Default contstructor
+        ///     Default contstructor
         /// </summary>
         public GraphVisualizer()
         {
@@ -93,7 +99,7 @@ namespace GUIUtils.GraphVisualization
         }
 
         /// <summary>
-        /// Initializes the properties
+        ///     Initializes the properties
         /// </summary>
         /// <param name="recordPreviousValues"></param>
         /// <param name="decelerationCurvePrecision"></param>
@@ -104,7 +110,7 @@ namespace GUIUtils.GraphVisualization
         }
 
         /// <summary>
-        /// Initializes the chart area
+        ///     Initializes the chart area
         /// </summary>
         public void InitializeChart()
         {
@@ -131,7 +137,7 @@ namespace GUIUtils.GraphVisualization
         }
 
         /// <summary>
-        /// Sets the minimum displayed value for X axis
+        ///     Sets the minimum displayed value for X axis
         /// </summary>
         /// <param name="value"></param>
         public void SetMinX(double value)
@@ -140,7 +146,7 @@ namespace GUIUtils.GraphVisualization
         }
 
         /// <summary>
-        /// Sets the maximum displayed value for X axis
+        ///     Sets the maximum displayed value for X axis
         /// </summary>
         /// <param name="value"></param>
         public void SetMaxX(double value)
@@ -149,7 +155,7 @@ namespace GUIUtils.GraphVisualization
         }
 
         /// <summary>
-        /// Sets the minimum displayed value for Y axis
+        ///     Sets the minimum displayed value for Y axis
         /// </summary>
         /// <param name="value"></param>
         public void SetMinY(double value)
@@ -158,7 +164,7 @@ namespace GUIUtils.GraphVisualization
         }
 
         /// <summary>
-        /// Sets the maximum displayed value for Y axis
+        ///     Sets the maximum displayed value for Y axis
         /// </summary>
         /// <param name="value"></param>
         public void SetMaxY(double value)
@@ -167,7 +173,7 @@ namespace GUIUtils.GraphVisualization
         }
 
         /// <summary>
-        /// Adds the provided graph to the list of displayed graphs
+        ///     Adds the provided graph to the list of displayed graphs
         /// </summary>
         /// <param name="graph"></param>
         public void AddGraph(Graph graph)
@@ -176,7 +182,7 @@ namespace GUIUtils.GraphVisualization
         }
 
         /// <summary>
-        /// Adds the provided range of graphs to the list of displayed graphs
+        ///     Adds the provided range of graphs to the list of displayed graphs
         /// </summary>
         /// <param name="graphs"></param>
         public void AddGraphRange(List<Graph> graphs)
@@ -185,7 +191,7 @@ namespace GUIUtils.GraphVisualization
         }
 
         /// <summary>
-        /// Clears the displayed annotations
+        ///     Clears the displayed annotations
         /// </summary>
         public void ClearAnnotations()
         {
@@ -193,7 +199,7 @@ namespace GUIUtils.GraphVisualization
         }
 
         /// <summary>
-        /// Clears the displayed data
+        ///     Clears the displayed data
         /// </summary>
         public void ClearData()
         {
@@ -202,7 +208,7 @@ namespace GUIUtils.GraphVisualization
         }
 
         /// <summary>
-        /// Clears the data and erases the series
+        ///     Clears the data and erases the series
         /// </summary>
         public void Reset()
         {
@@ -211,7 +217,7 @@ namespace GUIUtils.GraphVisualization
         }
 
         /// <summary>
-        /// Draws the functions
+        ///     Draws the functions
         /// </summary>
         /// <param name="end"></param>
         /// <param name="start"></param>
@@ -249,7 +255,8 @@ namespace GUIUtils.GraphVisualization
                         e.Location.Y >= 0 && e.Location.Y <= chart.Size.Height)
                     {
                         HandleZoomforAxis(ChartAreas[0].AxisX, e.Location.X, 0, ChartAreas[0].AxisX.Maximum, e.Delta > 0);
-                        HandleZoomforAxis(ChartAreas[0].AxisY, e.Location.Y, negativeOffset, ChartAreas[0].AxisY.Maximum, e.Delta > 0);
+                        HandleZoomforAxis(ChartAreas[0].AxisY, e.Location.Y, negativeOffset, ChartAreas[0].AxisY.Maximum,
+                            e.Delta > 0);
                     }
                 }
             }
@@ -259,7 +266,7 @@ namespace GUIUtils.GraphVisualization
         }
 
         /// <summary>
-        /// Handles the zoom for the provided axis
+        ///     Handles the zoom for the provided axis
         /// </summary>
         /// <param name="axis"></param>
         /// <param name="mouseLocation"></param>
@@ -275,8 +282,8 @@ namespace GUIUtils.GraphVisualization
 
             if (zoomIn)
             {
-                start = Math.Floor(min + (axis.PixelPositionToValue(mouseLocation) - min) / 2);
-                end = Math.Floor(max - (max - axis.PixelPositionToValue(mouseLocation)) / 2);
+                start = Math.Floor(min + (axis.PixelPositionToValue(mouseLocation) - min)/2);
+                end = Math.Floor(max - (max - axis.PixelPositionToValue(mouseLocation))/2);
             }
             else
             {
@@ -301,7 +308,7 @@ namespace GUIUtils.GraphVisualization
         }
 
         /// <summary>
-        /// Resets the zoom of both axis
+        ///     Resets the zoom of both axis
         /// </summary>
         public void ResetZoom()
         {

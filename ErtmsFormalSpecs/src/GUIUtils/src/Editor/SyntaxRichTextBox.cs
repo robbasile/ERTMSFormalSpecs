@@ -14,12 +14,12 @@ namespace GUIUtils.Editor
     public class SyntaxRichTextBox : RichTextBox
     {
         /// <summary>
-        /// The patterns to apply
+        ///     The patterns to apply
         /// </summary>
         public List<Pattern> Patterns { get; private set; }
 
         /// <summary>
-        /// The keywords
+        ///     The keywords
         /// </summary>
         private static readonly string[] Keywords =
         {
@@ -30,7 +30,7 @@ namespace GUIUtils.Editor
         };
 
         /// <summary>
-        /// The keywords
+        ///     The keywords
         /// </summary>
         private static readonly string[] ModelElements =
         {
@@ -43,39 +43,42 @@ namespace GUIUtils.Editor
         };
 
         /// <summary>
-        /// Regular expression for a qualified name
+        ///     Regular expression for a qualified name
         /// </summary>
         private const string QualifiedName = "\\b[a-zA-Z][\\.0-9a-zA-Z_]*\\b";
 
         /// <summary>
-        /// The instance according to which this text box presents the data
+        ///     The instance according to which this text box presents the data
         /// </summary>
         public ModelElement Instance { get; set; }
 
         /// <summary>
-        /// Indicates that the Paint event can be performed
-        /// This is used to avoid blinking effect when refreshing a line
+        ///     Indicates that the Paint event can be performed
+        ///     This is used to avoid blinking effect when refreshing a line
         /// </summary>
         private bool CanPaint { get; set; }
 
         /// <summary>
-        /// Indicates that patterns should be applied to color the text box
+        ///     Indicates that patterns should be applied to color the text box
         /// </summary>
         public bool ApplyPatterns { get; set; }
 
         /// <summary>
-        /// Constructor
+        ///     Constructor
         /// </summary>
         public SyntaxRichTextBox()
         {
-            Pattern commentPattern = new Pattern("//.*$") { Color = Color.Green };
-            Pattern holeInTemplatePattern = new Pattern("<[a-zA-Z\\b]+>"){Color = Color.OrangeRed };
-            Pattern integerPattern = new Pattern("\\b(?:[0-9]*\\.)?[0-9]+\\b") { Color = Color.BlueViolet};
-            Pattern stringPattern = new Pattern("\'[^\']*\'") { Color = Color.BlueViolet };
-            ConstantPattern constantPattern = new ConstantPattern(QualifiedName) { Color = Color.BlueViolet};
-            Pattern keywordPattern = new ListPattern(Keywords) { FontStyle = FontStyle.Bold };
-            Pattern modelElementPattern = new ListPattern(ModelElements) { FontStyle = FontStyle.Bold | FontStyle.Underline };
-            TypePattern typePattern = new TypePattern(QualifiedName) { Color = Color.Blue };
+            Pattern commentPattern = new Pattern("//.*$") {Color = Color.Green};
+            Pattern holeInTemplatePattern = new Pattern("<[a-zA-Z\\b]+>") {Color = Color.OrangeRed};
+            Pattern integerPattern = new Pattern("\\b(?:[0-9]*\\.)?[0-9]+\\b") {Color = Color.BlueViolet};
+            Pattern stringPattern = new Pattern("\'[^\']*\'") {Color = Color.BlueViolet};
+            ConstantPattern constantPattern = new ConstantPattern(QualifiedName) {Color = Color.BlueViolet};
+            Pattern keywordPattern = new ListPattern(Keywords) {FontStyle = FontStyle.Bold};
+            Pattern modelElementPattern = new ListPattern(ModelElements)
+            {
+                FontStyle = FontStyle.Bold | FontStyle.Underline
+            };
+            TypePattern typePattern = new TypePattern(QualifiedName) {Color = Color.Blue};
 
             Patterns = new List<Pattern>
             {
@@ -95,7 +98,7 @@ namespace GUIUtils.Editor
         }
 
         /// <summary>
-        /// Captures WndProc event and filter out paint events when CanPaint is set to false to avoid flickering
+        ///     Captures WndProc event and filter out paint events when CanPaint is set to false to avoid flickering
         /// </summary>
         /// <param name="m"></param>
         protected override void WndProc(ref Message m)
@@ -118,7 +121,7 @@ namespace GUIUtils.Editor
         }
 
         /// <summary>
-        /// Handles a text change to recolor it
+        ///     Handles a text change to recolor it
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -138,7 +141,7 @@ namespace GUIUtils.Editor
         }
 
         /// <summary>
-        /// Provides the start of the line, according to the index provided as parameter
+        ///     Provides the start of the line, according to the index provided as parameter
         /// </summary>
         /// <param name="index"></param>
         /// <returns></returns>
@@ -155,7 +158,7 @@ namespace GUIUtils.Editor
         }
 
         /// <summary>
-        /// Provides the end index of the line, according to the index provided as parameter
+        ///     Provides the end index of the line, according to the index provided as parameter
         /// </summary>
         /// <param name="index"></param>
         /// <returns></returns>
@@ -172,7 +175,7 @@ namespace GUIUtils.Editor
         }
 
         /// <summary>
-        /// Process a line.
+        ///     Process a line.
         /// </summary>
         /// <param name="start">The index of the start of the line</param>
         /// <param name="line">The line</param>
@@ -203,7 +206,7 @@ namespace GUIUtils.Editor
         }
 
         /// <summary>
-        /// Processes all lines in the text box
+        ///     Processes all lines in the text box
         /// </summary>
         public void ProcessAllLines()
         {
@@ -225,7 +228,7 @@ namespace GUIUtils.Editor
     }
 
     /// <summary>
-    /// The location where coloring has already taken place
+    ///     The location where coloring has already taken place
     /// </summary>
     public class ColorizedLocation
     {
@@ -234,27 +237,27 @@ namespace GUIUtils.Editor
     }
 
     /// <summary>
-    /// A pattern to be found in the text, associated to a color
+    ///     A pattern to be found in the text, associated to a color
     /// </summary>
     public class Pattern
     {
         /// <summary>
-        /// The color to be applied when the pattern is found
+        ///     The color to be applied when the pattern is found
         /// </summary>
         public Color Color { get; set; }
 
         /// <summary>
-        /// The regular expression to find the pattern
+        ///     The regular expression to find the pattern
         /// </summary>
         public Regex RegExp { get; set; }
 
         /// <summary>
-        /// The font style to use when applying this pattern
+        ///     The font style to use when applying this pattern
         /// </summary>
         public FontStyle FontStyle { get; set; }
 
         /// <summary>
-        /// Constructor
+        ///     Constructor
         /// </summary>
         /// <param name="color"></param>
         /// <param name="regExp"></param>
@@ -266,14 +269,15 @@ namespace GUIUtils.Editor
         }
 
         /// <summary>
-        /// Process a regular expression.
+        ///     Process a regular expression.
         /// </summary>
         /// <param name="textBox"></param>
         /// <param name="instance"></param>
         /// <param name="start">The start index of the line</param>
         /// <param name="line">The line to be processed</param>
         /// <param name="colorizedLocations">The location where coloring already occured</param>
-        public void Colorize(SyntaxRichTextBox textBox, ModelElement instance, int start, string line, List<ColorizedLocation> colorizedLocations)
+        public void Colorize(SyntaxRichTextBox textBox, ModelElement instance, int start, string line,
+            List<ColorizedLocation> colorizedLocations)
         {
             Font font = new Font(textBox.Font, FontStyle);
 
@@ -298,7 +302,7 @@ namespace GUIUtils.Editor
         }
 
         /// <summary>
-        /// Checks that the matching does not occur in an already colored location
+        ///     Checks that the matching does not occur in an already colored location
         /// </summary>
         /// <param name="match"></param>
         /// <param name="colorizedLocations"></param>
@@ -318,7 +322,7 @@ namespace GUIUtils.Editor
                 if (match.Index + match.Length >= location.Start && match.Index + match.Length <= location.End)
                 {
                     retVal = false;
-                    break;                    
+                    break;
                 }
             }
 
@@ -326,7 +330,7 @@ namespace GUIUtils.Editor
         }
 
         /// <summary>
-        /// Performs additional checks on the string provided
+        ///     Performs additional checks on the string provided
         /// </summary>
         /// <param name="text"></param>
         /// <param name="instance"></param>
@@ -338,12 +342,12 @@ namespace GUIUtils.Editor
     }
 
     /// <summary>
-    /// A pattern used to identify types
+    ///     A pattern used to identify types
     /// </summary>
     public class TypePattern : Pattern
     {
         /// <summary>
-        /// Constructor
+        ///     Constructor
         /// </summary>
         /// <param name="regExp"></param>
         public TypePattern(string regExp)
@@ -352,7 +356,7 @@ namespace GUIUtils.Editor
         }
 
         /// <summary>
-        /// Ensures that the string provided is a type
+        ///     Ensures that the string provided is a type
         /// </summary>
         /// <param name="text"></param>
         /// <param name="instance"></param>
@@ -363,7 +367,8 @@ namespace GUIUtils.Editor
 
             if (retVal && instance != null)
             {
-                Expression expression = instance.EFSSystem.Parser.Expression(instance, text, IsType.INSTANCE, true, null, true);
+                Expression expression = instance.EFSSystem.Parser.Expression(instance, text, IsType.INSTANCE, true, null,
+                    true);
                 retVal = (expression != null && expression.Ref != null) && !(expression.Ref is Function);
             }
 
@@ -372,12 +377,12 @@ namespace GUIUtils.Editor
     }
 
     /// <summary>
-    /// A pattern used to identify types
+    ///     A pattern used to identify types
     /// </summary>
     public class ConstantPattern : Pattern
     {
         /// <summary>
-        /// Constructor
+        ///     Constructor
         /// </summary>
         /// <param name="regExp"></param>
         public ConstantPattern(string regExp)
@@ -386,7 +391,7 @@ namespace GUIUtils.Editor
         }
 
         /// <summary>
-        /// Ensures that the string provided is a type
+        ///     Ensures that the string provided is a type
         /// </summary>
         /// <param name="text"></param>
         /// <param name="instance"></param>
@@ -397,7 +402,8 @@ namespace GUIUtils.Editor
 
             if (retVal && instance != null)
             {
-                Expression expression = instance.EFSSystem.Parser.Expression(instance, text, IsValue.INSTANCE, true, null, true);
+                Expression expression = instance.EFSSystem.Parser.Expression(instance, text, IsValue.INSTANCE, true,
+                    null, true);
                 retVal = (expression != null && expression.Ref is EnumValue);
             }
 
@@ -406,12 +412,12 @@ namespace GUIUtils.Editor
     }
 
     /// <summary>
-    /// A pattern consisting of a list of elements
+    ///     A pattern consisting of a list of elements
     /// </summary>
     public class ListPattern : Pattern
     {
         /// <summary>
-        /// Constructor
+        ///     Constructor
         /// </summary>
         /// <param name="elements"></param>
         public ListPattern(params string[] elements)
@@ -420,7 +426,7 @@ namespace GUIUtils.Editor
         }
 
         /// <summary>
-        /// Compiles the keywords as a regular expression.
+        ///     Compiles the keywords as a regular expression.
         /// </summary>
         public static string ComputeRegExp(params string[] elements)
         {

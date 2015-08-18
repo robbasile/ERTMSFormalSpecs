@@ -14,12 +14,7 @@
 // --
 // ------------------------------------------------------------------------------
 
-using System.ComponentModel;
-using System.Drawing;
-using System.Windows.Forms;
 using DataDictionary;
-using Utils;
-using ModelElement = Utils.ModelElement;
 
 namespace GUI.EditorView
 {
@@ -47,7 +42,7 @@ namespace GUI.EditorView
                 ICommentable commentable = DisplayedModel as ICommentable;
                 if (commentable != null)
                 {
-                    setChangeHandler(new CommentableTextChangeHandler((DataDictionary.ModelElement) commentable));
+                    setChangeHandler(new CommentableTextChangeHandler((ModelElement) commentable));
                 }
             }
 

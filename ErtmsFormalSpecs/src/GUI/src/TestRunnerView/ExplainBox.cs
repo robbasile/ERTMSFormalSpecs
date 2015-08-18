@@ -47,7 +47,7 @@ namespace GUI.TestRunnerView
             {
                 Explanation = explanation;
             }
-            
+
             /// <summary>
             ///     Updates the node text according to the explanation
             /// </summary>
@@ -414,8 +414,8 @@ namespace GUI.TestRunnerView
             {
                 if (ModifierKeys == Keys.Control)
                 {
-                    EFSSystem.INSTANCE.Context.SelectElement(node.Explanation.Element, this, Context.SelectionCriteria.DoubleClick);
-
+                    EFSSystem.INSTANCE.Context.SelectElement(node.Explanation.Element, this,
+                        Context.SelectionCriteria.DoubleClick);
                 }
                 explainRichTextBox.Instance = Explanation;
                 explainRichTextBox.Text = Explanation.Message;

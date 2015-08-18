@@ -1,6 +1,5 @@
 ﻿using DataDictionary.Constants;
 using DataDictionary.Interpreter;
-using DataDictionary.Rules;
 using DataDictionary.Types;
 using DataDictionary.Values;
 using DataDictionary.Variables;

@@ -1,12 +1,12 @@
 ﻿namespace EFSServiceClient
 {
     /// <summary>
-    /// A functional value
+    ///     A functional value
     /// </summary>
-    interface IFunctionValue
+    internal interface IFunctionValue
     {
         /// <summary>
-        /// Evaluates the function for a given value for X
+        ///     Evaluates the function for a given value for X
         /// </summary>
         /// <param name="x"></param>
         /// <returns></returns>

@@ -49,7 +49,7 @@ namespace GUI.EditorView
             public abstract void SetText(string text);
 
             /// <summary>
-            /// Removes all useless characters from a source string
+            ///     Removes all useless characters from a source string
             /// </summary>
             /// <param name="source"></param>
             /// <returns></returns>

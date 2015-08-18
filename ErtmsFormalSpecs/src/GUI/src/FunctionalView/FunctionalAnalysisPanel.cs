@@ -96,7 +96,8 @@ namespace GUI.FunctionalView
         /// </summary>
         /// <param name="control"></param>
         /// <returns></returns>
-        protected override BoxEditor<IEnclosesNameSpaces, NameSpace, AccessMode> CreateBoxEditor(BoxControl<IEnclosesNameSpaces, NameSpace, AccessMode> control)
+        protected override BoxEditor<IEnclosesNameSpaces, NameSpace, AccessMode> CreateBoxEditor(
+            BoxControl<IEnclosesNameSpaces, NameSpace, AccessMode> control)
         {
             return new NameSpaceEditor(control);
         }
@@ -106,7 +107,8 @@ namespace GUI.FunctionalView
         /// </summary>
         /// <param name="control"></param>
         /// <returns></returns>
-        protected override ArrowEditor<IEnclosesNameSpaces, NameSpace, AccessMode> CreateArrowEditor(ArrowControl<IEnclosesNameSpaces, NameSpace, AccessMode> control)
+        protected override ArrowEditor<IEnclosesNameSpaces, NameSpace, AccessMode> CreateArrowEditor(
+            ArrowControl<IEnclosesNameSpaces, NameSpace, AccessMode> control)
         {
             return new AccessModeEditor(control);
         }

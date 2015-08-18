@@ -30,16 +30,16 @@ namespace GUI.FunctionalView
         /// </summary>
         /// <param name="panel"></param>
         /// <param name="model"></param>
-        public AccessToControl(FunctionalAnalysisPanel panel, AccessMode model) 
+        public AccessToControl(FunctionalAnalysisPanel panel, AccessMode model)
             : base(panel, model)
         {
             ArrowMode = ArrowModeEnum.Half;
             ArrowFill = ArrowFillEnum.Fill;
         }
-        
+
 
         /// <summary>
-        /// The model on which this element is related
+        ///     The model on which this element is related
         /// </summary>
         public override object Model
         {

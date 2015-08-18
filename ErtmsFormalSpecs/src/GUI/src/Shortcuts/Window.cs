@@ -23,7 +23,7 @@ namespace GUI.Shortcuts
     public partial class Window : BaseForm
     {
         /// <summary>
-        /// The tree view used to display shortcuts
+        ///     The tree view used to display shortcuts
         /// </summary>
         public override BaseTreeView TreeView
         {

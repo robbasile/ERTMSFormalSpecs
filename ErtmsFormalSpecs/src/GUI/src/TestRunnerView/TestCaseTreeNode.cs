@@ -19,13 +19,11 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
 using DataDictionary;
+using DataDictionary.Tests;
 using DataDictionary.Tests.Runner;
 using GUI.Report;
 using GUIUtils;
 using Utils;
-using Step = DataDictionary.Tests.Step;
-using SubSequence = DataDictionary.Tests.SubSequence;
-using TestCase = DataDictionary.Tests.TestCase;
 
 namespace GUI.TestRunnerView
 {
@@ -221,7 +219,7 @@ namespace GUI.TestRunnerView
             TestReport aReport = new TestReport(Item);
             aReport.Show();
         }
-        
+
         public void AddHandler(object sender, EventArgs args)
         {
             Item.appendSteps(Step.CreateDefault(Item.Steps));
@@ -243,7 +241,7 @@ namespace GUI.TestRunnerView
             retVal.Insert(7, new MenuItem("Apply translation rules", TranslateHandler));
             retVal.Insert(8, new MenuItem("-"));
 
-           retVal.Insert(11, new MenuItem("Execute", RunHandler));
+            retVal.Insert(11, new MenuItem("Execute", RunHandler));
             retVal.Insert(12, new MenuItem("Create report", ReportHandler));
             retVal.Insert(13, new MenuItem("-"));
 

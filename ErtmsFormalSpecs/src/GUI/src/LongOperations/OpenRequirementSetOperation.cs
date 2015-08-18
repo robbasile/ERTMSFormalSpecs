@@ -28,7 +28,7 @@ namespace GUI.LongOperations
         private RequirementSetDiagramWindow Window { get; set; }
 
         /// <summary>
-        /// The enclosing element
+        ///     The enclosing element
         /// </summary>
         private IHoldsRequirementSets Enclosing { get; set; }
 

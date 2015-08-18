@@ -32,7 +32,7 @@ namespace GUI.ModelDiagram.Arrows
         /// <param name="target"></param>
         /// <param name="model"></param>
         public VariableTypeArrow(Variable source, Type target, Variable model)
-            : base (source, target, "type", model)
+            : base(source, target, "type", model)
         {
         }
 

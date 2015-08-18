@@ -14,7 +14,6 @@
 // --
 // ------------------------------------------------------------------------------
 
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using DataDictionary.Generated;
@@ -268,7 +267,7 @@ namespace DataDictionary.Types
         }
 
         /// <summary>
-        /// Provides the types available in this namespace
+        ///     Provides the types available in this namespace
         /// </summary>
         public List<Type> Types
         {
@@ -375,7 +374,7 @@ namespace DataDictionary.Types
         /// <returns></returns>
         public Structure findStructureByName(string name)
         {
-            return (Structure)NamableUtils.FindByName(name, Structures);
+            return (Structure) NamableUtils.FindByName(name, Structures);
         }
 
         /// <summary>
@@ -385,7 +384,7 @@ namespace DataDictionary.Types
         /// <returns></returns>
         public StateMachine findStateMachineByName(string name)
         {
-            return (StateMachine)NamableUtils.FindByName(name, StateMachines);
+            return (StateMachine) NamableUtils.FindByName(name, StateMachines);
         }
 
         /// <summary>
@@ -714,7 +713,7 @@ namespace DataDictionary.Types
         }
 
         /// <summary>
-        ///     Creates the status message 
+        ///     Creates the status message
         /// </summary>
         /// <returns>the status string for the selected element</returns>
         public override string CreateStatusMessage()
@@ -746,7 +745,7 @@ namespace DataDictionary.Types
                 rules += aNamespace.Rules.Count;
             }
 
-            result += "Namespace " + Name + " containing " + 
+            result += "Namespace " + Name + " containing " +
                       subNameSpaces + (subNameSpaces > 1 ? " sub-namespaces, " : " sub-namespace, ") +
                       ranges + (ranges > 1 ? " ranges, " : " range, ") +
                       enumerations + (enumerations > 1 ? " enumerations, " : " enumeration, ") +
@@ -761,7 +760,7 @@ namespace DataDictionary.Types
         }
 
         /// <summary>
-        /// Provides the set of namespaces enclosed in this namespace
+        ///     Provides the set of namespaces enclosed in this namespace
         /// </summary>
         /// <param name="retVal">The return value</param>
         /// <returns></returns>
@@ -774,20 +773,17 @@ namespace DataDictionary.Types
                 subNamespace.CollectNamespaces(retVal);
             }
         }
-   
+
         /// <summary>
-        /// Creates a default element
+        ///     Creates a default element
         /// </summary>
         /// <param name="enclosingCollection"></param>
         /// <returns></returns>
         public static NameSpace CreateDefault(ICollection enclosingCollection)
         {
-            NameSpace nameSpace = (NameSpace)acceptor.getFactory().createNameSpace();
+            NameSpace nameSpace = (NameSpace) acceptor.getFactory().createNameSpace();
 
-            Util.DontNotify(() =>
-            {
-                nameSpace.Name = "NameSpace" + GetElementNumber(enclosingCollection);
-            });
+            Util.DontNotify(() => { nameSpace.Name = "NameSpace" + GetElementNumber(enclosingCollection); });
 
             return nameSpace;
         }

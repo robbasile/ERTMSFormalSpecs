@@ -15,7 +15,6 @@
 // ------------------------------------------------------------------------------
 
 using DataDictionary;
-using ModelElement = DataDictionary.ModelElement;
 
 namespace GUI.ModelDiagram.Arrows
 {

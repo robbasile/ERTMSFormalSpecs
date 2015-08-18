@@ -31,8 +31,8 @@ namespace GUI.RequirementSetDiagram
             public override StandardValuesCollection
                 GetStandardValues(ITypeDescriptorContext context)
             {
-                TransitionEditor instance = (TransitionEditor)context.Instance;
-                RequirementSetPanel panel = (RequirementSetPanel)instance.Control.Panel;
+                TransitionEditor instance = (TransitionEditor) context.Instance;
+                RequirementSetPanel panel = (RequirementSetPanel) instance.Control.Panel;
                 return GetValues(panel.Model);
             }
         }
@@ -46,7 +46,7 @@ namespace GUI.RequirementSetDiagram
         {
         }
 
-        [Category("Description"), TypeConverter(typeof(InternalRequirementSetTypeConverter))]
+        [Category("Description"), TypeConverter(typeof (InternalRequirementSetTypeConverter))]
         public string Source
         {
             get
@@ -61,7 +61,7 @@ namespace GUI.RequirementSetDiagram
             }
             set
             {
-                RequirementSetDependancyControl transitionControl = (RequirementSetDependancyControl)Control;
+                RequirementSetDependancyControl transitionControl = (RequirementSetDependancyControl) Control;
                 IHoldsRequirementSets enclosing = transitionControl.TypedModel.Source.Enclosing as IHoldsRequirementSets;
                 if (enclosing != null)
                 {
@@ -74,7 +74,7 @@ namespace GUI.RequirementSetDiagram
             }
         }
 
-        [Category("Description"), TypeConverter(typeof(InternalRequirementSetTypeConverter))]
+        [Category("Description"), TypeConverter(typeof (InternalRequirementSetTypeConverter))]
         public string Target
         {
             get
@@ -90,7 +90,7 @@ namespace GUI.RequirementSetDiagram
             }
             set
             {
-                RequirementSetDependancyControl transitionControl = (RequirementSetDependancyControl)Control;
+                RequirementSetDependancyControl transitionControl = (RequirementSetDependancyControl) Control;
                 IHoldsRequirementSets enclosing = transitionControl.TypedModel.Source.Enclosing as IHoldsRequirementSets;
                 if (enclosing != null)
                 {

@@ -17,7 +17,6 @@
 using System.Drawing;
 using System.Windows.Forms;
 using DataDictionary;
-using GUI.BoxArrowDiagram;
 using Utils;
 
 namespace GUI
@@ -106,7 +105,7 @@ namespace GUI
         }
 
         /// <summary>
-        /// Provides the selection criteria according to the mouse event arg
+        ///     Provides the selection criteria according to the mouse event arg
         /// </summary>
         /// <param name="mouseEventArgs"></param>
         /// <returns></returns>
@@ -142,7 +141,7 @@ namespace GUI
         }
 
         /// <summary>
-        /// Provides the node corresponding to the model element
+        ///     Provides the node corresponding to the model element
         /// </summary>
         /// <param name="selectionContext"></param>
         /// <returns></returns>

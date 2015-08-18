@@ -17,7 +17,7 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using NameSpace = DataDictionary.Types.NameSpace;
+using DataDictionary.Types;
 
 namespace GUI.DataDictionaryView
 {

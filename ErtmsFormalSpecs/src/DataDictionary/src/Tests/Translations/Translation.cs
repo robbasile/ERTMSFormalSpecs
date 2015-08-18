@@ -242,7 +242,6 @@ namespace DataDictionary.Tests.Translations
         }
 
 
-
         public string getSourceTextExplain()
         {
             string result = "";

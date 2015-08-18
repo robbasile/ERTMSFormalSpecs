@@ -16,9 +16,8 @@
 
 using System.Collections.Generic;
 using System.Windows.Forms;
+using DataDictionary;
 using GUI.SpecificationView;
-using ReferencesParagraph = DataDictionary.ReferencesParagraph;
-using ReqRef = DataDictionary.ReqRef;
 
 namespace GUI
 {
@@ -65,7 +64,7 @@ namespace GUI
         {
             return new ItemEditor();
         }
-        
+
         /// <summary>
         ///     Handles a drop event
         /// </summary>

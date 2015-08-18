@@ -44,5 +44,4 @@ namespace GUI.BoxArrowDiagram
             get { return Control.TypedModel.GraphicalName; }
         }
     }
-
 }

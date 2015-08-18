@@ -374,14 +374,14 @@ namespace DataDictionary.Rules
         }
 
         /// <summary>
-        /// Creates a default element
+        ///     Creates a default element
         /// </summary>
         /// <param name="enclosingCollection"></param>
         /// <returns></returns>
         public static Action CreateDefault(ICollection enclosingCollection)
         {
-            Action retVal = (Action)acceptor.getFactory().createAction();
-            
+            Action retVal = (Action) acceptor.getFactory().createAction();
+
             Util.DontNotify(() =>
             {
                 retVal.Name = "Action" + GetElementNumber(enclosingCollection);

@@ -30,9 +30,12 @@ using GUI.RulePerformances;
 using GUI.Status;
 using GUIUtils;
 using Importers.ExcelImporter;
+using Utils;
 using WeifenLuo.WinFormsUI.Docking;
 using Dictionary = DataDictionary.Dictionary;
 using Specification = DataDictionary.Specification.Specification;
+using Util = DataDictionary.Util;
+using Window = GUI.MessagesView.Window;
 
 namespace GUI
 {
@@ -64,7 +67,7 @@ namespace GUI
                 return retVal;
             }
         }
-        
+
         /// <summary>
         ///     Handles the fact that a sub window has been closed
         /// </summary>
@@ -152,9 +155,9 @@ namespace GUI
         /// <summary>
         ///     Provides a message view window
         /// </summary>
-        public MessagesView.Window MessagesWindow
+        public Window MessagesWindow
         {
-            get { return GenericWindowHandling<MessagesView.Window>.Find(SubWindows); }
+            get { return GenericWindowHandling<Window>.Find(SubWindows); }
         }
 
         /// <summary>
@@ -282,7 +285,7 @@ namespace GUI
         }
 
         /// <summary>
-        /// The status handler
+        ///     The status handler
         /// </summary>
         private StatusHandler StatusHandler { get; set; }
 
@@ -304,11 +307,11 @@ namespace GUI
         }
 
         /// <summary>
-        /// Updates the title when value change
+        ///     Updates the title when value change
         /// </summary>
         /// <param name="modelElement"></param>
         /// <param name="changeKind"></param>
-        void Context_ValueChange(Utils.IModelElement modelElement, Context.ChangeKind changeKind)
+        private void Context_ValueChange(IModelElement modelElement, Context.ChangeKind changeKind)
         {
             try
             {
@@ -386,7 +389,7 @@ namespace GUI
         }
 
         /// <summary>
-        /// Provides the initial rectangle for each child window to provide a location for undocking
+        ///     Provides the initial rectangle for each child window to provide a location for undocking
         /// </summary>
         private readonly Dictionary<Form, Rectangle> _initialRectangle = new Dictionary<Form, Rectangle>();
 
@@ -432,7 +435,7 @@ namespace GUI
                 }
             }
         }
-        
+
         #region OpenFile
 
         /// ------------------------------------------------------
@@ -567,7 +570,7 @@ namespace GUI
                 }
                 ExpressionEditorWindow.Show();
 
-                GenericWindowHandling<MessagesView.Window>.AddOrShow(this, MessagesWindow, DockAreas.DockRight);
+                GenericWindowHandling<Window>.AddOrShow(this, MessagesWindow, DockAreas.DockRight);
                 if (shouldPlace)
                 {
                     MessagesWindow.Show(HistoryWindow.Pane, DockAlignment.Bottom, 0.3);
@@ -860,9 +863,9 @@ namespace GUI
         /// ------------------------------------------------------
         private void clearMarksToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MarkingHistory.PerformMark(() => {});
+            MarkingHistory.PerformMark(() => { });
         }
-        
+
         private void markRequirementsWhereMoreInfoIsRequiredToolStripMenuItem_Click(object sender, EventArgs e)
         {
             MarkingHistory.PerformMark(() =>
@@ -1298,7 +1301,7 @@ namespace GUI
                 Refresh();
             }
         }
-        
+
         private void generateFunctionalAnalysisReportToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Dictionary dictionary = GetActiveDictionary();
@@ -1381,7 +1384,7 @@ namespace GUI
         /// <param name="statusText"></param>
         public void SetStatus(string statusText)
         {
-            BeginInvoke((MethodInvoker)(() => toolStripStatusLabel.Text=statusText));
+            BeginInvoke((MethodInvoker) (() => toolStripStatusLabel.Text = statusText));
         }
 
         private void blameUntilToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1465,7 +1468,7 @@ namespace GUI
 
         private void showMessagesVoewToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            GenericWindowHandling<MessagesView.Window>.AddOrShow(this, MessagesWindow, DockAreas.DockBottom);
+            GenericWindowHandling<Window>.AddOrShow(this, MessagesWindow, DockAreas.DockBottom);
         }
 
         private void showMoreInfoViewToolStripMenuItem1_Click(object sender, EventArgs e)

@@ -17,8 +17,7 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using DataDictionary.Generated;
-using State = DataDictionary.Constants.State;
+using DataDictionary.Constants;
 
 namespace GUI.DataDictionaryView
 {

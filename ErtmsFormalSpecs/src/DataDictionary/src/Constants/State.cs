@@ -90,8 +90,10 @@ namespace DataDictionary.Constants
         /// <summary>
         ///     Clears the messages associated to this model element
         /// </summary>
-        /// <param name="precise">Indicates that the MessagePathInfo should be recomputed precisely
-        ///  according to the sub elements and should update the enclosing elements</param>
+        /// <param name="precise">
+        ///     Indicates that the MessagePathInfo should be recomputed precisely
+        ///     according to the sub elements and should update the enclosing elements
+        /// </param>
         public override void ClearMessages(bool precise)
         {
             LogCount -= Messages.Count;
@@ -491,13 +493,13 @@ namespace DataDictionary.Constants
         /// <returns></returns>
         public State CreateStateUpdate(Dictionary dictionary)
         {
-            State retVal = (State)acceptor.getFactory().createState();
+            State retVal = (State) acceptor.getFactory().createState();
             retVal.Name = Name;
             retVal.SetUpdateInformation(this);
 
             // Find the update for the enclosing state machine to add retVal to
             StateMachine enclosingSmUpdate = EnclosingStateMachine.CreateSubStateMachineUpdate(dictionary);
-            
+
             enclosingSmUpdate.States.Add(retVal);
             retVal.setFather(enclosingSmUpdate);
 
@@ -521,18 +523,15 @@ namespace DataDictionary.Constants
         }
 
         /// <summary>
-        /// Creates a default element
+        ///     Creates a default element
         /// </summary>
         /// <param name="enclosingCollection"></param>
         /// <returns></returns>
         public static State CreateDefault(ICollection enclosingCollection)
         {
-            State retVal = (State)acceptor.getFactory().createState();
+            State retVal = (State) acceptor.getFactory().createState();
 
-            Util.DontNotify(() =>
-            {
-                retVal.Name = "State" + GetElementNumber(enclosingCollection);
-            });
+            Util.DontNotify(() => { retVal.Name = "State" + GetElementNumber(enclosingCollection); });
 
             return retVal;
         }

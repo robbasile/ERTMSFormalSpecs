@@ -20,10 +20,9 @@ using System.ComponentModel;
 using System.Drawing.Design;
 using System.Windows.Forms;
 using DataDictionary;
+using DataDictionary.Constants;
 using GUI.Converters;
-using Dictionary = DataDictionary.Dictionary;
 using Enum = DataDictionary.Types.Enum;
-using EnumValue = DataDictionary.Constants.EnumValue;
 
 namespace GUI.DataDictionaryView
 {
@@ -127,7 +126,7 @@ namespace GUI.DataDictionaryView
         }
 
         /// <summary>
-        /// Finds or creates an update for the current element.
+        ///     Finds or creates an update for the current element.
         /// </summary>
         /// <returns></returns>
         protected override ModelElement FindOrCreateUpdate()

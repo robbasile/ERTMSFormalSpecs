@@ -444,7 +444,7 @@ namespace DataDictionary.Types
             }
             else
             {
-                explanation.WriteLine("END INTERFACE");                
+                explanation.WriteLine("END INTERFACE");
             }
         }
 
@@ -528,7 +528,7 @@ namespace DataDictionary.Types
         /// <returns></returns>
         public Structure CreateStructureUpdate(Dictionary dictionary)
         {
-            Structure retVal = (Structure)acceptor.getFactory().createStructure();
+            Structure retVal = (Structure) acceptor.getFactory().createStructure();
             retVal.Name = Name;
             retVal.Comment = Comment;
             retVal.IsAbstract = IsAbstract;
@@ -660,7 +660,7 @@ namespace DataDictionary.Types
         }
 
         /// <summary>
-        ///     Creates the status message 
+        ///     Creates the status message
         /// </summary>
         /// <returns>the status string for the selected element</returns>
         public override string CreateStatusMessage()
@@ -681,14 +681,14 @@ namespace DataDictionary.Types
         }
 
         /// <summary>
-        /// Creates a default element
+        ///     Creates a default element
         /// </summary>
         /// <param name="enclosingCollection"></param>
         /// <param name="isInterface"></param>
         /// <returns></returns>
         public static Structure CreateDefault(ICollection enclosingCollection, bool isInterface)
         {
-            Structure retVal = (Structure)acceptor.getFactory().createStructure();
+            Structure retVal = (Structure) acceptor.getFactory().createStructure();
 
             Util.DontNotify(() =>
             {

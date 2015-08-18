@@ -32,7 +32,7 @@ namespace GUI.StateDiagram
         /// <param name="panel"></param>
         /// <param name="model"></param>
         public StateControl(StatePanel panel, State model)
-            : base (panel, model)
+            : base(panel, model)
         {
         }
 
@@ -61,7 +61,7 @@ namespace GUI.StateDiagram
         {
             base.HandleDoubleClick(sender, mouseEventArgs);
 
-            StatePanel panel = (StatePanel)Panel;
+            StatePanel panel = (StatePanel) Panel;
             if (panel != null)
             {
                 StateDiagramWindow window = new StateDiagramWindow();

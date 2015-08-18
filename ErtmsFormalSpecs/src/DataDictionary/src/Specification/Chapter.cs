@@ -340,7 +340,7 @@ namespace DataDictionary.Specification
         }
 
         /// <summary>
-        ///     Creates the status message 
+        ///     Creates the status message
         /// </summary>
         /// <returns>the status string for the selected element</returns>
         public override string CreateStatusMessage()
@@ -356,13 +356,13 @@ namespace DataDictionary.Specification
         }
 
         /// <summary>
-        /// Creates a default element
+        ///     Creates a default element
         /// </summary>
         /// <param name="enclosingCollection"></param>
         /// <returns></returns>
         public static Chapter CreateDefault(ICollection enclosingCollection)
         {
-            Chapter retVal = (Chapter)acceptor.getFactory().createChapter();
+            Chapter retVal = (Chapter) acceptor.getFactory().createChapter();
 
             Util.DontNotify(() =>
             {

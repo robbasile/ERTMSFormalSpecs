@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using DataDictionary.Constants;
 using DataDictionary.Rules;
 using DataDictionary.Types;
@@ -12,7 +9,7 @@ namespace DataDictionary.src
     public class UnifiedStateMachine : StateMachine
     {
         /// <summary>
-        ///     The state machines taht have been combined to make the 
+        ///     The state machines taht have been combined to make the
         /// </summary>
         public List<StateMachine> MergedStateMachines;
 
