@@ -193,6 +193,8 @@ namespace GUI.TestRunnerView.TimeLineControl
             }
 
             base.UpdatePositionHandler();
+
+            HorizontalScroll.Value = Math.Max(0, DrawArea.Size.Width - Size.Width);
         }
     }
 }

@@ -83,7 +83,6 @@ namespace GUI.TestRunnerView.TimeLineControl
 
             Point mousePosition = MousePosition;
             Point position = DrawArea.PointToClient(mousePosition);
-            position.Offset(HorizontalScroll.Value, VerticalScroll.Value);
 
             foreach (KeyValuePair<ModelEvent, Rectangle> pair in PositionHandler.EventPositions)
             {
@@ -460,7 +459,8 @@ namespace GUI.TestRunnerView.TimeLineControl
         protected virtual void UpdatePositionHandler()
         {
             // Update the draw area size according to the displayed events
-            Size size = new Size(PositionHandler.BottomRightPosition.X, PositionHandler.BottomRightPosition.Y);
+            Point bottomRightPosition = PositionHandler.BottomRightPosition;
+            Size size = new Size(bottomRightPosition.X, bottomRightPosition.Y);
             DrawArea.Size = size;
         }
 
@@ -491,7 +491,6 @@ namespace GUI.TestRunnerView.TimeLineControl
         /// <param name="e"></param>
         private void DrawArea_Paint(object sender, PaintEventArgs e)
         {
-            e.Graphics.TranslateTransform(AutoScrollPosition.X, AutoScrollPosition.Y);
             foreach (KeyValuePair<ModelEvent, Rectangle> pair in PositionHandler.EventPositions)
             {
                 DrawEvent(e, pair.Key, pair.Value);
@@ -763,7 +762,6 @@ namespace GUI.TestRunnerView.TimeLineControl
         private void DrawEvent(PaintEventArgs pe, ModelEvent evt, Rectangle bounds)
         {
             Rectangle displayRectangle = pe.ClipRectangle;
-            displayRectangle.Offset(HorizontalScroll.Value, VerticalScroll.Value);
             if (!displayRectangle.IntersectsWith(bounds))
             {
                 return;
