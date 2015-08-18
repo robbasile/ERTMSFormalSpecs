@@ -107,15 +107,11 @@ namespace GUI.DataDictionaryView
             else if (sourceNode is ParagraphTreeNode)
             {
                 ParagraphTreeNode node = sourceNode as ParagraphTreeNode;
-                Paragraph paragaph = node.Item;
+                Paragraph paragraph = node.Item;
 
-                Enum enumeration = (Enum) acceptor.getFactory().createEnum();
-                enumeration.Name = paragaph.Name;
-
-                ReqRef reqRef = (ReqRef) acceptor.getFactory().createReqRef();
-                reqRef.Name = paragaph.FullId;
-                enumeration.appendRequirements(reqRef);
+                Enum enumeration = Enum.CreateDefault(Item.SubEnums);
                 Item.appendSubEnums(enumeration);
+                enumeration.FindOrCreateReqRef(paragraph);
             }
         }
     }

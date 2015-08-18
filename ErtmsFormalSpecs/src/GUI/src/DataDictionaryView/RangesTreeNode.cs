@@ -104,13 +104,9 @@ namespace GUI.DataDictionaryView
                 ParagraphTreeNode node = sourceNode as ParagraphTreeNode;
                 Paragraph paragaph = node.Item;
 
-                Range range = (Range) acceptor.getFactory().createRange();
-                range.Name = paragaph.Name;
-
-                ReqRef reqRef = (ReqRef) acceptor.getFactory().createReqRef();
-                reqRef.Name = paragaph.FullId;
-                range.appendRequirements(reqRef);
+                Range range = Range.CreateDefault(Item.Ranges);
                 Item.appendRanges(range);
+                range.FindOrCreateReqRef(paragaph);
             }
         }
     }

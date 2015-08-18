@@ -107,15 +107,11 @@ namespace GUI.DataDictionaryView
             else if (sourceNode is ParagraphTreeNode)
             {
                 ParagraphTreeNode node = sourceNode as ParagraphTreeNode;
-                Paragraph paragaph = node.Item;
+                Paragraph paragraph = node.Item;
 
-                StateMachine stateMachine = (StateMachine) acceptor.getFactory().createStateMachine();
-                stateMachine.Name = paragaph.Name;
-
-                ReqRef reqRef = (ReqRef) acceptor.getFactory().createReqRef();
-                reqRef.Name = paragaph.FullId;
-                stateMachine.appendRequirements(reqRef);
+                StateMachine stateMachine = StateMachine.CreateDefault(Item.StateMachines);
                 Item.appendStateMachines(stateMachine);
+                stateMachine.FindOrCreateReqRef(paragraph);
             }
         }
     }

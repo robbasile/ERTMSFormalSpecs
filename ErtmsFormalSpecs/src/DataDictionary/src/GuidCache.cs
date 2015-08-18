@@ -104,26 +104,29 @@ namespace DataDictionary
         /// <returns></returns>
         public ModelElement GetModel(string guid)
         {
-            ModelElement retVal;
+            ModelElement retVal = null;
 
-            UniqueAccess.WaitOne();
-            if (!_cache.TryGetValue(guid, out retVal))
+            if (guid != null)
             {
-                // Update cache's contents
-                GuidVisitor visitor = new GuidVisitor(_cache);
-                foreach (Dictionary dictionary in EFSSystem.INSTANCE.Dictionaries)
-                {
-                    visitor.visit(dictionary, true);
-                }
-
-                // Retrieve the result of the visit
+                UniqueAccess.WaitOne();
                 if (!_cache.TryGetValue(guid, out retVal))
                 {
-                    // Avoid revisiting when the id does not exist
-                    _cache[guid] = null;
+                    // Update cache's contents
+                    GuidVisitor visitor = new GuidVisitor(_cache);
+                    foreach (Dictionary dictionary in EFSSystem.INSTANCE.Dictionaries)
+                    {
+                        visitor.visit(dictionary, true);
+                    }
+
+                    // Retrieve the result of the visit
+                    if (!_cache.TryGetValue(guid, out retVal))
+                    {
+                        // Avoid revisiting when the id does not exist
+                        _cache[guid] = null;
+                    }
                 }
+                UniqueAccess.ReleaseMutex();
             }
-            UniqueAccess.ReleaseMutex();
 
             return retVal;
         }

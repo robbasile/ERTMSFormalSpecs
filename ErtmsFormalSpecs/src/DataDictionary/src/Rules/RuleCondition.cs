@@ -530,5 +530,23 @@ namespace DataDictionary.Rules
 
             return result;
         }
+
+        /// <summary>
+        ///     Creates a default element
+        /// </summary>
+        /// <param name="enclosingCollection"></param>
+        /// <returns></returns>
+        public static RuleCondition CreateDefault(ICollection enclosingCollection)
+        {
+            RuleCondition retVal = (RuleCondition)acceptor.getFactory().createRuleCondition();
+
+            Util.DontNotify(() =>
+            {
+                retVal.Name = "RuleCondition" + GetElementNumber(enclosingCollection);
+            });
+
+            return retVal;
+        }
+
     }
 }

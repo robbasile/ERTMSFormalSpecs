@@ -107,15 +107,11 @@ namespace GUI.DataDictionaryView
             else if (sourceNode is ParagraphTreeNode)
             {
                 ParagraphTreeNode node = sourceNode as ParagraphTreeNode;
-                Paragraph paragaph = node.Item;
+                Paragraph paragraph = node.Item;
 
-                Procedure procedure = (Procedure) acceptor.getFactory().createProcedure();
-                procedure.Name = paragaph.Name;
-
-                ReqRef reqRef = (ReqRef) acceptor.getFactory().createReqRef();
-                reqRef.Name = paragaph.FullId;
-                procedure.appendRequirements(reqRef);
+                Procedure procedure = Procedure.CreateDefault(Item.Procedures);
                 Item.appendProcedures(procedure);
+                procedure.FindOrCreateReqRef(paragraph);
             }
         }
     }

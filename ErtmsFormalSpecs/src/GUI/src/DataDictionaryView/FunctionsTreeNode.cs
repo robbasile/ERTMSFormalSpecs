@@ -124,15 +124,11 @@ namespace GUI.DataDictionaryView
             else if (sourceNode is ParagraphTreeNode)
             {
                 ParagraphTreeNode node = sourceNode as ParagraphTreeNode;
-                Paragraph paragaph = node.Item;
+                Paragraph paragraph = node.Item;
 
-                Function function = (Function) acceptor.getFactory().createFunction();
-                function.Name = paragaph.Name;
-
-                ReqRef reqRef = (ReqRef) acceptor.getFactory().createReqRef();
-                reqRef.Name = paragaph.FullId;
-                function.appendRequirements(reqRef);
+                Function function = Function.CreateDefault(Item.Functions);
                 Item.appendFunctions(function);
+                function.FindOrCreateReqRef(paragraph);
             }
         }
     }
