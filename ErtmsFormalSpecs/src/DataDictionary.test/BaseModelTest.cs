@@ -159,7 +159,8 @@ namespace DataDictionary.test
         /// <param name="newName"></param>
         protected void Refactor(INamable namable, string newName)
         {
-            Compiler.Compile_Synchronous(true);
+            // Recompiles everything to make sure that the references are correct
+            Compiler.Compile_Synchronous(true, true);
             Compiler.Refactor(namable as ModelElement, newName);
         }
 

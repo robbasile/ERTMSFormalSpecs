@@ -43,9 +43,14 @@ namespace DataDictionary.Interpreter
         private class CleanBeforeCompilation : Generated.Visitor
         {
             /// <summary>
-            /// Indicates that the caches should be cleared
+            /// Indicates that caches should be cleared
             /// </summary>
             private bool ClearCaches { get; set; }
+
+            /// <summary>
+            ///     The compilation options
+            /// </summary>
+            private CompilationOptions Options { get; set; }
 
             /// <summary>
             ///     Cleans up the declared elements dictionaries
@@ -54,22 +59,10 @@ namespace DataDictionary.Interpreter
             /// <param name="visitSubNodes"></param>
             public override void visit(IXmlBBase obj, bool visitSubNodes)
             {
-                Namable namable = obj as Namable;
-                if (namable != null)
-                {
-                    namable.ClearFullName();
-                }
-
                 ModelElement modelElement = obj as ModelElement;
-                if (modelElement != null)
+                if (modelElement != null && ClearCaches)
                 {
-                    if (ClearCaches)
-                    {
-                        modelElement.ClearCache();
-                    }
-
-                    modelElement.UpdatedBy.Clear();
-                    modelElement.CacheDependancy = null;
+                    modelElement.ClearCache();
                 }
 
                 ISubDeclarator subDeclarator = obj as ISubDeclarator;
@@ -82,15 +75,54 @@ namespace DataDictionary.Interpreter
             }
 
             /// <summary>
+            ///     Clears the cache dependancy when a full rebuilt is asked
+            /// </summary>
+            /// <param name="obj"></param>
+            /// <param name="visitSubNodes"></param>
+            public override void visit(BaseModelElement obj, bool visitSubNodes)
+            {
+                // Clear the update information, to be built later
+                ModelElement modelElement = obj as ModelElement;
+                if (modelElement != null)
+                {
+                    modelElement.UpdatedBy.Clear();
+                }
+
+                if (Options.Rebuild)
+                {
+                    obj.CacheDependancy = null;
+                }
+
+                base.visit(obj, visitSubNodes);
+            }
+
+            /// <summary>
+            ///     Clears the cached FullName for all namables
+            /// </summary>
+            /// <param name="obj"></param>
+            /// <param name="visitSubNodes"></param>
+            public override void visit(Generated.Namable obj, bool visitSubNodes)
+            {
+                Namable namable = (Namable)obj;
+
+                namable.ClearFullName();
+
+                base.visit(obj, visitSubNodes);
+            }
+
+            /// <summary>
             ///     Constructor
             /// </summary>
-            /// <param name="clearCaches">Indicates that the caches should be cleared</param>
-            public CleanBeforeCompilation(bool clearCaches)
+            /// <param name="options"></param>
+            /// <param name="system"></param>
+            /// <param name="clearCache"></param>
+            public CleanBeforeCompilation(CompilationOptions options, EFSSystem system, bool clearCache)
             {
-                EFSSystem.INSTANCE.InitDeclaredElements();
+                ClearCaches = clearCache;
+                Options = options;
+                system.InitDeclaredElements();
 
-                ClearCaches = clearCaches;
-                foreach (Dictionary dictionary in EFSSystem.INSTANCE.Dictionaries)
+                foreach (Dictionary dictionary in system.Dictionaries)
                 {
                     visit(dictionary, true);
                 }
@@ -476,10 +508,10 @@ namespace DataDictionary.Interpreter
                     FinderRepository.INSTANCE.ClearCache();
 
                     // Initialises the declared elements
-                    new CleanBeforeCompilation(true);
+                    CleanBeforeCompilation cleanBeforeCompilation = new CleanBeforeCompilation(options, EFSSystem, true);
 
                     // Create the update information
-                    new FindUpdates(EFSSystem);
+                    FindUpdates findUpdates = new FindUpdates(EFSSystem);
 
                     // Compiles each expression and each statement encountered in the nodes
                     foreach (Dictionary dictionary in EFSSystem.Dictionaries)
@@ -492,7 +524,7 @@ namespace DataDictionary.Interpreter
                         CreateDependancy createDependancy = new CreateDependancy(EFSSystem);
                         if (createDependancy.DependancyChange)
                         {
-                            new FlattenDependancy(EFSSystem);
+                            FlattenDependancy flattenDependancy = new FlattenDependancy(EFSSystem);
                         }
                     }
                 }
@@ -590,7 +622,7 @@ namespace DataDictionary.Interpreter
 
         public override void visit(Generated.Namable obj, bool visitSubNodes)
         {
-            Namable namable = (Namable) obj;
+            Namable namable = (Namable)obj;
 
             namable.ClearFullName();
 
@@ -617,7 +649,7 @@ namespace DataDictionary.Interpreter
                 }
                 catch (Exception e)
                 {
-                    ((ModelElement) user).AddWarning("Cannot refactor this element, reason = " + e.Message);
+                    ((ModelElement)user).AddWarning("Cannot refactor this element, reason = " + e.Message);
                 }
             }
         }
@@ -662,7 +694,7 @@ namespace DataDictionary.Interpreter
                 }
                 catch (Exception e)
                 {
-                    ((ModelElement) user).AddError("Cannot refactor this element, reason = " + e.Message);
+                    ((ModelElement)user).AddError("Cannot refactor this element, reason = " + e.Message);
                 }
             }
         }
@@ -710,9 +742,8 @@ namespace DataDictionary.Interpreter
                 {
                     element.Name = newName;
                 }
-
                 // Make sure that the element name is taken into consideration
-                new CleanBeforeCompilation(false);
+                new CleanBeforeCompilation(new CompilationOptions(false, true), EFSSystem, false);
 
                 // Then, refactor references to the renamed element
                 RefactorElement(element, originalName, newName);
