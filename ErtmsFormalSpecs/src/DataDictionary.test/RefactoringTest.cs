@@ -377,5 +377,24 @@ namespace DataDictionary.test
             Assert.AreEqual("N2.Mode.E1", variable1.Default);
             Assert.AreEqual("Mode.E1", variable2.Default);
         }
+
+        /// <summary>
+        ///     Test that renaming of a structure also renamed references to that structure
+        /// </summary>
+        [Test]
+        public void TestChangeStructureNameAndUpdateVariableReferences()
+        {
+            Dictionary dictionary = CreateDictionary("Test");
+            NameSpace nameSpace1 = CreateNameSpace(dictionary, "N1");
+
+            Structure structure = CreateStructure(nameSpace1, "Struct");
+            Variable variable = CreateVariable(nameSpace1, "V", "Struct");
+
+            Refactor(structure, "Struct2");
+
+            Assert.AreEqual(variable.Type, structure);
+            Assert.AreEqual(variable.TypeName, "Struct2");
+        }
+
     }
 }
