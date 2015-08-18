@@ -69,8 +69,8 @@ namespace GUI.DataDictionaryView
         {
             base.BuildSubNodes(subNodes, recursive);
 
-            subNodes.Add(new ProcedureRulesTreeNode(Item, recursive));
             subNodes.Add(new ProcedureParametersTreeNode(Item, recursive));
+            subNodes.Add(new ProcedureRulesTreeNode(Item, recursive));
         }
 
         /// <summary>
