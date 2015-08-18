@@ -41,7 +41,9 @@ namespace GUI.EditorView
             ICommentable commentable = DisplayedModel as ICommentable;
             if (commentable != null)
             {
-                setChangeHandler(new CommentableTextChangeHandler((ModelElement) commentable));
+                SyntaxHighlight = false;
+                AutoComplete = false;
+                setChangeHandler(new CommentableTextChangeHandler((ModelElement)commentable));
             }
 
             return retVal;

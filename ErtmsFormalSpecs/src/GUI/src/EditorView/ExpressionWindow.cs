@@ -44,13 +44,17 @@ namespace GUI.EditorView
             IExpressionable expressionable = DisplayedModel as IExpressionable;
             if (expressionable != null && !(expressionable is Function))
             {
-                setChangeHandler(new ExpressionableTextChangeHandler((ModelElement) expressionable));
+                SyntaxHighlight = true;
+                AutoComplete = true;
+                setChangeHandler(new ExpressionableTextChangeHandler((ModelElement)expressionable));
             }
             else
             {
                 Paragraph paragraph = DisplayedModel as Paragraph;
                 if (paragraph != null)
                 {
+                    SyntaxHighlight = false;
+                    AutoComplete = false;
                     setChangeHandler(new ParagraphTextChangeHandler(paragraph));
                 }
                 else
