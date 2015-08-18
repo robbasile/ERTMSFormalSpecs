@@ -274,6 +274,56 @@
 </ReqRef><Comment>Represents the train running number.
 
 The bcd notation as required by 7.5.92 is not possible in the model. Hence we stick with a simple string here. As there are no operations performed based on this value, this is uncritical. #morido, 13/10/11</Comment>
+<Rules>
+<Rule
+ Implemented="TRUE"
+ Name="Handle display"
+ Guid="5b0348c0-0f61-494a-b5e8-a2e9632110f9"
+>
+<ReqRef
+ Id="9849648b-f248-48f2-9e9e-d88c4fa0be91"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="8abd8011-8c07-4db9-a6e0-1c615489e8ef"
+>
+</ReqRef><Comment>Handles the display of modification of the train running number by the driver while the train is running, according to the National / Default values.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Display if allowed"
+ Guid="6fc3ffd3-cb01-4177-a26e-84d91ebe5770"
+>
+<Comment>If the National or Default values allow the modification of the train running number by the driver while the train is running, then request the display of the corresponding information on the DMI, if it is not done yet.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="af51a95c-d621-44fb-b04d-89524e3771fe"
+>Kernel.NationalValues.CurrentNV().ChangeOfDriverIDPermittedWhileRunning == Messages.M_NVDERUN.Yes</PreCondition><PreCondition
+ Guid="49ffc2a9-8795-4f9e-8976-ce2954284187"
+>DMI.MasterDMI().In_TrainRunningNumberEntryRequest.InputInformation.RequestStatus != Request.Request</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="e729b375-d857-47a8-bfcb-ca3ea6f890dc"
+>DMI.MasterDMI().In_TrainRunningNumberEntryRequest.InitiateRequest()</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Do not display if not allowed"
+ Guid="16a09413-34f5-4c25-8b27-373fdb01d6c5"
+>
+<Comment>If the National or Default values do not allow the modification of the train running number by the driver while the train is running, then the display of the corresponding information on the DMI is hidden, if it is not done yet.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="15f9e84b-2fab-463a-94a2-b9d3668a0f24"
+>Kernel.NationalValues.CurrentNV().ChangeOfDriverIDPermittedWhileRunning == Messages.M_NVDERUN.No</PreCondition><PreCondition
+ Guid="36698d21-37a0-40e2-87ba-839eecf4cbd2"
+>DMI.MasterDMI().In_TrainRunningNumberEntryRequest.InputInformation.RequestStatus == Request.Request</PreCondition><PreCondition
+ Guid="16cbed87-8013-4a1e-8262-9f0bdec6777f"
+>NOT Odometry.TrainIsAtStandstill()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="64b1ba3d-47d4-4f64-9b76-8971fe6df24d"
+>DMI.MasterDMI().In_TrainRunningNumberEntryRequest.InputInformation.Disable()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
 <StructureElement
  TypeName="String"
  Default="&apos;&apos;"
