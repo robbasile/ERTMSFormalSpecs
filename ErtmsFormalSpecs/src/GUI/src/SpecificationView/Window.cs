@@ -56,20 +56,29 @@ namespace GUI.SpecificationView
 
             if (retVal)
             {
-                specBrowserRuleView.Nodes.Clear();
-                Paragraph paragraph = DisplayedModel as Paragraph;
-                if (paragraph != null)
-                {
-                    foreach (ReqRef reqRef in paragraph.Implementations)
-                    {
-                        specBrowserRuleView.Nodes.Add(new ReqRefTreeNode(reqRef, true, false, reqRef.Model.Name));
-                    }
-
-                    functionalBlocksTreeView.SetRoot(DisplayedModel);
-                }
+                RefreshModel();
             }
 
             return retVal;
+        }
+
+        /// <summary>
+        /// Refreshes the displayed model
+        /// </summary>
+        private void RefreshModel()
+        {
+            specBrowserRuleView.Nodes.Clear();
+            Paragraph paragraph = DisplayedModel as Paragraph;
+            if (paragraph != null)
+            {
+                foreach (ReqRef reqRef in paragraph.Implementations)
+                {
+                    specBrowserRuleView.Nodes.Add(new ReqRefTreeNode(reqRef, true, false, reqRef.Model.Name));
+                }
+
+                functionalBlocksTreeView.SetRoot(DisplayedModel);
+            }
+            specBrowserTreeView.RefreshModel(null);
         }
 
         /// <summary>
@@ -84,7 +93,7 @@ namespace GUI.SpecificationView
 
             if (retVal)
             {
-                specBrowserTreeView.RefreshModel(modelElement);
+                RefreshModel();
             }
 
             return retVal;
