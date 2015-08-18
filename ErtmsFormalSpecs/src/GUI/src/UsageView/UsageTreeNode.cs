@@ -19,10 +19,12 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using DataDictionary;
 using DataDictionary.Interpreter;
+using DataDictionary.Tests;
+using DataDictionary.Types;
 using Utils;
 using ModelElement = DataDictionary.ModelElement;
 
-namespace GUI.DataDictionaryView.UsageTreeView
+namespace GUI.UsageView
 {
     public class UsageTreeNode : ModelElementTreeNode<ModelElement>
     {
@@ -30,6 +32,11 @@ namespace GUI.DataDictionaryView.UsageTreeView
         ///     The usage for which this tree node is built
         /// </summary>
         public Usage Usage { get; private set; }
+
+        /// <summary>
+        /// The folder element for which this node is built
+        /// </summary>
+        public IModelElement FolderElement { get; set; }
 
         private class UsageEditor : NamedEditor
         {
@@ -56,6 +63,43 @@ namespace GUI.DataDictionaryView.UsageTreeView
             ToolTipText = usage.User.FullName;
         }
 
+        /// <summary>
+        ///     Constructor
+        /// </summary>
+        /// <param name="folder"></param>
+        /// <param name="buildSubNodes"></param>
+        public UsageTreeNode(IModelElement folder, bool buildSubNodes)
+            : base(null, buildSubNodes, folder.Name)
+        {
+            Usage = null;
+            FolderElement = folder;
+            ToolTipText = folder.FullName;
+
+            NameSpace nameSpace = EnclosingFinder<NameSpace>.find(folder, true);
+            if (nameSpace != null)
+            {
+                ChangeImageIndex(BaseTreeView.ModelImageIndex);
+            }
+            else
+            {
+                ChangeImageIndex(BaseTreeView.TestImageIndex);                
+            }
+        }
+
+        /// <summary>
+        ///     Constructor
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="buildSubNodes"></param>
+        public UsageTreeNode(string name, bool buildSubNodes)
+            : base(null, buildSubNodes, name, true)
+        {
+        }
+
+        /// <summary>
+        ///     Sets the image index for this node
+        /// </summary>
+        /// <param name="isFolder">Indicates whether this item represents a folder</param>
         public override void SetImageIndex(bool isFolder)
         {
             if (Usage != null)
@@ -100,16 +144,14 @@ namespace GUI.DataDictionaryView.UsageTreeView
             {
                 ChangeImageIndex(BaseTreeView.ModelImageIndex);
             }
-        }
-
-        /// <summary>
-        ///     Constructor
-        /// </summary>
-        /// <param name="name"></param>
-        /// <param name="buildSubNodes"></param>
-        public UsageTreeNode(string name, bool buildSubNodes)
-            : base(null, buildSubNodes, name, true)
-        {
+            else if (FolderElement!= null)
+            {
+                base.SetImageIndex(true);
+            }
+            else
+            {
+                base.SetImageIndex(isFolder);
+            }
         }
 
         /// <summary>

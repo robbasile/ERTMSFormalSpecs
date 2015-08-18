@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Window));
-            this.usageTreeView = new GUI.DataDictionaryView.UsageTreeView.UsageTreeView();
+            this.usageTreeView = new UsageTreeView();
             this.SuspendLayout();
             // 
             // usageTreeView
@@ -64,7 +64,7 @@
 
         #endregion
 
-        private DataDictionaryView.UsageTreeView.UsageTreeView usageTreeView;
+        private UsageTreeView usageTreeView;
 
 
 

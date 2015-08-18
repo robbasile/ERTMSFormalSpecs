@@ -15,6 +15,7 @@
 // ------------------------------------------------------------------------------
 
 using System.Collections.Generic;
+using System.Drawing;
 using System.Windows.Forms;
 using DataDictionary.Interpreter;
 using DataDictionary.Tests;
@@ -22,7 +23,7 @@ using DataDictionary.Types;
 using Utils;
 using ModelElement = DataDictionary.ModelElement;
 
-namespace GUI.DataDictionaryView.UsageTreeView
+namespace GUI.UsageView
 {
     public class UsageTreeView : TypedTreeView<IModelElement>
     {
@@ -61,45 +62,35 @@ namespace GUI.DataDictionaryView.UsageTreeView
             }
         }
 
-        /// <summary>
-        ///     Indicates that the element is a model element (as opposed to a test)
-        /// </summary>
-        /// <param name="element"></param>
-        /// <returns></returns>
-        private bool IsModel(IModelElement element)
-        {
-            bool retVal = false;
-
-            IModelElement current = element;
-            while (current != null && !retVal)
-            {
-                retVal = current is NameSpace;
-                current = current.Enclosing as IModelElement;
-            }
-
-            return retVal;
-        }
-
-        /// <summary>
-        ///     Indicates that the element belongs to a test
-        /// </summary>
-        /// <param name="element"></param>
-        /// <returns></returns>
-        private bool IsTest(IModelElement element)
-        {
-            bool retVal = false;
-
-            IModelElement current = element;
-            while (current != null && !retVal)
-            {
-                retVal = current is Frame;
-                current = current.Enclosing as IModelElement;
-            }
-
-            return retVal;
-        }
-
         private ModelElement _previousModel;
+
+        /// <summary>
+        /// Finds a node for a folder in the usage view
+        /// </summary>
+        /// <param name="node"></param>
+        /// <param name="folderElement"></param>
+        /// <returns></returns>
+        public UsageTreeNode FindOrCreateFolderNode(UsageTreeNode node, IModelElement folderElement)
+        {
+            UsageTreeNode retVal = null;
+
+            foreach (UsageTreeNode subNode in node.Nodes)
+            {
+                if (subNode.FolderElement == folderElement)
+                {
+                    retVal = subNode;
+                    break;
+                }
+            }
+
+            if (retVal == null)
+            {
+                retVal = new UsageTreeNode(folderElement, true);
+                node.Nodes.Add(retVal);
+            }
+
+            return retVal;
+        }
 
         /// <summary>
         ///     Build the model of this tree view
@@ -129,13 +120,33 @@ namespace GUI.DataDictionaryView.UsageTreeView
                     UsageTreeNode current = new UsageTreeNode(usage, true);
                     current.SetImageIndex(false);
 
-                    if (IsModel(usage.User))
+                    NameSpace nameSpace = EnclosingFinder<NameSpace>.find(usage.User, true);
+                    Frame frame = EnclosingFinder<Frame>.find(usage.User, true);
+                    if (nameSpace != null)
                     {
-                        models.Nodes.Add(current);
+                        List<NameSpace> nameSpaces = new List<NameSpace>();
+                        while (nameSpace != null)
+                        {
+                            nameSpaces.Insert(0, nameSpace);
+                            nameSpace = EnclosingFinder<NameSpace>.find(nameSpace);
+                        }
+
+                        UsageTreeNode currentTreeNode = models;
+                        foreach (NameSpace currentNameSpace in nameSpaces)
+                        {
+                            currentTreeNode = FindOrCreateFolderNode(currentTreeNode, currentNameSpace);
+                        }                  
+                        currentTreeNode.Nodes.Add(current);
                     }
-                    else if (IsTest(usage.User))
+                    else if (frame != null)
                     {
-                        tests.Nodes.Add(current);
+                        UsageTreeNode currentNode = FindOrCreateFolderNode(tests, frame);
+                        SubSequence subSequence = EnclosingFinder<SubSequence>.find(usage.User, true);
+                        if (subSequence != null)
+                        {
+                            currentNode = FindOrCreateFolderNode(currentNode, subSequence);                            
+                        }
+                        currentNode.Nodes.Add(current);
                     }
                     else
                     {
@@ -144,6 +155,8 @@ namespace GUI.DataDictionaryView.UsageTreeView
                 }
 
                 Sort();
+                models.ExpandAll();
+                tests.ExpandAll();
             }
             else
             {
