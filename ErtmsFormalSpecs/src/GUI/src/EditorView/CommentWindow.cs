@@ -37,13 +37,10 @@ namespace GUI.EditorView
         {
             bool retVal = base.HandleSelectionChange(context);
 
-            if (retVal)
-            {
                 ICommentable commentable = DisplayedModel as ICommentable;
-                if (commentable != null)
-                {
-                    setChangeHandler(new CommentableTextChangeHandler((ModelElement) commentable));
-                }
+            if (commentable != null)
+            {
+                setChangeHandler(new CommentableTextChangeHandler((ModelElement) commentable));
             }
 
             return retVal;

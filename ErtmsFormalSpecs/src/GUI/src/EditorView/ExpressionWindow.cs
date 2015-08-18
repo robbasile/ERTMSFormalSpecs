@@ -39,24 +39,21 @@ namespace GUI.EditorView
         {
             bool retVal = base.HandleSelectionChange(context);
 
-            if (retVal)
+            IExpressionable expressionable = DisplayedModel as IExpressionable;
+            if (expressionable != null && !(expressionable is Function))
             {
-                IExpressionable expressionable = DisplayedModel as IExpressionable;
-                if (expressionable != null && !(expressionable is Function))
+                setChangeHandler(new ExpressionableTextChangeHandler((ModelElement) expressionable));
+            }
+            else
+            {
+                Paragraph paragraph = DisplayedModel as Paragraph;
+                if (paragraph != null)
                 {
-                    setChangeHandler(new ExpressionableTextChangeHandler((ModelElement) expressionable));
+                    setChangeHandler(new ParagraphTextChangeHandler(paragraph));
                 }
                 else
                 {
-                    Paragraph paragraph = DisplayedModel as Paragraph;
-                    if (paragraph != null)
-                    {
-                        setChangeHandler(new ParagraphTextChangeHandler(paragraph));
-                    }
-                    else
-                    {
-                        setChangeHandler(null);
-                    }
+                    setChangeHandler(null);
                 }
             }
 
