@@ -37,9 +37,10 @@ namespace DataDictionary.Interpreter
         ///     Constructor
         /// </summary>
         /// <param name="root">The root for which this expression should be evaluated</param>
-        /// <param name="term"></parparam>
-        ///     <param name="start">The start character for this expression in the original string</param>
-        ///     <param name="end">The end character for this expression in the original string</param>
+        /// <param name="log"></param>
+        /// <param name="term"></param>
+        /// <param name="start">The start character for this expression in the original string</param>
+        /// <param name="end">The end character for this expression in the original string</param>
         public UnaryExpression(ModelElement root, ModelElement log, Term term, int start, int end)
             : base(root, log, start, end)
         {
@@ -60,21 +61,21 @@ namespace DataDictionary.Interpreter
         /// <summary>
         ///     The not operator
         /// </summary>
-        public static string NOT = "NOT";
+        public static string Not = "NOT";
 
-        public static string MINUS = "-";
-        public static string[] UNARY_OPERATORS = {NOT, MINUS};
+        public static string Minus = "-";
+        public static string[] UnaryOperators = {Not, Minus};
 
 
         /// <summary>
         ///     Constructor
         /// </summary>
         /// <param name="root">The root for which this expression should be evaluated</param>
+        /// <param name="log"></param>
         /// <param name="expression">The enclosed expression</param>
-        /// <param name="unaryOp">
-        ///     the unary operator for this unary expression</parparam>
-        ///     <param name="start">The start character for this expression in the original string</param>
-        ///     <param name="end">The end character for this expression in the original string</param>
+        /// <param name="unaryOp">the unary operator for this unary expression</param>
+        /// <param name="start">The start character for this expression in the original string</param>
+        /// <param name="end">The end character for this expression in the original string</param>
         public UnaryExpression(ModelElement root, ModelElement log, Expression expression, string unaryOp, int start,
             int end)
             : base(root, log, start, end)
@@ -92,7 +93,7 @@ namespace DataDictionary.Interpreter
         /// <param name="expectation">the expectation on the element found</param>
         /// <param name="last">indicates that this is the last element in a dereference chain</param>
         /// <returns></returns>
-        public override ReturnValue getReferences(INamable instance, BaseFilter expectation, bool last)
+        public override ReturnValue GetReferences(INamable instance, BaseFilter expectation, bool last)
         {
             ReturnValue retVal = ReturnValue.Empty;
 
@@ -104,7 +105,7 @@ namespace DataDictionary.Interpreter
             {
                 if (UnaryOp == null)
                 {
-                    retVal = Expression.getReferences(instance, expectation, last);
+                    retVal = Expression.GetReferences(instance, expectation, last);
                 }
             }
 
@@ -115,10 +116,10 @@ namespace DataDictionary.Interpreter
         ///     Provides the possible references types for this expression (used in semantic analysis)
         /// </summary>
         /// <param name="instance">the reference instance on which this element should analysed</param>
-        /// <paraparam name="expectation">Indicates the kind of element we are looking for</paraparam>
+        /// <param name="expectation">Indicates the kind of element we are looking for</param>
         /// <param name="last">indicates that this is the last element in a dereference chain</param>
         /// <returns></returns>
-        public override ReturnValue getReferenceTypes(INamable instance, BaseFilter expectation, bool last)
+        public override ReturnValue GetReferenceTypes(INamable instance, BaseFilter expectation, bool last)
         {
             ReturnValue retVal = ReturnValue.Empty;
 
@@ -130,7 +131,7 @@ namespace DataDictionary.Interpreter
             {
                 if (UnaryOp == null)
                 {
-                    retVal = Expression.getReferenceTypes(instance, expectation, true);
+                    retVal = Expression.GetReferenceTypes(instance, expectation, true);
                 }
             }
 
@@ -141,9 +142,8 @@ namespace DataDictionary.Interpreter
         ///     Performs the semantic analysis of the expression
         /// </summary>
         /// <param name="instance">the reference instance on which this element should analysed</param>
-        /// <param name="expectation">
-        ///     Indicates the kind of element we are looking for</paraparam>
-        ///     <returns>True if semantic analysis should be continued</returns>
+        /// <param name="expectation">Indicates the kind of element we are looking for</param>
+        /// <returns>True if semantic analysis should be continued</returns>
         public override bool SemanticAnalysis(INamable instance, BaseFilter expectation)
         {
             bool retVal = base.SemanticAnalysis(instance, expectation);
@@ -168,17 +168,17 @@ namespace DataDictionary.Interpreter
         /// <summary>
         ///     Provides the ICallable that is statically defined
         /// </summary>
-        public override ICallable getStaticCallable()
+        public override ICallable GetStaticCallable()
         {
             ICallable retVal = null;
 
             if (Term != null)
             {
-                retVal = base.getStaticCallable();
+                retVal = base.GetStaticCallable();
             }
             else if (Expression != null)
             {
-                retVal = Expression.getStaticCallable();
+                retVal = Expression.GetStaticCallable();
             }
 
             return retVal;
@@ -212,7 +212,6 @@ namespace DataDictionary.Interpreter
         /// <summary>
         ///     Provides the type of this expression
         /// </summary>
-        /// <param name="context">The interpretation context</param>
         /// <returns></returns>
         public override Type GetExpressionType()
         {
@@ -224,7 +223,7 @@ namespace DataDictionary.Interpreter
             }
             else if (Expression != null)
             {
-                if (NOT.CompareTo(UnaryOp) == 0)
+                if (Not.Equals(UnaryOp))
                 {
                     Type type = Expression.GetExpressionType();
                     if (type is BoolType)
@@ -236,7 +235,7 @@ namespace DataDictionary.Interpreter
                         AddError("Cannot apply NOT on non boolean types");
                     }
                 }
-                else if (MINUS.CompareTo(UnaryOp) == 0)
+                else if (Minus.Equals(UnaryOp))
                 {
                     Type type = Expression.GetExpressionType();
                     if (type == EFSSystem.IntegerType || type == EFSSystem.DoubleType || type is Range)
@@ -272,6 +271,7 @@ namespace DataDictionary.Interpreter
             }
             else if (Expression != null && UnaryOp == null)
             {
+                // ReSharper disable once RedundantAssignment
                 retVal = null;
             }
             else
@@ -288,7 +288,7 @@ namespace DataDictionary.Interpreter
         /// <param name="context">The context on which the value must be found</param>
         /// <param name="explain">The explanation to fill, if any</param>
         /// <returns></returns>
-        public override IValue GetValue(InterpretationContext context, ExplanationPart explain)
+        protected internal override IValue GetValue(InterpretationContext context, ExplanationPart explain)
         {
             IValue retVal = null;
 
@@ -298,7 +298,7 @@ namespace DataDictionary.Interpreter
             }
             else
             {
-                if (NOT.CompareTo(UnaryOp) == 0)
+                if (Not.Equals(UnaryOp))
                 {
                     BoolValue b = Expression.GetValue(context, explain) as BoolValue;
                     if (b != null)
@@ -317,7 +317,7 @@ namespace DataDictionary.Interpreter
                         AddError("Expression " + Expression.ToString() + " does not evaluate to boolean");
                     }
                 }
-                else if (MINUS.CompareTo(UnaryOp) == 0)
+                else if (Minus.Equals(UnaryOp))
                 {
                     IValue val = Expression.GetValue(context, explain);
                     IntValue intValue = val as IntValue;
@@ -354,7 +354,7 @@ namespace DataDictionary.Interpreter
         /// <param name="context"></param>
         /// <param name="explain"></param>
         /// <returns></returns>
-        public override ICallable getCalled(InterpretationContext context, ExplanationPart explain)
+        public override ICallable GetCalled(InterpretationContext context, ExplanationPart explain)
         {
             ICallable retVal = null;
 
@@ -364,7 +364,7 @@ namespace DataDictionary.Interpreter
             }
             else if (Expression != null)
             {
-                retVal = Expression.getCalled(context, explain);
+                retVal = Expression.GetCalled(context, explain);
             }
 
             // TODO : Investigate why this 
@@ -381,7 +381,7 @@ namespace DataDictionary.Interpreter
         /// </summary>
         /// <param name="retVal">The list to be filled with the element matching the condition expressed in the filter</param>
         /// <param name="filter">The filter to apply</param>
-        public override void fill(List<INamable> retVal, BaseFilter filter)
+        public override void Fill(List<INamable> retVal, BaseFilter filter)
         {
             if (Term != null)
             {
@@ -389,7 +389,7 @@ namespace DataDictionary.Interpreter
             }
             if (Expression != null)
             {
-                Expression.fill(retVal, filter);
+                Expression.Fill(retVal, filter);
             }
         }
 
@@ -424,9 +424,9 @@ namespace DataDictionary.Interpreter
         /// <summary>
         ///     Checks the expression and appends errors to the root tree node when inconsistencies are found
         /// </summary>
-        public override void checkExpression()
+        public override void CheckExpression()
         {
-            base.checkExpression();
+            base.CheckExpression();
 
             if (Term != null)
             {
@@ -434,7 +434,7 @@ namespace DataDictionary.Interpreter
             }
             if (Expression != null)
             {
-                Expression.checkExpression();
+                Expression.CheckExpression();
             }
         }
 
@@ -445,9 +445,9 @@ namespace DataDictionary.Interpreter
         /// <param name="parameter">The parameters of *the enclosing function* for which the graph should be created</param>
         /// <param name="explain"></param>
         /// <returns></returns>
-        public override Graph createGraph(InterpretationContext context, Parameter parameter, ExplanationPart explain)
+        public override Graph CreateGraph(InterpretationContext context, Parameter parameter, ExplanationPart explain)
         {
-            Graph retVal = base.createGraph(context, parameter, explain);
+            Graph retVal = base.CreateGraph(context, parameter, explain);
 
             if (Term != null)
             {
@@ -457,11 +457,11 @@ namespace DataDictionary.Interpreter
             {
                 if (UnaryOp == null)
                 {
-                    retVal = Expression.createGraph(context, parameter, explain);
+                    retVal = Expression.CreateGraph(context, parameter, explain);
                 }
-                else if (UnaryOp == MINUS)
+                else if (UnaryOp == Minus)
                 {
-                    retVal = Expression.createGraph(context, parameter, explain);
+                    retVal = Expression.CreateGraph(context, parameter, explain);
                     retVal.Negate();
                 }
                 else
@@ -481,10 +481,10 @@ namespace DataDictionary.Interpreter
         /// <param name="yParam">The Y axis of this surface</param>
         /// <param name="explain"></param>
         /// <returns>The surface which corresponds to this expression</returns>
-        public override Surface createSurface(InterpretationContext context, Parameter xParam, Parameter yParam,
+        public override Surface CreateSurface(InterpretationContext context, Parameter xParam, Parameter yParam,
             ExplanationPart explain)
         {
-            Surface retVal = base.createSurface(context, xParam, yParam, explain);
+            Surface retVal = base.CreateSurface(context, xParam, yParam, explain);
 
             if (Term != null)
             {
@@ -494,13 +494,13 @@ namespace DataDictionary.Interpreter
             {
                 if (UnaryOp == null)
                 {
-                    retVal = Expression.createSurface(context, xParam, yParam, explain);
+                    retVal = Expression.CreateSurface(context, xParam, yParam, explain);
                 }
                 else
                 {
-                    if (UnaryOp == MINUS)
+                    if (UnaryOp == Minus)
                     {
-                        retVal = Expression.createSurface(context, xParam, yParam, explain);
+                        retVal = Expression.CreateSurface(context, xParam, yParam, explain);
                         retVal.Negate();
                     }
                     else

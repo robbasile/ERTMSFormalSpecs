@@ -44,6 +44,11 @@ namespace DataDictionary
         private Thread ChangeNotifier { get; set; }
 
         /// <summary>
+        /// Indicates that notification should be performed
+        /// </summary>
+        private bool Notify { get; set; }
+
+        /// <summary>
         /// Constructor
         /// </summary>
         public Context()
@@ -53,6 +58,8 @@ namespace DataDictionary
 
             CriticalSection = new Mutex(false, "Critical section");
             Changes = new Dictionary<IModelElement, HashSet<ChangeKind>>();
+
+            Notify = true;
             ChangeNotifier = new Thread(NotifyChanges);
             ChangeNotifier.Start();
         }
@@ -63,7 +70,11 @@ namespace DataDictionary
         ~Context()
         {
             ControllersManager.BaseModelElementController.Listeners.Remove(this);
-            ChangeNotifier.Abort();
+            if (ChangeNotifier != null)
+            {
+                ChangeNotifier.Abort();
+                ChangeNotifier = null;
+            }
         }
 
         /// <summary>
@@ -262,7 +273,7 @@ namespace DataDictionary
         /// </summary>
         private void NotifyChanges()
         {
-            while (true)
+            while (Notify)
             {
                 // Release the mutex asap
                 CriticalSection.WaitOne();
@@ -356,6 +367,14 @@ namespace DataDictionary
         public void HandleInfoMessageChangeEvent(IModelElement sender)
         {
             OnInformationMessageChange(sender);
+        }
+
+        /// <summary>
+        /// Stops notifying
+        /// </summary>
+        public void Stop()
+        {
+            Notify = false;
         }
     }
 }

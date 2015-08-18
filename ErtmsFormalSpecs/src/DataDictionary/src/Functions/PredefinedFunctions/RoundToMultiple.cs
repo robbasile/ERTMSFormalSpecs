@@ -82,8 +82,8 @@ namespace DataDictionary.Functions.PredefinedFunctions
             int token = context.LocalScope.PushContext();
             AssignParameters(context, actuals);
 
-            DoubleValue value = context.findOnStack(Value).Value as DoubleValue;
-            DoubleValue multiple = context.findOnStack(Multiple).Value as DoubleValue;
+            DoubleValue value = context.FindOnStack(Value).Value as DoubleValue;
+            DoubleValue multiple = context.FindOnStack(Multiple).Value as DoubleValue;
             if (value != null && multiple != null)
             {
                 double res = Math.Floor(value.Val);

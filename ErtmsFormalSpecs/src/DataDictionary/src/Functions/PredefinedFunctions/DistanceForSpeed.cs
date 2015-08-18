@@ -90,10 +90,10 @@ namespace DataDictionary.Functions.PredefinedFunctions
         {
             Graph retVal = null;
 
-            Graph graph = createGraphForValue(context, context.findOnStack(Function).Value, explain, parameter);
+            Graph graph = createGraphForValue(context, context.FindOnStack(Function).Value, explain, parameter);
             if (graph != null)
             {
-                double speed = getDoubleValue(context.findOnStack(Speed).Value);
+                double speed = getDoubleValue(context.FindOnStack(Speed).Value);
                 double solutionX = graph.SolutionX(speed);
                 if (solutionX == double.MaxValue)
                 {
@@ -130,10 +130,10 @@ namespace DataDictionary.Functions.PredefinedFunctions
 
             int token = context.LocalScope.PushContext();
             AssignParameters(context, actuals);
-            Function function = context.findOnStack(Function).Value as Function;
+            Function function = context.FindOnStack(Function).Value as Function;
             if (function != null)
             {
-                double speed = getDoubleValue(context.findOnStack(Speed).Value);
+                double speed = getDoubleValue(context.FindOnStack(Speed).Value);
 
                 Parameter parameter = (Parameter) function.FormalParameters[0];
                 int token2 = context.LocalScope.PushContext();

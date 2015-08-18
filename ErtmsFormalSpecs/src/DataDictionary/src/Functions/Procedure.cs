@@ -123,7 +123,7 @@ namespace DataDictionary.Functions
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public Parameter getFormalParameter(string name)
+        public Parameter GetFormalParameter(string name)
         {
             Parameter retVal = null;
 
@@ -223,7 +223,7 @@ namespace DataDictionary.Functions
         /// <param name="root">The element on which the errors should be reported</param>
         /// <param name="context">The evaluation context</param>
         /// <param name="actualParameters">The parameters applied to this function call</param>
-        public virtual void additionalChecks(ModelElement root, Dictionary<string, Expression> actualParameters)
+        public virtual void AdditionalChecks(ModelElement root, Dictionary<string, Expression> actualParameters)
         {
         }
 
@@ -401,7 +401,7 @@ namespace DataDictionary.Functions
             // In addition to indicating the function's update information, we need to create links for each parameter
             foreach (Parameter parameter in FormalParameters)
             {
-                Parameter baseParameter = sourceProcedure.getFormalParameter(parameter.Name);
+                Parameter baseParameter = sourceProcedure.GetFormalParameter(parameter.Name);
                 if (baseParameter != null)
                 {
                     parameter.SetUpdateInformation(baseParameter);

@@ -70,7 +70,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
 
             int token = context.LocalScope.PushContext();
             AssignParameters(context, actuals);
-            BoolValue val = context.findOnStack(Value).Value as BoolValue;
+            BoolValue val = context.FindOnStack(Value).Value as BoolValue;
             if (val != null)
             {
                 if (val.Val)

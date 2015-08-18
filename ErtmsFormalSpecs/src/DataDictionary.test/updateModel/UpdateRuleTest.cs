@@ -29,12 +29,12 @@ namespace DataDictionary.test.updateModel
             System.Runner = new Runner(false, false);
 
             Expression expression = Parser.Expression(dictionary, "NameSpace.TheVariable");
-            IValue value = expression.GetValue(new InterpretationContext(), null);
+            IValue value = expression.GetExpressionValue(new InterpretationContext(), null);
             Assert.AreEqual(value.LiteralName, "0");
 
             System.Runner.Cycle();
 
-            value = expression.GetValue(new InterpretationContext(), null);
+            value = expression.GetExpressionValue(new InterpretationContext(), null);
             Assert.AreEqual(value.LiteralName, "1");
 
 
@@ -50,7 +50,7 @@ namespace DataDictionary.test.updateModel
 
             System.Runner.Cycle();
 
-            value = expression.GetValue(new InterpretationContext(), null);
+            value = expression.GetExpressionValue(new InterpretationContext(), null);
             Assert.AreEqual(value.LiteralName, "2");
         }
 

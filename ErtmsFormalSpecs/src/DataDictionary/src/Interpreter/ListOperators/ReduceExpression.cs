@@ -27,12 +27,12 @@ using Variable = DataDictionary.Variables.Variable;
 
 namespace DataDictionary.Interpreter.ListOperators
 {
-    public class ReduceExpression : ExpressionBasedListExpression, ISubDeclarator
+    public class ReduceExpression : ExpressionBasedListExpression
     {
         /// <summary>
         ///     The operator for this expression
         /// </summary>
-        public static string OPERATOR = "REDUCE";
+        public static string Operator = "REDUCE";
 
         /// <summary>
         ///     The reduce initial value
@@ -47,6 +47,7 @@ namespace DataDictionary.Interpreter.ListOperators
         /// <summary>
         ///     Constructor
         /// </summary>
+        /// <param name="log"></param>
         /// <param name="listExpression"></param>
         /// <param name="condition"></param>
         /// <param name="function"></param>
@@ -73,7 +74,7 @@ namespace DataDictionary.Interpreter.ListOperators
         ///     Performs the semantic analysis of the expression
         /// </summary>
         /// <param name="instance">the reference instance on which this element should analysed</param>
-        /// <paraparam name="expectation">Indicates the kind of element we are looking for</paraparam>
+        /// <param name="expectation">Indicates the kind of element we are looking for</param>
         /// <returns>True if semantic analysis should be continued</returns>
         public override bool SemanticAnalysis(INamable instance, BaseFilter expectation)
         {
@@ -90,15 +91,14 @@ namespace DataDictionary.Interpreter.ListOperators
             return retVal;
         }
 
-        public override ICallable getStaticCallable()
+        public override ICallable GetStaticCallable()
         {
-            return InitialValue.getStaticCallable();
+            return InitialValue.GetStaticCallable();
         }
 
         /// <summary>
         ///     Provides the type of this expression
         /// </summary>
-        /// <param name="context">The interpretation context</param>
         /// <returns></returns>
         public override Type GetExpressionType()
         {
@@ -111,7 +111,7 @@ namespace DataDictionary.Interpreter.ListOperators
         /// <param name="context">The context on which the value must be found</param>
         /// <param name="explain">The explanation to fill, if any</param>
         /// <returns></returns>
-        public override IValue GetValue(InterpretationContext context, ExplanationPart explain)
+        protected internal override IValue GetValue(InterpretationContext context, ExplanationPart explain)
         {
             IValue retVal = null;
 
@@ -152,14 +152,14 @@ namespace DataDictionary.Interpreter.ListOperators
         /// <param name="context"></param>
         /// <param name="explain"></param>
         /// <returns></returns>
-        public override ICallable getCalled(InterpretationContext context, ExplanationPart explain)
+        public override ICallable GetCalled(InterpretationContext context, ExplanationPart explain)
         {
             ICallable retVal = null;
 
             Function function = InitialValue.Ref as Function;
             if (function == null)
             {
-                function = InitialValue.getCalled(context, explain) as Function;
+                function = InitialValue.GetCalled(context, explain) as Function;
             }
 
             if (function != null)
@@ -168,7 +168,7 @@ namespace DataDictionary.Interpreter.ListOperators
                 {
                     int token = context.LocalScope.PushContext();
                     context.LocalScope.setGraphParameter((Parameter) function.FormalParameters[0]);
-                    Graph graph = createGraph(context, (Parameter) function.FormalParameters[0], explain);
+                    Graph graph = CreateGraph(context, (Parameter) function.FormalParameters[0], explain);
                     context.LocalScope.PopContext(token);
                     if (graph != null)
                     {
@@ -180,7 +180,7 @@ namespace DataDictionary.Interpreter.ListOperators
                     int token = context.LocalScope.PushContext();
                     context.LocalScope.setSurfaceParameters((Parameter) function.FormalParameters[0],
                         (Parameter) function.FormalParameters[1]);
-                    Surface surface = createSurface(context, (Parameter) function.FormalParameters[0],
+                    Surface surface = CreateSurface(context, (Parameter) function.FormalParameters[0],
                         (Parameter) function.FormalParameters[1], explain);
                     context.LocalScope.PopContext(token);
                     if (surface != null)
@@ -208,7 +208,7 @@ namespace DataDictionary.Interpreter.ListOperators
         /// <param name="explainSubElements">Precises if we need to explain the sub elements (if any)</param>
         public override void GetExplain(TextualExplanation explanation, bool explainSubElements = true)
         {
-            explanation.Write(OPERATOR);
+            explanation.Write(Operator);
             explanation.Write(" ");
             ListExpression.GetExplain(explanation);
 
@@ -242,9 +242,9 @@ namespace DataDictionary.Interpreter.ListOperators
         /// <summary>
         ///     Checks the expression and appends errors to the root tree node when inconsistencies are found
         /// </summary>
-        public override void checkExpression()
+        public override void CheckExpression()
         {
-            base.checkExpression();
+            base.CheckExpression();
 
             Type initialValueType = InitialValue.GetExpressionType();
             if (initialValueType != null)
@@ -252,7 +252,7 @@ namespace DataDictionary.Interpreter.ListOperators
                 Collection listExpressionType = ListExpression.GetExpressionType() as Collection;
                 if (listExpressionType != null)
                 {
-                    IteratorExpression.checkExpression();
+                    IteratorExpression.CheckExpression();
                 }
             }
             else
@@ -268,11 +268,11 @@ namespace DataDictionary.Interpreter.ListOperators
         /// <param name="parameter">The parameters of *the enclosing function* for which the graph should be created</param>
         /// <param name="explain"></param>
         /// <returns></returns>
-        public override Graph createGraph(InterpretationContext context, Parameter parameter, ExplanationPart explain)
+        public override Graph CreateGraph(InterpretationContext context, Parameter parameter, ExplanationPart explain)
         {
-            Graph retVal = base.createGraph(context, parameter, explain);
+            Graph retVal = base.CreateGraph(context, parameter, explain);
 
-            Graph graph = InitialValue.createGraph(context, parameter, explain) as Graph;
+            Graph graph = InitialValue.CreateGraph(context, parameter, explain);
             if (graph != null)
             {
                 ListValue value = ListExpression.GetValue(context, explain) as ListValue;
@@ -323,12 +323,12 @@ namespace DataDictionary.Interpreter.ListOperators
         /// <param name="yParam">The Y axis of this surface</param>
         /// <param name="explain"></param>
         /// <returns>The surface which corresponds to this expression</returns>
-        public override Surface createSurface(InterpretationContext context, Parameter xParam, Parameter yParam,
+        public override Surface CreateSurface(InterpretationContext context, Parameter xParam, Parameter yParam,
             ExplanationPart explain)
         {
-            Surface retVal = base.createSurface(context, xParam, yParam, explain);
+            Surface retVal = base.CreateSurface(context, xParam, yParam, explain);
 
-            Surface surface = InitialValue.createSurface(context, xParam, yParam, explain);
+            Surface surface = InitialValue.CreateSurface(context, xParam, yParam, explain);
             if (surface != null)
             {
                 ListValue value = ListExpression.GetValue(context, explain) as ListValue;

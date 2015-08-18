@@ -418,7 +418,7 @@ namespace GUI.TestRunnerView.Watch
                         {
                             try
                             {
-                                IValue value = expression.GetValue(new InterpretationContext(), null);
+                                IValue value = expression.GetExpressionValue(new InterpretationContext(), null);
                                 if (value != null)
                                 {
                                     retVal = value.LiteralName;

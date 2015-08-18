@@ -104,8 +104,8 @@ namespace DataDictionary.Functions.PredefinedFunctions
         {
             Surface retVal = null;
 
-            IValue firstValue = context.findOnStack(First).Value;
-            IValue secondValue = context.findOnStack(Second).Value;
+            IValue firstValue = context.FindOnStack(First).Value;
+            IValue secondValue = context.FindOnStack(Second).Value;
             Surface firstSurface = createSurfaceForValue(context, firstValue, explain);
             if (firstSurface != null)
             {

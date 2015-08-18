@@ -86,20 +86,20 @@ namespace DataDictionary.Functions.PredefinedFunctions
             Graph retVal = null;
 
             Graph MRSPGraph = null;
-            Function speedRestriction = context.findOnStack(SpeedRestrictions).Value as Function;
+            Function speedRestriction = context.FindOnStack(SpeedRestrictions).Value as Function;
             if (speedRestriction != null)
             {
                 Parameter p = (Parameter) speedRestriction.FormalParameters[0];
 
                 int token = context.LocalScope.PushContext();
                 context.LocalScope.setGraphParameter(p);
-                MRSPGraph = createGraphForValue(context, context.findOnStack(SpeedRestrictions).Value, explain, p);
+                MRSPGraph = createGraphForValue(context, context.FindOnStack(SpeedRestrictions).Value, explain, p);
                 context.LocalScope.PopContext(token);
             }
 
             if (MRSPGraph != null)
             {
-                Function deceleratorFactor = context.findOnStack(DecelerationFactor).Value as Function;
+                Function deceleratorFactor = context.FindOnStack(DecelerationFactor).Value as Function;
                 if (deceleratorFactor != null)
                 {
                     Surface DecelerationSurface = deceleratorFactor.createSurface(context, explain);

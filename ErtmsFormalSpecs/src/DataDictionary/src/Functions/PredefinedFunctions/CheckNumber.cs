@@ -72,7 +72,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
             int token = context.LocalScope.PushContext();
             AssignParameters(context, actuals);
 
-            StringValue number = context.findOnStack(Number).Value as StringValue;
+            StringValue number = context.FindOnStack(Number).Value as StringValue;
 
             if (number != null && number.Val != "")
             {

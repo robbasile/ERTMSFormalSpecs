@@ -42,6 +42,7 @@ namespace DataDictionary.Interpreter
         ///     Constructor
         /// </summary>
         /// <param name="expression">the functional expression</param>
+        /// <param name="log"></param>
         /// <param name="parameters">the function parameters</param>
         /// <param name="root"></param>
         /// <param name="start">The start character for this expression in the original string</param>
@@ -91,7 +92,7 @@ namespace DataDictionary.Interpreter
         ///     Performs the semantic analysis of the expression
         /// </summary>
         /// <param name="instance">the reference instance on which this element should analysed</param>
-        /// <paraparam name="expectation">Indicates the kind of element we are looking for</paraparam>
+        /// <param name="expectation">Indicates the kind of element we are looking for</param>
         /// <returns>True if semantic analysis should be continued</returns>
         public override bool SemanticAnalysis(INamable instance, BaseFilter expectation)
         {
@@ -106,25 +107,24 @@ namespace DataDictionary.Interpreter
             return retVal;
         }
 
-        private ICallable __staticCallable = null;
+        private ICallable _staticCallable;
 
         /// <summary>
         ///     Provides the ICallable that is statically defined
         /// </summary>
-        public override ICallable getStaticCallable()
+        public override ICallable GetStaticCallable()
         {
-            if (__staticCallable == null)
+            if (_staticCallable == null)
             {
-                __staticCallable = GetExpressionType() as ICallable;
+                _staticCallable = GetExpressionType() as ICallable;
             }
 
-            return __staticCallable;
+            return _staticCallable;
         }
 
         /// <summary>
         ///     Provides the type of this expression
         /// </summary>
-        /// <param name="context">The interpretation context</param>
         /// <returns></returns>
         public override Type GetExpressionType()
         {
@@ -150,7 +150,7 @@ namespace DataDictionary.Interpreter
         /// <param name="context"></param>
         /// <param name="explain"></param>
         /// <returns></returns>
-        public override ICallable getCalled(InterpretationContext context, ExplanationPart explain)
+        public override ICallable GetCalled(InterpretationContext context, ExplanationPart explain)
         {
             return GetValue(context, explain) as ICallable;
         }
@@ -161,7 +161,7 @@ namespace DataDictionary.Interpreter
         /// <param name="context">The context on which the value must be found</param>
         /// <param name="explain">The explanation to fill, if any</param>
         /// <returns></returns>
-        public override IValue GetValue(InterpretationContext context, ExplanationPart explain)
+        protected internal override IValue GetValue(InterpretationContext context, ExplanationPart explain)
         {
             IValue retVal = null;
 
@@ -172,7 +172,7 @@ namespace DataDictionary.Interpreter
                 {
                     int token = context.LocalScope.PushContext();
                     context.LocalScope.setGraphParameter(Parameters[0]);
-                    Graph graph = createGraph(context, Parameters[0], subExplanation);
+                    Graph graph = CreateGraph(context, Parameters[0], subExplanation);
                     context.LocalScope.PopContext(token);
                     if (graph != null)
                     {
@@ -183,7 +183,7 @@ namespace DataDictionary.Interpreter
                 {
                     int token = context.LocalScope.PushContext();
                     context.LocalScope.setSurfaceParameters(Parameters[0], Parameters[1]);
-                    Surface surface = createSurface(context, Parameters[0], Parameters[1], subExplanation);
+                    Surface surface = CreateSurface(context, Parameters[0], Parameters[1], subExplanation);
                     context.LocalScope.PopContext(token);
                     if (surface != null)
                     {
@@ -210,7 +210,7 @@ namespace DataDictionary.Interpreter
         /// </summary>
         /// <param name="retVal">The list to be filled with the element matching the condition expressed in the filter</param>
         /// <param name="filter">The filter to apply</param>
-        public override void fill(List<INamable> retVal, BaseFilter filter)
+        public override void Fill(List<INamable> retVal, BaseFilter filter)
         {
             if (Parameters != null)
             {
@@ -225,7 +225,7 @@ namespace DataDictionary.Interpreter
 
             if (Expression != null)
             {
-                Expression.fill(retVal, filter);
+                Expression.Fill(retVal, filter);
             }
         }
 
@@ -250,12 +250,11 @@ namespace DataDictionary.Interpreter
         /// <summary>
         ///     Checks the expression and appends errors to the root tree node when inconsistencies are found
         /// </summary>
-        /// <param name="context">The interpretation context</param>
-        public override void checkExpression()
+        public override void CheckExpression()
         {
-            base.checkExpression();
+            base.CheckExpression();
 
-            Expression.checkExpression();
+            Expression.CheckExpression();
         }
 
         /// <summary>
@@ -265,13 +264,13 @@ namespace DataDictionary.Interpreter
         /// <param name="parameter">The parameters of *the enclosing function* for which the graph should be created</param>
         /// <param name="explain"></param>
         /// <returns></returns>
-        public override Graph createGraph(InterpretationContext context, Parameter parameter, ExplanationPart explain)
+        public override Graph CreateGraph(InterpretationContext context, Parameter parameter, ExplanationPart explain)
         {
-            Graph retVal = base.createGraph(context, parameter, explain);
+            Graph retVal = base.CreateGraph(context, parameter, explain);
 
             if (parameter == Parameters[0] || parameter == Parameters[1])
             {
-                retVal = Expression.createGraph(context, parameter, explain);
+                retVal = Expression.CreateGraph(context, parameter, explain);
             }
             else
             {
@@ -289,10 +288,10 @@ namespace DataDictionary.Interpreter
         /// <param name="yParam">The Y axis of this surface</param>
         /// <param name="explain"></param>
         /// <returns>The surface which corresponds to this expression</returns>
-        public override Surface createSurface(InterpretationContext context, Parameter xParam, Parameter yParam,
+        public override Surface CreateSurface(InterpretationContext context, Parameter xParam, Parameter yParam,
             ExplanationPart explain)
         {
-            Surface retVal = base.createSurface(context, xParam, yParam, explain);
+            Surface retVal = base.CreateSurface(context, xParam, yParam, explain);
 
             if (xParam == null || yParam == null)
             {
@@ -304,7 +303,7 @@ namespace DataDictionary.Interpreter
                 Parameter xAxis = Parameters[0];
                 Parameter yAxis = Parameters[1];
                 context.LocalScope.setSurfaceParameters(xAxis, yAxis);
-                retVal = Expression.createSurface(context, xAxis, yAxis, explain);
+                retVal = Expression.CreateSurface(context, xAxis, yAxis, explain);
                 context.LocalScope.PopContext(token);
             }
             retVal.XParameter = xParam;

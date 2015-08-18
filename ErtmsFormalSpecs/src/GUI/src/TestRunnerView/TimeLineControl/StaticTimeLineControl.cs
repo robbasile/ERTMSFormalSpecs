@@ -16,7 +16,6 @@
 
 using System;
 using System.Collections;
-using System.Drawing;
 using System.Windows.Forms;
 using DataDictionary;
 using DataDictionary.Generated;
@@ -61,7 +60,7 @@ namespace GUI.TestRunnerView.TimeLineControl
             {
                 _testCase = null;
                 _subSequence = value;
-                __translation = null;
+                _translation = null;
                 CleanEventPositions();
             }
         }
@@ -81,7 +80,7 @@ namespace GUI.TestRunnerView.TimeLineControl
             {
                 _subSequence = null;
                 _testCase = value;
-                __translation = null;
+                _translation = null;
                 CleanEventPositions();
             }
         }
@@ -89,20 +88,36 @@ namespace GUI.TestRunnerView.TimeLineControl
         /// <summary>
         ///     The translation currently being displayed
         /// </summary>
-        public Translation __translation = null;
+        private Translation _translation;
 
         /// <summary>
         /// </summary>
         public Translation Translation
         {
-            get { return __translation; }
+            get { return _translation; }
             set
             {
-                __translation = value;
+                _translation = value;
                 _testCase = null;
                 _subSequence = null;
                 CleanEventPositions();
             }
+        }
+
+        /// <summary>
+        /// Indicates whether the timeline should display the element
+        /// </summary>
+        /// <param name="element"></param>
+        /// <returns></returns>
+        public override bool ShouldDisplayModelElement(IModelElement element)
+        {
+            bool retVal = element==null;
+
+            retVal = retVal || (Translation != null && Translation.IsParent(element));
+            retVal = retVal || (SubSequence != null && SubSequence.IsParent(element));
+            retVal = retVal || (TestCase != null && TestCase.IsParent(element));
+
+            return retVal;
         }
 
         /// <summary>
@@ -140,8 +155,9 @@ namespace GUI.TestRunnerView.TimeLineControl
             DragEnter += TimeLineControl_DragEnter;
             DragDrop += TimeLineControl_DragDrop;
 
-            DoubleClick += TimeLineControl_DoubleClick;
-            MouseDown += StaticTimeLineControl_MouseDown;
+            DrawArea.DoubleClick += TimeLineControl_DoubleClick;
+            DrawArea.MouseDown += StaticTimeLineControl_MouseDown;
+
             TestCase = null;
             SubSequence = null;
         }
@@ -198,7 +214,7 @@ namespace GUI.TestRunnerView.TimeLineControl
                             if (expression != null)
                             {
                                 InterpretationContext context = new InterpretationContext {UseDefaultValue = false};
-                                value = expression.GetValue(context, null);
+                                value = expression.GetExpressionValue(context, null);
                             }
 
                             if (value == null || value is EmptyValue)

@@ -330,13 +330,13 @@ namespace DataDictionary.Types
         /// </summary>
         /// <param name="otherType"></param>
         /// <returns></returns>
-        public override bool ValidBinaryOperation(BinaryExpression.OPERATOR operation, Type otherType)
+        public override bool ValidBinaryOperation(BinaryExpression.Operator operation, Type otherType)
         {
             bool retVal;
 
-            if (operation == BinaryExpression.OPERATOR.LESS || operation == BinaryExpression.OPERATOR.LESS_OR_EQUAL ||
-                operation == BinaryExpression.OPERATOR.GREATER ||
-                operation == BinaryExpression.OPERATOR.GREATER_OR_EQUAL)
+            if (operation == BinaryExpression.Operator.Less || operation == BinaryExpression.Operator.LessOrEqual ||
+                operation == BinaryExpression.Operator.Greater ||
+                operation == BinaryExpression.Operator.GreaterOrEqual)
             {
                 retVal = false;
             }

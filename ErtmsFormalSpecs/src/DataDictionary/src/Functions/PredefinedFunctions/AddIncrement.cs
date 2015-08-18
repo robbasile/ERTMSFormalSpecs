@@ -84,7 +84,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
 
             Graph graph = null;
 
-            Function function = context.findOnStack(Function).Value as Function;
+            Function function = context.FindOnStack(Function).Value as Function;
             if (function != null)
             {
                 int token = context.LocalScope.PushContext();
@@ -96,7 +96,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
 
             if (graph != null)
             {
-                Function increment = context.findOnStack(Increment).Value as Function;
+                Function increment = context.FindOnStack(Increment).Value as Function;
                 retVal = graph.AddIncrement(context, increment, explain);
             }
             else

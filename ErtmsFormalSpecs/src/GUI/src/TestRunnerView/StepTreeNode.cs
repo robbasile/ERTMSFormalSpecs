@@ -252,7 +252,7 @@ namespace GUI.TestRunnerView
             messageExpression += "]";
 
             Expression expression = EFSSystem.INSTANCE.Parser.Expression(Item.Dictionary, messageExpression);
-            IValue value = expression.GetValue(new InterpretationContext(), null);
+            IValue value = expression.GetExpressionValue(new InterpretationContext(), null);
 
             StructureEditor.Window editor = new StructureEditor.Window();
             editor.SetModel(value);

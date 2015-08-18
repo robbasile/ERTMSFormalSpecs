@@ -93,7 +93,7 @@ namespace DataDictionary.Interpreter
             {
                 Ref = null;
 
-                ReturnValue tmp = getReferences(instance, expectation, false);
+                ReturnValue tmp = GetReferences(instance, expectation, false);
 
                 if (tmp.IsUnique)
                 {
@@ -141,13 +141,13 @@ namespace DataDictionary.Interpreter
         /// <param name="expectation">the expectation on the element found</param>
         /// <param name="last">indicates that this is the last element in a dereference chain</param>
         /// <returns></returns>
-        public override ReturnValue getReferences(INamable instance, BaseFilter expectation, bool last)
+        public override ReturnValue GetReferences(INamable instance, BaseFilter expectation, bool last)
         {
-            ReturnValue retVal = Arguments[0].getReferences(instance, AllMatches.INSTANCE, false);
+            ReturnValue retVal = Arguments[0].GetReferences(instance, AllMatches.INSTANCE, false);
 
             if (retVal.IsEmpty)
             {
-                retVal = Arguments[0].getReferenceTypes(instance, AllMatches.INSTANCE, false);
+                retVal = Arguments[0].GetReferenceTypes(instance, AllMatches.INSTANCE, false);
             }
 
             // When variables & parameters are found, only consider the first one
@@ -193,7 +193,7 @@ namespace DataDictionary.Interpreter
                         if (!removed)
                         {
                             retVal.Merge(elem,
-                                Arguments[i].getReferences(elem.Value, AllMatches.INSTANCE, i == (Arguments.Count - 1)));
+                                Arguments[i].GetReferences(elem.Value, AllMatches.INSTANCE, i == (Arguments.Count - 1)));
                         }
                     }
 
@@ -208,7 +208,7 @@ namespace DataDictionary.Interpreter
                 AddError("Cannot evaluate " + Arguments[0].ToString());
             }
 
-            retVal.filter(expectation);
+            retVal.Filter(expectation);
 
             return retVal;
         }
@@ -269,7 +269,7 @@ namespace DataDictionary.Interpreter
         /// <param name="context">The context on which the value must be found</param>
         /// <param name="explain">The explanation to fill, if any</param>
         /// <returns></returns>
-        public override IValue GetValue(InterpretationContext context, ExplanationPart explain)
+        protected internal override IValue GetValue(InterpretationContext context, ExplanationPart explain)
         {
             INamable retVal = Ref as IValue;
 
@@ -343,7 +343,7 @@ namespace DataDictionary.Interpreter
         /// <param name="context"></param>
         /// <param name="explain"></param>
         /// <returns></returns>
-        public override ICallable getCalled(InterpretationContext context, ExplanationPart explain)
+        public override ICallable GetCalled(InterpretationContext context, ExplanationPart explain)
         {
             ICallable retVal = Called;
 
@@ -360,7 +360,7 @@ namespace DataDictionary.Interpreter
         /// </summary>
         /// <param name="retVal">The list to be filled with the element matching the condition expressed in the filter</param>
         /// <param name="filter">The filter to apply</param>
-        public override void fill(List<INamable> retVal, BaseFilter filter)
+        public override void Fill(List<INamable> retVal, BaseFilter filter)
         {
             if (filter.AcceptableChoice(Ref))
             {
@@ -382,14 +382,14 @@ namespace DataDictionary.Interpreter
         ///     Checks the expression and appends errors to the root tree node when inconsistencies are found
         /// </summary>
         /// <param name="context">The interpretation context</param>
-        public override void checkExpression()
+        public override void CheckExpression()
         {
             foreach (Expression subExpression in Arguments)
             {
-                subExpression.checkExpression();
+                subExpression.CheckExpression();
             }
 
-            base.checkExpression();
+            base.CheckExpression();
         }
 
         /// <summary>
@@ -399,9 +399,9 @@ namespace DataDictionary.Interpreter
         /// <param name="parameter">The parameters of *the enclosing function* for which the graph should be created</param>
         /// <param name="explain"></param>
         /// <returns></returns>
-        public override Graph createGraph(InterpretationContext context, Parameter parameter, ExplanationPart explain)
+        public override Graph CreateGraph(InterpretationContext context, Parameter parameter, ExplanationPart explain)
         {
-            Graph retVal = base.createGraph(context, parameter, explain);
+            Graph retVal = base.CreateGraph(context, parameter, explain);
 
             retVal = Graph.createGraph(GetValue(context, explain), parameter, explain);
 
@@ -422,10 +422,10 @@ namespace DataDictionary.Interpreter
         /// <param name="yParam">The Y axis of this surface</param>
         /// <param name="explain"></param>
         /// <returns>The surface which corresponds to this expression</returns>
-        public override Surface createSurface(InterpretationContext context, Parameter xParam, Parameter yParam,
+        public override Surface CreateSurface(InterpretationContext context, Parameter xParam, Parameter yParam,
             ExplanationPart explain)
         {
-            Surface retVal = base.createSurface(context, xParam, yParam, explain);
+            Surface retVal = base.CreateSurface(context, xParam, yParam, explain);
 
             retVal = Surface.createSurface(GetValue(context, explain), xParam, yParam);
 

@@ -31,14 +31,14 @@ namespace DataDictionary.Interpreter.ListOperators
         /// </summary>
         public static string[] LIST_OPERATORS =
         {
-            ThereIsExpression.OPERATOR,
-            ForAllExpression.OPERATOR,
-            FirstExpression.OPERATOR,
-            LastExpression.OPERATOR,
-            CountExpression.OPERATOR,
-            ReduceExpression.OPERATOR,
-            SumExpression.OPERATOR,
-            MapExpression.OPERATOR
+            ThereIsExpression.Operator,
+            ForAllExpression.Operator,
+            FirstExpression.Operator,
+            LastExpression.Operator,
+            CountExpression.Operator,
+            ReduceExpression.Operator,
+            SumExpression.Operator,
+            MapExpression.Operator
         };
 
         /// <summary>
@@ -199,21 +199,21 @@ namespace DataDictionary.Interpreter.ListOperators
         /// </summary>
         /// <param name="retVal">The list to be filled with the element matching the condition expressed in the filter</param>
         /// <param name="filter">The filter to apply</param>
-        public override void fill(List<INamable> retVal, BaseFilter filter)
+        public override void Fill(List<INamable> retVal, BaseFilter filter)
         {
-            ListExpression.fill(retVal, filter);
+            ListExpression.Fill(retVal, filter);
         }
 
         /// <summary>
         ///     Checks the expression and appends errors to the root tree node when inconsistencies are found
         /// </summary>
-        public override void checkExpression()
+        public override void CheckExpression()
         {
-            base.checkExpression();
+            base.CheckExpression();
 
             if (ListExpression != null)
             {
-                ListExpression.checkExpression();
+                ListExpression.CheckExpression();
 
                 Type listExpressionType = ListExpression.GetExpressionType();
                 if (!(listExpressionType is Collection))

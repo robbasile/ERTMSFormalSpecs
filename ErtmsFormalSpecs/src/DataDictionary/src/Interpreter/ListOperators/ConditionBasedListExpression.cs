@@ -77,13 +77,13 @@ namespace DataDictionary.Interpreter.ListOperators
         /// </summary>
         /// <param name="retVal">The list to be filled with the element matching the condition expressed in the filter</param>
         /// <param name="filter">The filter to apply</param>
-        public override void fill(List<INamable> retVal, BaseFilter filter)
+        public override void Fill(List<INamable> retVal, BaseFilter filter)
         {
-            base.fill(retVal, filter);
+            base.Fill(retVal, filter);
 
             if (Condition != null)
             {
-                Condition.fill(retVal, filter);
+                Condition.Fill(retVal, filter);
             }
         }
 
@@ -117,14 +117,14 @@ namespace DataDictionary.Interpreter.ListOperators
         /// <summary>
         ///     Checks the expression and appends errors to the root tree node when inconsistencies are found
         /// </summary>
-        public override void checkExpression()
+        public override void CheckExpression()
         {
-            base.checkExpression();
+            base.CheckExpression();
 
             Type conditionType = null;
             if (Condition != null)
             {
-                Condition.checkExpression();
+                Condition.CheckExpression();
                 conditionType = Condition.GetExpressionType() as BoolType;
                 if (conditionType == null)
                 {

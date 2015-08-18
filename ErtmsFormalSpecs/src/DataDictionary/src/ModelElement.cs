@@ -227,7 +227,7 @@ namespace DataDictionary
 
                 foreach (
                     ReturnValueElement target in
-                        expression.getReferences(null, AllMatches.INSTANCE, true).Values)
+                        expression.GetReferences(null, AllMatches.INSTANCE, true).Values)
                 {
                     if (target.Value == this)
                     {

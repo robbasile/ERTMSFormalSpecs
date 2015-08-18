@@ -134,7 +134,7 @@ namespace DataDictionary.Interpreter.Statement
         {
             if (ListExpression != null)
             {
-                ListExpression.checkExpression();
+                ListExpression.CheckExpression();
 
                 if (ListExpression.Ref is Parameter)
                 {
@@ -149,7 +149,7 @@ namespace DataDictionary.Interpreter.Statement
 
             if (Value != null)
             {
-                Value.checkExpression();
+                Value.CheckExpression();
             }
             else
             {
@@ -172,7 +172,7 @@ namespace DataDictionary.Interpreter.Statement
 
             if (ReplaceElement != null)
             {
-                ReplaceElement.checkExpression();
+                ReplaceElement.CheckExpression();
 
                 Type replaceElementType = ReplaceElement.GetExpressionType();
                 if (replaceElementType != null)
@@ -218,7 +218,7 @@ namespace DataDictionary.Interpreter.Statement
                 variable.Value = listValue;
                 if (listValue != null)
                 {
-                    IValue value = Value.GetValue(context, explanation);
+                    IValue value = Value.GetExpressionValue(context, explanation);
                     if (value != null)
                     {
                         if (!listValue.Val.Contains(value))
@@ -234,7 +234,7 @@ namespace DataDictionary.Interpreter.Statement
                                 // List is full, try to remove an element before inserting the new element
                                 if (ReplaceElement != null)
                                 {
-                                    IValue removeValue = ReplaceElement.GetValue(context, explanation);
+                                    IValue removeValue = ReplaceElement.GetExpressionValue(context, explanation);
                                     index = newListValue.Val.IndexOf(removeValue);
                                     if (index >= 0)
                                     {

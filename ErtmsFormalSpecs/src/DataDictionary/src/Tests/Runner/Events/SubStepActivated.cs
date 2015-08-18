@@ -114,7 +114,7 @@ namespace DataDictionary.Tests.Runner.Events
                     {
                         Expression expression = EFSSystem.INSTANCE.Parser.Expression(expectation,
                             expectation.getCondition());
-                        BoolValue value = expression.GetValue(new InterpretationContext(expectation), null) as BoolValue;
+                        BoolValue value = expression.GetExpressionValue(new InterpretationContext(expectation), null) as BoolValue;
                         if (value != null)
                         {
                             addExpectation = value.Val;

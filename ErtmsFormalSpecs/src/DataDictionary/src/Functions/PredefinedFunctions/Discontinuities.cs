@@ -98,7 +98,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
                         "Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.SpeedRestrictions");
             ListValue collection = new ListValue(collectionType, new List<IValue>());
 
-            Function function = context.findOnStack(Targets).Value as Function;
+            Function function = context.FindOnStack(Targets).Value as Function;
             if (function != null && !function.Name.Equals("EMPTY"))
             {
                 Graph graph1 = createGraphForValue(context, function, explain);

@@ -741,7 +741,7 @@ namespace DataDictionary.Interpreter
             if (op != null) // Expression_iCont -> {op_i+1} Expression_i+1 Expression_iCont
             {
                 Match(op);
-                BinaryExpression.OPERATOR oper = BinaryExpression.FindOperatorByName(op);
+                BinaryExpression.Operator oper = BinaryExpression.FindOperatorByName(op);
                 Expression expressionRight = Expression(expressionLevel + 1);
                 if (expressionRight != null)
                 {
@@ -906,9 +906,9 @@ namespace DataDictionary.Interpreter
             {
                 Match(listOp);
 
-                if (listOp.CompareTo(MapExpression.OPERATOR) == 0
-                    || listOp.CompareTo(ReduceExpression.OPERATOR) == 0
-                    || listOp.CompareTo(SumExpression.OPERATOR) == 0)
+                if (listOp.CompareTo(MapExpression.Operator) == 0
+                    || listOp.CompareTo(ReduceExpression.Operator) == 0
+                    || listOp.CompareTo(SumExpression.Operator) == 0)
                 {
                     Expression listExpression = Expression(0);
                     if (listExpression != null)
@@ -926,17 +926,17 @@ namespace DataDictionary.Interpreter
                         Expression iteratorExpression = Expression(0);
                         if (iteratorExpression != null)
                         {
-                            if (MapExpression.OPERATOR.CompareTo(listOp) == 0)
+                            if (MapExpression.Operator.CompareTo(listOp) == 0)
                             {
                                 retVal = new MapExpression(Root, RootLog, listExpression, iteratorIdentifier, condition,
                                     iteratorExpression, start, Index);
                             }
-                            else if (SumExpression.OPERATOR.CompareTo(listOp) == 0)
+                            else if (SumExpression.Operator.CompareTo(listOp) == 0)
                             {
                                 retVal = new SumExpression(Root, RootLog, listExpression, iteratorIdentifier, condition,
                                     iteratorExpression, start, Index);
                             }
-                            else if (ReduceExpression.OPERATOR.CompareTo(listOp) == 0)
+                            else if (ReduceExpression.Operator.CompareTo(listOp) == 0)
                             {
                                 Match("INITIAL_VALUE");
                                 Expression initialValue = Expression(0);
@@ -972,27 +972,27 @@ namespace DataDictionary.Interpreter
                         }
 
                         // Create the right class for this list operation
-                        if (ThereIsExpression.OPERATOR.CompareTo(listOp) == 0)
+                        if (ThereIsExpression.Operator.CompareTo(listOp) == 0)
                         {
                             retVal = new ThereIsExpression(Root, RootLog, listExpression, iteratorIdentifier, condition,
                                 start, Index);
                         }
-                        else if (ForAllExpression.OPERATOR.CompareTo(listOp) == 0)
+                        else if (ForAllExpression.Operator.CompareTo(listOp) == 0)
                         {
                             retVal = new ForAllExpression(Root, RootLog, listExpression, iteratorIdentifier, condition,
                                 start, Index);
                         }
-                        else if (FirstExpression.OPERATOR.CompareTo(listOp) == 0)
+                        else if (FirstExpression.Operator.CompareTo(listOp) == 0)
                         {
                             retVal = new FirstExpression(Root, RootLog, listExpression, iteratorIdentifier, condition,
                                 start, Index);
                         }
-                        else if (LastExpression.OPERATOR.CompareTo(listOp) == 0)
+                        else if (LastExpression.Operator.CompareTo(listOp) == 0)
                         {
                             retVal = new LastExpression(Root, RootLog, listExpression, iteratorIdentifier, condition,
                                 start, Index);
                         }
-                        else if (CountExpression.OPERATOR.CompareTo(listOp) == 0)
+                        else if (CountExpression.Operator.CompareTo(listOp) == 0)
                         {
                             retVal = new CountExpression(Root, RootLog, listExpression, iteratorIdentifier, condition,
                                 start, Index);
@@ -1017,7 +1017,7 @@ namespace DataDictionary.Interpreter
 
             skipWhiteSpaces();
             int start = Index;
-            string unaryOp = LookAhead(UnaryExpression.UNARY_OPERATORS);
+            string unaryOp = LookAhead(UnaryExpression.UnaryOperators);
             if (unaryOp != null)
             {
                 Match(unaryOp);

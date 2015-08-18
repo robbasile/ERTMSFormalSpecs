@@ -27,11 +27,13 @@ namespace DataDictionary.Interpreter.ListOperators
         /// <summary>
         ///     The operator for this expression
         /// </summary>
-        public static string OPERATOR = "MAP";
+        public static string Operator = "MAP";
 
         /// <summary>
         ///     Constructor
         /// </summary>
+        /// <param name="root"></param>
+        /// <param name="log"></param>
         /// <param name="listExpression"></param>
         /// <param name="condition"></param>
         /// <param name="function"></param>
@@ -47,7 +49,6 @@ namespace DataDictionary.Interpreter.ListOperators
         /// <summary>
         ///     Provides the type of this expression
         /// </summary>
-        /// <param name="context">The interpretation context</param>
         /// <returns></returns>
         public override Type GetExpressionType()
         {
@@ -76,7 +77,7 @@ namespace DataDictionary.Interpreter.ListOperators
         /// <param name="context">The context on which the value must be found</param>
         /// <param name="explain">The explanation to fill, if any</param>
         /// <returns></returns>
-        public override IValue GetValue(InterpretationContext context, ExplanationPart explain)
+        protected internal override IValue GetValue(InterpretationContext context, ExplanationPart explain)
         {
             ListValue retVal = null;
 
@@ -113,7 +114,7 @@ namespace DataDictionary.Interpreter.ListOperators
         /// <param name="explainSubElements">Precises if we need to explain the sub elements (if any)</param>
         public override void GetExplain(TextualExplanation explanation, bool explainSubElements = true)
         {
-            explanation.Write(OPERATOR);
+            explanation.Write(Operator);
             explanation.Write(" ");
             ListExpression.GetExplain(explanation);
 
@@ -133,11 +134,11 @@ namespace DataDictionary.Interpreter.ListOperators
         ///     Checks the expression and appends errors to the root tree node when inconsistencies are found
         /// </summary>
         /// <param name="context">The interpretation context</param>
-        public override void checkExpression()
+        public override void CheckExpression()
         {
-            base.checkExpression();
+            base.CheckExpression();
 
-            IteratorExpression.checkExpression();
+            IteratorExpression.CheckExpression();
         }
     }
 }

@@ -22,6 +22,7 @@ using DataDictionary.Interpreter;
 using DataDictionary.Tests;
 using DataDictionary.Tests.Runner;
 using DataDictionary.Tests.Runner.Events;
+using Utils;
 
 namespace GUI.TestRunnerView.TimeLineControl
 {
@@ -56,7 +57,7 @@ namespace GUI.TestRunnerView.TimeLineControl
         {
             ContextMenu = new ContextMenu();
             ContextMenu.MenuItems.Add(new MenuItem("Configure filter...", OpenFilter));
-            DoubleClick += TimeLineControl_DoubleClick;
+            DrawArea.DoubleClick += TimeLineControl_DoubleClick;
 
             FilterConfiguration = new FilterConfiguration();
         }
@@ -138,6 +139,18 @@ namespace GUI.TestRunnerView.TimeLineControl
                 explainTextBox.SetExplanation(modelInterpretationFailure.Explanation);
                 GuiUtils.MdiWindow.AddChildWindow(explainTextBox);
             }
+        }
+
+        /// <summary>
+        /// Indicates whether the timeline should display the element
+        /// </summary>
+        /// <param name="element"></param>
+        /// <returns></returns>
+        public override bool ShouldDisplayModelElement(IModelElement element)
+        {
+            bool retVal = element == null;
+
+            return retVal;
         }
 
         /// <summary>

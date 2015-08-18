@@ -177,7 +177,7 @@ namespace DataDictionary.Interpreter.Statement
         {
             if (ListExpression != null)
             {
-                ListExpression.checkExpression();
+                ListExpression.CheckExpression();
                 Collection listExpressionType = ListExpression.GetExpressionType() as Collection;
                 if (listExpressionType == null)
                 {
@@ -191,7 +191,7 @@ namespace DataDictionary.Interpreter.Statement
 
             if (ConditionExpression != null)
             {
-                ConditionExpression.checkExpression();
+                ConditionExpression.CheckExpression();
             }
 
             if (AppliedStatement != null)
@@ -217,7 +217,7 @@ namespace DataDictionary.Interpreter.Statement
 
             if (ConditionExpression != null)
             {
-                BoolValue b = ConditionExpression.GetValue(context, explain) as BoolValue;
+                BoolValue b = ConditionExpression.GetExpressionValue(context, explain) as BoolValue;
                 if (b == null)
                 {
                     retVal = false;

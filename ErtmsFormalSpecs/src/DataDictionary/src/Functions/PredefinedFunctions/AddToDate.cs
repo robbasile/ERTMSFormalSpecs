@@ -155,7 +155,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
             int token = context.LocalScope.PushContext();
             AssignParameters(context, actuals);
 
-            StructureValue startDate = context.findOnStack(StartDate).Value as StructureValue;
+            StructureValue startDate = context.FindOnStack(StartDate).Value as StructureValue;
             if (startDate != null)
             {
                 int year = GetIntValue(startDate, "Year");
@@ -166,7 +166,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
                 int second = GetIntValue(startDate, "Second");
                 int tts = GetIntValue(startDate, "TTS");
 
-                DoubleValue addedTime = context.findOnStack(Increment).Value as DoubleValue;
+                DoubleValue addedTime = context.FindOnStack(Increment).Value as DoubleValue;
                 if (addedTime != null)
                 {
                     DateTime start = new DateTime(year, month, day, hour, minute, second, tts);

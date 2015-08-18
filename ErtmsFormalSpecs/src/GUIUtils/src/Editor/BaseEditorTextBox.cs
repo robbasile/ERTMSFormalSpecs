@@ -180,7 +180,7 @@ namespace GUIUtils.Editor
                         else
                         {
                             bool last = end == EditionTextBox.Text.Length || EditionTextBox.Text[end] != '.';
-                            ReturnValue returnValue = expression.getReferences(Model, AllMatches.INSTANCE, last);
+                            ReturnValue returnValue = expression.GetReferences(Model, AllMatches.INSTANCE, last);
                             foreach (ReturnValueElement element in returnValue.Values)
                             {
                                 retVal.Add(element.Value);
@@ -608,14 +608,14 @@ namespace GUIUtils.Editor
         /// </summary>
         private static readonly string[] Templates = new string[]
         {
-            ForAllExpression.OPERATOR + " X IN <collection> | <condition> ",
-            ThereIsExpression.OPERATOR + " X IN <collection> | <condition> ",
-            FirstExpression.OPERATOR + " X IN <collection> | <condition>",
-            LastExpression.OPERATOR + " X IN <collection> | <condition>",
-            CountExpression.OPERATOR + " X IN <collection> | <condition>",
-            MapExpression.OPERATOR + " <collection> | <condition> USING X IN <map_expression>",
-            SumExpression.OPERATOR + " <collection> | <condition> USING X IN <map_expression>",
-            ReduceExpression.OPERATOR +
+            ForAllExpression.Operator + " X IN <collection> | <condition> ",
+            ThereIsExpression.Operator + " X IN <collection> | <condition> ",
+            FirstExpression.Operator + " X IN <collection> | <condition>",
+            LastExpression.Operator + " X IN <collection> | <condition>",
+            CountExpression.Operator + " X IN <collection> | <condition>",
+            MapExpression.Operator + " <collection> | <condition> USING X IN <map_expression>",
+            SumExpression.Operator + " <collection> | <condition> USING X IN <map_expression>",
+            ReduceExpression.Operator +
             " <collection> | <condition> USING X IN <reduce_expression> INITIAL_VALUE <expression>",
             "LET <variable> <- <expression> IN <expression>",
             "STABILIZE <expression> INITIAL_VALUE <expression> STOP_CONDITION <condition>",
@@ -858,7 +858,7 @@ namespace GUIUtils.Editor
                         {
                             foreach (
                                 ReturnValueElement element in
-                                    expression.getReferences(null, AllMatches.INSTANCE, false).Values)
+                                    expression.GetReferences(null, AllMatches.INSTANCE, false).Values)
                             {
                                 retVal.Instances.Add(element.Value);
                             }

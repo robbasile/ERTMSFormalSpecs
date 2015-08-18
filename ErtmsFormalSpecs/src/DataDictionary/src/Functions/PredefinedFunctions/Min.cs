@@ -105,10 +105,10 @@ namespace DataDictionary.Functions.PredefinedFunctions
         {
             Graph retVal = null;
 
-            Graph firstGraph = createGraphForValue(context, context.findOnStack(First).Value, explain);
+            Graph firstGraph = createGraphForValue(context, context.FindOnStack(First).Value, explain);
             if (firstGraph != null)
             {
-                Graph secondGraph = createGraphForValue(context, context.findOnStack(Second).Value, explain);
+                Graph secondGraph = createGraphForValue(context, context.FindOnStack(Second).Value, explain);
                 if (secondGraph != null)
                 {
                     retVal = firstGraph.Min(secondGraph) as Graph;

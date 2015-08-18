@@ -406,14 +406,14 @@ namespace DataDictionary.Types
         /// </summary>
         /// <param name="otherType"></param>
         /// <returns></returns>
-        public override bool ValidBinaryOperation(BinaryExpression.OPERATOR operation, Type otherType)
+        public override bool ValidBinaryOperation(BinaryExpression.Operator operation, Type otherType)
         {
             bool retVal = base.ValidBinaryOperation(operation, otherType);
 
             if (!retVal)
             {
-                if (operation == BinaryExpression.OPERATOR.ADD || operation == BinaryExpression.OPERATOR.DIV ||
-                    operation == BinaryExpression.OPERATOR.MULT || operation == BinaryExpression.OPERATOR.SUB)
+                if (operation == BinaryExpression.Operator.Add || operation == BinaryExpression.Operator.Div ||
+                    operation == BinaryExpression.Operator.Mult || operation == BinaryExpression.Operator.Sub)
                 {
                     // Allow implicit conversions
                     IntegerType integerType = otherType as IntegerType;
@@ -441,7 +441,7 @@ namespace DataDictionary.Types
         /// <param name="right"></param>
         /// <returns></returns>
         public override IValue PerformArithmericOperation(InterpretationContext context, IValue left,
-            BinaryExpression.OPERATOR Operation, IValue right) // left +/-/*/div/exp right
+            BinaryExpression.Operator Operation, IValue right) // left +/-/*/div/exp right
         {
             IValue retVal = null;
 
@@ -716,11 +716,11 @@ namespace DataDictionary.Types
         /// </summary>
         /// <param name="right"></param>
         /// <returns></returns>
-        public override Type CombineType(Type right, BinaryExpression.OPERATOR Operator)
+        public override Type CombineType(Type right, BinaryExpression.Operator Operator)
         {
             Type retVal = null;
 
-            if (Operator == BinaryExpression.OPERATOR.MULT)
+            if (Operator == BinaryExpression.Operator.Mult)
             {
                 if (FullName.CompareTo("Default.BaseTypes.Speed") == 0 &&
                     right.FullName.CompareTo("Default.BaseTypes.Time") == 0)

@@ -82,7 +82,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
             IValue retVal = null;
 
             AssignParameters(context, actuals);
-            Graph graph = createGraphForValue(context, context.findOnStack(FunctionA).Value, explain);
+            Graph graph = createGraphForValue(context, context.FindOnStack(FunctionA).Value, explain);
             if (graph != null)
             {
                 foreach (Graph.Segment segment in graph.Segments)
@@ -91,7 +91,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
                     {
                         double speed = segment.Expression.v0;
 
-                        Function function = context.findOnStack(FunctionB).Value as Function;
+                        Function function = context.FindOnStack(FunctionB).Value as Function;
                         if (function.FormalParameters.Count > 0)
                         {
                             Parameter functionParameter = function.FormalParameters[0] as Parameter;

@@ -91,16 +91,16 @@ namespace DataDictionary.Functions.PredefinedFunctions
             int token = context.LocalScope.PushContext();
             AssignParameters(context, actuals);
 
-            ListValue collection = context.findOnStack(Collection).Value as ListValue;
+            ListValue collection = context.FindOnStack(Collection).Value as ListValue;
             if (collection != null)
             {
-                IValue expectedFirst = context.findOnStack(ExpectedFirst).Value;
+                IValue expectedFirst = context.FindOnStack(ExpectedFirst).Value;
                 if (expectedFirst != null)
                 {
                     int firstIndex = collection.Val.IndexOf(expectedFirst);
                     if (firstIndex >= 0)
                     {
-                        IValue expectedSecond = context.findOnStack(ExpectedSecond).Value;
+                        IValue expectedSecond = context.FindOnStack(ExpectedSecond).Value;
                         if (expectedSecond != null)
                         {
                             int secondIndex = collection.Val.IndexOf(expectedSecond);

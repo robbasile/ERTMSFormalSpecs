@@ -26,7 +26,7 @@ namespace DataDictionary.test
             variable.SubVariables["Value"].Value = System.BoolType.False;
 
             Expression expression = Parser.Expression(dictionary, "NameSpace.ModelElement.Value");
-            IValue value = expression.GetValue(new InterpretationContext(), null);
+            IValue value = expression.GetExpressionValue(new InterpretationContext(), null);
 
             Assert.AreEqual(value, variable.SubVariables["Value"].Value);
         }

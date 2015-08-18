@@ -30,7 +30,7 @@ namespace DataDictionary.test.updateModel
             Compiler.Compile_Synchronous(true);
 
             Expression expression = Parser.Expression(dictionary, "N1.f()");
-            IValue value = expression.GetValue(new InterpretationContext(), null);
+            IValue value = expression.GetExpressionValue(new InterpretationContext(), null);
             Assert.AreEqual(System.BoolType.True, value);
         }
 
@@ -63,7 +63,7 @@ namespace DataDictionary.test.updateModel
 
 
             Expression expression = Parser.Expression(dictionary, "N1.f()");
-            IValue value = expression.GetValue(new InterpretationContext(), null);
+            IValue value = expression.GetExpressionValue(new InterpretationContext(), null);
             Assert.AreEqual(System.BoolType.True, value);
         }
 
@@ -92,10 +92,10 @@ namespace DataDictionary.test.updateModel
             Compiler.Compile_Synchronous(true);
 
             Expression expression = Parser.Expression(dictionary, "N1.q()");
-            IValue value = expression.GetValue(new InterpretationContext(), null);
+            IValue value = expression.GetExpressionValue(new InterpretationContext(), null);
 
             Expression expression2 = Parser.Expression(dictionary, "N1.f()");
-            IValue value2 = expression.GetValue(new InterpretationContext(), null);
+            IValue value2 = expression.GetExpressionValue(new InterpretationContext(), null);
             Assert.AreEqual(System.BoolType.False, value2);
         }
 
@@ -123,7 +123,7 @@ namespace DataDictionary.test.updateModel
 
 
             Expression expression = Parser.Expression(dictionary, "N1.N2.N3.N4.f()");
-            IValue value = expression.GetValue(new InterpretationContext(), null);
+            IValue value = expression.GetExpressionValue(new InterpretationContext(), null);
             Assert.AreEqual(System.BoolType.False, value);
         }
 
@@ -160,7 +160,7 @@ namespace DataDictionary.test.updateModel
 
 
             Expression expression = Parser.Expression(dictionary, "N.N1.f()");
-            IValue value = expression.GetValue(new InterpretationContext(), null);
+            IValue value = expression.GetExpressionValue(new InterpretationContext(), null);
             IValue refVal = new IntValue(System.IntegerType, 1);
             Assert.AreEqual(refVal.LiteralName, value.LiteralName);
         }
@@ -191,7 +191,7 @@ namespace DataDictionary.test.updateModel
 
 
             Expression expression = Parser.Expression(dictionary, "N.N1.f()");
-            IValue value = expression.GetValue(new InterpretationContext(), null);
+            IValue value = expression.GetExpressionValue(new InterpretationContext(), null);
             Assert.AreEqual(System.BoolType.False, value);
         }
     }

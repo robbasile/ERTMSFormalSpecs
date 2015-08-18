@@ -104,7 +104,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
             ListValue collection = new ListValue(collectionType, new List<IValue>());
 
             // compute targets from the MRSP
-            Function function1 = context.findOnStack(SpeedRestrictions).Value as Function;
+            Function function1 = context.FindOnStack(SpeedRestrictions).Value as Function;
             if (function1 != null && !function1.Name.Equals("EMPTY"))
             {
                 Graph graph1 = createGraphForValue(context, function1, explain);

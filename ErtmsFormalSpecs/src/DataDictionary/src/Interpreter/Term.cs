@@ -79,7 +79,7 @@ namespace DataDictionary.Interpreter
             }
             else if (LiteralValue != null)
             {
-                retVal = LiteralValue.getReferences(instance, expectation, last);
+                retVal = LiteralValue.GetReferences(instance, expectation, last);
             }
 
             return retVal;
@@ -111,7 +111,7 @@ namespace DataDictionary.Interpreter
             }
             else if (LiteralValue != null)
             {
-                retVal = LiteralValue.getReferenceTypes(instance, expectation, true);
+                retVal = LiteralValue.GetReferenceTypes(instance, expectation, true);
             }
 
             return retVal;
@@ -256,7 +256,7 @@ namespace DataDictionary.Interpreter
             }
             else if (LiteralValue != null)
             {
-                LiteralValue.fill(retVal, filter);
+                LiteralValue.Fill(retVal, filter);
             }
         }
 
@@ -288,7 +288,7 @@ namespace DataDictionary.Interpreter
             }
             else if (LiteralValue != null)
             {
-                LiteralValue.checkExpression();
+                LiteralValue.CheckExpression();
             }
         }
     }

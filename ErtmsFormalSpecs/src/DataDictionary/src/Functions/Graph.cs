@@ -1392,7 +1392,7 @@ namespace DataDictionary.Functions
         /// <param name="Operator">The operator to apply</param>
         /// <param name="value">The value to compare with the values of the graph</param>
         /// <returns></returns>
-        public List<ISegment> GetSegments(BinaryExpression.OPERATOR Operator, double value)
+        public List<ISegment> GetSegments(BinaryExpression.Operator Operator, double value)
         {
             List<ISegment> retVal = new List<ISegment>();
 
@@ -1402,35 +1402,35 @@ namespace DataDictionary.Functions
                 {
                     switch (Operator)
                     {
-                        case BinaryExpression.OPERATOR.GREATER:
+                        case BinaryExpression.Operator.Greater:
                             if (segment.Expression.v0 > value)
                             {
                                 retVal.Add(segment);
                             }
                             break;
 
-                        case BinaryExpression.OPERATOR.GREATER_OR_EQUAL:
+                        case BinaryExpression.Operator.GreaterOrEqual:
                             if (segment.Expression.v0 >= value)
                             {
                                 retVal.Add(segment);
                             }
                             break;
 
-                        case BinaryExpression.OPERATOR.LESS_OR_EQUAL:
+                        case BinaryExpression.Operator.LessOrEqual:
                             if (segment.Expression.v0 <= value)
                             {
                                 retVal.Add(segment);
                             }
                             break;
 
-                        case BinaryExpression.OPERATOR.LESS:
+                        case BinaryExpression.Operator.Less:
                             if (segment.Expression.v0 < value)
                             {
                                 retVal.Add(segment);
                             }
                             break;
 
-                        case BinaryExpression.OPERATOR.EQUAL:
+                        case BinaryExpression.Operator.Equal:
                             if (segment.Expression.v0 == value)
                             {
                                 retVal.Add(segment);

@@ -56,12 +56,13 @@ namespace DataDictionary.Interpreter
         /// <summary>
         ///     The list of all values iterated through. Checks for cycles.
         /// </summary>
-        private List<IValue> IterationsList; 
+        private List<IValue> IterationsList { get; set; }
 
         /// <summary>
         ///     Constructor
         /// </summary>
         /// <param name="root"></param>
+        /// <param name="log"></param>
         /// <param name="expression">The expression to stabilize</param>
         /// <param name="initialValue">The initial value for this stabilisation computation</param>
         /// <param name="condition">The condition which indicates that the stabilisation is not complete</param>
@@ -121,7 +122,7 @@ namespace DataDictionary.Interpreter
         ///     Performs the semantic analysis of the expression
         /// </summary>
         /// <param name="instance">the reference instance on which this element should analysed</param>
-        /// <paraparam name="expectation">Indicates the kind of element we are looking for</paraparam>
+        /// <param name="expectation">Indicates the kind of element we are looking for</param>
         /// <returns>True if semantic analysis should be continued</returns>
         public override bool SemanticAnalysis(INamable instance, BaseFilter expectation)
         {
@@ -152,7 +153,6 @@ namespace DataDictionary.Interpreter
         /// <summary>
         ///     Provides the type of this expression
         /// </summary>
-        /// <param name="context">The interpretation context</param>
         /// <returns></returns>
         public override Type GetExpressionType()
         {
@@ -165,7 +165,7 @@ namespace DataDictionary.Interpreter
         /// <param name="context">The context on which the value must be found</param>
         /// <param name="explain">The explanation to fill, if any</param>
         /// <returns></returns>
-        public override IValue GetValue(InterpretationContext context, ExplanationPart explain)
+        protected internal override IValue GetValue(InterpretationContext context, ExplanationPart explain)
         {
             ExplanationPart stabilizeExpressionExplanation = ExplanationPart.CreateSubExplanation(explain, this);
 
@@ -204,24 +204,24 @@ namespace DataDictionary.Interpreter
                 if (!stop && IterationsList.Exists(x => x.LiteralName == CurrentIteration.Value.LiteralName))
                 {
                     IterationsList.Add(CurrentIteration.Value);
-                    string CycleReport = "Execution cycled: ";
+                    string cycleReport = "Execution cycled: ";
 
                     bool keepvalues = false;
                     foreach (IValue value in IterationsList)
                     {
                         if (keepvalues)
                         {
-                            CycleReport += ", " + value.LiteralName;
+                            cycleReport += ", " + value.LiteralName;
                         }
                         else if (value.LiteralName == CurrentIteration.Value.LiteralName)
                         {
                             keepvalues = true;
-                            CycleReport += value.LiteralName;
+                            cycleReport += value.LiteralName;
                         }
                     }
 
                     ExplanationPart executioncycleExplanation =
-                        ExplanationPart.CreateSubExplanation(stabilizeExpressionExplanation, CycleReport);
+                        ExplanationPart.CreateSubExplanation(stabilizeExpressionExplanation, cycleReport);
 
                     return EFSSystem.EmptyValue;
                 }
@@ -244,11 +244,11 @@ namespace DataDictionary.Interpreter
         /// </summary>
         /// <param name="retVal">The list to be filled with the element matching the condition expressed in the filter</param>
         /// <param name="filter">The filter to apply</param>
-        public override void fill(List<INamable> retVal, BaseFilter filter)
+        public override void Fill(List<INamable> retVal, BaseFilter filter)
         {
-            Expression.fill(retVal, filter);
-            InitialValue.fill(retVal, filter);
-            Condition.fill(retVal, filter);
+            Expression.Fill(retVal, filter);
+            InitialValue.Fill(retVal, filter);
+            Condition.Fill(retVal, filter);
         }
 
         /// <summary>
@@ -269,16 +269,15 @@ namespace DataDictionary.Interpreter
         /// <summary>
         ///     Checks the expression and appends errors to the root tree node when inconsistencies are found
         /// </summary>
-        /// <param name="context">The interpretation context</param>
-        public override void checkExpression()
+        public override void CheckExpression()
         {
-            base.checkExpression();
+            base.CheckExpression();
 
-            InitialValue.checkExpression();
+            InitialValue.CheckExpression();
             Type initialValueType = InitialValue.GetExpressionType();
             if (initialValueType != null)
             {
-                Expression.checkExpression();
+                Expression.CheckExpression();
                 Type expressionType = Expression.GetExpressionType();
                 if (expressionType != null)
                 {
@@ -319,9 +318,9 @@ namespace DataDictionary.Interpreter
         /// <param name="parameter">The parameters of *the enclosing function* for which the graph should be created</param>
         /// <param name="explain"></param>
         /// <returns></returns>
-        public override Graph createGraph(InterpretationContext context, Parameter parameter, ExplanationPart explain)
+        public override Graph CreateGraph(InterpretationContext context, Parameter parameter, ExplanationPart explain)
         {
-            Graph retVal = base.createGraph(context, parameter, explain);
+            Graph retVal = base.CreateGraph(context, parameter, explain);
 
             retVal = Graph.createGraph(GetValue(context, explain), parameter, explain);
 

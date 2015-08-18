@@ -65,6 +65,14 @@ namespace GUI.TestRunnerView.TimeLineControl
             ToolTip.SetToolTip(DrawArea, null);
         }
 
+
+        /// <summary>
+        /// Indicates whether the timeline should display the element
+        /// </summary>
+        /// <param name="element"></param>
+        /// <returns></returns>
+        public abstract bool ShouldDisplayModelElement(IModelElement element);
+
         /// <summary>
         ///     Provides the event under the mouse pointer
         /// </summary>

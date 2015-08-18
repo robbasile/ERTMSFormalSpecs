@@ -21,6 +21,7 @@ using DataDictionary;
 using DataDictionary.Tests;
 using DataDictionary.Tests.Runner;
 using GUI.IPCInterface;
+using GUI.LongOperations;
 using GUI.Properties;
 using Utils;
 using Step = DataDictionary.Tests.Step;
@@ -356,6 +357,15 @@ namespace GUI.TestRunnerView
             {
                 testBrowserTreeView.RefreshModel(modelElement);
                 Refresh();
+            }
+
+            if (testDescriptionTimeLineControl.ShouldDisplayModelElement(modelElement))
+            {
+                testDescriptionTimeLineControl.Refresh();
+            }
+            if (testExecutionTimeLineControl.ShouldDisplayModelElement(modelElement))
+            {
+                testExecutionTimeLineControl.Refresh();
             }
 
             return retVal;

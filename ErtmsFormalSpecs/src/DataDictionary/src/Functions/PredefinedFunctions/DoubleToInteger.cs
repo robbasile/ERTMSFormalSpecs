@@ -71,7 +71,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
             int token = context.LocalScope.PushContext();
             AssignParameters(context, actuals);
 
-            DoubleValue value = context.findOnStack(Value).Value as DoubleValue;
+            DoubleValue value = context.FindOnStack(Value).Value as DoubleValue;
             if (value != null)
             {
                 int res = (int) Math.Round(value.Val);

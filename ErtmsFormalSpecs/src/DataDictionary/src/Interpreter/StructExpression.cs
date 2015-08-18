@@ -30,7 +30,7 @@ namespace DataDictionary.Interpreter
         public Expression Structure { get; private set; }
 
         /// <summary>
-        ///     The associations name <-> Expression that is used to initialize this structure
+        ///     The associations name is equivalent to Expression that is used to initialize this structure
         /// </summary>
         public Dictionary<Designator, Expression> Associations { get; private set; }
 
@@ -38,6 +38,9 @@ namespace DataDictionary.Interpreter
         ///     Constructor
         /// </summary>
         /// <param name="root"></param>
+        /// <param name="log"></param>
+        /// <param name="structure"></param>
+        /// <param name="associations"></param>
         /// <param name="start">The start character for this expression in the original string</param>
         /// <param name="end">The end character for this expression in the original string</param>
         public StructExpression(ModelElement root, ModelElement log, Expression structure,
@@ -65,7 +68,7 @@ namespace DataDictionary.Interpreter
         ///     Performs the semantic analysis of the expression
         /// </summary>
         /// <param name="instance">the reference instance on which this element should analysed</param>
-        /// <paraparam name="expectation">Indicates the kind of element we are looking for</paraparam>
+        /// <param name="expectation">Indicates the kind of element we are looking for</param>
         /// <returns>True if semantic analysis should be continued</returns>
         public override bool SemanticAnalysis(INamable instance, BaseFilter expectation)
         {
@@ -98,7 +101,6 @@ namespace DataDictionary.Interpreter
         /// <summary>
         ///     Provides the type of this expression
         /// </summary>
-        /// <param name="context">The interpretation context</param>
         /// <returns></returns>
         public override Type GetExpressionType()
         {
@@ -111,7 +113,7 @@ namespace DataDictionary.Interpreter
         /// <param name="context">The context on which the value must be found</param>
         /// <param name="explain">The explanation to fill, if any</param>
         /// <returns></returns>
-        public override IValue GetValue(InterpretationContext context, ExplanationPart explain)
+        protected internal override IValue GetValue(InterpretationContext context, ExplanationPart explain)
         {
             StructureValue retVal = null;
 
@@ -133,11 +135,11 @@ namespace DataDictionary.Interpreter
         /// </summary>
         /// <param name="retVal">The list to be filled with the element matching the condition expressed in the filter</param>
         /// <param name="filter">The filter to apply</param>
-        public override void fill(List<INamable> retVal, BaseFilter filter)
+        public override void Fill(List<INamable> retVal, BaseFilter filter)
         {
             foreach (Expression expression in Associations.Values)
             {
-                expression.fill(retVal, filter);
+                expression.Fill(retVal, filter);
             }
         }
 
@@ -164,7 +166,7 @@ namespace DataDictionary.Interpreter
         /// <summary>
         ///     Checks the expression and appends errors to the root tree node when inconsistencies are found
         /// </summary>
-        public override void checkExpression()
+        public override void CheckExpression()
         {
             Structure structureType = Structure.GetExpressionType() as Structure;
             if (structureType != null)
@@ -182,7 +184,7 @@ namespace DataDictionary.Interpreter
                     structureType.Find(name.Image, targets);
                     if (targets.Count > 0)
                     {
-                        expression.checkExpression();
+                        expression.CheckExpression();
                         Type type = expression.GetExpressionType();
                         if (type != null)
                         {

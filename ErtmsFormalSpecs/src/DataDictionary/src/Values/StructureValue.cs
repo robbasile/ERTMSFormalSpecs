@@ -116,7 +116,7 @@ namespace DataDictionary.Values
                     HashSet<string> members = new HashSet<string>();
                     foreach (KeyValuePair<Designator, Expression> pair in structureExpression.Associations)
                     {
-                        IValue val = pair.Value.GetValue(new InterpretationContext(context), explain);
+                        IValue val = pair.Value.GetExpressionValue(new InterpretationContext(context), explain);
                         if (val != null)
                         {
                             Variable var = (Variable) acceptor.getFactory().createVariable();

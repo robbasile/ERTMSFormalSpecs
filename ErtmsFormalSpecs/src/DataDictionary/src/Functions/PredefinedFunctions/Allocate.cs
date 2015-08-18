@@ -70,7 +70,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
             int token = context.LocalScope.PushContext();
             AssignParameters(context, actuals);
 
-            ListValue value = context.findOnStack(Collection) as ListValue;
+            ListValue value = context.FindOnStack(Collection) as ListValue;
             if (value != null)
             {
                 Collection collectionType = value.Type as Collection;

@@ -277,7 +277,7 @@ namespace DataDictionary.Types
                         {
                             if (Expression != null)
                             {
-                                retVal = Expression.GetValue(new InterpretationContext(this), null);
+                                retVal = Expression.GetExpressionValue(new InterpretationContext(this), null);
                                 if (retVal != null && !Type.Match(retVal.Type))
                                 {
                                     AddError("Default value type (" + retVal.Type.Name +

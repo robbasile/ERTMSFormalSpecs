@@ -250,7 +250,7 @@ namespace DataDictionary.Tests.Runner
                 if (SubSequence != null)
                 {
                     Expression expression = SubSequence.Frame.CycleDuration;
-                    IValue value = expression.GetValue(new InterpretationContext(SubSequence.Frame), null);
+                    IValue value = expression.GetExpressionValue(new InterpretationContext(SubSequence.Frame), null);
                     Step = Functions.Function.getDoubleValue(value);
                 }
 
@@ -969,7 +969,7 @@ namespace DataDictionary.Tests.Runner
             bool retVal;
 
             InterpretationContext context = new InterpretationContext(instance);
-            BoolValue val = expression.GetValue(context, explain) as BoolValue;
+            BoolValue val = expression.GetExpressionValue(context, explain) as BoolValue;
 
             if (val != null)
             {

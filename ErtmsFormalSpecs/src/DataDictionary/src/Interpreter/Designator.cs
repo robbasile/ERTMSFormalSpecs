@@ -405,7 +405,7 @@ namespace DataDictionary.Interpreter
             ReturnValue tmp = getReferences(instance, expectation, lastElement);
             if (Image != THIS && Image != ENCLOSING)
             {
-                tmp.filter(expectation);
+                tmp.Filter(expectation);
             }
             if (tmp.IsUnique)
             {

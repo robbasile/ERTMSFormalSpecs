@@ -94,7 +94,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
         {
             Graph retVal = new Graph();
 
-            StructureValue LocationStruct = context.findOnStack(Target).Value as StructureValue;
+            StructureValue LocationStruct = context.FindOnStack(Target).Value as StructureValue;
 
             SiDistance location;
             SiSpeed speed;
@@ -106,7 +106,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
                 Variable Speed = LocationStruct.Val["Speed"] as Variable;
                 speed = new SiSpeed((Speed.Value as DoubleValue).Val, SiSpeed_SubUnits.KiloMeter_per_Hour);
 
-                Function decelerationFactor = context.findOnStack(DecelerationFactor).Value as Function;
+                Function decelerationFactor = context.FindOnStack(DecelerationFactor).Value as Function;
                 if (decelerationFactor != null)
                 {
                     Surface DecelerationSurface = decelerationFactor.createSurface(context, explain);
@@ -127,7 +127,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
                             retVal.AddSegment(new Graph.Segment(0, double.MaxValue, new Graph.Segment.Curve(0, 0, 0)));
                         }
 
-                        SiSpeed finalSpeed = new SiSpeed(getDoubleValue(context.findOnStack(EndSpeed).Value), SiSpeed_SubUnits.KiloMeter_per_Hour);
+                        SiSpeed finalSpeed = new SiSpeed(getDoubleValue(context.FindOnStack(EndSpeed).Value), SiSpeed_SubUnits.KiloMeter_per_Hour);
                         for (int i = 0; i < BrakingCurve.SegmentCount; i++)
                         {
                             QuadraticCurveSegment segment = BrakingCurve[i];

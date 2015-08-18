@@ -245,7 +245,7 @@ namespace DataDictionary.Types
                         {
                             if (Expression != null)
                             {
-                                retVal = Expression.GetValue(new InterpretationContext(this), null);
+                                retVal = Expression.GetExpressionValue(new InterpretationContext(this), null);
                             }
                         }
                     }
@@ -376,7 +376,7 @@ namespace DataDictionary.Types
         /// <param name="right"></param>
         /// <returns></returns>
         public virtual IValue PerformArithmericOperation(InterpretationContext context, IValue left,
-            BinaryExpression.OPERATOR Operation, IValue right) // left +/-/*/div/exp right
+            BinaryExpression.Operator Operation, IValue right) // left +/-/*/div/exp right
         {
             IValue retVal = null;
 
@@ -405,19 +405,19 @@ namespace DataDictionary.Types
                     IGraph tmp = null;
                     switch (Operation)
                     {
-                        case BinaryExpression.OPERATOR.ADD:
+                        case BinaryExpression.Operator.Add:
                             tmp = leftFunction.Graph.AddGraph(rigthFunction.Graph);
                             break;
 
-                        case BinaryExpression.OPERATOR.SUB:
+                        case BinaryExpression.Operator.Sub:
                             tmp = leftFunction.Graph.SubstractGraph(rigthFunction.Graph);
                             break;
 
-                        case BinaryExpression.OPERATOR.MULT:
+                        case BinaryExpression.Operator.Mult:
                             tmp = leftFunction.Graph.MultGraph(rigthFunction.Graph);
                             break;
 
-                        case BinaryExpression.OPERATOR.DIV:
+                        case BinaryExpression.Operator.Div:
                             tmp = leftFunction.Graph.DivGraph(rigthFunction.Graph);
                             break;
                     }
@@ -434,19 +434,19 @@ namespace DataDictionary.Types
                     Surface tmp = null;
                     switch (Operation)
                     {
-                        case BinaryExpression.OPERATOR.ADD:
+                        case BinaryExpression.Operator.Add:
                             tmp = leftFunction.Surface.AddSurface(rightSurface);
                             break;
 
-                        case BinaryExpression.OPERATOR.SUB:
+                        case BinaryExpression.Operator.Sub:
                             tmp = leftFunction.Surface.SubstractSurface(rightSurface);
                             break;
 
-                        case BinaryExpression.OPERATOR.MULT:
+                        case BinaryExpression.Operator.Mult:
                             tmp = leftFunction.Surface.MultiplySurface(rightSurface);
                             break;
 
-                        case BinaryExpression.OPERATOR.DIV:
+                        case BinaryExpression.Operator.Div:
                             tmp = leftFunction.Surface.DivideSurface(rightSurface);
                             break;
                     }
@@ -564,11 +564,11 @@ namespace DataDictionary.Types
         /// </summary>
         /// <param name="otherType"></param>
         /// <returns></returns>
-        public virtual bool ValidBinaryOperation(BinaryExpression.OPERATOR operation, Type otherType)
+        public virtual bool ValidBinaryOperation(BinaryExpression.Operator operation, Type otherType)
         {
             bool retVal;
 
-            if (operation == BinaryExpression.OPERATOR.IN || operation == BinaryExpression.OPERATOR.NOT_IN)
+            if (operation == BinaryExpression.Operator.In || operation == BinaryExpression.Operator.NotIn)
             {
                 Collection collectionType = otherType as Collection;
                 if (collectionType != null)
@@ -625,7 +625,7 @@ namespace DataDictionary.Types
         /// </summary>
         /// <param name="right"></param>
         /// <returns></returns>
-        public virtual Type CombineType(Type right, BinaryExpression.OPERATOR Operator)
+        public virtual Type CombineType(Type right, BinaryExpression.Operator Operator)
         {
             return null;
         }
@@ -728,7 +728,7 @@ namespace DataDictionary.Types
         }
 
         public override IValue PerformArithmericOperation(InterpretationContext context, IValue left,
-            BinaryExpression.OPERATOR Operation, IValue right)
+            BinaryExpression.Operator Operation, IValue right)
         {
             throw new Exception("Cannot perform arithmetic operation between " + left.LiteralName + " and " +
                                 right.LiteralName);
@@ -774,7 +774,7 @@ namespace DataDictionary.Types
         }
 
         public override IValue PerformArithmericOperation(InterpretationContext context, IValue left,
-            BinaryExpression.OPERATOR Operation, IValue right)
+            BinaryExpression.Operator Operation, IValue right)
         {
             throw new Exception("Cannot perform arithmetic operation between " + left.LiteralName + " and " +
                                 right.LiteralName);

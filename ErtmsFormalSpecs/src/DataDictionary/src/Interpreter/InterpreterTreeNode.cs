@@ -144,7 +144,7 @@ namespace DataDictionary.Interpreter
         /// <param name="explainSubElements">Precises if we need to explain the sub elements (if any)</param>
         public abstract void GetExplain(TextualExplanation explanation, bool explainSubElements = true);
 
-        public string ToString()
+        public override string ToString()
         {
             TextualExplanation explanation = new TextualExplanation();
             GetExplain(explanation);

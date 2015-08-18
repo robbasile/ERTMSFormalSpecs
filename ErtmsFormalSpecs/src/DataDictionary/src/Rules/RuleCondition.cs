@@ -314,7 +314,7 @@ namespace DataDictionary.Rules
                 {
                     ExplanationPart subExplanation = ExplanationPart.CreateNamedSubExplanation(explanation,
                         "PreCondition ", preCondition);
-                    BoolValue value = preCondition.Expression.GetValue(context, subExplanation) as BoolValue;
+                    BoolValue value = preCondition.Expression.GetExpressionValue(context, subExplanation) as BoolValue;
                     ExplanationPart.SetNamable(subExplanation, value);
                     if (value != null)
                     {

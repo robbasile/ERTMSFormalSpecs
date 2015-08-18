@@ -147,7 +147,7 @@ namespace DataDictionary
 
                     if (retVal != null)
                     {
-                        retVal.checkExpression();
+                        retVal.CheckExpression();
                         Type type = retVal.GetExpressionType();
                         if (type == null)
                         {
@@ -1234,7 +1234,7 @@ namespace DataDictionary
                 Expression expression = cas.Expression;
                 if (expression != null)
                 {
-                    expression.checkExpression();
+                    expression.CheckExpression();
                     Type expressionType = cas.Expression.GetExpressionType();
                     if (expressionType != null && cas.EnclosingFunction != null &&
                         cas.EnclosingFunction.ReturnType != null)

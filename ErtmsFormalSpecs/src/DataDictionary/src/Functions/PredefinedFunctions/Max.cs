@@ -105,8 +105,8 @@ namespace DataDictionary.Functions.PredefinedFunctions
         {
             Graph retVal = null;
 
-            IValue firstValue = context.findOnStack(First).Value;
-            IValue secondValue = context.findOnStack(Second).Value;
+            IValue firstValue = context.FindOnStack(First).Value;
+            IValue secondValue = context.FindOnStack(Second).Value;
 
             Graph firstGraph = createGraphForValue(context, firstValue, explain, parameter);
             if (firstGraph != null)

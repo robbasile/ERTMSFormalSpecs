@@ -24,11 +24,12 @@ namespace DataDictionary.Interpreter.ListOperators
         /// <summary>
         ///     The operator for this expression
         /// </summary>
-        public static string OPERATOR = "THERE_IS";
+        public static string Operator = "THERE_IS";
 
         /// <summary>
         ///     Constructor
         /// </summary>
+        /// <param name="log"></param>
         /// <param name="listExpression"></param>
         /// <param name="condition"></param>
         /// <param name="root">the root element for which this expression should be parsed</param>
@@ -44,7 +45,6 @@ namespace DataDictionary.Interpreter.ListOperators
         /// <summary>
         ///     Provides the type of this expression
         /// </summary>
-        /// <param name="context">The interpretation context</param>
         /// <returns></returns>
         public override Type GetExpressionType()
         {
@@ -57,7 +57,7 @@ namespace DataDictionary.Interpreter.ListOperators
         /// <param name="context">The context on which the value must be found</param>
         /// <param name="explain">The explanation to fill, if any</param>
         /// <returns></returns>
-        public override IValue GetValue(InterpretationContext context, ExplanationPart explain)
+        protected internal override IValue GetValue(InterpretationContext context, ExplanationPart explain)
         {
             IValue retVal = null;
 
@@ -103,7 +103,7 @@ namespace DataDictionary.Interpreter.ListOperators
         /// <param name="explainSubElements">Precises if we need to explain the sub elements (if any)</param>
         public override void GetExplain(TextualExplanation explanation, bool explainSubElements = true)
         {
-            explanation.Write(OPERATOR);
+            explanation.Write(Operator);
             explanation.Write(" ");
             explanation.Write(IteratorVariable.Name);
             explanation.Write(" IN ");

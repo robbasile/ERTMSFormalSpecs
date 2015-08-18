@@ -297,10 +297,26 @@ namespace GUI
             GuiUtils.Graphics = CreateGraphics();
             StatusHandler = new StatusHandler();
 
-            EFSSystem.INSTANCE.Context.ValueChange += (element, cycle) => BeginInvoke((MethodInvoker) UpdateTitle);
+            EFSSystem.INSTANCE.Context.ValueChange += Context_ValueChange;
 
             FormClosing += MainWindow_FormClosing;
             KeyUp += MainWindow_KeyUp;
+        }
+
+        /// <summary>
+        /// Updates the title when value change
+        /// </summary>
+        /// <param name="modelElement"></param>
+        /// <param name="changeKind"></param>
+        void Context_ValueChange(Utils.IModelElement modelElement, Context.ChangeKind changeKind)
+        {
+            try
+            {
+                BeginInvoke((MethodInvoker) UpdateTitle);
+            }
+            catch (Exception)
+            {
+            }
         }
 
         /// <summary>

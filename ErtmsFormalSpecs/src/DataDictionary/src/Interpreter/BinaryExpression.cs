@@ -41,42 +41,42 @@ namespace DataDictionary.Interpreter
         /// <summary>
         ///     The available operators
         /// </summary>
-        public enum OPERATOR
+        public enum Operator
         {
-            EXP,
-            MULT,
-            DIV,
-            ADD,
-            SUB,
-            EQUAL,
-            NOT_EQUAL,
-            IN,
-            NOT_IN,
-            LESS,
-            LESS_OR_EQUAL,
-            GREATER,
-            GREATER_OR_EQUAL,
-            AND,
-            OR,
-            UNDEF,
-            IS,
-            AS
+            Exp,
+            Mult,
+            Div,
+            Add,
+            Sub,
+            Equal,
+            NotEqual,
+            In,
+            NotIn,
+            Less,
+            LessOrEqual,
+            Greater,
+            GreaterOrEqual,
+            And,
+            Or,
+            Undef,
+            Is,
+            As
         };
 
-        public static OPERATOR[] OperatorsLevel0 = {OPERATOR.OR};
-        public static OPERATOR[] OperatorsLevel1 = {OPERATOR.AND};
+        public static Operator[] OperatorsLevel0 = {Operator.Or};
+        public static Operator[] OperatorsLevel1 = {Operator.And};
 
-        public static OPERATOR[] OperatorsLevel2 =
+        public static Operator[] OperatorsLevel2 =
         {
-            OPERATOR.EQUAL, OPERATOR.NOT_EQUAL, OPERATOR.IN, OPERATOR.NOT_IN,
-            OPERATOR.LESS_OR_EQUAL, OPERATOR.GREATER_OR_EQUAL, OPERATOR.LESS, OPERATOR.GREATER, OPERATOR.IS, OPERATOR.AS
+            Operator.Equal, Operator.NotEqual, Operator.In, Operator.NotIn,
+            Operator.LessOrEqual, Operator.GreaterOrEqual, Operator.Less, Operator.Greater, Operator.Is, Operator.As
         };
 
-        public static OPERATOR[] OperatorsLevel3 = {OPERATOR.ADD, OPERATOR.SUB};
-        public static OPERATOR[] OperatorsLevel4 = {OPERATOR.MULT, OPERATOR.DIV};
-        public static OPERATOR[] OperatorsLevel5 = {OPERATOR.EXP};
+        public static Operator[] OperatorsLevel3 = {Operator.Add, Operator.Sub};
+        public static Operator[] OperatorsLevel4 = {Operator.Mult, Operator.Div};
+        public static Operator[] OperatorsLevel5 = {Operator.Exp};
 
-        public static OPERATOR[][] OperatorsByLevel =
+        public static Operator[][] OperatorsByLevel =
         {
             OperatorsLevel0, OperatorsLevel1, OperatorsLevel2,
             OperatorsLevel3, OperatorsLevel4, OperatorsLevel5
@@ -85,14 +85,14 @@ namespace DataDictionary.Interpreter
         /// <summary>
         ///     The available operators
         /// </summary>
-        public static OPERATOR[] Operators =
+        public static Operator[] Operators =
         {
-            OPERATOR.OR, OPERATOR.AND,
-            OPERATOR.EQUAL, OPERATOR.NOT_EQUAL, OPERATOR.IN, OPERATOR.NOT_IN, OPERATOR.LESS_OR_EQUAL,
-            OPERATOR.GREATER_OR_EQUAL, OPERATOR.LESS, OPERATOR.GREATER, OPERATOR.IS, OPERATOR.AS,
-            OPERATOR.ADD, OPERATOR.SUB,
-            OPERATOR.MULT, OPERATOR.DIV,
-            OPERATOR.EXP
+            Operator.Or, Operator.And,
+            Operator.Equal, Operator.NotEqual, Operator.In, Operator.NotIn, Operator.LessOrEqual,
+            Operator.GreaterOrEqual, Operator.Less, Operator.Greater, Operator.Is, Operator.As,
+            Operator.Add, Operator.Sub,
+            Operator.Mult, Operator.Div,
+            Operator.Exp
         };
 
         /// <summary>
@@ -105,13 +105,13 @@ namespace DataDictionary.Interpreter
             "+", "-",
             "*", "/",
             "^",
-            ".",
+            "."
         };
 
         /// <summary>
         ///     The operation for this expression
         /// </summary>
-        public OPERATOR Operation { get; private set; }
+        public Operator Operation { get; private set; }
 
         /// <summary>
         ///     The right expression of this expression
@@ -121,12 +121,14 @@ namespace DataDictionary.Interpreter
         /// <summary>
         ///     Constructor
         /// </summary>
+        /// <param name="root"></param>
+        /// <param name="log"></param>
         /// <param name="left"></param>
         /// <param name="op"></param>
         /// <param name="right"></param>
         /// <param name="start">The start character for this expression in the original string</param>
         /// <param name="end">The end character for this expression in the original string</param>
-        public BinaryExpression(ModelElement root, ModelElement log, Expression left, OPERATOR op, Expression right,
+        public BinaryExpression(ModelElement root, ModelElement log, Expression left, Operator op, Expression right,
             int start, int end)
             : base(root, log, start, end)
         {
@@ -142,7 +144,7 @@ namespace DataDictionary.Interpreter
         ///     Performs the semantic analysis of the expression
         /// </summary>
         /// <param name="instance">the reference instance on which this element should analysed</param>
-        /// <paraparam name="expectation">Indicates the kind of element we are looking for</paraparam>
+        /// <param name="expectation">Indicates the kind of element we are looking for</param>
         /// <returns>True if semantic analysis should be continued</returns>
         public override bool SemanticAnalysis(INamable instance, BaseFilter expectation)
         {
@@ -155,7 +157,7 @@ namespace DataDictionary.Interpreter
                 StaticUsage.AddUsages(Left.StaticUsage, Usage.ModeEnum.Read);
 
                 // Right
-                if (Operation == OPERATOR.IS || Operation == OPERATOR.AS)
+                if (Operation == Operator.Is || Operation == Operator.As)
                 {
                     Right.SemanticAnalysis(instance, IsType.INSTANCE);
                     StaticUsage.AddUsages(Right.StaticUsage, Usage.ModeEnum.Type);
@@ -170,16 +172,16 @@ namespace DataDictionary.Interpreter
             return retVal;
         }
 
-        private ICallable __staticCallable = null;
+        private ICallable _staticCallable;
 
-        public override ICallable getStaticCallable()
+        public override ICallable GetStaticCallable()
         {
-            if (__staticCallable == null)
+            if (_staticCallable == null)
             {
-                ICallable left = Left.getStaticCallable();
+                ICallable left = Left.GetStaticCallable();
                 if (left != null)
                 {
-                    ICallable right = Right.getStaticCallable();
+                    ICallable right = Right.GetStaticCallable();
                     if (right != null)
                     {
                         if (left.FormalParameters.Count == right.FormalParameters.Count)
@@ -218,7 +220,7 @@ namespace DataDictionary.Interpreter
                                     function.appendParameters(parameter);
                                 }
                                 function.Enclosing = Root;
-                                __staticCallable = function;
+                                _staticCallable = function;
                             }
                         }
                         else
@@ -235,7 +237,7 @@ namespace DataDictionary.Interpreter
                         Type rightType = Right.GetExpressionType();
                         if (rightType.Match(left.ReturnType))
                         {
-                            __staticCallable = left;
+                            _staticCallable = left;
                         }
                         else
                         {
@@ -246,7 +248,7 @@ namespace DataDictionary.Interpreter
                 }
                 else
                 {
-                    ICallable right = Right.getStaticCallable();
+                    ICallable right = Right.GetStaticCallable();
                     if (right != null)
                     {
                         // Right is not null, but left is. 
@@ -255,7 +257,7 @@ namespace DataDictionary.Interpreter
                         Type leftType = Left.GetExpressionType();
                         if ((leftType.Match(right.ReturnType)))
                         {
-                            __staticCallable = right;
+                            _staticCallable = right;
                         }
                         else
                         {
@@ -266,7 +268,7 @@ namespace DataDictionary.Interpreter
                 }
             }
 
-            return __staticCallable;
+            return _staticCallable;
         }
 
         /// <summary>
@@ -284,11 +286,11 @@ namespace DataDictionary.Interpreter
             }
             else
             {
-                if (Operation == OPERATOR.IS)
+                if (Operation == Operator.Is)
                 {
                     retVal = EFSSystem.INSTANCE.BoolType;
                 }
-                else if (Operation == OPERATOR.AS)
+                else if (Operation == Operator.As)
                 {
                     retVal = Right.Ref as Structure;
                 }
@@ -303,11 +305,11 @@ namespace DataDictionary.Interpreter
                     {
                         switch (Operation)
                         {
-                            case OPERATOR.EXP:
-                            case OPERATOR.MULT:
-                            case OPERATOR.DIV:
-                            case OPERATOR.ADD:
-                            case OPERATOR.SUB:
+                            case Operator.Exp:
+                            case Operator.Mult:
+                            case Operator.Div:
+                            case Operator.Add:
+                            case Operator.Sub:
                                 if (leftType.Match(rightType))
                                 {
                                     if (leftType is IntegerType || leftType is DoubleType)
@@ -326,30 +328,30 @@ namespace DataDictionary.Interpreter
 
                                 break;
 
-                            case OPERATOR.AND:
-                            case OPERATOR.OR:
+                            case Operator.And:
+                            case Operator.Or:
                                 if (leftType == EFSSystem.BoolType && rightType == EFSSystem.BoolType)
                                 {
                                     retVal = EFSSystem.BoolType;
                                 }
                                 break;
 
-                            case OPERATOR.EQUAL:
-                            case OPERATOR.NOT_EQUAL:
-                            case OPERATOR.LESS:
-                            case OPERATOR.LESS_OR_EQUAL:
-                            case OPERATOR.GREATER:
-                            case OPERATOR.GREATER_OR_EQUAL:
-                            case OPERATOR.IS:
-                            case OPERATOR.AS:
+                            case Operator.Equal:
+                            case Operator.NotEqual:
+                            case Operator.Less:
+                            case Operator.LessOrEqual:
+                            case Operator.Greater:
+                            case Operator.GreaterOrEqual:
+                            case Operator.Is:
+                            case Operator.As:
                                 if (leftType.Match(rightType) || rightType.Match(leftType))
                                 {
                                     retVal = EFSSystem.BoolType;
                                 }
                                 break;
 
-                            case OPERATOR.IN:
-                            case OPERATOR.NOT_IN:
+                            case Operator.In:
+                            case Operator.NotIn:
                                 Collection collection = rightType as Collection;
                                 if (collection != null)
                                 {
@@ -372,7 +374,7 @@ namespace DataDictionary.Interpreter
                                 }
                                 break;
 
-                            case OPERATOR.UNDEF:
+                            case Operator.Undef:
                                 break;
                         }
                     }
@@ -388,55 +390,45 @@ namespace DataDictionary.Interpreter
         /// <param name="context">The context on which the value must be found</param>
         /// <param name="explain">The explanation to fill, if any</param>
         /// <returns></returns>
-        public override IValue GetValue(InterpretationContext context, ExplanationPart explain)
+        protected internal override IValue GetValue(InterpretationContext context, ExplanationPart explain)
         {
             IValue retVal = null;
 
             ExplanationPart binaryExpressionExplanation = ExplanationPart.CreateSubExplanation(explain, this);
 
-            IValue leftValue = null;
-            IValue rightValue = null;
-            try
+            IValue leftValue = Left.GetValue(context, binaryExpressionExplanation);
+            if (leftValue != null)
             {
-                leftValue = Left.GetValue(context, binaryExpressionExplanation);
-            }
-            catch (Exception e)
-            {
-                AddErrorAndExplain("Cannot evaluate " + Left + ". Reason is " + e.Message, binaryExpressionExplanation);
-                throw new Exception("inner evaluation failed");
-            }
-
-            try
-            {
-                if (leftValue != null)
+                IValue rightValue;
+                switch (Operation)
                 {
-                    switch (Operation)
+                    case Operator.Exp:
+                    case Operator.Mult:
+                    case Operator.Add:
+                    case Operator.Sub:
+                    case Operator.Div:
                     {
-                        case OPERATOR.EXP:
-                        case OPERATOR.MULT:
-                        case OPERATOR.ADD:
-                        case OPERATOR.SUB:
-                        case OPERATOR.DIV:
+                        rightValue = Right.GetValue(context, binaryExpressionExplanation);
+                        if (rightValue != null)
                         {
-                            rightValue = Right.GetValue(context, binaryExpressionExplanation);
-                            if (rightValue != null)
-                            {
-                                retVal = leftValue.Type.PerformArithmericOperation(context, leftValue, Operation,
-                                    rightValue);
-                            }
-                            else
-                            {
-                                AddError("Error while computing value for " + Right.ToString());
-                            }
+                            retVal = leftValue.Type.PerformArithmericOperation(context, leftValue, Operation,
+                                rightValue);
                         }
-                            break;
-
-                        case OPERATOR.AND:
+                        else
                         {
-                            if (leftValue.Type == EFSSystem.BoolType)
-                            {
-                                BoolValue lb = leftValue as BoolValue;
+                            AddError("Error while computing value for " + Right.ToString());
+                        }
+                    }
+                        break;
 
+                    case Operator.And:
+                    {
+                        if (leftValue.Type == EFSSystem.BoolType)
+                        {
+                            BoolValue lb = leftValue as BoolValue;
+
+                            if (lb != null)
+                            {
                                 if (lb.Val)
                                 {
                                     rightValue = Right.GetValue(context, binaryExpressionExplanation);
@@ -466,18 +458,25 @@ namespace DataDictionary.Interpreter
                             }
                             else
                             {
-                                AddError("Cannot apply an operator " + Operation.ToString() + " on a variable of type " +
-                                         leftValue.GetType());
+                                AddError("Cannot evaluate " + Left + " as a boolean");
                             }
                         }
-                            break;
-
-                        case OPERATOR.OR:
+                        else
                         {
-                            if (leftValue.Type == EFSSystem.BoolType)
-                            {
-                                BoolValue lb = leftValue as BoolValue;
+                            AddError("Cannot apply an operator " + Operation + " on a variable of type " +
+                                     leftValue.GetType());
+                        }
+                    }
+                        break;
 
+                    case Operator.Or:
+                    {
+                        if (leftValue.Type == EFSSystem.BoolType)
+                        {
+                            BoolValue lb = leftValue as BoolValue;
+
+                            if (lb != null)
+                            {
                                 if (!lb.Val)
                                 {
                                     rightValue = Right.GetValue(context, binaryExpressionExplanation);
@@ -507,201 +506,196 @@ namespace DataDictionary.Interpreter
                             }
                             else
                             {
-                                AddError("Cannot apply an operator " + Operation.ToString() + " on a variable of type " +
-                                         leftValue.GetType());
+                                AddError("Cannot evaluate " + Left + " as a boolean");
                             }
                         }
-                            break;
-
-                        case OPERATOR.LESS:
+                        else
                         {
-                            rightValue = Right.GetValue(context, binaryExpressionExplanation);
-                            if (rightValue != null)
-                            {
-                                retVal = EFSSystem.GetBoolean(leftValue.Type.Less(leftValue, rightValue));
-                            }
-                            else
-                            {
-                                AddError("Error while computing value for " + Right.ToString());
-                            }
+                            AddError("Cannot apply an operator " + Operation.ToString() + " on a variable of type " +
+                                     leftValue.GetType());
                         }
-                            break;
+                    }
+                        break;
 
-                        case OPERATOR.LESS_OR_EQUAL:
+                    case Operator.Less:
+                    {
+                        rightValue = Right.GetValue(context, binaryExpressionExplanation);
+                        if (rightValue != null)
                         {
-                            rightValue = Right.GetValue(context, binaryExpressionExplanation);
-                            if (rightValue != null)
-                            {
-                                retVal =
-                                    EFSSystem.GetBoolean(leftValue.Type.CompareForEquality(leftValue, rightValue) ||
-                                                         leftValue.Type.Less(leftValue, rightValue));
-                            }
-                            else
-                            {
-                                AddError("Error while computing value for " + Right.ToString());
-                            }
+                            retVal = EFSSystem.GetBoolean(leftValue.Type.Less(leftValue, rightValue));
                         }
-                            break;
-
-                        case OPERATOR.GREATER:
+                        else
                         {
-                            rightValue = Right.GetValue(context, binaryExpressionExplanation);
-                            if (rightValue != null)
-                            {
-                                retVal = EFSSystem.GetBoolean(leftValue.Type.Greater(leftValue, rightValue));
-                            }
-                            else
-                            {
-                                AddError("Error while computing value for " + Right.ToString());
-                            }
+                            AddError("Error while computing value for " + Right.ToString());
                         }
-                            break;
+                    }
+                        break;
 
-                        case OPERATOR.GREATER_OR_EQUAL:
+                    case Operator.LessOrEqual:
+                    {
+                        rightValue = Right.GetValue(context, binaryExpressionExplanation);
+                        if (rightValue != null)
                         {
-                            rightValue = Right.GetValue(context, binaryExpressionExplanation);
-                            if (rightValue != null)
-                            {
-                                retVal =
-                                    EFSSystem.GetBoolean(leftValue.Type.CompareForEquality(leftValue, rightValue) ||
-                                                         leftValue.Type.Greater(leftValue, rightValue));
-                            }
-                            else
-                            {
-                                AddError("Error while computing value for " + Right.ToString());
-                            }
+                            retVal =
+                                EFSSystem.GetBoolean(leftValue.Type.CompareForEquality(leftValue, rightValue) ||
+                                                     leftValue.Type.Less(leftValue, rightValue));
                         }
-                            break;
-
-                        case OPERATOR.EQUAL:
+                        else
                         {
-                            rightValue = Right.GetValue(context, binaryExpressionExplanation);
-                            if (rightValue != null)
-                            {
-                                retVal = EFSSystem.GetBoolean(leftValue.Type.CompareForEquality(leftValue, rightValue));
-                            }
-                            else
-                            {
-                                AddError("Error while computing value for " + Right.ToString());
-                            }
+                            AddError("Error while computing value for " + Right.ToString());
                         }
-                            break;
+                    }
+                        break;
 
-                        case OPERATOR.NOT_EQUAL:
+                    case Operator.Greater:
+                    {
+                        rightValue = Right.GetValue(context, binaryExpressionExplanation);
+                        if (rightValue != null)
                         {
-                            rightValue = Right.GetValue(context, binaryExpressionExplanation);
-                            if (rightValue != null)
-                            {
-                                retVal = EFSSystem.GetBoolean(!leftValue.Type.CompareForEquality(leftValue, rightValue));
-                            }
-                            else
-                            {
-                                AddError("Error while computing value for " + Right.ToString());
-                            }
+                            retVal = EFSSystem.GetBoolean(leftValue.Type.Greater(leftValue, rightValue));
                         }
-                            break;
-
-                        case OPERATOR.IN:
+                        else
                         {
-                            rightValue = Right.GetValue(context, binaryExpressionExplanation);
-                            if (rightValue != null)
-                            {
-                                retVal = EFSSystem.GetBoolean(rightValue.Type.Contains(rightValue, leftValue));
-                            }
-                            else
-                            {
-                                AddError("Error while computing value for " + Right.ToString());
-                            }
+                            AddError("Error while computing value for " + Right.ToString());
                         }
-                            break;
+                    }
+                        break;
 
-                        case OPERATOR.NOT_IN:
+                    case Operator.GreaterOrEqual:
+                    {
+                        rightValue = Right.GetValue(context, binaryExpressionExplanation);
+                        if (rightValue != null)
                         {
-                            rightValue = Right.GetValue(context, binaryExpressionExplanation);
-                            if (rightValue != null)
-                            {
-                                retVal = EFSSystem.GetBoolean(!rightValue.Type.Contains(rightValue, leftValue));
-                            }
-                            else
-                            {
-                                AddError("Error while computing value for " + Right.ToString());
-                            }
+                            retVal =
+                                EFSSystem.GetBoolean(leftValue.Type.CompareForEquality(leftValue, rightValue) ||
+                                                     leftValue.Type.Greater(leftValue, rightValue));
                         }
-                            break;
-
-                        case OPERATOR.IS:
+                        else
                         {
-                            leftValue = Left.GetValue(context, binaryExpressionExplanation);
-                            retVal = EFSSystem.GetBoolean(false);
-                            if (leftValue != null)
+                            AddError("Error while computing value for " + Right.ToString());
+                        }
+                    }
+                        break;
+
+                    case Operator.Equal:
+                    {
+                        rightValue = Right.GetValue(context, binaryExpressionExplanation);
+                        if (rightValue != null)
+                        {
+                            retVal = EFSSystem.GetBoolean(leftValue.Type.CompareForEquality(leftValue, rightValue));
+                        }
+                        else
+                        {
+                            AddError("Error while computing value for " + Right.ToString());
+                        }
+                    }
+                        break;
+
+                    case Operator.NotEqual:
+                    {
+                        rightValue = Right.GetValue(context, binaryExpressionExplanation);
+                        if (rightValue != null)
+                        {
+                            retVal = EFSSystem.GetBoolean(!leftValue.Type.CompareForEquality(leftValue, rightValue));
+                        }
+                        else
+                        {
+                            AddError("Error while computing value for " + Right.ToString());
+                        }
+                    }
+                        break;
+
+                    case Operator.In:
+                    {
+                        rightValue = Right.GetValue(context, binaryExpressionExplanation);
+                        if (rightValue != null)
+                        {
+                            retVal = EFSSystem.GetBoolean(rightValue.Type.Contains(rightValue, leftValue));
+                        }
+                        else
+                        {
+                            AddError("Error while computing value for " + Right.ToString());
+                        }
+                    }
+                        break;
+
+                    case Operator.NotIn:
+                    {
+                        rightValue = Right.GetValue(context, binaryExpressionExplanation);
+                        if (rightValue != null)
+                        {
+                            retVal = EFSSystem.GetBoolean(!rightValue.Type.Contains(rightValue, leftValue));
+                        }
+                        else
+                        {
+                            AddError("Error while computing value for " + Right.ToString());
+                        }
+                    }
+                        break;
+
+                    case Operator.Is:
+                    {
+                        leftValue = Left.GetValue(context, binaryExpressionExplanation);
+                        retVal = EFSSystem.GetBoolean(false);
+                        if (leftValue != null)
+                        {
+                            Structure rightStructure = Right.Ref as Structure;
+                            if (rightStructure != null)
                             {
-                                Structure rightStructure = Right.Ref as Structure;
-                                if (rightStructure != null)
+                                if (leftValue.Type is Structure)
                                 {
-                                    if (leftValue.Type is Structure)
+                                    Structure leftStructure = leftValue.Type as Structure;
+                                    if (rightStructure.ImplementedStructures.Contains(leftStructure))
                                     {
-                                        Structure leftStructure = leftValue.Type as Structure;
-                                        if (rightStructure.ImplementedStructures.Contains(leftStructure))
-                                        {
-                                            retVal = EFSSystem.GetBoolean(true);
-                                        }
-                                        else
-                                        {
-                                            AddError("Incompatible types for operator is");
-                                        }
+                                        retVal = EFSSystem.GetBoolean(true);
                                     }
                                     else
                                     {
-                                        AddError("The operator is can only be applied on structures");
+                                        AddError("Incompatible types for operator is");
                                     }
                                 }
                                 else
                                 {
-                                    AddError("The right part of is operator should be a structure");
+                                    AddError("The operator is can only be applied on structures");
                                 }
                             }
                             else
                             {
-                                AddError("Error while computing value for " + Left.ToString());
+                                AddError("The right part of is operator should be a structure");
                             }
                         }
-                            break;
-
-                        case OPERATOR.AS:
+                        else
                         {
-                            leftValue = Left.GetValue(context, binaryExpressionExplanation);
-                            if (leftValue != null)
+                            AddError("Error while computing value for " + Left.ToString());
+                        }
+                    }
+                        break;
+
+                    case Operator.As:
+                    {
+                        leftValue = Left.GetValue(context, binaryExpressionExplanation);
+                        if (leftValue != null)
+                        {
+                            if (leftValue.Type == Right.GetExpressionType())
                             {
-                                if (leftValue.Type == Right.GetExpressionType())
-                                {
-                                    retVal = leftValue;
-                                }
-                                else
-                                {
-                                    AddError("Incompatible types for operator as");
-                                }
+                                retVal = leftValue;
                             }
                             else
                             {
-                                AddError("Error while computing value for " + Left.ToString());
+                                AddError("Incompatible types for operator as");
                             }
                         }
-                            break;
+                        else
+                        {
+                            AddError("Error while computing value for " + Left.ToString());
+                        }
                     }
-                }
-                else
-                {
-                    AddError("Error while computing value for " + Left.ToString());
+                        break;
                 }
             }
-            catch (Exception e)
+            else
             {
-                AddErrorAndExplain("Cannot evaluate " + Right + ". Reason is " + e.Message, binaryExpressionExplanation);
-                throw new Exception("inner evaluation failed");
-            }
-            finally
-            {
-                ExplanationPart.SetNamable(binaryExpressionExplanation, retVal);
+                AddError("Error while computing value for " + Left.ToString());
             }
 
             return retVal;
@@ -721,7 +715,7 @@ namespace DataDictionary.Interpreter
             {
                 foreach (Parameter formal in function.FormalParameters)
                 {
-                    IVariable actual = context.findOnStack(formal);
+                    IVariable actual = context.FindOnStack(formal);
                     if (actual != null)
                     {
                         PlaceHolder placeHolder = actual.Value as PlaceHolder;
@@ -768,11 +762,11 @@ namespace DataDictionary.Interpreter
         /// <param name="context"></param>
         /// <param name="explain"></param>
         /// <returns></returns>
-        public override ICallable getCalled(InterpretationContext context, ExplanationPart explain)
+        public override ICallable GetCalled(InterpretationContext context, ExplanationPart explain)
         {
             ICallable retVal = null;
 
-            Function leftFunction = Left.getCalled(context, explain) as Function;
+            Function leftFunction = Left.GetCalled(context, explain) as Function;
             List<Parameter> unboundLeft = getUnboundParameter(context, leftFunction);
             if (leftFunction == null || unboundLeft.Count == 0)
             {
@@ -780,7 +774,7 @@ namespace DataDictionary.Interpreter
                 unboundLeft = getUnboundParametersFromValue(leftFunction);
             }
 
-            Function rightFunction = Right.getCalled(context, explain) as Function;
+            Function rightFunction = Right.GetCalled(context, explain) as Function;
             List<Parameter> unboundRight = getUnboundParameter(context, rightFunction);
             if (rightFunction == null || unboundRight.Count == 0)
             {
@@ -801,12 +795,14 @@ namespace DataDictionary.Interpreter
                     {
                         if (rightFunction.FormalParameters.Count == 1)
                         {
-                            retVal = createGraphResult(context, leftFunction, unboundLeft, rightFunction, unboundRight,
+                            // ReSharper disable once ExpressionIsAlwaysNull
+                            retVal = CreateGraphResult(context, leftFunction, unboundLeft, rightFunction, unboundRight,
                                 explain);
                         }
                         else if (rightFunction.FormalParameters.Count == 2)
                         {
-                            retVal = createSurfaceResult(context, leftFunction, unboundLeft, rightFunction, unboundRight,
+                            // ReSharper disable once ExpressionIsAlwaysNull
+                            retVal = CreateSurfaceResult(context, leftFunction, unboundLeft, rightFunction, unboundRight,
                                 explain);
                         }
                         else
@@ -819,12 +815,14 @@ namespace DataDictionary.Interpreter
                 {
                     if (leftFunction.FormalParameters.Count == 1)
                     {
-                        retVal = createGraphResult(context, leftFunction, unboundLeft, rightFunction, unboundRight,
+                        // ReSharper disable once ExpressionIsAlwaysNull
+                        retVal = CreateGraphResult(context, leftFunction, unboundLeft, rightFunction, unboundRight,
                             explain);
                     }
                     else if (leftFunction.FormalParameters.Count == 2)
                     {
-                        retVal = createSurfaceResult(context, leftFunction, unboundLeft, rightFunction, unboundRight,
+                        // ReSharper disable once ExpressionIsAlwaysNull
+                        retVal = CreateSurfaceResult(context, leftFunction, unboundLeft, rightFunction, unboundRight,
                             explain);
                     }
                     else
@@ -844,11 +842,11 @@ namespace DataDictionary.Interpreter
             }
             else if (max == 1)
             {
-                retVal = createGraphResult(context, leftFunction, unboundLeft, rightFunction, unboundRight, explain);
+                retVal = CreateGraphResult(context, leftFunction, unboundLeft, rightFunction, unboundRight, explain);
             }
             else if (max == 2)
             {
-                retVal = createSurfaceResult(context, leftFunction, unboundLeft, rightFunction, unboundRight, explain);
+                retVal = CreateSurfaceResult(context, leftFunction, unboundLeft, rightFunction, unboundRight, explain);
             }
             else
             {
@@ -868,7 +866,7 @@ namespace DataDictionary.Interpreter
         /// <param name="unboundRight"></param>
         /// <param name="explain"></param>
         /// <returns></returns>
-        private ICallable createGraphResult(InterpretationContext context, Function leftFunction,
+        private ICallable CreateGraphResult(InterpretationContext context, Function leftFunction,
             List<Parameter> unboundLeft, Function rightFunction, List<Parameter> unboundRight, ExplanationPart explain)
         {
             ICallable retVal = null;
@@ -909,18 +907,18 @@ namespace DataDictionary.Interpreter
         /// <param name="unboundRight"></param>
         /// <param name="explain"></param>
         /// <returns></returns>
-        private ICallable createSurfaceResult(InterpretationContext context, Function leftFunction,
+        private ICallable CreateSurfaceResult(InterpretationContext context, Function leftFunction,
             List<Parameter> unboundLeft, Function rightFunction, List<Parameter> unboundRight, ExplanationPart explain)
         {
             ICallable retVal = null;
 
-            Surface leftSurface = createSurfaceForUnbound(context, Left, leftFunction, unboundLeft, explain);
+            Surface leftSurface = CreateSurfaceForUnbound(context, Left, leftFunction, unboundLeft, explain);
             if (leftSurface != null)
             {
-                Surface rightSurface = createSurfaceForUnbound(context, Right, rightFunction, unboundRight, explain);
+                Surface rightSurface = CreateSurfaceForUnbound(context, Right, rightFunction, unboundRight, explain);
                 if (rightSurface != null)
                 {
-                    retVal = combineSurface(leftSurface, rightSurface).Function;
+                    retVal = CombineSurface(leftSurface, rightSurface).Function;
                 }
                 else
                 {
@@ -947,7 +945,7 @@ namespace DataDictionary.Interpreter
         private Graph createGraphForUnbound(InterpretationContext context, Expression expression, Function function,
             List<Parameter> unbound, ExplanationPart explain)
         {
-            Graph retVal = null;
+            Graph retVal;
 
             if (unbound.Count == 0)
             {
@@ -964,7 +962,7 @@ namespace DataDictionary.Interpreter
             {
                 if (function == null)
                 {
-                    retVal = expression.createGraph(context, unbound[0], explain);
+                    retVal = expression.CreateGraph(context, unbound[0], explain);
                 }
                 else
                 {
@@ -984,10 +982,10 @@ namespace DataDictionary.Interpreter
         /// <param name="unbound"></param>
         /// <param name="explain"></param>
         /// <returns></returns>
-        private Surface createSurfaceForUnbound(InterpretationContext context, Expression expression, Function function,
+        private Surface CreateSurfaceForUnbound(InterpretationContext context, Expression expression, Function function,
             List<Parameter> unbound, ExplanationPart explain)
         {
-            Surface retVal = null;
+            Surface retVal;
 
             if (unbound.Count == 0)
             {
@@ -1020,7 +1018,7 @@ namespace DataDictionary.Interpreter
             {
                 if (function == null)
                 {
-                    retVal = expression.createSurface(context, unbound[0], unbound[1], explain);
+                    retVal = expression.CreateSurface(context, unbound[0], unbound[1], explain);
                 }
                 else
                 {
@@ -1043,19 +1041,19 @@ namespace DataDictionary.Interpreter
 
             switch (Operation)
             {
-                case OPERATOR.ADD:
+                case Operator.Add:
                     retVal = leftGraph.AddGraph(rightGraph);
                     break;
 
-                case OPERATOR.SUB:
+                case Operator.Sub:
                     retVal = leftGraph.SubstractGraph(rightGraph);
                     break;
 
-                case OPERATOR.MULT:
+                case Operator.Mult:
                     retVal = leftGraph.MultGraph(rightGraph);
                     break;
 
-                case OPERATOR.DIV:
+                case Operator.Div:
                     retVal = leftGraph.DivGraph(rightGraph);
                     break;
             }
@@ -1069,25 +1067,25 @@ namespace DataDictionary.Interpreter
         /// <param name="leftSurface"></param>
         /// <param name="rightSurface"></param>
         /// <returns></returns>
-        private Surface combineSurface(Surface leftSurface, Surface rightSurface)
+        private Surface CombineSurface(Surface leftSurface, Surface rightSurface)
         {
             Surface retVal = null;
 
             switch (Operation)
             {
-                case OPERATOR.ADD:
+                case Operator.Add:
                     retVal = leftSurface.AddSurface(rightSurface);
                     break;
 
-                case OPERATOR.SUB:
+                case Operator.Sub:
                     retVal = leftSurface.SubstractSurface(rightSurface);
                     break;
 
-                case OPERATOR.MULT:
+                case Operator.Mult:
                     retVal = leftSurface.MultiplySurface(rightSurface);
                     break;
 
-                case OPERATOR.DIV:
+                case Operator.Div:
                     retVal = leftSurface.DivideSurface(rightSurface);
                     break;
             }
@@ -1100,10 +1098,10 @@ namespace DataDictionary.Interpreter
         /// </summary>
         /// <param name="retVal">The list to be filled with the element matching the condition expressed in the filter</param>
         /// <param name="filter">The filter to apply</param>
-        public override void fill(List<INamable> retVal, BaseFilter filter)
+        public override void Fill(List<INamable> retVal, BaseFilter filter)
         {
-            Left.fill(retVal, filter);
-            Right.fill(retVal, filter);
+            Left.Fill(retVal, filter);
+            Right.Fill(retVal, filter);
         }
 
         /// <summary>
@@ -1114,7 +1112,7 @@ namespace DataDictionary.Interpreter
         {
             bool retVal = false;
 
-            if (Operation == OPERATOR.EQUAL)
+            if (Operation == Operator.Equal)
             {
                 retVal = IsLeftSide.INSTANCE.AcceptableChoice(Left.Ref) && IsLiteral.Predicate(Right.Ref);
             }
@@ -1139,7 +1137,7 @@ namespace DataDictionary.Interpreter
         /// </summary>
         /// <param name="op"></param>
         /// <returns></returns>
-        public static string Image(OPERATOR op)
+        public static string Image(Operator op)
         {
             string retVal = null;
 
@@ -1158,9 +1156,9 @@ namespace DataDictionary.Interpreter
         /// <summary>
         ///     Provides the image of a given operator
         /// </summary>
-        /// <param name="op"></param>
+        /// <param name="ops"></param>
         /// <returns></returns>
-        public static string[] Images(OPERATOR[] ops)
+        public static string[] Images(Operator[] ops)
         {
             string[] retVal = new string[ops.Length];
 
@@ -1177,9 +1175,9 @@ namespace DataDictionary.Interpreter
         /// </summary>
         /// <param name="op"></param>
         /// <returns></returns>
-        public static OPERATOR FindOperatorByName(string op)
+        public static Operator FindOperatorByName(string op)
         {
-            OPERATOR retVal = OPERATOR.UNDEF;
+            Operator retVal = Operator.Undef;
 
             for (int i = 0; i < Operators.Length; i++)
             {
@@ -1196,18 +1194,17 @@ namespace DataDictionary.Interpreter
         /// <summary>
         ///     Checks the expression and appends errors to the root tree node when inconsistencies are found
         /// </summary>
-        /// <param name="context">The interpretation context</param>
-        public override void checkExpression()
+        public override void CheckExpression()
         {
-            base.checkExpression();
+            base.CheckExpression();
 
-            Left.checkExpression();
-            Right.checkExpression();
+            Left.CheckExpression();
+            Right.CheckExpression();
 
             Type leftType = Left.GetExpressionType();
             if (leftType != null)
             {
-                if (Operation == OPERATOR.IS || (Operation == OPERATOR.AS))
+                if (Operation == Operator.Is || (Operation == Operator.As))
                 {
                     Structure leftStructure = leftType as Structure;
                     if (leftStructure != null)
@@ -1244,7 +1241,7 @@ namespace DataDictionary.Interpreter
                                      ") and " + Right + "(" + rightType.Name + ")");
                         }
 
-                        if (Operation == OPERATOR.EQUAL)
+                        if (Operation == Operator.Equal)
                         {
                             if (leftType is StateMachine && rightType is StateMachine)
                             {
@@ -1272,14 +1269,14 @@ namespace DataDictionary.Interpreter
         /// <param name="parameter">The parameters of *the enclosing function* for which the graph should be created</param>
         /// <param name="explain"></param>
         /// <returns></returns>
-        public override Graph createGraph(InterpretationContext context, Parameter parameter, ExplanationPart explain)
+        public override Graph CreateGraph(InterpretationContext context, Parameter parameter, ExplanationPart explain)
         {
-            Graph retVal = base.createGraph(context, parameter, explain);
+            Graph retVal = base.CreateGraph(context, parameter, explain);
 
-            Graph leftGraph = Left.createGraph(context, parameter, explain);
+            Graph leftGraph = Left.CreateGraph(context, parameter, explain);
             if (leftGraph != null)
             {
-                Graph rightGraph = Right.createGraph(context, parameter, explain);
+                Graph rightGraph = Right.CreateGraph(context, parameter, explain);
 
                 if (rightGraph != null)
                 {
@@ -1298,19 +1295,19 @@ namespace DataDictionary.Interpreter
         /// <param name="yParam">The Y axis of this surface</param>
         /// <param name="explain"></param>
         /// <returns>The surface which corresponds to this expression</returns>
-        public override Surface createSurface(InterpretationContext context, Parameter xParam, Parameter yParam,
+        public override Surface CreateSurface(InterpretationContext context, Parameter xParam, Parameter yParam,
             ExplanationPart explain)
         {
-            Surface retVal = base.createSurface(context, xParam, yParam, explain);
+            Surface retVal = base.CreateSurface(context, xParam, yParam, explain);
 
-            Surface leftSurface = Left.createSurface(context, xParam, yParam, explain);
+            Surface leftSurface = Left.CreateSurface(context, xParam, yParam, explain);
             if (leftSurface != null)
             {
-                Surface rightSurface = Right.createSurface(context, xParam, yParam, explain);
+                Surface rightSurface = Right.CreateSurface(context, xParam, yParam, explain);
 
                 if (rightSurface != null)
                 {
-                    retVal = combineSurface(leftSurface, rightSurface);
+                    retVal = CombineSurface(leftSurface, rightSurface);
                 }
             }
             retVal.XParameter = xParam;
@@ -1324,26 +1321,26 @@ namespace DataDictionary.Interpreter
         /// </summary>
         /// <param name="Operator"></param>
         /// <returns></returns>
-        public static OPERATOR Inverse(OPERATOR Operator)
+        public static Operator Inverse(Operator Operator)
         {
-            OPERATOR retVal = Operator;
+            Operator retVal;
 
             switch (Operator)
             {
-                case OPERATOR.GREATER:
-                    retVal = OPERATOR.LESS_OR_EQUAL;
+                case Operator.Greater:
+                    retVal = Operator.LessOrEqual;
                     break;
 
-                case OPERATOR.GREATER_OR_EQUAL:
-                    retVal = OPERATOR.LESS;
+                case Operator.GreaterOrEqual:
+                    retVal = Operator.Less;
                     break;
 
-                case OPERATOR.LESS:
-                    retVal = OPERATOR.GREATER_OR_EQUAL;
+                case Operator.Less:
+                    retVal = Operator.GreaterOrEqual;
                     break;
 
-                case OPERATOR.LESS_OR_EQUAL:
-                    retVal = OPERATOR.GREATER;
+                case Operator.LessOrEqual:
+                    retVal = Operator.Greater;
                     break;
 
                 default:

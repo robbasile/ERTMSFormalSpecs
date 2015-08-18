@@ -152,7 +152,7 @@ namespace DataDictionary.Interpreter.Statement
         /// </summary>
         public override void CheckStatement()
         {
-            VariableIdentification.checkExpression();
+            VariableIdentification.CheckExpression();
             if (VariableIdentification.Ref is Parameter)
             {
                 Root.AddError("Cannot assign a value to a parameter (" + VariableIdentification.ToString() + ")");
@@ -170,7 +170,7 @@ namespace DataDictionary.Interpreter.Statement
             }
             else if (Expression != null)
             {
-                Expression.checkExpression();
+                Expression.CheckExpression();
 
                 Type type = Expression.GetExpressionType();
                 if (type != null)
@@ -249,7 +249,7 @@ namespace DataDictionary.Interpreter.Statement
             if (var != null)
             {
                 string tmp = var.FullName;
-                IValue value = Expression.GetValue(context, explanation);
+                IValue value = Expression.GetExpressionValue(context, explanation);
                 if (value != null)
                 {
                     value = value.RightSide(var, true, true);

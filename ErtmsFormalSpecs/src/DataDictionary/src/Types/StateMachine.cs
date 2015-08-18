@@ -371,7 +371,7 @@ namespace DataDictionary.Types
                 Call call = expression as Call;
                 if (call != null)
                 {
-                    Function function = call.Called.getStaticCallable() as Function;
+                    Function function = call.Called.GetStaticCallable() as Function;
                     if (function != null)
                     {
                         foreach (IValue value in function.GetLiterals())

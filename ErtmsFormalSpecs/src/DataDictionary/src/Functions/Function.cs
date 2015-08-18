@@ -122,7 +122,7 @@ namespace DataDictionary.Functions
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public Parameter getFormalParameter(string name)
+        public Parameter GetFormalParameter(string name)
         {
             Parameter retVal = null;
 
@@ -208,7 +208,7 @@ namespace DataDictionary.Functions
         /// </summary>
         /// <param name="root">The element on which the errors should be reported</param>
         /// <param name="actualParameters">The parameters applied to this function call</param>
-        public void additionalChecks(ModelElement root, Dictionary<string, Expression> actualParameters)
+        public void AdditionalChecks(ModelElement root, Dictionary<string, Expression> actualParameters)
         {
         }
 
@@ -217,7 +217,7 @@ namespace DataDictionary.Functions
         /// </summary>
         /// <param name="otherType"></param>
         /// <returns></returns>
-        public override bool ValidBinaryOperation(BinaryExpression.OPERATOR operation, Type otherType)
+        public override bool ValidBinaryOperation(BinaryExpression.Operator operation, Type otherType)
         {
             bool retVal = false;
 
@@ -275,7 +275,7 @@ namespace DataDictionary.Functions
                             IValue actualValue = null;
                             if (parameter != null)
                             {
-                                IVariable actual = ctxt.findOnStack(parameter);
+                                IVariable actual = ctxt.FindOnStack(parameter);
                                 if (actual != null)
                                 {
                                     actualValue = actual.Value;
@@ -332,7 +332,7 @@ namespace DataDictionary.Functions
                 {
                     if (PreconditionSatisfied(context, cas, parameter, explain))
                     {
-                        Graph subGraph = cas.Expression.createGraph(context, parameter, explain);
+                        Graph subGraph = cas.Expression.CreateGraph(context, parameter, explain);
                         ReduceGraph(context, subGraph, cas, parameter, explain);
                         retVal.Merge(subGraph);
                     }
@@ -348,7 +348,7 @@ namespace DataDictionary.Functions
         /// <param name="right"></param>
         /// <param name="Operator"></param>
         /// <returns></returns>
-        public override Type CombineType(Type right, BinaryExpression.OPERATOR Operator)
+        public override Type CombineType(Type right, BinaryExpression.Operator Operator)
         {
             Type retVal = null;
 
@@ -493,14 +493,14 @@ namespace DataDictionary.Functions
                         val = expression.Left.GetValue(context, explain);
                         switch (expression.Operation)
                         {
-                            case BinaryExpression.OPERATOR.LESS:
-                            case BinaryExpression.OPERATOR.LESS_OR_EQUAL:
+                            case BinaryExpression.Operator.Less:
+                            case BinaryExpression.Operator.LessOrEqual:
                                 retVal.Add(new Graph.Segment(getDoubleValue(val), double.MaxValue,
                                     new Graph.Segment.Curve()));
                                 break;
 
-                            case BinaryExpression.OPERATOR.GREATER:
-                            case BinaryExpression.OPERATOR.GREATER_OR_EQUAL:
+                            case BinaryExpression.Operator.Greater:
+                            case BinaryExpression.Operator.GreaterOrEqual:
                                 retVal.Add(new Graph.Segment(0, getDoubleValue(val), new Graph.Segment.Curve()));
                                 break;
 
@@ -516,13 +516,13 @@ namespace DataDictionary.Functions
                             val = expression.Right.GetValue(context, explain);
                             switch (expression.Operation)
                             {
-                                case BinaryExpression.OPERATOR.LESS:
-                                case BinaryExpression.OPERATOR.LESS_OR_EQUAL:
+                                case BinaryExpression.Operator.Less:
+                                case BinaryExpression.Operator.LessOrEqual:
                                     retVal.Add(new Graph.Segment(0, getDoubleValue(val), new Graph.Segment.Curve()));
                                     break;
 
-                                case BinaryExpression.OPERATOR.GREATER:
-                                case BinaryExpression.OPERATOR.GREATER_OR_EQUAL:
+                                case BinaryExpression.Operator.Greater:
+                                case BinaryExpression.Operator.GreaterOrEqual:
                                     retVal.Add(new Graph.Segment(getDoubleValue(val), double.MaxValue,
                                         new Graph.Segment.Curve()));
                                     break;
@@ -535,7 +535,7 @@ namespace DataDictionary.Functions
                         {
                             if (FunctionCallOnParameter(expression.Right, parameter))
                             {
-                                Graph graph = expression.Right.createGraph(context, parameter, explain);
+                                Graph graph = expression.Right.CreateGraph(context, parameter, explain);
                                 if (graph != null)
                                 {
                                     // Expression like xxx <= f(Parameter)
@@ -550,7 +550,7 @@ namespace DataDictionary.Functions
                             }
                             else
                             {
-                                Graph graph = expression.Left.createGraph(context, parameter, explain);
+                                Graph graph = expression.Left.CreateGraph(context, parameter, explain);
                                 if (graph != null)
                                 {
                                     // Expression like f(Parameter) <= xxx
@@ -602,7 +602,7 @@ namespace DataDictionary.Functions
                     Parameter parameter = element as Parameter;
                     if (parameter != null)
                     {
-                        IVariable variable = context.findOnStack(parameter);
+                        IVariable variable = context.FindOnStack(parameter);
                         if (variable != null)
                         {
                             PlaceHolder placeHolder = variable.Value as PlaceHolder;
@@ -754,7 +754,7 @@ namespace DataDictionary.Functions
                             {
                                 if (PreconditionSatisfied(context, cas, Xparameter, Yparameter, explain))
                                 {
-                                    Surface surface = cas.Expression.createSurface(context, Xparameter, Yparameter,
+                                    Surface surface = cas.Expression.CreateSurface(context, Xparameter, Yparameter,
                                         explain);
                                     if (surface != null)
                                     {
@@ -1440,7 +1440,7 @@ namespace DataDictionary.Functions
             // In addition to indicating the function's update information, we need to create links for each parameter
             foreach (Parameter parameter in retVal.FormalParameters)
             {
-                Parameter matchingParameter = getFormalParameter(parameter.Name);
+                Parameter matchingParameter = GetFormalParameter(parameter.Name);
                 parameter.setUpdates(matchingParameter.Guid);
             }
 

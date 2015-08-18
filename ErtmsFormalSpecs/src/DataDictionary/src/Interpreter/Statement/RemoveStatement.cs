@@ -191,7 +191,7 @@ namespace DataDictionary.Interpreter.Statement
 
             if (Condition != null)
             {
-                BoolValue b = Condition.GetValue(context, explain) as BoolValue;
+                BoolValue b = Condition.GetExpressionValue(context, explain) as BoolValue;
                 if (b == null)
                 {
                     retVal = false;
@@ -233,7 +233,7 @@ namespace DataDictionary.Interpreter.Statement
             {
                 if (Condition != null)
                 {
-                    Condition.checkExpression();
+                    Condition.CheckExpression();
                     BoolType conditionType = Condition.GetExpressionType() as BoolType;
                     if (conditionType == null)
                     {

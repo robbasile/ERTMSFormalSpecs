@@ -36,7 +36,7 @@ namespace DataDictionary.test.updateModel
             Compiler.Compile_Synchronous(true);
 
             Expression expression = Parser.Expression(dictionary, "N1.f()");
-            IValue value = expression.GetValue(new InterpretationContext(), null);
+            IValue value = expression.GetExpressionValue(new InterpretationContext(), null);
             Assert.AreEqual(System.BoolType.False, value);
         }
 
@@ -67,7 +67,7 @@ namespace DataDictionary.test.updateModel
             Compiler.Compile_Synchronous(true);
 
             Expression expression = Parser.Expression(dictionary, "N1.f()");
-            IValue value = expression.GetValue(new InterpretationContext(), null);
+            IValue value = expression.GetExpressionValue(new InterpretationContext(), null);
             Assert.AreEqual(System.BoolType.True, value);
         }
 
@@ -95,7 +95,7 @@ namespace DataDictionary.test.updateModel
             Compiler.Compile_Synchronous(true);
 
             Expression expression = Parser.Expression(dictionary, "N1.f()");
-            IValue value = expression.GetValue(new InterpretationContext(), null);
+            IValue value = expression.GetExpressionValue(new InterpretationContext(), null);
             Assert.AreEqual(System.BoolType.False, value);
         }
 
@@ -128,7 +128,7 @@ namespace DataDictionary.test.updateModel
             Compiler.Compile_Synchronous(true);
 
             Expression expression = Parser.Expression(dictionary, "N1.f(N1.Enum.First)");
-            IValue value = expression.GetValue(new InterpretationContext(), null);
+            IValue value = expression.GetExpressionValue(new InterpretationContext(), null);
             Assert.AreEqual(System.BoolType.False, value);
         }
 
@@ -168,7 +168,7 @@ namespace DataDictionary.test.updateModel
             Assert.IsNull(ErrorMessage(updatedFunction));
 
             Expression expression = Parser.Expression(dictionary, "N1.F1(Enum.Second)");
-            IValue value = expression.GetValue(new InterpretationContext(), null);
+            IValue value = expression.GetExpressionValue(new InterpretationContext(), null);
             Assert.AreEqual(System.BoolType.True, value);
         }
 
@@ -208,7 +208,7 @@ namespace DataDictionary.test.updateModel
             Assert.IsNull(ErrorMessage(updatedFunction));
 
             Expression expression = Parser.Expression(dictionary, "N1.F1(N1.N2.Enum.Second)");
-            IValue value = expression.GetValue(new InterpretationContext(), null);
+            IValue value = expression.GetExpressionValue(new InterpretationContext(), null);
             Assert.AreEqual(System.BoolType.True, value);
         }
 

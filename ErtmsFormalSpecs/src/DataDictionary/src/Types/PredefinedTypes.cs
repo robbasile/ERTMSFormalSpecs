@@ -311,7 +311,7 @@ namespace DataDictionary.Types
         /// <param name="right"></param>
         /// <returns></returns>
         public override IValue PerformArithmericOperation(InterpretationContext context, IValue left,
-            BinaryExpression.OPERATOR Operation, IValue right) // left +/-/*/div/exp right
+            BinaryExpression.Operator Operation, IValue right) // left +/-/*/div/exp right
         {
             IntValue retVal = null;
 
@@ -320,26 +320,26 @@ namespace DataDictionary.Types
 
             switch (Operation)
             {
-                case BinaryExpression.OPERATOR.EXP:
+                case BinaryExpression.Operator.Exp:
                     retVal = new IntValue(EFSSystem.IntegerType, (Decimal) Math.Pow((double) int1, (double) int2));
                     break;
 
-                case BinaryExpression.OPERATOR.MULT:
+                case BinaryExpression.Operator.Mult:
                     retVal = new IntValue(EFSSystem.IntegerType, (int1*int2));
                     break;
 
-                case BinaryExpression.OPERATOR.DIV:
+                case BinaryExpression.Operator.Div:
                     if (int2 == 0)
                         throw new Exception("Division by zero");
                     else
                         retVal = new IntValue(EFSSystem.IntegerType, (int1/int2));
                     break;
 
-                case BinaryExpression.OPERATOR.ADD:
+                case BinaryExpression.Operator.Add:
                     retVal = new IntValue(EFSSystem.IntegerType, (int1 + int2));
                     break;
 
-                case BinaryExpression.OPERATOR.SUB:
+                case BinaryExpression.Operator.Sub:
                     retVal = new IntValue(EFSSystem.IntegerType, (int1 - int2));
                     break;
             }
@@ -524,7 +524,7 @@ namespace DataDictionary.Types
         /// <param name="right"></param>
         /// <returns></returns>
         public override IValue PerformArithmericOperation(InterpretationContext context, IValue left,
-            BinaryExpression.OPERATOR Operation, IValue right) // left +/-/*/div/exp right
+            BinaryExpression.Operator Operation, IValue right) // left +/-/*/div/exp right
         {
             DoubleValue retVal = null;
 
@@ -533,26 +533,26 @@ namespace DataDictionary.Types
 
             switch (Operation)
             {
-                case BinaryExpression.OPERATOR.EXP:
+                case BinaryExpression.Operator.Exp:
                     retVal = new DoubleValue(this, Math.Pow(double1, double2));
                     break;
 
-                case BinaryExpression.OPERATOR.MULT:
+                case BinaryExpression.Operator.Mult:
                     retVal = new DoubleValue(this, (double1*double2));
                     break;
 
-                case BinaryExpression.OPERATOR.DIV:
+                case BinaryExpression.Operator.Div:
                     if (double2 == 0)
                         throw new Exception("Division by zero");
                     else
                         retVal = new DoubleValue(this, (double1/double2));
                     break;
 
-                case BinaryExpression.OPERATOR.ADD:
+                case BinaryExpression.Operator.Add:
                     retVal = new DoubleValue(this, (double1 + double2));
                     break;
 
-                case BinaryExpression.OPERATOR.SUB:
+                case BinaryExpression.Operator.Sub:
                     retVal = new DoubleValue(this, (double1 - double2));
                     break;
             }
@@ -608,11 +608,11 @@ namespace DataDictionary.Types
         /// </summary>
         /// <param name="right"></param>
         /// <returns></returns>
-        public override Type CombineType(Type right, BinaryExpression.OPERATOR Operator)
+        public override Type CombineType(Type right, BinaryExpression.Operator Operator)
         {
             Type retVal = null;
 
-            if (Operator == BinaryExpression.OPERATOR.MULT)
+            if (Operator == BinaryExpression.Operator.Mult)
             {
                 Range range = right as Range;
                 if (range != null)

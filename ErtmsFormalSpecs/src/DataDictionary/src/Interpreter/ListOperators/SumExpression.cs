@@ -25,12 +25,12 @@ using Variable = DataDictionary.Variables.Variable;
 
 namespace DataDictionary.Interpreter.ListOperators
 {
-    public class SumExpression : ExpressionBasedListExpression, ISubDeclarator
+    public class SumExpression : ExpressionBasedListExpression
     {
         /// <summary>
         ///     The operator for this expression
         /// </summary>
-        public static string OPERATOR = "SUM";
+        public static string Operator = "SUM";
 
         /// <summary>
         ///     The accumulator variable
@@ -50,6 +50,7 @@ namespace DataDictionary.Interpreter.ListOperators
         /// <summary>
         ///     Constructor
         /// </summary>
+        /// <param name="log"></param>
         /// <param name="listExpression"></param>
         /// <param name="condition"></param>
         /// <param name="expression"></param>
@@ -69,17 +70,19 @@ namespace DataDictionary.Interpreter.ListOperators
             DefinedAccumulator = expression;
             DefinedAccumulator.Enclosing = this;
 
-            Accumulator = new BinaryExpression(Root, RootLog, DefinedAccumulator, BinaryExpression.OPERATOR.ADD,
+            Accumulator = new BinaryExpression(Root, RootLog, DefinedAccumulator, BinaryExpression.Operator.Add,
                 new UnaryExpression(Root, RootLog,
-                    new Term(Root, RootLog, new Designator(Root, RootLog, "RESULT", -1, -1), -1, -1), -1, -1), -1, -1);
-            Accumulator.Enclosing = this;
+                    new Term(Root, RootLog, new Designator(Root, RootLog, "RESULT", -1, -1), -1, -1), -1, -1), -1, -1)
+            {
+                Enclosing = this
+            };
         }
 
         /// <summary>
         ///     Performs the semantic analysis of the expression
         /// </summary>
         /// <param name="instance">the reference instance on which this element should analysed</param>
-        /// <paraparam name="expectation">Indicates the kind of element we are looking for</paraparam>
+        /// <param name="expectation">Indicates the kind of element we are looking for</param>
         /// <returns>True if semantic analysis should be continued</returns>
         public override bool SemanticAnalysis(INamable instance, BaseFilter expectation)
         {
@@ -102,7 +105,6 @@ namespace DataDictionary.Interpreter.ListOperators
         /// <summary>
         ///     Provides the type of this expression
         /// </summary>
-        /// <param name="context">The interpretation context</param>
         /// <returns></returns>
         public override Type GetExpressionType()
         {
@@ -115,7 +117,7 @@ namespace DataDictionary.Interpreter.ListOperators
         /// <param name="context">The context on which the value must be found</param>
         /// <param name="explain">The explanation to fill, if any</param>
         /// <returns></returns>
-        public override IValue GetValue(InterpretationContext context, ExplanationPart explain)
+        protected internal override IValue GetValue(InterpretationContext context, ExplanationPart explain)
         {
             IValue retVal = null;
 
@@ -159,7 +161,7 @@ namespace DataDictionary.Interpreter.ListOperators
         /// <param name="explainSubElements">Precises if we need to explain the sub elements (if any)</param>
         public override void GetExplain(TextualExplanation explanation, bool explainSubElements = true)
         {
-            explanation.Write(OPERATOR);
+            explanation.Write(Operator);
             explanation.Write(" ");
             ListExpression.GetExplain(explanation);
 
@@ -178,17 +180,17 @@ namespace DataDictionary.Interpreter.ListOperators
         /// <summary>
         ///     Checks the expression and appends errors to the root tree node when inconsistencies are found
         /// </summary>
-        public override void checkExpression()
+        public override void CheckExpression()
         {
-            base.checkExpression();
+            base.CheckExpression();
 
             Collection listExpressionType = ListExpression.GetExpressionType() as Collection;
             if (listExpressionType != null)
             {
-                IteratorExpression.checkExpression();
+                IteratorExpression.CheckExpression();
             }
 
-            Accumulator.checkExpression();
+            Accumulator.CheckExpression();
             if (!(DefinedAccumulator.GetExpressionType() is Range))
             {
                 AddError("Accumulator expression should be a range");

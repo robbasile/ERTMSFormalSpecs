@@ -83,7 +83,7 @@ namespace DataDictionary.Interpreter.Statement
                 InterpretationContext ctxt = getContext(new InterpretationContext(Root), null);
                 if (Call != null)
                 {
-                    Procedure procedure = Call.getProcedure(ctxt, null);
+                    Procedure procedure = Call.GetProcedure(ctxt, null);
                     if (procedure != null)
                     {
                         return procedure.Rules;
@@ -217,7 +217,7 @@ namespace DataDictionary.Interpreter.Statement
         {
             if (Call != null)
             {
-                Call.checkExpression();
+                Call.CheckExpression();
 
                 Procedure procedure = Call.Called.Ref as Procedure;
                 if (procedure == null)
@@ -269,7 +269,7 @@ namespace DataDictionary.Interpreter.Statement
             if (Call != null)
             {
                 InterpretationContext ctxt = getContext(context, explanation);
-                Procedure procedure = Call.getProcedure(ctxt, explanation);
+                Procedure procedure = Call.GetProcedure(ctxt, explanation);
                 if (procedure != null)
                 {
                     ctxt.HasSideEffects = true;

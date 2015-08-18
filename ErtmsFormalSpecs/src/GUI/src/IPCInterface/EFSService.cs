@@ -609,7 +609,7 @@ namespace GUI.IPCInterface
                     Util.DontNotify(() =>
                     {
                         retVal =
-                            convertOut(expressionTree.GetValue(new InterpretationContext(), null));
+                            convertOut(expressionTree.GetExpressionValue(new InterpretationContext(), null));
                     });
                 }
             }

@@ -25,8 +25,8 @@ using Variable = DataDictionary.Variables.Variable;
 namespace DataDictionary.Interpreter
 {
     /// <summary>
-    ///     LET variable '<-' expression IN expression
-    /// LET variable '=>' expression IN expression
+    ///     LET variable &lt;- expression IN expression
+    ///     LET variable '=>' expression IN expression
     /// </summary>
     public class LetExpression : Expression, ISubDeclarator
     {
@@ -51,6 +51,7 @@ namespace DataDictionary.Interpreter
         /// <param name="root">the root element for which this expression should be parsed</param>
         /// <param name="start">The start character for this expression in the original string</param>
         /// <param name="end">The end character for this expression in the original string</param>
+        /// <param name="log"></param>
         /// <param name="boundVariableName">The name of the bound variable</param>
         /// <param name="bindingExpression">The binding expression which provides the value of the variable</param>
         /// <param name="expression">The expression to be evaluated</param>
@@ -99,7 +100,7 @@ namespace DataDictionary.Interpreter
         ///     Performs the semantic analysis of the expression
         /// </summary>
         /// <param name="instance">the reference instance on which this element should analysed</param>
-        /// <paraparam name="expectation">Indicates the kind of element we are looking for</paraparam>
+        /// <param name="expectation">Indicates the kind of element we are looking for</param>
         /// <returns>True if semantic analysis should be continued</returns>
         public override bool SemanticAnalysis(INamable instance, BaseFilter expectation)
         {
@@ -135,21 +136,21 @@ namespace DataDictionary.Interpreter
         /// </summary>
         /// <param name="retVal">The list to be filled with the element matching the condition expressed in the filter</param>
         /// <param name="filter">The filter to apply</param>
-        public override void fill(List<INamable> retVal, BaseFilter filter)
+        public override void Fill(List<INamable> retVal, BaseFilter filter)
         {
-            BindingExpression.fill(retVal, filter);
-            Expression.fill(retVal, filter);
+            BindingExpression.Fill(retVal, filter);
+            Expression.Fill(retVal, filter);
         }
 
         /// <summary>
         ///     Checks the expression and appends errors to the root tree node when inconsistencies are found
         /// </summary>
-        public override void checkExpression()
+        public override void CheckExpression()
         {
-            base.checkExpression();
+            base.CheckExpression();
 
-            BindingExpression.checkExpression();
-            Expression.checkExpression();
+            BindingExpression.CheckExpression();
+            Expression.CheckExpression();
         }
 
 
@@ -168,9 +169,9 @@ namespace DataDictionary.Interpreter
         /// <param name="context">The context on which the value must be found</param>
         /// <param name="explain">The explanation to fill, if any</param>
         /// <returns></returns>
-        public override IValue GetValue(InterpretationContext context, ExplanationPart explain)
+        protected internal override IValue GetValue(InterpretationContext context, ExplanationPart explain)
         {
-            IValue retVal = null;
+            IValue retVal;
 
             ExplanationPart subPart = ExplanationPart.CreateSubExplanation(explain, BoundVariable);
             BoundVariable.Value = BindingExpression.GetValue(context, explain);

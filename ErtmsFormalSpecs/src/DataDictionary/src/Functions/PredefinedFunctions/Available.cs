@@ -69,7 +69,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
             int token = context.LocalScope.PushContext();
             AssignParameters(context, actuals);
 
-            if (context.findOnStack(Element).Value != EFSSystem.EmptyValue)
+            if (context.FindOnStack(Element).Value != EFSSystem.EmptyValue)
             {
                 retVal = EFSSystem.BoolType.True;
             }

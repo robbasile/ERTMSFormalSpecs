@@ -115,10 +115,10 @@ namespace DataDictionary.Functions.PredefinedFunctions
         {
             Surface retVal = null;
 
-            Surface defaultSurface = createSurfaceForValue(context, context.findOnStack(DefaultFunction).Value, explain);
+            Surface defaultSurface = createSurfaceForValue(context, context.FindOnStack(DefaultFunction).Value, explain);
             if (defaultSurface != null)
             {
-                Surface overrideSurface = createSurfaceForValue(context, context.findOnStack(OverrideFunction).Value,
+                Surface overrideSurface = createSurfaceForValue(context, context.FindOnStack(OverrideFunction).Value,
                     explain);
                 if (overrideSurface != null)
                 {

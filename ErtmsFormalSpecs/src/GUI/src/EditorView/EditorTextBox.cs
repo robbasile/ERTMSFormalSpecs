@@ -187,7 +187,7 @@ namespace GUI.EditorView
                 DataDictionary.ModelElement.DontRaiseError(() =>
                 {
                     InterpretationContext context = new InterpretationContext(Model) {UseDefaultValue = false};
-                    IValue value = expression.GetValue(context, null);
+                    IValue value = expression.GetExpressionValue(context, null);
                     if (value != null)
                     {
                         StructureEditor.Window window = new StructureEditor.Window();

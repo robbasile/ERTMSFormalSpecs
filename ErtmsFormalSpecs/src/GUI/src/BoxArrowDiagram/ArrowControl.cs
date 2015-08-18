@@ -284,11 +284,6 @@ namespace GUI.BoxArrowDiagram
         }
 
         /// <summary>
-        ///     Sets the label color
-        /// </summary>
-        public Color ForeColor { get; set; }
-
-        /// <summary>
         ///     A normal pen
         /// </summary>
         public Color NormalColor;

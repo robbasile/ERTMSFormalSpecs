@@ -76,7 +76,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
 
             int token = context.LocalScope.PushContext();
             AssignParameters(context, actuals);
-            IValue value = context.findOnStack(Value).Value;
+            IValue value = context.FindOnStack(Value).Value;
             if (value is Function)
             {
                 retVal = value;
@@ -101,7 +101,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
         {
             Graph retVal = null;
 
-            IVariable variable = context.findOnStack(Value);
+            IVariable variable = context.FindOnStack(Value);
 
             if (variable != null)
             {
