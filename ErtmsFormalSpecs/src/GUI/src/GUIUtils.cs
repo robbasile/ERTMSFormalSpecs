@@ -155,6 +155,16 @@ namespace GUI
                 if (form != null && form.TreeView != null)
                 {
                     retVal = form.TreeView.FindNode(selectionContext.Element, true);
+
+                    if (retVal != null)
+                    {
+                        BaseTreeNode parent = retVal.Parent as BaseTreeNode;
+                        while (parent != null && parent.Model == retVal.Model)
+                        {
+                            retVal = parent;
+                            parent = retVal.Parent as BaseTreeNode;
+                        }
+                    }
                 }
             }
 

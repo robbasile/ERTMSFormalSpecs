@@ -44,22 +44,18 @@ namespace GUI.PropertyView
         {
             bool retVal = base.HandleSelectionChange(context);
 
-            if (retVal)
+            propertyGrid.SelectedObject = null;
+            BaseTreeNode node = GuiUtils.SourceNode(context);
+            if (node != null)
             {
-                propertyGrid.SelectedObject = null;
-
-                BaseTreeNode node = GuiUtils.SourceNode(context);
-                if (node != null)
+                propertyGrid.SelectedObject = node.GetEditor();
+            }
+            else
+            {
+                BaseBoxArrowPanel panel = GuiUtils.EnclosingFinder<BaseBoxArrowPanel>.Find(context.Sender as Control);
+                if (panel != null)
                 {
-                    propertyGrid.SelectedObject = node.GetEditor();
-                }
-                else
-                {
-                    BaseBoxArrowPanel panel = GuiUtils.EnclosingFinder<BaseBoxArrowPanel>.Find(context.Sender as Control);
-                    if (panel != null)
-                    {
-                        propertyGrid.SelectedObject = panel.CreateEditor(context.Element);
-                    }
+                    propertyGrid.SelectedObject = panel.CreateEditor(context.Element);
                 }
             }
 
