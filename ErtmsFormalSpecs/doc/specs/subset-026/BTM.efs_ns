@@ -304,7 +304,7 @@ b) is just a placeholder for a missed balise.</Comment>
 </ReqRef><Comment>Gives the value of the Location Accuracy which is determined either by the Linking (if available) or by the corresponding National Value (if applicable) or by the Default Value.</Comment>
 <Cases>
 <Case
- Name="LinkingAvailable"
+ Name="Linking available"
  Guid="66f967b2-9ea2-4470-830c-40f7d1dc1e60"
 >
 <PreConditions>
@@ -313,19 +313,10 @@ b) is just a placeholder for a missed balise.</Comment>
 >Available ( Linking.CurrentLinking() )</PreCondition></PreConditions>
 <Expression>Linking.CurrentLinking().LocationAccuracy</Expression>
 </Case><Case
- Name="NationalValuesAvailable"
+ Name="National or default values"
  Guid="590ee6d2-1a2f-48e2-94f8-abce6c0d7a36"
 >
-<PreConditions>
-<PreCondition
- Guid="5af1a0fa-d27c-46f0-86b9-6d9afbcbb7a5"
->Kernel.NationalValues.ApplicableNationalValues.DataState == DataState.Valid</PreCondition></PreConditions>
-<Expression>BaseTypes.Length(Kernel.NationalValues.ApplicableNationalValues.Value.DefaultLocationAccuracyOfABaliseGroup)</Expression>
-</Case><Case
- Name="DefaultValue"
- Guid="639ec4cf-d197-42c9-a803-47a931faf986"
->
-<Expression>BaseTypes.Length(Kernel.NationalValues.DefaultValues.DefaultLocationAccuracyOfABaliseGroup)</Expression>
+<Expression>BaseTypes.Length(Kernel.NationalValues.CurrentNV().DefaultLocationAccuracyOfABaliseGroup)</Expression>
 </Case></Cases>
 </Function><Function
  Type="PreviousBaliseGroupStruct"
@@ -4040,6 +4031,11 @@ The list is updated in case two LRBGs provide the same MRSP, this should count a
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="84b9cb4b-0d98-4456-ba5b-3d807059f356"
 >
+</ReqRef><ReqRef
+ Id="282cca1e-53d5-447c-b9a4-589f5627a991"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="556c6c8a-94a0-4c4d-bdd4-c158dc2988fa"
+>
 </ReqRef><Comment>Handles the packets received within the current balise telegram and applies the linking reaction, if any.</Comment>
 <SubRules></SubRules>
 <Conditions>
@@ -4059,7 +4055,9 @@ The list is updated in case two LRBGs provide the same MRSP, this should count a
   NID_BG=&gt;Message.NID_BG,
   NID_C=&gt;Message.NID_C
 ) 
-ON Message.Sequence1</Action></Actions>
+ON Message.Sequence1</Action><Action
+ Guid="b3c6e5e0-e2f2-45cb-8684-a9a4a0596fbe"
+>Kernel.NationalValues.CheckNVValidity( NewNID_C =&gt; Message.NID_C )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure

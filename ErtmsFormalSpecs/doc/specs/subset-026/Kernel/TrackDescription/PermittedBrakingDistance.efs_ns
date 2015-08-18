@@ -1101,9 +1101,9 @@ INITIAL_VALUE BaseTypes.MaxSpeedFunction ) (Distance)</Expression>
 >TrainData.TrainData.Value.EBModels != EMPTY</PreCondition></PreConditions>
 <Expression>TrainData.BrakingParameters.Kdry_rst (
     V =&gt; V,
-    M_NVEBCL =&gt; NationalValues.ApplicableNationalValues.Value.ConfLevelForEmergBrakeSafeDecelerationOnDryRails )
+    M_NVEBCL =&gt; NationalValues.CurrentNV().ConfLevelForEmergBrakeSafeDecelerationOnDryRails )
  * 
-(TrainData.BrakingParameters.Kwet_rst ( V ) + NationalValues.ApplicableNationalValues.Value.WeightingFactorForAvailableWheelRailAdhesion * ( 1.0 - TrainData.BrakingParameters.Kwet_rst ( V ) ) )
+(TrainData.BrakingParameters.Kwet_rst ( V ) + NationalValues.CurrentNV().WeightingFactorForAvailableWheelRailAdhesion * ( 1.0 - TrainData.BrakingParameters.Kwet_rst ( V ) ) )
  * 
 TrainData.BrakingParameters.Default_brk_emergency(V)</Expression>
 </Case><Case

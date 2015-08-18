@@ -373,7 +373,7 @@ If the RBC does not send a consistent message within the period T_NVCONTACT, the
 <PreConditions>
 <PreCondition
  Guid="1927d6d3-b902-49fb-8659-ba192ce507d3"
->Kernel.DateAndTime.CurrentTime &gt; OnboardReference_MessageTimer + Kernel.NationalValues.ApplicableNationalValues.Value.MaxTimeSinceCreationInTheRBCOfLastReceivedTelegram</PreCondition><PreCondition
+>Kernel.DateAndTime.CurrentTime &gt; OnboardReference_MessageTimer + Kernel.NationalValues.CurrentNV().MaxTimeSinceCreationInTheRBCOfLastReceivedTelegram</PreCondition><PreCondition
  Guid="48586d1f-c5f2-41a2-a230-9552e9516335"
 >NOT THERE_IS BrakeCommand IN Kernel.BrakeCommands.ServiceBrakeCommands | BrakeCommand == Kernel.BrakeCommands.BrakeReason.NoRadioMessageInDueTime</PreCondition><PreCondition
  Guid="047d557f-5809-47bc-bd4b-a2ebcda881e8"
@@ -405,7 +405,7 @@ Keep the reason for it to be displayed to the driver.</Comment>
 <PreConditions>
 <PreCondition
  Guid="e1ae4709-9dd0-404c-a5fe-fd8e2afddc56"
->Kernel.NationalValues.ApplicableNationalValues.Value.SystemReactionIfRadioChannelMonitoringTimeLimitExpires == Messages.M_NVCONTACT.Train_trip</PreCondition></PreConditions>
+>Kernel.NationalValues.CurrentNV().SystemReactionIfRadioChannelMonitoringTimeLimitExpires == Messages.M_NVCONTACT.Train_trip</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="35c7ae19-379e-4fe1-9f80-bbfeed7fb8e3"
@@ -433,7 +433,7 @@ Keep the reason for it to be displayed to the driver.</Comment>
 <PreConditions>
 <PreCondition
  Guid="2a983f3f-e8df-4254-962a-27e521c59306"
->Kernel.NationalValues.ApplicableNationalValues.Value.SystemReactionIfRadioChannelMonitoringTimeLimitExpires == Messages.M_NVCONTACT.Apply_service_brake</PreCondition></PreConditions>
+>Kernel.NationalValues.CurrentNV().SystemReactionIfRadioChannelMonitoringTimeLimitExpires == Messages.M_NVCONTACT.Apply_service_brake</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="f97da9de-0e29-4726-9112-51860fdea0f0"
@@ -447,7 +447,7 @@ Keep the reason for it to be displayed to the driver.</Comment>
 <PreConditions>
 <PreCondition
  Guid="2b1d39cb-0822-457d-8275-eb81b7828733"
->Kernel.NationalValues.ApplicableNationalValues.Value.SystemReactionIfRadioChannelMonitoringTimeLimitExpires == Messages.M_NVCONTACT.No_Reaction</PreCondition></PreConditions>
+>Kernel.NationalValues.CurrentNV().SystemReactionIfRadioChannelMonitoringTimeLimitExpires == Messages.M_NVCONTACT.No_Reaction</PreCondition></PreConditions>
 <Actions>
 </Actions>
 </RuleCondition></Conditions>
@@ -517,7 +517,7 @@ Available(MessageIn)
 <PreConditions>
 <PreCondition
  Guid="2fa270a6-cb59-4b15-a2ed-7a01bfded428"
->Kernel.DateAndTime.CurrentTime &gt; OnboardReference_MessageTimer + Kernel.NationalValues.ApplicableNationalValues.Value.MaxTimeSinceCreationInTheRBCOfLastReceivedTelegram + DelayToDisconnect</PreCondition><PreCondition
+>Kernel.DateAndTime.CurrentTime &gt; OnboardReference_MessageTimer + Kernel.NationalValues.CurrentNV().MaxTimeSinceCreationInTheRBCOfLastReceivedTelegram + DelayToDisconnect</PreCondition><PreCondition
  Guid="72bb38b1-b631-4c66-8fc6-c5c562962109"
 >ContactTimerSupervised</PreCondition></PreConditions>
 <Actions>

@@ -273,16 +273,7 @@ SRAuthorisation.Location &lt;= TrainPosition.FrontEndPosition ( DistanceInterval
  Name="Use national value"
  Guid="b0da0439-c627-4c3f-890d-4367da277940"
 >
-<PreConditions>
-<PreCondition
- Guid="acd62eb3-0fbf-4941-9c7a-849404515151"
->NationalValues.ApplicableNationalValues.DataState == DataState.Valid</PreCondition></PreConditions>
-<Expression>NationalValues.ApplicableNationalValues.Value.MaxPermDistToRunInStaffResponsibleMode</Expression>
-</Case><Case
- Name="Otherwise"
- Guid="fcbd3c98-8e7f-458c-8994-70e53df4fd5d"
->
-<Expression>NationalValues.DefaultValues.MaxPermDistToRunInStaffResponsibleMode</Expression>
+<Expression>NationalValues.CurrentNV().MaxPermDistToRunInStaffResponsibleMode</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Distance"
@@ -318,6 +309,8 @@ SRAuthorisation.Location &lt;= TrainPosition.FrontEndPosition ( DistanceInterval
 </Function><Function
  Type="SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target"
  Default=""
+ X="1"
+ Y="361"
  Width="100"
  Height="50"
  NeedsRequirement="FALSE"

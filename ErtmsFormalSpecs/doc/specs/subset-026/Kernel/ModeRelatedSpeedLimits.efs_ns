@@ -97,7 +97,7 @@
 - Else, a speed limit specified by default values is returned</Comment>
 <Cases>
 <Case
- Name="ValueGivenByTrackside"
+ Name="Value given by trackside"
  Guid="bad4d621-448c-4df5-aa07-0df881850024"
 >
 <PreConditions>
@@ -106,23 +106,10 @@
 >THERE_IS X IN MA.ModeProfile.Profile | X.Mode == Default.Mode.ModeProfile.LS AND X.Speed != BaseTypes.Speed.UseNV</PreCondition></PreConditions>
 <Expression>( FIRST X IN MA.ModeProfile.Profile | X.Mode == Default.Mode.ModeProfile.LS  AND X.Speed != BaseTypes.Speed.UseNV).Speed</Expression>
 </Case><Case
- Name="NationalValue"
+ Name="National or default value"
  Guid="8106234f-7971-481a-ab16-9b4285da9def"
 >
-<PreConditions>
-<PreCondition
- Guid="57e2c056-75ae-473c-b464-229e1e149c83"
->NationalValues.ApplicableNationalValues.DataState == DataState.Valid</PreCondition></PreConditions>
-<Expression>NationalValues.ApplicableNationalValues.Value.LimitedSupervisionModeSpeedLimit</Expression>
-</Case><Case
- Name="DefaultValue"
- Guid="c38eea85-0522-4226-8544-5833a319508d"
->
-<PreConditions>
-<PreCondition
- Guid="ea84754b-fc3a-46c9-8441-424a721943b4"
->NationalValues.ApplicableNationalValues.DataState != DataState.Valid</PreCondition></PreConditions>
-<Expression>NationalValues.DefaultValues.LimitedSupervisionModeSpeedLimit</Expression>
+<Expression>NationalValues.CurrentNV().LimitedSupervisionModeSpeedLimit</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Speed"
@@ -156,7 +143,7 @@
 - Else, a speed limit specified by default values is returned</Comment>
 <Cases>
 <Case
- Name="ValueGivenByTrackside"
+ Name="Value given by trackside"
  Guid="8ea50509-79c0-4120-bb88-4f15f28d3422"
 >
 <PreConditions>
@@ -165,23 +152,10 @@
 >THERE_IS X IN MA.ModeProfile.Profile | X.Mode == Default.Mode.ModeProfile.OS AND X.Speed != BaseTypes.Speed.UseNV</PreCondition></PreConditions>
 <Expression>( FIRST X IN MA.ModeProfile.Profile | X.Mode == Default.Mode.ModeProfile.OS  AND X.Speed != BaseTypes.Speed.UseNV).Speed</Expression>
 </Case><Case
- Name="NationalValue"
+ Name="National or default value"
  Guid="67eaca14-3282-4c8f-ba2c-54ef5bc3ad29"
 >
-<PreConditions>
-<PreCondition
- Guid="8ba582bf-c5c4-4eea-879e-adffe46cedb4"
->NationalValues.ApplicableNationalValues.DataState == DataState.Valid</PreCondition></PreConditions>
-<Expression>NationalValues.ApplicableNationalValues.Value.OnSightModeSpeedLimit</Expression>
-</Case><Case
- Name="DefaultValue"
- Guid="dcae3059-4535-4c00-813d-5e566059babd"
->
-<PreConditions>
-<PreCondition
- Guid="68964fa2-5665-4cf9-8fbe-89968036c1b9"
->NationalValues.ApplicableNationalValues.DataState != DataState.Valid</PreCondition></PreConditions>
-<Expression>NationalValues.DefaultValues.OnSightModeSpeedLimit</Expression>
+<Expression>NationalValues.CurrentNV().OnSightModeSpeedLimit</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Speed"
@@ -355,7 +329,7 @@
 - Else, a speed limit specified by default values is returned</Comment>
 <Cases>
 <Case
- Name="ValueGivenByTrackside"
+ Name="Value given by trackside"
  Guid="8873b915-7b61-431f-aa23-67ad0432c22e"
 >
 <PreConditions>
@@ -364,23 +338,10 @@
 >THERE_IS X IN MA.ModeProfile.Profile | X.Mode == Default.Mode.ModeProfile.SH AND X.Speed != BaseTypes.Speed.UseNV</PreCondition></PreConditions>
 <Expression>( FIRST X IN MA.ModeProfile.Profile | X.Mode == Default.Mode.ModeProfile.SH ).Speed</Expression>
 </Case><Case
- Name="NationalValue"
+ Name="National or default value"
  Guid="2fba5855-84b0-4753-ba64-1aceb5717175"
 >
-<PreConditions>
-<PreCondition
- Guid="8346e15d-25f2-4811-a3d2-5ec0b673af66"
->NationalValues.ApplicableNationalValues.DataState == DataState.Valid</PreCondition></PreConditions>
-<Expression>NationalValues.ApplicableNationalValues.Value.ShuntingModeSpeedLimit</Expression>
-</Case><Case
- Name="DefaultValue"
- Guid="8fbb6b92-5db4-44b6-8255-83a9c06d9c94"
->
-<PreConditions>
-<PreCondition
- Guid="ea23c043-38b1-4d9c-a0c2-6b8f840e386f"
->NationalValues.ApplicableNationalValues.DataState != DataState.Valid</PreCondition></PreConditions>
-<Expression>NationalValues.DefaultValues.ShuntingModeSpeedLimit</Expression>
+<Expression>NationalValues.CurrentNV().ShuntingModeSpeedLimit</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Speed"
@@ -418,7 +379,7 @@
 - Else, a speed limit specified by default values is returned</Comment>
 <Cases>
 <Case
- Name="ValueGivenByDriver"
+ Name="Value given by driver"
  Guid="85cd3d19-421e-4809-8cb3-9b846b66d2d3"
 >
 <PreConditions>
@@ -427,19 +388,10 @@
 >TracksideModeRelatedSpeedRestrictions.SR != BaseTypes.Speed.NA</PreCondition></PreConditions>
 <Expression>TracksideModeRelatedSpeedRestrictions.SR</Expression>
 </Case><Case
- Name="NationalValue"
+ Name="National or default value"
  Guid="ae5a5f7b-fa96-44ee-a2a2-f2a542977dde"
 >
-<PreConditions>
-<PreCondition
- Guid="6340bbbd-fe53-4c48-91bf-925ecc2dc34a"
->NationalValues.ApplicableNationalValues.DataState == DataState.Valid</PreCondition></PreConditions>
-<Expression>NationalValues.ApplicableNationalValues.Value.StaffResponsibleModeSpeedLimit</Expression>
-</Case><Case
- Name="DefaultValue"
- Guid="276e7a9f-7ed8-4fdf-8d46-3aa2ebb25d03"
->
-<Expression>NationalValues.DefaultValues.StaffResponsibleModeSpeedLimit</Expression>
+<Expression>NationalValues.CurrentNV().StaffResponsibleModeSpeedLimit</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Speed"
@@ -462,23 +414,10 @@
 - Else, a speed limit specified by default values is returned</Comment>
 <Cases>
 <Case
- Name="NationalValue"
+ Name="Value"
  Guid="468665f4-3458-43e5-85f4-b51880e79135"
 >
-<PreConditions>
-<PreCondition
- Guid="59d6b9d3-724d-46c7-a7ea-7cab6ef27d67"
->NationalValues.ApplicableNationalValues.DataState == DataState.Valid</PreCondition></PreConditions>
-<Expression>NationalValues.ApplicableNationalValues.Value.UnfittedModeSpeedLimit</Expression>
-</Case><Case
- Name="DefaultValue"
- Guid="a0560e4a-96b8-4541-afda-b45f46d13750"
->
-<PreConditions>
-<PreCondition
- Guid="56849a7d-1f0c-4b14-b5a7-6e1cd6da39b2"
->NationalValues.ApplicableNationalValues.DataState != DataState.Valid</PreCondition></PreConditions>
-<Expression>NationalValues.DefaultValues.UnfittedModeSpeedLimit</Expression>
+<Expression>NationalValues.CurrentNV().UnfittedModeSpeedLimit</Expression>
 </Case></Cases>
 </Function></Functions>
 <Variables>

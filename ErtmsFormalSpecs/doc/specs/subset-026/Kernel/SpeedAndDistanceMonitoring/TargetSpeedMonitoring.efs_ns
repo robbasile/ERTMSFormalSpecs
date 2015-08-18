@@ -644,7 +644,7 @@ X2 =&gt; aTarget.Speed
  Guid="3a0c2a8a-74d6-4796-be6b-59799791f944"
 >Mode == Default.Mode.SR</PreCondition><PreCondition
  Guid="d95afede-c96a-425e-8056-2fe078c73a94"
->MRDT().Location == NationalValues.ApplicableNationalValues.Value.MaxPermDistToRunInStaffResponsibleMode
+>MRDT().Location == NationalValues.CurrentNV().MaxPermDistToRunInStaffResponsibleMode
   AND  
 MRDT().Speed == 0.0</PreCondition></PreConditions>
 <Expression>V_P_EBD_Target(
@@ -1161,11 +1161,11 @@ ActiveFunctions.SuperviseTrainSpeed_All_Information()
  Guid="cbebfd0e-2d3b-4f65-8478-e3cd710700ac"
 >ActiveFunctions.SuperviseTrainSpeed_MRSP_DistInSRMode()</PreCondition><PreCondition
  Guid="6580cd96-d7fe-44ae-85db-07515746be94"
->MRDT().Location == NationalValues.ApplicableNationalValues.Value.MaxPermDistToRunInStaffResponsibleMode
+>MRDT().Location == NationalValues.CurrentNV().MaxPermDistToRunInStaffResponsibleMode
   AND  
 MRDT().Speed == 0.0</PreCondition></PreConditions>
 <Expression>BaseTypes.MaxDistance(
-    X1 =&gt; NationalValues.ApplicableNationalValues.Value.MaxPermDistToRunInStaffResponsibleMode - TrainPosition.DistanceRunInSR(DistanceInterval.Nom),
+    X1 =&gt; NationalValues.CurrentNV().MaxPermDistToRunInStaffResponsibleMode - TrainPosition.DistanceRunInSR(DistanceInterval.Nom),
     X2 =&gt; 0.0
 )</Expression>
 </Case><Case
@@ -1304,6 +1304,8 @@ This protection is used in the case where V_SBI_DMI is calculated but the train 
 </Function><Function
  Type="Target"
  Default=""
+ X="1"
+ Y="541"
  Width="100"
  Height="50"
  Implemented="TRUE"

@@ -3180,9 +3180,9 @@ TIU.AdditionalBrakesActive
 >TrainData.Value.EBModels != EMPTY</PreCondition></PreConditions>
 <Expression>Kdry_rst (
     V =&gt; V,
-    M_NVEBCL =&gt; NationalValues.ApplicableNationalValues.Value.ConfLevelForEmergBrakeSafeDecelerationOnDryRails )
+    M_NVEBCL =&gt; NationalValues.CurrentNV().ConfLevelForEmergBrakeSafeDecelerationOnDryRails )
  * 
-(Kwet_rst ( V ) + NationalValues.ApplicableNationalValues.Value.WeightingFactorForAvailableWheelRailAdhesion * ( 1.0 - Kwet_rst ( V ) ) )
+(Kwet_rst ( V ) + NationalValues.CurrentNV().WeightingFactorForAvailableWheelRailAdhesion * ( 1.0 - Kwet_rst ( V ) ) )
  * 
 A_brake_emergency ( d =&gt; d, V =&gt; V )</Expression>
 </Case><Case

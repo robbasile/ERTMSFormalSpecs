@@ -286,7 +286,7 @@ BaseTypes.SpeedToMS ( BaseTypes.MaxSpeed ( X1 =&gt; Vest + Vdelta0() + Vdelta1(N
 <PreConditions>
 <PreCondition
  Guid="8b5d2ce3-87d4-4330-8e56-082dd50bbaef"
->NationalValues.ApplicableNationalValues.Value.PermToInhibitTheCompOfTheSpeedMeasurementInaccuracy == Messages.Q_NVINHSMICPERM.Yes</PreCondition></PreConditions>
+>NationalValues.CurrentNV().PermToInhibitTheCompOfTheSpeedMeasurementInaccuracy == Messages.Q_NVINHSMICPERM.Yes</PreCondition></PreConditions>
 <Expression>0.0</Expression>
 </Case><Case
  Name="Compensation of speed inaccuracy is not inhibited by NV"
@@ -643,7 +643,7 @@ BaseTypes.SpeedToMS ( BaseTypes.MaxSpeed ( X1 =&gt; Vest + Vdelta0() + Vdelta1(N
 <PreCondition
  Guid="47e945e0-0d82-416d-8a82-055c5554df35"
 >Mode == Default.Mode.SR</PreCondition></PreConditions>
-<Expression>aTarget.Location == NationalValues.ApplicableNationalValues.Value.MaxPermDistToRunInStaffResponsibleMode
+<Expression>aTarget.Location == NationalValues.CurrentNV().MaxPermDistToRunInStaffResponsibleMode
   AND  
 aTarget.Speed == 0.0</Expression>
 </Case><Case
@@ -846,6 +846,8 @@ BaseTypes.SpeedToMS( Vest + Vdelta0() + Vdelta1(NoA_est) + Vdelta2(NoA_est)/2.0
 </Function><Function
  Type="BaseTypes.Distance"
  Default=""
+ X="111"
+ Y="1"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -879,6 +881,8 @@ BaseTypes.SpeedToMS( Vest + Vdelta0() + Vdelta1(NoA_est) + Vdelta2(NoA_est)/2.0
 </Function><Function
  Type="BaseTypes.Speed"
  Default=""
+ X="221"
+ Y="1"
  Width="100"
  Height="50"
  Implemented="TRUE"

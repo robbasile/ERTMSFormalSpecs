@@ -156,19 +156,10 @@
 </ReqRef><Comment>Indicates if the modification of adhesion factor by driver is allowed (according to national values (if available) or default data).</Comment>
 <Cases>
 <Case
- Name="National values available"
+ Name="Value"
  Guid="6240405e-f05d-42e4-873a-7dda69635a0b"
 >
-<PreConditions>
-<PreCondition
- Guid="7dfdce05-8f62-4d93-83b8-7c2f90a3dcc0"
->NationalValues.ApplicableNationalValues.DataState == DataState.Valid</PreCondition></PreConditions>
-<Expression>NationalValues.ApplicableNationalValues.Value.ModificationOfAdhesionFactorByDriver == Messages.Q_NVDRIVER_ADHES.Allowed</Expression>
-</Case><Case
- Name="Default values"
- Guid="c77ddc99-4364-4329-a46f-ab9310bd802c"
->
-<Expression>NationalValues.DefaultValues.ModificationOfAdhesionFactorByDriver == Messages.Q_NVDRIVER_ADHES.Allowed</Expression>
+<Expression>NationalValues.CurrentNV().ModificationOfAdhesionFactorByDriver == Messages.Q_NVDRIVER_ADHES.Allowed</Expression>
 </Case></Cases>
 </Function><Function
  Type="Messages.M_ADHESION"

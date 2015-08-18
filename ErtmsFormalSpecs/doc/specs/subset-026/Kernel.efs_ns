@@ -10042,11 +10042,11 @@ OverrideSupervision.FormerSRDistance &lt; TrainPosition.FrontEndPosition(Distanc
 <Actions>
 <Action
  Guid="4be365a1-0016-4d0d-b1d5-8135c5befe27"
->OverrideSupervision.Time &lt;- DateAndTime.CurrentTime + NationalValues.ApplicableNationalValues.Value.MaxTimeForTrainTripSuppressionWhenOverrideIsTriggered</Action><Action
+>OverrideSupervision.Time &lt;- DateAndTime.CurrentTime + NationalValues.CurrentNV().MaxTimeForTrainTripSuppressionWhenOverrideIsTriggered</Action><Action
  Guid="cb5c3e95-c450-4b07-844f-39e40c4e1e28"
 >TrainPosition.SRStartDistance &lt;- Odometry.NominalDistance</Action><Action
  Guid="a75fa178-c08b-45a9-a382-f01c40a6b214"
->OverrideSupervision.Location &lt;- Odometry.NominalDistance + NationalValues.ApplicableNationalValues.Value.DistForTrainTripSuppressionWhenOverrideIsTriggered</Action></Actions>
+>OverrideSupervision.Location &lt;- Odometry.NominalDistance + NationalValues.CurrentNV().DistForTrainTripSuppressionWhenOverrideIsTriggered</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></EnterAction>
 </State><State
@@ -10592,8 +10592,8 @@ OverrideSupervision.FormerSRDistance &lt; TrainPosition.FrontEndPosition(Distanc
  Guid="9e1640cc-d2b5-4b0b-b3e4-54d34380580b"
 >Mode in [Default.Mode.SN, Default.Mode.UN]</PreCondition></PreConditions>
 <Expression>OverrideStruct{
-    Time =&gt; DateAndTime.CurrentTime + NationalValues.ApplicableNationalValues.Value.MaxTimeForTrainTripSuppressionWhenOverrideIsTriggered,
-    Location =&gt; Odometry.NominalDistance + NationalValues.ApplicableNationalValues.Value.DistForTrainTripSuppressionWhenOverrideIsTriggered,
+    Time =&gt; DateAndTime.CurrentTime + NationalValues.CurrentNV().MaxTimeForTrainTripSuppressionWhenOverrideIsTriggered,
+    Location =&gt; Odometry.NominalDistance + NationalValues.CurrentNV().DistForTrainTripSuppressionWhenOverrideIsTriggered,
     FormerEOA =&gt; Odometry.NominalDistance,
     FormerEOAPassed =&gt; False,
     FormerSRDistance =&gt; BaseTypes.Distance.Infinity
@@ -10609,8 +10609,8 @@ OverrideSupervision.FormerSRDistance &lt; TrainPosition.FrontEndPosition(Distanc
  Guid="dc8684f7-9a39-4b23-b7ed-cf85f596f3c4"
 >Available (MA.MA)</PreCondition></PreConditions>
 <Expression>OverrideStruct{
-    Time =&gt; DateAndTime.CurrentTime + NationalValues.ApplicableNationalValues.Value.MaxTimeForTrainTripSuppressionWhenOverrideIsTriggered,
-    Location =&gt; Odometry.NominalDistance + NationalValues.ApplicableNationalValues.Value.DistForTrainTripSuppressionWhenOverrideIsTriggered,
+    Time =&gt; DateAndTime.CurrentTime + NationalValues.CurrentNV().MaxTimeForTrainTripSuppressionWhenOverrideIsTriggered,
+    Location =&gt; Odometry.NominalDistance + NationalValues.CurrentNV().DistForTrainTripSuppressionWhenOverrideIsTriggered,
     FormerEOA =&gt; MA.ClosestEOA().Location,
     FormerEOAPassed =&gt; False,
     FormerSRDistance =&gt; TrainPosition.SRStartDistance + StaffResponsible.DistanceToRun()
@@ -10624,8 +10624,8 @@ OverrideSupervision.FormerSRDistance &lt; TrainPosition.FrontEndPosition(Distanc
  Guid="99482117-cbba-4c06-b413-a3cf0011a3fa"
 >Mode == Default.Mode.SR</PreCondition></PreConditions>
 <Expression>OverrideStruct{
-    Time =&gt; DateAndTime.CurrentTime + NationalValues.ApplicableNationalValues.Value.MaxTimeForTrainTripSuppressionWhenOverrideIsTriggered,
-    Location =&gt; Odometry.NominalDistance + NationalValues.ApplicableNationalValues.Value.DistForTrainTripSuppressionWhenOverrideIsTriggered,
+    Time =&gt; DateAndTime.CurrentTime + NationalValues.CurrentNV().MaxTimeForTrainTripSuppressionWhenOverrideIsTriggered,
+    Location =&gt; Odometry.NominalDistance + NationalValues.CurrentNV().DistForTrainTripSuppressionWhenOverrideIsTriggered,
     FormerEOA =&gt; BaseTypes.Distance.Infinity,
     FormerEOAPassed =&gt; False,
     FormerSRDistance =&gt; TrainPosition.SRStartDistance + StaffResponsible.DistanceToRun()
@@ -10639,8 +10639,8 @@ OverrideSupervision.FormerSRDistance &lt; TrainPosition.FrontEndPosition(Distanc
  Guid="0e710c11-1c2a-41c8-a6b9-de1e082a78dd"
 >Available (MA.MA)</PreCondition></PreConditions>
 <Expression>OverrideStruct{
-    Time =&gt; DateAndTime.CurrentTime + NationalValues.ApplicableNationalValues.Value.MaxTimeForTrainTripSuppressionWhenOverrideIsTriggered,
-    Location =&gt; Odometry.NominalDistance + NationalValues.ApplicableNationalValues.Value.DistForTrainTripSuppressionWhenOverrideIsTriggered,
+    Time =&gt; DateAndTime.CurrentTime + NationalValues.CurrentNV().MaxTimeForTrainTripSuppressionWhenOverrideIsTriggered,
+    Location =&gt; Odometry.NominalDistance + NationalValues.CurrentNV().DistForTrainTripSuppressionWhenOverrideIsTriggered,
     FormerEOA =&gt; MA.ClosestEOA().Location,
     FormerEOAPassed =&gt; False,
     FormerSRDistance =&gt; BaseTypes.Distance.Infinity
@@ -10650,8 +10650,8 @@ OverrideSupervision.FormerSRDistance &lt; TrainPosition.FrontEndPosition(Distanc
  Guid="52f9a63c-399c-46ec-8c52-bba726c89ed1"
 >
 <Expression>OverrideStruct{
-    Time =&gt; DateAndTime.CurrentTime + NationalValues.ApplicableNationalValues.Value.MaxTimeForTrainTripSuppressionWhenOverrideIsTriggered,
-    Location =&gt; Odometry.NominalDistance + NationalValues.ApplicableNationalValues.Value.DistForTrainTripSuppressionWhenOverrideIsTriggered,
+    Time =&gt; DateAndTime.CurrentTime + NationalValues.CurrentNV().MaxTimeForTrainTripSuppressionWhenOverrideIsTriggered,
+    Location =&gt; Odometry.NominalDistance + NationalValues.CurrentNV().DistForTrainTripSuppressionWhenOverrideIsTriggered,
     FormerEOA =&gt; BaseTypes.Distance.Infinity,
     FormerEOAPassed =&gt; False,
     FormerSRDistance =&gt; BaseTypes.Distance.Infinity
@@ -12567,7 +12567,7 @@ train data is valid (or the mode is shunting)</Comment>
 <PreConditions>
 <PreCondition
  Guid="f3325596-5c2a-4e9e-8e9d-b04bb76b9f22"
->Odometry.TrainSpeed() &lt;= NationalValues.ApplicableNationalValues.Value.OverrideSpeedLimitToBeSupervisedWhenOverrideIsActive</PreCondition><PreCondition
+>Odometry.TrainSpeed() &lt;= NationalValues.CurrentNV().OverrideSpeedLimitToBeSupervisedWhenOverrideIsActive</PreCondition><PreCondition
  Guid="89bc026e-9e30-4588-8f51-bda92c55e80f"
 >Mode in [Default.Mode.FS, Default.Mode.LS, Default.Mode.OS, Default.Mode.SR, Default.Mode.SH, Default.Mode.UN, Default.Mode.PT]
 
