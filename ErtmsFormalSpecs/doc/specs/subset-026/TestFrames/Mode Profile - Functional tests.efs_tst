@@ -1146,7 +1146,7 @@ Kernel.TrainPosition.FrontEndPosition(
             {
                 MODE_PROFILE=&gt;Messages.PACKET.TRACK_TO_TRAIN.MODE_PROFILE.Message
                 {
-                   D_MAMODE=&gt;50,
+                   D_MAMODE=&gt;500,
                    L_ACKMAMODE=&gt;500,
                    L_MAMODE=&gt;100,
                    L_PACKET=&gt;0,
@@ -1241,7 +1241,7 @@ Kernel.TrainPosition.FrontEndPosition(
  Kind="Instantaneous"
  DeadLine="1"
  Guid="8b630413-e7c8-4c72-816f-28ec97921ce4"
->Kernel.Mode == Mode.SH</Expectation><Expectation
+>Kernel.Mode == Mode.FS</Expectation><Expectation
  Kind="Instantaneous"
  DeadLine="1"
  Guid="c43eca27-8d50-4ed2-8876-56567fbe8260"
@@ -1249,7 +1249,37 @@ Kernel.TrainPosition.FrontEndPosition(
  Kind="Instantaneous"
  DeadLine="1"
  Guid="6f67534b-0b35-4531-92ef-8dbb48dbae0d"
->(FIRST X IN Kernel.MA.ModeProfile.Profile).Location ==  50.0</Expectation></Expectations>
+>(FIRST X IN Kernel.MA.ModeProfile.Profile).Location ==  500.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step5 - Reach SH mode entry location"
+ Guid="8c70323e-27e6-4a3a-a877-ca5c5672bae6"
+>
+<SubSteps>
+<SubStep
+ Name="SubStep1"
+ Guid="bd592d74-cb01-4e7f-add9-cdd2623728b8"
+>
+<Actions>
+<Action
+ Guid="cb96b3c7-9478-42d8-8768-e8f17a7712d0"
+>Odometry.NominalDistance &lt;- 601.0</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Blocking="FALSE"
+ Guid="6575479e-ecaf-46d4-b6d5-96b43cde9b8e"
+>Kernel.Mode == Mode.SH</Expectation><Expectation
+ Kind="Instantaneous"
+ Blocking="FALSE"
+ Guid="a64e6c4d-3a35-4ff3-bf0a-76ee1c48440b"
+>Kernel.MA.ModeProfile.Profile == []</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step></Steps>
 </TestCase></TestCases>
@@ -2695,10 +2725,6 @@ Messages.EUROBALISE.SubStructure1
 >
 <Expectations>
 <Expectation
- Kind="Instantaneous"
- DeadLine="1"
- Guid="8a8c477b-2121-479a-b3ba-594ac297b9ac"
->Kernel.MA.ModeProfile.CurrentMode() == Mode.ModeProfile.SH</Expectation><Expectation
  Kind="Instantaneous"
  DeadLine="1"
  Guid="1221095b-aa04-4c1e-9d2c-eb68a697acb9"

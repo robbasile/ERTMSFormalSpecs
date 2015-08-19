@@ -8,6 +8,16 @@
 >
 <NameSpaces>
 </NameSpaces>
+<StateMachines>
+<StateMachine
+ X="221"
+ Y="61"
+ Width="100"
+ Height="50"
+ Name="StateMachine1"
+ Guid="bfb19302-8a8a-4809-9016-3992e1e7c5f1"
+>
+</StateMachine></StateMachines>
 <Functions>
 <Function
  Type="Boolean"
@@ -15,6 +25,7 @@
  Y="1"
  Width="100"
  Height="50"
+ Implemented="TRUE"
  Name="ShouldDeleteLTO"
  Guid="d0048d72-f70f-4b4a-a2da-f60cb9053759"
 >
@@ -49,6 +60,39 @@
 >
 <Expression>Mode in [Mode.NP, Mode.SB, Mode.SH, Mode.SR, Mode.SL, Mode.NL, Mode.UN, Mode.SN, Mode.RV]</Expression>
 </Case></Cases>
+</Function><Function
+ Type="Boolean"
+ X="221"
+ Y="1"
+ Width="100"
+ Height="50"
+ Name="Function2"
+ Guid="6c119e4b-55ba-4f98-9fe0-faeab05f4a90"
+>
+<Cases>
+</Cases>
+</Function><Function
+ Type="Boolean"
+ X="1"
+ Y="61"
+ Width="100"
+ Height="50"
+ Name="Function3"
+ Guid="15e32b55-e289-4edf-9c4e-6797856f9f7d"
+>
+<Cases>
+</Cases>
+</Function><Function
+ Type="Boolean"
+ X="111"
+ Y="61"
+ Width="100"
+ Height="50"
+ Name="Function4"
+ Guid="d4415e0b-4e13-4bf0-9818-30eb08f4ed85"
+>
+<Cases>
+</Cases>
 </Function></Functions>
 <Procedures>
 <Procedure
@@ -69,7 +113,8 @@
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="fd62e69e-5f88-4373-842e-3153c4d6677f"
 >
-</ReqRef><Rules>
+</ReqRef><Comment>Handles all the deleted or reset information on mode change.</Comment>
+<Rules>
 <Rule
  Implemented="TRUE"
  Name="Handle National Values"
@@ -679,6 +724,180 @@ End =&gt; BaseTypes.Distance.Unknown
 </RuleCondition></Conditions>
 </Rule><Rule
  Implemented="TRUE"
+ Name="Handle Plain Text Information"
+ Guid="5f88d717-5d2b-4a6a-bc37-7f0379c6a6a3"
+>
+<ReqRef
+ Id="5aecc0d9-b4af-4927-89c0-a479d7695d7a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="364c3dca-42af-4260-a9b9-092652e5dc27"
+>
+</ReqRef><SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Handle Plain Text Information"
+ Guid="8d648278-186e-4506-931c-7a64592dc170"
+>
+<PreConditions>
+<PreCondition
+ Guid="250b632f-2341-4c21-8896-9ea13e8f056c"
+>Mode in [Mode.NP, Mode.SB, Mode.PS, Mode.SH, Mode.SL, Mode.IS]</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="8f364734-2456-4b33-83c7-06700ce462a4"
+>PlainTextInformation &lt;- &apos;&apos;</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Implemented="TRUE"
+ Name="Handle Fixed Text Information"
+ Guid="a8072633-1b24-4d57-ab79-4a01a95f5524"
+>
+<ReqRef
+ Id="4cdc813b-f662-4585-9abd-9a301203901a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c8032ede-7fd1-4f27-b91f-ce9d03bd83a6"
+>
+</ReqRef><SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Handle Fixed Text Information"
+ Guid="e381a37a-55c0-4ce2-94db-e09870cd418f"
+>
+<PreConditions>
+<PreCondition
+ Guid="f4d1264e-d6bd-462f-82f3-376251f236be"
+>Mode in [Mode.NP, Mode.SB, Mode.PS, Mode.SH, Mode.SL, Mode.IS]</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="e9f73d7f-e96e-4599-84e1-878bbd1a7297"
+>FixedTextInformation &lt;- &apos;&apos;</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Implemented="TRUE"
+ Name="Handle Geographical Position"
+ Guid="a586419f-3c90-409a-88fe-d236d7f1f791"
+>
+<ReqRef
+ Id="d4bc7469-49ff-4a7d-9404-c01cf99d97d5"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6c35c139-63da-4c64-8993-d22db971f216"
+>
+</ReqRef><SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Handle Geographical Position"
+ Guid="5a45cff7-eb47-4e4d-b28e-d9bc4b49f123"
+>
+<PreConditions>
+<PreCondition
+ Guid="0655cf78-624d-489c-843a-ed4f790ced45"
+>Mode in [Mode.NP, Mode.PS, Mode.SH, Mode.SL, Mode.IS, Mode.RV]</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="f3943758-7237-4f6b-abb3-5c9b7f8d0b2e"
+>GeographicalPosition.GeographicalPositionInformation &lt;- []</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Implemented="TRUE"
+ Name="Handle Mode Profile"
+ Guid="24263de3-0c4b-4025-8e2d-cf439c2c7798"
+>
+<ReqRef
+ Id="bb271ed0-a07a-4881-a9ec-25b4bbafcbdd"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="86f62212-c659-4faf-849f-8e4645957ff7"
+>
+</ReqRef><SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Handle Mode Profile"
+ Guid="b48526cd-0745-4902-9033-f2779bcb715f"
+>
+<PreConditions>
+<PreCondition
+ Guid="f9704f2d-9db2-4813-bf75-b2a37498ec1b"
+>Mode in [Mode.NP, Mode.SB, Mode.PS, Mode.SH, Mode.SR, Mode.SL, Mode.NL, Mode.UN, Mode.TR, Mode.SN, Mode.RV]</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="312edcad-3833-4f4d-8507-02297f317878"
+>MA.ModeProfile.Profile &lt;- []</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Implemented="TRUE"
+ Name="Handle RBC Transition Order"
+ Guid="af7c6858-a79d-48b3-a2df-8b307a80544d"
+>
+<ReqRef
+ Id="1a4cc193-a720-42d9-a632-ef6a9ab225e9"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="fee2fedb-ed30-4769-984b-9b2f113c7ee4"
+>
+</ReqRef><SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Handle RBC Transition Order"
+ Guid="3c640cab-5893-4ce8-9cf1-4d18c8d3147d"
+>
+<PreConditions>
+<PreCondition
+ Guid="923eeb5c-5b3a-4e66-ac09-f7b47677af18"
+>Mode in [Mode.NP, Mode.SB, Mode.PS, Mode.SH, Mode.SR, Mode.SL, Mode.NL, Mode.UN, Mode.TR, Mode.SN, Mode.RV]</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="a1d1a714-4b37-4ae9-8b3f-a2c63860ec8d"
+>EURORADIO.SecondaryTerminal().AcceptingRBCContactOrder &lt;- EMPTY</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Name="Handle Radio Infill Area information"
+ Guid="113ad32b-efc9-408d-9e33-298a3af482c9"
+>
+<ReqRef
+ Id="376a6094-63f6-44d0-9a8b-9e39d60fac0a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="8e97d8b2-671a-47e0-b94c-f9ffd2a811eb"
+>
+</ReqRef><SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Name="Handle Radio Infill Area information"
+ Guid="bdb5067f-301f-4d71-8ce5-efa112f8922d"
+>
+<PreConditions>
+<PreCondition
+ Guid="8191362c-e4bb-4de3-9bd9-7807516b9345"
+>Mode in [Mode.NP, Mode.SB, Mode.PS, Mode.SH, Mode.SR, Mode.SL, Mode.NL, Mode.UN, Mode.TR, Mode.SN, Mode.RV]</PreCondition></PreConditions>
+<Actions>
+</Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Name="Handle EOLM information"
+ Guid="019e3e1f-da7f-40ea-b310-cdd986de2e0d"
+>
+<ReqRef
+ Id="a2aa3562-7b82-4f58-8cbc-4eace4ca4d36"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="8d71ed1d-18c5-482a-ae5e-ba449c831870"
+>
+</ReqRef><SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Name="Revalidate EOLM information"
+ Guid="f1eeae92-6a4b-4626-a674-86d9075127e0"
+>
+<PreConditions>
+<PreCondition
+ Guid="21339913-a2e6-4dbf-b892-3f5098e0ffd8"
+>Mode in [Mode.NP]</PreCondition></PreConditions>
+<Actions>
+</Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Implemented="TRUE"
  Name="Handle Track Conditions 1"
  Guid="0e721665-38cb-4fc4-b13b-4af1800424fd"
 >
@@ -740,6 +959,111 @@ End =&gt; BaseTypes.Distance.Unknown
 >TrackDescription.TrackConditions.General.TCProfile&lt;- MAP TrackDescription.TrackConditions.General.TCProfile USING X IN TrackDescription.TrackConditions.General.HandleTCPwhenEnteringGivenMode2( X )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
+ Implemented="TRUE"
+ Name="Handle Track condition big metal masses"
+ Guid="b4d771b3-74ac-459e-a5eb-b6b56702d49c"
+>
+<ReqRef
+ Id="82f89856-7467-47db-ac7f-909cc5ea8958"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="4dee2dda-4150-44f2-a399-c0a86c6866ab"
+>
+</ReqRef><SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Reset Track condition big metal masses"
+ Guid="0cdd2730-220d-43a3-b823-361092e0d094"
+>
+<PreConditions>
+<PreCondition
+ Guid="38d35dfc-8883-4cdc-a7f4-77c1cb8c52a1"
+>Mode in [Mode.NP, Mode.SB, Mode.PS, Mode.SH, Mode.SR, Mode.SL, Mode.RV]</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="13ea5c3b-6f88-4d91-80fc-98f5f0170f43"
+>Kernel.TrackDescription.TrackConditions.BigMetalMasses.TCBigMetalMasses &lt;- []</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Implemented="TRUE"
+ Name="Handle Unconditional Emergency Stops"
+ Guid="bd652071-cf72-437e-9250-d82d4d78f845"
+>
+<ReqRef
+ Id="35f50846-f124-4492-870e-18c02d157c40"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="7b3a13ad-ec0d-4ca6-a91e-78aff14a61b4"
+>
+</ReqRef><SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Handle Unconditional Emergency Stops"
+ Guid="e5f78ddd-b93b-46eb-9d08-39618762cc73"
+>
+<PreConditions>
+<PreCondition
+ Guid="f4722fc2-5f58-4b39-9f68-e9d2bfc82a3c"
+>Mode in [Mode.NP, Mode.SB, Mode.PS, Mode.SH, Mode.SR, Mode.SL, Mode.NL, Mode.UN, Mode.SN, Mode.RV]</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="60e53b39-e375-4fc7-abe3-55ceb1f352fd"
+>REMOVE ALL (NOT X.IsConditional) IN BrakeCommands.EmergencyStops</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Implemented="TRUE"
+ Name="Handle Conditional Emergency Stops"
+ Guid="20aa3965-a886-420e-98fe-50f51feb10b0"
+>
+<ReqRef
+ Id="debd45ce-7263-4c29-88d3-66b44e1cf85b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c56add69-b6cf-4190-a724-72803ebb8265"
+>
+</ReqRef><SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Handle Conditional Emergency Stops"
+ Guid="51a13fc8-5ec5-49f4-acdd-3588f1584a7b"
+>
+<PreConditions>
+<PreCondition
+ Guid="b9e8cd0c-798f-4cc3-b7e6-de5325e002d1"
+>Mode in [Mode.NP, Mode.SB, Mode.PS, Mode.SH, Mode.SR, Mode.SL, Mode.NL, Mode.UN, Mode.SN, Mode.RV]</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="ceba2e6e-a03b-4465-a597-fc8a4689abd3"
+>REMOVE ALL X.IsConditional IN BrakeCommands.EmergencyStops</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Implemented="TRUE"
+ Name="Handle Train Position"
+ Guid="ccad0e0f-38a9-4883-a6d4-f3bbc329003e"
+>
+<ReqRef
+ Id="c8d2dd00-d534-48c6-b75f-1319f928f070"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="2e7f516e-bdf1-4355-984f-5b83d8b76a3c"
+>
+</ReqRef><SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Revalidate Train Position"
+ Guid="b33a7b1f-675a-4734-a6fc-4e677762d9ce"
+>
+<PreConditions>
+<PreCondition
+ Guid="11247934-a5f0-4be0-9b2f-fa8a762643f4"
+>Mode in [Mode.NP]</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="704cf1f6-4a58-495d-a834-ac2c8a519d8d"
+>TrainPosition.Position.DataState &lt;- Default.DataState.Invalid</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Implemented="TRUE"
  Name="Handle Train Data"
  Guid="b5ecf93a-97fe-4f39-bca3-8aa51d036e47"
 >
@@ -756,6 +1080,7 @@ End =&gt; BaseTypes.Distance.Unknown
 </ReqRef><SubRules></SubRules>
 <Conditions>
 <RuleCondition
+ Implemented="TRUE"
  Name="Deleted"
  Guid="7c27df7a-de45-4ba4-b129-933be0f48a46"
 >
@@ -768,6 +1093,7 @@ End =&gt; BaseTypes.Distance.Unknown
  Guid="a7fa7c59-c015-4adc-8b14-1b717c6c824f"
 >TrainData.TrainData.DataState &lt;- DataState.Unknown</Action></Actions>
 </RuleCondition><RuleCondition
+ Implemented="TRUE"
  Name="To Be Revalidated"
  Guid="a954f9d8-4fd2-49ec-8bb6-01212dec5d15"
 >
@@ -781,6 +1107,185 @@ End =&gt; BaseTypes.Distance.Unknown
 >TrainData.TrainData.DataState &lt;- DataState.Invalid</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
+ Implemented="TRUE"
+ Name="Handle ERTMS/ETCS level"
+ Guid="b3f6cdf8-805b-40ce-afef-882f407a489d"
+>
+<ReqRef
+ Id="a0933899-4aac-4bca-b0a7-126455f45bec"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="12283d1e-2ccd-40bb-88d6-13c531c71008"
+>
+</ReqRef><SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Revalidate ERTMS/ETCS level"
+ Guid="1a073791-522b-40a4-95a4-61a35cec9cc4"
+>
+<PreConditions>
+<PreCondition
+ Guid="8856296e-c0d8-4dcf-bb36-fa43ced09724"
+>Mode in [Mode.NP]</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="d7a7f3bb-4314-494c-b170-425dbbd1e7e1"
+>Level.DataState &lt;- Default.DataState.Invalid</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Name="Handle Table of priority of trackside supported levels"
+ Guid="63a1621f-26fe-4c62-8a0e-eeb8b90129f4"
+>
+<ReqRef
+ Id="445e291c-f228-488b-b167-fc56dcea9119"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6aa856f4-d33b-47df-8358-f23593ab9da0"
+>
+</ReqRef><SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Name="Handle Table of priority of trackside supported levels"
+ Guid="eb7b44a8-63db-4445-90cc-911b9f85145c"
+>
+<Comment>The table of priority of trackside supported levels is not stored.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="3c5482c3-43c4-4982-bcef-f4d99a0af23d"
+>Mode in [Mode.NP]</PreCondition></PreConditions>
+<Actions>
+</Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Implemented="TRUE"
+ Name="Handle Driver ID"
+ Guid="68b82cbc-37de-4344-b51e-324b118ff8b5"
+>
+<ReqRef
+ Id="313db158-8af2-41a8-be01-840abeafc4cb"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9bdab45d-ec18-4f0d-9f67-06046072d937"
+>
+</ReqRef><SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Delete Driver ID"
+ Guid="d4557c97-67e4-49ec-a53c-0375752f3760"
+>
+<PreConditions>
+<PreCondition
+ Guid="ae1b6dc4-f29d-4427-9759-dd821e370a13"
+>Mode in [Mode.NP, Mode.SL]</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="5d1c7d89-a32e-4e1a-83d1-97a6cc8483d2"
+>DriverId.DataState &lt;- DataState.Unknown</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Revalidate Driver ID"
+ Guid="5a076260-c80b-462b-ae7f-c7a508d098ba"
+>
+<PreConditions>
+<PreCondition
+ Guid="dbabb518-a74f-485e-9006-6caf88ce935d"
+>Mode in [Mode.SB]</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="96575d49-f7b5-4e08-b6eb-ac51d8602adb"
+>DriverId.DataState &lt;- DataState.Invalid</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Implemented="TRUE"
+ Name="Handle Radio Network ID"
+ Guid="6225c74e-c88a-45fe-b5fa-4486908502c1"
+>
+<ReqRef
+ Id="6900d139-2f02-44ee-8f0f-cce71d96a0c2"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="854da8ef-b384-4969-a074-808d4101813f"
+>
+</ReqRef><Comment>The Radio Network ID is always unchanged (since &quot;NR&quot; is considered the same as &quot;U&quot;)</Comment>
+<SubRules></SubRules>
+</Rule><Rule
+ Implemented="TRUE"
+ Name="Handle RBC ID/Phone Number"
+ Guid="bd82da1f-3440-4082-a81c-007787a891ae"
+>
+<ReqRef
+ Id="0714192d-cf16-4c6e-b23d-7eef75ec7a54"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0f7098b9-dc59-4e3b-bb9c-2ed4d943592f"
+>
+</ReqRef><SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Delete RBD ID/Phone Number"
+ Guid="b9866d6a-6820-477f-93dc-cdf269f1c41e"
+>
+<PreConditions>
+<PreCondition
+ Guid="eb9b5a2d-fbbd-4f04-b60f-3ffc04b16cf7"
+>Mode in [Mode.UN, Mode.SN]</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="bde1c19e-6cdd-4d60-a2f5-0fb542d71a64"
+>EURORADIO.CurrentRBCConnection().ContactData.DataState &lt;- DataState.Unknown</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Revalidate RBD ID/Phone Number"
+ Guid="b86d7b06-2aa8-4478-b280-f6c3ba51bc62"
+>
+<PreConditions>
+<PreCondition
+ Guid="464ec2e6-bdda-4764-a6f7-1335cddbbcb3"
+>Mode in [Mode.NP]</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="a8d4a142-2d90-400d-b31e-410f873efe2d"
+>EURORADIO.CurrentRBCConnection().ContactData.DataState &lt;- DataState.Invalid</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Implemented="TRUE"
+ Name="Handle Train Running Number"
+ Guid="16504d29-2bef-4b3e-8279-b9bd7f3ff9dc"
+>
+<ReqRef
+ Id="598c134e-a66e-428c-8548-3584caaa383a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e6d3cb07-bfb1-4a97-93fe-265a6cac1015"
+>
+</ReqRef><SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Delete Train Running Number"
+ Guid="b079e6e8-ea29-4358-87d1-4d008d95e0c4"
+>
+<PreConditions>
+<PreCondition
+ Guid="cc220528-be40-4fa6-9bb8-4c03be22d0cf"
+>Mode in [Mode.NP, Mode.SL]</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="2d3eba4c-f0a6-409c-a094-625d43a5f39c"
+>TrainRunningNumber.DataState &lt;- Default.DataState.Unknown</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Revalidate Train Running Number"
+ Guid="cfa3963d-98e6-442c-babd-7362224b2e37"
+>
+<PreConditions>
+<PreCondition
+ Guid="fe8cb1b0-4c11-4d47-8328-87524dba0c6b"
+>Mode in [Mode.SB]</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="a9857842-f6d2-4a05-8a3a-fe681e2f1f95"
+>TrainRunningNumber.DataState &lt;- Default.DataState.Invalid</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Implemented="TRUE"
  Name="Handle Reversing Area Information"
  Guid="cbcd26bc-a7d0-4d9a-a9aa-7bd381816e3a"
 >
@@ -797,6 +1302,7 @@ End =&gt; BaseTypes.Distance.Unknown
 </ReqRef><SubRules></SubRules>
 <Conditions>
 <RuleCondition
+ Implemented="TRUE"
  Name="HandleReversingArea"
  Guid="9a81b207-908d-4e21-899e-529161a902b0"
 >
@@ -810,6 +1316,63 @@ End =&gt; BaseTypes.Distance.Unknown
 >TrackDescription.ReversingArea.ReversingAreaProfile &lt;- EMPTY</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
+ Implemented="TRUE"
+ Name="Handle Reversing Supervision Information"
+ Guid="33464c48-567f-4234-8c71-fab79b8e18ff"
+>
+<ReqRef
+ Id="e6346d79-c83a-454c-8f4b-8aab3aa9bf4c"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="4eef47ea-cb8b-4c4b-b746-93d39ccdb4f8"
+>
+</ReqRef><SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Handle Reversing Supervision Information"
+ Guid="a32fb4d6-20f3-4401-b908-9e74fac4cb19"
+>
+<PreConditions>
+<PreCondition
+ Guid="68ad4b4e-a564-4da9-ac82-75e429a4f301"
+>Mode in [Mode.NP, Mode.SB, Mode.PS, Mode.SH, Mode.SR, Mode.SL, Mode.NL, Mode.UN, Mode.TR, Mode.SN]</PreCondition><PreCondition
+ Guid="5ce6daed-2f29-4291-ad01-fcefdcaa4e96"
+>Available(TrackDescription.ReversingArea.ReversingAreaProfile)</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="b03b0b5b-2998-490b-973a-d6602378f1dc"
+>TrackDescription.ReversingArea.ReversingAreaProfile.Speed &lt;- Default.BaseTypes.Speed.NA</Action><Action
+ Guid="6dee7d11-4473-4613-9253-bc3d953f5096"
+>TrackDescription.ReversingArea.ReversingAreaProfile.MaxDistance &lt;- Default.BaseTypes.Distance.Unknown</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Implemented="TRUE"
+ Name="Handle Track Ahead Free Request"
+ Guid="1e39850c-2d75-468d-bbc3-f58382fedd81"
+>
+<ReqRef
+ Id="e86eea8d-6ce2-45e8-ad25-09d8795c56b3"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c0cdb5c9-b8fe-46a5-9fd9-89c6e0e63dfa"
+>
+</ReqRef><SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Handle Track Ahead Free Request"
+ Guid="486f9e77-51d0-490d-8ce5-c8e20a088081"
+>
+<PreConditions>
+<PreCondition
+ Guid="b5ff1106-c20b-4c42-b3f5-33bc64348ce6"
+>Mode in [Mode.NP, Mode.SB, Mode.PS, Mode.SH, Mode.FS, Mode.LS, Mode.SL, Mode.NL, Mode.UN, Mode.TR, Mode.SN, Mode.RV]</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="4acd25e2-a9d1-40ad-a381-fb9170878b46"
+>TrackAheadFree.TrackAheadFreeRequest &lt;- EMPTY</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Implemented="TRUE"
  Name="Handle Permitted Braking Distance Information"
  Guid="aff11fb8-d3f5-4a16-bda5-704ec341a1c5"
 >
@@ -826,6 +1389,7 @@ End =&gt; BaseTypes.Distance.Unknown
 </ReqRef><SubRules></SubRules>
 <Conditions>
 <RuleCondition
+ Implemented="TRUE"
  Name="HandlePermittedBrakingDistance"
  Guid="e5b96db3-42b4-454a-9b6c-2de56f58930b"
 >
@@ -838,7 +1402,143 @@ End =&gt; BaseTypes.Distance.Unknown
  Guid="0fd29861-ded9-46ee-8138-16aff5ba6fc2"
 >TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.SpeedRestrictions &lt;- []</Action></Actions>
 </RuleCondition></Conditions>
+</Rule><Rule
+ Implemented="TRUE"
+ Name="Handle Level Crossing information"
+ Guid="1afb4b5b-f967-4e05-b2e2-3a3bc2e09d3f"
+>
+<ReqRef
+ Id="d0a52281-f85f-49de-bf32-0b13aa98cbae"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a9c44aa4-341b-400e-bbdf-efcf1b6ce0eb"
+>
+</ReqRef><SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Handle Level Crossing information"
+ Guid="7fac4e54-c17c-4e3f-a8d2-2c7637a91650"
+>
+<PreConditions>
+<PreCondition
+ Guid="2377d03e-9f12-4cb3-857f-2109db3da514"
+>Mode in [ Default.Mode.NP, Default.Mode.SB, Default.Mode.PS, Default.Mode.SH, Default.Mode.SR, Default.Mode.SL, Default.Mode.NL, Default.Mode.UN, Default.Mode.TR, Default.Mode.SN, Default.Mode.RV ]</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="e02c4388-b1b1-4dfc-b153-f8398d113f46"
+>LX.MRSPLevelCrossings &lt;- []</Action><Action
+ Guid="12d0db4c-4228-49f8-91f9-e61b431bb650"
+>LX.SupervisedLevelCrossings &lt;- []</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Implemented="TRUE"
+ Name="Handle RBC/RIU System Version"
+ Guid="ae7a09da-7bd1-4c19-aa06-684b1e4c1d16"
+>
+<ReqRef
+ Id="a86bc1e3-8356-4364-9b43-1e810d6a02d9"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ae17120b-df61-4487-b2e6-35ebb32b7fd7"
+>
+</ReqRef><SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Handle RBC/RIU System Version"
+ Guid="6d1d3641-fa31-41ed-87ea-5e5f748a1f37"
+>
+<PreConditions>
+<PreCondition
+ Guid="c1bbdf25-1646-4849-bc18-5507d385edfc"
+>Mode in [Mode.NP]</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="f4f285cf-87f7-46c6-bd07-0386165d3630"
+>EURORADIO.CurrentRBCConnection().SessionManagementData.SystemVersion.DataState &lt;- Default.DataState.Unknown</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Implemented="TRUE"
+ Name="Handle Operated System Version"
+ Guid="25fa7716-cba0-45d5-b8a2-3365bb52b21f"
+>
+<ReqRef
+ Id="52a479a3-f04f-46f9-8612-a15ffef7a0c1"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e9ab191a-f740-49c0-9c26-9b415bb8c39d"
+>
+</ReqRef><Comment>The Operated System Version is always unchanged (since &quot;NR&quot; is considered the same as &quot;U&quot;)</Comment>
+<SubRules></SubRules>
+</Rule><Rule
+ Implemented="TRUE"
+ Name="Handle Virtual Balise Covers"
+ Guid="b5c4f0d5-1e46-4ff7-9cb1-8a617110c3db"
+>
+<ReqRef
+ Id="ee6101f8-d147-4d16-a0a2-05f7e6d3a67c"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ca918b65-6cc8-4045-9224-1a04c269d98a"
+>
+</ReqRef><Comment>The Virtual Balise Covers are always unchanged (since &quot;NR&quot; is considered the same as &quot;U&quot;)</Comment>
+<SubRules></SubRules>
+</Rule><Rule
+ Implemented="TRUE"
+ Name="Handle Language used to display information to the driver"
+ Guid="ab68f8e2-c1bb-47aa-91ec-9d9562c9b20a"
+>
+<ReqRef
+ Id="d5b31d88-9a3f-4db7-9880-07e29a36fa4c"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="7618a7d8-b3bb-47aa-8ae4-bc6ce86933c7"
+>
+</ReqRef><Comment>The Language used to display information to the driver is always unchanged (since &quot;NR&quot; is considered the same as &quot;U&quot;)</Comment>
+<SubRules></SubRules>
+</Rule><Rule
+ Implemented="TRUE"
+ Name="Handle Generic LS function marker"
+ Guid="3feff474-8adc-4a4e-8f94-0cbe6b5a5358"
+>
+<ReqRef
+ Id="40505161-3a22-4e58-9dff-daeb7f800422"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="52d2aa41-e615-4cb1-a149-d0ca20e9fae0"
+>
+</ReqRef><Comment>The Generic LS function marker is always unchanged (since &quot;NR&quot; is considered the same as &quot;U&quot;)</Comment>
+<SubRules></SubRules>
+</Rule><Rule
+ Implemented="TRUE"
+ Name="Handle LSSMA display toggle on order"
+ Guid="895d0366-c883-49cb-87a8-f3cfce1f98e8"
+>
+<ReqRef
+ Id="24a0e3fe-f6b7-44ba-8549-e210cd092129"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="09b947da-8cc7-448b-8118-6a577e32fee5"
+>
+</ReqRef><SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Handle LSSMA display toggle on order"
+ Guid="3b732d68-6b98-49e2-943f-26e38ba6dc3a"
+>
+<PreConditions>
+<PreCondition
+ Guid="fc92c4b9-3336-4ff3-ad26-f920e41feffb"
+>Mode in [Mode.NP, Mode.SB, Mode.PS, Mode.SH, Mode.FS, Mode.SR, Mode.OS, Mode.SL, Mode.NL, Mode.UN, Mode.TR, Mode.SN, Mode.RV]</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="48fe38ec-4627-4d11-b485-9a07d37ce361"
+>LimitedSupervision.LSSMATimer &lt;- EMPTY</Action></Actions>
+</RuleCondition></Conditions>
 </Rule></Rules>
+</Procedure><Procedure
+ X="1"
+ Y="121"
+ Width="100"
+ Height="50"
+ Name="Procedure2"
+ Guid="48e172f3-f324-4eeb-bc9d-a3a8e184da7a"
+>
 </Procedure></Procedures>
 <Rules>
 <Rule
