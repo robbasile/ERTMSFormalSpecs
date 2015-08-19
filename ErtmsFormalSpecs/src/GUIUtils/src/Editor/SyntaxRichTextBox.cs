@@ -64,21 +64,49 @@ namespace GUIUtils.Editor
         public bool ApplyPatterns { get; set; }
 
         /// <summary>
+        /// A regular font
+        /// </summary>
+        private Font RegularFont { get; set; }
+
+        /// <summary>
         ///     Constructor
         /// </summary>
         public SyntaxRichTextBox()
         {
-            Pattern commentPattern = new Pattern("//.*$") {Color = Color.Green};
-            Pattern holeInTemplatePattern = new Pattern("<[a-zA-Z\\b]+>") {Color = Color.OrangeRed};
-            Pattern integerPattern = new Pattern("\\b(?:[0-9]*\\.)?[0-9]+\\b") {Color = Color.BlueViolet};
-            Pattern stringPattern = new Pattern("\'[^\']*\'") {Color = Color.BlueViolet};
-            ConstantPattern constantPattern = new ConstantPattern(QualifiedName) {Color = Color.BlueViolet};
-            Pattern keywordPattern = new ListPattern(Keywords) {FontStyle = FontStyle.Bold};
-            Pattern modelElementPattern = new ListPattern(ModelElements)
+            RegularFont = new Font(Font, FontStyle.Regular);
+
+            Pattern commentPattern = new Pattern(RegularFont, "//.*$")
+            {
+                Color = Color.Green
+            };
+            Pattern holeInTemplatePattern = new Pattern(RegularFont, "<[a-zA-Z\\b]+>")
+            {
+                Color = Color.OrangeRed
+            };
+            Pattern integerPattern = new Pattern(RegularFont, "\\b(?:[0-9]*\\.)?[0-9]+\\b")
+            {
+                Color = Color.BlueViolet
+            };
+            Pattern stringPattern = new Pattern(RegularFont, "\'[^\']*\'")
+            {
+                Color = Color.BlueViolet
+            };
+            ConstantPattern constantPattern = new ConstantPattern(RegularFont, QualifiedName)
+            {
+                Color = Color.BlueViolet
+            };
+            Pattern keywordPattern = new ListPattern(RegularFont, Keywords)
+            {
+                FontStyle = FontStyle.Bold
+            };
+            Pattern modelElementPattern = new ListPattern(RegularFont, ModelElements)
             {
                 FontStyle = FontStyle.Bold | FontStyle.Underline
             };
-            TypePattern typePattern = new TypePattern(QualifiedName) {Color = Color.Blue};
+            TypePattern typePattern = new TypePattern(RegularFont, QualifiedName)
+            {
+                Color = Color.Blue
+            };
 
             Patterns = new List<Pattern>
             {
@@ -191,7 +219,7 @@ namespace GUIUtils.Editor
                 SelectionStart = start;
                 SelectionLength = line.Length;
                 SelectionColor = Color.Black;
-                SelectionFont = new Font(Font, FontStyle.Regular);
+                SelectionFont = RegularFont;
 
                 List<ColorizedLocation> colored = new List<ColorizedLocation>();
                 foreach (Pattern pattern in Patterns)
@@ -257,15 +285,21 @@ namespace GUIUtils.Editor
         public FontStyle FontStyle { get; set; }
 
         /// <summary>
+        /// The font used to colorize
+        /// </summary>
+        public Font HighlightFont { get; set; }
+
+        /// <summary>
         ///     Constructor
         /// </summary>
-        /// <param name="color"></param>
+        /// <param name="baseFont"></param>
         /// <param name="regExp"></param>
-        public Pattern(string regExp)
+        public Pattern(Font baseFont, string regExp)
         {
             RegExp = new Regex(regExp, RegexOptions.Compiled);
             Color = Color.Black;
             FontStyle = FontStyle.Regular;
+            HighlightFont = new Font(baseFont, FontStyle);
         }
 
         /// <summary>
@@ -279,8 +313,6 @@ namespace GUIUtils.Editor
         public void Colorize(SyntaxRichTextBox textBox, ModelElement instance, int start, string line,
             List<ColorizedLocation> colorizedLocations)
         {
-            Font font = new Font(textBox.Font, FontStyle);
-
             foreach (Match match in RegExp.Matches(line))
             {
                 if (CheckLocation(match, colorizedLocations))
@@ -295,7 +327,7 @@ namespace GUIUtils.Editor
                         textBox.SelectionStart = start + match.Index;
                         textBox.SelectionLength = match.Length;
                         textBox.SelectionColor = Color;
-                        textBox.SelectionFont = font;
+                        textBox.SelectionFont = HighlightFont;
                     }
                 }
             }
@@ -307,7 +339,7 @@ namespace GUIUtils.Editor
         /// <param name="match"></param>
         /// <param name="colorizedLocations"></param>
         /// <returns></returns>
-        private bool CheckLocation(Match match, List<ColorizedLocation> colorizedLocations)
+        private bool CheckLocation(Match match, IEnumerable<ColorizedLocation> colorizedLocations)
         {
             bool retVal = true;
 
@@ -350,8 +382,9 @@ namespace GUIUtils.Editor
         ///     Constructor
         /// </summary>
         /// <param name="regExp"></param>
-        public TypePattern(string regExp)
-            : base(regExp)
+        /// <param name="baseFont"></param>
+        public TypePattern(Font baseFont, string regExp)
+            : base(baseFont, regExp)
         {
         }
 
@@ -361,7 +394,7 @@ namespace GUIUtils.Editor
         /// <param name="text"></param>
         /// <param name="instance"></param>
         /// <returns></returns>
-        public override bool AdditionalCheck(string text, ModelElement instance)
+        public override bool AdditionalCheck(string text, ModelElement instance) 
         {
             bool retVal = base.AdditionalCheck(text, instance);
 
@@ -385,8 +418,9 @@ namespace GUIUtils.Editor
         ///     Constructor
         /// </summary>
         /// <param name="regExp"></param>
-        public ConstantPattern(string regExp)
-            : base(regExp)
+        /// <param name="baseFont"></param>
+        public ConstantPattern(Font baseFont, string regExp)
+            : base(baseFont, regExp)
         {
         }
 
@@ -420,8 +454,9 @@ namespace GUIUtils.Editor
         ///     Constructor
         /// </summary>
         /// <param name="elements"></param>
-        public ListPattern(params string[] elements)
-            : base(ComputeRegExp(elements))
+        /// <param name="baseFont"></param>
+        public ListPattern(Font baseFont, params string[] elements)
+            : base(baseFont, ComputeRegExp(elements))
         {
         }
 
