@@ -221,7 +221,8 @@ NOT MA.ModeProfile.ModeProfileIsApplicable()</Expression>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="a1e511a1-bceb-4d58-b557-eb9d89328d5e"
 >
-</ReqRef><Cases>
+</ReqRef><Comment>(no rule)</Comment>
+<Cases>
 <Case
  Name="Value"
  Guid="a9adf8dd-65b1-4e42-a231-d331f576c254"
@@ -383,7 +384,11 @@ DMI.DesksAreClosed()</Expression>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="0bd188c0-e4b3-40ff-ae58-acaa303bb835"
 >
-</ReqRef><Cases>
+</ReqRef><Comment>Returns True if:
+  - there is a mode profile for OS mode
+  - the max safe front end is in the OS mode area
+  - the max safe front end is not in a LS mode area.</Comment>
+<Cases>
 <Case
  Name="Value"
  Guid="1eb773c0-9cf5-4a53-bb0d-22a83b97659e"
@@ -682,7 +687,10 @@ Available ( EURORADIO.CurrentRBCConnection().MessageIn.Message.SH_AUTHORISED )</
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="28ae0dda-8c95-4e40-b2c7-17e0cae4f4ba"
 >
-</ReqRef><Cases>
+</ReqRef><Comment>Returns True if:
+  - no &quot;non leading&quot; signal is received any more
+  - the train is at standstill.</Comment>
+<Cases>
 <Case
  Name="Value"
  Guid="dc9cbe84-19d1-4d8a-aacf-ca499d5c017e"
@@ -722,7 +730,8 @@ Odometry.TrainIsAtStandstill()</Expression>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="4e30b123-72f1-4a5a-b309-31db6bae89d1"
 >
-</ReqRef><Cases>
+</ReqRef><Comment>Returns True if the driver has acknowledged an acknowledgement request for Shunting.</Comment>
+<Cases>
 <Case
  Name="Value"
  Guid="b7555f56-996d-45f3-a73c-e81f65b75fff"
@@ -755,7 +764,10 @@ Odometry.TrainIsAtStandstill()</Expression>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="defcf236-084f-4c0d-a1e7-2d5045a6b853"
 >
-</ReqRef><Cases>
+</ReqRef><Comment>Returns True if:
+  - &quot;Stop if in Shunting&quot; information is received
+  - &quot;override&quot; is not active.</Comment>
+<Cases>
 <Case
  Name="Value"
  Guid="49817480-d87b-447f-948e-60ae66ca0923"
@@ -875,7 +887,12 @@ HandleModeChange not in HandleModeChangeSM.Override</Expression>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="7c0e30c6-2cce-46df-9b55-180c4d94e6a1"
 >
-</ReqRef><Cases>
+</ReqRef><Comment>Returns True if:
+  - the driver has selected &quot;non leading&quot;
+  - the train is at standstill
+  - the &quot;non leading&quot; signal has been received
+  - the on-board is currently in the Start of Mission procedure.</Comment>
+<Cases>
 <Case
  Name="Value"
  Guid="5ab0834a-1e43-4826-9306-fca0a46e9034"
@@ -921,7 +938,11 @@ TIU.NonLeadingPermitted</Expression>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="98baa48d-3585-4ac7-8ea4-a342b2f68570"
 >
-</ReqRef><Cases>
+</ReqRef><Comment>Returns True if:
+  - &quot;override&quot; is not active
+  - no unconditional emergency stop has been received
+  - the ERTMS/ETCS level has switched to 2 or 3.</Comment>
+<Cases>
 <Case
  Name="Value"
  Guid="6e85bf2e-e3a7-472c-9cea-c751c8b54f03"
@@ -978,7 +999,10 @@ Level.Value.Value in [Default.Level.L2, Default.Level.L3]</Expression>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="0b8ab5ad-d5b5-48af-946b-2de03372bf25"
 >
-</ReqRef><Cases>
+</ReqRef><Comment>Returns True if:
+  - a mode profile for Shunting is on-board
+  - the max safe front end is in the Shunting area.</Comment>
+<Cases>
 <Case
  Name="Value"
  Guid="7925ab7e-266b-4384-b1cd-cb12d792c0d6"
@@ -1028,7 +1052,11 @@ MA.ModeProfile.CurrentMode() == Default.Mode.ModeProfile.SH</Expression>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="6b0bae48-e3f3-4fa9-9271-2c116db5ded7"
 >
-</ReqRef><Cases>
+</ReqRef><Comment>Returns True if:
+  - there is a mode profile for SH mode on-board
+  - the max safe front endis in the SH mode area
+  - the ERTMS/ETCS level has switched to 1, 2 or 3.</Comment>
+<Cases>
 <Case
  Name="Value"
  Guid="539ad9b6-300b-45a9-af0b-9fb73b834b70"
@@ -1085,7 +1113,8 @@ Level.Value.Value in [Default.Level.L1, Default.Level.L2, Default.Level.L3]</Exp
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="ebad4375-15e7-470e-8d71-ea8bd7ca9ad0"
 >
-</ReqRef><Cases>
+</ReqRef><Comment>Returns True if hte ERTMS/ETCS level switched to NTC.</Comment>
+<Cases>
 <Case
  Name="Value"
  Guid="ec0576c6-5e8d-4205-8a1a-5c5ee771fd68"
@@ -1118,7 +1147,10 @@ Level.Value.Value in [Default.Level.L1, Default.Level.L2, Default.Level.L3]</Exp
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="9a5d909a-c1d1-4d8f-aaba-eff38c6ae07f"
 >
-</ReqRef><Cases>
+</ReqRef><Comment>Returns True if:
+  - the train is at standstill
+  - the driver has acknowledged reversing.</Comment>
+<Cases>
 <Case
  Name="Value"
  Guid="d98df1f4-c489-4732-b665-bb23b1217c7e"
@@ -1158,7 +1190,10 @@ DMI.MasterDMI().In_AcknOfRVMode.InputInformation.DriverAnswered</Expression>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="4f71e242-4537-4739-8fb5-116042c4bb2f"
 >
-</ReqRef><Cases>
+</ReqRef><Comment>Returns True if:
+  - the ERTMS/ETCS level is NTC
+  - the driver has acknowledged SN mode.</Comment>
+<Cases>
 <Case
  Name="Value"
  Guid="6e5e5796-8cda-4835-b133-d2ccd6666d77"
@@ -1182,7 +1217,8 @@ DMI.MasterDMI().In_AcknOfSNMode.InputInformation.DriverAnswered</Expression>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="f53438cc-8284-4579-a534-a741f3c75dcd"
 >
-</ReqRef><Cases>
+</ReqRef><Comment>(no rule)</Comment>
+<Cases>
 <Case
  Name="Value"
  Guid="b935974f-566a-404a-8b5d-94a83361b642"
@@ -1205,7 +1241,10 @@ DMI.MasterDMI().In_AcknOfSNMode.InputInformation.DriverAnswered</Expression>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="b4c189ab-3aca-41d8-8ab5-31a6a9221c21"
 >
-</ReqRef><Cases>
+</ReqRef><Comment>Returns True if:
+  - the overpassed balise group was not in the list of expected balises for SH
+  - &quot;override&quot; is not active.</Comment>
+<Cases>
 <Case
  Name="Value"
  Guid="4f1f4ed4-0fdd-445a-b62c-77d11810378b"
@@ -1240,7 +1279,8 @@ HandleModeChange not in HandleModeChangeSM.Override</Expression>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="e57a4040-08fa-4069-9dc1-5abea693ee23"
 >
-</ReqRef><Cases>
+</ReqRef><Comment>Returns True if the driver has acknowledged UN mode.</Comment>
+<Cases>
 <Case
  Name="Value"
  Guid="9f622278-802e-47ad-880a-609792f0a6be"
@@ -1275,7 +1315,10 @@ DMI.MasterDMI().In_AcknOfUNMode.InputInformation.DriverAnswered</Expression>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="8d627100-6d4d-4246-8ee3-0a733e9fd219"
 >
-</ReqRef><Comment>&quot;Stop if in SR&quot; received and override is not active.</Comment>
+</ReqRef><Comment>Returns True if:
+  - &quot;Stop if in SR&quot; information has been received
+  - no list of expected balises for SR mode or the list received does not include the overpassed balise group
+  - override is not active.</Comment>
 <Cases>
 <Case
  Name="Value"
@@ -2327,7 +2370,12 @@ MA.ModeProfile.CurrentMode() == Default.Mode.ModeProfile.OS</Expression>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="15f40802-63aa-4fa9-9d18-a6fe7e31b461"
 >
-</ReqRef><Cases>
+</ReqRef><Comment>Returns True if:
+  - the driver acknowledges the train trip
+  - the train is at standstill
+  - the ERTMS/ETCS level is 0
+  - there is valid train data on-board.</Comment>
+<Cases>
 <Case
  Name="Value"
  Guid="602feefd-c298-4afa-8e06-070ab3a33a7a"
@@ -2403,7 +2451,8 @@ Odometry.TrainIsAtStandstill()</Expression>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="4c8da253-c1f6-4888-9ae5-d4e5fde3d0d4"
 >
-</ReqRef><Cases>
+</ReqRef><Comment>Returns True if the driver has acknowledged the LS mode in Post Trip.</Comment>
+<Cases>
 <Case
  Name="Value"
  Guid="69cdc1a2-3a47-48b5-86cd-8b06ff1b9f57"
@@ -2443,7 +2492,8 @@ DMI.MasterDMI().In_AcknOfLSMode.InputInformation.DriverAnswered</Expression>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="432fb1ac-8b27-465e-a1bd-2a084265f800"
 >
-</ReqRef><Cases>
+</ReqRef><Comment>Returns True if the estimated front end is in rear of the SSP or gradient start.</Comment>
+<Cases>
 <Case
  Name="Value"
  Guid="6d1267bb-2737-4321-af1f-b133b7477942"
@@ -2493,7 +2543,10 @@ NOT (TrackDescription.Gradient.GradientProfileStart() &lt;= TrainPosition.FrontE
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="c06ea9e5-cffb-4663-94b7-73b3b1b32007"
 >
-</ReqRef><Cases>
+</ReqRef><Comment>Returns True if:
+  - there is a mode profile for LS mode
+  - the max safe front end is in the LS mode area.</Comment>
+<Cases>
 <Case
  Name="Value"
  Guid="e5267ebb-ffc7-4d65-8510-a3e1f74162bd"
@@ -2543,7 +2596,11 @@ MA.ModeProfile.CurrentMode() == Default.Mode.ModeProfile.LS</Expression>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="9ca56d08-8c12-4787-be29-3fd7ea82a685"
 >
-</ReqRef><Cases>
+</ReqRef><Comment>Returns True if:
+  - there is a mode profile for LS mode
+  - the max safe front end is in the LS mode area
+  - the ERTMS/ETCS level has switched to 1, 2 or 3.</Comment>
+<Cases>
 <Case
  Name="Value"
  Guid="1df971c0-d11a-490c-b99d-cac062ffff2b"
@@ -2580,7 +2637,7 @@ Level.Value.Value in [Default.Level.L1, Default.Level.L2, Default.Level.L3]</Exp
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="51fb8f19-c1b9-44bd-be71-65d4110e044d"
 >
-</ReqRef><Comment>Implementation of mode transition condition 66</Comment>
+</ReqRef><Comment>Returns True if a linked balise group was passed in the unexpected direction.</Comment>
 <Cases>
 <Case
  Name="Value"
@@ -2624,7 +2681,10 @@ BTM.CurrentBaliseGroup != []
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="d1370919-ce0a-4aee-a2e8-1a44b439b695"
 >
-</ReqRef><Cases>
+</ReqRef><Comment>Returns True if:
+  - the system version received from a balise telegram is greater than the highest system version supported on-board
+  - the ERTMS/ETCS level is 1, 2 or 3.</Comment>
+<Cases>
 <Case
  Name="Value"
  Guid="5fa221f2-db1d-45b5-89d3-ce05557c230a"
@@ -2652,7 +2712,12 @@ BTM.CurrentBaliseGroup != []
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="901a4dd6-ec0f-41fb-a515-1667a20f510f"
 >
-</ReqRef><Cases>
+</ReqRef><Comment>Returns True if:
+  - the driver has acknowledged the train trip
+  - the train is at standstill
+  - the ERTMS/ETCS level is 0 or NTC
+  - there is no valid train data on-board.</Comment>
+<Cases>
 <Case
  Name="Value"
  Guid="a82c4357-23e7-4207-886d-bb18d6fa88f2"
@@ -2685,7 +2750,11 @@ BTM.CurrentBaliseGroup != []
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="0fb88dca-045d-4096-93f6-352d603c8caa"
 >
-</ReqRef><Cases>
+</ReqRef><Comment>Returns True if:
+  - the ERTMS/ETCS level has switched to 1
+  - a trip order has been received
+  - &quot;override&quot; is not active.</Comment>
+<Cases>
 <Case
  Name="Value"
  Guid="254a42ce-42ff-4bfa-bb57-6311a6aca2a6"
@@ -2722,7 +2791,12 @@ HandleModeChange not in HandleModeChangeSM.Override</Expression>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="2fca9569-07de-442a-a7eb-1215a4d281f5"
 >
-</ReqRef><Cases>
+</ReqRef><Comment>Returns True if:
+  - the driver has acknowledged the train trip
+  - the train is at standstill
+  - the ERTMS/ETCS level is NTC
+  - there is valid train data on-board.</Comment>
+<Cases>
 <Case
  Name="Value"
  Guid="d2f1f199-4026-4a6b-8db6-2e6c8006d9aa"
@@ -2780,7 +2854,11 @@ HandleModeChange not in HandleModeChangeSM.Override</Expression>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="252f7c4b-177f-4fef-9418-ab77c21c016c"
 >
-</ReqRef><Cases>
+</ReqRef><Comment>Returns True if:
+  - there is a mode profile for LS mode
+  - the max safe front end is in the LS mode area
+  - the max safe front end is not in an OS mode area.</Comment>
+<Cases>
 <Case
  Name="Value"
  Guid="1d9238ec-112c-44a2-83d0-bbead36b743f"
@@ -3045,7 +3123,8 @@ DMI.MasterDMI().In_OverrideRequest.InputInformation.DriverAnswered</Expression>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="3f05dc11-034f-4a10-ab30-c17875fe4507"
 >
-</ReqRef><Cases>
+</ReqRef><Comment>Returns True if the driver has acknowledged an acknowledgement request for Shunting in the Train Trip procedure.</Comment>
+<Cases>
 <Case
  Name="Value"
  Guid="18dccbbb-9140-4c28-9abb-d3adee603452"
@@ -3163,7 +3242,8 @@ DMI.MasterDMI().In_OverrideRequest.InputInformation.DriverAnswered</Expression>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="29a1e980-59b1-480b-baac-a9d01e34fd0a"
 >
-</ReqRef><Cases>
+</ReqRef><Comment>Returns True if the driver has acknowledged the LS mode in the Start of Mission procedure.</Comment>
+<Cases>
 <Case
  Name="Value"
  Guid="e12e6870-6112-42e5-9e70-5c219e28706e"
@@ -3203,7 +3283,8 @@ DMI.MasterDMI().In_AcknOfLSMode.InputInformation.DriverAnswered</Expression>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="45995204-a98b-4285-864c-bec1ddba8e82"
 >
-</ReqRef><Cases>
+</ReqRef><Comment>Returns True if the driver has acknowledged an acknowledgement request for Shunting in the Start of Mission procedure.</Comment>
+<Cases>
 <Case
  Name="Value"
  Guid="8429102d-3dcb-42e9-803e-72ca2cdce070"
@@ -3233,7 +3314,11 @@ DMI.MasterDMI().In_AcknOfSHMode.InputInformation.DriverAnswered</Expression>
  SpecId="33a01dd1-de78-4ea3-9e96-a198d1a29277"
  Guid="c5f45c3e-03b2-4daf-b1db-21b01657fdc3"
 >
-</ReqRef><Cases>
+</ReqRef><Comment>Returns True if:
+  - the driver has selected &quot;non leading&quot;
+  - the train is at standstill
+  - the &quot;non leading&quot; signal has been received.</Comment>
+<Cases>
 <Case
  Name="Value"
  Guid="580df3bd-c8e6-48f2-aba6-78766237debd"
@@ -3280,7 +3365,8 @@ TIU.NonLeadingPermitted</Expression>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="9d992584-015d-4d93-aca0-4ee8d6d9d4fc"
 >
-</ReqRef><Cases>
+</ReqRef><Comment>Returns True if the driver has acknowledged the LS mode.</Comment>
+<Cases>
 <Case
  Name="Value"
  Guid="0f4cca70-9bb1-4700-9cb4-d8e4c5438e63"
