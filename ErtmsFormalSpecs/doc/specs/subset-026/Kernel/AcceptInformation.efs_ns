@@ -24,7 +24,8 @@
 <Enumerations>
 <Enum
  Default="Source.BaliseGroup"
- Y="60"
+ X="1"
+ Y="661"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -59,7 +60,8 @@
 <Function
  Type="Boolean"
  Default=""
- Y="120"
+ X="1"
+ Y="61"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -454,7 +456,8 @@
 </Function><Function
  Type="Boolean"
  Default=""
- Y="180"
+ X="1"
+ Y="121"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -869,7 +872,8 @@
 </Function><Function
  Type="Boolean"
  Default=""
- Y="240"
+ X="1"
+ Y="181"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -1279,7 +1283,8 @@
 </Function><Function
  Type="Boolean"
  Default=""
- Y="300"
+ X="1"
+ Y="241"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -1689,7 +1694,8 @@
 </Function><Function
  Type="Boolean"
  Default=""
- Y="360"
+ X="1"
+ Y="301"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -2119,7 +2125,8 @@
 </Function><Function
  Type="Boolean"
  Default=""
- Y="420"
+ X="1"
+ Y="361"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -2539,7 +2546,8 @@
 </Function><Function
  Type="Boolean"
  Default=""
- Y="480"
+ X="1"
+ Y="421"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -2917,6 +2925,50 @@
  Guid="5393d22f-f9ed-4141-8cf9-65efbb816e5c"
 >
 <Expression>ModeRules.AcceptSTMSystemSpeedDistance()</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="220"
+ Y="300"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="VirtualBaliseCoverOrder"
+ Guid="fbf202bc-4c8f-4cc5-a455-408a487a33e9"
+>
+<ReqRef
+ Id="6ed0f9e6-4ee0-4f23-8550-100746739c62"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="341e9d94-53eb-414d-b56c-1270571fc3d4"
+>
+</ReqRef><ReqRef
+ Id="985c1720-f255-4b46-849f-a9c85eecf4fa"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="7ee112a0-da4d-4e3a-904d-792997889945"
+>
+</ReqRef><ReqRef
+ Id="c9ace576-1826-4399-9396-dfd3f32bcd4c"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6b46791d-b758-4caa-acf3-98c3d247ea2f"
+>
+</ReqRef><Parameters>
+<Parameter
+ Type="AcceptInformation.Source"
+ Name="Source"
+ Guid="dad5eb5f-0746-44a1-9295-d7c02e94f9f0"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="a4a9c752-77ce-42e3-a8c9-7288a063b650"
+>
+<PreConditions>
+<PreCondition
+ Guid="ddd9b25a-0b5b-42aa-b0e4-e9e333ecfa45"
+>Source == AcceptInformation.Source.RBC</PreCondition></PreConditions>
+<Expression>LevelRules.AcceptVirtualBaliseCoverOrder() AND ModeRules.AcceptVirtualBaliseCoverOrder()</Expression>
 </Case></Cases>
 </Function></Functions>
 </NameSpace>
