@@ -27,9 +27,7 @@ namespace GUI.DataDictionaryView
         /// <returns>the root nodes of the tree</returns>
         protected override List<BaseTreeNode> BuildModel()
         {
-            List<BaseTreeNode> retVal = new List<BaseTreeNode>();
-
-            retVal.Add(new NameSpacesTreeNode(Root, true));
+            List<BaseTreeNode> retVal = new List<BaseTreeNode> {new NameSpacesTreeNode(Root, true)};
 
             return retVal;
         }

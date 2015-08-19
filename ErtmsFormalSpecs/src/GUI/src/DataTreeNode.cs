@@ -969,8 +969,7 @@ namespace GUI
                         // if there are 0 or 1 possible updates, it will already have the correct value
                         // if there are more, choose the update from a list of possibilities
                         DictionarySelector.DictionarySelector dictionarySelector =
-                            new DictionarySelector.DictionarySelector(efsSystem, FilterOptions.Updates,
-                                modelElement.Dictionary);
+                            new DictionarySelector.DictionarySelector(FilterOptions.Updates, modelElement.Dictionary);
                         dictionarySelector.ShowDictionaries(mainWindow);
 
                         if (dictionarySelector.Selected != null)

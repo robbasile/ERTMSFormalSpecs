@@ -55,127 +55,130 @@ namespace GUI.LongOperations
             {
                 Repository repository = GetRepository();
 
-                string DictionaryDirectory = Path.GetDirectoryName(Dictionary.FilePath);
-                DictionaryDirectory = DictionaryDirectory.Substring(RepositoryPath.Length + 1,
-                    DictionaryDirectory.Length - RepositoryPath.Length - 1);
-
-                History history = Dictionary.EFSSystem.History;
-                if (history.Commit(LastCommit.Sha) == null)
+                string dictionaryDirectory = Path.GetDirectoryName(Dictionary.FilePath);
+                if (dictionaryDirectory != null)
                 {
-                    // Processes all commits until the one that has been selected
-                    Dictionary currentVersion = Dictionary;
-                    Dictionary previousVersion = null;
-                    Commit previousCommit = null;
-                    Commit commitToRefer = null;
-                    foreach (Commit commit in repository.Commits)
+                    dictionaryDirectory = dictionaryDirectory.Substring(RepositoryPath.Length + 1,
+                        dictionaryDirectory.Length - RepositoryPath.Length - 1);
+
+                    History history = Dictionary.EFSSystem.History;
+                    if (history.Commit(LastCommit.Sha) == null)
                     {
-                        // Always compare the current version with the first commit in the repository 
-                        // since changes may have been applied to the current version
-                        if (previousVersion == null || !history.CommitExists(commit.Sha))
+                        // Processes all commits until the one that has been selected
+                        Dictionary currentVersion = Dictionary;
+                        Dictionary previousVersion = null;
+                        Commit previousCommit = null;
+                        Commit commitToRefer = null;
+                        foreach (Commit commit in repository.Commits)
                         {
-                            if (previousCommit == null)
+                            // Always compare the current version with the first commit in the repository 
+                            // since changes may have been applied to the current version
+                            if (previousVersion == null || !history.CommitExists(commit.Sha))
                             {
-                                if (previousVersion != Dictionary && currentVersion != previousVersion)
+                                if (previousCommit == null)
                                 {
-                                    CleanUpDictionary(previousVersion);
-                                }
-                                previousVersion = currentVersion;
-                            }
-                            else
-                            {
-                                previousVersion = DictionaryByVersion(previousCommit);
-                                Comparer.ensureGuidDictionary(previousVersion, currentVersion);
-                            }
-
-                            bool changesAvailable = true;
-                            if (commitToRefer != null)
-                            {
-                                changesAvailable = false;
-                                TreeChanges changes = repository.Diff.Compare(commit.Tree, commitToRefer.Tree);
-                                foreach (TreeEntryChanges entry in changes.Modified)
-                                {
-                                    if (entry.Path.StartsWith(DictionaryDirectory))
+                                    if (previousVersion != Dictionary && currentVersion != previousVersion)
                                     {
-                                        changesAvailable = true;
-                                        break;
+                                        CleanUpDictionary(previousVersion);
                                     }
+                                    previousVersion = currentVersion;
                                 }
-                            }
+                                else
+                                {
+                                    previousVersion = DictionaryByVersion(previousCommit);
+                                    Comparer.ensureGuidDictionary(previousVersion, currentVersion);
+                                }
 
-                            if (changesAvailable)
-                            {
+                                bool changesAvailable = true;
                                 if (commitToRefer != null)
                                 {
-                                    string message = commitToRefer.Message.Trim();
-                                    if (message.Length > 132)
+                                    changesAvailable = false;
+                                    TreeChanges changes = repository.Diff.Compare(commit.Tree, commitToRefer.Tree);
+                                    foreach (TreeEntryChanges entry in changes.Modified)
                                     {
-                                        message = message.Substring(0, 132) + "...";
+                                        if (entry.Path.StartsWith(dictionaryDirectory))
+                                        {
+                                            changesAvailable = true;
+                                            break;
+                                        }
                                     }
-                                    Dialog.UpdateMessage("Processing " + message + " (" + commitToRefer.Sha + ")");
-                                }
-                                else
-                                {
-                                    Dialog.UpdateMessage("Processing current version...");
                                 }
 
-                                currentVersion = DictionaryByVersion(commit);
-
-                                if (currentVersion != null)
+                                if (changesAvailable)
                                 {
-                                    VersionDiff versionDiff = new VersionDiff();
                                     if (commitToRefer != null)
                                     {
-                                        versionDiff.setCommitter(commitToRefer.Author.Name);
-                                        versionDiff.setDate(commitToRefer.Author.When.ToString());
-                                        versionDiff.setHash(commitToRefer.Sha);
-                                        versionDiff.setMessage(commitToRefer.Message);
-                                    }
-
-                                    Comparer.ensureGuidDictionary(previousVersion, currentVersion);
-                                    Comparer.compareDictionary(previousVersion, currentVersion, versionDiff);
-                                    history.AppendOrReplaceCommit(versionDiff);
-                                    history.save();
-                                }
-                                else
-                                {
-                                    DialogResult result =
-                                        MessageBox.Show(
-                                            "Cannot open file for commit\n" + commit.MessageShort + " (" + commit.Sha +
-                                            ")\nplease see log file (GUI.Log) for more information.\nPress OK to continue.",
-                                            "Cannot open file", MessageBoxButtons.OKCancel, MessageBoxIcon.Error);
-                                    if (result == DialogResult.OK)
-                                    {
-                                        // Stick back to the previous version to continue the process
-                                        currentVersion = previousVersion;
+                                        string message = commitToRefer.Message.Trim();
+                                        if (message.Length > 132)
+                                        {
+                                            message = message.Substring(0, 132) + "...";
+                                        }
+                                        Dialog.UpdateMessage("Processing " + message + " (" + commitToRefer.Sha + ")");
                                     }
                                     else
                                     {
-                                        // Stop the process
-                                        break;
+                                        Dialog.UpdateMessage("Processing current version...");
+                                    }
+
+                                    currentVersion = DictionaryByVersion(commit);
+
+                                    if (currentVersion != null)
+                                    {
+                                        VersionDiff versionDiff = new VersionDiff();
+                                        if (commitToRefer != null)
+                                        {
+                                            versionDiff.setCommitter(commitToRefer.Author.Name);
+                                            versionDiff.setDate(commitToRefer.Author.When.ToString());
+                                            versionDiff.setHash(commitToRefer.Sha);
+                                            versionDiff.setMessage(commitToRefer.Message);
+                                        }
+
+                                        Comparer.ensureGuidDictionary(previousVersion, currentVersion);
+                                        Comparer.compareDictionary(previousVersion, currentVersion, versionDiff);
+                                        history.AppendOrReplaceCommit(versionDiff);
+                                        history.save();
+                                    }
+                                    else
+                                    {
+                                        DialogResult result =
+                                            MessageBox.Show(
+                                                "Cannot open file for commit\n" + commit.MessageShort + " (" + commit.Sha +
+                                                ")\nplease see log file (GUI.Log) for more information.\nPress OK to continue.",
+                                                "Cannot open file", MessageBoxButtons.OKCancel, MessageBoxIcon.Error);
+                                        if (result == DialogResult.OK)
+                                        {
+                                            // Stick back to the previous version to continue the process
+                                            currentVersion = previousVersion;
+                                        }
+                                        else
+                                        {
+                                            // Stop the process
+                                            break;
+                                        }
                                     }
                                 }
+                                else
+                                {
+                                    currentVersion = previousVersion;
+                                }
+
+                                previousCommit = null;
                             }
                             else
                             {
-                                currentVersion = previousVersion;
+                                previousCommit = commit;
                             }
 
-                            previousCommit = null;
-                        }
-                        else
-                        {
-                            previousCommit = commit;
-                        }
+                            if (commit == LastCommit)
+                            {
+                                break;
+                            }
 
-                        if (commit == LastCommit)
-                        {
-                            break;
+                            commitToRefer = commit;
                         }
-
-                        commitToRefer = commit;
                     }
+                    history.UpdateBlame();
                 }
-                history.UpdateBlame();
             }
         }
 

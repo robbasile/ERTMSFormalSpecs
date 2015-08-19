@@ -44,7 +44,7 @@ namespace GUI.IPCInterface.Values
         /// <returns></returns>
         public override string DisplayValue()
         {
-            return Value.ToString();
+            return Value;
         }
 
         /// <summary>

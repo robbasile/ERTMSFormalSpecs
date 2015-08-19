@@ -25,11 +25,6 @@ namespace GUI.SearchDialog
     public partial class SearchDialog : Form
     {
         /// <summary>
-        ///     The system for which this dialog is built
-        /// </summary>
-        public EFSSystem EFSSystem { get; private set; }
-
-        /// <summary>
         ///     Constructor
         /// </summary>
         public SearchDialog()
@@ -40,12 +35,9 @@ namespace GUI.SearchDialog
         /// <summary>
         ///     Initialises the dialog
         /// </summary>
-        /// <param name="efsSystem"></param>
-        public void Initialise(EFSSystem efsSystem)
+        public void Initialise()
         {
-            EFSSystem = efsSystem;
-
-            searchTextBox.KeyUp += new KeyEventHandler(searchTextBox_KeyUp);
+            searchTextBox.KeyUp += SearchTextBox_KeyUp;
         }
 
         /// <summary>
@@ -53,7 +45,7 @@ namespace GUI.SearchDialog
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void searchTextBox_KeyUp(object sender, KeyEventArgs e)
+        private void SearchTextBox_KeyUp(object sender, KeyEventArgs e)
         {
             switch (e.KeyCode)
             {
@@ -69,21 +61,21 @@ namespace GUI.SearchDialog
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void searchButton_Click(object sender, EventArgs e)
+        private void SearchButton_Click(object sender, EventArgs e)
         {
-            searchOccurences(searchTextBox.Text);
+            SearchOccurences(searchTextBox.Text);
         }
 
         /// <summary>
         ///     Searches for all occurences of the search string
         /// </summary>
         /// <param name="searchString"></param>
-        private void searchOccurences(string searchString)
+        private void SearchOccurences(string searchString)
         {
             MarkingHistory.PerformMark(() =>
             {
                 List<ModelElement> occurences = new List<ModelElement>();
-                foreach (Dictionary dictionary in EFSSystem.Dictionaries)
+                foreach (Dictionary dictionary in EFSSystem.INSTANCE.Dictionaries)
                 {
                     Comparer.searchDictionary(dictionary, searchString, occurences);
                 }
@@ -110,7 +102,7 @@ namespace GUI.SearchDialog
         {
             if (e.KeyCode == Keys.Enter)
             {
-                searchOccurences(searchTextBox.Text);
+                SearchOccurences(searchTextBox.Text);
             }
         }
     }

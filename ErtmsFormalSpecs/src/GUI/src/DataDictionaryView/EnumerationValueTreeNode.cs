@@ -14,7 +14,6 @@
 // --
 // ------------------------------------------------------------------------------
 
-using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
@@ -27,17 +26,10 @@ namespace GUI.DataDictionaryView
         private class ItemEditor : NamedEditor
         {
             /// <summary>
-            ///     Constructor
-            /// </summary>
-            public ItemEditor()
-                : base()
-            {
-            }
-
-            /// <summary>
             ///     The item value
             /// </summary>
             [Category("Description")]
+            // ReSharper disable once UnusedMember.Local
             public string Value
             {
                 get { return Item.getValue(); }
@@ -49,6 +41,7 @@ namespace GUI.DataDictionaryView
         ///     Constructor
         /// </summary>
         /// <param name="item"></param>
+        /// <param name="buildSubNodes"></param>
         public EnumerationValueTreeNode(EnumValue item, bool buildSubNodes)
             : base(item, buildSubNodes)
         {
@@ -69,9 +62,8 @@ namespace GUI.DataDictionaryView
         /// <returns></returns>
         protected override List<MenuItem> GetMenuItems()
         {
-            List<MenuItem> retVal = new List<MenuItem>();
+            List<MenuItem> retVal = new List<MenuItem> {new MenuItem("Delete", DeleteHandler)};
 
-            retVal.Add(new MenuItem("Delete", new EventHandler(DeleteHandler)));
             retVal.AddRange(base.GetMenuItems());
 
             return retVal;

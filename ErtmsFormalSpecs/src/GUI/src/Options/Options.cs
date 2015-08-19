@@ -12,6 +12,7 @@ namespace GUI.Options
             [Category("Display")]
             [DisplayName("Enclosing messages")]
             [Description("Indicates that the enclosing messages should be displayed when selecting a model element")]
+            // ReSharper disable once UnusedMember.Local
             public bool DisplayEnclosingMessages
             {
                 get { return Settings.Default.DisplayEnclosingMessages; }
@@ -23,6 +24,7 @@ namespace GUI.Options
             [Description(
                 "When set to true, indicates that the requirements should only be displayed as a list of number, instead of the requirement number followed by the requirement text"
                 )]
+            // ReSharper disable once UnusedMember.Local
             public bool DisplayRequirementsAsList
             {
                 get { return Settings.Default.DisplayRequirementsAsList; }
@@ -34,6 +36,7 @@ namespace GUI.Options
             [Description(
                 "When set to true, indicates that the files opened by EFS should be locked, which forbid other processes to access them"
                 )]
+            // ReSharper disable once UnusedMember.Local
             public bool LockOpenedFiles
             {
                 get { return Settings.Default.LockOpenedFiles; }
@@ -45,6 +48,7 @@ namespace GUI.Options
             [Description(
                 "When set to true, indicates that EFS should convert the format of obsolete version of EFS files. For instance, it will replace USING X with USING X IN Coll in all expressions."
                 )]
+            // ReSharper disable once UnusedMember.Local
             public bool ConvertObsoleteFiles
             {
                 get { return Settings.Default.ConvertObsoleteVersionOfModelFile; }
@@ -56,6 +60,7 @@ namespace GUI.Options
             [Description(
                 "When set to true, indicates that all the variables should be displayed in the structure editor, even those which are empty"
                 )]
+            // ReSharper disable once UnusedMember.Local
             public bool DisplayAllVariablesInStructureEditor
             {
                 get { return Settings.Default.DisplayAllVariablesInStructureEditor; }
@@ -66,6 +71,7 @@ namespace GUI.Options
             [DisplayName("Check parent relationship")]
             [Description(
                 "When animating the model, verify the correctness of the 'parent' relation for each model element")]
+            // ReSharper disable once UnusedMember.Local
             public bool CheckParentRelationship
             {
                 get { return Settings.Default.CheckParentRelationship; }
@@ -75,6 +81,7 @@ namespace GUI.Options
             [Category("Behaviour")]
             [DisplayName("Cache function")]
             [Description("When animating the model, cache the values computed by functions")]
+            // ReSharper disable once UnusedMember.Local
             public bool CacheFunctions
             {
                 get { return Settings.Default.CacheFunctions; }
@@ -84,6 +91,7 @@ namespace GUI.Options
             [Category("Behaviour")]
             [DisplayName("Allow refactor")]
             [Description("Allow refactoring when moving/renaming elements")]
+            // ReSharper disable once UnusedMember.Local
             public bool AllowRefactor
             {
                 get { return Settings.Default.AllowRefactor; }
@@ -100,15 +108,14 @@ namespace GUI.Options
         /// <summary>
         ///     Sets the settings according to the application data
         /// </summary>
-        /// <param name="syste"></param>
-        public static void setSettings(EFSSystem system)
+        public static void SetSettings()
         {
             Settings settings = Settings.Default;
 
-            system.DisplayEnclosingMessages = settings.DisplayEnclosingMessages;
-            system.DisplayRequirementsAsList = settings.DisplayRequirementsAsList;
-            system.CheckParentRelationship = settings.CheckParentRelationship;
-            system.CacheFunctions = settings.CacheFunctions;
+            EFSSystem.INSTANCE.DisplayEnclosingMessages = settings.DisplayEnclosingMessages;
+            EFSSystem.INSTANCE.DisplayRequirementsAsList = settings.DisplayRequirementsAsList;
+            EFSSystem.INSTANCE.CheckParentRelationship = settings.CheckParentRelationship;
+            EFSSystem.INSTANCE.CacheFunctions = settings.CacheFunctions;
             Util.PleaseLockFiles = settings.LockOpenedFiles;
 
             settings.Save();

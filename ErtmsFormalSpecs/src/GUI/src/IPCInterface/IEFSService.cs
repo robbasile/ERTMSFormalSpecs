@@ -125,8 +125,7 @@ namespace GUI.IPCInterface
         /// <summary>
         ///     Applies a specific statement on the model
         /// </summary>
-        /// <param name="variableName"></param>
-        /// <param name="value"></param>
+        /// <param name="statement">The statement to apply</param>
         [OperationContract]
         [FaultContract(typeof (EFSServiceFault))]
         void ApplyStatement(string statement);

@@ -26,20 +26,16 @@ namespace GUI.DataDictionaryView
         /// </summary>
         protected class TypeEditor : ReqRelatedEditor
         {
-            /// <summary>
-            ///     Constructor
-            /// </summary>
-            public TypeEditor()
-                : base()
-            {
-            }
         }
 
         /// <summary>
         ///     Constructor
         /// </summary>
+        /// <param name="buildSubNodes"></param>
         /// <param name="name"></param>
         /// <param name="item"></param>
+        /// <param name="isFolder"></param>
+        /// <param name="addRequirements"></param>
         protected TypeTreeNode(T item, bool buildSubNodes, string name = null, bool isFolder = false,
             bool addRequirements = true)
             : base(item, buildSubNodes, name, isFolder, addRequirements)

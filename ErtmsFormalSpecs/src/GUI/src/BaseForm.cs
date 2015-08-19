@@ -110,18 +110,7 @@ namespace GUI
         /// <returns></returns>
         protected virtual bool ShouldDisplay(IModelElement modelElement)
         {
-            bool retVal = !IsActivated;
-
-            if (modelElement != null)
-            {
-                if (TreeView != null)
-                {
-                    BaseTreeNode correspondingNode = TreeView.FindNode(modelElement, true);
-                    retVal = correspondingNode != null;
-                }
-            }
-
-            return retVal;
+            return true;
         }
 
         /// <summary>

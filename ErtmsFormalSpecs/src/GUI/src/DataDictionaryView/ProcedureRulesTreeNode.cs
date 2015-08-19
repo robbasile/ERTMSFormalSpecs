@@ -21,7 +21,6 @@ using DataDictionary.Generated;
 using GUI.SpecificationView;
 using Paragraph = DataDictionary.Specification.Paragraph;
 using Procedure = DataDictionary.Functions.Procedure;
-using ReqRef = DataDictionary.ReqRef;
 using Rule = DataDictionary.Rules.Rule;
 
 namespace GUI.DataDictionaryView

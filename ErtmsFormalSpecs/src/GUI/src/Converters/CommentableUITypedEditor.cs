@@ -25,7 +25,7 @@ using WeifenLuo.WinFormsUI.Docking;
 namespace GUI.Converters
 {
     /// <summary>
-    ///     TODO: Update summary.
+    ///     Allow to edit a comment
     /// </summary>
     public class CommentableUITypedEditor : UITypeEditor
     {
@@ -34,36 +34,22 @@ namespace GUI.Converters
             return UITypeEditorEditStyle.Modal;
         }
 
-        /// <summary>
-        ///     Sets the string value into the right property
-        /// </summary>
-        /// <param name="instance"></param>
-        /// <param name="value"></param>
-        private void HandleTextChange(ModelElement instance, string value)
-        {
-            ICommentable commentable = instance as ICommentable;
-
-            if (commentable != null)
-            {
-                commentable.Comment = value;
-            }
-        }
-
         public override object EditValue(ITypeDescriptorContext context, IServiceProvider provider, object value)
         {
-            IWindowsFormsEditorService svc =
-                provider.GetService(typeof (IWindowsFormsEditorService)) as IWindowsFormsEditorService;
-            if (svc != null)
+            if (provider != null)
             {
-                ICommentable commentable = value as ICommentable;
-                if (commentable != null)
+                IWindowsFormsEditorService svc =
+                    provider.GetService(typeof (IWindowsFormsEditorService)) as IWindowsFormsEditorService;
+                if (svc != null)
                 {
-                    Window form = new Window();
-                    form.DockAreas = DockAreas.Float;
-                    form.AutoComplete = false;
-                    CommentableTextChangeHandler handler = new CommentableTextChangeHandler(commentable as ModelElement);
-                    form.setChangeHandler(handler);
-                    GuiUtils.MdiWindow.AddChildWindow(form, DockAreas.Float);
+                    ICommentable commentable = value as ICommentable;
+                    if (commentable != null)
+                    {
+                        Window form = new Window {DockAreas = DockAreas.Float, AutoComplete = false};
+                        CommentableTextChangeHandler handler = new CommentableTextChangeHandler(commentable as ModelElement);
+                        form.setChangeHandler(handler);
+                        GuiUtils.MdiWindow.AddChildWindow(form, DockAreas.Float);
+                    }
                 }
             }
 

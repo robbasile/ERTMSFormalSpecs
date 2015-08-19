@@ -26,7 +26,7 @@ using WeifenLuo.WinFormsUI.Docking;
 namespace GUI.Converters
 {
     /// <summary>
-    ///     TODO: Update summary.
+    ///     Allow to enter an expresion
     /// </summary>
     public class ExpressionableUITypedEditor : UITypeEditor
     {
@@ -37,18 +37,21 @@ namespace GUI.Converters
 
         public override object EditValue(ITypeDescriptorContext context, IServiceProvider provider, object value)
         {
-            IWindowsFormsEditorService svc =
-                provider.GetService(typeof (IWindowsFormsEditorService)) as IWindowsFormsEditorService;
-            if (svc != null)
+            if (provider != null)
             {
-                IExpressionable expressionable = value as IExpressionable;
-                if (expressionable != null)
+                IWindowsFormsEditorService svc =
+                    provider.GetService(typeof (IWindowsFormsEditorService)) as IWindowsFormsEditorService;
+                if (svc != null)
                 {
-                    Window form = new Window();
-                    ExpressionableTextChangeHandler handler =
-                        new ExpressionableTextChangeHandler(expressionable as ModelElement);
-                    form.setChangeHandler(handler);
-                    GuiUtils.MdiWindow.AddChildWindow(form, DockAreas.Float);
+                    IExpressionable expressionable = value as IExpressionable;
+                    if (expressionable != null)
+                    {
+                        Window form = new Window();
+                        ExpressionableTextChangeHandler handler =
+                            new ExpressionableTextChangeHandler(expressionable as ModelElement);
+                        form.setChangeHandler(handler);
+                        GuiUtils.MdiWindow.AddChildWindow(form, DockAreas.Float);
+                    }
                 }
             }
 
@@ -57,7 +60,7 @@ namespace GUI.Converters
     }
 
     /// <summary>
-    ///     TODO: Update summary.
+    ///     Allow to edit a condition
     /// </summary>
     public class ConditionUITypedEditor : UITypeEditor
     {
@@ -68,17 +71,20 @@ namespace GUI.Converters
 
         public override object EditValue(ITypeDescriptorContext context, IServiceProvider provider, object value)
         {
-            IWindowsFormsEditorService svc =
-                provider.GetService(typeof (IWindowsFormsEditorService)) as IWindowsFormsEditorService;
-            if (svc != null)
+            if (provider != null)
             {
-                Expectation expectation = value as Expectation;
-                if (expectation != null)
+                IWindowsFormsEditorService svc =
+                    provider.GetService(typeof (IWindowsFormsEditorService)) as IWindowsFormsEditorService;
+                if (svc != null)
                 {
-                    Window form = new Window();
-                    ConditionTextChangeHandler handler = new ConditionTextChangeHandler(expectation);
-                    form.setChangeHandler(handler);
-                    GuiUtils.MdiWindow.AddChildWindow(form, DockAreas.Float);
+                    Expectation expectation = value as Expectation;
+                    if (expectation != null)
+                    {
+                        Window form = new Window();
+                        ConditionTextChangeHandler handler = new ConditionTextChangeHandler(expectation);
+                        form.setChangeHandler(handler);
+                        GuiUtils.MdiWindow.AddChildWindow(form, DockAreas.Float);
+                    }
                 }
             }
 

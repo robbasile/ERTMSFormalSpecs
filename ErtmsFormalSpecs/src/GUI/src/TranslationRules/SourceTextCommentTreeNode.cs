@@ -14,7 +14,6 @@
 // --
 // ------------------------------------------------------------------------------
 
-using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using DataDictionary.Tests.Translations;
@@ -25,19 +24,13 @@ namespace GUI.TranslationRules
     {
         private class ItemEditor : CommentableEditor
         {
-            /// <summary>
-            ///     Constructor
-            /// </summary>
-            public ItemEditor()
-                : base()
-            {
-            }
         }
 
         /// <summary>
         ///     Constructor
         /// </summary>
         /// <param name="item"></param>
+        /// <param name="buildSubNodes"></param>
         public SourceTextCommentTreeNode(SourceTextComment item, bool buildSubNodes)
             : base(item, buildSubNodes)
         {
@@ -58,9 +51,7 @@ namespace GUI.TranslationRules
         /// <returns></returns>
         protected override List<MenuItem> GetMenuItems()
         {
-            List<MenuItem> retVal = new List<MenuItem>();
-
-            retVal.Add(new MenuItem("Delete", new EventHandler(DeleteHandler)));
+            List<MenuItem> retVal = new List<MenuItem> {new MenuItem("Delete", DeleteHandler)};
 
             return retVal;
         }

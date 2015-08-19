@@ -26,7 +26,7 @@ namespace GUI
         public MyPropertyGrid()
         {
             AllowDrop = true;
-            DragDrop += new DragEventHandler(DragDropHandler);
+            DragDrop += DragDropHandler;
         }
 
         /// <summary>

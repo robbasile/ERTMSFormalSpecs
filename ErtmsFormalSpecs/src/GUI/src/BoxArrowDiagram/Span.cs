@@ -20,7 +20,7 @@ namespace GUI.BoxArrowDiagram
     {
         /// <summary>
         ///     The two bounds which define the span
-        ///     Hyp : LowBound <= HighBound
+        ///     Hyp : LowBound is less or equal than HighBound
         /// </summary>
         public int LowBound { get; set; }
 
@@ -61,7 +61,7 @@ namespace GUI.BoxArrowDiagram
         /// <returns></returns>
         public static Span Intersection(Span span1, Span span2)
         {
-            Span retVal = null;
+            Span retVal;
 
             if (span1.LowBound > span2.LowBound)
             {
@@ -78,19 +78,18 @@ namespace GUI.BoxArrowDiagram
             else
             {
                 // span1.LowBound < span2.LowBound and span1.HighBound >= span2.LowBound
-                int LowBound = span2.LowBound;
-
-                int HighBound;
+                int lowBound = span2.LowBound;
+                int highBound;
                 if (span1.HighBound > span2.HighBound)
                 {
-                    HighBound = span2.HighBound;
+                    highBound = span2.HighBound;
                 }
                 else
                 {
-                    HighBound = span1.HighBound;
+                    highBound = span1.HighBound;
                 }
 
-                retVal = new Span(LowBound, HighBound);
+                retVal = new Span(lowBound, highBound);
             }
 
             return retVal;
@@ -104,7 +103,7 @@ namespace GUI.BoxArrowDiagram
         /// <returns></returns>
         public static Span Union(Span span1, Span span2)
         {
-            Span retVal = null;
+            Span retVal;
 
             if (span1.LowBound > span2.LowBound)
             {
@@ -121,19 +120,18 @@ namespace GUI.BoxArrowDiagram
             else
             {
                 // span1.LowBound < span2.LowBound and span1.HighBound >= span2.LowBound
-                int LowBound = span1.LowBound;
-
-                int HighBound;
+                int lowBound = span1.LowBound;
+                int highBound;
                 if (span1.HighBound > span2.HighBound)
                 {
-                    HighBound = span1.HighBound;
+                    highBound = span1.HighBound;
                 }
                 else
                 {
-                    HighBound = span2.HighBound;
+                    highBound = span2.HighBound;
                 }
 
-                retVal = new Span(LowBound, HighBound);
+                retVal = new Span(lowBound, highBound);
             }
 
             return retVal;

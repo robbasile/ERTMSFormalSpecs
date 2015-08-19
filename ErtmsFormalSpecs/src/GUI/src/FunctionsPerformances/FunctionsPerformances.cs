@@ -27,25 +27,10 @@ namespace GUI.FunctionsPerformances
     public partial class FunctionsPerformances : DockContent
     {
         /// <summary>
-        ///     The EFS System for which this view is built
-        /// </summary>
-        private EFSSystem EFSSystem { get; set; }
-
-        /// <summary>
         ///     Constructor
         /// </summary>
         public FunctionsPerformances()
         {
-            InitializeComponent();
-        }
-
-        /// <summary>
-        ///     Constructor
-        /// </summary>
-        /// <param name="efsSystem"></param>
-        public FunctionsPerformances(EFSSystem efsSystem)
-        {
-            EFSSystem = efsSystem;
             InitializeComponent();
             Refresh();
         }
@@ -60,10 +45,10 @@ namespace GUI.FunctionsPerformances
             /// </summary>
             private List<Function> Functions { get; set; }
 
-            public GetSlowest(EFSSystem efsSystem)
+            public GetSlowest()
             {
                 Functions = new List<Function>();
-                foreach (Dictionary dictionary in efsSystem.Dictionaries)
+                foreach (Dictionary dictionary in EFSSystem.INSTANCE.Dictionaries)
                 {
                     visit(dictionary, true);
                 }
@@ -76,80 +61,99 @@ namespace GUI.FunctionsPerformances
                 Functions.Add(function);
             }
 
-            private int Comparer(Function f1, Function f2)
+            /// <summary>
+            /// Compares two functions according to their execution time
+            /// </summary>
+            /// <param name="f1"></param>
+            /// <param name="f2"></param>
+            /// <returns></returns>
+            private static int Comparer(Function f1, Function f2)
             {
+                int retVal = 0;
+
                 if (f1.ExecutionTimeInMilli < f2.ExecutionTimeInMilli)
                 {
-                    return 1;
+                    retVal = 1;
                 }
                 else if (f1.ExecutionTimeInMilli > f2.ExecutionTimeInMilli)
                 {
-                    return -1;
+                    retVal = -1;
                 }
 
-                return 0;
+                return retVal;
             }
 
             /// <summary>
             ///     Provides the functions associated with their descending execution time
             /// </summary>
             /// <returns></returns>
-            public List<Function> getFunctionsDesc()
+            public IEnumerable<Function> GetFunctionsDesc()
             {
                 List<Function> retVal = Functions;
 
-                retVal.Sort(new Comparison<Function>(Comparer));
+                retVal.Sort(Comparer);
 
                 return retVal;
             }
         }
 
+        /// <summary>
+        /// Display information about function performances
+        /// </summary>
         private class DisplayObject
         {
             private Function Function { get; set; }
 
+            /// <summary>
+            /// Constuctor
+            /// </summary>
+            /// <param name="function"></param>
             public DisplayObject(Function function)
             {
                 Function = function;
             }
 
+            // ReSharper disable once UnusedMember.Local
             public String FunctionName
             {
                 get { return Function.FullName; }
             }
 
+            // ReSharper disable once MemberCanBePrivate.Local
             public long ExecutionTime
             {
                 get { return Function.ExecutionTimeInMilli; }
             }
 
+            // ReSharper disable once MemberCanBePrivate.Local
             public int ExecutionCount
             {
                 get { return Function.ExecutionCount; }
             }
 
+            // ReSharper disable once UnusedMember.Local
             public int Average
             {
                 get
                 {
+                    int retVal = 0;
+
                     if (ExecutionCount > 0)
                     {
-                        return (int) (ExecutionTime/ExecutionCount);
+                        retVal = (int) (ExecutionTime/ExecutionCount);
                     }
-                    else
-                    {
-                        return 0;
-                    }
+
+                    return retVal;
                 }
             }
         }
 
         public override void Refresh()
         {
-            if (EFSSystem != null && dataGridView != null)
+            if (dataGridView != null)
             {
-                GetSlowest getter = new GetSlowest(EFSSystem);
-                List<Function> functions = getter.getFunctionsDesc();
+                GetSlowest getter = new GetSlowest();
+                IEnumerable<Function> functions = getter.GetFunctionsDesc();
                 List<DisplayObject> source = new List<DisplayObject>();
                 foreach (Function function in functions)
                 {

@@ -26,7 +26,7 @@ using WeifenLuo.WinFormsUI.Docking;
 namespace GUI.Converters
 {
     /// <summary>
-    ///     TODO: Update summary.
+    ///     Allow to edit a default value
     /// </summary>
     public class DefaultValueUITypedEditor : UITypeEditor
     {
@@ -35,36 +35,23 @@ namespace GUI.Converters
             return UITypeEditorEditStyle.Modal;
         }
 
-        /// <summary>
-        ///     Sets the string value into the right property
-        /// </summary>
-        /// <param name="instance"></param>
-        /// <param name="value"></param>
-        private void HandleTextChange(ModelElement instance, string value)
-        {
-            IDefaultValueElement defaultValueElement = instance as IDefaultValueElement;
-
-            if (defaultValueElement != null)
-            {
-                defaultValueElement.Default = value;
-            }
-        }
-
         public override object EditValue(ITypeDescriptorContext context, IServiceProvider provider, object value)
         {
-            IWindowsFormsEditorService svc =
-                provider.GetService(typeof (IWindowsFormsEditorService)) as IWindowsFormsEditorService;
-            if (svc != null)
+            if (provider != null)
             {
-                IDefaultValueElement defaultValueElement = value as IDefaultValueElement;
-                if (defaultValueElement != null)
+                IWindowsFormsEditorService svc =
+                    provider.GetService(typeof (IWindowsFormsEditorService)) as IWindowsFormsEditorService;
+                if (svc != null)
                 {
-                    Window form = new Window();
-                    form.AutoComplete = true;
-                    DefaultValueTextChangeHandler handler =
-                        new DefaultValueTextChangeHandler(defaultValueElement as ModelElement);
-                    form.setChangeHandler(handler);
-                    GuiUtils.MdiWindow.AddChildWindow(form, DockAreas.Float);
+                    IDefaultValueElement defaultValueElement = value as IDefaultValueElement;
+                    if (defaultValueElement != null)
+                    {
+                        Window form = new Window {AutoComplete = true};
+                        DefaultValueTextChangeHandler handler =
+                            new DefaultValueTextChangeHandler(defaultValueElement as ModelElement);
+                        form.setChangeHandler(handler);
+                        GuiUtils.MdiWindow.AddChildWindow(form, DockAreas.Float);
+                    }
                 }
             }
 

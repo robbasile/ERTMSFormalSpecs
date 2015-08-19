@@ -192,12 +192,12 @@ namespace GUI.Converters
             return true; // drop-down vs combo
         }
 
-        public StandardValuesCollection GetValues(StateMachine StateMachine)
+        public StandardValuesCollection GetValues(StateMachine stateMachine)
         {
             FinderRepository.INSTANCE.ClearCache();
 
             List<string> retVal = new List<string>();
-            foreach (State subState in StateMachine.States)
+            foreach (State subState in stateMachine.States)
             {
                 retVal.Add(subState.Name);
             }
@@ -211,9 +211,9 @@ namespace GUI.Converters
             return new StandardValuesCollection(retVal);
         }
 
-        public StandardValuesCollection GetValues(State State)
+        public StandardValuesCollection GetValues(State state)
         {
-            return GetValues(State.StateMachine);
+            return GetValues(state.StateMachine);
         }
     }
 

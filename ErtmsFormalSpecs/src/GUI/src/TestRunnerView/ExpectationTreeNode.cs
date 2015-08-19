@@ -14,7 +14,6 @@
 // --
 // ------------------------------------------------------------------------------
 
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -33,17 +32,10 @@ namespace GUI.TestRunnerView
         /// </summary>
         private class ItemEditor : Editor
         {
-            /// <summary>
-            ///     Constructor
-            /// </summary>
-            public ItemEditor()
-                : base()
-            {
-            }
-
             [Category("Description")]
             [Editor(typeof (ExpressionableUITypedEditor), typeof (UITypeEditor))]
             [TypeConverter(typeof (ExpressionableUITypeConverter))]
+            // ReSharper disable once UnusedMember.Local
             public Expectation Expression
             {
                 get { return Item; }
@@ -55,6 +47,7 @@ namespace GUI.TestRunnerView
             }
 
             [Category("Description")]
+            // ReSharper disable once UnusedMember.Local
             public bool Blocking
             {
                 get { return Item.getBlocking(); }
@@ -63,6 +56,7 @@ namespace GUI.TestRunnerView
 
             [Category("Description"), TypeConverter(typeof (ExpectationKindConverter))]
             [ReadOnly(false)]
+            // ReSharper disable once UnusedMember.Local
             public acceptor.ExpectationKind Kind
             {
                 get { return Item.getKind(); }
@@ -76,6 +70,7 @@ namespace GUI.TestRunnerView
             [Category("Description"), DisplayName("Condition")]
             [Editor(typeof (ConditionUITypedEditor), typeof (UITypeEditor))]
             [TypeConverter(typeof (ConditionUITypeConverter))]
+            // ReSharper disable once UnusedMember.Local
             public Expectation Condition
             {
                 get { return Item; }
@@ -87,6 +82,7 @@ namespace GUI.TestRunnerView
             }
 
             [Category("Description")]
+            // ReSharper disable once UnusedMember.Local
             public double DeadLine
             {
                 get { return Item.DeadLine; }
@@ -97,6 +93,7 @@ namespace GUI.TestRunnerView
             ///     The item name
             /// </summary>
             [Category("Description"), TypeConverter(typeof (CyclePhaseConverter))]
+            // ReSharper disable once UnusedMember.Local
             public acceptor.RulePriority CyclePhase
             {
                 get { return Item.getCyclePhase(); }
@@ -108,6 +105,7 @@ namespace GUI.TestRunnerView
         ///     Constructor
         /// </summary>
         /// <param name="item"></param>
+        /// <param name="buildSubNodes"></param>
         public ExpectationTreeNode(Expectation item, bool buildSubNodes)
             : base(item, buildSubNodes)
         {
@@ -128,9 +126,8 @@ namespace GUI.TestRunnerView
         /// <returns></returns>
         protected override List<MenuItem> GetMenuItems()
         {
-            List<MenuItem> retVal = new List<MenuItem>();
+            List<MenuItem> retVal = new List<MenuItem> {new MenuItem("Delete", DeleteHandler)};
 
-            retVal.Add(new MenuItem("Delete", new EventHandler(DeleteHandler)));
             retVal.AddRange(base.GetMenuItems());
 
             return retVal;

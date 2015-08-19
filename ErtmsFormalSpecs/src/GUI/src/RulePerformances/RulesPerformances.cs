@@ -27,28 +27,12 @@ namespace GUI.RulePerformances
     public partial class RulesPerformances : DockContent
     {
         /// <summary>
-        ///     The EFS System for which this view is built
-        /// </summary>
-        private EFSSystem EFSSystem { get; set; }
-
-        /// <summary>
         ///     Constructor
         /// </summary>
         public RulesPerformances()
         {
             InitializeComponent();
-
             DockAreas = DockAreas.DockBottom;
-        }
-
-        /// <summary>
-        ///     Constructor
-        /// </summary>
-        /// <param name="efsSystem"></param>
-        public RulesPerformances(EFSSystem efsSystem)
-        {
-            EFSSystem = efsSystem;
-            InitializeComponent();
             Refresh();
         }
 
@@ -62,10 +46,13 @@ namespace GUI.RulePerformances
             /// </summary>
             private List<Rule> Rules { get; set; }
 
-            public GetSlowest(EFSSystem efsSystem)
+            /// <summary>
+            /// Constructor
+            /// </summary>
+            public GetSlowest()
             {
                 Rules = new List<Rule>();
-                foreach (Dictionary dictionary in efsSystem.Dictionaries)
+                foreach (Dictionary dictionary in EFSSystem.INSTANCE.Dictionaries)
                 {
                     visit(dictionary, true);
                 }
@@ -78,34 +65,45 @@ namespace GUI.RulePerformances
                 Rules.Add(rule);
             }
 
-            private int Comparer(Rule r1, Rule r2)
+            /// <summary>
+            /// Compares two rules according to their execution time
+            /// </summary>
+            /// <param name="r1"></param>
+            /// <param name="r2"></param>
+            /// <returns></returns>
+            private static int Comparer(Rule r1, Rule r2)
             {
+                int retVal = 0;
+
                 if (r1.ExecutionTimeInMilli < r2.ExecutionTimeInMilli)
                 {
-                    return 1;
+                    retVal = 1;
                 }
                 else if (r1.ExecutionTimeInMilli > r2.ExecutionTimeInMilli)
                 {
-                    return -1;
+                    retVal = -1;
                 }
 
-                return 0;
+                return retVal;
             }
 
             /// <summary>
             ///     Provides the rules associated with their descending execution time
             /// </summary>
             /// <returns></returns>
-            public List<Rule> getRulesDesc()
+            public IEnumerable<Rule> GetRulesDesc()
             {
                 List<Rule> retVal = Rules;
 
-                retVal.Sort(new Comparison<Rule>(Comparer));
+                retVal.Sort(Comparer);
 
                 return retVal;
             }
         }
 
+        /// <summary>
+        /// Allows to display rule performances
+        /// </summary>
         private class DisplayObject
         {
             private Rule Rule { get; set; }
@@ -115,43 +113,47 @@ namespace GUI.RulePerformances
                 Rule = rule;
             }
 
+            // ReSharper disable once UnusedMember.Local
             public String RuleName
             {
                 get { return Rule.FullName; }
             }
 
+            // ReSharper disable once MemberCanBePrivate.Local
             public long ExecutionTime
             {
                 get { return Rule.ExecutionTimeInMilli; }
             }
 
+            // ReSharper disable once MemberCanBePrivate.Local
             public int ExecutionCount
             {
                 get { return Rule.ExecutionCount; }
             }
 
+            // ReSharper disable once UnusedMember.Local
             public int Average
             {
                 get
                 {
+                    int retVal = 0;
+
                     if (ExecutionCount > 0)
                     {
-                        return (int) (ExecutionTime/ExecutionCount);
+                        retVal = (int) (ExecutionTime/ExecutionCount);
                     }
-                    else
-                    {
-                        return 0;
-                    }
+
+                    return retVal;
                 }
             }
         }
 
         public override void Refresh()
         {
-            if (EFSSystem != null && dataGridView != null)
+            if (dataGridView != null)
             {
-                GetSlowest getter = new GetSlowest(EFSSystem);
-                List<Rule> rules = getter.getRulesDesc();
+                GetSlowest getter = new GetSlowest();
+                IEnumerable<Rule> rules = getter.GetRulesDesc();
                 List<DisplayObject> source = new List<DisplayObject>();
                 foreach (Rule rule in rules)
                 {

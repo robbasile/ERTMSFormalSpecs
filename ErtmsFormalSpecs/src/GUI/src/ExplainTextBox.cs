@@ -23,14 +23,6 @@ namespace GUI
     public class ExplainTextBox : EditorTextBox
     {
         /// <summary>
-        ///     Constructor
-        /// </summary>
-        public ExplainTextBox()
-            : base()
-        {
-        }
-
-        /// <summary>
         ///     Sets the model for this explain text box
         /// </summary>
         /// <param name="model"></param>
@@ -43,7 +35,7 @@ namespace GUI
         /// <summary>
         ///     The explanation last time
         /// </summary>
-        private string LastExplanation = "";
+        private string _lastExplanation = "";
 
         /// <summary>
         ///     Refreshes the data
@@ -60,21 +52,21 @@ namespace GUI
 
                 if (text != null)
                 {
-                    if (text != LastExplanation)
+                    if (text != _lastExplanation)
                     {
-                        LastExplanation = text;
+                        _lastExplanation = text;
                         Text = text;
                     }
                 }
                 else
                 {
-                    LastExplanation = "";
+                    _lastExplanation = "";
                     Text = "";
                 }
             }
             else
             {
-                LastExplanation = "";
+                _lastExplanation = "";
                 Text = "";
             }
 

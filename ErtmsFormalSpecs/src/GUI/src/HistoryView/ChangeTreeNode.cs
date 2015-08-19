@@ -30,16 +30,9 @@ namespace GUI.HistoryView
         private class ChangeEditor : Editor
         {
             /// <summary>
-            ///     Constructor
-            /// </summary>
-            /// <param name="model"></param>
-            public ChangeEditor()
-            {
-            }
-
-            /// <summary>
             ///     The commit author
             /// </summary>
+            // ReSharper disable once UnusedMember.Local
             public string Author
             {
                 get { return Item.Commit.getCommitter(); }
@@ -48,6 +41,7 @@ namespace GUI.HistoryView
             /// <summary>
             ///     The commit message
             /// </summary>
+            // ReSharper disable once UnusedMember.Local
             public string Message
             {
                 get { return Item.Commit.getMessage(); }
@@ -56,6 +50,7 @@ namespace GUI.HistoryView
             /// <summary>
             ///     The commit date
             /// </summary>
+            // ReSharper disable once UnusedMember.Local
             public DateTime Date
             {
                 get { return Item.Commit.Date; }
@@ -65,6 +60,7 @@ namespace GUI.HistoryView
             ///     The commit action
             /// </summary>
             [Category("Description"), TypeConverter(typeof (ChangeActionConverter))]
+            // ReSharper disable once UnusedMember.Local
             public acceptor.ChangeOperationEnum Action
             {
                 get { return Item.Action; }
@@ -74,6 +70,7 @@ namespace GUI.HistoryView
             ///     The commit field change
             /// </summary>
             [Category("Description")]
+            // ReSharper disable once UnusedMember.Local
             public string Field
             {
                 get { return Item.Field; }
@@ -93,6 +90,7 @@ namespace GUI.HistoryView
         ///     Constructor
         /// </summary>
         /// <param name="item"></param>
+        /// <param name="buildSubNodes"></param>
         public ChangeTreeNode(Change item, bool buildSubNodes)
             : base(item, buildSubNodes)
         {

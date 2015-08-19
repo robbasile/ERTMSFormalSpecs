@@ -23,53 +23,55 @@ using Reports.ERTMSAcademy;
 
 namespace GUI.Report
 {
-    public partial class ERTMSAcademyReport : Form
+    public partial class ErtmsAcademyReport : Form
     {
-        private ERTMSAcademyReportHandler reportHandler;
+        private readonly ERTMSAcademyReportHandler _reportHandler;
 
-        private Dictionary<string, string> UsersAndLogin = new Dictionary<string, string>();
+        private readonly Dictionary<string, string> _usersAndLogin = new Dictionary<string, string>();
 
 
-        public ERTMSAcademyReport(Dictionary dictionary)
+        public ErtmsAcademyReport(Dictionary dictionary)
         {
             InitializeComponent();
-            reportHandler = new ERTMSAcademyReportHandler(dictionary);
-            TxtB_Path.Text = reportHandler.FileName;
+            _reportHandler = new ERTMSAcademyReportHandler(dictionary);
+            TxtB_Path.Text = _reportHandler.FileName;
 
-            UsersAndLogin.Add("James", "james@ertmssolutions.com");
-            UsersAndLogin.Add("Moritz", "morido@web.de");
-            UsersAndLogin.Add("Luis", "luis@ertmssolutions.com");
-            UsersAndLogin.Add("Laurent", "laurent@ertmssolutions.com");
-            UsersAndLogin.Add("Svitlana", "svitlana@ertmssolutions.com");
+            _usersAndLogin.Add("James", "james@ertmssolutions.com");
+            _usersAndLogin.Add("Moritz", "morido@web.de");
+            _usersAndLogin.Add("Luis", "luis@ertmssolutions.com");
+            _usersAndLogin.Add("Laurent", "laurent@ertmssolutions.com");
+            _usersAndLogin.Add("Svitlana", "svitlana@ertmssolutions.com");
 
             List<string> userNames = new List<string>();
-            userNames.AddRange(UsersAndLogin.Keys);
+            userNames.AddRange(_usersAndLogin.Keys);
             userNames.Sort();
             Cbb_UserNames.DataSource = userNames;
         }
 
         private void Btn_Browse_Click(object sender, EventArgs e)
         {
-            SaveFileDialog saveFileDialog = new SaveFileDialog();
-            saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+            SaveFileDialog saveFileDialog = new SaveFileDialog
+            {
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Personal)
+            };
             if (saveFileDialog.ShowDialog(this) == DialogResult.OK)
             {
-                reportHandler.FileName = saveFileDialog.FileName;
-                TxtB_Path.Text = reportHandler.FileName;
+                _reportHandler.FileName = saveFileDialog.FileName;
+                TxtB_Path.Text = _reportHandler.FileName;
             }
         }
 
         private void Btn_CreateReport_Click(object sender, EventArgs e)
         {
-            reportHandler.Name = "ERTMS Academy report";
+            _reportHandler.Name = "ERTMS Academy report";
 
-            reportHandler.User = Cbb_UserNames.Text;
-            reportHandler.GitLogin = UsersAndLogin[reportHandler.User];
-            reportHandler.SinceHowManyDays = (int) sinceUpDown.Value;
+            _reportHandler.User = Cbb_UserNames.Text;
+            _reportHandler.GitLogin = _usersAndLogin[_reportHandler.User];
+            _reportHandler.SinceHowManyDays = (int) sinceUpDown.Value;
 
             Hide();
 
-            ProgressDialog dialog = new ProgressDialog("Generating report", reportHandler);
+            ProgressDialog dialog = new ProgressDialog("Generating report", _reportHandler);
             dialog.ShowDialog(Owner);
         }
     }

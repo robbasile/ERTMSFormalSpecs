@@ -17,12 +17,10 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using DataDictionary.Generated;
+using DataDictionary.Specification;
+using DataDictionary.Types;
 using GUI.SpecificationView;
 using Enum = DataDictionary.Types.Enum;
-using NameSpace = DataDictionary.Types.NameSpace;
-using Paragraph = DataDictionary.Specification.Paragraph;
-using ReqRef = DataDictionary.ReqRef;
 
 namespace GUI.DataDictionaryView
 {

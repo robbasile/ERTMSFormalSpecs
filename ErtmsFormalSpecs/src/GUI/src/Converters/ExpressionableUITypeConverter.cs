@@ -34,6 +34,8 @@ namespace GUI.Converters
 
         public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
         {
+            object retVal = null;
+
             BaseTreeNode.BaseEditor editor = context.Instance as BaseTreeNode.BaseEditor;
             string text = value as string;
             if (editor != null && text != null)
@@ -42,17 +44,16 @@ namespace GUI.Converters
                 if (expressionable != null)
                 {
                     expressionable.ExpressionText = text;
-                    return expressionable;
-                }
-                else
-                {
-                    return base.ConvertFrom(context, culture, value);
+                    retVal = expressionable;
                 }
             }
-            else
+
+            if (retVal == null)
             {
-                return base.ConvertFrom(context, culture, value);
+                retVal = base.ConvertFrom(context, culture, value);
             }
+
+            return retVal;
         }
 
         public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value,
@@ -65,17 +66,10 @@ namespace GUI.Converters
                 if (expressionable.ExpressionText != null)
                 {
                     retVal = expressionable.ExpressionText.Trim();
-                    if (retVal != null)
+                    int index = retVal.IndexOf("\n");
+                    if (index > 0)
                     {
-                        int index = retVal.IndexOf("\n");
-                        if (index > 0)
-                        {
-                            retVal = retVal.Substring(0, index) + "...";
-                        }
-                    }
-                    else
-                    {
-                        retVal = "";
+                        retVal = retVal.Substring(0, index) + "...";
                     }
                 }
                 else
@@ -106,6 +100,8 @@ namespace GUI.Converters
 
         public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
         {
+            object retVal = null;
+
             BaseTreeNode.BaseEditor editor = context.Instance as BaseTreeNode.BaseEditor;
             string text = value as string;
             if (editor != null && text != null)
@@ -114,17 +110,16 @@ namespace GUI.Converters
                 if (expectation != null)
                 {
                     expectation.setCondition(text);
-                    return expectation;
-                }
-                else
-                {
-                    return base.ConvertFrom(context, culture, value);
+                    retVal = expectation;
                 }
             }
-            else
+
+            if (retVal == null)
             {
-                return base.ConvertFrom(context, culture, value);
+                retVal = base.ConvertFrom(context, culture, value);
             }
+
+            return retVal;
         }
 
         public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value,
@@ -137,17 +132,10 @@ namespace GUI.Converters
                 if (expectation.getCondition() != null)
                 {
                     retVal = expectation.getCondition().Trim();
-                    if (retVal != null)
+                    int index = retVal.IndexOf("\n");
+                    if (index > 0)
                     {
-                        int index = retVal.IndexOf("\n");
-                        if (index > 0)
-                        {
-                            retVal = retVal.Substring(0, index) + "...";
-                        }
-                    }
-                    else
-                    {
-                        retVal = "";
+                        retVal = retVal.Substring(0, index) + "...";
                     }
                 }
                 else

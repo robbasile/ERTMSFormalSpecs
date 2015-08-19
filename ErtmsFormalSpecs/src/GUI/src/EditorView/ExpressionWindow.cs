@@ -46,7 +46,7 @@ namespace GUI.EditorView
             {
                 SyntaxHighlight = true;
                 AutoComplete = true;
-                setChangeHandler(new ExpressionableTextChangeHandler((ModelElement)expressionable));
+                setChangeHandler(new ExpressionableTextChangeHandler((ModelElement) expressionable));
             }
             else
             {

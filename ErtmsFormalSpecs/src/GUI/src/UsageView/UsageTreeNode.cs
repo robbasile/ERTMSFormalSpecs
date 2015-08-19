@@ -19,7 +19,6 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using DataDictionary;
 using DataDictionary.Interpreter;
-using DataDictionary.Tests;
 using DataDictionary.Types;
 using Utils;
 using ModelElement = DataDictionary.ModelElement;
@@ -34,7 +33,7 @@ namespace GUI.UsageView
         public Usage Usage { get; private set; }
 
         /// <summary>
-        /// The folder element for which this node is built
+        ///     The folder element for which this node is built
         /// </summary>
         public IModelElement FolderElement { get; set; }
 
@@ -82,7 +81,7 @@ namespace GUI.UsageView
             }
             else
             {
-                ChangeImageIndex(BaseTreeView.TestImageIndex);                
+                ChangeImageIndex(BaseTreeView.TestImageIndex);
             }
         }
 
@@ -144,7 +143,7 @@ namespace GUI.UsageView
             {
                 ChangeImageIndex(BaseTreeView.ModelImageIndex);
             }
-            else if (FolderElement!= null)
+            else if (FolderElement != null)
             {
                 base.SetImageIndex(true);
             }

@@ -1,6 +1,6 @@
 ﻿namespace GUI.Report
 {
-    partial class ERTMSAcademyReport
+    partial class ErtmsAcademyReport
     {
         /// <summary>
         /// Required designer variable.
@@ -129,7 +129,7 @@
             this.Controls.Add(this.Cbb_UserNames);
             this.Controls.Add(this.Lbl_UserName);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.Name = "ERTMSAcademyReport";
+            this.Name = "ErtmsAcademyReport";
             this.Text = "ERTMS Academy report";
             ((System.ComponentModel.ISupportInitialize)(this.sinceUpDown)).EndInit();
             this.ResumeLayout(false);

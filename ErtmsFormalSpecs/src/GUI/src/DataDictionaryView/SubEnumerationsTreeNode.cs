@@ -21,7 +21,6 @@ using DataDictionary.Generated;
 using GUI.SpecificationView;
 using Enum = DataDictionary.Types.Enum;
 using Paragraph = DataDictionary.Specification.Paragraph;
-using ReqRef = DataDictionary.ReqRef;
 
 namespace GUI.DataDictionaryView
 {

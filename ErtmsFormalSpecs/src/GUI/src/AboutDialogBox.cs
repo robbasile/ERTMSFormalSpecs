@@ -8,11 +8,12 @@ namespace GUI
     {
         private class AboutData
         {
+            // ReSharper disable once UnusedMember.Local
             public string Version
             {
                 get
                 {
-                    string retVal = "";
+                    string retVal;
 
                     Assembly assembly = Assembly.GetExecutingAssembly();
                     FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(assembly.Location);

@@ -18,12 +18,9 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
-using DataDictionary.Generated;
+using DataDictionary.Specification;
+using DataDictionary.Types;
 using GUI.SpecificationView;
-using Paragraph = DataDictionary.Specification.Paragraph;
-using ReqRef = DataDictionary.ReqRef;
-using Structure = DataDictionary.Types.Structure;
-using StructureElement = DataDictionary.Types.StructureElement;
 
 namespace GUI.DataDictionaryView
 {

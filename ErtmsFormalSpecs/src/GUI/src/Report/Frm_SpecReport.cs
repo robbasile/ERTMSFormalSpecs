@@ -16,19 +16,16 @@
 
 using System;
 using System.Collections;
-using System.Reflection;
 using System.Windows.Forms;
 using DataDictionary;
 using GUIUtils;
-using log4net;
 using Reports.Specs;
 
 namespace GUI.Report
 {
     public partial class SpecReport : Form
     {
-        private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-        private SpecCoverageReportHandler reportHandler;
+        private readonly SpecCoverageReportHandler _reportHandler;
 
         /// <summary>
         ///     Constructor
@@ -37,8 +34,8 @@ namespace GUI.Report
         public SpecReport(Dictionary dictionary)
         {
             InitializeComponent();
-            reportHandler = new SpecCoverageReportHandler(dictionary);
-            TxtB_Path.Text = reportHandler.FileName;
+            _reportHandler = new SpecCoverageReportHandler(dictionary);
+            TxtB_Path.Text = _reportHandler.FileName;
         }
 
 
@@ -51,8 +48,10 @@ namespace GUI.Report
             get
             {
                 ArrayList retVal = new ArrayList();
-                retVal.AddRange(this.Controls);
-                retVal.AddRange(this.GrB_Options.Controls);
+
+                retVal.AddRange(Controls);
+                retVal.AddRange(GrB_Options.Controls);
+
                 return retVal;
             }
         }
@@ -66,19 +65,22 @@ namespace GUI.Report
         private void CheckedChanged(object sender, EventArgs e)
         {
             CheckBox cb = sender as CheckBox;
-            string[] tags = cb.Tag.ToString().Split('.');
-            string cbProperty = tags[0];
-            if (cbProperty.Equals("FILTER"))
+            if (cb != null)
             {
-                int cbLevel;
-                Int32.TryParse(tags[1], out cbLevel);
-                if (cb.Checked)
+                string[] tags = cb.Tag.ToString().Split('.');
+                string cbProperty = tags[0];
+                if (cbProperty.Equals("FILTER"))
                 {
-                    SelectCheckBoxes(cbLevel); /* we enable all the check boxes of the selected level */
-                }
-                else
-                {
-                    DeselectCheckBoxes(cbLevel); /* we disable the statistics check boxes of the selected level */
+                    int cbLevel;
+                    Int32.TryParse(tags[1], out cbLevel);
+                    if (cb.Checked)
+                    {
+                        SelectCheckBoxes(cbLevel); /* we enable all the check boxes of the selected level */
+                    }
+                    else
+                    {
+                        DeselectCheckBoxes(cbLevel); /* we disable the statistics check boxes of the selected level */
+                    }
                 }
             }
         }
@@ -142,22 +144,22 @@ namespace GUI.Report
         /// <param name="e"></param>
         private void Btn_CreateReport_Click(object sender, EventArgs e)
         {
-            reportHandler.Name = "Specification coverage report";
+            _reportHandler.Name = "Specification coverage report";
 
-            reportHandler.AddSpecification = CB_AddSpecification.Checked;
-            reportHandler.ShowFullSpecification = CB_ShowFullSpecification.Checked;
+            _reportHandler.AddSpecification = CB_AddSpecification.Checked;
+            _reportHandler.ShowFullSpecification = CB_ShowFullSpecification.Checked;
 
-            reportHandler.AddCoveredParagraphs = CB_AddCoveredParagraphs.Checked;
-            reportHandler.ShowAssociatedReqRelated = CB_ShowAssociatedReqRelated.Checked;
+            _reportHandler.AddCoveredParagraphs = CB_AddCoveredParagraphs.Checked;
+            _reportHandler.ShowAssociatedReqRelated = CB_ShowAssociatedReqRelated.Checked;
 
-            reportHandler.AddNonCoveredParagraphs = CB_AddNonCoveredParagraphs.Checked;
+            _reportHandler.AddNonCoveredParagraphs = CB_AddNonCoveredParagraphs.Checked;
 
-            reportHandler.AddReqRelated = CB_AddReqRelated.Checked;
-            reportHandler.ShowAssociatedParagraphs = CB_ShowAssociatedParagraphs.Checked;
+            _reportHandler.AddReqRelated = CB_AddReqRelated.Checked;
+            _reportHandler.ShowAssociatedParagraphs = CB_ShowAssociatedParagraphs.Checked;
 
             Hide();
 
-            ProgressDialog dialog = new ProgressDialog("Generating report", reportHandler);
+            ProgressDialog dialog = new ProgressDialog("Generating report", _reportHandler);
             dialog.ShowDialog(Owner);
         }
 
@@ -168,12 +170,14 @@ namespace GUI.Report
         /// <param name="e"></param>
         private void Btn_SelectFile_Click(object sender, EventArgs e)
         {
-            SaveFileDialog saveFileDialog = new SaveFileDialog();
-            saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+            SaveFileDialog saveFileDialog = new SaveFileDialog
+            {
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Personal)
+            };
             if (saveFileDialog.ShowDialog(this) == DialogResult.OK)
             {
-                reportHandler.FileName = saveFileDialog.FileName;
-                TxtB_Path.Text = reportHandler.FileName;
+                _reportHandler.FileName = saveFileDialog.FileName;
+                TxtB_Path.Text = _reportHandler.FileName;
             }
         }
     }

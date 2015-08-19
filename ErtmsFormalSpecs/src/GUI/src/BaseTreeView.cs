@@ -107,7 +107,6 @@ namespace GUI
 
             DoubleBuffered = true;
 
-            Selecting = false;
             Refactor = true;
         }
 
@@ -380,11 +379,6 @@ namespace GUI
         }
 
         /// <summary>
-        ///     Indicates that a programatic selection is currently occuring
-        /// </summary>
-        private bool Selecting { get; set; }
-
-        /// <summary>
         ///     Selects the node which references the element provided
         /// </summary>
         /// <param name="element"></param>
@@ -394,31 +388,23 @@ namespace GUI
         {
             BaseTreeNode retVal = null;
 
-            try
+            if (element != null)
             {
-                Selecting = true;
-                if (element != null)
+                retVal = FindNode(element, true);
+                if (retVal != null)
                 {
-                    retVal = FindNode(element, true);
-                    if (retVal != null)
+                    // ReSharper disable once RedundantCheckBeforeAssignment
+                    if (Selected != retVal)
                     {
-                        // ReSharper disable once RedundantCheckBeforeAssignment
-                        if (Selected != retVal)
-                        {
-                            Selected = retVal;
-                        }
+                        Selected = retVal;
+                    }
 
-                        if (getFocus)
-                        {
-                            Form form = GuiUtils.EnclosingFinder<Form>.Find(this);
-                            form.BringToFront();
-                        }
+                    if (getFocus)
+                    {
+                        Form form = GuiUtils.EnclosingFinder<Form>.Find(this);
+                        form.BringToFront();
                     }
                 }
-            }
-            finally
-            {
-                Selecting = false;
             }
 
             return retVal;

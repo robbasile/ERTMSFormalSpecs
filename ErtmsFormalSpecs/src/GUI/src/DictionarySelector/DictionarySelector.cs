@@ -43,6 +43,7 @@ namespace GUI.DictionarySelector
             /// <summary>
             ///     The display name of the entry
             /// </summary>
+            // ReSharper disable once UnusedMember.Local
             public string Name
             {
                 get { return Dictionary.Name; }
@@ -59,67 +60,45 @@ namespace GUI.DictionarySelector
         }
 
         /// <summary>
-        ///     Constructor (for designer)
-        /// </summary>
-        public DictionarySelector()
-        {
-            InitializeComponent();
-        }
-
-        /// <summary>
         ///     Constructor
         /// </summary>
-        /// <param name="efsSystem">The EFSSystem for which this rule set selector is created</param>
-        /// <param name="Options">The options used to filter the selection</param>
-        public DictionarySelector(EFSSystem efsSystem, FilterOptions Options = FilterOptions.None,
-            Dictionary UpdatedDictionary = null)
+        /// <param name="options">The options used to filter the selection</param>
+        /// <param name="updatedDictionary"></param>
+        public DictionarySelector(FilterOptions options = FilterOptions.None,
+            Dictionary updatedDictionary = null)
         {
             InitializeComponent();
 
-            options = Options;
-            updatedDictionary = UpdatedDictionary;
-            EFSSystem = efsSystem;
+            Options = options;
+            UpdatedDictionary = updatedDictionary;
+
+            ArrayList entries = new ArrayList();
+            foreach (Dictionary dictionary in EFSSystem.INSTANCE.Dictionaries)
+            {
+                if (AddToEntries(dictionary))
+                {
+                    entries.Add(new ListBoxEntry(dictionary));
+                }
+            }
+            dataDictionaryListBox.DataSource = entries;
+            dataDictionaryListBox.DisplayMember = "Name";
+
+            if (entries.Count > 0)
+            {
+                dataDictionaryListBox.ValueMember = "Dictionary";
+            }
         }
 
         /// <summary>
         ///     The filtering options applied to the dictionaries
         /// </summary>
-        private FilterOptions options;
+        private FilterOptions Options { get; set; }
 
         /// <summary>
         ///     If the selection is limited to updates of a particular dictionary, the Guid of the updated dictionary
         /// </summary>
-        private Dictionary updatedDictionary;
-
-        /// <summary>
-        ///     The associated EFS System
-        /// </summary>
-        private EFSSystem efsSystem;
-
-        public EFSSystem EFSSystem
-        {
-            get { return efsSystem; }
-            private set
-            {
-                efsSystem = value;
-                ArrayList entries = new ArrayList();
-                foreach (Dictionary dictionary in EFSSystem.Dictionaries)
-                {
-                    if (AddToEntries(dictionary))
-                    {
-                        entries.Add(new ListBoxEntry(dictionary));
-                    }
-                }
-                dataDictionaryListBox.DataSource = entries;
-                dataDictionaryListBox.DisplayMember = "Name";
-
-                if (entries.Count > 0)
-                {
-                    dataDictionaryListBox.ValueMember = "Dictionary";
-                }
-            }
-        }
-
+        private Dictionary UpdatedDictionary { get; set; }
+        
         /// <summary>
         ///     Filters the dictionaries displayed for selection, if required
         /// </summary>
@@ -129,19 +108,19 @@ namespace GUI.DictionarySelector
         {
             bool retVal = true;
 
-            if (options == FilterOptions.HideUpdates &&
+            if (Options == FilterOptions.HideUpdates &&
                 dictionary.Updates != null)
             {
                 // The options restrict the selection to non-update dictionaries
                 retVal = false;
             }
-            else if (options == FilterOptions.Updates &&
-                     updatedDictionary == null)
+            else if (Options == FilterOptions.Updates &&
+                     UpdatedDictionary == null)
             {
                 retVal = dictionary.Updates != null;
             }
-            else if (options == FilterOptions.Updates &&
-                     !updatedDictionary.IsUpdatedBy(dictionary))
+            else if (Options == FilterOptions.Updates &&
+                     !UpdatedDictionary.IsUpdatedBy(dictionary))
             {
                 // The options restrict the selection to updates of a particular dictionary
                 retVal = false;
@@ -167,21 +146,21 @@ namespace GUI.DictionarySelector
             else
             {
                 string noRelevantDictionaries = "";
-                if (options == FilterOptions.None)
+                if (Options == FilterOptions.None)
                 {
                     noRelevantDictionaries = "There are no dictionaries loaded in ERTMSFormalSpecs.";
                 }
-                else if (options == FilterOptions.Updates)
+                else if (Options == FilterOptions.Updates)
                 {
                     noRelevantDictionaries = "There are no updates";
-                    if (updatedDictionary != null)
+                    if (UpdatedDictionary != null)
                     {
-                        noRelevantDictionaries += " for " + updatedDictionary.Name;
+                        noRelevantDictionaries += " for " + UpdatedDictionary.Name;
                     }
                     noRelevantDictionaries +=
                         " currently loaded in ERTMSFormalSpecs.\nTo create one, select File-> New-> Update.";
                 }
-                else if (options == FilterOptions.HideUpdates)
+                else if (Options == FilterOptions.HideUpdates)
                 {
                     noRelevantDictionaries =
                         "There are no dictionaries that are not updates currently loaded in ERTMSFormalSpecs.";

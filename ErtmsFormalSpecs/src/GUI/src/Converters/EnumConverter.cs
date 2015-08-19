@@ -24,27 +24,25 @@ namespace GUI.Converters
 {
     public class GenericEnumConverter<T> : EnumConverter
     {
-        private Type _enumType;
-
         /// <summary>
         ///     Provides the translation between a enum and its textual representation
         /// </summary>
         protected struct Converter
         {
-            public T val;
-            public string display;
+            public T Val;
+            public string Display;
 
             public Converter(T val, string display)
             {
-                this.val = val;
-                this.display = display;
+                Val = val;
+                Display = display;
             }
         }
 
         /// <summary>
         ///     Holds the convertion rules
         /// </summary>
-        protected List<Converter> converters = new List<Converter>();
+        protected List<Converter> Converters = new List<Converter>();
 
         /// <summary>
         ///     Constructor
@@ -53,7 +51,6 @@ namespace GUI.Converters
         public GenericEnumConverter(Type type)
             : base(type)
         {
-            _enumType = type;
         }
 
         public override bool CanConvertTo(ITypeDescriptorContext context, Type destType)
@@ -64,14 +61,14 @@ namespace GUI.Converters
         public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value,
             Type destType)
         {
-            string retVal = converters[0].display;
+            string retVal = Converters[0].Display;
 
             T val = (T) value;
-            foreach (Converter converter in converters)
+            foreach (Converter converter in Converters)
             {
-                if (converter.val.Equals(val))
+                if (converter.Val.Equals(val))
                 {
-                    retVal = converter.display;
+                    retVal = converter.Display;
                     break;
                 }
             }
@@ -86,13 +83,13 @@ namespace GUI.Converters
 
         public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
         {
-            T retVal = converters[0].val;
+            T retVal = Converters[0].Val;
 
-            foreach (Converter converter in converters)
+            foreach (Converter converter in Converters)
             {
-                if (converter.display.CompareTo(value) == 0)
+                if (converter.Display.CompareTo(value) == 0)
                 {
-                    retVal = converter.val;
+                    retVal = converter.Val;
                     break;
                 }
             }
@@ -106,11 +103,11 @@ namespace GUI.Converters
         public VariableModeConverter(Type type)
             : base(type)
         {
-            converters.Add(new Converter(acceptor.VariableModeEnumType.aConstant, "Constant"));
-            converters.Add(new Converter(acceptor.VariableModeEnumType.aIncoming, "In"));
-            converters.Add(new Converter(acceptor.VariableModeEnumType.aInOut, "In Out"));
-            converters.Add(new Converter(acceptor.VariableModeEnumType.aInternal, "Internal"));
-            converters.Add(new Converter(acceptor.VariableModeEnumType.aOutgoing, "Out"));
+            Converters.Add(new Converter(acceptor.VariableModeEnumType.aConstant, "Constant"));
+            Converters.Add(new Converter(acceptor.VariableModeEnumType.aIncoming, "In"));
+            Converters.Add(new Converter(acceptor.VariableModeEnumType.aInOut, "In Out"));
+            Converters.Add(new Converter(acceptor.VariableModeEnumType.aInternal, "Internal"));
+            Converters.Add(new Converter(acceptor.VariableModeEnumType.aOutgoing, "Out"));
         }
     }
 
@@ -119,10 +116,10 @@ namespace GUI.Converters
         public ImplementationStatusConverter(Type type)
             : base(type)
         {
-            converters.Add(new Converter(acceptor.SPEC_IMPLEMENTED_ENUM.Impl_NA, "Not implemented"));
-            converters.Add(new Converter(acceptor.SPEC_IMPLEMENTED_ENUM.Impl_Implemented, "Implemented"));
-            converters.Add(new Converter(acceptor.SPEC_IMPLEMENTED_ENUM.Impl_NotImplementable, "Not implementable"));
-            converters.Add(new Converter(acceptor.SPEC_IMPLEMENTED_ENUM.Impl_NewRevisionAvailable,
+            Converters.Add(new Converter(acceptor.SPEC_IMPLEMENTED_ENUM.Impl_NA, "Not implemented"));
+            Converters.Add(new Converter(acceptor.SPEC_IMPLEMENTED_ENUM.Impl_Implemented, "Implemented"));
+            Converters.Add(new Converter(acceptor.SPEC_IMPLEMENTED_ENUM.Impl_NotImplementable, "Not implementable"));
+            Converters.Add(new Converter(acceptor.SPEC_IMPLEMENTED_ENUM.Impl_NewRevisionAvailable,
                 "New revision available"));
         }
     }
@@ -132,7 +129,7 @@ namespace GUI.Converters
         public ImplementationStatusConverterWithDefault(Type type)
             : base(type)
         {
-            converters.Add(new Converter(acceptor.SPEC_IMPLEMENTED_ENUM.defaultSPEC_IMPLEMENTED_ENUM, "Default"));
+            Converters.Add(new Converter(acceptor.SPEC_IMPLEMENTED_ENUM.defaultSPEC_IMPLEMENTED_ENUM, "Default"));
         }
     }
 
@@ -141,10 +138,10 @@ namespace GUI.Converters
         public ScopeConverter(Type type)
             : base(type)
         {
-            converters.Add(new Converter(acceptor.Paragraph_scope.aOBU, "On Board Unit"));
-            converters.Add(new Converter(acceptor.Paragraph_scope.aOBU_AND_TRACK, "On Board Unit and Track"));
-            converters.Add(new Converter(acceptor.Paragraph_scope.aTRACK, "Track"));
-            converters.Add(new Converter(acceptor.Paragraph_scope.aROLLING_STOCK, "Rolling stock"));
+            Converters.Add(new Converter(acceptor.Paragraph_scope.aOBU, "On Board Unit"));
+            Converters.Add(new Converter(acceptor.Paragraph_scope.aOBU_AND_TRACK, "On Board Unit and Track"));
+            Converters.Add(new Converter(acceptor.Paragraph_scope.aTRACK, "Track"));
+            Converters.Add(new Converter(acceptor.Paragraph_scope.aROLLING_STOCK, "Rolling stock"));
         }
     }
 
@@ -153,13 +150,13 @@ namespace GUI.Converters
         public SpecTypeConverter(Type type)
             : base(type)
         {
-            converters.Add(new Converter(acceptor.Paragraph_type.aDEFINITION, "Definition"));
-            converters.Add(new Converter(acceptor.Paragraph_type.aDELETED, "Deleted"));
-            converters.Add(new Converter(acceptor.Paragraph_type.aNOTE, "Note"));
-            converters.Add(new Converter(acceptor.Paragraph_type.aPROBLEM, "Problem"));
-            converters.Add(new Converter(acceptor.Paragraph_type.aREQUIREMENT, "Requirement"));
-            converters.Add(new Converter(acceptor.Paragraph_type.aTITLE, "Title"));
-            converters.Add(new Converter(acceptor.Paragraph_type.aTABLE_HEADER, "Table header"));
+            Converters.Add(new Converter(acceptor.Paragraph_type.aDEFINITION, "Definition"));
+            Converters.Add(new Converter(acceptor.Paragraph_type.aDELETED, "Deleted"));
+            Converters.Add(new Converter(acceptor.Paragraph_type.aNOTE, "Note"));
+            Converters.Add(new Converter(acceptor.Paragraph_type.aPROBLEM, "Problem"));
+            Converters.Add(new Converter(acceptor.Paragraph_type.aREQUIREMENT, "Requirement"));
+            Converters.Add(new Converter(acceptor.Paragraph_type.aTITLE, "Title"));
+            Converters.Add(new Converter(acceptor.Paragraph_type.aTABLE_HEADER, "Table header"));
         }
     }
 
@@ -168,11 +165,11 @@ namespace GUI.Converters
         public RulePriorityConverter(Type type)
             : base(type)
         {
-            converters.Add(new Converter(acceptor.RulePriority.aProcessing, "Processing"));
-            converters.Add(new Converter(acceptor.RulePriority.aUpdateINTERNAL, "Update INTERNAL variables"));
-            converters.Add(new Converter(acceptor.RulePriority.aUpdateOUT, "Update OUT variables"));
-            converters.Add(new Converter(acceptor.RulePriority.aVerification, "INPUT Verification"));
-            converters.Add(new Converter(acceptor.RulePriority.aCleanUp, "Clean Up"));
+            Converters.Add(new Converter(acceptor.RulePriority.aProcessing, "Processing"));
+            Converters.Add(new Converter(acceptor.RulePriority.aUpdateINTERNAL, "Update INTERNAL variables"));
+            Converters.Add(new Converter(acceptor.RulePriority.aUpdateOUT, "Update OUT variables"));
+            Converters.Add(new Converter(acceptor.RulePriority.aVerification, "INPUT Verification"));
+            Converters.Add(new Converter(acceptor.RulePriority.aCleanUp, "Clean Up"));
         }
     }
 
@@ -181,7 +178,7 @@ namespace GUI.Converters
         public CyclePhaseConverter(Type type)
             : base(type)
         {
-            converters.Add(new Converter(acceptor.RulePriority.defaultRulePriority, "All"));
+            Converters.Add(new Converter(acceptor.RulePriority.defaultRulePriority, "All"));
         }
     }
 
@@ -190,8 +187,8 @@ namespace GUI.Converters
         public RangePrecisionConverter(Type type)
             : base(type)
         {
-            converters.Add(new Converter(acceptor.PrecisionEnum.aIntegerPrecision, "Integer"));
-            converters.Add(new Converter(acceptor.PrecisionEnum.aDoublePrecision, "Floating point"));
+            Converters.Add(new Converter(acceptor.PrecisionEnum.aIntegerPrecision, "Integer"));
+            Converters.Add(new Converter(acceptor.PrecisionEnum.aDoublePrecision, "Floating point"));
         }
     }
 
@@ -200,8 +197,8 @@ namespace GUI.Converters
         public ExpectationKindConverter(Type type)
             : base(type)
         {
-            converters.Add(new Converter(acceptor.ExpectationKind.aInstantaneous, "Instantaneous"));
-            converters.Add(new Converter(acceptor.ExpectationKind.aContinuous, "Continuous"));
+            Converters.Add(new Converter(acceptor.ExpectationKind.aInstantaneous, "Instantaneous"));
+            Converters.Add(new Converter(acceptor.ExpectationKind.aContinuous, "Continuous"));
         }
     }
 
@@ -210,9 +207,9 @@ namespace GUI.Converters
         public ChangeActionConverter(Type type)
             : base(type)
         {
-            converters.Add(new Converter(HistoricalData.Generated.acceptor.ChangeOperationEnum.aAdd, "Add"));
-            converters.Add(new Converter(HistoricalData.Generated.acceptor.ChangeOperationEnum.aChange, "Change"));
-            converters.Add(new Converter(HistoricalData.Generated.acceptor.ChangeOperationEnum.aRemove, "Remove"));
+            Converters.Add(new Converter(HistoricalData.Generated.acceptor.ChangeOperationEnum.aAdd, "Add"));
+            Converters.Add(new Converter(HistoricalData.Generated.acceptor.ChangeOperationEnum.aChange, "Change"));
+            Converters.Add(new Converter(HistoricalData.Generated.acceptor.ChangeOperationEnum.aRemove, "Remove"));
         }
     }
 }

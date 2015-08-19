@@ -43,7 +43,7 @@ namespace GUI.EditorView
             {
                 SyntaxHighlight = false;
                 AutoComplete = false;
-                setChangeHandler(new CommentableTextChangeHandler((ModelElement)commentable));
+                setChangeHandler(new CommentableTextChangeHandler((ModelElement) commentable));
             }
 
             return retVal;

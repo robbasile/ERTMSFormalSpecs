@@ -59,7 +59,7 @@ namespace GUI.IPCInterface.Values
                     retVal += ", ";
                 }
 
-                retVal += item.Key + " => " + item.Value.ToString();
+                retVal += item.Key + " => " + item.Value;
             }
 
             retVal += "}";
@@ -93,7 +93,7 @@ namespace GUI.IPCInterface.Values
                     else
                     {
                         throw new FaultException<EFSServiceFault>(
-                            new EFSServiceFault("Cannot find element named " + element.Name + " in structure " +
+                            new EFSServiceFault("Cannot find element named " + pair.Key + " in structure " +
                                                 structureType.FullName));
                     }
                 }

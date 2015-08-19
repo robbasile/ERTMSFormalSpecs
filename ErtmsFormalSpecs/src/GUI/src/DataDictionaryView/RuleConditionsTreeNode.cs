@@ -20,7 +20,6 @@ using System.Windows.Forms;
 using DataDictionary.Generated;
 using GUI.SpecificationView;
 using Paragraph = DataDictionary.Specification.Paragraph;
-using ReqRef = DataDictionary.ReqRef;
 using Rule = DataDictionary.Rules.Rule;
 using RuleCondition = DataDictionary.Rules.RuleCondition;
 

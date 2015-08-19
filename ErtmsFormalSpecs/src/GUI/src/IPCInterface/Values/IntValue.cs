@@ -38,13 +38,12 @@ namespace GUI.IPCInterface.Values
         public IntValue(Decimal value)
         {
             Image = value.ToString(CultureInfo.InvariantCulture);
-            ;
         }
 
         /// <summary>
         ///     Constructor
         /// </summary>
-        /// <param name="value"></param>
+        /// <param name="image"></param>
         public IntValue(string image)
         {
             Image = image;

@@ -17,26 +17,26 @@
 using System;
 using System.Collections;
 using System.Globalization;
-using System.Reflection;
 using System.Windows.Forms;
 using DataDictionary;
 using DataDictionary.Tests;
 using GUIUtils;
 using Importers.ExcelImporter;
-using log4net;
 
 namespace GUI.ExcelImport
 {
     public partial class Frm_ExcelImport : Form
     {
-        private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-        private BrakingCurvesImporter brakingCurvesImporter = new BrakingCurvesImporter();
+        private readonly BrakingCurvesImporter _brakingCurvesImporter = new BrakingCurvesImporter();
 
-
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="aDictionary"></param>
         public Frm_ExcelImport(Dictionary aDictionary)
         {
             InitializeComponent();
-            brakingCurvesImporter.TheDictionary = aDictionary;
+            _brakingCurvesImporter.TheDictionary = aDictionary;
 
             TB_FrameName.Text = String.Format("Frame__{0}_{1}_{2}__{3}s_{4}m_{5}h", DateTime.Now.Year,
                 DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Second, DateTime.Now.Minute, DateTime.Now.Hour);
@@ -53,7 +53,7 @@ namespace GUI.ExcelImport
         public Frm_ExcelImport(Step aStep)
         {
             InitializeComponent();
-            brakingCurvesImporter.TheStep = aStep;
+            _brakingCurvesImporter.TheStep = aStep;
 
             CBB_SpeedInterval.Items.Add("0.1");
             CBB_SpeedInterval.Items.Add("0.2");
@@ -73,7 +73,7 @@ namespace GUI.ExcelImport
             get
             {
                 ArrayList retVal = new ArrayList();
-                retVal.AddRange(this.Controls);
+                retVal.AddRange(Controls);
                 return retVal;
             }
         }
@@ -86,12 +86,14 @@ namespace GUI.ExcelImport
         /// <param name="e"></param>
         private void Btn_SelectFile_Click(object sender, EventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Title = "Select excel file...";
-            openFileDialog.Filter = "Microsof Excel (.xlsm)|*.xlsm";
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Title = "Select excel file...",
+                Filter = "Microsof Excel (.xlsm)|*.xlsm"
+            };
             if (openFileDialog.ShowDialog(this) == DialogResult.OK)
             {
-                brakingCurvesImporter.FileName = openFileDialog.FileName;
+                _brakingCurvesImporter.FileName = openFileDialog.FileName;
                 TB_FileName.Text = openFileDialog.FileName;
             }
         }
@@ -106,20 +108,20 @@ namespace GUI.ExcelImport
         {
             Hide();
             Double.TryParse(CBB_SpeedInterval.Text, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture,
-                out brakingCurvesImporter.SpeedInterval);
+                out _brakingCurvesImporter.SpeedInterval);
 
-            brakingCurvesImporter.FrameName = TB_FrameName.Text;
-            brakingCurvesImporter.FileName = TB_FileName.Text;
-            brakingCurvesImporter.FillEBD = CB_EBD.Checked;
-            brakingCurvesImporter.FillSBD = CB_SBD.Checked;
-            brakingCurvesImporter.FillEBI = CB_EBI.Checked;
-            brakingCurvesImporter.FillSBI1 = CB_SBI1.Checked;
-            brakingCurvesImporter.FillSBI2 = CB_SBI2.Checked;
-            brakingCurvesImporter.FillWarning = CB_Warning.Checked;
-            brakingCurvesImporter.FillPermitted = CB_Permitted.Checked;
-            brakingCurvesImporter.FillIndication = CB_Indication.Checked;
+            _brakingCurvesImporter.FrameName = TB_FrameName.Text;
+            _brakingCurvesImporter.FileName = TB_FileName.Text;
+            _brakingCurvesImporter.FillEBD = CB_EBD.Checked;
+            _brakingCurvesImporter.FillSBD = CB_SBD.Checked;
+            _brakingCurvesImporter.FillEBI = CB_EBI.Checked;
+            _brakingCurvesImporter.FillSBI1 = CB_SBI1.Checked;
+            _brakingCurvesImporter.FillSBI2 = CB_SBI2.Checked;
+            _brakingCurvesImporter.FillWarning = CB_Warning.Checked;
+            _brakingCurvesImporter.FillPermitted = CB_Permitted.Checked;
+            _brakingCurvesImporter.FillIndication = CB_Indication.Checked;
 
-            ProgressDialog dialog = new ProgressDialog("Importing excel file....", brakingCurvesImporter);
+            ProgressDialog dialog = new ProgressDialog("Importing excel file....", _brakingCurvesImporter);
             dialog.ShowDialog(Owner);
         }
 
@@ -127,7 +129,7 @@ namespace GUI.ExcelImport
         private void CB_Select_CheckedChanged(object sender, EventArgs e)
         {
             CheckBox cb = sender as CheckBox;
-            if (cb.Tag.Equals("GLOBAL_FILTER"))
+            if (cb != null && cb.Tag.Equals("GLOBAL_FILTER"))
             {
                 if (cb.Checked)
                 {

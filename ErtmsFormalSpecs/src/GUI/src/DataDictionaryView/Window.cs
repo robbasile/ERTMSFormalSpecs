@@ -70,6 +70,25 @@ namespace GUI.DataDictionaryView
         }
 
         /// <summary>
+        ///     Indicates that the model element should be displayed
+        /// </summary>
+        /// <param name="modelElement"></param>
+        /// <returns></returns>
+        protected override bool ShouldDisplay(IModelElement modelElement)
+        {
+            bool retVal = base.ShouldDisplay(modelElement);
+
+            if (retVal)
+            {
+                NameSpace nameSpace = EnclosingFinder<NameSpace>.find(modelElement, true);
+
+                retVal = nameSpace != null || modelElement == Dictionary;
+            }
+
+            return retVal;
+        }
+
+        /// <summary>
         ///     Allows to refresh the view, when the selected model changed
         /// </summary>
         /// <param name="context"></param>
@@ -78,8 +97,7 @@ namespace GUI.DataDictionaryView
         {
             bool retVal = base.HandleSelectionChange(context);
 
-            Dictionary enclosing = EnclosingFinder<Dictionary>.find(context.Element, true);
-            if (enclosing == Dictionary)
+            if (retVal)
             {
                 if ((context.Sender == modelDiagramPanel) || (context.Sender == stateDiagramPanel))
                 {

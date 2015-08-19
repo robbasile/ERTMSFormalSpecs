@@ -76,7 +76,7 @@ namespace GUI.UsageView
                 usageTreeView.Root = DisplayedModel;
                 if (usageTreeView.Nodes.Count > 0)
                 {
-                    usageTreeView.Nodes[0].EnsureVisible();                    
+                    usageTreeView.Nodes[0].EnsureVisible();
                 }
             }
 

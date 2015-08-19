@@ -14,7 +14,6 @@
 // --
 // ------------------------------------------------------------------------------
 
-using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing.Design;
@@ -37,62 +36,45 @@ namespace GUI.DataDictionaryView
             }
         }
 
-        private class InternalTypesConverter : TypesConverter
-        {
-            public override StandardValuesCollection
-                GetStandardValues(ITypeDescriptorContext context)
-            {
-                ItemEditor editor = (ItemEditor) context.Instance;
-                return GetValues(editor.Item);
-            }
-        }
-
         private class ItemEditor : NamedEditor
         {
             /// <summary>
-            ///     Constructor
-            /// </summary>
-            public ItemEditor()
-                : base()
-            {
-            }
-
-            /// <summary>
             ///     The parameter namespace
             /// </summary>
-            private string namSpace;
+            private string _namSpace;
 
             [Category("Description"), TypeConverter(typeof (InternalNameSpaceConverter))]
+            // ReSharper disable once UnusedMember.Local
             public string NameSpace
             {
                 get
                 {
-                    if (namSpace == null)
+                    if (_namSpace == null)
                     {
                         ITypedElement element = OverallTypedElementFinder.INSTANCE.findByName(Item, Item.NameSpace.Name);
 
                         if (element != null && element.NameSpace != null)
                         {
-                            namSpace = element.NameSpace.Name;
+                            _namSpace = element.NameSpace.Name;
                         }
                     }
 
-                    if (namSpace == null)
+                    if (_namSpace == null)
                     {
                         if (Item.NameSpace != null)
                         {
-                            namSpace = Item.NameSpace.Name;
+                            _namSpace = Item.NameSpace.Name;
                         }
                         else
                         {
-                            namSpace = "Default";
+                            _namSpace = "Default";
                         }
                     }
 
-                    return namSpace;
+                    return _namSpace;
                 }
 
-                set { namSpace = value; }
+                set { _namSpace = value; }
             }
 
             /// <summary>
@@ -101,6 +83,7 @@ namespace GUI.DataDictionaryView
             [Category("Description")]
             [Editor(typeof (TypeUITypedEditor), typeof (UITypeEditor))]
             [TypeConverter(typeof (TypeUITypeConverter))]
+            // ReSharper disable once UnusedMember.Local
             public Parameter Type
             {
                 get { return Item; }
@@ -115,7 +98,9 @@ namespace GUI.DataDictionaryView
         /// <summary>
         ///     Constructor
         /// </summary>
-        /// <param name="item"></param>
+        /// <param name="parameter"></param>
+        /// <param name="buildSubNodes"></param>
+        /// <param name="name"></param>
         public ParameterTreeNode(Parameter parameter, bool buildSubNodes, string name = null)
             : base(parameter, buildSubNodes, name)
         {
@@ -136,9 +121,7 @@ namespace GUI.DataDictionaryView
         /// <returns></returns>
         protected override List<MenuItem> GetMenuItems()
         {
-            List<MenuItem> retVal = new List<MenuItem>();
-
-            retVal.Add(new MenuItem("Delete", new EventHandler(DeleteHandler)));
+            List<MenuItem> retVal = new List<MenuItem> {new MenuItem("Delete", DeleteHandler)};
 
             return retVal;
         }

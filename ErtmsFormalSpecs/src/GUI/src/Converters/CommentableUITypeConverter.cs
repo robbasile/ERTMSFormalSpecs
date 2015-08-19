@@ -33,6 +33,8 @@ namespace GUI.Converters
 
         public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
         {
+            object retVal = null;
+
             BaseTreeNode.BaseEditor editor = context.Instance as BaseTreeNode.BaseEditor;
             string text = value as string;
             if (editor != null && text != null)
@@ -41,17 +43,16 @@ namespace GUI.Converters
                 if (commentable != null)
                 {
                     commentable.Comment = text;
-                    return commentable;
-                }
-                else
-                {
-                    return base.ConvertFrom(context, culture, value);
+                    retVal = commentable;
                 }
             }
-            else
+
+            if ( retVal == null)
             {
-                return base.ConvertFrom(context, culture, value);
+                retVal = base.ConvertFrom(context, culture, value);
             }
+
+            return retVal;
         }
 
         public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value,
@@ -64,17 +65,10 @@ namespace GUI.Converters
                 if (commentable.Comment != null)
                 {
                     retVal = commentable.Comment.Trim();
-                    if (retVal != null)
+                    int index = retVal.IndexOf("\n");
+                    if (index > 0)
                     {
-                        int index = retVal.IndexOf("\n");
-                        if (index > 0)
-                        {
-                            retVal = retVal.Substring(0, index) + "...";
-                        }
-                    }
-                    else
-                    {
-                        retVal = "";
+                        retVal = retVal.Substring(0, index) + "...";
                     }
                 }
                 else

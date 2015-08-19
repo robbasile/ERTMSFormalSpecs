@@ -38,7 +38,7 @@ namespace GUI.VersionSelector
             Dictionary = dictionary;
             RefreshModel();
 
-            dataGridView.DoubleClick += new EventHandler(dataGridView_DoubleClick);
+            dataGridView.DoubleClick += dataGridView_DoubleClick;
         }
 
         /// <summary>
@@ -69,6 +69,7 @@ namespace GUI.VersionSelector
             /// <summary>
             ///     The date of the commit
             /// </summary>
+            // ReSharper disable once UnusedMember.Local
             public DateTimeOffset Date
             {
                 get { return Commit.Committer.When; }
@@ -77,6 +78,7 @@ namespace GUI.VersionSelector
             /// <summary>
             ///     The author of the commit
             /// </summary>
+            // ReSharper disable once UnusedMember.Local
             public String Author
             {
                 get { return Commit.Committer.Name; }
@@ -85,6 +87,7 @@ namespace GUI.VersionSelector
             /// <summary>
             ///     The message of the commit
             /// </summary>
+            // ReSharper disable once UnusedMember.Local
             public String Message
             {
                 get { return Commit.Message; }

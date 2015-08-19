@@ -75,10 +75,8 @@ namespace GUI.IPCInterface.Values
             {
                 List<IValue> values = new List<IValue>();
 
-                int i = 0;
                 foreach (Value item in Value)
                 {
-                    i += 1;
                     values.Add(item.ConvertBack(collectionType.Type));
                 }
 

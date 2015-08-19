@@ -606,8 +606,7 @@ namespace GUI
                 }
                 else if (EfsSystem.Dictionaries.Count > 1)
                 {
-                    DictionarySelector.DictionarySelector dictionarySelector =
-                        new DictionarySelector.DictionarySelector(EfsSystem);
+                    DictionarySelector.DictionarySelector dictionarySelector = new DictionarySelector.DictionarySelector();
                     dictionarySelector.ShowDialog(this);
 
                     if (dictionarySelector.Selected != null)
@@ -1124,7 +1123,7 @@ namespace GUI
         private void searchToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             SearchDialog.SearchDialog dialog = new SearchDialog.SearchDialog();
-            dialog.Initialise(EfsSystem);
+            dialog.Initialise();
             dialog.ShowDialog(this);
         }
 
@@ -1138,8 +1137,8 @@ namespace GUI
 
         private void showRulePerformancesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            RulesPerformances rulePerformances = new RulesPerformances(EfsSystem);
-            AddChildWindow(rulePerformances, DockAreas.Document);
+            RulesPerformances rulePerformances = new RulesPerformances();
+            AddChildWindow(rulePerformances);
         }
 
         /// <summary>
@@ -1199,8 +1198,8 @@ namespace GUI
         private void showFunctionsPerformancesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FunctionsPerformances.FunctionsPerformances functionsPerformances =
-                new FunctionsPerformances.FunctionsPerformances(EfsSystem);
-            AddChildWindow(functionsPerformances, DockAreas.Document);
+                new FunctionsPerformances.FunctionsPerformances();
+            AddChildWindow(functionsPerformances);
         }
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1256,7 +1255,7 @@ namespace GUI
             Dictionary dictionary = GetActiveDictionary();
             if (dictionary != null)
             {
-                ERTMSAcademyReport aReport = new ERTMSAcademyReport(dictionary);
+                ErtmsAcademyReport aReport = new ErtmsAcademyReport(dictionary);
                 aReport.ShowDialog(this);
             }
         }
@@ -1281,7 +1280,7 @@ namespace GUI
         {
             Options.Options optionForm = new Options.Options();
             optionForm.ShowDialog(this);
-            Options.Options.setSettings(EFSSystem.INSTANCE);
+            Options.Options.SetSettings();
         }
 
         private void compareWithGitRevisionToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1538,8 +1537,7 @@ namespace GUI
             // This ensures that the update will have a base dictionary
             string updatedGuid = "";
             {
-                DictionarySelector.DictionarySelector dictionarySelector =
-                    new DictionarySelector.DictionarySelector(EfsSystem);
+                DictionarySelector.DictionarySelector dictionarySelector = new DictionarySelector.DictionarySelector();
                 dictionarySelector.ShowDictionaries(this);
 
                 if (dictionarySelector.Selected != null)
@@ -1609,8 +1607,7 @@ namespace GUI
 
         private void mergeUpdateToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            DictionarySelector.DictionarySelector dictionarySelector =
-                new DictionarySelector.DictionarySelector(EFSSystem.INSTANCE, FilterOptions.Updates);
+            DictionarySelector.DictionarySelector dictionarySelector = new DictionarySelector.DictionarySelector(FilterOptions.Updates);
             dictionarySelector.ShowDictionaries(GuiUtils.MdiWindow);
 
             if (dictionarySelector.Selected != null)

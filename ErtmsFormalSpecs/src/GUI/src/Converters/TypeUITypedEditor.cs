@@ -26,7 +26,7 @@ using WeifenLuo.WinFormsUI.Docking;
 namespace GUI.Converters
 {
     /// <summary>
-    ///     TODO: Update summary.
+    ///     Allows to enter a typed
     /// </summary>
     public class TypeUITypedEditor : UITypeEditor
     {
@@ -35,36 +35,22 @@ namespace GUI.Converters
             return UITypeEditorEditStyle.Modal;
         }
 
-        /// <summary>
-        ///     Sets the string value into the right property
-        /// </summary>
-        /// <param name="instance"></param>
-        /// <param name="value"></param>
-        private void HandleTextChange(ModelElement instance, string value)
-        {
-            ITypedElement typedElement = instance as ITypedElement;
-
-            if (typedElement != null)
-            {
-                typedElement.TypeName = value;
-            }
-        }
-
         public override object EditValue(ITypeDescriptorContext context, IServiceProvider provider, object value)
         {
-            IWindowsFormsEditorService svc =
-                provider.GetService(typeof (IWindowsFormsEditorService)) as IWindowsFormsEditorService;
-            if (svc != null)
+            if (provider != null)
             {
-                ITypedElement typedElement = value as ITypedElement;
-                if (typedElement != null)
+                IWindowsFormsEditorService svc =
+                    provider.GetService(typeof (IWindowsFormsEditorService)) as IWindowsFormsEditorService;
+                if (svc != null)
                 {
-                    Window form = new Window();
-                    form.AutoComplete = true;
-                    form.ConsiderOnlyTypes = true;
-                    TypeTextChangeHandler handler = new TypeTextChangeHandler(typedElement as ModelElement);
-                    form.setChangeHandler(handler);
-                    GuiUtils.MdiWindow.AddChildWindow(form, DockAreas.Float);
+                    ITypedElement typedElement = value as ITypedElement;
+                    if (typedElement != null)
+                    {
+                        Window form = new Window {AutoComplete = true, ConsiderOnlyTypes = true};
+                        TypeTextChangeHandler handler = new TypeTextChangeHandler(typedElement as ModelElement);
+                        form.setChangeHandler(handler);
+                        GuiUtils.MdiWindow.AddChildWindow(form, DockAreas.Float);
+                    }
                 }
             }
 

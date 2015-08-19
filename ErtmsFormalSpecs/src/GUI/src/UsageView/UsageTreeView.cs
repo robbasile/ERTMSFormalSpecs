@@ -15,7 +15,6 @@
 // ------------------------------------------------------------------------------
 
 using System.Collections.Generic;
-using System.Drawing;
 using System.Windows.Forms;
 using DataDictionary.Interpreter;
 using DataDictionary.Tests;
@@ -65,7 +64,7 @@ namespace GUI.UsageView
         private ModelElement _previousModel;
 
         /// <summary>
-        /// Finds a node for a folder in the usage view
+        ///     Finds a node for a folder in the usage view
         /// </summary>
         /// <param name="node"></param>
         /// <param name="folderElement"></param>
@@ -135,7 +134,7 @@ namespace GUI.UsageView
                         foreach (NameSpace currentNameSpace in nameSpaces)
                         {
                             currentTreeNode = FindOrCreateFolderNode(currentTreeNode, currentNameSpace);
-                        }                  
+                        }
                         currentTreeNode.Nodes.Add(current);
                     }
                     else if (frame != null)
@@ -144,7 +143,7 @@ namespace GUI.UsageView
                         SubSequence subSequence = EnclosingFinder<SubSequence>.find(usage.User, true);
                         if (subSequence != null)
                         {
-                            currentNode = FindOrCreateFolderNode(currentNode, subSequence);                            
+                            currentNode = FindOrCreateFolderNode(currentNode, subSequence);
                         }
                         currentNode.Nodes.Add(current);
                     }

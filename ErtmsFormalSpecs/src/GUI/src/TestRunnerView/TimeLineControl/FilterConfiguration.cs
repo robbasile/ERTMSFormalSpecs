@@ -77,6 +77,7 @@ namespace GUI.TestRunnerView.TimeLineControl
             bool retVal = true;
 
             // Check event type
+            // ReSharper disable once ConditionIsAlwaysTrueOrFalse
             retVal = retVal && (!(evt is Expect) || Expect);
             retVal = retVal && (!(evt is RuleFired) || RuleFired);
 

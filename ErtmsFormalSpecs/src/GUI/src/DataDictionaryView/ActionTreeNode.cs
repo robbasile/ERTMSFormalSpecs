@@ -33,17 +33,10 @@ namespace GUI.DataDictionaryView
     {
         private class ItemEditor : Editor
         {
-            /// <summary>
-            ///     Constructor
-            /// </summary>
-            public ItemEditor()
-                : base()
-            {
-            }
-
             [Category("Description")]
             [Editor(typeof (ExpressionableUITypedEditor), typeof (UITypeEditor))]
             [TypeConverter(typeof (ExpressionableUITypeConverter))]
+            // ReSharper disable once UnusedMember.Local
             public Action Expression
             {
                 get { return Item; }
@@ -57,6 +50,7 @@ namespace GUI.DataDictionaryView
             [Category("Description")]
             [Editor(typeof (CommentableUITypedEditor), typeof (UITypeEditor))]
             [TypeConverter(typeof (CommentableUITypeConverter))]
+            // ReSharper disable once UnusedMember.Local
             public Action Comment
             {
                 get { return Item; }
@@ -66,24 +60,13 @@ namespace GUI.DataDictionaryView
                     RefreshNode();
                 }
             }
-
-            /// <summary>
-            ///     Sets the verified flag of the the enclosing rule
-            /// </summary>
-            /// <param name="val"></param>
-            private void SetRuleAsVerified(bool val)
-            {
-                if (Item.Rule != null)
-                {
-                    Item.Rule.setVerified(val);
-                }
-            }
         }
 
         /// <summary>
         ///     Constructor
         /// </summary>
         /// <param name="item"></param>
+        /// <param name="buildSubNodes"></param>
         public ActionTreeNode(Action item, bool buildSubNodes)
             : base(item, buildSubNodes)
         {
@@ -104,12 +87,11 @@ namespace GUI.DataDictionaryView
         /// <returns></returns>
         protected override List<MenuItem> GetMenuItems()
         {
-            List<MenuItem> retVal = new List<MenuItem>();
+            List<MenuItem> retVal = new List<MenuItem> {new MenuItem("Delete", DeleteHandler)};
 
-            retVal.Add(new MenuItem("Delete", new EventHandler(DeleteHandler)));
             retVal.AddRange(base.GetMenuItems());
             retVal.Insert(4, new MenuItem("-"));
-            retVal.Insert(5, new MenuItem("Split", new EventHandler(SplitHandler)));
+            retVal.Insert(5, new MenuItem("Split", SplitHandler));
 
             return retVal;
         }
@@ -131,12 +113,12 @@ namespace GUI.DataDictionaryView
                     foreach (KeyValuePair<Designator, Expression> value in associations)
                     {
                         Action action = (Action) acceptor.getFactory().createAction();
-                        action.ExpressionText = structExpression.Structure.ToString() + "." + value.Key + " <- " +
-                                                value.Value.ToString();
+                        action.ExpressionText = structExpression.Structure + "." + value.Key + " <- " +
+                                                value.Value;
                         ActionTreeNode actionTreeNode = new ActionTreeNode(action, true);
 
                         BaseTreeNode parent = Parent as BaseTreeNode;
-                        if ((parent != null) && (parent.Nodes != null))
+                        if (parent != null)
                         {
                             RuleCondition ruleCondition = Item.Enclosing as RuleCondition;
                             if (ruleCondition != null)

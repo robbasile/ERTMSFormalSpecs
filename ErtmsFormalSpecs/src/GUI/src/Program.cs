@@ -76,7 +76,7 @@ namespace GUI
 
                 XmlConfigurator.Configure(new FileInfo("logconfig.xml"));
 
-                Options.Options.setSettings(EFSSystem.INSTANCE);
+                Options.Options.SetSettings();
                 EFSSystem.INSTANCE.DictionaryChangesOnFileSystem += HandleInstanceDictionaryChangesOnFileSystem;
 
                 MainWindow window = new MainWindow();

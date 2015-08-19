@@ -23,8 +23,6 @@ namespace GUI.EditorView
     /// <summary>
     ///     Sets the string value into the right property
     /// </summary>
-    /// <param name="instance"></param>
-    /// <param name="value"></param>
     public class VariableValueTextChangeHandler : Window.HandleTextChange
     {
         /// <summary>

@@ -14,7 +14,6 @@
 // --
 // ------------------------------------------------------------------------------
 
-using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing.Design;
@@ -28,17 +27,10 @@ namespace GUI.DataDictionaryView
     {
         private class ItemEditor : Editor
         {
-            /// <summary>
-            ///     Constructor
-            /// </summary>
-            public ItemEditor()
-                : base()
-            {
-            }
-
             [Category("Description")]
             [Editor(typeof (ExpressionableUITypedEditor), typeof (UITypeEditor))]
             [TypeConverter(typeof (ExpressionableUITypeConverter))]
+            // ReSharper disable once UnusedMember.Local
             public PreCondition Expression
             {
                 get { return Item; }
@@ -52,6 +44,7 @@ namespace GUI.DataDictionaryView
             [Category("Description")]
             [Editor(typeof (CommentableUITypedEditor), typeof (UITypeEditor))]
             [TypeConverter(typeof (CommentableUITypeConverter))]
+            // ReSharper disable once UnusedMember.Local
             public PreCondition Comment
             {
                 get { return Item; }
@@ -61,24 +54,13 @@ namespace GUI.DataDictionaryView
                     RefreshNode();
                 }
             }
-
-            /// <summary>
-            ///     Sets the verified flag of the the enclosing rule
-            /// </summary>
-            /// <param name="val"></param>
-            private void SetRuleAsVerified(bool val)
-            {
-                if (Item.Rule != null)
-                {
-                    Item.Rule.setVerified(val);
-                }
-            }
         }
 
         /// <summary>
         ///     Constructor
         /// </summary>
         /// <param name="item"></param>
+        /// <param name="buildSubNodes"></param>
         public PreConditionTreeNode(PreCondition item, bool buildSubNodes)
             : base(item, buildSubNodes, null)
         {
@@ -99,9 +81,8 @@ namespace GUI.DataDictionaryView
         /// <returns></returns>
         protected override List<MenuItem> GetMenuItems()
         {
-            List<MenuItem> retVal = new List<MenuItem>();
+            List<MenuItem> retVal = new List<MenuItem> {new MenuItem("Delete", DeleteHandler)};
 
-            retVal.Add(new MenuItem("Delete", new EventHandler(DeleteHandler)));
             retVal.AddRange(base.GetMenuItems());
 
             return retVal;

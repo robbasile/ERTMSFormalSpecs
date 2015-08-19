@@ -30,15 +30,18 @@ namespace GUI.TestRunnerView.TimeLineControl
         {
             InitializeComponent();
 
-            nameSpaceTreeView.AfterCheck += new TreeViewEventHandler(nameSpaceTreeView_AfterCheck);
+            nameSpaceTreeView.AfterCheck += nameSpaceTreeView_AfterCheck;
         }
 
         private void nameSpaceTreeView_AfterCheck(object sender, TreeViewEventArgs e)
         {
             NamableTreeNode node = e.Node as NamableTreeNode;
-            foreach (NamableTreeNode subNode in node.Nodes)
+            if (node != null)
             {
-                subNode.Checked = node.Checked;
+                foreach (NamableTreeNode subNode in node.Nodes)
+                {
+                    subNode.Checked = node.Checked;
+                }
             }
         }
 
@@ -76,7 +79,7 @@ namespace GUI.TestRunnerView.TimeLineControl
             variableUpdateCheckBox.Checked = filterConfiguration.VariableUpdate;
 
             List<Dictionary> dictionaries = new List<Dictionary>(efsSystem.Dictionaries);
-            dictionaries.Sort(compare);
+            dictionaries.Sort(Compare);
             foreach (Dictionary dictionary in dictionaries)
             {
                 NamableTreeNode dictionaryTreeNode = new NamableTreeNode(dictionary);
@@ -104,7 +107,7 @@ namespace GUI.TestRunnerView.TimeLineControl
         /// <param name="x">First dictionary</param>
         /// <param name="y">Second discionary</param>
         /// <returns></returns>
-        private static int compare(Dictionary x, Dictionary y)
+        private static int Compare(Dictionary x, Dictionary y)
         {
             int retVal = 0; // x = y
             if (String.Compare(x.Name, y.Name) < 0) // x < y
@@ -126,8 +129,10 @@ namespace GUI.TestRunnerView.TimeLineControl
         /// <param name="filterConfiguration">The filter configuration used to set up the check boxes</param>
         private void GatherNamespaces(TreeNode treeNode, NameSpace nameSpace, FilterConfiguration filterConfiguration)
         {
-            NamableTreeNode nameSpaceTreeNode = new NamableTreeNode(nameSpace);
-            nameSpaceTreeNode.Checked = filterConfiguration.NameSpaces.Contains(nameSpace);
+            NamableTreeNode nameSpaceTreeNode = new NamableTreeNode(nameSpace)
+            {
+                Checked = filterConfiguration.NameSpaces.Contains(nameSpace)
+            };
             nameSpaceTreeNode.Collapse();
             treeNode.Nodes.Add(nameSpaceTreeNode);
 
@@ -141,8 +146,10 @@ namespace GUI.TestRunnerView.TimeLineControl
 
             foreach (Variable variable in variables)
             {
-                NamableTreeNode variableTreeNode = new NamableTreeNode(variable);
-                variableTreeNode.Checked = filterConfiguration.Variables.Contains(variable);
+                NamableTreeNode variableTreeNode = new NamableTreeNode(variable)
+                {
+                    Checked = filterConfiguration.Variables.Contains(variable)
+                };
                 nameSpaceTreeNode.Nodes.Add(variableTreeNode);
             }
 

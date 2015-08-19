@@ -19,7 +19,6 @@ using System.ComponentModel;
 using System.Drawing.Design;
 using System.Windows.Forms.Design;
 using DataDictionary;
-using DataDictionary.Values;
 using DataDictionary.Variables;
 using GUI.EditorView;
 using WeifenLuo.WinFormsUI.Docking;
@@ -27,7 +26,7 @@ using WeifenLuo.WinFormsUI.Docking;
 namespace GUI.Converters
 {
     /// <summary>
-    ///     TODO: Update summary.
+    ///     Allows to change the value of a variable
     /// </summary>
     public class VariableValueUITypedEditor : UITypeEditor
     {
@@ -36,39 +35,22 @@ namespace GUI.Converters
             return UITypeEditorEditStyle.Modal;
         }
 
-        /// <summary>
-        ///     Sets the string value into the right property
-        /// </summary>
-        /// <param name="instance"></param>
-        /// <param name="value"></param>
-        private void HandleTextChange(ModelElement instance, string value)
-        {
-            IVariable variable = instance as IVariable;
-
-            if (variable != null && variable.Type != null)
-            {
-                IValue val = variable.Type.getValue(value);
-                if (value != null)
-                {
-                    variable.Value = val;
-                }
-            }
-        }
-
         public override object EditValue(ITypeDescriptorContext context, IServiceProvider provider, object value)
         {
-            IWindowsFormsEditorService svc =
-                provider.GetService(typeof (IWindowsFormsEditorService)) as IWindowsFormsEditorService;
-            if (svc != null)
+            if (provider != null)
             {
-                IVariable variable = value as IVariable;
-                if (variable != null)
+                IWindowsFormsEditorService svc =
+                    provider.GetService(typeof (IWindowsFormsEditorService)) as IWindowsFormsEditorService;
+                if (svc != null)
                 {
-                    Window form = new Window();
-                    form.AutoComplete = true;
-                    VariableValueTextChangeHandler handler = new VariableValueTextChangeHandler(variable as ModelElement);
-                    form.setChangeHandler(handler);
-                    GuiUtils.MdiWindow.AddChildWindow(form, DockAreas.Float);
+                    IVariable variable = value as IVariable;
+                    if (variable != null)
+                    {
+                        Window form = new Window {AutoComplete = true};
+                        VariableValueTextChangeHandler handler = new VariableValueTextChangeHandler(variable as ModelElement);
+                        form.setChangeHandler(handler);
+                        GuiUtils.MdiWindow.AddChildWindow(form, DockAreas.Float);
+                    }
                 }
             }
 

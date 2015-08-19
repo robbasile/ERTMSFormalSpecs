@@ -39,7 +39,7 @@ namespace GUI.LongOperations
         /// </summary>
         public override void ExecuteWork()
         {
-            EFSSystem.INSTANCE.Compiler.Compile_Synchronous(false, true); 
+            EFSSystem.INSTANCE.Compiler.Compile_Synchronous(false, true);
             EFSSystem.INSTANCE.Compiler.RefactorAndRelocate(Model);
         }
 

@@ -17,13 +17,11 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using DataDictionary.Generated;
+using DataDictionary.Specification;
+using DataDictionary.Types;
+using DataDictionary.Variables;
 using GUI.SpecificationView;
-using NameSpace = DataDictionary.Types.NameSpace;
-using Paragraph = DataDictionary.Specification.Paragraph;
-using ReqRef = DataDictionary.ReqRef;
 using Type = DataDictionary.Types.Type;
-using Variable = DataDictionary.Variables.Variable;
 
 namespace GUI.DataDictionaryView
 {

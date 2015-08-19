@@ -63,7 +63,7 @@ namespace GUI.SpecificationView
         }
 
         /// <summary>
-        /// Refreshes the displayed model
+        ///     Refreshes the displayed model
         /// </summary>
         private void RefreshModel()
         {

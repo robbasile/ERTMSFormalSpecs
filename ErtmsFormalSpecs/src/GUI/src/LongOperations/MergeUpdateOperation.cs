@@ -13,6 +13,7 @@
 // -- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 // --
 // ------------------------------------------------------------------------------
+
 using DataDictionary;
 
 namespace GUI.LongOperations

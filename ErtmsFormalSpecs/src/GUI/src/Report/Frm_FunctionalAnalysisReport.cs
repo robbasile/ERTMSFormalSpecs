@@ -15,23 +15,19 @@
 // ------------------------------------------------------------------------------
 
 using System;
-using System.Reflection;
 using System.Windows.Forms;
 using DataDictionary;
 using GUIUtils;
-using log4net;
 using Reports.Model;
 
 namespace GUI.Report
 {
     public partial class FunctionalAnalysisReport : Form
     {
-        private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-
         /// <summary>
         ///     The report handler
         /// </summary>
-        private FunctionalAnalysisReportHandler reportHandler;
+        private readonly FunctionalAnalysisReportHandler _reportHandler;
 
         /// <summary>
         ///     Constructor
@@ -40,8 +36,8 @@ namespace GUI.Report
         public FunctionalAnalysisReport(Dictionary dictionary)
         {
             InitializeComponent();
-            reportHandler = new FunctionalAnalysisReportHandler(dictionary);
-            TxtB_Path.Text = reportHandler.FileName;
+            _reportHandler = new FunctionalAnalysisReportHandler(dictionary);
+            TxtB_Path.Text = _reportHandler.FileName;
         }
 
         /// <summary>
@@ -55,17 +51,17 @@ namespace GUI.Report
             saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
             if (saveFileDialog.ShowDialog(this) == DialogResult.OK)
             {
-                reportHandler.FileName = saveFileDialog.FileName;
-                TxtB_Path.Text = reportHandler.FileName;
+                _reportHandler.FileName = saveFileDialog.FileName;
+                TxtB_Path.Text = _reportHandler.FileName;
             }
         }
 
         private void Btn_CreateReport_Click(object sender, EventArgs e)
         {
-            reportHandler.Name = "Functional Analysis report";
+            _reportHandler.Name = "Functional Analysis report";
 
             Hide();
-            ProgressDialog dialog = new ProgressDialog("Generating report", reportHandler);
+            ProgressDialog dialog = new ProgressDialog("Generating report", _reportHandler);
             dialog.ShowDialog(Owner);
         }
     }

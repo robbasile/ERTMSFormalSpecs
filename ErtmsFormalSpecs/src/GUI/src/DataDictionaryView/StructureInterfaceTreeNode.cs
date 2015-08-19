@@ -22,19 +22,13 @@ namespace GUI.DataDictionaryView
     {
         private class ItemEditor : NamedEditor
         {
-            /// <summary>
-            ///     Constructor
-            /// </summary>
-            public ItemEditor()
-                : base()
-            {
-            }
         }
 
         /// <summary>
         ///     Constructor
         /// </summary>
         /// <param name="item"></param>
+        /// <param name="buildSubNodes"></param>
         public StructureInterfaceTreeNode(StructureRef item, bool buildSubNodes)
             : base(item, buildSubNodes, null, false)
         {
