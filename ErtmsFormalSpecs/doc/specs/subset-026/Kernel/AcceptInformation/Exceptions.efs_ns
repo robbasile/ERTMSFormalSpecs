@@ -12,6 +12,8 @@
 <Function
  Type="Boolean"
  Default=""
+ X="1"
+ Y="181"
  Width="100"
  Height="50"
  Name="ModeException1"
@@ -32,9 +34,11 @@
 </Function><Function
  Type="Boolean"
  Default=""
- X="110"
+ X="1"
+ Y="1"
  Width="100"
  Height="50"
+ Implemented="TRUE"
  Name="ModeException2"
  Guid="5cdd55cf-d890-4ead-bb0c-f06b20f3d499"
 >
@@ -48,12 +52,15 @@
  Name="Value"
  Guid="37558144-0a13-419e-b49f-0cb0077e061f"
 >
-<Expression>False</Expression>
+<Expression>DMI.CabOfDMI( aDMI =&gt; DMI.MasterDMI() ).Desk1IsActive
+  OR
+DMI.CabOfDMI( aDMI =&gt; DMI.MasterDMI() ).Desk2IsActive</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
  Default=""
- X="220"
+ X="111"
+ Y="1"
  Width="100"
  Height="50"
  Name="ModeException3"
@@ -74,7 +81,8 @@
 </Function><Function
  Type="Boolean"
  Default=""
- X="330"
+ X="111"
+ Y="181"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -96,7 +104,8 @@
 </Function><Function
  Type="Boolean"
  Default=""
- X="440"
+ X="1"
+ Y="241"
  Width="100"
  Height="50"
  Name="ModeException5"
@@ -117,7 +126,8 @@
 </Function><Function
  Type="Boolean"
  Default=""
- X="550"
+ X="111"
+ Y="241"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -139,7 +149,8 @@
 </Function><Function
  Type="Boolean"
  Default=""
- X="660"
+ X="1"
+ Y="301"
  Width="100"
  Height="50"
  Name="ModeException7"
@@ -160,7 +171,8 @@
 </Function><Function
  Type="Boolean"
  Default=""
- X="770"
+ X="111"
+ Y="301"
  Width="100"
  Height="50"
  Name="ModeException8"
@@ -181,9 +193,11 @@
 </Function><Function
  Type="Boolean"
  Default=""
- X="880"
+ X="1"
+ Y="361"
  Width="100"
  Height="50"
+ Implemented="TRUE"
  Name="LevelException1"
  Guid="39d68369-eea6-4343-a9e8-40973926aa0b"
 >
@@ -197,12 +211,16 @@
  Name="Value"
  Guid="92f58e6e-866a-4829-a2eb-2e9f8ca5c5a9"
 >
-<Expression>False</Expression>
+<Comment>Checks if there is a level transition to level 1 stored for a further location.</Comment>
+<Expression>LevelTransition.LevelTransitionToProcess != EMPTY
+  AND
+LevelTransition.LevelTransitionToProcess.TRLevel.Value == Level.L1</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
  Default=""
- Y="60"
+ X="111"
+ Y="361"
  Width="100"
  Height="50"
  Name="LevelException10"
@@ -278,28 +296,6 @@
 <Case
  Name="Value"
  Guid="4f891fb8-b7c8-4eff-aa00-d6a1fa80dce3"
->
-<Expression>False</Expression>
-</Case></Cases>
-</Function><Function
- Type="Boolean"
- Default=""
- X="440"
- Y="60"
- Width="100"
- Height="50"
- Name="LevelException4"
- Guid="22b57433-c706-40d7-968b-27b06299f5f7"
->
-<ReqRef
- Id="164cf128-0c88-4e8f-8c60-5ceb78a0f8e3"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="646bd0cc-7e89-49da-9de2-6bd4de600c3b"
->
-</ReqRef><Cases>
-<Case
- Name="Value"
- Guid="d878d6c2-bf7b-40c1-9870-b3b4381b7932"
 >
 <Expression>False</Expression>
 </Case></Cases>
@@ -394,7 +390,8 @@
 </Function><Function
  Type="Boolean"
  Default=""
- Y="120"
+ X="1"
+ Y="61"
  Width="100"
  Height="50"
  Name="LevelException9"
