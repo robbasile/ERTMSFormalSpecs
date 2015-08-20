@@ -5604,7 +5604,8 @@ After that, if an order to contact an Accepting RBC was received, it will be han
 <Function
  Type="Boolean"
  Default=""
- Y="540"
+ X="111"
+ Y="241"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -5763,7 +5764,8 @@ Terminal2 != EMPTY</Expression>
 </Function><Function
  Type="Boolean"
  Default=""
- Y="600"
+ X="111"
+ Y="301"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -5972,7 +5974,8 @@ It can only return false if there is no open session or if the last known RBC ha
 </Function><Function
  Type="Boolean"
  Default=""
- Y="660"
+ X="221"
+ Y="301"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -6231,7 +6234,8 @@ anRBC.ContactRBCOrder.ActionToPerform == ContactActionEnum.Establish</PreConditi
 </Function><Function
  Type="RBCStruct"
  Default=""
- Y="720"
+ X="111"
+ Y="481"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -7386,7 +7390,8 @@ Terminal1.RBCConnection.SafeRadioConnectionStatus == SafeRadioConnectionStatusEn
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
- Y="840"
+ X="221"
+ Y="481"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -7818,7 +7823,8 @@ Terminal1.RBCConnection.SafeRadioConnectionStatus == SafeRadioConnectionStatusEn
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
- Y="780"
+ X="1"
+ Y="541"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -7866,7 +7872,9 @@ Terminal1.RBCConnection.SafeRadioConnectionStatus == SafeRadioConnectionStatusEn
 <PreConditions>
 <PreCondition
  Guid="6f88e63f-f761-40ce-a6fc-0944953d0bfc"
->Available(aMessage.GENERAL_MESSAGE)</PreCondition></PreConditions>
+>Available(aMessage.GENERAL_MESSAGE)</PreCondition><PreCondition
+ Guid="893e8cfd-3548-43a9-9549-e9ed8cd499e8"
+>Kernel.AcceptInformation.Linking( Source =&gt; Kernel.AcceptInformation.Source.RBC )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="ecfaf44c-80b0-4fa6-b1f1-d6dfaa991828"
@@ -7905,7 +7913,9 @@ Terminal1.RBCConnection.SafeRadioConnectionStatus == SafeRadioConnectionStatusEn
 <PreConditions>
 <PreCondition
  Guid="bb4f2ab9-a9d9-4c4b-bdc5-2ea9011cf544"
->Available(aMessage.GENERAL_MESSAGE)</PreCondition></PreConditions>
+>Available(aMessage.GENERAL_MESSAGE)</PreCondition><PreCondition
+ Guid="5745b878-1365-4ebe-a1f1-79141989b701"
+>Kernel.AcceptInformation.LevelTransitionOrder( Source =&gt; Kernel.AcceptInformation.Source.RBC )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="f500ee30-e279-4200-a5bf-7fff60a3b433"
@@ -7946,7 +7956,9 @@ Terminal1.RBCConnection.SafeRadioConnectionStatus == SafeRadioConnectionStatusEn
 <PreConditions>
 <PreCondition
  Guid="aae29d37-06e2-4a68-af77-695ecbbe2651"
->Available ( aMessage.SR_AUTHORISATION )</PreCondition></PreConditions>
+>Available ( aMessage.SR_AUTHORISATION )</PreCondition><PreCondition
+ Guid="bf0c5958-be34-42d3-8249-8e5664b95c9e"
+>Kernel.AcceptInformation.SRAuthorisation( Source =&gt; Kernel.AcceptInformation.Source.RBC )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="80d3a386-cf7c-4ca1-91f3-31d8046462f2"
@@ -8038,7 +8050,9 @@ Terminal1.RBCConnection.SafeRadioConnectionStatus == SafeRadioConnectionStatusEn
 <PreConditions>
 <PreCondition
  Guid="15804d7c-33d0-4bfc-85bd-d4a4c1a8d315"
->THERE_IS X IN aMessage.MOVEMENT_AUTHORITY.Sequence1 | Available ( X.GRADIENT_PROFILE )</PreCondition></PreConditions>
+>THERE_IS X IN aMessage.MOVEMENT_AUTHORITY.Sequence1 | Available ( X.GRADIENT_PROFILE )</PreCondition><PreCondition
+ Guid="18ea085c-5396-4c0b-a2e3-b6032f611031"
+>Kernel.AcceptInformation.GradientProfile( Source =&gt; Kernel.AcceptInformation.Source.RBC )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="84783058-b6d8-48dd-8897-dedcf0d04f7f"
@@ -8076,7 +8090,9 @@ Terminal1.RBCConnection.SafeRadioConnectionStatus == SafeRadioConnectionStatusEn
 <PreConditions>
 <PreCondition
  Guid="daa8826e-2423-45e0-af75-e2e3365df69f"
->THERE_IS X IN aMessage.MOVEMENT_AUTHORITY.Sequence1 | Available ( X.INTERNATIONAL_STATIC_SPEED_PROFILE )</PreCondition></PreConditions>
+>THERE_IS X IN aMessage.MOVEMENT_AUTHORITY.Sequence1 | Available ( X.INTERNATIONAL_STATIC_SPEED_PROFILE )</PreCondition><PreCondition
+ Guid="775aa417-c26d-4889-bf1c-90edb1d888bb"
+>Kernel.AcceptInformation.InternationalSSP( Source =&gt; Kernel.AcceptInformation.Source.RBC )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="cb35e80d-d855-4a80-9c9a-b44f424b0fc7"
@@ -8298,7 +8314,9 @@ Terminal1.RBCConnection.SafeRadioConnectionStatus == SafeRadioConnectionStatusEn
  Guid="324ed534-7ece-4d2d-83d2-634f8405934d"
 >Available ( aMessage.REQUEST_TO_SHORTEN_MA )</PreCondition><PreCondition
  Guid="ac3c42b9-2925-4f5d-a63b-8248eade008e"
->NOT (THERE_IS X IN Kernel.BrakeCommands.EmergencyStops | X.Reason == Kernel.BrakeCommands.BrakeReason.OrderFromRBC)</PreCondition></PreConditions>
+>NOT (THERE_IS X IN Kernel.BrakeCommands.EmergencyStops | X.Reason == Kernel.BrakeCommands.BrakeReason.OrderFromRBC)</PreCondition><PreCondition
+ Guid="8a173bc3-dc84-4604-bb24-285a83717478"
+>Kernel.AcceptInformation.MovementAuthority( Source =&gt; Kernel.AcceptInformation.Source.RBC )</PreCondition></PreConditions>
 <Actions>
 </Actions>
 <SubRules>
@@ -8465,7 +8483,9 @@ Kernel.MA.MATimers.LOATimerStart &lt;- MessageTypes.TimeResolution( time =&gt; a
 <PreConditions>
 <PreCondition
  Guid="7ee563c7-9f56-4ea4-a306-7f427f0e871d"
->Available ( aMessage.CONDITIONAL_EMERGENCY_STOP )</PreCondition></PreConditions>
+>Available ( aMessage.CONDITIONAL_EMERGENCY_STOP )</PreCondition><PreCondition
+ Guid="2fddd0ff-dfd7-4de4-8714-bf166f357b71"
+>Kernel.AcceptInformation.ConditionalEmergencyStop( Source =&gt; Kernel.AcceptInformation.Source.RBC )</PreCondition></PreConditions>
 <Actions>
 </Actions>
 <SubRules>
@@ -8559,7 +8579,9 @@ MessageTypes.QScaleDistance(
 <PreConditions>
 <PreCondition
  Guid="2a1175db-f9be-4516-b844-38ee6b37cd28"
->Available ( aMessage.UNCONDITIONAL_EMERGENCY_STOP )</PreCondition></PreConditions>
+>Available ( aMessage.UNCONDITIONAL_EMERGENCY_STOP )</PreCondition><PreCondition
+ Guid="9b5b805b-2848-4216-ae3b-8f906ef667cc"
+>Kernel.AcceptInformation.UnconditionalEmergencyStop( Source =&gt; Kernel.AcceptInformation.Source.RBC )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="14b50c09-3233-48b7-8e73-bbdeae756ac9"
@@ -8631,7 +8653,9 @@ MessageTypes.QScaleDistance(
 <PreConditions>
 <PreCondition
  Guid="b6beabb3-2162-4140-bf62-6c441dbea7c6"
->Available ( aMessage.SH_AUTHORISED )</PreCondition></PreConditions>
+>Available ( aMessage.SH_AUTHORISED )</PreCondition><PreCondition
+ Guid="b26f084c-4648-4f9b-9f89-fc43cc187626"
+>Kernel.AcceptInformation.SHAuthorised( Source =&gt; Kernel.AcceptInformation.Source.RBC )</PreCondition></PreConditions>
 <Actions>
 </Actions>
 </RuleCondition></Conditions>
@@ -8705,7 +8729,9 @@ MessageTypes.QScaleDistance(
  Guid="4b26ec5f-a027-4caa-bca8-cd8c1bb56153"
 >Available ( aMessage.MA_WITH_SHIFTED_LOCATION_REFERENCE )</PreCondition><PreCondition
  Guid="1d3581de-d6a2-4ce9-aa78-ab337178f1a0"
->NOT (THERE_IS X IN Kernel.BrakeCommands.EmergencyStops | X.Reason == Kernel.BrakeCommands.BrakeReason.OrderFromRBC)</PreCondition></PreConditions>
+>NOT (THERE_IS X IN Kernel.BrakeCommands.EmergencyStops | X.Reason == Kernel.BrakeCommands.BrakeReason.OrderFromRBC)</PreCondition><PreCondition
+ Guid="b64a17be-a369-4227-8a64-806ce5246093"
+>Kernel.AcceptInformation.MovementAuthority( Source =&gt; Kernel.AcceptInformation.Source.RBC )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="4f874ce0-62dc-4762-ae3b-b8e6efe9f83b"
@@ -8814,7 +8840,9 @@ MessageTypes.QScaleDistance(
 <PreConditions>
 <PreCondition
  Guid="4fa84a57-6d47-40db-a5af-2a05d082f8c1"
->Available ( aMessage.RIU_SYSTEM_VERSION )</PreCondition></PreConditions>
+>Available ( aMessage.RIU_SYSTEM_VERSION )</PreCondition><PreCondition
+ Guid="dcaeb960-4dbb-4b7c-aae5-84cb52713f28"
+>Kernel.AcceptInformation.SystemVersionOrder( Source =&gt; Kernel.AcceptInformation.Source.RBC )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="edc7241a-b3a2-422c-bbe6-f815e0c132da"
@@ -8891,7 +8919,9 @@ MessageTypes.QScaleDistance(
 <PreConditions>
 <PreCondition
  Guid="a9a94a8a-24a1-42dd-bba4-78709ada8176"
->THERE_IS X IN aMessage.INFILL_MA.Sequence1 | Available ( X.ROUTE_SUITABILITY_DATA )</PreCondition></PreConditions>
+>THERE_IS X IN aMessage.INFILL_MA.Sequence1 | Available ( X.ROUTE_SUITABILITY_DATA )</PreCondition><PreCondition
+ Guid="c4325ecd-7393-4142-9901-6ccdacf41399"
+>Kernel.AcceptInformation.RouteSuitabilityData( Source =&gt; Kernel.AcceptInformation.Source.RBC )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="7cd439db-30ed-4037-bc40-1110364e540b"
@@ -8924,7 +8954,9 @@ MessageTypes.QScaleDistance(
 <PreConditions>
 <PreCondition
  Guid="568a6d32-c46c-450a-86ed-fa1646521c57"
->THERE_IS X IN aMessage.INFILL_MA.Sequence1 | Available ( X.MODE_PROFILE )</PreCondition></PreConditions>
+>THERE_IS X IN aMessage.INFILL_MA.Sequence1 | Available ( X.MODE_PROFILE )</PreCondition><PreCondition
+ Guid="69c58278-8f01-4110-8454-5af79862a1d3"
+>Kernel.AcceptInformation.MovementAuthority( Source =&gt; Kernel.AcceptInformation.Source.RBC )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="3913ccf6-bc3b-423b-a4da-7742b09c8e22"
@@ -8955,7 +8987,9 @@ MessageTypes.QScaleDistance(
 <PreConditions>
 <PreCondition
  Guid="8eba5cd9-0030-4d92-826b-c91887c836ed"
->THERE_IS X IN aMessage.INFILL_MA.Sequence1 | Available ( X.LEVEL_TRANSITION_ORDER )</PreCondition></PreConditions>
+>THERE_IS X IN aMessage.INFILL_MA.Sequence1 | Available ( X.LEVEL_TRANSITION_ORDER )</PreCondition><PreCondition
+ Guid="b42d48ad-3250-438c-a195-c97d3cb743b4"
+>Kernel.AcceptInformation.LevelTransitionOrder( Source =&gt; Kernel.AcceptInformation.Source.RBC )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="fd9f395f-4d3f-45ad-b8bf-3444ca9d3d17"
@@ -8995,7 +9029,9 @@ MessageTypes.QScaleDistance(
 <PreConditions>
 <PreCondition
  Guid="235a0300-92ec-446e-821a-89a960c55b93"
->Available ( aMessage.INITIATION_OF_A_COMMUNICATION_SESSION )</PreCondition></PreConditions>
+>Available ( aMessage.INITIATION_OF_A_COMMUNICATION_SESSION )</PreCondition><PreCondition
+ Guid="2939df48-9c54-4058-a752-b3f241d051a2"
+>Kernel.AcceptInformation.InitiationOfSession( Source =&gt; Kernel.AcceptInformation.Source.RBC )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="12ed8134-932c-460b-b43c-93b9450e806e"
@@ -9028,7 +9064,9 @@ MessageTypes.QScaleDistance(
 <PreConditions>
 <PreCondition
  Guid="004c4b64-a44e-4794-961c-bbe0398ae621"
->Available ( aMessage.TRAIN_ACCEPTED )</PreCondition></PreConditions>
+>Available ( aMessage.TRAIN_ACCEPTED )</PreCondition><PreCondition
+ Guid="ae45ae11-9483-4bb0-8603-0ae950a964e3"
+>Kernel.AcceptInformation.TrainAccepted( Source =&gt; Kernel.AcceptInformation.Source.RBC )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="fc94d5e3-5ec4-4589-82e9-ccd1a4cb832f"
@@ -9080,7 +9118,9 @@ MessageTypes.QScaleDistance(
 <PreConditions>
 <PreCondition
  Guid="49e1775e-6397-4477-91a0-21ca5473c6f7"
->Available ( aMessage.TRACK_AHEAD_FREE_REQUEST )</PreCondition></PreConditions>
+>Available ( aMessage.TRACK_AHEAD_FREE_REQUEST )</PreCondition><PreCondition
+ Guid="36fb851a-d153-48c9-ad48-90abca5408c1"
+>Kernel.AcceptInformation.TrackAheadFreeRequest( Source =&gt; Kernel.AcceptInformation.Source.RBC )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="a9e8f466-9aaf-47c1-ae92-7d4f01e53b0c"
@@ -9242,7 +9282,8 @@ MessageTypes.QScaleDistance(
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
- Y="900"
+ X="1"
+ Y="601"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -9948,7 +9989,9 @@ But at the end of the cycle the conditions required for sending of position repo
 <PreConditions>
 <PreCondition
  Guid="baf54c0d-8b2c-45d1-9b37-f44d09c72b31"
->THERE_IS X IN Packets | Available ( X.SESSION_MANAGEMENT )</PreCondition></PreConditions>
+>THERE_IS X IN Packets | Available ( X.SESSION_MANAGEMENT )</PreCondition><PreCondition
+ Guid="0ac2ca39-5359-4c0e-9c5d-570a3829a1ac"
+>Kernel.AcceptInformation.SessionManagement( Source =&gt; Kernel.AcceptInformation.Source.RBC )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="864aed8d-656b-44ab-97d1-b019cba9aeef"
@@ -9986,7 +10029,9 @@ But at the end of the cycle the conditions required for sending of position repo
 <PreConditions>
 <PreCondition
  Guid="0832c897-e755-49da-b609-cfa0c2859a59"
->THERE_IS X IN Packets | Available ( X.RADIO_NETWORK_REGISTRATION )</PreCondition></PreConditions>
+>THERE_IS X IN Packets | Available ( X.RADIO_NETWORK_REGISTRATION )</PreCondition><PreCondition
+ Guid="6fe68524-02b4-426b-8893-50f37ef646f8"
+>Kernel.AcceptInformation.RadioNetworkRegistration( Source =&gt; Kernel.AcceptInformation.Source.RBC )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="f7218da0-0535-4404-9004-e803bf961c91"
@@ -10014,7 +10059,9 @@ But at the end of the cycle the conditions required for sending of position repo
 <PreConditions>
 <PreCondition
  Guid="fb216486-6cdc-4b68-90d3-5e7377703f26"
->THERE_IS X IN Packets | Available ( X.MOVEMENT_AUTHORITY_REQUEST_PARAMETERS )</PreCondition></PreConditions>
+>THERE_IS X IN Packets | Available ( X.MOVEMENT_AUTHORITY_REQUEST_PARAMETERS )</PreCondition><PreCondition
+ Guid="6ee2cc7d-c7de-45c1-b81f-3024864141d7"
+>Kernel.AcceptInformation.MARequestParameters( Source =&gt; Kernel.AcceptInformation.Source.RBC )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="abe81056-9b8c-4250-9bda-c30cafef8c82"
@@ -10047,7 +10094,9 @@ But at the end of the cycle the conditions required for sending of position repo
 </ReqRef><PreConditions>
 <PreCondition
  Guid="e736f8f8-7e25-47b8-95d9-3641a99d39cb"
->THERE_IS X IN Packets | Available ( X.POSITION_REPORT_PARAMETERS )</PreCondition></PreConditions>
+>THERE_IS X IN Packets | Available ( X.POSITION_REPORT_PARAMETERS )</PreCondition><PreCondition
+ Guid="3b740155-0a05-456c-b4ad-b101a4df63fc"
+>Kernel.AcceptInformation.PositionReportParameters( Source =&gt; Kernel.AcceptInformation.Source.RBC )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="066e716a-07aa-4d5a-a10b-7fc517f0f0b2"
@@ -10078,7 +10127,9 @@ But at the end of the cycle the conditions required for sending of position repo
 <PreConditions>
 <PreCondition
  Guid="446284a7-38bb-4883-9c06-40ea15d59a53"
->THERE_IS X IN Packets | Available ( X.ROUTE_SUITABILITY_DATA )</PreCondition></PreConditions>
+>THERE_IS X IN Packets | Available ( X.ROUTE_SUITABILITY_DATA )</PreCondition><PreCondition
+ Guid="2568fb4b-90f4-41bf-8a08-cf33c11f48c6"
+>Kernel.AcceptInformation.RouteSuitabilityData( Source =&gt; Kernel.AcceptInformation.Source.RBC )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="1835b379-689c-41b7-82bd-bafdaa9df3c9"
@@ -10106,7 +10157,9 @@ But at the end of the cycle the conditions required for sending of position repo
 <PreConditions>
 <PreCondition
  Guid="7e563bd6-c9f0-489a-a42f-b6e64a89d11b"
->THERE_IS X IN Packets | Available ( X.GEOGRAPHICAL_POSITION_INFORMATION )</PreCondition></PreConditions>
+>THERE_IS X IN Packets | Available ( X.GEOGRAPHICAL_POSITION_INFORMATION )</PreCondition><PreCondition
+ Guid="3f4bc60c-d534-4892-84c8-a8c4f1db6a84"
+>Kernel.AcceptInformation.GeographicalPosition( Source =&gt; Kernel.AcceptInformation.Source.RBC )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="93c1c20e-ed7d-474e-aa0b-b56128d38ef9"
@@ -10139,7 +10192,9 @@ But at the end of the cycle the conditions required for sending of position repo
 <PreConditions>
 <PreCondition
  Guid="e93e740d-2bf8-41d0-ab39-9fb5c7ea7fe3"
->THERE_IS X IN Packets | Available ( X.RBC_TRANSITION_ORDER )</PreCondition></PreConditions>
+>THERE_IS X IN Packets | Available ( X.RBC_TRANSITION_ORDER )</PreCondition><PreCondition
+ Guid="d2e9e812-4ba1-4643-a5e3-4fc44162c97b"
+>Kernel.AcceptInformation.RBCTransitionOrder( Source =&gt; Kernel.AcceptInformation.Source.RBC )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="9465d11b-3c0d-4be2-a91e-883e806e5d57"
@@ -10184,7 +10239,9 @@ But at the end of the cycle the conditions required for sending of position repo
  Guid="2060598f-0aa3-4dff-9cfc-d591ff131003"
 >THERE_IS X IN Packets | Available ( X.REVERSING_AREA_INFORMATION)</PreCondition><PreCondition
  Guid="dd515f89-a7ca-4ad5-8028-653e08841979"
->THERE_IS X IN Packets | Available ( X.REVERSING_SUPERVISION_INFORMATION)</PreCondition></PreConditions>
+>THERE_IS X IN Packets | Available ( X.REVERSING_SUPERVISION_INFORMATION)</PreCondition><PreCondition
+ Guid="4cb43dde-7a55-468e-aaf3-f494df41adcb"
+>Kernel.AcceptInformation.ReversingAreaInformation( Source =&gt; Kernel.AcceptInformation.Source.RBC )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="80535626-724a-4983-90b1-d0fe24394982"
@@ -10221,7 +10278,9 @@ But at the end of the cycle the conditions required for sending of position repo
 <PreConditions>
 <PreCondition
  Guid="193d11a0-6c10-4e95-88ed-a9e108627cb4"
->THERE_IS X IN Packets | Available ( X.REVERSING_SUPERVISION_INFORMATION)</PreCondition></PreConditions>
+>THERE_IS X IN Packets | Available ( X.REVERSING_SUPERVISION_INFORMATION)</PreCondition><PreCondition
+ Guid="9fdd2f17-56a0-4794-be18-df9bf1785e48"
+>Kernel.AcceptInformation.ReversingSupervisionInformation( Source =&gt; Kernel.AcceptInformation.Source.RBC )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="44c794a5-cbc0-4338-8222-edf600f1a426"

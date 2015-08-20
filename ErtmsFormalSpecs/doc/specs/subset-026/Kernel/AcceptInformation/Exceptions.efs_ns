@@ -267,6 +267,7 @@ LevelTransition.LevelTransitionToProcess.TRLevel.Value == Level.L1</Expression>
  Y="60"
  Width="100"
  Height="50"
+ Implemented="TRUE"
  Name="LevelException2"
  Guid="048a0583-20f8-4097-a658-8c9c651aba09"
 >
@@ -276,7 +277,18 @@ LevelTransition.LevelTransitionToProcess.TRLevel.Value == Level.L1</Expression>
  Guid="2f03c2a7-e52e-43d9-832b-9151f7520348"
 >
 </ReqRef><Cases>
-</Cases>
+<Case
+ Name="Case1"
+ Guid="fcc18aba-991b-4fc3-a0d5-15f5656e002c"
+>
+<Expression>LevelTransition.LevelTransitionToProcess != EMPTY
+  AND
+(
+  LevelTransition.LevelTransitionToProcess.TRLevel.Value == Level.L2
+    OR
+  LevelTransition.LevelTransitionToProcess.TRLevel.Value == Level.L3
+)</Expression>
+</Case></Cases>
 </Function><Function
  Type="Boolean"
  Default=""
@@ -297,7 +309,7 @@ LevelTransition.LevelTransitionToProcess.TRLevel.Value == Level.L1</Expression>
  Name="Value"
  Guid="4f891fb8-b7c8-4eff-aa00-d6a1fa80dce3"
 >
-<Expression>False</Expression>
+<Expression>True</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"

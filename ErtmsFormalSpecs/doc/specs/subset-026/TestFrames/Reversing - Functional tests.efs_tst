@@ -60,7 +60,19 @@
 <Actions>
 <Action
  Guid="cf9c73cf-fba6-4013-ae53-0c73d888c161"
->Testing.SetRVMode(False)</Action></Actions>
+>Testing.SetRVMode(False)</Action><Action
+ Guid="52dabdf8-85b6-4fd4-8561-303b01845d78"
+>Kernel.Level.Value.Value &lt;- Default.Level.L1</Action><Action
+ Guid="28f2718e-971b-4cbe-af4c-9ce46387c01a"
+>Kernel.LevelTransition.LevelTransitionToProcess &lt;- Kernel.LevelTransition.LevelTransitionStruct
+{
+  AcknLength =&gt; 0.0,
+  TRLevel =&gt; LevelDataStruct
+  {
+    NTC =&gt; NID_NTC.NOT_APPLICABLE,
+    Value =&gt; Level.L2
+  }
+}</Action></Actions>
 </SubStep><SubStep
  Name="SubStep3"
  Guid="3a0becf3-06f9-4270-9047-4e0b6ef091ab"
@@ -295,6 +307,16 @@
     EndSection =&gt; Kernel.MA.EndSectionStruct{
         Length =&gt; 10000.0
     }
+}</Action><Action
+ Guid="44d9cd39-b464-40c0-9597-d291ffac0f2a"
+>Kernel.LevelTransition.LevelTransitionToProcess &lt;- Kernel.LevelTransition.LevelTransitionStruct
+{
+  AcknLength =&gt; 0.0,
+  TRLevel =&gt; LevelDataStruct
+  {
+    NTC =&gt; NID_NTC.NOT_APPLICABLE,
+    Value =&gt; Level.L2
+  }
 }</Action></Actions>
 </SubStep></SubSteps>
 </Step><Step
