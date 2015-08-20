@@ -74,9 +74,9 @@ namespace GUI.DataDictionaryView
         /// </summary>
         /// <param name="modelElement"></param>
         /// <returns></returns>
-        protected override bool ShouldDisplay(IModelElement modelElement)
+        protected override bool ShouldTrackSelectionChange(IModelElement modelElement)
         {
-            bool retVal = base.ShouldDisplay(modelElement);
+            bool retVal = base.ShouldTrackSelectionChange(modelElement);
 
             if (retVal)
             {

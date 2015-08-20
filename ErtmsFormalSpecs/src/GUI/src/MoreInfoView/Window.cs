@@ -41,7 +41,7 @@ namespace GUI.MoreInfoView
         /// </summary>
         /// <param name="modelElement"></param>
         /// <returns></returns>
-        protected override bool ShouldDisplay(IModelElement modelElement)
+        protected override bool ShouldTrackSelectionChange(IModelElement modelElement)
         {
             return true;
         }
@@ -97,6 +97,17 @@ namespace GUI.MoreInfoView
             }
 
             return retVal;
+        }
+
+        /// <summary>
+        /// Indicates that coloring should be taken into consideration
+        /// </summary>
+        /// <param name="modelElement"></param>
+        /// <returns></returns>
+        public override bool ShouldUpdateColoring(IModelElement modelElement)
+        {
+            // This view do not use coloring
+            return false;
         }
     }
 }

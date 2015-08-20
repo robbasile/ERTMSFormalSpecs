@@ -72,11 +72,10 @@ namespace GUI
         /// <returns>true if refresh should be performed</returns>
         public virtual bool HandleSelectionChange(Context.SelectionContext context)
         {
-            bool retVal = ShouldDisplay(context.Element);
+            bool retVal = ShouldTrackSelectionChange(context.Element);
 
             if (retVal)
             {
-                retVal = DisplayedModel != context.Element;
                 DisplayedModel = context.Element;
 
                 if (TreeView != null)
@@ -108,7 +107,7 @@ namespace GUI
         /// </summary>
         /// <param name="modelElement"></param>
         /// <returns></returns>
-        protected virtual bool ShouldDisplay(IModelElement modelElement)
+        protected virtual bool ShouldTrackSelectionChange(IModelElement modelElement)
         {
             return true;
         }
@@ -151,7 +150,7 @@ namespace GUI
         /// <returns>True if the view should be refreshed</returns>
         public virtual bool HandleInfoMessageChange(IModelElement modelElement)
         {
-            bool retVal = TreeView != null;
+            bool retVal = ShouldUpdateColoring(modelElement);
 
             if (retVal)
             {
@@ -192,6 +191,16 @@ namespace GUI
             }
 
             return retVal;
+        }
+
+        /// <summary>
+        /// Indicates that coloring should be taken into consideration
+        /// </summary>
+        /// <param name="modelElement"></param>
+        /// <returns></returns>
+        public virtual bool ShouldUpdateColoring(IModelElement modelElement)
+        {
+            return TreeView != null;
         }
 
         /// <summary>

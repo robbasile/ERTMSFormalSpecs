@@ -38,7 +38,7 @@ namespace GUI.UsageView
         /// </summary>
         /// <param name="modelElement"></param>
         /// <returns></returns>
-        protected override bool ShouldDisplay(IModelElement modelElement)
+        protected override bool ShouldTrackSelectionChange(IModelElement modelElement)
         {
             return modelElement == null || DisplayedModel != modelElement;
         }
@@ -52,13 +52,28 @@ namespace GUI.UsageView
         {
             bool retVal = base.HandleSelectionChange(context);
 
-            usageTreeView.Root = DisplayedModel;
-            if (usageTreeView.Nodes.Count > 0)
+            if (retVal)
             {
-                usageTreeView.Nodes[0].EnsureVisible();
+                usageTreeView.Root = DisplayedModel;
+                if (usageTreeView.Nodes.Count > 0)
+                {
+                    usageTreeView.Nodes[0].EnsureVisible();
+                }
             }
 
             return retVal;
+        }
+
+        /// <summary>
+        ///     Indicates that a change event should be displayed
+        /// </summary>
+        /// <param name="modelElement"></param>
+        /// <param name="changeKind"></param>
+        /// <returns></returns>
+        protected override bool ShouldDisplayChange(IModelElement modelElement, Context.ChangeKind changeKind)
+        {
+            // All changes in the model should be tracked
+            return true;
         }
 
         /// <summary>
@@ -81,6 +96,17 @@ namespace GUI.UsageView
             }
 
             return retVal;
+        }
+
+        /// <summary>
+        /// Indicates that coloring should be taken into consideration
+        /// </summary>
+        /// <param name="modelElement"></param>
+        /// <returns></returns>
+        public override bool ShouldUpdateColoring(IModelElement modelElement)
+        {
+            // This view do not use coloring
+            return false;
         }
     }
 }

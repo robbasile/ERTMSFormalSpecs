@@ -79,8 +79,9 @@ namespace GUI.StructureEditor
         /// <param name="model"></param>
         public void SetModel(IValue model)
         {
-            List<IValue> objectModel = new List<IValue>();
+            DisplayedModel = model;
 
+            List<IValue> objectModel = new List<IValue>();
             ListValue listValue = model as ListValue;
             if (listValue != null)
             {
@@ -106,11 +107,24 @@ namespace GUI.StructureEditor
         /// <param name="variable"></param>
         public void SetVariable(IVariable variable)
         {
-            Variable = variable;
+            DisplayedModel = variable;
 
+            Variable = variable;
             Text = Variable.FullName;
             List<IVariable> objectModel = new List<IVariable> {variable};
             structureTreeListView.SetObjects(objectModel);
+        }
+
+        /// <summary>
+        ///     Indicates that a change event should be displayed
+        /// </summary>
+        /// <param name="modelElement"></param>
+        /// <param name="changeKind"></param>
+        /// <returns></returns>
+        protected override bool ShouldDisplayChange(IModelElement modelElement, Context.ChangeKind changeKind)
+        {
+            // There is no smart way to determine whether the change should be taken into account or not
+            return true;
         }
 
         /// <summary>
@@ -143,6 +157,28 @@ namespace GUI.StructureEditor
             }
 
             return retVal;
+        }
+
+        /// <summary>
+        ///     Indicates that the model element should be displayed
+        /// </summary>
+        /// <param name="modelElement"></param>
+        /// <returns></returns>
+        protected override bool ShouldTrackSelectionChange(IModelElement modelElement)
+        {
+            // Once created, this view does not change displayed model
+            return false;
+        }
+
+        /// <summary>
+        /// Indicates that coloring should be taken into consideration
+        /// </summary>
+        /// <param name="modelElement"></param>
+        /// <returns></returns>
+        public override bool ShouldUpdateColoring(IModelElement modelElement)
+        {
+            // This view does not uses coloring
+            return false;
         }
 
         /// <summary>
