@@ -941,7 +941,7 @@ namespace DataDictionary
                 {
                     foreach (NameSpace nameSpace in dictionary.NameSpaces)
                     {
-                        if (nameSpace.Name.CompareTo("Default") == 0)
+                        if ("Default".Equals(nameSpace.Name))
                         {
                             if (nameSpace.DeclaredElements == null)
                             {
@@ -1085,7 +1085,7 @@ namespace DataDictionary
             {
                 if (_parser == null)
                 {
-                    _parser = new Parser(this);
+                    _parser = new Parser();
                 }
                 return _parser;
             }
@@ -1278,7 +1278,7 @@ namespace DataDictionary
                         enclosingStructure.InterfaceIsInherited(enclosingParameterStructure))
                     {
                         if (currentStructureElement.Name == parameterStructureElement.Name &&
-                            parameterStructureElement.Type == parameterStructureElement.Type)
+                            currentStructureElement.Type == parameterStructureElement.Type)
                         {
                             Usages.Add(new Usage(currentStructureElement, parameterStructureElement,
                                 Usage.ModeEnum.Redefines));

@@ -21,7 +21,6 @@ using DataDictionary.Generated;
 using DataDictionary.Interpreter.Filter;
 using DataDictionary.Interpreter.ListOperators;
 using DataDictionary.Interpreter.Statement;
-using DataDictionary.Values;
 using Type = DataDictionary.Types.Type;
 
 namespace DataDictionary.Interpreter
@@ -41,29 +40,22 @@ namespace DataDictionary.Interpreter
         /// <summary>
         ///     Constructor
         /// </summary>
-        /// <param name="efsSystem">The system in which the parser is built</param>
-        public Parser(EFSSystem efsSystem)
+        public Parser()
         {
-            EFSSystem = efsSystem;
             NoReentrance = new Mutex(false, "Parser mutex");
         }
 
         /// <summary>
-        ///     The EFSSystem for which the parser is built
-        /// </summary>
-        public EFSSystem EFSSystem { get; private set; }
-
-        /// <summary>
         ///     The buffer which holds the expression
         /// </summary>
-        private char[] buffer;
+        private char[] _buffer;
 
         private char[] Buffer
         {
-            get { return buffer; }
+            get { return _buffer; }
             set
             {
-                buffer = value;
+                _buffer = value;
                 Index = 0;
             }
         }
@@ -71,20 +63,20 @@ namespace DataDictionary.Interpreter
         /// <summary>
         ///     The current index in the buffer
         /// </summary>
-        private int index;
+        private int _index;
 
         private int Index
         {
-            get { return index; }
-            set { index = value; }
+            get { return _index; }
+            set { _index = value; }
         }
 
         /// <summary>
         ///     Skips white spaces, tab and new lines
         /// </summary>
-        private void skipWhiteSpaces()
+        private void SkipWhiteSpaces()
         {
-            while (Index < Buffer.Length && Char.IsWhiteSpace(Buffer[index]))
+            while (Index < Buffer.Length && Char.IsWhiteSpace(Buffer[_index]))
             {
                 Index = Index + 1;
             }
@@ -98,7 +90,7 @@ namespace DataDictionary.Interpreter
         {
             string retVal = null;
 
-            skipWhiteSpaces();
+            SkipWhiteSpaces();
             if (Index < Buffer.Length)
             {
                 if (Char.IsLetter(Buffer[Index]) || Buffer[Index] == '_' || Buffer[Index] == '%')
@@ -138,13 +130,12 @@ namespace DataDictionary.Interpreter
         /// <summary>
         ///     Provides the designator at position Index of the Buffer.
         /// </summary>
-        /// <param name="root">The root element for which this designator is built</param>
         /// <returns>null if the element at position Index is not an identifier</returns>
         private Designator Designator()
         {
             Designator retVal = null;
 
-            skipWhiteSpaces();
+            SkipWhiteSpaces();
             int start = Index;
             string identifier = Identifier();
             if (identifier != null)
@@ -162,9 +153,7 @@ namespace DataDictionary.Interpreter
         /// <returns></returns>
         private bool LookAhead(string expected)
         {
-            bool retVal = false;
-
-            skipWhiteSpaces();
+            SkipWhiteSpaces();
             int i = 0;
             while (Index + i < Buffer.Length && i < expected.Length)
             {
@@ -174,7 +163,8 @@ namespace DataDictionary.Interpreter
                 }
                 i = i + 1;
             }
-            retVal = i == expected.Length;
+
+            bool retVal = i == expected.Length;
 
             char lastChar = expected[expected.Length - 1];
             if (retVal && (Char.IsLetterOrDigit(lastChar) || '_'.Equals(lastChar)))
@@ -198,7 +188,7 @@ namespace DataDictionary.Interpreter
         /// </summary>
         /// <param name="expected">The expected string</param>
         /// <returns></returns>
-        private string LookAhead(string[] expected)
+        private string LookAhead(IEnumerable<string> expected)
         {
             foreach (string value in expected)
             {
@@ -230,29 +220,19 @@ namespace DataDictionary.Interpreter
         /// <summary>
         ///     Evaluates the value of a literal
         /// </summary>
-        /// <param name="designator">The designator currently parsed, if any</param>
-        /// <param name="root">The root element for which this literal is built</param>
         /// <returns></returns>
         public Expression EvaluateLiteral()
         {
-            Expression retVal = null;
+            Expression retVal = EvaluateString();
 
-            retVal = EvaluateString();
-            if (retVal != null)
+            if (retVal == null)
             {
-                return retVal;
+                retVal = EvaluateInt();                
             }
 
-            retVal = EvaluateInt();
-            if (retVal != null)
+            if (retVal == null)
             {
-                return retVal;
-            }
-
-            retVal = EvaluateList();
-            if (retVal != null)
-            {
-                return retVal;
+                retVal = EvaluateList();                
             }
 
             return retVal;
@@ -261,7 +241,6 @@ namespace DataDictionary.Interpreter
         /// <summary>
         ///     Evaluates the current input as a string
         /// </summary>
-        /// <param name="root">The root element for which this string is built</param>
         /// <returns></returns>
         public StringExpression EvaluateString()
         {
@@ -304,7 +283,7 @@ namespace DataDictionary.Interpreter
 
             int len = 0;
             bool digitFound = false;
-            Type type = EFSSystem.IntegerType;
+            Type type = EFSSystem.INSTANCE.IntegerType;
 
             if (Index < Buffer.Length && Buffer[Index] == '-')
             {
@@ -318,7 +297,7 @@ namespace DataDictionary.Interpreter
 
             if (len > 0 && Index + len < Buffer.Length && Buffer[Index + len] == '.')
             {
-                type = EFSSystem.DoubleType;
+                type = EFSSystem.INSTANCE.DoubleType;
                 len = len + 1;
                 while (Index + len < Buffer.Length && Char.IsDigit(Buffer[Index + len]))
                 {
@@ -328,7 +307,7 @@ namespace DataDictionary.Interpreter
 
             if (Index + len < Buffer.Length && Buffer[Index + len] == 'E')
             {
-                type = EFSSystem.DoubleType;
+                type = EFSSystem.INSTANCE.DoubleType;
                 len = len + 1;
                 while (Index + len < Buffer.Length && Char.IsDigit(Buffer[Index + len]))
                 {
@@ -354,19 +333,17 @@ namespace DataDictionary.Interpreter
         /// <summary>
         ///     Evaluates the current input as a list
         /// </summary>
-        /// <param name="root">the root element for which this list is built</param>
         /// <returns></returns>
         public ListExpression EvaluateList()
         {
             ListExpression retVal = null;
 
-            skipWhiteSpaces();
+            SkipWhiteSpaces();
             int start = Index;
             if (LookAhead("["))
             {
                 Match("[");
                 List<Expression> list = new List<Expression>();
-                Type elementType = null;
 
                 if (LookAhead("]"))
                 {
@@ -375,8 +352,8 @@ namespace DataDictionary.Interpreter
                 }
                 else
                 {
-                    bool cont = true;
-                    while (cont)
+                    bool findListEntries = true;
+                    while (findListEntries)
                     {
                         Expression expression = Expression(0);
                         if (expression != null)
@@ -388,23 +365,24 @@ namespace DataDictionary.Interpreter
                                 Match(",");
                                 continue;
                             }
-                            else if (LookAhead("]"))
+                            
+                            if (LookAhead("]"))
                             {
                                 Match("]");
 
                                 retVal = new ListExpression(Root, RootLog, list, start, Index);
-                                break;
+                                findListEntries = false;
                             }
                             else
                             {
                                 RootLog.AddError("] expected");
-                                break;
+                                findListEntries = false;
                             }
                         }
                         else
                         {
                             RootLog.AddError("Cannot parse expression");
-                            break;
+                            findListEntries = false;
                         }
                     }
                 }
@@ -426,7 +404,7 @@ namespace DataDictionary.Interpreter
         {
             StructExpression retVal = null;
 
-            skipWhiteSpaces();
+            SkipWhiteSpaces();
             int start = Index;
             Expression structureId = DerefExpression();
             if (structureId != null)
@@ -445,13 +423,13 @@ namespace DataDictionary.Interpreter
                     {
                         while (true)
                         {
-                            skipWhiteSpaces();
+                            SkipWhiteSpaces();
                             int startId = Index;
                             string id = Identifier();
                             if (id != null)
                             {
                                 Designator designator = new Designator(Root, RootLog, id, startId, startId + id.Length);
-                                string assignOp = LookAhead(ASSIGN_OPS);
+                                string assignOp = LookAhead(AssignOps);
                                 if (assignOp != null)
                                 {
                                     Match(assignOp);
@@ -486,7 +464,6 @@ namespace DataDictionary.Interpreter
                             if (LookAhead(","))
                             {
                                 Match(",");
-                                continue;
                             }
                             else if (LookAhead("}"))
                             {
@@ -528,7 +505,7 @@ namespace DataDictionary.Interpreter
             Expression retVal = null;
 
             List<Expression> derefArguments = new List<Expression>();
-            skipWhiteSpaces();
+            SkipWhiteSpaces();
             int start = Index;
             string id = Identifier();
             while (id != null)
@@ -542,7 +519,7 @@ namespace DataDictionary.Interpreter
                 if (LookAhead("."))
                 {
                     Match(".");
-                    skipWhiteSpaces();
+                    SkipWhiteSpaces();
                     start = Index;
                     id = Identifier();
                 }
@@ -576,7 +553,6 @@ namespace DataDictionary.Interpreter
         /// <summary>
         ///     Provides the Term at position Index of the Buffer.
         /// </summary>
-        /// <param name="root">The root element for which this term is built</param>
         /// <returns></returns>
         public Term Term()
         {
@@ -601,34 +577,9 @@ namespace DataDictionary.Interpreter
         }
 
         /// <summary>
-        ///     Finds a value in a list of values
-        /// </summary>
-        /// <param name="val">The value to find</param>
-        /// <param name="list">The list of values to evaluate</param>
-        /// <returns></returns>
-        private bool FindInList(IValue val, ListValue list)
-        {
-            bool retVal = false;
-
-            foreach (Value value in list.Val)
-            {
-                if (val == value)
-                {
-                    retVal = true;
-                    break;
-                }
-            }
-
-            return retVal;
-        }
-
-        private const int DOT_CONTINUATION = 7;
-
-        /// <summary>
         ///     Provides the parse tree associated to the expression stored in the buffer
         /// </summary>
         /// <param name="expressionLevel">the current level of the expression</param>
-        /// <param name="root">the root element for which this expression should be parsed</param>
         /// <returns></returns>
         private Expression Expression(int expressionLevel)
         {
@@ -641,7 +592,7 @@ namespace DataDictionary.Interpreter
                 Match("LET");
                 string boundVariable = Identifier();
 
-                string assignOp = LookAhead(ASSIGN_OPS);
+                string assignOp = LookAhead(AssignOps);
                 if (assignOp != null)
                 {
                     Match(assignOp);
@@ -680,9 +631,9 @@ namespace DataDictionary.Interpreter
                     case 3:
                     case 4:
                     case 5:
-                        ///
-                        /// Binary expressions
-                        ///
+                        //
+                        // Binary expressions
+                        //
                         retVal = Expression(expressionLevel + 1);
                         if (retVal != null)
                         {
@@ -696,15 +647,15 @@ namespace DataDictionary.Interpreter
                         break;
 
                     case 7:
-                        ///
-                        /// List operations
-                        /// 
+                        //
+                        // List operations
+                        // 
                         retVal = EvaluateListExpression();
                         if (retVal == null)
                         {
-                            ////
-                            /// Unary expressions
-                            /// 
+                            //
+                            // Unary expressions
+                            //
                             retVal = EvaluateUnaryExpression();
                         }
                         break;
@@ -721,7 +672,6 @@ namespace DataDictionary.Interpreter
         /// </summary>
         /// <param name="expressionLevel">the current level of the expression</param>
         /// <param name="expressionLeft">the left part of the current expression</param>
-        /// <param name="enclosing">the root element for which this expression should be parsed</param>
         /// <returns></returns>
         private Expression ExpressionContinuation(int expressionLevel, Expression expressionLeft)
         {
@@ -729,7 +679,7 @@ namespace DataDictionary.Interpreter
 
             string[] operators = BinaryExpression.Images(BinaryExpression.OperatorsByLevel[expressionLevel]);
             string op = LookAhead(operators);
-            if (op != null && op.CompareTo("<") == 0)
+            if (op != null && "<".Equals(op))
             {
                 // Avoid <- to be confused with < -1
                 if (Index < Buffer.Length - 1 && Buffer[Index + 1] == '-')
@@ -757,12 +707,11 @@ namespace DataDictionary.Interpreter
         /// <summary>
         ///     The continuation operators
         /// </summary>
-        private static string[] CONTINUATION_OPERATORS = new string[] {".", "("};
+        private static readonly string[] ContinuationOperators = {".", "("};
 
         /// <summary>
         ///     Implements the dot continuation or the function call continuation
         /// </summary>
-        /// <param name="expressionLevel">the level of the right expression</param>
         /// <param name="expressionLeft">the left part of the current expression</param>
         /// <returns></returns>
         private Expression Continuation(Expression expressionLeft)
@@ -771,7 +720,7 @@ namespace DataDictionary.Interpreter
             int first = Index;
 
             List<Expression> derefArguments = new List<Expression>();
-            while (!Utils.Util.isEmpty(LookAhead(CONTINUATION_OPERATORS)))
+            while (!Utils.Util.isEmpty(LookAhead(ContinuationOperators)))
             {
                 List<Expression> tmp = new List<Expression>();
                 while (LookAhead("."))
@@ -828,9 +777,8 @@ namespace DataDictionary.Interpreter
         private Expression EvaluateFunctionCallExpression(Expression left)
         {
             Call retVal = null;
-            int current = Index;
 
-            skipWhiteSpaces();
+            SkipWhiteSpaces();
             if (LookAhead("("))
             {
                 retVal = new Call(Root, RootLog, left, left.Start, -1);
@@ -838,7 +786,7 @@ namespace DataDictionary.Interpreter
                 bool cont = true;
                 while (cont)
                 {
-                    skipWhiteSpaces();
+                    SkipWhiteSpaces();
                     if (LookAhead(")"))
                     {
                         Match(")");
@@ -852,7 +800,7 @@ namespace DataDictionary.Interpreter
                         Designator parameter = null;
                         if (id != null)
                         {
-                            string assignOp = LookAhead(ASSIGN_OPS);
+                            string assignOp = LookAhead(AssignOps);
                             if (assignOp != null)
                             {
                                 Match(assignOp);
@@ -860,7 +808,6 @@ namespace DataDictionary.Interpreter
                             }
                             else
                             {
-                                id = null;
                                 Index = current2;
                             }
                         }
@@ -899,16 +846,16 @@ namespace DataDictionary.Interpreter
         {
             Expression retVal = null;
 
-            skipWhiteSpaces();
+            SkipWhiteSpaces();
             int start = Index;
             string listOp = LookAhead(ListOperatorExpression.LIST_OPERATORS);
             if (listOp != null)
             {
                 Match(listOp);
 
-                if (listOp.CompareTo(MapExpression.Operator) == 0
-                    || listOp.CompareTo(ReduceExpression.Operator) == 0
-                    || listOp.CompareTo(SumExpression.Operator) == 0)
+                if (MapExpression.Operator.Equals(listOp)
+                    || ReduceExpression.Operator.Equals(listOp)
+                    || SumExpression.Operator.Equals(listOp) )
                 {
                     Expression listExpression = Expression(0);
                     if (listExpression != null)
@@ -926,17 +873,17 @@ namespace DataDictionary.Interpreter
                         Expression iteratorExpression = Expression(0);
                         if (iteratorExpression != null)
                         {
-                            if (MapExpression.Operator.CompareTo(listOp) == 0)
+                            if (MapExpression.Operator.Equals(listOp))
                             {
                                 retVal = new MapExpression(Root, RootLog, listExpression, iteratorIdentifier, condition,
                                     iteratorExpression, start, Index);
                             }
-                            else if (SumExpression.Operator.CompareTo(listOp) == 0)
+                            else if (SumExpression.Operator.Equals(listOp))
                             {
                                 retVal = new SumExpression(Root, RootLog, listExpression, iteratorIdentifier, condition,
                                     iteratorExpression, start, Index);
                             }
-                            else if (ReduceExpression.Operator.CompareTo(listOp) == 0)
+                            else if (ReduceExpression.Operator.Equals(listOp))
                             {
                                 Match("INITIAL_VALUE");
                                 Expression initialValue = Expression(0);
@@ -972,27 +919,27 @@ namespace DataDictionary.Interpreter
                         }
 
                         // Create the right class for this list operation
-                        if (ThereIsExpression.Operator.CompareTo(listOp) == 0)
+                        if (ThereIsExpression.Operator.Equals(listOp))
                         {
                             retVal = new ThereIsExpression(Root, RootLog, listExpression, iteratorIdentifier, condition,
                                 start, Index);
                         }
-                        else if (ForAllExpression.Operator.CompareTo(listOp) == 0)
+                        else if (ForAllExpression.Operator.Equals(listOp))
                         {
                             retVal = new ForAllExpression(Root, RootLog, listExpression, iteratorIdentifier, condition,
                                 start, Index);
                         }
-                        else if (FirstExpression.Operator.CompareTo(listOp) == 0)
+                        else if (FirstExpression.Operator.Equals(listOp))
                         {
                             retVal = new FirstExpression(Root, RootLog, listExpression, iteratorIdentifier, condition,
                                 start, Index);
                         }
-                        else if (LastExpression.Operator.CompareTo(listOp) == 0)
+                        else if (LastExpression.Operator.Equals(listOp))
                         {
                             retVal = new LastExpression(Root, RootLog, listExpression, iteratorIdentifier, condition,
                                 start, Index);
                         }
-                        else if (CountExpression.Operator.CompareTo(listOp) == 0)
+                        else if (CountExpression.Operator.Equals(listOp))
                         {
                             retVal = new CountExpression(Root, RootLog, listExpression, iteratorIdentifier, condition,
                                 start, Index);
@@ -1009,13 +956,12 @@ namespace DataDictionary.Interpreter
         ///     . NOT expression
         ///     . Term
         /// </summary>
-        /// <param name="enclosing"></param>
         /// <returns></returns>
         private Expression EvaluateUnaryExpression()
         {
-            Expression retVal = null;
+            Expression retVal;
 
-            skipWhiteSpaces();
+            SkipWhiteSpaces();
             int start = Index;
             string unaryOp = LookAhead(UnaryExpression.UnaryOperators);
             if (unaryOp != null)
@@ -1058,10 +1004,7 @@ namespace DataDictionary.Interpreter
                             Match(")");
                             retVal.End = Index;
 
-                            if (retVal != null)
-                            {
-                                retVal = Continuation(retVal);
-                            }
+                            retVal = Continuation(retVal);
                         }
                     }
                 }
@@ -1078,7 +1021,7 @@ namespace DataDictionary.Interpreter
         {
             FunctionExpression retVal = null;
 
-            skipWhiteSpaces();
+            SkipWhiteSpaces();
             int start = Index;
             if (LookAhead("FUNCTION"))
             {
@@ -1090,9 +1033,9 @@ namespace DataDictionary.Interpreter
                     string id = Identifier();
                     if (id != null)
                     {
-                        skipWhiteSpaces();
+                        SkipWhiteSpaces();
                         Match(":");
-                        skipWhiteSpaces();
+                        SkipWhiteSpaces();
                         string typeName = Identifier(true);
                         if (typeName != null)
                         {
@@ -1118,8 +1061,8 @@ namespace DataDictionary.Interpreter
                     }
                 }
 
-                skipWhiteSpaces();
-                string assignOp = LookAhead(ASSIGN_OPS);
+                SkipWhiteSpaces();
+                string assignOp = LookAhead(AssignOps);
                 if (assignOp != null)
                 {
                     Match(assignOp);
@@ -1181,7 +1124,7 @@ namespace DataDictionary.Interpreter
                         Buffer = expression.ToCharArray();
                         retVal = Expression(0);
 
-                        skipWhiteSpaces();
+                        SkipWhiteSpaces();
                         if (Index != Buffer.Length)
                         {
                             retVal = null;
@@ -1223,13 +1166,13 @@ namespace DataDictionary.Interpreter
         /// <summary>
         ///     The assignment operators
         /// </summary>
-        private static string[] ASSIGN_OPS = new string[] {"<-", "=>"};
+        private static readonly string[] AssignOps = {"<-", "=>"};
 
         /// <summary>
         ///     Parses a statement
         /// </summary>
         /// <returns></returns>
-        private Statement.Statement innerParseStatement()
+        private Statement.Statement InnerParseStatement()
         {
             Statement.Statement retVal = null;
 
@@ -1237,8 +1180,7 @@ namespace DataDictionary.Interpreter
             if (LookAhead("APPLY"))
             {
                 Match("APPLY");
-                int startCall = Index;
-                Statement.Statement appliedStatement = innerParseStatement();
+                Statement.Statement appliedStatement = InnerParseStatement();
                 if (appliedStatement != null)
                 {
                     Match("ON");
@@ -1321,7 +1263,7 @@ namespace DataDictionary.Interpreter
                 Expression expression = Expression(0);
                 if (expression != null)
                 {
-                    string assignOp = LookAhead(ASSIGN_OPS);
+                    string assignOp = LookAhead(AssignOps);
                     if (assignOp != null)
                     {
                         // This is a variable update
@@ -1379,7 +1321,7 @@ namespace DataDictionary.Interpreter
                     RootLog = Root;
                 }
 
-                retVal = innerParseStatement();
+                retVal = InnerParseStatement();
             }
             catch (Exception e)
             {
@@ -1415,7 +1357,7 @@ namespace DataDictionary.Interpreter
                         Buffer = expression.ToCharArray();
                         retVal = Statement(root);
 
-                        skipWhiteSpaces();
+                        SkipWhiteSpaces();
                         if (Index != Buffer.Length)
                         {
                             if (Index < Buffer.Length)
@@ -1448,13 +1390,10 @@ namespace DataDictionary.Interpreter
         /// <returns></returns>
         internal Term Term(ModelElement root, string expression)
         {
-            Term retVal = null;
-
             Root = root;
             Buffer = expression.ToCharArray();
-            retVal = Term();
 
-            return retVal;
+            return Term();
         }
     }
 }
