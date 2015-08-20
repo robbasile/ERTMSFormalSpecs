@@ -249,8 +249,8 @@ namespace DataDictionary.Interpreter
         ///     Creates a sub explanation for the explain provided as parameter
         /// </summary>
         /// <param name="explain"></param>
-        /// <param name="leftPart"></param>
-        /// <param name="rightPart"></param>
+        /// <param name="leftPart">What is evaluated</param>
+        /// <param name="rightPart">The evaluated value</param>
         /// <returns></returns>
         public static ExplanationPart CreateSubExplanation(ExplanationPart explain, object leftPart,
             INamable rightPart = null)

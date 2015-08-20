@@ -22,7 +22,6 @@ using DataDictionary.Types;
 using DataDictionary.Variables;
 using Utils;
 using StructureElement = DataDictionary.Types.StructureElement;
-using Type = DataDictionary.Types.Type;
 
 namespace DataDictionary.Interpreter.Statement
 {
@@ -32,9 +31,10 @@ namespace DataDictionary.Interpreter.Statement
         ///     Constructor
         /// </summary>
         /// <param name="root">The root element for which this element is built</param>
+        /// <param name="log"></param>
         /// <param name="start">The start character for this expression in the original string</param>
         /// <param name="end">The end character for this expression in the original string</param>
-        public Statement(ModelElement root, ModelElement log, int start, int end)
+        protected Statement(ModelElement root, ModelElement log, int start, int end)
             : base(root, log, start, end)
         {
         }
@@ -61,18 +61,7 @@ namespace DataDictionary.Interpreter.Statement
 
             return retVal;
         }
-
-        /// <summary>
-        ///     Provides the type of this designator
-        /// </summary>
-        /// <returns></returns>
-        public Type getExpressionType()
-        {
-            Type retVal = null;
-
-            return retVal;
-        }
-
+        
         /// <summary>
         ///     Checks the statement for semantical errors
         /// </summary>
@@ -98,13 +87,10 @@ namespace DataDictionary.Interpreter.Statement
         /// <returns></returns>
         public virtual bool Reads(ITypedElement variable)
         {
-            bool retVal = false;
-
             List<ITypedElement> variablesRead = new List<ITypedElement>();
             ReadElements(variablesRead);
-            retVal = variablesRead.Contains(variable);
 
-            return retVal;
+            return variablesRead.Contains(variable);
         }
 
         /// <summary>

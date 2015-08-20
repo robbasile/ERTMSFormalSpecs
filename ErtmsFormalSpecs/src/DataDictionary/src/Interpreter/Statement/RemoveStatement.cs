@@ -63,9 +63,12 @@ namespace DataDictionary.Interpreter.Statement
         ///     Constructor
         /// </summary>
         /// <param name="root">The root element for which this element is built</param>
+        /// <param name="log"></param>
         /// <param name="condition">The corresponding function call designator</param>
         /// <param name="position">The position in which the element should be removed</param>
         /// <param name="listExpression">The expressions used to compute the parameters</param>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
         public RemoveStatement(ModelElement root, ModelElement log, Expression condition, PositionEnum position,
             Expression listExpression, int start, int end)
             : base(root, log, start, end)
@@ -117,7 +120,7 @@ namespace DataDictionary.Interpreter.Statement
         /// </summary>
         /// <param name="instance">the reference instance on which this element should analysed</param>
         /// <returns>True if semantic analysis should be continued</returns>
-        public override bool SemanticAnalysis(INamable instance)
+        public override bool SemanticAnalysis(INamable instance = null)
         {
             bool retVal = base.SemanticAnalysis(instance);
 
@@ -165,9 +168,7 @@ namespace DataDictionary.Interpreter.Statement
         /// <returns>null if no statement modifies the element</returns>
         public override VariableUpdateStatement Modifies(ITypedElement element)
         {
-            VariableUpdateStatement retVal = null;
-
-            return retVal;
+            return null;
         }
 
         /// <summary>
@@ -185,13 +186,15 @@ namespace DataDictionary.Interpreter.Statement
         /// <param name="context"></param>
         /// <param name="explain"></param>
         /// <returns></returns>
-        public bool conditionSatisfied(InterpretationContext context, ExplanationPart explain)
+        public bool ConditionSatisfied(InterpretationContext context, ExplanationPart explain)
         {
             bool retVal = true;
 
             if (Condition != null)
             {
                 BoolValue b = Condition.GetExpressionValue(context, explain) as BoolValue;
+                ExplanationPart.CreateSubExplanation(explain, Condition, b);
+
                 if (b == null)
                 {
                     retVal = false;
@@ -214,32 +217,30 @@ namespace DataDictionary.Interpreter.Statement
             {
                 if (ListExpression.Ref is Parameter)
                 {
-                    Root.AddError("Cannot change the list value which is a parameter (" + ListExpression.ToString() +
-                                  ")");
+                    Root.AddError("Cannot change the list value which is a parameter (" + ListExpression + ")");
+                }
+
+                Collection targetListType = ListExpression.GetExpressionType() as Collection;
+                if (targetListType != null)
+                {
+                    if (Condition != null)
+                    {
+                        Condition.CheckExpression();
+                        BoolType conditionType = Condition.GetExpressionType() as BoolType;
+                        if (conditionType == null)
+                        {
+                            Root.AddError("Condition does not evaluates to boolean");
+                        }
+                    }
+                }
+                else
+                {
+                    Root.AddError("Cannot determine type of " + ListExpression);
                 }
             }
             else
             {
                 Root.AddError("List should be specified");
-            }
-
-
-            Collection targetListType = ListExpression.GetExpressionType() as Collection;
-            if (targetListType == null)
-            {
-                Root.AddError("Cannot determine type of " + ListExpression);
-            }
-            else
-            {
-                if (Condition != null)
-                {
-                    Condition.CheckExpression();
-                    BoolType conditionType = Condition.GetExpressionType() as BoolType;
-                    if (conditionType == null)
-                    {
-                        Root.AddError("Condition does not evaluates to boolean");
-                    }
-                }
             }
         }
 
@@ -254,6 +255,9 @@ namespace DataDictionary.Interpreter.Statement
         public override void GetChanges(InterpretationContext context, ChangeList changes, ExplanationPart explanation,
             bool apply, Runner runner)
         {
+            // Explain what happens in this statement
+            explanation = ExplanationPart.CreateSubExplanation(explanation, this);
+
             IVariable variable = ListExpression.GetVariable(context);
             if (variable != null)
             {
@@ -263,6 +267,9 @@ namespace DataDictionary.Interpreter.Statement
                 variable.Value = listValue;
                 if (listValue != null)
                 {
+                    // Provide the state of the list before removing elements from it
+                    ExplanationPart.CreateSubExplanation(explanation, "Input data = ", listValue);
+
                     ListValue newListValue = new ListValue(listValue.CollectionType, new List<IValue>());
 
                     int token = context.LocalScope.PushContext();
@@ -278,7 +285,7 @@ namespace DataDictionary.Interpreter.Statement
                     while (index >= 0 && index < listValue.Val.Count)
                     {
                         IValue value = listValue.Val[index];
-                        index = nextIndex(index);
+                        index = NextIndex(index);
 
                         if (value == EFSSystem.EmptyValue)
                         {
@@ -287,7 +294,7 @@ namespace DataDictionary.Interpreter.Statement
                         else
                         {
                             IteratorVariable.Value = value;
-                            if (conditionSatisfied(context, explanation))
+                            if (ConditionSatisfied(context, explanation))
                             {
                                 if (Position != PositionEnum.All)
                                 {
@@ -307,7 +314,7 @@ namespace DataDictionary.Interpreter.Statement
                         IValue value = listValue.Val[index];
 
                         InsertInResult(newListValue, value);
-                        index = nextIndex(index);
+                        index = NextIndex(index);
                     }
 
                     // Fill the gap
@@ -330,7 +337,7 @@ namespace DataDictionary.Interpreter.Statement
         /// </summary>
         /// <param name="index"></param>
         /// <returns></returns>
-        private int nextIndex(int index)
+        private int NextIndex(int index)
         {
             if (Position == PositionEnum.Last)
             {

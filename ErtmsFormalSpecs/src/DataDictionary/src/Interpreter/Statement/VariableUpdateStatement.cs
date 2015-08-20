@@ -41,6 +41,9 @@ namespace DataDictionary.Interpreter.Statement
         ///     Constructor
         /// </summary>
         /// <param name="root">The root element for which this element is built</param>
+        /// <param name="log"></param>
+        /// <param name="variableIdentification"></param>
+        /// <param name="expression"></param>
         /// <param name="start">The start character for this expression in the original string</param>
         /// <param name="end">The end character for this expression in the original string</param>
         public VariableUpdateStatement(ModelElement root, ModelElement log, Expression variableIdentification,
@@ -59,7 +62,7 @@ namespace DataDictionary.Interpreter.Statement
         /// </summary>
         /// <param name="instance">the reference instance on which this element should analysed</param>
         /// <returns>True if semantic analysis should be continued</returns>
-        public override bool SemanticAnalysis(INamable instance)
+        public override bool SemanticAnalysis(INamable instance = null)
         {
             bool retVal = base.SemanticAnalysis(instance);
 
@@ -97,7 +100,7 @@ namespace DataDictionary.Interpreter.Statement
         {
             get
             {
-                Type retVal = null;
+                Type retVal;
 
                 if (Target != null)
                 {
@@ -155,18 +158,18 @@ namespace DataDictionary.Interpreter.Statement
             VariableIdentification.CheckExpression();
             if (VariableIdentification.Ref is Parameter)
             {
-                Root.AddError("Cannot assign a value to a parameter (" + VariableIdentification.ToString() + ")");
+                Root.AddError("Cannot assign a value to a parameter (" + VariableIdentification + ")");
             }
 
             if (VariableIdentification.Ref == null)
             {
-                Root.AddError("Cannot assign a value to " + VariableIdentification.ToString());
+                Root.AddError("Cannot assign a value to " + VariableIdentification);
             }
 
             Type targetType = VariableIdentification.GetExpressionType();
             if (targetType == null)
             {
-                Root.AddError("Cannot determine type of target " + VariableIdentification.ToString());
+                Root.AddError("Cannot determine type of target " + VariableIdentification);
             }
             else if (Expression != null)
             {
@@ -175,57 +178,50 @@ namespace DataDictionary.Interpreter.Statement
                 Type type = Expression.GetExpressionType();
                 if (type != null)
                 {
-                    if (targetType != null)
+                    if (!targetType.Match(type))
                     {
-                        if (!targetType.Match(type))
+                        UnaryExpression unaryExpression = Expression as UnaryExpression;
+                        if (unaryExpression != null && unaryExpression.Term.LiteralValue != null)
                         {
-                            UnaryExpression unaryExpression = Expression as UnaryExpression;
-                            if (unaryExpression != null && unaryExpression.Term.LiteralValue != null)
-                            {
-                                Root.AddError("Expression " + Expression.ToString() + " does not fit in variable " +
-                                              VariableIdentification.ToString());
-                            }
-                            else
-                            {
-                                Root.AddError("Expression [" + Expression.ToString() + "] type (" + type.FullName +
-                                              ") does not match variable [" + VariableIdentification.ToString() +
-                                              "] type (" + targetType.FullName + ")");
-                            }
+                            Root.AddError("Expression " + Expression + " does not fit in variable " +
+                                          VariableIdentification);
                         }
                         else
                         {
-                            Range rangeType = targetType as Range;
-                            if (rangeType != null)
-                            {
-                                IValue value = Expression.Ref as IValue;
-                                if (value != null)
-                                {
-                                    if (rangeType.convert(value) == null)
-                                    {
-                                        Root.AddError("Cannot set " + value.LiteralName + " in variable of type " +
-                                                      rangeType.Name);
-                                    }
-                                }
-                            }
-                        }
-
-                        if (Expression.Ref == EFSSystem.EmptyValue)
-                        {
-                            if (targetType is Collection)
-                            {
-                                Root.AddError("Assignation of " + Expression.Ref.Name +
-                                              " cannot be performed on variables of type collection. Use [] instead.");
-                            }
+                            Root.AddError("Expression [" + Expression + "] type (" + type.FullName +
+                                          ") does not match variable [" + VariableIdentification +
+                                          "] type (" + targetType.FullName + ")");
                         }
                     }
                     else
                     {
-                        Root.AddError("Cannot determine variable type");
+                        Range rangeType = targetType as Range;
+                        if (rangeType != null)
+                        {
+                            IValue value = Expression.Ref as IValue;
+                            if (value != null)
+                            {
+                                if (rangeType.convert(value) == null)
+                                {
+                                    Root.AddError("Cannot set " + value.LiteralName + " in variable of type " +
+                                                  rangeType.Name);
+                                }
+                            }
+                        }
+                    }
+
+                    if (Expression.Ref == EFSSystem.EmptyValue)
+                    {
+                        if (targetType is Collection)
+                        {
+                            Root.AddError("Assignation of " + Expression.Ref.Name +
+                                          " cannot be performed on variables of type collection. Use [] instead.");
+                        }
                     }
                 }
                 else
                 {
-                    Root.AddError("Cannot determine expression type (3) for " + Expression.ToString());
+                    Root.AddError("Cannot determine expression type (3) for " + Expression);
                 }
             }
             else
@@ -248,7 +244,6 @@ namespace DataDictionary.Interpreter.Statement
             IVariable var = VariableIdentification.GetVariable(context);
             if (var != null)
             {
-                string tmp = var.FullName;
                 IValue value = Expression.GetExpressionValue(context, explanation);
                 if (value != null)
                 {
@@ -269,7 +264,7 @@ namespace DataDictionary.Interpreter.Statement
             }
             else
             {
-                AddError("Cannot find variable " + VariableIdentification.ToString());
+                AddError("Cannot find variable " + VariableIdentification);
             }
         }
 
@@ -291,7 +286,7 @@ namespace DataDictionary.Interpreter.Statement
         /// <returns></returns>
         public override string ShortShortDescription()
         {
-            string retVal = "";
+            string retVal;
 
             if (VariableIdentification.ToString().Trim() == "THIS")
             {

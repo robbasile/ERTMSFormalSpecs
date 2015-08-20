@@ -44,8 +44,8 @@ namespace DataDictionary.Interpreter.Statement
         ///     Constructor
         /// </summary>
         /// <param name="root">The root element for which this element is built</param>
+        /// <param name="log"></param>
         /// <param name="call">The corresponding function call designator</param>
-        /// <param name="parameters">The expressions used to compute the parameters</param>
         /// <param name="start">The start character for this expression in the original string</param>
         /// <param name="end">The end character for this expression in the original string</param>
         public ProcedureCallStatement(ModelElement root, ModelElement log, Call call, int start, int end)
@@ -60,7 +60,7 @@ namespace DataDictionary.Interpreter.Statement
         /// </summary>
         /// <param name="instance">the reference instance on which this element should analysed</param>
         /// <returns>True if semantic analysis should be continued</returns>
-        public override bool SemanticAnalysis(INamable instance)
+        public override bool SemanticAnalysis(INamable instance = null)
         {
             bool retVal = base.SemanticAnalysis(instance);
 
@@ -80,7 +80,7 @@ namespace DataDictionary.Interpreter.Statement
         {
             get
             {
-                InterpretationContext ctxt = getContext(new InterpretationContext(Root), null);
+                InterpretationContext ctxt = GetContext(new InterpretationContext(Root), null);
                 if (Call != null)
                 {
                     Procedure procedure = Call.GetProcedure(ctxt, null);
@@ -132,7 +132,7 @@ namespace DataDictionary.Interpreter.Statement
                 retVal = action.Modifies(variable);
                 if (retVal != null)
                 {
-                    return retVal;
+                    break;
                 }
             }
 
@@ -193,7 +193,7 @@ namespace DataDictionary.Interpreter.Statement
         /// <param name="context"></param>
         /// <param name="explain"></param>
         /// <returns></returns>
-        private InterpretationContext getContext(InterpretationContext context, ExplanationPart explain)
+        private InterpretationContext GetContext(InterpretationContext context, ExplanationPart explain)
         {
             InterpretationContext retVal = context;
 
@@ -268,7 +268,10 @@ namespace DataDictionary.Interpreter.Statement
         {
             if (Call != null)
             {
-                InterpretationContext ctxt = getContext(context, explanation);
+                // Explain what happens in this statement
+                explanation = ExplanationPart.CreateSubExplanation(explanation, this);
+
+                InterpretationContext ctxt = GetContext(context, explanation);
                 Procedure procedure = Call.GetProcedure(ctxt, explanation);
                 if (procedure != null)
                 {
@@ -284,19 +287,13 @@ namespace DataDictionary.Interpreter.Statement
                         {
                             if (current.Type != structure)
                             {
-                                IEnclosed enclosed = current as IEnclosed;
-                                if (enclosed != null)
-                                {
-                                    current = enclosed.Enclosing as ITypedElement;
-                                }
-                                else
-                                {
-                                    current = null;
-                                }
+                                current = current.Enclosing as ITypedElement;
                             }
                             else
                             {
                                 ctxt.Instance = current;
+                                ExplanationPart.CreateSubExplanation(explanation, "Instance", current);
+
                                 current = null;
                             }
                         }

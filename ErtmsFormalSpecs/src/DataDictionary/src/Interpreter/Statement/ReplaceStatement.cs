@@ -54,6 +54,7 @@ namespace DataDictionary.Interpreter.Statement
         ///     Constructor
         /// </summary>
         /// <param name="root">The root element for which this element is built</param>
+        /// <param name="log"></param>
         /// <param name="value">The value to insert in the list</param>
         /// <param name="listExpression">The list affected by the replace statement</param>
         /// <param name="condition">The condition which indicates the value to be replaced</param>
@@ -109,7 +110,7 @@ namespace DataDictionary.Interpreter.Statement
         /// </summary>
         /// <param name="instance">the reference instance on which this element should analysed</param>
         /// <returns>True if semantic analysis should be continued</returns>
-        public override bool SemanticAnalysis(INamable instance)
+        public override bool SemanticAnalysis(INamable instance = null)
         {
             bool retVal = base.SemanticAnalysis(instance);
 
@@ -124,6 +125,10 @@ namespace DataDictionary.Interpreter.Statement
                 {
                     IteratorVariable.Type = collectionType.Type;
                 }
+                else
+                {
+                    AddError("Cannot determine collection type");
+                }
 
                 // Value
                 Value.SemanticAnalysis(instance);
@@ -131,7 +136,7 @@ namespace DataDictionary.Interpreter.Statement
                 Type valueType = Value.GetExpressionType();
                 if (valueType != null)
                 {
-                    if (!valueType.Match(collectionType.Type))
+                    if (collectionType != null && !valueType.Match(collectionType.Type))
                     {
                         AddError("Type of " + Value + " does not match collection type " + collectionType);
                     }
@@ -169,9 +174,7 @@ namespace DataDictionary.Interpreter.Statement
         /// <returns>null if no statement modifies the element</returns>
         public override VariableUpdateStatement Modifies(ITypedElement variable)
         {
-            VariableUpdateStatement retVal = null;
-
-            return retVal;
+            return null;
         }
 
         /// <summary>
@@ -189,13 +192,15 @@ namespace DataDictionary.Interpreter.Statement
         /// <param name="context"></param>
         /// <param name="explain"></param>
         /// <returns></returns>
-        public bool conditionSatisfied(InterpretationContext context, ExplanationPart explain)
+        public bool ConditionSatisfied(InterpretationContext context, ExplanationPart explain)
         {
             bool retVal = true;
 
             if (Condition != null)
             {
                 BoolValue b = Condition.GetExpressionValue(context, explain) as BoolValue;
+                ExplanationPart.CreateSubExplanation(explain, Condition, b);
+
                 if (b == null)
                 {
                     retVal = false;
@@ -218,8 +223,35 @@ namespace DataDictionary.Interpreter.Statement
             {
                 if (ListExpression.Ref is Parameter)
                 {
-                    Root.AddError("Cannot change the list value which is a parameter (" + ListExpression.ToString() +
-                                  ")");
+                    Root.AddError("Cannot change the list value which is a parameter (" + ListExpression + ")");
+                }
+
+                Collection targetListType = ListExpression.GetExpressionType() as Collection;
+                if (targetListType != null)
+                {
+                    Type elementType = Value.GetExpressionType();
+                    if (elementType != targetListType.Type)
+                    {
+                        Root.AddError("Inserted element type does not corresponds to list type");
+                    }
+
+                    if (Condition != null)
+                    {
+                        Condition.CheckExpression();
+                        BoolType conditionType = Condition.GetExpressionType() as BoolType;
+                        if (conditionType == null)
+                        {
+                            Root.AddError("Condition does not evaluates to boolean");
+                        }
+                    }
+                    else
+                    {
+                        Root.AddError("Condition should be provided");
+                    }
+                }
+                else
+                {
+                    Root.AddError("Cannot determine collection type of " + ListExpression);
                 }
             }
             else
@@ -235,34 +267,6 @@ namespace DataDictionary.Interpreter.Statement
             {
                 Root.AddError("Value should be specified");
             }
-
-            Collection targetListType = ListExpression.GetExpressionType() as Collection;
-            if (targetListType != null)
-            {
-                Type elementType = Value.GetExpressionType();
-                if (elementType != targetListType.Type)
-                {
-                    Root.AddError("Inserted element type does not corresponds to list type");
-                }
-
-                if (Condition != null)
-                {
-                    Condition.CheckExpression();
-                    BoolType conditionType = Condition.GetExpressionType() as BoolType;
-                    if (conditionType == null)
-                    {
-                        Root.AddError("Condition does not evaluates to boolean");
-                    }
-                }
-                else
-                {
-                    Root.AddError("Condition should be provided");
-                }
-            }
-            else
-            {
-                Root.AddError("Cannot determine collection type of " + ListExpression);
-            }
         }
 
         /// <summary>
@@ -276,6 +280,9 @@ namespace DataDictionary.Interpreter.Statement
         public override void GetChanges(InterpretationContext context, ChangeList changes, ExplanationPart explanation,
             bool apply, Runner runner)
         {
+            // Explain what happens in this statement
+            explanation = ExplanationPart.CreateSubExplanation(explanation, this);
+
             int index = context.LocalScope.PushContext();
             context.LocalScope.setVariable(IteratorVariable);
 
@@ -288,13 +295,16 @@ namespace DataDictionary.Interpreter.Statement
                 variable.Value = listValue;
                 if (listValue != null)
                 {
+                    // Provide the state of the list before removing elements from it
+                    ExplanationPart.CreateSubExplanation(explanation, "Input data = ", listValue);
+
                     ListValue newListValue = new ListValue(listValue);
 
                     int i = 0;
                     foreach (IValue current in newListValue.Val)
                     {
                         IteratorVariable.Value = current;
-                        if (conditionSatisfied(context, explanation))
+                        if (ConditionSatisfied(context, explanation))
                         {
                             break;
                         }
@@ -313,23 +323,22 @@ namespace DataDictionary.Interpreter.Statement
                         }
                         else
                         {
-                            Root.AddError("Cannot find value for " + Value.ToString());
+                            Root.AddError("Cannot find value for " + Value);
                         }
                     }
                     else
                     {
-                        Root.AddError("Cannot find value in " + ListExpression.ToString() + " which satisfies " +
-                                      Condition.ToString());
+                        Root.AddError("Cannot find value in " + ListExpression + " which satisfies " + Condition);
                     }
                 }
                 else
                 {
-                    Root.AddError("Variable " + ListExpression.ToString() + " does not contain a list value");
+                    Root.AddError("Variable " + ListExpression + " does not contain a list value");
                 }
             }
             else
             {
-                Root.AddError("Cannot find variable for " + ListExpression.ToString());
+                Root.AddError("Cannot find variable for " + ListExpression);
             }
 
             context.LocalScope.PopContext(index);

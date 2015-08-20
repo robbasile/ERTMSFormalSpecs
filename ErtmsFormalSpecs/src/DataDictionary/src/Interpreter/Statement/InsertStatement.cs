@@ -46,8 +46,10 @@ namespace DataDictionary.Interpreter.Statement
         ///     Constructor
         /// </summary>
         /// <param name="root">The root element for which this element is built</param>
-        /// <param name="call">The corresponding function call designator</param>
-        /// <param name="parameters">The expressions used to compute the parameters</param>
+        /// <param name="log"></param>
+        /// <param name="value">The value to insert</param>
+        /// <param name="listExpression">The list to alter</param>
+        /// <param name="replaceElement">The element to be replaced, if any</param>
         /// <param name="start">The start character for this expression in the original string</param>
         /// <param name="end">The end character for this expression in the original string</param>
         public InsertStatement(ModelElement root, ModelElement log, Expression value, Expression listExpression,
@@ -72,7 +74,7 @@ namespace DataDictionary.Interpreter.Statement
         /// </summary>
         /// <param name="instance">the reference instance on which this element should analysed</param>
         /// <returns>True if semantic analysis should be continued</returns>
-        public override bool SemanticAnalysis(INamable instance)
+        public override bool SemanticAnalysis(INamable instance = null)
         {
             bool retVal = base.SemanticAnalysis(instance);
 
@@ -114,9 +116,7 @@ namespace DataDictionary.Interpreter.Statement
         /// <returns>null if no statement modifies the element</returns>
         public override VariableUpdateStatement Modifies(ITypedElement variable)
         {
-            VariableUpdateStatement retVal = null;
-
-            return retVal;
+            return null;
         }
 
         /// <summary>
@@ -138,14 +138,59 @@ namespace DataDictionary.Interpreter.Statement
 
                 if (ListExpression.Ref is Parameter)
                 {
-                    Root.AddError("Cannot change the list value which is a parameter (" + ListExpression.ToString() +
-                                  ")");
+                    Root.AddError("Cannot change the list value which is a parameter (" + ListExpression + ")");
+                }
+
+                Collection targetListType = ListExpression.GetExpressionType() as Collection;
+                if (targetListType != null)
+                {
+                    if (Value != null)
+                    {
+                        Type elementType = Value.GetExpressionType();
+                        if (elementType != targetListType.Type)
+                        {
+                            Root.AddError("Inserted element type does not corresponds to list type");
+                        }
+                    }
+
+                    if (ReplaceElement != null)
+                    {
+                        ReplaceElement.CheckExpression();
+
+                        Type replaceElementType = ReplaceElement.GetExpressionType();
+                        if (replaceElementType != null)
+                        {
+                            if (targetListType.Type != null)
+                            {
+                                if (replaceElementType != targetListType.Type)
+                                {
+                                    Root.AddError("The replace element type (" + replaceElementType.FullName +
+                                                  ") does not correspond to the list type (" +
+                                                  targetListType.Type.FullName +
+                                                  ")");
+                                }
+                            }
+                            else
+                            {
+                                Root.AddError("Cannot determine list element's type for " + targetListType.FullName);
+                            }
+                        }
+                        else
+                        {
+                            Root.AddError("Cannot determine replacement element type");
+                        }
+                    }
+                }
+                else
+                {
+                    Root.AddError("Cannot determine collection type of " + ListExpression);
                 }
             }
             else
             {
                 Root.AddError("List should be specified");
             }
+
 
             if (Value != null)
             {
@@ -154,47 +199,6 @@ namespace DataDictionary.Interpreter.Statement
             else
             {
                 Root.AddError("Value should be specified");
-            }
-
-            Collection targetListType = ListExpression.GetExpressionType() as Collection;
-            if (targetListType != null)
-            {
-                Type elementType = Value.GetExpressionType();
-                if (elementType != targetListType.Type)
-                {
-                    Root.AddError("Inserted element type does not corresponds to list type");
-                }
-            }
-            else
-            {
-                Root.AddError("Cannot determine collection type of " + ListExpression);
-            }
-
-            if (ReplaceElement != null)
-            {
-                ReplaceElement.CheckExpression();
-
-                Type replaceElementType = ReplaceElement.GetExpressionType();
-                if (replaceElementType != null)
-                {
-                    if (targetListType.Type != null)
-                    {
-                        if (replaceElementType != targetListType.Type)
-                        {
-                            Root.AddError("The replace element type (" + replaceElementType.FullName +
-                                          ") does not correspond to the list type (" + targetListType.Type.FullName +
-                                          ")");
-                        }
-                    }
-                    else
-                    {
-                        Root.AddError("Cannot determine list element's type for " + targetListType.FullName);
-                    }
-                }
-                else
-                {
-                    Root.AddError("Cannot determine replacement element type");
-                }
             }
         }
 
@@ -209,6 +213,9 @@ namespace DataDictionary.Interpreter.Statement
         public override void GetChanges(InterpretationContext context, ChangeList changes, ExplanationPart explanation,
             bool apply, Runner runner)
         {
+            // Explain what happens in this statement
+            explanation = ExplanationPart.CreateSubExplanation(explanation, this);
+
             IVariable variable = ListExpression.GetVariable(context);
             if (variable != null)
             {
@@ -218,6 +225,8 @@ namespace DataDictionary.Interpreter.Statement
                 variable.Value = listValue;
                 if (listValue != null)
                 {
+                    ExplanationPart.CreateSubExplanation(explanation, "Input data = ", listValue);
+
                     IValue value = Value.GetExpressionValue(context, explanation);
                     if (value != null)
                     {
@@ -227,6 +236,7 @@ namespace DataDictionary.Interpreter.Statement
                             int index = newListValue.Val.IndexOf(EFSSystem.EmptyValue);
                             if (index >= 0)
                             {
+                                ExplanationPart.CreateSubExplanation(explanation, "Inserting", value);
                                 newListValue.Val[index] = value;
                             }
                             else
@@ -235,9 +245,11 @@ namespace DataDictionary.Interpreter.Statement
                                 if (ReplaceElement != null)
                                 {
                                     IValue removeValue = ReplaceElement.GetExpressionValue(context, explanation);
+                                    ExplanationPart.CreateSubExplanation(explanation, "Replaced element", removeValue);
                                     index = newListValue.Val.IndexOf(removeValue);
                                     if (index >= 0)
                                     {
+                                        ExplanationPart.CreateSubExplanation(explanation, "Replacing", value);
                                         newListValue.Val[index] = value.RightSide(variable, true, true);
                                     }
                                     else
@@ -257,22 +269,22 @@ namespace DataDictionary.Interpreter.Statement
                         }
                         else
                         {
-                            AddError("Value " + value.LiteralName + " already present in list. It has not been added");
+                            ExplanationPart.CreateSubExplanation(explanation, "NOT added : Already present in collection", value);
                         }
                     }
                     else
                     {
-                        Root.AddError("Cannot find value for " + Value.ToString());
+                        Root.AddError("Cannot find value for " + Value);
                     }
                 }
                 else
                 {
-                    Root.AddError("Variable " + ListExpression.ToString() + " does not contain a list value");
+                    Root.AddError("Variable " + ListExpression + " does not contain a list value");
                 }
             }
             else
             {
-                Root.AddError("Cannot find variable for " + ListExpression.ToString());
+                Root.AddError("Cannot find variable for " + ListExpression);
             }
         }
 

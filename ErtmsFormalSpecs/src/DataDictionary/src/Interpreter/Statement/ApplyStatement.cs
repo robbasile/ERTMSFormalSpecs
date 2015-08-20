@@ -54,8 +54,10 @@ namespace DataDictionary.Interpreter.Statement
         ///     Constructor
         /// </summary>
         /// <param name="root">The root element for which this element is built</param>
-        /// <param name="call">The corresponding function call designator</param>
-        /// <param name="parameters">The expressions used to compute the parameters</param>
+        /// <param name="log"></param>
+        /// <param name="appliedStatement">The statement to be applied when the condition is satisfied</param>
+        /// <param name="listExpression">The list to work on</param>
+        /// <param name="conditionExpression">The condition to apply on the list elements</param>
         /// <param name="start">The start character for this expression in the original string</param>
         /// <param name="end">The end character for this expression in the original string</param>
         public ApplyStatement(ModelElement root, ModelElement log, Statement appliedStatement, Expression listExpression,
@@ -110,7 +112,7 @@ namespace DataDictionary.Interpreter.Statement
         /// </summary>
         /// <param name="instance">the reference instance on which this element should analysed</param>
         /// <returns>True if semantic analysis should be continued</returns>
-        public override bool SemanticAnalysis(INamable instance)
+        public override bool SemanticAnalysis(INamable instance = null)
         {
             bool retVal = base.SemanticAnalysis(instance);
 
@@ -211,13 +213,15 @@ namespace DataDictionary.Interpreter.Statement
         /// <param name="context"></param>
         /// <param name="explain"></param>
         /// <returns></returns>
-        public bool conditionSatisfied(InterpretationContext context, ExplanationPart explain)
+        public bool ConditionSatisfied(InterpretationContext context, ExplanationPart explain)
         {
             bool retVal = true;
 
             if (ConditionExpression != null)
             {
                 BoolValue b = ConditionExpression.GetExpressionValue(context, explain) as BoolValue;
+                ExplanationPart.CreateSubExplanation(explain, ConditionExpression, b); 
+                
                 if (b == null)
                 {
                     retVal = false;
@@ -242,6 +246,9 @@ namespace DataDictionary.Interpreter.Statement
         public override void GetChanges(InterpretationContext context, ChangeList changes, ExplanationPart explanation,
             bool apply, Runner runner)
         {
+            // Explain what happens in this statement
+            explanation = ExplanationPart.CreateSubExplanation(explanation, this);
+
             IVariable variable = ListExpression.GetVariable(context);
             if (variable != null)
             {
@@ -251,6 +258,8 @@ namespace DataDictionary.Interpreter.Statement
                     // and keep the result of the right side operation
                     ListValue listValue = variable.Value.RightSide(variable, false, false) as ListValue;
                     variable.Value = listValue;
+
+                    ExplanationPart.CreateSubExplanation(explanation, "Input data = ", listValue);
                     if (listValue != null)
                     {
                         int token = context.LocalScope.PushContext();
@@ -263,13 +272,14 @@ namespace DataDictionary.Interpreter.Statement
                             {
                                 elementFound = true;
                                 IteratorVariable.Value = value;
-                                if (conditionSatisfied(context, explanation))
+                                if (ConditionSatisfied(context, explanation))
                                 {
                                     matchingElementFound = true;
                                     AppliedStatement.GetChanges(context, changes, explanation, apply, runner);
                                 }
                             }
                         }
+
                         if (!elementFound)
                         {
                             ExplanationPart.CreateSubExplanation(explanation, "Empty collection");
@@ -278,6 +288,7 @@ namespace DataDictionary.Interpreter.Statement
                         {
                             ExplanationPart.CreateSubExplanation(explanation, "No matching element found");
                         }
+
                         context.LocalScope.PopContext(token);
                     }
                     else
@@ -288,7 +299,7 @@ namespace DataDictionary.Interpreter.Statement
             }
             else
             {
-                Root.AddError("Cannot find variable for " + ListExpression.ToString());
+                Root.AddError("Cannot find variable for " + ListExpression);
             }
         }
 
