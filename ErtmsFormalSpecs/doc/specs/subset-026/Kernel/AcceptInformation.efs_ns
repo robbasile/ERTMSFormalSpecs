@@ -2976,5 +2976,103 @@
 >Source != AcceptInformation.Source.RBC</PreCondition></PreConditions>
 <Expression>LevelRules.AcceptVirtualBaliseCoverOrder() AND ModeRules.AcceptVirtualBaliseCoverOrder()</Expression>
 </Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="220"
+ Y="300"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="LSSMADisplayToggleOnOrder"
+ Guid="6e547d94-fbd4-414d-820a-ae07fc38dfb6"
+>
+<ReqRef
+ Id="de2486ab-79a0-4f38-84e7-cc4ec46c8c32"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="812192e6-70f2-4c77-bd00-7ee69409481a"
+>
+</ReqRef><ReqRef
+ Id="a8171092-6c88-4ed8-a684-a440c47451ec"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ebd4f0c2-51f6-4b87-91f9-d880866bc4d0"
+>
+</ReqRef><ReqRef
+ Id="92e6202a-171a-4865-9097-38dc4a7d457c"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="09951880-de31-435b-ac8c-4429693d885b"
+>
+</ReqRef><Parameters>
+<Parameter
+ Type="AcceptInformation.Source"
+ Name="Source"
+ Guid="9cb93e8f-22e4-4015-bc7f-2543eb63e94f"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="From RBC"
+ Guid="19f0b16c-cc73-4e4d-ad53-b043da55867b"
+>
+<PreConditions>
+<PreCondition
+ Guid="9391d7eb-67ce-4e87-b1d3-359f49d7ff19"
+>Source == AcceptInformation.Source.RBC</PreCondition></PreConditions>
+<Expression>LevelRules.AcceptLSSMAToggleOnOrderFromRBC() AND ModeRules.AcceptLSSMAToggleOnOrder()</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="737cf01d-79d3-4a28-9bfa-a82b5892f784"
+>
+<Expression>LevelRules.AcceptLSSMAToggleOnOrder() AND ModeRules.AcceptLSSMAToggleOnOrder()</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="220"
+ Y="300"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="LSSMADisplayToggleOffOrder"
+ Guid="5627ab12-9924-4368-a10b-9523c72901f9"
+>
+<ReqRef
+ Id="a614f8fd-3578-4176-9c48-5a32a54826b1"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ba588090-b04e-4a93-a39b-01e88ed27672"
+>
+</ReqRef><ReqRef
+ Id="4abfc20f-bf9f-4151-ac0a-38da0386d674"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9f71fadb-da08-4b5e-817f-d73d972f0e5e"
+>
+</ReqRef><ReqRef
+ Id="3020fb7b-87cb-49b5-8f58-1bb11bb7cc5a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="bbfa44eb-146c-4e34-ad46-51993a6b1584"
+>
+</ReqRef><Parameters>
+<Parameter
+ Type="AcceptInformation.Source"
+ Name="Source"
+ Guid="d918e2f4-a401-44be-9b2e-c6601200c5f8"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="From RBC"
+ Guid="4ecfdbee-d71c-4cad-9e0a-25f3fea79287"
+>
+<PreConditions>
+<PreCondition
+ Guid="78d831b3-c333-45dd-bd47-df85fbb0792d"
+>Source == AcceptInformation.Source.RBC</PreCondition></PreConditions>
+<Expression>LevelRules.AcceptLSSMAToggleOffOrderFromRBC() AND ModeRules.AcceptLSSMAToggleOffOrder()</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="170cc34e-653c-48f7-bed8-81e2aa416321"
+>
+<Expression>LevelRules.AcceptLSSMAToggleOffOrder() AND ModeRules.AcceptLSSMAToggleOffOrder()</Expression>
+</Case></Cases>
 </Function></Functions>
 </NameSpace>

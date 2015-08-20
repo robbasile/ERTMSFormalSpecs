@@ -3065,6 +3065,7 @@ True</PreCondition></PreConditions>
  Guid="50f67d89-da94-4bb0-b44b-2f9d06b85685"
 >Kernel.VirtualBaliseCover.VBCReceivedFromBalise( Packet.TRACK_TO_TRAIN.VIRTUAL_BALISE_COVER_ORDER )</Action></Actions>
 </RuleCondition><RuleCondition
+ Implemented="TRUE"
  Name="LSSMA available"
  Guid="693073bb-3954-46f2-a554-5ac6a8f876d7"
 >
@@ -3072,7 +3073,19 @@ True</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="6849aabe-b0ac-4fbc-8d10-a3200c6580e6"
->ConsiderPacket ( PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.LSSMA_DISPLAY_TOGGLE_ORDER.Q_DIR )</PreCondition></PreConditions>
+>ConsiderPacket ( PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.LSSMA_DISPLAY_TOGGLE_ORDER.Q_DIR )</PreCondition><PreCondition
+ Guid="7efc1a9f-9602-44bc-9569-71ebb28a94ac"
+>(
+  Kernel.AcceptInformation.LSSMADisplayToggleOffOrder( Source =&gt; Kernel.AcceptInformation.Source.BaliseGroup )
+    AND
+  Packet.TRACK_TO_TRAIN.LSSMA_DISPLAY_TOGGLE_ORDER.Q_LSSMA == Messages.Q_LSSMA.Toggle_off
+)
+  OR
+(
+  Kernel.AcceptInformation.LSSMADisplayToggleOnOrder( Source =&gt; Kernel.AcceptInformation.Source.BaliseGroup )
+    AND
+  Packet.TRACK_TO_TRAIN.LSSMA_DISPLAY_TOGGLE_ORDER.Q_LSSMA == Messages.Q_LSSMA.Toggle_on
+)</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="004ed3f5-351e-4130-868e-a4960e2b944e"
