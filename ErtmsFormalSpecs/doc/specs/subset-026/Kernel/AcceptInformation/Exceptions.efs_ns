@@ -384,6 +384,7 @@ LevelTransition.LevelTransitionToProcess.TRLevel.Value == Level.L1</Expression>
  Y="60"
  Width="100"
  Height="50"
+ Implemented="TRUE"
  Name="LevelException8"
  Guid="9e10795a-8de1-416b-a670-960fa2f9eda0"
 >
@@ -392,12 +393,26 @@ LevelTransition.LevelTransitionToProcess.TRLevel.Value == Level.L1</Expression>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="bb9d111a-0f08-4815-87e8-4c3c8542e975"
 >
-</ReqRef><Cases>
+</ReqRef><ReqRef
+ Id="87dd7c45-e09f-45b0-bf02-3b3be8f029ac"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6482b83b-042e-436c-b46a-44ee21a7226d"
+>
+</ReqRef><Parameters>
+<Parameter
+ Type="Messages.NID_TSR"
+ Name="NID_TSR"
+ Guid="5f8bf4f6-ddc3-46ee-8e22-0b288327cd8d"
+>
+</Parameter></Parameters>
+<Cases>
 <Case
  Name="Value"
  Guid="cd684517-b09a-48db-a875-9875a9ee9062"
 >
-<Expression>False</Expression>
+<Expression>NOT TSR.InhibitRevocableTSRsFromBalises
+  OR
+NID_TSR == Messages.NID_TSR.Non_revocable_speed_restriction__applicable_for_all_transmission_media</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"

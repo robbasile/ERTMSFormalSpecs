@@ -288,7 +288,7 @@ INITIAL_VALUE BaseTypes.MaxSpeedFunction) (Distance)</Expression>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="a1d03220-b8d7-4018-9cb5-363f55704b62"
 >
-</ReqRef><Comment>Removes the specified temporary speed restrictions from the list monitored by the EVC</Comment>
+</ReqRef><Comment>Removes the specified temporary speed restrictions from the list monitored by the EVC.</Comment>
 <Parameters>
 <Parameter
  Type="Messages.PACKET.TRACK_TO_TRAIN.TEMPORARY_SPEED_RESTRICTION_REVOCATION.Message"
@@ -345,7 +345,7 @@ INITIAL_VALUE BaseTypes.MaxSpeedFunction) (Distance)</Expression>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="99c4878e-3131-4643-813e-5251c1bb6d38"
 >
-</ReqRef><Comment>Adds the temporary speed restrictions received to the list monitored by the EVC</Comment>
+</ReqRef><Comment>Adds the temporary speed restrictions received to the list monitored by the EVC.</Comment>
 <Parameters>
 <Parameter
  Type="Messages.PACKET.TRACK_TO_TRAIN.TEMPORARY_SPEED_RESTRICTION.Message"
@@ -441,9 +441,7 @@ INITIAL_VALUE BaseTypes.MaxSpeedFunction) (Distance)</Expression>
 >
 </ReqRef><Comment>There is no restriction with this ID in the list</Comment>
 <PreConditions>
-<PreCondition
- Guid="c916931f-09a9-4b0d-926c-1a6c697029bd"
->NOT InhibitRevocableTSRsFromBalises</PreCondition></PreConditions>
+</PreConditions>
 <Actions>
 <Action
  Guid="f094bc0f-7070-4318-a782-45b27a7ee26d"
@@ -459,6 +457,54 @@ INITIAL_VALUE BaseTypes.MaxSpeedFunction) (Distance)</Expression>
     Speed =&gt; MessageTypes.SpeedResolution ( speed =&gt; Packet.V_TSR, resolution =&gt; 5.0 )
 }
 IN TSRs</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="240"
+ Y="220"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="InhibitionOfRevocableTSRsReceived"
+ Guid="f8c5b7be-9017-473e-9dcf-395e117d1c84"
+>
+<ReqRef
+ Id="2d7160e1-6d9e-4cea-8b40-4d95ae0a8098"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="dbca2dd1-f4de-4b27-8b56-4e6b4d9d34f8"
+>
+</ReqRef><ReqRef
+ Id="87dd7c45-e09f-45b0-bf02-3b3be8f029ac"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="7acd2453-29bb-4439-b550-4f4de651e466"
+>
+</ReqRef><Comment>Stores the order to inhibit revocable TSRs received from the RBC.</Comment>
+<Parameters>
+<Parameter
+ Type="Messages.PACKET.TRACK_TO_TRAIN.INHIBITION_OF_REVOCABLE_TSRS_FROM_BALISES_IN_L2_3.Message"
+ Name="Packet"
+ Guid="17221679-f257-4f42-9db3-1ec364dec917"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Implemented="TRUE"
+ Name="Store inhibition order"
+ Guid="9fe61936-e406-4385-b8f5-4caddb84e110"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Store inhibition order"
+ Guid="2a395af8-7a33-45ac-8c95-19a65e255b92"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="2f0ec572-0a9d-4201-9e6e-941893eca202"
+>InhibitRevocableTSRsFromBalises &lt;- True</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
@@ -495,8 +541,8 @@ IN TSRs</Action></Actions>
  Type="Boolean"
  DefaultValue="False"
  VariableMode="Internal"
- X="1"
- Y="61"
+ X="20"
+ Y="300"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -508,6 +554,58 @@ IN TSRs</Action></Actions>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="2ca66bdb-fe26-4f53-af88-d76b7719fcee"
 >
+</ReqRef><ReqRef
+ Id="2d7160e1-6d9e-4cea-8b40-4d95ae0a8098"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a618efa2-bd3d-4821-8639-1d946ec80d23"
+>
+</ReqRef><ReqRef
+ Id="87dd7c45-e09f-45b0-bf02-3b3be8f029ac"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d69ae1fd-cdb7-455a-b56d-3bca3cccb178"
+>
 </ReqRef><Comment>Implements the Inhibition of revocable TSRs from balises in the table from section 4.10</Comment>
 </Variable></Variables>
+<Rules>
+<Rule
+ X="1"
+ Y="61"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="Delete inhibition of revocable TSRs"
+ Guid="34763ef5-c63b-42c4-bc06-1521d9a5f54c"
+>
+<ReqRef
+ Id="0a021632-738e-4d38-b4c7-d5c92d4902e8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="eca2fbb5-9dca-4298-a8da-6986449148cd"
+>
+</ReqRef><ReqRef
+ Id="13115b61-e6b3-4fe0-b7f6-2f34be58b032"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="52146ce6-36cd-4dc2-9153-699d1249b079"
+>
+</ReqRef><Comment>If the RBC/RBC border is passed in case of RBC/RBC handover, the inhibition of revocable TSRs is deleted.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Delete inhibition of revocable TSRs"
+ Guid="c5f1a66d-2fc6-4ce4-b288-6a30d17d90fc"
+>
+<PreConditions>
+<PreCondition
+ Guid="0ce0c637-4925-42c7-ba92-a6ec6c4aa031"
+>EURORADIO.PositionReport.RBCTransitionLocation != BaseTypes.Distance.Unknown</PreCondition><PreCondition
+ Guid="b4da2d0a-93a2-4ec1-a494-0f1cba98ea39"
+>EURORADIO.PositionReport.RBCTransitionLocation &gt;= TrainPosition.FrontEndPosition( PointOfInterest =&gt; DistanceInterval.Nom )</PreCondition><PreCondition
+ Guid="60719c6d-30e0-4836-9b3a-4a066bb234b9"
+>InhibitRevocableTSRsFromBalises</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="a6b02a49-eef5-438e-8204-e23a03cb9761"
+>InhibitRevocableTSRsFromBalises &lt;- Boolean.False</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
 </NameSpace>

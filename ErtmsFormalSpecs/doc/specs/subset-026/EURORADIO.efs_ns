@@ -2928,7 +2928,17 @@ NOT IncomingMessageIsConsistent(MessageIn)</PreCondition></PreConditions>
  Name="Enter action"
  Guid="271c51cc-18ce-49bb-b003-3de4dccf8b16"
 >
-<Comment>In the state changed to inactive, that means that the connection requests will not be sent anymore =&gt; delete the contact order.</Comment>
+<ReqRef
+ Id="0a021632-738e-4d38-b4c7-d5c92d4902e8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="5530e905-9f89-448c-92ca-c5cbca43007e"
+>
+</ReqRef><ReqRef
+ Id="1e7ebadd-3736-475e-ba7d-9cfd13ab8185"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e0a83e4c-936a-49a3-8d1d-0a0a3a37640d"
+>
+</ReqRef><Comment>In the state changed to inactive, that means that the connection requests will not be sent anymore =&gt; delete the contact order.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
@@ -2943,7 +2953,9 @@ NOT IncomingMessageIsConsistent(MessageIn)</PreCondition></PreConditions>
  Guid="7a74fbe9-dfd5-4afd-ac65-a26da4458a42"
 >ContactRBCOrder &lt;- EMPTY</Action><Action
  Guid="458f058a-f36c-4a00-8209-e4108d1c9c5e"
->SessionManagementData.ConnectionIsEstablished &lt;- False</Action></Actions>
+>SessionManagementData.ConnectionIsEstablished &lt;- False</Action><Action
+ Guid="aa9f10ab-2443-4f84-8d5c-32297559c8ab"
+>Kernel.TSR.InhibitRevocableTSRsFromBalises &lt;- False</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></EnterAction>
 </State><State
@@ -5604,8 +5616,8 @@ After that, if an order to contact an Accepting RBC was received, it will be han
 <Function
  Type="Boolean"
  Default=""
- X="111"
- Y="241"
+ X="550"
+ Y="720"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -5764,8 +5776,8 @@ Terminal2 != EMPTY</Expression>
 </Function><Function
  Type="Boolean"
  Default=""
- X="111"
- Y="301"
+ X="0"
+ Y="660"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -5974,8 +5986,8 @@ It can only return false if there is no open session or if the last known RBC ha
 </Function><Function
  Type="Boolean"
  Default=""
- X="221"
- Y="301"
+ X="0"
+ Y="720"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -6234,8 +6246,8 @@ anRBC.ContactRBCOrder.ActionToPerform == ContactActionEnum.Establish</PreConditi
 </Function><Function
  Type="RBCStruct"
  Default=""
- X="111"
- Y="481"
+ X="660"
+ Y="660"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -7390,8 +7402,8 @@ Terminal1.RBCConnection.SafeRadioConnectionStatus == SafeRadioConnectionStatusEn
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
- X="221"
- Y="481"
+ X="0"
+ Y="780"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -10106,6 +10118,35 @@ But at the end of the cycle the conditions required for sending of position repo
 )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
+ Implemented="TRUE"
+ Name="Inhibition of revocable TSRs available"
+ Guid="af690be3-ef6e-4ea9-8205-18f02935969f"
+>
+<ReqRef
+ Id="2d7160e1-6d9e-4cea-8b40-4d95ae0a8098"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9f384b68-104e-4fb6-902b-d3885fbd50c1"
+>
+</ReqRef><Comment>Handles reception of inhibition of revocable TSRs.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Inhibition of revocable TSRs available"
+ Guid="56131adf-96b9-4baa-a67e-e37203b207b9"
+>
+<PreConditions>
+<PreCondition
+ Guid="25bdf9ab-95af-4a6b-a732-5e577ae9f7d2"
+>THERE_IS X IN Packets | Available ( X.INHIBITION_OF_REVOCABLE_TSRS_FROM_BALISES_IN_L2_3 )</PreCondition><PreCondition
+ Guid="469f986d-0273-4b34-9d73-fdae2eedfd13"
+>Kernel.AcceptInformation.InhibitionOfRevocableTSRs( Source =&gt; Kernel.AcceptInformation.Source.RBC )</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="b8f22304-7266-46ae-a07a-d84a1cdb070d"
+>Kernel.TSR.InhibitionOfRevocableTSRsReceived (Packet =&gt; ( FIRST X IN Packets | Available ( X.ROUTE_SUITABILITY_DATA ) ).INHIBITION_OF_REVOCABLE_TSRS_FROM_BALISES_IN_L2_3 )</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
  Priority="Processing"
  Implemented="TRUE"
  Name="Route suitability data available"
@@ -10334,8 +10375,8 @@ But at the end of the cycle the conditions required for sending of position repo
  Type="BaseTypes.Time"
  DefaultValue="15.0"
  VariableMode="Constant"
- X="1090"
- Y="430"
+ X="1220"
+ Y="310"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -10352,8 +10393,8 @@ But at the end of the cycle the conditions required for sending of position repo
  Type="Integer"
  DefaultValue="3"
  VariableMode="Constant"
- X="970"
- Y="540"
+ X="980"
+ Y="310"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -10416,8 +10457,8 @@ But at the end of the cycle the conditions required for sending of position repo
  Type="String"
  DefaultValue="&apos;&apos;"
  VariableMode="Internal"
- X="970"
- Y="310"
+ X="850"
+ Y="430"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -10545,8 +10586,8 @@ But at the end of the cycle the conditions required for sending of position repo
  Type="String"
  DefaultValue="&apos;&apos;"
  VariableMode="Internal"
- X="1090"
- Y="310"
+ X="1220"
+ Y="430"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -10591,8 +10632,8 @@ But at the end of the cycle the conditions required for sending of position repo
  Type="BaseTypes.Time"
  DefaultValue="300.0"
  VariableMode="Constant"
- X="970"
- Y="430"
+ X="1100"
+ Y="310"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -10614,8 +10655,8 @@ But at the end of the cycle the conditions required for sending of position repo
  Type="BaseTypes.Time"
  DefaultValue="45.0"
  VariableMode="Constant"
- X="850"
- Y="430"
+ X="970"
+ Y="190"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -10673,8 +10714,8 @@ But at the end of the cycle the conditions required for sending of position repo
  Type="Boolean"
  DefaultValue="False"
  VariableMode="Internal"
- X="1090"
- Y="540"
+ X="980"
+ Y="430"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -10691,8 +10732,8 @@ But at the end of the cycle the conditions required for sending of position repo
  Type="Boolean"
  DefaultValue=""
  VariableMode="Internal"
- X="970"
- Y="190"
+ X="1100"
+ Y="430"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -10714,8 +10755,8 @@ But at the end of the cycle the conditions required for sending of position repo
  Type="BaseTypes.Time"
  DefaultValue="60.0"
  VariableMode="Constant"
- X="850"
- Y="310"
+ X="1210"
+ Y="190"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -10745,8 +10786,8 @@ But at the end of the cycle the conditions required for sending of position repo
  Type="Integer"
  DefaultValue="3"
  VariableMode="Internal"
- X="111"
- Y="181"
+ X="980"
+ Y="540"
  Width="100"
  Height="50"
  Implemented="TRUE"

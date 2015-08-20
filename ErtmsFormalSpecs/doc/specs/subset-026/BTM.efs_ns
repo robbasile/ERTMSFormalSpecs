@@ -2542,7 +2542,11 @@ FORALL X IN Balise.Sequence1 |
  Guid="695bdf97-2135-4805-808a-b6281c1da123"
 >ConsiderPacket ( PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.TEMPORARY_SPEED_RESTRICTION.Q_DIR )</PreCondition><PreCondition
  Guid="f7f0dee3-8164-4d11-996e-7a7ec24af01f"
->Kernel.AcceptInformation.TemporarySpeedRestriction( Source =&gt; Kernel.AcceptInformation.Source.BaliseGroup )</PreCondition></PreConditions>
+>Kernel.AcceptInformation.TemporarySpeedRestriction
+(
+  Source =&gt; Kernel.AcceptInformation.Source.BaliseGroup,
+  NID_TSR =&gt; Packet.TRACK_TO_TRAIN.TEMPORARY_SPEED_RESTRICTION.NID_TSR
+)</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="c77c6a04-53bc-449e-b9d8-d1ccaa963ef5"
@@ -2568,7 +2572,7 @@ FORALL X IN Balise.Sequence1 |
  Guid="673297fe-8eba-443e-93e0-6cde374acf93"
 >ConsiderPacket ( PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.TEMPORARY_SPEED_RESTRICTION_REVOCATION.Q_DIR )</PreCondition><PreCondition
  Guid="4889cb99-67ac-476c-ac67-96baed35877f"
->Kernel.AcceptInformation.TemporarySpeedRestriction( Source =&gt; Kernel.AcceptInformation.Source.BaliseGroup )</PreCondition></PreConditions>
+>Kernel.AcceptInformation.TemporarySpeedRestrictionRevocation( Source =&gt; Kernel.AcceptInformation.Source.BaliseGroup )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="e619da6c-cc31-4f62-be09-57e9632df39f"
