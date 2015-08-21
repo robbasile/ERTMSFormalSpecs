@@ -360,7 +360,7 @@ namespace GUI.IPCInterface
                                     Runner.ExecuteOnePriority(convertStep2Priority(LastStep));
                                     if (LastStep == Step.CleanUp)
                                     {
-                                        EFSSystem.INSTANCE.Context.HandleChangeEvent(null, Context.ChangeKind.EndOfCycle);
+                                        EFSSystem.INSTANCE.Context.HandleEndOfCycle();
                                         ClearFunctionCaches();
                                     }
                                 });

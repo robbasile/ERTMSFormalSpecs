@@ -410,7 +410,7 @@ namespace GUI.TestRunnerView
                 ExecuteTestsHandler executeTestHandler = new ExecuteTestsHandler(window, Item, false);
                 executeTestHandler.ExecuteUsingProgressDialog("Executing test steps");
 
-                EFSSystem.INSTANCE.Context.HandleChangeEvent(null);
+                EFSSystem.INSTANCE.Context.HandleEndOfCycle();
                 window.tabControl1.SelectedTab = window.testExecutionTabPage;
             }
         }
@@ -430,7 +430,7 @@ namespace GUI.TestRunnerView
                 ExecuteTestsHandler executeTestHandler = new ExecuteTestsHandler(window, Item, false);
                 executeTestHandler.ExecuteUsingProgressDialog("Executing test steps");
 
-                EFSSystem.INSTANCE.Context.HandleChangeEvent(null);
+                EFSSystem.INSTANCE.Context.HandleEndOfCycle();
                 window.tabControl1.SelectedTab = window.testExecutionTabPage;
             }
         }

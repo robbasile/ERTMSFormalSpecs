@@ -204,7 +204,7 @@ namespace GUI.TestRunnerView
             ProgressDialog dialog = new ProgressDialog("Executing test steps", executeTestsHandler);
             dialog.ShowDialog();
 
-            EFSSystem.INSTANCE.Context.HandleChangeEvent(null);
+            EFSSystem.INSTANCE.Context.HandleEndOfCycle();
         }
 
         #endregion

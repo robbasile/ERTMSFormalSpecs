@@ -264,7 +264,7 @@ namespace GUI.TestRunnerView
                 if (EfsSystem.Runner != null)
                 {
                     EfsSystem.Runner.RunUntilTime(EfsSystem.Runner.Time + EfsSystem.Runner.Step);
-                    EFSSystem.INSTANCE.Context.HandleChangeEvent(null, Context.ChangeKind.EndOfCycle);
+                    EFSSystem.INSTANCE.Context.HandleEndOfCycle();
                 }
             });
         }
@@ -283,7 +283,7 @@ namespace GUI.TestRunnerView
                 EfsSystem.Runner = null;
             }
             Clear();
-            EFSSystem.INSTANCE.Context.HandleChangeEvent(null, Context.ChangeKind.EndOfCycle);
+            EFSSystem.INSTANCE.Context.HandleEndOfCycle();
             tabControl1.SelectedTab = testExecutionTabPage;
         }
 
@@ -327,7 +327,7 @@ namespace GUI.TestRunnerView
             if (EfsSystem.Runner != null)
             {
                 EfsSystem.Runner.StepBack();
-                EFSSystem.INSTANCE.Context.HandleChangeEvent(null, Context.ChangeKind.EndOfCycle);
+                EFSSystem.INSTANCE.Context.HandleEndOfCycle();
             }
         }
 
@@ -335,7 +335,7 @@ namespace GUI.TestRunnerView
         {
             Runner runner = EfsSystem.Runner;
             if (runner != null &&
-                (runner.SubSequence == null || runner.SubSequence.Name.CompareTo(subSequenceSelectorComboBox.Text) != 0))
+                (runner.SubSequence == null || !runner.SubSequence.Name.Equals(subSequenceSelectorComboBox.Text)))
             {
                 EfsSystem.Runner = null;
             }
@@ -365,6 +365,11 @@ namespace GUI.TestRunnerView
             if (testExecutionTimeLineControl.ShouldDisplayModelElement(modelElement))
             {
                 testExecutionTimeLineControl.Refresh();
+            }
+
+            if (changeKind == Context.ChangeKind.EndOfCycle)
+            {
+                tabControl1.SelectedTab = testExecutionTabPage;                
             }
 
             return retVal;

@@ -20,6 +20,7 @@ using DataDictionary;
 using DataDictionary.Constants;
 using DataDictionary.Types;
 using DataDictionary.Variables;
+using GUI.BoxArrowDiagram;
 using GUI.Properties;
 using Utils;
 
@@ -101,14 +102,12 @@ namespace GUI.DataDictionaryView
             {
                 if ((context.Sender == modelDiagramPanel) || (context.Sender == stateDiagramPanel))
                 {
-                    if ((context.Criteria & Context.SelectionCriteria.DoubleClick) != 0)
-                    {
-                        UpdateModelView(context);
-                    }
+                    bool rebuildRightPart = (context.Criteria & Context.SelectionCriteria.DoubleClick) != 0;
+                    UpdateModelView(context, rebuildRightPart);
                 }
                 else
                 {
-                    UpdateModelView(context);
+                    UpdateModelView(context, true);
                 }
             }
 
@@ -119,9 +118,61 @@ namespace GUI.DataDictionaryView
         ///     Updates the model view, according to the element selected in the context
         /// </summary>
         /// <param name="context"></param>
-        private void UpdateModelView(Context.SelectionContext context)
+        /// <param name="rebuildRightPart">Indicates that the right part should be rebuilt</param>
+        private void UpdateModelView(Context.SelectionContext context, bool rebuildRightPart)
+        {
+            StateMachine stateMachine = GetStateMachine(context);
+
+            if (stateMachine != null)
+            {
+                if (rebuildRightPart)
+                {
+                    IVariable variable = context.Element as IVariable;
+                    modelDiagramPanel.Visible = false;
+                    if (variable != null)
+                    {
+                        stateDiagramPanel.SetStateMachine(variable);
+                    }
+                    else
+                    {
+                        stateDiagramPanel.Model = stateMachine;
+                    }
+                    stateDiagramPanel.Visible = true;
+                    stateDiagramPanel.RefreshControl();
+                }
+                stateDiagramPanel.SelectModel(context.Element);
+            }
+            else
+            {
+                IModelElement model = GetModelElement(context);
+                if (model != null)
+                {
+                    if (rebuildRightPart)
+                    {
+                        stateDiagramPanel.Visible = false;
+                        modelDiagramPanel.Model = model;
+                        modelDiagramPanel.Visible = true;
+                        modelDiagramPanel.RefreshControl();
+                    }
+                    modelDiagramPanel.SelectModel(context.Element);
+                }
+            }
+        }
+
+        private static IModelElement GetModelElement(Context.SelectionContext context)
+        {
+            IModelElement model = EnclosingFinder<NameSpace>.find(context.Element, true);
+            if (model == null)
+            {
+                model = EnclosingFinder<Dictionary>.find(context.Element, true);
+            }
+            return model;
+        }
+
+        private static StateMachine GetStateMachine(Context.SelectionContext context)
         {
             StateMachine stateMachine;
+
             State state = EnclosingFinder<State>.find(context.Element, true);
             if (state != null && state.StateMachine.countStates() > 0)
             {
@@ -138,36 +189,7 @@ namespace GUI.DataDictionaryView
                 stateMachine = variable.Type as StateMachine;
             }
 
-            if (stateMachine != null)
-            {
-                modelDiagramPanel.Visible = false;
-                if (variable != null)
-                {
-                    stateDiagramPanel.SetStateMachine(variable);
-                }
-                else
-                {
-                    stateDiagramPanel.Model = stateMachine;
-                }
-                stateDiagramPanel.Visible = true;
-                stateDiagramPanel.RefreshControl();
-            }
-            else
-            {
-                IModelElement model = EnclosingFinder<NameSpace>.find(context.Element, true);
-                if (model == null)
-                {
-                    model = EnclosingFinder<Dictionary>.find(context.Element, true);
-                }
-
-                if (model != null)
-                {
-                    stateDiagramPanel.Visible = false;
-                    modelDiagramPanel.Model = model;
-                    modelDiagramPanel.Visible = true;
-                    modelDiagramPanel.RefreshControl();
-                }
-            }
+            return stateMachine;
         }
 
         /// <summary>

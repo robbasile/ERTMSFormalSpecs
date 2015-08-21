@@ -340,6 +340,14 @@ namespace DataDictionary
         }
 
         /// <summary>
+        /// Indicates that execution completes
+        /// </summary>
+        public void HandleEndOfCycle()
+        {
+            HandleChangeEvent(null, ChangeKind.EndOfCycle);
+        }
+
+        /// <summary>
         ///     The delegate used to handle the change of information message associaated to a model element
         /// </summary>
         /// <param name="modelElement"></param>

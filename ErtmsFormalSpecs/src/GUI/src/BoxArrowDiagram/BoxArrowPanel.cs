@@ -204,10 +204,16 @@ namespace GUI.BoxArrowDiagram
             }
         }
 
+        private GraphicElement _selected;
+
         /// <summary>
         ///     The selected object
         /// </summary>
-        public GraphicElement Selected { get; set; }
+        public GraphicElement Selected
+        {
+            get { return _selected; }
+            set { _selected = value; }
+        }
 
         /// <summary>
         ///     Method used to create a box
@@ -228,8 +234,7 @@ namespace GUI.BoxArrowDiagram
         /// </summary>
         /// <param name="location"></param>
         /// <returns></returns>
-        protected
-            GraphicElement ElementForLocation(Point location)
+        protected GraphicElement ElementForLocation(Point location)
         {
             GraphicElement retVal = ArrowForLocation(location);
 
@@ -599,6 +604,37 @@ namespace GUI.BoxArrowDiagram
             }
 
             return retVal;
+        }
+
+        /// <summary>
+        /// Gets the graphical element which corresponds to the model provided
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public GraphicElement GetControl(object model)
+        {
+            GraphicElement retVal = GetBoxControl(model as TBoxModel);
+
+            if (retVal == null)
+            {
+                retVal = GetArrowControl(model as TArrowModel);
+            }
+
+            return retVal;
+        }
+
+        /// <summary>
+        /// Selects the graphical element for the model provided
+        /// </summary>
+        /// <param name="model"></param>
+        public virtual void SelectModel(object model)
+        {
+            GraphicElement element = GetControl(model);
+            if (element != null)
+            {
+                Selected = element;
+                Refresh();
+            }
         }
 
         /// <summary>

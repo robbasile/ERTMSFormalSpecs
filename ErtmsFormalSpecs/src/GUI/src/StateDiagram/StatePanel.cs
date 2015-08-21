@@ -282,5 +282,19 @@ namespace GUI.StateDiagram
         {
             return new TransitionEditor(control);
         }
+
+        /// <summary>
+        /// Selects the graphical element for the model provided
+        /// </summary>
+        /// <param name="model"></param>
+        public override void SelectModel(object model)
+        {
+            State state = EnclosingFinder<State>.find(model as IModelElement, true);
+
+            if (state != null)
+            {
+                base.SelectModel(state);                
+            }
+        }
     }
 }

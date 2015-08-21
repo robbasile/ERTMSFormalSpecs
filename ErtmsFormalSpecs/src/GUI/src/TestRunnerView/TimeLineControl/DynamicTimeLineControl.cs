@@ -194,7 +194,10 @@ namespace GUI.TestRunnerView.TimeLineControl
 
             base.UpdatePositionHandler();
 
-            HorizontalScroll.Value = Math.Max(0, DrawArea.Size.Width - Size.Width);
+            int val = DrawArea.Size.Width - Size.Width;
+            val = Math.Max(HorizontalScroll.Minimum, val);
+            val = Math.Min(HorizontalScroll.Minimum, val);
+            HorizontalScroll.Value = Math.Max(0, val);
         }
     }
 }

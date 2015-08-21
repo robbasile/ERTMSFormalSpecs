@@ -276,7 +276,7 @@ namespace GUI.TestRunnerView
                     Resources.SubSequenceTreeNode_RunHandler_Execution_report);
             }
 
-            EFSSystem.INSTANCE.Context.HandleChangeEvent(null, Context.ChangeKind.EndOfCycle);
+            EFSSystem.INSTANCE.Context.HandleEndOfCycle();
         }
 
         #endregion
