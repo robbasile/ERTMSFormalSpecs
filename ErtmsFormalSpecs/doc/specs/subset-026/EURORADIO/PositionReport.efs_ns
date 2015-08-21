@@ -445,13 +445,20 @@
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="5357decc-14e6-459a-86b1-8c8348764169"
 >
+</ReqRef><ReqRef
+ Id="554b5b3f-67a0-4f6a-9954-b114beb1eae2"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="1861e5da-edc6-469b-85ce-af2f01c9161b"
+>
 </ReqRef><Comment>Indicates if a position report has to be sent due to communication session establishment.</Comment>
 <Cases>
 <Case
  Name="Value"
  Guid="38910f57-eaaa-45c2-8562-0f00ec822b4b"
 >
-<Expression>PositionReportEventsTracker.HasActiveSession != HasActiveSession()
+<Expression>Kernel.ActiveFunctions.ReportPosition_RBCEstablished()
+  AND
+PositionReportEventsTracker.HasActiveSession != HasActiveSession()
   AND
 HasActiveSession()</Expression>
 </Case></Cases>
@@ -506,7 +513,9 @@ HasActiveSession()</Expression>
  Name="Value"
  Guid="971ecd82-8414-41b3-b1b4-7dd8e9b80181"
 >
-<Expression>PositionReportEventsTracker.TrainIntegrityStatus != TIU.TrainIntegrity.Status
+<Expression>Kernel.ActiveFunctions.ReportPosition_LossOfTrainIntegrity()
+  AND
+PositionReportEventsTracker.TrainIntegrityStatus != TIU.TrainIntegrity.Status
   AND
 TIU.TrainIntegrity.Status == Messages.Q_LENGTH.Train_integrity_lost</Expression>
 </Case></Cases>
@@ -552,13 +561,20 @@ TIU.TrainIntegrity.Status == Messages.Q_LENGTH.Train_integrity_lost</Expression>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="958fd520-a5ed-42ef-8199-89ec5baa8467"
 >
+</ReqRef><ReqRef
+ Id="b20455fc-19b8-4a09-a69c-73c585d7f5c8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="2cb1abdb-d9ae-4d94-8ac9-5e383fb65f55"
+>
 </ReqRef><Comment>Indicates if a position report has to be sent due to the mode change.</Comment>
 <Cases>
 <Case
  Name="Value"
  Guid="5dceb123-fe06-4e6a-8ded-c6c2984cebe4"
 >
-<Expression>PositionReportEventsTracker.Mode != Kernel.Mode</Expression>
+<Expression>Kernel.ActiveFunctions.ReportPositionWhenModeChanges()
+  AND
+PositionReportEventsTracker.Mode != Kernel.Mode</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -648,13 +664,22 @@ TIU.TrainIntegrity.Status == Messages.Q_LENGTH.Train_integrity_lost</Expression>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="2690fd19-425e-42e0-a919-981196c4b422"
 >
+</ReqRef><ReqRef
+ Id="118fd0d0-1180-401c-8a1d-5582607a2c96"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="501e56d3-6195-40c6-88c4-5c94dec7c800"
+>
 </ReqRef><Comment>Indicates if a position report has to be sent due to standstill reached.</Comment>
 <Cases>
 <Case
  Name="Value"
  Guid="9067bdff-9b40-4532-9e37-c911b007f3db"
 >
-<Expression>PositionReportEventsTracker.Speed != Odometry.TrainSpeed() AND Odometry.TrainSpeed() == 0.0</Expression>
+<Expression>Kernel.ActiveFunctions.ReportPositionAtStandstill()
+  AND
+PositionReportEventsTracker.Speed != Odometry.TrainSpeed()
+  AND
+Odometry.TrainIsAtStandstill()</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -672,13 +697,20 @@ TIU.TrainIntegrity.Status == Messages.Q_LENGTH.Train_integrity_lost</Expression>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="bdf155da-5c71-4289-aebc-c341580be424"
 >
+</ReqRef><ReqRef
+ Id="6e703d5c-ef9b-46dc-a38a-635f876f61a4"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b0caf46f-6cf2-4c22-ad27-ac98ca7c785d"
+>
 </ReqRef><Comment>Indicates if a position report has to be sent due to train integrity confirmed by driver.</Comment>
 <Cases>
 <Case
  Name="Value"
  Guid="b4a5f2d7-356a-4eb5-b5c5-e979531e600f"
 >
-<Expression>PositionReportEventsTracker.TrainIntegrityStatus != TIU.TrainIntegrity.Status
+<Expression>Kernel.ActiveFunctions.ReportPosition_DriverConfirmedIntegrity()
+  AND
+PositionReportEventsTracker.TrainIntegrityStatus != TIU.TrainIntegrity.Status
   AND 
 TIU.TrainIntegrity.Status in [
   Messages.Q_LENGTH.Train_integrity_confirmed_by_driver,
@@ -1965,6 +1997,16 @@ ON
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="2dc9d0cd-2cc7-4fbe-a2f7-15a71cef9e1f"
 >
+</ReqRef><ReqRef
+ Id="1d33b0f5-c87d-4d19-912f-cd058e370e5a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="70e0c630-9585-4c4f-9b6d-4cac07be5a6d"
+>
+</ReqRef><ReqRef
+ Id="a01edd74-f4d3-4a07-8343-70da2d14f426"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="195b71a1-cdaf-43fb-abb5-f77feb96d127"
+>
 </ReqRef><Comment>During the RBC/RBC handover, the first position report has to be sent when the max safe front end of the train passes the transition border location.</Comment>
 <SubRules></SubRules>
 <Conditions>
@@ -1982,7 +2024,9 @@ Kernel.TrainPosition.FrontEndPosition ( PointOfInterest =&gt; DistanceInterval.M
  Guid="8ddbf2b5-1a20-4b70-abcd-734965454ea6"
 >RBCTransitionLocation != BaseTypes.Distance.Unknown</PreCondition><PreCondition
  Guid="9180eede-7378-46a7-8bf8-a4dc3cd4677c"
->Kernel.ActiveFunctions.ManageRBC_RBCHandover()</PreCondition></PreConditions>
+>Kernel.ActiveFunctions.ManageRBC_RBCHandover()</PreCondition><PreCondition
+ Guid="bf6d684f-be16-497f-820c-8e5022f7fa57"
+>Kernel.ActiveFunctions.ReportPosition_PassRBCBorder()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="daf467de-6386-457f-8555-9fbf8706549b"
@@ -2042,11 +2086,6 @@ Kernel.TrainPosition.FrontEndPosition ( PointOfInterest =&gt; DistanceInterval.M
  Id="e946be20-19a1-4857-a5d8-82474ef6d451"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="b3a211e2-b232-4280-ac7a-421a0e932e3f"
->
-</ReqRef><ReqRef
- Id="1d33b0f5-c87d-4d19-912f-cd058e370e5a"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="795b31f5-e45d-4ac9-9168-e875cd6e8835"
 >
 </ReqRef><ReqRef
  Id="dba00c16-82a7-40b8-b31c-2978dd6bbd82"
