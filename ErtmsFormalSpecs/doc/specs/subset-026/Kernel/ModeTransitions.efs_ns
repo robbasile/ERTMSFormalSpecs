@@ -2498,9 +2498,9 @@ DMI.MasterDMI().In_AcknOfLSMode.InputInformation.DriverAnswered</Expression>
  Name="Value"
  Guid="6d1267bb-2737-4321-af1f-b133b7477942"
 >
-<Expression>NOT (TrackDescription.StaticSpeedProfile.SSPStart() &lt;= TrainPosition.FrontEndPosition(DistanceInterval.Nom) )
+<Expression>TrackDescription.StaticSpeedProfile.SSPStart() &gt; TrainPosition.FrontEndPosition(DistanceInterval.Nom) 
   OR  
-NOT (TrackDescription.Gradient.GradientProfileStart() &lt;= TrainPosition.FrontEndPosition(DistanceInterval.Nom) )</Expression>
+TrackDescription.Gradient.GradientProfileStart() &gt; TrainPosition.FrontEndPosition(DistanceInterval.Nom) </Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"

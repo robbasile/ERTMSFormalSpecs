@@ -278,7 +278,7 @@ LevelTransition.LevelTransitionToProcess.TRLevel.Value == Level.L1</Expression>
 >
 </ReqRef><Cases>
 <Case
- Name="Case1"
+ Name="Value"
  Guid="fcc18aba-991b-4fc3-a0d5-15f5656e002c"
 >
 <Expression>LevelTransition.LevelTransitionToProcess != EMPTY
@@ -421,6 +421,7 @@ NID_TSR != Messages.NID_TSR.Non_revocable_speed_restriction__applicable_for_all_
  Y="60"
  Width="100"
  Height="50"
+ Implemented="TRUE"
  Name="LevelException9"
  Guid="23c0241b-dbaf-484d-9350-dd81ee9b5df6"
 >
@@ -434,7 +435,13 @@ NID_TSR != Messages.NID_TSR.Non_revocable_speed_restriction__applicable_for_all_
  Name="Value"
  Guid="d5e15487-d787-45b9-85cd-86ffbea87d0d"
 >
-<Expression>False</Expression>
+<Expression>LevelTransition.LevelTransitionToProcess == EMPTY
+  OR
+(
+  LevelTransition.LevelTransitionToProcess.TRLevel.Value != Level.L2
+    OR
+  LevelTransition.LevelTransitionToProcess.TRLevel.Value != Level.L3
+)</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
