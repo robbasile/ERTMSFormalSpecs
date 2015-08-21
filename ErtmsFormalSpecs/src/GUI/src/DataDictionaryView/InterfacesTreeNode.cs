@@ -17,13 +17,11 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using DataDictionary.Specification;
 using DataDictionary.Types;
-using GUI.SpecificationView;
 
 namespace GUI.DataDictionaryView
 {
-    public class StructuresTreeNode : ModelElementTreeNode<NameSpace>
+    public class InterfacesTreeNode : ModelElementTreeNode<NameSpace>
     {
         private class ItemEditor : NamedEditor
         {
@@ -34,8 +32,19 @@ namespace GUI.DataDictionaryView
         /// </summary>
         /// <param name="item"></param>
         /// <param name="buildSubNodes"></param>
-        public StructuresTreeNode(NameSpace item, bool buildSubNodes)
-            : base(item, buildSubNodes, "Structures", true)
+        public InterfacesTreeNode(NameSpace item, bool buildSubNodes)
+            : base(item, buildSubNodes, "Interfaces", true)
+        {
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="buildSubNodes"></param>
+        /// <param name="name"></param>
+        /// <param name="isFolder"></param>
+        public InterfacesTreeNode(NameSpace item, bool buildSubNodes, string name, bool isFolder)
+            : base(item, buildSubNodes, name, isFolder)
         {
         }
 
@@ -50,9 +59,9 @@ namespace GUI.DataDictionaryView
 
             foreach (Structure structure in Item.Structures)
             {
-                if (!structure.IsAbstract)
+                if (structure.IsAbstract)
                 {
-                    subNodes.Add(new StructureTreeNode(structure, recursive));
+                    subNodes.Add(new InterfaceTreeNode(structure, recursive));
                 }
             }
 
@@ -69,13 +78,13 @@ namespace GUI.DataDictionaryView
         }
 
         /// <summary>
-        ///     Adds a structure
+        ///     Adds an interface
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="args"></param>
         public void AddHandler(object sender, EventArgs args)
         {
-            Item.appendStructures(Structure.CreateDefault(Item.Structures, false));
+            Item.appendStructures(Structure.CreateDefault(Item.Structures, true));
         }
 
         /// <summary>
@@ -84,7 +93,7 @@ namespace GUI.DataDictionaryView
         /// <returns></returns>
         protected override List<MenuItem> GetMenuItems()
         {
-            List<MenuItem> retVal = new List<MenuItem> { new MenuItem("Add", AddHandler) };
+            List<MenuItem> retVal = new List<MenuItem> {new MenuItem("Add", AddHandler)};
 
             return retVal;
         }
@@ -97,22 +106,13 @@ namespace GUI.DataDictionaryView
         {
             base.AcceptDrop(sourceNode);
 
-            if (sourceNode is StructureTreeNode)
+            if (sourceNode is InterfaceTreeNode)
             {
-                StructureTreeNode structureTreeNode = sourceNode as StructureTreeNode;
-                Structure structure = structureTreeNode.Item;
+                InterfaceTreeNode interfaceTreeNode = sourceNode as InterfaceTreeNode;
+                Structure structure = interfaceTreeNode.Item;
 
-                structureTreeNode.Delete();
+                interfaceTreeNode.Delete();
                 Item.appendStructures(structure);
-            }
-            else if (sourceNode is ParagraphTreeNode)
-            {
-                ParagraphTreeNode node = sourceNode as ParagraphTreeNode;
-                Paragraph paragraph = node.Item;
-
-                Structure structure = Structure.CreateDefault(Item.Structures, false);
-                Item.appendStructures(structure);
-                structure.FindOrCreateReqRef(paragraph);
             }
         }
     }
