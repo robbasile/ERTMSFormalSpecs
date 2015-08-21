@@ -3074,5 +3074,98 @@
 >
 <Expression>LevelRules.AcceptLSSMAToggleOffOrder() AND ModeRules.AcceptLSSMAToggleOffOrder()</Expression>
 </Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="220"
+ Y="300"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="GenericLSFunctionMarker"
+ Guid="f667339a-31f4-4f74-bb9f-11dc7ee2abaf"
+>
+<ReqRef
+ Id="010b5c35-7431-44f2-ae89-961545d2f5cf"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0b14f6d4-62e1-4822-aad3-44d84f318199"
+>
+</ReqRef><ReqRef
+ Id="d31c9f35-7397-4230-be2e-51513b70d30c"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="3a1d6273-e1e9-4068-a52d-c71ebdea46eb"
+>
+</ReqRef><ReqRef
+ Id="1e7f1bb3-f89a-4740-a4f2-6c0a06c55868"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="2b46a68e-edad-440f-a667-ef2e4f771732"
+>
+</ReqRef><Parameters>
+<Parameter
+ Type="AcceptInformation.Source"
+ Name="Source"
+ Guid="31e0167d-c6cc-414e-8da5-191cb5690069"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="943a752c-654f-4be4-b262-bfff925c2719"
+>
+<PreConditions>
+<PreCondition
+ Guid="ea36b39f-67fe-408a-acd9-b16314c62357"
+>Source != AcceptInformation.Source.RBC</PreCondition></PreConditions>
+<Expression>LevelRules.AcceptGenericLSFunctionMarker() AND ModeRules.AcceptGenericLSFunctionMarker()</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="220"
+ Y="300"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="DataToBeUsedByApplicationsOutsideERTMSETCS"
+ Guid="6fd1932a-5f34-4105-a71e-1e538b70b62b"
+>
+<ReqRef
+ Id="39c4a031-6436-4f08-8b02-7b3e88220f8d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a768542f-8657-4ca4-b6b2-cdcb707a1cdb"
+>
+</ReqRef><ReqRef
+ Id="0dcd2594-c82e-43b3-af15-cd4385b38b06"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="cc615cae-8434-468e-86c7-8fb0f528cd79"
+>
+</ReqRef><ReqRef
+ Id="f1f50798-a4ed-43fc-ae82-3739c800ed20"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="61058704-b2de-4cde-8e8f-1971925fc8f4"
+>
+</ReqRef><Parameters>
+<Parameter
+ Type="AcceptInformation.Source"
+ Name="Source"
+ Guid="a403e612-ff8a-468b-a517-805f22d95f81"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="From RBC"
+ Guid="c5a0b3df-0837-4209-873e-b19da84120cb"
+>
+<PreConditions>
+<PreCondition
+ Guid="b1fc8687-8a9f-4dae-b2d0-f1e0c6a2b5e4"
+>Source == AcceptInformation.Source.RBC</PreCondition></PreConditions>
+<Expression>LevelRules.AcceptDataToBeUsedByApplicationsOutsideERTMSETCSFromRBC() AND ModeRules.AcceptDataToBeUsedByApplicationsOutsideERTMSETCS()</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="444abc23-7ff7-4bad-a95c-44e7781e8925"
+>
+<Expression>LevelRules.AcceptDataToBeUsedByApplicationsOutsideERTMSETCS() AND ModeRules.AcceptDataToBeUsedByApplicationsOutsideERTMSETCS()</Expression>
+</Case></Cases>
 </Function></Functions>
 </NameSpace>
