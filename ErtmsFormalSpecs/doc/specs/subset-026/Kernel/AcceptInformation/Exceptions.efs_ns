@@ -309,7 +309,7 @@ LevelTransition.LevelTransitionToProcess.TRLevel.Value == Level.L1</Expression>
  Name="Value"
  Guid="4f891fb8-b7c8-4eff-aa00-d6a1fa80dce3"
 >
-<Expression>True</Expression>
+<Expression>False</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -410,9 +410,9 @@ LevelTransition.LevelTransitionToProcess.TRLevel.Value == Level.L1</Expression>
  Name="Value"
  Guid="cd684517-b09a-48db-a875-9875a9ee9062"
 >
-<Expression>NOT TSR.InhibitRevocableTSRsFromBalises
-  OR
-NID_TSR == Messages.NID_TSR.Non_revocable_speed_restriction__applicable_for_all_transmission_media</Expression>
+<Expression>TSR.InhibitRevocableTSRsFromBalises
+  AND
+NID_TSR != Messages.NID_TSR.Non_revocable_speed_restriction__applicable_for_all_transmission_media</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
