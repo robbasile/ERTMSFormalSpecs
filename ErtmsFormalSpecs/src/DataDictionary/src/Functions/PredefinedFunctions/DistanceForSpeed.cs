@@ -140,15 +140,22 @@ namespace DataDictionary.Functions.PredefinedFunctions
                 context.LocalScope.setGraphParameter(parameter);
                 Graph graph = function.createGraph(context, (Parameter) function.FormalParameters[0], explain);
                 context.LocalScope.PopContext(token2);
-                double solutionX = graph.SolutionX(speed);
-                if (solutionX == double.MaxValue)
+                if (graph != null)
                 {
-                    Range distanceType = (Range) EFSSystem.FindByFullName("Default.BaseTypes.Distance");
-                    retVal = distanceType.findEnumValue("Unknown");
+                    double solutionX = graph.SolutionX(speed);
+                    if (solutionX == double.MaxValue)
+                    {
+                        Range distanceType = (Range) EFSSystem.FindByFullName("Default.BaseTypes.Distance");
+                        retVal = distanceType.findEnumValue("Unknown");
+                    }
+                    else
+                    {
+                        retVal = new DoubleValue(EFSSystem.DoubleType, solutionX);
+                    }
                 }
                 else
                 {
-                    retVal = new DoubleValue(EFSSystem.DoubleType, solutionX);
+                    Log.Error("Cannot evaluate graph for function while computing the distance for the given speed");
                 }
             }
             else
