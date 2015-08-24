@@ -54,7 +54,10 @@ namespace GUI.Shortcuts
         {
             bool retVal = base.HandleValueChange(modelElement, changeKind);
 
-            shortcutTreeView.RefreshModel(modelElement);
+            if (retVal)
+            {
+                shortcutTreeView.RefreshModel(modelElement);                
+            }
 
             return retVal;
         }

@@ -144,7 +144,7 @@ namespace GUI.DataDictionaryView
             }
             else
             {
-                IModelElement model = GetModelElement(context);
+                IModelElement model = GetNameSpaceOrDictionary(context);
                 if (model != null)
                 {
                     if (rebuildRightPart)
@@ -159,7 +159,12 @@ namespace GUI.DataDictionaryView
             }
         }
 
-        private static IModelElement GetModelElement(Context.SelectionContext context)
+        /// <summary>
+        /// Provides the Namespace or the Dictionary enclosing the element in the context
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        private static IModelElement GetNameSpaceOrDictionary(Context.SelectionContext context)
         {
             IModelElement model = EnclosingFinder<NameSpace>.find(context.Element, true);
             if (model == null)
@@ -169,6 +174,11 @@ namespace GUI.DataDictionaryView
             return model;
         }
 
+        /// <summary>
+        /// Provides the state machine from the context
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
         private static StateMachine GetStateMachine(Context.SelectionContext context)
         {
             StateMachine stateMachine;

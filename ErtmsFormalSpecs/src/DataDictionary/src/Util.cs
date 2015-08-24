@@ -1010,6 +1010,8 @@ namespace DataDictionary
         /// </summary>
         private static int _dontNotifyCount;
 
+        private static readonly Mutex NotificationMutex = new Mutex(false, "Nofitication excusive region");
+
         /// <summary>
         ///     Indicates that notification should not occur for this action
         /// </summary>
@@ -1018,24 +1020,25 @@ namespace DataDictionary
         {
             try
             {
+                NotificationMutex.WaitOne();
                 _dontNotifyCount += 1;
                 if (_dontNotifyCount == 1)
                 {
                     ControllersManager.DesactivateAllNotifications();
-                    action();
                 }
-                else
-                {
-                    action();
-                }
+                NotificationMutex.ReleaseMutex();
+
+                action();
             }
             finally
             {
+                NotificationMutex.WaitOne();
                 _dontNotifyCount -= 1;
                 if (_dontNotifyCount == 0)
                 {
                     ControllersManager.ActivateAllNotifications();
                 }
+                NotificationMutex.ReleaseMutex();
             }
         }
     }

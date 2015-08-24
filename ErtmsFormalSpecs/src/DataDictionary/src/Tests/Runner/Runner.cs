@@ -356,29 +356,26 @@ namespace DataDictionary.Tests.Runner
         /// </summary>
         public void Cycle()
         {
-            Util.DontNotify(() =>
+            CurrentPriority = null;
+
+            if (LogEvents)
             {
-                CurrentPriority = null;
+                Log.Info("New cycle");
+            }
 
-                if (LogEvents)
-                {
-                    Log.Info("New cycle");
-                }
+            LastActivationTime = Time;
 
-                LastActivationTime = Time;
+            Utils.ModelElement.Errors = new Dictionary<Utils.ModelElement, List<ElementLog>>();
 
-                Utils.ModelElement.Errors = new Dictionary<Utils.ModelElement, List<ElementLog>>();
+            foreach (acceptor.RulePriority priority in PrioritiesOrder)
+            {
+                InnerExecuteOnePriority(priority);
+            }
+            CurrentPriority = null;
 
-                foreach (acceptor.RulePriority priority in PrioritiesOrder)
-                {
-                    InnerExecuteOnePriority(priority);
-                }
-                CurrentPriority = null;
+            RegisterErrors(Utils.ModelElement.Errors);
 
-                RegisterErrors(Utils.ModelElement.Errors);
-
-                EventTimeLine.GarbageCollect();
-            });
+            EventTimeLine.GarbageCollect();
 
             EventTimeLine.CurrentTime += Step;
         }
@@ -389,26 +386,30 @@ namespace DataDictionary.Tests.Runner
         /// <param name="priority"></param>
         private void InnerExecuteOnePriority(acceptor.RulePriority priority)
         {
-            CurrentPriority = priority;
-            if (LogEvents)
+            Util.DontNotify(() =>
             {
-                Log.Info("Priority=" + priority);
-            }
 
-            // Activates the processing engine
-            HashSet<Activation> activations = new HashSet<Activation>();
-            foreach (Dictionary dictionary in EFSSystem.INSTANCE.Dictionaries)
-            {
-                foreach (NameSpace nameSpace in dictionary.NameSpaces)
+                CurrentPriority = priority;
+                if (LogEvents)
                 {
-                    SetupNameSpaceActivations(priority, activations, nameSpace);
+                    Log.Info("Priority=" + priority);
                 }
-            }
 
-            List<VariableUpdate> updates = new List<VariableUpdate>();
-            EvaluateActivations(activations, priority, ref updates);
-            ApplyUpdates(updates);
-            CheckExpectationsState(priority);
+                // Activates the processing engine
+                HashSet<Activation> activations = new HashSet<Activation>();
+                foreach (Dictionary dictionary in EFSSystem.INSTANCE.Dictionaries)
+                {
+                    foreach (NameSpace nameSpace in dictionary.NameSpaces)
+                    {
+                        SetupNameSpaceActivations(priority, activations, nameSpace);
+                    }
+                }
+
+                List<VariableUpdate> updates = new List<VariableUpdate>();
+                EvaluateActivations(activations, priority, ref updates);
+                ApplyUpdates(updates);
+                CheckExpectationsState(priority);
+            });
         }
 
         /// <summary>
