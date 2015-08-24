@@ -142,10 +142,16 @@ namespace GUI.TestRunnerView
         {
             while (node != null)
             {
-                if (node.Explanation.Element != null)
+                ModelElement model = node.Explanation.LeftPart as ModelElement;
+                if ( model == null )
+                {
+                    model = node.Explanation.Element;
+                }
+
+                if (model != null)
                 {
                     Context.SelectionCriteria criteria = GuiUtils.SelectionCriteriaBasedOnMouseEvent(mouseEventArgs);
-                    EFSSystem.INSTANCE.Context.SelectElement(node.Explanation.Element, this, criteria);
+                    EFSSystem.INSTANCE.Context.SelectElement(model, this, criteria);
                     node = null;
                 }
                 else
