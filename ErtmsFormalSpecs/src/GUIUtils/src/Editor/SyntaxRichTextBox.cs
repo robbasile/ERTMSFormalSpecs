@@ -121,9 +121,47 @@ namespace GUIUtils.Editor
             };
 
             TextChanged += SyntaxRichTextBox_TextChanged;
+            SelectionChanged += SyntaxRichTextBox_SelectionChanged;
+            
             CanPaint = true;
             ApplyPatterns = true;
+
+            Clean();
         }
+
+        /// <summary>
+        /// Handles a text change
+        /// </summary>
+        public override string Text
+        {
+            get { return base.Text; }
+            set
+            {
+                base.Text = value;
+                Clean();
+            }
+        }
+
+        /// <summary>
+        /// Recolor the displayed lines
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SyntaxRichTextBox_SelectionChanged(object sender, EventArgs e)
+        {
+            if (CanPaint)
+            {
+                ProcessAllLines();
+            }
+        }
+
+        /// <summary>
+        /// Constants used in WndProc
+        /// </summary>
+        private const int WmPaint = 0x00f;
+        private const int WmHscroll = 0x114;
+        private const int WmVscroll = 0x115;
+        private const int WmMousewheel = 0x20A;
 
         /// <summary>
         ///     Captures WndProc event and filter out paint events when CanPaint is set to false to avoid flickering
@@ -131,10 +169,24 @@ namespace GUIUtils.Editor
         /// <param name="m"></param>
         protected override void WndProc(ref Message m)
         {
-            if (m.Msg == 0x00f)
+            if (m.Msg == WmPaint)
             {
+                // Capture the paint event to avoid painting when changes occur in the display
                 if (CanPaint)
                 {
+                    base.WndProc(ref m);
+                }
+                else
+                {
+                    m.Result = IntPtr.Zero;
+                }
+            }
+            else if (m.Msg == WmVscroll || m.Msg == WmHscroll || m.Msg == WmMousewheel) 
+            {
+                // Capture scroll events
+                if (CanPaint)
+                {
+                    ProcessAllLines();
                     base.WndProc(ref m);
                 }
                 else
@@ -233,6 +285,21 @@ namespace GUIUtils.Editor
             }
         }
 
+        // Only color the visible lines
+        private int _firstVisibleIndex;
+        private int _lastVisibleIndex;
+        private HashSet<int> _processedLines;
+
+        /// <summary>
+        /// Cleans meta data about what is displayed
+        /// </summary>
+        private void Clean()
+        {
+            _firstVisibleIndex = -1;
+            _lastVisibleIndex = -1;
+            _processedLines = new HashSet<int>();
+        }
+
         /// <summary>
         ///     Processes all lines in the text box
         /// </summary>
@@ -242,12 +309,29 @@ namespace GUIUtils.Editor
             {
                 CanPaint = false;
 
-                int start = 0;
-                foreach (string line in Lines)
+                int firstVisibleIndex = GetCharIndexFromPosition(new Point(0, 0));
+                int lastVisibleIndex = GetCharIndexFromPosition(new Point(Size.Width, Size.Height));
+                if (firstVisibleIndex != _firstVisibleIndex || lastVisibleIndex != _lastVisibleIndex)
                 {
-                    ProcessLine(start, line);
+                    _firstVisibleIndex = firstVisibleIndex;
+                    _lastVisibleIndex = lastVisibleIndex;
 
-                    start = start + line.Length + 1;
+                    int lineNumber = 0;
+                    int start = 0;
+                    foreach (string line in Lines)
+                    {
+                        lineNumber = lineNumber + 1;
+                        if (start >= _firstVisibleIndex && start <= _lastVisibleIndex)
+                        {
+                            if (!_processedLines.Contains(lineNumber))
+                            {
+                                ProcessLine(start, line);
+                                _processedLines.Add(lineNumber);
+                            }
+                        }
+
+                        start = start + line.Length + 1;
+                    }
                 }
 
                 CanPaint = true;
