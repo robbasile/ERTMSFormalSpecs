@@ -18,6 +18,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Configuration;
 using DataDictionary.Generated;
 using DataDictionary.Interpreter;
 using DataDictionary.Interpreter.Filter;
@@ -1102,19 +1103,27 @@ namespace DataDictionary.Functions
                 AssignParameters(context, actuals);
                 if (Cases.Count > 0)
                 {
+                    bool preConditionSatisfied = false;
+
                     // Statically defined function
                     foreach (Case aCase in Cases)
                     {
                         // Evaluate the function
                         ExplanationPart subExplanation = ExplanationPart.CreateSubExplanation(explain, aCase);
-                        bool val = aCase.EvaluatePreConditions(context, subExplanation);
+                        preConditionSatisfied = aCase.EvaluatePreConditions(context, subExplanation);
                         ExplanationPart.SetNamable(subExplanation,
-                            val ? EFSSystem.BoolType.True : EFSSystem.BoolType.False);
-                        if (val)
+                            preConditionSatisfied ? EFSSystem.BoolType.True : EFSSystem.BoolType.False);
+                        if (preConditionSatisfied)
                         {
                             retVal = aCase.Expression.GetValue(context, subExplanation);
                             break;
                         }
+                    }
+
+                    if (!preConditionSatisfied)
+                    {
+                        ExplanationPart subExplanation = ExplanationPart.CreateSubExplanation(explain, "Partial function called outside its domain");
+                        AddError("Partial function called outside its domain");
                     }
                 }
                 else if (Surface != null && FormalParameters.Count == 2)
