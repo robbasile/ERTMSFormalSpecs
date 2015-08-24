@@ -8427,7 +8427,7 @@ TrainPosition.RearEndPosition(PointOfInterest =&gt; DistanceInterval.Nom) &lt; (
 <Rule
  Priority="Processing"
  Implemented="TRUE"
- Name="Cancel override"
+ Name="Handle information"
  Guid="46a13501-0823-425a-991e-cd37ceb7c4aa"
 >
 <Comment>If  the override function is active, it is ended.</Comment>
@@ -8438,6 +8438,7 @@ TrainPosition.RearEndPosition(PointOfInterest =&gt; DistanceInterval.Nom) &lt; (
  Name="Cancel override function"
  Guid="5b55fb60-b00a-4184-872e-9e96fc576e6b"
 >
+<Comment>If override was active, exit the override procedure.</Comment>
 <PreConditions>
 <PreCondition
  Guid="0ed99111-f747-48ae-818c-d8190878d6e4"
@@ -8446,6 +8447,58 @@ TrainPosition.RearEndPosition(PointOfInterest =&gt; DistanceInterval.Nom) &lt; (
 <Action
  Guid="16e40cc4-8592-40b3-849d-0ccd8c8fdbd1"
 >EndOverride()</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Delete SR mode-specific information"
+ Guid="bd851687-9da4-401e-898e-aa75b0fa193f"
+>
+<ReqRef
+ Id="4194dc47-a12e-4906-99ac-3f43ccf3b796"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d78cf0b9-1166-451b-82d8-3b5deff7912c"
+>
+</ReqRef><ReqRef
+ Id="98a5c6ab-1a8f-4522-b2ce-57728dc6df86"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="eb0e158a-93b9-465d-98c5-05432d277566"
+>
+</ReqRef><Comment>Otherwise, if the previous mode was SR, reset the Stop if in Staff Responsible and Unexpected BG passed in SR mode information.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="ecf3a7f8-8fcb-44f9-9cb2-5187ea26bc01"
+>PrevMode == Mode.SR</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="5758c4d1-4828-4a63-bc2b-38026eb82a64"
+>StaffResponsible.UnexpectedBGPassed &lt;- Boolean.False</Action><Action
+ Guid="2a4319cf-a4a0-46d4-ad46-ce42e9b77d4c"
+>StaffResponsible.StopIfInStaffResponsible &lt;- Boolean.False</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Delete SH mode-specific information"
+ Guid="dd430b89-54d9-4805-a594-652bc5020fa9"
+>
+<ReqRef
+ Id="14b1efda-ce06-4c66-9dbe-9ec337d4879b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a2695d6a-9bf6-4a0e-84e3-99ca778b4dee"
+>
+</ReqRef><ReqRef
+ Id="1abefeb3-7b1d-42ba-9102-267a6221a5ea"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e4c6ae5a-0373-42eb-ab38-3c5bd460998e"
+>
+</ReqRef><Comment>If the previous mode was SH, reset the Stop if in Shunting and Unexpected BG for SH information.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="a5783e8c-697c-4e09-a78c-a9099e9eae40"
+>PrevMode == Mode.SH</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="558b7c00-1baa-4d7c-bd50-20b0a1c0465e"
+>Shunting.StopIfInShunting &lt;- Boolean.False</Action><Action
+ Guid="c1487ea5-2419-4909-b15b-eec2c071206c"
+>Shunting.UnexpectedBGPassed &lt;- Boolean.False</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition></Conditions>
