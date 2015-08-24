@@ -85,15 +85,14 @@ namespace EFSTester
 
                 // Ensure the model is consistent
                 Console.Out.WriteLine("Checking model");
-                RuleCheckerVisitor.IsThereAnyError isThereAnyError = new RuleCheckerVisitor.IsThereAnyError();
                 foreach (Dictionary dictionary in efsSystem.Dictionaries)
                 {
                     RuleCheckerVisitor checker = new RuleCheckerVisitor(dictionary);
                     checker.visit(dictionary);
-                    isThereAnyError.visit(dictionary);
                 }
-
+ 
                 // Dumps all errors found
+                Util.IsThereAnyError isThereAnyError = new Util.IsThereAnyError();
                 if (isThereAnyError.ErrorsFound.Count > 0)
                 {
                     foreach (ElementLog error in isThereAnyError.ErrorsFound)

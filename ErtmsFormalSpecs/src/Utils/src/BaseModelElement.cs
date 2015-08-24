@@ -259,9 +259,6 @@ namespace Utils
         /// </summary>
         public virtual List<ElementLog> Messages { get; private set; }
 
-        /// The number of log message
-        public static int LogCount = 0;
-
         /// <summary>
         ///     Clears the messages associated to this model element
         /// </summary>
@@ -271,12 +268,6 @@ namespace Utils
         /// </param>
         public virtual void ClearMessages(bool precise)
         {
-            LogCount -= Messages.Count;
-            if (LogCount < 0)
-            {
-                LogCount = 0;
-            }
-
             UpdateMessageInfoAfterClear(precise);
         }
 
@@ -372,7 +363,6 @@ namespace Utils
                         UpdateMessageInfo(MessageInfoEnum.Info);
                         break;
                 }
-                LogCount += 1;
             }
         }
 

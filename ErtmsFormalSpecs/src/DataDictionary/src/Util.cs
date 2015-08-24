@@ -1041,5 +1041,43 @@ namespace DataDictionary
                 NotificationMutex.ReleaseMutex();
             }
         }
+
+        /// <summary>
+        ///     Checks if there is any error in the model
+        /// </summary>
+        public class IsThereAnyError : Visitor
+        {
+            /// <summary>
+            ///     The list of errors
+            /// </summary>
+            public List<ElementLog> ErrorsFound { get; private set; }
+
+            /// <summary>
+            ///     Constructor
+            /// </summary>
+            public IsThereAnyError()
+            {
+                ErrorsFound = new List<ElementLog>();
+
+                foreach (Dictionary dictionary in EFSSystem.INSTANCE.Dictionaries)
+                {
+                    visit(dictionary);
+                }
+            }
+
+            public override void visit(BaseModelElement obj, bool visitSubNodes)
+            {
+                foreach (ElementLog log in obj.Messages)
+                {
+                    if (log.Level == ElementLog.LevelEnum.Error)
+                    {
+                        ErrorsFound.Add(log);
+                    }
+                }
+
+                base.visit(obj, visitSubNodes);
+            }
+        }
+
     }
 }

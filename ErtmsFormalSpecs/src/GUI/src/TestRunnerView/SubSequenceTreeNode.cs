@@ -28,6 +28,7 @@ using GUIUtils;
 using Utils;
 using Action = DataDictionary.Rules.Action;
 using ModelElement = Utils.ModelElement;
+using Util = DataDictionary.Util;
 
 namespace GUI.TestRunnerView
 {
@@ -250,7 +251,6 @@ namespace GUI.TestRunnerView
         public void RunHandler(object sender, EventArgs args)
         {
             ClearMessages();
-            ModelElement.LogCount = 0;
 
             ExecuteTestsHandler executeTestHandler = new ExecuteTestsHandler(BaseForm as Window, Item);
             executeTestHandler.ExecuteUsingProgressDialog("Executing test steps");
@@ -262,7 +262,8 @@ namespace GUI.TestRunnerView
             }
 
             string runtimeErrors = "Succesful sub sequence execution.\n";
-            if (ModelElement.LogCount > 0)
+            Util.IsThereAnyError isThereAnyError = new Util.IsThereAnyError();
+            if (isThereAnyError.ErrorsFound.Count > 0)
             {
                 runtimeErrors = "Errors were raised while executing sub sequence.\n";
             }

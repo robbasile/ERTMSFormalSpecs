@@ -27,6 +27,7 @@ using GUI.Report;
 using GUIUtils;
 using Utils;
 using ModelElement = Utils.ModelElement;
+using Util = DataDictionary.Util;
 
 namespace GUI.TestRunnerView
 {
@@ -229,13 +230,13 @@ namespace GUI.TestRunnerView
         {
             ClearAll();
             ClearMessages();
-            ModelElement.LogCount = 0;
 
             ExecuteTestsOperation executeTestsOperation = new ExecuteTestsOperation(BaseForm as Window, Item);
             executeTestsOperation.ExecuteUsingProgressDialog("Executing test sequences");
 
             string runtimeErrors = "";
-            if (ModelElement.LogCount > 0)
+            Util.IsThereAnyError isThereAnyError = new Util.IsThereAnyError();
+            if (isThereAnyError.ErrorsFound.Count > 0)
             {
                 runtimeErrors += "Errors were raised while executing sub sequences(s).\n";
             }
