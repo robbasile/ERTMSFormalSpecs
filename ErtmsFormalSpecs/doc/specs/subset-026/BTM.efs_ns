@@ -1429,6 +1429,21 @@ PacketOrientation == Messages.Q_DIR.Both_directions</Expression>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="7a0a23e3-7ae2-4b76-bf54-b09c26cddc9e"
 >
+</ReqRef><ReqRef
+ Id="c3e16444-1771-45e4-aed8-a538b89ed2b3"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="85ae2cea-7f3e-42d6-a6d6-05056ce3af4e"
+>
+</ReqRef><ReqRef
+ Id="b0ca9451-479b-42b3-93a6-3c7089a0b7be"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d814031d-7cc9-43ed-b340-7183c2b83847"
+>
+</ReqRef><ReqRef
+ Id="2a18f48f-66f4-459f-bda8-f71f367705d9"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="1e77f4a4-2177-4fb5-9ec0-250e07e24d2e"
+>
 </ReqRef><Comment>Determines whether the Current Balise Group contains a message consistency error.</Comment>
 <Parameters>
 <Parameter
@@ -1439,6 +1454,15 @@ PacketOrientation == Messages.Q_DIR.Both_directions</Expression>
 </Parameter></Parameters>
 <Cases>
 <Case
+ Name="Do not check Balise Group Message consistency"
+ Guid="7d28d2fd-9a56-430d-9a12-8837ad47df2d"
+>
+<PreConditions>
+<PreCondition
+ Guid="57cf162d-1c63-4ecb-8091-b1a895c0094f"
+>NOT CheckBGMessageConsistency(LinkingUsed)</PreCondition></PreConditions>
+<Expression>False</Expression>
+</Case><Case
  Name="Value"
  Guid="772170b2-3d80-45ac-a1cd-17674feb3356"
 >
@@ -2080,6 +2104,68 @@ FORALL X IN Balise.Sequence1 |
  Guid="acfb6c3c-937f-4a13-ba33-761f58569317"
 >
 <Expression>FIRST X IN aTelegram.Sequence1 | X.TRACK_TO_TRAIN.LEVEL_TRANSITION_ORDER != EMPTY</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ X="221"
+ Y="601"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="CheckBGMessageConsistency"
+ Guid="88aaf483-aa04-46a7-974f-66c8dd153dd9"
+>
+<ReqRef
+ Id="c3e16444-1771-45e4-aed8-a538b89ed2b3"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="4c3972e5-45fd-406e-a142-2a3469b15c2f"
+>
+</ReqRef><ReqRef
+ Id="b0ca9451-479b-42b3-93a6-3c7089a0b7be"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="4e71fac0-b4fd-4b34-9e27-8fb8f77881cb"
+>
+</ReqRef><ReqRef
+ Id="2a18f48f-66f4-459f-bda8-f71f367705d9"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="8011d324-d576-423c-b391-1d426ac87186"
+>
+</ReqRef><Comment>Indicates whether it is necessary to check the contents of the received balise message before handling them.</Comment>
+<Parameters>
+<Parameter
+ Type="Boolean"
+ Name="LinkingUsed"
+ Guid="fd278ff2-3750-418d-9b13-da1f6203adca"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Unlinked balise group"
+ Guid="c61f0ab7-0532-40cd-a583-c852c6548283"
+>
+<PreConditions>
+<PreCondition
+ Guid="7444adf0-3c4a-4308-9805-1277c005f8d4"
+>(FIRST StoredBalise IN CurrentBaliseGroup).Telegram.Q_LINK == Messages.Q_LINK.Unlinked</PreCondition></PreConditions>
+<Expression>Kernel.ActiveFunctions.CheckUnlinkedBGMessage()</Expression>
+</Case><Case
+ Name="Linking is not used"
+ Guid="553054e5-492e-48fb-bae0-5b6dc6f4b5f3"
+>
+<PreConditions>
+<PreCondition
+ Guid="61307b7f-b5a3-4a46-a929-a6dfd327cc83"
+>NOT LinkingUsed</PreCondition><PreCondition
+ Guid="66670e88-fae0-4539-8528-54f5a0e3aa59"
+>Linking.Linkings == []
+  OR  
+NOT Kernel.ActiveFunctions.CheckLinkingConsistency()</PreCondition></PreConditions>
+<Expression>Kernel.ActiveFunctions.CheckBGMessageIfNotLinking()</Expression>
+</Case><Case
+ Name="Linking is used"
+ Guid="92341a32-c3fc-4bf4-97d3-27e83de4241d"
+>
+<Expression>Kernel.ActiveFunctions.CheckBGMessageIfLinking()</Expression>
 </Case></Cases>
 </Function></Functions>
 <Procedures>
