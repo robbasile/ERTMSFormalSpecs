@@ -282,7 +282,10 @@ namespace GUIUtils.Editor
         /// <summary>
         ///     The font style to use when applying this pattern
         /// </summary>
-        public FontStyle FontStyle { get; set; }
+        public FontStyle FontStyle
+        {
+            set { HighlightFont = new Font(HighlightFont, value);}            
+        }
 
         /// <summary>
         /// The font used to colorize
@@ -298,8 +301,7 @@ namespace GUIUtils.Editor
         {
             RegExp = new Regex(regExp, RegexOptions.Compiled);
             Color = Color.Black;
-            FontStyle = FontStyle.Regular;
-            HighlightFont = new Font(baseFont, FontStyle);
+            HighlightFont = new Font(baseFont, FontStyle.Regular);
         }
 
         /// <summary>
