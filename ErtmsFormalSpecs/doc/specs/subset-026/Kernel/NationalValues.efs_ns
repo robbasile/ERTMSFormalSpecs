@@ -129,11 +129,11 @@
 <PreConditions>
 <PreCondition
  Guid="dd98f405-5150-47ff-9a74-17a96cef58fb"
->DataState == DataState.Invalid</PreCondition></PreConditions>
+>NationalValuesStruct.DataState == DataState.Invalid</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="7c98bafa-15b2-4787-9384-f8c8641eeb7a"
->Value &lt;- EMPTY</Action></Actions>
+>NationalValuesStruct.Value &lt;- EMPTY</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 <StructureElement
@@ -147,7 +147,7 @@
 >
 </StructureElement><StructureElement
  TypeName="NationalDefaultDataStruct"
- Default="EMPTY"
+ Default="NationalDefaultDataStruct{}"
  Mode="Internal"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
@@ -156,7 +156,7 @@
 >
 </StructureElement><StructureElement
  TypeName="BaseTypes.Distance"
- Default="BaseTypes.Speed.NA"
+ Default="BaseTypes.Distance.Unknown"
  Mode="Internal"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
@@ -184,7 +184,7 @@
 >
 </ReqRef></StructureElement><StructureElement
  TypeName="BaseTypes.Distance"
- Default="BaseTypes.Speed.NA"
+ Default="BaseTypes.Distance.Unknown"
  Mode="Internal"
  Implemented="TRUE"
  Name="ApplicableStopLocation"
@@ -1729,7 +1729,7 @@
 >
 <Expression>NationalValuesStruct
 {
-    DataState =&gt; DataState.Valid,
+    DataState =&gt; Default.DataState.Valid,
     ApplicableStartLocation =&gt; MessageTypes.QScaleDistance ( distance =&gt; Packet.D_VALIDNV, scale =&gt; Packet.Q_SCALE ),
     NID_C =&gt; NID_C,
     Value =&gt; NationalDefaultDataStruct
