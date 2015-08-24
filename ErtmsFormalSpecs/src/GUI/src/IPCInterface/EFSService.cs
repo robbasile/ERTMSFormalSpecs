@@ -80,7 +80,7 @@ namespace GUI.IPCInterface
         /// <summary>
         ///     Mutual exclusion for accessing EFS structures
         /// </summary>
-        private Mutex EFSAccess { get; set; }
+        private Mutex EfsAccess { get; set; }
 
         /// <summary>
         ///     Keeps track of each connection status
@@ -100,7 +100,7 @@ namespace GUI.IPCInterface
             /// <summary>
             ///     Indicates that the client is a listener, and should not create a runner
             /// </summary>
-            public bool Listener { get; set; }
+            public bool Listener { get; private set; }
 
             /// <summary>
             ///     The last time a cycle request has been performed
@@ -187,7 +187,7 @@ namespace GUI.IPCInterface
             StepAccess = new Dictionary<Step, Mutex>();
             LaunchRunnerSynchronizer = new LaunchRunner(this, 10);
 
-            EFSAccess = new Mutex(false, "EFS access");
+            EfsAccess = new Mutex(false, "EFS access");
         }
 
         /// <summary>
@@ -211,11 +211,9 @@ namespace GUI.IPCInterface
         /// <returns>The client identifier</returns>
         public int ConnectUsingDefaultValues(bool listener)
         {
-            int clientId;
-
-            EFSAccess.WaitOne();
-            clientId = AddClient(listener);
-            EFSAccess.ReleaseMutex();
+            EfsAccess.WaitOne();
+            int clientId = AddClient(listener);
+            EfsAccess.ReleaseMutex();
 
             return clientId;
         }
@@ -230,7 +228,7 @@ namespace GUI.IPCInterface
         /// <param name="keepEventCount">The number of events that should be kept in memory</param>
         public int Connect(bool listener, bool explain, bool logEvents, int cycleDuration, int keepEventCount)
         {
-            EFSAccess.WaitOne();
+            EfsAccess.WaitOne();
 
             int clientId = AddClient(listener);
 
@@ -239,7 +237,7 @@ namespace GUI.IPCInterface
             CycleDuration = cycleDuration;
             KeepEventCount = keepEventCount;
 
-            EFSAccess.ReleaseMutex();
+            EfsAccess.ReleaseMutex();
 
             return clientId;
         }
@@ -248,7 +246,7 @@ namespace GUI.IPCInterface
         ///     Ensures that the client id is valid
         /// </summary>
         /// <param name="clientId"></param>
-        private void checkClient(int clientId)
+        private void CheckClient(int clientId)
         {
             if (clientId >= Connections.Count)
             {
@@ -266,7 +264,7 @@ namespace GUI.IPCInterface
         /// </summary>
         /// <param name="step"></param>
         /// <returns></returns>
-        private bool checkLaunch()
+        private bool CheckLaunch()
         {
             bool retVal = false;
 
@@ -301,7 +299,7 @@ namespace GUI.IPCInterface
         /// </summary>
         /// <param name="step"></param>
         /// <returns></returns>
-        private bool pendingClients(Step step)
+        private bool PendingClients(Step step)
         {
             bool retVal = false;
 
@@ -321,14 +319,14 @@ namespace GUI.IPCInterface
         /// <summary>
         ///     1s between each client decisions
         /// </summary>
-        private static TimeSpan MAX_DELTA = new TimeSpan(0, 0, 0, 5, 0);
+        private static readonly TimeSpan MaxDelta = new TimeSpan(0, 0, 0, 5, 0);
 
         /// <summary>
         ///     Performs a single cycle
         /// </summary>
         public void Cycle()
         {
-            EFSAccess.WaitOne();
+            EfsAccess.WaitOne();
 
             try
             {
@@ -338,14 +336,14 @@ namespace GUI.IPCInterface
                 foreach (ConnectionStatus status in Connections)
                 {
                     TimeSpan delta = now - status.LastCycleRequest;
-                    if (delta > MAX_DELTA)
+                    if (delta > MaxDelta)
                     {
                         status.Active = false;
                     }
                 }
 
                 // Launches the runner when all active client have selected their next step
-                while (checkLaunch())
+                while (CheckLaunch())
                 {
                     LastStep = NextStep(LastStep);
 
@@ -372,7 +370,7 @@ namespace GUI.IPCInterface
                         }
                     }
 
-                    while (pendingClients(LastStep))
+                    while (PendingClients(LastStep))
                     {
                         // Let the processes waiting for the end of this step run
                         StepAccess[LastStep].ReleaseMutex();
@@ -390,27 +388,27 @@ namespace GUI.IPCInterface
             }
             finally
             {
-                EFSAccess.ReleaseMutex();
+                EfsAccess.ReleaseMutex();
             }
         }
 
         /// <summary>
         ///     Cleanup function cache every
         /// </summary>
-        private int CacheCycle = 1;
+        private int _cacheCycle = 1;
 
         /// <summary>
         ///     The number of cycles after which a clear cache is required
         /// </summary>
-        private const int CLEAN_UP_CYCLE_COUNT = 50;
+        private const int CleanUpCycleCount = 50;
 
         /// <summary>
         ///     Clears the function cache after each full cycle
         /// </summary>
         private void ClearFunctionCaches()
         {
-            CacheCycle = (CacheCycle + 1)%CLEAN_UP_CYCLE_COUNT;
-            if (CacheCycle == 0)
+            _cacheCycle = (_cacheCycle + 1)%CleanUpCycleCount;
+            if (_cacheCycle == 0)
             {
                 foreach (Dictionary dictionary in EFSSystem.INSTANCE.Dictionaries)
                 {
@@ -492,7 +490,7 @@ namespace GUI.IPCInterface
             {
                 retVal = true;
 
-                checkClient(clientId);
+                CheckClient(clientId);
 
                 Connections[clientId].LastCycleRequest = DateTime.Now;
                 Connections[clientId].LastCycleResume = DateTime.MinValue;
@@ -516,11 +514,11 @@ namespace GUI.IPCInterface
         /// </summary>
         public void Restart()
         {
-            EFSAccess.WaitOne();
+            EfsAccess.WaitOne();
 
             EFSSystem.INSTANCE.Runner = new Runner(Explain, LogEvents, CycleDuration, KeepEventCount);
 
-            EFSAccess.ReleaseMutex();
+            EfsAccess.ReleaseMutex();
         }
 
         /// <summary>
@@ -572,13 +570,13 @@ namespace GUI.IPCInterface
         {
             Value retVal = null;
 
-            EFSAccess.WaitOne();
+            EfsAccess.WaitOne();
             try
             {
                 IVariable variable = EFSSystem.INSTANCE.FindByFullName(variableName) as IVariable;
                 if (variable != null)
                 {
-                    retVal = convertOut(variable.Value);
+                    retVal = ConvertOut(variable.Value);
                 }
             }
             catch (Exception)
@@ -587,7 +585,7 @@ namespace GUI.IPCInterface
             }
             finally
             {
-                EFSAccess.ReleaseMutex();
+                EfsAccess.ReleaseMutex();
             }
 
             return retVal;
@@ -602,7 +600,7 @@ namespace GUI.IPCInterface
         {
             Value retVal = null;
 
-            EFSAccess.WaitOne();
+            EfsAccess.WaitOne();
             try
             {
                 Expression expressionTree = EFSSystem.INSTANCE.Parser.Expression(EFSSystem.INSTANCE.Dictionaries[0],
@@ -612,7 +610,7 @@ namespace GUI.IPCInterface
                     Util.DontNotify(() =>
                     {
                         retVal =
-                            convertOut(expressionTree.GetExpressionValue(new InterpretationContext(), null));
+                            ConvertOut(expressionTree.GetExpressionValue(new InterpretationContext(), null));
                     });
                 }
             }
@@ -622,7 +620,7 @@ namespace GUI.IPCInterface
             }
             finally
             {
-                EFSAccess.ReleaseMutex();
+                EfsAccess.ReleaseMutex();
             }
 
             return retVal;
@@ -633,7 +631,7 @@ namespace GUI.IPCInterface
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        private Value convertOut(IValue value)
+        public Value ConvertOut(IValue value)
         {
             // Handles the boolean case
             {
@@ -698,7 +696,7 @@ namespace GUI.IPCInterface
 
                     foreach (IValue item in v.Val)
                     {
-                        list.Add(convertOut(item));
+                        list.Add(ConvertOut(item));
                     }
 
                     return new Values.ListValue(list);
@@ -717,7 +715,7 @@ namespace GUI.IPCInterface
                         IVariable variable = pair.Value as IVariable;
                         if (variable != null)
                         {
-                            record.Add(variable.Name, convertOut(variable.Value));
+                            record.Add(variable.Name, ConvertOut(variable.Value));
                         }
                     }
 
@@ -773,12 +771,12 @@ namespace GUI.IPCInterface
             /// <summary>
             ///     The variable identification that is modified by this variable update action
             /// </summary>
-            public IVariable Variable { get; private set; }
+            private IVariable Variable { get; set; }
 
             /// <summary>
             ///     The value that is assigned to this variable
             /// </summary>
-            public IValue Value { get; private set; }
+            private IValue Value { get; set; }
 
             /// <summary>
             ///     Constructor
@@ -811,7 +809,7 @@ namespace GUI.IPCInterface
         /// <param name="value"></param>
         public void SetVariableValue(string variableName, Value value)
         {
-            EFSAccess.WaitOne();
+            EfsAccess.WaitOne();
             try
             {
                 if (Runner != null)
@@ -837,7 +835,7 @@ namespace GUI.IPCInterface
             }
             finally
             {
-                EFSAccess.ReleaseMutex();
+                EfsAccess.ReleaseMutex();
             }
         }
 
@@ -847,12 +845,12 @@ namespace GUI.IPCInterface
         /// <param name="statementText"></param>
         public void ApplyStatement(string statementText)
         {
-            EFSAccess.WaitOne();
+            EfsAccess.WaitOne();
             try
             {
                 if (Runner != null)
                 {
-                    bool silent = true;
+                    const bool silent = true;
                     Statement statement = EFSSystem.INSTANCE.Parser.Statement(EFSSystem.INSTANCE.Dictionaries[0],
                         statementText, silent);
 
@@ -874,7 +872,7 @@ namespace GUI.IPCInterface
             }
             finally
             {
-                EFSAccess.ReleaseMutex();
+                EfsAccess.ReleaseMutex();
             }
         }
 
@@ -912,41 +910,7 @@ namespace GUI.IPCInterface
             return retVal;
         }
 
-        /// <summary>
-        ///     Converts an interface priority to a Runner priority
-        /// </summary>
-        /// <param name="priority"></param>
-        private Step convertPriority2Step(acceptor.RulePriority priority)
-        {
-            Step retVal = Step.Process;
-
-            switch (priority)
-            {
-                case acceptor.RulePriority.aUpdateINTERNAL:
-                    retVal = Step.UpdateInternal;
-                    break;
-
-                case acceptor.RulePriority.aVerification:
-                    retVal = Step.Verification;
-                    break;
-
-                case acceptor.RulePriority.aProcessing:
-                    retVal = Step.Process;
-                    break;
-
-                case acceptor.RulePriority.aUpdateOUT:
-                    retVal = Step.UpdateOutput;
-                    break;
-
-                case acceptor.RulePriority.aCleanUp:
-                    retVal = Step.CleanUp;
-                    break;
-            }
-
-            return retVal;
-        }
-
-        private static EFSService __instance = null;
+        private static EFSService _instance;
 
         /// <summary>
         ///     The service instance
@@ -955,12 +919,12 @@ namespace GUI.IPCInterface
         {
             get
             {
-                if (__instance == null)
+                if (_instance == null)
                 {
-                    __instance = new EFSService();
+                    _instance = new EFSService();
                 }
 
-                return __instance;
+                return _instance;
             }
         }
     }
