@@ -143,7 +143,7 @@
 >
 <Comment>The stop location of this emergency stop.</Comment>
 </StructureElement><StructureElement
- TypeName="BrakeCommands.BrakeReason"
+ TypeName="BrakeReason"
  Default=""
  Mode="Internal"
  Implemented="TRUE"
@@ -153,7 +153,7 @@
 </StructureElement></Structure></Structures>
 <Collections>
 <Collection
- TypeName="BrakeCommands.BrakeReason"
+ TypeName="BrakeReason"
  Default="[]"
  X="480"
  Y="120"
@@ -195,7 +195,7 @@
 </Collection></Collections>
 <Functions>
 <Function
- Type="Kernel.BrakeCommands.EmergencyStopStruct"
+ Type="EmergencyStopStruct"
  Default=""
  X="30"
  Y="270"
@@ -243,7 +243,7 @@
  }</Expression>
 </Case></Cases>
 </Function><Function
- Type="Kernel.BrakeCommands.EmergencyStopStruct"
+ Type="EmergencyStopStruct"
  Default=""
  X="250"
  Y="270"
@@ -262,7 +262,7 @@
 </ReqRef><Comment>Takes a collection of Emergency Stops and returns the closest conditional emergency stop</Comment>
 <Parameters>
 <Parameter
- Type="BrakeCommands.EmergencyStopsCol"
+ Type="EmergencyStopsCol"
  Name="aESCol"
  Guid="ac51e9d6-df83-443b-a2dc-d4b7dfa198c1"
 >
@@ -280,7 +280,7 @@ INITIAL_VALUE BrakeCommands.EmergencyStopStruct
                             }</Expression>
 </Case></Cases>
 </Function><Function
- Type="Kernel.BrakeCommands.EmergencyStopStruct"
+ Type="EmergencyStopStruct"
  Default=""
  X="140"
  Y="270"
@@ -295,12 +295,12 @@ INITIAL_VALUE BrakeCommands.EmergencyStopStruct
 <Comment>Returns the EmergencyStop item with the closest StopLocation, chosen amongst the conditional emergency stops received from the RBC</Comment>
 <Parameters>
 <Parameter
- Type="BrakeCommands.EmergencyStopStruct"
+ Type="EmergencyStopStruct"
  Name="EmergencyStop1"
  Guid="9e4b6b95-8fc6-4c63-82ae-6cb3353e472b"
 >
 </Parameter><Parameter
- Type="BrakeCommands.EmergencyStopStruct"
+ Type="EmergencyStopStruct"
  Name="EmergencyStop2"
  Guid="96fac747-08ca-4dbf-b46c-6a0b449f934c"
 >
@@ -449,7 +449,7 @@ EmergencyStops</Action></Actions>
 <Comment>Adds a new SB command to the list of SB commands and applies the SB brake.</Comment>
 <Parameters>
 <Parameter
- Type="BrakeCommands.BrakeReason"
+ Type="BrakeReason"
  Name="Command"
  Guid="a5c11b88-65cd-4366-9e8b-7b131dc64ed3"
 >
@@ -573,7 +573,7 @@ EmergencyStops</Action></Actions>
 </ReqRef><Comment>Removes the specified SB command.</Comment>
 <Parameters>
 <Parameter
- Type="BrakeCommands.BrakeReason"
+ Type="BrakeReason"
  Name="Command"
  Guid="9fc434a0-e53e-4ee8-95b2-a9dd17195ade"
 >
@@ -606,7 +606,7 @@ EmergencyStops</Action></Actions>
 </Procedure></Procedures>
 <Variables>
 <Variable
- Type="BrakeCommands.EmergencyStopsCol"
+ Type="EmergencyStopsCol"
  DefaultValue=""
  VariableMode="Internal"
  X="20"
@@ -641,7 +641,7 @@ EmergencyStops</Action></Actions>
 >
 </ReqRef><Comment>This holds all the different emergency stop messages the train currently has.</Comment>
 </Variable><Variable
- Type="BrakeCommands.ServiceBrakesCol"
+ Type="ServiceBrakesCol"
  DefaultValue="[]"
  VariableMode="Internal"
  X="630"
