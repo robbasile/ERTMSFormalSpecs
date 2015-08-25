@@ -103,6 +103,11 @@
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="2927dada-e7b7-43bf-a89b-b299c70beb40"
 >
+</ReqRef><ReqRef
+ Id="2a6e883b-d32c-4121-afc3-9fa40790509f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a9f2f200-a8da-4966-b49e-0c224960805d"
+>
 </ReqRef><Comment>Checks whether the Balise group is in the list of expected Balise groups for Shunting.</Comment>
 <Parameters>
 <Parameter
@@ -113,6 +118,15 @@
 </Parameter></Parameters>
 <Cases>
 <Case
+ Name="Do not supervise balises for shunting"
+ Guid="8e1d744a-6a7c-46cb-8cd5-3d5b236f7440"
+>
+<PreConditions>
+<PreCondition
+ Guid="e9d71c37-4c39-46c7-abe6-72e58be4459a"
+>NOT ActiveFunctions.SuperviseBalisesForShunting()</PreCondition></PreConditions>
+<Expression>True</Expression>
+</Case><Case
  Name="No list received"
  Guid="96fd88fc-8481-47ae-8f6c-1818018acd15"
 >
@@ -133,7 +147,8 @@
 </Function></Functions>
 <Procedures>
 <Procedure
- Y="120"
+ X="111"
+ Y="241"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -213,6 +228,11 @@
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="cde50368-88d5-48e5-a2ad-4f81f24ad78e"
 >
+</ReqRef><ReqRef
+ Id="2a6e883b-d32c-4121-afc3-9fa40790509f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b4ed6a90-b439-40f8-b956-cb808297e87a"
+>
 </ReqRef><Comment>Handles reception of the packet DANGER FOR SHUNTING.</Comment>
 <Parameters>
 <Parameter
@@ -239,7 +259,9 @@
 <PreConditions>
 <PreCondition
  Guid="4d39a90f-c81a-4f51-a5b1-20e9d9c1f07c"
->HandleModeChange in HandleModeChangeSM.Override</PreCondition></PreConditions>
+>HandleModeChange in HandleModeChangeSM.Override</PreCondition><PreCondition
+ Guid="ba960bd4-10a9-4d91-b2b0-31b5a8c79323"
+>NOT ActiveFunctions.SuperviseBalisesForShunting()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="a1b65b7d-2e90-4c38-be22-aa1bed1d3a6e"
@@ -253,7 +275,9 @@
 <PreConditions>
 <PreCondition
  Guid="8da76a80-09a8-4469-8549-ff75099c9d6b"
->Packet.Q_ASPECT == Messages.Q_ASPECT.Stop_if_in_SH_mode</PreCondition></PreConditions>
+>Packet.Q_ASPECT == Messages.Q_ASPECT.Stop_if_in_SH_mode</PreCondition><PreCondition
+ Guid="ceb9d100-f306-4fa2-96d3-b93b767f09c1"
+>NOT ActiveFunctions.SuperviseBalisesForShunting()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="3f463e23-b785-4883-aa96-4162c727bca8"
@@ -266,6 +290,8 @@
  Type="Boolean"
  DefaultValue="Boolean.False"
  VariableMode="Internal"
+ X="1"
+ Y="61"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -297,7 +323,8 @@
  Type="Boolean"
  DefaultValue="Boolean.False"
  VariableMode="Internal"
- X="110"
+ X="1"
+ Y="1"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -319,7 +346,8 @@
  Type="ExpectedBGstruct"
  DefaultValue=""
  VariableMode="Internal"
- X="670"
+ X="111"
+ Y="1"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -346,7 +374,8 @@
  Type="Integer"
  DefaultValue="0"
  VariableMode="Internal"
- X="330"
+ X="111"
+ Y="61"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -363,7 +392,8 @@
  Type="BaseTypes.Time"
  DefaultValue="0.0"
  VariableMode="Internal"
- X="440"
+ X="1"
+ Y="181"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -380,7 +410,8 @@
  Type="Boolean"
  DefaultValue="False"
  VariableMode="Internal"
- X="220"
+ X="111"
+ Y="181"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -397,7 +428,8 @@
  Type="Boolean"
  DefaultValue="False"
  VariableMode="Internal"
- X="550"
+ X="1"
+ Y="241"
  Width="100"
  Height="50"
  Implemented="TRUE"

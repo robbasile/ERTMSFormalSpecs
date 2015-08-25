@@ -368,13 +368,20 @@ MARequestParameters.HandleRepetitions</PreCondition></PreConditions>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="848fac96-ca86-4fa9-8e46-c3f79a88ba46"
 >
+</ReqRef><ReqRef
+ Id="c56e042a-fcc0-4daf-aca2-08a8cc075275"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="fc103e8e-4fd8-4045-b0b9-2d999f288005"
+>
 </ReqRef><Comment>Checks if the MA request has to be sent due to time before reaching pre-indication locations is reached.</Comment>
 <PreConditions>
 <PreCondition
  Guid="1816e72f-c1f3-4f6d-ab81-66689104e3bd"
 >MARequestParameters.HandlePreindicationLocation</PreCondition><PreCondition
  Guid="b676bd39-5164-4702-a2f5-d5193febdf24"
->TimeBeforePreIndicationLocation() &gt;= MARequestParameters.PreindicationLocationTime</PreCondition></PreConditions>
+>TimeBeforePreIndicationLocation() &gt;= MARequestParameters.PreindicationLocationTime</PreCondition><PreCondition
+ Guid="fb58d7f3-dee5-4f99-a282-b12c2acebd2b"
+>ActiveFunctions.RequestMA_IndicationPointOrTimer()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="abb36a2d-bc88-48e0-961e-c1eb5f58e19c"
@@ -403,6 +410,11 @@ MARequestParameters.HandleRepetitions</PreCondition></PreConditions>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="8ee43ed6-3f9c-4373-9584-f582b97eaa62"
 >
+</ReqRef><ReqRef
+ Id="c56e042a-fcc0-4daf-aca2-08a8cc075275"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="fd528ab1-2558-44c2-a2e1-51e95ad6473e"
+>
 </ReqRef><Comment>Checks if the MA request has to be sent due to time before a section timer is reached.</Comment>
 <PreConditions>
 <PreCondition
@@ -413,7 +425,9 @@ MARequestParameters.HandleRepetitions</PreCondition></PreConditions>
   THERE_IS Section IN MA.Sections | (Section.TimeOut.TimerStart + Section.TimeOut.TimeOut &gt;= MARequestParameters.SectionTimerTime)
     OR
   MATimers.LOATimerStart + MA.TargetSpeedTimeOut &gt;= MARequestParameters.SectionTimerTime
-)</PreCondition></PreConditions>
+)</PreCondition><PreCondition
+ Guid="1b2961a7-7b4c-4fdd-8726-bb211a9fc635"
+>ActiveFunctions.RequestMA_IndicationPointOrTimer()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="3c9a6e23-bdb4-41fb-9f85-d007c79c450e"

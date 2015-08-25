@@ -2913,6 +2913,11 @@ True</PreCondition></PreConditions>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="b4154eed-f979-4136-9fd7-3f0c1d8ad63d"
 >
+</ReqRef><ReqRef
+ Id="f119af99-2c5a-4a79-9d1f-bad360c248ca"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="965a9ebf-3ad0-4a94-9737-67d7db918c60"
+>
 </ReqRef><Comment>In level 0,1,NTC: if a level 2/3 transition is announced and a communication session is already established, an MA request is sent to the RBC.</Comment>
 <SubRules></SubRules>
 <Conditions>
@@ -2930,7 +2935,9 @@ True</PreCondition></PreConditions>
   AND
   Kernel.LevelTransition.LevelTransitionToProcess.TRLevel.Value in [Level.L2, Level.L3]</PreCondition><PreCondition
  Guid="9f677cc3-085c-4916-af03-783e04349ffc"
->Kernel.Level.Value.Value in [Level.L0, Level.L1, Level.L2]</PreCondition></PreConditions>
+>Kernel.Level.Value.Value in [Level.L0, Level.L1, Level.L2]</PreCondition><PreCondition
+ Guid="ee018937-eccf-4494-9c69-0260e6686b07"
+>Kernel.ActiveFunctions.RequestMA_TrackAheadFreeUpToL2_3()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="8b6b13bc-da05-493a-8895-bd58979b488e"
@@ -5358,7 +5365,7 @@ ON CurrentBaliseGroup | BaliseTelegramToBeHandled ( X )</Action></Actions>
 <PreConditions>
 <PreCondition
  Guid="1ab6b030-5011-4880-9827-8285d95422cf"
->EURORADIO.CurrentRBCConnection().ConnectionState in EURORADIO.CurrentRBCConnection().ConnectionStateSM.Connected</PreCondition><PreCondition
+>EURORADIO.SafeRadioConnectionAvailable()</PreCondition><PreCondition
  Guid="e9f371b8-3016-4d71-afad-73cc64ced5e8"
 >(FIRST X IN CurrentBaliseGroup).Telegram.Q_LINK == Messages.Q_LINK.Unlinked
   OR  
@@ -5805,7 +5812,7 @@ IN CurrentBaliseGroup</Action></Actions>
 >
 <Comment>This variable holds the messages from the current balise group until the complete balise group has been encountered</Comment>
 </Variable><Variable
- Type="BTM.LocationReferenceStruct"
+ Type="LocationReferenceStruct"
  DefaultValue="EMPTY"
  VariableMode="Internal"
  X="440"

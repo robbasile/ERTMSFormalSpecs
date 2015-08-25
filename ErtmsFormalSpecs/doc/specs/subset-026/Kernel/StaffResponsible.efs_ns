@@ -192,6 +192,11 @@ SRAuthorisation.Location &lt;= TrainPosition.FrontEndPosition ( DistanceInterval
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="2a6e7b43-0438-47d9-a88c-3b3721f201c2"
 >
+</ReqRef><ReqRef
+ Id="fdc26bac-f5ff-4fec-8edd-8ebe350709d4"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="44587014-1529-4551-955e-b005a0e722ed"
+>
 </ReqRef><Comment>Checks whether the Balise group is in the list of expected Balise groups for Shunting.</Comment>
 <Parameters>
 <Parameter
@@ -202,6 +207,15 @@ SRAuthorisation.Location &lt;= TrainPosition.FrontEndPosition ( DistanceInterval
 </Parameter></Parameters>
 <Cases>
 <Case
+ Name="Do not supervise list of expected balises"
+ Guid="57f44bc9-36b9-4718-b60a-188204130548"
+>
+<PreConditions>
+<PreCondition
+ Guid="44cea0d5-cdfc-4c62-9e88-e69620cee2b7"
+>NOT ActiveFunctions.SuperviseBalisesForSR()</PreCondition></PreConditions>
+<Expression>True</Expression>
+</Case><Case
  Name="No list received"
  Guid="bb1a997d-8294-4863-94f2-3b19af289b93"
 >
@@ -444,6 +458,11 @@ SRAuthorisation.Location &lt;= TrainPosition.FrontEndPosition ( DistanceInterval
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="250c696b-ac8a-4198-bb31-4311ad622817"
 >
+</ReqRef><ReqRef
+ Id="fdc26bac-f5ff-4fec-8edd-8ebe350709d4"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f72fb4b0-5e2f-4ab4-8d5c-478c2e4f2b64"
+>
 </ReqRef><Comment>Handles reception of a packet &quot;Stop if in SR mode&quot;.</Comment>
 <Parameters>
 <Parameter
@@ -480,7 +499,9 @@ SRAuthorisation.Location &lt;= TrainPosition.FrontEndPosition ( DistanceInterval
 <PreConditions>
 <PreCondition
  Guid="c6ccbc54-4698-42e2-84cf-735584fc7270"
->HandleModeChange in HandleModeChangeSM.Override</PreCondition></PreConditions>
+>HandleModeChange in HandleModeChangeSM.Override</PreCondition><PreCondition
+ Guid="2b9b3be8-ca3a-4110-b2d6-f86ce72fafa9"
+>ActiveFunctions.SuperviseBalisesForSR()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="cfba8bf9-5231-4e99-acf5-5b104f9d1dde"
@@ -494,7 +515,9 @@ SRAuthorisation.Location &lt;= TrainPosition.FrontEndPosition ( DistanceInterval
 <PreConditions>
 <PreCondition
  Guid="1af23fe5-a5a6-41f8-824b-5238b8ff70f8"
->Packet.Q_SRSTOP == Messages.Q_SRSTOP.Stop_if_in_SR_mode</PreCondition></PreConditions>
+>Packet.Q_SRSTOP == Messages.Q_SRSTOP.Stop_if_in_SR_mode</PreCondition><PreCondition
+ Guid="9087689a-12c1-4ed5-b9a9-c4766c46d569"
+>ActiveFunctions.SuperviseBalisesForSR()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="e22bd583-6c01-4ec6-820f-7e54a97ef357"
@@ -597,15 +620,20 @@ SRAuthorisation.Location &lt;= TrainPosition.FrontEndPosition ( DistanceInterval
  Name="Enable request"
  Guid="372bed13-1b0e-4d38-84a5-1652201f7087"
 >
-<Comment>Display the request for new distance to run in SR mode on the DMI in SR mode and level 2/3.</Comment>
+<ReqRef
+ Id="2ac2d446-1ee9-4dbb-90d3-7ae063cd2925"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="acd77be1-eee9-4821-8d62-4658d88e6a81"
+>
+</ReqRef><Comment>Display the request for new distance to run in SR mode on the DMI in SR mode and level 2/3.</Comment>
 <PreConditions>
 <PreCondition
- Guid="b352c267-ea89-4d92-96e6-906fec9cd522"
->Mode == Default.Mode.SR</PreCondition><PreCondition
  Guid="38a2855c-a564-4a2f-b1cf-ab9373fbe4af"
 >Level.Value.Value in [Default.Level.L2, Default.Level.L3]</PreCondition><PreCondition
  Guid="e8a7ae96-cd47-4d9e-8a00-715ca0a3e838"
->DMI.MasterDMI().In_Start.InputInformation.RequestStatus == Request.Disabled</PreCondition></PreConditions>
+>DMI.MasterDMI().In_Start.InputInformation.RequestStatus == Request.Disabled</PreCondition><PreCondition
+ Guid="85a03ef1-b8bf-4979-b1ae-8b3bf1c03590"
+>ActiveFunctions.RequestMA_StartSelected()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="bd2c7627-cb26-4ee4-a08b-41e674d7f810"
@@ -630,15 +658,20 @@ SRAuthorisation.Location &lt;= TrainPosition.FrontEndPosition ( DistanceInterval
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="21afbe35-bea2-4b7d-ac52-124f1195e913"
 >
+</ReqRef><ReqRef
+ Id="2ac2d446-1ee9-4dbb-90d3-7ae063cd2925"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="10f88a6e-5cbf-4bcf-bb5f-596adc3ab520"
+>
 </ReqRef><Comment>Handle the driver&apos;s request for a new distance to run in SR mode.</Comment>
 <PreConditions>
 <PreCondition
- Guid="4532d348-879a-4cf6-b646-604abda0d8a0"
->Mode == Default.Mode.SR</PreCondition><PreCondition
  Guid="d9198f6b-ab29-4800-8177-3582c9f6b6f5"
 >Level.Value.Value in [Default.Level.L2, Default.Level.L3]</PreCondition><PreCondition
  Guid="b141a80f-70a4-4c16-ab6a-2c1a644b9b5b"
->DMI.MasterDMI().In_Start.InputInformation.DriverAnswered</PreCondition></PreConditions>
+>DMI.MasterDMI().In_Start.InputInformation.DriverAnswered</PreCondition><PreCondition
+ Guid="8a109624-1067-4604-bea1-f3a9d4d98fe0"
+>ActiveFunctions.RequestMA_StartSelected()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="46dbfab0-2d80-4d37-a202-f2046e4ae97d"

@@ -15,7 +15,8 @@
 <Structures>
 <Structure
  Default=""
- X="220"
+ X="111"
+ Y="61"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -248,7 +249,8 @@
  TypeName="TrackConditionInformationStruct"
  MaxSize="20"
  Default="[]"
- Y="90"
+ X="111"
+ Y="121"
  Width="100"
  Height="50"
  Pinned="TRUE"
@@ -272,7 +274,8 @@
 <Function
  Type="BaseTypes.Distance"
  Default=""
- Y="180"
+ X="1"
+ Y="121"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -753,7 +756,8 @@ When the train passes over a profile point, it doesn&apos;t know if that point m
 </Function><Function
  Type="TrackConditionInformationStruct"
  Default=""
- Y="240"
+ X="1"
+ Y="181"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -1046,7 +1050,8 @@ The use of profile points and the functions in this namespace can be found in Er
 </Function></Functions>
 <Procedures>
 <Procedure
- Y="330"
+ X="1"
+ Y="241"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -1217,7 +1222,9 @@ IN
  Guid="a71e3e2f-ad4a-47b4-95e8-3b5e12b06253"
 >TCType != Messages.M_TRACKCOND.Tunnel_stopping_area__Initial_state__no_tunnel_stopping_area</PreCondition><PreCondition
  Guid="199f198b-3353-4ac6-9d05-ed0f4321d9fd"
->TCType != Messages.M_TRACKCOND.Sound_horn__Initial_state__no_request_for_sound_horn</PreCondition></PreConditions>
+>TCType != Messages.M_TRACKCOND.Sound_horn__Initial_state__no_request_for_sound_horn</PreCondition><PreCondition
+ Guid="da1b9f0e-1a85-4867-a50e-fe97f1d42e95"
+>ActiveFunctions.ManageTrackConditions_BrakeInhibition()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="87add067-1441-4e70-9892-e85aea063d0a"
@@ -1235,7 +1242,9 @@ IN
   OR  
 TCType == Messages.M_TRACKCOND.Non_stopping_area___tunnel__Initial_state__stopping_permitted
   OR  
-TCType == Messages.M_TRACKCOND.Tunnel_stopping_area__Initial_state__no_tunnel_stopping_area</PreCondition></PreConditions>
+TCType == Messages.M_TRACKCOND.Tunnel_stopping_area__Initial_state__no_tunnel_stopping_area</PreCondition><PreCondition
+ Guid="0c1981b8-9279-45e1-a6ed-70133e96cbd0"
+>ActiveFunctions.ManageTrackConditions_SoundHorn()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="9757d5ac-fb18-48e5-86cb-b62d50641ec1"
@@ -1477,7 +1486,11 @@ ON
 <PreConditions>
 <PreCondition
  Guid="8fabb5f7-5fa8-45f4-b36d-c0420a360baf"
->Packet.Q_TRACKINIT == Messages.Q_TRACKINIT.Empty_profile__initial_states_to_be_resumed</PreCondition></PreConditions>
+>Packet.Q_TRACKINIT == Messages.Q_TRACKINIT.Empty_profile__initial_states_to_be_resumed</PreCondition><PreCondition
+ Guid="01ebe7ba-e0ba-409b-82c0-915c9bc7139f"
+>ActiveFunctions.ManageTrackConditions_BrakeInhibition()
+  OR  
+ActiveFunctions.ManageTrackConditions_SoundHorn()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="cc227c70-643c-452b-b941-13c9a55589e2"
@@ -1508,7 +1521,11 @@ IN
 <PreConditions>
 <PreCondition
  Guid="3d6d20c8-f705-4764-be32-ab6e2707a483"
->Packet.Q_TRACKINIT == Messages.Q_TRACKINIT.No_initial_states_to_be_resumed__profile_to_follow</PreCondition></PreConditions>
+>Packet.Q_TRACKINIT == Messages.Q_TRACKINIT.No_initial_states_to_be_resumed__profile_to_follow</PreCondition><PreCondition
+ Guid="9414ff03-62f4-460a-b382-0d796a7af864"
+>ActiveFunctions.ManageTrackConditions_BrakeInhibition()
+  OR  
+ActiveFunctions.ManageTrackConditions_SoundHorn()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="c78472f5-3741-4e00-a564-1bebf1643278"
@@ -1697,7 +1714,8 @@ IN
  Type="BaseTypes.Time"
  DefaultValue="4.0"
  VariableMode="Constant"
- X="330"
+ X="1"
+ Y="61"
  Width="100"
  Height="50"
  Name="T_SoundHorn"

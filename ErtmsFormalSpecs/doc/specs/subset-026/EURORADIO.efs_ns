@@ -2070,7 +2070,9 @@ THERE_IS X IN MessageIn.Message.MA_WITH_SHIFTED_LOCATION_REFERENCE.Sequence1 | A
  Guid="7e8d9ecc-51a7-4a36-8fd8-d391aca111ae"
 >Available(MessageIn)
   AND  
-NOT IncomingMessageIsConsistent(MessageIn)</PreCondition></PreConditions>
+NOT IncomingMessageIsConsistent(MessageIn)</PreCondition><PreCondition
+ Guid="2b31e04f-298e-4823-8659-e35d735d2e04"
+>SafeRadioConnectionAvailable()</PreCondition></PreConditions>
 <Actions>
 </Actions>
 <SubRules>
@@ -6277,7 +6279,7 @@ anRBC.ContactRBCOrder.ActionToPerform == ContactActionEnum.Establish</PreConditi
 <PreConditions>
 <PreCondition
  Guid="079486c9-1e87-4e44-b1fc-f3931340f14c"
->Terminal2.RBCConnection.IsMainConnection</PreCondition></PreConditions>
+>NOT Terminal2.RBCConnection.IsMainConnection</PreCondition></PreConditions>
 <Expression>Terminal2.RBCConnection</Expression>
 </Case><Case
  Name="Otherwise"
@@ -6609,6 +6611,11 @@ Kernel.Mode not in [Mode.SH, Mode.PS]</Expression>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="dad9a60e-fffd-4f6d-ab7b-fee7b1583493"
 >
+</ReqRef><ReqRef
+ Id="32b19cf7-49e4-4104-adb6-9015c15794fc"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d1589dec-917e-4a97-bc80-08da7f7c8588"
+>
 </ReqRef><Comment>Performs the data consistency checks on an incoming radio message.
 The checks performed in EFS are:
   - the time stamp of the received message is greater than the time stamp of the previous received message.
@@ -6630,6 +6637,15 @@ In the case the incoming message is EMPTY, the function returns true since the a
 <PreCondition
  Guid="2f5d5aef-f2c0-4e0b-958e-3b4a3769699b"
 >NOT Available(InMessage.Message)</PreCondition></PreConditions>
+<Expression>True</Expression>
+</Case><Case
+ Name="Do not check the validity of messages"
+ Guid="b83794a5-c49c-4d91-afa3-f9f93903fd22"
+>
+<PreConditions>
+<PreCondition
+ Guid="927a16d3-dd2b-4aa0-9aac-a7fe07f5f58f"
+>NOT Kernel.ActiveFunctions.CheckRadioMessage()</PreCondition></PreConditions>
 <Expression>True</Expression>
 </Case><Case
  Name="High priority message"
@@ -6720,6 +6736,11 @@ In the case the incoming message is EMPTY, the function returns true since the a
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="36225e67-0b25-4ecf-a721-3dc88e6880b7"
 >
+</ReqRef><ReqRef
+ Id="e4d36115-94a0-4ddb-9c53-0fb21351ca06"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="78ecfab0-f1ea-4706-be63-f9c0e5f7a5c4"
+>
 </ReqRef><Comment>Check that the time stamp of the received message is valid.</Comment>
 <Parameters>
 <Parameter
@@ -6736,7 +6757,7 @@ In the case the incoming message is EMPTY, the function returns true since the a
 <PreConditions>
 <PreCondition
  Guid="c3f96aa5-6fe3-4df7-bd6e-985bf2062c2f"
->NOT CheckMessageTimeStamps</PreCondition></PreConditions>
+>NOT Kernel.ActiveFunctions.CheckRadioSequence()</PreCondition></PreConditions>
 <Expression>True</Expression>
 </Case><Case
  Name="Time stamp unknown at initiation of communication"
@@ -6839,6 +6860,38 @@ Available(Message.Message.UNCONDITIONAL_EMERGENCY_STOP)</Expression>
  Guid="a994b6b9-9beb-4de2-b0d8-e24ea5313601"
 >
 <Expression>Kernel.DateAndTime.CurrentTime &lt; CurrentRBCConnection().OnboardReference_MessageTimer</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ X="111"
+ Y="181"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="SafeRadioConnectionAvailable"
+ Guid="433251fa-c1c9-4123-80f9-2c198cf47a5b"
+>
+<ReqRef
+ Id="4aa64d47-8749-4bf5-b24e-7831ff609718"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="bd78dd32-cdec-4219-a6e7-cf7360c52758"
+>
+</ReqRef><Comment>Checks that there is a safe radio connection if required in the current mode.</Comment>
+<Cases>
+<Case
+ Name="Do not chack safe radio connection"
+ Guid="4524bc5f-47e2-475e-8cae-e211b11d3615"
+>
+<PreConditions>
+<PreCondition
+ Guid="54a43f86-85c6-4bb8-b2cc-a6bce90e696f"
+>NOT Kernel.ActiveFunctions.CheckSafeRadioConnection()</PreCondition></PreConditions>
+<Expression>True</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="ab2962af-22fb-4515-b99a-f531820a4683"
+>
+<Expression>CurrentRBCConnection().ConnectionState in CurrentRBCConnection().ConnectionStateSM.Connected</Expression>
 </Case></Cases>
 </Function></Functions>
 <Procedures>
@@ -7223,6 +7276,11 @@ Terminal1.RBCConnection.SafeRadioConnectionStatus == SafeRadioConnectionStatusEn
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="7dd7023d-3484-40f2-9f7a-9fec7e06f1b2"
 >
+</ReqRef><ReqRef
+ Id="49ac5c2f-c76c-4903-a7c8-2a28ea61c09c"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="4b50d2cf-d454-4e2d-8869-2f37a9540b3d"
+>
 </ReqRef><Comment>Initiates the contact with the RBC, as requested by ContactOption.</Comment>
 <Rules>
 <Rule
@@ -7248,7 +7306,9 @@ Terminal1.RBCConnection.SafeRadioConnectionStatus == SafeRadioConnectionStatusEn
 <PreConditions>
 <PreCondition
  Guid="dd160343-60f0-4795-ae66-17e29ea4cd14"
->SessionIsAlreadyEstablishedWithRequestedRBC( newId =&gt; LastKnownRBC.Id )</PreCondition></PreConditions>
+>SessionIsAlreadyEstablishedWithRequestedRBC( newId =&gt; LastKnownRBC.Id )</PreCondition><PreCondition
+ Guid="e53a8b3e-45b3-4818-9fec-1714f34903d0"
+>Kernel.ActiveFunctions.ManageCommunicationSession()</PreCondition></PreConditions>
 <Actions>
 </Actions>
 </RuleCondition><RuleCondition
@@ -7272,7 +7332,9 @@ Terminal1.RBCConnection.SafeRadioConnectionStatus == SafeRadioConnectionStatusEn
  Guid="b800f70b-83f7-45b4-9432-c769f9dca3f6"
 >ContactOption == ContactOptionEnum.ContactLastKnownRBC</PreCondition><PreCondition
  Guid="c12c7ead-1138-41ac-bb3b-164fdeda2b0e"
->LastKnownRBC.DataState == DataState.Valid</PreCondition></PreConditions>
+>LastKnownRBC.DataState == DataState.Valid</PreCondition><PreCondition
+ Guid="b6c9ffbd-a2ff-4991-b04b-891776087408"
+>Kernel.ActiveFunctions.ManageCommunicationSession()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="2078f218-6c1c-485a-9a00-f77a91524075"
@@ -7299,7 +7361,9 @@ Terminal1.RBCConnection.SafeRadioConnectionStatus == SafeRadioConnectionStatusEn
 <PreConditions>
 <PreCondition
  Guid="44730a03-b518-420f-86e0-c7c20a7a8fc6"
->ContactOption == ContactOptionEnum.UseOnBoardStoredShortNumber</PreCondition></PreConditions>
+>ContactOption == ContactOptionEnum.UseOnBoardStoredShortNumber</PreCondition><PreCondition
+ Guid="77ca7656-05eb-4ac6-b321-ae79aa9c15dd"
+>Kernel.ActiveFunctions.ManageCommunicationSession()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="5dd1dd73-af6c-4f90-99d8-db129a45167f"
@@ -7326,7 +7390,9 @@ Terminal1.RBCConnection.SafeRadioConnectionStatus == SafeRadioConnectionStatusEn
 <PreConditions>
 <PreCondition
  Guid="a96e13e9-b470-4d73-9b24-98a3929baf63"
->ContactOption == ContactOptionEnum.RBCIdAndPhoneNumber</PreCondition></PreConditions>
+>ContactOption == ContactOptionEnum.RBCIdAndPhoneNumber</PreCondition><PreCondition
+ Guid="f809aa9b-8f93-4e41-9984-b3c9f1d9a074"
+>Kernel.ActiveFunctions.ManageCommunicationSession()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="9f928072-675b-4a55-a3b6-da40798f6286"
@@ -8312,6 +8378,11 @@ Terminal1.RBCConnection.SafeRadioConnectionStatus == SafeRadioConnectionStatusEn
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="b077f519-c4f7-4059-b4b7-090c9ffd6270"
 >
+</ReqRef><ReqRef
+ Id="7c1c6cfb-0855-4d9a-95fc-7ee84622b5ba"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="dd142dc5-7203-4f17-9cab-07aba197f8f8"
+>
 </ReqRef><Comment>Handles reception of the request to shorten MA.</Comment>
 <SubRules></SubRules>
 <Conditions>
@@ -8328,7 +8399,9 @@ Terminal1.RBCConnection.SafeRadioConnectionStatus == SafeRadioConnectionStatusEn
  Guid="ac3c42b9-2925-4f5d-a63b-8248eade008e"
 >NOT (THERE_IS X IN Kernel.BrakeCommands.EmergencyStops | X.Reason == Kernel.BrakeCommands.BrakeReason.OrderFromRBC)</PreCondition><PreCondition
  Guid="8a173bc3-dc84-4604-bb24-285a83717478"
->Kernel.AcceptInformation.MovementAuthority( Source =&gt; Kernel.AcceptInformation.Source.RBC )</PreCondition></PreConditions>
+>Kernel.AcceptInformation.MovementAuthority( Source =&gt; Kernel.AcceptInformation.Source.RBC )</PreCondition><PreCondition
+ Guid="ab8c98b5-fe4d-4bdb-955d-89bacc874dde"
+>Kernel.ActiveFunctions.HandleCoOperativeMARevocation()</PreCondition></PreConditions>
 <Actions>
 </Actions>
 <SubRules>
@@ -8484,6 +8557,11 @@ Kernel.MA.MATimers.LOATimerStart &lt;- MessageTypes.TimeResolution( time =&gt; a
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="24f871fa-9964-45bb-a5f8-e1716603f5f0"
 >
+</ReqRef><ReqRef
+ Id="bc320eeb-6eb1-4cb8-a15d-72281a99dbc3"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="bc2ea5af-c651-451f-815d-a20703607dfd"
+>
 </ReqRef><Comment>Handles reception of a conditional emergency stop message</Comment>
 <SubRules></SubRules>
 <Conditions>
@@ -8497,7 +8575,9 @@ Kernel.MA.MATimers.LOATimerStart &lt;- MessageTypes.TimeResolution( time =&gt; a
  Guid="7ee563c7-9f56-4ea4-a306-7f427f0e871d"
 >Available ( aMessage.CONDITIONAL_EMERGENCY_STOP )</PreCondition><PreCondition
  Guid="2fddd0ff-dfd7-4de4-8714-bf166f357b71"
->Kernel.AcceptInformation.ConditionalEmergencyStop( Source =&gt; Kernel.AcceptInformation.Source.RBC )</PreCondition></PreConditions>
+>Kernel.AcceptInformation.ConditionalEmergencyStop( Source =&gt; Kernel.AcceptInformation.Source.RBC )</PreCondition><PreCondition
+ Guid="30f7c7de-fcc5-4a94-ba86-fc1a4030a303"
+>Kernel.ActiveFunctions.ManageConditionalEmergencyStop()</PreCondition></PreConditions>
 <Actions>
 </Actions>
 <SubRules>
@@ -8580,6 +8660,11 @@ MessageTypes.QScaleDistance(
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="0a2e1044-20d8-4600-a7ca-c4e2dadc2427"
 >
+</ReqRef><ReqRef
+ Id="562e7a97-e32b-4ab7-aa2a-be203bda68f7"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="46ea00ef-caf1-431e-81c7-5a834b97b98d"
+>
 </ReqRef><Comment>Handles reception of an unconditional emergency stop message</Comment>
 <SubRules></SubRules>
 <Conditions>
@@ -8593,7 +8678,9 @@ MessageTypes.QScaleDistance(
  Guid="2a1175db-f9be-4516-b844-38ee6b37cd28"
 >Available ( aMessage.UNCONDITIONAL_EMERGENCY_STOP )</PreCondition><PreCondition
  Guid="9b5b805b-2848-4216-ae3b-8f906ef667cc"
->Kernel.AcceptInformation.UnconditionalEmergencyStop( Source =&gt; Kernel.AcceptInformation.Source.RBC )</PreCondition></PreConditions>
+>Kernel.AcceptInformation.UnconditionalEmergencyStop( Source =&gt; Kernel.AcceptInformation.Source.RBC )</PreCondition><PreCondition
+ Guid="fa67b753-f811-4e3e-b9e3-4db1d8523cc5"
+>Kernel.ActiveFunctions.ManageUnconditionalEmergencyStop()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="14b50c09-3233-48b7-8e73-bbdeae756ac9"
@@ -10769,19 +10856,6 @@ But at the end of the cycle the conditions required for sending of position repo
  Guid="ec8b8c72-983c-4056-97ad-5046cead56ac"
 >
 </ReqRef><Comment>Delay from the application of the M_NVCONTACT reaction (applied when the onboard does not receive any new consistent messages from the RBC after a period T_NVCONTACT) to release of the safe radio connection.</Comment>
-</Variable><Variable
- Type="Boolean"
- DefaultValue="True"
- VariableMode="Constant"
- X="1090"
- Y="190"
- Width="100"
- Height="50"
- NeedsRequirement="FALSE"
- Name="CheckMessageTimeStamps"
- Guid="80f94470-f39e-44f1-8045-5bb6c1e0771d"
->
-<Comment>Indicates whether the check on message time stamps needs to be performed (default is True, is only False for debugging Subset-076 tests).</Comment>
 </Variable><Variable
  Type="Integer"
  DefaultValue="3"

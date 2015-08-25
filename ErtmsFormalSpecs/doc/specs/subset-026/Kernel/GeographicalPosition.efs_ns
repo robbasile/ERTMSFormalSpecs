@@ -284,6 +284,11 @@
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="c58630ba-7689-421f-9a8a-7e6cba198057"
 >
+</ReqRef><ReqRef
+ Id="025dbbdb-b1ef-4f64-87f0-2a29a960ed7e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="37dd470e-b631-4eb3-9045-f3768573bcad"
+>
 </ReqRef><Comment>The geographical position is computed by adding to the position of the track kilometre reference the position travelled by the train from that track kilometre reference. The position travelled by the train is computed as follows: (train position - reference BG position) - offset from the balise group.</Comment>
 <Cases>
 <Case
@@ -293,7 +298,9 @@
 <PreConditions>
 <PreCondition
  Guid="1e9fd2b4-c19b-4e5c-97cb-ccbdf771a701"
->ApplicableItem != EMPTY</PreCondition></PreConditions>
+>ApplicableItem != EMPTY</PreCondition><PreCondition
+ Guid="3e91abd5-3a13-4581-8363-06a3d09b7c71"
+>ActiveFunctions.DetermineGeographicalPosition()</PreCondition></PreConditions>
 <Expression>ApplicableItem.Location +
 BTM.TravelledDistanceFromBG( aBG =&gt; ApplicableItem.ReferenceBG ) - ApplicableItem.Offset</Expression>
 </Case><Case

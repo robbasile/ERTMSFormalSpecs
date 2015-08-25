@@ -128,6 +128,11 @@
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="33fd1430-ad0e-4009-9bb9-37c4112ef701"
 >
+</ReqRef><ReqRef
+ Id="725d78fe-c10d-4ae1-b98d-6b5b229f63bf"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="13865270-91c4-4fce-aa8d-116cfddd13a0"
+>
 </ReqRef><Comment>Stores the track ahead free request received from the trackside.</Comment>
 <Parameters>
 <Parameter
@@ -151,7 +156,9 @@
  Guid="0470b1d1-e140-4b5f-872c-cf5eaf6c4201"
 >
 <PreConditions>
-</PreConditions>
+<PreCondition
+ Guid="c1153e83-9e4c-41b2-b64c-549c276d8072"
+>Kernel.ActiveFunctions.ManageTrackAheadFreeRequest()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="a67faa58-e1df-4ebe-9791-6bb26e592bfd"
@@ -231,6 +238,11 @@
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="afa4cc59-faf6-499f-8458-e8088b122fd7"
 >
+</ReqRef><ReqRef
+ Id="725d78fe-c10d-4ae1-b98d-6b5b229f63bf"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="5a216f3b-6aed-4359-aed1-286826bd4a8e"
+>
 </ReqRef><Comment>Until the driver has answered the track ahead free request received from the RBC, keep the display of the request up.</Comment>
 <SubRules></SubRules>
 <Conditions>
@@ -255,7 +267,9 @@ TrackAheadFreeRequest.StartDisplayLocation &gt;= TrainPosition.FrontEndPosition(
 TrainPosition.FrontEndPosition( PointOfInterest=&gt;DistanceInterval.Nom ) &lt;
 TrackAheadFreeRequest.StartDisplayLocation + BaseTypes.DistanceToLength ( Distance =&gt; TrackAheadFreeRequest.StopDisplayLocation )</PreCondition><PreCondition
  Guid="9861b232-c07b-4950-9280-6185b8be54c7"
->NOT DMI.MasterDMI().In_TrackAheadFree.InputInformation.DriverAnswered</PreCondition></PreConditions>
+>NOT DMI.MasterDMI().In_TrackAheadFree.InputInformation.DriverAnswered</PreCondition><PreCondition
+ Guid="a1c04f65-d42b-450d-aaa7-a9afe1663454"
+>Kernel.ActiveFunctions.ManageTrackAheadFreeRequest()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="141a635d-b107-44bf-bd3f-b36115ff8ee1"
@@ -278,7 +292,9 @@ TrackAheadFreeRequest.StartDisplayLocation + BaseTypes.DistanceToLength ( Distan
   AND
 TrackAheadFreeRequest.StartDisplayLocation + BaseTypes.DistanceToLength ( Distance =&gt; TrackAheadFreeRequest.StopDisplayLocation ) &gt;= TrainPosition.FrontEndPosition( PointOfInterest=&gt;DistanceInterval.Nom )</PreCondition><PreCondition
  Guid="37529bb1-58d2-46dd-872f-7c1156f91bcb"
->NOT DMI.MasterDMI().In_TrackAheadFree.InputInformation.DriverAnswered</PreCondition></PreConditions>
+>NOT DMI.MasterDMI().In_TrackAheadFree.InputInformation.DriverAnswered</PreCondition><PreCondition
+ Guid="7c1e0a50-b376-4ef8-b793-b985a60e5225"
+>Kernel.ActiveFunctions.ManageTrackAheadFreeRequest()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="dd7b6c32-2829-427a-adcc-90cac4a6049a"
@@ -297,7 +313,9 @@ TrackAheadFreeRequest.StartDisplayLocation + BaseTypes.DistanceToLength ( Distan
 <PreConditions>
 <PreCondition
  Guid="806e026f-2feb-4ba7-b103-a649da675deb"
->DMI.MasterDMI().In_TrackAheadFree.InputInformation.DriverAnswered</PreCondition></PreConditions>
+>DMI.MasterDMI().In_TrackAheadFree.InputInformation.DriverAnswered</PreCondition><PreCondition
+ Guid="a88abdfa-5f6e-4389-8589-e3ca82164612"
+>Kernel.ActiveFunctions.ManageTrackAheadFreeRequest()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="9cf1f864-bda2-4aac-9c97-260bcb92f94f"

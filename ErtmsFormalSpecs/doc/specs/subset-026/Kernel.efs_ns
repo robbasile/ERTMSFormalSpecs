@@ -3756,6 +3756,11 @@ TrainPosition.Position.DataState == DataState.Unknown</PreCondition></PreConditi
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="5a89c80b-3194-47b2-ab98-530576169448"
 >
+</ReqRef><ReqRef
+ Id="2ac2d446-1ee9-4dbb-90d3-7ae063cd2925"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="cc17b8f7-7b00-4d17-b777-6573b2e17657"
+>
 </ReqRef><SubRules></SubRules>
 <Conditions>
 <RuleCondition
@@ -3769,7 +3774,9 @@ TrainPosition.Position.DataState == DataState.Unknown</PreCondition></PreConditi
  Guid="706c846d-4108-450f-bad8-e0279061baf0"
 >Level.Value.Value in [Default.Level.L2, Default.Level.L3]</PreCondition><PreCondition
  Guid="9a3b9345-3449-4f77-ab60-d7dba536fd75"
->DMI.MasterDMI().In_Start.InputInformation.DriverAnswered</PreCondition></PreConditions>
+>DMI.MasterDMI().In_Start.InputInformation.DriverAnswered</PreCondition><PreCondition
+ Guid="bc451d22-07d6-4b60-9343-e13e2512041f"
+>ActiveFunctions.RequestMA_StartSelected()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="535cf889-b49c-4fe5-936f-8207a42556b0"
@@ -7646,7 +7653,6 @@ If there are pending emergency stops, go to S130.</Comment>
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
- Verified="TRUE"
  NeedsRequirement="FALSE"
  Name="Valid Train data"
  Guid="3c95d683-6c5d-4ec2-a88a-ecf93809516c"
@@ -7654,7 +7660,9 @@ If there are pending emergency stops, go to S130.</Comment>
 <PreConditions>
 <PreCondition
  Guid="8bd93a06-a6f7-4104-bfab-95efe47e32c4"
->TrainData.TrainData.DataState == DataState.Valid</PreCondition></PreConditions>
+>TrainData.TrainData.DataState == DataState.Valid</PreCondition><PreCondition
+ Guid="3d121aaf-ce72-4fcb-be0a-50d25dbb19f7"
+>ActiveFunctions.RequestMA_StartSelected()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="579b0f8d-9f55-46d4-b079-98656a53e736"
@@ -7877,6 +7885,11 @@ If the Driver selects Entry in SH, initiate &quot;Shunting initiated by Driver&q
  Id="b490aef9-44fa-4043-a130-aa1a33c15e0c"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="9cd4a2d1-e6ca-488b-b3a8-ce680a761be1"
+>
+</ReqRef><ReqRef
+ Id="2ac2d446-1ee9-4dbb-90d3-7ae063cd2925"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="1935d15d-de46-4ff7-bf0d-df0479997532"
 >
 </ReqRef><Comment>Send a MA request and go to MARequestSent.</Comment>
 <SubRules></SubRules>
@@ -12631,6 +12644,11 @@ When the rear end of the train passes the start of the profiles, the message is 
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="96a71151-6d24-4008-ad49-7e07df284d16"
 >
+</ReqRef><ReqRef
+ Id="367acb62-7870-4387-9a8f-345d0059c752"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="1d33f27d-4fbf-401b-ad5b-e867333ec100"
+>
 </ReqRef><Comment>Offer selection of &quot;Override&quot; to the driver when the conditions are met and, if the driver selects &quot;Override&quot;, start the procedure.</Comment>
 <SubRules></SubRules>
 <Conditions>
@@ -12670,7 +12688,9 @@ train data is valid (or the mode is shunting)</Comment>
 
   OR  
 
-Mode == Default.Mode.SH</PreCondition></PreConditions>
+Mode == Default.Mode.SH</PreCondition><PreCondition
+ Guid="3e5831d6-3cad-4abd-bf05-5319aed2d040"
+>ActiveFunctions.EnableOverride()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="bab8de6a-7a28-4649-98e6-e6e684ccc6f2"

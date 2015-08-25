@@ -483,13 +483,34 @@ HasActiveSession()</Expression>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="5d104463-7dca-41ae-bb5d-fecae06ce762"
 >
+</ReqRef><ReqRef
+ Id="d6900e28-e6fc-445f-92d8-c3802e42e6d4"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c4366828-4c7b-40a3-b9dd-73274500e703"
+>
+</ReqRef><ReqRef
+ Id="3873b246-0ac3-43bf-a16c-1a3e9a10c976"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="17d9126f-817e-4715-8c87-5ac3999a52cf"
+>
 </ReqRef><Comment>Indicates if a position report has to be sent due to the level change.</Comment>
 <Cases>
 <Case
- Name="Value"
+ Name="Report position due to level change"
  Guid="2267941e-218a-4012-9fe6-34f016f07663"
 >
+<PreConditions>
+<PreCondition
+ Guid="7f5f6652-3383-4585-b360-c47c2a6b57f5"
+>Kernel.ActiveFunctions.ReportPosition_LevelChangeTrackside()
+  OR  
+Kernel.ActiveFunctions.ReportPostion_LevelChangeDriver()</PreCondition></PreConditions>
 <Expression>PositionReportEventsTracker.Level != Kernel.Level.Value.Value</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="daa2ea14-3ee5-4755-9a57-6e76d4e73460"
+>
+<Expression>False</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -592,13 +613,27 @@ PositionReportEventsTracker.Mode != Kernel.Mode</Expression>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="0b40b0f5-773a-4ef1-bdcf-49f0eda24ff2"
 >
+</ReqRef><ReqRef
+ Id="030c1ff8-a021-4325-967f-3c4c7f6f18e7"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c4505a04-3e6b-4631-9df4-531cb3392a59"
+>
 </ReqRef><Comment>Indicates if a position report has to be sent due to time to send a position report reached.</Comment>
 <Cases>
 <Case
- Name="Value"
+ Name="Report reason valid"
  Guid="aaa72c64-bb2e-466c-93eb-5bf924372ffc"
 >
+<PreConditions>
+<PreCondition
+ Guid="9d029d2f-9487-47e8-95f0-a91ab6441c3e"
+>Kernel.ActiveFunctions.ReportPosition_RBCRequest()</PreCondition></PreConditions>
 <Expression>Kernel.DateAndTime.CurrentTime &gt;= LastPositionReport.Time + PositionReportParameters.Values.TimeInterval AND PositionReportParameters.DataState == DataState.Valid AND PositionReportParameters.Values.TimeInterval != 0.0</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="96a9f43e-de36-45eb-890e-808641155109"
+>
+<Expression>False</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -616,13 +651,27 @@ PositionReportEventsTracker.Mode != Kernel.Mode</Expression>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="d2543aac-c3e4-43c4-a662-302e248412bd"
 >
+</ReqRef><ReqRef
+ Id="030c1ff8-a021-4325-967f-3c4c7f6f18e7"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="8569b3d3-77fa-42e8-9ff6-81a1a138dd9c"
+>
 </ReqRef><Comment>Indicates if a position report has to be sent due to position report distance reached.</Comment>
 <Cases>
 <Case
- Name="Value"
+ Name="Report reason valid"
  Guid="3bcde522-0efd-4e95-9c56-00ee9dbe3059"
 >
+<PreConditions>
+<PreCondition
+ Guid="ded1f57a-2222-476e-9e6a-7f7b23864b98"
+>Kernel.ActiveFunctions.ReportPosition_RBCRequest()</PreCondition></PreConditions>
 <Expression>(Odometry.NominalDistance &gt;= (LastPositionReport.Position + PositionReportParameters.Values.DistanceInterval)) AND (PositionReportParameters.DataState == DataState.Valid) AND (PositionReportParameters.Values.DistanceInterval != BaseTypes.Distance.Infinity)</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="e6f3fb27-51a4-4dd5-b8db-26b3ba5c437a"
+>
+<Expression>False</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -762,15 +811,29 @@ TIU.TrainIntegrity.Status in [
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="e3f5328b-dc54-4bf5-bd3b-1427750e89ce"
 >
+</ReqRef><ReqRef
+ Id="13c6767e-3561-4e5b-a17f-1d622cd06dfe"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f8411b7d-7d17-4adb-b48c-374fda3efaa9"
+>
 </ReqRef><Comment>Indicates if a position report has to be sent due to the passage of an LRBG compliant BG.</Comment>
 <Cases>
 <Case
- Name="Value"
+ Name="Position report valid"
  Guid="48204b28-2e0f-4a18-b93d-684c07d63427"
 >
+<PreConditions>
+<PreCondition
+ Guid="b153b35e-09e0-4864-b33e-ec4dd02d2cc0"
+>Kernel.ActiveFunctions.ReportPosition_BGPassage()</PreCondition></PreConditions>
 <Expression>PositionReportEventsTracker.LRBG != BTM.LRBG
   AND
 PositionReportParameters.DataState != DataState.Valid</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="0f9d38fb-f497-4c5c-8bed-35b92e101ebb"
+>
+<Expression>False</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
