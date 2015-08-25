@@ -517,7 +517,7 @@ namespace DataDictionary.Interpreter
                     IValue val = expression.GetValue(context, subExplanation);
                     if (val != null)
                     {
-                        Actual actual = parameter.createActual();
+                        Actual actual = parameter.CreateActual();
                         val = val.RightSide(actual, false, false);
                         retVal.Add(actual, val);
                     }
@@ -539,7 +539,7 @@ namespace DataDictionary.Interpreter
                     IValue val = pair.Value.GetValue(context, subExplanation);
                     if (val != null)
                     {
-                        Actual actual = parameter.createActual();
+                        Actual actual = parameter.CreateActual();
                         val = val.RightSide(actual, false, false);
                         actual.Value = val;
                         retVal.Add(actual, val);

@@ -95,7 +95,7 @@ namespace DataDictionary.Interpreter
         /// <param name="value"></param>
         public void setParameter(Parameter parameter, IValue value)
         {
-            IVariable actual = parameter.createActual();
+            IVariable actual = parameter.CreateActual();
             actual.Value = value;
             Values.Add(actual);
         }

@@ -1472,7 +1472,7 @@ namespace DataDictionary.Functions
                 foreach (Segment segment in Segments)
                 {
                     Dictionary<Actual, IValue> actuals = new Dictionary<Actual, IValue>();
-                    Actual actual = parameter.createActual();
+                    Actual actual = parameter.CreateActual();
                     actuals[actual] = new DoubleValue(increment.EFSSystem.DoubleType, segment.Expression.v0);
                     IValue result = increment.Evaluate(context, actuals, explain);
                     Segment newSegment = new Segment(segment);

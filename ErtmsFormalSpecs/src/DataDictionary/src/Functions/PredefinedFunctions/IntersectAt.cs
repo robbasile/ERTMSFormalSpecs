@@ -95,7 +95,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
                         if (function.FormalParameters.Count > 0)
                         {
                             Parameter functionParameter = function.FormalParameters[0] as Parameter;
-                            Actual actual = functionParameter.createActual();
+                            Actual actual = functionParameter.CreateActual();
                             actual.Value = new DoubleValue(EFSSystem.DoubleType, speed);
                             Dictionary<Actual, IValue> values = new Dictionary<Actual, IValue>();
                             values[actual] = new DoubleValue(EFSSystem.DoubleType, speed);

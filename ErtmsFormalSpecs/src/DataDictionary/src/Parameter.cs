@@ -46,7 +46,7 @@ namespace DataDictionary
             get { return getTypeName(); }
             set
             {
-                type = null;
+                _type = null;
                 setTypeName(value);
             }
         }
@@ -54,28 +54,28 @@ namespace DataDictionary
         /// <summary>
         ///     Parameter type
         /// </summary>
-        private Type type;
+        private Type _type;
 
         public Type Type
         {
             get
             {
-                if (type == null)
+                if (_type == null)
                 {
                     Expression typeExpression = EFSSystem.Parser.Expression(this, getTypeName(),
                         IsType.INSTANCE, true, null, true);
 
                     if (typeExpression != null)
                     {
-                        type = typeExpression.Ref as Type;
+                        _type = typeExpression.Ref as Type;
                     }
                 }
-                return type;
+                return _type;
             }
             set
             {
                 TypeName = value.Name;
-                type = value;
+                _type = value;
             }
         }
 
@@ -86,16 +86,18 @@ namespace DataDictionary
         {
             get
             {
-                if (this.Enclosing is Function)
+                ArrayList retVal = null;
+
+                if (Enclosing is Function)
                 {
-                    return EnclosingFinder<Function>.find(this).FormalParameters;
+                    retVal = EnclosingFinder<Function>.find(this).FormalParameters;
                 }
-                else if (this.Enclosing is Procedure)
+                else if (Enclosing is Procedure)
                 {
-                    return EnclosingFinder<Procedure>.find(this).FormalParameters;
+                    retVal = EnclosingFinder<Procedure>.find(this).FormalParameters;
                 }
 
-                return null;
+                return retVal;
             }
         }
 
@@ -103,14 +105,9 @@ namespace DataDictionary
         ///     Creates an actual parameter based on this formal parameter and the value assigned to that parameter
         /// </summary>
         /// <returns></returns>
-        public Actual createActual()
+        public Actual CreateActual()
         {
-            Actual retVal = new Actual();
-            retVal.Name = Name;
-            retVal.Enclosing = Enclosing;
-            retVal.Parameter = this;
-
-            return retVal;
+            return new Actual(this);
         }
 
         /// <summary>
@@ -134,7 +131,7 @@ namespace DataDictionary
         /// <summary>
         ///     Adds a model element in this model element
         /// </summary>
-        /// <param name="copy"></param>
+        /// <param name="element"></param>
         public override void AddModelElement(IModelElement element)
         {
         }
