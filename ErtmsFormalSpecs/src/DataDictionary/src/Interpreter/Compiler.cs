@@ -21,6 +21,7 @@ using System.Threading;
 using DataDictionary.Generated;
 using DataDictionary.Interpreter.Refactor;
 using DataDictionary.Types;
+using DataDictionary.Variables;
 using Utils;
 using XmlBooster;
 using Function = DataDictionary.Functions.Function;

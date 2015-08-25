@@ -17,14 +17,12 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using DataDictionary.Generated;
 using DataDictionary.Interpreter;
 using DataDictionary.Variables;
 using Utils;
 using Collection = DataDictionary.Types.Collection;
 using Structure = DataDictionary.Types.Structure;
 using StructureElement = DataDictionary.Types.StructureElement;
-using Variable = DataDictionary.Variables.Variable;
 
 namespace DataDictionary.Values
 {
@@ -38,7 +36,10 @@ namespace DataDictionary.Values
             get { return Type as Structure; }
         }
 
-        private static int depth = 0;
+        /// <summary>
+        /// Avoid infinite loop while building structure values (in case of recursive definition)
+        /// </summary>
+        private static int _depth;
 
         /// <summary>
         ///     Constructor
@@ -50,50 +51,37 @@ namespace DataDictionary.Values
         {
             Enclosing = structure;
 
-            depth += 1;
-            if (depth > 100)
+            _depth += 1;
+            if (_depth > 100)
             {
                 throw new Exception("Possible structure recursion found");
             }
             try
             {
-                Util.DontNotify(() =>
+                foreach (StructureElement element in Structure.Elements)
                 {
-                    foreach (StructureElement element in Structure.Elements)
-                    {
-                        Variable variable = (Variable) acceptor.getFactory().createVariable();
-                        variable.Enclosing = this;
-                        if (element.Type != null)
-                        {
-                            variable.Type = element.Type;
-                        }
-                        variable.Name = element.Name;
-                        variable.Mode = element.Mode;
-                        variable.Default = element.Default;
+                    Field field = CreateField(element, structure);
 
-                        if (setDefaultValue)
+                    if (setDefaultValue)
+                    {
+                        field.Value = field.DefaultValue;
+                    }
+                    else
+                    {
+                        if (field.Type is Collection)
                         {
-                            variable.Value = variable.DefaultValue;
+                            field.Value = new ListValue(field.Type as Collection, new List<IValue>());
                         }
                         else
                         {
-                            if (variable.Type is Collection)
-                            {
-                                variable.Value = new ListValue(variable.Type as Collection, new List<IValue>());
-                            }
-                            else
-                            {
-                                variable.Value = new DefaultValue(variable);
-                            }
+                            field.Value = new DefaultValue(field);
                         }
-                        set(variable);
                     }
-                });
+                }
             }
             finally
             {
-                depth -= 1;
-                DeclaredElements = null;
+                _depth -= 1;
             }
         }
 
@@ -111,57 +99,49 @@ namespace DataDictionary.Values
 
             try
             {
-                Util.DontNotify(() =>
+                HashSet<string> members = new HashSet<string>();
+                foreach (KeyValuePair<Designator, Expression> pair in structureExpression.Associations)
                 {
-                    HashSet<string> members = new HashSet<string>();
-                    foreach (KeyValuePair<Designator, Expression> pair in structureExpression.Associations)
+                    StructureElement structureElement = Structure.FindStructureElement(pair.Key.Image);
+                    if (structureElement != null)
                     {
                         IValue val = pair.Value.GetExpressionValue(new InterpretationContext(context), explain);
                         if (val != null)
                         {
-                            Variable var = (Variable) acceptor.getFactory().createVariable();
-                            var.Name = pair.Key.Image;
-                            var.Value = val;
-                            var.Enclosing = this;
-                            set(var);
-                            members.Add(var.Name);
+                            Field field = CreateField(structureElement, structureExpression.RootLog);
+                            field.Value = val;
+                            members.Add(field.Name);
                         }
                         else
                         {
                             structureExpression.AddError("Cannot evaluate value for " + pair.Value);
                         }
                     }
-
-                    foreach (StructureElement element in Structure.Elements)
+                    else
                     {
-                        if (!members.Contains(element.Name))
-                        {
-                            Variable variable = (Variable) acceptor.getFactory().createVariable();
-                            variable.Enclosing = this;
-                            if (element.Type != null)
-                            {
-                                variable.Type = element.Type;
-                            }
-                            variable.Name = element.Name;
-                            variable.Mode = element.Mode;
-                            variable.Default = element.Default;
-                            variable.Value = variable.DefaultValue;
-                            set(variable);
-                        }
+                        structureExpression.AddError("Cannot find structure element " + pair.Key.Image);
                     }
-                });
+                }
+
+                foreach (StructureElement element in Structure.Elements)
+                {
+                    if (!members.Contains(element.Name))
+                    {
+                        Field field = CreateField(element, structureExpression.RootLog);
+                        field.Value = element.DefaultValue;
+                    }
+                }
             }
             finally
             {
-                depth -= 1;
-                DeclaredElements = null;
+                _depth -= 1;
             }
         }
 
         /// <summary>
         ///     Constructor
         /// </summary>
-        /// <param name="structure"></param>
+        /// <param name="other"></param>
         public StructureValue(StructureValue other)
             : base(other.Structure, new Dictionary<string, INamable>())
         {
@@ -169,45 +149,67 @@ namespace DataDictionary.Values
 
             foreach (KeyValuePair<string, INamable> pair in other.Val)
             {
-                Variable variable = pair.Value as Variable;
-                if (variable != null)
+                Field field = pair.Value as Field;
+                if (field != null)
                 {
-                    Variable var2 = (Variable) acceptor.getFactory().createVariable();
-                    var2.Type = variable.Type;
-                    var2.Name = variable.Name;
-                    var2.Mode = variable.Mode;
-                    var2.Default = variable.Default;
-                    var2.Enclosing = this;
-                    if (variable.Value != null)
+                    Field field2 = CreateField(field.StructureElement, Structure); 
+                    if (field.Value != null)
                     {
-                        var2.Value = variable.Value.RightSide(var2, true, true);
+                        field2.Value = field.Value.RightSide(field2, true, true);
                     }
                     else
                     {
-                        var2.Value = null;
+                        field2.Value = null;
                     }
-                    set(var2);
                 }
             }
-
-            DeclaredElements = null;
         }
 
         /// <summary>
         ///     Sets the value of a given association
         /// </summary>
-        /// <param name="name"></param>
-        /// <param name="val"></param>
-        public void set(IVariable variable)
+        /// <param name="structureElement"></param>
+        /// <param name="log">The element on which errors should be logged</param>
+        /// <returns>the newly created field</returns>
+        public Field CreateField(StructureElement structureElement, ModelElement log)
         {
-            StructureElement element = Structure.FindStructureElement(variable.Name);
+            Field retVal = null;
 
-            if (element != null)
+            if (structureElement != null)
             {
-                variable.Type = element.Type;
-                Val[variable.Name] = variable;
-                variable.Enclosing = this;
+                retVal = new Field(this, structureElement);
+                Val[retVal.Name] = retVal;
             }
+            else
+            {
+                log.AddError("Cannot find structure element");
+            }
+
+            return retVal;
+        }
+
+        /// <summary>
+        ///     Sets the value of a given association
+        /// </summary>
+        /// <param name="enclosing"></param>
+        /// <param name="name"></param>
+        /// <param name="log">The element on which errors should be logged</param>
+        /// <returns>the newly created field</returns>
+        public Field CreateField(object enclosing, string name, ModelElement log)
+        {
+            Field retVal = null;
+
+            StructureElement structureElement = Structure.FindStructureElement(name);
+            if (structureElement != null)
+            {
+                retVal = CreateField(structureElement, log);
+            }
+            else
+            {
+                log.AddError("Cannot find structure element " + name);
+            }
+
+            return retVal;
         }
 
         /// <summary>
@@ -215,7 +217,7 @@ namespace DataDictionary.Values
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public IVariable getVariable(string name)
+        public IVariable GetVariable(string name)
         {
             IVariable retVal = null;
 
@@ -232,12 +234,6 @@ namespace DataDictionary.Values
         /// </summary>
         public void InitDeclaredElements()
         {
-            DeclaredElements = new Dictionary<string, List<INamable>>();
-
-            foreach (INamable namable in Val.Values)
-            {
-                ISubDeclaratorUtils.AppendNamable(this, namable);
-            }
         }
 
         /// <summary>
@@ -252,7 +248,12 @@ namespace DataDictionary.Values
         /// <param name="retVal"></param>
         public void Find(string name, List<INamable> retVal)
         {
-            ISubDeclaratorUtils.Find(this, name, retVal);
+            INamable namable;
+
+            if (Val.TryGetValue(name, out namable))
+            {
+                retVal.Add(namable);                
+            }
         }
 
         public override string Name
@@ -262,13 +263,13 @@ namespace DataDictionary.Values
                 string retVal = Type.FullName + "\n{\n";
 
                 bool first = true;
-                foreach (object tmp in Val.Values)
+                foreach (INamable tmp in Val.Values)
                 {
                     if (!first)
                     {
                         retVal += ", \n";
                     }
-                    Variable variable = tmp as Variable;
+                    IVariable variable = tmp as IVariable;
                     if (variable != null && variable.Value != null)
                     {
                         retVal += "    " + variable.Name + " => " + variable.Value.FullName;
@@ -286,15 +287,15 @@ namespace DataDictionary.Values
         /// <summary>
         ///     The sub variables of this structure
         /// </summary>
-        private Dictionary<string, IVariable> subVariables;
+        private Dictionary<string, IVariable> _subVariables;
 
         public Dictionary<string, IVariable> SubVariables
         {
             get
             {
-                if (subVariables == null)
+                if (_subVariables == null)
                 {
-                    subVariables = new Dictionary<string, IVariable>();
+                    _subVariables = new Dictionary<string, IVariable>();
 
                     foreach (KeyValuePair<string, INamable> kp in Val)
                     {
@@ -302,12 +303,12 @@ namespace DataDictionary.Values
 
                         if (var != null)
                         {
-                            subVariables.Add(kp.Key, var);
+                            _subVariables.Add(kp.Key, var);
                         }
                     }
                 }
 
-                return subVariables;
+                return _subVariables;
             }
         }
 
@@ -346,9 +347,9 @@ namespace DataDictionary.Values
 
             retVal.Append(Type.FullName + "{");
             bool first = true;
-            foreach (object tmp in Val.Values)
+            foreach (INamable tmp in Val.Values)
             {
-                Variable variable = tmp as Variable;
+                IVariable variable = tmp as IVariable;
                 if (variable != null && !(variable.Value is DefaultValue))
                 {
                     if (!first)

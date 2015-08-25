@@ -17,12 +17,11 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.ServiceModel;
-using DataDictionary.Generated;
 using DataDictionary.Values;
+using DataDictionary.Variables;
 using Structure = DataDictionary.Types.Structure;
 using StructureElement = DataDictionary.Types.StructureElement;
 using Type = DataDictionary.Types.Type;
-using Variable = DataDictionary.Variables.Variable;
 
 namespace GUI.IPCInterface.Values
 {
@@ -85,10 +84,8 @@ namespace GUI.IPCInterface.Values
                     StructureElement element = structureType.FindStructureElement(pair.Key);
                     if (element != null)
                     {
-                        Variable variable = (Variable) acceptor.getFactory().createVariable();
-                        variable.Name = element.Name;
-                        variable.Value = pair.Value.ConvertBack(element.Type);
-                        retVal.set(variable);
+                        Field field = retVal.CreateField(element, structureType);
+                        field.Value = pair.Value.ConvertBack(element.Type);
                     }
                     else
                     {

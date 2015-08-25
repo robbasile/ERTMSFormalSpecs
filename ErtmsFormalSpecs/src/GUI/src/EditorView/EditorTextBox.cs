@@ -166,7 +166,7 @@ namespace GUI.EditorView
                 OLVListItem item = data as OLVListItem;
                 if (item != null)
                 {
-                    Variable variable = item.RowObject as Variable;
+                    IVariable variable = item.RowObject as IVariable;
                     if (variable != null)
                     {
                         EditionTextBox.SelectedText = SetVariable(variable);

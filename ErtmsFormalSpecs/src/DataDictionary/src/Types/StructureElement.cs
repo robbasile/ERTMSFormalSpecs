@@ -324,6 +324,15 @@ namespace DataDictionary.Types
         }
 
         /// <summary>
+        ///     Handles a change of the model element by invalidating the cache of all element in CacheDependancy
+        /// </summary>
+        public override void HandleChange()
+        {
+            base.HandleChange();
+            Structure.HandleChange();
+        }
+
+        /// <summary>
         ///     Creates a copy of the structure element in the designated dictionary. The namespace structure is copied over.
         ///     The new structure element is set to update this one.
         /// </summary>

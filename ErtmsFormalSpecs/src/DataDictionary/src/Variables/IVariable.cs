@@ -31,5 +31,11 @@ namespace DataDictionary.Variables
         ///     Provides the default value to give to the variable
         /// </summary>
         IValue DefaultValue { get; }
+
+        /// <summary>
+        /// Actions to be taken when the value of the variable changes
+        /// </summary>
+        void HandleChange();
+
     }
 }

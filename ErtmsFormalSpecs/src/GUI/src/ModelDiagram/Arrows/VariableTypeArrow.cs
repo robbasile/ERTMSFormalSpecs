@@ -42,7 +42,7 @@ namespace GUI.ModelDiagram.Arrows
         /// <param name="initialBox"></param>
         public override void SetInitialBox(IGraphicalDisplay initialBox)
         {
-            Variable variable = initialBox as Variable;
+            IVariable variable = initialBox as IVariable;
             Type type = Target as Type;
             if (variable != null && type != null)
             {
@@ -57,7 +57,7 @@ namespace GUI.ModelDiagram.Arrows
         /// <param name="targetBox"></param>
         public override void SetTargetBox(IGraphicalDisplay targetBox)
         {
-            Variable variable = Source as Variable;
+            IVariable variable = Source as IVariable;
             Type type = targetBox as Type;
             if (variable != null && type != null)
             {

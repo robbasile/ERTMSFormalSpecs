@@ -638,13 +638,15 @@ namespace DataDictionary.Types
             get
             {
                 TransitionFinder finder = new TransitionFinder(this);
-                Util.DontNotify((() =>
+
+                DontRaiseError((() =>
                 {
                     foreach (Dictionary dictionary in EFSSystem.Dictionaries)
                     {
                         finder.visit(dictionary);
                     }
                 }));
+
                 return finder.Transitions;
             }
         }

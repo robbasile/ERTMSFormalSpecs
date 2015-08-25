@@ -1108,56 +1108,52 @@ namespace DataDictionary.Interpreter
             NoReentrance.WaitOne();
             ModelElement.DontRaiseError(silent, () =>
             {
-                // ReSharper disable once ConvertToLambdaExpression
-                Util.DontNotify(() =>
+                try
                 {
-                    try
+                    // Setup context
+                    Root = root;
+                    RootLog = log;
+                    if (RootLog == null)
                     {
-                        // Setup context
-                        Root = root;
-                        RootLog = log;
-                        if (RootLog == null)
-                        {
-                            RootLog = Root;
-                        }
+                        RootLog = Root;
+                    }
 
-                        Buffer = expression.ToCharArray();
-                        retVal = Expression(0);
+                    Buffer = expression.ToCharArray();
+                    retVal = Expression(0);
 
-                        SkipWhiteSpaces();
-                        if (Index != Buffer.Length)
+                    SkipWhiteSpaces();
+                    if (Index != Buffer.Length)
+                    {
+                        retVal = null;
+                        if (Index < Buffer.Length)
                         {
-                            retVal = null;
-                            if (Index < Buffer.Length)
-                            {
-                                RootLog.AddError("End of expression expected, but found " + Buffer[Index]);
-                            }
-                            else
-                            {
-                                RootLog.AddError("End of expression expected, but found EOF");
-                            }
+                            RootLog.AddError("End of expression expected, but found " + Buffer[Index]);
                         }
-                        if (retVal != null && doSemanticalAnalysis)
+                        else
                         {
-                            if (filter == null)
-                            {
-                                retVal.SemanticAnalysis(IsVariableOrValue.INSTANCE);
-                            }
-                            else
-                            {
-                                retVal.SemanticAnalysis(filter);
-                            }
+                            RootLog.AddError("End of expression expected, but found EOF");
                         }
                     }
-                    catch (Exception e)
+                    if (retVal != null && doSemanticalAnalysis)
                     {
-                        root.AddException(e);
+                        if (filter == null)
+                        {
+                            retVal.SemanticAnalysis(IsVariableOrValue.INSTANCE);
+                        }
+                        else
+                        {
+                            retVal.SemanticAnalysis(filter);
+                        }
                     }
-                    finally
-                    {
-                        NoReentrance.ReleaseMutex();
-                    }
-                });
+                }
+                catch (Exception e)
+                {
+                    root.AddException(e);
+                }
+                finally
+                {
+                    NoReentrance.ReleaseMutex();
+                }
             });
 
             return retVal;

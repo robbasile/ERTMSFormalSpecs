@@ -173,7 +173,7 @@ namespace GUI.BoxArrowDiagram
             {
                 case BoxModeEnum.Rectangle3D:
                 {
-                    Brush innerBrush = new SolidBrush(NormalColor);
+                    Brush innerBrush = new SolidBrush(BackColor);
                     g.FillRectangle(innerBrush, Location.X, Location.Y, Width, Height);
                     g.DrawRectangle(pen, Location.X, Location.Y, Width, Height);
 
@@ -199,7 +199,7 @@ namespace GUI.BoxArrowDiagram
                         new Point(Location.X, Location.Y + RoundSize)
                     };
 
-                    Brush innerBrush = new SolidBrush(NormalColor);
+                    Brush innerBrush = new SolidBrush(BackColor);
                     g.FillRectangle(innerBrush,
                         new Rectangle(points[0], new Size(points[4].X - points[0].X, points[4].Y - points[0].Y)));
                     g.FillRectangle(innerBrush,

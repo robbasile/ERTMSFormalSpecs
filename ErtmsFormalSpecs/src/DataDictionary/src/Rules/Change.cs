@@ -104,10 +104,9 @@ namespace DataDictionary.Rules
         {
             Variable.Value = value;
 
-            Variable variable = Variable as Variable;
-            if (variable != null)
+            if (Variable != null)
             {
-                variable.HandleChange();
+                Variable.HandleChange();
             }
         }
 

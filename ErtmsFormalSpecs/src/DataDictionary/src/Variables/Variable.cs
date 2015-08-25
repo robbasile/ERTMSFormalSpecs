@@ -159,10 +159,41 @@ namespace DataDictionary.Variables
         /// </summary>
         public string Default
         {
-            get { return getDefaultValue(); }
+            get
+            {
+                string retVal = getDefaultValue();
+
+                if (string.IsNullOrEmpty(retVal) && Type != null)
+                {
+                    retVal = Type.getDefault();
+                }
+
+                if (string.IsNullOrEmpty(retVal))
+                {
+                    Structure structure = Type as Structure;
+                    if (structure != null)
+                    {
+                        retVal = structure.FullName + "{}";
+                    }
+                    else
+                    {
+                        Collection collection = Type as Collection;
+                        if (collection != null)
+                        {
+                            retVal = "[]";
+                        }
+                        else
+                        {
+                            retVal = "0";
+                        }
+                    }
+                }
+
+                return retVal;
+            }
+
             set { setDefaultValue(value); }
         }
-
 
         public override string ExpressionText
         {
@@ -449,43 +480,6 @@ namespace DataDictionary.Variables
         }
 
         /// <summary>
-        ///     Provides the text of the default value
-        /// </summary>
-        /// <returns></returns>
-        public string GetDefaultValueText()
-        {
-            string retVal = getDefaultValue();
-
-            if (string.IsNullOrEmpty(retVal) && Type != null)
-            {
-                retVal = Type.getDefault();
-            }
-
-            if (string.IsNullOrEmpty(retVal))
-            {
-                Structure structure = Type as Structure;
-                if (structure != null)
-                {
-                    retVal = structure.FullName + "{}";
-                }
-                else
-                {
-                    Collection collection = Type as Collection;
-                    if (collection != null)
-                    {
-                        retVal = "[]";
-                    }
-                    else
-                    {
-                        retVal = "0";
-                    }
-                }
-            }
-
-            return retVal;
-        }
-
-        /// <summary>
         ///     The X position
         /// </summary>
         public int X
@@ -560,7 +554,7 @@ namespace DataDictionary.Variables
             StructureValue enclosingStructureValue = Enclosing as StructureValue;
             if (enclosingStructureValue != null)
             {
-                Variable enclosingVariable = enclosingStructureValue.Enclosing as Variable;
+                IVariable enclosingVariable = enclosingStructureValue.Enclosing as IVariable;
                 if (enclosingVariable != null)
                 {
                     enclosingVariable.HandleChange();

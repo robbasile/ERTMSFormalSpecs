@@ -193,7 +193,7 @@ namespace GUI.DataDictionaryView
                 stateMachine = EnclosingFinder<StateMachine>.find(context.Element, true);
             }
 
-            Variable variable = context.Element as Variable;
+            IVariable variable = context.Element as IVariable;
             if (variable != null)
             {
                 stateMachine = variable.Type as StateMachine;

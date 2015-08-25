@@ -101,10 +101,10 @@ namespace DataDictionary.Functions.PredefinedFunctions
 
             if (LocationStruct != null)
             {
-                Variable Location = LocationStruct.Val["Location"] as Variable;
-                location = new SiDistance((Location.Value as DoubleValue).Val);
-                Variable Speed = LocationStruct.Val["Speed"] as Variable;
-                speed = new SiSpeed((Speed.Value as DoubleValue).Val, SiSpeed_SubUnits.KiloMeter_per_Hour);
+                IVariable locationField = LocationStruct.Val["Location"] as IVariable;
+                location = new SiDistance((locationField.Value as DoubleValue).Val);
+                IVariable speedField = LocationStruct.Val["Speed"] as IVariable;
+                speed = new SiSpeed((speedField.Value as DoubleValue).Val, SiSpeed_SubUnits.KiloMeter_per_Hour);
 
                 Function decelerationFactor = context.FindOnStack(DecelerationFactor).Value as Function;
                 if (decelerationFactor != null)

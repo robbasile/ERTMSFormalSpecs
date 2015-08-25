@@ -129,53 +129,28 @@ namespace DataDictionary.Functions.PredefinedFunctions
                 Graph graph = function.Graph;
                 if (graph != null && graph.Segments.Count > 1)
                 {
+                    NameSpace nameSpace = OverallNameSpaceFinder.INSTANCE.findByName(EFSSystem.Dictionaries[0],
+                        "Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring");
+                    Structure structureType = (Structure)
+                        EFSSystem.FindType(
+                            nameSpace,
+                            "Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target"
+                        );
+
                     double prevSpeed = graph.Segments[0].Evaluate(graph.Segments[0].Start);
                     for (int i = 1; i < graph.Segments.Count; i++)
                     {
                         Graph.Segment s = graph.Segments[i];
-                        Structure structureType =
-                            (Structure)
-                                EFSSystem.FindType(
-                                    OverallNameSpaceFinder.INSTANCE.findByName(EFSSystem.Dictionaries[0],
-                                        "Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring"),
-                                    "Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target");
                         StructureValue value = new StructureValue(structureType);
 
-                        Variable speed = (Variable) acceptor.getFactory().createVariable();
-                        speed.Type =
-                            EFSSystem.FindType(
-                                OverallNameSpaceFinder.INSTANCE.findByName(EFSSystem.Dictionaries[0],
-                                    "Default.BaseTypes"), "Default.BaseTypes.Speed");
-                        speed.Name = "Speed";
-                        speed.Mode = acceptor.VariableModeEnumType.aInternal;
-                        speed.Default = "0.0";
-                        speed.Enclosing = value;
+                        Field speed = value.CreateField(value, "Speed", structureType);
                         speed.Value = new DoubleValue(EFSSystem.DoubleType, s.Evaluate(s.Start));
-                        value.set(speed);
 
-                        Variable location = (Variable) acceptor.getFactory().createVariable();
-                        location.Type =
-                            EFSSystem.FindType(
-                                OverallNameSpaceFinder.INSTANCE.findByName(EFSSystem.Dictionaries[0],
-                                    "Default.BaseTypes"), "Default.BaseTypes.Distance");
-                        location.Name = "Location";
-                        location.Mode = acceptor.VariableModeEnumType.aInternal;
-                        location.Default = "0.0";
-                        location.Enclosing = value;
+                        Field location = value.CreateField(value, "Location", structureType);
                         location.Value = new DoubleValue(EFSSystem.DoubleType, s.Start);
-                        value.set(location);
 
-                        Variable length = (Variable) acceptor.getFactory().createVariable();
-                        length.Type =
-                            EFSSystem.FindType(
-                                OverallNameSpaceFinder.INSTANCE.findByName(EFSSystem.Dictionaries[0],
-                                    "Default.BaseTypes"), "Default.BaseTypes.Length");
-                        length.Name = "Length";
-                        length.Mode = acceptor.VariableModeEnumType.aInternal;
-                        length.Default = "0.0";
-                        length.Enclosing = value;
+                        Field length = value.CreateField(value, "Length", structureType);
                         length.Value = SegmentLength(s.End);
-                        value.set(length);
 
                         // Only add the target for the current segment to the collection if it brings a reduction in permitted speed
                         if (s.Evaluate(s.Start) < prevSpeed)

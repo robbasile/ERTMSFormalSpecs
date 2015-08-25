@@ -189,14 +189,14 @@ namespace GUI.StructureEditor
             /// <summary>
             ///     The variable that holds the list value
             /// </summary>
-            private Variable Variable { get; set; }
+            private IVariable Variable { get; set; }
 
             /// <summary>
             ///     Constructor
             /// </summary>
             /// <param name="args"></param>
             /// <param name="variable"></param>
-            public ToolStripShowStateMachine(CellRightClickEventArgs args, Variable variable)
+            public ToolStripShowStateMachine(CellRightClickEventArgs args, IVariable variable)
                 : base(args, "Show state machine")
             {
                 Variable = variable;
@@ -220,7 +220,7 @@ namespace GUI.StructureEditor
         {
             CustomizeTreeView.CreateContextualMenu(obj, args);
 
-            Variable enclosingVariable = args.Model as Variable;
+            IVariable enclosingVariable = args.Model as IVariable;
 
             if (enclosingVariable != null)
             {

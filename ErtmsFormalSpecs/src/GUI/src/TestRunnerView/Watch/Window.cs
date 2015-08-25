@@ -288,13 +288,13 @@ namespace GUI.TestRunnerView.Watch
                 BaseTreeNode sourceNode = data as BaseTreeNode;
                 if (sourceNode != null)
                 {
-                    Variable variable = sourceNode.Model as Variable;
+                    IVariable variable = sourceNode.Model as IVariable;
                     if (variable == null)
                     {
                         Shortcut shortCut = sourceNode.Model as Shortcut;
                         if (shortCut != null)
                         {
-                            variable = shortCut.GetReference() as Variable;
+                            variable = shortCut.GetReference() as IVariable;
                         }
                     }
 
@@ -307,7 +307,7 @@ namespace GUI.TestRunnerView.Watch
                 OLVListItem item = data as OLVListItem;
                 if (item != null)
                 {
-                    Variable variable = item.RowObject as Variable;
+                    IVariable variable = item.RowObject as IVariable;
                     if (variable != null)
                     {
                         AddVariable(variable);
@@ -316,7 +316,7 @@ namespace GUI.TestRunnerView.Watch
             }
         }
 
-        private void AddVariable(Variable variable)
+        private void AddVariable(IVariable variable)
         {
             List<WatchedExpression> watches = (List<WatchedExpression>) watchDataGridView.DataSource;
             watches.Insert(watches.Count - 1, new WatchedExpression(Instance, variable.FullName));
@@ -450,7 +450,7 @@ namespace GUI.TestRunnerView.Watch
                         Expression expression = ExpressionTree;
                         if (expression != null)
                         {
-                            Variable variable = expression.Ref as Variable;
+                            IVariable variable = expression.Ref as IVariable;
                             if (variable != null)
                             {
                                 Type type = variable.Type;

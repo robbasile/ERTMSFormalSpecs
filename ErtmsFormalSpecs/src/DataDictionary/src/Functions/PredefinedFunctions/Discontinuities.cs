@@ -151,41 +151,14 @@ namespace DataDictionary.Functions.PredefinedFunctions
                         "Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target");
             StructureValue value = new StructureValue(structureType);
 
-            Variable speedV = (Variable) acceptor.getFactory().createVariable();
-            speedV.Type =
-                EFSSystem.FindType(
-                    OverallNameSpaceFinder.INSTANCE.findByName(EFSSystem.Dictionaries[0], "Default.BaseTypes"),
-                    "Default.BaseTypes.Speed");
-            speedV.Name = "Speed";
-            speedV.Mode = acceptor.VariableModeEnumType.aInternal;
-            speedV.Default = "0.0";
-            speedV.Enclosing = value;
+            Field speedV = value.CreateField(value, "Speed", structureType);
             speedV.Value = new DoubleValue(EFSSystem.DoubleType, speed);
-            value.set(speedV);
 
-            Variable location = (Variable) acceptor.getFactory().createVariable();
-            location.Type =
-                EFSSystem.FindType(
-                    OverallNameSpaceFinder.INSTANCE.findByName(EFSSystem.Dictionaries[0], "Default.BaseTypes"),
-                    "Default.BaseTypes.Distance");
-            location.Name = "Location";
-            location.Mode = acceptor.VariableModeEnumType.aInternal;
-            location.Default = "0.0";
-            location.Enclosing = value;
+            Field location = value.CreateField(value, "Location", structureType);
             location.Value = new DoubleValue(EFSSystem.DoubleType, start);
-            value.set(location);
 
-            Variable lengthV = (Variable) acceptor.getFactory().createVariable();
-            lengthV.Type =
-                EFSSystem.FindType(
-                    OverallNameSpaceFinder.INSTANCE.findByName(EFSSystem.Dictionaries[0], "Default.BaseTypes"),
-                    "Default.BaseTypes.Length");
-            lengthV.Name = "Length";
-            lengthV.Mode = acceptor.VariableModeEnumType.aInternal;
-            lengthV.Default = "0.0";
-            lengthV.Enclosing = value;
+            Field lengthV = value.CreateField(value, "Length", structureType);
             lengthV.Value = new DoubleValue(EFSSystem.DoubleType, length);
-            value.set(lengthV);
             return value;
         }
     }

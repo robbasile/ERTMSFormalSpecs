@@ -1129,7 +1129,7 @@ namespace GUIUtils.Editor
         ///     Sets the variable in the editor
         /// </summary>
         /// <param name="variable"></param>
-        protected string SetVariable(Variable variable)
+        protected string SetVariable(IVariable variable)
         {
             TextualExplanation text = new TextualExplanation();
 

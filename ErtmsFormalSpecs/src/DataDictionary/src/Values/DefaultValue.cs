@@ -34,10 +34,10 @@ namespace DataDictionary.Values
         ///     Constructor
         /// </summary>
         /// <param name="type"></param>
-        public DefaultValue(Variable variable)
+        public DefaultValue(IVariable variable)
             : base(variable.Type)
         {
-            Name = variable.GetDefaultValueText();
+            Name = variable.Default;
         }
     }
 }

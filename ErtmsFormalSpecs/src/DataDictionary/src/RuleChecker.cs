@@ -450,7 +450,7 @@ namespace DataDictionary
                     }
                 }
 
-                Variables.Variable variable = commentable as Variables.Variable;
+                IVariable variable = commentable as IVariable;
                 if (variable != null)
                 {
                     requiresComment = false;

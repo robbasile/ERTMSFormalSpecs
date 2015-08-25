@@ -579,14 +579,13 @@ namespace DataDictionary.Interpreter
                         {
                             // Consistency check. 
                             // Empty value should not be considered because we can dereference 'Empty'
-                            IVariable subDeclVar = subDeclarator as Variable;
+                            IVariable subDeclVar = subDeclarator as IVariable;
                             object enclosed = ((IEnclosed) namable).Enclosing;
                             if (subDeclVar != null)
                             {
                                 if (enclosed != subDeclVar.Value)
                                 {
-                                    AddError(
-                                        "Consistency check failed : enclosed element's father relationship is inconsistent");
+                                    AddError("Consistency check failed : enclosed element's father relationship is inconsistent");
                                 }
                             }
                             else

@@ -202,7 +202,7 @@ namespace GUI.TestRunnerView.TimeLineControl
                             // Create the default value
                             IValue value = null;
                             Expression expression = null;
-                            string defaultValue = variableNode.Item.GetDefaultValueText();
+                            string defaultValue = variableNode.Item.Default;
                             if (defaultValue != null)
                             {
                                 const bool doSemanticalAnalysis = true;

@@ -59,7 +59,7 @@ namespace GUIUtils.StructureEditor
         {
             IValue retVal;
 
-            Variable variable = obj as Variable;
+            IVariable variable = obj as IVariable;
             if (variable != null)
             {
                 retVal = variable.Value;
@@ -97,10 +97,10 @@ namespace GUIUtils.StructureEditor
                 {
                     retVal = structureValue.Type.Name;
 
-                    IVariable name = structureValue.getVariable("Name");
+                    IVariable name = structureValue.GetVariable("Name");
                     if (name == null)
                     {
-                        name = structureValue.getVariable("Id");
+                        name = structureValue.GetVariable("Id");
                     }
 
                     if (name != null)
@@ -110,7 +110,7 @@ namespace GUIUtils.StructureEditor
                 }
             }
 
-            Variable variable = obj as Variable;
+            IVariable variable = obj as IVariable;
             if (variable != null)
             {
                 retVal = variable.Name;
@@ -229,16 +229,24 @@ namespace GUIUtils.StructureEditor
         {
             string retVal = "";
 
-            Variable variable = obj as Variable;
+            IVariable variable = obj as IVariable;
             if (variable != null)
             {
-                if (string.IsNullOrEmpty(variable.Comment))
+                Variable modelVariable = variable as Variable;
+                if (modelVariable != null)
                 {
-                    retVal = variable.Type.Comment;
+                    if (string.IsNullOrEmpty(modelVariable.Comment))
+                    {
+                        retVal = modelVariable.Type.Comment;
+                    }
+                    else
+                    {
+                        retVal = modelVariable.Comment;
+                    }
                 }
                 else
                 {
-                    retVal = variable.Comment;
+                    retVal = variable.Type.Comment;
                 }
             }
             else
@@ -281,7 +289,7 @@ namespace GUIUtils.StructureEditor
             StructureValue structureValue = value as StructureValue;
             if (structureValue != null)
             {
-                foreach (Variable subVariable in structureValue.Val.Values)
+                foreach (IVariable subVariable in structureValue.Val.Values)
                 {
                     if (subVariable.Type is Structure)
                     {
@@ -330,7 +338,7 @@ namespace GUIUtils.StructureEditor
             if (structureValue != null)
             {
                 ArrayList list = new ArrayList();
-                foreach (Variable subVariable in structureValue.Val.Values)
+                foreach (IVariable subVariable in structureValue.Val.Values)
                 {
                     if (subVariable.Value is DefaultValue)
                     {
@@ -380,14 +388,12 @@ namespace GUIUtils.StructureEditor
         /// </summary>
         /// <param name="element"></param>
         /// <returns></returns>
-        private static Variable CreateVariable(StructureElement element)
+        private static Field CreateField(StructureElement element)
         {
             Structure elementStructureType = (Structure) element.Type;
             StructureValue subValue = new StructureValue(elementStructureType, false);
 
-            Variable retVal = (Variable) acceptor.getFactory().createVariable();
-            retVal.Name = element.Name;
-            retVal.Type = element.Type;
+            Field retVal = new Field(elementStructureType, element);
             retVal.Value = subValue;
             return retVal;
         }
@@ -456,14 +462,14 @@ namespace GUIUtils.StructureEditor
             /// <summary>
             ///     The variable that holds the list value
             /// </summary>
-            private Variable Variable { get; set; }
+            private IVariable Variable { get; set; }
 
             /// <summary>
             ///     Constructor
             /// </summary>
             /// <param name="args"></param>
             /// <param name="variable"></param>
-            public ToolStripAddValueInList(CellRightClickEventArgs args, Variable variable)
+            public ToolStripAddValueInList(CellRightClickEventArgs args, IVariable variable)
                 : base(args, "Add entry")
             {
                 Variable = variable;
@@ -484,8 +490,7 @@ namespace GUIUtils.StructureEditor
                     Structure subElementStructureType = subElement.Type as Structure;
                     if (subElementStructureType != null)
                     {
-                        Variable subVariable = CreateVariable(subElement);
-                        element.set(subVariable);
+                        element.CreateField(subElement, structureType);
                     }
                 }
 
@@ -591,11 +596,7 @@ namespace GUIUtils.StructureEditor
             {
                 Structure elementStructureType = (Structure) Element.Type;
                 StructureValue subValue = new StructureValue(elementStructureType, false);
-                Variable subVariable = (Variable) acceptor.getFactory().createVariable();
-                subVariable.Name = Element.Name;
-                subVariable.Type = Element.Type;
-                subVariable.Value = subValue;
-                Value.set(subVariable);
+                subValue.CreateField(Element, elementStructureType);
 
                 base.OnClick(e);
             }
@@ -609,14 +610,14 @@ namespace GUIUtils.StructureEditor
             /// <summary>
             ///     The variable to remove
             /// </summary>
-            private Variable Variable { get; set; }
+            private IVariable Variable { get; set; }
 
             /// <summary>
             ///     Constructor
             /// </summary>
             /// <param name="args"></param>
             /// <param name="variable"></param>
-            public ToolStripRemoveStructureMember(CellRightClickEventArgs args, Variable variable)
+            public ToolStripRemoveStructureMember(CellRightClickEventArgs args, IVariable variable)
                 : base(args, "Remove")
             {
                 Variable = variable;
@@ -638,7 +639,7 @@ namespace GUIUtils.StructureEditor
             ContextMenuStrip menuStrip = new ContextMenuStrip();
             List<BaseToolStripButton> items = new List<BaseToolStripButton>();
 
-            Variable enclosingVariable = args.Model as Variable;
+            IVariable enclosingVariable = args.Model as IVariable;
             IValue value = DerefVariable(args.Model);
 
             StructureValue structureValue = value as StructureValue;
@@ -649,12 +650,11 @@ namespace GUIUtils.StructureEditor
                 {
                     if (element.Type is Structure)
                     {
-                        Variable subVariable = null;
-
-                        INamable tmp = null;
+                        IVariable subVariable = null;
+                        INamable tmp;
                         if (structureValue.Val.TryGetValue(element.Name, out tmp))
                         {
-                            subVariable = tmp as Variable;
+                            subVariable = tmp as IVariable;
                         }
 
                         if (subVariable == null || subVariable.Value == EFSSystem.INSTANCE.EmptyValue ||
@@ -711,7 +711,7 @@ namespace GUIUtils.StructureEditor
 
         public static void HandleCellEditStarting(object sender, CellEditEventArgs e)
         {
-            Variable variable = e.RowObject as Variable;
+            IVariable variable = e.RowObject as IVariable;
             if (variable != null)
             {
                 Enum enumType = variable.Type as Enum;
@@ -778,7 +778,7 @@ namespace GUIUtils.StructureEditor
         {
             string text = e.Control.Text;
 
-            Variable variable = e.RowObject as Variable;
+            IVariable variable = e.RowObject as IVariable;
             if (variable != null)
             {
                 if (DefaultConst != text)
@@ -796,7 +796,7 @@ namespace GUIUtils.StructureEditor
         {
             if (!e.Cancel)
             {
-                Variable variable = e.RowObject as Variable;
+                IVariable variable = e.RowObject as IVariable;
 
                 string text = e.Control.Text;
                 if (DefaultConst == text)

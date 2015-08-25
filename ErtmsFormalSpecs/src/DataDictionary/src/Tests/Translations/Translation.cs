@@ -823,7 +823,7 @@ namespace DataDictionary.Tests.Translations
                 {
                     // The structure of packets will always be a Message, but in some cases, it is a message that contains
                     // the different options for a single field in the message
-                    structure.getVariable(subVariable.Value.Name).Value = FillDefaultPacket(message, subVariable.Value);
+                    structure.GetVariable(subVariable.Value.Name).Value = FillDefaultPacket(message, subVariable.Value);
 
                     translatedPackets++;
                 }
@@ -905,7 +905,7 @@ namespace DataDictionary.Tests.Translations
                                     int defaultPacketIndex = 0;
                                     FillStructure(packetNameSpace, packet.Fields, ref defaultPacketIndex, defaultPacket);
 
-                                    Structure.getVariable(subVariable.Value.Name).Value = defaultPacket;
+                                    Structure.GetVariable(subVariable.Value.Name).Value = defaultPacket;
                                 }
                             }
                         }

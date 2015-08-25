@@ -29,7 +29,7 @@ using Rule = DataDictionary.Rules.Rule;
 
 namespace DataDictionary.Types
 {
-    public class Structure : Generated.Structure, ISubDeclarator, IFinder, ITextualExplain
+    public class Structure : Generated.Structure, ISubDeclarator, IFinder
     {
         /// <summary>
         ///     Constructor
@@ -133,8 +133,7 @@ namespace DataDictionary.Types
         {
             get
             {
-                List<Structure> result = new List<Structure>();
-                result.Add(this);
+                List<Structure> result = new List<Structure> {this};
                 foreach (StructureRef structureRef in allInterfaces())
                 {
                     result.AddRange(structureRef.ImplementedStructures);
@@ -262,7 +261,7 @@ namespace DataDictionary.Types
         /// <summary>
         ///     Adds a model element in this model element
         /// </summary>
-        /// <param name="copy"></param>
+        /// <param name="element"></param>
         public override void AddModelElement(IModelElement element)
         {
             {
@@ -328,6 +327,7 @@ namespace DataDictionary.Types
         /// <summary>
         ///     Indicates that binary operation is valid for this type and the other type
         /// </summary>
+        /// <param name="operation"></param>
         /// <param name="otherType"></param>
         /// <returns></returns>
         public override bool ValidBinaryOperation(BinaryExpression.Operator operation, Type otherType)
@@ -359,14 +359,14 @@ namespace DataDictionary.Types
                     StructureValue leftValue = left as StructureValue;
                     StructureValue rightValue = right as StructureValue;
 
-                    if (left != null && right != null)
+                    if (leftValue != null && rightValue != null)
                     {
                         retVal = true;
 
                         foreach (KeyValuePair<string, IVariable> pair in leftValue.SubVariables)
                         {
                             IVariable leftVar = pair.Value;
-                            IVariable rightVar = rightValue.getVariable(pair.Key);
+                            IVariable rightVar = rightValue.GetVariable(pair.Key);
 
                             if (leftVar.Type != null)
                             {
