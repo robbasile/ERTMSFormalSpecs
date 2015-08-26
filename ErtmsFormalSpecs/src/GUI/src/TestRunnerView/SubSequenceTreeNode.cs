@@ -25,6 +25,7 @@ using GUI.LongOperations;
 using GUI.Properties;
 using GUI.Report;
 using GUIUtils;
+using GUIUtils.LongOperations;
 using Utils;
 using Action = DataDictionary.Rules.Action;
 using ModelElement = Utils.ModelElement;

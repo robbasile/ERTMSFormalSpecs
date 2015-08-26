@@ -16,6 +16,7 @@
 
 using System.IO;
 using DataDictionary.Generated;
+using GUIUtils.LongOperations;
 using Importers;
 using Dictionary = DataDictionary.Dictionary;
 using Frame = DataDictionary.Tests.Frame;

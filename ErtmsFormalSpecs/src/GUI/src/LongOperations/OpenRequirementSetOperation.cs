@@ -17,6 +17,7 @@
 using System.Windows.Forms;
 using DataDictionary.Specification;
 using GUI.RequirementSetDiagram;
+using GUIUtils.LongOperations;
 
 namespace GUI.LongOperations
 {

@@ -27,6 +27,7 @@ using GUI.Converters;
 using GUI.DictionarySelector;
 using GUI.LongOperations;
 using GUI.Properties;
+using GUIUtils.LongOperations;
 using Utils;
 using Chapter = DataDictionary.Specification.Chapter;
 using Dictionary = DataDictionary.Dictionary;

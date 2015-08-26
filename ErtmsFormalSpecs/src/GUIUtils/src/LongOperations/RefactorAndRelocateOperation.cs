@@ -16,9 +16,9 @@
 
 using DataDictionary;
 
-namespace GUI.LongOperations
+namespace GUIUtils.LongOperations
 {
-    public class RefactorOperation : BaseLongOperation
+    public class RefactorAndRelocateOperation : BaseLongOperation
     {
         /// <summary>
         ///     The element to be refactored
@@ -26,19 +26,12 @@ namespace GUI.LongOperations
         private ModelElement Model { get; set; }
 
         /// <summary>
-        ///     The new element name
-        /// </summary>
-        private string NewName { get; set; }
-
-        /// <summary>
         ///     Constructor
         /// </summary>
         /// <param name="model"></param>
-        /// <param name="newName"></param>
-        public RefactorOperation(ModelElement model, string newName)
+        public RefactorAndRelocateOperation(ModelElement model)
         {
             Model = model;
-            NewName = newName;
         }
 
         /// <summary>
@@ -47,7 +40,7 @@ namespace GUI.LongOperations
         public override void ExecuteWork()
         {
             EFSSystem.INSTANCE.Compiler.Compile_Synchronous(false, true);
-            EFSSystem.INSTANCE.Compiler.Refactor(Model, NewName);
+            EFSSystem.INSTANCE.Compiler.RefactorAndRelocate(Model);
         }
 
         /// <summary>

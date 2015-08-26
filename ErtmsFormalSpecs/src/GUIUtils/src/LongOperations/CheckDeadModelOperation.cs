@@ -16,19 +16,22 @@
 
 using DataDictionary;
 
-namespace GUI.LongOperations
+namespace GUIUtils.LongOperations
 {
-    public class CheckModelOperation : BaseLongOperation
+    public class CheckDeadModelOperation : BaseLongOperation
     {
         /// <summary>
-        ///     Checks the model
+        ///     Checks for dead model
         /// </summary>
         public override void ExecuteWork()
         {
-            foreach (Dictionary dictionary in EFSSystem.INSTANCE.Dictionaries)
+            Util.DontNotify(() =>
             {
-                dictionary.CheckRules();
-            }
+                foreach (Dictionary dictionary in EFSSystem.INSTANCE.Dictionaries)
+                {
+                    dictionary.CheckDeadModel();
+                }
+            });
         }
     }
 }

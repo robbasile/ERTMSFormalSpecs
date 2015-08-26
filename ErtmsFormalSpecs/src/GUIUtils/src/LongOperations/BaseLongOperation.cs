@@ -17,11 +17,10 @@
 using System;
 using System.Threading;
 using System.Windows.Forms;
-using GUIUtils;
 using Utils;
 using Util = DataDictionary.Util;
 
-namespace GUI.LongOperations
+namespace GUIUtils.LongOperations
 {
     /// <summary>
     ///     The base class used to handle long operations

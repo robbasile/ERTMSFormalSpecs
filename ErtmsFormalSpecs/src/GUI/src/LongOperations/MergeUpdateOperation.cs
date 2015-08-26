@@ -15,6 +15,7 @@
 // ------------------------------------------------------------------------------
 
 using DataDictionary;
+using GUIUtils.LongOperations;
 
 namespace GUI.LongOperations
 {

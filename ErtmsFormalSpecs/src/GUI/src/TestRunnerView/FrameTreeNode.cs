@@ -25,6 +25,7 @@ using DataDictionary.Tests.Runner;
 using GUI.LongOperations;
 using GUI.Report;
 using GUIUtils;
+using GUIUtils.LongOperations;
 using Utils;
 using ModelElement = Utils.ModelElement;
 using Util = DataDictionary.Util;

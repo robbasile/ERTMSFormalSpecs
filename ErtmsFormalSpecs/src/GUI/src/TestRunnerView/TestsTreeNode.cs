@@ -23,6 +23,8 @@ using DataDictionary.Tests;
 using GUI.ExcelImport;
 using GUI.LongOperations;
 using GUI.Report;
+using GUIUtils;
+using GUIUtils.LongOperations;
 
 namespace GUI.TestRunnerView
 {

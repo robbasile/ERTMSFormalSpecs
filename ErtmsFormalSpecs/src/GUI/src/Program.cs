@@ -23,6 +23,7 @@ using System.Windows.Forms;
 using DataDictionary;
 using GUI.IPCInterface;
 using GUI.LongOperations;
+using GUIUtils;
 using log4net.Config;
 using Utils;
 using Util = DataDictionary.Util;

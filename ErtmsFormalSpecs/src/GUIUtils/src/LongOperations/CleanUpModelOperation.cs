@@ -16,22 +16,16 @@
 
 using DataDictionary;
 
-namespace GUI.LongOperations
+namespace GUIUtils.LongOperations
 {
-    public class CheckDeadModelOperation : BaseLongOperation
+    public class CleanUpModelOperation : BaseLongOperation
     {
         /// <summary>
-        ///     Checks for dead model
+        ///     Cleans up the model
         /// </summary>
         public override void ExecuteWork()
         {
-            Util.DontNotify(() =>
-            {
-                foreach (Dictionary dictionary in EFSSystem.INSTANCE.Dictionaries)
-                {
-                    dictionary.CheckDeadModel();
-                }
-            });
+            EFSSystem.INSTANCE.Compiler.CleanUpModel();
         }
     }
 }

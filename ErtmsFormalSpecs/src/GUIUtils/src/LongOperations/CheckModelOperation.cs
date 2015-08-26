@@ -16,16 +16,19 @@
 
 using DataDictionary;
 
-namespace GUI.LongOperations
+namespace GUIUtils.LongOperations
 {
-    public class CleanUpModelOperation : BaseLongOperation
+    public class CheckModelOperation : BaseLongOperation
     {
         /// <summary>
-        ///     Cleans up the model
+        ///     Checks the model
         /// </summary>
         public override void ExecuteWork()
         {
-            EFSSystem.INSTANCE.Compiler.CleanUpModel();
+            foreach (Dictionary dictionary in EFSSystem.INSTANCE.Dictionaries)
+            {
+                dictionary.CheckRules();
+            }
         }
     }
 }

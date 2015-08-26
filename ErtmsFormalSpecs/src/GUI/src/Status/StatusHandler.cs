@@ -16,6 +16,7 @@
 
 using System.Windows.Forms;
 using DataDictionary;
+using GUIUtils;
 
 namespace GUI.Status
 {

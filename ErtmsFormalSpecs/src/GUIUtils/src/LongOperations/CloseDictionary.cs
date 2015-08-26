@@ -17,7 +17,7 @@
 using DataDictionary;
 using Utils;
 
-namespace GUI.LongOperations
+namespace GUIUtils.LongOperations
 {
     /// <summary>
     ///     Closes a dictionary

@@ -29,6 +29,7 @@ using GUI.RequirementSetDiagram;
 using GUI.RulePerformances;
 using GUI.Status;
 using GUIUtils;
+using GUIUtils.LongOperations;
 using Importers.ExcelImporter;
 using Utils;
 using WeifenLuo.WinFormsUI.Docking;

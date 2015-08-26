@@ -24,6 +24,7 @@ using DataDictionary.Interpreter;
 using DataDictionary.Tests.Runner;
 using DataDictionary.Values;
 using GUI.LongOperations;
+using GUIUtils.LongOperations;
 using Utils;
 using DBMessage = DataDictionary.Tests.DBElements.DBMessage;
 using Step = DataDictionary.Tests.Step;

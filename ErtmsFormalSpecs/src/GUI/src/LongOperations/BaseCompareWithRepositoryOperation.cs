@@ -19,6 +19,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
 using DataDictionary;
+using GUIUtils.LongOperations;
 using ICSharpCode.SharpZipLib.Zip;
 using LibGit2Sharp;
 

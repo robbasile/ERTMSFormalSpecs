@@ -19,7 +19,7 @@ using System.Collections.Generic;
 using System.Threading;
 using Utils;
 
-namespace GUI
+namespace GUIUtils
 {
     /// <summary>
     ///     Performs synchronization between model and view

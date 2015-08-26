@@ -17,6 +17,7 @@
 using System.Windows.Forms;
 using DataDictionary;
 using DataDictionary.Compare;
+using GUIUtils.LongOperations;
 
 namespace GUI.LongOperations
 {
