@@ -228,12 +228,10 @@ namespace DataDictionary.Types
 
                         case acceptor.PrecisionEnum.aDoublePrecision:
                         {
-                            CultureInfo info = CultureInfo.InvariantCulture;
-
                             double val = getDouble(image);
                             double min = MinValueAsDouble;
                             double max = MaxValueAsDouble;
-                            if (val >= min && val <= max && image.IndexOf('.') >= 0)
+                            if (val >= min && val <= max)
                             {
                                 retVal = new DoubleValue(this, val);
                             }

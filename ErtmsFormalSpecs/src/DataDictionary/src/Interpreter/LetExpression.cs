@@ -15,12 +15,11 @@
 // ------------------------------------------------------------------------------
 
 using System.Collections.Generic;
-using DataDictionary.Generated;
 using DataDictionary.Interpreter.Filter;
 using DataDictionary.Values;
+using DataDictionary.Variables;
 using Utils;
 using Type = DataDictionary.Types.Type;
-using Variable = DataDictionary.Variables.Variable;
 
 namespace DataDictionary.Interpreter
 {
@@ -33,7 +32,7 @@ namespace DataDictionary.Interpreter
         /// <summary>
         ///     The variable bound by the LET expression
         /// </summary>
-        public Variable BoundVariable { get; private set; }
+        public IVariable BoundVariable { get; private set; }
 
         /// <summary>
         ///     The binding expression
@@ -59,9 +58,7 @@ namespace DataDictionary.Interpreter
             Expression expression, int start, int end)
             : base(root, log, start, end)
         {
-            BoundVariable = (Variable) acceptor.getFactory().createVariable();
-            BoundVariable.Enclosing = this;
-            BoundVariable.Name = boundVariableName;
+            BoundVariable = CreateBoundVariable(boundVariableName, null);
 
             BindingExpression = SetEnclosed(bindingExpression);
             Expression = SetEnclosed(expression);

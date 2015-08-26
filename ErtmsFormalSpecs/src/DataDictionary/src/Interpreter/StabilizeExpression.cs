@@ -20,6 +20,7 @@ using DataDictionary.Generated;
 using DataDictionary.Interpreter.Filter;
 using DataDictionary.Types;
 using DataDictionary.Values;
+using DataDictionary.Variables;
 using Utils;
 using Type = DataDictionary.Types.Type;
 using Variable = DataDictionary.Variables.Variable;
@@ -46,12 +47,12 @@ namespace DataDictionary.Interpreter
         /// <summary>
         ///     The value of the last iteration
         /// </summary>
-        private Variable LastIteration { get; set; }
+        private IVariable LastIteration { get; set; }
 
         /// <summary>
         ///     The value of the current iteration
         /// </summary>
-        private Variable CurrentIteration { get; set; }
+        private IVariable CurrentIteration { get; set; }
 
         /// <summary>
         ///     The list of all values iterated through. Checks for cycles.
@@ -76,13 +77,8 @@ namespace DataDictionary.Interpreter
             InitialValue = SetEnclosed(initialValue);
             Condition = SetEnclosed(condition);
 
-            LastIteration = (Variable) acceptor.getFactory().createVariable();
-            LastIteration.Enclosing = this;
-            LastIteration.Name = "PREVIOUS";
-
-            CurrentIteration = (Variable) acceptor.getFactory().createVariable();
-            CurrentIteration.Enclosing = this;
-            CurrentIteration.Name = "CURRENT";
+            LastIteration = CreateBoundVariable("PREVIOUS", null);
+            CurrentIteration = CreateBoundVariable("CURRENT", null);
 
             InitDeclaredElements();
         }

@@ -16,14 +16,13 @@
 
 using System;
 using DataDictionary.Functions;
-using DataDictionary.Generated;
 using DataDictionary.Interpreter.Filter;
 using DataDictionary.Values;
+using DataDictionary.Variables;
 using Utils;
 using Collection = DataDictionary.Types.Collection;
 using Function = DataDictionary.Functions.Function;
 using Type = DataDictionary.Types.Type;
-using Variable = DataDictionary.Variables.Variable;
 
 namespace DataDictionary.Interpreter.ListOperators
 {
@@ -42,7 +41,7 @@ namespace DataDictionary.Interpreter.ListOperators
         /// <summary>
         ///     The accumulator variable
         /// </summary>
-        public Variable AccumulatorVariable { get; private set; }
+        public IVariable AccumulatorVariable { get; private set; }
 
         /// <summary>
         ///     Constructor
@@ -63,9 +62,7 @@ namespace DataDictionary.Interpreter.ListOperators
         {
             InitialValue = SetEnclosed(initialValue);
 
-            AccumulatorVariable = (Variable) acceptor.getFactory().createVariable();
-            AccumulatorVariable.Enclosing = this;
-            AccumulatorVariable.Name = "RESULT";
+            AccumulatorVariable = CreateBoundVariable("RESULT", null);
             ISubDeclaratorUtils.AppendNamable(this, AccumulatorVariable);
         }
 

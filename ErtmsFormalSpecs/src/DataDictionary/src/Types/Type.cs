@@ -135,7 +135,6 @@ namespace DataDictionary.Types
         /// <returns></returns>
         public virtual IValue getValue(string image)
         {
-            //            Log.ErrorFormat("Value is not available for base type: {0}", Name);
             return null;
         }
 

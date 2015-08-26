@@ -14,6 +14,8 @@
 // --
 // ------------------------------------------------------------------------------
 
+using DataDictionary.Types;
+using DataDictionary.Variables;
 using Utils;
 
 namespace DataDictionary.Interpreter
@@ -98,6 +100,17 @@ namespace DataDictionary.Interpreter
             }
 
             return enclosed;
+        }
+
+        /// <summary>
+        /// Creates a synthetic variable used to evaluate this interpreter tree node
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        protected IVariable CreateBoundVariable(string name, Type type)
+        {
+            return new SyntheticVariable(this, name, type);
         }
 
         /// <summary>

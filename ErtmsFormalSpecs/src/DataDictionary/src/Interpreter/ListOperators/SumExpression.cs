@@ -14,14 +14,13 @@
 // --
 // ------------------------------------------------------------------------------
 
-using DataDictionary.Generated;
 using DataDictionary.Interpreter.Filter;
 using DataDictionary.Values;
+using DataDictionary.Variables;
 using Utils;
 using Collection = DataDictionary.Types.Collection;
 using Range = DataDictionary.Types.Range;
 using Type = DataDictionary.Types.Type;
-using Variable = DataDictionary.Variables.Variable;
 
 namespace DataDictionary.Interpreter.ListOperators
 {
@@ -35,7 +34,7 @@ namespace DataDictionary.Interpreter.ListOperators
         /// <summary>
         ///     The accumulator variable
         /// </summary>
-        public Variable AccumulatorVariable { get; private set; }
+        public IVariable AccumulatorVariable { get; private set; }
 
         /// <summary>
         ///     The accumulation expression, as defined in the statement
@@ -62,9 +61,7 @@ namespace DataDictionary.Interpreter.ListOperators
             Expression condition, Expression expression, int start, int end)
             : base(root, log, listExpression, iteratorVariableName, condition, expression, start, end)
         {
-            AccumulatorVariable = (Variable) acceptor.getFactory().createVariable();
-            AccumulatorVariable.Enclosing = this;
-            AccumulatorVariable.Name = "RESULT";
+            AccumulatorVariable = CreateBoundVariable("RESULT", null);
             ISubDeclaratorUtils.AppendNamable(this, AccumulatorVariable);
 
             if (expression != null)
@@ -118,7 +115,14 @@ namespace DataDictionary.Interpreter.ListOperators
         /// <returns></returns>
         public override Type GetExpressionType()
         {
-            return IteratorExpression.GetExpressionType();
+            Type retVal = null;
+
+            if (IteratorExpression != null)
+            {
+                retVal = IteratorExpression.GetExpressionType();
+            }
+
+            return retVal;
         }
 
         /// <summary>

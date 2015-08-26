@@ -15,7 +15,6 @@
 // ------------------------------------------------------------------------------
 
 using System.Collections.Generic;
-using DataDictionary.Generated;
 using DataDictionary.Interpreter.Filter;
 using DataDictionary.Rules;
 using DataDictionary.Tests.Runner;
@@ -24,7 +23,6 @@ using DataDictionary.Values;
 using DataDictionary.Variables;
 using Utils;
 using Collection = DataDictionary.Types.Collection;
-using Variable = DataDictionary.Variables.Variable;
 
 namespace DataDictionary.Interpreter.Statement
 {
@@ -48,7 +46,7 @@ namespace DataDictionary.Interpreter.Statement
         /// <summary>
         ///     The iterator variable
         /// </summary>
-        public Variable IteratorVariable { get; private set; }
+        public IVariable IteratorVariable { get; private set; }
 
         /// <summary>
         ///     Constructor
@@ -78,9 +76,7 @@ namespace DataDictionary.Interpreter.Statement
                 ConditionExpression.Enclosing = this;
             }
 
-            IteratorVariable = (Variable) acceptor.getFactory().createVariable();
-            IteratorVariable.Enclosing = this;
-            IteratorVariable.Name = "X";
+            IteratorVariable = CreateBoundVariable("X", null);
             InitDeclaredElements();
         }
 

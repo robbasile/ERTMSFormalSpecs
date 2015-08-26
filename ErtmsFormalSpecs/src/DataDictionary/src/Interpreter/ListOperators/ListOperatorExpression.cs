@@ -17,6 +17,7 @@
 using System.Collections.Generic;
 using DataDictionary.Generated;
 using DataDictionary.Interpreter.Filter;
+using DataDictionary.Variables;
 using Utils;
 using Collection = DataDictionary.Types.Collection;
 using Type = DataDictionary.Types.Type;
@@ -49,12 +50,12 @@ namespace DataDictionary.Interpreter.ListOperators
         /// <summary>
         ///     The iterator variable
         /// </summary>
-        public Variable IteratorVariable { get; private set; }
+        public IVariable IteratorVariable { get; private set; }
 
         /// <summary>
         ///     The iterator variable during the previous iteration
         /// </summary>
-        public Variable PreviousIteratorVariable { get; private set; }
+        public IVariable PreviousIteratorVariable { get; private set; }
 
         /// <summary>
         ///     Constructor
@@ -71,13 +72,8 @@ namespace DataDictionary.Interpreter.ListOperators
         {
             ListExpression = SetEnclosed(listExpression);
 
-            IteratorVariable = (Variable) acceptor.getFactory().createVariable();
-            IteratorVariable.Enclosing = this;
-            IteratorVariable.Name = iteratorVariableName;
-
-            PreviousIteratorVariable = (Variable) acceptor.getFactory().createVariable();
-            PreviousIteratorVariable.Enclosing = this;
-            PreviousIteratorVariable.Name = "prevX";
+            IteratorVariable = CreateBoundVariable(iteratorVariableName, null);
+            PreviousIteratorVariable = CreateBoundVariable("prevX", null);
 
             InitDeclaredElements();
         }
