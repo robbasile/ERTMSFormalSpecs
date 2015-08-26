@@ -21,7 +21,6 @@ using System.Threading;
 using DataDictionary.Generated;
 using DataDictionary.Interpreter.Refactor;
 using DataDictionary.Types;
-using DataDictionary.Variables;
 using Utils;
 using XmlBooster;
 using Function = DataDictionary.Functions.Function;
@@ -115,15 +114,14 @@ namespace DataDictionary.Interpreter
             ///     Constructor
             /// </summary>
             /// <param name="options"></param>
-            /// <param name="system"></param>
             /// <param name="clearCache"></param>
-            public CleanBeforeCompilation(CompilationOptions options, EFSSystem system, bool clearCache)
+            public CleanBeforeCompilation(CompilationOptions options, bool clearCache)
             {
                 ClearCaches = clearCache;
                 Options = options;
-                system.InitDeclaredElements();
+                EFSSystem.INSTANCE.InitDeclaredElements();
 
-                foreach (Dictionary dictionary in system.Dictionaries)
+                foreach (Dictionary dictionary in EFSSystem.INSTANCE.Dictionaries)
                 {
                     visit(dictionary, true);
                 }
@@ -138,15 +136,13 @@ namespace DataDictionary.Interpreter
             /// <summary>
             ///     Constructor
             /// </summary>
-            /// <param name="system">the EFS System</param>
-            public FindUpdates(EFSSystem system)
+            public FindUpdates()
             {
-                foreach (Dictionary dictionary in system.Dictionaries)
+                foreach (Dictionary dictionary in EFSSystem.INSTANCE.Dictionaries)
                 {
                     visit(dictionary, true);
                 }
             }
-
 
             /// <summary>
             ///     Cleans up the declared elements dictionaries
@@ -172,11 +168,6 @@ namespace DataDictionary.Interpreter
                 }
             }
         }
-
-        /// <summary>
-        ///     The EFS system that need to be compiled
-        /// </summary>
-        public EFSSystem EFSSystem { get; set; }
 
         /// <summary>
         ///     Indicates that the compilation should be performed
@@ -233,11 +224,8 @@ namespace DataDictionary.Interpreter
         /// <summary>
         ///     Constructor
         /// </summary>
-        /// <param name="rebuild"></param>
-        public Compiler(EFSSystem system)
+        public Compiler()
         {
-            EFSSystem = system;
-
             DoCompile = true;
             CompilerThread = ThreadUtil.CreateThread("Compiler", CompileContinuously);
             CompilerThread.Start();
@@ -281,14 +269,7 @@ namespace DataDictionary.Interpreter
                 /// <summary>
                 ///     Indicates that a change in the dependancy graph has been performed
                 /// </summary>
-                public bool DependancyChange { get; set; }
-
-                /// <summary>
-                ///     Constructor
-                /// </summary>
-                public ReferenceVisitor()
-                {
-                }
+                public bool DependancyChange { get; private set; }
 
                 /// <summary>
                 ///     Updates the dependancy graph according to this expression tree
@@ -309,7 +290,7 @@ namespace DataDictionary.Interpreter
                     Utils.ModelElement current = designator.Ref as Utils.ModelElement;
                     while (current != null && !(current is NameSpace) && !(current is Parameter))
                     {
-                        bool change = false;
+                        bool change;
 
                         Variable variable = current as Variable;
                         if (variable != null)
@@ -361,12 +342,11 @@ namespace DataDictionary.Interpreter
             /// <summary>
             ///     Constructor
             /// </summary>
-            /// <param name="system"></param>
-            public CreateDependancy(EFSSystem system)
+            public CreateDependancy()
             {
                 TheReferenceVisitor = new ReferenceVisitor();
 
-                foreach (Dictionary dictionary in system.Dictionaries)
+                foreach (Dictionary dictionary in EFSSystem.INSTANCE.Dictionaries)
                 {
                     visit(dictionary, true);
                 }
@@ -402,10 +382,9 @@ namespace DataDictionary.Interpreter
             /// <summary>
             ///     Constructor
             /// </summary>
-            /// <param name="system"></param>
-            public FlattenDependancy(EFSSystem system)
+            public FlattenDependancy()
             {
-                foreach (Dictionary dictionary in system.Dictionaries)
+                foreach (Dictionary dictionary in EFSSystem.INSTANCE.Dictionaries)
                 {
                     foreach (NameSpace nameSpace in dictionary.NameSpaces)
                     {
@@ -463,8 +442,7 @@ namespace DataDictionary.Interpreter
             {
                 if (obj.CacheDependancy != null)
                 {
-                    BrowsedElements = new HashSet<Utils.ModelElement>();
-                    BrowsedElements.Add(obj);
+                    BrowsedElements = new HashSet<Utils.ModelElement> {obj};
 
                     HashSet<Utils.ModelElement> dependingElements = obj.CacheDependancy;
                     obj.CacheDependancy = null;
@@ -509,23 +487,23 @@ namespace DataDictionary.Interpreter
                     FinderRepository.INSTANCE.ClearCache();
 
                     // Initialises the declared elements
-                    CleanBeforeCompilation cleanBeforeCompilation = new CleanBeforeCompilation(options, EFSSystem, true);
+                    CleanBeforeCompilation cleanBeforeCompilation = new CleanBeforeCompilation(options, true);
 
                     // Create the update information
-                    FindUpdates findUpdates = new FindUpdates(EFSSystem);
+                    FindUpdates findUpdates = new FindUpdates();
 
                     // Compiles each expression and each statement encountered in the nodes
-                    foreach (Dictionary dictionary in EFSSystem.Dictionaries)
+                    foreach (Dictionary dictionary in EFSSystem.INSTANCE.Dictionaries)
                     {
                         visit(dictionary, true);
                     }
 
                     if (options.Rebuild)
                     {
-                        CreateDependancy createDependancy = new CreateDependancy(EFSSystem);
+                        CreateDependancy createDependancy = new CreateDependancy();
                         if (createDependancy.DependancyChange)
                         {
-                            FlattenDependancy flattenDependancy = new FlattenDependancy(EFSSystem);
+                            FlattenDependancy flattenDependancy = new FlattenDependancy();
                         }
                     }
                 }
@@ -744,7 +722,7 @@ namespace DataDictionary.Interpreter
                     element.Name = newName;
                 }
                 // Make sure that the element name is taken into consideration
-                new CleanBeforeCompilation(new CompilationOptions(false, true), EFSSystem, false);
+                new CleanBeforeCompilation(new CompilationOptions(false, true), false);
 
                 // Then, refactor references to the renamed element
                 RefactorElement(element, originalName, newName);
@@ -877,10 +855,9 @@ namespace DataDictionary.Interpreter
             /// <summary>
             ///     Constructor
             /// </summary>
-            /// <param name="system"></param>
-            public CleanUpModelVisitor(EFSSystem system)
+            public CleanUpModelVisitor()
             {
-                foreach (Dictionary dictionary in system.Dictionaries)
+                foreach (Dictionary dictionary in EFSSystem.INSTANCE.Dictionaries)
                 {
                     visit(dictionary, true);
                 }
@@ -905,7 +882,7 @@ namespace DataDictionary.Interpreter
 
         public void CleanUpModel()
         {
-            new CleanUpModelVisitor(EFSSystem);
+            new CleanUpModelVisitor();
         }
 
         #endregion

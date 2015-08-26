@@ -45,7 +45,7 @@ namespace DataDictionary.Interpreter
         /// <summary>
         ///     Creates a new context in the symbol table
         /// </summary>
-        /// <returns>The token required for pop context</rereturns>
+        /// <returns>The token required for pop context</returns>
         public int PushContext()
         {
             int retVal = Values.Count;
@@ -72,7 +72,7 @@ namespace DataDictionary.Interpreter
         ///     Stores the variable in this symbol table
         /// </summary>
         /// <param name="variable"></param>
-        public void setVariable(IVariable variable)
+        public void SetVariable(IVariable variable)
         {
             Values.Add(variable);
         }
@@ -82,7 +82,7 @@ namespace DataDictionary.Interpreter
         /// </summary>
         /// <param name="variable"></param>
         /// <param name="value"></param>
-        public void setVariable(IVariable variable, IValue value)
+        public void SetVariable(IVariable variable, IValue value)
         {
             variable.Value = value;
             Values.Add(variable);
@@ -93,7 +93,7 @@ namespace DataDictionary.Interpreter
         /// </summary>
         /// <param name="parameter"></param>
         /// <param name="value"></param>
-        public void setParameter(Parameter parameter, IValue value)
+        public void SetParameter(Parameter parameter, IValue value)
         {
             IVariable actual = parameter.CreateActual();
             actual.Value = value;
@@ -104,9 +104,9 @@ namespace DataDictionary.Interpreter
         ///     Stores a graph parameter in this symbol table
         /// </summary>
         /// <param name="xAxis"></param>
-        public void setGraphParameter(Parameter xAxis)
+        public void SetGraphParameter(Parameter xAxis)
         {
-            setParameter(xAxis, new PlaceHolder(xAxis.Type, 0));
+            SetParameter(xAxis, new PlaceHolder(xAxis.Type, 0));
         }
 
         /// <summary>
@@ -114,10 +114,10 @@ namespace DataDictionary.Interpreter
         /// </summary>
         /// <param name="xAxis"></param>
         /// <param name="yAxis"></param>
-        public void setSurfaceParameters(Parameter xAxis, Parameter yAxis)
+        public void SetSurfaceParameters(Parameter xAxis, Parameter yAxis)
         {
-            setParameter(xAxis, new PlaceHolder(xAxis.Type, 0));
-            setParameter(yAxis, new PlaceHolder(yAxis.Type, 1));
+            SetParameter(xAxis, new PlaceHolder(xAxis.Type, 0));
+            SetParameter(yAxis, new PlaceHolder(yAxis.Type, 1));
         }
 
         /// <summary>
@@ -125,14 +125,14 @@ namespace DataDictionary.Interpreter
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public IVariable getVariable(string name)
+        public IVariable GetVariable(string name)
         {
             IVariable retVal = null;
 
             for (int i = Values.Count - 1; i >= 0; i--)
             {
                 IVariable element = Values[i];
-                if (element.Name.CompareTo(name) == 0)
+                if (element.Name.Equals(name))
                 {
                     retVal = element;
                     break;
@@ -184,7 +184,7 @@ namespace DataDictionary.Interpreter
         /// </summary>
         /// <param name="parameter"></param>
         /// <returns></returns>
-        public IVariable find(Parameter parameter)
+        public IVariable Find(Parameter parameter)
         {
             IVariable retVal = null;
 

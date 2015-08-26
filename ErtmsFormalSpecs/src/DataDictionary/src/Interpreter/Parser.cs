@@ -848,7 +848,7 @@ namespace DataDictionary.Interpreter
 
             SkipWhiteSpaces();
             int start = Index;
-            string listOp = LookAhead(ListOperatorExpression.LIST_OPERATORS);
+            string listOp = LookAhead(ListOperatorExpression.ListOperators);
             if (listOp != null)
             {
                 Match(listOp);

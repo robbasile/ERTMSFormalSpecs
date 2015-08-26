@@ -132,12 +132,9 @@ namespace DataDictionary.Interpreter
             int start, int end)
             : base(root, log, start, end)
         {
-            Left = left;
-            Left.Enclosing = this;
-
+            Left = SetEnclosed(left);
             Operation = op;
-            Right = right;
-            Right.Enclosing = this;
+            Right = SetEnclosed(right);
         }
 
         /// <summary>
@@ -153,27 +150,40 @@ namespace DataDictionary.Interpreter
             if (retVal)
             {
                 // Left
-                Left.SemanticAnalysis(instance, IsRightSide.INSTANCE);
-                StaticUsage.AddUsages(Left.StaticUsage, Usage.ModeEnum.Read);
+                if (Left != null)
+                {
+                    Left.SemanticAnalysis(instance, IsRightSide.INSTANCE);
+                    StaticUsage.AddUsages(Left.StaticUsage, Usage.ModeEnum.Read);
+                }
 
                 // Right
-                if (Operation == Operator.Is || Operation == Operator.As)
+                if (Right != null)
                 {
-                    Right.SemanticAnalysis(instance, IsType.INSTANCE);
-                    StaticUsage.AddUsages(Right.StaticUsage, Usage.ModeEnum.Type);
-                }
-                else
-                {
-                    Right.SemanticAnalysis(instance, IsRightSide.INSTANCE);
-                    StaticUsage.AddUsages(Right.StaticUsage, Usage.ModeEnum.Read);
+                    if (Operation == Operator.Is || Operation == Operator.As)
+                    {
+                        Right.SemanticAnalysis(instance, IsType.INSTANCE);
+                        StaticUsage.AddUsages(Right.StaticUsage, Usage.ModeEnum.Type);
+                    }
+                    else
+                    {
+                        Right.SemanticAnalysis(instance, IsRightSide.INSTANCE);
+                        StaticUsage.AddUsages(Right.StaticUsage, Usage.ModeEnum.Read);
+                    }
                 }
             }
 
             return retVal;
         }
 
+        /// <summary>
+        /// Caches the ICallable which corresponds to this expression
+        /// </summary>
         private ICallable _staticCallable;
 
+        /// <summary>
+        /// Provides the ICallable which corresponds to this expression
+        /// </summary>
+        /// <returns></returns>
         public override ICallable GetStaticCallable()
         {
             if (_staticCallable == null)
@@ -282,7 +292,7 @@ namespace DataDictionary.Interpreter
             Type leftType = Left.GetExpressionType();
             if (leftType == null)
             {
-                AddError("Cannot determine expression type (1) for " + Left.ToString());
+                AddError("Cannot determine expression type (1) for " + Left);
             }
             else
             {
@@ -299,7 +309,7 @@ namespace DataDictionary.Interpreter
                     Type rightType = Right.GetExpressionType();
                     if (rightType == null)
                     {
-                        AddError("Cannot determine expression type (2) for " + Right.ToString());
+                        AddError("Cannot determine expression type (2) for " + Right);
                     }
                     else
                     {
@@ -330,9 +340,9 @@ namespace DataDictionary.Interpreter
 
                             case Operator.And:
                             case Operator.Or:
-                                if (leftType == EFSSystem.BoolType && rightType == EFSSystem.BoolType)
+                                if (leftType == EFSSystem.INSTANCE.BoolType && rightType == EFSSystem.INSTANCE.BoolType)
                                 {
-                                    retVal = EFSSystem.BoolType;
+                                    retVal = EFSSystem.INSTANCE.BoolType;
                                 }
                                 break;
 
@@ -346,7 +356,7 @@ namespace DataDictionary.Interpreter
                             case Operator.As:
                                 if (leftType.Match(rightType) || rightType.Match(leftType))
                                 {
-                                    retVal = EFSSystem.BoolType;
+                                    retVal = EFSSystem.INSTANCE.BoolType;
                                 }
                                 break;
 
@@ -357,11 +367,11 @@ namespace DataDictionary.Interpreter
                                 {
                                     if (collection.Type == null)
                                     {
-                                        retVal = EFSSystem.BoolType;
+                                        retVal = EFSSystem.INSTANCE.BoolType;
                                     }
                                     else if (collection.Type.Match(leftType))
                                     {
-                                        retVal = EFSSystem.BoolType;
+                                        retVal = EFSSystem.INSTANCE.BoolType;
                                     }
                                 }
                                 else
@@ -369,7 +379,7 @@ namespace DataDictionary.Interpreter
                                     StateMachine stateMachine = rightType as StateMachine;
                                     if (stateMachine != null && leftType.Match(stateMachine))
                                     {
-                                        retVal = EFSSystem.BoolType;
+                                        retVal = EFSSystem.INSTANCE.BoolType;
                                     }
                                 }
                                 break;
@@ -416,14 +426,14 @@ namespace DataDictionary.Interpreter
                         }
                         else
                         {
-                            AddError("Error while computing value for " + Right.ToString());
+                            AddError("Error while computing value for " + Right);
                         }
                     }
                         break;
 
                     case Operator.And:
                     {
-                        if (leftValue.Type == EFSSystem.BoolType)
+                        if (leftValue.Type == EFSSystem.INSTANCE.BoolType)
                         {
                             BoolValue lb = leftValue as BoolValue;
 
@@ -434,19 +444,19 @@ namespace DataDictionary.Interpreter
                                     rightValue = Right.GetValue(context, binaryExpressionExplanation);
                                     if (rightValue != null)
                                     {
-                                        if (rightValue.Type == EFSSystem.BoolType)
+                                        if (rightValue.Type == EFSSystem.INSTANCE.BoolType)
                                         {
                                             retVal = rightValue as BoolValue;
                                         }
                                         else
                                         {
-                                            AddError("Cannot apply an operator " + Operation.ToString() +
+                                            AddError("Cannot apply an operator " + Operation +
                                                      " on a variable of type " + rightValue.GetType());
                                         }
                                     }
                                     else
                                     {
-                                        AddError("Error while computing value for " + Right.ToString());
+                                        AddError("Error while computing value for " + Right);
                                     }
                                 }
                                 else
@@ -471,7 +481,7 @@ namespace DataDictionary.Interpreter
 
                     case Operator.Or:
                     {
-                        if (leftValue.Type == EFSSystem.BoolType)
+                        if (leftValue.Type == EFSSystem.INSTANCE.BoolType)
                         {
                             BoolValue lb = leftValue as BoolValue;
 
@@ -482,19 +492,19 @@ namespace DataDictionary.Interpreter
                                     rightValue = Right.GetValue(context, binaryExpressionExplanation);
                                     if (rightValue != null)
                                     {
-                                        if (rightValue.Type == EFSSystem.BoolType)
+                                        if (rightValue.Type == EFSSystem.INSTANCE.BoolType)
                                         {
                                             retVal = rightValue as BoolValue;
                                         }
                                         else
                                         {
-                                            AddError("Cannot apply an operator " + Operation.ToString() +
+                                            AddError("Cannot apply an operator " + Operation +
                                                      " on a variable of type " + rightValue.GetType());
                                         }
                                     }
                                     else
                                     {
-                                        AddError("Error while computing value for " + Right.ToString());
+                                        AddError("Error while computing value for " + Right);
                                     }
                                 }
                                 else
@@ -511,7 +521,7 @@ namespace DataDictionary.Interpreter
                         }
                         else
                         {
-                            AddError("Cannot apply an operator " + Operation.ToString() + " on a variable of type " +
+                            AddError("Cannot apply an operator " + Operation + " on a variable of type " +
                                      leftValue.GetType());
                         }
                     }
@@ -522,11 +532,11 @@ namespace DataDictionary.Interpreter
                         rightValue = Right.GetValue(context, binaryExpressionExplanation);
                         if (rightValue != null)
                         {
-                            retVal = EFSSystem.GetBoolean(leftValue.Type.Less(leftValue, rightValue));
+                            retVal = EFSSystem.INSTANCE.GetBoolean(leftValue.Type.Less(leftValue, rightValue));
                         }
                         else
                         {
-                            AddError("Error while computing value for " + Right.ToString());
+                            AddError("Error while computing value for " + Right);
                         }
                     }
                         break;
@@ -537,12 +547,12 @@ namespace DataDictionary.Interpreter
                         if (rightValue != null)
                         {
                             retVal =
-                                EFSSystem.GetBoolean(leftValue.Type.CompareForEquality(leftValue, rightValue) ||
+                                EFSSystem.INSTANCE.GetBoolean(leftValue.Type.CompareForEquality(leftValue, rightValue) ||
                                                      leftValue.Type.Less(leftValue, rightValue));
                         }
                         else
                         {
-                            AddError("Error while computing value for " + Right.ToString());
+                            AddError("Error while computing value for " + Right);
                         }
                     }
                         break;
@@ -552,11 +562,11 @@ namespace DataDictionary.Interpreter
                         rightValue = Right.GetValue(context, binaryExpressionExplanation);
                         if (rightValue != null)
                         {
-                            retVal = EFSSystem.GetBoolean(leftValue.Type.Greater(leftValue, rightValue));
+                            retVal = EFSSystem.INSTANCE.GetBoolean(leftValue.Type.Greater(leftValue, rightValue));
                         }
                         else
                         {
-                            AddError("Error while computing value for " + Right.ToString());
+                            AddError("Error while computing value for " + Right);
                         }
                     }
                         break;
@@ -567,12 +577,12 @@ namespace DataDictionary.Interpreter
                         if (rightValue != null)
                         {
                             retVal =
-                                EFSSystem.GetBoolean(leftValue.Type.CompareForEquality(leftValue, rightValue) ||
+                                EFSSystem.INSTANCE.GetBoolean(leftValue.Type.CompareForEquality(leftValue, rightValue) ||
                                                      leftValue.Type.Greater(leftValue, rightValue));
                         }
                         else
                         {
-                            AddError("Error while computing value for " + Right.ToString());
+                            AddError("Error while computing value for " + Right);
                         }
                     }
                         break;
@@ -582,11 +592,11 @@ namespace DataDictionary.Interpreter
                         rightValue = Right.GetValue(context, binaryExpressionExplanation);
                         if (rightValue != null)
                         {
-                            retVal = EFSSystem.GetBoolean(leftValue.Type.CompareForEquality(leftValue, rightValue));
+                            retVal = EFSSystem.INSTANCE.GetBoolean(leftValue.Type.CompareForEquality(leftValue, rightValue));
                         }
                         else
                         {
-                            AddError("Error while computing value for " + Right.ToString());
+                            AddError("Error while computing value for " + Right);
                         }
                     }
                         break;
@@ -596,11 +606,11 @@ namespace DataDictionary.Interpreter
                         rightValue = Right.GetValue(context, binaryExpressionExplanation);
                         if (rightValue != null)
                         {
-                            retVal = EFSSystem.GetBoolean(!leftValue.Type.CompareForEquality(leftValue, rightValue));
+                            retVal = EFSSystem.INSTANCE.GetBoolean(!leftValue.Type.CompareForEquality(leftValue, rightValue));
                         }
                         else
                         {
-                            AddError("Error while computing value for " + Right.ToString());
+                            AddError("Error while computing value for " + Right);
                         }
                     }
                         break;
@@ -610,11 +620,11 @@ namespace DataDictionary.Interpreter
                         rightValue = Right.GetValue(context, binaryExpressionExplanation);
                         if (rightValue != null)
                         {
-                            retVal = EFSSystem.GetBoolean(rightValue.Type.Contains(rightValue, leftValue));
+                            retVal = EFSSystem.INSTANCE.GetBoolean(rightValue.Type.Contains(rightValue, leftValue));
                         }
                         else
                         {
-                            AddError("Error while computing value for " + Right.ToString());
+                            AddError("Error while computing value for " + Right);
                         }
                     }
                         break;
@@ -624,11 +634,11 @@ namespace DataDictionary.Interpreter
                         rightValue = Right.GetValue(context, binaryExpressionExplanation);
                         if (rightValue != null)
                         {
-                            retVal = EFSSystem.GetBoolean(!rightValue.Type.Contains(rightValue, leftValue));
+                            retVal = EFSSystem.INSTANCE.GetBoolean(!rightValue.Type.Contains(rightValue, leftValue));
                         }
                         else
                         {
-                            AddError("Error while computing value for " + Right.ToString());
+                            AddError("Error while computing value for " + Right);
                         }
                     }
                         break;
@@ -636,7 +646,7 @@ namespace DataDictionary.Interpreter
                     case Operator.Is:
                     {
                         leftValue = Left.GetValue(context, binaryExpressionExplanation);
-                        retVal = EFSSystem.GetBoolean(false);
+                        retVal = EFSSystem.INSTANCE.GetBoolean(false);
                         if (leftValue != null)
                         {
                             Structure rightStructure = Right.Ref as Structure;
@@ -647,7 +657,7 @@ namespace DataDictionary.Interpreter
                                     Structure leftStructure = leftValue.Type as Structure;
                                     if (rightStructure.ImplementedStructures.Contains(leftStructure))
                                     {
-                                        retVal = EFSSystem.GetBoolean(true);
+                                        retVal = EFSSystem.INSTANCE.GetBoolean(true);
                                     }
                                     else
                                     {
@@ -666,7 +676,7 @@ namespace DataDictionary.Interpreter
                         }
                         else
                         {
-                            AddError("Error while computing value for " + Left.ToString());
+                            AddError("Error while computing value for " + Left);
                         }
                     }
                         break;
@@ -687,7 +697,7 @@ namespace DataDictionary.Interpreter
                         }
                         else
                         {
-                            AddError("Error while computing value for " + Left.ToString());
+                            AddError("Error while computing value for " + Left);
                         }
                     }
                         break;
@@ -695,7 +705,7 @@ namespace DataDictionary.Interpreter
             }
             else
             {
-                AddError("Error while computing value for " + Left.ToString());
+                AddError("Error while computing value for " + Left);
             }
 
             return retVal;
@@ -1181,7 +1191,7 @@ namespace DataDictionary.Interpreter
 
             for (int i = 0; i < Operators.Length; i++)
             {
-                if (OperatorsImages[i].CompareTo(op) == 0)
+                if (OperatorsImages[i].Equals(op))
                 {
                     retVal = Operators[i];
                     break;
@@ -1245,11 +1255,10 @@ namespace DataDictionary.Interpreter
                         {
                             if (leftType is StateMachine && rightType is StateMachine)
                             {
-                                AddWarning("IN operator should be used instead of == between " + Left.ToString() +
-                                           " and " + Right.ToString());
+                                AddWarning("IN operator should be used instead of == between " + Left + " and " + Right);
                             }
 
-                            if (Right.Ref == EFSSystem.EmptyValue)
+                            if (Right.Ref == EFSSystem.INSTANCE.EmptyValue)
                             {
                                 if (leftType is Collection)
                                 {

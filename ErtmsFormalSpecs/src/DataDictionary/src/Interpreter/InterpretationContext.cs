@@ -109,7 +109,7 @@ namespace DataDictionary.Interpreter
         /// <returns></returns>
         public IVariable FindOnStack(Parameter parameter)
         {
-            return LocalScope.find(parameter);
+            return LocalScope.Find(parameter);
         }
 
         /// <summary>

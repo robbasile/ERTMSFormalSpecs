@@ -61,7 +61,7 @@ namespace DataDictionary.Interpreter
             if (retVal)
             {
                 // Value
-                Value = new StringValue(EFSSystem.StringType, Image);
+                Value = new StringValue(EFSSystem.INSTANCE.StringType, Image);
             }
 
             return retVal;
@@ -81,7 +81,7 @@ namespace DataDictionary.Interpreter
         /// <returns></returns>
         public override Type GetExpressionType()
         {
-            return EFSSystem.StringType;
+            return EFSSystem.INSTANCE.StringType;
         }
 
         /// <summary>

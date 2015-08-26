@@ -47,13 +47,13 @@ namespace DataDictionary.Interpreter.ListOperators
         /// <summary>
         ///     Constructor
         /// </summary>
+        /// <param name="root">the root element for which this expression should be parsed</param>
         /// <param name="log"></param>
         /// <param name="listExpression"></param>
+        /// <param name="iteratorVariableName"></param>
         /// <param name="condition"></param>
         /// <param name="function"></param>
         /// <param name="initialValue"></param>
-        /// <param name="root">the root element for which this expression should be parsed</param>
-        /// <param name="iteratorVariableName"></param>
         /// <param name="start">The start character for this expression in the original string</param>
         /// <param name="end">The end character for this expression in the original string</param>
         public ReduceExpression(ModelElement root, ModelElement log, Expression listExpression,
@@ -61,8 +61,7 @@ namespace DataDictionary.Interpreter.ListOperators
             int end)
             : base(root, log, listExpression, iteratorVariableName, condition, function, start, end)
         {
-            InitialValue = initialValue;
-            InitialValue.Enclosing = this;
+            InitialValue = SetEnclosed(initialValue);
 
             AccumulatorVariable = (Variable) acceptor.getFactory().createVariable();
             AccumulatorVariable.Enclosing = this;
@@ -82,10 +81,13 @@ namespace DataDictionary.Interpreter.ListOperators
 
             if (retVal)
             {
-                InitialValue.SemanticAnalysis(instance, AllMatches.INSTANCE);
-                StaticUsage.AddUsages(InitialValue.StaticUsage, Usage.ModeEnum.Read);
+                if (InitialValue != null)
+                {
+                    InitialValue.SemanticAnalysis(instance, AllMatches.INSTANCE);
+                    StaticUsage.AddUsages(InitialValue.StaticUsage, Usage.ModeEnum.Read);
 
-                AccumulatorVariable.Type = InitialValue.GetExpressionType();
+                    AccumulatorVariable.Type = InitialValue.GetExpressionType();
+                }
             }
 
             return retVal;
@@ -119,15 +121,15 @@ namespace DataDictionary.Interpreter.ListOperators
             if (value != null)
             {
                 int token = PrepareIteration(context);
-                context.LocalScope.setVariable(AccumulatorVariable);
+                context.LocalScope.SetVariable(AccumulatorVariable);
                 AccumulatorVariable.Value = InitialValue.GetValue(context, explain);
                 foreach (IValue v in value.Val)
                 {
-                    if (v != EFSSystem.EmptyValue)
+                    if (v != EFSSystem.INSTANCE.EmptyValue)
                     {
                         ElementFound = true;
                         IteratorVariable.Value = v;
-                        if (conditionSatisfied(context, explain))
+                        if (ConditionSatisfied(context, explain))
                         {
                             MatchingElementFound = true;
                             AccumulatorVariable.Value = IteratorExpression.GetValue(context, explain);
@@ -140,7 +142,7 @@ namespace DataDictionary.Interpreter.ListOperators
             }
             else
             {
-                AddError("Cannot evaluate list value " + ListExpression.ToString());
+                AddError("Cannot evaluate list value " + ListExpression);
             }
 
             return retVal;
@@ -167,7 +169,7 @@ namespace DataDictionary.Interpreter.ListOperators
                 if (function.FormalParameters.Count == 1)
                 {
                     int token = context.LocalScope.PushContext();
-                    context.LocalScope.setGraphParameter((Parameter) function.FormalParameters[0]);
+                    context.LocalScope.SetGraphParameter((Parameter) function.FormalParameters[0]);
                     Graph graph = CreateGraph(context, (Parameter) function.FormalParameters[0], explain);
                     context.LocalScope.PopContext(token);
                     if (graph != null)
@@ -178,7 +180,7 @@ namespace DataDictionary.Interpreter.ListOperators
                 else if (function.FormalParameters.Count == 2)
                 {
                     int token = context.LocalScope.PushContext();
-                    context.LocalScope.setSurfaceParameters((Parameter) function.FormalParameters[0],
+                    context.LocalScope.SetSurfaceParameters((Parameter) function.FormalParameters[0],
                         (Parameter) function.FormalParameters[1]);
                     Surface surface = CreateSurface(context, (Parameter) function.FormalParameters[0],
                         (Parameter) function.FormalParameters[1], explain);
@@ -234,7 +236,7 @@ namespace DataDictionary.Interpreter.ListOperators
         {
             int retVal = base.PrepareIteration(context);
 
-            context.LocalScope.setVariable(AccumulatorVariable);
+            context.LocalScope.SetVariable(AccumulatorVariable);
 
             return retVal;
         }
@@ -283,11 +285,11 @@ namespace DataDictionary.Interpreter.ListOperators
 
                     foreach (IValue v in value.Val)
                     {
-                        if (v != EFSSystem.EmptyValue)
+                        if (v != EFSSystem.INSTANCE.EmptyValue)
                         {
                             ElementFound = true;
                             IteratorVariable.Value = v;
-                            if (conditionSatisfied(context, explain))
+                            if (ConditionSatisfied(context, explain))
                             {
                                 MatchingElementFound = true;
                                 AccumulatorVariable.Value = IteratorExpression.GetValue(context, explain);
@@ -309,7 +311,7 @@ namespace DataDictionary.Interpreter.ListOperators
             }
             else
             {
-                throw new Exception("Cannot create graph for initial value " + InitialValue.ToString());
+                throw new Exception("Cannot create graph for initial value " + InitialValue);
             }
 
             return retVal;
@@ -339,11 +341,11 @@ namespace DataDictionary.Interpreter.ListOperators
 
                     foreach (IValue v in value.Val)
                     {
-                        if (v != EFSSystem.EmptyValue)
+                        if (v != EFSSystem.INSTANCE.EmptyValue)
                         {
                             ElementFound = true;
                             IteratorVariable.Value = v;
-                            if (conditionSatisfied(context, explain))
+                            if (ConditionSatisfied(context, explain))
                             {
                                 MatchingElementFound = true;
                                 AccumulatorVariable.Value = IteratorExpression.GetValue(context, explain);
@@ -365,7 +367,7 @@ namespace DataDictionary.Interpreter.ListOperators
             }
             else
             {
-                throw new Exception("Cannot create surface for initial value " + InitialValue.ToString());
+                throw new Exception("Cannot create surface for initial value " + InitialValue);
             }
             retVal.XParameter = xParam;
             retVal.YParameter = yParam;

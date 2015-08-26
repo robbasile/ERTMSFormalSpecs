@@ -121,7 +121,7 @@ namespace DataDictionary
             Context = new Context();
             Context.ValueChange += Context_ValueChange;
             acceptor.setFactory(new ObjectFactory());
-            Compiler = new Compiler(this);
+            Compiler = new Compiler();
             Markings = new MarkingHistory();
 
             // Reads the history file and updates the blame information stored in it

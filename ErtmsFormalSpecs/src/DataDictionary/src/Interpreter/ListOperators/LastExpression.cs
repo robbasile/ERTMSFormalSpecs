@@ -29,11 +29,11 @@ namespace DataDictionary.Interpreter.ListOperators
         /// <summary>
         ///     Constructor
         /// </summary>
+        /// <param name="root">the root element for which this expression should be parsed</param>
         /// <param name="log"></param>
         /// <param name="listExpression"></param>
-        /// <param name="condition"></param>
-        /// <param name="root">the root element for which this expression should be parsed</param>
         /// <param name="iteratorVariableName"></param>
+        /// <param name="condition"></param>
         /// <param name="start">The start character for this expression in the original string</param>
         /// <param name="end">The end character for this expression in the original string</param>
         public LastExpression(ModelElement root, ModelElement log, Expression listExpression,
@@ -71,7 +71,7 @@ namespace DataDictionary.Interpreter.ListOperators
         /// <returns></returns>
         protected internal override IValue GetValue(InterpretationContext context, ExplanationPart explain)
         {
-            IValue retVal = EFSSystem.EmptyValue;
+            IValue retVal = EFSSystem.INSTANCE.EmptyValue;
 
             ListValue value = ListExpression.GetValue(context, explain) as ListValue;
             if (value != null)
@@ -81,11 +81,11 @@ namespace DataDictionary.Interpreter.ListOperators
                 {
                     IValue v = value.Val[i];
 
-                    if (v != EFSSystem.EmptyValue)
+                    if (v != EFSSystem.INSTANCE.EmptyValue)
                     {
                         ElementFound = true;
                         IteratorVariable.Value = v;
-                        if (conditionSatisfied(context, explain))
+                        if (ConditionSatisfied(context, explain))
                         {
                             MatchingElementFound = true;
                             retVal = IteratorVariable.Value;

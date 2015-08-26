@@ -210,7 +210,7 @@ namespace DataDictionary.Interpreter.Statement
                         }
                     }
 
-                    if (Expression.Ref == EFSSystem.EmptyValue)
+                    if (Expression.Ref == EFSSystem.INSTANCE.EmptyValue)
                     {
                         if (targetType is Collection)
                         {

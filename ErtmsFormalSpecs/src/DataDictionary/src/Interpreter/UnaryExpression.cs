@@ -44,8 +44,7 @@ namespace DataDictionary.Interpreter
         public UnaryExpression(ModelElement root, ModelElement log, Term term, int start, int end)
             : base(root, log, start, end)
         {
-            Term = term;
-            Term.Enclosing = this;
+            Term = SetEnclosed(term);
         }
 
         /// <summary>
@@ -80,9 +79,7 @@ namespace DataDictionary.Interpreter
             int end)
             : base(root, log, start, end)
         {
-            Expression = expression;
-            Expression.Enclosing = this;
-
+            Expression = SetEnclosed(expression);
             UnaryOp = unaryOp;
         }
 
@@ -99,11 +96,11 @@ namespace DataDictionary.Interpreter
 
             if (Term != null)
             {
-                retVal = Term.getReferences(instance, expectation, last);
+                retVal = Term.GetReferences(instance, expectation, last);
             }
             else
             {
-                if (UnaryOp == null)
+                if (Expression != null)
                 {
                     retVal = Expression.GetReferences(instance, expectation, last);
                 }
@@ -125,11 +122,11 @@ namespace DataDictionary.Interpreter
 
             if (Term != null)
             {
-                retVal = Term.getReferenceTypes(instance, expectation, last);
+                retVal = Term.GetReferenceTypes(instance, expectation, last);
             }
             else
             {
-                if (UnaryOp == null)
+                if (Expression != null)
                 {
                     retVal = Expression.GetReferenceTypes(instance, expectation, true);
                 }
@@ -238,7 +235,7 @@ namespace DataDictionary.Interpreter
                 else if (Minus.Equals(UnaryOp))
                 {
                     Type type = Expression.GetExpressionType();
-                    if (type == EFSSystem.IntegerType || type == EFSSystem.DoubleType || type is Range)
+                    if (type == EFSSystem.INSTANCE.IntegerType || type == EFSSystem.INSTANCE.DoubleType || type is Range)
                     {
                         retVal = type;
                     }
@@ -305,16 +302,16 @@ namespace DataDictionary.Interpreter
                     {
                         if (b.Val)
                         {
-                            retVal = EFSSystem.BoolType.False;
+                            retVal = EFSSystem.INSTANCE.BoolType.False;
                         }
                         else
                         {
-                            retVal = EFSSystem.BoolType.True;
+                            retVal = EFSSystem.INSTANCE.BoolType.True;
                         }
                     }
                     else
                     {
-                        AddError("Expression " + Expression.ToString() + " does not evaluate to boolean");
+                        AddError("Expression " + Expression + " does not evaluate to boolean");
                     }
                 }
                 else if (Minus.Equals(UnaryOp))
@@ -336,7 +333,7 @@ namespace DataDictionary.Interpreter
 
                     if (retVal == null)
                     {
-                        AddError("Cannot negate value for " + Expression.ToString());
+                        AddError("Cannot negate value for " + Expression);
                     }
                 }
                 else
@@ -360,7 +357,7 @@ namespace DataDictionary.Interpreter
 
             if (Term != null)
             {
-                retVal = Term.getCalled(context, explain);
+                retVal = Term.GetCalled(context, explain);
             }
             else if (Expression != null)
             {
@@ -385,7 +382,7 @@ namespace DataDictionary.Interpreter
         {
             if (Term != null)
             {
-                Term.fill(retVal, filter);
+                Term.Fill(retVal, filter);
             }
             if (Expression != null)
             {
@@ -430,7 +427,7 @@ namespace DataDictionary.Interpreter
 
             if (Term != null)
             {
-                Term.checkExpression();
+                Term.CheckExpression();
             }
             if (Expression != null)
             {

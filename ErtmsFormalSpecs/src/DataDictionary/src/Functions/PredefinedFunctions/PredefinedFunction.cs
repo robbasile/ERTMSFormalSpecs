@@ -137,7 +137,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
                 {
                     parameter = (Parameter) function.FormalParameters[0];
                     int token = context.LocalScope.PushContext();
-                    context.LocalScope.setGraphParameter(parameter);
+                    context.LocalScope.SetGraphParameter(parameter);
                     retVal = function.createGraph(context, parameter, explain);
                     context.LocalScope.PopContext(token);
                 }

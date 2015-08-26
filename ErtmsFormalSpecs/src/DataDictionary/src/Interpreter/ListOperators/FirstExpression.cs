@@ -71,7 +71,7 @@ namespace DataDictionary.Interpreter.ListOperators
         /// <returns></returns>
         protected internal override IValue GetValue(InterpretationContext context, ExplanationPart explain)
         {
-            IValue retVal = EFSSystem.EmptyValue;
+            IValue retVal = EFSSystem.INSTANCE.EmptyValue;
 
             ListValue value = ListExpression.GetValue(context, explain) as ListValue;
             if (value != null)
@@ -79,11 +79,11 @@ namespace DataDictionary.Interpreter.ListOperators
                 int token = PrepareIteration(context);
                 foreach (IValue v in value.Val)
                 {
-                    if (v != EFSSystem.EmptyValue)
+                    if (v != EFSSystem.INSTANCE.EmptyValue)
                     {
                         ElementFound = true;
                         IteratorVariable.Value = v;
-                        if (conditionSatisfied(context, explain))
+                        if (ConditionSatisfied(context, explain))
                         {
                             MatchingElementFound = true;
                             retVal = v;

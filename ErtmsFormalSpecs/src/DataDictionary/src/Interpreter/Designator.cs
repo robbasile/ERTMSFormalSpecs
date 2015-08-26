@@ -25,7 +25,7 @@ using Utils;
 
 namespace DataDictionary.Interpreter
 {
-    public class Designator : InterpreterTreeNode, IReference, ITextualExplain
+    public class Designator : InterpreterTreeNode, IReference
     {
         /// <summary>
         ///     Provides the designator image
@@ -35,9 +35,9 @@ namespace DataDictionary.Interpreter
         /// <summary>
         ///     Predefined designators
         /// </summary>
-        public const string THIS = "THIS";
+        public const string ThisKeyword = "THIS";
 
-        public const string ENCLOSING = "ENCLOSING";
+        public const string EnclosingKeyword = "ENCLOSING";
 
         /// <summary>
         ///     Indicates that the designator is predefined
@@ -45,7 +45,7 @@ namespace DataDictionary.Interpreter
         /// <returns></returns>
         public bool IsPredefined()
         {
-            return Image == THIS || Image == ENCLOSING;
+            return Image == ThisKeyword || Image == EnclosingKeyword;
         }
 
         /// <summary>
@@ -77,11 +77,11 @@ namespace DataDictionary.Interpreter
 
                 if (Ref != null)
                 {
-                    if (Image == THIS)
+                    if (Image == ThisKeyword)
                     {
                         retVal = LocationEnum.This;
                     }
-                    else if (Image == ENCLOSING)
+                    else if (Image == EnclosingKeyword)
                     {
                         retVal = LocationEnum.Enclosing;
                     }
@@ -134,7 +134,8 @@ namespace DataDictionary.Interpreter
         /// <summary>
         ///     Constructor
         /// </summary>
-        /// <param name="enclosing">the enclosing tree node</param>
+        /// <param name="root"></param>
+        /// <param name="log"></param>
         /// <param name="image">The designator image</param>
         /// <param name="start">The start character for this expression in the original string</param>
         /// <param name="end">The end character for this expression in the original string</param>
@@ -151,14 +152,14 @@ namespace DataDictionary.Interpreter
         /// <param name="expectation">the expectation on the element found</param>
         /// <param name="lastElement">Indicates that this element is the last one in a dereference chain</param>
         /// <returns></returns>
-        public ReturnValue getReferences(INamable instance, BaseFilter expectation, bool lastElement)
+        public ReturnValue GetReferences(INamable instance, BaseFilter expectation, bool lastElement)
         {
             ReturnValue retVal = new ReturnValue(this);
 
             if (instance == null)
             {
                 // Special handling for THIS or ENCLOSING
-                if (Image == THIS || Image == ENCLOSING)
+                if (Image == ThisKeyword || Image == EnclosingKeyword)
                 {
                     INamable currentElem = Root;
                     while (currentElem != null)
@@ -175,7 +176,7 @@ namespace DataDictionary.Interpreter
 
 
                             // Enclosing does not references state machines. 
-                            if (!(Image == ENCLOSING && type is StateMachine))
+                            if (!(Image == EnclosingKeyword && type is StateMachine))
                             {
                                 retVal.Add(type);
                                 return retVal;
@@ -209,7 +210,7 @@ namespace DataDictionary.Interpreter
                 }
 
                 // . In the predefined elements
-                addReference(EFSSystem.GetPredefinedItem(Image), expectation, false, retVal);
+                addReference(EFSSystem.INSTANCE.GetPredefinedItem(Image), expectation, false, retVal);
                 if (lastElement && !retVal.IsEmpty)
                 {
                     return retVal;
@@ -228,11 +229,11 @@ namespace DataDictionary.Interpreter
                         }
                     }
 
-                    currentNamable = enclosingSubDeclarator(currentNamable);
+                    currentNamable = EnclosingSubDeclarator(currentNamable);
                 }
 
                 // . In the dictionaries declared in the system
-                foreach (Dictionary dictionary in EFSSystem.Dictionaries)
+                foreach (Dictionary dictionary in EFSSystem.INSTANCE.Dictionaries)
                 {
                     if (FillBySubdeclarator(dictionary, expectation, false, retVal) > 0 && lastElement)
                     {
@@ -257,7 +258,7 @@ namespace DataDictionary.Interpreter
                 {
                     // If the instance is a typed element, dereference it to its corresponding type
                     ITypedElement element = instance as ITypedElement;
-                    if (element.Type != EFSSystem.NoType)
+                    if (element.Type != EFSSystem.INSTANCE.NoType)
                     {
                         instance = element.Type;
                         asType = true;
@@ -276,7 +277,7 @@ namespace DataDictionary.Interpreter
                     {
                         if (instance is Dictionary)
                         {
-                            instance = enclosingSubDeclarator(instance);
+                            instance = EnclosingSubDeclarator(instance);
                         }
                         else
                         {
@@ -334,7 +335,6 @@ namespace DataDictionary.Interpreter
         /// </summary>
         /// <param name="subDeclarator">The subdeclarator used to get the image</param>
         /// <param name="expectation">The expectatino of the desired element</param>
-        /// <param name="location">The location of the element found</param>
         /// <param name="asType">Indicates that we had to go from the values to the types to perform dereferencing</param>
         /// <param name="values">The return value to update</param>
         /// <return>the number of elements added</return>
@@ -396,14 +396,13 @@ namespace DataDictionary.Interpreter
         ///     Performs the semantic analysis of the term
         /// </summary>
         /// <param name="instance">the reference instance on which this element should analysed</param>
-        /// <para name="expectation">
-        ///     Indicates the kind of element we are looking for</paraparam>
-        ///     <param name="lastElement">Indicates that this element is the last one in a dereference chain</param>
-        ///     <returns>True if semantic analysis should be continued</returns>
+        /// <param name="expectation">Indicates the kind of element we are looking for</param>
+        /// <param name="lastElement">Indicates that this element is the last one in a dereference chain</param>
+        /// <returns>True if semantic analysis should be continued</returns>
         public void SemanticAnalysis(INamable instance, BaseFilter expectation, bool lastElement)
         {
-            ReturnValue tmp = getReferences(instance, expectation, lastElement);
-            if (Image != THIS && Image != ENCLOSING)
+            ReturnValue tmp = GetReferences(instance, expectation, lastElement);
+            if (Image != ThisKeyword && Image != EnclosingKeyword)
             {
                 tmp.Filter(expectation);
             }
@@ -422,16 +421,16 @@ namespace DataDictionary.Interpreter
         /// <summary>
         ///     Provides the element referenced by this designator, given the enclosing element
         /// </summary>
-        /// <param name="enclosing"></param>
+        /// <param name="context"></param>
         /// <returns></returns>
-        public INamable getReference(InterpretationContext context)
+        public INamable GetReference(InterpretationContext context)
         {
             INamable retVal = null;
 
             switch (Location)
             {
                 case LocationEnum.Stack:
-                    retVal = context.LocalScope.getVariable(Image);
+                    retVal = context.LocalScope.GetVariable(Image);
 
                     if (retVal == null)
                     {
@@ -447,7 +446,7 @@ namespace DataDictionary.Interpreter
                         ISubDeclarator subDeclarator = instance as ISubDeclarator;
                         if (subDeclarator != null)
                         {
-                            INamable tmp = getReferenceBySubDeclarator(subDeclarator);
+                            INamable tmp = GetReferenceBySubDeclarator(subDeclarator);
                             if (tmp != null)
                             {
                                 if (retVal == null)
@@ -458,7 +457,7 @@ namespace DataDictionary.Interpreter
                             }
                         }
 
-                        instance = enclosingSubDeclarator(instance);
+                        instance = EnclosingSubDeclarator(instance);
                     }
 
                     if (retVal == null)
@@ -475,15 +474,7 @@ namespace DataDictionary.Interpreter
                     ITypedElement typedElement = context.Instance as ITypedElement;
                     while (typedElement != null && !(typedElement.Type is Structure))
                     {
-                        IEnclosed enclosed = typedElement as IEnclosed;
-                        if (enclosed != null)
-                        {
-                            typedElement = enclosed.Enclosing as ITypedElement;
-                        }
-                        else
-                        {
-                            typedElement = null;
-                        }
+                        typedElement = typedElement.Enclosing as ITypedElement;
                     }
                     retVal = typedElement;
                     break;
@@ -532,7 +523,7 @@ namespace DataDictionary.Interpreter
         /// </summary>
         /// <param name="instance"></param>
         /// <returns></returns>
-        private INamable enclosingSubDeclarator(INamable instance)
+        private INamable EnclosingSubDeclarator(INamable instance)
         {
             INamable retVal = instance;
 
@@ -549,7 +540,7 @@ namespace DataDictionary.Interpreter
         /// </summary>
         /// <param name="subDeclarator"></param>
         /// <returns></returns>
-        private INamable getReferenceBySubDeclarator(ISubDeclarator subDeclarator)
+        private INamable GetReferenceBySubDeclarator(ISubDeclarator subDeclarator)
         {
             INamable retVal = null;
 
@@ -621,7 +612,7 @@ namespace DataDictionary.Interpreter
         /// <returns></returns>
         public Type GetDesignatorType()
         {
-            Type retVal = null;
+            Type retVal;
 
             if (Ref is ITypedElement)
             {
@@ -645,7 +636,7 @@ namespace DataDictionary.Interpreter
         /// </summary>
         /// <param name="retVal">The list to be filled with the element matching the condition expressed in the filter</param>
         /// <param name="filter">The filter to apply</param>
-        public void fill(List<INamable> retVal, BaseFilter filter)
+        public void Fill(List<INamable> retVal, BaseFilter filter)
         {
             if (filter.AcceptableChoice(Ref))
             {
@@ -653,21 +644,28 @@ namespace DataDictionary.Interpreter
             }
         }
 
+        /// <summary>
+        /// Provides the variable designated by this designator according to the interpretation context
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
         public IVariable GetVariable(InterpretationContext context)
         {
-            IVariable retVal = null;
-
-            INamable reference = getReference(context);
-            retVal = reference as IVariable;
-
+            INamable reference = GetReference(context);
+            IVariable retVal = reference as IVariable;
             return retVal;
         }
 
+        /// <summary>
+        /// Provides the value designated by this designator according to the interpretation context
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
         public IValue GetValue(InterpretationContext context)
         {
-            IValue retVal = null;
+            IValue retVal;
 
-            INamable reference = getReference(context);
+            INamable reference = GetReference(context);
 
             // Deref the reference, if required
             if (reference is IVariable)
@@ -682,9 +680,14 @@ namespace DataDictionary.Interpreter
             return retVal;
         }
 
-        public ICallable getCalled(InterpretationContext context)
+        /// <summary>
+        /// Provides the ICallable designated by this designator according to the interpretation context
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        public ICallable GetCalled(InterpretationContext context)
         {
-            ICallable retVal = getReference(context) as ICallable;
+            ICallable retVal = GetReference(context) as ICallable;
 
             if (retVal == null)
             {
@@ -698,7 +701,10 @@ namespace DataDictionary.Interpreter
             return retVal;
         }
 
-        public void checkExpression()
+        /// <summary>
+        /// Checks a designator 
+        /// </summary>
+        public void CheckExpression()
         {
         }
 

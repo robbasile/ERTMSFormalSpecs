@@ -15,7 +15,6 @@
 // ------------------------------------------------------------------------------
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using DataDictionary.Functions;
 using DataDictionary.Functions.PredefinedFunctions;
@@ -28,36 +27,6 @@ using Type = DataDictionary.Types.Type;
 
 namespace DataDictionary.Interpreter
 {
-    /// <summary>
-    ///     Something that can be called
-    /// </summary>
-    public interface ICallable : INamable
-    {
-        /// <summary>
-        ///     Formal parameters of the callable
-        /// </summary>
-        ArrayList FormalParameters { get; }
-
-        /// <summary>
-        ///     Provides the formal parameter which matches the name provided
-        /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
-        Parameter GetFormalParameter(string name);
-
-        /// <summary>
-        ///     Provides the return type of the called element
-        /// </summary>
-        Type ReturnType { get; }
-
-        /// <summary>
-        ///     Perform additional checks based on the parameter types
-        /// </summary>
-        /// <param name="root">The element on which the errors should be reported</param>
-        /// <param name="actualParameters">The parameters applied to this function call</param>
-        void AdditionalChecks(ModelElement root, Dictionary<string, Expression> actualParameters);
-    }
-
     public class Call : Expression
     {
         /// <summary>
@@ -117,8 +86,7 @@ namespace DataDictionary.Interpreter
         public Call(ModelElement root, ModelElement log, Expression called, int start, int end)
             : base(root, log, start, end)
         {
-            Called = called;
-            Called.Enclosing = this;
+            Called = SetEnclosed(called);
         }
 
         /// <summary>
@@ -246,29 +214,32 @@ namespace DataDictionary.Interpreter
             if (retVal)
             {
                 // Called
-                Called.SemanticAnalysis(instance, IsCallable.INSTANCE);
-                StaticUsage.AddUsages(Called.StaticUsage, Usage.ModeEnum.Call);
-
-                // Actual parameters
-                foreach (Expression actual in ActualParameters)
+                if (Called != null)
                 {
-                    actual.SemanticAnalysis(instance, IsActualParameter.INSTANCE);
-                    StaticUsage.AddUsages(actual.StaticUsage, Usage.ModeEnum.Read);
-                }
+                    Called.SemanticAnalysis(instance, IsCallable.INSTANCE);
+                    StaticUsage.AddUsages(Called.StaticUsage, Usage.ModeEnum.Call);
 
-                foreach (KeyValuePair<Designator, Expression> pair in NamedActualParameters)
-                {
-                    ICallable called = Called.Ref as ICallable;
-                    if (called != null)
+                    // Actual parameters
+                    foreach (Expression actual in ActualParameters)
                     {
-                        pair.Key.Ref = called.GetFormalParameter(pair.Key.Image);
-                        StaticUsage.AddUsage(pair.Key.Ref, Root, Usage.ModeEnum.Parameter);
+                        actual.SemanticAnalysis(instance, IsActualParameter.INSTANCE);
+                        StaticUsage.AddUsages(actual.StaticUsage, Usage.ModeEnum.Read);
                     }
-                    pair.Value.SemanticAnalysis(instance, IsActualParameter.INSTANCE);
-                    StaticUsage.AddUsages(pair.Value.StaticUsage, Usage.ModeEnum.Read);
-                }
 
-                ParameterAssociation = CreateParameterAssociation(Called.Ref as ICallable);
+                    foreach (KeyValuePair<Designator, Expression> pair in NamedActualParameters)
+                    {
+                        ICallable called = Called.Ref as ICallable;
+                        if (called != null)
+                        {
+                            pair.Key.Ref = called.GetFormalParameter(pair.Key.Image);
+                            StaticUsage.AddUsage(pair.Key.Ref, Root, Usage.ModeEnum.Parameter);
+                        }
+                        pair.Value.SemanticAnalysis(instance, IsActualParameter.INSTANCE);
+                        StaticUsage.AddUsages(pair.Value.StaticUsage, Usage.ModeEnum.Read);
+                    }
+
+                    ParameterAssociation = CreateParameterAssociation(Called.Ref as ICallable);
+                }
             }
 
             return retVal;
@@ -397,7 +368,7 @@ namespace DataDictionary.Interpreter
                 else if (parameters.Count == 1) // graph
                 {
                     int token = context.LocalScope.PushContext();
-                    context.LocalScope.setGraphParameter(parameters[0]);
+                    context.LocalScope.SetGraphParameter(parameters[0]);
                     Graph graph = function.createGraphForParameter(context, parameters[0], subExplanation);
                     context.LocalScope.PopContext(token);
                     if (graph != null)
@@ -523,7 +494,7 @@ namespace DataDictionary.Interpreter
                     }
                     else
                     {
-                        AddError("Cannot evaluate value for parameter " + i + " (" + expression.ToString() +
+                        AddError("Cannot evaluate value for parameter " + i + " (" + expression +
                                  ") of function " + callable.Name);
                         throw new Exception("Evaluation of parameters failed");
                     }
@@ -687,7 +658,7 @@ namespace DataDictionary.Interpreter
             Type argumentType = expression.GetExpressionType();
             if (argumentType == null)
             {
-                AddError("Cannot evaluate argument type for argument " + expression.ToString());
+                AddError("Cannot evaluate argument type for argument " + expression);
             }
             else
             {
@@ -699,7 +670,7 @@ namespace DataDictionary.Interpreter
                 {
                     if (!parameter.Type.Match(argumentType))
                     {
-                        AddError("Invalid argument " + expression.ToString() + " type, expected " +
+                        AddError("Invalid argument " + expression + " type, expected " +
                                  parameter.Type.FullName + ", actual " + argumentType.FullName);
                     }
                 }

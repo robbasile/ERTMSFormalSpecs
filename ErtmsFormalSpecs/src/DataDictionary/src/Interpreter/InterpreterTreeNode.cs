@@ -14,19 +14,12 @@
 // --
 // ------------------------------------------------------------------------------
 
-using System.Reflection;
-using log4net;
 using Utils;
 
 namespace DataDictionary.Interpreter
 {
     public abstract class InterpreterTreeNode : INamable, ITextualExplain
-    {
-        /// <summary>
-        ///     Some logging facility
-        /// </summary>
-        private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-
+    {        
         /// <summary>
         ///     The root element for which this interpreter tree node is created and interpreted
         /// </summary>
@@ -61,10 +54,10 @@ namespace DataDictionary.Interpreter
         ///     Constructor
         /// </summary>
         /// <param name="root">The root element for which this interpreter tree node is created</param>
-        /// <param name="enclosingNode">The enclosing expression node</param>
+        /// <param name="log">The element on which logs should be added</param>
         /// <param name="start">The start character for this expression in the original string</param>
         /// <param name="end">The end character for this expression in the original string</param>
-        public InterpreterTreeNode(ModelElement root, ModelElement log, int start, int end)
+        protected InterpreterTreeNode(ModelElement root, ModelElement log, int start, int end)
         {
             Root = root;
             RootLog = log;
@@ -85,19 +78,26 @@ namespace DataDictionary.Interpreter
         }
 
         /// <summary>
-        ///     The EFS System for which this interpreter tree node is created
-        /// </summary>
-        public EFSSystem EFSSystem
-        {
-            get { return Root.EFSSystem; }
-        }
-
-        /// <summary>
         ///     The Dictionary for which this interpreter tree node is created
         /// </summary>
         public Dictionary Dictionary
         {
             get { return Root.Dictionary; }
+        }
+
+        /// <summary>
+        /// Sets this as the enclosing element
+        /// </summary>
+        /// <param name="enclosed"></param>
+        protected T SetEnclosed<T>(T enclosed)
+            where T : InterpreterTreeNode
+        {
+            if (enclosed != null)
+            {
+                enclosed.Enclosing = this;
+            }
+
+            return enclosed;
         }
 
         /// <summary>

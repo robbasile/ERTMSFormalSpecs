@@ -29,13 +29,15 @@ namespace DataDictionary.Interpreter.ListOperators
         /// <summary>
         ///     Constructor for MAP, REDUCE
         /// </summary>
+        /// <param name="root"></param>
+        /// <param name="log"></param>
         /// <param name="listExpression"></param>
+        /// <param name="iteratorVariableName"></param>
         /// <param name="condition">the condition to apply to list elements</param>
         /// <param name="iteratorExpression">the expression to be evaluated on each element of the list</param>
-        /// <param name="iteratorVariableName"></param>
         /// <param name="start">The start character for this expression in the original string</param>
         /// <param name="end">The end character for this expression in the original string</param>
-        public ExpressionBasedListExpression(ModelElement root, ModelElement log, Expression listExpression,
+        protected ExpressionBasedListExpression(ModelElement root, ModelElement log, Expression listExpression,
             string iteratorVariableName, Expression condition, Expression iteratorExpression, int start, int end)
             : base(root, log, listExpression, iteratorVariableName, condition, start, end)
         {
@@ -47,7 +49,7 @@ namespace DataDictionary.Interpreter.ListOperators
         ///     Performs the semantic analysis of the expression
         /// </summary>
         /// <param name="instance">the reference instance on which this element should analysed</param>
-        /// <paraparam name="expectation">Indicates the kind of element we are looking for</paraparam>
+        /// <param name="expectation">Indicates the kind of element we are looking for</param>
         /// <returns>True if semantic analysis should be continued</returns>
         public override bool SemanticAnalysis(INamable instance, BaseFilter expectation)
         {
@@ -56,8 +58,11 @@ namespace DataDictionary.Interpreter.ListOperators
             if (retVal)
             {
                 // Iterator expression
-                IteratorExpression.SemanticAnalysis(instance, AllMatches.INSTANCE);
-                StaticUsage.AddUsages(IteratorExpression.StaticUsage, Usage.ModeEnum.Read);
+                if (IteratorExpression != null)
+                {
+                    IteratorExpression.SemanticAnalysis(instance, AllMatches.INSTANCE);
+                    StaticUsage.AddUsages(IteratorExpression.StaticUsage, Usage.ModeEnum.Read);
+                }
             }
 
             return retVal;

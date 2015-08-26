@@ -57,10 +57,13 @@ namespace DataDictionary.Interpreter
         /// <param name="associations"></param>
         public void SetAssociation(Dictionary<Designator, Expression> associations)
         {
-            Associations = associations;
-            foreach (Expression expr in Associations.Values)
+            if (associations != null)
             {
-                expr.Enclosing = this;
+                Associations = associations;
+                foreach (Expression expr in Associations.Values)
+                {
+                    SetEnclosed(expr);
+                }
             }
         }
 
@@ -77,21 +80,27 @@ namespace DataDictionary.Interpreter
             if (retVal)
             {
                 // Structure
-                Structure.SemanticAnalysis(instance, IsStructure.INSTANCE);
-                StaticUsage.AddUsages(Structure.StaticUsage, Usage.ModeEnum.Type);
-
-                Structure structureType = Structure.Ref as Structure;
-                // Structure field Association
-                foreach (KeyValuePair<Designator, Expression> pair in Associations)
+                if (Structure != null)
                 {
-                    if (structureType != null)
-                    {
-                        pair.Key.Ref = structureType.FindStructureElement(pair.Key.Image);
-                        StaticUsage.AddUsage(pair.Key.Ref, Root, Usage.ModeEnum.Parameter);
-                    }
+                    Structure.SemanticAnalysis(instance, IsStructure.INSTANCE);
+                    StaticUsage.AddUsages(Structure.StaticUsage, Usage.ModeEnum.Type);
 
-                    pair.Value.SemanticAnalysis(instance, IsRightSide.INSTANCE);
-                    StaticUsage.AddUsages(pair.Value.StaticUsage, Usage.ModeEnum.Read);
+                    // Structure field Association
+                    if (Associations != null)
+                    {
+                        Structure structureType = Structure.Ref as Structure;
+                        foreach (KeyValuePair<Designator, Expression> pair in Associations)
+                        {
+                            if (structureType != null)
+                            {
+                                pair.Key.Ref = structureType.FindStructureElement(pair.Key.Image);
+                                StaticUsage.AddUsage(pair.Key.Ref, Root, Usage.ModeEnum.Parameter);
+                            }
+
+                            pair.Value.SemanticAnalysis(instance, IsRightSide.INSTANCE);
+                            StaticUsage.AddUsages(pair.Value.StaticUsage, Usage.ModeEnum.Read);
+                        }
+                    }
                 }
             }
 
@@ -201,7 +210,7 @@ namespace DataDictionary.Interpreter
                                     {
                                         if (!element.Type.Match(type))
                                         {
-                                            AddError("Expression " + expression.ToString() + " type (" + type.FullName +
+                                            AddError("Expression " + expression + " type (" + type.FullName +
                                                      ") does not match the target element " + element.Name + " type (" +
                                                      element.Type.FullName + ")");
                                         }
@@ -211,18 +220,18 @@ namespace DataDictionary.Interpreter
                         }
                         else
                         {
-                            AddError("Expression " + expression.ToString() + " type cannot be found");
+                            AddError("Expression " + expression + " type cannot be found");
                         }
                     }
                     else
                     {
-                        Root.AddError("Cannot find " + name + " in structure " + Structure.ToString());
+                        Root.AddError("Cannot find " + name + " in structure " + Structure);
                     }
                 }
             }
             else
             {
-                AddError("Cannot find structure type " + Structure.ToString());
+                AddError("Cannot find structure type " + Structure);
             }
         }
     }

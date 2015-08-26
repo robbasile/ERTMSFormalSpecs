@@ -311,7 +311,7 @@ namespace DataDictionary.Interpreter.Statement
                     foreach (
                         KeyValuePair<Actual, IValue> pair in Call.AssignParameterValues(context, procedure, true, part))
                     {
-                        ctxt.LocalScope.setVariable(pair.Key, pair.Value);
+                        ctxt.LocalScope.SetVariable(pair.Key, pair.Value);
                     }
 
                     foreach (Rule rule in procedure.Rules)
@@ -349,7 +349,7 @@ namespace DataDictionary.Interpreter.Statement
 
                 if (condition.EvaluatePreConditions(ctxt, conditionExplanation, runner))
                 {
-                    ExplanationPart.SetNamable(conditionExplanation, EFSSystem.BoolType.True);
+                    ExplanationPart.SetNamable(conditionExplanation, EFSSystem.INSTANCE.BoolType.True);
                     foreach (Action action in condition.Actions)
                     {
                         action.GetChanges(ctxt, changes, conditionExplanation, true, runner);
@@ -363,7 +363,7 @@ namespace DataDictionary.Interpreter.Statement
                 }
                 else
                 {
-                    ExplanationPart.SetNamable(conditionExplanation, EFSSystem.BoolType.False);
+                    ExplanationPart.SetNamable(conditionExplanation, EFSSystem.INSTANCE.BoolType.False);
                 }
             }
         }

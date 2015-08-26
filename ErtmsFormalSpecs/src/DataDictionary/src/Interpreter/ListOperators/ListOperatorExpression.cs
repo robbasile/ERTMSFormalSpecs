@@ -29,7 +29,7 @@ namespace DataDictionary.Interpreter.ListOperators
         /// <summary>
         ///     List operators
         /// </summary>
-        public static string[] LIST_OPERATORS =
+        public static string[] ListOperators =
         {
             ThereIsExpression.Operator,
             ForAllExpression.Operator,
@@ -52,11 +52,6 @@ namespace DataDictionary.Interpreter.ListOperators
         public Variable IteratorVariable { get; private set; }
 
         /// <summary>
-        ///     The name of the iterator variable
-        /// </summary>
-        public string IteratorName { get; private set; }
-
-        /// <summary>
         ///     The iterator variable during the previous iteration
         /// </summary>
         public Variable PreviousIteratorVariable { get; private set; }
@@ -64,17 +59,17 @@ namespace DataDictionary.Interpreter.ListOperators
         /// <summary>
         ///     Constructor
         /// </summary>
-        /// <param name="listExpression"></param>
         /// <param name="root">the root element for which this expression should be parsed</param>
+        /// <param name="log"></param>
+        /// <param name="listExpression"></param>
+        /// <param name="iteratorVariableName">The name of the iterator variable</param>
         /// <param name="start">The start character for this expression in the original string</param>
         /// <param name="end">The end character for this expression in the original string</param>
-        /// <param name="iteratorVariableName">The name of the iterator variable</param>
-        public ListOperatorExpression(ModelElement root, ModelElement log, Expression listExpression,
+        protected ListOperatorExpression(ModelElement root, ModelElement log, Expression listExpression,
             string iteratorVariableName, int start, int end)
             : base(root, log, start, end)
         {
-            ListExpression = listExpression;
-            ListExpression.Enclosing = this;
+            ListExpression = SetEnclosed(listExpression);
 
             IteratorVariable = (Variable) acceptor.getFactory().createVariable();
             IteratorVariable.Enclosing = this;
@@ -117,7 +112,7 @@ namespace DataDictionary.Interpreter.ListOperators
         ///     Performs the semantic analysis of the expression
         /// </summary>
         /// <param name="instance">the reference instance on which this element should analysed</param>
-        /// <paraparam name="expectation">Indicates the kind of element we are looking for</paraparam>
+        /// <param name="expectation">Indicates the kind of element we are looking for</param>
         /// <returns>True if semantic analysis should be continued</returns>
         public override bool SemanticAnalysis(INamable instance, BaseFilter expectation)
         {
@@ -156,11 +151,11 @@ namespace DataDictionary.Interpreter.ListOperators
         protected virtual int PrepareIteration(InterpretationContext context)
         {
             int retVal = context.LocalScope.PushContext();
-            context.LocalScope.setVariable(IteratorVariable);
-            context.LocalScope.setVariable(PreviousIteratorVariable);
+            context.LocalScope.SetVariable(IteratorVariable);
+            context.LocalScope.SetVariable(PreviousIteratorVariable);
 
-            PreviousIteratorVariable.Value = EFSSystem.EmptyValue;
-            IteratorVariable.Value = EFSSystem.EmptyValue;
+            PreviousIteratorVariable.Value = EFSSystem.INSTANCE.EmptyValue;
+            IteratorVariable.Value = EFSSystem.INSTANCE.EmptyValue;
 
             ElementFound = false;
             MatchingElementFound = false;
@@ -180,6 +175,8 @@ namespace DataDictionary.Interpreter.ListOperators
         ///     Ends the iteration
         /// </summary>
         /// <param name="context"></param>
+        /// <param name="explain"></param>
+        /// <param name="token"></param>
         protected virtual void EndIteration(InterpretationContext context, ExplanationPart explain, int token)
         {
             if (!ElementFound)
@@ -218,7 +215,7 @@ namespace DataDictionary.Interpreter.ListOperators
                 Type listExpressionType = ListExpression.GetExpressionType();
                 if (!(listExpressionType is Collection))
                 {
-                    AddError("List expression " + ListExpression.ToString() + " should hold a collection");
+                    AddError("List expression " + ListExpression + " should hold a collection");
                 }
             }
             else

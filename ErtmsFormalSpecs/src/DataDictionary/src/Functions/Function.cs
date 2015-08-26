@@ -163,7 +163,7 @@ namespace DataDictionary.Functions
         {
             foreach (KeyValuePair<Actual, IValue> pair in parameterValues)
             {
-                context.LocalScope.setVariable(pair.Key, pair.Value);
+                context.LocalScope.SetVariable(pair.Key, pair.Value);
             }
         }
 
@@ -286,7 +286,7 @@ namespace DataDictionary.Functions
                                     actualValue = new PlaceHolder(parameter.Type, 1);
                                 }
 
-                                ctxt.LocalScope.setParameter(param, actualValue);
+                                ctxt.LocalScope.SetParameter(param, actualValue);
                             }
                             retVal = createGraphForParameter(ctxt, param, explain);
 
@@ -680,7 +680,7 @@ namespace DataDictionary.Functions
                         if (Xparameter != null && Yparameter != null)
                         {
                             int token = context.LocalScope.PushContext();
-                            context.LocalScope.setSurfaceParameters(Xparameter, Yparameter);
+                            context.LocalScope.SetSurfaceParameters(Xparameter, Yparameter);
                             retVal = createSurfaceForParameters(context, Xparameter, Yparameter, explain);
                             context.LocalScope.PopContext(token);
                         }

@@ -15,6 +15,7 @@
 // ------------------------------------------------------------------------------
 
 using System;
+using System.Collections.Generic;
 
 namespace DataDictionary.Interpreter
 {
@@ -23,7 +24,7 @@ namespace DataDictionary.Interpreter
         /// <summary>
         ///     The size of the context to provide
         /// </summary>
-        private static int CONTEXT_SIZE = 20;
+        private const int ContextSize = 20;
 
         /// <summary>
         ///     Builds the context messag
@@ -32,11 +33,11 @@ namespace DataDictionary.Interpreter
         /// <param name="index"></param>
         /// <param name="buffer"></param>
         /// <returns></returns>
-        private static string buildContext(string message, int index, char[] buffer)
+        private static string BuildContext(string message, int index, IList<char> buffer)
         {
             string retVal = message + " near ...";
 
-            int i = Math.Max(0, index - CONTEXT_SIZE);
+            int i = Math.Max(0, index - ContextSize);
             while (i < index)
             {
                 retVal += buffer[i];
@@ -45,7 +46,7 @@ namespace DataDictionary.Interpreter
 
             retVal += "^";
 
-            while (i < index + CONTEXT_SIZE && i < buffer.Length)
+            while (i < index + ContextSize && i < buffer.Count)
             {
                 retVal += buffer[i];
                 i += 1;
@@ -63,7 +64,7 @@ namespace DataDictionary.Interpreter
         /// <param name="index"></param>
         /// <param name="buffer"></param>
         public ParseErrorException(string message, int index, char[] buffer)
-            : base(buildContext(message, index, buffer))
+            : base(BuildContext(message, index, buffer))
         {
         }
     }

@@ -58,7 +58,7 @@ namespace DataDictionary.Interpreter.ListOperators
             if (iteratorType != null)
             {
                 Collection collection = (Collection) acceptor.getFactory().createCollection();
-                collection.Enclosing = EFSSystem;
+                collection.Enclosing = EFSSystem.INSTANCE;
                 collection.Type = iteratorType;
 
                 retVal = collection;
@@ -88,12 +88,12 @@ namespace DataDictionary.Interpreter.ListOperators
                 retVal = new ListValue((Collection) GetExpressionType(), new List<IValue>());
                 foreach (IValue v in value.Val)
                 {
-                    if (v != EFSSystem.EmptyValue)
+                    if (v != EFSSystem.INSTANCE.EmptyValue)
                     {
                         ElementFound = true;
                         IteratorVariable.Value = v;
 
-                        if (conditionSatisfied(context, explain))
+                        if (ConditionSatisfied(context, explain))
                         {
                             MatchingElementFound = true;
                             retVal.Val.Add(IteratorExpression.GetValue(context, explain));
@@ -133,7 +133,6 @@ namespace DataDictionary.Interpreter.ListOperators
         /// <summary>
         ///     Checks the expression and appends errors to the root tree node when inconsistencies are found
         /// </summary>
-        /// <param name="context">The interpretation context</param>
         public override void CheckExpression()
         {
             base.CheckExpression();

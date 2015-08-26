@@ -32,28 +32,25 @@ namespace DataDictionary.Interpreter.ListOperators
         /// <summary>
         ///     Constructor for THERE_IS, FORALL, FIRST, LAST
         /// </summary>
-        /// <param name="listExpression"></param>
-        /// <param name="condition"></param>
         /// <param name="root">the root element for which this expression should be parsed</param>
+        /// <param name="log"></param>
+        /// <param name="listExpression"></param>
         /// <param name="iteratorVariableName"></param>
+        /// <param name="condition"></param>
         /// <param name="start">The start character for this expression in the original string</param>
         /// <param name="end">The end character for this expression in the original string</param>
-        public ConditionBasedListExpression(ModelElement root, ModelElement log, Expression listExpression,
+        protected ConditionBasedListExpression(ModelElement root, ModelElement log, Expression listExpression,
             string iteratorVariableName, Expression condition, int start, int end)
             : base(root, log, listExpression, iteratorVariableName, start, end)
         {
-            Condition = condition;
-            if (Condition != null)
-            {
-                Condition.Enclosing = this;
-            }
+            Condition = SetEnclosed(condition);
         }
 
         /// <summary>
         ///     Performs the semantic analysis of the expression
         /// </summary>
         /// <param name="instance">the reference instance on which this element should analysed</param>
-        /// <paraparam name="expectation">Indicates the kind of element we are looking for</paraparam>
+        /// <param name="expectation">Indicates the kind of element we are looking for</param>
         /// <returns>True if semantic analysis should be continued</returns>
         public override bool SemanticAnalysis(INamable instance, BaseFilter expectation)
         {
@@ -94,7 +91,7 @@ namespace DataDictionary.Interpreter.ListOperators
         /// <param name="context"></param>
         /// <param name="explain"></param>
         /// <returns></returns>
-        public bool conditionSatisfied(InterpretationContext context, ExplanationPart explain)
+        public bool ConditionSatisfied(InterpretationContext context, ExplanationPart explain)
         {
             bool retVal = true;
 
@@ -121,11 +118,11 @@ namespace DataDictionary.Interpreter.ListOperators
         {
             base.CheckExpression();
 
-            Type conditionType = null;
             if (Condition != null)
             {
                 Condition.CheckExpression();
-                conditionType = Condition.GetExpressionType() as BoolType;
+
+                Type conditionType = Condition.GetExpressionType() as BoolType;
                 if (conditionType == null)
                 {
                     AddError("Conditions on list expressions should be a predicate (return a boolean value)");

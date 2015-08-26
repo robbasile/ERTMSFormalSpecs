@@ -273,7 +273,7 @@ namespace DataDictionary.Interpreter.Statement
                     ListValue newListValue = new ListValue(listValue.CollectionType, new List<IValue>());
 
                     int token = context.LocalScope.PushContext();
-                    context.LocalScope.setVariable(IteratorVariable);
+                    context.LocalScope.SetVariable(IteratorVariable);
 
                     int index = 0;
                     if (Position == PositionEnum.Last)
@@ -287,7 +287,7 @@ namespace DataDictionary.Interpreter.Statement
                         IValue value = listValue.Val[index];
                         index = NextIndex(index);
 
-                        if (value == EFSSystem.EmptyValue)
+                        if (value == EFSSystem.INSTANCE.EmptyValue)
                         {
                             InsertInResult(newListValue, value);
                         }
@@ -320,7 +320,7 @@ namespace DataDictionary.Interpreter.Statement
                     // Fill the gap
                     while (newListValue.Val.Count < listValue.Val.Count)
                     {
-                        newListValue.Val.Add(EFSSystem.EmptyValue);
+                        newListValue.Val.Add(EFSSystem.INSTANCE.EmptyValue);
                     }
 
                     Change change = new Change(variable, variable.Value, newListValue);

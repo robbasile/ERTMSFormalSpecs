@@ -284,7 +284,7 @@ namespace DataDictionary.Interpreter.Statement
             explanation = ExplanationPart.CreateSubExplanation(explanation, this);
 
             int index = context.LocalScope.PushContext();
-            context.LocalScope.setVariable(IteratorVariable);
+            context.LocalScope.SetVariable(IteratorVariable);
 
             IVariable variable = ListExpression.GetVariable(context);
             if (variable != null)

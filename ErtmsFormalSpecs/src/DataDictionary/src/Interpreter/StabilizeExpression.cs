@@ -72,14 +72,9 @@ namespace DataDictionary.Interpreter
             Expression condition, int start, int end)
             : base(root, log, start, end)
         {
-            Expression = expression;
-            Expression.Enclosing = this;
-
-            InitialValue = initialValue;
-            InitialValue.Enclosing = this;
-
-            Condition = condition;
-            Condition.Enclosing = this;
+            Expression = SetEnclosed(expression);
+            InitialValue = SetEnclosed(initialValue);
+            Condition = SetEnclosed(condition);
 
             LastIteration = (Variable) acceptor.getFactory().createVariable();
             LastIteration.Enclosing = this;
@@ -131,20 +126,29 @@ namespace DataDictionary.Interpreter
             if (retVal)
             {
                 // InitialValue
-                InitialValue.SemanticAnalysis(instance, IsRightSide.INSTANCE);
-                StaticUsage.AddUsages(InitialValue.StaticUsage, Usage.ModeEnum.Read);
+                if (InitialValue != null)
+                {
+                    InitialValue.SemanticAnalysis(instance, IsRightSide.INSTANCE);
+                    StaticUsage.AddUsages(InitialValue.StaticUsage, Usage.ModeEnum.Read);
+
+                    LastIteration.Type = InitialValue.GetExpressionType();
+                    CurrentIteration.Type = InitialValue.GetExpressionType();
+                    StaticUsage.AddUsage(InitialValue.GetExpressionType(), Root, Usage.ModeEnum.Type);
+                }
 
                 // Expression
-                Expression.SemanticAnalysis(instance, AllMatches.INSTANCE);
-                StaticUsage.AddUsages(Expression.StaticUsage, Usage.ModeEnum.Read);
+                if (Expression != null)
+                {
+                    Expression.SemanticAnalysis(instance, AllMatches.INSTANCE);
+                    StaticUsage.AddUsages(Expression.StaticUsage, Usage.ModeEnum.Read);
+                }
 
                 // Condition
-                Condition.SemanticAnalysis(instance, AllMatches.INSTANCE);
-                StaticUsage.AddUsages(Condition.StaticUsage, Usage.ModeEnum.Read);
-
-                LastIteration.Type = InitialValue.GetExpressionType();
-                CurrentIteration.Type = InitialValue.GetExpressionType();
-                StaticUsage.AddUsage(InitialValue.GetExpressionType(), Root, Usage.ModeEnum.Type);
+                if (Condition != null)
+                {
+                    Condition.SemanticAnalysis(instance, AllMatches.INSTANCE);
+                    StaticUsage.AddUsages(Condition.StaticUsage, Usage.ModeEnum.Read);
+                }
             }
 
             return retVal;
@@ -182,13 +186,13 @@ namespace DataDictionary.Interpreter
                 ExplanationPart iteratorValueExplanation = ExplanationPart.CreateSubExplanation(iterationExplanation,
                     "Iteration expression value = ");
                 int token = context.LocalScope.PushContext();
-                context.LocalScope.setVariable(LastIteration);
+                context.LocalScope.SetVariable(LastIteration);
                 CurrentIteration.Value = Expression.GetValue(context, iteratorValueExplanation);
                 ExplanationPart.SetNamable(iteratorValueExplanation, CurrentIteration.Value);
 
                 ExplanationPart stopValueExplanation = ExplanationPart.CreateSubExplanation(iterationExplanation,
                     "Stop expression value = ");
-                context.LocalScope.setVariable(CurrentIteration);
+                context.LocalScope.SetVariable(CurrentIteration);
                 BoolValue stopCondition = Condition.GetValue(context, stopValueExplanation) as BoolValue;
                 ExplanationPart.SetNamable(stopValueExplanation, stopCondition);
                 if (stopCondition != null)
@@ -197,12 +201,13 @@ namespace DataDictionary.Interpreter
                 }
                 else
                 {
-                    AddError("Cannot evaluate condition " + Condition.ToString());
+                    AddError("Cannot evaluate condition " + Condition);
                     stop = true;
                 }
 
                 if (!stop && IterationsList.Exists(x => x.LiteralName == CurrentIteration.Value.LiteralName))
                 {
+                    // Cycle found !!!
                     IterationsList.Add(CurrentIteration.Value);
                     string cycleReport = "Execution cycled: ";
 
@@ -220,10 +225,9 @@ namespace DataDictionary.Interpreter
                         }
                     }
 
-                    ExplanationPart executioncycleExplanation =
-                        ExplanationPart.CreateSubExplanation(stabilizeExpressionExplanation, cycleReport);
-
-                    return EFSSystem.EmptyValue;
+                    ExplanationPart.CreateSubExplanation(stabilizeExpressionExplanation, cycleReport);
+                    CurrentIteration.Value = EFSSystem.INSTANCE.EmptyValue;
+                    stop = true;
                 }
                 else
                 {
@@ -233,7 +237,6 @@ namespace DataDictionary.Interpreter
                 context.LocalScope.PopContext(token);
                 LastIteration.Value = CurrentIteration.Value;
             }
-
             ExplanationPart.SetNamable(stabilizeExpressionExplanation, CurrentIteration.Value);
 
             return CurrentIteration.Value;
@@ -320,9 +323,7 @@ namespace DataDictionary.Interpreter
         /// <returns></returns>
         public override Graph CreateGraph(InterpretationContext context, Parameter parameter, ExplanationPart explain)
         {
-            Graph retVal = base.CreateGraph(context, parameter, explain);
-
-            retVal = Graph.createGraph(GetValue(context, explain), parameter, explain);
+            Graph retVal = Graph.createGraph(GetValue(context, explain), parameter, explain);
 
             return retVal;
         }

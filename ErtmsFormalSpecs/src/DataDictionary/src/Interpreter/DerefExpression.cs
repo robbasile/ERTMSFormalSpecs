@@ -36,19 +36,22 @@ namespace DataDictionary.Interpreter
         /// <summary>
         ///     Constructor
         /// </summary>
-        /// <param name="left"></param>
-        /// <param name="op"></param>
-        /// <param name="right"></param>
+        /// <param name="root"></param>
+        /// <param name="log"></param>
+        /// <param name="arguments"></param>
         /// <param name="start">The start character for this expression in the original string</param>
         /// <param name="end">The end character for this expression in the original string</param>
         public DerefExpression(ModelElement root, ModelElement log, List<Expression> arguments, int start, int end)
             : base(root, log, start, end)
         {
-            Arguments = arguments;
-
-            foreach (Expression expr in Arguments)
+            if (arguments != null)
             {
-                expr.Enclosing = this;
+                Arguments = arguments;
+
+                foreach (Expression expr in Arguments)
+                {
+                    SetEnclosed(expr);
+                }
             }
         }
 
@@ -83,7 +86,7 @@ namespace DataDictionary.Interpreter
         ///     Performs the semantic analysis of the expression
         /// </summary>
         /// <param name="instance">the reference instance on which this element should analysed</param>
-        /// <paraparam name="expectation">Indicates the kind of element we are looking for</paraparam>
+        /// <param name="expectation">Indicates the kind of element we are looking for</param>
         /// <returns>True if semantic analysis should be continued</returns>
         public override bool SemanticAnalysis(INamable instance, BaseFilter expectation)
         {
@@ -120,7 +123,7 @@ namespace DataDictionary.Interpreter
                 else if (tmp.IsAmbiguous)
                 {
                     // Several possible interpretations for this deref expression, not allowed
-                    AddError("Expression " + ToString() + " may have several interpretations " + tmp.ToString() +
+                    AddError("Expression " + ToString() + " may have several interpretations " + tmp +
                              ", please disambiguate");
                 }
                 else
@@ -199,13 +202,13 @@ namespace DataDictionary.Interpreter
 
                     if (retVal.IsEmpty)
                     {
-                        AddError("Cannot find " + Arguments[i].ToString() + " in " + Arguments[i - 1].ToString());
+                        AddError("Cannot find " + Arguments[i] + " in " + Arguments[i - 1]);
                     }
                 }
             }
             else
             {
-                AddError("Cannot evaluate " + Arguments[0].ToString());
+                AddError("Cannot evaluate " + Arguments[0]);
             }
 
             retVal.Filter(expectation);
@@ -216,7 +219,6 @@ namespace DataDictionary.Interpreter
         /// <summary>
         ///     Provides the type of this expression
         /// </summary>
-        /// <param name="context">The interpretation context</param>
         /// <returns></returns>
         public override Type GetExpressionType()
         {
@@ -238,14 +240,13 @@ namespace DataDictionary.Interpreter
         ///     Provides the variable referenced by this expression, if any
         /// </summary>
         /// <param name="context">The context on which the variable must be found</param>
-        /// <param name="explain"></param>
         /// <returns></returns>
         public override IVariable GetVariable(InterpretationContext context)
         {
             INamable current = null;
 
             InterpretationContext ctxt = new InterpretationContext(context);
-            for (int i = 0; i < Arguments.Count; i++)
+            foreach (Expression expression in Arguments)
             {
                 if (current != null)
                 {
@@ -253,10 +254,10 @@ namespace DataDictionary.Interpreter
                     // does not references a variable (for instance, when it references a namespace)
                     ctxt.Instance = current;
                 }
-                current = Arguments[i].GetVariable(ctxt);
+                current = expression.GetVariable(ctxt);
                 if (current == null)
                 {
-                    current = Arguments[i].GetValue(ctxt, null);
+                    current = expression.GetValue(ctxt, null);
                 }
             }
 
@@ -276,15 +277,15 @@ namespace DataDictionary.Interpreter
             if (retVal == null)
             {
                 InterpretationContext ctxt = new InterpretationContext(context);
-                for (int i = 0; i < Arguments.Count; i++)
+                foreach (Expression expression in Arguments)
                 {
                     if (retVal != null)
                     {
                         ctxt.Instance = retVal;
                     }
-                    retVal = Arguments[i].GetValue(ctxt, explain);
+                    retVal = expression.GetValue(ctxt, explain);
 
-                    if (retVal == EFSSystem.EmptyValue)
+                    if (retVal == EFSSystem.INSTANCE.EmptyValue)
                     {
                         break;
                     }
@@ -323,7 +324,7 @@ namespace DataDictionary.Interpreter
                     retVal = Arguments[i].Ref;
                 }
 
-                if (retVal == EFSSystem.EmptyValue)
+                if (retVal == EFSSystem.INSTANCE.EmptyValue)
                 {
                     break;
                 }
@@ -381,7 +382,6 @@ namespace DataDictionary.Interpreter
         /// <summary>
         ///     Checks the expression and appends errors to the root tree node when inconsistencies are found
         /// </summary>
-        /// <param name="context">The interpretation context</param>
         public override void CheckExpression()
         {
             foreach (Expression subExpression in Arguments)
@@ -401,9 +401,7 @@ namespace DataDictionary.Interpreter
         /// <returns></returns>
         public override Graph CreateGraph(InterpretationContext context, Parameter parameter, ExplanationPart explain)
         {
-            Graph retVal = base.CreateGraph(context, parameter, explain);
-
-            retVal = Graph.createGraph(GetValue(context, explain), parameter, explain);
+            Graph retVal = Graph.createGraph(GetValue(context, explain), parameter, explain);
 
             if (retVal == null)
             {
@@ -425,9 +423,7 @@ namespace DataDictionary.Interpreter
         public override Surface CreateSurface(InterpretationContext context, Parameter xParam, Parameter yParam,
             ExplanationPart explain)
         {
-            Surface retVal = base.CreateSurface(context, xParam, yParam, explain);
-
-            retVal = Surface.createSurface(GetValue(context, explain), xParam, yParam);
+            Surface retVal = Surface.createSurface(GetValue(context, explain), xParam, yParam);
 
             if (retVal == null)
             {

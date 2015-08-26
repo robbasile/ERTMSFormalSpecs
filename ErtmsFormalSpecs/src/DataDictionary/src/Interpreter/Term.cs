@@ -23,7 +23,7 @@ using Utils;
 
 namespace DataDictionary.Interpreter
 {
-    public class Term : InterpreterTreeNode, IReference, ITextualExplain
+    public class Term : InterpreterTreeNode, IReference
     {
         /// <summary>
         ///     The designator of this term
@@ -39,20 +39,21 @@ namespace DataDictionary.Interpreter
         ///     Constructor
         /// </summary>
         /// <param name="root">The root element for which this model is built</param>
-        /// <param name="designator"></parparam>
-        ///     <param name="start">The start character for this expression in the original string</param>
-        ///     <param name="end">The end character for this expression in the original string</param>
+        /// <param name="log"></param>
+        /// <param name="designator"></param>
+        /// <param name="start">The start character for this expression in the original string</param>
+        /// <param name="end">The end character for this expression in the original string</param>
         public Term(ModelElement root, ModelElement log, Designator designator, int start, int end)
             : base(root, log, start, end)
         {
-            Designator = designator;
-            Designator.Enclosing = this;
+            Designator = SetEnclosed(designator);
         }
 
         /// <summary>
         ///     Constructor
         /// </summary>
         /// <param name="root">The root element for which this model is built</param>
+        /// <param name="log"></param>
         /// <param name="literal"></param>
         /// <param name="start">The start character for this expression in the original string</param>
         /// <param name="end">The end character for this expression in the original string</param>
@@ -69,13 +70,13 @@ namespace DataDictionary.Interpreter
         /// <param name="expectation">the expectation on the element found</param>
         /// <param name="last">indicates that this is the last element in a dereference chain</param>
         /// <returns></returns>
-        public ReturnValue getReferences(INamable instance, BaseFilter expectation, bool last)
+        public ReturnValue GetReferences(INamable instance, BaseFilter expectation, bool last)
         {
             ReturnValue retVal = null;
 
             if (Designator != null)
             {
-                retVal = Designator.getReferences(instance, expectation, last);
+                retVal = Designator.GetReferences(instance, expectation, last);
             }
             else if (LiteralValue != null)
             {
@@ -89,10 +90,10 @@ namespace DataDictionary.Interpreter
         ///     Provides the possible references types for this expression (used in semantic analysis)
         /// </summary>
         /// <param name="instance">the reference instance on which this element should analysed</param>
-        /// <paraparam name="expectation">Indicates the kind of element we are looking for</paraparam>
+        /// <param name="expectation">Indicates the kind of element we are looking for</param>
         /// <param name="last">indicates that this is the last element in a dereference chain</param>
         /// <returns></returns>
-        public ReturnValue getReferenceTypes(INamable instance, BaseFilter expectation, bool last)
+        public ReturnValue GetReferenceTypes(INamable instance, BaseFilter expectation, bool last)
         {
             ReturnValue retVal = null;
 
@@ -100,11 +101,11 @@ namespace DataDictionary.Interpreter
             {
                 retVal = new ReturnValue();
 
-                foreach (ReturnValueElement element in Designator.getReferences(instance, expectation, last).Values)
+                foreach (ReturnValueElement element in Designator.GetReferences(instance, expectation, last).Values)
                 {
                     if (element.Value is Type)
                     {
-                        bool asType = true;
+                        const bool asType = true;
                         retVal.Add(element.Value, null, asType);
                     }
                 }
@@ -121,10 +122,9 @@ namespace DataDictionary.Interpreter
         ///     Performs the semantic analysis of the term
         /// </summary>
         /// <param name="instance">the reference instance on which this element should analysed</param>
-        /// <param name="expectation">
-        ///     Indicates the kind of element we are looking for</paraparam>
-        ///     <param name="lastElement">Indicates that this element is the last one in a dereference chain</param>
-        ///     <returns>True if semantic analysis should be continued</returns>
+        /// <param name="expectation">Indicates the kind of element we are looking for</param>
+        /// <param name="lastElement">Indicates that this element is the last one in a dereference chain</param>
+        /// <returns>True if semantic analysis should be continued</returns>
         public void SemanticAnalysis(INamable instance, BaseFilter expectation, bool lastElement)
         {
             if (Designator != null)
@@ -164,7 +164,6 @@ namespace DataDictionary.Interpreter
         /// <summary>
         ///     Provides the type of this expression
         /// </summary>
-        /// <param name="context">The interpretation context</param>
         /// <returns></returns>
         public Type GetExpressionType()
         {
@@ -194,10 +193,6 @@ namespace DataDictionary.Interpreter
             if (Designator != null)
             {
                 retVal = Designator.GetVariable(context);
-            }
-            else if (LiteralValue != null)
-            {
-                retVal = null;
             }
 
             return retVal;
@@ -231,13 +226,13 @@ namespace DataDictionary.Interpreter
         /// <param name="context">The context on which the variable must be found</param>
         /// <param name="explain"></param>
         /// <returns></returns>
-        public ICallable getCalled(InterpretationContext context, ExplanationPart explain)
+        public ICallable GetCalled(InterpretationContext context, ExplanationPart explain)
         {
             ICallable retVal = null;
 
             if (Designator != null)
             {
-                retVal = Designator.getCalled(context);
+                retVal = Designator.GetCalled(context);
             }
 
             return retVal;
@@ -248,11 +243,11 @@ namespace DataDictionary.Interpreter
         /// </summary>
         /// <param name="retVal">The list to be filled with the element matching the condition expressed in the filter</param>
         /// <param name="filter">The filter to apply</param>
-        public void fill(List<INamable> retVal, BaseFilter filter)
+        public void Fill(List<INamable> retVal, BaseFilter filter)
         {
             if (Designator != null)
             {
-                Designator.fill(retVal, filter);
+                Designator.Fill(retVal, filter);
             }
             else if (LiteralValue != null)
             {
@@ -280,11 +275,11 @@ namespace DataDictionary.Interpreter
         /// <summary>
         ///     Checks the expression and appends errors to the root tree node when inconsistencies are found
         /// </summary>
-        public void checkExpression()
+        public void CheckExpression()
         {
             if (Designator != null)
             {
-                Designator.checkExpression();
+                Designator.CheckExpression();
             }
             else if (LiteralValue != null)
             {

@@ -92,7 +92,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
                 Parameter p = (Parameter) speedRestriction.FormalParameters[0];
 
                 int token = context.LocalScope.PushContext();
-                context.LocalScope.setGraphParameter(p);
+                context.LocalScope.SetGraphParameter(p);
                 MRSPGraph = createGraphForValue(context, context.FindOnStack(SpeedRestrictions).Value, explain, p);
                 context.LocalScope.PopContext(token);
             }

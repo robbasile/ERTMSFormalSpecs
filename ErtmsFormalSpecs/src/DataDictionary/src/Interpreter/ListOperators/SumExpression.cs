@@ -67,15 +67,16 @@ namespace DataDictionary.Interpreter.ListOperators
             AccumulatorVariable.Name = "RESULT";
             ISubDeclaratorUtils.AppendNamable(this, AccumulatorVariable);
 
-            DefinedAccumulator = expression;
-            DefinedAccumulator.Enclosing = this;
-
-            Accumulator = new BinaryExpression(Root, RootLog, DefinedAccumulator, BinaryExpression.Operator.Add,
-                new UnaryExpression(Root, RootLog,
-                    new Term(Root, RootLog, new Designator(Root, RootLog, "RESULT", -1, -1), -1, -1), -1, -1), -1, -1)
+            if (expression != null)
             {
-                Enclosing = this
-            };
+                DefinedAccumulator = SetEnclosed(expression);
+                Accumulator =
+                    SetEnclosed(new BinaryExpression(Root, RootLog, DefinedAccumulator, BinaryExpression.Operator.Add,
+                        new UnaryExpression(Root, RootLog,
+                            new Term(Root, RootLog, new Designator(Root, RootLog, "RESULT", -1, -1), -1, -1), -1, -1),
+                        -1,
+                        -1));
+            }
         }
 
         /// <summary>
@@ -91,12 +92,21 @@ namespace DataDictionary.Interpreter.ListOperators
             if (retVal)
             {
                 // Accumulator
-                AccumulatorVariable.Type = GetExpressionType();
+                if (AccumulatorVariable != null)
+                {
+                    AccumulatorVariable.Type = GetExpressionType();                    
+                }
 
-                DefinedAccumulator.SemanticAnalysis(instance, AllMatches.INSTANCE);
+                if (DefinedAccumulator != null)
+                {
+                    DefinedAccumulator.SemanticAnalysis(instance, AllMatches.INSTANCE);                    
+                }
 
-                Accumulator.SemanticAnalysis(instance, AllMatches.INSTANCE);
-                StaticUsage.AddUsages(Accumulator.StaticUsage, Usage.ModeEnum.Read);
+                if (Accumulator != null)
+                {
+                    Accumulator.SemanticAnalysis(instance, AllMatches.INSTANCE);
+                    StaticUsage.AddUsages(Accumulator.StaticUsage, Usage.ModeEnum.Read);                    
+                }
             }
 
             return retVal;
@@ -125,7 +135,7 @@ namespace DataDictionary.Interpreter.ListOperators
             if (value != null)
             {
                 int token = PrepareIteration(context);
-                context.LocalScope.setVariable(AccumulatorVariable);
+                context.LocalScope.SetVariable(AccumulatorVariable);
 
                 Type resultType = GetExpressionType();
                 if (resultType != null)
@@ -133,11 +143,11 @@ namespace DataDictionary.Interpreter.ListOperators
                     AccumulatorVariable.Value = resultType.getValue("0");
                     foreach (IValue v in value.Val)
                     {
-                        if (v != EFSSystem.EmptyValue)
+                        if (v != EFSSystem.INSTANCE.EmptyValue)
                         {
                             ElementFound = true;
                             IteratorVariable.Value = v;
-                            if (conditionSatisfied(context, explain))
+                            if (ConditionSatisfied(context, explain))
                             {
                                 MatchingElementFound = true;
                                 AccumulatorVariable.Value = Accumulator.GetValue(context, explain);

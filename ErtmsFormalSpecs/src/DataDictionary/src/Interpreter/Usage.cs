@@ -65,6 +65,7 @@ namespace DataDictionary.Interpreter
         /// </summary>
         /// <param name="referenced"></param>
         /// <param name="user"></param>
+        /// <param name="mode"></param>
         public Usage(INamable referenced, ModelElement user, ModeEnum? mode)
         {
             Referenced = referenced;

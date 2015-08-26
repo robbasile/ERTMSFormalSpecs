@@ -63,10 +63,8 @@ namespace DataDictionary.Interpreter
             BoundVariable.Enclosing = this;
             BoundVariable.Name = boundVariableName;
 
-            BindingExpression = bindingExpression;
-            BindingExpression.Enclosing = this;
-            Expression = expression;
-            Expression.Enclosing = this;
+            BindingExpression = SetEnclosed(bindingExpression);
+            Expression = SetEnclosed(expression);
 
             InitDeclaredElements();
         }
@@ -109,22 +107,29 @@ namespace DataDictionary.Interpreter
             if (retVal)
             {
                 // Binding expression
-                BindingExpression.SemanticAnalysis(instance, IsRightSide.INSTANCE);
-                StaticUsage.AddUsages(BindingExpression.StaticUsage, Usage.ModeEnum.Read);
-
-
-                Type bindingExpressionType = BindingExpression.GetExpressionType();
-                if (bindingExpressionType != null)
+                if (BindingExpression != null)
                 {
-                    StaticUsage.AddUsage(bindingExpressionType, Root, Usage.ModeEnum.Type);
-                    BoundVariable.Type = bindingExpressionType;
+                    BindingExpression.SemanticAnalysis(instance, IsRightSide.INSTANCE);
+                    StaticUsage.AddUsages(BindingExpression.StaticUsage, Usage.ModeEnum.Read);
 
+                    Type bindingExpressionType = BindingExpression.GetExpressionType();
+                    if (bindingExpressionType != null)
+                    {
+                        StaticUsage.AddUsage(bindingExpressionType, Root, Usage.ModeEnum.Type);
+                        BoundVariable.Type = bindingExpressionType;
+
+                    }
+                    else
+                    {
+                        AddError("Cannot determine binding expression type for " + ToString());
+                    }
+                }
+
+                // The evaluated expression
+                if (Expression != null)
+                {
                     Expression.SemanticAnalysis(instance, expectation);
                     StaticUsage.AddUsages(Expression.StaticUsage, Usage.ModeEnum.Read);
-                }
-                else
-                {
-                    AddError("Cannot determine binding expression type for " + ToString());
                 }
             }
 
@@ -171,15 +176,13 @@ namespace DataDictionary.Interpreter
         /// <returns></returns>
         protected internal override IValue GetValue(InterpretationContext context, ExplanationPart explain)
         {
-            IValue retVal;
-
             ExplanationPart subPart = ExplanationPart.CreateSubExplanation(explain, BoundVariable);
             BoundVariable.Value = BindingExpression.GetValue(context, explain);
             ExplanationPart.SetNamable(subPart, BoundVariable.Value);
 
             int token = context.LocalScope.PushContext();
-            context.LocalScope.setVariable(BoundVariable);
-            retVal = Expression.GetValue(context, explain);
+            context.LocalScope.SetVariable(BoundVariable);
+            IValue retVal = Expression.GetValue(context, explain);
             context.LocalScope.PopContext(token);
 
             return retVal;

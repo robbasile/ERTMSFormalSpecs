@@ -252,7 +252,7 @@ namespace DataDictionary.Interpreter.Statement
             IVariable variable = ListExpression.GetVariable(context);
             if (variable != null)
             {
-                if (variable.Value != EFSSystem.EmptyValue)
+                if (variable.Value != EFSSystem.INSTANCE.EmptyValue)
                 {
                     // HacK : ensure that the value is a correct rigth side
                     // and keep the result of the right side operation
@@ -263,12 +263,12 @@ namespace DataDictionary.Interpreter.Statement
                     if (listValue != null)
                     {
                         int token = context.LocalScope.PushContext();
-                        context.LocalScope.setVariable(IteratorVariable);
+                        context.LocalScope.SetVariable(IteratorVariable);
                         bool elementFound = false;
                         bool matchingElementFound = false;
                         foreach (IValue value in listValue.Val)
                         {
-                            if (value != EFSSystem.EmptyValue)
+                            if (value != EFSSystem.INSTANCE.EmptyValue)
                             {
                                 elementFound = true;
                                 IteratorVariable.Value = value;

@@ -57,7 +57,7 @@ namespace DataDictionary.Interpreter
 
                 if (LeftPart != null)
                 {
-                    retVal += explainLeftPart(LeftPart);
+                    retVal += ExplainLeftPart(LeftPart);
                 }
 
                 if (RightPart != null && !(RightPart is Procedure))
@@ -89,7 +89,7 @@ namespace DataDictionary.Interpreter
         /// </summary>
         /// <param name="leftPart"></param>
         /// <returns></returns>
-        private string explainLeftPart(object leftPart)
+        private string ExplainLeftPart(object leftPart)
         {
             string retVal;
 

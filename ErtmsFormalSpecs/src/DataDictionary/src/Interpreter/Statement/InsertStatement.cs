@@ -233,7 +233,7 @@ namespace DataDictionary.Interpreter.Statement
                         if (!listValue.Val.Contains(value))
                         {
                             ListValue newListValue = new ListValue(listValue);
-                            int index = newListValue.Val.IndexOf(EFSSystem.EmptyValue);
+                            int index = newListValue.Val.IndexOf(EFSSystem.INSTANCE.EmptyValue);
                             if (index >= 0)
                             {
                                 ExplanationPart.CreateSubExplanation(explanation, "Inserting", value);

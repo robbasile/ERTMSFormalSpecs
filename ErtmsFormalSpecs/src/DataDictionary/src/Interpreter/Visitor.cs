@@ -93,9 +93,11 @@ namespace DataDictionary.Interpreter
         {
             if (expression != null)
             {
-                if (expression is BinaryExpression)
+                // ReSharper disable CanBeReplacedWithTryCastAndCheckForNull
+                BinaryExpression binaryExpression = expression as BinaryExpression;
+                if (binaryExpression != null)
                 {
-                    VisitBinaryExpression((BinaryExpression) expression);
+                    VisitBinaryExpression(binaryExpression);
                 }
                 else if (expression is Call)
                 {
@@ -169,6 +171,7 @@ namespace DataDictionary.Interpreter
                 {
                     VisitLetExpression((LetExpression) expression);
                 }
+                // ReSharper restore CanBeReplacedWithTryCastAndCheckForNull
             }
         }
 
@@ -227,10 +230,7 @@ namespace DataDictionary.Interpreter
             if (sumExpression != null)
             {
                 VisitConditionBasedListExpression(sumExpression);
-                if (sumExpression != null)
-                {
-                    VisitExpression(sumExpression.IteratorExpression);
-                }
+                VisitExpression(sumExpression.IteratorExpression);
             }
         }
 
@@ -489,11 +489,12 @@ namespace DataDictionary.Interpreter
         /// <summary>
         ///     Visits a statement
         /// </summary>
-        /// <param name="?"></param>
+        /// <param name="statement"></param>
         protected virtual void VisitStatement(Statement.Statement statement)
         {
             if (statement != null)
             {
+                // ReSharper disable CanBeReplacedWithTryCastAndCheckForNull
                 if (statement is ApplyStatement)
                 {
                     VisitApplyStatement((ApplyStatement) statement);
@@ -518,6 +519,7 @@ namespace DataDictionary.Interpreter
                 {
                     VisitVariableUpdateStatement((VariableUpdateStatement) statement);
                 }
+                // ReSharper restore CanBeReplacedWithTryCastAndCheckForNull
             }
         }
 

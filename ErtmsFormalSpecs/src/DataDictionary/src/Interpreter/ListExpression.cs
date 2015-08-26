@@ -52,11 +52,14 @@ namespace DataDictionary.Interpreter
         /// <param name="elements"></param>
         public void SetListElements(List<Expression> elements)
         {
-            ListElements = elements;
-
-            foreach (Expression expr in ListElements)
+            if (elements != null)
             {
-                expr.Enclosing = this;
+                ListElements = elements;
+
+                foreach (Expression expr in ListElements)
+                {
+                    SetEnclosed(expr);
+                }
             }
         }
 
@@ -79,21 +82,24 @@ namespace DataDictionary.Interpreter
             {
                 Type elementType = null;
 
-                foreach (Expression expr in ListElements)
+                if (ListElements != null)
                 {
-                    expr.SemanticAnalysis(instance, expectation);
-                    StaticUsage.AddUsages(expr.StaticUsage, null);
+                    foreach (Expression expr in ListElements)
+                    {
+                        expr.SemanticAnalysis(instance, expectation);
+                        StaticUsage.AddUsages(expr.StaticUsage, null);
 
-                    Type current = expr.GetExpressionType();
-                    if (elementType == null)
-                    {
-                        elementType = current;
-                    }
-                    else
-                    {
-                        if (!current.Match(elementType))
+                        Type current = expr.GetExpressionType();
+                        if (elementType == null)
                         {
-                            AddError("Cannot mix types " + current + " and " + elementType + "in collection");
+                            elementType = current;
+                        }
+                        else
+                        {
+                            if (!current.Match(elementType))
+                            {
+                                AddError("Cannot mix types " + current + " and " + elementType + "in collection");
+                            }
                         }
                     }
                 }
@@ -109,7 +115,7 @@ namespace DataDictionary.Interpreter
                 }
                 else
                 {
-                    ExpressionType = new GenericCollection(EFSSystem);
+                    ExpressionType = new GenericCollection(EFSSystem.INSTANCE);
                 }
             }
 
@@ -155,7 +161,7 @@ namespace DataDictionary.Interpreter
                 }
                 else
                 {
-                    AddError("Cannot evaluate " + expr.ToString());
+                    AddError("Cannot evaluate " + expr);
                 }
             }
 
@@ -186,11 +192,8 @@ namespace DataDictionary.Interpreter
             {
                 explanation.Write("[");
                 explanation.Indent(2,
-                    () =>
-                    {
-                        explanation.ExplainList(ListElements, explainSubElements, ", ",
-                            element => { element.GetExplain(explanation, explainSubElements); });
-                    });
+                    () => explanation.ExplainList(ListElements, explainSubElements, ", ",
+                        element => element.GetExplain(explanation, explainSubElements)));
                 explanation.Write("]");
             }
             else

@@ -171,7 +171,7 @@ namespace DataDictionary.Interpreter
                 if (Parameters.Count == 1)
                 {
                     int token = context.LocalScope.PushContext();
-                    context.LocalScope.setGraphParameter(Parameters[0]);
+                    context.LocalScope.SetGraphParameter(Parameters[0]);
                     Graph graph = CreateGraph(context, Parameters[0], subExplanation);
                     context.LocalScope.PopContext(token);
                     if (graph != null)
@@ -182,7 +182,7 @@ namespace DataDictionary.Interpreter
                 else if (Parameters.Count == 2)
                 {
                     int token = context.LocalScope.PushContext();
-                    context.LocalScope.setSurfaceParameters(Parameters[0], Parameters[1]);
+                    context.LocalScope.SetSurfaceParameters(Parameters[0], Parameters[1]);
                     Surface surface = CreateSurface(context, Parameters[0], Parameters[1], subExplanation);
                     context.LocalScope.PopContext(token);
                     if (surface != null)
@@ -266,7 +266,7 @@ namespace DataDictionary.Interpreter
         /// <returns></returns>
         public override Graph CreateGraph(InterpretationContext context, Parameter parameter, ExplanationPart explain)
         {
-            Graph retVal = base.CreateGraph(context, parameter, explain);
+            Graph retVal;
 
             if (parameter == Parameters[0] || parameter == Parameters[1])
             {
@@ -302,7 +302,7 @@ namespace DataDictionary.Interpreter
                 int token = context.LocalScope.PushContext();
                 Parameter xAxis = Parameters[0];
                 Parameter yAxis = Parameters[1];
-                context.LocalScope.setSurfaceParameters(xAxis, yAxis);
+                context.LocalScope.SetSurfaceParameters(xAxis, yAxis);
                 retVal = Expression.CreateSurface(context, xAxis, yAxis, explain);
                 context.LocalScope.PopContext(token);
             }
