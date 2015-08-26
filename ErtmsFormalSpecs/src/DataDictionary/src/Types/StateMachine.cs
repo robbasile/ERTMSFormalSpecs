@@ -908,6 +908,24 @@ namespace DataDictionary.Types
             return retVal;
         }
 
+        /// <summary>
+        /// Provides the default value for the state machine
+        /// </summary>
+        public override IValue DefaultValue
+        {
+            get
+            {
+                State retVal = (State) base.DefaultValue;
+
+                if (retVal.getStateMachine() != null && retVal.getStateMachine().countStates() > 0)
+                {
+                    retVal = (State) retVal.getStateMachine().DefaultValue;
+                }
+
+                return retVal;
+            }
+        }
+
         public override void Merge()
         {
             MergeElements();
