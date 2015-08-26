@@ -312,7 +312,7 @@ namespace DataDictionary
     /// <summary>
     ///     Finds the Namable in the dictionary, based on the name provided
     /// </summary>
-    public class OverallNamableFinder : OverallFinder<Namable>
+    public class OverallNamableFinder : OverallFinder<INamable>
     {
         /// <summary>
         ///     A static instance used to execute this finder
