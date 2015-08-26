@@ -37,7 +37,7 @@ namespace GUI.Shortcuts
         {
             InitializeComponent();
 
-            shortcutTreeView.Root = EFSSystem.INSTANCE;
+            shortcutTreeView.Root = EfsSystem.Instance;
             Text = "Shortcuts view";
 
             DockAreas = DockAreas.DockRight;

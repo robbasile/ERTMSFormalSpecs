@@ -112,10 +112,10 @@ namespace GUI.Options
         {
             Settings settings = Settings.Default;
 
-            EFSSystem.INSTANCE.DisplayEnclosingMessages = settings.DisplayEnclosingMessages;
-            EFSSystem.INSTANCE.DisplayRequirementsAsList = settings.DisplayRequirementsAsList;
-            EFSSystem.INSTANCE.CheckParentRelationship = settings.CheckParentRelationship;
-            EFSSystem.INSTANCE.CacheFunctions = settings.CacheFunctions;
+            EfsSystem.Instance.DisplayEnclosingMessages = settings.DisplayEnclosingMessages;
+            EfsSystem.Instance.DisplayRequirementsAsList = settings.DisplayRequirementsAsList;
+            EfsSystem.Instance.CheckParentRelationship = settings.CheckParentRelationship;
+            EfsSystem.Instance.CacheFunctions = settings.CacheFunctions;
             Util.PleaseLockFiles = settings.LockOpenedFiles;
 
             settings.Save();

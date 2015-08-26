@@ -112,7 +112,7 @@ namespace DataDictionary.Tests.Runner.Events
                 {
                     if (!String.IsNullOrEmpty(expectation.getCondition()))
                     {
-                        Expression expression = EFSSystem.INSTANCE.Parser.Expression(expectation,
+                        Expression expression = EfsSystem.Instance.Parser.Expression(expectation,
                             expectation.getCondition());
                         BoolValue value =
                             expression.GetExpressionValue(new InterpretationContext(expectation), null) as BoolValue;

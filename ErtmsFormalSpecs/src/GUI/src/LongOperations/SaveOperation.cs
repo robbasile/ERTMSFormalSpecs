@@ -62,7 +62,7 @@ namespace GUI.LongOperations
                 else
                 {
                     // Save all dictionaries
-                    foreach (Dictionary dictionary in EFSSystem.INSTANCE.Dictionaries)
+                    foreach (Dictionary dictionary in EfsSystem.Instance.Dictionaries)
                     {
                         dictionary.Save();
                     }
@@ -71,7 +71,7 @@ namespace GUI.LongOperations
             finally
             {
                 Util.LockAllFiles();
-                EFSSystem.INSTANCE.ShouldSave = false;
+                EfsSystem.Instance.ShouldSave = false;
                 GuiUtils.MdiWindow.Invoke((MethodInvoker) (() => GuiUtils.MdiWindow.UpdateTitle()));
             }
         }

@@ -210,7 +210,7 @@ namespace DataDictionary.Interpreter
                 }
 
                 // . In the predefined elements
-                addReference(EFSSystem.INSTANCE.GetPredefinedItem(Image), expectation, false, retVal);
+                addReference(EfsSystem.Instance.GetPredefinedItem(Image), expectation, false, retVal);
                 if (lastElement && !retVal.IsEmpty)
                 {
                     return retVal;
@@ -233,7 +233,7 @@ namespace DataDictionary.Interpreter
                 }
 
                 // . In the dictionaries declared in the system
-                foreach (Dictionary dictionary in EFSSystem.INSTANCE.Dictionaries)
+                foreach (Dictionary dictionary in EfsSystem.Instance.Dictionaries)
                 {
                     if (FillBySubdeclarator(dictionary, expectation, false, retVal) > 0 && lastElement)
                     {
@@ -258,7 +258,7 @@ namespace DataDictionary.Interpreter
                 {
                     // If the instance is a typed element, dereference it to its corresponding type
                     ITypedElement element = instance as ITypedElement;
-                    if (element.Type != EFSSystem.INSTANCE.NoType)
+                    if (element.Type != EfsSystem.Instance.NoType)
                     {
                         instance = element.Type;
                         asType = true;
@@ -566,7 +566,7 @@ namespace DataDictionary.Interpreter
                     {
                         tmp2.Add(namable);
 
-                        if (EFSSystem.INSTANCE.CheckParentRelationship && !(namable is EmptyValue))
+                        if (EfsSystem.Instance.CheckParentRelationship && !(namable is EmptyValue))
                         {
                             // Consistency check. 
                             // Empty value should not be considered because we can dereference 'Empty'
@@ -584,8 +584,8 @@ namespace DataDictionary.Interpreter
                                 if (enclosed != subDeclarator)
                                 {
                                     // There is still an exception : when the element is declared in the default namespace
-                                    if (subDeclarator != EFSSystem.INSTANCE ||
-                                        enclosed != EFSSystem.INSTANCE.FindByFullName("Default"))
+                                    if (subDeclarator != EfsSystem.Instance ||
+                                        enclosed != EfsSystem.Instance.FindByFullName("Default"))
                                     {
                                         AddError(
                                             "Consistency check failed : enclosed element's father relationship is inconsistent");

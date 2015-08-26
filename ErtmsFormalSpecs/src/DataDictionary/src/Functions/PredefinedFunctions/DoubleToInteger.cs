@@ -46,7 +46,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
         ///     Constructor
         /// </summary>
         /// <param name="efsSystem"></param>
-        public DoubleToInteger(EFSSystem efsSystem)
+        public DoubleToInteger(EfsSystem efsSystem)
             : base(efsSystem, "DoubleToInteger")
         {
             Value = (Parameter) acceptor.getFactory().createParameter();

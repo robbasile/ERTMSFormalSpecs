@@ -78,7 +78,7 @@ namespace DataDictionary
 
                 if (checkType)
                 {
-                    references = EFSSystem.INSTANCE.FindReferences(type);
+                    references = EfsSystem.Instance.FindReferences(type);
                     if (references.Count == 0)
                     {
                         model.AddWarning("Type is declared but never used");
@@ -90,7 +90,7 @@ namespace DataDictionary
                 IVariable variable = model as IVariable;
                 if (variable != null)
                 {
-                    references = EFSSystem.INSTANCE.FindReferences(variable as ModelElement);
+                    references = EfsSystem.Instance.FindReferences(variable as ModelElement);
                     bool read = false;
                     bool written = variable.Mode == acceptor.VariableModeEnumType.aConstant;
 
@@ -137,7 +137,7 @@ namespace DataDictionary
                     ICallable callable = model as ICallable;
                     if (callable != null)
                     {
-                        references = EFSSystem.INSTANCE.FindReferences(callable as ModelElement);
+                        references = EfsSystem.Instance.FindReferences(callable as ModelElement);
                         bool called = false;
 
                         foreach (Usage usage in references)

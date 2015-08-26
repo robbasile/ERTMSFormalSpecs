@@ -45,7 +45,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
         /// </summary>
         /// <param name="efsSystem"></param>
         /// <param name="name">the name of the cast function</param>
-        public DecelerationProfile(EFSSystem efsSystem)
+        public DecelerationProfile(EfsSystem efsSystem)
             : base(efsSystem, "DecelerationProfile")
         {
             SpeedRestrictions = (Parameter) acceptor.getFactory().createParameter();

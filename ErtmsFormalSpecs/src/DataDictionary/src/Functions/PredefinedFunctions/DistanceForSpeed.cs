@@ -45,7 +45,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
         /// </summary>
         /// <param name="efsSystem"></param>
         /// <param name="name">the name of the cast function</param>
-        public DistanceForSpeed(EFSSystem efsSystem)
+        public DistanceForSpeed(EfsSystem efsSystem)
             : base(efsSystem, "DistanceForSpeed")
         {
             Function = (Parameter) acceptor.getFactory().createParameter();

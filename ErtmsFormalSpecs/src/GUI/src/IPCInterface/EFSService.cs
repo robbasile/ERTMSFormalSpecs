@@ -359,7 +359,7 @@ namespace GUI.IPCInterface
                                     Runner.ExecuteOnePriority(convertStep2Priority(LastStep));
                                     if (LastStep == Step.CleanUp)
                                     {
-                                        EFSSystem.INSTANCE.Context.HandleEndOfCycle();
+                                        EfsSystem.Instance.Context.HandleEndOfCycle();
                                         ClearFunctionCaches();
                                     }
                                 });
@@ -411,7 +411,7 @@ namespace GUI.IPCInterface
             _cacheCycle = (_cacheCycle + 1)%CleanUpCycleCount;
             if (_cacheCycle == 0)
             {
-                foreach (Dictionary dictionary in EFSSystem.INSTANCE.Dictionaries)
+                foreach (Dictionary dictionary in EfsSystem.Instance.Dictionaries)
                 {
                     foreach (NameSpace nameSpace in dictionary.NameSpaces)
                     {
@@ -517,7 +517,7 @@ namespace GUI.IPCInterface
         {
             EfsAccess.WaitOne();
 
-            EFSSystem.INSTANCE.Runner = new Runner(Explain, LogEvents, CycleDuration, KeepEventCount);
+            EfsSystem.Instance.Runner = new Runner(Explain, LogEvents, CycleDuration, KeepEventCount);
 
             EfsAccess.ReleaseMutex();
         }
@@ -529,11 +529,11 @@ namespace GUI.IPCInterface
         {
             get
             {
-                EFSSystem efsSystem = EFSSystem.INSTANCE;
+                EfsSystem efsSystem = EfsSystem.Instance;
 
                 if (efsSystem.Runner == null && !AllListeners)
                 {
-                    EFSSystem.INSTANCE.Runner = new Runner(Explain, LogEvents, CycleDuration, KeepEventCount);
+                    EfsSystem.Instance.Runner = new Runner(Explain, LogEvents, CycleDuration, KeepEventCount);
                 }
 
                 return efsSystem.Runner;
@@ -574,7 +574,7 @@ namespace GUI.IPCInterface
             EfsAccess.WaitOne();
             try
             {
-                IVariable variable = EFSSystem.INSTANCE.FindByFullName(variableName) as IVariable;
+                IVariable variable = EfsSystem.Instance.FindByFullName(variableName) as IVariable;
                 if (variable != null)
                 {
                     retVal = ConvertOut(variable.Value);
@@ -604,7 +604,7 @@ namespace GUI.IPCInterface
             EfsAccess.WaitOne();
             try
             {
-                Expression expressionTree = EFSSystem.INSTANCE.Parser.Expression(EFSSystem.INSTANCE.Dictionaries[0],
+                Expression expressionTree = EfsSystem.Instance.Parser.Expression(EfsSystem.Instance.Dictionaries[0],
                     expression);
                 if (expressionTree != null)
                 {
@@ -815,7 +815,7 @@ namespace GUI.IPCInterface
             {
                 if (Runner != null)
                 {
-                    IVariable variable = EFSSystem.INSTANCE.FindByFullName(variableName) as IVariable;
+                    IVariable variable = EfsSystem.Instance.FindByFullName(variableName) as IVariable;
 
                     if (variable != null)
                     {
@@ -852,7 +852,7 @@ namespace GUI.IPCInterface
                 if (Runner != null)
                 {
                     const bool silent = true;
-                    Statement statement = EFSSystem.INSTANCE.Parser.Statement(EFSSystem.INSTANCE.Dictionaries[0],
+                    Statement statement = EfsSystem.Instance.Parser.Statement(EfsSystem.Instance.Dictionaries[0],
                         statementText, silent);
 
                     if (statement != null)

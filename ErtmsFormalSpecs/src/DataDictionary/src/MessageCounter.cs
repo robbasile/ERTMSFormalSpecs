@@ -43,7 +43,7 @@ namespace DataDictionary
         ///     Constructor
         /// </summary>
         /// <param name="system"></param>
-        public MessageCounter(EFSSystem system)
+        public MessageCounter(EfsSystem system)
         {
             Info = 0;
             Warning = 0;

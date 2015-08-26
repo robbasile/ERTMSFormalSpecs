@@ -75,7 +75,7 @@ namespace GUI.SearchDialog
             MarkingHistory.PerformMark(() =>
             {
                 List<ModelElement> occurences = new List<ModelElement>();
-                foreach (Dictionary dictionary in EFSSystem.INSTANCE.Dictionaries)
+                foreach (Dictionary dictionary in EfsSystem.Instance.Dictionaries)
                 {
                     Comparer.searchDictionary(dictionary, searchString, occurences);
                 }

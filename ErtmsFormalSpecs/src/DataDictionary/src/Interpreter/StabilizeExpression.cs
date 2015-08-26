@@ -226,7 +226,7 @@ namespace DataDictionary.Interpreter
                     }
 
                     ExplanationPart.CreateSubExplanation(stabilizeExpressionExplanation, cycleReport);
-                    CurrentIteration.Value = EFSSystem.INSTANCE.EmptyValue;
+                    CurrentIteration.Value = EfsSystem.Instance.EmptyValue;
                     stop = true;
                 }
                 else

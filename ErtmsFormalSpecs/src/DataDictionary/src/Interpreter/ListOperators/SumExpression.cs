@@ -143,7 +143,7 @@ namespace DataDictionary.Interpreter.ListOperators
                     AccumulatorVariable.Value = resultType.getValue("0");
                     foreach (IValue v in value.Val)
                     {
-                        if (v != EFSSystem.INSTANCE.EmptyValue)
+                        if (v != EfsSystem.Instance.EmptyValue)
                         {
                             ElementFound = true;
                             IteratorVariable.Value = v;

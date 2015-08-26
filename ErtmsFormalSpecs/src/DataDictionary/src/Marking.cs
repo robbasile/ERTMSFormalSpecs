@@ -39,7 +39,7 @@ namespace DataDictionary
             {
                 Markings = new Dictionary<ModelElement, List<ElementLog>>();
 
-                foreach (Dictionary dictionary in EFSSystem.INSTANCE.Dictionaries)
+                foreach (Dictionary dictionary in EfsSystem.Instance.Dictionaries)
                 {
                     visit(dictionary);
                 }

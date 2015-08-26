@@ -40,7 +40,7 @@ namespace GUI.TestRunnerView.TimeLineControl
             {
                 EventTimeLine retVal = null;
 
-                Runner runner = EFSSystem.INSTANCE.Runner;
+                Runner runner = EfsSystem.Instance.Runner;
                 if (runner != null)
                 {
                     retVal = runner.EventTimeLine;

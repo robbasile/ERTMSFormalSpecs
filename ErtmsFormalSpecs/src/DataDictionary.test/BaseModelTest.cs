@@ -119,9 +119,9 @@ namespace DataDictionary.test
         /// <summary>
         ///     The EFS System to test
         /// </summary>
-        protected EFSSystem System
+        protected EfsSystem System
         {
-            get { return EFSSystem.INSTANCE; }
+            get { return EfsSystem.Instance; }
         }
 
         /// <summary>

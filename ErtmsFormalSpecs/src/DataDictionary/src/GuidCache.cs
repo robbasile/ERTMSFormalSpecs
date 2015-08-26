@@ -113,7 +113,7 @@ namespace DataDictionary
                 {
                     // Update cache's contents
                     GuidVisitor visitor = new GuidVisitor(_cache);
-                    foreach (Dictionary dictionary in EFSSystem.INSTANCE.Dictionaries)
+                    foreach (Dictionary dictionary in EfsSystem.Instance.Dictionaries)
                     {
                         visitor.visit(dictionary, true);
                     }

@@ -33,7 +33,7 @@ namespace DataDictionary
         /// <summary>
         ///     The EFS system in which this container lies
         /// </summary>
-        EFSSystem EFSSystem { get; }
+        EfsSystem EFSSystem { get; }
 
         /// <summary>
         ///     The namespaces referenced by this
@@ -53,7 +53,7 @@ namespace DataDictionary
         /// <param name="system">The system in which the calls should be gathered</param>
         /// <param name="container">If provided, indicates that the calls should be limited to a given container</param>
         /// <returns></returns>
-        public static List<AccessMode> getAccesses(EFSSystem system, IEnclosesNameSpaces container = null)
+        public static List<AccessMode> getAccesses(EfsSystem system, IEnclosesNameSpaces container = null)
         {
             SortedSet<ProcedureOrFunctionCall> procedureCalls = new SortedSet<ProcedureOrFunctionCall>();
             SortedSet<AccessToVariable> accessesToVariables = new SortedSet<AccessToVariable>();

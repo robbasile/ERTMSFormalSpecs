@@ -64,9 +64,9 @@ namespace GUIUtils.Editor
         /// <summary>
         ///     Provides the EFSSystem
         /// </summary>
-        private EFSSystem EFSSystem
+        private EfsSystem EFSSystem
         {
-            get { return EFSSystem.INSTANCE; }
+            get { return EfsSystem.Instance; }
         }
 
         /// <summary>

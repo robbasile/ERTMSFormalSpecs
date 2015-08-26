@@ -249,7 +249,7 @@ namespace GUI.RequirementSetDiagram
                 dependancy.setTarget(target.Guid);
                 source.appendDependancies(dependancy);
 
-                EFSSystem.INSTANCE.Context.SelectElement(dependancy, this, Context.SelectionCriteria.LeftClick);
+                EfsSystem.Instance.Context.SelectElement(dependancy, this, Context.SelectionCriteria.LeftClick);
             }
         }
 
@@ -259,7 +259,7 @@ namespace GUI.RequirementSetDiagram
 
             if (control != null)
             {
-                EFSSystem.INSTANCE.MarkRequirementsForRequirementSet(control.TypedModel);
+                EfsSystem.Instance.MarkRequirementsForRequirementSet(control.TypedModel);
             }
         }
 
@@ -269,7 +269,7 @@ namespace GUI.RequirementSetDiagram
 
             if (control != null)
             {
-                EFSSystem.INSTANCE.MarkRequirementsWhichDoNotBelongToRequirementSet(control.TypedModel);
+                EfsSystem.Instance.MarkRequirementsWhichDoNotBelongToRequirementSet(control.TypedModel);
             }
         }
 
@@ -279,7 +279,7 @@ namespace GUI.RequirementSetDiagram
 
             if (control != null)
             {
-                EFSSystem.INSTANCE.MarkNotImplementedRequirements(control.TypedModel);
+                EfsSystem.Instance.MarkNotImplementedRequirements(control.TypedModel);
             }
         }
 

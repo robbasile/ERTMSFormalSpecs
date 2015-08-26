@@ -28,13 +28,13 @@ namespace Reports.Tests
         /// <summary>
         ///     The system for which this report is built
         /// </summary>
-        private EFSSystem __efsSystem;
+        private EfsSystem __efsSystem;
 
-        public override EFSSystem EFSSystem
+        public override EfsSystem EFSSystem
         {
             get
             {
-                EFSSystem retVal;
+                EfsSystem retVal;
 
                 if (Dictionary == null)
                 {
@@ -53,7 +53,7 @@ namespace Reports.Tests
         ///     Constructor
         /// </summary>
         /// <param name="system"></param>
-        public TestsCoverageReportHandler(EFSSystem system)
+        public TestsCoverageReportHandler(EfsSystem system)
             : base(null)
         {
             __efsSystem = system;

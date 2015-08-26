@@ -581,7 +581,7 @@ namespace GUI
 
             if (toSelect != null)
             {
-                EFSSystem.INSTANCE.Context.SelectElement(toSelect.Model, toSelect, Context.SelectionCriteria.DoubleClick);
+                EfsSystem.Instance.Context.SelectElement(toSelect.Model, toSelect, Context.SelectionCriteria.DoubleClick);
             }
             else
             {

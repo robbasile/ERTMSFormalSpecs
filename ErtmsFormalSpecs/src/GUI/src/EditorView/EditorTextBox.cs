@@ -103,7 +103,7 @@ namespace GUI.EditorView
                         Context.SelectionCriteria criteria = GuiUtils.SelectionCriteriaBasedOnMouseEvent(mouseEventArgs);
                         if ((criteria & Context.SelectionCriteria.Ctrl) != 0)
                         {
-                            EFSSystem.INSTANCE.Context.SelectElement(modelElement, this,
+                            EfsSystem.Instance.Context.SelectElement(modelElement, this,
                                 Context.SelectionCriteria.DoubleClick);
                         }
                     }
@@ -199,7 +199,7 @@ namespace GUI.EditorView
                         string newExpression = value.ToExpressionWithDefault();
                         const bool doSemanticalAnalysis = true;
                         const bool silent = true;
-                        retVal = EFSSystem.INSTANCE.Parser.Expression(expression.Root, newExpression,
+                        retVal = EfsSystem.Instance.Parser.Expression(expression.Root, newExpression,
                             AllMatches.INSTANCE, doSemanticalAnalysis, null, silent);
                     }
                 });
@@ -321,11 +321,11 @@ namespace GUI.EditorView
                 ModelElement root = Instance as ModelElement;
                 if (root == null)
                 {
-                    root = EFSSystem.INSTANCE.Dictionaries[0];
+                    root = EfsSystem.Instance.Dictionaries[0];
                 }
 
                 string text = EditionTextBox.Text;
-                Expression expression = EFSSystem.INSTANCE.Parser.Expression(root, text, AllMatches.INSTANCE,
+                Expression expression = EfsSystem.Instance.Parser.Expression(root, text, AllMatches.INSTANCE,
                     doSemanticalAnalysis, null, silent);
                 if (expression != null)
                 {
@@ -333,7 +333,7 @@ namespace GUI.EditorView
                     EditionTextBox.Text = expression.ToString();
                 }
 
-                Statement statement = EFSSystem.INSTANCE.Parser.Statement(root, text, silent);
+                Statement statement = EfsSystem.Instance.Parser.Statement(root, text, silent);
                 if (statement != null)
                 {
                     statement = VisitStatement(statement);

@@ -108,7 +108,7 @@ namespace GUI.DataDictionaryView
                     retVal = Item.CreateStructureUpdate(dictionary);
                 }
                 // Navigate to the rule, whether it was created or not
-                EFSSystem.INSTANCE.Context.SelectElement(Model, this, Context.SelectionCriteria.DoubleClick);
+                EfsSystem.Instance.Context.SelectElement(Model, this, Context.SelectionCriteria.DoubleClick);
             }
 
             return retVal;

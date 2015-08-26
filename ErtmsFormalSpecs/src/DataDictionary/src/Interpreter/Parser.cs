@@ -283,7 +283,7 @@ namespace DataDictionary.Interpreter
 
             int len = 0;
             bool digitFound = false;
-            Type type = EFSSystem.INSTANCE.IntegerType;
+            Type type = EfsSystem.Instance.IntegerType;
 
             if (Index < Buffer.Length && Buffer[Index] == '-')
             {
@@ -297,7 +297,7 @@ namespace DataDictionary.Interpreter
 
             if (len > 0 && Index + len < Buffer.Length && Buffer[Index + len] == '.')
             {
-                type = EFSSystem.INSTANCE.DoubleType;
+                type = EfsSystem.Instance.DoubleType;
                 len = len + 1;
                 while (Index + len < Buffer.Length && Char.IsDigit(Buffer[Index + len]))
                 {
@@ -307,7 +307,7 @@ namespace DataDictionary.Interpreter
 
             if (Index + len < Buffer.Length && Buffer[Index + len] == 'E')
             {
-                type = EFSSystem.INSTANCE.DoubleType;
+                type = EfsSystem.Instance.DoubleType;
                 len = len + 1;
                 while (Index + len < Buffer.Length && Char.IsDigit(Buffer[Index + len]))
                 {

@@ -45,7 +45,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
         ///     Constructor
         /// </summary>
         /// <param name="efsSystem"></param>
-        public AddToDate(EFSSystem efsSystem)
+        public AddToDate(EfsSystem efsSystem)
             : base(efsSystem, "AddToDate")
         {
             StartDate = (Parameter) acceptor.getFactory().createParameter();

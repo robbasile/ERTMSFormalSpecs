@@ -39,7 +39,7 @@ namespace DataDictionary.Types
     /// <summary>
     ///     This is an element which has a type
     /// </summary>
-    public interface ITypedElement : INamable, IEnclosed, IModelElement
+    public interface ITypedElement : IModelElement
     {
         /// <summary>
         ///     The namespace related to the typed element
@@ -76,7 +76,7 @@ namespace DataDictionary.Types
         ///     Provides all constant values from this type
         /// </summary>
         /// <param name="scope">the current scope to identify the constant</param>
-        /// <paramparam name="retVal">the dictionary to fill which maps name->value</paramparam>
+        /// <param name="retVal">the dictionary to fill which maps name->value</param>
         void Constants(string scope, Dictionary<string, object> retVal);
 
         /// <summary>
@@ -355,7 +355,7 @@ namespace DataDictionary.Types
         {
             TypeUsageFinder visitor = new TypeUsageFinder(type);
 
-            EFSSystem efsSystem = EnclosingFinder<EFSSystem>.find(type);
+            EfsSystem efsSystem = EnclosingFinder<EfsSystem>.find(type);
             if (efsSystem != null)
             {
                 foreach (Dictionary dictionary in efsSystem.Dictionaries)
@@ -722,7 +722,7 @@ namespace DataDictionary.Types
         /// <summary>
         ///     Constrcutor
         /// </summary>
-        public AnyType(EFSSystem efsSystem)
+        public AnyType(EfsSystem efsSystem)
         {
             Enclosing = efsSystem;
         }
@@ -768,7 +768,7 @@ namespace DataDictionary.Types
         /// <summary>
         ///     Constrcutor
         /// </summary>
-        public NoType(EFSSystem efsSystem)
+        public NoType(EfsSystem efsSystem)
         {
             Enclosing = efsSystem;
         }

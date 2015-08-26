@@ -34,7 +34,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
         /// </summary>
         /// <param name="efsSystem"></param>
         /// <param name="name">the name of the function</param>
-        public FunctionOnGraph(EFSSystem efsSystem, string name)
+        public FunctionOnGraph(EfsSystem efsSystem, string name)
             : base(efsSystem, name)
         {
             Returns = (Function) acceptor.getFactory().createFunction();

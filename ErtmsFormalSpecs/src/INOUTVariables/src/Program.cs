@@ -161,7 +161,7 @@ namespace EFSInterface
                 Console.Out.WriteLine("EFS Interfaces");
 
                 // Load the dictionaries provided as parameters
-                EFSSystem efsSystem = EFSSystem.INSTANCE;
+                EfsSystem efsSystem = EfsSystem.Instance;
                 Util.PleaseLockFiles = false;
                 foreach (string arg in args)
                 {
@@ -183,7 +183,7 @@ namespace EFSInterface
 
                 TextWriter writer = new StreamWriter("Interface.out");
                 VariableVisitor visitor = new VariableVisitor(writer);
-                foreach (Dictionary dictionary in EFSSystem.INSTANCE.Dictionaries)
+                foreach (Dictionary dictionary in EfsSystem.Instance.Dictionaries)
                 {
                     visitor.visit(dictionary, true);
                 }

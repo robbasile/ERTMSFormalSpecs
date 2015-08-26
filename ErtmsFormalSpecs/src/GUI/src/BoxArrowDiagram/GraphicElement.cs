@@ -102,7 +102,7 @@ namespace GUI.BoxArrowDiagram
             if (model != null)
             {
                 Context.SelectionCriteria criteria = GuiUtils.SelectionCriteriaBasedOnMouseEvent(mouseEventArgs);
-                EFSSystem.INSTANCE.Context.SelectElement(model, Panel, criteria);
+                EfsSystem.Instance.Context.SelectElement(model, Panel, criteria);
             }
         }
 
@@ -117,7 +117,7 @@ namespace GUI.BoxArrowDiagram
             if (model != null)
             {
                 Context.SelectionCriteria criteria = GuiUtils.SelectionCriteriaBasedOnMouseEvent(mouseEventArgs);
-                EFSSystem.INSTANCE.Context.SelectElement(model, Panel, criteria);
+                EfsSystem.Instance.Context.SelectElement(model, Panel, criteria);
             }
         }
 

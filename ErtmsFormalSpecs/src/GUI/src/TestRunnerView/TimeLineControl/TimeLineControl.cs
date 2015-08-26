@@ -108,41 +108,41 @@ namespace GUI.TestRunnerView.TimeLineControl
             RuleFired ruleFired = evt as RuleFired;
             if (ruleFired != null)
             {
-                EFSSystem.INSTANCE.Context.SelectElement(ruleFired.RuleCondition, this,
+                EfsSystem.Instance.Context.SelectElement(ruleFired.RuleCondition, this,
                     Context.SelectionCriteria.LeftClick);
             }
 
             VariableUpdate variableUpdate = evt as VariableUpdate;
             if (variableUpdate != null)
             {
-                EFSSystem.INSTANCE.Context.SelectElement(variableUpdate.Action, this,
+                EfsSystem.Instance.Context.SelectElement(variableUpdate.Action, this,
                     Context.SelectionCriteria.LeftClick);
             }
 
             Expect expect = evt as Expect;
             if (expect != null)
             {
-                EFSSystem.INSTANCE.Context.SelectElement(expect.Expectation, this, Context.SelectionCriteria.LeftClick);
+                EfsSystem.Instance.Context.SelectElement(expect.Expectation, this, Context.SelectionCriteria.LeftClick);
             }
 
             ModelInterpretationFailure failure = evt as ModelInterpretationFailure;
             if (failure != null)
             {
-                EFSSystem.INSTANCE.Context.SelectElement(failure.Instance as IModelElement, this,
+                EfsSystem.Instance.Context.SelectElement(failure.Instance as IModelElement, this,
                     Context.SelectionCriteria.LeftClick);
             }
 
             SubStepActivated subStepActivated = evt as SubStepActivated;
             if (subStepActivated != null)
             {
-                EFSSystem.INSTANCE.Context.SelectElement(subStepActivated.SubStep, this,
+                EfsSystem.Instance.Context.SelectElement(subStepActivated.SubStep, this,
                     Context.SelectionCriteria.LeftClick);
             }
 
             StepActivation stepActivation = evt as StepActivation;
             if (stepActivation != null)
             {
-                EFSSystem.INSTANCE.Context.SelectElement(stepActivation.Step, this, Context.SelectionCriteria.LeftClick);
+                EfsSystem.Instance.Context.SelectElement(stepActivation.Step, this, Context.SelectionCriteria.LeftClick);
             }
         }
 

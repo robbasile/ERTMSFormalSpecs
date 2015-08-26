@@ -26,7 +26,7 @@ namespace GUI.LongOperations
     {
         public override void ExecuteWork()
         {
-            EFSSystem.INSTANCE.Context.HandleEndOfCycle();
+            EfsSystem.Instance.Context.HandleEndOfCycle();
         }
     }
 }

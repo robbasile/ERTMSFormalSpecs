@@ -58,7 +58,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
         ///     Constructor
         /// </summary>
         /// <param name="efsSystem"></param>
-        public Targets(EFSSystem efsSystem)
+        public Targets(EfsSystem efsSystem)
             : base(efsSystem, "TARGETS")
         {
             SpeedRestrictions = (Parameter) acceptor.getFactory().createParameter();

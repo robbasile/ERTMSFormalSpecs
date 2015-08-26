@@ -48,7 +48,7 @@ namespace GUI.FunctionsPerformances
             public GetSlowest()
             {
                 Functions = new List<Function>();
-                foreach (Dictionary dictionary in EFSSystem.INSTANCE.Dictionaries)
+                foreach (Dictionary dictionary in EfsSystem.Instance.Dictionaries)
                 {
                     visit(dictionary, true);
                 }

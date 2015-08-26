@@ -154,8 +154,8 @@ namespace DataDictionary.Interpreter.ListOperators
             context.LocalScope.SetVariable(IteratorVariable);
             context.LocalScope.SetVariable(PreviousIteratorVariable);
 
-            PreviousIteratorVariable.Value = EFSSystem.INSTANCE.EmptyValue;
-            IteratorVariable.Value = EFSSystem.INSTANCE.EmptyValue;
+            PreviousIteratorVariable.Value = EfsSystem.Instance.EmptyValue;
+            IteratorVariable.Value = EfsSystem.Instance.EmptyValue;
 
             ElementFound = false;
             MatchingElementFound = false;

@@ -207,7 +207,7 @@ namespace GUI.TestRunnerView.TimeLineControl
                             {
                                 const bool doSemanticalAnalysis = true;
                                 const bool silent = true;
-                                expression = EFSSystem.INSTANCE.Parser.Expression(variableNode.Item, defaultValue,
+                                expression = EfsSystem.Instance.Parser.Expression(variableNode.Item, defaultValue,
                                     AllMatches.INSTANCE, doSemanticalAnalysis, null, silent);
                             }
 

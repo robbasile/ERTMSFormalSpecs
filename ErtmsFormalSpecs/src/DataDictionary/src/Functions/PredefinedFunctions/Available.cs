@@ -36,7 +36,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
         /// <summary>
         ///     Constructor
         /// </summary>
-        public Available(EFSSystem efsSystem)
+        public Available(EfsSystem efsSystem)
             : base(efsSystem, "Available")
         {
             Element = (Parameter) acceptor.getFactory().createParameter();

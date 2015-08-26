@@ -36,7 +36,7 @@ namespace DataDictionary.Values
         /// <summary>
         ///     Constructor
         /// </summary>
-        public EmptyValue(EFSSystem efsSystem)
+        public EmptyValue(EfsSystem efsSystem)
             : base(efsSystem.AnyType)
         {
             InitDeclaredElements();
@@ -142,7 +142,7 @@ namespace DataDictionary.Values
             Collection collectionType = variable.Type as Collection;
             if (collectionType != null)
             {
-                EmptyValue emptyValue = EFSSystem.INSTANCE.EmptyValue;
+                EmptyValue emptyValue = EfsSystem.Instance.EmptyValue;
                 while (retVal.Val.Count < collectionType.getMaxSize())
                 {
                     retVal.Val.Add(emptyValue);

@@ -48,7 +48,7 @@ namespace DataDictionary.Interpreter.ListOperators
         /// <returns></returns>
         public override Type GetExpressionType()
         {
-            return EFSSystem.INSTANCE.BoolType;
+            return EfsSystem.Instance.BoolType;
         }
 
         /// <summary>
@@ -65,10 +65,10 @@ namespace DataDictionary.Interpreter.ListOperators
             if (value != null)
             {
                 int token = PrepareIteration(context);
-                retVal = EFSSystem.INSTANCE.BoolType.False;
+                retVal = EfsSystem.Instance.BoolType.False;
                 foreach (IValue v in value.Val)
                 {
-                    if (v != EFSSystem.INSTANCE.EmptyValue)
+                    if (v != EfsSystem.Instance.EmptyValue)
                     {
                         ElementFound = true;
                         IteratorVariable.Value = v;
@@ -78,13 +78,13 @@ namespace DataDictionary.Interpreter.ListOperators
                             if (b != null && b.Val)
                             {
                                 MatchingElementFound = true;
-                                retVal = EFSSystem.INSTANCE.BoolType.True;
+                                retVal = EfsSystem.Instance.BoolType.True;
                                 break;
                             }
                         }
                         else
                         {
-                            retVal = EFSSystem.INSTANCE.BoolType.True;
+                            retVal = EfsSystem.Instance.BoolType.True;
                             break;
                         }
                     }

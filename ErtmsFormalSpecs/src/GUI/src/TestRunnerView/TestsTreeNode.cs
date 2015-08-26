@@ -120,8 +120,8 @@ namespace GUI.TestRunnerView
                 SynchronizerList.SuspendSynchronization();
 
                 // Compile everything
-                EFSSystem.INSTANCE.Compiler.Compile_Synchronous(EFSSystem.INSTANCE.ShouldRebuild);
-                EFSSystem.INSTANCE.ShouldRebuild = false;
+                EfsSystem.Instance.Compiler.Compile_Synchronous(EfsSystem.Instance.ShouldRebuild);
+                EfsSystem.Instance.ShouldRebuild = false;
 
                 Failed = 0;
                 ArrayList tests = Dictionary.Tests;
@@ -137,7 +137,7 @@ namespace GUI.TestRunnerView
                         Failed += 1;
                     }
                 }
-                EFSSystem.INSTANCE.Runner = null;
+                EfsSystem.Instance.Runner = null;
                 SynchronizerList.ResumeSynchronization();
 
                 Span = DateTime.Now.Subtract(start);

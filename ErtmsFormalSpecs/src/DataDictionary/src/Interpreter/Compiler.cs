@@ -119,9 +119,9 @@ namespace DataDictionary.Interpreter
             {
                 ClearCaches = clearCache;
                 Options = options;
-                EFSSystem.INSTANCE.InitDeclaredElements();
+                EfsSystem.Instance.InitDeclaredElements();
 
-                foreach (Dictionary dictionary in EFSSystem.INSTANCE.Dictionaries)
+                foreach (Dictionary dictionary in EfsSystem.Instance.Dictionaries)
                 {
                     visit(dictionary, true);
                 }
@@ -138,7 +138,7 @@ namespace DataDictionary.Interpreter
             /// </summary>
             public FindUpdates()
             {
-                foreach (Dictionary dictionary in EFSSystem.INSTANCE.Dictionaries)
+                foreach (Dictionary dictionary in EfsSystem.Instance.Dictionaries)
                 {
                     visit(dictionary, true);
                 }
@@ -346,7 +346,7 @@ namespace DataDictionary.Interpreter
             {
                 TheReferenceVisitor = new ReferenceVisitor();
 
-                foreach (Dictionary dictionary in EFSSystem.INSTANCE.Dictionaries)
+                foreach (Dictionary dictionary in EfsSystem.Instance.Dictionaries)
                 {
                     visit(dictionary, true);
                 }
@@ -384,7 +384,7 @@ namespace DataDictionary.Interpreter
             /// </summary>
             public FlattenDependancy()
             {
-                foreach (Dictionary dictionary in EFSSystem.INSTANCE.Dictionaries)
+                foreach (Dictionary dictionary in EfsSystem.Instance.Dictionaries)
                 {
                     foreach (NameSpace nameSpace in dictionary.NameSpaces)
                     {
@@ -493,7 +493,7 @@ namespace DataDictionary.Interpreter
                     FindUpdates findUpdates = new FindUpdates();
 
                     // Compiles each expression and each statement encountered in the nodes
-                    foreach (Dictionary dictionary in EFSSystem.INSTANCE.Dictionaries)
+                    foreach (Dictionary dictionary in EfsSystem.Instance.Dictionaries)
                     {
                         visit(dictionary, true);
                     }
@@ -746,7 +746,7 @@ namespace DataDictionary.Interpreter
                 if (nameSpace != null)
                 {
                     NameSpaceRefactorer refactorer = new NameSpaceRefactorer(nameSpace);
-                    foreach (Dictionary dictionary in EFSSystem.INSTANCE.Dictionaries)
+                    foreach (Dictionary dictionary in EfsSystem.Instance.Dictionaries)
                     {
                         refactorer.visit(dictionary);
                     }
@@ -754,7 +754,7 @@ namespace DataDictionary.Interpreter
                 else
                 {
                     // the system keeps track where the element is used
-                    List<Usage> usages = EFSSystem.INSTANCE.FindReferences(element);
+                    List<Usage> usages = EfsSystem.Instance.FindReferences(element);
                     foreach (Usage usage in usages)
                     {
                         RefactorIExpressionable(element, usage.User as IExpressionable);
@@ -766,7 +766,7 @@ namespace DataDictionary.Interpreter
                         Structure structure = element.Enclosing as Structure;
                         if (structure != null && structure.IsAbstract)
                         {
-                            usages = EFSSystem.INSTANCE.FindReferences(structure);
+                            usages = EfsSystem.Instance.FindReferences(structure);
                             foreach (Usage usage in usages)
                             {
                                 if (usage.Mode == Usage.ModeEnum.Interface)
@@ -857,7 +857,7 @@ namespace DataDictionary.Interpreter
             /// </summary>
             public CleanUpModelVisitor()
             {
-                foreach (Dictionary dictionary in EFSSystem.INSTANCE.Dictionaries)
+                foreach (Dictionary dictionary in EfsSystem.Instance.Dictionaries)
                 {
                     visit(dictionary, true);
                 }

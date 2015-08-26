@@ -333,7 +333,7 @@ namespace GUI.SpecificationView
                     paragraphUpdate = Item.CreateParagraphUpdate(dictionary);
                 }
                 // Navigate to the element, whether it was created or not
-                EFSSystem.INSTANCE.Context.SelectElement(paragraphUpdate, this, Context.SelectionCriteria.DoubleClick);
+                EfsSystem.Instance.Context.SelectElement(paragraphUpdate, this, Context.SelectionCriteria.DoubleClick);
             }
         }
 

@@ -87,7 +87,7 @@ namespace GUI.StructureEditor
             {
                 foreach (IValue value in listValue.Val)
                 {
-                    if (value != EFSSystem.INSTANCE.EmptyValue)
+                    if (value != EfsSystem.Instance.EmptyValue)
                     {
                         objectModel.Add(value);
                     }
@@ -141,7 +141,7 @@ namespace GUI.StructureEditor
             {
                 if (Variable != null)
                 {
-                    Expression expression = EFSSystem.INSTANCE.Parser.Expression(
+                    Expression expression = EfsSystem.Instance.Parser.Expression(
                         EnclosingFinder<Dictionary>.find(Variable), Variable.FullName);
                     IVariable variable = expression.GetVariable(new InterpretationContext());
                     if (variable != Variable)

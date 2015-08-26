@@ -115,7 +115,7 @@ namespace DataDictionary.Interpreter
                 }
                 else
                 {
-                    ExpressionType = new GenericCollection(EFSSystem.INSTANCE);
+                    ExpressionType = new GenericCollection(EfsSystem.Instance);
                 }
             }
 

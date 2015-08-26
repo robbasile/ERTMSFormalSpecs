@@ -46,7 +46,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
         /// <summary>
         ///     Constructor
         /// </summary>
-        public Before(EFSSystem efsSystem)
+        public Before(EfsSystem efsSystem)
             : base(efsSystem, "Before")
         {
             ExpectedFirst = (Parameter) acceptor.getFactory().createParameter();

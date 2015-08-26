@@ -60,9 +60,9 @@ namespace GUI.SelectionHistory
                 MouseEventArgs mouseEventArgs = e as MouseEventArgs;
                 if (mouseEventArgs != null)
                 {
-                    EFSSystem.INSTANCE.Context.ClearHistoryUntilElement(selected);
+                    EfsSystem.Instance.Context.ClearHistoryUntilElement(selected);
                     Context.SelectionCriteria criteria = GuiUtils.SelectionCriteriaBasedOnMouseEvent(mouseEventArgs);
-                    EFSSystem.INSTANCE.Context.SelectElement(selected, this, criteria);
+                    EfsSystem.Instance.Context.SelectElement(selected, this, criteria);
                 }
             }
         }
@@ -81,7 +81,7 @@ namespace GUI.SelectionHistory
                 if (GuiUtils.MdiWindow != null)
                 {
                     List<HistoryObject> history = new List<HistoryObject>();
-                    foreach (Context.SelectionContext selectionContext in EFSSystem.INSTANCE.Context.SelectionHistory)
+                    foreach (Context.SelectionContext selectionContext in EfsSystem.Instance.Context.SelectionHistory)
                     {
                         ModelElement historyElement = selectionContext.Element as ModelElement;
                         if (historyElement != null)

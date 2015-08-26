@@ -19,7 +19,7 @@ using DataDictionary;
 
 namespace GUI.TestRunnerView
 {
-    public class TestTreeView : TypedTreeView<EFSSystem>
+    public class TestTreeView : TypedTreeView<EfsSystem>
     {
         /// <summary>
         ///     Build the model of this tree view

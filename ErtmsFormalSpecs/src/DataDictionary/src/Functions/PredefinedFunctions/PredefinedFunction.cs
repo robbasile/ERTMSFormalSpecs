@@ -30,7 +30,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
         /// </summary>
         /// <param name="efsSystem">The system for which this function is created</param>
         /// <param name="name">The name of the predefined function</param>
-        public PredefinedFunction(EFSSystem efsSystem, string name)
+        public PredefinedFunction(EfsSystem efsSystem, string name)
         {
             Enclosing = efsSystem;
             Name = name;

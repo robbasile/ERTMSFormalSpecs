@@ -130,7 +130,7 @@ namespace GUI.TestRunnerView
         {
             FinderRepository.INSTANCE.ClearCache();
             Item.Translate(Item.Dictionary.TranslationDictionary);
-            EFSSystem.INSTANCE.Context.HandleChangeEvent(Item, Context.ChangeKind.Translation);
+            EfsSystem.Instance.Context.HandleChangeEvent(Item, Context.ChangeKind.Translation);
         }
 
         #region Execute tests
@@ -204,7 +204,7 @@ namespace GUI.TestRunnerView
             ProgressDialog dialog = new ProgressDialog("Executing test steps", executeTestsHandler);
             dialog.ShowDialog();
 
-            EFSSystem.INSTANCE.Context.HandleEndOfCycle();
+            EfsSystem.Instance.Context.HandleEndOfCycle();
         }
 
         #endregion

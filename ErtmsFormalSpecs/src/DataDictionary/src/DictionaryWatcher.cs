@@ -25,7 +25,7 @@ namespace DataDictionary
         /// <summary>
         ///     The system for which this watcher is built
         /// </summary>
-        public EFSSystem System { get; private set; }
+        public EfsSystem System { get; private set; }
 
         /// <summary>
         ///     The dictionary to watch
@@ -66,7 +66,7 @@ namespace DataDictionary
         ///     Constructor
         /// </summary>
         /// <param name="dictionary"></param>
-        public DictionaryWatcher(EFSSystem system, Dictionary dictionary)
+        public DictionaryWatcher(EfsSystem system, Dictionary dictionary)
         {
             System = system;
             Dictionary = dictionary;

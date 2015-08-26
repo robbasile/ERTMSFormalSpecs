@@ -107,15 +107,15 @@ namespace DataDictionary.Tests.Runner
         {
             EventTimeLine = new EventTimeLine();
             SubSequence = subSequence;
-            EFSSystem.INSTANCE.Runner = this;
+            EfsSystem.Instance.Runner = this;
             LogEvents = logEvents;
             Explain = explain;
 
             if (ensureCompilation)
             {
                 // Compile everything
-                EFSSystem.INSTANCE.Compiler.Compile_Synchronous(EFSSystem.INSTANCE.ShouldRebuild);
-                EFSSystem.INSTANCE.ShouldRebuild = false;
+                EfsSystem.Instance.Compiler.Compile_Synchronous(EfsSystem.Instance.ShouldRebuild);
+                EfsSystem.Instance.ShouldRebuild = false;
             }
 
             Setup();
@@ -131,13 +131,13 @@ namespace DataDictionary.Tests.Runner
             SubSequence = null;
             Step = step;
             EventTimeLine.MaxNumberOfEvents = storeEventCount;
-            EFSSystem.INSTANCE.Runner = this;
+            EfsSystem.Instance.Runner = this;
             LogEvents = logEvents;
             Explain = explain;
 
             // Compile everything
-            EFSSystem.INSTANCE.Compiler.Compile_Synchronous(EFSSystem.INSTANCE.ShouldRebuild);
-            EFSSystem.INSTANCE.ShouldRebuild = false;
+            EfsSystem.Instance.Compiler.Compile_Synchronous(EfsSystem.Instance.ShouldRebuild);
+            EfsSystem.Instance.ShouldRebuild = false;
 
             Setup();
         }
@@ -237,7 +237,7 @@ namespace DataDictionary.Tests.Runner
                 // Setup the execution environment
                 Setuper setuper = new Setuper();
                 ExecutionTimeInitializer executionTimeInitializer = new ExecutionTimeInitializer();
-                foreach (Dictionary dictionary in EFSSystem.INSTANCE.Dictionaries)
+                foreach (Dictionary dictionary in EfsSystem.Instance.Dictionaries)
                 {
                     setuper.visit(dictionary);
                     executionTimeInitializer.visit(dictionary);
@@ -397,7 +397,7 @@ namespace DataDictionary.Tests.Runner
 
                 // Activates the processing engine
                 HashSet<Activation> activations = new HashSet<Activation>();
-                foreach (Dictionary dictionary in EFSSystem.INSTANCE.Dictionaries)
+                foreach (Dictionary dictionary in EfsSystem.Instance.Dictionaries)
                 {
                     foreach (NameSpace nameSpace in dictionary.NameSpaces)
                     {
@@ -481,7 +481,7 @@ namespace DataDictionary.Tests.Runner
         private void EvaluateVariable(acceptor.RulePriority priority, HashSet<Activation> activations,
             IVariable variable, ExplanationPart explanation)
         {
-            if (variable != null && variable.Value != EFSSystem.INSTANCE.EmptyValue)
+            if (variable != null && variable.Value != EfsSystem.Instance.EmptyValue)
             {
                 if (variable.Type is Structure)
                 {
@@ -507,7 +507,7 @@ namespace DataDictionary.Tests.Runner
                 else if (variable.Type is Collection)
                 {
                     Collection collectionType = variable.Type as Collection;
-                    if (variable.Value != EFSSystem.INSTANCE.EmptyValue)
+                    if (variable.Value != EfsSystem.Instance.EmptyValue)
                     {
                         ListValue val = variable.Value as ListValue;
 
@@ -1391,7 +1391,7 @@ namespace DataDictionary.Tests.Runner
         public void EndExecution()
         {
             ExecutionTimeInitializer initializer = new ExecutionTimeInitializer();
-            foreach (Dictionary dictionary in EFSSystem.INSTANCE.Dictionaries)
+            foreach (Dictionary dictionary in EfsSystem.Instance.Dictionaries)
             {
                 initializer.visit(dictionary);
             }

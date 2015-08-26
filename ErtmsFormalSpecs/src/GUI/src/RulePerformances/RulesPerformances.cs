@@ -52,7 +52,7 @@ namespace GUI.RulePerformances
             public GetSlowest()
             {
                 Rules = new List<Rule>();
-                foreach (Dictionary dictionary in EFSSystem.INSTANCE.Dictionaries)
+                foreach (Dictionary dictionary in EfsSystem.Instance.Dictionaries)
                 {
                     visit(dictionary, true);
                 }

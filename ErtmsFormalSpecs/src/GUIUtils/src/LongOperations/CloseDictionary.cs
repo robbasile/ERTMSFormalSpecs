@@ -43,9 +43,9 @@ namespace GUIUtils.LongOperations
         /// </summary>
         public override void ExecuteWork()
         {
-            EFSSystem.INSTANCE.Dictionaries.Remove(Dictionary);
+            EfsSystem.Instance.Dictionaries.Remove(Dictionary);
             FinderRepository.INSTANCE.ClearCache();
-            EFSSystem.INSTANCE.Compiler.Compile_Synchronous(true);
+            EfsSystem.Instance.Compiler.Compile_Synchronous(true);
         }
     }
 }

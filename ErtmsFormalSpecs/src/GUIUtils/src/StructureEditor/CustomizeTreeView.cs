@@ -295,7 +295,7 @@ namespace GUIUtils.StructureEditor
                     {
                         if (!(subVariable.Value is DefaultValue))
                         {
-                            if (subVariable.Value != EFSSystem.INSTANCE.EmptyValue || DisplayAllVariables)
+                            if (subVariable.Value != EfsSystem.Instance.EmptyValue || DisplayAllVariables)
                             {
                                 retVal = true;
                                 break;
@@ -353,7 +353,7 @@ namespace GUIUtils.StructureEditor
                     }
                     else
                     {
-                        if (subVariable.Value != EFSSystem.INSTANCE.EmptyValue || DisplayAllVariables)
+                        if (subVariable.Value != EfsSystem.Instance.EmptyValue || DisplayAllVariables)
                         {
                             list.Add(subVariable);
                         }
@@ -368,7 +368,7 @@ namespace GUIUtils.StructureEditor
                 ArrayList list = new ArrayList();
                 foreach (Value element in listValue.Val)
                 {
-                    if (element != EFSSystem.INSTANCE.EmptyValue)
+                    if (element != EfsSystem.Instance.EmptyValue)
                     {
                         list.Add(element);
                     }
@@ -500,7 +500,7 @@ namespace GUIUtils.StructureEditor
                 {
                     for (int i = 0; i < value.Val.Count; i++)
                     {
-                        if (value.Val[i] == EFSSystem.INSTANCE.EmptyValue)
+                        if (value.Val[i] == EfsSystem.Instance.EmptyValue)
                         {
                             value.Val[i] = element;
                             element.Enclosing = Variable.Value;
@@ -550,7 +550,7 @@ namespace GUIUtils.StructureEditor
                 {
                     if (Value.Val[i] == Entry)
                     {
-                        Value.Val[i] = EFSSystem.INSTANCE.EmptyValue;
+                        Value.Val[i] = EfsSystem.Instance.EmptyValue;
                     }
                 }
                 Args.ListView.RefreshObject(ParentModel);
@@ -628,7 +628,7 @@ namespace GUIUtils.StructureEditor
             /// </summary>
             protected override void OnClick(EventArgs e)
             {
-                Variable.Value = EFSSystem.INSTANCE.EmptyValue;
+                Variable.Value = EfsSystem.Instance.EmptyValue;
 
                 Args.ListView.RefreshObject(ParentModel);
             }
@@ -657,7 +657,7 @@ namespace GUIUtils.StructureEditor
                             subVariable = tmp as IVariable;
                         }
 
-                        if (subVariable == null || subVariable.Value == EFSSystem.INSTANCE.EmptyValue ||
+                        if (subVariable == null || subVariable.Value == EfsSystem.Instance.EmptyValue ||
                             subVariable.Value is DefaultValue)
                         {
                             items.Add(new ToolStripAddStructureMember(args, structureValue, element));

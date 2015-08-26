@@ -285,7 +285,7 @@ namespace DataDictionary.Interpreter
                     }
                     retVal = expression.GetValue(ctxt, explain);
 
-                    if (retVal == EFSSystem.INSTANCE.EmptyValue)
+                    if (retVal == EfsSystem.Instance.EmptyValue)
                     {
                         break;
                     }
@@ -324,7 +324,7 @@ namespace DataDictionary.Interpreter
                     retVal = Arguments[i].Ref;
                 }
 
-                if (retVal == EFSSystem.INSTANCE.EmptyValue)
+                if (retVal == EfsSystem.Instance.EmptyValue)
                 {
                     break;
                 }

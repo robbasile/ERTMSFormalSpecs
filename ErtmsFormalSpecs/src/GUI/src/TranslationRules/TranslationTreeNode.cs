@@ -142,7 +142,7 @@ namespace GUI.TranslationRules
             MarkingHistory.PerformMark(() =>
             {
                 MarkUsageVisitor finder = new MarkUsageVisitor(Item);
-                foreach (Dictionary dictionary in EFSSystem.INSTANCE.Dictionaries)
+                foreach (Dictionary dictionary in EfsSystem.Instance.Dictionaries)
                 {
                     finder.visit(dictionary);
                 }

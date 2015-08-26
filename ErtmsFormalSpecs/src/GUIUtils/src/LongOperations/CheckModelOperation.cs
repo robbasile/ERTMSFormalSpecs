@@ -25,7 +25,7 @@ namespace GUIUtils.LongOperations
         /// </summary>
         public override void ExecuteWork()
         {
-            foreach (Dictionary dictionary in EFSSystem.INSTANCE.Dictionaries)
+            foreach (Dictionary dictionary in EfsSystem.Instance.Dictionaries)
             {
                 dictionary.CheckRules();
             }

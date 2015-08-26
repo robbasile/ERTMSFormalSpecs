@@ -349,7 +349,7 @@ namespace DataDictionary.Interpreter.Statement
 
                 if (condition.EvaluatePreConditions(ctxt, conditionExplanation, runner))
                 {
-                    ExplanationPart.SetNamable(conditionExplanation, EFSSystem.INSTANCE.BoolType.True);
+                    ExplanationPart.SetNamable(conditionExplanation, EfsSystem.Instance.BoolType.True);
                     foreach (Action action in condition.Actions)
                     {
                         action.GetChanges(ctxt, changes, conditionExplanation, true, runner);
@@ -363,7 +363,7 @@ namespace DataDictionary.Interpreter.Statement
                 }
                 else
                 {
-                    ExplanationPart.SetNamable(conditionExplanation, EFSSystem.INSTANCE.BoolType.False);
+                    ExplanationPart.SetNamable(conditionExplanation, EfsSystem.Instance.BoolType.False);
                 }
             }
         }

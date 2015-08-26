@@ -87,7 +87,7 @@ namespace GUI.Status
         public StatusHandler()
         {
             StatusSynchronizerTask = new StatusSynchronizer(GuiUtils.MdiWindow);
-            EFSSystem.INSTANCE.Context.SelectionChange += HandleSelectionChange;
+            EfsSystem.Instance.Context.SelectionChange += HandleSelectionChange;
         }
 
         /// <summary>

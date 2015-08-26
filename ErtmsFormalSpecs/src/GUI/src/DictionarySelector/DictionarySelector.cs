@@ -73,7 +73,7 @@ namespace GUI.DictionarySelector
             UpdatedDictionary = updatedDictionary;
 
             ArrayList entries = new ArrayList();
-            foreach (Dictionary dictionary in EFSSystem.INSTANCE.Dictionaries)
+            foreach (Dictionary dictionary in EfsSystem.Instance.Dictionaries)
             {
                 if (AddToEntries(dictionary))
                 {

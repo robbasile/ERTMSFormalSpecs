@@ -38,9 +38,9 @@ namespace GUI.TestRunnerView
         /// <summary>
         ///     The data dictionary for this view
         /// </summary>
-        private EFSSystem _efsSystem;
+        private EfsSystem _efsSystem;
 
-        public EFSSystem EfsSystem
+        public EfsSystem EfsSystem
         {
             get { return _efsSystem; }
             private set
@@ -78,7 +78,7 @@ namespace GUI.TestRunnerView
             frameToolStripComboBox.DropDown += frameToolStripComboBox_DropDown;
             subSequenceSelectorComboBox.DropDown += subSequenceSelectorComboBox_DropDown;
             Text = Resources.Window_Window_System_test_view;
-            EfsSystem = EFSSystem.INSTANCE;
+            EfsSystem = DataDictionary.EfsSystem.Instance;
         }
 
         private void frameToolStripComboBox_DropDown(object sender, EventArgs e)
@@ -264,7 +264,7 @@ namespace GUI.TestRunnerView
                 if (EfsSystem.Runner != null)
                 {
                     EfsSystem.Runner.RunUntilTime(EfsSystem.Runner.Time + EfsSystem.Runner.Step);
-                    EFSSystem.INSTANCE.Context.HandleEndOfCycle();
+                    EfsSystem.Instance.Context.HandleEndOfCycle();
                 }
             });
         }
@@ -283,7 +283,7 @@ namespace GUI.TestRunnerView
                 EfsSystem.Runner = null;
             }
             Clear();
-            EFSSystem.INSTANCE.Context.HandleEndOfCycle();
+            EfsSystem.Instance.Context.HandleEndOfCycle();
             tabControl1.SelectedTab = testExecutionTabPage;
         }
 
@@ -327,7 +327,7 @@ namespace GUI.TestRunnerView
             if (EfsSystem.Runner != null)
             {
                 EfsSystem.Runner.StepBack();
-                EFSSystem.INSTANCE.Context.HandleEndOfCycle();
+                EfsSystem.Instance.Context.HandleEndOfCycle();
             }
         }
 
@@ -418,7 +418,7 @@ namespace GUI.TestRunnerView
                 Step step = EfsSystem.Runner.CurrentStep();
                 if (step != null)
                 {
-                    EFSSystem.INSTANCE.Context.SelectElement(step, this, Context.SelectionCriteria.DoubleClick);
+                    EfsSystem.Instance.Context.SelectElement(step, this, Context.SelectionCriteria.DoubleClick);
                 }
             }
         }
@@ -435,7 +435,7 @@ namespace GUI.TestRunnerView
                 SubSequence subSequence = EfsSystem.Runner.SubSequence;
                 if (subSequence != null)
                 {
-                    EFSSystem.INSTANCE.Context.SelectElement(subSequence, this, Context.SelectionCriteria.DoubleClick);
+                    EfsSystem.Instance.Context.SelectElement(subSequence, this, Context.SelectionCriteria.DoubleClick);
                 }
             }
         }
@@ -486,7 +486,7 @@ namespace GUI.TestRunnerView
 
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
-            if (!EFSSystem.INSTANCE.Markings.SelectPreviousMarking())
+            if (!EfsSystem.Instance.Markings.SelectPreviousMarking())
             {
                 MessageBox.Show(
                     Resources.Window_toolStripButton1_Click_No_more_marking_to_show,
@@ -498,7 +498,7 @@ namespace GUI.TestRunnerView
 
         private void toolStripButton2_Click(object sender, EventArgs e)
         {
-            if (!EFSSystem.INSTANCE.Markings.SelectNextMarking())
+            if (!EfsSystem.Instance.Markings.SelectNextMarking())
             {
                 MessageBox.Show(
                     Resources.Window_toolStripButton1_Click_No_more_marking_to_show,

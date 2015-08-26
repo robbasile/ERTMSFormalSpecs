@@ -426,7 +426,7 @@ namespace GUI.BoxArrowDiagram
                     if (model != null && !_movingBoxHasMoved)
                     {
                         Context.SelectionCriteria criteria = GuiUtils.SelectionCriteriaBasedOnMouseEvent(mouseEventArgs);
-                        EFSSystem.INSTANCE.Context.SelectElement(model, this, criteria);
+                        EfsSystem.Instance.Context.SelectElement(model, this, criteria);
                         _movingBoxHasMoved = true;
                     }
 
@@ -508,7 +508,7 @@ namespace GUI.BoxArrowDiagram
                     if (_movingBox.TypedModel.X != _positionBeforeMove.X ||
                         _movingBox.TypedModel.Y != _positionBeforeMove.Y)
                     {
-                        EFSSystem.INSTANCE.Context.HandleChangeEvent(_movingBox.Model as BaseModelElement,
+                        EfsSystem.Instance.Context.HandleChangeEvent(_movingBox.Model as BaseModelElement,
                             Context.ChangeKind.ModelChange);
                     }
                 }

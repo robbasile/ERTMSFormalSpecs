@@ -86,7 +86,7 @@ namespace GUI.MessagesView
                             }
                         }
 
-                        if (EFSSystem.INSTANCE.DisplayEnclosingMessages)
+                        if (EfsSystem.Instance.DisplayEnclosingMessages)
                         {
                             current = current.Enclosing as IModelElement;
                         }

@@ -301,7 +301,7 @@ namespace GUI
             GuiUtils.Graphics = CreateGraphics();
             StatusHandler = new StatusHandler();
 
-            EFSSystem.INSTANCE.Context.ValueChange += Context_ValueChange;
+            DataDictionary.EfsSystem.Instance.Context.ValueChange += Context_ValueChange;
 
             FormClosing += MainWindow_FormClosing;
             KeyUp += MainWindow_KeyUp;
@@ -445,9 +445,9 @@ namespace GUI
         /// <summary>
         ///     The efs system
         /// </summary>
-        public EFSSystem EfsSystem
+        public EfsSystem EfsSystem
         {
-            get { return EFSSystem.INSTANCE; }
+            get { return EfsSystem.Instance; }
         }
 
         private void OpenFile(object sender, EventArgs e)
@@ -1094,7 +1094,7 @@ namespace GUI
                 {
                     frame.Translate(dictionary.TranslationDictionary);
                 }
-                EFSSystem.INSTANCE.Context.HandleChangeEvent(dictionary, Context.ChangeKind.Translation);
+                EfsSystem.Instance.Context.HandleChangeEvent(dictionary, Context.ChangeKind.Translation);
 
                 SpecIssuesReport aReport = new SpecIssuesReport(dictionary);
                 aReport.ShowDialog(this);
@@ -1131,7 +1131,7 @@ namespace GUI
         private void refreshWindowsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             // Ensure the system has been compiled
-            EFSSystem efsSystem = EFSSystem.INSTANCE;
+            EfsSystem efsSystem = EfsSystem.Instance;
             efsSystem.Compiler.Compile_Synchronous(efsSystem.ShouldRebuild);
             efsSystem.ShouldRebuild = false;
         }
@@ -1151,7 +1151,7 @@ namespace GUI
             ///     Constructor
             /// </summary>
             /// <param name="efsSystem"></param>
-            public ResetTimeStamps(EFSSystem efsSystem)
+            public ResetTimeStamps(EfsSystem efsSystem)
             {
                 foreach (Dictionary dictionary in efsSystem.Dictionaries)
                 {

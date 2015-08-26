@@ -51,7 +51,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
         /// </summary>
         /// <param name="efsSystem"></param>
         /// <param name="name">the name of the cast function</param>
-        public Override(EFSSystem efsSystem)
+        public Override(EfsSystem efsSystem)
             : base(efsSystem, "Override")
         {
             DefaultFunction = (Parameter) acceptor.getFactory().createParameter();

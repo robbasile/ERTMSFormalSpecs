@@ -235,7 +235,7 @@ namespace DataDictionary.Interpreter
                 else if (Minus.Equals(UnaryOp))
                 {
                     Type type = Expression.GetExpressionType();
-                    if (type == EFSSystem.INSTANCE.IntegerType || type == EFSSystem.INSTANCE.DoubleType || type is Range)
+                    if (type == EfsSystem.Instance.IntegerType || type == EfsSystem.Instance.DoubleType || type is Range)
                     {
                         retVal = type;
                     }
@@ -302,11 +302,11 @@ namespace DataDictionary.Interpreter
                     {
                         if (b.Val)
                         {
-                            retVal = EFSSystem.INSTANCE.BoolType.False;
+                            retVal = EfsSystem.Instance.BoolType.False;
                         }
                         else
                         {
-                            retVal = EFSSystem.INSTANCE.BoolType.True;
+                            retVal = EfsSystem.Instance.BoolType.True;
                         }
                     }
                     else

@@ -34,7 +34,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
         /// </summary>
         /// <param name="efsSystem"></param>
         /// <param name="name">the name of the function</param>
-        public FunctionOnSurface(EFSSystem efsSystem, string name)
+        public FunctionOnSurface(EfsSystem efsSystem, string name)
             : base(efsSystem, name)
         {
             Returns = (Function) acceptor.getFactory().createFunction();

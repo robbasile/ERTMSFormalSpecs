@@ -47,7 +47,7 @@ namespace DataDictionary
     /// <summary>
     ///     A complete system, along with all dictionaries
     /// </summary>
-    public class EFSSystem : IModelElement, ISubDeclarator, IHoldsParagraphs
+    public class EfsSystem : IModelElement, ISubDeclarator, IHoldsParagraphs
     {
         /// <summary>
         ///     The dictionaries used in the system
@@ -115,7 +115,7 @@ namespace DataDictionary
         /// <summary>
         ///     Constructor
         /// </summary>
-        private EFSSystem()
+        private EfsSystem()
         {
             Dictionaries = new List<Dictionary>();
             Context = new Context();
@@ -1105,19 +1105,13 @@ namespace DataDictionary
         /// <summary>
         ///     The EFS System instance
         /// </summary>
-        private static EFSSystem _instance;
+        // ReSharper disable once InconsistentNaming
+        private static readonly EfsSystem _instance = new EfsSystem();
 
-        public static EFSSystem INSTANCE
-        {
-            get
-            {
-                if (_instance == null)
-                {
-                    _instance = new EFSSystem();
-                }
-                return _instance;
-            }
-        }
+        /// <summary>
+        /// The EFSSystem singleton
+        /// </summary>
+        public static EfsSystem Instance { get { return _instance; } }
 
         /// <summary>
         ///     Provides an RTF explanation of the system

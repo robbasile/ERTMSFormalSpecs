@@ -35,7 +35,7 @@ namespace EFSTester
         {
             int retVal = 0;
 
-            EFSSystem efsSystem = EFSSystem.INSTANCE;
+            EfsSystem efsSystem = EfsSystem.Instance;
             try
             {
                 Console.Out.WriteLine("EFS Tester");

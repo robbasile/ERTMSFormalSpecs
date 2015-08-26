@@ -72,7 +72,7 @@ namespace GUI.TestRunnerView.TimeLineControl
         /// </summary>
         /// <param name="efsSystem"></param>
         /// <param name="filterConfiguration"></param>
-        public void Configure(EFSSystem efsSystem, FilterConfiguration filterConfiguration)
+        public void Configure(EfsSystem efsSystem, FilterConfiguration filterConfiguration)
         {
             ruleActivationCheckBox.Checked = filterConfiguration.RuleFired;
             expectationsCheckBox.Checked = filterConfiguration.Expect;

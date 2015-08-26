@@ -218,9 +218,9 @@ namespace GUI
             Visible = false;
 
             // Handles a selection change in the system
-            EFSSystem.INSTANCE.Context.SelectionChange += Context_SelectionChange;
-            EFSSystem.INSTANCE.Context.ValueChange += Context_ValueChange;
-            EFSSystem.INSTANCE.Context.InfoMessageChange += Context_InfoMessageChange;
+            EfsSystem.Instance.Context.SelectionChange += Context_SelectionChange;
+            EfsSystem.Instance.Context.ValueChange += Context_ValueChange;
+            EfsSystem.Instance.Context.InfoMessageChange += Context_InfoMessageChange;
 
             // Allow to dock back the form
             ParentChanged += BaseForm_ParentChanged;
@@ -234,9 +234,9 @@ namespace GUI
         /// <param name="e"></param>
         private void Window_FormClosed(object sender, FormClosedEventArgs e)
         {
-            EFSSystem.INSTANCE.Context.SelectionChange -= Context_SelectionChange;
-            EFSSystem.INSTANCE.Context.ValueChange -= Context_ValueChange;
-            EFSSystem.INSTANCE.Context.InfoMessageChange -= Context_InfoMessageChange;
+            EfsSystem.Instance.Context.SelectionChange -= Context_SelectionChange;
+            EfsSystem.Instance.Context.ValueChange -= Context_ValueChange;
+            EfsSystem.Instance.Context.InfoMessageChange -= Context_InfoMessageChange;
 
             GuiUtils.MdiWindow.HandleSubWindowClosed(this);
         }

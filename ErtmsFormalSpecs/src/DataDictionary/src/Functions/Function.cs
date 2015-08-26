@@ -1499,7 +1499,7 @@ namespace DataDictionary.Functions
             Util.DontNotify(() =>
             {
                 retVal.Name = "Function" + GetElementNumber(enclosingCollection);
-                retVal.ReturnType = EFSSystem.INSTANCE.BoolType;
+                retVal.ReturnType = EfsSystem.Instance.BoolType;
             });
 
             return retVal;

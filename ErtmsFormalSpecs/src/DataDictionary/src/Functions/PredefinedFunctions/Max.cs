@@ -42,7 +42,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
         /// </summary>
         /// <param name="efsSystem"></param>
         /// <param name="name">the name of the cast function</param>
-        public Max(EFSSystem efsSystem)
+        public Max(EfsSystem efsSystem)
             : base(efsSystem, "MAX")
         {
             First = (Parameter) acceptor.getFactory().createParameter();

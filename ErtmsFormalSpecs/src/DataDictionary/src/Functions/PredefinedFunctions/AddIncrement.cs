@@ -42,7 +42,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
         /// </summary>
         /// <param name="efsSystem"></param>
         /// <param name="name">the name of the cast function</param>
-        public AddIncrement(EFSSystem efsSystem)
+        public AddIncrement(EfsSystem efsSystem)
             : base(efsSystem, "AddIncrement")
         {
             Function = (Parameter) acceptor.getFactory().createParameter();

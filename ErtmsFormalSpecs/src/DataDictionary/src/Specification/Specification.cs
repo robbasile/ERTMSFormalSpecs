@@ -649,7 +649,7 @@ namespace DataDictionary.Specification
             public ImplementedWithNoFunctionalTestVisitor(Specification specification)
             {
                 FunctionalTests = new AllReferences();
-                foreach (Dictionary dictionary in EFSSystem.INSTANCE.Dictionaries)
+                foreach (Dictionary dictionary in EfsSystem.Instance.Dictionaries)
                 {
                     FunctionalTests.Initialize(dictionary);
                 }
@@ -697,7 +697,7 @@ namespace DataDictionary.Specification
             public NotTestedWithFunctionalTestVisitor(Specification specification)
             {
                 FunctionalTests = new AllReferences();
-                foreach (Dictionary dictionary in EFSSystem.INSTANCE.Dictionaries)
+                foreach (Dictionary dictionary in EfsSystem.Instance.Dictionaries)
                 {
                     FunctionalTests.Initialize(dictionary);
                 }
@@ -804,7 +804,7 @@ namespace DataDictionary.Specification
             public NotImplementedButImplementationExistsVisitor(Specification specification)
             {
                 Implementations = new AllReferences();
-                foreach (Dictionary dictionary in EFSSystem.INSTANCE.Dictionaries)
+                foreach (Dictionary dictionary in EfsSystem.Instance.Dictionaries)
                 {
                     Implementations.Initialize(dictionary);
                 }

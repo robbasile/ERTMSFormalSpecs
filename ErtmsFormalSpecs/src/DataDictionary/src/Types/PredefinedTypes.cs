@@ -35,7 +35,7 @@ namespace DataDictionary.Types
         /// </summary>
         /// <param name="dictionary"></param>
         /// <param name="name"></param>
-        public PredefinedType(EFSSystem system, string name)
+        public PredefinedType(EfsSystem system, string name)
         {
             Enclosing = system;
             Name = name;
@@ -119,7 +119,7 @@ namespace DataDictionary.Types
         ///     Constructor
         /// </summary>
         /// <param name="dictionary"></param>
-        public BoolType(EFSSystem efsSystem)
+        public BoolType(EfsSystem efsSystem)
             : base(efsSystem, "Boolean")
         {
             True = new BoolValue(this, true);
@@ -214,7 +214,7 @@ namespace DataDictionary.Types
         ///     Constructor
         /// </summary>
         /// <param name="dictionary"></param>
-        public IntegerType(EFSSystem efsSystem)
+        public IntegerType(EfsSystem efsSystem)
             : base(efsSystem, "Integer")
         {
         }
@@ -416,7 +416,7 @@ namespace DataDictionary.Types
         ///     Constructor
         /// </summary>
         /// <param name="dictionary"></param>
-        public DoubleType(EFSSystem efsSystem)
+        public DoubleType(EfsSystem efsSystem)
             : base(efsSystem, "Double")
         {
         }
@@ -656,7 +656,7 @@ namespace DataDictionary.Types
             set { }
         }
 
-        public StringType(EFSSystem efsSystem)
+        public StringType(EfsSystem efsSystem)
             : base(efsSystem, "String")
         {
         }

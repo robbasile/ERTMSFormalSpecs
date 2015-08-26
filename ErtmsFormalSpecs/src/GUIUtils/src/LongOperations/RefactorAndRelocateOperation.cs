@@ -39,8 +39,8 @@ namespace GUIUtils.LongOperations
         /// </summary>
         public override void ExecuteWork()
         {
-            EFSSystem.INSTANCE.Compiler.Compile_Synchronous(false, true);
-            EFSSystem.INSTANCE.Compiler.RefactorAndRelocate(Model);
+            EfsSystem.Instance.Compiler.Compile_Synchronous(false, true);
+            EfsSystem.Instance.Compiler.RefactorAndRelocate(Model);
         }
 
         /// <summary>
@@ -54,7 +54,7 @@ namespace GUIUtils.LongOperations
 
             // Long operations do not notify the listeners. 
             // Update the entire model
-            EFSSystem.INSTANCE.Context.HandleChangeEvent(null);
+            EfsSystem.Instance.Context.HandleChangeEvent(null);
         }
     }
 }

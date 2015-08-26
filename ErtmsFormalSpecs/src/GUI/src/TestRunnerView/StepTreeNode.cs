@@ -252,7 +252,7 @@ namespace GUI.TestRunnerView
             }
             messageExpression += "]";
 
-            Expression expression = EFSSystem.INSTANCE.Parser.Expression(Item.Dictionary, messageExpression);
+            Expression expression = EfsSystem.Instance.Parser.Expression(Item.Dictionary, messageExpression);
             IValue value = expression.GetExpressionValue(new InterpretationContext(), null);
 
             StructureEditor.Window editor = new StructureEditor.Window();
@@ -296,7 +296,7 @@ namespace GUI.TestRunnerView
                         GuiUtils.MdiWindow.AddChildWindow(translationWindow);
                     }
 
-                    EFSSystem.INSTANCE.Context.SelectElement(translation, this, Context.SelectionCriteria.DoubleClick);
+                    EfsSystem.Instance.Context.SelectElement(translation, this, Context.SelectionCriteria.DoubleClick);
                 }
             }
         }
@@ -310,7 +310,7 @@ namespace GUI.TestRunnerView
         {
             FinderRepository.INSTANCE.ClearCache();
             Item.Translate(Item.Dictionary.TranslationDictionary);
-            EFSSystem.INSTANCE.Context.HandleChangeEvent(Item, Context.ChangeKind.Translation);
+            EfsSystem.Instance.Context.HandleChangeEvent(Item, Context.ChangeKind.Translation);
         }
 
         /// <summary>
@@ -411,7 +411,7 @@ namespace GUI.TestRunnerView
                 ExecuteTestsHandler executeTestHandler = new ExecuteTestsHandler(window, Item, false);
                 executeTestHandler.ExecuteUsingProgressDialog("Executing test steps");
 
-                EFSSystem.INSTANCE.Context.HandleEndOfCycle();
+                EfsSystem.Instance.Context.HandleEndOfCycle();
                 window.tabControl1.SelectedTab = window.testExecutionTabPage;
             }
         }
@@ -431,7 +431,7 @@ namespace GUI.TestRunnerView
                 ExecuteTestsHandler executeTestHandler = new ExecuteTestsHandler(window, Item, false);
                 executeTestHandler.ExecuteUsingProgressDialog("Executing test steps");
 
-                EFSSystem.INSTANCE.Context.HandleEndOfCycle();
+                EfsSystem.Instance.Context.HandleEndOfCycle();
                 window.tabControl1.SelectedTab = window.testExecutionTabPage;
             }
         }

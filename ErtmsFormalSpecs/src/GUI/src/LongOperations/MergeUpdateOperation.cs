@@ -41,7 +41,7 @@ namespace GUI.LongOperations
         public override void ExecuteWork()
         {
             UpdateDictionary.MergeUpdate();
-            EFSSystem.INSTANCE.Compiler.Compile_Synchronous(true);
+            EfsSystem.Instance.Compiler.Compile_Synchronous(true);
         }
     }
 }

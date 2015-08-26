@@ -182,7 +182,7 @@ namespace GUI.UsageView
         {
             if (Item != null)
             {
-                EFSSystem.INSTANCE.Context.SelectElement(Item, TreeView, Context.SelectionCriteria.LeftClick);
+                EfsSystem.Instance.Context.SelectElement(Item, TreeView, Context.SelectionCriteria.LeftClick);
             }
         }
 
@@ -190,7 +190,7 @@ namespace GUI.UsageView
         {
             if (Item != null)
             {
-                EFSSystem.INSTANCE.Context.SelectElement(Item, TreeView, Context.SelectionCriteria.DoubleClick);
+                EfsSystem.Instance.Context.SelectElement(Item, TreeView, Context.SelectionCriteria.DoubleClick);
             }
         }
     }

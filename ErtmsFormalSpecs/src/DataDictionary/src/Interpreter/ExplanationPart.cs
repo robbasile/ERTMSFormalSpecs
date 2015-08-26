@@ -64,7 +64,7 @@ namespace DataDictionary.Interpreter
                 {
                     if (LeftPart is RuleCondition)
                     {
-                        if (RightPart == EFSSystem.INSTANCE.BoolType.True)
+                        if (RightPart == EfsSystem.Instance.BoolType.True)
                         {
                             retVal = "SATISFIED " + retVal;
                         }

@@ -42,7 +42,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
         /// </summary>
         /// <param name="efsSystem"></param>
         /// <param name="name">the name of the cast function</param>
-        public Min(EFSSystem efsSystem)
+        public Min(EfsSystem efsSystem)
             : base(efsSystem, "MIN")
         {
             First = (Parameter) acceptor.getFactory().createParameter();

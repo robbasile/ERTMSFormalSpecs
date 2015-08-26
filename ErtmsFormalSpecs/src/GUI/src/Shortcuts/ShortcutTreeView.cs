@@ -19,7 +19,7 @@ using DataDictionary;
 
 namespace GUI.Shortcuts
 {
-    public partial class ShortcutTreeView : TypedTreeView<EFSSystem>
+    public partial class ShortcutTreeView : TypedTreeView<EfsSystem>
     {
         /// <summary>
         ///     Constructor

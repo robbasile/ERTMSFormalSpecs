@@ -46,7 +46,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
         /// </summary>
         public Parameter EndSpeed { get; private set; }
 
-        public FullDecelerationForTarget(EFSSystem efsSystem)
+        public FullDecelerationForTarget(EfsSystem efsSystem)
             : base(efsSystem, "FullDecelerationForTarget")
         {
             Target = (Parameter) acceptor.getFactory().createParameter();

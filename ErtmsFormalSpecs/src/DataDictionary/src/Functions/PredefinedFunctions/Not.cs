@@ -38,7 +38,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
         /// </summary>
         /// <param name="efsSystem"></param>
         /// <param name="name">the name of the cast function</param>
-        public Not(EFSSystem efsSystem)
+        public Not(EfsSystem efsSystem)
             : base(efsSystem, "NOT")
         {
             Value = (Parameter) acceptor.getFactory().createParameter();

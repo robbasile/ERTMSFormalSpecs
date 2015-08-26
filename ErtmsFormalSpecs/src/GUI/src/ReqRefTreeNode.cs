@@ -88,8 +88,8 @@ namespace GUI
 
         public override void DoubleClickHandler()
         {
-            EFSSystem.INSTANCE.Context.SelectElement(Item.Paragraph, this, Context.SelectionCriteria.DoubleClick);
-            EFSSystem.INSTANCE.Context.SelectElement(Item.Model, this, Context.SelectionCriteria.DoubleClick);
+            EfsSystem.Instance.Context.SelectElement(Item.Paragraph, this, Context.SelectionCriteria.DoubleClick);
+            EfsSystem.Instance.Context.SelectElement(Item.Model, this, Context.SelectionCriteria.DoubleClick);
         }
 
         /// <summary>
@@ -118,7 +118,7 @@ namespace GUI
                     retVal = Item.CreateReqRefUpdate(model);
                 }
                 // Navigate to the element, whether it was created or not
-                EFSSystem.INSTANCE.Context.SelectElement(retVal, this, Context.SelectionCriteria.DoubleClick);
+                EfsSystem.Instance.Context.SelectElement(retVal, this, Context.SelectionCriteria.DoubleClick);
             }
 
             return retVal;

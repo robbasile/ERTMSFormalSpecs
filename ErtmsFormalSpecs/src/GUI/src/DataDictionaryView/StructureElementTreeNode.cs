@@ -118,7 +118,7 @@ namespace GUI.DataDictionaryView
                     retVal = Item.CreateStructureElementUpdate(dictionary);
                 }
                 // Navigate to the element, whether it was created or not
-                EFSSystem.INSTANCE.Context.SelectElement(retVal, this, Context.SelectionCriteria.DoubleClick);
+                EfsSystem.Instance.Context.SelectElement(retVal, this, Context.SelectionCriteria.DoubleClick);
             }
 
             return retVal;

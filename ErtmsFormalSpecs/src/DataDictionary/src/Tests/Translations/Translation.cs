@@ -500,7 +500,7 @@ namespace DataDictionary.Tests.Translations
         {
             NameSpace retVal = null;
 
-            EFSSystem system = EFSSystem.INSTANCE;
+            EfsSystem system = EfsSystem.Instance;
             foreach (Dictionary dictionary in system.Dictionaries)
             {
                 retVal = OverallNameSpaceFinder.INSTANCE.findByName(dictionary, name);
@@ -515,7 +515,7 @@ namespace DataDictionary.Tests.Translations
 
         private static string format_eurobalise_message(DBMessage message)
         {
-            EFSSystem system = EFSSystem.INSTANCE;
+            EfsSystem system = EfsSystem.Instance;
 
             NameSpace nameSpace = findNameSpace("Messages.EUROBALISE");
             Structure structureType = (Structure) system.FindType(nameSpace, "Message");
@@ -540,7 +540,7 @@ namespace DataDictionary.Tests.Translations
         }
 
 
-        private static ListValue get_message_packets(DBMessage message, NameSpace nameSpace, EFSSystem system)
+        private static ListValue get_message_packets(DBMessage message, NameSpace nameSpace, EfsSystem system)
         {
             ListValue retVal;
 
@@ -618,7 +618,7 @@ namespace DataDictionary.Tests.Translations
         /// <returns></returns>
         private static StructureValue FindStructure(int nidPacket)
         {
-            EFSSystem system = EFSSystem.INSTANCE;
+            EfsSystem system = EfsSystem.Instance;
             Structure structure = null;
             NameSpace nameSpace = findNameSpace("Messages.PACKET");
 
@@ -668,7 +668,7 @@ namespace DataDictionary.Tests.Translations
         private static void FillStructure(NameSpace aNameSpace, ArrayList fields, ref int currentIndex,
             StructureValue aStructure)
         {
-            EFSSystem system = EFSSystem.INSTANCE;
+            EfsSystem system = EfsSystem.Instance;
 
             int j = 0;
             while (currentIndex < fields.Count)
@@ -758,7 +758,7 @@ namespace DataDictionary.Tests.Translations
 
         private static string format_euroloop_message(DBMessage message)
         {
-            EFSSystem system = EFSSystem.INSTANCE;
+            EfsSystem system = EfsSystem.Instance;
 
             NameSpace nameSpace = findNameSpace("Messages.EUROLOOP");
             Structure structureType = (Structure) system.FindType(nameSpace, "Message");
@@ -784,7 +784,7 @@ namespace DataDictionary.Tests.Translations
 
         private static string format_euroradio_message(DBMessage message)
         {
-            EFSSystem system = EFSSystem.INSTANCE;
+            EfsSystem system = EfsSystem.Instance;
 
             NameSpace rbcRoot = findNameSpace("Messages.MESSAGE");
 

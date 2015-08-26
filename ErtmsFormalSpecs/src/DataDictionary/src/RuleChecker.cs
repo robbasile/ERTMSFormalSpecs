@@ -1272,7 +1272,7 @@ namespace DataDictionary
         /// <param name="name"></param>
         private static void CheckIdentifier(ModelElement model, string name)
         {
-            if (!EFSSystem.INSTANCE.Parser.IsIdentifier(name))
+            if (!EfsSystem.Instance.Parser.IsIdentifier(name))
             {
                 model.AddError("Invalid identifier");
             }

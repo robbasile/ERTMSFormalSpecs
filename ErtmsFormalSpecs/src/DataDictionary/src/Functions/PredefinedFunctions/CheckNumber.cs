@@ -38,7 +38,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
         ///     Constructor
         /// </summary>
         /// <param name="efsSystem"></param>
-        public CheckNumber(EFSSystem efsSystem)
+        public CheckNumber(EfsSystem efsSystem)
             : base(efsSystem, "CheckNumber")
         {
             Number = (Parameter) acceptor.getFactory().createParameter();

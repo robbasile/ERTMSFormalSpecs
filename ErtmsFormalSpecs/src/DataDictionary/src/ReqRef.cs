@@ -184,7 +184,7 @@ namespace DataDictionary
 
             if (Paragraph != null)
             {
-                if (EFSSystem.INSTANCE.DisplayRequirementsAsList)
+                if (EfsSystem.Instance.DisplayRequirementsAsList)
                 {
                     retVal = Paragraph.FullId + ", ";
                 }

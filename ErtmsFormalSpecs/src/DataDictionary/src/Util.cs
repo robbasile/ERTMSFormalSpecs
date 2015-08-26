@@ -781,7 +781,7 @@ namespace DataDictionary
         /// <param name="efsSystem">The system for which this dictionary is loaded</param>
         /// <param name="loadParams">The parameters used to load the file</param>
         /// <returns></returns>
-        public static Dictionary Load(EFSSystem efsSystem, LoadParams loadParams)
+        public static Dictionary Load(EfsSystem efsSystem, LoadParams loadParams)
         {
             Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
             Dictionary retVal;
@@ -1059,7 +1059,7 @@ namespace DataDictionary
             {
                 ErrorsFound = new List<ElementLog>();
 
-                foreach (Dictionary dictionary in EFSSystem.INSTANCE.Dictionaries)
+                foreach (Dictionary dictionary in EfsSystem.Instance.Dictionaries)
                 {
                     visit(dictionary);
                 }

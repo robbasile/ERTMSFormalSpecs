@@ -615,7 +615,7 @@ namespace DataDictionary.Variables
             Util.DontNotify(() =>
             {
                 retVal.Name = "Variable" + GetElementNumber(enclosingCollection);
-                retVal.Type = EFSSystem.INSTANCE.BoolType;
+                retVal.Type = EfsSystem.Instance.BoolType;
             });
 
             return retVal;

@@ -402,7 +402,7 @@ namespace DataDictionary.Rules
         {
             UsageVisitor visitor = new UsageVisitor(node);
 
-            EFSSystem efsSystem = EnclosingFinder<EFSSystem>.find(node);
+            EfsSystem efsSystem = EnclosingFinder<EfsSystem>.find(node);
             if (efsSystem != null)
             {
                 foreach (Dictionary dictionary in efsSystem.Dictionaries)

@@ -298,7 +298,7 @@ namespace DataDictionary.Interpreter
             {
                 if (Operation == Operator.Is)
                 {
-                    retVal = EFSSystem.INSTANCE.BoolType;
+                    retVal = EfsSystem.Instance.BoolType;
                 }
                 else if (Operation == Operator.As)
                 {
@@ -340,9 +340,9 @@ namespace DataDictionary.Interpreter
 
                             case Operator.And:
                             case Operator.Or:
-                                if (leftType == EFSSystem.INSTANCE.BoolType && rightType == EFSSystem.INSTANCE.BoolType)
+                                if (leftType == EfsSystem.Instance.BoolType && rightType == EfsSystem.Instance.BoolType)
                                 {
-                                    retVal = EFSSystem.INSTANCE.BoolType;
+                                    retVal = EfsSystem.Instance.BoolType;
                                 }
                                 break;
 
@@ -356,7 +356,7 @@ namespace DataDictionary.Interpreter
                             case Operator.As:
                                 if (leftType.Match(rightType) || rightType.Match(leftType))
                                 {
-                                    retVal = EFSSystem.INSTANCE.BoolType;
+                                    retVal = EfsSystem.Instance.BoolType;
                                 }
                                 break;
 
@@ -367,11 +367,11 @@ namespace DataDictionary.Interpreter
                                 {
                                     if (collection.Type == null)
                                     {
-                                        retVal = EFSSystem.INSTANCE.BoolType;
+                                        retVal = EfsSystem.Instance.BoolType;
                                     }
                                     else if (collection.Type.Match(leftType))
                                     {
-                                        retVal = EFSSystem.INSTANCE.BoolType;
+                                        retVal = EfsSystem.Instance.BoolType;
                                     }
                                 }
                                 else
@@ -379,7 +379,7 @@ namespace DataDictionary.Interpreter
                                     StateMachine stateMachine = rightType as StateMachine;
                                     if (stateMachine != null && leftType.Match(stateMachine))
                                     {
-                                        retVal = EFSSystem.INSTANCE.BoolType;
+                                        retVal = EfsSystem.Instance.BoolType;
                                     }
                                 }
                                 break;
@@ -433,7 +433,7 @@ namespace DataDictionary.Interpreter
 
                     case Operator.And:
                     {
-                        if (leftValue.Type == EFSSystem.INSTANCE.BoolType)
+                        if (leftValue.Type == EfsSystem.Instance.BoolType)
                         {
                             BoolValue lb = leftValue as BoolValue;
 
@@ -444,7 +444,7 @@ namespace DataDictionary.Interpreter
                                     rightValue = Right.GetValue(context, binaryExpressionExplanation);
                                     if (rightValue != null)
                                     {
-                                        if (rightValue.Type == EFSSystem.INSTANCE.BoolType)
+                                        if (rightValue.Type == EfsSystem.Instance.BoolType)
                                         {
                                             retVal = rightValue as BoolValue;
                                         }
@@ -481,7 +481,7 @@ namespace DataDictionary.Interpreter
 
                     case Operator.Or:
                     {
-                        if (leftValue.Type == EFSSystem.INSTANCE.BoolType)
+                        if (leftValue.Type == EfsSystem.Instance.BoolType)
                         {
                             BoolValue lb = leftValue as BoolValue;
 
@@ -492,7 +492,7 @@ namespace DataDictionary.Interpreter
                                     rightValue = Right.GetValue(context, binaryExpressionExplanation);
                                     if (rightValue != null)
                                     {
-                                        if (rightValue.Type == EFSSystem.INSTANCE.BoolType)
+                                        if (rightValue.Type == EfsSystem.Instance.BoolType)
                                         {
                                             retVal = rightValue as BoolValue;
                                         }
@@ -532,7 +532,7 @@ namespace DataDictionary.Interpreter
                         rightValue = Right.GetValue(context, binaryExpressionExplanation);
                         if (rightValue != null)
                         {
-                            retVal = EFSSystem.INSTANCE.GetBoolean(leftValue.Type.Less(leftValue, rightValue));
+                            retVal = EfsSystem.Instance.GetBoolean(leftValue.Type.Less(leftValue, rightValue));
                         }
                         else
                         {
@@ -547,7 +547,7 @@ namespace DataDictionary.Interpreter
                         if (rightValue != null)
                         {
                             retVal =
-                                EFSSystem.INSTANCE.GetBoolean(leftValue.Type.CompareForEquality(leftValue, rightValue) ||
+                                EfsSystem.Instance.GetBoolean(leftValue.Type.CompareForEquality(leftValue, rightValue) ||
                                                      leftValue.Type.Less(leftValue, rightValue));
                         }
                         else
@@ -562,7 +562,7 @@ namespace DataDictionary.Interpreter
                         rightValue = Right.GetValue(context, binaryExpressionExplanation);
                         if (rightValue != null)
                         {
-                            retVal = EFSSystem.INSTANCE.GetBoolean(leftValue.Type.Greater(leftValue, rightValue));
+                            retVal = EfsSystem.Instance.GetBoolean(leftValue.Type.Greater(leftValue, rightValue));
                         }
                         else
                         {
@@ -577,7 +577,7 @@ namespace DataDictionary.Interpreter
                         if (rightValue != null)
                         {
                             retVal =
-                                EFSSystem.INSTANCE.GetBoolean(leftValue.Type.CompareForEquality(leftValue, rightValue) ||
+                                EfsSystem.Instance.GetBoolean(leftValue.Type.CompareForEquality(leftValue, rightValue) ||
                                                      leftValue.Type.Greater(leftValue, rightValue));
                         }
                         else
@@ -592,7 +592,7 @@ namespace DataDictionary.Interpreter
                         rightValue = Right.GetValue(context, binaryExpressionExplanation);
                         if (rightValue != null)
                         {
-                            retVal = EFSSystem.INSTANCE.GetBoolean(leftValue.Type.CompareForEquality(leftValue, rightValue));
+                            retVal = EfsSystem.Instance.GetBoolean(leftValue.Type.CompareForEquality(leftValue, rightValue));
                         }
                         else
                         {
@@ -606,7 +606,7 @@ namespace DataDictionary.Interpreter
                         rightValue = Right.GetValue(context, binaryExpressionExplanation);
                         if (rightValue != null)
                         {
-                            retVal = EFSSystem.INSTANCE.GetBoolean(!leftValue.Type.CompareForEquality(leftValue, rightValue));
+                            retVal = EfsSystem.Instance.GetBoolean(!leftValue.Type.CompareForEquality(leftValue, rightValue));
                         }
                         else
                         {
@@ -620,7 +620,7 @@ namespace DataDictionary.Interpreter
                         rightValue = Right.GetValue(context, binaryExpressionExplanation);
                         if (rightValue != null)
                         {
-                            retVal = EFSSystem.INSTANCE.GetBoolean(rightValue.Type.Contains(rightValue, leftValue));
+                            retVal = EfsSystem.Instance.GetBoolean(rightValue.Type.Contains(rightValue, leftValue));
                         }
                         else
                         {
@@ -634,7 +634,7 @@ namespace DataDictionary.Interpreter
                         rightValue = Right.GetValue(context, binaryExpressionExplanation);
                         if (rightValue != null)
                         {
-                            retVal = EFSSystem.INSTANCE.GetBoolean(!rightValue.Type.Contains(rightValue, leftValue));
+                            retVal = EfsSystem.Instance.GetBoolean(!rightValue.Type.Contains(rightValue, leftValue));
                         }
                         else
                         {
@@ -646,7 +646,7 @@ namespace DataDictionary.Interpreter
                     case Operator.Is:
                     {
                         leftValue = Left.GetValue(context, binaryExpressionExplanation);
-                        retVal = EFSSystem.INSTANCE.GetBoolean(false);
+                        retVal = EfsSystem.Instance.GetBoolean(false);
                         if (leftValue != null)
                         {
                             Structure rightStructure = Right.Ref as Structure;
@@ -657,7 +657,7 @@ namespace DataDictionary.Interpreter
                                     Structure leftStructure = leftValue.Type as Structure;
                                     if (rightStructure.ImplementedStructures.Contains(leftStructure))
                                     {
-                                        retVal = EFSSystem.INSTANCE.GetBoolean(true);
+                                        retVal = EfsSystem.Instance.GetBoolean(true);
                                     }
                                     else
                                     {
@@ -1258,7 +1258,7 @@ namespace DataDictionary.Interpreter
                                 AddWarning("IN operator should be used instead of == between " + Left + " and " + Right);
                             }
 
-                            if (Right.Ref == EFSSystem.INSTANCE.EmptyValue)
+                            if (Right.Ref == EfsSystem.Instance.EmptyValue)
                             {
                                 if (leftType is Collection)
                                 {

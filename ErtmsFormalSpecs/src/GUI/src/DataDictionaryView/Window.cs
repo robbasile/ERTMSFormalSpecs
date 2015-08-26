@@ -297,7 +297,7 @@ namespace GUI.DataDictionaryView
 
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
-            if (!EFSSystem.INSTANCE.Markings.SelectPreviousMarking())
+            if (!EfsSystem.Instance.Markings.SelectPreviousMarking())
             {
                 MessageBox.Show(
                     Resources.Window_toolStripButton1_Click_No_more_marking_to_show,
@@ -309,7 +309,7 @@ namespace GUI.DataDictionaryView
 
         private void toolStripButton2_Click(object sender, EventArgs e)
         {
-            if (!EFSSystem.INSTANCE.Markings.SelectNextMarking())
+            if (!EfsSystem.Instance.Markings.SelectNextMarking())
             {
                 MessageBox.Show(
                     Resources.Window_toolStripButton1_Click_No_more_marking_to_show,

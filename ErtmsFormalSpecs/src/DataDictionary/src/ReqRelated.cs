@@ -65,7 +65,7 @@ namespace DataDictionary
 
             foreach (Paragraph paragraph in ModeledParagraphs)
             {
-                if (EFSSystem.INSTANCE.DisplayRequirementsAsList)
+                if (EfsSystem.Instance.DisplayRequirementsAsList)
                 {
                     retVal += paragraph.FullId + ", ";
                 }

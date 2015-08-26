@@ -92,7 +92,7 @@ namespace GUI.StateDiagram
             if (stateMachine != null)
             {
                 StateMachineVariableExpression =
-                    EFSSystem.INSTANCE.Parser.Expression(EnclosingFinder<Dictionary>.find(stateMachine),
+                    EfsSystem.Instance.Parser.Expression(EnclosingFinder<Dictionary>.find(stateMachine),
                         stateMachine.FullName);
             }
             else
@@ -221,7 +221,7 @@ namespace GUI.StateDiagram
                     sourceState.StateMachine.appendRules(rule);
                 }
 
-                EFSSystem.INSTANCE.Context.SelectElement(action, this, Context.SelectionCriteria.LeftClick);
+                EfsSystem.Instance.Context.SelectElement(action, this, Context.SelectionCriteria.LeftClick);
             }
         }
 

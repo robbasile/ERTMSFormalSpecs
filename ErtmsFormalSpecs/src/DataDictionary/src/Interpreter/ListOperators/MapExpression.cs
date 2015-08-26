@@ -58,7 +58,7 @@ namespace DataDictionary.Interpreter.ListOperators
             if (iteratorType != null)
             {
                 Collection collection = (Collection) acceptor.getFactory().createCollection();
-                collection.Enclosing = EFSSystem.INSTANCE;
+                collection.Enclosing = EfsSystem.Instance;
                 collection.Type = iteratorType;
 
                 retVal = collection;
@@ -88,7 +88,7 @@ namespace DataDictionary.Interpreter.ListOperators
                 retVal = new ListValue((Collection) GetExpressionType(), new List<IValue>());
                 foreach (IValue v in value.Val)
                 {
-                    if (v != EFSSystem.INSTANCE.EmptyValue)
+                    if (v != EfsSystem.Instance.EmptyValue)
                     {
                         ElementFound = true;
                         IteratorVariable.Value = v;

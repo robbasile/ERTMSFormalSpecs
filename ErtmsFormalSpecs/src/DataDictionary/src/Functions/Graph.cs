@@ -1006,12 +1006,12 @@ namespace DataDictionary.Functions
                     // Create a function associated to this graph
                     function = (Function) acceptor.getFactory().createFunction();
                     function.Name = "GraphRelatedFunction";
-                    function.ReturnType = EFSSystem.INSTANCE.DoubleType;
+                    function.ReturnType = EfsSystem.Instance.DoubleType;
                     function.Graph = this;
 
                     Parameter parameter = (Parameter) acceptor.getFactory().createParameter();
                     parameter.Name = "X";
-                    parameter.Type = EFSSystem.INSTANCE.DoubleType;
+                    parameter.Type = EfsSystem.Instance.DoubleType;
                     function.appendParameters(parameter);
                 }
 

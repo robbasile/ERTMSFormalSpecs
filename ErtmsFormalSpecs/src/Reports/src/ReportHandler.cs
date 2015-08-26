@@ -103,7 +103,7 @@ namespace Reports
         public Dictionary Dictionary { set; get; }
 
         /// The system for which the report should be created
-        public virtual EFSSystem EFSSystem
+        public virtual EfsSystem EFSSystem
         {
             get { return Dictionary.EFSSystem; }
         }

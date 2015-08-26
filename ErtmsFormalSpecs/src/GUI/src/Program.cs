@@ -78,7 +78,7 @@ namespace GUI
                 XmlConfigurator.Configure(new FileInfo("logconfig.xml"));
 
                 Options.Options.SetSettings();
-                EFSSystem.INSTANCE.DictionaryChangesOnFileSystem += HandleInstanceDictionaryChangesOnFileSystem;
+                EfsSystem.Instance.DictionaryChangesOnFileSystem += HandleInstanceDictionaryChangesOnFileSystem;
 
                 MainWindow window = new MainWindow();
                 Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
@@ -103,7 +103,7 @@ namespace GUI
                 Util.UnlockAllFiles();
             }
 
-            EFSSystem.INSTANCE.Stop();
+            EfsSystem.Instance.Stop();
             SynchronizerList.Stop();
         }
 
@@ -113,7 +113,7 @@ namespace GUI
         /// <param name="dictionary"></param>
         private static void HandleInstanceDictionaryChangesOnFileSystem(Dictionary dictionary)
         {
-            OpenFileOperation openFile = new OpenFileOperation(dictionary.FilePath, EFSSystem.INSTANCE, false, true);
+            OpenFileOperation openFile = new OpenFileOperation(dictionary.FilePath, EfsSystem.Instance, false, true);
             openFile.ExecuteUsingProgressDialog("Refreshing dictionary " +
                                                 Path.GetFileNameWithoutExtension(dictionary.FilePath));
 

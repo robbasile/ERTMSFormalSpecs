@@ -25,7 +25,7 @@ namespace GUIUtils.LongOperations
         /// </summary>
         public override void ExecuteWork()
         {
-            EFSSystem.INSTANCE.Compiler.CleanUpModel();
+            EfsSystem.Instance.Compiler.CleanUpModel();
         }
     }
 }

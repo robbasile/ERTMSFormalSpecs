@@ -287,7 +287,7 @@ namespace DataDictionary.Interpreter.Statement
                         IValue value = listValue.Val[index];
                         index = NextIndex(index);
 
-                        if (value == EFSSystem.INSTANCE.EmptyValue)
+                        if (value == EfsSystem.Instance.EmptyValue)
                         {
                             InsertInResult(newListValue, value);
                         }
@@ -320,7 +320,7 @@ namespace DataDictionary.Interpreter.Statement
                     // Fill the gap
                     while (newListValue.Val.Count < listValue.Val.Count)
                     {
-                        newListValue.Val.Add(EFSSystem.INSTANCE.EmptyValue);
+                        newListValue.Val.Add(EfsSystem.Instance.EmptyValue);
                     }
 
                     Change change = new Change(variable, variable.Value, newListValue);

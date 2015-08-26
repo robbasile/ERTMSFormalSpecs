@@ -125,7 +125,7 @@ namespace DataDictionary.Interpreter.ListOperators
                 AccumulatorVariable.Value = InitialValue.GetValue(context, explain);
                 foreach (IValue v in value.Val)
                 {
-                    if (v != EFSSystem.INSTANCE.EmptyValue)
+                    if (v != EfsSystem.Instance.EmptyValue)
                     {
                         ElementFound = true;
                         IteratorVariable.Value = v;
@@ -285,7 +285,7 @@ namespace DataDictionary.Interpreter.ListOperators
 
                     foreach (IValue v in value.Val)
                     {
-                        if (v != EFSSystem.INSTANCE.EmptyValue)
+                        if (v != EfsSystem.Instance.EmptyValue)
                         {
                             ElementFound = true;
                             IteratorVariable.Value = v;
@@ -341,7 +341,7 @@ namespace DataDictionary.Interpreter.ListOperators
 
                     foreach (IValue v in value.Val)
                     {
-                        if (v != EFSSystem.INSTANCE.EmptyValue)
+                        if (v != EfsSystem.Instance.EmptyValue)
                         {
                             ElementFound = true;
                             IteratorVariable.Value = v;

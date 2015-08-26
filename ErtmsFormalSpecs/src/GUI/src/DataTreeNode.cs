@@ -258,7 +258,7 @@ namespace GUI
         /// </summary>
         public virtual void SelectionHandler()
         {
-            EFSSystem.INSTANCE.Context.SelectElement(Model, this, Context.SelectionCriteria.LeftClick);
+            EfsSystem.Instance.Context.SelectElement(Model, this, Context.SelectionCriteria.LeftClick);
         }
 
         /// <summary>
@@ -266,7 +266,7 @@ namespace GUI
         /// </summary>
         public virtual void DoubleClickHandler()
         {
-            EFSSystem.INSTANCE.Context.SelectElement(Model, this, Context.SelectionCriteria.DoubleClick);
+            EfsSystem.Instance.Context.SelectElement(Model, this, Context.SelectionCriteria.DoubleClick);
         }
 
         /// <summary>
@@ -661,7 +661,7 @@ namespace GUI
         /// </summary>
         public void ClearMessages()
         {
-            EFSSystem.INSTANCE.ClearMessages(false);
+            EfsSystem.Instance.ClearMessages(false);
         }
 
         /// <summary>
@@ -781,7 +781,7 @@ namespace GUI
                     thisCollection.Remove(sourceNode.Model);
                     thisIndex = thisCollection.IndexOf(Model);
                     thisCollection.Insert(thisIndex, sourceNode.Model);
-                    EFSSystem.INSTANCE.Context.HandleChangeEvent(Model as BaseModelElement);
+                    EfsSystem.Instance.Context.HandleChangeEvent(Model as BaseModelElement);
                 }
             }
         }
@@ -943,7 +943,7 @@ namespace GUI
             Dictionary retVal = null;
 
             MainWindow mainWindow = GuiUtils.MdiWindow;
-            EFSSystem efsSystem = mainWindow.EfsSystem;
+            EfsSystem efsSystem = mainWindow.EfsSystem;
             if (efsSystem != null)
             {
                 ModelElement modelElement = Item as ModelElement;

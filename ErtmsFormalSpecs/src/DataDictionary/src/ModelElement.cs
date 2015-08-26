@@ -38,9 +38,9 @@ namespace DataDictionary
         /// <summary>
         ///     Provides the EFS System in which this element belongs
         /// </summary>
-        public EFSSystem EFSSystem
+        public EfsSystem EFSSystem
         {
-            get { return EFSSystem.INSTANCE; }
+            get { return EfsSystem.Instance; }
         }
 
         /// <summary>
@@ -226,7 +226,7 @@ namespace DataDictionary
 
             DontRaiseError(() =>
             {
-                Expression expression = EFSSystem.INSTANCE.Parser.Expression(modelElement, name,
+                Expression expression = EfsSystem.Instance.Parser.Expression(modelElement, name,
                     AllMatches.INSTANCE, true, null, true);
 
                 foreach (

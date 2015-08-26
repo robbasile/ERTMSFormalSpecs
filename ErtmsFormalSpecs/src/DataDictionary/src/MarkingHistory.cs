@@ -73,8 +73,8 @@ namespace DataDictionary
 
             if (retVal)
             {
-                EFSSystem.INSTANCE.ClearMessages(false);
-                EFSSystem.INSTANCE.Context.HandleInfoMessageChangeEvent(null);
+                EfsSystem.Instance.ClearMessages(false);
+                EfsSystem.Instance.Context.HandleInfoMessageChangeEvent(null);
                 CurrentMarking = marking;
                 CurrentMarking.RestoreMarks();
             }
@@ -141,19 +141,19 @@ namespace DataDictionary
         {
             try
             {
-                EFSSystem.INSTANCE.ClearMessages(false);
-                EFSSystem.INSTANCE.Context.HandleInfoMessageChangeEvent(null);
-                EFSSystem.INSTANCE.Context.SuppressInfoMessage = true;
+                EfsSystem.Instance.ClearMessages(false);
+                EfsSystem.Instance.Context.HandleInfoMessageChangeEvent(null);
+                EfsSystem.Instance.Context.SuppressInfoMessage = true;
                 action();
-                EFSSystem.INSTANCE.Markings.RegisterCurrentMarking();
+                EfsSystem.Instance.Markings.RegisterCurrentMarking();
             }
             catch (Exception)
             {
             }
             finally
             {
-                EFSSystem.INSTANCE.Context.SuppressInfoMessage = false;
-                EFSSystem.INSTANCE.Context.HandleInfoMessageChangeEvent(null);                
+                EfsSystem.Instance.Context.SuppressInfoMessage = false;
+                EfsSystem.Instance.Context.HandleInfoMessageChangeEvent(null);                
             }
         }
     }

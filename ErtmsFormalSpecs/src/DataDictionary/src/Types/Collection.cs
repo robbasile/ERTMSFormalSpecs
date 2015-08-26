@@ -326,7 +326,7 @@ namespace DataDictionary.Types
         ///     Constructor
         /// </summary>
         /// <param name="efsSystem"></param>
-        public GenericCollection(EFSSystem efsSystem)
+        public GenericCollection(EfsSystem efsSystem)
         {
             Enclosing = efsSystem;
         }

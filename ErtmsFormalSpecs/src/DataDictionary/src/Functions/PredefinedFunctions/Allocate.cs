@@ -37,7 +37,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
         /// <summary>
         ///     Constructor
         /// </summary>
-        public Allocate(EFSSystem efsSystem)
+        public Allocate(EfsSystem efsSystem)
             : base(efsSystem, "Allocate")
         {
             Collection = (Parameter) acceptor.getFactory().createParameter();

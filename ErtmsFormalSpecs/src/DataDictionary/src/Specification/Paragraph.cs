@@ -1021,7 +1021,7 @@ namespace DataDictionary.Specification
 
             // Count the tested paragraphs
             HashSet<Paragraph> testedParagraphs = new HashSet<Paragraph>();
-            foreach (Dictionary dictionary in EFSSystem.INSTANCE.Dictionaries)
+            foreach (Dictionary dictionary in EfsSystem.Instance.Dictionaries)
             {
                 foreach (Paragraph p in dictionary.CoveredRequirements())
                 {
@@ -1056,7 +1056,7 @@ namespace DataDictionary.Specification
                 retVal.Text = "";
                 retVal.setType(acceptor.Paragraph_type.aREQUIREMENT);
 
-                foreach (RequirementSet requirementSet in EFSSystem.INSTANCE.RequirementSets)
+                foreach (RequirementSet requirementSet in EfsSystem.Instance.RequirementSets)
                 {
                     requirementSet.SetDefaultRequirementSets(retVal);
                 }

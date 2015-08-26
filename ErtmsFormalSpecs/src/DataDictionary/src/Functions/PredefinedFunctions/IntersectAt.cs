@@ -44,7 +44,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
         /// </summary>
         /// <param name="efsSystem"></param>
         /// <param name="name">the name of the cast function</param>
-        public IntersectAt(EFSSystem efsSystem)
+        public IntersectAt(EfsSystem efsSystem)
             : base(efsSystem, "IntersectAt")
         {
             FunctionA = (Parameter) acceptor.getFactory().createParameter();

@@ -33,7 +33,7 @@ namespace GUI.LongOperations
         /// <summary>
         ///     The system in which the dictionary should be loaded
         /// </summary>
-        private EFSSystem System { get; set; }
+        private EfsSystem System { get; set; }
 
         /// <summary>
         ///     The dictionary that has been opened
@@ -79,7 +79,7 @@ namespace GUI.LongOperations
         /// <param name="system">The EFS system for which the load is performed</param>
         /// <param name="allowErrors">Indicates that errors are allowed during load</param>
         /// <param name="updateGuid">Indicates that the GUID should be set during load</param>
-        public OpenFileOperation(string fileName, EFSSystem system, bool allowErrors, bool updateGuid)
+        public OpenFileOperation(string fileName, EfsSystem system, bool allowErrors, bool updateGuid)
         {
             FileName = fileName;
             System = system;

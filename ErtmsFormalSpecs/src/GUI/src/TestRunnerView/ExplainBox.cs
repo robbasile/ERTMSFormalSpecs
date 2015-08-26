@@ -151,7 +151,7 @@ namespace GUI.TestRunnerView
                 if (model != null)
                 {
                     Context.SelectionCriteria criteria = GuiUtils.SelectionCriteriaBasedOnMouseEvent(mouseEventArgs);
-                    EFSSystem.INSTANCE.Context.SelectElement(model, this, criteria);
+                    EfsSystem.Instance.Context.SelectElement(model, this, criteria);
                     node = null;
                 }
                 else
@@ -420,7 +420,7 @@ namespace GUI.TestRunnerView
             {
                 if (ModifierKeys == Keys.Control)
                 {
-                    EFSSystem.INSTANCE.Context.SelectElement(node.Explanation.Element, this,
+                    EfsSystem.Instance.Context.SelectElement(node.Explanation.Element, this,
                         Context.SelectionCriteria.DoubleClick);
                 }
                 explainRichTextBox.Instance = Explanation;

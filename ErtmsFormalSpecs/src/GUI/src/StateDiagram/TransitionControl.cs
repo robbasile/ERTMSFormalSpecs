@@ -132,7 +132,7 @@ namespace GUI.StateDiagram
             if (model != null)
             {
                 Context.SelectionCriteria criteria = GuiUtils.SelectionCriteriaBasedOnMouseEvent(mouseEventArgs);
-                EFSSystem.INSTANCE.Context.SelectElement(model, Panel, criteria);
+                EfsSystem.Instance.Context.SelectElement(model, Panel, criteria);
             }
         }
     }

@@ -19,7 +19,7 @@ using DataDictionary;
 
 namespace GUI.SpecificationView
 {
-    public class SpecificationTreeView : TypedTreeView<EFSSystem>
+    public class SpecificationTreeView : TypedTreeView<EfsSystem>
     {
         /// <summary>
         ///     Build the model of this tree view

@@ -61,9 +61,9 @@ namespace GUI.TestRunnerView.Watch
             {
                 Dictionary retVal = null;
 
-                if (EFSSystem.INSTANCE.Dictionaries.Count > 0)
+                if (EfsSystem.Instance.Dictionaries.Count > 0)
                 {
-                    retVal = EFSSystem.INSTANCE.Dictionaries[0];
+                    retVal = EfsSystem.Instance.Dictionaries[0];
                 }
 
                 return retVal;

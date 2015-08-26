@@ -182,7 +182,7 @@ namespace GUI.TestRunnerView
             {
                 FinderRepository.INSTANCE.ClearCache();
                 SubSequence.Translate(SubSequence.Dictionary.TranslationDictionary);
-                EFSSystem.INSTANCE.Context.HandleChangeEvent(SubSequence, Context.ChangeKind.Translation);
+                EfsSystem.Instance.Context.HandleChangeEvent(SubSequence, Context.ChangeKind.Translation);
             }
         }
 
@@ -238,8 +238,8 @@ namespace GUI.TestRunnerView
                 if (Window != null)
                 {
                     Window.SetSubSequence(SubSequence);
-                    EFSSystem.INSTANCE.Runner = new Runner(SubSequence, true, false, true);
-                    EFSSystem.INSTANCE.Runner.RunUntilStep(null);
+                    EfsSystem.Instance.Runner = new Runner(SubSequence, true, false, true);
+                    EfsSystem.Instance.Runner.RunUntilStep(null);
                 }
             }
         }
@@ -278,7 +278,7 @@ namespace GUI.TestRunnerView
                     Resources.SubSequenceTreeNode_RunHandler_Execution_report);
             }
 
-            EFSSystem.INSTANCE.Context.HandleEndOfCycle();
+            EfsSystem.Instance.Context.HandleEndOfCycle();
         }
 
         #endregion
