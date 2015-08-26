@@ -1619,7 +1619,7 @@ Activate the service brake if a second linked BG in a row is missed.</Comment>
  Guid="646bc014-8b5c-47e1-9466-bd062ff89279"
 >Kernel.HandlingOfAcceptedAndStoredInformation.RAMSSupervisionFunctionLedToServiceBrake &lt;- True</Action><Action
  Guid="a4b0baca-b8ed-4220-8590-842a578e8b8f"
->Kernel.BrakeCommands.ApplySBCommand(Kernel.BrakeCommands.BrakeReason.RAMSSupervisionTriggered)</Action></Actions>
+>Kernel.BrakeCommands.CommandServiceBrake(Kernel.BrakeCommands.BrakeReason.RAMSSupervision)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -2233,7 +2233,7 @@ If the BG was passed in the right direction, handle the message. If not, the tra
  Guid="f7aea1c2-1e1f-4d47-8f36-412e4107ba4b"
 >Kernel.HandlingOfAcceptedAndStoredInformation.RAMSSupervisionFunctionLedToServiceBrake &lt;- True</Action><Action
  Guid="294b1490-c94d-4bac-b054-feaef3d222b4"
->Kernel.BrakeCommands.ApplySBCommand(Kernel.BrakeCommands.BrakeReason.RAMSSupervisionTriggered)</Action></Actions>
+>Kernel.BrakeCommands.CommandServiceBrake(Kernel.BrakeCommands.BrakeReason.RAMSSupervision)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -2455,15 +2455,7 @@ As the first part of this procedure deletes the first (inconsistent) BG from the
 <Actions>
 <Action
  Guid="bfc6430f-ae00-42e0-8bd9-645cf6379bf4"
->Kernel.SpeedAndDistanceMonitoring.TriggerSBCommand()</Action><Action
- Guid="98a091b7-4d8f-4619-befd-170f98fbc874"
->INSERT Kernel.BrakeCommands.EmergencyStopStruct{
-    IsConditional =&gt; False,
-    Id =&gt; 0,
-    StopLocation =&gt; 0.0,
-    Reason =&gt; Kernel.BrakeCommands.BrakeReason.BaliseGroupMessageConsistencyProblem
-}
-IN Kernel.BrakeCommands.EmergencyStops</Action><Action
+>Kernel.BrakeCommands.CommandServiceBrake(Kernel.BrakeCommands.BrakeReason.LinkingInconsistency)</Action><Action
  Guid="dcddda32-ea7d-4603-a874-b66bdda37327"
 >DMI.MasterDMI().Out_BrakeReason.Display()</Action></Actions>
 </RuleCondition><RuleCondition
@@ -2498,7 +2490,7 @@ IN Kernel.BrakeCommands.EmergencyStops</Action><Action
     IsConditional =&gt; False,
     Id =&gt; 0,
     StopLocation =&gt; 0.0,
-    Reason =&gt; Kernel.BrakeCommands.BrakeReason.BaliseGroupMessageConsistencyProblem
+    Reason =&gt; Kernel.BrakeCommands.BrakeReason.BaliseGroupMessageInconsistency
 }
 IN Kernel.BrakeCommands.EmergencyStops</Action></Actions>
 </RuleCondition></Conditions>

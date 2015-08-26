@@ -437,7 +437,7 @@ Keep the reason for it to be displayed to the driver.</Comment>
 <Actions>
 <Action
  Guid="f97da9de-0e29-4726-9112-51860fdea0f0"
->Kernel.BrakeCommands.ApplySBCommand(Kernel.BrakeCommands.BrakeReason.NoRadioMessageInDueTime)</Action></Actions>
+>Kernel.BrakeCommands.CommandServiceBrake(Kernel.BrakeCommands.BrakeReason.NoRadioMessageInDueTime)</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="No reaction"
@@ -476,19 +476,19 @@ Keep the reason for it to be displayed to the driver.</Comment>
 <PreConditions>
 <PreCondition
  Guid="c5a8af33-3e15-4fc3-97f7-d563354a6ec6"
->THERE_IS BrakeCommand IN Kernel.BrakeCommands.ServiceBrakeCommands | BrakeCommand == Kernel.BrakeCommands.BrakeReason.NoRadioMessageInDueTime
-
-  AND  
-
+>THERE_IS BrakeCommand IN Kernel.BrakeCommands.ServiceBrakeCommands | BrakeCommand == Kernel.BrakeCommands.BrakeReason.NoRadioMessageInDueTime</PreCondition><PreCondition
+ Guid="dd697769-1f0a-42ce-a530-f721f5b8cb67"
+>Odometry.TrainIsAtStandstill()
+  OR  
 (
-Odometry.TrainIsAtStandstill()
- OR 
-Available(MessageIn)
+  Available(MessageIn)
+    AND  
+  IncomingMessageIsConsistent(MessageIn)
 )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="ec756cc9-1422-4ce1-9f0c-f25195a8d5c9"
->Kernel.BrakeCommands.RemoveSBCommand(Kernel.BrakeCommands.BrakeReason.NoRadioMessageInDueTime)</Action></Actions>
+>Kernel.BrakeCommands.ReleaseSBCommand(Kernel.BrakeCommands.BrakeReason.NoRadioMessageInDueTime)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Verification"

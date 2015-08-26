@@ -1563,67 +1563,91 @@ End =&gt; BaseTypes.Distance.Unknown
 >LimitedSupervision.LSSMATimer &lt;- EMPTY</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
-</Procedure></Procedures>
-<Rules>
-<Rule
- Priority="Processing"
- X="771"
- Y="1"
+</Procedure><Procedure
+ X="1"
+ Y="61"
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="Emergency brakes commanded"
- Guid="b1e500b6-da18-463a-a1df-c3830ba655e9"
+ Name="HandleModeRelatedEBCommand"
+ Guid="1f9b917e-308b-4ca3-b7e5-59418073c675"
 >
 <ReqRef
- Id="cbe34815-cb07-47d0-aa70-8e503a0dd8ac"
+ Id="4ed6e0bf-f428-48af-a212-af1983b66f2b"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="be98c7f7-595e-4951-ba7a-40ca43f2cde8"
->
-</ReqRef><ReqRef
- Id="c8a247ef-0cc1-4086-9306-42e2ff40d35d"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="fed645ef-220e-4bc5-8cd8-3c15bb99ebd8"
+ Guid="2bd0f56f-0ed6-4775-b666-333fbd14ac26"
 >
 </ReqRef><ReqRef
  Id="cb89fa5e-3586-488f-81d3-0b25fac37ed3"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="b9279120-1333-4052-811b-e5b0c62c083a"
+ Guid="a5d488ec-cb54-4eb3-b380-2292d6fd66c4"
 >
 </ReqRef><ReqRef
- Id="4ed6e0bf-f428-48af-a212-af1983b66f2b"
+ Id="c8a247ef-0cc1-4086-9306-42e2ff40d35d"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="0be80d31-4936-4553-82f7-9b58587268a7"
+ Guid="40f14783-9aed-4209-b454-3cee68e8df91"
 >
-</ReqRef><Comment>Keep the emergency brake commanded in modes that require it.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Command emergency brake"
- Guid="a5ff7100-f174-471b-bc1f-272a18397ba2"
+</ReqRef><ReqRef
+ Id="cbe34815-cb07-47d0-aa70-8e503a0dd8ac"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0af9de85-aa20-471e-9918-61d522159b84"
 >
-<ReqRef
+</ReqRef><ReqRef
  Id="fcee3944-2911-422c-babf-349b36eaa478"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="09bc0268-9693-4bd4-ac67-dbd6e8b7c11f"
+ Guid="c1e10f41-d526-42b2-be4e-cef0d794a337"
 >
 </ReqRef><ReqRef
  Id="88305e66-3a01-4328-8957-6bb64a87e149"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="d1a55985-14ae-4f1b-9d3d-f223fe538437"
+ Guid="6e9f1790-48fd-46e4-a188-61e07c62dc28"
 >
 </ReqRef><ReqRef
  Id="8aacc5c1-b1bc-4b80-b068-82d6acb6bc59"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="efac8c40-5855-42fa-95c2-92ccb93cc390"
+ Guid="92624ee3-5211-4e6e-a9c2-8fe2696cae8e"
 >
-</ReqRef><PreConditions>
+</ReqRef><Comment>Applies or releases the emergency brake due to the mode; in NP, SF and TR modes the emergency brake must remain applied at all times.</Comment>
+<Rules>
+<Rule
+ Implemented="TRUE"
+ Name="Handle the brake command"
+ Guid="792bc9d0-ff68-4941-b2c6-65d4ba175fed"
+>
+<ReqRef
+ Id="cb89fa5e-3586-488f-81d3-0b25fac37ed3"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="3207a57b-9cfe-43f1-bff1-da904e2956b9"
+>
+</ReqRef><SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Apply the emergency brake"
+ Guid="a3e996d0-f51e-4b46-bea7-8a1ec465ffb6"
+>
+<Comment>If the emergency brake must remain commanded at all times in the current mode, command the emergency brake.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="72fcd004-feed-48df-98a5-1c7f6e063b22"
+>ActiveFunctions.CommandEmergencyBrake()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="699a167b-bff4-4b30-bfbb-1344a69dc3f5"
+>BrakeCommands.CommandEmergencyBrake(BrakeCommands.BrakeReason.PermanentCommandInCurrentMode)</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Release the emergency brake"
+ Guid="9f3c2be5-f9c9-41a0-860e-dda3f44438b0"
+>
+<Comment>Otherwise, release the emergency brake.</Comment>
+<PreConditions>
 </PreConditions>
 <Actions>
 <Action
- Guid="2f519e9a-6de5-419c-951b-9cb427818a68"
->TIU.Brakes.EmergencyBrakes.ModeRelatedEB &lt;- ActiveFunctions.CommandEmergencyBrake()</Action></Actions>
+ Guid="77d68901-80f2-4918-9202-a85631c54be2"
+>BrakeCommands.ReleaseEBCommand(BrakeCommands.BrakeReason.PermanentCommandInCurrentMode)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
+</Procedure></Procedures>
 </NameSpace>

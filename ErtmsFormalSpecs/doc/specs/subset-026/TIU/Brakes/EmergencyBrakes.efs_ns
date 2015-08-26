@@ -71,70 +71,7 @@
  Name="Always"
  Guid="76f42d3c-2d8e-41a3-94a1-f3805216d01e"
 >
-<Expression>SpeedAndDistanceRelatedEB OR ModeRelatedEB OR SRandNotStandstill</Expression>
+<Expression>THERE_IS brake_reason IN Kernel.BrakeCommands.EmergencyBrakeCommands</Expression>
 </Case></Cases>
 </Function></Functions>
-<Variables>
-<Variable
- Type="Boolean"
- VariableMode="Internal"
- X="1"
- Y="61"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="ModeRelatedEB"
- Guid="4b727370-ee7e-43d0-8ef8-135f5f3f265c"
->
-<ReqRef
- Id="8aacc5c1-b1bc-4b80-b068-82d6acb6bc59"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="1c1acffa-0439-45a8-99d5-37baead2a771"
->
-</ReqRef><Comment>Indicates that the EB is set according to the mode</Comment>
-</Variable><Variable
- Type="Boolean"
- VariableMode="Internal"
- X="1"
- Y="1"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="SpeedAndDistanceRelatedEB"
- Guid="4a4dbf16-ff60-4f63-b34f-1d9193311452"
->
-<ReqRef
- Id="987011eb-4ef7-491c-8292-26c140669ff8"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="9d3a971c-dd4c-40af-9d11-8c2d05509c6e"
->
-</ReqRef><ReqRef
- Id="e0714dd3-9891-467d-9584-cfde98bcc4fc"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="1b30ab1f-bad7-4d2d-b811-fe5e940b45b3"
->
-</ReqRef><ReqRef
- Id="f26aa00e-0ded-4d0d-bed9-58813a2d45eb"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="51f50b66-a0a0-4e20-9434-1aa9817e80b3"
->
-</ReqRef><Comment>Indicates that the EB is set according to speed and distance monitoring</Comment>
-</Variable><Variable
- Type="Boolean"
- VariableMode="Internal"
- X="111"
- Y="1"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="SRandNotStandstill"
- Guid="54d86a1c-ec65-4fef-b19a-c503cf127d1f"
->
-<ReqRef
- Id="a527b959-0a75-42e2-a5d7-aa805d764a9e"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="b6fd19d8-5271-4b54-b238-7984f53ddd18"
->
-</ReqRef><Comment>Indicates that the EB is commanded due to the fact that the train is moving and entering SR mode (permitted speed and distance to run).</Comment>
-</Variable></Variables>
 </NameSpace>

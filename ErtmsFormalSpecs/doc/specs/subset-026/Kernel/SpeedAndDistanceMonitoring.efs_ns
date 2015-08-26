@@ -994,10 +994,8 @@ CeilingSpeedMonitoring.SupervisionStatus.t5()</PreCondition></PreConditions>
 >CeilingSpeedMonitoring.SupervisionStatus.t5()</PreCondition></PreConditions>
 <Actions>
 <Action
- Guid="4a246bad-c832-4e27-ad91-7e2358ade28f"
->EBSpecified &lt;- True</Action><Action
  Guid="6461f0dd-9ce1-41ae-bdec-ff0aabd54c40"
->TIU.Brakes.EmergencyBrakes.SpeedAndDistanceRelatedEB &lt;- Boolean.True</Action></Actions>
+>TriggerEBCommand()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition><RuleCondition
@@ -2728,10 +2726,8 @@ This is used to handle the case where a previous brake command was not revoked b
 >ReleaseSpeedMonitoring.SupervisionStatus.t2()</PreCondition></PreConditions>
 <Actions>
 <Action
- Guid="7e43b837-8286-402d-96cf-9acbf8f348f6"
->EBSpecified &lt;- True</Action><Action
  Guid="7a458f67-b9dd-4ccb-8b7b-497284b314ac"
->TIU.Brakes.EmergencyBrakes.SpeedAndDistanceRelatedEB &lt;- Boolean.True</Action><Action
+>TriggerEBCommand()</Action><Action
  Guid="2cd41d7a-3e5b-483b-8d4b-49cc63802660"
 >THIS &lt;- Intervention</Action></Actions>
 </RuleCondition></Conditions>
@@ -3520,7 +3516,7 @@ ActiveFunctions.SuperviseTrainSpeed_MRSP_DistInSRMode()</PreCondition></PreCondi
  Guid="d89cc423-fae2-4789-8127-68c610145693"
 >SBSpecified &lt;- True</Action><Action
  Guid="e696e822-c0ee-4d0e-b934-9457870a1b12"
->BrakeCommands.ApplySBCommand(BrakeCommands.BrakeReason.SpeedAndDistanceMonitoring)</Action></Actions>
+>BrakeCommands.CommandServiceBrake(BrakeCommands.BrakeReason.SpeedAndDistanceMonitoring)</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  NeedsRequirement="FALSE"
@@ -3533,7 +3529,7 @@ ActiveFunctions.SuperviseTrainSpeed_MRSP_DistInSRMode()</PreCondition></PreCondi
 <Actions>
 <Action
  Guid="37d9f842-c365-4e03-8f5e-df6d7484dba6"
->TIU.Brakes.EmergencyBrakes.SpeedAndDistanceRelatedEB &lt;- True</Action><Action
+>BrakeCommands.CommandEmergencyBrake(BrakeCommands.BrakeReason.SpeedAndDistanceMonitoring)</Action><Action
  Guid="fd5d023f-77fd-4fd2-8faf-4daa2289d1ad"
 >SBSpecified &lt;- True</Action></Actions>
 </RuleCondition></Conditions>
@@ -3567,6 +3563,11 @@ ActiveFunctions.SuperviseTrainSpeed_MRSP_DistInSRMode()</PreCondition></PreCondi
  Id="d5c3e2f6-7747-4faf-95c2-ec06309fe9ac"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="a3ea3b16-c13a-40a9-bc42-ce69079ab587"
+>
+</ReqRef><ReqRef
+ Id="987011eb-4ef7-491c-8292-26c140669ff8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="8c8f463d-8f34-4f15-9ae2-f54f4a05c0f8"
 >
 </ReqRef><Comment>Handles the revocation of an emergency brake command</Comment>
 <Rules>
@@ -3616,7 +3617,7 @@ ActiveFunctions.SuperviseTrainSpeed_MRSP_DistInSRMode()</PreCondition></PreCondi
 <Actions>
 <Action
  Guid="0d9b886e-0bc6-4a1e-b674-689aabe86f85"
->TIU.Brakes.EmergencyBrakes.SpeedAndDistanceRelatedEB &lt;- Boolean.False</Action></Actions>
+>BrakeCommands.ReleaseEBCommand(BrakeCommands.BrakeReason.SpeedAndDistanceMonitoring)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition><RuleCondition
@@ -3636,7 +3637,7 @@ Odometry.TrainIsAtStandstill()</PreCondition></PreConditions>
  Guid="c69226a6-2c28-4bc4-91a1-ff49993f5956"
 >EBSpecified &lt;- False</Action><Action
  Guid="887e30d6-0424-450f-9820-8621c7adf272"
->TIU.Brakes.EmergencyBrakes.SpeedAndDistanceRelatedEB &lt;- False</Action></Actions>
+>BrakeCommands.ReleaseEBCommand(BrakeCommands.BrakeReason.SpeedAndDistanceMonitoring)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -3697,7 +3698,7 @@ Odometry.TrainIsAtStandstill()</PreCondition></PreConditions>
  Guid="4c3aacf3-5346-42c8-950b-be161a915d5f"
 >SBSpecified &lt;- False</Action><Action
  Guid="8e9bb0b4-29f2-4783-8066-9b7d714df901"
->BrakeCommands.RemoveSBCommand(BrakeCommands.BrakeReason.SpeedAndDistanceMonitoring)</Action></Actions>
+>BrakeCommands.ReleaseSBCommand(BrakeCommands.BrakeReason.SpeedAndDistanceMonitoring)</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  NeedsRequirement="FALSE"
@@ -3728,6 +3729,11 @@ Odometry.TrainIsAtStandstill()</PreCondition></PreConditions>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="baa8fb01-fa3d-4497-a034-28faf3be58fa"
 >
+</ReqRef><ReqRef
+ Id="987011eb-4ef7-491c-8292-26c140669ff8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="15c14db8-35c8-4ae5-8bc6-be518937ef32"
+>
 </ReqRef><Comment>Handles an emergency brake command</Comment>
 <Rules>
 <Rule
@@ -3752,7 +3758,7 @@ Odometry.TrainIsAtStandstill()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="5f2ab883-f8e5-4aed-ad31-ba3342346cd7"
->TIU.Brakes.EmergencyBrakes.SpeedAndDistanceRelatedEB &lt;- True</Action><Action
+>BrakeCommands.CommandEmergencyBrake(BrakeCommands.BrakeReason.SpeedAndDistanceMonitoring)</Action><Action
  Guid="07dd4121-f8b5-4cd2-926b-3e6778eb77b2"
 >EBSpecified &lt;- True</Action></Actions>
 </RuleCondition></Conditions>
