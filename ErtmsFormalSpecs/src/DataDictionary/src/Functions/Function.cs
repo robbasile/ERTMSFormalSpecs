@@ -1262,9 +1262,7 @@ namespace DataDictionary.Functions
                         {
                             explanation.WriteLine(",");
                         }
-                        explanation.Write(parameter.Name);
-                        explanation.Write(" : ");
-                        explanation.Write(parameter.TypeName);
+                        parameter.GetExplain(explanation, true);
                     }
                 });
             }

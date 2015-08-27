@@ -28,7 +28,7 @@ using Type = DataDictionary.Types.Type;
 
 namespace DataDictionary
 {
-    public class Parameter : Generated.Parameter, ITypedElement
+    public class Parameter : Generated.Parameter, ITypedElement, IGraphicalDisplay
     {
         /// <summary>
         ///     Parameter namespace
@@ -144,6 +144,18 @@ namespace DataDictionary
         }
 
         /// <summary>
+        ///     Builds the explanation of the element
+        /// </summary>
+        /// <param name="explanation"></param>
+        /// <param name="explainSubElements">Precises if we need to explain the sub elements (if any)</param>
+        public void GetExplain(TextualExplanation explanation, bool explainSubElements)
+        {
+            explanation.Write(Name);
+            explanation.Write(" : ");
+            explanation.Write(TypeName);
+        }
+
+        /// <summary>
         ///     Provides the name of this model element when accessing it from the other model element (provided as parameter)
         /// </summary>
         /// <param name="user"></param>
@@ -168,6 +180,28 @@ namespace DataDictionary
             Util.DontNotify(() => { retVal.Name = "Parameter" + GetElementNumber(enclosingCollection); });
 
             return retVal;
+        }
+
+        public int X { get; set; }
+        public int Y { get; set; }
+        public int Width { get; set; }
+        public int Height { get; set; }
+
+        public string GraphicalName
+        {
+            get { return TypeName; }
+        }
+
+        public bool Hidden
+        {
+            get { return false; }
+            set { }
+        }
+
+        public bool Pinned
+        {
+            get { return false; }
+            set { }
         }
     }
 }

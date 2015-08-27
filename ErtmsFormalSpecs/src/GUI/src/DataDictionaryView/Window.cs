@@ -18,9 +18,9 @@ using System;
 using System.Windows.Forms;
 using DataDictionary;
 using DataDictionary.Constants;
+using DataDictionary.Functions;
 using DataDictionary.Types;
 using DataDictionary.Variables;
-using GUI.BoxArrowDiagram;
 using GUI.Properties;
 using Utils;
 
@@ -144,7 +144,7 @@ namespace GUI.DataDictionaryView
             }
             else
             {
-                IModelElement model = GetNameSpaceOrDictionary(context);
+                IModelElement model = DisplayedElementInModelDiagramPanel(context);
                 if (model != null)
                 {
                     if (rebuildRightPart)
@@ -164,9 +164,21 @@ namespace GUI.DataDictionaryView
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
-        private static IModelElement GetNameSpaceOrDictionary(Context.SelectionContext context)
+        private static IModelElement DisplayedElementInModelDiagramPanel(Context.SelectionContext context)
         {
-            IModelElement model = EnclosingFinder<NameSpace>.find(context.Element, true);
+            IModelElement model = null;
+
+            // ReSharper disable once ConditionIsAlwaysTrueOrFalse
+            if (model == null)
+            {
+                model = EnclosingFinder<Function>.find(context.Element, true);
+            }
+
+            if (model == null)
+            {
+                model = EnclosingFinder<NameSpace>.find(context.Element, true);
+            }
+
             if (model == null)
             {
                 model = EnclosingFinder<Dictionary>.find(context.Element, true);

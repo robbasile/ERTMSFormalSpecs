@@ -26,7 +26,7 @@ using PreCondition = DataDictionary.Rules.PreCondition;
 
 namespace DataDictionary.Functions
 {
-    public class Case : Generated.Case, ITextualExplain, IExpressionable, ICommentable
+    public class Case : Generated.Case, ITextualExplain, IExpressionable, ICommentable, IGraphicalDisplay
     {
         private Expression expression;
 
@@ -301,6 +301,28 @@ namespace DataDictionary.Functions
             Util.DontNotify(() => { retVal.Name = "Case" + GetElementNumber(enclosingCollection); });
 
             return retVal;
+        }
+
+        public int X { get; set; }
+        public int Y { get; set; }
+        public int Width { get; set; }
+        public int Height { get; set; }
+
+        public string GraphicalName
+        {
+            get { return ExpressionText; }
+        }
+
+        public bool Hidden
+        {
+            get { return false; }
+            set { }
+        }
+
+        public bool Pinned
+        {
+            get { return false; }
+            set { }
         }
     }
 }

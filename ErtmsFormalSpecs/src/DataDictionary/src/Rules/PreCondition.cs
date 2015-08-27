@@ -27,7 +27,8 @@ using Translation = DataDictionary.Tests.Translations.Translation;
 
 namespace DataDictionary.Rules
 {
-    public class PreCondition : Generated.PreCondition, IExpressionable, ITextualExplain, ICommentable
+    public class PreCondition : Generated.PreCondition, IExpressionable, ITextualExplain, ICommentable,
+        IGraphicalDisplay
     {
         /// <summary>
         ///     The precondition display name
@@ -335,6 +336,28 @@ namespace DataDictionary.Rules
             });
 
             return retVal;
+        }
+
+        public int X { get; set; }
+        public int Y { get; set; }
+        public int Width { get; set; }
+        public int Height { get; set; }
+
+        public string GraphicalName
+        {
+            get { return Name; }
+        }
+
+        public bool Hidden
+        {
+            get { return false; }
+            set { }
+        }
+
+        public bool Pinned
+        {
+            get { return false; }
+            set { }
         }
     }
 }

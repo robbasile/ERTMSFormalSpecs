@@ -769,7 +769,7 @@ namespace GUI.BoxArrowDiagram
         /// <summary>
         ///     Updates the position of both boxes and arrows
         /// </summary>
-        private void UpdatePositions()
+        protected virtual void UpdatePositions()
         {
             UpdateBoxPosition();
             UpdateArrowPosition();
@@ -779,7 +779,7 @@ namespace GUI.BoxArrowDiagram
         /// <summary>
         ///     Update the box location and compute the panel size
         /// </summary>
-        private void UpdateBoxPosition()
+        protected virtual void UpdateBoxPosition()
         {
             Size size = new Size(0, 0);
             const int deltaHeight = 20;
@@ -812,15 +812,23 @@ namespace GUI.BoxArrowDiagram
                 }
             }
 
-            if (size.Width < Size.Width)
-            {
-                size.Width = Size.Width;
-            }
-            if (size.Height < Size.Height)
-            {
-                size.Height = Size.Height;
-            }
-            pictureBox.Size = size;
+            pictureBox.Size = MaxSize(size, Size);
+        }
+
+        /// <summary>
+        /// Provides the maximum between two sizes
+        /// </summary>
+        /// <param name="size1"></param>
+        /// <param name="size2"></param>
+        /// <returns></returns>
+        protected Size MaxSize(Size size1, Size size2)
+        {
+            Size retVal = new Size(
+                Math.Max(size1.Width, size2.Width),
+                Math.Max(size1.Height, size2.Height)
+            );
+
+            return retVal;
         }
 
         /// <summary>
@@ -828,7 +836,7 @@ namespace GUI.BoxArrowDiagram
         ///     - on the arrows
         ///     - on their text
         /// </summary>
-        public void UpdateArrowPosition()
+        public virtual void UpdateArrowPosition()
         {
             ComputeArrowPosition();
             ComputeArrowTextPosition();
@@ -847,7 +855,7 @@ namespace GUI.BoxArrowDiagram
         /// <summary>
         ///     Ensures that two arrowss do not overlap by computing an offset between the arrows
         /// </summary>
-        private void ComputeArrowPosition()
+        protected virtual void ComputeArrowPosition()
         {
             List<ArrowControl<TEnclosing, TBoxModel, TArrowModel>> workingSet =
                 new List<ArrowControl<TEnclosing, TBoxModel, TArrowModel>>();
@@ -921,7 +929,7 @@ namespace GUI.BoxArrowDiagram
         /// <summary>
         ///     Computes the position of the arrow texts, following the arrow, to avoid text overlap
         /// </summary>
-        private void ComputeArrowTextPosition()
+        protected virtual void ComputeArrowTextPosition()
         {
             _allocatedBoxes = new BoxAllocation();
 

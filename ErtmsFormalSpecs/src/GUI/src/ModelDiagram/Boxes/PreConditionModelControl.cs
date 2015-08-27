@@ -14,42 +14,31 @@
 // --
 // ------------------------------------------------------------------------------
 
-using DataDictionary.Functions;
+using DataDictionary.Rules;
 
 namespace GUI.ModelDiagram.Boxes
 {
     /// <summary>
     ///     The boxes that represent a function
     /// </summary>
-    public class FunctionModelControl : ModelControl
+    public class PreConditionModelControl : ModelControl
     {
         /// <summary>
         ///     Constructor
         /// </summary>
         /// <param name="panel"></param>
         /// <param name="model"></param>
-        public FunctionModelControl(ModelDiagramPanel panel, Function model)
+        public PreConditionModelControl(ModelDiagramPanel panel, PreCondition model)
             : base(panel, model)
         {
         }
-        
+
         /// <summary>
         ///     The name of the kind of model
         /// </summary>
         public override string ModelName
         {
-            get
-            {
-                string retVal = "Function";
-
-                Function function = (Function) TypedModel;
-                if (ComputedPositionAndSize)
-                {
-                    retVal += " " + function.Name + " : " + function.TypeName;
-                }
-
-                return retVal;
-            }
+            get { return "PreCondition"; }
         }
     }
 }
