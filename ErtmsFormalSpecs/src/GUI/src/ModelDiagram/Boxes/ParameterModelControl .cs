@@ -38,7 +38,11 @@ namespace GUI.ModelDiagram.Boxes
         /// </summary>
         public override string ModelName
         {
-            get { return "Parameter " + TypedModel.Name; }
+            get
+            {
+                Parameter parameter = (Parameter) TypedModel;
+                return "Parameter " + parameter.Name + " : " + parameter.TypeName;
+            }
         }
     }
 }

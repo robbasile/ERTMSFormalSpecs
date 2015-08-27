@@ -333,56 +333,111 @@ namespace GUI.ModelDiagram
         }
 
         /// <summary>
+        /// The required size of the panel
+        /// </summary>
+        private Size PanelSize { get; set; }
+
+        /// <summary>
+        /// Updates the panel size according to the control
+        /// </summary>
+        /// <param name="control"></param>
+        /// <returns></returns>
+        private void RegisterControl(ModelControl control)
+        {
+            PanelSize = new Size(
+                Math.Max(PanelSize.Width, control.Location.X + control.Size.Width + 20),
+                Math.Max(PanelSize.Height, control.Location.Y + control.Size.Height + 20)
+            );
+        }
+
+        /// <summary>
+        /// Measures a string and updates the control according to it
+        /// </summary>
+        /// <param name="control"></param>
+        /// <param name="text"></param>
+        /// <param name="font"></param>
+        /// <param name="color"></param>
+        /// <param name="location"></param>
+        /// <returns>the next location where data can be added</returns>
+        private static Point SetText(ModelControl control, string text, Font font, Color color, Point location)
+        {
+            // Compute the size of the displayed text
+            SizeF stringSize = GuiUtils.Graphics.MeasureString(text, font);
+            control.Size = new Size(
+                Math.Max(control.Size.Width, (int)stringSize.Width + 20),
+                control.Size.Height + (int) stringSize.Height + 5);
+
+            // Position the text
+            control.Texts.Add(new ModelControl.TextPosition
+            {
+                Text = text,
+                Font = font,
+                Color = color,
+                Location = location
+            });
+
+            // Returns the next location where data can be added
+            return new Point(location.X, location.Y + (int) stringSize.Height + 5);
+        }
+
+        /// <summary>
         /// Sets the default control size, according to its ocntents
         /// </summary>
         /// <param name="control"></param>
-        private void SetDefaultSize(ModelControl control)
+        /// <param name="location"></param>
+        /// <returns>return>The location where filling should be continued</returns>
+        private Point SetSizeAndLocation(ModelControl control, Point location)
         {
+            // Set the control location
             control.ComputedPositionAndSize = true;
-            string text = control.TypedModel.GraphicalName;
-            SizeF stringSize = GuiUtils.Graphics.MeasureString(text, control.Font);
-            control.Size = new Size((int)stringSize.Width + 20, (int)stringSize.Height + 20);
+            control.Location = location;
+            Point retVal = control.Location;
 
-            text = control.ModelName;
-            stringSize = GuiUtils.Graphics.MeasureString(text, control.Font);
-            control.Size = new Size(
-                Math.Max(control.Size.Width, (int)stringSize.Width + 20),
-                control.Size.Height);
+            // Increase control size according to title
+            retVal = SetText(
+                control, 
+                control.ModelName, 
+                control.Bold, 
+                Color.Black, 
+                retVal);
+
+            // Increase control size according to comment
+            ICommentable commentable = control.TypedModel as ICommentable;
+            if ( commentable != null )
+            {
+                retVal = SetText(
+                    control, 
+                    commentable.Comment, 
+                    control.Italic, 
+                    Color.Green, 
+                    retVal);
+            }
+
+            // Registers the control to update the panel size
+            RegisterControl(control);
+
+            return retVal;
         }
 
         /// <summary>
         /// Inbeds a control (the subControl) in a control
         /// </summary>
-        /// <param name="control">The parent control</param>
+        /// <param name="enclosingControl">The parent control</param>
         /// <param name="subControl">The control to inbed</param>
         /// <param name="location">The location where to inbed the sub control</param>
-        private Point Inbed(ModelControl control, ModelControl subControl, Point location)
+        /// <returns>return>The location where filling should be continued</returns>
+        private Point Inbed(ModelControl enclosingControl, ModelControl subControl, Point location)
         {
-            SetDefaultSize(subControl);
-            subControl.Location = new Point(control.Location.X + location.X, control.Location.Y + location.Y);
-
-            control.Size = new Size(
-                Math.Max(control.Width, subControl.Width + location.X + 10), 
-                subControl.Height + location.Y + 10
+            // Increase the enclosing control size 
+            enclosingControl.Size = new Size(
+                Math.Max(enclosingControl.Width, subControl.Width + location.X + 10), 
+                enclosingControl.Size.Height + subControl.Size.Height + 10
             );
+            RegisterControl(enclosingControl);
 
-            return new Point(location.X, location.Y + subControl.Size.Height + 5 ); 
-        }
-
-        /// <summary>
-        /// Provides the bounding box considering the original bounding box and a control
-        /// </summary>
-        /// <param name="initialSize"></param>
-        /// <param name="control"></param>
-        /// <returns></returns>
-        private Size RegisterControl(Size initialSize, ModelControl control)
-        {
-            Size retVal = new Size(
-                Math.Max(initialSize.Width, control.Location.X + control.Size.Width + 20),
-                Math.Max(initialSize.Height, control.Location.Y + control.Size.Height + 20)
-            );
-
-            return retVal;
+            return new Point(
+                subControl.Location.X,
+                subControl.Location.Y + subControl.Size.Height + 10); 
         }
 
         /// <summary>
@@ -390,51 +445,48 @@ namespace GUI.ModelDiagram
         /// </summary>
         private void CreateFunctionLayout()
         {
-            Size panelSize = new Size(0,0);
+            PanelSize = new Size(0, 0);
 
             // Setup the function control location and size
             FunctionModelControl functionControl = (FunctionModelControl) GetBoxControl(Function);
-            SetDefaultSize(functionControl);
-            functionControl.Location = new Point(10, 10);
-            functionControl.GraphicalNamePosition = ModelControl.PositionEnum.None;
-            panelSize = RegisterControl(panelSize, functionControl);
+            Point location = SetSizeAndLocation(functionControl, new Point(10, 10));
 
             // Compute the position automatically
-            Point location = new Point(20, 20);
+            location = new Point(20, location.Y);
             foreach (Parameter parameter in Function.FormalParameters)
             {
                 // Compute the parameter box size
                 ParameterModelControl parameterControl = (ParameterModelControl) GetBoxControl(parameter);
+                SetSizeAndLocation(parameterControl, location);
                 location = Inbed(functionControl, parameterControl, location);
-                parameterControl.GraphicalNamePosition = ModelControl.PositionEnum.Top;
             }
 
             location = new Point(30, functionControl.Location.Y + functionControl.Size.Height + 10);
             foreach (Case cas in Function.Cases)
             {
                 CaseModelControl caseControl = (CaseModelControl) GetBoxControl(cas);
-                SetDefaultSize(caseControl);
-                caseControl.Location = location;
-                caseControl.GraphicalNamePosition = ModelControl.PositionEnum.Bottom;
+                location = SetSizeAndLocation(caseControl, location);
 
-                Point preContidionsLocation = new Point(20, 20);
+                location = new Point(50, location.Y);
                 foreach (PreCondition preCondition in cas.PreConditions)
                 {
                     PreConditionModelControl preConditionControl =
                         (PreConditionModelControl) GetBoxControl(preCondition);
-                    preContidionsLocation = Inbed(caseControl, preConditionControl, preContidionsLocation);
-                    preConditionControl.GraphicalNamePosition = ModelControl.PositionEnum.Top;
+
+                    location = SetSizeAndLocation(preConditionControl, location);
+                    SetText(preConditionControl, preCondition.ExpressionText, preConditionControl.Font, Color.Black, location);
+                    location = Inbed(caseControl, preConditionControl, location);
                 }
 
-                SizeF stringSize = GuiUtils.Graphics.MeasureString(cas.ExpressionText, caseControl.Font);
-                caseControl.Size = new Size(caseControl.Size.Width, caseControl.Size.Height + (int) stringSize.Height);
-                panelSize = RegisterControl(panelSize, caseControl);
+                // Sets the control contents
+                location = new Point(30, location.Y);
+                location = SetText(caseControl, caseControl.TypedModel.GraphicalName, caseControl.Font, Color.Black, location);
 
                 // Prepare for next loop iteration
-                location.Y = location.Y + caseControl.Size.Height + 10;
+                location = new Point(30, location.Y + 10);
             }
 
-            pictureBox.Size = MaxSize(panelSize, Size);
+            pictureBox.Size = MaxSize(PanelSize, Size);
         }
     }
 }

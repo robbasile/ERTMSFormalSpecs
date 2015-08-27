@@ -189,7 +189,7 @@ namespace DataDictionary
 
         public string GraphicalName
         {
-            get { return TypeName; }
+            get { return Name; }
         }
 
         public bool Hidden

@@ -14,6 +14,7 @@
 // --
 // ------------------------------------------------------------------------------
 
+using System.Collections.Generic;
 using System.Drawing;
 using DataDictionary;
 using GUI.BoxArrowDiagram;
@@ -27,18 +28,15 @@ namespace GUI.ModelDiagram.Boxes
     /// </summary>
     public abstract class ModelControl : BoxControl<IModelElement, IGraphicalDisplay, ModelArrow>
     {
-        public enum PositionEnum
-        {
-            Top,
-            Center,
-            Bottom,
-            None
-        };
+        /// <summary>
+        /// The bold font
+        /// </summary>
+        public Font Bold { get; set; }
 
         /// <summary>
-        /// The position of the graphical name
+        /// The italic font
         /// </summary>
-        public PositionEnum GraphicalNamePosition { get; set; }
+        public Font Italic { get; set; }
 
         /// <summary>
         ///     Constructor
@@ -46,9 +44,24 @@ namespace GUI.ModelDiagram.Boxes
         protected ModelControl(ModelDiagramPanel panel, IGraphicalDisplay model)
             : base(panel, model)
         {
+            Bold = new Font(Font, FontStyle.Bold);
+            Italic = new Font(Font, FontStyle.Italic);
             BoxMode = BoxModeEnum.Custom;
-            GraphicalNamePosition = PositionEnum.Center;
+            Texts = new List<TextPosition>();
         }
+
+        /// <summary>
+        /// Registers a text to display
+        /// </summary>
+        public class TextPosition
+        {
+            public Point Location { get; set; }
+            public string Text { get; set; }
+            public Font Font { get; set; }
+            public Color Color { get; set; }
+        }
+
+        public List<TextPosition> Texts { get; set; }
 
         /// <summary>
         /// Provides the computed position and size
@@ -145,42 +158,40 @@ namespace GUI.ModelDiagram.Boxes
                 graphics.DrawRectangle(pen, Location.X, Location.Y, Width, Height);
             }
 
-            // Write the text
-            Font bold = new Font(Font, FontStyle.Bold);
-
-            string typeName = GuiUtils.AdjustForDisplay(ModelName, Width - 4, bold);
-            Brush textBrush = new SolidBrush(Color.Black);
-            graphics.DrawString(typeName, bold, textBrush, Location.X + 2, Location.Y + 2);
-            graphics.DrawLine(NormalPen, new Point(Location.X, Location.Y + Font.Height + 2),
-                new Point(Location.X + Width, Location.Y + Font.Height + 2));
-
-            string name = GuiUtils.AdjustForDisplay(TypedModel.GraphicalName, Width, Font);
-            SizeF textSize = graphics.MeasureString(name, Font);
-            int boxHeight = Height - bold.Height - 4;
-            switch (GraphicalNamePosition)
+            if (Texts.Count == 0)
             {
-                case PositionEnum.Center:
+                // Write the title
+                string typeName = GuiUtils.AdjustForDisplay(ModelName, Width - 4, Bold);
+                Brush textBrush = new SolidBrush(Color.Black);
+                graphics.DrawString(typeName, Bold, textBrush, Location.X + 2, Location.Y + 2);
+                graphics.DrawLine(NormalPen, new Point(Location.X, Location.Y + Font.Height + 2),
+                    new Point(Location.X + Width, Location.Y + Font.Height + 2));
+
+                // Write the text in the box
+                // Center the element name
+                string name = GuiUtils.AdjustForDisplay(TypedModel.GraphicalName, Width, Font);
+                SizeF textSize = graphics.MeasureString(name, Font);
+                int boxHeight = Height - Bold.Height - 4;
+                graphics.DrawString(name, Font, textBrush, Location.X + Width/2 - textSize.Width/2,
+                    Location.Y + Bold.Height + 4 + boxHeight/2 - Font.Height/2);
+            }
+            else
+            {
+                // Draw the line between the title and the rest of the box
+                graphics.DrawLine(
+                    NormalPen,
+                    new Point(Location.X, Location.Y + Font.Height + 2),
+                    new Point(Location.X + Width, Location.Y + Font.Height + 2));
+
+                // Display the pre computed text at their corresponding locaations
+                foreach (TextPosition textPosition in Texts)
                 {
-                    // Center the element name
-                    graphics.DrawString(name, Font, textBrush, Location.X + Width/2 - textSize.Width/2,
-                        Location.Y + bold.Height + 4 + boxHeight/2 - Font.Height/2);
-                    break;
-                }
-                case PositionEnum.Top:
-                {
-                    // Place the element name at the top
-                    graphics.DrawString(name, Font, textBrush, Location.X + 5, Location.Y + 20);
-                    break;
-                }
-                case PositionEnum.Bottom:
-                {
-                    // Place the element name at the top
-                    graphics.DrawString(name, Font, textBrush, Location.X + 5, Location.Y + Height - textSize.Height - 5);
-                    break;
-                }
-                case PositionEnum.None:
-                {
-                    break;
+                    graphics.DrawString(
+                        textPosition.Text,
+                        textPosition.Font,
+                        new SolidBrush(textPosition.Color),
+                        textPosition.Location.X,
+                        textPosition.Location.Y);
                 }
             }
         }
