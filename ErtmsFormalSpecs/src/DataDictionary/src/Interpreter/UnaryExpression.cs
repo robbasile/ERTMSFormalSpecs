@@ -406,10 +406,13 @@ namespace DataDictionary.Interpreter
                 if (UnaryOp != null)
                 {
                     explanation.Write(UnaryOp);
-                    explanation.Write(" ");
-                    Expression.GetExplain(explanation);
+                    if (Expression != null)
+                    {
+                        explanation.Write(" ");
+                        Expression.GetExplain(explanation);
+                    }
                 }
-                else
+                else if (Expression != null)
                 {
                     explanation.Write(" (");
                     Expression.GetExplain(explanation);
