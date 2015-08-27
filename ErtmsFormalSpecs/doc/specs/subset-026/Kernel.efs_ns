@@ -45,28 +45,12 @@
  Guid="51bf1d67-bba5-4d98-a1d9-7ca46f4681a6"
 >
 </NameSpaceRef><NameSpaceRef
- Name="ModeTransitions"
- Guid="9c0ef601-220a-4e9a-8b80-8bc241e9f00e"
->
-</NameSpaceRef><NameSpaceRef
  Name="Infill"
  Guid="a3487269-6e69-459c-8dbb-c272fb799f62"
 >
 </NameSpaceRef><NameSpaceRef
  Name="HandlingOfAcceptedAndStoredInformation"
  Guid="880bcc6e-c41a-425c-a226-f75fb17190ec"
->
-</NameSpaceRef><NameSpaceRef
- Name="StaffResponsible"
- Guid="ce5ba9c6-6ff5-44cc-ba9d-604bfe5ce808"
->
-</NameSpaceRef><NameSpaceRef
- Name="ModeRelatedSpeedLimits"
- Guid="71bb0cdc-bae8-44d8-87f6-8079b4ed741d"
->
-</NameSpaceRef><NameSpaceRef
- Name="Shunting"
- Guid="4d6dbccb-0270-4439-855e-0be84eaa2724"
 >
 </NameSpaceRef><NameSpaceRef
  Name="TrackDescription"
@@ -97,16 +81,15 @@
  Guid="37790951-bbd2-47f8-b26d-3b6becb8f3a1"
 >
 </NameSpaceRef><NameSpaceRef
- Name="LimitedSupervision"
- Guid="6680e38c-166c-45a7-a971-8712310bb80c"
->
-</NameSpaceRef><NameSpaceRef
  Name="TrackAheadFree"
  Guid="ce8ea0b2-9a21-45f2-b90f-db2be131ec8b"
 >
 </NameSpaceRef><NameSpaceRef
  Name="BrakeCommands"
  Guid="10080934-fab8-47ef-bd9b-dc8667dba958"
+>
+</NameSpaceRef><NameSpaceRef
+ Name="Modes"
 >
 </NameSpaceRef></NameSpaces>
 <Enumerations>
@@ -5569,7 +5552,7 @@ Available ( EURORADIO.CurrentRBCConnection().MessageIn.Message.TRAIN_ACCEPTED )<
 </ReqRef><PreConditions>
 <PreCondition
  Guid="e43fdd3d-fef1-4b2f-b931-a04bddf3ae57"
->StaffResponsible.SRAuthorised()</PreCondition></PreConditions>
+>Modes.StaffResponsible.SRAuthorised()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="d5a2a004-5cce-4a62-9dd4-637430d3e05f"
@@ -7973,7 +7956,7 @@ If the RBC sends a MA without a Mode Profile, the Mode will change to FS and the
 <PreConditions>
 <PreCondition
  Guid="de3e27a7-c5e6-4f07-8b68-aadb8d7fc131"
->StaffResponsible.SRAuthorised()</PreCondition></PreConditions>
+>Modes.StaffResponsible.SRAuthorised()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="7ddbbfa8-8c2a-423e-982b-b4feec5a94ae"
@@ -8943,7 +8926,7 @@ The report is handled in the EURORADIO namespace</Comment>
 <Actions>
 <Action
  Guid="9284dece-9f13-46bf-bcd9-3348e25bdd07"
->Shunting.HandleNewListOfBaliseGroups ( ( FIRST X IN EURORADIO.CurrentRBCConnection().MessageIn.Message.SH_AUTHORISED.Sequence1 | Available ( X.LIST_OF_BALISES_FOR_SH_AREA ) ).LIST_OF_BALISES_FOR_SH_AREA )</Action></Actions>
+>Modes.Shunting.HandleNewListOfBaliseGroups ( ( FIRST X IN EURORADIO.CurrentRBCConnection().MessageIn.Message.SH_AUTHORISED.Sequence1 | Available ( X.LIST_OF_BALISES_FOR_SH_AREA ) ).LIST_OF_BALISES_FOR_SH_AREA )</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  NeedsRequirement="FALSE"
@@ -8956,7 +8939,7 @@ The report is handled in the EURORADIO namespace</Comment>
 <Actions>
 <Action
  Guid="078393ba-187b-4992-a8ac-d44fad419046"
->Shunting.BaliseGroupsForShArea &lt;- Shunting.ExpectedBGstruct{
+>Modes.Shunting.BaliseGroupsForShArea &lt;- Modes.Shunting.ExpectedBGstruct{
     ListReceived =&gt; False,
     BGs =&gt; []
 }</Action></Actions>
@@ -9034,9 +9017,9 @@ The report is handled in the EURORADIO namespace</Comment>
  Guid="ad9ddcbb-6f74-4882-b01f-462593af8352"
 >EURORADIO.CurrentRBCConnection().SendRequestForShunting()</Action><Action
  Guid="06d67b36-615b-4772-896c-f9e2d15610e5"
->Shunting.NumberOfSentRequestRepetitions &lt;- 0</Action><Action
+>Modes.Shunting.NumberOfSentRequestRepetitions &lt;- 0</Action><Action
  Guid="cb5c1d6c-3df7-4123-895e-6edc8dd00866"
->Shunting.TimeOfTheLastSentRequest &lt;- DateAndTime.CurrentTime</Action></Actions>
+>Modes.Shunting.TimeOfTheLastSentRequest &lt;- DateAndTime.CurrentTime</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </StateMachine></State><State
@@ -9126,9 +9109,9 @@ The report is handled in the EURORADIO namespace</Comment>
 <PreConditions>
 <PreCondition
  Guid="a4e05313-ab68-48d5-baf5-b37b99f603b5"
->Shunting.TimeOfTheLastSentRequest + EURORADIO.TimeBeforeMessageRepetition &lt;= DateAndTime.CurrentTime</PreCondition><PreCondition
+>Modes.Shunting.TimeOfTheLastSentRequest + EURORADIO.TimeBeforeMessageRepetition &lt;= DateAndTime.CurrentTime</PreCondition><PreCondition
  Guid="19cb51ac-6e20-41cf-94af-80d94d18f09c"
->Shunting.NumberOfSentRequestRepetitions == 3</PreCondition></PreConditions>
+>Modes.Shunting.NumberOfSentRequestRepetitions == 3</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="2e912ee5-2d72-472a-ba0b-87cdfbc37223"
@@ -9149,7 +9132,7 @@ The report is handled in the EURORADIO namespace</Comment>
 <PreConditions>
 <PreCondition
  Guid="703f0fc4-324a-46be-893f-ec651b9a63f0"
->Shunting.TimeOfTheLastSentRequest + EURORADIO.TimeBeforeMessageRepetition &lt;= DateAndTime.CurrentTime</PreCondition><PreCondition
+>Modes.Shunting.TimeOfTheLastSentRequest + EURORADIO.TimeBeforeMessageRepetition &lt;= DateAndTime.CurrentTime</PreCondition><PreCondition
  Guid="2b7d05e7-a40d-49f4-b17a-d9102490ff91"
 >EURORADIO.HasActiveSession()</PreCondition></PreConditions>
 <Actions>
@@ -9157,9 +9140,9 @@ The report is handled in the EURORADIO namespace</Comment>
  Guid="8808d797-c2cd-444b-8c2e-1e2ff3620a82"
 >EURORADIO.CurrentRBCConnection().SendRequestForShunting()</Action><Action
  Guid="b2283ec0-3f07-401a-85ff-311a71079033"
->Shunting.NumberOfSentRequestRepetitions &lt;- Shunting.NumberOfSentRequestRepetitions + 1</Action><Action
+>Modes.Shunting.NumberOfSentRequestRepetitions &lt;- Modes.Shunting.NumberOfSentRequestRepetitions + 1</Action><Action
  Guid="250d0e5c-57fe-4f75-acc6-00eaecafbd84"
->Shunting.TimeOfTheLastSentRequest &lt;- DateAndTime.CurrentTime</Action></Actions>
+>Modes.Shunting.TimeOfTheLastSentRequest &lt;- DateAndTime.CurrentTime</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="No answer, no communication session"
@@ -10681,7 +10664,7 @@ OverrideSupervision.FormerSRDistance &lt; TrainPosition.FrontEndPosition(Distanc
     Location =&gt; Odometry.NominalDistance + NationalValues.CurrentNV().DistForTrainTripSuppressionWhenOverrideIsTriggered,
     FormerEOA =&gt; MA.ClosestEOA().Location,
     FormerEOAPassed =&gt; False,
-    FormerSRDistance =&gt; TrainPosition.SRStartDistance + StaffResponsible.DistanceToRun()
+    FormerSRDistance =&gt; TrainPosition.SRStartDistance + Modes.StaffResponsible.DistanceToRun()
 }</Expression>
 </Case><Case
  Name="SR Mode, no MA"
@@ -10696,7 +10679,7 @@ OverrideSupervision.FormerSRDistance &lt; TrainPosition.FrontEndPosition(Distanc
     Location =&gt; Odometry.NominalDistance + NationalValues.CurrentNV().DistForTrainTripSuppressionWhenOverrideIsTriggered,
     FormerEOA =&gt; BaseTypes.Distance.Infinity,
     FormerEOAPassed =&gt; False,
-    FormerSRDistance =&gt; TrainPosition.SRStartDistance + StaffResponsible.DistanceToRun()
+    FormerSRDistance =&gt; TrainPosition.SRStartDistance + Modes.StaffResponsible.DistanceToRun()
 }</Expression>
 </Case><Case
  Name="MA available"
@@ -11038,7 +11021,7 @@ BTM.Linking.RAMSWindowPassed()
 <Actions>
 <Action
  Guid="4e99e841-916b-4771-9cbe-a7999f9bbdbb"
->ModeTransitions.UpdateMode()</Action></Actions>
+>Modes.ModeTransitions.UpdateMode()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -11578,17 +11561,17 @@ IN
 <PreConditions>
 <PreCondition
  Guid="4b27285d-46e9-40ee-a1b5-4f89ac94a4a6"
->StaffResponsible.SRAuthorisation != EMPTY</PreCondition><PreCondition
+>Modes.StaffResponsible.SRAuthorisation != EMPTY</PreCondition><PreCondition
  Guid="2a7793d4-7e79-4bec-b77d-bf9f16cc2346"
 >RemoveLocationBasedElement
 (
-    aLocation =&gt; StaffResponsible.SRAuthorisation.Location,
+    aLocation =&gt; Modes.StaffResponsible.SRAuthorisation.Location,
     anAdditionalDistance =&gt; DistanceToKeepInfoInTheRear
 )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="37dd3208-f812-482a-882e-4591232608e4"
->StaffResponsible.SRAuthorisation &lt;- EMPTY</Action></Actions>
+>Modes.StaffResponsible.SRAuthorisation &lt;- EMPTY</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition></Conditions>
@@ -12127,29 +12110,6 @@ JRU.SendNewMessage(JRU.JRU1)</PreCondition></PreConditions>
 >
 </ReqRef><Comment>Represents the first target at zero speed.</Comment>
 </Variable><Variable
- Type="NationalValues.NationalDefaultDataStruct"
- DefaultValue=""
- VariableMode="Internal"
- X="900"
- Y="240"
- Width="100"
- Height="50"
- Pinned="TRUE"
- Implemented="TRUE"
- Name="DefaultValues"
- Guid="cd6bdcc7-694e-440a-8fc2-bbe071d2230f"
->
-<ReqRef
- Id="24c3f669-e8b2-4f88-9cee-d6cbd5a7c513"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="8af3ea57-32dc-4ba5-94ae-7eafde32a844"
->
-</ReqRef><ReqRef
- Id="18962f3c-7beb-4506-837c-10c871272cc9"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="e1871b26-ed36-4255-a022-ac8dbfbd3c3a"
->
-</ReqRef></Variable><Variable
  Type="OperatedSystemVersionStruct"
  DefaultValue="OperatedSystemVersionStruct
 {
@@ -12400,8 +12360,8 @@ JRU.SendNewMessage(JRU.JRU1)</PreCondition></PreConditions>
  Type="String"
  DefaultValue="&apos;&apos;"
  VariableMode="Internal"
- X="1"
- Y="181"
+ X="120"
+ Y="360"
  Width="100"
  Height="50"
  Name="PlainTextInformation"
@@ -12412,8 +12372,8 @@ JRU.SendNewMessage(JRU.JRU1)</PreCondition></PreConditions>
  Type="String"
  DefaultValue="&apos;&apos;"
  VariableMode="Internal"
- X="1"
- Y="361"
+ X="10"
+ Y="360"
  Width="100"
  Height="50"
  Name="FixedTextInformation"

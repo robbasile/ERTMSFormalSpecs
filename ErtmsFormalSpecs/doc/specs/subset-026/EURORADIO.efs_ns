@@ -8040,7 +8040,7 @@ Terminal1.RBCConnection.SafeRadioConnectionStatus == SafeRadioConnectionStatusEn
 <Actions>
 <Action
  Guid="80d3a386-cf7c-4ca1-91f3-31d8046462f2"
->Kernel.StaffResponsible.SRAuthorisationReceived ( Packet =&gt; aMessage.SR_AUTHORISATION )</Action></Actions>
+>Kernel.Modes.StaffResponsible.SRAuthorisationReceived ( Packet =&gt; aMessage.SR_AUTHORISATION )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="UpdateINTERNAL"
@@ -8207,7 +8207,7 @@ Terminal1.RBCConnection.SafeRadioConnectionStatus == SafeRadioConnectionStatusEn
 <Actions>
 <Action
  Guid="302b5642-258f-499d-89b3-212a4433b74f"
->Kernel.Shunting.HandleNewListOfBaliseGroups ( Packet =&gt; ( FIRST X IN aMessage.MOVEMENT_AUTHORITY.Sequence1 | Available ( X.LIST_OF_BALISES_FOR_SH_AREA ) ).LIST_OF_BALISES_FOR_SH_AREA )</Action></Actions>
+>Kernel.Modes.Shunting.HandleNewListOfBaliseGroups ( Packet =&gt; ( FIRST X IN aMessage.MOVEMENT_AUTHORITY.Sequence1 | Available ( X.LIST_OF_BALISES_FOR_SH_AREA ) ).LIST_OF_BALISES_FOR_SH_AREA )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -10445,7 +10445,7 @@ But at the end of the cycle the conditions required for sending of position repo
 <Actions>
 <Action
  Guid="de78be94-0ff2-487f-b42a-b5d3406df13c"
->Kernel.LimitedSupervision.LSSMAToggleReceived(
+>Kernel.Modes.LimitedSupervision.LSSMAToggleReceived(
     Packet =&gt;
 (FIRST X IN Packets | Available(X.LSSMA_DISPLAY_TOGGLE_ORDER)).LSSMA_DISPLAY_TOGGLE_ORDER,
     Timestamp =&gt; AddToDate

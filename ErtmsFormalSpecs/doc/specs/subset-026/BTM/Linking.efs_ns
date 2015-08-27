@@ -1783,7 +1783,7 @@ Activate the service brake if a second linked BG in a row is missed.</Comment>
 <Action
  Guid="8d1a6745-9466-4063-a719-d54c187a08dc"
 >MessageRejected &lt;- 
-NOT Kernel.Shunting.BGIsExpected(CurrentBaliseGroup)</Action></Actions>
+NOT Kernel.Modes.Shunting.BGIsExpected(CurrentBaliseGroup)</Action></Actions>
 <SubRules>
 <Rule
  Priority="Processing"
@@ -1829,7 +1829,7 @@ NOT Kernel.Shunting.BGIsExpected(CurrentBaliseGroup)</Action></Actions>
 <Actions>
 <Action
  Guid="834b94d2-1cc0-44a6-9de5-016da6df76c4"
->Kernel.Shunting.UnexpectedBGPassed&lt;- NOT Kernel.Shunting.BGIsExpected(CurrentBaliseGroup)</Action></Actions>
+>Kernel.Modes.Shunting.UnexpectedBGPassed&lt;- NOT Kernel.Modes.Shunting.BGIsExpected(CurrentBaliseGroup)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition><RuleCondition
@@ -1851,7 +1851,7 @@ NOT Kernel.Shunting.BGIsExpected(CurrentBaliseGroup)</Action></Actions>
 <Action
  Guid="6cb1c474-bc67-4f05-835f-4028f0ac9989"
 >MessageRejected &lt;- 
-NOT Kernel.StaffResponsible.BGIsExpected(CurrentBaliseGroup)</Action></Actions>
+NOT Kernel.Modes.StaffResponsible.BGIsExpected(CurrentBaliseGroup)</Action></Actions>
 <SubRules>
 <Rule
  Priority="Processing"
@@ -1883,7 +1883,7 @@ NOT Kernel.StaffResponsible.BGIsExpected(CurrentBaliseGroup)</Action></Actions>
  Guid="99004535-a5d7-4dad-b64c-4b6ccd0e0a0a"
 >Kernel.HandleModeChange in Kernel.HandleModeChangeSM.Override</PreCondition><PreCondition
  Guid="cda6dbac-1ddb-4e29-8b9b-56e7a8bb178c"
->NOT Kernel.StaffResponsible.BGIsExpected(CurrentBaliseGroup)</PreCondition></PreConditions>
+>NOT Kernel.Modes.StaffResponsible.BGIsExpected(CurrentBaliseGroup)</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="50b573f5-f985-4c63-a42e-68a3738515a0"
@@ -1901,7 +1901,7 @@ NOT Kernel.StaffResponsible.BGIsExpected(CurrentBaliseGroup)</Action></Actions>
 <Actions>
 <Action
  Guid="da4003ca-f51b-4105-998f-3eb77cbdfcde"
->Kernel.StaffResponsible.UnexpectedBGPassed&lt;- NOT Kernel.StaffResponsible.BGIsExpected(CurrentBaliseGroup)</Action></Actions>
+>Kernel.Modes.StaffResponsible.UnexpectedBGPassed&lt;- NOT Kernel.Modes.StaffResponsible.BGIsExpected(CurrentBaliseGroup)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition><RuleCondition

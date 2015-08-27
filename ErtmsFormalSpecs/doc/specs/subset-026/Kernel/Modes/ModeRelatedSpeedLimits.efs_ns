@@ -1,0 +1,464 @@
+<NameSpace
+ X="1000"
+ Y="770"
+ Width="100"
+ Height="50"
+ Pinned="TRUE"
+ Name="ModeRelatedSpeedLimits"
+ Guid="89989471-9882-4745-8a2f-2c5d3d48cf9a"
+>
+<NameSpaces>
+</NameSpaces>
+<Structures>
+<Structure
+ Default=""
+ X="180"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="TracksideModeRelatedSpeedRestrictionsStruct"
+ Guid="523cf0fe-f3be-44f2-b067-220907fe2557"
+>
+<ReqRef
+ Id="98959354-04de-4b43-8a9c-c23b7263bdfb"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0e33271a-7d5e-413c-80b5-4ff4ab6e1100"
+>
+</ReqRef><ReqRef
+ Id="3518255f-a436-4201-afb9-867bb586c371"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a646c4bc-b9f7-4e7d-b26d-ba0f7864ad62"
+>
+</ReqRef><ReqRef
+ Id="aee41b7b-392b-4306-b271-aa82bdfb015f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="2f9b40b2-bb4a-49bb-bb57-f7fbe2795e3a"
+>
+</ReqRef><Comment>Represents the mode related speed restrictions that can be modified by driver or trackside.</Comment>
+<StructureElement
+ TypeName="BaseTypes.Speed"
+ Default="BaseTypes.Speed.NA"
+ Mode="Internal"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="RV"
+ Guid="33e5e3c5-e050-4101-bdfc-2821e58ea8e5"
+>
+<ReqRef
+ Id="3518255f-a436-4201-afb9-867bb586c371"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ccf52cfd-71d5-4d0e-9a79-7147de02038b"
+>
+</ReqRef></StructureElement><StructureElement
+ TypeName="BaseTypes.Speed"
+ Default="BaseTypes.Speed.NA"
+ Mode="Internal"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="SR"
+ Guid="b06dc96d-0b09-4f8b-8a36-57f22f60b6f6"
+>
+<ReqRef
+ Id="98959354-04de-4b43-8a9c-c23b7263bdfb"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="72a2c856-e5d4-41e4-983d-5981458bd3e3"
+>
+</ReqRef></StructureElement></Structure></Structures>
+<Functions>
+<Function
+ Type="BaseTypes.Speed"
+ Default=""
+ X="331"
+ Y="1"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="LSModeSpeedLimit"
+ Guid="39bbb191-1abc-4cb2-a0bf-12035f821bc9"
+>
+<ReqRef
+ Id="0135f953-2245-4eca-b9c8-90c950b1d94f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ada58914-da71-4a64-9dd9-7cafc6b0450b"
+>
+</ReqRef><ReqRef
+ Id="4650224e-986e-4212-b1a4-704ebe9317a4"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a7f81f32-da5b-4085-89f3-5c99a2c30c81"
+>
+</ReqRef><ReqRef
+ Id="0b1f3e7f-3acf-435f-8d5e-c7e079fd5ed6"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="250bed86-c935-40a8-b50f-99ab97febd65"
+>
+</ReqRef><Comment>Provides the speed limit related to LS mode.
+- If a value was provided by the trackside, this value is returned
+- Else, if applicable national values are available on-board, the speed limit specified by the national values is returned
+- Else, a speed limit specified by default values is returned</Comment>
+<Cases>
+<Case
+ Name="Value given by trackside"
+ Guid="bad4d621-448c-4df5-aa07-0df881850024"
+>
+<PreConditions>
+<PreCondition
+ Guid="7d59cd76-9a12-419a-95f2-b17b859a7e4f"
+>THERE_IS X IN MA.ModeProfile.Profile | X.Mode == Default.Mode.ModeProfile.LS AND X.Speed != BaseTypes.Speed.UseNV</PreCondition></PreConditions>
+<Expression>( FIRST X IN MA.ModeProfile.Profile | X.Mode == Default.Mode.ModeProfile.LS  AND X.Speed != BaseTypes.Speed.UseNV).Speed</Expression>
+</Case><Case
+ Name="National or default value"
+ Guid="8106234f-7971-481a-ab16-9b4285da9def"
+>
+<Expression>NationalValues.CurrentNV().LimitedSupervisionModeSpeedLimit</Expression>
+</Case></Cases>
+</Function><Function
+ Type="BaseTypes.Speed"
+ Default=""
+ X="110"
+ Y="120"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="OSModeSpeedLimit"
+ Guid="d1912dc6-0d89-45cc-90bf-b90c6ce33b64"
+>
+<ReqRef
+ Id="0135f953-2245-4eca-b9c8-90c950b1d94f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="76a38f2d-adde-4e4b-8b07-408f62455084"
+>
+</ReqRef><ReqRef
+ Id="4650224e-986e-4212-b1a4-704ebe9317a4"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b48e2140-a7e0-4009-bbb8-be5d3a101e17"
+>
+</ReqRef><ReqRef
+ Id="1d80a2a9-35e8-42c0-b7af-767e7c110d32"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="3be8a48a-3cb9-42a4-b57b-c329decb8412"
+>
+</ReqRef><Comment>Provides the speed limit related to OS mode.
+- If a value was provided by the trackside, this value is returned
+- Else, if applicable national values are available on-board, the speed limit specified by the national values is returned
+- Else, a speed limit specified by default values is returned</Comment>
+<Cases>
+<Case
+ Name="Value given by trackside"
+ Guid="8ea50509-79c0-4120-bb88-4f15f28d3422"
+>
+<PreConditions>
+<PreCondition
+ Guid="d7e584ef-18a8-49bc-842f-8697192e0102"
+>THERE_IS X IN MA.ModeProfile.Profile | X.Mode == Default.Mode.ModeProfile.OS AND X.Speed != BaseTypes.Speed.UseNV</PreCondition></PreConditions>
+<Expression>( FIRST X IN MA.ModeProfile.Profile | X.Mode == Default.Mode.ModeProfile.OS  AND X.Speed != BaseTypes.Speed.UseNV).Speed</Expression>
+</Case><Case
+ Name="National or default value"
+ Guid="67eaca14-3282-4c8f-ba2c-54ef5bc3ad29"
+>
+<Expression>NationalValues.CurrentNV().OnSightModeSpeedLimit</Expression>
+</Case></Cases>
+</Function><Function
+ Type="BaseTypes.Speed"
+ Default=""
+ X="220"
+ Y="120"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="SpeedRestrictions"
+ Guid="fc639801-15b2-459e-be2d-60379b167ee0"
+>
+<ReqRef
+ Id="aee41b7b-392b-4306-b271-aa82bdfb015f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="8b67b52a-d809-4252-9b56-7e9b3a8975ab"
+>
+</ReqRef><ReqRef
+ Id="bfa09769-fb03-456f-b92b-14ab4cf7977b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="305127e7-049d-4d29-9016-235c6b8f57f6"
+>
+</ReqRef><ReqRef
+ Id="b2a3ff3a-3f41-4dde-9bf8-ee649ce14d86"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="bd2a1249-aeb4-458e-9985-07fc794d51b3"
+>
+</ReqRef><ReqRef
+ Id="1d80a2a9-35e8-42c0-b7af-767e7c110d32"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c91b27f7-3860-4a0a-86c6-957a9a574e7c"
+>
+</ReqRef><ReqRef
+ Id="0b1f3e7f-3acf-435f-8d5e-c7e079fd5ed6"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0e8b0742-c356-4597-9678-802af4200d39"
+>
+</ReqRef><Comment>Provides the speed limit related to the current mode of tha train.</Comment>
+<Parameters>
+<Parameter
+ Type="BaseTypes.Distance"
+ Name="Distance"
+ Guid="e0a8197c-62ec-476f-b290-70596ef47e4f"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="SH"
+ Guid="317649a2-fbab-44f8-81f2-d012ae88dfaf"
+>
+<PreConditions>
+<PreCondition
+ Guid="6e3ee52f-2d48-4517-bc28-80d1bf41d9d0"
+>Mode == Default.Mode.SH</PreCondition></PreConditions>
+<Expression>SHModeSpeedLimit()</Expression>
+</Case><Case
+ Name="SR"
+ Guid="b0e5843e-adc6-4baf-bffd-46d635e4210a"
+>
+<PreConditions>
+<PreCondition
+ Guid="53d11192-b6ab-4d22-b7aa-c515a58bb46c"
+>Mode == Default.Mode.SR</PreCondition></PreConditions>
+<Expression>SRModeSpeedLimit()</Expression>
+</Case><Case
+ Name="UN"
+ Guid="2cf2ce6d-33a2-4a43-b34d-6a2e00f552db"
+>
+<PreConditions>
+<PreCondition
+ Guid="acc7b970-07d8-44ff-85e0-f3d1e01c0c65"
+>Mode == Default.Mode.UN</PreCondition></PreConditions>
+<Expression>UNModeSpeedLimit()</Expression>
+</Case><Case
+ Name="LS"
+ Guid="bf3bf27f-1390-419f-bee7-cbc4fca893b1"
+>
+<PreConditions>
+<PreCondition
+ Guid="18f22150-6820-406f-8fab-7751e3464e64"
+>Mode == Default.Mode.LS</PreCondition></PreConditions>
+<Expression>LSModeSpeedLimit()</Expression>
+</Case><Case
+ Name="OS"
+ Guid="1222f45e-58d2-4d17-b847-36ff121cf151"
+>
+<PreConditions>
+<PreCondition
+ Guid="c810383b-8bbd-4777-9bbf-73d99f8ca67e"
+>Mode == Default.Mode.OS</PreCondition></PreConditions>
+<Expression>OSModeSpeedLimit()</Expression>
+</Case><Case
+ Name="RV"
+ Guid="9b107044-98a2-4238-91fa-172bbb5a7f91"
+>
+<PreConditions>
+<PreCondition
+ Guid="5753d7f2-b94c-4b89-a135-1d1af5c9d6ca"
+>Mode == Default.Mode.RV</PreCondition></PreConditions>
+<Expression>RVModeSpeedLimit()</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="36c01523-8e99-488b-baf4-4c7e8082c547"
+>
+<Expression>BaseTypes.Speed.MaxSpeed</Expression>
+</Case></Cases>
+</Function><Function
+ Type="BaseTypes.Speed"
+ Default=""
+ X="330"
+ Y="120"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="RVModeSpeedLimit"
+ Guid="c7416c45-7d6b-4d0b-ab9a-9cd473bfadbc"
+>
+<ReqRef
+ Id="0135f953-2245-4eca-b9c8-90c950b1d94f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6d66598c-9682-4235-95a8-b0f34b4ab55a"
+>
+</ReqRef><ReqRef
+ Id="3518255f-a436-4201-afb9-867bb586c371"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="bf68be8f-3968-4d7f-a969-22e313093029"
+>
+</ReqRef><Comment>Provides the speed limit related to RV mode.
+- If a value was provided by the trackside, this value is returned</Comment>
+<Cases>
+<Case
+ Name="ValueGivenByTrackside"
+ Guid="5d629c12-78c2-4b45-815d-a32bda373c8d"
+>
+<PreConditions>
+<PreCondition
+ Guid="144d404c-f63e-4ce8-a8be-3dc962c0b300"
+>TracksideModeRelatedSpeedRestrictions.RV  != BaseTypes.Speed.NA</PreCondition></PreConditions>
+<Expression>TracksideModeRelatedSpeedRestrictions.RV</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="c1d2a189-7e17-4d73-b553-1dfdc2ee840e"
+>
+<Expression>BaseTypes.Speed.MaxSpeed</Expression>
+</Case></Cases>
+</Function><Function
+ Type="BaseTypes.Speed"
+ Default=""
+ X="440"
+ Y="120"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="SHModeSpeedLimit"
+ Guid="d0e8fe21-b9ef-4d2f-8534-3a96ca1b5417"
+>
+<ReqRef
+ Id="0135f953-2245-4eca-b9c8-90c950b1d94f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="37faf852-ef2b-4c16-94dc-d9b95e462f3b"
+>
+</ReqRef><ReqRef
+ Id="4650224e-986e-4212-b1a4-704ebe9317a4"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="65b0e351-dbb4-4f2f-af44-241482fcc0cc"
+>
+</ReqRef><Comment>Provides the speed limit related to SH mode.
+- If a value was provided by the trackside, this value is returned
+- Else, if applicable national values are available on-board, the speed limit specified by the national values is returned
+- Else, a speed limit specified by default values is returned</Comment>
+<Cases>
+<Case
+ Name="Value given by trackside"
+ Guid="8873b915-7b61-431f-aa23-67ad0432c22e"
+>
+<PreConditions>
+<PreCondition
+ Guid="9f36d84a-4eb4-492b-8448-f96e50571dcf"
+>THERE_IS X IN MA.ModeProfile.Profile | X.Mode == Default.Mode.ModeProfile.SH AND X.Speed != BaseTypes.Speed.UseNV</PreCondition></PreConditions>
+<Expression>( FIRST X IN MA.ModeProfile.Profile | X.Mode == Default.Mode.ModeProfile.SH ).Speed</Expression>
+</Case><Case
+ Name="National or default value"
+ Guid="2fba5855-84b0-4753-ba64-1aceb5717175"
+>
+<Expression>NationalValues.CurrentNV().ShuntingModeSpeedLimit</Expression>
+</Case></Cases>
+</Function><Function
+ Type="BaseTypes.Speed"
+ Default=""
+ X="441"
+ Y="1"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="SRModeSpeedLimit"
+ Guid="be9c9a4d-1289-4c10-befe-194f50ec5723"
+>
+<ReqRef
+ Id="0135f953-2245-4eca-b9c8-90c950b1d94f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="3ecfd29f-9176-4894-ad52-1ce621c66623"
+>
+</ReqRef><ReqRef
+ Id="98959354-04de-4b43-8a9c-c23b7263bdfb"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="542370bf-0891-4f58-ab6e-13dce0133075"
+>
+</ReqRef><ReqRef
+ Id="774c0a7a-9451-4e93-ae7a-5a64de270168"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="1784b939-cf57-4ba6-bdac-ba603d8b82d6"
+>
+</ReqRef><ReqRef
+ Id="f67f8025-cc67-47e1-8be3-847abc28ea27"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="744581a0-8bca-4875-b65b-40fcb581e6ed"
+>
+</ReqRef><Comment>Provides the speed limit related to SR mode.
+- If a value was provided by the driver, this value is returned
+- Else, if applicable national values are available on-board, the speed limit specified by the national values is returned
+- Else, a speed limit specified by default values is returned</Comment>
+<Cases>
+<Case
+ Name="Value given by driver"
+ Guid="85cd3d19-421e-4809-8cb3-9b846b66d2d3"
+>
+<PreConditions>
+<PreCondition
+ Guid="68da82cd-26fd-4256-bdaf-17972b445617"
+>TracksideModeRelatedSpeedRestrictions.SR != BaseTypes.Speed.NA</PreCondition></PreConditions>
+<Expression>TracksideModeRelatedSpeedRestrictions.SR</Expression>
+</Case><Case
+ Name="National or default value"
+ Guid="ae5a5f7b-fa96-44ee-a2a2-f2a542977dde"
+>
+<Expression>NationalValues.CurrentNV().StaffResponsibleModeSpeedLimit</Expression>
+</Case></Cases>
+</Function><Function
+ Type="BaseTypes.Speed"
+ Default=""
+ X="110"
+ Y="180"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="UNModeSpeedLimit"
+ Guid="47d1e243-9c5a-413f-b617-8184bb795278"
+>
+<ReqRef
+ Id="0135f953-2245-4eca-b9c8-90c950b1d94f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a1b932a3-1957-49e1-8600-26e67d2f271b"
+>
+</ReqRef><Comment>Provides the speed limit related to UN mode.
+- If applicable national values are available on-board, the speed limit specified by the national values is returned
+- Else, a speed limit specified by default values is returned</Comment>
+<Cases>
+<Case
+ Name="Value"
+ Guid="468665f4-3458-43e5-85f4-b51880e79135"
+>
+<Expression>NationalValues.CurrentNV().UnfittedModeSpeedLimit</Expression>
+</Case></Cases>
+</Function></Functions>
+<Variables>
+<Variable
+ Type="TracksideModeRelatedSpeedRestrictionsStruct"
+ DefaultValue="TracksideModeRelatedSpeedRestrictionsStruct{}"
+ VariableMode="Internal"
+ X="10"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="TracksideModeRelatedSpeedRestrictions"
+ Guid="e6bda1a3-4d1c-45fb-9723-b1d6b5c96df2"
+>
+<ReqRef
+ Id="4650224e-986e-4212-b1a4-704ebe9317a4"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="7ac62362-ab60-4d9d-8a2a-f5dde4bc004c"
+>
+</ReqRef><ReqRef
+ Id="3518255f-a436-4201-afb9-867bb586c371"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="dc9c9465-c242-4b7f-952f-24ffcd8bc3d1"
+>
+</ReqRef><ReqRef
+ Id="98959354-04de-4b43-8a9c-c23b7263bdfb"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b014f695-1108-4e6d-b4aa-d257ff15cf99"
+>
+</ReqRef><ReqRef
+ Id="aee41b7b-392b-4306-b271-aa82bdfb015f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="09dac94a-1470-4a57-926e-18e8ac7e4a73"
+>
+</ReqRef><ReqRef
+ Id="f67f8025-cc67-47e1-8be3-847abc28ea27"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="87bd0d9e-1198-4864-a10a-7beb4e014469"
+>
+</ReqRef></Variable></Variables>
+</NameSpace>

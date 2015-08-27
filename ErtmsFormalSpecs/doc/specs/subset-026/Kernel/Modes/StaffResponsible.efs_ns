@@ -1,0 +1,774 @@
+<NameSpace
+ X="560"
+ Y="770"
+ Width="100"
+ Height="50"
+ Pinned="TRUE"
+ Name="StaffResponsible"
+ Guid="17f64d90-458d-45b9-9ff9-4a4ef3831ae8"
+>
+<NameSpaces>
+</NameSpaces>
+<Structures>
+<Structure
+ Default=""
+ X="490"
+ Y="30"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="SRStruct"
+ Guid="af07327a-791d-48c5-9e30-e854d9591207"
+>
+<ReqRef
+ Id="d97a231f-6ef1-4300-9bd9-d3dba7d434bd"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="cbb8db73-0734-4e33-86a2-3cd8c3e5d25a"
+>
+</ReqRef><ReqRef
+ Id="478bdd4c-284c-4cc2-98a7-1b85116f19c2"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="696e79f6-1df1-4c3d-91be-f38ec6f2a813"
+>
+</ReqRef><Comment>Stores information received about an upcoming SR area.</Comment>
+<StructureElement
+ TypeName="BaliseGroups"
+ Default="[]"
+ Mode="Internal"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="BGs"
+ Guid="2e62a8e5-6733-42fd-8e7e-9762422ecfd7"
+>
+<ReqRef
+ Id="f7cb96a8-a052-46e7-a159-d08ccb5dac88"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="bd3636f8-a486-4169-9698-2785a2397b81"
+>
+</ReqRef><Comment>Expected Balise groups for the SR area</Comment>
+</StructureElement><StructureElement
+ TypeName="Boolean"
+ Default="True"
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="BGListReceived"
+ Guid="90d78143-6110-45e8-80b0-4a7945023224"
+>
+<ReqRef
+ Id="f7cb96a8-a052-46e7-a159-d08ccb5dac88"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="28dfc203-335b-4c4c-844e-c8d8a06f4dee"
+>
+</ReqRef><Comment>Retains whether a list of BGs that can be passed in SR mode has been received.</Comment>
+</StructureElement><StructureElement
+ TypeName="BaseTypes.Distance"
+ Default="0.0"
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="Location"
+ Guid="365f5bcd-a90a-4173-8202-def82f01b37b"
+>
+<Comment>The permitted distance to run in SR.</Comment>
+</StructureElement><Interfaces>
+<StructureRef
+ Name="LocationInterface"
+ Guid="2d3b09ef-dfa9-4533-97c4-d8230e0c099b"
+>
+</StructureRef></Interfaces>
+</Structure></Structures>
+<Functions>
+<Function
+ Type="Kernel.BaliseGroups"
+ Default=""
+ X="20"
+ Y="150"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="CreateBaliseGroups"
+ Guid="f9550a10-747b-4726-934e-39d8fbcbc99a"
+>
+<ReqRef
+ Id="dd3eed62-7fd8-49f1-b24f-9e8008ab2471"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d27882a4-83e4-439b-b1e7-6878eea0282a"
+>
+</ReqRef><Comment>Creates a collection of Balise groups for the expected Balise groups for SR area.</Comment>
+<Parameters>
+<Parameter
+ Type="Messages.MESSAGE.TRACK_TO_TRAIN.SR_AUTHORISATION.Collection1"
+ Name="BaliseGroups"
+ Guid="281a18bb-5a7e-4be0-b4b7-f80d47a7f630"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="NoBaliseGroupsSent"
+ Guid="b0a35ec1-950c-4df9-897e-d0535901105c"
+>
+<PreConditions>
+<PreCondition
+ Guid="9ecc1bb5-c313-4f0f-a485-66904cd9320b"
+>BaliseGroups == []</PreCondition></PreConditions>
+<Expression>EMPTY</Expression>
+</Case><Case
+ Name="BaliseGroupsSent"
+ Guid="f68b1349-529c-473d-ae9e-ff267673371a"
+>
+<Expression>MAP ( FIRST X IN ( BaliseGroups ) ).LIST_OF_BALISES_IN_SR_AUTHORITY.Sequence1 USING X IN CreateBaliseGroup ( X )</Expression>
+</Case></Cases>
+</Function><Function
+ Type="BaliseGroup"
+ Default=""
+ X="20"
+ Y="210"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="CreateBaliseGroup"
+ Guid="bc1d36bc-7e0f-49ec-82dd-86fd6960a5ab"
+>
+<Comment>Creates a Balise group identifier - country and BG codes - to check BGs passed in SR area.</Comment>
+<Parameters>
+<Parameter
+ Type="Messages.PACKET.TRACK_TO_TRAIN.LIST_OF_BALISES_IN_SR_AUTHORITY.SubStructure1"
+ Name="aBaliseGroup"
+ Guid="c058aa18-092c-420f-a3bb-aa5e64adebcb"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="98759279-000a-4ddb-a0f6-e737236f7520"
+>
+<Expression>BaliseGroup
+{
+    NewCountry =&gt; Q_NEWCOUNTRY_To_Bool ( aBaliseGroup.Q_NEWCOUNTRY ),
+    NID_C =&gt; aBaliseGroup.NID_C,
+    NID_BG =&gt; aBaliseGroup.NID_BG
+}</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="130"
+ Y="150"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="SRAuthorised"
+ Guid="66457f7a-7ec2-4fc3-893e-c35ea8203573"
+>
+<ReqRef
+ Id="ab41f6d7-19db-4d3e-95a6-8e15abbd4088"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="dee3956d-26ad-4400-96cc-a56d27a0f751"
+>
+</ReqRef><Comment>Determines whether the on-board has authorization to enter SR mode.</Comment>
+<Cases>
+<Case
+ Name="Value"
+ Guid="50859194-b6d5-4fe7-89f9-ed0b242b30b3"
+>
+<Expression>Available ( SRAuthorisation )
+  AND
+SRAuthorisation.Location &lt;= TrainPosition.FrontEndPosition ( DistanceInterval.Max )</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="130"
+ Y="210"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="BGIsExpected"
+ Guid="8a111695-f7d5-444c-b548-3ea35c3e6b80"
+>
+<ReqRef
+ Id="f7cb96a8-a052-46e7-a159-d08ccb5dac88"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="2a6e7b43-0438-47d9-a88c-3b3721f201c2"
+>
+</ReqRef><ReqRef
+ Id="fdc26bac-f5ff-4fec-8edd-8ebe350709d4"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="44587014-1529-4551-955e-b005a0e722ed"
+>
+</ReqRef><Comment>Checks whether the Balise group is in the list of expected Balise groups for Shunting.</Comment>
+<Parameters>
+<Parameter
+ Type="BTM.BaliseGroupMessages"
+ Name="BaliseGroup"
+ Guid="dcfb0369-9e7b-4de9-965e-99dbe7026338"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Do not supervise list of expected balises"
+ Guid="57f44bc9-36b9-4718-b60a-188204130548"
+>
+<PreConditions>
+<PreCondition
+ Guid="44cea0d5-cdfc-4c62-9e88-e69620cee2b7"
+>NOT ActiveFunctions.SuperviseBalisesForSR()</PreCondition></PreConditions>
+<Expression>True</Expression>
+</Case><Case
+ Name="No list received"
+ Guid="bb1a997d-8294-4863-94f2-3b19af289b93"
+>
+<PreConditions>
+<PreCondition
+ Guid="4675aa40-8806-41ed-b112-14c2251c1e97"
+>NOT (Available(SRAuthorisation) AND SRAuthorisation.BGListReceived)</PreCondition></PreConditions>
+<Expression>True</Expression>
+</Case><Case
+ Name="Value"
+ Guid="ee3f88ec-f193-44c3-89c3-4adbb14ed494"
+>
+<Expression>THERE_IS StaffResponsibleBG IN SRAuthorisation.BGs | 
+(FIRST Balise IN BaliseGroup).Telegram.NID_C == StaffResponsibleBG.NID_C
+  AND  
+(FIRST Balise IN BaliseGroup).Telegram.NID_BG == StaffResponsibleBG.NID_BG</Expression>
+</Case></Cases>
+</Function><Function
+ Type="BaseTypes.Distance"
+ Default=""
+ X="20"
+ Y="270"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="DistanceToRun"
+ Guid="e2e6a23d-5997-4a50-9d99-d0aece4b2e95"
+>
+<ReqRef
+ Id="d1fd4df1-3d3f-4520-b838-9000fd3ebb82"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f4640f9f-c30b-45a6-bc00-eb6004287416"
+>
+</ReqRef><ReqRef
+ Id="478bdd4c-284c-4cc2-98a7-1b85116f19c2"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="37044b83-a59c-4a78-9173-b474e78f0781"
+>
+</ReqRef><ReqRef
+ Id="17a4c2cf-4fbc-48d2-b77e-25fe06fda936"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="50d4b7f8-9d28-4696-9985-3f7e77803967"
+>
+</ReqRef><ReqRef
+ Id="6aebdaad-cc03-41c0-818a-b52475a6ef43"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="21b6984b-caea-49f8-a958-ea932d14972a"
+>
+</ReqRef><ReqRef
+ Id="45963a73-6286-4c23-8f87-9e18d78e5e28"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a4847d63-939d-4219-a186-c9692209c76d"
+>
+</ReqRef><Comment>Returns the permitted distance to run in SR mode.</Comment>
+<Cases>
+<Case
+ Name="Received distance"
+ Guid="8950d78d-464b-4c32-932f-b4f4cd3556e3"
+>
+<PreConditions>
+<PreCondition
+ Guid="738bcd15-c113-45d0-8ca8-16a08f625fc7"
+>Available(SRAuthorisation)</PreCondition><PreCondition
+ Guid="5af6ee90-8c46-4ec6-a4d6-06ccf8474ed5"
+>HandleModeChange not in HandleModeChangeSM.Override</PreCondition></PreConditions>
+<Expression>SRAuthorisation.Location</Expression>
+</Case><Case
+ Name="Use national value"
+ Guid="b0da0439-c627-4c3f-890d-4367da277940"
+>
+<Expression>NationalValues.CurrentNV().MaxPermDistToRunInStaffResponsibleMode</Expression>
+</Case></Cases>
+</Function><Function
+ Type="BaseTypes.Distance"
+ Default=""
+ X="130"
+ Y="270"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="SREndLocation"
+ Guid="04c61721-f426-4486-8ca0-c2614035535b"
+>
+<Comment>Provides the distance at the end of the permitted distance to run in SR mode.</Comment>
+<Cases>
+<Case
+ Name="In SR"
+ Guid="d7f9e96d-a00c-480c-898d-4f04d3eacf2b"
+>
+<PreConditions>
+<PreCondition
+ Guid="5be1ab52-7de5-4475-b907-4648223d1b23"
+>Mode == Default.Mode.SR</PreCondition><PreCondition
+ Guid="046fb2aa-7b29-4a72-854f-dd5cef4fb70c"
+>DistanceToRun() != BaseTypes.Distance.Infinity</PreCondition></PreConditions>
+<Expression>DistanceToRun() + TrainPosition.SRStartDistance - BTM.LRBG.Position.Position</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="55dd5d9a-44eb-43f1-b716-9b763e45eb74"
+>
+<Expression>BaseTypes.Distance.Infinity</Expression>
+</Case></Cases>
+</Function><Function
+ Type="SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target"
+ Default=""
+ X="20"
+ Y="90"
+ Width="100"
+ Height="50"
+ NeedsRequirement="FALSE"
+ Name="SREndTarget"
+ Guid="aa5f4f4b-a63b-4d9d-85d3-e39131df8298"
+>
+<Comment>Provides a target with 0 speed at the end of the permitted distacne to run in SR.</Comment>
+<Cases>
+<Case
+ Name="Value"
+ Guid="4e394434-e367-4e8a-86e4-50e71233e107"
+>
+<Expression>SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target{
+    Location =&gt; Modes.StaffResponsible.SREndLocation(),
+    Speed =&gt; 0.0,
+    Length =&gt; 0.0
+}</Expression>
+</Case></Cases>
+</Function></Functions>
+<Procedures>
+<Procedure
+ X="130"
+ Y="30"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="SRAuthorisationReceived"
+ Guid="d7bb7787-86f6-43f3-8516-a6cb77cf9cff"
+>
+<ReqRef
+ Id="ab41f6d7-19db-4d3e-95a6-8e15abbd4088"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="dd95fa89-955c-43d2-a0d1-467ef9255776"
+>
+</ReqRef><ReqRef
+ Id="d97a231f-6ef1-4300-9bd9-d3dba7d434bd"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9ff870da-a8b3-4130-a312-de9e3164b58b"
+>
+</ReqRef><ReqRef
+ Id="2f6ead7a-d5f6-4a11-8819-61f7aaaad9ca"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0da89684-ca88-400b-a6d6-6c46a80c8ec2"
+>
+</ReqRef><ReqRef
+ Id="dd3eed62-7fd8-49f1-b24f-9e8008ab2471"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0e579716-ebc7-4c46-a2e0-d37c4e2a582e"
+>
+</ReqRef><Comment>Handles reception of authorization to enter SR mode from RBC.</Comment>
+<Parameters>
+<Parameter
+ Type="Messages.MESSAGE.TRACK_TO_TRAIN.SR_AUTHORISATION.Message"
+ Name="Packet"
+ Guid="3ad540ec-9a74-4eef-8e3e-cb3bf9152b02"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="UpdateSRAuthorisation"
+ Guid="afdb2dd6-b9d2-427b-91c1-b7ad2cf7767c"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="UpdateSRAuthorisation"
+ Guid="4ee6f8cc-70a3-4372-bb61-1cc8aebfa6c5"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="342b18cc-bb34-4c17-8157-1bebc9fb9941"
+>SRAuthorisation &lt;- SRStruct
+{
+    Location =&gt; MessageTypes.QScaleDistance ( distance =&gt; Packet.D_SR, scale =&gt; Packet.Q_SCALE ),
+    BGs =&gt; CreateBaliseGroups ( BaliseGroups =&gt; Packet.Sequence1 ),
+    BGListReceived =&gt; (Packet.Sequence1 == [])
+}</Action></Actions>
+<SubRules>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Count the distance from the current location if in SR"
+ Guid="f6641dc9-8d36-4ca5-a09e-327befa89789"
+>
+<Comment>If a SR authorization specifying a distance (and possibly a list of Balise groups for SR) is received, the distance to run is measured from the train&apos;s current location.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Set SR start to train position"
+ Guid="2dda6ff2-1853-45e5-89e5-50879341b940"
+>
+<PreConditions>
+<PreCondition
+ Guid="ca00b5c3-749e-4688-81da-05727f081038"
+>Mode == Default.Mode.SR</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="96ee091d-b9e9-4509-b1a7-1c630d2fd21e"
+>TrainPosition.SRStartDistance &lt;- Odometry.NominalDistance</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></SubRules>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="20"
+ Y="30"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="StopIfInSRReceived"
+ Guid="b6ba04fd-5a2d-4329-b003-41bfe7fc159c"
+>
+<ReqRef
+ Id="01a39be8-2459-4c78-a817-469f0b6b6748"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e8a1385c-eb2b-4802-a6bb-56933b4ceb92"
+>
+</ReqRef><ReqRef
+ Id="d932cea7-ce9f-4909-afff-2c36046cea2a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="2efa10f3-1b18-4466-b094-b4d404011635"
+>
+</ReqRef><ReqRef
+ Id="772e0087-dcb8-45bf-a888-56863cd592af"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="250c696b-ac8a-4198-bb31-4311ad622817"
+>
+</ReqRef><ReqRef
+ Id="fdc26bac-f5ff-4fec-8edd-8ebe350709d4"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f72fb4b0-5e2f-4ab4-8d5c-478c2e4f2b64"
+>
+</ReqRef><Comment>Handles reception of a packet &quot;Stop if in SR mode&quot;.</Comment>
+<Parameters>
+<Parameter
+ Type="Messages.PACKET.TRACK_TO_TRAIN.STOP_IF_IN_STAFF_RESPONSIBLE.Message"
+ Name="Packet"
+ Guid="ce678ef3-55a9-4505-842e-37d08500c2cd"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Handle packet"
+ Guid="76c74132-a1c3-4320-8bab-a754c9591f6f"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Override active"
+ Guid="89a474df-0208-4696-8fdb-0b46115c5b24"
+>
+<ReqRef
+ Id="353d33b3-3a7a-4759-8b9b-62204429d75a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="1c852c64-1b7c-4809-99ea-d6fea9bcd656"
+>
+</ReqRef><ReqRef
+ Id="1503ba8c-af0d-46c6-b258-a866be408e80"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="8146747c-a2b6-414c-9128-aa9edb39338a"
+>
+</ReqRef><Comment>If the Override function is active, the train does not stop but Override is ended.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="c6ccbc54-4698-42e2-84cf-735584fc7270"
+>HandleModeChange in HandleModeChangeSM.Override</PreCondition><PreCondition
+ Guid="2b9b3be8-ca3a-4110-b2d6-f86ce72fafa9"
+>ActiveFunctions.SuperviseBalisesForSR()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="cfba8bf9-5231-4e99-acf5-5b104f9d1dde"
+>EndOverride()</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Handle packet"
+ Guid="77e9d509-9333-4cfa-9903-271166cb80be"
+>
+<Comment>Handle the packet otherwise.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="1af23fe5-a5a6-41f8-824b-5238b8ff70f8"
+>Packet.Q_SRSTOP == Messages.Q_SRSTOP.Stop_if_in_SR_mode</PreCondition><PreCondition
+ Guid="9087689a-12c1-4ed5-b9a9-c4766c46d569"
+>ActiveFunctions.SuperviseBalisesForSR()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="e22bd583-6c01-4ec6-820f-7e54a97ef357"
+>StopIfInStaffResponsible &lt;- True</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure></Procedures>
+<Variables>
+<Variable
+ Type="StaffResponsible.SRStruct"
+ DefaultValue="EMPTY"
+ VariableMode="Internal"
+ X="310"
+ Y="30"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="SRAuthorisation"
+ Guid="1d9450fc-259d-437b-8763-6a8a4b132b06"
+>
+<ReqRef
+ Id="ab41f6d7-19db-4d3e-95a6-8e15abbd4088"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="da1d4183-210e-4321-ad03-9815ba49f0a0"
+>
+</ReqRef><ReqRef
+ Id="c51f0ee1-8abb-4f3a-a52f-62248f5a5f7f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="24ca6afe-ba23-4379-9930-85c26282a3ce"
+>
+</ReqRef><ReqRef
+ Id="2f6ead7a-d5f6-4a11-8819-61f7aaaad9ca"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="7d3f004a-ca45-4362-9051-7ce8679d2aab"
+>
+</ReqRef><ReqRef
+ Id="478bdd4c-284c-4cc2-98a7-1b85116f19c2"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="5a7a73f3-ee5a-4ac8-993c-c74837ed0704"
+>
+</ReqRef><Comment>Contains information about the SR authorisation.</Comment>
+</Variable><Variable
+ Type="Boolean"
+ DefaultValue="False"
+ VariableMode="Internal"
+ X="310"
+ Y="100"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="StopIfInStaffResponsible"
+ Guid="6b0cb808-5169-40a9-af38-eb17c3057dcf"
+>
+<ReqRef
+ Id="01a39be8-2459-4c78-a817-469f0b6b6748"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b71f4b38-c59f-492a-bb9f-f8f1105bb553"
+>
+</ReqRef><Comment>Signals that a Balise with the message &quot;stop if in SR mode&quot; has been read</Comment>
+</Variable><Variable
+ Type="Boolean"
+ DefaultValue="False"
+ VariableMode="Internal"
+ X="430"
+ Y="100"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="UnexpectedBGPassed"
+ Guid="60e75a9e-b691-4b0b-83af-18ad2c7fd55f"
+>
+<ReqRef
+ Id="f7cb96a8-a052-46e7-a159-d08ccb5dac88"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="8975fbf4-d357-447b-b0ab-b3ff5795b3b5"
+>
+</ReqRef><Comment>Notification that the engine has passed a BG, in SH mode, that was not expected.</Comment>
+</Variable></Variables>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="310"
+ Y="250"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="Request new distance to run in SR"
+ Guid="6c397c2a-962e-4413-95a9-a76a39abb9fe"
+>
+<ReqRef
+ Id="0ae8cbdd-4de7-4e56-9061-504b96318dca"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="7d834822-91e3-4374-9f04-fb49195a8a98"
+>
+</ReqRef><Comment>The driver may request a new distance to run in SR by pressing &apos;Start&apos;.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Enable request"
+ Guid="372bed13-1b0e-4d38-84a5-1652201f7087"
+>
+<ReqRef
+ Id="2ac2d446-1ee9-4dbb-90d3-7ae063cd2925"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="acd77be1-eee9-4821-8d62-4658d88e6a81"
+>
+</ReqRef><Comment>Display the request for new distance to run in SR mode on the DMI in SR mode and level 2/3.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="38a2855c-a564-4a2f-b1cf-ab9373fbe4af"
+>Level.Value.Value in [Default.Level.L2, Default.Level.L3]</PreCondition><PreCondition
+ Guid="e8a7ae96-cd47-4d9e-8a00-715ca0a3e838"
+>DMI.MasterDMI().In_Start.InputInformation.RequestStatus == Request.Disabled</PreCondition><PreCondition
+ Guid="85a03ef1-b8bf-4979-b1ae-8b3bf1c03590"
+>ActiveFunctions.RequestMA_StartSelected()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="bd2c7627-cb26-4ee4-a08b-41e674d7f810"
+>DMI.MasterDMI().In_Start.InitiateRequest()</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Accept response"
+ Guid="dc4f53e6-2d23-4f2d-b429-515d189ad3fa"
+>
+<ReqRef
+ Id="ff288c94-6672-4739-a2b6-fd66db6c9de8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="46c5ce20-2dab-4878-8752-e825be56095e"
+>
+</ReqRef><ReqRef
+ Id="4443416b-4b5b-4896-a845-222b762d3950"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="2ce73648-ad51-4e52-b71f-2b963b38dd30"
+>
+</ReqRef><ReqRef
+ Id="8ae45849-75e7-4ebf-9e7c-625d834e6433"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="21afbe35-bea2-4b7d-ac52-124f1195e913"
+>
+</ReqRef><ReqRef
+ Id="2ac2d446-1ee9-4dbb-90d3-7ae063cd2925"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="10f88a6e-5cbf-4bcf-bb5f-596adc3ab520"
+>
+</ReqRef><Comment>Handle the driver&apos;s request for a new distance to run in SR mode.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="d9198f6b-ab29-4800-8177-3582c9f6b6f5"
+>Level.Value.Value in [Default.Level.L2, Default.Level.L3]</PreCondition><PreCondition
+ Guid="b141a80f-70a4-4c16-ab6a-2c1a644b9b5b"
+>DMI.MasterDMI().In_Start.InputInformation.DriverAnswered</PreCondition><PreCondition
+ Guid="8a109624-1067-4604-bea1-f3a9d4d98fe0"
+>ActiveFunctions.RequestMA_StartSelected()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="46dbfab0-2d80-4d37-a202-f2046e4ae97d"
+>EURORADIO.CurrentRBCConnection().SendMARequest
+(
+    aReason =&gt; Messages.Q_MARQSTREASON.Start_selected_by_driver,
+    aPacket =&gt; EMPTY
+)</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ X="530"
+ Y="250"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="Standstill for entry of SR speed and distance"
+ Guid="4dbe28af-93a1-4547-b8a0-82f7dc8cedc1"
+>
+<ReqRef
+ Id="a527b959-0a75-42e2-a5d7-aa805d764a9e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="56d9d598-3e24-439d-ad48-8415359734e9"
+>
+</ReqRef><ReqRef
+ Id="4e8c1c55-62b9-4117-bfb0-fb984f83aa6b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="616a4822-2c47-4f7d-adb2-469e2a4e7649"
+>
+</ReqRef><Comment>If train movement is detected while the driver is entering new SR speed and distance information, activate the brakes.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Train movement detected"
+ Guid="37e26b65-969d-406f-8ea1-089f5643d56e"
+>
+<PreConditions>
+<PreCondition
+ Guid="0ebb6c20-ebff-423e-ae86-7373db4b82ef"
+>DMI.MasterDMI().In_SRModeSpeedLimitAndDistance.InputInformation.RequestStatus == Request.Request</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="eec5ece7-4498-4b79-8af7-6b2f2683b723"
+>BrakeCommands.CommandServiceBrake(BrakeCommands.BrakeReason.SupervisingStandstill)</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ X="420"
+ Y="250"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="Send request to modify SR distance and speed"
+ Guid="15db337c-f79f-4ecc-a490-1ef5d01553f4"
+>
+<ReqRef
+ Id="20105d93-db9d-43da-96f4-3b3ecf09ac54"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="85763afc-d1a7-407f-ac1c-9cdd12c2f067"
+>
+</ReqRef><ReqRef
+ Id="6a40406a-77fa-40f4-a719-22600646d460"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="12559dfd-fcf4-4e38-8b12-199aacf13812"
+>
+</ReqRef><Comment>Send a request to the driver to modify the max permitted distance and the speed limit for SR mode.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Initiate request"
+ Guid="a4777087-732f-4a93-9540-3ae1bccb98b5"
+>
+<Comment>If the train is at standstill, display entry request.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="edb541f1-b1e5-47df-b3e6-8f97cf0d62a1"
+>Odometry.TrainIsAtStandstill()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="c2aeb6e2-d835-4907-921b-659073bb1bfd"
+>DMI.MasterDMI().In_SRModeSpeedLimitAndDistanceEntryRequest.InitiateRequest()</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Handle driver request"
+ Guid="8d7b926b-9061-47a2-b29e-efe39f6a4b59"
+>
+<Comment>If the driver selected to enter the SR speed and distance, display the window.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="61a56424-8110-4822-aac1-7817599e9d76"
+>DMI.MasterDMI().In_SRModeSpeedLimitAndDistanceEntryRequest.InputInformation.DriverAnswered</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="1168f969-c721-4d44-a41d-330a21b954cb"
+>DMI.MasterDMI().In_SRModeSpeedLimitAndDistance.InitiateRequest()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</NameSpace>

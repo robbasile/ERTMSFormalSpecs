@@ -2544,7 +2544,7 @@ NOT Kernel.ActiveFunctions.CheckLinkingConsistency()</PreCondition></PreConditio
 <Actions>
 <Action
  Guid="2906dae6-d0c9-4e48-a5e0-1fea924865a0"
->Kernel.Shunting.HandleNewListOfBaliseGroups ( Packet =&gt; Packet.TRACK_TO_TRAIN.LIST_OF_BALISES_FOR_SH_AREA )</Action></Actions>
+>Kernel.Modes.Shunting.HandleNewListOfBaliseGroups ( Packet =&gt; Packet.TRACK_TO_TRAIN.LIST_OF_BALISES_FOR_SH_AREA )</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Axle Load available"
@@ -3182,7 +3182,7 @@ True</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="004ed3f5-351e-4130-868e-a4960e2b944e"
->Kernel.LimitedSupervision.LSSMAToggleReceived(
+>Kernel.Modes.LimitedSupervision.LSSMAToggleReceived(
     Packet =&gt; Packet.TRACK_TO_TRAIN.LSSMA_DISPLAY_TOGGLE_ORDER,
     Timestamp =&gt; BGLocationReference.Timestamp
 )</Action></Actions>
@@ -5068,7 +5068,7 @@ ON CurrentBaliseGroup | BaliseTelegramToBeHandled ( X )</Action></Actions>
  Guid="2db6933b-ffcd-41fc-b5ab-90177389d406"
 >Kernel.MA.ModeProfile.ModeProfileReceived (
     Packet =&gt; aPacket.TRACK_TO_TRAIN.MODE_PROFILE,
-    GenericLSMarker =&gt; Kernel.LimitedSupervision.LSMarkerPresent(
+    GenericLSMarker =&gt; Kernel.Modes.LimitedSupervision.LSMarkerPresent(
     Messages=&gt;CurrentBaliseGroup
 )
 )</Action></Actions>
@@ -5734,7 +5734,7 @@ IN CurrentBaliseGroup</Action></Actions>
 >
 </ReqRef><Comment>This variable holds the balise message to be processed.</Comment>
 </Variable><Variable
- Type="BaliseGroupStruct"
+ Type="BTM.BaliseGroupStruct"
  DefaultValue="EMPTY"
  VariableMode="Internal"
  X="690"
@@ -5812,7 +5812,7 @@ IN CurrentBaliseGroup</Action></Actions>
 >
 <Comment>This variable holds the messages from the current balise group until the complete balise group has been encountered</Comment>
 </Variable><Variable
- Type="LocationReferenceStruct"
+ Type="BTM.LocationReferenceStruct"
  DefaultValue="EMPTY"
  VariableMode="Internal"
  X="440"
