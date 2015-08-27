@@ -20,7 +20,6 @@ using System.Drawing;
 using System.Windows.Forms;
 using DataDictionary;
 using DataDictionary.Generated;
-using GUI.LongOperations;
 using GUI.Properties;
 using GUIUtils.LongOperations;
 using Utils;
@@ -76,7 +75,7 @@ namespace GUI.BoxArrowDiagram
             MouseEventArgs mouseEventArgs = e as MouseEventArgs;
             if (mouseEventArgs != null)
             {
-                GraphicElement element = ElementForLocation(mouseEventArgs.Location);
+                GraphicElement element = ElementForLocation(mouseEventArgs.Location, null);
                 if (element != null)
                 {
                     Selected = element;
@@ -163,7 +162,7 @@ namespace GUI.BoxArrowDiagram
             MouseEventArgs mouseEventArgs = e as MouseEventArgs;
             if (mouseEventArgs != null)
             {
-                GraphicElement element = ElementForLocation(mouseEventArgs.Location);
+                GraphicElement element = ElementForLocation(mouseEventArgs.Location, null);
                 if (element != null)
                 {
                     element.HandleDoubleClick(sender, mouseEventArgs);
@@ -196,7 +195,7 @@ namespace GUI.BoxArrowDiagram
                 {
                     // The location where the element has been dropped
                     Point location = PointToClient(new Point(e.X, e.Y));
-                    BoxControl<TEnclosing, TBoxModel, TArrowModel> target = BoxForLocation(location);
+                    BoxControl<TEnclosing, TBoxModel, TArrowModel> target = BoxForLocation(location, null);
                     if (target != null)
                     {
                         target.AcceptDrop(sourceNode.Model as ModelElement);
@@ -234,14 +233,15 @@ namespace GUI.BoxArrowDiagram
         ///     Provides the element for the given location
         /// </summary>
         /// <param name="location"></param>
+        /// <param name="excludedElement">This element should not be considered during search</param>
         /// <returns></returns>
-        protected GraphicElement ElementForLocation(Point location)
+        protected GraphicElement ElementForLocation(Point location, GraphicElement excludedElement)
         {
-            GraphicElement retVal = ArrowForLocation(location);
+            GraphicElement retVal = ArrowForLocation(location, excludedElement);
 
             if (retVal == null)
             {
-                retVal = BoxForLocation(location);
+                retVal = BoxForLocation(location, excludedElement);
             }
 
             return retVal;
@@ -251,8 +251,9 @@ namespace GUI.BoxArrowDiagram
         ///     Provides the box at a given location
         /// </summary>
         /// <param name="location"></param>
+        /// <param name="excludedElement">This element should not be considered during search</param>
         /// <returns></returns>
-        protected BoxControl<TEnclosing, TBoxModel, TArrowModel> BoxForLocation(Point location)
+        protected BoxControl<TEnclosing, TBoxModel, TArrowModel> BoxForLocation(Point location, GraphicElement excludedElement)
         {
             BoxControl<TEnclosing, TBoxModel, TArrowModel> retVal = null;
 
@@ -261,7 +262,10 @@ namespace GUI.BoxArrowDiagram
                 if ((location.X > box.Location.X && location.X < box.Location.X + box.Width) &&
                     (location.Y > box.Location.Y && location.Y < box.Location.Y + box.Height))
                 {
-                    retVal = box;
+                    if (box != excludedElement)
+                    {
+                        retVal = box;                        
+                    }
                 }
             }
 
@@ -272,8 +276,9 @@ namespace GUI.BoxArrowDiagram
         ///     Provides the arrow at a given location
         /// </summary>
         /// <param name="location"></param>
+        /// <param name="excludedElement">This element should not be considered during search</param>
         /// <returns></returns>
-        protected ArrowControl<TEnclosing, TBoxModel, TArrowModel> ArrowForLocation(Point location)
+        protected ArrowControl<TEnclosing, TBoxModel, TArrowModel> ArrowForLocation(Point location, GraphicElement excludedElement)
         {
             ArrowControl<TEnclosing, TBoxModel, TArrowModel> retVal = null;
 
@@ -282,7 +287,10 @@ namespace GUI.BoxArrowDiagram
                 if ((location.X > arrow.Location.X && location.X < arrow.Location.X + arrow.Width) &&
                     (location.Y > arrow.Location.Y && location.Y < arrow.Location.Y + arrow.Height))
                 {
-                    retVal = arrow;
+                    if (arrow != excludedElement)
+                    {
+                        retVal = arrow;                        
+                    }
                 }
             }
 
@@ -333,7 +341,7 @@ namespace GUI.BoxArrowDiagram
         /// <param name="mouseEventArgs"></param>
         public void HandleMouseDown(object sender, MouseEventArgs mouseEventArgs)
         {
-            GraphicElement element = ElementForLocation(mouseEventArgs.Location);
+            GraphicElement element = ElementForLocation(mouseEventArgs.Location, null);
             if (element != null)
             {
                 element.HandleMouseDown(sender, mouseEventArgs);
@@ -362,7 +370,7 @@ namespace GUI.BoxArrowDiagram
 
                 if (_changingArrow == null)
                 {
-                    BoxControl<TEnclosing, TBoxModel, TArrowModel> box = BoxForLocation(clickPoint);
+                    BoxControl<TEnclosing, TBoxModel, TArrowModel> box = BoxForLocation(clickPoint, null);
                     if (box != null)
                     {
                         _movingBox = box;
@@ -381,7 +389,7 @@ namespace GUI.BoxArrowDiagram
         /// <param name="mouseEventArgs"></param>
         private void HandleMouseMove(object sender, MouseEventArgs mouseEventArgs)
         {
-            GraphicElement element = ElementForLocation(mouseEventArgs.Location);
+            GraphicElement element = ElementForLocation(mouseEventArgs.Location, null);
             if (element != null)
             {
                 element.HandleMouseMove(sender, mouseEventArgs);
@@ -389,7 +397,7 @@ namespace GUI.BoxArrowDiagram
 
             if (_changingArrow != null && _chaningArrowAction != ChangeAction.None)
             {
-                BoxControl<TEnclosing, TBoxModel, TArrowModel> box = BoxForLocation(mouseEventArgs.Location);
+                BoxControl<TEnclosing, TBoxModel, TArrowModel> box = BoxForLocation(mouseEventArgs.Location, null);
                 if (box != null)
                 {
                     switch (_chaningArrowAction)
@@ -467,7 +475,7 @@ namespace GUI.BoxArrowDiagram
         /// <param name="mouseEventArgs"></param>
         private void HandleMouseUp(object sender, MouseEventArgs mouseEventArgs)
         {
-            GraphicElement element = ElementForLocation(mouseEventArgs.Location);
+            GraphicElement element = ElementForLocation(mouseEventArgs.Location, _movingBox);
             if (element != null)
             {
                 element.HandleMouseUp(sender, mouseEventArgs);
