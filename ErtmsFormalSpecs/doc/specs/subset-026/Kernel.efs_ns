@@ -9,10 +9,6 @@
 >
 <NameSpaces>
 <NameSpaceRef
- Name="ConfidenceInterval"
- Guid="03bf3bcd-53a3-4113-99e7-ace3214c50bd"
->
-</NameSpaceRef><NameSpaceRef
  Name="MA"
  Guid="dc87bfc8-61e2-4baa-8e0f-012871d0a6ed"
 >
@@ -91,6 +87,10 @@
 </NameSpaceRef><NameSpaceRef
  Name="Modes"
  Guid="1455d7e8-31bc-4252-8900-bfb8b7c89dc1"
+>
+</NameSpaceRef><NameSpaceRef
+ Name="UndesirableMovement"
+ Guid="16415796-5cc9-4b5d-8999-1e737456cd28"
 >
 </NameSpaceRef></NameSpaces>
 <Enumerations>
@@ -10904,7 +10904,12 @@ BTM.Linking.RAMSWindowPassed()
  Name="Handle BTM inputs"
  Guid="1ba806ee-8de8-4b1e-bb93-49c5dce8f696"
 >
-<Comment>When a new balise telegram is received, its content is copied to EFS internal variables.</Comment>
+<ReqRef
+ Id="3dcd2c27-a8e0-48b8-93e4-915c7943633f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0311786b-b1a5-4d76-9d2d-969526bbdc12"
+>
+</ReqRef><Comment>When a new balise telegram is received, its content is copied to EFS internal variables.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
@@ -10916,7 +10921,9 @@ BTM.Linking.RAMSWindowPassed()
 <PreConditions>
 <PreCondition
  Guid="e77d83c7-e2ac-4e97-a9b6-cf974eefafae"
->Available ( BTM.Message )</PreCondition></PreConditions>
+>Available ( BTM.Message )</PreCondition><PreCondition
+ Guid="a3cd896f-c1dd-4f6c-b119-3337fd5cc404"
+>NOT UndesirableMovement.ReverseMovementDetected()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="96ddb3ee-57c1-40a0-bc68-2be6f515660e"

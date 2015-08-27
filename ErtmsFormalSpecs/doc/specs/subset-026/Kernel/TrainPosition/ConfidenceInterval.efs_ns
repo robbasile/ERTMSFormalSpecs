@@ -1,0 +1,242 @@
+<NameSpace
+ X="10"
+ Y="10"
+ Width="100"
+ Height="50"
+ Pinned="TRUE"
+ Name="ConfidenceInterval"
+ Guid="17a181d0-e8b0-4a15-a486-e4c8d384e6bd"
+>
+<NameSpaces>
+</NameSpaces>
+<Functions>
+<Function
+ Type="BaseTypes.Length"
+ Default=""
+ X="1"
+ Y="61"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="AdditionalConfidenceInterval"
+ Guid="36980024-60a3-4538-a230-15555f13a173"
+>
+<ReqRef
+ Id="d5dcae2f-5a41-4d4b-ab0d-436579a7646a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e474286b-c440-42e9-b9a2-9cdf9a2c6e68"
+>
+</ReqRef><Parameters>
+<Parameter
+ Type="Default.ConfidenceInterval"
+ Name="Direction"
+ Guid="ceb5ad95-8abe-4328-81c5-40fdaba59987"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="L_DOUBTOVER"
+ Guid="46ead6ed-dac5-4aba-83d4-25fec3e2ca9c"
+>
+<PreConditions>
+<PreCondition
+ Guid="a4062622-7196-4987-a701-8f633aa50e8c"
+>Direction == Default.ConfidenceInterval.L_DOUBTOVER</PreCondition><PreCondition
+ Guid="464df18d-7b2c-436a-9855-6f3905c0e644"
+>Available ( BTM.UnlinkedBGPosition )</PreCondition></PreConditions>
+<Expression>AdditionalOverReadingAmount() + BTM.BGLocationAccuracy()</Expression>
+</Case><Case
+ Name="L_DOUBTUNDER"
+ Guid="e41990ba-ed91-4c5d-904b-87b86d208990"
+>
+<PreConditions>
+<PreCondition
+ Guid="15dab7dc-f1af-4522-90fe-38af65015a6d"
+>Direction == Default.ConfidenceInterval.L_DOUBTUNDER</PreCondition><PreCondition
+ Guid="b935f27b-ca19-4a1f-b41c-9c394b5292c5"
+>Available ( BTM.UnlinkedBGPosition )</PreCondition></PreConditions>
+<Expression>AdditionalUnderReadingAmount() + BTM.BGLocationAccuracy()</Expression>
+</Case></Cases>
+</Function><Function
+ Type="BaseTypes.Length"
+ Default=""
+ X="1"
+ Y="1"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="AdditionalOverReadingAmount"
+ Guid="241d3685-2625-46b5-816e-2c3bbde2e2da"
+>
+<ReqRef
+ Id="d5dcae2f-5a41-4d4b-ab0d-436579a7646a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="73aa04bd-6c35-46bd-a164-61bec43cfc64"
+>
+</ReqRef><Cases>
+<Case
+ Name="Value"
+ Guid="63304a15-a421-4b87-8d4a-c105f676f3d2"
+>
+<PreConditions>
+<PreCondition
+ Guid="bf63bcb5-640b-4ea3-85a2-7f124cb8b521"
+>Available ( BTM.UnlinkedBGPosition )</PreCondition></PreConditions>
+<Expression>Odometry.Accuracy.D_ora - BTM.UnlinkedBGPosition.OverReadingAmountOdo + BTM.BGLocationDetectionError</Expression>
+</Case></Cases>
+</Function><Function
+ Type="BaseTypes.Length"
+ Default=""
+ X="1"
+ Y="121"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="AdditionalUnderReadingAmount"
+ Guid="667a637a-a2cf-451f-9d63-5e1ca260c99d"
+>
+<ReqRef
+ Id="d5dcae2f-5a41-4d4b-ab0d-436579a7646a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ee699c6f-c318-49a9-8142-faf0806bcbc2"
+>
+</ReqRef><Cases>
+<Case
+ Name="Value"
+ Guid="2218e167-b5cc-4bc3-920d-ebd9d6cd05cf"
+>
+<PreConditions>
+<PreCondition
+ Guid="8114b656-f83d-4a49-afd0-b1866968871a"
+>Available ( BTM.UnlinkedBGPosition )</PreCondition></PreConditions>
+<Expression>Odometry.Accuracy.D_ura - BTM.UnlinkedBGPosition.UnderReadingAmountOdo + BTM.BGLocationDetectionError</Expression>
+</Case></Cases>
+</Function><Function
+ Type="BaseTypes.Length"
+ Default=""
+ X="1"
+ Y="181"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="OverReadingAmount"
+ Guid="87e19358-e57c-46e5-b2cb-d2034ef39b71"
+>
+<ReqRef
+ Id="8a1fe4ea-dcfd-4748-bc1e-b8b0be8aa8e0"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0a035336-9d7f-43ba-b277-ee00d62c6ce2"
+>
+</ReqRef><ReqRef
+ Id="4a9c97b2-dfca-4175-b297-9da9fc3d16fc"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="1e4fe908-e118-4bba-9d68-2a282558d90d"
+>
+</ReqRef><Comment>The over reading amount is composed of the error in detection of the balise group location reference and the odometer accuracy, relative to the LRBG (specified by 3.6.4.4), which is obtained by substracting the odometer occuracy saved while passing the LRBG from the absolute odometer accuracy.</Comment>
+<Cases>
+<Case
+ Name="LRBG available"
+ Guid="284ceec9-7a30-4948-b8f1-73c14ce3d7f1"
+>
+<PreConditions>
+<PreCondition
+ Guid="8527f2e2-1984-4e3b-a84b-2bd0ca0266eb"
+>Available ( BTM.LRBG )</PreCondition></PreConditions>
+<Expression>Odometry.Accuracy.D_ora - BTM.LRBG.Position.OverReadingAmountOdo + BTM.BGLocationDetectionError</Expression>
+</Case><Case
+ Name="LRBG not available"
+ Guid="5bd63ae7-8fb9-428d-a8f9-85e010bebd02"
+>
+<Expression>Odometry.Accuracy.D_ora + BTM.BGLocationDetectionError</Expression>
+</Case></Cases>
+</Function><Function
+ Type="BaseTypes.Length"
+ Default=""
+ X="1"
+ Y="241"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="UnderReadingAmount"
+ Guid="e23cc11d-fec9-4b9b-91f2-c053690c5421"
+>
+<ReqRef
+ Id="8a1fe4ea-dcfd-4748-bc1e-b8b0be8aa8e0"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="033682c1-309f-4e50-9d2e-cbee43db165f"
+>
+</ReqRef><ReqRef
+ Id="2ecb1ec4-fc6b-4879-a45a-e1b1c55b41fe"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c06fab78-cf31-4801-8d4b-091eb3289040"
+>
+</ReqRef><Comment>The under reading amount is composed of the error in detection of the balise group location reference and the odometer accuracy, relative to the LRBG (specified by 3.6.4.4), which is obtained by substracting the odometer occuracy saved while passing the LRBG from the absolute odometer accuracy.</Comment>
+<Cases>
+<Case
+ Name="LRBG available"
+ Guid="2ba7b942-320c-4df1-8fd8-37bc2a4c40ad"
+>
+<PreConditions>
+<PreCondition
+ Guid="a5bf58bf-8a8e-4e6c-878e-f193ff367c6d"
+>Available ( BTM.LRBG )</PreCondition></PreConditions>
+<Expression>Odometry.Accuracy.D_ura - BTM.LRBG.Position.UnderReadingAmountOdo + BTM.BGLocationDetectionError</Expression>
+</Case><Case
+ Name="LRBG not available"
+ Guid="addf63ba-ab75-44ea-b08b-f5b1ce8c87d1"
+>
+<Expression>Odometry.Accuracy.D_ura + BTM.BGLocationDetectionError</Expression>
+</Case></Cases>
+</Function><Function
+ Type="BaseTypes.Length"
+ Default=""
+ X="1"
+ Y="301"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="ConfidenceInterval"
+ Guid="a40dfb8e-8d14-4ca5-a849-7ff2e9b645c9"
+>
+<ReqRef
+ Id="d7a377d0-4389-4441-8bda-036db6e7805a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="cfad7d8a-643f-4ee9-90e5-dee8503b3cdb"
+>
+</ReqRef><ReqRef
+ Id="a1fc79d6-208f-467d-86f6-eeeb062486bf"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="dfe3e0b9-e1e2-483c-8d80-2d346115aeb6"
+>
+</ReqRef><Comment>ConfidenceInterval is needed to compute the max safe frond end and the max safe rear end of the train. It depends on:
+- The over-reading and the under-reading amount of the train, computed respectively by the functions OverReadingAmount and UnderReadingAmount
+- The balise groups location detection error, given by the BTM</Comment>
+<Parameters>
+<Parameter
+ Type="Default.ConfidenceInterval"
+ Name="Direction"
+ Guid="81d6934c-c6ae-40f3-bb02-c6d38cf6da86"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="L_DOUBTOVER"
+ Guid="42ca5663-fa6a-46a1-b6b7-e877c3eaf2ee"
+>
+<PreConditions>
+<PreCondition
+ Guid="67b1f287-e27b-43b1-9c78-f3744fa8fdbb"
+>Direction == Default.ConfidenceInterval.L_DOUBTOVER</PreCondition></PreConditions>
+<Expression>OverReadingAmount() + BTM.BGLocationAccuracy()</Expression>
+</Case><Case
+ Name="L_DOUBTUNDER"
+ Guid="a19a1e59-da54-4197-bccf-081040d859a4"
+>
+<PreConditions>
+<PreCondition
+ Guid="154edbe4-5899-4c83-b4d4-9b248e032553"
+>Direction == Default.ConfidenceInterval.L_DOUBTUNDER</PreCondition></PreConditions>
+<Expression>UnderReadingAmount() + BTM.BGLocationAccuracy()</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>

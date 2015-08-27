@@ -932,10 +932,16 @@ EmergencyStops</Action></Actions>
 <Actions>
 </Actions>
 </RuleCondition><RuleCondition
+ Implemented="TRUE"
  Name="Display reverse movement protection"
  Guid="7e1321a9-c000-41e6-90d8-4a0ad68e31b4"
 >
-<Comment>Displey the acknowledgement request for braking due to reverse movement protection.</Comment>
+<ReqRef
+ Id="356c897f-ec33-4240-8b7c-f795ee273d64"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="1e0cc063-b97d-4cfd-9d3d-d571e9743250"
+>
+</ReqRef><Comment>Displey the acknowledgement request for braking due to reverse movement protection.</Comment>
 <PreConditions>
 <PreCondition
  Guid="fa3d6fc0-ac3f-47f2-a420-06594633ff03"
@@ -958,10 +964,16 @@ EmergencyStops</Action></Actions>
  Guid="85e315ad-e24e-4ee5-8bb1-4a8cb2bd7c76"
 >DMI.MasterDMI().In_AcknForReversingDistanceExceeded.InitiateRequest()</Action></Actions>
 </RuleCondition><RuleCondition
+ Implemented="TRUE"
  Name="Display roll away protection"
  Guid="882f55c2-cf68-478c-94f2-88e73b34c528"
 >
-<Comment>Displey the acknowledgement request for braking due to roll away protection.</Comment>
+<ReqRef
+ Id="8fae9656-3172-4724-ac7f-6cde69800d28"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="4b0a0fa0-0d15-4487-be5a-8253bab71427"
+>
+</ReqRef><Comment>Displey the acknowledgement request for braking due to roll away protection.</Comment>
 <PreConditions>
 <PreCondition
  Guid="cc0e14e8-7335-4932-bbf0-7d6684638c2e"
@@ -991,10 +1003,16 @@ EmergencyStops</Action></Actions>
 <Actions>
 </Actions>
 </RuleCondition><RuleCondition
+ Implemented="TRUE"
  Name="Display standstill supervision"
  Guid="22baceee-bd47-4938-8117-96ad5e6a6166"
 >
-<Comment>Displey the acknowledgement request for braking due to standstill supervision.</Comment>
+<ReqRef
+ Id="e87c7aa6-0460-46c8-82ca-66eb5c47b2ae"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="409468b4-7a70-4c45-bb4e-70974c43f1ab"
+>
+</ReqRef><Comment>Displey the acknowledgement request for braking due to standstill supervision.</Comment>
 <PreConditions>
 <PreCondition
  Guid="dde5c0f6-c0c0-4bd2-9988-21ca98690bdd"
@@ -1002,7 +1020,9 @@ EmergencyStops</Action></Actions>
 <Actions>
 <Action
  Guid="26884755-3320-44ea-8154-9fc876cfda5c"
->DMI.MasterDMI().In_AcknForStandstillSupervision.InitiateRequest()</Action></Actions>
+>DMI.MasterDMI().In_AcknForStandstillSupervision.InitiateRequest()</Action><Action
+ Guid="2a476e6d-603b-4be2-ae58-7a9d5b0bcbb5"
+>UndesirableMovement.InitializeStandstillSupervision()</Action></Actions>
 </RuleCondition><RuleCondition
  Name="Display time-out of text message ackn"
  Guid="088053a7-cc7b-41a0-912f-b083aad3310c"
@@ -1301,6 +1321,11 @@ NOT TIU.SBApplied</PreCondition></PreConditions>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="08887037-8976-414c-8e89-947c55af6f69"
 >
+</ReqRef><ReqRef
+ Id="5b878cb7-bb66-41bb-96dc-6089f53c8f01"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0426aa6d-9896-49c4-b103-f0c5ace04a5b"
+>
 </ReqRef><Comment>Revoke the brake command due to roll away protection.</Comment>
 <SubRules></SubRules>
 <Conditions>
@@ -1318,7 +1343,9 @@ NOT TIU.SBApplied</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="7390e3a2-bfc1-4b6e-8d21-e830cc4dd86c"
->ReleaseSBCommand(BrakeReason.RollAwayProtection)</Action></Actions>
+>ReleaseSBCommand(BrakeReason.RollAwayProtection)</Action><Action
+ Guid="29a33d38-33df-4509-87cd-8cd06a04ad0a"
+>UndesirableMovement.InitializeRollAwayProtection()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Implemented="TRUE"
@@ -1329,6 +1356,11 @@ NOT TIU.SBApplied</PreCondition></PreConditions>
  Id="ba7f8c98-781f-404a-b7b8-e679b92c5448"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="39de26ca-05c4-4cf8-9092-4857aefdc79e"
+>
+</ReqRef><ReqRef
+ Id="de3edf27-2461-48e2-9737-d2e812684d28"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e15c9615-d0c1-4842-8c86-ee6b1b04b6c7"
 >
 </ReqRef><Comment>Revoke the brake command due to reverse movement protection.</Comment>
 <SubRules></SubRules>
@@ -1347,7 +1379,9 @@ NOT TIU.SBApplied</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="27916ba4-948e-4ec7-a83d-e4952cc5a37d"
->ReleaseSBCommand(BrakeReason.ReverseMovementProtection)</Action></Actions>
+>ReleaseSBCommand(BrakeReason.ReverseMovementProtection)</Action><Action
+ Guid="4a499668-c7cb-49a9-8d95-1928e78c5cdc"
+>UndesirableMovement.InitializeReverseMovementProtection()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Implemented="TRUE"

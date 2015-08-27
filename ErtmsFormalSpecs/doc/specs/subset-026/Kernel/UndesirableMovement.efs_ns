@@ -1,0 +1,722 @@
+<NameSpace
+ X="670"
+ Y="70"
+ Width="100"
+ Height="50"
+ Name="UndesirableMovement"
+ Guid="21615eb6-5dd2-475d-b531-5fcb3bcb7cea"
+>
+<NameSpaces>
+</NameSpaces>
+<Functions>
+<Function
+ Type="Boolean"
+ X="551"
+ Y="1"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="MovementDetected"
+ Guid="823c8ccb-f306-4311-a3c2-e6a899955127"
+>
+<Comment>Indicates whether the train detected any movement in the current cycle.</Comment>
+<Cases>
+<Case
+ Name="Value"
+ Guid="4ec20176-f892-4503-863a-fe3d97a8e325"
+>
+<Expression>NOT Odometry.TrainIsAtStandstill()</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ X="661"
+ Y="1"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="RollAwayDetected"
+ Guid="c64922f5-2092-423b-8647-32ba492c6078"
+>
+<ReqRef
+ Id="507e945d-af5e-4721-af02-3f87008198c9"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="5c4a626a-7870-4078-b9f9-6613e20b25e4"
+>
+</ReqRef><ReqRef
+ Id="6f923071-4cba-403c-9510-8aa3b5a4d6c2"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b1d6ea76-2ffb-431b-969a-c0e3720b1796"
+>
+</ReqRef><ReqRef
+ Id="1058129e-e8d2-4dda-992f-3f44ebb4a754"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c275eec0-1da1-4600-b42f-97d8cb0201a4"
+>
+</ReqRef><Comment>Indicates whether the conditions to trigger a brake command due to the roll away protection have been fulfilled.</Comment>
+<Cases>
+<Case
+ Name="No movement detected"
+ Guid="8e0242c6-82ec-4faa-8c76-4558f4cdaff3"
+>
+<PreConditions>
+<PreCondition
+ Guid="2f19251e-f175-4db7-8e29-28aa35096116"
+>NOT MovementDetected()
+  OR  
+RollAwayReferencePosition == BaseTypes.Distance.Unknown</PreCondition></PreConditions>
+<Expression>False</Expression>
+</Case><Case
+ Name="Direction controller in Neutral"
+ Guid="cb8203ba-93fa-4bd9-a996-e08256c6db55"
+>
+<PreConditions>
+<PreCondition
+ Guid="97d9a3ea-c214-4b26-aa7b-693ecba1ffc5"
+>TIU.DirectionControllerInformation == TIU.DirectionControllerEnum.Neutral</PreCondition></PreConditions>
+<Expression>MovedBackwardBeyondReference(RollAwayReferencePosition)
+  OR  
+MovedForwardBeyondReference(RollAwayReferencePosition)</Expression>
+</Case><Case
+ Name="Direction controller in forward"
+ Guid="7cf9f355-4388-430f-a696-2f039b3e2d06"
+>
+<PreConditions>
+<PreCondition
+ Guid="2f2dc6ce-2437-470c-99df-8941fafd463e"
+>TIU.DirectionControllerInformation == TIU.DirectionControllerEnum.Forward</PreCondition></PreConditions>
+<Expression>MovedBackwardBeyondReference(RollAwayReferencePosition)</Expression>
+</Case><Case
+ Name="Direction controller in backward"
+ Guid="0ab5651a-90d3-4a02-97b6-ce3d69a9b1da"
+>
+<PreConditions>
+<PreCondition
+ Guid="58a98f42-a2c6-4a27-a041-eaee8e274c43"
+>TIU.DirectionControllerInformation == TIU.DirectionControllerEnum.Backward</PreCondition></PreConditions>
+<Expression>MovedForwardBeyondReference(RollAwayReferencePosition)</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ X="221"
+ Y="61"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="MovedForwardBeyondReference"
+ Guid="9d35ef6f-3dc9-4db7-aa69-499e7a9c76b5"
+>
+<ReqRef
+ Id="507e945d-af5e-4721-af02-3f87008198c9"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ddaadd71-d00a-4429-b445-5acb745d1ffd"
+>
+</ReqRef><ReqRef
+ Id="1058129e-e8d2-4dda-992f-3f44ebb4a754"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="20e3d9ea-960d-42ee-bcba-093eb9dfab2a"
+>
+</ReqRef><Comment>Checks that the train moved forwards beyond the national value for the allowed roll away distance.</Comment>
+<Parameters>
+<Parameter
+ Type="BaseTypes.Distance"
+ Name="aReferenceDistance"
+ Guid="9981e2a6-0170-4881-b540-75c56454cd7e"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="26801c08-367c-4d0b-8c3c-6be74e9ea508"
+>
+<Expression>Odometry.NominalDistance - aReferenceDistance &gt; NationalValues.ApplicableNationalValues.Value.DistToBeUsedInRollAwayProt_RevMvtProt_StandstillSup</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ X="221"
+ Y="61"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="MovedBackwardBeyondReference"
+ Guid="d68e14b1-3f53-424b-b2ae-6876d9550c98"
+>
+<ReqRef
+ Id="507e945d-af5e-4721-af02-3f87008198c9"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="fc00d10a-8496-4752-946a-53fc48b05706"
+>
+</ReqRef><ReqRef
+ Id="1058129e-e8d2-4dda-992f-3f44ebb4a754"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="10ece08b-ef61-4f57-ace9-76ac6c878a6a"
+>
+</ReqRef><Comment>Checks that the train moved backwards beyond the national value for the allowed roll away distance.</Comment>
+<Parameters>
+<Parameter
+ Type="BaseTypes.Distance"
+ Name="aReferenceDistance"
+ Guid="a517e202-66a1-452d-9026-11849fd08ae0"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="147fc84c-d166-41f7-a3de-26c6ef999b5d"
+>
+<Expression>aReferenceDistance - Odometry.NominalDistance &gt; NationalValues.ApplicableNationalValues.Value.DistToBeUsedInRollAwayProt_RevMvtProt_StandstillSup</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ X="1"
+ Y="121"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="MovedInDirectionOfController"
+ Guid="b995f157-308c-4f7b-a52d-7ac453733426"
+>
+<ReqRef
+ Id="6f89de18-e407-4737-90cf-efd9d8a3b178"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e86f2be4-36bf-4ae8-a6f7-1c8ef1569003"
+>
+</ReqRef><Comment>Checks whether the train moved in the desired direction in the current cycle.</Comment>
+<Parameters>
+<Parameter
+ Type="BaseTypes.Distance"
+ Name="aReferenceDistance"
+ Guid="045b9728-ae53-4b22-8ff0-a4291f476d86"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Direction controller forward"
+ Guid="6895ca0d-f8c4-4c89-9eeb-c96f43968caa"
+>
+<PreConditions>
+<PreCondition
+ Guid="4ee80c29-6495-4621-bc3e-2ac914f49bf1"
+>TIU.DirectionControllerInformation == TIU.DirectionControllerEnum.Forward</PreCondition></PreConditions>
+<Expression>Odometry.NominalDistance &gt; aReferenceDistance</Expression>
+</Case><Case
+ Name="Direction controller backward"
+ Guid="32b477d2-5bcf-401e-8744-1d69913fb32f"
+>
+<PreConditions>
+<PreCondition
+ Guid="80c39408-39f7-4b19-acc5-c82e89ee52ec"
+>TIU.DirectionControllerInformation == TIU.DirectionControllerEnum.Backward</PreCondition></PreConditions>
+<Expression>Odometry.NominalDistance &lt; aReferenceDistance</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="36046d41-eed1-4d81-879e-a9da6530bd93"
+>
+<Expression>False</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ X="771"
+ Y="1"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="ReverseMovementDetected"
+ Guid="1eae931b-97b2-44f2-8b27-7a7a41f66bb4"
+>
+<ReqRef
+ Id="564c8eaf-9eff-4fcc-a1ab-b4c80a278e54"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="2d61d409-ad84-48de-80fb-84e60c45c5a3"
+>
+</ReqRef><ReqRef
+ Id="3dcd2c27-a8e0-48b8-93e4-915c7943633f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="3684f0cd-cd37-4edb-aaf1-69a5cfc2f4be"
+>
+</ReqRef><ReqRef
+ Id="cf125334-c2c0-4fcc-91c8-a060267517e1"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ec9b3f79-7186-4b25-8283-5b65db3b5a17"
+>
+</ReqRef><Comment>Indicates whether the conditions to trigger a brake command due to the reverse movement protection have been fulfilled.</Comment>
+<Cases>
+<Case
+ Name="No movement detected"
+ Guid="694bd001-2c14-4f65-bd82-737614d4fad9"
+>
+<PreConditions>
+<PreCondition
+ Guid="61498722-a67c-4166-be89-5ca3d444d4ac"
+>NOT MovementDetected()
+  OR  
+ReverseMovementReferencePosition == BaseTypes.Distance.Unknown</PreCondition></PreConditions>
+<Expression>False</Expression>
+</Case><Case
+ Name="Value"
+ Guid="1477ed66-aaf4-4fd3-9194-20a75ac62200"
+>
+<Expression>MovedBackwardBeyondReference(ReverseMovementReferencePosition)</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ X="1"
+ Y="181"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="StandstillDistanceExceeded"
+ Guid="edb4b866-360e-4e46-b4a9-6bf9159e7c5b"
+>
+<ReqRef
+ Id="c4a4386b-4dc3-4967-aaef-4485fe5a5adf"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0ff180a8-e12c-460b-aa1f-138d1f93f8f0"
+>
+</ReqRef><ReqRef
+ Id="b883cf61-7caf-4980-becb-9096c165864d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d41d414b-803c-4d65-a7e7-503a6cd3d8cf"
+>
+</ReqRef><Comment>Indicates whether the conditions to trigger a brake command due to the standstill supervision have been fulfilled.</Comment>
+<Cases>
+<Case
+ Name="No movement detected"
+ Guid="7a307d27-6d9e-4181-8f6f-063851763497"
+>
+<PreConditions>
+<PreCondition
+ Guid="5267c232-0ef1-4ed7-a47a-95f7de2bd8bc"
+>NOT MovementDetected()
+  OR  
+StandstillSupervisionReferencePosition == BaseTypes.Distance.Unknown</PreCondition></PreConditions>
+<Expression>False</Expression>
+</Case><Case
+ Name="Value"
+ Guid="90ecb707-a5e6-42a3-bf2a-91215f3a0ff0"
+>
+<Expression>MovedBackwardBeyondReference(StandstillSupervisionReferencePosition)
+  OR  
+MovedForwardBeyondReference(StandstillSupervisionReferencePosition)</Expression>
+</Case></Cases>
+</Function></Functions>
+<Procedures>
+<Procedure
+ X="441"
+ Y="1"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="InitializeRollAwayProtection"
+ Guid="8a6ff73d-85b8-466c-86e8-072baa2254f8"
+>
+<ReqRef
+ Id="5b878cb7-bb66-41bb-96dc-6089f53c8f01"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="30e3221c-dc9a-4b8d-8f33-e1b24fa79b11"
+>
+</ReqRef><Comment>Reinitialises the roll away protection function.</Comment>
+<Rules>
+<Rule
+ Implemented="TRUE"
+ Name="Keep reference position"
+ Guid="70725519-d632-42dc-af86-d61478b52d25"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Keep reference position"
+ Guid="9a2c406a-f92b-40de-8cb9-851e2d78e16a"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="7757da04-e9f4-4648-ac19-0a1bd75224bf"
+>RollAwayReferencePosition &lt;- Odometry.NominalDistance</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="221"
+ Y="121"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="InitializeReverseMovementProtection"
+ Guid="4f370c7d-6f84-4dbf-be91-c866b9e8a3fb"
+>
+<ReqRef
+ Id="de3edf27-2461-48e2-9737-d2e812684d28"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="371dfad3-405e-420a-b429-21d7dc55730b"
+>
+</ReqRef><Comment>Reinitialises the reverse movement protection function.</Comment>
+<Rules>
+<Rule
+ Implemented="TRUE"
+ Name="Keep reference position"
+ Guid="fa694bf6-acbc-4966-a2e3-f69390ceb025"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Keep reference position"
+ Guid="248fb477-e241-4bf0-8af3-7b5363924f6e"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="96f5433c-1e64-4ac9-a274-6e8045aee8e0"
+>ReverseMovementReferencePosition &lt;- Odometry.NominalDistance</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="111"
+ Y="181"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="InitializeStandstillSupervision"
+ Guid="1843421e-71e3-4672-b981-d01507914941"
+>
+<ReqRef
+ Id="e87c7aa6-0460-46c8-82ca-66eb5c47b2ae"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ea11a058-d600-4357-9f71-3cc764c95506"
+>
+</ReqRef><Comment>Reinitialises the standstill supervision function.</Comment>
+<Rules>
+<Rule
+ Implemented="TRUE"
+ Name="Keep reference position"
+ Guid="84aa25b6-f763-4908-ab30-70be284dc5db"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Keep reference position"
+ Guid="208718dc-d69b-48c4-a5c0-e6ebb9792480"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="f117494c-22db-43e3-86ca-39ee1ad12b01"
+>StandstillSupervisionReferencePosition &lt;- Odometry.NominalDistance</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure></Procedures>
+<Variables>
+<Variable
+ Type="BaseTypes.Distance"
+ DefaultValue="BaseTypes.Distance.Unknown"
+ VariableMode="Internal"
+ X="1"
+ Y="61"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="RollAwayReferencePosition"
+ Guid="8144b376-47f6-4524-86cb-9381567478a6"
+>
+<ReqRef
+ Id="1058129e-e8d2-4dda-992f-3f44ebb4a754"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b5afbf71-6588-4a61-88c1-55ccf9b95469"
+>
+</ReqRef><ReqRef
+ Id="5b878cb7-bb66-41bb-96dc-6089f53c8f01"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="dc063880-cc0e-4e04-adfe-600d0a171798"
+>
+</ReqRef><ReqRef
+ Id="507e945d-af5e-4721-af02-3f87008198c9"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="4a9ce2d8-f0f1-4cad-a9a8-f2c535c4eb52"
+>
+</ReqRef><Comment>Tracks the reference location for roll away protection.
+When the roll away protection is inactive, it is set to the unknown distance.</Comment>
+</Variable><Variable
+ Type="BaseTypes.Distance"
+ DefaultValue="BaseTypes.Distance.Unknown"
+ VariableMode="Internal"
+ X="111"
+ Y="61"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="ReverseMovementReferencePosition"
+ Guid="a1939a75-dc81-4c9d-a4eb-a36b4cd4cc6d"
+>
+<ReqRef
+ Id="de3edf27-2461-48e2-9737-d2e812684d28"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="78c0d855-4bed-4282-81d2-d535267ef086"
+>
+</ReqRef><ReqRef
+ Id="564c8eaf-9eff-4fcc-a1ab-b4c80a278e54"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="911483ad-7c6d-404d-b420-c2b4737ff4f3"
+>
+</ReqRef><ReqRef
+ Id="cf125334-c2c0-4fcc-91c8-a060267517e1"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="60bdcfa5-1d22-4f41-abb5-945643f998ee"
+>
+</ReqRef><Comment>Tracks the reference location for reverse movement protection.
+When the reverse movement protection is inactive, it is set to the unknown distance.</Comment>
+</Variable><Variable
+ Type="BaseTypes.Distance"
+ DefaultValue="BaseTypes.Distance.Unknown"
+ VariableMode="Internal"
+ X="111"
+ Y="121"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="StandstillSupervisionReferencePosition"
+ Guid="db4385b9-84bc-4a68-8ff7-262f8ceaca96"
+>
+<ReqRef
+ Id="c4a4386b-4dc3-4967-aaef-4485fe5a5adf"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="8eb3e88b-a570-4d73-a39a-ca16c1adc02d"
+>
+</ReqRef><ReqRef
+ Id="b883cf61-7caf-4980-becb-9096c165864d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="199093f4-cbe3-4142-b217-f63d3764c72a"
+>
+</ReqRef><Comment>Tracks the reference location for standstill supervision.
+When the standstill supervision is inactive, it is set to the unknown distance.</Comment>
+</Variable></Variables>
+<Rules>
+<Rule
+ X="111"
+ Y="1"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="Roll away protection"
+ Guid="7d13d063-2c51-48ab-b5d1-25703079dde2"
+>
+<ReqRef
+ Id="507e945d-af5e-4721-af02-3f87008198c9"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="8e3706a6-177f-4e8f-8c38-f2448680364b"
+>
+</ReqRef><ReqRef
+ Id="1058129e-e8d2-4dda-992f-3f44ebb4a754"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="929ebc96-e9b2-4d36-8215-12b52de51393"
+>
+</ReqRef><ReqRef
+ Id="8fae9656-3172-4724-ac7f-6cde69800d28"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="53170447-0db9-4b1c-b5bb-278e36f01b4b"
+>
+</ReqRef><ReqRef
+ Id="6f89de18-e407-4737-90cf-efd9d8a3b178"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="303d29ed-4ce5-4435-9498-008ac04d3c34"
+>
+</ReqRef><Comment>Handles the roll away protection function.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Activate roll away protection"
+ Guid="5256c27a-290e-4764-bbf5-adb58a8695e8"
+>
+<Comment>If the roll away protection is active, and is has seen that the train moved too far in an undesirable direction, activate the brakes.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="d469d334-1f38-4e89-8cb8-b382b99545f0"
+>ActiveFunctions.ProtectAgainstRollAway()</PreCondition><PreCondition
+ Guid="b8153d2f-fcbc-4626-bcb0-8fb26e9a59d9"
+>RollAwayDetected()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="0b025c0e-91b1-4731-b56c-68d0de455a67"
+>DMI.MasterDMI().In_AcknForRollAwayProtection.InitiateRequest()</Action><Action
+ Guid="833cd1b9-16fb-483d-a5f4-93ed6d584f77"
+>BrakeCommands.CommandServiceBrake(BrakeCommands.BrakeReason.RollAwayProtection)</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Keep reference to current location"
+ Guid="97ecbe71-53ba-4537-a7fb-4e7df5c19703"
+>
+<Comment>If the roll away protection function is active, keep the current location as reference location as long as the train keeps moving in the desired direction.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="18530cba-36e0-45e0-9a60-7552ea0639b9"
+>MovedInDirectionOfController(RollAwayReferencePosition)</PreCondition><PreCondition
+ Guid="1576486f-c20c-4e5f-a070-7f1d7e747443"
+>ActiveFunctions.ProtectAgainstRollAway()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="289769a9-262d-4546-83bd-81d79963581a"
+>RollAwayReferencePosition &lt;- Odometry.NominalDistance</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Deactivate roll away protection"
+ Guid="e43434c5-eee0-4f4c-b534-39b50762bd7d"
+>
+<Comment>If the roll away protection function becomes inactive, reset the reference location.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="ba0b7670-711e-4b67-9f19-31db6982419c"
+>RollAwayReferencePosition != BaseTypes.Distance.Unknown</PreCondition><PreCondition
+ Guid="199b9539-c029-4292-8e4a-81950c515c48"
+>NOT ActiveFunctions.ProtectAgainstRollAway()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="63e0b9d7-1838-43d8-980f-944496c58e3f"
+>RollAwayReferencePosition &lt;- BaseTypes.Distance.Unknown</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ X="221"
+ Y="1"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="Reverse movement protection"
+ Guid="925775c0-43fd-4d27-8dee-a723000c8559"
+>
+<ReqRef
+ Id="564c8eaf-9eff-4fcc-a1ab-b4c80a278e54"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f80b0318-004f-473a-8b64-314f2ad9e4f3"
+>
+</ReqRef><ReqRef
+ Id="356c897f-ec33-4240-8b7c-f795ee273d64"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="671b4468-4ccd-4c40-af0d-643645829593"
+>
+</ReqRef><ReqRef
+ Id="cf125334-c2c0-4fcc-91c8-a060267517e1"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f59bbf10-82ef-46c8-b775-48ba1885066d"
+>
+</ReqRef><Comment>Handles the reverse movement protection function.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Activate reverse movement protection"
+ Guid="26e91524-cade-4dd0-8eb8-78b1abd4746f"
+>
+<Comment>If the reverse movement protection is active, and is has seen that the train moved too far backwards, activate the brakes.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="f458803f-bee8-41ab-a12c-ebdd4b17eab2"
+>ActiveFunctions.ProtectAgainstReverseMovement()</PreCondition><PreCondition
+ Guid="f1e1e1b5-4431-4675-9594-1b40a1a62c4f"
+>ReverseMovementDetected()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="561a2dd6-7297-4e3a-97be-9a179920b3be"
+>DMI.MasterDMI().In_AcknForReverseMovementProtection.InitiateRequest()</Action><Action
+ Guid="c534b70e-481b-4dc6-8782-d5a0e030ab01"
+>BrakeCommands.CommandServiceBrake(BrakeCommands.BrakeReason.ReverseMovementProtection)</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Keep reference to current location"
+ Guid="ff067774-6620-4b1d-aebc-0b76dd47959d"
+>
+<Comment>If the reverse movement protection function is active, keep the current location as reference location as long as the train keeps moving forwards.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="f2a93777-1fe1-491b-a310-1971976bf15c"
+>ActiveFunctions.ProtectAgainstReverseMovement()</PreCondition><PreCondition
+ Guid="239c0111-a2f7-42fc-9086-d938ac14c156"
+>Odometry.NominalDistance &gt; ReverseMovementReferencePosition</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="79b16cfb-cc72-4039-a21f-1186a0ceeca8"
+>ReverseMovementReferencePosition &lt;- Odometry.NominalDistance</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Deactivate reverse movement protection"
+ Guid="6a2c780c-aa07-4cd0-bf60-05985b7e46b3"
+>
+<Comment>If the reverse movement protection function becomes inactive, reset the reference location.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="508fe116-e7da-42df-82e4-1d722aa7cd0e"
+>NOT ActiveFunctions.ProtectAgainstReverseMovement()</PreCondition><PreCondition
+ Guid="7a0048e5-0cfa-4d1a-854e-7a0f3da2e490"
+>ReverseMovementReferencePosition != BaseTypes.Distance.Unknown</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="2cd611ba-4b36-42b4-b4fd-24071cf4c33b"
+>ReverseMovementReferencePosition &lt;-  BaseTypes.Distance.Unknown</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ X="331"
+ Y="1"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="Standstill supervision"
+ Guid="537f9151-0dfc-497f-8f6b-0998ab78b201"
+>
+<ReqRef
+ Id="c4a4386b-4dc3-4967-aaef-4485fe5a5adf"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f5abaef6-bbb5-4576-a079-88c3b7a367d5"
+>
+</ReqRef><ReqRef
+ Id="b883cf61-7caf-4980-becb-9096c165864d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a24762d2-5053-4557-91d0-443c0919a0df"
+>
+</ReqRef><ReqRef
+ Id="ade33b4f-310e-406d-b308-3be003251c25"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d0144db1-3e31-45fc-98ba-28c19549cc31"
+>
+</ReqRef><Comment>Handles the standstill supervision function.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Activate standstill supervision"
+ Guid="b5cdb86f-355b-470b-ae56-732df8feb980"
+>
+<Comment>If the stadstill supervision is active, and is has seen that the train moved too far, activate the brakes.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="fd366256-6d69-49d3-a6f8-2649f21ee80b"
+>ActiveFunctions.SuperviseStandstill()</PreCondition><PreCondition
+ Guid="af30998a-3c30-48e0-9180-d6c4605fe503"
+>StandstillDistanceExceeded()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="f6af442d-0105-4145-8995-0b16908289d8"
+>BrakeCommands.CommandServiceBrake(BrakeCommands.BrakeReason.SupervisingStandstill)</Action><Action
+ Guid="0e6c282e-efb8-4d05-8119-60324a07328f"
+>DMI.MasterDMI().In_AcknForStandstillSupervision.InitiateRequest()</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Deactivate standstill supervision"
+ Guid="32dff1b0-f265-475d-b54c-c632c3592624"
+>
+<Comment>If the staqndstill supervision function becomes inactive, reset the reference location.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="4265196d-7cfb-4131-852f-29322d24888b"
+>StandstillSupervisionReferencePosition != BaseTypes.Distance.Unknown</PreCondition><PreCondition
+ Guid="11a3ba35-439e-4115-a21b-1fe8697ba5f4"
+>NOT ActiveFunctions.SuperviseStandstill()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="a584993d-4df5-4d15-9b17-5e1dd89d6b43"
+>StandstillSupervisionReferencePosition &lt;- BaseTypes.Distance.Unknown</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</NameSpace>
