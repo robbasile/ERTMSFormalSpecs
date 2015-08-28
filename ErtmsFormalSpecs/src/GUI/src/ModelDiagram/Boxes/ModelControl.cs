@@ -14,11 +14,14 @@
 // --
 // ------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Windows.Forms;
 using DataDictionary;
 using GUI.BoxArrowDiagram;
 using GUI.ModelDiagram.Arrows;
+using GUIUtils.Editor.Patterns;
 using Utils;
 
 namespace GUI.ModelDiagram.Boxes
@@ -186,12 +189,58 @@ namespace GUI.ModelDiagram.Boxes
                 // Display the pre computed text at their corresponding locaations
                 foreach (TextPosition textPosition in Texts)
                 {
-                    graphics.DrawString(
-                        textPosition.Text,
-                        textPosition.Font,
-                        new SolidBrush(textPosition.Color),
-                        textPosition.Location.X,
-                        textPosition.Location.Y);
+                    if (textPosition.Color != Color.Transparent)
+                    {
+                        graphics.DrawString(
+                            textPosition.Text,
+                            textPosition.Font,
+                            new SolidBrush(textPosition.Color),
+                            textPosition.Location.X,
+                            textPosition.Location.Y);
+                    }
+                    else
+                    {
+                        // Syntax highlighting
+                        ModelDiagramPanel panel = (ModelDiagramPanel) Panel;
+                        string[] lines = textPosition.Text.Split('\n');
+                        PointF location = textPosition.Location;
+                        foreach (string line in lines)
+                        {
+                            List<TextPart> parts = panel.Recognizer.TokenizeLine(TypedModel as DataDictionary.ModelElement, line);
+                            foreach (TextPart part in parts)
+                            {
+                                string str = line.Substring(part.Start, part.Length);
+                                SizeF size;
+                                if (str == " ")
+                                {
+                                    size = new SizeF(2.0F, Font.Height);
+                                }
+                                else
+                                {
+                                    size = GuiUtils.Graphics.MeasureString(str, part.Font, location, StringFormat.GenericTypographic);                                    
+                                }
+
+                                graphics.DrawString(str, part.Font, new SolidBrush(part.Color), location.X, location.Y);
+
+                                // Measure string does not handle spaces correctly
+                                int increment = 1;
+                                if (str.StartsWith(" "))
+                                {
+                                    increment += 1;
+                                }
+                                if (str.EndsWith(" "))
+                                {
+                                    increment += 1;
+                                }
+                                if (part.Font.Bold)
+                                {
+                                    increment += 3;
+                                }
+                                location = new PointF(location.X + size.Width + increment, location.Y);
+                            }
+                            location = new PointF(textPosition.Location.X, location.Y + Font.Height);
+                        }
+                    }
                 }
             }
         }

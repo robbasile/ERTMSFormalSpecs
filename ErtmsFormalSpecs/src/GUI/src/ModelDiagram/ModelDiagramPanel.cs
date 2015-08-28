@@ -25,6 +25,7 @@ using DataDictionary.Variables;
 using GUI.BoxArrowDiagram;
 using GUI.ModelDiagram.Arrows;
 using GUI.ModelDiagram.Boxes;
+using GUIUtils.Editor.Patterns;
 using Utils;
 using Enum = DataDictionary.Types.Enum;
 using Type = DataDictionary.Types.Type;
@@ -61,6 +62,19 @@ namespace GUI.ModelDiagram
         {
             get { return Model as Function; }
             set { Model = value; }
+        }
+
+        /// <summary>
+        /// Tokenizes EFS text
+        /// </summary>
+        public EfsRecognizer Recognizer { get; private set; }
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        public ModelDiagramPanel()
+        {
+            Recognizer = new EfsRecognizer(Font);   
         }
 
         /// <summary>
@@ -474,13 +488,13 @@ namespace GUI.ModelDiagram
                         (PreConditionModelControl) GetBoxControl(preCondition);
 
                     location = SetSizeAndLocation(preConditionControl, location);
-                    SetText(preConditionControl, preCondition.ExpressionText, preConditionControl.Font, Color.Black, location);
+                    SetText(preConditionControl, preCondition.ExpressionText, preConditionControl.Font, Color.Transparent, location);
                     location = Inbed(caseControl, preConditionControl, location);
                 }
 
                 // Sets the control contents
                 location = new Point(30, location.Y);
-                location = SetText(caseControl, caseControl.TypedModel.GraphicalName, caseControl.Font, Color.Black, location);
+                location = SetText(caseControl, caseControl.TypedModel.GraphicalName, caseControl.Font, Color.Transparent, location);
 
                 // Prepare for next loop iteration
                 location = new Point(30, location.Y + 10);
