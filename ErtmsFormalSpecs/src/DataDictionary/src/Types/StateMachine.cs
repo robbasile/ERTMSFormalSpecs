@@ -917,7 +917,7 @@ namespace DataDictionary.Types
             {
                 State retVal = (State) base.DefaultValue;
 
-                if (retVal.getStateMachine() != null && retVal.getStateMachine().countStates() > 0)
+                if (retVal != null && retVal.getStateMachine() != null && retVal.getStateMachine().countStates() > 0)
                 {
                     retVal = (State) retVal.getStateMachine().DefaultValue;
                 }
