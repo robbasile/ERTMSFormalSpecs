@@ -201,7 +201,13 @@
  Guid="6c473d77-5756-4158-8de9-f6428f0b64de"
 >
 </ReqRef><Comment>Distance where the National Values have to be deleted.</Comment>
-</StructureElement></Structure><Structure
+</StructureElement><Interfaces>
+<StructureRef
+ Name="DataStateInterface"
+ Guid="0fef7d90-acb1-4503-b3b5-efa37bdcad38"
+>
+</StructureRef></Interfaces>
+</Structure><Structure
  Default=""
  X="480"
  Y="470"
@@ -2838,7 +2844,7 @@
     NV =&gt; ApplicableNationalValues.Value
 )</Action><Action
  Guid="f1cc0bbf-6a30-48ec-8c8f-ca1fe1b930a2"
->NotApplicableNationalValues.DataState &lt;- Default.DataState.Invalid</Action></Actions>
+>InvalidateInformation(NotApplicableNationalValues)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="UpdateINTERNAL"
@@ -3512,7 +3518,7 @@
 <Actions>
 <Action
  Guid="bbc3c1b4-d070-43aa-865e-959c2773e688"
->ApplicableNationalValues.DataState &lt;- DataState.Valid</Action><Action
+>ValidateInformation(ApplicableNationalValues)</Action><Action
  Guid="2d4bb72d-2946-435e-8df3-630db32341ef"
 >ApplicableNationalValues.Value &lt;- DefaultValues</Action><Action
  Guid="e3cde4ea-42d7-4706-be4c-a9c93882a255"
@@ -3592,7 +3598,7 @@
 <Actions>
 <Action
  Guid="f039d4fe-9946-4e32-b3ea-8e63009c2b98"
->ApplicableNationalValues.DataState &lt;- Default.DataState.Invalid</Action></Actions>
+>InvalidateInformation(ApplicableNationalValues)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Implemented="TRUE"
@@ -3615,7 +3621,7 @@
 <Actions>
 <Action
  Guid="2134d273-bb2d-4f47-8382-637bbcd7727e"
->NotApplicableNationalValues.DataState &lt;- Default.DataState.Invalid</Action></Actions>
+>InvalidateInformation(NotApplicableNationalValues)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
@@ -3748,7 +3754,7 @@ TrainPosition.FrontEndPosition( PointOfInterest =&gt; DistanceInterval.Nom ) &gt
 <Actions>
 <Action
  Guid="d4d252df-e8b1-4358-8386-899d255eaa97"
->NotApplicableNationalValues.DataState &lt;- DataState.Invalid</Action></Actions>
+>InvalidateInformation(NotApplicableNationalValues)</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Not applicable values become applicable"
@@ -3771,9 +3777,9 @@ TrainPosition.FrontEndPosition( PointOfInterest =&gt; DistanceInterval.Nom ) &gt
 <Actions>
 <Action
  Guid="2aeb7c89-b50c-4fef-b303-7045654a89c7"
->NotApplicableNationalValues.DataState &lt;- DataState.Invalid</Action><Action
+>InvalidateInformation(NotApplicableNationalValues)</Action><Action
  Guid="a31648ef-89c5-489f-811a-399416b62ef5"
->ApplicableNationalValues.DataState &lt;- DataState.Valid</Action><Action
+>ValidateInformation(ApplicableNationalValues)</Action><Action
  Guid="5d002dba-0fe8-4a51-ad39-d6fe34e76e3a"
 >ApplicableNationalValues.Value &lt;- NotApplicableNationalValues.Value</Action><Action
  Guid="adc91ac5-b5ab-4419-ace6-47b0b51d178d"

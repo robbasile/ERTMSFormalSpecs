@@ -68,7 +68,13 @@ The confidence interval can be computed using Kernel.ConfidenceInterval.Confiden
  Guid="7395a9af-76df-4d75-8516-d88ec7c2f838"
 >
 </ReqRef><Comment>The data state of the train position.</Comment>
-</StructureElement></Structure><Structure
+</StructureElement><Interfaces>
+<StructureRef
+ Name="DataStateInterface"
+ Guid="ab10bcce-e0d4-4a01-b4e0-b40a858b28d0"
+>
+</StructureRef></Interfaces>
+</Structure><Structure
  Default=""
  X="560"
  Y="100"
@@ -495,7 +501,7 @@ BTM.LRBG.NID != Messages.NID_LRBG.Unknown</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="5de6dbe1-ecc5-4386-8dc0-d09a5a6a49de"
->Position.DataState &lt;- DataState.Valid</Action></Actions>
+>ValidateInformation(Position)</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  NeedsRequirement="FALSE"
@@ -512,7 +518,7 @@ BTM.LRBG.NID != Messages.NID_LRBG.Unknown</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="2ac2232a-f080-40b8-8b9d-71bf83d4e452"
->Position.DataState &lt;- DataState.Unknown</Action></Actions>
+>DeleteInformation(Position)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>

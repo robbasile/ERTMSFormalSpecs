@@ -185,7 +185,13 @@
  Guid="d6c52b91-4bab-48f7-a471-95a72b5682c0"
 >
 </ReqRef><Comment>The data state of the driver id.</Comment>
-</StructureElement></Structure><Structure
+</StructureElement><Interfaces>
+<StructureRef
+ Name="DataStateInterface"
+ Guid="fa7ceed7-4b2d-4f6c-ab1b-951184e66a97"
+>
+</StructureRef></Interfaces>
+</Structure><Structure
  Default=""
  X="480"
  Y="580"
@@ -234,7 +240,13 @@
  Guid="a3698f3e-66a5-400f-8bad-4714d62e16e2"
 >
 </ReqRef><Comment>The data state of the current ERTMS/ETCS level.</Comment>
-</StructureElement></Structure><Structure
+</StructureElement><Interfaces>
+<StructureRef
+ Name="DataStateInterface"
+ Guid="6945edf3-1980-42d2-b4ae-6841a7cad902"
+>
+</StructureRef></Interfaces>
+</Structure><Structure
  Default=""
  X="480"
  Y="260"
@@ -341,7 +353,13 @@ The bcd notation as required by 7.5.92 is not possible in the model. Hence we st
  Guid="05113c78-77d6-46b4-945c-774d691df742"
 >
 </ReqRef><Comment>Data state of the train running number.</Comment>
-</StructureElement></Structure><Structure
+</StructureElement><Interfaces>
+<StructureRef
+ Name="DataStateInterface"
+ Guid="032e487a-0e17-4bdf-baf9-b16e24cb30bd"
+>
+</StructureRef></Interfaces>
+</Structure><Structure
  Default=""
  X="480"
  Y="520"
@@ -378,7 +396,13 @@ The bcd notation as required by 7.5.92 is not possible in the model. Hence we st
  Guid="21fb4e33-2805-4ec4-9b49-b94a45f6b81e"
 >
 <Comment>Value of the ERTMS/ETCS operated system.</Comment>
-</StructureElement></Structure><Structure
+</StructureElement><Interfaces>
+<StructureRef
+ Name="DataStateInterface"
+ Guid="3889b286-28f4-413c-80dd-9e1bf4865fe6"
+>
+</StructureRef></Interfaces>
+</Structure><Structure
  Default=""
  X="190"
  Y="400"
@@ -561,7 +585,7 @@ The bcd notation as required by 7.5.92 is not possible in the model. Hence we st
  Name="LocationInterface"
  Guid="0c6ea85c-a286-4d1d-9a26-9d60d8d2f514"
 >
-<Comment>Used for elements caracterized by a location.</Comment>
+<Comment>Used for elements characterized by a location.</Comment>
 <StructureElement
  TypeName="BaseTypes.Distance"
  Default="0.0"
@@ -969,7 +993,7 @@ The bcd notation as required by 7.5.92 is not possible in the model. Hence we st
  Guid="50c7579a-477c-4412-bbdc-fdafe80d502a"
 >EURORADIO.CloseRBCSession()</Action><Action
  Guid="31bb2c38-0d15-4eed-b0fc-428aa17307f9"
->TrainPosition.Position.DataState &lt;- DataState.Unknown</Action><Action
+>DeleteInformation(TrainPosition.Position)</Action><Action
  Guid="f18726fd-abef-4f8b-8e6b-ba1aa6d4f4cb"
 >THIS &lt;- A40</Action></Actions>
 </RuleCondition></Conditions>
@@ -1028,7 +1052,7 @@ The bcd notation as required by 7.5.92 is not possible in the model. Hence we st
  Guid="8d3533ec-8462-4002-ba2c-f7215b0c9ae8"
 >THIS &lt;- D32</Action><Action
  Guid="b3330d8d-0ece-4172-b3e7-3d72f1c47c16"
->EURORADIO.CurrentRBCConnection().ContactData.DataState &lt;- DataState.Valid</Action></Actions>
+>ValidateInformation(EURORADIO.CurrentRBCConnection().ContactData)</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  NeedsRequirement="FALSE"
@@ -2442,7 +2466,7 @@ TrainPosition.Position.DataState == DataState.Unknown</PreCondition></PreConditi
 <Actions>
 <Action
  Guid="198cb14a-02da-4a00-8f9c-b5ddffc80be8"
->EURORADIO.CurrentRBCConnection().ContactData.DataState &lt;- DataState.Unknown</Action><Action
+>DeleteInformation(EURORADIO.CurrentRBCConnection().ContactData)</Action><Action
  Guid="525893e1-c192-4679-9788-b1b77c5b89c3"
 >EURORADIO.RegisterMobileTerminals ( DMI.MasterDMI().In_RBCContactInformation.SelectedNetwork )</Action></Actions>
 </RuleCondition></Conditions>
@@ -2968,7 +2992,7 @@ TrainPosition.Position.DataState == DataState.Unknown</PreCondition></PreConditi
 <Actions>
 <Action
  Guid="b1b30221-d9e3-4334-ab87-404ba1068590"
->TrainPosition.Position.DataState &lt;- DataState.Unknown</Action></Actions>
+>DeleteInformation(TrainPosition.Position)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition></Conditions>
@@ -3990,7 +4014,7 @@ TrainPosition.Position.DataState == DataState.Unknown</PreCondition></PreConditi
 <Actions>
 <Action
  Guid="db7f4317-778f-47b3-905a-339bb5029e59"
->TrainPosition.Position.DataState &lt;- DataState.Unknown</Action></Actions>
+>DeleteInformation(TrainPosition.Position)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition></Conditions>
@@ -4420,7 +4444,7 @@ TrainPosition.Position.DataState == DataState.Unknown</PreCondition></PreConditi
 <Actions>
 <Action
  Guid="8b62f242-f507-45b5-ab5c-40ce6d2a09a7"
->Level.DataState &lt;- DataState.Invalid</Action></Actions>
+>InvalidateInformation(Level)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -4449,7 +4473,7 @@ TrainPosition.Position.DataState == DataState.Unknown</PreCondition></PreConditi
 <Actions>
 <Action
  Guid="3dd1b412-183f-4def-9731-f94da43fc671"
->EURORADIO.CurrentRBCConnection().ContactData.DataState &lt;- DataState.Invalid</Action></Actions>
+>InvalidateInformation(EURORADIO.CurrentRBCConnection().ContactData)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition></Conditions>
@@ -4866,7 +4890,7 @@ Available ( EURORADIO.CurrentRBCConnection().MessageIn.Message.TRAIN_ACCEPTED )<
  Guid="98d23c02-f619-40d0-b33a-94f5ffd20033"
 >THIS &lt;- S10</Action><Action
  Guid="2e0b169f-b3e4-4c7b-b22d-3cb1b27d424b"
->TrainPosition.Position.DataState &lt;- DataState.Valid</Action></Actions>
+>ValidateInformation(TrainPosition.Position)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </StateMachine></State><State
@@ -4958,7 +4982,7 @@ Available ( EURORADIO.CurrentRBCConnection().MessageIn.Message.TRAIN_ACCEPTED )<
 <Actions>
 <Action
  Guid="b54108ba-1521-44d1-abee-ce5626afd545"
->TrainPosition.Position.DataState &lt;- DataState.Unknown</Action><Action
+>DeleteInformation(TrainPosition.Position)</Action><Action
  Guid="2e2ac32d-fe80-40df-8bd8-badfa262e908"
 >THIS &lt;- S10</Action></Actions>
 </RuleCondition></Conditions>
@@ -5123,7 +5147,7 @@ Available ( EURORADIO.CurrentRBCConnection().MessageIn.Message.TRAIN_ACCEPTED )<
  Guid="b31bdb03-0a0c-4c13-b1d6-f32f94ef9601"
 >DMI.MasterDMI().In_TrainData.InitiateRequest()</Action><Action
  Guid="64561bba-163c-4270-bb88-1af4a286e579"
->TrainData.TrainData.DataState &lt;- DataState.Unknown</Action></Actions>
+>DeleteInformation(TrainData.TrainData)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </StateMachine></State><State
@@ -6433,13 +6457,11 @@ Available ( EURORADIO.CurrentRBCConnection().MessageIn.Message.TRAIN_ACCEPTED )<
  Guid="235ba717-9d6a-4421-886a-eb3d589f7e91"
 >
 <PreConditions>
-<PreCondition
- Guid="3a4dbcb3-3293-404d-8e83-459ce1685e89"
->Level.DataState == DataState.Valid</PreCondition></PreConditions>
+</PreConditions>
 <Actions>
 <Action
  Guid="c5962eb5-d1d6-4cc7-9baa-8d1ca3f31595"
->Level.DataState &lt;- DataState.Invalid</Action></Actions>
+>InvalidateInformation(Level)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -6462,13 +6484,11 @@ Available ( EURORADIO.CurrentRBCConnection().MessageIn.Message.TRAIN_ACCEPTED )<
  Guid="d0a875d4-585d-44c2-abbf-9fe1597ede9e"
 >
 <PreConditions>
-<PreCondition
- Guid="5ff6cb13-22d1-46ea-950a-2b03de192d9f"
->EURORADIO.CurrentRBCConnection().ContactData.DataState == DataState.Valid</PreCondition></PreConditions>
+</PreConditions>
 <Actions>
 <Action
  Guid="57a12587-e7e5-458c-bdd6-5d19303cadef"
->EURORADIO.CurrentRBCConnection().ContactData.DataState &lt;- DataState.Invalid</Action></Actions>
+>InvalidateInformation(EURORADIO.CurrentRBCConnection().ContactData)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition><RuleCondition
@@ -11836,7 +11856,7 @@ JRU.SendNewMessage(JRU.JRU1)</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="e4a4be8d-1fcb-4ea1-945a-bbb90d84c8ad"
->TrainPosition.Position.DataState &lt;- DataState.Unknown</Action></Actions>
+>DeleteInformation(TrainPosition.Position)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"

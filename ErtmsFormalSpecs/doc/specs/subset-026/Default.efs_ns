@@ -666,6 +666,28 @@
  Guid="8294ada3-8499-48e0-a59c-5a93915630c1"
 >
 <Comment>Milliseconds</Comment>
+</StructureElement></Structure><Structure
+ IsAbstract="TRUE"
+ X="331"
+ Y="181"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="DataStateInterface"
+ Guid="b5f146a6-8b4c-4cb9-93fc-1a8cc1b960c1"
+>
+<Comment>Used for elements characterized by a data state.</Comment>
+<StructureElement
+ TypeName="Default.DataState"
+ Default=""
+ Mode="Internal"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="DataState"
+ Guid="1fa92c54-20d8-46f4-8135-3e0d592de2be"
+>
+<Comment>The data state of the information.</Comment>
 </StructureElement></Structure></Structures>
 <Collections>
 <Collection
@@ -1791,4 +1813,131 @@
 <Expression>Default.Orientation.Reverse</Expression>
 </Case></Cases>
 </Function></Functions>
+<Procedures>
+<Procedure
+ X="881"
+ Y="301"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="DeleteInformation"
+ Guid="13370d66-7b6c-44b5-b6e2-b2cb2d3be7bc"
+>
+<Comment>Deletes the informatiobn by setting its data state to Unknown.</Comment>
+<Parameters>
+<Parameter
+ Type="DataStateInterface"
+ Name="aInformation"
+ Guid="b3955d2e-a23e-4160-a00f-c30846826ef3"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Delete"
+ Guid="414c522d-7b25-429a-90b6-ce39660da156"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Delete"
+ Guid="7e34d753-ae0f-4f62-a534-62e63185e2b8"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="c3dfdd09-b1d5-432f-bbe6-42fc9d8b663c"
+>aInformation.DataState &lt;- Default.DataState.Unknown</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="441"
+ Y="661"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InvalidateInformation"
+ Guid="8c6fe100-1cae-4958-83bb-74f3c26bb321"
+>
+<Comment>Invalidates the information if it is currently valid (will not set Unknown information to Invalid).</Comment>
+<Parameters>
+<Parameter
+ Type="DataStateInterface"
+ Name="aInformation"
+ Guid="fba8254e-e752-4a5f-8aef-56df0b214e13"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Invalidate if valid"
+ Guid="7c10ab94-f92e-4b85-8126-c97148561322"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Invalidate if valid"
+ Guid="ed21927f-546c-4125-aa70-c987ec53ca0c"
+>
+<PreConditions>
+<PreCondition
+ Guid="71be5e1a-6ee8-438f-a810-1c5a24c6eef8"
+>aInformation.DataState == Default.DataState.Valid</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="e36d8b00-df3e-497f-8e04-d74753684d40"
+>aInformation.DataState &lt;- Default.DataState.Invalid</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="551"
+ Y="661"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="ValidateInformation"
+ Guid="8d11bcdd-1c5b-492e-a099-ce3986e7e093"
+>
+<Comment>Validates the information.</Comment>
+<Parameters>
+<Parameter
+ Type="DataStateInterface"
+ Name="aInformation"
+ Guid="6e49c8e9-0857-4075-b28e-c0ac5cf878ad"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Validate"
+ Guid="2a8dd071-513c-48c4-9d44-c75c4c1cb55c"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Validate"
+ Guid="0ec00e24-28bc-4b91-995a-5f72368fcde7"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="650a8c99-eb24-4ee5-ab00-e4e95d46c548"
+>aInformation.DataState &lt;- Default.DataState.Valid</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure></Procedures>
 </NameSpace>

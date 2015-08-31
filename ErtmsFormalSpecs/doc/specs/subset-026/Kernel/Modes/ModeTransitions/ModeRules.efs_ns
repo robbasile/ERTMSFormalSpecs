@@ -109,13 +109,7 @@
 <Actions>
 <Action
  Guid="0af5d5ea-f98e-4583-aa8b-97ec549868ec"
->NationalValues.NotApplicableNationalValues &lt;- NationalValues.NationalValuesStruct{
-DataState =&gt; Default.DataState.Invalid,
-Value =&gt; EMPTY,
-ApplicableStartLocation =&gt; BaseTypes.Distance.Infinity,
-NID_C =&gt; 0,
-ApplicableStopLocation =&gt; BaseTypes.Distance.Unknown
-}</Action></Actions>
+>DeleteInformation(NationalValues.NotApplicableNationalValues)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Implemented="TRUE"
@@ -476,15 +470,7 @@ BGs =&gt; []
 <Actions>
 <Action
  Guid="6859fea0-bf01-4b24-bd96-dee8bd1f3f11"
->EURORADIO.PositionReport.PositionReportParameters &lt;- EURORADIO.PositionReport.PositionReportParametersStruct{
-DataState =&gt; Default.DataState.Unknown,
-Values =&gt; EURORADIO.PositionReport.PositionReportParametersValues{
-    TimeInterval =&gt; 0.0,
-    DistanceInterval =&gt; 0.0,
-    SpecialLocation =&gt; EURORADIO.PositionReport.PositionReportSpecialLocation.DoNotSend,
-    Locations =&gt; []
-}
-}</Action></Actions>
+>DeleteInformation(EURORADIO.PositionReport.PositionReportParameters)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Implemented="TRUE"
@@ -1071,7 +1057,7 @@ End =&gt; BaseTypes.Distance.Unknown
 <Actions>
 <Action
  Guid="704cf1f6-4a58-495d-a834-ac2c8a519d8d"
->TrainPosition.Position.DataState &lt;- Default.DataState.Invalid</Action></Actions>
+>InvalidateInformation(TrainPosition.Position)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Implemented="TRUE"
@@ -1104,7 +1090,7 @@ End =&gt; BaseTypes.Distance.Unknown
 <Actions>
 <Action
  Guid="a7fa7c59-c015-4adc-8b14-1b717c6c824f"
->TrainData.TrainData.DataState &lt;- DataState.Unknown</Action></Actions>
+>DeleteInformation(TrainData.TrainData)</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="To Be Revalidated"
@@ -1118,7 +1104,7 @@ End =&gt; BaseTypes.Distance.Unknown
 <Actions>
 <Action
  Guid="15b9edf9-aa53-4327-97e1-77a65bdf3a2b"
->TrainData.TrainData.DataState &lt;- DataState.Invalid</Action></Actions>
+>InvalidateInformation(TrainData.TrainData)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Implemented="TRUE"
@@ -1145,7 +1131,7 @@ End =&gt; BaseTypes.Distance.Unknown
 <Actions>
 <Action
  Guid="d7a7f3bb-4314-494c-b170-425dbbd1e7e1"
->Level.DataState &lt;- Default.DataState.Invalid</Action></Actions>
+>InvalidateInformation(Level)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Name="Handle Table of priority of trackside supported levels"
@@ -1197,7 +1183,7 @@ End =&gt; BaseTypes.Distance.Unknown
 <Actions>
 <Action
  Guid="5d1c7d89-a32e-4e1a-83d1-97a6cc8483d2"
->DriverId.DataState &lt;- DataState.Unknown</Action></Actions>
+>DeleteInformation(DriverId)</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Revalidate Driver ID"
@@ -1211,7 +1197,7 @@ End =&gt; BaseTypes.Distance.Unknown
 <Actions>
 <Action
  Guid="96575d49-f7b5-4e08-b6eb-ac51d8602adb"
->DriverId.DataState &lt;- DataState.Invalid</Action></Actions>
+>InvalidateInformation(DriverId)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Implemented="TRUE"
@@ -1251,7 +1237,7 @@ End =&gt; BaseTypes.Distance.Unknown
 <Actions>
 <Action
  Guid="bde1c19e-6cdd-4d60-a2f5-0fb542d71a64"
->EURORADIO.CurrentRBCConnection().ContactData.DataState &lt;- DataState.Unknown</Action></Actions>
+>DeleteInformation(EURORADIO.CurrentRBCConnection().ContactData)</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Revalidate RBD ID/Phone Number"
@@ -1265,7 +1251,7 @@ End =&gt; BaseTypes.Distance.Unknown
 <Actions>
 <Action
  Guid="a8d4a142-2d90-400d-b31e-410f873efe2d"
->EURORADIO.CurrentRBCConnection().ContactData.DataState &lt;- DataState.Invalid</Action></Actions>
+>InvalidateInformation(EURORADIO.CurrentRBCConnection().ContactData)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Implemented="TRUE"
@@ -1293,7 +1279,7 @@ End =&gt; BaseTypes.Distance.Unknown
 <Actions>
 <Action
  Guid="2d3eba4c-f0a6-409c-a094-625d43a5f39c"
->TrainRunningNumber.DataState &lt;- Default.DataState.Unknown</Action></Actions>
+>DeleteInformation(TrainRunningNumber)</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Revalidate Train Running Number"
@@ -1307,7 +1293,7 @@ End =&gt; BaseTypes.Distance.Unknown
 <Actions>
 <Action
  Guid="a9857842-f6d2-4a05-8a3a-fe681e2f1f95"
->TrainRunningNumber.DataState &lt;- Default.DataState.Invalid</Action></Actions>
+>InvalidateInformation(TrainRunningNumber)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Implemented="TRUE"
@@ -1485,7 +1471,7 @@ End =&gt; BaseTypes.Distance.Unknown
 <Actions>
 <Action
  Guid="f4f285cf-87f7-46c6-bd07-0386165d3630"
->EURORADIO.CurrentRBCConnection().SessionManagementData.SystemVersion.DataState &lt;- Default.DataState.Unknown</Action></Actions>
+>DeleteInformation(EURORADIO.CurrentRBCConnection().SessionManagementData.SystemVersion)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Implemented="TRUE"

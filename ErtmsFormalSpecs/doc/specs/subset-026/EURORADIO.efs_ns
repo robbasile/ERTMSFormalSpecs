@@ -1569,7 +1569,7 @@ ConnectionState in ConnectionStateSM.Terminating</PreCondition></PreConditions>
  Guid="f86651e7-1ebb-49de-8053-907c88f5741d"
 >NumberOfSentRequests &lt;- 0</Action><Action
  Guid="3d5afa42-b712-4474-af54-81ae258173b2"
->SessionManagementData.SystemVersion.DataState &lt;- DataState.Unknown</Action><Action
+>DeleteInformation(SessionManagementData.SystemVersion)</Action><Action
  Guid="9687e639-b5c6-470d-813a-f17940cd2731"
 >ConnectionLostTime &lt;- BaseTypes.Time.Infinity</Action><Action
  Guid="ff4c1c3d-36bb-4e52-ae97-a17eabff757a"
@@ -4945,7 +4945,13 @@ Aftter a defined number of repetitions, if no acknowledgement is received from t
  Guid="938cf163-1976-4f94-807f-82b13383ffde"
 >
 </ReqRef><Comment>Data state of the contact information.</Comment>
-</StructureElement></Structure><Structure
+</StructureElement><Interfaces>
+<StructureRef
+ Name="DataStateInterface"
+ Guid="7c9bc8d5-4182-4caa-aaf9-0d2b465ec60a"
+>
+</StructureRef></Interfaces>
+</Structure><Structure
  Default=""
  X="270"
  Y="110"
@@ -5515,7 +5521,13 @@ After that, if an order to contact an Accepting RBC was received, it will be han
  Guid="1d98ef8a-fbe4-4fe6-affb-c0d0d99bb986"
 >
 <Comment>The data state of the system version.</Comment>
-</StructureElement></Structure><Structure
+</StructureElement><Interfaces>
+<StructureRef
+ Name="DataStateInterface"
+ Guid="e414b89e-c084-45db-8800-f92351b16e1f"
+>
+</StructureRef></Interfaces>
+</Structure><Structure
  Default=""
  X="480"
  Y="310"
@@ -6365,7 +6377,9 @@ The only one case where the status to display is that of the secondary connectio
 <PreConditions>
 <PreCondition
  Guid="514190b9-00d9-4441-8105-a81690a45408"
->SecondaryRBCConnection().SafeRadioConnectionStatus != SafeRadioConnectionStatusEnum.NoConnection</PreCondition><PreCondition
+>Available(SecondaryRBCConnection())
+  AND  
+SecondaryRBCConnection().SafeRadioConnectionStatus != SafeRadioConnectionStatusEnum.NoConnection</PreCondition><PreCondition
  Guid="df0005db-e407-4bad-ac83-088c0c650916"
 >Kernel.TrainPosition.FrontEndPosition ( PointOfInterest =&gt; DistanceInterval.Max ) &gt;= PositionReport.RBCTransitionLocation</PreCondition></PreConditions>
 <Expression>SecondaryRBCConnection().SafeRadioConnectionStatus</Expression>
@@ -9298,7 +9312,7 @@ MessageTypes.QScaleDistance(
  Guid="e17bef78-a2ff-421f-8ab3-bf8d2d0939ac"
 >CurrentRBCConnection().SessionManagementData.SystemVersion.Value &lt;- ConvertSystemVersion ( aVersion =&gt; aMessage.M_VERSION )</Action><Action
  Guid="8212c19a-2428-4a44-aa05-ed206845382b"
->CurrentRBCConnection().SessionManagementData.SystemVersion.DataState &lt;- DataState.Valid</Action></Actions>
+>ValidateInformation(CurrentRBCConnection().SessionManagementData.SystemVersion)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure

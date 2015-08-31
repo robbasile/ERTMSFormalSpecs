@@ -300,7 +300,13 @@
  Guid="e3fce09b-5758-403f-8751-cb7438db0924"
 >
 <Comment>The position report parameters.</Comment>
-</StructureElement></Structure><Structure
+</StructureElement><Interfaces>
+<StructureRef
+ Name="DataStateInterface"
+ Guid="3e27e1f6-774c-4820-855e-a208db333f17"
+>
+</StructureRef></Interfaces>
+</Structure><Structure
  Default=""
  X="710"
  Y="10"
@@ -1465,7 +1471,7 @@ PositionReportParameters.DataState != DataState.Valid</Expression>
 <Actions>
 <Action
  Guid="bb7d9795-fec8-42f3-a619-fb767260a89d"
->PositionReportParameters.DataState &lt;- DataState.Valid</Action><Action
+>ValidateInformation(PositionReportParameters)</Action><Action
  Guid="f3e0c810-5538-4ebf-b190-2e4fa7161c79"
 >PositionReportParameters.Values.TimeInterval &lt;- BaseTypes.Time ( Packet.T_CYCLOC )</Action><Action
  Guid="bbed578f-bec0-45d5-a457-6c3e192bcb6b"
