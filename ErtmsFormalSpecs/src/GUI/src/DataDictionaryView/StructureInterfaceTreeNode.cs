@@ -14,6 +14,8 @@
 // --
 // ------------------------------------------------------------------------------
 
+using System.Collections.Generic;
+using System.Windows.Forms;
 using DataDictionary.Generated;
 
 namespace GUI.DataDictionaryView
@@ -41,6 +43,20 @@ namespace GUI.DataDictionaryView
         protected override Editor CreateEditor()
         {
             return new ItemEditor();
+        }
+
+        /// <summary>
+        ///     The menu items for this tree node
+        /// </summary>
+        /// <returns></returns>
+        protected override List<MenuItem> GetMenuItems()
+        {
+            List<MenuItem> retVal = new List<MenuItem>();
+
+            retVal.Add(new MenuItem("Delete", DeleteHandler));
+            retVal.AddRange(base.GetMenuItems());
+
+            return retVal;
         }
     }
 }

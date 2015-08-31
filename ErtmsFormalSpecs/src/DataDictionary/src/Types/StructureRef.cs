@@ -136,6 +136,15 @@ namespace DataDictionary.Types
             return ReferencedStructureExpression;
         }
 
+        public override ArrayList EnclosingCollection
+        {
+            get
+            {
+                Structure parent = (Structure) Enclosing;
+                return parent.allInterfaces();
+            }
+        }
+
         /// <summary>
         ///     Creates a default element
         /// </summary>
