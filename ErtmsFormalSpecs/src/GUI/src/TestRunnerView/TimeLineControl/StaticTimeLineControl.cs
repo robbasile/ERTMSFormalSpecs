@@ -37,6 +37,7 @@ using SubSequence = DataDictionary.Tests.SubSequence;
 using SubStep = DataDictionary.Tests.SubStep;
 using TestCase = DataDictionary.Tests.TestCase;
 using Translation = DataDictionary.Tests.Translations.Translation;
+using Util = DataDictionary.Util;
 
 namespace GUI.TestRunnerView.TimeLineControl
 {
@@ -700,40 +701,43 @@ namespace GUI.TestRunnerView.TimeLineControl
         /// </summary>
         protected override void UpdatePositionHandler()
         {
-            PositionHandler.CleanPositions();
-            if ((TestCase != null) || SubSequence != null)
+            Util.DontNotify(() =>
             {
-                double currentTime = 0.0;
-                foreach (Step step in Steps)
+                PositionHandler.CleanPositions();
+                if ((TestCase != null) || SubSequence != null)
                 {
-                    if (step.SubSteps.Count > 0)
+                    double currentTime = 0.0;
+                    foreach (Step step in Steps)
                     {
-                        foreach (SubStep subStep in step.SubSteps)
+                        if (step.SubSteps.Count > 0)
+                        {
+                            foreach (SubStep subStep in step.SubSteps)
+                            {
+                                PositionSubStep(currentTime, subStep);
+                                currentTime += 1;
+                            }
+                        }
+                        else
+                        {
+                            StepActivation stepActivated = new StepActivation(step) {Time = currentTime};
+                            PositionHandler.RegisterEvent(stepActivated);
+                            currentTime += 1;
+                        }
+                    }
+                }
+                else if (Translation != null)
+                {
+                    double currentTime = 0.0;
+                    if (Translation.SubSteps.Count > 0)
+                    {
+                        foreach (SubStep subStep in Translation.SubSteps)
                         {
                             PositionSubStep(currentTime, subStep);
                             currentTime += 1;
                         }
                     }
-                    else
-                    {
-                        StepActivation stepActivated = new StepActivation(step) {Time = currentTime};
-                        PositionHandler.RegisterEvent(stepActivated);
-                        currentTime += 1;
-                    }
                 }
-            }
-            else if (Translation != null)
-            {
-                double currentTime = 0.0;
-                if (Translation.SubSteps.Count > 0)
-                {
-                    foreach (SubStep subStep in Translation.SubSteps)
-                    {
-                        PositionSubStep(currentTime, subStep);
-                        currentTime += 1;
-                    }
-                }
-            }
+            });
 
             base.UpdatePositionHandler();
         }
