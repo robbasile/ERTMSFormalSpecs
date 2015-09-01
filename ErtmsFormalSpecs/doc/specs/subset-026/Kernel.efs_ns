@@ -573,69 +573,7 @@ The bcd notation as required by 7.5.92 is not possible in the model. Hence we st
  Guid="f75532ee-2783-49a2-9925-9866fdff39f7"
 >
 <Comment>Indicates that the former EOA was passed while Override was active.</Comment>
-</StructureElement></Structure><Structure
- IsAbstract="TRUE"
- Default=""
- X="130"
- Y="550"
- Width="100"
- Height="50"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="LocationInterface"
- Guid="0c6ea85c-a286-4d1d-9a26-9d60d8d2f514"
->
-<Comment>Used for elements characterized by a location.</Comment>
-<StructureElement
- TypeName="BaseTypes.Distance"
- Default="0.0"
- Mode="Internal"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Location"
- Guid="c2b79688-161f-4c21-b522-8e450177f487"
->
-<Comment>Represents the location of an element.</Comment>
-</StructureElement></Structure><Structure
- IsAbstract="TRUE"
- Default=""
- X="130"
- Y="630"
- Width="100"
- Height="50"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="LocationLengthInterface"
- Guid="c36a1b0d-2b54-467f-8f86-f3091d144763"
->
-<Comment>Used for elements characterized by a location and a length.</Comment>
-<StructureElement
- TypeName="BaseTypes.Length"
- Default="0.0"
- Mode="Internal"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Length"
- Guid="3507c6d1-cf9e-4814-99f8-7534dc9aa541"
->
-<Comment>Represents the length of the element.</Comment>
-</StructureElement><StructureElement
- TypeName="BaseTypes.Distance"
- Default="0.0"
- Mode="Internal"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Location"
- Guid="1cc3df63-6933-41a2-9990-5c2d431d822f"
->
-<Comment>Represents the location of an element.</Comment>
-</StructureElement><Interfaces>
-<StructureRef
- Name="LocationInterface"
- Guid="8a26cb29-cd27-4c08-87ff-3e48d25d658f"
->
-</StructureRef></Interfaces>
-</Structure></Structures>
+</StructureElement></Structure></Structures>
 <Collections>
 <Collection
  TypeName="BaliseGroup"
@@ -678,7 +616,7 @@ The bcd notation as required by 7.5.92 is not possible in the model. Hence we st
 >
 </ReqRef><Comment>Collection of safety critical faults.</Comment>
 </Collection><Collection
- TypeName="LocationInterface"
+ TypeName="BaseTypes.LocationInterface"
  Default="[]"
  X="300"
  Y="560"
@@ -691,7 +629,7 @@ The bcd notation as required by 7.5.92 is not possible in the model. Hence we st
 >
 <Comment>Represents a collection of elements that contain a &quot;Location&quot; field.</Comment>
 </Collection><Collection
- TypeName="LocationLengthInterface"
+ TypeName="BaseTypes.LocationLengthInterface"
  Default="[]"
  X="300"
  Y="620"
@@ -10729,64 +10667,6 @@ OverrideSupervision.FormerSRDistance &lt; TrainPosition.FrontEndPosition(Distanc
     FormerSRDistance =&gt; BaseTypes.Distance.Infinity
 }</Expression>
 </Case></Cases>
-</Function><Function
- Type="Boolean"
- Default=""
- X="10"
- Y="630"
- Width="100"
- Height="50"
- Name="RemoveLengthLocationBasedElement"
- Guid="5355dfd3-5ce2-4015-8b03-2c355de7b873"
->
-<Parameters>
-<Parameter
- Type="LocationLengthInterface"
- Name="anElement"
- Guid="9b053e48-7d17-4dc9-8668-fba83515bc52"
->
-</Parameter><Parameter
- Type="BaseTypes.Distance"
- Name="anAdditionalDistance"
- Guid="89778873-c3aa-422e-91e6-cc64e4937f87"
->
-</Parameter></Parameters>
-<Cases>
-<Case
- Name="Value"
- Guid="ef744c91-b135-4f4f-9dd1-010c04baff94"
->
-<Expression>anElement.Location + anElement.Length + anAdditionalDistance &lt;= TrainPosition.RearEndPosition ( DistanceInterval.Min )</Expression>
-</Case></Cases>
-</Function><Function
- Type="Boolean"
- Default=""
- X="10"
- Y="550"
- Width="100"
- Height="50"
- Name="RemoveLocationBasedElement"
- Guid="1a8a4efc-38b8-4257-95e4-3a275b0c97ac"
->
-<Parameters>
-<Parameter
- Type="BaseTypes.Distance"
- Name="aLocation"
- Guid="8673483e-16de-43eb-a5cc-8c8cab50a60c"
->
-</Parameter><Parameter
- Type="BaseTypes.Distance"
- Name="anAdditionalDistance"
- Guid="c788ee6c-0003-47e9-bc04-de9421ec50ea"
->
-</Parameter></Parameters>
-<Cases>
-<Case
- Name="Value"
- Guid="20e537bb-f801-45a2-b96c-04115487d06e"
->
-<Expression>aLocation + anAdditionalDistance &lt;= TrainPosition.RearEndPosition ( DistanceInterval.Min )</Expression>
-</Case></Cases>
 </Function></Functions>
 <Procedures>
 <Procedure
@@ -11325,7 +11205,7 @@ ActiveFunctions.SuperviseTrainSpeed_MRSP()</PreCondition><PreCondition
 <Action
  Guid="2c71eac1-630f-48fd-a4b3-99f57fca20c1"
 >REMOVE ALL
-  RemoveLocationBasedElement
+  BaseTypes.RemoveLocationBasedElement
   (
     aLocation =&gt; X.Location,
     anAdditionalDistance =&gt; 0.0
@@ -11333,7 +11213,7 @@ ActiveFunctions.SuperviseTrainSpeed_MRSP()</PreCondition><PreCondition
 IN GeographicalPosition.GeographicalPositionInformation</Action><Action
  Guid="be32f8de-1052-414f-b7e3-30384843a095"
 >REMOVE ALL
-  RemoveLocationBasedElement
+  BaseTypes.RemoveLocationBasedElement
   (
     aLocation =&gt; X.Location + TrackDescription.RouteSuitability.RouteSuitabilityEnd( Current =&gt; X),
     anAdditionalDistance =&gt; 0.0
@@ -11341,7 +11221,7 @@ IN GeographicalPosition.GeographicalPositionInformation</Action><Action
 IN TrackDescription.RouteSuitability.RouteSuitabilityProfile.Items</Action><Action
  Guid="de7ddf6a-1fbf-4bcb-a79d-9744a7e44281"
 >REMOVE ALL
-  RemoveLengthLocationBasedElement
+  BaseTypes.RemoveLengthLocationBasedElement
   (
     anElement =&gt; X,
     anAdditionalDistance =&gt; 0.0
@@ -11404,7 +11284,7 @@ IN
  Guid="eee70398-c0df-404b-8f8c-beb0ec134286"
 >TrackDescription.ReversingArea.ReversingAreaProfile != EMPTY</PreCondition><PreCondition
  Guid="6d71600a-1ec5-4dda-b1ac-690d55dd63e6"
->RemoveLengthLocationBasedElement
+>BaseTypes.RemoveLengthLocationBasedElement
 (
     anElement =&gt; TrackDescription.ReversingArea.ReversingAreaProfile,
     anAdditionalDistance =&gt; 0.0
@@ -11433,7 +11313,7 @@ IN
  Guid="a8507763-0885-4f30-83a8-fb4e86c6248a"
 >LevelTransition.LevelTransitionOrder != EMPTY</PreCondition><PreCondition
  Guid="14ee64d7-7faf-4a46-8c54-5a6a1f60c4f7"
->RemoveLocationBasedElement
+>BaseTypes.RemoveLocationBasedElement
 (
     aLocation =&gt; LevelTransition.LevelTransitionOrder.Location,
     anAdditionalDistance =&gt; 0.0
@@ -11462,7 +11342,7 @@ IN
  Guid="214ba963-0a41-4e1f-8261-5dfb817152ed"
 >TrackAheadFree.TrackAheadFreeRequest != EMPTY</PreCondition><PreCondition
  Guid="fad86333-5283-4758-bda0-7987b029c290"
->RemoveLocationBasedElement
+>BaseTypes.RemoveLocationBasedElement
 (
     aLocation =&gt; TrackAheadFree.TrackAheadFreeRequest.StopDisplayLocation,
     anAdditionalDistance =&gt; 0.0
@@ -11499,7 +11379,7 @@ IN
 <Action
  Guid="be1ac2d0-355a-4164-b5c6-7a172db6956d"
 >REMOVE ALL
-  RemoveLengthLocationBasedElement
+  BaseTypes.RemoveLengthLocationBasedElement
   (
     anElement =&gt; X,
     anAdditionalDistance =&gt; DistanceToKeepInfoInTheRear
@@ -11508,7 +11388,7 @@ IN
   TSR.TSRs</Action><Action
  Guid="3e635ae3-a11f-43b3-9de0-30bc373ee9b7"
 >REMOVE ALL
-  RemoveLengthLocationBasedElement
+  BaseTypes.RemoveLengthLocationBasedElement
   (
     anElement =&gt; X,
     anAdditionalDistance =&gt; DistanceToKeepInfoInTheRear
@@ -11516,7 +11396,7 @@ IN
 IN TrackDescription.AxleLoad.ASP.ALs</Action><Action
  Guid="75e417ac-536c-409a-add7-9945520c9b6a"
 >REMOVE ALL
-  RemoveLengthLocationBasedElement
+  BaseTypes.RemoveLengthLocationBasedElement
   (
     anElement =&gt; X,
     anAdditionalDistance =&gt; DistanceToKeepInfoInTheRear
@@ -11524,7 +11404,7 @@ IN TrackDescription.AxleLoad.ASP.ALs</Action><Action
 IN LX.MRSPLevelCrossings</Action><Action
  Guid="42f35ad6-3552-44c8-81fe-80755d44da72"
 >REMOVE ALL
-  RemoveLengthLocationBasedElement
+  BaseTypes.RemoveLengthLocationBasedElement
   (
     anElement =&gt; X,
     anAdditionalDistance =&gt; DistanceToKeepInfoInTheRear
@@ -11532,7 +11412,7 @@ IN LX.MRSPLevelCrossings</Action><Action
 IN LX.SupervisedLevelCrossings</Action><Action
  Guid="3c3e0302-bced-4a14-aef0-9552ee018b3c"
 >REMOVE ALL
-  RemoveLengthLocationBasedElement
+  BaseTypes.RemoveLengthLocationBasedElement
   (
     anElement =&gt; X,
     anAdditionalDistance =&gt; DistanceToKeepInfoInTheRear
@@ -11540,7 +11420,7 @@ IN LX.SupervisedLevelCrossings</Action><Action
 IN TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.SpeedRestrictions</Action><Action
  Guid="ac31f9f2-5410-46f4-be14-3c9857988e41"
 >REMOVE ALL
-  RemoveLengthLocationBasedElement
+  BaseTypes.RemoveLengthLocationBasedElement
   (
     anElement =&gt; X,
     anAdditionalDistance =&gt; DistanceToKeepInfoInTheRear
@@ -11548,7 +11428,7 @@ IN TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.SpeedRestr
 IN TrackDescription.AdhesionFactors.AdhFactors</Action><Action
  Guid="d954cd07-2c11-4b4b-a832-ba56930dada2"
 >REMOVE ALL
-  RemoveLocationBasedElement
+  BaseTypes.RemoveLocationBasedElement
   (
     aLocation =&gt; TrackDescription.Gradient.GradientEnd( Current =&gt; X ) + TrainData.TrainData.Value.TrainLength,
     anAdditionalDistance =&gt; DistanceToKeepInfoInTheRear
@@ -11556,7 +11436,7 @@ IN TrackDescription.AdhesionFactors.AdhFactors</Action><Action
 IN TrackDescription.Gradient.Gradients</Action><Action
  Guid="3c978c3b-d612-4bbc-85e5-db40d8249501"
 >REMOVE ALL
-  RemoveLocationBasedElement
+  BaseTypes.RemoveLocationBasedElement
   (
     aLocation =&gt; X.Location + TrackDescription.StaticSpeedProfile.SSPLength( aSSP =&gt; X ),
     anAdditionalDistance =&gt; DistanceToKeepInfoInTheRear
@@ -11591,7 +11471,7 @@ IN
  Guid="4b27285d-46e9-40ee-a1b5-4f89ac94a4a6"
 >Modes.StaffResponsible.SRAuthorisation != EMPTY</PreCondition><PreCondition
  Guid="2a7793d4-7e79-4bec-b77d-bf9f16cc2346"
->RemoveLocationBasedElement
+>BaseTypes.RemoveLocationBasedElement
 (
     aLocation =&gt; Modes.StaffResponsible.SRAuthorisation.Location,
     anAdditionalDistance =&gt; DistanceToKeepInfoInTheRear

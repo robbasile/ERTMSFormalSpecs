@@ -207,6 +207,70 @@
 >
 <Comment>A message identity number</Comment>
 </Range></Ranges>
+<Structures>
+<Structure
+ IsAbstract="TRUE"
+ Default=""
+ X="130"
+ Y="630"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="LocationLengthInterface"
+ Guid="c36a1b0d-2b54-467f-8f86-f3091d144763"
+>
+<Comment>Used for elements characterized by a location and a length.</Comment>
+<StructureElement
+ TypeName="BaseTypes.Length"
+ Default="0.0"
+ Mode="Internal"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Length"
+ Guid="3507c6d1-cf9e-4814-99f8-7534dc9aa541"
+>
+<Comment>Represents the length of the element.</Comment>
+</StructureElement><StructureElement
+ TypeName="BaseTypes.Distance"
+ Default="0.0"
+ Mode="Internal"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Location"
+ Guid="1cc3df63-6933-41a2-9990-5c2d431d822f"
+>
+<Comment>Represents the location of an element.</Comment>
+</StructureElement><Interfaces>
+<StructureRef
+ Name="LocationInterface"
+ Guid="f8b733de-737d-4960-8933-2be8905c0820"
+>
+</StructureRef></Interfaces>
+</Structure><Structure
+ IsAbstract="TRUE"
+ Default=""
+ X="130"
+ Y="550"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="LocationInterface"
+ Guid="0c6ea85c-a286-4d1d-9a26-9d60d8d2f514"
+>
+<Comment>Used for elements characterized by a location.</Comment>
+<StructureElement
+ TypeName="BaseTypes.Distance"
+ Default="0.0"
+ Mode="Internal"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Location"
+ Guid="c2b79688-161f-4c21-b522-8e450177f487"
+>
+<Comment>Represents the location of an element.</Comment>
+</StructureElement></Structure></Structures>
 <Functions>
 <Function
  Type="Length"
@@ -1107,6 +1171,64 @@
  Guid="c5b3cb62-f4e1-4c68-a0a2-83d8c0439499"
 >
 <Expression>Distance - Offset</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="10"
+ Y="630"
+ Width="100"
+ Height="50"
+ Name="RemoveLengthLocationBasedElement"
+ Guid="5355dfd3-5ce2-4015-8b03-2c355de7b873"
+>
+<Parameters>
+<Parameter
+ Type="BaseTypes.LocationLengthInterface"
+ Name="anElement"
+ Guid="9b053e48-7d17-4dc9-8668-fba83515bc52"
+>
+</Parameter><Parameter
+ Type="BaseTypes.Distance"
+ Name="anAdditionalDistance"
+ Guid="89778873-c3aa-422e-91e6-cc64e4937f87"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="ef744c91-b135-4f4f-9dd1-010c04baff94"
+>
+<Expression>anElement.Location + anElement.Length + anAdditionalDistance &lt;= Kernel.TrainPosition.RearEndPosition ( DistanceInterval.Min )</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="10"
+ Y="550"
+ Width="100"
+ Height="50"
+ Name="RemoveLocationBasedElement"
+ Guid="1a8a4efc-38b8-4257-95e4-3a275b0c97ac"
+>
+<Parameters>
+<Parameter
+ Type="BaseTypes.Distance"
+ Name="aLocation"
+ Guid="8673483e-16de-43eb-a5cc-8c8cab50a60c"
+>
+</Parameter><Parameter
+ Type="BaseTypes.Distance"
+ Name="anAdditionalDistance"
+ Guid="c788ee6c-0003-47e9-bc04-de9421ec50ea"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="20e537bb-f801-45a2-b96c-04115487d06e"
+>
+<Expression>aLocation + anAdditionalDistance &lt;= Kernel.TrainPosition.RearEndPosition ( DistanceInterval.Min )</Expression>
 </Case></Cases>
 </Function></Functions>
 <Variables>
