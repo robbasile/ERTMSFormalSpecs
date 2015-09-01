@@ -78,7 +78,7 @@ namespace GUI.TestRunnerView
             frameToolStripComboBox.DropDown += frameToolStripComboBox_DropDown;
             subSequenceSelectorComboBox.DropDown += subSequenceSelectorComboBox_DropDown;
             Text = Resources.Window_Window_System_test_view;
-            EfsSystem = DataDictionary.EfsSystem.Instance;
+            EfsSystem = EfsSystem.Instance;
         }
 
         private void frameToolStripComboBox_DropDown(object sender, EventArgs e)
