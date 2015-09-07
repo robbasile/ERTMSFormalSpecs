@@ -396,5 +396,42 @@ PreIndicationLocation.IndicationLimitAtSpeed_EOA(PreIndicationLocation.Indicatio
     aTarget =&gt; TargetSpeedMonitoring.MRDT(),
     aSpeed =&gt; PreIndicationLocation.IndicationSegment(TargetSpeedMonitoring.MRDT()).Speed) - TrainPosition.FrontEndPosition(DistanceInterval.Nom)</Expression>
 </Case></Cases>
+</Function><Function
+ Type="TargetSpeedMonitoring.Target"
+ X="1"
+ Y="181"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="FirstTargetAtZeroSpeed"
+ Guid="00e54b91-7312-4f95-8481-7e4186d7193c"
+>
+<ReqRef
+ Id="615ccbef-ab0a-4f6f-9624-9ace6361ea83"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="2afec32f-1777-4ba0-adf3-e9b09f86a23e"
+>
+</ReqRef><ReqRef
+ Id="2cd466ba-aedb-4f3e-8661-ae10ee1737c9"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="82f5dc19-3cc2-4de1-855f-e06348e8b20b"
+>
+</ReqRef><Comment>Checks the list of stored targets for the closest target with a target speed of zero.
+this is used ot limit the planning information displayed to the driver on the DMI.</Comment>
+<Cases>
+<Case
+ Name="Value"
+ Guid="9bbb9be3-b612-4e3a-aeb1-5b4e2db35f77"
+>
+<Expression>REDUCE TargetsList() | X.Speed == 0.0 USING X 
+IN MA.ClosestTarget(
+    Target1 =&gt; X,
+    Target2 =&gt; RESULT
+)
+INITIAL_VALUE MA.ClosestTarget(
+    Target1 =&gt; MA.ClosestEOA(),
+    Target2 =&gt; MA.SvL()
+)</Expression>
+</Case></Cases>
 </Function></Functions>
 </NameSpace>

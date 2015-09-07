@@ -13,6 +13,8 @@
  Type="Boolean"
  Cacheable="TRUE"
  Default=""
+ X="441"
+ Y="121"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -72,7 +74,8 @@ Odometry.TrainSpeed() &lt;= SpeedOfTarget(aTarget)</Expression>
  Type="Boolean"
  Cacheable="TRUE"
  Default=""
- X="110"
+ X="1"
+ Y="1"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -166,7 +169,8 @@ TrainPosition.FrontEndPosition(DistanceInterval.Max) &lt;= d_I(
  Type="Boolean"
  Cacheable="TRUE"
  Default=""
- X="220"
+ X="111"
+ Y="1"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -260,7 +264,8 @@ TrainPosition.FrontEndPosition(DistanceInterval.Max) &gt; d_I(
  Type="Boolean"
  Cacheable="TRUE"
  Default=""
- X="330"
+ X="221"
+ Y="1"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -361,7 +366,8 @@ MA.MA.TargetSpeed == 0.0
  Type="Boolean"
  Cacheable="TRUE"
  Default=""
- X="440"
+ X="331"
+ Y="1"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -455,7 +461,8 @@ TrainPosition.FrontEndPosition(DistanceInterval.Max) &lt;= d_I(
  Type="Boolean"
  Cacheable="TRUE"
  Default=""
- X="550"
+ X="441"
+ Y="1"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -568,7 +575,8 @@ TrainPosition.FrontEndPosition(DistanceInterval.Max) &lt;= d_W(
  Type="Boolean"
  Cacheable="TRUE"
  Default=""
- X="660"
+ X="551"
+ Y="1"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -662,7 +670,8 @@ TrainPosition.FrontEndPosition(DistanceInterval.Max) &gt; d_W(
  Type="Boolean"
  Cacheable="TRUE"
  Default=""
- X="770"
+ X="661"
+ Y="1"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -756,7 +765,8 @@ TrainPosition.FrontEndPosition(DistanceInterval.Max) &lt;= d_I(
  Type="Boolean"
  Cacheable="TRUE"
  Default=""
- Y="60"
+ X="551"
+ Y="121"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -1344,7 +1354,8 @@ TrainPosition.FrontEndPosition(DistanceInterval.Max) &lt;= d_I(
  Type="Boolean"
  Cacheable="TRUE"
  Default=""
- Y="130"
+ X="1"
+ Y="61"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -1370,6 +1381,11 @@ TrainPosition.FrontEndPosition(DistanceInterval.Max) &lt;= d_I(
  Id="45963a73-6286-4c23-8f87-9e18d78e5e28"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="1e6b0205-1cc1-4035-8863-2f5b25ae24f6"
+>
+</ReqRef><ReqRef
+ Id="c7a10d36-1ba2-41ce-b30c-d4072f8b2929"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="7fd5ce7e-2844-4db4-ae44-69d2387323ed"
 >
 </ReqRef><Comment>Revocation 0: True if the train is at standstill.</Comment>
 <Cases>
@@ -1411,7 +1427,19 @@ TrainPosition.FrontEndPosition(DistanceInterval.Max) &lt;= d_I(
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="23cbcb05-0633-4c0e-ba15-7b3ebfb8e2e5"
 >
+</ReqRef><ReqRef
+ Id="c7a10d36-1ba2-41ce-b30c-d4072f8b2929"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="606899dd-a92a-44d2-9a70-c154b7184f8a"
+>
 </ReqRef><Comment>Revocation 1: True if V is less than or equal to the speed of target.</Comment>
+<Parameters>
+<Parameter
+ Type="Target"
+ Name="aTarget"
+ Guid="4b2890d3-9788-4e83-ace0-a28b24d7cb3c"
+>
+</Parameter></Parameters>
 <Cases>
 <Case
  Name="Max distance to run in SR Mode"
@@ -1437,7 +1465,7 @@ TrainPosition.FrontEndPosition(DistanceInterval.Max) &lt;= d_I(
  Name="MRSP target and LOA"
  Guid="5f0d2e6c-c8c4-477b-9126-235984081071"
 >
-<Expression>FORALL aTarget IN TargetsList() | Odometry.TrainSpeed() &lt;= aTarget.Speed</Expression>
+<Expression>Odometry.TrainSpeed() &lt;= aTarget.Speed</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -1471,7 +1499,19 @@ TrainPosition.FrontEndPosition(DistanceInterval.Max) &lt;= d_I(
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="e91fc60a-6332-47ba-bd2c-e4df62041561"
 >
+</ReqRef><ReqRef
+ Id="c7a10d36-1ba2-41ce-b30c-d4072f8b2929"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="42193bfc-dd5f-448e-a333-9b98b8a5a1de"
+>
 </ReqRef><Comment>Revocation 2: True if V is between the speed of target and the MRSP speed, and if the front end is in rear of the indication distance for V.</Comment>
+<Parameters>
+<Parameter
+ Type="Target"
+ Name="aTarget"
+ Guid="97ae5371-6a85-47b4-addd-afbad2d41527"
+>
+</Parameter></Parameters>
 <Cases>
 <Case
  Name="Max Dist to run in SR"
@@ -1532,18 +1572,15 @@ MA.MA.TargetSpeed == 0.0
 <PreConditions>
 <PreCondition
  Guid="2fe191b7-05bf-423e-8c02-23fb4922371c"
->THERE_IS aTarget IN TargetsList() | 
-(
-(aTarget.Speed &gt;= Odometry.TrainSpeed()
+>(
+  aTarget.Speed &gt;= Odometry.TrainSpeed()
+    OR  
+  Odometry.TrainSpeed() &gt; MRSP.V_MRSP() 
+)
   OR  
- Odometry.TrainSpeed() &gt; MRSP.V_MRSP() )
-
-    OR    
-
 TrainPosition.FrontEndPosition(DistanceInterval.Max) &gt; d_I(
     Vest =&gt; Odometry.TrainSpeed(),
-    aTarget =&gt; aTarget )
-)</PreCondition></PreConditions>
+    aTarget =&gt; aTarget )</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
  Name="Otherwise - revocation conditions fulfilled"
@@ -1583,7 +1620,19 @@ TrainPosition.FrontEndPosition(DistanceInterval.Max) &gt; d_I(
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="40b2facd-419e-41d6-a67d-21009fdc4836"
 >
+</ReqRef><ReqRef
+ Id="c7a10d36-1ba2-41ce-b30c-d4072f8b2929"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="076db5cb-6015-46fe-95c8-df9020ed91d0"
+>
 </ReqRef><Comment>Revocation 3: True if V is between the speed of target and the MRSP speed, and if the front end is in rear of the permitted distance for V.</Comment>
+<Parameters>
+<Parameter
+ Type="Target"
+ Name="aTarget"
+ Guid="4df47526-6e82-43fd-9d1c-034b9374b057"
+>
+</Parameter></Parameters>
 <Cases>
 <Case
  Name="Max Dist to run in SR"
@@ -1648,20 +1697,17 @@ MA.MA.TargetSpeed == 0.0
 <PreConditions>
 <PreCondition
  Guid="99cc373c-4cb4-4cfa-8fdc-4a2e6db789d1"
->THERE_IS aTarget IN TargetsList() |
+>(
+  Odometry.TrainSpeed() &lt;= aTarget.Speed
+    OR  
+  MRSP.V_MRSP() &lt; Odometry.TrainSpeed()
+)
+  OR  
+TrainPosition.FrontEndPosition(DistanceInterval.Max) &gt; d_P
 (
-  (
-    Odometry.TrainSpeed() &lt;= aTarget.Speed
-      OR  
-     MRSP.V_MRSP() &lt; Odometry.TrainSpeed()
-  )
-    OR    
-  TrainPosition.FrontEndPosition(DistanceInterval.Max) &gt; d_P
-  (
     aTarget =&gt; aTarget,
     Vest =&gt; Odometry.TrainSpeed(),
     NoA_est =&gt; False
-  )
 )</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
@@ -1674,7 +1720,8 @@ MA.MA.TargetSpeed == 0.0
  Type="BaseTypes.Speed"
  Cacheable="TRUE"
  Default=""
- Y="270"
+ X="1"
+ Y="121"
  Width="100"
  Height="50"
  Implemented="TRUE"

@@ -1339,12 +1339,13 @@ SupervisedTargets</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="fa08245a-da47-4f3f-8b9e-f0e1296ad148"
->TargetSpeedMonitoring.SupervisionStatus.r1()
+>FORALL aTarget IN TargetsList() |
+TargetSpeedMonitoring.SupervisionStatus.r1(aTarget)
   OR  
 (
  TargetSpeedMonitoring.PreviousDisplayedTarget != TargetSpeedMonitoring.MRDT()
   AND 
- TargetSpeedMonitoring.SupervisionStatus.r2()
+ TargetSpeedMonitoring.SupervisionStatus.r2(aTarget)
 )</PreCondition><PreCondition
  Guid="90275fec-f9d4-4f42-ba0b-584bc9ccd819"
 >TargetsList()
@@ -1581,9 +1582,12 @@ SupervisedTargets</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="c4ac1a55-f50c-40ae-a81c-857508f0401f"
->TargetSpeedMonitoring.SupervisionStatus.r1()
+>FORALL aTarget IN TargetsList() |
+(
+TargetSpeedMonitoring.SupervisionStatus.r1(aTarget)
   OR  
-TargetSpeedMonitoring.SupervisionStatus.r2()</PreCondition><PreCondition
+TargetSpeedMonitoring.SupervisionStatus.r2(aTarget)
+)</PreCondition><PreCondition
  Guid="d557141a-65f3-427d-b04f-b467353812c2"
 >TargetsList()
 ==
@@ -1701,7 +1705,8 @@ TargetSpeedMonitoring.SupervisionStatus.t12()</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="007e56d1-04a5-42f6-9fd7-51753e17ee24"
->TargetSpeedMonitoring.SupervisionStatus.r3()</PreCondition><PreCondition
+>FORALL aTarget IN TargetsList() |
+TargetSpeedMonitoring.SupervisionStatus.r3(aTarget)</PreCondition><PreCondition
  Guid="ba1b3cfc-0f36-4987-ba60-ae5584af8df6"
 >TargetsList()
 ==
@@ -1790,9 +1795,12 @@ SupervisedTargets</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="666f5a37-2c5d-48a7-abdc-0c62243c4a13"
->TargetSpeedMonitoring.SupervisionStatus.r1()
+>FORALL aTarget IN TargetsList() |
+(
+TargetSpeedMonitoring.SupervisionStatus.r1(aTarget)
   OR  
-TargetSpeedMonitoring.SupervisionStatus.r2()</PreCondition><PreCondition
+TargetSpeedMonitoring.SupervisionStatus.r2(aTarget)
+)</PreCondition><PreCondition
  Guid="d90e2315-6dd5-4a30-a1be-7723bbffd1e3"
 >TargetsList()
 ==
@@ -1910,7 +1918,8 @@ TargetSpeedMonitoring.SupervisionStatus.t12()</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="2adcbd97-7c16-4786-80af-5924bce1a3bd"
->TargetSpeedMonitoring.SupervisionStatus.r3()</PreCondition><PreCondition
+>FORALL aTarget IN TargetsList() |
+TargetSpeedMonitoring.SupervisionStatus.r3(aTarget)</PreCondition><PreCondition
  Guid="6da32743-f2b6-45bc-ab2b-aa60fab32247"
 >TargetsList()
 ==
@@ -1975,10 +1984,11 @@ TargetSpeedMonitoring.SupervisionStatus.r0()
     NOT EBSpecified
   )
   AND
+FORALL aTarget IN TargetsList() |
   (
-    TargetSpeedMonitoring.SupervisionStatus.r1()
+    TargetSpeedMonitoring.SupervisionStatus.r1(aTarget)
       OR  
-    TargetSpeedMonitoring.SupervisionStatus.r2()
+    TargetSpeedMonitoring.SupervisionStatus.r2(aTarget)
   )
 )</PreCondition><PreCondition
  Guid="135eec21-3034-495d-b0d7-5775c861ed3b"
@@ -2013,9 +2023,12 @@ SupervisedTargets</PreCondition></PreConditions>
   NationalValues.ReleaseOfEBIsPermitted()
     AND
   (
-    TargetSpeedMonitoring.SupervisionStatus.r1() 
+FORALL aTarget IN TargetsList() |
+    (
+    TargetSpeedMonitoring.SupervisionStatus.r1(aTarget) 
       OR  
-    TargetSpeedMonitoring.SupervisionStatus.r2()
+    TargetSpeedMonitoring.SupervisionStatus.r2(aTarget)
+    )
   )
 )</PreCondition></PreConditions>
 <Actions>
@@ -2040,9 +2053,12 @@ SupervisedTargets</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="6e3d0029-6073-4eb3-a2ac-b9f25f0f728a"
->TargetSpeedMonitoring.SupervisionStatus.r1() 
+>FORALL aTarget IN TargetsList() |
+(
+TargetSpeedMonitoring.SupervisionStatus.r1(aTarget)
   OR  
-TargetSpeedMonitoring.SupervisionStatus.r2()</PreCondition></PreConditions>
+TargetSpeedMonitoring.SupervisionStatus.r2(aTarget)
+)</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="f3c53cde-2634-4974-b341-7160f20afab0"
@@ -2060,7 +2076,8 @@ TargetSpeedMonitoring.SupervisionStatus.r2()</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="7a0d66ec-a534-4378-ba44-c2553e18fa8d"
->TargetSpeedMonitoring.SupervisionStatus.r3()</PreCondition><PreCondition
+>FORALL aTarget IN TargetsList() |
+TargetSpeedMonitoring.SupervisionStatus.r3(aTarget)</PreCondition><PreCondition
  Guid="2c964c89-a3ab-47f0-9810-0b0e3f163cc8"
 >TargetsList()
 ==
@@ -2157,11 +2174,14 @@ This is used to handle the case where a previous brake command was not revoked b
  Guid="f47a2b74-fe47-4744-ab8a-8827832e5cf8"
 >THIS not in Intervention</PreCondition><PreCondition
  Guid="e00bdd73-5703-4cd4-9566-fa3472b3b1d8"
->TargetSpeedMonitoring.SupervisionStatus.r1()
+>FORALL aTarget IN TargetsList() |
+(
+TargetSpeedMonitoring.SupervisionStatus.r1(aTarget)
   OR  
-TargetSpeedMonitoring.SupervisionStatus.r2()
+TargetSpeedMonitoring.SupervisionStatus.r2(aTarget)
   OR  
-TargetSpeedMonitoring.SupervisionStatus.r3()</PreCondition><PreCondition
+TargetSpeedMonitoring.SupervisionStatus.r3(aTarget)
+)</PreCondition><PreCondition
  Guid="3b8f0daa-b19b-4a0a-b528-2d6f4fcb2662"
 >SBSpecified</PreCondition></PreConditions>
 <Actions>
@@ -2240,11 +2260,14 @@ This is used to handle the case where a previous brake command was not revoked b
   NationalValues.ReleaseOfEBIsPermitted()
     AND  
   (
-    TargetSpeedMonitoring.SupervisionStatus.r1()
+  FORALL aTarget IN TargetsList() |
+    (
+    TargetSpeedMonitoring.SupervisionStatus.r1(aTarget)
       OR  
-    TargetSpeedMonitoring.SupervisionStatus.r2()
+    TargetSpeedMonitoring.SupervisionStatus.r2(aTarget)
       OR  
-    TargetSpeedMonitoring.SupervisionStatus.r3()
+    TargetSpeedMonitoring.SupervisionStatus.r3(aTarget)
+    )
   )
 )</PreCondition><PreCondition
  Guid="97a28e8f-7bf1-45bb-8acc-6c64a8dff61e"
