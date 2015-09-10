@@ -8,32 +8,117 @@
 >
 <NameSpaces>
 </NameSpaces>
+<Enumerations>
+<Enum
+ Default="NoConfirmationRequired"
+ X="140"
+ Y="20"
+ Width="100"
+ Height="50"
+ Name="DriverConfirmationEnum"
+ Guid="98db2ffe-5a62-4bc5-b9b8-abfe303d1326"
+>
+<ReqRef
+ Id="4a6d78d2-2283-4d49-8223-9600a9af81a4"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="7e322da0-d257-45df-9396-162256b802e2"
+>
+</ReqRef><Comment>Indicates whether the driver confirmation is required and if so, indicates whether the brakes should be applied when the display end condition is fulfilled.</Comment>
+<Values>
+<EnumValue
+ Value=""
+ Name="NoConfirmationRequired"
+ Guid="d68fe16d-dcf6-4e1b-a017-f9cafdefb0bd"
+>
+</EnumValue><EnumValue
+ Value=""
+ Name="ConfirmationRequired"
+ Guid="321fc3c7-35f8-4b78-8a81-e934bc63f2eb"
+>
+</EnumValue><EnumValue
+ Value=""
+ Name="ConfirmationRequiredApplySB"
+ Guid="1258cced-aaac-4aa4-8d4b-408b3ba816f0"
+>
+</EnumValue><EnumValue
+ Value=""
+ Name="ConfirmationRequiredApplyEB"
+ Guid="1f60ea53-e280-4ed9-be25-dd61f1c9b4ef"
+>
+</EnumValue></Values>
+</Enum><Enum
+ Default="Acknowledgement"
+ X="440"
+ Y="200"
+ Width="100"
+ Height="50"
+ Name="FixedTextEnum"
+ Guid="6e2ec0cc-e152-4fb0-bb43-58815260a365"
+>
+<ReqRef
+ Id="6517ff26-c75b-48a1-8808-ef77a64ca200"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="149629ab-1149-4a66-a280-8902284a023d"
+>
+</ReqRef><Comment>Enum representing the predefined fixed text messages.</Comment>
+<Values>
+<EnumValue
+ Value=""
+ Name="LevelCrossingNotProtected"
+ Guid="c574a799-1012-47a9-bd78-a8c157adab64"
+>
+</EnumValue><EnumValue
+ Value=""
+ Name="Acknowledgement"
+ Guid="24e15931-f1d7-4bec-b183-a0f962602d6b"
+>
+</EnumValue></Values>
+</Enum></Enumerations>
 <Structures>
 <Structure
  IsAbstract="TRUE"
- X="20"
- Y="10"
+ X="240"
+ Y="130"
  Width="100"
  Height="50"
  Name="TextMessageInterface"
  Guid="ff939e5f-0291-449f-963f-f15b1404a06b"
 >
+<ReqRef
+ Id="ef3c351f-025b-4a91-a937-bc68d0970984"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6a74674f-5874-461c-82b8-2a7928263e41"
+>
+</ReqRef><Comment>Provides the information relative to the handling of text messages (driver acknowledgement, start and stop conditions, type of the message).</Comment>
 <StructureElement
  TypeName="Boolean"
+ Default=""
  Mode="Internal"
  Name="IsImportant"
  Guid="cc144879-6b12-4a83-9ded-c52f05474091"
 >
-<Comment>Indicates if that text message is auxiliary or important.</Comment>
+<ReqRef
+ Id="7e9d1185-2e5f-4160-b6c1-d88a7b7163a2"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c9eedac6-1e11-46e9-a379-88708d2a6a71"
+>
+</ReqRef><Comment>Indicates if that text message is auxiliary or important.</Comment>
 </StructureElement><StructureElement
  TypeName="Boolean"
+ Default=""
  Mode="Internal"
  Name="FulfillAllTheEvents"
  Guid="c0bb55cc-26d4-4f06-bc29-ae2590224f8f"
 >
-<Comment>Indicates if all the text message events have to be fulfilled in order to display the message, or only one of conditions is enough.</Comment>
+<ReqRef
+ Id="33f647b5-04f7-48f6-be20-58f48c691ae8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="febd590f-0d46-4a66-9ae0-416a73f969d7"
+>
+</ReqRef><Comment>Indicates if all the text message events have to be fulfilled in order to display the message, or only one of conditions is enough.</Comment>
 </StructureElement><StructureElement
  TypeName="BaseTypes.Distance"
+ Default=""
  Mode="Internal"
  Name="Location"
  Guid="acdf58b6-a181-44d8-83dd-fa7716ebe818"
@@ -43,9 +128,25 @@
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="376717de-5758-41a2-9251-8cdc3f84b0c0"
 >
+</ReqRef><ReqRef
+ Id="73c47576-8644-4164-8004-5b88ee69fb9b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="02b9e358-11e6-4f08-80fd-63347e2e4e50"
+>
+</ReqRef><ReqRef
+ Id="f329eaf6-887d-481c-8f87-073f8e9ee025"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="135092bf-d6cb-410e-b826-b54e8011c772"
+>
+</ReqRef><ReqRef
+ Id="e56989a2-b4c3-4663-8cce-3810ca8a5e62"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="321a30c3-6e21-4e3b-8c6b-cd98dfd20f8a"
+>
 </ReqRef><Comment>Distance from which the text message shall be displayed.</Comment>
 </StructureElement><StructureElement
  TypeName="ModeConditionStruct"
+ Default=""
  Mode="Internal"
  Name="StartModeCondition"
  Guid="78f8caa9-c986-4226-82b9-0d6b2f230584"
@@ -55,9 +156,15 @@
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="28a69ee5-7647-4299-8656-13b8c3e31227"
 >
-</ReqRef><Comment>Indicates if the start of the display of the text message is limited by a condition of the mode.</Comment>
+</ReqRef><ReqRef
+ Id="f329eaf6-887d-481c-8f87-073f8e9ee025"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="26142442-a506-4419-9b25-93d440a45c84"
+>
+</ReqRef><Comment>Indicates if the start of the display of the text message is limited by a condition on the mode.</Comment>
 </StructureElement><StructureElement
  TypeName="ModeConditionStruct"
+ Default=""
  Mode="Internal"
  Name="EndModeCondition"
  Guid="eceba384-97ef-4236-ae78-18ab8ea08c66"
@@ -67,10 +174,141 @@
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="cf6c79df-9d51-4c47-a7a4-862af95623d7"
 >
-</ReqRef><Comment>Indicates if the end of the display of the text message is limited by a condition of the mode.</Comment>
+</ReqRef><ReqRef
+ Id="e56989a2-b4c3-4663-8cce-3810ca8a5e62"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="7bd8f244-3cf5-456b-874e-35ab3616678e"
+>
+</ReqRef><Comment>Indicates if the end of the display of the text message is limited by a condition on the mode.</Comment>
+</StructureElement><StructureElement
+ TypeName="LevelConditionStruct"
+ Default=""
+ Mode="Internal"
+ Name="StartLevelCondition"
+ Guid="255c870a-a536-4f63-9837-aef343503cca"
+>
+<ReqRef
+ Id="87d5613b-8da1-42cf-8b12-597d82ffe263"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f2637560-11e4-46b9-8b9f-ae14c1d6a092"
+>
+</ReqRef><ReqRef
+ Id="f329eaf6-887d-481c-8f87-073f8e9ee025"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="1531ae15-096b-4d16-ab55-93a22cd76bc6"
+>
+</ReqRef><Comment>Indicates if the start of the display of the text message is limited by a condition on the level.</Comment>
+</StructureElement><StructureElement
+ TypeName="LevelConditionStruct"
+ Default=""
+ Mode="Internal"
+ Name="EndLevelCondition"
+ Guid="5271c320-c8a0-418b-b501-5454d9278a22"
+>
+<ReqRef
+ Id="b7edc2b7-4bf2-4608-ae3f-df5b9ddaa39e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="da07407e-77f8-4c2d-b835-d93308dd2fe1"
+>
+</ReqRef><ReqRef
+ Id="e56989a2-b4c3-4663-8cce-3810ca8a5e62"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="357d4b4d-2b58-4c62-9529-e3dc79c69858"
+>
+</ReqRef><Comment>Indicates if the end of the display of the text message is limited by a condition on the level.</Comment>
+</StructureElement><StructureElement
+ TypeName="BaseTypes.Length"
+ Default=""
+ Mode="Internal"
+ Name="Length"
+ Guid="263f1efb-4ded-4f85-b994-9c8ee7c913e8"
+>
+<ReqRef
+ Id="73c47576-8644-4164-8004-5b88ee69fb9b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="3264bb17-f5e2-416c-bc25-993730c2f1d5"
+>
+</ReqRef><ReqRef
+ Id="e56989a2-b4c3-4663-8cce-3810ca8a5e62"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="21826ae1-2dbc-4f1f-9fd1-a488f952d949"
+>
+</ReqRef><Comment>The distance during which the text message shall be displayed.</Comment>
+</StructureElement><StructureElement
+ TypeName="BaseTypes.Time"
+ Default=""
+ Mode="Internal"
+ Name="DisplayDuration"
+ Guid="da0c2198-6200-4de7-a6db-8860f41620cc"
+>
+<ReqRef
+ Id="bc5abc96-6d7d-431d-a9cb-8fc8ed1e25dd"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="99137563-c03d-465d-b724-32f526d88206"
+>
+</ReqRef><ReqRef
+ Id="e56989a2-b4c3-4663-8cce-3810ca8a5e62"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="78019755-6f6e-44f3-9079-10013e4c31b9"
+>
+</ReqRef><Comment>Duration of the display of the text message.</Comment>
+</StructureElement><StructureElement
+ TypeName="DriverConfirmationEnum"
+ Default=""
+ Mode="Internal"
+ Name="DriverConfirmation"
+ Guid="45f16eb9-59da-4b82-bed8-45d859a132b1"
+>
+<ReqRef
+ Id="4a6d78d2-2283-4d49-8223-9600a9af81a4"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e3776ac3-3763-4840-a82b-6f372cf252a5"
+>
+</ReqRef><ReqRef
+ Id="8266cb3f-9bd1-45eb-852a-87d2a9fcdc5d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="42570fec-6388-476c-a4fc-824ae0efc259"
+>
+</ReqRef><Comment>Indicates whether the driver confirmation is required and if so, indicates whether the brakes should be applied when the display end condition is fulfilled.</Comment>
+</StructureElement><StructureElement
+ TypeName="Boolean"
+ Default=""
+ Mode="Internal"
+ Name="AckStopsDisplay"
+ Guid="7e7a00a4-22cc-49e3-9a47-3705abcaa572"
+>
+<ReqRef
+ Id="85357988-d98a-4224-aaee-19357a81c4e4"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e4262126-899e-4d0e-a9a7-5adb5f87ac0a"
+>
+</ReqRef><ReqRef
+ Id="0c454934-381e-4e47-b284-c33802dfdfd8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e0b3ef57-b4c1-4df1-8403-cae9cab928cc"
+>
+</ReqRef><ReqRef
+ Id="b78843ae-dd2b-41c1-84e6-8dd1ffe30817"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="93ebd00d-279e-42b0-941d-0f4cae25ec09"
+>
+</ReqRef><Comment>Indicates whether the driver confirmation ends the text display regardless the end conditions or the driver confirmation is an additional condition to end the display.</Comment>
+</StructureElement><StructureElement
+ TypeName="TextReportStruct"
+ Default=""
+ Mode="Internal"
+ Name="ReportInformation"
+ Guid="586038d1-dbc9-4c3f-95aa-a2dee2f1168d"
+>
+<ReqRef
+ Id="dc47fc83-606e-4d26-b033-7404ed27ecdc"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="2c2bb917-9759-4249-a062-b7608690c39d"
+>
+</ReqRef><Comment>Information about the report of text message confirmation by the driver.</Comment>
 </StructureElement></Structure><Structure
- X="20"
- Y="110"
+ X="10"
+ Y="130"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -97,8 +335,10 @@
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="84284f8a-9bc2-4824-9732-75cf9d2b6063"
 >
-</ReqRef><StructureElement
+</ReqRef><Comment>Provides the information related to mode condition for display of text messages.</Comment>
+<StructureElement
  TypeName="Boolean"
+ Default=""
  Mode="Internal"
  Implemented="TRUE"
  Name="IsLimitedByMode"
@@ -107,22 +347,721 @@
 <Comment>Indicates if the start of the end of display of a text message is limited by a mode condition.</Comment>
 </StructureElement><StructureElement
  TypeName="Default.Mode.ModeForTextDisplay"
+ Default=""
  Mode="Internal"
  Implemented="TRUE"
  Name="Mode"
  Guid="aff68a73-fcc1-4100-a450-d4116d6db129"
 >
-<Comment>Gives the mode that limits the start of stop of display of a text message.</Comment>
-</StructureElement></Structure></Structures>
-<Procedures>
-<Procedure
- X="30"
- Y="200"
+<Comment>Gives the mode that limits the start or stop of display of a text message.</Comment>
+</StructureElement></Structure><Structure
+ X="480"
+ Y="130"
  Width="100"
  Height="50"
+ Implemented="TRUE"
+ Name="LevelConditionStruct"
+ Guid="41f37040-d318-433b-a7ae-479b865cee5a"
+>
+<ReqRef
+ Id="87d5613b-8da1-42cf-8b12-597d82ffe263"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="7ce2f1de-7a27-44ad-857c-ef6d8ec82231"
+>
+</ReqRef><ReqRef
+ Id="b7edc2b7-4bf2-4608-ae3f-df5b9ddaa39e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="3056f476-8bba-4a14-8d60-5f560ba85754"
+>
+</ReqRef><ReqRef
+ Id="a61f6341-e2cc-4123-94da-07f6ec9bbd4e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="3d80ec56-5e5b-4f89-a308-a63d599636a2"
+>
+</ReqRef><ReqRef
+ Id="68300a10-bd33-42b9-b12f-283c8a668cfd"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="1fcce6a5-dab7-443c-b083-d67b98c71119"
+>
+</ReqRef><Comment>Provides the information related to level condition for display of text messages.</Comment>
+<StructureElement
+ TypeName="Boolean"
+ Default=""
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="IsLimitedByLevel"
+ Guid="6a7e53b4-9436-48ba-9695-ddebb6684b62"
+>
+<Comment>Indicates if the start of the end of display of a text message is limited by a level condition.</Comment>
+</StructureElement><StructureElement
+ TypeName="Default.LevelDataStruct"
+ Default=""
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="Level"
+ Guid="dc30335e-d31c-4605-a584-a476a78d1705"
+>
+<Comment>Gives the level that limits the start or stop of display of a text message.</Comment>
+</StructureElement></Structure><Structure
+ X="340"
+ Y="20"
+ Width="100"
+ Height="50"
+ Name="TextReportStruct"
+ Guid="aeaeea86-e466-4e00-9c23-84187c369257"
+>
+<ReqRef
+ Id="dc47fc83-606e-4d26-b033-7404ed27ecdc"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="2dc38759-6975-4b06-b4fa-1008ea2e4284"
+>
+</ReqRef><Comment>Contains the information relative the the report of text messages confirmation by driver.</Comment>
+<StructureElement
+ TypeName="Messages.NID_TEXTMESSAGE"
+ Default=""
+ Mode="Internal"
+ Name="TextId"
+ Guid="de9f6348-fbe1-4d13-8ed6-d51589fbb3cf"
+>
+<ReqRef
+ Id="db334cc6-2a0a-4697-99ec-fcdc4c2baf11"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="740bbeb1-0884-4789-93de-b57680bc7567"
+>
+</ReqRef><Comment>Id of the message.</Comment>
+</StructureElement><StructureElement
+ TypeName="Messages.NID_C"
+ Default=""
+ Mode="Internal"
+ Name="NID_C"
+ Guid="4d27d6ba-c423-4615-a93b-2768f71196d2"
+>
+<ReqRef
+ Id="18609807-23a7-4d4c-8aa2-2b02c61cfb1d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d96ed65d-98e1-4215-a26a-ad00b86c8f0f"
+>
+</ReqRef><Comment>Id of the country.</Comment>
+</StructureElement><StructureElement
+ TypeName="Messages.NID_RBC"
+ Default=""
+ Mode="Internal"
+ Name="NID_RBC"
+ Guid="fc9651b5-aa10-43c9-8d3d-c2d7bcf3cd76"
+>
+<ReqRef
+ Id="18609807-23a7-4d4c-8aa2-2b02c61cfb1d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d19af2d9-e76b-4df2-b9a8-161d6a9f5243"
+>
+</ReqRef><Comment>Id of the RBC.</Comment>
+</StructureElement><StructureElement
+ TypeName="Boolean"
+ Default=""
+ Mode="Internal"
+ Name="ReportRequired"
+ Guid="fdf882b7-4bac-4847-9186-905a24b2ff7c"
+>
+<ReqRef
+ Id="dc47fc83-606e-4d26-b033-7404ed27ecdc"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="66b19a9c-e598-44b2-9a6f-7ca3bd05bd16"
+>
+</ReqRef><Comment>Indicates whether the report of text message confirmation by driver to the RBC is required.</Comment>
+</StructureElement></Structure><Structure
+ X="340"
+ Y="290"
+ Width="100"
+ Height="50"
+ Name="FixedTextMessageStruct"
+ Guid="9031351b-4025-4c6e-838f-20dda051c8c0"
+>
+<ReqRef
+ Id="6517ff26-c75b-48a1-8808-ef77a64ca200"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="70ad4bd6-612e-474e-b40c-f39ff5e93b6a"
+>
+</ReqRef><Comment>Represents a fixed text message.</Comment>
+<StructureElement
+ TypeName="Boolean"
+ Default=""
+ Mode="Internal"
+ Name="IsImportant"
+ Guid="cba9aee6-99a3-437b-8249-30a75b05ae3d"
+>
+<ReqRef
+ Id="7e9d1185-2e5f-4160-b6c1-d88a7b7163a2"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="bca9a9a0-0d4b-44a5-a1c3-7e70c7532233"
+>
+</ReqRef><Comment>Indicates if that text message is auxiliary or important.</Comment>
+</StructureElement><StructureElement
+ TypeName="Boolean"
+ Default=""
+ Mode="Internal"
+ Name="FulfillAllTheEvents"
+ Guid="5f26b77c-e644-4f48-99f7-27e6d9d9e1e5"
+>
+<ReqRef
+ Id="33f647b5-04f7-48f6-be20-58f48c691ae8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="adeb34fb-923e-4c94-af7d-a28ece2f617d"
+>
+</ReqRef><Comment>Indicates if all the text message events have to be fulfilled in order to display the message, or only one of conditions is enough.</Comment>
+</StructureElement><StructureElement
+ TypeName="BaseTypes.Distance"
+ Default=""
+ Mode="Internal"
+ Name="Location"
+ Guid="de2419e8-2e28-4f64-ae13-205afac389eb"
+>
+<ReqRef
+ Id="9eb30a7d-c5fa-4984-9314-28bb7fb5f477"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="5723a65f-59ff-4d26-bb72-613bf1bcc8c0"
+>
+</ReqRef><ReqRef
+ Id="73c47576-8644-4164-8004-5b88ee69fb9b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="24cce02c-f0f5-40d5-8878-830a6fc55607"
+>
+</ReqRef><ReqRef
+ Id="f329eaf6-887d-481c-8f87-073f8e9ee025"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b90b1fd9-18bf-486a-8263-05edc3aec0ca"
+>
+</ReqRef><ReqRef
+ Id="e56989a2-b4c3-4663-8cce-3810ca8a5e62"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="feff26c1-0c3b-4e53-882b-515772855781"
+>
+</ReqRef><Comment>Distance from which the text message shall be displayed.</Comment>
+</StructureElement><StructureElement
+ TypeName="ModeConditionStruct"
+ Default=""
+ Mode="Internal"
+ Name="StartModeCondition"
+ Guid="ec41063f-d87c-4a33-aa7f-6176f9431658"
+>
+<ReqRef
+ Id="498ad2ad-2817-404e-b61d-20ec57c5d991"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="19e4c374-b23d-45bb-b271-8e3e7a62a3a3"
+>
+</ReqRef><ReqRef
+ Id="f329eaf6-887d-481c-8f87-073f8e9ee025"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="81a5cfba-2ca6-4221-9ef4-e73e0c1f08e9"
+>
+</ReqRef><Comment>Indicates if the start of the display of the text message is limited by a condition on the mode.</Comment>
+</StructureElement><StructureElement
+ TypeName="ModeConditionStruct"
+ Default=""
+ Mode="Internal"
+ Name="EndModeCondition"
+ Guid="5992a289-a432-473b-b0b0-e399b9ea2a53"
+>
+<ReqRef
+ Id="ce94f233-495d-4058-a149-705b10f330a4"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="420f182b-0606-4ec6-b932-5647092d08b2"
+>
+</ReqRef><ReqRef
+ Id="e56989a2-b4c3-4663-8cce-3810ca8a5e62"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c33bf3a7-2b65-4ba7-a91e-9a5c8d3d6168"
+>
+</ReqRef><Comment>Indicates if the end of the display of the text message is limited by a condition on the mode.</Comment>
+</StructureElement><StructureElement
+ TypeName="LevelConditionStruct"
+ Default=""
+ Mode="Internal"
+ Name="StartLevelCondition"
+ Guid="b89b79cc-6b06-4118-b1bf-39eb62eb9fec"
+>
+<ReqRef
+ Id="87d5613b-8da1-42cf-8b12-597d82ffe263"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="976511d4-40bf-4a3c-b982-8ca53491c435"
+>
+</ReqRef><ReqRef
+ Id="f329eaf6-887d-481c-8f87-073f8e9ee025"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="181ba531-d563-464c-acd8-6bac76cb1a88"
+>
+</ReqRef><Comment>Indicates if the start of the display of the text message is limited by a condition on the level.</Comment>
+</StructureElement><StructureElement
+ TypeName="LevelConditionStruct"
+ Default=""
+ Mode="Internal"
+ Name="EndLevelCondition"
+ Guid="c4092951-5bf0-40dd-9caa-725e8ff211b2"
+>
+<ReqRef
+ Id="b7edc2b7-4bf2-4608-ae3f-df5b9ddaa39e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6e49b7e6-5ae5-49f6-a89c-a7310969b551"
+>
+</ReqRef><ReqRef
+ Id="e56989a2-b4c3-4663-8cce-3810ca8a5e62"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="098d9830-740b-411d-be3a-2d94d24e816d"
+>
+</ReqRef><Comment>Indicates if the end of the display of the text message is limited by a condition on the level.</Comment>
+</StructureElement><StructureElement
+ TypeName="BaseTypes.Length"
+ Default=""
+ Mode="Internal"
+ Name="Length"
+ Guid="752c4871-6d3a-461f-a01e-72119833b25e"
+>
+<ReqRef
+ Id="73c47576-8644-4164-8004-5b88ee69fb9b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e0c2fe94-d842-4d78-90a5-0d29dd903751"
+>
+</ReqRef><ReqRef
+ Id="e56989a2-b4c3-4663-8cce-3810ca8a5e62"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="94029252-4401-4740-b755-d9979dc03e87"
+>
+</ReqRef><Comment>The distance during which the text message shall be displayed.</Comment>
+</StructureElement><StructureElement
+ TypeName="BaseTypes.Time"
+ Default=""
+ Mode="Internal"
+ Name="DisplayDuration"
+ Guid="b6724afc-ac5a-48a3-a075-d91715e1bad9"
+>
+<ReqRef
+ Id="bc5abc96-6d7d-431d-a9cb-8fc8ed1e25dd"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="55455532-faf2-436e-9737-bbb1f14633e5"
+>
+</ReqRef><ReqRef
+ Id="e56989a2-b4c3-4663-8cce-3810ca8a5e62"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="028b2507-d253-4062-a937-027f35943d92"
+>
+</ReqRef><Comment>Duration of the display of the text message.</Comment>
+</StructureElement><StructureElement
+ TypeName="DriverConfirmationEnum"
+ Default=""
+ Mode="Internal"
+ Name="DriverConfirmation"
+ Guid="029f20e3-e676-4b4e-8700-fcba2ae9d56e"
+>
+<ReqRef
+ Id="4a6d78d2-2283-4d49-8223-9600a9af81a4"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e2837fad-4756-4c72-a85b-64b6dc3192e9"
+>
+</ReqRef><ReqRef
+ Id="8266cb3f-9bd1-45eb-852a-87d2a9fcdc5d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c4a356bc-d3b6-4728-ae52-78183ab015d1"
+>
+</ReqRef><Comment>Indicates whether the driver confirmation is required and if so, indicates whether the brakes should be applied when the display end condition is fulfilled.</Comment>
+</StructureElement><StructureElement
+ TypeName="Boolean"
+ Default=""
+ Mode="Internal"
+ Name="AckStopsDisplay"
+ Guid="6b43de56-1f3a-4fb1-973a-e8e51cca0a94"
+>
+<ReqRef
+ Id="85357988-d98a-4224-aaee-19357a81c4e4"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="4af1705e-986f-477e-85ca-683e5480fc09"
+>
+</ReqRef><ReqRef
+ Id="0c454934-381e-4e47-b284-c33802dfdfd8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c5f56b08-70e9-474e-9b79-9133aa4afe08"
+>
+</ReqRef><ReqRef
+ Id="b78843ae-dd2b-41c1-84e6-8dd1ffe30817"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="aab51f1b-8070-4268-8a1e-7a3cc697e289"
+>
+</ReqRef><Comment>Indicates whether the driver confirmation ends the text display regardless the end conditions or the driver confirmation is an additional condition to end the display.</Comment>
+</StructureElement><StructureElement
+ TypeName="TextReportStruct"
+ Default=""
+ Mode="Internal"
+ Name="ReportInformation"
+ Guid="901ec654-51e1-4ec4-ad28-0ea8a804886c"
+>
+<ReqRef
+ Id="dc47fc83-606e-4d26-b033-7404ed27ecdc"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="cb366e74-5550-4f7a-b2bd-8651a61daf2c"
+>
+</ReqRef><Comment>Information about the report of text message confirmation by the driver.</Comment>
+</StructureElement><StructureElement
+ TypeName="FixedTextEnum"
+ Default=""
+ Mode="Internal"
+ Name="FixedText"
+ Guid="0af074a3-94a6-4684-94d4-f5bc07f2cd0d"
+>
+<ReqRef
+ Id="6517ff26-c75b-48a1-8808-ef77a64ca200"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="5c475c32-2cc3-47aa-a914-6bd1c81d7cb8"
+>
+</ReqRef><Comment>The number of the fixed text message.</Comment>
+</StructureElement><Interfaces>
+<StructureRef
+ Name="TextMessageInterface"
+ Guid="7b370c69-74a6-4c64-b669-09df4b02536a"
+>
+</StructureRef></Interfaces>
+</Structure><Structure
+ X="140"
+ Y="290"
+ Width="100"
+ Height="50"
+ Name="PlainTextMessageStruct"
+ Guid="14eab9cb-4f77-4b51-bb51-e099c240eb45"
+>
+<ReqRef
+ Id="6517ff26-c75b-48a1-8808-ef77a64ca200"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="2a0ca70d-d639-4e11-8dd0-071d5b375bf0"
+>
+</ReqRef><Comment>Represents a plain text message.</Comment>
+<StructureElement
+ TypeName="Boolean"
+ Default=""
+ Mode="Internal"
+ Name="IsImportant"
+ Guid="ff668dd5-31a6-4f9c-9c49-79dc5e67c05c"
+>
+<ReqRef
+ Id="7e9d1185-2e5f-4160-b6c1-d88a7b7163a2"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="4f6decac-a301-4fca-b2b4-b3a98daf4ed5"
+>
+</ReqRef><Comment>Indicates if that text message is auxiliary or important.</Comment>
+</StructureElement><StructureElement
+ TypeName="Boolean"
+ Default=""
+ Mode="Internal"
+ Name="FulfillAllTheEvents"
+ Guid="f6a74198-8568-4a8b-99f9-1085cf3f4694"
+>
+<ReqRef
+ Id="33f647b5-04f7-48f6-be20-58f48c691ae8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="808bb814-969e-4199-ad9a-0a08eba34564"
+>
+</ReqRef><Comment>Indicates if all the text message events have to be fulfilled in order to display the message, or only one of conditions is enough.</Comment>
+</StructureElement><StructureElement
+ TypeName="BaseTypes.Distance"
+ Default=""
+ Mode="Internal"
+ Name="Location"
+ Guid="2cafe4a7-12c8-4985-8ad9-2d9d24a3fee3"
+>
+<ReqRef
+ Id="9eb30a7d-c5fa-4984-9314-28bb7fb5f477"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0e041577-d9ad-47f5-8405-448edac297ef"
+>
+</ReqRef><ReqRef
+ Id="73c47576-8644-4164-8004-5b88ee69fb9b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="eab37ef9-5406-4fac-bdfb-5d0b30f90206"
+>
+</ReqRef><ReqRef
+ Id="f329eaf6-887d-481c-8f87-073f8e9ee025"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6d9cdd78-d19a-4de8-83e0-f81f515db152"
+>
+</ReqRef><ReqRef
+ Id="e56989a2-b4c3-4663-8cce-3810ca8a5e62"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="76157434-af11-418f-b23c-ac97ca6632a6"
+>
+</ReqRef><Comment>Distance from which the text message shall be displayed.</Comment>
+</StructureElement><StructureElement
+ TypeName="ModeConditionStruct"
+ Default=""
+ Mode="Internal"
+ Name="StartModeCondition"
+ Guid="4edcb290-c6c7-4f53-92ec-dd91bf07ca71"
+>
+<ReqRef
+ Id="498ad2ad-2817-404e-b61d-20ec57c5d991"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b2e8434f-5117-458d-85ae-5a778d689628"
+>
+</ReqRef><ReqRef
+ Id="f329eaf6-887d-481c-8f87-073f8e9ee025"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="75e0a04b-a86c-4a26-baaa-a11a94100dba"
+>
+</ReqRef><Comment>Indicates if the start of the display of the text message is limited by a condition on the mode.</Comment>
+</StructureElement><StructureElement
+ TypeName="ModeConditionStruct"
+ Default=""
+ Mode="Internal"
+ Name="EndModeCondition"
+ Guid="75eea6ed-5b7a-4c38-b3ae-a02311ee8b9a"
+>
+<ReqRef
+ Id="ce94f233-495d-4058-a149-705b10f330a4"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="19d3e29d-3432-4fcf-84d0-cecfda3d52ec"
+>
+</ReqRef><ReqRef
+ Id="e56989a2-b4c3-4663-8cce-3810ca8a5e62"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="1b6c97c6-f274-41d4-88ac-73374480a658"
+>
+</ReqRef><Comment>Indicates if the end of the display of the text message is limited by a condition on the mode.</Comment>
+</StructureElement><StructureElement
+ TypeName="LevelConditionStruct"
+ Default=""
+ Mode="Internal"
+ Name="StartLevelCondition"
+ Guid="6b1df1ef-c9ff-4519-af67-c2fa8612c961"
+>
+<ReqRef
+ Id="87d5613b-8da1-42cf-8b12-597d82ffe263"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b11d8aec-9324-46ec-8b44-63434b59f881"
+>
+</ReqRef><ReqRef
+ Id="f329eaf6-887d-481c-8f87-073f8e9ee025"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a73fbf47-7479-4430-b3e1-5276fe107849"
+>
+</ReqRef><Comment>Indicates if the start of the display of the text message is limited by a condition on the level.</Comment>
+</StructureElement><StructureElement
+ TypeName="LevelConditionStruct"
+ Default=""
+ Mode="Internal"
+ Name="EndLevelCondition"
+ Guid="453da3ec-78c4-4393-887c-477e7a63cc12"
+>
+<ReqRef
+ Id="b7edc2b7-4bf2-4608-ae3f-df5b9ddaa39e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c20dc8ae-dd8b-4e69-930b-c45641089e28"
+>
+</ReqRef><ReqRef
+ Id="e56989a2-b4c3-4663-8cce-3810ca8a5e62"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d1f65298-9707-43fe-983c-0139eb1cb045"
+>
+</ReqRef><Comment>Indicates if the end of the display of the text message is limited by a condition on the level.</Comment>
+</StructureElement><StructureElement
+ TypeName="BaseTypes.Length"
+ Default=""
+ Mode="Internal"
+ Name="Length"
+ Guid="4317a301-3cb4-4e8a-88ff-36a8ab243bca"
+>
+<ReqRef
+ Id="73c47576-8644-4164-8004-5b88ee69fb9b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="17a579ac-2203-4e6c-a0b1-811a8e3bd28d"
+>
+</ReqRef><ReqRef
+ Id="e56989a2-b4c3-4663-8cce-3810ca8a5e62"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="03fbc1dc-975b-4041-adf2-8b0cddf793be"
+>
+</ReqRef><Comment>The distance during which the text message shall be displayed.</Comment>
+</StructureElement><StructureElement
+ TypeName="BaseTypes.Time"
+ Default=""
+ Mode="Internal"
+ Name="DisplayDuration"
+ Guid="110747c6-f685-47a2-9917-69e34cf51221"
+>
+<ReqRef
+ Id="bc5abc96-6d7d-431d-a9cb-8fc8ed1e25dd"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9b4146f7-7d50-4842-9c5d-6437f52a7531"
+>
+</ReqRef><ReqRef
+ Id="e56989a2-b4c3-4663-8cce-3810ca8a5e62"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="352a4646-836a-408b-b475-9714428b2887"
+>
+</ReqRef><Comment>Duration of the display of the text message.</Comment>
+</StructureElement><StructureElement
+ TypeName="DriverConfirmationEnum"
+ Default=""
+ Mode="Internal"
+ Name="DriverConfirmation"
+ Guid="d000430d-65a3-40fc-a1e5-5ae6ea5f1f5a"
+>
+<ReqRef
+ Id="4a6d78d2-2283-4d49-8223-9600a9af81a4"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="3366c9b6-e326-495a-b477-7b39f52d71cf"
+>
+</ReqRef><ReqRef
+ Id="8266cb3f-9bd1-45eb-852a-87d2a9fcdc5d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="661b99ae-f335-4ecd-afd7-308dbe940cff"
+>
+</ReqRef><Comment>Indicates whether the driver confirmation is required and if so, indicates whether the brakes should be applied when the display end condition is fulfilled.</Comment>
+</StructureElement><StructureElement
+ TypeName="Boolean"
+ Default=""
+ Mode="Internal"
+ Name="AckStopsDisplay"
+ Guid="67a0c90f-a76a-4922-a815-607966aac8c4"
+>
+<ReqRef
+ Id="85357988-d98a-4224-aaee-19357a81c4e4"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="4ec04e35-a3d1-400f-965c-ea6e6c87a7ba"
+>
+</ReqRef><ReqRef
+ Id="0c454934-381e-4e47-b284-c33802dfdfd8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="aa1880d7-f572-4d5c-9c39-611ff3666973"
+>
+</ReqRef><ReqRef
+ Id="b78843ae-dd2b-41c1-84e6-8dd1ffe30817"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0b9a4faa-7039-4a21-9740-311d5931a069"
+>
+</ReqRef><Comment>Indicates whether the driver confirmation ends the text display regardless the end conditions or the driver confirmation is an additional condition to end the display.</Comment>
+</StructureElement><StructureElement
+ TypeName="TextReportStruct"
+ Default=""
+ Mode="Internal"
+ Name="ReportInformation"
+ Guid="2fee1ab9-0b5c-4918-9082-f8893b2aeaff"
+>
+<ReqRef
+ Id="dc47fc83-606e-4d26-b033-7404ed27ecdc"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ad897cad-c635-42df-95a6-1369207ebe11"
+>
+</ReqRef><Comment>Information about the report of text message confirmation by the driver.</Comment>
+</StructureElement><StructureElement
+ TypeName="String"
+ Default=""
+ Mode="Internal"
+ Name="Text"
+ Guid="e916991f-4f9c-4dfe-b7ca-15150c18a476"
+>
+<ReqRef
+ Id="6517ff26-c75b-48a1-8808-ef77a64ca200"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="3e7a27a2-9d13-4cf5-b38b-443056d6038e"
+>
+</ReqRef><Comment>The plain text to be displayed.</Comment>
+</StructureElement><Interfaces>
+<StructureRef
+ Name="TextMessageInterface"
+ Guid="a2af1f24-ed9c-4702-bad9-44a4b09eadfb"
+>
+</StructureRef></Interfaces>
+</Structure></Structures>
+<Collections>
+<Collection
+ TypeName="FixedTextMessageStruct"
+ Default="[]"
+ X="340"
+ Y="370"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="FixedTextMessagesCol"
+ Guid="d040bf1c-ba88-4f04-b215-161b3605f94c"
+>
+<ReqRef
+ Id="c3338b70-b8f1-4525-ae95-a94e1b92981b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9131da1c-6270-4bbd-b65b-a7e5d3bac983"
+>
+</ReqRef><Comment>Collection of fixed text messages received from the trackside.</Comment>
+</Collection><Collection
+ TypeName="PlainTextMessageStruct"
+ Default="[]"
+ X="140"
+ Y="370"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="PlainTextMessagesCol"
+ Guid="4abc80bd-b5f7-496f-bcad-9540d7acc2d3"
+>
+<ReqRef
+ Id="c3338b70-b8f1-4525-ae95-a94e1b92981b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="16ba4087-e084-4482-ad6d-2ef9b27fc1b7"
+>
+</ReqRef><Comment>Collection of plain text messages received from the trackside.</Comment>
+</Collection></Collections>
+<Functions>
+<Function
+ Type="FixedTextMessageStruct"
+ X="620"
+ Y="10"
+ Width="100"
+ Height="50"
+ Name="CreateFixedTextMessage"
+ Guid="0881eea8-b85e-4897-9f1a-486169cd9b0c"
+>
+<Parameters>
+<Parameter
+ Type="Messages.PACKET.TRACK_TO_TRAIN.PACKET_FOR_SENDING_FIXED_TEXT_MESSAGES.Message"
+ Name="aPacket"
+ Guid="635c45e3-4045-4c16-9608-0ccc98b7f4cf"
+>
+</Parameter></Parameters>
+<Cases>
+</Cases>
+</Function><Function
+ Type="PlainTextMessageStruct"
+ X="620"
+ Y="10"
+ Width="100"
+ Height="50"
+ Name="CreatePlainTextMessage"
+ Guid="e959a04e-1c59-4a3f-86d2-1d5aa510d26a"
+>
+<Parameters>
+<Parameter
+ Type="Messages.PACKET.TRACK_TO_TRAIN.PACKET_FOR_SENDING_PLAIN_TEXT_MESSAGES.Message"
+ Name="aPacket"
+ Guid="0935e5cf-1013-4e3f-a4be-5e8d0f36ee61"
+>
+</Parameter></Parameters>
+<Cases>
+</Cases>
+</Function></Functions>
+<Procedures>
+<Procedure
+ X="10"
+ Y="530"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
  Name="PlainTextMessageReceived"
  Guid="275a98d7-f170-4fdd-9b84-9e8d31de9dc1"
 >
+<ReqRef
+ Id="c3338b70-b8f1-4525-ae95-a94e1b92981b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="92a3607d-7a19-491c-9d34-8fa3a074d836"
+>
+</ReqRef><ReqRef
+ Id="13227255-d959-4724-9371-31427e4538a4"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="89a74b9a-5ed9-4600-9072-0f0417770732"
+>
+</ReqRef><Comment>Handles the reception of a plain text message.</Comment>
 <Parameters>
 <Parameter
  Type="Messages.PACKET.TRACK_TO_TRAIN.PACKET_FOR_SENDING_PLAIN_TEXT_MESSAGES.Message"
@@ -130,14 +1069,50 @@
  Guid="681ee632-05ca-4fdf-a52f-2de3e1701cb3"
 >
 </Parameter></Parameters>
+<Rules>
+<Rule
+ Implemented="TRUE"
+ Name="Store the text message"
+ Guid="20e77048-8865-4da0-be21-15cd731bfa10"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Store the text message"
+ Guid="169d5c45-5275-4754-b311-c7012c7be25a"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="d6061559-c7de-402a-af86-fd675cfe5e2a"
+>INSERT
+  CreatePlainTextMessage( aPacket =&gt; aPacket)
+IN
+  PlainTextMessages</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
 </Procedure><Procedure
- X="140"
- Y="200"
+ X="120"
+ Y="530"
  Width="100"
  Height="50"
+ Implemented="TRUE"
  Name="FixedTextMessageReceived"
  Guid="a58baed4-e3b2-4e62-8f60-e4812df7a281"
 >
+<ReqRef
+ Id="c3338b70-b8f1-4525-ae95-a94e1b92981b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0dc11e7f-4af1-4637-b986-02f7c49cf738"
+>
+</ReqRef><ReqRef
+ Id="13227255-d959-4724-9371-31427e4538a4"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="dd0f7067-f5a1-4c12-9c92-71f834260984"
+>
+</ReqRef><Comment>Handles the reception of a fixed text message.</Comment>
 <Parameters>
 <Parameter
  Type="Messages.PACKET.TRACK_TO_TRAIN.PACKET_FOR_SENDING_FIXED_TEXT_MESSAGES.Message"
@@ -145,5 +1120,63 @@
  Guid="52663d86-4e35-4bb5-a006-dfe0bcf16055"
 >
 </Parameter></Parameters>
+<Rules>
+<Rule
+ Implemented="TRUE"
+ Name="Store the text message"
+ Guid="196cd8b6-6f13-4874-96d7-a9f924e7cf32"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Store the text message"
+ Guid="0b558546-a1cc-4b56-a5f7-6f86c0c559bc"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="f403db65-1f85-45bd-a379-c9f84fe8a63a"
+>INSERT
+  CreateFixedTextMessage( aPacket =&gt; aPacket)
+IN
+  FixedTextMessages</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
 </Procedure></Procedures>
+<Variables>
+<Variable
+ Type="FixedTextMessagesCol"
+ VariableMode="Internal"
+ X="340"
+ Y="450"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="FixedTextMessages"
+ Guid="4c456f5c-d7f1-4309-abe9-14b3f421d702"
+>
+<ReqRef
+ Id="c3338b70-b8f1-4525-ae95-a94e1b92981b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ed68fc3c-9457-4fe5-bf38-f1fa8868e699"
+>
+</ReqRef></Variable><Variable
+ Type="PlainTextMessagesCol"
+ VariableMode="Internal"
+ X="140"
+ Y="450"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="PlainTextMessages"
+ Guid="3834be14-4de9-414b-9454-865dd7c59fa3"
+>
+<ReqRef
+ Id="c3338b70-b8f1-4525-ae95-a94e1b92981b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="3c9d8979-8aad-432e-95b7-d55447adb218"
+>
+</ReqRef></Variable></Variables>
 </NameSpace>
