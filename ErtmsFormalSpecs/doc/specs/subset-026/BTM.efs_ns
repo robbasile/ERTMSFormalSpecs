@@ -2242,6 +2242,11 @@ NOT Kernel.ActiveFunctions.CheckLinkingConsistency()</PreCondition></PreConditio
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="e5f46219-8aa8-4efb-909f-5049863aff96"
 >
+</ReqRef><ReqRef
+ Id="0d145136-9c1d-4c04-bd9a-5987931ed765"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c2cd562b-ed41-4e52-aaf4-21994a871464"
+>
 </ReqRef><Comment>Handles linking packet, if available.</Comment>
 <PreConditions>
 <PreCondition
@@ -2777,6 +2782,68 @@ NOT Kernel.ActiveFunctions.CheckLinkingConsistency()</PreCondition></PreConditio
 <Action
  Guid="17d0d98e-1746-417e-b3d1-a0409a79647c"
 >Kernel.TrackDescription.RouteSuitability.RouteSuitabilityReceived ( Packet.TRACK_TO_TRAIN.ROUTE_SUITABILITY_DATA )</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Plain text message available"
+ Guid="ddb5d31a-d42a-4f09-8e82-268f192f63d0"
+>
+<ReqRef
+ Id="cc1f66d4-6eec-4fe4-a302-2e6287ccb3f0"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="cb6397f1-eaa3-49b2-b6c1-bca940170c53"
+>
+</ReqRef><ReqRef
+ Id="c3338b70-b8f1-4525-ae95-a94e1b92981b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c41b327b-3426-4505-8aea-0fda63d12f3d"
+>
+</ReqRef><ReqRef
+ Id="13227255-d959-4724-9371-31427e4538a4"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="643e7b8b-78b4-4ea4-82fe-b560d0cc0bd1"
+>
+</ReqRef><Comment>Handles plain text message packet, if available.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="d8ba5bcd-8223-429d-8277-f448777e729d"
+>ConsiderPacket ( PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.PACKET_FOR_SENDING_PLAIN_TEXT_MESSAGES.Q_DIR )</PreCondition><PreCondition
+ Guid="4f7c7fe6-236a-4386-aea5-ac1f82161f3a"
+>Kernel.AcceptInformation.PlainTextInformation( Source =&gt; Kernel.AcceptInformation.Source.BaliseGroup )</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="7713bd12-2bc6-49fa-ab02-d4c7ff500cb1"
+>Kernel.TextMessages.PlainTextMessageReceived( aPacket =&gt; Packet.TRACK_TO_TRAIN.PACKET_FOR_SENDING_PLAIN_TEXT_MESSAGES )</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Fixed text message available"
+ Guid="b6057604-414a-41d3-832f-b7d12d856cab"
+>
+<ReqRef
+ Id="85fef952-5e74-4514-b7d4-1c70f23587c0"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="acc0c4a9-782b-4c2b-bb9e-bab94186c287"
+>
+</ReqRef><ReqRef
+ Id="c3338b70-b8f1-4525-ae95-a94e1b92981b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="02d12123-9562-4dda-a3f9-6397a02aedaa"
+>
+</ReqRef><ReqRef
+ Id="13227255-d959-4724-9371-31427e4538a4"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="97136d4f-6d25-4064-af7a-d1aa768083b2"
+>
+</ReqRef><Comment>Handles fixed text message packet, if available.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="cfc39b91-6fff-4355-b014-54bb786fdf6d"
+>ConsiderPacket ( PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.PACKET_FOR_SENDING_FIXED_TEXT_MESSAGES.Q_DIR )</PreCondition><PreCondition
+ Guid="1dc85993-5040-4605-bb00-d6e220f6c2dd"
+>Kernel.AcceptInformation.FixedTextInformation( Source =&gt; Kernel.AcceptInformation.Source.BaliseGroup )</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="1db0e5a3-813a-47ec-82c2-e6aa26ebb770"
+>Kernel.TextMessages.FixedTextMessageReceived( aPacket =&gt; Packet.TRACK_TO_TRAIN.PACKET_FOR_SENDING_FIXED_TEXT_MESSAGES )</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Adhesion Factor available"

@@ -1,0 +1,149 @@
+<NameSpace
+ X="780"
+ Y="10"
+ Width="100"
+ Height="50"
+ Name="TextMessages"
+ Guid="cf46c493-f8c9-4348-8fda-687587ddee94"
+>
+<NameSpaces>
+</NameSpaces>
+<Structures>
+<Structure
+ IsAbstract="TRUE"
+ X="20"
+ Y="10"
+ Width="100"
+ Height="50"
+ Name="TextMessageInterface"
+ Guid="ff939e5f-0291-449f-963f-f15b1404a06b"
+>
+<StructureElement
+ TypeName="Boolean"
+ Mode="Internal"
+ Name="IsImportant"
+ Guid="cc144879-6b12-4a83-9ded-c52f05474091"
+>
+<Comment>Indicates if that text message is auxiliary or important.</Comment>
+</StructureElement><StructureElement
+ TypeName="Boolean"
+ Mode="Internal"
+ Name="FulfillAllTheEvents"
+ Guid="c0bb55cc-26d4-4f06-bc29-ae2590224f8f"
+>
+<Comment>Indicates if all the text message events have to be fulfilled in order to display the message, or only one of conditions is enough.</Comment>
+</StructureElement><StructureElement
+ TypeName="BaseTypes.Distance"
+ Mode="Internal"
+ Name="Location"
+ Guid="acdf58b6-a181-44d8-83dd-fa7716ebe818"
+>
+<ReqRef
+ Id="9eb30a7d-c5fa-4984-9314-28bb7fb5f477"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="376717de-5758-41a2-9251-8cdc3f84b0c0"
+>
+</ReqRef><Comment>Distance from which the text message shall be displayed.</Comment>
+</StructureElement><StructureElement
+ TypeName="ModeConditionStruct"
+ Mode="Internal"
+ Name="StartModeCondition"
+ Guid="78f8caa9-c986-4226-82b9-0d6b2f230584"
+>
+<ReqRef
+ Id="498ad2ad-2817-404e-b61d-20ec57c5d991"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="28a69ee5-7647-4299-8656-13b8c3e31227"
+>
+</ReqRef><Comment>Indicates if the start of the display of the text message is limited by a condition of the mode.</Comment>
+</StructureElement><StructureElement
+ TypeName="ModeConditionStruct"
+ Mode="Internal"
+ Name="EndModeCondition"
+ Guid="eceba384-97ef-4236-ae78-18ab8ea08c66"
+>
+<ReqRef
+ Id="ce94f233-495d-4058-a149-705b10f330a4"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="cf6c79df-9d51-4c47-a7a4-862af95623d7"
+>
+</ReqRef><Comment>Indicates if the end of the display of the text message is limited by a condition of the mode.</Comment>
+</StructureElement></Structure><Structure
+ X="20"
+ Y="110"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="ModeConditionStruct"
+ Guid="117e0803-d43a-41e6-9980-d89b6aec6c7c"
+>
+<ReqRef
+ Id="498ad2ad-2817-404e-b61d-20ec57c5d991"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ac069561-167b-4f86-82cd-0005d7c6f60e"
+>
+</ReqRef><ReqRef
+ Id="ce94f233-495d-4058-a149-705b10f330a4"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="1cd68f76-1a3b-4704-b46f-8bb17d635a4b"
+>
+</ReqRef><ReqRef
+ Id="f51cc60c-f63b-4ea5-a5d2-c790f7505a3e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="96c31eb2-00d2-4329-8981-9567ddeb27af"
+>
+</ReqRef><ReqRef
+ Id="fee9481d-e100-4f62-86a8-be2ffe73fb8d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="84284f8a-9bc2-4824-9732-75cf9d2b6063"
+>
+</ReqRef><StructureElement
+ TypeName="Boolean"
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="IsLimitedByMode"
+ Guid="548a1397-b8b3-4c7d-9645-8c7324ab3fe9"
+>
+<Comment>Indicates if the start of the end of display of a text message is limited by a mode condition.</Comment>
+</StructureElement><StructureElement
+ TypeName="Default.Mode.ModeForTextDisplay"
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="Mode"
+ Guid="aff68a73-fcc1-4100-a450-d4116d6db129"
+>
+<Comment>Gives the mode that limits the start of stop of display of a text message.</Comment>
+</StructureElement></Structure></Structures>
+<Procedures>
+<Procedure
+ X="30"
+ Y="200"
+ Width="100"
+ Height="50"
+ Name="PlainTextMessageReceived"
+ Guid="275a98d7-f170-4fdd-9b84-9e8d31de9dc1"
+>
+<Parameters>
+<Parameter
+ Type="Messages.PACKET.TRACK_TO_TRAIN.PACKET_FOR_SENDING_PLAIN_TEXT_MESSAGES.Message"
+ Name="aPacket"
+ Guid="681ee632-05ca-4fdf-a52f-2de3e1701cb3"
+>
+</Parameter></Parameters>
+</Procedure><Procedure
+ X="140"
+ Y="200"
+ Width="100"
+ Height="50"
+ Name="FixedTextMessageReceived"
+ Guid="a58baed4-e3b2-4e62-8f60-e4812df7a281"
+>
+<Parameters>
+<Parameter
+ Type="Messages.PACKET.TRACK_TO_TRAIN.PACKET_FOR_SENDING_FIXED_TEXT_MESSAGES.Message"
+ Name="aPacket"
+ Guid="52663d86-4e35-4bb5-a006-dfe0bcf16055"
+>
+</Parameter></Parameters>
+</Procedure></Procedures>
+</NameSpace>

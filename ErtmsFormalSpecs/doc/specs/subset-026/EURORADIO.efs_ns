@@ -10278,6 +10278,98 @@ But at the end of the cycle the conditions required for sending of position repo
 </Rule><Rule
  Priority="Processing"
  Implemented="TRUE"
+ Name="Plain text message available"
+ Guid="f949498c-4264-473b-8fe3-dded70bc46b4"
+>
+<ReqRef
+ Id="2b4cc227-208a-49c5-8f4c-a566e7eac74b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e2fc9c31-ae52-4b08-818d-26357ef38112"
+>
+</ReqRef><ReqRef
+ Id="cc1f66d4-6eec-4fe4-a302-2e6287ccb3f0"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="559e2427-e871-47d2-8791-f91c4e27f444"
+>
+</ReqRef><ReqRef
+ Id="c3338b70-b8f1-4525-ae95-a94e1b92981b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a83fa9b9-3bac-4c51-9cb7-8e12c970bc19"
+>
+</ReqRef><ReqRef
+ Id="13227255-d959-4724-9371-31427e4538a4"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ebcf4bce-e4b4-48a9-8d9b-cb7367451cde"
+>
+</ReqRef><Comment>Handles reception of session management.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Plain text message available"
+ Guid="ca5611a1-ba25-4121-b582-8c676a1386d5"
+>
+<PreConditions>
+<PreCondition
+ Guid="ef0ec402-3f53-463f-9bbb-12ab9227b417"
+>THERE_IS X IN Packets | Available ( X.PACKET_FOR_SENDING_PLAIN_TEXT_MESSAGES )</PreCondition><PreCondition
+ Guid="9eb2347d-6895-4ceb-9e5a-53d2c784592e"
+>Kernel.AcceptInformation.PlainTextInformation( Source =&gt; Kernel.AcceptInformation.Source.RBC )</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="a5309523-8d2a-46aa-b43f-3be0cc08944c"
+>Kernel.TextMessages.PlainTextMessageReceived( aPacket =&gt; ( FIRST X IN Packets | Available ( X.PACKET_FOR_SENDING_PLAIN_TEXT_MESSAGES )).PACKET_FOR_SENDING_PLAIN_TEXT_MESSAGES )</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Fixed text message available"
+ Guid="662b0bb6-4120-49dc-885b-a473919c1a4f"
+>
+<ReqRef
+ Id="52943307-1c06-4cc3-94d3-f778ce8dd8d6"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="05272a44-fcd0-4533-894a-9e77a272691a"
+>
+</ReqRef><ReqRef
+ Id="85fef952-5e74-4514-b7d4-1c70f23587c0"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="857f23b6-8e5e-4b9e-9d3c-c6650827be74"
+>
+</ReqRef><ReqRef
+ Id="c3338b70-b8f1-4525-ae95-a94e1b92981b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="4253d583-bf9c-496c-ad1a-d5f6a2865092"
+>
+</ReqRef><ReqRef
+ Id="13227255-d959-4724-9371-31427e4538a4"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="cf21aa5e-393c-445f-aaa5-ada915bad6f3"
+>
+</ReqRef><Comment>Handles reception of session management.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Fixed text message available"
+ Guid="5ae23c00-498d-4bca-99ee-98955a460120"
+>
+<PreConditions>
+<PreCondition
+ Guid="d65e932d-c9e3-4559-80fd-ad109096eed3"
+>THERE_IS X IN Packets | Available ( X.PACKET_FOR_SENDING_FIXED_TEXT_MESSAGES )</PreCondition><PreCondition
+ Guid="cf2bad88-ee55-4714-8ed3-49c2294e9efa"
+>Kernel.AcceptInformation.FixedTextInformation( Source =&gt; Kernel.AcceptInformation.Source.RBC )</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="ee67f95f-e9e9-4457-b040-45460b5de679"
+>Kernel.TextMessages.FixedTextMessageReceived( aPacket =&gt; ( FIRST X IN Packets | Available ( X.PACKET_FOR_SENDING_FIXED_TEXT_MESSAGES )).PACKET_FOR_SENDING_FIXED_TEXT_MESSAGES )</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
  Name="Geographical position available"
  Guid="c6392e10-ecba-405d-a76b-2510ba3260e4"
 >
