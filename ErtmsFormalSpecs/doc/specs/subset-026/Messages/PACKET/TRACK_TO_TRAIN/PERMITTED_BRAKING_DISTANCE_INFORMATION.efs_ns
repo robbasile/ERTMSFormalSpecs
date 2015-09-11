@@ -8,7 +8,6 @@
 </NameSpaces>
 <Structures>
 <Structure
- Default=""
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -27,7 +26,7 @@
 >
 </ReqRef><Comment>This packet requests the on-board calculation of speed restrictions which ensure a given permitted brake distance in case of an EB, or SB, intervention</Comment>
 <StructureElement
- TypeName="Messages.NID_PACKET"
+ TypeName="NID_PACKET"
  Default="52"
  Mode="InOut"
  Implemented="TRUE"
@@ -40,7 +39,7 @@
  Guid="5fe827c7-b278-4b90-8672-1a0b03bbbe7a"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="Messages.Q_DIR"
+ TypeName="Q_DIR"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -66,7 +65,7 @@
  Guid="a76052a9-bfc0-434a-8bbd-7b33d00b0a3e"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="Messages.Q_SCALE"
+ TypeName="Q_SCALE"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -79,7 +78,7 @@
  Guid="97add1da-aa1c-4f3b-8614-469cb11741ca"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="Messages.Q_TRACKINIT"
+ TypeName="Q_TRACKINIT"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -100,7 +99,7 @@
  Guid="303319db-5382-425d-acc8-0a4c731476bc"
 >
 </StructureElement><StructureElement
- TypeName="Messages.Q_GDIR"
+ TypeName="Q_GDIR"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -116,7 +115,7 @@
  Guid="ab4a5407-fa52-42c6-8e86-a167670af449"
 >
 </StructureElement><StructureElement
- TypeName="Messages.Q_PBDSR"
+ TypeName="Q_PBDSR"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -140,7 +139,7 @@
  Guid="5bb3f751-9948-4fd6-b018-c7a199a9724e"
 >
 </StructureElement><StructureElement
- TypeName="Messages.N_ITER"
+ TypeName="N_ITER"
  Default="0"
  Mode="InOut"
  Implemented="TRUE"
@@ -164,7 +163,6 @@
  Guid="900e8fcb-0e9d-4c93-9df8-364dcbd15096"
 >
 </StructureElement></Structure><Structure
- Default=""
  Y="60"
  Width="100"
  Height="50"
@@ -186,7 +184,7 @@
  Guid="ff8da77b-63ec-44fe-b36e-d71979609505"
 >
 </StructureElement><StructureElement
- TypeName="Messages.Q_GDIR"
+ TypeName="Q_GDIR"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -202,7 +200,7 @@
  Guid="1708b7e6-0f52-4eac-90ce-3cef6ba3e637"
 >
 </StructureElement><StructureElement
- TypeName="Messages.Q_PBDSR"
+ TypeName="Q_PBDSR"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -246,14 +244,13 @@
 <Functions>
 <Function
  Type="Boolean"
- Default=""
  Name="MessageValuesCorrect"
  Guid="96b006a3-76f9-411f-91f9-7028ccec25a3"
 >
 <Comment>Checks the values in a structure of type PERMITTED_BRAKING_DISTANCE_INFORMATION.Message</Comment>
 <Parameters>
 <Parameter
- Type="Message"
+ Type="PERMITTED_BRAKING_DISTANCE_INFORMATION.Message"
  Name="struct"
  Guid="052a16cf-592a-47a2-8615-2724606600bc"
 >
@@ -411,7 +408,7 @@
 <PreConditions>
 <PreCondition
  Guid="704dda35-76eb-4a0a-9b92-c84ef25a0e57"
->THERE_IS X IN struct.Sequence1 | NOT SubStructure1ValuesCorrect(X)</PreCondition></PreConditions>
+>THERE_IS X IN struct.Sequence1 | NOT Messages.PACKET.TRACK_TO_TRAIN.PERMITTED_BRAKING_DISTANCE_INFORMATION.SubStructure1ValuesCorrect(X)</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
  Name="struct.D_TRACKINIT invalid"
@@ -432,14 +429,13 @@
 </Case></Cases>
 </Function><Function
  Type="Boolean"
- Default=""
  Name="SubStructure1ValuesCorrect"
  Guid="822a8e8a-4c78-44ba-be35-7e13a5c6ea35"
 >
 <Comment>Checks the values in a structure of type PERMITTED_BRAKING_DISTANCE_INFORMATION.SubStructure1</Comment>
 <Parameters>
 <Parameter
- Type="SubStructure1"
+ Type="PERMITTED_BRAKING_DISTANCE_INFORMATION.SubStructure1"
  Name="struct"
  Guid="8f1408bb-5404-454c-aac3-310f4ba9ebcd"
 >

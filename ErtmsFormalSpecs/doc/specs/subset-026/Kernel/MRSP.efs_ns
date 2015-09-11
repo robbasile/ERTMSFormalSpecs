@@ -109,17 +109,17 @@
 <Expression>MIN (
     MIN (
         MIN (
-            MIN ( LX, SignallingRelatedSpeedRestrictions),
-            MIN ( TSR, ModeSpeedRestrictions )
+            MIN ( Kernel.MRSP.LX, Kernel.MRSP.SignallingRelatedSpeedRestrictions),
+            MIN ( Kernel.MRSP.TSR, Kernel.MRSP.ModeSpeedRestrictions )
         ),
         MIN (
-            MIN ( NationalValues.OverrideRelatedSpeedRestrictions, TrainSpeedRestrictions ),
-            MIN ( STMMaxSpeed, STMSystemSpeed )
+            MIN ( Kernel.NationalValues.OverrideRelatedSpeedRestrictions, Kernel.MRSP.TrainSpeedRestrictions ),
+            MIN ( Kernel.MRSP.STMMaxSpeed, Kernel.MRSP.STMSystemSpeed )
         )
     ),
     MIN (
-        MIN ( ASP, SSP),
-        PermittedBrakingDistance
+        MIN ( Kernel.MRSP.ASP, Kernel.MRSP.SSP),
+        Kernel.MRSP.PermittedBrakingDistance
     )
 )
 (aDistance)</Expression>
@@ -171,8 +171,8 @@
 <PreConditions>
 <PreCondition
  Guid="9c611a6f-df2e-4e2f-bf8f-20997d5882ce"
->ActiveFunctions.DetermineMRSP_SSP()</PreCondition></PreConditions>
-<Expression>TrackDescription.StaticSpeedProfile.SpeedRestrictions(aDistance)</Expression>
+>Kernel.ActiveFunctions.DetermineMRSP_SSP()</PreCondition></PreConditions>
+<Expression>Kernel.TrackDescription.StaticSpeedProfile.SpeedRestrictions(aDistance)</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="21c6f6ca-ebc7-4d7e-bc18-dff3dbf19563"
@@ -211,8 +211,8 @@
 <PreConditions>
 <PreCondition
  Guid="fbca48e8-6e6d-42e1-a98f-0dd50873b093"
->ActiveFunctions.DetermineMRSP_ASP()</PreCondition></PreConditions>
-<Expression>TrackDescription.AxleLoad.SpeedRestrictions(aDistance)</Expression>
+>Kernel.ActiveFunctions.DetermineMRSP_ASP()</PreCondition></PreConditions>
+<Expression>Kernel.TrackDescription.AxleLoad.SpeedRestrictions(aDistance)</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="d201c15f-2c29-44eb-b391-908c3d0a7c09"
@@ -256,8 +256,8 @@
 <PreConditions>
 <PreCondition
  Guid="4d666a6e-3351-4086-a912-787a938d6df7"
->ActiveFunctions.DetermineMRSP_TSR()</PreCondition></PreConditions>
-<Expression>TSR.SpeedRestrictions(aDistance)</Expression>
+>Kernel.ActiveFunctions.DetermineMRSP_TSR()</PreCondition></PreConditions>
+<Expression>Kernel.TSR.SpeedRestrictions(aDistance)</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="6c286171-2a14-477e-91e7-2c8cfc4a4a9a"
@@ -296,8 +296,8 @@
 <PreConditions>
 <PreCondition
  Guid="217c0fac-2ade-4f20-b580-dad8d6de33fb"
->ActiveFunctions.DetermineMRSP_SignallingSpeedRestriction()</PreCondition></PreConditions>
-<Expression>MA.SignallingRelatedSpeedRestrictions(aDistance)</Expression>
+>Kernel.ActiveFunctions.DetermineMRSP_SignallingSpeedRestriction()</PreCondition></PreConditions>
+<Expression>Kernel.MA.SignallingRelatedSpeedRestrictions(aDistance)</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="221845fc-c05a-4673-afc4-cce2ff7d7bdc"
@@ -336,8 +336,8 @@
 <PreConditions>
 <PreCondition
  Guid="0f4d6de6-55c4-4b6b-9888-52cd44617230"
->ActiveFunctions.DetermineMRSP_ModeRelatedSpeedRestriction()</PreCondition></PreConditions>
-<Expression>Modes.ModeRelatedSpeedLimits.SpeedRestrictions(aDistance)</Expression>
+>Kernel.ActiveFunctions.DetermineMRSP_ModeRelatedSpeedRestriction()</PreCondition></PreConditions>
+<Expression>Kernel.Modes.ModeRelatedSpeedLimits.SpeedRestrictions(aDistance)</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="d56efae3-4440-4565-90fd-ea184918e4ac"
@@ -376,8 +376,8 @@
 <PreConditions>
 <PreCondition
  Guid="d97d46cb-74ec-4da7-9fb3-68af9fa91f66"
->ActiveFunctions.DetermineMRSP_TrainRelatedSpeedRestrictions()</PreCondition></PreConditions>
-<Expression>TrainData.TrainData.Value.MaximumSpeed</Expression>
+>Kernel.ActiveFunctions.DetermineMRSP_TrainRelatedSpeedRestrictions()</PreCondition></PreConditions>
+<Expression>Kernel.TrainData.TrainData.Value.MaximumSpeed</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="98942360-17db-494c-9f88-4d04649ad934"
@@ -416,7 +416,7 @@
 <PreConditions>
 <PreCondition
  Guid="2755f693-13d4-4b3d-965c-1e0e971dd153"
->ActiveFunctions.DetermineMRSP_STMMaxSpeed()</PreCondition></PreConditions>
+>Kernel.ActiveFunctions.DetermineMRSP_STMMaxSpeed()</PreCondition></PreConditions>
 <Expression>STM.MaxSpeedRestrictions(aDistance)</Expression>
 </Case><Case
  Name="Otherwise"
@@ -456,7 +456,7 @@
 <PreConditions>
 <PreCondition
  Guid="1b82e7a7-ee5e-4cd6-a51c-6272ba4f6eb8"
->ActiveFunctions.DetermineMRSP_STMSystemSpeed()</PreCondition></PreConditions>
+>Kernel.ActiveFunctions.DetermineMRSP_STMSystemSpeed()</PreCondition></PreConditions>
 <Expression>STM.SystemSpeedRestrictions(aDistance)</Expression>
 </Case><Case
  Name="Otherwise"
@@ -496,8 +496,8 @@
 <PreConditions>
 <PreCondition
  Guid="36b4cc3f-3353-4a68-b38b-cf419ffc0209"
->ActiveFunctions.DetermineMRSP_LXSpeed()</PreCondition></PreConditions>
-<Expression>LX.SpeedRestrictions(aDistance)</Expression>
+>Kernel.ActiveFunctions.DetermineMRSP_LXSpeed()</PreCondition></PreConditions>
+<Expression>Kernel.LX.SpeedRestrictions(aDistance)</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="fe3e9470-2855-4370-be07-819c816aa197"
@@ -536,8 +536,8 @@
 <PreConditions>
 <PreCondition
  Guid="d2179e9a-ccd3-4ca6-b2fa-2fc6f66c21bf"
->ActiveFunctions.DetermineMRSP_PermittedBrakingDistance()</PreCondition></PreConditions>
-<Expression>TrackDescription.PermittedBrakingDistance.SpeedRestrictions(aDistance)</Expression>
+>Kernel.ActiveFunctions.DetermineMRSP_PermittedBrakingDistance()</PreCondition></PreConditions>
+<Expression>Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictions(aDistance)</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="12bd886d-b409-48db-9953-70c1864244cb"
@@ -575,17 +575,17 @@
 <PreConditions>
 <PreCondition
  Guid="3cba845a-5194-47da-81ff-78d368523184"
->TrainPosition.Position.DataState == DataState.Valid</PreCondition></PreConditions>
+>Kernel.TrainPosition.Position.DataState == DataState.Valid</PreCondition></PreConditions>
 <Expression>REDUCE
-  TARGETS(SpeedRestrictions) | TrainPosition.FrontEndPosition(DistanceInterval.Min) &lt; X.Location  AND  X.Location &lt;= TrainPosition.FrontEndPosition(DistanceInterval.Max)
+  TARGETS(Kernel.MRSP.SpeedRestrictions) | Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Min) &lt; X.Location  AND  X.Location &lt;= Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Max)
 USING X IN
   BaseTypes.MinSpeed(
     X1 =&gt; X.Speed,
     X2 =&gt; RESULT
 )
 INITIAL_VALUE
-  SpeedRestrictions(BaseTypes.MaxDistance(
-    X1=&gt;TrainPosition.FrontEndPosition(DistanceInterval.Min),
+  Kernel.MRSP.SpeedRestrictions(BaseTypes.MaxDistance(
+    X1=&gt;Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Min),
     X2=&gt;0.0
 ))</Expression>
 </Case><Case
@@ -595,9 +595,9 @@ INITIAL_VALUE
 <PreConditions>
 <PreCondition
  Guid="db1088b1-47d7-48cc-82ea-d54ec2ee1683"
->Mode == Default.Mode.SR</PreCondition></PreConditions>
-<Expression>SpeedRestrictions(BaseTypes.MaxDistance(
-    X1 =&gt; Odometry.NominalDistance - TrainPosition.SRStartDistance,
+>Kernel.Mode == Default.Mode.SR</PreCondition></PreConditions>
+<Expression>Kernel.MRSP.SpeedRestrictions(BaseTypes.MaxDistance(
+    X1 =&gt; Odometry.NominalDistance - Kernel.TrainPosition.SRStartDistance,
     X2 =&gt; 0.0
 ))</Expression>
 </Case><Case

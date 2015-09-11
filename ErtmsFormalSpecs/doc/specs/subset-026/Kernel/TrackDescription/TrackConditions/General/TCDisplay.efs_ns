@@ -592,7 +592,7 @@
  Name="Value"
  Guid="9a9bfe54-98fb-4549-b01b-8d6d86f4ac13"
 >
-<Expression>Distance - BaseTypes.SpeedToMS( Odometry.TrainSpeed() ) * DriverReactionTime(TrackCondition)</Expression>
+<Expression>Distance - BaseTypes.SpeedToMS( Odometry.TrainSpeed() ) * Kernel.TrackDescription.TrackConditions.General.TCDisplay.DriverReactionTime(TrackCondition)</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Time"
@@ -683,7 +683,7 @@ Returns the time required by the driver to performs the necessary tasks before a
 <PreCondition
  Guid="5dc2dba3-88ef-4e7e-a907-49e99db414f0"
 >TrackConditionType.SoundHorn</PreCondition></PreConditions>
-<Expression>T_SoundHorn</Expression>
+<Expression>Kernel.TrackDescription.TrackConditions.General.T_SoundHorn</Expression>
 </Case><Case
  Name="Value"
  Guid="ba6b8ce6-862a-4bc4-9bad-e2f0f28df467"
@@ -730,7 +730,7 @@ Returns the time required by the driver to performs the necessary tasks before a
  Name="Make a new struct"
  Guid="527c8c9f-dc30-4ae8-aae0-75ed499011a7"
 >
-<Expression>TCAnnouncementStruct{
+<Expression>Kernel.TrackDescription.TrackConditions.General.TCDisplay.TCAnnouncementStruct{
     Type =&gt; TCType,
     Distance =&gt; Distance,
     Length =&gt; Length,
@@ -763,7 +763,7 @@ Returns the time required by the driver to performs the necessary tasks before a
  Name="Value"
  Guid="5476e3dc-171a-41f6-829f-107d66d9e964"
 >
-<Expression>TCStructWithSoundHorn{
+<Expression>Kernel.TrackDescription.TrackConditions.General.TCDisplay.TCStructWithSoundHorn{
     TractionSystem =&gt; TractionSystems.TSAtDistance(TCPoint.Location),
     SoundHorn =&gt; TCPoint.Value.SoundHorn,
     TunnelStoppingArea =&gt; TCPoint.Value.TunnelStoppingArea,
@@ -796,7 +796,7 @@ Returns the time required by the driver to performs the necessary tasks before a
  Name="Value"
  Guid="f77c3425-f524-46fa-8a74-3f2e73f98967"
 >
-<Expression>TCStructWithBrakeInhibition{
+<Expression>Kernel.TrackDescription.TrackConditions.General.TCDisplay.TCStructWithBrakeInhibition{
     AirTightness =&gt; TCPoint.Value.AirTightness,
     PowerlessSection_LowerPantograph =&gt; TCPoint.Value.PowerlessSection_LowerPantograph,
     PowerlessSection_SwitchOffTheMainPowerSwitch =&gt; TCPoint.Value.PowerlessSection_SwitchOffTheMainPowerSwitch,
@@ -847,23 +847,23 @@ Returns the time required by the driver to performs the necessary tasks before a
  Name="Value"
  Guid="ddce2fbb-4875-4cea-ad35-a640d8550664"
 >
-<Expression>Condition == TCTypeEnum.SoundHorn
+<Expression>Condition == Kernel.TrackDescription.TrackConditions.General.TCDisplay.TCTypeEnum.SoundHorn
   OR  
-Condition == TCTypeEnum.NonStoppingArea
+Condition == Kernel.TrackDescription.TrackConditions.General.TCDisplay.TCTypeEnum.NonStoppingArea
   OR  
-Condition == TCTypeEnum.TunnelStoppingArea
+Condition == Kernel.TrackDescription.TrackConditions.General.TCDisplay.TCTypeEnum.TunnelStoppingArea
   OR  
-Condition == TCTypeEnum.TractionSystem__none
+Condition == Kernel.TrackDescription.TrackConditions.General.TCDisplay.TCTypeEnum.TractionSystem__none
   OR  
-Condition == TCTypeEnum.TractionSystem__AC25kV
+Condition == Kernel.TrackDescription.TrackConditions.General.TCDisplay.TCTypeEnum.TractionSystem__AC25kV
   OR  
-Condition == TCTypeEnum.TractionSystem__AC15kV
+Condition == Kernel.TrackDescription.TrackConditions.General.TCDisplay.TCTypeEnum.TractionSystem__AC15kV
   OR  
-Condition == TCTypeEnum.TractionSystem__DC3kV
+Condition == Kernel.TrackDescription.TrackConditions.General.TCDisplay.TCTypeEnum.TractionSystem__DC3kV
   OR  
-Condition == TCTypeEnum.TractionSystem__DC1_5kV
+Condition == Kernel.TrackDescription.TrackConditions.General.TCDisplay.TCTypeEnum.TractionSystem__DC1_5kV
   OR  
-Condition == TCTypeEnum.TractionSystem__DC600_750V</Expression>
+Condition == Kernel.TrackDescription.TrackConditions.General.TCDisplay.TCTypeEnum.TractionSystem__DC600_750V</Expression>
 </Case></Cases>
 </Function><Function
  Type="TCAnnouncementStruct"
@@ -931,16 +931,16 @@ Condition == TCTypeEnum.TractionSystem__DC600_750V</Expression>
 <PreConditions>
 <PreCondition
  Guid="3c1a78a8-b08f-4d9a-af7d-c504ef7b81f9"
->Announcement.Type == TCTypeEnum.AirTightness
+>Announcement.Type == Kernel.TrackDescription.TrackConditions.General.TCDisplay.TCTypeEnum.AirTightness
   OR  
-Announcement.Type == TCTypeEnum.EddyCurrentBrakeForEB
+Announcement.Type == Kernel.TrackDescription.TrackConditions.General.TCDisplay.TCTypeEnum.EddyCurrentBrakeForEB
   OR  
-Announcement.Type == TCTypeEnum.EddyCurrentBrakeForSB
+Announcement.Type == Kernel.TrackDescription.TrackConditions.General.TCDisplay.TCTypeEnum.EddyCurrentBrakeForSB
   OR  
-Announcement.Type == TCTypeEnum.MagneticShoeBrake
+Announcement.Type == Kernel.TrackDescription.TrackConditions.General.TCDisplay.TCTypeEnum.MagneticShoeBrake
   OR  
-Announcement.Type == TCTypeEnum.RegenerativeBrake</PreCondition></PreConditions>
-<Expression>TCAnnouncementStruct{
+Announcement.Type == Kernel.TrackDescription.TrackConditions.General.TCDisplay.TCTypeEnum.RegenerativeBrake</PreCondition></PreConditions>
+<Expression>Kernel.TrackDescription.TrackConditions.General.TCDisplay.TCAnnouncementStruct{
     Type =&gt; Announcement.Type,
     Distance =&gt; Announcement.Distance,
     Length =&gt; Announcement.Length,
@@ -950,7 +950,7 @@ Announcement.Type == TCTypeEnum.RegenerativeBrake</PreCondition></PreConditions>
  Name="End"
  Guid="c46e3fa1-e865-42e0-a198-544bbdbe0281"
 >
-<Expression>TCAnnouncementStruct{
+<Expression>Kernel.TrackDescription.TrackConditions.General.TCDisplay.TCAnnouncementStruct{
     Type =&gt; Announcement.Type,
     Distance =&gt; Announcement.Distance,
     Length =&gt; Announcement.Length,
@@ -1053,10 +1053,10 @@ Announcement.Type == TCTypeEnum.RegenerativeBrake</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="4d55a5a0-252b-40d7-aca2-f250e5eea64c"
->Condition.Type == TCTypeEnum.SoundHorn</PreCondition><PreCondition
+>Condition.Type == Kernel.TrackDescription.TrackConditions.General.TCDisplay.TCTypeEnum.SoundHorn</PreCondition><PreCondition
  Guid="056f2b1c-6b4a-4e87-947f-ccd35902b247"
 >NOT Condition.IsAnnouncement</PreCondition></PreConditions>
-<Expression>TrainPosition.FrontEndPosition(DistanceInterval.Nom) &gt;= Condition.Distance + BaseTypes.LengthToDistance(Condition.Length)</Expression>
+<Expression>Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom) &gt;= Condition.Distance + BaseTypes.LengthToDistance(Condition.Length)</Expression>
 </Case><Case
  Name="Tunnel Stopping area - TC"
  Guid="b03c3fd7-a86f-4497-b8c2-f990764fa024"
@@ -1064,12 +1064,12 @@ Announcement.Type == TCTypeEnum.RegenerativeBrake</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="46a2309e-001b-4157-9b58-eefd870ff7bf"
->Condition.Type == TCTypeEnum.TunnelStoppingArea</PreCondition><PreCondition
+>Condition.Type == Kernel.TrackDescription.TrackConditions.General.TCDisplay.TCTypeEnum.TunnelStoppingArea</PreCondition><PreCondition
  Guid="3858c210-5ab7-48a1-a21e-9e326ba91909"
 >NOT Condition.IsAnnouncement</PreCondition></PreConditions>
-<Expression>Odometry.EstimatedSpeed &gt;= VirtualSBIForTarget(
-    Distance=&gt; TrainPosition.FrontEndPosition(DistanceInterval.Nom),
-    Target=&gt;SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target{
+<Expression>Odometry.EstimatedSpeed &gt;= Kernel.TrackDescription.TrackConditions.General.TCDisplay.VirtualSBIForTarget(
+    Distance=&gt; Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom),
+    Target=&gt;Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target{
         Location =&gt; Condition.Distance + BaseTypes.LengthToDistance(Condition.Length),
         Speed =&gt; 0.0,
         Length =&gt; 1.0
@@ -1082,12 +1082,12 @@ Announcement.Type == TCTypeEnum.RegenerativeBrake</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="dd6e476a-075d-4b5c-8f3d-6ba637e97a50"
->Condition.Type == TCTypeEnum.NonStoppingArea</PreCondition><PreCondition
+>Condition.Type == Kernel.TrackDescription.TrackConditions.General.TCDisplay.TCTypeEnum.NonStoppingArea</PreCondition><PreCondition
  Guid="bc57717c-4d76-47cc-850f-da6f12062c99"
 >NOT Condition.IsAnnouncement</PreCondition></PreConditions>
-<Expression>Odometry.EstimatedSpeed &gt;= VirtualSBIForTarget(
-    Distance=&gt; TrainPosition.FrontEndPosition(DistanceInterval.Min),
-    Target=&gt;SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target{
+<Expression>Odometry.EstimatedSpeed &gt;= Kernel.TrackDescription.TrackConditions.General.TCDisplay.VirtualSBIForTarget(
+    Distance=&gt; Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Min),
+    Target=&gt;Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target{
         Location =&gt; Condition.Distance + BaseTypes.LengthToDistance(Condition.Length),
         Speed =&gt; 0.0,
         Length =&gt; 1.0
@@ -1102,18 +1102,18 @@ Announcement.Type == TCTypeEnum.RegenerativeBrake</PreCondition></PreConditions>
  Guid="c206fd07-3e25-4b60-96bb-274ce34cc517"
 >NOT Condition.IsAnnouncement</PreCondition><PreCondition
  Guid="71d949b9-c2e2-4049-b724-4ec9523067cf"
->Condition.Type != TCTypeEnum.TractionSystem__AC15kV
+>Condition.Type != Kernel.TrackDescription.TrackConditions.General.TCDisplay.TCTypeEnum.TractionSystem__AC15kV
   AND  
-Condition.Type != TCTypeEnum.TractionSystem__AC25kV
+Condition.Type != Kernel.TrackDescription.TrackConditions.General.TCDisplay.TCTypeEnum.TractionSystem__AC25kV
   AND  
-Condition.Type != TCTypeEnum.TractionSystem__DC1_5kV
+Condition.Type != Kernel.TrackDescription.TrackConditions.General.TCDisplay.TCTypeEnum.TractionSystem__DC1_5kV
   AND  
-Condition.Type != TCTypeEnum.TractionSystem__DC3kV
+Condition.Type != Kernel.TrackDescription.TrackConditions.General.TCDisplay.TCTypeEnum.TractionSystem__DC3kV
   AND  
-Condition.Type != TCTypeEnum.TractionSystem__DC600_750V
+Condition.Type != Kernel.TrackDescription.TrackConditions.General.TCDisplay.TCTypeEnum.TractionSystem__DC600_750V
   AND  
-Condition.Type != TCTypeEnum.TractionSystem__none</PreCondition></PreConditions>
-<Expression>TrainPosition.FrontEndPosition(DistanceInterval.Min) &gt;= Condition.Distance + BaseTypes.LengthToDistance(Condition.Length)</Expression>
+Condition.Type != Kernel.TrackDescription.TrackConditions.General.TCDisplay.TCTypeEnum.TractionSystem__none</PreCondition></PreConditions>
+<Expression>Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Min) &gt;= Condition.Distance + BaseTypes.LengthToDistance(Condition.Length)</Expression>
 </Case><Case
  Name="Tunnel stopping area - start"
  Guid="716374c5-4f36-428a-a4a1-86fb297309f4"
@@ -1121,13 +1121,13 @@ Condition.Type != TCTypeEnum.TractionSystem__none</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="1c713b41-8617-430e-a228-0143071d3404"
->Condition.Type == TCTypeEnum.TunnelStoppingArea</PreCondition></PreConditions>
-<Expression>TrainPosition.FrontEndPosition(DistanceInterval.Nom) &gt;= Condition.Distance + BaseTypes.LengthToDistance(Condition.Length)</Expression>
+>Condition.Type == Kernel.TrackDescription.TrackConditions.General.TCDisplay.TCTypeEnum.TunnelStoppingArea</PreCondition></PreConditions>
+<Expression>Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom) &gt;= Condition.Distance + BaseTypes.LengthToDistance(Condition.Length)</Expression>
 </Case><Case
  Name="Other types - start"
  Guid="7965a6a4-1f24-40c5-b623-32892a992bfa"
 >
-<Expression>TrainPosition.FrontEndPosition(DistanceInterval.Max) &gt;= Condition.Distance + BaseTypes.LengthToDistance(Condition.Length)</Expression>
+<Expression>Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Max) &gt;= Condition.Distance + BaseTypes.LengthToDistance(Condition.Length)</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -1238,10 +1238,10 @@ Condition.Type != TCTypeEnum.TractionSystem__none</PreCondition></PreConditions>
  Guid="0bc54b56-072f-421b-b498-fe11e372c0de"
 >NOT Condition.IsAnnouncement</PreCondition><PreCondition
  Guid="16856320-3b2a-4716-be02-9be9642746af"
->Condition.Type == TCTypeEnum.TunnelStoppingArea
+>Condition.Type == Kernel.TrackDescription.TrackConditions.General.TCDisplay.TCTypeEnum.TunnelStoppingArea
   OR  
-Condition.Type == TCTypeEnum.SoundHorn</PreCondition></PreConditions>
-<Expression>TrainPosition.FrontEndPosition( PointOfInterest=&gt;DistanceInterval.Nom ) &gt;= Condition.Distance</Expression>
+Condition.Type == Kernel.TrackDescription.TrackConditions.General.TCDisplay.TCTypeEnum.SoundHorn</PreCondition></PreConditions>
+<Expression>Kernel.TrainPosition.FrontEndPosition( PointOfInterest=&gt;DistanceInterval.Nom ) &gt;= Condition.Distance</Expression>
 </Case><Case
  Name="Other TC"
  Guid="1a1229a7-8ad3-4bff-a0f3-212e7d8a9faa"
@@ -1250,7 +1250,7 @@ Condition.Type == TCTypeEnum.SoundHorn</PreCondition></PreConditions>
 <PreCondition
  Guid="c63e9068-9937-4bfe-9fee-b359faad97a5"
 >NOT Condition.IsAnnouncement</PreCondition></PreConditions>
-<Expression>TrainPosition.FrontEndPosition( PointOfInterest=&gt;DistanceInterval.Max ) &gt;= Condition.Distance</Expression>
+<Expression>Kernel.TrainPosition.FrontEndPosition( PointOfInterest=&gt;DistanceInterval.Max ) &gt;= Condition.Distance</Expression>
 </Case><Case
  Name="Non stopping area Announcement - start"
  Guid="873ea663-7256-4f44-89ec-fd78b96620ff"
@@ -1259,10 +1259,10 @@ Condition.Type == TCTypeEnum.SoundHorn</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="f6afee15-fc7a-47e4-a6f5-05176ac7fa9e"
->Condition.Type == TCTypeEnum.NonStoppingArea</PreCondition></PreConditions>
-<Expression>Odometry.TrainSpeed() &gt;= VirtualSBIForTarget(
-    Distance=&gt;TrainPosition.FrontEndPosition(DistanceInterval.Max),
-    Target=&gt;SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target{
+>Condition.Type == Kernel.TrackDescription.TrackConditions.General.TCDisplay.TCTypeEnum.NonStoppingArea</PreCondition></PreConditions>
+<Expression>Odometry.TrainSpeed() &gt;= Kernel.TrackDescription.TrackConditions.General.TCDisplay.VirtualSBIForTarget(
+    Distance=&gt;Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Max),
+    Target=&gt;Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target{
         Location =&gt; Condition.Distance + BaseTypes.LengthToDistance(Condition.Length),
         Speed =&gt; 0.0,
         Length =&gt; BaseTypes.Length.Infinity}
@@ -1274,7 +1274,7 @@ Condition.Type == TCTypeEnum.SoundHorn</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="c70f9ca9-e9b7-4414-938a-38e428031c96"
->Condition.Type == TCTypeEnum.TunnelStoppingArea</PreCondition></PreConditions>
+>Condition.Type == Kernel.TrackDescription.TrackConditions.General.TCDisplay.TCTypeEnum.TunnelStoppingArea</PreCondition></PreConditions>
 <Expression>True</Expression>
 </Case><Case
  Name="Sound horn - start"
@@ -1283,8 +1283,8 @@ Condition.Type == TCTypeEnum.SoundHorn</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="c3790b14-c687-4d89-885d-72e39767003f"
->Condition.Type == TCTypeEnum.SoundHorn</PreCondition></PreConditions>
-<Expression>TrainPosition.FrontEndPosition(DistanceInterval.Nom) &gt;= Condition.Distance</Expression>
+>Condition.Type == Kernel.TrackDescription.TrackConditions.General.TCDisplay.TCTypeEnum.SoundHorn</PreCondition></PreConditions>
+<Expression>Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom) &gt;= Condition.Distance</Expression>
 </Case><Case
  Name="Conditions - end"
  Guid="43cc02b3-c997-4f1d-b0eb-494230903fc3"
@@ -1293,12 +1293,12 @@ Condition.Type == TCTypeEnum.SoundHorn</PreCondition></PreConditions>
 <PreCondition
  Guid="2ebc94ea-dc49-4889-8574-ac261cead9dd"
 >Condition.Length == BaseTypes.Length.NA</PreCondition></PreConditions>
-<Expression>TrainPosition.FrontEndPosition(DistanceInterval.Min) &gt;= Condition.Distance</Expression>
+<Expression>Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Min) &gt;= Condition.Distance</Expression>
 </Case><Case
  Name="Other conditions - start"
  Guid="2712b1ff-1b3d-4999-b9f2-a740966c7e91"
 >
-<Expression>TrainPosition.FrontEndPosition(DistanceInterval.Max) &gt;= Condition.Distance</Expression>
+<Expression>Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Max) &gt;= Condition.Distance</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Speed"
@@ -1345,12 +1345,12 @@ Condition.Type == TCTypeEnum.SoundHorn</PreCondition></PreConditions>
  Guid="1f75f261-a1ed-4441-b109-7e0bcc2a7ac8"
 >
 <Expression>DecelerationProfile(
-    SpeedRestrictions=&gt; FUNCTION d : Default.BaseTypes.Distance =&gt; VirtualSpeedRestriction(Distance=&gt;d, Target=&gt;SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target{
+    SpeedRestrictions=&gt; FUNCTION d : Default.BaseTypes.Distance =&gt; Kernel.TrackDescription.TrackConditions.General.TCDisplay.VirtualSpeedRestriction(Distance=&gt;d, Target=&gt;Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target{
     Location =&gt; Target.Location - BaseTypes.SpeedToMS ( Odometry.TrainSpeed() ) * SpeedAndDistanceMonitoring.TargetSpeedMonitoring.T_bs1,
     Speed =&gt; 0.0,
     Length =&gt; 0.0
 }),
-    DecelerationFactor=&gt;TrainData.BrakingParameters.A_expected
+    DecelerationFactor=&gt;Kernel.TrainData.BrakingParameters.A_expected
 )(Distance)</Expression>
 </Case></Cases>
 </Function><Function
@@ -1457,8 +1457,8 @@ Condition.Type == TCTypeEnum.SoundHorn</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="85fce91e-776f-4f8e-9eb4-16352c6f1505"
->TCType == TCTypeEnum.NonStoppingArea</PreCondition></PreConditions>
-<Expression>REDUCE TCProfile | (NOT X.Value.NonStoppingArea)
+>TCType == Kernel.TrackDescription.TrackConditions.General.TCDisplay.TCTypeEnum.NonStoppingArea</PreCondition></PreConditions>
+<Expression>REDUCE Kernel.TrackDescription.TrackConditions.General.TCProfile | (NOT X.Value.NonStoppingArea)
 USING X IN BaseTypes.MinDistance(
     X1=&gt;X.Location,
     X2=&gt;RESULT
@@ -1471,8 +1471,8 @@ INITIAL_VALUE BaseTypes.Distance.Infinity</Expression>
 <PreConditions>
 <PreCondition
  Guid="f091ee4d-ca51-40a7-8b31-d640d6048e68"
->TCType == TCTypeEnum.TunnelStoppingArea</PreCondition></PreConditions>
-<Expression>REDUCE TCProfile | (NOT X.Value.TunnelStoppingArea)
+>TCType == Kernel.TrackDescription.TrackConditions.General.TCDisplay.TCTypeEnum.TunnelStoppingArea</PreCondition></PreConditions>
+<Expression>REDUCE Kernel.TrackDescription.TrackConditions.General.TCProfile | (NOT X.Value.TunnelStoppingArea)
 USING X IN BaseTypes.MinDistance(
     X1=&gt;X.Location,
     X2=&gt;RESULT
@@ -1533,8 +1533,8 @@ INITIAL_VALUE BaseTypes.Distance.Infinity</Expression>
  Guid="147dc229-5272-4fe1-968f-ea42ee8344b3"
 >ProfilePoint.Distance &lt; Distance</PreCondition><PreCondition
  Guid="0beb59e2-d413-413a-96be-e935e92a36c7"
->TCType == TCTypeEnum.NonStoppingArea</PreCondition></PreConditions>
-<Expression>TCStructWithSoundHorn{
+>TCType == Kernel.TrackDescription.TrackConditions.General.TCDisplay.TCTypeEnum.NonStoppingArea</PreCondition></PreConditions>
+<Expression>Kernel.TrackDescription.TrackConditions.General.TCDisplay.TCStructWithSoundHorn{
     SoundHorn =&gt; ProfilePoint.SoundHorn,
     TunnelStoppingArea =&gt; ProfilePoint.TunnelStoppingArea,
     NonStoppingArea =&gt; False,
@@ -1547,10 +1547,10 @@ INITIAL_VALUE BaseTypes.Distance.Infinity</Expression>
 <PreConditions>
 <PreCondition
  Guid="68a5334c-effd-4849-9229-fd4b39e19564"
->TCType == TCTypeEnum.TunnelStoppingArea</PreCondition><PreCondition
+>TCType == Kernel.TrackDescription.TrackConditions.General.TCDisplay.TCTypeEnum.TunnelStoppingArea</PreCondition><PreCondition
  Guid="d39b4d44-f5c2-4bd8-b14b-a067c3cea797"
 >ProfilePoint.Distance &lt; Distance</PreCondition></PreConditions>
-<Expression>TCStructWithSoundHorn{
+<Expression>Kernel.TrackDescription.TrackConditions.General.TCDisplay.TCStructWithSoundHorn{
     SoundHorn =&gt; ProfilePoint.SoundHorn,
     TunnelStoppingArea =&gt; False,
     NonStoppingArea =&gt; ProfilePoint.NonStoppingArea,
@@ -1621,10 +1621,10 @@ INITIAL_VALUE BaseTypes.Distance.Infinity</Expression>
 <PreConditions>
 <PreCondition
  Guid="7ed23257-5205-44a7-af4d-48da79eb3071"
->Condition.Type == TCTypeEnum.NonStoppingArea</PreCondition></PreConditions>
-<Expression>Odometry.TrainSpeed() &gt;= VirtualSBIForTarget(
-    Distance=&gt; TrainPosition.FrontEndPosition(DistanceInterval.Min),
-    Target=&gt; SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target{
+>Condition.Type == Kernel.TrackDescription.TrackConditions.General.TCDisplay.TCTypeEnum.NonStoppingArea</PreCondition></PreConditions>
+<Expression>Odometry.TrainSpeed() &gt;= Kernel.TrackDescription.TrackConditions.General.TCDisplay.VirtualSBIForTarget(
+    Distance=&gt; Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Min),
+    Target=&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target{
         Location =&gt; Condition.Distance + BaseTypes.LengthToDistance(Condition.Length),
         Speed =&gt; 0.0,
         Length =&gt; 1.0
@@ -1637,10 +1637,10 @@ INITIAL_VALUE BaseTypes.Distance.Infinity</Expression>
 <PreConditions>
 <PreCondition
  Guid="0e831f00-68f6-4d87-ba12-9e8859198773"
->Condition.Type == TCTypeEnum.TunnelStoppingArea</PreCondition></PreConditions>
-<Expression>Odometry.TrainSpeed() &gt;= VirtualSBIForTarget(
-    Distance=&gt; TrainPosition.FrontEndPosition(DistanceInterval.Nom),
-    Target=&gt;SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target{
+>Condition.Type == Kernel.TrackDescription.TrackConditions.General.TCDisplay.TCTypeEnum.TunnelStoppingArea</PreCondition></PreConditions>
+<Expression>Odometry.TrainSpeed() &gt;= Kernel.TrackDescription.TrackConditions.General.TCDisplay.VirtualSBIForTarget(
+    Distance=&gt; Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom),
+    Target=&gt;Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target{
         Location =&gt; Condition.Distance + BaseTypes.LengthToDistance(Condition.Length),
         Speed =&gt; 0.0,
         Length =&gt; 1.0
@@ -1711,12 +1711,12 @@ INITIAL_VALUE BaseTypes.Distance.Infinity</Expression>
 <PreCondition
  Guid="3399256f-06ab-4f11-b072-4833279d0fed"
 >Announcement.Length != BaseTypes.Length.NA</PreCondition></PreConditions>
-<Expression>TrainPosition.FrontEndPosition(DistanceInterval.Min) &gt; Announcement.Distance + BaseTypes.LengthToDistance(Announcement.Length)</Expression>
+<Expression>Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Min) &gt; Announcement.Distance + BaseTypes.LengthToDistance(Announcement.Length)</Expression>
 </Case><Case
  Name="End in time"
  Guid="38a7cde2-afeb-4dd5-85f0-a60e4dcc0c88"
 >
-<Expression>DateAndTime.CurrentTime &gt; Announcement.Time</Expression>
+<Expression>Kernel.DateAndTime.CurrentTime &gt; Announcement.Time</Expression>
 </Case></Cases>
 </Function></Functions>
 <Procedures>
@@ -1805,13 +1805,13 @@ INITIAL_VALUE BaseTypes.Distance.Infinity</Expression>
 <Actions>
 <Action
  Guid="546cd297-955f-444f-8d22-b8f9fd70b613"
->INSERT NewAnnouncement(
-    TCType=&gt;TCTypeEnum.AirTightness,
-    Distance=&gt;AnnouncementLocation(TrackCondition =&gt; TrackConditionStruct{AirTightness =&gt; True}, Distance =&gt; Distance),
-    Length=&gt;BaseTypes.DistanceToLength(Distance - AnnouncementLocation(TrackCondition =&gt; TrackConditionStruct{AirTightness =&gt; True}, Distance =&gt; Distance)),
+>INSERT Kernel.TrackDescription.TrackConditions.General.TCDisplay.NewAnnouncement(
+    TCType=&gt;Kernel.TrackDescription.TrackConditions.General.TCDisplay.TCTypeEnum.AirTightness,
+    Distance=&gt;Kernel.TrackDescription.TrackConditions.General.TCDisplay.AnnouncementLocation(TrackCondition =&gt; Kernel.TrackDescription.TrackConditions.General.TrackConditionStruct{AirTightness =&gt; True}, Distance =&gt; Distance),
+    Length=&gt;BaseTypes.DistanceToLength(Distance - Kernel.TrackDescription.TrackConditions.General.TCDisplay.AnnouncementLocation(TrackCondition =&gt; Kernel.TrackDescription.TrackConditions.General.TrackConditionStruct{AirTightness =&gt; True}, Distance =&gt; Distance)),
     Announcement =&gt; True
 )
-IN Announcements</Action></Actions>
+IN Kernel.TrackDescription.TrackConditions.General.TCDisplay.Announcements</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Eddy current brake for EB inhibited"
@@ -1825,13 +1825,13 @@ IN Announcements</Action></Actions>
 <Actions>
 <Action
  Guid="85a0948f-1d9c-4cab-bf12-37a4ddf0a300"
->INSERT NewAnnouncement(
-    TCType=&gt;TCTypeEnum.EddyCurrentBrakeForEB,
-    Distance=&gt;AnnouncementLocation(TrackCondition =&gt; TrackConditionStruct{SwitchOffEddyCurrentBrakeForEB =&gt; True}, Distance =&gt; Distance),
-    Length=&gt;BaseTypes.DistanceToLength(Distance - AnnouncementLocation(TrackCondition =&gt; TrackConditionStruct{SwitchOffEddyCurrentBrakeForEB =&gt; True}, Distance =&gt; Distance)),
+>INSERT Kernel.TrackDescription.TrackConditions.General.TCDisplay.NewAnnouncement(
+    TCType=&gt;Kernel.TrackDescription.TrackConditions.General.TCDisplay.TCTypeEnum.EddyCurrentBrakeForEB,
+    Distance=&gt;Kernel.TrackDescription.TrackConditions.General.TCDisplay.AnnouncementLocation(TrackCondition =&gt; Kernel.TrackDescription.TrackConditions.General.TrackConditionStruct{SwitchOffEddyCurrentBrakeForEB =&gt; True}, Distance =&gt; Distance),
+    Length=&gt;BaseTypes.DistanceToLength(Distance - Kernel.TrackDescription.TrackConditions.General.TCDisplay.AnnouncementLocation(TrackCondition =&gt; Kernel.TrackDescription.TrackConditions.General.TrackConditionStruct{SwitchOffEddyCurrentBrakeForEB =&gt; True}, Distance =&gt; Distance)),
     Announcement =&gt; True
 )
-IN Announcements</Action></Actions>
+IN Kernel.TrackDescription.TrackConditions.General.TCDisplay.Announcements</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Eddy current brake for SB inhibited"
@@ -1845,13 +1845,13 @@ IN Announcements</Action></Actions>
 <Actions>
 <Action
  Guid="ac6e5758-3e61-4776-bcfb-524f3b05d73c"
->INSERT NewAnnouncement(
-    TCType=&gt;TCTypeEnum.EddyCurrentBrakeForSB,
-    Distance=&gt;AnnouncementLocation(TrackCondition =&gt; TrackConditionStruct{SwitchOffEddyCurrentBrakeForSB =&gt; True}, Distance =&gt; Distance),
-    Length=&gt;BaseTypes.DistanceToLength(Distance - AnnouncementLocation(TrackCondition =&gt; TrackConditionStruct{SwitchOffEddyCurrentBrakeForSB =&gt; True}, Distance =&gt; Distance)),
+>INSERT Kernel.TrackDescription.TrackConditions.General.TCDisplay.NewAnnouncement(
+    TCType=&gt;Kernel.TrackDescription.TrackConditions.General.TCDisplay.TCTypeEnum.EddyCurrentBrakeForSB,
+    Distance=&gt;Kernel.TrackDescription.TrackConditions.General.TCDisplay.AnnouncementLocation(TrackCondition =&gt; Kernel.TrackDescription.TrackConditions.General.TrackConditionStruct{SwitchOffEddyCurrentBrakeForSB =&gt; True}, Distance =&gt; Distance),
+    Length=&gt;BaseTypes.DistanceToLength(Distance - Kernel.TrackDescription.TrackConditions.General.TCDisplay.AnnouncementLocation(TrackCondition =&gt; Kernel.TrackDescription.TrackConditions.General.TrackConditionStruct{SwitchOffEddyCurrentBrakeForSB =&gt; True}, Distance =&gt; Distance)),
     Announcement =&gt; True
 )
-IN Announcements</Action></Actions>
+IN Kernel.TrackDescription.TrackConditions.General.TCDisplay.Announcements</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Lower pantograph"
@@ -1865,13 +1865,13 @@ IN Announcements</Action></Actions>
 <Actions>
 <Action
  Guid="9392e167-71c3-4d68-a559-63642bd48557"
->INSERT NewAnnouncement(
-    TCType=&gt;TCTypeEnum.LowerPantograph,
-    Distance=&gt;AnnouncementLocation(TrackCondition =&gt; TrackConditionStruct{PowerlessSection_LowerPantograph =&gt; True}, Distance =&gt; Distance),
-    Length=&gt;BaseTypes.DistanceToLength(Distance - AnnouncementLocation(TrackCondition =&gt; TrackConditionStruct{PowerlessSection_LowerPantograph =&gt; True}, Distance =&gt; Distance)),
+>INSERT Kernel.TrackDescription.TrackConditions.General.TCDisplay.NewAnnouncement(
+    TCType=&gt;Kernel.TrackDescription.TrackConditions.General.TCDisplay.TCTypeEnum.LowerPantograph,
+    Distance=&gt;Kernel.TrackDescription.TrackConditions.General.TCDisplay.AnnouncementLocation(TrackCondition =&gt; Kernel.TrackDescription.TrackConditions.General.TrackConditionStruct{PowerlessSection_LowerPantograph =&gt; True}, Distance =&gt; Distance),
+    Length=&gt;BaseTypes.DistanceToLength(Distance - Kernel.TrackDescription.TrackConditions.General.TCDisplay.AnnouncementLocation(TrackCondition =&gt; Kernel.TrackDescription.TrackConditions.General.TrackConditionStruct{PowerlessSection_LowerPantograph =&gt; True}, Distance =&gt; Distance)),
     Announcement =&gt; True
 )
-IN Announcements</Action></Actions>
+IN Kernel.TrackDescription.TrackConditions.General.TCDisplay.Announcements</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Magnetic shoe brake inhibition"
@@ -1885,13 +1885,13 @@ IN Announcements</Action></Actions>
 <Actions>
 <Action
  Guid="57592127-9e52-4396-aea6-5310995f0887"
->INSERT NewAnnouncement(
-    TCType=&gt;TCTypeEnum.MagneticShoeBrake,
-    Distance=&gt;AnnouncementLocation(TrackCondition =&gt; TrackConditionStruct{SwitchOffMagneticShoeBrake =&gt; True}, Distance =&gt; Distance),
-    Length=&gt;BaseTypes.DistanceToLength(Distance - AnnouncementLocation(TrackCondition =&gt; TrackConditionStruct{SwitchOffMagneticShoeBrake =&gt; True}, Distance =&gt; Distance)),
+>INSERT Kernel.TrackDescription.TrackConditions.General.TCDisplay.NewAnnouncement(
+    TCType=&gt;Kernel.TrackDescription.TrackConditions.General.TCDisplay.TCTypeEnum.MagneticShoeBrake,
+    Distance=&gt;Kernel.TrackDescription.TrackConditions.General.TCDisplay.AnnouncementLocation(TrackCondition =&gt; Kernel.TrackDescription.TrackConditions.General.TrackConditionStruct{SwitchOffMagneticShoeBrake =&gt; True}, Distance =&gt; Distance),
+    Length=&gt;BaseTypes.DistanceToLength(Distance - Kernel.TrackDescription.TrackConditions.General.TCDisplay.AnnouncementLocation(TrackCondition =&gt; Kernel.TrackDescription.TrackConditions.General.TrackConditionStruct{SwitchOffMagneticShoeBrake =&gt; True}, Distance =&gt; Distance)),
     Announcement =&gt; True
 )
-IN Announcements</Action></Actions>
+IN Kernel.TrackDescription.TrackConditions.General.TCDisplay.Announcements</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="NonStoppingArea"
@@ -1905,13 +1905,13 @@ IN Announcements</Action></Actions>
 <Actions>
 <Action
  Guid="46f0625a-6ab1-4ce8-ade6-9c33ba9da756"
->INSERT NewAnnouncement(
-    TCType=&gt;TCTypeEnum.NonStoppingArea,
-    Distance=&gt;AnnouncementLocation(TrackCondition =&gt; TrackConditionStruct{NonStoppingArea =&gt; True}, Distance =&gt; Distance),
-    Length=&gt;BaseTypes.DistanceToLength(Distance - AnnouncementLocation(TrackCondition =&gt; TrackConditionStruct{NonStoppingArea =&gt; True}, Distance =&gt; Distance)),
+>INSERT Kernel.TrackDescription.TrackConditions.General.TCDisplay.NewAnnouncement(
+    TCType=&gt;Kernel.TrackDescription.TrackConditions.General.TCDisplay.TCTypeEnum.NonStoppingArea,
+    Distance=&gt;Kernel.TrackDescription.TrackConditions.General.TCDisplay.AnnouncementLocation(TrackCondition =&gt; Kernel.TrackDescription.TrackConditions.General.TrackConditionStruct{NonStoppingArea =&gt; True}, Distance =&gt; Distance),
+    Length=&gt;BaseTypes.DistanceToLength(Distance - Kernel.TrackDescription.TrackConditions.General.TCDisplay.AnnouncementLocation(TrackCondition =&gt; Kernel.TrackDescription.TrackConditions.General.TrackConditionStruct{NonStoppingArea =&gt; True}, Distance =&gt; Distance)),
     Announcement =&gt; True
 )
-IN Announcements</Action></Actions>
+IN Kernel.TrackDescription.TrackConditions.General.TCDisplay.Announcements</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Regenerative brake inhibition"
@@ -1925,13 +1925,13 @@ IN Announcements</Action></Actions>
 <Actions>
 <Action
  Guid="912d4674-e6c2-469b-9e78-fc95e2754131"
->INSERT NewAnnouncement(
-    TCType=&gt;TCTypeEnum.RegenerativeBrake,
-    Distance=&gt;AnnouncementLocation(TrackCondition =&gt; TrackConditionStruct{SwitchOffRegenerativeBrake =&gt; True}, Distance =&gt; Distance),
-    Length=&gt;BaseTypes.DistanceToLength(Distance - AnnouncementLocation(TrackCondition =&gt; TrackConditionStruct{SwitchOffRegenerativeBrake =&gt; True}, Distance =&gt; Distance)),
+>INSERT Kernel.TrackDescription.TrackConditions.General.TCDisplay.NewAnnouncement(
+    TCType=&gt;Kernel.TrackDescription.TrackConditions.General.TCDisplay.TCTypeEnum.RegenerativeBrake,
+    Distance=&gt;Kernel.TrackDescription.TrackConditions.General.TCDisplay.AnnouncementLocation(TrackCondition =&gt; Kernel.TrackDescription.TrackConditions.General.TrackConditionStruct{SwitchOffRegenerativeBrake =&gt; True}, Distance =&gt; Distance),
+    Length=&gt;BaseTypes.DistanceToLength(Distance - Kernel.TrackDescription.TrackConditions.General.TCDisplay.AnnouncementLocation(TrackCondition =&gt; Kernel.TrackDescription.TrackConditions.General.TrackConditionStruct{SwitchOffRegenerativeBrake =&gt; True}, Distance =&gt; Distance)),
     Announcement =&gt; True
 )
-IN Announcements</Action></Actions>
+IN Kernel.TrackDescription.TrackConditions.General.TCDisplay.Announcements</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Tunnel stopping area"
@@ -1945,13 +1945,13 @@ IN Announcements</Action></Actions>
 <Actions>
 <Action
  Guid="8ac4a9fa-54bc-40b3-99d1-a7675c9cf70f"
->INSERT NewAnnouncement(
-    TCType=&gt;TCTypeEnum.TunnelStoppingArea,
-    Distance=&gt;AnnouncementLocation(Distance=&gt;Distance, TrackCondition=&gt;TrackConditionStruct{TunnelStoppingArea =&gt; True}),
-    Length=&gt; BaseTypes.DistanceToLength(Distance - AnnouncementLocation(Distance=&gt;Distance, TrackCondition=&gt;TrackConditionStruct{TunnelStoppingArea =&gt; True})),
+>INSERT Kernel.TrackDescription.TrackConditions.General.TCDisplay.NewAnnouncement(
+    TCType=&gt;Kernel.TrackDescription.TrackConditions.General.TCDisplay.TCTypeEnum.TunnelStoppingArea,
+    Distance=&gt;Kernel.TrackDescription.TrackConditions.General.TCDisplay.AnnouncementLocation(Distance=&gt;Distance, TrackCondition=&gt;Kernel.TrackDescription.TrackConditions.General.TrackConditionStruct{TunnelStoppingArea =&gt; True}),
+    Length=&gt; BaseTypes.DistanceToLength(Distance - Kernel.TrackDescription.TrackConditions.General.TCDisplay.AnnouncementLocation(Distance=&gt;Distance, TrackCondition=&gt;Kernel.TrackDescription.TrackConditions.General.TrackConditionStruct{TunnelStoppingArea =&gt; True})),
     Announcement =&gt; True
 )
-IN Announcements</Action></Actions>
+IN Kernel.TrackDescription.TrackConditions.General.TCDisplay.Announcements</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Turn off main power"
@@ -1965,13 +1965,13 @@ IN Announcements</Action></Actions>
 <Actions>
 <Action
  Guid="d67a9eaf-803f-41e3-8dd8-09bdc24c02ad"
->INSERT NewAnnouncement(
-    TCType=&gt;TCTypeEnum.TurnOffMainSwitch,
-    Distance=&gt;AnnouncementLocation(TrackCondition =&gt; TrackConditionStruct{PowerlessSection_SwitchOffTheMainPowerSwitch =&gt; True}, Distance =&gt; Distance),
-    Length=&gt;BaseTypes.DistanceToLength(Distance - AnnouncementLocation(TrackCondition =&gt; TrackConditionStruct{PowerlessSection_SwitchOffTheMainPowerSwitch =&gt; True}, Distance =&gt; Distance)),
+>INSERT Kernel.TrackDescription.TrackConditions.General.TCDisplay.NewAnnouncement(
+    TCType=&gt;Kernel.TrackDescription.TrackConditions.General.TCDisplay.TCTypeEnum.TurnOffMainSwitch,
+    Distance=&gt;Kernel.TrackDescription.TrackConditions.General.TCDisplay.AnnouncementLocation(TrackCondition =&gt; Kernel.TrackDescription.TrackConditions.General.TrackConditionStruct{PowerlessSection_SwitchOffTheMainPowerSwitch =&gt; True}, Distance =&gt; Distance),
+    Length=&gt;BaseTypes.DistanceToLength(Distance - Kernel.TrackDescription.TrackConditions.General.TCDisplay.AnnouncementLocation(TrackCondition =&gt; Kernel.TrackDescription.TrackConditions.General.TrackConditionStruct{PowerlessSection_SwitchOffTheMainPowerSwitch =&gt; True}, Distance =&gt; Distance)),
     Announcement =&gt; True
 )
-IN Announcements</Action></Actions>
+IN Kernel.TrackDescription.TrackConditions.General.TCDisplay.Announcements</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -1995,13 +1995,13 @@ IN Announcements</Action></Actions>
 <Actions>
 <Action
  Guid="d338542a-7ae0-47f1-9a0a-a8c1d3d53b35"
->INSERT NewAnnouncement(
-    TCType=&gt;TCTypeEnum.AirTightness,
+>INSERT Kernel.TrackDescription.TrackConditions.General.TCDisplay.NewAnnouncement(
+    TCType=&gt;Kernel.TrackDescription.TrackConditions.General.TCDisplay.TCTypeEnum.AirTightness,
     Distance=&gt; Distance,
-    Length=&gt;Length + TrainData.TrainData.Value.TrainLength,
+    Length=&gt;Length + Kernel.TrainData.TrainData.Value.TrainLength,
     Announcement =&gt; False
 )
-IN Announcements</Action></Actions>
+IN Kernel.TrackDescription.TrackConditions.General.TCDisplay.Announcements</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Eddy current brake for EB inhibited"
@@ -2015,13 +2015,13 @@ IN Announcements</Action></Actions>
 <Actions>
 <Action
  Guid="038c8fc1-c228-4ec1-8bff-6ad8529d7100"
->INSERT NewAnnouncement(
-    TCType=&gt;TCTypeEnum.EddyCurrentBrakeForEB,
+>INSERT Kernel.TrackDescription.TrackConditions.General.TCDisplay.NewAnnouncement(
+    TCType=&gt;Kernel.TrackDescription.TrackConditions.General.TCDisplay.TCTypeEnum.EddyCurrentBrakeForEB,
     Distance=&gt; Distance,
-    Length=&gt;Length + TrainData.TrainData.Value.TrainLength,
+    Length=&gt;Length + Kernel.TrainData.TrainData.Value.TrainLength,
     Announcement =&gt; False
 )
-IN Announcements</Action></Actions>
+IN Kernel.TrackDescription.TrackConditions.General.TCDisplay.Announcements</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Eddy current brake for SB inhibited"
@@ -2035,13 +2035,13 @@ IN Announcements</Action></Actions>
 <Actions>
 <Action
  Guid="7a46b91d-9f75-4be7-b9c4-3752def292e3"
->INSERT NewAnnouncement(
-    TCType=&gt;TCTypeEnum.EddyCurrentBrakeForSB,
+>INSERT Kernel.TrackDescription.TrackConditions.General.TCDisplay.NewAnnouncement(
+    TCType=&gt;Kernel.TrackDescription.TrackConditions.General.TCDisplay.TCTypeEnum.EddyCurrentBrakeForSB,
     Distance=&gt; Distance,
-    Length=&gt;Length + TrainData.TrainData.Value.TrainLength,
+    Length=&gt;Length + Kernel.TrainData.TrainData.Value.TrainLength,
     Announcement =&gt; False
 )
-IN Announcements</Action></Actions>
+IN Kernel.TrackDescription.TrackConditions.General.TCDisplay.Announcements</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Lower pantograph"
@@ -2055,13 +2055,13 @@ IN Announcements</Action></Actions>
 <Actions>
 <Action
  Guid="24102fe1-9b3e-4a7e-b259-59131134abaf"
->INSERT NewAnnouncement(
-    TCType=&gt;TCTypeEnum.LowerPantograph,
+>INSERT Kernel.TrackDescription.TrackConditions.General.TCDisplay.NewAnnouncement(
+    TCType=&gt;Kernel.TrackDescription.TrackConditions.General.TCDisplay.TCTypeEnum.LowerPantograph,
     Distance=&gt; Distance,
     Length=&gt;Length,
     Announcement =&gt; False
 )
-IN Announcements</Action></Actions>
+IN Kernel.TrackDescription.TrackConditions.General.TCDisplay.Announcements</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Magnetic shoe brake inhibition"
@@ -2075,13 +2075,13 @@ IN Announcements</Action></Actions>
 <Actions>
 <Action
  Guid="ef4fccec-3811-4ce3-9da3-1b46e98f5d92"
->INSERT NewAnnouncement(
-    TCType=&gt;TCTypeEnum.MagneticShoeBrake,
+>INSERT Kernel.TrackDescription.TrackConditions.General.TCDisplay.NewAnnouncement(
+    TCType=&gt;Kernel.TrackDescription.TrackConditions.General.TCDisplay.TCTypeEnum.MagneticShoeBrake,
     Distance=&gt; Distance,
-    Length=&gt;Length + TrainData.TrainData.Value.TrainLength,
+    Length=&gt;Length + Kernel.TrainData.TrainData.Value.TrainLength,
     Announcement =&gt; False
 )
-IN Announcements</Action></Actions>
+IN Kernel.TrackDescription.TrackConditions.General.TCDisplay.Announcements</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="NonStoppingArea"
@@ -2095,13 +2095,13 @@ IN Announcements</Action></Actions>
 <Actions>
 <Action
  Guid="66fa938d-0c1d-4ee2-a3ed-61c81a682de0"
->INSERT NewAnnouncement(
-    TCType =&gt; TCTypeEnum.NonStoppingArea,
+>INSERT Kernel.TrackDescription.TrackConditions.General.TCDisplay.NewAnnouncement(
+    TCType =&gt; Kernel.TrackDescription.TrackConditions.General.TCDisplay.TCTypeEnum.NonStoppingArea,
     Distance =&gt; Distance,
-    Length =&gt; Length + TrainData.TrainData.Value.TrainLength,
+    Length =&gt; Length + Kernel.TrainData.TrainData.Value.TrainLength,
     Announcement =&gt; False
 )
-IN Announcements</Action></Actions>
+IN Kernel.TrackDescription.TrackConditions.General.TCDisplay.Announcements</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Regenerative brake inhibition"
@@ -2115,13 +2115,13 @@ IN Announcements</Action></Actions>
 <Actions>
 <Action
  Guid="2f0ac3ce-3f7a-4a07-be3f-b0603300e1cd"
->INSERT NewAnnouncement(
-    TCType=&gt;TCTypeEnum.NonStoppingArea,
+>INSERT Kernel.TrackDescription.TrackConditions.General.TCDisplay.NewAnnouncement(
+    TCType=&gt;Kernel.TrackDescription.TrackConditions.General.TCDisplay.TCTypeEnum.NonStoppingArea,
     Distance=&gt; Distance,
-    Length=&gt;Length + TrainData.TrainData.Value.TrainLength,
+    Length=&gt;Length + Kernel.TrainData.TrainData.Value.TrainLength,
     Announcement =&gt; False
 )
-IN Announcements</Action></Actions>
+IN Kernel.TrackDescription.TrackConditions.General.TCDisplay.Announcements</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Sound horn"
@@ -2135,13 +2135,13 @@ IN Announcements</Action></Actions>
 <Actions>
 <Action
  Guid="29a7d128-8f8d-4279-8062-ee877dbe399f"
->INSERT NewAnnouncement(
-    TCType=&gt;TCTypeEnum.SoundHorn,
-    Distance=&gt;AnnouncementLocation(TrackCondition =&gt; TrackConditionStruct{SoundHorn =&gt; True}, Distance =&gt; Distance),
-    Length=&gt;BaseTypes.DistanceToLength(Distance - AnnouncementLocation(TrackCondition =&gt; TrackConditionStruct{SoundHorn =&gt; True}, Distance =&gt; Distance)) + Length,
+>INSERT Kernel.TrackDescription.TrackConditions.General.TCDisplay.NewAnnouncement(
+    TCType=&gt;Kernel.TrackDescription.TrackConditions.General.TCDisplay.TCTypeEnum.SoundHorn,
+    Distance=&gt;Kernel.TrackDescription.TrackConditions.General.TCDisplay.AnnouncementLocation(TrackCondition =&gt; Kernel.TrackDescription.TrackConditions.General.TrackConditionStruct{SoundHorn =&gt; True}, Distance =&gt; Distance),
+    Length=&gt;BaseTypes.DistanceToLength(Distance - Kernel.TrackDescription.TrackConditions.General.TCDisplay.AnnouncementLocation(TrackCondition =&gt; Kernel.TrackDescription.TrackConditions.General.TrackConditionStruct{SoundHorn =&gt; True}, Distance =&gt; Distance)) + Length,
     Announcement =&gt; False
 )
-IN Announcements</Action></Actions>
+IN Kernel.TrackDescription.TrackConditions.General.TCDisplay.Announcements</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Tunnel stopping area"
@@ -2155,13 +2155,13 @@ IN Announcements</Action></Actions>
 <Actions>
 <Action
  Guid="f2ce3e39-ba2f-4091-a282-34ad40517055"
->INSERT NewAnnouncement(
-    TCType =&gt; TCTypeEnum.TunnelStoppingArea,
+>INSERT Kernel.TrackDescription.TrackConditions.General.TCDisplay.NewAnnouncement(
+    TCType =&gt; Kernel.TrackDescription.TrackConditions.General.TCDisplay.TCTypeEnum.TunnelStoppingArea,
     Distance =&gt; Distance,
     Length =&gt; Length,
     Announcement =&gt; False
 )
-IN Announcements</Action></Actions>
+IN Kernel.TrackDescription.TrackConditions.General.TCDisplay.Announcements</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Turn off main power"
@@ -2175,13 +2175,13 @@ IN Announcements</Action></Actions>
 <Actions>
 <Action
  Guid="d1efdecc-f5ca-409e-9b2d-f28b630d392f"
->INSERT NewAnnouncement(
-    TCType=&gt;TCTypeEnum.TurnOffMainSwitch,
+>INSERT Kernel.TrackDescription.TrackConditions.General.TCDisplay.NewAnnouncement(
+    TCType=&gt;Kernel.TrackDescription.TrackConditions.General.TCDisplay.TCTypeEnum.TurnOffMainSwitch,
     Distance=&gt; Distance,
     Length=&gt;Length,
     Announcement =&gt; False
 )
-IN Announcements</Action></Actions>
+IN Kernel.TrackDescription.TrackConditions.General.TCDisplay.Announcements</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Radio Hole"
@@ -2195,13 +2195,13 @@ IN Announcements</Action></Actions>
 <Actions>
 <Action
  Guid="1025b93e-f7b6-4f2e-a619-7ae60a61bb96"
->INSERT NewAnnouncement(
-    TCType=&gt;TCTypeEnum.RadioHole,
+>INSERT Kernel.TrackDescription.TrackConditions.General.TCDisplay.NewAnnouncement(
+    TCType=&gt;Kernel.TrackDescription.TrackConditions.General.TCDisplay.TCTypeEnum.RadioHole,
     Distance=&gt; Distance,
-    Length=&gt;Length + TrainData.TrainData.Value.TrainLength,
+    Length=&gt;Length + Kernel.TrainData.TrainData.Value.TrainLength,
     Announcement =&gt; False
 )
-IN Announcements</Action></Actions>
+IN Kernel.TrackDescription.TrackConditions.General.TCDisplay.Announcements</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -2225,13 +2225,13 @@ IN Announcements</Action></Actions>
 <Actions>
 <Action
  Guid="ddc4d325-00e3-48ba-851d-e912e3fd8525"
->INSERT NewAnnouncement(
-    TCType=&gt;TCTypeEnum.AirTightness,
+>INSERT Kernel.TrackDescription.TrackConditions.General.TCDisplay.NewAnnouncement(
+    TCType=&gt;Kernel.TrackDescription.TrackConditions.General.TCDisplay.TCTypeEnum.AirTightness,
     Distance=&gt;Distance + BaseTypes.LengthToDistance(Length),
     Length=&gt;BaseTypes.Length.NA,
     Announcement =&gt; True
 )
-IN Announcements</Action></Actions>
+IN Kernel.TrackDescription.TrackConditions.General.TCDisplay.Announcements</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Lower pantograph"
@@ -2245,13 +2245,13 @@ IN Announcements</Action></Actions>
 <Actions>
 <Action
  Guid="9dfb5fcc-fb6f-48fa-88d8-65cdd277f680"
->INSERT NewAnnouncement(
-    TCType=&gt;TCTypeEnum.LowerPantograph,
+>INSERT Kernel.TrackDescription.TrackConditions.General.TCDisplay.NewAnnouncement(
+    TCType=&gt;Kernel.TrackDescription.TrackConditions.General.TCDisplay.TCTypeEnum.LowerPantograph,
     Distance=&gt;Distance + BaseTypes.LengthToDistance(Length),
     Length=&gt;BaseTypes.Length.NA,
     Announcement =&gt; True
 )
-IN Announcements</Action></Actions>
+IN Kernel.TrackDescription.TrackConditions.General.TCDisplay.Announcements</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Turn off main power"
@@ -2265,13 +2265,13 @@ IN Announcements</Action></Actions>
 <Actions>
 <Action
  Guid="e4f845be-fcf3-41ee-b0b6-9042032e5440"
->INSERT NewAnnouncement(
-    TCType=&gt;TCTypeEnum.TurnOffMainSwitch,
+>INSERT Kernel.TrackDescription.TrackConditions.General.TCDisplay.NewAnnouncement(
+    TCType=&gt;Kernel.TrackDescription.TrackConditions.General.TCDisplay.TCTypeEnum.TurnOffMainSwitch,
     Distance=&gt;Distance + BaseTypes.LengthToDistance(Length),
     Length=&gt;BaseTypes.Length.NA,
     Announcement =&gt; True
 )
-IN Announcements</Action></Actions>
+IN Kernel.TrackDescription.TrackConditions.General.TCDisplay.Announcements</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -2365,7 +2365,7 @@ When the announcement starts, the end time is set in the announcement so that it
 <PreConditions>
 <PreCondition
  Guid="f4935738-f2f3-4fdb-977e-7936c80c914b"
->THERE_IS X IN Announcements | ActiveConditionStart(X) AND (NOT HasDisplayEnd(X) )</PreCondition></PreConditions>
+>THERE_IS X IN Kernel.TrackDescription.TrackConditions.General.TCDisplay.Announcements | Kernel.TrackDescription.TrackConditions.General.TCDisplay.ActiveConditionStart(X) AND (NOT Kernel.TrackDescription.TrackConditions.General.TCDisplay.HasDisplayEnd(X) )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="8d5e8e1f-428e-4bce-9eb3-39280b03398a"
@@ -2394,10 +2394,10 @@ When the announcement starts, the end time is set in the announcement so that it
 <Action
  Guid="42ef7935-2c2a-4d34-8f14-d7c3b314e091"
 >DMI.MasterDMI().Out_TrackConditionsWithSoundHorn.ActiveConditions &lt;- 
-MAP Announcements | 
-   (  ActiveConditionStart(X)    AND
-      NOT ActiveConditionEnd(X)  AND
-      IsInSoundHornGroup(X.Type)     )
+MAP Kernel.TrackDescription.TrackConditions.General.TCDisplay.Announcements | 
+   (  Kernel.TrackDescription.TrackConditions.General.TCDisplay.ActiveConditionStart(X)    AND
+      NOT Kernel.TrackDescription.TrackConditions.General.TCDisplay.ActiveConditionEnd(X)  AND
+      Kernel.TrackDescription.TrackConditions.General.TCDisplay.IsInSoundHornGroup(X.Type)     )
  USING X IN X</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
@@ -2413,10 +2413,10 @@ MAP Announcements |
 <Action
  Guid="bf8b0deb-39d7-4303-8dee-db8053b6b76d"
 >DMI.MasterDMI().Out_TrackConditionsWithoutSoundHorn.ActiveConditions &lt;- 
-MAP Announcements | 
-   (  ActiveConditionStart(X)    AND
-      NOT ActiveConditionEnd(X)  AND
-      NOT IsInSoundHornGroup(X.Type)     )
+MAP Kernel.TrackDescription.TrackConditions.General.TCDisplay.Announcements | 
+   (  Kernel.TrackDescription.TrackConditions.General.TCDisplay.ActiveConditionStart(X)    AND
+      NOT Kernel.TrackDescription.TrackConditions.General.TCDisplay.ActiveConditionEnd(X)  AND
+      NOT Kernel.TrackDescription.TrackConditions.General.TCDisplay.IsInSoundHornGroup(X.Type)     )
  USING X IN X</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
@@ -2459,7 +2459,7 @@ MAP Announcements |
 <Actions>
 <Action
  Guid="237f6f4e-9749-4162-8d58-f20b7d426a3a"
->BuildSoundHornPlanning()</Action></Actions>
+>Kernel.TrackDescription.TrackConditions.General.TCDisplay.BuildSoundHornPlanning()</Action></Actions>
 </RuleCondition><RuleCondition
  NeedsRequirement="FALSE"
  Name="Brake inhibition group"
@@ -2473,7 +2473,7 @@ MAP Announcements |
 <Actions>
 <Action
  Guid="0f4cc885-467a-4f68-94e8-d8b9c70e5da7"
->DMI.MasterDMI().Out_TrackConditionsWithoutSoundHorn.PlanningInformation &lt;- MAP TCProfile USING X IN MapToBrakeInhibition(X)</Action></Actions>
+>DMI.MasterDMI().Out_TrackConditionsWithoutSoundHorn.PlanningInformation &lt;- MAP Kernel.TrackDescription.TrackConditions.General.TCProfile USING X IN Kernel.TrackDescription.TrackConditions.General.TCDisplay.MapToBrakeInhibition(X)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -2509,7 +2509,7 @@ MAP Announcements |
 <Actions>
 <Action
  Guid="46263066-dc1b-4fda-bdd8-b73b39f41c6e"
->DMI.MasterDMI().Out_TrackConditionsWithSoundHorn.PlanningInformation &lt;- MAP TCProfile USING X IN MapToSoundHorn(X)</Action></Actions>
+>DMI.MasterDMI().Out_TrackConditionsWithSoundHorn.PlanningInformation &lt;- MAP Kernel.TrackDescription.TrackConditions.General.TCProfile USING X IN Kernel.TrackDescription.TrackConditions.General.TCDisplay.MapToSoundHorn(X)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -2549,19 +2549,19 @@ MAP Announcements |
 <PreConditions>
 <PreCondition
  Guid="02d481b9-61f5-4563-9b18-590b08311be3"
->THERE_IS X IN Announcements | 
- X.Type == TCTypeEnum.NonStoppingArea
+>THERE_IS X IN Kernel.TrackDescription.TrackConditions.General.TCDisplay.Announcements | 
+ X.Type == Kernel.TrackDescription.TrackConditions.General.TCDisplay.TCTypeEnum.NonStoppingArea
   AND   
  NOT X.IsAnnouncement
   AND  
- ActiveConditionEnd(X)</PreCondition></PreConditions>
+ Kernel.TrackDescription.TrackConditions.General.TCDisplay.ActiveConditionEnd(X)</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="67d6db02-01b1-421c-aa9d-9d20f818697e"
->REPLACE True IN DMI.MasterDMI().Out_TrackConditionsWithSoundHorn.PlanningInformation BY HideTCInformation(
+>REPLACE True IN DMI.MasterDMI().Out_TrackConditionsWithSoundHorn.PlanningInformation BY Kernel.TrackDescription.TrackConditions.General.TCDisplay.HideTCInformation(
          Distance =&gt; EndOfTC(TCTypeEnum.NonStoppingArea),
          ProfilePoint =&gt; X,
-         TCType =&gt; TCTypeEnum.NonStoppingArea )</Action></Actions>
+         TCType =&gt; Kernel.TrackDescription.TrackConditions.General.TCDisplay.TCTypeEnum.NonStoppingArea )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -2595,19 +2595,19 @@ MAP Announcements |
 <PreConditions>
 <PreCondition
  Guid="ff73c734-79a8-47bf-852e-9feffb5adefd"
->THERE_IS X IN Announcements | 
- X.Type == TCTypeEnum.TunnelStoppingArea
+>THERE_IS X IN Kernel.TrackDescription.TrackConditions.General.TCDisplay.Announcements | 
+ X.Type == Kernel.TrackDescription.TrackConditions.General.TCDisplay.TCTypeEnum.TunnelStoppingArea
   AND   
  NOT X.IsAnnouncement
   AND  
- ActiveConditionEnd(X)</PreCondition></PreConditions>
+ Kernel.TrackDescription.TrackConditions.General.TCDisplay.ActiveConditionEnd(X)</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="4f47ab8b-3f30-44cd-a8e8-451de8b7e7fe"
->REPLACE True IN DMI.MasterDMI().Out_TrackConditionsWithSoundHorn.PlanningInformation BY HideTCInformation(
+>REPLACE True IN DMI.MasterDMI().Out_TrackConditionsWithSoundHorn.PlanningInformation BY Kernel.TrackDescription.TrackConditions.General.TCDisplay.HideTCInformation(
          Distance =&gt; EndOfTC(TCTypeEnum.TunnelStoppingArea),
          ProfilePoint =&gt; X,
-         TCType =&gt; TCTypeEnum.TunnelStoppingArea )</Action></Actions>
+         TCType =&gt; Kernel.TrackDescription.TrackConditions.General.TCDisplay.TCTypeEnum.TunnelStoppingArea )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -2637,10 +2637,10 @@ MAP Announcements |
  Guid="8b2668e7-093c-4637-9959-cc11653a9c03"
 >APPLY
 
-  INSERT TractionSystems.MapToSoundHorn(X) 
+  INSERT Kernel.TrackDescription.TrackConditions.TractionSystems.MapToSoundHorn(X) 
    IN DMI.MasterDMI().Out_TrackConditionsWithSoundHorn.PlanningInformation
 
-ON TractionSystems.TCTractionSystems</Action></Actions>
+ON Kernel.TrackDescription.TrackConditions.TractionSystems.TCTractionSystems</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>

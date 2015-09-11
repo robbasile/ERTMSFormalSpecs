@@ -170,7 +170,7 @@
  Guid="842886c7-b442-48ad-b0bc-5ca07e625c52"
 >
 <Expression>AddToDate(
-    StartDate =&gt; DateAndTime.Now(),
+    StartDate =&gt; Kernel.DateAndTime.Now(),
     Increment =&gt; MessageTypes.TimeResolution(Time) * 24.0 * 60.0 * 60.0
 )</Expression>
 </Case></Cases>
@@ -232,14 +232,14 @@
 <PreConditions>
 <PreCondition
  Guid="50ad1665-ac04-44dd-8acc-d41eb79969a7"
->THERE_IS Cover IN VirtualBaliseCovers.VBCs | Cover.Marker == VBCMarkerStruct{
+>THERE_IS Cover IN Kernel.VirtualBaliseCover.VirtualBaliseCovers.VBCs | Cover.Marker == Kernel.VirtualBaliseCover.VBCMarkerStruct{
     Marker =&gt; Packet.NID_VBCMK,
     Area =&gt; Packet.NID_C
 }</PreCondition><PreCondition
  Guid="ea0112b0-4fd5-475d-ac88-f17ceea0a0d6"
 >Packet.Q_VBCO == 1</PreCondition><PreCondition
  Guid="aaa0d073-bf4d-4411-9fec-9f6a4d4ae303"
->ActiveFunctions.ManageVirtualBaliseCovers()</PreCondition></PreConditions>
+>Kernel.ActiveFunctions.ManageVirtualBaliseCovers()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="5265f809-c75d-4fba-8a62-07952b5b7954"
@@ -268,11 +268,11 @@
  Guid="124add8a-6aca-428d-a0e6-00b52989544d"
 >Packet.Q_VBCO == 1</PreCondition><PreCondition
  Guid="312e85a7-0de9-40c0-93b6-be5e73462c89"
->ActiveFunctions.ManageVirtualBaliseCovers()</PreCondition></PreConditions>
+>Kernel.ActiveFunctions.ManageVirtualBaliseCovers()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="56fbd131-2ecf-4a96-b2d8-6048796c1e5a"
->INSERT VBCStruct
+>INSERT Kernel.VirtualBaliseCover.VBCStruct
 {
     Marker =&gt; VBCMarkerStruct
     {
@@ -281,7 +281,7 @@
     },
     ValidUntil =&gt; EndDate(Packet.T_VBC)
 
-} IN VirtualBaliseCovers.VBCs</Action></Actions>
+} IN Kernel.VirtualBaliseCover.VirtualBaliseCovers.VBCs</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -302,7 +302,7 @@
  Guid="b0469226-4e58-43a1-baf2-9c1dbccfa2d3"
 >Packet.Q_VBCO == 0</PreCondition><PreCondition
  Guid="37d9e07f-928f-4a1a-a6c7-e4c9114d1ec7"
->ActiveFunctions.ManageVirtualBaliseCovers()</PreCondition></PreConditions>
+>Kernel.ActiveFunctions.ManageVirtualBaliseCovers()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="b452e001-075f-4dcd-9135-f8a1c8329c24"
@@ -366,7 +366,7 @@
 <Variables>
 <Variable
  Type="VBCProfile"
- DefaultValue="VBCProfile{}"
+ DefaultValue="Kernel.VirtualBaliseCover.VBCProfile{}"
  VariableMode="Internal"
  X="1"
  Y="181"

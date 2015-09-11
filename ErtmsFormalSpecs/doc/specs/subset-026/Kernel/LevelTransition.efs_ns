@@ -325,7 +325,7 @@
  Guid="3894d9bf-99c3-4031-a849-43c8d27dfba7"
 >Level.Value == Default.Level.LNTC</PreCondition><PreCondition
  Guid="d4921d5d-80a6-4357-9508-d1e02eee12f6"
->THERE_IS X IN TrainData.TrainData.Value.LevelsSupportedOnBoard |  ( X.Value == Level.Value AND X.NTC == Level.NTC )</PreCondition></PreConditions>
+>THERE_IS X IN Kernel.TrainData.TrainData.Value.LevelsSupportedOnBoard |  ( X.Value == Level.Value AND X.NTC == Level.NTC )</PreCondition></PreConditions>
 <Expression>Boolean.True</Expression>
 </Case><Case
  Name="Level 2,3"
@@ -382,7 +382,7 @@
 <PreCondition
  Guid="2a28cce7-3c7e-4ceb-a109-be236d69e4af"
 >aDistance == 32767</PreCondition></PreConditions>
-<Expression>TrainPosition.FrontEndPosition(DistanceInterval.Nom)</Expression>
+<Expression>Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom)</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="a0f2f271-9086-4966-8579-24238c7e2adb"
@@ -442,7 +442,7 @@
 <PreCondition
  Guid="719c0338-4cbc-46ce-9cc9-79eece2f3361"
 >anLTO.TRLevel.Value == Default.Level.L0</PreCondition></PreConditions>
-<Expression>Level.Value.Value in [Default.Level.L1, Default.Level.L2, Default.Level.L3, Default.Level.LNTC]</Expression>
+<Expression>Kernel.Level.Value.Value in [Default.Level.L1, Default.Level.L2, Default.Level.L3, Default.Level.LNTC]</Expression>
 </Case><Case
  Name="Transition to L1"
  Guid="56f2f296-9ad7-40a2-97ae-86fa1bbd6d85"
@@ -451,7 +451,7 @@
 <PreCondition
  Guid="e867f5a1-cb45-4b2b-8756-3acbf248c2da"
 >anLTO.TRLevel.Value == Default.Level.L1</PreCondition></PreConditions>
-<Expression>Level.Value.Value in [Default.Level.LNTC]</Expression>
+<Expression>Kernel.Level.Value.Value in [Default.Level.LNTC]</Expression>
 </Case><Case
  Name="Transition to L2"
  Guid="4644b186-48e9-42ef-a097-5af5bd38a70a"
@@ -460,7 +460,7 @@
 <PreCondition
  Guid="d99bbf7e-2c43-4f73-89b2-6f3073524634"
 >anLTO.TRLevel.Value == Default.Level.L2</PreCondition></PreConditions>
-<Expression>Level.Value.Value in [Default.Level.LNTC]</Expression>
+<Expression>Kernel.Level.Value.Value in [Default.Level.LNTC]</Expression>
 </Case><Case
  Name="Transition to L3"
  Guid="e3dcefe8-0a6e-4c35-af1e-1cae0abc2c3d"
@@ -469,7 +469,7 @@
 <PreCondition
  Guid="f309a7c2-0879-4ca7-bdb3-af5b22680bec"
 >anLTO.TRLevel.Value == Default.Level.L3</PreCondition></PreConditions>
-<Expression>Level.Value.Value in [Default.Level.LNTC]</Expression>
+<Expression>Kernel.Level.Value.Value in [Default.Level.LNTC]</Expression>
 </Case><Case
  Name="Transition to LNTC"
  Guid="aedccfb5-1bbd-43ed-96f5-5176b508b71c"
@@ -478,7 +478,7 @@
 <PreCondition
  Guid="c8f31cb9-bb3a-4cef-ba29-fc9eaa7d3f5f"
 >anLTO.TRLevel.Value == Default.Level.LNTC</PreCondition></PreConditions>
-<Expression>Level.Value.Value in [Default.Level.L0, Default.Level.L1, Default.Level.L2, Default.Level.L3, Default.Level.LNTC]</Expression>
+<Expression>Kernel.Level.Value.Value in [Default.Level.L0, Default.Level.L1, Default.Level.L2, Default.Level.L3, Default.Level.LNTC]</Expression>
 </Case></Cases>
 </Function></Functions>
 <Procedures>
@@ -558,20 +558,20 @@
 <PreConditions>
 <PreCondition
  Guid="deffbc9b-7242-4693-960f-aef5e0d2a07c"
->ERTMSToEFSLevel ( LevelT =&gt; M_LEVELTR ) == Default.Level.LNTC</PreCondition></PreConditions>
+>Kernel.LevelTransition.ERTMSToEFSLevel ( LevelT =&gt; M_LEVELTR ) == Default.Level.LNTC</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="5a5d8ed3-4dc4-4a07-8e01-dca8be3b0fed"
 >INSERT
-LevelTransitionStruct
+Kernel.LevelTransition.LevelTransitionStruct
 {
     AcknLength=&gt;MessageTypes.QScaleLength ( length =&gt; L_ACKLEVELTR, scale =&gt; Q_SCALE ),
     TRLevel =&gt; LevelDataStruct {
-       Value =&gt; ERTMSToEFSLevel ( LevelT =&gt; M_LEVELTR ),
+       Value =&gt; Kernel.LevelTransition.ERTMSToEFSLevel ( LevelT =&gt; M_LEVELTR ),
        NTC =&gt; Default.NID_NTC(NID_NTC)
     }
 }
-IN  LevelTransitionOrder.LevelAndLength</Action></Actions>
+IN  Kernel.LevelTransition.LevelTransitionOrder.LevelAndLength</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Level transition order to other level"
@@ -581,20 +581,20 @@ IN  LevelTransitionOrder.LevelAndLength</Action></Actions>
 <PreConditions>
 <PreCondition
  Guid="5f3b6b13-fbbb-49f3-9e3c-593ace6052e8"
->ERTMSToEFSLevel ( LevelT =&gt; M_LEVELTR ) != Default.Level.LNTC</PreCondition></PreConditions>
+>Kernel.LevelTransition.ERTMSToEFSLevel ( LevelT =&gt; M_LEVELTR ) != Default.Level.LNTC</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="3896ef04-bbce-4b8e-bc64-36982d960e64"
 >INSERT
-LevelTransitionStruct
+Kernel.LevelTransition.LevelTransitionStruct
 {
     AcknLength=&gt;MessageTypes.QScaleLength ( length =&gt; L_ACKLEVELTR, scale =&gt; Q_SCALE ),
     TRLevel =&gt; LevelDataStruct {
-       Value =&gt; ERTMSToEFSLevel ( LevelT =&gt; M_LEVELTR ),
+       Value =&gt; Kernel.LevelTransition.ERTMSToEFSLevel ( LevelT =&gt; M_LEVELTR ),
        NTC =&gt; Default.NID_NTC.NOT_APPLICABLE
     }
 }
-IN  LevelTransitionOrder.LevelAndLength</Action></Actions>
+IN  Kernel.LevelTransition.LevelTransitionOrder.LevelAndLength</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -684,13 +684,13 @@ IN  LevelTransitionOrder.LevelAndLength</Action></Actions>
 <PreCondition
  Guid="03e95979-8ae6-471e-be3a-e68cab1f63fa"
 ><Comment>In SH or PS modes, the LTO is only stored if it is immediate.</Comment>
-Mode not in [Default.Mode.SH, Default.Mode.PS]
+Kernel.Mode not in [Default.Mode.SH, Default.Mode.PS]
   OR  
 Packet.D_LEVELTR == 32767</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="fdddee24-a2ec-4f7a-be60-6dc368978033"
->LevelTransitionOrder &lt;- LevelTransitionOrderStruct
+>Kernel.LevelTransition.LevelTransitionOrder &lt;- Kernel.LevelTransition.LevelTransitionOrderStruct
 {
   CurrentLevel =&gt; Level.Value,
   PositionReportSent =&gt; False,
@@ -700,7 +700,7 @@ Packet.D_LEVELTR == 32767</PreCondition></PreConditions>
       LevelTransitionStruct { 
           AcknLength =&gt; MessageTypes.QScaleLength( length=&gt;Packet.L_ACKLEVELTR,  scale=&gt;Packet.Q_SCALE ),
           TRLevel =&gt; LevelDataStruct {
-             Value =&gt; ERTMSToEFSLevel ( Packet.M_LEVELTR ) ,
+             Value =&gt; Kernel.LevelTransition.ERTMSToEFSLevel ( Packet.M_LEVELTR ) ,
              NTC =&gt; Packet.NID_NTC
          }
       }
@@ -725,14 +725,14 @@ Packet.D_LEVELTR == 32767</PreCondition></PreConditions>
 <PreCondition
  Guid="ff929c1d-de94-46e4-a636-d2b729cae5ac"
 ><Comment>In SH or PS modes, the LTO is only stored if it is immediate.</Comment>
-Mode not in [Default.Mode.SH, Default.Mode.PS]
+Kernel.Mode not in [Default.Mode.SH, Default.Mode.PS]
   OR  
 Packet.D_LEVELTR == 32767</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="a8e25caf-0ad5-4053-ac0a-f626072bf07e"
 >APPLY 
-AddNewLTO 
+Kernel.LevelTransition.AddNewLTO 
 ( 
    L_ACKLEVELTR =&gt; X.L_ACKLEVELTR,
    M_LEVELTR =&gt; X.M_LEVELTR,
@@ -759,11 +759,11 @@ Packet.Sequence1</Action></Actions>
 <PreConditions>
 <PreCondition
  Guid="f020e824-04db-4701-aa36-47cab4f8570a"
->Mode not in [Default.Mode.SH, Default.Mode.PS]</PreCondition></PreConditions>
+>Kernel.Mode not in [Default.Mode.SH, Default.Mode.PS]</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="f47d50dc-9fb7-45f3-bad6-736e4f447e1e"
->ProcessLTO( IsImmediate =&gt; Packet.D_LEVELTR == 32767 )</Action></Actions>
+>Kernel.LevelTransition.ProcessLTO( IsImmediate =&gt; Packet.D_LEVELTR == 32767 )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -834,7 +834,7 @@ Packet.Sequence1</Action></Actions>
 <Actions>
 <Action
  Guid="747eb726-b54e-45cc-ab5b-9093722e93e4"
->LevelTransitionOrder &lt;- LevelTransitionOrderStruct
+>Kernel.LevelTransition.LevelTransitionOrder &lt;- Kernel.LevelTransition.LevelTransitionOrderStruct
 {
    CurrentLevel =&gt; Level.Value,
    PositionReportSent =&gt; False,
@@ -843,7 +843,7 @@ Packet.Sequence1</Action></Actions>
       LevelTransitionStruct { 
          AcknLength =&gt; BaseTypes.Length.NA, 
          TRLevel =&gt; LevelDataStruct {
-             Value =&gt; ERTMSToEFSLevel( LevelT =&gt;Packet.M_LEVELTR ),
+             Value =&gt; Kernel.LevelTransition.ERTMSToEFSLevel( LevelT =&gt;Packet.M_LEVELTR ),
              NTC =&gt; Packet.NID_NTC
          }
       }
@@ -870,7 +870,7 @@ Packet.Sequence1</Action></Actions>
 <Action
  Guid="57e67d49-4efd-4083-a2c5-a7a599eaf591"
 >APPLY 
-AddNewLTO 
+Kernel.LevelTransition.AddNewLTO 
 (  
    M_LEVELTR =&gt; X.M_LEVELTR,
    NID_NTC =&gt; Packet.NID_NTC,
@@ -913,13 +913,13 @@ Packet.Sequence1</Action></Actions>
 <PreConditions>
 <PreCondition
  Guid="7432ff75-4a66-4ae6-9aae-3df6be9e372b"
->NOT (THERE_IS X IN LevelTransitionOrder.LevelAndLength | X.TRLevel.Value == Level.Value.Value)</PreCondition><PreCondition
+>NOT (THERE_IS X IN Kernel.LevelTransition.LevelTransitionOrder.LevelAndLength | X.TRLevel.Value == Kernel.Level.Value.Value)</PreCondition><PreCondition
  Guid="1a10c0fb-f68d-41d0-900c-4dd3613eacdc"
->Mode not in [Default.Mode.SH, Default.Mode.PS]</PreCondition></PreConditions>
+>Kernel.Mode not in [Default.Mode.SH, Default.Mode.PS]</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="1a6bdf17-071d-4c6b-921d-d6e6833e5395"
->ProcessLTO( IsImmediate =&gt; True )</Action></Actions>
+>Kernel.LevelTransition.ProcessLTO( IsImmediate =&gt; True )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -986,7 +986,7 @@ Packet.Sequence1</Action></Actions>
 <Actions>
 <Action
  Guid="ed925502-1144-4258-9df9-8077986730c3"
->LevelTransitionToProcess &lt;- FIRST X IN LevelTransitionOrder.LevelAndLength | AvailableForUse( Level=&gt; X.TRLevel )</Action></Actions>
+>Kernel.LevelTransition.LevelTransitionToProcess &lt;- FIRST X IN Kernel.LevelTransition.LevelTransitionOrder.LevelAndLength | Kernel.LevelTransition.AvailableForUse( Level=&gt; X.TRLevel )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -1010,15 +1010,15 @@ Packet.Sequence1</Action></Actions>
 <PreConditions>
 <PreCondition
  Guid="aea1dfa9-f22d-41e6-b71f-28c16a37d8ab"
->LevelTransitionToProcess.AcknLength == BaseTypes.Length.NA</PreCondition><PreCondition
+>Kernel.LevelTransition.LevelTransitionToProcess.AcknLength == BaseTypes.Length.NA</PreCondition><PreCondition
  Guid="0905157e-7ec2-4c8f-b7ed-41eda4a774b2"
->LevelTransitionToProcess.TRLevel.Value == Default.Level.Unknown</PreCondition><PreCondition
+>Kernel.LevelTransition.LevelTransitionToProcess.TRLevel.Value == Default.Level.Unknown</PreCondition><PreCondition
  Guid="51f56750-a2ca-4d8d-813b-c8da29fbd2e3"
->LevelTransitionToProcess.TRLevel.NTC == NID_NTC.NOT_APPLICABLE</PreCondition></PreConditions>
+>Kernel.LevelTransition.LevelTransitionToProcess.TRLevel.NTC == NID_NTC.NOT_APPLICABLE</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="13a35181-3fe7-41a0-ac21-38a64a3091f6"
->LevelTransitionToProcess &lt;- LAST X IN ( LevelTransitionOrder.LevelAndLength )</Action></Actions>
+>Kernel.LevelTransition.LevelTransitionToProcess &lt;- LAST X IN ( Kernel.LevelTransition.LevelTransitionOrder.LevelAndLength )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -1052,11 +1052,11 @@ Packet.Sequence1</Action></Actions>
 <PreConditions>
 <PreCondition
  Guid="ecd809b6-fe50-4f30-836d-be2034857212"
->LevelTransitionToProcess.TRLevel.Value != Level.Value.Value</PreCondition></PreConditions>
+>Kernel.LevelTransition.LevelTransitionToProcess.TRLevel.Value != Kernel.Level.Value.Value</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="fd368ae9-0601-449f-b2c9-e3ef3f7370e8"
->DMI.MasterDMI().Out_LevelTransitionAnnouncement.Display(LevelTransitionToProcess.TRLevel.Value)</Action></Actions>
+>DMI.MasterDMI().Out_LevelTransitionAnnouncement.Display(Kernel.LevelTransition.LevelTransitionToProcess.TRLevel.Value)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -1093,13 +1093,13 @@ Packet.Sequence1</Action></Actions>
  Guid="0304e311-65dd-4d61-9fc9-5bf978e8a25f"
 >IsImmediate</PreCondition><PreCondition
  Guid="d6084a3b-1eef-4337-853b-ac80bbe9af51"
->AcknowledgementRequiredForLT( anLTO =&gt; LevelTransitionToProcess )</PreCondition><PreCondition
+>Kernel.LevelTransition.AcknowledgementRequiredForLT( anLTO =&gt; Kernel.LevelTransition.LevelTransitionToProcess )</PreCondition><PreCondition
  Guid="1f3fc39c-13be-4818-b96a-906fb7e5d4e6"
->Mode != Default.Mode.NL</PreCondition></PreConditions>
+>Kernel.Mode != Default.Mode.NL</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="6e7033cb-ec67-45ae-8141-1fb4371273ce"
->DMI.MasterDMI().In_AcknOfLevelTransition.InitiateRequest( Level =&gt; LevelTransitionToProcess.TRLevel )</Action></Actions>
+>DMI.MasterDMI().In_AcknOfLevelTransition.InitiateRequest( Level =&gt; Kernel.LevelTransition.LevelTransitionToProcess.TRLevel )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -1137,9 +1137,9 @@ Packet.Sequence1</Action></Actions>
 <Actions>
 <Action
  Guid="097a357d-a5c2-47af-a6ac-050fe94ed1ed"
->SetLevel(LevelTransitionToProcess.TRLevel)</Action><Action
+>Kernel.SetLevel(Kernel.LevelTransition.LevelTransitionToProcess.TRLevel)</Action><Action
  Guid="0ddeb99e-7c2c-4f4c-a6c4-63b006cbc5e0"
->EURORADIO.PositionReport.PositionReportEventsTracker.Level &lt;- LevelTransitionOrder.CurrentLevel.Value</Action></Actions>
+>EURORADIO.PositionReport.PositionReportEventsTracker.Level &lt;- Kernel.LevelTransition.LevelTransitionOrder.CurrentLevel.Value</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
@@ -1251,19 +1251,19 @@ Packet.Sequence1</Action></Actions>
 <PreConditions>
 <PreCondition
  Guid="32291f91-c8f4-4551-9efb-1784c4b3c42b"
->Available(LevelTransitionOrder)
+>Available(Kernel.LevelTransition.LevelTransitionOrder)
   AND  
-LevelTransitionOrder.Location &lt;= TrainPosition.FrontEndPosition(DistanceInterval.Nom)</PreCondition><PreCondition
+Kernel.LevelTransition.LevelTransitionOrder.Location &lt;= Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom)</PreCondition><PreCondition
  Guid="a793711a-f9af-4251-b86a-906d92f0b23f"
->Available(LevelTransitionToProcess)
+>Available(Kernel.LevelTransition.LevelTransitionToProcess)
   AND  
-Level.Value != LevelTransitionToProcess.TRLevel</PreCondition><PreCondition
+Kernel.Level.Value != Kernel.LevelTransition.LevelTransitionToProcess.TRLevel</PreCondition><PreCondition
  Guid="25250332-c8c8-4785-908c-5901c81268aa"
->Mode not in [Default.Mode.SH, Default.Mode.PS]</PreCondition></PreConditions>
+>Kernel.Mode not in [Default.Mode.SH, Default.Mode.PS]</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="0dca39ae-4aed-48b7-b4a6-6e165c4d7194"
->ExecuteLevelTransitionOrder()</Action><Action
+>Kernel.LevelTransition.ExecuteLevelTransitionOrder()</Action><Action
  Guid="4394273d-b6c5-440d-b2db-9c96b1741a0f"
 >DMI.MasterDMI().Out_LevelTransitionAnnouncement.OutputInformation.DoNotDisplay()</Action></Actions>
 </RuleCondition></Conditions>
@@ -1315,19 +1315,19 @@ Level.Value != LevelTransitionToProcess.TRLevel</PreCondition><PreCondition
 <PreConditions>
 <PreCondition
  Guid="119f3451-7abd-48fd-ae98-5d685a2d6454"
->LevelTransitionOrder != EMPTY</PreCondition><PreCondition
+>Kernel.LevelTransition.LevelTransitionOrder != EMPTY</PreCondition><PreCondition
  Guid="ba1fa256-51bd-488d-80b9-bedccd862de9"
->Available(LevelTransitionToProcess)
+>Available(Kernel.LevelTransition.LevelTransitionToProcess)
   AND  
-AcknowledgementRequiredForLT( anLTO =&gt; LevelTransitionToProcess )</PreCondition><PreCondition
+Kernel.LevelTransition.AcknowledgementRequiredForLT( anLTO =&gt; Kernel.LevelTransition.LevelTransitionToProcess )</PreCondition><PreCondition
  Guid="70792393-b2da-4f9c-b343-ffd26b6ede9b"
->Mode not in [Default.Mode.NL, Default.Mode.SH, Default.Mode.PS]</PreCondition><PreCondition
+>Kernel.Mode not in [Default.Mode.NL, Default.Mode.SH, Default.Mode.PS]</PreCondition><PreCondition
  Guid="0f38d48a-8431-4fc2-8a57-2fed7286c19c"
->TrainPosition.FrontEndPosition ( PointOfInterest=&gt;DistanceInterval.Max ) &gt; LevelTransitionOrder.Location - BaseTypes.LengthToDistance(LevelTransitionToProcess.AcknLength)</PreCondition></PreConditions>
+>Kernel.TrainPosition.FrontEndPosition ( PointOfInterest=&gt;DistanceInterval.Max ) &gt; Kernel.LevelTransition.LevelTransitionOrder.Location - BaseTypes.LengthToDistance(Kernel.LevelTransition.LevelTransitionToProcess.AcknLength)</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="6cd45745-93fd-462e-a9a2-fba632fb6219"
->DMI.MasterDMI().In_AcknOfLevelTransition.InitiateRequest( Level =&gt; LevelTransitionToProcess.TRLevel )</Action></Actions>
+>DMI.MasterDMI().In_AcknOfLevelTransition.InitiateRequest( Level =&gt; Kernel.LevelTransition.LevelTransitionToProcess.TRLevel )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -1376,19 +1376,19 @@ AcknowledgementRequiredForLT( anLTO =&gt; LevelTransitionToProcess )</PreConditi
 <PreConditions>
 <PreCondition
  Guid="aa213c6b-c619-4e1c-87bc-a74f4d1b8bad"
->TrainPosition.RearEndPosition(DistanceInterval.Min) &gt;= LevelTransitionOrder.Location</PreCondition><PreCondition
+>Kernel.TrainPosition.RearEndPosition(DistanceInterval.Min) &gt;= Kernel.LevelTransition.LevelTransitionOrder.Location</PreCondition><PreCondition
  Guid="841d9164-6f90-4cca-a388-fef4340c3077"
->LevelTransitionOrder.CurrentLevel.Value in [Default.Level.L2, Default.Level.L3]</PreCondition><PreCondition
+>Kernel.LevelTransition.LevelTransitionOrder.CurrentLevel.Value in [Default.Level.L2, Default.Level.L3]</PreCondition><PreCondition
  Guid="f0dd9be7-1b5b-410c-ab51-e00ed28c2052"
->NOT LevelTransitionOrder.PositionReportSent</PreCondition><PreCondition
+>NOT Kernel.LevelTransition.LevelTransitionOrder.PositionReportSent</PreCondition><PreCondition
  Guid="9d05460b-a991-459b-8c92-894b266afa9d"
->Mode not in [Default.Mode.NL]</PreCondition></PreConditions>
+>Kernel.Mode not in [Default.Mode.NL]</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="e52599ee-bda8-481c-8967-10f342082f2e"
 >EURORADIO.PositionReport.PositionReportEventsTracker.LevelTransitionBorderPassed &lt;- True</Action><Action
  Guid="3851d849-c7b7-49c2-a554-2a47880a4c61"
->LevelTransitionOrder.PositionReportSent &lt;- True</Action></Actions>
+>Kernel.LevelTransition.LevelTransitionOrder.PositionReportSent &lt;- True</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Train enters level 2/3 from NTC"
@@ -1398,15 +1398,15 @@ AcknowledgementRequiredForLT( anLTO =&gt; LevelTransitionToProcess )</PreConditi
 <PreConditions>
 <PreCondition
  Guid="f2015811-7deb-49d2-b3a2-9a82336529e6"
->LevelTransitionOrder.CurrentLevel.Value in [Default.Level.LNTC]</PreCondition><PreCondition
+>Kernel.LevelTransition.LevelTransitionOrder.CurrentLevel.Value in [Default.Level.LNTC]</PreCondition><PreCondition
  Guid="571a7181-1b87-401e-962a-92df42e17bc8"
->(FIRST Transition IN LevelTransitionOrder.LevelAndLength | AvailableForUse(Transition.TRLevel) ).TRLevel.Value in [Default.Level.L2, Default.Level.L3]</PreCondition><PreCondition
+>(FIRST Transition IN Kernel.LevelTransition.LevelTransitionOrder.LevelAndLength | Kernel.LevelTransition.AvailableForUse(Transition.TRLevel) ).TRLevel.Value in [Default.Level.L2, Default.Level.L3]</PreCondition><PreCondition
  Guid="5d86c07e-19a2-43cd-b727-6618f6a65fff"
->TrainPosition.FrontEndPosition(DistanceInterval.Nom) &gt;= LevelTransitionOrder.Location</PreCondition></PreConditions>
+>Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom) &gt;= Kernel.LevelTransition.LevelTransitionOrder.Location</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="80001d59-a4e1-4935-a8ca-2772d5ccab14"
->LevelTransitionOrder.PositionReportSent &lt;- True</Action><Action
+>Kernel.LevelTransition.LevelTransitionOrder.PositionReportSent &lt;- True</Action><Action
  Guid="99edecea-5f88-4332-b9be-57663c593046"
 >EURORADIO.PositionReport.PositionReportEventsTracker.LevelTransitionBorderPassed &lt;- True</Action></Actions>
 </RuleCondition></Conditions>

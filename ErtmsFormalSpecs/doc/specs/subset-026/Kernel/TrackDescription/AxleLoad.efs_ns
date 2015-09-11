@@ -291,9 +291,9 @@
  Name="SpeedRestriction"
  Guid="22c57881-cbe1-4a7d-9121-ccd4179f1296"
 >
-<Expression>(REDUCE ASP.ALs
+<Expression>(REDUCE Kernel.TrackDescription.AxleLoad.ASP.ALs
     USING X IN  
-        MIN ( First =&gt; FUNCTION d : Default.BaseTypes.Distance =&gt; AxleLoadSpeedRestriction ( anAxleLoad =&gt; X, Distance =&gt; d ), 
+        MIN ( First =&gt; FUNCTION d : Default.BaseTypes.Distance =&gt; Kernel.TrackDescription.AxleLoad.AxleLoadSpeedRestriction ( anAxleLoad =&gt; X, Distance =&gt; d ), 
                   Second =&gt; RESULT )
 INITIAL_VALUE BaseTypes.MaxSpeedFunction) (Distance)</Expression>
 </Case></Cases>
@@ -352,7 +352,7 @@ INITIAL_VALUE BaseTypes.MaxSpeedFunction) (Distance)</Expression>
  Name="Value"
  Guid="7ab8f7aa-817f-49eb-8cb8-a7380ea2ea26"
 >
-<Expression>AxleLoadStruct
+<Expression>Kernel.TrackDescription.AxleLoad.AxleLoadStruct
 {
   Location =&gt; aLocation,
   Length =&gt; MessageTypes.SpeedRestrictionLength
@@ -396,7 +396,7 @@ INITIAL_VALUE BaseTypes.MaxSpeedFunction) (Distance)</Expression>
  Name="Value"
  Guid="ff9d50eb-6730-4d24-a55a-8b6ff2ae4227"
 >
-<Expression>AxleLoadValueStruct
+<Expression>Kernel.TrackDescription.AxleLoad.AxleLoadValueStruct
 {
     Category =&gt; Category,
     Speed =&gt; Speed
@@ -442,7 +442,7 @@ INITIAL_VALUE BaseTypes.MaxSpeedFunction) (Distance)</Expression>
  Name="Value"
  Guid="544fdb12-2f2d-487c-83e5-22d88ff6becc"
 >
-<Expression>AxleLoadStruct
+<Expression>Kernel.TrackDescription.AxleLoad.AxleLoadStruct
 {
   Location =&gt; NextLocation,
   Length =&gt; MessageTypes.SpeedRestrictionLength
@@ -554,7 +554,7 @@ USING X IN
  Guid="c2336483-6933-444a-a639-460c167fcd61"
 >anAxleLoad.Location  &lt;= Distance</PreCondition></PreConditions>
 <Expression>REDUCE
-    anAxleLoad.Values | X.Category &lt;= TrainData.TrainData.Value.AxleLoadCategory
+    anAxleLoad.Values | X.Category &lt;= Kernel.TrainData.TrainData.Value.AxleLoadCategory
     USING X IN
         BaseTypes.MinSpeed (X1 =&gt; X.Speed, X2 =&gt; RESULT)
     INITIAL_VALUE
@@ -637,13 +637,13 @@ USING X IN
  Guid="5d71078b-ef97-4758-aac1-4ba5b2f40779"
 >Packet.Q_TRACKINIT == Messages.Q_TRACKINIT.Empty_profile__initial_states_to_be_resumed</PreCondition><PreCondition
  Guid="32711449-c906-4471-ab6a-9217e29a8f35"
->Mode != Default.Mode.TR</PreCondition></PreConditions>
+>Kernel.Mode != Default.Mode.TR</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="f0af1c31-9fef-4462-8e7c-c02a1a4f3762"
->ASP.InitialState &lt;- Packet.Q_TRACKINIT</Action><Action
+>Kernel.TrackDescription.AxleLoad.ASP.InitialState &lt;- Packet.Q_TRACKINIT</Action><Action
  Guid="dcd0948f-6491-43bd-bf4a-c6a4af622dda"
->ASP.EmptyProfileDistance &lt;- MessageTypes.QScaleDistance ( distance =&gt; Packet.D_TRACKINIT, scale =&gt; Packet.Q_SCALE )</Action></Actions>
+>Kernel.TrackDescription.AxleLoad.ASP.EmptyProfileDistance &lt;- MessageTypes.QScaleDistance ( distance =&gt; Packet.D_TRACKINIT, scale =&gt; Packet.Q_SCALE )</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  NeedsRequirement="FALSE"
@@ -656,11 +656,11 @@ USING X IN
  Guid="ccf11f0a-f6de-4d68-a793-4eeae4640d18"
 >Packet.Q_TRACKINIT == Messages.Q_TRACKINIT.No_initial_states_to_be_resumed__profile_to_follow</PreCondition><PreCondition
  Guid="afc78fb4-1dc1-4744-bef0-1bb4c503a210"
->Mode != Default.Mode.TR</PreCondition></PreConditions>
+>Kernel.Mode != Default.Mode.TR</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="ed03174f-9bce-4ab2-ab99-5381a1db832c"
->HandleNewAxleLoadProfile(Packet)</Action></Actions>
+>Kernel.TrackDescription.AxleLoad.HandleNewAxleLoadProfile(Packet)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -713,14 +713,14 @@ USING X IN
 <Action
  Guid="49c843ec-c06e-4db9-a610-785d3f858172"
 >INSERT
-  CreateAxleLoad
+  Kernel.TrackDescription.AxleLoad.CreateAxleLoad
   (
     anAxleLoad =&gt; anAxleLoad,
     aLocation =&gt; Distance
     Scale =&gt; Scale
   )
 IN
-  ASP.ALs</Action></Actions>
+  Kernel.TrackDescription.AxleLoad.ASP.ALs</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -817,7 +817,7 @@ IN
 <Action
  Guid="c4047e4a-5dea-46ec-bca0-126325fe2069"
 >INSERT
-  CreateFirstAxleLoad
+  Kernel.TrackDescription.AxleLoad.CreateFirstAxleLoad
   (
     NextLocation =&gt; MessageTypes.QScaleDistance ( distance =&gt; Packet.D_AXLELOAD, scale =&gt; Packet.Q_SCALE ),
     AxleLoadLength =&gt; MessageTypes.QScaleLength ( length =&gt; Packet.L_AXLELOAD, scale =&gt; Packet.Q_SCALE ),
@@ -825,9 +825,9 @@ IN
     AxleLoadValues =&gt; Packet.Sequence1
   )
 IN
-  ASP.ALs</Action><Action
+  Kernel.TrackDescription.AxleLoad.ASP.ALs</Action><Action
  Guid="6056605f-6bd9-4a23-8286-ee6154e1da22"
->ASP.InitialState &lt;- Packet.Q_TRACKINIT</Action></Actions>
+>Kernel.TrackDescription.AxleLoad.ASP.InitialState &lt;- Packet.Q_TRACKINIT</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -856,8 +856,8 @@ IN
 <Action
  Guid="08c6ad9c-fe0e-4fae-ba8a-a0a882d8adc1"
 >APPLY
-    AddAxleLoad ( anAxleLoad =&gt; X,
-                            Distance =&gt; AbsoluteDistance ( AxleLoads =&gt; Packet.Sequence3, anAxleLoad =&gt; X, Scale =&gt; Packet.Q_SCALE) + MessageTypes.QScaleDistance ( distance =&gt; Packet.D_AXLELOAD, scale =&gt; Packet.Q_SCALE),
+    Kernel.TrackDescription.AxleLoad.AddAxleLoad ( anAxleLoad =&gt; X,
+                            Distance =&gt; Kernel.TrackDescription.AxleLoad.AbsoluteDistance ( AxleLoads =&gt; Packet.Sequence3, anAxleLoad =&gt; X, Scale =&gt; Packet.Q_SCALE) + MessageTypes.QScaleDistance ( distance =&gt; Packet.D_AXLELOAD, scale =&gt; Packet.Q_SCALE),
                             Scale =&gt; Packet.Q_SCALE )
 ON
     Packet.Sequence3</Action></Actions>
@@ -919,9 +919,9 @@ ON
 <PreConditions>
 <PreCondition
  Guid="474d2b8c-225f-458b-ab6b-e27f1a74a7f3"
->ASP.ALs != []
+>Kernel.TrackDescription.AxleLoad.ASP.ALs != []
   AND
-(LAST X IN ASP.ALs).Location + (LAST X IN ASP.ALs).Length &gt; aLocation</PreCondition></PreConditions>
+(LAST X IN Kernel.TrackDescription.AxleLoad.ASP.ALs).Location + (LAST X IN Kernel.TrackDescription.AxleLoad.ASP.ALs).Length &gt; aLocation</PreCondition></PreConditions>
 <Actions>
 </Actions>
 <SubRules>
@@ -944,7 +944,7 @@ ON
 <Actions>
 <Action
  Guid="921e65af-92b9-49b6-99f6-fa3e57b3f59e"
->ASP.ALs &lt;- MAP ASP.ALs | X.Location &lt;= aLocation USING X IN X</Action></Actions>
+>Kernel.TrackDescription.AxleLoad.ASP.ALs &lt;- MAP Kernel.TrackDescription.AxleLoad.ASP.ALs | X.Location &lt;= aLocation USING X IN X</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -963,13 +963,13 @@ ON
 <PreConditions>
 <PreCondition
  Guid="1f34840e-6563-4de4-86f3-302807088bf7"
->ASP != EMPTY
+>Kernel.TrackDescription.AxleLoad.ASP != EMPTY
   AND
-ASP.ALs != []</PreCondition></PreConditions>
+Kernel.TrackDescription.AxleLoad.ASP.ALs != []</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="c434b2e7-ef58-4e81-8c69-bb00823638aa"
->(LAST X IN ASP.ALs).Length &lt;- aLocation - (LAST X IN ASP.ALs).Location</Action></Actions>
+>(LAST X IN Kernel.TrackDescription.AxleLoad.ASP.ALs).Length &lt;- aLocation - (LAST X IN Kernel.TrackDescription.AxleLoad.ASP.ALs).Location</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition></Conditions>
@@ -978,7 +978,7 @@ ASP.ALs != []</PreCondition></PreConditions>
 <Variables>
 <Variable
  Type="AxleLoadProfileStruct"
- DefaultValue="AxleLoadProfileStruct
+ DefaultValue="Kernel.TrackDescription.AxleLoad.AxleLoadProfileStruct
 {
     EmptyProfileDistance =&gt; 0.0,
     InitialState =&gt; Messages.Q_TRACKINIT.No_initial_states_to_be_resumed__profile_to_follow,
@@ -1059,17 +1059,17 @@ ASP.ALs != []</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="72e1f556-901a-48d1-b07e-569a772e86e3"
->TrainPosition.FrontEndPosition(
+>Kernel.TrainPosition.FrontEndPosition(
     PointOfInterest=&gt;DistanceInterval.Nom
-) &gt;= ASP.EmptyProfileDistance</PreCondition><PreCondition
+) &gt;= Kernel.TrackDescription.AxleLoad.ASP.EmptyProfileDistance</PreCondition><PreCondition
  Guid="89824f4b-7e4f-4726-9dc5-ebe40aec7187"
->ASP.InitialState == Messages.Q_TRACKINIT.Empty_profile__initial_states_to_be_resumed</PreCondition></PreConditions>
+>Kernel.TrackDescription.AxleLoad.ASP.InitialState == Messages.Q_TRACKINIT.Empty_profile__initial_states_to_be_resumed</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="4ad3347b-ced2-45bb-a7e7-f5c8c12d4901"
->ASP.ALs &lt;- []</Action><Action
+>Kernel.TrackDescription.AxleLoad.ASP.ALs &lt;- []</Action><Action
  Guid="40a9520d-f6e6-4098-9f5e-21ae83c6433f"
->ASP.InitialState &lt;- Messages.Q_TRACKINIT.No_initial_states_to_be_resumed__profile_to_follow</Action></Actions>
+>Kernel.TrackDescription.AxleLoad.ASP.InitialState &lt;- Messages.Q_TRACKINIT.No_initial_states_to_be_resumed__profile_to_follow</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </NameSpace>

@@ -10,7 +10,6 @@
 </NameSpaces>
 <Structures>
 <Structure
- Default=""
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -19,7 +18,7 @@
 >
 <Comment>SR Authorisation</Comment>
 <StructureElement
- TypeName="Messages.NID_MESSAGE"
+ TypeName="NID_MESSAGE"
  Default="0"
  Mode="InOut"
  Implemented="TRUE"
@@ -58,7 +57,7 @@
  Guid="9203a2fb-3c4e-4f5b-968b-303972898174"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="Messages.M_ACK"
+ TypeName="M_ACK"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -71,7 +70,7 @@
  Guid="5abec7f5-ba01-4ed7-88e5-faef99582aaa"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="Messages.NID_LRBG"
+ TypeName="NID_LRBG"
  Default="0"
  Mode="InOut"
  Implemented="TRUE"
@@ -84,7 +83,7 @@
  Guid="8cf79a2d-99cd-44ec-ab1b-9951e7277d97"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="Messages.Q_SCALE"
+ TypeName="Q_SCALE"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -123,7 +122,6 @@
  Guid="ccd020cf-8808-4112-bc26-6cde62825fea"
 >
 </ReqRef></StructureElement></Structure><Structure
- Default=""
  Y="60"
  Width="100"
  Height="50"
@@ -170,14 +168,13 @@
 <Functions>
 <Function
  Type="Boolean"
- Default=""
  Name="MessageValuesCorrect"
  Guid="41220848-8017-45be-b97a-f90a9f61074a"
 >
 <Comment>Checks the values in a structure of type SR_AUTHORISATION.Message</Comment>
 <Parameters>
 <Parameter
- Type="Message"
+ Type="SR_AUTHORISATION.Message"
  Name="struct"
  Guid="c4bc8acc-f96c-44aa-b4cb-ee1fef2336c7"
 >
@@ -278,7 +275,7 @@
 <PreConditions>
 <PreCondition
  Guid="838ae2cb-e0f5-425f-b3e1-1a424d227808"
->THERE_IS X IN struct.Sequence1 | NOT SubStructure1ValuesCorrect(X)</PreCondition></PreConditions>
+>THERE_IS X IN struct.Sequence1 | NOT Messages.MESSAGE.TRACK_TO_TRAIN.SR_AUTHORISATION.SubStructure1ValuesCorrect(X)</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
  Name="Otherwise"
@@ -288,14 +285,13 @@
 </Case></Cases>
 </Function><Function
  Type="Boolean"
- Default=""
  Name="SubStructure1ValuesCorrect"
  Guid="1809e31d-5dee-4e83-8b29-fe9e78ccc9d4"
 >
 <Comment>Checks the values in a structure of type SR_AUTHORISATION.SubStructure1</Comment>
 <Parameters>
 <Parameter
- Type="SubStructure1"
+ Type="SR_AUTHORISATION.SubStructure1"
  Name="struct"
  Guid="726ee06c-11b5-4113-a885-403ecb587aff"
 >
@@ -317,7 +313,7 @@
 <PreConditions>
 <PreCondition
  Guid="fc4593ee-ba3b-4aa1-9674-3b62ff8aa64c"
->NOT PACKET.TRACK_TO_TRAIN.LIST_OF_BALISES_IN_SR_AUTHORITY.MessageValuesCorrect(struct.LIST_OF_BALISES_IN_SR_AUTHORITY)</PreCondition></PreConditions>
+>NOT Messages.PACKET.TRACK_TO_TRAIN.LIST_OF_BALISES_IN_SR_AUTHORITY.MessageValuesCorrect(struct.LIST_OF_BALISES_IN_SR_AUTHORITY)</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
  Name="Otherwise"

@@ -62,9 +62,9 @@
 <PreConditions>
 <PreCondition
  Guid="2f19251e-f175-4db7-8e29-28aa35096116"
->NOT MovementDetected()
+>NOT Kernel.UndesirableMovement.MovementDetected()
   OR  
-RollAwayReferencePosition == BaseTypes.Distance.Unknown</PreCondition></PreConditions>
+Kernel.UndesirableMovement.RollAwayReferencePosition == BaseTypes.Distance.Unknown</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
  Name="Direction controller in Neutral"
@@ -74,9 +74,9 @@ RollAwayReferencePosition == BaseTypes.Distance.Unknown</PreCondition></PreCondi
 <PreCondition
  Guid="97d9a3ea-c214-4b26-aa7b-693ecba1ffc5"
 >TIU.DirectionControllerInformation == TIU.DirectionControllerEnum.Neutral</PreCondition></PreConditions>
-<Expression>MovedBackwardBeyondReference(RollAwayReferencePosition)
+<Expression>Kernel.UndesirableMovement.MovedBackwardBeyondReference(Kernel.UndesirableMovement.RollAwayReferencePosition)
   OR  
-MovedForwardBeyondReference(RollAwayReferencePosition)</Expression>
+Kernel.UndesirableMovement.MovedForwardBeyondReference(Kernel.UndesirableMovement.RollAwayReferencePosition)</Expression>
 </Case><Case
  Name="Direction controller in forward"
  Guid="7cf9f355-4388-430f-a696-2f039b3e2d06"
@@ -85,7 +85,7 @@ MovedForwardBeyondReference(RollAwayReferencePosition)</Expression>
 <PreCondition
  Guid="2f2dc6ce-2437-470c-99df-8941fafd463e"
 >TIU.DirectionControllerInformation == TIU.DirectionControllerEnum.Forward</PreCondition></PreConditions>
-<Expression>MovedBackwardBeyondReference(RollAwayReferencePosition)</Expression>
+<Expression>Kernel.UndesirableMovement.MovedBackwardBeyondReference(Kernel.UndesirableMovement.RollAwayReferencePosition)</Expression>
 </Case><Case
  Name="Direction controller in backward"
  Guid="0ab5651a-90d3-4a02-97b6-ce3d69a9b1da"
@@ -94,7 +94,7 @@ MovedForwardBeyondReference(RollAwayReferencePosition)</Expression>
 <PreCondition
  Guid="58a98f42-a2c6-4a27-a041-eaee8e274c43"
 >TIU.DirectionControllerInformation == TIU.DirectionControllerEnum.Backward</PreCondition></PreConditions>
-<Expression>MovedForwardBeyondReference(RollAwayReferencePosition)</Expression>
+<Expression>Kernel.UndesirableMovement.MovedForwardBeyondReference(Kernel.UndesirableMovement.RollAwayReferencePosition)</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -129,7 +129,7 @@ MovedForwardBeyondReference(RollAwayReferencePosition)</Expression>
  Name="Value"
  Guid="26801c08-367c-4d0b-8c3c-6be74e9ea508"
 >
-<Expression>Odometry.NominalDistance - aReferenceDistance &gt; NationalValues.ApplicableNationalValues.Value.DistToBeUsedInRollAwayProt_RevMvtProt_StandstillSup</Expression>
+<Expression>Odometry.NominalDistance - aReferenceDistance &gt; Kernel.NationalValues.ApplicableNationalValues.Value.DistToBeUsedInRollAwayProt_RevMvtProt_StandstillSup</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -164,7 +164,7 @@ MovedForwardBeyondReference(RollAwayReferencePosition)</Expression>
  Name="Value"
  Guid="147fc84c-d166-41f7-a3de-26c6ef999b5d"
 >
-<Expression>aReferenceDistance - Odometry.NominalDistance &gt; NationalValues.ApplicableNationalValues.Value.DistToBeUsedInRollAwayProt_RevMvtProt_StandstillSup</Expression>
+<Expression>aReferenceDistance - Odometry.NominalDistance &gt; Kernel.NationalValues.ApplicableNationalValues.Value.DistToBeUsedInRollAwayProt_RevMvtProt_StandstillSup</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -248,15 +248,15 @@ MovedForwardBeyondReference(RollAwayReferencePosition)</Expression>
 <PreConditions>
 <PreCondition
  Guid="61498722-a67c-4166-be89-5ca3d444d4ac"
->NOT MovementDetected()
+>NOT Kernel.UndesirableMovement.MovementDetected()
   OR  
-ReverseMovementReferencePosition == BaseTypes.Distance.Unknown</PreCondition></PreConditions>
+Kernel.UndesirableMovement.ReverseMovementReferencePosition == BaseTypes.Distance.Unknown</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
  Name="Value"
  Guid="1477ed66-aaf4-4fd3-9194-20a75ac62200"
 >
-<Expression>MovedBackwardBeyondReference(ReverseMovementReferencePosition)</Expression>
+<Expression>Kernel.UndesirableMovement.MovedBackwardBeyondReference(Kernel.UndesirableMovement.ReverseMovementReferencePosition)</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -287,17 +287,17 @@ ReverseMovementReferencePosition == BaseTypes.Distance.Unknown</PreCondition></P
 <PreConditions>
 <PreCondition
  Guid="5267c232-0ef1-4ed7-a47a-95f7de2bd8bc"
->NOT MovementDetected()
+>NOT Kernel.UndesirableMovement.MovementDetected()
   OR  
-StandstillSupervisionReferencePosition == BaseTypes.Distance.Unknown</PreCondition></PreConditions>
+Kernel.UndesirableMovement.StandstillSupervisionReferencePosition == BaseTypes.Distance.Unknown</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
  Name="Value"
  Guid="90ecb707-a5e6-42a3-bf2a-91215f3a0ff0"
 >
-<Expression>MovedBackwardBeyondReference(StandstillSupervisionReferencePosition)
+<Expression>Kernel.UndesirableMovement.MovedBackwardBeyondReference(Kernel.UndesirableMovement.StandstillSupervisionReferencePosition)
   OR  
-MovedForwardBeyondReference(StandstillSupervisionReferencePosition)</Expression>
+Kernel.UndesirableMovement.MovedForwardBeyondReference(Kernel.UndesirableMovement.StandstillSupervisionReferencePosition)</Expression>
 </Case></Cases>
 </Function></Functions>
 <Procedures>
@@ -334,7 +334,7 @@ MovedForwardBeyondReference(StandstillSupervisionReferencePosition)</Expression>
 <Actions>
 <Action
  Guid="7757da04-e9f4-4648-ac19-0a1bd75224bf"
->RollAwayReferencePosition &lt;- Odometry.NominalDistance</Action></Actions>
+>Kernel.UndesirableMovement.RollAwayReferencePosition &lt;- Odometry.NominalDistance</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -370,7 +370,7 @@ MovedForwardBeyondReference(StandstillSupervisionReferencePosition)</Expression>
 <Actions>
 <Action
  Guid="96f5433c-1e64-4ac9-a274-6e8045aee8e0"
->ReverseMovementReferencePosition &lt;- Odometry.NominalDistance</Action></Actions>
+>Kernel.UndesirableMovement.ReverseMovementReferencePosition &lt;- Odometry.NominalDistance</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -406,7 +406,7 @@ MovedForwardBeyondReference(StandstillSupervisionReferencePosition)</Expression>
 <Actions>
 <Action
  Guid="f117494c-22db-43e3-86ca-39ee1ad12b01"
->StandstillSupervisionReferencePosition &lt;- Odometry.NominalDistance</Action></Actions>
+>Kernel.UndesirableMovement.StandstillSupervisionReferencePosition &lt;- Odometry.NominalDistance</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
@@ -536,15 +536,15 @@ When the standstill supervision is inactive, it is set to the unknown distance.<
 <PreConditions>
 <PreCondition
  Guid="d469d334-1f38-4e89-8cb8-b382b99545f0"
->ActiveFunctions.ProtectAgainstRollAway()</PreCondition><PreCondition
+>Kernel.ActiveFunctions.ProtectAgainstRollAway()</PreCondition><PreCondition
  Guid="b8153d2f-fcbc-4626-bcb0-8fb26e9a59d9"
->RollAwayDetected()</PreCondition></PreConditions>
+>Kernel.UndesirableMovement.RollAwayDetected()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="0b025c0e-91b1-4731-b56c-68d0de455a67"
 >DMI.MasterDMI().In_AcknForRollAwayProtection.InitiateRequest()</Action><Action
  Guid="833cd1b9-16fb-483d-a5f4-93ed6d584f77"
->BrakeCommands.CommandServiceBrake(BrakeCommands.BrakeReason.RollAwayProtection)</Action></Actions>
+>Kernel.BrakeCommands.CommandServiceBrake(Kernel.BrakeCommands.BrakeReason.RollAwayProtection)</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Keep reference to current location"
@@ -554,13 +554,13 @@ When the standstill supervision is inactive, it is set to the unknown distance.<
 <PreConditions>
 <PreCondition
  Guid="18530cba-36e0-45e0-9a60-7552ea0639b9"
->MovedInDirectionOfController(RollAwayReferencePosition)</PreCondition><PreCondition
+>Kernel.UndesirableMovement.MovedInDirectionOfController(Kernel.UndesirableMovement.RollAwayReferencePosition)</PreCondition><PreCondition
  Guid="1576486f-c20c-4e5f-a070-7f1d7e747443"
->ActiveFunctions.ProtectAgainstRollAway()</PreCondition></PreConditions>
+>Kernel.ActiveFunctions.ProtectAgainstRollAway()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="289769a9-262d-4546-83bd-81d79963581a"
->RollAwayReferencePosition &lt;- Odometry.NominalDistance</Action></Actions>
+>Kernel.UndesirableMovement.RollAwayReferencePosition &lt;- Odometry.NominalDistance</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Deactivate roll away protection"
@@ -570,13 +570,13 @@ When the standstill supervision is inactive, it is set to the unknown distance.<
 <PreConditions>
 <PreCondition
  Guid="ba0b7670-711e-4b67-9f19-31db6982419c"
->RollAwayReferencePosition != BaseTypes.Distance.Unknown</PreCondition><PreCondition
+>Kernel.UndesirableMovement.RollAwayReferencePosition != BaseTypes.Distance.Unknown</PreCondition><PreCondition
  Guid="199b9539-c029-4292-8e4a-81950c515c48"
->NOT ActiveFunctions.ProtectAgainstRollAway()</PreCondition></PreConditions>
+>NOT Kernel.ActiveFunctions.ProtectAgainstRollAway()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="63e0b9d7-1838-43d8-980f-944496c58e3f"
->RollAwayReferencePosition &lt;- BaseTypes.Distance.Unknown</Action></Actions>
+>Kernel.UndesirableMovement.RollAwayReferencePosition &lt;- BaseTypes.Distance.Unknown</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  X="120"
@@ -614,15 +614,15 @@ When the standstill supervision is inactive, it is set to the unknown distance.<
 <PreConditions>
 <PreCondition
  Guid="f458803f-bee8-41ab-a12c-ebdd4b17eab2"
->ActiveFunctions.ProtectAgainstReverseMovement()</PreCondition><PreCondition
+>Kernel.ActiveFunctions.ProtectAgainstReverseMovement()</PreCondition><PreCondition
  Guid="f1e1e1b5-4431-4675-9594-1b40a1a62c4f"
->ReverseMovementDetected()</PreCondition></PreConditions>
+>Kernel.UndesirableMovement.ReverseMovementDetected()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="561a2dd6-7297-4e3a-97be-9a179920b3be"
 >DMI.MasterDMI().In_AcknForReverseMovementProtection.InitiateRequest()</Action><Action
  Guid="c534b70e-481b-4dc6-8782-d5a0e030ab01"
->BrakeCommands.CommandServiceBrake(BrakeCommands.BrakeReason.ReverseMovementProtection)</Action></Actions>
+>Kernel.BrakeCommands.CommandServiceBrake(Kernel.BrakeCommands.BrakeReason.ReverseMovementProtection)</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Keep reference to current location"
@@ -632,13 +632,13 @@ When the standstill supervision is inactive, it is set to the unknown distance.<
 <PreConditions>
 <PreCondition
  Guid="f2a93777-1fe1-491b-a310-1971976bf15c"
->ActiveFunctions.ProtectAgainstReverseMovement()</PreCondition><PreCondition
+>Kernel.ActiveFunctions.ProtectAgainstReverseMovement()</PreCondition><PreCondition
  Guid="239c0111-a2f7-42fc-9086-d938ac14c156"
->Odometry.NominalDistance &gt; ReverseMovementReferencePosition</PreCondition></PreConditions>
+>Odometry.NominalDistance &gt; Kernel.UndesirableMovement.ReverseMovementReferencePosition</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="79b16cfb-cc72-4039-a21f-1186a0ceeca8"
->ReverseMovementReferencePosition &lt;- Odometry.NominalDistance</Action></Actions>
+>Kernel.UndesirableMovement.ReverseMovementReferencePosition &lt;- Odometry.NominalDistance</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Deactivate reverse movement protection"
@@ -648,13 +648,13 @@ When the standstill supervision is inactive, it is set to the unknown distance.<
 <PreConditions>
 <PreCondition
  Guid="508fe116-e7da-42df-82e4-1d722aa7cd0e"
->NOT ActiveFunctions.ProtectAgainstReverseMovement()</PreCondition><PreCondition
+>NOT Kernel.ActiveFunctions.ProtectAgainstReverseMovement()</PreCondition><PreCondition
  Guid="7a0048e5-0cfa-4d1a-854e-7a0f3da2e490"
->ReverseMovementReferencePosition != BaseTypes.Distance.Unknown</PreCondition></PreConditions>
+>Kernel.UndesirableMovement.ReverseMovementReferencePosition != BaseTypes.Distance.Unknown</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="2cd611ba-4b36-42b4-b4fd-24071cf4c33b"
->ReverseMovementReferencePosition &lt;-  BaseTypes.Distance.Unknown</Action></Actions>
+>Kernel.UndesirableMovement.ReverseMovementReferencePosition &lt;-  BaseTypes.Distance.Unknown</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  X="230"
@@ -692,13 +692,13 @@ When the standstill supervision is inactive, it is set to the unknown distance.<
 <PreConditions>
 <PreCondition
  Guid="fd366256-6d69-49d3-a6f8-2649f21ee80b"
->ActiveFunctions.SuperviseStandstill()</PreCondition><PreCondition
+>Kernel.ActiveFunctions.SuperviseStandstill()</PreCondition><PreCondition
  Guid="af30998a-3c30-48e0-9180-d6c4605fe503"
->StandstillDistanceExceeded()</PreCondition></PreConditions>
+>Kernel.UndesirableMovement.StandstillDistanceExceeded()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="f6af442d-0105-4145-8995-0b16908289d8"
->BrakeCommands.CommandServiceBrake(BrakeCommands.BrakeReason.SupervisingStandstill)</Action><Action
+>Kernel.BrakeCommands.CommandServiceBrake(Kernel.BrakeCommands.BrakeReason.SupervisingStandstill)</Action><Action
  Guid="0e6c282e-efb8-4d05-8119-60324a07328f"
 >DMI.MasterDMI().In_AcknForStandstillSupervision.InitiateRequest()</Action></Actions>
 </RuleCondition><RuleCondition
@@ -710,13 +710,13 @@ When the standstill supervision is inactive, it is set to the unknown distance.<
 <PreConditions>
 <PreCondition
  Guid="4265196d-7cfb-4131-852f-29322d24888b"
->StandstillSupervisionReferencePosition != BaseTypes.Distance.Unknown</PreCondition><PreCondition
+>Kernel.UndesirableMovement.StandstillSupervisionReferencePosition != BaseTypes.Distance.Unknown</PreCondition><PreCondition
  Guid="11a3ba35-439e-4115-a21b-1fe8697ba5f4"
->NOT ActiveFunctions.SuperviseStandstill()</PreCondition></PreConditions>
+>NOT Kernel.ActiveFunctions.SuperviseStandstill()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="a584993d-4df5-4d15-9b17-5e1dd89d6b43"
->StandstillSupervisionReferencePosition &lt;- BaseTypes.Distance.Unknown</Action></Actions>
+>Kernel.UndesirableMovement.StandstillSupervisionReferencePosition &lt;- BaseTypes.Distance.Unknown</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </NameSpace>

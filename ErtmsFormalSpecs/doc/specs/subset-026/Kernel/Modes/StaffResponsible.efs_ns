@@ -116,7 +116,7 @@
  Name="BaliseGroupsSent"
  Guid="f68b1349-529c-473d-ae9e-ff267673371a"
 >
-<Expression>MAP ( FIRST X IN ( BaliseGroups ) ).LIST_OF_BALISES_IN_SR_AUTHORITY.Sequence1 USING X IN CreateBaliseGroup ( X )</Expression>
+<Expression>MAP ( FIRST X IN ( BaliseGroups ) ).LIST_OF_BALISES_IN_SR_AUTHORITY.Sequence1 USING X IN Kernel.Modes.StaffResponsible.CreateBaliseGroup ( X )</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaliseGroup"
@@ -143,7 +143,7 @@
  Name="Value"
  Guid="98759279-000a-4ddb-a0f6-e737236f7520"
 >
-<Expression>BaliseGroup
+<Expression>Kernel.BaliseGroup
 {
     NewCountry =&gt; Q_NEWCOUNTRY_To_Bool ( aBaliseGroup.Q_NEWCOUNTRY ),
     NID_C =&gt; aBaliseGroup.NID_C,
@@ -172,9 +172,9 @@
  Name="Value"
  Guid="50859194-b6d5-4fe7-89f9-ed0b242b30b3"
 >
-<Expression>Available ( SRAuthorisation )
+<Expression>Available ( Kernel.Modes.StaffResponsible.SRAuthorisation )
   AND
-SRAuthorisation.Location &lt;= TrainPosition.FrontEndPosition ( DistanceInterval.Max )</Expression>
+Kernel.Modes.StaffResponsible.SRAuthorisation.Location &lt;= Kernel.TrainPosition.FrontEndPosition ( DistanceInterval.Max )</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -213,7 +213,7 @@ SRAuthorisation.Location &lt;= TrainPosition.FrontEndPosition ( DistanceInterval
 <PreConditions>
 <PreCondition
  Guid="44cea0d5-cdfc-4c62-9e88-e69620cee2b7"
->NOT ActiveFunctions.SuperviseBalisesForSR()</PreCondition></PreConditions>
+>NOT Kernel.ActiveFunctions.SuperviseBalisesForSR()</PreCondition></PreConditions>
 <Expression>True</Expression>
 </Case><Case
  Name="No list received"
@@ -222,13 +222,13 @@ SRAuthorisation.Location &lt;= TrainPosition.FrontEndPosition ( DistanceInterval
 <PreConditions>
 <PreCondition
  Guid="4675aa40-8806-41ed-b112-14c2251c1e97"
->NOT (Available(SRAuthorisation) AND SRAuthorisation.BGListReceived)</PreCondition></PreConditions>
+>NOT (Available(Kernel.Modes.StaffResponsible.SRAuthorisation) AND Kernel.Modes.StaffResponsible.SRAuthorisation.BGListReceived)</PreCondition></PreConditions>
 <Expression>True</Expression>
 </Case><Case
  Name="Value"
  Guid="ee3f88ec-f193-44c3-89c3-4adbb14ed494"
 >
-<Expression>THERE_IS StaffResponsibleBG IN SRAuthorisation.BGs | 
+<Expression>THERE_IS StaffResponsibleBG IN Kernel.Modes.StaffResponsible.SRAuthorisation.BGs | 
 (FIRST Balise IN BaliseGroup).Telegram.NID_C == StaffResponsibleBG.NID_C
   AND  
 (FIRST Balise IN BaliseGroup).Telegram.NID_BG == StaffResponsibleBG.NID_BG</Expression>
@@ -279,15 +279,15 @@ SRAuthorisation.Location &lt;= TrainPosition.FrontEndPosition ( DistanceInterval
 <PreConditions>
 <PreCondition
  Guid="738bcd15-c113-45d0-8ca8-16a08f625fc7"
->Available(SRAuthorisation)</PreCondition><PreCondition
+>Available(Kernel.Modes.StaffResponsible.SRAuthorisation)</PreCondition><PreCondition
  Guid="5af6ee90-8c46-4ec6-a4d6-06ccf8474ed5"
->HandleModeChange not in HandleModeChangeSM.Override</PreCondition></PreConditions>
-<Expression>SRAuthorisation.Location</Expression>
+>Kernel.HandleModeChange not in Kernel.HandleModeChangeSM.Override</PreCondition></PreConditions>
+<Expression>Kernel.Modes.StaffResponsible.SRAuthorisation.Location</Expression>
 </Case><Case
  Name="Use national value"
  Guid="b0da0439-c627-4c3f-890d-4367da277940"
 >
-<Expression>NationalValues.CurrentNV().MaxPermDistToRunInStaffResponsibleMode</Expression>
+<Expression>Kernel.NationalValues.CurrentNV().MaxPermDistToRunInStaffResponsibleMode</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Distance"
@@ -310,10 +310,10 @@ SRAuthorisation.Location &lt;= TrainPosition.FrontEndPosition ( DistanceInterval
 <PreConditions>
 <PreCondition
  Guid="5be1ab52-7de5-4475-b907-4648223d1b23"
->Mode == Default.Mode.SR</PreCondition><PreCondition
+>Kernel.Mode == Default.Mode.SR</PreCondition><PreCondition
  Guid="046fb2aa-7b29-4a72-854f-dd5cef4fb70c"
->DistanceToRun() != BaseTypes.Distance.Infinity</PreCondition></PreConditions>
-<Expression>DistanceToRun() + TrainPosition.SRStartDistance - BTM.LRBG.Position.Position</Expression>
+>Kernel.Modes.StaffResponsible.DistanceToRun() != BaseTypes.Distance.Infinity</PreCondition></PreConditions>
+<Expression>Kernel.Modes.StaffResponsible.DistanceToRun() + Kernel.TrainPosition.SRStartDistance - BTM.LRBG.Position.Position</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="55dd5d9a-44eb-43f1-b716-9b763e45eb74"
@@ -337,7 +337,7 @@ SRAuthorisation.Location &lt;= TrainPosition.FrontEndPosition ( DistanceInterval
  Name="Value"
  Guid="4e394434-e367-4e8a-86e4-50e71233e107"
 >
-<Expression>SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target{
+<Expression>Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target{
     Location =&gt; Modes.StaffResponsible.SREndLocation(),
     Speed =&gt; 0.0,
     Length =&gt; 0.0
@@ -401,7 +401,7 @@ SRAuthorisation.Location &lt;= TrainPosition.FrontEndPosition ( DistanceInterval
 <Actions>
 <Action
  Guid="342b18cc-bb34-4c17-8157-1bebc9fb9941"
->SRAuthorisation &lt;- SRStruct
+>Kernel.Modes.StaffResponsible.SRAuthorisation &lt;- Kernel.Modes.StaffResponsible.SRStruct
 {
     Location =&gt; MessageTypes.QScaleDistance ( distance =&gt; Packet.D_SR, scale =&gt; Packet.Q_SCALE ),
     BGs =&gt; CreateBaliseGroups ( BaliseGroups =&gt; Packet.Sequence1 ),
@@ -425,11 +425,11 @@ SRAuthorisation.Location &lt;= TrainPosition.FrontEndPosition ( DistanceInterval
 <PreConditions>
 <PreCondition
  Guid="ca00b5c3-749e-4688-81da-05727f081038"
->Mode == Default.Mode.SR</PreCondition></PreConditions>
+>Kernel.Mode == Default.Mode.SR</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="96ee091d-b9e9-4509-b1a7-1c630d2fd21e"
->TrainPosition.SRStartDistance &lt;- Odometry.NominalDistance</Action></Actions>
+>Kernel.TrainPosition.SRStartDistance &lt;- Odometry.NominalDistance</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition></Conditions>
@@ -499,13 +499,13 @@ SRAuthorisation.Location &lt;= TrainPosition.FrontEndPosition ( DistanceInterval
 <PreConditions>
 <PreCondition
  Guid="c6ccbc54-4698-42e2-84cf-735584fc7270"
->HandleModeChange in HandleModeChangeSM.Override</PreCondition><PreCondition
+>Kernel.HandleModeChange in Kernel.HandleModeChangeSM.Override</PreCondition><PreCondition
  Guid="2b9b3be8-ca3a-4110-b2d6-f86ce72fafa9"
->ActiveFunctions.SuperviseBalisesForSR()</PreCondition></PreConditions>
+>Kernel.ActiveFunctions.SuperviseBalisesForSR()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="cfba8bf9-5231-4e99-acf5-5b104f9d1dde"
->EndOverride()</Action></Actions>
+>Kernel.EndOverride()</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Handle packet"
@@ -517,11 +517,11 @@ SRAuthorisation.Location &lt;= TrainPosition.FrontEndPosition ( DistanceInterval
  Guid="1af23fe5-a5a6-41f8-824b-5238b8ff70f8"
 >Packet.Q_SRSTOP == Messages.Q_SRSTOP.Stop_if_in_SR_mode</PreCondition><PreCondition
  Guid="9087689a-12c1-4ed5-b9a9-c4766c46d569"
->ActiveFunctions.SuperviseBalisesForSR()</PreCondition></PreConditions>
+>Kernel.ActiveFunctions.SuperviseBalisesForSR()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="e22bd583-6c01-4ec6-820f-7e54a97ef357"
->StopIfInStaffResponsible &lt;- True</Action></Actions>
+>Kernel.Modes.StaffResponsible.StopIfInStaffResponsible &lt;- True</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
@@ -629,11 +629,11 @@ SRAuthorisation.Location &lt;= TrainPosition.FrontEndPosition ( DistanceInterval
 <PreConditions>
 <PreCondition
  Guid="38a2855c-a564-4a2f-b1cf-ab9373fbe4af"
->Level.Value.Value in [Default.Level.L2, Default.Level.L3]</PreCondition><PreCondition
+>Kernel.Level.Value.Value in [Default.Level.L2, Default.Level.L3]</PreCondition><PreCondition
  Guid="e8a7ae96-cd47-4d9e-8a00-715ca0a3e838"
 >DMI.MasterDMI().In_Start.InputInformation.RequestStatus == Request.Disabled</PreCondition><PreCondition
  Guid="85a03ef1-b8bf-4979-b1ae-8b3bf1c03590"
->ActiveFunctions.RequestMA_StartSelected()</PreCondition></PreConditions>
+>Kernel.ActiveFunctions.RequestMA_StartSelected()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="bd2c7627-cb26-4ee4-a08b-41e674d7f810"
@@ -667,11 +667,11 @@ SRAuthorisation.Location &lt;= TrainPosition.FrontEndPosition ( DistanceInterval
 <PreConditions>
 <PreCondition
  Guid="d9198f6b-ab29-4800-8177-3582c9f6b6f5"
->Level.Value.Value in [Default.Level.L2, Default.Level.L3]</PreCondition><PreCondition
+>Kernel.Level.Value.Value in [Default.Level.L2, Default.Level.L3]</PreCondition><PreCondition
  Guid="b141a80f-70a4-4c16-ab6a-2c1a644b9b5b"
 >DMI.MasterDMI().In_Start.InputInformation.DriverAnswered</PreCondition><PreCondition
  Guid="8a109624-1067-4604-bea1-f3a9d4d98fe0"
->ActiveFunctions.RequestMA_StartSelected()</PreCondition></PreConditions>
+>Kernel.ActiveFunctions.RequestMA_StartSelected()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="46dbfab0-2d80-4d37-a202-f2046e4ae97d"
@@ -716,7 +716,7 @@ SRAuthorisation.Location &lt;= TrainPosition.FrontEndPosition ( DistanceInterval
 <Actions>
 <Action
  Guid="eec5ece7-4498-4b79-8af7-6b2f2683b723"
->BrakeCommands.CommandServiceBrake(BrakeCommands.BrakeReason.SupervisingStandstill)</Action></Actions>
+>Kernel.BrakeCommands.CommandServiceBrake(Kernel.BrakeCommands.BrakeReason.SupervisingStandstill)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"

@@ -161,8 +161,8 @@
 <PreConditions>
 <PreCondition
  Guid="832233ef-515a-48e0-b7e8-861ac3cdeea6"
->THERE_IS X IN TCBigMetalMasses | (X.Location &lt;= Distance)</PreCondition></PreConditions>
-<Expression>REDUCE TCBigMetalMasses | (X.Location == BMMProfileStartLocation(Distance=&gt;Distance) )
+>THERE_IS X IN Kernel.TrackDescription.TrackConditions.BigMetalMasses.TCBigMetalMasses | (X.Location &lt;= Distance)</PreCondition></PreConditions>
+<Expression>REDUCE Kernel.TrackDescription.TrackConditions.BigMetalMasses.TCBigMetalMasses | (X.Location == Kernel.TrackDescription.TrackConditions.BigMetalMasses.BMMProfileStartLocation(Distance=&gt;Distance) )
     USING X IN X.Value
   INITIAL_VALUE EMPTY</Expression>
 </Case><Case
@@ -198,7 +198,7 @@
  Guid="db14e75b-7d6d-486e-ac7f-ebe4ae49f3bd"
 >
 <Comment>Returns the element in TCBigMetalMasses with the largest distance that is less than or equal to the parameter</Comment>
-<Expression>REDUCE TCBigMetalMasses | (X.Location &lt;= Distance)
+<Expression>REDUCE Kernel.TrackDescription.TrackConditions.BigMetalMasses.TCBigMetalMasses | (X.Location &lt;= Distance)
     USING X IN BaseTypes.MaxDistance(
         X1=&gt;X.Location,
         X2=&gt;RESULT)
@@ -274,9 +274,9 @@
  Guid="210e3e31-9619-4f77-a0aa-d3297a0df930"
 >
 <Comment>See TrackConditions.General.CurrentConditions() for justification of max OR min</Comment>
-<Expression>BMMAtDistance(Distance=&gt; TrainPosition.FrontEndPosition(PointOfInterest=&gt;DistanceInterval.Max))
+<Expression>Kernel.TrackDescription.TrackConditions.BigMetalMasses.BMMAtDistance(Distance=&gt; Kernel.TrainPosition.FrontEndPosition(PointOfInterest=&gt;DistanceInterval.Max))
   OR  
-BMMAtDistance(Distance=&gt; TrainPosition.FrontEndPosition(PointOfInterest=&gt;DistanceInterval.Min))</Expression>
+Kernel.TrackDescription.TrackConditions.BigMetalMasses.BMMAtDistance(Distance=&gt; Kernel.TrainPosition.FrontEndPosition(PointOfInterest=&gt;DistanceInterval.Min))</Expression>
 </Case></Cases>
 </Function></Functions>
 <Procedures>
@@ -332,7 +332,7 @@ BMMAtDistance(Distance=&gt; TrainPosition.FrontEndPosition(PointOfInterest=&gt;D
 </ReqRef><PreConditions>
 <PreCondition
  Guid="374469ba-a265-460e-ad14-9d4b4131fe38"
->ActiveFunctions.ManageTrackConditions_BigMetalMAsses()</PreCondition></PreConditions>
+>Kernel.ActiveFunctions.ManageTrackConditions_BigMetalMAsses()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="2e8ac763-7528-4050-b24d-3013d722c50a"
@@ -369,11 +369,11 @@ BMMAtDistance(Distance=&gt; TrainPosition.FrontEndPosition(PointOfInterest=&gt;D
 <PreConditions>
 <PreCondition
  Guid="3f70f5eb-af34-4f26-bac8-a1de65794520"
->ActiveFunctions.ManageTrackConditions_BigMetalMAsses()</PreCondition></PreConditions>
+>Kernel.ActiveFunctions.ManageTrackConditions_BigMetalMAsses()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="4456f7d5-5ea0-4224-8e9a-6e99581f4040"
->AddSectionToBMMs(
+>Kernel.TrackDescription.TrackConditions.BigMetalMasses.AddSectionToBMMs(
     Location=&gt;MessageTypes.QScaleDistance(
         distance=&gt;Packet.D_TRACKCOND,
         scale=&gt;Packet.Q_SCALE
@@ -394,12 +394,12 @@ BMMAtDistance(Distance=&gt; TrainPosition.FrontEndPosition(PointOfInterest=&gt;D
 <PreConditions>
 <PreCondition
  Guid="2f082acb-0b10-4600-b713-8f95c10adf9c"
->ActiveFunctions.ManageTrackConditions_BigMetalMAsses()</PreCondition></PreConditions>
+>Kernel.ActiveFunctions.ManageTrackConditions_BigMetalMAsses()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="87f1ee03-d658-40fb-95a6-40fe271fc15e"
 >APPLY
-    AddSectionToBMMs(
+    Kernel.TrackDescription.TrackConditions.BigMetalMasses.AddSectionToBMMs(
         Location=&gt;MessageTypes.QScaleDistance(distance=&gt;Packet.D_TRACKCOND,scale=&gt;Packet.Q_SCALE) - BTM.ActiveAntennaPosition,
         Length=&gt; MessageTypes.QScaleLength(
             length=&gt;Packet.L_TRACKCOND,
@@ -464,7 +464,7 @@ ON
 <Action
  Guid="f41e0e6b-f4f6-4efa-a83b-26fce22c0fa3"
 ><Comment>EndSectionDistance provides the end location (in terms of the front end of the train) of the section</Comment>
-INSERT BigMetalMassesInformationStruct
+INSERT Kernel.TrackDescription.TrackConditions.BigMetalMasses.BigMetalMassesInformationStruct
 {
     Location =&gt; BMMSectionEnd
     (
@@ -474,7 +474,7 @@ INSERT BigMetalMassesInformationStruct
     Value =&gt; False
 }
 IN
-    TCBigMetalMasses</Action></Actions>
+    Kernel.TrackDescription.TrackConditions.BigMetalMasses.TCBigMetalMasses</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -497,13 +497,13 @@ The train is considered to be in the section starting from when the max antenna 
 <Actions>
 <Action
  Guid="260a89f3-ee3a-4960-a54b-8bb92247e287"
->INSERT BigMetalMassesInformationStruct
+>INSERT Kernel.TrackDescription.TrackConditions.BigMetalMasses.BigMetalMassesInformationStruct
 {
     Location =&gt; Location - BTM.ActiveAntennaPosition,
     Value =&gt; True
 }
 IN
-    TCBigMetalMasses</Action></Actions>
+    Kernel.TrackDescription.TrackConditions.BigMetalMasses.TCBigMetalMasses</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -561,7 +561,7 @@ IN
 <PreConditions>
 <PreCondition
  Guid="cafd3b9e-60d9-4049-91f3-4f351a96c334"
->TCBigMetalMasses != []</PreCondition></PreConditions>
+>Kernel.TrackDescription.TrackConditions.BigMetalMasses.TCBigMetalMasses != []</PreCondition></PreConditions>
 <Actions>
 </Actions>
 <SubRules>
@@ -584,7 +584,7 @@ IN
 <Actions>
 <Action
  Guid="debd6cb5-8702-4dd7-97dc-064ddbb821b9"
->TCBigMetalMasses &lt;- MAP TCBigMetalMasses | X.Location &lt;= aLocation USING X IN X</Action></Actions>
+>Kernel.TrackDescription.TrackConditions.BigMetalMasses.TCBigMetalMasses &lt;- MAP Kernel.TrackDescription.TrackConditions.BigMetalMasses.TCBigMetalMasses | X.Location &lt;= aLocation USING X IN X</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -603,18 +603,18 @@ IN
 <PreConditions>
 <PreCondition
  Guid="c258bfc5-ed72-459f-81ae-55c313a1cdf1"
->(LAST TC IN TCBigMetalMasses).Value == True</PreCondition></PreConditions>
+>(LAST TC IN Kernel.TrackDescription.TrackConditions.BigMetalMasses.TCBigMetalMasses).Value == True</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="517b4dd1-15dd-4bd9-b45a-8d45242d6cdb"
 >INSERT
-  BigMetalMassesInformationStruct
+  Kernel.TrackDescription.TrackConditions.BigMetalMasses.BigMetalMassesInformationStruct
   {
     Location =&gt; aLocation,
     Value =&gt; Boolean.False
   }
 IN
-  TCBigMetalMasses</Action></Actions>
+  Kernel.TrackDescription.TrackConditions.BigMetalMasses.TCBigMetalMasses</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition></Conditions>

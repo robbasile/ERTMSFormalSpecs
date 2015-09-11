@@ -10,7 +10,6 @@
 </NameSpaces>
 <Structures>
 <Structure
- Default=""
  Implemented="TRUE"
  Name="Message"
  Guid="bb473585-e0c3-4505-ab88-40e8d66e9332"
@@ -27,7 +26,7 @@
 >
 </ReqRef><Comment>Mode profile associated to an MA</Comment>
 <StructureElement
- TypeName="Messages.NID_PACKET"
+ TypeName="NID_PACKET"
  Default="80"
  Mode="InOut"
  Implemented="TRUE"
@@ -40,7 +39,7 @@
  Guid="34955356-0bc7-4d44-a4ca-bc1c01b6c3b4"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="Messages.Q_DIR"
+ TypeName="Q_DIR"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -66,7 +65,7 @@
  Guid="67657363-1dee-4892-a3af-e9219f94fe2b"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="Messages.Q_SCALE"
+ TypeName="Q_SCALE"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -92,7 +91,7 @@
  Guid="b62b189a-9c71-4dca-80ce-795295ec8270"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="Messages.M_MAMODE"
+ TypeName="M_MAMODE"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -144,7 +143,7 @@
  Guid="0101b09f-53cc-4f85-bbf0-c27e9b7156a9"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="Messages.Q_MAMODE"
+ TypeName="Q_MAMODE"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -157,7 +156,7 @@
  Guid="331622ae-43d7-4d34-bd8a-541d26e9dd8b"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="Messages.N_ITER"
+ TypeName="N_ITER"
  Default="0"
  Mode="InOut"
  Implemented="TRUE"
@@ -183,7 +182,6 @@
  Guid="563c28d4-b05c-467d-a14b-c1cbe4d98db3"
 >
 </ReqRef></StructureElement></Structure><Structure
- Default=""
  Implemented="TRUE"
  Name="SubStructure1"
  Guid="810470da-6d29-4f4e-8714-6191effbb1e3"
@@ -207,7 +205,7 @@
  Guid="a4a4e4a7-a460-4212-9d8c-1154dfca1bd4"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="Messages.M_MAMODE"
+ TypeName="M_MAMODE"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -259,7 +257,7 @@
  Guid="fddd7660-d8ad-4d02-871c-5b066eca2843"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="Messages.Q_MAMODE"
+ TypeName="Q_MAMODE"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -289,14 +287,13 @@
 <Functions>
 <Function
  Type="Boolean"
- Default=""
  Name="MessageValuesCorrect"
  Guid="2019dfae-0edf-49f4-b345-b0fe0d93e853"
 >
 <Comment>Checks the values in a structure of type MODE_PROFILE.Message</Comment>
 <Parameters>
 <Parameter
- Type="Message"
+ Type="MODE_PROFILE.Message"
  Name="struct"
  Guid="664bbac3-9b3d-452c-89d7-e1bafdd6077e"
 >
@@ -449,7 +446,7 @@ struct.V_MAMODE &gt; 126</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="d8e2b1ef-64bd-4170-b1db-5c771861be63"
->THERE_IS X IN struct.Sequence1 | NOT SubStructure1ValuesCorrect(X)</PreCondition></PreConditions>
+>THERE_IS X IN struct.Sequence1 | NOT Messages.PACKET.TRACK_TO_TRAIN.MODE_PROFILE.SubStructure1ValuesCorrect(X)</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
  Name="Otherwise"
@@ -459,14 +456,13 @@ struct.V_MAMODE &gt; 126</PreCondition></PreConditions>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
- Default=""
  Name="SubStructure1ValuesCorrect"
  Guid="6cf33486-4c1c-406a-9314-933e3ee0f90e"
 >
 <Comment>Checks the values in a structure of type MODE_PROFILE.SubStructure1</Comment>
 <Parameters>
 <Parameter
- Type="SubStructure1"
+ Type="MODE_PROFILE.SubStructure1"
  Name="struct"
  Guid="bba8a4c2-27c7-4d12-bae7-709d46fc5432"
 >

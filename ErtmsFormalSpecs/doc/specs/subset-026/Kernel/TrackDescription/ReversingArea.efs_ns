@@ -170,13 +170,13 @@
 <PreConditions>
 <PreCondition
  Guid="8ff6903f-16b5-48f5-99cd-994b7321e363"
->Mode != Default.Mode.TR</PreCondition></PreConditions>
+>Kernel.Mode != Default.Mode.TR</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="65408a4d-b8a9-4230-8efc-b804bf55df31"
->ReversingAreaProfile.MaxDistance &lt;- MessageTypes.QScaleDistance ( distance =&gt; RVSupervisionPacket.D_REVERSE, scale =&gt; RVSupervisionPacket.Q_SCALE )</Action><Action
+>Kernel.TrackDescription.ReversingArea.ReversingAreaProfile.MaxDistance &lt;- MessageTypes.QScaleDistance ( distance =&gt; RVSupervisionPacket.D_REVERSE, scale =&gt; RVSupervisionPacket.Q_SCALE )</Action><Action
  Guid="8ce3f2d2-574a-40b8-920a-e8a1c9b0eb2e"
->ReversingAreaProfile.Speed &lt;- MessageTypes.SpeedResolution ( speed =&gt; RVSupervisionPacket.V_REVERSE, resolution =&gt; 5.0 )</Action></Actions>
+>Kernel.TrackDescription.ReversingArea.ReversingAreaProfile.Speed &lt;- MessageTypes.SpeedResolution ( speed =&gt; RVSupervisionPacket.V_REVERSE, resolution =&gt; 5.0 )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -282,11 +282,11 @@
 <PreConditions>
 <PreCondition
  Guid="a3235e9b-ce8d-4391-b487-4ca2b69ae988"
->Mode != Default.Mode.TR</PreCondition></PreConditions>
+>Kernel.Mode != Default.Mode.TR</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="c9a4ad75-65e9-41d9-8526-ceb6c810d342"
->ReversingAreaProfile &lt;- ReversingAreaStruct
+>Kernel.TrackDescription.ReversingArea.ReversingAreaProfile &lt;- Kernel.TrackDescription.ReversingArea.ReversingAreaStruct
 {
     Location =&gt; MessageTypes.QScaleDistance ( distance =&gt; RVAreaPacket.D_STARTREVERSE, scale =&gt; RVAreaPacket.Q_SCALE ),
     Length =&gt; MessageTypes.QScaleLength ( length =&gt; RVAreaPacket.L_REVERSEAREA, scale =&gt; RVAreaPacket.Q_SCALE ),
@@ -345,13 +345,13 @@
 <PreConditions>
 <PreCondition
  Guid="7a7f772f-391c-46ae-b299-32807d8f04a7"
->ReversingAreaProfile != EMPTY</PreCondition><PreCondition
+>Kernel.TrackDescription.ReversingArea.ReversingAreaProfile != EMPTY</PreCondition><PreCondition
  Guid="ddaf9e33-1bce-41a4-8818-1ad6d5f1c885"
->ReversingAreaProfile.Location + ReversingAreaProfile.Length &gt; aLocation</PreCondition></PreConditions>
+>Kernel.TrackDescription.ReversingArea.ReversingAreaProfile.Location + Kernel.TrackDescription.ReversingArea.ReversingAreaProfile.Length &gt; aLocation</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="605cb642-b824-4661-af62-7896b4c53420"
->ReversingAreaProfile.Length &lt;- BaseTypes.DistanceToLength(aLocation - ReversingAreaProfile.Location)</Action></Actions>
+>Kernel.TrackDescription.ReversingArea.ReversingAreaProfile.Length &lt;- BaseTypes.DistanceToLength(aLocation - Kernel.TrackDescription.ReversingArea.ReversingAreaProfile.Location)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
@@ -443,11 +443,11 @@
 <PreConditions>
 <PreCondition
  Guid="3a60ad8a-066b-4032-aad4-7f219f88137c"
->Available ( ReversingAreaProfile )
+>Available ( Kernel.TrackDescription.ReversingArea.ReversingAreaProfile )
   AND  
-ReversingAreaProfile.Location &lt;= TrainPosition.FrontEndPosition ( DistanceInterval.Nom )
+Kernel.TrackDescription.ReversingArea.ReversingAreaProfile.Location &lt;= Kernel.TrainPosition.FrontEndPosition ( DistanceInterval.Nom )
   AND  
-TrainPosition.FrontEndPosition ( DistanceInterval.Nom ) &lt; ReversingAreaProfile.Location + BaseTypes.LengthToDistance ( ReversingAreaProfile.Length )</PreCondition><PreCondition
+Kernel.TrainPosition.FrontEndPosition ( DistanceInterval.Nom ) &lt; Kernel.TrackDescription.ReversingArea.ReversingAreaProfile.Location + BaseTypes.LengthToDistance ( Kernel.TrackDescription.ReversingArea.ReversingAreaProfile.Length )</PreCondition><PreCondition
  Guid="e2780f24-dfce-4f80-a1ed-40804c6f02f9"
 >Odometry.TrainIsAtStandstill()</PreCondition></PreConditions>
 <Actions>
@@ -486,7 +486,7 @@ TrainPosition.FrontEndPosition ( DistanceInterval.Nom ) &lt; ReversingAreaProfil
 <PreConditions>
 <PreCondition
  Guid="02c224ed-0cc3-46ef-b8e8-dec3d21df680"
->DriverTriesReversing</PreCondition><PreCondition
+>Kernel.TrackDescription.ReversingArea.DriverTriesReversing</PreCondition><PreCondition
  Guid="a87006bb-b89e-40ff-a62f-44b80838edb8"
 >NOT (DMI.MasterDMI().In_AcknOfRVMode.InputInformation.RequestStatus == Request.Request)</PreCondition></PreConditions>
 <Actions>

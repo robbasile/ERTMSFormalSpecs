@@ -99,7 +99,7 @@ DMI.CabOfDMI( aDMI =&gt; DMI.MasterDMI() ).Desk2IsActive</Expression>
  Name="Value"
  Guid="4568f8a0-b34f-490f-bf5a-916dbebe58fc"
 >
-<Expression>TrainData.TrainData.DataState == DataState.Valid</Expression>
+<Expression>Kernel.TrainData.TrainData.DataState == DataState.Valid</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -144,7 +144,7 @@ DMI.CabOfDMI( aDMI =&gt; DMI.MasterDMI() ).Desk2IsActive</Expression>
  Name="Value"
  Guid="8a945c25-e574-42b9-96b5-a26af35740db"
 >
-<Expression>HandleModeChange in HandleModeChange.Override</Expression>
+<Expression>Kernel.HandleModeChange in Kernel.HandleModeChange.Override</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -212,9 +212,9 @@ DMI.CabOfDMI( aDMI =&gt; DMI.MasterDMI() ).Desk2IsActive</Expression>
  Guid="92f58e6e-866a-4829-a2eb-2e9f8ca5c5a9"
 >
 <Comment>Checks if there is a level transition to level 1 stored for a further location.</Comment>
-<Expression>LevelTransition.LevelTransitionToProcess != EMPTY
+<Expression>Kernel.LevelTransition.LevelTransitionToProcess != EMPTY
   AND
-LevelTransition.LevelTransitionToProcess.TRLevel.Value == Level.L1</Expression>
+Kernel.LevelTransition.LevelTransitionToProcess.TRLevel.Value == Level.L1</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -281,12 +281,12 @@ LevelTransition.LevelTransitionToProcess.TRLevel.Value == Level.L1</Expression>
  Name="Value"
  Guid="fcc18aba-991b-4fc3-a0d5-15f5656e002c"
 >
-<Expression>LevelTransition.LevelTransitionToProcess != EMPTY
+<Expression>Kernel.LevelTransition.LevelTransitionToProcess != EMPTY
   AND
 (
-  LevelTransition.LevelTransitionToProcess.TRLevel.Value == Level.L2
+  Kernel.LevelTransition.LevelTransitionToProcess.TRLevel.Value == Level.L2
     OR
-  LevelTransition.LevelTransitionToProcess.TRLevel.Value == Level.L3
+  Kernel.LevelTransition.LevelTransitionToProcess.TRLevel.Value == Level.L3
 )</Expression>
 </Case></Cases>
 </Function><Function
@@ -410,7 +410,7 @@ LevelTransition.LevelTransitionToProcess.TRLevel.Value == Level.L1</Expression>
  Name="Value"
  Guid="cd684517-b09a-48db-a875-9875a9ee9062"
 >
-<Expression>TSR.InhibitRevocableTSRsFromBalises
+<Expression>Kernel.TSR.InhibitRevocableTSRsFromBalises
   AND
 NID_TSR != Messages.NID_TSR.Non_revocable_speed_restriction__applicable_for_all_transmission_media</Expression>
 </Case></Cases>
@@ -435,12 +435,12 @@ NID_TSR != Messages.NID_TSR.Non_revocable_speed_restriction__applicable_for_all_
  Name="Value"
  Guid="d5e15487-d787-45b9-85cd-86ffbea87d0d"
 >
-<Expression>LevelTransition.LevelTransitionToProcess == EMPTY
+<Expression>Kernel.LevelTransition.LevelTransitionToProcess == EMPTY
   OR
 (
-  LevelTransition.LevelTransitionToProcess.TRLevel.Value != Level.L2
+  Kernel.LevelTransition.LevelTransitionToProcess.TRLevel.Value != Level.L2
     OR
-  LevelTransition.LevelTransitionToProcess.TRLevel.Value != Level.L3
+  Kernel.LevelTransition.LevelTransitionToProcess.TRLevel.Value != Level.L3
 )</Expression>
 </Case></Cases>
 </Function><Function

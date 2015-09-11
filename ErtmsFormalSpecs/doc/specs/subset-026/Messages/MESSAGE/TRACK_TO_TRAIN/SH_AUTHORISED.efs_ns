@@ -10,14 +10,13 @@
 </NameSpaces>
 <Structures>
 <Structure
- Default=""
  Implemented="TRUE"
  Name="Message"
  Guid="257b4b79-8d25-4a80-ab6b-6521ef72f203"
 >
 <Comment>SH Authorised</Comment>
 <StructureElement
- TypeName="Messages.NID_MESSAGE"
+ TypeName="NID_MESSAGE"
  Default="0"
  Mode="InOut"
  Implemented="TRUE"
@@ -56,7 +55,7 @@
  Guid="895d25bb-ab27-4c9c-acc6-0245f0752d8b"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="Messages.M_ACK"
+ TypeName="M_ACK"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -69,7 +68,7 @@
  Guid="b3032eb8-ada3-4872-a481-0bf1bde0cf45"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="Messages.NID_LRBG"
+ TypeName="NID_LRBG"
  Default="0"
  Mode="InOut"
  Implemented="TRUE"
@@ -108,7 +107,6 @@
  Guid="24db4223-2ef7-44b0-8475-b10e54d5e36a"
 >
 </ReqRef></StructureElement></Structure><Structure
- Default=""
  Implemented="TRUE"
  Name="SubStructure1"
  Guid="cf43a1e2-2460-4d51-837b-b318a39b6794"
@@ -422,14 +420,13 @@
 <Functions>
 <Function
  Type="Boolean"
- Default=""
  Name="MessageValuesCorrect"
  Guid="bac3e773-6a01-4e52-a9b1-1a40f6ae31b6"
 >
 <Comment>Checks the values in a structure of type SH_AUTHORISED.Message</Comment>
 <Parameters>
 <Parameter
- Type="Message"
+ Type="SH_AUTHORISED.Message"
  Name="struct"
  Guid="6e0267e5-fc99-4f03-ab26-2a2b60c1935b"
 >
@@ -495,7 +492,7 @@
 <PreConditions>
 <PreCondition
  Guid="25a266ea-2acb-4b16-8aca-a59f109998bd"
->THERE_IS X IN struct.Sequence1 | NOT SubStructure1ValuesCorrect(X)</PreCondition></PreConditions>
+>THERE_IS X IN struct.Sequence1 | NOT Messages.MESSAGE.TRACK_TO_TRAIN.SH_AUTHORISED.SubStructure1ValuesCorrect(X)</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
  Name="Otherwise"
@@ -505,14 +502,13 @@
 </Case></Cases>
 </Function><Function
  Type="Boolean"
- Default=""
  Name="SubStructure1ValuesCorrect"
  Guid="e7232228-505c-4136-a7c8-8119fcd89b0a"
 >
 <Comment>Checks the values in a structure of type SH_AUTHORISED.SubStructure1</Comment>
 <Parameters>
 <Parameter
- Type="SubStructure1"
+ Type="SH_AUTHORISED.SubStructure1"
  Name="struct"
  Guid="78a912c5-17ca-4ec4-9191-8111638d3edb"
 >
@@ -534,7 +530,7 @@
 <PreConditions>
 <PreCondition
  Guid="3b2e6ebc-2957-4b64-b8a8-9a51c778568b"
->NOT PACKET.TRACK_TO_TRAIN.LIST_OF_BALISES_FOR_SH_AREA.MessageValuesCorrect(struct.LIST_OF_BALISES_FOR_SH_AREA)</PreCondition></PreConditions>
+>NOT Messages.PACKET.TRACK_TO_TRAIN.LIST_OF_BALISES_FOR_SH_AREA.MessageValuesCorrect(struct.LIST_OF_BALISES_FOR_SH_AREA)</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
  Name="NATIONAL_VALUES invalid"
@@ -543,7 +539,7 @@
 <PreConditions>
 <PreCondition
  Guid="a7ab6f8d-b758-4b8d-8d6e-5643540864b1"
->NOT PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES.MessageValuesCorrect(struct.NATIONAL_VALUES)</PreCondition></PreConditions>
+>NOT Messages.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES.MessageValuesCorrect(struct.NATIONAL_VALUES)</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
  Name="LINKING invalid"
@@ -552,7 +548,7 @@
 <PreConditions>
 <PreCondition
  Guid="b89610af-eb99-4e23-affd-a9de299677a1"
->NOT PACKET.TRACK_TO_TRAIN.LINKING.MessageValuesCorrect(struct.LINKING)</PreCondition></PreConditions>
+>NOT Messages.PACKET.TRACK_TO_TRAIN.LINKING.MessageValuesCorrect(struct.LINKING)</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
  Name="TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM invalid"
@@ -561,7 +557,7 @@
 <PreConditions>
 <PreCondition
  Guid="1ad2ac11-8a58-4240-b95e-096990ed9b44"
->NOT PACKET.TRACK_TO_TRAIN.TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM.MessageValuesCorrect(struct.TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM)</PreCondition></PreConditions>
+>NOT Messages.PACKET.TRACK_TO_TRAIN.TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM.MessageValuesCorrect(struct.TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM)</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
  Name="AXLE_LOAD_SPEED_PROFILE invalid"
@@ -570,7 +566,7 @@
 <PreConditions>
 <PreCondition
  Guid="dcde97b8-1211-4001-83a9-78246fe61e7f"
->NOT PACKET.TRACK_TO_TRAIN.AXLE_LOAD_SPEED_PROFILE.MessageValuesCorrect(struct.AXLE_LOAD_SPEED_PROFILE)</PreCondition></PreConditions>
+>NOT Messages.PACKET.TRACK_TO_TRAIN.AXLE_LOAD_SPEED_PROFILE.MessageValuesCorrect(struct.AXLE_LOAD_SPEED_PROFILE)</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
  Name="LEVEL_TRANSITION_ORDER invalid"
@@ -579,7 +575,7 @@
 <PreConditions>
 <PreCondition
  Guid="9960d203-1fa9-4dbe-9692-1b0b22232d00"
->NOT PACKET.TRACK_TO_TRAIN.LEVEL_TRANSITION_ORDER.MessageValuesCorrect(struct.LEVEL_TRANSITION_ORDER)</PreCondition></PreConditions>
+>NOT Messages.PACKET.TRACK_TO_TRAIN.LEVEL_TRANSITION_ORDER.MessageValuesCorrect(struct.LEVEL_TRANSITION_ORDER)</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
  Name="SESSION_MANAGEMENT invalid"
@@ -588,7 +584,7 @@
 <PreConditions>
 <PreCondition
  Guid="9760a1f5-4587-4291-8c32-fe2ec300cc0f"
->NOT PACKET.TRACK_TO_TRAIN.SESSION_MANAGEMENT.MessageValuesCorrect(struct.SESSION_MANAGEMENT)</PreCondition></PreConditions>
+>NOT Messages.PACKET.TRACK_TO_TRAIN.SESSION_MANAGEMENT.MessageValuesCorrect(struct.SESSION_MANAGEMENT)</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
  Name="RADIO_NETWORK_REGISTRATION invalid"
@@ -597,7 +593,7 @@
 <PreConditions>
 <PreCondition
  Guid="65b23d23-9cb0-4356-8bc8-b336d0da2fe2"
->NOT PACKET.TRACK_TO_TRAIN.RADIO_NETWORK_REGISTRATION.MessageValuesCorrect(struct.RADIO_NETWORK_REGISTRATION)</PreCondition></PreConditions>
+>NOT Messages.PACKET.TRACK_TO_TRAIN.RADIO_NETWORK_REGISTRATION.MessageValuesCorrect(struct.RADIO_NETWORK_REGISTRATION)</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
  Name="MOVEMENT_AUTHORITY_REQUEST_PARAMETERS invalid"
@@ -606,7 +602,7 @@
 <PreConditions>
 <PreCondition
  Guid="811dceff-18f4-46da-acfc-04a0b613768f"
->NOT PACKET.TRACK_TO_TRAIN.MOVEMENT_AUTHORITY_REQUEST_PARAMETERS.MessageValuesCorrect(struct.MOVEMENT_AUTHORITY_REQUEST_PARAMETERS)</PreCondition></PreConditions>
+>NOT Messages.PACKET.TRACK_TO_TRAIN.MOVEMENT_AUTHORITY_REQUEST_PARAMETERS.MessageValuesCorrect(struct.MOVEMENT_AUTHORITY_REQUEST_PARAMETERS)</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
  Name="POSITION_REPORT_PARAMETERS invalid"
@@ -615,7 +611,7 @@
 <PreConditions>
 <PreCondition
  Guid="9fe58b7e-c739-4b6f-9649-ba08dc349acb"
->NOT PACKET.TRACK_TO_TRAIN.POSITION_REPORT_PARAMETERS.MessageValuesCorrect(struct.POSITION_REPORT_PARAMETERS)</PreCondition></PreConditions>
+>NOT Messages.PACKET.TRACK_TO_TRAIN.POSITION_REPORT_PARAMETERS.MessageValuesCorrect(struct.POSITION_REPORT_PARAMETERS)</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
  Name="TEMPORARY_SPEED_RESTRICTION invalid"
@@ -624,7 +620,7 @@
 <PreConditions>
 <PreCondition
  Guid="d27c9a7c-056c-4d3b-a157-39ed1d6e6cff"
->NOT PACKET.TRACK_TO_TRAIN.TEMPORARY_SPEED_RESTRICTION.MessageValuesCorrect(struct.TEMPORARY_SPEED_RESTRICTION)</PreCondition></PreConditions>
+>NOT Messages.PACKET.TRACK_TO_TRAIN.TEMPORARY_SPEED_RESTRICTION.MessageValuesCorrect(struct.TEMPORARY_SPEED_RESTRICTION)</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
  Name="TEMPORARY_SPEED_RESTRICTION_REVOCATION invalid"
@@ -633,7 +629,7 @@
 <PreConditions>
 <PreCondition
  Guid="2bd84f56-0768-49b8-98ff-c71b18d03470"
->NOT PACKET.TRACK_TO_TRAIN.TEMPORARY_SPEED_RESTRICTION_REVOCATION.MessageValuesCorrect(struct.TEMPORARY_SPEED_RESTRICTION_REVOCATION)</PreCondition></PreConditions>
+>NOT Messages.PACKET.TRACK_TO_TRAIN.TEMPORARY_SPEED_RESTRICTION_REVOCATION.MessageValuesCorrect(struct.TEMPORARY_SPEED_RESTRICTION_REVOCATION)</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
  Name="TRACK_CONDITION invalid"
@@ -642,7 +638,7 @@
 <PreConditions>
 <PreCondition
  Guid="e8c16a92-4acc-4747-b942-2adc223a12ca"
->NOT PACKET.TRACK_TO_TRAIN.TRACK_CONDITION.MessageValuesCorrect(struct.TRACK_CONDITION)</PreCondition></PreConditions>
+>NOT Messages.PACKET.TRACK_TO_TRAIN.TRACK_CONDITION.MessageValuesCorrect(struct.TRACK_CONDITION)</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
  Name="ROUTE_SUITABILITY_DATA invalid"
@@ -651,7 +647,7 @@
 <PreConditions>
 <PreCondition
  Guid="7567e4c8-1b72-4bf9-9f3b-0880177b806f"
->NOT PACKET.TRACK_TO_TRAIN.ROUTE_SUITABILITY_DATA.MessageValuesCorrect(struct.ROUTE_SUITABILITY_DATA)</PreCondition></PreConditions>
+>NOT Messages.PACKET.TRACK_TO_TRAIN.ROUTE_SUITABILITY_DATA.MessageValuesCorrect(struct.ROUTE_SUITABILITY_DATA)</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
  Name="ADHESION_FACTOR invalid"
@@ -660,7 +656,7 @@
 <PreConditions>
 <PreCondition
  Guid="552ae59f-5750-4c3b-bf4e-7aa2470861d8"
->NOT PACKET.TRACK_TO_TRAIN.ADHESION_FACTOR.MessageValuesCorrect(struct.ADHESION_FACTOR)</PreCondition></PreConditions>
+>NOT Messages.PACKET.TRACK_TO_TRAIN.ADHESION_FACTOR.MessageValuesCorrect(struct.ADHESION_FACTOR)</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
  Name="PACKET_FOR_SENDING_PLAIN_TEXT_MESSAGES invalid"
@@ -669,7 +665,7 @@
 <PreConditions>
 <PreCondition
  Guid="79cb6c86-3945-4817-998e-98f15ba905a9"
->NOT PACKET.TRACK_TO_TRAIN.PACKET_FOR_SENDING_PLAIN_TEXT_MESSAGES.MessageValuesCorrect(struct.PACKET_FOR_SENDING_PLAIN_TEXT_MESSAGES)</PreCondition></PreConditions>
+>NOT Messages.PACKET.TRACK_TO_TRAIN.PACKET_FOR_SENDING_PLAIN_TEXT_MESSAGES.MessageValuesCorrect(struct.PACKET_FOR_SENDING_PLAIN_TEXT_MESSAGES)</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
  Name="PACKET_FOR_SENDING_FIXED_TEXT_MESSAGES invalid"
@@ -678,7 +674,7 @@
 <PreConditions>
 <PreCondition
  Guid="59a33ff0-512c-4b23-bbf7-df8aaf5d4ba0"
->NOT PACKET.TRACK_TO_TRAIN.PACKET_FOR_SENDING_FIXED_TEXT_MESSAGES.MessageValuesCorrect(struct.PACKET_FOR_SENDING_FIXED_TEXT_MESSAGES)</PreCondition></PreConditions>
+>NOT Messages.PACKET.TRACK_TO_TRAIN.PACKET_FOR_SENDING_FIXED_TEXT_MESSAGES.MessageValuesCorrect(struct.PACKET_FOR_SENDING_FIXED_TEXT_MESSAGES)</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
  Name="GEOGRAPHICAL_POSITION_INFORMATION invalid"
@@ -687,7 +683,7 @@
 <PreConditions>
 <PreCondition
  Guid="d96cf4ce-e1bb-45d0-a763-b887d5512f15"
->NOT PACKET.TRACK_TO_TRAIN.GEOGRAPHICAL_POSITION_INFORMATION.MessageValuesCorrect(struct.GEOGRAPHICAL_POSITION_INFORMATION)</PreCondition></PreConditions>
+>NOT Messages.PACKET.TRACK_TO_TRAIN.GEOGRAPHICAL_POSITION_INFORMATION.MessageValuesCorrect(struct.GEOGRAPHICAL_POSITION_INFORMATION)</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
  Name="RBC_TRANSITION_ORDER invalid"
@@ -696,7 +692,7 @@
 <PreConditions>
 <PreCondition
  Guid="03f878b1-b61d-45d0-ade1-12d14a9992b1"
->NOT PACKET.TRACK_TO_TRAIN.RBC_TRANSITION_ORDER.MessageValuesCorrect(struct.RBC_TRANSITION_ORDER)</PreCondition></PreConditions>
+>NOT Messages.PACKET.TRACK_TO_TRAIN.RBC_TRANSITION_ORDER.MessageValuesCorrect(struct.RBC_TRANSITION_ORDER)</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
  Name="REVERSING_AREA_INFORMATION invalid"
@@ -705,7 +701,7 @@
 <PreConditions>
 <PreCondition
  Guid="43915012-cb1d-40df-aaf4-45378308b83b"
->NOT PACKET.TRACK_TO_TRAIN.REVERSING_AREA_INFORMATION.MessageValuesCorrect(struct.REVERSING_AREA_INFORMATION)</PreCondition></PreConditions>
+>NOT Messages.PACKET.TRACK_TO_TRAIN.REVERSING_AREA_INFORMATION.MessageValuesCorrect(struct.REVERSING_AREA_INFORMATION)</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
  Name="REVERSING_SUPERVISION_INFORMATION invalid"
@@ -714,7 +710,7 @@
 <PreConditions>
 <PreCondition
  Guid="a57c6bc0-42cf-457f-b6d5-1411ee2eaeb6"
->NOT PACKET.TRACK_TO_TRAIN.REVERSING_SUPERVISION_INFORMATION.MessageValuesCorrect(struct.REVERSING_SUPERVISION_INFORMATION)</PreCondition></PreConditions>
+>NOT Messages.PACKET.TRACK_TO_TRAIN.REVERSING_SUPERVISION_INFORMATION.MessageValuesCorrect(struct.REVERSING_SUPERVISION_INFORMATION)</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
  Name="TRAIN_RUNNING_NUMBER_FROM_RBC invalid"
@@ -723,7 +719,7 @@
 <PreConditions>
 <PreCondition
  Guid="8ea26ee3-4cec-42f5-aef6-764c91867848"
->NOT PACKET.TRACK_TO_TRAIN.TRAIN_RUNNING_NUMBER_FROM_RBC.MessageValuesCorrect(struct.TRAIN_RUNNING_NUMBER_FROM_RBC)</PreCondition></PreConditions>
+>NOT Messages.PACKET.TRACK_TO_TRAIN.TRAIN_RUNNING_NUMBER_FROM_RBC.MessageValuesCorrect(struct.TRAIN_RUNNING_NUMBER_FROM_RBC)</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
  Name="Otherwise"

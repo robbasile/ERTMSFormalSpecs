@@ -66,14 +66,14 @@
 <PreConditions>
 <PreCondition
  Guid="86fef057-8a6f-4d4c-b8fe-f10472c13b9a"
->DistanceForSpeed ( Function =&gt; Display.EBD, Speed =&gt; Vtarget + Kernel.SpeedAndDistanceMonitoring.f41 ( Vtarget ) ) == BaseTypes.Distance.Unknown</PreCondition></PreConditions>
+>DistanceForSpeed ( Function =&gt; Testing.Display.EBD, Speed =&gt; Vtarget + Kernel.SpeedAndDistanceMonitoring.f41 ( Vtarget ) ) == BaseTypes.Distance.Unknown</PreCondition></PreConditions>
 <Expression>BaseTypes.Distance.Unknown</Expression>
 </Case><Case
  Name="Value"
  Guid="372b9a78-c790-4590-90ae-5fc9ed1a311e"
 >
 <Expression>DistanceForSpeed ( 
-    Function =&gt; Display.EBD,
+    Function =&gt; Testing.Display.EBD,
     Speed =&gt; Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.Vbec(
         Vest =&gt; Vest,
         Vtarget =&gt; Vtarget,
@@ -118,7 +118,7 @@
 <PreConditions>
 <PreCondition
  Guid="d164c315-df41-48a4-aa11-d21cee4593c2"
->Display.d_EBI (
+>Testing.Display.d_EBI (
     Vtarget =&gt; Vtarget,
     NoAest =&gt; True,
     Vest =&gt; 0.0
@@ -128,7 +128,7 @@
  Name="Value"
  Guid="7e0f93ea-6373-4564-a9fc-832150d2356b"
 >
-<Expression>Display.d_EBI (
+<Expression>Testing.Display.d_EBI (
     Vtarget =&gt; Vtarget,
     NoAest =&gt; True,
     Vest =&gt; 0.0
@@ -170,7 +170,7 @@
 <Expression>(REDUCE
     Kernel.SpeedAndDistanceMonitoring.TargetsList()
  USING X IN  
-    MIN ( First =&gt; FUNCTION d : BaseTypes.Distance =&gt; Display.TargetSpeedRestriction( aTarget =&gt; X, Distance =&gt; d ), 
+    MIN ( First =&gt; FUNCTION d : BaseTypes.Distance =&gt; Testing.Display.TargetSpeedRestriction( aTarget =&gt; X, Distance =&gt; d ), 
           Second =&gt; RESULT )
 INITIAL_VALUE BaseTypes.MaxSpeedFunction) (Distance)</Expression>
 </Case><Case
@@ -229,7 +229,7 @@ INITIAL_VALUE BaseTypes.MaxSpeedFunction) (Distance)</Expression>
 <PreConditions>
 <PreCondition
  Guid="7502e25f-c02c-4e9e-b3a2-eae5695cfd08"
->Display.d_P ( aTarget.Speed) == BaseTypes.Distance.Unknown</PreCondition><PreCondition
+>Testing.Display.d_P ( aTarget.Speed) == BaseTypes.Distance.Unknown</PreCondition><PreCondition
  Guid="fad51a65-a643-4377-96b9-5aad3caf9b5d"
 >Distance &lt; aTarget.Location + BaseTypes.LengthToDistance ( aTarget.Length )</PreCondition></PreConditions>
 <Expression>0.0</Expression>
@@ -242,7 +242,7 @@ INITIAL_VALUE BaseTypes.MaxSpeedFunction) (Distance)</Expression>
  Guid="2a171c82-b995-4704-b3ec-b1b9353cbc2d"
 >Distance &lt; aTarget.Location + BaseTypes.LengthToDistance ( aTarget.Length )</PreCondition><PreCondition
  Guid="e1eb0537-a61d-41fb-96e6-629c3dfd32d6"
->Display.d_P ( aTarget.Speed ) &lt;= Distance</PreCondition></PreConditions>
+>Testing.Display.d_P ( aTarget.Speed ) &lt;= Distance</PreCondition></PreConditions>
 <Expression>0.0</Expression>
 </Case><Case
  Name="Outside"
@@ -281,7 +281,7 @@ INITIAL_VALUE BaseTypes.MaxSpeedFunction) (Distance)</Expression>
  Guid="97d73dd3-41c1-41ad-b682-8ea8dfad5174"
 >
 <Expression>DecelerationProfile ( 
-  SpeedRestrictions =&gt; Display.SpeedRestrictions 
+  SpeedRestrictions =&gt; Testing.Display.SpeedRestrictions 
   DecelerationFactor =&gt; Kernel.TrainData.BrakingParameters.A_normal_service ) 
 ( Distance )</Expression>
 </Case></Cases>
@@ -326,7 +326,7 @@ INITIAL_VALUE BaseTypes.MaxSpeedFunction) (Distance)</Expression>
  Guid="1529fd2f-2eb1-49c8-94c8-feb16efd487c"
 >
 <Expression>DecelerationProfile ( 
-  SpeedRestrictions =&gt; Display.EBDTargetSpeedRestrictions,
+  SpeedRestrictions =&gt; Testing.Display.EBDTargetSpeedRestrictions,
   DecelerationFactor =&gt; Kernel.TrainData.BrakingParameters.A_safe )
 ( aDistance )</Expression>
 </Case></Cases>

@@ -65,12 +65,12 @@ aTarget.Location == BaseTypes.Distance.Unknown</PreCondition></PreConditions>
  Guid="e744ba80-63dc-46f3-837d-ede2f1c0ffb4"
 >
 <Expression>FullDecelerationForTarget (
-    Target=&gt;TargetSpeedMonitoring.Target{
+    Target=&gt;Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target{
     Location =&gt; aTarget.Location,
-    Speed =&gt; aTarget.Speed + TargetSpeed_Offset(aTarget),
+    Speed =&gt; aTarget.Speed + DecelerationCurves.TargetSpeed_Offset(aTarget),
     Length =&gt; aTarget.Length
 },
-    DecelerationFactor=&gt;TrainData.BrakingParameters.A_safe,
+    DecelerationFactor=&gt;Kernel.TrainData.BrakingParameters.A_safe,
     EndSpeed =&gt; aTarget.Speed
 )(Distance)</Expression>
 </Case></Cases>
@@ -122,8 +122,8 @@ aTarget.Location == BaseTypes.Distance.Unknown</PreCondition></PreConditions>
 >
 <Expression>DistanceForSpeed (
     Function =&gt;
-        FUNCTION d : Default.BaseTypes.Distance =&gt; EBD_Target ( Distance =&gt; d, aTarget =&gt; aTarget ),
-        Speed =&gt; Vbec ( Vest =&gt; Vest, Vtarget =&gt; aTarget.Speed, NoA_est =&gt; NoA_est) )</Expression>
+        FUNCTION d : Default.BaseTypes.Distance =&gt; Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.EBD_Target ( Distance =&gt; d, aTarget =&gt; aTarget ),
+        Speed =&gt; Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.Vbec ( Vest =&gt; Vest, Vtarget =&gt; aTarget.Speed, NoA_est =&gt; NoA_est) )</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Speed"
@@ -164,7 +164,7 @@ aTarget.Location == BaseTypes.Distance.Unknown</PreCondition></PreConditions>
  Name="Value"
  Guid="6a8616f4-c654-41eb-8c0b-dd85faaf713e"
 >
-<Expression>BaseTypes.MaxSpeed ( X1 =&gt; Vest + Vdelta0() + Vdelta1(NoA_est), X2 =&gt; Vtarget ) + Vdelta2(NoA_est)</Expression>
+<Expression>BaseTypes.MaxSpeed ( X1 =&gt; Vest + Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.Vdelta0() + Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.Vdelta1(NoA_est), X2 =&gt; Vtarget ) + Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.Vdelta2(NoA_est)</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Distance"
@@ -210,8 +210,8 @@ aTarget.Location == BaseTypes.Distance.Unknown</PreCondition></PreConditions>
  Name="Value"
  Guid="65053d1d-56ea-40c0-958e-a23368d66654"
 >
-<Expression>BaseTypes.SpeedToMS ( BaseTypes.MaxSpeed ( X1 =&gt; Vest + Vdelta0() + Vdelta1(NoA_est) / 2.0, X2 =&gt; Vtarget ) ) * T_traction(NoA_est) +
-BaseTypes.SpeedToMS ( BaseTypes.MaxSpeed ( X1 =&gt; Vest + Vdelta0() + Vdelta1(NoA_est), X2 =&gt; Vtarget ) + Vdelta2(NoA_est) / 2.0 )  * T_berem(NoA_est)</Expression>
+<Expression>BaseTypes.SpeedToMS ( BaseTypes.MaxSpeed ( X1 =&gt; Vest + Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.Vdelta0() + Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.Vdelta1(NoA_est) / 2.0, X2 =&gt; Vtarget ) ) * Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.T_traction(NoA_est) +
+BaseTypes.SpeedToMS ( BaseTypes.MaxSpeed ( X1 =&gt; Vest + Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.Vdelta0() + Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.Vdelta1(NoA_est), X2 =&gt; Vtarget ) + Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.Vdelta2(NoA_est) / 2.0 )  * Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.T_berem(NoA_est)</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Acceleration"
@@ -308,7 +308,7 @@ BaseTypes.SpeedToMS ( BaseTypes.MaxSpeed ( X1 =&gt; Vest + Vdelta0() + Vdelta1(N
 <PreConditions>
 <PreCondition
  Guid="8b5d2ce3-87d4-4330-8e56-082dd50bbaef"
->NationalValues.CurrentNV().PermToInhibitTheCompOfTheSpeedMeasurementInaccuracy == Messages.Q_NVINHSMICPERM.Yes</PreCondition></PreConditions>
+>Kernel.NationalValues.CurrentNV().PermToInhibitTheCompOfTheSpeedMeasurementInaccuracy == Messages.Q_NVINHSMICPERM.Yes</PreCondition></PreConditions>
 <Expression>0.0</Expression>
 </Case><Case
  Name="Compensation of speed inaccuracy is not inhibited by NV"
@@ -360,7 +360,7 @@ BaseTypes.SpeedToMS ( BaseTypes.MaxSpeed ( X1 =&gt; Vest + Vdelta0() + Vdelta1(N
  Name="Otherwise"
  Guid="5065369d-4e58-4287-b086-1723c2fa31b5"
 >
-<Expression>Aest1() * T_traction(NoA_est)</Expression>
+<Expression>Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.Aest1() * Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.T_traction(NoA_est)</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Speed"
@@ -406,7 +406,7 @@ BaseTypes.SpeedToMS ( BaseTypes.MaxSpeed ( X1 =&gt; Vest + Vdelta0() + Vdelta1(N
  Name="Otherwise"
  Guid="32aacacd-a015-4db8-9358-18b1f08b683a"
 >
-<Expression>Aest2() * T_berem(NoA_est)</Expression>
+<Expression>Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.Aest2() * Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.T_berem(NoA_est)</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Speed"
@@ -456,7 +456,7 @@ BaseTypes.SpeedToMS ( BaseTypes.MaxSpeed ( X1 =&gt; Vest + Vdelta0() + Vdelta1(N
  Name="Speed &gt; 0"
  Guid="7f7aa717-9fff-4fcd-ac65-637cd46d5a2c"
 >
-<Expression>aTarget.Speed + CeilingSpeedMonitoring.dV_ebi ( aTarget.Speed )</Expression>
+<Expression>aTarget.Speed + Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_ebi ( aTarget.Speed )</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Time"
@@ -516,13 +516,13 @@ BaseTypes.SpeedToMS ( BaseTypes.MaxSpeed ( X1 =&gt; Vest + Vdelta0() + Vdelta1(N
 <PreConditions>
 <PreCondition
  Guid="cf6f9fc7-ccd1-4d65-a066-2ba3eebe0aad"
->TrainData.TrainData.Value.TractionCutOffInterfaceIsImplemented</PreCondition></PreConditions>
-<Expression>BaseTypes.MaxTime ( X1 =&gt; ( TrainData.BrakingParameters.T_traction_cut_off (NoA_est) - ( TargetSpeedMonitoring.T_warning + TargetSpeedMonitoring.T_bs2 ) ), X2 =&gt; 0.0 )</Expression>
+>Kernel.TrainData.TrainData.Value.TractionCutOffInterfaceIsImplemented</PreCondition></PreConditions>
+<Expression>BaseTypes.MaxTime ( X1 =&gt; ( Kernel.TrainData.BrakingParameters.T_traction_cut_off (NoA_est) - ( Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.T_warning + Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.T_bs2 ) ), X2 =&gt; 0.0 )</Expression>
 </Case><Case
  Name="Traction cut-off is not implemented"
  Guid="804ac0bb-4c17-41aa-97a4-accc7affd282"
 >
-<Expression>TrainData.BrakingParameters.T_traction_cut_off (NoA_est)</Expression>
+<Expression>Kernel.TrainData.BrakingParameters.T_traction_cut_off (NoA_est)</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Time"
@@ -560,13 +560,13 @@ BaseTypes.SpeedToMS ( BaseTypes.MaxSpeed ( X1 =&gt; Vest + Vdelta0() + Vdelta1(N
 <PreConditions>
 <PreCondition
  Guid="d7618572-5cc7-4892-84a7-af2d85d657e2"
->ServiceBrakeFeedbackAvailable ()</PreCondition></PreConditions>
+>Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.ServiceBrakeFeedbackAvailable ()</PreCondition></PreConditions>
 <Expression>5.0</Expression>
 </Case><Case
  Name="SB feedback interface not available"
  Guid="b91d6f8c-55b0-4316-b754-68a920fca082"
 >
-<Expression>BaseTypes.MaxTime ( X1 =&gt; 0.8 * TrainData.BrakingParameters.T_bs(), X2 =&gt; 5.0 )</Expression>
+<Expression>BaseTypes.MaxTime ( X1 =&gt; 0.8 * Kernel.TrainData.BrakingParameters.T_bs(), X2 =&gt; 5.0 )</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Time"
@@ -603,7 +603,7 @@ BaseTypes.SpeedToMS ( BaseTypes.MaxSpeed ( X1 =&gt; Vest + Vdelta0() + Vdelta1(N
  Name="Value"
  Guid="aeee2a9d-0dc9-46c1-819a-97c42f1e0772"
 >
-<Expression>BaseTypes.MaxTime ( X1 =&gt; TrainData.BrakingParameters.T_be () - T_traction (NoA_est), X2 =&gt; 0.0 )</Expression>
+<Expression>BaseTypes.MaxTime ( X1 =&gt; Kernel.TrainData.BrakingParameters.T_be () - Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.T_traction (NoA_est), X2 =&gt; 0.0 )</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -633,7 +633,7 @@ BaseTypes.SpeedToMS ( BaseTypes.MaxSpeed ( X1 =&gt; Vest + Vdelta0() + Vdelta1(N
  Name="Value"
  Guid="71109ff6-fbb8-4107-af8e-80f3dc312afd"
 >
-<Expression>TrainData.TrainData.Value.SBFeedbackIsImplemented AND NationalValues.UseOfSBFeedbackIsPermitted()</Expression>
+<Expression>Kernel.TrainData.TrainData.Value.SBFeedbackIsImplemented AND Kernel.NationalValues.UseOfSBFeedbackIsPermitted()</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -667,8 +667,8 @@ BaseTypes.SpeedToMS ( BaseTypes.MaxSpeed ( X1 =&gt; Vest + Vdelta0() + Vdelta1(N
 <PreConditions>
 <PreCondition
  Guid="47e945e0-0d82-416d-8a82-055c5554df35"
->Mode == Default.Mode.SR</PreCondition></PreConditions>
-<Expression>aTarget.Location == NationalValues.CurrentNV().MaxPermDistToRunInStaffResponsibleMode
+>Kernel.Mode == Default.Mode.SR</PreCondition></PreConditions>
+<Expression>aTarget.Location == Kernel.NationalValues.CurrentNV().MaxPermDistToRunInStaffResponsibleMode
   AND  
 aTarget.Speed == 0.0</Expression>
 </Case><Case
@@ -721,11 +721,11 @@ aTarget.Speed == 0.0</Expression>
  Name="Value"
  Guid="4cc39234-a04a-45a6-bd0f-c005853ac43c"
 >
-<Expression>BaseTypes.SpeedToMS( Vest + Vdelta0() + Vdelta1(NoA_est)/2.0
-) * T_traction(NoA_est)
+<Expression>BaseTypes.SpeedToMS( Vest + Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.Vdelta0() + Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.Vdelta1(NoA_est)/2.0
+) * Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.T_traction(NoA_est)
  + 
-BaseTypes.SpeedToMS( Vest + Vdelta0() + Vdelta1(NoA_est) + Vdelta2(NoA_est)/2.0
-) * T_berem(NoA_est)</Expression>
+BaseTypes.SpeedToMS( Vest + Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.Vdelta0() + Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.Vdelta1(NoA_est) + Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.Vdelta2(NoA_est)/2.0
+) * Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.T_berem(NoA_est)</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Speed"
@@ -774,7 +774,7 @@ aTarget.Location == BaseTypes.Distance.Unknown</PreCondition></PreConditions>
 >
 <Expression>FullDecelerationForTarget (
     Target =&gt; aTarget,
-    DecelerationFactor=&gt;TrainData.BrakingParameters.A_normal_service,
+    DecelerationFactor=&gt;Kernel.TrainData.BrakingParameters.A_normal_service,
     EndSpeed =&gt; aTarget.Speed
 )(Distance)</Expression>
 </Case></Cases>
@@ -831,7 +831,7 @@ aTarget.Location == BaseTypes.Distance.Unknown</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="3c2e4284-6ce3-4369-8f13-1b7ce48c3d1c"
->NOT MA.EOADefined()</PreCondition></PreConditions>
+>NOT Kernel.MA.EOADefined()</PreCondition></PreConditions>
 <Expression>BaseTypes.Speed.NA</Expression>
 </Case><Case
  Name="Target at infinity"
@@ -850,7 +850,7 @@ aTarget.Location == BaseTypes.Distance.Unknown</PreCondition></PreConditions>
 >
 <Expression>FullDecelerationForTarget(
     Target =&gt; aTarget,
-    DecelerationFactor =&gt; TrainData.BrakingParameters.A_expected,
+    DecelerationFactor =&gt; Kernel.TrainData.BrakingParameters.A_expected,
     EndSpeed =&gt; 0.0
 ) (Distance)</Expression>
 </Case></Cases>
@@ -897,7 +897,7 @@ aTarget.Location == BaseTypes.Distance.Unknown</PreCondition></PreConditions>
 >
 <Expression>DistanceForSpeed (
     Function =&gt;
-        FUNCTION d : Default.BaseTypes.Distance =&gt; SBD_Target ( Distance =&gt; d, aTarget =&gt; aTarget ),
+        FUNCTION d : Default.BaseTypes.Distance =&gt; Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.SBD_Target ( Distance =&gt; d, aTarget =&gt; aTarget ),
         Speed =&gt; Vest
 )</Expression>
 </Case></Cases>
@@ -944,7 +944,7 @@ aTarget.Location == BaseTypes.Distance.Unknown</PreCondition></PreConditions>
 >
 <Expression>DistanceForSpeed (
     Function =&gt;
-        FUNCTION d : Default.BaseTypes.Distance =&gt; GUI_Target ( Distance =&gt; d, aTarget =&gt; aTarget ),
+        FUNCTION d : Default.BaseTypes.Distance =&gt; Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.GUI_Target ( Distance =&gt; d, aTarget =&gt; aTarget ),
         Speed =&gt; Vest )</Expression>
 </Case></Cases>
 </Function><Function
@@ -989,17 +989,17 @@ aTarget.Location == BaseTypes.Distance.Unknown</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="ac0d0078-99a7-4f27-80e8-3a0377e0a324"
->MA.IsSvL(aTarget)
+>Kernel.MA.IsSvL(aTarget)
   OR  
-IsMaxDistToRunInSR(aTarget)
+Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.IsMaxDistToRunInSR(aTarget)
   OR  
-MA.IsLOA(aTarget)</PreCondition></PreConditions>
+Kernel.MA.IsLOA(aTarget)</PreCondition></PreConditions>
 <Expression>0.0</Expression>
 </Case><Case
  Name="MRSP target"
  Guid="a47742d5-a4be-44d1-8e0e-b8577889392f"
 >
-<Expression>CeilingSpeedMonitoring.dV_ebi(aTarget.Speed)</Expression>
+<Expression>Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_ebi(aTarget.Speed)</Expression>
 </Case></Cases>
 </Function></Functions>
 </NameSpace>

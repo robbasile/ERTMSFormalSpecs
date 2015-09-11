@@ -54,9 +54,9 @@
  Name="Value"
  Guid="22a0bb96-bcae-458d-b8bf-a1c3c98628db"
 >
-<Expression>TrainPosition.Position.DataState == DataState.Valid AND
-  MA.ClosestEOA().Location &lt;= BTM.AntennaPosition ( DistanceInterval.Min ) AND
-  Level.Value.Value == Default.Level.L1</Expression>
+<Expression>Kernel.TrainPosition.Position.DataState == DataState.Valid AND
+  Kernel.MA.ClosestEOA().Location &lt;= BTM.AntennaPosition ( DistanceInterval.Min ) AND
+  Kernel.Level.Value.Value == Default.Level.L1</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -85,7 +85,7 @@
  Name="Value"
  Guid="8b201671-d6a9-4381-9ead-0282a8f9b60d"
 >
-<Expression>THERE_IS SafetyCriticalFault IN SafetyCriticalFaults | FaultIsUrgent(SafetyCriticalFault.Fault)</Expression>
+<Expression>THERE_IS SafetyCriticalFault IN Kernel.SafetyCriticalFaults | Kernel.FaultIsUrgent(SafetyCriticalFault.Fault)</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -132,11 +132,11 @@
  Name="Value"
  Guid="782ed2a5-97a0-4ee0-9858-d1769d06efec"
 >
-<Expression>HandleModeChange in HandleModeChangeSM.StartOfMission.S21.MARequestSent
+<Expression>Kernel.HandleModeChange in Kernel.HandleModeChangeSM.StartOfMission.S21.MARequestSent
   AND
-Available ( MA.MA )
+Available ( Kernel.MA.MA )
   AND
-NOT MA.ModeProfile.ModeProfileIsApplicable()</Expression>
+NOT Kernel.MA.ModeProfile.ModeProfileIsApplicable()</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -201,9 +201,9 @@ NOT MA.ModeProfile.ModeProfileIsApplicable()</Expression>
  Name="Value"
  Guid="f95451bd-ad23-4a43-a7d5-1cb82f00d693"
 >
-<Expression>TrainPosition.Position.DataState == DataState.Valid AND
-  MA.ClosestEOA().Location &lt;= TrainPosition.FrontEndPosition ( DistanceInterval.Min ) AND
-  Level.Value.Value in [Default.Level.L2, Default.Level.L3]</Expression>
+<Expression>Kernel.TrainPosition.Position.DataState == DataState.Valid AND
+  Kernel.MA.ClosestEOA().Location &lt;= Kernel.TrainPosition.FrontEndPosition ( DistanceInterval.Min ) AND
+  Kernel.Level.Value.Value in [Default.Level.L2, Default.Level.L3]</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -393,15 +393,15 @@ DMI.DesksAreClosed()</Expression>
  Name="Value"
  Guid="1eb773c0-9cf5-4a53-bb0d-22a83b97659e"
 >
-<Expression>MA.ModeProfile.ModeProfileIsApplicable()
+<Expression>Kernel.MA.ModeProfile.ModeProfileIsApplicable()
   AND
-MA.ModeProfile.CurrentMode() == Default.Mode.ModeProfile.OS
+Kernel.MA.ModeProfile.CurrentMode() == Default.Mode.ModeProfile.OS
   AND
 NOT
   (
-    ( FIRST X IN MA.ModeProfile.Profile | X.Mode == Default.Mode.ModeProfile.LS ) == EMPTY
+    ( FIRST X IN Kernel.MA.ModeProfile.Profile | X.Mode == Default.Mode.ModeProfile.LS ) == EMPTY
       OR
-    MA.ModeProfile.AcknAreaReached ( FIRST X IN MA.ModeProfile.Profile | X.Mode == Default.Mode.ModeProfile.LS )
+    Kernel.MA.ModeProfile.AcknAreaReached ( FIRST X IN Kernel.MA.ModeProfile.Profile | X.Mode == Default.Mode.ModeProfile.LS )
   )</Expression>
 </Case></Cases>
 </Function><Function
@@ -431,7 +431,7 @@ NOT
  Name="Value"
  Guid="b381425a-dfca-485d-ab40-bb9c589f34f7"
 >
-<Expression>PowerOn == Boolean.True</Expression>
+<Expression>Kernel.PowerOn == Boolean.True</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -536,7 +536,7 @@ NOT
  Name="Value"
  Guid="668a3759-0bbb-4f98-88c7-e7bd37df6222"
 >
-<Expression>HandleModeChange in HandleModeChangeSM.TrainTrip.A105</Expression>
+<Expression>Kernel.HandleModeChange in Kernel.HandleModeChangeSM.TrainTrip.A105</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -570,7 +570,7 @@ NOT
  Name="Value"
  Guid="83a0f812-78e9-4627-a91e-440229e33120"
 >
-<Expression>HandleModeChange in HandleModeChangeSM.TrainTrip.S160
+<Expression>Kernel.HandleModeChange in Kernel.HandleModeChangeSM.TrainTrip.S160
   AND
 DMI.MasterDMI().In_AcknOfSRMode.InputInformation.DriverAnswered</Expression>
 </Case></Cases>
@@ -620,9 +620,9 @@ DMI.MasterDMI().In_AcknOfSRMode.InputInformation.DriverAnswered</Expression>
  Guid="f5577155-da2c-443e-bcea-b556fd2b327c"
 >
 <Comment>The condition &quot;driver selects Shunting&quot; is satisfied by the state machine HandleModeChange being in the state ShuntingInitiatedByDriver, since it is only possible to enter that state if the driver selects shunting.</Comment>
-<Expression>HandleModeChange in HandleModeChangeSM.ShuntingInitiatedByDriver.D020
+<Expression>Kernel.HandleModeChange in Kernel.HandleModeChangeSM.ShuntingInitiatedByDriver.D020
   AND
-Level.Value.Value in [Default.Level.L0, Default.Level.LNTC, Default.Level.L1]</Expression>
+Kernel.Level.Value.Value in [Default.Level.L0, Default.Level.LNTC, Default.Level.L1]</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -665,9 +665,9 @@ Level.Value.Value in [Default.Level.L0, Default.Level.LNTC, Default.Level.L1]</E
  Guid="cb64da1f-7c0d-47cf-b062-b536626b8bce"
 >
 <Comment>The condition &quot;driver selects Shunting&quot; is satisfied by the state machine HandleModeChange being in the state ShuntingInitiatedByDriver, since it is only possible to enter that state if the driver selects shunting.</Comment>
-<Expression>HandleModeChange in HandleModeChangeSM.ShuntingInitiatedByDriver.S050
+<Expression>Kernel.HandleModeChange in Kernel.HandleModeChangeSM.ShuntingInitiatedByDriver.S050
   AND
-Level.Value.Value in [Default.Level.L2, Default.Level.L3]
+Kernel.Level.Value.Value in [Default.Level.L2, Default.Level.L3]
   AND  
 Available ( EURORADIO.CurrentRBCConnection().MessageIn.Message.SH_AUTHORISED )</Expression>
 </Case></Cases>
@@ -777,9 +777,9 @@ Odometry.TrainIsAtStandstill()</Expression>
  Name="Value"
  Guid="49817480-d87b-447f-948e-60ae66ca0923"
 >
-<Expression>Modes.Shunting.StopIfInShunting
+<Expression>Kernel.Modes.Shunting.StopIfInShunting
   AND  
-HandleModeChange not in HandleModeChangeSM.Override</Expression>
+Kernel.HandleModeChange not in Kernel.HandleModeChangeSM.Override</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -820,9 +820,9 @@ HandleModeChange not in HandleModeChangeSM.Override</Expression>
  Name="Value"
  Guid="5686c435-0bc4-418f-8e0c-8a3b1ddb1349"
 >
-<Expression>HandleModeChange in HandleModeChangeSM.Override
+<Expression>Kernel.HandleModeChange in Kernel.HandleModeChangeSM.Override
   AND  
-Level.Value.Value == Default.Level.L1</Expression>
+Kernel.Level.Value.Value == Default.Level.L1</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -854,12 +854,12 @@ Level.Value.Value == Default.Level.L1</Expression>
  Guid="f213656b-b350-4d20-852b-1d46f86d6e64"
 >
 <Expression>(
-OverrideSupervision.FormerEOA &lt; TrainPosition.FrontEndPosition(DistanceInterval.Min)
+Kernel.OverrideSupervision.FormerEOA &lt; Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Min)
   AND  
-NOT OverrideSupervision.FormerEOAPassed
+NOT Kernel.OverrideSupervision.FormerEOAPassed
 )
   AND  
-HandleModeChange not in HandleModeChangeSM.Override</Expression>
+Kernel.HandleModeChange not in Kernel.HandleModeChangeSM.Override</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -903,9 +903,9 @@ HandleModeChange not in HandleModeChangeSM.Override</Expression>
  Guid="5ab0834a-1e43-4826-9306-fca0a46e9034"
 >
 <Expression>(
-  HandleModeChange in HandleModeChangeSM.StartOfMission.S10
+  Kernel.HandleModeChange in Kernel.HandleModeChangeSM.StartOfMission.S10
     OR
-  HandleModeChange in HandleModeChangeSM.StartOfMission.S20
+  Kernel.HandleModeChange in Kernel.HandleModeChangeSM.StartOfMission.S20
 )
   AND
 DMI.MasterDMI().In_NonLeadingRequest.InputInformation.DriverAnswered
@@ -952,11 +952,11 @@ TIU.NonLeadingPermitted</Expression>
  Name="Value"
  Guid="6e85bf2e-e3a7-472c-9cea-c751c8b54f03"
 >
-<Expression>HandleModeChange in HandleModeChangeSM.Override
+<Expression>Kernel.HandleModeChange in Kernel.HandleModeChangeSM.Override
   AND  
-NOT THERE_IS EmergencyStop IN BrakeCommands.EmergencyStops | (NOT EmergencyStop.IsConditional)
+NOT THERE_IS EmergencyStop IN Kernel.BrakeCommands.EmergencyStops | (NOT EmergencyStop.IsConditional)
   AND  
-Level.Value.Value in [Default.Level.L2, Default.Level.L3]</Expression>
+Kernel.Level.Value.Value in [Default.Level.L2, Default.Level.L3]</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -1012,9 +1012,9 @@ Level.Value.Value in [Default.Level.L2, Default.Level.L3]</Expression>
  Name="Value"
  Guid="7925ab7e-266b-4384-b1cd-cb12d792c0d6"
 >
-<Expression>MA.ModeProfile.ModeProfileIsApplicable()
+<Expression>Kernel.MA.ModeProfile.ModeProfileIsApplicable()
   AND
-MA.ModeProfile.CurrentMode() == Default.Mode.ModeProfile.SH</Expression>
+Kernel.MA.ModeProfile.CurrentMode() == Default.Mode.ModeProfile.SH</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -1066,11 +1066,11 @@ MA.ModeProfile.CurrentMode() == Default.Mode.ModeProfile.SH</Expression>
  Name="Value"
  Guid="539ad9b6-300b-45a9-af0b-9fb73b834b70"
 >
-<Expression>MA.ModeProfile.ModeProfileIsApplicable()
+<Expression>Kernel.MA.ModeProfile.ModeProfileIsApplicable()
   AND
-MA.ModeProfile.CurrentMode() == Default.Mode.ModeProfile.SH
+Kernel.MA.ModeProfile.CurrentMode() == Default.Mode.ModeProfile.SH
   AND
-Level.Value.Value in [Default.Level.L1, Default.Level.L2, Default.Level.L3]</Expression>
+Kernel.Level.Value.Value in [Default.Level.L1, Default.Level.L2, Default.Level.L3]</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -1124,7 +1124,7 @@ Level.Value.Value in [Default.Level.L1, Default.Level.L2, Default.Level.L3]</Exp
  Name="Value"
  Guid="ec0576c6-5e8d-4205-8a1a-5c5ee771fd68"
 >
-<Expression>Level.Value.Value == Default.Level.LNTC</Expression>
+<Expression>Kernel.Level.Value.Value == Default.Level.LNTC</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -1203,7 +1203,7 @@ DMI.MasterDMI().In_AcknOfRVMode.InputInformation.DriverAnswered</Expression>
  Name="Value"
  Guid="6e5e5796-8cda-4835-b133-d2ccd6666d77"
 >
-<Expression>HandleModeChange in HandleModeChangeSM.StartOfMission.S22.DriverAckRequested AND
+<Expression>Kernel.HandleModeChange in Kernel.HandleModeChangeSM.StartOfMission.S22.DriverAckRequested AND
 DMI.MasterDMI().In_AcknOfSNMode.InputInformation.DriverAnswered</Expression>
 </Case></Cases>
 </Function><Function
@@ -1254,9 +1254,9 @@ DMI.MasterDMI().In_AcknOfSNMode.InputInformation.DriverAnswered</Expression>
  Name="Value"
  Guid="4f1f4ed4-0fdd-445a-b62c-77d11810378b"
 >
-<Expression>Modes.Shunting.UnexpectedBGPassed
+<Expression>Kernel.Modes.Shunting.UnexpectedBGPassed
   AND  
-HandleModeChange not in HandleModeChangeSM.Override</Expression>
+Kernel.HandleModeChange not in Kernel.HandleModeChangeSM.Override</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -1290,7 +1290,7 @@ HandleModeChange not in HandleModeChangeSM.Override</Expression>
  Name="Value"
  Guid="9f622278-802e-47ad-880a-609792f0a6be"
 >
-<Expression>HandleModeChange in HandleModeChangeSM.StartOfMission.S23
+<Expression>Kernel.HandleModeChange in Kernel.HandleModeChangeSM.StartOfMission.S23
   AND
 DMI.MasterDMI().In_AcknOfUNMode.InputInformation.DriverAnswered</Expression>
 </Case></Cases>
@@ -1329,15 +1329,15 @@ DMI.MasterDMI().In_AcknOfUNMode.InputInformation.DriverAnswered</Expression>
  Name="Value"
  Guid="7df588b1-7b61-44ff-b4c0-8cef08b7afe0"
 >
-<Expression>Modes.StaffResponsible.StopIfInStaffResponsible
+<Expression>Kernel.Modes.StaffResponsible.StopIfInStaffResponsible
   AND  
 (
-  NOT Modes.StaffResponsible.SRAuthorisation.BGListReceived
+  NOT Kernel.Modes.StaffResponsible.SRAuthorisation.BGListReceived
     OR  
-  FORALL BaliseGroup IN Modes.StaffResponsible.SRAuthorisation.BGs | ((FIRST X IN BTM.CurrentBaliseGroup).Telegram.NID_BG != BaliseGroup.NID_BG  OR  (FIRST X IN BTM.CurrentBaliseGroup).Telegram.NID_C != BaliseGroup.NID_C) 
+  FORALL BaliseGroup IN Kernel.Modes.StaffResponsible.SRAuthorisation.BGs | ((FIRST X IN BTM.CurrentBaliseGroup).Telegram.NID_BG != BaliseGroup.NID_BG  OR  (FIRST X IN BTM.CurrentBaliseGroup).Telegram.NID_C != BaliseGroup.NID_C) 
 )
   AND  
-HandleModeChange not in HandleModeChangeSM.Override</Expression>
+Kernel.HandleModeChange not in Kernel.HandleModeChangeSM.Override</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -1368,9 +1368,9 @@ HandleModeChange not in HandleModeChangeSM.Override</Expression>
  Name="Value"
  Guid="d38d55bd-0075-453f-9c99-d47d90b65f9d"
 >
-<Expression>TrainPosition.DistanceRunInSR(DistanceInterval.Nom) &gt; Modes.StaffResponsible.DistanceToRun()
+<Expression>Kernel.TrainPosition.DistanceRunInSR(DistanceInterval.Nom) &gt; Kernel.Modes.StaffResponsible.DistanceToRun()
   AND  
-HandleModeChange not in HandleModeChangeSM.Override</Expression>
+Kernel.HandleModeChange not in Kernel.HandleModeChangeSM.Override</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -1417,15 +1417,15 @@ HandleModeChange not in HandleModeChangeSM.Override</Expression>
  Name="Value"
  Guid="e1e5a254-55f8-496c-8269-0f2331f0b6f2"
 >
-<Expression>Level.Value.Value in [Default.Level.L1, Default.Level.L2, Default.Level.L3]
+<Expression>Kernel.Level.Value.Value in [Default.Level.L1, Default.Level.L2, Default.Level.L3]
   AND
-Available ( MA.MA )
+Available ( Kernel.MA.MA )
   AND
-TrackDescription.StaticSpeedProfile.SSP != []
+Kernel.TrackDescription.StaticSpeedProfile.SSP != []
   AND
-TrackDescription.Gradient.Gradients != []
+Kernel.TrackDescription.Gradient.Gradients != []
   AND
-MA.ModeProfile.Profile == []</Expression>
+Kernel.MA.ModeProfile.Profile == []</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -1492,7 +1492,7 @@ MA.ModeProfile.Profile == []</Expression>
 >
 <Expression>DMI.DeskIsOpen ( DMI.MasterDMI() )
   AND
-NOT Modes.Shunting.StopShuntingOnDeskOpening</Expression>
+NOT Kernel.Modes.Shunting.StopShuntingOnDeskOpening</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -1559,7 +1559,7 @@ NOT Modes.Shunting.StopShuntingOnDeskOpening</Expression>
 >
 <Expression>DMI.DesksAreClosed()
   AND
-NOT Modes.Shunting.ContinueShuntingOnDeskClosure</Expression>
+NOT Kernel.Modes.Shunting.ContinueShuntingOnDeskClosure</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -1608,7 +1608,7 @@ NOT Modes.Shunting.ContinueShuntingOnDeskClosure</Expression>
 >
 <Expression>DMI.DesksAreClosed()
   AND
-NOT Modes.Shunting.ContinueShuntingOnDeskClosure
+NOT Kernel.Modes.Shunting.ContinueShuntingOnDeskClosure
   AND
 TIU.PassiveShuntingPermitted</Expression>
 </Case></Cases>
@@ -1641,9 +1641,9 @@ TIU.PassiveShuntingPermitted</Expression>
  Name="Value"
  Guid="59d96538-41f7-4367-8877-a4782790499e"
 >
-<Expression>SpeedAndDistanceMonitoring.TrainTripped
+<Expression>Kernel.SpeedAndDistanceMonitoring.TrainTripped
   AND  
-HandleModeChange not in HandleModeChangeSM.Override</Expression>
+Kernel.HandleModeChange not in Kernel.HandleModeChangeSM.Override</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -1708,7 +1708,7 @@ Odometry.TrainSpeed() == 0.0</Expression>
 >
 <Expression>DMI.DeskIsOpen ( DMI.MasterDMI() )
   AND
-Modes.Shunting.StopShuntingOnDeskOpening</Expression>
+Kernel.Modes.Shunting.StopShuntingOnDeskOpening</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -1757,7 +1757,7 @@ Modes.Shunting.StopShuntingOnDeskOpening</Expression>
  Name="Value"
  Guid="352b596a-a555-4dcb-8e37-9775c7755e6a"
 >
-<Expression>Level.Value.Value == Default.Level.L0</Expression>
+<Expression>Kernel.Level.Value.Value == Default.Level.L0</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -1791,10 +1791,10 @@ Modes.Shunting.StopShuntingOnDeskOpening</Expression>
  Name="Value"
  Guid="eb07c999-d231-4dc5-b70f-9699310621f7"
 >
-<Expression>THERE_IS X IN BrakeCommands.EmergencyStops | (
+<Expression>THERE_IS X IN Kernel.BrakeCommands.EmergencyStops | (
     NOT(X.IsConditional) 
 AND 
-    X.Reason == BrakeCommands.BrakeReason.OrderFromRBC
+    X.Reason == Kernel.BrakeCommands.BrakeReason.OrderFromRBC
 )</Expression>
 </Case></Cases>
 </Function><Function
@@ -1824,7 +1824,7 @@ AND
  Name="Value"
  Guid="0838e6c8-b3ca-4297-9442-461c53119f22"
 >
-<Expression>NOT PowerOn</Expression>
+<Expression>NOT Kernel.PowerOn</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -1883,7 +1883,7 @@ AND
 >
 <Expression>DMI.MasterDMI().In_OverrideRequest.InputInformation.DriverAnswered
   AND  
-Odometry.TrainSpeed() &lt; NationalValues.CurrentNV().SpeedLimitForTriggeringTheOverrideFunction</Expression>
+Odometry.TrainSpeed() &lt; Kernel.NationalValues.CurrentNV().SpeedLimitForTriggeringTheOverrideFunction</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -1914,9 +1914,9 @@ Odometry.TrainSpeed() &lt; NationalValues.CurrentNV().SpeedLimitForTriggeringThe
  Name="Value"
  Guid="315562f4-6a17-4612-829e-408ee5dbf910"
 >
-<Expression>Modes.StaffResponsible.UnexpectedBGPassed
+<Expression>Kernel.Modes.StaffResponsible.UnexpectedBGPassed
   AND  
-HandleModeChange not in HandleModeChangeSM.Override</Expression>
+Kernel.HandleModeChange not in Kernel.HandleModeChangeSM.Override</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -2013,11 +2013,11 @@ HandleModeChange not in HandleModeChangeSM.Override</Expression>
  Name="Value"
  Guid="f6fb1fbb-a012-467d-bbeb-28574df97b22"
 >
-<Expression>Available ( MA.MA )
+<Expression>Available ( Kernel.MA.MA )
   AND
-MA.ModeProfile.ModeProfileIsApplicable()
+Kernel.MA.ModeProfile.ModeProfileIsApplicable()
   AND
-MA.ModeProfile.CurrentMode() == Default.Mode.ModeProfile.OS</Expression>
+Kernel.MA.ModeProfile.CurrentMode() == Default.Mode.ModeProfile.OS</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -2058,9 +2058,9 @@ MA.ModeProfile.CurrentMode() == Default.Mode.ModeProfile.OS</Expression>
  Name="Value"
  Guid="9f989227-1a5b-40c0-bdc9-f6354a483985"
 >
-<Expression>Level.Value.Value in [Default.Level.L1, Default.Level.L2, Default.Level.L3]
+<Expression>Kernel.Level.Value.Value in [Default.Level.L1, Default.Level.L2, Default.Level.L3]
   AND
-MA.MA == EMPTY</Expression>
+Kernel.MA.MA == EMPTY</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -2123,17 +2123,17 @@ MA.MA == EMPTY</Expression>
  Name="Value"
  Guid="269406ab-1582-482b-a177-750fabddebe6"
 >
-<Expression>Available ( MA.MA )
+<Expression>Available ( Kernel.MA.MA )
   AND
-TrackDescription.StaticSpeedProfile.SSP != []
+Kernel.TrackDescription.StaticSpeedProfile.SSP != []
   AND
-TrackDescription.Gradient.Gradients != []
+Kernel.TrackDescription.Gradient.Gradients != []
   AND
-NOT MA.ModeProfile.ModeProfileIsApplicable()
+NOT Kernel.MA.ModeProfile.ModeProfileIsApplicable()
   AND
-Level.Value.Value == Default.Level.L1
+Kernel.Level.Value.Value == Default.Level.L1
   AND
-SpeedAndDistanceMonitoring.TrainTripped == False</Expression>
+Kernel.SpeedAndDistanceMonitoring.TrainTripped == False</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -2195,15 +2195,15 @@ SpeedAndDistanceMonitoring.TrainTripped == False</Expression>
  Name="Value"
  Guid="78d08ac6-7899-46dc-9873-64f9adb589c5"
 >
-<Expression>Available ( MA.MA )
+<Expression>Available ( Kernel.MA.MA )
   AND
-TrackDescription.StaticSpeedProfile.SSP != []
+Kernel.TrackDescription.StaticSpeedProfile.SSP != []
   AND
-TrackDescription.Gradient.Gradients != []
+Kernel.TrackDescription.Gradient.Gradients != []
   AND
-NOT MA.ModeProfile.ModeProfileIsApplicable()
+NOT Kernel.MA.ModeProfile.ModeProfileIsApplicable()
   AND
-Level.Value.Value in [Default.Level.L2, Default.Level.L3]</Expression>
+Kernel.Level.Value.Value in [Default.Level.L2, Default.Level.L3]</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -2324,11 +2324,11 @@ NOT TIU.PassiveShuntingPermitted</Expression>
  Name="Value"
  Guid="314201be-65f6-4b33-a358-5aedceec2752"
 >
-<Expression>Available ( MA.MA )
+<Expression>Available ( Kernel.MA.MA )
   AND
-MA.ModeProfile.ModeProfileIsApplicable()
+Kernel.MA.ModeProfile.ModeProfileIsApplicable()
   AND
-MA.ModeProfile.CurrentMode() == Default.Mode.ModeProfile.OS</Expression>
+Kernel.MA.ModeProfile.CurrentMode() == Default.Mode.ModeProfile.OS</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -2390,7 +2390,7 @@ MA.ModeProfile.CurrentMode() == Default.Mode.ModeProfile.OS</Expression>
  Name="Value"
  Guid="602feefd-c298-4afa-8e06-070ab3a33a7a"
 >
-<Expression>HandleModeChange in HandleModeChangeSM.TrainTrip.A145</Expression>
+<Expression>Kernel.HandleModeChange in Kernel.HandleModeChangeSM.TrainTrip.A145</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -2467,7 +2467,7 @@ Odometry.TrainIsAtStandstill()</Expression>
  Name="Value"
  Guid="69cdc1a2-3a47-48b5-86cd-8b06ff1b9f57"
 >
-<Expression>HandleModeChange in HandleModeChangeSM.TrainTrip.S170.DriverAckRequested
+<Expression>Kernel.HandleModeChange in Kernel.HandleModeChangeSM.TrainTrip.S170.DriverAckRequested
   AND
 DMI.MasterDMI().In_AcknOfLSMode.InputInformation.DriverAnswered</Expression>
 </Case></Cases>
@@ -2508,9 +2508,9 @@ DMI.MasterDMI().In_AcknOfLSMode.InputInformation.DriverAnswered</Expression>
  Name="Value"
  Guid="6d1267bb-2737-4321-af1f-b133b7477942"
 >
-<Expression>TrackDescription.StaticSpeedProfile.SSPStart() &gt; TrainPosition.FrontEndPosition(DistanceInterval.Nom) 
+<Expression>Kernel.TrackDescription.StaticSpeedProfile.SSPStart() &gt; Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom) 
   OR  
-TrackDescription.Gradient.GradientProfileStart() &gt; TrainPosition.FrontEndPosition(DistanceInterval.Nom)</Expression>
+Kernel.TrackDescription.Gradient.GradientProfileStart() &gt; Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom)</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -2561,9 +2561,9 @@ TrackDescription.Gradient.GradientProfileStart() &gt; TrainPosition.FrontEndPosi
  Name="Value"
  Guid="e5267ebb-ffc7-4d65-8510-a3e1f74162bd"
 >
-<Expression>MA.ModeProfile.ModeProfileIsApplicable()
+<Expression>Kernel.MA.ModeProfile.ModeProfileIsApplicable()
   AND
-MA.ModeProfile.CurrentMode() == Default.Mode.ModeProfile.LS</Expression>
+Kernel.MA.ModeProfile.CurrentMode() == Default.Mode.ModeProfile.LS</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -2615,11 +2615,11 @@ MA.ModeProfile.CurrentMode() == Default.Mode.ModeProfile.LS</Expression>
  Name="Value"
  Guid="1df971c0-d11a-490c-b99d-cac062ffff2b"
 >
-<Expression>MA.ModeProfile.ModeProfileIsApplicable()
+<Expression>Kernel.MA.ModeProfile.ModeProfileIsApplicable()
   AND
-MA.ModeProfile.CurrentMode() == Default.Mode.ModeProfile.LS
+Kernel.MA.ModeProfile.CurrentMode() == Default.Mode.ModeProfile.LS
   AND
-Level.Value.Value in [Default.Level.L1, Default.Level.L2, Default.Level.L3]</Expression>
+Kernel.Level.Value.Value in [Default.Level.L1, Default.Level.L2, Default.Level.L3]</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -2737,7 +2737,7 @@ BTM.CurrentBaliseGroup != []
  Name="Value"
  Guid="a82c4357-23e7-4207-886d-bb18d6fa88f2"
 >
-<Expression>HandleModeChange in HandleModeChangeSM.TrainTrip.A140</Expression>
+<Expression>Kernel.HandleModeChange in Kernel.HandleModeChangeSM.TrainTrip.A140</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -2774,11 +2774,11 @@ BTM.CurrentBaliseGroup != []
  Name="Value"
  Guid="254a42ce-42ff-4bfa-bb57-6311a6aca2a6"
 >
-<Expression>Level.Value.Value == Default.Level.L1
+<Expression>Kernel.Level.Value.Value == Default.Level.L1
   AND  
-THERE_IS EmergencyStop IN BrakeCommands.EmergencyStops
+THERE_IS EmergencyStop IN Kernel.BrakeCommands.EmergencyStops
   AND  
-HandleModeChange not in HandleModeChangeSM.Override</Expression>
+Kernel.HandleModeChange not in Kernel.HandleModeChangeSM.Override</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -2821,7 +2821,7 @@ HandleModeChange not in HandleModeChangeSM.Override</Expression>
  Name="Value"
  Guid="d2f1f199-4026-4a6b-8db6-2e6c8006d9aa"
 >
-<Expression>HandleModeChange in HandleModeChangeSM.TrainTrip.A150</Expression>
+<Expression>Kernel.HandleModeChange in Kernel.HandleModeChangeSM.TrainTrip.A150</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -2883,15 +2883,15 @@ HandleModeChange not in HandleModeChangeSM.Override</Expression>
  Name="Value"
  Guid="1d9238ec-112c-44a2-83d0-bbead36b743f"
 >
-<Expression>MA.ModeProfile.ModeProfileIsApplicable()
+<Expression>Kernel.MA.ModeProfile.ModeProfileIsApplicable()
   AND
-MA.ModeProfile.CurrentMode() == Default.Mode.ModeProfile.LS
+Kernel.MA.ModeProfile.CurrentMode() == Default.Mode.ModeProfile.LS
   AND
 NOT
   (
-    ( FIRST X IN MA.ModeProfile.Profile | X.Mode == Default.Mode.ModeProfile.OS ) == EMPTY
+    ( FIRST X IN Kernel.MA.ModeProfile.Profile | X.Mode == Default.Mode.ModeProfile.OS ) == EMPTY
       OR
-    MA.ModeProfile.AcknAreaReached ( FIRST X IN MA.ModeProfile.Profile | X.Mode == Default.Mode.ModeProfile.OS )
+    Kernel.MA.ModeProfile.AcknAreaReached ( FIRST X IN Kernel.MA.ModeProfile.Profile | X.Mode == Default.Mode.ModeProfile.OS )
   )</Expression>
 </Case></Cases>
 </Function><Function
@@ -2941,7 +2941,7 @@ NOT
  Name="Value"
  Guid="38d5b17e-1b8e-476c-a02b-eb663b6ccb8c"
 >
-<Expression>HandleModeChange in HandleModeChangeSM.TrainTrip.S170.DriverAckRequested
+<Expression>Kernel.HandleModeChange in Kernel.HandleModeChangeSM.TrainTrip.S170.DriverAckRequested
   AND
 DMI.MasterDMI().In_AcknOfOSMode.InputInformation.DriverAnswered</Expression>
 </Case></Cases>
@@ -2992,7 +2992,7 @@ DMI.MasterDMI().In_AcknOfOSMode.InputInformation.DriverAnswered</Expression>
  Name="Value"
  Guid="4a33f1cc-738d-4688-ad30-bb1130f703f9"
 >
-<Expression>HandleModeChange in HandleModeChangeSM.StartOfMission.S25
+<Expression>Kernel.HandleModeChange in Kernel.HandleModeChangeSM.StartOfMission.S25
   AND
 DMI.MasterDMI().In_AcknOfOSMode.InputInformation.DriverAnswered</Expression>
 </Case></Cases>
@@ -3041,11 +3041,11 @@ DMI.MasterDMI().In_AcknOfOSMode.InputInformation.DriverAnswered</Expression>
  Name="Value"
  Guid="f2ae3bd6-98e2-4b91-a5c3-e084d9383ce5"
 >
-<Expression>HandleModeChange in HandleModeChangeSM.TrainTrip.S150.MARequestSent
+<Expression>Kernel.HandleModeChange in Kernel.HandleModeChangeSM.TrainTrip.S150.MARequestSent
   AND
-Available ( MA.MA )
+Available ( Kernel.MA.MA )
   AND
-NOT MA.ModeProfile.ModeProfileIsApplicable()</Expression>
+NOT Kernel.MA.ModeProfile.ModeProfileIsApplicable()</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -3106,9 +3106,9 @@ NOT MA.ModeProfile.ModeProfileIsApplicable()</Expression>
  Name="Value"
  Guid="715a565c-ccc0-47e3-95ce-cea36f6421a3"
 >
-<Expression>HandleModeChange in HandleModeChangeSM.TrainTrip
+<Expression>Kernel.HandleModeChange in Kernel.HandleModeChangeSM.TrainTrip
   AND
-Level.Value.Value in [Default.Level.L2, Default.Level.L3]
+Kernel.Level.Value.Value in [Default.Level.L2, Default.Level.L3]
   AND
 DMI.MasterDMI().In_OverrideRequest.InputInformation.DriverAnswered</Expression>
 </Case></Cases>
@@ -3149,7 +3149,7 @@ DMI.MasterDMI().In_OverrideRequest.InputInformation.DriverAnswered</Expression>
  Name="Value"
  Guid="18dccbbb-9140-4c28-9abb-d3adee603452"
 >
-<Expression>HandleModeChange in HandleModeChangeSM.TrainTrip.S170.DriverAckRequested
+<Expression>Kernel.HandleModeChange in Kernel.HandleModeChangeSM.TrainTrip.S170.DriverAckRequested
   AND
 DMI.MasterDMI().In_AcknOfSHMode.InputInformation.DriverAnswered</Expression>
 </Case></Cases>
@@ -3185,7 +3185,7 @@ DMI.MasterDMI().In_AcknOfSHMode.InputInformation.DriverAnswered</Expression>
  Name="Value"
  Guid="e38860af-a14f-444d-bee3-1d1b35e6a35c"
 >
-<Expression>HandleModeChange in HandleModeChangeSM.StartOfMission.S24
+<Expression>Kernel.HandleModeChange in Kernel.HandleModeChangeSM.StartOfMission.S24
   AND
 DMI.MasterDMI().In_AcknOfSRMode.InputInformation.DriverAnswered</Expression>
 </Case></Cases>
@@ -3219,9 +3219,9 @@ DMI.MasterDMI().In_AcknOfSRMode.InputInformation.DriverAnswered</Expression>
  Guid="25a7beb6-0196-47f4-a9fd-8f9591758667"
 >
 <Expression>(
-  HandleModeChange in HandleModeChangeSM.StartOfMission.S10
+  Kernel.HandleModeChange in Kernel.HandleModeChangeSM.StartOfMission.S10
     OR
-  HandleModeChange in HandleModeChangeSM.StartOfMission.S20
+  Kernel.HandleModeChange in Kernel.HandleModeChangeSM.StartOfMission.S20
 )
   AND
 DMI.MasterDMI().In_OverrideRequest.InputInformation.DriverAnswered</Expression>
@@ -3268,7 +3268,7 @@ DMI.MasterDMI().In_OverrideRequest.InputInformation.DriverAnswered</Expression>
  Name="Value"
  Guid="e12e6870-6112-42e5-9e70-5c219e28706e"
 >
-<Expression>HandleModeChange in HandleModeChangeSM.StartOfMission.S25
+<Expression>Kernel.HandleModeChange in Kernel.HandleModeChangeSM.StartOfMission.S25
   AND
 DMI.MasterDMI().In_AcknOfLSMode.InputInformation.DriverAnswered</Expression>
 </Case></Cases>
@@ -3309,7 +3309,7 @@ DMI.MasterDMI().In_AcknOfLSMode.InputInformation.DriverAnswered</Expression>
  Name="Value"
  Guid="8429102d-3dcb-42e9-803e-72ca2cdce070"
 >
-<Expression>HandleModeChange in HandleModeChangeSM.StartOfMission.S25
+<Expression>Kernel.HandleModeChange in Kernel.HandleModeChangeSM.StartOfMission.S25
   AND
 DMI.MasterDMI().In_AcknOfSHMode.InputInformation.DriverAnswered</Expression>
 </Case></Cases>
@@ -3430,7 +3430,7 @@ TIU.NonLeadingPermitted</Expression>
 <PreConditions>
 <PreCondition
  Guid="637c50bc-03df-4996-ae13-ed0ee66f0cf7"
->Mode == Default.Mode.NP</PreCondition></PreConditions>
+>Kernel.Mode == Default.Mode.NP</PreCondition></PreConditions>
 <Actions>
 </Actions>
 <SubRules>
@@ -3458,11 +3458,11 @@ TIU.NonLeadingPermitted</Expression>
 <PreConditions>
 <PreCondition
  Guid="3838e6e2-2e03-4fef-b8f6-2e6fb0b98e24"
->Condition1()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition1()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="82e077d0-e74d-42db-84e2-99fd0141f0f2"
->Mode &lt;- Default.Mode.IS</Action></Actions>
+>Kernel.Mode &lt;- Default.Mode.IS</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="NP -&gt; SB"
@@ -3487,11 +3487,11 @@ TIU.NonLeadingPermitted</Expression>
 <PreConditions>
 <PreCondition
  Guid="4eb9f7ab-f9ff-4968-b61c-35120ed8e96b"
->Condition4()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition4()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="ee94747a-9874-4e1b-b90d-a6cd463f4bb5"
->Mode &lt;- Default.Mode.SB</Action><Action
+>Kernel.Mode &lt;- Default.Mode.SB</Action><Action
  Guid="c1fa9ed0-f8e5-4c64-9aae-544df9ed2468"
 >EURORADIO.RegisterMobileTerminals ( EURORADIO.LastKnownNetworkId )</Action></Actions>
 </RuleCondition></Conditions>
@@ -3505,7 +3505,7 @@ TIU.NonLeadingPermitted</Expression>
 <PreConditions>
 <PreCondition
  Guid="8a69d0e4-714f-41a4-ab4a-0bffeaf5ccd0"
->Mode == Default.Mode.SB</PreCondition></PreConditions>
+>Kernel.Mode == Default.Mode.SB</PreCondition></PreConditions>
 <Actions>
 </Actions>
 <SubRules>
@@ -3532,11 +3532,11 @@ TIU.NonLeadingPermitted</Expression>
 <PreConditions>
 <PreCondition
  Guid="fbe9b593-c3a5-4aa1-81a9-5d837a5a6960"
->Condition1()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition1()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="7ef4304a-4034-4ac7-8536-469d48e5a312"
->Mode &lt;- Default.Mode.IS</Action></Actions>
+>Kernel.Mode &lt;- Default.Mode.IS</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="SB -&gt; NP"
@@ -3551,11 +3551,11 @@ TIU.NonLeadingPermitted</Expression>
 <PreConditions>
 <PreCondition
  Guid="fa2994bc-2cee-4aa0-b231-473ca8c6dc22"
->Condition29()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition29()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="e7bd4475-61c5-4f4b-a7e8-8101e0880733"
->Mode &lt;- Default.Mode.NP</Action></Actions>
+>Kernel.Mode &lt;- Default.Mode.NP</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="SB -&gt; SF"
@@ -3570,11 +3570,11 @@ TIU.NonLeadingPermitted</Expression>
 <PreConditions>
 <PreCondition
  Guid="4b0b41bd-14ec-42df-9a31-c2c25277c7a0"
->Condition13()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition13()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="45a2ff52-2b54-4d61-87fd-d0860cf6ad87"
->Mode &lt;- Default.Mode.SF</Action></Actions>
+>Kernel.Mode &lt;- Default.Mode.SF</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="SB -&gt; TR"
@@ -3599,13 +3599,13 @@ TIU.NonLeadingPermitted</Expression>
 <PreConditions>
 <PreCondition
  Guid="0e8efe78-b855-448e-806f-06fe9c06a3ec"
->Condition20()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition20()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="6bd2c59a-d001-444e-abad-375c759f1a6c"
->Mode &lt;- Default.Mode.TR</Action><Action
+>Kernel.Mode &lt;- Default.Mode.TR</Action><Action
  Guid="742fe7d2-5e50-49c4-b328-8c87d39a2fc6"
->HandleModeChange &lt;- HandleModeChangeSM.TrainTrip</Action></Actions>
+>Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.TrainTrip</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="SB -&gt; SL"
@@ -3630,11 +3630,11 @@ TIU.NonLeadingPermitted</Expression>
 <PreConditions>
 <PreCondition
  Guid="d050d4c5-921a-4471-9c80-319beb33d4cb"
->Condition14()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition14()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="42130fe9-d7c2-4872-abf1-9727683463c3"
->Mode &lt;- Default.Mode.SL</Action></Actions>
+>Kernel.Mode &lt;- Default.Mode.SL</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="SB -&gt; NL"
@@ -3674,15 +3674,15 @@ TIU.NonLeadingPermitted</Expression>
 <PreConditions>
 <PreCondition
  Guid="3223e1ad-a340-4fe0-a931-c97c9dfc3ad1"
->Condition46_SB()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition46_SB()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="b9f02acb-1a57-4aa3-9132-d976eb86917a"
->Mode &lt;- Default.Mode.NL</Action><Action
+>Kernel.Mode &lt;- Default.Mode.NL</Action><Action
  Guid="0d16166b-3f10-4b18-a85c-80fba29cabd5"
 >DMI.MasterDMI().In_NonLeadingRequest.InputInformation.Disable()</Action><Action
  Guid="3a19531c-605b-4225-bdff-76d2aaedf965"
->MissionIsOnGoing &lt;- True</Action><Action
+>Kernel.MissionIsOnGoing &lt;- True</Action><Action
  Guid="5b0bcbc6-3aa3-496b-9d3b-38422971946a"
 >DMI.MasterDMI().In_ShuntingRequest.InputInformation.Disable()</Action><Action
  Guid="5c7cb6fb-f332-4add-94c5-b70199c1263d"
@@ -3722,11 +3722,11 @@ TIU.NonLeadingPermitted</Expression>
 <PreConditions>
 <PreCondition
  Guid="ec27511b-b26a-4e7f-aefc-0f35fd516532"
->TrainPosition.Position.DataState == DataState.Invalid</PreCondition></PreConditions>
+>Kernel.TrainPosition.Position.DataState == DataState.Invalid</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="75855857-3794-4961-872f-69d027ab953b"
->DeleteInformation(TrainPosition.Position)</Action></Actions>
+>DeleteInformation(Kernel.TrainPosition.Position)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition><RuleCondition
@@ -3778,11 +3778,11 @@ TIU.NonLeadingPermitted</Expression>
 <PreConditions>
 <PreCondition
  Guid="02d9e05a-48c0-46e5-a988-fa82b48513ce"
->Condition5() OR Condition6() OR Condition50_SB()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition5() OR Kernel.Modes.ModeTransitions.Condition6() OR Kernel.Modes.ModeTransitions.Condition50_SB()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="c2085532-7c0c-4943-82b1-3a68ddc99512"
->Mode &lt;- Default.Mode.SH</Action></Actions>
+>Kernel.Mode &lt;- Default.Mode.SH</Action></Actions>
 <SubRules>
 <Rule
  Priority="Processing"
@@ -3801,7 +3801,7 @@ TIU.NonLeadingPermitted</Expression>
 <PreConditions>
 <PreCondition
  Guid="694e7620-38cc-41e7-adb0-b1faa07937bb"
->Condition50_SB()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition50_SB()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="395b6dc7-c737-47e1-b915-e5929d9a123e"
@@ -3832,13 +3832,13 @@ TIU.NonLeadingPermitted</Expression>
 <PreConditions>
 <PreCondition
  Guid="0c073e7f-7bff-4af2-8dc1-553a258087d3"
->Condition10()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition10()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="42a694d7-6181-4d08-aa1c-ffe35a05f9d6"
->Mode &lt;- Default.Mode.FS</Action><Action
+>Kernel.Mode &lt;- Default.Mode.FS</Action><Action
  Guid="40b8d473-3d7c-439d-bab1-c6ce77e33b98"
->MissionIsOnGoing &lt;- True</Action></Actions>
+>Kernel.MissionIsOnGoing &lt;- True</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="SB -&gt; LS"
@@ -3868,13 +3868,13 @@ TIU.NonLeadingPermitted</Expression>
 <PreConditions>
 <PreCondition
  Guid="449144db-80a0-4059-bbf9-6a35b3c91ff2"
->Condition70_SB()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition70_SB()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="9a2e9fbb-f744-4591-8852-5f86807195b1"
->Mode &lt;- Default.Mode.LS</Action><Action
+>Kernel.Mode &lt;- Default.Mode.LS</Action><Action
  Guid="87dcd821-f086-414d-8c36-65fd3564a7ec"
->MissionIsOnGoing &lt;- True</Action><Action
+>Kernel.MissionIsOnGoing &lt;- True</Action><Action
  Guid="26961c38-f889-4f3d-b7a0-c8703bf9d31a"
 >DMI.MasterDMI().In_AcknOfLSMode.InputInformation.Disable()</Action></Actions>
 </RuleCondition><RuleCondition
@@ -3896,11 +3896,11 @@ TIU.NonLeadingPermitted</Expression>
 <PreConditions>
 <PreCondition
  Guid="15785d3a-04a3-42c5-b53f-79148b5c7720"
->Condition8_SB() OR Condition37_SB()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition8_SB() OR Kernel.Modes.ModeTransitions.Condition37_SB()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="ec99669d-79ce-4749-a553-c2d81d00d837"
->Mode &lt;- Default.Mode.SR</Action></Actions>
+>Kernel.Mode &lt;- Default.Mode.SR</Action></Actions>
 <SubRules>
 <Rule
  Priority="Processing"
@@ -3925,13 +3925,13 @@ If the train position is invalid, delete the stored position.</Comment>
 </ReqRef><PreConditions>
 <PreCondition
  Guid="976ed7c9-c965-47ac-a82f-204c44b898be"
->Condition8_SB()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition8_SB()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="dcbf2ee0-1f20-4df8-8c7b-969bdfa78ca4"
 >DMI.MasterDMI().In_AcknOfSRMode.InputInformation.Disable()</Action><Action
  Guid="8b66a8dc-8b80-43b5-8bfb-ac6150e42502"
->MissionIsOnGoing &lt;- True</Action></Actions>
+>Kernel.MissionIsOnGoing &lt;- True</Action></Actions>
 <SubRules>
 <Rule
  Priority="Processing"
@@ -3961,11 +3961,11 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="74f98c49-eca8-4aab-8a0b-7540f503733d"
->TrainPosition.Position.DataState == DataState.Invalid</PreCondition></PreConditions>
+>Kernel.TrainPosition.Position.DataState == DataState.Invalid</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="732da1ab-fa5e-42b6-97bd-ccd958e4ff85"
->DeleteInformation(TrainPosition.Position)</Action></Actions>
+>DeleteInformation(Kernel.TrainPosition.Position)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition></Conditions>
@@ -4004,15 +4004,15 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="4410dfe6-8c07-4fec-bcd6-feb2765c7bb2"
->Condition15_SB()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition15_SB()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="f90ad43c-3a24-4329-9826-81c480d5f52b"
->Mode &lt;- Default.Mode.OS</Action><Action
+>Kernel.Mode &lt;- Default.Mode.OS</Action><Action
  Guid="edb51d2a-e7fa-4f50-948f-b930517328b7"
 >DMI.MasterDMI().In_AcknOfOSMode.InputInformation.Disable()</Action><Action
  Guid="5d08e1db-7caa-444c-9127-90562a204aa2"
->MissionIsOnGoing &lt;- True</Action></Actions>
+>Kernel.MissionIsOnGoing &lt;- True</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="SB -&gt; UN"
@@ -4037,15 +4037,15 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="2092670a-079e-49fd-b30f-8baac2015451"
->Condition60()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition60()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="7538c314-9121-4b7b-ab06-f821f7710269"
->Mode &lt;- Default.Mode.UN</Action><Action
+>Kernel.Mode &lt;- Default.Mode.UN</Action><Action
  Guid="2182ed1f-2929-4b59-919b-b99284d6b7ef"
 >DMI.MasterDMI().In_AcknOfUNMode.InputInformation.Disable()</Action><Action
  Guid="57bff81f-7c98-42f0-8b15-305f0d22b5d6"
->MissionIsOnGoing &lt;- True</Action></Actions>
+>Kernel.MissionIsOnGoing &lt;- True</Action></Actions>
 <SubRules>
 <Rule
  Priority="Processing"
@@ -4075,11 +4075,11 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="c19c92f6-cc67-4821-98e5-0f4f420c7d52"
->TrainPosition.Position.DataState == DataState.Invalid</PreCondition></PreConditions>
+>Kernel.TrainPosition.Position.DataState == DataState.Invalid</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="ae7b1a82-a63c-4205-ac18-243568e17fa9"
->DeleteInformation(TrainPosition.Position)</Action></Actions>
+>DeleteInformation(Kernel.TrainPosition.Position)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition><RuleCondition
@@ -4106,15 +4106,15 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="06cc55f8-2ae8-4e51-b277-5bdcc9c7d925"
->Condition58()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition58()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="c5272313-c116-4ea2-a0f2-94d90d220f35"
->Mode &lt;- Default.Mode.SN</Action><Action
+>Kernel.Mode &lt;- Default.Mode.SN</Action><Action
  Guid="30193c8b-7c56-45af-9898-eb8838f13bcd"
 >DMI.MasterDMI().In_AcknOfSNMode.InputInformation.RequestStatus&lt;- Request.Disabled</Action><Action
  Guid="7e340a3b-c274-4e06-83cf-fe98531e8b62"
->MissionIsOnGoing &lt;- True</Action></Actions>
+>Kernel.MissionIsOnGoing &lt;- True</Action></Actions>
 <SubRules>
 <Rule
  Priority="Processing"
@@ -4144,11 +4144,11 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="bf37711d-2e55-488f-a2b8-4a62d09d4714"
->TrainPosition.Position.DataState == DataState.Invalid</PreCondition></PreConditions>
+>Kernel.TrainPosition.Position.DataState == DataState.Invalid</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="e8c0934c-39c1-4c6d-9861-0e5670f56a32"
->DeleteInformation(TrainPosition.Position)</Action></Actions>
+>DeleteInformation(Kernel.TrainPosition.Position)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition></Conditions>
@@ -4163,7 +4163,7 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="af53a8ee-eaca-4c79-a01d-85f3e0f2daa7"
->Mode == Default.Mode.PS</PreCondition></PreConditions>
+>Kernel.Mode == Default.Mode.PS</PreCondition></PreConditions>
 <Actions>
 </Actions>
 <SubRules>
@@ -4191,11 +4191,11 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="47b3331b-bd3d-4f58-bbca-41e6d71f0a22"
->Condition1()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition1()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="1deb49e4-46a1-44d2-8c09-8aeedb85a632"
->Mode &lt;- Default.Mode.IS</Action></Actions>
+>Kernel.Mode &lt;- Default.Mode.IS</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="PS -&gt; NP"
@@ -4210,11 +4210,11 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="c8d3f2a5-05da-4ba7-9af6-ee2365d80775"
->Condition29()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition29()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="4eebe104-8617-40a8-813c-fa8e0b054b94"
->Mode &lt;- Default.Mode.NP</Action></Actions>
+>Kernel.Mode &lt;- Default.Mode.NP</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="PS -&gt; SF"
@@ -4229,11 +4229,11 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="959803d4-c51e-4277-a964-0d522eec48be"
->Condition13()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition13()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="d557dfe1-8174-43e9-984a-77f06bc12f1e"
->Mode &lt;- Default.Mode.SF</Action></Actions>
+>Kernel.Mode &lt;- Default.Mode.SF</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="PS -&gt; SB"
@@ -4248,11 +4248,11 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="3ca8af34-7f58-459c-9b69-3b4d783eaf52"
->Condition22()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition22()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="7e0e6a1c-b1fc-4558-9e80-92ce7bd95a91"
->Mode &lt;- Default.Mode.SB</Action></Actions>
+>Kernel.Mode &lt;- Default.Mode.SB</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="PS -&gt; SH"
@@ -4267,11 +4267,11 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="f09d7842-891b-4afe-ac8e-3971f801bb33"
->Condition23()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition23()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="e1a55a0a-00e5-401a-923d-91c644f26142"
->Mode &lt;- Default.Mode.SH</Action></Actions>
+>Kernel.Mode &lt;- Default.Mode.SH</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="PS -&gt; SL"
@@ -4291,13 +4291,13 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="e80eaf7c-d367-49ca-82dc-132ada05d49e"
->Condition14()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition14()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="0c3b7701-d294-4cbe-9b23-b120ab1bf4ab"
->Mode &lt;- Default.Mode.SL</Action><Action
+>Kernel.Mode &lt;- Default.Mode.SL</Action><Action
  Guid="cdecfa16-06e3-4ee2-a9fb-13f92d29907d"
->HandleModeChange &lt;- HandleModeChangeSM.EndOfMission</Action></Actions>
+>Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.EndOfMission</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition><RuleCondition
@@ -4310,7 +4310,7 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="e365c02c-bff3-45a5-8fea-b1b644fb7a9c"
->Mode == Default.Mode.SH</PreCondition></PreConditions>
+>Kernel.Mode == Default.Mode.SH</PreCondition></PreConditions>
 <Actions>
 </Actions>
 <SubRules>
@@ -4338,11 +4338,11 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="a4560f44-48ff-4eef-80b3-e25d905f5806"
->Condition1()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition1()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="e1d7d77d-dab9-46fa-8f57-5739b41806da"
->Mode &lt;- Default.Mode.IS</Action></Actions>
+>Kernel.Mode &lt;- Default.Mode.IS</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="SH -&gt; NP"
@@ -4357,11 +4357,11 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="32ed2b9c-e3d0-4294-b9c3-2832fa07ce89"
->Condition29()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition29()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="6bd4436d-b109-4afa-b427-3905a431dbb4"
->Mode &lt;- Default.Mode.NP</Action></Actions>
+>Kernel.Mode &lt;- Default.Mode.NP</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="SH -&gt; SF"
@@ -4376,11 +4376,11 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="e7424ad6-f5f3-41d4-964a-3f7392504da8"
->Condition13()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition13()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="4ca105b6-0e36-4b2f-a2bb-b93c1738a4d2"
->Mode &lt;- Default.Mode.SF</Action></Actions>
+>Kernel.Mode &lt;- Default.Mode.SF</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="SH -&gt; TR"
@@ -4400,13 +4400,13 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="954fed36-ba42-4e41-947a-70d721e3c8cb"
->Condition49() OR Condition52() OR Condition65()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition49() OR Kernel.Modes.ModeTransitions.Condition52() OR Kernel.Modes.ModeTransitions.Condition65()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="6aa2cd3b-3475-4776-8e2b-42601bdef416"
->Mode &lt;- Default.Mode.TR</Action><Action
+>Kernel.Mode &lt;- Default.Mode.TR</Action><Action
  Guid="1792e4b9-7ba6-469d-8ed1-6b648d805376"
->HandleModeChange &lt;- HandleModeChangeSM.TrainTrip</Action></Actions>
+>Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.TrainTrip</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="SH -&gt; SB"
@@ -4421,11 +4421,11 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="cbc7c29e-8b45-49e8-a4c7-f16ad04e3cf8"
->Condition19() OR Condition27() OR Condition30()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition19() OR Kernel.Modes.ModeTransitions.Condition27() OR Kernel.Modes.ModeTransitions.Condition30()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="34e4fa64-d835-49f0-a949-a4e46ac3ae52"
->Mode &lt;- Default.Mode.SB</Action></Actions>
+>Kernel.Mode &lt;- Default.Mode.SB</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="SH -&gt; PS"
@@ -4440,11 +4440,11 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="473d06b2-e0c7-486c-b4e3-71b838905d05"
->Condition26()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition26()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="2a3a6a88-5726-4389-8d8d-65130efa0e60"
->Mode &lt;- Default.Mode.PS</Action></Actions>
+>Kernel.Mode &lt;- Default.Mode.PS</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="SH -&gt; NL"
@@ -4459,11 +4459,11 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="f6423b94-97a7-4a81-bf9e-4f0e32ff9546"
->Condition46()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition46()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="b80cc54e-8c7b-4ffa-83f6-6a3726117f50"
->Mode &lt;- Default.Mode.NL</Action></Actions>
+>Kernel.Mode &lt;- Default.Mode.NL</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition><RuleCondition
@@ -4476,7 +4476,7 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="36e7f05f-671b-4eb0-bdbc-ae2ca938a6af"
->Mode == Default.Mode.FS</PreCondition></PreConditions>
+>Kernel.Mode == Default.Mode.FS</PreCondition></PreConditions>
 <Actions>
 </Actions>
 <SubRules>
@@ -4504,11 +4504,11 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="2094c8f9-c100-4eca-bd32-67e6ae9a63ac"
->Condition1()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition1()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="5cfe8754-edf7-4d29-9e2d-fb0c97e4c9ca"
->Mode &lt;- Default.Mode.IS</Action></Actions>
+>Kernel.Mode &lt;- Default.Mode.IS</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="FS -&gt; NP"
@@ -4523,11 +4523,11 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="22f08f2b-675e-44d2-b02a-99edcee972ec"
->Condition29()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition29()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="bd565579-add2-4686-8aec-19d9a432c130"
->Mode &lt;- Default.Mode.NP</Action></Actions>
+>Kernel.Mode &lt;- Default.Mode.NP</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="FS -&gt; SF"
@@ -4542,11 +4542,11 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="f0710968-3b62-404c-8988-b41d040381ac"
->Condition13()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition13()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="6984560d-3165-437e-8831-30773bb71fe2"
->Mode &lt;- Default.Mode.SF</Action></Actions>
+>Kernel.Mode &lt;- Default.Mode.SF</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="FS -&gt; TR"
@@ -4586,13 +4586,13 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="7a25fda4-c429-4fde-8b17-6923aff1259a"
->Condition12() OR Condition16() OR Condition17() OR Condition18() OR Condition20() OR Condition41() OR Condition65() OR Condition66() OR Condition69()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition12() OR Kernel.Modes.ModeTransitions.Condition16() OR Kernel.Modes.ModeTransitions.Condition17() OR Kernel.Modes.ModeTransitions.Condition18() OR Kernel.Modes.ModeTransitions.Condition20() OR Kernel.Modes.ModeTransitions.Condition41() OR Kernel.Modes.ModeTransitions.Condition65() OR Kernel.Modes.ModeTransitions.Condition66() OR Kernel.Modes.ModeTransitions.Condition69()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="98497e5d-445a-4bab-bbf4-b6400148078d"
->Mode &lt;- Default.Mode.TR</Action><Action
+>Kernel.Mode &lt;- Default.Mode.TR</Action><Action
  Guid="24c59973-f236-4d49-8e22-69740b3f5554"
->HandleModeChange &lt;- HandleModeChangeSM.TrainTrip</Action></Actions>
+>Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.TrainTrip</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="FS -&gt; SB"
@@ -4612,13 +4612,13 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="24e42029-6b77-47d8-a64b-1ac00f5aeb07"
->Condition28()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition28()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="93e57994-cc6e-4359-ad2b-2447aead68fe"
->Mode &lt;- Default.Mode.SB</Action><Action
+>Kernel.Mode &lt;- Default.Mode.SB</Action><Action
  Guid="6869cc3f-9c83-4cad-a289-e7fe12ec9459"
->HandleModeChange &lt;- HandleModeChangeSM.EndOfMission</Action></Actions>
+>Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.EndOfMission</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="FS -&gt; SH"
@@ -4663,13 +4663,13 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="781f4376-89bd-4cce-aa33-e60775f0ca7c"
->Condition5() OR Condition6() OR Condition50() OR Condition51()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition5() OR Kernel.Modes.ModeTransitions.Condition6() OR Kernel.Modes.ModeTransitions.Condition50() OR Kernel.Modes.ModeTransitions.Condition51()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="9fe0a95f-f89e-4f08-9e17-cb2bb00c610d"
->Mode &lt;- Default.Mode.SH</Action><Action
+>Kernel.Mode &lt;- Default.Mode.SH</Action><Action
  Guid="62c05706-a8e9-4700-baa8-e12085fcd574"
->HandleModeChange &lt;- HandleModeChangeSM.EndOfMission</Action></Actions>
+>Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.EndOfMission</Action></Actions>
 <SubRules>
 <Rule
  Priority="Processing"
@@ -4704,7 +4704,7 @@ If the train position is invalid, delete the stored position.</Comment>
 </ReqRef><PreConditions>
 <PreCondition
  Guid="10ecf215-bca6-46bc-ad15-5cfba4796ef7"
->Condition51()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition51()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="540401a8-1d40-426d-bfef-ca358e2e8e26"
@@ -4745,11 +4745,11 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="92b9ee60-61ec-4d5a-9ee4-52df1df4ae30"
->Condition70() OR Condition72()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition70() OR Kernel.Modes.ModeTransitions.Condition72()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="8ed5d931-ad69-4b26-bae8-126c4719c5aa"
->Mode &lt;- Default.Mode.LS</Action></Actions>
+>Kernel.Mode &lt;- Default.Mode.LS</Action></Actions>
 <SubRules>
 <Rule
  Priority="Processing"
@@ -4774,7 +4774,7 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="7fa09ed0-8c74-4f02-b194-14aca5c2e8bc"
->Condition70()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition70()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="d6a741a6-cd1e-4c40-a94f-dac44356f295"
@@ -4798,7 +4798,7 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="e93dd4ae-fecf-4bd9-aac8-b52e6a6e9870"
->Condition72()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition72()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="7e908f68-5ab3-4399-8c5b-2a93cbb89715"
@@ -4819,11 +4819,11 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="0de2f3be-ee91-425d-82f1-fb2eeaff6cfd"
->Condition37()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition37()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="710496db-b7d6-47d5-9b66-6924aaa03904"
->Mode &lt;- Default.Mode.SR</Action></Actions>
+>Kernel.Mode &lt;- Default.Mode.SR</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="FS -&gt; OS"
@@ -4863,11 +4863,11 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="fb17d293-54e0-43f9-b77d-8ef9c19d547b"
->Condition15() OR Condition40()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition15() OR Kernel.Modes.ModeTransitions.Condition40()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="4a5aafff-cfdc-43fa-a707-173de0e02127"
->Mode &lt;- Default.Mode.OS</Action></Actions>
+>Kernel.Mode &lt;- Default.Mode.OS</Action></Actions>
 <SubRules>
 <Rule
  Priority="Processing"
@@ -4893,7 +4893,7 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="ba8a792d-1354-491c-908f-07308e479026"
->Condition15()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition15()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="f22aebba-3be2-4c2c-9ef5-bdd83eb6ae4f"
@@ -4917,7 +4917,7 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="fb6c4c8b-4bec-451b-a1d8-9093fb536c98"
->Condition40()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition40()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="fa739839-343c-4c50-99d5-f0acdd7cff28"
@@ -4938,11 +4938,11 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="1f72b300-d1ee-422c-87b3-8759f536d243"
->Condition46()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition46()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="7adb368b-c277-412b-a337-d049e8f6ca08"
->Mode &lt;- Default.Mode.NL</Action></Actions>
+>Kernel.Mode &lt;- Default.Mode.NL</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="FS -&gt; UN"
@@ -4957,11 +4957,11 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="26fcdedd-71b4-4927-aef7-5be54a2b6ebe"
->Condition21()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition21()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="20fa1336-1807-46cd-93de-021b547e767c"
->Mode &lt;- Default.Mode.UN</Action></Actions>
+>Kernel.Mode &lt;- Default.Mode.UN</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="FS -&gt; SN"
@@ -4976,11 +4976,11 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="fa719332-077f-48b6-8826-649801ec1af9"
->Condition56()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition56()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="9fee2875-8814-483d-b6c4-79d6e6ae5261"
->Mode &lt;- Default.Mode.SN</Action></Actions>
+>Kernel.Mode &lt;- Default.Mode.SN</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="FS -&gt; RV"
@@ -5005,11 +5005,11 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="696de9b5-724c-4101-9513-cd6e80fb8d7a"
->Condition59()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition59()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="629238c8-c022-471f-ba86-bf62fdc40211"
->Mode &lt;- Default.Mode.RV</Action></Actions>
+>Kernel.Mode &lt;- Default.Mode.RV</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition><RuleCondition
@@ -5022,7 +5022,7 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="2f6c0ff5-2f6f-4859-8efb-d1c02197b864"
->Mode == Default.Mode.LS</PreCondition></PreConditions>
+>Kernel.Mode == Default.Mode.LS</PreCondition></PreConditions>
 <Actions>
 </Actions>
 <SubRules>
@@ -5050,11 +5050,11 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="1dd9f0ee-c458-4f0e-b0fb-25fc9e35d3c3"
->Condition1()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition1()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="875eea56-c776-484f-a953-c5b5b84333b5"
->Mode &lt;- Default.Mode.IS</Action></Actions>
+>Kernel.Mode &lt;- Default.Mode.IS</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="LS -&gt; NP"
@@ -5069,11 +5069,11 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="8ff4188f-c652-4922-9a4a-31ee739f83cc"
->Condition29()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition29()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="eebccfac-cf6a-4a7c-845f-8d8a076e75ae"
->Mode &lt;- Default.Mode.NP</Action></Actions>
+>Kernel.Mode &lt;- Default.Mode.NP</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="LS -&gt; SF"
@@ -5088,11 +5088,11 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="067a360f-52ee-4714-98a5-51e7e51f3b0f"
->Condition13()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition13()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="fe83d849-5a7e-4193-b24d-ed7d481e340a"
->Mode &lt;- Default.Mode.SF</Action></Actions>
+>Kernel.Mode &lt;- Default.Mode.SF</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="LS -&gt; TR"
@@ -5132,13 +5132,13 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="02bc785b-12ce-4f94-8304-b9adf4b48440"
->Condition12() OR Condition16() OR Condition17() OR Condition18() OR Condition20() OR Condition41() OR Condition65() OR Condition66() OR Condition69()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition12() OR Kernel.Modes.ModeTransitions.Condition16() OR Kernel.Modes.ModeTransitions.Condition17() OR Kernel.Modes.ModeTransitions.Condition18() OR Kernel.Modes.ModeTransitions.Condition20() OR Kernel.Modes.ModeTransitions.Condition41() OR Kernel.Modes.ModeTransitions.Condition65() OR Kernel.Modes.ModeTransitions.Condition66() OR Kernel.Modes.ModeTransitions.Condition69()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="5d3b8533-1fe2-4229-80a7-43e869507125"
->Mode &lt;- Default.Mode.TR</Action><Action
+>Kernel.Mode &lt;- Default.Mode.TR</Action><Action
  Guid="73e838aa-c6d9-4acc-873d-73387e38f461"
->HandleModeChange &lt;- HandleModeChangeSM.TrainTrip</Action></Actions>
+>Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.TrainTrip</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="LS -&gt; SB"
@@ -5158,13 +5158,13 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="8bc8247a-c1a9-4784-af8d-837fec157aa9"
->Condition28()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition28()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="4ea4b783-3512-4556-a391-2dc7bc052b17"
->Mode &lt;- Default.Mode.SB</Action><Action
+>Kernel.Mode &lt;- Default.Mode.SB</Action><Action
  Guid="3fc08de2-97aa-4d19-8cf0-828697f34978"
->HandleModeChange &lt;- HandleModeChangeSM.EndOfMission</Action></Actions>
+>Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.EndOfMission</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="LS -&gt; SH"
@@ -5214,13 +5214,13 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="b0260fb4-69f1-4e48-9454-b596fe5b3342"
->Condition5() OR Condition6() OR Condition50() OR Condition51()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition5() OR Kernel.Modes.ModeTransitions.Condition6() OR Kernel.Modes.ModeTransitions.Condition50() OR Kernel.Modes.ModeTransitions.Condition51()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="b5215a1a-fc01-4533-9260-a393853372c1"
->Mode &lt;- Default.Mode.SH</Action><Action
+>Kernel.Mode &lt;- Default.Mode.SH</Action><Action
  Guid="764bf138-023d-46b4-85b1-f88869e49d21"
->HandleModeChange &lt;- HandleModeChangeSM.EndOfMission</Action></Actions>
+>Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.EndOfMission</Action></Actions>
 <SubRules>
 <Rule
  Priority="Processing"
@@ -5254,7 +5254,7 @@ If the train position is invalid, delete the stored position.</Comment>
 </ReqRef><PreConditions>
 <PreCondition
  Guid="67578ffc-8304-4323-8245-1717f4ad26b8"
->Condition51()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition51()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="9fd5a8f3-7571-42c8-a535-aa7f4ae3b2bf"
@@ -5280,11 +5280,11 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="ee73f2c1-2384-41d2-844f-dd469cceb7af"
->Condition31() OR Condition32()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition31() OR Kernel.Modes.ModeTransitions.Condition32()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="eef8b759-ec90-4fb9-b77d-fa8bd4502f38"
->Mode &lt;- Default.Mode.FS</Action></Actions>
+>Kernel.Mode &lt;- Default.Mode.FS</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="LS -&gt; SR"
@@ -5299,11 +5299,11 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="92c6b6ff-1742-4e82-94e7-8dc476d40f17"
->Condition37()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition37()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="e9cb6850-4ae4-45c9-ac65-b4b686b8f082"
->Mode &lt;- Default.Mode.SR</Action></Actions>
+>Kernel.Mode &lt;- Default.Mode.SR</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="LS -&gt; OS"
@@ -5348,11 +5348,11 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="26cd6b08-4a0c-4513-b471-97b59fd8ad90"
->Condition15() OR Condition73()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition15() OR Kernel.Modes.ModeTransitions.Condition73()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="e47fa42a-3e9e-4569-a4f2-1b887d8af248"
->Mode &lt;- Default.Mode.OS</Action></Actions>
+>Kernel.Mode &lt;- Default.Mode.OS</Action></Actions>
 <SubRules>
 <Rule
  Priority="Processing"
@@ -5378,7 +5378,7 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="394ecd5e-1356-4f33-82b3-ac8a82ba9fb9"
->Condition15()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition15()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="2384bf59-8a5a-47ba-81f1-3b6ec6e75247"
@@ -5402,7 +5402,7 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="9176e278-ff61-4199-a792-f2abde8b5ee4"
->Condition73()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition73()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="9542f2bf-0f2e-42b8-bf53-f23aa3a94f4d"
@@ -5423,11 +5423,11 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="c99254d7-810a-4d31-a873-880405ad120c"
->Condition46()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition46()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="6e44fd78-c0f5-4336-85bb-78bfee33303d"
->Mode &lt;- Default.Mode.NL</Action></Actions>
+>Kernel.Mode &lt;- Default.Mode.NL</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="LS -&gt; UN"
@@ -5442,11 +5442,11 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="22801bbc-294d-48b3-870c-c294fd8205ee"
->Condition21()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition21()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="99f4d4fd-0786-4410-b529-b27fc3e64620"
->Mode &lt;- Default.Mode.UN</Action></Actions>
+>Kernel.Mode &lt;- Default.Mode.UN</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="LS -&gt; SN"
@@ -5461,11 +5461,11 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="4ff49408-23d8-454f-a89e-bd0ea4f16f81"
->Condition56()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition56()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="2c1be58d-d8e6-4d24-b4dc-f3370fb6f573"
->Mode &lt;- Default.Mode.SN</Action></Actions>
+>Kernel.Mode &lt;- Default.Mode.SN</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="LS -&gt; RV"
@@ -5490,11 +5490,11 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="060da22b-56df-45f9-8f56-0ee39a5159ce"
->Condition59()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition59()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="f2884d3e-4cad-472d-be86-4096e70d4729"
->Mode &lt;- Default.Mode.RV</Action></Actions>
+>Kernel.Mode &lt;- Default.Mode.RV</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition><RuleCondition
@@ -5507,7 +5507,7 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="3de7cd4a-920c-4c9d-962f-d854620d8317"
->Mode == Default.Mode.SR</PreCondition></PreConditions>
+>Kernel.Mode == Default.Mode.SR</PreCondition></PreConditions>
 <Actions>
 </Actions>
 <SubRules>
@@ -5535,11 +5535,11 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="68ac5a77-6a67-488d-b6ec-8da5d97ec4d0"
->Condition1()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition1()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="185ca0e5-c635-4a6c-96c9-01e8a5fdc86d"
->Mode &lt;- Default.Mode.IS</Action></Actions>
+>Kernel.Mode &lt;- Default.Mode.IS</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="SR -&gt; NP"
@@ -5554,11 +5554,11 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="1607c293-a79c-49ad-883f-b6ef0d663a91"
->Condition29()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition29()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="d54df452-49c8-48b9-a1aa-648a5da0634e"
->Mode &lt;- Default.Mode.NP</Action></Actions>
+>Kernel.Mode &lt;- Default.Mode.NP</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="SR -&gt; SF"
@@ -5573,11 +5573,11 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="68be67e5-484b-4561-a9aa-313fbde13ec2"
->Condition13()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition13()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="5ce27f5a-7c96-4dec-b769-9e1081b32ab6"
->Mode &lt;- Default.Mode.SF</Action></Actions>
+>Kernel.Mode &lt;- Default.Mode.SF</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="SR -&gt;TR"
@@ -5602,13 +5602,13 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="344fb8e9-d99f-42e1-a146-e7ced133f1a0"
->Condition18() OR Condition20() OR Condition42() OR Condition43() OR Condition36() OR Condition54() OR Condition65()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition18() OR Kernel.Modes.ModeTransitions.Condition20() OR Kernel.Modes.ModeTransitions.Condition42() OR Kernel.Modes.ModeTransitions.Condition43() OR Kernel.Modes.ModeTransitions.Condition36() OR Kernel.Modes.ModeTransitions.Condition54() OR Kernel.Modes.ModeTransitions.Condition65()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="30aae68f-aef1-4144-996d-e9b36ffa866d"
->Mode &lt;- Default.Mode.TR</Action><Action
+>Kernel.Mode &lt;- Default.Mode.TR</Action><Action
  Guid="271c7794-55ab-42a0-a07a-0550e0e2d6a1"
->HandleModeChange &lt;- HandleModeChangeSM.TrainTrip</Action></Actions>
+>Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.TrainTrip</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="SR -&gt; SB"
@@ -5628,13 +5628,13 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="49252c6f-c7ba-4143-a1c8-69cc76e70ae8"
->Condition28()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition28()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="a3e8fc6a-8129-4726-8d80-60fb09633636"
->Mode &lt;- Default.Mode.SB</Action><Action
+>Kernel.Mode &lt;- Default.Mode.SB</Action><Action
  Guid="b3ab42be-c628-4c0e-81ec-c447a7b1b0a4"
->HandleModeChange &lt;- HandleModeChangeSM.EndOfMission</Action></Actions>
+>Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.EndOfMission</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="SR -&gt; SH"
@@ -5674,13 +5674,13 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="94b211a0-70c8-4f89-89e0-a74a2566c661"
->Condition5() OR Condition6() OR Condition51()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition5() OR Kernel.Modes.ModeTransitions.Condition6() OR Kernel.Modes.ModeTransitions.Condition51()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="82cc1ef7-931c-4187-a7ac-ff6a9835f7d9"
->Mode &lt;- Default.Mode.SH</Action><Action
+>Kernel.Mode &lt;- Default.Mode.SH</Action><Action
  Guid="6af85193-39ba-4242-8da3-688249bd858d"
->HandleModeChange &lt;- HandleModeChangeSM.EndOfMission</Action></Actions>
+>Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.EndOfMission</Action></Actions>
 <SubRules>
 <Rule
  Priority="Processing"
@@ -5714,7 +5714,7 @@ If the train position is invalid, delete the stored position.</Comment>
 </ReqRef><PreConditions>
 <PreCondition
  Guid="726b1efa-85ab-4c32-b4a4-0843546839df"
->Condition51()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition51()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="44cd4d54-21f3-45e5-866e-1be29e2b0266"
@@ -5740,11 +5740,11 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="5e668c64-7b73-4ed7-8833-9381b5296f8b"
->Condition31() OR Condition32()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition31() OR Kernel.Modes.ModeTransitions.Condition32()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="b74c20ae-7528-4fb4-92ab-b44a2d744b7f"
->Mode &lt;- Default.Mode.FS</Action></Actions>
+>Kernel.Mode &lt;- Default.Mode.FS</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="SR -&gt; LS"
@@ -5784,11 +5784,11 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="06027005-9b60-4151-987d-f6688c138a98"
->Condition72()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition72()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="4c840344-d9cf-4223-ad71-0750c092e32f"
->Mode &lt;- Default.Mode.LS</Action><Action
+>Kernel.Mode &lt;- Default.Mode.LS</Action><Action
  Guid="d51269c6-e0cd-4dc2-9e45-5eca391e69b7"
 >DMI.MasterDMI().In_AcknOfLSMode.InitiateRequest()</Action></Actions>
 </RuleCondition><RuleCondition
@@ -5835,11 +5835,11 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="6509f97a-a1ad-4236-9bab-6a61eb957e72"
->Condition40()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition40()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="af0ed0bb-a5dd-4609-a5e8-23db04de20d2"
->Mode &lt;- Default.Mode.OS</Action><Action
+>Kernel.Mode &lt;- Default.Mode.OS</Action><Action
  Guid="3d5160f0-1b0d-4e8e-a21a-15df79e87404"
 >DMI.MasterDMI().In_AcknOfOSMode.InitiateRequest()</Action></Actions>
 </RuleCondition><RuleCondition
@@ -5856,11 +5856,11 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="b6447c47-8d91-4c8a-9d31-332f1f478e15"
->Condition46()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition46()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="ab773132-5797-4b06-94c6-143748f6768e"
->Mode &lt;- Default.Mode.NL</Action></Actions>
+>Kernel.Mode &lt;- Default.Mode.NL</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="SR -&gt; UN"
@@ -5875,11 +5875,11 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="1d5dd5ff-233a-42d8-9ae8-e08d5d393eac"
->Condition21()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition21()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="534643f8-cfce-479c-898d-de4a260aa139"
->Mode &lt;- Default.Mode.UN</Action></Actions>
+>Kernel.Mode &lt;- Default.Mode.UN</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="SR -&gt; SN"
@@ -5894,11 +5894,11 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="4501bbc1-8fda-4148-96d9-36f4044968b6"
->Condition56()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition56()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="8e217703-f528-4888-943a-2e9ddae94db0"
->Mode &lt;- Default.Mode.SN</Action></Actions>
+>Kernel.Mode &lt;- Default.Mode.SN</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition><RuleCondition
@@ -5911,7 +5911,7 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="f48cc7ea-a6d2-44bb-9a69-81aa7d019ced"
->Mode == Default.Mode.OS</PreCondition></PreConditions>
+>Kernel.Mode == Default.Mode.OS</PreCondition></PreConditions>
 <Actions>
 </Actions>
 <SubRules>
@@ -5939,11 +5939,11 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="0794a90b-ed72-4653-96ed-a9359164879e"
->Condition1()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition1()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="8330fe14-fb3f-4891-bf8f-3b12b60c1304"
->Mode &lt;- Default.Mode.IS</Action></Actions>
+>Kernel.Mode &lt;- Default.Mode.IS</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="OS -&gt; NP"
@@ -5958,11 +5958,11 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="a7084a77-4c1f-491b-8852-4827d90fdd49"
->Condition29()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition29()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="ee61c8f5-868a-47dc-a616-103a8ebe33c3"
->Mode &lt;- Default.Mode.NP</Action></Actions>
+>Kernel.Mode &lt;- Default.Mode.NP</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="OS -&gt; SF"
@@ -5977,11 +5977,11 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="ea85ccbc-6e86-4914-a0a9-ce7cb66af011"
->Condition13()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition13()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="17e05713-e86b-4c41-b8e8-1ded9e4c4411"
->Mode &lt;- Default.Mode.SF</Action></Actions>
+>Kernel.Mode &lt;- Default.Mode.SF</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="OS -&gt; TR"
@@ -6021,13 +6021,13 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="1acdfc30-8e69-4cf3-acda-37c28507dfe3"
->Condition12() OR Condition16() OR Condition17() OR Condition18() OR Condition20() OR Condition41() OR Condition65() OR Condition66() OR Condition69()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition12() OR Kernel.Modes.ModeTransitions.Condition16() OR Kernel.Modes.ModeTransitions.Condition17() OR Kernel.Modes.ModeTransitions.Condition18() OR Kernel.Modes.ModeTransitions.Condition20() OR Kernel.Modes.ModeTransitions.Condition41() OR Kernel.Modes.ModeTransitions.Condition65() OR Kernel.Modes.ModeTransitions.Condition66() OR Kernel.Modes.ModeTransitions.Condition69()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="c2096ab8-a3d6-44c6-8dcc-f5da22096232"
->Mode &lt;- Default.Mode.TR</Action><Action
+>Kernel.Mode &lt;- Default.Mode.TR</Action><Action
  Guid="bb532e41-aaa3-41d4-994a-145d365de736"
->HandleModeChange &lt;- HandleModeChangeSM.TrainTrip</Action></Actions>
+>Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.TrainTrip</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="OS -&gt; SB"
@@ -6047,13 +6047,13 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="6eab0dfa-1d5d-41f7-9e51-5a6e73929adb"
->Condition28()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition28()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="19d3e929-6a5f-4a29-97fc-797fb370c6c7"
->Mode &lt;- Default.Mode.SB</Action><Action
+>Kernel.Mode &lt;- Default.Mode.SB</Action><Action
  Guid="ff5abac9-f739-4db6-8ddf-355083d9b07b"
->HandleModeChange &lt;- HandleModeChangeSM.EndOfMission</Action></Actions>
+>Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.EndOfMission</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="OS -&gt; SH"
@@ -6103,13 +6103,13 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="3f4e1c27-6763-4585-94c3-a83784bd243d"
->Condition5() OR Condition6() OR Condition50() OR Condition51()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition5() OR Kernel.Modes.ModeTransitions.Condition6() OR Kernel.Modes.ModeTransitions.Condition50() OR Kernel.Modes.ModeTransitions.Condition51()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="0c866550-24d3-48f6-a67a-7944f909d0e3"
->Mode &lt;- Default.Mode.SH</Action><Action
+>Kernel.Mode &lt;- Default.Mode.SH</Action><Action
  Guid="65c1ab30-db8f-4aa5-b86d-f35799bc5075"
->HandleModeChange &lt;- HandleModeChangeSM.EndOfMission</Action></Actions>
+>Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.EndOfMission</Action></Actions>
 <SubRules>
 <Rule
  Priority="Processing"
@@ -6143,7 +6143,7 @@ If the train position is invalid, delete the stored position.</Comment>
 </ReqRef><PreConditions>
 <PreCondition
  Guid="bb3eed69-6b07-43d3-b0c7-4fec8b1f0d0e"
->Condition51()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition51()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="002aeea6-6008-4709-b4e0-3761fab5c1e5"
@@ -6169,11 +6169,11 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="ffe64669-4ff8-4119-8653-d9450e4edfc2"
->Condition31() OR Condition32()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition31() OR Kernel.Modes.ModeTransitions.Condition32()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="17287fb1-833c-4b40-b586-ca52f4276551"
->Mode &lt;- Default.Mode.FS</Action></Actions>
+>Kernel.Mode &lt;- Default.Mode.FS</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="OS -&gt; LS"
@@ -6213,11 +6213,11 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="d21fe523-3042-4dda-892f-2b73087ccffd"
->Condition70() OR Condition74()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition70() OR Kernel.Modes.ModeTransitions.Condition74()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="ea2646e0-08cd-4c99-9f78-94a3751f2b29"
->Mode &lt;- Default.Mode.LS</Action></Actions>
+>Kernel.Mode &lt;- Default.Mode.LS</Action></Actions>
 <SubRules>
 <Rule
  Priority="Processing"
@@ -6242,7 +6242,7 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="d606140a-2762-40fa-810c-826fb8b5c3be"
->Condition70()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition70()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="a39567e0-8e40-44f5-9651-f8f1c8c780ef"
@@ -6266,7 +6266,7 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="0cbf1699-c209-44cd-8805-85356b2e9021"
->Condition74()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition74()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="e14a4c73-4dcb-45a4-8c0d-d266a1914149"
@@ -6287,11 +6287,11 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="ff7b551c-4727-4a98-b414-2620d9f4160b"
->Condition37()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition37()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="54178808-2fce-4e35-b0c9-a834a37967ea"
->Mode &lt;- Default.Mode.SR</Action></Actions>
+>Kernel.Mode &lt;- Default.Mode.SR</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="OS -&gt; NL"
@@ -6306,11 +6306,11 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="e8367d01-377d-4df0-b8b3-b314d643b745"
->Condition46()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition46()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="7815435e-150c-4822-8986-441a5ca20223"
->Mode &lt;- Default.Mode.NL</Action></Actions>
+>Kernel.Mode &lt;- Default.Mode.NL</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="OS -&gt; UN"
@@ -6325,11 +6325,11 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="e25030d9-b204-4c94-81cb-e96d336ca59c"
->Condition21()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition21()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="dd5300c6-f872-4045-91fe-8900fd4f5e2e"
->Mode &lt;- Default.Mode.UN</Action></Actions>
+>Kernel.Mode &lt;- Default.Mode.UN</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="OS -&gt; SN"
@@ -6344,11 +6344,11 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="8e3c2347-679e-47ab-96f9-c651e211fdff"
->Condition56()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition56()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="3ee88f53-b96b-4509-a6f4-2d10635fec15"
->Mode &lt;- Default.Mode.SN</Action></Actions>
+>Kernel.Mode &lt;- Default.Mode.SN</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="OS -&gt; RV"
@@ -6373,11 +6373,11 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="200a7b5c-30a4-4626-a1fc-55018842fc27"
->Condition59()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition59()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="21240c8f-5498-4fa1-8826-904165792208"
->Mode &lt;- Default.Mode.RV</Action></Actions>
+>Kernel.Mode &lt;- Default.Mode.RV</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition><RuleCondition
@@ -6390,7 +6390,7 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="d5cccc85-6b47-48f6-9d7d-b1ed6a8009ff"
->Mode == Default.Mode.SL</PreCondition></PreConditions>
+>Kernel.Mode == Default.Mode.SL</PreCondition></PreConditions>
 <Actions>
 </Actions>
 <SubRules>
@@ -6418,11 +6418,11 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="9512dbc2-5659-48e7-acb9-f48f9632278d"
->Condition1()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition1()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="59d2c6a7-b391-499c-8319-bbde89950868"
->Mode &lt;- Default.Mode.IS</Action></Actions>
+>Kernel.Mode &lt;- Default.Mode.IS</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="SL -&gt; NP"
@@ -6437,11 +6437,11 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="1e04cbf4-0cad-40cd-b086-8dc7c33a9f20"
->Condition29()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition29()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="d1d7c0a8-f217-4acb-9266-6a5b4a7701e5"
->Mode &lt;- Default.Mode.NP</Action></Actions>
+>Kernel.Mode &lt;- Default.Mode.NP</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="SL -&gt; SB"
@@ -6456,11 +6456,11 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="1697949a-3746-4165-947c-956078442021"
->Condition2() OR Condition3()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition2() OR Kernel.Modes.ModeTransitions.Condition3()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="29cdcf0c-0f35-460e-9dcf-80b4731bc284"
->Mode &lt;- Default.Mode.SB</Action></Actions>
+>Kernel.Mode &lt;- Default.Mode.SB</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition><RuleCondition
@@ -6473,7 +6473,7 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="d9747df3-cfdd-49ce-bceb-47661c99d496"
->Mode == Default.Mode.NL</PreCondition></PreConditions>
+>Kernel.Mode == Default.Mode.NL</PreCondition></PreConditions>
 <Actions>
 </Actions>
 <SubRules>
@@ -6501,11 +6501,11 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="213e6b4d-17c5-468a-8974-0bfeb4189959"
->Condition1()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition1()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="91ba698b-c98c-461c-aa3d-6e240081c6bb"
->Mode &lt;- Default.Mode.IS</Action></Actions>
+>Kernel.Mode &lt;- Default.Mode.IS</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="NL -&gt; NP"
@@ -6520,11 +6520,11 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="dc18af3d-d0e9-4361-bd5b-b3aa7031ae5d"
->Condition29()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition29()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="4a9f79ce-d9a5-46e1-9d38-a49401cdaf64"
->Mode &lt;- Default.Mode.NP</Action></Actions>
+>Kernel.Mode &lt;- Default.Mode.NP</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="NL -&gt; SB"
@@ -6544,13 +6544,13 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="4a417493-54a7-49f1-87c7-eb99c35f61d0"
->Condition28() OR Condition47()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition28() OR Kernel.Modes.ModeTransitions.Condition47()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="3d11cfba-57de-4314-a94d-d3e8c0157dea"
->Mode &lt;- Default.Mode.SB</Action><Action
+>Kernel.Mode &lt;- Default.Mode.SB</Action><Action
  Guid="9bd4ba9b-979b-4cdb-832b-e0dda64c4f93"
->HandleModeChange &lt;- HandleModeChangeSM.EndOfMission</Action></Actions>
+>Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.EndOfMission</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition><RuleCondition
@@ -6563,7 +6563,7 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="0f62ee0c-4e18-4353-bc36-5edc9ae12e2e"
->Mode == Default.Mode.UN</PreCondition></PreConditions>
+>Kernel.Mode == Default.Mode.UN</PreCondition></PreConditions>
 <Actions>
 </Actions>
 <SubRules>
@@ -6591,11 +6591,11 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="c831f378-1368-48fc-b1a4-aa253469e36c"
->Condition1()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition1()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="4c0fbb9a-7054-49ea-8f3e-c2c53875209e"
->Mode &lt;- Default.Mode.IS</Action></Actions>
+>Kernel.Mode &lt;- Default.Mode.IS</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="UN -&gt; NP"
@@ -6610,11 +6610,11 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="7c6e938a-1b81-4642-bd5d-aeeb86a34cb9"
->Condition29()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition29()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="4e3da8b5-56dd-4203-b2ca-168756e50aad"
->Mode &lt;- Default.Mode.NP</Action></Actions>
+>Kernel.Mode &lt;- Default.Mode.NP</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="UN -&gt; SF"
@@ -6629,11 +6629,11 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="862ab3be-a2e3-4c3d-a60c-ff0c89c73cce"
->Condition13()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition13()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="342f36d6-9443-4c25-9657-3e9b457af0c8"
->Mode &lt;- Default.Mode.SF</Action></Actions>
+>Kernel.Mode &lt;- Default.Mode.SF</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="UN -&gt; SR"
@@ -6648,11 +6648,11 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="2b0419d9-d60b-4ef0-a07f-56973f923662"
->Condition44() OR Condition45()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition44() OR Kernel.Modes.ModeTransitions.Condition45()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="5de5ffb4-33d8-4901-93ea-8d9aeb2c82a3"
->Mode &lt;- Default.Mode.SR</Action></Actions>
+>Kernel.Mode &lt;- Default.Mode.SR</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="UN -&gt; TR"
@@ -6677,13 +6677,13 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="880598c3-df04-4ec2-add1-3ed98931ab98"
->Condition67() OR Condition39() OR Condition20()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition67() OR Kernel.Modes.ModeTransitions.Condition39() OR Kernel.Modes.ModeTransitions.Condition20()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="082ef426-2891-4e8c-95de-e6d644d806b8"
->Mode &lt;- Default.Mode.TR</Action><Action
+>Kernel.Mode &lt;- Default.Mode.TR</Action><Action
  Guid="eaad072e-80af-41ca-8af4-04d4a47f82be"
->HandleModeChange &lt;- HandleModeChangeSM.TrainTrip</Action></Actions>
+>Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.TrainTrip</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="UN -&gt; SB"
@@ -6703,13 +6703,13 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="1544fd6e-beb1-4d89-a452-886ec36423f3"
->Condition28()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition28()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="c923caf2-7f09-4a29-a752-542ab4ac0661"
->Mode &lt;- Default.Mode.SB</Action><Action
+>Kernel.Mode &lt;- Default.Mode.SB</Action><Action
  Guid="42833db6-4ff7-4c84-b4d4-246e41cd6446"
->HandleModeChange &lt;- HandleModeChangeSM.EndOfMission</Action></Actions>
+>Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.EndOfMission</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="UN -&gt; SH"
@@ -6749,13 +6749,13 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="057879a5-ba5e-441c-bf11-cfd40b584a2c"
->Condition5() OR Condition61()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition5() OR Kernel.Modes.ModeTransitions.Condition61()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="269fd4a9-45eb-4a45-9008-9c5f70eef35e"
->Mode &lt;- Default.Mode.SH</Action><Action
+>Kernel.Mode &lt;- Default.Mode.SH</Action><Action
  Guid="2aff7b26-bdff-4e7c-8683-2c13ee100ed8"
->HandleModeChange &lt;- HandleModeChangeSM.EndOfMission</Action></Actions>
+>Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.EndOfMission</Action></Actions>
 <SubRules>
 <Rule
  Priority="Processing"
@@ -6789,7 +6789,7 @@ If the train position is invalid, delete the stored position.</Comment>
 </ReqRef><PreConditions>
 <PreCondition
  Guid="79edac91-f2be-42a3-ac07-66c66395bd37"
->Condition61()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition61()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="86ca924b-9186-48d7-a3ba-8f03ffdd77ae"
@@ -6810,11 +6810,11 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="29d25d21-6d54-4adc-adde-fe0245a396b1"
->Condition25()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition25()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="9d894321-6eff-4e33-923b-e3220149572f"
->Mode &lt;- Default.Mode.FS</Action></Actions>
+>Kernel.Mode &lt;- Default.Mode.FS</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="UN -&gt; LS"
@@ -6849,11 +6849,11 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="cf83d47e-1514-4e29-a48d-7d1e381d54e4"
->Condition71()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition71()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="4a2fecb9-7f60-4c36-aaa9-6917cc42e9a1"
->Mode &lt;- Default.Mode.LS</Action><Action
+>Kernel.Mode &lt;- Default.Mode.LS</Action><Action
  Guid="0e2930ae-a2a5-40b1-8f2c-d9cd93434271"
 >DMI.MasterDMI().In_AcknOfLSMode.InitiateRequest()</Action></Actions>
 </RuleCondition><RuleCondition
@@ -6895,11 +6895,11 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="ea1a3385-97f9-493e-bebc-9b4f6cc85f7e"
->Condition34()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition34()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="1bbfef7a-2e2f-4b99-a229-24c1008fd599"
->Mode &lt;- Default.Mode.OS</Action><Action
+>Kernel.Mode &lt;- Default.Mode.OS</Action><Action
  Guid="27afde8d-3f8b-4eae-97ad-0068b9529bea"
 >DMI.MasterDMI().In_AcknOfOSMode.InitiateRequest()</Action></Actions>
 </RuleCondition><RuleCondition
@@ -6916,11 +6916,11 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="13dcf43f-87d0-463e-b7ba-1cacac880553"
->Condition56()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition56()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="f7ba3168-98ae-452d-94c3-ae0857216d29"
->Mode &lt;- Default.Mode.SN</Action></Actions>
+>Kernel.Mode &lt;- Default.Mode.SN</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition><RuleCondition
@@ -6933,7 +6933,7 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="37cfe800-193f-46a8-976c-6e2afad3c523"
->Mode == Default.Mode.TR</PreCondition></PreConditions>
+>Kernel.Mode == Default.Mode.TR</PreCondition></PreConditions>
 <Actions>
 </Actions>
 <SubRules>
@@ -6961,11 +6961,11 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="1ed988db-ad79-4c7c-a99b-186a66c3b681"
->Condition1()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition1()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="e1a35e2b-8336-4f74-9644-6a1fb26d22ed"
->Mode &lt;- Default.Mode.IS</Action></Actions>
+>Kernel.Mode &lt;- Default.Mode.IS</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="TR -&gt; NP"
@@ -6980,11 +6980,11 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="7743b89e-50ae-47e1-b807-2ded67e3382a"
->Condition29()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition29()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="c1725c5e-58f1-43b1-b542-b73f2ce9d168"
->Mode &lt;- Default.Mode.NP</Action></Actions>
+>Kernel.Mode &lt;- Default.Mode.NP</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="TR -&gt; SF"
@@ -6999,11 +6999,11 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="d895ff0e-fb9d-456b-a6b6-3bafca4bd0e8"
->Condition13()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition13()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="a0e8904c-98dd-4c65-abd4-1b2e67deb5fe"
->Mode &lt;- Default.Mode.SF</Action></Actions>
+>Kernel.Mode &lt;- Default.Mode.SF</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="TR -&gt; SH"
@@ -7028,13 +7028,13 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="9cc3a3e1-536c-4f23-b66d-e8e4ff264236"
->Condition68()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition68()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="00c19f05-2a30-44a6-84d4-99d1afb27c6f"
->Mode &lt;- Default.Mode.SH</Action><Action
+>Kernel.Mode &lt;- Default.Mode.SH</Action><Action
  Guid="3aba4a7b-6bd6-4e4e-afc9-cf564928f397"
->HandleModeChange &lt;- HandleModeChangeSM.NoProcedure</Action></Actions>
+>Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.NoProcedure</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="TR -&gt; UN"
@@ -7059,13 +7059,13 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="3ce17c39-f6e6-4d69-9968-f089b80f2cf8"
->Condition62()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition62()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="29c43483-ffec-42c2-97cc-0b9890299e29"
->Mode &lt;- Default.Mode.UN</Action><Action
+>Kernel.Mode &lt;- Default.Mode.UN</Action><Action
  Guid="f46dd9eb-eb24-45c4-8e7f-32808b0cf673"
->HandleModeChange &lt;- HandleModeChangeSM.NoProcedure</Action></Actions>
+>Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.NoProcedure</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="TR -&gt; PT"
@@ -7095,13 +7095,13 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="5bfa2492-6ad3-4a3c-b9e2-c0659f783065"
->Condition7()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition7()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="694ffd28-9a9e-4839-a8cd-cdd75be71e1d"
->Mode &lt;- Default.Mode.PT</Action><Action
+>Kernel.Mode &lt;- Default.Mode.PT</Action><Action
  Guid="9af31329-6766-4c1c-b1fc-c90b2e327f2f"
->HandleModeChange &lt;- HandleModeChangeSM.TrainTrip.D110</Action></Actions>
+>Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.TrainTrip.D110</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="TR -&gt; SN"
@@ -7126,13 +7126,13 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="19626ad6-e19c-46d2-b2ea-40cfdc2c0a37"
->Condition63()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition63()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="b2bfe329-a4e6-4715-9c56-f6f6fe5ffcc2"
->Mode &lt;- Default.Mode.SN</Action><Action
+>Kernel.Mode &lt;- Default.Mode.SN</Action><Action
  Guid="2b1d5435-d255-4eb3-8d53-5395de3a4b7f"
->HandleModeChange &lt;- HandleModeChangeSM.NoProcedure</Action></Actions>
+>Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.NoProcedure</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition><RuleCondition
@@ -7145,7 +7145,7 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="7ea60917-9844-4b3a-bf33-2ee50741f88a"
->Mode == Default.Mode.PT</PreCondition></PreConditions>
+>Kernel.Mode == Default.Mode.PT</PreCondition></PreConditions>
 <Actions>
 </Actions>
 <SubRules>
@@ -7173,11 +7173,11 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="f53e2f75-659e-4fcf-913e-a1e61009c0f7"
->Condition1()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition1()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="d9216efc-63a0-4585-a028-d64f5fb5a567"
->Mode &lt;- Default.Mode.IS</Action></Actions>
+>Kernel.Mode &lt;- Default.Mode.IS</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="PT -&gt; NP"
@@ -7192,11 +7192,11 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="60267878-2b24-4987-8fc4-2bc4c9df36c7"
->Condition29()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition29()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="5bc6a317-98a8-4153-976a-b60da0e39030"
->Mode &lt;- Default.Mode.NP</Action></Actions>
+>Kernel.Mode &lt;- Default.Mode.NP</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="PT -&gt; SF"
@@ -7211,11 +7211,11 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="096c5e0b-8e82-4d41-b95b-a46a0889af54"
->Condition13()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition13()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="f019fcff-c09d-443d-871c-36c808ffd428"
->Mode &lt;- Default.Mode.SF</Action></Actions>
+>Kernel.Mode &lt;- Default.Mode.SF</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="PT -&gt; SB"
@@ -7235,11 +7235,11 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="9a87bc06-3dbd-43f5-9336-458f1e58705b"
->Condition28()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition28()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="076eedcf-7582-4a55-92a3-469ccb8c9d74"
->Mode &lt;- Default.Mode.SB</Action></Actions>
+>Kernel.Mode &lt;- Default.Mode.SB</Action></Actions>
 <SubRules>
 <Rule
  Priority="Processing"
@@ -7268,11 +7268,11 @@ If the train position is invalid, delete the stored position.</Comment>
 </ReqRef><PreConditions>
 <PreCondition
  Guid="c8bcedbd-32d5-462d-a928-1d185f5c5ccb"
->MissionIsOnGoing == True</PreCondition></PreConditions>
+>Kernel.MissionIsOnGoing == True</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="2a011a69-9d1d-4409-bae3-0859a4f91350"
->HandleModeChange &lt;- HandleModeChangeSM.EndOfMission</Action></Actions>
+>Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.EndOfMission</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition><RuleCondition
@@ -7304,11 +7304,11 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="22674eda-8293-4bb0-aa91-2a0e25be4235"
->Condition5() OR Condition6() OR Condition50_PT()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition5() OR Kernel.Modes.ModeTransitions.Condition6() OR Kernel.Modes.ModeTransitions.Condition50_PT()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="ea5b92b7-bc51-4dff-b9c4-f5f319ab86c3"
->Mode &lt;- Default.Mode.SH</Action></Actions>
+>Kernel.Mode &lt;- Default.Mode.SH</Action></Actions>
 <SubRules>
 <Rule
  Priority="Processing"
@@ -7329,13 +7329,13 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="bf7a6231-1ad5-4f91-9d35-0f840a592af9"
->Condition50_PT()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition50_PT()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="f6c94a77-b4b3-4ee1-b59f-22c6ddb17c91"
 >DMI.MasterDMI().In_AcknOfSHMode.InputInformation.Disable()</Action><Action
  Guid="817aa53c-4f63-4284-979a-1e646d1c27cf"
->HandleModeChange &lt;- HandleModeChangeSM.NoProcedure</Action></Actions>
+>Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.NoProcedure</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -7364,11 +7364,11 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="34c751f1-5c9f-4b54-948e-6e7dcdff4ea9"
->MissionIsOnGoing</PreCondition></PreConditions>
+>Kernel.MissionIsOnGoing</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="c11c83ab-cd63-4fa3-9ca1-d20b3a57ab13"
->HandleModeChange &lt;- HandleModeChangeSM.EndOfMission</Action></Actions>
+>Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.EndOfMission</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition><RuleCondition
@@ -7390,13 +7390,13 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="4d923018-3239-41cf-abc1-e7117846df34"
->Condition31_PT()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition31_PT()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="8384575e-6553-4ba9-9b0a-0b58070fb664"
->Mode &lt;- Default.Mode.FS</Action><Action
+>Kernel.Mode &lt;- Default.Mode.FS</Action><Action
  Guid="5482a40a-4385-4217-98cf-c8eed5b5fc2e"
->HandleModeChange &lt;- HandleModeChangeSM.NoProcedure</Action></Actions>
+>Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.NoProcedure</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="PT -&gt; LS"
@@ -7421,15 +7421,15 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="32337793-8f78-4809-af72-2647cda35753"
->Condition70_PT()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition70_PT()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="d1b0f51b-01e7-4f35-8b91-cd90455e7067"
->Mode &lt;- Default.Mode.LS</Action><Action
+>Kernel.Mode &lt;- Default.Mode.LS</Action><Action
  Guid="ffbf191c-1c71-4800-be9d-a646a22b0343"
 >DMI.MasterDMI().In_AcknOfLSMode.InputInformation.Disable()</Action><Action
  Guid="0b206b75-fdbb-4598-af28-83fe3421144c"
->HandleModeChange &lt;- HandleModeChangeSM.NoProcedure</Action></Actions>
+>Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.NoProcedure</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="PT -&gt; SR"
@@ -7449,11 +7449,11 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="5fc8fa8f-9129-4db1-806c-fb71f074fab6"
->Condition8_PT() OR Condition37_PT()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition8_PT() OR Kernel.Modes.ModeTransitions.Condition37_PT()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="024e9551-6a68-407a-b56d-26bdf360beff"
->Mode &lt;- Default.Mode.SR</Action></Actions>
+>Kernel.Mode &lt;- Default.Mode.SR</Action></Actions>
 <SubRules>
 <Rule
  Priority="Processing"
@@ -7479,13 +7479,13 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="06a3fa7a-d580-4b3a-9d16-7ee44277c5ca"
->Condition8_PT()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition8_PT()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="fd88537c-6a79-41ec-b72a-b39c9bcde7a6"
 >DMI.MasterDMI().In_AcknOfSRMode.InputInformation.Disable()</Action><Action
  Guid="47b1e10e-814a-4511-8d12-0ac9cdcc3d95"
->HandleModeChange &lt;- HandleModeChangeSM.NoProcedure</Action></Actions>
+>Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.NoProcedure</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Loss of open session"
@@ -7500,11 +7500,11 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="275fb7a6-27cf-4dd0-ac36-382520be5909"
->Condition37_PT()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition37_PT()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="a4141a9c-e35d-4008-8f47-f0ddf87b262e"
->HandleModeChange &lt;- HandleModeChangeSM.Override</Action></Actions>
+>Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.Override</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition><RuleCondition
@@ -7536,15 +7536,15 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="57368aa7-c649-4742-bbe9-65205b777295"
->Condition15_PT()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition15_PT()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="97a7f9d5-8f23-49dd-98e4-03e542791e15"
->Mode &lt;- Default.Mode.OS</Action><Action
+>Kernel.Mode &lt;- Default.Mode.OS</Action><Action
  Guid="9830d5cb-6ee9-4d48-b29b-9d321753b759"
 >DMI.MasterDMI().In_AcknOfOSMode.InputInformation.Disable()</Action><Action
  Guid="ac721fb1-402f-43c7-a022-b2e946076ca9"
->HandleModeChange &lt;- HandleModeChangeSM.NoProcedure</Action></Actions>
+>Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.NoProcedure</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition><RuleCondition
@@ -7557,7 +7557,7 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="5ddfc4f0-99e1-447d-87db-c4200984e80b"
->Mode == Default.Mode.SF</PreCondition></PreConditions>
+>Kernel.Mode == Default.Mode.SF</PreCondition></PreConditions>
 <Actions>
 </Actions>
 <SubRules>
@@ -7585,11 +7585,11 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="9b8331f0-de36-402f-9f9b-44ab1e477169"
->Condition1()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition1()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="33c477bb-6a5f-41a0-88ac-d20031d5e81c"
->Mode &lt;- Default.Mode.IS</Action></Actions>
+>Kernel.Mode &lt;- Default.Mode.IS</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="SF -&gt; NP"
@@ -7604,11 +7604,11 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="7035d1fc-72b2-4e63-bb0e-1b3683f4082d"
->Condition29()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition29()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="855958a8-869e-45f1-a4d2-a129f383b70c"
->Mode &lt;- Default.Mode.NP</Action></Actions>
+>Kernel.Mode &lt;- Default.Mode.NP</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition><RuleCondition
@@ -7621,7 +7621,7 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="9bc9968f-5c84-42ec-b404-3aa18a08f13a"
->Mode == Default.Mode.IS</PreCondition></PreConditions>
+>Kernel.Mode == Default.Mode.IS</PreCondition></PreConditions>
 <Actions>
 </Actions>
 </RuleCondition><RuleCondition
@@ -7634,7 +7634,7 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="97358ff8-ee94-4de8-b68e-ed00b790fda3"
->Mode == Default.Mode.SN</PreCondition></PreConditions>
+>Kernel.Mode == Default.Mode.SN</PreCondition></PreConditions>
 <Actions>
 </Actions>
 <SubRules>
@@ -7662,11 +7662,11 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="54937e3e-6200-4e9a-82cf-5b38ee6f633c"
->Condition1()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition1()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="0d5e00ca-b0f7-416a-9724-01aed7b1309d"
->Mode &lt;- Default.Mode.IS</Action></Actions>
+>Kernel.Mode &lt;- Default.Mode.IS</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="SN -&gt; NP"
@@ -7681,11 +7681,11 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="40b87b52-32c5-4a2f-a088-05c1f01a3f22"
->Condition29()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition29()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="eca02fcc-0a52-40f6-afb3-6b0366e128b3"
->Mode &lt;- Default.Mode.NP</Action></Actions>
+>Kernel.Mode &lt;- Default.Mode.NP</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="SN -&gt; SF"
@@ -7700,11 +7700,11 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="00a1dabf-d5b5-4c72-a020-7b606a90b69a"
->Condition13()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition13()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="759c7540-5df7-4966-a8e3-76d599ea0d64"
->Mode &lt;- Default.Mode.SF</Action></Actions>
+>Kernel.Mode &lt;- Default.Mode.SF</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="SN -&gt; SR"
@@ -7719,11 +7719,11 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="5a0abec2-4f36-4869-a421-cbe2197b90bf"
->Condition44() OR Condition45()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition44() OR Kernel.Modes.ModeTransitions.Condition45()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="a8d07cf8-ee86-44e1-b78c-c23c2f8261d7"
->Mode &lt;- Default.Mode.SR</Action></Actions>
+>Kernel.Mode &lt;- Default.Mode.SR</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="SN -&gt; TR"
@@ -7748,13 +7748,13 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="933b3f5f-4666-41b5-8fd4-bf7d2c47f2b6"
->Condition67() OR Condition39() OR Condition38() OR Condition35() OR Condition20()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition67() OR Kernel.Modes.ModeTransitions.Condition39() OR Kernel.Modes.ModeTransitions.Condition38() OR Kernel.Modes.ModeTransitions.Condition35() OR Kernel.Modes.ModeTransitions.Condition20()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="bb9c8a03-3951-4332-9066-55dc76dd7dd5"
->Mode &lt;- Default.Mode.TR</Action><Action
+>Kernel.Mode &lt;- Default.Mode.TR</Action><Action
  Guid="bd612182-aaca-4f0f-b48b-e56b91045f94"
->HandleModeChange &lt;- HandleModeChangeSM.TrainTrip</Action></Actions>
+>Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.TrainTrip</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="SN -&gt; SB"
@@ -7774,13 +7774,13 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="81522f1e-d7bc-441b-a339-cef2e7f7eb30"
->Condition28()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition28()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="dd1cd4a5-2a2b-4f77-933d-cbbd37e52694"
->Mode &lt;- Default.Mode.SB</Action><Action
+>Kernel.Mode &lt;- Default.Mode.SB</Action><Action
  Guid="4f35bb84-df30-4b4c-9679-1db13764b84f"
->HandleModeChange &lt;- HandleModeChangeSM.EndOfMission</Action></Actions>
+>Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.EndOfMission</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="SN -&gt; SH"
@@ -7820,13 +7820,13 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="9a453f22-6bef-42ec-a26c-ea80dd93b4a0"
->Condition5() OR Condition61()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition5() OR Kernel.Modes.ModeTransitions.Condition61()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="904b5ada-2482-458a-b8eb-b9a738e6781e"
->Mode &lt;- Default.Mode.SH</Action><Action
+>Kernel.Mode &lt;- Default.Mode.SH</Action><Action
  Guid="e6ac087d-797f-45f2-868b-f0c29860cf78"
->HandleModeChange &lt;- HandleModeChangeSM.EndOfMission</Action></Actions>
+>Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.EndOfMission</Action></Actions>
 <SubRules>
 <Rule
  Priority="Processing"
@@ -7860,7 +7860,7 @@ If the train position is invalid, delete the stored position.</Comment>
 </ReqRef><PreConditions>
 <PreCondition
  Guid="24c008a1-694c-4855-a6a9-b75b2949d1d4"
->Condition61()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition61()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="a9ae647f-26f7-4bce-bff1-a904b2c3722b"
@@ -7881,11 +7881,11 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="78edfde5-f919-4a51-8717-f83eb125ba74"
->Condition25()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition25()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="ad8fab30-df72-4863-b2a1-d3b92dcb3583"
->Mode &lt;- Default.Mode.FS</Action></Actions>
+>Kernel.Mode &lt;- Default.Mode.FS</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="SN -&gt; LS"
@@ -7920,11 +7920,11 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="fe8cb30c-3cef-407f-80bd-17d3310fac19"
->Condition71()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition71()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="4067aa5e-a57f-41f3-8d6a-8e10e7fe2500"
->Mode &lt;- Default.Mode.LS</Action><Action
+>Kernel.Mode &lt;- Default.Mode.LS</Action><Action
  Guid="231bf4ed-ea40-4eee-8423-9b537733d58c"
 >DMI.MasterDMI().In_AcknOfLSMode.InitiateRequest()</Action></Actions>
 </RuleCondition><RuleCondition
@@ -7971,11 +7971,11 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="49a8e609-3642-47ba-a76c-5cd22cc451bb"
->Condition34()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition34()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="1d352d9c-4b06-429a-a738-a773484211fb"
->Mode &lt;- Default.Mode.OS</Action><Action
+>Kernel.Mode &lt;- Default.Mode.OS</Action><Action
  Guid="c45b50d9-6abc-4bea-b924-e0316b4ee103"
 >DMI.MasterDMI().In_AcknOfOSMode.InitiateRequest()</Action></Actions>
 </RuleCondition><RuleCondition
@@ -7997,11 +7997,11 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="12652de2-18f7-4045-8c95-5726df2bc918"
->Condition21()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition21()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="cee54f2d-4a81-4185-b85a-6c3390e4e3a2"
->Mode &lt;- Default.Mode.UN</Action></Actions>
+>Kernel.Mode &lt;- Default.Mode.UN</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition><RuleCondition
@@ -8014,7 +8014,7 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="290576b6-d4ec-4291-9e01-20482e7c53a1"
->Mode == Default.Mode.RV</PreCondition></PreConditions>
+>Kernel.Mode == Default.Mode.RV</PreCondition></PreConditions>
 <Actions>
 </Actions>
 <SubRules>
@@ -8042,11 +8042,11 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="4d26cb73-fdeb-47cd-bf63-2cb18b9c8920"
->Condition1()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition1()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="093b819b-51d0-42f1-9c56-8d4984e96560"
->Mode &lt;- Default.Mode.IS</Action></Actions>
+>Kernel.Mode &lt;- Default.Mode.IS</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="RV -&gt; NP"
@@ -8061,11 +8061,11 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="ad506849-0a78-41d2-ab18-f67db00b74f0"
->Condition29()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition29()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="0d1a41f5-3ce2-42e1-91f6-8d827e57abcb"
->Mode &lt;- Default.Mode.NP</Action></Actions>
+>Kernel.Mode &lt;- Default.Mode.NP</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="RV -&gt; SF"
@@ -8080,11 +8080,11 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="7a7d2177-7599-4e52-a21a-370c5289d600"
->Condition13()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition13()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="a9ac7011-81fc-4b0a-94b2-77eb43271c16"
->Mode &lt;- Default.Mode.SF</Action></Actions>
+>Kernel.Mode &lt;- Default.Mode.SF</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="RV -&gt; SB"
@@ -8104,13 +8104,13 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="4200927a-a727-4528-8629-da14f579559b"
->Condition28()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition28()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="7fae856a-be74-40e3-9210-d5f2d3e8771b"
->Mode &lt;- Default.Mode.SB</Action><Action
+>Kernel.Mode &lt;- Default.Mode.SB</Action><Action
  Guid="8ec0888a-aa39-42c0-9c93-6e75566ad705"
->HandleModeChange &lt;- HandleModeChangeSM.EndOfMission</Action></Actions>
+>Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.EndOfMission</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition></Conditions>
@@ -8133,13 +8133,13 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="abbfdc97-d610-4441-847d-12a8ba8b1a3a"
->Mode != PrevMode</PreCondition></PreConditions>
+>Kernel.Mode != Kernel.Modes.ModeTransitions.PrevMode</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="71616f33-5f53-4261-ac0b-92804f08980f"
->ModeRules.HandleStoredInformation()</Action><Action
+>Kernel.Modes.ModeTransitions.ModeRules.HandleStoredInformation()</Action><Action
  Guid="d37f20e1-98c7-47ce-8ec2-f4783b377864"
->ModeRules.HandleModeRelatedEBCommand()</Action></Actions>
+>Kernel.Modes.ModeTransitions.ModeRules.HandleModeRelatedEBCommand()</Action></Actions>
 <SubRules>
 <Rule
  Priority="Processing"
@@ -8163,11 +8163,11 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="58542aca-0898-4eea-9437-50175e65bc57"
->Level.Value.Value in [Default.Level.L2, Default.Level.L3]</PreCondition><PreCondition
+>Kernel.Level.Value.Value in [Default.Level.L2, Default.Level.L3]</PreCondition><PreCondition
  Guid="803992df-272e-44be-ae5d-0ca02c53a945"
->Mode == Default.Mode.SL
+>Kernel.Mode == Default.Mode.SL
   OR  
-PrevMode == Default.Mode.SL</PreCondition></PreConditions>
+Kernel.Modes.ModeTransitions.PrevMode == Default.Mode.SL</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="3fc3fdc4-a55e-460d-b562-e9e19afbc77a"
@@ -8200,7 +8200,7 @@ PrevMode == Default.Mode.SL</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="404ac5b2-ae79-45ad-98d4-bc52a6848844"
->Mode == Default.Mode.SH</PreCondition></PreConditions>
+>Kernel.Mode == Default.Mode.SH</PreCondition></PreConditions>
 <Actions>
 </Actions>
 <SubRules>
@@ -8221,11 +8221,11 @@ PrevMode == Default.Mode.SL</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="d749325c-0704-49c7-ab5a-9bd2fcbccc29"
->HandleModeChange in HandleModeChangeSM.Override</PreCondition></PreConditions>
+>Kernel.HandleModeChange in Kernel.HandleModeChangeSM.Override</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="ee358f3f-d928-46e8-ac43-a1dd68c8eb36"
->EndOverride()</Action></Actions>
+>Kernel.EndOverride()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition></Conditions>
@@ -8251,11 +8251,11 @@ PrevMode == Default.Mode.SL</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="6fbe47aa-ca2b-4420-a0b0-c8f1462ea615"
->TrainPosition.RearEndPosition(PointOfInterest =&gt; DistanceInterval.Nom) &lt; (FIRST X IN TrackDescription.Gradient.Gradients).Location
+>Kernel.TrainPosition.RearEndPosition(PointOfInterest =&gt; DistanceInterval.Nom) &lt; (FIRST X IN Kernel.TrackDescription.Gradient.Gradients).Location
   OR
-TrainPosition.RearEndPosition(PointOfInterest =&gt; DistanceInterval.Nom) &lt; (FIRST X IN TrackDescription.StaticSpeedProfile.SSP).Location</PreCondition><PreCondition
+Kernel.TrainPosition.RearEndPosition(PointOfInterest =&gt; DistanceInterval.Nom) &lt; (FIRST X IN Kernel.TrackDescription.StaticSpeedProfile.SSP).Location</PreCondition><PreCondition
  Guid="3fe81a1f-a14a-42cf-86f4-2c6b8b82bf29"
->Mode == Default.Mode.FS</PreCondition></PreConditions>
+>Kernel.Mode == Default.Mode.FS</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="0227ac5d-5147-488a-b254-c00debe67dd3"
@@ -8290,7 +8290,7 @@ TrainPosition.RearEndPosition(PointOfInterest =&gt; DistanceInterval.Nom) &lt; (
 <PreConditions>
 <PreCondition
  Guid="d1fb763d-8eb4-449e-b9fb-3ab9c203ce8f"
->Mode == Default.Mode.SR</PreCondition></PreConditions>
+>Kernel.Mode == Default.Mode.SR</PreCondition></PreConditions>
 <Actions>
 </Actions>
 <SubRules>
@@ -8313,7 +8313,7 @@ TrainPosition.RearEndPosition(PointOfInterest =&gt; DistanceInterval.Nom) &lt; (
 <Actions>
 <Action
  Guid="9861dab1-0ea0-474a-a570-5c9f716e8ed6"
->TrainPosition.SRStartDistance &lt;- Odometry.NominalDistance</Action></Actions>
+>Kernel.TrainPosition.SRStartDistance &lt;- Odometry.NominalDistance</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -8337,13 +8337,13 @@ TrainPosition.RearEndPosition(PointOfInterest =&gt; DistanceInterval.Nom) &lt; (
 <PreConditions>
 <PreCondition
  Guid="3e6ea886-5b5f-4381-be51-f5bbba1f6269"
->Level.Value.Value in [Default.Level.L2, Default.Level.L3]</PreCondition><PreCondition
+>Kernel.Level.Value.Value in [Default.Level.L2, Default.Level.L3]</PreCondition><PreCondition
  Guid="c6fe72fa-111f-4ee5-bc98-fee5bfd679f6"
->Condition37()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.Condition37()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="12cd0b21-f7bb-489e-a62c-37d6a11a5429"
->BrakeCommands.EmergencyStops &lt;- []</Action></Actions>
+>Kernel.BrakeCommands.EmergencyStops &lt;- []</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition></Conditions>
@@ -8379,7 +8379,7 @@ TrainPosition.RearEndPosition(PointOfInterest =&gt; DistanceInterval.Nom) &lt; (
 <PreConditions>
 <PreCondition
  Guid="710695f4-e0d4-4472-9df0-8f99ee86f7dc"
->Mode == Default.Mode.OS</PreCondition></PreConditions>
+>Kernel.Mode == Default.Mode.OS</PreCondition></PreConditions>
 <Actions>
 </Actions>
 <SubRules>
@@ -8400,9 +8400,9 @@ TrainPosition.RearEndPosition(PointOfInterest =&gt; DistanceInterval.Nom) &lt; (
 <PreConditions>
 <PreCondition
  Guid="bdaf3f2c-b960-43bc-a4ec-57911fd13a3e"
->TrainPosition.RearEndPosition(PointOfInterest =&gt; DistanceInterval.Nom) &lt; (FIRST X IN TrackDescription.Gradient.Gradients).Location
+>Kernel.TrainPosition.RearEndPosition(PointOfInterest =&gt; DistanceInterval.Nom) &lt; (FIRST X IN Kernel.TrackDescription.Gradient.Gradients).Location
   OR
-TrainPosition.RearEndPosition(PointOfInterest =&gt; DistanceInterval.Nom) &lt; (FIRST X IN TrackDescription.StaticSpeedProfile.SSP).Location</PreCondition></PreConditions>
+Kernel.TrainPosition.RearEndPosition(PointOfInterest =&gt; DistanceInterval.Nom) &lt; (FIRST X IN Kernel.TrackDescription.StaticSpeedProfile.SSP).Location</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="38bedf25-537f-4716-bcea-51905cd7ae66"
@@ -8425,11 +8425,11 @@ TrainPosition.RearEndPosition(PointOfInterest =&gt; DistanceInterval.Nom) &lt; (
 <PreConditions>
 <PreCondition
  Guid="7d915a19-6ff8-4447-8d45-7f36e2fbab45"
->HandleModeChange in HandleModeChangeSM.Override</PreCondition></PreConditions>
+>Kernel.HandleModeChange in Kernel.HandleModeChangeSM.Override</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="ba6e3c1d-7690-45df-a0ff-a98a1f8826a4"
->EndOverride()</Action></Actions>
+>Kernel.EndOverride()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition></Conditions>
@@ -8460,7 +8460,7 @@ TrainPosition.RearEndPosition(PointOfInterest =&gt; DistanceInterval.Nom) &lt; (
 <PreConditions>
 <PreCondition
  Guid="6c469476-d2fa-465d-a71d-a4774e401885"
->Mode == Default.Mode.TR</PreCondition></PreConditions>
+>Kernel.Mode == Default.Mode.TR</PreCondition></PreConditions>
 <Actions>
 </Actions>
 <SubRules>
@@ -8482,11 +8482,11 @@ TrainPosition.RearEndPosition(PointOfInterest =&gt; DistanceInterval.Nom) &lt; (
 <PreConditions>
 <PreCondition
  Guid="0ed99111-f747-48ae-818c-d8190878d6e4"
->HandleModeChange in HandleModeChangeSM.Override</PreCondition></PreConditions>
+>Kernel.HandleModeChange in Kernel.HandleModeChangeSM.Override</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="16e40cc4-8592-40b3-849d-0ccd8c8fdbd1"
->EndOverride()</Action></Actions>
+>Kernel.EndOverride()</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Delete SR mode-specific information"
@@ -8506,13 +8506,13 @@ TrainPosition.RearEndPosition(PointOfInterest =&gt; DistanceInterval.Nom) &lt; (
 <PreConditions>
 <PreCondition
  Guid="ecf3a7f8-8fcb-44f9-9cb2-5187ea26bc01"
->PrevMode == Default.Mode.SR</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.PrevMode == Default.Mode.SR</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="5758c4d1-4828-4a63-bc2b-38026eb82a64"
->Modes.StaffResponsible.UnexpectedBGPassed &lt;- Boolean.False</Action><Action
+>Kernel.Modes.StaffResponsible.UnexpectedBGPassed &lt;- Boolean.False</Action><Action
  Guid="2a4319cf-a4a0-46d4-ad46-ce42e9b77d4c"
->Modes.StaffResponsible.StopIfInStaffResponsible &lt;- Boolean.False</Action></Actions>
+>Kernel.Modes.StaffResponsible.StopIfInStaffResponsible &lt;- Boolean.False</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Delete SH mode-specific information"
@@ -8532,13 +8532,13 @@ TrainPosition.RearEndPosition(PointOfInterest =&gt; DistanceInterval.Nom) &lt; (
 <PreConditions>
 <PreCondition
  Guid="a5783e8c-697c-4e09-a78c-a9099e9eae40"
->PrevMode == Default.Mode.SH</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.PrevMode == Default.Mode.SH</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="558b7c00-1baa-4d7c-bd50-20b0a1c0465e"
->Modes.Shunting.StopIfInShunting &lt;- Boolean.False</Action><Action
+>Kernel.Modes.Shunting.StopIfInShunting &lt;- Boolean.False</Action><Action
  Guid="c1487ea5-2419-4909-b15b-eec2c071206c"
->Modes.Shunting.UnexpectedBGPassed &lt;- Boolean.False</Action></Actions>
+>Kernel.Modes.Shunting.UnexpectedBGPassed &lt;- Boolean.False</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition></Conditions>
@@ -8569,13 +8569,13 @@ TrainPosition.RearEndPosition(PointOfInterest =&gt; DistanceInterval.Nom) &lt; (
 <PreConditions>
 <PreCondition
  Guid="bf00fb51-2642-44e1-bed0-64e08637278f"
->Mode == Default.Mode.RV</PreCondition></PreConditions>
+>Kernel.Mode == Default.Mode.RV</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="cfe2c845-a9f2-49cc-a9ac-eb8e870263d8"
->TSR.TSRs &lt;- []</Action><Action
+>Kernel.TSR.TSRs &lt;- []</Action><Action
  Guid="d76a3771-e75a-4586-aa50-73a70912fd4f"
->GeographicalPosition.GeographicalPositionInformation &lt;- []</Action></Actions>
+>Kernel.GeographicalPosition.GeographicalPositionInformation &lt;- []</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -8610,11 +8610,11 @@ TrainPosition.RearEndPosition(PointOfInterest =&gt; DistanceInterval.Nom) &lt; (
 <PreConditions>
 <PreCondition
  Guid="649da02e-875c-432f-b874-f3716160e2c9"
->Mode == Default.Mode.LS</PreCondition></PreConditions>
+>Kernel.Mode == Default.Mode.LS</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="0aa12865-2a4e-4155-b6cb-66ce493b30d1"
->Modes.LimitedSupervision.DisplayLSSMA &lt;- False</Action></Actions>
+>Kernel.Modes.LimitedSupervision.DisplayLSSMA &lt;- False</Action></Actions>
 <SubRules>
 <Rule
  Priority="Processing"
@@ -8633,11 +8633,11 @@ TrainPosition.RearEndPosition(PointOfInterest =&gt; DistanceInterval.Nom) &lt; (
 <PreConditions>
 <PreCondition
  Guid="eda52951-c21a-4435-84a0-d25a29b0b27b"
->HandleModeChange in HandleModeChangeSM.Override</PreCondition></PreConditions>
+>Kernel.HandleModeChange in Kernel.HandleModeChangeSM.Override</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="1c899d8a-8bc7-4e1c-859a-38868650e6f6"
->EndOverride()</Action></Actions>
+>Kernel.EndOverride()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition><RuleCondition
@@ -8649,13 +8649,13 @@ TrainPosition.RearEndPosition(PointOfInterest =&gt; DistanceInterval.Nom) &lt; (
 <PreConditions>
 <PreCondition
  Guid="4d038c9f-8d44-415c-a173-d27afce88062"
->PrevMode == Default.Mode.LS</PreCondition><PreCondition
+>Kernel.Modes.ModeTransitions.PrevMode == Default.Mode.LS</PreCondition><PreCondition
  Guid="5a104355-8d71-4d02-b786-74a7e6d2eab7"
->THERE_IS aProfile IN MA.ModeProfile.Profile | 
+>THERE_IS aProfile IN Kernel.MA.ModeProfile.Profile | 
 (
   aProfile.Mode == Default.Mode.ModeProfile.LS
     AND  
-  aProfile.Location + BaseTypes.LengthToDistance(aProfile.Length) &lt;= TrainPosition.FrontEndPosition(DistanceInterval.Min)
+  aProfile.Location + BaseTypes.LengthToDistance(aProfile.Length) &lt;= Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Min)
 )</PreCondition></PreConditions>
 <Actions>
 <Action
@@ -8691,11 +8691,11 @@ IN MA.ModeProfile.Profile</Action></Actions>
 <PreConditions>
 <PreCondition
  Guid="e33521a1-766d-4be5-a28a-ef3ee818bdcf"
->Mode == Default.Mode.PS</PreCondition></PreConditions>
+>Kernel.Mode == Default.Mode.PS</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="95b757a7-c19e-4ffc-ba3d-afbc5c486d8f"
->Modes.Shunting.ContinueShuntingOnDeskClosure &lt;- False</Action></Actions>
+>Kernel.Modes.Shunting.ContinueShuntingOnDeskClosure &lt;- False</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Implemented="TRUE"
@@ -8723,13 +8723,13 @@ IN MA.ModeProfile.Profile</Action></Actions>
 <PreConditions>
 <PreCondition
  Guid="d3ad200d-8c2a-4b0b-8fea-c9d5fca28168"
->Mode == Default.Mode.NP</PreCondition><PreCondition
+>Kernel.Mode == Default.Mode.NP</PreCondition><PreCondition
  Guid="0acdc4bb-6e8b-4d2b-a8b9-df53f392a035"
->Available(NationalValues.NotApplicableNationalValues)</PreCondition></PreConditions>
+>Available(Kernel.NationalValues.NotApplicableNationalValues)</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="26dbeadc-d871-4a38-80b9-b7a5ecb48f98"
->InvalidateInformation(NationalValues.NotApplicableNationalValues)</Action></Actions>
+>InvalidateInformation(Kernel.NationalValues.NotApplicableNationalValues)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition></Conditions>
@@ -8754,7 +8754,7 @@ IN MA.ModeProfile.Profile</Action></Actions>
 <Actions>
 <Action
  Guid="b813f85d-64b5-4dab-a102-d4cca3850e17"
->PrevMode &lt;- Mode</Action></Actions>
+>Kernel.Modes.ModeTransitions.PrevMode &lt;- Kernel.Mode</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>

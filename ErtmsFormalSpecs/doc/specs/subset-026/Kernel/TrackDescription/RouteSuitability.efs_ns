@@ -278,7 +278,7 @@
  Name="Value"
  Guid="709fac9d-e5a9-4941-8d72-bdf48a9c8f4d"
 >
-<Expression>RouteSuitabilityItemStruct
+<Expression>Kernel.TrackDescription.RouteSuitability.RouteSuitabilityItemStruct
 {
     Location =&gt; aLocation,
     Type =&gt; aType,
@@ -340,7 +340,7 @@
 <PreConditions>
 <PreCondition
  Guid="11eec0e9-dc5c-4c3d-94bc-28b5fcd9d8fc"
->NOT ActiveFunctions.ManageRouteSuitability()</PreCondition></PreConditions>
+>NOT Kernel.ActiveFunctions.ManageRouteSuitability()</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
  Name="Line gauge"
@@ -352,18 +352,18 @@
 >anItem.Type == Messages.Q_SUITABILITY.Loading_gauge_profile</PreCondition></PreConditions>
 <Expression>NOT
 (
-  GaugesMatch ( aLineGauge =&gt; anItem.LineGauge,
-                           aLoadingGauge =&gt; TrainData.TrainData.Value.LoadingGauge)
+  Kernel.TrackDescription.RouteSuitability.GaugesMatch ( aLineGauge =&gt; anItem.LineGauge,
+                           aLoadingGauge =&gt; Kernel.TrainData.TrainData.Value.LoadingGauge)
 )
   AND
 NOT THERE_IS X IN
-  RouteSuitabilityProfile.Items |
+  Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.Items |
     X.Type == Messages.Q_SUITABILITY.Loading_gauge_profile
       AND
     X.Location == anItem.Location
       AND
-    GaugesMatch ( aLineGauge =&gt; X.LineGauge,
-                             aLoadingGauge =&gt; TrainData.TrainData.Value.LoadingGauge)</Expression>
+    Kernel.TrackDescription.RouteSuitability.GaugesMatch ( aLineGauge =&gt; X.LineGauge,
+                             aLoadingGauge =&gt; Kernel.TrainData.TrainData.Value.LoadingGauge)</Expression>
 </Case><Case
  Name="Axle load"
  Guid="2161906b-ab60-44ec-864b-1b522510851f"
@@ -372,7 +372,7 @@ NOT THERE_IS X IN
 <PreCondition
  Guid="0d721740-4b22-49e4-8662-bbec0e59cfbf"
 >anItem.Type == Messages.Q_SUITABILITY.Max_axle_load</PreCondition></PreConditions>
-<Expression>anItem.MaxAxleLoad &lt; TrainData.TrainData.Value.AxleLoadCategory</Expression>
+<Expression>anItem.MaxAxleLoad &lt; Kernel.TrainData.TrainData.Value.AxleLoadCategory</Expression>
 </Case><Case
  Name="Traction system"
  Guid="8f15b209-1d1a-42cb-b75f-339d72abcb35"
@@ -384,7 +384,7 @@ NOT THERE_IS X IN
 <Expression>NOT
 (
   THERE_IS X IN
-    TrainData.TrainData.Value.TractionSystems |
+    Kernel.TrainData.TrainData.Value.TractionSystems |
       X.Voltage == anItem.TractionSystem
         AND
       X.Country == anItem.NidCTraction
@@ -440,17 +440,17 @@ NOT THERE_IS X IN
 <PreConditions>
 <PreCondition
  Guid="cb68af68-0cb6-4298-98b1-fe36a552f264"
->RouteSuitabilityProfile != EMPTY
+>Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile != EMPTY
   AND
-RouteSuitabilityProfile.Items != []
+Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.Items != []
   AND
-THERE_IS X IN RouteSuitabilityProfile.Items | IsUnsuitable ( X )</PreCondition><PreCondition
+THERE_IS X IN Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.Items | Kernel.TrackDescription.RouteSuitability.IsUnsuitable ( X )</PreCondition><PreCondition
  Guid="3082a207-3a50-4aef-8222-4d01347f6929"
->ActiveFunctions.ManageRouteSuitability()</PreCondition></PreConditions>
-<Expression>SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target
+>Kernel.ActiveFunctions.ManageRouteSuitability()</PreCondition></PreConditions>
+<Expression>Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target
 {
     Length =&gt; BaseTypes.Length.Infinity,
-    Location =&gt; REDUCE RouteSuitabilityProfile.Items | IsUnsuitable ( X )
+    Location =&gt; REDUCE TrackDescription.RouteSuitability.RouteSuitabilityProfile.Items | TrackDescription.RouteSuitability.IsUnsuitable ( X )
                         USING X IN BaseTypes.MinDistance ( X1 =&gt; X.Location, X2 =&gt; RESULT )
                         INITIAL_VALUE BaseTypes.Distance.Infinity,
     Speed =&gt; 0.0
@@ -501,15 +501,15 @@ THERE_IS X IN RouteSuitabilityProfile.Items | IsUnsuitable ( X )</PreCondition><
 <PreConditions>
 <PreCondition
  Guid="7a82f3f3-71b6-4f01-9e3a-7b5a183081db"
->RouteSuitabilityProfile != EMPTY
+>Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile != EMPTY
   AND
-RouteSuitabilityProfile.Items != []
+Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.Items != []
   AND
-THERE_IS X IN RouteSuitabilityProfile.Items | IsUnsuitable ( X )</PreCondition></PreConditions>
-<Expression>SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target
+THERE_IS X IN Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.Items | Kernel.TrackDescription.RouteSuitability.IsUnsuitable ( X )</PreCondition></PreConditions>
+<Expression>Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target
 {
     Length =&gt; BaseTypes.Length.Infinity,
-    Location =&gt; REDUCE RouteSuitabilityProfile.Items | IsUnsuitable ( X )
+    Location =&gt; REDUCE TrackDescription.RouteSuitability.RouteSuitabilityProfile.Items | TrackDescription.RouteSuitability.IsUnsuitable ( X )
                         USING X IN BaseTypes.MinDistance ( X1 =&gt; X.Location, X2 =&gt; RESULT )
                         INITIAL_VALUE BaseTypes.Distance.Infinity,
     Speed =&gt; 0.0
@@ -636,14 +636,14 @@ aLineGauge == Messages.M_LINEGAUGE.GC</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="34b1fac3-1e95-4548-b881-9c08afa3737d"
->NOT THERE_IS X IN RouteSuitabilityProfile.Items | X.Location &gt; Current.Location</PreCondition></PreConditions>
+>NOT THERE_IS X IN Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.Items | X.Location &gt; Current.Location</PreCondition></PreConditions>
 <Expression>BaseTypes.Distance.Infinity</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="b6072910-e47e-458b-bf7e-e54b0183d6f5"
 >
 <Expression>REDUCE
-    RouteSuitabilityProfile.Items | X.Location &gt; Current.Location
+    Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.Items | X.Location &gt; Current.Location
 USING X IN
     BaseTypes.MinDistance ( X.Location, RESULT )
 INITIAL_VALUE
@@ -720,13 +720,13 @@ INITIAL_VALUE
  Guid="c739346b-2d76-4838-9ef7-d353adce26df"
 >Packet.Q_TRACKINIT == Messages.Q_TRACKINIT.Empty_profile__initial_states_to_be_resumed</PreCondition><PreCondition
  Guid="c329f295-00fe-4e86-8080-c201382a02a3"
->ActiveFunctions.ManageRouteSuitability()</PreCondition></PreConditions>
+>Kernel.ActiveFunctions.ManageRouteSuitability()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="568dbbb3-66aa-4aaf-b3ae-569b14b7f9a8"
->RouteSuitabilityProfile.InitialState &lt;- Packet.Q_TRACKINIT</Action><Action
+>Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.InitialState &lt;- Packet.Q_TRACKINIT</Action><Action
  Guid="469b32be-fde5-4ba4-a8fe-823dc9ae9e97"
->RouteSuitabilityProfile.EmptyProfileDistance &lt;- MessageTypes.QScaleDistance ( distance =&gt; Packet.D_TRACKINIT, scale =&gt; Packet.Q_SCALE )</Action></Actions>
+>Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.EmptyProfileDistance &lt;- MessageTypes.QScaleDistance ( distance =&gt; Packet.D_TRACKINIT, scale =&gt; Packet.Q_SCALE )</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  NeedsRequirement="FALSE"
@@ -739,11 +739,11 @@ INITIAL_VALUE
  Guid="d49260da-af2e-4fca-9d32-9f48b35a6b24"
 >Packet.Q_TRACKINIT == Messages.Q_TRACKINIT.No_initial_states_to_be_resumed__profile_to_follow</PreCondition><PreCondition
  Guid="00fb82d7-40d1-4839-81e3-b375d182a85d"
->ActiveFunctions.ManageRouteSuitability()</PreCondition></PreConditions>
+>Kernel.ActiveFunctions.ManageRouteSuitability()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="9acb85b7-b135-46ee-a759-4b7a46b7022f"
->HandleNewRouteSuitabilityProfile ( Packet )</Action></Actions>
+>Kernel.TrackDescription.RouteSuitability.HandleNewRouteSuitabilityProfile ( Packet )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -890,11 +890,11 @@ THERE_IS X IN Packet.Sequence1 | X.Q_SUITABILITY == Messages.Q_SUITABILITY.Max_a
 <PreConditions>
 <PreCondition
  Guid="e339442a-3327-4071-b829-0be6b8002a29"
->RouteSuitabilityProfile == EMPTY</PreCondition></PreConditions>
+>Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile == EMPTY</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="473b1205-1429-4bbd-ab83-a5909aecd1bd"
->RouteSuitabilityProfile &lt;-RouteSuitabilityInformationStruct
+>Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile &lt;-Kernel.TrackDescription.RouteSuitability.RouteSuitabilityInformationStruct
  {
     InitialState =&gt; 1,
     EmptyProfileDistance =&gt; 0.0,
@@ -943,16 +943,16 @@ THERE_IS X IN Packet.Sequence1 | X.Q_SUITABILITY == Messages.Q_SUITABILITY.Max_a
 <Action
  Guid="2ed4cfd1-9270-4adc-b1b9-1667a2e1e93f"
 >INSERT
-    CreateRouteSuitabilityItem ( aLocation =&gt; MessageTypes.QScaleDistance ( distance =&gt; Packet.D_SUITABILITY, scale =&gt; Packet.Q_SCALE ),
+    Kernel.TrackDescription.RouteSuitability.CreateRouteSuitabilityItem ( aLocation =&gt; MessageTypes.QScaleDistance ( distance =&gt; Packet.D_SUITABILITY, scale =&gt; Packet.Q_SCALE ),
                                                  aType =&gt; Packet.Q_SUITABILITY,
                                                  aLineGauge =&gt; Packet.M_LINEGAUGE,
                                                  aMaxAxleLoad =&gt; Packet.M_AXLELOADCAT,
                                                  aTractionSystem =&gt; Packet.M_VOLTAGE,
                                                  aNidCTraction =&gt; Packet.NID_CTRACTION )
 IN
-    RouteSuitabilityProfile.Items</Action><Action
+    Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.Items</Action><Action
  Guid="f8786c61-b9c0-4264-9887-6e57bef57302"
->RouteSuitabilityProfile.InitialState &lt;- Packet.Q_TRACKINIT</Action></Actions>
+>Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.InitialState &lt;- Packet.Q_TRACKINIT</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -981,7 +981,7 @@ IN
 <Action
  Guid="d3f74efb-35e6-4de6-81d4-ad75778cce96"
 >APPLY
-    AddRouteSuitability ( aRouteSuitability =&gt; X,
+    Kernel.TrackDescription.RouteSuitability.AddRouteSuitability ( aRouteSuitability =&gt; X,
                                      Scale =&gt; Packet.Q_SCALE )
 ON
     Packet.Sequence1</Action></Actions>
@@ -1008,7 +1008,7 @@ ON
 <PreConditions>
 <PreCondition
  Guid="1a52cb97-8d8a-4b18-8f75-61e6c0468f61"
->THERE_IS X IN RouteSuitabilityProfile.Items | IsUnsuitable ( X )</PreCondition></PreConditions>
+>THERE_IS X IN Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.Items | Kernel.TrackDescription.RouteSuitability.IsUnsuitable ( X )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="c06648a3-cff4-478f-8884-305f08c7951e"
@@ -1060,7 +1060,7 @@ ON
 <Action
  Guid="9aa4fcd8-bf54-45ea-936d-dbd11c18ce5c"
 >INSERT
-  CreateRouteSuitabilityItem (
+  Kernel.TrackDescription.RouteSuitability.CreateRouteSuitabilityItem (
     aLocation =&gt; MessageTypes.QScaleDistance ( distance =&gt; aRouteSuitability.D_SUITABILITY, scale =&gt; Scale ),
     aType =&gt; aRouteSuitability.Q_SUITABILITY,
     aLineGauge =&gt; aRouteSuitability.M_LINEGAUGE,
@@ -1068,7 +1068,7 @@ ON
     aTractionSystem =&gt; aRouteSuitability.M_VOLTAGE,
     aNidCTraction =&gt; aRouteSuitability.NID_CTRACTION )
 IN
-    RouteSuitabilityProfile.Items</Action></Actions>
+    Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.Items</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -1127,23 +1127,23 @@ IN
 <PreConditions>
 <PreCondition
  Guid="f217ebc6-90f3-4b06-b121-9472c9799c71"
->RouteSuitabilityProfile != EMPTY
+>Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile != EMPTY
   AND
-RouteSuitabilityProfile.Items != []
+Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.Items != []
   AND
 (
-  RouteSuitabilityProfile.InitialState == Messages.Q_TRACKINIT.No_initial_states_to_be_resumed__profile_to_follow
+  Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.InitialState == Messages.Q_TRACKINIT.No_initial_states_to_be_resumed__profile_to_follow
     OR
-  RouteSuitabilityProfile.EmptyProfileDistance &gt; aLocation
+  Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.EmptyProfileDistance &gt; aLocation
 )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="b0e4f1d5-5500-4619-a2eb-c5d1fb22032b"
->RouteSuitabilityProfile.Items &lt;- MAP RouteSuitabilityProfile.Items | X.Location &lt;= aLocation USING X IN X</Action><Action
+>Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.Items &lt;- MAP Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.Items | X.Location &lt;= aLocation USING X IN X</Action><Action
  Guid="32d3048c-8f49-48a5-a549-768907796364"
->RouteSuitabilityProfile.EmptyProfileDistance &lt;- aLocation</Action><Action
+>Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.EmptyProfileDistance &lt;- aLocation</Action><Action
  Guid="dea25859-669e-4b52-ad0b-b13698635e80"
->RouteSuitabilityProfile.InitialState &lt;- Messages.Q_TRACKINIT.Empty_profile__initial_states_to_be_resumed</Action></Actions>
+>Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.InitialState &lt;- Messages.Q_TRACKINIT.Empty_profile__initial_states_to_be_resumed</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
@@ -1221,15 +1221,15 @@ RouteSuitabilityProfile.Items != []
 <PreConditions>
 <PreCondition
  Guid="2e30c98e-8b97-443a-8e75-46bd26ebae25"
->TrainPosition.FrontEndPosition(DistanceInterval.Nom) &gt;= RouteSuitabilityProfile.EmptyProfileDistance</PreCondition><PreCondition
+>Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom) &gt;= Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.EmptyProfileDistance</PreCondition><PreCondition
  Guid="77ccb71b-d065-483a-a88a-a9c5d3c4324d"
->RouteSuitabilityProfile.InitialState == Messages.Q_TRACKINIT.Empty_profile__initial_states_to_be_resumed</PreCondition></PreConditions>
+>Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.InitialState == Messages.Q_TRACKINIT.Empty_profile__initial_states_to_be_resumed</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="ec07d11c-619b-4562-9b56-4d8f5f7d2317"
->RouteSuitabilityProfile.Items &lt;- []</Action><Action
+>Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.Items &lt;- []</Action><Action
  Guid="d5a0237c-2b86-4cd2-8374-e28591091a79"
->RouteSuitabilityProfile.InitialState &lt;- Messages.Q_TRACKINIT.No_initial_states_to_be_resumed__profile_to_follow</Action></Actions>
+>Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.InitialState &lt;- Messages.Q_TRACKINIT.No_initial_states_to_be_resumed__profile_to_follow</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </NameSpace>

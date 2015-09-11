@@ -79,7 +79,7 @@
  Name="Value"
  Guid="e7fc74fc-1fb6-4467-a25a-cad1c704a874"
 >
-<Expression>BaliseGroup
+<Expression>Kernel.BaliseGroup
 {
     NewCountry =&gt; Q_NEWCOUNTRY_To_Bool ( aPacket.Q_NEWCOUNTRY ),
     NID_BG =&gt; aPacket.NID_BG,
@@ -124,7 +124,7 @@
 <PreConditions>
 <PreCondition
  Guid="e9d71c37-4c39-46c7-abe6-72e58be4459a"
->NOT ActiveFunctions.SuperviseBalisesForShunting()</PreCondition></PreConditions>
+>NOT Kernel.ActiveFunctions.SuperviseBalisesForShunting()</PreCondition></PreConditions>
 <Expression>True</Expression>
 </Case><Case
  Name="No list received"
@@ -133,13 +133,13 @@
 <PreConditions>
 <PreCondition
  Guid="52dcb001-d741-4087-8d55-f3a0e900f8e5"
->NOT (Available(BaliseGroupsForShArea)  AND  BaliseGroupsForShArea.ListReceived)</PreCondition></PreConditions>
+>NOT (Available(Kernel.Modes.Shunting.BaliseGroupsForShArea)  AND  Kernel.Modes.Shunting.BaliseGroupsForShArea.ListReceived)</PreCondition></PreConditions>
 <Expression>True</Expression>
 </Case><Case
  Name="Value"
  Guid="d67e003d-78e3-4271-811a-7eba7708ed34"
 >
-<Expression>THERE_IS ShuntingBG IN BaliseGroupsForShArea.BGs | 
+<Expression>THERE_IS ShuntingBG IN Kernel.Modes.Shunting.BaliseGroupsForShArea.BGs | 
 (FIRST Balise IN BaliseGroup).Telegram.NID_C == ShuntingBG.NID_C
   AND  
 (FIRST Balise IN BaliseGroup).Telegram.NID_BG == ShuntingBG.NID_BG</Expression>
@@ -199,9 +199,9 @@
 <Actions>
 <Action
  Guid="6eb88973-44cd-4f97-826a-cdd04271377a"
->BaliseGroupsForShArea.BGs &lt;- MAP Packet.Sequence1 USING X IN CreateBaliseGroup ( X )</Action><Action
+>Kernel.Modes.Shunting.BaliseGroupsForShArea.BGs &lt;- MAP Packet.Sequence1 USING X IN Kernel.Modes.Shunting.CreateBaliseGroup ( X )</Action><Action
  Guid="e6415bfe-f5ce-4080-b1f1-e2e887bca650"
->BaliseGroupsForShArea.ListReceived &lt;- True</Action></Actions>
+>Kernel.Modes.Shunting.BaliseGroupsForShArea.ListReceived &lt;- True</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -259,13 +259,13 @@
 <PreConditions>
 <PreCondition
  Guid="4d39a90f-c81a-4f51-a5b1-20e9d9c1f07c"
->HandleModeChange in HandleModeChangeSM.Override</PreCondition><PreCondition
+>Kernel.HandleModeChange in Kernel.HandleModeChangeSM.Override</PreCondition><PreCondition
  Guid="ba960bd4-10a9-4d91-b2b0-31b5a8c79323"
->NOT ActiveFunctions.SuperviseBalisesForShunting()</PreCondition></PreConditions>
+>NOT Kernel.ActiveFunctions.SuperviseBalisesForShunting()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="a1b65b7d-2e90-4c38-be22-aa1bed1d3a6e"
->EndOverride()</Action></Actions>
+>Kernel.EndOverride()</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Stop if required"
@@ -277,11 +277,11 @@
  Guid="8da76a80-09a8-4469-8549-ff75099c9d6b"
 >Packet.Q_ASPECT == Messages.Q_ASPECT.Stop_if_in_SH_mode</PreCondition><PreCondition
  Guid="ceb9d100-f306-4fa2-96d3-b93b767f09c1"
->NOT ActiveFunctions.SuperviseBalisesForShunting()</PreCondition></PreConditions>
+>NOT Kernel.ActiveFunctions.SuperviseBalisesForShunting()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="3f463e23-b785-4883-aa96-4162c727bca8"
->StopIfInShunting &lt;- True</Action></Actions>
+>Kernel.Modes.Shunting.StopIfInShunting &lt;- True</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
@@ -344,7 +344,7 @@
 </ReqRef><Comment>Indicates if shunting has to be stopped after the opening of the desk of the master DMI.</Comment>
 </Variable><Variable
  Type="ExpectedBGstruct"
- DefaultValue="ExpectedBGstruct{}"
+ DefaultValue="Kernel.Modes.Shunting.ExpectedBGstruct{}"
  VariableMode="Internal"
  X="10"
  Y="130"

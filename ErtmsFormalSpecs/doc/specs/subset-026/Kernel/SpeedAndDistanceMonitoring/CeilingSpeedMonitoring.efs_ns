@@ -47,7 +47,7 @@
  Name="Always"
  Guid="a6ca2df8-da52-427a-b7f7-28931cba0cb5"
 >
-<Expression>( dV_ebi_max - dV_ebi_min ) / ( V_ebi_max - V_ebi_min )</Expression>
+<Expression>( Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_ebi_max - Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_ebi_min ) / ( Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.V_ebi_max - Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.V_ebi_min )</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Speed"
@@ -83,7 +83,7 @@
  Name="Always"
  Guid="4cd4822e-4db0-42c0-9a92-4efa7ff57757"
 >
-<Expression>( dV_sbi_max - dV_sbi_min ) / ( V_sbi_max - V_sbi_min )</Expression>
+<Expression>( Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_sbi_max - Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_sbi_min ) / ( Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.V_sbi_max - Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.V_sbi_min )</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Speed"
@@ -119,7 +119,7 @@
  Name="Always"
  Guid="46ab034c-51f8-4828-950e-823da37a4bd7"
 >
-<Expression>( dV_warning_max - dV_warning_min ) / ( V_warning_max - V_warning_min )</Expression>
+<Expression>( Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_warning_max - Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_warning_min ) / ( Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.V_warning_max - Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.V_warning_min )</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Speed"
@@ -166,13 +166,13 @@
 <PreConditions>
 <PreCondition
  Guid="5f96f091-76ec-436e-97e2-191fcebebc1e"
->V &gt; V_warning_min</PreCondition></PreConditions>
-<Expression>BaseTypes.MinSpeed ( dV_warning_min + C_warning() * ( V - V_warning_min ), dV_warning_max )</Expression>
+>V &gt; Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.V_warning_min</PreCondition></PreConditions>
+<Expression>BaseTypes.MinSpeed ( Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_warning_min + Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.C_warning() * ( V - Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.V_warning_min ), Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_warning_max )</Expression>
 </Case><Case
  Name="V &lt;= V_warning_min"
  Guid="69b02327-f93e-48b1-9e66-f3c0fe3ce8c9"
 >
-<Expression>dV_warning_min</Expression>
+<Expression>Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_warning_min</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Speed"
@@ -219,13 +219,13 @@
 <PreConditions>
 <PreCondition
  Guid="dea57d2f-dc75-4bfa-abc4-08d829d0fdaf"
->V &gt; V_ebi_min</PreCondition></PreConditions>
-<Expression>BaseTypes.MinSpeed ( dV_ebi_min + C_ebi() * ( V - V_ebi_min ), dV_ebi_max )</Expression>
+>V &gt; Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.V_ebi_min</PreCondition></PreConditions>
+<Expression>BaseTypes.MinSpeed ( Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_ebi_min + Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.C_ebi() * ( V - Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.V_ebi_min ), Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_ebi_max )</Expression>
 </Case><Case
  Name="V &lt;= V_ebi_min"
  Guid="605c01a1-da95-4901-a26e-86f35aa22b66"
 >
-<Expression>dV_ebi_min</Expression>
+<Expression>Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_ebi_min</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Speed"
@@ -272,13 +272,13 @@
 <PreConditions>
 <PreCondition
  Guid="261b8cfe-5c4b-4a62-8deb-003a51a21e89"
->V &gt; V_sbi_min</PreCondition></PreConditions>
-<Expression>BaseTypes.MinSpeed ( dV_sbi_min + C_sbi() * ( V - V_sbi_min ), dV_sbi_max )</Expression>
+>V &gt; Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.V_sbi_min</PreCondition></PreConditions>
+<Expression>BaseTypes.MinSpeed ( Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_sbi_min + Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.C_sbi() * ( V - Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.V_sbi_min ), Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_sbi_max )</Expression>
 </Case><Case
  Name="V &lt;= V_sbi_min"
  Guid="fd3cbb6e-d144-4cdf-bf4d-a45e176fe5e7"
 >
-<Expression>dV_sbi_min</Expression>
+<Expression>Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_sbi_min</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Speed"
@@ -376,8 +376,8 @@
  Guid="10689937-c663-4de7-8d80-214156b3d3b8"
 >
 <Expression>MIN(
-    First =&gt; MRSP.SpeedRestrictions,
-    Second =&gt; MA.SpeedRestrictions
+    First =&gt; Kernel.MRSP.SpeedRestrictions,
+    Second =&gt; Kernel.MA.SpeedRestrictions
 )(aDistance)</Expression>
 </Case></Cases>
 </Function><Function
@@ -418,10 +418,10 @@
 <PreConditions>
 <PreCondition
  Guid="06ac8f78-3db7-48f6-9384-4a9f597d0b2b"
->P ( aDistance ) &gt; 0.0</PreCondition></PreConditions>
+>Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.P ( aDistance ) &gt; 0.0</PreCondition></PreConditions>
 <Expression>AddIncrement (
-  Function =&gt; P, 
-  Increment =&gt; dV_warning
+  Function =&gt; Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.P, 
+  Increment =&gt; Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_warning
 ) (aDistance)</Expression>
 </Case><Case
  Name="Otherwise"
@@ -457,7 +457,7 @@
  Name="Value"
  Guid="205dcdf8-afad-400a-8b0f-bd79283c1037"
 >
-<Expression>MRSP.V_MRSP()</Expression>
+<Expression>Kernel.MRSP.V_MRSP()</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Speed"
@@ -495,8 +495,8 @@
  Guid="abe701e4-9e3e-4857-806a-07f43f56fb7e"
 >
 <Expression>AddIncrement (
-  Function =&gt; P, 
-  Increment =&gt; dV_sbi
+  Function =&gt; Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.P, 
+  Increment =&gt; Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_sbi
 ) ( aDistance )</Expression>
 </Case></Cases>
 </Function><Function
@@ -535,8 +535,8 @@
  Guid="ab3d970f-ae89-4061-ab83-1c6ac25c2b96"
 >
 <Expression>AddIncrement (
-  Function =&gt; P, 
-  Increment =&gt; dV_ebi
+  Function =&gt; Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.P, 
+  Increment =&gt; Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_ebi
 ) ( aDistance )</Expression>
 </Case></Cases>
 </Function></Functions>

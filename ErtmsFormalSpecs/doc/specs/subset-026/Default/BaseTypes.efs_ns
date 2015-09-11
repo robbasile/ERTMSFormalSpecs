@@ -243,7 +243,7 @@
 <Comment>Represents the location of an element.</Comment>
 </StructureElement><Interfaces>
 <StructureRef
- Name="LocationInterface"
+ Name="BaseTypes.LocationInterface"
  Guid="f8b733de-737d-4960-8933-2be8905c0820"
 >
 </StructureRef></Interfaces>
@@ -303,7 +303,7 @@
 >Distance &lt; 32768.0</PreCondition><PreCondition
  Guid="55c11d05-6cc1-4644-91ee-956290023cd0"
 >Distance &gt;= 0.0</PreCondition></PreConditions>
-<Expression>Length(Distance)</Expression>
+<Expression>BaseTypes.Length(Distance)</Expression>
 </Case><Case
  Name="SpecialValue_Infinity"
  Guid="9a792297-6982-4ec9-ada3-356628705a75"
@@ -343,7 +343,7 @@
 <PreCondition
  Guid="f030ab8c-43ca-4cae-9838-194c0d2c28bd"
 >Length &gt;= BaseTypes.Length.Infinity</PreCondition></PreConditions>
-<Expression>Distance.Infinity</Expression>
+<Expression>BaseTypes.Distance.Infinity</Expression>
 </Case><Case
  Name="Valid distance"
  Guid="efa27d02-b0eb-4b92-93aa-bfe2d639014c"
@@ -354,7 +354,7 @@
 >Length &gt;= 0.0</PreCondition><PreCondition
  Guid="b9b7d6af-e8b9-4cd6-a927-d652c7d01d6c"
 >Length &lt; 32768.0</PreCondition></PreConditions>
-<Expression>Distance(Length)</Expression>
+<Expression>BaseTypes.Distance(Length)</Expression>
 </Case></Cases>
 </Function><Function
  Type="Gradient"
@@ -381,7 +381,7 @@
  Name="Value"
  Guid="21116bb2-22ab-4d51-9e24-7de250c19200"
 >
-<Expression>Gradient.Indefinite</Expression>
+<Expression>BaseTypes.Gradient.Indefinite</Expression>
 </Case></Cases>
 </Function><Function
  Type="Gradient"
@@ -416,7 +416,7 @@
 <PreConditions>
 <PreCondition
  Guid="236c6225-8879-4e7c-bca2-5b4af361ff1a"
->g1 == Gradient.Indefinite</PreCondition></PreConditions>
+>g1 == BaseTypes.Gradient.Indefinite</PreCondition></PreConditions>
 <Expression>g2</Expression>
 </Case><Case
  Name="g2 is indefinite"
@@ -425,7 +425,7 @@
 <PreConditions>
 <PreCondition
  Guid="5f623b56-20cc-4e40-b16a-e42b0b1cb30a"
->g2 == Gradient.Indefinite</PreCondition></PreConditions>
+>g2 == BaseTypes.Gradient.Indefinite</PreCondition></PreConditions>
 <Expression>g1</Expression>
 </Case><Case
  Name="g1 &lt; g2"
@@ -475,7 +475,7 @@
 <PreConditions>
 <PreCondition
  Guid="094da13e-4192-42ef-bf05-53db1c77139e"
->X1 == Speed.Infinity</PreCondition></PreConditions>
+>X1 == BaseTypes.Speed.Infinity</PreCondition></PreConditions>
 <Expression>X2</Expression>
 </Case><Case
  Name="X2 infinite"
@@ -484,7 +484,7 @@
 <PreConditions>
 <PreCondition
  Guid="8963b136-a96e-4ff5-a09f-4edbef177341"
->X2 == Speed.Infinity</PreCondition></PreConditions>
+>X2 == BaseTypes.Speed.Infinity</PreCondition></PreConditions>
 <Expression>X1</Expression>
 </Case><Case
  Name="X1 &lt; X2"
@@ -526,7 +526,7 @@
  Name="Value"
  Guid="947b6e6b-74f4-4f9d-aad3-535db7dcfd07"
 >
-<Expression>Speed.MaxSpeed</Expression>
+<Expression>BaseTypes.Speed.MaxSpeed</Expression>
 </Case></Cases>
 </Function><Function
  Type="Acceleration"
@@ -561,7 +561,7 @@
 <PreConditions>
 <PreCondition
  Guid="8289de1a-f2bb-41ad-ba17-ec0d9a71b515"
->X1 == Distance.Infinity</PreCondition></PreConditions>
+>X1 == BaseTypes.Distance.Infinity</PreCondition></PreConditions>
 <Expression>X2</Expression>
 </Case><Case
  Name="X2 infinite"
@@ -570,7 +570,7 @@
 <PreConditions>
 <PreCondition
  Guid="2cf67e96-bce0-41fc-b2ae-1fd2cc2e970d"
->X2 == Distance.Infinity</PreCondition></PreConditions>
+>X2 == BaseTypes.Distance.Infinity</PreCondition></PreConditions>
 <Expression>X1</Expression>
 </Case><Case
  Name="X1 &lt; X2"
@@ -620,8 +620,8 @@
 <PreConditions>
 <PreCondition
  Guid="024a9843-3dc0-4a4c-8475-ca0155d8ad01"
->X1 == Distance.Infinity OR X2 == Distance.Infinity</PreCondition></PreConditions>
-<Expression>Distance.Infinity</Expression>
+>X1 == BaseTypes.Distance.Infinity OR X2 == BaseTypes.Distance.Infinity</PreCondition></PreConditions>
+<Expression>BaseTypes.Distance.Infinity</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="e84bc135-fa4c-450e-b403-81484f4f045b"
@@ -661,7 +661,7 @@
 <PreConditions>
 <PreCondition
  Guid="d12b117e-e5ad-4524-927b-2b6b1166da97"
->X1 == Length.Infinity</PreCondition></PreConditions>
+>X1 == BaseTypes.Length.Infinity</PreCondition></PreConditions>
 <Expression>X2</Expression>
 </Case><Case
  Name="X2 infinite"
@@ -670,7 +670,7 @@
 <PreConditions>
 <PreCondition
  Guid="6f3ff74e-3a90-4ec8-ba9d-3711dd52a361"
->X2 == Length.Infinity</PreCondition></PreConditions>
+>X2 == BaseTypes.Length.Infinity</PreCondition></PreConditions>
 <Expression>X1</Expression>
 </Case><Case
  Name="X1 &lt; X2"
@@ -720,7 +720,7 @@
 <PreConditions>
 <PreCondition
  Guid="e849345d-1ad8-4a0b-aa4c-e381584f4f64"
->X1 == Distance.Infinity</PreCondition></PreConditions>
+>X1 == BaseTypes.Distance.Infinity</PreCondition></PreConditions>
 <Expression>X1</Expression>
 </Case><Case
  Name="X2 infinite"
@@ -729,7 +729,7 @@
 <PreConditions>
 <PreCondition
  Guid="09f1de6f-cf59-433a-85ef-f4663a73d1c5"
->X2 == Distance.Infinity</PreCondition></PreConditions>
+>X2 == BaseTypes.Distance.Infinity</PreCondition></PreConditions>
 <Expression>X2</Expression>
 </Case><Case
  Name="X1 &lt; X2"
@@ -779,7 +779,7 @@
 <PreConditions>
 <PreCondition
  Guid="c43a7fd6-7fcf-431d-b520-2e58c690ee22"
->X1 == Speed.Infinity</PreCondition></PreConditions>
+>X1 == BaseTypes.Speed.Infinity</PreCondition></PreConditions>
 <Expression>X1</Expression>
 </Case><Case
  Name="X2 infinite"
@@ -788,7 +788,7 @@
 <PreConditions>
 <PreCondition
  Guid="43f9dafb-2ce7-4125-a514-1be107b5bbfc"
->X2 == Speed.Infinity</PreCondition></PreConditions>
+>X2 == BaseTypes.Speed.Infinity</PreCondition></PreConditions>
 <Expression>X2</Expression>
 </Case><Case
  Name="X1 &lt; X2"
@@ -838,7 +838,7 @@
 <PreConditions>
 <PreCondition
  Guid="5f7d8b4b-a174-48d4-8fb8-ed91d65c70bc"
->X1 == Time.Infinity</PreCondition></PreConditions>
+>X1 == BaseTypes.Time.Infinity</PreCondition></PreConditions>
 <Expression>X1</Expression>
 </Case><Case
  Name="X2 infinite"
@@ -847,7 +847,7 @@
 <PreConditions>
 <PreCondition
  Guid="a1f8d14d-7c2c-4d3b-9d56-2003b8b3ad72"
->X2 == Time.Infinity</PreCondition></PreConditions>
+>X2 == BaseTypes.Time.Infinity</PreCondition></PreConditions>
 <Expression>X2</Expression>
 </Case><Case
  Name="X1 &lt; X2"
@@ -897,7 +897,7 @@
 <PreConditions>
 <PreCondition
  Guid="e36c3b8c-ec70-4028-bcfd-1c2bc59ec29e"
->X1 == Acceleration.Infinity</PreCondition></PreConditions>
+>X1 == BaseTypes.Acceleration.Infinity</PreCondition></PreConditions>
 <Expression>X1</Expression>
 </Case><Case
  Name="X2 infinite"
@@ -906,7 +906,7 @@
 <PreConditions>
 <PreCondition
  Guid="8d9f2d96-c7eb-4ea7-8c4e-87ae1033246f"
->X2 == Acceleration.Infinity</PreCondition></PreConditions>
+>X2 == BaseTypes.Acceleration.Infinity</PreCondition></PreConditions>
 <Expression>X2</Expression>
 </Case><Case
  Name="X1 &lt; X2"
@@ -956,7 +956,7 @@
 <PreConditions>
 <PreCondition
  Guid="6827cac0-c8ae-4a07-acc3-7b9efc52385e"
->X1 == Distance.Infinity</PreCondition></PreConditions>
+>X1 == BaseTypes.Distance.Infinity</PreCondition></PreConditions>
 <Expression>X2</Expression>
 </Case><Case
  Name="X2 infinite"
@@ -965,7 +965,7 @@
 <PreConditions>
 <PreCondition
  Guid="cead10d5-d0ee-454f-971c-28dd212f30b4"
->X2 == Distance.Infinity</PreCondition></PreConditions>
+>X2 == BaseTypes.Distance.Infinity</PreCondition></PreConditions>
 <Expression>X1</Expression>
 </Case><Case
  Name="X1 &lt; X2"
@@ -1051,7 +1051,7 @@
 <PreConditions>
 <PreCondition
  Guid="78827337-c918-4b71-8e11-a8b754aea5d8"
->X1 == Length.Infinity</PreCondition></PreConditions>
+>X1 == BaseTypes.Length.Infinity</PreCondition></PreConditions>
 <Expression>X1</Expression>
 </Case><Case
  Name="X2 infinite"
@@ -1060,7 +1060,7 @@
 <PreConditions>
 <PreCondition
  Guid="5e568f57-8df8-4945-9166-2159bb460d51"
->X2 == Length.Infinity</PreCondition></PreConditions>
+>X2 == BaseTypes.Length.Infinity</PreCondition></PreConditions>
 <Expression>X2</Expression>
 </Case><Case
  Name="X1 &lt; X2"
@@ -1179,9 +1179,16 @@
  Y="630"
  Width="100"
  Height="50"
+ NeedsRequirement="FALSE"
  Name="RemoveLengthLocationBasedElement"
  Guid="5355dfd3-5ce2-4015-8b03-2c355de7b873"
 >
+<ReqRef
+ Id="588756eb-1786-4776-86ae-3aaa296881a9"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="907e2a3f-0c13-4a90-9d9c-8cb0d6920cad"
+>
+</ReqRef><Comment>For data that remains valid for a certain distance from its location, determines whether the data should be deleted.</Comment>
 <Parameters>
 <Parameter
  Type="LocationLengthInterface"
@@ -1208,9 +1215,16 @@
  Y="550"
  Width="100"
  Height="50"
+ NeedsRequirement="FALSE"
  Name="RemoveLocationBasedElement"
  Guid="1a8a4efc-38b8-4257-95e4-3a275b0c97ac"
 >
+<ReqRef
+ Id="e249c65e-2618-4df7-b69d-97ced56922b4"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="26f65100-c45e-4cd8-95b4-7290d9b7a863"
+>
+</ReqRef><Comment>For data that refers to a certain location, determines whether the data should be deleted.</Comment>
 <Parameters>
 <Parameter
  Type="Distance"

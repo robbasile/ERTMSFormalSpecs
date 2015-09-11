@@ -10,7 +10,6 @@
 </NameSpaces>
 <Structures>
 <Structure
- Default=""
  Implemented="TRUE"
  Name="Message"
  Guid="e6463f40-7bad-49a7-b839-e7c304633f1a"
@@ -27,7 +26,7 @@
 >
 </ReqRef><Comment>The packet gives the characteristics needed to enter a route.</Comment>
 <StructureElement
- TypeName="Messages.NID_PACKET"
+ TypeName="NID_PACKET"
  Default="70"
  Mode="InOut"
  Implemented="TRUE"
@@ -40,7 +39,7 @@
  Guid="c1668014-84e1-48c0-8381-e26c6a14a76a"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="Messages.Q_DIR"
+ TypeName="Q_DIR"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -66,7 +65,7 @@
  Guid="339ed960-d9b7-480e-9e6e-fdffe9e0b9f8"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="Messages.Q_SCALE"
+ TypeName="Q_SCALE"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -79,7 +78,7 @@
  Guid="73b7dab2-2c98-4f9c-8f0e-11779e962ef3"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="Messages.Q_TRACKINIT"
+ TypeName="Q_TRACKINIT"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -108,7 +107,7 @@
  Guid="10c78029-9e2f-43e7-bf41-5c46b60db966"
 >
 </StructureElement><StructureElement
- TypeName="Messages.Q_SUITABILITY"
+ TypeName="Q_SUITABILITY"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -116,7 +115,7 @@
  Guid="15d177a4-459e-414e-a825-027e2029dfb4"
 >
 </StructureElement><StructureElement
- TypeName="Messages.M_LINEGAUGE"
+ TypeName="M_LINEGAUGE"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -124,7 +123,7 @@
  Guid="2a3e78de-f29d-4b1f-aaf3-4216067de57d"
 >
 </StructureElement><StructureElement
- TypeName="Messages.M_AXLELOADCAT"
+ TypeName="M_AXLELOADCAT"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -132,7 +131,7 @@
  Guid="e4137233-a893-4c9f-8dc4-e1a18c2eba8f"
 >
 </StructureElement><StructureElement
- TypeName="Messages.M_VOLTAGE"
+ TypeName="M_VOLTAGE"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -140,7 +139,7 @@
  Guid="00156301-d91f-4e7b-89e0-e9b0d10882b0"
 >
 </StructureElement><StructureElement
- TypeName="Messages.NID_CTRACTION"
+ TypeName="NID_CTRACTION"
  Default="0"
  Mode="InOut"
  Implemented="TRUE"
@@ -148,7 +147,7 @@
  Guid="d52a6e9c-90bd-4221-83e2-1f9c119c9d62"
 >
 </StructureElement><StructureElement
- TypeName="Messages.N_ITER"
+ TypeName="N_ITER"
  Default="0"
  Mode="InOut"
  Implemented="TRUE"
@@ -164,7 +163,6 @@
  Guid="ca1be59c-fe6a-4605-b9a1-10e03c6861c5"
 >
 </StructureElement></Structure><Structure
- Default=""
  Implemented="TRUE"
  Name="SubStructure1"
  Guid="33f5c87d-2fe7-41a4-bcd7-3d7d49c2798e"
@@ -183,7 +181,7 @@
  Guid="b421e415-adda-4f9c-afd7-75866c467e2c"
 >
 </StructureElement><StructureElement
- TypeName="Messages.Q_SUITABILITY"
+ TypeName="Q_SUITABILITY"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -191,7 +189,7 @@
  Guid="d67f3e78-6447-491d-ae98-c36076c7290a"
 >
 </StructureElement><StructureElement
- TypeName="Messages.M_LINEGAUGE"
+ TypeName="M_LINEGAUGE"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -199,7 +197,7 @@
  Guid="00105b9c-f5c2-4422-93b0-8d4928c36a81"
 >
 </StructureElement><StructureElement
- TypeName="Messages.M_AXLELOADCAT"
+ TypeName="M_AXLELOADCAT"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -207,7 +205,7 @@
  Guid="bb608fdf-573d-4890-a84d-71f144b38071"
 >
 </StructureElement><StructureElement
- TypeName="Messages.M_VOLTAGE"
+ TypeName="M_VOLTAGE"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -215,7 +213,7 @@
  Guid="2adcf69f-0175-4047-a0ee-85cdf2f910bf"
 >
 </StructureElement><StructureElement
- TypeName="Messages.NID_CTRACTION"
+ TypeName="NID_CTRACTION"
  Default="0"
  Mode="InOut"
  Implemented="TRUE"
@@ -240,14 +238,13 @@
 <Functions>
 <Function
  Type="Boolean"
- Default=""
  Name="MessageValuesCorrect"
  Guid="901bc842-433d-4077-b909-b3353f93d197"
 >
 <Comment>Checks the values in a structure of type ROUTE_SUITABILITY_DATA.Message</Comment>
 <Parameters>
 <Parameter
- Type="Message"
+ Type="ROUTE_SUITABILITY_DATA.Message"
  Name="struct"
  Guid="d3005a32-7e8a-4389-a7dc-b7adc7f38549"
 >
@@ -434,7 +431,7 @@ struct.M_VOLTAGE &gt; 15</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="535ecfd2-8e9b-4845-bd07-5cbf18031d57"
->THERE_IS X IN struct.Sequence1 | NOT SubStructure1ValuesCorrect(X)</PreCondition></PreConditions>
+>THERE_IS X IN struct.Sequence1 | NOT Messages.PACKET.TRACK_TO_TRAIN.ROUTE_SUITABILITY_DATA.SubStructure1ValuesCorrect(X)</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
  Name="Otherwise"
@@ -444,14 +441,13 @@ struct.M_VOLTAGE &gt; 15</PreCondition></PreConditions>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
- Default=""
  Name="SubStructure1ValuesCorrect"
  Guid="3c7c4ffa-e998-44be-953c-53bded770243"
 >
 <Comment>Checks the values in a structure of type ROUTE_SUITABILITY_DATA.SubStructure1</Comment>
 <Parameters>
 <Parameter
- Type="SubStructure1"
+ Type="ROUTE_SUITABILITY_DATA.SubStructure1"
  Name="struct"
  Guid="3638879a-8ed2-4d09-9b6b-307b147f094b"
 >

@@ -160,8 +160,8 @@
  Guid="c00cb58e-6829-4b88-9eef-d0abbebf3042"
 >
 <Comment>The starting point is when the max safe front end of the train passes the location specified in the message</Comment>
-<Expression>TSAtDistance(
-    Distance=&gt; TrainPosition.FrontEndPosition(PointOfInterest=&gt;DistanceInterval.Max)
+<Expression>Kernel.TrackDescription.TrackConditions.TractionSystems.TSAtDistance(
+    Distance=&gt; Kernel.TrainPosition.FrontEndPosition(PointOfInterest=&gt;DistanceInterval.Max)
 )</Expression>
 </Case></Cases>
 </Function><Function
@@ -207,8 +207,8 @@
 <PreConditions>
 <PreCondition
  Guid="eb420e4a-b35e-4d9b-8ab6-a8f9e8ba7043"
->THERE_IS X IN TCTractionSystems | (X.Location &lt;= Distance)</PreCondition></PreConditions>
-<Expression>REDUCE TCTractionSystems | (X.Location == TSProfileStartLocation(Distance=&gt;Distance) )
+>THERE_IS X IN Kernel.TrackDescription.TrackConditions.TractionSystems.TCTractionSystems | (X.Location &lt;= Distance)</PreCondition></PreConditions>
+<Expression>REDUCE Kernel.TrackDescription.TrackConditions.TractionSystems.TCTractionSystems | (X.Location == Kernel.TrackDescription.TrackConditions.TractionSystems.TSProfileStartLocation(Distance=&gt;Distance) )
     USING X IN X.Value
   INITIAL_VALUE EMPTY</Expression>
 </Case><Case
@@ -216,7 +216,7 @@
  Guid="30b40833-011c-494f-bd47-713f9a91c456"
 >
 <Comment>Case created just to make the model work</Comment>
-<Expression>TractionSystemStruct{
+<Expression>Kernel.TrackDescription.TrackConditions.TractionSystems.TractionSystemStruct{
     CountryIdentifier =&gt; Messages.NID_CTRACTION((FIRST X IN TrainData.TrainData.Value.TractionSystems).Country),
     SystemType =&gt; (FIRST X IN TrainData.TrainData.Value.TractionSystems).Voltage
 }</Expression>
@@ -247,7 +247,7 @@
  Guid="593ec303-1a01-4e61-97f4-2e672f836a18"
 >
 <Comment>Returns the element in TCTractionSystems with the largest distance that is less than or equal to the parameter</Comment>
-<Expression>REDUCE TCTractionSystems | (X.Location &lt;= Distance)
+<Expression>REDUCE Kernel.TrackDescription.TrackConditions.TractionSystems.TCTractionSystems | (X.Location &lt;= Distance)
     USING X IN BaseTypes.MaxDistance(
         X1=&gt;X.Location,
         X2=&gt;RESULT)
@@ -281,7 +281,7 @@
 <PreCondition
  Guid="0b195d30-23be-49a7-b88f-db850e515ac9"
 >TractionSystem == Messages.M_VOLTAGE.Line_not_fitted_with_any_traction_system</PreCondition></PreConditions>
-<Expression>General.TCDisplay.TCTypeEnum.TractionSystem__none</Expression>
+<Expression>Kernel.TrackDescription.TrackConditions.General.TCDisplay.TCTypeEnum.TractionSystem__none</Expression>
 </Case><Case
  Name="AC 25 kV 50 Hz"
  Guid="5d732ac5-ad93-4b8e-8456-488b153e7646"
@@ -290,7 +290,7 @@
 <PreCondition
  Guid="d5373545-4c2c-4ee9-9d7b-c6a3daf58788"
 >TractionSystem == Messages.M_VOLTAGE.AC_25_kV_50_Hz</PreCondition></PreConditions>
-<Expression>General.TCDisplay.TCTypeEnum.TractionSystem__AC25kV</Expression>
+<Expression>Kernel.TrackDescription.TrackConditions.General.TCDisplay.TCTypeEnum.TractionSystem__AC25kV</Expression>
 </Case><Case
  Name="AC 15 kV 16.7 Hz"
  Guid="e1e002f4-313f-4154-8b73-faf561d01d68"
@@ -299,7 +299,7 @@
 <PreCondition
  Guid="3df82a5c-c764-41bc-880b-79d52fcee347"
 >TractionSystem == Messages.M_VOLTAGE.AC_15_kV_16_7_Hz</PreCondition></PreConditions>
-<Expression>General.TCDisplay.TCTypeEnum.TractionSystem__AC15kV</Expression>
+<Expression>Kernel.TrackDescription.TrackConditions.General.TCDisplay.TCTypeEnum.TractionSystem__AC15kV</Expression>
 </Case><Case
  Name="DC 3 kV"
  Guid="d8668fa4-5690-41b3-a18b-98767afa33ce"
@@ -308,7 +308,7 @@
 <PreCondition
  Guid="d5355a54-42b9-4cb4-b670-33a9e418eb28"
 >TractionSystem == Messages.M_VOLTAGE.DC_3_kV</PreCondition></PreConditions>
-<Expression>General.TCDisplay.TCTypeEnum.TractionSystem__DC3kV</Expression>
+<Expression>Kernel.TrackDescription.TrackConditions.General.TCDisplay.TCTypeEnum.TractionSystem__DC3kV</Expression>
 </Case><Case
  Name="DC 1.5 kV"
  Guid="2649a4ba-791c-477a-8ac0-b2aa1c6e9474"
@@ -317,7 +317,7 @@
 <PreCondition
  Guid="517852ef-f189-403c-aff9-ee3d68e132be"
 >TractionSystem == Messages.M_VOLTAGE.DC_1_5_kV</PreCondition></PreConditions>
-<Expression>General.TCDisplay.TCTypeEnum.TractionSystem__DC1_5kV</Expression>
+<Expression>Kernel.TrackDescription.TrackConditions.General.TCDisplay.TCTypeEnum.TractionSystem__DC1_5kV</Expression>
 </Case><Case
  Name="DC 600/750 V"
  Guid="aa56f49c-c96c-451b-8183-57ea5f99fa12"
@@ -326,7 +326,7 @@
 <PreCondition
  Guid="bef5fd34-ace3-4cff-933e-39f0d0b69c13"
 >TractionSystem == Messages.M_VOLTAGE.DC_600_750_V</PreCondition></PreConditions>
-<Expression>General.TCDisplay.TCTypeEnum.TractionSystem__DC600_750V</Expression>
+<Expression>Kernel.TrackDescription.TrackConditions.General.TCDisplay.TCTypeEnum.TractionSystem__DC600_750V</Expression>
 </Case></Cases>
 </Function><Function
  Type="General.TCDisplay.TCStructWithSoundHorn"
@@ -353,7 +353,7 @@
  Name="Convert type"
  Guid="1d32a1d4-af2e-4812-b39b-e0999d2d11d3"
 >
-<Expression>General.TCDisplay.TCStructWithSoundHorn{
+<Expression>Kernel.TrackDescription.TrackConditions.General.TCDisplay.TCStructWithSoundHorn{
     SoundHorn =&gt; General.ProfileAtDistance(TractionSystem.Location).SoundHorn,
     TunnelStoppingArea =&gt; General.ProfileAtDistance(TractionSystem.Location).TunnelStoppingArea,
     NonStoppingArea =&gt; General.ProfileAtDistance(TractionSystem.Location).NonStoppingArea,
@@ -411,7 +411,7 @@
 <Actions>
 <Action
  Guid="5452dacd-9945-4b71-b5dc-92eec14d74eb"
->TCTractionSystems &lt;- []</Action></Actions>
+>Kernel.TrackDescription.TrackConditions.TractionSystems.TCTractionSystems &lt;- []</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -450,7 +450,7 @@
 <Actions>
 <Action
  Guid="999301d6-e625-436c-b54d-0a413831fb96"
->INSERT TractionSystemInformationStruct
+>INSERT Kernel.TrackDescription.TrackConditions.TractionSystems.TractionSystemInformationStruct
 {
     Location =&gt; MessageTypes.QScaleDistance
     (
@@ -465,7 +465,7 @@
 }
 
 IN
-    TCTractionSystems</Action></Actions>
+    Kernel.TrackDescription.TrackConditions.TractionSystems.TCTractionSystems</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -522,24 +522,24 @@ IN
 <Actions>
 <Action
  Guid="9bd1a5f3-f510-4564-afff-1238e71425a4"
->INSERT General.TCDisplay.NewAnnouncement(
-    TCType=&gt; PacketToAnnouncement(Packet.M_VOLTAGE),
-    Distance=&gt; General.TCDisplay.AnnouncementLocation(
-        TrackCondition =&gt; General.TrackConditionStruct{},
+>INSERT Kernel.TrackDescription.TrackConditions.General.TCDisplay.NewAnnouncement(
+    TCType=&gt; Kernel.TrackDescription.TrackConditions.TractionSystems.PacketToAnnouncement(Packet.M_VOLTAGE),
+    Distance=&gt; Kernel.TrackDescription.TrackConditions.General.TCDisplay.AnnouncementLocation(
+        TrackCondition =&gt; Kernel.TrackDescription.TrackConditions.General.TrackConditionStruct{},
         Distance=&gt;MessageTypes.QScaleDistance(
             distance=&gt;Packet.D_TRACTION,
             scale=&gt;Packet.Q_SCALE)
         ),
     Length=&gt; BaseTypes.DistanceToLength(
                  MessageTypes.QScaleDistance(distance=&gt;Packet.D_TRACTION, scale=&gt;Packet.Q_SCALE) -
-                 General.TCDisplay.AnnouncementLocation(
-                     TrackCondition =&gt; General.TrackConditionStruct{},
+                 Kernel.TrackDescription.TrackConditions.General.TCDisplay.AnnouncementLocation(
+                     TrackCondition =&gt; Kernel.TrackDescription.TrackConditions.General.TrackConditionStruct{},
                      Distance=&gt;MessageTypes.QScaleDistance(distance=&gt;Packet.D_TRACTION, scale=&gt;Packet.Q_SCALE)
                  )
         ),
      Announcement =&gt; True
 )
-IN General.TCDisplay.Announcements</Action></Actions>
+IN Kernel.TrackDescription.TrackConditions.General.TCDisplay.Announcements</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -560,8 +560,8 @@ IN General.TCDisplay.Announcements</Action></Actions>
 <Actions>
 <Action
  Guid="83db5426-16ea-4334-b486-8690bf014ba2"
->INSERT General.TCDisplay.NewAnnouncement(
-    TCType=&gt; PacketToAnnouncement(Packet.M_VOLTAGE),
+>INSERT Kernel.TrackDescription.TrackConditions.General.TCDisplay.NewAnnouncement(
+    TCType=&gt; Kernel.TrackDescription.TrackConditions.TractionSystems.PacketToAnnouncement(Packet.M_VOLTAGE),
     Distance=&gt; MessageTypes.QScaleDistance(
             distance=&gt;Packet.D_TRACTION,
             scale=&gt;Packet.Q_SCALE
@@ -569,7 +569,7 @@ IN General.TCDisplay.Announcements</Action></Actions>
     Length=&gt; BaseTypes.Length.NA,
     Announcement =&gt; False
 )
-IN General.TCDisplay.Announcements</Action></Actions>
+IN Kernel.TrackDescription.TrackConditions.General.TCDisplay.Announcements</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition></Conditions>
@@ -629,7 +629,7 @@ IN General.TCDisplay.Announcements</Action></Actions>
 <PreConditions>
 <PreCondition
  Guid="c8cca78d-3f1e-4cfb-b744-c3cc5b9cf0d8"
->TCTractionSystems != []</PreCondition></PreConditions>
+>Kernel.TrackDescription.TrackConditions.TractionSystems.TCTractionSystems != []</PreCondition></PreConditions>
 <Actions>
 </Actions>
 <SubRules>
@@ -652,7 +652,7 @@ IN General.TCDisplay.Announcements</Action></Actions>
 <Actions>
 <Action
  Guid="39035454-d8da-40aa-bec8-ff4986512bbc"
->TCTractionSystems &lt;- MAP TCTractionSystems | X.Location &lt;= aLocation USING X IN X</Action></Actions>
+>Kernel.TrackDescription.TrackConditions.TractionSystems.TCTractionSystems &lt;- MAP Kernel.TrackDescription.TrackConditions.TractionSystems.TCTractionSystems | X.Location &lt;= aLocation USING X IN X</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -671,12 +671,12 @@ IN General.TCDisplay.Announcements</Action></Actions>
 <PreConditions>
 <PreCondition
  Guid="fdca6523-2a30-42f9-9aad-1bbae8a3071c"
->(LAST TC IN TCTractionSystems).Value.SystemType != Messages.M_VOLTAGE.Line_not_fitted_with_any_traction_system</PreCondition></PreConditions>
+>(LAST TC IN Kernel.TrackDescription.TrackConditions.TractionSystems.TCTractionSystems).Value.SystemType != Messages.M_VOLTAGE.Line_not_fitted_with_any_traction_system</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="c3cc9273-3eb9-4532-9c8c-393d6397bf33"
 >INSERT
-  TractionSystemInformationStruct
+  Kernel.TrackDescription.TrackConditions.TractionSystems.TractionSystemInformationStruct
   {
     Location =&gt; aLocation,
     Value =&gt; TractionSystemStruct
@@ -685,7 +685,7 @@ IN General.TCDisplay.Announcements</Action></Actions>
     }
   }
 IN
-  TCTractionSystems</Action></Actions>
+  Kernel.TrackDescription.TrackConditions.TractionSystems.TCTractionSystems</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition></Conditions>

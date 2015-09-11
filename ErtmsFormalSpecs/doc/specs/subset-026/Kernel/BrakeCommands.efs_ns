@@ -10,7 +10,7 @@
 </NameSpaces>
 <Enumerations>
 <Enum
- Default="BrakeReason.SupervisingStandstill"
+ Default="Kernel.BrakeCommands.BrakeReason.SupervisingStandstill"
  X="380"
  Y="260"
  Width="100"
@@ -289,7 +289,7 @@
  Name="Value"
  Guid="d21e63ba-bec7-41f2-a0f1-e5ad05e4c49a"
 >
-<Expression>BrakeCommands.EmergencyStopStruct
+<Expression>Kernel.BrakeCommands.EmergencyStopStruct
  {
     Reason =&gt; BrakeCommands.BrakeReason.OrderFromRBC,
     IsConditional =&gt; aIsConditional,
@@ -327,9 +327,9 @@
  Name="Return the closest conditional ES"
  Guid="6504658f-9677-4b71-97ed-e60c579ccab0"
 >
-<Expression>REDUCE aESCol | ( X.Reason == BrakeCommands.BrakeReason.OrderFromRBC AND X.IsConditional )
-    USING X IN MinEmergencyStopDistance( EmergencyStop1 =&gt; X, EmergencyStop2 =&gt; RESULT )
-INITIAL_VALUE BrakeCommands.EmergencyStopStruct
+<Expression>REDUCE aESCol | ( X.Reason == Kernel.BrakeCommands.BrakeReason.OrderFromRBC AND X.IsConditional )
+    USING X IN Kernel.BrakeCommands.MinEmergencyStopDistance( EmergencyStop1 =&gt; X, EmergencyStop2 =&gt; RESULT )
+INITIAL_VALUE Kernel.BrakeCommands.EmergencyStopStruct
                             {
                                 StopLocation =&gt; BaseTypes.Distance.Infinity
                             }</Expression>
@@ -400,7 +400,7 @@ INITIAL_VALUE BrakeCommands.EmergencyStopStruct
 <PreConditions>
 <PreCondition
  Guid="f2e1e7f2-f17c-4360-8424-eda57b6f8347"
->TrackDescription.ReversingArea.ReversingAreaProfile.Length &gt; TrainPosition.DistanceReversed()</PreCondition></PreConditions>
+>Kernel.TrackDescription.ReversingArea.ReversingAreaProfile.Length &gt; Kernel.TrainPosition.DistanceReversed()</PreCondition></PreConditions>
 <Expression>True</Expression>
 </Case><Case
  Name="At standstill after driver acknowledgement"
@@ -464,7 +464,7 @@ DMI.MasterDMI().In_AcknForReversingDistanceExceeded.InputInformation.DriverAnswe
 <Action
  Guid="9a5fa779-e4b0-4c4a-b5bf-584bb7826348"
 >INSERT
-BrakeCommands.CreateEmergencyStop (
+Kernel.BrakeCommands.CreateEmergencyStop (
     aIsConditional =&gt; Boolean.True,
     aId =&gt; aMessage.CONDITIONAL_EMERGENCY_STOP.NID_EM,
     aStopLocation =&gt; MessageTypes.QScaleDistance (
@@ -474,7 +474,7 @@ BrakeCommands.CreateEmergencyStop (
  )
 
 IN
-EmergencyStops</Action></Actions>
+Kernel.BrakeCommands.EmergencyStops</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Add Unconditional Emergency Stop"
@@ -489,14 +489,14 @@ EmergencyStops</Action></Actions>
 <Action
  Guid="f4288555-85c3-46ca-85a6-a4a6c45ca5e7"
 >INSERT
-BrakeCommands.CreateEmergencyStop (
+Kernel.BrakeCommands.CreateEmergencyStop (
     aIsConditional =&gt; Boolean.False,
     aId =&gt; aMessage.UNCONDITIONAL_EMERGENCY_STOP.NID_EM,
     aStopLocation =&gt; 0.0
  )
 
 IN
-EmergencyStops</Action></Actions>
+Kernel.BrakeCommands.EmergencyStops</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -563,11 +563,11 @@ EmergencyStops</Action></Actions>
 <PreConditions>
 <PreCondition
  Guid="2277cfd5-c577-479a-be81-63f5ff686ab8"
->NOT THERE_IS X IN ServiceBrakeCommands | X == Reason</PreCondition></PreConditions>
+>NOT THERE_IS X IN Kernel.BrakeCommands.ServiceBrakeCommands | X == Reason</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="6b0ce64e-71c9-413c-ad6b-e7c6a0bf7036"
->INSERT Reason IN ServiceBrakeCommands</Action></Actions>
+>INSERT Reason IN Kernel.BrakeCommands.ServiceBrakeCommands</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -611,7 +611,7 @@ EmergencyStops</Action></Actions>
 <Actions>
 <Action
  Guid="eb928e38-b0ef-4a1d-8bc9-6a68b0de2c13"
->REMOVE ALL X.Id == aId IN EmergencyStops</Action></Actions>
+>REMOVE ALL X.Id == aId IN Kernel.BrakeCommands.EmergencyStops</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -632,7 +632,7 @@ EmergencyStops</Action></Actions>
 <PreConditions>
 <PreCondition
  Guid="ed27c8f0-85f6-4b6b-a0a1-49ed462fa9b1"
->FORALL X IN EmergencyStops | X.Reason != BrakeCommands.BrakeReason.OrderFromRBC</PreCondition></PreConditions>
+>FORALL X IN Kernel.BrakeCommands.EmergencyStops | X.Reason != Kernel.BrakeCommands.BrakeReason.OrderFromRBC</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="e2602b9e-3c0d-4aac-a5bf-d0678874da0e"
@@ -689,7 +689,7 @@ EmergencyStops</Action></Actions>
 <Actions>
 <Action
  Guid="38d53262-df6c-44d6-b1c6-41d228de97e8"
->REMOVE FIRST X == Reason IN ServiceBrakeCommands</Action></Actions>
+>REMOVE FIRST X == Reason IN Kernel.BrakeCommands.ServiceBrakeCommands</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -730,11 +730,11 @@ EmergencyStops</Action></Actions>
 <PreConditions>
 <PreCondition
  Guid="c7497b8b-3030-47ee-a3a3-f9eb29a145f9"
->NOT THERE_IS X IN EmergencyBrakeCommands | X == Reason</PreCondition></PreConditions>
+>NOT THERE_IS X IN Kernel.BrakeCommands.EmergencyBrakeCommands | X == Reason</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="64ab9c81-b890-4cad-a60e-97c4f903ec11"
->INSERT Reason IN EmergencyBrakeCommands</Action></Actions>
+>INSERT Reason IN Kernel.BrakeCommands.EmergencyBrakeCommands</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -777,7 +777,7 @@ EmergencyStops</Action></Actions>
 <Actions>
 <Action
  Guid="6b4369fe-e276-4300-8508-59013b043822"
->REMOVE FIRST X == Reason IN EmergencyBrakeCommands</Action></Actions>
+>REMOVE FIRST X == Reason IN Kernel.BrakeCommands.EmergencyBrakeCommands</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -815,7 +815,7 @@ EmergencyStops</Action></Actions>
 <PreConditions>
 <PreCondition
  Guid="f0564173-9980-42d7-b924-aaf718255314"
->aBrakeReason == BrakeReason.BaliseGroupMessageInconsistency</PreCondition></PreConditions>
+>aBrakeReason == Kernel.BrakeCommands.BrakeReason.BaliseGroupMessageInconsistency</PreCondition></PreConditions>
 <Actions>
 </Actions>
 </RuleCondition><RuleCondition
@@ -825,7 +825,7 @@ EmergencyStops</Action></Actions>
 <PreConditions>
 <PreCondition
  Guid="0c485872-26bf-4f13-abe9-7809bec7c6f3"
->aBrakeReason == BrakeReason.LevelTransitionTimeOut</PreCondition></PreConditions>
+>aBrakeReason == Kernel.BrakeCommands.BrakeReason.LevelTransitionTimeOut</PreCondition></PreConditions>
 <Actions>
 </Actions>
 </RuleCondition><RuleCondition
@@ -835,7 +835,7 @@ EmergencyStops</Action></Actions>
 <PreConditions>
 <PreCondition
  Guid="f4531365-e029-42e7-bfaf-38644617f5cd"
->aBrakeReason == BrakeReason.LinkingInconsistency</PreCondition></PreConditions>
+>aBrakeReason == Kernel.BrakeCommands.BrakeReason.LinkingInconsistency</PreCondition></PreConditions>
 <Actions>
 </Actions>
 </RuleCondition><RuleCondition
@@ -845,7 +845,7 @@ EmergencyStops</Action></Actions>
 <PreConditions>
 <PreCondition
  Guid="b8281f8b-4bd6-4176-b9a5-6c1a7c520ecf"
->aBrakeReason == BrakeReason.LSAckTimeOut</PreCondition></PreConditions>
+>aBrakeReason == Kernel.BrakeCommands.BrakeReason.LSAckTimeOut</PreCondition></PreConditions>
 <Actions>
 </Actions>
 </RuleCondition><RuleCondition
@@ -855,7 +855,7 @@ EmergencyStops</Action></Actions>
 <PreConditions>
 <PreCondition
  Guid="afd574eb-a426-4d90-9c43-a6b876f78bc4"
->aBrakeReason == BrakeReason.NoRadioMessageInDueTime</PreCondition></PreConditions>
+>aBrakeReason == Kernel.BrakeCommands.BrakeReason.NoRadioMessageInDueTime</PreCondition></PreConditions>
 <Actions>
 </Actions>
 </RuleCondition><RuleCondition
@@ -865,7 +865,7 @@ EmergencyStops</Action></Actions>
 <PreConditions>
 <PreCondition
  Guid="f848c7e9-1a48-4773-a3bd-a33527a995f7"
->aBrakeReason == BrakeReason.OrderFromRBC</PreCondition></PreConditions>
+>aBrakeReason == Kernel.BrakeCommands.BrakeReason.OrderFromRBC</PreCondition></PreConditions>
 <Actions>
 </Actions>
 </RuleCondition><RuleCondition
@@ -875,7 +875,7 @@ EmergencyStops</Action></Actions>
 <PreConditions>
 <PreCondition
  Guid="96382a27-a461-48a0-b36f-903721f8cb94"
->aBrakeReason == BrakeReason.OSAckTimeOut</PreCondition></PreConditions>
+>aBrakeReason == Kernel.BrakeCommands.BrakeReason.OSAckTimeOut</PreCondition></PreConditions>
 <Actions>
 </Actions>
 </RuleCondition><RuleCondition
@@ -885,7 +885,7 @@ EmergencyStops</Action></Actions>
 <PreConditions>
 <PreCondition
  Guid="6f225181-a011-4798-aa3c-0a5d098a7f38"
->aBrakeReason == BrakeReason.PermanentCommandInCurrentMode</PreCondition></PreConditions>
+>aBrakeReason == Kernel.BrakeCommands.BrakeReason.PermanentCommandInCurrentMode</PreCondition></PreConditions>
 <Actions>
 </Actions>
 </RuleCondition><RuleCondition
@@ -896,7 +896,7 @@ EmergencyStops</Action></Actions>
 <PreConditions>
 <PreCondition
  Guid="19160b87-f20d-476b-bfdc-e2711367799f"
->aBrakeReason == BrakeReason.PTReversingDistanceExceeded</PreCondition></PreConditions>
+>aBrakeReason == Kernel.BrakeCommands.BrakeReason.PTReversingDistanceExceeded</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="6405b92e-decc-409c-99a8-3f4769cfed4a"
@@ -908,7 +908,7 @@ EmergencyStops</Action></Actions>
 <PreConditions>
 <PreCondition
  Guid="39177f32-b4ff-4777-a262-99d9fae9ff61"
->aBrakeReason == BrakeReason.RadioMessageConsistencyError</PreCondition></PreConditions>
+>aBrakeReason == Kernel.BrakeCommands.BrakeReason.RadioMessageConsistencyError</PreCondition></PreConditions>
 <Actions>
 </Actions>
 </RuleCondition><RuleCondition
@@ -918,7 +918,7 @@ EmergencyStops</Action></Actions>
 <PreConditions>
 <PreCondition
  Guid="4bbdcc2d-f50a-41a8-8890-ea9d3a5cccf3"
->aBrakeReason == BrakeReason.RadioSequenceError</PreCondition></PreConditions>
+>aBrakeReason == Kernel.BrakeCommands.BrakeReason.RadioSequenceError</PreCondition></PreConditions>
 <Actions>
 </Actions>
 </RuleCondition><RuleCondition
@@ -928,7 +928,7 @@ EmergencyStops</Action></Actions>
 <PreConditions>
 <PreCondition
  Guid="9ada5197-67a4-47b9-9078-e3a0f603d9f5"
->aBrakeReason == BrakeReason.RAMSSupervision</PreCondition></PreConditions>
+>aBrakeReason == Kernel.BrakeCommands.BrakeReason.RAMSSupervision</PreCondition></PreConditions>
 <Actions>
 </Actions>
 </RuleCondition><RuleCondition
@@ -945,7 +945,7 @@ EmergencyStops</Action></Actions>
 <PreConditions>
 <PreCondition
  Guid="fa3d6fc0-ac3f-47f2-a420-06594633ff03"
->aBrakeReason == BrakeReason.ReverseMovementProtection</PreCondition></PreConditions>
+>aBrakeReason == Kernel.BrakeCommands.BrakeReason.ReverseMovementProtection</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="9dca4b47-4686-4679-8955-3d1a182ec68d"
@@ -958,7 +958,7 @@ EmergencyStops</Action></Actions>
 <PreConditions>
 <PreCondition
  Guid="199b83b5-c112-4e3a-b720-69292ff59c06"
->aBrakeReason == BrakeReason.ReversingDistanceExceeded</PreCondition></PreConditions>
+>aBrakeReason == Kernel.BrakeCommands.BrakeReason.ReversingDistanceExceeded</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="85e315ad-e24e-4ee5-8bb1-4a8cb2bd7c76"
@@ -977,7 +977,7 @@ EmergencyStops</Action></Actions>
 <PreConditions>
 <PreCondition
  Guid="cc0e14e8-7335-4932-bbf0-7d6684638c2e"
->aBrakeReason == BrakeReason.RollAwayProtection</PreCondition></PreConditions>
+>aBrakeReason == Kernel.BrakeCommands.BrakeReason.RollAwayProtection</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="78668021-27fe-4924-93e4-d3d07a9476c7"
@@ -989,7 +989,7 @@ EmergencyStops</Action></Actions>
 <PreConditions>
 <PreCondition
  Guid="32f69d8c-f9f5-453a-b2ac-b92dc8e9f757"
->aBrakeReason == BrakeReason.SHAckTimeOut</PreCondition></PreConditions>
+>aBrakeReason == Kernel.BrakeCommands.BrakeReason.SHAckTimeOut</PreCondition></PreConditions>
 <Actions>
 </Actions>
 </RuleCondition><RuleCondition
@@ -999,7 +999,7 @@ EmergencyStops</Action></Actions>
 <PreConditions>
 <PreCondition
  Guid="26a4a312-83ea-4e09-a932-c8d93ac4e5e8"
->aBrakeReason == BrakeReason.SpeedAndDistanceMonitoring</PreCondition></PreConditions>
+>aBrakeReason == Kernel.BrakeCommands.BrakeReason.SpeedAndDistanceMonitoring</PreCondition></PreConditions>
 <Actions>
 </Actions>
 </RuleCondition><RuleCondition
@@ -1016,13 +1016,13 @@ EmergencyStops</Action></Actions>
 <PreConditions>
 <PreCondition
  Guid="dde5c0f6-c0c0-4bd2-9988-21ca98690bdd"
->aBrakeReason == BrakeReason.SupervisingStandstill</PreCondition></PreConditions>
+>aBrakeReason == Kernel.BrakeCommands.BrakeReason.SupervisingStandstill</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="26884755-3320-44ea-8154-9fc876cfda5c"
 >DMI.MasterDMI().In_AcknForStandstillSupervision.InitiateRequest()</Action><Action
  Guid="2a476e6d-603b-4be2-ae58-7a9d5b0bcbb5"
->UndesirableMovement.InitializeStandstillSupervision()</Action></Actions>
+>Kernel.UndesirableMovement.InitializeStandstillSupervision()</Action></Actions>
 </RuleCondition><RuleCondition
  Name="Display time-out of text message ackn"
  Guid="088053a7-cc7b-41a0-912f-b083aad3310c"
@@ -1030,7 +1030,7 @@ EmergencyStops</Action></Actions>
 <PreConditions>
 <PreCondition
  Guid="d2e58b15-73d1-4ca3-8de6-065c649e671d"
->aBrakeReason == BrakeReason.TextMessageAckTimeOut</PreCondition></PreConditions>
+>aBrakeReason == Kernel.BrakeCommands.BrakeReason.TextMessageAckTimeOut</PreCondition></PreConditions>
 <Actions>
 </Actions>
 </RuleCondition><RuleCondition
@@ -1041,7 +1041,7 @@ EmergencyStops</Action></Actions>
 <PreConditions>
 <PreCondition
  Guid="710d447f-5ca4-49c7-b3e2-aa48d389a6f7"
->aBrakeReason == BrakeReason.TrainDataChanged</PreCondition></PreConditions>
+>aBrakeReason == Kernel.BrakeCommands.BrakeReason.TrainDataChanged</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="df7b9aac-1567-44d3-9ff3-7f58c3f723d7"
@@ -1054,7 +1054,7 @@ EmergencyStops</Action></Actions>
 <PreConditions>
 <PreCondition
  Guid="7881a385-4d8a-4ced-b695-de453d8b3058"
->aBrakeReason == BrakeReason.TrainMovementDuringDataEntry</PreCondition></PreConditions>
+>aBrakeReason == Kernel.BrakeCommands.BrakeReason.TrainMovementDuringDataEntry</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="af8a73da-4bee-42d1-94a4-e03c0e852f97"
@@ -1066,7 +1066,7 @@ EmergencyStops</Action></Actions>
 <PreConditions>
 <PreCondition
  Guid="b4070b5b-dc62-48bd-8480-7e5cc389ad0e"
->aBrakeReason == BrakeReason.TrainTrip</PreCondition></PreConditions>
+>aBrakeReason == Kernel.BrakeCommands.BrakeReason.TrainTrip</PreCondition></PreConditions>
 <Actions>
 </Actions>
 </RuleCondition></Conditions>
@@ -1162,9 +1162,9 @@ EmergencyStops</Action></Actions>
 <Actions>
 <Action
  Guid="c289f399-377f-4df8-adca-a052cb745a1b"
->APPLY DisplayBrakeReason(X) ON EmergencyBrakeCommands</Action><Action
+>APPLY Kernel.BrakeCommands.DisplayBrakeReason(X) ON Kernel.BrakeCommands.EmergencyBrakeCommands</Action><Action
  Guid="646527a3-05c3-468d-9050-dc9f8f2b75c3"
->APPLY DisplayBrakeReason(X) ON ServiceBrakeCommands</Action></Actions>
+>APPLY Kernel.BrakeCommands.DisplayBrakeReason(X) ON Kernel.BrakeCommands.ServiceBrakeCommands</Action></Actions>
 <SubRules>
 <Rule
  Implemented="TRUE"
@@ -1186,14 +1186,14 @@ EmergencyStops</Action></Actions>
 <PreConditions>
 <PreCondition
  Guid="db698431-04ed-49bb-b877-65c637a29172"
->Mode == Default.Mode.TR</PreCondition><PreCondition
+>Kernel.Mode == Default.Mode.TR</PreCondition><PreCondition
  Guid="9b89c340-ef51-4c14-bb62-8a7b2d72fba4"
->BrakeCommands.EmergencyStops != []</PreCondition></PreConditions>
+>Kernel.BrakeCommands.EmergencyStops != []</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="a3fc4c17-da7a-44f6-a07b-e0a9591ad4dc"
 >DMI.MasterDMI().Out_TripReason.Display(
-    reason =&gt; (FIRST X IN BrakeCommands.EmergencyStops).Reason
+    reason =&gt; (FIRST X IN Kernel.BrakeCommands.EmergencyStops).Reason
 )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
@@ -1230,7 +1230,7 @@ NOT TIU.SBApplied</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="0cff13a0-0cfb-4f3f-96c0-9257b941c09b"
->CommandEmergencyBrake(BrakeReason.ServiceBrakeNotApplied)</Action></Actions>
+>Kernel.BrakeCommands.CommandEmergencyBrake(Kernel.BrakeCommands.BrakeReason.ServiceBrakeNotApplied)</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Revoke EB command when the SB is revoked"
@@ -1242,7 +1242,7 @@ NOT TIU.SBApplied</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="6b5798d2-c626-4e93-8285-7165aae9a11c"
->ReleaseEBCommand(BrakeReason.ServiceBrakeNotApplied)</Action></Actions>
+>Kernel.BrakeCommands.ReleaseEBCommand(Kernel.BrakeCommands.BrakeReason.ServiceBrakeNotApplied)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  X="140"
@@ -1343,9 +1343,9 @@ NOT TIU.SBApplied</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="7390e3a2-bfc1-4b6e-8d21-e830cc4dd86c"
->ReleaseSBCommand(BrakeReason.RollAwayProtection)</Action><Action
+>Kernel.BrakeCommands.ReleaseSBCommand(Kernel.BrakeCommands.BrakeReason.RollAwayProtection)</Action><Action
  Guid="29a33d38-33df-4509-87cd-8cd06a04ad0a"
->UndesirableMovement.InitializeRollAwayProtection()</Action></Actions>
+>Kernel.UndesirableMovement.InitializeRollAwayProtection()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Implemented="TRUE"
@@ -1379,9 +1379,9 @@ NOT TIU.SBApplied</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="27916ba4-948e-4ec7-a83d-e4952cc5a37d"
->ReleaseSBCommand(BrakeReason.ReverseMovementProtection)</Action><Action
+>Kernel.BrakeCommands.ReleaseSBCommand(Kernel.BrakeCommands.BrakeReason.ReverseMovementProtection)</Action><Action
  Guid="4a499668-c7cb-49a9-8d95-1928e78c5cdc"
->UndesirableMovement.InitializeReverseMovementProtection()</Action></Actions>
+>Kernel.UndesirableMovement.InitializeReverseMovementProtection()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Implemented="TRUE"
@@ -1410,7 +1410,7 @@ NOT TIU.SBApplied</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="825818c1-5291-4e6d-b827-d350dfee16ca"
->ReleaseSBCommand(BrakeReason.SupervisingStandstill)</Action></Actions>
+>Kernel.BrakeCommands.ReleaseSBCommand(Kernel.BrakeCommands.BrakeReason.SupervisingStandstill)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Implemented="TRUE"
@@ -1437,7 +1437,7 @@ NOT TIU.SBApplied</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="04d779aa-2479-4e58-99c6-f3f4de631b6f"
->ReleaseSBCommand(BrakeReason.LinkingInconsistency)</Action></Actions>
+>Kernel.BrakeCommands.ReleaseSBCommand(Kernel.BrakeCommands.BrakeReason.LinkingInconsistency)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Implemented="TRUE"
@@ -1464,7 +1464,7 @@ NOT TIU.SBApplied</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="b848bcc0-298e-47a2-be5f-0bf8626b3e85"
->ReleaseSBCommand(BrakeReason.BaliseGroupMessageInconsistency)</Action></Actions>
+>Kernel.BrakeCommands.ReleaseSBCommand(Kernel.BrakeCommands.BrakeReason.BaliseGroupMessageInconsistency)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Implemented="TRUE"
@@ -1491,7 +1491,7 @@ NOT TIU.SBApplied</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="eb3e4e6c-6630-466b-928a-f62ca7bdc7ed"
->ReleaseSBCommand(BrakeReason.RAMSSupervision)</Action></Actions>
+>Kernel.BrakeCommands.ReleaseSBCommand(Kernel.BrakeCommands.BrakeReason.RAMSSupervision)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Implemented="TRUE"
@@ -1534,7 +1534,7 @@ NOT TIU.SBApplied</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="341b2ee1-963b-40f4-83df-8cfe04b55e52"
->ReleaseEBCommand(BrakeReason.NoRadioMessageInDueTime)</Action></Actions>
+>Kernel.BrakeCommands.ReleaseEBCommand(Kernel.BrakeCommands.BrakeReason.NoRadioMessageInDueTime)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Implemented="TRUE"
@@ -1557,11 +1557,11 @@ NOT TIU.SBApplied</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="dff02c72-4294-4218-9a1d-83a1e6858c20"
->CanRevokeReversingBrake()</PreCondition></PreConditions>
+>Kernel.BrakeCommands.CanRevokeReversingBrake()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="747ac8aa-6f1f-47e8-9372-d28a8b67bcf7"
->ReleaseEBCommand(BrakeReason.ReversingDistanceExceeded)</Action></Actions>
+>Kernel.BrakeCommands.ReleaseEBCommand(Kernel.BrakeCommands.BrakeReason.ReversingDistanceExceeded)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Implemented="TRUE"
@@ -1595,7 +1595,7 @@ NOT TIU.SBApplied</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="f89d38da-61a5-47c1-8842-9a41ce8d8e91"
->ReleaseEBCommand(BrakeReason.TrainDataChanged)</Action></Actions>
+>Kernel.BrakeCommands.ReleaseEBCommand(Kernel.BrakeCommands.BrakeReason.TrainDataChanged)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Implemented="TRUE"
@@ -1626,7 +1626,7 @@ NOT TIU.SBApplied</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="0b999da4-8869-4ce6-8ee8-48447f964c24"
->ReleaseSBCommand(BrakeReason.TrainMovementDuringDataEntry)</Action></Actions>
+>Kernel.BrakeCommands.ReleaseSBCommand(Kernel.BrakeCommands.BrakeReason.TrainMovementDuringDataEntry)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Implemented="TRUE"
@@ -1655,7 +1655,7 @@ NOT TIU.SBApplied</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="96f3e75a-d39a-476e-bc76-0a62f9828d2f"
->ReleaseSBCommand(BrakeReason.PTReversingDistanceExceeded)</Action></Actions>
+>Kernel.BrakeCommands.ReleaseSBCommand(Kernel.BrakeCommands.BrakeReason.PTReversingDistanceExceeded)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Implemented="TRUE"
@@ -1684,7 +1684,7 @@ DMI.MasterDMI().In_AcknOfPlainTextInformation.InputInformation.DriverAnswered</P
 <Actions>
 <Action
  Guid="61898b87-10cf-4244-a5b1-7f1aaa367ef1"
->ReleaseSBCommand(BrakeReason.TextMessageAckTimeOut)</Action></Actions>
+>Kernel.BrakeCommands.ReleaseSBCommand(Kernel.BrakeCommands.BrakeReason.TextMessageAckTimeOut)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition></Conditions>

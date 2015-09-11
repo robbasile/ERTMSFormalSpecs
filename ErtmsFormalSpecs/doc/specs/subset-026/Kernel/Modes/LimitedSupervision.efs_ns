@@ -41,7 +41,7 @@
  Name="Value"
  Guid="a795b238-b08a-466f-9212-549c49ace202"
 >
-<Expression>REDUCE SpeedAndDistanceMonitoring.TargetsList() | X.Location &lt;= MA.ClosestEOA().Location
+<Expression>REDUCE Kernel.SpeedAndDistanceMonitoring.TargetsList() | X.Location &lt;= Kernel.MA.ClosestEOA().Location
  USING X IN BaseTypes.MinSpeed(
     X1 =&gt; X.Speed,
     X2 =&gt; RESULT
@@ -80,15 +80,15 @@
 <PreConditions>
 <PreCondition
  Guid="3f97e6bf-4d01-45ba-88a5-ce6c501c1059"
->NOT Available(LSSMATimer)</PreCondition></PreConditions>
+>NOT Available(Kernel.Modes.LimitedSupervision.LSSMATimer)</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
  Name="Value"
  Guid="cc783aba-e5bc-4cd8-9ad6-0fb1de83feb2"
 >
-<Expression>NOT DateAndTime.T1LaterThanT2(
+<Expression>NOT Kernel.DateAndTime.T1LaterThanT2(
     T1 =&gt; Timer,
-    T2 =&gt; DateAndTime.Now()
+    T2 =&gt; Kernel.DateAndTime.Now()
 )</Expression>
 </Case></Cases>
 </Function><Function
@@ -159,9 +159,9 @@
  Name="Value"
  Guid="b1841b01-71d6-438a-a2c7-f9ce2f3d0015"
 >
-<Expression>MA.MA.TargetSpeed &lt; ModeRelatedSpeedLimits.LSModeSpeedLimit()
+<Expression>Kernel.MA.MA.TargetSpeed &lt; Kernel.Modes.ModeRelatedSpeedLimits.LSModeSpeedLimit()
   AND  
-LSSMA() &lt; TrainData.TrainData.Value.MaximumSpeed</Expression>
+Kernel.Modes.LimitedSupervision.LSSMA() &lt; Kernel.TrainData.TrainData.Value.MaximumSpeed</Expression>
 </Case></Cases>
 </Function></Functions>
 <Procedures>
@@ -249,7 +249,7 @@ LSSMA() &lt; TrainData.TrainData.Value.MaximumSpeed</Expression>
 <Actions>
 <Action
  Guid="bbd8de6f-c017-4c43-8813-479a83feb5ca"
->DisplayLSSMA &lt;- False</Action></Actions>
+>Kernel.Modes.LimitedSupervision.DisplayLSSMA &lt;- False</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Toggle on"
@@ -261,12 +261,12 @@ LSSMA() &lt; TrainData.TrainData.Value.MaximumSpeed</Expression>
 <Actions>
 <Action
  Guid="e6cbc16f-e753-4b29-b052-f2401dfd0902"
->LSSMATimer &lt;- AddToDate(
+>Kernel.Modes.LimitedSupervision.LSSMATimer &lt;- AddToDate(
     StartDate=&gt;Timestamp,
     Increment=&gt;MessageTypes.TimeResolution(Packet.T_LSSMA)
 )</Action><Action
  Guid="6e0544aa-f885-4470-baef-cd7ed7c95aa3"
->DisplayLSSMA &lt;- True</Action></Actions>
+>Kernel.Modes.LimitedSupervision.DisplayLSSMA &lt;- True</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
@@ -388,9 +388,9 @@ LSSMA() &lt; TrainData.TrainData.Value.MaximumSpeed</Expression>
 <PreConditions>
 <PreCondition
  Guid="785dc39d-f576-4174-a72b-79329f059799"
->Mode == Default.Mode.LS</PreCondition><PreCondition
+>Kernel.Mode == Default.Mode.LS</PreCondition><PreCondition
  Guid="89715f06-cfc4-4f73-8971-ed53219333bb"
->NOT GenericMarkerStored</PreCondition></PreConditions>
+>NOT Kernel.Modes.LimitedSupervision.GenericMarkerStored</PreCondition></PreConditions>
 <Actions>
 </Actions>
 </RuleCondition><RuleCondition
@@ -402,11 +402,11 @@ LSSMA() &lt; TrainData.TrainData.Value.MaximumSpeed</Expression>
 <PreConditions>
 <PreCondition
  Guid="e9df8f11-12e4-41a7-973e-1176052b5b06"
->Mode == Default.Mode.LS</PreCondition><PreCondition
+>Kernel.Mode == Default.Mode.LS</PreCondition><PreCondition
  Guid="fc268b32-269a-4b5f-8bd5-8cc11d0af92f"
->DisplayLSSMA</PreCondition><PreCondition
+>Kernel.Modes.LimitedSupervision.DisplayLSSMA</PreCondition><PreCondition
  Guid="51faf229-83b8-4750-ac65-bd38c3665763"
->ToggleLSSMA(LSSMATimer)</PreCondition></PreConditions>
+>Kernel.Modes.LimitedSupervision.ToggleLSSMA(Kernel.Modes.LimitedSupervision.LSSMATimer)</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="f0bbc56b-5ce9-4ed9-b894-5a9aeb142ae1"

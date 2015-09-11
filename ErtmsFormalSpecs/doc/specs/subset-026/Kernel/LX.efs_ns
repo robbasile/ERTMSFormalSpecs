@@ -274,9 +274,9 @@
  Name="Value"
  Guid="0aaa7939-0011-43dc-9333-93f25d3eead6"
 >
-<Expression>(REDUCE MRSPLevelCrossings 
+<Expression>(REDUCE Kernel.LX.MRSPLevelCrossings 
     USING X IN  
-        MIN ( First =&gt; FUNCTION d : Default.BaseTypes.Distance =&gt; LXSpeedRestriction(aLX =&gt; X, Distance =&gt; d), 
+        MIN ( First =&gt; FUNCTION d : Default.BaseTypes.Distance =&gt; Kernel.LX.LXSpeedRestriction(aLX =&gt; X, Distance =&gt; d), 
                   Second =&gt; RESULT )
 INITIAL_VALUE BaseTypes.MaxSpeedFunction) (Distance)</Expression>
 </Case></Cases>
@@ -408,7 +408,7 @@ INITIAL_VALUE BaseTypes.MaxSpeedFunction) (Distance)</Expression>
 <PreCondition
  Guid="fe8a1ccd-112a-435e-bfef-c05500940864"
 >aLevelCrossing.Id == Packet.NID_LX</PreCondition></PreConditions>
-<Expression>LevelCrossingStruct
+<Expression>Kernel.LX.LevelCrossingStruct
 {
     Id =&gt; Packet.NID_LX,
     Location =&gt; MessageTypes.QScaleDistance ( distance =&gt; Packet.D_LX, scale =&gt; Packet.Q_SCALE ),
@@ -463,8 +463,8 @@ INITIAL_VALUE BaseTypes.MaxSpeedFunction) (Distance)</Expression>
  Guid="a9bbf1f9-7aa9-4346-acd1-798063f97990"
 >
 <Expression>REDUCE LXCollection
-  USING X IN ClosestLX(LX1=&gt;X, LX2=&gt;RESULT)
-  INITIAL_VALUE LevelCrossingStruct{Location =&gt; BaseTypes.Distance.Infinity}</Expression>
+  USING X IN Kernel.LX.ClosestLX(LX1=&gt;X, LX2=&gt;RESULT)
+  INITIAL_VALUE Kernel.LX.LevelCrossingStruct{Location =&gt; BaseTypes.Distance.Infinity}</Expression>
 </Case></Cases>
 </Function><Function
  Type="LevelCrossingStruct"
@@ -618,9 +618,9 @@ INITIAL_VALUE BaseTypes.MaxSpeedFunction) (Distance)</Expression>
 >
 <Expression>aLX.StoppingRequired
   AND
-aLX.Location - aLX.StoppingAreaLength &lt;= TrainPosition.FrontEndPosition( PointOfInterest =&gt; DistanceInterval.Nom )
+aLX.Location - aLX.StoppingAreaLength &lt;= Kernel.TrainPosition.FrontEndPosition( PointOfInterest =&gt; DistanceInterval.Nom )
   AND
-TrainPosition.FrontEndPosition( PointOfInterest =&gt; DistanceInterval.Nom ) &lt;= aLX.Location</Expression>
+Kernel.TrainPosition.FrontEndPosition( PointOfInterest =&gt; DistanceInterval.Nom ) &lt;= aLX.Location</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -680,21 +680,21 @@ It is satisfied if the estimated or the max safe front end (depending whether th
 <PreCondition
  Guid="27fd513f-4347-436d-a985-58b252376701"
 >(
-  SpeedAndDistanceMonitoring.DecelerationCurves.SBD_Target(
-    Distance =&gt; TrainPosition.FrontEndPosition(DistanceInterval.Nom),
-    aTarget =&gt; SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT()
+  Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.SBD_Target(
+    Distance =&gt; Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom),
+    aTarget =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT()
 ) == BaseTypes.Speed.NA
   OR
-  SpeedAndDistanceMonitoring.DecelerationCurves.SBD_Target(
-    Distance =&gt; TrainPosition.FrontEndPosition(DistanceInterval.Nom),
-    aTarget =&gt; SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT()
+  Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.SBD_Target(
+    Distance =&gt; Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom),
+    aTarget =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT()
 ) &lt; aLX.Speed
 )
   AND
-SpeedAndDistanceMonitoring.DecelerationCurves.EBD_Target
+Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.EBD_Target
 (
-  Distance =&gt; (TrainPosition.FrontEndPosition(DistanceInterval.Nom)),
-  aTarget =&gt; SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target
+  Distance =&gt; (Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom)),
+  aTarget =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target
   {
     Speed =&gt; 0.0,
     Location =&gt; aLX.Location
@@ -709,20 +709,20 @@ SpeedAndDistanceMonitoring.DecelerationCurves.EBD_Target
 <PreCondition
  Guid="1cd6fd3b-3c25-4162-9e56-b3db1c1933ff"
 >(
-  SpeedAndDistanceMonitoring.DecelerationCurves.SBD_Target
+  Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.SBD_Target
   (
-    Distance =&gt; TrainPosition.FrontEndPosition(DistanceInterval.Nom),
-    aTarget =&gt; SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target
+    Distance =&gt; Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom),
+    aTarget =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target
     {
       Speed =&gt; 0.0,
       Location =&gt; aLX.Location
     }
   ) == BaseTypes.Speed.NA
   OR
-  SpeedAndDistanceMonitoring.DecelerationCurves.SBD_Target
+  Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.SBD_Target
   (
-    Distance =&gt; TrainPosition.FrontEndPosition(DistanceInterval.Nom),
-    aTarget =&gt; SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target
+    Distance =&gt; Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom),
+    aTarget =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target
     {
       Speed =&gt; 0.0,
       Location =&gt; aLX.Location
@@ -730,24 +730,24 @@ SpeedAndDistanceMonitoring.DecelerationCurves.EBD_Target
   ) &lt; aLX.Speed
 )
   AND
-SpeedAndDistanceMonitoring.DecelerationCurves.EBD_Target
+Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.EBD_Target
 (
-  Distance =&gt; (TrainPosition.FrontEndPosition(DistanceInterval.Max)),
-  aTarget =&gt; SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target
+  Distance =&gt; (Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Max)),
+  aTarget =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target
   {
     Speed =&gt; 0.0,
     Location =&gt; aLX.Location
   }
 ) &gt;= aLX.Speed</PreCondition></PreConditions>
-<Expression>(SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_P(
-    aTarget =&gt; SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target
+<Expression>(Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_P(
+    aTarget =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target
     {
       Speed =&gt; 0.0,
       Location =&gt; aLX.Location
     },
-    Vest =&gt; aLX.Speed + SpeedAndDistanceMonitoring.f41( V =&gt; aLX.Speed ),
+    Vest =&gt; aLX.Speed + Kernel.SpeedAndDistanceMonitoring.f41( V =&gt; aLX.Speed ),
     NoA_est =&gt; True 
-) &lt;= TrainPosition.FrontEndPosition(DistanceInterval.Max))</Expression>
+) &lt;= Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Max))</Expression>
 </Case><Case
  Name="EBD undefined, SBD defined"
  Guid="cdef8867-c7f0-4eb2-9299-adc7e8682e22"
@@ -755,34 +755,34 @@ SpeedAndDistanceMonitoring.DecelerationCurves.EBD_Target
 <PreConditions>
 <PreCondition
  Guid="6defd243-0751-4c79-a330-29ec47356a78"
->SpeedAndDistanceMonitoring.DecelerationCurves.SBD_Target(
-    Distance =&gt; TrainPosition.FrontEndPosition(DistanceInterval.Nom),
-    aTarget =&gt; SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT()
+>Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.SBD_Target(
+    Distance =&gt; Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom),
+    aTarget =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT()
 ) != BaseTypes.Speed.NA
   AND
-SpeedAndDistanceMonitoring.DecelerationCurves.SBD_Target(
-    Distance =&gt; TrainPosition.FrontEndPosition(DistanceInterval.Nom),
-    aTarget =&gt; SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT()
+Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.SBD_Target(
+    Distance =&gt; Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom),
+    aTarget =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT()
 ) &gt;= aLX.Speed
   AND
-SpeedAndDistanceMonitoring.DecelerationCurves.EBD_Target
+Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.EBD_Target
 (
-  Distance =&gt; (TrainPosition.FrontEndPosition(DistanceInterval.Nom)),
-  aTarget =&gt; SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target
+  Distance =&gt; (Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom)),
+  aTarget =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target
   {
     Speed =&gt; 0.0,
     Location =&gt; aLX.Location
   }
 ) &lt; aLX.Speed</PreCondition></PreConditions>
-<Expression>(SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_P(
-    aTarget =&gt; SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target
+<Expression>(Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_P(
+    aTarget =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target
     {
       Speed =&gt; 0.0,
       Location =&gt; aLX.Location
     },
-    Vest =&gt; aLX.Speed + SpeedAndDistanceMonitoring.f41( V =&gt; aLX.Speed ),
+    Vest =&gt; aLX.Speed + Kernel.SpeedAndDistanceMonitoring.f41( V =&gt; aLX.Speed ),
     NoA_est =&gt; True
-) &lt;= TrainPosition.FrontEndPosition(DistanceInterval.Max))</Expression>
+) &lt;= Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Max))</Expression>
 </Case><Case
  Name="Value for SBI1"
  Guid="f4052748-7c95-42d6-9f60-ff500bf55fd9"
@@ -790,29 +790,29 @@ SpeedAndDistanceMonitoring.DecelerationCurves.EBD_Target
 <PreConditions>
 <PreCondition
  Guid="88fcab7b-3381-463b-8e1b-a944094cd598"
->SBI1IsMostRestrictive( aLX )</PreCondition></PreConditions>
-<Expression>(SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_P(
-    aTarget =&gt; SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target
+>Kernel.LX.SBI1IsMostRestrictive( aLX )</PreCondition></PreConditions>
+<Expression>(Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_P(
+    aTarget =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target
     {
       Speed =&gt; 0.0,
       Location =&gt; aLX.Location
     },
-    Vest =&gt; aLX.Speed + SpeedAndDistanceMonitoring.f41( V =&gt; aLX.Speed ),
+    Vest =&gt; aLX.Speed + Kernel.SpeedAndDistanceMonitoring.f41( V =&gt; aLX.Speed ),
     NoA_est =&gt; True
-) &lt;= TrainPosition.FrontEndPosition(DistanceInterval.Nom))</Expression>
+) &lt;= Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom))</Expression>
 </Case><Case
  Name="Value for SBI2"
  Guid="c43828b7-0d92-4b13-8d55-8c4ef789fb76"
 >
-<Expression>(SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_P(
-    aTarget =&gt; SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target
+<Expression>(Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_P(
+    aTarget =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target
     {
       Speed =&gt; 0.0,
       Location =&gt; aLX.Location
     },
-    Vest =&gt; aLX.Speed + SpeedAndDistanceMonitoring.f41( V =&gt; aLX.Speed ),
+    Vest =&gt; aLX.Speed + Kernel.SpeedAndDistanceMonitoring.f41( V =&gt; aLX.Speed ),
     NoA_est =&gt; True
-) &lt;= TrainPosition.FrontEndPosition(DistanceInterval.Max))</Expression>
+) &lt;= Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Max))</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -848,10 +848,10 @@ SpeedAndDistanceMonitoring.DecelerationCurves.EBD_Target
  Name="Value"
  Guid="773759e4-0a94-4d5e-b184-a527d0ac9227"
 >
-<Expression>SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_SBI1_Target
+<Expression>Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_SBI1_Target
 (
   Vest =&gt; aLX.Speed,
-  aTarget =&gt; SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target
+  aTarget =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target
 {
     Location =&gt; aLX.Location,
     Speed =&gt; 0.0,
@@ -859,10 +859,10 @@ SpeedAndDistanceMonitoring.DecelerationCurves.EBD_Target
   }
 )
 &lt;
-SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_SBI2
+Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_SBI2
 (
   Vest =&gt; aLX.Speed,
-  aTarget =&gt; SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target
+  aTarget =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target
   {
     Location =&gt; aLX.Location,
     Speed =&gt; 0.0,
@@ -908,12 +908,12 @@ SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_SBI2
 <PreConditions>
 <PreCondition
  Guid="85a39cd2-0e93-44b6-86bb-795272712381"
->SpeedAndDistanceMonitoring.DecelerationCurves.SBD_Target(
-    Distance =&gt; TrainPosition.FrontEndPosition(DistanceInterval.Nom),
-    aTarget =&gt; SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT()
+>Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.SBD_Target(
+    Distance =&gt; Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom),
+    aTarget =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT()
 ) != BaseTypes.Speed.NA
   AND
-SBI1IsMostRestrictive( aLX =&gt; aLX )</PreCondition></PreConditions>
+Kernel.LX.SBI1IsMostRestrictive( aLX =&gt; aLX )</PreCondition></PreConditions>
 <Expression>DistanceInterval.Nom</Expression>
 </Case><Case
  Name="Maximal"
@@ -976,7 +976,7 @@ SBI1IsMostRestrictive( aLX =&gt; aLX )</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="c45454d0-a5f2-4a6d-ad2e-bfc59ec32279"
->THERE_IS X IN SupervisedLevelCrossings | X.Id == Packet.NID_LX</PreCondition></PreConditions>
+>THERE_IS X IN Kernel.LX.SupervisedLevelCrossings | X.Id == Packet.NID_LX</PreCondition></PreConditions>
 <Actions>
 </Actions>
 <SubRules>
@@ -1003,7 +1003,7 @@ SBI1IsMostRestrictive( aLX =&gt; aLX )</PreCondition></PreConditions>
 <Action
  Guid="1fbdbe23-78ce-493f-b852-1d0303540840"
 >INSERT
-LevelCrossingStruct
+Kernel.LX.LevelCrossingStruct
 {
     Id =&gt; Packet.NID_LX,
     Location =&gt; MessageTypes.QScaleDistance ( distance =&gt; Packet.D_LX, scale =&gt; Packet.Q_SCALE ),
@@ -1013,7 +1013,7 @@ LevelCrossingStruct
     StoppingRequired =&gt; StoppingRequiredToBoolean ( StoppingRequired =&gt; Packet.Q_STOPLX ),
     StoppingAreaLength =&gt; MessageTypes.QScaleLength ( length =&gt; Packet.L_STOPLX, scale =&gt; Packet.Q_SCALE )
 }
-IN MRSPLevelCrossings</Action><Action
+IN Kernel.LX.MRSPLevelCrossings</Action><Action
  Guid="dc0079cd-e16f-4525-ae95-28ed68abafe9"
 >REMOVE FIRST X.Id == Packet.NID_LX IN SupervisedLevelCrossings</Action></Actions>
 </RuleCondition><RuleCondition
@@ -1027,7 +1027,7 @@ IN MRSPLevelCrossings</Action><Action
 <Actions>
 <Action
  Guid="c3074af9-ea7f-46b8-a94a-efca00745de7"
->SupervisedLevelCrossings &lt;- MAP SupervisedLevelCrossings USING X IN UpdateLevelCrossing(aLevelCrossing=&gt;X, Packet=&gt;Packet, NID_BG=&gt;NID_BG)</Action></Actions>
+>Kernel.LX.SupervisedLevelCrossings &lt;- MAP Kernel.LX.SupervisedLevelCrossings USING X IN Kernel.LX.UpdateLevelCrossing(aLevelCrossing=&gt;X, Packet=&gt;Packet, NID_BG=&gt;NID_BG)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition><RuleCondition
@@ -1044,7 +1044,7 @@ IN MRSPLevelCrossings</Action><Action
 <PreConditions>
 <PreCondition
  Guid="7a63adce-3da5-400c-b4f0-8013eada12aa"
->THERE_IS X IN MRSPLevelCrossings | X.Id == Packet.NID_LX</PreCondition></PreConditions>
+>THERE_IS X IN Kernel.LX.MRSPLevelCrossings | X.Id == Packet.NID_LX</PreCondition></PreConditions>
 <Actions>
 </Actions>
 <SubRules>
@@ -1070,7 +1070,7 @@ IN MRSPLevelCrossings</Action><Action
 <Actions>
 <Action
  Guid="a7834952-fe89-46a7-9f11-2a5ab98555b6"
->MRSPLevelCrossings &lt;- MAP MRSPLevelCrossings USING X IN UpdateLevelCrossing(aLevelCrossing=&gt;X, Packet=&gt;Packet, NID_BG=&gt;NID_BG)</Action></Actions>
+>Kernel.LX.MRSPLevelCrossings &lt;- MAP Kernel.LX.MRSPLevelCrossings USING X IN Kernel.LX.UpdateLevelCrossing(aLevelCrossing=&gt;X, Packet=&gt;Packet, NID_BG=&gt;NID_BG)</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Non protected"
@@ -1083,7 +1083,7 @@ IN MRSPLevelCrossings</Action><Action
 <Action
  Guid="d82b35d5-7000-4fb9-9fda-9cb95ca822f4"
 >INSERT
-LevelCrossingStruct
+Kernel.LX.LevelCrossingStruct
 {
     Id =&gt; Packet.NID_LX,
     Location =&gt; MessageTypes.QScaleDistance ( distance =&gt; Packet.D_LX, scale =&gt; Packet.Q_SCALE ),
@@ -1093,7 +1093,7 @@ LevelCrossingStruct
     StoppingRequired =&gt; StoppingRequiredToBoolean ( StoppingRequired =&gt; Packet.Q_STOPLX ),
     StoppingAreaLength =&gt; MessageTypes.QScaleLength ( length =&gt; Packet.L_STOPLX, scale =&gt; Packet.Q_SCALE )
 }
-IN SupervisedLevelCrossings</Action><Action
+IN Kernel.LX.SupervisedLevelCrossings</Action><Action
  Guid="7d717cf9-f377-4173-a517-d07732e898dc"
 >REMOVE FIRST X.Id == Packet.NID_LX IN MRSPLevelCrossings</Action></Actions>
 </RuleCondition></Conditions>
@@ -1137,7 +1137,7 @@ IN SupervisedLevelCrossings</Action><Action
 <Action
  Guid="31f55fb6-5217-49b5-8a68-ba5ad5434dfa"
 >INSERT
-LevelCrossingStruct
+Kernel.LX.LevelCrossingStruct
 {
     Id =&gt; Packet.NID_LX,
     Location =&gt; MessageTypes.QScaleDistance ( distance =&gt; Packet.D_LX, scale =&gt; Packet.Q_SCALE ),
@@ -1147,7 +1147,7 @@ LevelCrossingStruct
     StoppingRequired =&gt; StoppingRequiredToBoolean ( StoppingRequired =&gt; Packet.Q_STOPLX ),
     StoppingAreaLength =&gt; MessageTypes.QScaleLength ( length =&gt; Packet.L_STOPLX, scale =&gt; Packet.Q_SCALE )
 }
-IN MRSPLevelCrossings</Action></Actions>
+IN Kernel.LX.MRSPLevelCrossings</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="New level crossing, not protected"
@@ -1185,7 +1185,7 @@ IN MRSPLevelCrossings</Action></Actions>
 <Action
  Guid="dfcc7301-9185-4609-a9f4-c8af81ea6994"
 >INSERT
-LevelCrossingStruct
+Kernel.LX.LevelCrossingStruct
 {
     Id =&gt; Packet.NID_LX,
     Location =&gt; MessageTypes.QScaleDistance ( distance =&gt; Packet.D_LX, scale =&gt; Packet.Q_SCALE ),
@@ -1195,7 +1195,7 @@ LevelCrossingStruct
     StoppingRequired =&gt; StoppingRequiredToBoolean ( StoppingRequired =&gt; Packet.Q_STOPLX ),
     StoppingAreaLength =&gt; MessageTypes.QScaleLength ( length =&gt; Packet.L_STOPLX, scale =&gt; Packet.Q_SCALE )
 }
-IN SupervisedLevelCrossings</Action></Actions>
+IN Kernel.LX.SupervisedLevelCrossings</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -1216,7 +1216,7 @@ IN SupervisedLevelCrossings</Action></Actions>
 <Actions>
 <Action
  Guid="d9c2cf57-ba18-43cc-ab38-915aa3358707"
->HandleLXSupervision()</Action></Actions>
+>Kernel.LX.HandleLXSupervision()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -1286,13 +1286,13 @@ IN SupervisedLevelCrossings</Action></Actions>
 <Action
  Guid="0bd1f278-88d4-4261-9636-ebf3cde0a1c9"
 >APPLY
-  InsertSupervisedLXToMRSPLX
+  Kernel.LX.InsertSupervisedLXToMRSPLX
  (
     NID_LX =&gt; X.Id,
-    LocationUpdate =&gt; X.Location - TrainPosition.FrontEndPosition( PointOfInterest =&gt; DistanceInterval.Nom )
+    LocationUpdate =&gt; X.Location - Kernel.TrainPosition.FrontEndPosition( PointOfInterest =&gt; DistanceInterval.Nom )
   )
 ON
-  SupervisedLevelCrossings | StoppingConditionSatisfied ( aLX =&gt; X )</Action></Actions>
+  Kernel.LX.SupervisedLevelCrossings | Kernel.LX.StoppingConditionSatisfied ( aLX =&gt; X )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -1379,13 +1379,13 @@ IN
 <Action
  Guid="89d605ca-5bf3-4a64-841f-19880fc67f04"
 >APPLY
-  InsertSupervisedLXToMRSPLX
+  Kernel.LX.InsertSupervisedLXToMRSPLX
  (
     NID_LX =&gt; X.Id,
-    LocationUpdate =&gt; X.Location - TrainPosition.FrontEndPosition( PointOfInterest =&gt; SelectFrontEnd ( X ) )
+    LocationUpdate =&gt; X.Location - Kernel.TrainPosition.FrontEndPosition( PointOfInterest =&gt; Kernel.LX.SelectFrontEnd ( X ) )
   )
 ON
-  SupervisedLevelCrossings | NonStoppingConditionSatisfied ( aLX =&gt; X )</Action></Actions>
+  Kernel.LX.SupervisedLevelCrossings | Kernel.LX.NonStoppingConditionSatisfied ( aLX =&gt; X )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -1464,12 +1464,12 @@ IN
 <PreConditions>
 <PreCondition
  Guid="eaef430f-2f10-4ea6-8db4-095d06766d1b"
->THERE_IS aLX IN SupervisedLevelCrossings | aLX.Id == NID_LX</PreCondition></PreConditions>
+>THERE_IS aLX IN Kernel.LX.SupervisedLevelCrossings | aLX.Id == NID_LX</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="eb2e5f8d-1a10-4776-860b-c55594b295e2"
 >INSERT
-  LevelCrossingStruct
+  Kernel.LX.LevelCrossingStruct
   {
     Id =&gt; NID_LX,
     Location =&gt; (FIRST aLX IN SupervisedLevelCrossings | aLX.Id == NID_LX).Location,
@@ -1480,7 +1480,7 @@ IN
     StoppingAreaLength =&gt; (FIRST aLX IN SupervisedLevelCrossings | aLX.Id == NID_LX).StoppingAreaLength
   }
 IN
-  MRSPLevelCrossings</Action></Actions>
+  Kernel.LX.MRSPLevelCrossings</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -1501,9 +1501,9 @@ IN
 <Actions>
 <Action
  Guid="89479101-922e-400c-a1f9-f1a786a9fb4a"
->(FIRST aLX IN MRSPLevelCrossings | aLX.Id == NID_LX).Location &lt;- (FIRST aLX IN MRSPLevelCrossings | aLX.Id == NID_LX).Location - LocationUpdate</Action><Action
+>(FIRST aLX IN Kernel.LX.MRSPLevelCrossings | aLX.Id == NID_LX).Location &lt;- (FIRST aLX IN Kernel.LX.MRSPLevelCrossings | aLX.Id == NID_LX).Location - LocationUpdate</Action><Action
  Guid="eaeb6921-d9a0-4958-91f2-a984b2a8ea0a"
->(FIRST aLX IN MRSPLevelCrossings | aLX.Id == NID_LX).Length &lt;-(FIRST aLX IN MRSPLevelCrossings | aLX.Id == NID_LX).Length + LocationUpdate</Action></Actions>
+>(FIRST aLX IN Kernel.LX.MRSPLevelCrossings | aLX.Id == NID_LX).Length &lt;-(FIRST aLX IN Kernel.LX.MRSPLevelCrossings | aLX.Id == NID_LX).Length + LocationUpdate</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -1635,13 +1635,13 @@ IN
 <PreConditions>
 <PreCondition
  Guid="844caf83-5600-405c-a667-ab3aeb77a763"
->SupervisedLevelCrossings != []
+>Kernel.LX.SupervisedLevelCrossings != []
 
   AND  
 
-SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT().Location == NearestLX( LXCollection =&gt; SupervisedLevelCrossings).Location
+Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT().Location == Kernel.LX.NearestLX( LXCollection =&gt; Kernel.LX.SupervisedLevelCrossings).Location
   AND  
-SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT().Speed == 0.0</PreCondition><PreCondition
+Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT().Speed == 0.0</PreCondition><PreCondition
  Guid="be2849b2-d98c-45ab-95e8-0e4ecae4735a"
 >NOT DMI.MasterDMI().Out_LXStatusNotProtected.OutputInformation.DisplayRequested</PreCondition><PreCondition
  Guid="caa6693a-447c-49de-97ec-4021fea274e1"
@@ -1673,8 +1673,8 @@ SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT().Speed == 0.0</PreConditi
  Guid="59536c72-3242-4ff5-b2ee-668c56877ea9"
 >DMI.MasterDMI().Out_LXStatusNotProtected.OutputInformation.DisplayRequested == True</PreCondition><PreCondition
  Guid="570cd62d-e6c3-4bf4-98a5-66f73c5b5f58"
->THERE_IS aLX IN MRSPLevelCrossings |
-  aLX.Location + aLX.Length &lt;= TrainPosition.FrontEndPosition( PointOfInterest =&gt; DistanceInterval.Min )</PreCondition></PreConditions>
+>THERE_IS aLX IN Kernel.LX.MRSPLevelCrossings |
+  aLX.Location + aLX.Length &lt;= Kernel.TrainPosition.FrontEndPosition( PointOfInterest =&gt; DistanceInterval.Min )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="01f88f62-b0ed-4467-aec6-1f4c3123d7a9"
@@ -1700,7 +1700,7 @@ SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT().Speed == 0.0</PreConditi
  Guid="7a8cb1c6-907a-4bc5-8e82-8f6cdd5f8664"
 >DMI.MasterDMI().Out_LXStatusNotProtected.OutputInformation.DisplayRequested == True</PreCondition><PreCondition
  Guid="0bb08515-f6b7-4264-8561-d8984d21ec31"
->NearestLX( LXCollection =&gt; MRSPLevelCrossings ).IsProtected</PreCondition></PreConditions>
+>Kernel.LX.NearestLX( LXCollection =&gt; Kernel.LX.MRSPLevelCrossings ).IsProtected</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="24be345a-d6c9-4ee9-b037-c1b1dc08b714"
@@ -1735,7 +1735,7 @@ SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT().Speed == 0.0</PreConditi
 <Actions>
 <Action
  Guid="c577c561-ea45-4542-9440-ef3027ee9a1b"
->HandleLXSupervision()</Action></Actions>
+>Kernel.LX.HandleLXSupervision()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </NameSpace>

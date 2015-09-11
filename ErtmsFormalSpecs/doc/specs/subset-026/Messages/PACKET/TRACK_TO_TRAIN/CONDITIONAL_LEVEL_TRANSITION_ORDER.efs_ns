@@ -10,7 +10,6 @@
 </NameSpaces>
 <Structures>
 <Structure
- Default=""
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -29,7 +28,7 @@
 >
 </ReqRef><Comment>Packet for a conditional level transition. The successive M_LEVELTR&apos;s go from the highest priority level to the lowest one.</Comment>
 <StructureElement
- TypeName="Messages.NID_PACKET"
+ TypeName="NID_PACKET"
  Default="46"
  Mode="InOut"
  Implemented="TRUE"
@@ -42,7 +41,7 @@
  Guid="ed4cac38-651e-4d97-82c0-ccf7afeba1b2"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="Messages.Q_DIR"
+ TypeName="Q_DIR"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -68,7 +67,7 @@
  Guid="74b28022-8675-4609-bf55-8101798c6a20"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="Messages.M_LEVELTR"
+ TypeName="M_LEVELTR"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -81,7 +80,7 @@
  Guid="f7925580-6e04-46d4-bc0f-8267faf15c9d"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="Messages.NID_NTC"
+ TypeName="NID_NTC"
  Default="0"
  Mode="InOut"
  Implemented="TRUE"
@@ -89,7 +88,7 @@
  Guid="e4625a45-cbe9-4e5b-8b57-e8b024f8f211"
 >
 </StructureElement><StructureElement
- TypeName="Messages.N_ITER"
+ TypeName="N_ITER"
  Default="0"
  Mode="InOut"
  Implemented="TRUE"
@@ -115,7 +114,6 @@
  Guid="c730f9c9-13ac-4f0e-8bc7-c515357aadea"
 >
 </ReqRef></StructureElement></Structure><Structure
- Default=""
  X="110"
  Width="100"
  Height="50"
@@ -129,7 +127,7 @@
  Guid="89537083-6005-4aa5-a0ec-c81a9ee69ea9"
 >
 </ReqRef><StructureElement
- TypeName="Messages.M_LEVELTR"
+ TypeName="M_LEVELTR"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -142,7 +140,7 @@
  Guid="c77d83a0-0d1b-4e23-af5e-6839c5ce5b5f"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="Messages.NID_NTC"
+ TypeName="NID_NTC"
  Default="0"
  Mode="InOut"
  Implemented="TRUE"
@@ -170,14 +168,13 @@
 <Functions>
 <Function
  Type="Boolean"
- Default=""
  Name="MessageValuesCorrect"
  Guid="0b39cfc8-1088-44e0-a8ee-90c487ff43f0"
 >
 <Comment>Checks the values in a structure of type CONDITIONAL_LEVEL_TRANSITION_ORDER.Message</Comment>
 <Parameters>
 <Parameter
- Type="Message"
+ Type="CONDITIONAL_LEVEL_TRANSITION_ORDER.Message"
  Name="struct"
  Guid="1bb48c1b-a6cf-42f7-b873-1827e3461290"
 >
@@ -271,7 +268,7 @@ struct.M_LEVELTR &gt; 7</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="a0ee70b5-75dd-421d-9de5-a4516112edf9"
->THERE_IS X IN struct.Sequence1 | NOT SubStructure1ValuesCorrect(X)</PreCondition></PreConditions>
+>THERE_IS X IN struct.Sequence1 | NOT Messages.PACKET.TRACK_TO_TRAIN.CONDITIONAL_LEVEL_TRANSITION_ORDER.SubStructure1ValuesCorrect(X)</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
  Name="Otherwise"
@@ -281,14 +278,13 @@ struct.M_LEVELTR &gt; 7</PreCondition></PreConditions>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
- Default=""
  Name="SubStructure1ValuesCorrect"
  Guid="f02904e0-e8eb-4b9e-ab20-c5158d758d25"
 >
 <Comment>Checks the values in a structure of type CONDITIONAL_LEVEL_TRANSITION_ORDER.SubStructure1</Comment>
 <Parameters>
 <Parameter
- Type="SubStructure1"
+ Type="CONDITIONAL_LEVEL_TRANSITION_ORDER.SubStructure1"
  Name="struct"
  Guid="0aabf373-f354-4598-996a-3f267e297add"
 >

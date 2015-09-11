@@ -10,7 +10,10 @@
 </NameSpaces>
 <Structures>
 <Structure
- Default=""
+ X="111"
+ Y="1"
+ Width="100"
+ Height="50"
  Implemented="TRUE"
  Name="Message"
  Guid="17a7bfaa-65a8-4492-9ee6-9a9b70353370"
@@ -27,7 +30,7 @@
 >
 </ReqRef><Comment>This packet gives the speed restrictions for trains with axle load category higher than or equal to the specified value for the speed restriction</Comment>
 <StructureElement
- TypeName="Messages.NID_PACKET"
+ TypeName="NID_PACKET"
  Default="51"
  Mode="InOut"
  Implemented="TRUE"
@@ -40,7 +43,7 @@
  Guid="4e615362-8ccd-4a04-bf57-70fa722af803"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="Messages.Q_DIR"
+ TypeName="Q_DIR"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -66,7 +69,7 @@
  Guid="1d3a2584-8cf8-46d3-b131-bf6721219a23"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="Messages.Q_SCALE"
+ TypeName="Q_SCALE"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -79,7 +82,7 @@
  Guid="0543a46e-f1bc-4e75-becb-637e41129134"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="Messages.Q_TRACKINIT"
+ TypeName="Q_TRACKINIT"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -108,7 +111,7 @@
  Guid="776fe45b-e4f7-47ec-9071-9b4bafefe809"
 >
 </StructureElement><StructureElement
- TypeName="Messages.Q_FRONT"
+ TypeName="Q_FRONT"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -156,7 +159,10 @@
  Guid="900d2583-46d4-405d-9ebe-c09c3ba1ee32"
 >
 </StructureElement></Structure><Structure
- Default=""
+ X="221"
+ Y="1"
+ Width="100"
+ Height="50"
  Implemented="TRUE"
  Name="SubStructure1"
  Guid="38ea6ee1-9605-482f-9591-7f1f39ca49c9"
@@ -167,7 +173,7 @@
  Guid="2a23d09e-a3da-4bec-9fd2-051208c7d134"
 >
 </ReqRef><StructureElement
- TypeName="Messages.M_AXLELOADCAT"
+ TypeName="M_AXLELOADCAT"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -183,7 +189,10 @@
  Guid="a140a17a-fe1e-4893-a70f-51bf93a939ea"
 >
 </StructureElement></Structure><Structure
- Default=""
+ X="331"
+ Y="1"
+ Width="100"
+ Height="50"
  Implemented="TRUE"
  Name="SubStructure2"
  Guid="f92651ac-bbfa-4988-935c-53e635e45cf5"
@@ -210,7 +219,7 @@
  Guid="930d50a8-6c4d-4cba-97df-1575155c1e63"
 >
 </StructureElement><StructureElement
- TypeName="Messages.Q_FRONT"
+ TypeName="Q_FRONT"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -218,7 +227,7 @@
  Guid="0fd9ffcc-e317-4bda-80c4-7144c0dc1eac"
 >
 </StructureElement><StructureElement
- TypeName="Messages.N_ITER"
+ TypeName="N_ITER"
  Default="0"
  Mode="InOut"
  Implemented="TRUE"
@@ -234,7 +243,10 @@
  Guid="d2cdc15a-49f2-4ebc-8ca5-74ac2c2a2d1f"
 >
 </StructureElement></Structure><Structure
- Default=""
+ X="441"
+ Y="1"
+ Width="100"
+ Height="50"
  Implemented="TRUE"
  Name="SubStructure3"
  Guid="e965cd14-534f-4b2f-9774-e80c2c6100b6"
@@ -245,7 +257,7 @@
  Guid="14585d5b-2c11-49ab-b651-2166081b3e58"
 >
 </ReqRef><StructureElement
- TypeName="Messages.M_AXLELOADCAT"
+ TypeName="M_AXLELOADCAT"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -265,6 +277,10 @@
 <Collection
  TypeName="SubStructure1"
  Default="[]"
+ X="551"
+ Y="1"
+ Width="100"
+ Height="50"
  Implemented="TRUE"
  Name="Collection1"
  Guid="7bb30d44-a057-4d10-8f9b-041302d4743c"
@@ -277,6 +293,10 @@
 </ReqRef></Collection><Collection
  TypeName="SubStructure3"
  Default="[]"
+ X="661"
+ Y="1"
+ Width="100"
+ Height="50"
  Implemented="TRUE"
  Name="Collection2"
  Guid="bf4402ee-b41c-4bec-a174-adde1fbb16af"
@@ -289,6 +309,10 @@
 </ReqRef></Collection><Collection
  TypeName="SubStructure2"
  Default="[]"
+ X="771"
+ Y="1"
+ Width="100"
+ Height="50"
  Implemented="TRUE"
  Name="Collection3"
  Guid="eaddc754-d2a1-4bf0-a5f7-b1a0f7f79521"
@@ -302,14 +326,13 @@
 <Functions>
 <Function
  Type="Boolean"
- Default=""
  Name="MessageValuesCorrect"
  Guid="caf0a859-80ef-407b-b895-51f5bf1d8a5b"
 >
 <Comment>Checks the values in a structure of type AXLE_LOAD_SPEED_PROFILE.Message</Comment>
 <Parameters>
 <Parameter
- Type="Message"
+ Type="AXLE_LOAD_SPEED_PROFILE.Message"
  Name="struct"
  Guid="3ef8c7f2-ce37-4e25-9514-76538984c398"
 >
@@ -423,7 +446,7 @@
 <PreConditions>
 <PreCondition
  Guid="18cc0011-ae56-42e9-8209-e430f1225707"
->THERE_IS X IN struct.Sequence1 | NOT SubStructure1ValuesCorrect(X)</PreCondition></PreConditions>
+>THERE_IS X IN struct.Sequence1 | NOT Messages.PACKET.TRACK_TO_TRAIN.AXLE_LOAD_SPEED_PROFILE.SubStructure1ValuesCorrect(X)</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
  Name="Sequence3 invalid"
@@ -432,7 +455,7 @@
 <PreConditions>
 <PreCondition
  Guid="4b328fd3-f2ac-4994-a231-2b0b135bef9e"
->THERE_IS X IN struct.Sequence3 | NOT SubStructure2ValuesCorrect(X)</PreCondition></PreConditions>
+>THERE_IS X IN struct.Sequence3 | NOT Messages.PACKET.TRACK_TO_TRAIN.AXLE_LOAD_SPEED_PROFILE.SubStructure2ValuesCorrect(X)</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
  Name="struct.D_TRACKINIT invalid"
@@ -453,14 +476,13 @@
 </Case></Cases>
 </Function><Function
  Type="Boolean"
- Default=""
  Name="SubStructure1ValuesCorrect"
  Guid="0c59fd35-973e-441f-b339-f2c2f4dffd10"
 >
 <Comment>Checks the values in a structure of type AXLE_LOAD_SPEED_PROFILE.SubStructure1</Comment>
 <Parameters>
 <Parameter
- Type="SubStructure1"
+ Type="AXLE_LOAD_SPEED_PROFILE.SubStructure1"
  Name="struct"
  Guid="55cd494a-a5b4-4f35-9d6d-fa36a2c04d8b"
 >
@@ -509,14 +531,13 @@ struct.M_AXLELOADCAT &gt; 127</PreCondition></PreConditions>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
- Default=""
  Name="SubStructure2ValuesCorrect"
  Guid="e3295953-91e1-4774-98de-d3cd0e1dbd00"
 >
 <Comment>Checks the values in a structure of type AXLE_LOAD_SPEED_PROFILE.SubStructure2</Comment>
 <Parameters>
 <Parameter
- Type="SubStructure2"
+ Type="AXLE_LOAD_SPEED_PROFILE.SubStructure2"
  Name="struct"
  Guid="92d4f0cb-c734-4468-9b8e-fe27840c510d"
 >
@@ -582,7 +603,7 @@ struct.M_AXLELOADCAT &gt; 127</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="20b6156f-78cd-46e6-992e-2ff59f161cfe"
->THERE_IS X IN struct.Sequence2 | NOT SubStructure3ValuesCorrect(X)</PreCondition></PreConditions>
+>THERE_IS X IN struct.Sequence2 | NOT Messages.PACKET.TRACK_TO_TRAIN.AXLE_LOAD_SPEED_PROFILE.SubStructure3ValuesCorrect(X)</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
  Name="Otherwise"
@@ -592,14 +613,13 @@ struct.M_AXLELOADCAT &gt; 127</PreCondition></PreConditions>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
- Default=""
  Name="SubStructure3ValuesCorrect"
  Guid="bc0c48b4-fc05-4aaf-a0fe-f5fa4d5e1792"
 >
 <Comment>Checks the values in a structure of type AXLE_LOAD_SPEED_PROFILE.SubStructure3</Comment>
 <Parameters>
 <Parameter
- Type="SubStructure3"
+ Type="AXLE_LOAD_SPEED_PROFILE.SubStructure3"
  Name="struct"
  Guid="b3987e2e-ec63-4cab-a358-30fe002a0973"
 >

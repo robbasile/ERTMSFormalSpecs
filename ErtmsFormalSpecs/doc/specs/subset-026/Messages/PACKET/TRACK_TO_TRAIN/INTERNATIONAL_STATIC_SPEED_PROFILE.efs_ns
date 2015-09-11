@@ -10,7 +10,6 @@
 </NameSpaces>
 <Structures>
 <Structure
- Default=""
  Implemented="TRUE"
  Name="Message"
  Guid="b1e14333-cf07-4692-8ea6-ed4e16d9eb81"
@@ -27,7 +26,7 @@
 >
 </ReqRef><Comment>Static speed profile and optionally speed limits depending on the international train category.</Comment>
 <StructureElement
- TypeName="Messages.NID_PACKET"
+ TypeName="NID_PACKET"
  Default="27"
  Mode="InOut"
  Implemented="TRUE"
@@ -40,7 +39,7 @@
  Guid="a8903412-be65-4794-ac03-c2a524e2695c"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="Messages.Q_DIR"
+ TypeName="Q_DIR"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -66,7 +65,7 @@
  Guid="8cd0972e-8ebf-424c-a034-4b1844626063"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="Messages.Q_SCALE"
+ TypeName="Q_SCALE"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -105,7 +104,7 @@
  Guid="16f0b4ac-a552-4f3a-a7ca-99613de85401"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="Messages.Q_FRONT"
+ TypeName="Q_FRONT"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -170,7 +169,6 @@
  Guid="fd554cf2-fbb4-49bc-83b0-4fd325b208ce"
 >
 </ReqRef></StructureElement></Structure><Structure
- Default=""
  Implemented="TRUE"
  Name="SubStructure1"
  Guid="3bf4a27c-6083-4575-b10a-302b6076fd2d"
@@ -181,7 +179,7 @@
  Guid="b0bb4395-fe0e-42c8-b6a2-617cba97ca79"
 >
 </ReqRef><StructureElement
- TypeName="Messages.Q_DIFF"
+ TypeName="Q_DIFF"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -194,7 +192,7 @@
  Guid="0ae2de0b-0898-4274-ad3f-48b765be58dd"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="Messages.NC_CDDIFF"
+ TypeName="NC_CDDIFF"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -202,7 +200,7 @@
  Guid="34c2dec0-d5b8-45f7-a655-42e04e11ec3c"
 >
 </StructureElement><StructureElement
- TypeName="Messages.NC_DIFF"
+ TypeName="NC_DIFF"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -223,7 +221,6 @@
  Guid="3c92b0f0-62f1-43e0-acaf-7dbccc824e77"
 >
 </ReqRef></StructureElement></Structure><Structure
- Default=""
  Implemented="TRUE"
  Name="SubStructure2"
  Guid="a4a1983b-7cdf-4f20-a5db-11b1e16e70e8"
@@ -260,7 +257,7 @@
  Guid="1dcf2f30-a86a-43b0-be53-2cdd9866d8c1"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="Messages.Q_FRONT"
+ TypeName="Q_FRONT"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -273,7 +270,7 @@
  Guid="2f6507b9-987e-4eaa-a783-ece7c870190b"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="Messages.N_ITER"
+ TypeName="N_ITER"
  Default="0"
  Mode="InOut"
  Implemented="TRUE"
@@ -299,7 +296,6 @@
  Guid="a14045f5-5c97-4a5a-916f-a85cf3514f44"
 >
 </ReqRef></StructureElement></Structure><Structure
- Default=""
  Implemented="TRUE"
  Name="SubStructure3"
  Guid="b63d8d5f-6577-4433-bdd1-7da222ed249d"
@@ -310,7 +306,7 @@
  Guid="757e4814-243a-42b8-97ba-4dd57d1ba5e9"
 >
 </ReqRef><StructureElement
- TypeName="Messages.Q_DIFF"
+ TypeName="Q_DIFF"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -323,7 +319,7 @@
  Guid="8c0975fb-5d61-437a-bff3-4d63a570782f"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="Messages.NC_CDDIFF"
+ TypeName="NC_CDDIFF"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -331,7 +327,7 @@
  Guid="85aaf5c8-8399-4676-81e3-87a811db5fe5"
 >
 </StructureElement><StructureElement
- TypeName="Messages.NC_DIFF"
+ TypeName="NC_DIFF"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -393,14 +389,13 @@
 <Functions>
 <Function
  Type="Boolean"
- Default=""
  Name="MessageValuesCorrect"
  Guid="171d6e14-82a2-4e91-aefd-469f036faa30"
 >
 <Comment>Checks the values in a structure of type INTERNATIONAL_STATIC_SPEED_PROFILE.Message</Comment>
 <Parameters>
 <Parameter
- Type="Message"
+ Type="INTERNATIONAL_STATIC_SPEED_PROFILE.Message"
  Name="struct"
  Guid="8e1aef35-63b9-459a-9a2a-a9765ef58f0b"
 >
@@ -507,7 +502,7 @@ struct.V_STATIC &gt; 126</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="134739d5-e0d5-4679-8a45-88250596c139"
->THERE_IS X IN struct.Sequence1 | NOT SubStructure1ValuesCorrect(X)</PreCondition></PreConditions>
+>THERE_IS X IN struct.Sequence1 | NOT Messages.PACKET.TRACK_TO_TRAIN.INTERNATIONAL_STATIC_SPEED_PROFILE.SubStructure1ValuesCorrect(X)</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
  Name="Sequence3 invalid"
@@ -516,7 +511,7 @@ struct.V_STATIC &gt; 126</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="6d4aec6c-a556-42ef-967e-9b4bf0eb5e9c"
->THERE_IS X IN struct.Sequence3 | NOT SubStructure2ValuesCorrect(X)</PreCondition></PreConditions>
+>THERE_IS X IN struct.Sequence3 | NOT Messages.PACKET.TRACK_TO_TRAIN.INTERNATIONAL_STATIC_SPEED_PROFILE.SubStructure2ValuesCorrect(X)</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
  Name="Otherwise"
@@ -526,14 +521,13 @@ struct.V_STATIC &gt; 126</PreCondition></PreConditions>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
- Default=""
  Name="SubStructure1ValuesCorrect"
  Guid="de61806f-6d5f-46d6-b89e-2850fca9880f"
 >
 <Comment>Checks the values in a structure of type INTERNATIONAL_STATIC_SPEED_PROFILE.SubStructure1</Comment>
 <Parameters>
 <Parameter
- Type="SubStructure1"
+ Type="INTERNATIONAL_STATIC_SPEED_PROFILE.SubStructure1"
  Name="struct"
  Guid="35be4f05-6dd0-422c-9feb-aee75fd6c3af"
 >
@@ -608,14 +602,13 @@ struct.NC_DIFF &gt; 15</PreCondition></PreConditions>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
- Default=""
  Name="SubStructure2ValuesCorrect"
  Guid="202314a6-a7a6-4302-8adf-48f4a45b7b8f"
 >
 <Comment>Checks the values in a structure of type INTERNATIONAL_STATIC_SPEED_PROFILE.SubStructure2</Comment>
 <Parameters>
 <Parameter
- Type="SubStructure2"
+ Type="INTERNATIONAL_STATIC_SPEED_PROFILE.SubStructure2"
  Name="struct"
  Guid="fa5a0730-1b71-4e8f-ac7b-3ca4b0d46272"
 >
@@ -685,7 +678,7 @@ struct.V_STATIC &gt; 126</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="075a5642-3589-4b79-9c53-3eb8d8ba2a9e"
->THERE_IS X IN struct.Sequence2 | NOT SubStructure3ValuesCorrect(X)</PreCondition></PreConditions>
+>THERE_IS X IN struct.Sequence2 | NOT Messages.PACKET.TRACK_TO_TRAIN.INTERNATIONAL_STATIC_SPEED_PROFILE.SubStructure3ValuesCorrect(X)</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
  Name="Otherwise"
@@ -695,14 +688,13 @@ struct.V_STATIC &gt; 126</PreCondition></PreConditions>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
- Default=""
  Name="SubStructure3ValuesCorrect"
  Guid="646f165b-3c93-4006-8c98-ab6de3da9509"
 >
 <Comment>Checks the values in a structure of type INTERNATIONAL_STATIC_SPEED_PROFILE.SubStructure3</Comment>
 <Parameters>
 <Parameter
- Type="SubStructure3"
+ Type="INTERNATIONAL_STATIC_SPEED_PROFILE.SubStructure3"
  Name="struct"
  Guid="9b87d747-3b98-408a-980a-a59ea41d5d0e"
 >

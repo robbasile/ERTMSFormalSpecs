@@ -73,22 +73,22 @@
 <PreConditions>
 <PreCondition
  Guid="65e4ee15-8de3-4280-ab44-b313f03991f9"
->DecelerationCurves.EBD_Target(
-    Distance =&gt; TrainPosition.FrontEndPosition(DistanceInterval.Nom),
+>Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.EBD_Target(
+    Distance =&gt; Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom),
     aTarget =&gt; aTarget
-) &lt; MRSP.SpeedRestrictions(TrainPosition.FrontEndPosition(DistanceInterval.Nom))</PreCondition></PreConditions>
+) &lt; Kernel.MRSP.SpeedRestrictions(Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom))</PreCondition></PreConditions>
 <Expression>BaseTypes.Distance.Unknown</Expression>
 </Case><Case
  Name="Value"
  Guid="87bc3884-bbcf-40e7-891f-a35b2baa7c00"
 >
 <Comment>Standard case</Comment>
-<Expression>DecelerationCurves.EBD_TargetForSpeed(
+<Expression>Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.EBD_TargetForSpeed(
     Vest =&gt; Vmrsp,
     aTarget =&gt; aTarget,
     NoA_est =&gt; True )
 
- - BaseTypes.SpeedToMS( Vmrsp + f41 ( Vmrsp ) ) * ( T_beremind() + T_tractionind() )</Expression>
+ - BaseTypes.SpeedToMS( Vmrsp + Kernel.SpeedAndDistanceMonitoring.f41 ( Vmrsp ) ) * ( Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.T_beremind() + Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.T_tractionind() )</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Distance"
@@ -129,14 +129,14 @@
 <PreConditions>
 <PreCondition
  Guid="84471b54-f275-455e-92d5-7c7965c4c2ac"
->d_EBI ( aTarget =&gt; aTarget, Vmrsp =&gt; Vmrsp ) == BaseTypes.Distance.Unknown</PreCondition></PreConditions>
+>Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.d_EBI ( aTarget =&gt; aTarget, Vmrsp =&gt; Vmrsp ) == BaseTypes.Distance.Unknown</PreCondition></PreConditions>
 <Expression>BaseTypes.Distance.Unknown</Expression>
 </Case><Case
  Name="Value"
  Guid="6f89c598-f655-4f78-82da-514e35c14b27"
 >
 <Comment>Standard case</Comment>
-<Expression>d_EBI ( aTarget =&gt; aTarget, Vmrsp =&gt; Vmrsp )  - BaseTypes.SpeedToMS(Vmrsp) * T_bs2ind()</Expression>
+<Expression>Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.d_EBI ( aTarget =&gt; aTarget, Vmrsp =&gt; Vmrsp )  - BaseTypes.SpeedToMS(Vmrsp) * Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.T_bs2ind()</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Distance"
@@ -172,9 +172,9 @@
 <PreConditions>
 <PreCondition
  Guid="75d06117-f25e-48be-b4be-2b56f9c3ee57"
->NOT NationalValues.ComputationOfGUIIsEnabled()</PreCondition><PreCondition
+>NOT Kernel.NationalValues.ComputationOfGUIIsEnabled()</PreCondition><PreCondition
  Guid="175bfc74-84a9-491c-b5b7-4b66541f565b"
->d_SBI1(Vmrsp) == BaseTypes.Distance.Unknown</PreCondition></PreConditions>
+>Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.d_SBI1(Vmrsp) == BaseTypes.Distance.Unknown</PreCondition></PreConditions>
 <Expression>BaseTypes.Distance.Unknown</Expression>
 </Case><Case
  Name="GUI is inhibited"
@@ -183,13 +183,13 @@
 <PreConditions>
 <PreCondition
  Guid="76ff14fe-1069-48b8-a935-8bfa9f50e6fc"
->NOT NationalValues.ComputationOfGUIIsEnabled()</PreCondition></PreConditions>
-<Expression>d_SBI1 ( Vmrsp ) - BaseTypes.SpeedToMS(Vmrsp) * TargetSpeedMonitoring.T_driver</Expression>
+>NOT Kernel.NationalValues.ComputationOfGUIIsEnabled()</PreCondition></PreConditions>
+<Expression>Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.d_SBI1 ( Vmrsp ) - BaseTypes.SpeedToMS(Vmrsp) * Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.T_driver</Expression>
 </Case><Case
  Name="GUI is enabled"
  Guid="e2ed0a38-959f-4ca1-af51-1fd4543d4a69"
 >
-<Expression>BaseTypes.MinDistance ( X1 =&gt; d_SBI1 ( Vmrsp ) - BaseTypes.SpeedToMS(Vmrsp) * TargetSpeedMonitoring.T_driver, X2 =&gt; DecelerationCurves.GUI_TargetForSpeed( Vest =&gt;Vmrsp, aTarget =&gt; TargetSpeedMonitoring.MovementEnd() ) )</Expression>
+<Expression>BaseTypes.MinDistance ( X1 =&gt; Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.d_SBI1 ( Vmrsp ) - BaseTypes.SpeedToMS(Vmrsp) * Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.T_driver, X2 =&gt; Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.GUI_TargetForSpeed( Vest =&gt;Vmrsp, aTarget =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MovementEnd() ) )</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Distance"
@@ -265,15 +265,15 @@
 <PreConditions>
 <PreCondition
  Guid="5a958cda-e0be-4be2-bd2b-8d2f74669d4e"
->IndicationLimitAtSpeed(
+>Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationLimitAtSpeed(
     aTarget =&gt; aTarget,
-    aSpeed =&gt; IndicationSegment(aTarget).Speed
+    aSpeed =&gt; Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationSegment(aTarget).Speed
 ) == BaseTypes.Distance.Unknown
   OR  
-IndicationLimitAtSpeed(
+Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationLimitAtSpeed(
     aTarget =&gt; aTarget,
-    aSpeed =&gt; IndicationSegment(aTarget).Speed
-) &lt; TrainPosition.FrontEndPosition(DistanceInterval.Nom)</PreCondition></PreConditions>
+    aSpeed =&gt; Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationSegment(aTarget).Speed
+) &lt; Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom)</PreCondition></PreConditions>
 <Expression>BaseTypes.Distance.Unknown</Expression>
 </Case><Case
  Name="EOA, first case"
@@ -282,16 +282,16 @@ IndicationLimitAtSpeed(
 <PreConditions>
 <PreCondition
  Guid="0b29228c-ccce-4669-acfd-3f9141ede40a"
->IndicationLimitAtSpeed_EOA(
-    aSpeed =&gt; IndicationSegment(aTarget).Speed
-) &lt;= IndicationSegment(aTarget).Location + BaseTypes.LengthToDistance(IndicationSegment(aTarget).Length)</PreCondition><PreCondition
+>Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationLimitAtSpeed_EOA(
+    aSpeed =&gt; Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationSegment(aTarget).Speed
+) &lt;= Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationSegment(aTarget).Location + BaseTypes.LengthToDistance(Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationSegment(aTarget).Length)</PreCondition><PreCondition
  Guid="a697db5b-8d80-4750-948c-b0b45689adc2"
->IndicationSegment(aTarget).Location &lt; IndicationLimitAtSpeed_EOA(
-    aSpeed =&gt; IndicationSegment(aTarget).Speed
+>Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationSegment(aTarget).Location &lt; Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationLimitAtSpeed_EOA(
+    aSpeed =&gt; Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationSegment(aTarget).Speed
 )</PreCondition><PreCondition
  Guid="b45489d6-5cf3-4f02-83f3-ec715922f527"
->MA.IsEOA ( aTarget )</PreCondition></PreConditions>
-<Expression>IndicationLimitAtSpeed_EOA(IndicationSegment(aTarget).Speed) - BaseTypes.SpeedToMS(IndicationSegment(aTarget).Speed) * T_preindication</Expression>
+>Kernel.MA.IsEOA ( aTarget )</PreCondition></PreConditions>
+<Expression>Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationLimitAtSpeed_EOA(Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationSegment(aTarget).Speed) - BaseTypes.SpeedToMS(Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationSegment(aTarget).Speed) * Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.T_preindication</Expression>
 </Case><Case
  Name="Other target, first case"
  Guid="41f0a5a1-7965-4568-834c-248d28641324"
@@ -299,19 +299,19 @@ IndicationLimitAtSpeed(
 <PreConditions>
 <PreCondition
  Guid="77374c64-30fb-4792-b9cd-84aa69ffd20f"
->IndicationLimitAtSpeed(
+>Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationLimitAtSpeed(
     aTarget =&gt; aTarget,
-    aSpeed =&gt; IndicationSegment(aTarget).Speed
-) &lt;= IndicationSegment(aTarget).Location + BaseTypes.LengthToDistance(IndicationSegment(aTarget).Length)</PreCondition><PreCondition
+    aSpeed =&gt; Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationSegment(aTarget).Speed
+) &lt;= Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationSegment(aTarget).Location + BaseTypes.LengthToDistance(Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationSegment(aTarget).Length)</PreCondition><PreCondition
  Guid="dcee462f-c5ab-4b6b-b370-8eb19ec9d5b9"
->IndicationSegment(aTarget).Location &lt; IndicationLimitAtSpeed(
+>Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationSegment(aTarget).Location &lt; Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationLimitAtSpeed(
     aTarget =&gt; aTarget,
-    aSpeed =&gt; IndicationSegment(aTarget).Speed
+    aSpeed =&gt; Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationSegment(aTarget).Speed
 )</PreCondition></PreConditions>
-<Expression>IndicationLimitAtSpeed(
+<Expression>Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationLimitAtSpeed(
     aTarget =&gt; aTarget,
-    aSpeed =&gt; IndicationSegment(aTarget).Speed
-) - BaseTypes.SpeedToMS(IndicationSegment(aTarget).Speed) * T_preindication</Expression>
+    aSpeed =&gt; Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationSegment(aTarget).Speed
+) - BaseTypes.SpeedToMS(Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationSegment(aTarget).Speed) * Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.T_preindication</Expression>
 </Case><Case
  Name="Second case"
  Guid="fa19f559-65e4-402a-897b-7fda2bfa28dd"
@@ -319,16 +319,16 @@ IndicationLimitAtSpeed(
 <PreConditions>
 <PreCondition
  Guid="e0a60a90-5e23-4565-820e-7eeb897d42f6"
->IndicationLimitAtSpeed(
+>Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationLimitAtSpeed(
     aTarget =&gt; aTarget,
-    aSpeed =&gt; NextMRSPSegment(IndicationSegment(aTarget).Location).Speed
-) &lt;= IndicationSegment(aTarget).Location + BaseTypes.LengthToDistance(IndicationSegment(aTarget).Length)</PreCondition><PreCondition
+    aSpeed =&gt; Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.NextMRSPSegment(Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationSegment(aTarget).Location).Speed
+) &lt;= Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationSegment(aTarget).Location + BaseTypes.LengthToDistance(Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationSegment(aTarget).Length)</PreCondition><PreCondition
  Guid="ca3a5b34-272b-4664-a001-2443e4f76a1d"
->IndicationSegment(aTarget).Location + BaseTypes.LengthToDistance(IndicationSegment(aTarget).Length) &lt; IndicationLimitAtSpeed(
+>Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationSegment(aTarget).Location + BaseTypes.LengthToDistance(Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationSegment(aTarget).Length) &lt; Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationLimitAtSpeed(
     aTarget =&gt; aTarget,
-    aSpeed =&gt; IndicationSegment(aTarget).Speed
+    aSpeed =&gt; Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationSegment(aTarget).Speed
 )</PreCondition></PreConditions>
-<Expression>IndicationSegment(aTarget).Location + BaseTypes.LengthToDistance(IndicationSegment(aTarget).Length) - BaseTypes.SpeedToMS(IndicationSegment(aTarget).Speed) * T_preindication</Expression>
+<Expression>Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationSegment(aTarget).Location + BaseTypes.LengthToDistance(Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationSegment(aTarget).Length) - BaseTypes.SpeedToMS(Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationSegment(aTarget).Speed) * Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.T_preindication</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Distance"
@@ -368,9 +368,9 @@ IndicationLimitAtSpeed(
 <PreConditions>
 <PreCondition
  Guid="26547639-7eb2-4771-b3a4-98e999000a86"
->d_SBI2 ( aTarget =&gt; aTarget, Vmrsp =&gt; Vmrsp ) == BaseTypes.Distance.Unknown</PreCondition><PreCondition
+>Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.d_SBI2 ( aTarget =&gt; aTarget, Vmrsp =&gt; Vmrsp ) == BaseTypes.Distance.Unknown</PreCondition><PreCondition
  Guid="17c78d4b-e553-424a-91e2-d629a6193be3"
->NOT NationalValues.ComputationOfGUIIsEnabled()</PreCondition></PreConditions>
+>NOT Kernel.NationalValues.ComputationOfGUIIsEnabled()</PreCondition></PreConditions>
 <Expression>BaseTypes.Distance.Unknown</Expression>
 </Case><Case
  Name="GUI is inhibited"
@@ -379,8 +379,8 @@ IndicationLimitAtSpeed(
 <PreConditions>
 <PreCondition
  Guid="dac95c93-f0c0-4ace-862c-c7475c858e6e"
->NOT NationalValues.ComputationOfGUIIsEnabled()</PreCondition></PreConditions>
-<Expression>d_SBI2 ( aTarget =&gt; aTarget, Vmrsp =&gt; Vmrsp ) - BaseTypes.SpeedToMS(Vmrsp) * TargetSpeedMonitoring.T_driver</Expression>
+>NOT Kernel.NationalValues.ComputationOfGUIIsEnabled()</PreCondition></PreConditions>
+<Expression>Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.d_SBI2 ( aTarget =&gt; aTarget, Vmrsp =&gt; Vmrsp ) - BaseTypes.SpeedToMS(Vmrsp) * Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.T_driver</Expression>
 </Case><Case
  Name="GUI Enabled, GUI or EBD below Vmrsp"
  Guid="da424317-cfdd-4fb1-a4a2-fc243890d917"
@@ -389,15 +389,15 @@ IndicationLimitAtSpeed(
 <PreConditions>
 <PreCondition
  Guid="5a134c95-d52f-4f4c-b96c-6001a9bd4881"
->d_SBI2 ( aTarget =&gt; aTarget, Vmrsp =&gt; Vmrsp ) == BaseTypes.Distance.Unknown
+>Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.d_SBI2 ( aTarget =&gt; aTarget, Vmrsp =&gt; Vmrsp ) == BaseTypes.Distance.Unknown
   OR  
-d_SBI2 ( aTarget =&gt; aTarget, Vmrsp =&gt; Vmrsp ) == BaseTypes.Distance.Unknown</PreCondition></PreConditions>
+Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.d_SBI2 ( aTarget =&gt; aTarget, Vmrsp =&gt; Vmrsp ) == BaseTypes.Distance.Unknown</PreCondition></PreConditions>
 <Expression>BaseTypes.Distance.Unknown</Expression>
 </Case><Case
  Name="GUI is enabled"
  Guid="ed419bb1-5c35-46f3-8791-27aa4b53b189"
 >
-<Expression>BaseTypes.MinDistance ( X1 =&gt; d_SBI2 ( aTarget =&gt; aTarget, Vmrsp =&gt; Vmrsp ) - BaseTypes.SpeedToMS(Vmrsp) * TargetSpeedMonitoring.T_driver, X2 =&gt; DecelerationCurves.GUI_TargetForSpeed( aTarget =&gt; aTarget, Vest =&gt; Vmrsp ) )</Expression>
+<Expression>BaseTypes.MinDistance ( X1 =&gt; Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.d_SBI2 ( aTarget =&gt; aTarget, Vmrsp =&gt; Vmrsp ) - BaseTypes.SpeedToMS(Vmrsp) * Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.T_driver, X2 =&gt; Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.GUI_TargetForSpeed( aTarget =&gt; aTarget, Vest =&gt; Vmrsp ) )</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Distance"
@@ -453,8 +453,8 @@ d_SBI2 ( aTarget =&gt; aTarget, Vmrsp =&gt; Vmrsp ) == BaseTypes.Distance.Unknow
 <PreConditions>
 <PreCondition
  Guid="3bf6d470-f45b-45d0-864a-c216d2eeb181"
->TargetsList() != []</PreCondition></PreConditions>
-<Expression>Compute_d_preindication(aTarget)</Expression>
+>Kernel.SpeedAndDistanceMonitoring.TargetsList() != []</PreCondition></PreConditions>
+<Expression>Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.Compute_d_preindication(aTarget)</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="2864273a-427e-4862-800f-f42bb985cd36"
@@ -487,8 +487,8 @@ d_SBI2 ( aTarget =&gt; aTarget, Vmrsp =&gt; Vmrsp ) == BaseTypes.Distance.Unknow
 <PreConditions>
 <PreCondition
  Guid="0e0a9c6f-2098-468a-8134-6b8c8757a0e4"
->TrainData.TrainData.Value.SBCommandIsImplemented</PreCondition></PreConditions>
-<Expression>TrainData.BrakingParameters.T_bs()</Expression>
+>Kernel.TrainData.TrainData.Value.SBCommandIsImplemented</PreCondition></PreConditions>
+<Expression>Kernel.TrainData.BrakingParameters.T_bs()</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="c30276fb-bb38-4bd9-b96f-2ae5b5aedd35"
@@ -521,8 +521,8 @@ d_SBI2 ( aTarget =&gt; aTarget, Vmrsp =&gt; Vmrsp ) == BaseTypes.Distance.Unknow
 <PreConditions>
 <PreCondition
  Guid="1051dd29-931e-4bb6-ae50-2b6225a562c7"
->TrainData.TrainData.Value.SBCommandIsImplemented</PreCondition></PreConditions>
-<Expression>TrainData.BrakingParameters.T_bs()</Expression>
+>Kernel.TrainData.TrainData.Value.SBCommandIsImplemented</PreCondition></PreConditions>
+<Expression>Kernel.TrainData.BrakingParameters.T_bs()</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="e4c81873-843b-47f1-bea3-99978290e186"
@@ -570,13 +570,13 @@ d_SBI2 ( aTarget =&gt; aTarget, Vmrsp =&gt; Vmrsp ) == BaseTypes.Distance.Unknow
 <PreConditions>
 <PreCondition
  Guid="85b78555-4e3f-43d7-9c70-2d17711bc6e3"
->TrainData.TrainData.Value.TractionCutOffInterfaceIsImplemented</PreCondition></PreConditions>
-<Expression>BaseTypes.MaxTime ( X1 =&gt; ( TrainData.BrakingParameters.T_traction_cut_off (NoA_est =&gt; True) - ( TargetSpeedMonitoring.T_warning + T_bs2ind() ) ), X2 =&gt; 0.0 )</Expression>
+>Kernel.TrainData.TrainData.Value.TractionCutOffInterfaceIsImplemented</PreCondition></PreConditions>
+<Expression>BaseTypes.MaxTime ( X1 =&gt; ( Kernel.TrainData.BrakingParameters.T_traction_cut_off (NoA_est =&gt; True) - ( Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.T_warning + Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.T_bs2ind() ) ), X2 =&gt; 0.0 )</Expression>
 </Case><Case
  Name="Traction cut-off is not implemented"
  Guid="784c8261-6034-48b5-8d85-f5e1de8b6a24"
 >
-<Expression>TrainData.BrakingParameters.T_traction_cut_off (NoA_est =&gt; True)</Expression>
+<Expression>Kernel.TrainData.BrakingParameters.T_traction_cut_off (NoA_est =&gt; True)</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Time"
@@ -606,7 +606,7 @@ d_SBI2 ( aTarget =&gt; aTarget, Vmrsp =&gt; Vmrsp ) == BaseTypes.Distance.Unknow
  Name="Value"
  Guid="23041453-a6e4-44cb-9ecb-a6704be9950a"
 >
-<Expression>BaseTypes.MaxTime ( X1 =&gt; TrainData.BrakingParameters.T_be () - T_tractionind (), X2 =&gt; 0.0 )</Expression>
+<Expression>BaseTypes.MaxTime ( X1 =&gt; Kernel.TrainData.BrakingParameters.T_be () - Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.T_tractionind (), X2 =&gt; 0.0 )</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Distance"
@@ -641,7 +641,7 @@ d_SBI2 ( aTarget =&gt; aTarget, Vmrsp =&gt; Vmrsp ) == BaseTypes.Distance.Unknow
 <PreConditions>
 <PreCondition
  Guid="752251aa-afac-4d10-b3b3-9e6439c6d26f"
->NOT MA.IsEOA(MA.ClosestEOA())</PreCondition></PreConditions>
+>NOT Kernel.MA.IsEOA(Kernel.MA.ClosestEOA())</PreCondition></PreConditions>
 <Expression>BaseTypes.Distance.Unknown</Expression>
 </Case><Case
  Name="SBD below V_MRSP"
@@ -650,19 +650,19 @@ d_SBI2 ( aTarget =&gt; aTarget, Vmrsp =&gt; Vmrsp ) == BaseTypes.Distance.Unknow
 <PreConditions>
 <PreCondition
  Guid="395d82aa-4a02-4070-89b4-d96d16f5f732"
->DecelerationCurves.SBD_Target(
-    Distance =&gt; TrainPosition.FrontEndPosition(DistanceInterval.Nom),
-    aTarget =&gt; MA.ClosestEOA()
-)  &lt;  MRSP.V_MRSP()</PreCondition></PreConditions>
+>Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.SBD_Target(
+    Distance =&gt; Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom),
+    aTarget =&gt; Kernel.MA.ClosestEOA()
+)  &lt;  Kernel.MRSP.V_MRSP()</PreCondition></PreConditions>
 <Expression>BaseTypes.Distance.Unknown</Expression>
 </Case><Case
  Name="Value"
  Guid="f17882ac-802a-46d9-b618-3d485df5ba34"
 >
-<Expression>DecelerationCurves.SBD_TargetForSpeed(
+<Expression>Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.SBD_TargetForSpeed(
     Vest =&gt; Vmrsp,
-    aTarget =&gt; TargetSpeedMonitoring.MovementEnd()
-) - BaseTypes.SpeedToMS ( Vmrsp ) * T_bs1ind()</Expression>
+    aTarget =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MovementEnd()
+) - BaseTypes.SpeedToMS ( Vmrsp ) * Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.T_bs1ind()</Expression>
 </Case></Cases>
 </Function><Function
  Type="TargetSpeedMonitoring.Target"
@@ -763,12 +763,12 @@ d_SBI2 ( aTarget =&gt; aTarget, Vmrsp =&gt; Vmrsp ) == BaseTypes.Distance.Unknow
 <PreConditions>
 <PreCondition
  Guid="1e5ea735-1a8d-4ad1-b977-61c8d5bcfa20"
->MA.IsEOA(aTarget)</PreCondition><PreCondition
+>Kernel.MA.IsEOA(aTarget)</PreCondition><PreCondition
  Guid="418dc536-a090-449a-9d33-6f447bda41da"
->MA.IsSvL(aTarget)</PreCondition></PreConditions>
+>Kernel.MA.IsSvL(aTarget)</PreCondition></PreConditions>
 <Expression>BaseTypes.MinDistance(
-    X1=&gt;IndicationLimitAtSpeed_EOA(aSpeed),
-    X2=&gt;IndicationLimitAtSpeed_EBDTarget(
+    X1=&gt;Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationLimitAtSpeed_EOA(aSpeed),
+    X2=&gt;Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationLimitAtSpeed_EBDTarget(
         aTarget =&gt; aTarget,
         aSpeed =&gt; aSpeed
     )
@@ -780,13 +780,13 @@ d_SBI2 ( aTarget =&gt; aTarget, Vmrsp =&gt; Vmrsp ) == BaseTypes.Distance.Unknow
 <PreConditions>
 <PreCondition
  Guid="8a7f07a2-d203-4a37-b73a-d28fce674373"
->MA.IsEOA(aTarget)</PreCondition></PreConditions>
-<Expression>IndicationLimitAtSpeed_EOA(aSpeed)</Expression>
+>Kernel.MA.IsEOA(aTarget)</PreCondition></PreConditions>
+<Expression>Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationLimitAtSpeed_EOA(aSpeed)</Expression>
 </Case><Case
  Name="EBD-based target"
  Guid="b636d492-dd1a-4abb-b1a4-3812e00d104d"
 >
-<Expression>IndicationLimitAtSpeed_EBDTarget(
+<Expression>Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationLimitAtSpeed_EBDTarget(
     aTarget =&gt; aTarget,
     aSpeed =&gt; aSpeed
 )</Expression>
@@ -828,13 +828,13 @@ d_SBI2 ( aTarget =&gt; aTarget, Vmrsp =&gt; Vmrsp ) == BaseTypes.Distance.Unknow
 <PreConditions>
 <PreCondition
  Guid="fbffbacd-21df-43cf-8d92-8c6ed9dcbd56"
->d_P_EOA(aSpeed) == BaseTypes.Distance.Unknown</PreCondition></PreConditions>
+>Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.d_P_EOA(aSpeed) == BaseTypes.Distance.Unknown</PreCondition></PreConditions>
 <Expression>BaseTypes.Distance.Unknown</Expression>
 </Case><Case
  Name="Value"
  Guid="183e6a0e-a62a-4caf-a374-ecb6bd251e51"
 >
-<Expression>d_P_EOA(aSpeed) - BaseTypes.SpeedToMS(aSpeed) * DecelerationCurves.T_indication()</Expression>
+<Expression>Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.d_P_EOA(aSpeed) - BaseTypes.SpeedToMS(aSpeed) * Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.T_indication()</Expression>
 </Case></Cases>
 </Function><Function
  Type="TargetSpeedMonitoring.Target"
@@ -873,13 +873,13 @@ d_SBI2 ( aTarget =&gt; aTarget, Vmrsp =&gt; Vmrsp ) == BaseTypes.Distance.Unknow
 <PreConditions>
 <PreCondition
  Guid="bfdaf29a-1f80-4463-9603-459fedf40bdc"
->THERE_IS X IN Discontinuities(MRSP.SpeedRestrictions) | IsIndicated( aSegment =&gt; X, aTarget =&gt; aTarget)</PreCondition></PreConditions>
-<Expression>FIRST X IN Discontinuities(MRSP.SpeedRestrictions) | IsIndicated( aSegment =&gt; X, aTarget =&gt; aTarget)</Expression>
+>THERE_IS X IN Discontinuities(Kernel.MRSP.SpeedRestrictions) | Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IsIndicated( aSegment =&gt; X, aTarget =&gt; aTarget)</PreCondition></PreConditions>
+<Expression>FIRST X IN Discontinuities(Kernel.MRSP.SpeedRestrictions) | Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IsIndicated( aSegment =&gt; X, aTarget =&gt; aTarget)</Expression>
 </Case><Case
  Name="No valid segment"
  Guid="21945e3e-b493-4b78-88eb-12707d7a9061"
 >
-<Expression>FirstMRSPSegment()</Expression>
+<Expression>Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.FirstMRSPSegment()</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -923,7 +923,7 @@ d_SBI2 ( aTarget =&gt; aTarget, Vmrsp =&gt; Vmrsp ) == BaseTypes.Distance.Unknow
 <PreConditions>
 <PreCondition
  Guid="95a7b5fc-4e10-4680-bc3b-0aba5cba9511"
->IndicationLimitAtSpeed(
+>Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationLimitAtSpeed(
     aTarget =&gt; aTarget,
     aSpeed =&gt; aSegment.Speed
 ) == BaseTypes.Distance.Unknown</PreCondition></PreConditions>
@@ -935,16 +935,16 @@ d_SBI2 ( aTarget =&gt; aTarget, Vmrsp =&gt; Vmrsp ) == BaseTypes.Distance.Unknow
 <PreConditions>
 <PreCondition
  Guid="64fb4fb8-7d9c-4a75-b14e-00f77be935a7"
->IndicationLimitAtSpeed(
+>Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationLimitAtSpeed(
     aTarget =&gt; aTarget,
     aSpeed =&gt; aSegment.Speed
 ) &gt;= aSegment.Location</PreCondition><PreCondition
  Guid="70bdb4ce-41b5-4c52-92b7-8ffc4aeb46eb"
->IndicationLimitAtSpeed(
+>Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationLimitAtSpeed(
     aTarget =&gt; aTarget,
     aSpeed =&gt; aSegment.Speed
 ) &lt;= aSegment.Location + BaseTypes.LengthToDistance(aSegment.Length)</PreCondition></PreConditions>
-<Expression>IndicationLimitAtSpeed(
+<Expression>Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationLimitAtSpeed(
     aTarget =&gt; aTarget,
     aSpeed =&gt; aSegment.Speed
 ) &gt;= aSegment.Location</Expression>
@@ -952,10 +952,10 @@ d_SBI2 ( aTarget =&gt; aTarget, Vmrsp =&gt; Vmrsp ) == BaseTypes.Distance.Unknow
  Name="DecelerationCurve is above the MRSP"
  Guid="30256e1f-c62c-421b-8e53-d7c6374df846"
 >
-<Expression>IndicationLimitAtSpeed(
+<Expression>Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationLimitAtSpeed(
     aTarget =&gt; aTarget,
-    aSpeed =&gt; NextMRSPSegment(aSegment.Location).Speed
-) &lt; NextMRSPSegment(aSegment.Location).Location</Expression>
+    aSpeed =&gt; Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.NextMRSPSegment(aSegment.Location).Speed
+) &lt; Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.NextMRSPSegment(aSegment.Location).Location</Expression>
 </Case></Cases>
 </Function><Function
  Type="TargetSpeedMonitoring.Target"
@@ -982,11 +982,11 @@ d_SBI2 ( aTarget =&gt; aTarget, Vmrsp =&gt; Vmrsp ) == BaseTypes.Distance.Unknow
  Name="Value"
  Guid="8b1b10ae-427c-48df-9e74-cdc2b608d1b5"
 >
-<Expression>REDUCE Discontinuities(MRSP.SpeedRestrictions) | X.Location &gt; aLocation USING X IN MA.ClosestTarget(
+<Expression>REDUCE Discontinuities(Kernel.MRSP.SpeedRestrictions) | X.Location &gt; aLocation USING X IN Kernel.MA.ClosestTarget(
     Target1 =&gt; X,
     Target2 =&gt; RESULT
 )
-INITIAL_VALUE MA.ClosestEOA()</Expression>
+INITIAL_VALUE Kernel.MA.ClosestEOA()</Expression>
 </Case></Cases>
 </Function><Function
  Type="TargetSpeedMonitoring.Target"
@@ -1006,12 +1006,12 @@ Used as the first segment of the MRSP.</Comment>
  Name="Value"
  Guid="5812b2a4-7d11-4dce-83cf-2e4ebbd40441"
 >
-<Expression>LET CurrentLocation &lt;- TrainPosition.FrontEndPosition(DistanceInterval.Nom)
+<Expression>LET CurrentLocation &lt;- Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom)
   IN
-TargetSpeedMonitoring.Target{
+Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target{
     Location =&gt; CurrentLocation,
     Speed =&gt; MRSP.V_MRSP(),
-    Length =&gt; BaseTypes.DistanceToLength(NextMRSPSegment(CurrentLocation).Location - CurrentLocation)
+    Length =&gt; BaseTypes.DistanceToLength(PreIndicationLocation.NextMRSPSegment(CurrentLocation).Location - CurrentLocation)
 }</Expression>
 </Case></Cases>
 </Function><Function
@@ -1071,7 +1071,7 @@ TargetSpeedMonitoring.Target{
 <PreConditions>
 <PreCondition
  Guid="79fd004c-1345-45b3-ab7c-6523e06a6302"
->d_P(
+>Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.d_P(
     aTarget =&gt; aTarget,
     Vmrsp =&gt; aSpeed
 ) == BaseTypes.Distance.Unknown</PreCondition></PreConditions>
@@ -1080,10 +1080,10 @@ TargetSpeedMonitoring.Target{
  Name="Value"
  Guid="63128214-f1c9-478f-9834-fb7e185646b7"
 >
-<Expression>d_P(
+<Expression>Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.d_P(
     aTarget =&gt; aTarget,
     Vmrsp =&gt; aSpeed
-) - BaseTypes.SpeedToMS(aSpeed) * DecelerationCurves.T_indication()</Expression>
+) - BaseTypes.SpeedToMS(aSpeed) * Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.T_indication()</Expression>
 </Case></Cases>
 </Function></Functions>
 <Variables>

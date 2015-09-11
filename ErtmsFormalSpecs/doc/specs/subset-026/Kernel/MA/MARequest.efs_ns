@@ -170,15 +170,15 @@
 <PreConditions>
 <PreCondition
  Guid="c238a5b1-36a6-4190-9b53-2dca70c6fa61"
->MARequestParameters != EMPTY
+>Kernel.MA.MARequest.MARequestParameters != EMPTY
   AND
-MARequestParameters.HandleRepetitions</PreCondition></PreConditions>
-<Expression>LastMARequestRepetitionTime + MARequestParameters.RepetitionTime &lt;= DateAndTime.CurrentTime</Expression>
+Kernel.MA.MARequest.MARequestParameters.HandleRepetitions</PreCondition></PreConditions>
+<Expression>Kernel.MA.MARequest.LastMARequestRepetitionTime + Kernel.MA.MARequest.MARequestParameters.RepetitionTime &lt;= Kernel.DateAndTime.CurrentTime</Expression>
 </Case><Case
  Name="No MA request parameters available"
  Guid="55ec0701-fd5e-43b2-9640-bc3cb868d66c"
 >
-<Expression>LastMARequestRepetitionTime + MARequestRepetitionCycle &lt;= DateAndTime.CurrentTime</Expression>
+<Expression>Kernel.MA.MARequest.LastMARequestRepetitionTime + Kernel.MA.MARequest.MARequestRepetitionCycle &lt;= Kernel.DateAndTime.CurrentTime</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Time"
@@ -206,9 +206,9 @@ MARequestParameters.HandleRepetitions</PreCondition></PreConditions>
  Name="Value"
  Guid="6f39c4fd-7076-42ba-a872-3d10a271f0f8"
 >
-<Expression>(SpeedAndDistanceMonitoring.PreIndicationLocation.Compute_d_preindication( aTarget =&gt; ClosestEOA() ) - TrainPosition.FrontEndPosition( PointOfInterest=&gt;DistanceInterval.Nom ))
+<Expression>(Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.Compute_d_preindication( aTarget =&gt; Kernel.MA.ClosestEOA() ) - Kernel.TrainPosition.FrontEndPosition( PointOfInterest=&gt;DistanceInterval.Nom ))
   /
-(MRSP.V_MRSP() + SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_warning( V =&gt; MRSP.V_MRSP() ))</Expression>
+(Kernel.MRSP.V_MRSP() + Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_warning( V =&gt; Kernel.MRSP.V_MRSP() ))</Expression>
 </Case></Cases>
 </Function></Functions>
 <Variables>
@@ -306,13 +306,13 @@ MARequestParameters.HandleRepetitions</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="53e855c9-b753-4641-ac2b-9b49fc28f518"
->SendMARequestCyclically()</PreCondition></PreConditions>
+>Kernel.MA.MARequest.SendMARequestCyclically()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="58a5e02d-bea3-48dd-9228-d97c67fae1e5"
 >EURORADIO.CurrentRBCConnection().SendMARequest
 (
-    aReason =&gt; MARequestParameters.Reason,
+    aReason =&gt; Kernel.MA.MARequest.MARequestParameters.Reason,
     aPacket =&gt; EMPTY
 )</Action></Actions>
 </RuleCondition><RuleCondition
@@ -329,7 +329,7 @@ MARequestParameters.HandleRepetitions</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="edf7066d-883f-4a26-9e91-e1d0a67208e0"
->MARequestParameters != EMPTY</PreCondition></PreConditions>
+>Kernel.MA.MARequest.MARequestParameters != EMPTY</PreCondition></PreConditions>
 <Actions>
 </Actions>
 <SubRules>
@@ -377,11 +377,11 @@ MARequestParameters.HandleRepetitions</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="1816e72f-c1f3-4f6d-ab81-66689104e3bd"
->MARequestParameters.HandlePreindicationLocation</PreCondition><PreCondition
+>Kernel.MA.MARequest.MARequestParameters.HandlePreindicationLocation</PreCondition><PreCondition
  Guid="b676bd39-5164-4702-a2f5-d5193febdf24"
->TimeBeforePreIndicationLocation() &gt;= MARequestParameters.PreindicationLocationTime</PreCondition><PreCondition
+>Kernel.MA.MARequest.TimeBeforePreIndicationLocation() &gt;= Kernel.MA.MARequest.MARequestParameters.PreindicationLocationTime</PreCondition><PreCondition
  Guid="fb58d7f3-dee5-4f99-a282-b12c2acebd2b"
->ActiveFunctions.RequestMA_IndicationPointOrTimer()</PreCondition></PreConditions>
+>Kernel.ActiveFunctions.RequestMA_IndicationPointOrTimer()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="abb36a2d-bc88-48e0-961e-c1eb5f58e19c"
@@ -419,15 +419,15 @@ MARequestParameters.HandleRepetitions</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="03474a48-a662-43c9-babb-ed036ca243ed"
->MARequestParameters.HandleTimeouts
+>Kernel.MA.MARequest.MARequestParameters.HandleTimeouts
   AND
 (
-  THERE_IS Section IN MA.Sections | (Section.TimeOut.TimerStart + Section.TimeOut.TimeOut &gt;= MARequestParameters.SectionTimerTime)
+  THERE_IS Section IN Kernel.MA.MA.Sections | (Section.TimeOut.TimerStart + Section.TimeOut.TimeOut &gt;= Kernel.MA.MARequest.MARequestParameters.SectionTimerTime)
     OR
-  MATimers.LOATimerStart + MA.TargetSpeedTimeOut &gt;= MARequestParameters.SectionTimerTime
+  Kernel.MA.MATimers.LOATimerStart + Kernel.MA.MA.TargetSpeedTimeOut &gt;= Kernel.MA.MARequest.MARequestParameters.SectionTimerTime
 )</PreCondition><PreCondition
  Guid="1b2961a7-7b4c-4fdd-8726-bb211a9fc635"
->ActiveFunctions.RequestMA_IndicationPointOrTimer()</PreCondition></PreConditions>
+>Kernel.ActiveFunctions.RequestMA_IndicationPointOrTimer()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="3c9a6e23-bdb4-41fb-9f85-d007c79c450e"

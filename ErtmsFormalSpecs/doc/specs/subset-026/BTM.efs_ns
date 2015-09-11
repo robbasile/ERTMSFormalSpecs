@@ -310,8 +310,8 @@ b) is just a placeholder for a missed balise.</Comment>
 <PreConditions>
 <PreCondition
  Guid="fa49fa02-cf11-45fe-ad90-3229a3860cd5"
->Available ( Linking.CurrentLinking() )</PreCondition></PreConditions>
-<Expression>Linking.CurrentLinking().LocationAccuracy</Expression>
+>Available ( BTM.Linking.CurrentLinking() )</PreCondition></PreConditions>
+<Expression>BTM.Linking.CurrentLinking().LocationAccuracy</Expression>
 </Case><Case
  Name="National or default values"
  Guid="590ee6d2-1a2f-48e2-94f8-abce6c0d7a36"
@@ -341,8 +341,8 @@ b) is just a placeholder for a missed balise.</Comment>
  Name="Value"
  Guid="9a9dcfe5-feaa-4d5e-9492-a5095eb075c8"
 >
-<Expression>REDUCE PreviousBaliseGroups | X.IsLRBG
-  USING X IN SelectFartherBG ( X , RESULT )
+<Expression>REDUCE BTM.PreviousBaliseGroups | X.IsLRBG
+  USING X IN BTM.SelectFartherBG ( X , RESULT )
   INITIAL_VALUE EMPTY</Expression>
 </Case></Cases>
 </Function><Function
@@ -494,8 +494,8 @@ b) is just a placeholder for a missed balise.</Comment>
  Name="Value"
  Guid="a3bab8f5-ac86-45fb-b5e9-c1df8045ffea"
 >
-<Expression>(REDUCE PreviousBaliseGroups | X.IsLRBG
-  USING X IN SelectNearerBG ( X , RESULT )
+<Expression>(REDUCE BTM.PreviousBaliseGroups | X.IsLRBG
+  USING X IN BTM.SelectNearerBG ( X , RESULT )
   INITIAL_VALUE EMPTY).BaliseGroup</Expression>
 </Case></Cases>
 </Function><Function
@@ -517,7 +517,7 @@ b) is just a placeholder for a missed balise.</Comment>
  Name="Always"
  Guid="d615b552-1523-4e37-9f1f-bfd4a9de8af3"
 >
-<Expression>Position
+<Expression>BTM.Position
 {
   OverReadingAmountOdo =&gt; Odometry.Accuracy.D_ora,
   Position =&gt; Odometry.NominalDistance,
@@ -580,10 +580,10 @@ b) is just a placeholder for a missed balise.</Comment>
 <PreConditions>
 <PreCondition
  Guid="682a9ec8-f37d-4d87-8dd6-9a4ca0648099"
->IsSingleBaliseGroup(CurrentBaliseGroup)</PreCondition><PreCondition
+>BTM.IsSingleBaliseGroup(BTM.CurrentBaliseGroup)</PreCondition><PreCondition
  Guid="3f4762dd-f337-493a-927f-479853f08788"
->Linking.CurrentLinking().BaliseGroupIdentifier== ( FIRST X IN CurrentBaliseGroup ).Telegram.NID_BG</PreCondition></PreConditions>
-<Expression>Linking.CurrentLinking().Orientation</Expression>
+>BTM.Linking.CurrentLinking().BaliseGroupIdentifier== ( FIRST X IN BTM.CurrentBaliseGroup ).Telegram.NID_BG</PreCondition></PreConditions>
+<Expression>BTM.Linking.CurrentLinking().Orientation</Expression>
 </Case><Case
  Name="Less than two balises in the balise group, invalid linking information"
  Guid="02355d09-b3c3-4a71-80ad-92251096056d"
@@ -591,7 +591,7 @@ b) is just a placeholder for a missed balise.</Comment>
 <PreConditions>
 <PreCondition
  Guid="42e647d7-f4ec-404e-822d-0af260c9426c"
->IsSingleBaliseGroup(CurrentBaliseGroup)</PreCondition></PreConditions>
+>BTM.IsSingleBaliseGroup(BTM.CurrentBaliseGroup)</PreCondition></PreConditions>
 <Expression>Orientation.Unknown</Expression>
 </Case><Case
  Name="First balise is last in the group"
@@ -600,7 +600,7 @@ b) is just a placeholder for a missed balise.</Comment>
 <PreConditions>
 <PreCondition
  Guid="99800f60-19c6-48c4-895b-d7aa823ecd0c"
->(FIRST X IN CurrentBaliseGroup).Telegram.N_PIG == (FIRST X IN CurrentBaliseGroup).Telegram.N_TOTAL</PreCondition></PreConditions>
+>(FIRST X IN BTM.CurrentBaliseGroup).Telegram.N_PIG == (FIRST X IN BTM.CurrentBaliseGroup).Telegram.N_TOTAL</PreCondition></PreConditions>
 <Expression>Orientation.Reverse</Expression>
 </Case><Case
  Name="First balise is first in the group"
@@ -609,7 +609,7 @@ b) is just a placeholder for a missed balise.</Comment>
 <PreConditions>
 <PreCondition
  Guid="a3515d8d-741c-40a4-8a64-acafbdeb205e"
->(FIRST X IN CurrentBaliseGroup).Telegram.N_PIG == 0</PreCondition></PreConditions>
+>(FIRST X IN BTM.CurrentBaliseGroup).Telegram.N_PIG == 0</PreCondition></PreConditions>
 <Expression>Orientation.Nominal</Expression>
 </Case><Case
  Name="Two balises stored, N_PIG_1 lower than N_PIG_2"
@@ -619,11 +619,11 @@ b) is just a placeholder for a missed balise.</Comment>
 <PreConditions>
 <PreCondition
  Guid="5c1a408b-2831-4d4c-9008-3db03c567c80"
->(COUNT X IN CurrentBaliseGroup) &gt; 1
+>(COUNT X IN BTM.CurrentBaliseGroup) &gt; 1
 
   AND  
 
-(FIRST Balise IN CurrentBaliseGroup).Telegram.N_PIG &lt; (LAST Balise IN CurrentBaliseGroup).Telegram.N_PIG</PreCondition></PreConditions>
+(FIRST Balise IN BTM.CurrentBaliseGroup).Telegram.N_PIG &lt; (LAST Balise IN BTM.CurrentBaliseGroup).Telegram.N_PIG</PreCondition></PreConditions>
 <Expression>Orientation.Nominal</Expression>
 </Case><Case
  Name="Two balises stored, N_PIG_1 higher than N_PIG_2"
@@ -632,11 +632,11 @@ b) is just a placeholder for a missed balise.</Comment>
 <PreConditions>
 <PreCondition
  Guid="20d361f2-70ef-4a67-9c01-5e11cd5cfb34"
->(COUNT X IN CurrentBaliseGroup) &gt; 1
+>(COUNT X IN BTM.CurrentBaliseGroup) &gt; 1
 
   AND  
 
-(FIRST Balise IN CurrentBaliseGroup).Telegram.N_PIG &gt; (LAST Balise IN CurrentBaliseGroup).Telegram.N_PIG</PreCondition></PreConditions>
+(FIRST Balise IN BTM.CurrentBaliseGroup).Telegram.N_PIG &gt; (LAST Balise IN BTM.CurrentBaliseGroup).Telegram.N_PIG</PreCondition></PreConditions>
 <Expression>Orientation.Reverse</Expression>
 </Case><Case
  Name="Otherwise"
@@ -681,13 +681,13 @@ b) is just a placeholder for a missed balise.</Comment>
 <PreConditions>
 <PreCondition
  Guid="d6f19038-6d40-4e3d-ba91-773dab02a05a"
->Linking.LinkingApplicable()</PreCondition></PreConditions>
-<Expression>Linking.CurrentBGWithinFrame()</Expression>
+>BTM.Linking.LinkingApplicable()</PreCondition></PreConditions>
+<Expression>BTM.Linking.CurrentBGWithinFrame()</Expression>
 </Case><Case
  Name="Linking not available"
  Guid="c0fbb6a1-646f-4f71-8bbc-322f3a4f4ee9"
 >
-<Expression>FORALL X IN CurrentBaliseGroup | X.Telegram.Q_LINK != Messages.Q_LINK.Unlinked</Expression>
+<Expression>FORALL X IN BTM.CurrentBaliseGroup | X.Telegram.Q_LINK != Messages.Q_LINK.Unlinked</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -763,7 +763,7 @@ NOT THERE_IS packet1 IN Message.Telegram.Sequence1 |
 )
   AND  
 (
-THERE_IS packet2 IN DuplicateBalise(Message.Telegram).Telegram.Sequence1 |
+THERE_IS packet2 IN BTM.DuplicateBalise(Message.Telegram).Telegram.Sequence1 |
     Available(packet2.TRACK_TO_TRAIN.DEFAULT_BALISE_LOOP_OR_RIU_INFORMATION)
 )</PreCondition></PreConditions>
 <Expression>True</Expression>
@@ -782,9 +782,9 @@ NOT THERE_IS packet IN Message.Telegram.Sequence1 |
 )
   AND  
 Before(
-    ExpectedFirst =&gt; DuplicateBalise(Message.Telegram),
+    ExpectedFirst =&gt; BTM.DuplicateBalise(Message.Telegram),
     ExpectedSecond =&gt; Message,
-    Collection =&gt; CurrentBaliseGroup
+    Collection =&gt; BTM.CurrentBaliseGroup
 )</PreCondition></PreConditions>
 <Expression>True</Expression>
 </Case><Case
@@ -796,7 +796,7 @@ Before(
  Guid="490dd201-2515-4ce7-874d-e58c06cec244"
 >Message.Telegram.M_DUP not in [Messages.M_DUP.No_duplicates, Messages.M_DUP.Spare]
   AND  
-DuplicateBalise(Message.Telegram).Missed</PreCondition></PreConditions>
+BTM.DuplicateBalise(Message.Telegram).Missed</PreCondition></PreConditions>
 <Expression>True</Expression>
 </Case><Case
  Name="Otherwise"
@@ -886,7 +886,7 @@ If the train direction is unknown, this function returns true only if the packet
  Name="Value"
  Guid="8ecc0b19-4add-4c5e-82e5-c56868836734"
 >
-<Expression>PacketOrientation == EFSOrientationConverter ( BaliseGroupOrientation() )
+<Expression>PacketOrientation == EFSOrientationConverter ( BTM.BaliseGroupOrientation() )
   OR
 PacketOrientation == Messages.Q_DIR.Both_directions</Expression>
 </Case></Cases>
@@ -920,7 +920,7 @@ PacketOrientation == Messages.Q_DIR.Both_directions</Expression>
  Name="Value"
  Guid="d62cbab2-876b-43a9-b9ef-9ab243cac385"
 >
-<Expression>Kernel.TrainPosition.FrontEndPosition ( PointOfInterest ) - ActiveAntennaPosition</Expression>
+<Expression>Kernel.TrainPosition.FrontEndPosition ( PointOfInterest ) - BTM.ActiveAntennaPosition</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -1012,7 +1012,7 @@ PacketOrientation == Messages.Q_DIR.Both_directions</Expression>
  Guid="2faa6422-23f7-41c4-85fb-699162e5f164"
 >Message.M_DUP == Messages.M_DUP.This_balise_is_a_duplicate_of_the_previous_balise__seen_in_the_nominal_direction_of_the_balise_group</PreCondition><PreCondition
  Guid="0841abe9-feff-42b3-bd02-a00031e66078"
->NOT ( THERE_IS X IN CurrentBaliseGroup | (X.Telegram.N_PIG == 0) )</PreCondition></PreConditions>
+>NOT ( THERE_IS X IN BTM.CurrentBaliseGroup | (X.Telegram.N_PIG == 0) )</PreCondition></PreConditions>
 <Expression>True</Expression>
 </Case><Case
  Name="Otherwise"
@@ -1097,7 +1097,7 @@ PacketOrientation == Messages.Q_DIR.Both_directions</Expression>
  Name="Value"
  Guid="b4fdb318-b4e0-4c4b-b434-1bdd7551b194"
 >
-<Expression>THERE_IS X IN Message.Sequence1 | ConsiderPacket ( PacketOrientation =&gt; X.TRACK_TO_TRAIN.REVERSING_SUPERVISION_INFORMATION.Q_DIR )</Expression>
+<Expression>THERE_IS X IN Message.Sequence1 | BTM.ConsiderPacket ( PacketOrientation =&gt; X.TRACK_TO_TRAIN.REVERSING_SUPERVISION_INFORMATION.Q_DIR )</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -1134,7 +1134,7 @@ PacketOrientation == Messages.Q_DIR.Both_directions</Expression>
  Name="Value"
  Guid="9ac75977-fe1c-450f-b401-f49ef5704cd6"
 >
-<Expression>THERE_IS X IN Message.Sequence1 | ConsiderPacket ( PacketOrientation =&gt; X.TRACK_TO_TRAIN.REVERSING_AREA_INFORMATION.Q_DIR )</Expression>
+<Expression>THERE_IS X IN Message.Sequence1 | BTM.ConsiderPacket ( PacketOrientation =&gt; X.TRACK_TO_TRAIN.REVERSING_AREA_INFORMATION.Q_DIR )</Expression>
 </Case></Cases>
 </Function><Function
  Type="Messages.PACKET.TRACK_TO_TRAIN.REVERSING_SUPERVISION_INFORMATION.Message"
@@ -1162,7 +1162,7 @@ PacketOrientation == Messages.Q_DIR.Both_directions</Expression>
  Name="Value"
  Guid="e23f384e-04ed-4772-979f-42235888b0a5"
 >
-<Expression>(FIRST X IN Message.Sequence1 | ConsiderPacket(X.TRACK_TO_TRAIN.REVERSING_SUPERVISION_INFORMATION.Q_DIR) ).TRACK_TO_TRAIN.REVERSING_SUPERVISION_INFORMATION</Expression>
+<Expression>(FIRST X IN Message.Sequence1 | BTM.ConsiderPacket(X.TRACK_TO_TRAIN.REVERSING_SUPERVISION_INFORMATION.Q_DIR) ).TRACK_TO_TRAIN.REVERSING_SUPERVISION_INFORMATION</Expression>
 </Case></Cases>
 </Function><Function
  Type="Messages.EUROBALISE.SubStructure1"
@@ -1234,7 +1234,7 @@ PacketOrientation == Messages.Q_DIR.Both_directions</Expression>
  Name="Value"
  Guid="b6221c53-5616-4adf-a085-1fad71644c39"
 >
-<Expression>(FIRST X IN CurrentBaliseGroup | (X.Telegram.M_MCOUNT != 255 AND X.Telegram.M_MCOUNT != 254)).Telegram.M_MCOUNT</Expression>
+<Expression>(FIRST X IN BTM.CurrentBaliseGroup | (X.Telegram.M_MCOUNT != 255 AND X.Telegram.M_MCOUNT != 254)).Telegram.M_MCOUNT</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -1326,8 +1326,8 @@ PacketOrientation == Messages.Q_DIR.Both_directions</Expression>
 <PreConditions>
 <PreCondition
  Guid="39d378f2-a59c-43bf-9e51-ee9605484628"
->THERE_IS X IN PreviousBaliseGroups | X.BaliseGroup.NID == aBG</PreCondition></PreConditions>
-<Expression>Odometry.NominalDistance - (FIRST X IN PreviousBaliseGroups | X.BaliseGroup.NID == aBG).BaliseGroup.Position.Position</Expression>
+>THERE_IS X IN BTM.PreviousBaliseGroups | X.BaliseGroup.NID == aBG</PreCondition></PreConditions>
+<Expression>Odometry.NominalDistance - (FIRST X IN BTM.PreviousBaliseGroups | X.BaliseGroup.NID == aBG).BaliseGroup.Position.Position</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="bbb4368c-06da-4efc-9230-417c0d87f09f"
@@ -1356,7 +1356,7 @@ PacketOrientation == Messages.Q_DIR.Both_directions</Expression>
  Name="Value"
  Guid="ecba41eb-172e-43a6-a77b-432225e820eb"
 >
-<Expression>(FIRST X IN CurrentBaliseGroup).Telegram.N_TOTAL == 0</Expression>
+<Expression>(FIRST X IN BTM.CurrentBaliseGroup).Telegram.N_TOTAL == 0</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -1460,7 +1460,7 @@ PacketOrientation == Messages.Q_DIR.Both_directions</Expression>
 <PreConditions>
 <PreCondition
  Guid="57cf162d-1c63-4ecb-8091-b1a895c0094f"
->NOT CheckBGMessageConsistency(LinkingUsed)</PreCondition></PreConditions>
+>NOT BTM.CheckBGMessageConsistency(LinkingUsed)</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
  Name="Value"
@@ -1468,11 +1468,11 @@ PacketOrientation == Messages.Q_DIR.Both_directions</Expression>
 >
 <Comment>Check that the linked BG (that is present in the linking information) is consistent.
 A BG marked as linked but absent from the linking information will be rejected and no linking reaction will be applied.</Comment>
-<Expression>BaliseGroupIncomplete(LinkingUsed)
+<Expression>BTM.BaliseGroupIncomplete(LinkingUsed)
   OR  
-IncorrectValuesInMessage()
+BTM.IncorrectValuesInMessage()
   OR  
-InconsistentMessageCounters()</Expression>
+BTM.InconsistentMessageCounters()</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -1563,33 +1563,33 @@ If balises were missed, checks for an acceptable duplicate.</Comment>
 <PreCondition
  Guid="f542a03d-bf03-4346-a2c9-fbb9fe2892b6"
 >LinkingUsed</PreCondition></PreConditions>
-<Expression>THERE_IS X IN CurrentBaliseGroup | 
+<Expression>THERE_IS X IN BTM.CurrentBaliseGroup | 
 X.Missed
  AND
 NOT 
 (
-PreviousBalise(X).Telegram.M_DUP == Messages.M_DUP.This_balise_is_a_duplicate_of_the_next_balise__seen_in_the_nominal_direction_of_the_balise_group
+BTM.PreviousBalise(X).Telegram.M_DUP == Messages.M_DUP.This_balise_is_a_duplicate_of_the_next_balise__seen_in_the_nominal_direction_of_the_balise_group
   OR  
-NextBalise(X).Telegram.M_DUP == Messages.M_DUP.This_balise_is_a_duplicate_of_the_previous_balise__seen_in_the_nominal_direction_of_the_balise_group
+BTM.NextBalise(X).Telegram.M_DUP == Messages.M_DUP.This_balise_is_a_duplicate_of_the_previous_balise__seen_in_the_nominal_direction_of_the_balise_group
 )</Expression>
 </Case><Case
  Name="Linking not used"
  Guid="e3eb75ad-5aa6-4b1c-8aa0-c2bc1ee9a5a3"
 >
-<Expression>THERE_IS X IN CurrentBaliseGroup | 
+<Expression>THERE_IS X IN BTM.CurrentBaliseGroup | 
 X.Missed
  AND 
 NOT
 (
   (
-  PreviousBalise(X).Telegram.M_DUP == Messages.M_DUP.This_balise_is_a_duplicate_of_the_next_balise__seen_in_the_nominal_direction_of_the_balise_group
+  BTM.PreviousBalise(X).Telegram.M_DUP == Messages.M_DUP.This_balise_is_a_duplicate_of_the_next_balise__seen_in_the_nominal_direction_of_the_balise_group
     OR  
-  NextBalise(X).Telegram.M_DUP == Messages.M_DUP.This_balise_is_a_duplicate_of_the_previous_balise__seen_in_the_nominal_direction_of_the_balise_group
+  BTM.NextBalise(X).Telegram.M_DUP == Messages.M_DUP.This_balise_is_a_duplicate_of_the_previous_balise__seen_in_the_nominal_direction_of_the_balise_group
   )
 
  AND 
 
- DuplicatedBaliseIsUseable(X.Telegram)
+ BTM.DuplicatedBaliseIsUseable(X.Telegram)
 )</Expression>
 </Case></Cases>
 </Function><Function
@@ -1634,7 +1634,7 @@ NOT
  Name="Value"
  Guid="6648ca8c-27e7-484f-b532-c80efeaf4c48"
 >
-<Expression>THERE_IS Message IN CurrentBaliseGroup | NOT Messages.EUROBALISE.MessageValuesCorrect(Message.Telegram)</Expression>
+<Expression>THERE_IS Message IN BTM.CurrentBaliseGroup | NOT Messages.EUROBALISE.MessageValuesCorrect(Message.Telegram)</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -1701,7 +1701,7 @@ NOT
 <PreConditions>
 <PreCondition
  Guid="a7bc10ee-a2e0-4e3e-9076-9f264f4a9e5c"
->FORALL X IN CurrentBaliseGroup | X.Telegram.M_MCOUNT == Messages.M_MCOUNT.The_telegram_fits_with_all_telegrams_of_the_same_balise_group</PreCondition></PreConditions>
+>FORALL X IN BTM.CurrentBaliseGroup | X.Telegram.M_MCOUNT == Messages.M_MCOUNT.The_telegram_fits_with_all_telegrams_of_the_same_balise_group</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
  Name="A telegram fits none of the others"
@@ -1710,13 +1710,13 @@ NOT
 <PreConditions>
 <PreCondition
  Guid="0922999e-5a02-4990-b933-752811cb95c6"
->THERE_IS Message IN CurrentBaliseGroup | Message.Telegram.M_MCOUNT == Messages.M_MCOUNT.The_telegram_never_fits_any_message_of_the_group</PreCondition></PreConditions>
+>THERE_IS Message IN BTM.CurrentBaliseGroup | Message.Telegram.M_MCOUNT == Messages.M_MCOUNT.The_telegram_never_fits_any_message_of_the_group</PreCondition></PreConditions>
 <Expression>True</Expression>
 </Case><Case
  Name="There are two different message counters"
  Guid="4a4aad7b-16a2-4058-b14a-8f29471350c7"
 >
-<Expression>THERE_IS Message IN CurrentBaliseGroup | Message.Telegram.M_MCOUNT != CurrentBGM_MCOUNT() AND Message.Telegram.M_MCOUNT != Messages.M_MCOUNT.The_telegram_fits_with_all_telegrams_of_the_same_balise_group</Expression>
+<Expression>THERE_IS Message IN BTM.CurrentBaliseGroup | Message.Telegram.M_MCOUNT != BTM.CurrentBGM_MCOUNT() AND Message.Telegram.M_MCOUNT != Messages.M_MCOUNT.The_telegram_fits_with_all_telegrams_of_the_same_balise_group</Expression>
 </Case></Cases>
 </Function><Function
  Type="StoredBaliseStruct"
@@ -1752,7 +1752,7 @@ NOT
  Name="Otherwise"
  Guid="de41cd39-d996-43c8-a2fd-2bab198aad1c"
 >
-<Expression>FIRST X IN CurrentBaliseGroup | X.Telegram.N_PIG == Balise.Telegram.N_PIG - 1</Expression>
+<Expression>FIRST X IN BTM.CurrentBaliseGroup | X.Telegram.N_PIG == Balise.Telegram.N_PIG - 1</Expression>
 </Case></Cases>
 </Function><Function
  Type="StoredBaliseStruct"
@@ -1772,15 +1772,15 @@ NOT
  Name="Value"
  Guid="88fa3cb0-bfd1-4b65-9d2b-2086ce6b0d03"
 >
-<Expression>LET refBalise &lt;- (FIRST Balise IN CurrentBaliseGroup).Telegram
+<Expression>LET refBalise &lt;- (FIRST Balise IN BTM.CurrentBaliseGroup).Telegram
 
 IN
-StoredBaliseStruct{
+BTM.StoredBaliseStruct{
     Telegram =&gt; Messages.EUROBALISE.Message{
         Q_UPDOWN =&gt; refBalise.Q_UPDOWN,
         M_VERSION =&gt; refBalise.M_VERSION,
         Q_MEDIA =&gt; refBalise.Q_MEDIA,
-        N_PIG =&gt; MissedBalise_N_PIG(),
+        N_PIG =&gt; BTM.MissedBalise_N_PIG(),
         N_TOTAL =&gt; refBalise.N_TOTAL,
         M_DUP =&gt; 0,
         M_MCOUNT =&gt; Messages.M_MCOUNT.The_telegram_fits_with_all_telegrams_of_the_same_balise_group,
@@ -1827,7 +1827,7 @@ StoredBaliseStruct{
  Name="Otherwise"
  Guid="f7acfe2d-b478-41f5-ba31-7a3b6317b206"
 >
-<Expression>FIRST X IN CurrentBaliseGroup | X.Telegram.N_PIG == Balise.Telegram.N_PIG + 1</Expression>
+<Expression>FIRST X IN BTM.CurrentBaliseGroup | X.Telegram.N_PIG == Balise.Telegram.N_PIG + 1</Expression>
 </Case></Cases>
 </Function><Function
  Type="Messages.N_PIG"
@@ -1850,8 +1850,8 @@ StoredBaliseStruct{
 <PreConditions>
 <PreCondition
  Guid="e527dd06-8d8f-4ac9-aef1-75fbcae88607"
->BaliseGroupOrientation() == Orientation.Nominal</PreCondition></PreConditions>
-<Expression>(LAST X IN CurrentBaliseGroup).Telegram.N_PIG + 1</Expression>
+>BTM.BaliseGroupOrientation() == Orientation.Nominal</PreCondition></PreConditions>
+<Expression>(LAST X IN BTM.CurrentBaliseGroup).Telegram.N_PIG + 1</Expression>
 </Case><Case
  Name="Reverse"
  Guid="96841db8-5eee-4ccf-985d-c60ea87e31ab"
@@ -1859,8 +1859,8 @@ StoredBaliseStruct{
 <PreConditions>
 <PreCondition
  Guid="dccafee7-8c97-4e55-92e7-b52211cda954"
->BaliseGroupOrientation() == Orientation.Reverse</PreCondition></PreConditions>
-<Expression>(LAST X IN CurrentBaliseGroup).Telegram.N_PIG + 1</Expression>
+>BTM.BaliseGroupOrientation() == Orientation.Reverse</PreCondition></PreConditions>
+<Expression>(LAST X IN BTM.CurrentBaliseGroup).Telegram.N_PIG + 1</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -1883,7 +1883,7 @@ StoredBaliseStruct{
 <PreConditions>
 <PreCondition
  Guid="ffbc3619-3161-4287-b261-cc5320a760c5"
->(COUNT X IN CurrentBaliseGroup) == Message.N_TOTAL + 1</PreCondition></PreConditions>
+>(COUNT X IN BTM.CurrentBaliseGroup) == BTM.Message.N_TOTAL + 1</PreCondition></PreConditions>
 <Expression>True</Expression>
 </Case><Case
  Name="First balise(s) missed, nominal direction"
@@ -1892,9 +1892,9 @@ StoredBaliseStruct{
 <PreConditions>
 <PreCondition
  Guid="e9da31c6-973c-49aa-9e61-b5d14d2b5ebc"
->BaliseGroupOrientation() == Orientation.Nominal
+>BTM.BaliseGroupOrientation() == Orientation.Nominal
   AND  
-(LAST X IN CurrentBaliseGroup).Telegram.N_PIG == (LAST X IN CurrentBaliseGroup).Telegram.N_TOTAL</PreCondition></PreConditions>
+(LAST X IN BTM.CurrentBaliseGroup).Telegram.N_PIG == (LAST X IN BTM.CurrentBaliseGroup).Telegram.N_TOTAL</PreCondition></PreConditions>
 <Expression>True</Expression>
 </Case><Case
  Name="First balise(s) missed, reverse direction"
@@ -1903,9 +1903,9 @@ StoredBaliseStruct{
 <PreConditions>
 <PreCondition
  Guid="c215fd2a-7ce8-464f-9671-48c87c63b97f"
->BaliseGroupOrientation() == Orientation.Reverse
+>BTM.BaliseGroupOrientation() == Orientation.Reverse
   AND  
-(LAST X IN CurrentBaliseGroup).Telegram.N_PIG == 0</PreCondition></PreConditions>
+(LAST X IN BTM.CurrentBaliseGroup).Telegram.N_PIG == 0</PreCondition></PreConditions>
 <Expression>True</Expression>
 </Case><Case
  Name="Otherwise"
@@ -1964,7 +1964,7 @@ StoredBaliseStruct{
   AND  
 THERE_IS X IN Balise.Sequence1 | (Messages.PACKET.TRACK_TO_TRAIN.GetQ_DIR(X.TRACK_TO_TRAIN) == Messages.Q_DIR.Nominal  OR  Messages.PACKET.TRACK_TO_TRAIN.GetQ_DIR(X.TRACK_TO_TRAIN) == Messages.Q_DIR.Reverse)
   AND  
-BaliseGroupOrientation() != Orientation.Unknown</PreCondition></PreConditions>
+BTM.BaliseGroupOrientation() != Orientation.Unknown</PreCondition></PreConditions>
 <Expression>True</Expression>
 </Case><Case
  Name="All information valid for both directions"
@@ -2057,7 +2057,7 @@ FORALL X IN Balise.Sequence1 |
 <PreCondition
  Guid="eff994b4-3615-45a8-aa7b-0f8ebe6856c6"
 >Balise.M_DUP == Messages.M_DUP.This_balise_is_a_duplicate_of_the_next_balise__seen_in_the_nominal_direction_of_the_balise_group</PreCondition></PreConditions>
-<Expression>FIRST X IN CurrentBaliseGroup | X.Telegram.N_PIG == Balise.N_PIG + 1</Expression>
+<Expression>FIRST X IN BTM.CurrentBaliseGroup | X.Telegram.N_PIG == Balise.N_PIG + 1</Expression>
 </Case><Case
  Name="Duplicate of the previous balise"
  Guid="49c7ee14-4263-4343-a897-558b4e36f7d6"
@@ -2066,7 +2066,7 @@ FORALL X IN Balise.Sequence1 |
 <PreCondition
  Guid="fcdc7999-90e2-4d29-adf7-6ce07cd84427"
 >Balise.M_DUP == Messages.M_DUP.This_balise_is_a_duplicate_of_the_previous_balise__seen_in_the_nominal_direction_of_the_balise_group</PreCondition></PreConditions>
-<Expression>FIRST X IN CurrentBaliseGroup | X.Telegram.N_PIG == Balise.N_PIG - 1</Expression>
+<Expression>FIRST X IN BTM.CurrentBaliseGroup | X.Telegram.N_PIG == Balise.N_PIG - 1</Expression>
 </Case></Cases>
 </Function><Function
  Type="Messages.EUROBALISE.SubStructure1"
@@ -2146,7 +2146,7 @@ FORALL X IN Balise.Sequence1 |
 <PreConditions>
 <PreCondition
  Guid="7444adf0-3c4a-4308-9805-1277c005f8d4"
->(FIRST StoredBalise IN CurrentBaliseGroup).Telegram.Q_LINK == Messages.Q_LINK.Unlinked</PreCondition></PreConditions>
+>(FIRST StoredBalise IN BTM.CurrentBaliseGroup).Telegram.Q_LINK == Messages.Q_LINK.Unlinked</PreCondition></PreConditions>
 <Expression>Kernel.ActiveFunctions.CheckUnlinkedBGMessage()</Expression>
 </Case><Case
  Name="Linking is not used"
@@ -2157,7 +2157,7 @@ FORALL X IN Balise.Sequence1 |
  Guid="61307b7f-b5a3-4a46-a929-a6dfd327cc83"
 >NOT LinkingUsed</PreCondition><PreCondition
  Guid="66670e88-fae0-4539-8528-54f5a0e3aa59"
->Linking.Linkings == []
+>BTM.Linking.Linkings == []
   OR  
 NOT Kernel.ActiveFunctions.CheckLinkingConsistency()</PreCondition></PreConditions>
 <Expression>Kernel.ActiveFunctions.CheckBGMessageIfNotLinking()</Expression>
@@ -2251,13 +2251,13 @@ NOT Kernel.ActiveFunctions.CheckLinkingConsistency()</PreCondition></PreConditio
 <PreConditions>
 <PreCondition
  Guid="740ed4a7-b7cc-46f8-b0c9-dd3a37c4a2c5"
->ConsiderPacket ( PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.LINKING.Q_DIR )</PreCondition><PreCondition
+>BTM.ConsiderPacket ( PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.LINKING.Q_DIR )</PreCondition><PreCondition
  Guid="04ae732a-d2f6-421d-8ffe-17d22831641d"
 >Kernel.AcceptInformation.Linking( Source =&gt; Kernel.AcceptInformation.Source.BaliseGroup )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="250427e6-8ddb-431d-a76d-b4432281374f"
->Linking.LinkingInformationReceived ( Packet.TRACK_TO_TRAIN.LINKING )</Action></Actions>
+>BTM.Linking.LinkingInformationReceived ( Packet.TRACK_TO_TRAIN.LINKING )</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="National Values available"
@@ -2277,7 +2277,7 @@ NOT Kernel.ActiveFunctions.CheckLinkingConsistency()</PreCondition></PreConditio
 <PreConditions>
 <PreCondition
  Guid="5ba39e2d-0d86-4404-b853-53b808070955"
->ConsiderPacket ( PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.NATIONAL_VALUES.Q_DIR )</PreCondition><PreCondition
+>BTM.ConsiderPacket ( PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.NATIONAL_VALUES.Q_DIR )</PreCondition><PreCondition
  Guid="6f2ee328-827c-4fb1-93da-3d55a15e4fb4"
 >Kernel.AcceptInformation.NationalValues( Source =&gt; Kernel.AcceptInformation.Source.BaliseGroup )</PreCondition></PreConditions>
 <Actions>
@@ -2308,15 +2308,15 @@ NOT Kernel.ActiveFunctions.CheckLinkingConsistency()</PreCondition></PreConditio
 <PreConditions>
 <PreCondition
  Guid="a5ae63f6-8d36-44a3-bbd2-212a49b20d81"
->ConsiderPacket ( PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.REPOSITIONING_INFORMATION.Q_DIR )</PreCondition><PreCondition
+>BTM.ConsiderPacket ( PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.REPOSITIONING_INFORMATION.Q_DIR )</PreCondition><PreCondition
  Guid="d86ad34c-f29d-4680-8d17-fef9ba598939"
->Linking.CurrentLinking().BaliseGroupIdentifier == Messages.NID_BG.NID_UNKNOWN</PreCondition><PreCondition
+>BTM.Linking.CurrentLinking().BaliseGroupIdentifier == Messages.NID_BG.NID_UNKNOWN</PreCondition><PreCondition
  Guid="0fa33894-ee64-4a71-b7fb-662d079bb38b"
 >Kernel.AcceptInformation.RepositioningInformation( Source =&gt; Kernel.AcceptInformation.Source.BaliseGroup )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="11ff0426-7369-4b98-8ea9-b7674aadda0c"
->Kernel.MA.RepositioningInformationReceived ( Packet =&gt; Packet.TRACK_TO_TRAIN.REPOSITIONING_INFORMATION, DistanceToBG =&gt; Linking.CurrentLinking().Distance )</Action></Actions>
+>Kernel.MA.RepositioningInformationReceived ( Packet =&gt; Packet.TRACK_TO_TRAIN.REPOSITIONING_INFORMATION, DistanceToBG =&gt; BTM.Linking.CurrentLinking().Distance )</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Gradient available"
@@ -2341,7 +2341,7 @@ NOT Kernel.ActiveFunctions.CheckLinkingConsistency()</PreCondition></PreConditio
 <PreConditions>
 <PreCondition
  Guid="707ec8bf-fadd-4254-9e70-04791d061d52"
->ConsiderPacket ( PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.GRADIENT_PROFILE.Q_DIR )</PreCondition><PreCondition
+>BTM.ConsiderPacket ( PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.GRADIENT_PROFILE.Q_DIR )</PreCondition><PreCondition
  Guid="95f2c2bb-dbf6-41e8-ad9c-017f485637c0"
 >Kernel.AcceptInformation.GradientProfile( Source =&gt; Kernel.AcceptInformation.Source.BaliseGroup )</PreCondition></PreConditions>
 <Actions>
@@ -2372,7 +2372,7 @@ NOT Kernel.ActiveFunctions.CheckLinkingConsistency()</PreCondition></PreConditio
 <PreConditions>
 <PreCondition
  Guid="f883aba6-4c27-4a72-b986-d0388d7577cd"
->ConsiderPacket ( PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.INTERNATIONAL_STATIC_SPEED_PROFILE.Q_DIR )</PreCondition><PreCondition
+>BTM.ConsiderPacket ( PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.INTERNATIONAL_STATIC_SPEED_PROFILE.Q_DIR )</PreCondition><PreCondition
  Guid="0a981d98-4459-449e-8252-0b98745e8cb8"
 >Kernel.AcceptInformation.InternationalSSP( Source =&gt; Kernel.AcceptInformation.Source.BaliseGroup )</PreCondition></PreConditions>
 <Actions>
@@ -2398,7 +2398,7 @@ NOT Kernel.ActiveFunctions.CheckLinkingConsistency()</PreCondition></PreConditio
 <PreConditions>
 <PreCondition
  Guid="08e11111-2014-42e6-98f6-54a7fe1b3c8e"
->ConsiderPacket ( PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM.Q_DIR )</PreCondition><PreCondition
+>BTM.ConsiderPacket ( PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM.Q_DIR )</PreCondition><PreCondition
  Guid="9fda324c-48ab-40d4-a6c3-a266822c2cb5"
 >Kernel.AcceptInformation.TrackConditionsExcludingSpecialCases( Source =&gt; Kernel.AcceptInformation.Source.BaliseGroup )</PreCondition></PreConditions>
 <Actions>
@@ -2424,7 +2424,7 @@ NOT Kernel.ActiveFunctions.CheckLinkingConsistency()</PreCondition></PreConditio
 <PreConditions>
 <PreCondition
  Guid="2ae476f8-85fe-405e-9228-8e0cf7bf9516"
->ConsiderPacket ( PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.TRACK_CONDITION_CHANGE_OF_ALLOWED_CURRENT_CONSUMPTION.Q_DIR )</PreCondition><PreCondition
+>BTM.ConsiderPacket ( PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.TRACK_CONDITION_CHANGE_OF_ALLOWED_CURRENT_CONSUMPTION.Q_DIR )</PreCondition><PreCondition
  Guid="e320cf30-ddc4-4568-94c4-370dc6fac3e0"
 >Kernel.AcceptInformation.TrackConditionsExcludingSpecialCases( Source =&gt; Kernel.AcceptInformation.Source.BaliseGroup )</PreCondition></PreConditions>
 <Actions>
@@ -2455,7 +2455,7 @@ NOT Kernel.ActiveFunctions.CheckLinkingConsistency()</PreCondition></PreConditio
 <PreConditions>
 <PreCondition
  Guid="e5602e17-2393-423c-b397-89dcba576dcf"
->ConsiderPacket ( PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.SESSION_MANAGEMENT.Q_DIR )</PreCondition><PreCondition
+>BTM.ConsiderPacket ( PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.SESSION_MANAGEMENT.Q_DIR )</PreCondition><PreCondition
  Guid="26169b37-911f-4e40-9127-f2f5a4805ea3"
 >Kernel.AcceptInformation.SessionManagement( Source =&gt; Kernel.AcceptInformation.Source.BaliseGroup )</PreCondition></PreConditions>
 <Actions>
@@ -2486,7 +2486,7 @@ NOT Kernel.ActiveFunctions.CheckLinkingConsistency()</PreCondition></PreConditio
 <PreConditions>
 <PreCondition
  Guid="7dde0488-8df7-418d-95ee-21082e23dfa7"
->ConsiderPacket ( PacketOrientation=&gt;Packet.TRACK_TO_TRAIN.RADIO_NETWORK_REGISTRATION.Q_DIR )</PreCondition><PreCondition
+>BTM.ConsiderPacket ( PacketOrientation=&gt;Packet.TRACK_TO_TRAIN.RADIO_NETWORK_REGISTRATION.Q_DIR )</PreCondition><PreCondition
  Guid="080e884b-999a-43f0-91f0-7d8e8a6b11ec"
 >Kernel.AcceptInformation.RadioNetworkRegistration( Source =&gt; Kernel.AcceptInformation.Source.BaliseGroup )</PreCondition></PreConditions>
 <Actions>
@@ -2512,7 +2512,7 @@ NOT Kernel.ActiveFunctions.CheckLinkingConsistency()</PreCondition></PreConditio
 <PreConditions>
 <PreCondition
  Guid="7d08f93b-f3cf-41fe-8d7c-ded1a543e64d"
->ConsiderPacket ( PacketOrientation=&gt;Packet.TRACK_TO_TRAIN.CONDITIONAL_LEVEL_TRANSITION_ORDER.Q_DIR )</PreCondition><PreCondition
+>BTM.ConsiderPacket ( PacketOrientation=&gt;Packet.TRACK_TO_TRAIN.CONDITIONAL_LEVEL_TRANSITION_ORDER.Q_DIR )</PreCondition><PreCondition
  Guid="d97dda75-aa31-4a67-9b83-9d5f0812eda4"
 >Kernel.AcceptInformation.ConditionalLevelTransitionOrder( Source =&gt; Kernel.AcceptInformation.Source.BaliseGroup )</PreCondition></PreConditions>
 <Actions>
@@ -2543,7 +2543,7 @@ NOT Kernel.ActiveFunctions.CheckLinkingConsistency()</PreCondition></PreConditio
 <PreConditions>
 <PreCondition
  Guid="90ab8949-4dbb-4fdc-973b-d6f4b75d9912"
->ConsiderPacket ( PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.LIST_OF_BALISES_FOR_SH_AREA.Q_DIR )</PreCondition><PreCondition
+>BTM.ConsiderPacket ( PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.LIST_OF_BALISES_FOR_SH_AREA.Q_DIR )</PreCondition><PreCondition
  Guid="3b824ad9-a3ef-452b-a33e-98f9852625f0"
 >Kernel.AcceptInformation.MovementAuthority( Source =&gt; Kernel.AcceptInformation.Source.BaliseGroup )</PreCondition></PreConditions>
 <Actions>
@@ -2574,7 +2574,7 @@ NOT Kernel.ActiveFunctions.CheckLinkingConsistency()</PreCondition></PreConditio
 <PreConditions>
 <PreCondition
  Guid="7e4e2969-37b5-42c9-be79-a5cabaec81d7"
->ConsiderPacket ( PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.AXLE_LOAD_SPEED_PROFILE.Q_DIR )</PreCondition><PreCondition
+>BTM.ConsiderPacket ( PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.AXLE_LOAD_SPEED_PROFILE.Q_DIR )</PreCondition><PreCondition
  Guid="0850e212-45c4-447c-ae3b-a10a6ccc2731"
 >Kernel.AcceptInformation.AxleLoadSpeedProfile( Source =&gt; Kernel.AcceptInformation.Source.BaliseGroup )</PreCondition></PreConditions>
 <Actions>
@@ -2605,7 +2605,7 @@ NOT Kernel.ActiveFunctions.CheckLinkingConsistency()</PreCondition></PreConditio
 <PreConditions>
 <PreCondition
  Guid="ce7592d3-5d36-42a6-a430-0f02f26d87b3"
->ConsiderPacket ( PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.PERMITTED_BRAKING_DISTANCE_INFORMATION.Q_DIR )</PreCondition><PreCondition
+>BTM.ConsiderPacket ( PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.PERMITTED_BRAKING_DISTANCE_INFORMATION.Q_DIR )</PreCondition><PreCondition
  Guid="63b17e86-0a51-4eea-820f-70178c39402a"
 >Kernel.AcceptInformation.PermittedBrakingDistanceInformation( Source =&gt; Kernel.AcceptInformation.Source.BaliseGroup )</PreCondition></PreConditions>
 <Actions>
@@ -2631,7 +2631,7 @@ NOT Kernel.ActiveFunctions.CheckLinkingConsistency()</PreCondition></PreConditio
 <PreConditions>
 <PreCondition
  Guid="695bdf97-2135-4805-808a-b6281c1da123"
->ConsiderPacket ( PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.TEMPORARY_SPEED_RESTRICTION.Q_DIR )</PreCondition><PreCondition
+>BTM.ConsiderPacket ( PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.TEMPORARY_SPEED_RESTRICTION.Q_DIR )</PreCondition><PreCondition
  Guid="f7f0dee3-8164-4d11-996e-7a7ec24af01f"
 >Kernel.AcceptInformation.TemporarySpeedRestriction
 (
@@ -2661,7 +2661,7 @@ NOT Kernel.ActiveFunctions.CheckLinkingConsistency()</PreCondition></PreConditio
 <PreConditions>
 <PreCondition
  Guid="673297fe-8eba-443e-93e0-6cde374acf93"
->ConsiderPacket ( PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.TEMPORARY_SPEED_RESTRICTION_REVOCATION.Q_DIR )</PreCondition><PreCondition
+>BTM.ConsiderPacket ( PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.TEMPORARY_SPEED_RESTRICTION_REVOCATION.Q_DIR )</PreCondition><PreCondition
  Guid="4889cb99-67ac-476c-ac67-96baed35877f"
 >Kernel.AcceptInformation.TemporarySpeedRestrictionRevocation( Source =&gt; Kernel.AcceptInformation.Source.BaliseGroup )</PreCondition></PreConditions>
 <Actions>
@@ -2687,7 +2687,7 @@ NOT Kernel.ActiveFunctions.CheckLinkingConsistency()</PreCondition></PreConditio
 <PreConditions>
 <PreCondition
  Guid="a21202a1-5f8b-4294-a6a7-80d366dcaf78"
->ConsiderPacket ( PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.TRACK_CONDITION_BIG_METAL_MASSES.Q_DIR )</PreCondition><PreCondition
+>BTM.ConsiderPacket ( PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.TRACK_CONDITION_BIG_METAL_MASSES.Q_DIR )</PreCondition><PreCondition
  Guid="cca34d29-a193-4757-b982-b2b39d7a641d"
 >Kernel.AcceptInformation.TrackConditionsBigMetalMasses( Source =&gt; Kernel.AcceptInformation.Source.BaliseGroup )</PreCondition></PreConditions>
 <Actions>
@@ -2718,7 +2718,7 @@ NOT Kernel.ActiveFunctions.CheckLinkingConsistency()</PreCondition></PreConditio
 <PreConditions>
 <PreCondition
  Guid="0d34e791-f010-453b-b97f-105cc27ebddb"
->ConsiderPacket ( PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.TRACK_CONDITION.Q_DIR )</PreCondition><PreCondition
+>BTM.ConsiderPacket ( PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.TRACK_CONDITION.Q_DIR )</PreCondition><PreCondition
  Guid="8f322232-1723-481f-85d9-b14c2fde161e"
 >Kernel.AcceptInformation.TrackConditionsIncludingSpecialCases( Source =&gt; Kernel.AcceptInformation.Source.BaliseGroup )</PreCondition></PreConditions>
 <Actions>
@@ -2744,7 +2744,7 @@ NOT Kernel.ActiveFunctions.CheckLinkingConsistency()</PreCondition></PreConditio
 <PreConditions>
 <PreCondition
  Guid="c3cf8574-ecaa-4d54-b4cf-cc3262950012"
->ConsiderPacket ( PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.TRACK_CONDITION_STATION_PLATFORMS.Q_DIR )</PreCondition><PreCondition
+>BTM.ConsiderPacket ( PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.TRACK_CONDITION_STATION_PLATFORMS.Q_DIR )</PreCondition><PreCondition
  Guid="7f7b7b5a-c73f-4577-a4be-fd53a96683e6"
 >Kernel.AcceptInformation.TrackConditionsExcludingSpecialCases( Source =&gt; Kernel.AcceptInformation.Source.BaliseGroup )</PreCondition></PreConditions>
 <Actions>
@@ -2775,7 +2775,7 @@ NOT Kernel.ActiveFunctions.CheckLinkingConsistency()</PreCondition></PreConditio
 <PreConditions>
 <PreCondition
  Guid="41f1baa5-c1ed-48ea-91a9-de8a5b5fbaef"
->ConsiderPacket ( PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.ROUTE_SUITABILITY_DATA.Q_DIR )</PreCondition><PreCondition
+>BTM.ConsiderPacket ( PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.ROUTE_SUITABILITY_DATA.Q_DIR )</PreCondition><PreCondition
  Guid="bf657fe9-3da3-47c9-a5c1-642d726973e4"
 >Kernel.AcceptInformation.RouteSuitabilityData( Source =&gt; Kernel.AcceptInformation.Source.BaliseGroup )</PreCondition></PreConditions>
 <Actions>
@@ -2878,7 +2878,7 @@ NOT Kernel.ActiveFunctions.CheckLinkingConsistency()</PreCondition></PreConditio
 <PreConditions>
 <PreCondition
  Guid="3df15a50-e4cd-4343-8a41-cb8d3cec0b37"
->ConsiderPacket ( PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.ADHESION_FACTOR.Q_DIR )</PreCondition><PreCondition
+>BTM.ConsiderPacket ( PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.ADHESION_FACTOR.Q_DIR )</PreCondition><PreCondition
  Guid="5a708ddb-07ae-4860-89ce-d0747b1ab121"
 >Kernel.AcceptInformation.AdhesionFactor( Source =&gt; Kernel.AcceptInformation.Source.BaliseGroup )</PreCondition></PreConditions>
 <Actions>
@@ -2899,7 +2899,7 @@ NOT Kernel.ActiveFunctions.CheckLinkingConsistency()</PreCondition></PreConditio
 <PreConditions>
 <PreCondition
  Guid="e7d4f283-e559-4695-af6d-3d536bd9b26f"
->ConsiderPacket ( PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.GEOGRAPHICAL_POSITION_INFORMATION.Q_DIR )</PreCondition><PreCondition
+>BTM.ConsiderPacket ( PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.GEOGRAPHICAL_POSITION_INFORMATION.Q_DIR )</PreCondition><PreCondition
  Guid="132a1d5d-1ce0-4c2a-a4de-f9c2704da604"
 >Kernel.AcceptInformation.GeographicalPosition( Source =&gt; Kernel.AcceptInformation.Source.BaliseGroup )</PreCondition></PreConditions>
 <Actions>
@@ -2925,7 +2925,7 @@ NOT Kernel.ActiveFunctions.CheckLinkingConsistency()</PreCondition></PreConditio
 <PreConditions>
 <PreCondition
  Guid="e44772b8-5ec5-4de6-9609-3ddde969f874"
->ConsiderPacket ( PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.LEVEL_CROSSING_INFORMATION.Q_DIR )</PreCondition><PreCondition
+>BTM.ConsiderPacket ( PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.LEVEL_CROSSING_INFORMATION.Q_DIR )</PreCondition><PreCondition
  Guid="8daf8ed5-ae52-4f28-8c1f-9db08ae5c8ad"
 >Kernel.AcceptInformation.LevelCrossingInformation( Source =&gt; Kernel.AcceptInformation.Source.BaliseGroup )
   OR
@@ -2953,7 +2953,7 @@ True</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="09dc7e93-e179-44cf-a996-1512cd99d929"
->ConsiderPacket ( PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.TRACK_AHEAD_FREE_UP_TO_LEVEL_2_3_TRANSITION_LOCATION.Q_DIR )</PreCondition><PreCondition
+>BTM.ConsiderPacket ( PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.TRACK_AHEAD_FREE_UP_TO_LEVEL_2_3_TRANSITION_LOCATION.Q_DIR )</PreCondition><PreCondition
  Guid="9e67ba68-22f6-4e7c-a781-e7f5dc5f343d"
 >Kernel.AcceptInformation.TrackAheadFreeUpToLevel2_3TransitionLocation( Source =&gt; Kernel.AcceptInformation.Source.BaliseGroup )</PreCondition></PreConditions>
 <Actions>
@@ -3048,7 +3048,7 @@ True</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="61f518c1-008f-4e7d-ac92-f0ede5ce7df0"
->ConsiderPacket ( PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.RBC_TRANSITION_ORDER.Q_DIR )</PreCondition><PreCondition
+>BTM.ConsiderPacket ( PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.RBC_TRANSITION_ORDER.Q_DIR )</PreCondition><PreCondition
  Guid="d37ce7be-6772-4045-a266-ec125aa50d15"
 >Kernel.AcceptInformation.RBCTransitionOrder( Source =&gt; Kernel.AcceptInformation.Source.BaliseGroup )</PreCondition></PreConditions>
 <Actions>
@@ -3080,7 +3080,7 @@ True</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="b66421ab-9225-4b66-9b32-ae12ae206ffc"
->ConsiderPacket ( PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.INFILL_LOCATION_REFERENCE.Q_DIR )</PreCondition><PreCondition
+>BTM.ConsiderPacket ( PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.INFILL_LOCATION_REFERENCE.Q_DIR )</PreCondition><PreCondition
  Guid="124373f0-52fa-477e-883b-90d40f969d31"
 >Kernel.Infill.InfillTransmissionMediaAvailable</PreCondition><PreCondition
  Guid="9fd621d8-93b5-4c1b-8cf6-18589d0f2f00"
@@ -3123,9 +3123,9 @@ True</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="229f8b76-fd9c-43fc-9e81-d3eeef35a300"
->ConsiderPacket ( PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.REVERSING_AREA_INFORMATION.Q_DIR )</PreCondition><PreCondition
+>BTM.ConsiderPacket ( PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.REVERSING_AREA_INFORMATION.Q_DIR )</PreCondition><PreCondition
  Guid="63b7ef27-bbc6-42a7-8bf2-d97a8e0a60c8"
->THERE_IS X IN CurrentBaliseGroup | HasRevSupervisionInfo(Message=&gt;X.Telegram)</PreCondition><PreCondition
+>THERE_IS X IN BTM.CurrentBaliseGroup | BTM.HasRevSupervisionInfo(Message=&gt;X.Telegram)</PreCondition><PreCondition
  Guid="6690bf2e-a45a-4a8a-ad44-1204ba66e591"
 >Kernel.AcceptInformation.ReversingAreaInformation( Source =&gt; Kernel.AcceptInformation.Source.BaliseGroup )</PreCondition></PreConditions>
 <Actions>
@@ -3134,7 +3134,7 @@ True</PreCondition></PreConditions>
 >Kernel.TrackDescription.ReversingArea.ReversingAreaInformationReceived
 (
     RVAreaPacket =&gt; Packet.TRACK_TO_TRAIN.REVERSING_AREA_INFORMATION,
-    RVSupervisionPacket =&gt; RevSupervisionPacket((FIRST X IN CurrentBaliseGroup | HasRevSupervisionInfo(X.Telegram)).Telegram)
+    RVSupervisionPacket =&gt; BTM.RevSupervisionPacket((FIRST X IN BTM.CurrentBaliseGroup | BTM.HasRevSupervisionInfo(X.Telegram)).Telegram)
 )</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
@@ -3160,9 +3160,9 @@ True</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="84dbb76c-bf59-462a-9f3c-525182a0b7cf"
->ConsiderPacket ( PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.REVERSING_SUPERVISION_INFORMATION.Q_DIR )</PreCondition><PreCondition
+>BTM.ConsiderPacket ( PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.REVERSING_SUPERVISION_INFORMATION.Q_DIR )</PreCondition><PreCondition
  Guid="248dc82c-f2d7-416f-ae54-eab951eba3be"
->NOT ( THERE_IS X IN CurrentBaliseGroup | HasRevAreaInfo(Message=&gt;X.Telegram) )</PreCondition><PreCondition
+>NOT ( THERE_IS X IN BTM.CurrentBaliseGroup | BTM.HasRevAreaInfo(Message=&gt;X.Telegram) )</PreCondition><PreCondition
  Guid="d05ae38b-93a3-4fa6-a368-ee92b1173201"
 >Kernel.AcceptInformation.ReversingSupervisionInformation( Source =&gt; Kernel.AcceptInformation.Source.BaliseGroup )</PreCondition></PreConditions>
 <Actions>
@@ -3191,7 +3191,7 @@ True</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="547b3821-fa99-449c-83b4-8d095143005d"
->ConsiderPacket ( PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.DEFAULT_GRADIENT_FOR_TEMPORARY_SPEED_RESTRICTION.Q_DIR )</PreCondition><PreCondition
+>BTM.ConsiderPacket ( PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.DEFAULT_GRADIENT_FOR_TEMPORARY_SPEED_RESTRICTION.Q_DIR )</PreCondition><PreCondition
  Guid="5dc5809b-4774-4887-8dc5-2115747ced74"
 >Kernel.AcceptInformation.DefaultGradientForTSR( Source =&gt; Kernel.AcceptInformation.Source.BaliseGroup )</PreCondition></PreConditions>
 <Actions>
@@ -3217,7 +3217,7 @@ True</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="e115cfb9-acb3-4a62-9d4f-531cce8adebf"
->ConsiderPacket ( PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.VIRTUAL_BALISE_COVER_ORDER.Q_DIR )</PreCondition><PreCondition
+>BTM.ConsiderPacket ( PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.VIRTUAL_BALISE_COVER_ORDER.Q_DIR )</PreCondition><PreCondition
  Guid="d0fbabae-a7ff-4cd8-afd7-acf8eb4f6c50"
 >Kernel.AcceptInformation.VirtualBaliseCoverOrder( Source =&gt; Kernel.AcceptInformation.Source.BaliseGroup )</PreCondition></PreConditions>
 <Actions>
@@ -3233,7 +3233,7 @@ True</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="6849aabe-b0ac-4fbc-8d10-a3200c6580e6"
->ConsiderPacket ( PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.LSSMA_DISPLAY_TOGGLE_ORDER.Q_DIR )</PreCondition><PreCondition
+>BTM.ConsiderPacket ( PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.LSSMA_DISPLAY_TOGGLE_ORDER.Q_DIR )</PreCondition><PreCondition
  Guid="7efc1a9f-9602-44bc-9569-71ebb28a94ac"
 >(
   Kernel.AcceptInformation.LSSMADisplayToggleOffOrder( Source =&gt; Kernel.AcceptInformation.Source.BaliseGroup )
@@ -3251,7 +3251,7 @@ True</PreCondition></PreConditions>
  Guid="004ed3f5-351e-4130-868e-a4960e2b944e"
 >Kernel.Modes.LimitedSupervision.LSSMAToggleReceived(
     Packet =&gt; Packet.TRACK_TO_TRAIN.LSSMA_DISPLAY_TOGGLE_ORDER,
-    Timestamp =&gt; BGLocationReference.Timestamp
+    Timestamp =&gt; BTM.BGLocationReference.Timestamp
 )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
@@ -3986,7 +3986,7 @@ The list is updated in case two LRBGs provide the same MRSP, this should count a
 <Actions>
 <Action
  Guid="1a79f6be-8cd7-40c6-9975-e855cdded2c5"
->Kernel.MA.MA.EndSection.Length &lt;- Kernel.MA.MA.EndSection.Length - BaseTypes.DistanceToLength( BGLocationReference.Position.Position - LRBG.Position.Position )</Action></Actions>
+>Kernel.MA.MA.EndSection.Length &lt;- Kernel.MA.MA.EndSection.Length - BaseTypes.DistanceToLength( BTM.BGLocationReference.Position.Position - BTM.LRBG.Position.Position )</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="There are sections - train is in the end section"
@@ -3996,11 +3996,11 @@ The list is updated in case two LRBGs provide the same MRSP, this should count a
 <PreConditions>
 <PreCondition
  Guid="d424a96a-5c7d-4c07-b419-e3cf71806b66"
->BGLocationReference.Position.Position - LRBG.Position.Position &gt;= Kernel.MA.EndSectionStart()</PreCondition></PreConditions>
+>BTM.BGLocationReference.Position.Position - BTM.LRBG.Position.Position &gt;= Kernel.MA.EndSectionStart()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="b9ea2e9d-59d1-4ef8-88df-d51843437f9e"
->Kernel.MA.RelocateMAinEndSection(BGLocationReference.Position.Position - LRBG.Position.Position)</Action></Actions>
+>Kernel.MA.RelocateMAinEndSection(BTM.BGLocationReference.Position.Position - BTM.LRBG.Position.Position)</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Train is in one of the sections"
@@ -4012,7 +4012,7 @@ The list is updated in case two LRBGs provide the same MRSP, this should count a
 <Actions>
 <Action
  Guid="ed0099d6-3ed8-4657-b337-6d58e3914acb"
->Kernel.MA.MA.Sections &lt;- Kernel.MA.RelocatedSections( BGLocationReference.Position.Position - LRBG.Position.Position )</Action></Actions>
+>Kernel.MA.MA.Sections &lt;- Kernel.MA.RelocatedSections( BTM.BGLocationReference.Position.Position - BTM.LRBG.Position.Position )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition></Conditions>
@@ -4049,7 +4049,7 @@ The list is updated in case two LRBGs provide the same MRSP, this should count a
 <Actions>
 <Action
  Guid="0ed7fcdc-0c4d-4e64-b329-3a748a11b5b8"
->LRBG &lt;- BaliseGroupStruct
+>BTM.LRBG &lt;- BTM.BaliseGroupStruct
 {
   Timestamp =&gt; BGLocationReference.Timestamp,
   NID =&gt; Nid_BG,
@@ -4057,7 +4057,7 @@ The list is updated in case two LRBGs provide the same MRSP, this should count a
   Orientation =&gt; BaliseGroupOrientation()
 }</Action><Action
  Guid="9ea8e191-ce41-4e2f-8bab-49b9a8bbbde8"
->Kernel.TrainPosition.Position.DirectionalPositionInformation.TrainOrientation &lt;- BaliseGroupOrientation()</Action></Actions>
+>Kernel.TrainPosition.Position.DirectionalPositionInformation.TrainOrientation &lt;- BTM.BaliseGroupOrientation()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -4119,7 +4119,7 @@ The list is updated in case two LRBGs provide the same MRSP, this should count a
 <Actions>
 <Action
  Guid="fc7c3af7-269c-418d-b2fd-6be29f8bd92b"
->UnlinkedBGPosition &lt;- PositionFromOdometry()</Action></Actions>
+>BTM.UnlinkedBGPosition &lt;- BTM.PositionFromOdometry()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -4217,7 +4217,7 @@ The list is updated in case two LRBGs provide the same MRSP, this should count a
  Guid="840d737c-0711-45fa-aa7c-6d7614ac52b5"
 >Kernel.MA.ModeProfile.DeleteModeProfileBeyondLocation 
 (
-  aLocation =&gt; Linking.DistanceToBaliseGroup
+  aLocation =&gt; BTM.Linking.DistanceToBaliseGroup
   (
     (
       FIRST X IN Message.Sequence1 | Available
@@ -4297,7 +4297,7 @@ The list is updated in case two LRBGs provide the same MRSP, this should count a
 <Actions>
 <Action
  Guid="feca666a-c800-4808-8ad5-6479427df552"
->APPLY HandleNewPacket(
+>APPLY BTM.HandleNewPacket(
   Packet=&gt;X, 
   NID_BG=&gt;Message.NID_BG,
   NID_C=&gt;Message.NID_C
@@ -4366,11 +4366,11 @@ If all the messages of the current balise group have been received, calls Handle
 <PreConditions>
 <PreCondition
  Guid="68fd0a29-085c-46b8-8d7a-13d05c0df54b"
->IsLocationReference ( Message =&gt; Message )</PreCondition></PreConditions>
+>BTM.IsLocationReference ( Message =&gt; Message )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="97fe5801-fbb2-4588-b755-7418c4969256"
->BGLocationReference &lt;- LocationReferenceStruct{
+>BTM.BGLocationReference &lt;- BTM.LocationReferenceStruct{
     Position =&gt; PositionFromOdometry(),
     Timestamp =&gt; Kernel.DateAndTime.Now()
 }</Action></Actions>
@@ -4402,13 +4402,13 @@ If all the messages of the current balise group have been received, calls Handle
 </ReqRef><PreConditions>
 <PreCondition
  Guid="f9563cb3-4a7d-4ec0-b982-8a989233cfc1"
->CurrentBaliseGroup != []
+>BTM.CurrentBaliseGroup != []
 
   AND  
 
-Message.N_PIG != (LAST X IN CurrentBaliseGroup).Telegram.N_PIG + 1
+Message.N_PIG != (LAST X IN BTM.CurrentBaliseGroup).Telegram.N_PIG + 1
   AND  
-Message.N_PIG != (LAST X IN CurrentBaliseGroup).Telegram.N_PIG - 1</PreCondition></PreConditions>
+Message.N_PIG != (LAST X IN BTM.CurrentBaliseGroup).Telegram.N_PIG - 1</PreCondition></PreConditions>
 <Actions>
 </Actions>
 <SubRules>
@@ -4430,11 +4430,11 @@ Message.N_PIG != (LAST X IN CurrentBaliseGroup).Telegram.N_PIG - 1</PreCondition
 <PreConditions>
 <PreCondition
  Guid="f22d33c1-0c14-40e5-a78c-246730168bb4"
->BaliseGroupOrientation() != Orientation.Unknown</PreCondition></PreConditions>
+>BTM.BaliseGroupOrientation() != Orientation.Unknown</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="30f9dad9-8438-4379-8738-fbb67c753a09"
->FillMissedBalises()</Action></Actions>
+>BTM.FillMissedBalises()</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Balise group orientation unknown, nominal direction"
@@ -4444,7 +4444,7 @@ Message.N_PIG != (LAST X IN CurrentBaliseGroup).Telegram.N_PIG - 1</PreCondition
 <PreConditions>
 <PreCondition
  Guid="57f49648-3125-475b-b122-ad0fd95f36b3"
->Message.N_PIG &gt; (LAST X IN CurrentBaliseGroup).Telegram.N_PIG</PreCondition></PreConditions>
+>Message.N_PIG &gt; (LAST X IN BTM.CurrentBaliseGroup).Telegram.N_PIG</PreCondition></PreConditions>
 <Actions>
 </Actions>
 <SubRules>
@@ -4468,24 +4468,24 @@ Message.N_PIG != (LAST X IN CurrentBaliseGroup).Telegram.N_PIG - 1</PreCondition
 <Action
  Guid="940d96d7-c1a0-457c-93f1-24eef2f82615"
 >INSERT
-StoredBaliseStruct{
+BTM.StoredBaliseStruct{
     Telegram =&gt; Messages.EUROBALISE.Message{
-        Q_UPDOWN =&gt; (LAST Balise IN CurrentBaliseGroup).Telegram.Q_UPDOWN,
-        M_VERSION =&gt; (LAST Balise IN CurrentBaliseGroup).Telegram.M_VERSION,
-        Q_MEDIA =&gt; (LAST Balise IN CurrentBaliseGroup).Telegram.Q_MEDIA,
-        N_PIG =&gt; (LAST Balise IN CurrentBaliseGroup).Telegram.N_PIG + 1,
-        N_TOTAL =&gt; (LAST Balise IN CurrentBaliseGroup).Telegram.N_TOTAL,
+        Q_UPDOWN =&gt; (LAST Balise IN BTM.CurrentBaliseGroup).Telegram.Q_UPDOWN,
+        M_VERSION =&gt; (LAST Balise IN BTM.CurrentBaliseGroup).Telegram.M_VERSION,
+        Q_MEDIA =&gt; (LAST Balise IN BTM.CurrentBaliseGroup).Telegram.Q_MEDIA,
+        N_PIG =&gt; (LAST Balise IN BTM.CurrentBaliseGroup).Telegram.N_PIG + 1,
+        N_TOTAL =&gt; (LAST Balise IN BTM.CurrentBaliseGroup).Telegram.N_TOTAL,
         M_DUP =&gt; Messages.M_DUP.No_duplicates,
         M_MCOUNT =&gt; Messages.M_MCOUNT.The_telegram_fits_with_all_telegrams_of_the_same_balise_group,
-        NID_C =&gt; (LAST Balise IN CurrentBaliseGroup).Telegram.NID_C,
-        NID_BG =&gt; (LAST Balise IN CurrentBaliseGroup).Telegram.NID_BG,
-        Q_LINK =&gt; (LAST Balise IN CurrentBaliseGroup).Telegram.Q_LINK,
+        NID_C =&gt; (LAST Balise IN BTM.CurrentBaliseGroup).Telegram.NID_C,
+        NID_BG =&gt; (LAST Balise IN BTM.CurrentBaliseGroup).Telegram.NID_BG,
+        Q_LINK =&gt; (LAST Balise IN BTM.CurrentBaliseGroup).Telegram.Q_LINK,
         Sequence1 =&gt; [],
         BitField =&gt; &apos;&apos;
     },
     Missed =&gt; True
 }
-IN CurrentBaliseGroup</Action></Actions>
+IN BTM.CurrentBaliseGroup</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -4506,7 +4506,7 @@ IN CurrentBaliseGroup</Action></Actions>
 <Actions>
 <Action
  Guid="7dd2548f-9ba5-42c0-94dc-1aee74203bd0"
->FillMissedBalises()</Action></Actions>
+>BTM.FillMissedBalises()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition><RuleCondition
@@ -4518,7 +4518,7 @@ IN CurrentBaliseGroup</Action></Actions>
 <PreConditions>
 <PreCondition
  Guid="52b1a78c-1123-450e-b6aa-4403d2641216"
->Message.N_PIG &lt; (LAST X IN CurrentBaliseGroup).Telegram.N_PIG</PreCondition></PreConditions>
+>Message.N_PIG &lt; (LAST X IN BTM.CurrentBaliseGroup).Telegram.N_PIG</PreCondition></PreConditions>
 <Actions>
 </Actions>
 <SubRules>
@@ -4542,24 +4542,24 @@ IN CurrentBaliseGroup</Action></Actions>
 <Action
  Guid="ceff6272-909c-4ca3-9ce6-7df72fb29734"
 >INSERT
-StoredBaliseStruct{
+BTM.StoredBaliseStruct{
     Telegram =&gt; Messages.EUROBALISE.Message{
-        Q_UPDOWN =&gt; (LAST Balise IN CurrentBaliseGroup).Telegram.Q_UPDOWN,
-        M_VERSION =&gt; (LAST Balise IN CurrentBaliseGroup).Telegram.M_VERSION,
-        Q_MEDIA =&gt; (LAST Balise IN CurrentBaliseGroup).Telegram.Q_MEDIA,
-        N_PIG =&gt; (LAST Balise IN CurrentBaliseGroup).Telegram.N_PIG - 1,
-        N_TOTAL =&gt; (LAST Balise IN CurrentBaliseGroup).Telegram.N_TOTAL,
+        Q_UPDOWN =&gt; (LAST Balise IN BTM.CurrentBaliseGroup).Telegram.Q_UPDOWN,
+        M_VERSION =&gt; (LAST Balise IN BTM.CurrentBaliseGroup).Telegram.M_VERSION,
+        Q_MEDIA =&gt; (LAST Balise IN BTM.CurrentBaliseGroup).Telegram.Q_MEDIA,
+        N_PIG =&gt; (LAST Balise IN BTM.CurrentBaliseGroup).Telegram.N_PIG - 1,
+        N_TOTAL =&gt; (LAST Balise IN BTM.CurrentBaliseGroup).Telegram.N_TOTAL,
         M_DUP =&gt; Messages.M_DUP.No_duplicates,
         M_MCOUNT =&gt; Messages.M_MCOUNT.The_telegram_fits_with_all_telegrams_of_the_same_balise_group,
-        NID_C =&gt; (LAST Balise IN CurrentBaliseGroup).Telegram.NID_C,
-        NID_BG =&gt; (LAST Balise IN CurrentBaliseGroup).Telegram.NID_BG,
-        Q_LINK =&gt; (LAST Balise IN CurrentBaliseGroup).Telegram.Q_LINK,
+        NID_C =&gt; (LAST Balise IN BTM.CurrentBaliseGroup).Telegram.NID_C,
+        NID_BG =&gt; (LAST Balise IN BTM.CurrentBaliseGroup).Telegram.NID_BG,
+        Q_LINK =&gt; (LAST Balise IN BTM.CurrentBaliseGroup).Telegram.Q_LINK,
         Sequence1 =&gt; [],
         BitField =&gt; &apos;&apos;
     },
     Missed =&gt; True
 }
-IN CurrentBaliseGroup</Action></Actions>
+IN BTM.CurrentBaliseGroup</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -4580,7 +4580,7 @@ IN CurrentBaliseGroup</Action></Actions>
 <Actions>
 <Action
  Guid="f48e875d-60fc-4393-9404-d6e475ce83ec"
->FillMissedBalises()</Action></Actions>
+>BTM.FillMissedBalises()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition></Conditions>
@@ -4608,13 +4608,13 @@ IN CurrentBaliseGroup</Action></Actions>
 <Action
  Guid="989096bd-3294-40f5-81b7-908279de9c8e"
 >INSERT 
-StoredBaliseStruct
+BTM.StoredBaliseStruct
 {
     Telegram =&gt; Message,
     Missed =&gt; False
 }
 
-IN CurrentBaliseGroup</Action></Actions>
+IN BTM.CurrentBaliseGroup</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="UpdateINTERNAL"
@@ -4637,7 +4637,7 @@ IN CurrentBaliseGroup</Action></Actions>
 <Actions>
 <Action
  Guid="2b0bea2f-701c-4d39-b9fb-f12ed87bc4e4"
->PrevBalisePosition &lt;- Odometry.NominalDistance</Action></Actions>
+>BTM.PrevBalisePosition &lt;- Odometry.NominalDistance</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="UpdateINTERNAL"
@@ -4659,11 +4659,11 @@ IN CurrentBaliseGroup</Action></Actions>
 <PreConditions>
 <PreCondition
  Guid="4c98c872-6bf7-41f9-b74a-be01dbe0b55c"
->FullBGReceived()</PreCondition></PreConditions>
+>BTM.FullBGReceived()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="e7bdbad0-03e6-4eab-af45-686bb9024af6"
->Linking.CheckBGBeforeHandling()</Action></Actions>
+>BTM.Linking.CheckBGBeforeHandling()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -4738,7 +4738,7 @@ IN CurrentBaliseGroup</Action></Actions>
 <PreConditions>
 <PreCondition
  Guid="5277d858-f9be-415e-b52c-0e742bb35c08"
->ConsiderPacket ( PacketOrientation =&gt; aPacket.TRACK_TO_TRAIN.LEVEL_1_MOVEMENT_AUTHORITY.Q_DIR )</PreCondition></PreConditions>
+>BTM.ConsiderPacket ( PacketOrientation =&gt; aPacket.TRACK_TO_TRAIN.LEVEL_1_MOVEMENT_AUTHORITY.Q_DIR )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="e8f2e263-eb09-49d0-93f3-2f4d98af2694"
@@ -4797,11 +4797,11 @@ The parameter DistanceFromLRBG is needed for the case when the handled BG will b
 <PreConditions>
 <PreCondition
  Guid="a4a26815-f310-42ac-9a12-55c06c9b7f2b"
->ReceivedSystemVersionIsHigher (aSystemVersion =&gt; (FIRST X IN CurrentBaliseGroup).Telegram.M_VERSION )</PreCondition></PreConditions>
+>BTM.ReceivedSystemVersionIsHigher (aSystemVersion =&gt; (FIRST X IN BTM.CurrentBaliseGroup).Telegram.M_VERSION )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="947f5c13-b3ba-42c5-bebd-24f3bf75e2f2"
->Kernel.OperatedSystemVersion.Value &lt;- (FIRST X IN CurrentBaliseGroup).Telegram.M_VERSION</Action></Actions>
+>Kernel.OperatedSystemVersion.Value &lt;- (FIRST X IN BTM.CurrentBaliseGroup).Telegram.M_VERSION</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -4837,16 +4837,16 @@ The parameter DistanceFromLRBG is needed for the case when the handled BG will b
 <PreConditions>
 <PreCondition
  Guid="f59f7d3d-8d42-4bdd-bbd8-4c554420d5a0"
->LRBG.NID != BG_To_LRBG(Message.NID_BG)</PreCondition><PreCondition
+>BTM.LRBG.NID != BG_To_LRBG(BTM.Message.NID_BG)</PreCondition><PreCondition
  Guid="9a0cc237-370c-4dcb-b53c-9bf804dd2a0d"
->LRBGCandidate( )</PreCondition></PreConditions>
+>BTM.LRBGCandidate( )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="3c939d6a-99af-451a-b12d-368fece30c2a"
->HandleNewLRBG(BG_To_LRBG(Nid_BG =&gt; Message.NID_BG), DistanceFromLRBG =&gt; DistanceFromLRBG)</Action><Action
+>BTM.HandleNewLRBG(BG_To_LRBG(Nid_BG =&gt; BTM.Message.NID_BG), DistanceFromLRBG =&gt; DistanceFromLRBG)</Action><Action
  Guid="eec330f2-bae4-4027-998f-3bed4d222121"
 >INSERT
-  PreviousBaliseGroupStruct
+  BTM.PreviousBaliseGroupStruct
   {
       BaliseGroup =&gt; BaliseGroupStruct
       {
@@ -4858,8 +4858,8 @@ The parameter DistanceFromLRBG is needed for the case when the handled BG will b
       IsLRBG =&gt; Boolean.True,
       IsSingle =&gt; CurrentBGIsSingle()
   }
-  IN PreviousBaliseGroups
-  WHEN FULL REPLACE FarthestBG()</Action></Actions>
+  IN BTM.PreviousBaliseGroups
+  WHEN FULL REPLACE BTM.FarthestBG()</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="The BG is unlinked"
@@ -4874,14 +4874,14 @@ The parameter DistanceFromLRBG is needed for the case when the handled BG will b
 <PreConditions>
 <PreCondition
  Guid="1f80f179-74aa-465e-b6d3-e15aba062a97"
->Message.Q_LINK == Messages.Q_LINK.Unlinked</PreCondition></PreConditions>
+>BTM.Message.Q_LINK == Messages.Q_LINK.Unlinked</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="c995c1c6-6e01-4775-b912-22de76bd76ca"
->HandleUnlinkedBG(Message)</Action><Action
+>BTM.HandleUnlinkedBG(BTM.Message)</Action><Action
  Guid="e0d92db1-ce43-4385-ae52-42c474a91e91"
 >INSERT
-  PreviousBaliseGroupStruct
+  BTM.PreviousBaliseGroupStruct
   {
       BaliseGroup =&gt; BaliseGroupStruct
       {
@@ -4893,8 +4893,8 @@ The parameter DistanceFromLRBG is needed for the case when the handled BG will b
       IsLRBG =&gt; Boolean.False,
       IsSingle =&gt; CurrentBGIsSingle()
   }
-  IN PreviousBaliseGroups
-  WHEN FULL REPLACE FarthestBG()</Action></Actions>
+  IN BTM.PreviousBaliseGroups
+  WHEN FULL REPLACE BTM.FarthestBG()</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Otherwise"
@@ -4907,7 +4907,7 @@ The parameter DistanceFromLRBG is needed for the case when the handled BG will b
 <Action
  Guid="a0a2bd8f-ac0c-44b6-aa24-93d5263d8371"
 >INSERT
-  PreviousBaliseGroupStruct
+  BTM.PreviousBaliseGroupStruct
   {
       BaliseGroup =&gt; BaliseGroupStruct
       {
@@ -4919,8 +4919,8 @@ The parameter DistanceFromLRBG is needed for the case when the handled BG will b
       IsLRBG =&gt; Boolean.False,
       IsSingle =&gt; CurrentBGIsSingle()
   }
-  IN PreviousBaliseGroups
-  WHEN FULL REPLACE FarthestBG()</Action></Actions>
+  IN BTM.PreviousBaliseGroups
+  WHEN FULL REPLACE BTM.FarthestBG()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -4946,7 +4946,7 @@ The parameter DistanceFromLRBG is needed for the case when the handled BG will b
 <Actions>
 <Action
  Guid="2ee57ad5-960b-4923-b510-882802803ed1"
->APPLY HandleNewPacketLevel ( aPacket =&gt; LevelOfTelegram(X.Telegram) ) ON CurrentBaliseGroup</Action></Actions>
+>APPLY BTM.HandleNewPacketLevel ( aPacket =&gt; BTM.LevelOfTelegram(X.Telegram) ) ON BTM.CurrentBaliseGroup</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -4967,7 +4967,7 @@ The parameter DistanceFromLRBG is needed for the case when the handled BG will b
 <Actions>
 <Action
  Guid="71fe05ea-2e2a-441e-a4c5-fa8e04162cb8"
->APPLY HandleBaliseTelegram ( Message =&gt; X.Telegram, DistanceFromLRBG =&gt; DistanceFromLRBG ) ON CurrentBaliseGroup | BaliseTelegramToBeHandled ( Message =&gt; X )</Action></Actions>
+>APPLY BTM.HandleBaliseTelegram ( Message =&gt; X.Telegram, DistanceFromLRBG =&gt; DistanceFromLRBG ) ON BTM.CurrentBaliseGroup | BTM.BaliseTelegramToBeHandled ( Message =&gt; X )</Action></Actions>
 <SubRules>
 <Rule
  Priority="Processing"
@@ -4991,7 +4991,7 @@ The parameter DistanceFromLRBG is needed for the case when the handled BG will b
 <PreConditions>
 <PreCondition
  Guid="5d040986-926c-4036-9c26-980d15c5393d"
->THERE_IS telegram IN CurrentBaliseGroup | (THERE_IS packet IN telegram.Telegram.Sequence1 | Available(packet.TRACK_TO_TRAIN.DEFAULT_BALISE_LOOP_OR_RIU_INFORMATION) )</PreCondition></PreConditions>
+>THERE_IS telegram IN BTM.CurrentBaliseGroup | (THERE_IS packet IN telegram.Telegram.Sequence1 | Available(packet.TRACK_TO_TRAIN.DEFAULT_BALISE_LOOP_OR_RIU_INFORMATION) )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="8622ac62-4d7c-438c-bd38-586c990410ff"
@@ -5024,12 +5024,12 @@ IN
 <Actions>
 <Action
  Guid="2b02118c-1658-46b1-bae6-dc0ff97ec611"
->APPLY HandleNewPacketMA
+>APPLY BTM.HandleNewPacketMA
 (
-    aPacket =&gt; MAOfTelegram ( aTelegram=&gt; X.Telegram ) ,
+    aPacket =&gt; BTM.MAOfTelegram ( aTelegram=&gt; X.Telegram ) ,
     NID_BG =&gt; X.Telegram.NID_BG
 )
-ON CurrentBaliseGroup | BaliseTelegramToBeHandled ( X )</Action></Actions>
+ON BTM.CurrentBaliseGroup | BTM.BaliseTelegramToBeHandled ( X )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -5050,11 +5050,11 @@ ON CurrentBaliseGroup | BaliseTelegramToBeHandled ( X )</Action></Actions>
 <Actions>
 <Action
  Guid="42ecabaf-6fb9-4cf2-887a-2b6158ff1c6b"
->APPLY HandleNewPacketModeProfile
+>APPLY BTM.HandleNewPacketModeProfile
 (
-    aPacket =&gt; ModeProfileOfTelegram ( aTelegram=&gt; X.Telegram )
+    aPacket =&gt; BTM.ModeProfileOfTelegram ( aTelegram=&gt; X.Telegram )
 )
-ON CurrentBaliseGroup | BaliseTelegramToBeHandled ( X )</Action></Actions>
+ON BTM.CurrentBaliseGroup | BTM.BaliseTelegramToBeHandled ( X )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -5133,7 +5133,7 @@ ON CurrentBaliseGroup | BaliseTelegramToBeHandled ( X )</Action></Actions>
 <PreConditions>
 <PreCondition
  Guid="7c611cdb-ccf2-4f3c-a343-9d77f47c5412"
->ConsiderPacket ( PacketOrientation =&gt; aPacket.TRACK_TO_TRAIN.MODE_PROFILE.Q_DIR )</PreCondition><PreCondition
+>BTM.ConsiderPacket ( PacketOrientation =&gt; aPacket.TRACK_TO_TRAIN.MODE_PROFILE.Q_DIR )</PreCondition><PreCondition
  Guid="8d956f8e-378b-482f-bc27-26c54c49af35"
 >Kernel.MA.MAIsAccepted</PreCondition></PreConditions>
 <Actions>
@@ -5142,7 +5142,7 @@ ON CurrentBaliseGroup | BaliseTelegramToBeHandled ( X )</Action></Actions>
 >Kernel.MA.ModeProfile.ModeProfileReceived (
     Packet =&gt; aPacket.TRACK_TO_TRAIN.MODE_PROFILE,
     GenericLSMarker =&gt; Kernel.Modes.LimitedSupervision.LSMarkerPresent(
-    Messages=&gt;CurrentBaliseGroup
+    Messages=&gt;BTM.CurrentBaliseGroup
 )
 )</Action></Actions>
 </RuleCondition></Conditions>
@@ -5272,7 +5272,7 @@ ON CurrentBaliseGroup | BaliseTelegramToBeHandled ( X )</Action></Actions>
 <PreConditions>
 <PreCondition
  Guid="9a7ebaab-1cb6-4f18-be81-d5d8666bf161"
->MessageIsInconsistent(LinkingUsed)</PreCondition></PreConditions>
+>BTM.MessageIsInconsistent(LinkingUsed)</PreCondition></PreConditions>
 <Actions>
 </Actions>
 <SubRules>
@@ -5298,7 +5298,7 @@ ON CurrentBaliseGroup | BaliseTelegramToBeHandled ( X )</Action></Actions>
 <Actions>
 <Action
  Guid="0fec3662-dbbc-49b3-b82f-212da0f1bec2"
->Linking.ApplyLinkingReaction(LinkingReaction)</Action></Actions>
+>BTM.Linking.ApplyLinkingReaction(LinkingReaction)</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="No linking, check for Inhibition of service brake packet"
@@ -5328,7 +5328,7 @@ ON CurrentBaliseGroup | BaliseTelegramToBeHandled ( X )</Action></Actions>
 <PreConditions>
 <PreCondition
  Guid="b62df68a-af59-44c2-b28f-677c97e51814"
->NOT THERE_IS balise IN CurrentBaliseGroup | 
+>NOT THERE_IS balise IN BTM.CurrentBaliseGroup | 
 (
     THERE_IS packet IN balise.Telegram.Sequence1 | 
         Available(packet.TRACK_TO_TRAIN.INHIBITION_OF_BALISE_GROUP_MESSAGE_CONSISTENCY_REACTION) 
@@ -5336,7 +5336,7 @@ ON CurrentBaliseGroup | BaliseTelegramToBeHandled ( X )</Action></Actions>
 <Actions>
 <Action
  Guid="e116e90f-40b7-447f-9f12-239d064059f9"
->Linking.ApplyLinkingReaction(LinkingReaction)</Action></Actions>
+>BTM.Linking.ApplyLinkingReaction(LinkingReaction)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -5361,7 +5361,7 @@ ON CurrentBaliseGroup | BaliseTelegramToBeHandled ( X )</Action></Actions>
 <PreConditions>
 <PreCondition
  Guid="d295d0ec-d8e8-4fef-92ae-7e902958d77a"
->(FIRST X IN CurrentBaliseGroup).Telegram.Q_LINK == Messages.Q_LINK.Linked</PreCondition><PreCondition
+>(FIRST X IN BTM.CurrentBaliseGroup).Telegram.Q_LINK == Messages.Q_LINK.Linked</PreCondition><PreCondition
  Guid="cecf9dc1-c9cf-4511-85dd-5fb4e42b0f3f"
 >NOT LinkingUsed</PreCondition></PreConditions>
 <Actions>
@@ -5384,7 +5384,7 @@ ON CurrentBaliseGroup | BaliseTelegramToBeHandled ( X )</Action></Actions>
  Guid="3c0ea399-4765-47a4-bf81-775189917311"
 >NOT LinkingUsed</PreCondition><PreCondition
  Guid="fcbdcef4-2c10-4095-839b-c8d711ab5ef8"
->(FIRST X IN CurrentBaliseGroup).Telegram.Q_LINK == Messages.Q_LINK.Unlinked</PreCondition></PreConditions>
+>(FIRST X IN BTM.CurrentBaliseGroup).Telegram.Q_LINK == Messages.Q_LINK.Unlinked</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="23f3af28-61d8-4911-a424-2cb14b1149c6"
@@ -5405,7 +5405,7 @@ ON CurrentBaliseGroup | BaliseTelegramToBeHandled ( X )</Action></Actions>
  Guid="9e4c8fbc-8558-43d1-b40a-9cc2b58fefa7"
 >LinkingUsed</PreCondition><PreCondition
  Guid="74ff1606-3978-495d-8928-df9d3fd80853"
->LinkingReaction == Linking.LinkingReaction.CommandServiceBrake</PreCondition></PreConditions>
+>LinkingReaction == BTM.Linking.LinkingReaction.CommandServiceBrake</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="dcc88356-9b44-4c14-908e-20a1f05c099c"
@@ -5440,7 +5440,7 @@ ON CurrentBaliseGroup | BaliseTelegramToBeHandled ( X )</Action></Actions>
  Guid="1ab6b030-5011-4880-9827-8285d95422cf"
 >EURORADIO.SafeRadioConnectionAvailable()</PreCondition><PreCondition
  Guid="e9f371b8-3016-4d71-afad-73cc64ced5e8"
->(FIRST X IN CurrentBaliseGroup).Telegram.Q_LINK == Messages.Q_LINK.Unlinked
+>(FIRST X IN BTM.CurrentBaliseGroup).Telegram.Q_LINK == Messages.Q_LINK.Unlinked
   OR  
 LinkingUsed</PreCondition></PreConditions>
 <Actions>
@@ -5485,7 +5485,7 @@ LinkingUsed</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="1b712eb9-748d-46bf-8c8d-c27d38cd9233"
->(FIRST X IN CurrentBaliseGroup).Telegram.Q_LINK == Messages.Q_LINK.Linked</PreCondition></PreConditions>
+>(FIRST X IN BTM.CurrentBaliseGroup).Telegram.Q_LINK == Messages.Q_LINK.Linked</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="a799a8d5-87d6-44ca-89ee-51fdaf8c1bda"
@@ -5506,7 +5506,7 @@ LinkingUsed</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="65edcb1c-73ff-444e-a73a-95910c623c13"
->(FIRST X IN CurrentBaliseGroup).Telegram.Q_LINK == Messages.Q_LINK.Unlinked</PreCondition></PreConditions>
+>(FIRST X IN BTM.CurrentBaliseGroup).Telegram.Q_LINK == Messages.Q_LINK.Unlinked</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="799a57f6-ac42-4626-a3a5-fd1e9fba2324"
@@ -5533,7 +5533,7 @@ LinkingUsed</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="c46af0a5-54dd-4e2d-adbb-afc3406c6de9"
->HandleBaliseMessage(DistanceFromLRBG)</Action></Actions>
+>BTM.HandleBaliseMessage(DistanceFromLRBG)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -5567,15 +5567,15 @@ LinkingUsed</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="9fd64923-94f0-464b-82e9-a6243ada4bc6"
->(LAST X IN CurrentBaliseGroup).Telegram.N_PIG != Message.N_PIG + 1
+>(LAST X IN BTM.CurrentBaliseGroup).Telegram.N_PIG != BTM.Message.N_PIG + 1
  AND 
-(LAST X IN CurrentBaliseGroup).Telegram.N_PIG != Message.N_PIG - 1</PreCondition></PreConditions>
+(LAST X IN BTM.CurrentBaliseGroup).Telegram.N_PIG != BTM.Message.N_PIG - 1</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="269ffc58-b53a-4182-9558-421f80084683"
 >INSERT
-MissedBalise()
-IN CurrentBaliseGroup</Action></Actions>
+BTM.MissedBalise()
+IN BTM.CurrentBaliseGroup</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -5596,15 +5596,15 @@ IN CurrentBaliseGroup</Action></Actions>
 <PreConditions>
 <PreCondition
  Guid="3800c011-d0cf-4915-bef9-99ef9ea72e9a"
->(LAST X IN CurrentBaliseGroup).Telegram.N_PIG != Message.N_PIG + 1
+>(LAST X IN BTM.CurrentBaliseGroup).Telegram.N_PIG != BTM.Message.N_PIG + 1
  AND 
-(LAST X IN CurrentBaliseGroup).Telegram.N_PIG != Message.N_PIG - 1</PreCondition></PreConditions>
+(LAST X IN BTM.CurrentBaliseGroup).Telegram.N_PIG != BTM.Message.N_PIG - 1</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="d3c9bdd5-859e-40a0-bdb2-694159fc5769"
 >INSERT
-MissedBalise()
-IN CurrentBaliseGroup</Action></Actions>
+BTM.MissedBalise()
+IN BTM.CurrentBaliseGroup</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -5625,15 +5625,15 @@ IN CurrentBaliseGroup</Action></Actions>
 <PreConditions>
 <PreCondition
  Guid="a200c8cf-88fa-4abe-8ca8-4b4dd1572ce7"
->(LAST X IN CurrentBaliseGroup).Telegram.N_PIG != Message.N_PIG + 1
+>(LAST X IN BTM.CurrentBaliseGroup).Telegram.N_PIG != BTM.Message.N_PIG + 1
  AND 
-(LAST X IN CurrentBaliseGroup).Telegram.N_PIG != Message.N_PIG - 1</PreCondition></PreConditions>
+(LAST X IN BTM.CurrentBaliseGroup).Telegram.N_PIG != BTM.Message.N_PIG - 1</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="810c1cad-4be1-483a-8474-bb40d256d36f"
 >INSERT
-MissedBalise()
-IN CurrentBaliseGroup</Action></Actions>
+BTM.MissedBalise()
+IN BTM.CurrentBaliseGroup</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -5654,15 +5654,15 @@ IN CurrentBaliseGroup</Action></Actions>
 <PreConditions>
 <PreCondition
  Guid="0cb9b3ad-9837-4d08-afac-2ba347c89a90"
->(LAST X IN CurrentBaliseGroup).Telegram.N_PIG != Message.N_PIG + 1
+>(LAST X IN BTM.CurrentBaliseGroup).Telegram.N_PIG != BTM.Message.N_PIG + 1
  AND 
-(LAST X IN CurrentBaliseGroup).Telegram.N_PIG != Message.N_PIG - 1</PreCondition></PreConditions>
+(LAST X IN BTM.CurrentBaliseGroup).Telegram.N_PIG != BTM.Message.N_PIG - 1</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="a9da04e6-a71a-4157-a364-9a9315fc5433"
 >INSERT
-MissedBalise()
-IN CurrentBaliseGroup</Action></Actions>
+BTM.MissedBalise()
+IN BTM.CurrentBaliseGroup</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -5683,15 +5683,15 @@ IN CurrentBaliseGroup</Action></Actions>
 <PreConditions>
 <PreCondition
  Guid="5ec57daa-1517-4d77-93ca-325a3c78f44c"
->(LAST X IN CurrentBaliseGroup).Telegram.N_PIG != Message.N_PIG + 1
+>(LAST X IN BTM.CurrentBaliseGroup).Telegram.N_PIG != BTM.Message.N_PIG + 1
  AND 
-(LAST X IN CurrentBaliseGroup).Telegram.N_PIG != Message.N_PIG - 1</PreCondition></PreConditions>
+(LAST X IN BTM.CurrentBaliseGroup).Telegram.N_PIG != BTM.Message.N_PIG - 1</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="9402818a-0fb2-4a36-a5a8-e417a291cc7b"
 >INSERT
-MissedBalise()
-IN CurrentBaliseGroup</Action></Actions>
+BTM.MissedBalise()
+IN BTM.CurrentBaliseGroup</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -5753,7 +5753,7 @@ IN CurrentBaliseGroup</Action></Actions>
 <PreConditions>
 <PreCondition
  Guid="3f3e1ed5-0eeb-4684-80ad-ad9fc77b5a4a"
->ConsiderPacket ( PacketOrientation=&gt;aPacket.TRACK_TO_TRAIN.LEVEL_TRANSITION_ORDER.Q_DIR )</PreCondition></PreConditions>
+>BTM.ConsiderPacket ( PacketOrientation=&gt;aPacket.TRACK_TO_TRAIN.LEVEL_TRANSITION_ORDER.Q_DIR )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="b24735ff-a130-4d30-8fe1-8cb69420ff6b"
@@ -5996,11 +5996,11 @@ IN CurrentBaliseGroup</Action></Actions>
 <PreConditions>
 <PreCondition
  Guid="4132dda5-2120-4cda-bde2-a390d3213f78"
->Available ( Message )</PreCondition></PreConditions>
+>Available ( BTM.Message )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="55b1daa4-5af4-4eac-af28-8e10152fc2c2"
->Message &lt;- EMPTY</Action><Action
+>BTM.Message &lt;- EMPTY</Action><Action
  Guid="7da08b97-ae8e-47fd-9114-27a1f90cc66e"
 >Kernel.Infill.Data &lt;- EMPTY</Action></Actions>
 <SubRules>
@@ -6023,11 +6023,11 @@ IN CurrentBaliseGroup</Action></Actions>
 <PreConditions>
 <PreCondition
  Guid="80faa721-59ed-4ef4-a364-af49f0e5d159"
->( COUNT X IN CurrentBaliseGroup ) == Message.N_TOTAL + 1</PreCondition></PreConditions>
+>( COUNT X IN BTM.CurrentBaliseGroup ) == BTM.Message.N_TOTAL + 1</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="74d5488e-85d4-48e9-8de8-43a12dd4b955"
->CurrentBaliseGroup &lt;- []</Action></Actions>
+>BTM.CurrentBaliseGroup &lt;- []</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition></Conditions>
@@ -6063,15 +6063,15 @@ IN CurrentBaliseGroup</Action></Actions>
 <PreConditions>
 <PreCondition
  Guid="95d3af00-daf2-474d-a7c2-53f8614e06c6"
->Available ( Message )</PreCondition><PreCondition
+>Available ( BTM.Message )</PreCondition><PreCondition
  Guid="ca2a5585-b8af-4d33-b11d-0f7a241172b0"
->(COUNT X IN CurrentBaliseGroup ) &gt; 0</PreCondition><PreCondition
+>(COUNT X IN BTM.CurrentBaliseGroup ) &gt; 0</PreCondition><PreCondition
  Guid="facbef4e-0427-43dc-8246-9424d20c4b03"
->Message.NID_BG != (FIRST X IN CurrentBaliseGroup).Telegram.NID_BG</PreCondition></PreConditions>
+>BTM.Message.NID_BG != (FIRST X IN BTM.CurrentBaliseGroup).Telegram.NID_BG</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="c0bed554-3138-4c67-a342-dec6ad0a32dc"
->CurrentBaliseGroup &lt;- []</Action></Actions>
+>BTM.CurrentBaliseGroup &lt;- []</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Verification"
@@ -6096,16 +6096,16 @@ IN CurrentBaliseGroup</Action></Actions>
 <PreConditions>
 <PreCondition
  Guid="2de86d72-0f6d-4b93-b0b6-31b88a21e1a4"
->CurrentBaliseGroup != []</PreCondition><PreCondition
+>BTM.CurrentBaliseGroup != []</PreCondition><PreCondition
  Guid="bcbaf299-4fb5-4823-af9f-f2b1a74d1582"
->Odometry.NominalDistance &gt; PrevBalisePosition + MaxDistBetweenBalises</PreCondition><PreCondition
+>Odometry.NominalDistance &gt; BTM.PrevBalisePosition + BTM.MaxDistBetweenBalises</PreCondition><PreCondition
  Guid="9ef66ef6-b578-4d26-b7c7-bc7dab3ace1c"
->NOT Available(Message)</PreCondition></PreConditions>
+>NOT Available(BTM.Message)</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="ba00487e-7656-41a0-9bd0-98cb43c0ceec"
->INSERT MissedBalise() 
-IN CurrentBaliseGroup</Action></Actions>
+>INSERT BTM.MissedBalise() 
+IN BTM.CurrentBaliseGroup</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </NameSpace>

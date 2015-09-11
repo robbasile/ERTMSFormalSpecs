@@ -10,7 +10,6 @@
 </NameSpaces>
 <Structures>
 <Structure
- Default=""
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -33,7 +32,7 @@
  Guid="4235ea01-cbdf-4d7f-92f7-6bb7a68a40ea"
 >
 </ReqRef><StructureElement
- TypeName="Messages.NID_PACKET"
+ TypeName="NID_PACKET"
  Default="72"
  Mode="InOut"
  Implemented="TRUE"
@@ -46,7 +45,7 @@
  Guid="74bfdc26-c774-48cc-a586-efe60073fe2a"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="Messages.Q_DIR"
+ TypeName="Q_DIR"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -72,7 +71,7 @@
  Guid="77ebb7ca-fccd-45f2-a833-007bcfd6e851"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="Messages.Q_SCALE"
+ TypeName="Q_SCALE"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -85,7 +84,7 @@
  Guid="a49205ab-a980-489b-a0cb-a49ea672407c"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="Messages.Q_TEXTCLASS"
+ TypeName="Q_TEXTCLASS"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -98,7 +97,7 @@
  Guid="3cd2c709-c498-4efb-9ee4-1a4dc9028477"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="Messages.Q_TEXTDISPLAY"
+ TypeName="Q_TEXTDISPLAY"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -150,7 +149,7 @@
  Guid="17d8e0e6-4ad8-46da-b8d3-437ae3e3daf4"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="Messages.NID_NTC"
+ TypeName="NID_NTC"
  Default="0"
  Mode="InOut"
  Implemented="TRUE"
@@ -210,7 +209,7 @@
  Guid="274f5786-b076-40c5-a816-cf60e08b8aea"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="Messages.Q_TEXTCONFIRM"
+ TypeName="Q_TEXTCONFIRM"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -223,7 +222,7 @@
  Guid="b93e876f-afa7-40bb-b5cf-d34649dd6ef6"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="Messages.Q_CONFTEXTDISPLAY"
+ TypeName="Q_CONFTEXTDISPLAY"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -231,7 +230,7 @@
  Guid="b40d7e65-f622-442a-b20e-44f9ead1170f"
 >
 </StructureElement><StructureElement
- TypeName="Messages.Q_TEXTREPORT"
+ TypeName="Q_TEXTREPORT"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -239,7 +238,7 @@
  Guid="e6cdee5d-eef0-4329-bdc2-86b073827673"
 >
 </StructureElement><StructureElement
- TypeName="Messages.NID_TEXTMESSAGE"
+ TypeName="NID_TEXTMESSAGE"
  Default="0"
  Mode="InOut"
  Implemented="TRUE"
@@ -247,7 +246,7 @@
  Guid="22c0ad67-9aca-4fa1-ab8d-3aa639ffb43c"
 >
 </StructureElement><StructureElement
- TypeName="Messages.NID_C"
+ TypeName="NID_C"
  Default="0"
  Mode="InOut"
  Implemented="TRUE"
@@ -255,7 +254,7 @@
  Guid="757126b4-7f20-4626-9654-f486133039bd"
 >
 </StructureElement><StructureElement
- TypeName="Messages.NID_RBC"
+ TypeName="NID_RBC"
  Default="0"
  Mode="InOut"
  Implemented="TRUE"
@@ -289,7 +288,6 @@
  Guid="f9f49f95-d856-4bdb-9473-691f5f69b9c1"
 >
 </ReqRef></StructureElement></Structure><Structure
- Default=""
  X="110"
  Width="100"
  Height="50"
@@ -336,14 +334,13 @@
 <Functions>
 <Function
  Type="Boolean"
- Default=""
  Name="MessageValuesCorrect"
  Guid="4aabd1da-7910-40c5-a5e8-1846066105b5"
 >
 <Comment>Checks the values in a structure of type PACKET_FOR_SENDING_PLAIN_TEXT_MESSAGES.Message</Comment>
 <Parameters>
 <Parameter
- Type="Message"
+ Type="PACKET_FOR_SENDING_PLAIN_TEXT_MESSAGES.Message"
  Name="struct"
  Guid="e3aa59da-fc75-4d3a-abef-13f215dad7d2"
 >
@@ -560,7 +557,7 @@
 <PreConditions>
 <PreCondition
  Guid="8af0be98-b0c4-45f7-9d24-3dddfb26f8a9"
->THERE_IS X IN struct.Sequence1 | NOT SubStructure1ValuesCorrect(X)</PreCondition></PreConditions>
+>THERE_IS X IN struct.Sequence1 | NOT Messages.PACKET.TRACK_TO_TRAIN.PACKET_FOR_SENDING_PLAIN_TEXT_MESSAGES.SubStructure1ValuesCorrect(X)</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
  Name="Otherwise"
@@ -570,14 +567,13 @@
 </Case></Cases>
 </Function><Function
  Type="Boolean"
- Default=""
  Name="SubStructure1ValuesCorrect"
  Guid="18c6faf7-a5c8-4564-a4b5-8c5d5bba648b"
 >
 <Comment>Checks the values in a structure of type PACKET_FOR_SENDING_PLAIN_TEXT_MESSAGES.SubStructure1</Comment>
 <Parameters>
 <Parameter
- Type="SubStructure1"
+ Type="PACKET_FOR_SENDING_PLAIN_TEXT_MESSAGES.SubStructure1"
  Name="struct"
  Guid="f0ebf97c-c57a-4ef2-9d11-61da2ca68057"
 >

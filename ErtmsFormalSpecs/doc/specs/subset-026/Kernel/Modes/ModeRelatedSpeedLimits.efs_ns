@@ -104,13 +104,13 @@
 <PreConditions>
 <PreCondition
  Guid="7d59cd76-9a12-419a-95f2-b17b859a7e4f"
->THERE_IS X IN MA.ModeProfile.Profile | X.Mode == Default.Mode.ModeProfile.LS AND X.Speed != BaseTypes.Speed.UseNV</PreCondition></PreConditions>
-<Expression>( FIRST X IN MA.ModeProfile.Profile | X.Mode == Default.Mode.ModeProfile.LS  AND X.Speed != BaseTypes.Speed.UseNV).Speed</Expression>
+>THERE_IS X IN Kernel.MA.ModeProfile.Profile | X.Mode == Default.Mode.ModeProfile.LS AND X.Speed != BaseTypes.Speed.UseNV</PreCondition></PreConditions>
+<Expression>( FIRST X IN Kernel.MA.ModeProfile.Profile | X.Mode == Default.Mode.ModeProfile.LS  AND X.Speed != BaseTypes.Speed.UseNV).Speed</Expression>
 </Case><Case
  Name="National or default value"
  Guid="8106234f-7971-481a-ab16-9b4285da9def"
 >
-<Expression>NationalValues.CurrentNV().LimitedSupervisionModeSpeedLimit</Expression>
+<Expression>Kernel.NationalValues.CurrentNV().LimitedSupervisionModeSpeedLimit</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Speed"
@@ -150,13 +150,13 @@
 <PreConditions>
 <PreCondition
  Guid="d7e584ef-18a8-49bc-842f-8697192e0102"
->THERE_IS X IN MA.ModeProfile.Profile | X.Mode == Default.Mode.ModeProfile.OS AND X.Speed != BaseTypes.Speed.UseNV</PreCondition></PreConditions>
-<Expression>( FIRST X IN MA.ModeProfile.Profile | X.Mode == Default.Mode.ModeProfile.OS  AND X.Speed != BaseTypes.Speed.UseNV).Speed</Expression>
+>THERE_IS X IN Kernel.MA.ModeProfile.Profile | X.Mode == Default.Mode.ModeProfile.OS AND X.Speed != BaseTypes.Speed.UseNV</PreCondition></PreConditions>
+<Expression>( FIRST X IN Kernel.MA.ModeProfile.Profile | X.Mode == Default.Mode.ModeProfile.OS  AND X.Speed != BaseTypes.Speed.UseNV).Speed</Expression>
 </Case><Case
  Name="National or default value"
  Guid="67eaca14-3282-4c8f-ba2c-54ef5bc3ad29"
 >
-<Expression>NationalValues.CurrentNV().OnSightModeSpeedLimit</Expression>
+<Expression>Kernel.NationalValues.CurrentNV().OnSightModeSpeedLimit</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Speed"
@@ -211,8 +211,8 @@
 <PreConditions>
 <PreCondition
  Guid="6e3ee52f-2d48-4517-bc28-80d1bf41d9d0"
->Mode == Default.Mode.SH</PreCondition></PreConditions>
-<Expression>SHModeSpeedLimit()</Expression>
+>Kernel.Mode == Default.Mode.SH</PreCondition></PreConditions>
+<Expression>Kernel.Modes.ModeRelatedSpeedLimits.SHModeSpeedLimit()</Expression>
 </Case><Case
  Name="SR"
  Guid="b0e5843e-adc6-4baf-bffd-46d635e4210a"
@@ -220,8 +220,8 @@
 <PreConditions>
 <PreCondition
  Guid="53d11192-b6ab-4d22-b7aa-c515a58bb46c"
->Mode == Default.Mode.SR</PreCondition></PreConditions>
-<Expression>SRModeSpeedLimit()</Expression>
+>Kernel.Mode == Default.Mode.SR</PreCondition></PreConditions>
+<Expression>Kernel.Modes.ModeRelatedSpeedLimits.SRModeSpeedLimit()</Expression>
 </Case><Case
  Name="UN"
  Guid="2cf2ce6d-33a2-4a43-b34d-6a2e00f552db"
@@ -229,8 +229,8 @@
 <PreConditions>
 <PreCondition
  Guid="acc7b970-07d8-44ff-85e0-f3d1e01c0c65"
->Mode == Default.Mode.UN</PreCondition></PreConditions>
-<Expression>UNModeSpeedLimit()</Expression>
+>Kernel.Mode == Default.Mode.UN</PreCondition></PreConditions>
+<Expression>Kernel.Modes.ModeRelatedSpeedLimits.UNModeSpeedLimit()</Expression>
 </Case><Case
  Name="LS"
  Guid="bf3bf27f-1390-419f-bee7-cbc4fca893b1"
@@ -238,8 +238,8 @@
 <PreConditions>
 <PreCondition
  Guid="18f22150-6820-406f-8fab-7751e3464e64"
->Mode == Default.Mode.LS</PreCondition></PreConditions>
-<Expression>LSModeSpeedLimit()</Expression>
+>Kernel.Mode == Default.Mode.LS</PreCondition></PreConditions>
+<Expression>Kernel.Modes.ModeRelatedSpeedLimits.LSModeSpeedLimit()</Expression>
 </Case><Case
  Name="OS"
  Guid="1222f45e-58d2-4d17-b847-36ff121cf151"
@@ -247,8 +247,8 @@
 <PreConditions>
 <PreCondition
  Guid="c810383b-8bbd-4777-9bbf-73d99f8ca67e"
->Mode == Default.Mode.OS</PreCondition></PreConditions>
-<Expression>OSModeSpeedLimit()</Expression>
+>Kernel.Mode == Default.Mode.OS</PreCondition></PreConditions>
+<Expression>Kernel.Modes.ModeRelatedSpeedLimits.OSModeSpeedLimit()</Expression>
 </Case><Case
  Name="RV"
  Guid="9b107044-98a2-4238-91fa-172bbb5a7f91"
@@ -256,8 +256,8 @@
 <PreConditions>
 <PreCondition
  Guid="5753d7f2-b94c-4b89-a135-1d1af5c9d6ca"
->Mode == Default.Mode.RV</PreCondition></PreConditions>
-<Expression>RVModeSpeedLimit()</Expression>
+>Kernel.Mode == Default.Mode.RV</PreCondition></PreConditions>
+<Expression>Kernel.Modes.ModeRelatedSpeedLimits.RVModeSpeedLimit()</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="36c01523-8e99-488b-baf4-4c7e8082c547"
@@ -295,8 +295,8 @@
 <PreConditions>
 <PreCondition
  Guid="144d404c-f63e-4ce8-a8be-3dc962c0b300"
->TracksideModeRelatedSpeedRestrictions.RV  != BaseTypes.Speed.NA</PreCondition></PreConditions>
-<Expression>TracksideModeRelatedSpeedRestrictions.RV</Expression>
+>Kernel.Modes.ModeRelatedSpeedLimits.TracksideModeRelatedSpeedRestrictions.RV  != BaseTypes.Speed.NA</PreCondition></PreConditions>
+<Expression>Kernel.Modes.ModeRelatedSpeedLimits.TracksideModeRelatedSpeedRestrictions.RV</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="c1d2a189-7e17-4d73-b553-1dfdc2ee840e"
@@ -336,13 +336,13 @@
 <PreConditions>
 <PreCondition
  Guid="9f36d84a-4eb4-492b-8448-f96e50571dcf"
->THERE_IS X IN MA.ModeProfile.Profile | X.Mode == Default.Mode.ModeProfile.SH AND X.Speed != BaseTypes.Speed.UseNV</PreCondition></PreConditions>
-<Expression>( FIRST X IN MA.ModeProfile.Profile | X.Mode == Default.Mode.ModeProfile.SH ).Speed</Expression>
+>THERE_IS X IN Kernel.MA.ModeProfile.Profile | X.Mode == Default.Mode.ModeProfile.SH AND X.Speed != BaseTypes.Speed.UseNV</PreCondition></PreConditions>
+<Expression>( FIRST X IN Kernel.MA.ModeProfile.Profile | X.Mode == Default.Mode.ModeProfile.SH ).Speed</Expression>
 </Case><Case
  Name="National or default value"
  Guid="2fba5855-84b0-4753-ba64-1aceb5717175"
 >
-<Expression>NationalValues.CurrentNV().ShuntingModeSpeedLimit</Expression>
+<Expression>Kernel.NationalValues.CurrentNV().ShuntingModeSpeedLimit</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Speed"
@@ -387,13 +387,13 @@
 <PreConditions>
 <PreCondition
  Guid="68da82cd-26fd-4256-bdaf-17972b445617"
->TracksideModeRelatedSpeedRestrictions.SR != BaseTypes.Speed.NA</PreCondition></PreConditions>
-<Expression>TracksideModeRelatedSpeedRestrictions.SR</Expression>
+>Kernel.Modes.ModeRelatedSpeedLimits.TracksideModeRelatedSpeedRestrictions.SR != BaseTypes.Speed.NA</PreCondition></PreConditions>
+<Expression>Kernel.Modes.ModeRelatedSpeedLimits.TracksideModeRelatedSpeedRestrictions.SR</Expression>
 </Case><Case
  Name="National or default value"
  Guid="ae5a5f7b-fa96-44ee-a2a2-f2a542977dde"
 >
-<Expression>NationalValues.CurrentNV().StaffResponsibleModeSpeedLimit</Expression>
+<Expression>Kernel.NationalValues.CurrentNV().StaffResponsibleModeSpeedLimit</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Speed"
@@ -419,13 +419,13 @@
  Name="Value"
  Guid="468665f4-3458-43e5-85f4-b51880e79135"
 >
-<Expression>NationalValues.CurrentNV().UnfittedModeSpeedLimit</Expression>
+<Expression>Kernel.NationalValues.CurrentNV().UnfittedModeSpeedLimit</Expression>
 </Case></Cases>
 </Function></Functions>
 <Variables>
 <Variable
  Type="TracksideModeRelatedSpeedRestrictionsStruct"
- DefaultValue="TracksideModeRelatedSpeedRestrictionsStruct{}"
+ DefaultValue="Kernel.Modes.ModeRelatedSpeedLimits.TracksideModeRelatedSpeedRestrictionsStruct{}"
  VariableMode="Internal"
  X="10"
  Y="20"

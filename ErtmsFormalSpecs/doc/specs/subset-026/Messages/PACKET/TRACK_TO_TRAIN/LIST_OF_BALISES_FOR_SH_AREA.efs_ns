@@ -10,7 +10,6 @@
 </NameSpaces>
 <Structures>
 <Structure
- Default=""
  Implemented="TRUE"
  Name="Message"
  Guid="998c61ed-d646-4a86-9459-191a2f7da0a9"
@@ -27,7 +26,7 @@
 >
 </ReqRef><Comment>Used to list balise group(s) which the train can pass over in SH mode</Comment>
 <StructureElement
- TypeName="Messages.NID_PACKET"
+ TypeName="NID_PACKET"
  Default="49"
  Mode="InOut"
  Implemented="TRUE"
@@ -40,7 +39,7 @@
  Guid="2f0b195b-448d-45fb-9cf6-ccaba5763662"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="Messages.Q_DIR"
+ TypeName="Q_DIR"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -66,7 +65,7 @@
  Guid="ca36309a-123b-428b-b6a6-1437a4c617f0"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="Messages.N_ITER"
+ TypeName="N_ITER"
  Default="0"
  Mode="InOut"
  Implemented="TRUE"
@@ -92,7 +91,6 @@
  Guid="fc2d8424-9492-404e-9bc4-007d0baf7bef"
 >
 </ReqRef></StructureElement></Structure><Structure
- Default=""
  Implemented="TRUE"
  Name="SubStructure1"
  Guid="85b6889d-a5da-4109-8e4c-6aebcf1b3603"
@@ -103,7 +101,7 @@
  Guid="65479535-148b-4f67-9e3e-4037207319dd"
 >
 </ReqRef><StructureElement
- TypeName="Messages.Q_NEWCOUNTRY"
+ TypeName="Q_NEWCOUNTRY"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -116,7 +114,7 @@
  Guid="37375e0d-d2d7-4c33-9758-cd0d18078c87"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="Messages.NID_C"
+ TypeName="NID_C"
  Default="0"
  Mode="InOut"
  Implemented="TRUE"
@@ -124,7 +122,7 @@
  Guid="65e1e147-ce74-406f-ab03-6f1c0747eaa2"
 >
 </StructureElement><StructureElement
- TypeName="Messages.NID_BG"
+ TypeName="NID_BG"
  Default="0"
  Mode="InOut"
  Implemented="TRUE"
@@ -154,14 +152,13 @@
 <Functions>
 <Function
  Type="Boolean"
- Default=""
  Name="MessageValuesCorrect"
  Guid="0d660229-5f8b-4a24-b1db-8828fa03fc34"
 >
 <Comment>Checks the values in a structure of type LIST_OF_BALISES_FOR_SH_AREA.Message</Comment>
 <Parameters>
 <Parameter
- Type="Message"
+ Type="LIST_OF_BALISES_FOR_SH_AREA.Message"
  Name="struct"
  Guid="52966a8f-0d02-456b-851c-d43a3d837346"
 >
@@ -229,7 +226,7 @@
 <PreConditions>
 <PreCondition
  Guid="72235b42-048e-4efd-8f63-539dfb30eae0"
->THERE_IS X IN struct.Sequence1 | NOT SubStructure1ValuesCorrect(X)</PreCondition></PreConditions>
+>THERE_IS X IN struct.Sequence1 | NOT Messages.PACKET.TRACK_TO_TRAIN.LIST_OF_BALISES_FOR_SH_AREA.SubStructure1ValuesCorrect(X)</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
  Name="Otherwise"
@@ -239,14 +236,13 @@
 </Case></Cases>
 </Function><Function
  Type="Boolean"
- Default=""
  Name="SubStructure1ValuesCorrect"
  Guid="68c32602-e2eb-457e-add2-dac4f5d79ce9"
 >
 <Comment>Checks the values in a structure of type LIST_OF_BALISES_FOR_SH_AREA.SubStructure1</Comment>
 <Parameters>
 <Parameter
- Type="SubStructure1"
+ Type="LIST_OF_BALISES_FOR_SH_AREA.SubStructure1"
  Name="struct"
  Guid="a353efc8-4cd9-428f-984b-ca4f4b0db39a"
 >

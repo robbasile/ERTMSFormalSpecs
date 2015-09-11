@@ -231,9 +231,9 @@
  Name="Value"
  Guid="5e3671a8-145b-436f-897c-425e53b4e138"
 >
-<Expression>(REDUCE TSRs 
+<Expression>(REDUCE Kernel.TSR.TSRs 
     USING X IN  
-        MIN ( First =&gt; FUNCTION d : Default.BaseTypes.Distance =&gt; TSRSpeedRestriction( aTSR =&gt; X, Distance =&gt; d ), 
+        MIN ( First =&gt; FUNCTION d : Default.BaseTypes.Distance =&gt; Kernel.TSR.TSRSpeedRestriction( aTSR =&gt; X, Distance =&gt; d ), 
                   Second =&gt; RESULT )
 INITIAL_VALUE BaseTypes.MaxSpeedFunction) (Distance)</Expression>
 </Case></Cases>
@@ -260,7 +260,7 @@ INITIAL_VALUE BaseTypes.MaxSpeedFunction) (Distance)</Expression>
  Name="Always"
  Guid="5ebe6a9a-6fe4-4578-b828-6c0b14bd1b4a"
 >
-<Expression>THERE_IS X IN TSRs</Expression>
+<Expression>THERE_IS X IN Kernel.TSR.TSRs</Expression>
 </Case></Cases>
 </Function></Functions>
 <Procedures>
@@ -319,7 +319,7 @@ INITIAL_VALUE BaseTypes.MaxSpeedFunction) (Distance)</Expression>
 <PreConditions>
 <PreCondition
  Guid="ac57a8af-1931-41ec-a4a6-3e591cb1a63f"
->ActiveFunctions.DeleteRevokedTSR()</PreCondition></PreConditions>
+>Kernel.ActiveFunctions.DeleteRevokedTSR()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="04d2a1fb-9dda-4174-9850-8ac8872b486a"
@@ -407,7 +407,7 @@ INITIAL_VALUE BaseTypes.MaxSpeedFunction) (Distance)</Expression>
 <PreConditions>
 <PreCondition
  Guid="713b3f3c-98bb-481a-8a50-d873d96e317d"
->THERE_IS X IN TSRs | X.Id == Packet.NID_TSR</PreCondition><PreCondition
+>THERE_IS X IN Kernel.TSR.TSRs | X.Id == Packet.NID_TSR</PreCondition><PreCondition
  Guid="d5d60f09-0748-4754-a025-1753e9c07ecc"
 >Packet.NID_TSR != Messages.NID_TSR.Non_revocable_speed_restriction__applicable_for_all_transmission_media</PreCondition></PreConditions>
 <Actions>
@@ -445,7 +445,7 @@ INITIAL_VALUE BaseTypes.MaxSpeedFunction) (Distance)</Expression>
 <Actions>
 <Action
  Guid="f094bc0f-7070-4318-a782-45b27a7ee26d"
->INSERT TemporarySpeedRestriction
+>INSERT Kernel.TSR.TemporarySpeedRestriction
 {
     Id =&gt; Packet.NID_TSR,
     Length =&gt; MessageTypes.SpeedRestrictionLength
@@ -456,7 +456,7 @@ INITIAL_VALUE BaseTypes.MaxSpeedFunction) (Distance)</Expression>
     Location =&gt; MessageTypes.QScaleDistance ( distance =&gt; Packet.D_TSR, scale =&gt; Packet.Q_SCALE ),
     Speed =&gt; MessageTypes.SpeedResolution ( speed =&gt; Packet.V_TSR, resolution =&gt; 5.0 )
 }
-IN TSRs</Action></Actions>
+IN Kernel.TSR.TSRs</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -502,11 +502,11 @@ IN TSRs</Action></Actions>
 <PreConditions>
 <PreCondition
  Guid="465c9406-284b-4260-ac1d-67c720e99d90"
->ActiveFunctions.InhibitRevocableTSRFromBalises()</PreCondition></PreConditions>
+>Kernel.ActiveFunctions.InhibitRevocableTSRFromBalises()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="2f0ec572-0a9d-4201-9e6e-941893eca202"
->InhibitRevocableTSRsFromBalises &lt;- True</Action></Actions>
+>Kernel.TSR.InhibitRevocableTSRsFromBalises &lt;- True</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
@@ -601,13 +601,13 @@ IN TSRs</Action></Actions>
  Guid="0ce0c637-4925-42c7-ba92-a6ec6c4aa031"
 >EURORADIO.PositionReport.RBCTransitionLocation != BaseTypes.Distance.Unknown</PreCondition><PreCondition
  Guid="b4da2d0a-93a2-4ec1-a494-0f1cba98ea39"
->EURORADIO.PositionReport.RBCTransitionLocation &gt;= TrainPosition.FrontEndPosition( PointOfInterest =&gt; DistanceInterval.Nom )</PreCondition><PreCondition
+>EURORADIO.PositionReport.RBCTransitionLocation &gt;= Kernel.TrainPosition.FrontEndPosition( PointOfInterest =&gt; DistanceInterval.Nom )</PreCondition><PreCondition
  Guid="60719c6d-30e0-4836-9b3a-4a066bb234b9"
->InhibitRevocableTSRsFromBalises</PreCondition></PreConditions>
+>Kernel.TSR.InhibitRevocableTSRsFromBalises</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="a6b02a49-eef5-438e-8204-e23a03cb9761"
->InhibitRevocableTSRsFromBalises &lt;- Boolean.False</Action></Actions>
+>Kernel.TSR.InhibitRevocableTSRsFromBalises &lt;- Boolean.False</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </NameSpace>

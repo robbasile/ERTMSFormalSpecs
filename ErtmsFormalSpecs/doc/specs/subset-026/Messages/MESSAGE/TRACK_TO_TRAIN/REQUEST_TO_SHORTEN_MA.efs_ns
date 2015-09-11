@@ -9,14 +9,13 @@
 </NameSpaces>
 <Structures>
 <Structure
- Default=""
  Implemented="TRUE"
  Name="Message"
  Guid="8bbb692a-8360-43a0-9af3-0391d14389d2"
 >
 <Comment>Request to Shorten MA</Comment>
 <StructureElement
- TypeName="Messages.NID_MESSAGE"
+ TypeName="NID_MESSAGE"
  Default="0"
  Mode="InOut"
  Implemented="TRUE"
@@ -55,7 +54,7 @@
  Guid="cd31f16f-7b8b-4293-a598-0784061f8ea9"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="Messages.M_ACK"
+ TypeName="M_ACK"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -68,7 +67,7 @@
  Guid="d9560dd3-32fe-4d11-922a-32554d733577"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="Messages.NID_LRBG"
+ TypeName="NID_LRBG"
  Default="0"
  Mode="InOut"
  Implemented="TRUE"
@@ -107,7 +106,6 @@
  Guid="485b5b84-78cc-4310-a47c-e9c032f56302"
 >
 </ReqRef></StructureElement></Structure><Structure
- Default=""
  Implemented="TRUE"
  Name="SubStructure1"
  Guid="cdabcf5f-5ea6-4570-982d-5e09e7deb1e7"
@@ -148,14 +146,13 @@
 <Functions>
 <Function
  Type="Boolean"
- Default=""
  Name="MessageValuesCorrect"
  Guid="78656c59-12d4-40db-89e5-b10fca614467"
 >
 <Comment>Checks the values in a structure of type REQUEST_TO_SHORTEN_MA.Message</Comment>
 <Parameters>
 <Parameter
- Type="Message"
+ Type="REQUEST_TO_SHORTEN_MA.Message"
  Name="struct"
  Guid="955171ac-f5e9-474e-8098-9038c9857be8"
 >
@@ -232,7 +229,7 @@
 <PreConditions>
 <PreCondition
  Guid="689fc83d-9f92-4032-8ce6-f0287f7dd504"
->NOT PACKET.TRACK_TO_TRAIN.LEVEL_2_3_MOVEMENT_AUTHORITY.MessageValuesCorrect(struct.LEVEL_2_3_MOVEMENT_AUTHORITY)</PreCondition></PreConditions>
+>NOT Messages.PACKET.TRACK_TO_TRAIN.LEVEL_2_3_MOVEMENT_AUTHORITY.MessageValuesCorrect(struct.LEVEL_2_3_MOVEMENT_AUTHORITY)</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
  Name="Sequence1 invalid"
@@ -241,7 +238,7 @@
 <PreConditions>
 <PreCondition
  Guid="77ef4910-098d-4dac-8710-2615fa518179"
->THERE_IS X IN struct.Sequence1 | NOT SubStructure1ValuesCorrect(X)</PreCondition></PreConditions>
+>THERE_IS X IN struct.Sequence1 | NOT Messages.MESSAGE.TRACK_TO_TRAIN.REQUEST_TO_SHORTEN_MA.SubStructure1ValuesCorrect(X)</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
  Name="Otherwise"
@@ -251,14 +248,13 @@
 </Case></Cases>
 </Function><Function
  Type="Boolean"
- Default=""
  Name="SubStructure1ValuesCorrect"
  Guid="828bf3df-d833-4ae6-855d-915a456601ec"
 >
 <Comment>Checks the values in a structure of type REQUEST_TO_SHORTEN_MA.SubStructure1</Comment>
 <Parameters>
 <Parameter
- Type="SubStructure1"
+ Type="REQUEST_TO_SHORTEN_MA.SubStructure1"
  Name="struct"
  Guid="1a8defa8-287a-4ed0-b389-b4c74cc4dccd"
 >
@@ -280,7 +276,7 @@
 <PreConditions>
 <PreCondition
  Guid="6221134a-9a41-4bc8-b0a8-555feaa3fd40"
->NOT PACKET.TRACK_TO_TRAIN.MODE_PROFILE.MessageValuesCorrect(struct.MODE_PROFILE)</PreCondition></PreConditions>
+>NOT Messages.PACKET.TRACK_TO_TRAIN.MODE_PROFILE.MessageValuesCorrect(struct.MODE_PROFILE)</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
  Name="Otherwise"

@@ -10,7 +10,6 @@
 </NameSpaces>
 <Structures>
 <Structure
- Default=""
  Implemented="TRUE"
  Name="Message"
  Guid="ae340055-3db8-4d5f-b8f7-c88dbb660723"
@@ -27,7 +26,7 @@
 >
 </ReqRef><Comment>Transmission of the gradient. D_GRADIENT gives the distance to the next change of the gradient value. The gradient value is the minimum gradient for the given distance.</Comment>
 <StructureElement
- TypeName="Messages.NID_PACKET"
+ TypeName="NID_PACKET"
  Default="21"
  Mode="InOut"
  Implemented="TRUE"
@@ -40,7 +39,7 @@
  Guid="d565aad1-6740-4e9b-ab91-149fd603de04"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="Messages.Q_DIR"
+ TypeName="Q_DIR"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -66,7 +65,7 @@
  Guid="cf2566d6-1d47-42df-8ad9-d0fad1e291ff"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="Messages.Q_SCALE"
+ TypeName="Q_SCALE"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -92,7 +91,7 @@
  Guid="5fafbfb8-0ba9-49b9-aeab-ed9ac06c664c"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="Messages.Q_GDIR"
+ TypeName="Q_GDIR"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -118,7 +117,7 @@
  Guid="32672c52-0e3a-4553-96b2-85a0d06723b9"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="Messages.N_ITER"
+ TypeName="N_ITER"
  Default="0"
  Mode="InOut"
  Implemented="TRUE"
@@ -144,7 +143,6 @@
  Guid="5660ecda-a13f-44fd-b0d9-6d023acea663"
 >
 </ReqRef></StructureElement></Structure><Structure
- Default=""
  Implemented="TRUE"
  Name="SubStructure1"
  Guid="7d780079-c12e-4c52-b5f1-c625d53116f3"
@@ -168,7 +166,7 @@
  Guid="943c140b-18ae-4ce3-908c-5b71e4b89d79"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="Messages.Q_GDIR"
+ TypeName="Q_GDIR"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -211,14 +209,13 @@
 <Functions>
 <Function
  Type="Boolean"
- Default=""
  Name="MessageValuesCorrect"
  Guid="e3df95ef-5cd1-491d-bb49-54b293a58c8d"
 >
 <Comment>Checks the values in a structure of type GRADIENT_PROFILE.Message</Comment>
 <Parameters>
 <Parameter
- Type="Message"
+ Type="GRADIENT_PROFILE.Message"
  Name="struct"
  Guid="648700a4-77b3-461b-b416-fac0efbfeadf"
 >
@@ -332,7 +329,7 @@
 <PreConditions>
 <PreCondition
  Guid="b41e7cf4-6ff0-40f2-bab0-1b51c4a82db1"
->THERE_IS X IN struct.Sequence1 | NOT SubStructure1ValuesCorrect(X)</PreCondition></PreConditions>
+>THERE_IS X IN struct.Sequence1 | NOT Messages.PACKET.TRACK_TO_TRAIN.GRADIENT_PROFILE.SubStructure1ValuesCorrect(X)</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
  Name="Otherwise"
@@ -342,14 +339,13 @@
 </Case></Cases>
 </Function><Function
  Type="Boolean"
- Default=""
  Name="SubStructure1ValuesCorrect"
  Guid="c05e8c97-dfab-482d-8aee-e659592b16c3"
 >
 <Comment>Checks the values in a structure of type GRADIENT_PROFILE.SubStructure1</Comment>
 <Parameters>
 <Parameter
- Type="SubStructure1"
+ Type="GRADIENT_PROFILE.SubStructure1"
  Name="struct"
  Guid="0217d4a6-2830-40f1-a8f5-f665e5e863d2"
 >

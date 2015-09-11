@@ -39,8 +39,8 @@
 <PreConditions>
 <PreCondition
  Guid="c21057e4-4c17-437c-a093-3e0a0ab170ea"
->ActiveFunctions.ProvideDateAndTime()</PreCondition></PreConditions>
-<Expression>AddToDate(StartDate=&gt;StartDate, Increment=&gt;CurrentTime)</Expression>
+>Kernel.ActiveFunctions.ProvideDateAndTime()</PreCondition></PreConditions>
+<Expression>AddToDate(StartDate=&gt;Kernel.DateAndTime.StartDate, Increment=&gt;Kernel.DateAndTime.CurrentTime)</Expression>
 </Case><Case
  Name="Not provided"
  Guid="8264cf87-b338-420e-ad41-7889f5f82267"
@@ -90,7 +90,7 @@ Converts the UTC time to local time using a country identifier</Comment>
  Name="Value"
  Guid="3ed56381-f9fc-4762-8aa6-f264651d7b07"
 >
-<Expression>Now()</Expression>
+<Expression>Kernel.DateAndTime.Now()</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"

@@ -33,8 +33,8 @@
 <PreConditions>
 <PreCondition
  Guid="1201950b-d598-4c15-8893-92dff8eed0d2"
->PrevMode == Default.Mode.SH</PreCondition></PreConditions>
-<Expression>Mode in [Default.Mode.NP, Default.Mode.SH, Default.Mode.SR, Default.Mode.SL, Default.Mode.UN, Default.Mode.SN, Default.Mode.RV]</Expression>
+>Kernel.Modes.ModeTransitions.PrevMode == Default.Mode.SH</PreCondition></PreConditions>
+<Expression>Kernel.Mode in [Default.Mode.NP, Default.Mode.SH, Default.Mode.SR, Default.Mode.SL, Default.Mode.UN, Default.Mode.SN, Default.Mode.RV]</Expression>
 </Case><Case
  Name="Previous mode is PS"
  Guid="24cc2c50-a96a-4ff0-b83d-50204729dbed"
@@ -42,13 +42,13 @@
 <PreConditions>
 <PreCondition
  Guid="bd87c659-fdb7-4e9d-87f3-30e249ad0db2"
->PrevMode == Default.Mode.PS</PreCondition></PreConditions>
-<Expression>Mode in [Default.Mode.NP, Default.Mode.SR, Default.Mode.NL, Default.Mode.UN, Default.Mode.SN, Default.Mode.RV]</Expression>
+>Kernel.Modes.ModeTransitions.PrevMode == Default.Mode.PS</PreCondition></PreConditions>
+<Expression>Kernel.Mode in [Default.Mode.NP, Default.Mode.SR, Default.Mode.NL, Default.Mode.UN, Default.Mode.SN, Default.Mode.RV]</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="3e6ca875-92df-4171-a17e-5e02367eda0a"
 >
-<Expression>Mode in [Default.Mode.NP, Default.Mode.SB, Default.Mode.SH, Default.Mode.SR, Default.Mode.SL, Default.Mode.NL, Default.Mode.UN, Default.Mode.SN, Default.Mode.RV]</Expression>
+<Expression>Kernel.Mode in [Default.Mode.NP, Default.Mode.SB, Default.Mode.SH, Default.Mode.SR, Default.Mode.SL, Default.Mode.NL, Default.Mode.UN, Default.Mode.SN, Default.Mode.RV]</Expression>
 </Case></Cases>
 </Function></Functions>
 <Procedures>
@@ -105,11 +105,11 @@
 <PreConditions>
 <PreCondition
  Guid="00c16a64-a658-4f4b-bd70-46338b03a3fd"
->Mode in [Default.Mode.NP]</PreCondition></PreConditions>
+>Kernel.Mode in [Default.Mode.NP]</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="0af5d5ea-f98e-4583-aa8b-97ec549868ec"
->DeleteInformation(NationalValues.NotApplicableNationalValues)</Action></Actions>
+>DeleteInformation(Kernel.NationalValues.NotApplicableNationalValues)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Implemented="TRUE"
@@ -132,7 +132,7 @@
 <PreConditions>
 <PreCondition
  Guid="d04a3bb7-5ed5-4edb-a654-20eb5425da82"
->Mode in [Default.Mode.NP, Default.Mode.SB, Default.Mode.PS, Default.Mode.SH, Default.Mode.SR, Default.Mode.SL, Default.Mode.NL, Default.Mode.UN, Default.Mode.TR, Default.Mode.SN, Default.Mode.RV]</PreCondition></PreConditions>
+>Kernel.Mode in [Default.Mode.NP, Default.Mode.SB, Default.Mode.PS, Default.Mode.SH, Default.Mode.SR, Default.Mode.SL, Default.Mode.NL, Default.Mode.UN, Default.Mode.TR, Default.Mode.SN, Default.Mode.RV]</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="aa75fc56-864c-49d5-8717-a7efeb9e170d"
@@ -164,11 +164,11 @@
 <PreConditions>
 <PreCondition
  Guid="8d3bfbb4-2990-45b9-a602-c17071a67694"
->Mode in [ Default.Mode.NP, Default.Mode.SB, Default.Mode.PS, Default.Mode.SH, Default.Mode.SR, Default.Mode.SL, Default.Mode.NL, Default.Mode.UN, Default.Mode.TR, Default.Mode.SN, Default.Mode.RV ]</PreCondition></PreConditions>
+>Kernel.Mode in [ Default.Mode.NP, Default.Mode.SB, Default.Mode.PS, Default.Mode.SH, Default.Mode.SR, Default.Mode.SL, Default.Mode.NL, Default.Mode.UN, Default.Mode.TR, Default.Mode.SN, Default.Mode.RV ]</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="3213db86-c76f-4338-af19-87e5e3baa18c"
->MA.MA &lt;- EMPTY</Action></Actions>
+>Kernel.MA.MA &lt;- EMPTY</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Implemented="TRUE"
@@ -196,11 +196,11 @@
 <PreConditions>
 <PreCondition
  Guid="7e47b9b3-f88b-435d-be06-489d85102444"
->Mode in [ Default.Mode.NP, Default.Mode.SB, Default.Mode.PS, Default.Mode.SH, Default.Mode.SR, Default.Mode.SL, Default.Mode.NL, Default.Mode.UN, Default.Mode.TR, Default.Mode.SN, Default.Mode.RV ]</PreCondition></PreConditions>
+>Kernel.Mode in [ Default.Mode.NP, Default.Mode.SB, Default.Mode.PS, Default.Mode.SH, Default.Mode.SR, Default.Mode.SL, Default.Mode.NL, Default.Mode.UN, Default.Mode.TR, Default.Mode.SN, Default.Mode.RV ]</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="83695b4e-6e2e-471e-a33a-b09bb6e1e5fd"
->TrackDescription.Gradient.Gradients &lt;- []</Action></Actions>
+>Kernel.TrackDescription.Gradient.Gradients &lt;- []</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Implemented="TRUE"
@@ -228,11 +228,11 @@
 <PreConditions>
 <PreCondition
  Guid="3ebc735d-5a3f-466e-9749-d2766fa92430"
->Mode in [ Default.Mode.NP, Default.Mode.SB, Default.Mode.PS, Default.Mode.SH, Default.Mode.SR, Default.Mode.SL, Default.Mode.NL, Default.Mode.UN, Default.Mode.TR, Default.Mode.SN, Default.Mode.RV ]</PreCondition></PreConditions>
+>Kernel.Mode in [ Default.Mode.NP, Default.Mode.SB, Default.Mode.PS, Default.Mode.SH, Default.Mode.SR, Default.Mode.SL, Default.Mode.NL, Default.Mode.UN, Default.Mode.TR, Default.Mode.SN, Default.Mode.RV ]</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="bc3cd369-f546-4727-9119-65c20eba5538"
->TrackDescription.StaticSpeedProfile.SSP &lt;- []</Action></Actions>
+>Kernel.TrackDescription.StaticSpeedProfile.SSP &lt;- []</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Implemented="TRUE"
@@ -260,11 +260,11 @@
 <PreConditions>
 <PreCondition
  Guid="54bb23ce-770d-4b8c-a6c9-da92173cbaae"
->Mode in [ Default.Mode.NP, Default.Mode.SB, Default.Mode.PS, Default.Mode.SH, Default.Mode.SR, Default.Mode.SL, Default.Mode.NL, Default.Mode.UN, Default.Mode.TR, Default.Mode.SN, Default.Mode.RV ]</PreCondition></PreConditions>
+>Kernel.Mode in [ Default.Mode.NP, Default.Mode.SB, Default.Mode.PS, Default.Mode.SH, Default.Mode.SR, Default.Mode.SL, Default.Mode.NL, Default.Mode.UN, Default.Mode.TR, Default.Mode.SN, Default.Mode.RV ]</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="3b6b19ed-4fd4-4f6f-9c3e-0c7850690505"
->TrackDescription.AxleLoad.ASP &lt;- TrackDescription.AxleLoad.AxleLoadProfileStruct{
+>Kernel.TrackDescription.AxleLoad.ASP &lt;- Kernel.TrackDescription.AxleLoad.AxleLoadProfileStruct{
     InitialState =&gt; Messages.Q_TRACKINIT.No_initial_states_to_be_resumed__profile_to_follow,
     EmptyProfileDistance =&gt; 0.0,
     ALs =&gt; []
@@ -291,7 +291,7 @@
 <PreConditions>
 <PreCondition
  Guid="a3d36014-1ecf-4238-bbaa-c8f52ed2dd9e"
->Mode in [Default.Mode.NP, Default.Mode.SB, Default.Mode.PS, Default.Mode.SH, Default.Mode.SR, Default.Mode.SL, Default.Mode.NL, Default.Mode.RV]</PreCondition></PreConditions>
+>Kernel.Mode in [Default.Mode.NP, Default.Mode.SB, Default.Mode.PS, Default.Mode.SH, Default.Mode.SR, Default.Mode.SL, Default.Mode.NL, Default.Mode.RV]</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="e288cacc-2801-4c7d-a3e9-06b510230d1e"
@@ -322,7 +322,7 @@
 <PreConditions>
 <PreCondition
  Guid="0f479f27-19f7-4ada-bc1c-dcdcfd0e95ce"
->Mode in [Default.Mode.NP, Default.Mode.SB, Default.Mode.PS, Default.Mode.SH, Default.Mode.SR, Default.Mode.SL, Default.Mode.NL, Default.Mode.RV]</PreCondition></PreConditions>
+>Kernel.Mode in [Default.Mode.NP, Default.Mode.SB, Default.Mode.PS, Default.Mode.SH, Default.Mode.SR, Default.Mode.SL, Default.Mode.NL, Default.Mode.RV]</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="48845d4d-7963-486d-aa41-3b43931eeb02"
@@ -353,13 +353,13 @@ Distance =&gt; BaseTypes.Distance.Unknown
 <PreConditions>
 <PreCondition
  Guid="a0250bc5-6a52-46b1-a3ec-8a37cd7f9e95"
->ModeRules.ShouldDeleteLTO()</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.ModeRules.ShouldDeleteLTO()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="1a3d2506-57f5-4dbe-a364-86c9e37532a3"
->LevelTransition.LevelTransitionOrder &lt;- EMPTY</Action><Action
+>Kernel.LevelTransition.LevelTransitionOrder &lt;- EMPTY</Action><Action
  Guid="17e76a6e-5232-4d2d-b127-3263918b0e04"
->LevelTransition.LevelTransitionToProcess &lt;- EMPTY</Action></Actions>
+>Kernel.LevelTransition.LevelTransitionToProcess &lt;- EMPTY</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Implemented="TRUE"
@@ -382,11 +382,11 @@ Distance =&gt; BaseTypes.Distance.Unknown
 <PreConditions>
 <PreCondition
  Guid="24625373-64c8-4e0f-b193-fd8dc8109652"
->Mode in [Default.Mode.NP, Default.Mode.SB, Default.Mode.SL]</PreCondition></PreConditions>
+>Kernel.Mode in [Default.Mode.NP, Default.Mode.SB, Default.Mode.SL]</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="86bd1476-4411-4751-bba9-de24735c8c5f"
->Modes.Shunting.StopShuntingOnDeskOpening &lt;- Boolean.False</Action></Actions>
+>Kernel.Modes.Shunting.StopShuntingOnDeskOpening &lt;- Boolean.False</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Implemented="TRUE"
@@ -409,11 +409,11 @@ Distance =&gt; BaseTypes.Distance.Unknown
 <PreConditions>
 <PreCondition
  Guid="e6251b16-ea9e-4b3d-b498-4fbd6e4dc644"
->Mode in [Default.Mode.NP, Default.Mode.SB, Default.Mode.SR, Default.Mode.SL, Default.Mode.NL, Default.Mode.UN, Default.Mode.TR, Default.Mode.SN, Default.Mode.RV]</PreCondition></PreConditions>
+>Kernel.Mode in [Default.Mode.NP, Default.Mode.SB, Default.Mode.SR, Default.Mode.SL, Default.Mode.NL, Default.Mode.UN, Default.Mode.TR, Default.Mode.SN, Default.Mode.RV]</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="e6c24441-ff92-44c9-8e84-6a1619260895"
->Modes.Shunting.BaliseGroupsForShArea &lt;- Modes.Shunting.ExpectedBGstruct{
+>Kernel.Modes.Shunting.BaliseGroupsForShArea &lt;- Kernel.Modes.Shunting.ExpectedBGstruct{
 ListReceived =&gt; Boolean.False,
 BGs =&gt; []
 }</Action></Actions>
@@ -439,11 +439,11 @@ BGs =&gt; []
 <PreConditions>
 <PreCondition
  Guid="a70240ff-3ac0-4ae5-a6c5-3983f5957616"
->Mode in [Default.Mode.NP]</PreCondition></PreConditions>
+>Kernel.Mode in [Default.Mode.NP]</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="4edd62c4-ef4c-4383-ab61-d01692d23e0b"
->MA.MARequest.MARequestParameters &lt;- EMPTY</Action></Actions>
+>Kernel.MA.MARequest.MARequestParameters &lt;- EMPTY</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Implemented="TRUE"
@@ -466,7 +466,7 @@ BGs =&gt; []
 <PreConditions>
 <PreCondition
  Guid="2ab9b504-2891-4a29-aa4c-27e4f4dccd4d"
->Mode in [Default.Mode.NP]</PreCondition></PreConditions>
+>Kernel.Mode in [Default.Mode.NP]</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="6859fea0-bf01-4b24-bd96-dee8bd1f3f11"
@@ -493,13 +493,13 @@ BGs =&gt; []
 <PreConditions>
 <PreCondition
  Guid="15f81c23-74f8-492e-8915-66cb8c7faf55"
->Mode in [Default.Mode.NP, Default.Mode.SB, Default.Mode.PS, Default.Mode.SH, Default.Mode.FS, Default.Mode.LS, Default.Mode.OS, Default.Mode.SL, Default.Mode.NL, Default.Mode.UN, Default.Mode.TR, Default.Mode.SN, Default.Mode.RV]</PreCondition></PreConditions>
+>Kernel.Mode in [Default.Mode.NP, Default.Mode.SB, Default.Mode.PS, Default.Mode.SH, Default.Mode.FS, Default.Mode.LS, Default.Mode.OS, Default.Mode.SL, Default.Mode.NL, Default.Mode.UN, Default.Mode.TR, Default.Mode.SN, Default.Mode.RV]</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="79fa84ec-5bc4-4b75-91f6-7389d2a17361"
->Modes.StaffResponsible.SRAuthorisation &lt;- EMPTY</Action><Action
+>Kernel.Modes.StaffResponsible.SRAuthorisation &lt;- EMPTY</Action><Action
  Guid="37532850-e322-451a-84eb-b8a19545d122"
->Modes.ModeRelatedSpeedLimits.TracksideModeRelatedSpeedRestrictions.SR &lt;- Default.BaseTypes.Speed.NA</Action></Actions>
+>Kernel.Modes.ModeRelatedSpeedLimits.TracksideModeRelatedSpeedRestrictions.SR &lt;- Default.BaseTypes.Speed.NA</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Implemented="TRUE"
@@ -522,11 +522,11 @@ BGs =&gt; []
 <PreConditions>
 <PreCondition
  Guid="a8aeb857-8bdf-4ece-afab-0cfb902fb7dc"
->Mode in [Default.Mode.NP, Default.Mode.SB, Default.Mode.PS, Default.Mode.SH, Default.Mode.SL, Default.Mode.NL, Default.Mode.SN, Default.Mode.RV]</PreCondition></PreConditions>
+>Kernel.Mode in [Default.Mode.NP, Default.Mode.SB, Default.Mode.PS, Default.Mode.SH, Default.Mode.SL, Default.Mode.NL, Default.Mode.SN, Default.Mode.RV]</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="748186ba-7def-4443-95cd-9b81d526d45d"
->TSR.TSRs &lt;- []</Action></Actions>
+>Kernel.TSR.TSRs &lt;- []</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Implemented="TRUE"
@@ -549,11 +549,11 @@ BGs =&gt; []
 <PreConditions>
 <PreCondition
  Guid="4cf795b5-1f92-4431-a35d-4855c15dcb65"
->Mode in [Default.Mode.NP, Default.Mode.SB, Default.Mode.PS, Default.Mode.SH, Default.Mode.SR, Default.Mode.SL, Default.Mode.NL, Default.Mode.UN, Default.Mode.SN, Default.Mode.RV]</PreCondition></PreConditions>
+>Kernel.Mode in [Default.Mode.NP, Default.Mode.SB, Default.Mode.PS, Default.Mode.SH, Default.Mode.SR, Default.Mode.SL, Default.Mode.NL, Default.Mode.UN, Default.Mode.SN, Default.Mode.RV]</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="47c8a756-fd11-49df-8c72-7dc4d0a3cbc9"
->TSR.InhibitRevocableTSRsFromBalises &lt;- Boolean.False</Action></Actions>
+>Kernel.TSR.InhibitRevocableTSRsFromBalises &lt;- Boolean.False</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Implemented="TRUE"
@@ -576,11 +576,11 @@ BGs =&gt; []
 <PreConditions>
 <PreCondition
  Guid="a47e6f1c-1018-4c60-82bc-610781a4088e"
->Mode in [Default.Mode.NP, Default.Mode.SB, Default.Mode.PS, Default.Mode.SH, Default.Mode.SL, Default.Mode.NL, Default.Mode.SN, Default.Mode.RV]</PreCondition></PreConditions>
+>Kernel.Mode in [Default.Mode.NP, Default.Mode.SB, Default.Mode.PS, Default.Mode.SH, Default.Mode.SL, Default.Mode.NL, Default.Mode.SN, Default.Mode.RV]</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="986e9d6c-e5cf-408c-9306-b2dbf7fd365e"
->TrackDescription.Gradient.DefaultGradientForTSR &lt;- EMPTY</Action></Actions>
+>Kernel.TrackDescription.Gradient.DefaultGradientForTSR &lt;- EMPTY</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Implemented="TRUE"
@@ -603,11 +603,11 @@ BGs =&gt; []
 <PreConditions>
 <PreCondition
  Guid="55a2b501-1a54-4d21-a8a9-efe78b5a136c"
->Mode in [Default.Mode.NP, Default.Mode.SB, Default.Mode.PS, Default.Mode.SH, Default.Mode.SR, Default.Mode.SL, Default.Mode.NL, Default.Mode.UN, Default.Mode.TR, Default.Mode.SN, Default.Mode.RV]</PreCondition></PreConditions>
+>Kernel.Mode in [Default.Mode.NP, Default.Mode.SB, Default.Mode.PS, Default.Mode.SH, Default.Mode.SR, Default.Mode.SL, Default.Mode.NL, Default.Mode.UN, Default.Mode.TR, Default.Mode.SN, Default.Mode.RV]</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="b6494f93-bf18-406a-b1e6-8c3a007a8004"
->MA.SignallingRelatedSpeedRestriction &lt;- Kernel.MA.SignallingRelatedSRStruct{
+>Kernel.MA.SignallingRelatedSpeedRestriction &lt;- Kernel.MA.SignallingRelatedSRStruct{
 Value =&gt; BaseTypes.Speed.MaxSpeed,
 End =&gt; BaseTypes.Distance.Unknown
 }</Action></Actions>
@@ -638,11 +638,11 @@ End =&gt; BaseTypes.Distance.Unknown
 <PreConditions>
 <PreCondition
  Guid="d884d8a2-9654-40b3-8fdc-8c65deeef831"
->PrevMode != Mode AND Mode in [ Default.Mode.NP, Default.Mode.SB, Default.Mode.PS, Default.Mode.SH, Default.Mode.SR, Default.Mode.SL, Default.Mode.NL, Default.Mode.UN, Default.Mode.TR, Default.Mode.SN, Default.Mode.RV ]</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.PrevMode != Kernel.Mode AND Kernel.Mode in [ Default.Mode.NP, Default.Mode.SB, Default.Mode.PS, Default.Mode.SH, Default.Mode.SR, Default.Mode.SL, Default.Mode.NL, Default.Mode.UN, Default.Mode.TR, Default.Mode.SN, Default.Mode.RV ]</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="c574f4fe-de1f-491c-a4b0-1fc80d9cc8c6"
->TrackDescription.RouteSuitability.RouteSuitabilityProfile &lt;- TrackDescription.RouteSuitability.RouteSuitabilityInformationStruct{
+>Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile &lt;- Kernel.TrackDescription.RouteSuitability.RouteSuitabilityInformationStruct{
     EmptyProfileDistance =&gt; 0.0,
     InitialState =&gt; Messages.Q_TRACKINIT.No_initial_states_to_be_resumed__profile_to_follow,
     Items =&gt; []
@@ -679,11 +679,11 @@ End =&gt; BaseTypes.Distance.Unknown
 <PreConditions>
 <PreCondition
  Guid="ac02df1c-5c73-4512-8992-b2764893a817"
->Mode in [ Default.Mode.NP, Default.Mode.SB, Default.Mode.PS, Default.Mode.SH, Default.Mode.SL, Default.Mode.NL, Default.Mode.SN]</PreCondition></PreConditions>
+>Kernel.Mode in [ Default.Mode.NP, Default.Mode.SB, Default.Mode.PS, Default.Mode.SH, Default.Mode.SL, Default.Mode.NL, Default.Mode.SN]</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="51c26205-54cc-4334-9fef-e647f4478723"
->TrackDescription.AdhesionFactors.AdhFactors &lt;- []</Action></Actions>
+>Kernel.TrackDescription.AdhesionFactors.AdhFactors &lt;- []</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Implemented="TRUE"
@@ -706,11 +706,11 @@ End =&gt; BaseTypes.Distance.Unknown
 <PreConditions>
 <PreCondition
  Guid="250b632f-2341-4c21-8896-9ea13e8f056c"
->Mode in [Default.Mode.NP, Default.Mode.SB, Default.Mode.PS, Default.Mode.SH, Default.Mode.SL, Default.Mode.IS]</PreCondition></PreConditions>
+>Kernel.Mode in [Default.Mode.NP, Default.Mode.SB, Default.Mode.PS, Default.Mode.SH, Default.Mode.SL, Default.Mode.IS]</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="8f364734-2456-4b33-83c7-06700ce462a4"
->PlainTextInformation &lt;- &apos;&apos;</Action></Actions>
+>Kernel.PlainTextInformation &lt;- &apos;&apos;</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Implemented="TRUE"
@@ -733,11 +733,11 @@ End =&gt; BaseTypes.Distance.Unknown
 <PreConditions>
 <PreCondition
  Guid="f4d1264e-d6bd-462f-82f3-376251f236be"
->Mode in [Default.Mode.NP, Default.Mode.SB, Default.Mode.PS, Default.Mode.SH, Default.Mode.SL, Default.Mode.IS]</PreCondition></PreConditions>
+>Kernel.Mode in [Default.Mode.NP, Default.Mode.SB, Default.Mode.PS, Default.Mode.SH, Default.Mode.SL, Default.Mode.IS]</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="e9f73d7f-e96e-4599-84e1-878bbd1a7297"
->FixedTextInformation &lt;- &apos;&apos;</Action></Actions>
+>Kernel.FixedTextInformation &lt;- &apos;&apos;</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Implemented="TRUE"
@@ -760,11 +760,11 @@ End =&gt; BaseTypes.Distance.Unknown
 <PreConditions>
 <PreCondition
  Guid="0655cf78-624d-489c-843a-ed4f790ced45"
->Mode in [Default.Mode.NP, Default.Mode.PS, Default.Mode.SH, Default.Mode.SL, Default.Mode.IS, Default.Mode.RV]</PreCondition></PreConditions>
+>Kernel.Mode in [Default.Mode.NP, Default.Mode.PS, Default.Mode.SH, Default.Mode.SL, Default.Mode.IS, Default.Mode.RV]</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="f3943758-7237-4f6b-abb3-5c9b7f8d0b2e"
->GeographicalPosition.GeographicalPositionInformation &lt;- []</Action></Actions>
+>Kernel.GeographicalPosition.GeographicalPositionInformation &lt;- []</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Implemented="TRUE"
@@ -787,11 +787,11 @@ End =&gt; BaseTypes.Distance.Unknown
 <PreConditions>
 <PreCondition
  Guid="f9704f2d-9db2-4813-bf75-b2a37498ec1b"
->Mode in [Default.Mode.NP, Default.Mode.SB, Default.Mode.PS, Default.Mode.SH, Default.Mode.SR, Default.Mode.SL, Default.Mode.NL, Default.Mode.UN, Default.Mode.TR, Default.Mode.SN, Default.Mode.RV]</PreCondition></PreConditions>
+>Kernel.Mode in [Default.Mode.NP, Default.Mode.SB, Default.Mode.PS, Default.Mode.SH, Default.Mode.SR, Default.Mode.SL, Default.Mode.NL, Default.Mode.UN, Default.Mode.TR, Default.Mode.SN, Default.Mode.RV]</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="312edcad-3833-4f4d-8507-02297f317878"
->MA.ModeProfile.Profile &lt;- []</Action></Actions>
+>Kernel.MA.ModeProfile.Profile &lt;- []</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Implemented="TRUE"
@@ -814,7 +814,7 @@ End =&gt; BaseTypes.Distance.Unknown
 <PreConditions>
 <PreCondition
  Guid="923eeb5c-5b3a-4e66-ac09-f7b47677af18"
->Mode in [Default.Mode.NP, Default.Mode.SB, Default.Mode.PS, Default.Mode.SH, Default.Mode.SR, Default.Mode.SL, Default.Mode.NL, Default.Mode.UN, Default.Mode.TR, Default.Mode.SN, Default.Mode.RV]</PreCondition></PreConditions>
+>Kernel.Mode in [Default.Mode.NP, Default.Mode.SB, Default.Mode.PS, Default.Mode.SH, Default.Mode.SR, Default.Mode.SL, Default.Mode.NL, Default.Mode.UN, Default.Mode.TR, Default.Mode.SN, Default.Mode.RV]</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="a1d1a714-4b37-4ae9-8b3f-a2c63860ec8d"
@@ -839,7 +839,7 @@ End =&gt; BaseTypes.Distance.Unknown
 <PreConditions>
 <PreCondition
  Guid="8191362c-e4bb-4de3-9bd9-7807516b9345"
->Mode in [Default.Mode.NP, Default.Mode.SB, Default.Mode.PS, Default.Mode.SH, Default.Mode.SR, Default.Mode.SL, Default.Mode.NL, Default.Mode.UN, Default.Mode.TR, Default.Mode.SN, Default.Mode.RV]</PreCondition></PreConditions>
+>Kernel.Mode in [Default.Mode.NP, Default.Mode.SB, Default.Mode.PS, Default.Mode.SH, Default.Mode.SR, Default.Mode.SL, Default.Mode.NL, Default.Mode.UN, Default.Mode.TR, Default.Mode.SN, Default.Mode.RV]</PreCondition></PreConditions>
 <Actions>
 </Actions>
 </RuleCondition></Conditions>
@@ -862,7 +862,7 @@ End =&gt; BaseTypes.Distance.Unknown
 <PreConditions>
 <PreCondition
  Guid="21339913-a2e6-4dbf-b892-3f5098e0ffd8"
->Mode in [Default.Mode.NP]</PreCondition></PreConditions>
+>Kernel.Mode in [Default.Mode.NP]</PreCondition></PreConditions>
 <Actions>
 </Actions>
 </RuleCondition></Conditions>
@@ -897,13 +897,13 @@ End =&gt; BaseTypes.Distance.Unknown
 <PreConditions>
 <PreCondition
  Guid="60ff603d-530d-4734-95b0-d600e8b8922d"
->Mode in [ Default.Mode.NP, Default.Mode.SB, Default.Mode.PS, Default.Mode.SH, Default.Mode.SR, Default.Mode.SL, Default.Mode.UN, Default.Mode.SN, Default.Mode.RV ]</PreCondition><PreCondition
+>Kernel.Mode in [ Default.Mode.NP, Default.Mode.SB, Default.Mode.PS, Default.Mode.SH, Default.Mode.SR, Default.Mode.SL, Default.Mode.UN, Default.Mode.SN, Default.Mode.RV ]</PreCondition><PreCondition
  Guid="0dfc5e9b-6540-4329-9ea3-4644c6ab7666"
->ActiveFunctions.ManageTrackConditions_BrakeInhibition()</PreCondition></PreConditions>
+>Kernel.ActiveFunctions.ManageTrackConditions_BrakeInhibition()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="67db5d7f-5b93-4297-87b9-a9bc1fc31e39"
->TrackDescription.TrackConditions.General.TCProfile &lt;- MAP TrackDescription.TrackConditions.General.TCProfile USING X IN TrackDescription.TrackConditions.General.HandleTCPwhenEnteringGivenMode1( X )</Action></Actions>
+>Kernel.TrackDescription.TrackConditions.General.TCProfile &lt;- MAP Kernel.TrackDescription.TrackConditions.General.TCProfile USING X IN Kernel.TrackDescription.TrackConditions.General.HandleTCPwhenEnteringGivenMode1( X )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Implemented="TRUE"
@@ -936,13 +936,13 @@ End =&gt; BaseTypes.Distance.Unknown
 <PreConditions>
 <PreCondition
  Guid="f444f2cc-19a0-451d-9b58-2d4973a19949"
->Mode in [ Default.Mode.NP, Default.Mode.SB, Default.Mode.PS, Default.Mode.SH, Default.Mode.SR, Default.Mode.SL, Default.Mode.NL, Default.Mode.UN, Default.Mode.TR, Default.Mode.PT, Default.Mode.SN, Default.Mode.RV ]</PreCondition><PreCondition
+>Kernel.Mode in [ Default.Mode.NP, Default.Mode.SB, Default.Mode.PS, Default.Mode.SH, Default.Mode.SR, Default.Mode.SL, Default.Mode.NL, Default.Mode.UN, Default.Mode.TR, Default.Mode.PT, Default.Mode.SN, Default.Mode.RV ]</PreCondition><PreCondition
  Guid="143f1c98-9ffc-4fd1-bcec-a3a97f12cf00"
->ActiveFunctions.ManageTrackConditions_SoundHorn()</PreCondition></PreConditions>
+>Kernel.ActiveFunctions.ManageTrackConditions_SoundHorn()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="36e7dd40-ce3d-4111-98c0-eba98f5676df"
->TrackDescription.TrackConditions.General.TCProfile&lt;- MAP TrackDescription.TrackConditions.General.TCProfile USING X IN TrackDescription.TrackConditions.General.HandleTCPwhenEnteringGivenMode2( X )</Action></Actions>
+>Kernel.TrackDescription.TrackConditions.General.TCProfile&lt;- MAP Kernel.TrackDescription.TrackConditions.General.TCProfile USING X IN Kernel.TrackDescription.TrackConditions.General.HandleTCPwhenEnteringGivenMode2( X )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Implemented="TRUE"
@@ -970,9 +970,9 @@ End =&gt; BaseTypes.Distance.Unknown
 <PreConditions>
 <PreCondition
  Guid="38d35dfc-8883-4cdc-a7f4-77c1cb8c52a1"
->Mode in [Default.Mode.NP, Default.Mode.SB, Default.Mode.PS, Default.Mode.SH, Default.Mode.SR, Default.Mode.SL, Default.Mode.RV]</PreCondition><PreCondition
+>Kernel.Mode in [Default.Mode.NP, Default.Mode.SB, Default.Mode.PS, Default.Mode.SH, Default.Mode.SR, Default.Mode.SL, Default.Mode.RV]</PreCondition><PreCondition
  Guid="254e7987-faea-40cf-9935-f097880066cc"
->ActiveFunctions.ManageTrackConditions_BigMetalMAsses()</PreCondition></PreConditions>
+>Kernel.ActiveFunctions.ManageTrackConditions_BigMetalMAsses()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="13ea5c3b-6f88-4d91-80fc-98f5f0170f43"
@@ -999,7 +999,7 @@ End =&gt; BaseTypes.Distance.Unknown
 <PreConditions>
 <PreCondition
  Guid="f4722fc2-5f58-4b39-9f68-e9d2bfc82a3c"
->Mode in [Default.Mode.NP, Default.Mode.SB, Default.Mode.PS, Default.Mode.SH, Default.Mode.SR, Default.Mode.SL, Default.Mode.NL, Default.Mode.UN, Default.Mode.SN, Default.Mode.RV]</PreCondition></PreConditions>
+>Kernel.Mode in [Default.Mode.NP, Default.Mode.SB, Default.Mode.PS, Default.Mode.SH, Default.Mode.SR, Default.Mode.SL, Default.Mode.NL, Default.Mode.UN, Default.Mode.SN, Default.Mode.RV]</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="60e53b39-e375-4fc7-abe3-55ceb1f352fd"
@@ -1026,7 +1026,7 @@ End =&gt; BaseTypes.Distance.Unknown
 <PreConditions>
 <PreCondition
  Guid="b9e8cd0c-798f-4cc3-b7e6-de5325e002d1"
->Mode in [Default.Mode.NP, Default.Mode.SB, Default.Mode.PS, Default.Mode.SH, Default.Mode.SR, Default.Mode.SL, Default.Mode.NL, Default.Mode.UN, Default.Mode.SN, Default.Mode.RV]</PreCondition></PreConditions>
+>Kernel.Mode in [Default.Mode.NP, Default.Mode.SB, Default.Mode.PS, Default.Mode.SH, Default.Mode.SR, Default.Mode.SL, Default.Mode.NL, Default.Mode.UN, Default.Mode.SN, Default.Mode.RV]</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="ceba2e6e-a03b-4465-a597-fc8a4689abd3"
@@ -1053,11 +1053,11 @@ End =&gt; BaseTypes.Distance.Unknown
 <PreConditions>
 <PreCondition
  Guid="11247934-a5f0-4be0-9b2f-fa8a762643f4"
->Mode in [Default.Mode.NP]</PreCondition></PreConditions>
+>Kernel.Mode in [Default.Mode.NP]</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="704cf1f6-4a58-495d-a834-ac2c8a519d8d"
->InvalidateInformation(TrainPosition.Position)</Action></Actions>
+>InvalidateInformation(Kernel.TrainPosition.Position)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Implemented="TRUE"
@@ -1086,11 +1086,11 @@ End =&gt; BaseTypes.Distance.Unknown
 <PreConditions>
 <PreCondition
  Guid="e4a6977b-91fe-4cd0-8d36-90eac8f70160"
->Mode in [ Default.Mode.NP ]</PreCondition></PreConditions>
+>Kernel.Mode in [ Default.Mode.NP ]</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="a7fa7c59-c015-4adc-8b14-1b717c6c824f"
->DeleteInformation(TrainData.TrainData)</Action></Actions>
+>DeleteInformation(Kernel.TrainData.TrainData)</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="To Be Revalidated"
@@ -1100,11 +1100,11 @@ End =&gt; BaseTypes.Distance.Unknown
 <PreConditions>
 <PreCondition
  Guid="0de5e303-7fbd-41ef-8706-74718074308f"
->Mode in [ Default.Mode.SB, Default.Mode.SH ]</PreCondition></PreConditions>
+>Kernel.Mode in [ Default.Mode.SB, Default.Mode.SH ]</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="15b9edf9-aa53-4327-97e1-77a65bdf3a2b"
->InvalidateInformation(TrainData.TrainData)</Action></Actions>
+>InvalidateInformation(Kernel.TrainData.TrainData)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Implemented="TRUE"
@@ -1127,11 +1127,11 @@ End =&gt; BaseTypes.Distance.Unknown
 <PreConditions>
 <PreCondition
  Guid="8856296e-c0d8-4dcf-bb36-fa43ced09724"
->Mode in [Default.Mode.NP]</PreCondition></PreConditions>
+>Kernel.Mode in [Default.Mode.NP]</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="d7a7f3bb-4314-494c-b170-425dbbd1e7e1"
->InvalidateInformation(Level)</Action></Actions>
+>InvalidateInformation(Kernel.Level)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Name="Handle Table of priority of trackside supported levels"
@@ -1153,7 +1153,7 @@ End =&gt; BaseTypes.Distance.Unknown
 <PreConditions>
 <PreCondition
  Guid="3c5482c3-43c4-4982-bcef-f4d99a0af23d"
->Mode in [Default.Mode.NP]</PreCondition></PreConditions>
+>Kernel.Mode in [Default.Mode.NP]</PreCondition></PreConditions>
 <Actions>
 </Actions>
 </RuleCondition></Conditions>
@@ -1179,11 +1179,11 @@ End =&gt; BaseTypes.Distance.Unknown
 <PreConditions>
 <PreCondition
  Guid="ae1b6dc4-f29d-4427-9759-dd821e370a13"
->Mode in [Default.Mode.NP, Default.Mode.SL]</PreCondition></PreConditions>
+>Kernel.Mode in [Default.Mode.NP, Default.Mode.SL]</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="5d1c7d89-a32e-4e1a-83d1-97a6cc8483d2"
->DeleteInformation(DriverId)</Action></Actions>
+>DeleteInformation(Kernel.DriverId)</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Revalidate Driver ID"
@@ -1193,11 +1193,11 @@ End =&gt; BaseTypes.Distance.Unknown
 <PreConditions>
 <PreCondition
  Guid="dbabb518-a74f-485e-9006-6caf88ce935d"
->Mode in [Default.Mode.SB]</PreCondition></PreConditions>
+>Kernel.Mode in [Default.Mode.SB]</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="96575d49-f7b5-4e08-b6eb-ac51d8602adb"
->InvalidateInformation(DriverId)</Action></Actions>
+>InvalidateInformation(Kernel.DriverId)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Implemented="TRUE"
@@ -1233,7 +1233,7 @@ End =&gt; BaseTypes.Distance.Unknown
 <PreConditions>
 <PreCondition
  Guid="eb9b5a2d-fbbd-4f04-b60f-3ffc04b16cf7"
->Mode in [Default.Mode.UN, Default.Mode.SN]</PreCondition></PreConditions>
+>Kernel.Mode in [Default.Mode.UN, Default.Mode.SN]</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="bde1c19e-6cdd-4d60-a2f5-0fb542d71a64"
@@ -1247,7 +1247,7 @@ End =&gt; BaseTypes.Distance.Unknown
 <PreConditions>
 <PreCondition
  Guid="464ec2e6-bdda-4764-a6f7-1335cddbbcb3"
->Mode in [Default.Mode.NP]</PreCondition></PreConditions>
+>Kernel.Mode in [Default.Mode.NP]</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="a8d4a142-2d90-400d-b31e-410f873efe2d"
@@ -1275,11 +1275,11 @@ End =&gt; BaseTypes.Distance.Unknown
 <PreConditions>
 <PreCondition
  Guid="cc220528-be40-4fa6-9bb8-4c03be22d0cf"
->Mode in [Default.Mode.NP, Default.Mode.SL]</PreCondition></PreConditions>
+>Kernel.Mode in [Default.Mode.NP, Default.Mode.SL]</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="2d3eba4c-f0a6-409c-a094-625d43a5f39c"
->DeleteInformation(TrainRunningNumber)</Action></Actions>
+>DeleteInformation(Kernel.TrainRunningNumber)</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Revalidate Train Running Number"
@@ -1289,11 +1289,11 @@ End =&gt; BaseTypes.Distance.Unknown
 <PreConditions>
 <PreCondition
  Guid="fe8cb1b0-4c11-4d47-8328-87524dba0c6b"
->Mode in [Default.Mode.SB]</PreCondition></PreConditions>
+>Kernel.Mode in [Default.Mode.SB]</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="a9857842-f6d2-4a05-8a3a-fe681e2f1f95"
->InvalidateInformation(TrainRunningNumber)</Action></Actions>
+>InvalidateInformation(Kernel.TrainRunningNumber)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Implemented="TRUE"
@@ -1321,11 +1321,11 @@ End =&gt; BaseTypes.Distance.Unknown
 <PreConditions>
 <PreCondition
  Guid="cc72fb29-7c92-4cfd-9f99-a968f754163d"
->Mode in [ Default.Mode.NP, Default.Mode.SB, Default.Mode.PS, Default.Mode.SH, Default.Mode.SR, Default.Mode.SL, Default.Mode.NL, Default.Mode.UN, Default.Mode.TR, Default.Mode.SN]</PreCondition></PreConditions>
+>Kernel.Mode in [ Default.Mode.NP, Default.Mode.SB, Default.Mode.PS, Default.Mode.SH, Default.Mode.SR, Default.Mode.SL, Default.Mode.NL, Default.Mode.UN, Default.Mode.TR, Default.Mode.SN]</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="320557ce-506b-4c99-ae20-e0d18a68e85e"
->TrackDescription.ReversingArea.ReversingAreaProfile &lt;- EMPTY</Action></Actions>
+>Kernel.TrackDescription.ReversingArea.ReversingAreaProfile &lt;- EMPTY</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Implemented="TRUE"
@@ -1348,15 +1348,15 @@ End =&gt; BaseTypes.Distance.Unknown
 <PreConditions>
 <PreCondition
  Guid="68ad4b4e-a564-4da9-ac82-75e429a4f301"
->Mode in [Default.Mode.NP, Default.Mode.SB, Default.Mode.PS, Default.Mode.SH, Default.Mode.SR, Default.Mode.SL, Default.Mode.NL, Default.Mode.UN, Default.Mode.TR, Default.Mode.SN]</PreCondition><PreCondition
+>Kernel.Mode in [Default.Mode.NP, Default.Mode.SB, Default.Mode.PS, Default.Mode.SH, Default.Mode.SR, Default.Mode.SL, Default.Mode.NL, Default.Mode.UN, Default.Mode.TR, Default.Mode.SN]</PreCondition><PreCondition
  Guid="5ce6daed-2f29-4291-ad01-fcefdcaa4e96"
->Available(TrackDescription.ReversingArea.ReversingAreaProfile)</PreCondition></PreConditions>
+>Available(Kernel.TrackDescription.ReversingArea.ReversingAreaProfile)</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="b03b0b5b-2998-490b-973a-d6602378f1dc"
->TrackDescription.ReversingArea.ReversingAreaProfile.Speed &lt;- Default.BaseTypes.Speed.NA</Action><Action
+>Kernel.TrackDescription.ReversingArea.ReversingAreaProfile.Speed &lt;- Default.BaseTypes.Speed.NA</Action><Action
  Guid="6dee7d11-4473-4613-9253-bc3d953f5096"
->TrackDescription.ReversingArea.ReversingAreaProfile.MaxDistance &lt;- Default.BaseTypes.Distance.Unknown</Action></Actions>
+>Kernel.TrackDescription.ReversingArea.ReversingAreaProfile.MaxDistance &lt;- Default.BaseTypes.Distance.Unknown</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Implemented="TRUE"
@@ -1379,11 +1379,11 @@ End =&gt; BaseTypes.Distance.Unknown
 <PreConditions>
 <PreCondition
  Guid="b5ff1106-c20b-4c42-b3f5-33bc64348ce6"
->Mode in [Default.Mode.NP, Default.Mode.SB, Default.Mode.PS, Default.Mode.SH, Default.Mode.FS, Default.Mode.LS, Default.Mode.SL, Default.Mode.NL, Default.Mode.UN, Default.Mode.TR, Default.Mode.SN, Default.Mode.RV]</PreCondition></PreConditions>
+>Kernel.Mode in [Default.Mode.NP, Default.Mode.SB, Default.Mode.PS, Default.Mode.SH, Default.Mode.FS, Default.Mode.LS, Default.Mode.SL, Default.Mode.NL, Default.Mode.UN, Default.Mode.TR, Default.Mode.SN, Default.Mode.RV]</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="4acd25e2-a9d1-40ad-a381-fb9170878b46"
->TrackAheadFree.TrackAheadFreeRequest &lt;- EMPTY</Action></Actions>
+>Kernel.TrackAheadFree.TrackAheadFreeRequest &lt;- EMPTY</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Implemented="TRUE"
@@ -1411,11 +1411,11 @@ End =&gt; BaseTypes.Distance.Unknown
 <PreConditions>
 <PreCondition
  Guid="559ce49c-0709-4837-91be-158aa7275ed1"
->Mode in [ Default.Mode.NP, Default.Mode.SB, Default.Mode.PS, Default.Mode.SH, Default.Mode.SR, Default.Mode.SL, Default.Mode.NL, Default.Mode.UN, Default.Mode.TR, Default.Mode.SN, Default.Mode.RV ]</PreCondition></PreConditions>
+>Kernel.Mode in [ Default.Mode.NP, Default.Mode.SB, Default.Mode.PS, Default.Mode.SH, Default.Mode.SR, Default.Mode.SL, Default.Mode.NL, Default.Mode.UN, Default.Mode.TR, Default.Mode.SN, Default.Mode.RV ]</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="0fd29861-ded9-46ee-8138-16aff5ba6fc2"
->TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.SpeedRestrictions &lt;- []</Action></Actions>
+>Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.SpeedRestrictions &lt;- []</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Implemented="TRUE"
@@ -1438,13 +1438,13 @@ End =&gt; BaseTypes.Distance.Unknown
 <PreConditions>
 <PreCondition
  Guid="2377d03e-9f12-4cb3-857f-2109db3da514"
->Mode in [ Default.Mode.NP, Default.Mode.SB, Default.Mode.PS, Default.Mode.SH, Default.Mode.SR, Default.Mode.SL, Default.Mode.NL, Default.Mode.UN, Default.Mode.TR, Default.Mode.SN, Default.Mode.RV ]</PreCondition></PreConditions>
+>Kernel.Mode in [ Default.Mode.NP, Default.Mode.SB, Default.Mode.PS, Default.Mode.SH, Default.Mode.SR, Default.Mode.SL, Default.Mode.NL, Default.Mode.UN, Default.Mode.TR, Default.Mode.SN, Default.Mode.RV ]</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="e02c4388-b1b1-4dfc-b153-f8398d113f46"
->LX.MRSPLevelCrossings &lt;- []</Action><Action
+>Kernel.LX.MRSPLevelCrossings &lt;- []</Action><Action
  Guid="12d0db4c-4228-49f8-91f9-e61b431bb650"
->LX.SupervisedLevelCrossings &lt;- []</Action></Actions>
+>Kernel.LX.SupervisedLevelCrossings &lt;- []</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Implemented="TRUE"
@@ -1467,7 +1467,7 @@ End =&gt; BaseTypes.Distance.Unknown
 <PreConditions>
 <PreCondition
  Guid="c1bbdf25-1646-4849-bc18-5507d385edfc"
->Mode in [Default.Mode.NP]</PreCondition></PreConditions>
+>Kernel.Mode in [Default.Mode.NP]</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="f4f285cf-87f7-46c6-bd07-0386165d3630"
@@ -1542,11 +1542,11 @@ End =&gt; BaseTypes.Distance.Unknown
 <PreConditions>
 <PreCondition
  Guid="fc92c4b9-3336-4ff3-ad26-f920e41feffb"
->Mode in [Default.Mode.NP, Default.Mode.SB, Default.Mode.PS, Default.Mode.SH, Default.Mode.FS, Default.Mode.SR, Default.Mode.OS, Default.Mode.SL, Default.Mode.NL, Default.Mode.UN, Default.Mode.TR, Default.Mode.SN, Default.Mode.RV]</PreCondition></PreConditions>
+>Kernel.Mode in [Default.Mode.NP, Default.Mode.SB, Default.Mode.PS, Default.Mode.SH, Default.Mode.FS, Default.Mode.SR, Default.Mode.OS, Default.Mode.SL, Default.Mode.NL, Default.Mode.UN, Default.Mode.TR, Default.Mode.SN, Default.Mode.RV]</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="48fe38ec-4627-4d11-b485-9a07d37ce361"
->Modes.LimitedSupervision.LSSMATimer &lt;- EMPTY</Action></Actions>
+>Kernel.Modes.LimitedSupervision.LSSMATimer &lt;- EMPTY</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -1616,11 +1616,11 @@ End =&gt; BaseTypes.Distance.Unknown
 <PreConditions>
 <PreCondition
  Guid="72fcd004-feed-48df-98a5-1c7f6e063b22"
->ActiveFunctions.CommandEmergencyBrake()</PreCondition></PreConditions>
+>Kernel.ActiveFunctions.CommandEmergencyBrake()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="699a167b-bff4-4b30-bfbb-1344a69dc3f5"
->BrakeCommands.CommandEmergencyBrake(BrakeCommands.BrakeReason.PermanentCommandInCurrentMode)</Action></Actions>
+>Kernel.BrakeCommands.CommandEmergencyBrake(Kernel.BrakeCommands.BrakeReason.PermanentCommandInCurrentMode)</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Release the emergency brake"
@@ -1632,7 +1632,7 @@ End =&gt; BaseTypes.Distance.Unknown
 <Actions>
 <Action
  Guid="77d68901-80f2-4918-9202-a85631c54be2"
->BrakeCommands.ReleaseEBCommand(BrakeCommands.BrakeReason.PermanentCommandInCurrentMode)</Action></Actions>
+>Kernel.BrakeCommands.ReleaseEBCommand(Kernel.BrakeCommands.BrakeReason.PermanentCommandInCurrentMode)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>

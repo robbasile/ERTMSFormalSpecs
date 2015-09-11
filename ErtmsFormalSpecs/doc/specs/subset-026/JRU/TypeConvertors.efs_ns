@@ -461,52 +461,6 @@
 <Expression>Messages.JRU.M_REGENERATIVEBRAKE.No_interface</Expression>
 </Case></Cases>
 </Function><Function
- Type="Messages.JRU.M_TRAIN_ORIENTATION"
- Default=""
- X="140"
- Y="100"
- Width="100"
- Height="50"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="ToJRUMTrainOrientation"
- Guid="b0184155-b10b-442a-bd94-186237cc77bf"
->
-<Comment>Function which will convert the input value into JRU M_TRAIN_ORIENTATION</Comment>
-<Cases>
-<Case
- Name="DirecctionA"
- Guid="7033390a-3f51-4ad8-b35f-5c7c81bfe0c1"
->
-<PreConditions>
-<PreCondition
- Guid="59887e12-8465-4b82-b510-d0579c7df5ec"
->(SelectSingleDeskValue() == Messages.JRU.Q_SINGLE_DESK.Yes)
-AND
-(SecondCabIsPresent() == Messages.JRU.Q_CAB_B.No )
-AND
-(TIU.CabA.VirtualCabAActive == True)</PreCondition></PreConditions>
-<Expression>Messages.JRU.M_TRAIN_ORIENTATION.Direction_A</Expression>
-</Case><Case
- Name="DirectionB"
- Guid="c7247cf9-5772-4b4e-9862-9e9ff0dfe4e8"
->
-<PreConditions>
-<PreCondition
- Guid="204ed19c-8db2-4253-be27-f785d8b7ad10"
->(SelectSingleDeskValue() == Messages.JRU.Q_SINGLE_DESK.Yes)
-AND
-(SecondCabIsPresent() == Messages.JRU.Q_CAB_B.No )
-AND
-(TIU.CabA.VirtualCabBActive == True)</PreCondition></PreConditions>
-<Expression>Messages.JRU.M_TRAIN_ORIENTATION.Direction_B</Expression>
-</Case><Case
- Name="Otherwise"
- Guid="8e019151-c911-4d2f-8f68-22f740889719"
->
-<Expression>EMPTY</Expression>
-</Case></Cases>
-</Function><Function
  Type="Messages.JRU.NID_LRBG"
  Default=""
  X="10"
@@ -2584,11 +2538,45 @@ AND
  Name="Value"
  Guid="73c215ef-33a1-4814-9e8a-c013d83bd220"
 >
-<Expression>ToMessagesDistance
+<Expression>JRU.TypeConvertors.ToMessagesDistance
     (
         distance =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.TargetDistance(),
         scale =&gt; Messages.JRU.Q_SCALE._1_m_scaleC
     )</Expression>
+</Case></Cases>
+</Function><Function
+ Type="MessageTypes.Speed"
+ X="111"
+ Y="121"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="ToJRULSSMA"
+ Guid="0cc84f23-c3c6-45c4-b99a-4a9e83dc35d7"
+>
+<Comment>If the LSSMA is not displayed, returns BaseTypes.Speed.NA.
+Otherwise returns the LSSMA.</Comment>
+<Cases>
+<Case
+ Name="LSSMA displayed"
+ Guid="82b8473b-400a-41ea-b3e1-e230c0bd5c55"
+>
+<PreConditions>
+<PreCondition
+ Guid="95348f97-454c-4d75-a014-f499e0bd8a91"
+>Kernel.Mode in [Mode.LS]</PreCondition><PreCondition
+ Guid="934118f1-1e18-4cbb-9d39-789d84e7186b"
+>Kernel.Modes.LimitedSupervision.DisplayLSSMA</PreCondition></PreConditions>
+<Expression>MessageTypes.UnResolveSpeed(
+    speed=&gt;Kernel.Modes.LimitedSupervision.LSSMA(),
+    resolution=&gt;5.0
+)</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="35a3c444-6f48-49d6-9d71-042b006d278e"
+>
+<Expression>MessageTypes.Speed.NA</Expression>
 </Case></Cases>
 </Function></Functions>
 </NameSpace>

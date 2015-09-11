@@ -9,7 +9,6 @@
 </NameSpaces>
 <Structures>
 <Structure
- Default=""
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -28,7 +27,7 @@
 >
 </ReqRef><Comment>The packet gives details concerning the track ahead to support the driver when e.g. lower pantograph</Comment>
 <StructureElement
- TypeName="Messages.NID_PACKET"
+ TypeName="NID_PACKET"
  Default="68"
  Mode="InOut"
  Implemented="TRUE"
@@ -41,7 +40,7 @@
  Guid="bac3e46f-9be0-46c6-a527-8d2476511d46"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="Messages.Q_DIR"
+ TypeName="Q_DIR"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -67,7 +66,7 @@
  Guid="e98cf44e-8a5c-491e-9666-f3fe63fddf94"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="Messages.Q_SCALE"
+ TypeName="Q_SCALE"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -80,7 +79,7 @@
  Guid="c41b9643-a4a9-4aa6-a2ca-e2eebe76bf1f"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="Messages.Q_TRACKINIT"
+ TypeName="Q_TRACKINIT"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -117,7 +116,7 @@
  Guid="d49e4e2b-a782-45b7-b2b0-878ac1328372"
 >
 </StructureElement><StructureElement
- TypeName="Messages.M_TRACKCOND"
+ TypeName="M_TRACKCOND"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -125,7 +124,7 @@
  Guid="a46f71ad-e676-44c6-9f1f-083243c3e4bc"
 >
 </StructureElement><StructureElement
- TypeName="Messages.N_ITER"
+ TypeName="N_ITER"
  Default="0"
  Mode="InOut"
  Implemented="TRUE"
@@ -141,7 +140,6 @@
  Guid="16419c69-8175-4273-b833-4a61c5460eb7"
 >
 </StructureElement></Structure><Structure
- Default=""
  X="110"
  Width="100"
  Height="50"
@@ -171,7 +169,7 @@
  Guid="b544b600-b48a-46a5-a0e7-70e55732e105"
 >
 </StructureElement><StructureElement
- TypeName="Messages.M_TRACKCOND"
+ TypeName="M_TRACKCOND"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -199,14 +197,13 @@
 <Functions>
 <Function
  Type="Boolean"
- Default=""
  Name="MessageValuesCorrect"
  Guid="b3d5a05f-7800-4202-ba55-af2c08068569"
 >
 <Comment>Checks the values in a structure of type TRACK_CONDITION.Message</Comment>
 <Parameters>
 <Parameter
- Type="Message"
+ Type="TRACK_CONDITION.Message"
  Name="struct"
  Guid="496891e6-ce96-4a4e-8d01-c0778bc53662"
 >
@@ -346,7 +343,7 @@ struct.M_TRACKCOND &gt; 15</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="7b02a8c2-7767-4c29-ab23-ac97f5bee808"
->THERE_IS X IN struct.Sequence1 | NOT SubStructure1ValuesCorrect(X)</PreCondition></PreConditions>
+>THERE_IS X IN struct.Sequence1 | NOT Messages.PACKET.TRACK_TO_TRAIN.TRACK_CONDITION.SubStructure1ValuesCorrect(X)</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
  Name="Otherwise"
@@ -356,14 +353,13 @@ struct.M_TRACKCOND &gt; 15</PreCondition></PreConditions>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
- Default=""
  Name="SubStructure1ValuesCorrect"
  Guid="3f22c456-0bd3-4352-9eaa-2419fe98e524"
 >
 <Comment>Checks the values in a structure of type TRACK_CONDITION.SubStructure1</Comment>
 <Parameters>
 <Parameter
- Type="SubStructure1"
+ Type="TRACK_CONDITION.SubStructure1"
  Name="struct"
  Guid="4590cfa8-6b22-4e83-ac5c-7965e4b1c9b4"
 >

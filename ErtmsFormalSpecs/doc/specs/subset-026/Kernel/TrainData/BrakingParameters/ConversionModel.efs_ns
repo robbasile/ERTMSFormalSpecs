@@ -43,19 +43,19 @@
 <PreConditions>
 <PreCondition
  Guid="34841063-c56b-4747-8a29-d4ee8c1f936e"
->0.0 &lt;= TrainData.Value.MaximumSpeed
+>0.0 &lt;= Kernel.TrainData.TrainData.Value.MaximumSpeed
   AND
-TrainData.Value.MaximumSpeed &lt;= 200.0</PreCondition><PreCondition
+Kernel.TrainData.TrainData.Value.MaximumSpeed &lt;= 200.0</PreCondition><PreCondition
  Guid="44dea8f6-d254-4297-b71b-73fbc4ac8c22"
->TrainData.Value.BrakePercentage != Percentage.NA
+>Kernel.TrainData.TrainData.Value.BrakePercentage != Percentage.NA
   AND
-30.0 &lt;= TrainData.Value.BrakePercentage
+30.0 &lt;= Kernel.TrainData.TrainData.Value.BrakePercentage
   AND
-TrainData.Value.BrakePercentage &lt;= 250.0</PreCondition><PreCondition
+Kernel.TrainData.TrainData.Value.BrakePercentage &lt;= 250.0</PreCondition><PreCondition
  Guid="64762d77-7852-4461-8d32-8035e2c4fd42"
->0.0 &lt;= TrainData.Value.TrainLength
+>0.0 &lt;= Kernel.TrainData.TrainData.Value.TrainLength
   AND
-TrainData.Value.TrainLength &lt;= Lmax()</PreCondition></PreConditions>
+Kernel.TrainData.TrainData.Value.TrainLength &lt;= Kernel.TrainData.BrakingParameters.ConversionModel.Lmax()</PreCondition></PreConditions>
 <Expression>True</Expression>
 </Case><Case
  Name="ConversionModelIsNotUsed"
@@ -269,10 +269,10 @@ TrainData.Value.TrainLength &lt;= Lmax()</PreCondition></PreConditions>
  Name="Value"
  Guid="ab68d018-64a9-4aca-8e9a-b1a252bb96c5"
 >
-<Expression>BaseTypes.Time ( a_sb() +
-                             b_sb() * ( L_sb() / 100.0 ) +
-                             c_sb() * ( L_sb() / 100.0 ) *
-                                          ( L_sb() / 100.0 ) )</Expression>
+<Expression>BaseTypes.Time ( Kernel.TrainData.BrakingParameters.ConversionModel.a_sb() +
+                             Kernel.TrainData.BrakingParameters.ConversionModel.b_sb() * ( Kernel.TrainData.BrakingParameters.ConversionModel.L_sb() / 100.0 ) +
+                             Kernel.TrainData.BrakingParameters.ConversionModel.c_sb() * ( Kernel.TrainData.BrakingParameters.ConversionModel.L_sb() / 100.0 ) *
+                                          ( Kernel.TrainData.BrakingParameters.ConversionModel.L_sb() / 100.0 ) )</Expression>
 </Case></Cases>
 </Function><Function
  Type="CorrectionFactor"
@@ -309,7 +309,7 @@ TrainData.Value.TrainLength &lt;= Lmax()</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="0e496ad6-4f6f-4a70-9b05-c327b32bb0c7"
->TrainData.Value.BrakePosition == BrakePositions.PassengerTrainInP</PreCondition></PreConditions>
+>Kernel.TrainData.TrainData.Value.BrakePosition == Kernel.TrainData.BrakingParameters.BrakePositions.PassengerTrainInP</PreCondition></PreConditions>
 <Expression>1.0 + 0.2</Expression>
 </Case><Case
  Name="Freight train in P"
@@ -318,7 +318,7 @@ TrainData.Value.TrainLength &lt;= Lmax()</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="6d135189-dee9-426e-8e80-4c1b0fde55ba"
->TrainData.Value.BrakePosition == BrakePositions.FreightTrainInP</PreCondition></PreConditions>
+>Kernel.TrainData.TrainData.Value.BrakePosition == Kernel.TrainData.BrakingParameters.BrakePositions.FreightTrainInP</PreCondition></PreConditions>
 <Expression>1.0 + 0.2</Expression>
 </Case><Case
  Name="Freight train in G"
@@ -373,10 +373,10 @@ TrainData.Value.TrainLength &lt;= Lmax()</PreCondition></PreConditions>
  Name="Value"
  Guid="9dfcbbc2-819a-4c91-afe4-9a9c7399a5a1"
 >
-<Expression>BaseTypes.Time ( a_eb() +
-                              b_eb() * ( L_eb() / 100.0 ) +
-                              c_eb() * ( L_eb() / 100.0 ) *
-                                           ( L_eb() / 100.0 ) )</Expression>
+<Expression>BaseTypes.Time ( Kernel.TrainData.BrakingParameters.ConversionModel.a_eb() +
+                              Kernel.TrainData.BrakingParameters.ConversionModel.b_eb() * ( Kernel.TrainData.BrakingParameters.ConversionModel.L_eb() / 100.0 ) +
+                              Kernel.TrainData.BrakingParameters.ConversionModel.c_eb() * ( Kernel.TrainData.BrakingParameters.ConversionModel.L_eb() / 100.0 ) *
+                                           ( Kernel.TrainData.BrakingParameters.ConversionModel.L_eb() / 100.0 ) )</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Acceleration"
@@ -406,7 +406,7 @@ TrainData.Value.TrainLength &lt;= Lmax()</PreCondition></PreConditions>
  Name="Value"
  Guid="5aae405b-3859-4809-8b7a-d3982f736060"
 >
-<Expression>BrakingModelFunction ( BrakingModel =&gt; A_brake_emergency, Speed =&gt; V )</Expression>
+<Expression>Kernel.TrainData.BrakingParameters.BrakingModelFunction ( BrakingModel =&gt; Kernel.TrainData.BrakingParameters.ConversionModel.A_brake_emergency, Speed =&gt; V )</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Time"
@@ -438,13 +438,13 @@ TrainData.Value.TrainLength &lt;= Lmax()</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="f5852de8-faf7-4e54-a3f7-4136e2be2342"
->MA.MA.TargetSpeed == 0.0</PreCondition></PreConditions>
-<Expression>T_brake_service_cm0</Expression>
+>Kernel.MA.MA.TargetSpeed == 0.0</PreCondition></PreConditions>
+<Expression>Kernel.TrainData.BrakingParameters.ConversionModel.T_brake_service_cm0</Expression>
 </Case><Case
  Name="Target speed different from 0"
  Guid="402862b5-a907-484d-9c8a-056b04a11538"
 >
-<Expression>T_brake_service_cmt</Expression>
+<Expression>Kernel.TrainData.BrakingParameters.ConversionModel.T_brake_service_cmt</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Time"
@@ -476,13 +476,13 @@ TrainData.Value.TrainLength &lt;= Lmax()</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="354a7837-4c74-424d-9cdd-f4e2490818b8"
->MA.MA.TargetSpeed == 0.0</PreCondition></PreConditions>
-<Expression>T_brake_emergency_cm0</Expression>
+>Kernel.MA.MA.TargetSpeed == 0.0</PreCondition></PreConditions>
+<Expression>Kernel.TrainData.BrakingParameters.ConversionModel.T_brake_emergency_cm0</Expression>
 </Case><Case
  Name="Target speed different from 0"
  Guid="6b630290-2b75-4b96-beab-6b264324be77"
 >
-<Expression>T_brake_emergency_cmt</Expression>
+<Expression>Kernel.TrainData.BrakingParameters.ConversionModel.T_brake_emergency_cmt</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Acceleration"
@@ -513,7 +513,7 @@ TrainData.Value.TrainLength &lt;= Lmax()</PreCondition></PreConditions>
  Name="Value"
  Guid="52800a20-7b55-41eb-86d5-16be6840fd80"
 >
-<Expression>BrakingModelFunction ( BrakingModel =&gt; A_brake_service, Speed =&gt; V )</Expression>
+<Expression>Kernel.TrainData.BrakingParameters.BrakingModelFunction ( BrakingModel =&gt; Kernel.TrainData.BrakingParameters.ConversionModel.A_brake_service, Speed =&gt; V )</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Speed"
@@ -540,7 +540,7 @@ TrainData.Value.TrainLength &lt;= Lmax()</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="8533cd6f-5214-4c02-a4ad-23c8d006817a"
->TrainData.Value.BrakePosition == BrakePositions.PassengerTrainInP</PreCondition></PreConditions>
+>Kernel.TrainData.TrainData.Value.BrakePosition == Kernel.TrainData.BrakingParameters.BrakePositions.PassengerTrainInP</PreCondition></PreConditions>
 <Expression>900.0</Expression>
 </Case><Case
  Name="Otherwise"
@@ -583,7 +583,7 @@ TrainData.Value.TrainLength &lt;= Lmax()</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="827b2ba5-b363-4cc1-8d43-53f9f5036ad3"
->TrainData.Value.BrakePosition == BrakePositions.PassengerTrainInP</PreCondition></PreConditions>
+>Kernel.TrainData.TrainData.Value.BrakePosition == Kernel.TrainData.BrakingParameters.BrakePositions.PassengerTrainInP</PreCondition></PreConditions>
 <Expression>2.3</Expression>
 </Case><Case
  Name="Freight train in P, train length &lt;= 900m"
@@ -592,9 +592,9 @@ TrainData.Value.TrainLength &lt;= Lmax()</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="d9475db9-0b76-4f6e-8d60-88d72bf6b53e"
->TrainData.Value.BrakePosition == BrakePositions.FreightTrainInP</PreCondition><PreCondition
+>Kernel.TrainData.TrainData.Value.BrakePosition == Kernel.TrainData.BrakingParameters.BrakePositions.FreightTrainInP</PreCondition><PreCondition
  Guid="dd4f9938-4f18-4339-a246-4345ae0fc569"
->TrainData.Value.TrainLength &lt;= 900.0</PreCondition></PreConditions>
+>Kernel.TrainData.TrainData.Value.TrainLength &lt;= 900.0</PreCondition></PreConditions>
 <Expression>2.3</Expression>
 </Case><Case
  Name="Freight train in P, train length &gt; 900m"
@@ -603,11 +603,11 @@ TrainData.Value.TrainLength &lt;= Lmax()</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="3cca0324-4276-4553-89f9-0bd43049d14f"
->TrainData.Value.BrakePosition == BrakePositions.FreightTrainInP</PreCondition><PreCondition
+>Kernel.TrainData.TrainData.Value.BrakePosition == Kernel.TrainData.BrakingParameters.BrakePositions.FreightTrainInP</PreCondition><PreCondition
  Guid="92a801e1-5f5c-4cd2-9dfa-72b3acf8ace4"
->900.0 &lt; TrainData.Value.TrainLength
+>900.0 &lt; Kernel.TrainData.TrainData.Value.TrainLength
   AND
-TrainData.Value.TrainLength &lt;= 1500.0</PreCondition></PreConditions>
+Kernel.TrainData.TrainData.Value.TrainLength &lt;= 1500.0</PreCondition></PreConditions>
 <Expression>-0.4</Expression>
 </Case><Case
  Name="Freight train in G, train length &lt;= 900m"
@@ -616,9 +616,9 @@ TrainData.Value.TrainLength &lt;= 1500.0</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="e521117e-e980-40dd-a75d-dabab05d0d3a"
->TrainData.Value.BrakePosition == BrakePositions.FreightTrainInG</PreCondition><PreCondition
+>Kernel.TrainData.TrainData.Value.BrakePosition == Kernel.TrainData.BrakingParameters.BrakePositions.FreightTrainInG</PreCondition><PreCondition
  Guid="4987fc50-87cc-409d-ad36-9ad8708ddf3e"
->TrainData.Value.TrainLength &lt;= 900.0</PreCondition></PreConditions>
+>Kernel.TrainData.TrainData.Value.TrainLength &lt;= 900.0</PreCondition></PreConditions>
 <Expression>12.0</Expression>
 </Case><Case
  Name="Freight train in G, train length &gt; 900m"
@@ -627,11 +627,11 @@ TrainData.Value.TrainLength &lt;= 1500.0</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="f8ef5b04-9002-4484-ac96-0aecf3859d44"
->TrainData.Value.BrakePosition == BrakePositions.FreightTrainInG</PreCondition><PreCondition
+>Kernel.TrainData.TrainData.Value.BrakePosition == Kernel.TrainData.BrakingParameters.BrakePositions.FreightTrainInG</PreCondition><PreCondition
  Guid="eac89392-b588-4936-a320-c652b886e4f6"
->900.0 &lt; TrainData.Value.TrainLength
+>900.0 &lt; Kernel.TrainData.TrainData.Value.TrainLength
   AND
-TrainData.Value.TrainLength &lt;= 1500.0</PreCondition></PreConditions>
+Kernel.TrainData.TrainData.Value.TrainLength &lt;= 1500.0</PreCondition></PreConditions>
 <Expression>-0.4</Expression>
 </Case></Cases>
 </Function><Function
@@ -668,7 +668,7 @@ TrainData.Value.TrainLength &lt;= 1500.0</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="6f22602d-2a42-4109-85ca-8a6b110228a1"
->TrainData.Value.BrakePosition == BrakePositions.PassengerTrainInP</PreCondition></PreConditions>
+>Kernel.TrainData.TrainData.Value.BrakePosition == Kernel.TrainData.BrakingParameters.BrakePositions.PassengerTrainInP</PreCondition></PreConditions>
 <Expression>0.0</Expression>
 </Case><Case
  Name="Freight train in P, train length &lt;= 900m"
@@ -677,9 +677,9 @@ TrainData.Value.TrainLength &lt;= 1500.0</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="c949c626-6dd2-4983-8e5e-edce6b6e1d73"
->TrainData.Value.BrakePosition == BrakePositions.FreightTrainInP</PreCondition><PreCondition
+>Kernel.TrainData.TrainData.Value.BrakePosition == Kernel.TrainData.BrakingParameters.BrakePositions.FreightTrainInP</PreCondition><PreCondition
  Guid="30d035e1-96b3-4301-a36a-5e71e76ce1d1"
->TrainData.Value.TrainLength &lt;= 900.0</PreCondition></PreConditions>
+>Kernel.TrainData.TrainData.Value.TrainLength &lt;= 900.0</PreCondition></PreConditions>
 <Expression>0.0</Expression>
 </Case><Case
  Name="Freight train in P, train length &gt; 900m"
@@ -688,11 +688,11 @@ TrainData.Value.TrainLength &lt;= 1500.0</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="5e94e37a-4913-460d-a2c1-5ce557ea6e0f"
->TrainData.Value.BrakePosition == BrakePositions.FreightTrainInP</PreCondition><PreCondition
+>Kernel.TrainData.TrainData.Value.BrakePosition == Kernel.TrainData.BrakingParameters.BrakePositions.FreightTrainInP</PreCondition><PreCondition
  Guid="3677a685-39b0-416d-93e4-bc24ba785acd"
->900.0 &lt; TrainData.Value.TrainLength
+>900.0 &lt; Kernel.TrainData.TrainData.Value.TrainLength
   AND
-TrainData.Value.TrainLength &lt;= 1500.0</PreCondition></PreConditions>
+Kernel.TrainData.TrainData.Value.TrainLength &lt;= 1500.0</PreCondition></PreConditions>
 <Expression>1.6</Expression>
 </Case><Case
  Name="Freight train in G, train length &lt;= 900m"
@@ -701,9 +701,9 @@ TrainData.Value.TrainLength &lt;= 1500.0</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="77ac8f89-bee8-4fc7-8a47-459f773ad2a4"
->TrainData.Value.BrakePosition == BrakePositions.FreightTrainInG</PreCondition><PreCondition
+>Kernel.TrainData.TrainData.Value.BrakePosition == Kernel.TrainData.BrakingParameters.BrakePositions.FreightTrainInG</PreCondition><PreCondition
  Guid="0bf9fd8a-3e61-452b-a388-32fd6d0eee2c"
->TrainData.Value.TrainLength &lt;= 900.0</PreCondition></PreConditions>
+>Kernel.TrainData.TrainData.Value.TrainLength &lt;= 900.0</PreCondition></PreConditions>
 <Expression>0.0</Expression>
 </Case><Case
  Name="Freight train in G, train length &gt; 900m"
@@ -712,11 +712,11 @@ TrainData.Value.TrainLength &lt;= 1500.0</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="7db44005-5d44-46ef-8f02-00ecffb48cc1"
->TrainData.Value.BrakePosition == BrakePositions.FreightTrainInG</PreCondition><PreCondition
+>Kernel.TrainData.TrainData.Value.BrakePosition == Kernel.TrainData.BrakingParameters.BrakePositions.FreightTrainInG</PreCondition><PreCondition
  Guid="41ad33bf-6b46-404e-8306-5c9ba63fd24c"
->900.0 &lt; TrainData.Value.TrainLength
+>900.0 &lt; Kernel.TrainData.TrainData.Value.TrainLength
   AND
-TrainData.Value.TrainLength &lt;= 1500.0</PreCondition></PreConditions>
+Kernel.TrainData.TrainData.Value.TrainLength &lt;= 1500.0</PreCondition></PreConditions>
 <Expression>1.6</Expression>
 </Case></Cases>
 </Function><Function
@@ -754,7 +754,7 @@ TrainData.Value.TrainLength &lt;= 1500.0</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="cce2dcb4-c9ba-4954-aa29-ac56fca70206"
->TrainData.Value.BrakePosition == BrakePositions.PassengerTrainInP</PreCondition></PreConditions>
+>Kernel.TrainData.TrainData.Value.BrakePosition == Kernel.TrainData.BrakingParameters.BrakePositions.PassengerTrainInP</PreCondition></PreConditions>
 <Expression>0.17</Expression>
 </Case><Case
  Name="Freight train in P, train length &lt;= 900m"
@@ -763,9 +763,9 @@ TrainData.Value.TrainLength &lt;= 1500.0</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="4cbd4099-8109-41ef-a693-6df0350d1d21"
->TrainData.Value.BrakePosition == BrakePositions.FreightTrainInP</PreCondition><PreCondition
+>Kernel.TrainData.TrainData.Value.BrakePosition == Kernel.TrainData.BrakingParameters.BrakePositions.FreightTrainInP</PreCondition><PreCondition
  Guid="085cb56f-fc8f-4f2a-bb60-278b77b0cc90"
->TrainData.Value.TrainLength &lt;= 900.0</PreCondition></PreConditions>
+>Kernel.TrainData.TrainData.Value.TrainLength &lt;= 900.0</PreCondition></PreConditions>
 <Expression>0.17</Expression>
 </Case><Case
  Name="Freight train in P, train length &gt; 900m"
@@ -774,11 +774,11 @@ TrainData.Value.TrainLength &lt;= 1500.0</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="b00e5627-11b4-496c-83a5-0ae43c8be328"
->TrainData.Value.BrakePosition == BrakePositions.FreightTrainInP</PreCondition><PreCondition
+>Kernel.TrainData.TrainData.Value.BrakePosition == Kernel.TrainData.BrakingParameters.BrakePositions.FreightTrainInP</PreCondition><PreCondition
  Guid="a58a5889-83ce-4605-abe6-4362135eda70"
->900.0 &lt; TrainData.Value.TrainLength
+>900.0 &lt; Kernel.TrainData.TrainData.Value.TrainLength
   AND
-TrainData.Value.TrainLength &lt;= 1500.0</PreCondition></PreConditions>
+Kernel.TrainData.TrainData.Value.TrainLength &lt;= 1500.0</PreCondition></PreConditions>
 <Expression>0.03</Expression>
 </Case><Case
  Name="Freight train in G, train length &lt;= 900m"
@@ -787,9 +787,9 @@ TrainData.Value.TrainLength &lt;= 1500.0</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="de318fa0-3331-454a-bb27-8ee9da9688ea"
->TrainData.Value.BrakePosition == BrakePositions.FreightTrainInG</PreCondition><PreCondition
+>Kernel.TrainData.TrainData.Value.BrakePosition == Kernel.TrainData.BrakingParameters.BrakePositions.FreightTrainInG</PreCondition><PreCondition
  Guid="04a87352-cde9-4b58-be41-727002d58a06"
->TrainData.Value.TrainLength &lt;= 900.0</PreCondition></PreConditions>
+>Kernel.TrainData.TrainData.Value.TrainLength &lt;= 900.0</PreCondition></PreConditions>
 <Expression>0.05</Expression>
 </Case><Case
  Name="Freight train in G, train length &gt; 900m"
@@ -798,11 +798,11 @@ TrainData.Value.TrainLength &lt;= 1500.0</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="6965df16-bfdb-4f44-b069-bcd10da42812"
->TrainData.Value.BrakePosition == BrakePositions.FreightTrainInG</PreCondition><PreCondition
+>Kernel.TrainData.TrainData.Value.BrakePosition == Kernel.TrainData.BrakingParameters.BrakePositions.FreightTrainInG</PreCondition><PreCondition
  Guid="844d195e-c334-4802-8cbe-51f7c8774996"
->900.0 &lt; TrainData.Value.TrainLength
+>900.0 &lt; Kernel.TrainData.TrainData.Value.TrainLength
   AND
-TrainData.Value.TrainLength &lt;= 1500.0</PreCondition></PreConditions>
+Kernel.TrainData.TrainData.Value.TrainLength &lt;= 1500.0</PreCondition></PreConditions>
 <Expression>0.03</Expression>
 </Case></Cases>
 </Function><Function
@@ -840,15 +840,15 @@ TrainData.Value.TrainLength &lt;= 1500.0</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="fb225682-4af7-4ff4-8c92-6b2b79c07c5b"
->TrainData.Value.BrakePosition == BrakePositions.PassengerTrainInP
+>Kernel.TrainData.TrainData.Value.BrakePosition == Kernel.TrainData.BrakingParameters.BrakePositions.PassengerTrainInP
   OR
-TrainData.Value.BrakePosition == BrakePositions.FreightTrainInG</PreCondition></PreConditions>
-<Expression>BaseTypes.MaxLength ( X1 =&gt; TrainData.Value.TrainLength, X2 =&gt; 400.0 )</Expression>
+Kernel.TrainData.TrainData.Value.BrakePosition == Kernel.TrainData.BrakingParameters.BrakePositions.FreightTrainInG</PreCondition></PreConditions>
+<Expression>BaseTypes.MaxLength ( X1 =&gt; Kernel.TrainData.TrainData.Value.TrainLength, X2 =&gt; 400.0 )</Expression>
 </Case><Case
  Name="Freight train in G"
  Guid="2d5465e1-c9a1-4642-bfda-0c0e3c1e1077"
 >
-<Expression>TrainData.Value.TrainLength</Expression>
+<Expression>Kernel.TrainData.TrainData.Value.TrainLength</Expression>
 </Case></Cases>
 </Function><Function
  Type="Double"
@@ -885,7 +885,7 @@ TrainData.Value.BrakePosition == BrakePositions.FreightTrainInG</PreCondition></
 <PreConditions>
 <PreCondition
  Guid="7fc2b8f8-51c5-4c3c-bd5b-3e2f2d550c6d"
->TrainData.Value.BrakePosition == BrakePositions.PassengerTrainInP</PreCondition></PreConditions>
+>Kernel.TrainData.TrainData.Value.BrakePosition == Kernel.TrainData.BrakingParameters.BrakePositions.PassengerTrainInP</PreCondition></PreConditions>
 <Expression>3.0</Expression>
 </Case><Case
  Name="Freight train in P, train length &lt;= 900m"
@@ -894,9 +894,9 @@ TrainData.Value.BrakePosition == BrakePositions.FreightTrainInG</PreCondition></
 <PreConditions>
 <PreCondition
  Guid="4a50f754-ceaa-4548-8fee-df32c58f1a9d"
->TrainData.Value.BrakePosition == BrakePositions.FreightTrainInP</PreCondition><PreCondition
+>Kernel.TrainData.TrainData.Value.BrakePosition == Kernel.TrainData.BrakingParameters.BrakePositions.FreightTrainInP</PreCondition><PreCondition
  Guid="9d7f6f77-c9a9-4f20-889a-842a5a0ca333"
->TrainData.Value.TrainLength &lt;= 900.0</PreCondition></PreConditions>
+>Kernel.TrainData.TrainData.Value.TrainLength &lt;= 900.0</PreCondition></PreConditions>
 <Expression>3.0</Expression>
 </Case><Case
  Name="Freight train in P, train length &gt; 900m"
@@ -905,11 +905,11 @@ TrainData.Value.BrakePosition == BrakePositions.FreightTrainInG</PreCondition></
 <PreConditions>
 <PreCondition
  Guid="5accc244-a459-4748-a26b-44e5d6a53552"
->TrainData.Value.BrakePosition == BrakePositions.FreightTrainInP</PreCondition><PreCondition
+>Kernel.TrainData.TrainData.Value.BrakePosition == Kernel.TrainData.BrakingParameters.BrakePositions.FreightTrainInP</PreCondition><PreCondition
  Guid="a15d76be-a557-47c2-91e0-1887d3094ad3"
->900.0 &lt; TrainData.Value.TrainLength
+>900.0 &lt; Kernel.TrainData.TrainData.Value.TrainLength
   AND
-TrainData.Value.TrainLength &lt;= 1500.0</PreCondition></PreConditions>
+Kernel.TrainData.TrainData.Value.TrainLength &lt;= 1500.0</PreCondition></PreConditions>
 <Expression>10.5</Expression>
 </Case><Case
  Name="Freight train in G, train length &lt;= 900m"
@@ -918,9 +918,9 @@ TrainData.Value.TrainLength &lt;= 1500.0</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="de65c62d-1280-4015-8b67-e48377d12f06"
->TrainData.Value.BrakePosition == BrakePositions.FreightTrainInG</PreCondition><PreCondition
+>Kernel.TrainData.TrainData.Value.BrakePosition == Kernel.TrainData.BrakingParameters.BrakePositions.FreightTrainInG</PreCondition><PreCondition
  Guid="a1db817f-0000-483d-90d8-5c6d0da7109f"
->TrainData.Value.TrainLength &lt;= 900.0</PreCondition></PreConditions>
+>Kernel.TrainData.TrainData.Value.TrainLength &lt;= 900.0</PreCondition></PreConditions>
 <Expression>3.0</Expression>
 </Case><Case
  Name="Freight train in G, train length &gt; 900m"
@@ -929,11 +929,11 @@ TrainData.Value.TrainLength &lt;= 1500.0</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="939f6873-c792-4e98-a749-1950b2151d2c"
->TrainData.Value.BrakePosition == BrakePositions.FreightTrainInG</PreCondition><PreCondition
+>Kernel.TrainData.TrainData.Value.BrakePosition == Kernel.TrainData.BrakingParameters.BrakePositions.FreightTrainInG</PreCondition><PreCondition
  Guid="26ab82d1-f2e7-42dd-885a-c95d96d6c53d"
->900.0 &lt; TrainData.Value.TrainLength
+>900.0 &lt; Kernel.TrainData.TrainData.Value.TrainLength
   AND
-TrainData.Value.TrainLength &lt;= 1500.0</PreCondition></PreConditions>
+Kernel.TrainData.TrainData.Value.TrainLength &lt;= 1500.0</PreCondition></PreConditions>
 <Expression>10.5</Expression>
 </Case></Cases>
 </Function><Function
@@ -971,7 +971,7 @@ TrainData.Value.TrainLength &lt;= 1500.0</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="d4606c7b-741c-4158-a036-3f27b40ec63d"
->TrainData.Value.BrakePosition == BrakePositions.PassengerTrainInP</PreCondition></PreConditions>
+>Kernel.TrainData.TrainData.Value.BrakePosition == Kernel.TrainData.BrakingParameters.BrakePositions.PassengerTrainInP</PreCondition></PreConditions>
 <Expression>1.5</Expression>
 </Case><Case
  Name="Freight train in P, train length &lt;= 900m"
@@ -980,9 +980,9 @@ TrainData.Value.TrainLength &lt;= 1500.0</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="e395577f-4a17-457a-9f3b-0203acbfff7d"
->TrainData.Value.BrakePosition == BrakePositions.FreightTrainInP</PreCondition><PreCondition
+>Kernel.TrainData.TrainData.Value.BrakePosition == Kernel.TrainData.BrakingParameters.BrakePositions.FreightTrainInP</PreCondition><PreCondition
  Guid="b3ddca92-fbad-4201-a65a-c15f1fe1c5b3"
->TrainData.Value.TrainLength &lt;= 900.0</PreCondition></PreConditions>
+>Kernel.TrainData.TrainData.Value.TrainLength &lt;= 900.0</PreCondition></PreConditions>
 <Expression>2.77</Expression>
 </Case><Case
  Name="Freight train in P, train length &gt; 900m"
@@ -991,11 +991,11 @@ TrainData.Value.TrainLength &lt;= 1500.0</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="73170c97-8877-4b07-8df2-4a09b052fe8c"
->TrainData.Value.BrakePosition == BrakePositions.FreightTrainInP</PreCondition><PreCondition
+>Kernel.TrainData.TrainData.Value.BrakePosition == Kernel.TrainData.BrakingParameters.BrakePositions.FreightTrainInP</PreCondition><PreCondition
  Guid="c3421b5c-4c9b-4ac8-83bf-5ebd6b4678d4"
->900.0 &lt; TrainData.Value.TrainLength
+>900.0 &lt; Kernel.TrainData.TrainData.Value.TrainLength
   AND
-TrainData.Value.TrainLength &lt;= 1500.0</PreCondition></PreConditions>
+Kernel.TrainData.TrainData.Value.TrainLength &lt;= 1500.0</PreCondition></PreConditions>
 <Expression>0.32</Expression>
 </Case><Case
  Name="Freight train in G, train length &lt;= 900m"
@@ -1004,9 +1004,9 @@ TrainData.Value.TrainLength &lt;= 1500.0</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="45ad651b-55ee-4ca0-9811-4c3ff7ae83e6"
->TrainData.Value.BrakePosition == BrakePositions.FreightTrainInG</PreCondition><PreCondition
+>Kernel.TrainData.TrainData.Value.BrakePosition == Kernel.TrainData.BrakingParameters.BrakePositions.FreightTrainInG</PreCondition><PreCondition
  Guid="8220d3ba-a358-4705-bd95-642bdac5d8ce"
->TrainData.Value.TrainLength &lt;= 900.0</PreCondition></PreConditions>
+>Kernel.TrainData.TrainData.Value.TrainLength &lt;= 900.0</PreCondition></PreConditions>
 <Expression>2.77</Expression>
 </Case><Case
  Name="Freight train in G, train length &gt; 900m"
@@ -1015,11 +1015,11 @@ TrainData.Value.TrainLength &lt;= 1500.0</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="d2d5144e-3c1d-4e8a-9d55-cc33a3dfc108"
->TrainData.Value.BrakePosition == BrakePositions.FreightTrainInG</PreCondition><PreCondition
+>Kernel.TrainData.TrainData.Value.BrakePosition == Kernel.TrainData.BrakingParameters.BrakePositions.FreightTrainInG</PreCondition><PreCondition
  Guid="458ae236-743d-407f-86ea-9a92ac987582"
->900.0 &lt; TrainData.Value.TrainLength
+>900.0 &lt; Kernel.TrainData.TrainData.Value.TrainLength
   AND
-TrainData.Value.TrainLength &lt;= 1500.0</PreCondition></PreConditions>
+Kernel.TrainData.TrainData.Value.TrainLength &lt;= 1500.0</PreCondition></PreConditions>
 <Expression>0.32</Expression>
 </Case></Cases>
 </Function><Function
@@ -1057,7 +1057,7 @@ TrainData.Value.TrainLength &lt;= 1500.0</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="21244c89-7047-401c-b7d2-9b05a92a613e"
->TrainData.Value.BrakePosition == BrakePositions.PassengerTrainInP</PreCondition></PreConditions>
+>Kernel.TrainData.TrainData.Value.BrakePosition == Kernel.TrainData.BrakingParameters.BrakePositions.PassengerTrainInP</PreCondition></PreConditions>
 <Expression>0.1</Expression>
 </Case><Case
  Name="Freight train in P, train length &lt;= 900m"
@@ -1066,9 +1066,9 @@ TrainData.Value.TrainLength &lt;= 1500.0</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="ee5655fc-f9a4-4019-adf0-c1165835c75d"
->TrainData.Value.BrakePosition == BrakePositions.FreightTrainInP</PreCondition><PreCondition
+>Kernel.TrainData.TrainData.Value.BrakePosition == Kernel.TrainData.BrakingParameters.BrakePositions.FreightTrainInP</PreCondition><PreCondition
  Guid="0176b9a5-3c2d-41f6-9368-311e47b9f442"
->TrainData.Value.TrainLength &lt;= 900.0</PreCondition></PreConditions>
+>Kernel.TrainData.TrainData.Value.TrainLength &lt;= 900.0</PreCondition></PreConditions>
 <Expression>0.0</Expression>
 </Case><Case
  Name="Freight train in P, train length &gt; 900m"
@@ -1077,11 +1077,11 @@ TrainData.Value.TrainLength &lt;= 1500.0</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="290d2e78-bc8a-45d1-8f93-45109ae317e6"
->TrainData.Value.BrakePosition == BrakePositions.FreightTrainInP</PreCondition><PreCondition
+>Kernel.TrainData.TrainData.Value.BrakePosition == Kernel.TrainData.BrakingParameters.BrakePositions.FreightTrainInP</PreCondition><PreCondition
  Guid="066a3896-60ab-498f-9181-492a1fe4306f"
->900.0 &lt; TrainData.Value.TrainLength
+>900.0 &lt; Kernel.TrainData.TrainData.Value.TrainLength
   AND
-TrainData.Value.TrainLength &lt;= 1500.0</PreCondition></PreConditions>
+Kernel.TrainData.TrainData.Value.TrainLength &lt;= 1500.0</PreCondition></PreConditions>
 <Expression>0.18</Expression>
 </Case><Case
  Name="Freight train in G, train length &lt;= 900m"
@@ -1090,9 +1090,9 @@ TrainData.Value.TrainLength &lt;= 1500.0</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="883b5d62-219c-412b-8872-8d17e767c66b"
->TrainData.Value.BrakePosition == BrakePositions.FreightTrainInG</PreCondition><PreCondition
+>Kernel.TrainData.TrainData.Value.BrakePosition == Kernel.TrainData.BrakingParameters.BrakePositions.FreightTrainInG</PreCondition><PreCondition
  Guid="c9cc9fd2-c227-4f8d-863b-18b2b4d6a49f"
->TrainData.Value.TrainLength &lt;= 900.0</PreCondition></PreConditions>
+>Kernel.TrainData.TrainData.Value.TrainLength &lt;= 900.0</PreCondition></PreConditions>
 <Expression>0.0</Expression>
 </Case><Case
  Name="Freight train in G, train length &gt; 900m"
@@ -1101,11 +1101,11 @@ TrainData.Value.TrainLength &lt;= 1500.0</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="b84b18c5-5f8f-434f-9447-d5e44a722343"
->TrainData.Value.BrakePosition == BrakePositions.FreightTrainInG</PreCondition><PreCondition
+>Kernel.TrainData.TrainData.Value.BrakePosition == Kernel.TrainData.BrakingParameters.BrakePositions.FreightTrainInG</PreCondition><PreCondition
  Guid="b2350808-3071-4ae2-9c37-32385ea6f211"
->900.0 &lt; TrainData.Value.TrainLength
+>900.0 &lt; Kernel.TrainData.TrainData.Value.TrainLength
   AND
-TrainData.Value.TrainLength &lt;= 1500.0</PreCondition></PreConditions>
+Kernel.TrainData.TrainData.Value.TrainLength &lt;= 1500.0</PreCondition></PreConditions>
 <Expression>0.18</Expression>
 </Case></Cases>
 </Function><Function
@@ -1142,15 +1142,15 @@ TrainData.Value.TrainLength &lt;= 1500.0</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="d172b6ea-06e7-4b81-95c5-d783c77544b9"
->TrainData.Value.BrakePosition == BrakePositions.PassengerTrainInP
+>Kernel.TrainData.TrainData.Value.BrakePosition == Kernel.TrainData.BrakingParameters.BrakePositions.PassengerTrainInP
   OR
-TrainData.Value.BrakePosition == BrakePositions.FreightTrainInP</PreCondition></PreConditions>
-<Expression>TrainData.Value.TrainLength</Expression>
+Kernel.TrainData.TrainData.Value.BrakePosition == Kernel.TrainData.BrakingParameters.BrakePositions.FreightTrainInP</PreCondition></PreConditions>
+<Expression>Kernel.TrainData.TrainData.Value.TrainLength</Expression>
 </Case><Case
  Name="Freight train in G"
  Guid="c93ddead-9a12-4731-9ece-1520160e6482"
 >
-<Expression>BaseTypes.MaxLength ( X1 =&gt; TrainData.Value.TrainLength, X2 =&gt; 400.0 )</Expression>
+<Expression>BaseTypes.MaxLength ( X1 =&gt; Kernel.TrainData.TrainData.Value.TrainLength, X2 =&gt; 400.0 )</Expression>
 </Case></Cases>
 </Function></Functions>
 <Procedures>
@@ -1239,27 +1239,27 @@ TrainData.Value.BrakePosition == BrakePositions.FreightTrainInP</PreCondition></
 <Actions>
 <Action
  Guid="bbb40c9b-4a91-4203-a00d-df8b755c24c6"
->aBrakingModel.Val1.Acceleration &lt;- BasicDecelerationNextAcceleration ( V =&gt; aBrakingModel.Val1.SpeedStep, aBrakePercentage =&gt; aBrakePercentage )</Action><Action
+>aBrakingModel.Val1.Acceleration &lt;- Kernel.TrainData.BrakingParameters.ConversionModel.BasicDecelerationNextAcceleration ( V =&gt; aBrakingModel.Val1.SpeedStep, aBrakePercentage =&gt; aBrakePercentage )</Action><Action
  Guid="29905a73-c2da-4a3b-93b4-82837f7821cf"
->aBrakingModel.Val2.SpeedStep &lt;- BasicDecelerationNextSpeedStep ( aBrakingModel.Val1.SpeedStep )</Action><Action
+>aBrakingModel.Val2.SpeedStep &lt;- Kernel.TrainData.BrakingParameters.ConversionModel.BasicDecelerationNextSpeedStep ( aBrakingModel.Val1.SpeedStep )</Action><Action
  Guid="cc558af0-ff56-4f4c-9253-3ccdc323b58c"
->aBrakingModel.Val2.Acceleration &lt;- BasicDecelerationNextAcceleration ( V =&gt; aBrakingModel.Val2.SpeedStep, aBrakePercentage =&gt; aBrakePercentage )</Action><Action
+>aBrakingModel.Val2.Acceleration &lt;- Kernel.TrainData.BrakingParameters.ConversionModel.BasicDecelerationNextAcceleration ( V =&gt; aBrakingModel.Val2.SpeedStep, aBrakePercentage =&gt; aBrakePercentage )</Action><Action
  Guid="d879ee76-41ef-4c72-9131-6b14220147b3"
->aBrakingModel.Val3.SpeedStep &lt;- BasicDecelerationNextSpeedStep ( aBrakingModel.Val2.SpeedStep )</Action><Action
+>aBrakingModel.Val3.SpeedStep &lt;- Kernel.TrainData.BrakingParameters.ConversionModel.BasicDecelerationNextSpeedStep ( aBrakingModel.Val2.SpeedStep )</Action><Action
  Guid="6aa8704d-360d-4bf4-adb5-36bf94995598"
->aBrakingModel.Val3.Acceleration &lt;- BasicDecelerationNextAcceleration ( V =&gt; aBrakingModel.Val3.SpeedStep, aBrakePercentage =&gt; aBrakePercentage )</Action><Action
+>aBrakingModel.Val3.Acceleration &lt;- Kernel.TrainData.BrakingParameters.ConversionModel.BasicDecelerationNextAcceleration ( V =&gt; aBrakingModel.Val3.SpeedStep, aBrakePercentage =&gt; aBrakePercentage )</Action><Action
  Guid="fb581b46-c93d-48d6-a727-a89c47bef563"
->aBrakingModel.Val4.SpeedStep &lt;- BasicDecelerationNextSpeedStep ( aBrakingModel.Val3.SpeedStep )</Action><Action
+>aBrakingModel.Val4.SpeedStep &lt;- Kernel.TrainData.BrakingParameters.ConversionModel.BasicDecelerationNextSpeedStep ( aBrakingModel.Val3.SpeedStep )</Action><Action
  Guid="bd257293-72f3-4014-a6ca-1635997ba2ed"
->aBrakingModel.Val4.Acceleration &lt;- BasicDecelerationNextAcceleration ( V =&gt; aBrakingModel.Val4.SpeedStep, aBrakePercentage =&gt; aBrakePercentage )</Action><Action
+>aBrakingModel.Val4.Acceleration &lt;- Kernel.TrainData.BrakingParameters.ConversionModel.BasicDecelerationNextAcceleration ( V =&gt; aBrakingModel.Val4.SpeedStep, aBrakePercentage =&gt; aBrakePercentage )</Action><Action
  Guid="92ea5ad7-1d04-4258-8ff2-658fd677a3f0"
->aBrakingModel.Val5.SpeedStep &lt;- BasicDecelerationNextSpeedStep ( aBrakingModel.Val4.SpeedStep )</Action><Action
+>aBrakingModel.Val5.SpeedStep &lt;- Kernel.TrainData.BrakingParameters.ConversionModel.BasicDecelerationNextSpeedStep ( aBrakingModel.Val4.SpeedStep )</Action><Action
  Guid="c3d87dd1-f2db-4305-9daf-863cc051c191"
->aBrakingModel.Val5.Acceleration &lt;- BasicDecelerationNextAcceleration ( V =&gt; aBrakingModel.Val5.SpeedStep, aBrakePercentage =&gt; aBrakePercentage )</Action><Action
+>aBrakingModel.Val5.Acceleration &lt;- Kernel.TrainData.BrakingParameters.ConversionModel.BasicDecelerationNextAcceleration ( V =&gt; aBrakingModel.Val5.SpeedStep, aBrakePercentage =&gt; aBrakePercentage )</Action><Action
  Guid="21b08493-c9e7-4afe-9ba4-6f0bf958fb1f"
->aBrakingModel.Val6.SpeedStep &lt;- BasicDecelerationNextSpeedStep ( aBrakingModel.Val5.SpeedStep )</Action><Action
+>aBrakingModel.Val6.SpeedStep &lt;- Kernel.TrainData.BrakingParameters.ConversionModel.BasicDecelerationNextSpeedStep ( aBrakingModel.Val5.SpeedStep )</Action><Action
  Guid="c8cdc33c-f7a7-4eea-8b3f-87acedd17411"
->aBrakingModel.Val6.Acceleration &lt;- BasicDecelerationNextAcceleration ( V =&gt; aBrakingModel.Val6.SpeedStep, aBrakePercentage =&gt; aBrakePercentage )</Action></Actions>
+>aBrakingModel.Val6.Acceleration &lt;- Kernel.TrainData.BrakingParameters.ConversionModel.BasicDecelerationNextAcceleration ( V =&gt; aBrakingModel.Val6.SpeedStep, aBrakePercentage =&gt; aBrakePercentage )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -1316,9 +1316,9 @@ TrainData.Value.BrakePosition == BrakePositions.FreightTrainInP</PreCondition></
 <Actions>
 <Action
  Guid="a302e1a2-0224-4cba-929a-d8b95dae5eaf"
->A_brake_service &lt;- BrakingModel{}</Action><Action
+>Kernel.TrainData.BrakingParameters.ConversionModel.A_brake_service &lt;- Kernel.TrainData.BrakingParameters.BrakingModel{}</Action><Action
  Guid="2f647c3e-ddf5-4d59-ae49-e30c06c092d7"
->ComputeA_safe ( aBrakingModel =&gt; A_brake_service, aBrakePercentage =&gt; MinPercentage ( TrainData.Value.BrakePercentage, 135.0 ) )</Action></Actions>
+>Kernel.TrainData.BrakingParameters.ConversionModel.ComputeA_safe ( aBrakingModel =&gt; Kernel.TrainData.BrakingParameters.ConversionModel.A_brake_service, aBrakePercentage =&gt; MinPercentage ( Kernel.TrainData.TrainData.Value.BrakePercentage, 135.0 ) )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -1348,9 +1348,9 @@ TrainData.Value.BrakePosition == BrakePositions.FreightTrainInP</PreCondition></
 <Actions>
 <Action
  Guid="1686d2ad-14a1-48a5-a38c-dbc7bc0a210d"
->A_brake_emergency &lt;- BrakingModel{}</Action><Action
+>Kernel.TrainData.BrakingParameters.ConversionModel.A_brake_emergency &lt;- Kernel.TrainData.BrakingParameters.BrakingModel{}</Action><Action
  Guid="825c4443-e0c7-4ab7-ad1d-40fc9e1bb0ca"
->ComputeA_safe ( aBrakingModel =&gt; A_brake_emergency, aBrakePercentage =&gt; TrainData.Value.BrakePercentage )</Action></Actions>
+>Kernel.TrainData.BrakingParameters.ConversionModel.ComputeA_safe ( aBrakingModel =&gt; Kernel.TrainData.BrakingParameters.ConversionModel.A_brake_emergency, aBrakePercentage =&gt; Kernel.TrainData.TrainData.Value.BrakePercentage )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -1406,13 +1406,13 @@ TrainData.Value.BrakePosition == BrakePositions.FreightTrainInP</PreCondition></
 <PreConditions>
 <PreCondition
  Guid="57202dfb-af3b-4403-9a5c-6746ae915293"
->MA.MA.TargetSpeed == 0.0</PreCondition></PreConditions>
+>Kernel.MA.MA.TargetSpeed == 0.0</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="fbd445d5-2b36-45ba-a0f4-fc686f733951"
->T_brake_service_cm0 &lt;- T_brake_basic_sb ()</Action><Action
+>Kernel.TrainData.BrakingParameters.ConversionModel.T_brake_service_cm0 &lt;- Kernel.TrainData.BrakingParameters.ConversionModel.T_brake_basic_sb ()</Action><Action
  Guid="a6134211-0b7f-479d-9e3d-e9cf23eb2a98"
->T_brake_service_cmt &lt;- BaseTypes.Time.NA</Action></Actions>
+>Kernel.TrainData.BrakingParameters.ConversionModel.T_brake_service_cmt &lt;- BaseTypes.Time.NA</Action></Actions>
 </RuleCondition><RuleCondition
  NeedsRequirement="FALSE"
  Name="Target speed different from 0"
@@ -1423,9 +1423,9 @@ TrainData.Value.BrakePosition == BrakePositions.FreightTrainInP</PreCondition></
 <Actions>
 <Action
  Guid="b020aefd-2749-41e1-923b-19e70ba556f7"
->T_brake_service_cmt &lt;- T_brake_basic_sb () * BaseTypes.Time ( kto () )</Action><Action
+>Kernel.TrainData.BrakingParameters.ConversionModel.T_brake_service_cmt &lt;- Kernel.TrainData.BrakingParameters.ConversionModel.T_brake_basic_sb () * BaseTypes.Time ( Kernel.TrainData.BrakingParameters.ConversionModel.kto () )</Action><Action
  Guid="965303f2-9bb5-4e2f-97d1-eeb72e2ff1c9"
->T_brake_service_cm0 &lt;- BaseTypes.Time.NA</Action></Actions>
+>Kernel.TrainData.BrakingParameters.ConversionModel.T_brake_service_cm0 &lt;- BaseTypes.Time.NA</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -1481,13 +1481,13 @@ TrainData.Value.BrakePosition == BrakePositions.FreightTrainInP</PreCondition></
 <PreConditions>
 <PreCondition
  Guid="8a13b628-74c0-4666-b466-c3936f0c479d"
->MA.MA.TargetSpeed == 0.0</PreCondition></PreConditions>
+>Kernel.MA.MA.TargetSpeed == 0.0</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="953d96e5-3544-4b56-acce-b18217e6b143"
->T_brake_emergency_cm0 &lt;- T_brake_basic_eb ()</Action><Action
+>Kernel.TrainData.BrakingParameters.ConversionModel.T_brake_emergency_cm0 &lt;- Kernel.TrainData.BrakingParameters.ConversionModel.T_brake_basic_eb ()</Action><Action
  Guid="3bbe69a7-0fee-444c-aa28-06d58311bff1"
->T_brake_emergency_cmt &lt;- BaseTypes.Time.NA</Action></Actions>
+>Kernel.TrainData.BrakingParameters.ConversionModel.T_brake_emergency_cmt &lt;- BaseTypes.Time.NA</Action></Actions>
 </RuleCondition><RuleCondition
  NeedsRequirement="FALSE"
  Name="Target speed different from 0"
@@ -1498,9 +1498,9 @@ TrainData.Value.BrakePosition == BrakePositions.FreightTrainInP</PreCondition></
 <Actions>
 <Action
  Guid="d1a40433-37c2-4742-91d0-ae70dc5b681f"
->T_brake_emergency_cmt &lt;- T_brake_basic_eb () * BaseTypes.Time ( kto () )</Action><Action
+>Kernel.TrainData.BrakingParameters.ConversionModel.T_brake_emergency_cmt &lt;- Kernel.TrainData.BrakingParameters.ConversionModel.T_brake_basic_eb () * BaseTypes.Time ( Kernel.TrainData.BrakingParameters.ConversionModel.kto () )</Action><Action
  Guid="878c9e3d-1621-4d42-bec3-b3615b6b1927"
->T_brake_emergency_cm0 &lt;- BaseTypes.Time.NA</Action></Actions>
+>Kernel.TrainData.BrakingParameters.ConversionModel.T_brake_emergency_cm0 &lt;- BaseTypes.Time.NA</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -1529,15 +1529,15 @@ TrainData.Value.BrakePosition == BrakePositions.FreightTrainInP</PreCondition></
 <PreConditions>
 <PreCondition
  Guid="9d9968f1-7c51-4c22-b2be-1cdd9bf7a9ac"
->ConversionModelIsUsed()</PreCondition></PreConditions>
+>Kernel.TrainData.BrakingParameters.ConversionModel.ConversionModelIsUsed()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="035b7c8e-f585-4eba-90ae-4a8d9791308c"
->ComputeBasicDeceleration()</Action><Action
+>Kernel.TrainData.BrakingParameters.ConversionModel.ComputeBasicDeceleration()</Action><Action
  Guid="285cc7a1-0bda-45b2-8551-3ca8744d4dce"
->ComputeEmergencyBrakeEquivalentTime()</Action><Action
+>Kernel.TrainData.BrakingParameters.ConversionModel.ComputeEmergencyBrakeEquivalentTime()</Action><Action
  Guid="4c9cb793-c3c4-430b-9cb9-1e23ca1b3cb2"
->ComputeServiceBrakeEquivalentTime()</Action></Actions>
+>Kernel.TrainData.BrakingParameters.ConversionModel.ComputeServiceBrakeEquivalentTime()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
@@ -1784,15 +1784,15 @@ TrainData.Value.BrakePosition == BrakePositions.FreightTrainInP</PreCondition></
 <PreConditions>
 <PreCondition
  Guid="b1279072-2d84-4f20-86a8-6c9133fa4010"
->ConversionModelIsUsed()
+>Kernel.TrainData.BrakingParameters.ConversionModel.ConversionModelIsUsed()
   AND
-ConversionModelIsUsed() != ConversionModelWasUsed</PreCondition></PreConditions>
+Kernel.TrainData.BrakingParameters.ConversionModel.ConversionModelIsUsed() != Kernel.TrainData.BrakingParameters.ConversionModel.ConversionModelWasUsed</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="a237e6a7-2bc6-4d20-9a09-0f25957fe7de"
->Initialize()</Action><Action
+>Kernel.TrainData.BrakingParameters.ConversionModel.Initialize()</Action><Action
  Guid="bd02bb54-0588-4230-9dfa-7fc6a5e523b4"
->ConversionModelWasUsed &lt;- ConversionModelIsUsed()</Action></Actions>
+>Kernel.TrainData.BrakingParameters.ConversionModel.ConversionModelWasUsed &lt;- Kernel.TrainData.BrakingParameters.ConversionModel.ConversionModelIsUsed()</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  NeedsRequirement="FALSE"
@@ -1802,11 +1802,11 @@ ConversionModelIsUsed() != ConversionModelWasUsed</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="7c62fba7-8ef4-47b8-955f-f559a750e223"
->ConversionModelIsUsed() != ConversionModelWasUsed</PreCondition></PreConditions>
+>Kernel.TrainData.BrakingParameters.ConversionModel.ConversionModelIsUsed() != Kernel.TrainData.BrakingParameters.ConversionModel.ConversionModelWasUsed</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="157d6136-2df1-4d46-b2b7-ecd82a7284c0"
->ConversionModelWasUsed &lt;- ConversionModelIsUsed()</Action></Actions>
+>Kernel.TrainData.BrakingParameters.ConversionModel.ConversionModelWasUsed &lt;- Kernel.TrainData.BrakingParameters.ConversionModel.ConversionModelIsUsed()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </NameSpace>

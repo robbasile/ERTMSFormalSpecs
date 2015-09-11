@@ -59,7 +59,7 @@
 <Actions>
 <Action
  Guid="dbfb4ce6-6e75-4ec4-9570-7ba16fe4a050"
->JRUMessages &lt;- []</Action></Actions>
+>JRU.JRU.JRUMessages &lt;- []</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 <Procedures>
@@ -72,6 +72,11 @@
  Id="1153a012-f94c-4ada-9412-ac62859d8d71"
  SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
  Guid="64d40389-2926-4441-a39c-3e6c32c6f084"
+>
+</ReqRef><ReqRef
+ Id="197cdf74-a87b-417f-a977-6f74fd635cd0"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="5bd04496-84b3-45ab-b48c-e9fb8197de56"
 >
 </ReqRef><Comment>When necessary it will call the corresponding function to create a new JRU Message</Comment>
 <Rules>
@@ -93,13 +98,13 @@
 <PreConditions>
 <PreCondition
  Guid="d54d3701-4766-46c3-89b1-40dd29a1c3da"
->( SendNewGeneralMessage(THIS) )</PreCondition></PreConditions>
+>( JRU.SendNewGeneralMessage(THIS) )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="a2e909fc-f437-4efb-9dfb-399829b60fce"
 >INSERT Messages.JRU.MESSAGE.Message {
-GENERAL_MESSAGE =&gt; CreateGeneralMessage()
-} IN JRUMessages</Action></Actions>
+GENERAL_MESSAGE =&gt; JRU.CreateGeneralMessage()
+} IN JRU.JRU.JRUMessages</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -119,15 +124,15 @@ GENERAL_MESSAGE =&gt; CreateGeneralMessage()
 <PreConditions>
 <PreCondition
  Guid="5281ff5a-9ae0-47a7-8732-83dc0445fdc2"
->SendTrainDataMessage(THIS)</PreCondition></PreConditions>
+>JRU.SendTrainDataMessage(THIS)</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="53c8185c-b1db-4c4c-9778-c8c65d4d4c47"
 >Kernel.TrainDataValidated &lt;- False</Action><Action
  Guid="9c53e3cd-d6e0-4d3b-8990-9e9c536431b7"
 >INSERT Messages.JRU.MESSAGE.Message {
-TRAIN_DATA =&gt; CreateTrainDataMessage()
-} IN JRUMessages</Action></Actions>
+TRAIN_DATA =&gt; JRU.CreateTrainDataMessage()
+} IN JRU.JRU.JRUMessages</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -147,13 +152,13 @@ TRAIN_DATA =&gt; CreateTrainDataMessage()
 <PreConditions>
 <PreCondition
  Guid="511e0ca3-3a28-4758-abc1-2b9c352f462d"
->EmergencyBrakeStatusChanged(THIS)</PreCondition></PreConditions>
+>JRU.EmergencyBrakeStatusChanged(THIS)</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="7c9857ea-ccb4-413f-9701-363e864e468a"
 >INSERT Messages.JRU.MESSAGE.Message {
-EMERGENCY_BRAKE_COMMAND_STATE =&gt; CreateEBCommandStateMessage()
-} IN JRUMessages</Action></Actions>
+EMERGENCY_BRAKE_COMMAND_STATE =&gt; JRU.CreateEBCommandStateMessage()
+} IN JRU.JRU.JRUMessages</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -173,13 +178,13 @@ EMERGENCY_BRAKE_COMMAND_STATE =&gt; CreateEBCommandStateMessage()
 <PreConditions>
 <PreCondition
  Guid="b7e6ba46-a3bf-4841-b6c5-67ec043531c0"
->ServiceBrakeStatusChanged(THIS)</PreCondition></PreConditions>
+>JRU.ServiceBrakeStatusChanged(THIS)</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="5e253593-036b-4172-af6c-537b332e8bc6"
 >INSERT Messages.JRU.MESSAGE.Message {
-SERVICE_BRAKE_COMMAND_STATE =&gt; CreateSBCommandStateMessage()
-} IN JRUMessages</Action></Actions>
+SERVICE_BRAKE_COMMAND_STATE =&gt; JRU.CreateSBCommandStateMessage()
+} IN JRU.JRU.JRUMessages</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -199,13 +204,13 @@ SERVICE_BRAKE_COMMAND_STATE =&gt; CreateSBCommandStateMessage()
 <PreConditions>
 <PreCondition
  Guid="30005dec-9a3f-4f5d-94e6-65c3b4f1b049"
->TelegramFromBaliseRecieved()</PreCondition></PreConditions>
+>JRU.TelegramFromBaliseRecieved()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="e8d247c7-1e71-428a-bf8d-240c42f3a3b6"
 >INSERT Messages.JRU.MESSAGE.Message {
-  TELEGRAM_FROM_BALISE =&gt; CreateTelegramFromBaliseMessage()
-} IN JRUMessages</Action></Actions>
+  TELEGRAM_FROM_BALISE =&gt; JRU.CreateTelegramFromBaliseMessage()
+} IN JRU.JRU.JRUMessages</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -225,13 +230,13 @@ SERVICE_BRAKE_COMMAND_STATE =&gt; CreateSBCommandStateMessage()
 <PreConditions>
 <PreCondition
  Guid="5ae64df4-66eb-4a2f-89dc-3f9a09fb9a81"
->MessageFromRbcRecieved(EURORADIO.CurrentRBCConnection())</PreCondition></PreConditions>
+>JRU.MessageFromRbcRecieved(EURORADIO.CurrentRBCConnection())</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="bd0cd303-3d8b-4d90-a66d-3e88424cb4f1"
 >INSERT Messages.JRU.MESSAGE.Message {
-FROM_RBC =&gt; CreateMessageFromRbcMessage(EURORADIO.CurrentRBCConnection(), EURORADIO.LastKnownRBC.Id)
-} IN JRUMessages</Action></Actions>
+FROM_RBC =&gt; JRU.CreateMessageFromRbcMessage(EURORADIO.CurrentRBCConnection(), EURORADIO.LastKnownRBC.Id)
+} IN JRU.JRU.JRUMessages</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -251,13 +256,13 @@ FROM_RBC =&gt; CreateMessageFromRbcMessage(EURORADIO.CurrentRBCConnection(), EUR
 <PreConditions>
 <PreCondition
  Guid="10fe01aa-af34-48b4-aa33-1e179a03aef0"
->MessageToRbcReady(EURORADIO.CurrentRBCConnection())</PreCondition></PreConditions>
+>JRU.MessageToRbcReady(EURORADIO.CurrentRBCConnection())</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="aeca0d65-1fde-41db-a827-19ebff8bf7d4"
 >INSERT Messages.JRU.MESSAGE.Message {
-TO_RBC =&gt; CreateMessageToRbcMessage(EURORADIO.CurrentRBCConnection(), EURORADIO.LastKnownRBC.Id)
-} IN JRUMessages</Action></Actions>
+TO_RBC =&gt; JRU.CreateMessageToRbcMessage(EURORADIO.CurrentRBCConnection(), EURORADIO.LastKnownRBC.Id)
+} IN JRU.JRU.JRUMessages</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -281,16 +286,16 @@ TO_RBC =&gt; CreateMessageToRbcMessage(EURORADIO.CurrentRBCConnection(), EURORAD
 <PreConditions>
 <PreCondition
  Guid="f02eecba-036a-4cca-b8c4-60599b02f0cc"
->DriverActed(THIS)</PreCondition></PreConditions>
+>JRU.DriverActed(THIS)</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="f5f5fe71-29ba-4927-b45c-fd8ea8e75cca"
 >INSERT Messages.JRU.MESSAGE.Message
 {
-  DRIVER_S_ACTIONS =&gt; CreateDriversActionsMessage(THIS)
+  DRIVER_S_ACTIONS =&gt; JRU.CreateDriversActionsMessage(THIS)
 }
 IN
-  JRUMessages</Action></Actions>
+  JRU.JRU.JRUMessages</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -315,17 +320,17 @@ IN
 <PreConditions>
 <PreCondition
  Guid="b68fe90d-3f7f-4f71-be23-059f5f67cf38"
->SendSpeedAndDistanceMonitoringInformationMessage(THIS)</PreCondition><PreCondition
+>JRU.SendSpeedAndDistanceMonitoringInformationMessage(THIS)</PreCondition><PreCondition
  Guid="bd5ee00b-aacc-49ba-9111-eb883e795db7"
 >Kernel.ActiveFunctions.SuperviseTrainSpeed()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="e0adc517-5b2f-4309-ab4b-821bd1fbaf57"
 >INSERT Messages.JRU.MESSAGE.Message{
-SPEED_AND_DISTANCE_MONITORING_INFORMATION =&gt; CreateSpeedAndDistanceMonitoringInformationMessage()
-}IN JRUMessages</Action><Action
+SPEED_AND_DISTANCE_MONITORING_INFORMATION =&gt; JRU.CreateSpeedAndDistanceMonitoringInformationMessage()
+}IN JRU.JRU.JRUMessages</Action><Action
  Guid="1e73cc9f-11c6-4599-a75a-6acda1ef7430"
->SpeedAndDistanceSupervisionTypeChanged &lt;- False</Action></Actions>
+>JRU.JRU.SpeedAndDistanceSupervisionTypeChanged &lt;- False</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -349,16 +354,16 @@ SPEED_AND_DISTANCE_MONITORING_INFORMATION =&gt; CreateSpeedAndDistanceMonitoring
 <PreConditions>
 <PreCondition
  Guid="0f591e23-902d-4181-945b-e3f6adf41fab"
->SendDMIStatusMessage(THIS)</PreCondition></PreConditions>
+>JRU.SendDMIStatusMessage(THIS)</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="1c2b2d52-5507-4511-96f0-a88dc56c7347"
 >INSERT Messages.JRU.MESSAGE.Message
 {
-    DMI_SYMB_STATUS =&gt;  CreateDMISymbolStatusChangeMessage()
+    DMI_SYMB_STATUS =&gt;  JRU.CreateDMISymbolStatusChangeMessage()
 }
   IN
-JRUMessages</Action></Actions>
+JRU.JRU.JRUMessages</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -382,16 +387,16 @@ JRUMessages</Action></Actions>
 <PreConditions>
 <PreCondition
  Guid="1cff9757-a2c2-4926-9dc1-caea439f72ea"
->SendDMISystemStatusMessage()</PreCondition></PreConditions>
+>JRU.SendDMISystemStatusMessage()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="150a90b0-b2c6-4fbb-b954-89ad9a224e09"
 >INSERT Messages.JRU.MESSAGE.Message
 {
-  DMI_SYSTEM_STATUS_MESSAGE =&gt; CreateDMISystemStatusMessage()
+  DMI_SYSTEM_STATUS_MESSAGE =&gt; JRU.CreateDMISystemStatusMessage()
 }
 IN
-  JRUMessages</Action></Actions>
+  JRU.JRU.JRUMessages</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -410,14 +415,14 @@ IN
 <PreConditions>
 <PreCondition
  Guid="ba8f918a-a5e1-4c1a-996b-e692f5aa9f7c"
->SendAdditionalDataMessage(aJRU =&gt; THIS)</PreCondition></PreConditions>
+>JRU.SendAdditionalDataMessage(aJRU =&gt; THIS)</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="cf7de8a9-741d-4a0d-a4d0-96d6b9408045"
 >INSERT Messages.JRU.MESSAGE.Message
 {
-    ADDITIONAL_DATA =&gt; CreateAdditionalDataMessage()
-} IN JRUMessages</Action></Actions>
+    ADDITIONAL_DATA =&gt; JRU.CreateAdditionalDataMessage()
+} IN JRU.JRU.JRUMessages</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -437,13 +442,13 @@ IN
 <PreConditions>
 <PreCondition
  Guid="4b98b25b-e0e1-4b73-abce-efb77e9ef86e"
->( LevelChangedToNtc(THIS) )</PreCondition></PreConditions>
+>( JRU.LevelChangedToNtc(THIS) )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="1f156b86-5ad4-4f71-b713-b90d2220acf4"
 >INSERT Messages.JRU.MESSAGE.Message {
-NTC_SELECTED =&gt; CreateNtcSelectedMessage()
-} IN JRUMessages</Action></Actions>
+NTC_SELECTED =&gt; JRU.CreateNtcSelectedMessage()
+} IN JRU.JRU.JRUMessages</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -468,15 +473,15 @@ NTC_SELECTED =&gt; CreateNtcSelectedMessage()
 <PreConditions>
 <PreCondition
  Guid="6149369f-d154-4348-a74b-b0f2bc89ff3b"
->SendSleepingInput(
+>JRU.SendSleepingInput(
     jru=&gt;THIS
 )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="60f0d76d-5d8f-496b-a4fc-c066e0b68dbb"
 >INSERT Messages.JRU.MESSAGE.Message{
-SLEEPING_INPUT =&gt; CreateSleepingInputMesssage()
-}IN JRUMessages</Action></Actions>
+SLEEPING_INPUT =&gt; JRU.CreateSleepingInputMesssage()
+}IN JRU.JRU.JRUMessages</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -501,15 +506,15 @@ SLEEPING_INPUT =&gt; CreateSleepingInputMesssage()
 <PreConditions>
 <PreCondition
  Guid="ff92ab88-965e-480d-a63d-a013b7dec716"
->SendPassiveShuntingMessage(
+>JRU.SendPassiveShuntingMessage(
     jru=&gt;THIS
 )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="aecb5575-a587-4e08-887d-f51a1876ed1a"
 >INSERT Messages.JRU.MESSAGE.Message{
-PASSIVE_SHUNTTING_INPUT =&gt; CreatePassiveShuntingMessage()
-}IN JRUMessages</Action></Actions>
+PASSIVE_SHUNTTING_INPUT =&gt; JRU.CreatePassiveShuntingMessage()
+}IN JRU.JRU.JRUMessages</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -534,15 +539,15 @@ PASSIVE_SHUNTTING_INPUT =&gt; CreatePassiveShuntingMessage()
 <PreConditions>
 <PreCondition
  Guid="0e12a04b-0cf8-4163-a4f0-29aa1e503182"
->SendNonLeadingMessage(
+>JRU.SendNonLeadingMessage(
     jru=&gt;THIS
 )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="6c10e874-b820-40e9-b866-76c3ccf65dcf"
 >INSERT Messages.JRU.MESSAGE.Message{
-NON_LEADING_INPUT =&gt; CreateNonLeadingJruMessage()
-}IN JRUMessages</Action></Actions>
+NON_LEADING_INPUT =&gt; JRU.CreateNonLeadingJruMessage()
+}IN JRU.JRU.JRUMessages</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -567,13 +572,13 @@ NON_LEADING_INPUT =&gt; CreateNonLeadingJruMessage()
 <PreConditions>
 <PreCondition
  Guid="053ebf6f-8042-41ab-a9f6-a53e7919366d"
->SendRegenerativeBrakeStatusMessage(THIS)</PreCondition></PreConditions>
+>JRU.SendRegenerativeBrakeStatusMessage(THIS)</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="844bc5aa-92db-4693-8c5e-3d2ee7a3c480"
 >INSERT Messages.JRU.MESSAGE.Message{
-REGENERATIVE_BRAKE_STATUS =&gt; CreateRegenerativeBrakeStatusMessage()
-}IN JRUMessages</Action></Actions>
+REGENERATIVE_BRAKE_STATUS =&gt; JRU.CreateRegenerativeBrakeStatusMessage()
+}IN JRU.JRU.JRUMessages</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -598,13 +603,13 @@ REGENERATIVE_BRAKE_STATUS =&gt; CreateRegenerativeBrakeStatusMessage()
 <PreConditions>
 <PreCondition
  Guid="f2b231a2-e8f0-44c5-af05-4961b21c827e"
->SendMagneticShoeBrakeStatusMessage(THIS)</PreCondition></PreConditions>
+>JRU.SendMagneticShoeBrakeStatusMessage(THIS)</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="f1a52ee0-0a77-4bb8-86df-f584ed7fc2dd"
 >INSERT Messages.JRU.MESSAGE.Message{
-MAGNETIC_SHOE_BRAKE_STATUS =&gt; CreateMagneticShoeBrakeStatusJruMessage()
-}IN JRUMessages</Action></Actions>
+MAGNETIC_SHOE_BRAKE_STATUS =&gt; JRU.CreateMagneticShoeBrakeStatusJruMessage()
+}IN JRU.JRU.JRUMessages</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -624,13 +629,13 @@ MAGNETIC_SHOE_BRAKE_STATUS =&gt; CreateMagneticShoeBrakeStatusJruMessage()
 <PreConditions>
 <PreCondition
  Guid="2bbe675e-f657-4946-beb1-9dfb35b59d33"
->SendEddyCurrentBrakeStatusMessage(THIS)</PreCondition></PreConditions>
+>JRU.SendEddyCurrentBrakeStatusMessage(THIS)</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="92d7691a-d1bf-471a-8835-30c3ec7d1a52"
 >INSERT Messages.JRU.MESSAGE.Message{
-EDDY_CURRENT_BRAKE_STATUS =&gt; CreateEddyCurrentBrakeStatusMessage()
-}IN JRUMessages</Action></Actions>
+EDDY_CURRENT_BRAKE_STATUS =&gt; JRU.CreateEddyCurrentBrakeStatusMessage()
+}IN JRU.JRU.JRUMessages</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -655,13 +660,13 @@ EDDY_CURRENT_BRAKE_STATUS =&gt; CreateEddyCurrentBrakeStatusMessage()
 <PreConditions>
 <PreCondition
  Guid="db6515dc-f306-4242-96ee-bdd2c91b10b3"
->SendElectroPneumaticBrakeStatusMessage (THIS)</PreCondition></PreConditions>
+>JRU.SendElectroPneumaticBrakeStatusMessage (THIS)</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="9d2308b5-c95a-4278-9929-d43ffd2fa509"
 >INSERT Messages.JRU.MESSAGE.Message{
-ELECTRO_PNEUMATIC_BRAKE_STATUS =&gt; CreateElectroPneumaticBrakeStatusMessage()
-}IN JRUMessages</Action></Actions>
+ELECTRO_PNEUMATIC_BRAKE_STATUS =&gt; JRU.CreateElectroPneumaticBrakeStatusMessage()
+}IN JRU.JRU.JRUMessages</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -686,13 +691,13 @@ ELECTRO_PNEUMATIC_BRAKE_STATUS =&gt; CreateElectroPneumaticBrakeStatusMessage()
 <PreConditions>
 <PreCondition
  Guid="598e145c-af44-42c6-93ea-b8305d8d0051"
->SendAdditionalBrakeStatusMessage (THIS)</PreCondition></PreConditions>
+>JRU.SendAdditionalBrakeStatusMessage (THIS)</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="fbdb564d-451c-4808-a07e-dad7af2ceff3"
 >INSERT Messages.JRU.MESSAGE.Message{
-ADDITIONAL_BRAKE_STATUS =&gt; CreateAditionalBrakeStatusMessage()
-}IN JRUMessages</Action></Actions>
+ADDITIONAL_BRAKE_STATUS =&gt; JRU.CreateAditionalBrakeStatusMessage()
+}IN JRU.JRU.JRUMessages</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -712,15 +717,15 @@ ADDITIONAL_BRAKE_STATUS =&gt; CreateAditionalBrakeStatusMessage()
 <PreConditions>
 <PreCondition
  Guid="7d3e988c-03a6-40fc-87ff-eef88ae4b560"
->SendCabStatusMessage(
+>JRU.SendCabStatusMessage(
     jru=&gt;THIS
 )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="1e0810d8-3803-4205-b78d-db639f49c094"
 >INSERT Messages.JRU.MESSAGE.Message {
-CAB_STATUS =&gt; CreateCabStatusJruMessage()
-} IN JRUMessages</Action></Actions>
+CAB_STATUS =&gt; JRU.CreateCabStatusJruMessage()
+} IN JRU.JRU.JRUMessages</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -740,15 +745,15 @@ CAB_STATUS =&gt; CreateCabStatusJruMessage()
 <PreConditions>
 <PreCondition
  Guid="b9b57d4e-ca25-4110-a5ca-96b2ea9e0256"
->SendTrainDirectionControllerMessage(
+>JRU.SendTrainDirectionControllerMessage(
     jru=&gt;THIS
 )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="735a84c2-e94c-467f-9d11-757a9d892b0c"
 >INSERT Messages.JRU.MESSAGE.Message {
- DIRECTION_CONTROLLER_POSITION=&gt; CreateDirectionControllerPositionJruMessage()
-} IN JRUMessages</Action></Actions>
+ DIRECTION_CONTROLLER_POSITION=&gt; JRU.CreateDirectionControllerPositionJruMessage()
+} IN JRU.JRU.JRUMessages</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -768,15 +773,15 @@ CAB_STATUS =&gt; CreateCabStatusJruMessage()
 <PreConditions>
 <PreCondition
  Guid="7507ddd7-d0ac-4aaf-a486-1c49b868ed83"
->SendTractionStatusMessage(
+>JRU.SendTractionStatusMessage(
     jru=&gt;THIS
 )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="5c69cf29-bce1-4a15-94be-bfc6ffadfc0c"
 >INSERT Messages.JRU.MESSAGE.Message {
- TRACTION_STATUS=&gt; CreateTractionStatusMessage()
-} IN JRUMessages</Action></Actions>
+ TRACTION_STATUS=&gt; JRU.CreateTractionStatusMessage()
+} IN JRU.JRU.JRUMessages</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -796,13 +801,13 @@ CAB_STATUS =&gt; CreateCabStatusJruMessage()
 <PreConditions>
 <PreCondition
  Guid="8747a3bd-d791-40fa-8350-fc5417ba977a"
->SendTrainDataEntry(THIS)</PreCondition></PreConditions>
+>JRU.SendTrainDataEntry(THIS)</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="8ebcca6e-ab8e-426c-9a8c-69670da14009"
 >INSERT Messages.JRU.MESSAGE.Message {
- TYPE_OF_TRAIN_DATA_ENTRY=&gt; CreateTrainDataEntryMessage()
-} IN JRUMessages</Action></Actions>
+ TYPE_OF_TRAIN_DATA_ENTRY=&gt; JRU.CreateTrainDataEntryMessage()
+} IN JRU.JRU.JRUMessages</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -822,13 +827,13 @@ CAB_STATUS =&gt; CreateCabStatusJruMessage()
 <PreConditions>
 <PreCondition
  Guid="42fcfc24-5a2c-4268-b397-b52c5109b673"
->SendNationalSystemIsolationMessage(THIS)</PreCondition></PreConditions>
+>JRU.SendNationalSystemIsolationMessage(THIS)</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="04b8fac6-2aaf-4551-8f5a-01d7436bab4e"
 >INSERT Messages.JRU.MESSAGE.Message{
-NATIONAL_SYSTEM_ISOLATION =&gt; CreateNationalSystemsIsolationMessage()
-}IN JRUMessages</Action></Actions>
+NATIONAL_SYSTEM_ISOLATION =&gt; JRU.CreateNationalSystemsIsolationMessage()
+}IN JRU.JRU.JRUMessages</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -848,15 +853,15 @@ NATIONAL_SYSTEM_ISOLATION =&gt; CreateNationalSystemsIsolationMessage()
 <PreConditions>
 <PreCondition
  Guid="e1a8eef2-d4b8-408a-8586-7f29dfa98c27"
->SendMTCOMessage(
+>JRU.SendMTCOMessage(
     jru=&gt; THIS
 )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="f94c4e15-4d0b-4047-ace8-767319cc5744"
 >INSERT Messages.JRU.MESSAGE.Message{
-TRACTION_CUT_OFF_COMMAND_STATE =&gt; CreateTractionCutOffMessage()
-}IN JRUMessages</Action></Actions>
+TRACTION_CUT_OFF_COMMAND_STATE =&gt; JRU.CreateTractionCutOffMessage()
+}IN JRU.JRU.JRUMessages</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -875,7 +880,7 @@ TRACTION_CUT_OFF_COMMAND_STATE =&gt; CreateTractionCutOffMessage()
 <PreConditions>
 <PreCondition
  Guid="26c2d1e1-1591-4002-af57-c37ca3b51984"
->SendVBCSetByDriverMessage(
+>JRU.SendVBCSetByDriverMessage(
     jru =&gt; THIS
 )</PreCondition></PreConditions>
 <Actions>
@@ -884,11 +889,38 @@ TRACTION_CUT_OFF_COMMAND_STATE =&gt; CreateTractionCutOffMessage()
 >INSERT Messages.JRU.MESSAGE.Message
 {
   VIRTUAL_BALISE_COVER_SET_BY_DRIVER =&gt;
-    CreateVBCSetByDriverMessage
+    JRU.CreateVBCSetByDriverMessage
    (
       FIRST Cover IN Kernel.VirtualBaliseCover.VirtualBaliseCovers.VBCs |
-      ( NOT (THERE_IS PrevCover IN THIS.PreviousVirtualBaliseCovers | PrevCover == Cover) )
+      ( NOT (THERE_IS PrevCover IN JRU.JRU.PreviousVirtualBaliseCovers | PrevCover == Cover) )
    )
+}
+IN JRUMessages</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Implemented="TRUE"
+ Name="Send LSSMA message"
+ Guid="7381c0cf-5d0f-4077-a8d7-779a919c8795"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Send LSSMA message"
+ Guid="285bf6b7-7194-4983-acbb-f61078c29c30"
+>
+<PreConditions>
+<PreCondition
+ Guid="257b613f-a04f-4659-a746-2878ccce8fd9"
+>SendLSSMAMessage(
+    jru =&gt; THIS
+)</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="d5b92a70-1a73-4405-8437-269eef8cfb2d"
+>INSERT Messages.JRU.MESSAGE.Message
+{
+  LOWEST_SUPERVISED_SPEED_WITHIN_THE_MOVEMENT_AUTHORITY =&gt; CreateLSSMAMessage()
 }
 IN JRUMessages</Action></Actions>
 </RuleCondition></Conditions>
@@ -902,6 +934,11 @@ IN JRUMessages</Action></Actions>
  Id="d2655cc5-21f7-4522-96f9-bdfb23f40c80"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="15920dfc-646c-4cdd-b7c8-62ba679f668f"
+>
+</ReqRef><ReqRef
+ Id="e394f9dd-0990-4f2d-ac8d-9a045f765d0a"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="422d3c8c-98f4-4172-a6b1-6471a851f96b"
 >
 </ReqRef><Comment>This procedure will manage all the necessary operations for sending, cleaning and updating all the related elements in sending a JRU Message</Comment>
 <Rules>
@@ -947,63 +984,65 @@ IN JRUMessages</Action></Actions>
 <Actions>
 <Action
  Guid="b8e91c3e-a8f3-4376-9406-e24aff685950"
->PreviousElectroPneumaticBrakeStatus &lt;- TIU.SpecialBrakeStatus.EPBrakeIsActive</Action><Action
+>JRU.JRU.PreviousElectroPneumaticBrakeStatus &lt;- TIU.SpecialBrakeStatus.EPBrakeIsActive</Action><Action
  Guid="f986b9dc-68c2-48f4-aa19-15bc06d987e7"
->PreviousAdditionalBrakeStatus &lt;- TIU.AdditionalBrakesActive</Action><Action
+>JRU.JRU.PreviousAdditionalBrakeStatus &lt;- TIU.AdditionalBrakesActive</Action><Action
  Guid="58633a81-4072-494e-a17d-19e34b04acc0"
->PreviousPermittedSpeed &lt;- DMI.MasterDMI().Out_PermittedSpeed.Speed</Action><Action
+>JRU.JRU.PreviousPermittedSpeed &lt;- DMI.MasterDMI().Out_PermittedSpeed.Speed</Action><Action
  Guid="d461f9a5-7f7b-482b-8ffa-2ca4aed6d474"
->PreviousTargetSpeed &lt;- DMI.MasterDMI().Out_TargetSpeed.Speed</Action><Action
+>JRU.JRU.PreviousTargetSpeed &lt;- DMI.MasterDMI().Out_TargetSpeed.Speed</Action><Action
  Guid="0eb30b56-c6ab-4c4d-800f-f09532b1c04c"
->PreviousReleaseSpeed &lt;- DMI.MasterDMI().Out_ReleaseSpeed.Speed</Action><Action
+>JRU.JRU.PreviousReleaseSpeed &lt;- DMI.MasterDMI().Out_ReleaseSpeed.Speed</Action><Action
  Guid="ac4c4305-a3dd-45af-9761-831aaa483ba3"
->PreviousEddyCurrentBrakeStatus &lt;- TIU.SpecialBrakeStatus.EddyCurrentBrakeIsActive</Action><Action
+>JRU.JRU.PreviousEddyCurrentBrakeStatus &lt;- TIU.SpecialBrakeStatus.EddyCurrentBrakeIsActive</Action><Action
  Guid="a4f7299c-9231-4697-aed9-2baf1aacd4bc"
->PreviousMagneticShoeBrakeStatus &lt;- TIU.SpecialBrakeStatus.MagneticShoeBrakeIsActive</Action><Action
+>JRU.JRU.PreviousMagneticShoeBrakeStatus &lt;- TIU.SpecialBrakeStatus.MagneticShoeBrakeIsActive</Action><Action
  Guid="f094f37f-9354-4b5b-bad5-85e74959d207"
->PreviousRegenerativeBrakesStatus &lt;- TIU.SpecialBrakeStatus.RegenerativeBrakeIsActive</Action><Action
+>JRU.JRU.PreviousRegenerativeBrakesStatus &lt;- TIU.SpecialBrakeStatus.RegenerativeBrakeIsActive</Action><Action
  Guid="dada19b1-2cf5-48c2-8ba6-ec39706bed95"
->PreviousSleepingInput &lt;- TIU.SleepingRequested</Action><Action
+>JRU.JRU.PreviousSleepingInput &lt;- TIU.SleepingRequested</Action><Action
  Guid="1a56c4c3-7094-43ec-95b1-a199d7bdad13"
->PreviousTractionCutOffCommandStatus &lt;- TIU.CutOffTraction</Action><Action
+>JRU.JRU.PreviousTractionCutOffCommandStatus &lt;- TIU.CutOffTraction</Action><Action
  Guid="ff2fc6dd-632e-4346-b97b-a4415eb29d66"
->PreviousNationalSystemIsolationStatus &lt;- TIU.NTCIsolated</Action><Action
+>JRU.JRU.PreviousNationalSystemIsolationStatus &lt;- TIU.NTCIsolated</Action><Action
  Guid="03d54f80-2a40-47e9-855c-23efe6bcb38b"
->PreviousTractionStatus &lt;- TIU.TractionIsOn</Action><Action
+>JRU.JRU.PreviousTractionStatus &lt;- TIU.TractionIsOn</Action><Action
  Guid="98009e58-e7f0-47cc-b6c0-d7c27f77a971"
->PreviousDirectionController &lt;- TIU.DirectionControllerInformation</Action><Action
+>JRU.JRU.PreviousDirectionController &lt;- TIU.DirectionControllerInformation</Action><Action
  Guid="d5f33c9a-11a4-49ef-86a2-6ef2bf0421c0"
->PreviousCabAStatus &lt;- TIU.CabB</Action><Action
+>JRU.JRU.PreviousCabAStatus &lt;- TIU.CabB</Action><Action
  Guid="5c8c2f52-cb6b-4ce4-9022-2a9f1a863452"
->PreviousCabAStatus &lt;- TIU.CabA</Action><Action
+>JRU.JRU.PreviousCabAStatus &lt;- TIU.CabA</Action><Action
  Guid="206fd4c8-709e-46c9-8eca-1a121a0cf55f"
->PreviousSBStatus &lt;- TIU.Brakes.ServiceBrakes.Commanded()</Action><Action
+>JRU.JRU.PreviousSBStatus &lt;- TIU.Brakes.ServiceBrakes.Commanded()</Action><Action
  Guid="c4ddae0a-1491-4a0b-a46d-bd0947ad8b0e"
->PreviousEBStatus &lt;- TIU.Brakes.EmergencyBrakes.Commanded()</Action><Action
+>JRU.JRU.PreviousEBStatus &lt;- TIU.Brakes.EmergencyBrakes.Commanded()</Action><Action
  Guid="22c9d4de-9284-4627-9d4b-5a958d7d0250"
->PreviousKernelLevel &lt;- Kernel.Level.Value</Action><Action
+>JRU.JRU.PreviousKernelLevel &lt;- Kernel.Level.Value</Action><Action
  Guid="d1059a2b-c836-41a2-858f-bde87944278a"
->PreviousKernelMode &lt;- Kernel.Mode</Action><Action
+>JRU.JRU.PreviousKernelMode &lt;- Kernel.Mode</Action><Action
  Guid="2530de24-0c40-4088-b0a4-1325135e6574"
->PreviousTrainData &lt;- Kernel.TrainData.TrainData.Value</Action><Action
+>JRU.JRU.PreviousTrainData &lt;- Kernel.TrainData.TrainData.Value</Action><Action
  Guid="06d0091f-b48f-486b-8088-c41f6e231e53"
->PreviousSystemVersion &lt;- Kernel.OperatedSystemVersion.Value</Action><Action
+>JRU.JRU.PreviousSystemVersion &lt;- Kernel.OperatedSystemVersion.Value</Action><Action
  Guid="3bf2231c-6b43-4768-99dc-85f531bfcf5c"
->PreviousVirtualBaliseCovers &lt;- Kernel.VirtualBaliseCover.VirtualBaliseCovers.VBCs</Action><Action
+>JRU.JRU.PreviousVirtualBaliseCovers &lt;- Kernel.VirtualBaliseCover.VirtualBaliseCovers.VBCs</Action><Action
  Guid="65f7cd8d-4303-454d-abfb-ae779fe99371"
->PreviousDMISymbolStatusMessage &lt;- CreateDMISymbolStatusChangeMessage().DMI_SYMBOL_STATUS</Action><Action
+>JRU.JRU.PreviousDMISymbolStatusMessage &lt;- JRU.CreateDMISymbolStatusChangeMessage().DMI_SYMBOL_STATUS</Action><Action
  Guid="eef9b3ad-1029-42e0-bbed-ad777e865c1f"
->PreviousAdditionalDataMessage &lt;- CreateAdditionalDataMessage()</Action><Action
+>JRU.JRU.PreviousAdditionalDataMessage &lt;- JRU.CreateAdditionalDataMessage()</Action><Action
  Guid="cb009226-a854-4134-aa00-33daf3f0f700"
->PreviousRequestToDisplayTheGeographicalInformation &lt;- DMI.MasterDMI().Out_GeographicalPosition.DisplayRequestedByDriver</Action></Actions>
+>JRU.JRU.PreviousRequestToDisplayTheGeographicalInformation &lt;- DMI.MasterDMI().Out_GeographicalPosition.DisplayRequestedByDriver</Action><Action
+ Guid="1e759b21-e03b-4b95-a45d-1ab7bd29bf06"
+>PreviousLSSMAValue &lt;- TypeConvertors.ToJRULSSMA()</Action></Actions>
 <SubRules>
 <Rule
  Priority="Processing"
  Implemented="TRUE"
- Name="Update FLOI"
+ Name="Update SBI"
  Guid="34845207-c16f-4605-b6be-776a620afa66"
 >
-<Comment>FLOI value can only be accessed during target speed monitoring.</Comment>
+<Comment>SBI value can only be accessed during target speed monitoring.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
@@ -1020,7 +1059,7 @@ Kernel.ActiveFunctions.SuperviseTrainSpeed_MRSP_DistInSRMode()</PreCondition></P
 <Actions>
 <Action
  Guid="9bc80e3a-1a1a-429f-98aa-42c1d4d761ce"
->PreviousVFloiValue &lt;- Kernel.SpeedAndDistanceMonitoring.Display.SBISpeed(Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom))</Action></Actions>
+>JRU.JRU.PreviousVFloiValue &lt;- Kernel.SpeedAndDistanceMonitoring.Display.SBISpeed(Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom))</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -1043,7 +1082,7 @@ Kernel.ActiveFunctions.SuperviseTrainSpeed_MRSP_DistInSRMode()</PreCondition></P
 <Actions>
 <Action
  Guid="e147e5df-e42d-47f4-b4b4-bfe04454a4d4"
->PreviousSpeedAndDistanceSupervisionStatus &lt;- Kernel.SpeedAndDistanceMonitoring.SupervisionStatus()</Action></Actions>
+>JRU.JRU.PreviousSpeedAndDistanceSupervisionStatus &lt;- Kernel.SpeedAndDistanceMonitoring.SupervisionStatus()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -1066,7 +1105,7 @@ Kernel.ActiveFunctions.SuperviseTrainSpeed_MRSP_DistInSRMode()</PreCondition></P
 <Actions>
 <Action
  Guid="cc02b5bb-d96c-46dd-a3bf-abe2b314c992"
->PreviousTargetDistance &lt;- Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.TargetDistance()</Action></Actions>
+>JRU.JRU.PreviousTargetDistance &lt;- Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.TargetDistance()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition></Conditions>
@@ -1088,11 +1127,11 @@ Kernel.ActiveFunctions.SuperviseTrainSpeed_MRSP_DistInSRMode()</PreCondition></P
 <PreConditions>
 <PreCondition
  Guid="bd5e4bf2-8113-464b-8859-58726f368827"
->SendMessagePeriodically(THIS)</PreCondition></PreConditions>
+>JRU.SendMessagePeriodically(THIS)</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="1dd375f4-1c36-44bc-8f3f-fbd3204b191e"
->JRU1.PreviousTime &lt;- Kernel.DateAndTime.CurrentTime</Action></Actions>
+>JRU.JRU1.PreviousTime &lt;- Kernel.DateAndTime.CurrentTime</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
@@ -1546,6 +1585,26 @@ Kernel.ActiveFunctions.SuperviseTrainSpeed_MRSP_DistInSRMode()</PreCondition></P
  Guid="cee33ed9-5c7a-4f65-b172-57e14ba92220"
 >
 </ReqRef><Comment>Used to determine if the driver acted on the display or concealment of the geographical position on the DMI.</Comment>
+</StructureElement><StructureElement
+ TypeName="MessageTypes.Speed"
+ Default="MessageTypes.Speed.NA"
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="PreviousLSSMAValue"
+ Guid="94496be5-1652-47ee-91c9-9349950fe175"
+>
+<ReqRef
+ Id="d4177d78-3ab4-48d5-b05f-c2bbd7327c9d"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="7da3b84c-516b-4f2a-be6f-ceed3a42228e"
+>
+</ReqRef><ReqRef
+ Id="bad34835-a314-4279-921d-feb5a63e4e1b"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="75610592-05e4-41e0-add7-0d75edde5910"
+>
+</ReqRef><Comment>Holds the previous value of the displayed LSSMA.
+If the LSSMA is not displayed, the value is set to BaseTypes.Speed.NA.</Comment>
 </StructureElement></Structure></Structures>
 <Collections>
 <Collection
@@ -1579,6 +1638,11 @@ Kernel.ActiveFunctions.SuperviseTrainSpeed_MRSP_DistInSRMode()</PreCondition></P
  SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
  Guid="53568dd1-221e-46f5-9a59-6ac8fcbb200d"
 >
+</ReqRef><ReqRef
+ Id="9924af12-6d88-465d-a306-165cf4a09123"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="10723587-edb7-474a-8bf4-a2023c1b74c2"
+>
 </ReqRef><Comment>It will fill a Genera Message in JRU</Comment>
 <Cases>
 <Case
@@ -1586,7 +1650,7 @@ Kernel.ActiveFunctions.SuperviseTrainSpeed_MRSP_DistInSRMode()</PreCondition></P
  Guid="3caa4d49-f819-44e2-b791-3d3758bd06db"
 >
 <Expression>Messages.JRU.MESSAGE.GENERAL_MESSAGE.Message{
-    HEADER =&gt; CreateHeader(1)
+    HEADER =&gt; JRU.CreateHeader(1)
 }</Expression>
 </Case></Cases>
 </Function><Function
@@ -1660,6 +1724,26 @@ Kernel.ActiveFunctions.SuperviseTrainSpeed_MRSP_DistInSRMode()</PreCondition></P
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="2a8f928d-a91f-4e42-b521-974ac0ca0f4e"
 >
+</ReqRef><ReqRef
+ Id="9924af12-6d88-465d-a306-165cf4a09123"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="551944ff-8070-4b62-9ae4-c5a79c4f17c3"
+>
+</ReqRef><ReqRef
+ Id="42c3083d-0a1d-44be-9973-50a3f31956d6"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="79576332-13fb-416c-9661-d4bc10fb9ba3"
+>
+</ReqRef><ReqRef
+ Id="d7a3c24e-8677-4def-857e-6a46c7faa628"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="83a4da25-419b-4e38-abd7-e68916b25820"
+>
+</ReqRef><ReqRef
+ Id="f2807403-2ed2-4f03-9669-347dc97b1daa"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="c8083e00-f7d7-457d-8a86-3d1769675ca1"
+>
 </ReqRef><Comment>Function use to fullfill the common fields of a JRU message</Comment>
 <Parameters>
 <Parameter
@@ -1689,20 +1773,20 @@ Kernel.ActiveFunctions.SuperviseTrainSpeed_MRSP_DistInSRMode()</PreCondition></P
             TTS =&gt; Kernel.DateAndTime.Now().TTS
         },
         TRAIN_POSITION =&gt; Messages.JRU.TRAIN_POSITION.Message{
-            Q_SCALE =&gt; TypeConvertors.ToJRUQScale(Messages.Q_SCALE._1_m_scaleC),
-            NID_LRBG =&gt;TypeConvertors.ToJRUNidLRBG(BTM.LRBG.NID),
-            D_LRBG =&gt; TypeConvertors.ToJRUDLRBG(Messages.JRU.Q_SCALE._1_m_scaleC),
-            Q_DIRLRBG =&gt; TypeConvertors.ToJRUQdirLRBG(Kernel.TrainPosition.Position.DirectionalPositionInformation.TrainOrientation),
-            Q_DLRBG =&gt; TypeConvertors.ToJRUQDLRBG(Kernel.TrainPosition.Position.DirectionalPositionInformation.TrainFrontEndPosition),
-            L_DOUBTOVER =&gt; TypeConvertors.ToJRULDoubtOver(Messages.JRU.Q_SCALE._1_m_scaleC),
-            L_DOUBTUNDER =&gt; TypeConvertors.ToJRULDoubtUnder(Messages.JRU.Q_SCALE._1_m_scaleC)
+            Q_SCALE =&gt; JRU.TypeConvertors.ToJRUQScale(Messages.Q_SCALE._1_m_scaleC),
+            NID_LRBG =&gt;JRU.TypeConvertors.ToJRUNidLRBG(BTM.LRBG.NID),
+            D_LRBG =&gt; JRU.TypeConvertors.ToJRUDLRBG(Messages.JRU.Q_SCALE._1_m_scaleC),
+            Q_DIRLRBG =&gt; JRU.TypeConvertors.ToJRUQdirLRBG(Kernel.TrainPosition.Position.DirectionalPositionInformation.TrainOrientation),
+            Q_DLRBG =&gt; JRU.TypeConvertors.ToJRUQDLRBG(Kernel.TrainPosition.Position.DirectionalPositionInformation.TrainFrontEndPosition),
+            L_DOUBTOVER =&gt; JRU.TypeConvertors.ToJRULDoubtOver(Messages.JRU.Q_SCALE._1_m_scaleC),
+            L_DOUBTUNDER =&gt; JRU.TypeConvertors.ToJRULDoubtUnder(Messages.JRU.Q_SCALE._1_m_scaleC)
         },
-        V_TRAIN =&gt; TypeConvertors.ToJRUVtrain(),
+        V_TRAIN =&gt; JRU.TypeConvertors.ToJRUVtrain(),
         DRIVER_ID =&gt; Kernel.DriverId.Value,
         NID_ENGINE =&gt; Kernel.NidEngine,
-        SYSTEM_VERSION =&gt; TypeConvertors.ToJRUSystemVersion(Kernel.OperatedSystemVersion),
-        LEVEL =&gt; TypeConvertors.ToJRULevel(Kernel.Level.Value.Value),
-        MODE =&gt; TypeConvertors.ToJRUMode(Kernel.Mode)
+        SYSTEM_VERSION =&gt; JRU.TypeConvertors.ToJRUSystemVersion(Kernel.OperatedSystemVersion),
+        LEVEL =&gt; JRU.TypeConvertors.ToJRULevel(Kernel.Level.Value.Value),
+        MODE =&gt; JRU.TypeConvertors.ToJRUMode(Kernel.Mode)
     }</Expression>
 </Case></Cases>
 </Function><Function
@@ -1721,6 +1805,11 @@ Kernel.ActiveFunctions.SuperviseTrainSpeed_MRSP_DistInSRMode()</PreCondition></P
  SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
  Guid="5567922c-e1c4-429c-9404-a41a8520d3af"
 >
+</ReqRef><ReqRef
+ Id="9924af12-6d88-465d-a306-165cf4a09123"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="dfc93e71-4748-467d-9455-e42abe7fc7c5"
+>
 </ReqRef><Comment>Function used to create the NTCSelectedLevel JRU Message</Comment>
 <Cases>
 <Case
@@ -1729,8 +1818,8 @@ Kernel.ActiveFunctions.SuperviseTrainSpeed_MRSP_DistInSRMode()</PreCondition></P
 >
 <Expression>Messages.JRU.MESSAGE.NTC_SELECTED.Message
 {
-    HEADER =&gt; CreateHeader(MessageId=&gt;26),
-    NID_NTC =&gt; TypeConvertors.ToJRUNidNTC((Kernel.Level.Value.NTC))
+    HEADER =&gt; JRU.CreateHeader(MessageId=&gt;26),
+    NID_NTC =&gt; JRU.TypeConvertors.ToJRUNidNTC((Kernel.Level.Value.NTC))
 }</Expression>
 </Case></Cases>
 </Function><Function
@@ -1765,65 +1854,67 @@ Kernel.ActiveFunctions.SuperviseTrainSpeed_MRSP_DistInSRMode()</PreCondition></P
 <PreConditions>
 <PreCondition
  Guid="e932afe8-ba36-4cdd-b2b8-0c4a04bebf4e"
->LevelChanged(jru)
+>JRU.LevelChanged(jru)
   OR
-SendMessagePeriodically(jru)
+JRU.SendMessagePeriodically(jru)
   OR
-ModeChanged(jru)
+JRU.ModeChanged(jru)
   OR
-SystemVersionChanged(jru)
+JRU.SystemVersionChanged(jru)
   OR
-( TrainDataHaveChanged(jru) ) OR (Kernel.TrainDataValidated)
+( JRU.TrainDataHaveChanged(jru) ) OR (Kernel.TrainDataValidated)
   OR
-EmergencyBrakeStatusChanged(jru)
+JRU.EmergencyBrakeStatusChanged(jru)
   OR
-ServiceBrakeStatusChanged(jru)
+JRU.ServiceBrakeStatusChanged(jru)
   OR
-TelegramFromBaliseRecieved()
+JRU.TelegramFromBaliseRecieved()
   OR
-MessageFromRbcRecieved(EURORADIO.CurrentRBCConnection() )
+JRU.MessageFromRbcRecieved(EURORADIO.CurrentRBCConnection() )
   OR
-MessageToRbcReady(EURORADIO.CurrentRBCConnection())
+JRU.MessageToRbcReady(EURORADIO.CurrentRBCConnection())
   OR
-LevelChangedToNtc(jru)
+JRU.LevelChangedToNtc(jru)
   OR
-SendSpeedAndDistanceMonitoringInformationMessage(jru)
+JRU.SendSpeedAndDistanceMonitoringInformationMessage(jru)
   OR
-SendSleepingInput(jru)
+JRU.SendSleepingInput(jru)
   OR
-SendPassiveShuntingMessage(jru)
+JRU.SendPassiveShuntingMessage(jru)
   OR
-SendNonLeadingMessage(jru)
+JRU.SendNonLeadingMessage(jru)
   OR
-SendRegenerativeBrakeStatusMessage(jru)
+JRU.SendRegenerativeBrakeStatusMessage(jru)
   OR
-SendMagneticShoeBrakeStatusMessage(jru)
+JRU.SendMagneticShoeBrakeStatusMessage(jru)
   OR
-SendEddyCurrentBrakeStatusMessage(jru)
+JRU.SendEddyCurrentBrakeStatusMessage(jru)
   OR
-SendElectroPneumaticBrakeStatusMessage(jru)
+JRU.SendElectroPneumaticBrakeStatusMessage(jru)
   OR
-SendAdditionalBrakeStatusMessage(jru)
+JRU.SendAdditionalBrakeStatusMessage(jru)
   OR
-SendCabStatusMessage(jru)
+JRU.SendCabStatusMessage(jru)
   OR
-SendTrainDirectionControllerMessage(jru)
+JRU.SendTrainDirectionControllerMessage(jru)
   OR
-SendTractionStatusMessage(jru)
+JRU.SendTractionStatusMessage(jru)
   OR
-SendTrainDataEntry(jru)
+JRU.SendTrainDataEntry(jru)
   OR
-SendNationalSystemIsolationMessage(jru)
+JRU.SendNationalSystemIsolationMessage(jru)
   OR
-SendMTCOMessage(jru)
+JRU.SendMTCOMessage(jru)
   OR
-SendDMIStatusMessage(jru)
+JRU.SendDMIStatusMessage(jru)
   OR
-SendAdditionalDataMessage(jru)
+JRU.SendAdditionalDataMessage(jru)
   OR
-DriverActed(jru)
+JRU.DriverActed(jru)
   OR
-SendDMISystemStatusMessage()</PreCondition><PreCondition
+JRU.SendDMISystemStatusMessage()
+  OR  
+JRU.SendLSSMAMessage(jru)</PreCondition><PreCondition
  Guid="07a9b9fc-3c5f-4545-acc0-68ead56b0325"
 >Kernel.ActiveFunctions.ProvideJuridicalData()</PreCondition></PreConditions>
 <Expression>True</Expression>
@@ -2005,7 +2096,7 @@ SendDMISystemStatusMessage()</PreCondition><PreCondition
 <PreConditions>
 <PreCondition
  Guid="ad4690a4-8546-41d1-9df7-10d96bf53ab3"
->( LevelChanged(jru) ) AND ( Kernel.Level.Value.Value == Level.LNTC )</PreCondition></PreConditions>
+>( JRU.LevelChanged(jru) ) AND ( Kernel.Level.Value.Value == Level.LNTC )</PreCondition></PreConditions>
 <Expression>True</Expression>
 </Case><Case
  Name="LevelNotChangedToNtc"
@@ -2040,13 +2131,13 @@ SendDMISystemStatusMessage()</PreCondition><PreCondition
 <PreConditions>
 <PreCondition
  Guid="aad0f2da-a04c-4c7c-b81e-a8289c3eaf50"
->( LevelChanged(jru)  )
+>( JRU.LevelChanged(jru)  )
 OR
-( ModeChanged(jru) AND (Kernel.Mode != Mode.NP) )
+( JRU.ModeChanged(jru) AND (Kernel.Mode != Mode.NP) )
 OR
-( SystemVersionChanged(jru) )
+( JRU.SystemVersionChanged(jru) )
 OR
-( SendMessagePeriodically(jru) )</PreCondition></PreConditions>
+( JRU.SendMessagePeriodically(jru) )</PreCondition></PreConditions>
 <Expression>True</Expression>
 </Case><Case
  Name="NotSenGeneralJruMessage"
@@ -2070,6 +2161,11 @@ OR
  SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
  Guid="945fe66f-e6c5-45a5-bd12-4c4779088cfa"
 >
+</ReqRef><ReqRef
+ Id="9924af12-6d88-465d-a306-165cf4a09123"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="9a97f46d-0237-4961-9d8e-b1615b12c307"
+>
 </ReqRef><Comment>Function used to create the TrainData JRU Messages</Comment>
 <Cases>
 <Case
@@ -2077,7 +2173,7 @@ OR
  Guid="85511fe5-eca8-424c-912c-81356d0d5acc"
 >
 <Expression>Messages.JRU.MESSAGE.TRAIN_DATA.Message{
-HEADER =&gt; CreateHeader(2),
+HEADER =&gt; JRU.CreateHeader(2),
  V_MAXTRAIN =&gt; MessageTypes.UnResolveSpeed ( speed =&gt; Kernel.TrainData.TrainData.Value.MaximumSpeed, resolution =&gt; 5.0 ),
  NC_CDTRAIN =&gt;  Kernel.TrainData.TrainData.Value.TrainCategories.CantDeficiency,
  M_LOADINGGAUGE =&gt;  Kernel.TrainData.TrainData.Value.LoadingGauge,
@@ -2085,18 +2181,18 @@ HEADER =&gt; CreateHeader(2),
  M_AXLELOADCAT =&gt;  Kernel.TrainData.TrainData.Value.AxleLoadCategory, 
 L_TRAIN =&gt; MessageTypes.UnScaleLength ( length =&gt; Kernel.TrainData.TrainData.Value.TrainLength, scale =&gt; Messages.Q_SCALE._1_m_scaleC ),
  T_TRACTION_CUT_OFF=&gt; DoubleToInteger(Kernel.TrainData.BrakingParameters.T_traction_cut_off(NoA_est =&gt; False) ),
- M_BRAKE_POSITION =&gt; TypeConvertors.ToJRUMBrakePosition(Kernel.TrainData.TrainData.Value.BrakePosition),
- M_NOM_ROT_MASS =&gt; TypeConvertors.ToJRUNomRotMass( Kernel.TrainData.TrainData.Value.M_rotating_nom ),
- M_REGENERATIVEBRAKE =&gt; TypeConvertors.ToJRUMRegenerativeBrake( Kernel.TrainData.TrainData.Value.RegenerativeBrakeInterface ),
- M_EDDYCURRENTBRAKE =&gt; TypeConvertors.ToJRUMEddyCurrentBrake(Kernel.TrainData.TrainData.Value.EddyCurrentBrakeInterface ),
- M_MAGNETICSHOEBRAKE =&gt; TypeConvertors.ToJRUMMagneticShoeBrake(Kernel.TrainData.TrainData.Value.MagneticShoeBrakeInterface ),
- M_ELECTROPNEUMATICBRAKE =&gt; TypeConvertors.ToJRUEPBrake( Kernel.TrainData.TrainData.Value.EpBrakeInterface  ),
- Q_TRACTIONCUTOFFINTERFACE =&gt; TypeConvertors.ToJRUQ_TractionCutOffFunction(Kernel.TrainData.TrainData.Value.TractionCutOffInterfaceIsImplemented),
- Q_SERVICEBRAKEINTERFACE =&gt;TypeConvertors.ToJRUQ_ServiceBrakeInterface( Kernel.TrainData.TrainData.Value.SBCommandIsImplemented ),
- Q_SERVICEBRAKEFEEDBACK =&gt; TypeConvertors.ToJRUQ_ServiceBrakeFeedback(Kernel.TrainData.TrainData.Value.SBFeedbackIsImplemented),
-Q_BRAKE_CAPT_TYPE =&gt; TypeConvertors.ToJRUQ_BrakeCaptType(),
-M_BRAKE_PERCENTAGE =&gt; TypeConvertors.ToJRUBrakePercentage(Kernel.TrainData.TrainData.Value.BrakePercentage),
-M_AIRTIGHT =&gt; TypeConvertors.ToJRUMAirTight(Kernel.TrainData.TrainData.Value.TrainFittedWithAirtightSystem )
+ M_BRAKE_POSITION =&gt; JRU.TypeConvertors.ToJRUMBrakePosition(Kernel.TrainData.TrainData.Value.BrakePosition),
+ M_NOM_ROT_MASS =&gt; JRU.TypeConvertors.ToJRUNomRotMass( Kernel.TrainData.TrainData.Value.M_rotating_nom ),
+ M_REGENERATIVEBRAKE =&gt; JRU.TypeConvertors.ToJRUMRegenerativeBrake( Kernel.TrainData.TrainData.Value.RegenerativeBrakeInterface ),
+ M_EDDYCURRENTBRAKE =&gt; JRU.TypeConvertors.ToJRUMEddyCurrentBrake(Kernel.TrainData.TrainData.Value.EddyCurrentBrakeInterface ),
+ M_MAGNETICSHOEBRAKE =&gt; JRU.TypeConvertors.ToJRUMMagneticShoeBrake(Kernel.TrainData.TrainData.Value.MagneticShoeBrakeInterface ),
+ M_ELECTROPNEUMATICBRAKE =&gt; JRU.TypeConvertors.ToJRUEPBrake( Kernel.TrainData.TrainData.Value.EpBrakeInterface  ),
+ Q_TRACTIONCUTOFFINTERFACE =&gt; JRU.TypeConvertors.ToJRUQ_TractionCutOffFunction(Kernel.TrainData.TrainData.Value.TractionCutOffInterfaceIsImplemented),
+ Q_SERVICEBRAKEINTERFACE =&gt;JRU.TypeConvertors.ToJRUQ_ServiceBrakeInterface( Kernel.TrainData.TrainData.Value.SBCommandIsImplemented ),
+ Q_SERVICEBRAKEFEEDBACK =&gt; JRU.TypeConvertors.ToJRUQ_ServiceBrakeFeedback(Kernel.TrainData.TrainData.Value.SBFeedbackIsImplemented),
+Q_BRAKE_CAPT_TYPE =&gt; JRU.TypeConvertors.ToJRUQ_BrakeCaptType(),
+M_BRAKE_PERCENTAGE =&gt; JRU.TypeConvertors.ToJRUBrakePercentage(Kernel.TrainData.TrainData.Value.BrakePercentage),
+M_AIRTIGHT =&gt; JRU.TypeConvertors.ToJRUMAirTight(Kernel.TrainData.TrainData.Value.TrainFittedWithAirtightSystem )
 }</Expression>
 </Case></Cases>
 </Function><Function
@@ -2150,6 +2246,11 @@ M_AIRTIGHT =&gt; TypeConvertors.ToJRUMAirTight(Kernel.TrainData.TrainData.Value.
  SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
  Guid="a4840dae-b7a5-4996-ad81-07b4de9b7b18"
 >
+</ReqRef><ReqRef
+ Id="9924af12-6d88-465d-a306-165cf4a09123"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="1aed77cd-36e4-49e6-8214-da375745b1e1"
+>
 </ReqRef><Comment>Function used to create the EBCommandState JRU Messages</Comment>
 <Cases>
 <Case
@@ -2157,8 +2258,8 @@ M_AIRTIGHT =&gt; TypeConvertors.ToJRUMAirTight(Kernel.TrainData.TrainData.Value.
  Guid="4a97f78e-97ec-450a-82d3-367bacaebffb"
 >
 <Expression>Messages.JRU.MESSAGE.EMERGENCY_BRAKE_COMMAND_STATE.Message{
-    HEADER =&gt; CreateHeader(3),
-M_BRAKE_COMMAND_STATE=&gt;TypeConvertors.ToJRUEBCommanded()
+    HEADER =&gt; JRU.CreateHeader(3),
+M_BRAKE_COMMAND_STATE=&gt;JRU.TypeConvertors.ToJRUEBCommanded()
 }</Expression>
 </Case></Cases>
 </Function><Function
@@ -2227,7 +2328,7 @@ M_BRAKE_COMMAND_STATE=&gt;TypeConvertors.ToJRUEBCommanded()
 <PreConditions>
 <PreCondition
  Guid="f9f43f6c-751d-4f20-8dd4-15c9cf58523e"
->(TrainDataHaveChanged(jru) == True) OR (Kernel.TrainDataValidated)</PreCondition></PreConditions>
+>(JRU.TrainDataHaveChanged(jru) == True) OR (Kernel.TrainDataValidated)</PreCondition></PreConditions>
 <Expression>True</Expression>
 </Case><Case
  Name="Otherwise"
@@ -2251,6 +2352,11 @@ M_BRAKE_COMMAND_STATE=&gt;TypeConvertors.ToJRUEBCommanded()
  SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
  Guid="e94599be-a438-4382-b03b-03fe8ee17344"
 >
+</ReqRef><ReqRef
+ Id="9924af12-6d88-465d-a306-165cf4a09123"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="69b7c2aa-c36f-47ba-96c2-61ae0ba4f6c0"
+>
 </ReqRef><Comment>Function used to create the SBCommandState JRU Messages</Comment>
 <Cases>
 <Case
@@ -2258,8 +2364,8 @@ M_BRAKE_COMMAND_STATE=&gt;TypeConvertors.ToJRUEBCommanded()
  Guid="bced488d-2c77-4ef6-9121-c54c5b1eca07"
 >
 <Expression>Messages.JRU.MESSAGE.SERVICE_BRAKE_COMMAND_STATE.Message{
-    HEADER =&gt; CreateHeader(4),
-M_BRAKE_COMMAND_STATE=&gt;TypeConvertors.ToJRUSBCommanded()
+    HEADER =&gt; JRU.CreateHeader(4),
+M_BRAKE_COMMAND_STATE=&gt;JRU.TypeConvertors.ToJRUSBCommanded()
 }</Expression>
 </Case></Cases>
 </Function><Function
@@ -2341,6 +2447,11 @@ M_BRAKE_COMMAND_STATE=&gt;TypeConvertors.ToJRUSBCommanded()
  SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
  Guid="802c6a17-3b69-4218-adf2-5ab6eca4bbda"
 >
+</ReqRef><ReqRef
+ Id="9924af12-6d88-465d-a306-165cf4a09123"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="ba50e10c-51bf-40d1-9a83-5bf56f32c30b"
+>
 </ReqRef><Comment>Function used to create the TelegramRecievedFromBalise JRU Message</Comment>
 <Cases>
 <Case
@@ -2348,7 +2459,7 @@ M_BRAKE_COMMAND_STATE=&gt;TypeConvertors.ToJRUSBCommanded()
  Guid="a3826fed-2d49-428d-92e7-53bbe25ccc30"
 >
 <Expression>Messages.JRU.MESSAGE.TELEGRAM_FROM_BALISE.Message{
-    HEADER =&gt; CreateHeader(6),
+    HEADER =&gt; JRU.CreateHeader(6),
 TELEGRAM=&gt; BTM.Message
 }</Expression>
 </Case></Cases>
@@ -2367,6 +2478,11 @@ TELEGRAM=&gt; BTM.Message
  Id="b2e509d5-17fa-4916-bf5b-0ac33d558433"
  SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
  Guid="aea4ed7f-db23-4cd7-896e-8c0335202cbf"
+>
+</ReqRef><ReqRef
+ Id="9924af12-6d88-465d-a306-165cf4a09123"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="b5dd8b4a-6d35-4634-b1a7-cd74ed7eb40d"
 >
 </ReqRef><Comment>Function used to create the MessagesFromRbc JRU Message</Comment>
 <Parameters>
@@ -2387,7 +2503,7 @@ TELEGRAM=&gt; BTM.Message
  Guid="df393e31-c0fe-461b-92eb-4660fb622dd2"
 >
 <Expression>Messages.JRU.MESSAGE.FROM_RBC.Message{
-HEADER =&gt; CreateHeader(9),
+HEADER =&gt; JRU.CreateHeader(9),
 NID_C =&gt; RBCContactIbnformation.Country,
 NID_RBC =&gt; RBCContactIbnformation.Id,
 TELEGRAM =&gt; RbcInfo.MessageIn.Message
@@ -2409,6 +2525,11 @@ TELEGRAM =&gt; RbcInfo.MessageIn.Message
  SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
  Guid="380dd166-a169-4b62-838e-49a75588ef9c"
 >
+</ReqRef><ReqRef
+ Id="9924af12-6d88-465d-a306-165cf4a09123"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="266ec313-e20e-4883-83ec-ee44b6b4d0ae"
+>
 </ReqRef><Comment>Function used to create the MessageToRbc JRU Messages</Comment>
 <Parameters>
 <Parameter
@@ -2429,7 +2550,7 @@ TELEGRAM =&gt; RbcInfo.MessageIn.Message
 >
 <Expression>Messages.JRU.MESSAGE.TO_RBC.Message 
 {
-HEADER =&gt; CreateHeader(10),
+HEADER =&gt; JRU.CreateHeader(10),
 NID_C =&gt; RBCContactIbnformation.Country,
 NID_RBC =&gt; RBCContactIbnformation.Id,
 TELEGRAM =&gt; RbcInfo.MessageOut
@@ -2521,6 +2642,11 @@ TELEGRAM =&gt; RbcInfo.MessageOut
  SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
  Guid="14086c1d-8a79-4ed9-a641-ade47af1d6f7"
 >
+</ReqRef><ReqRef
+ Id="9924af12-6d88-465d-a306-165cf4a09123"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="b8fd0487-1c7c-4d9f-946a-0e76b7cdfc45"
+>
 </ReqRef><Comment>This will be used to generate the CAB_STATUS JRU message when the status of one of the cabs will change</Comment>
 <Cases>
 <Case
@@ -2528,12 +2654,10 @@ TELEGRAM =&gt; RbcInfo.MessageOut
  Guid="3280e33f-ec81-4ba9-8464-58df507dee07"
 >
 <Expression>Messages.JRU.MESSAGE.CAB_STATUS.Message {
-    HEADER =&gt; CreateHeader(38),
-M_CAB_A_STATUS =&gt;TypeConvertors.ToJRUCabAStatus(),
- Q_CAB_B =&gt; SecondCabIsPresent(),
- M_CAB_B_STATUS =&gt; SelectCabBStatus(),
- Q_SINGLE_DESK =&gt; SelectSingleDeskValue(),
- M_TRAIN_ORIENTATION =&gt;TypeConvertors.ToJRUMTrainOrientation()
+    HEADER =&gt; JRU.CreateHeader(38),
+M_CAB_A_STATUS =&gt;JRU.TypeConvertors.ToJRUCabAStatus(),
+ Q_CAB_B =&gt; JRU.SecondCabIsPresent(),
+ M_CAB_B_STATUS =&gt; JRU.SelectCabBStatus()
 }</Expression>
 </Case></Cases>
 </Function><Function
@@ -2584,8 +2708,8 @@ M_CAB_A_STATUS =&gt;TypeConvertors.ToJRUCabAStatus(),
 <PreConditions>
 <PreCondition
  Guid="6f44df78-7172-4f42-b41a-f20fbc5c7181"
->SecondCabIsPresent() == Messages.JRU.Q_CAB_B.Yes</PreCondition></PreConditions>
-<Expression>TypeConvertors.ToJRUCabBStatus()</Expression>
+>JRU.SecondCabIsPresent() == Messages.JRU.Q_CAB_B.Yes</PreCondition></PreConditions>
+<Expression>JRU.TypeConvertors.ToJRUCabBStatus()</Expression>
 </Case><Case
  Name="SetCabBStatusIfThereIsNoCabB"
  Guid="5b09b220-2a9b-4615-bb3c-3b73605bf162"
@@ -2710,47 +2834,6 @@ OR
 <Expression>False</Expression>
 </Case></Cases>
 </Function><Function
- Type="Messages.JRU.Q_SINGLE_DESK"
- Default=""
- X="220"
- Y="600"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="SelectSingleDeskValue"
- Guid="4bb0f149-1978-4ae3-baa3-75ea39730c5c"
->
-<Comment>Function used to determine which value will fill the Q_SINGLEDESK field on a CabStatus JRU Message</Comment>
-<Cases>
-<Case
- Name="SingleDeskYes"
- Guid="027f8da7-bc44-4abf-bd5c-d1c9a28e955c"
->
-<PreConditions>
-<PreCondition
- Guid="5172f130-35fd-4b96-a11d-7bc10547d2b4"
->(CabIsFittedWithSingleDesk() == True) 
-AND
-(SecondCabIsPresent() == Messages.JRU.Q_CAB_B.No )</PreCondition></PreConditions>
-<Expression>Messages.JRU.Q_SINGLE_DESK.Yes</Expression>
-</Case><Case
- Name="SingleDeskNot"
- Guid="f43299c1-2b01-4217-8b15-cf13798c1cd8"
->
-<PreConditions>
-<PreCondition
- Guid="80d52fbd-16c9-44b2-93a5-a33daba29d02"
->(CabIsFittedWithSingleDesk() == False) 
-AND
-(SecondCabIsPresent() == Messages.JRU.Q_CAB_B.No )</PreCondition></PreConditions>
-<Expression>Messages.JRU.Q_SINGLE_DESK.No</Expression>
-</Case><Case
- Name="Otherwise"
- Guid="e31de935-f142-4794-8f85-ff632503ea54"
->
-<Expression>EMPTY</Expression>
-</Case></Cases>
-</Function><Function
  Type="Messages.JRU.MESSAGE.DIRECTION_CONTROLLER_POSITION.Message"
  Default=""
  X="330"
@@ -2766,6 +2849,11 @@ AND
  SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
  Guid="9ccc0e0e-9fe2-4371-b963-bccd376f99ea"
 >
+</ReqRef><ReqRef
+ Id="9924af12-6d88-465d-a306-165cf4a09123"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="f44565a2-61dd-4bad-ab3b-d21643f4e3f4"
+>
 </ReqRef><Comment>This will generate the DIRECTION_CONTROLLER_POSITION JRU Message</Comment>
 <Cases>
 <Case
@@ -2773,8 +2861,8 @@ AND
  Guid="13ec1433-cedb-4b73-9d80-cbbc4c0c5bec"
 >
 <Expression>Messages.JRU.MESSAGE.DIRECTION_CONTROLLER_POSITION.Message  {
-    HEADER =&gt; CreateHeader(39),
-M_DIRECTION_CONTROLLER =&gt; TypeConvertors.ToJRUDirectionController(
+    HEADER =&gt; JRU.CreateHeader(39),
+M_DIRECTION_CONTROLLER =&gt; JRU.TypeConvertors.ToJRUDirectionController(
     ControllerDirectionValue=&gt;TIU.DirectionControllerInformation)
 }</Expression>
 </Case></Cases>
@@ -2805,7 +2893,7 @@ M_DIRECTION_CONTROLLER =&gt; TypeConvertors.ToJRUDirectionController(
 <PreConditions>
 <PreCondition
  Guid="40f6427d-ce92-47db-b81b-6257a0a3792d"
->((TIU.CabA.Desk1IsActive == True ) OR (TIU.CabA.Desk2IsActive == True ) OR (TIU.CabB.Desk1IsActive == True ) OR (TIU.CabB.Desk2IsActive == True )) AND (IsStartUp(jru) == True)</PreCondition></PreConditions>
+>((TIU.CabA.Desk1IsActive == True ) OR (TIU.CabA.Desk2IsActive == True ) OR (TIU.CabB.Desk1IsActive == True ) OR (TIU.CabB.Desk2IsActive == True )) AND (JRU.IsStartUp(jru) == True)</PreCondition></PreConditions>
 <Expression>True</Expression>
 </Case><Case
  Name="CabBecamesActive"
@@ -2864,7 +2952,7 @@ OR
 <PreConditions>
 <PreCondition
  Guid="baeb5c55-560e-42e1-9839-a845bf3ec653"
->IsStartUp(jru) == True</PreCondition></PreConditions>
+>JRU.IsStartUp(jru) == True</PreCondition></PreConditions>
 <Expression>True</Expression>
 </Case><Case
  Name="CabsStatusChanged"
@@ -2873,9 +2961,9 @@ OR
 <PreConditions>
 <PreCondition
  Guid="c62d4afb-b489-4606-ba7e-80173aa3a6e5"
->(CabAStatusChanged(jru))
+>(JRU.CabAStatusChanged(jru))
 OR
-(CabBStatusChanged(jru))</PreCondition></PreConditions>
+(JRU.CabBStatusChanged(jru))</PreCondition></PreConditions>
 <Expression>True</Expression>
 </Case><Case
  Name="Otherwise"
@@ -2899,6 +2987,11 @@ OR
  SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
  Guid="4593963c-e1bf-4c61-82f6-e77d07d34e2f"
 >
+</ReqRef><ReqRef
+ Id="9924af12-6d88-465d-a306-165cf4a09123"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="3528a890-c921-4489-a492-f579026b6d77"
+>
 </ReqRef><Comment>Function used to create the JRU Message TRACTION_STATE</Comment>
 <Cases>
 <Case
@@ -2906,8 +2999,8 @@ OR
  Guid="ba0bc24a-02cb-4b0a-9eee-657a3748d2f4"
 >
 <Expression>Messages.JRU.MESSAGE.TRACTION_STATUS.Message {
-    HEADER =&gt; CreateHeader(40),
-M_TRACTION_STATUS=&gt;TypeConvertors.ToJRUTractionStatus()
+    HEADER =&gt; JRU.CreateHeader(40),
+M_TRACTION_STATUS=&gt;JRU.TypeConvertors.ToJRUTractionStatus()
 }</Expression>
 </Case></Cases>
 </Function><Function
@@ -2937,7 +3030,7 @@ M_TRACTION_STATUS=&gt;TypeConvertors.ToJRUTractionStatus()
 <PreConditions>
 <PreCondition
  Guid="e72c8da4-9736-4f15-9369-50f70bb41644"
->IsStartUp(jru) == True</PreCondition></PreConditions>
+>JRU.IsStartUp(jru) == True</PreCondition></PreConditions>
 <Expression>True</Expression>
 </Case><Case
  Name="TractionStatusChanged"
@@ -2946,7 +3039,7 @@ M_TRACTION_STATUS=&gt;TypeConvertors.ToJRUTractionStatus()
 <PreConditions>
 <PreCondition
  Guid="7debbf98-084c-4acc-9d4c-ae5d118346f3"
->TractionStatusChanged(jru) == True</PreCondition></PreConditions>
+>JRU.TractionStatusChanged(jru) == True</PreCondition></PreConditions>
 <Expression>True</Expression>
 </Case><Case
  Name="Otherwise"
@@ -3005,6 +3098,11 @@ M_TRACTION_STATUS=&gt;TypeConvertors.ToJRUTractionStatus()
  SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
  Guid="699f5b5d-ba6c-4a93-88a8-73f8213ae103"
 >
+</ReqRef><ReqRef
+ Id="9924af12-6d88-465d-a306-165cf4a09123"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="e0554277-6a74-44d1-a065-08b81edc2cdf"
+>
 </ReqRef><Comment>Function used to generate the TRAIN_DATA_ENTRY_TYPE JRU Message</Comment>
 <Cases>
 <Case
@@ -3013,8 +3111,8 @@ M_TRACTION_STATUS=&gt;TypeConvertors.ToJRUTractionStatus()
 >
 <Expression>Messages.JRU.MESSAGE.TYPE_OF_TRAIN_DATA_ENTRY.Message
 {
-HEADER =&gt; CreateHeader(41),
-M_TRAIN_DATA_ENTRY=&gt;TypeConvertors.ToJRUTrainDataEntry()
+HEADER =&gt; JRU.CreateHeader(41),
+M_TRAIN_DATA_ENTRY=&gt;JRU.TypeConvertors.ToJRUTrainDataEntry()
 }</Expression>
 </Case></Cases>
 </Function><Function
@@ -3044,7 +3142,7 @@ M_TRAIN_DATA_ENTRY=&gt;TypeConvertors.ToJRUTrainDataEntry()
 <PreConditions>
 <PreCondition
  Guid="ca653028-09ec-47fc-bcd8-7dfa74cb927f"
->((TIU.CabA.Desk1IsActive == True ) OR (TIU.CabA.Desk2IsActive == True ) OR (TIU.CabB.Desk1IsActive == True ) OR (TIU.CabB.Desk2IsActive == True )) AND ( IsStartUp(jru) == True )</PreCondition></PreConditions>
+>((TIU.CabA.Desk1IsActive == True ) OR (TIU.CabA.Desk2IsActive == True ) OR (TIU.CabB.Desk1IsActive == True ) OR (TIU.CabB.Desk2IsActive == True )) AND ( JRU.IsStartUp(jru) == True )</PreCondition></PreConditions>
 <Expression>True</Expression>
 </Case><Case
  Name="CabBecomesActive"
@@ -3086,6 +3184,11 @@ M_TRAIN_DATA_ENTRY=&gt;TypeConvertors.ToJRUTrainDataEntry()
  SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
  Guid="f3d8702d-4c65-4219-a253-2abd307bd38c"
 >
+</ReqRef><ReqRef
+ Id="9924af12-6d88-465d-a306-165cf4a09123"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="97aac4b9-5f0b-4dd9-aeed-393b7a37a1e4"
+>
 </ReqRef><Comment>This will create and fill all the necessary fields to have a NATIONAL_SYSTEMS_ISOLATION JRU Message</Comment>
 <Cases>
 <Case
@@ -3094,9 +3197,9 @@ M_TRAIN_DATA_ENTRY=&gt;TypeConvertors.ToJRUTrainDataEntry()
 >
 <Expression>Messages.JRU.MESSAGE.NATIONAL_SYSTEM_ISOLATION.Message
 {
-    HEADER =&gt; CreateHeader(42),
-    NID_NTC =&gt; TypeConvertors.ToJRUNidNTC(Kernel.Level.Value.NTC),
-    M_NATIONAL_SYSTEM_ISOLATION =&gt; TypeConvertors.ToJRUNtcIsolated()
+    HEADER =&gt; JRU.CreateHeader(42),
+    NID_NTC =&gt; JRU.TypeConvertors.ToJRUNidNTC(Kernel.Level.Value.NTC),
+    M_NATIONAL_SYSTEM_ISOLATION =&gt; JRU.TypeConvertors.ToJRUNtcIsolated()
 }</Expression>
 </Case></Cases>
 </Function><Function
@@ -3126,7 +3229,7 @@ M_TRAIN_DATA_ENTRY=&gt;TypeConvertors.ToJRUTrainDataEntry()
 <PreConditions>
 <PreCondition
  Guid="f6cc93d5-391e-49ec-996b-60113667e0b0"
->(IsStartUp(jru) == True ) AND ( Kernel.Level.Value.Value == Level.LNTC )</PreCondition></PreConditions>
+>(JRU.IsStartUp(jru) == True ) AND ( Kernel.Level.Value.Value == Level.LNTC )</PreCondition></PreConditions>
 <Expression>True</Expression>
 </Case><Case
  Name="NationalSystemIsolationHasChanged"
@@ -3159,6 +3262,11 @@ M_TRAIN_DATA_ENTRY=&gt;TypeConvertors.ToJRUTrainDataEntry()
  SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
  Guid="b8151875-9952-40cc-9df4-4028297ba64f"
 >
+</ReqRef><ReqRef
+ Id="9924af12-6d88-465d-a306-165cf4a09123"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="b776cfc0-56c8-42d2-95de-c60e19cc0f5f"
+>
 </ReqRef><Comment>Function used to create the TRACTION_CUT_OFF_COMMAND_STATUS JRU Message</Comment>
 <Cases>
 <Case
@@ -3167,8 +3275,8 @@ M_TRAIN_DATA_ENTRY=&gt;TypeConvertors.ToJRUTrainDataEntry()
 >
 <Expression>Messages.JRU.MESSAGE.TRACTION_CUT_OFF_COMMAND_STATE.Message
 {
-    HEADER =&gt; CreateHeader(43),    
-    M_TCO_COMMAND_STATE =&gt; TypeConvertors.ToJRUTractionCommandState()
+    HEADER =&gt; JRU.CreateHeader(43),    
+    M_TCO_COMMAND_STATE =&gt; JRU.TypeConvertors.ToJRUTractionCommandState()
 }</Expression>
 </Case></Cases>
 </Function><Function
@@ -3222,6 +3330,11 @@ M_TRAIN_DATA_ENTRY=&gt;TypeConvertors.ToJRUTrainDataEntry()
  SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
  Guid="1cba9d79-9224-4f88-8655-3c9915c26b8e"
 >
+</ReqRef><ReqRef
+ Id="9924af12-6d88-465d-a306-165cf4a09123"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="d6959076-8aae-4522-a819-8ecba480836c"
+>
 </ReqRef><Comment>Will fill the necessary fields to generate the SLEEPING_INPUT message</Comment>
 <Cases>
 <Case
@@ -3229,8 +3342,8 @@ M_TRAIN_DATA_ENTRY=&gt;TypeConvertors.ToJRUTrainDataEntry()
  Guid="9279cbc1-cd35-4966-ab2a-80bdf57ecbe1"
 >
 <Expression>Messages.JRU.MESSAGE.SLEEPING_INPUT.Message {
-    HEADER =&gt; CreateHeader(30),
-M_SLEEPING =&gt; TypeConvertors.ToJRUSleepingInput()
+    HEADER =&gt; JRU.CreateHeader(30),
+M_SLEEPING =&gt; JRU.TypeConvertors.ToJRUSleepingInput()
 }</Expression>
 </Case></Cases>
 </Function><Function
@@ -3260,7 +3373,7 @@ M_SLEEPING =&gt; TypeConvertors.ToJRUSleepingInput()
 <PreConditions>
 <PreCondition
  Guid="11739a91-3f58-40d3-bc70-80c04e35e747"
->IsStartUp(jru) == True</PreCondition></PreConditions>
+>JRU.IsStartUp(jru) == True</PreCondition></PreConditions>
 <Expression>True</Expression>
 </Case><Case
  Name="Changed"
@@ -3304,7 +3417,7 @@ M_SLEEPING =&gt; TypeConvertors.ToJRUSleepingInput()
 <PreConditions>
 <PreCondition
  Guid="1ba7755d-8a48-4e6f-92ec-da399cac0943"
->(IsStartUp(jru) == True)</PreCondition></PreConditions>
+>(JRU.IsStartUp(jru) == True)</PreCondition></PreConditions>
 <Expression>True</Expression>
 </Case><Case
  Name="PassiveShuntingStateChanged"
@@ -3337,6 +3450,11 @@ M_SLEEPING =&gt; TypeConvertors.ToJRUSleepingInput()
  SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
  Guid="d07c9b21-0646-40ae-80cb-d3085dd9c0d1"
 >
+</ReqRef><ReqRef
+ Id="9924af12-6d88-465d-a306-165cf4a09123"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="7da110e6-7717-42da-a392-f47406ac34ad"
+>
 </ReqRef><Comment>This function will fill the PASSIVE_SHUNTING_INPUT JRU message</Comment>
 <Cases>
 <Case
@@ -3344,8 +3462,8 @@ M_SLEEPING =&gt; TypeConvertors.ToJRUSleepingInput()
  Guid="af757dbe-9125-4ef1-af48-08d2cb15d82e"
 >
 <Expression>Messages.JRU.MESSAGE.PASSIVE_SHUNTTING_INPUT.Message{
-    HEADER =&gt; CreateHeader(31),
-M_PASSIVE_SHUNTTING =&gt; TypeConvertors.ToJRUPassiveShunting()
+    HEADER =&gt; JRU.CreateHeader(31),
+M_PASSIVE_SHUNTTING =&gt; JRU.TypeConvertors.ToJRUPassiveShunting()
 }</Expression>
 </Case></Cases>
 </Function><Function
@@ -3375,7 +3493,7 @@ M_PASSIVE_SHUNTTING =&gt; TypeConvertors.ToJRUPassiveShunting()
 <PreConditions>
 <PreCondition
  Guid="03504fd6-1bcc-492f-a45b-c31a752b43ed"
->IsStartUp(jru) == True</PreCondition></PreConditions>
+>JRU.IsStartUp(jru) == True</PreCondition></PreConditions>
 <Expression>True</Expression>
 </Case><Case
  Name="StatusChanged"
@@ -3408,6 +3526,11 @@ M_PASSIVE_SHUNTTING =&gt; TypeConvertors.ToJRUPassiveShunting()
  SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
  Guid="c23addb2-3c08-435c-9a7f-246e3714abe3"
 >
+</ReqRef><ReqRef
+ Id="9924af12-6d88-465d-a306-165cf4a09123"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="de9aa708-1352-4213-94f1-75e4f1663726"
+>
 </ReqRef><Comment>Will fill all the necessary fields to create a NON_LEADIN_INPUT Message</Comment>
 <Cases>
 <Case
@@ -3415,8 +3538,8 @@ M_PASSIVE_SHUNTTING =&gt; TypeConvertors.ToJRUPassiveShunting()
  Guid="7c2598e7-6b00-46c6-8092-af8e57ed8040"
 >
 <Expression>Messages.JRU.MESSAGE.NON_LEADING_INPUT.Message{
-    HEADER =&gt; CreateHeader(32),
-M_NON_LEADING =&gt; TypeConvertors.ToJRUNonLeadingPermited()
+    HEADER =&gt; JRU.CreateHeader(32),
+M_NON_LEADING =&gt; JRU.TypeConvertors.ToJRUNonLeadingPermited()
 }</Expression>
 </Case></Cases>
 </Function><Function
@@ -3435,6 +3558,11 @@ M_NON_LEADING =&gt; TypeConvertors.ToJRUNonLeadingPermited()
  SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
  Guid="2f24c89d-4d16-48a6-ad08-46c674660f30"
 >
+</ReqRef><ReqRef
+ Id="9924af12-6d88-465d-a306-165cf4a09123"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="81e5a293-81c7-4dfc-99ea-be544e1796a3"
+>
 </ReqRef><Comment>Will fill all the fields of the RegenerativeBrakeStatus Message of the JRU</Comment>
 <Cases>
 <Case
@@ -3442,8 +3570,8 @@ M_NON_LEADING =&gt; TypeConvertors.ToJRUNonLeadingPermited()
  Guid="c5ab1c8b-e1b9-4b1a-bd8d-57e1d767fa24"
 >
 <Expression>Messages.JRU.MESSAGE.REGENERATIVE_BRAKE_STATUS.Message{
-    HEADER =&gt; CreateHeader(33),
-    M_RB_STATUS =&gt; TypeConvertors.ToJRURegenrativeBrakeStatus()
+    HEADER =&gt; JRU.CreateHeader(33),
+    M_RB_STATUS =&gt; JRU.TypeConvertors.ToJRURegenrativeBrakeStatus()
 }</Expression>
 </Case></Cases>
 </Function><Function
@@ -3473,7 +3601,7 @@ M_NON_LEADING =&gt; TypeConvertors.ToJRUNonLeadingPermited()
 <PreConditions>
 <PreCondition
  Guid="6bdfde5b-f0b8-4326-a535-44e469344d50"
->IsStartUp(jru) == True</PreCondition></PreConditions>
+>JRU.IsStartUp(jru) == True</PreCondition></PreConditions>
 <Expression>True</Expression>
 </Case><Case
  Name="StatusChanged"
@@ -3553,7 +3681,7 @@ M_NON_LEADING =&gt; TypeConvertors.ToJRUNonLeadingPermited()
 <PreConditions>
 <PreCondition
  Guid="d13ac046-27bb-45a3-9d5d-b2da7484e1c1"
->IsStartUp(jru) == True</PreCondition></PreConditions>
+>JRU.IsStartUp(jru) == True</PreCondition></PreConditions>
 <Expression>True</Expression>
 </Case><Case
  Name="StatusChanged"
@@ -3586,15 +3714,20 @@ M_NON_LEADING =&gt; TypeConvertors.ToJRUNonLeadingPermited()
  SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
  Guid="8becf814-c418-4732-bd47-e6ae3481569e"
 >
-</ReqRef><Comment>Will fill the fields of a MAGNETIC_SHOE_BRAKE_STATUS JRU Message</Comment>
+</ReqRef><ReqRef
+ Id="9924af12-6d88-465d-a306-165cf4a09123"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="3ee59463-1283-460e-8c7d-0f591e439285"
+>
+</ReqRef><Comment>Will fill the fields of a MAGNETIC_SHOE_BRAKE_STATUS JRU Message.</Comment>
 <Cases>
 <Case
  Name="Value"
  Guid="15784d21-2bca-4ebf-94d9-15bb2793cc03"
 >
 <Expression>Messages.JRU.MESSAGE.MAGNETIC_SHOE_BRAKE_STATUS.Message{
-    HEADER =&gt; CreateHeader(34),
-    M_MSB_STATUS =&gt; TypeConvertors.ToJRUMagneticShoeBrake()
+    HEADER =&gt; JRU.CreateHeader(34),
+    M_MSB_STATUS =&gt; JRU.TypeConvertors.ToJRUMagneticShoeBrake()
 }</Expression>
 </Case></Cases>
 </Function><Function
@@ -3624,7 +3757,7 @@ M_NON_LEADING =&gt; TypeConvertors.ToJRUNonLeadingPermited()
 <PreConditions>
 <PreCondition
  Guid="1cd22540-cdf9-48a7-8509-1e62ebfc3e86"
->IsStartUp(jru)</PreCondition></PreConditions>
+>JRU.IsStartUp(jru)</PreCondition></PreConditions>
 <Expression>True</Expression>
 </Case><Case
  Name="StatusChanged"
@@ -3657,6 +3790,11 @@ M_NON_LEADING =&gt; TypeConvertors.ToJRUNonLeadingPermited()
  SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
  Guid="b4f01f34-cc0c-4606-86e4-8078899102a2"
 >
+</ReqRef><ReqRef
+ Id="9924af12-6d88-465d-a306-165cf4a09123"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="19bd696a-cf12-49ac-ae94-ce978f74185f"
+>
 </ReqRef><Comment>Will fill all the necessary fields to create a JRU EDDY_CURRENT_BRAKE_STATUS Message</Comment>
 <Cases>
 <Case
@@ -3664,8 +3802,8 @@ M_NON_LEADING =&gt; TypeConvertors.ToJRUNonLeadingPermited()
  Guid="5d2e3c8e-ad49-491d-b5f4-acca02f40a31"
 >
 <Expression>Messages.JRU.MESSAGE.EDDY_CURRENT_BRAKE_STATUS.Message{
-    HEADER =&gt; CreateHeader(35),
-    M_ECB_STATUS =&gt; TypeConvertors.ToJRUEddyCurrentBrakeStatus()
+    HEADER =&gt; JRU.CreateHeader(35),
+    M_ECB_STATUS =&gt; JRU.TypeConvertors.ToJRUEddyCurrentBrakeStatus()
 }</Expression>
 </Case></Cases>
 </Function><Function
@@ -3684,6 +3822,11 @@ M_NON_LEADING =&gt; TypeConvertors.ToJRUNonLeadingPermited()
  SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
  Guid="0bf47fc8-74da-4236-98d8-511d5f31cfde"
 >
+</ReqRef><ReqRef
+ Id="9924af12-6d88-465d-a306-165cf4a09123"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="5fe9a08e-51b1-4cf1-a2e0-996756c052df"
+>
 </ReqRef><Comment>Will fill all the necessary fields to create a JRU ELECTRO_PNEUMATIC_BRAKE_STATUS Message</Comment>
 <Cases>
 <Case
@@ -3691,8 +3834,8 @@ M_NON_LEADING =&gt; TypeConvertors.ToJRUNonLeadingPermited()
  Guid="5c1aa9bd-e61a-41c4-baec-140ebedd5ac7"
 >
 <Expression>Messages.JRU.MESSAGE.ELECTRO_PNEUMATIC_BRAKE_STATUS.Message{
-    HEADER =&gt; CreateHeader(36),
-    M_EP_STATUS=&gt; TypeConvertors.ToJRUEddyCurrentBrakeStatus()
+    HEADER =&gt; JRU.CreateHeader(36),
+    M_EP_STATUS=&gt; JRU.TypeConvertors.ToJRUEddyCurrentBrakeStatus()
 }</Expression>
 </Case></Cases>
 </Function><Function
@@ -3722,7 +3865,7 @@ M_NON_LEADING =&gt; TypeConvertors.ToJRUNonLeadingPermited()
 <PreConditions>
 <PreCondition
  Guid="4ed54b86-a784-4089-b567-d5ee49bbb65c"
->IsStartUp(jru)</PreCondition></PreConditions>
+>JRU.IsStartUp(jru)</PreCondition></PreConditions>
 <Expression>True</Expression>
 </Case><Case
  Name="StatusChanged"
@@ -3755,6 +3898,11 @@ M_NON_LEADING =&gt; TypeConvertors.ToJRUNonLeadingPermited()
  SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
  Guid="bd754eaa-3118-44e7-a38d-cbd13a150c0e"
 >
+</ReqRef><ReqRef
+ Id="9924af12-6d88-465d-a306-165cf4a09123"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="e3b1a3f3-fbaf-4bfd-99c6-1cd4fe5b1d1a"
+>
 </ReqRef><Comment>Will fill all the necessary fields to create a JRU ELECTRO_PNEUMATIC_BRAKE_STATUS Message</Comment>
 <Cases>
 <Case
@@ -3762,8 +3910,8 @@ M_NON_LEADING =&gt; TypeConvertors.ToJRUNonLeadingPermited()
  Guid="950b687a-c814-4017-87a3-99cdff6be66e"
 >
 <Expression>Messages.JRU.MESSAGE.ADDITIONAL_BRAKE_STATUS.Message {
-    HEADER =&gt; CreateHeader(37),
-    M_AB_STATUS=&gt; TypeConvertors.ToJRUAdditionalBrakeStatus()
+    HEADER =&gt; JRU.CreateHeader(37),
+    M_AB_STATUS=&gt; JRU.TypeConvertors.ToJRUAdditionalBrakeStatus()
 }</Expression>
 </Case></Cases>
 </Function><Function
@@ -3777,7 +3925,7 @@ M_NON_LEADING =&gt; TypeConvertors.ToJRUNonLeadingPermited()
  Name="SendAdditionalBrakeStatusMessage"
  Guid="21b48e05-4a16-4717-93c4-d325e8b3ee87"
 >
-<Comment>Will determine if it is necessary to send the ADDITIONAL_BRKAE_STATUS JRU Message</Comment>
+<Comment>Will determine if it is necessary to send the ADDITIONAL_BRAKE_STATUS JRU Message</Comment>
 <Parameters>
 <Parameter
  Type="JRU"
@@ -3793,7 +3941,7 @@ M_NON_LEADING =&gt; TypeConvertors.ToJRUNonLeadingPermited()
 <PreConditions>
 <PreCondition
  Guid="06455190-de4a-4041-8d07-90dae6a105c6"
->IsStartUp(jru)</PreCondition></PreConditions>
+>JRU.IsStartUp(jru)</PreCondition></PreConditions>
 <Expression>True</Expression>
 </Case><Case
  Name="StatusChanged"
@@ -3826,6 +3974,11 @@ M_NON_LEADING =&gt; TypeConvertors.ToJRUNonLeadingPermited()
  SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
  Guid="fdd06f7b-606e-45e2-be67-aaaeebecda2f"
 >
+</ReqRef><ReqRef
+ Id="9924af12-6d88-465d-a306-165cf4a09123"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="f16789db-6ea4-42d1-8a1a-62b2789b3b99"
+>
 </ReqRef><Comment>This will create the JRU Speed and distance monitoring information Message</Comment>
 <Cases>
 <Case
@@ -3834,13 +3987,13 @@ M_NON_LEADING =&gt; TypeConvertors.ToJRUNonLeadingPermited()
 >
 <Expression>Messages.JRU.MESSAGE.SPEED_AND_DISTANCE_MONITORING_INFORMATION.Message
 {
-    HEADER =&gt; CreateHeader(20),
-    M_SDMTYPE =&gt; TypeConvertors.ToJRUSpeedAndDistanceMonitoringType(),
-    M_SDMSUPSTAT =&gt; TypeConvertors.ToJRUSpeedAndDistanceMonitoringsupervisionStatus(),
+    HEADER =&gt; JRU.CreateHeader(20),
+    M_SDMTYPE =&gt; JRU.TypeConvertors.ToJRUSpeedAndDistanceMonitoringType(),
+    M_SDMSUPSTAT =&gt; JRU.TypeConvertors.ToJRUSpeedAndDistanceMonitoringsupervisionStatus(),
     V_PERM =&gt; MessageTypes.UnResolveSpeed(DMI.MasterDMI().Out_PermittedSpeed.Speed, 5.0),
-    V_SBI =&gt; TypeConvertors.ToJRUVFloi(),
-    V_TARGET =&gt; TypeConvertors.ToJRUVTarget(),
-    D_TARGET =&gt; TypeConvertors.ToJRUTargetDistance(),
+    V_SBI =&gt; JRU.TypeConvertors.ToJRUVFloi(),
+    V_TARGET =&gt; JRU.TypeConvertors.ToJRUVTarget(),
+    D_TARGET =&gt; JRU.TypeConvertors.ToJRUTargetDistance(),
     V_RELEASE =&gt; MessageTypes.UnResolveSpeed(DMI.MasterDMI().Out_ReleaseSpeed.Speed, 5.0)
 }</Expression>
 </Case></Cases>
@@ -3894,7 +4047,7 @@ jru.PreviousSpeedAndDistanceSupervisionStatus != Kernel.SpeedAndDistanceMonitori
 >jru.PreviousPermittedSpeed != DMI.MasterDMI().Out_PermittedSpeed.Speed</PreCondition></PreConditions>
 <Expression>True</Expression>
 </Case><Case
- Name="FLOI speed changed"
+ Name="SBI speed changed"
  Guid="ca347fb9-c634-4db5-9542-dd65f9c8a34f"
 >
 <PreConditions>
@@ -4231,6 +4384,11 @@ aJRU.PreviousRequestToDisplayTheGeographicalInformation != DMI.MasterDMI().Out_G
  SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
  Guid="a928b8eb-5515-4669-98db-1115e5a04326"
 >
+</ReqRef><ReqRef
+ Id="9924af12-6d88-465d-a306-165cf4a09123"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="ffcc0289-4eec-433f-9736-3b805bd87212"
+>
 </ReqRef><Comment>Will fill the necessary fields to generate the DRIVERS_ACTIONS message</Comment>
 <Parameters>
 <Parameter
@@ -4246,8 +4404,8 @@ aJRU.PreviousRequestToDisplayTheGeographicalInformation != DMI.MasterDMI().Out_G
 >
 <Expression>Messages.JRU.MESSAGE.DRIVER_S_ACTIONS.Message
 {
-    HEADER =&gt; CreateHeader(11),
-    M_DRIVERACTIONS =&gt; TypeConvertors.ToJRUDriversAction(aJRU)
+    HEADER =&gt; JRU.CreateHeader(11),
+    M_DRIVERACTIONS =&gt; JRU.TypeConvertors.ToJRUDriversAction(aJRU)
 }</Expression>
 </Case></Cases>
 </Function><Function
@@ -4276,6 +4434,11 @@ aJRU.PreviousRequestToDisplayTheGeographicalInformation != DMI.MasterDMI().Out_G
  SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
  Guid="b965052b-831b-4d52-80f6-d5c61bc73fbb"
 >
+</ReqRef><ReqRef
+ Id="9924af12-6d88-465d-a306-165cf4a09123"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="67f34612-2d5b-419b-bf91-8587879b8541"
+>
 </ReqRef><Comment>Creates the message containing all the DMI symbols currently displayed.</Comment>
 <Cases>
 <Case
@@ -4284,95 +4447,95 @@ aJRU.PreviousRequestToDisplayTheGeographicalInformation != DMI.MasterDMI().Out_G
 >
 <Expression>Messages.JRU.MESSAGE.DMI_SYMB_STATUS.Message
 {
-    HEADER =&gt; CreateHeader(21),
+    HEADER =&gt; JRU.CreateHeader(21),
     DMI_SYMBOL_STATUS =&gt; Messages.JRU.MESSAGE.DMI_SYMBOL_STATUS.Message
     {
-        DMI_SYMB_STATUS_LE01 =&gt; DMISymbolsConvertors.LE01Activated(),
-        DMI_SYMB_STATUS_LE02 =&gt; DMISymbolsConvertors.LE02Activated(),
-        DMI_SYMB_STATUS_LE03 =&gt; DMISymbolsConvertors.LE03Activated(),
-        DMI_SYMB_STATUS_LE04 =&gt; DMISymbolsConvertors.LE04Activated(),
-        DMI_SYMB_STATUS_LE05 =&gt; DMISymbolsConvertors.LE05Activated(),
-        DMI_SYMB_STATUS_LE06 =&gt; DMISymbolsConvertors.LE06Activated(),
-        DMI_SYMB_STATUS_LE07 =&gt; DMISymbolsConvertors.LE07Activated(),
-        DMI_SYMB_STATUS_LE08 =&gt; DMISymbolsConvertors.LE08Activated(),
-        DMI_SYMB_STATUS_LE09 =&gt; DMISymbolsConvertors.LE09Activated(),
-        DMI_SYMB_STATUS_LE10 =&gt; DMISymbolsConvertors.LE10Activated(),
-        DMI_SYMB_STATUS_LE11 =&gt; DMISymbolsConvertors.LE11Activated(),
-        DMI_SYMB_STATUS_LE12 =&gt; DMISymbolsConvertors.LE12Activated(),
-        DMI_SYMB_STATUS_LE13 =&gt; DMISymbolsConvertors.LE13Activated(),
-        DMI_SYMB_STATUS_LE14 =&gt; DMISymbolsConvertors.LE14Activated(),
-        DMI_SYMB_STATUS_LE15 =&gt; DMISymbolsConvertors.LE15Activated(),
-        DMI_SYMB_STATUS_MO01 =&gt; DMISymbolsConvertors.MO01Activated(),
-        DMI_SYMB_STATUS_MO02 =&gt; DMISymbolsConvertors.MO02Activated(),
-        DMI_SYMB_STATUS_MO03 =&gt; DMISymbolsConvertors.MO03Activated(),
-        DMI_SYMB_STATUS_MO04 =&gt; DMISymbolsConvertors.MO04Activated(),
-        DMI_SYMB_STATUS_MO05 =&gt; DMISymbolsConvertors.MO05Activated(),
-        DMI_SYMB_STATUS_MO06 =&gt; DMISymbolsConvertors.MO06Activated(),
-        DMI_SYMB_STATUS_MO07 =&gt; DMISymbolsConvertors.MO07Activated(),
-        DMI_SYMB_STATUS_MO08 =&gt; DMISymbolsConvertors.MO08Activated(),
-        DMI_SYMB_STATUS_MO09 =&gt; DMISymbolsConvertors.MO09Activated(),
-        DMI_SYMB_STATUS_MO10 =&gt; DMISymbolsConvertors.MO10Activated(),
-        DMI_SYMB_STATUS_MO11 =&gt; DMISymbolsConvertors.MO11Activated(),
-        DMI_SYMB_STATUS_MO12 =&gt; DMISymbolsConvertors.MO12Activated(),
-        DMI_SYMB_STATUS_MO13 =&gt; DMISymbolsConvertors.MO13Activated(),
-        DMI_SYMB_STATUS_MO14 =&gt; DMISymbolsConvertors.MO14Activated(),
-        DMI_SYMB_STATUS_MO15 =&gt; DMISymbolsConvertors.MO15Activated(),
-        DMI_SYMB_STATUS_MO16 =&gt; DMISymbolsConvertors.MO16Activated(),
-        DMI_SYMB_STATUS_MO17 =&gt; DMISymbolsConvertors.MO17Activated(),
-        DMI_SYMB_STATUS_MO18 =&gt; DMISymbolsConvertors.MO18Activated(),
-        DMI_SYMB_STATUS_MO19 =&gt; DMISymbolsConvertors.MO19Activated(),
-        DMI_SYMB_STATUS_MO20 =&gt; DMISymbolsConvertors.MO20Activated(),
-        DMI_SYMB_STATUS_MO21 =&gt; DMISymbolsConvertors.MO21Activated(),
-        DMI_SYMB_STATUS_MO22 =&gt; DMISymbolsConvertors.MO22Activated(),
-        DMI_SYMB_STATUS_ST01 =&gt; DMISymbolsConvertors.ST01Activated(),
-        DMI_SYMB_STATUS_ST02 =&gt; DMISymbolsConvertors.ST02Activated(),
-        DMI_SYMB_STATUS_ST03 =&gt; DMISymbolsConvertors.ST03Activated(),
-        DMI_SYMB_STATUS_ST04 =&gt; DMISymbolsConvertors.ST04Activated(),
-        DMI_SYMB_STATUS_ST05 =&gt; DMISymbolsConvertors.ST05Activated(),
-        DMI_SYMB_STATUS_ST06 =&gt; DMISymbolsConvertors.ST06Activated(),
-        DMI_SYMB_STATUS_TC01 =&gt; DMISymbolsConvertors.TC01Activated(),
-        DMI_SYMB_STATUS_TC02 =&gt; DMISymbolsConvertors.TC02Activated(),
-        DMI_SYMB_STATUS_TC03 =&gt; DMISymbolsConvertors.TC03Activated(),
-        DMI_SYMB_STATUS_TC04 =&gt; DMISymbolsConvertors.TC04Activated(),
-        DMI_SYMB_STATUS_TC05 =&gt; DMISymbolsConvertors.TC05Activated(),
-        DMI_SYMB_STATUS_TC06 =&gt; DMISymbolsConvertors.TC06Activated(),
-        DMI_SYMB_STATUS_TC07 =&gt; DMISymbolsConvertors.TC07Activated(),
-        DMI_SYMB_STATUS_TC08 =&gt; DMISymbolsConvertors.TC08Activated(),
-        DMI_SYMB_STATUS_TC09 =&gt; DMISymbolsConvertors.TC09Activated(),
-        DMI_SYMB_STATUS_TC10 =&gt; DMISymbolsConvertors.TC10Activated(),
-        DMI_SYMB_STATUS_TC11 =&gt; DMISymbolsConvertors.TC11Activated(),
-        DMI_SYMB_STATUS_TC12 =&gt; DMISymbolsConvertors.TC12Activated(),
-        DMI_SYMB_STATUS_TC13 =&gt; DMISymbolsConvertors.TC13Activated(),
-        DMI_SYMB_STATUS_TC14 =&gt; DMISymbolsConvertors.TC14Activated(),
-        DMI_SYMB_STATUS_TC15 =&gt; DMISymbolsConvertors.TC15Activated(),
-        DMI_SYMB_STATUS_TC16 =&gt; DMISymbolsConvertors.TC16Activated(),
-        DMI_SYMB_STATUS_TC17 =&gt; DMISymbolsConvertors.TC17Activated(),
-        DMI_SYMB_STATUS_TC18 =&gt; DMISymbolsConvertors.TC18Activated(),
-        DMI_SYMB_STATUS_TC19 =&gt; DMISymbolsConvertors.TC19Activated(),
-        DMI_SYMB_STATUS_TC20 =&gt; DMISymbolsConvertors.TC20Activated(),
-        DMI_SYMB_STATUS_TC21 =&gt; DMISymbolsConvertors.TC21Activated(),
-        DMI_SYMB_STATUS_TC22 =&gt; DMISymbolsConvertors.TC22Activated(),
-        DMI_SYMB_STATUS_TC23 =&gt; DMISymbolsConvertors.TC23Activated(),
-        DMI_SYMB_STATUS_TC24 =&gt; DMISymbolsConvertors.TC24Activated(),
-        DMI_SYMB_STATUS_TC25 =&gt; DMISymbolsConvertors.TC25Activated(),
-        DMI_SYMB_STATUS_TC26 =&gt; DMISymbolsConvertors.TC26Activated(),
-        DMI_SYMB_STATUS_TC27 =&gt; DMISymbolsConvertors.TC27Activated(),
-        DMI_SYMB_STATUS_TC28 =&gt; DMISymbolsConvertors.TC28Activated(),
-        DMI_SYMB_STATUS_TC29 =&gt; DMISymbolsConvertors.TC29Activated(),
-        DMI_SYMB_STATUS_TC30 =&gt; DMISymbolsConvertors.TC30Activated(),
-        DMI_SYMB_STATUS_TC31 =&gt; DMISymbolsConvertors.TC31Activated(),
-        DMI_SYMB_STATUS_TC32 =&gt; DMISymbolsConvertors.TC32Activated(),
-        DMI_SYMB_STATUS_TC33 =&gt; DMISymbolsConvertors.TC33Activated(),
-        DMI_SYMB_STATUS_TC34 =&gt; DMISymbolsConvertors.TC34Activated(),
-        DMI_SYMB_STATUS_TC35 =&gt; DMISymbolsConvertors.TC35Activated(),
-        DMI_SYMB_STATUS_TC36 =&gt; DMISymbolsConvertors.TC36Activated(),
-        DMI_SYMB_STATUS_TC37 =&gt; DMISymbolsConvertors.TC37Activated(),
-        DMI_SYMB_STATUS_DR01 =&gt; DMISymbolsConvertors.DR01Activated(),
-        DMI_SYMB_STATUS_DR02 =&gt; DMISymbolsConvertors.DR02Activated(),
-        DMI_SYMB_STATUS_DR03 =&gt; DMISymbolsConvertors.DR03Activated(),
-        DMI_SYMB_STATUS_DR04 =&gt; DMISymbolsConvertors.DR04Activated(),
-        DMI_SYMB_STATUS_DR05 =&gt; DMISymbolsConvertors.DR05Activated(),
-        DMI_SYMB_STATUS_LX01 =&gt; DMISymbolsConvertors.LX01Activated()
+        DMI_SYMB_STATUS_LE01 =&gt; JRU.DMISymbolsConvertors.LE01Activated(),
+        DMI_SYMB_STATUS_LE02 =&gt; JRU.DMISymbolsConvertors.LE02Activated(),
+        DMI_SYMB_STATUS_LE03 =&gt; JRU.DMISymbolsConvertors.LE03Activated(),
+        DMI_SYMB_STATUS_LE04 =&gt; JRU.DMISymbolsConvertors.LE04Activated(),
+        DMI_SYMB_STATUS_LE05 =&gt; JRU.DMISymbolsConvertors.LE05Activated(),
+        DMI_SYMB_STATUS_LE06 =&gt; JRU.DMISymbolsConvertors.LE06Activated(),
+        DMI_SYMB_STATUS_LE07 =&gt; JRU.DMISymbolsConvertors.LE07Activated(),
+        DMI_SYMB_STATUS_LE08 =&gt; JRU.DMISymbolsConvertors.LE08Activated(),
+        DMI_SYMB_STATUS_LE09 =&gt; JRU.DMISymbolsConvertors.LE09Activated(),
+        DMI_SYMB_STATUS_LE10 =&gt; JRU.DMISymbolsConvertors.LE10Activated(),
+        DMI_SYMB_STATUS_LE11 =&gt; JRU.DMISymbolsConvertors.LE11Activated(),
+        DMI_SYMB_STATUS_LE12 =&gt; JRU.DMISymbolsConvertors.LE12Activated(),
+        DMI_SYMB_STATUS_LE13 =&gt; JRU.DMISymbolsConvertors.LE13Activated(),
+        DMI_SYMB_STATUS_LE14 =&gt; JRU.DMISymbolsConvertors.LE14Activated(),
+        DMI_SYMB_STATUS_LE15 =&gt; JRU.DMISymbolsConvertors.LE15Activated(),
+        DMI_SYMB_STATUS_MO01 =&gt; JRU.DMISymbolsConvertors.MO01Activated(),
+        DMI_SYMB_STATUS_MO02 =&gt; JRU.DMISymbolsConvertors.MO02Activated(),
+        DMI_SYMB_STATUS_MO03 =&gt; JRU.DMISymbolsConvertors.MO03Activated(),
+        DMI_SYMB_STATUS_MO04 =&gt; JRU.DMISymbolsConvertors.MO04Activated(),
+        DMI_SYMB_STATUS_MO05 =&gt; JRU.DMISymbolsConvertors.MO05Activated(),
+        DMI_SYMB_STATUS_MO06 =&gt; JRU.DMISymbolsConvertors.MO06Activated(),
+        DMI_SYMB_STATUS_MO07 =&gt; JRU.DMISymbolsConvertors.MO07Activated(),
+        DMI_SYMB_STATUS_MO08 =&gt; JRU.DMISymbolsConvertors.MO08Activated(),
+        DMI_SYMB_STATUS_MO09 =&gt; JRU.DMISymbolsConvertors.MO09Activated(),
+        DMI_SYMB_STATUS_MO10 =&gt; JRU.DMISymbolsConvertors.MO10Activated(),
+        DMI_SYMB_STATUS_MO11 =&gt; JRU.DMISymbolsConvertors.MO11Activated(),
+        DMI_SYMB_STATUS_MO12 =&gt; JRU.DMISymbolsConvertors.MO12Activated(),
+        DMI_SYMB_STATUS_MO13 =&gt; JRU.DMISymbolsConvertors.MO13Activated(),
+        DMI_SYMB_STATUS_MO14 =&gt; JRU.DMISymbolsConvertors.MO14Activated(),
+        DMI_SYMB_STATUS_MO15 =&gt; JRU.DMISymbolsConvertors.MO15Activated(),
+        DMI_SYMB_STATUS_MO16 =&gt; JRU.DMISymbolsConvertors.MO16Activated(),
+        DMI_SYMB_STATUS_MO17 =&gt; JRU.DMISymbolsConvertors.MO17Activated(),
+        DMI_SYMB_STATUS_MO18 =&gt; JRU.DMISymbolsConvertors.MO18Activated(),
+        DMI_SYMB_STATUS_MO19 =&gt; JRU.DMISymbolsConvertors.MO19Activated(),
+        DMI_SYMB_STATUS_MO20 =&gt; JRU.DMISymbolsConvertors.MO20Activated(),
+        DMI_SYMB_STATUS_MO21 =&gt; JRU.DMISymbolsConvertors.MO21Activated(),
+        DMI_SYMB_STATUS_MO22 =&gt; JRU.DMISymbolsConvertors.MO22Activated(),
+        DMI_SYMB_STATUS_ST01 =&gt; JRU.DMISymbolsConvertors.ST01Activated(),
+        DMI_SYMB_STATUS_ST02 =&gt; JRU.DMISymbolsConvertors.ST02Activated(),
+        DMI_SYMB_STATUS_ST03 =&gt; JRU.DMISymbolsConvertors.ST03Activated(),
+        DMI_SYMB_STATUS_ST04 =&gt; JRU.DMISymbolsConvertors.ST04Activated(),
+        DMI_SYMB_STATUS_ST05 =&gt; JRU.DMISymbolsConvertors.ST05Activated(),
+        DMI_SYMB_STATUS_ST06 =&gt; JRU.DMISymbolsConvertors.ST06Activated(),
+        DMI_SYMB_STATUS_TC01 =&gt; JRU.DMISymbolsConvertors.TC01Activated(),
+        DMI_SYMB_STATUS_TC02 =&gt; JRU.DMISymbolsConvertors.TC02Activated(),
+        DMI_SYMB_STATUS_TC03 =&gt; JRU.DMISymbolsConvertors.TC03Activated(),
+        DMI_SYMB_STATUS_TC04 =&gt; JRU.DMISymbolsConvertors.TC04Activated(),
+        DMI_SYMB_STATUS_TC05 =&gt; JRU.DMISymbolsConvertors.TC05Activated(),
+        DMI_SYMB_STATUS_TC06 =&gt; JRU.DMISymbolsConvertors.TC06Activated(),
+        DMI_SYMB_STATUS_TC07 =&gt; JRU.DMISymbolsConvertors.TC07Activated(),
+        DMI_SYMB_STATUS_TC08 =&gt; JRU.DMISymbolsConvertors.TC08Activated(),
+        DMI_SYMB_STATUS_TC09 =&gt; JRU.DMISymbolsConvertors.TC09Activated(),
+        DMI_SYMB_STATUS_TC10 =&gt; JRU.DMISymbolsConvertors.TC10Activated(),
+        DMI_SYMB_STATUS_TC11 =&gt; JRU.DMISymbolsConvertors.TC11Activated(),
+        DMI_SYMB_STATUS_TC12 =&gt; JRU.DMISymbolsConvertors.TC12Activated(),
+        DMI_SYMB_STATUS_TC13 =&gt; JRU.DMISymbolsConvertors.TC13Activated(),
+        DMI_SYMB_STATUS_TC14 =&gt; JRU.DMISymbolsConvertors.TC14Activated(),
+        DMI_SYMB_STATUS_TC15 =&gt; JRU.DMISymbolsConvertors.TC15Activated(),
+        DMI_SYMB_STATUS_TC16 =&gt; JRU.DMISymbolsConvertors.TC16Activated(),
+        DMI_SYMB_STATUS_TC17 =&gt; JRU.DMISymbolsConvertors.TC17Activated(),
+        DMI_SYMB_STATUS_TC18 =&gt; JRU.DMISymbolsConvertors.TC18Activated(),
+        DMI_SYMB_STATUS_TC19 =&gt; JRU.DMISymbolsConvertors.TC19Activated(),
+        DMI_SYMB_STATUS_TC20 =&gt; JRU.DMISymbolsConvertors.TC20Activated(),
+        DMI_SYMB_STATUS_TC21 =&gt; JRU.DMISymbolsConvertors.TC21Activated(),
+        DMI_SYMB_STATUS_TC22 =&gt; JRU.DMISymbolsConvertors.TC22Activated(),
+        DMI_SYMB_STATUS_TC23 =&gt; JRU.DMISymbolsConvertors.TC23Activated(),
+        DMI_SYMB_STATUS_TC24 =&gt; JRU.DMISymbolsConvertors.TC24Activated(),
+        DMI_SYMB_STATUS_TC25 =&gt; JRU.DMISymbolsConvertors.TC25Activated(),
+        DMI_SYMB_STATUS_TC26 =&gt; JRU.DMISymbolsConvertors.TC26Activated(),
+        DMI_SYMB_STATUS_TC27 =&gt; JRU.DMISymbolsConvertors.TC27Activated(),
+        DMI_SYMB_STATUS_TC28 =&gt; JRU.DMISymbolsConvertors.TC28Activated(),
+        DMI_SYMB_STATUS_TC29 =&gt; JRU.DMISymbolsConvertors.TC29Activated(),
+        DMI_SYMB_STATUS_TC30 =&gt; JRU.DMISymbolsConvertors.TC30Activated(),
+        DMI_SYMB_STATUS_TC31 =&gt; JRU.DMISymbolsConvertors.TC31Activated(),
+        DMI_SYMB_STATUS_TC32 =&gt; JRU.DMISymbolsConvertors.TC32Activated(),
+        DMI_SYMB_STATUS_TC33 =&gt; JRU.DMISymbolsConvertors.TC33Activated(),
+        DMI_SYMB_STATUS_TC34 =&gt; JRU.DMISymbolsConvertors.TC34Activated(),
+        DMI_SYMB_STATUS_TC35 =&gt; JRU.DMISymbolsConvertors.TC35Activated(),
+        DMI_SYMB_STATUS_TC36 =&gt; JRU.DMISymbolsConvertors.TC36Activated(),
+        DMI_SYMB_STATUS_TC37 =&gt; JRU.DMISymbolsConvertors.TC37Activated(),
+        DMI_SYMB_STATUS_DR01 =&gt; JRU.DMISymbolsConvertors.DR01Activated(),
+        DMI_SYMB_STATUS_DR02 =&gt; JRU.DMISymbolsConvertors.DR02Activated(),
+        DMI_SYMB_STATUS_DR03 =&gt; JRU.DMISymbolsConvertors.DR03Activated(),
+        DMI_SYMB_STATUS_DR04 =&gt; JRU.DMISymbolsConvertors.DR04Activated(),
+        DMI_SYMB_STATUS_DR05 =&gt; JRU.DMISymbolsConvertors.DR05Activated(),
+        DMI_SYMB_STATUS_LX01 =&gt; JRU.DMISymbolsConvertors.LX01Activated()
     }
 }</Expression>
 </Case></Cases>
@@ -4400,7 +4563,7 @@ aJRU.PreviousRequestToDisplayTheGeographicalInformation != DMI.MasterDMI().Out_G
  Name="Value"
  Guid="a63d0040-4a3f-4924-bcf5-ae58e0be31f3"
 >
-<Expression>aJRU.PreviousDMISymbolStatusMessage != CreateDMISymbolStatusChangeMessage().DMI_SYMBOL_STATUS</Expression>
+<Expression>aJRU.PreviousDMISymbolStatusMessage != JRU.CreateDMISymbolStatusChangeMessage().DMI_SYMBOL_STATUS</Expression>
 </Case></Cases>
 </Function><Function
  Type="Messages.JRU.MESSAGE.ADDITIONAL_DATA.Message"
@@ -4419,6 +4582,11 @@ aJRU.PreviousRequestToDisplayTheGeographicalInformation != DMI.MasterDMI().Out_G
  SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
  Guid="da5246e5-a13b-4cfe-b741-4c9910b9d577"
 >
+</ReqRef><ReqRef
+ Id="9924af12-6d88-465d-a306-165cf4a09123"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="38b29639-ba8b-4972-8742-cd43f1e14fbc"
+>
 </ReqRef><Comment>Creates a new additional data message.</Comment>
 <Cases>
 <Case
@@ -4431,10 +4599,10 @@ aJRU.PreviousRequestToDisplayTheGeographicalInformation != DMI.MasterDMI().Out_G
 >EURORADIO.ContactOption == EURORADIO.ContactOptionEnum.RBCIdAndPhoneNumber</PreCondition></PreConditions>
 <Expression>Messages.JRU.MESSAGE.ADDITIONAL_DATA.Message
 {
-    HEADER =&gt; CreateHeader(24),
+    HEADER =&gt; JRU.CreateHeader(24),
     M_ADHESION =&gt; Kernel.TrackDescription.AdhesionFactors.SlipperyRailSelectedByDriver,
     NID_MN =&gt; EURORADIO.CurrentTerminal().NetworkId,
-    Q_RBCENTRY =&gt; TypeConvertors.ToJRUContactRBCOption (EURORADIO.ContactOption),
+    Q_RBCENTRY =&gt; JRU.TypeConvertors.ToJRUContactRBCOption (EURORADIO.ContactOption),
     NID_C =&gt; EURORADIO.CurrentRBCConnection().ContactData.Id.Country,
     NID_RBC =&gt; EURORADIO.CurrentRBCConnection().ContactData.Id.Id,
     NID_RADIO =&gt; EURORADIO.CurrentRBCConnection().ContactData.PhoneNumber,
@@ -4446,10 +4614,10 @@ aJRU.PreviousRequestToDisplayTheGeographicalInformation != DMI.MasterDMI().Out_G
 >
 <Expression>Messages.JRU.MESSAGE.ADDITIONAL_DATA.Message
 {
-    HEADER =&gt; CreateHeader(24),
+    HEADER =&gt; JRU.CreateHeader(24),
     M_ADHESION =&gt; Kernel.TrackDescription.AdhesionFactors.SlipperyRailSelectedByDriver,
     NID_MN =&gt; EURORADIO.CurrentTerminal().NetworkId,
-    Q_RBCENTRY =&gt; TypeConvertors.ToJRUContactRBCOption (EURORADIO.ContactOption),
+    Q_RBCENTRY =&gt; JRU.TypeConvertors.ToJRUContactRBCOption (EURORADIO.ContactOption),
     NID_OPERATIONAL =&gt; Kernel.TrainRunningNumber.Value
 }</Expression>
 </Case></Cases>
@@ -4480,19 +4648,19 @@ aJRU.PreviousRequestToDisplayTheGeographicalInformation != DMI.MasterDMI().Out_G
 <PreConditions>
 <PreCondition
  Guid="04f2e10e-94f3-4928-90a5-a75ba2e20267"
->aJRU.PreviousAdditionalDataMessage.M_ADHESION != CreateAdditionalDataMessage().M_ADHESION
+>aJRU.PreviousAdditionalDataMessage.M_ADHESION != JRU.CreateAdditionalDataMessage().M_ADHESION
   OR
-aJRU.PreviousAdditionalDataMessage.NID_C != CreateAdditionalDataMessage().NID_C
+aJRU.PreviousAdditionalDataMessage.NID_C != JRU.CreateAdditionalDataMessage().NID_C
   OR
-aJRU.PreviousAdditionalDataMessage.NID_OPERATIONAL != CreateAdditionalDataMessage().NID_OPERATIONAL
+aJRU.PreviousAdditionalDataMessage.NID_OPERATIONAL != JRU.CreateAdditionalDataMessage().NID_OPERATIONAL
   OR
-aJRU.PreviousAdditionalDataMessage.NID_MN != CreateAdditionalDataMessage().NID_MN
+aJRU.PreviousAdditionalDataMessage.NID_MN != JRU.CreateAdditionalDataMessage().NID_MN
   OR
-aJRU.PreviousAdditionalDataMessage.NID_RADIO != CreateAdditionalDataMessage().NID_RADIO
+aJRU.PreviousAdditionalDataMessage.NID_RADIO != JRU.CreateAdditionalDataMessage().NID_RADIO
   OR
-aJRU.PreviousAdditionalDataMessage.Q_RBCENTRY != CreateAdditionalDataMessage().Q_RBCENTRY
+aJRU.PreviousAdditionalDataMessage.Q_RBCENTRY != JRU.CreateAdditionalDataMessage().Q_RBCENTRY
   OR
-aJRU.PreviousAdditionalDataMessage.NID_RBC != CreateAdditionalDataMessage().NID_RBC</PreCondition></PreConditions>
+aJRU.PreviousAdditionalDataMessage.NID_RBC != JRU.CreateAdditionalDataMessage().NID_RBC</PreCondition></PreConditions>
 <Expression>True</Expression>
 </Case><Case
  Name="Do not send"
@@ -4608,6 +4776,11 @@ aJRU.PreviousAdditionalDataMessage.NID_RBC != CreateAdditionalDataMessage().NID_
  SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
  Guid="a3d27f07-0955-4c14-aaa3-0349e7e45156"
 >
+</ReqRef><ReqRef
+ Id="9924af12-6d88-465d-a306-165cf4a09123"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="7bf86ead-8103-46c4-be06-932ed1952663"
+>
 </ReqRef><Comment>Creates the message indicating which system status messages are currently displayed on the DMI.</Comment>
 <Cases>
 <Case
@@ -4616,32 +4789,32 @@ aJRU.PreviousAdditionalDataMessage.NID_RBC != CreateAdditionalDataMessage().NID_
 >
 <Expression>Messages.JRU.MESSAGE.DMI_SYSTEM_STATUS_MESSAGE.Message
 {
-    HEADER =&gt; CreateHeader(23),
+    HEADER =&gt; JRU.CreateHeader(23),
     SYSTEM_STATUS_MESSAGE =&gt; Messages.JRU.MESSAGE.SYSTEM_STATUS_MESSAGE.Message
     {
-        Balise_read_error =&gt; DMISystemStatusesConvertors.BaliseReadErrorDisplayed(),
-        Trackside_malfunction =&gt; DMISystemStatusesConvertors.TracksideMalfunctionDisplayed(),
-        Communication_error =&gt; DMISystemStatusesConvertors.CommunicationErrorDisplayed(),
-        Entering_FS =&gt; DMISystemStatusesConvertors.EnteringFSDisplayed(),
-        Entering_OS =&gt; DMISystemStatusesConvertors.EnteringOSDisplayed(),
-        Runaway_movement =&gt; DMISystemStatusesConvertors.RunawayMovementDisplayed(),
-        SH_refused =&gt; DMISystemStatusesConvertors.SHRefusedDisplayed(),
-        SH_request_failed =&gt; DMISystemStatusesConvertors.SHRequestFailedDisplayed(),
-        Trackside_not_compatible =&gt; DMISystemStatusesConvertors.TracksideNotCompatibleDisplayed(),
-        Train_data_changed =&gt; DMISystemStatusesConvertors.TrainDataChangedDisplayed(),
-        Train_is_rejected =&gt; DMISystemStatusesConvertors.TrainIsRejectedDisplayed(),
-        Unauthorized_passing_of_EOA_LOA =&gt; DMISystemStatusesConvertors.UnathorizedPassingOfEOALOADisplayed(),
-        No_MA_received_at_level_transition =&gt; DMISystemStatusesConvertors.NoMAReceivedAtLevelTransitionDisplayed(),
-        SR_distance_exceeded =&gt; DMISystemStatusesConvertors.SRDistanceExceededDisplayed(),
-        SH_stop_order =&gt; DMISystemStatusesConvertors.SHStopOrderDisplayed(),
-        SR_stop_order =&gt; DMISystemStatusesConvertors.SRStopOrderDisplayed(),
-        Emergency_stop =&gt; DMISystemStatusesConvertors.EmergencyStopDisplayed(),
-        RV_distance_exceeded =&gt; DMISystemStatusesConvertors.RVDistanceExceededDisplayed(),
-        No_track_description =&gt; DMISystemStatusesConvertors.NoTrackDescriptionDisplayed(),
-        Route_unsuitable__axle_load_category =&gt; DMISystemStatusesConvertors.RouteUnsuitableAxleLoadCategoryDisplayed(),
-        Route_unsuitable__loading_gauge =&gt; DMISystemStatusesConvertors.RouteUnsuitableLoadingGaugeDisplayed(),
-        Route_unsuitable__traction_system =&gt; DMISystemStatusesConvertors.RouteUnsuitableTractionSystemDisplayed(),
-        Radio_network_registration_failed =&gt; DMISystemStatusesConvertors.RadioNetworkRegistrationFailedDisplayed()
+        Balise_read_error =&gt; JRU.DMISystemStatusesConvertors.BaliseReadErrorDisplayed(),
+        Trackside_malfunction =&gt; JRU.DMISystemStatusesConvertors.TracksideMalfunctionDisplayed(),
+        Communication_error =&gt; JRU.DMISystemStatusesConvertors.CommunicationErrorDisplayed(),
+        Entering_FS =&gt; JRU.DMISystemStatusesConvertors.EnteringFSDisplayed(),
+        Entering_OS =&gt; JRU.DMISystemStatusesConvertors.EnteringOSDisplayed(),
+        Runaway_movement =&gt; JRU.DMISystemStatusesConvertors.RunawayMovementDisplayed(),
+        SH_refused =&gt; JRU.DMISystemStatusesConvertors.SHRefusedDisplayed(),
+        SH_request_failed =&gt; JRU.DMISystemStatusesConvertors.SHRequestFailedDisplayed(),
+        Trackside_not_compatible =&gt; JRU.DMISystemStatusesConvertors.TracksideNotCompatibleDisplayed(),
+        Train_data_changed =&gt; JRU.DMISystemStatusesConvertors.TrainDataChangedDisplayed(),
+        Train_is_rejected =&gt; JRU.DMISystemStatusesConvertors.TrainIsRejectedDisplayed(),
+        Unauthorized_passing_of_EOA_LOA =&gt; JRU.DMISystemStatusesConvertors.UnathorizedPassingOfEOALOADisplayed(),
+        No_MA_received_at_level_transition =&gt; JRU.DMISystemStatusesConvertors.NoMAReceivedAtLevelTransitionDisplayed(),
+        SR_distance_exceeded =&gt; JRU.DMISystemStatusesConvertors.SRDistanceExceededDisplayed(),
+        SH_stop_order =&gt; JRU.DMISystemStatusesConvertors.SHStopOrderDisplayed(),
+        SR_stop_order =&gt; JRU.DMISystemStatusesConvertors.SRStopOrderDisplayed(),
+        Emergency_stop =&gt; JRU.DMISystemStatusesConvertors.EmergencyStopDisplayed(),
+        RV_distance_exceeded =&gt; JRU.DMISystemStatusesConvertors.RVDistanceExceededDisplayed(),
+        No_track_description =&gt; JRU.DMISystemStatusesConvertors.NoTrackDescriptionDisplayed(),
+        Route_unsuitable__axle_load_category =&gt; JRU.DMISystemStatusesConvertors.RouteUnsuitableAxleLoadCategoryDisplayed(),
+        Route_unsuitable__loading_gauge =&gt; JRU.DMISystemStatusesConvertors.RouteUnsuitableLoadingGaugeDisplayed(),
+        Route_unsuitable__traction_system =&gt; JRU.DMISystemStatusesConvertors.RouteUnsuitableTractionSystemDisplayed(),
+        Radio_network_registration_failed =&gt; JRU.DMISystemStatusesConvertors.RadioNetworkRegistrationFailedDisplayed()
     }
 }</Expression>
 </Case></Cases>
@@ -4697,6 +4870,11 @@ aJRU.PreviousAdditionalDataMessage.NID_RBC != CreateAdditionalDataMessage().NID_
  SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
  Guid="d84f603b-237c-4ceb-b664-6f91a61385ae"
 >
+</ReqRef><ReqRef
+ Id="9924af12-6d88-465d-a306-165cf4a09123"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="a40f480e-cffa-4b5c-bc87-afb3bc34c6e1"
+>
 </ReqRef><Comment>Will fill the necessary fields to generate the VIRTUAL_BALISE_COVER_SET_BY_THE_DRIVER message</Comment>
 <Parameters>
 <Parameter
@@ -4711,11 +4889,70 @@ aJRU.PreviousAdditionalDataMessage.NID_RBC != CreateAdditionalDataMessage().NID_
  Guid="a02b997a-cde3-44b8-9c4e-70fed622571c"
 >
 <Expression>Messages.JRU.MESSAGE.VIRTUAL_BALISE_COVER_SET_BY_DRIVER.Message{
-    HEADER =&gt; CreateHeader(28),
+    HEADER =&gt; JRU.CreateHeader(28),
     NID_VBCMK =&gt; VBC.Marker.Marker,
     NID_C =&gt; VBC.Marker.Area,
     T_VBC =&gt; 0
 }</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.MESSAGE.LOWEST_SUPERVISED_SPEED_WITHIN_THE_MOVEMENT_AUTHORITY.Message"
+ X="1"
+ Y="121"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="CreateLSSMAMessage"
+ Guid="b3464f89-a502-44f2-a4ab-d7d1ed6ef6aa"
+>
+<ReqRef
+ Id="9924af12-6d88-465d-a306-165cf4a09123"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="a97f196c-a7d5-4ed6-b5e0-514df298a645"
+>
+</ReqRef><ReqRef
+ Id="bad34835-a314-4279-921d-feb5a63e4e1b"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="ef9b6b36-4a22-40be-b92e-8ad064c7f357"
+>
+</ReqRef><Comment>Will fill the fields of a LOWEST_SUPERVISED_SPEED_WITHIN_THE_MOVEMENT_AUTHORITY JRU Message.</Comment>
+<Cases>
+<Case
+ Name="Value"
+ Guid="8cffc233-c56e-4f01-be7a-72a58c7344af"
+>
+<Expression>Messages.JRU.MESSAGE.LOWEST_SUPERVISED_SPEED_WITHIN_THE_MOVEMENT_AUTHORITY.Message{
+HEADER =&gt; CreateHeader(44),
+V_LSSMA =&gt; TypeConvertors.ToJRULSSMA()
+}</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ X="111"
+ Y="121"
+ Width="100"
+ Height="50"
+ Name="SendLSSMAMessage"
+ Guid="45237307-1674-402a-9d71-b76b9c6f2f75"
+>
+<ReqRef
+ Id="bad34835-a314-4279-921d-feb5a63e4e1b"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="3d0b0fd8-16b9-461d-b6a8-27657aacb1d7"
+>
+</ReqRef><Parameters>
+<Parameter
+ Type="JRU.JRU"
+ Name="jru"
+ Guid="9da9da70-11b1-4b91-a52a-613d172da14a"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="dfe28a09-b486-4f73-9df6-026be75f2781"
+>
+<Expression>TypeConvertors.ToJRULSSMA() != jru.PreviousLSSMAValue</Expression>
 </Case></Cases>
 </Function></Functions>
 <Variables>

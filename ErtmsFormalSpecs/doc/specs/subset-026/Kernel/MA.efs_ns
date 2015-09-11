@@ -708,12 +708,12 @@ Location stores the previous End of Movement Authority location.</Comment>
  Name="Returns the closest EOA"
  Guid="4c10b760-6b33-42af-8b63-16dfab10d6b2"
 >
-<Expression>REDUCE EOAs
-    USING X IN ClosestTarget(
+<Expression>REDUCE Kernel.MA.EOAs
+    USING X IN Kernel.MA.ClosestTarget(
     Target1=&gt;X,
     Target2=&gt;RESULT
 )
-INITIAL_VALUE CreateTarget (
+INITIAL_VALUE Kernel.MA.CreateTarget (
     aSpeed =&gt; 0.0,
     aLocation =&gt; BaseTypes.Distance.Infinity,
     aLength =&gt; BaseTypes.Length.Infinity
@@ -789,7 +789,7 @@ INITIAL_VALUE CreateTarget (
 <PreCondition
  Guid="0a772204-e922-463b-8a9a-6a03d5ca620b"
 >ERTMSSection.Q_SECTIONTIMER == Messages.Q_SECTIONTIMER.Section_Timer_information_to_follow</PreCondition></PreConditions>
-<Expression>SectionStruct
+<Expression>Kernel.MA.SectionStruct
 {
     Length =&gt; MessageTypes.QScaleLength ( length =&gt; ERTMSSection.L_SECTION, scale =&gt; Scale),
     TimeOut =&gt;MATimers.TimeOut
@@ -807,7 +807,7 @@ INITIAL_VALUE CreateTarget (
 <PreCondition
  Guid="8fdfbf3a-d43f-4049-9248-8a65ef1a013f"
 >ERTMSSection.Q_SECTIONTIMER == Messages.Q_SECTIONTIMER.No_Section_Timer_information</PreCondition></PreConditions>
-<Expression>SectionStruct
+<Expression>Kernel.MA.SectionStruct
 {
     Length =&gt; MessageTypes.QScaleLength ( length =&gt; ERTMSSection.L_SECTION, scale =&gt; Scale),
     TimeOut =&gt; EMPTY
@@ -880,8 +880,8 @@ INITIAL_VALUE CreateTarget (
 <PreConditions>
 <PreCondition
  Guid="7efeaf2c-b67d-4232-90aa-091ac69f21f2"
->Available ( MA.EndSection.DangerPoint )</PreCondition></PreConditions>
-<Expression>EndOfMA() + MA.EndSection.DangerPoint.Distance</Expression>
+>Available ( Kernel.MA.MA.EndSection.DangerPoint )</PreCondition></PreConditions>
+<Expression>Kernel.MA.EndOfMA() + Kernel.MA.MA.EndSection.DangerPoint.Distance</Expression>
 </Case><Case
  Name="Danger point not available"
  Guid="c4d696f2-00fb-44bb-9e6e-1eeef034a072"
@@ -911,8 +911,8 @@ INITIAL_VALUE CreateTarget (
 <PreConditions>
 <PreCondition
  Guid="925708df-b37c-401d-8a24-1a988c5dd27b"
->Available ( MA.EndSection.Overlap )</PreCondition></PreConditions>
-<Expression>EndOfMA() + MA.EndSection.Overlap.Distance</Expression>
+>Available ( Kernel.MA.MA.EndSection.Overlap )</PreCondition></PreConditions>
+<Expression>Kernel.MA.EndOfMA() + Kernel.MA.MA.EndSection.Overlap.Distance</Expression>
 </Case><Case
  Name="Overlap not available"
  Guid="f11f62bb-41ff-4755-a94f-be95cf5beea9"
@@ -941,10 +941,10 @@ INITIAL_VALUE CreateTarget (
 <PreConditions>
 <PreCondition
  Guid="fbfb8590-c1b3-499f-ac7e-0ee3010e3001"
->Available ( MA )</PreCondition><PreCondition
+>Available ( Kernel.MA.MA )</PreCondition><PreCondition
  Guid="86774d2d-b0d2-450c-b5b2-18a8e71de39b"
->MA.Sections != EMPTY</PreCondition></PreConditions>
-<Expression>(FIRST X IN MA.Sections).Length</Expression>
+>Kernel.MA.MA.Sections != EMPTY</PreCondition></PreConditions>
+<Expression>(FIRST X IN Kernel.MA.MA.Sections).Length</Expression>
 </Case><Case
  Name="EndSection"
  Guid="ad46e6ec-360a-48b9-8b2e-93d340f6a5c5"
@@ -952,8 +952,8 @@ INITIAL_VALUE CreateTarget (
 <PreConditions>
 <PreCondition
  Guid="e87e2f4b-7885-494e-9e6c-2a02d454fea0"
->Available ( MA )</PreCondition></PreConditions>
-<Expression>MA.EndSection.Length</Expression>
+>Available ( Kernel.MA.MA )</PreCondition></PreConditions>
+<Expression>Kernel.MA.MA.EndSection.Length</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Speed"
@@ -1003,12 +1003,12 @@ INITIAL_VALUE CreateTarget (
 <PreConditions>
 <PreCondition
  Guid="882879c9-2057-45f9-afa8-3b11d5abd62a"
->Level.Value.Value == Default.Level.L1</PreCondition><PreCondition
+>Kernel.Level.Value.Value == Default.Level.L1</PreCondition><PreCondition
  Guid="10848d71-717a-4061-bb58-ba05a566ffb4"
->SignallingRelatedSpeedRestriction.End == BaseTypes.Distance.Unknown
+>Kernel.MA.SignallingRelatedSpeedRestriction.End == BaseTypes.Distance.Unknown
   OR
-d &lt; SignallingRelatedSpeedRestriction.End</PreCondition></PreConditions>
-<Expression>SignallingRelatedSpeedRestriction.Value</Expression>
+d &lt; Kernel.MA.SignallingRelatedSpeedRestriction.End</PreCondition></PreConditions>
+<Expression>Kernel.MA.SignallingRelatedSpeedRestriction.Value</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="b5339113-60a7-4cec-9e60-c156ca255ef5"
@@ -1073,11 +1073,11 @@ d &lt; SignallingRelatedSpeedRestriction.End</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="0b34f057-a897-49ad-8c7c-70b508ae5178"
->Available ( MA )</PreCondition><PreCondition
+>Available ( Kernel.MA.MA )</PreCondition><PreCondition
  Guid="2217fe28-281b-4814-8139-79c47dc4b92c"
->IsEOA(ClosestEOA())</PreCondition><PreCondition
+>Kernel.MA.IsEOA(Kernel.MA.ClosestEOA())</PreCondition><PreCondition
  Guid="bdd0dd49-4e89-48c7-ac0a-a7fabcb2b107"
->Distance &gt;= ClosestEOA().Location</PreCondition></PreConditions>
+>Distance &gt;= Kernel.MA.ClosestEOA().Location</PreCondition></PreConditions>
 <Expression>0.0</Expression>
 </Case><Case
  Name="Otherwise"
@@ -1105,7 +1105,7 @@ d &lt; SignallingRelatedSpeedRestriction.End</PreCondition></PreConditions>
  Name="Value"
  Guid="e8cfa57a-9d6e-4848-96dc-49781bb162b5"
 >
-<Expression>Available ( MA ) AND MA.TargetSpeed == 0.0</Expression>
+<Expression>Available ( Kernel.MA.MA ) AND Kernel.MA.MA.TargetSpeed == 0.0</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Speed"
@@ -1155,7 +1155,7 @@ d &lt; SignallingRelatedSpeedRestriction.End</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="765c0674-3659-40da-b982-66fd686466df"
->MA == EMPTY</PreCondition></PreConditions>
+>Kernel.MA.MA == EMPTY</PreCondition></PreConditions>
 <Expression>0.0</Expression>
 </Case><Case
  Name="Before end of movement authority"
@@ -1164,7 +1164,7 @@ d &lt; SignallingRelatedSpeedRestriction.End</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="61aaf608-32c4-4026-a55c-a9828eaacc69"
->Distance &lt; ClosestEOA().Location</PreCondition></PreConditions>
+>Distance &lt; Kernel.MA.ClosestEOA().Location</PreCondition></PreConditions>
 <Expression>BaseTypes.Speed.MaxSpeed</Expression>
 </Case><Case
  Name="After LOA"
@@ -1173,10 +1173,10 @@ d &lt; SignallingRelatedSpeedRestriction.End</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="22b40574-308e-4350-b8cc-9b21682fd64e"
->MA.TargetSpeed != 0.0</PreCondition><PreCondition
+>Kernel.MA.MA.TargetSpeed != 0.0</PreCondition><PreCondition
  Guid="788808e3-5b2d-4dcf-a6ba-96961f01f422"
->ClosestEOA().Location &lt;= Distance</PreCondition></PreConditions>
-<Expression>MA.TargetSpeed</Expression>
+>Kernel.MA.ClosestEOA().Location &lt;= Distance</PreCondition></PreConditions>
+<Expression>Kernel.MA.MA.TargetSpeed</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="09116a4e-beda-460c-9d94-5cb177833416"
@@ -1280,10 +1280,10 @@ d &lt; SignallingRelatedSpeedRestriction.End</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="68c98959-5719-4240-adc2-65c6fe2557a9"
->Available( Element =&gt; SvL())</PreCondition></PreConditions>
-<Expression>aTarget.Speed == SvL().Speed
+>Available( Element =&gt; Kernel.MA.SvL())</PreCondition></PreConditions>
+<Expression>aTarget.Speed == Kernel.MA.SvL().Speed
   AND
-aTarget.Location == SvL().Location</Expression>
+aTarget.Location == Kernel.MA.SvL().Location</Expression>
 </Case><Case
  Name="No SvL defined"
  Guid="056f0d64-169b-43ef-91ed-958eba8bc866"
@@ -1323,8 +1323,8 @@ aTarget.Location == SvL().Location</Expression>
 <PreConditions>
 <PreCondition
  Guid="a7bbbdad-720b-4304-9e62-657988c6fd3f"
->MA.TargetSpeed == 0.0</PreCondition></PreConditions>
-<Expression>aTarget.Speed == 0.0 AND aTarget.Location == ClosestEOA().Location</Expression>
+>Kernel.MA.MA.TargetSpeed == 0.0</PreCondition></PreConditions>
+<Expression>aTarget.Speed == 0.0 AND aTarget.Location == Kernel.MA.ClosestEOA().Location</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="09357f4d-8e1d-4b43-8c43-65824ded4969"
@@ -1356,13 +1356,13 @@ aTarget.Location == SvL().Location</Expression>
 <PreConditions>
 <PreCondition
  Guid="00ad348e-af27-4a5d-8965-b44d5241b2c0"
->SvLs != []</PreCondition></PreConditions>
-<Expression>REDUCE SvLs
-    USING X IN ClosestTarget(
+>Kernel.MA.SvLs != []</PreCondition></PreConditions>
+<Expression>REDUCE Kernel.MA.SvLs
+    USING X IN Kernel.MA.ClosestTarget(
     Target1=&gt;X,
     Target2=&gt;RESULT
 )
-INITIAL_VALUE CreateTarget (
+INITIAL_VALUE Kernel.MA.CreateTarget (
     aSpeed =&gt; 0.0,
     aLocation =&gt; BaseTypes.Distance.Infinity,
     aLength =&gt; BaseTypes.Length.Infinity
@@ -1414,7 +1414,7 @@ INITIAL_VALUE CreateTarget (
 <PreConditions>
 <PreCondition
  Guid="446d8d87-a8ca-4443-a6b2-75786ca0a339"
->AbsoluteDistance ( aSection ) + BaseTypes.LengthToDistance ( aSection.Length ) &lt;= InfillDistance</PreCondition></PreConditions>
+>Kernel.MA.AbsoluteDistance ( aSection ) + BaseTypes.LengthToDistance ( aSection.Length ) &lt;= InfillDistance</PreCondition></PreConditions>
 <Expression>aSection</Expression>
 </Case><Case
  Name="Section on infill distance"
@@ -1423,10 +1423,10 @@ INITIAL_VALUE CreateTarget (
 <PreConditions>
 <PreCondition
  Guid="2b237b9f-19a1-4300-b604-e5f799d23204"
->AbsoluteDistance ( aSection ) &lt; InfillDistance</PreCondition><PreCondition
+>Kernel.MA.AbsoluteDistance ( aSection ) &lt; InfillDistance</PreCondition><PreCondition
  Guid="0b67ce90-36ac-48f6-a81a-77307bf2b355"
->InfillDistance &lt; AbsoluteDistance ( aSection ) + BaseTypes.LengthToDistance  ( aSection.Length )</PreCondition></PreConditions>
-<Expression>SectionStruct
+>InfillDistance &lt; Kernel.MA.AbsoluteDistance ( aSection ) + BaseTypes.LengthToDistance  ( aSection.Length )</PreCondition></PreConditions>
+<Expression>Kernel.MA.SectionStruct
 {
     Length =&gt; BaseTypes.LengthToDistance ( InfillDistance - AbsoluteDistance ( aSection ) ),
     TimeOut =&gt; aSection.TimeOut
@@ -1467,8 +1467,8 @@ INITIAL_VALUE CreateTarget (
  Guid="4f07055e-9131-4099-bcbf-9f8192604aeb"
 >
 <Expression>SUM
-    MA.Sections |
-        Before ( ExpectedFirst =&gt; X, ExpectedSecond =&gt; aSection, Collection =&gt; MA.Sections)
+    Kernel.MA.MA.Sections |
+        Before ( ExpectedFirst =&gt; X, ExpectedSecond =&gt; aSection, Collection =&gt; Kernel.MA.MA.Sections)
 USING X IN
     BaseTypes.LengthToDistance ( X.Length )</Expression>
 </Case></Cases>
@@ -1517,7 +1517,7 @@ USING X IN
     V_LOA =&gt; MALvl2or3.V_LOA,
     T_LOA =&gt; MALvl2or3.T_LOA,
     N_ITER =&gt; MALvl2or3.N_ITER,
-    Sequence1 =&gt; MAP MALvl2or3.Sequence1 USING X IN ConvertSectionLvl2or3_to_SectionLvl1 ( X ),
+    Sequence1 =&gt; MAP MALvl2or3.Sequence1 USING X IN Kernel.MA.ConvertSectionLvl2or3_to_SectionLvl1 ( X ),
     L_ENDSECTION =&gt; MALvl2or3.L_ENDSECTION,
     Q_SECTIONTIMER =&gt; MALvl2or3.Q_SECTIONTIMER,
     T_SECTIONTIMER =&gt; MALvl2or3.T_SECTIONTIMER,
@@ -1579,7 +1579,7 @@ USING X IN
  Name="Value"
  Guid="d5333f4d-b410-46c7-95c6-2a1a5b3bee9b"
 >
-<Expression>FullTrackDescriptionAvailableForDistanceInterval
+<Expression>Kernel.MA.FullTrackDescriptionAvailableForDistanceInterval
 (
   MessageTypes.QScaleLength
   (
@@ -1640,7 +1640,7 @@ USING X IN
 <PreConditions>
 <PreCondition
  Guid="00d7cd05-a9ec-410b-84e7-e65a24ffc933"
->NOT FullTrackDescriptionAvailable(Packet =&gt; Packet)</PreCondition></PreConditions>
+>NOT Kernel.MA.FullTrackDescriptionAvailable(Packet =&gt; Packet)</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
  Name="The train is tripped"
@@ -1649,20 +1649,20 @@ USING X IN
 <PreConditions>
 <PreCondition
  Guid="df6aa353-159b-4d1e-aab6-259ec49faed8"
->Mode == Default.Mode.TR</PreCondition></PreConditions>
+>Kernel.Mode == Default.Mode.TR</PreCondition></PreConditions>
 <Expression>Boolean.False</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="604836d9-ccc9-41e8-b9d5-a815ab25a7f2"
 >
-<Expression>Infill.Data == EMPTY
+<Expression>Kernel.Infill.Data == EMPTY
   OR
   (
-    Infill.Data != EMPTY
+    Kernel.Infill.Data != EMPTY
       AND
-    Mode in [ Default.Mode.FS, Default.Mode.LS ] 
+    Kernel.Mode in [ Default.Mode.FS, Default.Mode.LS ] 
       AND
-    BTM.Linking.DistanceToBaliseGroup ( Infill.Data.NID_BG ) != BaseTypes.Distance.Unknown
+    BTM.Linking.DistanceToBaliseGroup ( Kernel.Infill.Data.NID_BG ) != BaseTypes.Distance.Unknown
   )</Expression>
 </Case></Cases>
 </Function><Function
@@ -1700,7 +1700,7 @@ USING X IN
  Name="Create a Target item"
  Guid="007ca2b0-325c-4d7c-9d0d-91c1956a9c62"
 >
-<Expression>SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target 
+<Expression>Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target 
 {
     Length =&gt; aLength,
     Location =&gt; aLocation,
@@ -1734,6 +1734,24 @@ USING X IN
 </Parameter></Parameters>
 <Cases>
 <Case
+ Name="Target 1 not available"
+ Guid="1db5767f-3dbf-4b5a-8b0e-991a1cdfc0d9"
+>
+<PreConditions>
+<PreCondition
+ Guid="ebbd5faf-30a8-4438-92d7-f236276bdcd1"
+>NOT Available(Target1)</PreCondition></PreConditions>
+<Expression>Target2</Expression>
+</Case><Case
+ Name="Target 2 not available"
+ Guid="c1fb7312-6e80-4b98-8dbb-68709e18c231"
+>
+<PreConditions>
+<PreCondition
+ Guid="b15897b4-95f7-4ac3-99b4-28fb52e7273c"
+>NOT Available(Target2)</PreCondition></PreConditions>
+<Expression>Target1</Expression>
+</Case><Case
  Name="Target1 &gt; Target2"
  Guid="02b5439b-5aed-4aee-be41-d98dc687b3dd"
 >
@@ -1792,11 +1810,11 @@ USING X IN
  Name="Value"
  Guid="9481bd1d-6bc4-4ebc-8167-a44b76beb265"
 >
-<Expression>TrainPosition.FrontEndPosition( PointOfInterest =&gt; DistanceInterval.Nom )
-  &gt; SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I
+<Expression>Kernel.TrainPosition.FrontEndPosition( PointOfInterest =&gt; DistanceInterval.Nom )
+  &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I
 (
     Vest =&gt; Odometry.EstimatedSpeed,
-    aTarget =&gt; SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target
+    aTarget =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target
     {
         Location =&gt; MessageTypes.QScaleDistance
         (
@@ -1840,11 +1858,11 @@ USING X IN
 <Comment>Returns the distance if the section has a time-out</Comment>
 <Expression>BaseTypes.LengthToDistance
 (
-    SUM MA.Sections | 
+    SUM Kernel.MA.MA.Sections | 
         Before(
             ExpectedFirst=&gt;X,
             ExpectedSecond=&gt;aSection,
-            Collection=&gt;MA.Sections
+            Collection=&gt;Kernel.MA.MA.Sections
         )
     USING X IN X.Length
 )</Expression>
@@ -1871,14 +1889,14 @@ USING X IN
 <PreConditions>
 <PreCondition
  Guid="fee6d219-56c8-47c9-b840-bc9541b651d5"
->Available(MA.Sections)</PreCondition></PreConditions>
-<Expression>BaseTypes.LengthToDistance ( (SUM MA.Sections USING X IN X.Length) + MA.EndSection.Length )</Expression>
+>Available(Kernel.MA.MA.Sections)</PreCondition></PreConditions>
+<Expression>BaseTypes.LengthToDistance ( (SUM Kernel.MA.MA.Sections USING X IN X.Length) + Kernel.MA.MA.EndSection.Length )</Expression>
 </Case><Case
  Name="No sections"
  Guid="da7feeb3-3bc8-4b45-a006-7ffe4b49c1af"
 >
 <Comment>There is only an End Section</Comment>
-<Expression>BaseTypes.LengthToDistance(MA.EndSection.Length)</Expression>
+<Expression>BaseTypes.LengthToDistance(Kernel.MA.MA.EndSection.Length)</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Distance"
@@ -1901,8 +1919,8 @@ USING X IN
 <PreConditions>
 <PreCondition
  Guid="d56e2714-804f-45b5-a3b2-be9833877d97"
->MA.Sections != []</PreCondition></PreConditions>
-<Expression>BaseTypes.LengthToDistance(SUM MA.Sections
+>Kernel.MA.MA.Sections != []</PreCondition></PreConditions>
+<Expression>BaseTypes.LengthToDistance(SUM Kernel.MA.MA.Sections
   USING X IN X.Length)</Expression>
 </Case><Case
  Name="Only an end section"
@@ -1935,8 +1953,8 @@ USING X IN
  Name="Value"
  Guid="8c82922c-9f10-4433-adf3-04bd582af2fc"
 >
-<Expression>MAP MA.Sections | IsAfterDistance(X, Distance)
-  USING X IN MakeRelocatedSection(X, Distance)</Expression>
+<Expression>MAP Kernel.MA.MA.Sections | Kernel.MA.IsAfterDistance(X, Distance)
+  USING X IN Kernel.MA.MakeRelocatedSection(X, Distance)</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -1968,7 +1986,7 @@ USING X IN
  Name="Value"
  Guid="2d9c3618-569f-4260-b93b-ecd826d333d9"
 >
-<Expression>SectionStartLocation(aSection) + BaseTypes.LengthToDistance(aSection.Length) &gt; Distance</Expression>
+<Expression>Kernel.MA.SectionStartLocation(aSection) + BaseTypes.LengthToDistance(aSection.Length) &gt; Distance</Expression>
 </Case></Cases>
 </Function><Function
  Type="SectionStruct"
@@ -2004,13 +2022,13 @@ This is used for when a new reference location is received and the MA is relocat
 <PreConditions>
 <PreCondition
  Guid="3377ed4c-7c63-4b30-a765-879d60dee192"
->SectionStartLocation(aSection) &lt; Distance</PreCondition><PreCondition
+>Kernel.MA.SectionStartLocation(aSection) &lt; Distance</PreCondition><PreCondition
  Guid="ec823700-cb99-43ab-9553-ef7bd611d85a"
->IsAfterDistance(
+>Kernel.MA.IsAfterDistance(
     aSection=&gt;aSection,
     Distance=&gt;Distance
 )</PreCondition></PreConditions>
-<Expression>SectionStruct{
+<Expression>Kernel.MA.SectionStruct{
     Length =&gt; aSection.Length - BaseTypes.DistanceToLength ( Distance - SectionStartLocation(aSection) ),
     TimeOut =&gt; aSection.TimeOut
 }</Expression>
@@ -2057,9 +2075,9 @@ This is used for when a new reference location is received and the MA is relocat
 <PreConditions>
 <PreCondition
  Guid="f924c4c6-4cde-4b20-af66-c70d48f076d4"
->TrackDescription.StaticSpeedProfile.SSP == []
+>Kernel.TrackDescription.StaticSpeedProfile.SSP == []
   OR
-TrackDescription.StaticSpeedProfile.SSPEnd ( Current =&gt; LAST X IN TrackDescription.StaticSpeedProfile.SSP )
+Kernel.TrackDescription.StaticSpeedProfile.SSPEnd ( Current =&gt; LAST X IN Kernel.TrackDescription.StaticSpeedProfile.SSP )
   &lt; 
 BaseTypes.LengthToDistance( aDistanceInterval )</PreCondition></PreConditions>
 <Expression>False</Expression>
@@ -2070,9 +2088,9 @@ BaseTypes.LengthToDistance( aDistanceInterval )</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="7a11d20e-5b84-4027-b9dc-cdcb8e629093"
->TrackDescription.Gradient.Gradients == []
+>Kernel.TrackDescription.Gradient.Gradients == []
   OR
-TrackDescription.Gradient.GradientEnd(Current =&gt; LAST X IN TrackDescription.Gradient.Gradients)
+Kernel.TrackDescription.Gradient.GradientEnd(Current =&gt; LAST X IN Kernel.TrackDescription.Gradient.Gradients)
   &lt;
 BaseTypes.LengthToDistance ( aDistanceInterval )</PreCondition></PreConditions>
 <Expression>False</Expression>
@@ -2111,7 +2129,7 @@ BaseTypes.LengthToDistance ( aDistanceInterval )</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="daa2477a-ebf3-4dee-84db-6c860705b267"
->Distance &gt;= SvL().Location</PreCondition></PreConditions>
+>Distance &gt;= Kernel.MA.SvL().Location</PreCondition></PreConditions>
 <Expression>0.0</Expression>
 </Case><Case
  Name="Before SvL"
@@ -2177,12 +2195,12 @@ BaseTypes.LengthToDistance ( aDistanceInterval )</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="fdc562b4-07a4-40ae-852f-6ac0cbb391bb"
->Available ( MA )</PreCondition><PreCondition
+>Available ( Kernel.MA.MA )</PreCondition><PreCondition
  Guid="599c9a06-029b-4811-8241-f713c12788ef"
->NOT IsEOA(ClosestEOA())</PreCondition><PreCondition
+>NOT Kernel.MA.IsEOA(Kernel.MA.ClosestEOA())</PreCondition><PreCondition
  Guid="6def6bec-cefd-4905-8d23-2e603f44aef8"
->Distance &gt;= ClosestEOA().Location</PreCondition></PreConditions>
-<Expression>MA.TargetSpeed</Expression>
+>Distance &gt;= Kernel.MA.ClosestEOA().Location</PreCondition></PreConditions>
+<Expression>Kernel.MA.MA.TargetSpeed</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="32220be7-920f-4a7c-94c9-0ab813a228a6"
@@ -2221,8 +2239,8 @@ BaseTypes.LengthToDistance ( aDistanceInterval )</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="668d5eea-df0b-4924-a0e6-00866076b288"
->MA.TargetSpeed != 0.0</PreCondition></PreConditions>
-<Expression>aTarget.Speed == MA.TargetSpeed AND aTarget.Location == ClosestEOA().Location</Expression>
+>Kernel.MA.MA.TargetSpeed != 0.0</PreCondition></PreConditions>
+<Expression>aTarget.Speed == Kernel.MA.MA.TargetSpeed AND aTarget.Location == Kernel.MA.ClosestEOA().Location</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="0d85991e-96d7-4f30-8df5-ac99ec296c1c"
@@ -2289,18 +2307,18 @@ BaseTypes.LengthToDistance ( aDistanceInterval )</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="0e3998df-1466-494e-970e-1f5815fd1e46"
->FullTrackDescriptionAvailable(Packet =&gt;  ConvertMALvl2or3_to_MALvl1 ( Packet ))</PreCondition></PreConditions>
+>Kernel.MA.FullTrackDescriptionAvailable(Packet =&gt;  Kernel.MA.ConvertMALvl2or3_to_MALvl1 ( Packet ))</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="c6a9825b-4180-4447-a067-78ee2400685c"
->UpdateMA
+>Kernel.MA.UpdateMA
 (
-    Packet =&gt; ConvertMALvl2or3_to_MALvl1 ( Packet ),
+    Packet =&gt; Kernel.MA.ConvertMALvl2or3_to_MALvl1 ( Packet ),
     NID_BG =&gt; NID_BG,
     SectionStartTimer =&gt; SectionStartTimer
 )</Action><Action
  Guid="3e4d5ecc-98c0-4000-9d12-5b63e89e74c7"
->MAIsAccepted &lt;- True</Action></Actions>
+>Kernel.MA.MAIsAccepted &lt;- True</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -2329,11 +2347,11 @@ BaseTypes.LengthToDistance ( aDistanceInterval )</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="bd46248f-d028-4d5e-95b6-25ea8c62ed58"
->HandleModeChange in HandleModeChangeSM.Override</PreCondition></PreConditions>
+>Kernel.HandleModeChange in Kernel.HandleModeChangeSM.Override</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="fec4ea71-9030-4796-a90a-2d1c21a90d00"
->EndOverride()</Action></Actions>
+>Kernel.EndOverride()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -2428,23 +2446,23 @@ BaseTypes.LengthToDistance ( aDistanceInterval )</PreCondition></PreConditions>
 </ReqRef><PreConditions>
 <PreCondition
  Guid="9f480703-6045-4959-8238-ce2a2407ae11"
->AcceptMA( Packet =&gt; Packet )</PreCondition></PreConditions>
+>Kernel.MA.AcceptMA( Packet =&gt; Packet )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="0b32d029-1703-4f17-9be3-7ba6576b3c68"
->UpdateMA
+>Kernel.MA.UpdateMA
 (
     Packet =&gt; Packet,
     NID_BG =&gt; NID_BG,
-    SectionStartTimer =&gt; MATimers.CurrentBGTimeOfPassage
+    SectionStartTimer =&gt; Kernel.MA.MATimers.CurrentBGTimeOfPassage
 )</Action><Action
  Guid="f8a42f47-6bf7-4155-9ad4-52eb896fbff6"
->SignallingRelatedSpeedRestriction.Value &lt;- MessageTypes.SpeedResolution ( speed =&gt; Packet.V_MAIN, resolution =&gt; 5.0 )</Action><Action
+>Kernel.MA.SignallingRelatedSpeedRestriction.Value &lt;- MessageTypes.SpeedResolution ( speed =&gt; Packet.V_MAIN, resolution =&gt; 5.0 )</Action><Action
  Guid="80edc04f-5273-4997-8bd5-e5b012a9c650"
 ><Comment>Current BG time of passage becomes section timer start</Comment>
-MATimers.LOATimerStart &lt;- MATimers.CurrentBGTimeOfPassage</Action><Action
+Kernel.MA.MATimers.LOATimerStart &lt;- Kernel.MA.MATimers.CurrentBGTimeOfPassage</Action><Action
  Guid="e1d644fe-308d-4060-a4cc-c14066ce2a1e"
->MAIsAccepted &lt;- True</Action></Actions>
+>Kernel.MA.MAIsAccepted &lt;- True</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -2476,11 +2494,11 @@ MATimers.LOATimerStart &lt;- MATimers.CurrentBGTimeOfPassage</Action><Action
  Guid="24fa9f46-1301-47de-99ce-2c32073aec79"
 >Packet.V_MAIN == 0</PreCondition><PreCondition
  Guid="e0d4c189-2d3a-447c-847b-21b748321d56"
->Infill.Data == EMPTY</PreCondition></PreConditions>
+>Kernel.Infill.Data == EMPTY</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="430affa2-f9d2-4aa8-9feb-f862786a55c4"
->SpeedAndDistanceMonitoring.TrainTripped &lt;- True</Action></Actions>
+>Kernel.SpeedAndDistanceMonitoring.TrainTripped &lt;- True</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -2509,13 +2527,13 @@ MATimers.LOATimerStart &lt;- MATimers.CurrentBGTimeOfPassage</Action><Action
 <PreConditions>
 <PreCondition
  Guid="6c1d680b-de67-4a2b-b1e5-4f97fa26d8d4"
->HandleModeChange in HandleModeChangeSM.Override</PreCondition><PreCondition
+>Kernel.HandleModeChange in Kernel.HandleModeChangeSM.Override</PreCondition><PreCondition
  Guid="18ef947f-814b-4b60-9630-be17bd17273e"
 >Packet.V_MAIN != 0</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="2b82f74d-810e-4f72-977c-0ca411d9a9bd"
->EndOverride()</Action></Actions>
+>Kernel.EndOverride()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -2599,13 +2617,13 @@ The information about the type of supervised target (SvL or LOA) is also stored,
 <PreConditions>
 <PreCondition
  Guid="51bdba26-9465-413b-af5e-004242826ec0"
->Available ( MA )
+>Available ( Kernel.MA.MA )
   AND  
-SvL() != EMPTY</PreCondition></PreConditions>
+Kernel.MA.SvL() != EMPTY</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="0dab86fc-3cea-42d4-a180-592e92f08cc4"
->ShorteningHandler &lt;- MaShorteningHandlerStruct
+>Kernel.MA.ShorteningHandler &lt;- Kernel.MA.MaShorteningHandlerStruct
 {
     Location =&gt; SvL().Location,
     IsSvL =&gt; True
@@ -2619,11 +2637,11 @@ SvL() != EMPTY</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="fcd92312-44cd-4e8f-a36f-9d2e11fe0416"
->Available ( MA )</PreCondition></PreConditions>
+>Available ( Kernel.MA.MA )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="2da3de98-5d2c-4ec0-ab71-2dcfd1efb4f5"
->ShorteningHandler &lt;- MaShorteningHandlerStruct
+>Kernel.MA.ShorteningHandler &lt;- Kernel.MA.MaShorteningHandlerStruct
 {
     Location =&gt; BaseTypes.Distance.Unknown,
     IsSvL =&gt; False
@@ -2668,13 +2686,13 @@ SvL() != EMPTY</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="7397c026-591e-4bf0-885d-fffe991c4cc0"
->MA != EMPTY</PreCondition></PreConditions>
+>Kernel.MA.MA != EMPTY</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="7120a773-d361-414d-ba1e-3aa621fc8986"
->MA.TargetSpeed &lt;- MessageTypes.SpeedResolution ( Packet.V_LOA, 5.0 )</Action><Action
+>Kernel.MA.MA.TargetSpeed &lt;- MessageTypes.SpeedResolution ( Packet.V_LOA, 5.0 )</Action><Action
  Guid="46a073cd-a242-427d-995f-7f060c69493f"
->MA.TargetSpeedTimeOut &lt;- BaseTypes.Time ( Packet.T_LOA )</Action></Actions>
+>Kernel.MA.MA.TargetSpeedTimeOut &lt;- BaseTypes.Time ( Packet.T_LOA )</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  NeedsRequirement="FALSE"
@@ -2687,7 +2705,7 @@ SvL() != EMPTY</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="5b63b2df-359c-4b16-a541-ccc42b459fce"
->MA &lt;- MAStruct
+>Kernel.MA.MA &lt;- Kernel.MA.MAStruct
 {
     TargetSpeed =&gt; MessageTypes.SpeedResolution ( Packet.V_LOA, 5.0 ),
     TargetSpeedTimeOut =&gt; BaseTypes.Time ( Packet.T_LOA )
@@ -2746,13 +2764,13 @@ SvL() != EMPTY</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="1e6e687c-5882-4108-bab0-9fc4a8b43011"
->Infill.Data != EMPTY</PreCondition></PreConditions>
+>Kernel.Infill.Data != EMPTY</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="72e4e499-b2a3-4def-8b72-ed0903b42191"
->UpdateSectionsForInfill
+>Kernel.MA.UpdateSectionsForInfill
 (
-    InfillDistance =&gt; BTM.Linking.DistanceToBaliseGroup ( Infill.Data.NID_BG ),
+    InfillDistance =&gt; BTM.Linking.DistanceToBaliseGroup ( Kernel.Infill.Data.NID_BG ),
     Packet =&gt; Packet,
     SectionStartTimer =&gt; SectionStartTimer
 )</Action></Actions>
@@ -2806,7 +2824,7 @@ SvL() != EMPTY</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="12b90b2e-7d29-48ba-9284-89ff10da7e8f"
->MA.Sections &lt;- MAP Packet.Sequence1 USING X IN CreateEFSSection
+>Kernel.MA.MA.Sections &lt;- MAP Packet.Sequence1 USING X IN Kernel.MA.CreateEFSSection
 (
     ERTMSSection =&gt; X,
     Scale =&gt; Packet.Q_SCALE,
@@ -2826,7 +2844,7 @@ SvL() != EMPTY</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="abac060f-6a4c-4704-a40e-f0ec2245ca72"
->MA.Sections &lt;- []</Action></Actions>
+>Kernel.MA.MA.Sections &lt;- []</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition></Conditions>
@@ -2870,7 +2888,7 @@ SvL() != EMPTY</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="9925cd9d-52d7-44fd-99e6-fb6ca1dd0635"
->MA.EndSection.Length &lt;- MessageTypes.QScaleLength ( Packet.L_ENDSECTION, Packet.Q_SCALE )</Action></Actions>
+>Kernel.MA.MA.EndSection.Length &lt;- MessageTypes.QScaleLength ( Packet.L_ENDSECTION, Packet.Q_SCALE )</Action></Actions>
 <SubRules>
 <Rule
  Priority="Processing"
@@ -2917,14 +2935,14 @@ In this case, the EOA should be moved to the train&apos;s current position with 
   MessageTypes.QScaleDistance(
       distance=&gt;Packet.D_ENDTIMERSTARTLOC,
       scale=&gt;Packet.Q_SCALE
-  ) &lt; TrainPosition.FrontEndPosition(DistanceInterval.Max)
+  ) &lt; Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Max)
 )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="e5dd653d-5eb0-4e34-b050-c3abad8a6525"
->MATimers.EndSectionTimerStart &lt;- DateAndTime.CurrentTime - BaseTypes.Time ( Packet.T_ENDTIMER )</Action><Action
+>Kernel.MA.MATimers.EndSectionTimerStart &lt;- Kernel.DateAndTime.CurrentTime - BaseTypes.Time ( Packet.T_ENDTIMER )</Action><Action
  Guid="72934c18-ce47-4fc9-8041-2427d0965cbf"
->HandlingOfAcceptedAndStoredInformation.EndSectionTimeOutShortensMA &lt;- True</Action></Actions>
+>Kernel.HandlingOfAcceptedAndStoredInformation.EndSectionTimeOutShortensMA &lt;- True</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -2955,12 +2973,12 @@ In this case, the EOA should be moved to the train&apos;s current position with 
   (
       distance =&gt; Packet.D_STARTOL,
       scale =&gt; Packet.Q_SCALE
-  ) &lt; TrainPosition.FrontEndPosition(DistanceInterval.Max)
+  ) &lt; Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Max)
 )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="3ade456f-2e44-420d-8da8-5e67afcd2911"
->MATimers.HandleOverlapTimeout()</Action></Actions>
+>Kernel.MA.MATimers.HandleOverlapTimeout()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="UpdateINTERNAL"
@@ -3006,7 +3024,7 @@ In this case, the EOA should be moved to the train&apos;s current position with 
 <Actions>
 <Action
  Guid="87500986-c033-4c28-8541-ba9f21d938cd"
->MA.EndSection.EndSectionTimeOut &lt;- MATimers.TimeOut
+>Kernel.MA.MA.EndSection.EndSectionTimeOut &lt;- Kernel.MA.MATimers.TimeOut
 {
     Distance =&gt; MessageTypes.QScaleDistance ( distance =&gt; Packet.D_ENDTIMERSTARTLOC, scale =&gt; Packet.Q_SCALE ),
     TimeOut =&gt; BaseTypes.Time( Packet.T_ENDTIMER )
@@ -3025,7 +3043,7 @@ In this case, the EOA should be moved to the train&apos;s current position with 
 <Actions>
 <Action
  Guid="92e8a761-0538-4e07-b824-35505211de34"
->MA.EndSection.EndSectionTimeOut &lt;- EMPTY</Action></Actions>
+>Kernel.MA.MA.EndSection.EndSectionTimeOut &lt;- EMPTY</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="UpdateINTERNAL"
@@ -3071,7 +3089,7 @@ In this case, the EOA should be moved to the train&apos;s current position with 
 <Actions>
 <Action
  Guid="accafb31-0bfe-4626-8086-677db8bffb6e"
->MA.EndSection.TimeOut &lt;- MATimers.TimeOut
+>Kernel.MA.MA.EndSection.TimeOut &lt;- Kernel.MA.MATimers.TimeOut
 {
     Distance =&gt; MessageTypes.QScaleDistance ( distance =&gt; Packet.D_SECTIONTIMERSTOPLOC, scale =&gt; Packet.Q_SCALE ),
     TimeOut =&gt; BaseTypes.Time ( Packet.T_SECTIONTIMER )
@@ -3090,7 +3108,7 @@ In this case, the EOA should be moved to the train&apos;s current position with 
 <Actions>
 <Action
  Guid="7fa07d9a-50f7-470e-bcc3-04c84e5ef484"
->MA.EndSection.TimeOut &lt;- EMPTY</Action></Actions>
+>Kernel.MA.MA.EndSection.TimeOut &lt;- EMPTY</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="UpdateINTERNAL"
@@ -3146,7 +3164,7 @@ In this case, the EOA should be moved to the train&apos;s current position with 
 <Actions>
 <Action
  Guid="97964995-0ab1-4bb4-93bc-94059d238ec4"
->MA.EndSection.DangerPoint &lt;- DangerPointStruct
+>Kernel.MA.MA.EndSection.DangerPoint &lt;- Kernel.MA.DangerPointStruct
 {
     Distance =&gt; MessageTypes.QScaleDistance ( distance =&gt; Packet.D_DP, scale =&gt; Packet.Q_SCALE ),
     ReleaseSpeed =&gt; CreateReleaseSpeed ( Packet.V_RELEASEDP )
@@ -3165,7 +3183,7 @@ In this case, the EOA should be moved to the train&apos;s current position with 
 <Actions>
 <Action
  Guid="25493712-fd59-4d29-a477-6270148952c9"
->MA.EndSection.DangerPoint &lt;- EMPTY</Action></Actions>
+>Kernel.MA.MA.EndSection.DangerPoint &lt;- EMPTY</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="UpdateINTERNAL"
@@ -3231,7 +3249,7 @@ In this case, the EOA should be moved to the train&apos;s current position with 
 <Actions>
 <Action
  Guid="1c3b0bf9-cffa-411d-98f9-5d356a986aa2"
->MA.EndSection.Overlap &lt;- OverlapStruct
+>Kernel.MA.MA.EndSection.Overlap &lt;- Kernel.MA.OverlapStruct
 {
     Distance =&gt; MessageTypes.QScaleDistance ( distance =&gt; Packet.D_OL, scale =&gt; Packet.Q_SCALE ),
     ReleaseSpeed =&gt; CreateReleaseSpeed ( Packet.V_RELEASEOL ),
@@ -3252,9 +3270,9 @@ In this case, the EOA should be moved to the train&apos;s current position with 
 <Actions>
 <Action
  Guid="6025c9c1-140a-4a5a-987a-8e0a1d675e04"
->MA.EndSection.Overlap &lt;- EMPTY</Action><Action
+>Kernel.MA.MA.EndSection.Overlap &lt;- EMPTY</Action><Action
  Guid="da51d9dd-a44b-4e99-b6c5-262363713fa8"
->MATimers.OverlapTimerStart &lt;- BaseTypes.Time.NA</Action></Actions>
+>Kernel.MA.MATimers.OverlapTimerStart &lt;- BaseTypes.Time.NA</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition></Conditions>
@@ -3278,7 +3296,7 @@ In this case, the EOA should be moved to the train&apos;s current position with 
 <Actions>
 <Action
  Guid="e5e2fcba-251a-4e6f-9ae2-515d5363a592"
->SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.UpdateReleaseSpeed()</Action></Actions>
+>Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.UpdateReleaseSpeed()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -3346,7 +3364,7 @@ In this case, the EOA should be moved to the train&apos;s current position with 
 <Actions>
 <Action
  Guid="74a98c79-486c-4f1d-91bc-bcb8e1c6a53e"
->CutSections( aLocation =&gt; InfillDistance )</Action></Actions>
+>Kernel.MA.CutSections( aLocation =&gt; InfillDistance )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -3369,7 +3387,7 @@ In this case, the EOA should be moved to the train&apos;s current position with 
 <Actions>
 <Action
  Guid="1b412fd4-760c-48a0-b2de-253d03b01b87"
->APPLY ExtendSections
+>APPLY Kernel.MA.ExtendSections
 (
     aSection =&gt; X,
     Scale =&gt; Packet.Q_SCALE,
@@ -3433,14 +3451,14 @@ Packet.Sequence1</Action></Actions>
 <Action
  Guid="ce0beff9-e9af-4007-a828-33f30bece57b"
 >INSERT
-  CreateEFSSection
+  Kernel.MA.CreateEFSSection
   (
     ERTMSSection =&gt; aSection,
     Scale =&gt; Scale,
     SectionStartTimer =&gt; SectionStartTimer
    )
 IN
-  MA.Sections</Action></Actions>
+  Kernel.MA.MA.Sections</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -3500,11 +3518,11 @@ IN
 <PreConditions>
 <PreCondition
  Guid="8ca2de13-4875-4b41-8ee8-bf5d34b237c6"
->Available ( MA ) AND MA.Sections != []</PreCondition></PreConditions>
+>Available ( Kernel.MA.MA ) AND Kernel.MA.MA.Sections != []</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="3611dfd8-ce76-44f9-b77d-2ed6793b73c7"
->(FIRST X IN MA.Sections).Length &lt;- DistanceToBG + MessageTypes.QScaleLength ( length =&gt; Packet.L_SECTION, scale =&gt; Packet.Q_SCALE )</Action></Actions>
+>(FIRST X IN Kernel.MA.MA.Sections).Length &lt;- DistanceToBG + MessageTypes.QScaleLength ( length =&gt; Packet.L_SECTION, scale =&gt; Packet.Q_SCALE )</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  NeedsRequirement="FALSE"
@@ -3515,11 +3533,11 @@ IN
 <PreConditions>
 <PreCondition
  Guid="03a63234-cc66-4102-9072-1c51e26cfced"
->Available ( MA )</PreCondition></PreConditions>
+>Available ( Kernel.MA.MA )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="9871f412-589a-449d-bf33-f3744a32d9b4"
->MA.EndSection.Length &lt;- DistanceToBG + MessageTypes.QScaleLength ( length =&gt; Packet.L_SECTION, scale =&gt; Packet.Q_SCALE )</Action></Actions>
+>Kernel.MA.MA.EndSection.Length &lt;- DistanceToBG + MessageTypes.QScaleLength ( length =&gt; Packet.L_SECTION, scale =&gt; Packet.Q_SCALE )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -3602,7 +3620,7 @@ IN
 <Actions>
 <Action
  Guid="d69d2c39-43b3-4141-96ed-feb6a58e9a31"
->EOAs &lt;- []</Action></Actions>
+>Kernel.MA.EOAs &lt;- []</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -3636,12 +3654,12 @@ IN
 <PreConditions>
 <PreCondition
  Guid="c22fb301-b97b-4365-ae9b-88c418215162"
->TrackDescription.RouteSuitability.EOA() != EMPTY</PreCondition></PreConditions>
+>Kernel.TrackDescription.RouteSuitability.EOA() != EMPTY</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="60d84cd0-88e4-48c1-b583-9815a965ca7c"
->INSERT TrackDescription.RouteSuitability.EOA()
-IN EOAs</Action></Actions>
+>INSERT Kernel.TrackDescription.RouteSuitability.EOA()
+IN Kernel.MA.EOAs</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -3665,16 +3683,16 @@ IN EOAs</Action></Actions>
 <PreConditions>
 <PreCondition
  Guid="a7d3e9eb-090c-464f-ad59-e3fdb77f9e29"
->THERE_IS X IN BrakeCommands.EmergencyStops | ( (X.Reason == BrakeCommands.BrakeReason.OrderFromRBC) AND (X.IsConditional) )</PreCondition></PreConditions>
+>THERE_IS X IN Kernel.BrakeCommands.EmergencyStops | ( (X.Reason == Kernel.BrakeCommands.BrakeReason.OrderFromRBC) AND (X.IsConditional) )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="7c64880f-bfc1-476f-a9b1-9983265c63c0"
->INSERT CreateTarget(
+>INSERT Kernel.MA.CreateTarget(
     aLength=&gt;BaseTypes.Distance.Infinity,
-    aLocation=&gt;BrakeCommands.ClosestStopLocation( BrakeCommands.EmergencyStops ).StopLocation,
+    aLocation=&gt;Kernel.BrakeCommands.ClosestStopLocation( Kernel.BrakeCommands.EmergencyStops ).StopLocation,
     aSpeed=&gt;0.0
 )
-IN EOAs</Action></Actions>
+IN Kernel.MA.EOAs</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -3693,12 +3711,12 @@ IN EOAs</Action></Actions>
 <PreConditions>
 <PreCondition
  Guid="0b9e8510-b8db-49ba-be53-66d6ce3d9796"
->ModeProfile.EOA() != EMPTY</PreCondition></PreConditions>
+>Kernel.MA.ModeProfile.EOA() != EMPTY</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="6b2dd3e1-c005-4bc7-aa88-9d2b348dc7e3"
->INSERT ModeProfile.EOA()
-IN EOAs</Action></Actions>
+>INSERT Kernel.MA.ModeProfile.EOA()
+IN Kernel.MA.EOAs</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -3727,20 +3745,20 @@ IN EOAs</Action></Actions>
 <PreConditions>
 <PreCondition
  Guid="839cbb33-f7e4-4233-b5fe-4fccc5a07519"
->LX.SupervisedLevelCrossings != []</PreCondition></PreConditions>
+>Kernel.LX.SupervisedLevelCrossings != []</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="5d428056-d867-4dff-bc94-633a9ba1c635"
 >APPLY 
-  INSERT CreateTarget
+  INSERT Kernel.MA.CreateTarget
   (
     aLength =&gt; X.Length,
     aLocation =&gt; X.Location,
     aSpeed=&gt;0.0
   )
-  IN EOAs
+  IN Kernel.MA.EOAs
 ON
-  LX.SupervisedLevelCrossings</Action></Actions>
+  Kernel.LX.SupervisedLevelCrossings</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -3784,20 +3802,20 @@ ON
 <PreConditions>
 <PreCondition
  Guid="24d938c7-fe0b-4f4d-b9a9-b308a3518179"
->Available(MATimers.TimedOutSection())</PreCondition></PreConditions>
+>Available(Kernel.MA.MATimers.TimedOutSection())</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="5f20e14d-76f0-46f6-a32a-fe2c3ff671d7"
->INSERT CreateTarget(
+>INSERT Kernel.MA.CreateTarget(
     aLength=&gt;BaseTypes.Length.Infinity,
-    aLocation=&gt;MATimers.TimeOutSectionStart(),
+    aLocation=&gt;Kernel.MA.MATimers.TimeOutSectionStart(),
     aSpeed=&gt;0.0
 )
-IN EOAs</Action><Action
+IN Kernel.MA.EOAs</Action><Action
  Guid="4a877f2e-ffe8-4dd8-b245-926bded39f26"
->HandlingOfAcceptedAndStoredInformation.SectionTimeOutShortensMA &lt;- True</Action><Action
+>Kernel.HandlingOfAcceptedAndStoredInformation.SectionTimeOutShortensMA &lt;- True</Action><Action
  Guid="4c4fc0db-b651-45f3-9bcc-b947f3342dc6"
->SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.UpdateReleaseSpeed()</Action></Actions>
+>Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.UpdateReleaseSpeed()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -3841,22 +3859,22 @@ IN EOAs</Action><Action
 <PreConditions>
 <PreCondition
  Guid="7c58a301-5e31-4d0c-91de-e2e64df6d1f7"
->MA.EndSection.EndSectionTimeOut != EMPTY
+>Kernel.MA.MA.EndSection.EndSectionTimeOut != EMPTY
   AND
-MATimers.EndSectionTimerStart != BaseTypes.Time.NA
+Kernel.MA.MATimers.EndSectionTimerStart != BaseTypes.Time.NA
   AND  
-(DateAndTime.CurrentTime &gt; MATimers.EndSectionTimerStart + MA.EndSection.EndSectionTimeOut.TimeOut)</PreCondition></PreConditions>
+(Kernel.DateAndTime.CurrentTime &gt; Kernel.MA.MATimers.EndSectionTimerStart + Kernel.MA.MA.EndSection.EndSectionTimeOut.TimeOut)</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="87845b6e-e345-4f5d-b307-e656fca337bb"
->INSERT CreateTarget(
+>INSERT Kernel.MA.CreateTarget(
     aLength=&gt;BaseTypes.Length.Infinity,
-    aLocation=&gt;TrainPosition.FrontEndPosition(PointOfInterest=&gt;DistanceInterval.Nom),
+    aLocation=&gt;Kernel.TrainPosition.FrontEndPosition(PointOfInterest=&gt;DistanceInterval.Nom),
     aSpeed=&gt;0.0
 )
-IN EOAs</Action><Action
+IN Kernel.MA.EOAs</Action><Action
  Guid="a54a01c8-60c3-4dff-9b28-5075998c6a6b"
->HandlingOfAcceptedAndStoredInformation.EndSectionTimeOutShortensMA &lt;- True</Action></Actions>
+>Kernel.HandlingOfAcceptedAndStoredInformation.EndSectionTimeOutShortensMA &lt;- True</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -3876,19 +3894,19 @@ IN EOAs</Action><Action
 <PreConditions>
 <PreCondition
  Guid="a779a5e2-a7b0-4b37-b922-68e77593783c"
->THERE_IS X IN MA.Sections | X != EMPTY</PreCondition><PreCondition
+>THERE_IS X IN Kernel.MA.MA.Sections | X != EMPTY</PreCondition><PreCondition
  Guid="2da1cafb-98d9-4a61-bd3d-495c6e434301"
->Available ( MA )</PreCondition></PreConditions>
+>Available ( Kernel.MA.MA )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="02a0d872-3ea1-48ef-a8ac-d2b605a7ef3b"
 >INSERT
-CreateTarget (
-    aSpeed =&gt; MA.TargetSpeed,
-    aLocation =&gt; BaseTypes.LengthToDistance ( (SUM MA.Sections USING X IN X.Length) + MA.EndSection.Length),
+Kernel.MA.CreateTarget (
+    aSpeed =&gt; Kernel.MA.MA.TargetSpeed,
+    aLocation =&gt; BaseTypes.LengthToDistance ( (SUM Kernel.MA.MA.Sections USING X IN X.Length) + Kernel.MA.MA.EndSection.Length),
     aLength =&gt; BaseTypes.Length.Infinity
 )
-IN EOAs</Action></Actions>
+IN Kernel.MA.EOAs</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -3907,18 +3925,18 @@ IN EOAs</Action></Actions>
 <PreConditions>
 <PreCondition
  Guid="dfcefb13-769a-429a-977d-4dcc97933ad3"
->FORALL X IN MA.Sections | X == EMPTY</PreCondition><PreCondition
+>FORALL X IN Kernel.MA.MA.Sections | X == EMPTY</PreCondition><PreCondition
  Guid="08a4286f-ccdb-4e73-80bf-91bdbdf925e0"
->Available ( MA )</PreCondition></PreConditions>
+>Available ( Kernel.MA.MA )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="27ea72e8-4e70-4326-b736-bd2fb8e26a62"
->INSERT CreateTarget (
-    aSpeed =&gt; MA.TargetSpeed,
-    aLocation =&gt; BaseTypes.LengthToDistance( MA.EndSection.Length),
+>INSERT Kernel.MA.CreateTarget (
+    aSpeed =&gt; Kernel.MA.MA.TargetSpeed,
+    aLocation =&gt; BaseTypes.LengthToDistance( Kernel.MA.MA.EndSection.Length),
     aLength =&gt; BaseTypes.Length.Infinity
  )
-IN EOAs</Action></Actions>
+IN Kernel.MA.EOAs</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -3942,17 +3960,17 @@ IN EOAs</Action></Actions>
 <PreConditions>
 <PreCondition
  Guid="ed6d4fe8-c935-48ee-835b-64ea1a9556ef"
->ConsiderFrontEndAsSvL</PreCondition></PreConditions>
+>Kernel.MA.ConsiderFrontEndAsSvL</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="0ca8c3ac-eb32-4587-950a-61a181a36d35"
->INSERT CreateTarget
+>INSERT Kernel.MA.CreateTarget
 (
     aSpeed =&gt; 0.0,
-    aLocation =&gt; TrainPosition.FrontEndPosition(PointOfInterest =&gt; DistanceInterval.Nom),
+    aLocation =&gt; Kernel.TrainPosition.FrontEndPosition(PointOfInterest =&gt; DistanceInterval.Nom),
     aLength =&gt; BaseTypes.Length.Infinity
  )
-IN EOAs</Action></Actions>
+IN Kernel.MA.EOAs</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -3971,16 +3989,16 @@ IN EOAs</Action></Actions>
 <PreConditions>
 <PreCondition
  Guid="fc363c6b-90b4-4cba-b409-5fcabbca8ef5"
->EOAs == []</PreCondition></PreConditions>
+>Kernel.MA.EOAs == []</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="777d7877-37bc-43a8-96a2-f67253857249"
->INSERT CreateTarget (
+>INSERT Kernel.MA.CreateTarget (
     aSpeed =&gt; 0.0,
     aLocation =&gt; BaseTypes.Distance.Infinity,
     aLength =&gt; BaseTypes.Length.Infinity
  )
-IN EOAs</Action></Actions>
+IN Kernel.MA.EOAs</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -4048,7 +4066,7 @@ IN EOAs</Action></Actions>
 <Actions>
 <Action
  Guid="9d52eeaf-526c-4b5e-90ef-3dae9c952522"
->SvLs &lt;- []</Action></Actions>
+>Kernel.MA.SvLs &lt;- []</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -4086,12 +4104,12 @@ IN EOAs</Action></Actions>
 <PreConditions>
 <PreCondition
  Guid="96b46e57-19ae-42d1-a66d-a8e9a497d529"
->TrackDescription.RouteSuitability.SvL() != EMPTY</PreCondition></PreConditions>
+>Kernel.TrackDescription.RouteSuitability.SvL() != EMPTY</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="f9b0a2c0-aaa2-4b2d-a561-bda09265f421"
->INSERT TrackDescription.RouteSuitability.SvL()
-IN SvLs</Action></Actions>
+>INSERT Kernel.TrackDescription.RouteSuitability.SvL()
+IN Kernel.MA.SvLs</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -4120,18 +4138,18 @@ IN SvLs</Action></Actions>
 <PreConditions>
 <PreCondition
  Guid="215f42e0-2b31-4277-bb6c-812e8ea8e88c"
->MA.EndSection.Overlap != EMPTY</PreCondition><PreCondition
+>Kernel.MA.MA.EndSection.Overlap != EMPTY</PreCondition><PreCondition
  Guid="6b5b5cca-2abe-4a35-ba48-722d6a43cbdd"
->MA.TargetSpeed == 0.0</PreCondition></PreConditions>
+>Kernel.MA.MA.TargetSpeed == 0.0</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="b2167c03-e084-4419-9978-0e92dc27be2f"
->INSERT CreateTarget (
-    aLocation =&gt; OverlapLocation(),
+>INSERT Kernel.MA.CreateTarget (
+    aLocation =&gt; Kernel.MA.OverlapLocation(),
     aSpeed =&gt; 0.0,
     aLength =&gt; BaseTypes.Length.Infinity
  )
-IN SvLs</Action></Actions>
+IN Kernel.MA.SvLs</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -4150,12 +4168,12 @@ IN SvLs</Action></Actions>
 <PreConditions>
 <PreCondition
  Guid="1d8e1ac3-45b7-4f98-a932-63db1f3403e2"
->ModeProfile.SvL() != EMPTY</PreCondition></PreConditions>
+>Kernel.MA.ModeProfile.SvL() != EMPTY</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="03a7f8e6-3334-4d8e-8c4c-76bc70bfe7cb"
->INSERT ModeProfile.SvL()
-IN SvLs</Action></Actions>
+>INSERT Kernel.MA.ModeProfile.SvL()
+IN Kernel.MA.SvLs</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -4184,16 +4202,16 @@ IN SvLs</Action></Actions>
 <PreConditions>
 <PreCondition
  Guid="36301967-8c3d-4b27-a9d7-6bd8fc20a95e"
->Available(MATimers.TimedOutSection())</PreCondition></PreConditions>
+>Available(Kernel.MA.MATimers.TimedOutSection())</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="10e9c9f8-f0a4-41d3-9b16-6ffd1920e288"
->INSERT CreateTarget(
+>INSERT Kernel.MA.CreateTarget(
     aLength=&gt;BaseTypes.Length.Infinity,
-    aLocation=&gt;MATimers.TimeOutSectionStart(),
+    aLocation=&gt;Kernel.MA.MATimers.TimeOutSectionStart(),
     aSpeed=&gt;0.0
 )
-IN SvLs</Action></Actions>
+IN Kernel.MA.SvLs</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -4222,20 +4240,20 @@ IN SvLs</Action></Actions>
 <PreConditions>
 <PreCondition
  Guid="95230fbf-fc08-4439-860f-125265afa0df"
->LX.SupervisedLevelCrossings != []</PreCondition></PreConditions>
+>Kernel.LX.SupervisedLevelCrossings != []</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="9274d1c1-4a76-4102-970e-4758a11502ca"
 >APPLY 
-  INSERT CreateTarget
+  INSERT Kernel.MA.CreateTarget
   (
     aLength =&gt; X.Length,
     aLocation =&gt; X.Location,
     aSpeed =&gt; 0.0
   )
-  IN SvLs
+  IN Kernel.MA.SvLs
 ON
-  LX.SupervisedLevelCrossings</Action></Actions>
+  Kernel.LX.SupervisedLevelCrossings</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -4265,20 +4283,20 @@ ON
 <PreConditions>
 <PreCondition
  Guid="dc70bb5c-8f5e-4284-8073-ab38322d16d0"
->MA.EndSection.DangerPoint != EMPTY</PreCondition><PreCondition
+>Kernel.MA.MA.EndSection.DangerPoint != EMPTY</PreCondition><PreCondition
  Guid="262a6363-57ea-4522-99e7-96d5519e8ab9"
->MA.TargetSpeed == 0.0</PreCondition><PreCondition
+>Kernel.MA.MA.TargetSpeed == 0.0</PreCondition><PreCondition
  Guid="ae7d6bee-201a-437a-98be-2b8c4fe2bdf7"
->MA.EndSection.Overlap == EMPTY</PreCondition></PreConditions>
+>Kernel.MA.MA.EndSection.Overlap == EMPTY</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="34b23ee0-eb06-43b4-834f-1245e46fcd95"
->INSERT CreateTarget (
-    aLocation =&gt; DangerPointLocation(),
+>INSERT Kernel.MA.CreateTarget (
+    aLocation =&gt; Kernel.MA.DangerPointLocation(),
     aSpeed =&gt; 0.0,
     aLength =&gt; BaseTypes.Length.Infinity
  )
-IN SvLs</Action></Actions>
+IN Kernel.MA.SvLs</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -4308,20 +4326,20 @@ IN SvLs</Action></Actions>
 <PreConditions>
 <PreCondition
  Guid="cc1d2851-a9ce-4ad2-941e-668f3bec546f"
->MA.TargetSpeed == 0.0</PreCondition><PreCondition
+>Kernel.MA.MA.TargetSpeed == 0.0</PreCondition><PreCondition
  Guid="bccc0d0b-6604-4341-9629-54a2ab408b8d"
->MA.EndSection.Overlap == EMPTY</PreCondition><PreCondition
+>Kernel.MA.MA.EndSection.Overlap == EMPTY</PreCondition><PreCondition
  Guid="1691be27-3707-48d7-bc85-f83554fae8b7"
->MA.EndSection.DangerPoint == EMPTY</PreCondition></PreConditions>
+>Kernel.MA.MA.EndSection.DangerPoint == EMPTY</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="3bf7458d-7f9b-4188-94f9-8c6a0c847b12"
->INSERT CreateTarget(
-    aLocation =&gt; ClosestEOA().Location,
+>INSERT Kernel.MA.CreateTarget(
+    aLocation =&gt; Kernel.MA.ClosestEOA().Location,
     aSpeed =&gt; 0.0,
     aLength =&gt; BaseTypes.Length.Infinity
 )
-IN SvLs</Action></Actions>
+IN Kernel.MA.SvLs</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -4345,17 +4363,17 @@ IN SvLs</Action></Actions>
 <PreConditions>
 <PreCondition
  Guid="05b6ef3d-3aa7-4d5b-884d-f00e35cace43"
->ConsiderFrontEndAsSvL</PreCondition></PreConditions>
+>Kernel.MA.ConsiderFrontEndAsSvL</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="e2daa208-d946-48f2-847f-7b8520a169b7"
->INSERT CreateTarget
+>INSERT Kernel.MA.CreateTarget
 (
-    aLocation =&gt; TrainPosition.FrontEndPosition(PointOfInterest =&gt; DistanceInterval.Max)
+    aLocation =&gt; Kernel.TrainPosition.FrontEndPosition(PointOfInterest =&gt; DistanceInterval.Max)
     aSpeed =&gt; 0.0,
     aLength =&gt; BaseTypes.Length.Infinity
 )
-IN SvLs</Action></Actions>
+IN Kernel.MA.SvLs</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition></Conditions>
@@ -4394,15 +4412,15 @@ In case the previous End of Authority was an LOA and the new MA has an SvL, this
 <PreConditions>
 <PreCondition
  Guid="19bccdbd-f627-4eb6-b555-242fd599ad68"
->ShorteningHandler != EMPTY
+>Kernel.MA.ShorteningHandler != EMPTY
   AND
-NOT ShorteningHandler.IsSvL
+NOT Kernel.MA.ShorteningHandler.IsSvL
   AND
-SvL() != EMPTY</PreCondition></PreConditions>
+Kernel.MA.SvL() != EMPTY</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="56a0218a-5e6a-46da-94f5-1773ffcbf281"
->HandlingOfAcceptedAndStoredInformation.ShortenedMaReceivedRegardlessOfSvL &lt;- True</Action></Actions>
+>Kernel.HandlingOfAcceptedAndStoredInformation.ShortenedMaReceivedRegardlessOfSvL &lt;- True</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="TestMaShortening"
@@ -4417,17 +4435,17 @@ SvL() != EMPTY</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="2f33e75d-0cbd-41cd-a3c1-be78ac425e45"
->ShorteningHandler != EMPTY
+>Kernel.MA.ShorteningHandler != EMPTY
   AND
-ShorteningHandler.IsSvL
+Kernel.MA.ShorteningHandler.IsSvL
   AND
-SvL() != EMPTY
+Kernel.MA.SvL() != EMPTY
   AND
-SvL().Location &lt; ShorteningHandler.Location</PreCondition></PreConditions>
+Kernel.MA.SvL().Location &lt; Kernel.MA.ShorteningHandler.Location</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="c5a9f8e6-962f-4e24-9a60-4e8aa640da0c"
->HandlingOfAcceptedAndStoredInformation.ShortenedMaReceived &lt;- True</Action></Actions>
+>Kernel.HandlingOfAcceptedAndStoredInformation.ShortenedMaReceived &lt;- True</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -4470,7 +4488,7 @@ SvL().Location &lt; ShorteningHandler.Location</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="04789b87-d062-4c84-a0db-e72332a49ffb"
->MA.EndSection.Length &lt;- MA.EndSection.Length - BaseTypes.DistanceToLength(Distance - EndSectionStart())</Action></Actions>
+>Kernel.MA.MA.EndSection.Length &lt;- Kernel.MA.MA.EndSection.Length - BaseTypes.DistanceToLength(Distance - Kernel.MA.EndSectionStart())</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -4493,7 +4511,7 @@ SvL().Location &lt; ShorteningHandler.Location</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="3a327ab0-2da8-409a-93eb-dccb9bfd2696"
->MA.Sections &lt;- []</Action></Actions>
+>Kernel.MA.MA.Sections &lt;- []</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -4538,19 +4556,19 @@ SvL().Location &lt; ShorteningHandler.Location</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="a88bffd1-d674-4e7c-b290-12f6021f1d4d"
->MA.EndSection.Length &gt; 0.0</PreCondition></PreConditions>
+>Kernel.MA.MA.EndSection.Length &gt; 0.0</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="7fb541c1-0d75-45be-a1ef-915b09be7db9"
 >INSERT
-SectionStruct
+Kernel.MA.SectionStruct
 {
     Length =&gt; MA.EndSection.Length,
     TimeOut =&gt; MA.EndSection.TimeOut
 }
-IN MA.Sections</Action><Action
+IN Kernel.MA.MA.Sections</Action><Action
  Guid="d87b351f-4257-4111-be61-37a790c1dc3b"
->MA.EndSection &lt;- EndSectionStruct
+>Kernel.MA.MA.EndSection &lt;- Kernel.MA.EndSectionStruct
 {
   Length =&gt; 0.0
 }</Action></Actions>
@@ -4576,7 +4594,7 @@ IN MA.Sections</Action><Action
 <Actions>
 <Action
  Guid="49f9d3f5-f1b1-4fee-978d-f4804215903f"
->MA.Sections &lt;- MAP MA.Sections USING X IN ConsiderSectionForInfill ( aSection =&gt; X, InfillDistance =&gt; aLocation )</Action></Actions>
+>Kernel.MA.MA.Sections &lt;- MAP Kernel.MA.MA.Sections USING X IN Kernel.MA.ConsiderSectionForInfill ( aSection =&gt; X, InfillDistance =&gt; aLocation )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -4639,7 +4657,7 @@ IN MA.Sections</Action><Action
 <Actions>
 <Action
  Guid="17d95ffc-9842-42a9-833f-8fa10e789cca"
->CutSections( aLocation =&gt; aLocation )</Action></Actions>
+>Kernel.MA.CutSections( aLocation =&gt; aLocation )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -4658,11 +4676,11 @@ IN MA.Sections</Action><Action
 <PreConditions>
 <PreCondition
  Guid="61f4f801-6576-4802-a2d7-bd56e48e72fd"
->MA.Sections != []</PreCondition></PreConditions>
+>Kernel.MA.MA.Sections != []</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="a72ac4fa-58db-4b62-93bb-cca801dd9030"
->MA.EndSection &lt;- EndSectionStruct
+>Kernel.MA.MA.EndSection &lt;- Kernel.MA.EndSectionStruct
 {
   Length =&gt; (LAST Section IN MA.Sections).Length
 }</Action></Actions>
@@ -4684,11 +4702,11 @@ IN MA.Sections</Action><Action
 <PreConditions>
 <PreCondition
  Guid="eee84ccb-acbe-4f79-b4f7-95f5c2159aa2"
->MA.Sections != []</PreCondition></PreConditions>
+>Kernel.MA.MA.Sections != []</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="975cea16-d2a6-4166-a026-7a7f52e2b184"
->REMOVE LAST IN MA.Sections</Action></Actions>
+>REMOVE LAST IN Kernel.MA.MA.Sections</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
@@ -4868,7 +4886,7 @@ IN MA.Sections</Action><Action
 <Actions>
 <Action
  Guid="0209332a-b329-41fe-be81-67f6ff5c367a"
->MAIsAccepted &lt;- False</Action></Actions>
+>Kernel.MA.MAIsAccepted &lt;- False</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </NameSpace>

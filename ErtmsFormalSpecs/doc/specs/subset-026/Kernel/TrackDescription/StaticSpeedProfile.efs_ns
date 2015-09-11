@@ -269,12 +269,12 @@
 <PreCondition
  Guid="7f6dc22b-756b-4bbd-a279-def78e406e66"
 >aSSP.TrainLengthDelay == Messages.Q_FRONT.Train_length_delay_on_validity_end_point_of_profile_element</PreCondition></PreConditions>
-<Expression>SSPEnd(aSSP) - aSSP.Location + TrainData.TrainData.Value.TrainLength</Expression>
+<Expression>Kernel.TrackDescription.StaticSpeedProfile.SSPEnd(aSSP) - aSSP.Location + Kernel.TrainData.TrainData.Value.TrainLength</Expression>
 </Case><Case
  Name="NoTrainLengthDelay"
  Guid="e5943792-4cfa-46ac-befd-3c30fe17d42b"
 >
-<Expression>SSPEnd(aSSP) - aSSP.Location</Expression>
+<Expression>Kernel.TrackDescription.StaticSpeedProfile.SSPEnd(aSSP) - aSSP.Location</Expression>
 </Case></Cases>
 </Function><Function
  Type="Messages.NC_CDDIFF"
@@ -316,9 +316,9 @@
  Guid="b3fadbe3-c52f-409c-bf9e-f100bb6a5585"
 >
 <Expression>REDUCE
-    aSSR.Categories | X.Qualifier == Messages.Q_DIFF.Cant_Deficiency_specific_category AND X.CantDeficiency &lt;= NC_CTRAIN_to_NC_CDDIFF_Converter(TrainData.TrainData.Value.TrainCategories.CantDeficiency)
+    aSSR.Categories | X.Qualifier == Messages.Q_DIFF.Cant_Deficiency_specific_category AND X.CantDeficiency &lt;= NC_CTRAIN_to_NC_CDDIFF_Converter(Kernel.TrainData.TrainData.Value.TrainCategories.CantDeficiency)
 USING X IN
-    MaxCategory (X =&gt; X.CantDeficiency, Y =&gt; RESULT)
+    Kernel.TrackDescription.StaticSpeedProfile.MaxCategory (X =&gt; X.CantDeficiency, Y =&gt; RESULT)
 INITIAL_VALUE
     EMPTY</Expression>
 </Case></Cases>
@@ -413,13 +413,13 @@ INITIAL_VALUE
 <PreConditions>
 <PreCondition
  Guid="4c69ccb4-6ea7-460c-a685-2371b681e16b"
->SelectCantDeficiencyCategory(aSSR) == EMPTY</PreCondition></PreConditions>
+>Kernel.TrackDescription.StaticSpeedProfile.SelectCantDeficiencyCategory(aSSR) == EMPTY</PreCondition></PreConditions>
 <Expression>aSSR.BasicSpeed</Expression>
 </Case><Case
  Name="CorrespondingCategoryFound"
  Guid="06acc45b-dd2a-4263-a75e-cd81c0380c09"
 >
-<Expression>(FIRST X IN aSSR.Categories | X.Qualifier == Messages.Q_DIFF.Cant_Deficiency_specific_category AND X.CantDeficiency == SelectCantDeficiencyCategory(aSSR)).Speed</Expression>
+<Expression>(FIRST X IN aSSR.Categories | X.Qualifier == Messages.Q_DIFF.Cant_Deficiency_specific_category AND X.CantDeficiency == Kernel.TrackDescription.StaticSpeedProfile.SelectCantDeficiencyCategory(aSSR)).Speed</Expression>
 </Case></Cases>
 </Function><Function
  Type="StaticSpeedRestrictionStruct"
@@ -481,7 +481,7 @@ INITIAL_VALUE
  Name="Value"
  Guid="911f9e12-9e9e-444b-9f69-eb1556d30683"
 >
-<Expression>StaticSpeedRestrictionStruct
+<Expression>Kernel.TrackDescription.StaticSpeedProfile.StaticSpeedRestrictionStruct
 {
     Location =&gt; Location,
     BasicSpeed =&gt; BasicSpeed,
@@ -570,7 +570,7 @@ USING X IN
  Name="Value"
  Guid="048d6281-de53-424b-9ec4-cc5558abc150"
 >
-<Expression>SSPCategory
+<Expression>Kernel.TrackDescription.StaticSpeedProfile.SSPCategory
 {
     Qualifier =&gt; Qualifier,
     Speed =&gt; Speed,
@@ -617,9 +617,9 @@ USING X IN
  Name="Value"
  Guid="8d62abad-1517-484b-86ff-ad3ee8024e41"
 >
-<Expression>(REDUCE SSP 
+<Expression>(REDUCE Kernel.TrackDescription.StaticSpeedProfile.SSP 
     USING X IN  
-        MIN ( First =&gt; FUNCTION d : Default.BaseTypes.Distance =&gt; ComputeStaticSpeedRestriction( aSSP =&gt; X, Distance =&gt; d ), 
+        MIN ( First =&gt; FUNCTION d : Default.BaseTypes.Distance =&gt; Kernel.TrackDescription.StaticSpeedProfile.ComputeStaticSpeedRestriction( aSSP =&gt; X, Distance =&gt; d ), 
                   Second =&gt; RESULT )
 INITIAL_VALUE BaseTypes.MaxSpeedFunction) (Distance)</Expression>
 </Case></Cases>
@@ -674,10 +674,10 @@ INITIAL_VALUE BaseTypes.MaxSpeedFunction) (Distance)</Expression>
 <PreConditions>
 <PreCondition
  Guid="cdc88c52-cc87-4d46-a489-8483578cb5ef"
->SSPEnd ( aSSP ) == BaseTypes.Distance.Infinity</PreCondition><PreCondition
+>Kernel.TrackDescription.StaticSpeedProfile.SSPEnd ( aSSP ) == BaseTypes.Distance.Infinity</PreCondition><PreCondition
  Guid="c8d3a048-82af-4fc8-afee-2031cb5b8abf"
 >Distance &gt;= aSSP.Location</PreCondition></PreConditions>
-<Expression>SSPSpeed(aSSP)</Expression>
+<Expression>Kernel.TrackDescription.StaticSpeedProfile.SSPSpeed(aSSP)</Expression>
 </Case><Case
  Name="During SSP"
  Guid="82fa0622-8426-4627-a328-c92df7a6646f"
@@ -687,8 +687,8 @@ INITIAL_VALUE BaseTypes.MaxSpeedFunction) (Distance)</Expression>
  Guid="15221f58-b9e6-4991-9f91-ce91e073c79b"
 >aSSP.Location &lt;= Distance</PreCondition><PreCondition
  Guid="a3494ca1-2ab4-45f5-9d76-b4fec8b96902"
->Distance &lt; BaseTypes.AddDistance (X1 =&gt; aSSP.Location, X2 =&gt; SSPLength(aSSP))</PreCondition></PreConditions>
-<Expression>SSPSpeed ( aSSP )</Expression>
+>Distance &lt; BaseTypes.AddDistance (X1 =&gt; aSSP.Location, X2 =&gt; Kernel.TrackDescription.StaticSpeedProfile.SSPLength(aSSP))</PreCondition></PreConditions>
+<Expression>Kernel.TrackDescription.StaticSpeedProfile.SSPSpeed ( aSSP )</Expression>
 </Case><Case
  Name="Outside SSP"
  Guid="003d9321-b254-46ed-8c99-ee86f755db21"
@@ -740,7 +740,7 @@ INITIAL_VALUE BaseTypes.MaxSpeedFunction) (Distance)</Expression>
  Guid="0501d6cc-b928-4ac2-9c0d-339b2d643872"
 >
 <Expression>REDUCE
-    SSP | X.Location &gt; Current.Location
+    Kernel.TrackDescription.StaticSpeedProfile.SSP | X.Location &gt; Current.Location
 USING X IN
     BaseTypes.MinDistance( X.Location, RESULT )
 INITIAL_VALUE
@@ -781,15 +781,15 @@ INITIAL_VALUE
 >REDUCE
     aSSP.Categories | X.Qualifier == Messages.Q_DIFF.Other_specific_category__replaces_the_Cant_Deficiency_SSP
 USING X IN
-    FindOSC(X.OtherSpecific) OR RESULT
+    Kernel.TrackDescription.StaticSpeedProfile.FindOSC(X.OtherSpecific) OR RESULT
 INITIAL_VALUE
     False</PreCondition></PreConditions>
-<Expression>OtherSpecificSpeedRestriction(aSSP)</Expression>
+<Expression>Kernel.TrackDescription.StaticSpeedProfile.OtherSpecificSpeedRestriction(aSSP)</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="48589ce8-2529-4885-ad78-5daf74a941b6"
 >
-<Expression>BaseTypes.MinSpeed(OtherSpecificSpeedRestriction(aSSP), CantDeficiencySpeedRestriction(aSSP))</Expression>
+<Expression>BaseTypes.MinSpeed(Kernel.TrackDescription.StaticSpeedProfile.OtherSpecificSpeedRestriction(aSSP), Kernel.TrackDescription.StaticSpeedProfile.CantDeficiencySpeedRestriction(aSSP))</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -825,7 +825,7 @@ INITIAL_VALUE
  Name="Value"
  Guid="39b3f53b-79a9-41ad-bc42-6742ae462189"
 >
-<Expression>THERE_IS X IN TrainData.TrainData.Value.TrainCategories.OtherInternational | X == Category</Expression>
+<Expression>THERE_IS X IN Kernel.TrainData.TrainData.Value.TrainCategories.OtherInternational | X == Category</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Speed"
@@ -862,7 +862,7 @@ INITIAL_VALUE
  Guid="ea8182ca-98f7-40d2-b986-acbb3a2a1e25"
 >
 <Expression>REDUCE
-    aSSP.Categories | X.Qualifier in [Messages.Q_DIFF.Other_specific_category__replaces_the_Cant_Deficiency_SSP, Messages.Q_DIFF.Other_specific_category__does_not_replace_the_Cant_Deficiency_SSP] AND FindOSC(X.OtherSpecific)
+    aSSP.Categories | X.Qualifier in [Messages.Q_DIFF.Other_specific_category__replaces_the_Cant_Deficiency_SSP, Messages.Q_DIFF.Other_specific_category__does_not_replace_the_Cant_Deficiency_SSP] AND Kernel.TrackDescription.StaticSpeedProfile.FindOSC(X.OtherSpecific)
 USING X IN
     BaseTypes.MinSpeed(X.Speed, RESULT)
 INITIAL_VALUE
@@ -897,7 +897,7 @@ INITIAL_VALUE
 <PreCondition
  Guid="5cbb582c-d00b-4837-93bc-f0095b7a41f5"
 >aCategory == Messages.NC_DIFF.Specific_SSP_applicable_to_Freight_train_braked_in__P__position</PreCondition></PreConditions>
-<Expression>TrainData.TrainCategoryEnum.FreightTrainInP</Expression>
+<Expression>Kernel.TrainData.TrainCategoryEnum.FreightTrainInP</Expression>
 </Case><Case
  Name="Freight train in G"
  Guid="62203bb1-6a2d-444d-b836-4b0954c2b96f"
@@ -906,12 +906,12 @@ INITIAL_VALUE
 <PreCondition
  Guid="a4c20fad-c406-41e5-ae86-78005f34945d"
 >aCategory == Messages.NC_DIFF.Specific_SSP_applicable_to_Freight_train_braked_in__G__position</PreCondition></PreConditions>
-<Expression>TrainData.TrainCategoryEnum.FreightTrainInG</Expression>
+<Expression>Kernel.TrainData.TrainCategoryEnum.FreightTrainInG</Expression>
 </Case><Case
  Name="Passenger train"
  Guid="d33744f8-9650-4bc2-8e19-c1a8cfe405ec"
 >
-<Expression>TrainData.TrainCategoryEnum.PassengerTrain</Expression>
+<Expression>Kernel.TrainData.TrainCategoryEnum.PassengerTrain</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Distance"
@@ -935,13 +935,13 @@ INITIAL_VALUE
 <PreConditions>
 <PreCondition
  Guid="cb66de97-90ab-4a91-92d2-e3d00eaa5426"
->SSP == []</PreCondition></PreConditions>
+>Kernel.TrackDescription.StaticSpeedProfile.SSP == []</PreCondition></PreConditions>
 <Expression>BaseTypes.Distance.Unknown</Expression>
 </Case><Case
  Name="Value"
  Guid="ad59596b-0db0-4f50-b0fb-cfc610a8a2b4"
 >
-<Expression>REDUCE SSP
+<Expression>REDUCE Kernel.TrackDescription.StaticSpeedProfile.SSP
  USING X IN 
   BaseTypes.MinDistance(
     X1 =&gt; X.Location,
@@ -1016,7 +1016,7 @@ INITIAL_VALUE
 <PreConditions>
 <PreCondition
  Guid="c91e4218-6727-4554-8526-ff60ecb48e17"
->Mode != Default.Mode.TR</PreCondition></PreConditions>
+>Kernel.Mode != Default.Mode.TR</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="cc434071-3c30-4ef5-ac05-dfbaaf5a9c9c"
@@ -1060,12 +1060,12 @@ IN
  Guid="cad0ebcd-1de5-4a6d-84d3-498b13ce5bc3"
 >Packet.V_STATIC == 127</PreCondition><PreCondition
  Guid="b944bd42-2395-49b2-b993-a87989972d98"
->Mode != Default.Mode.TR</PreCondition></PreConditions>
+>Kernel.Mode != Default.Mode.TR</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="e59b778c-47ac-4e37-94a0-45b10846d56a"
 >INSERT
-  CreateFirstSSP
+  Kernel.TrackDescription.StaticSpeedProfile.CreateFirstSSP
   (
     Location =&gt; MessageTypes.QScaleDistance ( distance =&gt; Packet.D_STATIC, scale =&gt; Packet.Q_SCALE ),
     BasicSpeed =&gt;BaseTypes.Speed.Infinity,
@@ -1073,7 +1073,7 @@ IN
     Categories =&gt; Packet.Sequence1
   )
 IN
-    SSP</Action></Actions>
+    Kernel.TrackDescription.StaticSpeedProfile.SSP</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  NeedsRequirement="FALSE"
@@ -1101,12 +1101,12 @@ IN
 <Action
  Guid="2ec09015-103d-44f3-b420-26001a56aa72"
 >INSERT
-    CreateFirstSSP ( Location =&gt; MessageTypes.QScaleDistance ( distance =&gt; Packet.D_STATIC, scale =&gt; Packet.Q_SCALE ),
+    Kernel.TrackDescription.StaticSpeedProfile.CreateFirstSSP ( Location =&gt; MessageTypes.QScaleDistance ( distance =&gt; Packet.D_STATIC, scale =&gt; Packet.Q_SCALE ),
                                BasicSpeed =&gt; MessageTypes.SpeedResolution ( speed =&gt; Packet.V_STATIC, resolution =&gt; 5.0),
                                TrainLengthDelay =&gt; Packet.Q_FRONT,
                                Categories =&gt; Packet.Sequence1 )
 IN
-    SSP</Action></Actions>
+    Kernel.TrackDescription.StaticSpeedProfile.SSP</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -1126,13 +1126,13 @@ IN
 <PreConditions>
 <PreCondition
  Guid="db763405-16a3-419b-97f0-7a3d86ec89e0"
->Mode != Default.Mode.TR</PreCondition></PreConditions>
+>Kernel.Mode != Default.Mode.TR</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="1353f5e7-b5ab-4b5e-9b25-07b8c3448625"
 >APPLY
-    AddSSP ( aSSP =&gt; X,
-                    Location =&gt; AbsoluteDistance ( SSRs =&gt; Packet.Sequence3, aSSR =&gt; X, Scale =&gt; Packet.Q_SCALE ) + MessageTypes.QScaleDistance ( distance =&gt; Packet.D_STATIC, scale =&gt; Packet.Q_SCALE ) )
+    Kernel.TrackDescription.StaticSpeedProfile.AddSSP ( aSSP =&gt; X,
+                    Location =&gt; Kernel.TrackDescription.StaticSpeedProfile.AbsoluteDistance ( SSRs =&gt; Packet.Sequence3, aSSR =&gt; X, Scale =&gt; Packet.Q_SCALE ) + MessageTypes.QScaleDistance ( distance =&gt; Packet.D_STATIC, scale =&gt; Packet.Q_SCALE ) )
 ON
     Packet.Sequence3</Action></Actions>
 </RuleCondition></Conditions>
@@ -1214,7 +1214,7 @@ ON
 <Action
  Guid="368e58a1-239c-4e8a-bd8b-37f1d4c829d8"
 >INSERT
-    StaticSpeedRestrictionStruct
+    Kernel.TrackDescription.StaticSpeedProfile.StaticSpeedRestrictionStruct
     {
         Location =&gt; Location,
         BasicSpeed =&gt; MessageTypes.SpeedResolution ( speed =&gt; aSSP.V_STATIC, resolution =&gt; 5.0 ),
@@ -1222,7 +1222,7 @@ ON
         Categories =&gt; MAP aSSP.Sequence2 USING X IN CreateSSPCategory ( Qualifier =&gt; X.Q_DIFF, Speed =&gt;MessageTypes.SpeedResolution ( speed =&gt; X.V_DIFF, resolution =&gt; 5.0 ), CantDeficiency =&gt; X.NC_CDDIFF, OtherSpecific =&gt; ERTMSCategory_To_EFSCategory ( X.NC_DIFF ) )
     }
 IN
-    SSP</Action></Actions>
+    Kernel.TrackDescription.StaticSpeedProfile.SSP</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="AddLastSSR"
@@ -1239,7 +1239,7 @@ IN
 <Action
  Guid="65d681d5-c87b-4c85-b562-87d5fcd83f47"
 >INSERT
-    StaticSpeedRestrictionStruct
+    Kernel.TrackDescription.StaticSpeedProfile.StaticSpeedRestrictionStruct
     {
         Location =&gt; Location,
         BasicSpeed =&gt; BaseTypes.Speed.Infinity,
@@ -1247,7 +1247,7 @@ IN
         Categories =&gt; MAP aSSP.Sequence2 USING X IN CreateSSPCategory ( Qualifier =&gt; X.Q_DIFF, Speed =&gt; MessageTypes.SpeedResolution ( speed =&gt; X.V_DIFF, resolution =&gt; 5.0 ), CantDeficiency =&gt; X.NC_CDDIFF, OtherSpecific =&gt; ERTMSCategory_To_EFSCategory ( X.NC_DIFF ) )
     }
 IN
-    SSP</Action></Actions>
+    Kernel.TrackDescription.StaticSpeedProfile.SSP</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -1299,9 +1299,9 @@ IN
 <PreConditions>
 <PreCondition
  Guid="d5f64758-35a8-4aef-bdd9-15409a0ae309"
->SSP != []
+>Kernel.TrackDescription.StaticSpeedProfile.SSP != []
   AND
-(LAST X IN SSP).Location &gt; aLocation</PreCondition></PreConditions>
+(LAST X IN Kernel.TrackDescription.StaticSpeedProfile.SSP).Location &gt; aLocation</PreCondition></PreConditions>
 <Actions>
 </Actions>
 <SubRules>
@@ -1324,7 +1324,7 @@ IN
 <Actions>
 <Action
  Guid="cc46a7b4-f4fe-4c91-ba39-baf6f39aa177"
->SSP &lt;- MAP SSP | X.Location &lt;= aLocation USING X IN X</Action></Actions>
+>Kernel.TrackDescription.StaticSpeedProfile.SSP &lt;- MAP Kernel.TrackDescription.StaticSpeedProfile.SSP | X.Location &lt;= aLocation USING X IN X</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -1346,13 +1346,13 @@ IN
 <Action
  Guid="75ac58c7-6446-4952-a952-988f80156c00"
 >INSERT
-  StaticSpeedRestrictionStruct
+  Kernel.TrackDescription.StaticSpeedProfile.StaticSpeedRestrictionStruct
   {
     Location =&gt; aLocation,
     BasicSpeed =&gt; BaseTypes.Speed.Infinity
   }
 IN
-  SSP</Action></Actions>
+  Kernel.TrackDescription.StaticSpeedProfile.SSP</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition></Conditions>

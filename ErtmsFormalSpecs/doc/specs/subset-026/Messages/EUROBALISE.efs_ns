@@ -10,7 +10,6 @@
 </NameSpaces>
 <Structures>
 <Structure
- Default=""
  X="221"
  Y="1"
  Width="100"
@@ -41,7 +40,7 @@
 >
 </ReqRef><Comment>Eurobalise</Comment>
 <StructureElement
- TypeName="Messages.Q_UPDOWN"
+ TypeName="Q_UPDOWN"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -54,7 +53,7 @@
  Guid="eb18a214-8935-4a1a-b580-cff0071c97a0"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="Messages.M_VERSION"
+ TypeName="M_VERSION"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -67,7 +66,7 @@
  Guid="b895b85d-4ebb-4f92-a45f-401ccbf81037"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="Messages.Q_MEDIA"
+ TypeName="Q_MEDIA"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -80,7 +79,7 @@
  Guid="55d8b182-d7ec-4b88-b288-ba445b73676f"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="Messages.N_PIG"
+ TypeName="N_PIG"
  Default="0"
  Mode="InOut"
  Implemented="TRUE"
@@ -93,7 +92,7 @@
  Guid="e87d454a-124b-4b90-a3c9-75deb3b81eb0"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="Messages.N_TOTAL"
+ TypeName="N_TOTAL"
  Default="0"
  Mode="InOut"
  Implemented="TRUE"
@@ -106,7 +105,7 @@
  Guid="5a48b361-1a0b-4efd-9f7b-05e9db6b1222"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="Messages.M_DUP"
+ TypeName="M_DUP"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -119,7 +118,7 @@
  Guid="f30f82db-6c01-493e-80b4-d4b7256a7224"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="Messages.M_MCOUNT"
+ TypeName="M_MCOUNT"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -132,7 +131,7 @@
  Guid="feaee075-bc29-491a-92a3-c4e31c2bd430"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="Messages.NID_C"
+ TypeName="NID_C"
  Default="0"
  Mode="InOut"
  Implemented="TRUE"
@@ -145,7 +144,7 @@
  Guid="8ff1105d-d11e-404c-b0b5-99d1722dea20"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="Messages.NID_BG"
+ TypeName="NID_BG"
  Default="0"
  Mode="InOut"
  Implemented="TRUE"
@@ -158,7 +157,7 @@
  Guid="e2835a6c-364a-4c6b-b3f4-f8b9e8b0edf5"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="Messages.Q_LINK"
+ TypeName="Q_LINK"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -192,7 +191,6 @@
  Guid="e77517d5-2b73-4c9c-84a9-26cbefb0bc26"
 >
 </StructureElement></Structure><Structure
- Default=""
  X="1"
  Y="1"
  Width="100"
@@ -266,18 +264,13 @@
 <Functions>
 <Function
  Type="Boolean"
- Default=""
- X="1"
- Y="61"
- Width="100"
- Height="50"
  Name="MessageValuesCorrect"
  Guid="6c3a51aa-992b-4de0-ae28-b4ec54dca006"
 >
 <Comment>Checks the values in a structure of type EUROBALISE.Message</Comment>
 <Parameters>
 <Parameter
- Type="Message"
+ Type="EUROBALISE.Message"
  Name="struct"
  Guid="aac5d0a1-00f9-440e-b271-2fd9703f1827"
 >
@@ -417,7 +410,7 @@ struct.M_VERSION &gt; 31</PreCondition><PreCondition
 <PreConditions>
 <PreCondition
  Guid="ec0f8b3a-457e-47f1-9cf0-e909226f635a"
->THERE_IS X IN struct.Sequence1 | NOT SubStructure1ValuesCorrect(X)</PreCondition></PreConditions>
+>THERE_IS X IN struct.Sequence1 | NOT Messages.EUROBALISE.SubStructure1ValuesCorrect(X)</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
  Name="Otherwise"
@@ -427,18 +420,13 @@ struct.M_VERSION &gt; 31</PreCondition><PreCondition
 </Case></Cases>
 </Function><Function
  Type="Boolean"
- Default=""
- X="111"
- Y="61"
- Width="100"
- Height="50"
  Name="SubStructure1ValuesCorrect"
  Guid="093e7c56-530e-43bc-b365-530cc26556ea"
 >
 <Comment>Checks the values in a structure of type EUROBALISE.SubStructure1</Comment>
 <Parameters>
 <Parameter
- Type="SubStructure1"
+ Type="EUROBALISE.SubStructure1"
  Name="struct"
  Guid="f6678654-443c-4152-859d-d43d1b0a25c5"
 >
@@ -460,7 +448,7 @@ struct.M_VERSION &gt; 31</PreCondition><PreCondition
 <PreConditions>
 <PreCondition
  Guid="003ee360-acd3-4df0-a079-c77d5083cbf2"
->NOT PACKET.TRACK_TO_TRAIN.MessageValuesCorrect(struct.TRACK_TO_TRAIN)</PreCondition></PreConditions>
+>NOT Messages.PACKET.TRACK_TO_TRAIN.MessageValuesCorrect(struct.TRACK_TO_TRAIN)</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
  Name="Otherwise"

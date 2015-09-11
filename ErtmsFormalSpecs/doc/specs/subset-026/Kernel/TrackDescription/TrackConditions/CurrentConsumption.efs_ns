@@ -114,7 +114,7 @@
  Guid="0d925f86-4a0c-406b-9e9e-b11f22e1f1ad"
 >
 <Comment>Returns the element in TCCurrentConsumption with the largest distance that is less than or equal to the parameter</Comment>
-<Expression>REDUCE TCCurrentConsumption | (X.Location &lt;= Distance)
+<Expression>REDUCE Kernel.TrackDescription.TrackConditions.CurrentConsumption.TCCurrentConsumption | (X.Location &lt;= Distance)
     USING X IN BaseTypes.MaxDistance(
         X1=&gt;X.Location,
         X2=&gt;RESULT)
@@ -158,8 +158,8 @@
 <PreConditions>
 <PreCondition
  Guid="fe703eb9-0bfa-4767-ad0c-4c1a9a1884d0"
->THERE_IS X IN TCCurrentConsumption | (X.Location &lt;= Distance)</PreCondition></PreConditions>
-<Expression>REDUCE TCCurrentConsumption | (X.Location == CCProfileStartLocation(Distance=&gt;Distance) )
+>THERE_IS X IN Kernel.TrackDescription.TrackConditions.CurrentConsumption.TCCurrentConsumption | (X.Location &lt;= Distance)</PreCondition></PreConditions>
+<Expression>REDUCE Kernel.TrackDescription.TrackConditions.CurrentConsumption.TCCurrentConsumption | (X.Location == Kernel.TrackDescription.TrackConditions.CurrentConsumption.CCProfileStartLocation(Distance=&gt;Distance) )
     USING X IN X.Value
   INITIAL_VALUE EMPTY</Expression>
 </Case><Case
@@ -192,8 +192,8 @@
  Guid="c6832b65-f57e-4525-bfaa-5fcfb8eed17e"
 >
 <Comment>The starting point is when the max safe front end of the train passes the location specified in the message</Comment>
-<Expression>CCAtDistance(
-    Distance=&gt; TrainPosition.FrontEndPosition(PointOfInterest=&gt;DistanceInterval.Max)
+<Expression>Kernel.TrackDescription.TrackConditions.CurrentConsumption.CCAtDistance(
+    Distance=&gt; Kernel.TrainPosition.FrontEndPosition(PointOfInterest=&gt;DistanceInterval.Max)
 )</Expression>
 </Case></Cases>
 </Function></Functions>
@@ -238,7 +238,7 @@
 <Actions>
 <Action
  Guid="23fc9e26-c1cc-4080-9e64-18004abd3b5f"
->INSERT CurrentConsumptionInformationStruct
+>INSERT Kernel.TrackDescription.TrackConditions.CurrentConsumption.CurrentConsumptionInformationStruct
 {
     Location =&gt; MessageTypes.QScaleDistance
     (
@@ -248,7 +248,7 @@
     Value =&gt; Packet.M_CURRENT
 }
 IN
-    TCCurrentConsumption</Action></Actions>
+    Kernel.TrackDescription.TrackConditions.CurrentConsumption.TCCurrentConsumption</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -306,7 +306,7 @@ IN
 <PreConditions>
 <PreCondition
  Guid="dbb41368-2e82-4624-a68c-943b6a6dc0b8"
->TCCurrentConsumption != []</PreCondition></PreConditions>
+>Kernel.TrackDescription.TrackConditions.CurrentConsumption.TCCurrentConsumption != []</PreCondition></PreConditions>
 <Actions>
 </Actions>
 <SubRules>
@@ -329,7 +329,7 @@ IN
 <Actions>
 <Action
  Guid="315bfd5f-6949-41b8-a30d-7c128dcd887e"
->TCCurrentConsumption &lt;- MAP TCCurrentConsumption | X.Location &lt;= aLocation USING X IN X</Action></Actions>
+>Kernel.TrackDescription.TrackConditions.CurrentConsumption.TCCurrentConsumption &lt;- MAP Kernel.TrackDescription.TrackConditions.CurrentConsumption.TCCurrentConsumption | X.Location &lt;= aLocation USING X IN X</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -348,18 +348,18 @@ IN
 <PreConditions>
 <PreCondition
  Guid="8251312e-a6ac-44bf-affa-a111185ae53f"
->(LAST TC IN TCCurrentConsumption).Value != Messages.M_CURRENT.No_restriction_for_current_consumption</PreCondition></PreConditions>
+>(LAST TC IN Kernel.TrackDescription.TrackConditions.CurrentConsumption.TCCurrentConsumption).Value != Messages.M_CURRENT.No_restriction_for_current_consumption</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="870c94d0-b0ff-48b1-ad91-582bf5a3e33f"
 >INSERT
-  CurrentConsumptionInformationStruct
+  Kernel.TrackDescription.TrackConditions.CurrentConsumption.CurrentConsumptionInformationStruct
   {
     Location =&gt; aLocation,
     Value =&gt; Messages.M_CURRENT.No_restriction_for_current_consumption
   }
 IN
-  TCCurrentConsumption</Action></Actions>
+  Kernel.TrackDescription.TrackConditions.CurrentConsumption.TCCurrentConsumption</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition></Conditions>

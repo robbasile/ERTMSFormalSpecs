@@ -10,7 +10,6 @@
 </NameSpaces>
 <Structures>
 <Structure
- Default=""
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -29,7 +28,7 @@
 >
 </ReqRef><Comment>This packet gives geographical location information for one or multiple references to the train.</Comment>
 <StructureElement
- TypeName="Messages.NID_PACKET"
+ TypeName="NID_PACKET"
  Default="79"
  Mode="InOut"
  Implemented="TRUE"
@@ -42,7 +41,7 @@
  Guid="673c5bcd-0da9-44fc-a5b4-f9e5b287bc00"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="Messages.Q_DIR"
+ TypeName="Q_DIR"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -68,7 +67,7 @@
  Guid="bc081066-29d7-436f-a6c7-99d2930fe897"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="Messages.Q_SCALE"
+ TypeName="Q_SCALE"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -81,7 +80,7 @@
  Guid="44af0e37-7e00-4102-bf7e-851ba053fd60"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="Messages.Q_NEWCOUNTRY"
+ TypeName="Q_NEWCOUNTRY"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -94,7 +93,7 @@
  Guid="8ba6c83c-1939-4802-b54b-4eed74c620bb"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="Messages.NID_C"
+ TypeName="NID_C"
  Default="0"
  Mode="InOut"
  Implemented="TRUE"
@@ -102,7 +101,7 @@
  Guid="e7805ca7-1703-4b0e-ae67-002be7e54fa4"
 >
 </StructureElement><StructureElement
- TypeName="Messages.NID_BG"
+ TypeName="NID_BG"
  Default="0"
  Mode="InOut"
  Implemented="TRUE"
@@ -128,7 +127,7 @@
  Guid="fd2f5f52-4346-41bf-818a-5d01e1bc9a0f"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="Messages.Q_MPOSITION"
+ TypeName="Q_MPOSITION"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -141,7 +140,7 @@
  Guid="ee063a61-9b8f-4618-b7b5-1eaad19c7396"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="Messages.M_POSITION"
+ TypeName="M_POSITION"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -154,7 +153,7 @@
  Guid="5e1212a9-3488-481c-986d-426e89ecfa27"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="Messages.N_ITER"
+ TypeName="N_ITER"
  Default="0"
  Mode="InOut"
  Implemented="TRUE"
@@ -180,7 +179,6 @@
  Guid="a316bdc8-02f5-4d7e-a60a-0898c520b518"
 >
 </ReqRef></StructureElement></Structure><Structure
- Default=""
  X="110"
  Width="100"
  Height="50"
@@ -194,7 +192,7 @@
  Guid="3d1d9e07-74f3-41b2-b5c4-aba4191adb51"
 >
 </ReqRef><StructureElement
- TypeName="Messages.Q_NEWCOUNTRY"
+ TypeName="Q_NEWCOUNTRY"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -207,7 +205,7 @@
  Guid="fc834338-2742-4c5d-81ee-4620cc959137"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="Messages.NID_C"
+ TypeName="NID_C"
  Default="0"
  Mode="InOut"
  Implemented="TRUE"
@@ -215,7 +213,7 @@
  Guid="8d29ca17-d04a-496b-877a-c4efe3d61a38"
 >
 </StructureElement><StructureElement
- TypeName="Messages.NID_BG"
+ TypeName="NID_BG"
  Default="0"
  Mode="InOut"
  Implemented="TRUE"
@@ -241,7 +239,7 @@
  Guid="f5851362-4f27-41ed-96e1-02540bda3591"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="Messages.Q_MPOSITION"
+ TypeName="Q_MPOSITION"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -254,7 +252,7 @@
  Guid="f3ff396b-ddc9-43a9-b680-07dce1fa7434"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="Messages.M_POSITION"
+ TypeName="M_POSITION"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -287,14 +285,13 @@
 <Functions>
 <Function
  Type="Boolean"
- Default=""
  Name="MessageValuesCorrect"
  Guid="84adb9f2-72a7-4b81-9181-ffaacfe7160a"
 >
 <Comment>Checks the values in a structure of type GEOGRAPHICAL_POSITION_INFORMATION.Message</Comment>
 <Parameters>
 <Parameter
- Type="Message"
+ Type="GEOGRAPHICAL_POSITION_INFORMATION.Message"
  Name="struct"
  Guid="86d8c844-86b3-4197-b2a4-92a8a4fe98a3"
 >
@@ -441,7 +438,7 @@
 <PreConditions>
 <PreCondition
  Guid="8c5f723f-cc71-476a-bafe-73f2fa80d513"
->THERE_IS X IN struct.Sequence1 | NOT SubStructure1ValuesCorrect(X)</PreCondition></PreConditions>
+>THERE_IS X IN struct.Sequence1 | NOT Messages.PACKET.TRACK_TO_TRAIN.GEOGRAPHICAL_POSITION_INFORMATION.SubStructure1ValuesCorrect(X)</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
  Name="Otherwise"
@@ -451,14 +448,13 @@
 </Case></Cases>
 </Function><Function
  Type="Boolean"
- Default=""
  Name="SubStructure1ValuesCorrect"
  Guid="2a34824c-d8c7-4bd9-9677-f1b662bc05bc"
 >
 <Comment>Checks the values in a structure of type GEOGRAPHICAL_POSITION_INFORMATION.SubStructure1</Comment>
 <Parameters>
 <Parameter
- Type="SubStructure1"
+ Type="GEOGRAPHICAL_POSITION_INFORMATION.SubStructure1"
  Name="struct"
  Guid="08c33c70-093a-4037-8e81-f16037e42c03"
 >

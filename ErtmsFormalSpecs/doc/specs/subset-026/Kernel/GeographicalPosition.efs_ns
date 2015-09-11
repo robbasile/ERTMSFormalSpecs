@@ -201,7 +201,7 @@
  Name="Value"
  Guid="384cb3f5-5132-4032-a988-e22ecacb80a9"
 >
-<Expression>GeographicalPositionItemStruct
+<Expression>Kernel.GeographicalPosition.GeographicalPositionItemStruct
 {
     Offset =&gt; MessageTypes.QScaleDistance
     (
@@ -241,7 +241,7 @@
  Name="Value"
  Guid="a0345f7e-91f6-4fb5-9eba-c96289554b6a"
 >
-<Expression>FIRST X IN GeographicalPositionInformation | GeographicalPositionItemIsApplicable ( X )</Expression>
+<Expression>FIRST X IN Kernel.GeographicalPosition.GeographicalPositionInformation | Kernel.GeographicalPosition.GeographicalPositionItemIsApplicable ( X )</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Distance"
@@ -298,11 +298,11 @@
 <PreConditions>
 <PreCondition
  Guid="1e9fd2b4-c19b-4e5c-97cb-ccbdf771a701"
->ApplicableItem != EMPTY</PreCondition><PreCondition
+>Kernel.GeographicalPosition.ApplicableItem != EMPTY</PreCondition><PreCondition
  Guid="3e91abd5-3a13-4581-8363-06a3d09b7c71"
->ActiveFunctions.DetermineGeographicalPosition()</PreCondition></PreConditions>
-<Expression>ApplicableItem.Location +
-BTM.TravelledDistanceFromBG( aBG =&gt; ApplicableItem.ReferenceBG ) - ApplicableItem.Offset</Expression>
+>Kernel.ActiveFunctions.DetermineGeographicalPosition()</PreCondition></PreConditions>
+<Expression>Kernel.GeographicalPosition.ApplicableItem.Location +
+BTM.TravelledDistanceFromBG( aBG =&gt; Kernel.GeographicalPosition.ApplicableItem.ReferenceBG ) - Kernel.GeographicalPosition.ApplicableItem.Offset</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="2f4846d6-134d-4c5b-a4ea-c1f5f01f87ff"
@@ -442,7 +442,7 @@ BTM.TravelledDistanceFromBG( aBG =&gt; anItem.ReferenceBG ) &gt;= anItem.Offset<
 <Actions>
 <Action
  Guid="c463fff4-8fd4-4f40-a175-e405f76b9fdc"
->GeographicalPositionInformation &lt;- []</Action></Actions>
+>Kernel.GeographicalPosition.GeographicalPositionInformation &lt;- []</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -466,12 +466,12 @@ BTM.TravelledDistanceFromBG( aBG =&gt; anItem.ReferenceBG ) &gt;= anItem.Offset<
 </ReqRef><PreConditions>
 <PreCondition
  Guid="2e5ab3d2-c408-435c-be37-f5d7d8d69376"
->AcceptGeographicalPositionItem( aBG =&gt; aPacket.NID_BG )</PreCondition></PreConditions>
+>Kernel.GeographicalPosition.AcceptGeographicalPositionItem( aBG =&gt; aPacket.NID_BG )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="229b02af-8fe9-4a2c-90ff-2c9a0ff0dc95"
 >INSERT
-  CreateGeographicalPositionItem
+  Kernel.GeographicalPosition.CreateGeographicalPositionItem
   (
     aScale =&gt; aPacket.Q_SCALE,
     anOffset =&gt; aPacket.D_POSOFF,
@@ -482,7 +482,7 @@ BTM.TravelledDistanceFromBG( aBG =&gt; anItem.ReferenceBG ) &gt;= anItem.Offset<
     aCountry =&gt; aPacket.NID_C
   )
 IN
-  GeographicalPositionInformation</Action></Actions>
+  Kernel.GeographicalPosition.GeographicalPositionInformation</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -504,7 +504,7 @@ IN
 <Action
  Guid="d75bf142-4dde-4ade-86da-02400121cdf7"
 >APPLY
-    AddGeographicalPositionItem
+    Kernel.GeographicalPosition.AddGeographicalPositionItem
     (
         anItem =&gt; X,
         aScale =&gt; aPacket.Q_SCALE
@@ -563,12 +563,12 @@ ON
 <PreConditions>
 <PreCondition
  Guid="c832e278-dcb4-4f77-82d2-d378c1c195c8"
->AcceptGeographicalPositionItem( aBG =&gt; anItem.NID_BG )</PreCondition></PreConditions>
+>Kernel.GeographicalPosition.AcceptGeographicalPositionItem( aBG =&gt; anItem.NID_BG )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="74098f23-1ac0-4463-bfc3-17b5304f2cdb"
 >INSERT
-  CreateGeographicalPositionItem
+  Kernel.GeographicalPosition.CreateGeographicalPositionItem
   (
     aScale =&gt; aScale,
     anOffset =&gt; anItem.D_POSOFF,
@@ -579,7 +579,7 @@ ON
     aCountry =&gt; anItem.NID_C
   )
 IN
-  GeographicalPositionInformation</Action></Actions>
+  Kernel.GeographicalPosition.GeographicalPositionInformation</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
@@ -669,11 +669,11 @@ IN
 <PreConditions>
 <PreCondition
  Guid="05d9eaeb-2a8b-4d2d-b4fd-f84e2dbbf8e2"
->ProvideNewApplicableTrackKilometreReference() != EMPTY</PreCondition></PreConditions>
+>Kernel.GeographicalPosition.ProvideNewApplicableTrackKilometreReference() != EMPTY</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="b8dd3273-98a6-4a43-a04a-153875db2af3"
->ApplicableItem &lt;- ProvideNewApplicableTrackKilometreReference()</Action><Action
+>Kernel.GeographicalPosition.ApplicableItem &lt;- Kernel.GeographicalPosition.ProvideNewApplicableTrackKilometreReference()</Action><Action
  Guid="99ddc2e3-1b2b-42b7-89f5-aeed68ce965e"
 >REMOVE FIRST X == ProvideNewApplicableTrackKilometreReference() IN GeographicalPositionInformation</Action></Actions>
 </RuleCondition><RuleCondition
@@ -695,11 +695,11 @@ IN
 <PreConditions>
 <PreCondition
  Guid="85c69cc0-bbbd-4589-bedb-386533047038"
->ComputeGeographicalPosition() &lt; 0.0</PreCondition></PreConditions>
+>Kernel.GeographicalPosition.ComputeGeographicalPosition() &lt; 0.0</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="8a34a79b-a1c7-412f-b7c6-5328fdd0636a"
->ApplicableItem &lt;- EMPTY</Action></Actions>
+>Kernel.GeographicalPosition.ApplicableItem &lt;- EMPTY</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </NameSpace>

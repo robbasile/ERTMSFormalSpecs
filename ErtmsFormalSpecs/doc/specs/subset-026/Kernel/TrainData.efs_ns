@@ -37,7 +37,7 @@
 </ReqRef></Range></Ranges>
 <Enumerations>
 <Enum
- Default="FreightTrainInG"
+ Default="Kernel.TrainData.TrainCategoryEnum.FreightTrainInG"
  X="80"
  Y="230"
  Width="100"
@@ -712,7 +712,7 @@
 >
 </ReqRef></StructureElement><StructureElement
  TypeName="BrakingParameters.BrakePositions"
- Default="BrakingParameters.BrakePositions.PassengerTrainInP"
+ Default="Kernel.TrainData.BrakingParameters.BrakePositions.PassengerTrainInP"
  Mode="Internal"
  Implemented="TRUE"
  Name="BrakePosition"
@@ -1220,11 +1220,11 @@
  Guid="3c40c469-55cf-4e97-8742-74f6f25d4e1d"
 >BTM.ActiveAntennaPosition &lt;- 5.0</Action><Action
  Guid="7d442961-2150-4931-ac66-b8c407eac3e6"
->BrakingParameters.ContributionOfSpecialBrakeIsAllowed &lt;- True</Action><Action
+>Kernel.TrainData.BrakingParameters.ContributionOfSpecialBrakeIsAllowed &lt;- True</Action><Action
  Guid="d6a65106-9d66-4565-880a-3816d15bd453"
->TrainData.Value.BrakePosition &lt;- BrakingParameters.BrakePositions.PassengerTrainInP</Action><Action
+>Kernel.TrainData.TrainData.Value.BrakePosition &lt;- Kernel.TrainData.BrakingParameters.BrakePositions.PassengerTrainInP</Action><Action
  Guid="b46ed63b-c019-4a10-a125-38155e0e146e"
->TrainData.Value.EBModels &lt;- BrakingParameters.EBModelSet
+>Kernel.TrainData.TrainData.Value.EBModels &lt;- Kernel.TrainData.BrakingParameters.EBModelSet
 {
     ModelSet =&gt; BrakingParameters.BrakingModelSet{
     EddyCurrent =&gt; BrakingParameters.BrakingModel{
@@ -1344,13 +1344,13 @@
     Kwet_rstValuesSet =&gt; BrakingParameters.Kwet_rstValuesSet{}
 }</Action><Action
  Guid="fe0d9359-7fb8-4b61-ba53-4010e0266b0e"
->TrainData.Value.M_rotating_nom &lt;- Percentage.NA</Action><Action
+>Kernel.TrainData.TrainData.Value.M_rotating_nom &lt;- Percentage.NA</Action><Action
  Guid="40725ae5-5b0f-4676-86bf-40f90ae2f801"
->TrainData.Value.MaximumSpeed &lt;- 220.0</Action><Action
+>Kernel.TrainData.TrainData.Value.MaximumSpeed &lt;- 220.0</Action><Action
  Guid="bc8cdf38-ef71-442e-bfa7-1e6495f34e58"
->TrainData.Value.SBCommandIsImplemented &lt;- False</Action><Action
+>Kernel.TrainData.TrainData.Value.SBCommandIsImplemented &lt;- False</Action><Action
  Guid="c8715996-5d54-4601-9b89-b56dd6822aad"
->TrainData.Value.SBModels &lt;- BrakingParameters.SBModelSet{
+>Kernel.TrainData.TrainData.Value.SBModels &lt;- Kernel.TrainData.BrakingParameters.SBModelSet{
     ModelSet =&gt; BrakingParameters.BrakingModelSet{
         EddyCurrent =&gt; BrakingParameters.BrakingModel{
             Val0 =&gt; BrakingParameters.BrakingModelValue{
@@ -1467,21 +1467,21 @@
     }
 }</Action><Action
  Guid="6b4c0780-e55c-4dc1-94c6-21bf90a5b8cc"
->TrainData.Value.TractionCutOffInterfaceIsImplemented &lt;- False</Action><Action
+>Kernel.TrainData.TrainData.Value.TractionCutOffInterfaceIsImplemented &lt;- False</Action><Action
  Guid="ca39eb79-4831-4354-8c0d-8ce788720338"
->TrainData.Value.TractionModel &lt;- TractionModel
+>Kernel.TrainData.TrainData.Value.TractionModel &lt;- Kernel.TrainData.TractionModel
 {
     Coefficient =&gt; 0.0,
     Constant    =&gt; 0.0
 }</Action><Action
  Guid="e9aefb43-8673-44d9-bd63-7fd9365eed67"
->TrainData.Value.TrainLength &lt;- 197.0</Action><Action
+>Kernel.TrainData.TrainData.Value.TrainLength &lt;- 197.0</Action><Action
  Guid="b051c2e9-f029-4116-85ec-d6ff1553a724"
->TrainData.Value.LoadingGauge &lt;- Messages.M_LOADINGGAUGE.G1</Action><Action
+>Kernel.TrainData.TrainData.Value.LoadingGauge &lt;- Messages.M_LOADINGGAUGE.G1</Action><Action
  Guid="21f79198-7336-4d3c-9879-93d2351a0ad6"
->TrainData.Value.AxleLoadCategory &lt;- 22</Action><Action
+>Kernel.TrainData.TrainData.Value.AxleLoadCategory &lt;- 22</Action><Action
  Guid="f4007406-b528-43d2-b117-eabce2566ae6"
->TrainData.Value.TractionSystems &lt;- [TractionSystem{
+>Kernel.TrainData.TrainData.Value.TractionSystems &lt;- [Kernel.TrainData.TractionSystem{
     Voltage =&gt; Messages.M_VOLTAGE.AC_15_kV_16_7_Hz,
     Country =&gt; 85
 }]</Action></Actions>
@@ -1520,7 +1520,7 @@
 <Actions>
 <Action
  Guid="6991fbd7-808c-47ef-92ae-35f3c3d9a8bb"
->InitializeTrainData()</Action></Actions>
+>Kernel.TrainData.InitializeTrainData()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -1543,7 +1543,7 @@
 <Actions>
 <Action
  Guid="4d6003d8-6380-41b4-a175-a0fcbc9eeae4"
->BrakingParameters.Initialize()</Action></Actions>
+>Kernel.TrainData.BrakingParameters.Initialize()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -1561,7 +1561,7 @@
 <Actions>
 <Action
  Guid="cee30602-7806-4cce-a5a2-d6fd6b303a79"
->InitializeBNS()</Action></Actions>
+>Kernel.TrainData.InitializeBNS()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -1596,7 +1596,7 @@
 <Actions>
 <Action
  Guid="b038e878-3e0d-4f36-b6cc-0a44ceb51394"
->TrainData.Value.NormalServiceBrakeModels &lt;- BrakingParameters.BNSModelSet
+>Kernel.TrainData.TrainData.Value.NormalServiceBrakeModels &lt;- Kernel.TrainData.BrakingParameters.BNSModelSet
 {
     A_SB01 =&gt; 0.4,
     A_SB12 =&gt; 0.7,

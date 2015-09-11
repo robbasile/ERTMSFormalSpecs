@@ -132,7 +132,7 @@
  Name="Value"
  Guid="117114ea-c9ec-4e5d-b148-2f8d680193d7"
 >
-<Expression>anAdhesionFactor.Length + TrainData.TrainData.Value.TrainLength</Expression>
+<Expression>anAdhesionFactor.Length + Kernel.TrainData.TrainData.Value.TrainLength</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -161,7 +161,7 @@
  Name="Value"
  Guid="6240405e-f05d-42e4-873a-7dda69635a0b"
 >
-<Expression>NationalValues.CurrentNV().ModificationOfAdhesionFactorByDriver == Messages.Q_NVDRIVER_ADHES.Allowed</Expression>
+<Expression>Kernel.NationalValues.CurrentNV().ModificationOfAdhesionFactorByDriver == Messages.Q_NVDRIVER_ADHES.Allowed</Expression>
 </Case></Cases>
 </Function><Function
  Type="Messages.M_ADHESION"
@@ -183,16 +183,16 @@
 <PreConditions>
 <PreCondition
  Guid="9e1e6f3b-c52b-41a5-bb50-ac64511665dd"
->THERE_IS AdhFactor IN AdhFactors |
+>THERE_IS AdhFactor IN Kernel.TrackDescription.AdhesionFactors.AdhFactors |
   AdhFactor.Value == Messages.M_ADHESION.Slippery_rail AND
-  AdhFactor.Location &lt;= TrainPosition.FrontEndPosition(PointOfInterest =&gt; DistanceInterval.Nom ) AND
-  TrainPosition.FrontEndPosition(PointOfInterest =&gt; DistanceInterval.Nom) &lt; AdhFactor.Location + BaseTypes.DistanceToLength(Distance =&gt; AdhFactor.Length)</PreCondition></PreConditions>
+  AdhFactor.Location &lt;= Kernel.TrainPosition.FrontEndPosition(PointOfInterest =&gt; DistanceInterval.Nom ) AND
+  Kernel.TrainPosition.FrontEndPosition(PointOfInterest =&gt; DistanceInterval.Nom) &lt; AdhFactor.Location + BaseTypes.DistanceToLength(Distance =&gt; AdhFactor.Length)</PreCondition></PreConditions>
 <Expression>Messages.M_ADHESION.Slippery_rail</Expression>
 </Case><Case
  Name="Adhesion factor selected by driver"
  Guid="e546857e-a587-42d4-98fd-d1e84fc8628a"
 >
-<Expression>SlipperyRailSelectedByDriver</Expression>
+<Expression>Kernel.TrackDescription.AdhesionFactors.SlipperyRailSelectedByDriver</Expression>
 </Case></Cases>
 </Function></Functions>
 <Procedures>
@@ -252,11 +252,11 @@
 <PreConditions>
 <PreCondition
  Guid="3561a639-76c0-4960-8b38-0a4fe6522090"
->Mode != Default.Mode.TR</PreCondition></PreConditions>
+>Kernel.Mode != Default.Mode.TR</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="28507f44-7f78-41c3-a734-268448af9a57"
->HandleNewAdhesionFactor(Packet)</Action></Actions>
+>Kernel.TrackDescription.AdhesionFactors.HandleNewAdhesionFactor(Packet)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -356,14 +356,14 @@
 <Action
  Guid="cada790d-4718-4a92-bca2-70aae882cbc5"
 >INSERT
-    AdhesionFactorStruct
+    Kernel.TrackDescription.AdhesionFactors.AdhesionFactorStruct
     {
         Location =&gt; MessageTypes.QScaleDistance ( distance =&gt; Packet.D_ADHESION, scale =&gt; Packet.Q_SCALE ),
         Length =&gt; MessageTypes.QScaleLength ( length =&gt; Packet.L_ADHESION, scale =&gt; Packet.Q_SCALE ),
         Value =&gt; Packet.M_ADHESION
     }
 IN
-    AdhFactors</Action></Actions>
+    Kernel.TrackDescription.AdhesionFactors.AdhFactors</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
@@ -471,13 +471,13 @@ IN
 <PreConditions>
 <PreCondition
  Guid="d02e33ed-3490-4b02-bebd-9e5e8d1165aa"
->NOT AdhFactorModificationAllowed()</PreCondition><PreCondition
+>NOT Kernel.TrackDescription.AdhesionFactors.AdhFactorModificationAllowed()</PreCondition><PreCondition
  Guid="d9881cb1-eccb-462a-8786-64b1477dd895"
->SlipperyRailSelectedByDriver == Messages.M_ADHESION.Slippery_rail</PreCondition></PreConditions>
+>Kernel.TrackDescription.AdhesionFactors.SlipperyRailSelectedByDriver == Messages.M_ADHESION.Slippery_rail</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="11a62dee-1252-4610-8f17-8793fd2758a1"
->SlipperyRailSelectedByDriver &lt;- Messages.M_ADHESION.Non_slippery_rail</Action></Actions>
+>Kernel.TrackDescription.AdhesionFactors.SlipperyRailSelectedByDriver &lt;- Messages.M_ADHESION.Non_slippery_rail</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  X="111"
@@ -507,7 +507,7 @@ IN
  Guid="8bddee03-addb-48c0-b5cf-13b31a4e314f"
 >DMI.MasterDMI().Out_AdhesionFactorSlipperyRail.OutputInformation.DisplayRequested</PreCondition><PreCondition
  Guid="b56e2d1a-0e6e-4e57-b65d-5624874686e8"
->CurrentValue() == Messages.M_ADHESION.Non_slippery_rail</PreCondition></PreConditions>
+>Kernel.TrackDescription.AdhesionFactors.CurrentValue() == Messages.M_ADHESION.Non_slippery_rail</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="383e28a3-e4a8-47d0-9d8a-1790a8d9b6f3"
@@ -523,7 +523,7 @@ IN
  Guid="8b89ffd0-5918-4270-b29e-717dc6b6710a"
 >NOT DMI.MasterDMI().Out_AdhesionFactorSlipperyRail.OutputInformation.DisplayRequested</PreCondition><PreCondition
  Guid="4a52e5c3-ad99-431d-8ea5-7fb560a04e9e"
->CurrentValue() == Messages.M_ADHESION.Slippery_rail</PreCondition></PreConditions>
+>Kernel.TrackDescription.AdhesionFactors.CurrentValue() == Messages.M_ADHESION.Slippery_rail</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="5a6a9b3f-4e75-4825-aa0c-6d322674cee7"

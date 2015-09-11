@@ -200,7 +200,7 @@
 <PreCondition
  Guid="7d07a912-fc3b-43b2-8ea2-e825af1ec19b"
 >EndOfSection</PreCondition></PreConditions>
-<Expression>StationPlatformInformationStruct
+<Expression>Kernel.TrackDescription.TrackConditions.StationPlatform.StationPlatformInformationStruct
 {
     Location =&gt; Location,
     Value =&gt;  SPAtDistance(Location)
@@ -209,7 +209,7 @@
  Name="Start of section"
  Guid="6d2b0839-738c-46ee-8f64-861bc5226af8"
 >
-<Expression>StationPlatformInformationStruct
+<Expression>Kernel.TrackDescription.TrackConditions.StationPlatform.StationPlatformInformationStruct
 {
     Location =&gt; Location,
     Value =&gt; StationPlatformStruct
@@ -265,7 +265,7 @@
  Guid="c9961ef2-4d0e-47c0-8dcd-bec9bb9364c9"
 >
 <Comment>The end of the station platform track condition is reached when the min safe rear end of the train reaches (Distance+Length). The train length is adde dhere so that everything is measured relativ to the front end of the train (this is useful for the function SPAtDistance)</Comment>
-<Expression>Distance + BaseTypes.LengthToDistance(Length) + BaseTypes.LengthToDistance(TrainData.TrainData.Value.TrainLength)</Expression>
+<Expression>Distance + BaseTypes.LengthToDistance(Length) + BaseTypes.LengthToDistance(Kernel.TrainData.TrainData.Value.TrainLength)</Expression>
 </Case></Cases>
 </Function><Function
  Type="StationPlatformStruct"
@@ -300,8 +300,8 @@
 <PreConditions>
 <PreCondition
  Guid="e92f1a3d-f7dc-457f-8125-b090db9ad12b"
->THERE_IS X IN TCStationPlatforms | (X.Location &lt;= Distance)</PreCondition></PreConditions>
-<Expression>REDUCE TCStationPlatforms | (X.Location == SPProfileStartLocation(Distance) )
+>THERE_IS X IN Kernel.TrackDescription.TrackConditions.StationPlatform.TCStationPlatforms | (X.Location &lt;= Distance)</PreCondition></PreConditions>
+<Expression>REDUCE Kernel.TrackDescription.TrackConditions.StationPlatform.TCStationPlatforms | (X.Location == Kernel.TrackDescription.TrackConditions.StationPlatform.SPProfileStartLocation(Distance) )
     USING X IN X.Value
   INITIAL_VALUE EMPTY</Expression>
 </Case><Case
@@ -309,7 +309,7 @@
  Guid="570cdb8c-639b-4935-b08a-7b1c6548fedb"
 >
 <Comment>There are no track conditions that apply before the requested distance</Comment>
-<Expression>StationPlatformStruct { }</Expression>
+<Expression>Kernel.TrackDescription.TrackConditions.StationPlatform.StationPlatformStruct { }</Expression>
 </Case></Cases>
 </Function><Function
  Type="StationPlatformStruct"
@@ -336,15 +336,15 @@
 <PreConditions>
 <PreCondition
  Guid="f27ed2d7-e341-4f81-8280-767a73fabb6e"
->SPAtDistance(TrainPosition.FrontEndPosition(DistanceInterval.Max)).Enabled
+>Kernel.TrackDescription.TrackConditions.StationPlatform.SPAtDistance(Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Max)).Enabled
   OR  
-SPAtDistance(TrainPosition.FrontEndPosition(DistanceInterval.Min)).Enabled</PreCondition></PreConditions>
-<Expression>SPAtDistance(TrainPosition.FrontEndPosition(DistanceInterval.Max))</Expression>
+Kernel.TrackDescription.TrackConditions.StationPlatform.SPAtDistance(Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Min)).Enabled</PreCondition></PreConditions>
+<Expression>Kernel.TrackDescription.TrackConditions.StationPlatform.SPAtDistance(Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Max))</Expression>
 </Case><Case
  Name="Not enabled"
  Guid="4d96d425-13d0-4aef-9741-b86bd3a02528"
 >
-<Expression>SPAtDistance(TrainPosition.FrontEndPosition(DistanceInterval.Min))</Expression>
+<Expression>Kernel.TrackDescription.TrackConditions.StationPlatform.SPAtDistance(Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Min))</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Distance"
@@ -372,7 +372,7 @@ SPAtDistance(TrainPosition.FrontEndPosition(DistanceInterval.Min)).Enabled</PreC
  Guid="0d720338-4d37-4041-ae4b-aca9d358dd48"
 >
 <Comment>Returns the element in TCStationPlatform with the largest distance that is less than or equal to the parameter</Comment>
-<Expression>REDUCE TCStationPlatforms | (X.Location &lt;= Distance)
+<Expression>REDUCE Kernel.TrackDescription.TrackConditions.StationPlatform.TCStationPlatforms | (X.Location &lt;= Distance)
     USING X IN BaseTypes.MaxDistance(
         X1=&gt;X.Location,
         X2=&gt;RESULT)
@@ -449,7 +449,7 @@ SPAtDistance(TrainPosition.FrontEndPosition(DistanceInterval.Min)).Enabled</PreC
 IN
     TCStationPlatforms</Action><Action
  Guid="b803cea3-2661-496d-8f0e-61206f6bed58"
->INSERT StationPlatformInformationStruct
+>INSERT Kernel.TrackDescription.TrackConditions.StationPlatform.StationPlatformInformationStruct
 {
     Location =&gt; MessageTypes.QScaleDistance
     (
@@ -462,7 +462,7 @@ IN
     }
 }
 IN
-    TCStationPlatforms</Action></Actions>
+    Kernel.TrackDescription.TrackConditions.StationPlatform.TCStationPlatforms</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  NeedsRequirement="FALSE"
@@ -477,7 +477,7 @@ IN
 <Actions>
 <Action
  Guid="59fc8af2-abfa-4737-91d5-557d93614ec2"
->HandleNewSPTrackCondition( Packet )</Action></Actions>
+>Kernel.TrackDescription.TrackConditions.StationPlatform.HandleNewSPTrackCondition( Packet )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -546,7 +546,7 @@ IN
 <Actions>
 <Action
  Guid="b8eee697-8bc2-43f6-826f-5af04be62daa"
->AddSPToProfile(
+>Kernel.TrackDescription.TrackConditions.StationPlatform.AddSPToProfile(
     Distance=&gt;MessageTypes.QScaleDistance(
         distance=&gt;Packet.D_TRACKCOND,
         scale=&gt;Packet.Q_SCALE
@@ -573,7 +573,7 @@ IN
 <Action
  Guid="941b3372-3df3-4a5d-ab39-3f67acff9ba1"
 >APPLY
-    AddSPToProfile(
+    Kernel.TrackDescription.TrackConditions.StationPlatform.AddSPToProfile(
         Distance=&gt;MessageTypes.QScaleDistance(
         distance=&gt;X.D_TRACKCOND,
         scale=&gt;Packet.Q_SCALE
@@ -650,17 +650,17 @@ ON
 <Action
  Guid="be4d0200-4e1f-4b95-a075-5f34fff7ade3"
 ><Comment>EndSectionDistance provides the end location (in terms of the front end of the train) of the section</Comment>
-INSERT MakeSPProfilePoint(
+INSERT Kernel.TrackDescription.TrackConditions.StationPlatform.MakeSPProfilePoint(
     Side=&gt;Side,
     Height=&gt;Height,
-    Location=&gt;SPSectionEnd(
+    Location=&gt;Kernel.TrackDescription.TrackConditions.StationPlatform.SPSectionEnd(
         Distance=&gt;Distance,
         Length=&gt;Length
     ),
     EndOfSection=&gt;True
 )
 IN
-    TCStationPlatforms</Action></Actions>
+    Kernel.TrackDescription.TrackConditions.StationPlatform.TCStationPlatforms</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -682,14 +682,14 @@ IN
 <Actions>
 <Action
  Guid="753a4045-ccf6-45c0-b0ef-190969ad8333"
->INSERT MakeSPProfilePoint(
+>INSERT Kernel.TrackDescription.TrackConditions.StationPlatform.MakeSPProfilePoint(
     Side=&gt;Side,
     Height=&gt;Height,
     Location=&gt;Distance,
     EndOfSection=&gt;False
     )
 IN
-    TCStationPlatforms</Action></Actions>
+    Kernel.TrackDescription.TrackConditions.StationPlatform.TCStationPlatforms</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -747,7 +747,7 @@ IN
 <PreConditions>
 <PreCondition
  Guid="d838de66-f4e8-4b18-bc95-796d31f3ac51"
->TCStationPlatforms != []</PreCondition></PreConditions>
+>Kernel.TrackDescription.TrackConditions.StationPlatform.TCStationPlatforms != []</PreCondition></PreConditions>
 <Actions>
 </Actions>
 <SubRules>
@@ -770,7 +770,7 @@ IN
 <Actions>
 <Action
  Guid="56b7217d-8752-45d7-94fa-d4a60d6c20d8"
->TCStationPlatforms &lt;- MAP TCStationPlatforms | X.Location &lt;= aLocation USING X IN X</Action></Actions>
+>Kernel.TrackDescription.TrackConditions.StationPlatform.TCStationPlatforms &lt;- MAP Kernel.TrackDescription.TrackConditions.StationPlatform.TCStationPlatforms | X.Location &lt;= aLocation USING X IN X</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -789,12 +789,12 @@ IN
 <PreConditions>
 <PreCondition
  Guid="504633ab-7486-4484-9c62-ea1addbc63cb"
->(LAST TC IN TCStationPlatforms).Value.Enabled != False</PreCondition></PreConditions>
+>(LAST TC IN Kernel.TrackDescription.TrackConditions.StationPlatform.TCStationPlatforms).Value.Enabled != False</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="8e864c9f-6f4f-4115-bc47-85e3bf7c7cd8"
 >INSERT
-  StationPlatformInformationStruct
+  Kernel.TrackDescription.TrackConditions.StationPlatform.StationPlatformInformationStruct
   {
     Location =&gt; aLocation,
     Value =&gt; StationPlatformStruct
@@ -803,7 +803,7 @@ IN
     }
   }
 IN
-  TCStationPlatforms</Action></Actions>
+  Kernel.TrackDescription.TrackConditions.StationPlatform.TCStationPlatforms</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition></Conditions>

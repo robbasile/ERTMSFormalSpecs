@@ -253,7 +253,7 @@
  Name="Value"
  Guid="58a6586b-b703-4c7f-a7ab-c0a008b09195"
 >
-<Expression>SRPBDStruct
+<Expression>Kernel.TrackDescription.PermittedBrakingDistance.SRPBDStruct
 {
     BrakingDistance =&gt; PermittedBrakingDistance,
     BrakeType =&gt; BrakeType,
@@ -342,7 +342,7 @@
  Guid="d7d70801-f807-432c-be32-68ab4529c806"
 >BrakeType == Messages.Q_PBDSR.EB_intervention_requested</PreCondition></PreConditions>
 <Expression>RoundToMultiple(
-    Value =&gt; ComputePermittedSpeedForEB( d_PBD =&gt; PermittedBrakingDistance, Gradient =&gt; Gradient ),
+    Value =&gt; Kernel.TrackDescription.PermittedBrakingDistance.ComputePermittedSpeedForEB( d_PBD =&gt; PermittedBrakingDistance, Gradient =&gt; Gradient ),
     Multiple =&gt; 5.0
 )</Expression>
 </Case><Case
@@ -350,7 +350,7 @@
  Guid="cf62ff4f-7221-4e5b-8d1f-ed2445553643"
 >
 <Expression>RoundToMultiple (
-    Value =&gt; ComputePermittedSpeedForSB (
+    Value =&gt; Kernel.TrackDescription.PermittedBrakingDistance.ComputePermittedSpeedForSB (
         PermittedBrakingDistance =&gt; PermittedBrakingDistance,
         Gradient =&gt; Gradient ),
     Multiple =&gt; 5.0
@@ -406,8 +406,8 @@
  Guid="e94a30d4-4c1e-4d97-a556-fb5305537c4c"
 >
 <Expression>BaseTypes.MinSpeed(
-    X1 =&gt; PermittedSpeedForSB_EB( d_PBD =&gt; PermittedBrakingDistance, Gradient =&gt; Gradient ),
-    X2 =&gt; PermittedSpeedForSB_SB( d_PBD =&gt; PermittedBrakingDistance, Gradient =&gt; Gradient )
+    X1 =&gt; Kernel.TrackDescription.PermittedBrakingDistance.PermittedSpeedForSB_EB( d_PBD =&gt; PermittedBrakingDistance, Gradient =&gt; Gradient ),
+    X2 =&gt; Kernel.TrackDescription.PermittedBrakingDistance.PermittedSpeedForSB_SB( d_PBD =&gt; PermittedBrakingDistance, Gradient =&gt; Gradient )
 )</Expression>
 </Case></Cases>
 </Function><Function
@@ -469,7 +469,7 @@
  Name="Value"
  Guid="626b0f44-abec-4e4e-a2e4-67111dc5b3c1"
 >
-<Expression>BaseTypes.SpeedToMS( V_PBD + dV + Vdelta0PBD(V_PBD) ) * ( SpeedAndDistanceMonitoring.DecelerationCurves.T_traction(True) + SpeedAndDistanceMonitoring.DecelerationCurves.T_berem(True) )</Expression>
+<Expression>BaseTypes.SpeedToMS( V_PBD + dV + Kernel.TrackDescription.PermittedBrakingDistance.Vdelta0PBD(V_PBD) ) * ( Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.T_traction(True) + Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.T_berem(True) )</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Speed"
@@ -523,13 +523,13 @@
 <PreConditions>
 <PreCondition
  Guid="44484dba-c965-4e53-b13d-f63a06ed43cb"
->NationalValues.CompensationOfInaccuracyOfTheSpeedIsInhibited()</PreCondition></PreConditions>
+>Kernel.NationalValues.CompensationOfInaccuracyOfTheSpeedIsInhibited()</PreCondition></PreConditions>
 <Expression>0.0</Expression>
 </Case><Case
  Name="Compensation of speed inaccuracy is not inhibited by NV"
  Guid="a19d201e-cd5f-4b60-bcf6-a4ea5c891e82"
 >
-<Expression>SpeedAndDistanceMonitoring.f41(V_PBD)</Expression>
+<Expression>Kernel.SpeedAndDistanceMonitoring.f41(V_PBD)</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Acceleration"
@@ -607,15 +607,15 @@
 >
 <Expression>(
     REDUCE
-        AdhesionFactors.AdhFactors
+        Kernel.TrackDescription.AdhesionFactors.AdhFactors
     USING X IN
         Override
         (
             Default =&gt; RESULT,
-            Override =&gt; FUNCTION d :  BaseTypes.Distance, V : BaseTypes.Speed =&gt; A_safe_forAdhesionFactor ( anAdhFactor =&gt; X, d =&gt; d, V =&gt; V, Gradient =&gt; Gradient )
+            Override =&gt; FUNCTION d :  BaseTypes.Distance, V : BaseTypes.Speed =&gt; Kernel.TrackDescription.PermittedBrakingDistance.A_safe_forAdhesionFactor ( anAdhFactor =&gt; X, d =&gt; d, V =&gt; V, Gradient =&gt; Gradient )
         )
     INITIAL_VALUE
-        FUNCTION d :  BaseTypes.Distance, V : BaseTypes.Speed =&gt; Default_A_safe ( d =&gt; d, V =&gt; V, Gradient =&gt; Gradient )
+        FUNCTION d :  BaseTypes.Distance, V : BaseTypes.Speed =&gt; Kernel.TrackDescription.PermittedBrakingDistance.Default_A_safe ( d =&gt; d, V =&gt; V, Gradient =&gt; Gradient )
 )
 (d, V)</Expression>
 </Case></Cases>
@@ -716,8 +716,8 @@
 <PreConditions>
 <PreCondition
  Guid="099356aa-bb6a-4569-96cc-bd9497a47543"
->AdhesionFactors.SlipperyRailSelectedByDriver == Messages.M_ADHESION.Slippery_rail</PreCondition></PreConditions>
-<Expression>( MIN ( A_brake_safe (V), NationalValues.A_MAXREDADH () ) + A_gradient(Gradient) ) (V)</Expression>
+>Kernel.TrackDescription.AdhesionFactors.SlipperyRailSelectedByDriver == Messages.M_ADHESION.Slippery_rail</PreCondition></PreConditions>
+<Expression>( MIN ( Kernel.TrackDescription.PermittedBrakingDistance.A_brake_safe (V), Kernel.NationalValues.A_MAXREDADH () ) + Kernel.TrackDescription.PermittedBrakingDistance.A_gradient(Gradient) ) (V)</Expression>
 </Case><Case
  Name="Adhesion factor available (trackside)"
  Guid="fdcbba77-4eb9-4b7f-9ac6-54da14511424"
@@ -725,12 +725,12 @@
 <PreConditions>
 <PreCondition
  Guid="49182ebe-0de5-436a-bc60-ccb48241b9e0"
->d &lt; anAdhFactor.Location + BaseTypes.LengthToDistance ( AdhesionFactors.AdhFactorLength ( anAdhFactor ) )</PreCondition><PreCondition
+>d &lt; anAdhFactor.Location + BaseTypes.LengthToDistance ( Kernel.TrackDescription.AdhesionFactors.AdhFactorLength ( anAdhFactor ) )</PreCondition><PreCondition
  Guid="96d93cb8-5eac-4f52-b211-9fc3b66f1670"
 >anAdhFactor.Location &lt;= d</PreCondition><PreCondition
  Guid="db33952f-0acc-4003-8b05-5fcf9b2fa7c3"
 >anAdhFactor.Value == Messages.M_ADHESION.Slippery_rail</PreCondition></PreConditions>
-<Expression>( MIN ( A_brake_safe (V), NationalValues.A_MAXREDADH () ) + A_gradient(Gradient) ) (V)</Expression>
+<Expression>( MIN ( Kernel.TrackDescription.PermittedBrakingDistance.A_brake_safe (V), Kernel.NationalValues.A_MAXREDADH () ) + Kernel.TrackDescription.PermittedBrakingDistance.A_gradient(Gradient) ) (V)</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Acceleration"
@@ -791,7 +791,7 @@
  Name="Value"
  Guid="8c9d1ee0-0c94-488c-94f8-8d85df4b9e66"
 >
-<Expression>A_brake_safe (V) + A_gradient(Gradient)</Expression>
+<Expression>Kernel.TrackDescription.PermittedBrakingDistance.A_brake_safe (V) + Kernel.TrackDescription.PermittedBrakingDistance.A_gradient(Gradient)</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Acceleration"
@@ -865,8 +865,8 @@
 <PreConditions>
 <PreCondition
  Guid="59fd3e62-37f9-4040-ac3a-96214d7a24cf"
->TrainData.TrainData.Value.SBModels != EMPTY</PreCondition></PreConditions>
-<Expression>TrainData.BrakingParameters.Default_brk_service (V) + A_gradient(Gradient)</Expression>
+>Kernel.TrainData.TrainData.Value.SBModels != EMPTY</PreCondition></PreConditions>
+<Expression>Kernel.TrainData.BrakingParameters.Default_brk_service (V) + Kernel.TrackDescription.PermittedBrakingDistance.A_gradient(Gradient)</Expression>
 </Case><Case
  Name="From conversion model"
  Guid="40d171e2-7f71-49f1-9dbe-19e8a8faac39"
@@ -874,8 +874,8 @@
 <PreConditions>
 <PreCondition
  Guid="e650e13e-81be-4737-a404-293cace431a0"
->TrainData.BrakingParameters.ConversionModel.ConversionModelIsUsed()</PreCondition></PreConditions>
-<Expression>Kernel.TrainData.BrakingParameters.ConversionModel.A_brake_service ( V ) + A_gradient(Gradient)</Expression>
+>Kernel.TrainData.BrakingParameters.ConversionModel.ConversionModelIsUsed()</PreCondition></PreConditions>
+<Expression>Kernel.TrainData.BrakingParameters.ConversionModel.A_brake_service ( V ) + Kernel.TrackDescription.PermittedBrakingDistance.A_gradient(Gradient)</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Speed"
@@ -921,9 +921,9 @@
  Name="Value"
  Guid="69bc209e-cb21-49a8-bd09-ea237265fca4"
 >
-<Expression>(REDUCE SpeedRestrictionsProfile.SpeedRestrictions 
+<Expression>(REDUCE Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.SpeedRestrictions 
     USING X IN  
-        MIN ( First =&gt; FUNCTION d : Default.BaseTypes.Distance =&gt; PBDSpeedRestriction ( aSRPB =&gt; X, Distance =&gt; d ), 
+        MIN ( First =&gt; FUNCTION d : Default.BaseTypes.Distance =&gt; Kernel.TrackDescription.PermittedBrakingDistance.PBDSpeedRestriction ( aSRPB =&gt; X, Distance =&gt; d ), 
                   Second =&gt; RESULT )
 INITIAL_VALUE BaseTypes.MaxSpeedFunction ) (Distance)</Expression>
 </Case></Cases>
@@ -999,7 +999,7 @@ INITIAL_VALUE BaseTypes.MaxSpeedFunction ) (Distance)</Expression>
  Name="Value"
  Guid="918992e5-ffd6-4a75-9604-fef457732318"
 >
-<Expression>BaseTypes.Acceleration.g * Gradient.CompensateGradientWithRotatingMass(Gradient)</Expression>
+<Expression>BaseTypes.Acceleration.g * Kernel.TrackDescription.Gradient.CompensateGradientWithRotatingMass(Gradient)</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Acceleration"
@@ -1098,14 +1098,14 @@ INITIAL_VALUE BaseTypes.MaxSpeedFunction ) (Distance)</Expression>
 <PreConditions>
 <PreCondition
  Guid="aadc4768-d9d0-4121-ad97-03daa65b322c"
->TrainData.TrainData.Value.EBModels != EMPTY</PreCondition></PreConditions>
-<Expression>TrainData.BrakingParameters.Kdry_rst (
+>Kernel.TrainData.TrainData.Value.EBModels != EMPTY</PreCondition></PreConditions>
+<Expression>Kernel.TrainData.BrakingParameters.Kdry_rst (
     V =&gt; V,
-    M_NVEBCL =&gt; NationalValues.CurrentNV().ConfLevelForEmergBrakeSafeDecelerationOnDryRails )
+    M_NVEBCL =&gt; Kernel.NationalValues.CurrentNV().ConfLevelForEmergBrakeSafeDecelerationOnDryRails )
  * 
-(TrainData.BrakingParameters.Kwet_rst ( V ) + NationalValues.CurrentNV().WeightingFactorForAvailableWheelRailAdhesion * ( 1.0 - TrainData.BrakingParameters.Kwet_rst ( V ) ) )
+(Kernel.TrainData.BrakingParameters.Kwet_rst ( V ) + Kernel.NationalValues.CurrentNV().WeightingFactorForAvailableWheelRailAdhesion * ( 1.0 - Kernel.TrainData.BrakingParameters.Kwet_rst ( V ) ) )
  * 
-TrainData.BrakingParameters.Default_brk_emergency(V)</Expression>
+Kernel.TrainData.BrakingParameters.Default_brk_emergency(V)</Expression>
 </Case><Case
  Name="From conversion model"
  Guid="23cbc22f-2c1a-405b-8152-7a44c441b6f3"
@@ -1113,8 +1113,8 @@ TrainData.BrakingParameters.Default_brk_emergency(V)</Expression>
 <PreConditions>
 <PreCondition
  Guid="572e8bb1-06af-4554-aad8-8dee18cd6e36"
->TrainData.BrakingParameters.ConversionModel.ConversionModelIsUsed()</PreCondition></PreConditions>
-<Expression>BaseTypes.Acceleration ( NationalValues.Kv_int ( V ) * NationalValues.Kr_int ( TrainData.TrainData.Value.TrainLength ) ) * Kernel.TrainData.BrakingParameters.ConversionModel.A_brake_emergency ( V )</Expression>
+>Kernel.TrainData.BrakingParameters.ConversionModel.ConversionModelIsUsed()</PreCondition></PreConditions>
+<Expression>BaseTypes.Acceleration ( Kernel.NationalValues.Kv_int ( V ) * Kernel.NationalValues.Kr_int ( Kernel.TrainData.TrainData.Value.TrainLength ) ) * Kernel.TrainData.BrakingParameters.ConversionModel.A_brake_emergency ( V )</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Speed"
@@ -1195,10 +1195,10 @@ If the first condition is not satisfied for V_PBD = 0, or if V_EBD is less than 
 <PreCondition
  Guid="4b011f3e-039d-4608-87c5-31a6c054e7b0"
 >LET
-dV &lt;- SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_ebi(0.0)
+dV &lt;- Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_ebi(0.0)
 
  IN
-d_PBD &lt; Dbec( V_PBD =&gt; 0.0, dV =&gt; dV ) + d_offset( 0.0 + dV + Vdelta0PBD(0.0) )</PreCondition></PreConditions>
+d_PBD &lt; Kernel.TrackDescription.PermittedBrakingDistance.Dbec( V_PBD =&gt; 0.0, dV =&gt; dV ) + Kernel.TrackDescription.PermittedBrakingDistance.d_offset( 0.0 + dV + Kernel.TrackDescription.PermittedBrakingDistance.Vdelta0PBD(0.0) )</PreCondition></PreConditions>
 <Expression>0.0</Expression>
 </Case><Case
  Name="Value"
@@ -1257,7 +1257,7 @@ STOP_CONDITION
  Name="Value"
  Guid="29f39ba9-5eb5-4694-9943-ea36ad4f34ec"
 >
-<Expression>BTM.ActiveAntennaPosition + BaseTypes.SpeedToMS( V ) * T41</Expression>
+<Expression>BTM.ActiveAntennaPosition + BaseTypes.SpeedToMS( V ) * Kernel.TrackDescription.PermittedBrakingDistance.T41</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Speed"
@@ -1351,7 +1351,7 @@ STOP_CONDITION
 <PreConditions>
 <PreCondition
  Guid="aea8bb04-039b-4b1f-a151-48c43947693a"
->d_PBD &lt; d_offset( 0.0 + SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_sbi(0.0) + Vdelta0PBD(0.0) ) + Dbec( V_PBD =&gt; 0.0, dV =&gt; SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_sbi(0.0) ) + ( 0.0 + SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_sbi(0.0) )*SpeedAndDistanceMonitoring.TargetSpeedMonitoring.T_bs2</PreCondition></PreConditions>
+>d_PBD &lt; Kernel.TrackDescription.PermittedBrakingDistance.d_offset( 0.0 + Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_sbi(0.0) + Kernel.TrackDescription.PermittedBrakingDistance.Vdelta0PBD(0.0) ) + Kernel.TrackDescription.PermittedBrakingDistance.Dbec( V_PBD =&gt; 0.0, dV =&gt; Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_sbi(0.0) ) + ( 0.0 + Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_sbi(0.0) )*Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.T_bs2</PreCondition></PreConditions>
 <Expression>0.0</Expression>
 </Case><Case
  Name="Value"
@@ -1462,7 +1462,7 @@ STOP_CONDITION
 <PreConditions>
 <PreCondition
  Guid="68686248-6f3b-4bb5-91b3-6034c00fc553"
->d_PBD &lt; d_offset( 0.0 + SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_sbi(0.0) ) + ( 0.0 + SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_sbi(0.0) ) * SpeedAndDistanceMonitoring.TargetSpeedMonitoring.T_bs1</PreCondition></PreConditions>
+>d_PBD &lt; Kernel.TrackDescription.PermittedBrakingDistance.d_offset( 0.0 + Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_sbi(0.0) ) + ( 0.0 + Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_sbi(0.0) ) * Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.T_bs1</PreCondition></PreConditions>
 <Expression>0.0</Expression>
 </Case><Case
  Name="Value"
@@ -1543,9 +1543,9 @@ STOP_CONDITION
 <Expression>FullDecelerationForTarget (
     Target =&gt; Target,
     EndSpeed =&gt; 0.0,
-    DecelerationFactor =&gt; FUNCTION d : BaseTypes.Distance, V : BaseTypes.Speed =&gt; A_safe( d =&gt; d, V =&gt; V, Gradient =&gt; Gradient )
-)( d_offset(V_previous + SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_ebi(V_previous)) + Dbec(V_PBD=&gt;V_previous, dV=&gt;SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_ebi(V_previous)) )
- - Vdelta0PBD(V_previous)</Expression>
+    DecelerationFactor =&gt; FUNCTION d : BaseTypes.Distance, V : BaseTypes.Speed =&gt; Kernel.TrackDescription.PermittedBrakingDistance.A_safe( d =&gt; d, V =&gt; V, Gradient =&gt; Gradient )
+)( Kernel.TrackDescription.PermittedBrakingDistance.d_offset(V_previous + Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_ebi(V_previous)) + Kernel.TrackDescription.PermittedBrakingDistance.Dbec(V_PBD=&gt;V_previous, dV=&gt;Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_ebi(V_previous)) )
+ - Kernel.TrackDescription.PermittedBrakingDistance.Vdelta0PBD(V_previous)</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Speed"
@@ -1599,8 +1599,8 @@ STOP_CONDITION
 <Expression>FullDecelerationForTarget (
     Target =&gt; Target,
     EndSpeed =&gt; 0.0,
-    DecelerationFactor =&gt; FUNCTION V : BaseTypes.Speed, d : BaseTypes.Distance =&gt; A_expected( V =&gt; V, Gradient =&gt; Gradient )
-)( d_offset(V_previous + SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_sbi(V_previous)) + ( V_previous + SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_sbi(V_previous) ) * SpeedAndDistanceMonitoring.TargetSpeedMonitoring.T_bs1 )</Expression>
+    DecelerationFactor =&gt; FUNCTION V : BaseTypes.Speed, d : BaseTypes.Distance =&gt; Kernel.TrackDescription.PermittedBrakingDistance.A_expected( V =&gt; V, Gradient =&gt; Gradient )
+)( Kernel.TrackDescription.PermittedBrakingDistance.d_offset(V_previous + Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_sbi(V_previous)) + ( V_previous + Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_sbi(V_previous) ) * Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.T_bs1 )</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Speed"
@@ -1659,9 +1659,9 @@ STOP_CONDITION
 <Expression>FullDecelerationForTarget (
     Target =&gt; Target,
     EndSpeed =&gt; 0.0,
-    DecelerationFactor =&gt; FUNCTION d : BaseTypes.Distance, V : BaseTypes.Speed =&gt; A_safe( d =&gt; d, V =&gt; V, Gradient =&gt; Gradient )
-)( d_offset(V_previous + SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_sbi(V_previous)) + Dbec(V_PBD=&gt;V_previous, dV=&gt;SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_sbi(V_previous)) + BaseTypes.SpeedToMS(V_previous + SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_sbi(V_previous))*SpeedAndDistanceMonitoring.TargetSpeedMonitoring.T_bs2 )
- - Vdelta0PBD(V_previous)</Expression>
+    DecelerationFactor =&gt; FUNCTION d : BaseTypes.Distance, V : BaseTypes.Speed =&gt; Kernel.TrackDescription.PermittedBrakingDistance.A_safe( d =&gt; d, V =&gt; V, Gradient =&gt; Gradient )
+)( Kernel.TrackDescription.PermittedBrakingDistance.d_offset(V_previous + Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_sbi(V_previous)) + Kernel.TrackDescription.PermittedBrakingDistance.Dbec(V_PBD=&gt;V_previous, dV=&gt;Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_sbi(V_previous)) + BaseTypes.SpeedToMS(V_previous + Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_sbi(V_previous))*Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.T_bs2 )
+ - Kernel.TrackDescription.PermittedBrakingDistance.Vdelta0PBD(V_previous)</Expression>
 </Case></Cases>
 </Function></Functions>
 <Procedures>
@@ -1729,13 +1729,13 @@ STOP_CONDITION
  Guid="702c41be-b661-4a44-b0a3-9f3e6660c5a8"
 >Packet.Q_TRACKINIT == Messages.Q_TRACKINIT.Empty_profile__initial_states_to_be_resumed</PreCondition><PreCondition
  Guid="c8150dfb-72db-4741-be81-ff85bc0005f8"
->Mode != Default.Mode.TR</PreCondition></PreConditions>
+>Kernel.Mode != Default.Mode.TR</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="0f51ade6-1ab1-4d5e-a2e6-5ba1d3e16c12"
->SpeedRestrictionsProfile.InitialState &lt;- Packet.Q_TRACKINIT</Action><Action
+>Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.InitialState &lt;- Packet.Q_TRACKINIT</Action><Action
  Guid="e9a968df-9178-43cc-b51e-4bee6b4e4d6f"
->SpeedRestrictionsProfile.EmptyProfileDistance &lt;- MessageTypes.QScaleDistance ( distance =&gt; Packet.D_TRACKINIT, scale =&gt; Packet.Q_SCALE)</Action></Actions>
+>Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.EmptyProfileDistance &lt;- MessageTypes.QScaleDistance ( distance =&gt; Packet.D_TRACKINIT, scale =&gt; Packet.Q_SCALE)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -1767,7 +1767,7 @@ STOP_CONDITION
  Guid="ec6b53e9-a181-4239-8179-888b316dcb5c"
 >Packet.Q_TRACKINIT == Messages.Q_TRACKINIT.No_initial_states_to_be_resumed__profile_to_follow</PreCondition><PreCondition
  Guid="30d32994-64d1-4b57-8f4b-d2cf299c84ad"
->Mode != Default.Mode.TR</PreCondition></PreConditions>
+>Kernel.Mode != Default.Mode.TR</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="a2eaa572-8996-4e14-bb01-e726ed4ecfb1"
@@ -1823,22 +1823,22 @@ STOP_CONDITION
  Guid="4a1ce079-132b-43f6-8ba0-72284dca49b8"
 >Packet.Q_TRACKINIT == Messages.Q_TRACKINIT.No_initial_states_to_be_resumed__profile_to_follow</PreCondition><PreCondition
  Guid="b67878e1-ff87-4b16-ade4-3944247f14da"
->Mode != Default.Mode.TR</PreCondition></PreConditions>
+>Kernel.Mode != Default.Mode.TR</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="2afd30de-c39b-432c-9bcf-27501908073d"
->AddNewSpeedRestriction (
+>Kernel.TrackDescription.PermittedBrakingDistance.AddNewSpeedRestriction (
     Location =&gt; MessageTypes.QScaleDistance ( distance =&gt; Packet.D_PBDSR, scale =&gt; Packet.Q_SCALE ),
     Length =&gt; MessageTypes.QScaleLength ( length =&gt; Packet.L_PBDSR, scale =&gt; Packet.Q_SCALE ),
     PermittedBrakingDistance =&gt;  MessageTypes.QScaleDistance ( distance =&gt; Packet.D_PBD, scale =&gt; Packet.Q_SCALE ),
-    Gradient =&gt; Gradient.CreateGradient ( Q_GDIR =&gt; Packet.Q_GDIR, G_A =&gt; Packet.G_PBDSR ),
+    Gradient =&gt; Kernel.TrackDescription.Gradient.CreateGradient ( Q_GDIR =&gt; Packet.Q_GDIR, G_A =&gt; Packet.G_PBDSR ),
     BrakeType =&gt; Packet.Q_PBDSR )</Action><Action
  Guid="4acb943c-c5f1-4bae-ac1d-9c276e643663"
 >APPLY
-    AddNewSpeedRestriction ( Location =&gt; MessageTypes.QScaleDistance ( distance =&gt; X.D_PBDSR, scale =&gt; Packet.Q_SCALE ),
+    Kernel.TrackDescription.PermittedBrakingDistance.AddNewSpeedRestriction ( Location =&gt; MessageTypes.QScaleDistance ( distance =&gt; X.D_PBDSR, scale =&gt; Packet.Q_SCALE ),
                                                 Length =&gt; MessageTypes.QScaleLength ( length =&gt; X.L_PBDSR, scale =&gt; Packet.Q_SCALE ),
                                                 PermittedBrakingDistance =&gt;  MessageTypes.QScaleDistance ( distance =&gt; X.D_PBD, scale =&gt; Packet.Q_SCALE ),
-                                                Gradient =&gt; Gradient.CreateGradient ( Q_GDIR =&gt; X.Q_GDIR, G_A =&gt;  X.G_PBDSR ),
+                                                Gradient =&gt; Kernel.TrackDescription.Gradient.CreateGradient ( Q_GDIR =&gt; X.Q_GDIR, G_A =&gt;  X.G_PBDSR ),
                                                 BrakeType =&gt; X.Q_PBDSR )
 ON
     Packet.Sequence1</Action></Actions>
@@ -1866,15 +1866,15 @@ ON
 <PreConditions>
 <PreCondition
  Guid="1bc57ee6-f129-4a6d-93c3-62b19efddc9c"
->Mode != Default.Mode.TR</PreCondition></PreConditions>
+>Kernel.Mode != Default.Mode.TR</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="812f3ae6-01ea-41a2-9abe-58774618967b"
->PrevEBModels &lt;- TrainData.TrainData.Value.EBModels</Action><Action
+>Kernel.TrackDescription.PermittedBrakingDistance.PrevEBModels &lt;- Kernel.TrainData.TrainData.Value.EBModels</Action><Action
  Guid="245ad180-10c2-4230-93e8-c5930841f91a"
->PrevSBModels &lt;- TrainData.TrainData.Value.SBModels</Action><Action
+>Kernel.TrackDescription.PermittedBrakingDistance.PrevSBModels &lt;- Kernel.TrainData.TrainData.Value.SBModels</Action><Action
  Guid="06efd726-cf60-44b1-ba6a-733cf20e54d5"
->CompensationForSpeedInaccuracyInhibited &lt;- NationalValues.CompensationOfInaccuracyOfTheSpeedIsInhibited()</Action></Actions>
+>Kernel.TrackDescription.PermittedBrakingDistance.CompensationForSpeedInaccuracyInhibited &lt;- Kernel.NationalValues.CompensationOfInaccuracyOfTheSpeedIsInhibited()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -1936,8 +1936,8 @@ ON
 <Actions>
 <Action
  Guid="728d9949-d0ea-46e5-b08d-330bc6a880d3"
->INSERT CreateNewSpeedRestriction ( Location =&gt; Location, Length =&gt; Length, PermittedBrakingDistance =&gt; PermittedBrakingDistance, Gradient =&gt; Gradient, BrakeType =&gt; BrakeType )
-IN SpeedRestrictionsProfile.SpeedRestrictions</Action></Actions>
+>INSERT Kernel.TrackDescription.PermittedBrakingDistance.CreateNewSpeedRestriction ( Location =&gt; Location, Length =&gt; Length, PermittedBrakingDistance =&gt; PermittedBrakingDistance, Gradient =&gt; Gradient, BrakeType =&gt; BrakeType )
+IN Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.SpeedRestrictions</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -1983,7 +1983,7 @@ IN SpeedRestrictionsProfile.SpeedRestrictions</Action></Actions>
 <Actions>
 <Action
  Guid="2c67d68f-ae9c-4923-a686-df47d174ae86"
->aSRPB.Speed &lt;- ComputePermittedSpeed ( PermittedBrakingDistance =&gt; aSRPB.BrakingDistance, Gradient =&gt; aSRPB.Gradient, BrakeType =&gt; aSRPB.BrakeType )</Action></Actions>
+>aSRPB.Speed &lt;- Kernel.TrackDescription.PermittedBrakingDistance.ComputePermittedSpeed ( PermittedBrakingDistance =&gt; aSRPB.BrakingDistance, Gradient =&gt; aSRPB.Gradient, BrakeType =&gt; aSRPB.BrakeType )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -2041,9 +2041,9 @@ IN SpeedRestrictionsProfile.SpeedRestrictions</Action></Actions>
 <PreConditions>
 <PreCondition
  Guid="7e08dd15-4fbd-4e10-bf1b-b5518fa3be25"
->SpeedRestrictionsProfile.SpeedRestrictions != []
+>Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.SpeedRestrictions != []
   AND
-(LAST X IN SpeedRestrictionsProfile.SpeedRestrictions).Location + (LAST X IN SpeedRestrictionsProfile.SpeedRestrictions).Length &gt; aLocation</PreCondition></PreConditions>
+(LAST X IN Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.SpeedRestrictions).Location + (LAST X IN Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.SpeedRestrictions).Length &gt; aLocation</PreCondition></PreConditions>
 <Actions>
 </Actions>
 <SubRules>
@@ -2066,7 +2066,7 @@ IN SpeedRestrictionsProfile.SpeedRestrictions</Action></Actions>
 <Actions>
 <Action
  Guid="d074c1e7-493d-4cc0-8f90-e9a8ecd8bece"
->SpeedRestrictionsProfile.SpeedRestrictions &lt;- MAP SpeedRestrictionsProfile.SpeedRestrictions | X.Location &lt;= aLocation USING X IN X</Action></Actions>
+>Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.SpeedRestrictions &lt;- MAP Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.SpeedRestrictions | X.Location &lt;= aLocation USING X IN X</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -2085,13 +2085,13 @@ IN SpeedRestrictionsProfile.SpeedRestrictions</Action></Actions>
 <PreConditions>
 <PreCondition
  Guid="b074177f-4a78-4787-b2aa-ca5cb98bede6"
->SpeedRestrictionsProfile != EMPTY
+>Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile != EMPTY
   AND
-SpeedRestrictionsProfile.SpeedRestrictions != []</PreCondition></PreConditions>
+Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.SpeedRestrictions != []</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="2a15c293-9048-4c8c-a66b-287ae23687cc"
->(LAST X IN SpeedRestrictionsProfile.SpeedRestrictions).Length &lt;- aLocation - (LAST X IN SpeedRestrictionsProfile.SpeedRestrictions).Location</Action></Actions>
+>(LAST X IN Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.SpeedRestrictions).Length &lt;- aLocation - (LAST X IN Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.SpeedRestrictions).Location</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition></Conditions>
@@ -2100,7 +2100,7 @@ SpeedRestrictionsProfile.SpeedRestrictions != []</PreCondition></PreConditions>
 <Variables>
 <Variable
  Type="SRPBDProfileStruct"
- DefaultValue="SRPBDProfileStruct
+ DefaultValue="Kernel.TrackDescription.PermittedBrakingDistance.SRPBDProfileStruct
 {
     InitialState =&gt; Messages.Q_TRACKINIT.No_initial_states_to_be_resumed__profile_to_follow, 
     EmptyProfileDistance =&gt; 0.0, 
@@ -2266,24 +2266,24 @@ Value provided by Subset-041, paragraph 5.2.1.1</Comment>
 <PreConditions>
 <PreCondition
  Guid="87412dc3-a473-4513-ac75-4058b021c9b2"
->SpeedRestrictionsProfile != EMPTY
+>Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile != EMPTY
   AND  
-SpeedRestrictionsProfile.SpeedRestrictions != []</PreCondition><PreCondition
+Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.SpeedRestrictions != []</PreCondition><PreCondition
  Guid="9040d4f6-e334-4442-b2a9-d02e2978ab34"
->PrevEBModels != TrainData.TrainData.Value.EBModels
+>Kernel.TrackDescription.PermittedBrakingDistance.PrevEBModels != Kernel.TrainData.TrainData.Value.EBModels
   OR  
-PrevSBModels != TrainData.TrainData.Value.SBModels</PreCondition></PreConditions>
+Kernel.TrackDescription.PermittedBrakingDistance.PrevSBModels != Kernel.TrainData.TrainData.Value.SBModels</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="1dcf7b2e-7a94-49c7-9f7e-7826aa500f44"
 >APPLY
-    UpdateSpeedRestriction ( X )
+    Kernel.TrackDescription.PermittedBrakingDistance.UpdateSpeedRestriction ( X )
 ON
-    SpeedRestrictionsProfile.SpeedRestrictions</Action><Action
+    Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.SpeedRestrictions</Action><Action
  Guid="e57ed655-74a3-4d58-acdf-6cde21486ad5"
->PrevSBModels &lt;- TrainData.TrainData.Value.SBModels</Action><Action
+>Kernel.TrackDescription.PermittedBrakingDistance.PrevSBModels &lt;- Kernel.TrainData.TrainData.Value.SBModels</Action><Action
  Guid="89055dbd-938e-45d3-90a9-42cb151bc8f0"
->PrevEBModels &lt;- TrainData.TrainData.Value.EBModels</Action></Actions>
+>Kernel.TrackDescription.PermittedBrakingDistance.PrevEBModels &lt;- Kernel.TrainData.TrainData.Value.EBModels</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="National Values, permission to compensate for inaccuracy of speed measurement changes"
@@ -2293,16 +2293,16 @@ ON
 <PreConditions>
 <PreCondition
  Guid="461c2817-11cd-48d1-9ce5-9884557cadb1"
->NationalValues.CompensationOfInaccuracyOfTheSpeedIsInhibited() != CompensationForSpeedInaccuracyInhibited</PreCondition></PreConditions>
+>Kernel.NationalValues.CompensationOfInaccuracyOfTheSpeedIsInhibited() != Kernel.TrackDescription.PermittedBrakingDistance.CompensationForSpeedInaccuracyInhibited</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="3bc27eb9-4377-4dc1-bc29-4c8f376147bc"
 >APPLY
-    UpdateSpeedRestriction ( X )
+    Kernel.TrackDescription.PermittedBrakingDistance.UpdateSpeedRestriction ( X )
 ON
-    SpeedRestrictionsProfile.SpeedRestrictions</Action><Action
+    Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.SpeedRestrictions</Action><Action
  Guid="9fb8334a-ef20-46a7-915c-f404a81d6dce"
->CompensationForSpeedInaccuracyInhibited &lt;- NationalValues.CompensationOfInaccuracyOfTheSpeedIsInhibited()</Action></Actions>
+>Kernel.TrackDescription.PermittedBrakingDistance.CompensationForSpeedInaccuracyInhibited &lt;- Kernel.NationalValues.CompensationOfInaccuracyOfTheSpeedIsInhibited()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -2350,15 +2350,15 @@ ON
 <PreConditions>
 <PreCondition
  Guid="78be3145-3c25-4eee-8d51-da867970ffd2"
->SpeedRestrictionsProfile.InitialState == Messages.Q_TRACKINIT.Empty_profile__initial_states_to_be_resumed</PreCondition><PreCondition
+>Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.InitialState == Messages.Q_TRACKINIT.Empty_profile__initial_states_to_be_resumed</PreCondition><PreCondition
  Guid="371ca729-718a-45bf-936c-877d3fa6dc55"
->SpeedRestrictionsProfile.EmptyProfileDistance &lt;= TrainPosition.FrontEndPosition ( PointOfInterest =&gt; DistanceInterval.Nom )</PreCondition></PreConditions>
+>Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.EmptyProfileDistance &lt;= Kernel.TrainPosition.FrontEndPosition ( PointOfInterest =&gt; DistanceInterval.Nom )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="16926bd4-4cf4-4d72-a929-f1cf628266cb"
->SpeedRestrictionsProfile.SpeedRestrictions &lt;- []</Action><Action
+>Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.SpeedRestrictions &lt;- []</Action><Action
  Guid="af776cb1-1756-4aea-871b-547067ee5c5e"
->SpeedRestrictionsProfile.InitialState &lt;- Messages.Q_TRACKINIT.No_initial_states_to_be_resumed__profile_to_follow</Action></Actions>
+>Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.InitialState &lt;- Messages.Q_TRACKINIT.No_initial_states_to_be_resumed__profile_to_follow</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </NameSpace>

@@ -10,7 +10,6 @@
 </NameSpaces>
 <Structures>
 <Structure
- Default=""
  Implemented="TRUE"
  Name="Message"
  Guid="e4a5531f-ed12-4a77-838d-3dc706b57e56"
@@ -27,7 +26,7 @@
 >
 </ReqRef><Comment>The packet gives details concerning where to ignore integrity check alarms of balise transmission due to big metal masses trackside.</Comment>
 <StructureElement
- TypeName="Messages.NID_PACKET"
+ TypeName="NID_PACKET"
  Default="67"
  Mode="InOut"
  Implemented="TRUE"
@@ -40,7 +39,7 @@
  Guid="7870a2b5-342b-45cd-ad57-830329e881a2"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="Messages.Q_DIR"
+ TypeName="Q_DIR"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -66,7 +65,7 @@
  Guid="ded926ce-a3b9-48d8-a65f-bec549e5fcbf"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="Messages.Q_SCALE"
+ TypeName="Q_SCALE"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -105,7 +104,7 @@
  Guid="f55007aa-1c66-4e9c-8f28-3776badaa70b"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="Messages.N_ITER"
+ TypeName="N_ITER"
  Default="0"
  Mode="InOut"
  Implemented="TRUE"
@@ -131,7 +130,6 @@
  Guid="a4095586-1977-446d-b856-e1bcd77e2b3a"
 >
 </ReqRef></StructureElement></Structure><Structure
- Default=""
  Implemented="TRUE"
  Name="SubStructure1"
  Guid="8730fc54-ced8-482d-b9bb-feb30816d45a"
@@ -185,14 +183,13 @@
 <Functions>
 <Function
  Type="Boolean"
- Default=""
  Name="MessageValuesCorrect"
  Guid="e077e4cf-75db-4f70-8b9a-7586275dc8a2"
 >
 <Comment>Checks the values in a structure of type TRACK_CONDITION_BIG_METAL_MASSES.Message</Comment>
 <Parameters>
 <Parameter
- Type="Message"
+ Type="TRACK_CONDITION_BIG_METAL_MASSES.Message"
  Name="struct"
  Guid="4fa2dbac-5d55-41ea-8542-65985f9430b1"
 >
@@ -295,7 +292,7 @@
 <PreConditions>
 <PreCondition
  Guid="e2755900-7233-496a-95f7-074b26910cc2"
->THERE_IS X IN struct.Sequence1 | NOT SubStructure1ValuesCorrect(X)</PreCondition></PreConditions>
+>THERE_IS X IN struct.Sequence1 | NOT Messages.PACKET.TRACK_TO_TRAIN.TRACK_CONDITION_BIG_METAL_MASSES.SubStructure1ValuesCorrect(X)</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
  Name="Otherwise"
@@ -305,14 +302,13 @@
 </Case></Cases>
 </Function><Function
  Type="Boolean"
- Default=""
  Name="SubStructure1ValuesCorrect"
  Guid="b6c9c517-2c4a-415c-9bb8-2aa15a0643cc"
 >
 <Comment>Checks the values in a structure of type TRACK_CONDITION_BIG_METAL_MASSES.SubStructure1</Comment>
 <Parameters>
 <Parameter
- Type="SubStructure1"
+ Type="TRACK_CONDITION_BIG_METAL_MASSES.SubStructure1"
  Name="struct"
  Guid="e8dda7d6-690c-4764-8ed5-11080dd36708"
 >
