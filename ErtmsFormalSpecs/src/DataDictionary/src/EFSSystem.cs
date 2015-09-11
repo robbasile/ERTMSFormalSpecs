@@ -812,6 +812,23 @@ namespace DataDictionary
         }
 
         /// <summary>
+        /// The predefined Concat function
+        /// </summary>
+        private Concat _concatPredefinedFunction;
+
+        public Concat ConcatPredefinedFunction
+        {
+            get
+            {
+                if (_concatPredefinedFunction == null)
+                {
+                    _concatPredefinedFunction = new Concat(this);
+                }
+                return _concatPredefinedFunction;
+            }
+        }
+
+        /// <summary>
         ///     The predefined functions
         /// </summary>
         private Dictionary<string, PredefinedFunction> _predefinedFunctions;
@@ -844,6 +861,7 @@ namespace DataDictionary
                     _predefinedFunctions[IntersectAtFunction.Name] = IntersectAtFunction;
                     _predefinedFunctions[FullDecelerationForTargetPredefinedFunction.Name] =
                         FullDecelerationForTargetPredefinedFunction;
+                    _predefinedFunctions[ConcatPredefinedFunction.Name] = ConcatPredefinedFunction;
                 }
                 return _predefinedFunctions;
             }
