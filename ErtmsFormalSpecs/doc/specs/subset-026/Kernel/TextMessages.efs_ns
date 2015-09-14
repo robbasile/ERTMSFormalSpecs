@@ -1314,10 +1314,10 @@
 {
   IsImportant =&gt; Q_TEXTCLASSToBoolean( aValue =&gt; aPacket.Q_TEXTCLASS ),
   FulfillAllTheEvents =&gt; Q_TEXTDISPLAYToBoolean( aValue =&gt; aPacket.Q_TEXTDISPLAY ),
-  Location =&gt; MessageTypes.QScaleDistance
+  Location =&gt; ConvertLocation
   (
-    distance =&gt; aPacket.D_TEXTDISPLAY,
-    scale =&gt; aPacket.Q_SCALE
+    aLocation =&gt; aPacket.D_TEXTDISPLAY,
+    aScale =&gt; aPacket.Q_SCALE
   ),
   StartModeCondition =&gt; M_MODETEXTDISPLAYToModeConditionStruct( aValue =&gt; aPacket.M_MODETEXTDISPLAY_0 ),
   EndModeCondition =&gt; M_MODETEXTDISPLAYToModeConditionStruct( aValue =&gt; aPacket.M_MODETEXTDISPLAY_1 ),
@@ -1331,12 +1331,12 @@
     aValue =&gt; aPacket.M_LEVELTEXTDISPLAY_1,
     NID_NTC =&gt; aPacket.NID_NTC
   ),
-  Length =&gt; MessageTypes.QScaleLength
+  Length =&gt; ConvertLength
   (
-    length =&gt; aPacket.L_TEXTDISPLAY,
-    scale =&gt; aPacket.Q_SCALE
+    aLength =&gt; aPacket.L_TEXTDISPLAY,
+    aScale =&gt; aPacket.Q_SCALE
   ),
-  DisplayDuration =&gt; MessageTypes.TimeResolution( time =&gt; aPacket.T_TEXTDISPLAY ),
+  DisplayDuration =&gt; ConvertTime( aTime=&gt; aPacket.T_TEXTDISPLAY ),
   DriverConfirmation =&gt; Q_TEXTCONFIRMToDriverConfirmationEnum( aValue =&gt; aPacket.Q_TEXTCONFIRM ),
   AckStopsDisplay =&gt; Q_CONFTEXTDISPLAYToBoolean( aValue =&gt; aPacket.Q_CONFTEXTDISPLAY ),
   ReportInformation =&gt; CreateReportInformation
@@ -1462,10 +1462,10 @@
 {
   IsImportant =&gt; Q_TEXTCLASSToBoolean( aValue =&gt; aPacket.Q_TEXTCLASS ),
   FulfillAllTheEvents =&gt; Q_TEXTDISPLAYToBoolean( aValue =&gt; aPacket.Q_TEXTDISPLAY ),
-  Location =&gt; MessageTypes.QScaleDistance
+  Location =&gt; ConvertLocation
   (
-    distance =&gt; aPacket.D_TEXTDISPLAY,
-    scale =&gt; aPacket.Q_SCALE
+    aLocation =&gt; aPacket.D_TEXTDISPLAY,
+    aScale =&gt; aPacket.Q_SCALE
   ),
   StartModeCondition =&gt; M_MODETEXTDISPLAYToModeConditionStruct( aValue =&gt; aPacket.M_MODETEXTDISPLAY_0 ),
   EndModeCondition =&gt; M_MODETEXTDISPLAYToModeConditionStruct( aValue =&gt; aPacket.M_MODETEXTDISPLAY_1 ),
@@ -1479,12 +1479,12 @@
     aValue =&gt; aPacket.M_LEVELTEXTDISPLAY_1,
     NID_NTC =&gt; aPacket.NID_NTC
   ),
-  Length =&gt; MessageTypes.QScaleLength
+  Length =&gt; ConvertLength
   (
-    length =&gt; aPacket.L_TEXTDISPLAY,
-    scale =&gt; aPacket.Q_SCALE
+    aLength =&gt; aPacket.L_TEXTDISPLAY,
+    aScale =&gt; aPacket.Q_SCALE
   ),
-  DisplayDuration =&gt; MessageTypes.TimeResolution( time =&gt; aPacket.T_TEXTDISPLAY ),
+  DisplayDuration =&gt; ConvertTime( aTime=&gt; aPacket.T_TEXTDISPLAY ),
   DriverConfirmation =&gt; Q_TEXTCONFIRMToDriverConfirmationEnum( aValue =&gt; aPacket.Q_TEXTCONFIRM ),
   AckStopsDisplay =&gt; Q_CONFTEXTDISPLAYToBoolean( aValue =&gt; aPacket.Q_CONFTEXTDISPLAY ),
   ReportInformation =&gt; CreateReportInformation
@@ -2026,8 +2026,8 @@
 </Case></Cases>
 </Function><Function
  Type="TextReportStruct"
- X="10"
- Y="620"
+ X="340"
+ Y="560"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -2339,6 +2339,11 @@ LevelConditionSatisfied( aLevelCondition =&gt; aTextMessage.StartLevelCondition 
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="3655de4f-ac42-4a54-9006-30730a1e79f3"
 >
+</ReqRef><ReqRef
+ Id="3146b3d6-edfd-4884-a3d1-7d486258bd8f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6c8b54f7-a737-4cdc-ab2a-111d5d972792"
+>
 </ReqRef><Comment>Indicates whether the conditions to stop the display of the provided message are satisfied.</Comment>
 <Parameters>
 <Parameter
@@ -2568,6 +2573,11 @@ LevelConditionSatisfied( aLevelCondition =&gt; aTextMessage.EndLevelCondition )<
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="f0eb48d1-acf5-4275-8eec-4ebd9ced3aff"
 >
+</ReqRef><ReqRef
+ Id="3146b3d6-edfd-4884-a3d1-7d486258bd8f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e50f664d-a1e0-4138-bae3-6cd9ccc69ccb"
+>
 </ReqRef><Comment>Indicates if the end condition related to the location is satisfied.</Comment>
 <Parameters>
 <Parameter
@@ -2593,6 +2603,141 @@ LevelConditionSatisfied( aLevelCondition =&gt; aTextMessage.EndLevelCondition )<
  Guid="6210cb0d-bcee-4ed5-acb0-30fa00b0d1ce"
 >
 <Expression>True</Expression>
+</Case></Cases>
+</Function><Function
+ Type="BaseTypes.Distance"
+ X="450"
+ Y="560"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="ConvertLocation"
+ Guid="ea2af533-d89e-4848-b7ff-9f696e7a0349"
+>
+<ReqRef
+ Id="1e9b154d-41c5-4d93-879e-e358e2ee5cff"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="dc89104a-4d1e-4a3d-97f2-0d7332de13f2"
+>
+</ReqRef><Comment>Converts the text message location received from trackside to the Distance type.</Comment>
+<Parameters>
+<Parameter
+ Type="MessageTypes.Distance"
+ Name="aLocation"
+ Guid="5458c94d-cad1-4323-8aef-405bfeb4a804"
+>
+</Parameter><Parameter
+ Type="Messages.Q_SCALE"
+ Name="aScale"
+ Guid="79a09796-851e-4acd-8cf5-ce51c9e313de"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="A location condition is defined"
+ Guid="0907df71-cf8b-4f97-b7e7-162c7bbedb32"
+>
+<PreConditions>
+<PreCondition
+ Guid="4ff4258b-e553-48e4-a48b-5432c6c704bd"
+>aLocation != 32767</PreCondition></PreConditions>
+<Expression>MessageTypes.QScaleDistance
+(
+  distance =&gt; aLocation,
+  scale =&gt; aScale
+)</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="2d61f048-3418-4b2c-a081-581390aa629b"
+>
+<Expression>BaseTypes.Distance.Unknown</Expression>
+</Case></Cases>
+</Function><Function
+ Type="BaseTypes.Distance"
+ X="560"
+ Y="560"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="ConvertLength"
+ Guid="c2fb0c5c-b59b-4677-8805-0f2214c60c28"
+>
+<ReqRef
+ Id="c545400b-55c3-4d7f-a244-464d995144b8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="841f1617-753c-4a6e-a619-0f77259c0f14"
+>
+</ReqRef><Comment>Converts the text message length received from trackside to the Distance type.</Comment>
+<Parameters>
+<Parameter
+ Type="MessageTypes.Length"
+ Name="aLength"
+ Guid="13c38dea-5d4d-410f-8b18-8f60f31bc205"
+>
+</Parameter><Parameter
+ Type="Messages.Q_SCALE"
+ Name="aScale"
+ Guid="ee062ae4-1224-4745-9346-908eb6660f2c"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="A location condition is defined"
+ Guid="2bb95eef-acad-4490-91b9-56938c16ad98"
+>
+<PreConditions>
+<PreCondition
+ Guid="c7d69647-f2d4-4577-b80f-79504a5672b7"
+>aLength != 32767</PreCondition></PreConditions>
+<Expression>MessageTypes.QScaleLength
+(
+  length =&gt; aLength,
+  scale =&gt; aScale
+)</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="84b4532a-4034-45d2-9d18-d81bcd99ae10"
+>
+<Expression>BaseTypes.Length.NA</Expression>
+</Case></Cases>
+</Function><Function
+ Type="BaseTypes.Distance"
+ X="670"
+ Y="560"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="ConvertTime"
+ Guid="ffdb0eff-7083-46bf-8151-ae3a0704c3ce"
+>
+<ReqRef
+ Id="beaa1d56-23ca-4df6-93aa-119f7fb42c6b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d46c3439-2268-45dc-bedc-7f4b63a2df64"
+>
+</ReqRef><Comment>Converts the text message duration received from trackside to the Distance type.</Comment>
+<Parameters>
+<Parameter
+ Type="MessageTypes.Time"
+ Name="aTime"
+ Guid="9458e3c1-805b-4e76-8c5d-bc380b72b684"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="A time condition is defined"
+ Guid="602373a7-6e5b-4186-ac5a-eebd7befd5a8"
+>
+<PreConditions>
+<PreCondition
+ Guid="2ba84d29-e02f-4344-8bdc-a5a316da39db"
+>aTime != 1023</PreCondition></PreConditions>
+<Expression>MessageTypes.TimeResolution( time =&gt; aTime )</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="b68c305d-998e-4238-b962-6819d1dcdf6d"
+>
+<Expression>BaseTypes.Time.NA</Expression>
 </Case></Cases>
 </Function></Functions>
 <Procedures>
@@ -2698,6 +2843,122 @@ IN
   FixedTextMessages</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
+</Procedure><Procedure
+ X="620"
+ Y="140"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="HandleMessagesToDisplay"
+ Guid="ddfbdebe-405d-4f7f-9277-c73a128de2af"
+>
+<ReqRef
+ Id="a0ee7e6f-9f66-49f1-bc16-d37d227fcf23"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="eeb0b844-077e-4e43-9ba2-72b1684e4ba9"
+>
+</ReqRef><ReqRef
+ Id="e1bf0a62-2681-4f2c-8f34-fa3a6e524889"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="16991282-37cf-4292-a72f-45a3e2d2f286"
+>
+</ReqRef><ReqRef
+ Id="5ad8fb3e-3036-48cb-be27-e3bfe8133b66"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="23651a02-7688-49da-b831-1bb491d211b4"
+>
+</ReqRef><Comment>Handles display of text messages according to their start and stop conditions.</Comment>
+<Rules>
+<Rule
+ Priority="UpdateINTERNAL"
+ X="630"
+ Y="170"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="Handle messages to display"
+ Guid="ab4100c8-e201-4f50-94e7-03a7d1840334"
+>
+<Comment>If start conditions of some of stored messages are satisfied, they are displayed on the DMI.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Handle messages to display"
+ Guid="1854835f-41d6-4ffe-a25e-2bd3589d2967"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="e5696eb6-5787-46c3-92e6-e382b4a0f976"
+>APPLY
+  DMI.MasterDMI().Out_FixedTextInformation.Display(  aMessage =&gt; X )
+ON
+  FixedTextMessages | StartConditionSatisfied( aTextMessage =&gt; X )</Action><Action
+ Guid="667bfee4-71be-4c54-a2fa-b363a325080f"
+>APPLY
+  DMI.MasterDMI().Out_PlainTextInformation.Display(  aMessage =&gt; X )
+ON
+  PlainTextMessages | StartConditionSatisfied( aTextMessage =&gt; X )</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Implemented="TRUE"
+ Name="Delete displayed messages"
+ Guid="2c94d444-f853-438f-a24c-2062ba2f1c46"
+>
+<Comment>The messages displayed on the DMI are removed from the collection of stored messages.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Delete displayed messages"
+ Guid="e6957e4d-6633-4ad6-8755-f94b3fd15e7c"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="74e3f10e-f96c-4303-912d-73aa210e5a8d"
+>REMOVE ALL
+  StartConditionSatisfied( aTextMessage=&gt; X )
+IN
+  FixedTextMessages</Action><Action
+ Guid="e737d28e-104c-49aa-ab8e-07098c8da82b"
+>REMOVE ALL
+  StartConditionSatisfied( aTextMessage=&gt; X )
+IN
+  PlainTextMessages</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Implemented="TRUE"
+ Name="Delete messages reached their end condition"
+ Guid="e8d85aca-9f88-47d9-b0ab-10eedf1c1f23"
+>
+<Comment>If the end conditions of displayed messages are satisfied, they are removed.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Delete messages reached their end condition"
+ Guid="a771fbbf-b1e1-4f75-adf8-936825c6dba9"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="14229478-941a-4073-8794-660ffeb2e373"
+>REMOVE ALL
+  EndConditionSatisfied( aTextMessage=&gt; X )
+IN
+  DMI.MasterDMI().Out_FixedTextInformation.Messages</Action><Action
+ Guid="944d0f12-47e8-4e82-b550-70151be74ac4"
+>REMOVE ALL
+  EndConditionSatisfied( aTextMessage=&gt; X )
+IN
+  DMI.MasterDMI().Out_PlainTextInformation.Messages</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
 </Procedure></Procedures>
 <Variables>
 <Variable
@@ -2733,4 +2994,36 @@ IN
  Guid="3c9d8979-8aad-432e-95b7-d55447adb218"
 >
 </ReqRef></Variable></Variables>
+<Rules>
+<Rule
+ Priority="UpdateINTERNAL"
+ X="620"
+ Y="200"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="Handle messages to display"
+ Guid="66739137-2cf8-43e9-9b17-4cf49d353c40"
+>
+<ReqRef
+ Id="a0ee7e6f-9f66-49f1-bc16-d37d227fcf23"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="2f959a03-116a-4a44-947e-e9f3179e1949"
+>
+</ReqRef><Comment>Calls the procedure handling the display of stored text messages according to their start and stop conditions.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Handle messages to display"
+ Guid="b4401b93-a7e2-49bd-bd8e-26e9dbb08951"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="7bdc1966-b6b3-4489-9947-b1e9b22347d2"
+>HandleMessagesToDisplay()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
 </NameSpace>
