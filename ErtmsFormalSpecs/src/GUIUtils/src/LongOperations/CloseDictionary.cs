@@ -43,9 +43,12 @@ namespace GUIUtils.LongOperations
         /// </summary>
         public override void ExecuteWork()
         {
-            EfsSystem.Instance.Dictionaries.Remove(Dictionary);
+            EfsSystem efsSystem = EfsSystem.Instance;
+
+            efsSystem.Dictionaries.Remove(Dictionary);
             FinderRepository.INSTANCE.ClearCache();
-            EfsSystem.Instance.Compiler.Compile_Synchronous(true);
+            efsSystem.Compiler.Compile_Synchronous(true);
+            efsSystem.Context.HandleChangeEvent(null, Context.ChangeKind.ModelChange);
         }
     }
 }
