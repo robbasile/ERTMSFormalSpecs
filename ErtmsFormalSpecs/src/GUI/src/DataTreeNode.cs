@@ -158,11 +158,7 @@ namespace GUI
 
             foreach (BaseTreeNode node in Nodes)
             {
-                bool refreshNode = node.Model.IsParent(modifiedElement) || node.SubNodesBuilt;
-                if (Parent != null)
-                {
-                    refreshNode = refreshNode || Parent.IsExpanded;
-                }
+                bool refreshNode = node.Model.IsParent(modifiedElement) || node.SubNodesBuilt || IsExpanded;
 
                 if (refreshNode)
                 {
