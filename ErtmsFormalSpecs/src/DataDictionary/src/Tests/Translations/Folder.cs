@@ -16,6 +16,7 @@
 
 
 using System.Collections;
+using DataDictionary.Generated;
 using Utils;
 
 namespace DataDictionary.Tests.Translations
@@ -154,5 +155,22 @@ namespace DataDictionary.Tests.Translations
             explanation.Write("END FOLDER ");
             explanation.WriteLine(Name);
         }
-    }
+
+        /// <summary>
+        ///     Creates a default element
+        /// </summary>
+        /// <param name="enclosingCollection"></param>
+        /// <returns></returns>
+        public static Folder CreateDefault(ICollection enclosingCollection)
+        {
+            Folder retVal = (Folder)acceptor.getFactory().createFolder();
+
+            Util.DontNotify(() =>
+            {
+                retVal.Name = "Folder " + GetElementNumber(enclosingCollection);
+            });
+
+            return retVal;
+        }
+     }
 }

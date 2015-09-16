@@ -1255,5 +1255,33 @@ namespace DataDictionary.Tests.Translations
                 appendSubSteps(subStep);
             }
         }
+
+        /// <summary>
+        ///     Creates a default element
+        /// </summary>
+        /// <param name="enclosingCollection"></param>
+        /// <param name="sourceText"></param>
+        /// <returns></returns>
+        public static Translation CreateDefault(ICollection enclosingCollection, SourceText sourceText)
+        {
+            Translation retVal = (Translation)acceptor.getFactory().createTranslation();
+
+            Util.DontNotify(() =>
+            {
+                if (sourceText != null)
+                {
+                    retVal.Name = sourceText.Name;
+                    retVal.appendSourceTexts(sourceText);
+                }
+                else
+                {
+                    retVal.Name = "Translation" + GetElementNumber(enclosingCollection);                    
+                }
+
+                retVal.appendSubSteps(SubStep.CreateDefault(retVal.SubSteps));
+            });
+
+            return retVal;
+        }
     }
 }

@@ -15,7 +15,7 @@
 // ------------------------------------------------------------------------------
 
 using System;
-using System.Windows.Forms;
+using DataDictionary;
 using DataDictionary.Tests.Translations;
 using Utils;
 
@@ -48,8 +48,6 @@ namespace GUI.TranslationRules
             InitializeComponent();
 
             translationTreeView.Root = dictionary;
-            testBrowserStatusLabel.Text = translationTreeView.Root.TranslationsCount + " translation rule(s) loaded";
-            translationTreeView.AfterSelect += translationTreeView_AfterSelect;
             Text = dictionary.Dictionary.Name + " test translation view";
         }
 
@@ -101,13 +99,63 @@ namespace GUI.TranslationRules
         }
 
         /// <summary>
-        ///     Handles the selection of a translation
+        /// The displayed translation
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void translationTreeView_AfterSelect(object sender, TreeViewEventArgs e)
+        private Translation Translation
         {
-            staticTimeLineControl.Translation = DisplayedModel as Translation;
+            get
+            {
+                return EnclosingFinder<Translation>.find(DisplayedModel, true);                
+            }
+        }
+
+        /// <summary>
+        ///     Allows to refresh the view, when the selected model changed
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns>true if refresh should be performed</returns>
+        public override bool HandleSelectionChange(Context.SelectionContext context)
+        {
+            bool retVal = base.HandleSelectionChange(context);
+
+            if (retVal)
+            {
+                staticTimeLineControl.Translation = Translation;
+                staticTimeLineControl.Refresh();
+            }
+
+            return retVal;
+        }
+
+        /// <summary>
+        ///     Indicates that a change event should be displayed
+        /// </summary>
+        /// <param name="modelElement"></param>
+        /// <param name="changeKind"></param>
+        /// <returns></returns>
+        protected override bool ShouldDisplayChange(IModelElement modelElement, Context.ChangeKind changeKind)
+        {
+            return modelElement == null || EnclosingFinder<TranslationDictionary>.find(modelElement, true) == TranslationDictionary;
+        }
+
+        /// <summary>
+        ///     Allows to refresh the view, when the value of a model changed
+        /// </summary>
+        /// <param name="modelElement"></param>
+        /// <param name="changeKind"></param>
+        /// <returns>True if the view should be refreshed</returns>
+        public override bool HandleValueChange(IModelElement modelElement, Context.ChangeKind changeKind)
+        {
+            bool retVal = base.HandleValueChange(modelElement, changeKind);
+
+            if (retVal)
+            {
+                TreeView.RefreshModel(modelElement);
+                staticTimeLineControl.Translation = Translation;
+                staticTimeLineControl.Refresh();
+            }
+
+            return retVal;
         }
     }
 }

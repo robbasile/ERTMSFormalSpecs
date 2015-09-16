@@ -73,20 +73,7 @@ namespace GUI.TranslationRules
 
         public void AddFolderHandler(object sender, EventArgs args)
         {
-            Folder folder = (Folder) acceptor.getFactory().createFolder();
-            folder.Name = "<Folder " + (Item.Folders.Count + 1) + ">";
-            Item.appendFolders(folder);
-        }
-
-        /// <summary>
-        ///     Creates a new translation based on a step
-        /// </summary>
-        /// <param name="step"></param>
-        private void CreateTranslation(Step step)
-        {
-            Translation translation = (Translation) acceptor.getFactory().createTranslation();
-            translation.appendSourceTexts(step.createSourceText());
-            CreateTranslation(translation);
+            Item.appendFolders(Folder.CreateDefault(Item.Folders));
         }
 
         /// <summary>
@@ -124,11 +111,23 @@ namespace GUI.TranslationRules
             }
         }
 
+        /// <summary>
+        ///     Creates a new translation based on a step's source text
+        /// </summary>
+        /// <param name="step"></param>
+        private void CreateTranslation(Step step)
+        {
+            CreateTranslation(Translation.CreateDefault(Item.Translations, step.createSourceText()));
+        }
+
+        /// <summary>
+        /// Adds a new translation 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
         public void AddTranslationHandler(object sender, EventArgs args)
         {
-            Translation translation = (Translation) acceptor.getFactory().createTranslation();
-            translation.Name = "<Translation " + (Item.Translations.Count + 1) + ">";
-            CreateTranslation(translation);
+            CreateTranslation(Translation.CreateDefault(Item.Translations, null));
         }
 
         /// <summary>
