@@ -259,7 +259,7 @@ namespace GUI
         {
             try
             {
-                BeginInvoke((MethodInvoker) (() => HandleValueChange(modelElement, changeKind)));
+                Invoke((MethodInvoker) (() => HandleValueChange(modelElement, changeKind)));
             }
             catch (Exception)
             {
