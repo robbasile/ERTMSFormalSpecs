@@ -24,6 +24,19 @@ namespace DataDictionary.Types
 {
     public class StructureRef : Generated.StructureRef, IExpressionable
     {
+        public override string Name
+        {
+            get
+            {
+                return base.Name;
+            }
+            set
+            {
+                base.Name = value;
+                ReferencedStructureExpression = null;
+            }
+        }
+
         /// <summary>
         ///     The type associated to this StructureRef
         /// </summary>

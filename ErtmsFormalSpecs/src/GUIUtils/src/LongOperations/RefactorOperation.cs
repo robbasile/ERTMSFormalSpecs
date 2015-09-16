@@ -61,7 +61,7 @@ namespace GUIUtils.LongOperations
 
             // Long operations do not notify the listeners. 
             // Update the entire model
-            EfsSystem.Instance.Context.HandleChangeEvent(null);
+            EfsSystem.Instance.Context.HandleChangeEvent(null, Context.ChangeKind.ModelChange);
         }
     }
 }
