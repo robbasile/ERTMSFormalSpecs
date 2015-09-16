@@ -1134,6 +1134,7 @@ namespace GUI
             EfsSystem efsSystem = EfsSystem.Instance;
             efsSystem.Compiler.Compile_Synchronous(efsSystem.ShouldRebuild);
             efsSystem.ShouldRebuild = false;
+            efsSystem.Context.HandleChangeEvent(null, Context.ChangeKind.ModelChange);
         }
 
         private void showRulePerformancesToolStripMenuItem_Click(object sender, EventArgs e)
