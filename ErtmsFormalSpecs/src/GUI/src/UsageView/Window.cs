@@ -73,7 +73,7 @@ namespace GUI.UsageView
         protected override bool ShouldDisplayChange(IModelElement modelElement, Context.ChangeKind changeKind)
         {
             // All changes in the model should be tracked
-            return changeKind != Context.ChangeKind.EndOfCycle;
+            return changeKind != Context.ChangeKind.EndOfCycle && DisplayedModel == modelElement || modelElement == null;
         }
 
         /// <summary>
