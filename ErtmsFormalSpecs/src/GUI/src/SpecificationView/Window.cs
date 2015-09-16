@@ -68,7 +68,15 @@ namespace GUI.SpecificationView
         private void RefreshModel()
         {
             specBrowserRuleView.Nodes.Clear();
-            Paragraph paragraph = DisplayedModel as Paragraph;
+            Paragraph paragraph = EnclosingFinder<Paragraph>.find(DisplayedModel, true);
+            if ( paragraph == null )
+            {
+                ReqRef reqRef = DisplayedModel as ReqRef;
+                if ( reqRef != null )
+                {
+                    paragraph = reqRef.Paragraph;
+                }
+            }
             if (paragraph != null)
             {
                 foreach (ReqRef reqRef in paragraph.Implementations)
@@ -76,7 +84,7 @@ namespace GUI.SpecificationView
                     specBrowserRuleView.Nodes.Add(new ReqRefTreeNode(reqRef, true, false, reqRef.Model.Name));
                 }
 
-                functionalBlocksTreeView.SetRoot(DisplayedModel);
+                functionalBlocksTreeView.SetRoot(paragraph);
             }
             specBrowserTreeView.RefreshModel(null);
         }
