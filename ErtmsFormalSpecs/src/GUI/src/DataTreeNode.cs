@@ -772,12 +772,12 @@ namespace GUI
                 // This is a reordering
                 int sourceIndex = thisCollection.IndexOf(sourceNode.Model);
                 int thisIndex = thisCollection.IndexOf(Model);
-                if (thisIndex >= 0 && thisIndex >= 0 && thisIndex != sourceIndex)
+                if (sourceIndex >= 0 && thisIndex >= 0 && thisIndex != sourceIndex)
                 {
                     thisCollection.Remove(sourceNode.Model);
                     thisIndex = thisCollection.IndexOf(Model);
                     thisCollection.Insert(thisIndex, sourceNode.Model);
-                    EfsSystem.Instance.Context.HandleChangeEvent(Model as BaseModelElement);
+                    EfsSystem.Instance.Context.HandleChangeEvent(Model as BaseModelElement, Context.ChangeKind.ModelChange);
                 }
             }
         }
