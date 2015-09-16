@@ -366,7 +366,11 @@ namespace DataDictionary.Types
         {
             StructureElement retVal = (StructureElement) acceptor.getFactory().createStructureElement();
 
-            Util.DontNotify(() => { retVal.Name = "Element" + GetElementNumber(enclosingCollection); });
+            Util.DontNotify(() =>
+            {
+                retVal.Name = "Element" + GetElementNumber(enclosingCollection);
+                retVal.Mode = acceptor.VariableModeEnumType.aInternal;
+            });
 
             return retVal;
         }
