@@ -427,15 +427,16 @@ namespace Utils
         /// <param name="depth">The maximum depth in which the find must go</param>
         private void innerFindAllValues(object root, string scope, Dictionary<string, T> retVal, int depth)
         {
-            if (root is ISubDeclarator)
+            ISubDeclarator subDeclarator = root as ISubDeclarator;
+            if (subDeclarator != null)
             {
-                ISubDeclarator subDeclarator = root as ISubDeclarator;
-                if (subDeclarator != null)
+                if (subDeclarator.DeclaredElements == null)
                 {
-                    if (subDeclarator.DeclaredElements == null)
-                    {
-                        subDeclarator.InitDeclaredElements();
-                    }
+                    subDeclarator.InitDeclaredElements();
+                }
+
+                if (subDeclarator.DeclaredElements != null)
+                {
                     foreach (KeyValuePair<string, List<INamable>> element in subDeclarator.DeclaredElements)
                     {
                         string name = Util.concat(scope, element.Key);

@@ -19,64 +19,14 @@ using System.ComponentModel;
 using System.Drawing.Design;
 using System.Windows.Forms;
 using DataDictionary;
-using DataDictionary.Types;
 using GUI.Converters;
 
 namespace GUI.DataDictionaryView
 {
     public class ParameterTreeNode : ModelElementTreeNode<Parameter>
     {
-        private class InternalNameSpaceConverter : NameSpaceConverter
-        {
-            public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
-            {
-                ItemEditor editor = ((ItemEditor) context.Instance);
-
-                return new StandardValuesCollection(GetValues(editor.Item.Dictionary));
-            }
-        }
-
         private class ItemEditor : NamedEditor
         {
-            /// <summary>
-            ///     The parameter namespace
-            /// </summary>
-            private string _namSpace;
-
-            [Category("Description"), TypeConverter(typeof (InternalNameSpaceConverter))]
-            // ReSharper disable once UnusedMember.Local
-            public string NameSpace
-            {
-                get
-                {
-                    if (_namSpace == null)
-                    {
-                        ITypedElement element = OverallTypedElementFinder.INSTANCE.findByName(Item, Item.NameSpace.Name);
-
-                        if (element != null && element.NameSpace != null)
-                        {
-                            _namSpace = element.NameSpace.Name;
-                        }
-                    }
-
-                    if (_namSpace == null)
-                    {
-                        if (Item.NameSpace != null)
-                        {
-                            _namSpace = Item.NameSpace.Name;
-                        }
-                        else
-                        {
-                            _namSpace = "Default";
-                        }
-                    }
-
-                    return _namSpace;
-                }
-
-                set { _namSpace = value; }
-            }
-
             /// <summary>
             ///     The parameter type
             /// </summary>
