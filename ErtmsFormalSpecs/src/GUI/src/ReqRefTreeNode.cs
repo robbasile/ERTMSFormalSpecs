@@ -88,8 +88,7 @@ namespace GUI
 
         public override void DoubleClickHandler()
         {
-            EfsSystem.Instance.Context.SelectElement(Item.Paragraph, this, Context.SelectionCriteria.DoubleClick);
-            EfsSystem.Instance.Context.SelectElement(Item.Model, this, Context.SelectionCriteria.DoubleClick);
+            EfsSystem.Instance.Context.SelectElement(Item.Paragraph, GuiUtils.MdiWindow.SpecificationWindow, Context.SelectionCriteria.DoubleClick);
         }
 
         /// <summary>
