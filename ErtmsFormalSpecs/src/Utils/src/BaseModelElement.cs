@@ -464,7 +464,7 @@ namespace Utils
         /// <summary>
         ///     Indicates if the element holds messages, or is part of a path to a message
         /// </summary>
-        public MessageInfoEnum MessagePathInfo { get; set; }
+        public virtual MessageInfoEnum MessagePathInfo { get; set; }
 
         /// <summary>
         ///     Adds a model element in this model element

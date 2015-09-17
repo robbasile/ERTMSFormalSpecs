@@ -789,6 +789,81 @@ namespace DataDictionary.Types
             }
             set { _unifiedStateMachine = value; }
         }
+        
+        /// <summary>
+        ///     Indicates if the element holds messages, or is part of a path to a message
+        /// </summary>
+        public override MessageInfoEnum MessagePathInfo
+        {
+            get
+            {
+                MessageInfoEnum retVal;
+
+                StateMachine unifiStateMachine = UnifiedStateMachine;
+                if (unifiStateMachine != this)
+                {
+                    retVal = unifiStateMachine.MessagePathInfo;
+                }
+                else
+                {
+                    retVal = base.MessagePathInfo;
+                }
+
+                return retVal;
+            }
+            set
+            {
+                StateMachine unifiStateMachine = UnifiedStateMachine;
+                if (unifiStateMachine != this)
+                {
+                    unifiStateMachine.MessagePathInfo = value;
+                }
+                else
+                {
+                    base.MessagePathInfo = value;
+                }
+            }
+        }
+
+        /// <summary>
+        ///     Adds a new element log attached to this model element
+        /// </summary>
+        /// <param name="log"></param>
+        public override void AddElementLog(ElementLog log)
+        {
+            StateMachine unifiStateMachine = UnifiedStateMachine;
+            if (unifiStateMachine != this)
+            {
+                unifiStateMachine.AddElementLog(log);
+            }
+            else
+            {
+                base.AddElementLog(log);
+            }
+        }
+
+        /// <summary>
+        ///     Logs associated to this model element
+        /// </summary>
+        public override List<ElementLog> Messages
+        {
+            get
+            {
+                List<ElementLog> retVal;
+
+                StateMachine unifiStateMachine = UnifiedStateMachine;
+                if (unifiStateMachine != this)
+                {
+                    retVal = unifiStateMachine.Messages;
+                }
+                else
+                {
+                    retVal = base.Messages;
+                }
+
+                return retVal;
+            }
+        }
 
         /// <summary>
         ///     If the proposed value contains this in its MergedStateMachines, it is accepted as the new UnifiedStateMachine
