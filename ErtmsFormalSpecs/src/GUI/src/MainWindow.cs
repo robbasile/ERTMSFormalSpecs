@@ -455,6 +455,8 @@ namespace GUI
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Title = "Open ERTMS Formal Spec file";
             openFileDialog.Filter = "EFS Files (*.efs)|*.efs|All Files (*.*)|*.*";
+            openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) +
+                                              Path.DirectorySeparatorChar + "ERTMSFormalSpecs";
             if (openFileDialog.ShowDialog(this) == DialogResult.OK)
             {
                 OpenFile(openFileDialog.FileName);
