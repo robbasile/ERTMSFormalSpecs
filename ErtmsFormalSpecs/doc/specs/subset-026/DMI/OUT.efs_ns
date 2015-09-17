@@ -4474,37 +4474,6 @@ This procedure does not do anything. The mode tracking is not necessary for this
  Guid="ebcd5195-08c2-4831-bcc3-dc53659a01f7"
 >
 </ReqRef><Comment>Provides the first target at speed 0</Comment>
-<Rules>
-<Rule
- Priority="Processing"
- Implemented="TRUE"
- Name="Display when available"
- Guid="908debb0-a423-4b6d-81dd-07c70b5fecad"
->
-<ReqRef
- Id="5e511b79-1787-413b-ae27-0d7d6246b010"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="7690469c-1166-4661-bcd5-dce94e32ab67"
->
-</ReqRef><Comment>Keeps the information display request active when ProcedureOut is in Available state</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Display when available"
- Guid="2e8488c4-dd41-4f17-ba09-b8f655d91a91"
->
-<PreConditions>
-<PreCondition
- Guid="b9d1fc40-0001-4dcf-b9de-ba43f4c13cf3"
->NOT OutputInformation.DisplayRequested</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="5d249a06-6049-4c2a-a306-c529575e7976"
->Display()</Action></Actions>
-</RuleCondition></Conditions>
-</Rule></Rules>
 <Procedures>
 <Procedure
  Implemented="TRUE"
@@ -4516,7 +4485,19 @@ This procedure does not do anything. The mode tracking is not necessary for this
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="06573eed-3cbd-4359-b1a5-4856c8da4aff"
 >
+</ReqRef><ReqRef
+ Id="5e511b79-1787-413b-ae27-0d7d6246b010"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="7736e6eb-dc01-45e6-bead-672d8b61616c"
+>
 </ReqRef><Comment>Requests to display the corresponding information</Comment>
+<Parameters>
+<Parameter
+ Type="BaseTypes.Distance"
+ Name="aDistance"
+ Guid="d7d6f18a-6dde-4936-836d-150076e7222d"
+>
+</Parameter></Parameters>
 <Rules>
 <Rule
  Priority="Processing"
@@ -4528,9 +4509,10 @@ This procedure does not do anything. The mode tracking is not necessary for this
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
- Name="Updates the request status"
+ Name="Display when required"
  Guid="2a4ee5a7-6c5b-4bbe-b26d-2b5c062dbefe"
 >
+<Comment>Sends the first target at zero speed information when the mode is appropriate.</Comment>
 <PreConditions>
 <PreCondition
  Guid="13b97137-8972-499b-a6aa-b5ef95b8e656"
@@ -4540,7 +4522,21 @@ This procedure does not do anything. The mode tracking is not necessary for this
 <Actions>
 <Action
  Guid="f23a76cd-b75a-452e-8de3-1975c045b7c3"
->THIS.OutputInformation.RequestDisplay()</Action></Actions>
+>THIS.OutputInformation.RequestDisplay()</Action><Action
+ Guid="f2c878ab-719b-4ed0-a320-b27974f03ee5"
+>Distance &lt;- aDistance</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Hide otherwise"
+ Guid="bf7303ea-1a4f-482e-b45d-674171a39f62"
+>
+<Comment>Hide in other cases.</Comment>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="262d0265-cba0-4206-91bc-d140fdf183bd"
+>THIS.OutputInformation.DoNotDisplay()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -4548,31 +4544,8 @@ This procedure does not do anything. The mode tracking is not necessary for this
  Name="TrackMode"
  Guid="2d9bea52-8700-4bfa-8237-8fad66a11a8a"
 >
-<Comment>Tracks the changes of the mode</Comment>
-<Rules>
-<Rule
- Priority="Processing"
- Implemented="TRUE"
- Name="Updates the status of the request according to the mode"
- Guid="d4c1ed24-5ec8-40ea-a57c-8e57121e12be"
->
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Updates the status of the request according to the mode"
- Guid="0c79eca3-a90a-4875-9eef-94ada84d0862"
->
-<PreConditions>
-<PreCondition
- Guid="7fa55f7c-0dfe-4ddf-ae0a-45d38bad76af"
->NOT FirstTargetAtZeroSpeedAvailable()</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="80eb63d5-67f8-45f1-a52f-aaad8cb96372"
->THIS.OutputInformation.DoNotDisplay()</Action></Actions>
-</RuleCondition></Conditions>
-</Rule></Rules>
+<Comment>Tracks the changes of the mode.
+This procedure does not do anything. The mode tracking is not necessary for this variable, as the procedure Display handles the refreshing at each cycle. (this is kept to keep track of the inconsistency with the other DMI variables).</Comment>
 </Procedure></Procedures>
 <StructureElement
  TypeName="DMI.OutputInformation"

@@ -1266,7 +1266,12 @@ PreviousMode: represents the train mode displayed on the DMI during the previous
  Name="Update first target at zero speed"
  Guid="0208baca-5fd6-4136-9149-e3198c042f74"
 >
-<Comment>Updates the display of the first target at zero speed</Comment>
+<ReqRef
+ Id="5e511b79-1787-413b-ae27-0d7d6246b010"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b85ff97d-3e29-4152-9692-911bb692c10a"
+>
+</ReqRef><Comment>Updates the display of the first target at zero speed</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
@@ -1276,13 +1281,16 @@ PreviousMode: represents the train mode displayed on the DMI during the previous
  Guid="fb8362ae-d794-497a-9820-071afc48eeb0"
 >
 <PreConditions>
-<PreCondition
- Guid="ed8d828e-dac1-4e26-b829-678024c3a785"
->Out_FirstTargetAtZeroSpeed.OutputInformation.DisplayRequested</PreCondition></PreConditions>
+</PreConditions>
 <Actions>
 <Action
- Guid="48b28eb0-1034-4e06-9c8e-4bc9d9fd35b3"
->Out_FirstTargetAtZeroSpeed.Distance &lt;- Kernel.SpeedAndDistanceMonitoring.Display.FirstTargetAtZeroSpeed().Location</Action></Actions>
+ Guid="f43a68b8-34b2-496f-bb86-7cb9ae2ab8e3"
+>Out_FirstTargetAtZeroSpeed.Display
+(
+    Kernel.SpeedAndDistanceMonitoring.Display.FirstTargetAtZeroSpeed().Location
+      -  
+    Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom)
+)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="UpdateOUT"
@@ -3425,7 +3433,7 @@ ON Kernel.BrakeCommands.ServiceBrakeCommands</Action></Actions>
 <Actions>
 <Action
  Guid="18294aea-567b-41b7-a2ec-499f5fb4d799"
->DisplayRequested &lt;- True</Action></Actions>
+>THIS.DisplayRequested &lt;- True</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -3456,13 +3464,13 @@ ON Kernel.BrakeCommands.ServiceBrakeCommands</Action></Actions>
 <Actions>
 <Action
  Guid="d725a197-b01f-40bf-b933-855768b89cbd"
->DisplayRequested &lt;- False</Action></Actions>
+>THIS.DisplayRequested &lt;- False</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
  TypeName="Boolean"
- Default=""
+ Default="False"
  Mode="Outgoing"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
