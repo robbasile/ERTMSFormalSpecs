@@ -1096,7 +1096,7 @@ namespace GUI
                 {
                     frame.Translate(dictionary.TranslationDictionary);
                 }
-                EfsSystem.Instance.Context.HandleChangeEvent(dictionary, Context.ChangeKind.Translation);
+                EfsSystem.Instance.Context.HandleChangeEvent(null, Context.ChangeKind.ModelChange);
 
                 SpecIssuesReport aReport = new SpecIssuesReport(dictionary);
                 aReport.ShowDialog(this);

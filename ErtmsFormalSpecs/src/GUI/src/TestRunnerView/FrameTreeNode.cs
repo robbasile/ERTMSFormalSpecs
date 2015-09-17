@@ -123,7 +123,7 @@ namespace GUI.TestRunnerView
             {
                 FinderRepository.INSTANCE.ClearCache();
                 Frame.Translate(Frame.Dictionary.TranslationDictionary);
-                EfsSystem.Instance.Context.HandleChangeEvent(Frame, Context.ChangeKind.Translation);
+                EfsSystem.Instance.Context.HandleChangeEvent(null, Context.ChangeKind.ModelChange);
             }
         }
 

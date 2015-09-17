@@ -224,7 +224,6 @@ namespace DataDictionary
         public enum ChangeKind
         {
             ModelChange,
-            Translation,
             EndOfCycle,
             Load
         }

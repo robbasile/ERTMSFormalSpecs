@@ -130,7 +130,7 @@ namespace GUI.TestRunnerView
         {
             FinderRepository.INSTANCE.ClearCache();
             Item.Translate(Item.Dictionary.TranslationDictionary);
-            EfsSystem.Instance.Context.HandleChangeEvent(Item, Context.ChangeKind.Translation);
+            EfsSystem.Instance.Context.HandleChangeEvent(null, Context.ChangeKind.ModelChange);
         }
 
         #region Execute tests

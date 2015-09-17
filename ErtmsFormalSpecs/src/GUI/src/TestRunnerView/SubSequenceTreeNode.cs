@@ -182,7 +182,7 @@ namespace GUI.TestRunnerView
             {
                 FinderRepository.INSTANCE.ClearCache();
                 SubSequence.Translate(SubSequence.Dictionary.TranslationDictionary);
-                EfsSystem.Instance.Context.HandleChangeEvent(SubSequence, Context.ChangeKind.Translation);
+                EfsSystem.Instance.Context.HandleChangeEvent(null, Context.ChangeKind.ModelChange);
             }
         }
 
