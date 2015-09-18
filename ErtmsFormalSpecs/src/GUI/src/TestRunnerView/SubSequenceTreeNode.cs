@@ -238,7 +238,7 @@ namespace GUI.TestRunnerView
                 if (Window != null)
                 {
                     Window.SetSubSequence(SubSequence);
-                    EfsSystem.Instance.Runner = new Runner(SubSequence, true, false, true);
+                    EfsSystem.Instance.Runner = new Runner(SubSequence, true, true);
                     EfsSystem.Instance.Runner.RunUntilStep(null);
                 }
             }

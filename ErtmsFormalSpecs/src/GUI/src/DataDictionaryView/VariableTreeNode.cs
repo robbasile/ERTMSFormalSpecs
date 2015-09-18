@@ -211,7 +211,7 @@ namespace GUI.DataDictionaryView
                 if (function.FormalParameters.Count == 1)
                 {
                     Parameter parameter = (Parameter) function.FormalParameters[0];
-                    Graph graph = function.createGraph(context, parameter, null);
+                    Graph graph = function.CreateGraph(context, parameter, null);
                     if (graph != null && graph.Segments.Count != 0)
                     {
                         retVal.Insert(6, new MenuItem("Display", DisplayHandler));
@@ -219,7 +219,7 @@ namespace GUI.DataDictionaryView
                 }
                 else if (function.FormalParameters.Count == 2)
                 {
-                    Surface surface = function.createSurface(context, null);
+                    Surface surface = function.CreateSurface(context, null);
                     if (surface != null && surface.Segments.Count != 0)
                     {
                         retVal.Insert(6, new MenuItem("Display", DisplayHandler));

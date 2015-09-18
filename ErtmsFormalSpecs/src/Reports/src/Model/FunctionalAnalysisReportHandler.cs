@@ -38,7 +38,6 @@ namespace Reports.Model
         {
             Document retVal = new Document();
 
-            Log.Info("Generating functional analysis report");
             retVal.Info.Title = "EFS Functional Analysis report";
             retVal.Info.Author = "ERTMS Solutions";
             retVal.Info.Subject = "Functional Analysis report";
@@ -56,8 +55,6 @@ namespace Reports.Model
         public void CreateNamespaceSection(FunctionalAnalysisReport report, NameSpace nameSpace,
             List<AccessMode> accesses)
         {
-            Log.Info("..generating name space " + nameSpace.Name);
-
             report.CreateNameSpaceSection(nameSpace, accesses);
             foreach (NameSpace subNameSpace in nameSpace.NameSpaces)
             {

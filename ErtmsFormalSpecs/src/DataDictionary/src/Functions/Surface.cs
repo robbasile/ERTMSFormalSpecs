@@ -95,7 +95,7 @@ namespace DataDictionary.Functions
             ///     Constructor
             /// </summary>
             /// <param name="other">The other segment to copy</param>
-            public Segment(Segment other)
+            public Segment(ISurfaceSegment other)
             {
                 Start = other.Start;
                 End = other.End;
@@ -1022,7 +1022,7 @@ namespace DataDictionary.Functions
             {
                 if (value != null)
                 {
-                    retVal = createSurface(Function.getDoubleValue(value), xParam, yParam);
+                    retVal = createSurface(Function.GetDoubleValue(value), xParam, yParam);
                 }
             }
             else

@@ -41,7 +41,6 @@ namespace DataDictionary.Functions.PredefinedFunctions
         ///     Constructor
         /// </summary>
         /// <param name="efsSystem"></param>
-        /// <param name="name">the name of the cast function</param>
         public Min(EfsSystem efsSystem)
             : base(efsSystem, "MIN")
         {
@@ -64,7 +63,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
         /// <param name="root">The element on which the errors should be reported</param>
         /// <param name="context">The evaluation context</param>
         /// <param name="actualParameters">The parameters applied to this function call</param>
-        public override void additionalChecks(ModelElement root, InterpretationContext context,
+        public override void AdditionalChecks(ModelElement root, InterpretationContext context,
             Dictionary<string, Expression> actualParameters)
         {
             CheckFunctionalParameter(root, context, actualParameters[First.Name], 1);
@@ -101,7 +100,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
         /// <param name="parameter"></param>
         /// <param name="explain"></param>
         /// <returns></returns>
-        public override Graph createGraph(InterpretationContext context, Parameter parameter, ExplanationPart explain)
+        public override Graph CreateGraph(InterpretationContext context, Parameter parameter, ExplanationPart explain)
         {
             Graph retVal = null;
 
@@ -115,12 +114,12 @@ namespace DataDictionary.Functions.PredefinedFunctions
                 }
                 else
                 {
-                    Log.Error("Cannot create graph for " + Second.ToString());
+                    Second.AddError("Cannot create graph for " + Second);
                 }
             }
             else
             {
-                Log.Error("Cannot create graph for " + First.ToString());
+                First.AddError("Cannot create graph for " + First);
             }
 
             return retVal;
@@ -136,7 +135,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
         public override IValue Evaluate(InterpretationContext context, Dictionary<Actual, IValue> actuals,
             ExplanationPart explain)
         {
-            IValue retVal = null;
+            IValue retVal;
 
             int token = context.LocalScope.PushContext();
             AssignParameters(context, actuals);
@@ -149,7 +148,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
             parameter.Type = EFSSystem.DoubleType;
             function.appendParameters(parameter);
             function.ReturnType = EFSSystem.DoubleType;
-            function.Graph = createGraph(context, parameter, explain);
+            function.Graph = CreateGraph(context, parameter, explain);
 
             retVal = function;
             context.LocalScope.PopContext(token);

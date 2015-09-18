@@ -14,11 +14,9 @@
 // --
 // ------------------------------------------------------------------------------
 
-using System.Reflection;
 using DataDictionary;
 using DataDictionary.Specification;
 using DataDictionary.Tests;
-using log4net;
 using MigraDoc.DocumentObjectModel;
 using Paragraph = DataDictionary.Specification.Paragraph;
 
@@ -26,8 +24,6 @@ namespace Reports.Specs
 {
     public class SpecIssuesReport : ReportTools
     {
-        private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-
         /// <summary>
         ///     Constructor
         /// </summary>

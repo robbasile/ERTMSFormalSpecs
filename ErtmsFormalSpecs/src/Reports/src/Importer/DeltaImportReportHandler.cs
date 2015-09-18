@@ -49,7 +49,6 @@ namespace Reports.Importer
         {
             MigraDoc.DocumentObjectModel.Document retVal = new MigraDoc.DocumentObjectModel.Document();
 
-            Log.Info("Generating model report");
             retVal.Info.Title = "EFS Model report";
             retVal.Info.Author = "ERTMS Solutions";
             retVal.Info.Subject = "Model report";

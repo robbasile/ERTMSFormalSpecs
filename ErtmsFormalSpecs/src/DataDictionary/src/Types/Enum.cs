@@ -204,7 +204,7 @@ namespace DataDictionary.Types
 
             if (retVal == null)
             {
-                Log.Error("Value " + image + " is not a valid value for " + Name);
+                AddError("Value " + image + " is not a valid value for " + Name);
             }
 
             return retVal;

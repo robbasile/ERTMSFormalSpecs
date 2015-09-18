@@ -16,9 +16,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.Reflection;
 using DataDictionary.Generated;
-using log4net;
 using MigraDoc.DocumentObjectModel;
 using MigraDoc.DocumentObjectModel.Tables;
 using Utils;
@@ -38,8 +36,6 @@ namespace Reports.Specs
 {
     public class SpecCoverageReport : ReportTools
     {
-        private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-
         /// <summary>
         ///     Constructor
         /// </summary>
@@ -358,7 +354,7 @@ namespace Reports.Specs
                                 }
                                 else
                                 {
-                                    Log.Error("Error: tried to add an empty row in the spec coverage report");
+                                    throw new Exception("Error: tried to add an empty row in the spec coverage report");
                                 }
                             }
                         }

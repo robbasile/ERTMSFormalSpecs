@@ -14,10 +14,9 @@
 // --
 // ------------------------------------------------------------------------------
 
+using System;
 using System.IO;
-using System.Reflection;
 using HistoricalData.Generated;
-using log4net;
 using XmlBooster;
 
 namespace HistoricalData
@@ -27,11 +26,6 @@ namespace HistoricalData
     /// </summary>
     public class HistoryUtils
     {
-        /// <summary>
-        ///     The Logger
-        /// </summary>
-        protected static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-
         /// <summary>
         ///     Initializes the Historical data package
         /// </summary>
@@ -57,9 +51,9 @@ namespace HistoricalData
                 {
                     retVal = acceptor.accept(ctxt) as History;
                 }
-                catch (XmlBException excp)
+                catch (XmlBException)
                 {
-                    Log.Error(ctxt.errorMessage());
+                    Console.WriteLine(ctxt.errorMessage());
                 }
             }
 

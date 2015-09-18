@@ -74,7 +74,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
         /// <param name="root">The element on which the errors should be reported</param>
         /// <param name="context">The evaluation context</param>
         /// <param name="actualParameters">The parameters applied to this function call</param>
-        public override void additionalChecks(ModelElement root, InterpretationContext context,
+        public override void AdditionalChecks(ModelElement root, InterpretationContext context,
             Dictionary<string, Expression> actualParameters)
         {
             CheckFunctionalParameter(root, context, actualParameters[SpeedRestrictions.Name], 1);
@@ -100,7 +100,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
                     EFSSystem.FindType(
                         OverallNameSpaceFinder.INSTANCE.findByName(EFSSystem.Dictionaries[0],
                             "Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring"),
-                        "Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.SpeedRestrictions");
+                        "Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Targets");
             ListValue collection = new ListValue(collectionType, new List<IValue>());
 
             // compute targets from the MRSP

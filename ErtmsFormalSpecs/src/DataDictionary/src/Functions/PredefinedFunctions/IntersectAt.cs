@@ -43,7 +43,6 @@ namespace DataDictionary.Functions.PredefinedFunctions
         ///     Constructor
         /// </summary>
         /// <param name="efsSystem"></param>
-        /// <param name="name">the name of the cast function</param>
         public IntersectAt(EfsSystem efsSystem)
             : base(efsSystem, "IntersectAt")
         {
@@ -87,20 +86,20 @@ namespace DataDictionary.Functions.PredefinedFunctions
             {
                 foreach (Graph.Segment segment in graph.Segments)
                 {
-                    if (segment.Expression.a == 0.0)
+                    if (segment.Expression.A == 0.0)
                     {
-                        double speed = segment.Expression.v0;
+                        double speed = segment.Expression.V0;
 
                         Function function = context.FindOnStack(FunctionB).Value as Function;
                         if (function.FormalParameters.Count > 0)
                         {
-                            Parameter functionParameter = function.FormalParameters[0] as Parameter;
+                            Parameter functionParameter = (Parameter) function.FormalParameters[0];
                             Actual actual = functionParameter.CreateActual();
                             actual.Value = new DoubleValue(EFSSystem.DoubleType, speed);
                             Dictionary<Actual, IValue> values = new Dictionary<Actual, IValue>();
                             values[actual] = new DoubleValue(EFSSystem.DoubleType, speed);
                             IValue solution = function.Evaluate(context, values, explain);
-                            double doubleValue = getDoubleValue(solution);
+                            double doubleValue = GetDoubleValue(solution);
 
                             if (doubleValue >= segment.Start && doubleValue <= segment.End)
                             {
@@ -110,25 +109,26 @@ namespace DataDictionary.Functions.PredefinedFunctions
                         }
                         else
                         {
-                            Log.Error("The FunctionB doesn't have any parameter");
+                            FunctionB.AddError("The FunctionB doesn't have any parameter");
                             break;
                         }
                     }
                     else
                     {
-                        Log.Error("The FunctionA is not a step function");
+                        FunctionA.AddError("The FunctionA is not a step function");
                         break;
                     }
                 }
             }
             else
             {
-                Log.Error("Cannot create graph for " + FunctionA.ToString());
+                FunctionA.AddError("Cannot create graph for " + FunctionA);
             }
 
             if (retVal == null)
             {
-                Log.Error("Cannot compute the intersection of " + FunctionA.ToString() + " and " + FunctionB.ToString());
+                FunctionA.AddError("Cannot compute the intersection of " + FunctionA + " and " + FunctionB);
+                FunctionB.AddError("Cannot compute the intersection of " + FunctionA + " and " + FunctionB);
             }
 
             return retVal;

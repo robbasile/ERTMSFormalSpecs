@@ -17,10 +17,8 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Reflection;
 using DataDictionary;
 using DataDictionary.Tests;
-using log4net;
 using Microsoft.Office.Interop.Excel;
 using Utils;
 using TestAction = DataDictionary.Rules.Action;
@@ -30,8 +28,6 @@ namespace Importers.ExcelImporter
 {
     public class BrakingCurvesImporter : ProgressHandler
     {
-        private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-
         public Dictionary TheDictionary;
         public Step TheStep;
         public string FrameName;
@@ -141,7 +137,7 @@ namespace Importers.ExcelImporter
                 }
                 catch (Exception e)
                 {
-                    Log.ErrorFormat(e.Message);
+                    Console.WriteLine(e.Message);
                 }
                 application.Quit();
             }
@@ -502,7 +498,7 @@ namespace Importers.ExcelImporter
             }
             else
             {
-                Log.ErrorFormat("Invalid train position");
+                throw new Exception("Invalid train position");
             }
             addAction(aSubStep,
                 String.Format(
@@ -530,7 +526,7 @@ namespace Importers.ExcelImporter
             }
             else
             {
-                Log.ErrorFormat("Invalid value for service brake interface");
+                throw new Exception("Invalid value for service brake interface");
             }
             addAction(aSubStep,
                 String.Format("Kernel.TrainData.TrainData.Value.SBCommandIsImplemented <- {0}", decodedStringValue));
@@ -549,7 +545,7 @@ namespace Importers.ExcelImporter
             }
             else
             {
-                Log.ErrorFormat("Invalid value for traction cut off interface");
+                throw new Exception("Invalid value for traction cut off interface");
             }
             addAction(aSubStep,
                 String.Format("Kernel.TrainData.TrainData.Value.TractionCutOffInterfaceIsImplemented <- {0}",
@@ -1425,11 +1421,11 @@ namespace Importers.ExcelImporter
             {
                 if (sheet_number == -1)
                 {
-                    Log.ErrorFormat("Incorrect train type selected!!");
+                    throw new Exception("Incorrect train type selected!!");
                 }
                 else
                 {
-                    Log.ErrorFormat("Incorrect number of sheets in the excel document!!");
+                    throw new Exception("Incorrect number of sheets in the excel document!!");
                 }
             }
         }
@@ -1495,21 +1491,6 @@ namespace Importers.ExcelImporter
                     expectation.ExpressionText = String.Format(CultureInfo.InvariantCulture, expression,
                         Math.Round(distanceValues[i], 2), Math.Round(speedValues[i], 2), Math.Round(values[i], 4));
                     aSubStep.AddModelElement(expectation);
-                }
-            }
-        }
-
-
-        private void dumpWorksheet(Worksheet aWorksheet)
-        {
-            Log.InfoFormat("Dumping the worksheet {0}", aWorksheet.Name);
-            Range aRange = aWorksheet.UsedRange;
-            for (int i = 1; i < 40; i++)
-            {
-                for (int j = 1; j <= aRange.Rows.Count; j++)
-                {
-                    Log.InfoFormat("Worksheet {0}, line {1}, column {2}, value: {3}", aWorksheet.Index, j, i,
-                        (aRange.Cells[j, i] as Range).Value2);
                 }
             }
         }

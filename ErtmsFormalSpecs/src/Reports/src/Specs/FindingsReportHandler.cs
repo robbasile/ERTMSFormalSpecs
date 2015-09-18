@@ -49,7 +49,6 @@ namespace Reports.Specs
         {
             Document retVal = new Document();
 
-            Log.Info("Creating findings report");
             retVal.Info.Title = "EFS Subset-076 Findings report";
             retVal.Info.Author = "ERTMS Solutions";
             retVal.Info.Subject = "Subset-076 findings report";
@@ -90,19 +89,16 @@ namespace Reports.Specs
 
             if (addBugs)
             {
-                Log.Info("..generating issues");
                 report.CreateIssuesArticle(this);
             }
 
             if (addComments)
             {
-                Log.Info("..generating remarks");
                 report.CreateCommentsArticle(this);
             }
 
             if (addQuestions)
             {
-                Log.Info("..generating questions");
                 report.CreateQuestionsArticle(this);
             }
 

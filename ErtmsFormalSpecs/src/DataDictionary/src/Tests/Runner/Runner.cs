@@ -16,7 +16,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Reflection;
 using DataDictionary.Generated;
 using DataDictionary.Interpreter;
 using DataDictionary.Interpreter.Statement;
@@ -24,7 +23,6 @@ using DataDictionary.Rules;
 using DataDictionary.Tests.Runner.Events;
 using DataDictionary.Values;
 using DataDictionary.Variables;
-using log4net;
 using Utils;
 using Action = DataDictionary.Rules.Action;
 using Collection = DataDictionary.Types.Collection;
@@ -42,19 +40,9 @@ namespace DataDictionary.Tests.Runner
     public class Runner
     {
         /// <summary>
-        ///     The Logger
-        /// </summary>
-        protected static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-
-        /// <summary>
         ///     The event time line for this runner
         /// </summary>
         public EventTimeLine EventTimeLine { get; private set; }
-
-        /// <summary>
-        ///     Indicates whether events should be logged using log4net
-        /// </summary>
-        public bool LogEvents { get; set; }
 
         /// <summary>
         ///     Indicates whether an explanation should be provided to all actions
@@ -101,14 +89,12 @@ namespace DataDictionary.Tests.Runner
         /// </summary>
         /// <param name="subSequence"></param>
         /// <param name="explain"></param>
-        /// <param name="logEvents">Indicates whether events should be logged</param>
         /// <param name="ensureCompilation">Indicates that the runner should make sure that the system is compiled</param>
-        public Runner(SubSequence subSequence, bool explain, bool logEvents, bool ensureCompilation)
+        public Runner(SubSequence subSequence, bool explain, bool ensureCompilation)
         {
             EventTimeLine = new EventTimeLine();
             SubSequence = subSequence;
             EfsSystem.Instance.Runner = this;
-            LogEvents = logEvents;
             Explain = explain;
 
             if (ensureCompilation)
@@ -125,14 +111,13 @@ namespace DataDictionary.Tests.Runner
         /// <summary>
         ///     A simple runner
         /// </summary>
-        public Runner(bool explain, bool logEvents, int step = 100, int storeEventCount = 0)
+        public Runner(bool explain, int step = 100, int storeEventCount = 0)
         {
             EventTimeLine = new EventTimeLine();
             SubSequence = null;
             Step = step;
             EventTimeLine.MaxNumberOfEvents = storeEventCount;
             EfsSystem.Instance.Runner = this;
-            LogEvents = logEvents;
             Explain = explain;
 
             // Compile everything
@@ -251,7 +236,7 @@ namespace DataDictionary.Tests.Runner
                 {
                     Expression expression = SubSequence.Frame.CycleDuration;
                     IValue value = expression.GetExpressionValue(new InterpretationContext(SubSequence.Frame), null);
-                    Step = Functions.Function.getDoubleValue(value);
+                    Step = Functions.Function.GetDoubleValue(value);
                 }
 
                 PleaseWait = false;
@@ -358,11 +343,6 @@ namespace DataDictionary.Tests.Runner
         {
             CurrentPriority = null;
 
-            if (LogEvents)
-            {
-                Log.Info("New cycle");
-            }
-
             LastActivationTime = Time;
 
             Utils.ModelElement.Errors = new Dictionary<Utils.ModelElement, List<ElementLog>>();
@@ -390,10 +370,6 @@ namespace DataDictionary.Tests.Runner
             {
 
                 CurrentPriority = priority;
-                if (LogEvents)
-                {
-                    Log.Info("Priority=" + priority);
-                }
 
                 // Activates the processing engine
                 HashSet<Activation> activations = new HashSet<Activation>();
@@ -592,10 +568,6 @@ namespace DataDictionary.Tests.Runner
 
             foreach (Activation activation in activations)
             {
-                if (LogEvents)
-                {
-                    Log.Info("Activating " + activation.RuleCondition.FullName);
-                }
                 if (activation.RuleCondition.Actions.Count > 0)
                 {
                     // Register the fact that a rule has been triggered

@@ -14,7 +14,9 @@
 // --
 // ------------------------------------------------------------------------------
 
+using System.Collections.Generic;
 using DataDictionary.Generated;
+using DataDictionary.Interpreter;
 using Type = DataDictionary.Types.Type;
 
 namespace DataDictionary.Functions.PredefinedFunctions

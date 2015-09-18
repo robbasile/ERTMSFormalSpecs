@@ -961,7 +961,7 @@ namespace DataDictionary.Interpreter
             {
                 if (function != null && function.FormalParameters.Count > 0)
                 {
-                    retVal = function.createGraph(context, (Parameter) function.FormalParameters[0], explain);
+                    retVal = function.CreateGraph(context, (Parameter) function.FormalParameters[0], explain);
                 }
                 else
                 {
@@ -976,7 +976,7 @@ namespace DataDictionary.Interpreter
                 }
                 else
                 {
-                    retVal = function.createGraph(context, unbound[0], explain);
+                    retVal = function.CreateGraph(context, unbound[0], explain);
                 }
             }
 
@@ -1012,7 +1012,7 @@ namespace DataDictionary.Interpreter
                     {
                         yAxis = (Parameter) function.FormalParameters[1];
                     }
-                    retVal = function.createSurfaceForParameters(context, xAxis, yAxis, explain);
+                    retVal = function.CreateSurfaceForParameters(context, xAxis, yAxis, explain);
                 }
                 else
                 {
@@ -1032,7 +1032,7 @@ namespace DataDictionary.Interpreter
                 }
                 else
                 {
-                    retVal = function.createSurfaceForParameters(context, unbound[0], unbound[1], explain);
+                    retVal = function.CreateSurfaceForParameters(context, unbound[0], unbound[1], explain);
                 }
             }
             return retVal;

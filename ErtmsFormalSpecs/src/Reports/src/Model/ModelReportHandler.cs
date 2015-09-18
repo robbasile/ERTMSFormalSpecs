@@ -53,7 +53,6 @@ namespace Reports.Model
         {
             Document retVal = new Document();
 
-            Log.Info("Generating model report");
             retVal.Info.Title = "EFS Model report";
             retVal.Info.Author = "ERTMS Solutions";
             retVal.Info.Subject = "Model report";
@@ -69,7 +68,6 @@ namespace Reports.Model
 
         public void CreateNamespaceSection(ModelReport report, NameSpace aNameSpace)
         {
-            Log.Info("..generating name space " + aNameSpace.Name);
             bool informationAdded = false;
 
             if (!aNameSpace.FullName.StartsWith("Messages"))

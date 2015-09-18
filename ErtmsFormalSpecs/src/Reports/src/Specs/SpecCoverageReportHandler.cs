@@ -46,7 +46,6 @@ namespace Reports.Specs
         {
             Document retVal = new Document();
 
-            Log.Info("Creating spec report");
             retVal.Info.Title = "EFS Specification report";
             retVal.Info.Author = "ERTMS Solutions";
             retVal.Info.Subject = "Specification report";
@@ -54,22 +53,18 @@ namespace Reports.Specs
             SpecCoverageReport report = new SpecCoverageReport(retVal);
             if (AddSpecification)
             {
-                Log.Info("..generating specifications");
                 report.CreateSpecificationArticle(this);
             }
             if (AddCoveredParagraphs)
             {
-                Log.Info("..generating covered paragraphs");
                 report.CreateCoveredRequirementsArticle(this);
             }
             if (AddNonCoveredParagraphs)
             {
-                Log.Info("..generating non covered paragraphs");
                 report.CreateNonCoveredRequirementsArticle(this);
             }
             if (AddReqRelated)
             {
-                Log.Info("..generating req related");
                 report.CreateReqRelatedArticle(this);
             }
 

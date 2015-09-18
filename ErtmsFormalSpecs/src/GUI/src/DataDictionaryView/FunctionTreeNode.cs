@@ -183,7 +183,7 @@ namespace GUI.DataDictionaryView
                 if (Item.FormalParameters.Count == 1)
                 {
                     Parameter parameter = (Parameter) Item.FormalParameters[0];
-                    Graph graph = Item.createGraph(context, parameter, null);
+                    Graph graph = Item.CreateGraph(context, parameter, null);
                     if (graph != null && graph.Segments.Count != 0)
                     {
                         retVal.Insert(7, new MenuItem("Display", DisplayHandler));
@@ -191,7 +191,7 @@ namespace GUI.DataDictionaryView
                 }
                 else if (Item.FormalParameters.Count == 2)
                 {
-                    Surface surface = Item.createSurface(context, null);
+                    Surface surface = Item.CreateSurface(context, null);
                     if (surface != null && surface.Segments.Count != 0)
                     {
                         retVal.Insert(7, new MenuItem("Display", DisplayHandler));

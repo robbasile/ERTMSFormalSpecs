@@ -114,7 +114,7 @@ namespace EFSTester
                             Console.Out.WriteLine("Executing sub sequence " + subSequence.FullName);
                             if (subSequence.getCompleted())
                             {
-                                Runner runner = new Runner(subSequence, false, false, true);
+                                Runner runner = new Runner(subSequence, false, true);
                                 runner.RunUntilStep(null);
 
                                 bool failed = false;

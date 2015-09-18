@@ -14,6 +14,7 @@
 // --
 // ------------------------------------------------------------------------------
 
+using System;
 using System.Collections;
 using System.Reflection;
 using DataDictionary;
@@ -44,8 +45,6 @@ namespace Reports.Model
 {
     public class ModelReport : ReportTools
     {
-        private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-
         /// <summary>
         ///     Indicates if only the implemented model elements should be included to the report
         /// </summary>
@@ -141,7 +140,7 @@ namespace Reports.Model
                                 }
                                 else
                                 {
-                                    Log.Error("Error: tried to add an empty row in the model report");
+                                    throw  new Exception("Tried to add an empty row in the model report");
                                 }
                             }
                         }
@@ -365,7 +364,7 @@ namespace Reports.Model
                     }
                     else
                     {
-                        Log.Error("Error: tried to add an empty row in model report");
+                        throw new Exception("Tried to add an empty row in model report");
                     }
                 }
             }

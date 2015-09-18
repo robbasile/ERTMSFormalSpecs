@@ -180,7 +180,6 @@ namespace Reports.ERTMSAcademy
         {
             Document retVal = new Document();
 
-            Log.Info("Generating ERTMS Academy report report");
             retVal.Info.Title = "ERTMS Academy report";
             retVal.Info.Author = "ERTMS Solutions";
             retVal.Info.Subject = "ERTMS Academy report";

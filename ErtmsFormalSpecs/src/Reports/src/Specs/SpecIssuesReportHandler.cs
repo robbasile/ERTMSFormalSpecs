@@ -43,7 +43,6 @@ namespace Reports.Specs
         {
             Document retVal = new Document();
 
-            Log.Info("Creating spec issues report");
             retVal.Info.Title = "EFS Specification issues report";
             retVal.Info.Author = "ERTMS Solutions";
             retVal.Info.Subject = "Specification issues report";
@@ -51,17 +50,14 @@ namespace Reports.Specs
             SpecIssuesReport report = new SpecIssuesReport(retVal);
             if (AddInformationNeeded)
             {
-                Log.Info("..generating information needed");
                 report.CreateMoreInformationArticle(this);
             }
             if (AddSpecIssues)
             {
-                Log.Info("..generating spec issues");
                 report.CreateSpecIssuesArticle(this);
             }
             if (AddDesignChoices)
             {
-                Log.Info("..generating design choices");
                 report.CreateDesignChoicesArticle(this);
             }
 

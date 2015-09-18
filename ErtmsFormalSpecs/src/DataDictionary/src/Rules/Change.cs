@@ -15,11 +15,9 @@
 // ------------------------------------------------------------------------------
 
 using System.Collections.Generic;
-using System.Reflection;
 using DataDictionary.Tests.Runner;
 using DataDictionary.Values;
 using DataDictionary.Variables;
-using log4net;
 
 namespace DataDictionary.Rules
 {
@@ -28,11 +26,6 @@ namespace DataDictionary.Rules
     /// </summary>
     public class Change
     {
-        /// <summary>
-        ///     The Logger
-        /// </summary>
-        protected static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-
         /// <summary>
         ///     Indicates whether the change has already been applied
         /// </summary>
@@ -75,10 +68,6 @@ namespace DataDictionary.Rules
         {
             if (!Applied)
             {
-                if (runner.LogEvents)
-                {
-                    Log.Info(Variable.FullName + "<-" + NewValue.LiteralName);
-                }
                 ChangeVariableValue(NewValue);
                 Applied = true;
             }

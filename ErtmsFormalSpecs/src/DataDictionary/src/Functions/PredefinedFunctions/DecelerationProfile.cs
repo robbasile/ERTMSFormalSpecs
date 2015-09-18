@@ -44,7 +44,6 @@ namespace DataDictionary.Functions.PredefinedFunctions
         ///     Constructor
         /// </summary>
         /// <param name="efsSystem"></param>
-        /// <param name="name">the name of the cast function</param>
         public DecelerationProfile(EfsSystem efsSystem)
             : base(efsSystem, "DecelerationProfile")
         {
@@ -67,7 +66,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
         /// <param name="root">The element on which the errors should be reported</param>
         /// <param name="context">The evaluation context</param>
         /// <param name="actualParameters">The parameters applied to this function call</param>
-        public override void additionalChecks(ModelElement root, InterpretationContext context,
+        public override void AdditionalChecks(ModelElement root, InterpretationContext context,
             Dictionary<string, Expression> actualParameters)
         {
             CheckFunctionalParameter(root, context, actualParameters[SpeedRestrictions.Name], 1);
@@ -81,11 +80,11 @@ namespace DataDictionary.Functions.PredefinedFunctions
         /// <param name="parameter"></param>
         /// <param name="explain"></param>
         /// <returns></returns>
-        public override Graph createGraph(InterpretationContext context, Parameter parameter, ExplanationPart explain)
+        public override Graph CreateGraph(InterpretationContext context, Parameter parameter, ExplanationPart explain)
         {
             Graph retVal = null;
 
-            Graph MRSPGraph = null;
+            Graph mrspGraph = null;
             Function speedRestriction = context.FindOnStack(SpeedRestrictions).Value as Function;
             if (speedRestriction != null)
             {
@@ -93,41 +92,41 @@ namespace DataDictionary.Functions.PredefinedFunctions
 
                 int token = context.LocalScope.PushContext();
                 context.LocalScope.SetGraphParameter(p);
-                MRSPGraph = createGraphForValue(context, context.FindOnStack(SpeedRestrictions).Value, explain, p);
+                mrspGraph = createGraphForValue(context, context.FindOnStack(SpeedRestrictions).Value, explain, p);
                 context.LocalScope.PopContext(token);
             }
 
-            if (MRSPGraph != null)
+            if (mrspGraph != null)
             {
                 Function deceleratorFactor = context.FindOnStack(DecelerationFactor).Value as Function;
                 if (deceleratorFactor != null)
                 {
-                    Surface DecelerationSurface = deceleratorFactor.createSurface(context, explain);
-                    if (DecelerationSurface != null)
+                    Surface decelerationSurface = deceleratorFactor.CreateSurface(context, explain);
+                    if (decelerationSurface != null)
                     {
-                        FlatSpeedDistanceCurve MRSPCurve = MRSPGraph.FlatSpeedDistanceCurve(MRSPGraph.ExpectedEndX());
+                        FlatSpeedDistanceCurve mrspCurve = mrspGraph.FlatSpeedDistanceCurve(mrspGraph.ExpectedEndX());
                         AccelerationSpeedDistanceSurface accelerationSurface =
-                            DecelerationSurface.createAccelerationSpeedDistanceSurface(double.MaxValue, double.MaxValue);
-                        QuadraticSpeedDistanceCurve BrakingCurve = null;
+                            decelerationSurface.createAccelerationSpeedDistanceSurface(double.MaxValue, double.MaxValue);
+                        QuadraticSpeedDistanceCurve brakingCurve = null;
                         try
                         {
-                            BrakingCurve = EtcsBrakingCurveBuilder.Build_A_Safe_Backward(accelerationSurface, MRSPCurve);
+                            brakingCurve = EtcsBrakingCurveBuilder.Build_A_Safe_Backward(accelerationSurface, mrspCurve);
                         }
-                        catch (Exception e)
+                        catch (Exception)
                         {
                             retVal = new Graph();
                             retVal.AddSegment(new Graph.Segment(0, double.MaxValue, new Graph.Segment.Curve(0, 0, 0)));
                         }
 
-                        if (BrakingCurve != null)
+                        if (brakingCurve != null)
                         {
                             retVal = new Graph();
 
                             // TODO : Remove the distinction between linear curves and quadratic curves
                             bool isLinear = true;
-                            for (int i = 0; i < BrakingCurve.SegmentCount; i++)
+                            for (int i = 0; i < brakingCurve.SegmentCount; i++)
                             {
-                                QuadraticCurveSegment segment = BrakingCurve[i];
+                                QuadraticCurveSegment segment = brakingCurve[i];
                                 if (segment.A.ToUnits() != 0.0 || segment.V0.ToUnits() != 0.0)
                                 {
                                     isLinear = false;
@@ -135,9 +134,9 @@ namespace DataDictionary.Functions.PredefinedFunctions
                                 }
                             }
 
-                            for (int i = 0; i < BrakingCurve.SegmentCount; i++)
+                            for (int i = 0; i < brakingCurve.SegmentCount; i++)
                             {
-                                QuadraticCurveSegment segment = BrakingCurve[i];
+                                QuadraticCurveSegment segment = brakingCurve[i];
 
                                 Graph.Segment newSegment;
                                 if (isLinear)
@@ -166,17 +165,17 @@ namespace DataDictionary.Functions.PredefinedFunctions
                     }
                     else
                     {
-                        Log.Error("Cannot create surface for " + DecelerationFactor.ToString());
+                        DecelerationFactor.AddError("Cannot create surface for " + DecelerationFactor);
                     }
                 }
                 else
                 {
-                    Log.Error("Cannot evaluate " + DecelerationFactor.ToString() + " as a function");
+                    DecelerationFactor.AddError("Cannot evaluate " + DecelerationFactor + " as a function");
                 }
             }
             else
             {
-                Log.Error("Cannot create graph for " + SpeedRestrictions.ToString());
+                SpeedRestrictions.AddError("Cannot create graph for " + SpeedRestrictions);
             }
 
             return retVal;
@@ -192,7 +191,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
         public override IValue Evaluate(InterpretationContext context, Dictionary<Actual, IValue> actuals,
             ExplanationPart explain)
         {
-            IValue retVal = null;
+            IValue retVal;
 
             int token = context.LocalScope.PushContext();
             AssignParameters(context, actuals);
@@ -206,7 +205,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
             parameter.Type = EFSSystem.DoubleType;
             function.appendParameters(parameter);
             function.ReturnType = EFSSystem.DoubleType;
-            function.Graph = createGraph(context, parameter, explain);
+            function.Graph = CreateGraph(context, parameter, explain);
 
             retVal = function;
             context.LocalScope.PopContext(token);

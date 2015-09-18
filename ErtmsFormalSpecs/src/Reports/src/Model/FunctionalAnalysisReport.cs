@@ -16,22 +16,18 @@
 
 using System.Collections;
 using System.Collections.Generic;
-using System.Reflection;
 using DataDictionary;
 using DataDictionary.Functions;
 using DataDictionary.Interpreter;
 using DataDictionary.Types;
 using DataDictionary.Types.AccessMode;
 using DataDictionary.Variables;
-using log4net;
 using MigraDoc.DocumentObjectModel;
 
 namespace Reports.Model
 {
     public class FunctionalAnalysisReport : ReportTools
     {
-        private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-
         /// <summary>
         ///     Constructor
         /// </summary>
@@ -162,7 +158,7 @@ namespace Reports.Model
         /// <returns></returns>
         private void CreateProcedureOrFunctionHeader(ICallable callable)
         {
-            AddTable(new string[] {callable.Name}, new int[] {40, 80});
+            AddTable(new[] {callable.Name}, new[] {40, 80});
 
             ICommentable commentable = callable as ICommentable;
             if (commentable != null && !string.IsNullOrEmpty(commentable.Comment))

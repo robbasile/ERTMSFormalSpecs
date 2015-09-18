@@ -205,7 +205,7 @@ namespace DataDictionary.Types
                 retVal = findEnumValue(image);
                 if (retVal == null)
                 {
-                    Log.Error("Cannot create range value from " + image);
+                    AddError("Cannot create range value from " + image);
                 }
             }
             else
@@ -241,7 +241,7 @@ namespace DataDictionary.Types
                 }
                 catch (Exception exception)
                 {
-                    Log.Error("Cannot create range value", exception);
+                    AddException(exception);
                 }
             }
 
@@ -271,7 +271,7 @@ namespace DataDictionary.Types
                 retVal = findEnumValue(enumValue.Name);
                 if (retVal == null)
                 {
-                    Log.Error("Cannot convert " + enumValue.Name + " to " + FullName);
+                    AddError("Cannot convert " + enumValue.Name + " to " + FullName);
                 }
             }
             else
@@ -306,7 +306,7 @@ namespace DataDictionary.Types
                 }
                 catch (Exception exception)
                 {
-                    Log.Error("Cannot convert range value", exception);
+                    AddException(exception);
                 }
             }
 

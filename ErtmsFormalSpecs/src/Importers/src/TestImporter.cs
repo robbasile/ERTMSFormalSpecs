@@ -17,10 +17,8 @@
 using System;
 using System.Data;
 using System.Data.OleDb;
-using System.Reflection;
 using DataDictionary.Generated;
 using DataDictionary.Tests.Translations;
-using log4net;
 using DBField = DataDictionary.Tests.DBElements.DBField;
 using DBMessage = DataDictionary.Tests.DBElements.DBMessage;
 using DBPacket = DataDictionary.Tests.DBElements.DBPacket;
@@ -33,11 +31,6 @@ namespace Importers
 {
     public class TestImporter
     {
-        /// <summary>
-        ///     The Logger
-        /// </summary>
-        protected static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-
         /// <summary>
         ///     The path to the access database
         /// </summary>
@@ -181,7 +174,7 @@ namespace Importers
             }
             else
             {
-                Log.Error("Cannot find table TSW_TestSequence in database");
+                throw new Exception("Cannot find table TSW_TestSequence in database");     
             }
         }
 
@@ -256,7 +249,7 @@ namespace Importers
             }
             else
             {
-                Log.Error("Cannot find entry in table TSW_TestSeqSCItl WHERE TestSequenceID = " + subSequenceID);
+                throw new Exception("Cannot find entry in table TSW_TestSeqSCItl WHERE TestSequenceID = " + subSequenceID);
             }
         }
 
@@ -361,7 +354,7 @@ namespace Importers
             }
             else
             {
-                Log.Error("Cannot find sub sequence table in database");
+                throw new Exception("Cannot find sub sequence table in database");
             }
         }
 

@@ -645,7 +645,7 @@ namespace DataDictionary
 
                         if (tmp == null)
                         {
-                            Log.Error("Cannot find type named " + name);
+                            AddError("Cannot find type named " + name);
                         }
 
                         subCache[name] = tmp;

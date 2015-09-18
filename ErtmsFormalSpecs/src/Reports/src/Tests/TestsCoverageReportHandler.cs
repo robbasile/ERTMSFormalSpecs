@@ -96,38 +96,32 @@ namespace Reports.Tests
         {
             Document retVal = new Document();
 
-            Log.Info("Creating test report");
             retVal.Info.Title = "EFS Test report";
             retVal.Info.Author = "ERTMS Solutions";
             retVal.Info.Subject = "Test report";
 
             TestsCoverageReport report = new TestsCoverageReport(retVal);
-            Log.Info("..gathering requirement coverage");
             report.CreateRequirementCoverageArticle(this);
             HashSet<RuleCondition> activatedRules = new HashSet<RuleCondition>();
             if (TestCase != null) /* We generate a report for a selected test case */
             {
-                Log.Info("..creating test case report " + TestCase.Name);
-                EFSSystem.Runner = new Runner(TestCase.SubSequence, false, false, true);
+                EFSSystem.Runner = new Runner(TestCase.SubSequence, false, true);
                 Dictionary = TestCase.Dictionary;
                 report.CreateTestCaseSection(EFSSystem.Runner, TestCase, this, activatedRules, true);
             }
             else if (SubSequence != null) /* We generate a report of a selected sub sequence */
             {
-                Log.Info("..creating sub sequence report " + SubSequence.Name);
                 Dictionary = SubSequence.Dictionary;
                 report.CreateSubSequenceSection(SubSequence, this, activatedRules, true);
             }
             else if (Frame != null) /* We generate a report for a selected frame */
             {
-                Log.Info("..creating frame report " + Frame.Name);
                 Dictionary = Frame.Dictionary;
 
                 report.CreateFrameArticle(Frame, this, activatedRules);
             }
             else if (Dictionary != null) /* We generate a full report */
             {
-                Log.Info("..creating dictionary report ");
                 foreach (Frame frame in Dictionary.Tests)
                 {
                     report.CreateFrameArticle(frame, this, activatedRules);

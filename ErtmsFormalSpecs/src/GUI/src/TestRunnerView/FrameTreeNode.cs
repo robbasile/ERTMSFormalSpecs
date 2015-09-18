@@ -201,9 +201,8 @@ namespace GUI.TestRunnerView
                             Dialog.UpdateMessage("Executing " + subSequence.Name);
 
                             const bool explain = false;
-                            const bool logEvents = false;
                             const bool ensureCompiled = false;
-                            Frame.EFSSystem.Runner = new Runner(subSequence, explain, logEvents, ensureCompiled);
+                            Frame.EFSSystem.Runner = new Runner(subSequence, explain, ensureCompiled);
 
                             int testCasesFailed = subSequence.ExecuteAllTestCases(Frame.EFSSystem.Runner);
                             if (testCasesFailed > 0)

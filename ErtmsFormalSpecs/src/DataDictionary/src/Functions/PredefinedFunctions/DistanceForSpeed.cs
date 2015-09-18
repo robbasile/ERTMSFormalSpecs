@@ -44,7 +44,6 @@ namespace DataDictionary.Functions.PredefinedFunctions
         ///     Constructor
         /// </summary>
         /// <param name="efsSystem"></param>
-        /// <param name="name">the name of the cast function</param>
         public DistanceForSpeed(EfsSystem efsSystem)
             : base(efsSystem, "DistanceForSpeed")
         {
@@ -75,7 +74,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
         /// <param name="root">The element on which the errors should be reported</param>
         /// <param name="context">The evaluation context</param>
         /// <param name="actualParameters">The parameters applied to this function call</param>
-        public override void additionalChecks(ModelElement root, InterpretationContext context,
+        public override void AdditionalChecks(ModelElement root, InterpretationContext context,
             Dictionary<string, Expression> actualParameters)
         {
             CheckFunctionalParameter(root, context, actualParameters[Function.Name], 1);
@@ -85,15 +84,17 @@ namespace DataDictionary.Functions.PredefinedFunctions
         ///     Provides the graph of this function if it has been statically defined
         /// </summary>
         /// <param name="context">the context used to create the graph</param>
+        /// <param name="parameter"></param>
+        /// <param name="explain"></param>
         /// <returns></returns>
-        public override Graph createGraph(InterpretationContext context, Parameter parameter, ExplanationPart explain)
+        public override Graph CreateGraph(InterpretationContext context, Parameter parameter, ExplanationPart explain)
         {
             Graph retVal = null;
 
             Graph graph = createGraphForValue(context, context.FindOnStack(Function).Value, explain, parameter);
             if (graph != null)
             {
-                double speed = getDoubleValue(context.FindOnStack(Speed).Value);
+                double speed = GetDoubleValue(context.FindOnStack(Speed).Value);
                 double solutionX = graph.SolutionX(speed);
                 if (solutionX == double.MaxValue)
                 {
@@ -110,7 +111,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
             }
             else
             {
-                Log.Error("Cannot create graph for " + Function.ToString());
+                Function.AddError("Cannot create graph for " + Function);
             }
 
             return retVal;
@@ -133,12 +134,12 @@ namespace DataDictionary.Functions.PredefinedFunctions
             Function function = context.FindOnStack(Function).Value as Function;
             if (function != null)
             {
-                double speed = getDoubleValue(context.FindOnStack(Speed).Value);
+                double speed = GetDoubleValue(context.FindOnStack(Speed).Value);
 
                 Parameter parameter = (Parameter) function.FormalParameters[0];
                 int token2 = context.LocalScope.PushContext();
                 context.LocalScope.SetGraphParameter(parameter);
-                Graph graph = function.createGraph(context, (Parameter) function.FormalParameters[0], explain);
+                Graph graph = function.CreateGraph(context, (Parameter) function.FormalParameters[0], explain);
                 context.LocalScope.PopContext(token2);
                 if (graph != null)
                 {
@@ -155,12 +156,12 @@ namespace DataDictionary.Functions.PredefinedFunctions
                 }
                 else
                 {
-                    Log.Error("Cannot evaluate graph for function while computing the distance for the given speed");
+                    Function.AddError("Cannot evaluate graph for function while computing the distance for the given speed");
                 }
             }
             else
             {
-                Log.Error("Cannot get function for " + Function.ToString());
+                Function.AddError("Cannot get function for " + Function);
             }
             context.LocalScope.PopContext(token);
 

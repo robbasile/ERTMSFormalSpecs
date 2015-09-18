@@ -517,7 +517,7 @@ namespace GUI.IPCInterface
         {
             EfsAccess.WaitOne();
 
-            EfsSystem.Instance.Runner = new Runner(Explain, LogEvents, CycleDuration, KeepEventCount);
+            EfsSystem.Instance.Runner = new Runner(Explain, CycleDuration, KeepEventCount);
 
             EfsAccess.ReleaseMutex();
         }
@@ -533,7 +533,7 @@ namespace GUI.IPCInterface
 
                 if (efsSystem.Runner == null && !AllListeners)
                 {
-                    EfsSystem.Instance.Runner = new Runner(Explain, LogEvents, CycleDuration, KeepEventCount);
+                    EfsSystem.Instance.Runner = new Runner(Explain, CycleDuration, KeepEventCount);
                 }
 
                 return efsSystem.Runner;
@@ -733,7 +733,7 @@ namespace GUI.IPCInterface
 
                     if (v.FormalParameters.Count == 1)
                     {
-                        Graph graph = v.createGraph(new InterpretationContext(), (Parameter) v.FormalParameters[0], null);
+                        Graph graph = v.CreateGraph(new InterpretationContext(), (Parameter) v.FormalParameters[0], null);
 
                         if (graph != null)
                         {
@@ -742,8 +742,8 @@ namespace GUI.IPCInterface
                                 double length = segment.End - segment.Start;
                                 segments.Add(new Segment
                                 {
-                                    A = segment.Expression.a,
-                                    V0 = segment.Expression.v0,
+                                    A = segment.Expression.A,
+                                    V0 = segment.Expression.V0,
                                     D0 = segment.Start,
                                     Length = length
                                 });

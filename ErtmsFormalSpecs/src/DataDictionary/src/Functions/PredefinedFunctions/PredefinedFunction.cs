@@ -59,7 +59,6 @@ namespace DataDictionary.Functions.PredefinedFunctions
         public abstract override IValue Evaluate(InterpretationContext context, Dictionary<Actual, IValue> actuals,
             ExplanationPart explain);
 
-
         /// <summary>
         ///     Provides the name associated to the parameter
         /// </summary>
@@ -138,12 +137,12 @@ namespace DataDictionary.Functions.PredefinedFunctions
                     parameter = (Parameter) function.FormalParameters[0];
                     int token = context.LocalScope.PushContext();
                     context.LocalScope.SetGraphParameter(parameter);
-                    retVal = function.createGraph(context, parameter, explain);
+                    retVal = function.CreateGraph(context, parameter, explain);
                     context.LocalScope.PopContext(token);
                 }
                 else
                 {
-                    retVal = function.createGraph(context, parameter, explain);
+                    retVal = function.CreateGraph(context, parameter, explain);
                 }
             }
             else
@@ -169,7 +168,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
             Function function = value as Function;
             if (function != null)
             {
-                retVal = function.createSurface(context, explain);
+                retVal = function.CreateSurface(context, explain);
             }
             else
             {

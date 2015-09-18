@@ -17,9 +17,7 @@
 using System;
 using System.Diagnostics;
 using System.IO;
-using System.Reflection;
 using DataDictionary;
-using log4net;
 using MigraDoc.DocumentObjectModel;
 using MigraDoc.Rendering;
 using PdfSharp.Pdf;
@@ -34,8 +32,6 @@ namespace Reports
     /// </summary>
     public abstract class ReportHandler : ProgressHandler
     {
-        protected static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-
         /// <summary>
         ///     Creates the full file name from a given title
         /// </summary>
@@ -74,16 +70,10 @@ namespace Reports
 
             if (document != null)
             {
-                Log.Info("..generating output file");
                 if (GenerateOutputFile(document))
                 {
                     Process.Start(FileName);
                 }
-                else
-                {
-                    Log.ErrorFormat("Report creation failed");
-                }
-                Log.Info("Done!");
             }
         }
 
@@ -120,21 +110,16 @@ namespace Reports
 
             try
             {
-                Log.Info("creating renderer");
                 PdfDocumentRenderer pdfRenderer = new PdfDocumentRenderer(false, PdfFontEmbedding.Always);
                 pdfRenderer.Document = document;
-
-                Log.Info("rendering document");
                 pdfRenderer.RenderDocument();
-
-                Log.Info("saving document");
                 pdfRenderer.PdfDocument.Save(FileName);
 
                 retVal = true;
             }
             catch (Exception e)
             {
-                Log.Error("Cannot render document. Exception message is " + e.Message);
+                throw  new Exception("Cannot render document.", e);
             }
 
             return retVal;

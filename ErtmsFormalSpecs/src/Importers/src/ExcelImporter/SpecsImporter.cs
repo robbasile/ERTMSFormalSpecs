@@ -15,9 +15,7 @@
 // ------------------------------------------------------------------------------
 
 using System;
-using System.Reflection;
 using DataDictionary.Generated;
-using log4net;
 using Microsoft.Office.Interop.Excel;
 using Utils;
 using Chapter = DataDictionary.Specification.Chapter;
@@ -33,9 +31,6 @@ namespace Importers.ExcelImporter
 {
     public class SpecsImporter : ProgressHandler
     {
-        private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-
-
         public Dictionary TheDictionary;
         public string FileName;
 
@@ -86,10 +81,7 @@ namespace Importers.ExcelImporter
                     }
                     workbook.Close(false);
                 }
-                else
-                {
-                    Log.ErrorFormat("Error while opening the excel file");
-                }
+
                 application.Quit();
             }
         }
@@ -193,7 +185,6 @@ namespace Importers.ExcelImporter
                     else
                     {
                         aParagraph.Text += "SUBSET-026 REFERENCE: " + specId + "\n";
-                        Log.ErrorFormat("Paragraph id " + specId + " could not be found.");
                     }
 
 

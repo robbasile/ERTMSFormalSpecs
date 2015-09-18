@@ -62,9 +62,8 @@ namespace DataDictionary.Tests
                 foreach (SubSequence subSequence in SubSequences)
                 {
                     const bool explain = false;
-                    const bool logEvents = false;
                     const bool ensureCompiled = false;
-                    EFSSystem.Runner = new Runner.Runner(subSequence, explain, logEvents, ensureCompiled);
+                    EFSSystem.Runner = new Runner.Runner(subSequence, explain, ensureCompiled);
                     int testCasesFailed = subSequence.ExecuteAllTestCases(EFSSystem.Runner);
                     if (testCasesFailed > 0)
                     {

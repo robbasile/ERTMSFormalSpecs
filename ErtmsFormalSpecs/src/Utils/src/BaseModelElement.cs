@@ -17,8 +17,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Reflection;
-using log4net;
 using XmlBooster;
 
 namespace Utils
@@ -113,11 +111,6 @@ namespace Utils
 
     public abstract class ModelElement : XmlBBase, IModelElement
     {
-        /// <summary>
-        ///     The Logger
-        /// </summary>
-        protected static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-
         /// <summary>
         ///     Constructor
         /// </summary>
@@ -419,8 +412,10 @@ namespace Utils
         /// <returns></returns>
         public ElementLog AddError(string message, bool failedExpectation = false)
         {
-            ElementLog retVal = new ElementLog(ElementLog.LevelEnum.Error, message);
-            retVal.FailedExpectation = failedExpectation;
+            ElementLog retVal = new ElementLog(ElementLog.LevelEnum.Error, message)
+            {
+                FailedExpectation = failedExpectation
+            };
             AddElementLog(retVal);
             return retVal;
         }

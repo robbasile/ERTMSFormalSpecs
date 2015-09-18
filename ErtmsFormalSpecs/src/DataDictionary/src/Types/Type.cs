@@ -388,12 +388,12 @@ namespace DataDictionary.Types
                 {
                     if (leftFunction.Graph != null)
                     {
-                        Graph graph = Graph.createGraph(Function.getDoubleValue(right));
+                        Graph graph = Graph.createGraph(Function.GetDoubleValue(right));
                         rigthFunction = graph.Function;
                     }
                     else
                     {
-                        Surface surface = Surface.createSurface(Function.getDoubleValue(right),
+                        Surface surface = Surface.createSurface(Function.GetDoubleValue(right),
                             leftFunction.Surface.XParameter, leftFunction.Surface.YParameter);
                         rigthFunction = surface.Function;
                     }
@@ -428,7 +428,7 @@ namespace DataDictionary.Types
                 }
                 else
                 {
-                    Surface rightSurface = rigthFunction.getSurface(leftFunction.Surface.XParameter,
+                    Surface rightSurface = rigthFunction.GetSurface(leftFunction.Surface.XParameter,
                         leftFunction.Surface.YParameter);
                     Surface tmp = null;
                     switch (Operation)

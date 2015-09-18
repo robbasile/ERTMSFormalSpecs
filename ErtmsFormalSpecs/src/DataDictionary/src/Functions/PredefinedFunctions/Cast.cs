@@ -97,7 +97,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
         /// <param name="parameter"></param>
         /// <param name="explain"></param>
         /// <returns></returns>
-        public override Graph createGraph(InterpretationContext context, Parameter parameter, ExplanationPart explain)
+        public override Graph CreateGraph(InterpretationContext context, Parameter parameter, ExplanationPart explain)
         {
             Graph retVal = null;
 
@@ -105,7 +105,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
 
             if (variable != null)
             {
-                retVal = Graph.createGraph(getDoubleValue(variable.Value), parameter);
+                retVal = Graph.createGraph(GetDoubleValue(variable.Value), parameter);
             }
             else
             {

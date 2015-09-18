@@ -102,7 +102,7 @@ namespace GUI.GraphView
                 if (function.FormalParameters.Count == 1)
                 {
                     Parameter parameter = (Parameter) function.FormalParameters[0];
-                    Graph graph = function.createGraph(context, parameter, explain);
+                    Graph graph = function.CreateGraph(context, parameter, explain);
                     if (graph != null)
                     {
                         Functions.Add(function);
@@ -111,7 +111,7 @@ namespace GUI.GraphView
                 }
                 else if (function.FormalParameters.Count == 2)
                 {
-                    Surface surface = function.createSurface(context, explain);
+                    Surface surface = function.CreateSurface(context, explain);
                     if (surface != null)
                     {
                         Functions.Add(function);
@@ -175,7 +175,7 @@ namespace GUI.GraphView
                     if (function.FormalParameters.Count == 1)
                     {
                         Parameter parameter = (Parameter) function.FormalParameters[0];
-                        Graph graph = function.createGraph(context, parameter, null);
+                        Graph graph = function.CreateGraph(context, parameter, null);
                         if (graph != null)
                         {
                             expectedEndX = Math.Max(expectedEndX, graph.ExpectedEndX());
@@ -191,7 +191,7 @@ namespace GUI.GraphView
                     InterpretationContext context = new InterpretationContext(function);
                     if (function.FormalParameters.Count == 2)
                     {
-                        Surface surface = function.createSurface(context, null);
+                        Surface surface = function.CreateSurface(context, null);
                         if (surface != null)
                         {
                             expectedEndX = Math.Max(expectedEndX, surface.ExpectedEndX());

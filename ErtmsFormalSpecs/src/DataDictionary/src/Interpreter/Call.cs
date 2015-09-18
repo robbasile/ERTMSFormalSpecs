@@ -369,7 +369,7 @@ namespace DataDictionary.Interpreter
                 {
                     int token = context.LocalScope.PushContext();
                     context.LocalScope.SetGraphParameter(parameters[0]);
-                    Graph graph = function.createGraphForParameter(context, parameters[0], subExplanation);
+                    Graph graph = function.CreateGraphForParameter(context, parameters[0], subExplanation);
                     context.LocalScope.PopContext(token);
                     if (graph != null)
                     {
@@ -383,7 +383,7 @@ namespace DataDictionary.Interpreter
                 }
                 else // surface
                 {
-                    Surface surface = function.createSurfaceForParameters(context, parameters[0], parameters[1],
+                    Surface surface = function.CreateSurfaceForParameters(context, parameters[0], parameters[1],
                         subExplanation);
                     if (surface != null)
                     {
@@ -693,7 +693,7 @@ namespace DataDictionary.Interpreter
             {
                 // In case of cast, just take the graph of the enclosed expression
                 Parameter param = (Parameter) cast.FormalParameters[0];
-                retVal = cast.createGraphForParameter(context, param, explain);
+                retVal = cast.CreateGraphForParameter(context, param, explain);
             }
             else
             {
@@ -735,11 +735,11 @@ namespace DataDictionary.Interpreter
                         AssignParameterValues(context, calledFunction, false, explain));
                     if (xAxis != null)
                     {
-                        retVal = calledFunction.createGraphForParameter(context, xAxis, explain);
+                        retVal = calledFunction.CreateGraphForParameter(context, xAxis, explain);
                     }
                     else
                     {
-                        retVal = Function.createGraphForValue(GetValue(context, explain));
+                        retVal = Function.CreateGraphForValue(GetValue(context, explain));
                     }
                     context.LocalScope.PopContext(token);
                 }
@@ -789,7 +789,7 @@ namespace DataDictionary.Interpreter
                     {
                         int token = context.LocalScope.PushContext();
                         function.AssignParameters(context, AssignParameterValues(context, function, true, explain));
-                        retVal = function.createSurfaceForParameters(context, xAxis, yAxis, explain);
+                        retVal = function.CreateSurfaceForParameters(context, xAxis, yAxis, explain);
                         context.LocalScope.PopContext(token);
                     }
                     else

@@ -301,7 +301,7 @@ namespace DataDictionary.Interpreter.ListOperators
                     }
                     else
                     {
-                        retVal = Function.createGraphForValue(AccumulatorVariable.Value);
+                        retVal = Function.CreateGraphForValue(AccumulatorVariable.Value);
                     }
                     EndIteration(context, explain, token);
                 }

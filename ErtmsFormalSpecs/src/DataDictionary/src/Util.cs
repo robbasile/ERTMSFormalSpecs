@@ -18,10 +18,8 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using System.Reflection;
 using System.Threading;
 using DataDictionary.Generated;
-using log4net;
 using Utils;
 using XmlBooster;
 using Chapter = DataDictionary.Specification.Chapter;
@@ -36,11 +34,6 @@ namespace DataDictionary
 {
     public class Util
     {
-        /// <summary>
-        ///     The Logger
-        /// </summary>
-        protected static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-
         /// <summary>
         ///     Indicates that the files should be locked for edition when opened
         /// </summary>
@@ -716,11 +709,7 @@ namespace DataDictionary
                 }
                 catch (XmlBException)
                 {
-                    Log.Error(ctxt.errorMessage());
-                }
-                catch (Exception e)
-                {
-                    Log.Error(e.Message);
+                    Console.WriteLine(ctxt.errorMessage());
                 }
             });
 
@@ -809,7 +798,7 @@ namespace DataDictionary
                         }
                         catch (Exception e)
                         {
-                            Log.Error(e.Message);
+                            Console.WriteLine(e.Message);
                             retVal = null;
                         }
                     });
@@ -827,7 +816,7 @@ namespace DataDictionary
                         }
                         catch (Exception e)
                         {
-                            Log.Error(e.Message);
+                            Console.WriteLine(e.Message);
                         }
                     });
                 }

@@ -174,7 +174,7 @@ namespace DataDictionary.Types
 
                 if (retVal == null)
                 {
-                    Log.Error("Cannot find boolean from " + image);
+                    throw new Exception("Cannot find boolean from " + image);
                 }
             }
 

@@ -41,7 +41,6 @@ namespace DataDictionary.Functions.PredefinedFunctions
         ///     Constructor
         /// </summary>
         /// <param name="efsSystem"></param>
-        /// <param name="name">the name of the cast function</param>
         public AddIncrement(EfsSystem efsSystem)
             : base(efsSystem, "AddIncrement")
         {
@@ -64,7 +63,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
         /// <param name="root">The element on which the errors should be reported</param>
         /// <param name="context">The evaluation context</param>
         /// <param name="actualParameters">The parameters applied to this function call</param>
-        public override void additionalChecks(ModelElement root, InterpretationContext context,
+        public override void AdditionalChecks(ModelElement root, InterpretationContext context,
             Dictionary<string, Expression> actualParameters)
         {
             CheckFunctionalParameter(root, context, actualParameters[Function.Name], 1);
@@ -78,7 +77,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
         /// <param name="parameter"></param>
         /// <param name="explain"></param>
         /// <returns></returns>
-        public override Graph createGraph(InterpretationContext context, Parameter parameter, ExplanationPart explain)
+        public override Graph CreateGraph(InterpretationContext context, Parameter parameter, ExplanationPart explain)
         {
             Graph retVal = null;
 
@@ -101,7 +100,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
             }
             else
             {
-                Log.Error("Cannot create graph for " + Function.ToString());
+                Function.AddError("Cannot create graph for " + Function);
             }
 
             return retVal;
@@ -111,15 +110,13 @@ namespace DataDictionary.Functions.PredefinedFunctions
         ///     Provides the value of the function
         /// </summary>
         /// <param name="context"></param>
-        /// <param name="instance">the instance on which the function is evaluated</param>
         /// <param name="actuals">the actual parameters values</param>
-        /// <param name="localScope">the values of local variables</param>
         /// <param name="explain"></param>
         /// <returns>The value for the function application</returns>
         public override IValue Evaluate(InterpretationContext context, Dictionary<Actual, IValue> actuals,
             ExplanationPart explain)
         {
-            IValue retVal = null;
+            IValue retVal;
 
             int token = context.LocalScope.PushContext();
             AssignParameters(context, actuals);
@@ -132,7 +129,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
             parameter.Type = EFSSystem.DoubleType;
             function.appendParameters(parameter);
             function.ReturnType = EFSSystem.DoubleType;
-            function.Graph = createGraph(context, parameter, explain);
+            function.Graph = CreateGraph(context, parameter, explain);
 
             retVal = function;
             context.LocalScope.PopContext(token);

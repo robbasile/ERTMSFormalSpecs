@@ -16,25 +16,18 @@
 
 using System.Collections;
 using System.Collections.Generic;
-using System.Reflection;
 using DataDictionary.Functions;
 using DataDictionary.Rules;
 using DataDictionary.Tests.Runner;
 using DataDictionary.Types;
 using DataDictionary.Values;
 using DataDictionary.Variables;
-using log4net;
 using Utils;
 
 namespace DataDictionary.Interpreter.Statement
 {
     public class ProcedureCallStatement : Statement
     {
-        /// <summary>
-        ///     The Logger
-        /// </summary>
-        protected static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-
         /// <summary>
         ///     The designator which identifies the procedure to call
         /// </summary>

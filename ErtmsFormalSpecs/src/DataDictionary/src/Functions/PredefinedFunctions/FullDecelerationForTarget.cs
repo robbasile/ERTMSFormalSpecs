@@ -75,7 +75,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
         /// <param name="root">The element on which the errors should be reported</param>
         /// <param name="context">The evaluation context</param>
         /// <param name="actualParameters">The parameters applied to this function call</param>
-        public override void additionalChecks(ModelElement root, InterpretationContext context,
+        public override void AdditionalChecks(ModelElement root, InterpretationContext context,
             Dictionary<string, Expression> actualParameters)
         {
             CheckFunctionalParameter(root, context, actualParameters[Target.Name], 1);
@@ -90,7 +90,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
         /// <param name="parameter"></param>
         /// <param name="explain"></param>
         /// <returns></returns>
-        public override Graph createGraph(InterpretationContext context, Parameter parameter, ExplanationPart explain)
+        public override Graph CreateGraph(InterpretationContext context, Parameter parameter, ExplanationPart explain)
         {
             Graph retVal = new Graph();
 
@@ -109,7 +109,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
                 Function decelerationFactor = context.FindOnStack(DecelerationFactor).Value as Function;
                 if (decelerationFactor != null)
                 {
-                    Surface DecelerationSurface = decelerationFactor.createSurface(context, explain);
+                    Surface DecelerationSurface = decelerationFactor.CreateSurface(context, explain);
                     if (DecelerationSurface != null)
                     {
                         AccelerationSpeedDistanceSurface accelerationSurface =
@@ -127,7 +127,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
                             retVal.AddSegment(new Graph.Segment(0, double.MaxValue, new Graph.Segment.Curve(0, 0, 0)));
                         }
 
-                        SiSpeed finalSpeed = new SiSpeed(getDoubleValue(context.FindOnStack(EndSpeed).Value),
+                        SiSpeed finalSpeed = new SiSpeed(GetDoubleValue(context.FindOnStack(EndSpeed).Value),
                             SiSpeed_SubUnits.KiloMeter_per_Hour);
                         for (int i = 0; i < BrakingCurve.SegmentCount; i++)
                         {
@@ -221,7 +221,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
             parameter.Type = EFSSystem.DoubleType;
             function.appendParameters(parameter);
             function.ReturnType = EFSSystem.DoubleType;
-            function.Graph = createGraph(context, parameter, explain);
+            function.Graph = CreateGraph(context, parameter, explain);
 
             retVal = function;
             context.LocalScope.PopContext(token);

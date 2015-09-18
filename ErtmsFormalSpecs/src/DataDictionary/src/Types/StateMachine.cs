@@ -202,7 +202,7 @@ namespace DataDictionary.Types
 
             if (retVal == null)
             {
-                Log.Error("Cannot find state " + name);
+                AddError("Cannot find state " + name);
             }
 
             return retVal;

@@ -15,12 +15,10 @@
 // ------------------------------------------------------------------------------
 
 using System.Collections.Generic;
-using System.Reflection;
 using DataDictionary;
 using DataDictionary.Specification;
 using DataDictionary.Tests;
 using DataDictionary.Tests.Translations;
-using log4net;
 using MigraDoc.DocumentObjectModel;
 using Paragraph = DataDictionary.Specification.Paragraph;
 
@@ -28,8 +26,6 @@ namespace Reports.Specs
 {
     internal class FindingsReport : ReportTools
     {
-        private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-
         public bool ReviewedParagraphs { get; set; }
 
         /// <summary>

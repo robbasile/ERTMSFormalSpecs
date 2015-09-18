@@ -41,7 +41,6 @@ namespace DataDictionary.Functions.PredefinedFunctions
         ///     Constructor
         /// </summary>
         /// <param name="efsSystem"></param>
-        /// <param name="name">the name of the cast function</param>
         public MinSurface(EfsSystem efsSystem)
             : base(efsSystem, "MINSURFACE")
         {
@@ -64,7 +63,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
         /// <param name="root">The element on which the errors should be reported</param>
         /// <param name="context">The evaluation context</param>
         /// <param name="actualParameters">The parameters applied to this function call</param>
-        public override void additionalChecks(ModelElement root, InterpretationContext context,
+        public override void AdditionalChecks(ModelElement root, InterpretationContext context,
             Dictionary<string, Expression> actualParameters)
         {
             CheckFunctionalParameter(root, context, actualParameters[First.Name], 2);
@@ -100,7 +99,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
         /// <param name="context">the context used to create the surface</param>
         /// <param name="explain"></param>
         /// <returns></returns>
-        public override Surface createSurface(InterpretationContext context, ExplanationPart explain)
+        public override Surface CreateSurface(InterpretationContext context, ExplanationPart explain)
         {
             Surface retVal = null;
 
@@ -116,12 +115,12 @@ namespace DataDictionary.Functions.PredefinedFunctions
                 }
                 else
                 {
-                    Log.Error("Cannot create surface for " + Second.ToString());
+                    Second.AddError("Cannot create surface for " + Second);
                 }
             }
             else
             {
-                Log.Error("Cannot create surface for " + First.ToString());
+                First.AddError("Cannot create surface for " + First);
             }
 
             return retVal;
@@ -137,7 +136,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
         public override IValue Evaluate(InterpretationContext context, Dictionary<Actual, IValue> actuals,
             ExplanationPart explain)
         {
-            IValue retVal = null;
+            IValue retVal;
 
             int token = context.LocalScope.PushContext();
             AssignParameters(context, actuals);
@@ -145,7 +144,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
             Function function = (Function) acceptor.getFactory().createFunction();
             function.Name = "MINSURFACE (" + getName(First) + ", " + getName(Second) + ")";
             function.Enclosing = EFSSystem;
-            function.Surface = createSurface(context, explain);
+            function.Surface = CreateSurface(context, explain);
 
             Parameter parameterX = (Parameter) acceptor.getFactory().createParameter();
             parameterX.Name = "X";
