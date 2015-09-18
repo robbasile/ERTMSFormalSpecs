@@ -1458,9 +1458,11 @@ Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Max) &lt;= Kernel.SpeedAn
 >
 <PreConditions>
 <PreCondition
- Guid="40f16584-ad80-4fc9-834b-20ef2f8688e2"
->Odometry.TrainSpeed() &gt; Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.ReleaseSpeed</PreCondition></PreConditions>
-<Expression>False</Expression>
+ Guid="a39d3b7f-0d8b-4dcd-8505-da106412b1a8"
+>MA.IsEOA(aTarget)
+  OR  
+MA.IsSvL(aTarget)</PreCondition></PreConditions>
+<Expression>Odometry.TrainSpeed() &lt;= Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.ReleaseSpeed</Expression>
 </Case><Case
  Name="MRSP target and LOA"
  Guid="5f0d2e6c-c8c4-477b-9126-235984081071"
@@ -1541,52 +1543,42 @@ Kernel.TrainPosition.DistanceRunInSR(DistanceInterval.Max) &gt; Kernel.SpeedAndD
 >
 <PreConditions>
 <PreCondition
- Guid="c6190b99-6321-46c3-b83b-1850714a0b99"
-><Comment>The leading term, TargetSpeed == 0.0, ensures that the end on the MA is not a LOA since, in that case, there is neither EOA or SvL</Comment>
-Kernel.MA.MA.TargetSpeed == 0.0
+ Guid="5d3d2172-b1ba-472c-a2f6-7259cb24c2c3"
+>MA.IsEOA(aTarget)
+  OR  
+MA.IsSvL(aTarget)</PreCondition></PreConditions>
+<Expression>(
+  Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.ReleaseSpeed &lt; Odometry.TrainSpeed()
+    AND  
+  Odometry.TrainSpeed() &lt;= Kernel.MRSP.V_MRSP()
+)
 
- AND 
+  AND  
 
 (
-( Odometry.TrainSpeed() &lt;= Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.ReleaseSpeed
-   OR  
-  Kernel.MRSP.V_MRSP() &lt; Odometry.TrainSpeed() )
-
-    OR    
-
-( Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Max) &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
+  Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Max) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
      Vest =&gt; Odometry.TrainSpeed(),
-     aTarget =&gt; Kernel.MA.SvL() )
-
-  OR  
-
-  Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom) &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
+     aTarget =&gt; aTarget )
+    AND  
+  Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
      Vest =&gt; Odometry.TrainSpeed(),
-     aTarget =&gt; Kernel.MA.ClosestEOA() ) )
-)</PreCondition></PreConditions>
-<Expression>False</Expression>
+     aTarget =&gt; aTarget )
+ )</Expression>
 </Case><Case
  Name="MRSP Target or LOA"
  Guid="d02c5076-60d6-459a-a275-387f8b5c2664"
 >
-<PreConditions>
-<PreCondition
- Guid="2fe191b7-05bf-423e-8c02-23fb4922371c"
->(
-  aTarget.Speed &gt;= Odometry.TrainSpeed()
-    OR  
-  Odometry.TrainSpeed() &gt; Kernel.MRSP.V_MRSP() 
+<Expression>(
+  aTarget.Speed &lt; Odometry.TrainSpeed()
+    AND  
+  Odometry.TrainSpeed() &lt;= Kernel.MRSP.V_MRSP()
 )
-  OR  
-Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Max) &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
-    Vest =&gt; Odometry.TrainSpeed(),
-    aTarget =&gt; aTarget )</PreCondition></PreConditions>
-<Expression>False</Expression>
-</Case><Case
- Name="Otherwise - revocation conditions fulfilled"
- Guid="76bc5f44-386c-4fc7-8598-96ae80c8fd4a"
->
-<Expression>True</Expression>
+
+  AND  
+
+Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Max) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
+     Vest =&gt; Odometry.TrainSpeed(),
+     aTarget =&gt; aTarget )</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
