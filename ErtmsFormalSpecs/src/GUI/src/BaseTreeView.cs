@@ -159,10 +159,10 @@ namespace GUI
         /// <param name="e"></param>
         public void LabelEditHandler(object sender, NodeLabelEditEventArgs e)
         {
-            Selected = e.Node as BaseTreeNode;
-            if (Selected != null)
+            BaseTreeNode node = e.Node as BaseTreeNode;
+            if (node != null)
             {
-                Selected.HandleLabelEdit(e.Label);
+                node.HandleLabelEdit(e.Label);
             }
         }
 

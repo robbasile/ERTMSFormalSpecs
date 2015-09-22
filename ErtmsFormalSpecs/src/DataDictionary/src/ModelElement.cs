@@ -229,14 +229,19 @@ namespace DataDictionary
                 Expression expression = EfsSystem.Instance.Parser.Expression(modelElement, name,
                     AllMatches.INSTANCE, true, null, true);
 
-                foreach (
-                    ReturnValueElement target in
-                        expression.GetReferences(null, AllMatches.INSTANCE, true).Values)
+                if (expression != null)
                 {
-                    if (target.Value == this)
+                    ReturnValue references = expression.GetReferences(null, AllMatches.INSTANCE, true);
+                    if (references != null)
                     {
-                        retVal = true;
-                        break;
+                        foreach (ReturnValueElement target in references.Values)
+                        {
+                            if (target.Value == this)
+                            {
+                                retVal = true;
+                                break;
+                            }
+                        }
                     }
                 }
             });
