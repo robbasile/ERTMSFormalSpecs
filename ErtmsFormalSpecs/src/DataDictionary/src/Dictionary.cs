@@ -1494,5 +1494,15 @@ namespace DataDictionary
 
             return retVal;
         }
+
+        /// <summary>
+        /// Creates a default instance of a dictionary
+        /// </summary>
+        /// <returns></returns>
+        public static Dictionary CreateDefault()
+        {
+            Dictionary retVal = (Dictionary) acceptor.getFactory().createDictionary();
+            return retVal;
+        }
     }
 }
