@@ -1,0 +1,115 @@
+<NameSpace
+ X="780"
+ Y="70"
+ Width="100"
+ Height="50"
+ Name="SystemVersionManagement"
+ Guid="1ec03d4a-8c9c-4360-9ebc-ab7a92746bd0"
+>
+<NameSpaces>
+</NameSpaces>
+<Enumerations>
+<Enum
+ Default="Version2_0"
+ X="111"
+ Y="1"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="SystemVersionEnum"
+ Guid="967d5af2-0ae4-461c-907e-5e2ccb1a31dd"
+>
+<ReqRef
+ Id="cf417b3a-60c6-4a9b-9943-69cfd55745eb"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="5b9cff43-d5af-447a-bed0-f35309c73037"
+>
+</ReqRef><ReqRef
+ Id="ab5308f4-b51c-4344-b01b-60216b72673e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="631924df-b2ff-47df-aee6-3283eb93fdca"
+>
+</ReqRef><ReqRef
+ Id="65cf2f83-07d2-4e30-90f6-1dfd657a4d74"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f8afd51d-eea8-41f3-9aa6-85a86b532e4c"
+>
+</ReqRef><Comment>List of the possible trackside operated versions.</Comment>
+<Values>
+<EnumValue
+ Value=""
+ Name="Version1_0"
+ Guid="993062a8-eac2-47aa-8142-c3de5c238169"
+>
+</EnumValue><EnumValue
+ Value=""
+ Name="Version1_1"
+ Guid="ff4b4932-ec70-400b-bc94-4bc6fdb7eeb7"
+>
+</EnumValue><EnumValue
+ Value=""
+ Name="Version2_0"
+ Guid="4f02a9cb-7b0d-429a-b9aa-8375217cfb0b"
+>
+</EnumValue></Values>
+</Enum></Enumerations>
+<Functions>
+<Function
+ Type="Boolean"
+ X="331"
+ Y="1"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="UsingLatestVersion"
+ Guid="9bfef3d9-c35b-4c49-ba82-23ab8abf8d69"
+>
+<ReqRef
+ Id="cf417b3a-60c6-4a9b-9943-69cfd55745eb"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9d3ca8de-f685-43ac-8fc6-1e7287cf8bed"
+>
+</ReqRef><ReqRef
+ Id="65cf2f83-07d2-4e30-90f6-1dfd657a4d74"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9f46b62f-7897-4b34-93f4-958cf77d3729"
+>
+</ReqRef><Comment>Checks the currently operated system version of the trackside in order to specify the behaviour of the on-board with respect to trackside communication.</Comment>
+<Cases>
+<Case
+ Name="Case1"
+ Guid="ad6047af-4d9a-46d2-bbcc-f649f1271e31"
+>
+<Expression>CurrentSystemVersion == SystemVersionEnum.Version2_0</Expression>
+</Case></Cases>
+</Function></Functions>
+<Variables>
+<Variable
+ Type="SystemVersionEnum"
+ VariableMode="Internal"
+ X="221"
+ Y="1"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="CurrentSystemVersion"
+ Guid="f38fba33-e3f3-49b7-b5c0-f56391747458"
+>
+<ReqRef
+ Id="cf417b3a-60c6-4a9b-9943-69cfd55745eb"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="96b5f8f1-0e16-4951-8b97-2ca41bc27a4d"
+>
+</ReqRef><ReqRef
+ Id="ab5308f4-b51c-4344-b01b-60216b72673e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e0ab83c3-e97c-4f3f-a6c6-fc12d53b5c8e"
+>
+</ReqRef><ReqRef
+ Id="65cf2f83-07d2-4e30-90f6-1dfd657a4d74"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="73e651a5-b644-4fc7-b7cc-a2ecafd1677b"
+>
+</ReqRef><Comment>The operated system version of the trackside.</Comment>
+</Variable></Variables>
+</NameSpace>
