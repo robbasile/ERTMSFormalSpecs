@@ -138,6 +138,19 @@ namespace GUI.GraphView
         }
 
         /// <summary>
+        ///     Indicates that a change event should be displayed
+        /// </summary>
+        /// <param name="modelElement"></param>
+        /// <param name="changeKind"></param>
+        /// <returns></returns>
+        protected override bool ShouldDisplayChange(IModelElement modelElement, Context.ChangeKind changeKind)
+        {
+            bool retVal = modelElement == null || DisplayedModel == null || DisplayedModel.IsParent(modelElement);
+
+            return retVal;
+        }
+
+        /// <summary>
         ///     Allows to refresh the view, when the value of a model changed
         /// </summary>
         /// <param name="modelElement"></param>
