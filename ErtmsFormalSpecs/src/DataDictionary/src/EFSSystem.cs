@@ -1045,6 +1045,25 @@ namespace DataDictionary
         }
 
         /// <summary>
+        ///     Provides the type associated to the name, if it exists.
+        ///     If it does not exist, does not raise any errors.
+        /// </summary>
+        /// <param name="nameSpace"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public Type FindType_silent(NameSpace nameSpace, string name)
+        {
+            Type retVal = null;
+
+            ModelElement.DontRaiseError(() =>
+            {
+                retVal = FindType(nameSpace, name);
+            });
+
+            return retVal;
+        }
+
+        /// <summary>
         ///     Finds a rule according to its full name
         /// </summary>
         /// <param name="fullName"></param>

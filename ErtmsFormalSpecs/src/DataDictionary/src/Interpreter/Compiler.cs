@@ -107,6 +107,12 @@ namespace DataDictionary.Interpreter
 
                 namable.ClearFullName();
 
+                Variable variable = namable as Variable;
+                if (variable != null)
+                {
+                    variable.Value = null;
+                }
+
                 base.visit(obj, visitSubNodes);
             }
 
@@ -577,16 +583,34 @@ namespace DataDictionary.Interpreter
 
         public override void visit(BaseModelElement obj, bool visitSubNodes)
         {
-            IExpressionable expressionnable = obj as IExpressionable;
-            if (expressionnable != null)
+            IExpressionable expressionable = obj as IExpressionable;
+            if (expressionable != null)
             {
                 // In case of rebuild, cleans the previously constructed tree
                 if (CurrentCompile.Rebuild)
                 {
-                    expressionnable.CleanCompilation();
+                    expressionable.CleanCompilation();
                 }
                 // Ensures that the expressionable is compiled
-                expressionnable.Compile();
+                expressionable.Compile();
+
+                Structure structure = expressionable as Structure;
+                if (structure != null)
+                {
+                    if (structure != structure.UnifiedStructure)
+                    {
+                        visit(structure.UnifiedStructure, visitSubNodes);
+                    }
+                }
+
+                Types.StateMachine stateMachine = expressionable as Types.StateMachine;
+                if (stateMachine != null)
+                {
+                    if (stateMachine != stateMachine.UnifiedStateMachine)
+                    {
+                        visit(stateMachine.UnifiedStateMachine, visitSubNodes);
+                    }
+                }
             }
 
             ITypedElement typedElement = obj as ITypedElement;

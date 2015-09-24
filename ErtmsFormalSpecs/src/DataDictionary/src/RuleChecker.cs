@@ -353,6 +353,15 @@ namespace DataDictionary
                         }
                     }
                 }
+
+                // Searches all the namespaces that are visible to this element to check for types
+                // with the same name. If any are found, adds a warning to the type.
+                Type conflictingType = EfsSystem.Instance.FindType_silent(typedElement.NameSpace, typedElement.Name);
+                if (conflictingType != null && conflictingType != typedElement)
+                {
+                    namable.AddWarning(namable.Name + " has the same name as type " + conflictingType.FullName);
+                }
+                
             }
 
             base.visit(obj, visitSubNodes);

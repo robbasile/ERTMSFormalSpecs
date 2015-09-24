@@ -12,7 +12,7 @@ namespace DataDictionary.src
         ///     The state machines taht have been combined to make the
         /// </summary>
         public List<StateMachine> MergedStateMachines;
-
+        
         /// <summary>
         ///     Constructor
         /// </summary>
@@ -22,9 +22,6 @@ namespace DataDictionary.src
             Name = stateMachine.Name;
 
             KeepAllUpdates(stateMachine);
-
-            Enclosing = MergedStateMachines[0].Enclosing;
-
             ApplyUpdates();
         }
 
@@ -40,15 +37,21 @@ namespace DataDictionary.src
             MergedStateMachines = new List<StateMachine>();
             MergedStateMachines.Add(baseStateMachine);
             MergedStateMachines.Add(updateStateMachine);
-
-            Enclosing = MergedStateMachines[0].Enclosing;
-
+            
             ApplyUpdates();
         }
 
         public override string FullName
         {
             get { return MergedStateMachines[0].FullName; }
+        }
+
+        public override object Enclosing
+        {
+            get
+            {
+                return MergedStateMachines[MergedStateMachines.Count - 1].Enclosing;
+            }
         }
 
         /// <summary>
@@ -88,9 +91,9 @@ namespace DataDictionary.src
         /// </summary>
         private void ApplyUpdates()
         {
-            foreach (StateMachine merged in MergedStateMachines)
+            foreach (StateMachine stateMachine in MergedStateMachines)
             {
-                CombineWithUpdate(merged);
+                CombineWithUpdate(stateMachine);
             }
 
             // Indicates to all the merged state machines that this is their Unified State Machine
@@ -124,25 +127,10 @@ namespace DataDictionary.src
         /// <param name="collection"></param>
         private void ApplyElementUpdate(ModelElement element, ArrayList collection)
         {
-            // Remove the redefined structure element
-            ModelElement baseElement = element.Updates;
-            if (baseElement != null)
+            // If the element was updated and not removed, replace it in the StateMachine
+            if (!element.IsRemoved && element.UpdatedBy.Count == 0)
             {
-                ArrayList temp = new ArrayList();
-                foreach (ModelElement elem in collection)
-                {
-                    if (elem.Name != baseElement.Name)
-                    {
-                        temp.Add(elem);
-                    }
-                }
-                collection = temp;
-            }
-
-            // If the element was updated and not removed, replace it in the baseStructure
-            if (!element.IsRemoved)
-            {
-                AddModelElement(element);
+                AddModelElement(element.Duplicate());
             }
         }
     }

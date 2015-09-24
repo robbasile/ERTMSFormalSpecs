@@ -273,6 +273,7 @@ namespace DataDictionary.Types
         {
             cachedValues = null;
             DeclaredElements = null;
+            UnifiedStateMachine = null;
         }
 
         /// <summary>

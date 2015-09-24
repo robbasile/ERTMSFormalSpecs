@@ -824,6 +824,7 @@ namespace DataDictionary
             finally
             {
                 factory.AutomaticallyGenerateGuid = true;
+                EfsSystem.Instance.Compiler.Compile_Synchronous(true);
             }
 
             if (efsSystem != null)

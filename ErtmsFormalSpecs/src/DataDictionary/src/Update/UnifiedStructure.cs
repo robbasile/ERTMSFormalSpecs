@@ -21,8 +21,6 @@ namespace DataDictionary.src
 
             KeepAllUpdates(structure);
 
-            Enclosing = MergedStructures[0].Enclosing;
-
             ApplyUpdates();
         }
 
@@ -39,10 +37,20 @@ namespace DataDictionary.src
             MergedStructures.Add(baseStateMachine);
             MergedStructures.Add(updateStateMachine);
 
-            Enclosing = MergedStructures[0].Enclosing;
-            setUpdates(MergedStructures[0].Guid);
-
             ApplyUpdates();
+        }
+
+        public override string FullName
+        {
+            get { return MergedStructures[MergedStructures.Count - 1].FullName; }
+        }
+
+        public override object Enclosing
+        {
+            get
+            {
+                return MergedStructures[MergedStructures.Count - 1].Enclosing;
+            }
         }
 
         /// <summary>
@@ -129,44 +137,11 @@ namespace DataDictionary.src
         /// <param name="collection">The collection in the structure that will hold the updated element</param>
         private void ApplyElementUpdate(ModelElement updateElement, ArrayList collection)
         {
-            // Remove the redefined structure element
-            ModelElement baseElement = updateElement.Updates;
-            if (baseElement != null)
-            {
-                ArrayList temp = new ArrayList();
-                foreach (ModelElement elem in collection)
-                {
-                    if (elem.Name != baseElement.Name)
-                    {
-                        temp.Add(elem);
-                    }
-                }
-                collection = temp;
-            }
-
-            // If the element was updated and not removed, replace it in the baseStructure
-            if (!updateElement.IsRemoved)
+            // If the element was not updated and is not removed
+            if (!updateElement.IsRemoved && updateElement.UpdatedBy.Count == 0)
             {
                 AddModelElement(updateElement);
             }
-        }
-
-        /// <summary>
-        ///     Redirects errors applied to this to the appropriate structure in MergedStructures
-        /// </summary>
-        /// <param name="message"></param>
-        /// <param name="failedExpectation"></param>
-        /// <returns></returns>
-        public ElementLog AddError(string message, bool failedExpectation)
-        {
-            ElementLog retVal = new ElementLog(ElementLog.LevelEnum.Error, message);
-            retVal.FailedExpectation = failedExpectation;
-
-            // Get the appropriate structure to add the error
-
-
-            AddElementLog(retVal);
-            return retVal;
         }
     }
 }
