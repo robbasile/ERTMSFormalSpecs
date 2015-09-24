@@ -38,12 +38,13 @@ namespace Importers.ExcelImporter
         public bool FillEBI;
         public bool FillSBI1;
         public bool FillSBI2;
+        public bool SetupFSMode = true;
+
 
         public bool FillWarning;
         public bool FillPermitted;
         public bool FillIndication;
         public double TargetSpeed;
-
 
         // The sheets of the workbook are:                       \\
         //                                                       \\
@@ -155,43 +156,49 @@ namespace Importers.ExcelImporter
             aSubStep.setSkipEngine(true);
             aStep.AddModelElement(aSubStep);
 
-            TestAction powerOn = new TestAction();
-            powerOn.ExpressionText = "Kernel.PowerOn <- True";
-            aSubStep.AddModelElement(powerOn);
+            if (SetupFSMode)
+            {
+                TestAction powerOn = new TestAction();
+                powerOn.ExpressionText = "Kernel.PowerOn <- True";
+                aSubStep.AddModelElement(powerOn);
 
-            TestAction modeInitialization = new TestAction();
-            modeInitialization.ExpressionText = "Kernel.Mode <- Mode.FS";
-            aSubStep.AddModelElement(modeInitialization);
+                TestAction modeInitialization = new TestAction();
+                modeInitialization.ExpressionText = "Kernel.Mode <- Mode.FS";
+                aSubStep.AddModelElement(modeInitialization);
+            }
 
             TestAction levelInitialization = new TestAction();
             levelInitialization.ExpressionText =
                 "Kernel.Level <- Kernel.LevelData\n{\n    Value => LevelDataStruct { Value => Level.L1 },\n    DataState => DataState.Valid\n}";
             aSubStep.AddModelElement(levelInitialization);
 
-            TestAction odometryInitialization = new TestAction();
-            odometryInitialization.ExpressionText = "Odometry.NominalDistance <- 0.0";
-            aSubStep.AddModelElement(odometryInitialization);
+            if (SetupFSMode)
+            {
+                TestAction odometryInitialization = new TestAction();
+                odometryInitialization.ExpressionText = "Odometry.NominalDistance <- 0.0";
+                aSubStep.AddModelElement(odometryInitialization);
 
-            TestAction LRBGInitialization = new TestAction();
-            LRBGInitialization.ExpressionText = "BTM.LRBG <- BTM.BaliseGroupStruct{\n" +
-                                                "    NID => 0,\n" +
-                                                "    Orientation => Default.Orientation.Nominal,\n" +
-                                                "    Position => BTM.Position{\n" +
-                                                "        Position => 0.0,\n" +
-                                                "        UnderReadingAmountOdo => 0.0,\n" +
-                                                "        OverReadingAmountOdo => 0.0\n" +
-                                                "    },\n" +
-                                                "    Timestamp => Default.DateAndTime{\n" +
-                                                "        Year => 2012,\n" +
-                                                "        Month => 12,\n" +
-                                                "        Day => 20,\n" +
-                                                "        Hour => 20,\n" +
-                                                "        Minute => 12,\n" +
-                                                "        Second => 20,\n" +
-                                                "        TTS => 600\n" +
-                                                "    }\n" +
-                                                "}";
-            aSubStep.AddModelElement(LRBGInitialization);
+                TestAction LRBGInitialization = new TestAction();
+                LRBGInitialization.ExpressionText = "BTM.LRBG <- BTM.BaliseGroupStruct{\n" +
+                                                    "    NID => 0,\n" +
+                                                    "    Orientation => Default.Orientation.Nominal,\n" +
+                                                    "    Position => BTM.Position{\n" +
+                                                    "        Position => 0.0,\n" +
+                                                    "        UnderReadingAmountOdo => 0.0,\n" +
+                                                    "        OverReadingAmountOdo => 0.0\n" +
+                                                    "    },\n" +
+                                                    "    Timestamp => Default.DateAndTime{\n" +
+                                                    "        Year => 2012,\n" +
+                                                    "        Month => 12,\n" +
+                                                    "        Day => 20,\n" +
+                                                    "        Hour => 20,\n" +
+                                                    "        Minute => 12,\n" +
+                                                    "        Second => 20,\n" +
+                                                    "        TTS => 600\n" +
+                                                    "    }\n" +
+                                                    "}";
+                aSubStep.AddModelElement(LRBGInitialization);
+            }
         }
 
 
@@ -645,34 +652,35 @@ namespace Importers.ExcelImporter
             //addAction(aSubStep, String.Format(CultureInfo.InvariantCulture, "INSERT\n    Kernel.TrackDescription.TrackConditions.AdhesionFactor\n    {{\n        Distance => {0:0.0},\n        Length => {1:0.0},\n        Value => Messages.M_ADHESION.Slippery_rail\n    }}\nIN\n    Kernel.TrackDescription.TrackConditions.AdhFactors", startLocation, endLocation - startLocation));
 
 
-            /* Initializing the gradient profile */
-            double gradientValue = (double) (aRange.Cells[14, 3] as Range).Value2;
-            double gradientDistance = (double) (aRange.Cells[14, 1] as Range).Value2;
-            ;
-            for (int i = 15; i <= 33; i++)
+            if (SetupFSMode)
             {
-                double temp = (double) (aRange.Cells[i, 3] as Range).Value2;
-                if (temp != gradientValue || i == 33)
+                /* Initializing the gradient profile */
+                double gradientValue = (double) (aRange.Cells[14, 3] as Range).Value2;
+                double gradientDistance = (double) (aRange.Cells[14, 1] as Range).Value2;
+                ;
+                for (int i = 15; i <= 33; i++)
                 {
-                    addAction(aSubStep,
-                        String.Format(CultureInfo.InvariantCulture,
-                            "INSERT\n    Kernel.TrackDescription.Gradient.GradientStruct\n    {{\n        Location => {0:0.0},\n        Gradient => {1:0.0}\n    }}\nIN\n    Kernel.TrackDescription.Gradient.Gradients",
-                            gradientDistance, gradientValue));
-                    gradientDistance = (double) (aRange.Cells[i, 1] as Range).Value2;
-                    gradientValue = temp;
+                    double temp = (double) (aRange.Cells[i, 3] as Range).Value2;
+                    if (temp != gradientValue || i == 33)
+                    {
+                        addAction(aSubStep,
+                            String.Format(CultureInfo.InvariantCulture,
+                                "INSERT\n    Kernel.TrackDescription.Gradient.GradientStruct\n    {{\n        Location => {0:0.0},\n        Gradient => {1:0.0}\n    }}\nIN\n    Kernel.TrackDescription.Gradient.Gradients",
+                                gradientDistance, gradientValue));
+                        gradientDistance = (double) (aRange.Cells[i, 1] as Range).Value2;
+                        gradientValue = temp;
+                    }
                 }
+
+                /* Initializing the International Static Speed Profile */
+                addAction(aSubStep,
+                    "Kernel.TrackDescription.StaticSpeedProfile.SSP <- [Kernel.TrackDescription.StaticSpeedProfile.StaticSpeedRestrictionStruct{\n" +
+                    "    Location => 0.0,\n" +
+                    "    BasicSpeed => Default.BaseTypes.Speed.MaxSpeed,\n" +
+                    "    TrainLengthDelay => Messages.Q_FRONT.No_train_length_delay_on_validity_end_point_of_profile_element,\n" +
+                    "    Categories => []\n" +
+                    "}]");
             }
-
-
-            /* Initializing the International Static Speed Profile */
-            addAction(aSubStep,
-                "Kernel.TrackDescription.StaticSpeedProfile.SSP <- [Kernel.TrackDescription.StaticSpeedProfile.StaticSpeedRestrictionStruct{\n" +
-                "    Location => 0.0,\n" +
-                "    BasicSpeed => Default.BaseTypes.Speed.MaxSpeed,\n" +
-                "    TrainLengthDelay => Messages.Q_FRONT.No_train_length_delay_on_validity_end_point_of_profile_element,\n" +
-                "    Categories => []\n" +
-                "}]");
-
 
             /* Initializing the distance EOA/SvL */
             /// TODO: => should be a part of an MA?

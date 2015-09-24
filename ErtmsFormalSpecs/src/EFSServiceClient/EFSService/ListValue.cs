@@ -19,6 +19,14 @@ namespace EFSServiceClient.EFSService
     public partial class ListValue : Value
     {
         /// <summary>
+        /// Constructor
+        /// </summary>
+        public ListValue()
+        {
+            Value = new Value[] {};
+        }
+
+        /// <summary>
         ///     Provides the display value of this value
         /// </summary>
         /// <returns></returns>
