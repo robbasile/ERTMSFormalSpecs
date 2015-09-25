@@ -643,11 +643,6 @@ namespace DataDictionary
                             }
                         }
 
-                        if (tmp == null)
-                        {
-                            AddError("Cannot find type named " + name);
-                        }
-
                         subCache[name] = tmp;
                     }
 
