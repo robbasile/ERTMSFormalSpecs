@@ -1147,30 +1147,32 @@
 <Parameters>
 <Parameter
  Type="BaseTypes.Distance"
- Name="Distance"
+ Name="aDistance"
  Guid="bc5a046b-87c3-44dc-8aa0-bbb40d6e4847"
 >
 </Parameter><Parameter
  Type="BaseTypes.Distance"
- Name="Offset"
+ Name="aOffset"
  Guid="fa8dc317-afc6-41f6-9344-11ce0c048835"
 >
 </Parameter></Parameters>
 <Cases>
 <Case
- Name="Infinity"
+ Name="Infinity or unknown"
  Guid="8eb6bb75-c09b-4f46-a5ed-6f006270ef34"
 >
 <PreConditions>
 <PreCondition
  Guid="a45877e2-2cab-458f-bab4-74893a258e4f"
->Distance == BaseTypes.Distance.Infinity</PreCondition></PreConditions>
-<Expression>BaseTypes.Distance.Infinity</Expression>
+>aDistance == Distance.Infinity
+  OR  
+aDistance == Distance.Unknown</PreCondition></PreConditions>
+<Expression>aDistance</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="c5b3cb62-f4e1-4c68-a0a2-83d8c0439499"
 >
-<Expression>Distance - Offset</Expression>
+<Expression>aDistance - aOffset</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
