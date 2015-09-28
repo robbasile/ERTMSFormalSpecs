@@ -276,6 +276,15 @@ namespace DataDictionary.Interpreter
 
             if (retVal == null)
             {
+                IVariable variable = Ref as IVariable;
+                if (variable != null)
+                {
+                    retVal = variable.Value;
+                }
+            }
+
+            if (retVal == null)
+            {
                 InterpretationContext ctxt = new InterpretationContext(context);
                 foreach (Expression expression in Arguments)
                 {
