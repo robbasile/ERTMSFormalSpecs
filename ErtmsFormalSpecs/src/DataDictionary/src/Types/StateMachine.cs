@@ -273,7 +273,6 @@ namespace DataDictionary.Types
         {
             cachedValues = null;
             DeclaredElements = null;
-            UnifiedStateMachine = null;
         }
 
         /// <summary>
@@ -346,7 +345,7 @@ namespace DataDictionary.Types
         /// <param name="retVal"></param>
         public void Find(string name, List<INamable> retVal)
         {
-            ISubDeclaratorUtils.Find(this, name, retVal);
+            ISubDeclaratorUtils.Find(UnifiedStateMachine, name, retVal);
         }
 
         /// <summary>
@@ -765,31 +764,58 @@ namespace DataDictionary.Types
             return retVal;
         }
 
-        /// <summary>
-        ///     The combination of this state machine with its updates and updated elements
-        /// </summary>
-        private StateMachine _unifiedStateMachine;
 
-        public StateMachine UnifiedStateMachine
+        /// <summary>
+        /// Computes the unified state machine according to the update information
+        /// </summary>
+        public void ComputeUnifiedStateMachine()
         {
-            get
+            if (Updates != null || UpdatedBy.Count > 0)
             {
-                if (_unifiedStateMachine == null)
+                State state = null;
+                StateMachine source;
+                if (EnclosingStateMachine == null)
                 {
-                    if (Updates != null || UpdatedBy.Count > 0)
+                    source = (StateMachine) SourceOfUpdateChain;
+                }
+                else
+                {
+                    EnclosingStateMachine.ComputeUnifiedStateMachine();
+                    StateMachine enclosingUnifiedStateMachine = EnclosingStateMachine.UnifiedStateMachine;
+                    state = enclosingUnifiedStateMachine.FindState(EnclosingState.Name);
+                    source = state.StateMachine;
+                }
+
+                UnifiedStateMachine stateMachine = source.UnifiedStateMachine as UnifiedStateMachine;
+                if (stateMachine == null)
+                {
+                    // First time the state machine is unified, create the unified state machine
+                    source.UnifiedStateMachine = new UnifiedStateMachine(this);
+                    if (state != null)
                     {
-                        _unifiedStateMachine = new UnifiedStateMachine(this);
+                        source.UnifiedStateMachine.setFather(state);
                     }
-                    else
+                }
+                else
+                {
+                    if (this == SourceOfUpdateChain)
                     {
-                        _unifiedStateMachine = this;
+                        stateMachine.Rebuild(source);
                     }
                 }
 
-                return _unifiedStateMachine;
+                UnifiedStateMachine = source.UnifiedStateMachine;
             }
-            set { _unifiedStateMachine = value; }
+            else
+            {
+                UnifiedStateMachine = this;
+            }
         }
+
+        /// <summary>
+        ///     The combination of this state machine with its updates and updated elements
+        /// </summary>
+        public StateMachine UnifiedStateMachine { get; protected set; }
         
         /// <summary>
         ///     Indicates if the element holds messages, or is part of a path to a message
@@ -801,7 +827,7 @@ namespace DataDictionary.Types
                 MessageInfoEnum retVal;
 
                 StateMachine unifiStateMachine = UnifiedStateMachine;
-                if (unifiStateMachine != this)
+                if (unifiStateMachine != null && unifiStateMachine != this)
                 {
                     retVal = unifiStateMachine.MessagePathInfo;
                 }
@@ -815,7 +841,7 @@ namespace DataDictionary.Types
             set
             {
                 StateMachine unifiStateMachine = UnifiedStateMachine;
-                if (unifiStateMachine != this)
+                if (unifiStateMachine != null && unifiStateMachine != this)
                 {
                     unifiStateMachine.MessagePathInfo = value;
                 }
@@ -833,7 +859,7 @@ namespace DataDictionary.Types
         public override void AddElementLog(ElementLog log)
         {
             StateMachine unifiStateMachine = UnifiedStateMachine;
-            if (unifiStateMachine != this)
+            if (unifiStateMachine != null && unifiStateMachine != this)
             {
                 unifiStateMachine.AddElementLog(log);
             }
@@ -853,7 +879,7 @@ namespace DataDictionary.Types
                 List<ElementLog> retVal;
 
                 StateMachine unifiStateMachine = UnifiedStateMachine;
-                if (unifiStateMachine != this)
+                if (unifiStateMachine != null && unifiStateMachine != this)
                 {
                     retVal = unifiStateMachine.Messages;
                 }
@@ -995,7 +1021,8 @@ namespace DataDictionary.Types
 
                 if (retVal != null && retVal.getStateMachine() != null && retVal.getStateMachine().countStates() > 0)
                 {
-                    retVal = (State) retVal.getStateMachine().DefaultValue;
+                    StateMachine stateMachine = (StateMachine) retVal.getStateMachine();
+                    retVal = (State) stateMachine.UnifiedStateMachine.DefaultValue;
                 }
 
                 return retVal;

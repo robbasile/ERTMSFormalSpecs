@@ -18,26 +18,9 @@ namespace DataDictionary.src
         public UnifiedStructure(Structure structure)
         {
             Name = structure.Name;
+            UnifiedStructure = this;
 
-            KeepAllUpdates(structure);
-
-            ApplyUpdates();
-        }
-
-        /// <summary>
-        ///     Constructor for merging
-        /// </summary>
-        /// <param name="baseStateMachine"></param>
-        /// <param name="updateStateMachine"></param>
-        public UnifiedStructure(Structure baseStateMachine, Structure updateStateMachine)
-        {
-            Name = updateStateMachine.Name;
-
-            MergedStructures = new List<Structure>();
-            MergedStructures.Add(baseStateMachine);
-            MergedStructures.Add(updateStateMachine);
-
-            ApplyUpdates();
+            Rebuild(structure);
         }
 
         public override string FullName
@@ -58,7 +41,7 @@ namespace DataDictionary.src
         ///     then adds all structures updating it, as long as there is only one update per structure
         /// </summary>
         /// <param name="structure"></param>
-        private void KeepAllUpdates(Structure structure)
+        public void Rebuild(Structure structure)
         {
             MergedStructures = new List<Structure>();
 
@@ -84,6 +67,8 @@ namespace DataDictionary.src
                     current = null;
                 }
             }
+
+            ApplyUpdates();
         }
 
         /// <summary>
@@ -91,6 +76,11 @@ namespace DataDictionary.src
         /// </summary>
         private void ApplyUpdates()
         {
+            Elements.Clear();
+            Procedures.Clear();
+            StateMachines.Clear();
+            Rules.Clear();
+            
             foreach (Structure merged in MergedStructures)
             {
                 CombineWithUpdate(merged);

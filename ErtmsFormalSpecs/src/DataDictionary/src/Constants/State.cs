@@ -189,7 +189,7 @@ namespace DataDictionary.Constants
                     retVal = retVal.EnclosingStateMachine;
                 }
 
-                return retVal;
+                return retVal.UnifiedStateMachine;
             }
             set { }
         }

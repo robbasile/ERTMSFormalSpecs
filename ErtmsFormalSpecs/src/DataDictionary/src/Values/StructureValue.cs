@@ -33,7 +33,23 @@ namespace DataDictionary.Values
         /// </summary>
         public Structure Structure
         {
-            get { return Type as Structure; }
+            get
+            {
+                Structure retVal = (Structure) base.Type;
+
+                retVal = retVal.UnifiedStructure;
+
+                return retVal;
+            }
+        }
+
+        /// <summary>
+        /// Gets the unified structure as type
+        /// </summary>
+        public override Types.Type Type
+        {
+            get { return Structure; }
+            set { base.Type = value; }
         }
 
         /// <summary>

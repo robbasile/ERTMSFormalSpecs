@@ -113,7 +113,7 @@ namespace DataDictionary.Values
         /// <summary>
         ///     The type of the element
         /// </summary>
-        public Type Type { get; set; }
+        public virtual Type Type { get; set; }
 
         /// <summary>
         ///     Provides the mode of the typed element

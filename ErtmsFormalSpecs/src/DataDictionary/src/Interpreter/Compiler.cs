@@ -25,6 +25,7 @@ using Utils;
 using XmlBooster;
 using Function = DataDictionary.Functions.Function;
 using NameSpace = DataDictionary.Types.NameSpace;
+using StateMachine = DataDictionary.Types.StateMachine;
 using Structure = DataDictionary.Types.Structure;
 using StructureElement = DataDictionary.Types.StructureElement;
 using Type = DataDictionary.Types.Type;
@@ -172,6 +173,55 @@ namespace DataDictionary.Interpreter
                         base.visit(obj, visitSubNodes);
                     }
                 }
+            }
+        }
+
+        /// <summary>
+        ///     Creates the unified state machines and structures according to the update information
+        /// </summary>
+        public class Unify : Generated.Visitor
+        {
+            /// <summary>
+            ///     Constructor
+            /// </summary>
+            public Unify()
+            {
+                foreach (Dictionary dictionary in EfsSystem.Instance.Dictionaries)
+                {
+                    visit(dictionary, true);
+                }
+            }
+
+            /// <summary>
+            ///     Creates the unified structure
+            /// </summary>
+            /// <param name="obj"></param>
+            /// <param name="visitSubNodes"></param>
+            public override void visit(Generated.Structure obj, bool visitSubNodes)
+            {
+                Structure structure = obj as Structure;
+                if (structure != null)
+                {
+                    structure.ComputeUnifiedStructure();
+                }
+
+                base.visit(obj, visitSubNodes);
+            }
+
+            /// <summary>
+            ///     Creates the unified state machine
+            /// </summary>
+            /// <param name="obj"></param>
+            /// <param name="visitSubNodes"></param>
+            public override void visit(Generated.StateMachine obj, bool visitSubNodes)
+            {
+                StateMachine stateMachine = obj as StateMachine;
+                if (stateMachine != null)
+                {
+                    stateMachine.ComputeUnifiedStateMachine();
+                }
+
+                base.visit(obj, visitSubNodes);
             }
         }
 
@@ -498,6 +548,9 @@ namespace DataDictionary.Interpreter
                     // Create the update information
                     FindUpdates findUpdates = new FindUpdates();
 
+                    // Unifies the state machines and structure according to the update information
+                    Unify unify = new Unify();
+
                     // Compiles each expression and each statement encountered in the nodes
                     foreach (Dictionary dictionary in EfsSystem.Instance.Dictionaries)
                     {
@@ -627,7 +680,10 @@ namespace DataDictionary.Interpreter
         {
             Namable namable = (Namable)obj;
 
-            namable.ClearFullName();
+            if (namable != null)
+            {
+                namable.ClearFullName();
+            }
 
             base.visit(obj, visitSubNodes);
         }

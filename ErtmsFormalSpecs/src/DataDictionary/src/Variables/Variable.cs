@@ -286,32 +286,21 @@ namespace DataDictionary.Variables
             set
             {
                 setTypeName(value);
-                _type = null;
                 _value = null;
-
-                // Ensure types and typename are synchronized
-                _type = Type;
             }
         }
 
         /// <summary>
         ///     The type associated to this variable
         /// </summary>
-        private Type _type;
-
         public Type Type
         {
             get
             {
-                if (_type == null)
-                {
-                    _type = EFSSystem.FindType(NameSpace, getTypeName());
-                }
-                return _type;
+                return EFSSystem.FindType(NameSpace, getTypeName());
             }
             set
             {
-                _type = value;
                 if (value != null)
                 {
                     setTypeName(value.FullName);
@@ -580,14 +569,6 @@ namespace DataDictionary.Variables
             nameSpace.appendVariables(retVal);
 
             return retVal;
-        }
-
-        public override void ClearCache()
-        {
-            base.ClearCache();
-
-            // Remove the cached type
-            _type = null;
         }
 
         /// <summary>

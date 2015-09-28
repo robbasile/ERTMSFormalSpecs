@@ -142,12 +142,6 @@ namespace DataDictionary.Types
             }
         }
 
-        public override void ClearCache()
-        {
-            base.ClearCache();
-            _unifiedStructure = null;
-        }
-
         /// <summary>
         ///     Initialises the declared elements
         /// </summary>
@@ -182,7 +176,7 @@ namespace DataDictionary.Types
         /// <param name="retVal"></param>
         public void Find(string name, List<INamable> retVal)
         {
-            ISubDeclaratorUtils.Find(this, name, retVal);
+            ISubDeclaratorUtils.Find(UnifiedStructure, name, retVal);
         }
 
         /// <summary>
@@ -543,34 +537,33 @@ namespace DataDictionary.Types
         }
 
         /// <summary>
-        ///     The unified structure of this with its updates and updated structures
+        /// Computes the unified structure according to the update information
         /// </summary>
-        private Structure _unifiedStructure;
+        public void ComputeUnifiedStructure()
+        {
+            if (Updates != null || UpdatedBy.Count > 0)
+            {
+                UnifiedStructure structure = UnifiedStructure as UnifiedStructure;
+                if (structure == null)
+                {
+                    // This is the first time the unified structure is built for this element
+                    UnifiedStructure = new UnifiedStructure(this);
+                }
+                else
+                {
+                    structure.Rebuild(this);
+                }
+            }
+            else
+            {
+                UnifiedStructure = this;
+            }            
+        }
 
         /// <summary>
-        ///     Creates a structure that is the combination of this and the updating structure (if there is only one)
+        ///     The unified structure of this with its updates and updated structures
         /// </summary>
-        /// <returns>A combination of this structure and its update</returns>
-        public Structure UnifiedStructure
-        {
-            get
-            {
-                if (_unifiedStructure == null)
-                {
-                    if (Updates != null || UpdatedBy.Count > 0)
-                    {
-                        _unifiedStructure = new UnifiedStructure(this);
-                    }
-                    else
-                    {
-                        _unifiedStructure = this;
-                    }
-                }
-
-                return _unifiedStructure;
-            }
-            set { _unifiedStructure = value; }
-        }
+        public Structure UnifiedStructure { get; protected set; }
 
         /// <summary>
         ///     Checks that the proposed new value for the unified structure used this and, in that case,

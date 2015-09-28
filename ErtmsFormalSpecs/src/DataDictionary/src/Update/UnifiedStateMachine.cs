@@ -20,25 +20,8 @@ namespace DataDictionary.src
         public UnifiedStateMachine(StateMachine stateMachine)
         {
             Name = stateMachine.Name;
-
-            KeepAllUpdates(stateMachine);
-            ApplyUpdates();
-        }
-
-        /// <summary>
-        ///     Constructor for merging
-        /// </summary>
-        /// <param name="baseStateMachine"></param>
-        /// <param name="updateStateMachine"></param>
-        public UnifiedStateMachine(StateMachine baseStateMachine, StateMachine updateStateMachine)
-        {
-            Name = updateStateMachine.Name;
-
-            MergedStateMachines = new List<StateMachine>();
-            MergedStateMachines.Add(baseStateMachine);
-            MergedStateMachines.Add(updateStateMachine);
-            
-            ApplyUpdates();
+            UnifiedStateMachine = this;
+            Rebuild(stateMachine);
         }
 
         public override string FullName
@@ -55,21 +38,15 @@ namespace DataDictionary.src
         }
 
         /// <summary>
-        ///     Adds all state machines in the update chain to MergedStateMachines
+        ///     Rebuilds the unified state machine according to the update information
         /// </summary>
         /// <param name="stateMachine"></param>
-        private void KeepAllUpdates(StateMachine stateMachine)
+        public void Rebuild(StateMachine stateMachine)
         {
             MergedStateMachines = new List<StateMachine>();
 
             // Find the base state machine
-            StateMachine current = stateMachine;
-            StateMachine next = current.Updates as StateMachine;
-            while (next != null)
-            {
-                current = next;
-                next = current.Updates as StateMachine;
-            }
+            StateMachine current = (StateMachine) stateMachine.SourceOfUpdateChain;
 
             // current is now the state machine at the start of the update chain
             while (current != null)
@@ -84,6 +61,8 @@ namespace DataDictionary.src
                     current = null;
                 }
             }
+
+            ApplyUpdates();
         }
 
         /// <summary>
@@ -91,6 +70,9 @@ namespace DataDictionary.src
         /// </summary>
         private void ApplyUpdates()
         {
+            States.Clear();
+            Rules.Clear();
+
             foreach (StateMachine stateMachine in MergedStateMachines)
             {
                 CombineWithUpdate(stateMachine);
