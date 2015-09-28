@@ -1709,13 +1709,34 @@ MAP Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.Items | Ker
  Guid="63b462dd-77eb-421b-b645-7b971238f6ec"
 >Out_SpeedAndDistanceMonitoringSupervisionStatus.OutputInformation.DisplayRequested</PreCondition><PreCondition
  Guid="7488f13c-8a6e-4cf8-8931-dd021c1574b6"
->Kernel.ActiveFunctions.SuperviseTrainSpeed_All_Information()</PreCondition></PreConditions>
+>Kernel.ActiveFunctions.SuperviseTrainSpeed()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="975c42a9-7e96-48dd-99bb-ee51294679d3"
+>Out_SpeedAndDistanceMonitoringSupervisionStatus.Monitoring &lt;- Kernel.SpeedAndDistanceMonitoring.GetMonitoringType()</Action></Actions>
+<SubRules>
+<Rule
+ Name="Supervision status"
+ Guid="8171cd94-3e59-4a00-80f1-3380eee440ee"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Name="Supervision status"
+ Guid="d0f0fcb7-5391-4630-8c69-1cca5eadc7b1"
+>
+<PreConditions>
+<PreCondition
+ Guid="89cd0054-9af3-47d8-80b7-81415366f8b8"
+>Kernel.ActiveFunctions.SuperviseTrainSpeed_All_Information()
+  OR  
+Kernel.ActiveFunctions.SuperviseTrainSpeed_MRSP_DistInSRMode()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="ff5f5c50-07e9-4fef-b3f1-354e16f8124b"
->Out_SpeedAndDistanceMonitoringSupervisionStatus.SupervisionStatus &lt;- Kernel.SpeedAndDistanceMonitoring.SupervisionStatus()</Action><Action
- Guid="975c42a9-7e96-48dd-99bb-ee51294679d3"
->Out_SpeedAndDistanceMonitoringSupervisionStatus.Monitoring &lt;- Kernel.SpeedAndDistanceMonitoring.GetMonitoringType()</Action></Actions>
+>Out_SpeedAndDistanceMonitoringSupervisionStatus.SupervisionStatus &lt;- Kernel.SpeedAndDistanceMonitoring.SupervisionStatus()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></SubRules>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="UpdateOUT"
