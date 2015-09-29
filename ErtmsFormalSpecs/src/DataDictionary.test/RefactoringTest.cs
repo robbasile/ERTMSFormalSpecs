@@ -145,6 +145,7 @@ namespace DataDictionary.test
             NameSpace n2 = CreateNameSpace(n0, "N2");
 
             Refactor(n2, "NewN2");
+            Assert.AreEqual(stataMachine, el1.Type);
             Assert.AreEqual("StateMachine", el1.TypeName);
         }
 
@@ -404,25 +405,24 @@ namespace DataDictionary.test
         /// This is related to bug 669
         /// </summary>
         [Test]
-        public void TestChangeEnumerationName()
+        public void TestBugReport669()
         {
             Dictionary dictionary = CreateDictionary("Test");
             NameSpace nameSpace1 = CreateNameSpace(dictionary, "N1");
 
             Enum enumeration = CreateEnum(nameSpace1, "Mode");
-            EnumValue e1 = CreateEnumValue(enumeration, "E1");
-            EnumValue e2 = CreateEnumValue(enumeration, "E2");
+            Enum enum2 = CreateEnum(enumeration, "M");
 
             Structure structure = CreateStructure(nameSpace1, "Struct");
-            StructureElement element = CreateStructureElement(structure, "E", "Mode");
+            StructureElement element = CreateStructureElement(structure, "E", "Mode.M");
 
-            Function function = CreateFunction(nameSpace1, "F", "Mode");
+            Function function = CreateFunction(nameSpace1, "F", "Mode.M");
 
             Refactor(enumeration, "ModeEnum");
 
-            Assert.AreEqual(element.Type, enumeration);
-            Assert.AreEqual(element.TypeName, "ModeEnum");
-            Assert.AreEqual(function.TypeName, "ModeEnum");
+            Assert.AreEqual(element.Type, enum2);
+            Assert.AreEqual(element.TypeName, "ModeEnum.M");
+            Assert.AreEqual(function.TypeName, "ModeEnum.M");
         }
 
     }

@@ -656,7 +656,7 @@ namespace DataDictionary.Interpreter
                     }
                 }
 
-                Types.StateMachine stateMachine = expressionable as Types.StateMachine;
+                StateMachine stateMachine = expressionable as StateMachine;
                 if (stateMachine != null)
                 {
                     if (stateMachine != stateMachine.UnifiedStateMachine)
@@ -671,6 +671,12 @@ namespace DataDictionary.Interpreter
             {
                 // Ensures that the type of the corresponding element is cached
                 Type type = typedElement.Type;
+            }
+
+            Function function = obj as Function;
+            if (function != null)
+            {
+                Type returnType = function.ReturnType;
             }
 
             base.visit(obj, visitSubNodes);
@@ -722,32 +728,39 @@ namespace DataDictionary.Interpreter
         {
             if (user != null)
             {
-                ModelElement enclosing = EnclosingFinder<NameSpace>.find(user, true);
                 try
                 {
-                    Function userFunction = user as Function;
-                    if ((user.Type == element))
+                    ModelElement enclosing = EnclosingFinder<NameSpace>.find(user, true);
+
+                    Function function = user as Function;
+                    if (function != null)
                     {
-                        string newName = element.ReferenceName(enclosing);
-                        user.TypeName = newName;
-                    }
-                    else if (userFunction != null && userFunction.ReturnType == element)
-                    {
-                        userFunction.ReturnType = element as Type;
-                    }
-                    else if (element is NameSpace)
-                    {
-                        string newName;
-                        Function function = user as Function;
-                        if (function != null)
+                        bool refactor = false;
+                        Type current = function.ReturnType;
+                        while (current != null && !refactor)
                         {
-                            newName = function.ReturnType.ReferenceName(user as ModelElement);
-                            user.TypeName = newName;
+                            refactor = current == element;
+                            current = EnclosingFinder<Type>.find(current);
                         }
-                        else
+
+                        if (refactor)
                         {
-                            newName = user.Type.ReferenceName(user as ModelElement);
-                            user.TypeName = newName;
+                            function.TypeName = function.ReturnType.ReferenceName(enclosing);
+                        }
+                    }
+                    else
+                    {
+                        bool refactor = false;
+                        Type current = user.Type;
+                        while (current != null && !refactor)
+                        {
+                            refactor = current == element;
+                            current = EnclosingFinder<Type>.find(current);
+                        }
+
+                        if (refactor)
+                        {
+                            user.TypeName = user.Type.ReferenceName(enclosing);
                         }
                     }
                 }

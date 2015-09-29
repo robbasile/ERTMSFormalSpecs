@@ -94,7 +94,10 @@ namespace DataDictionary.Types
         /// </summary>
         public string TypeName
         {
-            get { return getTypeName(); }
+            get
+            {
+                return getTypeName();
+            }
             set
             {
                 Type = null;

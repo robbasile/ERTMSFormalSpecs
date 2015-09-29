@@ -260,6 +260,22 @@ namespace DataDictionary.test
         }
 
         /// <summary>
+        ///     Creates an enum in the namespace provided
+        /// </summary>
+        /// <param name="enclosing"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        protected Enum CreateEnum(Enum enclosing, string name)
+        {
+            Enum retVal = (Enum)Factory.createEnum();
+
+            enclosing.appendSubEnums(retVal);
+            retVal.Name = name;
+
+            return retVal;
+        }
+
+        /// <summary>
         ///     Creates an range in the namespace provided
         /// </summary>
         /// <param name="enclosing"></param>

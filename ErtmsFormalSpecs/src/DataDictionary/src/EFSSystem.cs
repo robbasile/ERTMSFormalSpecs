@@ -1239,19 +1239,24 @@ namespace DataDictionary
                 ModelElement modelElement = element as ModelElement;
                 if (modelElement != null)
                 {
-                    if (Model != null)
+                    Type current = element.Type;
+                    while (current != null)
                     {
-                        if ((element.Type == Model) && (element != Model))
+                        if (Model != null)
                         {
-                            Usages.Add(new Usage(Model, modelElement, Usage.ModeEnum.Type));
+                            if ((current == Model) && (element != Model))
+                            {
+                                Usages.Add(new Usage(Model, modelElement, Usage.ModeEnum.Type));
+                            }
                         }
-                    }
-                    else
-                    {
-                        if (Filter.AcceptableChoice(element.Type))
+                        else
                         {
-                            Usages.Add(new Usage(element.Type, modelElement, Usage.ModeEnum.Type));
+                            if (Filter.AcceptableChoice(current))
+                            {
+                                Usages.Add(new Usage(element.Type, modelElement, Usage.ModeEnum.Type));
+                            }
                         }
+                        current = EnclosingFinder<Type>.find(current);
                     }
                 }
             }
@@ -1278,9 +1283,14 @@ namespace DataDictionary
                 Function function = obj as Function;
                 if (function != null)
                 {
-                    if (function.ReturnType == Model && function != Model)
+                    Type current = function.ReturnType;
+                    while (current != null)
                     {
-                        Usages.Add(new Usage(element.Type, function, Usage.ModeEnum.Type));
+                        if (current == Model && function != Model)
+                        {
+                            Usages.Add(new Usage(Model, function, Usage.ModeEnum.Type));
+                        }
+                        current = EnclosingFinder<Type>.find(current);
                     }
                 }
 
@@ -1346,7 +1356,7 @@ namespace DataDictionary
                 retVal = visitor.Usages;
                 foreach (Usage usage in retVal)
                 {
-                    // It has not been provent that it is something else than Read
+                    // It has not been proven that it is something else than Read
                     // Let's consider it is read
                     if (usage.Mode == null)
                     {
