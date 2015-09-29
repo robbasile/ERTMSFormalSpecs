@@ -212,6 +212,45 @@
 >THIS.InputInformation.Disable()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
+</Procedure><Procedure
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="ProvideDriverResponse"
+ Guid="97b93081-2e51-4c90-980b-f1b9cfe67821"
+>
+<Comment>Provides the response from the driver.</Comment>
+<Parameters>
+<Parameter
+ Type="LevelDataStruct"
+ Name="aLevel"
+ Guid="57e95800-d8f8-4fe7-b4f6-d7ad4c67fe4e"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="6ad426b3-034f-4f76-b816-317bc3f03c7d"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="69bf02e0-5bb6-445a-827c-5febfa8e2b74"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="cf9f92b5-bff5-4ec6-a7e5-15e4c70296ed"
+>InputInformation.RequestStatus &lt;- Request.Response</Action><Action
+ Guid="8d8339a2-3bb0-45cb-a845-e68bcc0a597c"
+>Level &lt;- aLevel</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
  TypeName="DMI.InputInformation"
@@ -371,6 +410,45 @@
 >THIS.InputInformation.DriverAnswered &lt;- False</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
+</Procedure><Procedure
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="ProvideDriverResponse"
+ Guid="aa466800-7314-4923-94d0-5f9a80273417"
+>
+<Comment>Provides the response from the driver.</Comment>
+<Parameters>
+<Parameter
+ Type="LanguageEnum"
+ Name="aLanguage"
+ Guid="a4e8cf13-2a82-451f-9649-9ef101046844"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="dc991dcb-9334-47c5-b1a2-f7a8342f0ada"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="f044c161-7c51-491d-bf3d-8240ab7eabfb"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="25c9b495-4882-4346-a3ad-3b304df7494d"
+>InputInformation.RequestStatus &lt;- Request.Response</Action><Action
+ Guid="f74cd7e4-5b73-40e6-8847-9d587fdbb5b2"
+>SelectedLanguage &lt;- aLanguage</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
  TypeName="DMI.InputInformation"
@@ -510,6 +588,45 @@
 >THIS.InputInformation.InitiateRequest()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
+</Procedure><Procedure
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="ProvideDriverResponse"
+ Guid="65fdcbc5-3f04-44e8-8336-9ef01f86de48"
+>
+<Comment>Provides the response from the driver.</Comment>
+<Parameters>
+<Parameter
+ Type="Messages.M_ADHESION"
+ Name="anAdhesionFactor"
+ Guid="b8eed1f8-faec-4c55-9c98-3ef0322f1b84"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="82f95306-7971-4620-93a0-157b2253becb"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="92c36337-5ee6-4458-9947-6e920bc64bdb"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="af0b9196-9875-44c8-91a7-6d7c0d2dae74"
+>InputInformation.RequestStatus &lt;- Request.Response</Action><Action
+ Guid="ab98ec26-f1f4-49be-a8bf-4a1a89b21731"
+>AdhesionFactor &lt;- anAdhesionFactor</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
  TypeName="DMI.InputInformation"
@@ -524,12 +641,12 @@
 </StructureElement><StructureElement
  TypeName="Messages.M_ADHESION"
  Default="Messages.M_ADHESION.Non_slippery_rail"
- Mode="Internal"
+ Mode="Incoming"
  Implemented="TRUE"
  Name="AdhesionFactor"
  Guid="bd7c1c78-a4f9-4a2e-b140-57e653004e0c"
 >
-<Comment>The adhesion factor to acknowledge</Comment>
+<Comment>The adhesion factor provided by the driver.</Comment>
 </StructureElement></Structure><Structure
  Default=""
  X="120"
@@ -653,6 +770,45 @@
 >THIS.InputInformation.Disable()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
+</Procedure><Procedure
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="ProvideDriverResponse"
+ Guid="883c9628-05d9-4ec9-b526-d887643e064b"
+>
+<Comment>Provides the response from the driver.</Comment>
+<Parameters>
+<Parameter
+ Type="TIU.TrainIntegrityStruct"
+ Name="aTrainIntegrity"
+ Guid="d181da22-dd62-4ae1-b00d-6521c680e47b"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="414c476c-5eac-4f78-950a-4004a0418258"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="e8fc358f-7076-4782-a1c4-d9a01b53e456"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="def527b0-ac9b-443e-999a-b78f50b28b49"
+>InputInformation.RequestStatus &lt;- Request.Response</Action><Action
+ Guid="11eeccf7-bd1c-4339-87b3-520799247176"
+>TrainIntegrity &lt;- aTrainIntegrity</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
  TypeName="DMI.InputInformation"
@@ -673,7 +829,7 @@
  Name="TrainIntegrity"
  Guid="7d113479-00d2-4090-9fc7-875ef7b4a06b"
 >
-<Comment>Indicates that the train integrity is OK</Comment>
+<Comment>Indicates that the train integrity is OK.</Comment>
 </StructureElement></Structure><Structure
  Default=""
  X="340"
@@ -791,6 +947,36 @@
 >THIS.InputInformation.InitiateRequest()</Action><Action
  Guid="0f34b550-7ff5-4d4e-810c-c763f992fb9c"
 >THIS.InputInformation.DriverAnswered &lt;- False</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="ProvideDriverResponse"
+ Guid="15ab4a89-eace-42cc-a116-6567e19b4778"
+>
+<Comment>Provides the response from the driver.</Comment>
+<Rules>
+<Rule
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="38da7a62-ad48-4298-a647-c40f3ce4c76f"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="2515d079-0c0b-447b-b541-5be7f8a504fa"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="a4b97cb6-90df-4717-b40f-9383451313a0"
+>InputInformation.RequestStatus &lt;- Request.Response</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
@@ -931,6 +1117,36 @@
 >InputInformation.DriverAnswered &lt;- False</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
+</Procedure><Procedure
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="ProvideDriverResponse"
+ Guid="731b057e-e7df-4d1f-82b3-d39088cc6f17"
+>
+<Comment>Provides the response from the driver.</Comment>
+<Rules>
+<Rule
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="7bfcf4de-e6b5-4bfc-b8d1-bbdab02c8d01"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="7adcfaf0-53a7-458a-925f-9af62a476770"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="7dd320ce-d17b-466e-82bd-94a1e2ca3052"
+>InputInformation.RequestStatus &lt;- Request.Response</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
  TypeName="DMI.InputInformation"
@@ -1062,6 +1278,36 @@
 >THIS.InputInformation.DriverAnswered &lt;- False</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
+</Procedure><Procedure
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="ProvideDriverResponse"
+ Guid="b9ecba3c-9f72-4185-91c6-1cbedd32694d"
+>
+<Comment>Provides the response from the driver.</Comment>
+<Rules>
+<Rule
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="f98c76ff-3575-499a-bb64-14683ed81d64"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="a1259645-73ff-49cc-aaa2-352812bce902"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="b7f6b46b-5fdc-4bb9-9ec4-eaefb793402b"
+>InputInformation.RequestStatus &lt;- Request.Response</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
  TypeName="DMI.InputInformation"
@@ -1188,6 +1434,36 @@
 <Action
  Guid="912099d4-fdb7-4b7a-9756-1a9ea3b8d961"
 >THIS.InputInformation.InitiateRequest()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="ProvideDriverResponse"
+ Guid="4b54c9a4-4d50-4f7d-b33b-d057091f3d2b"
+>
+<Comment>Provides the response from the driver.</Comment>
+<Rules>
+<Rule
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="2ecf42e2-4c84-4a12-a6fe-b1e797a2bc77"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="dd2c5e17-ab80-4c8c-b928-7773a6fb28af"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="90ef9854-e1d2-494d-a188-f994e8b19b57"
+>InputInformation.RequestStatus &lt;- Request.Response</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
@@ -1344,6 +1620,36 @@
 >THIS.InputInformation.InitiateRequest()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
+</Procedure><Procedure
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="ProvideDriverResponse"
+ Guid="1a2d16c2-572d-4269-b683-50e5addaecdb"
+>
+<Comment>Provides the response from the driver.</Comment>
+<Rules>
+<Rule
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="94c56afb-8996-417b-9fe2-43aaaa3d3e41"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="635e7895-25c6-4057-ade2-838a06b49ad3"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="3ec8de7a-a4f5-4fde-a6f4-835ac030a398"
+>InputInformation.RequestStatus &lt;- Request.Response</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
  TypeName="DMI.InputInformation"
@@ -1472,6 +1778,36 @@
 >THIS.InputInformation.InitiateRequest()</Action><Action
  Guid="1df2a125-8ea7-47f5-96e7-fc02e17e674d"
 >THIS.InputInformation.DriverAnswered &lt;- False</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="ProvideDriverResponse"
+ Guid="762172be-295f-4593-853c-da2442397516"
+>
+<Comment>Provides the response from the driver.</Comment>
+<Rules>
+<Rule
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="ca5c18d7-11a7-4a54-adc1-ac4839ccdfaa"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="5b57f5e9-095e-4b1f-9ffc-75b283535ac0"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="9dff4018-5caf-4f00-be84-a88bd37cf26b"
+>InputInformation.RequestStatus &lt;- Request.Response</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
@@ -1614,6 +1950,36 @@
   aText =&gt; text,
   aLevel =&gt; EMPTY
 )</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="ProvideDriverResponse"
+ Guid="3d37ae7b-cbb5-4e33-b18c-9414988d8d0d"
+>
+<Comment>Provides the response from the driver.</Comment>
+<Rules>
+<Rule
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="2fcc9dba-dfaf-4421-bb5e-0c5ee2833630"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="913b3b35-af26-43d3-a839-da70f5688334"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="3b9b1ec6-b009-45e0-98e8-bd583f0c8723"
+>InputInformation.RequestStatus &lt;- Request.Response</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
@@ -1856,6 +2222,36 @@
 >StartTime &lt;- Kernel.DateAndTime.CurrentTime</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
+</Procedure><Procedure
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="ProvideDriverResponse"
+ Guid="a143585b-5fcc-4364-ba18-a0565f309a9d"
+>
+<Comment>Provides the response from the driver.</Comment>
+<Rules>
+<Rule
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="cb5462a7-675f-4a6f-96c8-4ad157258e4a"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="41d787de-52fd-4c1f-93cd-e074313ff42f"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="508029e7-5464-45cb-a2af-c601c8bf7460"
+>InputInformation.RequestStatus &lt;- Request.Response</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
  TypeName="DMI.InputInformation"
@@ -2021,6 +2417,36 @@
 )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
+</Procedure><Procedure
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="ProvideDriverResponse"
+ Guid="7c51f230-cb03-4960-8acf-f1cb4b0339b7"
+>
+<Comment>Provides the response from the driver.</Comment>
+<Rules>
+<Rule
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="6b64a57f-e3d8-4857-8542-0e3d3be166f5"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="0c40ba05-6aab-4c01-b417-63afa62ef2eb"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="9468b633-1a67-4e8e-955c-bc925b7d6e07"
+>InputInformation.RequestStatus &lt;- Request.Response</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
  TypeName="DMI.InputInformation"
@@ -2166,6 +2592,36 @@
 )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
+</Procedure><Procedure
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="ProvideDriverResponse"
+ Guid="9fbaaaaf-4f87-403b-a90c-d09f6376bb18"
+>
+<Comment>Provides the response from the driver.</Comment>
+<Rules>
+<Rule
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="e623f17b-b403-4cb4-813a-d4e79e38d8fd"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="9c0d1f0b-80c7-4a11-a2fe-e994f942c031"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="e0ecc057-0e76-4653-bcd8-e3a548bd47da"
+>InputInformation.RequestStatus &lt;- Request.Response</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
  TypeName="DMI.InputInformation"
@@ -2302,6 +2758,36 @@
 <Action
  Guid="59ded254-df81-4e42-a4d2-d921130f9798"
 >THIS.InputInformation.Disable()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="ProvideDriverResponse"
+ Guid="0d8119d7-45f8-4053-afbf-b6ae4e1ea622"
+>
+<Comment>Provides the response from the driver.</Comment>
+<Rules>
+<Rule
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="f4165f69-ff83-417b-93d6-25b5888243d6"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="905b770b-8cb4-4a9e-b93d-5801db54319c"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="ba3655fb-a5a9-4e96-a60d-62647f3fd2a7"
+>InputInformation.RequestStatus &lt;- Request.Response</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
@@ -2449,6 +2935,52 @@
 >THIS.InputInformation.DriverAnswered &lt;- False</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
+</Procedure><Procedure
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="ProvideDriverResponse"
+ Guid="5d136c81-ef05-4e12-82f8-f04e7b4cb994"
+>
+<Comment>Provides the response from the driver.</Comment>
+<Parameters>
+<Parameter
+ Type="BaseTypes.Speed"
+ Name="aSpeed"
+ Guid="91ad8103-a7ab-49ce-be49-decc310d1f21"
+>
+</Parameter><Parameter
+ Type="BaseTypes.Distance"
+ Name="aDistance"
+ Guid="2abe75ed-8d09-404e-bfa2-72f8476b6d6b"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="9a8ed474-b607-4a97-956a-58576d2fd27d"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="92fbe97c-cbb6-4a6e-8f52-fc0928b62741"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="9b38cbda-6c9e-4537-b06b-a522d319a9c4"
+>InputInformation.RequestStatus &lt;- Request.Response</Action><Action
+ Guid="7458b2c9-f10f-4a08-90eb-31365ca054ff"
+>Speed &lt;- aSpeed</Action><Action
+ Guid="b2244c1a-6db9-4198-ae65-cbcb607078ec"
+>Distance &lt;- aDistance</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
  TypeName="DMI.InputInformation"
@@ -2463,7 +2995,7 @@
 </StructureElement><StructureElement
  TypeName="BaseTypes.Speed"
  Default="0.0"
- Mode="Outgoing"
+ Mode="Incoming"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="Speed"
@@ -2478,7 +3010,7 @@
 </StructureElement><StructureElement
  TypeName="BaseTypes.Distance"
  Default="0.0"
- Mode="Outgoing"
+ Mode="Incoming"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="Distance"
@@ -2633,6 +3165,36 @@
 >THIS.InputInformation.InitiateRequest()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
+</Procedure><Procedure
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="ProvideDriverResponse"
+ Guid="37d9939b-7818-40b1-a385-9a6d0b7e57c1"
+>
+<Comment>Provides the response from the driver.</Comment>
+<Rules>
+<Rule
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="823f7daa-dfa3-4ccf-bb09-82fe2ecc155c"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="dd57a769-b129-4416-82e5-e2040c7f5143"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="d3daad03-bcea-4724-a07a-c6947d3751ad"
+>InputInformation.RequestStatus &lt;- Request.Response</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
  TypeName="DMI.InputInformation"
@@ -2770,6 +3332,36 @@
 <Action
  Guid="89b7128c-9b3a-42b5-ae06-e45beff492f3"
 >THIS.InputInformation.AcceptDriverResponse()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="ProvideDriverResponse"
+ Guid="65d223a0-845f-4c29-97e7-12e14624bd9c"
+>
+<Comment>Provides the response from the driver.</Comment>
+<Rules>
+<Rule
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="644f5046-c222-4d77-a251-de32c4b253f5"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="19b7d434-7143-4b63-90b6-901fff62ca0f"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="4c8a5c30-ad54-47c6-9d1e-88be2450d386"
+>InputInformation.RequestStatus &lt;- Request.Response</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
@@ -2930,6 +3522,45 @@
 >THIS.DriverAction.Enter &lt;- Enter</Action><Action
  Guid="f9d0a6b8-5283-4641-a506-2d999db28c75"
 >THIS.DriverAction.ReValidate &lt;- ReValidate</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="ProvideDriverResponse"
+ Guid="cbfc8421-45e4-4b62-b5e9-ee3a7eecb5dd"
+>
+<Comment>Provides the response from the driver.</Comment>
+<Parameters>
+<Parameter
+ Type="String"
+ Name="aNumber"
+ Guid="35f1b055-560c-4c81-9971-0f12cf0a9c2e"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="11f9834e-2acf-4109-93c8-effe3c7a288e"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="ea8b91d6-6879-4aac-808a-60dcfb9e2317"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="9d9d595c-3900-4bcd-a668-1b1a7fe09b61"
+>InputInformation.RequestStatus &lt;- Request.Response</Action><Action
+ Guid="afa4107a-7bd3-4668-86fd-58a3df2549f8"
+>Number &lt;- aNumber</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
@@ -3096,6 +3727,36 @@
 >THIS.NationalSystemId &lt;- NationalSystemId</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
+</Procedure><Procedure
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="ProvideDriverResponse"
+ Guid="cc5647b4-9696-4805-b5f6-ac8ccb73b651"
+>
+<Comment>Provides the response from the driver.</Comment>
+<Rules>
+<Rule
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="15ab0d99-62d1-41fd-92b7-fa5398990347"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="37d86ef0-f4ae-41a8-a11b-7be758281cab"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="5870b0b7-29e0-4b85-b518-5c5381667eac"
+>InputInformation.RequestStatus &lt;- Request.Response</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
  TypeName="DMI.InputInformation"
@@ -3249,6 +3910,45 @@
 <Action
  Guid="ab714cab-5648-49d8-83a4-b23ebd126dec"
 >THIS.InputInformation.Disable()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="ProvideDriverResponse"
+ Guid="f4dadadf-eca6-42bf-8924-90bb15121602"
+>
+<Comment>Provides the response from the driver.</Comment>
+<Parameters>
+<Parameter
+ Type="Kernel.TrainData.TrainDataStruct"
+ Name="aData"
+ Guid="21bd9db4-c69a-4c3c-80c8-842beece1991"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="289e80e5-cd33-4a97-bf82-a9501f268045"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="d866a24c-a7a3-4483-84b5-eebe2f28f476"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="04aa5ccf-4ff1-4d3b-bc78-6155a73369f4"
+>InputInformation.RequestStatus &lt;- Request.Response</Action><Action
+ Guid="61380acf-cc2d-45e1-bba9-c68a1c783976"
+>Data &lt;- aData</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
@@ -3429,6 +4129,45 @@
 >DriverAction.Enter &lt;- Enter</Action><Action
  Guid="e133edd2-a054-4294-a381-253c94401775"
 >DriverAction.ReValidate &lt;- ReValidate</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="ProvideDriverResponse"
+ Guid="8c9fb1e3-f4a3-4ea5-b904-03857fc2ddec"
+>
+<Comment>Provides the response from the driver.</Comment>
+<Parameters>
+<Parameter
+ Type="String"
+ Name="anId"
+ Guid="60a37f49-be5a-4cdb-af6f-cfd68e22df08"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="6993f33e-b628-4505-b1fc-69173bbc11e5"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="a834a093-454b-439f-8dcc-08586cf02d26"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="7452eaf9-8739-47be-ae6f-336c215114c8"
+>InputInformation.RequestStatus &lt;- Request.Response</Action><Action
+ Guid="9693d34d-6c70-4c83-a273-ad1bcb2d4834"
+>Id &lt;- anId</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
@@ -3652,6 +4391,66 @@
 >THIS.AvailableNetworks &lt;- Networks</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
+</Procedure><Procedure
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="ProvideDriverResponse"
+ Guid="2fda12f7-d7ad-4a87-9deb-945b61002766"
+>
+<Comment>Provides the response from the driver.</Comment>
+<Parameters>
+<Parameter
+ Type="Boolean"
+ Name="aDriverElectsToReenterNetworkId"
+ Guid="9e3939d8-27ed-4cad-9db6-cc00f1c66d5a"
+>
+</Parameter><Parameter
+ Type="RBCContactActionEnum"
+ Name="aDriversSelectedAction"
+ Guid="a23afc14-ef22-410e-b35f-f03456e879d8"
+>
+</Parameter><Parameter
+ Type="EURORADIO.RBCContactStruct"
+ Name="anRBCContactInformation"
+ Guid="ca478237-9cc3-4f67-bafc-464f85ec32db"
+>
+</Parameter><Parameter
+ Type="String"
+ Name="aNetworkId"
+ Guid="10f67002-44a0-4110-af38-53e04fd1b7d5"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="5e712243-a394-46e0-a48e-909ed0552b04"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="8402c99e-5ad9-498e-8ace-966e9955dcfe"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="997b3cf3-bde3-46aa-9752-41b04c343e5d"
+>InputInformation.RequestStatus &lt;- Request.Response</Action><Action
+ Guid="33665cf0-46f1-4c61-93f9-33bdd20f85fa"
+>DriverElectsToReenterNetworkId &lt;- aDriverElectsToReenterNetworkId</Action><Action
+ Guid="048c5a64-a20e-4759-9b32-4560a1dcf12a"
+>DriversSelectedAction &lt;- aDriversSelectedAction</Action><Action
+ Guid="532e2ec1-51b7-4497-aeb3-45eed932d8fe"
+>RBCContactInformation &lt;- anRBCContactInformation</Action><Action
+ Guid="096a3fc0-cad5-4d76-bf84-9cc448f48186"
+>NetworkId &lt;- aNetworkId</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
  TypeName="DMI.InputInformation"
@@ -3672,7 +4471,7 @@
  Name="RBCContactInformation"
  Guid="1be8d477-1707-45a2-b3b5-3d705fd2d177"
 >
-<Comment>Holds the RBC contact information to be validated by the driver</Comment>
+<Comment>Holds the RBC contact information to be validated by the driver.</Comment>
 </StructureElement><StructureElement
  TypeName="RBCContactActionEnum"
  Default="RBCContactActionEnum.ReenterNetworkId"
@@ -3703,9 +4502,9 @@
 </StructureElement><StructureElement
  TypeName="String"
  Default="&apos;&apos;"
- Mode="Internal"
+ Mode="InOut"
  Implemented="TRUE"
- Name="SelectedNetwork"
+ Name="NetworkId"
  Guid="4e3828e3-1065-4337-b34a-a82cfa1e8e49"
 >
 <Comment>The network id selected by the driver.</Comment>
@@ -3718,15 +4517,6 @@
  Guid="ddb451f2-297d-45d9-b4f1-b4f858b74a03"
 >
 <Comment>If the driver was asked to reenter the network id, this variable gives his decision.</Comment>
-</StructureElement><StructureElement
- TypeName="EURORADIO.RBCContactStruct"
- Default="EMPTY"
- Mode="Internal"
- Implemented="TRUE"
- Name="SelectedRBCContactInformation"
- Guid="b2381f9f-a8c4-4679-8cad-abb8201a7940"
->
-<Comment>The entered RBC contact data.</Comment>
 </StructureElement></Structure><Structure
  Default=""
  X="450"
@@ -3864,6 +4654,45 @@
 <Action
  Guid="341ad025-67cf-4560-9a2e-57fae6de49b3"
 >THIS.InputInformation.Disable()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="ProvideDriverResponse"
+ Guid="3927eb4a-82a4-4e16-8b36-2a5a0c0855b4"
+>
+<Comment>Provides the response from the driver.</Comment>
+<Parameters>
+<Parameter
+ Type="Kernel.VirtualBaliseCover.VBCCol"
+ Name="aVirtualBaliseCoversInformation"
+ Guid="da14bd66-e3c0-4ceb-bd60-71d56e8730b7"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="536d371c-3580-4e7d-a769-a5b42ef99cd4"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="542a9425-9a9c-4529-8b64-e2e2040f1d3d"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="0d1c3bd9-0018-4326-a952-dce775fb1bae"
+>InputInformation.RequestStatus &lt;- Request.Response</Action><Action
+ Guid="d1473015-cfe5-4299-94dd-2cc72a5cbd30"
+>VirtualBaliseCovers &lt;- aVirtualBaliseCoversInformation</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
@@ -4112,6 +4941,36 @@
 <Action
  Guid="6f6ee152-a97f-4bb4-8580-2bb9e47088e4"
 >THIS.InputInformation.Disable()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="ProvideDriverResponse"
+ Guid="df675029-cefd-4bd4-a7b3-16d792c85f4b"
+>
+<Comment>Provides the response from the driver.</Comment>
+<Rules>
+<Rule
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="bb5c0bc4-95c5-4259-b291-3851f80014da"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="cd1b8302-ab2a-4788-ad6e-a40bf5f5b695"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="18391665-1783-4e40-b62b-fc3dc8d12fa6"
+>InputInformation.RequestStatus &lt;- Request.Response</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
@@ -4367,6 +5226,36 @@
 >THIS.InputInformation.Disable()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
+</Procedure><Procedure
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="ProvideDriverResponse"
+ Guid="14d1b64a-d8ad-4380-9081-0a467cbe4898"
+>
+<Comment>Provides the response from the driver.</Comment>
+<Rules>
+<Rule
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="28a113df-91d6-4db1-a300-ad23c963271c"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="5f43c25a-4833-478b-ba42-1b794472820c"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="94c371fe-e14b-4a06-833f-41f663855a7d"
+>InputInformation.RequestStatus &lt;- Request.Response</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
  TypeName="DMI.InputInformation"
@@ -4620,6 +5509,36 @@
 >THIS.InputInformation.Disable()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
+</Procedure><Procedure
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="ProvideDriverResponse"
+ Guid="f1eeae3e-cd75-4965-b2c1-9388d163f40e"
+>
+<Comment>Provides the response from the driver.</Comment>
+<Rules>
+<Rule
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="6733b2b4-389d-4a14-a227-d7d3d4dc635d"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="b208fd9b-2fe6-4ecf-a23f-9b1dd10ec1ad"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="46df05eb-890e-43a4-b406-b1820911d3ed"
+>InputInformation.RequestStatus &lt;- Request.Response</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
  TypeName="DMI.InputInformation"
@@ -4774,6 +5693,36 @@
 )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
+</Procedure><Procedure
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="ProvideDriverResponse"
+ Guid="6f2069a4-9f83-4c63-b49b-34245fb0e6b1"
+>
+<Comment>Provides the response from the driver.</Comment>
+<Rules>
+<Rule
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="2d219a9d-fdeb-4e58-b147-e9b2fef51e21"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="5de6d12a-ffa6-454c-911d-e10702641bb9"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="a88b13af-932c-420d-b820-6e7df3e33fa0"
+>InputInformation.RequestStatus &lt;- Request.Response</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
  TypeName="DMI.InputInformation"
@@ -4907,6 +5856,36 @@
   aText =&gt; &apos;&apos;,
   aLevel =&gt; EMPTY
 )</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="ProvideDriverResponse"
+ Guid="f3151bd1-9dbe-4323-8464-8ffea617c999"
+>
+<Comment>Provides the response from the driver.</Comment>
+<Rules>
+<Rule
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="fc552e6b-2990-404a-865c-f31a570b4fc6"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="8b256857-49de-489a-94fa-75b23463cabd"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="cd48e18b-e7bb-450a-b004-0577b457cb71"
+>InputInformation.RequestStatus &lt;- Request.Response</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
@@ -5044,6 +6023,36 @@
 )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
+</Procedure><Procedure
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="ProvideDriverResponse"
+ Guid="57ee2094-ad9d-46c8-888a-e8ddc8531b36"
+>
+<Comment>Provides the response from the driver.</Comment>
+<Rules>
+<Rule
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="837a0136-121e-4ba2-8dd0-a3609ff21507"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="45916fba-268e-43af-945b-c50c664e5d6f"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="3dd7b2b6-6398-4cf0-9e4c-22e87fc0e37d"
+>InputInformation.RequestStatus &lt;- Request.Response</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
  TypeName="DMI.InputInformation"
@@ -5177,6 +6186,36 @@
   aText =&gt; &apos;&apos;,
   aLevel =&gt; EMPTY
 )</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="ProvideDriverResponse"
+ Guid="e911461f-807e-4770-a0cf-3dbf14160d55"
+>
+<Comment>Provides the response from the driver.</Comment>
+<Rules>
+<Rule
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="12c9edbc-a7c9-4ead-a8e2-ca0249a65731"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="a093f506-81ea-4e38-b754-86a919892883"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="9fd9e9c0-8b72-42ca-a144-88ba5d805e86"
+>InputInformation.RequestStatus &lt;- Request.Response</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
@@ -5314,6 +6353,36 @@
 )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
+</Procedure><Procedure
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="ProvideDriverResponse"
+ Guid="72dff6fb-05d2-463e-bcbd-94119ff14450"
+>
+<Comment>Provides the response from the driver.</Comment>
+<Rules>
+<Rule
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="42eae268-6f92-4921-8d19-46dc834ba560"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="b8193e46-8354-415b-bac5-583e0e3d56a8"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="36efcf90-09b8-4cd5-9031-247d4058b842"
+>InputInformation.RequestStatus &lt;- Request.Response</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
  TypeName="DMI.InputInformation"
@@ -5447,6 +6516,36 @@
   aText =&gt; &apos;&apos;,
   aLevel =&gt; EMPTY
 )</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="ProvideDriverResponse"
+ Guid="9730a501-c0e4-49dd-9eb7-f66cef1885e7"
+>
+<Comment>Provides the response from the driver.</Comment>
+<Rules>
+<Rule
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="9a1415f8-5f1c-4124-8199-f09be9b70123"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="483593a7-8569-449c-ae39-52c251190f09"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="6635b9f3-fe6f-4d16-97f1-3235b5cd7a37"
+>InputInformation.RequestStatus &lt;- Request.Response</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
@@ -5585,6 +6684,36 @@
 >THIS.InputInformation.Disable()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
+</Procedure><Procedure
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="ProvideDriverResponse"
+ Guid="5f6e0cd1-28d4-41a6-80b7-2826ce2d9e85"
+>
+<Comment>Provides the response from the driver.</Comment>
+<Rules>
+<Rule
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="ae1ad78f-0ff1-4724-b08e-df9242ae0e7b"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="fd929f74-3d93-4ec1-84d3-fa9394e3b446"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="eda63f1b-2034-41c9-b458-f855a70137ff"
+>InputInformation.RequestStatus &lt;- Request.Response</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
  TypeName="DMI.InputInformation"
@@ -5719,6 +6848,36 @@
 <Action
  Guid="5887af77-ad67-49a6-9f9c-fa1a18265732"
 >THIS.InputInformation.Disable()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="ProvideDriverResponse"
+ Guid="9e2d9967-d735-457d-98ea-6f36afbe346e"
+>
+<Comment>Provides the response from the driver.</Comment>
+<Rules>
+<Rule
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="8bba77fa-a42a-4d0d-9a61-e1ffcd2f3cb2"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="33aa9646-a77c-4043-ab8e-a38c950c7df0"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="d8bb6c81-ce43-4780-acc1-e314f75f01e3"
+>InputInformation.RequestStatus &lt;- Request.Response</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
@@ -5857,6 +7016,36 @@
 >THIS.InputInformation.Disable()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
+</Procedure><Procedure
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="ProvideDriverResponse"
+ Guid="494304d8-80b9-48aa-a67d-43747709392d"
+>
+<Comment>Provides the response from the driver.</Comment>
+<Rules>
+<Rule
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="96c0eec6-6fcf-41af-8ce9-e882a9efb26d"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="7e1a0bca-07bb-4bba-b555-b509ef70174c"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="ae69db72-a105-45f8-9e7d-d9d76c94be28"
+>InputInformation.RequestStatus &lt;- Request.Response</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
  TypeName="DMI.InputInformation"
@@ -5983,6 +7172,36 @@
 <Action
  Guid="025ab55d-552a-4339-b991-d35bfe5e9491"
 >THIS.InputInformation.InitiateRequest()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="ProvideDriverResponse"
+ Guid="149ef2c5-4713-4646-9660-ea1c7320477b"
+>
+<Comment>Provides the response from the driver.</Comment>
+<Rules>
+<Rule
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="489607aa-9303-40ca-95f6-9dbb529a40bd"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="1509290f-3169-4965-a9fa-2d861bf0ac12"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="a3871011-0981-473d-8fca-19d2cf531e5c"
+>InputInformation.RequestStatus &lt;- Request.Response</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
@@ -6114,6 +7333,36 @@
 >THIS.InputInformation.Disable()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
+</Procedure><Procedure
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="ProvideDriverResponse"
+ Guid="a9fc4019-c32c-4af7-952a-7a285d1fd66f"
+>
+<Comment>Provides the response from the driver.</Comment>
+<Rules>
+<Rule
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="e7d114d7-6180-40db-9cf1-331dfd35f035"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="45420b71-b508-455b-a05b-9ddc15431eb0"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="3ee14e08-7405-458e-9fc3-088ef4871fa9"
+>InputInformation.RequestStatus &lt;- Request.Response</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
  TypeName="DMI.InputInformation"
@@ -6240,6 +7489,36 @@
 <Action
  Guid="e8d2d4ab-322c-465e-b4f7-2b8d5d008ac0"
 >THIS.InputInformation.InitiateRequest()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="ProvideDriverResponse"
+ Guid="e4b03971-54ce-408d-a620-76520d88ecb6"
+>
+<Comment>Provides the response from the driver.</Comment>
+<Rules>
+<Rule
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="580e6c46-a199-4640-9f46-92d26bbaaf3c"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="8ed8464d-09b8-4a27-b179-8dfbe7d0709b"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="6458db2e-6ee5-4740-9863-de751f5687ea"
+>InputInformation.RequestStatus &lt;- Request.Response</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
@@ -6381,6 +7660,36 @@
 >THIS.InputInformation.Disable()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
+</Procedure><Procedure
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="ProvideDriverResponse"
+ Guid="948efb32-78ce-4060-98cc-f70978a63c1b"
+>
+<Comment>Provides the response from the driver.</Comment>
+<Rules>
+<Rule
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="9ec7f0b3-2256-466d-a132-1d7857917721"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="a98e57a5-6c46-4695-b4d0-7c417abf5de8"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="47decc69-ad77-4784-8950-38f30e3dbbf9"
+>InputInformation.RequestStatus &lt;- Request.Response</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
  TypeName="DMI.InputInformation"
@@ -6510,6 +7819,36 @@
 >THIS.InputInformation.InitiateRequest()</Action><Action
  Guid="35d0ab61-a9bf-4b29-8df4-2824488c6b1e"
 >THIS.InputInformation.DriverAnswered &lt;- False</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="ProvideDriverResponse"
+ Guid="bbcee58e-4a1a-4272-86f2-bca4a7caaf87"
+>
+<Comment>Provides the response from the driver.</Comment>
+<Rules>
+<Rule
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="11687227-9cdf-4fd7-9076-62fe23bbac03"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="339d5e12-79a4-43a2-9e55-f3a9c3974ae3"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="16d2a53b-54b9-46a5-b625-8ebb6a95ed4c"
+>InputInformation.RequestStatus &lt;- Request.Response</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
