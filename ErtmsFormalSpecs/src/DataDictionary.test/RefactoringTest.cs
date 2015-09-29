@@ -390,10 +390,39 @@ namespace DataDictionary.test
             Structure structure = CreateStructure(nameSpace1, "Struct");
             Variable variable = CreateVariable(nameSpace1, "V", "Struct");
 
+            Assert.AreEqual(variable.Type, structure);
+            Assert.AreEqual(variable.TypeName, "Struct");
+
             Refactor(structure, "Struct2");
 
             Assert.AreEqual(variable.Type, structure);
             Assert.AreEqual(variable.TypeName, "Struct2");
+        }
+
+        /// <summary>
+        ///     Test that renaming of an enumeration is correctly taken into account.
+        /// This is related to bug 669
+        /// </summary>
+        [Test]
+        public void TestChangeEnumerationName()
+        {
+            Dictionary dictionary = CreateDictionary("Test");
+            NameSpace nameSpace1 = CreateNameSpace(dictionary, "N1");
+
+            Enum enumeration = CreateEnum(nameSpace1, "Mode");
+            EnumValue e1 = CreateEnumValue(enumeration, "E1");
+            EnumValue e2 = CreateEnumValue(enumeration, "E2");
+
+            Structure structure = CreateStructure(nameSpace1, "Struct");
+            StructureElement element = CreateStructureElement(structure, "E", "Mode");
+
+            Function function = CreateFunction(nameSpace1, "F", "Mode");
+
+            Refactor(enumeration, "ModeEnum");
+
+            Assert.AreEqual(element.Type, enumeration);
+            Assert.AreEqual(element.TypeName, "ModeEnum");
+            Assert.AreEqual(function.TypeName, "ModeEnum");
         }
 
     }

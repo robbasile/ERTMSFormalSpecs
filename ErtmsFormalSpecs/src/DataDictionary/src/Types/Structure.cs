@@ -36,6 +36,7 @@ namespace DataDictionary.Types
         /// </summary>
         public Structure()
         {
+            UnifiedStructure = this;
             FinderRepository.INSTANCE.Register(this);
         }
 
