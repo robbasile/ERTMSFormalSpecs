@@ -2404,13 +2404,13 @@ Kernel.TrainPosition.Position.DataState == DataState.Unknown</PreCondition></Pre
 <PreConditions>
 <PreCondition
  Guid="65a5797f-e837-493c-97ab-4cb4f978ffda"
->DMI.MasterDMI().In_RBCContactInformation.SelectedNetwork != EURORADIO.LastKnownNetworkId</PreCondition></PreConditions>
+>DMI.MasterDMI().In_RBCContactInformation.NetworkId != EURORADIO.LastKnownNetworkId</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="198cb14a-02da-4a00-8f9c-b5ddffc80be8"
 >DeleteInformation(EURORADIO.CurrentRBCConnection().ContactData)</Action><Action
  Guid="525893e1-c192-4679-9788-b1b77c5b89c3"
->EURORADIO.RegisterMobileTerminals ( DMI.MasterDMI().In_RBCContactInformation.SelectedNetwork )</Action></Actions>
+>EURORADIO.RegisterMobileTerminals ( DMI.MasterDMI().In_RBCContactInformation.NetworkId )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition></Conditions>
@@ -2655,8 +2655,8 @@ Kernel.TrainPosition.Position.DataState == DataState.Unknown</PreCondition></Pre
 <Action
  Guid="9de675ca-f9a8-4377-9d0a-27e5939234d9"
 >EURORADIO.CurrentRBCConnection().ContactData &lt;- EURORADIO.RBCContactStruct{
-    Id =&gt; DMI.MasterDMI().In_RBCContactInformation.SelectedRBCContactInformation.Id,
-    PhoneNumber =&gt; DMI.MasterDMI().In_RBCContactInformation.SelectedRBCContactInformation.PhoneNumber,
+    Id =&gt; DMI.MasterDMI().In_RBCContactInformation.RBCContactInformation.Id,
+    PhoneNumber =&gt; DMI.MasterDMI().In_RBCContactInformation.RBCContactInformation.PhoneNumber,
     DataState =&gt; Default.DataState.Valid
 }</Action></Actions>
 </RuleCondition></Conditions>
