@@ -1000,7 +1000,7 @@ namespace DataDictionary
         /// </summary>
         private static int _dontNotifyCount;
 
-        private static readonly Mutex NotificationMutex = new Mutex(false, "Nofitication excusive region");
+        private static readonly Mutex NotificationMutex = new Mutex(false, "Nofitication exclusive region");
 
         /// <summary>
         ///     Indicates that notification should not occur for this action

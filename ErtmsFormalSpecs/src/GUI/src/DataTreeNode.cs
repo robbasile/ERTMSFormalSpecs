@@ -815,7 +815,7 @@ namespace GUI
                 {
                     if (Settings.Default.AllowRefactor)
                     {
-                        RefactorOperation refactorOperation = new RefactorOperation(Model as ModelElement, newLabel);
+                        RefactorOperation refactorOperation = new RefactorOperation(Model as ModelElement, newLabel, false);
                         refactorOperation.ExecuteUsingProgressDialog("Refactoring", false);
                     }
                     else

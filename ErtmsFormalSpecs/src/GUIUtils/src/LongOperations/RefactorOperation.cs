@@ -14,6 +14,7 @@
 // --
 // ------------------------------------------------------------------------------
 
+using System.ComponentModel;
 using DataDictionary;
 
 namespace GUIUtils.LongOperations
@@ -31,14 +32,21 @@ namespace GUIUtils.LongOperations
         private string NewName { get; set; }
 
         /// <summary>
+        ///     Indicates that refresh should occur after launching the operation
+        /// </summary>
+        private bool Refresh { get; set; }
+
+        /// <summary>
         ///     Constructor
         /// </summary>
         /// <param name="model"></param>
         /// <param name="newName"></param>
-        public RefactorOperation(ModelElement model, string newName)
+        /// <param name="refresh"></param>
+        public RefactorOperation(ModelElement model, string newName, bool refresh = true)
         {
             Model = model;
             NewName = newName;
+            Refresh = refresh;
         }
 
         /// <summary>
@@ -59,9 +67,12 @@ namespace GUIUtils.LongOperations
         {
             base.ExecuteUsingProgressDialog(message, allowCancel);
 
-            // Long operations do not notify the listeners. 
-            // Update the entire model
-            EfsSystem.Instance.Context.HandleChangeEvent(null, Context.ChangeKind.ModelChange);
+            if (Refresh)
+            {
+                // Long operations do not notify the listeners. 
+                // Update the entire model
+                EfsSystem.Instance.Context.HandleChangeEvent(null, Context.ChangeKind.ModelChange);
+            }
         }
     }
 }

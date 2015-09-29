@@ -160,7 +160,7 @@ namespace GUI
         public void LabelEditHandler(object sender, NodeLabelEditEventArgs e)
         {
             BaseTreeNode node = e.Node as BaseTreeNode;
-            if (node != null)
+            if (node != null && e.Label != null)
             {
                 node.HandleLabelEdit(e.Label);
             }
