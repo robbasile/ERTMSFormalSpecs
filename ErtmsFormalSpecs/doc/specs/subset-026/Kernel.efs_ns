@@ -2230,6 +2230,10 @@ Kernel.TrainPosition.Position.DataState == DataState.Unknown</PreCondition></Pre
 >
 <States>
 <State
+ X="111"
+ Y="1"
+ Width="100"
+ Height="50"
  Implemented="TRUE"
  Name="NetworkIDsReceived"
  Guid="708c704f-867e-48c7-9866-120d0a9cd7c8"
@@ -2322,6 +2326,10 @@ Kernel.TrainPosition.Position.DataState == DataState.Unknown</PreCondition></Pre
 </RuleCondition></Conditions>
 </Rule></Rules>
 </StateMachine></State><State
+ X="221"
+ Y="1"
+ Width="100"
+ Height="50"
  Implemented="TRUE"
  Name="DriverSelection"
  Guid="4b63cc76-56d4-4490-9302-8a0c2a42d9a7"
@@ -2416,6 +2424,10 @@ Kernel.TrainPosition.Position.DataState == DataState.Unknown</PreCondition></Pre
 </RuleCondition></Conditions>
 </Rule></Rules>
 </StateMachine></State><State
+ X="331"
+ Y="1"
+ Width="100"
+ Height="50"
  Implemented="TRUE"
  Name="Registration"
  Guid="ef3eb9d0-c08b-454d-90e4-ab80f692c10e"
@@ -2464,19 +2476,6 @@ Kernel.TrainPosition.Position.DataState == DataState.Unknown</PreCondition></Pre
  Guid="78530999-bd14-4d99-9c1c-c959c3e7544f"
 >
 <SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Enter action"
- Guid="0426aaea-396b-4b44-9cb9-148ad7a84ca8"
->
-<PreConditions>
-</PreConditions>
-<Actions>
-<Action
- Guid="3922fdae-0d9c-481d-a28e-4aeed5a2fdf6"
->DMI.MasterDMI().In_RBCContactInformation.DriverElectsToReenterNetworkId &lt;- False</Action></Actions>
-</RuleCondition></Conditions>
 </Rule></EnterAction>
 </State><State
  X="110"
@@ -2547,7 +2546,7 @@ Kernel.TrainPosition.Position.DataState == DataState.Unknown</PreCondition></Pre
 <PreConditions>
 <PreCondition
  Guid="97859259-41d4-460f-959b-32957ccade83"
->DMI.MasterDMI().In_RBCContactInformation.DriverElectsToReenterNetworkId</PreCondition></PreConditions>
+>DMI.MasterDMI().In_RBCContactInformation.DriversSelectedAction == DMI.RBCContactActionEnum.ReenterNetworkId</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="7b7d924d-761b-47f8-be56-b474e1f1ca84"
