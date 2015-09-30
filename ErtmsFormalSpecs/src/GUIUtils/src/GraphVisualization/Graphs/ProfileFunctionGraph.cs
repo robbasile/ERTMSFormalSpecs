@@ -89,11 +89,6 @@ namespace GUIUtils.GraphVisualization.Graphs
         {
             if (graph != null && startingPoint != null)
             {
-                // This empty data point is added in order to allow displaying several
-                // deceleration curves without linking the end of the previous curve
-                // with the start of the following curve
-
-                DataPoint dataPoint = new DataPoint(0, 0);
                 for (int i = 0; i < graph.CountSegments(); i++)
                 {
                     ISegment segment = graph.GetSegment(i);
@@ -127,7 +122,12 @@ namespace GUIUtils.GraphVisualization.Graphs
                         }
                     }
                 }
-                dataPoint = new DataPoint(0, 0);
+                
+                // This empty data point is added in order to allow displaying several
+                // deceleration curves without linking the end of the previous curve
+                // with the start of the following curve
+
+                DataPoint dataPoint = new DataPoint(0, 0);
                 dataPoint.IsEmpty = true;
                 AddPoint(dataPoint);
             }
