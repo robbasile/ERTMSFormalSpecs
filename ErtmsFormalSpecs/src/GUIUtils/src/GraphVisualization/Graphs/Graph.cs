@@ -177,7 +177,7 @@ namespace GUIUtils.GraphVisualization.Graphs
         /// <summary>
         ///     Clears all the data of that graph
         /// </summary>
-        public void ClearData()
+        public virtual void ClearData()
         {
             Data.Points.Clear();
         }
