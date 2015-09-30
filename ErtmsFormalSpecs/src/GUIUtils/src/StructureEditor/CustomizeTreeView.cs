@@ -84,14 +84,29 @@ namespace GUIUtils.StructureEditor
             string retVal = "";
 
             StructureValue structureValue = obj as StructureValue;
+            if (structureValue == null)
+            {
+                if (obj is Field)
+                {
+                    structureValue = (obj as Field).Value as StructureValue;
+                }
+            }
+            Field field = obj as Field;
             if (structureValue != null)
             {
                 ListValue enclosingListValue = structureValue.Enclosing as ListValue;
                 if (enclosingListValue != null)
                 {
                     int index = enclosingListValue.Val.IndexOf(structureValue) + 1;
-                    Variable enclosingListVariable = (Variable) enclosingListValue.Enclosing;
-                    retVal = enclosingListVariable.Name + "[" + index + "]";
+                    IVariable enclosingListVariable = enclosingListValue.Enclosing as Variable;
+                    if (enclosingListVariable == null)
+                    {
+                        enclosingListVariable = enclosingListValue.Enclosing as Field;
+                    }
+                    if (enclosingListVariable != null)
+                    {
+                        retVal = enclosingListVariable.Name + "[" + index + "]";
+                    }
                 }
                 else
                 {
@@ -596,8 +611,8 @@ namespace GUIUtils.StructureEditor
             {
                 Structure elementStructureType = (Structure) Element.Type;
                 StructureValue subValue = new StructureValue(elementStructureType, false);
-                subValue.CreateField(Element, elementStructureType);
-
+                Field field = Value.CreateField(Element, elementStructureType);
+                field.Value = subValue;
                 base.OnClick(e);
             }
         }

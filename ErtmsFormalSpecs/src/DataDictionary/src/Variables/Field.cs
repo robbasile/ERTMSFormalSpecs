@@ -38,6 +38,7 @@ namespace DataDictionary.Variables
         {
             Enclosing = enclosing;
             StructureElement = structureElement;
+            Value = new DefaultValue(this);
 
             DeclaredElements = null;
         }
