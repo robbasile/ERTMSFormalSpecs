@@ -3587,6 +3587,14 @@ namespace DataDictionary.Compare
             {
                 diff.appendChanges ( new Diff(obj, HistoricalData.Generated.acceptor.ChangeOperationEnum.aChange, "SkipEngine", other.getSkipEngine().ToString(), obj.getSkipEngine().ToString()) );
             }
+            if ( obj.getTimeDelay() != other.getTimeDelay() )
+            {
+                diff.appendChanges ( new Diff(obj, HistoricalData.Generated.acceptor.ChangeOperationEnum.aChange, "TimeDelay", other.getTimeDelay().ToString(), obj.getTimeDelay().ToString()) );
+            }
+            if ( obj.getTimer() != other.getTimer() )
+            {
+                diff.appendChanges ( new Diff(obj, HistoricalData.Generated.acceptor.ChangeOperationEnum.aChange, "Timer", other.getTimer().ToString(), obj.getTimer().ToString()) );
+            }
             if ( !CompareUtil.canonicalStringEquality(obj.getComment(), other.getComment()) )
             {
                 diff.appendChanges ( new Diff(obj, HistoricalData.Generated.acceptor.ChangeOperationEnum.aChange, "Comment", other.getComment(), obj.getComment()) );
@@ -14604,6 +14612,8 @@ namespace DataDictionary.Compare
 	            DuplicateNamable (source, target);
 
                 target.setSkipEngine(source.getSkipEngine());
+                target.setTimeDelay(source.getTimeDelay());
+                target.setTimer(source.getTimer());
                 target.setComment(source.getComment());
             }	  
         }

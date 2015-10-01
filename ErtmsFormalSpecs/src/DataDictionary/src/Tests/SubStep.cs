@@ -26,7 +26,7 @@ namespace DataDictionary.Tests
     public class SubStep : Generated.SubStep, ITextualExplain, ICommentable
     {
         /// <summary>
-        ///     This step changes
+        ///     This sub-step changes
         /// </summary>
         public ArrayList Actions
         {
@@ -42,7 +42,7 @@ namespace DataDictionary.Tests
 
 
         /// <summary>
-        ///     This step expectations
+        ///     This sub-step expectations
         /// </summary>
         public ArrayList Expectations
         {
@@ -54,6 +54,31 @@ namespace DataDictionary.Tests
                 }
                 return allExpectations();
             }
+        }
+
+        /// <summary>
+        /// Provides the information about the time delay associated to that sub-step
+        /// </summary>
+        public acceptor.TimeDelay TimeDelay
+        {
+            get { return getTimeDelay(); }
+            set
+            {
+                setTimeDelay(value);
+                if (value == acceptor.TimeDelay.aNotDelayed)
+                {
+                    Timer = 0;
+                }
+            }
+        }
+
+        /// <summary>
+        /// The timer associated to this sub-step
+        /// </summary>
+        public int Timer
+        {
+            get { return getTimer(); }
+            set{ setTimer(value);}
         }
 
         /// <summary>
@@ -94,7 +119,7 @@ namespace DataDictionary.Tests
         /// <summary>
         ///     Adds a model element in this model element
         /// </summary>
-        /// <param name="copy"></param>
+        /// <param name="element"></param>
         public override void AddModelElement(IModelElement element)
         {
             if (element is Action)

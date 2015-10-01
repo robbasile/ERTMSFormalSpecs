@@ -1046,10 +1046,14 @@
       <FIELD NAME="Actions"        REFTYPE="Action" />
       <FIELD NAME="Expectations"   REFTYPE="Expectation" />
       <FIELD NAME="SkipEngine"     TYPE="BOOLEAN" />
+	  <FIELD NAME="TimeDelay"      ENUMTYPE="TimeDelay"/>
+	  <FIELD NAME="Timer"          TYPE="INTEGER" />
       <FIELD NAME="Comment"        TYPE="PCHAR" />
     </FIELDS>
     <ATTRIBUTES>
       <ATTR NAME="SkipEngine" TARGET="SkipEngine" OPTIONAL="TRUE" DEFAULT="FALSE" />
+	  <ATTR NAME="TimeDelay"  TARGET="TimeDelay"  OPTIONAL="TRUE" DEFAULT="NotDelayed"/>
+	  <ATTR NAME="Timer"      TARGET="Timer"      OPTIONAL="TRUE" DEFAULT="0" />
     </ATTRIBUTES>
     <FORMULA>
       <CONCAT>
@@ -2320,6 +2324,14 @@
   <ENUM NAME="ExpectationKind" >
     <ENUMVALUE NAME="Instantaneous" />
     <ENUMVALUE NAME="Continuous" />
+  </ENUM>
+  
+  <!-- --------------- -->
+  <!-- Enum Time delay -->
+  <!-- --------------- -->
+  <ENUM NAME="TimeDelay" >
+    <ENUMVALUE NAME="Delayed" />
+    <ENUMVALUE NAME="NotDelayed" />
   </ENUM>
 
 </SYSTEM>
