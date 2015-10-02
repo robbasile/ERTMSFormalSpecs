@@ -81,17 +81,20 @@ namespace GUI.IPCInterface.Values
 
                 foreach (KeyValuePair<string, Value> pair in Value)
                 {
-                    StructureElement element = structureType.FindStructureElement(pair.Key);
-                    if (element != null)
+                    if (pair.Value != null)
                     {
-                        Field field = retVal.CreateField(element, structureType);
-                        field.Value = pair.Value.ConvertBack(element.Type);
-                    }
-                    else
-                    {
-                        throw new FaultException<EFSServiceFault>(
-                            new EFSServiceFault("Cannot find element named " + pair.Key + " in structure " +
-                                                structureType.FullName));
+                        StructureElement element = structureType.FindStructureElement(pair.Key);
+                        if (element != null)
+                        {
+                            Field field = retVal.CreateField(element, structureType);
+                            field.Value = pair.Value.ConvertBack(element.Type);
+                        }
+                        else
+                        {
+                            throw new FaultException<EFSServiceFault>(
+                                new EFSServiceFault("Cannot find element named " + pair.Key + " in structure " +
+                                                    structureType.FullName));
+                        }
                     }
                 }
             }
