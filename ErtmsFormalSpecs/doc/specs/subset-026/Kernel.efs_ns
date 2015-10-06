@@ -10835,6 +10835,20 @@ BTM.Linking.RAMSWindowPassed()
 <Action
  Guid="96ddb3ee-57c1-40a0-bc68-2be6f515660e"
 >BTM.StoreBaliseGroupMessage ( BTM.Message )</Action></Actions>
+</RuleCondition><RuleCondition
+ Name="Handle BTM input of previous version"
+ Guid="363efc48-955d-49f8-9648-a3dc5f53b3d2"
+>
+<PreConditions>
+<PreCondition
+ Guid="1711ea15-5231-46c6-baae-683199d992a4"
+>NOT Kernel.UndesirableMovement.ReverseMovementDetected()</PreCondition><PreCondition
+ Guid="32ddc820-7a7d-4127-a3e3-b21db44672ba"
+>Available ( BTM.Message_SystemVersion1)</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="c2bd4ed9-0e4c-489d-a1e3-6967d7e3f16a"
+>BTM.StoreBaliseGroupMessage ( VersionManagement.Translation.UpdatedBaliseMessage(BTM.Message_SystemVersion1) )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"

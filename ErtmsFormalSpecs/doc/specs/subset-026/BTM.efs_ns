@@ -4993,7 +4993,7 @@ The parameter DistanceFromLRBG is needed for the case when the handled BG will b
 </Rule><Rule
  Priority="Processing"
  Implemented="TRUE"
- Name="Handle Level in balise telegrams"
+ Name="Handle Level Transition Order in balise telegrams"
  Guid="099aa022-31f0-4aae-aa5c-48dc76bdc4cb"
 >
 <Comment>First, handle the &quot;non-MA&quot; packets in all the telegrams.</Comment>
@@ -5001,7 +5001,7 @@ The parameter DistanceFromLRBG is needed for the case when the handled BG will b
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
- Name="Handle packets in balise telegrams"
+ Name="Handle level transition order packet in balise telegrams"
  Guid="ef4783a5-3854-483a-8f53-38b1d9e72164"
 >
 <ReqRef
@@ -5967,11 +5967,6 @@ IN BTM.CurrentBaliseGroup</Action></Actions>
  Guid="c9196377-2261-4314-9003-09ebf1a43606"
 >
 <ReqRef
- Id="997012e6-1938-4ed6-b9fe-4a696ee0c30f"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="8e2ca811-4009-4962-985f-c934b82c316b"
->
-</ReqRef><ReqRef
  Id="612e5c65-65af-4727-a4f9-ce73fbd5f0fb"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="e6d606f3-70ac-4470-951d-f4420bd3bc38"
@@ -6035,6 +6030,17 @@ IN BTM.CurrentBaliseGroup</Action></Actions>
  Guid="287db3e5-c003-44f7-b6f9-7ebcdff8ad05"
 >
 </ReqRef><Comment>The maximum distance between consecutive balises in the same balise group.</Comment>
+</Variable><Variable
+ Type="Messages.SystemVersion1.EUROBALISE.Message"
+ DefaultValue="EMPTY"
+ VariableMode="Internal"
+ X="221"
+ Y="601"
+ Width="100"
+ Height="50"
+ Name="Message_SystemVersion1"
+ Guid="6b70edc9-75d7-45b2-bdd7-73774fd5235a"
+>
 </Variable></Variables>
 <Rules>
 <Rule
@@ -6064,13 +6070,17 @@ IN BTM.CurrentBaliseGroup</Action></Actions>
 <PreConditions>
 <PreCondition
  Guid="4132dda5-2120-4cda-bde2-a390d3213f78"
->Available ( BTM.Message )</PreCondition></PreConditions>
+>Available ( BTM.Message )
+  OR  
+Available(Message_SystemVersion1)</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="55b1daa4-5af4-4eac-af28-8e10152fc2c2"
 >BTM.Message &lt;- EMPTY</Action><Action
  Guid="7da08b97-ae8e-47fd-9114-27a1f90cc66e"
->Kernel.Infill.Data &lt;- EMPTY</Action></Actions>
+>Kernel.Infill.Data &lt;- EMPTY</Action><Action
+ Guid="aa76230d-c79f-456c-95ac-adda5c0403e8"
+>Message_SystemVersion1 &lt;- EMPTY</Action></Actions>
 <SubRules>
 <Rule
  Priority="CleanUp"

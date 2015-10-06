@@ -1,0 +1,185 @@
+<NameSpace
+ X="111"
+ Y="1"
+ Width="100"
+ Height="50"
+ Name="Packets"
+ Guid="0e3bea9c-dd04-42af-9adf-07682887034d"
+>
+<NameSpaces>
+<NameSpaceRef
+ Name="InternationalStaticSpeedProfile"
+ Guid="42368a27-6bdd-4cc4-9b41-3914a82af4fe"
+>
+</NameSpaceRef><NameSpaceRef
+ Name="NationalValues"
+ Guid="5cc51d88-a2e0-4662-9abd-2239db80a521"
+>
+</NameSpaceRef></NameSpaces>
+<Functions>
+<Function
+ Type="Messages.EUROBALISE.Collection1"
+ X="111"
+ Y="721"
+ Width="100"
+ Height="50"
+ Name="UpdatedPacketsList"
+ Guid="995a4f04-07fa-438d-9389-5ac679e5abfc"
+>
+<Parameters>
+<Parameter
+ Type="Messages.SystemVersion1.EUROBALISE.Collection1"
+ Name="aPacketsList"
+ Guid="9432c31b-d073-424a-b9eb-1613221c51ec"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="091ada07-8629-4aa6-b301-e3c2025b1676"
+>
+<Expression>MAP aPacketsList USING X IN UpdatePacket(X, aPacketsList)</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.EUROBALISE.SubStructure1"
+ X="221"
+ Y="721"
+ Width="100"
+ Height="50"
+ Name="UpdatePacket"
+ Guid="a27afb76-2b09-47f0-aaae-cebbb66810d8"
+>
+<Parameters>
+<Parameter
+ Type="Messages.SystemVersion1.EUROBALISE.SubStructure1"
+ Name="aPacket"
+ Guid="5178d220-9148-4071-a58b-1bb552a47d5b"
+>
+</Parameter><Parameter
+ Type="Messages.SystemVersion1.EUROBALISE.Collection1"
+ Name="aOtherPackets"
+ Guid="fe1df2f1-16d4-4629-9f43-79b887dac220"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Packet 3 - National values"
+ Guid="1b9a902c-11f8-4322-b3e3-9466879bcd9c"
+>
+<PreConditions>
+<PreCondition
+ Guid="6864208c-1f7a-4011-b715-5f5603abdc49"
+>Available(aPacket.TRACK_TO_TRAIN.NATIONAL_VALUES)</PreCondition><PreCondition
+ Guid="875db582-71de-45e2-89b5-f72ede1c7903"
+>FORALL X IN aOtherPackets | NOT Available(X.TRACK_TO_TRAIN.NATIONAL_VALUES_FOR_BRAKING_CURVES)</PreCondition></PreConditions>
+<Expression>Messages.EUROBALISE.SubStructure1{
+TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message{
+    NATIONAL_VALUES =&gt; NationalValues.UpdatedNV(aPacket.TRACK_TO_TRAIN.NATIONAL_VALUES)
+}
+}</Expression>
+</Case><Case
+ Name="Packet 3 + Packet 203 - Full national values"
+ Guid="8dfc696b-704b-483e-b713-9b691f0e198e"
+>
+<PreConditions>
+<PreCondition
+ Guid="0dab8f70-0c31-453d-b7d6-71dedfd8d278"
+>Available(aPacket.TRACK_TO_TRAIN.NATIONAL_VALUES)</PreCondition><PreCondition
+ Guid="ee9b7452-0339-486f-a470-9514c8e59036"
+>THERE_IS X IN aOtherPackets | Available(X.TRACK_TO_TRAIN.NATIONAL_VALUES_FOR_BRAKING_CURVES)</PreCondition></PreConditions>
+<Expression>Messages.EUROBALISE.SubStructure1{}</Expression>
+</Case><Case
+ Name="Packet 12 - Level 1 MA"
+ Guid="e9d5c96b-fe66-43ed-b2b1-867cbb135166"
+>
+<PreConditions>
+<PreCondition
+ Guid="b5181b56-a6a6-4b79-b948-51c69722a918"
+>Available(aPacket.TRACK_TO_TRAIN.LEVEL_1_MOVEMENT_AUTHORITY)</PreCondition></PreConditions>
+<Expression>Messages.EUROBALISE.SubStructure1{
+TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message{
+    LEVEL_1_MOVEMENT_AUTHORITY =&gt; aPacket.TRACK_TO_TRAIN.LEVEL_1_MOVEMENT_AUTHORITY
+}
+}</Expression>
+</Case><Case
+ Name="Packet 21 - Gradient profile"
+ Guid="36465734-9b51-4f4e-87f7-06ad1554009c"
+>
+<PreConditions>
+<PreCondition
+ Guid="05b7b003-dfc6-42df-bfe5-5ddf3f0f5284"
+>Available(aPacket.TRACK_TO_TRAIN.GRADIENT_PROFILE)</PreCondition></PreConditions>
+<Expression>Messages.EUROBALISE.SubStructure1{
+TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message{
+    GRADIENT_PROFILE =&gt; aPacket.TRACK_TO_TRAIN.GRADIENT_PROFILE
+}
+}</Expression>
+</Case><Case
+ Name="Packet 27 - ISSP"
+ Guid="9210df28-7198-4401-bfff-f6fd023cf6a2"
+>
+<PreConditions>
+<PreCondition
+ Guid="642e46c4-a911-4540-a91b-3ee8f48cf6e0"
+>Available(aPacket.TRACK_TO_TRAIN.INTERNATIONAL_STATIC_SPEED_PROFILE)</PreCondition></PreConditions>
+<Expression>Messages.EUROBALISE.SubStructure1{
+    TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message{
+  SYSTEM_VERSION_ORDER =&gt; EMPTY, 
+  NATIONAL_VALUES =&gt; EMPTY, 
+  LINKING =&gt; EMPTY, 
+  LEVEL_1_MOVEMENT_AUTHORITY =&gt; EMPTY, 
+  STAFF_RESPONSIBLE_DISTANCE_INFORMATION_FROM_LOOP =&gt; EMPTY, 
+  LEVEL_2_3_MOVEMENT_AUTHORITY =&gt; EMPTY, 
+  REPOSITIONING_INFORMATION =&gt; EMPTY, 
+  GRADIENT_PROFILE =&gt; EMPTY, 
+  INTERNATIONAL_STATIC_SPEED_PROFILE =&gt; InternationalStaticSpeedProfile.UpdatedSSP( aPacket.TRACK_TO_TRAIN.INTERNATIONAL_STATIC_SPEED_PROFILE),
+  TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM =&gt; EMPTY, 
+  TRACK_CONDITION_CHANGE_OF_ALLOWED_CURRENT_CONSUMPTION =&gt; EMPTY, 
+  LEVEL_TRANSITION_ORDER =&gt; EMPTY, 
+  SESSION_MANAGEMENT =&gt; EMPTY, 
+  RADIO_NETWORK_REGISTRATION =&gt; EMPTY, 
+  CONDITIONAL_LEVEL_TRANSITION_ORDER =&gt; EMPTY, 
+  LIST_OF_BALISES_FOR_SH_AREA =&gt; EMPTY, 
+  AXLE_LOAD_SPEED_PROFILE =&gt; EMPTY, 
+  PERMITTED_BRAKING_DISTANCE_INFORMATION =&gt; EMPTY, 
+  MOVEMENT_AUTHORITY_REQUEST_PARAMETERS =&gt; EMPTY, 
+  POSITION_REPORT_PARAMETERS =&gt; EMPTY, 
+  LIST_OF_BALISES_IN_SR_AUTHORITY =&gt; EMPTY, 
+  INHIBITION_OF_REVOCABLE_TSRS_FROM_BALISES_IN_L2_3 =&gt; EMPTY, 
+  TEMPORARY_SPEED_RESTRICTION =&gt; EMPTY, 
+  TEMPORARY_SPEED_RESTRICTION_REVOCATION =&gt; EMPTY, 
+  TRACK_CONDITION_BIG_METAL_MASSES =&gt; EMPTY, 
+  TRACK_CONDITION =&gt; EMPTY, 
+  TRACK_CONDITION_STATION_PLATFORMS =&gt; EMPTY, 
+  ROUTE_SUITABILITY_DATA =&gt; EMPTY, 
+  ADHESION_FACTOR =&gt; EMPTY, 
+  PACKET_FOR_SENDING_PLAIN_TEXT_MESSAGES =&gt; EMPTY, 
+  PACKET_FOR_SENDING_FIXED_TEXT_MESSAGES =&gt; EMPTY, 
+  GEOGRAPHICAL_POSITION_INFORMATION =&gt; EMPTY, 
+  MODE_PROFILE =&gt; EMPTY, 
+  LEVEL_CROSSING_INFORMATION =&gt; EMPTY, 
+  TRACK_AHEAD_FREE_UP_TO_LEVEL_2_3_TRANSITION_LOCATION =&gt; EMPTY, 
+  RBC_TRANSITION_ORDER =&gt; EMPTY, 
+  DANGER_FOR_SHUNTING_INFORMATION =&gt; EMPTY, 
+  RADIO_INFILL_AREA_INFORMATION =&gt; EMPTY, 
+  SESSION_MANAGEMENT_WITH_NEIGHBOURING_RADIO_INFILL_UNIT =&gt; EMPTY, 
+  EOLM_PACKET =&gt; EMPTY, 
+  STOP_SHUNTING_ON_DESK_OPENING =&gt; EMPTY, 
+  INFILL_LOCATION_REFERENCE =&gt; EMPTY, 
+  STOP_IF_IN_STAFF_RESPONSIBLE =&gt; EMPTY, 
+  REVERSING_AREA_INFORMATION =&gt; EMPTY, 
+  REVERSING_SUPERVISION_INFORMATION =&gt; EMPTY, 
+  TRAIN_RUNNING_NUMBER_FROM_RBC =&gt; EMPTY, 
+  DEFAULT_GRADIENT_FOR_TEMPORARY_SPEED_RESTRICTION =&gt; EMPTY, 
+  INHIBITION_OF_BALISE_GROUP_MESSAGE_CONSISTENCY_REACTION =&gt; EMPTY, 
+  DEFAULT_BALISE_LOOP_OR_RIU_INFORMATION =&gt; EMPTY, 
+  DATA_USED_BY_APPLICATIONS_OUTSIDE_THE_ERTMS_ETCS_SYSTEM =&gt; EMPTY, 
+  VIRTUAL_BALISE_COVER_ORDER =&gt; EMPTY, 
+  LSSMA_DISPLAY_TOGGLE_ORDER =&gt; EMPTY, 
+  GENERIC_LS_FUNCTION_MARKER =&gt; EMPTY, 
+  END_OF_INFORMATION =&gt; EMPTY
+}
+}</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>

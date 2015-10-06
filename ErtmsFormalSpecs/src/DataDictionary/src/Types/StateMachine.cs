@@ -102,6 +102,7 @@ namespace DataDictionary.Types
         {
             UnifiedStateMachine = this;
             FinderRepository.INSTANCE.Register(this);
+            UnifiedStateMachine = this;
         }
 
         /// <summary>

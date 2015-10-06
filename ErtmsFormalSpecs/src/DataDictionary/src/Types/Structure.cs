@@ -38,6 +38,7 @@ namespace DataDictionary.Types
         {
             UnifiedStructure = this;
             FinderRepository.INSTANCE.Register(this);
+            UnifiedStructure = this;
         }
 
         /// <summary>

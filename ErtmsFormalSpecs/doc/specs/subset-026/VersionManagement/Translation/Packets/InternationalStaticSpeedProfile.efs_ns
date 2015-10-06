@@ -1,0 +1,296 @@
+<NameSpace
+ X="111"
+ Y="1"
+ Width="100"
+ Height="50"
+ Name="InternationalStaticSpeedProfile"
+ Guid="523b788b-8c48-4964-bce4-d3ff53541850"
+>
+<NameSpaces>
+</NameSpaces>
+<Functions>
+<Function
+ Type="Messages.PACKET.TRACK_TO_TRAIN.INTERNATIONAL_STATIC_SPEED_PROFILE.SubStructure1"
+ X="111"
+ Y="1"
+ Width="100"
+ Height="50"
+ Name="SubStructure1_BL3"
+ Guid="8d28050e-9ca0-47e3-9769-416063dfd885"
+>
+<Parameters>
+<Parameter
+ Type="Messages.SystemVersion1.PACKET.TRACK_TO_TRAIN.INTERNATIONAL_STATIC_SPEED_PROFILE.SubStructure1"
+ Name="aSubStructure1"
+ Guid="0f8bc546-a0ec-4a5c-89ff-7219dad724db"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="NC_DIFF between 8 and 10"
+ Guid="538162c4-593f-4ffe-8738-2ab489396eaa"
+>
+<PreConditions>
+<PreCondition
+ Guid="12a90995-f6dc-4f0c-b28b-843ea5a86076"
+>aSubStructure1.NC_DIFF in [8, 9, 10]</PreCondition></PreConditions>
+<Expression>Messages.PACKET.TRACK_TO_TRAIN.INTERNATIONAL_STATIC_SPEED_PROFILE.SubStructure1{
+Q_DIFF =&gt; 1,
+NC_DIFF =&gt; NC_DIFF_BL3fromNC_DIFF_BL2(aSubStructure1.NC_DIFF),
+V_DIFF =&gt; aSubStructure1.V_DIFF
+}</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="6ac4f08e-7485-4c4f-beef-f2018f544e6e"
+>
+<Expression>Messages.PACKET.TRACK_TO_TRAIN.INTERNATIONAL_STATIC_SPEED_PROFILE.SubStructure1{
+Q_DIFF =&gt; 0,
+NC_CDDIFF =&gt; NC_CDDIFFfromNC_DIFF_BL2(aSubStructure1.NC_DIFF),
+V_DIFF =&gt; aSubStructure1.V_DIFF
+}</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.NC_CDDIFF"
+ X="1"
+ Y="61"
+ Width="100"
+ Height="50"
+ Name="NC_CDDIFFfromNC_DIFF_BL2"
+ Guid="a1cf46e6-5a5b-4212-82cd-1f94a22ef284"
+>
+<Parameters>
+<Parameter
+ Type="Messages.SystemVersion1.NC_DIFF"
+ Name="NC_DIFF"
+ Guid="b0759497-c373-40d8-8ba8-012d18a223e9"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="NC_DIFF = 0"
+ Guid="feaa3ee7-459b-4d06-ac6f-76404d9daf28"
+>
+<PreConditions>
+<PreCondition
+ Guid="c89175f9-77a4-4336-a431-6f8377eb7fb8"
+>NC_DIFF == 0</PreCondition></PreConditions>
+<Expression>9</Expression>
+</Case><Case
+ Name="NC_DIFF = 1"
+ Guid="4c33bd7e-1b4b-4e6d-bbf2-12fc74797065"
+>
+<PreConditions>
+<PreCondition
+ Guid="7c5cf0b2-6944-4a31-9fd0-3604aa6f80fe"
+>NC_DIFF == 1</PreCondition></PreConditions>
+<Expression>0</Expression>
+</Case><Case
+ Name="NC_DIFF = 2"
+ Guid="ca5267ba-085f-4651-9537-2fa53f2273f4"
+>
+<PreConditions>
+<PreCondition
+ Guid="7f74a5a8-6181-471b-be7b-65ded4a519a6"
+>NC_DIFF == 2</PreCondition></PreConditions>
+<Expression>1</Expression>
+</Case><Case
+ Name="NC_DIFF = 3"
+ Guid="1fbd866b-71e4-4e17-a3cf-e0336aff6107"
+>
+<PreConditions>
+<PreCondition
+ Guid="92303d4d-315e-4f37-ba9a-ff664af7eef0"
+>NC_DIFF == 3</PreCondition></PreConditions>
+<Expression>2</Expression>
+</Case><Case
+ Name="NC_DIFF = 4"
+ Guid="43f9d32f-8616-4f5a-ba89-7180d0ad1c88"
+>
+<PreConditions>
+<PreCondition
+ Guid="f7557456-ce65-49c1-b09f-94e667f26c9a"
+>NC_DIFF == 4</PreCondition></PreConditions>
+<Expression>3</Expression>
+</Case><Case
+ Name="NC_DIFF = 5"
+ Guid="268bbb5f-3a9d-4a18-9fb8-2edd59031fb7"
+>
+<PreConditions>
+<PreCondition
+ Guid="0b3ac1c6-9c78-48ee-bc8c-6bc87f27a33b"
+>NC_DIFF == 5</PreCondition></PreConditions>
+<Expression>4</Expression>
+</Case><Case
+ Name="NC_DIFF = 6"
+ Guid="9f70de2d-4950-4404-8cf4-6e996a0cc46a"
+>
+<PreConditions>
+<PreCondition
+ Guid="c4f34031-3de8-401e-931a-1795cc3b65b5"
+>NC_DIFF == 6</PreCondition></PreConditions>
+<Expression>5</Expression>
+</Case><Case
+ Name="NC_DIFF = 7"
+ Guid="c9b453fc-50d5-40df-847d-388223a741a8"
+>
+<PreConditions>
+<PreCondition
+ Guid="132a266e-5155-4d89-9e70-686bdc7ffad8"
+>NC_DIFF == 7</PreCondition></PreConditions>
+<Expression>7</Expression>
+</Case><Case
+ Name="NC_DIFF = 8"
+ Guid="a544a995-1d8e-4f4c-871c-2aaaf27a63a9"
+>
+<PreConditions>
+<PreCondition
+ Guid="f5c85d1a-e94f-402a-ad60-b39877676d0b"
+>NC_DIFF == 8</PreCondition></PreConditions>
+<Expression>10</Expression>
+</Case><Case
+ Name="NC_DIFF = 12"
+ Guid="7f436e85-6c48-408c-b8d8-a3e2d552e1c6"
+>
+<PreConditions>
+<PreCondition
+ Guid="4da11640-69b7-4e37-9bba-a601fc8054b3"
+>NC_DIFF == 12</PreCondition></PreConditions>
+<Expression>8</Expression>
+</Case><Case
+ Name="NC_DIFF = 13"
+ Guid="3899397e-e868-45d6-8ab0-7284cf765653"
+>
+<PreConditions>
+<PreCondition
+ Guid="ec154b8a-9163-4e4d-9953-e7134c5c11f3"
+>NC_DIFF == 13</PreCondition></PreConditions>
+<Expression>6</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.NC_DIFF"
+ X="111"
+ Y="61"
+ Width="100"
+ Height="50"
+ Name="NC_DIFF_BL3fromNC_DIFF_BL2"
+ Guid="f2db951a-6147-4b0e-8c1e-cfd36dba97f0"
+>
+<Parameters>
+<Parameter
+ Type="Messages.SystemVersion1.NC_DIFF"
+ Name="NC_DIFF"
+ Guid="d6010a5e-7793-4812-99b2-1e51896b1249"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="NC_DIFF BL2 = 9"
+ Guid="2af5a50f-4a0c-4955-8989-67f4dbff6e76"
+>
+<PreConditions>
+<PreCondition
+ Guid="cac54bde-f08b-429e-9755-a266943a815a"
+>NC_DIFF == 9</PreCondition></PreConditions>
+<Expression>0</Expression>
+</Case><Case
+ Name="NC_DIFF BL2 = 10"
+ Guid="119da97c-530b-4fc4-9297-e36fea74940b"
+>
+<PreConditions>
+<PreCondition
+ Guid="4a3eb49f-d790-495a-986f-9ddd5f875035"
+>NC_DIFF == 10</PreCondition></PreConditions>
+<Expression>1</Expression>
+</Case><Case
+ Name="NC_DIFF BL2 = 11"
+ Guid="8baf1ec6-a626-4ba4-891e-3927a4316d67"
+>
+<PreConditions>
+<PreCondition
+ Guid="db6e7403-b7d2-4219-8abb-acfd1dee4ad8"
+>NC_DIFF == 11</PreCondition></PreConditions>
+<Expression>2</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.PACKET.TRACK_TO_TRAIN.INTERNATIONAL_STATIC_SPEED_PROFILE.SubStructure3"
+ X="111"
+ Y="1"
+ Width="100"
+ Height="50"
+ Name="SubStructure3_BL3"
+ Guid="b6a4bfca-ff56-42d8-aa0e-90b80b502a5a"
+>
+<Parameters>
+<Parameter
+ Type="Messages.SystemVersion1.PACKET.TRACK_TO_TRAIN.INTERNATIONAL_STATIC_SPEED_PROFILE.SubStructure3"
+ Name="aSubStructure3"
+ Guid="99a573f7-8385-4688-af01-10cc0b0504fc"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="NC_DIFF between 8 and 10"
+ Guid="27566504-95b8-499e-82a7-8267bb8d74a4"
+>
+<PreConditions>
+<PreCondition
+ Guid="83513977-fe9f-4888-acae-c9d720f0e3da"
+>aSubStructure3.NC_DIFF in [8, 9, 10]</PreCondition></PreConditions>
+<Expression>Messages.PACKET.TRACK_TO_TRAIN.INTERNATIONAL_STATIC_SPEED_PROFILE.SubStructure3{
+Q_DIFF =&gt; 1,
+NC_DIFF =&gt; NC_DIFF_BL3fromNC_DIFF_BL2(aSubStructure3.NC_DIFF),
+V_DIFF =&gt; aSubStructure3.V_DIFF
+}</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="d857a0f6-fbdb-41d0-99f1-5855d9a8271d"
+>
+<Expression>Messages.PACKET.TRACK_TO_TRAIN.INTERNATIONAL_STATIC_SPEED_PROFILE.SubStructure3{
+Q_DIFF =&gt; 0,
+NC_CDDIFF =&gt; NC_CDDIFFfromNC_DIFF_BL2(aSubStructure3.NC_DIFF),
+V_DIFF =&gt; aSubStructure3.V_DIFF
+}</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.PACKET.TRACK_TO_TRAIN.INTERNATIONAL_STATIC_SPEED_PROFILE.Message"
+ X="1"
+ Y="781"
+ Width="100"
+ Height="50"
+ Name="UpdatedSSP"
+ Guid="38b6b175-9015-4426-9a88-fb0f69ef0083"
+>
+<Parameters>
+<Parameter
+ Type="Messages.SystemVersion1.PACKET.TRACK_TO_TRAIN.INTERNATIONAL_STATIC_SPEED_PROFILE.Message"
+ Name="aPacket"
+ Guid="6d89472f-1527-4b6b-97dd-f481f97b790c"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="ff30a324-86f4-4f89-876f-170f203d9602"
+>
+<Expression>Messages.PACKET.TRACK_TO_TRAIN.INTERNATIONAL_STATIC_SPEED_PROFILE.Message{
+NID_PACKET =&gt; 27,
+Q_DIR =&gt; aPacket.Q_DIR,
+L_PACKET =&gt; aPacket.L_PACKET,
+Q_SCALE =&gt; aPacket.Q_SCALE,
+D_STATIC =&gt; aPacket.D_STATIC,
+V_STATIC =&gt; aPacket.V_STATIC,
+Q_FRONT =&gt; aPacket.Q_FRONT,
+N_ITER_0 =&gt; aPacket.N_ITER_0,
+Sequence1 =&gt; MAP aPacket.Sequence1 USING X IN SubStructure1_BL3(X),
+N_ITER_1 =&gt; aPacket.N_ITER_1,
+Sequence3 =&gt; MAP aPacket.Sequence3 USING Y IN Messages.PACKET.TRACK_TO_TRAIN.INTERNATIONAL_STATIC_SPEED_PROFILE.SubStructure2{
+    D_STATIC =&gt; Y.D_STATIC,
+    V_STATIC =&gt; Y.V_STATIC,
+    Q_FRONT =&gt; Y.Q_FRONT,
+    N_ITER =&gt; Y.N_ITER,
+    Sequence2 =&gt; MAP Y.Sequence2 USING Z IN SubStructure3_BL3(Z)
+    }
+}</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>

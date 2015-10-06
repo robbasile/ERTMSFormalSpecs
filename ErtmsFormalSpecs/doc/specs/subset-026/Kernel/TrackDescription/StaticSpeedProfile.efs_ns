@@ -277,7 +277,7 @@
 <Expression>Kernel.TrackDescription.StaticSpeedProfile.SSPEnd(aSSP) - aSSP.Location</Expression>
 </Case></Cases>
 </Function><Function
- Type="Messages.NC_CDDIFF"
+ Type="SSPCategory"
  Default=""
  X="590"
  Y="330"
@@ -312,18 +312,27 @@
 </Parameter></Parameters>
 <Cases>
 <Case
+ Name="No categories"
+ Guid="b0c46966-2e55-49a6-be47-254376361bb9"
+>
+<PreConditions>
+<PreCondition
+ Guid="8c5b000c-86c6-4b5e-b712-d682869dd9a0"
+>aSSR.Categories == []</PreCondition></PreConditions>
+<Expression>EMPTY</Expression>
+</Case><Case
  Name="Value"
  Guid="b3fadbe3-c52f-409c-bf9e-f100bb6a5585"
 >
 <Expression>REDUCE
     aSSR.Categories | X.Qualifier == Messages.Q_DIFF.Cant_Deficiency_specific_category AND X.CantDeficiency &lt;= NC_CTRAIN_to_NC_CDDIFF_Converter(Kernel.TrainData.TrainData.Value.TrainCategories.CantDeficiency)
 USING X IN
-    Kernel.TrackDescription.StaticSpeedProfile.MaxCategory (X =&gt; X.CantDeficiency, Y =&gt; RESULT)
+    Kernel.TrackDescription.StaticSpeedProfile.MaxCategory (X =&gt; X, Y =&gt; RESULT)
 INITIAL_VALUE
     EMPTY</Expression>
 </Case></Cases>
 </Function><Function
- Type="Messages.NC_CDTRAIN"
+ Type="SSPCategory"
  Default=""
  X="700"
  Y="330"
@@ -337,43 +346,43 @@ INITIAL_VALUE
 <Comment>Provides the maximum Cant Deficiency category from the two category received as parameters.</Comment>
 <Parameters>
 <Parameter
- Type="Messages.NC_CDDIFF"
+ Type="SSPCategory"
  Name="X"
  Guid="c38d4084-d497-4f48-a755-f24ec89c7166"
 >
 </Parameter><Parameter
- Type="Messages.NC_CDDIFF"
+ Type="SSPCategory"
  Name="Y"
  Guid="a63a248d-148f-4548-af7b-557e20401678"
 >
 </Parameter></Parameters>
 <Cases>
 <Case
- Name="X is empty"
- Guid="c1d81bf0-dadc-4bd1-bdef-e596593826d5"
+ Name="X EMPTY"
+ Guid="a8021f1e-0041-4812-b06e-3bcab4c890d8"
 >
 <PreConditions>
 <PreCondition
- Guid="8683806c-3362-4e29-8abb-f58a951e127e"
+ Guid="6e972528-0113-46ef-ad5f-71192f9074f4"
 >X == EMPTY</PreCondition></PreConditions>
 <Expression>Y</Expression>
 </Case><Case
- Name="Y is empty"
- Guid="9209471d-5834-46bf-be04-7a0a7cf75844"
+ Name="Y EMPTY"
+ Guid="9055f2bf-4536-42f0-9994-b7d1dc8b3266"
 >
 <PreConditions>
 <PreCondition
- Guid="b5aa1695-4890-4030-8255-a1572113adb9"
+ Guid="25d545da-8383-401c-8103-22a5eec9dc61"
 >Y == EMPTY</PreCondition></PreConditions>
 <Expression>X</Expression>
 </Case><Case
- Name="X greater than Y"
+ Name="X greater than, or equal to, Y"
  Guid="030ce8bd-83c9-45ba-bf34-92ad8d648d7e"
 >
 <PreConditions>
 <PreCondition
  Guid="3439aa7f-c1a8-4659-99fc-67203724f191"
->X &gt;= Y</PreCondition></PreConditions>
+>X.CantDeficiency &gt;= Y.CantDeficiency</PreCondition></PreConditions>
 <Expression>X</Expression>
 </Case><Case
  Name="Y greater than X"
@@ -407,19 +416,19 @@ INITIAL_VALUE
 </Parameter></Parameters>
 <Cases>
 <Case
- Name="NoCorrespondingCategory"
- Guid="748b1124-4b82-4335-898c-3c70f2805da0"
+ Name="Corresponding category found"
+ Guid="202abc72-7361-4378-ac53-0831b5f188a1"
 >
 <PreConditions>
 <PreCondition
- Guid="4c69ccb4-6ea7-460c-a685-2371b681e16b"
->Kernel.TrackDescription.StaticSpeedProfile.SelectCantDeficiencyCategory(aSSR) == EMPTY</PreCondition></PreConditions>
-<Expression>aSSR.BasicSpeed</Expression>
+ Guid="2432c430-e04e-4177-8da1-4373117c2229"
+>Available(SelectCantDeficiencyCategory(aSSR))</PreCondition></PreConditions>
+<Expression>SelectCantDeficiencyCategory(aSSR).Speed</Expression>
 </Case><Case
- Name="CorrespondingCategoryFound"
- Guid="06acc45b-dd2a-4263-a75e-cd81c0380c09"
+ Name="Otherwise"
+ Guid="8f4d0b87-40f8-45b5-8034-5898a9603aea"
 >
-<Expression>(FIRST X IN aSSR.Categories | X.Qualifier == Messages.Q_DIFF.Cant_Deficiency_specific_category AND X.CantDeficiency == Kernel.TrackDescription.StaticSpeedProfile.SelectCantDeficiencyCategory(aSSR)).Speed</Expression>
+<Expression>aSSR.BasicSpeed</Expression>
 </Case></Cases>
 </Function><Function
  Type="StaticSpeedRestrictionStruct"
