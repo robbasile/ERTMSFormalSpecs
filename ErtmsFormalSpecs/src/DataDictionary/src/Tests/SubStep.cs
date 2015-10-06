@@ -57,28 +57,37 @@ namespace DataDictionary.Tests
         }
 
         /// <summary>
-        /// Provides the information about the time delay associated to that sub-step
-        /// </summary>
-        public acceptor.TimeDelay TimeDelay
-        {
-            get { return getTimeDelay(); }
-            set
-            {
-                setTimeDelay(value);
-                if (value == acceptor.TimeDelay.aNotDelayed)
-                {
-                    Timer = 0;
-                }
-            }
-        }
-
-        /// <summary>
         /// The timer associated to this sub-step
         /// </summary>
         public int Timer
         {
             get { return getTimer(); }
-            set{ setTimer(value);}
+            set { setTimer(value); }
+        }
+
+        /// <summary>
+        /// Indicates if this sub-step has to be delayed
+        /// </summary>
+        public bool IsDelayed
+        {
+            get { return getTimeDelay() == acceptor.TimeDelay.aDelayed && Timer >= 0; }
+        }
+
+        /// <summary>
+        /// Adds a time delay
+        /// </summary>
+        public void AddTimeDelay()
+        {
+            setTimeDelay(acceptor.TimeDelay.aDelayed);
+        }
+
+        /// <summary>
+        /// Removes the time delay and resets the timer to 0
+        /// </summary>
+        public void RemoveTimeDelay()
+        {
+            setTimeDelay(acceptor.TimeDelay.aNotDelayed);
+            Timer = 0;
         }
 
         /// <summary>
