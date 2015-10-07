@@ -4905,13 +4905,13 @@ The parameter DistanceFromLRBG is needed for the case when the handled BG will b
 <PreConditions>
 <PreCondition
  Guid="f59f7d3d-8d42-4bdd-bbd8-4c554420d5a0"
->BTM.LRBG.NID != BG_To_LRBG(BTM.Message.NID_BG)</PreCondition><PreCondition
+>BTM.LRBG.NID != BG_To_LRBG((LAST X IN CurrentBaliseGroup).Telegram.NID_BG)</PreCondition><PreCondition
  Guid="9a0cc237-370c-4dcb-b53c-9bf804dd2a0d"
 >BTM.LRBGCandidate( )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="3c939d6a-99af-451a-b12d-368fece30c2a"
->BTM.HandleNewLRBG(BG_To_LRBG(Nid_BG =&gt; BTM.Message.NID_BG), DistanceFromLRBG =&gt; DistanceFromLRBG)</Action><Action
+>BTM.HandleNewLRBG(BG_To_LRBG(Nid_BG =&gt; (LAST X IN CurrentBaliseGroup).Telegram.NID_BG), DistanceFromLRBG =&gt; DistanceFromLRBG)</Action><Action
  Guid="eec330f2-bae4-4027-998f-3bed4d222121"
 >INSERT
   BTM.PreviousBaliseGroupStruct
@@ -6101,7 +6101,7 @@ Available(Message_SystemVersion1)</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="80faa721-59ed-4ef4-a364-af49f0e5d159"
->( COUNT X IN BTM.CurrentBaliseGroup ) == BTM.Message.N_TOTAL + 1</PreCondition></PreConditions>
+>( COUNT X IN BTM.CurrentBaliseGroup ) == (LAST X IN CurrentBaliseGroup).Telegram.N_TOTAL + 1</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="74d5488e-85d4-48e9-8de8-43a12dd4b955"
