@@ -55,6 +55,7 @@
 <Comment>Setup of the enviroment</Comment>
 <SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step1 - Initialize test environment"
  Guid="0f4cc37e-e0b7-4f2e-a8a8-fd7bc2355cab"
 >
@@ -76,6 +77,7 @@
 <Comment>level 1 needed to change to a valid mode</Comment>
 <SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step1"
  Guid="bcf334ba-e0b0-497d-9cb9-2891af8aa1d5"
 >
@@ -84,6 +86,7 @@
  Guid="8310c54d-3c6f-43a4-ae0e-0966b5828271"
 >Testing.SetOSMode(False)</Action></Actions>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step2"
  Guid="4fee872b-e11e-489c-a3cf-c063d7bc944d"
 >
@@ -115,6 +118,7 @@
 <Comment>This step is for testing that the OBU doesnt received the packets because it is not in the correct mode, in this case should be FS or LS</Comment>
 <SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="SubStep1"
  Guid="9bf10b10-84c0-465d-82ce-0f66d0f2345d"
 >
@@ -199,6 +203,7 @@ Reaction =&gt; BTM.Linking.LinkingReaction.NoReaction
 IN
 BTM.Linking.Linkings</Action></Actions>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step2"
  Guid="acbc57b7-6a44-44d8-98a1-3c4d2627a6f7"
 >
@@ -234,6 +239,7 @@ BTM.Linking.Linkings</Action></Actions>
 <Comment>This step is for testing that the OBU receives the packets. It has all the necessary for it. The linking information, the correct mode LS or FS and a BTM.Message with the packets.</Comment>
 <SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="SubStep1 - First balise of unlinked balise group received"
  Guid="d6ea842e-1a02-42b6-88aa-c2a9c2fb9c8b"
 >
@@ -305,6 +311,7 @@ BTM.Linking.Linkings</Action></Actions>
      ]
 }</Action></Actions>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step2 - Second balise of unlinked balise group received"
  Guid="2a38b278-ee53-4e8a-9c28-9deda843b106"
 >
@@ -338,6 +345,7 @@ BTM.Linking.Linkings</Action></Actions>
  Guid="6551ed0e-58bc-4397-a3e1-21fb3067e840"
 >Kernel.Infill.Data.NID_BG == 2126</Expectation></Expectations>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step3 - check expectations"
  Guid="b7741d85-c780-4dda-881a-dea6cacc1674"
 >
@@ -365,6 +373,7 @@ BTM.Linking.Linkings</Action></Actions>
 <Comment>Same as step 4 but for LS. The train is tripped otherwise kernel changes the mode to FS (condition 32 of Table 4.6)</Comment>
 <SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="SubStep1 - First balise of unlinked balise group received in Mode profile for LS"
  Guid="74dc0345-070d-442a-8fac-0c9969ff688a"
 >
@@ -438,6 +447,7 @@ BTM.Linking.Linkings</Action></Actions>
      ]
 }</Action></Actions>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step2 - Second balise of unlinked balise group received"
  Guid="bfe8d52b-3338-4dc6-812f-1e6551e3ebf2"
 >
@@ -459,6 +469,7 @@ BTM.Linking.Linkings</Action></Actions>
     Sequence1=&gt;[]
 }</Action></Actions>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step3 - Check expectations"
  Guid="f0a3b119-7ea8-4814-94e1-7a2bbd2c7c26"
 >
@@ -486,6 +497,7 @@ BTM.Linking.Linkings</Action></Actions>
 <Comment>This step is for testing that if there is not linking information, the OBU does not receive the packet even if it is in the correct mode. The value of the length of the EndSection, is for the previous MA. That means that the new one ( 1200 ) it is not stored.</Comment>
 <SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="SubStep1"
  Guid="7abcbe47-e4d6-4656-988a-8cbc75556a11"
 >
@@ -559,6 +571,7 @@ BTM.Linking.Linkings</Action></Actions>
                 ]
 }</Action></Actions>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step2"
  Guid="b44adfb1-528f-486f-8769-16ebf7679533"
 >
@@ -602,6 +615,7 @@ BTM.Linking.Linkings</Action></Actions>
 >
 <SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="SubStep1 - Initialize test environment"
  Guid="3de3aa38-5c91-4e01-8bac-5d11b1518fbb"
 >
@@ -610,6 +624,7 @@ BTM.Linking.Linkings</Action></Actions>
  Guid="ceae8009-5ac9-4ebc-aad9-319bc44a266b"
 >Testing.InitializeTestEnvironment(100.0)</Action></Actions>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step2 -  Reset MA (+Grad+SSP)"
  Guid="a58a93d8-8899-4314-a596-95b38c07d4a0"
 >
@@ -622,6 +637,7 @@ BTM.Linking.Linkings</Action></Actions>
  Guid="2bd4c535-305f-4090-82dd-868186178b16"
 >Kernel.MA.MA &lt;- EMPTY</Action></Actions>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step3 - Set FS mode"
  Guid="4abc4aa8-c076-4296-8104-0121b1e269bc"
 >
@@ -642,6 +658,7 @@ BTM.Linking.Linkings</Action></Actions>
 >
 <SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="SubStep1"
  Guid="917c86cb-3955-463f-8794-7b2d54e50bd6"
 >
@@ -652,6 +669,7 @@ BTM.Linking.Linkings</Action></Actions>
  Guid="937b5cd3-2dcc-40f0-8cf7-47d517315d38"
 >BTM.Linking.Linkings &lt;- []</Action></Actions>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step2"
  Guid="362596bb-e244-4add-899c-1e7f38e5e83f"
 >
@@ -682,6 +700,7 @@ BTM.Linking.Linkings</Action></Actions>
 >
 <SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step1"
  Guid="1143abe5-0c52-4faa-b469-1628838443fb"
 >
@@ -742,6 +761,7 @@ BTM.Linking.Linkings</Action></Actions>
     ]
 }</Action></Actions>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step2"
  Guid="d1c61444-baac-46d7-a827-16403a0d1e5f"
 >
@@ -768,6 +788,7 @@ BTM.Linking.Linkings</Action></Actions>
 >
 <SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="SubStep1 - First balise of unlinked balise group received"
  Guid="cc9a226a-c591-47e1-bc79-dcded8e1a3e4"
 >
@@ -867,6 +888,7 @@ Reaction =&gt; BTM.Linking.LinkingReaction.NoReaction
 IN
 BTM.Linking.Linkings</Action></Actions>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step2 - Second balise of unlinked balise group received"
  Guid="93553a3d-6ce6-4257-9b92-1c29508a34a7"
 >
@@ -900,6 +922,7 @@ BTM.Linking.Linkings</Action></Actions>
 >
 <SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="SubStep1"
  Guid="e24d08ce-2d2b-4755-906a-501c10a2f2b9"
 >
@@ -959,6 +982,7 @@ BTM.Linking.Linkings</Action></Actions>
 >
 <SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="SubStep1 - Initialize test environment"
  Guid="f96d2200-552a-4bae-abc2-4ab5a86d6e77"
 >
@@ -967,6 +991,7 @@ BTM.Linking.Linkings</Action></Actions>
  Guid="2a6a0d5e-36e0-49d8-8cd7-d0a9c03920b6"
 >Testing.InitializeTestEnvironment(100.0)</Action></Actions>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step2 -  Reset MA (+Grad+SSP)"
  Guid="cb424143-9d9f-4533-9165-f621b066ab54"
 >
@@ -979,6 +1004,7 @@ BTM.Linking.Linkings</Action></Actions>
  Guid="934ea4cb-067c-4efe-9efd-6133101e7255"
 >Kernel.MA.MA &lt;- EMPTY</Action></Actions>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step3 - Set FS mode"
  Guid="eee3d504-6bfa-4be1-b332-eed686e65b3c"
 >
@@ -999,6 +1025,7 @@ BTM.Linking.Linkings</Action></Actions>
 >
 <SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="SubStep1"
  Guid="b3bea4fd-08b0-4765-975d-ca8650793e90"
 >
@@ -1009,6 +1036,7 @@ BTM.Linking.Linkings</Action></Actions>
  Guid="884fac6e-cd36-4ae3-9f1b-2585f79d6607"
 >BTM.Linking.Linkings &lt;- []</Action></Actions>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step2"
  Guid="a8296992-802e-4edc-bc31-73bfe4b20df4"
 >
@@ -1039,6 +1067,7 @@ BTM.Linking.Linkings</Action></Actions>
 >
 <SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step1"
  Guid="31acef13-6c99-45ff-9896-dd70c0f29ec0"
 >
@@ -1099,6 +1128,7 @@ BTM.Linking.Linkings</Action></Actions>
     ]
 }</Action></Actions>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step2"
  Guid="6b2e8fa5-c0c8-4447-ab64-5cd5289eeaf4"
 >
@@ -1125,6 +1155,7 @@ BTM.Linking.Linkings</Action></Actions>
 >
 <SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="SubStep1 - First balise of unlinked balise group received"
  Guid="c6a7b690-c2ff-451c-b9de-ce1918329055"
 >
@@ -1224,6 +1255,7 @@ Reaction =&gt; BTM.Linking.LinkingReaction.NoReaction
 IN
 BTM.Linking.Linkings</Action></Actions>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step2 - Second balise of unlinked balise group received"
  Guid="4805facc-c965-471c-8ce0-c47a025e04fe"
 >
@@ -1257,6 +1289,7 @@ BTM.Linking.Linkings</Action></Actions>
 >
 <SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="SubStep1"
  Guid="379a58f5-8a74-4c8e-a2cd-3a8012cb1ac3"
 >
@@ -1312,6 +1345,7 @@ BTM.Linking.Linkings</Action></Actions>
 >
 <SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="SubStep 1 - Initialize test environment"
  Guid="b5a101b1-31c1-48d7-986f-cda37ad218bb"
 >
@@ -1320,6 +1354,7 @@ BTM.Linking.Linkings</Action></Actions>
  Guid="70d64647-6a83-4cb1-b705-d9888a212c0c"
 >Testing.InitializeTestEnvironment(100.0)</Action></Actions>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step 2 - Put the train in FS mode"
  Guid="709ba5f4-41fe-41e0-b69a-1a78916665f5"
 >
@@ -1335,6 +1370,7 @@ BTM.Linking.Linkings</Action></Actions>
     V_ura =&gt; 0.0
 }</Action></Actions>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step 3 - Set the train speed"
  Guid="c3b3428a-c26b-4796-95f7-aba3839f9b0a"
 >
@@ -1355,6 +1391,7 @@ BTM.Linking.Linkings</Action></Actions>
 >
 <SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step 1 - Remove previous linking data"
  Guid="6cba92bf-59b7-490d-b7e5-b8ef24892535"
 >
@@ -1363,6 +1400,7 @@ BTM.Linking.Linkings</Action></Actions>
  Guid="576a3aa0-ed0e-4309-bc0b-c5878c35608a"
 >BTM.Linking.Linkings &lt;- []</Action></Actions>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="SubStep 1 - Manually insert new linking information"
  Guid="9eee11fa-4782-4772-9f90-81952f3fa7a5"
 >
@@ -1391,6 +1429,7 @@ IN BTM.Linking.Linkings</Action></Actions>
 >
 <SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step 1 - First balise in the BG, for direction"
  Guid="a0dedd5b-4c5e-4b46-b727-7bf9c5140a87"
 >
@@ -1411,6 +1450,7 @@ IN BTM.Linking.Linkings</Action></Actions>
     Sequence1 =&gt; []
 }</Action></Actions>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step 2 - Get an infill MA from a balise"
  Guid="e5f125f3-ad92-4c69-9d5c-1503a23c20e7"
 >
@@ -1479,6 +1519,7 @@ IN BTM.Linking.Linkings</Action></Actions>
      ]
  }</Action></Actions>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Expectations - new MA section at the location of the main signal"
  Guid="0e81ffa8-7460-4fb7-ba58-211050cb3169"
 >
@@ -1543,6 +1584,7 @@ IN BTM.Linking.Linkings</Action></Actions>
 >
 <SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step1 - Initialize test environment"
  Guid="21d839ec-b9e7-4bcf-9997-78a8e57d73fb"
 >
@@ -1551,6 +1593,7 @@ IN BTM.Linking.Linkings</Action></Actions>
  Guid="168dec10-d8af-4035-bd99-aab1fd05a951"
 >Testing.InitializeTestEnvironment(100.0)</Action></Actions>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step2 - Initialize elements to accept MA"
  Guid="2bdbca76-d4f2-4fbd-b5bc-347798263cf4"
 >
@@ -1571,6 +1614,7 @@ IN BTM.Linking.Linkings</Action></Actions>
 >
 <SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="SubStep1"
  Guid="6499dded-fbb1-4697-a30d-7ff6a9b0837c"
 >
@@ -1644,6 +1688,7 @@ IN BTM.Linking.Linkings</Action></Actions>
  Guid="d4a51d10-221f-4fe8-949c-0f286b2cbcf0"
 >Odometry.NominalDistance &lt;- 4150.0</Action></Actions>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step2"
  Guid="a84e4629-f2a4-40a2-83b3-8d5092086b4a"
 >
@@ -1666,6 +1711,7 @@ IN BTM.Linking.Linkings</Action></Actions>
 >
 <SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="SubStep1"
  Guid="f6a714d3-b569-4c8d-9864-2b6e90be1390"
 >
@@ -1754,6 +1800,7 @@ IN BTM.Linking.Linkings</Action></Actions>
     }
 }</Action></Actions>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step2"
  Guid="40973dac-3c58-4d81-b974-e9499bf3c405"
 >
@@ -1821,6 +1868,7 @@ IN BTM.Linking.Linkings</Action></Actions>
 >
 <SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step1 - Initialize test environment"
  Guid="29a5e782-5c83-4851-aba0-172960fa2b57"
 >
@@ -1829,6 +1877,7 @@ IN BTM.Linking.Linkings</Action></Actions>
  Guid="8ac64e1b-ddeb-49b4-b220-ee7b7bf2e5b1"
 >Testing.InitializeTestEnvironment(100.0)</Action></Actions>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step2 - Initialize elements to accept MA"
  Guid="4ce61ee5-0b31-44de-ab4b-9b2de980f6d9"
 >
@@ -1857,6 +1906,7 @@ IN BTM.Linking.Linkings</Action></Actions>
 >
 <SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step1"
  Guid="fae26379-c157-47a7-b986-235af01c3b4f"
 >
@@ -1963,6 +2013,7 @@ IN BTM.Linking.Linkings</Action></Actions>
 >
 <SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step1"
  Guid="f235962a-1442-407e-9d53-ae117df9f76b"
 >
@@ -2088,6 +2139,7 @@ IN BTM.Linking.Linkings</Action></Actions>
 >
 <SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step1 - Initialize test environment"
  Guid="106a7c1f-292e-44aa-af0b-b2e522cbaf6f"
 >
@@ -2096,6 +2148,7 @@ IN BTM.Linking.Linkings</Action></Actions>
  Guid="3bd1723b-f422-4840-87f4-1ce4bca51d1c"
 >Testing.InitializeTestEnvironment(100.0)</Action></Actions>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step2 - Set LS mode"
  Guid="7fedee45-3836-479b-bdef-62956b69b93c"
 >
@@ -2124,6 +2177,7 @@ IN BTM.Linking.Linkings</Action></Actions>
 >
 <SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step 1"
  Guid="94d83dd7-f04f-4ec6-a21c-a598fec59ae4"
 >
@@ -2245,6 +2299,7 @@ IN BTM.Linking.Linkings</Action></Actions>
 >
 <SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step1"
  Guid="09cd816c-5b8d-4cad-96e7-62bb56548071"
 >
@@ -2269,6 +2324,7 @@ IN BTM.Linking.Linkings</Action></Actions>
 >
 <SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step1"
  Guid="f9e8646b-f62c-436b-931f-51924b90a696"
 >
@@ -2385,6 +2441,7 @@ IN BTM.Linking.Linkings</Action></Actions>
 >
 <SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step1"
  Guid="1dcdd16a-b770-4ea9-bbd3-29cdf774a082"
 >
@@ -2449,6 +2506,7 @@ IN BTM.Linking.Linkings</Action></Actions>
 >
 <SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step1 - Initialize test environment"
  Guid="77c22e4e-3811-461a-b830-c174bfb5cd68"
 >
@@ -2457,6 +2515,7 @@ IN BTM.Linking.Linkings</Action></Actions>
  Guid="ada25dbf-c1ad-42b5-8b70-656553572189"
 >Testing.InitializeTestEnvironment(100.0)</Action></Actions>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step2 - Initialize elements to accept MA"
  Guid="e7313022-6f18-4333-8426-97b7b1b504f1"
 >
@@ -2485,6 +2544,7 @@ IN BTM.Linking.Linkings</Action></Actions>
 >
 <SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step1"
  Guid="9f628496-f709-4d97-9efb-5848bd40d1f2"
 >
@@ -2591,6 +2651,7 @@ IN BTM.Linking.Linkings</Action></Actions>
 >
 <SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step1"
  Guid="2c3f5837-7074-4c6f-9394-1fd61e755983"
 >
@@ -2710,6 +2771,7 @@ IN BTM.Linking.Linkings</Action></Actions>
 >
 <SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step1 - Initialize test environment"
  Guid="c27016e9-c53e-4514-a9d5-745dadd339e2"
 >
@@ -2718,6 +2780,7 @@ IN BTM.Linking.Linkings</Action></Actions>
  Guid="7f635957-221c-46fe-a4fe-bf22ec150c9b"
 >Testing.InitializeTestEnvironment(100.0)</Action></Actions>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step2 - Initialize elements to accept MA"
  Guid="a789fa69-78e6-415b-ad88-c5da177e3fda"
 >
@@ -2746,6 +2809,7 @@ IN BTM.Linking.Linkings</Action></Actions>
 >
 <SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step1"
  Guid="d7d7c0cd-108e-4703-9fdf-f0f8621dfe3c"
 >
@@ -2855,6 +2919,7 @@ IN BTM.Linking.Linkings</Action></Actions>
 >
 <SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step1"
  Guid="19c90077-7394-4624-a72d-2832a2b1b590"
 >
@@ -3002,6 +3067,7 @@ IN BTM.Linking.Linkings</Action></Actions>
 >
 <SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step1 - Initialize test environment"
  Guid="8b4608e9-7a4f-4898-bb7f-a077033d2416"
 >
@@ -3010,6 +3076,7 @@ IN BTM.Linking.Linkings</Action></Actions>
  Guid="8d62c5a5-f8e2-42b2-a73a-578dff07dbf7"
 >Testing.InitializeTestEnvironment(100.0)</Action></Actions>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step2 - Set LS mode"
  Guid="359c2b43-76af-4306-9d9f-efd5e485c7fc"
 >
@@ -3038,6 +3105,7 @@ IN BTM.Linking.Linkings</Action></Actions>
 >
 <SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step 1"
  Guid="98d3d91c-0a0e-4b3f-87d1-a14d1ea2d29a"
 >
@@ -3168,6 +3236,7 @@ IN BTM.Linking.Linkings</Action></Actions>
 >
 <SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step1"
  Guid="f29bb631-94b3-4ca3-97fb-3608e76f1d02"
 >
@@ -3204,6 +3273,7 @@ IN BTM.Linking.Linkings</Action></Actions>
 >
 <SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step1"
  Guid="cf92d325-845c-40e1-9702-50fffd3b552b"
 >
@@ -3295,6 +3365,7 @@ IN BTM.Linking.Linkings</Action></Actions>
 >
 <SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step1"
  Guid="c2feb83a-82f4-4b4d-ac82-fa3a4e00ca27"
 >
@@ -3364,6 +3435,7 @@ IN BTM.Linking.Linkings</Action></Actions>
 <Comment>Start with a MA that ends with a Limit of Authority</Comment>
 <SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="SubStep 1 - Initialize test environment"
  Guid="d1d65ff6-6ba1-47a8-9f9e-6527b8eabe83"
 >
@@ -3372,6 +3444,7 @@ IN BTM.Linking.Linkings</Action></Actions>
  Guid="81cf7e2c-6f75-4878-beb6-8fd81694ede9"
 >Testing.InitializeTestEnvironment(100.0)</Action></Actions>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step 2 - Set mode"
  Guid="14353223-b296-43a4-9e1b-0eb79f1db4f6"
 >
@@ -3380,6 +3453,7 @@ IN BTM.Linking.Linkings</Action></Actions>
  Guid="107bbff6-500d-4b7f-ae85-d239ccc33bd8"
 >Testing.SetFSMode(False)</Action></Actions>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step 3 - Set up an MA"
  Guid="3eb57c89-dc95-416a-a971-ebdb005fedec"
 >
@@ -3407,6 +3481,7 @@ IN BTM.Linking.Linkings</Action></Actions>
  Guid="5b03286f-4783-4b1e-9cd9-36b0bb27d319"
 >Kernel.MA.SvL() == EMPTY</Expectation></Expectations>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step 4 - Set nominal orientation"
  Guid="51d8e07d-6e8e-40eb-adf1-08d26cd17458"
 >
@@ -3429,6 +3504,7 @@ IN BTM.Linking.Linkings</Action></Actions>
 <Description></Description>
 <SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="SubStep 1 - Pass the first balise"
  Guid="419c8ea5-393d-4d24-bcb9-ed3adf74d6cd"
 >
@@ -3491,6 +3567,7 @@ IN BTM.Linking.Linkings</Action></Actions>
      ]
  }</Action></Actions>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step 2 - Pass the second balise"
  Guid="062390ab-d0a0-4fcf-84bf-0efa9a64da16"
 >
@@ -3528,6 +3605,7 @@ IN BTM.Linking.Linkings</Action></Actions>
  Guid="0d7fb8d8-cf67-4f2b-bdc7-663934d8286f"
 >Kernel.MA.ShorteningHandler.IsSvL == False</Expectation></Expectations>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step 3 - Expecting to get a MA shortening regardless of SvL"
  Guid="cb576c08-1760-48e2-93a4-1d742169aafe"
 >
@@ -3556,6 +3634,7 @@ IN BTM.Linking.Linkings</Action></Actions>
 <Description></Description>
 <SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="SubStep 1 - Pass the first balise"
  Guid="33c4a767-25c1-4bbf-bb8b-5c5eec53409e"
 >
@@ -3618,6 +3697,7 @@ IN BTM.Linking.Linkings</Action></Actions>
      ]
  }</Action></Actions>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step 2 - Pass the second balise"
  Guid="a54eb9ce-06a3-4aaa-8e77-2218efa54b68"
 >
@@ -3659,6 +3739,7 @@ IN BTM.Linking.Linkings</Action></Actions>
  Guid="f3795cc0-fef0-4970-a560-6e9fbbb9e206"
 >Kernel.MA.ShorteningHandler.IsSvL</Expectation></Expectations>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step 3 - Expecting a MA shortening"
  Guid="b57c3e8c-edf2-4127-9d94-3fd0d54e2013"
 >
@@ -3687,6 +3768,7 @@ IN BTM.Linking.Linkings</Action></Actions>
 <Description></Description>
 <SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="SubStep 1 - Pass the first balise"
  Guid="78f72ead-c9bb-4b55-998a-03273ad4022a"
 >
@@ -3749,6 +3831,7 @@ IN BTM.Linking.Linkings</Action></Actions>
      ]
  }</Action></Actions>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step 2 - Pass the second balise"
  Guid="41dbf961-8851-4db8-8b8a-4ef675707a42"
 >
@@ -3790,6 +3873,7 @@ IN BTM.Linking.Linkings</Action></Actions>
  Guid="487eb78e-6db2-4508-8b1e-d357464d7e73"
 >Kernel.MA.ShorteningHandler.IsSvL</Expectation></Expectations>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step 3 - Expecting a MA shortening"
  Guid="6fcb8878-18ab-4027-a274-2007363182a8"
 >
@@ -3855,6 +3939,7 @@ IN BTM.Linking.Linkings</Action></Actions>
 <Comment>Give the train a distant MA, set it in FS mode and ERTMS level 1</Comment>
 <SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step 1 - Initialize test environment"
  Guid="54cebbf9-2151-4bd4-927d-ad99f0d2cc8b"
 >
@@ -3863,6 +3948,7 @@ IN BTM.Linking.Linkings</Action></Actions>
  Guid="36f92aba-c6d0-4333-98c3-d169aa531756"
 >Testing.InitializeTestEnvironment(100.0)</Action></Actions>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step 2 - Set FS mode"
  Guid="d3af7ffb-ba0e-4323-a0bd-f0919404817c"
 >
@@ -3878,6 +3964,7 @@ IN BTM.Linking.Linkings</Action></Actions>
     V_ura =&gt; 0.0
 }</Action></Actions>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step 3 - Give the train an MA"
  Guid="ca6e9397-1c7e-4907-a7b4-0bdf2e5cf4d6"
 >
@@ -3898,6 +3985,7 @@ IN BTM.Linking.Linkings</Action></Actions>
     }
 }</Action></Actions>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step 4 - Provide train data for handling MAs"
  Guid="d923d035-09f4-4ec5-9fee-9fe5772e62c0"
 >
@@ -3906,6 +3994,7 @@ IN BTM.Linking.Linkings</Action></Actions>
  Guid="07091361-7ee9-4ea9-b107-34eb13d3f799"
 >Kernel.TrainPosition.Position.DirectionalPositionInformation.TrainOrientation &lt;- Orientation.Nominal</Action></Actions>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step 5 - Check that the setup performed properly"
  Guid="ad592632-781f-4e84-9398-98a37897b473"
 >
@@ -3933,6 +4022,7 @@ IN BTM.Linking.Linkings</Action></Actions>
 <Comment>The train gets linking informations consistent with a repositioning information message and ithandles the message</Comment>
 <SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step 1 - Clear linking data"
  Guid="afcf02a3-24b2-4b6e-97c2-367fca86869f"
 >
@@ -3941,6 +4031,7 @@ IN BTM.Linking.Linkings</Action></Actions>
  Guid="e13046c0-21b6-4d4e-b5fb-8bf56500125d"
 >BTM.Linking.Linkings &lt;- []</Action></Actions>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step 2 - Setup for the repositioning information"
  Guid="61818e95-8130-4800-aa05-d31f980f854c"
 >
@@ -3957,6 +4048,7 @@ IN BTM.Linking.Linkings</Action></Actions>
 
 IN BTM.Linking.Linkings</Action></Actions>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step 3 - Receive repositioning information"
  Guid="1cb95f57-769a-49fc-acc4-7234a3ed03af"
 >
@@ -3993,6 +4085,7 @@ IN BTM.Linking.Linkings</Action></Actions>
      ]
  }</Action></Actions>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step 4 - Second balise for orientation"
  Guid="5e23813e-2697-46ab-83f5-264b4d1f48a7"
 >
@@ -4013,6 +4106,7 @@ IN BTM.Linking.Linkings</Action></Actions>
     Sequence1 =&gt; []
  }</Action></Actions>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step 5 - Expectations _ information handled and no MA shortening"
  Guid="a7781ca5-3829-4175-b22e-5f73fffafbfb"
 >
@@ -4048,6 +4142,7 @@ IN BTM.Linking.Linkings</Action></Actions>
 <Comment>The train gets linking information that is inconsistent with a repositioning information message and ignores it</Comment>
 <SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step 1 - Clear linking data"
  Guid="d2f66423-6964-4f90-a176-440367494049"
 >
@@ -4056,6 +4151,7 @@ IN BTM.Linking.Linkings</Action></Actions>
  Guid="423f439f-65d1-4454-b2bb-e688de511f2b"
 >BTM.Linking.Linkings &lt;- []</Action></Actions>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step 2 - Setup for the rejected repositioning information"
  Guid="a56dcdee-17f5-4c39-a3ae-09bb13f77470"
 >
@@ -4072,6 +4168,7 @@ IN BTM.Linking.Linkings</Action></Actions>
 
 IN BTM.Linking.Linkings</Action></Actions>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step 3 - Receive repositioning information"
  Guid="59ce5eac-789e-4bc1-8cc6-909fa01f5a0e"
 >
@@ -4110,6 +4207,7 @@ IN BTM.Linking.Linkings</Action></Actions>
  Guid="33a20ef6-b090-4002-a69b-3ef744277a21"
 >Odometry.NominalDistance &lt;- Odometry.NominalDistance + 105.0</Action></Actions>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step 4 - Second balise for orientation"
  Guid="ee67c683-edc2-4865-9afd-7919eb8d80a3"
 >
@@ -4130,6 +4228,7 @@ IN BTM.Linking.Linkings</Action></Actions>
     Sequence1 =&gt; []
  }</Action></Actions>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step 5 - Expectations _ information ignored"
  Guid="7f13f4b2-84d8-4878-8ccf-d005c34c77bd"
 >
@@ -4161,6 +4260,7 @@ IN BTM.Linking.Linkings</Action></Actions>
 <Comment>The train handles repositioning information in a section other than the end section (for 3.8.5.2.1)</Comment>
 <SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step 1 - Clear linking data"
  Guid="a2c340f6-7b89-4c39-a015-37bf1a342ff4"
 >
@@ -4169,6 +4269,7 @@ IN BTM.Linking.Linkings</Action></Actions>
  Guid="5707bc89-47ae-405b-ae39-6ad2a2c7b918"
 >BTM.Linking.Linkings &lt;- []</Action></Actions>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step 2 - Set up an MA and linking information"
  Guid="debe2b05-7664-479c-bc93-1d11961ca373"
 >
@@ -4217,6 +4318,7 @@ BTM.Linking.Linkings</Action><Action
  Guid="6a57f29c-8976-47bf-8cab-6e2799f3a91f"
 >Kernel.MA.MA.EndSection.Length == 600.0</Expectation></Expectations>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step 3 - First balise has the packet"
  Guid="863b5e00-f181-44d7-a900-8e7476907f52"
 >
@@ -4249,6 +4351,7 @@ BTM.Linking.Linkings</Action><Action
      ]
  }</Action></Actions>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step 4 - Second balise"
  Guid="faa7fa5f-3792-480f-87be-cc330d24e954"
 >
@@ -4269,6 +4372,7 @@ BTM.Linking.Linkings</Action><Action
     Sequence1 =&gt; []
 }</Action></Actions>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step 5 - Expectations"
  Guid="492413c8-7540-44fc-adae-76e60c8e9a87"
 >
@@ -4331,6 +4435,7 @@ BTM.Linking.Linkings</Action><Action
 >
 <SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step1 - Initialize test environment"
  Guid="2ee889fb-9142-4efb-a206-ca4c8d81f7a5"
 >
@@ -4351,6 +4456,7 @@ BTM.Linking.Linkings</Action><Action
 >
 <SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="SubStep1"
  Guid="4e2e53ca-ad6c-4bb6-a44b-d7deb133b7a2"
 >
@@ -4359,6 +4465,7 @@ BTM.Linking.Linkings</Action><Action
  Guid="ee2ab38c-de10-4959-b02b-2784d1849bbc"
 >Testing.SetOSMode(False)</Action></Actions>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step2"
  Guid="920f0b9b-d4ce-4d50-be26-88fb5606a432"
 >
@@ -4389,6 +4496,7 @@ BTM.Linking.Linkings</Action><Action
 >
 <SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="SubStep1"
  Guid="21c38af8-620a-4795-b495-d7d39ac4fdef"
 >
@@ -4425,6 +4533,7 @@ BTM.Linking.Linkings</Action><Action
     BaliseGroupIdentifier =&gt; 9618
 }]</Action></Actions>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step2"
  Guid="f07d95bd-475d-44ce-94dc-2bd76309c56d"
 >
@@ -4477,6 +4586,7 @@ BTM.Linking.Linkings</Action><Action
     ]
 }</Action></Actions>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step3"
  Guid="11a8b5d8-df41-4bfc-950a-b69cdb4152ba"
 >
@@ -4535,6 +4645,7 @@ BTM.Linking.Linkings</Action><Action
 >
 <SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="SubStep1"
  Guid="6e03e140-d642-4ac6-9edc-f6efc867eb78"
 >
@@ -4575,6 +4686,7 @@ BTM.Linking.Linkings</Action><Action
  Guid="511de61d-d3df-4ec4-b1c4-fc5e1dd53d66"
 >Kernel.MA.MA != EMPTY</Expectation></Expectations>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step2"
  Guid="4c22cca3-29a7-4a7a-93c7-f82a5acd0269"
 >
@@ -4631,6 +4743,7 @@ BTM.Linking.Linkings</Action><Action
     ]
 }</Action></Actions>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step3"
  Guid="61fb7e4d-d70c-4102-a3e1-2869a71c69da"
 >
@@ -4694,6 +4807,7 @@ BTM.Linking.Linkings</Action><Action
 <Comment>We separately check for the overlap-fields here, so there is no interference with Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedSupervision.ReleaseSpeed #morido, 13/11/20</Comment>
 <SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="SubStep1"
  Guid="bf477a64-856f-4fc1-9d70-8070c4eb7745"
 >
@@ -4718,6 +4832,7 @@ BTM.Linking.Linkings</Action><Action
  Guid="a6c3a092-4160-44d8-be80-9fdb678aefce"
 >Kernel.MA.MA != EMPTY</Expectation></Expectations>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step2"
  Guid="4850268b-6944-4031-bc09-8c51358329c0"
 >
@@ -4776,6 +4891,7 @@ BTM.Linking.Linkings</Action><Action
     ]
 }</Action></Actions>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step3"
  Guid="c3718d5e-c0e9-47a8-80fb-9a0f00d17d31"
 >
@@ -4839,6 +4955,7 @@ BTM.Linking.Linkings</Action><Action
 >
 <SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step1 - Initialize test environment"
  Guid="99f19017-973e-403b-98af-ff42fbb91e07"
 >
@@ -4847,6 +4964,7 @@ BTM.Linking.Linkings</Action><Action
  Guid="17c18d3d-05fe-477c-80cd-907873eb9bc4"
 >Testing.InitializeTestEnvironment(100.0)</Action></Actions>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step2 - Initialize elements to accept MA"
  Guid="a2cf86fa-1ca4-4578-973f-8e5d3f3f24d8"
 >
@@ -4869,6 +4987,7 @@ BTM.Linking.Linkings</Action><Action
 >
 <SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="SubStep1"
  Guid="25054664-4fa2-47bf-8ca3-01b4605c0dc4"
 >
@@ -4881,6 +5000,7 @@ BTM.Linking.Linkings</Action><Action
  Guid="973cc5e6-ff29-4493-8ed4-23a103be3dfb"
 >Testing.SetOSMode(False)</Action></Actions>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step2"
  Guid="f558725c-15da-4b4e-a486-f458bb0fead4"
 >
@@ -4911,6 +5031,7 @@ BTM.Linking.Linkings</Action><Action
 >
 <SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="SubStep1"
  Guid="85f95102-23a1-4550-b445-7cfee501e87d"
 >
@@ -4939,6 +5060,7 @@ BTM.Linking.Linkings</Action><Action
  Guid="bac0898e-885e-4f36-86c2-778ddf1f55fb"
 >Odometry.NominalDistance &lt;- 2050.0</Action></Actions>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step2"
  Guid="9c35c98b-a2cd-4d7a-bb72-5078bd102012"
 >
@@ -4982,6 +5104,7 @@ BTM.Linking.Linkings</Action><Action
     Priority =&gt; EURORADIO.MessagePriorityEnum.Normal
 }</Action></Actions>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step3"
  Guid="2cfb48bb-6391-47e2-a4ba-a66dc4132a5c"
 >
@@ -5036,6 +5159,7 @@ BTM.Linking.Linkings</Action><Action
 >
 <SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="SubStep1"
  Guid="ee5e1b7c-2208-4e6f-8e3b-d9d009c19b21"
 >
@@ -5062,6 +5186,7 @@ BTM.Linking.Linkings</Action><Action
  Guid="20755ae5-8538-4f0f-890d-56da5cf2d694"
 >Kernel.MA.MA != EMPTY</Expectation></Expectations>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step2"
  Guid="a93db420-32c2-41ff-a890-0bb4eb27b565"
 >
@@ -5110,6 +5235,7 @@ BTM.Linking.Linkings</Action><Action
     Priority =&gt; EURORADIO.MessagePriorityEnum.Normal
 }</Action></Actions>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step3"
  Guid="5aa1f690-b2ef-4733-9526-a3239f9ac0de"
 >
@@ -5169,6 +5295,7 @@ BTM.Linking.Linkings</Action><Action
 <Comment>We separately check for the overlap-fields here, so there is no interference with Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedSupervision.ReleaseSpeed #morido, 13/11/20</Comment>
 <SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="SubStep1"
  Guid="24973c27-81f6-4ae4-94c0-e2d243a805df"
 >
@@ -5193,6 +5320,7 @@ BTM.Linking.Linkings</Action><Action
  Guid="1d5917f5-506f-4979-abda-a36f4b4aa6ba"
 >Kernel.MA.MA != EMPTY</Expectation></Expectations>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step2"
  Guid="ccde0264-55d1-49f1-b3cf-d944d148bff6"
 >
@@ -5243,6 +5371,7 @@ BTM.Linking.Linkings</Action><Action
     Priority =&gt; EURORADIO.MessagePriorityEnum.Normal
 }</Action></Actions>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step3"
  Guid="1683a7e8-2710-4de4-843d-95d32a9f7bb1"
 >
@@ -5307,6 +5436,7 @@ BTM.Linking.Linkings</Action><Action
 >
 <SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step1 - Initialize test environment"
  Guid="9792fc8d-511e-4ecf-98fd-bbacaf4154f7"
 >
@@ -5315,6 +5445,7 @@ BTM.Linking.Linkings</Action><Action
  Guid="8112a78f-f4db-4662-a23a-f04301e39529"
 >Testing.InitializeTestEnvironment(100.0)</Action></Actions>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step2 - Initialize elements to accept MA"
  Guid="31619091-b909-4aac-b1c2-6e916124f741"
 >
@@ -5337,6 +5468,7 @@ BTM.Linking.Linkings</Action><Action
 >
 <SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="SubStep1"
  Guid="bdd41fb7-d027-4dc5-9360-23f26a7a9ff7"
 >
@@ -5349,6 +5481,7 @@ BTM.Linking.Linkings</Action><Action
  Guid="89c1b1b6-1c16-43b0-b190-e9e45290b579"
 >Testing.SetOSMode(False)</Action></Actions>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step2"
  Guid="3e42d02a-4b28-40fa-adfd-dd497e0a0ea8"
 >
@@ -5379,6 +5512,7 @@ BTM.Linking.Linkings</Action><Action
 >
 <SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="SubStep1"
  Guid="2db6d439-7f3d-44df-8a72-bbc42486ef9e"
 >
@@ -5407,6 +5541,7 @@ BTM.Linking.Linkings</Action><Action
  Guid="a4e65a03-4ce8-49bf-9423-8ee65ad8cfad"
 >Odometry.NominalDistance &lt;- 2100.0</Action></Actions>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step2"
  Guid="8b29f553-e364-49d3-9b57-37463e57efc8"
 >
@@ -5458,6 +5593,7 @@ BTM.Linking.Linkings</Action><Action
     Priority =&gt; EURORADIO.MessagePriorityEnum.Normal
 }</Action></Actions>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step3"
  Guid="0092df30-38e9-4a2c-84fd-16a61b492329"
 >
@@ -5512,6 +5648,7 @@ BTM.Linking.Linkings</Action><Action
 >
 <SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="SubStep1"
  Guid="0a7f8247-3e6d-4e62-b836-106243adf75b"
 >
@@ -5538,6 +5675,7 @@ BTM.Linking.Linkings</Action><Action
  Guid="c3a3b5f3-a596-4808-a807-d5522809e4c0"
 >Kernel.MA.MA != EMPTY</Expectation></Expectations>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step2"
  Guid="06753054-a68b-453a-9377-7552017b30cf"
 >
@@ -5595,6 +5733,7 @@ BTM.Linking.Linkings</Action><Action
     Priority =&gt; EURORADIO.MessagePriorityEnum.Normal
 }</Action></Actions>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step3"
  Guid="b162abdf-027d-4832-847d-1259e80aa729"
 >
@@ -5653,6 +5792,7 @@ BTM.Linking.Linkings</Action><Action
 >
 <SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="SubStep1"
  Guid="f5e98e80-8069-4ea8-af7c-e5a470a1dd73"
 >
@@ -5677,6 +5817,7 @@ BTM.Linking.Linkings</Action><Action
  Guid="06735959-6b24-4868-bc61-5efbe323ca4f"
 >Kernel.MA.MA != EMPTY</Expectation></Expectations>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step2"
  Guid="712bc00e-b543-4abe-832e-e92c6a28e89f"
 >
@@ -5736,6 +5877,7 @@ BTM.Linking.Linkings</Action><Action
     Priority =&gt; EURORADIO.MessagePriorityEnum.Normal
 }</Action></Actions>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step3"
  Guid="09e86ba1-4391-46b4-a682-d86499fbbc93"
 >
@@ -5816,6 +5958,7 @@ BTM.Linking.Linkings</Action><Action
 >
 <SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step1 - Initialize test environment"
  Guid="70a80b37-fe93-4f48-b660-cb38234e3ce0"
 >
@@ -5824,6 +5967,7 @@ BTM.Linking.Linkings</Action><Action
  Guid="c74d7824-7f20-439c-9b52-30b274ed2e59"
 >Testing.InitializeTestEnvironment(100.0)</Action></Actions>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step2 - Initialize elements to accept MA"
  Guid="c98a8cf8-ac65-45d8-b1ef-42f342ebc209"
 >
@@ -5854,6 +5998,7 @@ BTM.Linking.Linkings</Action><Action
 >
 <SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step1"
  Guid="630e7dcf-9e85-40e0-8417-343e9e3836d7"
 >
@@ -5949,6 +6094,7 @@ BTM.Linking.Linkings</Action><Action
 >
 <SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step1"
  Guid="dbb3b866-16f3-4bb6-af6e-b4c0d5239c24"
 >
@@ -6012,6 +6158,7 @@ BTM.Linking.Linkings</Action><Action
 >
 <SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step1"
  Guid="4560c182-f5f6-4c02-96d0-e2af7e9aee6b"
 >
@@ -6075,6 +6222,7 @@ BTM.Linking.Linkings</Action><Action
 >
 <SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step1"
  Guid="6cf19f8f-27ec-4105-893a-7a36b1659e4f"
 >
@@ -6182,6 +6330,7 @@ BTM.Linking.Linkings</Action><Action
 >
 <SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step1 - Initialize test environment"
  Guid="0f7ea0f6-51dd-40ac-8e63-53453ad1dd9f"
 >
@@ -6190,6 +6339,7 @@ BTM.Linking.Linkings</Action><Action
  Guid="9697545b-cb87-4c3d-bd7f-811f1285e4c5"
 >Testing.InitializeTestEnvironment(100.0)</Action></Actions>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step2 - Initialize elements to accept MA"
  Guid="d4e09fe6-4c83-4e36-824e-8be7c273f412"
 >
@@ -6218,6 +6368,7 @@ BTM.Linking.Linkings</Action><Action
 >
 <SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step1"
  Guid="a313c668-ade1-4171-93f7-22dc4a3896be"
 >
@@ -6315,6 +6466,7 @@ BTM.Linking.Linkings</Action><Action
 >
 <SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step1"
  Guid="935ea03c-12ef-475b-a699-719079556f72"
 >
@@ -6384,6 +6536,7 @@ BTM.Linking.Linkings</Action><Action
 >
 <SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step1 - Initialize test environment"
  Guid="836d86ba-f213-4e1e-926a-fc54ea908202"
 >
@@ -6392,6 +6545,7 @@ BTM.Linking.Linkings</Action><Action
  Guid="eb85624b-9d19-4c22-9f0f-6a2f202ac254"
 >Testing.InitializeTestEnvironment(100.0)</Action></Actions>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step2 - Set LS mode"
  Guid="f61659f1-0ad4-4a46-be0d-f7e850531e82"
 >
@@ -6438,6 +6592,7 @@ BTM.Linking.Linkings</Action><Action
 >
 <SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="SubStep1"
  Guid="7e6c23bc-adfd-4927-9f55-b6145f3b99f8"
 >
@@ -6494,6 +6649,7 @@ BTM.Linking.Linkings</Action><Action
     ]
 }</Action></Actions>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step2"
  Guid="2476b1c2-7ae5-4ef1-8113-d5430ad827f1"
 >
@@ -6528,6 +6684,7 @@ BTM.Linking.Linkings</Action><Action
 >
 <SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="SubStep1"
  Guid="408104a1-3b38-4d18-a218-4d64e289ef68"
 >
@@ -6584,6 +6741,7 @@ BTM.Linking.Linkings</Action><Action
     ]
 }</Action></Actions>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step2"
  Guid="57a04ee0-e442-4236-94cf-90b76f406602"
 >
@@ -6618,6 +6776,7 @@ BTM.Linking.Linkings</Action><Action
 >
 <SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="SubStep1"
  Guid="21401a24-c3b5-4e8b-8c0f-9c4513eff283"
 >
@@ -6674,6 +6833,7 @@ BTM.Linking.Linkings</Action><Action
     ]
 }</Action></Actions>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step2"
  Guid="674e7b41-ad07-479f-84d9-d6f384477338"
 >
@@ -6722,6 +6882,7 @@ BTM.Linking.Linkings</Action><Action
 >
 <SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="SubStep1"
  Guid="6f5a3954-f452-4721-93d2-854f9ba69972"
 >
@@ -6778,6 +6939,7 @@ BTM.Linking.Linkings</Action><Action
     ]
 }</Action></Actions>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step2"
  Guid="774a3621-c343-4459-9482-59d376366e94"
 >
@@ -6833,6 +6995,7 @@ BTM.Linking.Linkings</Action><Action
 >
 <SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step1 - Initialize test environment"
  Guid="fabf54cc-3252-41b3-9fa6-206e530578fd"
 >
@@ -6841,6 +7004,7 @@ BTM.Linking.Linkings</Action><Action
  Guid="f0ff2822-e109-4079-9fbb-5e183c2e5e63"
 >Testing.InitializeTestEnvironment(100.0)</Action></Actions>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step2 - Initialize elements to accept MA"
  Guid="36410df0-a9b7-4eab-9544-4900653b388c"
 >
@@ -6869,6 +7033,7 @@ BTM.Linking.Linkings</Action><Action
 >
 <SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="SubStep1"
  Guid="4bc2265b-c7de-4dcd-b0ad-e50f3ace1bea"
 >
@@ -6946,6 +7111,7 @@ BTM.Linking.Linkings</Action><Action
 >
 <SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="SubStep1"
  Guid="2aa83288-cbd7-4da3-9de6-3760a7231441"
 >
