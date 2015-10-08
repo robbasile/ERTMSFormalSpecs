@@ -129,7 +129,7 @@
 <PreConditions>
 <PreCondition
  Guid="dd98f405-5150-47ff-9a74-17a96cef58fb"
->Kernel.NationalValues.NationalValuesStruct.DataState == DataState.Invalid</PreCondition></PreConditions>
+>Kernel.NationalValues.NationalValuesStruct.DataState == DataStateEnum.Invalid</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="7c98bafa-15b2-4787-9384-f8c8641eeb7a"
@@ -137,8 +137,8 @@
 </RuleCondition></Conditions>
 </Rule></Rules>
 <StructureElement
- TypeName="Default.DataState"
- Default="Default.DataState.Invalid"
+ TypeName="DataStateEnum"
+ Default="DataStateEnum.Invalid"
  Mode="Internal"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
@@ -1735,7 +1735,7 @@
 >
 <Expression>Kernel.NationalValues.NationalValuesStruct
 {
-    DataState =&gt; Default.DataState.Valid,
+    DataState =&gt; DataStateEnum.Valid,
     ApplicableStartLocation =&gt; MessageTypes.QScaleDistance ( distance =&gt; Packet.D_VALIDNV, scale =&gt; Packet.Q_SCALE ),
     NID_C =&gt; NID_C,
     Value =&gt; NationalDefaultDataStruct
@@ -2538,7 +2538,7 @@
  Guid="0cb8f8e9-a841-4bff-bbb0-a534c9774614"
 >Kernel.Modes.StaffResponsible.SREndLocation() &lt;= Distance</PreCondition><PreCondition
  Guid="085f5adc-b43b-426c-90bb-1e23251bbef5"
->Kernel.Mode == Default.Mode.SR</PreCondition></PreConditions>
+>Kernel.Mode == ModeEnum.SR</PreCondition></PreConditions>
 <Expression>0.0</Expression>
 </Case><Case
  Name="No speed restriction"
@@ -2680,7 +2680,7 @@
 <PreConditions>
 <PreCondition
  Guid="1b78efea-f645-4ef9-9b1e-2ffb97156761"
->Odometry.TrainSpeed() &lt;= Kernel.MRSP.SpeedRestrictions (Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom))</PreCondition></PreConditions>
+>Odometry.TrainSpeed() &lt;= Kernel.MRSP.SpeedRestrictions (Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom))</PreCondition></PreConditions>
 <Expression>Kernel.NationalValues.CurrentNV().PermToReleaseEmergencyBrake == Messages.Q_NVEMRRLS.Revoke_emergency_brake_command_when_permitted_speed_supervision_limit_is_no_longer_exceeded</Expression>
 </Case><Case
  Name="Otherwise"
@@ -2757,7 +2757,7 @@
 <PreConditions>
 <PreCondition
  Guid="65fdcced-7235-4f44-be32-8d345b334251"
->Kernel.NationalValues.ApplicableNationalValues.DataState == DataState.Valid</PreCondition></PreConditions>
+>Kernel.NationalValues.ApplicableNationalValues.DataState == DataStateEnum.Valid</PreCondition></PreConditions>
 <Expression>Kernel.NationalValues.ApplicableNationalValues.Value</Expression>
 </Case><Case
  Name="Default values"
@@ -3750,7 +3750,7 @@
  Guid="7e45de5e-66de-4df6-b95a-f34fd63cfab1"
 >Available(Kernel.NationalValues.NotApplicableNationalValues)
   AND  
-Kernel.TrainPosition.FrontEndPosition( PointOfInterest =&gt; DistanceInterval.Nom ) &gt;= Kernel.NationalValues.NotApplicableNationalValues.ApplicableStopLocation</PreCondition></PreConditions>
+Kernel.TrainPosition.FrontEndPosition( PointOfInterest =&gt; DistanceIntervalEnum.Nom ) &gt;= Kernel.NationalValues.NotApplicableNationalValues.ApplicableStopLocation</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="d4d252df-e8b1-4358-8386-899d255eaa97"
@@ -3771,9 +3771,9 @@ Kernel.TrainPosition.FrontEndPosition( PointOfInterest =&gt; DistanceInterval.No
 <PreConditions>
 <PreCondition
  Guid="36a832ac-f673-4b9f-8989-1a9304523d0c"
->Kernel.TrainPosition.FrontEndPosition( PointOfInterest =&gt; DistanceInterval.Nom ) &gt;= Kernel.NationalValues.NotApplicableNationalValues.ApplicableStartLocation</PreCondition><PreCondition
+>Kernel.TrainPosition.FrontEndPosition( PointOfInterest =&gt; DistanceIntervalEnum.Nom ) &gt;= Kernel.NationalValues.NotApplicableNationalValues.ApplicableStartLocation</PreCondition><PreCondition
  Guid="3d66c648-74f2-4bdc-8264-633197a17194"
->Kernel.NationalValues.NotApplicableNationalValues.DataState == DataState.Valid</PreCondition></PreConditions>
+>Kernel.NationalValues.NotApplicableNationalValues.DataState == DataStateEnum.Valid</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="2aeb7c89-b50c-4fef-b303-7045654a89c7"

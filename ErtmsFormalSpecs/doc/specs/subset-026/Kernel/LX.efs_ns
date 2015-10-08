@@ -636,9 +636,9 @@ INITIAL_VALUE BaseTypes.MaxSpeedFunction) (Distance)</Expression>
 >
 <Expression>aLX.StoppingRequired
   AND
-aLX.Location - aLX.StoppingAreaLength &lt;= Kernel.TrainPosition.FrontEndPosition( PointOfInterest =&gt; DistanceInterval.Nom )
+aLX.Location - aLX.StoppingAreaLength &lt;= Kernel.TrainPosition.FrontEndPosition( PointOfInterest =&gt; DistanceIntervalEnum.Nom )
   AND
-Kernel.TrainPosition.FrontEndPosition( PointOfInterest =&gt; DistanceInterval.Nom ) &lt;= aLX.Location</Expression>
+Kernel.TrainPosition.FrontEndPosition( PointOfInterest =&gt; DistanceIntervalEnum.Nom ) &lt;= aLX.Location</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -699,19 +699,19 @@ It is satisfied if the estimated or the max safe front end (depending whether th
  Guid="27fd513f-4347-436d-a985-58b252376701"
 >(
   Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.SBD_Target(
-    Distance =&gt; Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom),
+    Distance =&gt; Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom),
     aTarget =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT()
 ) == BaseTypes.Speed.NA
   OR
   Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.SBD_Target(
-    Distance =&gt; Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom),
+    Distance =&gt; Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom),
     aTarget =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT()
 ) &lt; aLX.Speed
 )
   AND
 Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.EBD_Target
 (
-  Distance =&gt; (Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom)),
+  Distance =&gt; (Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom)),
   aTarget =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target
   {
     Speed =&gt; 0.0,
@@ -729,7 +729,7 @@ Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.EBD_Target
 >(
   Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.SBD_Target
   (
-    Distance =&gt; Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom),
+    Distance =&gt; Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom),
     aTarget =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target
     {
       Speed =&gt; 0.0,
@@ -739,7 +739,7 @@ Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.EBD_Target
   OR
   Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.SBD_Target
   (
-    Distance =&gt; Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom),
+    Distance =&gt; Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom),
     aTarget =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target
     {
       Speed =&gt; 0.0,
@@ -750,7 +750,7 @@ Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.EBD_Target
   AND
 Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.EBD_Target
 (
-  Distance =&gt; (Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Max)),
+  Distance =&gt; (Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max)),
   aTarget =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target
   {
     Speed =&gt; 0.0,
@@ -765,7 +765,7 @@ Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.EBD_Target
     },
     Vest =&gt; aLX.Speed + Kernel.SpeedAndDistanceMonitoring.f41( V =&gt; aLX.Speed ),
     NoA_est =&gt; True 
-) &lt;= Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Max))</Expression>
+) &lt;= Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max))</Expression>
 </Case><Case
  Name="EBD undefined, SBD defined"
  Guid="cdef8867-c7f0-4eb2-9299-adc7e8682e22"
@@ -774,18 +774,18 @@ Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.EBD_Target
 <PreCondition
  Guid="6defd243-0751-4c79-a330-29ec47356a78"
 >Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.SBD_Target(
-    Distance =&gt; Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom),
+    Distance =&gt; Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom),
     aTarget =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT()
 ) != BaseTypes.Speed.NA
   AND
 Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.SBD_Target(
-    Distance =&gt; Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom),
+    Distance =&gt; Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom),
     aTarget =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT()
 ) &gt;= aLX.Speed
   AND
 Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.EBD_Target
 (
-  Distance =&gt; (Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom)),
+  Distance =&gt; (Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom)),
   aTarget =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target
   {
     Speed =&gt; 0.0,
@@ -800,7 +800,7 @@ Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.EBD_Target
     },
     Vest =&gt; aLX.Speed + Kernel.SpeedAndDistanceMonitoring.f41( V =&gt; aLX.Speed ),
     NoA_est =&gt; True
-) &lt;= Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Max))</Expression>
+) &lt;= Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max))</Expression>
 </Case><Case
  Name="Value for SBI1"
  Guid="f4052748-7c95-42d6-9f60-ff500bf55fd9"
@@ -817,7 +817,7 @@ Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.EBD_Target
     },
     Vest =&gt; aLX.Speed + Kernel.SpeedAndDistanceMonitoring.f41( V =&gt; aLX.Speed ),
     NoA_est =&gt; True
-) &lt;= Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom))</Expression>
+) &lt;= Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom))</Expression>
 </Case><Case
  Name="Value for SBI2"
  Guid="c43828b7-0d92-4b13-8d55-8c4ef789fb76"
@@ -830,7 +830,7 @@ Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.EBD_Target
     },
     Vest =&gt; aLX.Speed + Kernel.SpeedAndDistanceMonitoring.f41( V =&gt; aLX.Speed ),
     NoA_est =&gt; True
-) &lt;= Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Max))</Expression>
+) &lt;= Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max))</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -890,7 +890,7 @@ Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_SBI2
 )</Expression>
 </Case></Cases>
 </Function><Function
- Type="DistanceInterval"
+ Type="DistanceIntervalEnum"
  Default=""
  X="110"
  Y="60"
@@ -927,17 +927,17 @@ Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_SBI2
 <PreCondition
  Guid="85a39cd2-0e93-44b6-86bb-795272712381"
 >Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.SBD_Target(
-    Distance =&gt; Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom),
+    Distance =&gt; Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom),
     aTarget =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT()
 ) != BaseTypes.Speed.NA
   AND
 Kernel.LX.SBI1IsMostRestrictive( aLX =&gt; aLX )</PreCondition></PreConditions>
-<Expression>DistanceInterval.Nom</Expression>
+<Expression>DistanceIntervalEnum.Nom</Expression>
 </Case><Case
  Name="Maximal"
  Guid="f006b704-01fa-4293-a5b0-396ecf291c31"
 >
-<Expression>DistanceInterval.Max</Expression>
+<Expression>DistanceIntervalEnum.Max</Expression>
 </Case></Cases>
 </Function><Function
  Type="SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target"
@@ -1353,7 +1353,7 @@ IN Kernel.LX.SupervisedLevelCrossings</Action></Actions>
   Kernel.LX.InsertSupervisedLXToMRSPLX
  (
     NID_LX =&gt; X.Id,
-    LocationUpdate =&gt; X.Location - Kernel.TrainPosition.FrontEndPosition( PointOfInterest =&gt; DistanceInterval.Nom )
+    LocationUpdate =&gt; X.Location - Kernel.TrainPosition.FrontEndPosition( PointOfInterest =&gt; DistanceIntervalEnum.Nom )
   )
 ON
   Kernel.LX.SupervisedLevelCrossings | Kernel.LX.StoppingConditionSatisfied ( aLX =&gt; X )</Action></Actions>
@@ -1738,7 +1738,7 @@ Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT().Speed == 0.0</Pre
 >DMI.MasterDMI().Out_LXStatusNotProtected.OutputInformation.DisplayRequested == True</PreCondition><PreCondition
  Guid="570cd62d-e6c3-4bf4-98a5-66f73c5b5f58"
 >THERE_IS aLX IN Kernel.LX.MRSPLevelCrossings |
-  aLX.Location + aLX.Length &lt;= Kernel.TrainPosition.FrontEndPosition( PointOfInterest =&gt; DistanceInterval.Min )</PreCondition></PreConditions>
+  aLX.Location + aLX.Length &lt;= Kernel.TrainPosition.FrontEndPosition( PointOfInterest =&gt; DistanceIntervalEnum.Min )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="01f88f62-b0ed-4467-aec6-1f4c3123d7a9"

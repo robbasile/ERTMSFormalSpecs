@@ -179,7 +179,7 @@
 </Collection></Collections>
 <Functions>
 <Function
- Type="InputInformation"
+ Type="InputInformationStruct"
  Default=""
  X="10"
  Y="290"
@@ -397,8 +397,8 @@
  Guid="e99f2a0f-e29a-48ef-9495-d81af331b46a"
 >anAck.Type == DMI.IN.Acknowledgements.AckTypeEnum.FixedTextInformation</PreCondition><PreCondition
  Guid="8e2cc8a3-63fd-46f8-8ee3-2459c57e50a4"
->DMI.MasterDMI().In_AcknOfFixedTextInformation.Text == anAck.Text</PreCondition></PreConditions>
-<Expression>DMI.MasterDMI().In_AcknOfFixedTextInformation.InputInformation.RequestStatus == Request.Request</Expression>
+>DMI.MasterDMI().In_AcknOfFixedTextInformation.Message == anAck.Text</PreCondition></PreConditions>
+<Expression>DMI.MasterDMI().In_AcknOfFixedTextInformation.InputInformation.RequestStatus == RequestEnum.Request</Expression>
 </Case><Case
  Name="Acknowledgement is displayed, plain text information"
  Guid="1698f55f-64c8-4c81-bbac-68e6ada495d7"
@@ -408,8 +408,8 @@
  Guid="19821586-e405-461d-98a7-2baa176aca70"
 >anAck.Type == DMI.IN.Acknowledgements.AckTypeEnum.PlainTextInformation</PreCondition><PreCondition
  Guid="65b5dafe-5c33-4134-8649-2d851d567819"
->DMI.MasterDMI().In_AcknOfPlainTextInformation.Text == anAck.Text</PreCondition></PreConditions>
-<Expression>DMI.MasterDMI().In_AcknOfPlainTextInformation.InputInformation.RequestStatus == Request.Request</Expression>
+>DMI.MasterDMI().In_AcknOfPlainTextInformation.Message == anAck.Text</PreCondition></PreConditions>
+<Expression>DMI.MasterDMI().In_AcknOfPlainTextInformation.InputInformation.RequestStatus == RequestEnum.Request</Expression>
 </Case><Case
  Name="Acknowledgement is displayed, level transition"
  Guid="8dfbc3f9-4dc6-4634-82bf-018ffa3f9ee4"
@@ -420,12 +420,12 @@
 >anAck.Type == DMI.IN.Acknowledgements.AckTypeEnum.LevelTransition</PreCondition><PreCondition
  Guid="e17252a9-92c2-4b6a-bd9c-0e77dadfe11f"
 >DMI.MasterDMI().In_AcknOfLevelTransition.Level == anAck.Level</PreCondition></PreConditions>
-<Expression>DMI.MasterDMI().In_AcknOfLevelTransition.InputInformation.RequestStatus == Request.Request</Expression>
+<Expression>DMI.MasterDMI().In_AcknOfLevelTransition.InputInformation.RequestStatus == RequestEnum.Request</Expression>
 </Case><Case
  Name="Acknowledgement is displayed, other types"
  Guid="b28c90c5-eb44-4915-b871-670d00e36a91"
 >
-<Expression>DMI.IN.Acknowledgements.FindDMIStructure( anAck =&gt; anAck.Type ).RequestStatus == Request.Request</Expression>
+<Expression>DMI.IN.Acknowledgements.FindDMIStructure( anAck =&gt; anAck.Type ).RequestStatus == RequestEnum.Request</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="f11e3a28-087b-45f6-93e8-2689213ac28f"
@@ -507,7 +507,7 @@
 <Actions>
 <Action
  Guid="2155274f-5ec7-4899-a5ce-2c15266e57b7"
->DMI.MasterDMI().In_AcknOfFixedTextInformation.Text &lt;- (FIRST Ack IN DMI.IN.Acknowledgements.Acknowledgements).Text</Action></Actions>
+>DMI.MasterDMI().In_AcknOfFixedTextInformation.Message &lt;- (FIRST Ack IN DMI.IN.Acknowledgements.Acknowledgements).Text</Action></Actions>
 </RuleCondition><RuleCondition
  NeedsRequirement="FALSE"
  Name="Plain text information"
@@ -521,7 +521,7 @@
 <Actions>
 <Action
  Guid="f7d3dd16-4133-4aad-9a4e-edd3b4993732"
->DMI.MasterDMI().In_AcknOfPlainTextInformation.Text &lt;- (FIRST Ack IN DMI.IN.Acknowledgements.Acknowledgements).Text</Action></Actions>
+>DMI.MasterDMI().In_AcknOfPlainTextInformation.Message &lt;- (FIRST Ack IN DMI.IN.Acknowledgements.Acknowledgements).Text</Action></Actions>
 </RuleCondition><RuleCondition
  Name="Level transition"
  Guid="c38297d8-4b10-41a3-b5e0-67a7efb59a5d"

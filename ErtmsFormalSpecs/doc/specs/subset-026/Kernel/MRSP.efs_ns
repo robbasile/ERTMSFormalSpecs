@@ -575,9 +575,9 @@
 <PreConditions>
 <PreCondition
  Guid="3cba845a-5194-47da-81ff-78d368523184"
->Kernel.TrainPosition.Position.DataState == DataState.Valid</PreCondition></PreConditions>
+>Kernel.TrainPosition.Position.DataState == DataStateEnum.Valid</PreCondition></PreConditions>
 <Expression>REDUCE
-  TARGETS(Kernel.MRSP.SpeedRestrictions) | Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Min) &lt; X.Location  AND  X.Location &lt;= Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Max)
+  TARGETS(Kernel.MRSP.SpeedRestrictions) | Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Min) &lt; X.Location  AND  X.Location &lt;= Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max)
 USING X IN
   BaseTypes.MinSpeed(
     X1 =&gt; X.Speed,
@@ -585,7 +585,7 @@ USING X IN
 )
 INITIAL_VALUE
   Kernel.MRSP.SpeedRestrictions(BaseTypes.MaxDistance(
-    X1=&gt;Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Min),
+    X1=&gt;Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Min),
     X2=&gt;0.0
 ))</Expression>
 </Case><Case
@@ -595,7 +595,7 @@ INITIAL_VALUE
 <PreConditions>
 <PreCondition
  Guid="db1088b1-47d7-48cc-82ea-d54ec2ee1683"
->Kernel.Mode == Default.Mode.SR</PreCondition></PreConditions>
+>Kernel.Mode == ModeEnum.SR</PreCondition></PreConditions>
 <Expression>Kernel.MRSP.SpeedRestrictions(BaseTypes.MaxDistance(
     X1 =&gt; Odometry.NominalDistance - Kernel.TrainPosition.SRStartDistance,
     X2 =&gt; 0.0

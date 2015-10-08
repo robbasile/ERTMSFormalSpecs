@@ -185,8 +185,8 @@
  Guid="9e1e6f3b-c52b-41a5-bb50-ac64511665dd"
 >THERE_IS AdhFactor IN Kernel.TrackDescription.AdhesionFactors.AdhFactors |
   AdhFactor.Value == Messages.M_ADHESION.Slippery_rail AND
-  AdhFactor.Location &lt;= Kernel.TrainPosition.FrontEndPosition(PointOfInterest =&gt; DistanceInterval.Nom ) AND
-  Kernel.TrainPosition.FrontEndPosition(PointOfInterest =&gt; DistanceInterval.Nom) &lt; AdhFactor.Location + BaseTypes.DistanceToLength(Distance =&gt; AdhFactor.Length)</PreCondition></PreConditions>
+  AdhFactor.Location &lt;= Kernel.TrainPosition.FrontEndPosition(PointOfInterest =&gt; DistanceIntervalEnum.Nom ) AND
+  Kernel.TrainPosition.FrontEndPosition(PointOfInterest =&gt; DistanceIntervalEnum.Nom) &lt; AdhFactor.Location + BaseTypes.DistanceToLength(Distance =&gt; AdhFactor.Length)</PreCondition></PreConditions>
 <Expression>Messages.M_ADHESION.Slippery_rail</Expression>
 </Case><Case
  Name="Adhesion factor selected by driver"
@@ -252,7 +252,7 @@
 <PreConditions>
 <PreCondition
  Guid="3561a639-76c0-4960-8b38-0a4fe6522090"
->Kernel.Mode != Default.Mode.TR</PreCondition></PreConditions>
+>Kernel.Mode != ModeEnum.TR</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="28507f44-7f78-41c3-a734-268448af9a57"

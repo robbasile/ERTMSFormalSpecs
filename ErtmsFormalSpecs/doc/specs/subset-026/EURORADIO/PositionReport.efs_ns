@@ -105,7 +105,7 @@
 >
 </ReqRef><Comment>Contains the previous value of the speed of the train in order to know if the train has reached standstill.</Comment>
 </StructureElement><StructureElement
- TypeName="Default.Level"
+ TypeName="LevelEnum"
  Default=""
  Mode="Internal"
  Implemented="TRUE"
@@ -119,7 +119,7 @@
 >
 </ReqRef><Comment>Contains the previous value of the level in order to know if that value has changed.</Comment>
 </StructureElement><StructureElement
- TypeName="Default.Mode"
+ TypeName="ModeEnum"
  Default=""
  Mode="Internal"
  Implemented="TRUE"
@@ -283,7 +283,7 @@
 >
 <Comment>Contains position report parameters given by the RBC.</Comment>
 <StructureElement
- TypeName="Default.DataState"
+ TypeName="DataStateEnum"
  Default=""
  Mode="Internal"
  NeedsRequirement="FALSE"
@@ -634,7 +634,7 @@ EURORADIO.PositionReport.PositionReportEventsTracker.Mode != Kernel.Mode</Expres
 <PreCondition
  Guid="9d029d2f-9487-47e8-95f0-a91ab6441c3e"
 >Kernel.ActiveFunctions.ReportPosition_RBCRequest()</PreCondition></PreConditions>
-<Expression>Kernel.DateAndTime.CurrentTime &gt;= EURORADIO.PositionReport.LastPositionReport.Time + EURORADIO.PositionReport.PositionReportParameters.Values.TimeInterval AND EURORADIO.PositionReport.PositionReportParameters.DataState == DataState.Valid AND EURORADIO.PositionReport.PositionReportParameters.Values.TimeInterval != 0.0</Expression>
+<Expression>Kernel.DateAndTime.CurrentTime &gt;= EURORADIO.PositionReport.LastPositionReport.Time + EURORADIO.PositionReport.PositionReportParameters.Values.TimeInterval AND EURORADIO.PositionReport.PositionReportParameters.DataState == DataStateEnum.Valid AND EURORADIO.PositionReport.PositionReportParameters.Values.TimeInterval != 0.0</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="96a9f43e-de36-45eb-890e-808641155109"
@@ -672,7 +672,7 @@ EURORADIO.PositionReport.PositionReportEventsTracker.Mode != Kernel.Mode</Expres
 <PreCondition
  Guid="ded1f57a-2222-476e-9e6a-7f7b23864b98"
 >Kernel.ActiveFunctions.ReportPosition_RBCRequest()</PreCondition></PreConditions>
-<Expression>(Odometry.NominalDistance &gt;= (EURORADIO.PositionReport.LastPositionReport.Position + EURORADIO.PositionReport.PositionReportParameters.Values.DistanceInterval)) AND (EURORADIO.PositionReport.PositionReportParameters.DataState == DataState.Valid) AND (EURORADIO.PositionReport.PositionReportParameters.Values.DistanceInterval != BaseTypes.Distance.Infinity)</Expression>
+<Expression>(Odometry.NominalDistance &gt;= (EURORADIO.PositionReport.LastPositionReport.Position + EURORADIO.PositionReport.PositionReportParameters.Values.DistanceInterval)) AND (EURORADIO.PositionReport.PositionReportParameters.DataState == DataStateEnum.Valid) AND (EURORADIO.PositionReport.PositionReportParameters.Values.DistanceInterval != BaseTypes.Distance.Infinity)</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="e6f3fb27-51a4-4dd5-b8db-26b3ba5c437a"
@@ -834,7 +834,7 @@ TIU.TrainIntegrity.Status in [
 >Kernel.ActiveFunctions.ReportPosition_BGPassage()</PreCondition></PreConditions>
 <Expression>EURORADIO.PositionReport.PositionReportEventsTracker.LRBG != BTM.LRBG
   AND
-EURORADIO.PositionReport.PositionReportParameters.DataState != DataState.Valid</Expression>
+EURORADIO.PositionReport.PositionReportParameters.DataState != DataStateEnum.Valid</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="0f9d38fb-f497-4c5c-8bed-35b92e101ebb"
@@ -1012,7 +1012,7 @@ EURORADIO.PositionReport.PositionReportParameters.DataState != DataState.Valid</
  Guid="95b790d2-b1f1-40e6-808f-05b60c4e9d13"
 >
 <Expression>(
-    BTM.LRBG.Orientation != Orientation.Unknown
+    BTM.LRBG.Orientation != OrientationEnum.Unknown
         OR
     BTM.PreviousLRBG() != EMPTY
 )
@@ -1231,7 +1231,7 @@ EURORADIO.PositionReport.PositionReportParameters.DataState != DataState.Valid</
 <PreConditions>
 <PreCondition
  Guid="f21e89a9-9a6b-412d-97ad-c87d8656875f"
->BTM.LRBG.Orientation != Orientation.Unknown</PreCondition></PreConditions>
+>BTM.LRBG.Orientation != OrientationEnum.Unknown</PreCondition></PreConditions>
 <Expression>Messages.PACKET.TRAIN_TO_TRACK.POSITION_REPORTS.Message
 {
     POSITION_REPORT=&gt; Messages.PACKET.TRAIN_TO_TRACK.POSITION_REPORT.Message
@@ -1241,8 +1241,8 @@ EURORADIO.PositionReport.PositionReportParameters.DataState != DataState.Valid</
         D_LRBG =&gt; EURORADIO.PositionReport.FillDistance(),
         Q_DIRLRBG =&gt; Default.Q_DIRLRBG ( Kernel.TrainPosition.Position.DirectionalPositionInformation.TrainOrientation ),
         Q_DLRBG =&gt; Default.Q_DLRBG ( Kernel.TrainPosition.Position.DirectionalPositionInformation.TrainFrontEndPosition ),
-        L_DOUBTOVER =&gt; MessageTypes.UnScaleLength ( Kernel.TrainPosition.ConfidenceInterval.ConfidenceInterval(ConfidenceInterval.L_DOUBTOVER), Messages.Q_SCALE._1_m_scaleC ),
-        L_DOUBTUNDER =&gt; MessageTypes.UnScaleLength ( Kernel.TrainPosition.ConfidenceInterval.ConfidenceInterval(ConfidenceInterval.L_DOUBTUNDER), Messages.Q_SCALE._1_m_scaleC ),
+        L_DOUBTOVER =&gt; MessageTypes.UnScaleLength ( Kernel.TrainPosition.ConfidenceInterval.ConfidenceInterval(ConfidenceIntervalEnum.L_DOUBTOVER), Messages.Q_SCALE._1_m_scaleC ),
+        L_DOUBTUNDER =&gt; MessageTypes.UnScaleLength ( Kernel.TrainPosition.ConfidenceInterval.ConfidenceInterval(ConfidenceIntervalEnum.L_DOUBTUNDER), Messages.Q_SCALE._1_m_scaleC ),
         Q_LENGTH =&gt; TIU.TrainIntegrity.Status,
         L_TRAININT =&gt; MessageTypes.UnScaleLength ( EURORADIO.PositionReport.FillTrainIntegrityInformation(), Messages.Q_SCALE._1_m_scaleC),
         V_TRAIN =&gt; MessageTypes.UnResolveSpeed ( Odometry.TrainSpeed(), 5.0 ),
@@ -1270,8 +1270,8 @@ EURORADIO.PositionReport.PositionReportParameters.DataState != DataState.Valid</
         D_LRBG =&gt; EURORADIO.PositionReport.FillDistance(),
         Q_DIRLRBG =&gt; Default.Q_DIRLRBG ( Kernel.TrainPosition.Position.DirectionalPositionInformation.TrainOrientation ),
         Q_DLRBG =&gt; Default.Q_DLRBG ( Kernel.TrainPosition.Position.DirectionalPositionInformation.TrainFrontEndPosition ),
-        L_DOUBTOVER =&gt; MessageTypes.UnScaleLength ( length =&gt; Kernel.TrainPosition.ConfidenceInterval.ConfidenceInterval ( ConfidenceInterval.L_DOUBTOVER ), scale =&gt; Messages.Q_SCALE._1_m_scaleC ),
-        L_DOUBTUNDER =&gt; MessageTypes.UnScaleLength ( Kernel.TrainPosition.ConfidenceInterval.ConfidenceInterval ( ConfidenceInterval.L_DOUBTUNDER ), scale =&gt; Messages.Q_SCALE._1_m_scaleC ),
+        L_DOUBTOVER =&gt; MessageTypes.UnScaleLength ( length =&gt; Kernel.TrainPosition.ConfidenceInterval.ConfidenceInterval ( ConfidenceIntervalEnum.L_DOUBTOVER ), scale =&gt; Messages.Q_SCALE._1_m_scaleC ),
+        L_DOUBTUNDER =&gt; MessageTypes.UnScaleLength ( Kernel.TrainPosition.ConfidenceInterval.ConfidenceInterval ( ConfidenceIntervalEnum.L_DOUBTUNDER ), scale =&gt; Messages.Q_SCALE._1_m_scaleC ),
         Q_LENGTH =&gt; TIU.TrainIntegrity.Status,
         L_TRAININT =&gt; MessageTypes.UnScaleLength ( EURORADIO.PositionReport.FillTrainIntegrityInformation(), Messages.Q_SCALE._1_m_scaleC),
         V_TRAIN =&gt; MessageTypes.UnResolveSpeed ( Odometry.TrainSpeed(), 5.0 ),
@@ -1293,8 +1293,8 @@ EURORADIO.PositionReport.PositionReportParameters.DataState != DataState.Valid</
         D_LRBG =&gt; EURORADIO.PositionReport.FillDistance(),
         Q_DIRLRBG =&gt; Default.Q_DIRLRBG ( Kernel.TrainPosition.Position.DirectionalPositionInformation.TrainOrientation ),
         Q_DLRBG =&gt; Default.Q_DLRBG ( Kernel.TrainPosition.Position.DirectionalPositionInformation.TrainFrontEndPosition ),
-        L_DOUBTOVER =&gt; MessageTypes.UnScaleLength ( Kernel.TrainPosition.ConfidenceInterval.ConfidenceInterval(ConfidenceInterval.L_DOUBTOVER), Messages.Q_SCALE._1_m_scaleC ),
-        L_DOUBTUNDER =&gt; MessageTypes.UnScaleLength ( Kernel.TrainPosition.ConfidenceInterval.ConfidenceInterval(ConfidenceInterval.L_DOUBTUNDER), Messages.Q_SCALE._1_m_scaleC ),
+        L_DOUBTOVER =&gt; MessageTypes.UnScaleLength ( Kernel.TrainPosition.ConfidenceInterval.ConfidenceInterval(ConfidenceIntervalEnum.L_DOUBTOVER), Messages.Q_SCALE._1_m_scaleC ),
+        L_DOUBTUNDER =&gt; MessageTypes.UnScaleLength ( Kernel.TrainPosition.ConfidenceInterval.ConfidenceInterval(ConfidenceIntervalEnum.L_DOUBTUNDER), Messages.Q_SCALE._1_m_scaleC ),
         Q_LENGTH =&gt; TIU.TrainIntegrity.Status,
         L_TRAININT =&gt; MessageTypes.UnScaleLength ( EURORADIO.PositionReport.FillTrainIntegrityInformation(), Messages.Q_SCALE._1_m_scaleC),
         V_TRAIN =&gt; MessageTypes.UnResolveSpeed ( Odometry.TrainSpeed(), 5.0 ),
@@ -1335,7 +1335,7 @@ EURORADIO.PositionReport.PositionReportParameters.DataState != DataState.Valid</
 <PreConditions>
 <PreCondition
  Guid="6d57e308-168e-4650-ab9e-85fca0dc39b8"
->Kernel.TrainPosition.Position.DataState == DataState.Valid</PreCondition></PreConditions>
+>Kernel.TrainPosition.Position.DataState == DataStateEnum.Valid</PreCondition></PreConditions>
 <Expression>Messages.Q_STATUS.Valid</Expression>
 </Case><Case
  Name="Invalid"
@@ -1344,7 +1344,7 @@ EURORADIO.PositionReport.PositionReportParameters.DataState != DataState.Valid</
 <PreConditions>
 <PreCondition
  Guid="d494d339-f451-4df2-9360-f9b682c99f11"
->Kernel.TrainPosition.Position.DataState == DataState.Invalid</PreCondition></PreConditions>
+>Kernel.TrainPosition.Position.DataState == DataStateEnum.Invalid</PreCondition></PreConditions>
 <Expression>Messages.Q_STATUS.Invalid</Expression>
 </Case><Case
  Name="Unknown"
@@ -1353,7 +1353,7 @@ EURORADIO.PositionReport.PositionReportParameters.DataState != DataState.Valid</
 <PreConditions>
 <PreCondition
  Guid="62c8fb34-1fe4-4b03-889f-f2f00ff6042b"
->Kernel.TrainPosition.Position.DataState == DataState.Unknown</PreCondition></PreConditions>
+>Kernel.TrainPosition.Position.DataState == DataStateEnum.Unknown</PreCondition></PreConditions>
 <Expression>Messages.Q_STATUS.Unknown</Expression>
 </Case></Cases>
 </Function><Function
@@ -1386,13 +1386,13 @@ EURORADIO.PositionReport.PositionReportParameters.DataState != DataState.Valid</
 <PreConditions>
 <PreCondition
  Guid="aaa7bc6b-badb-4e38-9d86-88f46f615afe"
->Kernel.TrainPosition.Position.DataState == DataState.Unknown</PreCondition></PreConditions>
+>Kernel.TrainPosition.Position.DataState == DataStateEnum.Unknown</PreCondition></PreConditions>
 <Expression>MessageTypes.Distance.Unknown</Expression>
 </Case><Case
  Name="Distance known"
  Guid="11ec8272-ab63-4022-aa13-66802b914a9b"
 >
-<Expression>MessageTypes.UnScaleDistance ( Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom), Messages.Q_SCALE._1_m_scaleC )</Expression>
+<Expression>MessageTypes.UnScaleDistance ( Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom), Messages.Q_SCALE._1_m_scaleC )</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -2089,7 +2089,7 @@ ON
  Guid="8759fa6c-ccb2-4799-901c-da387590d178"
 >EURORADIO.PositionReport.NumberOfReportsSentToHandingOverRBC == 0
   AND
-Kernel.TrainPosition.FrontEndPosition ( PointOfInterest =&gt; DistanceInterval.Max ) &gt;= EURORADIO.PositionReport.RBCTransitionLocation</PreCondition><PreCondition
+Kernel.TrainPosition.FrontEndPosition ( PointOfInterest =&gt; DistanceIntervalEnum.Max ) &gt;= EURORADIO.PositionReport.RBCTransitionLocation</PreCondition><PreCondition
  Guid="8ddbf2b5-1a20-4b70-abcd-734965454ea6"
 >EURORADIO.PositionReport.RBCTransitionLocation != BaseTypes.Distance.Unknown</PreCondition><PreCondition
  Guid="9180eede-7378-46a7-8bf8-a4dc3cd4677c"
@@ -2197,7 +2197,7 @@ Kernel.TrainPosition.FrontEndPosition ( PointOfInterest =&gt; DistanceInterval.M
  Guid="9e01e492-5354-4383-a8cf-c25c076c9526"
 >EURORADIO.PositionReport.NumberOfReportsSentToHandingOverRBC == 1
   AND
-Kernel.TrainPosition.RearEndPosition ( PointOfInterest =&gt; DistanceInterval.Min ) &gt;= EURORADIO.PositionReport.RBCTransitionLocation</PreCondition><PreCondition
+Kernel.TrainPosition.RearEndPosition ( PointOfInterest =&gt; DistanceIntervalEnum.Min ) &gt;= EURORADIO.PositionReport.RBCTransitionLocation</PreCondition><PreCondition
  Guid="3c744592-d68e-46b8-bcab-764b7e40c095"
 >Kernel.ActiveFunctions.ManageRBC_RBCHandover()</PreCondition></PreConditions>
 <Actions>

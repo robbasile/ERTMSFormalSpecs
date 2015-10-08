@@ -475,7 +475,7 @@
 >
 <Comment>Indicates if the start of the end of display of a text message is limited by a mode condition.</Comment>
 </StructureElement><StructureElement
- TypeName="Mode.ModeForTextDisplay"
+ TypeName="ModeEnum.ModeForTextDisplay"
  Default=""
  Mode="Internal"
  Implemented="TRUE"
@@ -1646,7 +1646,7 @@
 <Expression>ModeConditionStruct
 {
   IsLimitedByMode =&gt; True,
-  Mode =&gt; Default.Mode.ModeForTextDisplay.FS
+  Mode =&gt; ModeEnum.ModeForTextDisplay.FS
 }</Expression>
 </Case><Case
  Name="LS"
@@ -1659,7 +1659,7 @@
 <Expression>ModeConditionStruct
 {
   IsLimitedByMode =&gt; True,
-  Mode =&gt; Default.Mode.ModeForTextDisplay.LS
+  Mode =&gt; ModeEnum.ModeForTextDisplay.LS
 }</Expression>
 </Case><Case
  Name="NL"
@@ -1672,7 +1672,7 @@
 <Expression>ModeConditionStruct
 {
   IsLimitedByMode =&gt; True,
-  Mode =&gt; Default.Mode.ModeForTextDisplay.NL
+  Mode =&gt; ModeEnum.ModeForTextDisplay.NL
 }</Expression>
 </Case><Case
  Name="OS"
@@ -1685,7 +1685,7 @@
 <Expression>ModeConditionStruct
 {
   IsLimitedByMode =&gt; True,
-  Mode =&gt; Default.Mode.ModeForTextDisplay.OS
+  Mode =&gt; ModeEnum.ModeForTextDisplay.OS
 }</Expression>
 </Case><Case
  Name="PT"
@@ -1698,7 +1698,7 @@
 <Expression>ModeConditionStruct
 {
   IsLimitedByMode =&gt; True,
-  Mode =&gt; Default.Mode.ModeForTextDisplay.PT
+  Mode =&gt; ModeEnum.ModeForTextDisplay.PT
 }</Expression>
 </Case><Case
  Name="RV"
@@ -1711,7 +1711,7 @@
 <Expression>ModeConditionStruct
 {
   IsLimitedByMode =&gt; True,
-  Mode =&gt; Default.Mode.ModeForTextDisplay.RV
+  Mode =&gt; ModeEnum.ModeForTextDisplay.RV
 }</Expression>
 </Case><Case
  Name="SR"
@@ -1724,7 +1724,7 @@
 <Expression>ModeConditionStruct
 {
   IsLimitedByMode =&gt; True,
-  Mode =&gt; Default.Mode.ModeForTextDisplay.SR
+  Mode =&gt; ModeEnum.ModeForTextDisplay.SR
 }</Expression>
 </Case><Case
  Name="SB"
@@ -1737,7 +1737,7 @@
 <Expression>ModeConditionStruct
 {
   IsLimitedByMode =&gt; True,
-  Mode =&gt; Default.Mode.ModeForTextDisplay.SB
+  Mode =&gt; ModeEnum.ModeForTextDisplay.SB
 }</Expression>
 </Case><Case
  Name="TR"
@@ -1750,7 +1750,7 @@
 <Expression>ModeConditionStruct
 {
   IsLimitedByMode =&gt; True,
-  Mode =&gt; Default.Mode.ModeForTextDisplay.TR
+  Mode =&gt; ModeEnum.ModeForTextDisplay.TR
 }</Expression>
 </Case><Case
  Name="UN"
@@ -1763,7 +1763,7 @@
 <Expression>ModeConditionStruct
 {
   IsLimitedByMode =&gt; True,
-  Mode =&gt; Default.Mode.ModeForTextDisplay.UN
+  Mode =&gt; ModeEnum.ModeForTextDisplay.UN
 }</Expression>
 </Case><Case
  Name="Otherwise"
@@ -1772,7 +1772,7 @@
 <Expression>ModeConditionStruct
 {
   IsLimitedByMode =&gt; False,
-  Mode =&gt; Default.Mode.ModeForTextDisplay.Unknown
+  Mode =&gt; ModeEnum.ModeForTextDisplay.Unknown
 }</Expression>
 </Case></Cases>
 </Function><Function
@@ -1834,7 +1834,7 @@
   Level =&gt; LevelDataStruct
   {
     NTC =&gt; NID_NTC.NOT_APPLICABLE,
-    Value =&gt; Level.L0
+    Value =&gt; LevelEnum.L0
   }
 }</Expression>
 </Case><Case
@@ -1851,7 +1851,7 @@
   Level =&gt; LevelDataStruct
   {
     NTC =&gt; NID_NTC.NOT_APPLICABLE,
-    Value =&gt; Level.L1
+    Value =&gt; LevelEnum.L1
   }
 }</Expression>
 </Case><Case
@@ -1868,7 +1868,7 @@
   Level =&gt; LevelDataStruct
   {
     NTC =&gt; NID_NTC.NOT_APPLICABLE,
-    Value =&gt; Level.L2
+    Value =&gt; LevelEnum.L2
   }
 }</Expression>
 </Case><Case
@@ -1885,7 +1885,7 @@
   Level =&gt; LevelDataStruct
   {
     NTC =&gt; NID_NTC.NOT_APPLICABLE,
-    Value =&gt; Level.L3
+    Value =&gt; LevelEnum.L3
   }
 }</Expression>
 </Case><Case
@@ -1902,7 +1902,7 @@
   Level =&gt; LevelDataStruct
   {
     NTC =&gt; NID_NTC,
-    Value =&gt; Level.LNTC
+    Value =&gt; LevelEnum.LNTC
   }
 }</Expression>
 </Case><Case
@@ -1915,7 +1915,7 @@
   Level =&gt; LevelDataStruct
   {
     NTC =&gt; NID_NTC.NOT_APPLICABLE,
-    Value =&gt; Level.Unknown
+    Value =&gt; LevelEnum.Unknown
   }
 }</Expression>
 </Case></Cases>
@@ -2546,7 +2546,7 @@ LevelConditionSatisfied( aLevelCondition =&gt; aTextMessage.EndLevelCondition )<
 <PreCondition
  Guid="5f340264-d594-4b66-a88d-6b53f647fba7"
 >aTextMessage.Location != BaseTypes.Distance.Unknown</PreCondition></PreConditions>
-<Expression>aTextMessage.Location &lt;= TrainPosition.FrontEndPosition (PointOfInterest =&gt; DistanceInterval.Nom )</Expression>
+<Expression>aTextMessage.Location &lt;= TrainPosition.FrontEndPosition (PointOfInterest =&gt; DistanceIntervalEnum.Nom )</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="954340ca-efb8-4036-8ea5-e43a86d3e778"
@@ -2597,7 +2597,7 @@ LevelConditionSatisfied( aLevelCondition =&gt; aTextMessage.EndLevelCondition )<
 >aTextMessage.Location != BaseTypes.Distance.Unknown</PreCondition><PreCondition
  Guid="abe433ad-9180-434d-a523-f0c499a42b33"
 >aTextMessage.Length != BaseTypes.Distance.Unknown</PreCondition></PreConditions>
-<Expression>aTextMessage.Location + BaseTypes.LengthToDistance( Length =&gt; aTextMessage.Length ) &lt;= TrainPosition.FrontEndPosition (PointOfInterest =&gt; DistanceInterval.Nom )</Expression>
+<Expression>aTextMessage.Location + BaseTypes.LengthToDistance( Length =&gt; aTextMessage.Length ) &lt;= TrainPosition.FrontEndPosition (PointOfInterest =&gt; DistanceIntervalEnum.Nom )</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="6210cb0d-bcee-4ed5-acb0-30fa00b0d1ce"

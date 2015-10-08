@@ -64,7 +64,7 @@
  Guid="cf9c73cf-fba6-4013-ae53-0c73d888c161"
 >Testing.SetRVMode(False)</Action><Action
  Guid="52dabdf8-85b6-4fd4-8561-303b01845d78"
->Kernel.Level.Value.Value &lt;- Default.Level.L1</Action><Action
+>Kernel.Level.Value.Value &lt;- LevelEnum.L1</Action><Action
  Guid="28f2718e-971b-4cbe-af4c-9ce46387c01a"
 >Kernel.LevelTransition.LevelTransitionToProcess &lt;- Kernel.LevelTransition.LevelTransitionStruct
 {
@@ -72,7 +72,7 @@
   TRLevel =&gt; LevelDataStruct
   {
     NTC =&gt; NID_NTC.NOT_APPLICABLE,
-    Value =&gt; Level.L2
+    Value =&gt; LevelEnum.L2
   }
 }</Action></Actions>
 </SubStep><SubStep
@@ -303,9 +303,9 @@
     Value =&gt; LevelDataStruct
     {
         NTC =&gt; NID_NTC.NOT_APPLICABLE,
-        Value =&gt; Level.L2
+        Value =&gt; LevelEnum.L2
     },
-    DataState =&gt; Default.DataState.Valid
+    DataState =&gt; DataStateEnum.Valid
 }</Action><Action
  Guid="abb6155c-8668-4012-8452-638ab56b11ff"
 >Kernel.MA.MA &lt;- Kernel.MA.MAStruct{
@@ -322,7 +322,7 @@
   TRLevel =&gt; LevelDataStruct
   {
     NTC =&gt; NID_NTC.NOT_APPLICABLE,
-    Value =&gt; Level.L2
+    Value =&gt; LevelEnum.L2
   }
 }</Action></Actions>
 </SubStep></SubSteps>
@@ -746,11 +746,11 @@
  Kind="Instantaneous"
  DeadLine="1"
  Guid="74f847d5-b1b3-4833-a2b3-eee702e66307"
->Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom) &lt; Kernel.TrackDescription.ReversingArea.ReversingAreaProfile.Location</Expectation><Expectation
+>Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom) &lt; Kernel.TrackDescription.ReversingArea.ReversingAreaProfile.Location</Expectation><Expectation
  Kind="Instantaneous"
  DeadLine="1"
  Guid="be0981fb-9610-4eb7-bbd7-12f016404a86"
->Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Max) &gt; Kernel.TrackDescription.ReversingArea.ReversingAreaProfile.Location</Expectation><Expectation
+>Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &gt; Kernel.TrackDescription.ReversingArea.ReversingAreaProfile.Location</Expectation><Expectation
  Kind="Instantaneous"
  DeadLine="1"
  Guid="f38059ab-0201-4211-b48b-66d1bc54b00c"
@@ -781,11 +781,11 @@
  Kind="Instantaneous"
  DeadLine="0.3"
  Guid="92720950-7bdf-49ab-9bab-6ad2cad24600"
->Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Min) &lt; Kernel.TrackDescription.ReversingArea.ReversingAreaProfile.Location</Expectation><Expectation
+>Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Min) &lt; Kernel.TrackDescription.ReversingArea.ReversingAreaProfile.Location</Expectation><Expectation
  Kind="Instantaneous"
  DeadLine="1"
  Guid="084582dc-5a06-4899-8fe9-e5d1d9f06fc9"
->Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom) &gt; Kernel.TrackDescription.ReversingArea.ReversingAreaProfile.Location</Expectation></Expectations>
+>Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom) &gt; Kernel.TrackDescription.ReversingArea.ReversingAreaProfile.Location</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step></Steps>
 </TestCase><TestCase
@@ -887,11 +887,11 @@ DMI.MasterDMI().Out_ReversingAllowed.OutputInformation.DoNotDisplay()</Action></
  Kind="Instantaneous"
  DeadLine="1"
  Guid="6f75dbb5-4edd-4d24-b8f5-fd37f1c9c39b"
->Kernel.Mode == Mode.FS</Expectation><Expectation
+>Kernel.Mode == ModeEnum.FS</Expectation><Expectation
  Kind="Instantaneous"
  DeadLine="1"
  Guid="181e2062-4c34-4873-9f33-7733d7e1b1fa"
->DMI.MasterDMI().In_AcknOfRVMode.InputInformation.RequestStatus == Request.Disabled</Expectation></Expectations>
+>DMI.MasterDMI().In_AcknOfRVMode.InputInformation.RequestStatus == RequestEnum.Disabled</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step><Step
  IO="NA"
@@ -941,7 +941,7 @@ DMI.MasterDMI().Out_ReversingAllowed.OutputInformation.DoNotDisplay()</Action></
  Kind="Instantaneous"
  DeadLine="1"
  Guid="2eb779f0-a826-4746-8c18-92e56602f6a7"
->DMI.MasterDMI().In_AcknOfRVMode.InputInformation.RequestStatus == Request.Request</Expectation></Expectations>
+>DMI.MasterDMI().In_AcknOfRVMode.InputInformation.RequestStatus == RequestEnum.Request</Expectation></Expectations>
 </SubStep><SubStep
  TimeDelay="NotDelayed"
  Name="Sub-step3 - Driver acknowledges RV"
@@ -956,7 +956,7 @@ DMI.MasterDMI().Out_ReversingAllowed.OutputInformation.DoNotDisplay()</Action></
  Kind="Instantaneous"
  DeadLine="1"
  Guid="c49f3f9e-1f22-4f4b-ae7f-e2c6f03080a5"
->Kernel.Mode == Mode.RV</Expectation></Expectations>
+>Kernel.Mode == ModeEnum.RV</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step><Step
  IO="NA"
@@ -1002,7 +1002,7 @@ DMI.MasterDMI().Out_ReversingAllowed.OutputInformation.DoNotDisplay()</Action></
  Kind="Instantaneous"
  DeadLine="1"
  Guid="fad9323a-3235-4c3d-8d88-41219b50c0b1"
->DMI.MasterDMI().In_AcknOfRVMode.InputInformation.RequestStatus == Request.Disabled</Expectation></Expectations>
+>DMI.MasterDMI().In_AcknOfRVMode.InputInformation.RequestStatus == RequestEnum.Disabled</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step></Steps>
 </TestCase></TestCases>

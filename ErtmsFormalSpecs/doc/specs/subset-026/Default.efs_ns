@@ -85,7 +85,7 @@
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="Level"
+ Name="LevelEnum"
  Guid="cc37a8cf-39e1-4bf1-ae52-e32b86bb9560"
 >
 <ReqRef
@@ -138,7 +138,7 @@
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="Mode"
+ Name="ModeEnum"
  Guid="6177527f-7c57-4bfd-bf74-44e418966a5a"
 >
 <ReqRef
@@ -241,7 +241,7 @@
 </EnumValue></Values>
 <SubEnums>
 <Enum
- Default="Mode.ModeProfile.LS"
+ Default="ModeEnum.ModeProfile.LS"
  Implemented="TRUE"
  Name="ModeProfile"
  Guid="6b6950f8-0156-4f64-9b01-89ee9cfd6ae1"
@@ -350,14 +350,14 @@
 </EnumValue></Values>
 </Enum></SubEnums>
 </Enum><Enum
- Default="DataState.Unknown"
+ Default="DataStateEnum.Unknown"
  X="230"
  Y="460"
  Width="100"
  Height="50"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
- Name="DataState"
+ Name="DataStateEnum"
  Guid="0eea0cae-3edb-4800-8c3e-cd190cf78b1e"
 >
 <ReqRef
@@ -384,14 +384,14 @@
 >
 </EnumValue></Values>
 </Enum><Enum
- Default="Default.Request.Disabled"
+ Default="RequestEnum.Disabled"
  X="230"
  Y="340"
  Width="100"
  Height="50"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
- Name="Request"
+ Name="RequestEnum"
  Guid="428df762-8178-4414-bd36-85f9dae6323c"
 >
 <Comment>Represents the state of a communication (not established, request sent, response received)</Comment>
@@ -413,13 +413,13 @@
 >
 </EnumValue></Values>
 </Enum><Enum
- Default="Orientation.Unknown"
+ Default="OrientationEnum.Unknown"
  X="120"
  Y="460"
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="Orientation"
+ Name="OrientationEnum"
  Guid="ad49066d-e6fc-4cc5-9a75-61f61768710e"
 >
 <ReqRef
@@ -489,13 +489,13 @@
 >
 </EnumValue></Values>
 </Enum><Enum
- Default="DistanceInterval.Nom"
+ Default="DistanceIntervalEnum.Nom"
  X="10"
  Y="400"
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="DistanceInterval"
+ Name="DistanceIntervalEnum"
  Guid="aa9a84dc-faad-4360-bc38-351be7113e9b"
 >
 <ReqRef
@@ -545,14 +545,14 @@
 >
 </EnumValue></Values>
 </Enum><Enum
- Default="ConfidenceInterval.L_DOUBTOVER"
+ Default="ConfidenceIntervalEnum.L_DOUBTOVER"
  X="10"
  Y="460"
  Width="100"
  Height="50"
  Implemented="TRUE"
  Verified="TRUE"
- Name="ConfidenceInterval"
+ Name="ConfidenceIntervalEnum"
  Guid="a24032d0-c7a1-4c91-8f8f-f918ae546025"
 >
 <ReqRef
@@ -579,14 +579,14 @@
 >
 </EnumValue></Values>
 </Enum><Enum
- Default="DataDirection.Reverse"
+ Default="DataDirectionEnum.Reverse"
  X="120"
  Y="400"
  Width="100"
  Height="50"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
- Name="DataDirection"
+ Name="DataDirectionEnum"
  Guid="a595e5d5-798c-4027-847b-25d076cf7c30"
 >
 <ReqRef
@@ -650,8 +650,8 @@
 >
 </ReqRef><Comment>Represents the id of the current national system. Only applicable if Value == Level.LNTC.</Comment>
 </StructureElement><StructureElement
- TypeName="Level"
- Default="Level.Unknown"
+ TypeName="LevelEnum"
+ Default="LevelEnum.Unknown"
  Mode="Internal"
  Implemented="TRUE"
  Name="Value"
@@ -753,7 +753,7 @@
 >
 <Comment>Used for elements characterized by a data state.</Comment>
 <StructureElement
- TypeName="Default.DataState"
+ TypeName="DataStateEnum"
  Default=""
  Mode="Internal"
  Implemented="TRUE"
@@ -813,7 +813,7 @@
 </ReqRef><Comment>Converts an EFS level to the corresponding ERTMS level.</Comment>
 <Parameters>
 <Parameter
- Type="Default.Level"
+ Type="LevelEnum"
  Name="Level"
  Guid="81453d00-31ea-437f-853a-c1ca1ec3c5a9"
 >
@@ -826,7 +826,7 @@
 <PreConditions>
 <PreCondition
  Guid="9b374e7f-5c7a-4204-bd08-4c7d000e72de"
->Level == Default.Level.L0</PreCondition></PreConditions>
+>Level == LevelEnum.L0</PreCondition></PreConditions>
 <Expression>Messages.M_LEVEL.Level_0</Expression>
 </Case><Case
  Name="L1"
@@ -835,7 +835,7 @@
 <PreConditions>
 <PreCondition
  Guid="636b5a3d-ed2c-4abb-b542-08f3a2633fe5"
->Level == Default.Level.L1</PreCondition></PreConditions>
+>Level == LevelEnum.L1</PreCondition></PreConditions>
 <Expression>Messages.M_LEVEL.Level_1</Expression>
 </Case><Case
  Name="L2"
@@ -844,7 +844,7 @@
 <PreConditions>
 <PreCondition
  Guid="6ddb6cda-f62b-4f87-acf0-85241f344fe1"
->Level == Default.Level.L2</PreCondition></PreConditions>
+>Level == LevelEnum.L2</PreCondition></PreConditions>
 <Expression>Messages.M_LEVEL.Level_2</Expression>
 </Case><Case
  Name="L3"
@@ -853,7 +853,7 @@
 <PreConditions>
 <PreCondition
  Guid="b17a707b-9cee-441c-804c-be4b1e99a33c"
->Level == Default.Level.L3</PreCondition></PreConditions>
+>Level == LevelEnum.L3</PreCondition></PreConditions>
 <Expression>Messages.M_LEVEL.Level_3</Expression>
 </Case><Case
  Name="LNTC"
@@ -862,7 +862,7 @@
 <PreConditions>
 <PreCondition
  Guid="0f3142bf-23ce-4438-bd1b-cc0c2fb08a7b"
->Level == Default.Level.LNTC</PreCondition></PreConditions>
+>Level == LevelEnum.LNTC</PreCondition></PreConditions>
 <Expression>Messages.M_LEVEL.Level_NTC_specified_by_NID_NTC</Expression>
 </Case></Cases>
 </Function><Function
@@ -885,7 +885,7 @@
 </ReqRef><Comment>Converts an EFS mode to the corresponding ERTMS mode. The values of NP and PS are not defined so these modes are mapped to the &quot;Spare&quot; value.</Comment>
 <Parameters>
 <Parameter
- Type="Default.Mode"
+ Type="ModeEnum"
  Name="Mode"
  Guid="859740ca-2383-447d-ae89-5b09253cf77c"
 >
@@ -898,7 +898,7 @@
 <PreConditions>
 <PreCondition
  Guid="532ca508-101e-404a-b60f-36b97148ca7f"
->Mode == Default.Mode.FS</PreCondition></PreConditions>
+>Mode == ModeEnum.FS</PreCondition></PreConditions>
 <Expression>Messages.M_MODE.Full_Supervision</Expression>
 </Case><Case
  Name="SB"
@@ -907,7 +907,7 @@
 <PreConditions>
 <PreCondition
  Guid="420b3b30-fa3e-4452-bda1-b576f1943c60"
->Mode == Default.Mode.SB</PreCondition></PreConditions>
+>Mode == ModeEnum.SB</PreCondition></PreConditions>
 <Expression>Messages.M_MODE.Stand_By</Expression>
 </Case><Case
  Name="SF"
@@ -916,7 +916,7 @@
 <PreConditions>
 <PreCondition
  Guid="7d07d9a1-9334-4f09-ba9f-55dcbaf38b47"
->Mode == Default.Mode.SF</PreCondition></PreConditions>
+>Mode == ModeEnum.SF</PreCondition></PreConditions>
 <Expression>Messages.M_MODE.System_Failure</Expression>
 </Case><Case
  Name="SH"
@@ -925,7 +925,7 @@
 <PreConditions>
 <PreCondition
  Guid="02a31437-0026-4a74-816d-8b2669ef3e82"
->Mode == Default.Mode.SH</PreCondition></PreConditions>
+>Mode == ModeEnum.SH</PreCondition></PreConditions>
 <Expression>Messages.M_MODE.Shunting</Expression>
 </Case><Case
  Name="SL"
@@ -934,7 +934,7 @@
 <PreConditions>
 <PreCondition
  Guid="af189fa5-a3e5-41d2-9dc2-1470dbf9fa57"
->Mode == Default.Mode.SL</PreCondition></PreConditions>
+>Mode == ModeEnum.SL</PreCondition></PreConditions>
 <Expression>Messages.M_MODE.Sleeping</Expression>
 </Case><Case
  Name="SN"
@@ -943,7 +943,7 @@
 <PreConditions>
 <PreCondition
  Guid="300e6152-4d84-4a10-a4f6-faf58ea90632"
->Mode == Default.Mode.SN</PreCondition></PreConditions>
+>Mode == ModeEnum.SN</PreCondition></PreConditions>
 <Expression>Messages.M_MODE.National_System</Expression>
 </Case><Case
  Name="SR"
@@ -952,7 +952,7 @@
 <PreConditions>
 <PreCondition
  Guid="8a7e3cbe-d6b9-454a-bcbd-1e51e2f28e46"
->Mode == Default.Mode.SR</PreCondition></PreConditions>
+>Mode == ModeEnum.SR</PreCondition></PreConditions>
 <Expression>Messages.M_MODE.Staff_Responsible</Expression>
 </Case><Case
  Name="TR"
@@ -961,7 +961,7 @@
 <PreConditions>
 <PreCondition
  Guid="0e8b175e-6fac-4cb6-b91a-c06cfa324615"
->Mode == Default.Mode.TR</PreCondition></PreConditions>
+>Mode == ModeEnum.TR</PreCondition></PreConditions>
 <Expression>Messages.M_MODE.Trip</Expression>
 </Case><Case
  Name="UN"
@@ -970,7 +970,7 @@
 <PreConditions>
 <PreCondition
  Guid="2e930be9-9cd6-4db2-a605-a7a80d6b5da5"
->Mode == Default.Mode.UN</PreCondition></PreConditions>
+>Mode == ModeEnum.UN</PreCondition></PreConditions>
 <Expression>Messages.M_MODE.Unfitted</Expression>
 </Case><Case
  Name="IS"
@@ -979,7 +979,7 @@
 <PreConditions>
 <PreCondition
  Guid="0ada8f2b-7ca1-464a-bb40-7ed814d81dd9"
->Mode == Default.Mode.IS</PreCondition></PreConditions>
+>Mode == ModeEnum.IS</PreCondition></PreConditions>
 <Expression>Messages.M_MODE.Isolation</Expression>
 </Case><Case
  Name="LS"
@@ -988,7 +988,7 @@
 <PreConditions>
 <PreCondition
  Guid="901e642f-df07-437d-86d5-025b2ff203b6"
->Mode == Default.Mode.LS</PreCondition></PreConditions>
+>Mode == ModeEnum.LS</PreCondition></PreConditions>
 <Expression>Messages.M_MODE.Limited_Supervision</Expression>
 </Case><Case
  Name="NL"
@@ -997,7 +997,7 @@
 <PreConditions>
 <PreCondition
  Guid="38efe47a-7c42-4d6d-b85b-ae42389645c6"
->Mode == Default.Mode.NL</PreCondition></PreConditions>
+>Mode == ModeEnum.NL</PreCondition></PreConditions>
 <Expression>Messages.M_MODE.Non_Leading</Expression>
 </Case><Case
  Name="OS"
@@ -1006,7 +1006,7 @@
 <PreConditions>
 <PreCondition
  Guid="13f3ba43-556d-4f5c-bc42-5ab132d6d597"
->Mode == Default.Mode.OS</PreCondition></PreConditions>
+>Mode == ModeEnum.OS</PreCondition></PreConditions>
 <Expression>Messages.M_MODE.On_Sight</Expression>
 </Case><Case
  Name="PT"
@@ -1015,7 +1015,7 @@
 <PreConditions>
 <PreCondition
  Guid="84ba0090-ccfa-4077-93ad-13a7e1a15752"
->Mode == Default.Mode.PT</PreCondition></PreConditions>
+>Mode == ModeEnum.PT</PreCondition></PreConditions>
 <Expression>Messages.M_MODE.Post_Trip</Expression>
 </Case><Case
  Name="RV"
@@ -1024,7 +1024,7 @@
 <PreConditions>
 <PreCondition
  Guid="1a43f23a-0852-48bc-acc6-f6f4a730a556"
->Mode == Default.Mode.RV</PreCondition></PreConditions>
+>Mode == ModeEnum.RV</PreCondition></PreConditions>
 <Expression>Messages.M_MODE.Reversing</Expression>
 </Case><Case
  Name="PS"
@@ -1062,7 +1062,7 @@
 </ReqRef><Comment>This function converts a Default.Orientation into its corresponding Messages.Q_DIRTRAIN</Comment>
 <Parameters>
 <Parameter
- Type="Default.Orientation"
+ Type="OrientationEnum"
  Name="Orientation"
  Guid="d09c7ecb-8bed-41f7-874f-c4b05326f8f0"
 >
@@ -1075,7 +1075,7 @@
 <PreConditions>
 <PreCondition
  Guid="15e4af4e-ae5c-4057-86b1-db74f2b714c1"
->Orientation == Default.Orientation.Nominal</PreCondition></PreConditions>
+>Orientation == OrientationEnum.Nominal</PreCondition></PreConditions>
 <Expression>Messages.Q_DIRTRAIN.Nominal</Expression>
 </Case><Case
  Name="Reverse"
@@ -1084,7 +1084,7 @@
 <PreConditions>
 <PreCondition
  Guid="73de0f5b-f289-4d49-9c5d-8c5935d1deba"
->Orientation == Default.Orientation.Reverse</PreCondition></PreConditions>
+>Orientation == OrientationEnum.Reverse</PreCondition></PreConditions>
 <Expression>Messages.Q_DIRTRAIN.Reverse</Expression>
 </Case><Case
  Name="Unknown"
@@ -1093,7 +1093,7 @@
 <PreConditions>
 <PreCondition
  Guid="aec70448-efed-402a-8f3c-132966725d8b"
->Orientation == Default.Orientation.Unknown</PreCondition></PreConditions>
+>Orientation == OrientationEnum.Unknown</PreCondition></PreConditions>
 <Expression>Messages.Q_DIRTRAIN.Unknown</Expression>
 </Case></Cases>
 </Function><Function
@@ -1126,7 +1126,7 @@
 </ReqRef><Comment>This function converts a Default.Orientation into its corresponding Messages.Q_DIR</Comment>
 <Parameters>
 <Parameter
- Type="Default.Orientation"
+ Type="OrientationEnum"
  Name="Orientation"
  Guid="61c74885-8bc1-45bb-a42a-f1500ee7a0f8"
 >
@@ -1139,7 +1139,7 @@
 <PreConditions>
 <PreCondition
  Guid="316518f2-b7a6-4555-a92b-c7bd3f02ffd7"
->Orientation == Default.Orientation.Nominal</PreCondition></PreConditions>
+>Orientation == OrientationEnum.Nominal</PreCondition></PreConditions>
 <Expression>Messages.Q_DIR.Nominal</Expression>
 </Case><Case
  Name="Reverse"
@@ -1148,7 +1148,7 @@
 <PreConditions>
 <PreCondition
  Guid="3a3e37fd-b952-4db8-ae10-4f8a6a18732e"
->Orientation == Default.Orientation.Reverse</PreCondition></PreConditions>
+>Orientation == OrientationEnum.Reverse</PreCondition></PreConditions>
 <Expression>Messages.Q_DIR.Reverse</Expression>
 </Case><Case
  Name="Unknown"
@@ -1157,7 +1157,7 @@
 <PreConditions>
 <PreCondition
  Guid="4ff9f4a4-d3ab-40af-8393-ae3cf517583c"
->Orientation == Default.Orientation.Unknown</PreCondition></PreConditions>
+>Orientation == OrientationEnum.Unknown</PreCondition></PreConditions>
 <Expression>Messages.Q_DIR.Spare</Expression>
 </Case><Case
  Name="Both"
@@ -1166,7 +1166,7 @@
 <PreConditions>
 <PreCondition
  Guid="2e3373d9-11ab-4a4d-bd58-edefb6536320"
->Orientation == Default.Orientation.Both</PreCondition></PreConditions>
+>Orientation == OrientationEnum.Both</PreCondition></PreConditions>
 <Expression>Messages.Q_DIR.Both_directions</Expression>
 </Case></Cases>
 </Function><Function
@@ -1199,7 +1199,7 @@
 </ReqRef><Comment>This function converts a Default.Orientation into its corresponding Messages.Q_DIRLRBG</Comment>
 <Parameters>
 <Parameter
- Type="Default.Orientation"
+ Type="OrientationEnum"
  Name="Orientation"
  Guid="ef25678f-b63d-45fc-8eee-bf3c91127b4c"
 >
@@ -1212,7 +1212,7 @@
 <PreConditions>
 <PreCondition
  Guid="646c595a-657b-4ca1-a8c1-a9daf568bfde"
->Orientation == Default.Orientation.Nominal</PreCondition></PreConditions>
+>Orientation == OrientationEnum.Nominal</PreCondition></PreConditions>
 <Expression>Messages.Q_DIRLRBG.Nominal</Expression>
 </Case><Case
  Name="Reverse"
@@ -1221,7 +1221,7 @@
 <PreConditions>
 <PreCondition
  Guid="b7327136-1589-4981-b2be-3023f58ab791"
->Orientation == Default.Orientation.Reverse</PreCondition></PreConditions>
+>Orientation == OrientationEnum.Reverse</PreCondition></PreConditions>
 <Expression>Messages.Q_DIRLRBG.Reverse</Expression>
 </Case><Case
  Name="Unknown"
@@ -1230,7 +1230,7 @@
 <PreConditions>
 <PreCondition
  Guid="810e5d30-d226-46a1-8493-c538890f31e2"
->Orientation == Default.Orientation.Unknown</PreCondition></PreConditions>
+>Orientation == OrientationEnum.Unknown</PreCondition></PreConditions>
 <Expression>Messages.Q_DIRLRBG.Unknown</Expression>
 </Case></Cases>
 </Function><Function
@@ -1263,7 +1263,7 @@
 </ReqRef><Comment>This function converts a Default.Orientation into its corresponding Messages.Q_DLRBG</Comment>
 <Parameters>
 <Parameter
- Type="Default.Orientation"
+ Type="OrientationEnum"
  Name="Orientation"
  Guid="6c74e62a-ac1c-4cef-aab7-e7ae20c4eaeb"
 >
@@ -1276,7 +1276,7 @@
 <PreConditions>
 <PreCondition
  Guid="95755daa-a306-440f-b90f-e45e1eaa6f18"
->Orientation == Default.Orientation.Nominal</PreCondition></PreConditions>
+>Orientation == OrientationEnum.Nominal</PreCondition></PreConditions>
 <Expression>Messages.Q_DLRBG.Nominal</Expression>
 </Case><Case
  Name="Reverse"
@@ -1285,7 +1285,7 @@
 <PreConditions>
 <PreCondition
  Guid="3aeefd76-bba4-437f-be78-fd25cfbc263e"
->Orientation == Default.Orientation.Reverse</PreCondition></PreConditions>
+>Orientation == OrientationEnum.Reverse</PreCondition></PreConditions>
 <Expression>Messages.Q_DLRBG.Reverse</Expression>
 </Case><Case
  Name="Unknown"
@@ -1294,7 +1294,7 @@
 <PreConditions>
 <PreCondition
  Guid="55533ca0-f932-49dc-84ad-dc968eece04f"
->Orientation == Default.Orientation.Unknown</PreCondition></PreConditions>
+>Orientation == OrientationEnum.Unknown</PreCondition></PreConditions>
 <Expression>Messages.Q_DLRBG.Unknown</Expression>
 </Case></Cases>
 </Function><Function
@@ -1846,7 +1846,7 @@
 <Expression>Qualifier == Messages.Q_NEWCOUNTRY.Not_the_same_country___railway_administration__NID_C_follows</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.Orientation"
+ Type="OrientationEnum"
  Default=""
  X="340"
  Y="10"
@@ -1875,7 +1875,7 @@
 <PreCondition
  Guid="fc991b25-0652-4726-8c96-c19af1c9cc73"
 >Orientation == Messages.Q_LINKORIENTATION.The_balise_group_is_seen_by_the_train_in_nominal_direction</PreCondition></PreConditions>
-<Expression>Default.Orientation.Nominal</Expression>
+<Expression>OrientationEnum.Nominal</Expression>
 </Case><Case
  Name="Reverse"
  Guid="65387fe3-56c4-48cd-9347-0c92084215e4"
@@ -1884,7 +1884,7 @@
 <PreCondition
  Guid="60e6d962-ab8a-483d-98e4-059b0772bd1f"
 >Orientation == Messages.Q_LINKORIENTATION.The_balise_group_is_seen_by_the_train_in_reverse_direction</PreCondition></PreConditions>
-<Expression>Default.Orientation.Reverse</Expression>
+<Expression>OrientationEnum.Reverse</Expression>
 </Case></Cases>
 </Function></Functions>
 <Procedures>
@@ -1926,7 +1926,7 @@
 <Actions>
 <Action
  Guid="c3dfdd09-b1d5-432f-bbe6-42fc9d8b663c"
->aInformation.DataState &lt;- Default.DataState.Unknown</Action></Actions>
+>aInformation.DataState &lt;- DataStateEnum.Unknown</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -1965,11 +1965,11 @@
 <PreConditions>
 <PreCondition
  Guid="71be5e1a-6ee8-438f-a810-1c5a24c6eef8"
->aInformation.DataState == Default.DataState.Valid</PreCondition></PreConditions>
+>aInformation.DataState == DataStateEnum.Valid</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="e36d8b00-df3e-497f-8e04-d74753684d40"
->aInformation.DataState &lt;- Default.DataState.Invalid</Action></Actions>
+>aInformation.DataState &lt;- DataStateEnum.Invalid</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -2010,7 +2010,7 @@
 <Actions>
 <Action
  Guid="650a8c99-eb24-4ee5-ab00-e4e95d46c548"
->aInformation.DataState &lt;- Default.DataState.Valid</Action></Actions>
+>aInformation.DataState &lt;- DataStateEnum.Valid</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>

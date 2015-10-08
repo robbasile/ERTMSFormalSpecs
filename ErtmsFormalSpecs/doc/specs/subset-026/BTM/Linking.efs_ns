@@ -145,8 +145,8 @@
 
 Since this only stores what is inside Q_LOCACC (which can only be in the range of 0 to 63) it should be safe to use an ordinary length type here.</Comment>
 </StructureElement><StructureElement
- TypeName="Default.Orientation"
- Default="Default.Orientation.Unknown"
+ TypeName="OrientationEnum"
+ Default="OrientationEnum.Unknown"
  Mode="Internal"
  Implemented="TRUE"
  Verified="TRUE"
@@ -1142,7 +1142,7 @@ BTM.Linking.CurrentBGWithinFrame()</PreCondition></PreConditions>
  Name="Value"
  Guid="f0c0f7f7-c037-4ab3-a10b-87115cf305ae"
 >
-<Expression>BTM.AntennaPosition ( DistanceInterval.Min ) &gt; BTM.Linking.CurrentLinking().Distance + BTM.Linking.CurrentLinking().LocationAccuracy</Expression>
+<Expression>BTM.AntennaPosition ( DistanceIntervalEnum.Min ) &gt; BTM.Linking.CurrentLinking().Distance + BTM.Linking.CurrentLinking().LocationAccuracy</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -1175,7 +1175,7 @@ BTM.Linking.CurrentBGWithinFrame()</PreCondition></PreConditions>
  Name="Value"
  Guid="da45ce52-17f4-4094-bc79-c1b74b35acbb"
 >
-<Expression>BTM.AntennaPosition( DistanceInterval.Min ) &gt; BTM.Linking.RAMSSupervisedBG.EndOfWindow</Expression>
+<Expression>BTM.AntennaPosition( DistanceIntervalEnum.Min ) &gt; BTM.Linking.RAMSSupervisedBG.EndOfWindow</Expression>
 </Case></Cases>
 </Function></Functions>
 <Procedures>
@@ -1778,7 +1778,7 @@ Activate the service brake if a second linked BG in a row is missed.</Comment>
 <PreConditions>
 <PreCondition
  Guid="d3e69c54-db46-4f85-9ff3-3159f3eeaff0"
->Kernel.Mode == Mode.SH</PreCondition></PreConditions>
+>Kernel.Mode == ModeEnum.SH</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="8d1a6745-9466-4063-a719-d54c187a08dc"
@@ -1846,7 +1846,7 @@ NOT Kernel.Modes.Shunting.BGIsExpected(BTM.CurrentBaliseGroup)</Action></Actions
 <PreConditions>
 <PreCondition
  Guid="b0d0f21d-b735-4fdb-bb84-9a28eba9d3d1"
->Kernel.Mode == Mode.SR</PreCondition></PreConditions>
+>Kernel.Mode == ModeEnum.SR</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="6cb1c474-bc67-4f05-835f-4028f0ac9989"
@@ -2022,7 +2022,7 @@ NOT Kernel.Modes.StaffResponsible.BGIsExpected(BTM.CurrentBaliseGroup)</Action><
 <Action
  Guid="b5267b4f-321c-48a3-8cb1-b091b3a4496d"
 >BTM.CheckMessageConsistency(
-    DistanceFromLRBG =&gt; Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom),
+    DistanceFromLRBG =&gt; Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom),
     LinkingUsed =&gt; False,
     LinkingReaction =&gt; BTM.Linking.LinkingReaction.CommandServiceBrake
 )</Action></Actions>
@@ -2042,7 +2042,7 @@ NOT Kernel.Modes.StaffResponsible.BGIsExpected(BTM.CurrentBaliseGroup)</Action><
 <Action
  Guid="bac12566-89d7-4f78-a052-2705f05be489"
 >BTM.CheckMessageConsistency(
-    DistanceFromLRBG =&gt; Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom),
+    DistanceFromLRBG =&gt; Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom),
     LinkingUsed =&gt; False,
     LinkingReaction =&gt; BTM.Linking.LinkingReaction.CommandServiceBrake
 )</Action></Actions>
@@ -2720,7 +2720,7 @@ IN Kernel.BrakeCommands.EmergencyStops</Action></Actions>
  Guid="31e13c42-91f0-4f0d-80c6-0ac0955b0353"
 >Available(BTM.Linking.RAMSRepositioningBG)
   AND  
-BTM.AntennaPosition( DistanceInterval.Min ) &gt; BTM.Linking.RAMSRepositioningBG.EndOfWindow</PreCondition></PreConditions>
+BTM.AntennaPosition( DistanceIntervalEnum.Min ) &gt; BTM.Linking.RAMSRepositioningBG.EndOfWindow</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="05d233d1-f4fd-4e47-9d02-eec5223c9448"

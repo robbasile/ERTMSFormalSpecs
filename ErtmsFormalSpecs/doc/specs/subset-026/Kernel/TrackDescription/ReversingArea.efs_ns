@@ -170,7 +170,7 @@
 <PreConditions>
 <PreCondition
  Guid="8ff6903f-16b5-48f5-99cd-994b7321e363"
->Kernel.Mode != Default.Mode.TR</PreCondition></PreConditions>
+>Kernel.Mode != ModeEnum.TR</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="65408a4d-b8a9-4230-8efc-b804bf55df31"
@@ -282,7 +282,7 @@
 <PreConditions>
 <PreCondition
  Guid="a3235e9b-ce8d-4391-b487-4ca2b69ae988"
->Kernel.Mode != Default.Mode.TR</PreCondition></PreConditions>
+>Kernel.Mode != ModeEnum.TR</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="c9a4ad75-65e9-41d9-8526-ceb6c810d342"
@@ -445,9 +445,9 @@
  Guid="3a60ad8a-066b-4032-aad4-7f219f88137c"
 >Available ( Kernel.TrackDescription.ReversingArea.ReversingAreaProfile )
   AND  
-Kernel.TrackDescription.ReversingArea.ReversingAreaProfile.Location &lt;= Kernel.TrainPosition.FrontEndPosition ( DistanceInterval.Nom )
+Kernel.TrackDescription.ReversingArea.ReversingAreaProfile.Location &lt;= Kernel.TrainPosition.FrontEndPosition ( DistanceIntervalEnum.Nom )
   AND  
-Kernel.TrainPosition.FrontEndPosition ( DistanceInterval.Nom ) &lt; Kernel.TrackDescription.ReversingArea.ReversingAreaProfile.Location + BaseTypes.LengthToDistance ( Kernel.TrackDescription.ReversingArea.ReversingAreaProfile.Length )</PreCondition><PreCondition
+Kernel.TrainPosition.FrontEndPosition ( DistanceIntervalEnum.Nom ) &lt; Kernel.TrackDescription.ReversingArea.ReversingAreaProfile.Location + BaseTypes.LengthToDistance ( Kernel.TrackDescription.ReversingArea.ReversingAreaProfile.Length )</PreCondition><PreCondition
  Guid="e2780f24-dfce-4f80-a1ed-40804c6f02f9"
 >Odometry.TrainIsAtStandstill()</PreCondition></PreConditions>
 <Actions>
@@ -488,7 +488,7 @@ Kernel.TrainPosition.FrontEndPosition ( DistanceInterval.Nom ) &lt; Kernel.Track
  Guid="02c224ed-0cc3-46ef-b8e8-dec3d21df680"
 >Kernel.TrackDescription.ReversingArea.DriverTriesReversing</PreCondition><PreCondition
  Guid="a87006bb-b89e-40ff-a62f-44b80838edb8"
->NOT (DMI.MasterDMI().In_AcknOfRVMode.InputInformation.RequestStatus == Request.Request)</PreCondition></PreConditions>
+>NOT (DMI.MasterDMI().In_AcknOfRVMode.InputInformation.RequestStatus == RequestEnum.Request)</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="ed5d42aa-ccad-44b5-b83e-130460638fea"

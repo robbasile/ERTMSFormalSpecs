@@ -106,8 +106,8 @@
     V_MAXTRAIN =&gt; MessageTypes.UnResolveSpeed ( speed =&gt; Kernel.TrainData.TrainData.Value.MaximumSpeed, resolution =&gt; 5.0 ),
     N_ITER_0 =&gt; COUNT X IN ( Kernel.TrainData.TrainData.Value.TractionSystems ),
     Sequence1 =&gt; MAP Kernel.TrainData.TrainData.Value.TractionSystems USING X IN EURORADIO.TrainData.CreateTractionSystem ( X ),
-    N_ITER_1 =&gt; COUNT X IN Kernel.TrainData.TrainData.Value.LevelsSupportedOnBoard | X.Value == Level.LNTC,
-    Sequence2 =&gt; MAP Kernel.TrainData.TrainData.Value.LevelsSupportedOnBoard | X .Value == Level.LNTC USING X IN EURORADIO.TrainData.CreateNationalSystem ( X.NTC )
+    N_ITER_1 =&gt; COUNT X IN Kernel.TrainData.TrainData.Value.LevelsSupportedOnBoard | X.Value == LevelEnum.LNTC,
+    Sequence2 =&gt; MAP Kernel.TrainData.TrainData.Value.LevelsSupportedOnBoard | X .Value == LevelEnum.LNTC USING X IN EURORADIO.TrainData.CreateNationalSystem ( X.NTC )
 }</Expression>
 </Case></Cases>
 </Function><Function

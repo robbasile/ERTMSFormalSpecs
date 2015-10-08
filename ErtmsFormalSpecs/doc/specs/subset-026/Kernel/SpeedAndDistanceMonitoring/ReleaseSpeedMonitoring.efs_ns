@@ -174,11 +174,11 @@ STOP_CONDITION
 >
 <Expression>Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.d_EOA()
   +
-Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.alpha() * BTM.AntennaPosition ( DistanceInterval.Nom )
+Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.alpha() * BTM.AntennaPosition ( DistanceIntervalEnum.Nom )
   +
 BaseTypes.MaxDistance(
     X1 =&gt; ( 2.0 * BTM.BGLocationAccuracy() + 10.0 + 0.1 * Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.d_EOA() ),
-    X2 =&gt; ( Kernel.TrainPosition.FrontEndPosition ( DistanceInterval.Max ) - Kernel.TrainPosition.FrontEndPosition ( DistanceInterval.Min ) ) )</Expression>
+    X2 =&gt; ( Kernel.TrainPosition.FrontEndPosition ( DistanceIntervalEnum.Max ) - Kernel.TrainPosition.FrontEndPosition ( DistanceIntervalEnum.Min ) ) )</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Speed"
@@ -497,7 +497,7 @@ INITIAL_VALUE
 <PreConditions>
 <PreCondition
  Guid="6987e771-1b6a-40d7-86d1-6ee0972c1e4a"
->Kernel.Level.Value.Value == Default.Level.L1</PreCondition></PreConditions>
+>Kernel.Level.Value.Value == LevelEnum.L1</PreCondition></PreConditions>
 <Expression>1.0</Expression>
 </Case><Case
  Name="Level 2 or 3"
@@ -506,7 +506,7 @@ INITIAL_VALUE
 <PreConditions>
 <PreCondition
  Guid="c2818a11-3cd6-4d37-9f07-66a869d1737c"
->Kernel.Level.Value.Value in [Default.Level.L2, Default.Level.L3]</PreCondition></PreConditions>
+>Kernel.Level.Value.Value in [LevelEnum.L2, LevelEnum.L3]</PreCondition></PreConditions>
 <Expression>0.0</Expression>
 </Case></Cases>
 </Function><Function

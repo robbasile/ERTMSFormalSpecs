@@ -20,8 +20,8 @@
  MaxValue="1023"
  Precision="IntegerPrecision"
  Default="0"
- X="850"
- Y="230"
+ X="860"
+ Y="80"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -38,8 +38,8 @@
 <Enumerations>
 <Enum
  Default="Kernel.TrainData.TrainCategoryEnum.FreightTrainInG"
- X="80"
- Y="230"
+ X="10"
+ Y="80"
  Width="100"
  Height="50"
  Pinned="TRUE"
@@ -83,8 +83,8 @@
 <Structures>
 <Structure
  Default=""
- X="290"
- Y="340"
+ X="230"
+ Y="190"
  Width="100"
  Height="50"
  Pinned="TRUE"
@@ -175,8 +175,8 @@
 </ReqRef><Comment>Represents other specific categories to which possibly belongs the train.</Comment>
 </StructureElement></Structure><Structure
  Default=""
- X="530"
- Y="340"
+ X="440"
+ Y="190"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -963,19 +963,19 @@
  TypeName="Levels"
  Default="[
   LevelDataStruct {
-     Value =&gt; Default.Level.L1,
+     Value =&gt; LevelEnum.L1,
      NTC =&gt; NID_NTC.NOT_APPLICABLE
   },
   LevelDataStruct {
-     Value =&gt; Default.Level.L2,
+     Value =&gt; LevelEnum.L2,
      NTC =&gt; NID_NTC.NOT_APPLICABLE
   },
   LevelDataStruct {
-     Value =&gt; Default.Level.LNTC,
+     Value =&gt; LevelEnum.LNTC,
      NTC =&gt; 0
   },
   LevelDataStruct {
-     Value =&gt; Default.Level.LNTC,
+     Value =&gt; LevelEnum.LNTC,
      NTC =&gt; 1
   }
 ]"
@@ -1016,8 +1016,8 @@
 </ReqRef><Comment>Reprensents the length of the engine.</Comment>
 </StructureElement></Structure><Structure
  Default=""
- X="690"
- Y="340"
+ X="650"
+ Y="190"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -1035,8 +1035,8 @@
  Guid="6c29652c-45e7-4886-899f-5aec0a6a1902"
 >
 </ReqRef><StructureElement
- TypeName="Default.DataState"
- Default="Default.DataState.Unknown"
+ TypeName="DataStateEnum"
+ Default="DataStateEnum.Unknown"
  Mode="Internal"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
@@ -1064,8 +1064,8 @@
 </StructureRef></Interfaces>
 </Structure><Structure
  Default=""
- X="690"
- Y="230"
+ X="650"
+ Y="80"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -1107,8 +1107,8 @@
 >
 </ReqRef></StructureElement></Structure><Structure
  Default=""
- X="530"
- Y="440"
+ X="450"
+ Y="310"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -1152,8 +1152,8 @@
  TypeName="TrainCategoryEnum"
  MaxSize="15"
  Default="[]"
- X="80"
- Y="340"
+ X="10"
+ Y="190"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -1170,8 +1170,8 @@
  TypeName="TractionSystem"
  MaxSize="20"
  Default="[]"
- X="530"
- Y="230"
+ X="440"
+ Y="80"
  Width="100"
  Height="50"
  Pinned="TRUE"
@@ -1185,621 +1185,13 @@
  Guid="6ef0fc58-94bc-4254-897e-c7e7ff6a1e87"
 >
 </ReqRef></Collection></Collections>
-<Procedures>
-<Procedure
- X="221"
- Y="1"
- Width="100"
- Height="50"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="InitializeTrainData"
- Guid="71722c61-36f8-4c73-9471-14eb436d205a"
->
-<Comment>Initializes the test environment with the train data as specified in ERA_Braking_cuvers_tool_v3.0.xlsm.</Comment>
-<Rules>
-<Rule
- Priority="Processing"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Train data"
- Guid="6cdfcaa4-fa2b-4c22-92d0-f81997e116a0"
->
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Train data"
- Guid="5cb26d74-95fa-46db-b136-e74191e516e4"
->
-<PreConditions>
-</PreConditions>
-<Actions>
-<Action
- Guid="3c40c469-55cf-4e97-8742-74f6f25d4e1d"
->BTM.ActiveAntennaPosition &lt;- 5.0</Action><Action
- Guid="7d442961-2150-4931-ac66-b8c407eac3e6"
->Kernel.TrainData.BrakingParameters.ContributionOfSpecialBrakeIsAllowed &lt;- True</Action><Action
- Guid="d6a65106-9d66-4565-880a-3816d15bd453"
->Kernel.TrainData.TrainData.Value.BrakePosition &lt;- Kernel.TrainData.BrakingParameters.BrakePositions.PassengerTrainInP</Action><Action
- Guid="b46ed63b-c019-4a10-a125-38155e0e146e"
->Kernel.TrainData.TrainData.Value.EBModels &lt;- Kernel.TrainData.BrakingParameters.EBModelSet
-{
-    ModelSet =&gt; BrakingParameters.BrakingModelSet{
-    EddyCurrent =&gt; BrakingParameters.BrakingModel{
-        Val0 =&gt; BrakingParameters.BrakingModelValue{
-            SpeedStep =&gt; 0.0,
-            Acceleration =&gt; 1.07
-        },
-        Val1 =&gt; BrakingParameters.BrakingModelValue{
-            SpeedStep =&gt; 160.0,
-            Acceleration =&gt; 0.8
-        },
-        Val2 =&gt; BrakingParameters.BrakingModelValue{
-            SpeedStep =&gt; BaseTypes.Speed.Infinity,
-            Acceleration =&gt; 0.0
-        }
-    },
-    Magnetic =&gt; BrakingParameters.BrakingModel{
-        Val0 =&gt; BrakingParameters.BrakingModelValue{
-            SpeedStep =&gt; 0.0,
-            Acceleration =&gt; 1.07
-        },
-        Val1 =&gt; BrakingParameters.BrakingModelValue{
-            SpeedStep =&gt; 160.0,
-            Acceleration =&gt; 0.8
-        },
-        Val2 =&gt; BrakingParameters.BrakingModelValue{
-            SpeedStep =&gt; BaseTypes.Speed.Infinity,
-            Acceleration =&gt; 0.0
-        }
-    },
-    Regenerative =&gt; BrakingParameters.BrakingModel{
-        Val0 =&gt; BrakingParameters.BrakingModelValue{
-            SpeedStep =&gt; 0.0,
-            Acceleration =&gt; 1.07
-        },
-        Val1 =&gt; BrakingParameters.BrakingModelValue{
-            SpeedStep =&gt; 160.0,
-            Acceleration =&gt; 0.8
-        },
-        Val2 =&gt; BrakingParameters.BrakingModelValue{
-            SpeedStep =&gt; BaseTypes.Speed.Infinity,
-            Acceleration =&gt; 0.0
-        }
-    },
-    EddyCurrent_Magnetic =&gt; BrakingParameters.BrakingModel{
-        Val0 =&gt; BrakingParameters.BrakingModelValue{
-            SpeedStep =&gt; 0.0,
-            Acceleration =&gt; 1.07
-        },
-        Val1 =&gt; BrakingParameters.BrakingModelValue{
-            SpeedStep =&gt; 160.0,
-            Acceleration =&gt; 0.8
-        },
-        Val2 =&gt; BrakingParameters.BrakingModelValue{
-            SpeedStep =&gt; BaseTypes.Speed.Infinity,
-            Acceleration =&gt; 0.0
-        }
-    },
-    EddyCurrent_Regenerative =&gt; BrakingParameters.BrakingModel{
-        Val0 =&gt; BrakingParameters.BrakingModelValue{
-            SpeedStep =&gt; 0.0,
-            Acceleration =&gt; 1.07
-        },
-        Val1 =&gt; BrakingParameters.BrakingModelValue{
-            SpeedStep =&gt; 160.0,
-            Acceleration =&gt; 0.8
-        },
-        Val2 =&gt; BrakingParameters.BrakingModelValue{
-            SpeedStep =&gt; BaseTypes.Speed.Infinity,
-            Acceleration =&gt; 0.0
-        }
-    },
-    Magnetic_Regenerative =&gt; BrakingParameters.BrakingModel{
-        Val0 =&gt; BrakingParameters.BrakingModelValue{
-            SpeedStep =&gt; 0.0,
-            Acceleration =&gt; 1.07
-        },
-        Val1 =&gt; BrakingParameters.BrakingModelValue{
-            SpeedStep =&gt; 160.0,
-            Acceleration =&gt; 0.8
-        },
-        Val2 =&gt; BrakingParameters.BrakingModelValue{
-            SpeedStep =&gt; BaseTypes.Speed.Infinity,
-            Acceleration =&gt; 0.0
-        }
-    },
-    EddyCurrent_Magnetic_Regenerative =&gt; BrakingParameters.BrakingModel{
-        Val0 =&gt; BrakingParameters.BrakingModelValue{
-            SpeedStep =&gt; 0.0,
-            Acceleration =&gt; 1.07
-        },
-        Val1 =&gt; BrakingParameters.BrakingModelValue{
-            SpeedStep =&gt; 160.0,
-            Acceleration =&gt; 0.8
-        },
-        Val2 =&gt; BrakingParameters.BrakingModelValue{
-            SpeedStep =&gt; BaseTypes.Speed.Infinity,
-            Acceleration =&gt; 0.0
-        }
-    },
-    No_Special_Brakes =&gt; BrakingParameters.BrakingModel{
-        Val0 =&gt; BrakingParameters.BrakingModelValue{
-            SpeedStep =&gt; 0.0,
-            Acceleration =&gt; 1.07
-        },
-        Val1 =&gt; BrakingParameters.BrakingModelValue{
-            SpeedStep =&gt; 160.0,
-            Acceleration =&gt; 0.8
-        },
-        Val2 =&gt; BrakingParameters.BrakingModelValue{
-            SpeedStep =&gt; BaseTypes.Speed.Infinity,
-            Acceleration =&gt; 0.0
-        }
-    }
-},
-    Kdry_rstValuesSet =&gt; BrakingParameters.Kdry_rstValuesSet{},
-    Kwet_rstValuesSet =&gt; BrakingParameters.Kwet_rstValuesSet{}
-}</Action><Action
- Guid="fe0d9359-7fb8-4b61-ba53-4010e0266b0e"
->Kernel.TrainData.TrainData.Value.M_rotating_nom &lt;- Percentage.NA</Action><Action
- Guid="40725ae5-5b0f-4676-86bf-40f90ae2f801"
->Kernel.TrainData.TrainData.Value.MaximumSpeed &lt;- 220.0</Action><Action
- Guid="bc8cdf38-ef71-442e-bfa7-1e6495f34e58"
->Kernel.TrainData.TrainData.Value.SBCommandIsImplemented &lt;- False</Action><Action
- Guid="c8715996-5d54-4601-9b89-b56dd6822aad"
->Kernel.TrainData.TrainData.Value.SBModels &lt;- Kernel.TrainData.BrakingParameters.SBModelSet{
-    ModelSet =&gt; BrakingParameters.BrakingModelSet{
-        EddyCurrent =&gt; BrakingParameters.BrakingModel{
-            Val0 =&gt; BrakingParameters.BrakingModelValue{
-                SpeedStep =&gt; 0.0,
-                Acceleration =&gt; 0.92
-            },
-            Val1 =&gt; BrakingParameters.BrakingModelValue{
-                SpeedStep =&gt; 160.0,
-                Acceleration =&gt; 0.69
-            },
-            Val2 =&gt; BrakingParameters.BrakingModelValue{
-                SpeedStep =&gt; BaseTypes.Speed.Infinity,
-                Acceleration =&gt; 0.0
-            }
-        },
-        Magnetic =&gt; BrakingParameters.BrakingModel{
-            Val0 =&gt; BrakingParameters.BrakingModelValue{
-                SpeedStep =&gt; 0.0,
-                Acceleration =&gt; 0.92
-            },
-            Val1 =&gt; BrakingParameters.BrakingModelValue{
-                SpeedStep =&gt; 160.0,
-                Acceleration =&gt; 0.69
-            },
-            Val2 =&gt; BrakingParameters.BrakingModelValue{
-                SpeedStep =&gt; BaseTypes.Speed.Infinity,
-                Acceleration =&gt; 0.0
-            }
-        },
-        Regenerative =&gt; BrakingParameters.BrakingModel{
-            Val0 =&gt; BrakingParameters.BrakingModelValue{
-                SpeedStep =&gt; 0.0,
-                Acceleration =&gt; 0.92
-            },
-            Val1 =&gt; BrakingParameters.BrakingModelValue{
-                SpeedStep =&gt; 160.0,
-                Acceleration =&gt; 0.69
-            },
-            Val2 =&gt; BrakingParameters.BrakingModelValue{
-                SpeedStep =&gt; BaseTypes.Speed.Infinity,
-                Acceleration =&gt; 0.0
-            }
-        },
-        EddyCurrent_Magnetic =&gt; BrakingParameters.BrakingModel{
-            Val0 =&gt; BrakingParameters.BrakingModelValue{
-                SpeedStep =&gt; 0.0,
-                Acceleration =&gt; 0.92
-            },
-            Val1 =&gt; BrakingParameters.BrakingModelValue{
-                SpeedStep =&gt; 160.0,
-                Acceleration =&gt; 0.69
-            },
-            Val2 =&gt; BrakingParameters.BrakingModelValue{
-                SpeedStep =&gt; BaseTypes.Speed.Infinity,
-                Acceleration =&gt; 0.0
-            }
-        },
-        EddyCurrent_Regenerative =&gt; BrakingParameters.BrakingModel{
-            Val0 =&gt; BrakingParameters.BrakingModelValue{
-                SpeedStep =&gt; 0.0,
-                Acceleration =&gt; 0.92
-            },
-            Val1 =&gt; BrakingParameters.BrakingModelValue{
-                SpeedStep =&gt; 160.0,
-                Acceleration =&gt; 0.69
-            },
-            Val2 =&gt; BrakingParameters.BrakingModelValue{
-                SpeedStep =&gt; BaseTypes.Speed.Infinity,
-                Acceleration =&gt; 0.0
-            }
-        },
-        Magnetic_Regenerative =&gt; BrakingParameters.BrakingModel{
-            Val0 =&gt; BrakingParameters.BrakingModelValue{
-                SpeedStep =&gt; 0.0,
-                Acceleration =&gt; 0.92
-            },
-            Val1 =&gt; BrakingParameters.BrakingModelValue{
-                SpeedStep =&gt; 160.0,
-                Acceleration =&gt; 0.69
-            },
-            Val2 =&gt; BrakingParameters.BrakingModelValue{
-                SpeedStep =&gt; BaseTypes.Speed.Infinity,
-                Acceleration =&gt; 0.0
-            }
-        },
-        EddyCurrent_Magnetic_Regenerative =&gt; BrakingParameters.BrakingModel{
-            Val0 =&gt; BrakingParameters.BrakingModelValue{
-                SpeedStep =&gt; 0.0,
-                Acceleration =&gt; 0.92
-            },
-            Val1 =&gt; BrakingParameters.BrakingModelValue{
-                SpeedStep =&gt; 160.0,
-                Acceleration =&gt; 0.69
-            },
-            Val2 =&gt; BrakingParameters.BrakingModelValue{
-                SpeedStep =&gt; BaseTypes.Speed.Infinity,
-                Acceleration =&gt; 0.0
-            }
-        },
-        No_Special_Brakes =&gt; BrakingParameters.BrakingModel{
-            Val0 =&gt; BrakingParameters.BrakingModelValue{
-                SpeedStep =&gt; 0.0,
-                Acceleration =&gt; 0.92
-            },
-            Val1 =&gt; BrakingParameters.BrakingModelValue{
-                SpeedStep =&gt; 160.0,
-                Acceleration =&gt; 0.69
-            },
-            Val2 =&gt; BrakingParameters.BrakingModelValue{
-                SpeedStep =&gt; BaseTypes.Speed.Infinity,
-                Acceleration =&gt; 0.0
-            }
-        }
-    }
-}</Action><Action
- Guid="6b4c0780-e55c-4dc1-94c6-21bf90a5b8cc"
->Kernel.TrainData.TrainData.Value.TractionCutOffInterfaceIsImplemented &lt;- False</Action><Action
- Guid="ca39eb79-4831-4354-8c0d-8ce788720338"
->Kernel.TrainData.TrainData.Value.TractionModel &lt;- Kernel.TrainData.TractionModel
-{
-    Coefficient =&gt; 0.0,
-    Constant    =&gt; 0.0
-}</Action><Action
- Guid="e9aefb43-8673-44d9-bd63-7fd9365eed67"
->Kernel.TrainData.TrainData.Value.TrainLength &lt;- 197.0</Action><Action
- Guid="b051c2e9-f029-4116-85ec-d6ff1553a724"
->Kernel.TrainData.TrainData.Value.LoadingGauge &lt;- Messages.M_LOADINGGAUGE.G1</Action><Action
- Guid="21f79198-7336-4d3c-9879-93d2351a0ad6"
->Kernel.TrainData.TrainData.Value.AxleLoadCategory &lt;- 22</Action><Action
- Guid="f4007406-b528-43d2-b117-eabce2566ae6"
->Kernel.TrainData.TrainData.Value.TractionSystems &lt;- [Kernel.TrainData.TractionSystem{
-    Voltage =&gt; Messages.M_VOLTAGE.AC_15_kV_16_7_Hz,
-    Country =&gt; 85
-}]</Action></Actions>
-</RuleCondition></Conditions>
-</Rule></Rules>
-</Procedure><Procedure
- X="111"
- Y="1"
- Width="100"
- Height="50"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Initialize"
- Guid="47ef17c8-315c-4519-a3c6-4ad190fb967d"
->
-<Comment>Initializes the different components of the train data for the test environment.</Comment>
-<Rules>
-<Rule
- Priority="Processing"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="TrainData"
- Guid="62c122e1-b783-47a7-b65f-60a1ef8997f4"
->
-<Comment>Initialization of the train data.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="TrainData"
- Guid="e37e14be-eeca-4887-8d9a-143fcdb02cd8"
->
-<PreConditions>
-</PreConditions>
-<Actions>
-<Action
- Guid="6991fbd7-808c-47ef-92ae-35f3c3d9a8bb"
->Kernel.TrainData.InitializeTrainData()</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="BrakingParameters"
- Guid="8ad2f60c-51c5-4246-9c5b-3f5d40b252af"
->
-<Comment>Initialization of the braking parameters.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="BrakingParameters"
- Guid="82b4c2fa-0b65-4194-811b-879feaa6db04"
->
-<PreConditions>
-</PreConditions>
-<Actions>
-<Action
- Guid="4d6003d8-6380-41b4-a175-a0fcbc9eeae4"
->Kernel.TrainData.BrakingParameters.Initialize()</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- Name="BNS"
- Guid="7f325cd7-fc5e-4b96-a831-2c9f6a3af9df"
->
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Name="BNS"
- Guid="0d77b94f-090e-4a5b-b5ea-b877804672f7"
->
-<PreConditions>
-</PreConditions>
-<Actions>
-<Action
- Guid="cee30602-7806-4cce-a5a2-d6fd6b303a79"
->Kernel.TrainData.InitializeBNS()</Action></Actions>
-</RuleCondition></Conditions>
-</Rule></Rules>
-</Procedure><Procedure
- X="111"
- Y="61"
- Width="100"
- Height="50"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="InitializeBNS"
- Guid="5fa6178b-0707-4501-aa77-f810d08f96f4"
->
-<Comment>Initializes the BNS for the test environment.</Comment>
-<Rules>
-<Rule
- Priority="Processing"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Initialize BNS"
- Guid="a9fc2480-14e6-4d53-87a9-45bd3eba70b7"
->
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Initialize BNS"
- Guid="b94190b7-3d38-49f1-9330-65e9f0f26f22"
->
-<PreConditions>
-</PreConditions>
-<Actions>
-<Action
- Guid="b038e878-3e0d-4f36-b6cc-0a44ceb51394"
->Kernel.TrainData.TrainData.Value.NormalServiceBrakeModels &lt;- Kernel.TrainData.BrakingParameters.BNSModelSet
-{
-    A_SB01 =&gt; 0.4,
-    A_SB12 =&gt; 0.7,
-    TrainInP =&gt; BrakingParameters.BNSModel
-    {
-        BNS_0 =&gt; BrakingParameters.BrakingModel
-        {
-            Val0 =&gt; BrakingParameters.BrakingModelValue
-            {
-                SpeedStep =&gt; 0.0,
-                Acceleration =&gt; 0.8
-            },
-            Val2 =&gt; BrakingParameters.BrakingModelValue
-            {
-                SpeedStep =&gt; 120.0,
-                Acceleration =&gt; 0.4
-            },
-            Val3 =&gt; BrakingParameters.BrakingModelValue
-            {
-                SpeedStep =&gt; 200.0,
-                Acceleration =&gt; 0.2
-            },
-            Val1 =&gt; BrakingParameters.BrakingModelValue
-            {
-                SpeedStep =&gt; 60.0,
-                Acceleration =&gt; 0.6
-            }
-        },
-        BNS_1 =&gt; BrakingParameters.BrakingModel
-        {
-            Val6 =&gt; BrakingParameters.BrakingModelValue
-            {
-                SpeedStep =&gt; 200.0,
-                Acceleration =&gt; 0.14
-            },
-            Val0 =&gt; BrakingParameters.BrakingModelValue
-            {
-                SpeedStep =&gt; 0.0,
-                Acceleration =&gt; 0.9
-            },
-            Val2 =&gt; BrakingParameters.BrakingModelValue
-            {
-                SpeedStep =&gt; 40.0,
-                Acceleration =&gt; 0.64
-            },
-            Val3 =&gt; BrakingParameters.BrakingModelValue
-            {
-                SpeedStep =&gt; 75.0,
-                Acceleration =&gt; 0.5
-            },
-            Val4 =&gt; BrakingParameters.BrakingModelValue
-            {
-                SpeedStep =&gt; 100.0,
-                Acceleration =&gt; 0.35
-            },
-            Val5 =&gt; BrakingParameters.BrakingModelValue
-            {
-                SpeedStep =&gt; 150.0,
-                Acceleration =&gt; 0.2
-            },
-            Val1 =&gt; BrakingParameters.BrakingModelValue
-            {
-                SpeedStep =&gt; 25.0,
-                Acceleration =&gt; 0.8
-            }
-        },
-        BNS_2 =&gt; BrakingParameters.BrakingModel
-        {
-            Val0 =&gt; BrakingParameters.BrakingModelValue
-            {
-                SpeedStep =&gt; 0.0,
-                Acceleration =&gt; 0.6
-            },
-            Val2 =&gt; BrakingParameters.BrakingModelValue
-            {
-                SpeedStep =&gt; 200.0,
-                Acceleration =&gt; 0.1
-            },
-            Val1 =&gt; BrakingParameters.BrakingModelValue
-            {
-                SpeedStep =&gt; 80.0,
-                Acceleration =&gt; 0.2
-            }
-        }
-    },
-    TrainInG =&gt; BrakingParameters.BNSModel
-    {
-        BNS_0 =&gt; BrakingParameters.BrakingModel
-        {
-            Val0 =&gt; BrakingParameters.BrakingModelValue
-            {
-                SpeedStep =&gt; 0.0,
-                Acceleration =&gt; 0.8
-            },
-            Val2 =&gt; BrakingParameters.BrakingModelValue
-            {
-                SpeedStep =&gt; 80.0,
-                Acceleration =&gt; 0.6
-            },
-            Val3 =&gt; BrakingParameters.BrakingModelValue
-            {
-                SpeedStep =&gt; 120.0,
-                Acceleration =&gt; 0.45
-            },
-            Val4 =&gt; BrakingParameters.BrakingModelValue
-            {
-                SpeedStep =&gt; 180.0,
-                Acceleration =&gt; 0.32
-            },
-            Val5 =&gt; BrakingParameters.BrakingModelValue
-            {
-                SpeedStep =&gt; 250.0,
-                Acceleration =&gt; 0.3
-            },
-            Val1 =&gt; BrakingParameters.BrakingModelValue
-            {
-                SpeedStep =&gt; 50.0,
-                Acceleration =&gt; 0.72
-            }
-        },
-        BNS_1 =&gt; BrakingParameters.BrakingModel
-        {
-            Val0 =&gt; BrakingParameters.BrakingModelValue
-            {
-                SpeedStep =&gt; 0.0,
-                Acceleration =&gt; 0.82
-            },
-            Val2 =&gt; BrakingParameters.BrakingModelValue
-            {
-                SpeedStep =&gt; 70.0,
-                Acceleration =&gt; 0.68
-            },
-            Val3 =&gt; BrakingParameters.BrakingModelValue
-            {
-                SpeedStep =&gt; 100.0,
-                Acceleration =&gt; 0.51
-            },
-            Val4 =&gt; BrakingParameters.BrakingModelValue
-            {
-                SpeedStep =&gt; 150.0,
-                Acceleration =&gt; 0.34
-            },
-            Val5 =&gt; BrakingParameters.BrakingModelValue
-            {
-                SpeedStep =&gt; 200.0,
-                Acceleration =&gt; 0.27
-            },
-            Val1 =&gt; BrakingParameters.BrakingModelValue
-            {
-                SpeedStep =&gt; 50.0,
-                Acceleration =&gt; 0.7
-            }
-        },
-        BNS_2 =&gt; BrakingParameters.BrakingModel
-        {
-            Val6 =&gt; BrakingParameters.BrakingModelValue
-            {
-                SpeedStep =&gt; 250.0,
-                Acceleration =&gt; 0.3
-            },
-            Val0 =&gt; BrakingParameters.BrakingModelValue
-            {
-                SpeedStep =&gt; 0.0,
-                Acceleration =&gt; 0.94
-            },
-            Val2 =&gt; BrakingParameters.BrakingModelValue
-            {
-                SpeedStep =&gt; 75.0,
-                Acceleration =&gt; 0.65
-            },
-            Val3 =&gt; BrakingParameters.BrakingModelValue
-            {
-                SpeedStep =&gt; 100.0,
-                Acceleration =&gt; 0.5
-            },
-            Val4 =&gt; BrakingParameters.BrakingModelValue
-            {
-                SpeedStep =&gt; 150.0,
-                Acceleration =&gt; 0.4
-            },
-            Val5 =&gt; BrakingParameters.BrakingModelValue
-            {
-                SpeedStep =&gt; 200.0,
-                Acceleration =&gt; 0.35
-            },
-            Val1 =&gt; BrakingParameters.BrakingModelValue
-            {
-                SpeedStep =&gt; 40.0,
-                Acceleration =&gt; 0.8
-            }
-        }
-    }
-}</Action></Actions>
-</RuleCondition></Conditions>
-</Rule></Rules>
-</Procedure></Procedures>
 <Variables>
 <Variable
  Type="TrainDataStruct"
  DefaultValue=""
  VariableMode="Internal"
- X="850"
- Y="340"
+ X="860"
+ Y="190"
  Width="100"
  Height="50"
  Implemented="TRUE"

@@ -63,7 +63,7 @@
  Name="L_DOUBTUNDER"
  Guid="6671444f-d7d6-4175-975d-cce10ef0234b"
 >
-<Expression>MessageTypes.UnScaleLength ( Kernel.TrainPosition.ConfidenceInterval.ConfidenceInterval(ConfidenceInterval.L_DOUBTUNDER), Q_SCALE)</Expression>
+<Expression>MessageTypes.UnScaleLength ( Kernel.TrainPosition.ConfidenceInterval.ConfidenceInterval(ConfidenceIntervalEnum.L_DOUBTUNDER), Q_SCALE)</Expression>
 </Case></Cases>
 </Function><Function
  Type="Messages.JRU.LEVEL"
@@ -80,7 +80,7 @@
 <Comment>It will transform a Kernel.Level int a JRU.Level</Comment>
 <Parameters>
 <Parameter
- Type="Level"
+ Type="LevelEnum"
  Name="LevelInKernel"
  Guid="671b6ff1-c6f4-4b84-ac91-846a87f00732"
 >
@@ -93,7 +93,7 @@
 <PreConditions>
 <PreCondition
  Guid="34d01b9a-809b-40bd-bf19-ea740f16f309"
->LevelInKernel == Level.L0</PreCondition></PreConditions>
+>LevelInKernel == LevelEnum.L0</PreCondition></PreConditions>
 <Expression>Messages.JRU.LEVEL.Level_0</Expression>
 </Case><Case
  Name="Messages.JRU.LEVEL.Level_1"
@@ -102,7 +102,7 @@
 <PreConditions>
 <PreCondition
  Guid="7ef86129-792b-4f61-829c-12f9a23e1c01"
->LevelInKernel == Level.L1</PreCondition></PreConditions>
+>LevelInKernel == LevelEnum.L1</PreCondition></PreConditions>
 <Expression>Messages.JRU.LEVEL.Level_1</Expression>
 </Case><Case
  Name="Messages.JRU.LEVEL.Level_2"
@@ -111,7 +111,7 @@
 <PreConditions>
 <PreCondition
  Guid="8ffe33fe-aebb-4ef8-b457-5fb0fbfcd824"
->LevelInKernel == Level.L2</PreCondition></PreConditions>
+>LevelInKernel == LevelEnum.L2</PreCondition></PreConditions>
 <Expression>Messages.JRU.LEVEL.Level_2</Expression>
 </Case><Case
  Name="Messages.JRU.LEVEL.Level_3"
@@ -120,7 +120,7 @@
 <PreConditions>
 <PreCondition
  Guid="c7bdf3fd-6767-44ce-8db6-2e2210514613"
->LevelInKernel == Level.L3</PreCondition></PreConditions>
+>LevelInKernel == LevelEnum.L3</PreCondition></PreConditions>
 <Expression>Messages.JRU.LEVEL.Level_3</Expression>
 </Case><Case
  Name="Level_STM_specified_by_NID_NTC"
@@ -129,7 +129,7 @@
 <PreConditions>
 <PreCondition
  Guid="d80edfa1-7aba-4a01-891e-c142c5831aef"
->LevelInKernel == Level.LNTC</PreCondition></PreConditions>
+>LevelInKernel == LevelEnum.LNTC</PreCondition></PreConditions>
 <Expression>Messages.JRU.LEVEL.Level_STM_specified_by_NID_NTC</Expression>
 </Case></Cases>
 </Function><Function
@@ -157,7 +157,7 @@
  Name="L_DOUBTOVER"
  Guid="12bf1e94-2638-470c-911e-55bd927b5f3e"
 >
-<Expression>MessageTypes.UnScaleLength ( Kernel.TrainPosition.ConfidenceInterval.ConfidenceInterval(ConfidenceInterval.L_DOUBTOVER), Q_SCALE)</Expression>
+<Expression>MessageTypes.UnScaleLength ( Kernel.TrainPosition.ConfidenceInterval.ConfidenceInterval(ConfidenceIntervalEnum.L_DOUBTOVER), Q_SCALE)</Expression>
 </Case></Cases>
 </Function><Function
  Type="Messages.JRU.M_AIRTIGHT"
@@ -921,7 +921,7 @@
 <Comment>Function which will convert the input value into JRU M_MODE</Comment>
 <Parameters>
 <Parameter
- Type="Mode"
+ Type="ModeEnum"
  Name="ModeInkernel"
  Guid="7cac4561-1c47-4d45-a0e5-3345dba4562a"
 >
@@ -934,7 +934,7 @@
 <PreConditions>
 <PreCondition
  Guid="d58b5d4c-137e-45f0-b033-388f663e004a"
->ModeInkernel == Mode.SR</PreCondition></PreConditions>
+>ModeInkernel == ModeEnum.SR</PreCondition></PreConditions>
 <Expression>Messages.M_MODE.Staff_Responsible</Expression>
 </Case><Case
  Name="JruModeOnSight"
@@ -943,7 +943,7 @@
 <PreConditions>
 <PreCondition
  Guid="65dd3f84-c68c-4f44-a554-2f37e35b3b97"
->ModeInkernel == Mode.OS</PreCondition></PreConditions>
+>ModeInkernel == ModeEnum.OS</PreCondition></PreConditions>
 <Expression>Messages.M_MODE.On_Sight</Expression>
 </Case><Case
  Name="JruModeIsolation"
@@ -952,7 +952,7 @@
 <PreConditions>
 <PreCondition
  Guid="c81827f1-e33b-499b-a201-e2c6e05c71be"
->ModeInkernel == Mode.IS</PreCondition></PreConditions>
+>ModeInkernel == ModeEnum.IS</PreCondition></PreConditions>
 <Expression>Messages.M_MODE.Isolation</Expression>
 </Case><Case
  Name="JruModeLimitedSupervision"
@@ -961,7 +961,7 @@
 <PreConditions>
 <PreCondition
  Guid="78e1e3b4-747f-45fe-b3bd-79017ec187a9"
->ModeInkernel == Mode.LS</PreCondition></PreConditions>
+>ModeInkernel == ModeEnum.LS</PreCondition></PreConditions>
 <Expression>Messages.M_MODE.Limited_Supervision</Expression>
 </Case><Case
  Name="JruModeNationalSystem"
@@ -970,7 +970,7 @@
 <PreConditions>
 <PreCondition
  Guid="a50e9e12-b362-4b8c-8e8b-7b712c356128"
->ModeInkernel == Mode.SN</PreCondition></PreConditions>
+>ModeInkernel == ModeEnum.SN</PreCondition></PreConditions>
 <Expression>Messages.M_MODE.National_System</Expression>
 </Case><Case
  Name="JruModeNonLeading"
@@ -979,7 +979,7 @@
 <PreConditions>
 <PreCondition
  Guid="4144de64-8c31-44fb-8fd0-c3d313c9f65d"
->ModeInkernel == Mode.NL</PreCondition></PreConditions>
+>ModeInkernel == ModeEnum.NL</PreCondition></PreConditions>
 <Expression>Messages.M_MODE.Non_Leading</Expression>
 </Case><Case
  Name="JruModePassiveShunting"
@@ -988,7 +988,7 @@
 <PreConditions>
 <PreCondition
  Guid="2c957db7-0de7-4ed7-a4e0-00cc2dc23fbe"
->ModeInkernel == Mode.PS</PreCondition></PreConditions>
+>ModeInkernel == ModeEnum.PS</PreCondition></PreConditions>
 <Expression>Messages.M_MODE.Passive_Shunting</Expression>
 </Case><Case
  Name="JruModePosttrip"
@@ -997,7 +997,7 @@
 <PreConditions>
 <PreCondition
  Guid="7772e571-7bf8-4792-b099-e58c84aebaa1"
->ModeInkernel == Mode.PT</PreCondition></PreConditions>
+>ModeInkernel == ModeEnum.PT</PreCondition></PreConditions>
 <Expression>Messages.M_MODE.Post_Trip</Expression>
 </Case><Case
  Name="JruModeReversing"
@@ -1006,7 +1006,7 @@
 <PreConditions>
 <PreCondition
  Guid="82409c40-e1d0-4962-bd58-f750f695df1e"
->ModeInkernel == Mode.RV</PreCondition></PreConditions>
+>ModeInkernel == ModeEnum.RV</PreCondition></PreConditions>
 <Expression>Messages.M_MODE.Reversing</Expression>
 </Case><Case
  Name="JruModeUnfitted"
@@ -1015,7 +1015,7 @@
 <PreConditions>
 <PreCondition
  Guid="0183745a-b08c-497d-8ac4-ad06006de01c"
->ModeInkernel == Mode.UN</PreCondition></PreConditions>
+>ModeInkernel == ModeEnum.UN</PreCondition></PreConditions>
 <Expression>Messages.M_MODE.Unfitted</Expression>
 </Case><Case
  Name="JruModeShunting"
@@ -1024,7 +1024,7 @@
 <PreConditions>
 <PreCondition
  Guid="ef5c2c4e-4fb8-4c5c-9a79-d7a5b4c61fea"
->ModeInkernel == Mode.SH</PreCondition></PreConditions>
+>ModeInkernel == ModeEnum.SH</PreCondition></PreConditions>
 <Expression>Messages.M_MODE.Shunting</Expression>
 </Case><Case
  Name="JruModeSystemFailure"
@@ -1033,7 +1033,7 @@
 <PreConditions>
 <PreCondition
  Guid="081e2014-8b9a-4f34-a757-f13a78294acc"
->ModeInkernel == Mode.SF</PreCondition></PreConditions>
+>ModeInkernel == ModeEnum.SF</PreCondition></PreConditions>
 <Expression>Messages.M_MODE.System_Failure</Expression>
 </Case><Case
  Name="JruModeStandBy"
@@ -1042,7 +1042,7 @@
 <PreConditions>
 <PreCondition
  Guid="ef6b18e7-3529-4204-8a2c-e71f178225db"
->ModeInkernel == Mode.SB</PreCondition></PreConditions>
+>ModeInkernel == ModeEnum.SB</PreCondition></PreConditions>
 <Expression>Messages.M_MODE.Stand_By</Expression>
 </Case><Case
  Name="JruModeFullsupervision"
@@ -1051,7 +1051,7 @@
 <PreConditions>
 <PreCondition
  Guid="049a9260-68c5-46e4-b55b-6afaf934add3"
->Kernel.Mode == Mode.FS</PreCondition></PreConditions>
+>Kernel.Mode == ModeEnum.FS</PreCondition></PreConditions>
 <Expression>Messages.M_MODE.Full_Supervision</Expression>
 </Case><Case
  Name="JruModeSleeping"
@@ -1060,7 +1060,7 @@
 <PreConditions>
 <PreCondition
  Guid="62d927fc-955e-430f-b5f6-9a6de4ea0494"
->Kernel.Mode == Mode.SL</PreCondition></PreConditions>
+>Kernel.Mode == ModeEnum.SL</PreCondition></PreConditions>
 <Expression>Messages.M_MODE.Sleeping</Expression>
 </Case><Case
  Name="JruModeTrip"
@@ -1069,7 +1069,7 @@
 <PreConditions>
 <PreCondition
  Guid="c848ff89-7d48-4b40-ab08-d34c72eed5f5"
->Kernel.Mode == Mode.TR</PreCondition></PreConditions>
+>Kernel.Mode == ModeEnum.TR</PreCondition></PreConditions>
 <Expression>Messages.M_MODE.Trip</Expression>
 </Case></Cases>
 </Function><Function
@@ -1097,7 +1097,7 @@
  Name="D_LRBG"
  Guid="8b98f5c1-5722-4917-8ca6-4c9408d771e3"
 >
-<Expression>MessageTypes.UnScaleDistance ( Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom), Q_SCALE)</Expression>
+<Expression>MessageTypes.UnScaleDistance ( Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom), Q_SCALE)</Expression>
 </Case></Cases>
 </Function><Function
  Type="Messages.JRU.M_BRAKE_COMMAND_STATE"
@@ -1262,7 +1262,7 @@
 <Comment>Function which will convert the input value into JRU Q_DLRBG</Comment>
 <Parameters>
 <Parameter
- Type="Orientation"
+ Type="OrientationEnum"
  Name="Q_DIR_LRBG"
  Guid="77d39e54-835c-4775-940a-93ad78befee7"
 >
@@ -1275,7 +1275,7 @@
 <PreConditions>
 <PreCondition
  Guid="58de66e6-65ae-42b9-8675-a636216bcbfd"
->Q_DIR_LRBG == Orientation.Nominal</PreCondition></PreConditions>
+>Q_DIR_LRBG == OrientationEnum.Nominal</PreCondition></PreConditions>
 <Expression>Messages.JRU.Q_DLRBG.Nominal</Expression>
 </Case><Case
  Name="Reverse"
@@ -1284,7 +1284,7 @@
 <PreConditions>
 <PreCondition
  Guid="18bb5e87-7fd3-4d44-81d4-b690935a059b"
->Q_DIR_LRBG == Orientation.Reverse</PreCondition></PreConditions>
+>Q_DIR_LRBG == OrientationEnum.Reverse</PreCondition></PreConditions>
 <Expression>Messages.JRU.Q_DLRBG.Reverse</Expression>
 </Case><Case
  Name="Unknown"
@@ -1293,7 +1293,7 @@
 <PreConditions>
 <PreCondition
  Guid="02f617b9-f4e7-4398-9920-bcce126220e0"
->Q_DIR_LRBG == Orientation.Unknown OR Q_DIR_LRBG == Orientation.Both</PreCondition></PreConditions>
+>Q_DIR_LRBG == OrientationEnum.Unknown OR Q_DIR_LRBG == OrientationEnum.Both</PreCondition></PreConditions>
 <Expression>Messages.JRU.Q_DIRLRBG.Uknown</Expression>
 </Case></Cases>
 </Function><Function
@@ -1719,7 +1719,7 @@
 <Comment>Function which will translate the value from Default.Orientation into a JRU value</Comment>
 <Parameters>
 <Parameter
- Type="Orientation"
+ Type="OrientationEnum"
  Name="Q_DLRBG"
  Guid="72f7d850-6d42-4132-91e5-d710a5273f8f"
 >
@@ -1732,7 +1732,7 @@
 <PreConditions>
 <PreCondition
  Guid="3eaa047c-8536-4550-94e3-d6a95eaa6508"
->Q_DLRBG == Orientation.Nominal</PreCondition></PreConditions>
+>Q_DLRBG == OrientationEnum.Nominal</PreCondition></PreConditions>
 <Expression>Messages.JRU.Q_DLRBG.Nominal</Expression>
 </Case><Case
  Name="Reverse"
@@ -1741,7 +1741,7 @@
 <PreConditions>
 <PreCondition
  Guid="47b03716-f397-4412-b715-2683c8b864fb"
->Q_DLRBG == Orientation.Reverse</PreCondition></PreConditions>
+>Q_DLRBG == OrientationEnum.Reverse</PreCondition></PreConditions>
 <Expression>Messages.JRU.Q_DLRBG.Reverse</Expression>
 </Case><Case
  Name="Unknown"
@@ -1750,7 +1750,7 @@
 <PreConditions>
 <PreCondition
  Guid="3633e29b-b365-45c6-aa93-86cbc2c2a391"
->Q_DLRBG == Orientation.Unknown OR Q_DLRBG == Orientation.Both</PreCondition></PreConditions>
+>Q_DLRBG == OrientationEnum.Unknown OR Q_DLRBG == OrientationEnum.Both</PreCondition></PreConditions>
 <Expression>Messages.JRU.Q_DIRLRBG.Uknown</Expression>
 </Case></Cases>
 </Function><Function
@@ -1972,7 +1972,7 @@
  Guid="e4ac315f-ce10-46e1-93e4-9748279e763b"
 >DMI.MasterDMI().In_AcknOfLevelTransition.InputInformation.DriverAnswered</PreCondition><PreCondition
  Guid="7a6d699d-657c-47ca-ac89-78e61b7deeb2"
->DMI.MasterDMI().In_AcknOfLevelTransition.Level.Value == Level.L0</PreCondition></PreConditions>
+>DMI.MasterDMI().In_AcknOfLevelTransition.Level.Value == LevelEnum.L0</PreCondition></PreConditions>
 <Expression>Messages.JRU.M_DRIVERACTIONS.Ack_level_0</Expression>
 </Case><Case
  Name="AcknOfLevelTransitionToL1"
@@ -1983,7 +1983,7 @@
  Guid="509e8a0e-f4a5-402e-83f9-ea9c07065f48"
 >DMI.MasterDMI().In_AcknOfLevelTransition.InputInformation.DriverAnswered</PreCondition><PreCondition
  Guid="d2086493-dec0-431e-b39e-7557cb33f909"
->DMI.MasterDMI().In_AcknOfLevelTransition.Level.Value == Level.L1</PreCondition></PreConditions>
+>DMI.MasterDMI().In_AcknOfLevelTransition.Level.Value == LevelEnum.L1</PreCondition></PreConditions>
 <Expression>Messages.JRU.M_DRIVERACTIONS.Ack_level_1</Expression>
 </Case><Case
  Name="AcknOfLevelTransitionToL2"
@@ -1994,7 +1994,7 @@
  Guid="ca172e6f-6a19-4623-a725-e0983350107a"
 >DMI.MasterDMI().In_AcknOfLevelTransition.InputInformation.DriverAnswered</PreCondition><PreCondition
  Guid="4195f1a7-2ad2-4ea3-8e42-ebff740220da"
->DMI.MasterDMI().In_AcknOfLevelTransition.Level.Value == Level.L2</PreCondition></PreConditions>
+>DMI.MasterDMI().In_AcknOfLevelTransition.Level.Value == LevelEnum.L2</PreCondition></PreConditions>
 <Expression>Messages.JRU.M_DRIVERACTIONS.Ack_level_2</Expression>
 </Case><Case
  Name="AcknOfLevelTransitionToL3"
@@ -2005,7 +2005,7 @@
  Guid="bdf13ce4-2f26-49fd-9fb1-41c868a1b152"
 >DMI.MasterDMI().In_AcknOfLevelTransition.InputInformation.DriverAnswered</PreCondition><PreCondition
  Guid="1251ac27-2603-4e3f-be24-e59c68f68ffd"
->DMI.MasterDMI().In_AcknOfLevelTransition.Level.Value == Level.L3</PreCondition></PreConditions>
+>DMI.MasterDMI().In_AcknOfLevelTransition.Level.Value == LevelEnum.L3</PreCondition></PreConditions>
 <Expression>Messages.JRU.M_DRIVERACTIONS.Ack_level_3</Expression>
 </Case><Case
  Name="AcknOfLevelTransitionToLNTC"
@@ -2016,7 +2016,7 @@
  Guid="40cbe79a-033a-4547-a1a0-f2f3f7985332"
 >DMI.MasterDMI().In_AcknOfLevelTransition.InputInformation.DriverAnswered</PreCondition><PreCondition
  Guid="23925601-273b-47a2-a38a-1e1298824326"
->DMI.MasterDMI().In_AcknOfLevelTransition.Level.Value == Level.LNTC</PreCondition></PreConditions>
+>DMI.MasterDMI().In_AcknOfLevelTransition.Level.Value == LevelEnum.LNTC</PreCondition></PreConditions>
 <Expression>Messages.JRU.M_DRIVERACTIONS.Ack_level_NTC</Expression>
 </Case><Case
  Name="AcknOfLSMode"
@@ -2144,7 +2144,7 @@
  Guid="0192a6c6-7f9a-47b7-84f2-cafac173bc35"
 >DMI.MasterDMI().In_ErtmsEtcsLevel.InputInformation.DriverAnswered</PreCondition><PreCondition
  Guid="ee44435f-ccf9-4210-adfd-dd094f118b13"
->DMI.MasterDMI().In_ErtmsEtcsLevel.Level.Value == Level.L0</PreCondition></PreConditions>
+>DMI.MasterDMI().In_ErtmsEtcsLevel.Level.Value == LevelEnum.L0</PreCondition></PreConditions>
 <Expression>Messages.JRU.M_DRIVERACTIONS.Level_0_selected</Expression>
 </Case><Case
  Name="ErtmsEtcsLevel1"
@@ -2155,7 +2155,7 @@
  Guid="522efc47-aad1-468e-9211-4b28b4089448"
 >DMI.MasterDMI().In_ErtmsEtcsLevel.InputInformation.DriverAnswered</PreCondition><PreCondition
  Guid="49900b07-6840-4060-8cb5-44f5dbb017f0"
->DMI.MasterDMI().In_ErtmsEtcsLevel.Level.Value == Level.L1</PreCondition></PreConditions>
+>DMI.MasterDMI().In_ErtmsEtcsLevel.Level.Value == LevelEnum.L1</PreCondition></PreConditions>
 <Expression>Messages.JRU.M_DRIVERACTIONS.Level_1_selected</Expression>
 </Case><Case
  Name="ErtmsEtcsLevel2"
@@ -2166,7 +2166,7 @@
  Guid="492285ee-f401-4e55-a5e2-0ee34e30331d"
 >DMI.MasterDMI().In_ErtmsEtcsLevel.InputInformation.DriverAnswered</PreCondition><PreCondition
  Guid="df66b5e4-9219-4be0-af14-17f491392fc0"
->DMI.MasterDMI().In_ErtmsEtcsLevel.Level.Value == Level.L2</PreCondition></PreConditions>
+>DMI.MasterDMI().In_ErtmsEtcsLevel.Level.Value == LevelEnum.L2</PreCondition></PreConditions>
 <Expression>Messages.JRU.M_DRIVERACTIONS.Level_2_selected</Expression>
 </Case><Case
  Name="ErtmsEtcsLevel3"
@@ -2177,7 +2177,7 @@
  Guid="ae2d0c74-80a3-4def-95fd-c867633254b9"
 >DMI.MasterDMI().In_ErtmsEtcsLevel.InputInformation.DriverAnswered</PreCondition><PreCondition
  Guid="1faf338e-6335-4158-b587-19e9fd031190"
->DMI.MasterDMI().In_ErtmsEtcsLevel.Level.Value == Level.L3</PreCondition></PreConditions>
+>DMI.MasterDMI().In_ErtmsEtcsLevel.Level.Value == LevelEnum.L3</PreCondition></PreConditions>
 <Expression>Messages.JRU.M_DRIVERACTIONS.Level_3_selected</Expression>
 </Case><Case
  Name="ErtmsEtcsLevelNTC"
@@ -2188,7 +2188,7 @@
  Guid="40466f46-3994-442e-b3d7-a8da5ecef9f7"
 >DMI.MasterDMI().In_ErtmsEtcsLevel.InputInformation.DriverAnswered</PreCondition><PreCondition
  Guid="ee20a7a7-6c95-4127-a98e-0f53f79a6e53"
->DMI.MasterDMI().In_ErtmsEtcsLevel.Level.Value == Level.LNTC</PreCondition></PreConditions>
+>DMI.MasterDMI().In_ErtmsEtcsLevel.Level.Value == LevelEnum.LNTC</PreCondition></PreConditions>
 <Expression>Messages.JRU.M_DRIVERACTIONS.Level_NTC_selected</Expression>
 </Case><Case
  Name="ErtmsEtcsLevelEntryRequest"
@@ -2565,7 +2565,7 @@ Otherwise returns the LSSMA.</Comment>
 <PreConditions>
 <PreCondition
  Guid="95348f97-454c-4d75-a014-f499e0bd8a91"
->Kernel.Mode in [Mode.LS]</PreCondition><PreCondition
+>Kernel.Mode in [ModeEnum.LS]</PreCondition><PreCondition
  Guid="934118f1-1e18-4cbb-9d39-789d84e7186b"
 >Kernel.Modes.LimitedSupervision.DisplayLSSMA</PreCondition></PreConditions>
 <Expression>MessageTypes.UnResolveSpeed(

@@ -52,7 +52,7 @@
  Guid="5a7c088e-89b1-46d7-9431-d0ad925bbb09"
 >Odometry.TrainSpeed() &lt;= 0.0</PreCondition><PreCondition
  Guid="49b16975-8d0d-4c0d-9314-edacd2c4736c"
->Kernel.Mode == Default.Mode.SR</PreCondition></PreConditions>
+>Kernel.Mode == ModeEnum.SR</PreCondition></PreConditions>
 <Expression>True</Expression>
 </Case><Case
  Name="EOA and SvL"
@@ -113,13 +113,13 @@ Odometry.TrainSpeed() &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitor
 <PreConditions>
 <PreCondition
  Guid="05a1fb9f-1ee5-4111-8cfe-81308c4e97f8"
->Kernel.Mode == Default.Mode.SR</PreCondition><PreCondition
+>Kernel.Mode == ModeEnum.SR</PreCondition><PreCondition
  Guid="2d76c279-9c44-414e-a7da-a597b9959db2"
 >0.0 &lt; Odometry.TrainSpeed()</PreCondition><PreCondition
  Guid="6f30e0cb-6eaa-45f6-b002-5a0a3598a78d"
 >Odometry.TrainSpeed() &lt;= Kernel.MRSP.V_MRSP()</PreCondition><PreCondition
  Guid="fd5e6266-aa7b-42a3-9cde-871febdd1614"
->Kernel.TrainPosition.DistanceRunInSR(DistanceInterval.Max) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
+>Kernel.TrainPosition.DistanceRunInSR(DistanceIntervalEnum.Max) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
     Vest =&gt; Odometry.TrainSpeed(),
     aTarget =&gt; Kernel.Modes.StaffResponsible.SREndTarget()
 )</PreCondition></PreConditions>
@@ -141,13 +141,13 @@ Kernel.MA.MA.TargetSpeed == 0.0
   AND  
 
 (
-Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Max) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
+Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
     Vest =&gt; Odometry.TrainSpeed(),
     aTarget =&gt; Kernel.MA.SvL() )
 
     AND    
 
- Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
+ Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
     Vest =&gt; Odometry.TrainSpeed(),
     aTarget =&gt; MA.EOA() )
 )</PreCondition></PreConditions>
@@ -165,7 +165,7 @@ Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Max) &lt;= Kernel.SpeedAn
 
     AND    
 
-Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Max) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
+Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
     Vest =&gt; Odometry.TrainSpeed(),
     aTarget =&gt; aTarget ) )</Expression>
 </Case></Cases>
@@ -210,13 +210,13 @@ Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Max) &lt;= Kernel.SpeedAn
 <PreConditions>
 <PreCondition
  Guid="26373687-3772-4096-9095-ce328533d997"
->Kernel.Mode == Default.Mode.SR</PreCondition><PreCondition
+>Kernel.Mode == ModeEnum.SR</PreCondition><PreCondition
  Guid="95bd7280-b63c-4f86-8a15-6c459d4d4ebc"
 >0.0 &lt; Odometry.TrainSpeed()</PreCondition><PreCondition
  Guid="46ce3e46-09af-4ec4-b0c5-596d538dc278"
 >Odometry.TrainSpeed() &lt;= Kernel.MRSP.V_MRSP()</PreCondition><PreCondition
  Guid="bf1a9aa2-6328-4b32-85b2-a4fe3d27e6b9"
->Kernel.TrainPosition.DistanceRunInSR(DistanceInterval.Max) &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
+>Kernel.TrainPosition.DistanceRunInSR(DistanceIntervalEnum.Max) &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
     Vest =&gt; Odometry.TrainSpeed(),
     aTarget =&gt; Kernel.Modes.StaffResponsible.SREndTarget()
 )</PreCondition></PreConditions>
@@ -234,13 +234,13 @@ Kernel.MA.MA.TargetSpeed == 0.0
  AND 
 
 (
-Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Max) &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
+Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
     Vest =&gt; Odometry.TrainSpeed(),
     aTarget =&gt; Kernel.MA.SvL() )
 
     OR    
 
-Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom) &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
+Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom) &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
     Vest =&gt; Odometry.TrainSpeed(),
     aTarget =&gt; MA.EOA() )
 )</PreCondition><PreCondition
@@ -262,7 +262,7 @@ Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom) &gt; Kernel.SpeedAnd
 
     AND    
 
-Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Max) &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
+Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
     Vest =&gt; Odometry.TrainSpeed(),
     aTarget =&gt; aTarget ) )</Expression>
 </Case></Cases>
@@ -307,13 +307,13 @@ Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Max) &gt; Kernel.SpeedAnd
 <PreConditions>
 <PreCondition
  Guid="955e43a0-b936-4514-94ef-ab7a1a843b71"
->Kernel.Mode == Default.Mode.SR</PreCondition><PreCondition
+>Kernel.Mode == ModeEnum.SR</PreCondition><PreCondition
  Guid="423a28c9-660f-439e-bf3b-a86ef1b38a10"
 >0.0 &lt; Odometry.TrainSpeed()</PreCondition><PreCondition
  Guid="c6b1bf5f-4451-423e-a6ea-b5b6520aabe8"
 >Odometry.TrainSpeed() &lt;= Kernel.MRSP.V_MRSP()</PreCondition><PreCondition
  Guid="29acbbd9-6a14-4923-aac5-152799b4c7a8"
->Kernel.TrainPosition.DistanceRunInSR(DistanceInterval.Max) &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_P
+>Kernel.TrainPosition.DistanceRunInSR(DistanceIntervalEnum.Max) &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_P
 (
     aTarget =&gt; Kernel.Modes.StaffResponsible.SREndTarget(),
     Vest =&gt; Odometry.TrainSpeed(),
@@ -331,14 +331,14 @@ Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Max) &gt; Kernel.SpeedAnd
 Kernel.MA.MA.TargetSpeed == 0.0
  AND 
 (
-  Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Max) &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_P
+  Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_P
   (
     aTarget =&gt; Kernel.MA.SvL(),
     Vest =&gt; Odometry.TrainSpeed(),
     NoA_est =&gt; False
   )
     OR    
-  Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom) &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_P
+  Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom) &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_P
   (
     aTarget =&gt; MA.EOA(),
     Vest =&gt; Odometry.TrainSpeed(),
@@ -362,7 +362,7 @@ Kernel.MA.MA.TargetSpeed == 0.0
     AND
   Odometry.TrainSpeed() &lt;= Kernel.MRSP.V_MRSP()
     AND    
-  Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Max) &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_P
+  Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_P
   (
     aTarget =&gt; aTarget,
     Vest =&gt; Odometry.TrainSpeed(),
@@ -411,13 +411,13 @@ Kernel.MA.MA.TargetSpeed == 0.0
 <PreConditions>
 <PreCondition
  Guid="b839ac28-ae65-4c0f-8b35-000505b104db"
->Kernel.Mode == Default.Mode.SR</PreCondition><PreCondition
+>Kernel.Mode == ModeEnum.SR</PreCondition><PreCondition
  Guid="2ac64b41-80c9-4ceb-9731-d6f8860e0ec4"
 >Kernel.MRSP.V_MRSP() &lt; Odometry.TrainSpeed()</PreCondition><PreCondition
  Guid="1d09dc23-9222-472e-bfbf-0358c5f37231"
 >Odometry.TrainSpeed() &lt;= Kernel.MRSP.V_MRSP() + Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_warning( Kernel.MRSP.V_MRSP() )</PreCondition><PreCondition
  Guid="2f194928-7a05-4d7f-aea1-d31fda866459"
->Kernel.TrainPosition.DistanceRunInSR(DistanceInterval.Max) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
+>Kernel.TrainPosition.DistanceRunInSR(DistanceIntervalEnum.Max) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
     Vest =&gt; Kernel.MRSP.V_MRSP(),
     aTarget =&gt; Kernel.Modes.StaffResponsible.SREndTarget()
 )</PreCondition></PreConditions>
@@ -439,13 +439,13 @@ Kernel.MA.MA.TargetSpeed == 0.0
  AND 
 
 (
-Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Max) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
+Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
     Vest =&gt; Kernel.MRSP.V_MRSP(),
     aTarget =&gt; Kernel.MA.SvL() )
 
   AND  
 
-Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
+Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
     Vest =&gt; Kernel.MRSP.V_MRSP(),
     aTarget =&gt; MA.EOA() )
 )</PreCondition></PreConditions>
@@ -463,7 +463,7 @@ Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom) &lt;= Kernel.SpeedAn
 
     AND    
 
-Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Max) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
+Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
     Vest =&gt; Odometry.TrainSpeed(),
     aTarget =&gt; aTarget ) )</Expression>
 </Case></Cases>
@@ -508,20 +508,20 @@ Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Max) &lt;= Kernel.SpeedAn
 <PreConditions>
 <PreCondition
  Guid="0bf3ee3f-c26c-4256-8955-a28d386a480f"
->Kernel.Mode == Default.Mode.SR</PreCondition><PreCondition
+>Kernel.Mode == ModeEnum.SR</PreCondition><PreCondition
  Guid="d82fa389-2d5c-494d-83ee-2fc6d2c1dc6b"
 >Kernel.MRSP.V_MRSP()&lt; Odometry.TrainSpeed()</PreCondition><PreCondition
  Guid="33d11481-c0da-46de-8ba2-4d7657a68498"
 >Odometry.TrainSpeed() &lt;= Kernel.MRSP.V_MRSP() + Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_warning( Kernel.MRSP.V_MRSP() )</PreCondition><PreCondition
  Guid="2ffcd774-542e-48e1-8ca7-1c6a959ab69d"
->Kernel.TrainPosition.DistanceRunInSR(DistanceInterval.Max) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
+>Kernel.TrainPosition.DistanceRunInSR(DistanceIntervalEnum.Max) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
     Vest =&gt; Kernel.MRSP.V_MRSP(),
     aTarget =&gt; Kernel.Modes.StaffResponsible.SREndTarget()
 )
 
   AND  
 
-Kernel.TrainPosition.DistanceRunInSR(DistanceInterval.Max) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_W(
+Kernel.TrainPosition.DistanceRunInSR(DistanceIntervalEnum.Max) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_W(
     Vest =&gt; Odometry.TrainSpeed(),
     aTarget =&gt; Kernel.Modes.StaffResponsible.SREndTarget()
 )</PreCondition></PreConditions>
@@ -543,21 +543,21 @@ Kernel.MA.MA.TargetSpeed == 0.0
  AND 
 
 (
-( Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Max) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
+( Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
     Vest =&gt; Kernel.MRSP.V_MRSP(),
     aTarget =&gt; Kernel.MA.SvL() )
     OR  
-  Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom) &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
+  Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom) &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
     Vest =&gt; Kernel.MRSP.V_MRSP(),
     aTarget =&gt; MA.EOA() ) )
 
   AND  
 
-( Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Max) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_W(
+( Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_W(
     Vest =&gt; Odometry.TrainSpeed(),
     aTarget =&gt; Kernel.MA.SvL() )
    AND  
-  Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_W(
+  Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_W(
     Vest =&gt; Odometry.TrainSpeed(),
     aTarget =&gt; MA.EOA() ) )
 )</PreCondition></PreConditions>
@@ -577,9 +577,9 @@ Kernel.MA.MA.TargetSpeed == 0.0
 
 Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
     Vest =&gt; Odometry.TrainSpeed(),
-    aTarget =&gt; aTarget ) &lt; Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Max)
+    aTarget =&gt; aTarget ) &lt; Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max)
   AND  
-Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Max) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_W(
+Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_W(
     Vest =&gt; Odometry.TrainSpeed(),
     aTarget =&gt; aTarget ) )</Expression>
 </Case></Cases>
@@ -628,12 +628,12 @@ Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Max) &lt;= Kernel.SpeedAn
  Guid="9876ef17-5a09-410a-b14d-deda68e45908"
 >Odometry.TrainSpeed() &lt;= Kernel.MRSP.V_MRSP() + Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_warning( Kernel.MRSP.V_MRSP() )</PreCondition><PreCondition
  Guid="3076d147-37ec-43b6-8b06-8580da05eb47"
->Kernel.TrainPosition.DistanceRunInSR(DistanceInterval.Max) &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_W(
+>Kernel.TrainPosition.DistanceRunInSR(DistanceIntervalEnum.Max) &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_W(
     Vest =&gt; Odometry.TrainSpeed(),
     aTarget =&gt; Kernel.Modes.StaffResponsible.SREndTarget()
 )</PreCondition><PreCondition
  Guid="3eeab62b-3df1-447b-bd8a-647ce7c87ceb"
->Kernel.Mode == Default.Mode.SR</PreCondition></PreConditions>
+>Kernel.Mode == ModeEnum.SR</PreCondition></PreConditions>
 <Expression>True</Expression>
 </Case><Case
  Name="EOA and SvL - Trigger conditions fulfilled"
@@ -652,13 +652,13 @@ Kernel.MA.MA.TargetSpeed == 0.0
  AND 
 
 (
-Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Max) &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_W(
+Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_W(
     Vest =&gt; Odometry.TrainSpeed(),
     aTarget =&gt; Kernel.MA.SvL() )
 
   OR  
 
-Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom) &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_W(
+Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom) &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_W(
     Vest =&gt; Odometry.TrainSpeed(),
     aTarget =&gt; MA.EOA() )
 )</PreCondition></PreConditions>
@@ -676,7 +676,7 @@ Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom) &gt; Kernel.SpeedAnd
 
     AND    
 
-Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Max) &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_W(
+Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_W(
     Vest =&gt; Odometry.TrainSpeed(),
     aTarget =&gt; aTarget ) )</Expression>
 </Case></Cases>
@@ -721,13 +721,13 @@ Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Max) &gt; Kernel.SpeedAnd
 <PreConditions>
 <PreCondition
  Guid="af2468e7-5604-4dc0-92d8-6717334d7fe0"
->Kernel.Mode == Default.Mode.SR</PreCondition><PreCondition
+>Kernel.Mode == ModeEnum.SR</PreCondition><PreCondition
  Guid="9d2b3db3-19c7-4f9f-bdeb-1cc65223f82f"
 >Kernel.MRSP.V_MRSP() + Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_warning( Kernel.MRSP.V_MRSP() )  &lt;  Odometry.TrainSpeed()</PreCondition><PreCondition
  Guid="3a3debe1-625f-44fc-87cc-428207f46d6e"
 >Odometry.TrainSpeed() &lt;= Kernel.MRSP.V_MRSP() + Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_sbi( Kernel.MRSP.V_MRSP() )</PreCondition><PreCondition
  Guid="14f1484e-5d51-4124-9e4b-e4a96ba5f0ec"
->Kernel.TrainPosition.DistanceRunInSR(DistanceInterval.Max) &lt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
+>Kernel.TrainPosition.DistanceRunInSR(DistanceIntervalEnum.Max) &lt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
     Vest =&gt; Kernel.MRSP.V_MRSP(),
     aTarget =&gt; Kernel.Modes.StaffResponsible.SREndTarget()
 )</PreCondition></PreConditions>
@@ -749,13 +749,13 @@ Kernel.MA.MA.TargetSpeed == 0.0
  AND 
 
 (
-Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Max) &lt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
+Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &lt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
     Vest =&gt; Kernel.MRSP.V_MRSP(),
     aTarget =&gt; Kernel.MA.SvL() )
 
   OR  
 
-Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
+Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
     Vest =&gt; Kernel.MRSP.V_MRSP(),
     aTarget =&gt; MA.EOA() )
 )</PreCondition></PreConditions>
@@ -773,7 +773,7 @@ Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom) &lt;= Kernel.SpeedAn
 
     AND    
 
-Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Max) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
+Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
     Vest =&gt; Odometry.TrainSpeed(),
     aTarget =&gt; aTarget ) )</Expression>
 </Case></Cases>
@@ -818,20 +818,20 @@ Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Max) &lt;= Kernel.SpeedAn
 <PreConditions>
 <PreCondition
  Guid="4bcd77e7-e55c-4b6b-b87e-9c04544377ef"
->Kernel.Mode == Default.Mode.SR</PreCondition><PreCondition
+>Kernel.Mode == ModeEnum.SR</PreCondition><PreCondition
  Guid="04980250-15ef-4189-b808-dbaafc19c40e"
 >Kernel.MRSP.V_MRSP() + Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_warning( Kernel.MRSP.V_MRSP() )  &lt; Odometry.TrainSpeed()</PreCondition><PreCondition
  Guid="1d2c8097-b965-4172-80eb-ee1110c6630d"
 >Odometry.TrainSpeed()  &lt;=  Kernel.MRSP.V_MRSP() + Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_sbi( Kernel.MRSP.V_MRSP() )</PreCondition><PreCondition
  Guid="1ad85ffe-6b3b-4e42-afc5-989c5afc986b"
->Kernel.TrainPosition.DistanceRunInSR(DistanceInterval.Max) &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
+>Kernel.TrainPosition.DistanceRunInSR(DistanceIntervalEnum.Max) &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
     Vest =&gt; Kernel.MRSP.V_MRSP(),
     aTarget =&gt; Kernel.Modes.StaffResponsible.SREndTarget()
 )
 
   AND  
 
-Kernel.TrainPosition.DistanceRunInSR(DistanceInterval.Max) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_SBI2(
+Kernel.TrainPosition.DistanceRunInSR(DistanceIntervalEnum.Max) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_SBI2(
     Vest =&gt; Odometry.TrainSpeed(),
     aTarget =&gt; Kernel.Modes.StaffResponsible.SREndTarget()
 ,
@@ -854,22 +854,22 @@ Kernel.MA.MA.TargetSpeed == 0.0
  AND 
 
 (
-( Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Max) &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
+( Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
     Vest =&gt; Kernel.MRSP.V_MRSP(),
     aTarget =&gt; Kernel.MA.SvL() )
      OR    
-  Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom) &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
+  Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom) &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
     Vest =&gt; Kernel.MRSP.V_MRSP(),
     aTarget =&gt; MA.EOA() ) )
 
   AND  
 
-( Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Max) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_SBI2(
+( Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_SBI2(
     Vest =&gt; Odometry.TrainSpeed(),
     aTarget =&gt; Kernel.MA.SvL(),
     NoA_est =&gt; False )
     AND    
-  Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_SBI1(
+  Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_SBI1(
     Vest =&gt; Odometry.TrainSpeed() ) )
 )</PreCondition></PreConditions>
 <Expression>True</Expression>
@@ -888,9 +888,9 @@ Kernel.MA.MA.TargetSpeed == 0.0
 
  Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
     Vest =&gt; Odometry.TrainSpeed(),
-    aTarget =&gt; aTarget ) &lt; Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Max)
+    aTarget =&gt; aTarget ) &lt; Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max)
   AND
-Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Max) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_SBI2(
+Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_SBI2(
     Vest =&gt; Odometry.TrainSpeed(),
     aTarget =&gt; aTarget,
     NoA_est =&gt; False ) )</Expression>
@@ -936,13 +936,13 @@ Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Max) &lt;= Kernel.SpeedAn
 <PreConditions>
 <PreCondition
  Guid="d03037cd-a67b-4521-a942-8133539eec58"
->Kernel.Mode == Default.Mode.SR</PreCondition><PreCondition
+>Kernel.Mode == ModeEnum.SR</PreCondition><PreCondition
  Guid="a1fa1940-f18c-4571-8548-e4a2a84135db"
 >Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.ReleaseSpeed &lt; Odometry.TrainSpeed()</PreCondition><PreCondition
  Guid="0e04f5c4-231d-47ea-a2d1-a645b932dbec"
 >Odometry.TrainSpeed()  &lt;=  Kernel.MRSP.V_MRSP() + Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_sbi( Kernel.MRSP.V_MRSP() )</PreCondition><PreCondition
  Guid="6292932a-4da3-468b-b518-ae4ee4fcb90e"
->Kernel.TrainPosition.DistanceRunInSR(DistanceInterval.Max) &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_SBI2(
+>Kernel.TrainPosition.DistanceRunInSR(DistanceIntervalEnum.Max) &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_SBI2(
     Vest =&gt; Odometry.TrainSpeed(),
     aTarget =&gt; Kernel.Modes.StaffResponsible.SREndTarget(),
     NoA_est =&gt; False )</PreCondition></PreConditions>
@@ -962,14 +962,14 @@ Kernel.MA.MA.TargetSpeed == 0.0
  AND 
 
 (
-Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Max) &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_SBI2(
+Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_SBI2(
     Vest =&gt; Odometry.TrainSpeed(),
     aTarget =&gt; Kernel.MA.SvL(),
     NoA_est =&gt; False )
 
   OR  
 
-Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom) &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_SBI1(
+Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom) &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_SBI1(
     Vest =&gt; Odometry.TrainSpeed() )
 )</PreCondition><PreCondition
  Guid="dfd7754d-e882-47a7-8ecf-db66cb027851"
@@ -988,7 +988,7 @@ Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom) &gt; Kernel.SpeedAnd
 
     AND    
 
-Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Max) &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_SBI2(
+Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_SBI2(
     Vest =&gt; Odometry.TrainSpeed(),
     aTarget =&gt; aTarget,
     NoA_est =&gt; False ) )</Expression>
@@ -1034,13 +1034,13 @@ Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Max) &gt; Kernel.SpeedAnd
 <PreConditions>
 <PreCondition
  Guid="8c82bd9f-ed47-47fa-9c5a-2ad65ef4eeae"
->Kernel.Mode == Default.Mode.SR</PreCondition><PreCondition
+>Kernel.Mode == ModeEnum.SR</PreCondition><PreCondition
  Guid="37432676-e4ff-4122-ac0c-0f671e11de14"
 >Kernel.MRSP.V_MRSP() + Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_sbi( Kernel.MRSP.V_MRSP() )  &lt;  Odometry.TrainSpeed()</PreCondition><PreCondition
  Guid="b50b7cbf-0435-4ba9-b4ce-9d30c45f4183"
 >Odometry.TrainSpeed()  &lt;=  Kernel.MRSP.V_MRSP() + Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_ebi( Kernel.MRSP.V_MRSP() )</PreCondition><PreCondition
  Guid="11ec7d1e-65f1-4ab5-a550-b4b78675ee3a"
->Kernel.TrainPosition.DistanceRunInSR(DistanceInterval.Max) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
+>Kernel.TrainPosition.DistanceRunInSR(DistanceIntervalEnum.Max) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
     Vest =&gt; Kernel.MRSP.V_MRSP(),
     aTarget =&gt; Kernel.Modes.StaffResponsible.SREndTarget()
 )</PreCondition></PreConditions>
@@ -1062,13 +1062,13 @@ Kernel.MA.MA.TargetSpeed != 0.0
  AND
 
 (
-Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Max) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
+Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
     Vest =&gt; Kernel.MRSP.V_MRSP(),
     aTarget =&gt; Kernel.MA.SvL() )
 
   AND  
 
-Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
+Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
     Vest =&gt; Kernel.MRSP.V_MRSP(),
     aTarget =&gt; MA.EOA() )
 )</PreCondition></PreConditions>
@@ -1086,7 +1086,7 @@ Odometry.TrainSpeed() &lt;= Kernel.MRSP.V_MRSP() + Kernel.SpeedAndDistanceMonito
 
     AND    
 
-Kernel.TrainPosition.FrontEndPosition ( DistanceInterval.Max ) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
+Kernel.TrainPosition.FrontEndPosition ( DistanceIntervalEnum.Max ) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
     Vest =&gt; Odometry.TrainSpeed(),
     aTarget =&gt; aTarget ) )</Expression>
 </Case></Cases>
@@ -1131,20 +1131,20 @@ Kernel.TrainPosition.FrontEndPosition ( DistanceInterval.Max ) &lt;= Kernel.Spee
 <PreConditions>
 <PreCondition
  Guid="97f5d293-6858-4e44-a893-53c4f3664eba"
->Kernel.Mode == Default.Mode.SR</PreCondition><PreCondition
+>Kernel.Mode == ModeEnum.SR</PreCondition><PreCondition
  Guid="af279e14-f824-4766-aae4-ec40d7a4d2e3"
 >Kernel.MRSP.V_MRSP() + Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_sbi( Kernel.MRSP.V_MRSP() )  &lt;  Odometry.TrainSpeed()</PreCondition><PreCondition
  Guid="ea13585b-79b5-4e94-9f1d-20f70caca56a"
 >Odometry.TrainSpeed()  &lt;=  Kernel.MRSP.V_MRSP() + Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_ebi( Kernel.MRSP.V_MRSP() )</PreCondition><PreCondition
  Guid="d62fb026-0dfe-46d4-b297-9d13a84749ee"
->Kernel.TrainPosition.DistanceRunInSR(DistanceInterval.Max) &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
+>Kernel.TrainPosition.DistanceRunInSR(DistanceIntervalEnum.Max) &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
     Vest =&gt; Kernel.MRSP.V_MRSP(),
     aTarget =&gt; Kernel.Modes.StaffResponsible.SREndTarget()
 )
 
   AND  
 
-Kernel.TrainPosition.DistanceRunInSR(DistanceInterval.Max) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_EBI(
+Kernel.TrainPosition.DistanceRunInSR(DistanceIntervalEnum.Max) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_EBI(
     Vest =&gt; Odometry.TrainSpeed(),
     aTarget =&gt; Kernel.Modes.StaffResponsible.SREndTarget()
 )</PreCondition></PreConditions>
@@ -1162,17 +1162,17 @@ Kernel.MA.MA.TargetSpeed == 0.0
  AND 
 
 (
-( Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Max) &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
+( Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
     Vest =&gt; Kernel.MRSP.V_MRSP(),
     aTarget =&gt; Kernel.MA.SvL() )
     OR  
-  Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom) &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
+  Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom) &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
     Vest =&gt; Kernel.MRSP.V_MRSP(),
     aTarget =&gt; MA.EOA() ) )
 
   AND  
 
-Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Max) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_EBI(
+Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_EBI(
     Vest =&gt; Odometry.TrainSpeed(),
     aTarget =&gt; Kernel.MA.SvL() )
 )</PreCondition><PreCondition
@@ -1196,9 +1196,9 @@ Odometry.TrainSpeed() &lt;= Kernel.MRSP.V_MRSP() + Kernel.SpeedAndDistanceMonito
 
 Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
     Vest =&gt; Odometry.TrainSpeed(),
-    aTarget =&gt; aTarget) &lt; Kernel.TrainPosition.FrontEndPosition ( DistanceInterval.Max )
+    aTarget =&gt; aTarget) &lt; Kernel.TrainPosition.FrontEndPosition ( DistanceIntervalEnum.Max )
   AND  
-Kernel.TrainPosition.FrontEndPosition ( DistanceInterval.Max ) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_EBI ( Vest =&gt; Odometry.TrainSpeed(), aTarget =&gt; aTarget ) )</Expression>
+Kernel.TrainPosition.FrontEndPosition ( DistanceIntervalEnum.Max ) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_EBI ( Vest =&gt; Odometry.TrainSpeed(), aTarget =&gt; aTarget ) )</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -1241,9 +1241,9 @@ Kernel.TrainPosition.FrontEndPosition ( DistanceInterval.Max ) &lt;= Kernel.Spee
 <PreConditions>
 <PreCondition
  Guid="a4eaed8f-35ff-4238-855d-22ae6e6372ac"
->Kernel.Mode == Default.Mode.SR</PreCondition><PreCondition
+>Kernel.Mode == ModeEnum.SR</PreCondition><PreCondition
  Guid="69841c47-1e6a-47e1-a080-91f9ede0a96e"
->Kernel.TrainPosition.DistanceRunInSR(DistanceInterval.Max) &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_EBI(
+>Kernel.TrainPosition.DistanceRunInSR(DistanceIntervalEnum.Max) &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_EBI(
     Vest =&gt; Odometry.TrainSpeed(),
     aTarget =&gt; Kernel.Modes.StaffResponsible.SREndTarget()
 )</PreCondition><PreCondition
@@ -1264,7 +1264,7 @@ Kernel.MA.MA.TargetSpeed == 0.0
 
  AND 
 
-Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Max) &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_EBI(
+Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_EBI(
     Vest =&gt; Odometry.TrainSpeed(),
     aTarget =&gt; Kernel.MA.SvL() )</PreCondition><PreCondition
  Guid="d74824b5-8d62-479c-bf50-e299986692d5"
@@ -1285,7 +1285,7 @@ Odometry.TrainSpeed() &lt;= Kernel.MRSP.V_MRSP() + Kernel.SpeedAndDistanceMonito
 
     AND    
 
-Kernel.TrainPosition.FrontEndPosition ( DistanceInterval.Max ) &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_EBI ( Vest =&gt; Odometry.TrainSpeed(), aTarget =&gt; aTarget ))</Expression>
+Kernel.TrainPosition.FrontEndPosition ( DistanceIntervalEnum.Max ) &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_EBI ( Vest =&gt; Odometry.TrainSpeed(), aTarget =&gt; aTarget ))</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -1328,9 +1328,9 @@ Kernel.TrainPosition.FrontEndPosition ( DistanceInterval.Max ) &gt; Kernel.Speed
 <PreConditions>
 <PreCondition
  Guid="1788e4ad-5a93-452d-b094-56b2dc9823d2"
->Kernel.Mode == Default.Mode.SR</PreCondition><PreCondition
+>Kernel.Mode == ModeEnum.SR</PreCondition><PreCondition
  Guid="ab1a64ff-33d1-4770-af7d-d95a4733e145"
->Kernel.TrainPosition.DistanceRunInSR(DistanceInterval.Max) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
+>Kernel.TrainPosition.DistanceRunInSR(DistanceIntervalEnum.Max) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
     Vest =&gt; Kernel.MRSP.V_MRSP(),
     aTarget =&gt; Kernel.Modes.StaffResponsible.SREndTarget()
 )</PreCondition><PreCondition
@@ -1350,13 +1350,13 @@ Kernel.MA.MA.TargetSpeed == 0.0
  AND
 
 (
-Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Max) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
+Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
     Vest =&gt; Kernel.MRSP.V_MRSP(),
     aTarget =&gt; Kernel.MA.SvL() )
 
     AND    
 
-Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
+Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
     Vest =&gt; Kernel.MRSP.V_MRSP(),
     aTarget =&gt; MA.EOA() )
 )</PreCondition><PreCondition
@@ -1374,7 +1374,7 @@ Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom) &lt;= Kernel.SpeedAn
 
   AND  
 
-Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Max) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
+Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
     Vest =&gt; Kernel.MRSP.V_MRSP(),
     aTarget =&gt; aTarget ) )</Expression>
 </Case></Cases>
@@ -1476,7 +1476,7 @@ Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Max) &lt;= Kernel.SpeedAn
 <PreConditions>
 <PreCondition
  Guid="2983c36e-fb95-41c0-acb4-9240397a256f"
->Kernel.Mode == Default.Mode.SR</PreCondition><PreCondition
+>Kernel.Mode == ModeEnum.SR</PreCondition><PreCondition
  Guid="153e9e6d-2519-4fb5-b6f2-702212d5277d"
 >Odometry.TrainSpeed() &gt; 0.0</PreCondition></PreConditions>
 <Expression>False</Expression>
@@ -1557,7 +1557,7 @@ Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Max) &lt;= Kernel.SpeedAn
 <PreConditions>
 <PreCondition
  Guid="205ff24c-db10-4759-9768-6cd354aa9601"
->Kernel.Mode == Default.Mode.SR</PreCondition><PreCondition
+>Kernel.Mode == ModeEnum.SR</PreCondition><PreCondition
  Guid="2dcaba8b-9363-473a-b234-369bad423775"
 >Odometry.TrainSpeed() &lt;= 0.0
   OR  
@@ -1567,7 +1567,7 @@ Kernel.MRSP.V_MRSP() &lt; Odometry.TrainSpeed()
     OR    
 
 
-Kernel.TrainPosition.DistanceRunInSR(DistanceInterval.Max) &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
+Kernel.TrainPosition.DistanceRunInSR(DistanceIntervalEnum.Max) &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
     Vest =&gt; Odometry.TrainSpeed(),
     aTarget =&gt; Kernel.Modes.StaffResponsible.SREndTarget()
 )</PreCondition></PreConditions>
@@ -1588,7 +1588,7 @@ Kernel.TrainPosition.DistanceRunInSR(DistanceInterval.Max) &gt; Kernel.SpeedAndD
 
   AND  
 
-Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I
+Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I
 (
     Vest =&gt; Odometry.TrainSpeed(),
     aTarget =&gt; aTarget 
@@ -1609,7 +1609,7 @@ Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom) &lt;= Kernel.SpeedAn
 
   AND  
 
-Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
+Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
     Vest =&gt; Odometry.TrainSpeed(),
     aTarget =&gt; aTarget
 )</Expression>
@@ -1625,7 +1625,7 @@ Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom) &lt;= Kernel.SpeedAn
 
   AND  
 
-Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Max) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
+Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
      Vest =&gt; Odometry.TrainSpeed(),
      aTarget =&gt; aTarget )</Expression>
 </Case></Cases>
@@ -1688,14 +1688,14 @@ Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Max) &lt;= Kernel.SpeedAn
 
     OR    
 
-Kernel.TrainPosition.DistanceRunInSR(DistanceInterval.Max) &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_P
+Kernel.TrainPosition.DistanceRunInSR(DistanceIntervalEnum.Max) &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_P
 (
     aTarget =&gt; Kernel.Modes.StaffResponsible.SREndTarget(),
     Vest =&gt; Odometry.TrainSpeed(),
     NoA_est =&gt; False
 )</PreCondition><PreCondition
  Guid="cba9e74e-f531-4a64-a766-87744964f013"
->Kernel.Mode == Default.Mode.SR</PreCondition></PreConditions>
+>Kernel.Mode == ModeEnum.SR</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
  Name="EOA"
@@ -1713,7 +1713,7 @@ Kernel.TrainPosition.DistanceRunInSR(DistanceInterval.Max) &gt; Kernel.SpeedAndD
 
   AND  
 
-Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_P
+Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_P
 (
     Vest =&gt; Odometry.TrainSpeed(),
     aTarget =&gt; Kernel.MA.SvL(),
@@ -1735,7 +1735,7 @@ Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom) &lt;= Kernel.SpeedAn
 
   AND  
 
-Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_P
+Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_P
 (
     Vest =&gt; Odometry.TrainSpeed(),
     aTarget =&gt; Kernel.MA.SvL(),
@@ -1751,7 +1751,7 @@ Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom) &lt;= Kernel.SpeedAn
   Odometry.TrainSpeed() &lt;= Kernel.MRSP.V_MRSP()
 )
   AND  
-Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Max) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_P
+Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_P
 (
     aTarget =&gt; aTarget,
     Vest =&gt; Odometry.TrainSpeed(),
@@ -1979,11 +1979,11 @@ Kernel.MA.IsSvL(aTarget)</PreCondition><PreCondition
 <PreConditions>
 <PreCondition
  Guid="d3ae699a-c7ca-49c4-90bf-7e9bb9d6202e"
->Kernel.Mode == Default.Mode.SR</PreCondition><PreCondition
+>Kernel.Mode == ModeEnum.SR</PreCondition><PreCondition
  Guid="f80fe6b3-c394-49a0-9007-09c3436bb189"
 >Odometry.TrainSpeed() &gt; Kernel.MRSP.V_MRSP() + Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_ebi( Kernel.MRSP.V_MRSP() )</PreCondition><PreCondition
  Guid="24699bfb-8dd1-4e5c-9595-f1017a992208"
->Kernel.TrainPosition.DistanceRunInSR(DistanceInterval.Max) &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
+>Kernel.TrainPosition.DistanceRunInSR(DistanceIntervalEnum.Max) &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
     Vest =&gt; Kernel.MRSP.V_MRSP(),
     aTarget =&gt; Kernel.Modes.StaffResponsible.SREndTarget()
 )</PreCondition></PreConditions>
@@ -2003,13 +2003,13 @@ Kernel.MA.MA.TargetSpeed == 0.0
  AND 
 
 (
-Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Max) &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
+Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
     Vest =&gt; Kernel.MRSP.V_MRSP(),
     aTarget =&gt; Kernel.MA.SvL() )
 
   AND  
 
-Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom) &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
+Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom) &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
     Vest =&gt; Kernel.MRSP.V_MRSP(),
     aTarget =&gt; MA.EOA() )
 )</PreCondition></PreConditions>
@@ -2025,7 +2025,7 @@ Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom) &gt; Kernel.SpeedAnd
 
   AND  
 
-Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Max) &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
+Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
     Vest =&gt; Kernel.MRSP.V_MRSP(),
     aTarget =&gt; aTarget ) )</Expression>
 </Case></Cases>

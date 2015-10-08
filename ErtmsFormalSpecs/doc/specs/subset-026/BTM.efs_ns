@@ -52,8 +52,8 @@
 >
 <Comment>The identity number of the LRBG.</Comment>
 </StructureElement><StructureElement
- TypeName="Default.Orientation"
- Default="Default.Orientation.Unknown"
+ TypeName="OrientationEnum"
+ Default="OrientationEnum.Unknown"
  Mode="Internal"
  Implemented="TRUE"
  Name="Orientation"
@@ -525,7 +525,7 @@ b) is just a placeholder for a missed balise.</Comment>
 }</Expression>
 </Case></Cases>
 </Function><Function
- Type="Orientation"
+ Type="OrientationEnum"
  Default=""
  X="370"
  Y="80"
@@ -592,7 +592,7 @@ b) is just a placeholder for a missed balise.</Comment>
 <PreCondition
  Guid="42e647d7-f4ec-404e-822d-0af260c9426c"
 >BTM.IsSingleBaliseGroup(BTM.CurrentBaliseGroup)</PreCondition></PreConditions>
-<Expression>Orientation.Unknown</Expression>
+<Expression>OrientationEnum.Unknown</Expression>
 </Case><Case
  Name="First balise is last in the group"
  Guid="1b917fc8-846c-477a-b9f8-6b1bbf9a1a07"
@@ -601,7 +601,7 @@ b) is just a placeholder for a missed balise.</Comment>
 <PreCondition
  Guid="99800f60-19c6-48c4-895b-d7aa823ecd0c"
 >(FIRST X IN BTM.CurrentBaliseGroup).Telegram.N_PIG == (FIRST X IN BTM.CurrentBaliseGroup).Telegram.N_TOTAL</PreCondition></PreConditions>
-<Expression>Orientation.Reverse</Expression>
+<Expression>OrientationEnum.Reverse</Expression>
 </Case><Case
  Name="First balise is first in the group"
  Guid="9ce6a19a-a14f-4efa-8a9d-6f7a4101f7ec"
@@ -610,7 +610,7 @@ b) is just a placeholder for a missed balise.</Comment>
 <PreCondition
  Guid="a3515d8d-741c-40a4-8a64-acafbdeb205e"
 >(FIRST X IN BTM.CurrentBaliseGroup).Telegram.N_PIG == 0</PreCondition></PreConditions>
-<Expression>Orientation.Nominal</Expression>
+<Expression>OrientationEnum.Nominal</Expression>
 </Case><Case
  Name="Two balises stored, N_PIG_1 lower than N_PIG_2"
  Guid="ae25aa1f-71a4-4d87-9b56-5ec6680f6877"
@@ -624,7 +624,7 @@ b) is just a placeholder for a missed balise.</Comment>
   AND  
 
 (FIRST X IN CurrentBaliseGroup).Telegram.N_PIG &lt; (LAST Balise IN BTM.CurrentBaliseGroup).Telegram.N_PIG</PreCondition></PreConditions>
-<Expression>Orientation.Nominal</Expression>
+<Expression>OrientationEnum.Nominal</Expression>
 </Case><Case
  Name="Two balises stored, N_PIG_1 higher than N_PIG_2"
  Guid="7c70fdb1-9f62-4151-b0ad-78ecf220a67e"
@@ -637,13 +637,13 @@ b) is just a placeholder for a missed balise.</Comment>
   AND  
 
 (FIRST Balise IN BTM.CurrentBaliseGroup).Telegram.N_PIG &gt; (LAST Balise IN BTM.CurrentBaliseGroup).Telegram.N_PIG</PreCondition></PreConditions>
-<Expression>Orientation.Reverse</Expression>
+<Expression>OrientationEnum.Reverse</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="e8c38925-da03-4f17-a72e-f1d5e4ff496b"
 >
 <Comment>Default case.</Comment>
-<Expression>Orientation.Unknown</Expression>
+<Expression>OrientationEnum.Unknown</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -910,7 +910,7 @@ PacketOrientation == Messages.Q_DIR.Both_directions</Expression>
 </ReqRef><Comment>Gives the distance between the safe front end of the train and the active antenna.</Comment>
 <Parameters>
 <Parameter
- Type="DistanceInterval"
+ Type="DistanceIntervalEnum"
  Name="PointOfInterest"
  Guid="b6c13f39-419b-454b-b453-09051b6ed9cd"
 >
@@ -1850,7 +1850,7 @@ BTM.StoredBaliseStruct{
 <PreConditions>
 <PreCondition
  Guid="e527dd06-8d8f-4ac9-aef1-75fbcae88607"
->BTM.BaliseGroupOrientation() == Orientation.Nominal</PreCondition></PreConditions>
+>BTM.BaliseGroupOrientation() == OrientationEnum.Nominal</PreCondition></PreConditions>
 <Expression>LastReceivedBalise().N_PIG + 1</Expression>
 </Case><Case
  Name="Reverse"
@@ -1859,7 +1859,7 @@ BTM.StoredBaliseStruct{
 <PreConditions>
 <PreCondition
  Guid="dccafee7-8c97-4e55-92e7-b52211cda954"
->BTM.BaliseGroupOrientation() == Orientation.Reverse</PreCondition></PreConditions>
+>BTM.BaliseGroupOrientation() == OrientationEnum.Reverse</PreCondition></PreConditions>
 <Expression>LastReceivedBalise().N_PIG + 1</Expression>
 </Case></Cases>
 </Function><Function
@@ -1892,7 +1892,7 @@ BTM.StoredBaliseStruct{
 <PreConditions>
 <PreCondition
  Guid="e9da31c6-973c-49aa-9e61-b5d14d2b5ebc"
->BTM.BaliseGroupOrientation() == Orientation.Nominal
+>BTM.BaliseGroupOrientation() == OrientationEnum.Nominal
   AND  
 LastReceivedBalise().N_PIG == LastReceivedBalise().N_TOTAL</PreCondition></PreConditions>
 <Expression>True</Expression>
@@ -1903,7 +1903,7 @@ LastReceivedBalise().N_PIG == LastReceivedBalise().N_TOTAL</PreCondition></PreCo
 <PreConditions>
 <PreCondition
  Guid="c215fd2a-7ce8-464f-9671-48c87c63b97f"
->BTM.BaliseGroupOrientation() == Orientation.Reverse
+>BTM.BaliseGroupOrientation() == OrientationEnum.Reverse
   AND  
 LastReceivedBalise().N_PIG == 0</PreCondition></PreConditions>
 <Expression>True</Expression>
@@ -1964,7 +1964,7 @@ LastReceivedBalise().N_PIG == 0</PreCondition></PreConditions>
   AND  
 THERE_IS X IN Balise.Sequence1 | (Messages.PACKET.TRACK_TO_TRAIN.GetQ_DIR(X.TRACK_TO_TRAIN) == Messages.Q_DIR.Nominal  OR  Messages.PACKET.TRACK_TO_TRAIN.GetQ_DIR(X.TRACK_TO_TRAIN) == Messages.Q_DIR.Reverse)
   AND  
-BTM.BaliseGroupOrientation() != Orientation.Unknown</PreCondition></PreConditions>
+BTM.BaliseGroupOrientation() != OrientationEnum.Unknown</PreCondition></PreConditions>
 <Expression>True</Expression>
 </Case><Case
  Name="All information valid for both directions"
@@ -3022,9 +3022,9 @@ True</PreCondition></PreConditions>
  Guid="afc8b3ae-0a5f-413b-a613-0d8145a1c32f"
 >Kernel.LevelTransition.LevelTransitionToProcess != EMPTY
   AND
-  Kernel.LevelTransition.LevelTransitionToProcess.TRLevel.Value in [Level.L2, Level.L3]</PreCondition><PreCondition
+  Kernel.LevelTransition.LevelTransitionToProcess.TRLevel.Value in [LevelEnum.L2, LevelEnum.L3]</PreCondition><PreCondition
  Guid="9f677cc3-085c-4916-af03-783e04349ffc"
->Kernel.Level.Value.Value in [Level.L0, Level.L1, Level.L2]</PreCondition><PreCondition
+>Kernel.Level.Value.Value in [LevelEnum.L0, LevelEnum.L1, LevelEnum.L2]</PreCondition><PreCondition
  Guid="ee018937-eccf-4494-9c69-0260e6686b07"
 >Kernel.ActiveFunctions.RequestMA_TrackAheadFreeUpToL2_3()</PreCondition></PreConditions>
 <Actions>
@@ -4520,7 +4520,7 @@ Message.N_PIG != LastReceivedBalise().N_PIG - 1</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="f22d33c1-0c14-40e5-a78c-246730168bb4"
->BTM.BaliseGroupOrientation() != Orientation.Unknown</PreCondition></PreConditions>
+>BTM.BaliseGroupOrientation() != OrientationEnum.Unknown</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="30f9dad9-8438-4379-8738-fbb67c753a09"

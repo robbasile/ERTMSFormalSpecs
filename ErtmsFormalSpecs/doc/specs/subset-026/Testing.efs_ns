@@ -97,18 +97,18 @@ DMI2 will be the slave and will be connected to the first desk of the CabB.</Com
         OverReadingAmountOdo =&gt; 1.0
     },
     NID =&gt; 1986,
-    Orientation =&gt; Default.Orientation.Nominal
+    Orientation =&gt; OrientationEnum.Nominal
 }</Action><Action
  Guid="278b2665-4f56-474f-a4b7-b6cbc08f01a6"
 >Kernel.TrainPosition.Position &lt;- Kernel.TrainPosition.TrainPositionStruct
 {
     DirectionalPositionInformation =&gt; Kernel.TrainPosition.DirectionalTrainPositionInformationStruct
     {
-        TrainFrontEndPosition =&gt; Orientation.Nominal,
-        TrainOrientation =&gt; Orientation.Nominal,
-        TrainRunningDirection =&gt; Orientation.Nominal
+        TrainFrontEndPosition =&gt; OrientationEnum.Nominal,
+        TrainOrientation =&gt; OrientationEnum.Nominal,
+        TrainRunningDirection =&gt; OrientationEnum.Nominal
     },
-    DataState =&gt; Default.DataState.Valid
+    DataState =&gt; DataStateEnum.Valid
 }</Action><Action
  Guid="b179176e-e37d-4e0e-9d73-12f61aeb9d8c"
 >Odometry.NominalDistance &lt;- TrainPosition</Action><Action
@@ -121,7 +121,7 @@ DMI2 will be the slave and will be connected to the first desk of the CabB.</Com
     V_ura =&gt; 0.0
 }</Action><Action
  Guid="35f34f07-d5ae-493e-8f02-ef3b67c0d497"
->Kernel.TrainPosition.Position.DirectionalPositionInformation.TrainOrientation &lt;- Orientation.Nominal</Action></Actions>
+>Kernel.TrainPosition.Position.DirectionalPositionInformation.TrainOrientation &lt;- OrientationEnum.Nominal</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -142,7 +142,7 @@ DMI2 will be the slave and will be connected to the first desk of the CabB.</Com
 <Actions>
 <Action
  Guid="9df8c9b3-bd08-4a3b-a4cb-9e123bb2c01a"
->Kernel.TrainData.Initialize()</Action></Actions>
+>InitializeTrainData()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -163,9 +163,9 @@ DMI2 will be the slave and will be connected to the first desk of the CabB.</Com
 <Actions>
 <Action
  Guid="087defa8-343b-4b96-8b73-b683fccec68c"
->Kernel.Mode &lt;- Mode.NP</Action><Action
+>Kernel.Mode &lt;- ModeEnum.NP</Action><Action
  Guid="d06920a7-6f22-4431-934e-43981011947e"
->Kernel.Level.Value.Value &lt;- Level.L0</Action></Actions>
+>Kernel.Level.Value.Value &lt;- LevelEnum.L0</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -428,8 +428,8 @@ DMI2 will be the slave and will be connected to the first desk of the CabB.</Com
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
- X="730"
- Y="140"
+ X="290"
+ Y="260"
  Width="100"
  Height="50"
  NeedsRequirement="FALSE"
@@ -464,7 +464,7 @@ DMI2 will be the slave and will be connected to the first desk of the CabB.</Com
 <Actions>
 <Action
  Guid="86929d9e-0c8c-4cea-9ddb-fcbac74fa271"
->Kernel.Mode &lt;- Mode.FS</Action></Actions>
+>Kernel.Mode &lt;- ModeEnum.FS</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  NeedsRequirement="FALSE"
@@ -486,7 +486,7 @@ DMI2 will be the slave and will be connected to the first desk of the CabB.</Com
 <Actions>
 <Action
  Guid="ecacd905-81cb-43c3-8c0e-e2ca36cb0357"
->Kernel.Modes.ModeTransitions.PrevMode &lt;- Mode.FS</Action></Actions>
+>Kernel.Modes.ModeTransitions.PrevMode &lt;- ModeEnum.FS</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -505,13 +505,13 @@ DMI2 will be the slave and will be connected to the first desk of the CabB.</Com
 <PreConditions>
 <PreCondition
  Guid="5f9fa1b8-46b2-4648-8e29-eeccf792e51a"
->Kernel.Level.Value.Value in [Level.L0, Level.LNTC]</PreCondition></PreConditions>
+>Kernel.Level.Value.Value in [LevelEnum.L0, LevelEnum.LNTC]</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="8fcea4c8-c27d-4f60-9427-0db970b3911b"
 >Kernel.SetLevel(LevelDataStruct{
         NTC =&gt; NID_NTC.NOT_APPLICABLE,
-        Value =&gt; Level.L1
+        Value =&gt; LevelEnum.L1
     }
 )</Action></Actions>
 </RuleCondition></Conditions>
@@ -712,7 +712,7 @@ Kernel.TrackDescription.StaticSpeedProfile.SSP == []</PreCondition></PreConditio
 <Actions>
 <Action
  Guid="c3f3f425-ec4d-4ee2-9646-a5dda9669323"
->Kernel.Mode &lt;- Mode.LS</Action></Actions>
+>Kernel.Mode &lt;- ModeEnum.LS</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  NeedsRequirement="FALSE"
@@ -734,7 +734,7 @@ Kernel.TrackDescription.StaticSpeedProfile.SSP == []</PreCondition></PreConditio
 <Actions>
 <Action
  Guid="b58de7db-c2a4-4ef0-90fb-e41fe6ba5af8"
->Kernel.Modes.ModeTransitions.PrevMode &lt;- Mode.LS</Action></Actions>
+>Kernel.Modes.ModeTransitions.PrevMode &lt;- ModeEnum.LS</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -753,13 +753,13 @@ Kernel.TrackDescription.StaticSpeedProfile.SSP == []</PreCondition></PreConditio
 <PreConditions>
 <PreCondition
  Guid="2460b6e7-9d68-433a-9594-fd98160bcfa3"
->Kernel.Level.Value.Value in [Level.L0, Level.LNTC]</PreCondition></PreConditions>
+>Kernel.Level.Value.Value in [LevelEnum.L0, LevelEnum.LNTC]</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="446c01f7-8dd4-4df3-99a4-e2df71f6a00a"
 >Kernel.SetLevel(LevelDataStruct{
         NTC =&gt; NID_NTC.NOT_APPLICABLE,
-        Value =&gt; Level.L1
+        Value =&gt; LevelEnum.L1
     }
 )</Action></Actions>
 </RuleCondition></Conditions>
@@ -855,7 +855,7 @@ Kernel.TrackDescription.StaticSpeedProfile.SSP == []</PreCondition></PreConditio
 <PreConditions>
 <PreCondition
  Guid="96cae18b-d8a6-4658-9bbb-4d7200549257"
->NOT THERE_IS modeProfile IN Kernel.MA.ModeProfile.Profile | modeProfile.Mode == Mode.ModeProfile.LS AND Kernel.MA.ModeProfile.DistanceIsWithinAModeProfile(modeProfile)</PreCondition></PreConditions>
+>NOT THERE_IS modeProfile IN Kernel.MA.ModeProfile.Profile | modeProfile.Mode == ModeEnum.ModeProfile.LS AND Kernel.MA.ModeProfile.DistanceIsWithinAModeProfile(modeProfile)</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="d4b4461f-f590-4be9-abca-0fe04cbc2a24"
@@ -863,7 +863,7 @@ Kernel.TrackDescription.StaticSpeedProfile.SSP == []</PreCondition></PreConditio
 [
 Kernel.MA.ModeProfile.ModeProfileStruct{
     Location =&gt; 0.0,
-    Mode =&gt; Default.Mode.ModeProfile.LS,
+    Mode =&gt; ModeEnum.ModeProfile.LS,
     Speed =&gt; BaseTypes.Speed.UseNV,
     Length =&gt; 4500.0,
     AcknLength =&gt; 0.0,
@@ -972,7 +972,7 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
 <Actions>
 <Action
  Guid="b501904c-c6c8-45fa-9042-2f1415bd8ba1"
->Kernel.Mode &lt;- Mode.SR</Action></Actions>
+>Kernel.Mode &lt;- ModeEnum.SR</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  NeedsRequirement="FALSE"
@@ -994,7 +994,7 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
 <Actions>
 <Action
  Guid="09eacb09-807e-4a02-81a0-07b6842328d0"
->Kernel.Modes.ModeTransitions.PrevMode &lt;- Mode.SR</Action></Actions>
+>Kernel.Modes.ModeTransitions.PrevMode &lt;- ModeEnum.SR</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -1013,13 +1013,13 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
 <PreConditions>
 <PreCondition
  Guid="87975c30-4872-4018-a95a-1e815b12b6c4"
->Kernel.Level.Value.Value in [Level.L0, Level.LNTC]</PreCondition></PreConditions>
+>Kernel.Level.Value.Value in [LevelEnum.L0, LevelEnum.LNTC]</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="da425322-69a6-4027-8ca8-31a3e9c3feaf"
 >Kernel.SetLevel(LevelDataStruct{
         NTC =&gt; NID_NTC.NOT_APPLICABLE,
-        Value =&gt; Level.L1
+        Value =&gt; LevelEnum.L1
     }
 )</Action></Actions>
 </RuleCondition></Conditions>
@@ -1214,7 +1214,7 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
 <Actions>
 <Action
  Guid="04ec064e-082f-4ebb-8ef3-d325b13b36ac"
->Kernel.Mode &lt;- Mode.OS</Action></Actions>
+>Kernel.Mode &lt;- ModeEnum.OS</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  NeedsRequirement="FALSE"
@@ -1236,7 +1236,7 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
 <Actions>
 <Action
  Guid="0740d2d7-2419-4454-ae73-d0347f3f2e64"
->Kernel.Modes.ModeTransitions.PrevMode &lt;- Mode.OS</Action></Actions>
+>Kernel.Modes.ModeTransitions.PrevMode &lt;- ModeEnum.OS</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -1255,13 +1255,13 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
 <PreConditions>
 <PreCondition
  Guid="8bc69586-f270-4153-8797-9a68eb9ae4f4"
->Kernel.Level.Value.Value in [Level.L0, Level.LNTC]</PreCondition></PreConditions>
+>Kernel.Level.Value.Value in [LevelEnum.L0, LevelEnum.LNTC]</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="878f7216-f2de-4656-864d-450091487cfd"
 >Kernel.SetLevel(LevelDataStruct{
         NTC =&gt; NID_NTC.NOT_APPLICABLE,
-        Value =&gt; Level.L1
+        Value =&gt; LevelEnum.L1
     }
 )</Action></Actions>
 </RuleCondition></Conditions>
@@ -1357,7 +1357,7 @@ Kernel.TrackDescription.StaticSpeedProfile.SSP == []</PreCondition></PreConditio
 <PreConditions>
 <PreCondition
  Guid="91df0e7e-4671-4d12-a652-78a421a92c46"
->NOT THERE_IS modeProfile IN Kernel.MA.ModeProfile.Profile | modeProfile.Mode == Mode.ModeProfile.OS AND Kernel.MA.ModeProfile.DistanceIsWithinAModeProfile(modeProfile)</PreCondition></PreConditions>
+>NOT THERE_IS modeProfile IN Kernel.MA.ModeProfile.Profile | modeProfile.Mode == ModeEnum.ModeProfile.OS AND Kernel.MA.ModeProfile.DistanceIsWithinAModeProfile(modeProfile)</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="566f5349-a4a2-4967-bd62-56451428e117"
@@ -1365,7 +1365,7 @@ Kernel.TrackDescription.StaticSpeedProfile.SSP == []</PreCondition></PreConditio
 [
 Kernel.MA.ModeProfile.ModeProfileStruct{
     Location =&gt; 0.0,
-    Mode =&gt; Default.Mode.ModeProfile.OS,
+    Mode =&gt; ModeEnum.ModeProfile.OS,
     Speed =&gt; BaseTypes.Speed.UseNV,
     Length =&gt; 4500.0,
     AcknLength =&gt; 0.0,
@@ -1474,7 +1474,7 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
 <Actions>
 <Action
  Guid="a21fb837-38d3-4cff-bb4f-1ab8fb17fe0c"
->Kernel.Mode &lt;- Mode.SH</Action></Actions>
+>Kernel.Mode &lt;- ModeEnum.SH</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  NeedsRequirement="FALSE"
@@ -1496,7 +1496,7 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
 <Actions>
 <Action
  Guid="df1e25fb-5847-4a05-8618-d82242574b12"
->Kernel.Modes.ModeTransitions.PrevMode &lt;- Mode.SH</Action></Actions>
+>Kernel.Modes.ModeTransitions.PrevMode &lt;- ModeEnum.SH</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -1515,13 +1515,13 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
 <PreConditions>
 <PreCondition
  Guid="d46fb86d-46d4-40d2-8ad1-b2cc9c63bb71"
->Kernel.Level.Value.Value in [Level.L0, Level.LNTC]</PreCondition></PreConditions>
+>Kernel.Level.Value.Value in [LevelEnum.L0, LevelEnum.LNTC]</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="43230c0f-05d2-4aaf-9515-863807313f64"
 >Kernel.SetLevel(LevelDataStruct{
         NTC =&gt; NID_NTC.NOT_APPLICABLE,
-        Value =&gt; Level.L1
+        Value =&gt; LevelEnum.L1
     }
 )</Action></Actions>
 </RuleCondition></Conditions>
@@ -1617,7 +1617,7 @@ Kernel.TrackDescription.StaticSpeedProfile.SSP == []</PreCondition></PreConditio
 <PreConditions>
 <PreCondition
  Guid="91d89649-6d39-47dc-bce5-2baf049e6630"
->NOT THERE_IS modeProfile IN Kernel.MA.ModeProfile.Profile | modeProfile.Mode == Mode.ModeProfile.SH AND Kernel.MA.ModeProfile.DistanceIsWithinAModeProfile(modeProfile)</PreCondition></PreConditions>
+>NOT THERE_IS modeProfile IN Kernel.MA.ModeProfile.Profile | modeProfile.Mode == ModeEnum.ModeProfile.SH AND Kernel.MA.ModeProfile.DistanceIsWithinAModeProfile(modeProfile)</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="5460d2df-2aba-44d4-be04-514bbcd16bca"
@@ -1625,7 +1625,7 @@ Kernel.TrackDescription.StaticSpeedProfile.SSP == []</PreCondition></PreConditio
 [
 Kernel.MA.ModeProfile.ModeProfileStruct{
     Location =&gt; 0.0,
-    Mode =&gt; Default.Mode.ModeProfile.SH,
+    Mode =&gt; ModeEnum.ModeProfile.SH,
     Speed =&gt; BaseTypes.Speed.UseNV,
     Length =&gt; 4500.0,
     AcknLength =&gt; 0.0,
@@ -1734,7 +1734,7 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
 <Actions>
 <Action
  Guid="2c5594ea-dd4a-4970-b41d-f3604dc4ea12"
->Kernel.Mode &lt;- Mode.UN</Action></Actions>
+>Kernel.Mode &lt;- ModeEnum.UN</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  NeedsRequirement="FALSE"
@@ -1756,7 +1756,7 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
 <Actions>
 <Action
  Guid="adb7741c-1d5b-44a6-a818-0f7b3d19a667"
->Kernel.Modes.ModeTransitions.PrevMode &lt;- Mode.UN</Action></Actions>
+>Kernel.Modes.ModeTransitions.PrevMode &lt;- ModeEnum.UN</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -1775,13 +1775,13 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
 <PreConditions>
 <PreCondition
  Guid="c0065bb4-75ca-414c-be4f-0c9fa527bd1c"
->Kernel.Level.Value.Value != Level.L0</PreCondition></PreConditions>
+>Kernel.Level.Value.Value != LevelEnum.L0</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="769b79ad-da69-49bd-8eb7-41deb2ac1ead"
 >Kernel.SetLevel(LevelDataStruct{
         NTC =&gt; NID_NTC.NOT_APPLICABLE,
-        Value =&gt; Level.L0
+        Value =&gt; LevelEnum.L0
     }
 )</Action></Actions>
 </RuleCondition></Conditions>
@@ -1908,7 +1908,7 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
 <Actions>
 <Action
  Guid="821bbb10-7c7b-4e31-99c4-7c284a5664dd"
->Kernel.Mode &lt;- Mode.PS</Action></Actions>
+>Kernel.Mode &lt;- ModeEnum.PS</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  NeedsRequirement="FALSE"
@@ -1930,7 +1930,7 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
 <Actions>
 <Action
  Guid="f20d501c-9ef1-437f-990f-efbcfa5a049d"
->Kernel.Modes.ModeTransitions.PrevMode &lt;- Mode.PS</Action></Actions>
+>Kernel.Modes.ModeTransitions.PrevMode &lt;- ModeEnum.PS</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -1949,13 +1949,13 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
 <PreConditions>
 <PreCondition
  Guid="8b9ed795-c110-472e-8610-d362c6031a71"
->Kernel.Level.Value.Value in [Level.L0, Level.LNTC]</PreCondition></PreConditions>
+>Kernel.Level.Value.Value in [LevelEnum.L0, LevelEnum.LNTC]</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="94685606-5d4a-4db4-8b38-3d5e64bd1781"
 >Kernel.SetLevel(LevelDataStruct{
         NTC =&gt; NID_NTC.NOT_APPLICABLE,
-        Value =&gt; Level.L1
+        Value =&gt; LevelEnum.L1
     }
 )</Action></Actions>
 </RuleCondition></Conditions>
@@ -2051,7 +2051,7 @@ Kernel.TrackDescription.StaticSpeedProfile.SSP == []</PreCondition></PreConditio
 <PreConditions>
 <PreCondition
  Guid="79630179-277a-4503-91bc-e82516a10081"
->NOT THERE_IS modeProfile IN Kernel.MA.ModeProfile.Profile | modeProfile.Mode == Mode.ModeProfile.SH AND Kernel.MA.ModeProfile.DistanceIsWithinAModeProfile(modeProfile)</PreCondition></PreConditions>
+>NOT THERE_IS modeProfile IN Kernel.MA.ModeProfile.Profile | modeProfile.Mode == ModeEnum.ModeProfile.SH AND Kernel.MA.ModeProfile.DistanceIsWithinAModeProfile(modeProfile)</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="892675a1-53dc-490e-a920-247ba98ed066"
@@ -2059,7 +2059,7 @@ Kernel.TrackDescription.StaticSpeedProfile.SSP == []</PreCondition></PreConditio
 [
 Kernel.MA.ModeProfile.ModeProfileStruct{
     Location =&gt; 0.0,
-    Mode =&gt; Default.Mode.ModeProfile.SH,
+    Mode =&gt; ModeEnum.ModeProfile.SH,
     Speed =&gt; BaseTypes.Speed.UseNV,
     Length =&gt; 4500.0,
     AcknLength =&gt; 0.0,
@@ -2168,7 +2168,7 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
 <Actions>
 <Action
  Guid="260f15c2-dac7-42f8-9560-55ef35c9580a"
->Kernel.Mode &lt;- Mode.SL</Action></Actions>
+>Kernel.Mode &lt;- ModeEnum.SL</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -2191,7 +2191,7 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
 <Actions>
 <Action
  Guid="67c81480-60aa-4266-9bd6-456f122577a2"
->Kernel.Modes.ModeTransitions.PrevMode &lt;- Mode.SL</Action></Actions>
+>Kernel.Modes.ModeTransitions.PrevMode &lt;- ModeEnum.SL</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -2317,7 +2317,7 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
 <Actions>
 <Action
  Guid="e5a6f115-262c-493b-84c3-e72f2f98c850"
->Kernel.Mode &lt;- Mode.SB</Action></Actions>
+>Kernel.Mode &lt;- ModeEnum.SB</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  NeedsRequirement="FALSE"
@@ -2339,7 +2339,7 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
 <Actions>
 <Action
  Guid="2983528d-25f4-4600-bb1e-f5a208315f81"
->Kernel.Modes.ModeTransitions.PrevMode &lt;- Mode.SB</Action></Actions>
+>Kernel.Modes.ModeTransitions.PrevMode &lt;- ModeEnum.SB</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -2464,7 +2464,7 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
 <Actions>
 <Action
  Guid="8219f63f-9d53-44c0-b1e2-a11a85aad0be"
->Kernel.Mode &lt;- Mode.TR</Action></Actions>
+>Kernel.Mode &lt;- ModeEnum.TR</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  NeedsRequirement="FALSE"
@@ -2486,7 +2486,7 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
 <Actions>
 <Action
  Guid="91ff1545-6803-4a92-bebc-4c97cf782d5e"
->Kernel.Modes.ModeTransitions.PrevMode &lt;- Mode.TR</Action><Action
+>Kernel.Modes.ModeTransitions.PrevMode &lt;- ModeEnum.TR</Action><Action
  Guid="c8f05693-c9ce-4476-b78e-8bc2a42b4cf8"
 >Kernel.BrakeCommands.CommandEmergencyBrake(Kernel.BrakeCommands.BrakeReason.PermanentCommandInCurrentMode)</Action></Actions>
 </RuleCondition></Conditions>
@@ -2591,7 +2591,7 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
 <Actions>
 <Action
  Guid="1c08d3a6-3706-4b2f-888c-828ea9a1eeab"
->Kernel.Mode &lt;- Mode.PT</Action></Actions>
+>Kernel.Mode &lt;- ModeEnum.PT</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  NeedsRequirement="FALSE"
@@ -2613,7 +2613,7 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
 <Actions>
 <Action
  Guid="a3eb066d-81d3-4471-9adc-93a0c989486c"
->Kernel.Modes.ModeTransitions.PrevMode &lt;- Mode.PT</Action></Actions>
+>Kernel.Modes.ModeTransitions.PrevMode &lt;- ModeEnum.PT</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -2680,8 +2680,8 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
- X="730"
- Y="80"
+ X="180"
+ Y="260"
  Width="100"
  Height="50"
  NeedsRequirement="FALSE"
@@ -2716,7 +2716,7 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
 <Actions>
 <Action
  Guid="f985d005-afc5-4b21-8c10-33f5fefa510b"
->Kernel.Mode &lt;- Mode.SF</Action></Actions>
+>Kernel.Mode &lt;- ModeEnum.SF</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  NeedsRequirement="FALSE"
@@ -2738,7 +2738,7 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
 <Actions>
 <Action
  Guid="016f5221-e734-47af-a33c-cacb902cef67"
->Kernel.Modes.ModeTransitions.PrevMode &lt;- Mode.SF</Action><Action
+>Kernel.Modes.ModeTransitions.PrevMode &lt;- ModeEnum.SF</Action><Action
  Guid="ba060028-274d-4108-878f-d6278d29cb96"
 >Kernel.BrakeCommands.CommandEmergencyBrake(Kernel.BrakeCommands.BrakeReason.PermanentCommandInCurrentMode)</Action></Actions>
 </RuleCondition></Conditions>
@@ -2822,7 +2822,7 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
 <Actions>
 <Action
  Guid="62865b39-ba0a-4ffa-94cc-34a168fc4402"
->Kernel.Mode &lt;- Mode.IS</Action></Actions>
+>Kernel.Mode &lt;- ModeEnum.IS</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  NeedsRequirement="FALSE"
@@ -2844,7 +2844,7 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
 <Actions>
 <Action
  Guid="6e9eb4c0-bf07-495b-a8e6-172ad074382b"
->Kernel.Modes.ModeTransitions.PrevMode &lt;- Mode.IS</Action></Actions>
+>Kernel.Modes.ModeTransitions.PrevMode &lt;- ModeEnum.IS</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -2926,7 +2926,7 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
 <Actions>
 <Action
  Guid="9d34974f-3bb4-4617-a3a5-ef6e992b6167"
->Kernel.Mode &lt;- Mode.SN</Action></Actions>
+>Kernel.Mode &lt;- ModeEnum.SN</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  NeedsRequirement="FALSE"
@@ -2948,7 +2948,7 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
 <Actions>
 <Action
  Guid="e917c724-9f22-4469-b558-c003a65ecdc2"
->Kernel.Modes.ModeTransitions.PrevMode &lt;- Mode.SN</Action></Actions>
+>Kernel.Modes.ModeTransitions.PrevMode &lt;- ModeEnum.SN</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -2967,13 +2967,13 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
 <PreConditions>
 <PreCondition
  Guid="ee9c5df6-2bb6-42e1-8309-b07b6b288de6"
->Kernel.Level.Value.Value != Level.LNTC</PreCondition></PreConditions>
+>Kernel.Level.Value.Value != LevelEnum.LNTC</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="ceee01fd-03ce-46ee-8d88-9cfe43ee6cc1"
 >Kernel.SetLevel(LevelDataStruct{
         NTC =&gt; 1,
-        Value =&gt; Level.LNTC
+        Value =&gt; LevelEnum.LNTC
     }
 )</Action></Actions>
 </RuleCondition></Conditions>
@@ -3099,7 +3099,7 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
 <Actions>
 <Action
  Guid="ef9fc55f-d1cf-4975-b093-fb771f8614f2"
->Kernel.Mode &lt;- Mode.NP</Action></Actions>
+>Kernel.Mode &lt;- ModeEnum.NP</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  NeedsRequirement="FALSE"
@@ -3121,7 +3121,7 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
 <Actions>
 <Action
  Guid="96e5e078-f5b9-41cc-a2f1-93eba1b05570"
->Kernel.Modes.ModeTransitions.PrevMode &lt;- Mode.NP</Action><Action
+>Kernel.Modes.ModeTransitions.PrevMode &lt;- ModeEnum.NP</Action><Action
  Guid="e6983aab-b519-4cb7-a77c-73b9922a4ed3"
 >Kernel.BrakeCommands.CommandEmergencyBrake(Kernel.BrakeCommands.BrakeReason.PermanentCommandInCurrentMode)</Action></Actions>
 </RuleCondition></Conditions>
@@ -3205,7 +3205,7 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
 <Actions>
 <Action
  Guid="796568d9-37bb-419b-bde8-5367fe92cc4d"
->Kernel.Mode &lt;- Mode.NL</Action></Actions>
+>Kernel.Mode &lt;- ModeEnum.NL</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  NeedsRequirement="FALSE"
@@ -3227,7 +3227,7 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
 <Actions>
 <Action
  Guid="084a67aa-2e91-485d-a22e-f1d649b0f0e1"
->Kernel.Modes.ModeTransitions.PrevMode &lt;- Mode.NL</Action></Actions>
+>Kernel.Modes.ModeTransitions.PrevMode &lt;- ModeEnum.NL</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -3351,7 +3351,7 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
 <Actions>
 <Action
  Guid="6c4a7ad9-00c5-48f2-9ca2-4d0cc16a9deb"
->Kernel.Mode &lt;- Mode.RV</Action></Actions>
+>Kernel.Mode &lt;- ModeEnum.RV</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  NeedsRequirement="FALSE"
@@ -3373,7 +3373,7 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
 <Actions>
 <Action
  Guid="20cc6c55-0cef-4e3e-8cbd-1930bf899ecb"
->Kernel.Modes.ModeTransitions.PrevMode &lt;- Mode.RV</Action></Actions>
+>Kernel.Modes.ModeTransitions.PrevMode &lt;- ModeEnum.RV</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -3505,6 +3505,786 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
 >Kernel.TrackDescription.Gradient.M_rotating_max &lt;- 15.0</Action><Action
  Guid="528a7dba-991e-4eed-ad14-de3bc5391e83"
 >Kernel.TrackDescription.Gradient.M_rotating_min &lt;- 2.0</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="20"
+ Y="260"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InitializeTrainData"
+ Guid="47ef17c8-315c-4519-a3c6-4ad190fb967d"
+>
+<Comment>Initializes the different components of the train data for the test environment.</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="TrainData"
+ Guid="62c122e1-b783-47a7-b65f-60a1ef8997f4"
+>
+<Comment>Initialization of the train data.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="TrainData"
+ Guid="e37e14be-eeca-4887-8d9a-143fcdb02cd8"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="6991fbd7-808c-47ef-92ae-35f3c3d9a8bb"
+>InitializeTrainData_ERA()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="BrakingParameters"
+ Guid="8ad2f60c-51c5-4246-9c5b-3f5d40b252af"
+>
+<Comment>Initialization of the braking parameters.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="BrakingParameters"
+ Guid="82b4c2fa-0b65-4194-811b-879feaa6db04"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="4d6003d8-6380-41b4-a175-a0fcbc9eeae4"
+>InitializeBrakingParameters()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="BNS"
+ Guid="7f325cd7-fc5e-4b96-a831-2c9f6a3af9df"
+>
+<Comment>Initialization of the BNS.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="BNS"
+ Guid="0d77b94f-090e-4a5b-b5ea-b877804672f7"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="cee30602-7806-4cce-a5a2-d6fd6b303a79"
+>InitializeTrainData_BNS()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="20"
+ Y="320"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InitializeTrainData_ERA"
+ Guid="71722c61-36f8-4c73-9471-14eb436d205a"
+>
+<Comment>Initializes the test environment with the train data as specified in ERA_Braking_cuvers_tool_v3.0.xlsm.</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Train data"
+ Guid="6cdfcaa4-fa2b-4c22-92d0-f81997e116a0"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Train data"
+ Guid="5cb26d74-95fa-46db-b136-e74191e516e4"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="3c40c469-55cf-4e97-8742-74f6f25d4e1d"
+>BTM.ActiveAntennaPosition &lt;- 5.0</Action><Action
+ Guid="7d442961-2150-4931-ac66-b8c407eac3e6"
+>Kernel.TrainData.BrakingParameters.ContributionOfSpecialBrakeIsAllowed &lt;- True</Action><Action
+ Guid="d6a65106-9d66-4565-880a-3816d15bd453"
+>Kernel.TrainData.TrainData.Value.BrakePosition &lt;- Kernel.TrainData.BrakingParameters.BrakePositions.PassengerTrainInP</Action><Action
+ Guid="b46ed63b-c019-4a10-a125-38155e0e146e"
+>Kernel.TrainData.TrainData.Value.EBModels &lt;- Kernel.TrainData.BrakingParameters.EBModelSet
+{
+    ModelSet =&gt; Kernel.TrainData.BrakingParameters.BrakingModelSet{
+    EddyCurrent =&gt; Kernel.TrainData.BrakingParameters.BrakingModel{
+        Val0 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue{
+            SpeedStep =&gt; 0.0,
+            Acceleration =&gt; 1.07
+        },
+        Val1 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue{
+            SpeedStep =&gt; 160.0,
+            Acceleration =&gt; 0.8
+        },
+        Val2 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue{
+            SpeedStep =&gt; BaseTypes.Speed.Infinity,
+            Acceleration =&gt; 0.0
+        }
+    },
+    Magnetic =&gt; Kernel.TrainData.BrakingParameters.BrakingModel{
+        Val0 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue{
+            SpeedStep =&gt; 0.0,
+            Acceleration =&gt; 1.07
+        },
+        Val1 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue{
+            SpeedStep =&gt; 160.0,
+            Acceleration =&gt; 0.8
+        },
+        Val2 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue{
+            SpeedStep =&gt; BaseTypes.Speed.Infinity,
+            Acceleration =&gt; 0.0
+        }
+    },
+    Regenerative =&gt; Kernel.TrainData.BrakingParameters.BrakingModel{
+        Val0 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue{
+            SpeedStep =&gt; 0.0,
+            Acceleration =&gt; 1.07
+        },
+        Val1 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue{
+            SpeedStep =&gt; 160.0,
+            Acceleration =&gt; 0.8
+        },
+        Val2 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue{
+            SpeedStep =&gt; BaseTypes.Speed.Infinity,
+            Acceleration =&gt; 0.0
+        }
+    },
+    EddyCurrent_Magnetic =&gt; Kernel.TrainData.BrakingParameters.BrakingModel{
+        Val0 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue{
+            SpeedStep =&gt; 0.0,
+            Acceleration =&gt; 1.07
+        },
+        Val1 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue{
+            SpeedStep =&gt; 160.0,
+            Acceleration =&gt; 0.8
+        },
+        Val2 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue{
+            SpeedStep =&gt; BaseTypes.Speed.Infinity,
+            Acceleration =&gt; 0.0
+        }
+    },
+    EddyCurrent_Regenerative =&gt; Kernel.TrainData.BrakingParameters.BrakingModel{
+        Val0 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue{
+            SpeedStep =&gt; 0.0,
+            Acceleration =&gt; 1.07
+        },
+        Val1 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue{
+            SpeedStep =&gt; 160.0,
+            Acceleration =&gt; 0.8
+        },
+        Val2 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue{
+            SpeedStep =&gt; BaseTypes.Speed.Infinity,
+            Acceleration =&gt; 0.0
+        }
+    },
+    Magnetic_Regenerative =&gt; Kernel.TrainData.BrakingParameters.BrakingModel{
+        Val0 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue{
+            SpeedStep =&gt; 0.0,
+            Acceleration =&gt; 1.07
+        },
+        Val1 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue{
+            SpeedStep =&gt; 160.0,
+            Acceleration =&gt; 0.8
+        },
+        Val2 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue{
+            SpeedStep =&gt; BaseTypes.Speed.Infinity,
+            Acceleration =&gt; 0.0
+        }
+    },
+    EddyCurrent_Magnetic_Regenerative =&gt; Kernel.TrainData.BrakingParameters.BrakingModel{
+        Val0 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue{
+            SpeedStep =&gt; 0.0,
+            Acceleration =&gt; 1.07
+        },
+        Val1 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue{
+            SpeedStep =&gt; 160.0,
+            Acceleration =&gt; 0.8
+        },
+        Val2 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue{
+            SpeedStep =&gt; BaseTypes.Speed.Infinity,
+            Acceleration =&gt; 0.0
+        }
+    },
+    No_Special_Brakes =&gt; Kernel.TrainData.BrakingParameters.BrakingModel{
+        Val0 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue{
+            SpeedStep =&gt; 0.0,
+            Acceleration =&gt; 1.07
+        },
+        Val1 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue{
+            SpeedStep =&gt; 160.0,
+            Acceleration =&gt; 0.8
+        },
+        Val2 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue{
+            SpeedStep =&gt; BaseTypes.Speed.Infinity,
+            Acceleration =&gt; 0.0
+        }
+    }
+},
+    Kdry_rstValuesSet =&gt; Kernel.TrainData.BrakingParameters.Kdry_rstValuesSet{},
+    Kwet_rstValuesSet =&gt; Kernel.TrainData.BrakingParameters.Kwet_rstValuesSet{}
+}</Action><Action
+ Guid="fe0d9359-7fb8-4b61-ba53-4010e0266b0e"
+>Kernel.TrainData.TrainData.Value.M_rotating_nom &lt;- Percentage.NA</Action><Action
+ Guid="40725ae5-5b0f-4676-86bf-40f90ae2f801"
+>Kernel.TrainData.TrainData.Value.MaximumSpeed &lt;- 220.0</Action><Action
+ Guid="bc8cdf38-ef71-442e-bfa7-1e6495f34e58"
+>Kernel.TrainData.TrainData.Value.SBCommandIsImplemented &lt;- False</Action><Action
+ Guid="c8715996-5d54-4601-9b89-b56dd6822aad"
+>Kernel.TrainData.TrainData.Value.SBModels &lt;- Kernel.TrainData.BrakingParameters.SBModelSet{
+    ModelSet =&gt; Kernel.TrainData.BrakingParameters.BrakingModelSet{
+        EddyCurrent =&gt; Kernel.TrainData.BrakingParameters.BrakingModel{
+            Val0 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue{
+                SpeedStep =&gt; 0.0,
+                Acceleration =&gt; 0.92
+            },
+            Val1 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue{
+                SpeedStep =&gt; 160.0,
+                Acceleration =&gt; 0.69
+            },
+            Val2 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue{
+                SpeedStep =&gt; BaseTypes.Speed.Infinity,
+                Acceleration =&gt; 0.0
+            }
+        },
+        Magnetic =&gt; Kernel.TrainData.BrakingParameters.BrakingModel{
+            Val0 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue{
+                SpeedStep =&gt; 0.0,
+                Acceleration =&gt; 0.92
+            },
+            Val1 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue{
+                SpeedStep =&gt; 160.0,
+                Acceleration =&gt; 0.69
+            },
+            Val2 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue{
+                SpeedStep =&gt; BaseTypes.Speed.Infinity,
+                Acceleration =&gt; 0.0
+            }
+        },
+        Regenerative =&gt; Kernel.TrainData.BrakingParameters.BrakingModel{
+            Val0 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue{
+                SpeedStep =&gt; 0.0,
+                Acceleration =&gt; 0.92
+            },
+            Val1 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue{
+                SpeedStep =&gt; 160.0,
+                Acceleration =&gt; 0.69
+            },
+            Val2 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue{
+                SpeedStep =&gt; BaseTypes.Speed.Infinity,
+                Acceleration =&gt; 0.0
+            }
+        },
+        EddyCurrent_Magnetic =&gt; Kernel.TrainData.BrakingParameters.BrakingModel{
+            Val0 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue{
+                SpeedStep =&gt; 0.0,
+                Acceleration =&gt; 0.92
+            },
+            Val1 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue{
+                SpeedStep =&gt; 160.0,
+                Acceleration =&gt; 0.69
+            },
+            Val2 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue{
+                SpeedStep =&gt; BaseTypes.Speed.Infinity,
+                Acceleration =&gt; 0.0
+            }
+        },
+        EddyCurrent_Regenerative =&gt; Kernel.TrainData.BrakingParameters.BrakingModel{
+            Val0 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue{
+                SpeedStep =&gt; 0.0,
+                Acceleration =&gt; 0.92
+            },
+            Val1 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue{
+                SpeedStep =&gt; 160.0,
+                Acceleration =&gt; 0.69
+            },
+            Val2 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue{
+                SpeedStep =&gt; BaseTypes.Speed.Infinity,
+                Acceleration =&gt; 0.0
+            }
+        },
+        Magnetic_Regenerative =&gt; Kernel.TrainData.BrakingParameters.BrakingModel{
+            Val0 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue{
+                SpeedStep =&gt; 0.0,
+                Acceleration =&gt; 0.92
+            },
+            Val1 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue{
+                SpeedStep =&gt; 160.0,
+                Acceleration =&gt; 0.69
+            },
+            Val2 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue{
+                SpeedStep =&gt; BaseTypes.Speed.Infinity,
+                Acceleration =&gt; 0.0
+            }
+        },
+        EddyCurrent_Magnetic_Regenerative =&gt; Kernel.TrainData.BrakingParameters.BrakingModel{
+            Val0 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue{
+                SpeedStep =&gt; 0.0,
+                Acceleration =&gt; 0.92
+            },
+            Val1 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue{
+                SpeedStep =&gt; 160.0,
+                Acceleration =&gt; 0.69
+            },
+            Val2 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue{
+                SpeedStep =&gt; BaseTypes.Speed.Infinity,
+                Acceleration =&gt; 0.0
+            }
+        },
+        No_Special_Brakes =&gt; Kernel.TrainData.BrakingParameters.BrakingModel{
+            Val0 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue{
+                SpeedStep =&gt; 0.0,
+                Acceleration =&gt; 0.92
+            },
+            Val1 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue{
+                SpeedStep =&gt; 160.0,
+                Acceleration =&gt; 0.69
+            },
+            Val2 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue{
+                SpeedStep =&gt; BaseTypes.Speed.Infinity,
+                Acceleration =&gt; 0.0
+            }
+        }
+    }
+}</Action><Action
+ Guid="6b4c0780-e55c-4dc1-94c6-21bf90a5b8cc"
+>Kernel.TrainData.TrainData.Value.TractionCutOffInterfaceIsImplemented &lt;- False</Action><Action
+ Guid="ca39eb79-4831-4354-8c0d-8ce788720338"
+>Kernel.TrainData.TrainData.Value.TractionModel &lt;- Kernel.TrainData.TractionModel
+{
+    Coefficient =&gt; 0.0,
+    Constant    =&gt; 0.0
+}</Action><Action
+ Guid="e9aefb43-8673-44d9-bd63-7fd9365eed67"
+>Kernel.TrainData.TrainData.Value.TrainLength &lt;- 197.0</Action><Action
+ Guid="b051c2e9-f029-4116-85ec-d6ff1553a724"
+>Kernel.TrainData.TrainData.Value.LoadingGauge &lt;- Messages.M_LOADINGGAUGE.G1</Action><Action
+ Guid="21f79198-7336-4d3c-9879-93d2351a0ad6"
+>Kernel.TrainData.TrainData.Value.AxleLoadCategory &lt;- 22</Action><Action
+ Guid="f4007406-b528-43d2-b117-eabce2566ae6"
+>Kernel.TrainData.TrainData.Value.TractionSystems &lt;- [Kernel.TrainData.TractionSystem{
+    Voltage =&gt; Messages.M_VOLTAGE.AC_15_kV_16_7_Hz,
+    Country =&gt; 85
+}]</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="20"
+ Y="380"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InitializeTrainData_BNS"
+ Guid="5fa6178b-0707-4501-aa77-f810d08f96f4"
+>
+<Comment>Initializes the BNS for the test environment.</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Initialize BNS"
+ Guid="a9fc2480-14e6-4d53-87a9-45bd3eba70b7"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Initialize BNS"
+ Guid="b94190b7-3d38-49f1-9330-65e9f0f26f22"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="b038e878-3e0d-4f36-b6cc-0a44ceb51394"
+>Kernel.TrainData.TrainData.Value.NormalServiceBrakeModels &lt;- Kernel.TrainData.BrakingParameters.BNSModelSet
+{
+    A_SB01 =&gt; 0.4,
+    A_SB12 =&gt; 0.7,
+    TrainInP =&gt; Kernel.TrainData.BrakingParameters.BNSModel
+    {
+        BNS_0 =&gt; Kernel.TrainData.BrakingParameters.BrakingModel
+        {
+            Val0 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue
+            {
+                SpeedStep =&gt; 0.0,
+                Acceleration =&gt; 0.8
+            },
+            Val2 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue
+            {
+                SpeedStep =&gt; 120.0,
+                Acceleration =&gt; 0.4
+            },
+            Val3 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue
+            {
+                SpeedStep =&gt; 200.0,
+                Acceleration =&gt; 0.2
+            },
+            Val1 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue
+            {
+                SpeedStep =&gt; 60.0,
+                Acceleration =&gt; 0.6
+            }
+        },
+        BNS_1 =&gt; Kernel.TrainData.BrakingParameters.BrakingModel
+        {
+            Val6 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue
+            {
+                SpeedStep =&gt; 200.0,
+                Acceleration =&gt; 0.14
+            },
+            Val0 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue
+            {
+                SpeedStep =&gt; 0.0,
+                Acceleration =&gt; 0.9
+            },
+            Val2 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue
+            {
+                SpeedStep =&gt; 40.0,
+                Acceleration =&gt; 0.64
+            },
+            Val3 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue
+            {
+                SpeedStep =&gt; 75.0,
+                Acceleration =&gt; 0.5
+            },
+            Val4 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue
+            {
+                SpeedStep =&gt; 100.0,
+                Acceleration =&gt; 0.35
+            },
+            Val5 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue
+            {
+                SpeedStep =&gt; 150.0,
+                Acceleration =&gt; 0.2
+            },
+            Val1 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue
+            {
+                SpeedStep =&gt; 25.0,
+                Acceleration =&gt; 0.8
+            }
+        },
+        BNS_2 =&gt; Kernel.TrainData.BrakingParameters.BrakingModel
+        {
+            Val0 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue
+            {
+                SpeedStep =&gt; 0.0,
+                Acceleration =&gt; 0.6
+            },
+            Val2 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue
+            {
+                SpeedStep =&gt; 200.0,
+                Acceleration =&gt; 0.1
+            },
+            Val1 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue
+            {
+                SpeedStep =&gt; 80.0,
+                Acceleration =&gt; 0.2
+            }
+        }
+    },
+    TrainInG =&gt; Kernel.TrainData.BrakingParameters.BNSModel
+    {
+        BNS_0 =&gt; Kernel.TrainData.BrakingParameters.BrakingModel
+        {
+            Val0 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue
+            {
+                SpeedStep =&gt; 0.0,
+                Acceleration =&gt; 0.8
+            },
+            Val2 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue
+            {
+                SpeedStep =&gt; 80.0,
+                Acceleration =&gt; 0.6
+            },
+            Val3 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue
+            {
+                SpeedStep =&gt; 120.0,
+                Acceleration =&gt; 0.45
+            },
+            Val4 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue
+            {
+                SpeedStep =&gt; 180.0,
+                Acceleration =&gt; 0.32
+            },
+            Val5 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue
+            {
+                SpeedStep =&gt; 250.0,
+                Acceleration =&gt; 0.3
+            },
+            Val1 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue
+            {
+                SpeedStep =&gt; 50.0,
+                Acceleration =&gt; 0.72
+            }
+        },
+        BNS_1 =&gt; Kernel.TrainData.BrakingParameters.BrakingModel
+        {
+            Val0 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue
+            {
+                SpeedStep =&gt; 0.0,
+                Acceleration =&gt; 0.82
+            },
+            Val2 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue
+            {
+                SpeedStep =&gt; 70.0,
+                Acceleration =&gt; 0.68
+            },
+            Val3 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue
+            {
+                SpeedStep =&gt; 100.0,
+                Acceleration =&gt; 0.51
+            },
+            Val4 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue
+            {
+                SpeedStep =&gt; 150.0,
+                Acceleration =&gt; 0.34
+            },
+            Val5 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue
+            {
+                SpeedStep =&gt; 200.0,
+                Acceleration =&gt; 0.27
+            },
+            Val1 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue
+            {
+                SpeedStep =&gt; 50.0,
+                Acceleration =&gt; 0.7
+            }
+        },
+        BNS_2 =&gt; Kernel.TrainData.BrakingParameters.BrakingModel
+        {
+            Val6 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue
+            {
+                SpeedStep =&gt; 250.0,
+                Acceleration =&gt; 0.3
+            },
+            Val0 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue
+            {
+                SpeedStep =&gt; 0.0,
+                Acceleration =&gt; 0.94
+            },
+            Val2 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue
+            {
+                SpeedStep =&gt; 75.0,
+                Acceleration =&gt; 0.65
+            },
+            Val3 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue
+            {
+                SpeedStep =&gt; 100.0,
+                Acceleration =&gt; 0.5
+            },
+            Val4 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue
+            {
+                SpeedStep =&gt; 150.0,
+                Acceleration =&gt; 0.4
+            },
+            Val5 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue
+            {
+                SpeedStep =&gt; 200.0,
+                Acceleration =&gt; 0.35
+            },
+            Val1 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue
+            {
+                SpeedStep =&gt; 40.0,
+                Acceleration =&gt; 0.8
+            }
+        }
+    }
+}</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="340"
+ Y="70"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InitializeBrakingParameters"
+ Guid="a715fb74-3eaa-4c9e-ae98-89318e334731"
+>
+<Comment>Initializes the test environment with a set of brake parameters.</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Brake parameters"
+ Guid="dbe0d12a-240b-4f9f-8daa-4bf7e25b31ff"
+>
+<Comment>Initializes the test environment with a set of brake parameters as specified in ERA_Braking_cuvers_tool_v3.0.xlsm.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Brake parameters"
+ Guid="a93a6c9b-1046-49f1-89b6-bdabf5370678"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="a33077c7-164c-4515-bec1-0c5c5b461893"
+>Kernel.TrainData.TrainData.Value.EBModels.Kdry_rstValuesSet.EddyCurrent_Magnetic_Regenerative.Cl__99_9999999 &lt;- Kernel.TrainData.BrakingParameters.CorrectFactorValue
+{
+    CF0 =&gt; 1.0,
+    CF1 =&gt; 1.0,
+    CF2 =&gt; 1.0,
+    CF3 =&gt; 1.0,
+    CF4 =&gt; 1.0,
+    CF5 =&gt; 1.0,
+    CF6 =&gt; 1.0
+}</Action><Action
+ Guid="7e7f2da9-15b2-4500-9a7e-beeaa4765077"
+>Kernel.TrainData.TrainData.Value.EBModels.Kdry_rstValuesSet.Magnetic_Regenerative.Cl__99_9999999 &lt;- Kernel.TrainData.BrakingParameters.CorrectFactorValue
+{
+    CF0 =&gt; 1.0,
+    CF1 =&gt; 1.0,
+    CF2 =&gt; 1.0,
+    CF3 =&gt; 1.0,
+    CF4 =&gt; 1.0,
+    CF5 =&gt; 1.0,
+    CF6 =&gt; 1.0
+}</Action><Action
+ Guid="1f51258f-2c97-43b8-afb9-a6c8e54a3359"
+>Kernel.TrainData.TrainData.Value.EBModels.Kwet_rstValuesSet.EddyCurrent_Magnetic_Regenerative &lt;- Kernel.TrainData.BrakingParameters.CorrectFactorValue
+{
+    CF0 =&gt; 1.0,
+    CF1 =&gt; 1.0,
+    CF2 =&gt; 1.0,
+    CF3 =&gt; 1.0,
+    CF4 =&gt; 1.0,
+    CF5 =&gt; 1.0,
+    CF6 =&gt; 1.0
+}</Action><Action
+ Guid="28247bc5-b4d1-443d-abdb-c9d78de37a9c"
+>Kernel.TrainData.TrainData.Value.EBModels.Kwet_rstValuesSet.Magnetic_Regenerative &lt;- Kernel.TrainData.BrakingParameters.CorrectFactorValue
+{
+    CF0 =&gt; 1.0,
+    CF1 =&gt; 1.0,
+    CF2 =&gt; 1.0,
+    CF3 =&gt; 1.0,
+    CF4 =&gt; 1.0,
+    CF5 =&gt; 1.0,
+    CF6 =&gt; 1.0
+}</Action><Action
+ Guid="167f3030-0360-436f-8aaa-5461b29a9300"
+>Kernel.TrainData.TrainData.Value.EBModels.ModelSet.EddyCurrent_Magnetic_Regenerative.Val0 &lt;- Kernel.TrainData.BrakingParameters.BrakingModelValue
+{
+    SpeedStep =&gt; 0.0,
+    Acceleration =&gt; 1.0
+}</Action><Action
+ Guid="2d565349-283a-4e2e-b7e9-c50f18a7aad1"
+>Kernel.TrainData.TrainData.Value.EBModels.ModelSet.EddyCurrent_Magnetic_Regenerative.Val1 &lt;- Kernel.TrainData.BrakingParameters.BrakingModelValue
+{
+    SpeedStep =&gt; BaseTypes.Speed.Infinity,
+    Acceleration =&gt; 1.0
+}</Action><Action
+ Guid="b0bb769c-c10e-4a0b-ad3c-9e8a34a7d447"
+>Kernel.TrainData.TrainData.Value.EBModels.ModelSet.Magnetic_Regenerative.Val0 &lt;- Kernel.TrainData.BrakingParameters.BrakingModelValue
+{
+    SpeedStep =&gt; 0.0,
+    Acceleration =&gt; 0.8
+}</Action><Action
+ Guid="9e946eb1-fbf9-4aa4-bb20-42fcfff2795f"
+>Kernel.TrainData.TrainData.Value.EBModels.ModelSet.Magnetic_Regenerative.Val1 &lt;- Kernel.TrainData.BrakingParameters.BrakingModelValue
+{
+    SpeedStep =&gt; BaseTypes.Speed.Infinity,
+    Acceleration =&gt; 0.8
+}</Action><Action
+ Guid="323aa94c-71aa-4d07-819a-53f5d193f23f"
+>Kernel.TrainData.TrainData.Value.EddyCurrentBrakeInterface &lt;- Kernel.TrainData.BrakingParameters.BrakeInterfaceStatus.Both</Action><Action
+ Guid="d72fcd10-b85a-481f-bd1e-4c040e7db41d"
+>Kernel.TrainData.TrainData.Value.MagneticShoeBrakeInterface &lt;- Kernel.TrainData.BrakingParameters.BrakeInterfaceStatus.EB</Action><Action
+ Guid="fefdb53c-464b-402b-a454-215cd1e05456"
+>Kernel.TrainData.TrainData.Value.RegenerativeBrakeInterface &lt;- Kernel.TrainData.BrakingParameters.BrakeInterfaceStatus.Both</Action><Action
+ Guid="2bdfdcaa-7036-4a51-80c2-790e3ca55354"
+>Kernel.TrainData.TrainData.Value.SBModels.ModelSet.EddyCurrent_Regenerative.Val0 &lt;- Kernel.TrainData.BrakingParameters.BrakingModelValue
+{
+    SpeedStep =&gt; 0.0,
+    Acceleration =&gt; 1.0
+}</Action><Action
+ Guid="8e938a00-c711-4be7-b232-e19d6665747e"
+>Kernel.TrainData.TrainData.Value.SBModels.ModelSet.EddyCurrent_Regenerative.Val1 &lt;- Kernel.TrainData.BrakingParameters.BrakingModelValue
+{
+    SpeedStep =&gt; BaseTypes.Speed.Infinity,
+    Acceleration =&gt; 1.0
+}</Action><Action
+ Guid="af7e9fe1-d498-413e-8e3b-3d58cf9352a4"
+>Kernel.TrainData.TrainData.Value.SBModels.ModelSet.Regenerative.Val0 &lt;- Kernel.TrainData.BrakingParameters.BrakingModelValue
+{
+    SpeedStep =&gt; 0.0,
+    Acceleration =&gt; 1.0
+}</Action><Action
+ Guid="12a57242-17c4-4102-927d-f5d27dc743a2"
+>Kernel.TrainData.TrainData.Value.SBModels.ModelSet.Regenerative.Val1 &lt;- Kernel.TrainData.BrakingParameters.BrakingModelValue
+{
+    SpeedStep =&gt; BaseTypes.Speed.Infinity,
+    Acceleration =&gt; 1.0
+}</Action><Action
+ Guid="94b46c6a-e4a9-4d83-abe8-ca9962f9a1f6"
+>Kernel.TrainData.TrainData.Value.T_brake_emergency.EddyCurrent_Magnetic_Regenerative &lt;- 2.5</Action><Action
+ Guid="ca632082-5fc8-40dc-aba8-ecc7508c5ab3"
+>Kernel.TrainData.TrainData.Value.T_brake_emergency.Magnetic_Regenerative &lt;- 2.0</Action><Action
+ Guid="7b0da0bf-d15b-4b38-b096-28bb9bfe21f4"
+>Kernel.TrainData.TrainData.Value.T_brake_service.EddyCurrent_Regenerative &lt;- 2.5</Action><Action
+ Guid="4d6fc214-8b0b-479f-a868-0fc4f28de186"
+>Kernel.TrainData.TrainData.Value.T_brake_service.Regenerative &lt;- 2.0</Action><Action
+ Guid="02b895f4-1f03-4575-bf38-a593fe4cb558"
+>TIU.SpecialBrakeStatus.EddyCurrentBrakeIsActive &lt;- True</Action><Action
+ Guid="5c55cd1a-20e5-4d70-bd82-c8fb142d6438"
+>TIU.SpecialBrakeStatus.MagneticShoeBrakeIsActive &lt;- True</Action><Action
+ Guid="6f3d0005-42f3-4f70-a434-4912e6ef2c46"
+>TIU.SpecialBrakeStatus.RegenerativeBrakeIsActive &lt;- True</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Conversion model"
+ Guid="44f3f49f-166f-494c-b831-1e37377074bc"
+>
+<Comment>Initializes the conversion model.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Conversion model"
+ Guid="945cf2ab-9d5e-4b23-bb7e-4369587123a2"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="24727e78-c449-42d6-84ec-a5afec9d581e"
+>Kernel.TrainData.BrakingParameters.ConversionModel.Initialize()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>

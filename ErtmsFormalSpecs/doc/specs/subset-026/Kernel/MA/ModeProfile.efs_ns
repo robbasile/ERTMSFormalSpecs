@@ -50,8 +50,8 @@
  Guid="bc352759-7f8a-49fc-9f7f-0b8e62c25a97"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="Mode.ModeProfile"
- Default="Default.Mode.ModeProfile.LS"
+ TypeName="ModeEnum.ModeProfile"
+ Default="ModeEnum.ModeProfile.LS"
  Mode="Internal"
  Implemented="TRUE"
  Name="Mode"
@@ -206,8 +206,8 @@
 <PreConditions>
 <PreCondition
  Guid="6114dc4d-7678-4510-95a8-2144c9f43f82"
->aModeProfile.Mode == Default.Mode.ModeProfile.SH</PreCondition></PreConditions>
-<Expression>aModeProfile.Location &lt;= Kernel.TrainPosition.FrontEndPosition ( DistanceInterval.Max )</Expression>
+>aModeProfile.Mode == ModeEnum.ModeProfile.SH</PreCondition></PreConditions>
+<Expression>aModeProfile.Location &lt;= Kernel.TrainPosition.FrontEndPosition ( DistanceIntervalEnum.Max )</Expression>
 </Case><Case
  Name="OS"
  Guid="1f7deadc-8146-439c-97b2-3edcf63db2a9"
@@ -215,19 +215,19 @@
 <PreConditions>
 <PreCondition
  Guid="46a20481-6c6f-4178-9b7a-b6bfe09b0264"
->aModeProfile.Mode == Default.Mode.ModeProfile.OS</PreCondition></PreConditions>
-<Expression>aModeProfile.Location &lt;= Kernel.TrainPosition.FrontEndPosition ( DistanceInterval.Max )
+>aModeProfile.Mode == ModeEnum.ModeProfile.OS</PreCondition></PreConditions>
+<Expression>aModeProfile.Location &lt;= Kernel.TrainPosition.FrontEndPosition ( DistanceIntervalEnum.Max )
   AND
-Kernel.TrainPosition.FrontEndPosition ( DistanceInterval.Min ) &lt; aModeProfile.Location + BaseTypes.LengthToDistance ( aModeProfile.Length )
+Kernel.TrainPosition.FrontEndPosition ( DistanceIntervalEnum.Min ) &lt; aModeProfile.Location + BaseTypes.LengthToDistance ( aModeProfile.Length )
   AND
-Kernel.Level.Value.Value in [Default.Level.L1, Default.Level.L2, Default.Level.L3]</Expression>
+Kernel.Level.Value.Value in [LevelEnum.L1, LevelEnum.L2, LevelEnum.L3]</Expression>
 </Case><Case
  Name="LS"
  Guid="8c23abbf-e779-492b-8354-f7f9276a904a"
 >
-<Expression>aModeProfile.Location &lt;= Kernel.TrainPosition.FrontEndPosition ( DistanceInterval.Max )
+<Expression>aModeProfile.Location &lt;= Kernel.TrainPosition.FrontEndPosition ( DistanceIntervalEnum.Max )
   AND
-Kernel.TrainPosition.FrontEndPosition ( DistanceInterval.Min ) &lt; aModeProfile.Location + BaseTypes.LengthToDistance ( aModeProfile.Length )</Expression>
+Kernel.TrainPosition.FrontEndPosition ( DistanceIntervalEnum.Min ) &lt; aModeProfile.Location + BaseTypes.LengthToDistance ( aModeProfile.Length )</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -264,7 +264,7 @@ Kernel.TrainPosition.FrontEndPosition ( DistanceInterval.Min ) &lt; aModeProfile
 <Expression>Kernel.MA.ModeProfile.DistanceIsWithinAModeProfile ( FIRST X IN Kernel.MA.ModeProfile.Profile )</Expression>
 </Case></Cases>
 </Function><Function
- Type="Mode.ModeProfile"
+ Type="ModeEnum.ModeProfile"
  Default=""
  X="40"
  Y="80"
@@ -326,10 +326,10 @@ Kernel.TrainPosition.FrontEndPosition ( DistanceInterval.Min ) &lt; aModeProfile
 <PreConditions>
 <PreCondition
  Guid="287768f9-ea4e-48fe-a272-30d38aff9d61"
->aProfile.Mode == Default.Mode.ModeProfile.OS
+>aProfile.Mode == ModeEnum.ModeProfile.OS
   OR  
-aProfile.Mode == Default.Mode.ModeProfile.LS</PreCondition></PreConditions>
-<Expression>Kernel.TrainPosition.FrontEndPosition ( DistanceInterval.Min ) &gt;= aProfile.Location + BaseTypes.LengthToDistance ( aProfile.Length )</Expression>
+aProfile.Mode == ModeEnum.ModeProfile.LS</PreCondition></PreConditions>
+<Expression>Kernel.TrainPosition.FrontEndPosition ( DistanceIntervalEnum.Min ) &gt;= aProfile.Location + BaseTypes.LengthToDistance ( aProfile.Length )</Expression>
 </Case><Case
  Name="SH"
  Guid="df9e81c4-d70f-4918-b476-41109e9e77a5"
@@ -403,7 +403,7 @@ aProfile.Mode == Default.Mode.ModeProfile.LS</PreCondition></PreConditions>
 }</Expression>
 </Case></Cases>
 </Function><Function
- Type="Mode.ModeProfile"
+ Type="ModeEnum.ModeProfile"
  Default=""
  X="150"
  Y="80"
@@ -432,7 +432,7 @@ aProfile.Mode == Default.Mode.ModeProfile.LS</PreCondition></PreConditions>
 <PreCondition
  Guid="0ea7502a-e0f8-464b-a7cc-6313b6c6035f"
 >aMode == Messages.M_MAMODE.On_Sight</PreCondition></PreConditions>
-<Expression>Default.Mode.ModeProfile.OS</Expression>
+<Expression>ModeEnum.ModeProfile.OS</Expression>
 </Case><Case
  Name="LS"
  Guid="a93f9055-cc83-435f-83ab-188b4de199bc"
@@ -441,7 +441,7 @@ aProfile.Mode == Default.Mode.ModeProfile.LS</PreCondition></PreConditions>
 <PreCondition
  Guid="7397d7ea-e622-4b41-b913-2ff9c0bd3b4b"
 >aMode == Messages.M_MAMODE.Limited_Supervision</PreCondition></PreConditions>
-<Expression>Default.Mode.ModeProfile.LS</Expression>
+<Expression>ModeEnum.ModeProfile.LS</Expression>
 </Case><Case
  Name="SH"
  Guid="7e925daa-edf8-4339-82f1-d7c5cfd95737"
@@ -450,7 +450,7 @@ aProfile.Mode == Default.Mode.ModeProfile.LS</PreCondition></PreConditions>
 <PreCondition
  Guid="4a26be35-7bf2-44a7-8591-c3a946778451"
 >aMode == Messages.M_MAMODE.Shunting</PreCondition></PreConditions>
-<Expression>Default.Mode.ModeProfile.SH</Expression>
+<Expression>ModeEnum.ModeProfile.SH</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -492,7 +492,7 @@ aProfile.Mode == Default.Mode.ModeProfile.LS</PreCondition></PreConditions>
  Name="Value"
  Guid="cd6ddbc2-9759-49af-bd95-8f4a684555e3"
 >
-<Expression>aProfile.Location - BaseTypes.LengthToDistance ( aProfile.AcknLength ) &lt;= Kernel.TrainPosition.FrontEndPosition ( DistanceInterval.Nom )</Expression>
+<Expression>aProfile.Location - BaseTypes.LengthToDistance ( aProfile.AcknLength ) &lt;= Kernel.TrainPosition.FrontEndPosition ( DistanceIntervalEnum.Nom )</Expression>
 </Case></Cases>
 </Function><Function
  Type="SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target"
@@ -1236,7 +1236,7 @@ ON
 <PreConditions>
 <PreCondition
  Guid="d88d578c-dc2f-4ca1-92e3-d11984d75759"
->aModeProfile.Mode == Default.Mode.ModeProfile.LS</PreCondition></PreConditions>
+>aModeProfile.Mode == ModeEnum.ModeProfile.LS</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="caa07fc0-3bca-454c-98a6-6f17370c36eb"
@@ -1250,7 +1250,7 @@ ON
 <PreConditions>
 <PreCondition
  Guid="10d5da94-934f-47b5-aa89-1883d27c3012"
->aModeProfile.Mode == Default.Mode.ModeProfile.OS</PreCondition></PreConditions>
+>aModeProfile.Mode == ModeEnum.ModeProfile.OS</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="c1f907d9-ce75-4e97-ae03-66b08d5e69b6"
@@ -1264,7 +1264,7 @@ ON
 <PreConditions>
 <PreCondition
  Guid="d6214b7c-5a3e-41da-900e-01479f36f5b6"
->aModeProfile.Mode == Default.Mode.ModeProfile.SH</PreCondition></PreConditions>
+>aModeProfile.Mode == ModeEnum.ModeProfile.SH</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="93777c21-79d2-410e-9493-701ab3060a21"
@@ -1419,15 +1419,15 @@ ON
 <PreConditions>
 <PreCondition
  Guid="6d1c7801-3e7d-452d-9a52-40bebe0ec5fd"
->Kernel.Mode not in [Default.Mode.OS, Default.Mode.SB, Default.Mode.PT]</PreCondition><PreCondition
+>Kernel.Mode not in [ModeEnum.OS, ModeEnum.SB, ModeEnum.PT]</PreCondition><PreCondition
  Guid="42784a5a-1cae-4c0b-811f-443315954aca"
->THERE_IS X IN Kernel.MA.ModeProfile.Profile | X.Mode == Default.Mode.ModeProfile.OS
+>THERE_IS X IN Kernel.MA.ModeProfile.Profile | X.Mode == ModeEnum.ModeProfile.OS
   AND
-Kernel.MA.ModeProfile.AcknAreaReached ( FIRST X IN Kernel.MA.ModeProfile.Profile | X.Mode == Default.Mode.ModeProfile.OS )</PreCondition><PreCondition
+Kernel.MA.ModeProfile.AcknAreaReached ( FIRST X IN Kernel.MA.ModeProfile.Profile | X.Mode == ModeEnum.ModeProfile.OS )</PreCondition><PreCondition
  Guid="66b2c6ba-7c31-4c87-9718-93a1cb7db83d"
 >Kernel.Modes.ModeRelatedSpeedLimits.OSModeSpeedLimit() &gt; Odometry.TrainSpeed()</PreCondition><PreCondition
  Guid="9c07352e-7368-4267-b097-8f8ae8201d4d"
->NOT (DMI.MasterDMI().In_AcknOfOSMode.InputInformation.RequestStatus != Request.Request)</PreCondition></PreConditions>
+>NOT (DMI.MasterDMI().In_AcknOfOSMode.InputInformation.RequestStatus != RequestEnum.Request)</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="82ba23e0-1820-477a-9003-f622746b0571"
@@ -1481,15 +1481,15 @@ Kernel.MA.ModeProfile.AcknAreaReached ( FIRST X IN Kernel.MA.ModeProfile.Profile
 <PreConditions>
 <PreCondition
  Guid="5600aaf9-7d5c-4a4b-b01c-dcbf24977c52"
->Kernel.Mode not in [Default.Mode.LS, Default.Mode.SB, Default.Mode.PT]</PreCondition><PreCondition
+>Kernel.Mode not in [ModeEnum.LS, ModeEnum.SB, ModeEnum.PT]</PreCondition><PreCondition
  Guid="eb47dd1f-303f-4d40-9087-cb226e89eea5"
->THERE_IS X IN Kernel.MA.ModeProfile.Profile | X.Mode == Default.Mode.ModeProfile.LS
+>THERE_IS X IN Kernel.MA.ModeProfile.Profile | X.Mode == ModeEnum.ModeProfile.LS
  AND
-Kernel.MA.ModeProfile.AcknAreaReached ( FIRST X IN Kernel.MA.ModeProfile.Profile | X.Mode == Default.Mode.ModeProfile.LS )</PreCondition><PreCondition
+Kernel.MA.ModeProfile.AcknAreaReached ( FIRST X IN Kernel.MA.ModeProfile.Profile | X.Mode == ModeEnum.ModeProfile.LS )</PreCondition><PreCondition
  Guid="961a9514-325f-4dd3-8288-f7f5c316bf3b"
 >Kernel.Modes.ModeRelatedSpeedLimits.LSModeSpeedLimit() &gt; Odometry.TrainSpeed()</PreCondition><PreCondition
  Guid="3da0d65b-0e2b-4020-8afd-97fbbee5539f"
->NOT (DMI.MasterDMI().In_AcknOfLSMode.InputInformation.RequestStatus  == Request.Request)</PreCondition></PreConditions>
+>NOT (DMI.MasterDMI().In_AcknOfLSMode.InputInformation.RequestStatus  == RequestEnum.Request)</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="b5e35da4-c967-4a59-85c6-a08ce49af47a"
@@ -1528,15 +1528,15 @@ Kernel.MA.ModeProfile.AcknAreaReached ( FIRST X IN Kernel.MA.ModeProfile.Profile
 <PreConditions>
 <PreCondition
  Guid="a6b8a37e-3e25-40ae-ba2c-da28116ece59"
->Kernel.Mode not in [Default.Mode.SB, Default.Mode.PT]</PreCondition><PreCondition
+>Kernel.Mode not in [ModeEnum.SB, ModeEnum.PT]</PreCondition><PreCondition
  Guid="55cf8108-eb50-4bee-ad58-f34d699f55d3"
->THERE_IS X IN Kernel.MA.ModeProfile.Profile | X.Mode == Default.Mode.ModeProfile.SH
+>THERE_IS X IN Kernel.MA.ModeProfile.Profile | X.Mode == ModeEnum.ModeProfile.SH
   AND
-Kernel.MA.ModeProfile.AcknAreaReached ( FIRST X IN Kernel.MA.ModeProfile.Profile | X.Mode == Default.Mode.ModeProfile.SH )</PreCondition><PreCondition
+Kernel.MA.ModeProfile.AcknAreaReached ( FIRST X IN Kernel.MA.ModeProfile.Profile | X.Mode == ModeEnum.ModeProfile.SH )</PreCondition><PreCondition
  Guid="b7041bbe-293e-4a65-9f11-1f7ea8cd24b3"
 >Kernel.Modes.ModeRelatedSpeedLimits.SHModeSpeedLimit() &gt; Odometry.TrainSpeed()</PreCondition><PreCondition
  Guid="778ffeec-9d0d-4cc8-9cdb-a9b312b12afe"
->NOT (DMI.MasterDMI().In_AcknOfSHMode.InputInformation.RequestStatus == Request.Request)</PreCondition></PreConditions>
+>NOT (DMI.MasterDMI().In_AcknOfSHMode.InputInformation.RequestStatus == RequestEnum.Request)</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="c13e2743-8c40-487f-84d9-9f5b18f67495"

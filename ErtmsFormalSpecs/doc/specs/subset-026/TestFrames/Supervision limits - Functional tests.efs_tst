@@ -76,7 +76,7 @@
 }</Action><Action
  Guid="bd734bba-7180-4645-8a9f-65a04f59889f"
 >Kernel.NationalValues.ApplicableNationalValues &lt;- Kernel.NationalValues.NationalValuesStruct{
-    DataState =&gt; Default.DataState.Valid,
+    DataState =&gt; DataStateEnum.Valid,
     Value =&gt; Kernel.NationalValues.NationalDefaultDataStruct{
         ModificationOfAdhesionFactorByDriver =&gt; Messages.Q_NVDRIVER_ADHES.Not_allowed,
         PermToUseTheServiceBrakeFeedback =&gt; Messages.Q_NVSBFBPERM.No,
@@ -311,7 +311,7 @@
  Guid="d8f91d47-4d26-4353-ae76-a28f0aa275fc"
 >Odometry.NominalDistance &lt;- 4000.0</Action><Action
  Guid="5e98d65c-6602-4893-8257-2521b062bde8"
->Kernel.TrainData.TrainData.DataState &lt;- DataState.Valid</Action><Action
+>Kernel.TrainData.TrainData.DataState &lt;- DataStateEnum.Valid</Action><Action
  Guid="9ab4a8b2-2bb8-448d-b024-896606a2dd65"
 >Kernel.TrainData.TrainData.Value.T_brake_emergency &lt;- Kernel.TrainData.BrakingParameters.T_brake_build_upSet
 {
@@ -1189,7 +1189,7 @@ Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.Dbec ( Vest =&gt; 75.0, Vta
  Guid="a7d0249a-c02e-41f9-81c8-96c8a8bf1d6e"
 >Kernel.NationalValues.ApplicableNationalValues &lt;- Kernel.NationalValues.NationalValuesStruct
 {
-    DataState =&gt; Default.DataState.Valid,
+    DataState =&gt; DataStateEnum.Valid,
     NID_C =&gt; 42,
     ApplicableStartLocation =&gt; 0.0,
     Value =&gt; Kernel.NationalValues.NationalDefaultDataStruct
@@ -1946,16 +1946,16 @@ Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_SBI2 (
 <Expectation
  Kind="Instantaneous"
  Guid="376769c4-d04c-456e-8d6c-2a8a6f0a5bb5"
->Kernel.TrainPosition.FrontEndPosition ( DistanceInterval.Nom ) == 2000.0</Expectation><Expectation
+>Kernel.TrainPosition.FrontEndPosition ( DistanceIntervalEnum.Nom ) == 2000.0</Expectation><Expectation
  Kind="Instantaneous"
  Guid="e80e649a-c27d-4725-a5e0-19b03b43f779"
->Kernel.TrainPosition.FrontEndPosition ( DistanceInterval.Nom ) + Odometry.EstimatedSpeed * Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.T_bs1 == 2053.28</Expectation><Expectation
+>Kernel.TrainPosition.FrontEndPosition ( DistanceIntervalEnum.Nom ) + Odometry.EstimatedSpeed * Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.T_bs1 == 2053.28</Expectation><Expectation
  Kind="Instantaneous"
  Guid="d222657c-2e41-4095-9602-4ac34a7e2165"
->Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Vsbi1 ( Kernel.TrainPosition.FrontEndPosition ( DistanceInterval.Nom ) ) &gt;= 40.3473</Expectation><Expectation
+>Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Vsbi1 ( Kernel.TrainPosition.FrontEndPosition ( DistanceIntervalEnum.Nom ) ) &gt;= 40.3473</Expectation><Expectation
  Kind="Instantaneous"
  Guid="23d88e4e-6a40-4543-adcc-915d59cc55c1"
->Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Vsbi1 ( Kernel.TrainPosition.FrontEndPosition ( DistanceInterval.Nom ) ) &lt;= 40.3474</Expectation><Expectation
+>Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Vsbi1 ( Kernel.TrainPosition.FrontEndPosition ( DistanceIntervalEnum.Nom ) ) &lt;= 40.3474</Expectation><Expectation
  Kind="Instantaneous"
  Guid="a3a89dc8-1c88-4830-89e1-651afbe24a25"
 >Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Vsbi1 ( 10000.0 ) == 0.0</Expectation></Expectations>
@@ -2005,7 +2005,7 @@ Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_SBI2 (
 >INSERT 
 BTM.Linking.LinkingDataStruct{
     LocationAccuracy =&gt; 1.0,
-    Orientation =&gt; Default.Orientation.Unknown,
+    Orientation =&gt; OrientationEnum.Unknown,
     Reaction =&gt; BTM.Linking.LinkingReaction.NoReaction,
     Distance =&gt; 2200.0,
     BaliseGroupIdentifier =&gt; 0
@@ -2022,7 +2022,7 @@ IN
         OverReadingAmountOdo =&gt; 2.0
     },
     NID =&gt; 1515,
-    Orientation =&gt; Default.Orientation.Nominal
+    Orientation =&gt; OrientationEnum.Nominal
 }</Action><Action
  Guid="b457fc89-d54f-4e86-9947-5bbdd22ea2b8"
 >Odometry.EstimatedSpeed &lt;- 88.0</Action></Actions>
@@ -2055,16 +2055,16 @@ IN
 Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.Dbec ( Vest =&gt; 88.0, Vtarget =&gt; 25.0, NoA_est =&gt; False ) &lt; 52.698</Expectation><Expectation
  Kind="Instantaneous"
  Guid="c3cb0ba7-9949-4344-a76f-ffe6903fd857"
->Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Vsbi2 ( Dmaxsafefrontend =&gt; Kernel.TrainPosition.FrontEndPosition ( DistanceInterval.Max ), Vtarget =&gt; 25.0, NoA_est =&gt; False ) &gt; 46.5924
+>Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Vsbi2 ( Dmaxsafefrontend =&gt; Kernel.TrainPosition.FrontEndPosition ( DistanceIntervalEnum.Max ), Vtarget =&gt; 25.0, NoA_est =&gt; False ) &gt; 46.5924
   AND  
-Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Vsbi2 ( Dmaxsafefrontend =&gt; Kernel.TrainPosition.FrontEndPosition ( DistanceInterval.Max ), Vtarget =&gt; 25.0, NoA_est =&gt; False ) &lt; 46.5925</Expectation><Expectation
+Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Vsbi2 ( Dmaxsafefrontend =&gt; Kernel.TrainPosition.FrontEndPosition ( DistanceIntervalEnum.Max ), Vtarget =&gt; 25.0, NoA_est =&gt; False ) &lt; 46.5925</Expectation><Expectation
  Kind="Instantaneous"
  Guid="1e131370-c40d-48a6-9528-a5e8504aad2f"
->Kernel.TrainPosition.FrontEndPosition ( DistanceInterval.Max ) == 2011.0</Expectation><Expectation
+>Kernel.TrainPosition.FrontEndPosition ( DistanceIntervalEnum.Max ) == 2011.0</Expectation><Expectation
  Kind="Instantaneous"
  DeadLine="1"
  Guid="15ace69d-42d4-467a-9def-8223f21cd543"
->Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Vsbi2 ( Dmaxsafefrontend =&gt; Kernel.TrainPosition.FrontEndPosition ( DistanceInterval.Max ), Vtarget =&gt; 50.0, NoA_est =&gt; False ) == 55.5</Expectation></Expectations>
+>Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Vsbi2 ( Dmaxsafefrontend =&gt; Kernel.TrainPosition.FrontEndPosition ( DistanceIntervalEnum.Max ), Vtarget =&gt; 50.0, NoA_est =&gt; False ) == 55.5</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step></Steps>
 </TestCase><TestCase
@@ -2266,10 +2266,10 @@ Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_P  ( aTarget =&gt; Ker
 <Expectation
  Kind="Instantaneous"
  Guid="79d3635c-64af-4754-8a90-4da2781f124e"
->Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.V_P_EOA ( d_estfront =&gt; Kernel.TrainPosition.FrontEndPosition ( DistanceInterval.Nom ), Vest =&gt; 88.0 ) &gt;= 39.657</Expectation><Expectation
+>Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.V_P_EOA ( d_estfront =&gt; Kernel.TrainPosition.FrontEndPosition ( DistanceIntervalEnum.Nom ), Vest =&gt; 88.0 ) &gt;= 39.657</Expectation><Expectation
  Kind="Instantaneous"
  Guid="9e8c402c-76fe-47d9-baff-2a6620230847"
->Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.V_P_EOA ( d_estfront =&gt; Kernel.TrainPosition.FrontEndPosition ( DistanceInterval.Nom ), Vest =&gt; 88.0 ) &lt;= 40.218</Expectation></Expectations>
+>Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.V_P_EOA ( d_estfront =&gt; Kernel.TrainPosition.FrontEndPosition ( DistanceIntervalEnum.Nom ), Vest =&gt; 88.0 ) &lt;= 40.218</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step><Step
  IO="NA"
@@ -2295,7 +2295,7 @@ Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_P  ( aTarget =&gt; Ker
 <Expectation
  Kind="Instantaneous"
  Guid="01d99d0a-c589-4a9b-8974-cb70ad5c929a"
->Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.V_P_EOA ( d_estfront =&gt; Kernel.TrainPosition.FrontEndPosition ( DistanceInterval.Nom ), Vest =&gt; 88.0 ) &lt;= 0.0</Expectation></Expectations>
+>Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.V_P_EOA ( d_estfront =&gt; Kernel.TrainPosition.FrontEndPosition ( DistanceIntervalEnum.Nom ), Vest =&gt; 88.0 ) &lt;= 0.0</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step><Step
  IO="NA"
@@ -2389,7 +2389,7 @@ IN
         OverReadingAmountOdo =&gt; 2.0
     },
     NID =&gt; 1515,
-    Orientation =&gt; Default.Orientation.Nominal
+    Orientation =&gt; OrientationEnum.Nominal
 }</Action><Action
  Guid="e768150d-6d77-43b8-902d-60d926b4cc84"
 >BTM.Linking.Linkings &lt;- []</Action></Actions>
@@ -2414,15 +2414,15 @@ IN
 <Expectation
  Kind="Instantaneous"
  Guid="ed9b1cfa-077b-4f0a-9044-35c3602273dd"
->Kernel.TrainPosition.FrontEndPosition ( DistanceInterval.Max ) == 1011.0</Expectation><Expectation
+>Kernel.TrainPosition.FrontEndPosition ( DistanceIntervalEnum.Max ) == 1011.0</Expectation><Expectation
  Kind="Instantaneous"
  Guid="facff254-eb87-4105-9714-8f1b596b286a"
 >Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.Vbec ( Vest =&gt; 100.0, Vtarget =&gt; 20.0, NoA_est =&gt; False ) == 103.416</Expectation><Expectation
  Kind="Instantaneous"
  Guid="a870f685-207e-4548-af63-164572f6f9b2"
->Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.V_P_EBD_Target ( d_maxsafefront =&gt; Kernel.TrainPosition.FrontEndPosition ( DistanceInterval.Max ), aTarget =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT(), Vest =&gt; 100.0 ) &gt; 27.386
+>Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.V_P_EBD_Target ( d_maxsafefront =&gt; Kernel.TrainPosition.FrontEndPosition ( DistanceIntervalEnum.Max ), aTarget =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT(), Vest =&gt; 100.0 ) &gt; 27.386
 AND
-Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.V_P_EBD_Target ( d_maxsafefront =&gt; Kernel.TrainPosition.FrontEndPosition ( DistanceInterval.Max ), aTarget =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT(), Vest =&gt; 100.0 ) &lt; 27.387</Expectation><Expectation
+Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.V_P_EBD_Target ( d_maxsafefront =&gt; Kernel.TrainPosition.FrontEndPosition ( DistanceIntervalEnum.Max ), aTarget =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT(), Vest =&gt; 100.0 ) &lt; 27.387</Expectation><Expectation
  Kind="Instantaneous"
  Guid="8432bdd2-927f-4b0f-9c22-e4a5267d55c0"
 >Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.Dbec ( Vest =&gt; 100.0, Vtarget =&gt; 20.0, NoA_est =&gt; False ) &gt; 59.6312 AND
@@ -2452,7 +2452,7 @@ Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.Dbec ( Vest =&gt; 100.0, Vt
 <Expectation
  Kind="Instantaneous"
  Guid="67d45c4b-7112-4a53-aa07-3fe0e581b39b"
->Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.V_P_EBD_Target ( d_maxsafefront =&gt; Kernel.TrainPosition.FrontEndPosition ( DistanceInterval.Max ), aTarget =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target{
+>Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.V_P_EBD_Target ( d_maxsafefront =&gt; Kernel.TrainPosition.FrontEndPosition ( DistanceIntervalEnum.Max ), aTarget =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target{
     Location =&gt; 7000.0,
     Speed =&gt; 20.0,
     Length =&gt; 500.0

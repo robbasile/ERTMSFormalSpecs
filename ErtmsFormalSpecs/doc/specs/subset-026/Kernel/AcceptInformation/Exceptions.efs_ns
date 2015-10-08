@@ -99,7 +99,7 @@ DMI.CabOfDMI( aDMI =&gt; DMI.MasterDMI() ).Desk2IsActive</Expression>
  Name="Value"
  Guid="4568f8a0-b34f-490f-bf5a-916dbebe58fc"
 >
-<Expression>Kernel.TrainData.TrainData.DataState == DataState.Valid</Expression>
+<Expression>Kernel.TrainData.TrainData.DataState == DataStateEnum.Valid</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -214,7 +214,7 @@ DMI.CabOfDMI( aDMI =&gt; DMI.MasterDMI() ).Desk2IsActive</Expression>
 <Comment>Checks if there is a level transition to level 1 stored for a further location.</Comment>
 <Expression>Kernel.LevelTransition.LevelTransitionToProcess != EMPTY
   AND
-Kernel.LevelTransition.LevelTransitionToProcess.TRLevel.Value == Level.L1</Expression>
+Kernel.LevelTransition.LevelTransitionToProcess.TRLevel.Value == LevelEnum.L1</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -284,9 +284,9 @@ Kernel.LevelTransition.LevelTransitionToProcess.TRLevel.Value == Level.L1</Expre
 <Expression>Kernel.LevelTransition.LevelTransitionToProcess != EMPTY
   AND
 (
-  Kernel.LevelTransition.LevelTransitionToProcess.TRLevel.Value == Level.L2
+  Kernel.LevelTransition.LevelTransitionToProcess.TRLevel.Value == LevelEnum.L2
     OR
-  Kernel.LevelTransition.LevelTransitionToProcess.TRLevel.Value == Level.L3
+  Kernel.LevelTransition.LevelTransitionToProcess.TRLevel.Value == LevelEnum.L3
 )</Expression>
 </Case></Cases>
 </Function><Function
@@ -438,9 +438,9 @@ NID_TSR != Messages.NID_TSR.Non_revocable_speed_restriction__applicable_for_all_
 <Expression>Kernel.LevelTransition.LevelTransitionToProcess == EMPTY
   OR
 (
-  Kernel.LevelTransition.LevelTransitionToProcess.TRLevel.Value != Level.L2
+  Kernel.LevelTransition.LevelTransitionToProcess.TRLevel.Value != LevelEnum.L2
     OR
-  Kernel.LevelTransition.LevelTransitionToProcess.TRLevel.Value != Level.L3
+  Kernel.LevelTransition.LevelTransitionToProcess.TRLevel.Value != LevelEnum.L3
 )</Expression>
 </Case></Cases>
 </Function><Function

@@ -1206,7 +1206,7 @@ d_PBD &lt; Kernel.TrackDescription.PermittedBrakingDistance.Dbec( V_PBD =&gt; 0.
 >
 <Expression>LET
 Target &lt;- SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target{
-    Location =&gt; TrainPosition.FrontEndPosition(DistanceInterval.Nom) + d_PBD,
+    Location =&gt; TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom) + d_PBD,
     Speed =&gt; 0.0,
     Length =&gt; 0.0 }
 
@@ -1359,7 +1359,7 @@ STOP_CONDITION
 >
 <Expression>LET
 Target &lt;- SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target{
-    Location =&gt; TrainPosition.FrontEndPosition(DistanceInterval.Nom) + d_PBD,
+    Location =&gt; TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom) + d_PBD,
     Speed =&gt; 0.0,
     Length =&gt; 0.0 }
 
@@ -1470,7 +1470,7 @@ STOP_CONDITION
 >
 <Expression>LET
 Target &lt;- SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target{
-    Location =&gt; TrainPosition.FrontEndPosition(DistanceInterval.Nom) + d_PBD,
+    Location =&gt; TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom) + d_PBD,
     Speed =&gt; 0.0,
     Length =&gt; 0.0 }
 
@@ -1729,7 +1729,7 @@ STOP_CONDITION
  Guid="702c41be-b661-4a44-b0a3-9f3e6660c5a8"
 >Packet.Q_TRACKINIT == Messages.Q_TRACKINIT.Empty_profile__initial_states_to_be_resumed</PreCondition><PreCondition
  Guid="c8150dfb-72db-4741-be81-ff85bc0005f8"
->Kernel.Mode != Default.Mode.TR</PreCondition></PreConditions>
+>Kernel.Mode != ModeEnum.TR</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="0f51ade6-1ab1-4d5e-a2e6-5ba1d3e16c12"
@@ -1767,7 +1767,7 @@ STOP_CONDITION
  Guid="ec6b53e9-a181-4239-8179-888b316dcb5c"
 >Packet.Q_TRACKINIT == Messages.Q_TRACKINIT.No_initial_states_to_be_resumed__profile_to_follow</PreCondition><PreCondition
  Guid="30d32994-64d1-4b57-8f4b-d2cf299c84ad"
->Kernel.Mode != Default.Mode.TR</PreCondition></PreConditions>
+>Kernel.Mode != ModeEnum.TR</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="a2eaa572-8996-4e14-bb01-e726ed4ecfb1"
@@ -1823,7 +1823,7 @@ STOP_CONDITION
  Guid="4a1ce079-132b-43f6-8ba0-72284dca49b8"
 >Packet.Q_TRACKINIT == Messages.Q_TRACKINIT.No_initial_states_to_be_resumed__profile_to_follow</PreCondition><PreCondition
  Guid="b67878e1-ff87-4b16-ade4-3944247f14da"
->Kernel.Mode != Default.Mode.TR</PreCondition></PreConditions>
+>Kernel.Mode != ModeEnum.TR</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="2afd30de-c39b-432c-9bcf-27501908073d"
@@ -1866,7 +1866,7 @@ ON
 <PreConditions>
 <PreCondition
  Guid="1bc57ee6-f129-4a6d-93c3-62b19efddc9c"
->Kernel.Mode != Default.Mode.TR</PreCondition></PreConditions>
+>Kernel.Mode != ModeEnum.TR</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="812f3ae6-01ea-41a2-9abe-58774618967b"
@@ -2352,7 +2352,7 @@ ON
  Guid="78be3145-3c25-4eee-8d51-da867970ffd2"
 >Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.InitialState == Messages.Q_TRACKINIT.Empty_profile__initial_states_to_be_resumed</PreCondition><PreCondition
  Guid="371ca729-718a-45bf-936c-877d3fa6dc55"
->Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.EmptyProfileDistance &lt;= Kernel.TrainPosition.FrontEndPosition ( PointOfInterest =&gt; DistanceInterval.Nom )</PreCondition></PreConditions>
+>Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.EmptyProfileDistance &lt;= Kernel.TrainPosition.FrontEndPosition ( PointOfInterest =&gt; DistanceIntervalEnum.Nom )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="16926bd4-4cf4-4d72-a929-f1cf628266cb"

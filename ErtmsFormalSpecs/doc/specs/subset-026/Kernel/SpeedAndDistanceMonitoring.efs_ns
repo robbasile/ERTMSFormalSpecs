@@ -3089,7 +3089,7 @@ Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom) &gt; Kernel.SpeedAnd
 (
   NOT Kernel.MA.IsEOA(aTarget)
     AND
-  Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Max) &gt; Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.d_preindication(aTarget)
+  Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &gt; Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.d_preindication(aTarget)
 )</PreCondition></PreConditions>
 <Expression>True</Expression>
 </Case><Case
@@ -3147,7 +3147,7 @@ Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.StartRSM(Kernel.SpeedAn
  Guid="5acecc19-8795-458f-bf25-d3d7788ef394"
 >Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.ReleaseSpeedSupervisionApplicable(Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT())
 AND
-Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Max) &gt;  Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.StartRSM(Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.ReleaseSpeedForTarget(Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT()))</PreCondition></PreConditions>
+Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &gt;  Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.StartRSM(Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.ReleaseSpeedForTarget(Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT()))</PreCondition></PreConditions>
 <Expression>True</Expression>
 </Case><Case
  Name="Otherwise"
@@ -3191,7 +3191,7 @@ Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Max) &gt;  Kernel.SpeedAn
 <Expression>MAP TARGETS(MIN(
     First =&gt; Kernel.MRSP.SpeedRestrictions,
     Second =&gt; Kernel.NationalValues.MaxDistInSRSpeedRestriction
-)) | X.Location &gt; Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom)
+)) | X.Location &gt; Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom)
   USING X IN X</Expression>
 </Case><Case
  Name="Otherwise"
@@ -3200,7 +3200,7 @@ Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Max) &gt;  Kernel.SpeedAn
 <Expression>MAP TARGETS(MIN(
     First=&gt; Kernel.MRSP.SpeedRestrictions,
     Second=&gt; Kernel.MA.SpeedRestrictions
-)) | X.Location &gt; Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom)
+)) | X.Location &gt; Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom)
   USING X IN X</Expression>
 </Case></Cases>
 </Function><Function
@@ -3309,15 +3309,15 @@ Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Max) &gt;  Kernel.SpeedAn
 >Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationLimitAtSpeed(
     aTarget =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT(),
     aSpeed =&gt; Kernel.MRSP.SpeedRestrictions(
-        aDistance=&gt;Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom)
+        aDistance=&gt;Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom)
     )
 ) 
 &gt; 
-Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom)</PreCondition><PreCondition
+Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom)</PreCondition><PreCondition
  Guid="0390c7de-4a8c-40ee-b77b-e09a11a4ac1b"
 >Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationLimitAtSpeed(
     aTarget =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT(),
-    aSpeed =&gt; Kernel.MRSP.SpeedRestrictions(Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom))
+    aSpeed =&gt; Kernel.MRSP.SpeedRestrictions(Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom))
 )
 != 
 BaseTypes.Distance.Unknown</PreCondition></PreConditions>

@@ -668,7 +668,7 @@ Keep the reason for it to be displayed to the driver.</Comment>
  Guid="6fb82fcc-1dd5-40c1-a0a7-87279e71cf42"
 >Kernel.HandleModeChange not in Kernel.HandleModeChangeSM.EndOfMission</PreCondition><PreCondition
  Guid="5367589d-d8aa-4929-8097-c8ee899fbb19"
->Kernel.Level.Value.Value in [Level.L2, Level.L3]</PreCondition></PreConditions>
+>Kernel.Level.Value.Value in [LevelEnum.L2, LevelEnum.L3]</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="d67963d3-60e6-4eed-8fac-e91efefafe50"
@@ -1875,7 +1875,7 @@ EURORADIO.RBCStruct.ConnectionState in EURORADIO.RBCStruct.ConnectionStateSM.Ter
 <PreConditions>
 <PreCondition
  Guid="463e0b98-b0fb-4545-a160-7e6de88c2d9d"
->Kernel.TrainPosition.FrontEndPosition ( PointOfInterest =&gt; DistanceInterval.Max ) &lt; EURORADIO.PositionReport.RBCTransitionLocation</PreCondition><PreCondition
+>Kernel.TrainPosition.FrontEndPosition ( PointOfInterest =&gt; DistanceIntervalEnum.Max ) &lt; EURORADIO.PositionReport.RBCTransitionLocation</PreCondition><PreCondition
  Guid="91826cfb-7c30-4aa3-b40e-60bf92efdbca"
 >NOT EURORADIO.RBCStruct.IsMainConnection</PreCondition><PreCondition
  Guid="885cc8be-6c21-4bda-af80-c9e89caad95a"
@@ -3293,7 +3293,7 @@ NOT EURORADIO.IncomingMessageIsConsistent(EURORADIO.RBCStruct.MessageIn)</PreCon
 <PreConditions>
 <PreCondition
  Guid="e83c3c3e-9cfa-4ec8-9613-96417be71c7d"
->Kernel.LevelTransition.LevelTransitionToProcess.TRLevel.Value in [Level.L0, Level.LNTC, Level.L1]</PreCondition></PreConditions>
+>Kernel.LevelTransition.LevelTransitionToProcess.TRLevel.Value in [LevelEnum.L0, LevelEnum.LNTC, LevelEnum.L1]</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="b71b573b-1f53-4f37-97b5-3ea811c3a2c3"
@@ -3391,7 +3391,7 @@ NOT EURORADIO.IncomingMessageIsConsistent(EURORADIO.RBCStruct.MessageIn)</PreCon
 <PreConditions>
 <PreCondition
  Guid="a315cce6-b406-417c-9709-d00d567e3b73"
->Kernel.TrainPosition.FrontEndPosition(PointOfInterest =&gt; DistanceInterval.Max) &gt;= EURORADIO.PositionReport.RBCTransitionLocation</PreCondition></PreConditions>
+>Kernel.TrainPosition.FrontEndPosition(PointOfInterest =&gt; DistanceIntervalEnum.Max) &gt;= EURORADIO.PositionReport.RBCTransitionLocation</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="7857191c-725b-4d50-9197-8c15c1d2f16a"
@@ -3465,7 +3465,7 @@ NOT EURORADIO.IncomingMessageIsConsistent(EURORADIO.RBCStruct.MessageIn)</PreCon
 <PreConditions>
 <PreCondition
  Guid="fc7f4583-9abe-4721-9172-3d91c2dbab42"
->EURORADIO.RBCStruct.SessionManagementData.SystemVersion.DataState == DataState.Valid</PreCondition></PreConditions>
+>EURORADIO.RBCStruct.SessionManagementData.SystemVersion.DataState == DataStateEnum.Valid</PreCondition></PreConditions>
 <Actions>
 </Actions>
 <SubRules>
@@ -3580,7 +3580,7 @@ NOT EURORADIO.IncomingMessageIsConsistent(EURORADIO.RBCStruct.MessageIn)</PreCon
 </ReqRef><PreConditions>
 <PreCondition
  Guid="8473eb41-8b29-4bfc-850f-20dab16f4863"
->Kernel.Mode != Mode.SL</PreCondition></PreConditions>
+>Kernel.Mode != ModeEnum.SL</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="67b23c1f-f588-4c6d-82e0-4bd1b8feb62a"
@@ -3832,7 +3832,7 @@ EURORADIO.RBCStruct.ContactRBCOrder.ActionToPerform == EURORADIO.ContactActionEn
 <PreConditions>
 <PreCondition
  Guid="2b26b73e-2b41-4741-8f2b-9b3ebe6994aa"
->Kernel.TrainData.TrainData.DataState == DataState.Valid</PreCondition><PreCondition
+>Kernel.TrainData.TrainData.DataState == DataStateEnum.Valid</PreCondition><PreCondition
  Guid="1885385a-2aa3-4151-8396-e579fca7bd78"
 >EURORADIO.RBCStruct.IsMainConnection</PreCondition></PreConditions>
 <Actions>
@@ -3855,7 +3855,7 @@ EURORADIO.RBCStruct.ContactRBCOrder.ActionToPerform == EURORADIO.ContactActionEn
  Guid="07e657aa-3707-4bda-a4f4-a6d13481015f"
 >NOT EURORADIO.RBCStruct.IsMainConnection</PreCondition><PreCondition
  Guid="22d43fd5-302a-4983-ae19-6ff1aa829b83"
->Kernel.Mode not in [Mode.SL, Mode.NL]</PreCondition></PreConditions>
+>Kernel.Mode not in [ModeEnum.SL, ModeEnum.NL]</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="f921aecf-212e-43c9-a4d7-622345fa1983"
@@ -4922,8 +4922,8 @@ Aftter a defined number of repetitions, if no acknowledgement is received from t
 >
 </ReqRef><Comment>Phone number of the RBC.</Comment>
 </StructureElement><StructureElement
- TypeName="Default.DataState"
- Default="Default.DataState.Invalid"
+ TypeName="DataStateEnum"
+ Default="DataStateEnum.Invalid"
  Mode="Internal"
  Implemented="TRUE"
  Name="DataState"
@@ -5468,8 +5468,8 @@ After that, if an order to contact an Accepting RBC was received, it will be han
 >
 </ReqRef><Comment>Allows to request the list of available and allowed networkds, based on a request to the Mobile Terminal(s).</Comment>
 <StructureElement
- TypeName="Request"
- Default="Request.Disabled"
+ TypeName="RequestEnum"
+ Default="RequestEnum.Disabled"
  Mode="Internal"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
@@ -5513,8 +5513,8 @@ After that, if an order to contact an Accepting RBC was received, it will be han
 >
 <Comment>The value of the system version.</Comment>
 </StructureElement><StructureElement
- TypeName="Default.DataState"
- Default="Default.DataState.Unknown"
+ TypeName="DataStateEnum"
+ Default="DataStateEnum.Unknown"
  Mode="Internal"
  Implemented="TRUE"
  Name="DataState"
@@ -6381,7 +6381,7 @@ The only one case where the status to display is that of the secondary connectio
   AND  
 EURORADIO.SecondaryRBCConnection().SafeRadioConnectionStatus != EURORADIO.SafeRadioConnectionStatusEnum.NoConnection</PreCondition><PreCondition
  Guid="df0005db-e407-4bad-ac83-088c0c650916"
->Kernel.TrainPosition.FrontEndPosition ( PointOfInterest =&gt; DistanceInterval.Max ) &gt;= EURORADIO.PositionReport.RBCTransitionLocation</PreCondition></PreConditions>
+>Kernel.TrainPosition.FrontEndPosition ( PointOfInterest =&gt; DistanceIntervalEnum.Max ) &gt;= EURORADIO.PositionReport.RBCTransitionLocation</PreCondition></PreConditions>
 <Expression>EURORADIO.SecondaryRBCConnection().SafeRadioConnectionStatus</Expression>
 </Case><Case
  Name="Status of primary RBC connection"
@@ -6448,7 +6448,7 @@ EURORADIO.SecondaryRBCConnection().SafeRadioConnectionStatus != EURORADIO.SafeRa
 <PreConditions>
 <PreCondition
  Guid="cdc11219-5220-4b39-ae2d-a4dc45a10acf"
->EURORADIO.CurrentRBCConnection().ContactData.DataState == DataState.Invalid</PreCondition></PreConditions>
+>EURORADIO.CurrentRBCConnection().ContactData.DataState == DataStateEnum.Invalid</PreCondition></PreConditions>
 <Expression>[DMI.RBCContactActionEnum.ReenterNetworkId, DMI.RBCContactActionEnum.UseLastStoredNumber, DMI.RBCContactActionEnum.UseEireneShortNumber, DMI.RBCContactActionEnum.RevalidateContactInfo, DMI.RBCContactActionEnum.EnterContactInfo]</Expression>
 </Case><Case
  Name="Unknown RBC-ID/phone number"
@@ -6457,7 +6457,7 @@ EURORADIO.SecondaryRBCConnection().SafeRadioConnectionStatus != EURORADIO.SafeRa
 <PreConditions>
 <PreCondition
  Guid="dd77bcad-0268-4dee-987b-3a77cbd9865c"
->EURORADIO.CurrentRBCConnection().ContactData.DataState == DataState.Unknown</PreCondition></PreConditions>
+>EURORADIO.CurrentRBCConnection().ContactData.DataState == DataStateEnum.Unknown</PreCondition></PreConditions>
 <Expression>[DMI.RBCContactActionEnum.ReenterNetworkId,  DMI.RBCContactActionEnum.UseEireneShortNumber,  DMI.RBCContactActionEnum.EnterContactInfo]</Expression>
 </Case><Case
  Name="Valid RBC-ID/phone number"
@@ -6466,7 +6466,7 @@ EURORADIO.SecondaryRBCConnection().SafeRadioConnectionStatus != EURORADIO.SafeRa
 <PreConditions>
 <PreCondition
  Guid="c4dba95e-3474-4ec3-b537-7fb3e625877b"
->EURORADIO.CurrentRBCConnection().ContactData.DataState == DataState.Valid</PreCondition></PreConditions>
+>EURORADIO.CurrentRBCConnection().ContactData.DataState == DataStateEnum.Valid</PreCondition></PreConditions>
 <Expression>[DMI.RBCContactActionEnum.ReenterNetworkId,  DMI.RBCContactActionEnum.UseEireneShortNumber]</Expression>
 </Case></Cases>
 </Function><Function
@@ -6492,7 +6492,7 @@ EURORADIO.SecondaryRBCConnection().SafeRadioConnectionStatus != EURORADIO.SafeRa
  Guid="b11115a5-266b-47cb-877c-f30a46722281"
 >EURORADIO.TerminalIsRegistered(EURORADIO.CurrentTerminal())
   AND  
-EURORADIO.CurrentRBCConnection().ContactData.DataState == DataState.Unknown</PreCondition></PreConditions>
+EURORADIO.CurrentRBCConnection().ContactData.DataState == DataStateEnum.Unknown</PreCondition></PreConditions>
 <Expression>EMPTY</Expression>
 </Case><Case
  Name="Terminal registered"
@@ -6543,7 +6543,7 @@ EURORADIO.CurrentRBCConnection().ContactData.DataState == DataState.Unknown</Pre
 >
 <Expression>Kernel.ActiveFunctions.ManageCommunicationSession()
   AND  
-Kernel.Mode not in [Mode.SH, Mode.PS]</Expression>
+Kernel.Mode not in [ModeEnum.SH, ModeEnum.PS]</Expression>
 </Case></Cases>
 </Function><Function
  Type="TerminalStruct"
@@ -6995,7 +6995,7 @@ Available(Message.Message.UNCONDITIONAL_EMERGENCY_STOP)</Expression>
 {
     Id =&gt; anOrder.Id,
     PhoneNumber =&gt; anOrder.PhoneNumber,
-    DataState =&gt; Default.DataState.Valid
+    DataState =&gt; DataStateEnum.Valid
 }</Action><Action
  Guid="b327d97a-1053-46ca-a7eb-480617cdb643"
 >EURORADIO.RBCContactOrderToRepeat &lt;- EMPTY</Action><Action
@@ -7004,7 +7004,7 @@ Available(Message.Message.UNCONDITIONAL_EMERGENCY_STOP)</Expression>
 {
     Id =&gt; anOrder.Id,
     PhoneNumber =&gt; anOrder.PhoneNumber,
-    DataState =&gt; Default.DataState.Valid
+    DataState =&gt; DataStateEnum.Valid
 }</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
@@ -7061,9 +7061,9 @@ Available(Message.Message.UNCONDITIONAL_EMERGENCY_STOP)</Expression>
 <PreConditions>
 <PreCondition
  Guid="5b896537-0cd3-4108-8766-68152d5eea7f"
->DMI.MasterDMI().In_RBCContactInformation.InputInformation.RequestStatus == Request.Disabled</PreCondition><PreCondition
+>DMI.MasterDMI().In_RBCContactInformation.InputInformation.RequestStatus == RequestEnum.Disabled</PreCondition><PreCondition
  Guid="6dc5d3cd-fdbd-4642-9f27-ec7398ba1982"
->Kernel.Mode != Mode.TR</PreCondition></PreConditions>
+>Kernel.Mode != ModeEnum.TR</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="43066826-6217-4a25-87ff-a9bce7e4c9b7"
@@ -7081,7 +7081,7 @@ Available(Message.Message.UNCONDITIONAL_EMERGENCY_STOP)</Expression>
 <PreConditions>
 <PreCondition
  Guid="f233f57b-bf25-46ae-9918-86536bc4985c"
->DMI.MasterDMI().In_RBCContactInformation.InputInformation.RequestStatus == Request.Response</PreCondition></PreConditions>
+>DMI.MasterDMI().In_RBCContactInformation.InputInformation.RequestStatus == RequestEnum.Response</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="44217646-714f-49c3-8352-2f030641cc52"
@@ -7346,7 +7346,7 @@ EURORADIO.Terminal1.RBCConnection.SafeRadioConnectionStatus == EURORADIO.SafeRad
  Guid="b800f70b-83f7-45b4-9432-c769f9dca3f6"
 >EURORADIO.ContactOption == EURORADIO.ContactOptionEnum.ContactLastKnownRBC</PreCondition><PreCondition
  Guid="c12c7ead-1138-41ac-bb3b-164fdeda2b0e"
->EURORADIO.LastKnownRBC.DataState == DataState.Valid</PreCondition><PreCondition
+>EURORADIO.LastKnownRBC.DataState == DataStateEnum.Valid</PreCondition><PreCondition
  Guid="b6c9ffbd-a2ff-4991-b04b-891776087408"
 >Kernel.ActiveFunctions.ManageCommunicationSession()</PreCondition></PreConditions>
 <Actions>
@@ -8623,7 +8623,7 @@ Kernel.MA.MATimers.LOATimerStart &lt;- MessageTypes.TimeResolution( time =&gt; a
 <PreConditions>
 <PreCondition
  Guid="b45902ce-1ad5-4544-b07a-efd3ce8b7857"
->Kernel.TrainPosition.FrontEndPosition( PointOfInterest=&gt;DistanceInterval.Min )  &lt; 
+>Kernel.TrainPosition.FrontEndPosition( PointOfInterest=&gt;DistanceIntervalEnum.Min )  &lt; 
 MessageTypes.QScaleDistance(
     distance =&gt; aMessage.CONDITIONAL_EMERGENCY_STOP.D_EMERGENCYSTOP,
     scale =&gt; aMessage.CONDITIONAL_EMERGENCY_STOP.D_EMERGENCYSTOP
@@ -8643,7 +8643,7 @@ MessageTypes.QScaleDistance(
 <PreConditions>
 <PreCondition
  Guid="d576cf7f-55e9-49ee-8461-75648e378b60"
->Kernel.TrainPosition.FrontEndPosition( PointOfInterest=&gt;DistanceInterval.Min )  &gt;= 
+>Kernel.TrainPosition.FrontEndPosition( PointOfInterest=&gt;DistanceIntervalEnum.Min )  &gt;= 
 MessageTypes.QScaleDistance(
     distance =&gt; aMessage.CONDITIONAL_EMERGENCY_STOP.D_EMERGENCYSTOP,
     scale =&gt; aMessage.CONDITIONAL_EMERGENCY_STOP.D_EMERGENCYSTOP
@@ -9188,7 +9188,7 @@ MessageTypes.QScaleDistance(
         OverReadingAmountOdo =&gt; 0.0
     },
     NID =&gt; aMessage.TRAIN_ACCEPTED.NID_LRBG,
-    Orientation =&gt; Default.Orientation.Unknown,
+    Orientation =&gt; OrientationEnum.Unknown,
     Timestamp =&gt; Kernel.DateAndTime.Now()
 }</Action></Actions>
 </RuleCondition></Conditions>
@@ -9696,7 +9696,7 @@ NOT
         Id =&gt; aPacket.NID_RBC
     },
     PhoneNumber =&gt; aPacket.NID_RADIO,
-    DataState =&gt; Default.DataState.Valid
+    DataState =&gt; DataStateEnum.Valid
 }</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
@@ -9717,7 +9717,7 @@ NOT
 <PreConditions>
 <PreCondition
  Guid="3ef8acf1-bfab-4044-95fc-65e2507daa13"
->Kernel.Mode in [Mode.SH, Mode.PS]</PreCondition></PreConditions>
+>Kernel.Mode in [ModeEnum.SH, ModeEnum.PS]</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="c59b3f0b-833a-4b7f-aa43-c4ecf057eddb"
@@ -9728,7 +9728,7 @@ NOT
         Id =&gt; aPacket.NID_RBC
     },
     PhoneNumber =&gt; aPacket.NID_RADIO,
-    DataState =&gt; Default.DataState.Valid
+    DataState =&gt; DataStateEnum.Valid
 }</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
@@ -11081,7 +11081,7 @@ But at the end of the cycle the conditions required for sending of position repo
  Guid="3bd733c8-e1ef-40ff-99cb-c61837ed78b5"
 >NOT Kernel.TrackDescription.TrackConditions.General.ProfileAtDistance(
     Kernel.TrainPosition.FrontEndPosition(
-        PointOfInterest=&gt;DistanceInterval.Nom
+        PointOfInterest=&gt;DistanceIntervalEnum.Nom
     )
 ).RadioHole</PreCondition><PreCondition
  Guid="eaaf519d-801e-429f-9218-97c4800dab2c"
@@ -11139,7 +11139,7 @@ But at the end of the cycle the conditions required for sending of position repo
 <PreConditions>
 <PreCondition
  Guid="fbbf50ac-5249-404e-b0c9-37d0b6c10c28"
->Kernel.TrainPosition.FrontEndPosition( PointOfInterest =&gt; DistanceInterval.Nom ) &gt;= EURORADIO.SecondaryTerminal().AcceptingRBCContactOrder.EndOfValidityLocation</PreCondition><PreCondition
+>Kernel.TrainPosition.FrontEndPosition( PointOfInterest =&gt; DistanceIntervalEnum.Nom ) &gt;= EURORADIO.SecondaryTerminal().AcceptingRBCContactOrder.EndOfValidityLocation</PreCondition><PreCondition
  Guid="8159a3b5-93ba-4abf-b8a6-c47c500d081c"
 >EURORADIO.SecondaryTerminal().AcceptingRBCContactOrder != EMPTY</PreCondition></PreConditions>
 <Actions>

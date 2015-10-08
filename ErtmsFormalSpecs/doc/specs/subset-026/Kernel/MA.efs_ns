@@ -1051,7 +1051,7 @@ INITIAL_VALUE Kernel.MA.CreateTarget (
 <PreConditions>
 <PreCondition
  Guid="882879c9-2057-45f9-afa8-3b11d5abd62a"
->Kernel.Level.Value.Value == Default.Level.L1</PreCondition><PreCondition
+>Kernel.Level.Value.Value == LevelEnum.L1</PreCondition><PreCondition
  Guid="10848d71-717a-4061-bb58-ba05a566ffb4"
 >Kernel.MA.SignallingRelatedSpeedRestriction.End == BaseTypes.Distance.Unknown
   OR
@@ -1757,7 +1757,7 @@ USING X IN
 <PreConditions>
 <PreCondition
  Guid="df6aa353-159b-4d1e-aab6-259ec49faed8"
->Kernel.Mode == Default.Mode.TR</PreCondition></PreConditions>
+>Kernel.Mode == ModeEnum.TR</PreCondition></PreConditions>
 <Expression>Boolean.False</Expression>
 </Case><Case
  Name="Otherwise"
@@ -1768,7 +1768,7 @@ USING X IN
   (
     Kernel.Infill.Data != EMPTY
       AND
-    Kernel.Mode in [ Default.Mode.FS, Default.Mode.LS ] 
+    Kernel.Mode in [ ModeEnum.FS, ModeEnum.LS ] 
       AND
     BTM.Linking.DistanceToBaliseGroup ( Kernel.Infill.Data.NID_BG ) != BaseTypes.Distance.Unknown
   )</Expression>
@@ -1918,7 +1918,7 @@ USING X IN
  Name="Value"
  Guid="9481bd1d-6bc4-4ebc-8167-a44b76beb265"
 >
-<Expression>Kernel.TrainPosition.FrontEndPosition( PointOfInterest =&gt; DistanceInterval.Nom )
+<Expression>Kernel.TrainPosition.FrontEndPosition( PointOfInterest =&gt; DistanceIntervalEnum.Nom )
   &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I
 (
     Vest =&gt; Odometry.EstimatedSpeed,

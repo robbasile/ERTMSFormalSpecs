@@ -74,9 +74,9 @@
 <PreCondition
  Guid="65e4ee15-8de3-4280-ab44-b313f03991f9"
 >Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.EBD_Target(
-    Distance =&gt; Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom),
+    Distance =&gt; Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom),
     aTarget =&gt; aTarget
-) &lt; Kernel.MRSP.SpeedRestrictions(Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom))</PreCondition></PreConditions>
+) &lt; Kernel.MRSP.SpeedRestrictions(Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom))</PreCondition></PreConditions>
 <Expression>BaseTypes.Distance.Unknown</Expression>
 </Case><Case
  Name="Value"
@@ -273,7 +273,7 @@
 Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationLimitAtSpeed(
     aTarget =&gt; aTarget,
     aSpeed =&gt; Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationSegment(aTarget).Speed
-) &lt; Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom)</PreCondition></PreConditions>
+) &lt; Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom)</PreCondition></PreConditions>
 <Expression>BaseTypes.Distance.Unknown</Expression>
 </Case><Case
  Name="EOA, first case"
@@ -1006,7 +1006,7 @@ Used as the first segment of the MRSP.</Comment>
  Name="Value"
  Guid="5812b2a4-7d11-4dce-83cf-2e4ebbd40441"
 >
-<Expression>LET CurrentLocation &lt;- Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom)
+<Expression>LET CurrentLocation &lt;- Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom)
   IN
 Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target{
     Location =&gt; CurrentLocation,

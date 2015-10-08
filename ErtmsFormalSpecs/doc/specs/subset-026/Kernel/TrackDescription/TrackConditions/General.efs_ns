@@ -563,42 +563,42 @@ When this is recorded in TCProfile, the end points are adjusted so that they are
 When the train passes over a profile point, it doesn&apos;t know if that point marks a start of section, end of section or even both. If it is a start of section, the condition takes effect as soon as the max safe front end of the train passes over it. If it is an end, the condition stays in effect until the min safe front end passes over it. So to account for all cases, each condition is given as the combination of the profile at the max safe front end and the min safe front end of most conditions, and the value at the estimated front end of the train for Tunnel Stopping Area and Sound Horn</Comment>
 <Expression>Kernel.TrackDescription.TrackConditions.General.TrackConditionStruct {
     NonStoppingArea =&gt; CombineConditions(
-    Profile1=&gt;ProfileAtDistance(Distance=&gt;TrainPosition.FrontEndPosition(DistanceInterval.Max)),
-    Profile2=&gt;ProfileAtDistance(Distance=&gt;TrainPosition.FrontEndPosition(DistanceInterval.Min))
+    Profile1=&gt;ProfileAtDistance(Distance=&gt;TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max)),
+    Profile2=&gt;ProfileAtDistance(Distance=&gt;TrainPosition.FrontEndPosition(DistanceIntervalEnum.Min))
 ).NonStoppingArea,
-    TunnelStoppingArea =&gt; ProfileAtDistance(Distance=&gt;TrainPosition.FrontEndPosition(DistanceInterval.Nom)).TunnelStoppingArea,
-    SoundHorn =&gt; ProfileAtDistance(Distance=&gt;TrainPosition.FrontEndPosition(DistanceInterval.Nom)).SoundHorn,
+    TunnelStoppingArea =&gt; ProfileAtDistance(Distance=&gt;TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom)).TunnelStoppingArea,
+    SoundHorn =&gt; ProfileAtDistance(Distance=&gt;TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom)).SoundHorn,
     PowerlessSection_LowerPantograph =&gt; CombineConditions(
-    Profile1=&gt;ProfileAtDistance(Distance=&gt;TrainPosition.FrontEndPosition(DistanceInterval.Max)),
-    Profile2=&gt;ProfileAtDistance(Distance=&gt;TrainPosition.FrontEndPosition(DistanceInterval.Min))
+    Profile1=&gt;ProfileAtDistance(Distance=&gt;TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max)),
+    Profile2=&gt;ProfileAtDistance(Distance=&gt;TrainPosition.FrontEndPosition(DistanceIntervalEnum.Min))
 ).PowerlessSection_LowerPantograph,
     RadioHole =&gt; CombineConditions(
-    Profile1=&gt;ProfileAtDistance(Distance=&gt;TrainPosition.FrontEndPosition(DistanceInterval.Max)),
-    Profile2=&gt;ProfileAtDistance(Distance=&gt;TrainPosition.FrontEndPosition(DistanceInterval.Min))
+    Profile1=&gt;ProfileAtDistance(Distance=&gt;TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max)),
+    Profile2=&gt;ProfileAtDistance(Distance=&gt;TrainPosition.FrontEndPosition(DistanceIntervalEnum.Min))
 ).RadioHole,
     AirTightness =&gt; CombineConditions(
-    Profile1=&gt;ProfileAtDistance(Distance=&gt;TrainPosition.FrontEndPosition(DistanceInterval.Max)),
-    Profile2=&gt;ProfileAtDistance(Distance=&gt;TrainPosition.FrontEndPosition(DistanceInterval.Min))
+    Profile1=&gt;ProfileAtDistance(Distance=&gt;TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max)),
+    Profile2=&gt;ProfileAtDistance(Distance=&gt;TrainPosition.FrontEndPosition(DistanceIntervalEnum.Min))
 ).AirTightness,
     SwitchOffRegenerativeBrake =&gt; CombineConditions(
-    Profile1=&gt;ProfileAtDistance(Distance=&gt;TrainPosition.FrontEndPosition(DistanceInterval.Max)),
-    Profile2=&gt;ProfileAtDistance(Distance=&gt;TrainPosition.FrontEndPosition(DistanceInterval.Min))
+    Profile1=&gt;ProfileAtDistance(Distance=&gt;TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max)),
+    Profile2=&gt;ProfileAtDistance(Distance=&gt;TrainPosition.FrontEndPosition(DistanceIntervalEnum.Min))
 ).SwitchOffRegenerativeBrake,
     SwitchOffEddyCurrentBrakeForSB =&gt; CombineConditions(
-    Profile1=&gt;ProfileAtDistance(Distance=&gt;TrainPosition.FrontEndPosition(DistanceInterval.Max)),
-    Profile2=&gt;ProfileAtDistance(Distance=&gt;TrainPosition.FrontEndPosition(DistanceInterval.Min))
+    Profile1=&gt;ProfileAtDistance(Distance=&gt;TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max)),
+    Profile2=&gt;ProfileAtDistance(Distance=&gt;TrainPosition.FrontEndPosition(DistanceIntervalEnum.Min))
 ).SwitchOffEddyCurrentBrakeForSB,
     SwitchOffMagneticShoeBrake =&gt; CombineConditions(
-    Profile1=&gt;ProfileAtDistance(Distance=&gt;TrainPosition.FrontEndPosition(DistanceInterval.Max)),
-    Profile2=&gt;ProfileAtDistance(Distance=&gt;TrainPosition.FrontEndPosition(DistanceInterval.Min))
+    Profile1=&gt;ProfileAtDistance(Distance=&gt;TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max)),
+    Profile2=&gt;ProfileAtDistance(Distance=&gt;TrainPosition.FrontEndPosition(DistanceIntervalEnum.Min))
 ).SwitchOffMagneticShoeBrake,
     PowerlessSection_SwitchOffTheMainPowerSwitch =&gt; CombineConditions(
-    Profile1=&gt;ProfileAtDistance(Distance=&gt;TrainPosition.FrontEndPosition(DistanceInterval.Max)),
-    Profile2=&gt;ProfileAtDistance(Distance=&gt;TrainPosition.FrontEndPosition(DistanceInterval.Min))
+    Profile1=&gt;ProfileAtDistance(Distance=&gt;TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max)),
+    Profile2=&gt;ProfileAtDistance(Distance=&gt;TrainPosition.FrontEndPosition(DistanceIntervalEnum.Min))
 ).PowerlessSection_SwitchOffTheMainPowerSwitch,
     SwitchOffEddyCurrentBrakeForEB =&gt; CombineConditions(
-    Profile1=&gt;ProfileAtDistance(Distance=&gt;TrainPosition.FrontEndPosition(DistanceInterval.Max)),
-    Profile2=&gt;ProfileAtDistance(Distance=&gt;TrainPosition.FrontEndPosition(DistanceInterval.Min))
+    Profile1=&gt;ProfileAtDistance(Distance=&gt;TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max)),
+    Profile2=&gt;ProfileAtDistance(Distance=&gt;TrainPosition.FrontEndPosition(DistanceIntervalEnum.Min))
 ).SwitchOffEddyCurrentBrakeForEB 
 }</Expression>
 </Case></Cases>

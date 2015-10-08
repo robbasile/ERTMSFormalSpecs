@@ -1059,7 +1059,7 @@ Kernel.ActiveFunctions.SuperviseTrainSpeed_MRSP_DistInSRMode()</PreCondition></P
 <Actions>
 <Action
  Guid="9bc80e3a-1a1a-429f-98aa-42c1d4d761ce"
->JRU.JRU.PreviousVFloiValue &lt;- Kernel.SpeedAndDistanceMonitoring.Display.SBISpeed(Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom))</Action></Actions>
+>JRU.JRU.PreviousVFloiValue &lt;- Kernel.SpeedAndDistanceMonitoring.Display.SBISpeed(Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom))</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -1164,7 +1164,7 @@ Kernel.ActiveFunctions.SuperviseTrainSpeed_MRSP_DistInSRMode()</PreCondition></P
 >
 </ReqRef><Comment>It will reflex the previous System Version</Comment>
 </StructureElement><StructureElement
- TypeName="Mode"
+ TypeName="ModeEnum"
  Default=""
  Mode="Internal"
  Implemented="TRUE"
@@ -2096,7 +2096,7 @@ JRU.SendLSSMAMessage(jru)</PreCondition><PreCondition
 <PreConditions>
 <PreCondition
  Guid="ad4690a4-8546-41d1-9df7-10d96bf53ab3"
->( JRU.LevelChanged(jru) ) AND ( Kernel.Level.Value.Value == Level.LNTC )</PreCondition></PreConditions>
+>( JRU.LevelChanged(jru) ) AND ( Kernel.Level.Value.Value == LevelEnum.LNTC )</PreCondition></PreConditions>
 <Expression>True</Expression>
 </Case><Case
  Name="LevelNotChangedToNtc"
@@ -2133,7 +2133,7 @@ JRU.SendLSSMAMessage(jru)</PreCondition><PreCondition
  Guid="aad0f2da-a04c-4c7c-b81e-a8289c3eaf50"
 >( JRU.LevelChanged(jru)  )
 OR
-( JRU.ModeChanged(jru) AND (Kernel.Mode != Mode.NP) )
+( JRU.ModeChanged(jru) AND (Kernel.Mode != ModeEnum.NP) )
 OR
 ( JRU.SystemVersionChanged(jru) )
 OR
@@ -3229,7 +3229,7 @@ M_TRAIN_DATA_ENTRY=&gt;JRU.TypeConvertors.ToJRUTrainDataEntry()
 <PreConditions>
 <PreCondition
  Guid="f6cc93d5-391e-49ec-996b-60113667e0b0"
->(JRU.IsStartUp(jru) == True ) AND ( Kernel.Level.Value.Value == Level.LNTC )</PreCondition></PreConditions>
+>(JRU.IsStartUp(jru) == True ) AND ( Kernel.Level.Value.Value == LevelEnum.LNTC )</PreCondition></PreConditions>
 <Expression>True</Expression>
 </Case><Case
  Name="NationalSystemIsolationHasChanged"
@@ -3646,7 +3646,7 @@ M_NON_LEADING =&gt; JRU.TypeConvertors.ToJRUNonLeadingPermited()
 <PreConditions>
 <PreCondition
  Guid="0bdc2d52-5e10-4271-967e-864f8d695a1c"
->((Kernel.Mode != jru.PreviousKernelMode) AND (jru.PreviousKernelMode == Mode.NP))</PreCondition></PreConditions>
+>((Kernel.Mode != jru.PreviousKernelMode) AND (jru.PreviousKernelMode == ModeEnum.NP))</PreCondition></PreConditions>
 <Expression>True</Expression>
 </Case><Case
  Name="Otherwise"
@@ -4055,7 +4055,7 @@ jru.PreviousSpeedAndDistanceSupervisionStatus != Kernel.SpeedAndDistanceMonitori
  Guid="13358226-042e-4eb7-a8e9-c752639ee537"
 >Kernel.SpeedAndDistanceMonitoring.Monitoring in [Kernel.SpeedAndDistanceMonitoring.MonitoringTypeSM.Target, Kernel.SpeedAndDistanceMonitoring.MonitoringTypeSM.Ceiling]
   AND
-jru.PreviousVFloiValue != Kernel.SpeedAndDistanceMonitoring.Display.SBISpeed(Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom))</PreCondition></PreConditions>
+jru.PreviousVFloiValue != Kernel.SpeedAndDistanceMonitoring.Display.SBISpeed(Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom))</PreCondition></PreConditions>
 <Expression>True</Expression>
 </Case><Case
  Name="Target speed changed"

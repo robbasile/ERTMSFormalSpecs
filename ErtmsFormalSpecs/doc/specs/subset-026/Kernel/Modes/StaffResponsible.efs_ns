@@ -174,7 +174,7 @@
 >
 <Expression>Available ( Kernel.Modes.StaffResponsible.SRAuthorisation )
   AND
-Kernel.Modes.StaffResponsible.SRAuthorisation.Location &lt;= Kernel.TrainPosition.FrontEndPosition ( DistanceInterval.Max )</Expression>
+Kernel.Modes.StaffResponsible.SRAuthorisation.Location &lt;= Kernel.TrainPosition.FrontEndPosition ( DistanceIntervalEnum.Max )</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -310,7 +310,7 @@ Kernel.Modes.StaffResponsible.SRAuthorisation.Location &lt;= Kernel.TrainPositio
 <PreConditions>
 <PreCondition
  Guid="5be1ab52-7de5-4475-b907-4648223d1b23"
->Kernel.Mode == Default.Mode.SR</PreCondition><PreCondition
+>Kernel.Mode == ModeEnum.SR</PreCondition><PreCondition
  Guid="046fb2aa-7b29-4a72-854f-dd5cef4fb70c"
 >Kernel.Modes.StaffResponsible.DistanceToRun() != BaseTypes.Distance.Infinity</PreCondition></PreConditions>
 <Expression>Kernel.Modes.StaffResponsible.DistanceToRun() + Kernel.TrainPosition.SRStartDistance - BTM.LRBG.Position.Position</Expression>
@@ -425,7 +425,7 @@ Kernel.Modes.StaffResponsible.SRAuthorisation.Location &lt;= Kernel.TrainPositio
 <PreConditions>
 <PreCondition
  Guid="ca00b5c3-749e-4688-81da-05727f081038"
->Kernel.Mode == Default.Mode.SR</PreCondition></PreConditions>
+>Kernel.Mode == ModeEnum.SR</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="96ee091d-b9e9-4509-b1a7-1c630d2fd21e"
@@ -629,9 +629,9 @@ Kernel.Modes.StaffResponsible.SRAuthorisation.Location &lt;= Kernel.TrainPositio
 <PreConditions>
 <PreCondition
  Guid="38a2855c-a564-4a2f-b1cf-ab9373fbe4af"
->Kernel.Level.Value.Value in [Default.Level.L2, Default.Level.L3]</PreCondition><PreCondition
+>Kernel.Level.Value.Value in [LevelEnum.L2, LevelEnum.L3]</PreCondition><PreCondition
  Guid="e8a7ae96-cd47-4d9e-8a00-715ca0a3e838"
->DMI.MasterDMI().In_Start.InputInformation.RequestStatus == Request.Disabled</PreCondition><PreCondition
+>DMI.MasterDMI().In_Start.InputInformation.RequestStatus == RequestEnum.Disabled</PreCondition><PreCondition
  Guid="85a03ef1-b8bf-4979-b1ae-8b3bf1c03590"
 >Kernel.ActiveFunctions.RequestMA_StartSelected()</PreCondition></PreConditions>
 <Actions>
@@ -667,7 +667,7 @@ Kernel.Modes.StaffResponsible.SRAuthorisation.Location &lt;= Kernel.TrainPositio
 <PreConditions>
 <PreCondition
  Guid="d9198f6b-ab29-4800-8177-3582c9f6b6f5"
->Kernel.Level.Value.Value in [Default.Level.L2, Default.Level.L3]</PreCondition><PreCondition
+>Kernel.Level.Value.Value in [LevelEnum.L2, LevelEnum.L3]</PreCondition><PreCondition
  Guid="b141a80f-70a4-4c16-ab6a-2c1a644b9b5b"
 >DMI.MasterDMI().In_Start.InputInformation.DriverAnswered</PreCondition><PreCondition
  Guid="8a109624-1067-4604-bea1-f3a9d4d98fe0"
@@ -712,7 +712,7 @@ Kernel.Modes.StaffResponsible.SRAuthorisation.Location &lt;= Kernel.TrainPositio
 <PreConditions>
 <PreCondition
  Guid="0ebb6c20-ebff-423e-ae86-7373db4b82ef"
->DMI.MasterDMI().In_SRModeSpeedLimitAndDistance.InputInformation.RequestStatus == Request.Request</PreCondition></PreConditions>
+>DMI.MasterDMI().In_SRModeSpeedLimitAndDistance.InputInformation.RequestStatus == RequestEnum.Request</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="eec5ece7-4498-4b79-8af7-6b2f2683b723"

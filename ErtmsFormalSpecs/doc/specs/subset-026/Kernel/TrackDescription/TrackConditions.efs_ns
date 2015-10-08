@@ -144,7 +144,7 @@
 <PreCondition
  Guid="63f5b8e4-1c3f-4267-a7e6-bfb62588b3c1"
 >TrackConditionType == Kernel.TrackDescription.TrackConditions.ConditionType.Conditions</PreCondition></PreConditions>
-<Expression>THERE_IS X IN Kernel.TrackDescription.TrackConditions.General.TCProfile| (X.Location &gt; ProfilePointDistance) AND (X.Location &lt;= Kernel.TrainPosition.FrontEndPosition(PointOfInterest=&gt;DistanceInterval.Min))</Expression>
+<Expression>THERE_IS X IN Kernel.TrackDescription.TrackConditions.General.TCProfile| (X.Location &gt; ProfilePointDistance) AND (X.Location &lt;= Kernel.TrainPosition.FrontEndPosition(PointOfInterest=&gt;DistanceIntervalEnum.Min))</Expression>
 </Case><Case
  Name="Metal masses are passed"
  Guid="b3adf906-b3aa-4a78-a2ef-cbfeae7a1c8e"
@@ -153,7 +153,7 @@
 <PreCondition
  Guid="29415c07-8788-4a5d-b02d-9c1b80bec23e"
 >TrackConditionType == Kernel.TrackDescription.TrackConditions.ConditionType.BigMetalMasses</PreCondition></PreConditions>
-<Expression>THERE_IS X IN Kernel.TrackDescription.TrackConditions.BigMetalMasses.TCBigMetalMasses| (X.Location &gt; ProfilePointDistance) AND (X.Location + Kernel.DistanceToKeepInfoInTheRear &lt;= Kernel.TrainPosition.FrontEndPosition(PointOfInterest=&gt;DistanceInterval.Min))</Expression>
+<Expression>THERE_IS X IN Kernel.TrackDescription.TrackConditions.BigMetalMasses.TCBigMetalMasses| (X.Location &gt; ProfilePointDistance) AND (X.Location + Kernel.DistanceToKeepInfoInTheRear &lt;= Kernel.TrainPosition.FrontEndPosition(PointOfInterest=&gt;DistanceIntervalEnum.Min))</Expression>
 </Case><Case
  Name="Station platforms changed"
  Guid="64950d25-0e2f-4ada-b68d-1237ec3a3bd5"
@@ -162,7 +162,7 @@
 <PreCondition
  Guid="4a9c1660-1830-44a0-a016-13570282c74e"
 >TrackConditionType == Kernel.TrackDescription.TrackConditions.ConditionType.StationPlatform</PreCondition></PreConditions>
-<Expression>THERE_IS X IN Kernel.TrackDescription.TrackConditions.StationPlatform.TCStationPlatforms| (X.Location &gt; ProfilePointDistance) AND (X.Location &lt; Kernel.TrainPosition.FrontEndPosition(PointOfInterest=&gt;DistanceInterval.Min))</Expression>
+<Expression>THERE_IS X IN Kernel.TrackDescription.TrackConditions.StationPlatform.TCStationPlatforms| (X.Location &gt; ProfilePointDistance) AND (X.Location &lt; Kernel.TrainPosition.FrontEndPosition(PointOfInterest=&gt;DistanceIntervalEnum.Min))</Expression>
 </Case><Case
  Name="Newer traction system condition has been applied"
  Guid="6a9633c8-ab71-4b77-8b00-d8fe637fc740"
@@ -172,7 +172,7 @@
 <PreCondition
  Guid="e9ab2926-47c5-4c27-b9f2-5f48fe6f086b"
 >TrackConditionType == Kernel.TrackDescription.TrackConditions.ConditionType.TractionSystem</PreCondition></PreConditions>
-<Expression>THERE_IS X IN Kernel.TrackDescription.TrackConditions.TractionSystems.TCTractionSystems| (X.Location &gt; ProfilePointDistance) AND (X.Location &lt; Kernel.TrainPosition.FrontEndPosition(PointOfInterest=&gt;DistanceInterval.Max))</Expression>
+<Expression>THERE_IS X IN Kernel.TrackDescription.TrackConditions.TractionSystems.TCTractionSystems| (X.Location &gt; ProfilePointDistance) AND (X.Location &lt; Kernel.TrainPosition.FrontEndPosition(PointOfInterest=&gt;DistanceIntervalEnum.Max))</Expression>
 </Case><Case
  Name="New current consumption limit has been applied"
  Guid="2c584425-c82e-48bc-a4ff-a445749fa10b"
@@ -182,7 +182,7 @@
 <PreCondition
  Guid="ec6f1c48-d0e2-40b6-98ef-5b4bc7e36db6"
 >TrackConditionType == Kernel.TrackDescription.TrackConditions.ConditionType.CurrentConsumption</PreCondition></PreConditions>
-<Expression>THERE_IS X IN Kernel.TrackDescription.TrackConditions.CurrentConsumption.TCCurrentConsumption| (X.Location &gt; ProfilePointDistance) AND (X.Location &lt; Kernel.TrainPosition.FrontEndPosition(PointOfInterest=&gt;DistanceInterval.Max))</Expression>
+<Expression>THERE_IS X IN Kernel.TrackDescription.TrackConditions.CurrentConsumption.TCCurrentConsumption| (X.Location &gt; ProfilePointDistance) AND (X.Location &lt; Kernel.TrainPosition.FrontEndPosition(PointOfInterest=&gt;DistanceIntervalEnum.Max))</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Distance"

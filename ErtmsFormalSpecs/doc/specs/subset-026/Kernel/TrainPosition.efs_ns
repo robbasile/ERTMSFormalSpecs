@@ -54,8 +54,8 @@ The confidence interval can be computed using Kernel.ConfidenceInterval.Confiden
 >
 </ReqRef><Comment>The directional position information of the train (the train front end position, the train orientation and the train running direction).</Comment>
 </StructureElement><StructureElement
- TypeName="Default.DataState"
- Default="Default.DataState.Unknown"
+ TypeName="DataStateEnum"
+ Default="DataStateEnum.Unknown"
  Mode="Internal"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
@@ -91,7 +91,7 @@ The confidence interval can be computed using Kernel.ConfidenceInterval.Confiden
 >
 </ReqRef><Comment>This structure represents the directional train position information, in reference to the balise group orientation.</Comment>
 <StructureElement
- TypeName="Orientation"
+ TypeName="OrientationEnum"
  Default=""
  Mode="Internal"
  Implemented="TRUE"
@@ -105,7 +105,7 @@ The confidence interval can be computed using Kernel.ConfidenceInterval.Confiden
 >
 </ReqRef><Comment>Position of the train front end, corresponds to Q_DLRBG.</Comment>
 </StructureElement><StructureElement
- TypeName="Orientation"
+ TypeName="OrientationEnum"
  Default=""
  Mode="Internal"
  Implemented="TRUE"
@@ -119,7 +119,7 @@ The confidence interval can be computed using Kernel.ConfidenceInterval.Confiden
 >
 </ReqRef><Comment>Train orientation, corresponds to Q_DIRLRBG.</Comment>
 </StructureElement><StructureElement
- TypeName="Orientation"
+ TypeName="OrientationEnum"
  Default=""
  Mode="Internal"
  Implemented="TRUE"
@@ -168,7 +168,7 @@ The confidence interval can be computed using Kernel.ConfidenceInterval.Confiden
 </ReqRef><Comment>This function is used to compute the estimated front end position, the max and min safe front end position of the train. The parameter specifies which of the values must be returned.</Comment>
 <Parameters>
 <Parameter
- Type="DistanceInterval"
+ Type="DistanceIntervalEnum"
  Name="PointOfInterest"
  Guid="7af4ee52-9fbb-44c4-9f46-527d61a913b0"
 >
@@ -190,7 +190,7 @@ The confidence interval can be computed using Kernel.ConfidenceInterval.Confiden
 <PreConditions>
 <PreCondition
  Guid="cf061e0e-d4c3-4801-88b0-96d5c524d68f"
->Kernel.TrainPosition.Position.DataState != DataState.Valid</PreCondition></PreConditions>
+>Kernel.TrainPosition.Position.DataState != DataStateEnum.Valid</PreCondition></PreConditions>
 <Expression>BaseTypes.Distance.Unknown</Expression>
 </Case><Case
  Name="Nominal"
@@ -199,7 +199,7 @@ The confidence interval can be computed using Kernel.ConfidenceInterval.Confiden
 <PreConditions>
 <PreCondition
  Guid="c61aea8d-3319-4f16-b8a6-d87e9c290890"
->PointOfInterest == DistanceInterval.Nom</PreCondition></PreConditions>
+>PointOfInterest == DistanceIntervalEnum.Nom</PreCondition></PreConditions>
 <Expression>Odometry.NominalDistance - BTM.LRBG.Position.Position</Expression>
 </Case><Case
  Name="Maximum"
@@ -208,8 +208,8 @@ The confidence interval can be computed using Kernel.ConfidenceInterval.Confiden
 <PreConditions>
 <PreCondition
  Guid="470ac07d-62b5-42c4-a517-866a90c3bfee"
->PointOfInterest == DistanceInterval.Max</PreCondition></PreConditions>
-<Expression>Odometry.NominalDistance + BaseTypes.LengthToDistance(Kernel.TrainPosition.ConfidenceInterval.ConfidenceInterval(Default.ConfidenceInterval.L_DOUBTUNDER)) - BTM.LRBG.Position.Position</Expression>
+>PointOfInterest == DistanceIntervalEnum.Max</PreCondition></PreConditions>
+<Expression>Odometry.NominalDistance + BaseTypes.LengthToDistance(Kernel.TrainPosition.ConfidenceInterval.ConfidenceInterval(ConfidenceIntervalEnum.L_DOUBTUNDER)) - BTM.LRBG.Position.Position</Expression>
 </Case><Case
  Name="Minimum"
  Guid="33a2da89-eff5-4355-8fa9-2974bb4f2c14"
@@ -217,8 +217,8 @@ The confidence interval can be computed using Kernel.ConfidenceInterval.Confiden
 <PreConditions>
 <PreCondition
  Guid="acddaf27-c5fb-493f-8b2c-ebdc1bb73993"
->PointOfInterest == DistanceInterval.Min</PreCondition></PreConditions>
-<Expression>Odometry.NominalDistance - BaseTypes.LengthToDistance(Kernel.TrainPosition.ConfidenceInterval.ConfidenceInterval(Default.ConfidenceInterval.L_DOUBTOVER)) - BTM.LRBG.Position.Position</Expression>
+>PointOfInterest == DistanceIntervalEnum.Min</PreCondition></PreConditions>
+<Expression>Odometry.NominalDistance - BaseTypes.LengthToDistance(Kernel.TrainPosition.ConfidenceInterval.ConfidenceInterval(ConfidenceIntervalEnum.L_DOUBTOVER)) - BTM.LRBG.Position.Position</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Distance"
@@ -249,7 +249,7 @@ The confidence interval can be computed using Kernel.ConfidenceInterval.Confiden
 </ReqRef><Comment>This function is used to compute the estimated rear end position, the max and min safe rear end position of the train. The parameter specifies which of the values must be returned. These values are computed iff the train integrity status is valid (confirmed by driver or by integrity monitoring device).</Comment>
 <Parameters>
 <Parameter
- Type="DistanceInterval"
+ Type="DistanceIntervalEnum"
  Name="PointOfInterest"
  Guid="649fb3a6-63d6-4a5e-94a2-a5430c53f384"
 >
@@ -271,7 +271,7 @@ The confidence interval can be computed using Kernel.ConfidenceInterval.Confiden
 <PreConditions>
 <PreCondition
  Guid="9b31b852-4b9f-4141-956b-1cad986e9b1b"
->Kernel.TrainPosition.Position.DataState != DataState.Valid</PreCondition></PreConditions>
+>Kernel.TrainPosition.Position.DataState != DataStateEnum.Valid</PreCondition></PreConditions>
 <Expression>BaseTypes.Distance.Unknown</Expression>
 </Case><Case
  Name="Nominal"
@@ -280,7 +280,7 @@ The confidence interval can be computed using Kernel.ConfidenceInterval.Confiden
 <PreConditions>
 <PreCondition
  Guid="af6354bc-53f0-4317-a7c6-bd6f449d83af"
->PointOfInterest == DistanceInterval.Nom</PreCondition></PreConditions>
+>PointOfInterest == DistanceIntervalEnum.Nom</PreCondition></PreConditions>
 <Expression>Odometry.NominalDistance - BaseTypes.LengthToDistance(Kernel.TrainPosition.TrainLength()) - BTM.LRBG.Position.Position</Expression>
 </Case><Case
  Name="Maximum"
@@ -289,8 +289,8 @@ The confidence interval can be computed using Kernel.ConfidenceInterval.Confiden
 <PreConditions>
 <PreCondition
  Guid="39cfca21-49df-4f1e-8025-c2388dba9c80"
->PointOfInterest == DistanceInterval.Max</PreCondition></PreConditions>
-<Expression>Odometry.NominalDistance - BaseTypes.LengthToDistance(Kernel.TrainPosition.TrainLength()) + BaseTypes.LengthToDistance(Kernel.TrainPosition.ConfidenceInterval.ConfidenceInterval(Default.ConfidenceInterval.L_DOUBTUNDER)) - BTM.LRBG.Position.Position</Expression>
+>PointOfInterest == DistanceIntervalEnum.Max</PreCondition></PreConditions>
+<Expression>Odometry.NominalDistance - BaseTypes.LengthToDistance(Kernel.TrainPosition.TrainLength()) + BaseTypes.LengthToDistance(Kernel.TrainPosition.ConfidenceInterval.ConfidenceInterval(ConfidenceIntervalEnum.L_DOUBTUNDER)) - BTM.LRBG.Position.Position</Expression>
 </Case><Case
  Name="Minimum"
  Guid="9c92d5c6-f86d-4cb4-b67d-50e0b531635d"
@@ -298,8 +298,8 @@ The confidence interval can be computed using Kernel.ConfidenceInterval.Confiden
 <PreConditions>
 <PreCondition
  Guid="add9c23c-ed04-4a06-be98-4afc341bfbd8"
->PointOfInterest == DistanceInterval.Min</PreCondition></PreConditions>
-<Expression>Odometry.NominalDistance - BaseTypes.LengthToDistance(Kernel.TrainPosition.TrainLength()) - BaseTypes.LengthToDistance(Kernel.TrainPosition.ConfidenceInterval.ConfidenceInterval(Default.ConfidenceInterval.L_DOUBTOVER)) - BTM.LRBG.Position.Position</Expression>
+>PointOfInterest == DistanceIntervalEnum.Min</PreCondition></PreConditions>
+<Expression>Odometry.NominalDistance - BaseTypes.LengthToDistance(Kernel.TrainPosition.TrainLength()) - BaseTypes.LengthToDistance(Kernel.TrainPosition.ConfidenceInterval.ConfidenceInterval(ConfidenceIntervalEnum.L_DOUBTOVER)) - BTM.LRBG.Position.Position</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -359,7 +359,7 @@ The confidence interval can be computed using Kernel.ConfidenceInterval.Confiden
 </ReqRef><Comment>Provides the distance the train has run in SR mode, for comparison wit hthe maxmum distance allowed to run in SR.</Comment>
 <Parameters>
 <Parameter
- Type="DistanceInterval"
+ Type="DistanceIntervalEnum"
  Name="PointOfInterest"
  Guid="9039d245-ee58-4fd1-845e-23a0e2693a98"
 >
@@ -372,7 +372,7 @@ The confidence interval can be computed using Kernel.ConfidenceInterval.Confiden
 <PreConditions>
 <PreCondition
  Guid="a04a9fe3-ccfe-41e7-9db0-4e4c173b87c7"
->PointOfInterest == DistanceInterval.Nom</PreCondition></PreConditions>
+>PointOfInterest == DistanceIntervalEnum.Nom</PreCondition></PreConditions>
 <Expression>Odometry.NominalDistance - Kernel.TrainPosition.SRStartDistance</Expression>
 </Case><Case
  Name="Maximum"
@@ -381,8 +381,8 @@ The confidence interval can be computed using Kernel.ConfidenceInterval.Confiden
 <PreConditions>
 <PreCondition
  Guid="e791ab41-f4e1-47ec-9211-23e80d1283e7"
->PointOfInterest == DistanceInterval.Max</PreCondition></PreConditions>
-<Expression>Odometry.NominalDistance + BaseTypes.LengthToDistance(Kernel.TrainPosition.ConfidenceInterval.ConfidenceInterval(Default.ConfidenceInterval.L_DOUBTUNDER)) - Kernel.TrainPosition.SRStartDistance</Expression>
+>PointOfInterest == DistanceIntervalEnum.Max</PreCondition></PreConditions>
+<Expression>Odometry.NominalDistance + BaseTypes.LengthToDistance(Kernel.TrainPosition.ConfidenceInterval.ConfidenceInterval(ConfidenceIntervalEnum.L_DOUBTUNDER)) - Kernel.TrainPosition.SRStartDistance</Expression>
 </Case><Case
  Name="Minimum"
  Guid="8daa68a5-19d7-4426-9706-3dcec08d2d2b"
@@ -390,8 +390,8 @@ The confidence interval can be computed using Kernel.ConfidenceInterval.Confiden
 <PreConditions>
 <PreCondition
  Guid="4d659489-1337-46f0-b444-4c9721144492"
->PointOfInterest == DistanceInterval.Min</PreCondition></PreConditions>
-<Expression>Odometry.NominalDistance - BaseTypes.LengthToDistance(Kernel.TrainPosition.ConfidenceInterval.ConfidenceInterval(Default.ConfidenceInterval.L_DOUBTOVER)) - Kernel.TrainPosition.SRStartDistance</Expression>
+>PointOfInterest == DistanceIntervalEnum.Min</PreCondition></PreConditions>
+<Expression>Odometry.NominalDistance - BaseTypes.LengthToDistance(Kernel.TrainPosition.ConfidenceInterval.ConfidenceInterval(ConfidenceIntervalEnum.L_DOUBTOVER)) - Kernel.TrainPosition.SRStartDistance</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Length"
@@ -434,7 +434,7 @@ In SL mode, the front and rear ends of the train are considered to be the front 
 <PreConditions>
 <PreCondition
  Guid="7f5f21f8-4aef-4736-b345-d96f9e3f3499"
->Kernel.Mode in [Default.Mode.SL, Default.Mode.NL, Default.Mode.PS]</PreCondition></PreConditions>
+>Kernel.Mode in [ModeEnum.SL, ModeEnum.NL, ModeEnum.PS]</PreCondition></PreConditions>
 <Expression>Kernel.TrainData.TrainData.Value.EngineLength</Expression>
 </Case><Case
  Name="Otherwise"
@@ -514,7 +514,7 @@ BTM.LRBG.NID != Messages.NID_LRBG.Unknown</PreCondition></PreConditions>
  Guid="5234c501-b995-48d0-a954-656e018b210f"
 >BTM.LRBG == EMPTY</PreCondition><PreCondition
  Guid="f7740abf-4293-414b-840d-342933b94656"
->Kernel.TrainPosition.Position.DataState != DataState.Invalid</PreCondition></PreConditions>
+>Kernel.TrainPosition.Position.DataState != DataStateEnum.Invalid</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="2ac2232a-f080-40b8-8b9d-71bf83d4e452"
@@ -650,7 +650,7 @@ BTM.LRBG.NID != Messages.NID_LRBG.Unknown</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="4162fe54-0360-4c74-9828-3d6a02e65b26"
->Kernel.TrainPosition.Position.DirectionalPositionInformation.TrainOrientation &lt;- Orientation.Nominal</Action></Actions>
+>Kernel.TrainPosition.Position.DirectionalPositionInformation.TrainOrientation &lt;- OrientationEnum.Nominal</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Cab B is active =&gt; reverse orientation"
@@ -664,7 +664,7 @@ BTM.LRBG.NID != Messages.NID_LRBG.Unknown</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="d3addb62-ff53-4f5c-90cb-c14436fd26bd"
->Kernel.TrainPosition.Position.DirectionalPositionInformation.TrainOrientation &lt;- Orientation.Reverse</Action></Actions>
+>Kernel.TrainPosition.Position.DirectionalPositionInformation.TrainOrientation &lt;- OrientationEnum.Reverse</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </NameSpace>

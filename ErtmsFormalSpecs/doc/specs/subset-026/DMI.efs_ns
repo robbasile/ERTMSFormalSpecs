@@ -1228,7 +1228,7 @@ PreviousMode: represents the train mode displayed on the DMI during the previous
  Guid="76ce8e08-b372-452c-a978-83f32c2a88dc"
 >Out_DriverId.OutputInformation.DisplayRequested</PreCondition><PreCondition
  Guid="a36e66ff-5d2d-4af7-a3b9-882281399754"
->Kernel.DriverId.DataState == DataState.Valid</PreCondition></PreConditions>
+>Kernel.DriverId.DataState == DataStateEnum.Valid</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="3a7adecc-6646-4d3a-ab14-8b07e02c0e6f"
@@ -1289,7 +1289,7 @@ PreviousMode: represents the train mode displayed on the DMI during the previous
 (
     Kernel.SpeedAndDistanceMonitoring.Display.FirstTargetAtZeroSpeed().Location
       -  
-    Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom)
+    Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom)
 )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
@@ -1327,14 +1327,14 @@ PreviousMode: represents the train mode displayed on the DMI during the previous
   AND  
 Kernel.SpeedAndDistanceMonitoring.SupervisionStatus() != Kernel.SupervisionStatus.Indication</PreCondition><PreCondition
  Guid="d5634a7b-6cad-4c6f-9dc8-a6a83557e821"
->Kernel.TrainPosition.Position.DataState == DataState.Valid</PreCondition><PreCondition
+>Kernel.TrainPosition.Position.DataState == DataStateEnum.Valid</PreCondition><PreCondition
  Guid="104bfae1-3091-47e6-b63e-77df74bc368a"
 >Out_SBI.OutputInformation.DisplayRequested</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="f0c8976c-c957-4f3d-a0a5-3295db9e7317"
 >Out_SBI.Speed &lt;- Kernel.SpeedAndDistanceMonitoring.Display.SBISpeed(
-Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom))</Action></Actions>
+Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom))</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="UpdateOUT"
@@ -1534,15 +1534,15 @@ Kernel.ActiveFunctions.SuperviseTrainSpeed_MRSP()</PreCondition></PreConditions>
  Guid="a9971c0e-2925-4453-b4c7-43b5a9104e12"
 >Kernel.SpeedAndDistanceMonitoring.Monitoring in  [Kernel.SpeedAndDistanceMonitoring.MonitoringTypeSM.Ceiling, Kernel.SpeedAndDistanceMonitoring.MonitoringTypeSM.Target, Kernel.SpeedAndDistanceMonitoring.MonitoringTypeSM.Release]</PreCondition><PreCondition
  Guid="7d25919c-82de-4004-8494-f8c4d6df3025"
->Kernel.Mode == Mode.SH
+>Kernel.Mode == ModeEnum.SH
   OR  
-Kernel.Mode == Mode.FS
+Kernel.Mode == ModeEnum.FS
   OR  
-Kernel.Mode == Mode.SR
+Kernel.Mode == ModeEnum.SR
   OR  
-Kernel.Mode == Mode.OS
+Kernel.Mode == ModeEnum.OS
   OR  
-Kernel.Mode == Mode.RV</PreCondition></PreConditions>
+Kernel.Mode == ModeEnum.RV</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="abfe8af1-6df4-4510-9e27-17aa6e1e711a"
@@ -1716,12 +1716,17 @@ MAP Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.Items | Ker
 >Out_SpeedAndDistanceMonitoringSupervisionStatus.Monitoring &lt;- Kernel.SpeedAndDistanceMonitoring.GetMonitoringType()</Action></Actions>
 <SubRules>
 <Rule
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
  Name="Supervision status"
  Guid="8171cd94-3e59-4a00-80f1-3380eee440ee"
 >
+<Comment>Updates the supervision status only if it is allowed by active functions table.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
  Name="Supervision status"
  Guid="d0f0fcb7-5391-4630-8c69-1cca5eadc7b1"
 >
@@ -2972,8 +2977,8 @@ ON Kernel.BrakeCommands.ServiceBrakeCommands</Action></Actions>
  Guid="30d1a1d4-41f9-4a71-9085-d24b33e0c144"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="Mode"
- Default="Mode.Unknown"
+ TypeName="ModeEnum"
+ Default="ModeEnum.Unknown"
  Mode="Internal"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
@@ -3062,7 +3067,7 @@ ON Kernel.BrakeCommands.ServiceBrakeCommands</Action></Actions>
 >
 </ReqRef><Comment>Indicates if the current DMI is master or slave.</Comment>
 </StructureElement><StructureElement
- TypeName="DMI.DisplayLanguage"
+ TypeName="DisplayLanguageStruct"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -3255,7 +3260,7 @@ ON Kernel.BrakeCommands.ServiceBrakeCommands</Action></Actions>
  Height="50"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
- Name="InputInformation"
+ Name="InputInformationStruct"
  Guid="dcdf1219-8d41-427b-89f9-a5979cfd0d40"
 >
 <Comment>This struct containt all necessary variables for DMI intput structures.
@@ -3319,7 +3324,7 @@ ON Kernel.BrakeCommands.ServiceBrakeCommands</Action></Actions>
  Guid="1ffe3487-ce94-44ef-a4fa-c404ad3237e0"
 >DriverAnswered &lt;- True</Action><Action
  Guid="2a9e6a69-a4d0-4ed6-8b66-f274fd0e1ab9"
->RequestStatus &lt;- Request.Disabled</Action></Actions>
+>RequestStatus &lt;- RequestEnum.Disabled</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -3352,7 +3357,7 @@ ON Kernel.BrakeCommands.ServiceBrakeCommands</Action></Actions>
 <Actions>
 <Action
  Guid="275793f8-0e6d-4c76-9295-16a6aa5737e0"
->RequestStatus &lt;- Request.Request</Action><Action
+>RequestStatus &lt;- RequestEnum.Request</Action><Action
  Guid="ec6b86e3-9e3e-42f2-ae1b-a06e09ba44da"
 >DriverAnswered &lt;- False</Action></Actions>
 </RuleCondition></Conditions>
@@ -3386,12 +3391,12 @@ ON Kernel.BrakeCommands.ServiceBrakeCommands</Action></Actions>
 <Actions>
 <Action
  Guid="2ae47445-50c6-45fe-a4ba-6e9b00b07435"
->RequestStatus &lt;- Request.Disabled</Action></Actions>
+>RequestStatus &lt;- RequestEnum.Disabled</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
- TypeName="Request"
+ TypeName="RequestEnum"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -3418,7 +3423,7 @@ ON Kernel.BrakeCommands.ServiceBrakeCommands</Action></Actions>
  Height="50"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
- Name="OutputInformation"
+ Name="OutputInformationStruct"
  Guid="98a57631-9d77-4d57-99ac-f7604b15b67a"
 >
 <Comment>This struct containt all necessary variables for DMI output structures.
@@ -3454,7 +3459,7 @@ ON Kernel.BrakeCommands.ServiceBrakeCommands</Action></Actions>
 <Actions>
 <Action
  Guid="18294aea-567b-41b7-a2ec-499f5fb4d799"
->THIS.DisplayRequested &lt;- True</Action></Actions>
+>OutputInformationStruct.DisplayRequested &lt;- True</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -3485,7 +3490,7 @@ ON Kernel.BrakeCommands.ServiceBrakeCommands</Action></Actions>
 <Actions>
 <Action
  Guid="d725a197-b01f-40bf-b933-855768b89cbd"
->THIS.DisplayRequested &lt;- False</Action></Actions>
+>OutputInformationStruct.DisplayRequested &lt;- False</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
@@ -3506,7 +3511,7 @@ ON Kernel.BrakeCommands.ServiceBrakeCommands</Action></Actions>
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="DriverAction"
+ Name="DriverActionStuct"
  Guid="5dd3c365-cb7f-4914-8bba-2ceab13ccfbc"
 >
 <ReqRef
@@ -3547,7 +3552,7 @@ ON Kernel.BrakeCommands.ServiceBrakeCommands</Action></Actions>
  Height="50"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
- Name="DisplayLanguage"
+ Name="DisplayLanguageStruct"
  Guid="40484167-68be-4d96-beda-2b02159ae81d"
 >
 <ReqRef
@@ -3557,7 +3562,7 @@ ON Kernel.BrakeCommands.ServiceBrakeCommands</Action></Actions>
 >
 </ReqRef><Comment>The language used to display information to the driver</Comment>
 <StructureElement
- TypeName="Default.DataState"
+ TypeName="DataStateEnum"
  Default=""
  Mode="InOut"
  Implemented="TRUE"

@@ -205,7 +205,7 @@
 </Collection></Collections>
 <Functions>
 <Function
- Type="Default.Level"
+ Type="LevelEnum"
  Default=""
  X="240"
  Y="360"
@@ -238,7 +238,7 @@
 <PreCondition
  Guid="5afbaba3-f808-437d-b085-4139409c92ea"
 >LevelT== Messages.M_LEVELTR.Level_0</PreCondition></PreConditions>
-<Expression>Default.Level.L0</Expression>
+<Expression>LevelEnum.L0</Expression>
 </Case><Case
  Name="Level 1"
  Guid="6bc3f312-88af-4e25-9d3e-e6d2b04fb7de"
@@ -247,7 +247,7 @@
 <PreCondition
  Guid="c4adefb8-5403-4459-ae07-a08a5abb77c8"
 >LevelT == Messages.M_LEVELTR.Level_1</PreCondition></PreConditions>
-<Expression>Default.Level.L1</Expression>
+<Expression>LevelEnum.L1</Expression>
 </Case><Case
  Name="Level 2"
  Guid="87b3fa69-db82-427d-b7c5-8628085f1117"
@@ -256,7 +256,7 @@
 <PreCondition
  Guid="77a55ed0-fc74-4fb8-9db2-444105a39fab"
 >LevelT == Messages.M_LEVELTR.Level_2</PreCondition></PreConditions>
-<Expression>Default.Level.L2</Expression>
+<Expression>LevelEnum.L2</Expression>
 </Case><Case
  Name="Level 3"
  Guid="2bd9216e-6801-402b-a88c-ef6ee9dfcdcd"
@@ -265,7 +265,7 @@
 <PreCondition
  Guid="53c00526-b28d-44d6-a8f8-8960a6b415f2"
 >LevelT == Messages.M_LEVELTR.Level_3</PreCondition></PreConditions>
-<Expression>Default.Level.L3</Expression>
+<Expression>LevelEnum.L3</Expression>
 </Case><Case
  Name="Level STM"
  Guid="204562b3-8736-4ca6-9d1e-3054cb410f83"
@@ -274,7 +274,7 @@
 <PreCondition
  Guid="416ab9e7-316b-4221-b5c5-666f38de4161"
 >LevelT == Messages.M_LEVELTR.Level_STM_specified_by_NID_STM</PreCondition></PreConditions>
-<Expression>Default.Level.LNTC</Expression>
+<Expression>LevelEnum.LNTC</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -314,7 +314,7 @@
 <PreConditions>
 <PreCondition
  Guid="47dafefb-e91a-4ce8-9bb9-714efb34ba20"
->Level.Value in [Default.Level.L0, Default.Level.L1]</PreCondition></PreConditions>
+>Level.Value in [LevelEnum.L0, LevelEnum.L1]</PreCondition></PreConditions>
 <Expression>Boolean.True</Expression>
 </Case><Case
  Name="Level NTC"
@@ -323,7 +323,7 @@
 <PreConditions>
 <PreCondition
  Guid="3894d9bf-99c3-4031-a849-43c8d27dfba7"
->Level.Value == Default.Level.LNTC</PreCondition><PreCondition
+>Level.Value == LevelEnum.LNTC</PreCondition><PreCondition
  Guid="d4921d5d-80a6-4357-9508-d1e02eee12f6"
 >THERE_IS X IN Kernel.TrainData.TrainData.Value.LevelsSupportedOnBoard |  ( X.Value == Level.Value AND X.NTC == Level.NTC )</PreCondition></PreConditions>
 <Expression>Boolean.True</Expression>
@@ -334,7 +334,7 @@
 <PreConditions>
 <PreCondition
  Guid="c2264a6b-4910-4c79-bc1f-45ac870f5e5a"
->Level.Value in [Default.Level.L2, Default.Level.L3]</PreCondition><PreCondition
+>Level.Value in [LevelEnum.L2, LevelEnum.L3]</PreCondition><PreCondition
  Guid="61d995ef-8596-4728-b62d-8eca9127d8d8"
 >EURORADIO.OneMobileTerminalIsAvailable()</PreCondition></PreConditions>
 <Expression>Boolean.True</Expression>
@@ -382,7 +382,7 @@
 <PreCondition
  Guid="2a28cce7-3c7e-4ceb-a109-be236d69e4af"
 >aDistance == 32767</PreCondition></PreConditions>
-<Expression>Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom)</Expression>
+<Expression>Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom)</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="a0f2f271-9086-4966-8579-24238c7e2adb"
@@ -441,8 +441,8 @@
 <PreConditions>
 <PreCondition
  Guid="719c0338-4cbc-46ce-9cc9-79eece2f3361"
->anLTO.TRLevel.Value == Default.Level.L0</PreCondition></PreConditions>
-<Expression>Kernel.Level.Value.Value in [Default.Level.L1, Default.Level.L2, Default.Level.L3, Default.Level.LNTC]</Expression>
+>anLTO.TRLevel.Value == LevelEnum.L0</PreCondition></PreConditions>
+<Expression>Kernel.Level.Value.Value in [LevelEnum.L1, LevelEnum.L2, LevelEnum.L3, LevelEnum.LNTC]</Expression>
 </Case><Case
  Name="Transition to L1"
  Guid="56f2f296-9ad7-40a2-97ae-86fa1bbd6d85"
@@ -450,8 +450,8 @@
 <PreConditions>
 <PreCondition
  Guid="e867f5a1-cb45-4b2b-8756-3acbf248c2da"
->anLTO.TRLevel.Value == Default.Level.L1</PreCondition></PreConditions>
-<Expression>Kernel.Level.Value.Value in [Default.Level.LNTC]</Expression>
+>anLTO.TRLevel.Value == LevelEnum.L1</PreCondition></PreConditions>
+<Expression>Kernel.Level.Value.Value in [LevelEnum.LNTC]</Expression>
 </Case><Case
  Name="Transition to L2"
  Guid="4644b186-48e9-42ef-a097-5af5bd38a70a"
@@ -459,8 +459,8 @@
 <PreConditions>
 <PreCondition
  Guid="d99bbf7e-2c43-4f73-89b2-6f3073524634"
->anLTO.TRLevel.Value == Default.Level.L2</PreCondition></PreConditions>
-<Expression>Kernel.Level.Value.Value in [Default.Level.LNTC]</Expression>
+>anLTO.TRLevel.Value == LevelEnum.L2</PreCondition></PreConditions>
+<Expression>Kernel.Level.Value.Value in [LevelEnum.LNTC]</Expression>
 </Case><Case
  Name="Transition to L3"
  Guid="e3dcefe8-0a6e-4c35-af1e-1cae0abc2c3d"
@@ -468,8 +468,8 @@
 <PreConditions>
 <PreCondition
  Guid="f309a7c2-0879-4ca7-bdb3-af5b22680bec"
->anLTO.TRLevel.Value == Default.Level.L3</PreCondition></PreConditions>
-<Expression>Kernel.Level.Value.Value in [Default.Level.LNTC]</Expression>
+>anLTO.TRLevel.Value == LevelEnum.L3</PreCondition></PreConditions>
+<Expression>Kernel.Level.Value.Value in [LevelEnum.LNTC]</Expression>
 </Case><Case
  Name="Transition to LNTC"
  Guid="aedccfb5-1bbd-43ed-96f5-5176b508b71c"
@@ -477,8 +477,8 @@
 <PreConditions>
 <PreCondition
  Guid="c8f31cb9-bb3a-4cef-ba29-fc9eaa7d3f5f"
->anLTO.TRLevel.Value == Default.Level.LNTC</PreCondition></PreConditions>
-<Expression>Kernel.Level.Value.Value in [Default.Level.L0, Default.Level.L1, Default.Level.L2, Default.Level.L3, Default.Level.LNTC]</Expression>
+>anLTO.TRLevel.Value == LevelEnum.LNTC</PreCondition></PreConditions>
+<Expression>Kernel.Level.Value.Value in [LevelEnum.L0, LevelEnum.L1, LevelEnum.L2, LevelEnum.L3, LevelEnum.LNTC]</Expression>
 </Case></Cases>
 </Function></Functions>
 <Procedures>
@@ -558,7 +558,7 @@
 <PreConditions>
 <PreCondition
  Guid="deffbc9b-7242-4693-960f-aef5e0d2a07c"
->Kernel.LevelTransition.ERTMSToEFSLevel ( LevelT =&gt; M_LEVELTR ) == Default.Level.LNTC</PreCondition></PreConditions>
+>Kernel.LevelTransition.ERTMSToEFSLevel ( LevelT =&gt; M_LEVELTR ) == LevelEnum.LNTC</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="5a5d8ed3-4dc4-4a07-8e01-dca8be3b0fed"
@@ -581,7 +581,7 @@ IN  Kernel.LevelTransition.LevelTransitionOrder.LevelAndLength</Action></Actions
 <PreConditions>
 <PreCondition
  Guid="5f3b6b13-fbbb-49f3-9e3c-593ace6052e8"
->Kernel.LevelTransition.ERTMSToEFSLevel ( LevelT =&gt; M_LEVELTR ) != Default.Level.LNTC</PreCondition></PreConditions>
+>Kernel.LevelTransition.ERTMSToEFSLevel ( LevelT =&gt; M_LEVELTR ) != LevelEnum.LNTC</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="3896ef04-bbce-4b8e-bc64-36982d960e64"
@@ -684,7 +684,7 @@ IN  Kernel.LevelTransition.LevelTransitionOrder.LevelAndLength</Action></Actions
 <PreCondition
  Guid="03e95979-8ae6-471e-be3a-e68cab1f63fa"
 ><Comment>In SH or PS modes, the LTO is only stored if it is immediate.</Comment>
-Kernel.Mode not in [Default.Mode.SH, Default.Mode.PS]
+Kernel.Mode not in [ModeEnum.SH, ModeEnum.PS]
   OR  
 Packet.D_LEVELTR == 32767</PreCondition></PreConditions>
 <Actions>
@@ -725,7 +725,7 @@ Packet.D_LEVELTR == 32767</PreCondition></PreConditions>
 <PreCondition
  Guid="ff929c1d-de94-46e4-a636-d2b729cae5ac"
 ><Comment>In SH or PS modes, the LTO is only stored if it is immediate.</Comment>
-Kernel.Mode not in [Default.Mode.SH, Default.Mode.PS]
+Kernel.Mode not in [ModeEnum.SH, ModeEnum.PS]
   OR  
 Packet.D_LEVELTR == 32767</PreCondition></PreConditions>
 <Actions>
@@ -759,7 +759,7 @@ Packet.Sequence1</Action></Actions>
 <PreConditions>
 <PreCondition
  Guid="f020e824-04db-4701-aa36-47cab4f8570a"
->Kernel.Mode not in [Default.Mode.SH, Default.Mode.PS]</PreCondition></PreConditions>
+>Kernel.Mode not in [ModeEnum.SH, ModeEnum.PS]</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="f47d50dc-9fb7-45f3-bad6-736e4f447e1e"
@@ -915,7 +915,7 @@ Packet.Sequence1</Action></Actions>
  Guid="7432ff75-4a66-4ae6-9aae-3df6be9e372b"
 >NOT (THERE_IS X IN Kernel.LevelTransition.LevelTransitionOrder.LevelAndLength | X.TRLevel.Value == Kernel.Level.Value.Value)</PreCondition><PreCondition
  Guid="1a10c0fb-f68d-41d0-900c-4dd3613eacdc"
->Kernel.Mode not in [Default.Mode.SH, Default.Mode.PS]</PreCondition></PreConditions>
+>Kernel.Mode not in [ModeEnum.SH, ModeEnum.PS]</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="1a6bdf17-071d-4c6b-921d-d6e6833e5395"
@@ -1012,7 +1012,7 @@ Packet.Sequence1</Action></Actions>
  Guid="aea1dfa9-f22d-41e6-b71f-28c16a37d8ab"
 >Kernel.LevelTransition.LevelTransitionToProcess.AcknLength == BaseTypes.Length.NA</PreCondition><PreCondition
  Guid="0905157e-7ec2-4c8f-b7ed-41eda4a774b2"
->Kernel.LevelTransition.LevelTransitionToProcess.TRLevel.Value == Default.Level.Unknown</PreCondition><PreCondition
+>Kernel.LevelTransition.LevelTransitionToProcess.TRLevel.Value == LevelEnum.Unknown</PreCondition><PreCondition
  Guid="51f56750-a2ca-4d8d-813b-c8da29fbd2e3"
 >Kernel.LevelTransition.LevelTransitionToProcess.TRLevel.NTC == NID_NTC.NOT_APPLICABLE</PreCondition></PreConditions>
 <Actions>
@@ -1095,7 +1095,7 @@ Packet.Sequence1</Action></Actions>
  Guid="d6084a3b-1eef-4337-853b-ac80bbe9af51"
 >Kernel.LevelTransition.AcknowledgementRequiredForLT( anLTO =&gt; Kernel.LevelTransition.LevelTransitionToProcess )</PreCondition><PreCondition
  Guid="1f3fc39c-13be-4818-b96a-906fb7e5d4e6"
->Kernel.Mode != Default.Mode.NL</PreCondition></PreConditions>
+>Kernel.Mode != ModeEnum.NL</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="6e7033cb-ec67-45ae-8141-1fb4371273ce"
@@ -1253,13 +1253,13 @@ Packet.Sequence1</Action></Actions>
  Guid="32291f91-c8f4-4551-9efb-1784c4b3c42b"
 >Available(Kernel.LevelTransition.LevelTransitionOrder)
   AND  
-Kernel.LevelTransition.LevelTransitionOrder.Location &lt;= Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom)</PreCondition><PreCondition
+Kernel.LevelTransition.LevelTransitionOrder.Location &lt;= Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom)</PreCondition><PreCondition
  Guid="a793711a-f9af-4251-b86a-906d92f0b23f"
 >Available(Kernel.LevelTransition.LevelTransitionToProcess)
   AND  
 Kernel.Level.Value != Kernel.LevelTransition.LevelTransitionToProcess.TRLevel</PreCondition><PreCondition
  Guid="25250332-c8c8-4785-908c-5901c81268aa"
->Kernel.Mode not in [Default.Mode.SH, Default.Mode.PS]</PreCondition></PreConditions>
+>Kernel.Mode not in [ModeEnum.SH, ModeEnum.PS]</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="0dca39ae-4aed-48b7-b4a6-6e165c4d7194"
@@ -1321,9 +1321,9 @@ Kernel.Level.Value != Kernel.LevelTransition.LevelTransitionToProcess.TRLevel</P
   AND  
 Kernel.LevelTransition.AcknowledgementRequiredForLT( anLTO =&gt; Kernel.LevelTransition.LevelTransitionToProcess )</PreCondition><PreCondition
  Guid="70792393-b2da-4f9c-b343-ffd26b6ede9b"
->Kernel.Mode not in [Default.Mode.NL, Default.Mode.SH, Default.Mode.PS]</PreCondition><PreCondition
+>Kernel.Mode not in [ModeEnum.NL, ModeEnum.SH, ModeEnum.PS]</PreCondition><PreCondition
  Guid="0f38d48a-8431-4fc2-8a57-2fed7286c19c"
->Kernel.TrainPosition.FrontEndPosition ( PointOfInterest=&gt;DistanceInterval.Max ) &gt; Kernel.LevelTransition.LevelTransitionOrder.Location - BaseTypes.LengthToDistance(Kernel.LevelTransition.LevelTransitionToProcess.AcknLength)</PreCondition></PreConditions>
+>Kernel.TrainPosition.FrontEndPosition ( PointOfInterest=&gt;DistanceIntervalEnum.Max ) &gt; Kernel.LevelTransition.LevelTransitionOrder.Location - BaseTypes.LengthToDistance(Kernel.LevelTransition.LevelTransitionToProcess.AcknLength)</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="6cd45745-93fd-462e-a9a2-fba632fb6219"
@@ -1376,13 +1376,13 @@ Kernel.LevelTransition.AcknowledgementRequiredForLT( anLTO =&gt; Kernel.LevelTra
 <PreConditions>
 <PreCondition
  Guid="aa213c6b-c619-4e1c-87bc-a74f4d1b8bad"
->Kernel.TrainPosition.RearEndPosition(DistanceInterval.Min) &gt;= Kernel.LevelTransition.LevelTransitionOrder.Location</PreCondition><PreCondition
+>Kernel.TrainPosition.RearEndPosition(DistanceIntervalEnum.Min) &gt;= Kernel.LevelTransition.LevelTransitionOrder.Location</PreCondition><PreCondition
  Guid="841d9164-6f90-4cca-a388-fef4340c3077"
->Kernel.LevelTransition.LevelTransitionOrder.CurrentLevel.Value in [Default.Level.L2, Default.Level.L3]</PreCondition><PreCondition
+>Kernel.LevelTransition.LevelTransitionOrder.CurrentLevel.Value in [LevelEnum.L2, LevelEnum.L3]</PreCondition><PreCondition
  Guid="f0dd9be7-1b5b-410c-ab51-e00ed28c2052"
 >NOT Kernel.LevelTransition.LevelTransitionOrder.PositionReportSent</PreCondition><PreCondition
  Guid="9d05460b-a991-459b-8c92-894b266afa9d"
->Kernel.Mode not in [Default.Mode.NL]</PreCondition></PreConditions>
+>Kernel.Mode not in [ModeEnum.NL]</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="e52599ee-bda8-481c-8967-10f342082f2e"
@@ -1398,11 +1398,11 @@ Kernel.LevelTransition.AcknowledgementRequiredForLT( anLTO =&gt; Kernel.LevelTra
 <PreConditions>
 <PreCondition
  Guid="f2015811-7deb-49d2-b3a2-9a82336529e6"
->Kernel.LevelTransition.LevelTransitionOrder.CurrentLevel.Value in [Default.Level.LNTC]</PreCondition><PreCondition
+>Kernel.LevelTransition.LevelTransitionOrder.CurrentLevel.Value in [LevelEnum.LNTC]</PreCondition><PreCondition
  Guid="571a7181-1b87-401e-962a-92df42e17bc8"
->(FIRST Transition IN Kernel.LevelTransition.LevelTransitionOrder.LevelAndLength | Kernel.LevelTransition.AvailableForUse(Transition.TRLevel) ).TRLevel.Value in [Default.Level.L2, Default.Level.L3]</PreCondition><PreCondition
+>(FIRST Transition IN Kernel.LevelTransition.LevelTransitionOrder.LevelAndLength | Kernel.LevelTransition.AvailableForUse(Transition.TRLevel) ).TRLevel.Value in [LevelEnum.L2, LevelEnum.L3]</PreCondition><PreCondition
  Guid="5d86c07e-19a2-43cd-b727-6618f6a65fff"
->Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom) &gt;= Kernel.LevelTransition.LevelTransitionOrder.Location</PreCondition></PreConditions>
+>Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom) &gt;= Kernel.LevelTransition.LevelTransitionOrder.Location</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="80001d59-a4e1-4935-a8ca-2772d5ccab14"
