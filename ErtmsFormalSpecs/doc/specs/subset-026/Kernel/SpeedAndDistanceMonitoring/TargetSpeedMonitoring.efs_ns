@@ -337,10 +337,10 @@ X2=&gt; Vtarget + Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_sb
 <PreConditions>
 <PreCondition
  Guid="bde98596-9ac7-46ec-90e4-42cd4ac651a0"
->Destfront + BaseTypes.SpeedToMS(Odometry.TrainSpeed() ) * Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.T_bs1 &lt; Kernel.MA.ClosestEOA().Location</PreCondition></PreConditions>
+>Destfront + BaseTypes.SpeedToMS(Odometry.TrainSpeed() ) * Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.T_bs1 &lt; MA.EOA().Location</PreCondition></PreConditions>
 <Expression>Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.SBD_Target(
     Distance =&gt; Destfront + BaseTypes.SpeedToMS(Odometry.TrainSpeed() ) * Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.T_bs1,
-    aTarget =&gt; Kernel.MA.ClosestEOA()
+    aTarget =&gt; MA.EOA()
 )</Expression>
 </Case><Case
  Name="After EOA"
@@ -456,12 +456,12 @@ INITIAL_VALUE
 <PreConditions>
 <PreCondition
  Guid="3b40019d-ded4-4c90-874f-5655ba662c14"
->d_estfront + BaseTypes.SpeedToMS(Vest) * ( Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.T_driver + Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.T_bs1 ) &lt; Kernel.MA.ClosestEOA().Location</PreCondition><PreCondition
+>d_estfront + BaseTypes.SpeedToMS(Vest) * ( Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.T_driver + Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.T_bs1 ) &lt; MA.EOA().Location</PreCondition><PreCondition
  Guid="8b332ee1-e275-4c1d-b11c-5aaaf0880d71"
 >NOT Kernel.NationalValues.ComputationOfGUIIsEnabled ()</PreCondition></PreConditions>
 <Expression>Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.SBD_Target(
     Distance =&gt; d_estfront + BaseTypes.SpeedToMS(Vest) * ( Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.T_driver + Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.T_bs1),
-    aTarget =&gt; Kernel.MA.ClosestEOA()
+    aTarget =&gt; MA.EOA()
 )</Expression>
 </Case><Case
  Name="GUI is enabled, first case"
@@ -472,14 +472,14 @@ INITIAL_VALUE
  Guid="25a8c888-2fbe-4c82-aeed-91f3341c0a3d"
 >Kernel.NationalValues.ComputationOfGUIIsEnabled ()</PreCondition><PreCondition
  Guid="ae292cb2-e670-4c12-9ec0-b9244a86f5d1"
->d_estfront + BaseTypes.SpeedToMS(Vest) * ( Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.T_driver + Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.T_bs1 ) &lt; Kernel.MA.ClosestEOA().Location</PreCondition></PreConditions>
+>d_estfront + BaseTypes.SpeedToMS(Vest) * ( Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.T_driver + Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.T_bs1 ) &lt; MA.EOA().Location</PreCondition></PreConditions>
 <Expression>BaseTypes.MinSpeed(
     X1 =&gt; Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.SBD_Target(
         Distance =&gt; d_estfront + BaseTypes.SpeedToMS(Vest) * ( Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.T_driver + Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.T_bs1 ),
-        aTarget =&gt; Kernel.MA.ClosestEOA() ),
+        aTarget =&gt; MA.EOA() ),
     X2 =&gt; Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.GUI_Target(
         Distance =&gt; d_estfront,
-        aTarget =&gt; Kernel.MA.ClosestEOA() )
+        aTarget =&gt; MA.EOA() )
 )</Expression>
 </Case><Case
  Name="Second case"
@@ -968,7 +968,7 @@ Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.V_P_EBD_Target(
  Guid="8ccbaeff-7580-487f-bed3-10470968e535"
 >Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.SBD_Target(
     Distance =&gt; Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom),
-    aTarget =&gt; Kernel.MA.ClosestEOA()
+    aTarget =&gt; MA.EOA()
 ) == BaseTypes.Speed.NA</PreCondition></PreConditions>
 <Expression>BaseTypes.Distance.Unknown</Expression>
 </Case><Case
@@ -980,7 +980,7 @@ Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.V_P_EBD_Target(
  Guid="9e1abeb5-4d09-483c-8f53-24d85fe1e9da"
 >Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.SBD_TargetForSpeed(
     Vest =&gt; Vest,
-    aTarget =&gt; Kernel.MA.ClosestEOA()
+    aTarget =&gt; MA.EOA()
 ) == BaseTypes.Distance.Unknown</PreCondition></PreConditions>
 <Expression>BaseTypes.Distance.Unknown</Expression>
 </Case><Case
@@ -989,7 +989,7 @@ Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.V_P_EBD_Target(
 >
 <Expression>Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.SBD_TargetForSpeed(
     Vest =&gt; Vest,
-    aTarget =&gt;Kernel.MA.ClosestEOA()
+    aTarget =&gt;MA.EOA()
 )  - BaseTypes.SpeedToMS ( Vest ) * Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.T_bs1</Expression>
 </Case></Cases>
 </Function><Function
@@ -1185,7 +1185,7 @@ Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT().Speed == 0.0</Pre
 Kernel.MA.IsSvL(Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT())</PreCondition></PreConditions>
 <Expression>BaseTypes.MaxDistance(
     X1=&gt;BaseTypes.MinDistance(
-        X1 =&gt; Kernel.MA.ClosestEOA().Location - Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom),
+        X1 =&gt; MA.EOA().Location - Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom),
         X2 =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.SvLDistance()
     ),
     X2=&gt;0.0
@@ -1331,7 +1331,7 @@ This protection is used in the case where V_SBI_DMI is calculated but the train 
 >Kernel.Mode == Default.Mode.SR</PreCondition></PreConditions>
 <Expression>Kernel.MA.ClosestTarget(
     Target1 =&gt; Kernel.Modes.StaffResponsible.SREndTarget(),
-    Target2 =&gt; Kernel.MA.ClosestEOA()
+    Target2 =&gt; MA.EOA()
 )</Expression>
 </Case><Case
  Name="EOA"
@@ -1341,7 +1341,7 @@ This protection is used in the case where V_SBI_DMI is calculated but the train 
 <PreCondition
  Guid="d2ab17a1-be70-4209-b080-7b9b79663551"
 >Available(Kernel.MA.MA)</PreCondition></PreConditions>
-<Expression>Kernel.MA.ClosestEOA()</Expression>
+<Expression>MA.EOA()</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="7ef2beef-6af6-4e22-9ddb-b9729db49aae"

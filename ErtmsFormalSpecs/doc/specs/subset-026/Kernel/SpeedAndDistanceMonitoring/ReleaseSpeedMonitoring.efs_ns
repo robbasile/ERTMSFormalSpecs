@@ -357,7 +357,7 @@ X2 =&gt; Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.ComputeStartRS
  Name="Value"
  Guid="84b3a91b-2eaa-41b9-b009-38522929c69a"
 >
-<Expression>Kernel.MA.ClosestEOA().Location</Expression>
+<Expression>MA.EOA().Location</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Speed"
@@ -400,13 +400,21 @@ X2 =&gt; Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.ComputeStartRS
 >Vrel == BaseTypes.Speed.ComputeReleaseSpeedOnBoard</PreCondition></PreConditions>
 <Expression>REDUCE
     TARGETS (Kernel.MRSP.SpeedRestrictions) |
-        Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.StartRSM ( Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.ComputeReleaseSpeed () ) &lt;= X.Location AND X.Location &lt;= Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.d_tripEOA() OR
-        Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.StartRSM ( Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.ComputeReleaseSpeed () ) &lt;= X.Location + BaseTypes.LengthToDistance ( X.Length ) AND X.Location + BaseTypes.LengthToDistance ( X.Length ) &lt;= Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.d_tripEOA() OR
-        X.Location &lt;= Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.StartRSM ( Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.ComputeReleaseSpeed () ) AND Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.d_tripEOA() &lt;= X.Location + BaseTypes.LengthToDistance ( X.Length )
+        StartRSM ( Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.ComputeReleaseSpeed () ) &lt;= X.Location
+    AND  
+        X.Location &lt;= d_tripEOA()
+          OR  
+        StartRSM ( ComputeReleaseSpeed () ) &lt;= X.Location + BaseTypes.LengthToDistance ( X.Length )
+    AND  
+        X.Location + BaseTypes.LengthToDistance ( X.Length ) &lt;= d_tripEOA()
+          OR  
+        X.Location &lt;= StartRSM ( ComputeReleaseSpeed () )
+    AND  
+        d_tripEOA() &lt;= X.Location + BaseTypes.LengthToDistance ( X.Length )
 USING X IN
     BaseTypes.MinSpeed ( X1 =&gt; X.Speed, X2 =&gt; RESULT )
 INITIAL_VALUE
-    Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.ComputeReleaseSpeed ()</Expression>
+    ComputeReleaseSpeed ()</Expression>
 </Case><Case
  Name="UseNV"
  Guid="473ac93a-a231-4196-ad90-c6d9f673cf56"

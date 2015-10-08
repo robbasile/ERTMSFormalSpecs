@@ -55,7 +55,7 @@
  Guid="22a0bb96-bcae-458d-b8bf-a1c3c98628db"
 >
 <Expression>Kernel.TrainPosition.Position.DataState == DataState.Valid AND
-  Kernel.MA.ClosestEOA().Location &lt;= BTM.AntennaPosition ( DistanceInterval.Min ) AND
+  MA.EOA().Location &lt;= BTM.AntennaPosition ( DistanceInterval.Min ) AND
   Kernel.Level.Value.Value == Default.Level.L1</Expression>
 </Case></Cases>
 </Function><Function
@@ -202,7 +202,7 @@ NOT Kernel.MA.ModeProfile.ModeProfileIsApplicable()</Expression>
  Guid="f95451bd-ad23-4a43-a7d5-1cb82f00d693"
 >
 <Expression>Kernel.TrainPosition.Position.DataState == DataState.Valid AND
-  Kernel.MA.ClosestEOA().Location &lt;= Kernel.TrainPosition.FrontEndPosition ( DistanceInterval.Min ) AND
+  MA.EOA().Location &lt;= Kernel.TrainPosition.FrontEndPosition ( DistanceInterval.Min ) AND
   Kernel.Level.Value.Value in [Default.Level.L2, Default.Level.L3]</Expression>
 </Case></Cases>
 </Function><Function

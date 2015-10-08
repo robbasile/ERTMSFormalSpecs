@@ -297,7 +297,7 @@ X.TimeOut.TimerStart + X.TimeOut.TimeOut &lt; Kernel.DateAndTime.CurrentTime)</P
 <PreConditions>
 <PreCondition
  Guid="e2bcedd1-3423-45d1-99d3-ad82884d61fb"
->Kernel.MA.MA != EMPTY
+>Available(MA)
   AND
 Kernel.MA.MA.TargetSpeed != 0.0
   AND
@@ -396,6 +396,106 @@ Kernel.MA.MATimers.OverlapTimerStart != BaseTypes.Time.NA
 <Action
  Guid="97ae4750-9d3a-491c-a9b9-a17c639d1089"
 >Kernel.MA.MATimers.HandleOverlapTimeout()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Implemented="TRUE"
+ Name="Handle section timer"
+ Guid="6e8f7e42-e75a-4023-92b7-ed4e0aa6e6a6"
+>
+<ReqRef
+ Id="8298df3a-f507-437d-a5de-ceceaeedbead"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="cc5d4753-0e7d-4c98-9fc8-57cb8f379424"
+>
+</ReqRef><ReqRef
+ Id="99f97973-e6ed-4507-b864-54ea6e9c0fdf"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="94a6ac67-5b38-4d07-b124-b811abadded3"
+>
+</ReqRef><ReqRef
+ Id="6e298525-0025-4c39-8c09-9a58a38729be"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9630227a-d4e1-4a8b-9bd2-9d6a3fe75b0f"
+>
+</ReqRef><ReqRef
+ Id="2c2aa4b4-7362-44d9-b7ec-bd064ad99f4f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="99e956a0-a129-4714-ab70-fe7701752256"
+>
+</ReqRef><ReqRef
+ Id="430d4f07-d2b9-4364-a2e5-17353db2175e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6ac33f47-2d3a-48c8-a6bc-082593d95a83"
+>
+</ReqRef><SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Section Time-Out"
+ Guid="6f0f4bd6-c430-4cdc-b3c0-66ff2bc97b5c"
+>
+<PreConditions>
+<PreCondition
+ Guid="24d938c7-fe0b-4f4d-b9a9-b308a3518179"
+>Available(Kernel.MA.MATimers.TimedOutSection())</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="4a877f2e-ffe8-4dd8-b245-926bded39f26"
+>Kernel.HandlingOfAcceptedAndStoredInformation.SectionTimeOutShortensMA &lt;- True</Action><Action
+ Guid="4c4fc0db-b651-45f3-9bcc-b947f3342dc6"
+>Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.UpdateReleaseSpeed()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Implemented="TRUE"
+ Name="Handle end section timer"
+ Guid="c371a6df-49f8-4b69-a8db-15b819c054b4"
+>
+<ReqRef
+ Id="7e423212-aebc-4610-85f4-e4a25b5e05c4"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="429d3e69-089e-4691-ab34-4d3575f305f4"
+>
+</ReqRef><ReqRef
+ Id="f628074f-59c1-494b-b268-4ca4bf339038"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0cffa947-e484-40ab-ad11-9b59cca7f2ae"
+>
+</ReqRef><ReqRef
+ Id="c6215fef-5d78-4d0c-bab4-b041b7e0c571"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ed994df8-9ca9-4d2f-833c-e44b876a902a"
+>
+</ReqRef><ReqRef
+ Id="1e99ff79-c41c-4625-9938-941b2814fbc6"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="61ee827e-1469-4e14-9674-6131a9dda213"
+>
+</ReqRef><ReqRef
+ Id="e199cc01-44ca-4dc8-bc13-df147bf2bf53"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="03ebd4d8-1712-4c2e-b958-34bec41c1032"
+>
+</ReqRef><SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="End section Time-Out"
+ Guid="3e46954a-1903-4156-8318-b10f70834a11"
+>
+<PreConditions>
+<PreCondition
+ Guid="7c58a301-5e31-4d0c-91de-e2e64df6d1f7"
+>Available(MA)
+  AND  
+Available(MA.EndSection.EndSectionTimeOut)
+  AND  
+Kernel.MA.MATimers.EndSectionTimerStart != BaseTypes.Time.NA
+  AND  
+(Kernel.DateAndTime.CurrentTime &gt; Kernel.MA.MATimers.EndSectionTimerStart + Kernel.MA.MA.EndSection.EndSectionTimeOut.TimeOut)</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="a54a01c8-60c3-4dff-9b28-5075998c6a6b"
+>Kernel.HandlingOfAcceptedAndStoredInformation.EndSectionTimeOutShortensMA &lt;- True</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>

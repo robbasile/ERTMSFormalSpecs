@@ -410,6 +410,42 @@ INITIAL_VALUE Kernel.BrakeCommands.EmergencyStopStruct
   AND  
 DMI.MasterDMI().In_AcknForReversingDistanceExceeded.InputInformation.DriverAnswered</Expression>
 </Case></Cases>
+</Function><Function
+ Type="SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target"
+ X="1"
+ Y="541"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="EOAAndSvL"
+ Guid="07b09c44-6a9c-4cda-8530-beb2f202d4a1"
+>
+<ReqRef
+ Id="4f290d49-e10d-41ae-a385-d9a756df04d3"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c2ecce01-3bb9-4897-a018-51eecc77940e"
+>
+</ReqRef><Comment>If a conditional emergency stop has been accepted by the on-board, the emergency stop location is considered as the EOA and the SvL.</Comment>
+<Cases>
+<Case
+ Name="Conditional emergency stop accepted"
+ Guid="f056d65c-f001-4cce-911b-09ede929bb6c"
+>
+<PreConditions>
+<PreCondition
+ Guid="9236bd91-f38c-45cb-b48f-1a10ba6614d6"
+>THERE_IS X IN Kernel.BrakeCommands.EmergencyStops | ( (X.Reason == Kernel.BrakeCommands.BrakeReason.OrderFromRBC) AND (X.IsConditional) )</PreCondition></PreConditions>
+<Expression>MA.CreateTarget(
+    aLength =&gt; BaseTypes.Distance.Infinity,
+    aLocation =&gt; Kernel.BrakeCommands.ClosestStopLocation( Kernel.BrakeCommands.EmergencyStops ).StopLocation,
+    aSpeed =&gt; 0.0
+)</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="14129b95-8bea-46a0-86e0-ef70fcd816d0"
+>
+<Expression>EMPTY</Expression>
+</Case></Cases>
 </Function></Functions>
 <Procedures>
 <Procedure

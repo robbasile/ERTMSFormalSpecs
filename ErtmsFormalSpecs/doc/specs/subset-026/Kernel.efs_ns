@@ -10628,7 +10628,7 @@ Kernel.OverrideSupervision.FormerSRDistance &lt; Kernel.TrainPosition.FrontEndPo
 <Expression>Kernel.OverrideStruct{
     Time =&gt; DateAndTime.CurrentTime + NationalValues.CurrentNV().MaxTimeForTrainTripSuppressionWhenOverrideIsTriggered,
     Location =&gt; Odometry.NominalDistance + NationalValues.CurrentNV().DistForTrainTripSuppressionWhenOverrideIsTriggered,
-    FormerEOA =&gt; MA.ClosestEOA().Location,
+    FormerEOA =&gt; MA.EOA().Location,
     FormerEOAPassed =&gt; False,
     FormerSRDistance =&gt; TrainPosition.SRStartDistance + Modes.StaffResponsible.DistanceToRun()
 }</Expression>
@@ -10658,7 +10658,7 @@ Kernel.OverrideSupervision.FormerSRDistance &lt; Kernel.TrainPosition.FrontEndPo
 <Expression>Kernel.OverrideStruct{
     Time =&gt; DateAndTime.CurrentTime + NationalValues.CurrentNV().MaxTimeForTrainTripSuppressionWhenOverrideIsTriggered,
     Location =&gt; Odometry.NominalDistance + NationalValues.CurrentNV().DistForTrainTripSuppressionWhenOverrideIsTriggered,
-    FormerEOA =&gt; MA.ClosestEOA().Location,
+    FormerEOA =&gt; MA.EOA().Location,
     FormerEOAPassed =&gt; False,
     FormerSRDistance =&gt; BaseTypes.Distance.Infinity
 }</Expression>
@@ -10836,6 +10836,7 @@ BTM.Linking.RAMSWindowPassed()
  Guid="96ddb3ee-57c1-40a0-bc68-2be6f515660e"
 >BTM.StoreBaliseGroupMessage ( BTM.Message )</Action></Actions>
 </RuleCondition><RuleCondition
+ Implemented="TRUE"
  Name="Handle BTM input of previous version"
  Guid="363efc48-955d-49f8-9648-a3dc5f53b3d2"
 >
@@ -10974,108 +10975,6 @@ BTM.Linking.RAMSWindowPassed()
 <Action
  Guid="fdfd0993-2721-4e15-8d2b-ee308ec43d08"
 >Kernel.MA.MATimers.HandleTimers()</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- Implemented="TRUE"
- Name="Update EOA"
- Guid="930bec6a-53b0-4496-b3b9-1d82d5aafcfc"
->
-<ReqRef
- Id="e0b44a69-1080-47e9-80b7-b635996f4239"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="2c27bfc1-d9e1-417d-81ae-c333a34f835a"
->
-</ReqRef><ReqRef
- Id="b8339f99-503e-4b4e-a901-758d69ad1139"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="8aefcda5-b817-49bf-9145-5e47d5d1bd98"
->
-</ReqRef><Comment>Updates the list of Ends of Authority.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Determine EOAs"
- Guid="d7ab7899-fe7e-4f3d-963b-654c6a62edda"
->
-<ReqRef
- Id="d2ff8626-b129-41d0-afab-85c0e9977832"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="cdfdf51a-be03-42b9-aa16-db1e4460dfb9"
->
-</ReqRef><Comment>The EOA must only be calculated in FS, LS and OS modes</Comment>
-<PreConditions>
-<PreCondition
- Guid="c1218ff1-6980-4500-805c-654cfe700308"
->Kernel.ActiveFunctions.DetermineEOA_SvL_etc()</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="c6f59ebe-03a7-4ee2-aea3-8fe999bbfc7a"
->Kernel.MA.HandleEOAs()</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- Name="Do not determine EOAs"
- Guid="2148e8ee-a189-429b-81e3-85bc23711606"
->
-<Comment>Otherwise, The train must not determine the EOA or the SvL</Comment>
-<PreConditions>
-</PreConditions>
-<Actions>
-<Action
- Guid="4e010b0f-76c5-416b-a2d0-24a151314402"
->Kernel.MA.EOAs &lt;- []</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- Implemented="TRUE"
- Name="Update SvL"
- Guid="323a7c8d-4b61-4042-af5c-a3ddbec32194"
->
-<ReqRef
- Id="dc0bc969-44fc-43da-bc2e-a002f4c15435"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="99dc5a41-5f26-4977-a282-e012f88166e2"
->
-</ReqRef><ReqRef
- Id="b8339f99-503e-4b4e-a901-758d69ad1139"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="3d7bd13b-8385-4066-8108-cd87f9da786a"
->
-</ReqRef><Comment>Updates the list of Supervision Limits.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Determine SvL"
- Guid="06bdb857-818e-49a7-9717-5767e306582a"
->
-<ReqRef
- Id="d2ff8626-b129-41d0-afab-85c0e9977832"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="d2788609-0337-4b98-9c14-cccec0f9c8dd"
->
-</ReqRef><Comment>The SvL must only be calculated in FS, LS and OS modes</Comment>
-<PreConditions>
-<PreCondition
- Guid="7c2c7437-68f3-4930-ac92-dfdf371a0be9"
->Kernel.ActiveFunctions.DetermineEOA_SvL_etc()</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="64c5dc89-646c-46a1-8e8c-b24814da8ae4"
->Kernel.MA.HandleSvLs()</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- Name="Do not determine SvL"
- Guid="d54acc72-a081-4808-8d9e-6d3d9b11a28f"
->
-<Comment>Otherwise, The train must not determine the EOA or the SvL</Comment>
-<PreConditions>
-</PreConditions>
-<Actions>
-<Action
- Guid="dd0e1c87-80d0-467b-98af-67be26d63786"
->Kernel.MA.SvLs &lt;- []</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"

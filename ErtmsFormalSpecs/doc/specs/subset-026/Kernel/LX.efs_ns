@@ -493,6 +493,24 @@ INITIAL_VALUE BaseTypes.MaxSpeedFunction) (Distance)</Expression>
 </Parameter></Parameters>
 <Cases>
 <Case
+ Name="LX1 is empty"
+ Guid="988da64e-0c96-496f-8d62-ccc91b479447"
+>
+<PreConditions>
+<PreCondition
+ Guid="aa8d9af0-7116-4019-9cf9-b86a2fe64394"
+>NOT Available(LX1)</PreCondition></PreConditions>
+<Expression>LX2</Expression>
+</Case><Case
+ Name="LX2 is empty"
+ Guid="58e310d4-5900-460b-9635-0c4dc1f734eb"
+>
+<PreConditions>
+<PreCondition
+ Guid="0498e6f7-14b6-4acb-9b15-ec8cd3d0e59a"
+>NOT Available(LX2)</PreCondition></PreConditions>
+<Expression>LX1</Expression>
+</Case><Case
  Name="LX1 &gt; LX2"
  Guid="a61e8f7a-33bc-4207-afb9-1868a25e4ee9"
 >
@@ -920,6 +938,52 @@ Kernel.LX.SBI1IsMostRestrictive( aLX =&gt; aLX )</PreCondition></PreConditions>
  Guid="f006b704-01fa-4293-a5b0-396ecf291c31"
 >
 <Expression>DistanceInterval.Max</Expression>
+</Case></Cases>
+</Function><Function
+ Type="SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target"
+ X="1"
+ Y="421"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="EOAAndSvL"
+ Guid="d382a056-b82d-40ec-a581-43e31a777b2d"
+>
+<ReqRef
+ Id="d2ff8626-b129-41d0-afab-85c0e9977832"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d1f840e6-1d6e-41b8-b776-c93e7a6c8fd8"
+>
+</ReqRef><ReqRef
+ Id="90d05183-dd5f-471a-929c-200da2581c34"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="82258da7-cb8c-438e-9d19-bb56a42fbcbd"
+>
+</ReqRef><Comment>If a non protected level crossing is supervised, the start of the level crossing shall be considered as EOA and SvL</Comment>
+<Cases>
+<Case
+ Name="Supervising level crossings"
+ Guid="821bb5c0-bcf1-4b74-a626-fb57e7737929"
+>
+<PreConditions>
+<PreCondition
+ Guid="e89fb9b7-30a6-45e2-a222-5eb95d588c17"
+>THERE_IS aCrossing IN SupervisedLevelCrossings | NOT aCrossing.IsProtected</PreCondition></PreConditions>
+<Expression>SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target{
+    Location =&gt; REDUCE SupervisedLevelCrossings | NOT X.IsProtected
+                            USING X IN BaseTypes.MinDistance(
+                                X1 =&gt; X.Location,
+                                X2 =&gt; RESULT
+                            )
+                            INITIAL_VALUE BaseTypes.Distance.Infinity,
+    Speed =&gt; 0.0,
+    Length =&gt; BaseTypes.Length.Infinity
+}</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="90b5a5ab-eed8-4d23-9d1d-d23034f2cf1a"
+>
+<Expression>EMPTY</Expression>
 </Case></Cases>
 </Function></Functions>
 <Procedures>

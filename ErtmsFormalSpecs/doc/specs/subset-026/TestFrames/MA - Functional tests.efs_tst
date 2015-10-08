@@ -2307,10 +2307,10 @@ IN BTM.Linking.Linkings</Action></Actions>
 <Expectation
  Kind="Instantaneous"
  Guid="874298d7-b3f1-42d8-b595-2e673dab943f"
->Kernel.MA.ClosestEOA().Location == 1000.0</Expectation><Expectation
+>Kernel.MA.EOA().Location == 1000.0</Expectation><Expectation
  Kind="Instantaneous"
  Guid="c975384d-562c-4c31-86cd-4b037f7b8004"
->Kernel.MA.ClosestEOA().Speed == 40.0</Expectation></Expectations>
+>Kernel.MA.EOA().Speed == 40.0</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step><Step
  IO="NA"
@@ -2449,10 +2449,10 @@ IN BTM.Linking.Linkings</Action></Actions>
 <Expectation
  Kind="Instantaneous"
  Guid="26468b1a-dae7-4c99-a79e-0f3c781eb085"
->Kernel.MA.ClosestEOA().Location == 800.0</Expectation><Expectation
+>Kernel.MA.EOA().Location == 800.0</Expectation><Expectation
  Kind="Instantaneous"
  Guid="4bfc2e05-3f9f-4404-b802-fca0c588b94c"
->Kernel.MA.ClosestEOA().Speed == 25.0</Expectation></Expectations>
+>Kernel.MA.EOA().Speed == 25.0</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step></Steps>
 </TestCase></TestCases>
@@ -3244,7 +3244,7 @@ IN BTM.Linking.Linkings</Action></Actions>
 <Expectation
  Kind="Instantaneous"
  Guid="91132c8a-74f9-4fab-b865-d0af9554d552"
->Kernel.MA.ClosestEOA().Location == 1500.0</Expectation><Expectation
+>Kernel.MA.EOA().Location == 1500.0</Expectation><Expectation
  Kind="Instantaneous"
  Guid="4451f42d-584c-4e32-a56c-a11b581cb192"
 >(FIRST X IN Kernel.MA.MA.Sections).Length == 120.0</Expectation><Expectation
@@ -3259,7 +3259,7 @@ IN BTM.Linking.Linkings</Action></Actions>
 >Available ( ( FIRST X IN Kernel.MA.MA.Sections ).TimeOut )</Expectation><Expectation
  Kind="Instantaneous"
  Guid="400ea3a5-1406-4786-aea7-cd5b05e483f4"
->Kernel.MA.ClosestEOA().Speed == 40.0</Expectation></Expectations>
+>Kernel.MA.EOA().Speed == 40.0</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step><Step
  IO="NA"
@@ -3373,7 +3373,7 @@ IN BTM.Linking.Linkings</Action></Actions>
 <Expectation
  Kind="Instantaneous"
  Guid="a43d58e2-c473-45b5-8448-a3550beef338"
->Kernel.MA.ClosestEOA().Location == 1310.0</Expectation><Expectation
+>Kernel.MA.EOA().Location == 1310.0</Expectation><Expectation
  Kind="Instantaneous"
  Guid="3413f504-eac7-4dd4-800d-f49b1424ab9c"
 >(FIRST X IN Kernel.MA.MA.Sections).TimeOut == EMPTY</Expectation><Expectation
@@ -3382,7 +3382,7 @@ IN BTM.Linking.Linkings</Action></Actions>
 >(FIRST X IN Kernel.MA.MA.Sections).Length == 170.0</Expectation><Expectation
  Kind="Instantaneous"
  Guid="1d43c373-49f0-4bea-8f95-4d38983c3755"
->Kernel.MA.ClosestEOA().Speed == 25.0</Expectation></Expectations>
+>Kernel.MA.EOA().Speed == 25.0</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step></Steps>
 </TestCase></TestCases>
@@ -3603,22 +3603,15 @@ IN BTM.Linking.Linkings</Action></Actions>
  Kind="Instantaneous"
  DeadLine="1"
  Guid="0d7fb8d8-cf67-4f2b-bdc7-663934d8286f"
->Kernel.MA.ShorteningHandler.IsSvL == False</Expectation></Expectations>
-</SubStep><SubStep
- TimeDelay="NotDelayed"
- Name="Sub-step 3 - Expecting to get a MA shortening regardless of SvL"
- Guid="cb576c08-1760-48e2-93a4-1d742169aafe"
->
-<Expectations>
-<Expectation
+>Kernel.MA.ShorteningHandler.IsSvL == False</Expectation><Expectation
  Kind="Instantaneous"
  DeadLine="1"
- Guid="38fcdbed-df11-4f0b-a769-376d921ee351"
->NOT Kernel.HandlingOfAcceptedAndStoredInformation.ShortenedMaReceived</Expectation><Expectation
+ Guid="d3f4c667-7846-4898-9e7b-11e520737f34"
+>Kernel.HandlingOfAcceptedAndStoredInformation.ShortenedMaReceivedRegardlessOfSvL</Expectation><Expectation
  Kind="Instantaneous"
  DeadLine="1"
- Guid="2e0987aa-5ea9-4057-b5c3-5c3da87fb130"
->Kernel.HandlingOfAcceptedAndStoredInformation.ShortenedMaReceivedRegardlessOfSvL</Expectation></Expectations>
+ Guid="6590569a-c074-4f58-8cbf-237f5bd7d805"
+>NOT Kernel.HandlingOfAcceptedAndStoredInformation.ShortenedMaReceived</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step><Step
  IO="NA"
@@ -3737,22 +3730,15 @@ IN BTM.Linking.Linkings</Action></Actions>
  Kind="Instantaneous"
  DeadLine="1"
  Guid="f3795cc0-fef0-4970-a560-6e9fbbb9e206"
->Kernel.MA.ShorteningHandler.IsSvL</Expectation></Expectations>
-</SubStep><SubStep
- TimeDelay="NotDelayed"
- Name="Sub-step 3 - Expecting a MA shortening"
- Guid="b57c3e8c-edf2-4127-9d94-3fd0d54e2013"
->
-<Expectations>
-<Expectation
+>Kernel.MA.ShorteningHandler.IsSvL</Expectation><Expectation
  Kind="Instantaneous"
  DeadLine="1"
- Guid="70906121-c97b-4738-90e6-f5cdf5450737"
->NOT Kernel.HandlingOfAcceptedAndStoredInformation.ShortenedMaReceivedRegardlessOfSvL</Expectation><Expectation
+ Guid="9d35c8ae-bd8f-44b6-b432-1ef96878a8fe"
+>Kernel.HandlingOfAcceptedAndStoredInformation.ShortenedMaReceived</Expectation><Expectation
  Kind="Instantaneous"
  DeadLine="1"
- Guid="e913cd15-abe2-4f8b-a608-08cdd0c740aa"
->Kernel.HandlingOfAcceptedAndStoredInformation.ShortenedMaReceived</Expectation></Expectations>
+ Guid="46d033fc-8bdc-47ee-ac47-05eaad3c0f0d"
+>NOT Kernel.HandlingOfAcceptedAndStoredInformation.ShortenedMaReceivedRegardlessOfSvL</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step><Step
  IO="NA"
@@ -4007,7 +3993,7 @@ IN BTM.Linking.Linkings</Action></Actions>
  Kind="Instantaneous"
  DeadLine="1"
  Guid="ecab0443-4a87-44b3-ba16-07b5003782bc"
->Kernel.MA.ClosestEOA().Location == 4000.0</Expectation></Expectations>
+>Kernel.MA.EOA().Location == 4000.0</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step><Step
  IO="NA"
@@ -4123,11 +4109,11 @@ IN BTM.Linking.Linkings</Action></Actions>
  Kind="Instantaneous"
  DeadLine="1"
  Guid="9b8972f0-5fbd-42ae-9899-b9e58e9f9e87"
->Kernel.MA.ClosestEOA().Location != 4000.0</Expectation><Expectation
+>Kernel.MA.EOA().Location != 4000.0</Expectation><Expectation
  Kind="Instantaneous"
  DeadLine="1"
  Guid="96952592-c2fe-471c-b3a6-79ad816e5b2f"
->Kernel.MA.ClosestEOA().Location == 2105.0</Expectation></Expectations>
+>Kernel.MA.EOA().Location == 2105.0</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step><Step
  IO="NA"
@@ -4237,7 +4223,7 @@ IN BTM.Linking.Linkings</Action></Actions>
  Kind="Instantaneous"
  DeadLine="1"
  Guid="f08475a0-4c8f-499f-952b-561eb8ed83fa"
->Kernel.MA.ClosestEOA().Location == 2000.0</Expectation><Expectation
+>Kernel.MA.EOA().Location == 2000.0</Expectation><Expectation
  Kind="Instantaneous"
  DeadLine="1"
  Guid="fca6b8cd-7015-4b19-96b2-d51a5c5f498f"
@@ -4312,7 +4298,7 @@ BTM.Linking.Linkings</Action><Action
  Kind="Instantaneous"
  DeadLine="1"
  Guid="120b8188-f9e4-46ea-807f-a30b9099ae41"
->Kernel.MA.ClosestEOA().Location == 1000.0</Expectation><Expectation
+>Kernel.MA.EOA().Location == 1000.0</Expectation><Expectation
  Kind="Instantaneous"
  DeadLine="1"
  Guid="6a57f29c-8976-47bf-8cab-6e2799f3a91f"
@@ -4381,7 +4367,7 @@ BTM.Linking.Linkings</Action><Action
  Kind="Instantaneous"
  DeadLine="1"
  Guid="ed206680-d69c-4700-9be9-b4c62e8abd72"
->Kernel.MA.ClosestEOA().Location == 1305.0</Expectation><Expectation
+>Kernel.MA.EOA().Location == 1305.0</Expectation><Expectation
  Kind="Instantaneous"
  DeadLine="1"
  Guid="c6a2665c-6283-4b4b-b5f7-5f8a7dced41b"
@@ -6846,7 +6832,7 @@ BTM.Linking.Linkings</Action><Action
  Kind="Instantaneous"
  DeadLine="1"
  Guid="a580ac02-fcf7-404e-89f0-675a3d1a6a44"
->Kernel.MA.SvL().Location == Kernel.MA.ClosestEOA().Location</Expectation><Expectation
+>Kernel.MA.SvL().Location == Kernel.MA.EOA().Location</Expectation><Expectation
  Kind="Instantaneous"
  DeadLine="1"
  Guid="b0c789c4-ba6d-4d4e-8d2f-a70ce9bfe1b9"
