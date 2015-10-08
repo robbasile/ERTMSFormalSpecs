@@ -138,16 +138,6 @@
 >
 <Comment>The type of the acknowledgement.</Comment>
 </StructureElement><StructureElement
- TypeName="String"
- Default=""
- Mode="Internal"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Text"
- Guid="6cac4317-cbf7-4c35-a93a-2d6dd88cdbf5"
->
-<Comment>If the current acknowledgement is a text acknowledgement, this field contains the text to acknowledge.</Comment>
-</StructureElement><StructureElement
  TypeName="LevelDataStruct"
  Default=""
  Mode="Internal"
@@ -157,6 +147,24 @@
  Guid="1a40a251-aaa8-4822-bcc8-738962e71249"
 >
 <Comment>If the current acknowledgement is a level transition acknowledgement, this field contains the level to acknowledge.</Comment>
+</StructureElement><StructureElement
+ TypeName="Kernel.TextMessages.PlainTextMessageStruct"
+ Mode="Internal"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="PlainTextMessage"
+ Guid="393c4145-84a3-41bf-98bf-7b46f7844d94"
+>
+<Comment>If the current acknowledgement is a plain text message acknowledgement, this field contains the message to acknowledge.</Comment>
+</StructureElement><StructureElement
+ TypeName="Kernel.TextMessages.FixedTextMessageStruct"
+ Mode="Internal"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="FixedTextMessage"
+ Guid="8e11d458-e7e9-4437-90cb-9bcac2679ad9"
+>
+<Comment>If the current acknowledgement is a fixed text message acknowledgement, this field contains the message to acknowledge.</Comment>
 </StructureElement></Structure></Structures>
 <Collections>
 <Collection
@@ -381,12 +389,7 @@
 <PreConditions>
 <PreCondition
  Guid="a8c776d2-d76d-45f4-8372-7d5f144b8a6b"
->THERE_IS Ack IN DMI.IN.Acknowledgements.Acknowledgements |
-  Ack.Type == anAck.Type
-    AND
-  Ack.Text == anAck.Text
-    AND
-  Ack.Level == anAck.Level</PreCondition></PreConditions>
+>THERE_IS Ack IN DMI.IN.Acknowledgements.Acknowledgements | Ack == anAck</PreCondition></PreConditions>
 <Expression>True</Expression>
 </Case><Case
  Name="Acknowledgement is displayed, fixed text information"
@@ -397,7 +400,7 @@
  Guid="e99f2a0f-e29a-48ef-9495-d81af331b46a"
 >anAck.Type == DMI.IN.Acknowledgements.AckTypeEnum.FixedTextInformation</PreCondition><PreCondition
  Guid="8e2cc8a3-63fd-46f8-8ee3-2459c57e50a4"
->DMI.MasterDMI().In_AcknOfFixedTextInformation.Message == anAck.Text</PreCondition></PreConditions>
+>DMI.MasterDMI().In_AcknOfFixedTextInformation.Message == anAck.FixedTextMessage</PreCondition></PreConditions>
 <Expression>DMI.MasterDMI().In_AcknOfFixedTextInformation.InputInformation.RequestStatus == RequestEnum.Request</Expression>
 </Case><Case
  Name="Acknowledgement is displayed, plain text information"
@@ -408,7 +411,7 @@
  Guid="19821586-e405-461d-98a7-2baa176aca70"
 >anAck.Type == DMI.IN.Acknowledgements.AckTypeEnum.PlainTextInformation</PreCondition><PreCondition
  Guid="65b5dafe-5c33-4134-8649-2d851d567819"
->DMI.MasterDMI().In_AcknOfPlainTextInformation.Message == anAck.Text</PreCondition></PreConditions>
+>DMI.MasterDMI().In_AcknOfPlainTextInformation.Message == anAck.PlainTextMessage</PreCondition></PreConditions>
 <Expression>DMI.MasterDMI().In_AcknOfPlainTextInformation.InputInformation.RequestStatus == RequestEnum.Request</Expression>
 </Case><Case
  Name="Acknowledgement is displayed, level transition"
@@ -507,7 +510,7 @@
 <Actions>
 <Action
  Guid="2155274f-5ec7-4899-a5ce-2c15266e57b7"
->DMI.MasterDMI().In_AcknOfFixedTextInformation.Message &lt;- (FIRST Ack IN DMI.IN.Acknowledgements.Acknowledgements).Text</Action></Actions>
+>DMI.MasterDMI().In_AcknOfFixedTextInformation.Message &lt;- (FIRST Ack IN DMI.IN.Acknowledgements.Acknowledgements).FixedTextMessage</Action></Actions>
 </RuleCondition><RuleCondition
  NeedsRequirement="FALSE"
  Name="Plain text information"
@@ -521,7 +524,7 @@
 <Actions>
 <Action
  Guid="f7d3dd16-4133-4aad-9a4e-edd3b4993732"
->DMI.MasterDMI().In_AcknOfPlainTextInformation.Message &lt;- (FIRST Ack IN DMI.IN.Acknowledgements.Acknowledgements).Text</Action></Actions>
+>DMI.MasterDMI().In_AcknOfPlainTextInformation.Message &lt;- (FIRST Ack IN DMI.IN.Acknowledgements.Acknowledgements).PlainTextMessage</Action></Actions>
 </RuleCondition><RuleCondition
  Name="Level transition"
  Guid="c38297d8-4b10-41a3-b5e0-67a7efb59a5d"
@@ -645,14 +648,19 @@
  Guid="ef7639a4-46a2-4f5d-aa1f-c248ac0af0fd"
 >
 </Parameter><Parameter
- Type="String"
- Name="aText"
- Guid="88b018bb-d301-41bb-b096-251c0c80b29e"
->
-</Parameter><Parameter
  Type="LevelDataStruct"
  Name="aLevel"
  Guid="1739fe24-c542-40c9-9280-7648fe17568c"
+>
+</Parameter><Parameter
+ Type="Kernel.TextMessages.FixedTextMessageStruct"
+ Name="aFixedTextMessage"
+ Guid="09abe501-74e2-448b-8213-ab2e07c66b63"
+>
+</Parameter><Parameter
+ Type="Kernel.TextMessages.PlainTextMessageStruct"
+ Name="aPlainTextMessage"
+ Guid="c5a5cb3f-21ae-407e-8fc1-badc8c435039"
 >
 </Parameter></Parameters>
 <Rules>
@@ -682,8 +690,9 @@ anAcknowledgement == DMI.IN.Acknowledgements.AckTypeEnum.PlainTextInformation</P
   DMI.IN.Acknowledgements.AcknowledgementStruct
   {
     Type =&gt; anAcknowledgement,
-    Text =&gt; aText,
-    Level =&gt; aLevel
+    Level =&gt; aLevel,
+    FixedTextMessage =&gt; aFixedTextMessage,
+    PlainTextMessage =&gt; aPlainTextMessage
   }
 IN
   DMI.IN.Acknowledgements.Acknowledgements</Action></Actions>

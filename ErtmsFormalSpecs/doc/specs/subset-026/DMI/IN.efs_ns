@@ -64,7 +64,7 @@
  Guid="899257bb-ad06-4587-a62f-242a76900e2d"
 >InputInformation.DriverAnswered</PreCondition><PreCondition
  Guid="6f929bf6-4cae-4324-9cc4-cb3773da8e8d"
->Level.Value in [Default.Level.L2, Default.Level.L3]</PreCondition><PreCondition
+>Level.Value in [LevelEnum.L2, LevelEnum.L3]</PreCondition><PreCondition
  Guid="816bea88-f7c1-4116-8b88-2ca3a0ad554b"
 >NOT EURORADIO.HasActiveSession()</PreCondition></PreConditions>
 <Actions>
@@ -102,7 +102,7 @@
  Guid="d4ace2d4-4177-4e1c-aaaa-2c28ecd4dc60"
 >ErtmsEtcsLevelAvailable()</PreCondition><PreCondition
  Guid="2f7924c5-829f-4f8d-9ac2-285cc8fe7334"
->THIS.InputInformation.RequestStatus == Request.Response</PreCondition></PreConditions>
+>THIS.InputInformation.RequestStatus == RequestEnum.Response</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="3e042315-ce85-4d07-bdd0-fbd05fa15ce1"
@@ -246,14 +246,14 @@
 <Actions>
 <Action
  Guid="cf9f92b5-bff5-4ec6-a7e5-15e4c70296ed"
->InputInformation.RequestStatus &lt;- Request.Response</Action><Action
+>InputInformation.RequestStatus &lt;- RequestEnum.Response</Action><Action
  Guid="8d8339a2-3bb0-45cb-a845-e68bcc0a597c"
 >Level &lt;- aLevel</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
- TypeName="DMI.InputInformation"
+ TypeName="InputInformationStruct"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -273,7 +273,7 @@
 >
 <Comment>This is the level proposed to the driver and, after the driver has selected a level, the one that has been selected</Comment>
 </StructureElement><StructureElement
- TypeName="DMI.DriverAction"
+ TypeName="DriverActionStuct"
  Default=""
  Mode="Outgoing"
  Implemented="TRUE"
@@ -335,7 +335,7 @@
  Guid="6fdac9a5-3925-4eb0-b511-347686ea6598"
 >SelectionOfLanguageAvailable()</PreCondition><PreCondition
  Guid="5491ee10-5a13-4934-b3bc-2d0387412d23"
->THIS.InputInformation.RequestStatus == Request.Response</PreCondition></PreConditions>
+>THIS.InputInformation.RequestStatus == RequestEnum.Response</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="54cb09b4-5de6-4185-8150-3b3f162136c5"
@@ -444,14 +444,14 @@
 <Actions>
 <Action
  Guid="25c9b495-4882-4346-a3ad-3b304df7494d"
->InputInformation.RequestStatus &lt;- Request.Response</Action><Action
+>InputInformation.RequestStatus &lt;- RequestEnum.Response</Action><Action
  Guid="f74cd7e4-5b73-40e6-8847-9d587fdbb5b2"
 >SelectedLanguage &lt;- aLanguage</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
- TypeName="DMI.InputInformation"
+ TypeName="InputInformationStruct"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -515,7 +515,7 @@
  Guid="40ee1148-f353-409d-a95b-00ebd9edb4f4"
 >TrackAdhesionFactorAvailable()</PreCondition><PreCondition
  Guid="39fd61ac-6e86-464b-81ba-fca2e139e8bd"
->THIS.InputInformation.RequestStatus == Request.Response</PreCondition></PreConditions>
+>THIS.InputInformation.RequestStatus == RequestEnum.Response</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="3dfb7e52-d433-403a-8cb0-d646ac39a942"
@@ -622,14 +622,14 @@
 <Actions>
 <Action
  Guid="af0b9196-9875-44c8-91a7-6d7c0d2dae74"
->InputInformation.RequestStatus &lt;- Request.Response</Action><Action
+>InputInformation.RequestStatus &lt;- RequestEnum.Response</Action><Action
  Guid="ab98ec26-f1f4-49be-a8bf-4a1a89b21731"
 >AdhesionFactor &lt;- anAdhesionFactor</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
- TypeName="DMI.InputInformation"
+ TypeName="InputInformationStruct"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -697,7 +697,7 @@
  Guid="146fdf8b-b8d6-4313-ba45-30e323f7f464"
 >TrainIntegrityConfirmationAvailable()</PreCondition><PreCondition
  Guid="555f8da9-4591-4d7b-ac02-d908a2ca5a37"
->TrainIntegrityConfirmation.InputInformation.RequestStatus == Request.Response</PreCondition></PreConditions>
+>TrainIntegrityConfirmation.InputInformation.RequestStatus == RequestEnum.Response</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="96540f3c-63f5-4d64-88ef-9abe7565f3da"
@@ -804,14 +804,14 @@
 <Actions>
 <Action
  Guid="def527b0-ac9b-443e-999a-b78f50b28b49"
->InputInformation.RequestStatus &lt;- Request.Response</Action><Action
+>InputInformation.RequestStatus &lt;- RequestEnum.Response</Action><Action
  Guid="11eeccf7-bd1c-4339-87b3-520799247176"
 >TrainIntegrity &lt;- aTrainIntegrity</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
- TypeName="DMI.InputInformation"
+ TypeName="InputInformationStruct"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -875,7 +875,7 @@
  Guid="e4f4ce1b-a698-4e7a-aba3-882084eebcfe"
 >StartAvailable()</PreCondition><PreCondition
  Guid="723a5656-2006-4b6a-bc2a-e5f585e46f43"
->THIS.InputInformation.RequestStatus == Request.Response</PreCondition></PreConditions>
+>THIS.InputInformation.RequestStatus == RequestEnum.Response</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="1f6747f9-d7a8-4692-a2b7-2b4403970d81"
@@ -976,12 +976,12 @@
 <Actions>
 <Action
  Guid="a4b97cb6-90df-4717-b40f-9383451313a0"
->InputInformation.RequestStatus &lt;- Request.Response</Action></Actions>
+>InputInformation.RequestStatus &lt;- RequestEnum.Response</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
- TypeName="DMI.InputInformation"
+ TypeName="InputInformationStruct"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -1040,7 +1040,7 @@
  Guid="e14cd8d6-e2b5-4fc4-abea-367df57ed394"
 >OverrideRequestAvailable()</PreCondition><PreCondition
  Guid="8f2e78b4-2092-4d39-a358-865b0f7d2a0e"
->THIS.InputInformation.RequestStatus == Request.Response</PreCondition></PreConditions>
+>THIS.InputInformation.RequestStatus == RequestEnum.Response</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="194261ad-f490-48dc-bf11-831b2aeed50e"
@@ -1144,12 +1144,12 @@
 <Actions>
 <Action
  Guid="7dd320ce-d17b-466e-82bd-94a1e2ca3052"
->InputInformation.RequestStatus &lt;- Request.Response</Action></Actions>
+>InputInformation.RequestStatus &lt;- RequestEnum.Response</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
- TypeName="DMI.InputInformation"
+ TypeName="InputInformationStruct"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -1235,7 +1235,7 @@
  Guid="b3da6aa0-8264-45d0-89a2-b43c92981f04"
 >ShuntingRequestAvailable()</PreCondition><PreCondition
  Guid="c319baaa-554f-498c-97bd-2fce99153101"
->THIS.InputInformation.RequestStatus == Request.Response</PreCondition></PreConditions>
+>THIS.InputInformation.RequestStatus == RequestEnum.Response</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="1a908505-fad5-4429-81ac-4c5b8947cb4a"
@@ -1305,12 +1305,12 @@
 <Actions>
 <Action
  Guid="b7f6b46b-5fdc-4bb9-9ec4-eaefb793402b"
->InputInformation.RequestStatus &lt;- Request.Response</Action></Actions>
+>InputInformation.RequestStatus &lt;- RequestEnum.Response</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
- TypeName="DMI.InputInformation"
+ TypeName="InputInformationStruct"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -1364,7 +1364,7 @@
  Guid="0ecd27c5-3a58-43af-9001-c7d6fca72139"
 >ContinueShuntingOnDeskClosureRequestAvailable()</PreCondition><PreCondition
  Guid="55e8898d-63c7-4be7-9504-0a6df9bf3521"
->THIS.InputInformation.RequestStatus == Request.Response</PreCondition></PreConditions>
+>THIS.InputInformation.RequestStatus == RequestEnum.Response</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="5ef5c085-e528-4c0c-9bce-98437e79b8fb"
@@ -1463,12 +1463,12 @@
 <Actions>
 <Action
  Guid="90ef9854-e1d2-494d-a188-f994e8b19b57"
->InputInformation.RequestStatus &lt;- Request.Response</Action></Actions>
+>InputInformation.RequestStatus &lt;- RequestEnum.Response</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
- TypeName="DMI.InputInformation"
+ TypeName="InputInformationStruct"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -1547,7 +1547,7 @@
  Guid="e06b7fcb-f9fd-4311-b0b9-f06ab2e99ca5"
 >ExitOfShuntingRequestAvailable()</PreCondition><PreCondition
  Guid="73a68163-e17f-4f9d-94f1-e2aff8e2e1dd"
->THIS.InputInformation.RequestStatus == Request.Response</PreCondition></PreConditions>
+>THIS.InputInformation.RequestStatus == RequestEnum.Response</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="19852f43-635a-4537-bb5d-263d236875bd"
@@ -1647,12 +1647,12 @@
 <Actions>
 <Action
  Guid="3ec8de7a-a4f5-4fde-a6f4-835ac030a398"
->InputInformation.RequestStatus &lt;- Request.Response</Action></Actions>
+>InputInformation.RequestStatus &lt;- RequestEnum.Response</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
- TypeName="DMI.InputInformation"
+ TypeName="InputInformationStruct"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -1706,7 +1706,7 @@
  Guid="2c2dc253-9036-45fd-b9f9-e7c08cc7b5ee"
 >NonLeadingRequestAvailable()</PreCondition><PreCondition
  Guid="95945dac-fa99-4bff-a870-827fc91a461a"
->THIS.InputInformation.RequestStatus == Request.Response</PreCondition></PreConditions>
+>THIS.InputInformation.RequestStatus == RequestEnum.Response</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="88bee066-b6fd-4b68-983b-5243aa1acab5"
@@ -1807,12 +1807,12 @@
 <Actions>
 <Action
  Guid="9dff4018-5caf-4f00-be84-a88bd37cf26b"
->InputInformation.RequestStatus &lt;- Request.Response</Action></Actions>
+>InputInformation.RequestStatus &lt;- RequestEnum.Response</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
- TypeName="DMI.InputInformation"
+ TypeName="InputInformationStruct"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -1866,7 +1866,7 @@
  Guid="087e0b78-e4f0-4c57-afe5-d9e1e68207b1"
 >AcknOfFixedTextInformationAvailable()</PreCondition><PreCondition
  Guid="b2a9eac8-d87c-4030-84a7-5e9c641dae75"
->THIS.InputInformation.RequestStatus == Request.Response</PreCondition></PreConditions>
+>THIS.InputInformation.RequestStatus == RequestEnum.Response</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="0608d022-2811-4d61-83cd-12c8978fc21b"
@@ -1947,8 +1947,9 @@
 >Acknowledgements.AddAcknowledgement
 (
   anAcknowledgement =&gt; Acknowledgements.AckTypeEnum.FixedTextInformation,
-  aText =&gt; text,
-  aLevel =&gt; EMPTY
+  aLevel =&gt; EMPTY,
+  aFixedTextMessage =&gt; Message,
+  aPlainTextMessage =&gt; EMPTY
 )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
@@ -1979,12 +1980,12 @@
 <Actions>
 <Action
  Guid="3b9b1ec6-b009-45e0-98e8-bd583f0c8723"
->InputInformation.RequestStatus &lt;- Request.Response</Action></Actions>
+>InputInformation.RequestStatus &lt;- RequestEnum.Response</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
- TypeName="DMI.InputInformation"
+ TypeName="InputInformationStruct"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -1994,14 +1995,14 @@
 >
 <Comment>Provides the request status</Comment>
 </StructureElement><StructureElement
- TypeName="String"
+ TypeName="Kernel.TextMessages.FixedTextMessageStruct"
  Default=""
  Mode="Outgoing"
  Implemented="TRUE"
- Name="Text"
+ Name="Message"
  Guid="08639efd-51e5-4de9-bcba-185d0da0ab6f"
 >
-<Comment>The text to acknowledge</Comment>
+<Comment>The text message to acknowledge.</Comment>
 </StructureElement></Structure><Structure
  Default=""
  X="670"
@@ -2082,7 +2083,7 @@
  Guid="bb03b1a4-2f0d-4a56-a62b-fffc1f041bb7"
 >LevelTransitionAvailable()</PreCondition><PreCondition
  Guid="ff01c89f-c0c4-48e6-84af-14da937ae8f9"
->THIS.InputInformation.RequestStatus == Request.Response</PreCondition></PreConditions>
+>THIS.InputInformation.RequestStatus == RequestEnum.Response</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="4dfc4c81-b5da-4c77-bf59-977850e79762"
@@ -2205,8 +2206,9 @@
   anAck =&gt; Acknowledgements.AcknowledgementStruct
   {
     Type =&gt; Acknowledgements.AckTypeEnum.LevelTransition,
-    Text =&gt; &apos;&apos;,
-    Level =&gt; Level
+    aLevel =&gt; Level,
+    aFixedTextMessage =&gt; EMPTY,
+    aPlainTextMessage =&gt; EMPTY
   }
 )</PreCondition></PreConditions>
 <Actions>
@@ -2215,8 +2217,9 @@
 >Acknowledgements.AddAcknowledgement
 (
   anAcknowledgement =&gt; Acknowledgements.AckTypeEnum.LevelTransition,
-  aText =&gt; &apos;&apos;,
-  aLevel =&gt; Level
+  aLevel =&gt; Level,
+  aFixedTextMessage =&gt; EMPTY,
+  aPlainTextMessage =&gt; EMPTY
 )</Action><Action
  Guid="86ae2a15-1539-4218-862d-01e0cd218666"
 >StartTime &lt;- Kernel.DateAndTime.CurrentTime</Action></Actions>
@@ -2249,12 +2252,12 @@
 <Actions>
 <Action
  Guid="508029e7-5464-45cb-a2af-c601c8bf7460"
->InputInformation.RequestStatus &lt;- Request.Response</Action></Actions>
+>InputInformation.RequestStatus &lt;- RequestEnum.Response</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
- TypeName="DMI.InputInformation"
+ TypeName="InputInformationStruct"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -2331,7 +2334,7 @@
  Guid="1fc419e1-a444-4869-8c33-daef9118eb6f"
 >AcknOfPlainTextInformationAvailable()</PreCondition><PreCondition
  Guid="1060099f-3962-44a2-83d7-4f873b629695"
->THIS.InputInformation.RequestStatus == Request.Response</PreCondition></PreConditions>
+>THIS.InputInformation.RequestStatus == RequestEnum.Response</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="5bfb2800-2c0e-4da8-9d7a-e40e593d6d55"
@@ -2412,8 +2415,9 @@
 >Acknowledgements.AddAcknowledgement
 (
   anAcknowledgement =&gt; Acknowledgements.AckTypeEnum.PlainTextInformation,
-  aText =&gt; text,
-  aLevel =&gt; EMPTY
+  aLevel =&gt; EMPTY,
+  aFixedTextMessage =&gt; EMPTY,
+  aPlainTextMessage =&gt; Message
 )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
@@ -2444,12 +2448,12 @@
 <Actions>
 <Action
  Guid="9468b633-1a67-4e8e-955c-bc925b7d6e07"
->InputInformation.RequestStatus &lt;- Request.Response</Action></Actions>
+>InputInformation.RequestStatus &lt;- RequestEnum.Response</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
- TypeName="DMI.InputInformation"
+ TypeName="InputInformationStruct"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -2459,14 +2463,14 @@
 >
 <Comment>Request status</Comment>
 </StructureElement><StructureElement
- TypeName="String"
+ TypeName="Kernel.TextMessages.PlainTextMessageStruct"
  Default=""
  Mode="Outgoing"
  Implemented="TRUE"
- Name="Text"
+ Name="Message"
  Guid="e5443dc8-622c-4d0a-afd9-e2da7a206a9e"
 >
-<Comment>Plain text to acknowledge</Comment>
+<Comment>Plain text message to acknowledge.</Comment>
 </StructureElement></Structure><Structure
  Default=""
  X="10"
@@ -2512,7 +2516,7 @@
  Guid="1a23d43a-05e8-434c-855e-abcab2f07a48"
 >AcknOfTrainDataChangeFromOtherSourceAvailable()</PreCondition><PreCondition
  Guid="54d15b2e-0cb6-4212-bf4d-a1f73231d6bf"
->THIS.InputInformation.RequestStatus == Request.Response</PreCondition></PreConditions>
+>THIS.InputInformation.RequestStatus == RequestEnum.Response</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="16019496-7dbf-4a92-a6b2-2422e513d3f5"
@@ -2587,8 +2591,9 @@
 >Acknowledgements.AddAcknowledgement
 (
   anAcknowledgement =&gt; Acknowledgements.AckTypeEnum.TrainDataChangeFromOtherSource,
-  aText =&gt; &apos;&apos;,
-  aLevel =&gt; EMPTY
+  aLevel =&gt; EMPTY,
+  aFixedTextMessage =&gt; EMPTY,
+  aPlainTextMessage =&gt; EMPTY
 )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
@@ -2619,12 +2624,12 @@
 <Actions>
 <Action
  Guid="e0ecc057-0e76-4653-bcd8-e3a548bd47da"
->InputInformation.RequestStatus &lt;- Request.Response</Action></Actions>
+>InputInformation.RequestStatus &lt;- RequestEnum.Response</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
- TypeName="DMI.InputInformation"
+ TypeName="InputInformationStruct"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -2721,7 +2726,7 @@
  Guid="15185d03-8fad-457f-9241-e14008b2fef0"
 >TrackAheadFreeAvailable()</PreCondition><PreCondition
  Guid="62169c94-bf0d-4ce0-b89e-bfa83800013e"
->THIS.InputInformation.RequestStatus == Request.Response</PreCondition></PreConditions>
+>THIS.InputInformation.RequestStatus == RequestEnum.Response</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="a0e16f10-a236-471b-b610-864623cf30dd"
@@ -2787,12 +2792,12 @@
 <Actions>
 <Action
  Guid="ba3655fb-a5a9-4e96-a60d-62647f3fd2a7"
->InputInformation.RequestStatus &lt;- Request.Response</Action></Actions>
+>InputInformation.RequestStatus &lt;- RequestEnum.Response</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
- TypeName="DMI.InputInformation"
+ TypeName="InputInformationStruct"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -2856,7 +2861,7 @@
  Guid="4a5ff4fb-a479-4329-9a24-44380cc918cb"
 >SRModeSpeedLimitAndDistanceAvailable()</PreCondition><PreCondition
  Guid="c5439b19-0569-4ed7-a458-a7e95d9f7188"
->THIS.InputInformation.RequestStatus == Request.Response</PreCondition></PreConditions>
+>THIS.InputInformation.RequestStatus == RequestEnum.Response</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="5cc17c0b-817f-4483-8077-9146d6cbb607"
@@ -2974,7 +2979,7 @@
 <Actions>
 <Action
  Guid="9b38cbda-6c9e-4537-b06b-a522d319a9c4"
->InputInformation.RequestStatus &lt;- Request.Response</Action><Action
+>InputInformation.RequestStatus &lt;- RequestEnum.Response</Action><Action
  Guid="7458b2c9-f10f-4a08-90eb-31365ca054ff"
 >Speed &lt;- aSpeed</Action><Action
  Guid="b2244c1a-6db9-4198-ae65-cbcb607078ec"
@@ -2983,7 +2988,7 @@
 </Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
- TypeName="DMI.InputInformation"
+ TypeName="InputInformationStruct"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -3092,7 +3097,7 @@
  Guid="882c3d51-0327-4bab-9878-5c3a796d6b81"
 >IsolationAvailable()</PreCondition><PreCondition
  Guid="996659ee-6967-4bd4-b82b-cd1c75c7bb50"
->THIS.InputInformation.RequestStatus == Request.Response</PreCondition></PreConditions>
+>THIS.InputInformation.RequestStatus == RequestEnum.Response</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="6a6a9b6e-874b-4be6-9651-1f7aca9ce19e"
@@ -3192,12 +3197,12 @@
 <Actions>
 <Action
  Guid="d3daad03-bcea-4724-a07a-c6947d3751ad"
->InputInformation.RequestStatus &lt;- Request.Response</Action></Actions>
+>InputInformation.RequestStatus &lt;- RequestEnum.Response</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
- TypeName="DMI.InputInformation"
+ TypeName="InputInformationStruct"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -3327,7 +3332,7 @@
  Guid="a3d2c6d4-b570-4d87-86d5-9075cfcc7ec8"
 >TrainDataAvailable()</PreCondition><PreCondition
  Guid="0760dd6f-6f9f-4cec-8d5a-77a269edd896"
->THIS.InputInformation.RequestStatus == Request.Response</PreCondition></PreConditions>
+>THIS.InputInformation.RequestStatus == RequestEnum.Response</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="89b7128c-9b3a-42b5-ae06-e45beff492f3"
@@ -3361,12 +3366,12 @@
 <Actions>
 <Action
  Guid="4c8a5c30-ad54-47c6-9d1e-88be2450d386"
->InputInformation.RequestStatus &lt;- Request.Response</Action></Actions>
+>InputInformation.RequestStatus &lt;- RequestEnum.Response</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
- TypeName="DMI.InputInformation"
+ TypeName="InputInformationStruct"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -3418,7 +3423,7 @@
 <PreConditions>
 <PreCondition
  Guid="20353b9d-dc08-468c-ac7a-cb39c87fb17c"
->THIS.InputInformation.RequestStatus == Request.Response</PreCondition><PreCondition
+>THIS.InputInformation.RequestStatus == RequestEnum.Response</PreCondition><PreCondition
  Guid="a28e0781-9f43-4778-a7f0-f1024bf270f5"
 >TrainRunningNumberAvailable()</PreCondition></PreConditions>
 <Actions>
@@ -3558,14 +3563,14 @@
 <Actions>
 <Action
  Guid="9d9d595c-3900-4bcd-a668-1b1a7fe09b61"
->InputInformation.RequestStatus &lt;- Request.Response</Action><Action
+>InputInformation.RequestStatus &lt;- RequestEnum.Response</Action><Action
  Guid="afa4107a-7bd3-4668-86fd-58a3df2549f8"
 >Number &lt;- aNumber</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
- TypeName="DMI.InputInformation"
+ TypeName="InputInformationStruct"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -3585,7 +3590,7 @@
 >
 <Comment>Represents the train running number. This sub-element&apos;s mode is In/Out because it can be sent by the kernel to the DMI in order to validate the stored information or by the DMI to Kernel in order to update the train running number stored on-board.</Comment>
 </StructureElement><StructureElement
- TypeName="DMI.DriverAction"
+ TypeName="DriverActionStuct"
  Default=""
  Mode="Outgoing"
  Implemented="TRUE"
@@ -3639,7 +3644,7 @@
  Guid="3c5be02c-986b-40ec-8a61-d8aa2798c682"
 >AcknOfSNModeAvailable()</PreCondition><PreCondition
  Guid="2150fbc8-2e49-4512-9284-fc184b599463"
->THIS.InputInformation.RequestStatus == Request.Response</PreCondition></PreConditions>
+>THIS.InputInformation.RequestStatus == RequestEnum.Response</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="e2a59ace-9b37-4f65-86b3-afa908151d1a"
@@ -3720,8 +3725,9 @@
 >Acknowledgements.AddAcknowledgement
 (
   anAcknowledgement =&gt; Acknowledgements.AckTypeEnum.SNMode,
-  aText =&gt; &apos;&apos;,
-  aLevel =&gt; EMPTY
+  aLevel =&gt; EMPTY,
+  aFixedTextMessage =&gt; EMPTY,
+  aPlainTextMessage =&gt; EMPTY
 )</Action><Action
  Guid="5e82bf00-9e78-4d96-bd66-d003521ae460"
 >THIS.NationalSystemId &lt;- NationalSystemId</Action></Actions>
@@ -3754,12 +3760,12 @@
 <Actions>
 <Action
  Guid="5870b0b7-29e0-4b85-b518-5c5381667eac"
->InputInformation.RequestStatus &lt;- Request.Response</Action></Actions>
+>InputInformation.RequestStatus &lt;- RequestEnum.Response</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
- TypeName="DMI.InputInformation"
+ TypeName="InputInformationStruct"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -3869,7 +3875,7 @@
  Guid="58278b2b-d5bd-476a-9cc0-72a35f647608"
 >TrainDataAvailable()</PreCondition><PreCondition
  Guid="62e84226-7255-44e5-9e4d-c407f46987f6"
->THIS.InputInformation.RequestStatus == Request.Response</PreCondition></PreConditions>
+>THIS.InputInformation.RequestStatus == RequestEnum.Response</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="c779d55b-4fb3-4c1b-a56f-f589b874ba0a"
@@ -3946,14 +3952,14 @@
 <Actions>
 <Action
  Guid="04aa5ccf-4ff1-4d3b-bc78-6155a73369f4"
->InputInformation.RequestStatus &lt;- Request.Response</Action><Action
+>InputInformation.RequestStatus &lt;- RequestEnum.Response</Action><Action
  Guid="61380acf-cc2d-45e1-bba9-c68a1c783976"
 >Data &lt;- aData</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
- TypeName="DMI.InputInformation"
+ TypeName="InputInformationStruct"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -4027,7 +4033,7 @@
  Guid="f685b8fc-85bc-4fce-a311-7d4f80b915a1"
 >DriverIdAvailable()</PreCondition><PreCondition
  Guid="1d53ec60-ba00-4092-80f5-1501255b527f"
->THIS.InputInformation.RequestStatus == Request.Response</PreCondition></PreConditions>
+>THIS.InputInformation.RequestStatus == RequestEnum.Response</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="cb6883b5-cc98-4506-a1c6-7a0cb4af3488"
@@ -4165,14 +4171,14 @@
 <Actions>
 <Action
  Guid="7452eaf9-8739-47be-ae6f-336c215114c8"
->InputInformation.RequestStatus &lt;- Request.Response</Action><Action
+>InputInformation.RequestStatus &lt;- RequestEnum.Response</Action><Action
  Guid="9693d34d-6c70-4c83-a273-ad1bcb2d4834"
 >Id &lt;- anId</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
- TypeName="DMI.InputInformation"
+ TypeName="InputInformationStruct"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -4192,7 +4198,7 @@
 >
 <Comment>Represents the driver id. This sub-element&apos;s mode is In/Out because it can be sent by the kernel to the DMI in order to validate the stored information or by the DMI to Kernel in order to update the driver id stored on-board.</Comment>
 </StructureElement><StructureElement
- TypeName="DMI.DriverAction"
+ TypeName="DriverActionStuct"
  Default=""
  Mode="Outgoing"
  Implemented="TRUE"
@@ -4246,7 +4252,7 @@
  Guid="fbbca60f-bf2c-4b34-9f99-39d06fe2b92d"
 >RBCContactInformationAvailable()</PreCondition><PreCondition
  Guid="4d658f91-f7cb-4ad0-b1c8-d44c9ebc5fce"
->THIS.InputInformation.RequestStatus == Request.Response</PreCondition></PreConditions>
+>THIS.InputInformation.RequestStatus == RequestEnum.Response</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="7ea0fcc2-bf7a-47ab-b201-7e29c90a9c96"
@@ -4435,7 +4441,7 @@
 <Actions>
 <Action
  Guid="997b3cf3-bde3-46aa-9752-41b04c343e5d"
->InputInformation.RequestStatus &lt;- Request.Response</Action><Action
+>InputInformation.RequestStatus &lt;- RequestEnum.Response</Action><Action
  Guid="048c5a64-a20e-4759-9b32-4560a1dcf12a"
 >DriversSelectedAction &lt;- aDriversSelectedAction</Action><Action
  Guid="532e2ec1-51b7-4497-aeb3-45eed932d8fe"
@@ -4446,7 +4452,7 @@
 </Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
- TypeName="DMI.InputInformation"
+ TypeName="InputInformationStruct"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -4556,7 +4562,7 @@
  Guid="71cda174-55a7-4464-b783-1be7c71c7911"
 >VirtualBaliseCoverAvailable()</PreCondition><PreCondition
  Guid="cfe86bd9-0719-4e55-a53c-630dcf39fe49"
->THIS.InputInformation.RequestStatus == Request.Response</PreCondition></PreConditions>
+>THIS.InputInformation.RequestStatus == RequestEnum.Response</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="9484037f-ae8c-4c61-ac5d-d77f23a6c203"
@@ -4674,14 +4680,14 @@
 <Actions>
 <Action
  Guid="0d1c3bd9-0018-4326-a952-dce775fb1bae"
->InputInformation.RequestStatus &lt;- Request.Response</Action><Action
+>InputInformation.RequestStatus &lt;- RequestEnum.Response</Action><Action
  Guid="d1473015-cfe5-4299-94dd-2cc72a5cbd30"
 >VirtualBaliseCovers &lt;- aVirtualBaliseCoversInformation</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
- TypeName="DMI.InputInformation"
+ TypeName="InputInformationStruct"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -4786,7 +4792,7 @@
 <PreConditions>
 <PreCondition
  Guid="ad8524b2-6768-4b82-be41-35fd4464fe9c"
->AcknOfLSMode.InputInformation.RequestStatus == Request.Response</PreCondition><PreCondition
+>AcknOfLSMode.InputInformation.RequestStatus == RequestEnum.Response</PreCondition><PreCondition
  Guid="687ef45e-f902-4b23-95a7-db5c8670998f"
 >AcknOfLSModeAvailable()</PreCondition></PreConditions>
 <Actions>
@@ -4878,8 +4884,9 @@
   anAck =&gt; Acknowledgements.AcknowledgementStruct
   {
     Type =&gt; Acknowledgements.AckTypeEnum.LSMode,
-    Text =&gt; &apos;&apos;,
-    Level =&gt; EMPTY
+    aLevel =&gt; EMPTY,
+    aFixedTextMessage =&gt; EMPTY,
+    aPlainTextMessage =&gt; EMPTY
   }
 )</PreCondition></PreConditions>
 <Actions>
@@ -4888,8 +4895,9 @@
 >Acknowledgements.AddAcknowledgement
 (
   anAcknowledgement =&gt; Acknowledgements.AckTypeEnum.LSMode,
-  aText =&gt; &apos;&apos;,
-  aLevel =&gt; EMPTY
+  aLevel =&gt; EMPTY,
+  aFixedTextMessage =&gt; EMPTY,
+  aPlainTextMessage =&gt; EMPTY
 )</Action><Action
  Guid="31618ddd-9074-4f74-a558-ed0775cbd809"
 >StartTime &lt;- Kernel.DateAndTime.CurrentTime</Action></Actions>
@@ -4954,12 +4962,12 @@
 <Actions>
 <Action
  Guid="18391665-1783-4e40-b62b-fc3dc8d12fa6"
->InputInformation.RequestStatus &lt;- Request.Response</Action></Actions>
+>InputInformation.RequestStatus &lt;- RequestEnum.Response</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
- TypeName="DMI.InputInformation"
+ TypeName="InputInformationStruct"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -5071,7 +5079,7 @@
  Guid="94a5f5a6-f9a5-40c1-b808-fcc02acaee20"
 >AcknOfOSModeAvailable()</PreCondition><PreCondition
  Guid="1de16209-3717-458c-9890-3a3e3df8dacc"
->THIS.InputInformation.RequestStatus == Request.Response</PreCondition></PreConditions>
+>THIS.InputInformation.RequestStatus == RequestEnum.Response</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="719101c0-d5a3-40d8-a756-4698d9924399"
@@ -5161,8 +5169,9 @@
   anAck =&gt; Acknowledgements.AcknowledgementStruct
   {
     Type =&gt; Acknowledgements.AckTypeEnum.OSMode,
-    Text =&gt; &apos;&apos;,
-    Level =&gt; EMPTY
+    aLevel =&gt; EMPTY,
+    aFixedTextMessage =&gt; EMPTY,
+    aPlainTextMessage =&gt; EMPTY
   }
 )</PreCondition></PreConditions>
 <Actions>
@@ -5171,8 +5180,9 @@
 >Acknowledgements.AddAcknowledgement
 (
   anAcknowledgement =&gt; Acknowledgements.AckTypeEnum.OSMode,
-  aText =&gt; &apos;&apos;,
-  aLevel =&gt; EMPTY
+  aLevel =&gt; EMPTY,
+  aFixedTextMessage =&gt; EMPTY,
+  aPlainTextMessage =&gt; EMPTY
 )</Action><Action
  Guid="5ac58b4f-4dd8-4f42-b19a-4fe5a43d85b8"
 >StartTime &lt;- Kernel.DateAndTime.CurrentTime</Action></Actions>
@@ -5237,12 +5247,12 @@
 <Actions>
 <Action
  Guid="94c371fe-e14b-4a06-833f-41f663855a7d"
->InputInformation.RequestStatus &lt;- Request.Response</Action></Actions>
+>InputInformation.RequestStatus &lt;- RequestEnum.Response</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
- TypeName="DMI.InputInformation"
+ TypeName="InputInformationStruct"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -5354,7 +5364,7 @@
  Guid="2deea77c-9d96-4afb-974b-c52f09c6fb57"
 >AcknOfSHModeAvailable()</PreCondition><PreCondition
  Guid="b53e52f5-c690-4925-a864-097339907602"
->THIS.InputInformation.RequestStatus == Request.Response</PreCondition></PreConditions>
+>THIS.InputInformation.RequestStatus == RequestEnum.Response</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="24769eb4-f757-4ced-8cd3-4a57859a3edb"
@@ -5444,8 +5454,9 @@
   anAck =&gt; Acknowledgements.AcknowledgementStruct
   {
     Type =&gt; Acknowledgements.AckTypeEnum.SHMode,
-    Text =&gt; &apos;&apos;,
-    Level =&gt; EMPTY
+    aLevel =&gt; EMPTY,
+    aFixedTextMessage =&gt; EMPTY,
+    aPlainTextMessage =&gt; EMPTY
   }
 )</PreCondition></PreConditions>
 <Actions>
@@ -5454,8 +5465,9 @@
 >Acknowledgements.AddAcknowledgement
 (
   anAcknowledgement =&gt; Acknowledgements.AckTypeEnum.SHMode,
-  aText =&gt; &apos;&apos;,
-  aLevel =&gt; EMPTY
+  aLevel =&gt; EMPTY,
+  aFixedTextMessage =&gt; EMPTY,
+  aPlainTextMessage =&gt; EMPTY
 )</Action><Action
  Guid="0bc1dab8-7d59-4e81-a0d8-6e6f38a183ed"
 >StartTime &lt;- Kernel.DateAndTime.CurrentTime</Action></Actions>
@@ -5520,12 +5532,12 @@
 <Actions>
 <Action
  Guid="46df05eb-890e-43a4-b406-b1820911d3ed"
->InputInformation.RequestStatus &lt;- Request.Response</Action></Actions>
+>InputInformation.RequestStatus &lt;- RequestEnum.Response</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
- TypeName="DMI.InputInformation"
+ TypeName="InputInformationStruct"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -5598,7 +5610,7 @@
  Guid="4829d3ad-5331-4b26-8f56-a5e4f2be8298"
 >AcknOfSRModeAvailable()</PreCondition><PreCondition
  Guid="22c078b8-2338-4e9f-87b1-485e7b9ca5de"
->THIS.InputInformation.RequestStatus == Request.Response</PreCondition></PreConditions>
+>THIS.InputInformation.RequestStatus == RequestEnum.Response</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="522267fc-268b-4215-b3c6-3ee21396db96"
@@ -5672,8 +5684,9 @@
 >Acknowledgements.AddAcknowledgement
 (
   anAcknowledgement =&gt; Acknowledgements.AckTypeEnum.SRMode,
-  aText =&gt; &apos;&apos;,
-  aLevel =&gt; EMPTY
+  aLevel =&gt; EMPTY,
+  aFixedTextMessage =&gt; EMPTY,
+  aPlainTextMessage =&gt; EMPTY
 )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
@@ -5704,12 +5717,12 @@
 <Actions>
 <Action
  Guid="a88b13af-932c-420d-b820-6e7df3e33fa0"
->InputInformation.RequestStatus &lt;- Request.Response</Action></Actions>
+>InputInformation.RequestStatus &lt;- RequestEnum.Response</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
- TypeName="DMI.InputInformation"
+ TypeName="InputInformationStruct"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -5763,7 +5776,7 @@
  Guid="1d41a389-f99a-4954-9018-69d1f0a8abf0"
 >AcknOfUNModeAvailable()</PreCondition><PreCondition
  Guid="f022db1a-31a9-4631-8efe-9bea1cd6b68a"
->THIS.InputInformation.RequestStatus == Request.Response</PreCondition></PreConditions>
+>THIS.InputInformation.RequestStatus == RequestEnum.Response</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="c6ae23b0-e926-44d7-9f0c-04a4eeee1ce1"
@@ -5837,8 +5850,9 @@
 >Acknowledgements.AddAcknowledgement
 (
   anAcknowledgement =&gt; Acknowledgements.AckTypeEnum.UNMode,
-  aText =&gt; &apos;&apos;,
-  aLevel =&gt; EMPTY
+  aLevel =&gt; EMPTY,
+  aFixedTextMessage =&gt; EMPTY,
+  aPlainTextMessage =&gt; EMPTY
 )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
@@ -5869,12 +5883,12 @@
 <Actions>
 <Action
  Guid="cd48e18b-e7bb-450a-b004-0577b457cb71"
->InputInformation.RequestStatus &lt;- Request.Response</Action></Actions>
+>InputInformation.RequestStatus &lt;- RequestEnum.Response</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
- TypeName="DMI.InputInformation"
+ TypeName="InputInformationStruct"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -5928,7 +5942,7 @@
  Guid="7250aa3f-f716-4460-89fd-9d8a54ec1fd4"
 >AcknOfRVModeAvailable()</PreCondition><PreCondition
  Guid="b27bc177-21b5-4d61-a797-845651c8dcc3"
->THIS.InputInformation.RequestStatus == Request.Response</PreCondition></PreConditions>
+>THIS.InputInformation.RequestStatus == RequestEnum.Response</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="950a0d64-88c9-4e7b-bb22-eb3cb0644b8a"
@@ -6002,8 +6016,9 @@
 >Acknowledgements.AddAcknowledgement
 (
   anAcknowledgement =&gt; Acknowledgements.AckTypeEnum.RVMode,
-  aText =&gt; &apos;&apos;,
-  aLevel =&gt; EMPTY
+  aLevel =&gt; EMPTY,
+  aFixedTextMessage =&gt; EMPTY,
+  aPlainTextMessage =&gt; EMPTY
 )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
@@ -6034,12 +6049,12 @@
 <Actions>
 <Action
  Guid="3dd7b2b6-6398-4cf0-9e4c-22e87fc0e37d"
->InputInformation.RequestStatus &lt;- Request.Response</Action></Actions>
+>InputInformation.RequestStatus &lt;- RequestEnum.Response</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
- TypeName="DMI.InputInformation"
+ TypeName="InputInformationStruct"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -6093,7 +6108,7 @@
  Guid="4bd3d95f-2f28-4a2f-89e8-2721a3e0ea43"
 >AcknOfTrainTripAvailable()</PreCondition><PreCondition
  Guid="c5da3921-5c94-4364-9792-fee9aad7cec1"
->THIS.InputInformation.RequestStatus == Request.Response</PreCondition></PreConditions>
+>THIS.InputInformation.RequestStatus == RequestEnum.Response</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="beebc794-9e66-41ac-bdd5-4af14e37de2f"
@@ -6167,8 +6182,9 @@
 >Acknowledgements.AddAcknowledgement
 (
   anAcknowledgement =&gt; Acknowledgements.AckTypeEnum.TrainTrip,
-  aText =&gt; &apos;&apos;,
-  aLevel =&gt; EMPTY
+  aLevel =&gt; EMPTY,
+  aFixedTextMessage =&gt; EMPTY,
+  aPlainTextMessage =&gt; EMPTY
 )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
@@ -6199,12 +6215,12 @@
 <Actions>
 <Action
  Guid="9fd9e9c0-8b72-42ca-a144-88ba5d805e86"
->InputInformation.RequestStatus &lt;- Request.Response</Action></Actions>
+>InputInformation.RequestStatus &lt;- RequestEnum.Response</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
- TypeName="DMI.InputInformation"
+ TypeName="InputInformationStruct"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -6256,7 +6272,7 @@
 <PreConditions>
 <PreCondition
  Guid="74984aa5-533e-4d93-adde-3376902ab995"
->AcknForRollAwayProtection.InputInformation.RequestStatus == Request.Response</PreCondition><PreCondition
+>AcknForRollAwayProtection.InputInformation.RequestStatus == RequestEnum.Response</PreCondition><PreCondition
  Guid="537d2a8f-740f-4c14-b1e4-e416a8819ff6"
 >AcknForRollAwayProtectionAvailable()</PreCondition></PreConditions>
 <Actions>
@@ -6332,8 +6348,9 @@
 >Acknowledgements.AddAcknowledgement
 (
   anAcknowledgement =&gt; Acknowledgements.AckTypeEnum.RollAwayProtection,
-  aText =&gt; &apos;&apos;,
-  aLevel =&gt; EMPTY
+  aLevel =&gt; EMPTY,
+  aFixedTextMessage =&gt; EMPTY,
+  aPlainTextMessage =&gt; EMPTY
 )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
@@ -6364,12 +6381,12 @@
 <Actions>
 <Action
  Guid="36efcf90-09b8-4cd5-9031-247d4058b842"
->InputInformation.RequestStatus &lt;- Request.Response</Action></Actions>
+>InputInformation.RequestStatus &lt;- RequestEnum.Response</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
- TypeName="DMI.InputInformation"
+ TypeName="InputInformationStruct"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -6421,7 +6438,7 @@
 <PreConditions>
 <PreCondition
  Guid="6fe5e053-8049-40b6-8e3f-7d2c7e19cb04"
->THIS.InputInformation.RequestStatus == Request.Response</PreCondition><PreCondition
+>THIS.InputInformation.RequestStatus == RequestEnum.Response</PreCondition><PreCondition
  Guid="f860c61f-dcfd-4dac-8f04-5740860c4a0e"
 >AcknForReverseMovementProtectionAvailable()</PreCondition></PreConditions>
 <Actions>
@@ -6497,8 +6514,9 @@
 >Acknowledgements.AddAcknowledgement
 (
   anAcknowledgement =&gt; Acknowledgements.AckTypeEnum.ReverseMovementProtection,
-  aText =&gt; &apos;&apos;,
-  aLevel =&gt; EMPTY
+  aLevel =&gt; EMPTY,
+  aFixedTextMessage =&gt; EMPTY,
+  aPlainTextMessage =&gt; EMPTY
 )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
@@ -6529,12 +6547,12 @@
 <Actions>
 <Action
  Guid="6635b9f3-fe6f-4d16-97f1-3235b5cd7a37"
->InputInformation.RequestStatus &lt;- Request.Response</Action></Actions>
+>InputInformation.RequestStatus &lt;- RequestEnum.Response</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
- TypeName="DMI.InputInformation"
+ TypeName="InputInformationStruct"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -6586,7 +6604,7 @@
 <PreConditions>
 <PreCondition
  Guid="b195fb48-2e58-4b6d-8e92-f6c691fefe08"
->THIS.InputInformation.RequestStatus == Request.Response</PreCondition><PreCondition
+>THIS.InputInformation.RequestStatus == RequestEnum.Response</PreCondition><PreCondition
  Guid="1b8b5858-6676-4054-a849-f88918972129"
 >AcknForStandstillSupervisionAvailable()</PreCondition></PreConditions>
 <Actions>
@@ -6631,8 +6649,9 @@
 >Acknowledgements.AddAcknowledgement
 (
   anAcknowledgement =&gt; Acknowledgements.AckTypeEnum.StandstillSupervision,
-  aText =&gt; &apos;&apos;,
-  aLevel =&gt; EMPTY
+  aLevel =&gt; EMPTY,
+  aFixedTextMessage =&gt; EMPTY,
+  aPlainTextMessage =&gt; EMPTY
 )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
@@ -6695,12 +6714,12 @@
 <Actions>
 <Action
  Guid="eda63f1b-2034-41c9-b458-f855a70137ff"
->InputInformation.RequestStatus &lt;- Request.Response</Action></Actions>
+>InputInformation.RequestStatus &lt;- RequestEnum.Response</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
- TypeName="DMI.InputInformation"
+ TypeName="InputInformationStruct"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -6752,7 +6771,7 @@
 <PreConditions>
 <PreCondition
  Guid="d4d6116f-410d-4fbf-9965-397a1bb830c1"
->InputInformation.RequestStatus == Request.Response</PreCondition><PreCondition
+>InputInformation.RequestStatus == RequestEnum.Response</PreCondition><PreCondition
  Guid="b6c79151-4260-4507-a189-28d5c6a88842"
 >AcknForPostTripDistanceExceededAvailable()</PreCondition></PreConditions>
 <Actions>
@@ -6797,8 +6816,9 @@
 >Acknowledgements.AddAcknowledgement
 (
   anAcknowledgement =&gt; Acknowledgements.AckTypeEnum.PostTripDistanceExceeded,
-  aText =&gt; &apos;&apos;,
-  aLevel =&gt; EMPTY
+  aLevel =&gt; EMPTY,
+  aFixedTextMessage =&gt; EMPTY,
+  aPlainTextMessage =&gt; EMPTY
 )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
@@ -6861,12 +6881,12 @@
 <Actions>
 <Action
  Guid="d8bb6c81-ce43-4780-acc1-e314f75f01e3"
->InputInformation.RequestStatus &lt;- Request.Response</Action></Actions>
+>InputInformation.RequestStatus &lt;- RequestEnum.Response</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
- TypeName="DMI.InputInformation"
+ TypeName="InputInformationStruct"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -6918,7 +6938,7 @@
 <PreConditions>
 <PreCondition
  Guid="7aa02568-72f6-49af-848e-677ab5f76231"
->THIS.InputInformation.RequestStatus == Request.Response</PreCondition><PreCondition
+>THIS.InputInformation.RequestStatus == RequestEnum.Response</PreCondition><PreCondition
  Guid="87de1983-eb5a-4c8f-81ff-3a9ec1903a9f"
 >AcknForReversingDistanceExceededAvailable()</PreCondition></PreConditions>
 <Actions>
@@ -6963,8 +6983,9 @@
 >Acknowledgements.AddAcknowledgement
 (
   anAcknowledgement =&gt; Acknowledgements.AckTypeEnum.ReversingDistanceExceeded,
-  aText =&gt; &apos;&apos;,
-  aLevel =&gt; EMPTY
+  aLevel =&gt; EMPTY,
+  aFixedTextMessage =&gt; EMPTY,
+  aPlainTextMessage =&gt; EMPTY
 )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
@@ -7027,12 +7048,12 @@
 <Actions>
 <Action
  Guid="ae69db72-a105-45f8-9e7d-d9d76c94be28"
->InputInformation.RequestStatus &lt;- Request.Response</Action></Actions>
+>InputInformation.RequestStatus &lt;- RequestEnum.Response</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
- TypeName="DMI.InputInformation"
+ TypeName="InputInformationStruct"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -7084,7 +7105,7 @@
 <PreConditions>
 <PreCondition
  Guid="20200d18-c9a3-4d32-89aa-d5e0cc8d28fe"
->THIS.InputInformation.RequestStatus == Request.Response</PreCondition><PreCondition
+>THIS.InputInformation.RequestStatus == RequestEnum.Response</PreCondition><PreCondition
  Guid="f512c54f-b7e8-430e-b642-e68bc3d8ca02"
 >TrainRunningNumberAvailable()</PreCondition></PreConditions>
 <Actions>
@@ -7185,12 +7206,12 @@
 <Actions>
 <Action
  Guid="a3871011-0981-473d-8fca-19d2cf531e5c"
->InputInformation.RequestStatus &lt;- Request.Response</Action></Actions>
+>InputInformation.RequestStatus &lt;- RequestEnum.Response</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
- TypeName="DMI.InputInformation"
+ TypeName="InputInformationStruct"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -7244,7 +7265,7 @@
  Guid="85ba86ad-387c-4405-a27b-9342e6896c10"
 >VirtualBaliseCoverAvailable()</PreCondition><PreCondition
  Guid="109fd754-6f1b-4416-8951-2d2552e9fe8f"
->THIS.InputInformation.RequestStatus == Request.Response</PreCondition></PreConditions>
+>THIS.InputInformation.RequestStatus == RequestEnum.Response</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="db267b0a-5c9a-4ef3-92aa-12ab011e6f2f"
@@ -7344,12 +7365,12 @@
 <Actions>
 <Action
  Guid="3ee14e08-7405-458e-9fc3-088ef4871fa9"
->InputInformation.RequestStatus &lt;- Request.Response</Action></Actions>
+>InputInformation.RequestStatus &lt;- RequestEnum.Response</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
- TypeName="DMI.InputInformation"
+ TypeName="InputInformationStruct"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -7403,7 +7424,7 @@
  Guid="98f5b3e5-46a7-47c9-9473-df788dee1cf1"
 >DriverIdAvailable()</PreCondition><PreCondition
  Guid="09c1fb1f-ae4a-4ec6-b860-3d254cbc29ef"
->THIS.InputInformation.RequestStatus == Request.Response</PreCondition></PreConditions>
+>THIS.InputInformation.RequestStatus == RequestEnum.Response</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="528423a2-3558-4b80-83c2-a89b03dfae6e"
@@ -7502,12 +7523,12 @@
 <Actions>
 <Action
  Guid="6458db2e-6ee5-4740-9863-de751f5687ea"
->InputInformation.RequestStatus &lt;- Request.Response</Action></Actions>
+>InputInformation.RequestStatus &lt;- RequestEnum.Response</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
- TypeName="DMI.InputInformation"
+ TypeName="InputInformationStruct"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -7566,7 +7587,7 @@
  Guid="851e5f13-c576-435c-8507-16eb479a30bf"
 >ErtmsEtcsLevelAvailable()</PreCondition><PreCondition
  Guid="83fb3682-da57-4408-9f95-52d81553afa1"
->THIS.InputInformation.RequestStatus == Request.Response</PreCondition></PreConditions>
+>THIS.InputInformation.RequestStatus == RequestEnum.Response</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="8e1db983-940e-4c27-90dd-eb9c418e948d"
@@ -7671,12 +7692,12 @@
 <Actions>
 <Action
  Guid="47decc69-ad77-4784-8950-38f30e3dbbf9"
->InputInformation.RequestStatus &lt;- Request.Response</Action></Actions>
+>InputInformation.RequestStatus &lt;- RequestEnum.Response</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
- TypeName="DMI.InputInformation"
+ TypeName="InputInformationStruct"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -7730,7 +7751,7 @@
  Guid="75e7534c-ffa8-48b8-ba98-3c39debe87e7"
 >SRModeSpeedLimitAndDistanceAvailable()</PreCondition><PreCondition
  Guid="7799470d-65b1-4cb0-9f2a-5644837c4f04"
->THIS.InputInformation.RequestStatus == Request.Response</PreCondition></PreConditions>
+>THIS.InputInformation.RequestStatus == RequestEnum.Response</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="fb33d69b-90c0-4a5e-9ca4-56c8c6accc24"
@@ -7832,12 +7853,12 @@
 <Actions>
 <Action
  Guid="16d2a53b-54b9-46a5-b625-8ebb6a95ed4c"
->InputInformation.RequestStatus &lt;- Request.Response</Action></Actions>
+>InputInformation.RequestStatus &lt;- RequestEnum.Response</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
- TypeName="DMI.InputInformation"
+ TypeName="InputInformationStruct"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -7891,7 +7912,7 @@
  Guid="3edff9f2-e6ba-4bfc-99b6-b1a3a1a74a59"
 >
 <Comment>Identifies the modes where the function is available</Comment>
-<Expression>Kernel.Mode in [Mode.SB, Mode.FS, Mode.LS, Mode.SR, Mode.OS, Mode.NL, Mode.UN, Mode.SN]</Expression>
+<Expression>Kernel.Mode in [ModeEnum.SB, ModeEnum.FS, ModeEnum.LS, ModeEnum.SR, ModeEnum.OS, ModeEnum.NL, ModeEnum.UN, ModeEnum.SN]</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -7921,7 +7942,7 @@
  Guid="776e8526-8a56-4314-9e51-66001f9f78b3"
 >
 <Comment>Identifies the modes where the function is available</Comment>
-<Expression>Kernel.Mode in [Mode.SB, Mode.SH, Mode.FS, Mode.LS, Mode.SR, Mode.OS, Mode.NL, Mode.UN, Mode.SN ]</Expression>
+<Expression>Kernel.Mode in [ModeEnum.SB, ModeEnum.SH, ModeEnum.FS, ModeEnum.LS, ModeEnum.SR, ModeEnum.OS, ModeEnum.NL, ModeEnum.UN, ModeEnum.SN ]</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -7946,7 +7967,7 @@
  Guid="bde0df6a-98fa-46b5-8f48-1d96b61ea006"
 >
 <Comment>Identifies the modes where the function is available</Comment>
-<Expression>Kernel.Mode in [Mode.SB, Mode.FS, Mode.LS, Mode.SR, Mode.OS, Mode.UN, Mode.SN ]</Expression>
+<Expression>Kernel.Mode in [ModeEnum.SB, ModeEnum.FS, ModeEnum.LS, ModeEnum.SR, ModeEnum.OS, ModeEnum.UN, ModeEnum.SN ]</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -7976,7 +7997,7 @@
  Guid="5bbba839-8f43-42bf-a68b-72683107fb69"
 >
 <Comment>Identifies the modes where the function is available</Comment>
-<Expression>Kernel.Mode in [Mode.SB, Mode.FS, Mode.LS, Mode.SR, Mode.OS, Mode.NL, Mode.UN, Mode.SN ]</Expression>
+<Expression>Kernel.Mode in [ModeEnum.SB, ModeEnum.FS, ModeEnum.LS, ModeEnum.SR, ModeEnum.OS, ModeEnum.NL, ModeEnum.UN, ModeEnum.SN ]</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -8001,7 +8022,7 @@
  Guid="a35966d6-7556-49e7-a112-712859eb5320"
 >
 <Comment>Identifies the modes where the function is available</Comment>
-<Expression>Kernel.Mode in [Mode.SB, Mode.SR, Mode.PT ]</Expression>
+<Expression>Kernel.Mode in [ModeEnum.SB, ModeEnum.SR, ModeEnum.PT ]</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -8026,7 +8047,7 @@
  Guid="2b206bcd-5b95-4d2c-89c5-579c15383e71"
 >
 <Comment>Identifies the modes where the function is available</Comment>
-<Expression>Kernel.Mode in [Mode.SB, Mode.FS, Mode.LS, Mode.SR, Mode.OS, Mode.NL, Mode.UN, Mode.TR, Mode.PT, Mode.RV ]</Expression>
+<Expression>Kernel.Mode in [ModeEnum.SB, ModeEnum.FS, ModeEnum.LS, ModeEnum.SR, ModeEnum.OS, ModeEnum.NL, ModeEnum.UN, ModeEnum.TR, ModeEnum.PT, ModeEnum.RV ]</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -8051,7 +8072,7 @@
  Guid="acaec852-d157-40a0-8b06-4aa275d8e80e"
 >
 <Comment>Identifies the modes where the function is available</Comment>
-<Expression>Kernel.Mode in [Mode.SB, Mode.FS, Mode.LS, Mode.SR, Mode.OS, Mode.UN, Mode.TR, Mode.SN ]</Expression>
+<Expression>Kernel.Mode in [ModeEnum.SB, ModeEnum.FS, ModeEnum.LS, ModeEnum.SR, ModeEnum.OS, ModeEnum.UN, ModeEnum.TR, ModeEnum.SN ]</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -8076,7 +8097,7 @@
  Guid="b2975d63-8936-4972-97f7-6168230d4045"
 >
 <Comment>Identifies the modes where the function is available</Comment>
-<Expression>Kernel.Mode in [Mode.SB, Mode.FS, Mode.LS, Mode.SR, Mode.OS, Mode.NL, Mode.UN, Mode.TR, Mode.PT, Mode.RV ]</Expression>
+<Expression>Kernel.Mode in [ModeEnum.SB, ModeEnum.FS, ModeEnum.LS, ModeEnum.SR, ModeEnum.OS, ModeEnum.NL, ModeEnum.UN, ModeEnum.TR, ModeEnum.PT, ModeEnum.RV ]</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -8101,7 +8122,7 @@
  Guid="a6f59268-d02c-4703-9c1f-f895ce68c6d6"
 >
 <Comment>Identifies the modes where the function is available</Comment>
-<Expression>Kernel.Mode in [Mode.SB]</Expression>
+<Expression>Kernel.Mode in [ModeEnum.SB]</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -8126,7 +8147,7 @@
  Guid="f74988b0-5c18-423d-b5ae-49fa86ab0cbd"
 >
 <Comment>Identifies the modes where the function is available</Comment>
-<Expression>Kernel.Mode in [Mode.FS, Mode.LS, Mode.SR, Mode.OS, Mode.UN, Mode.TR, Mode.SN ]</Expression>
+<Expression>Kernel.Mode in [ModeEnum.FS, ModeEnum.LS, ModeEnum.SR, ModeEnum.OS, ModeEnum.UN, ModeEnum.TR, ModeEnum.SN ]</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -8151,7 +8172,7 @@
  Guid="56e116c7-c9e9-420c-b3b4-2a2dd5f45353"
 >
 <Comment>Identifies the modes where the function is available</Comment>
-<Expression>Kernel.Mode in [Mode.SB, Mode.FS, Mode.LS, Mode.OS, Mode.PT ]</Expression>
+<Expression>Kernel.Mode in [ModeEnum.SB, ModeEnum.FS, ModeEnum.LS, ModeEnum.OS, ModeEnum.PT ]</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -8176,7 +8197,7 @@
  Guid="79e41628-60ed-4965-8daf-0a1e9b100df2"
 >
 <Comment>Identifies the modes where the function is available</Comment>
-<Expression>Kernel.Mode in [Mode.SB, Mode.FS, Mode.LS, Mode.OS, Mode.PT ]</Expression>
+<Expression>Kernel.Mode in [ModeEnum.SB, ModeEnum.FS, ModeEnum.LS, ModeEnum.OS, ModeEnum.PT ]</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -8201,7 +8222,7 @@
  Guid="be4217db-5877-4a34-88f7-28581df344dc"
 >
 <Comment>Identifies the modes where the function is available</Comment>
-<Expression>Kernel.Mode in [Mode.SB, Mode.SH, Mode.FS, Mode.LS, Mode.OS, Mode.PT ]</Expression>
+<Expression>Kernel.Mode in [ModeEnum.SB, ModeEnum.SH, ModeEnum.FS, ModeEnum.LS, ModeEnum.OS, ModeEnum.PT ]</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -8226,7 +8247,7 @@
  Guid="838ec310-5183-4f07-abcc-29b44a488c79"
 >
 <Comment>Identifies the modes where the function is available</Comment>
-<Expression>Kernel.Mode in [Mode.SB, Mode.PT ]</Expression>
+<Expression>Kernel.Mode in [ModeEnum.SB, ModeEnum.PT ]</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -8251,7 +8272,7 @@
  Guid="9415dfdc-f245-4fdd-a9e3-c5f8ba1d96ee"
 >
 <Comment>Identifies the modes where the function is available</Comment>
-<Expression>Kernel.Mode in [Mode.SB]</Expression>
+<Expression>Kernel.Mode in [ModeEnum.SB]</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -8276,7 +8297,7 @@
  Guid="73ab2be8-d220-4660-b8ca-95fd5dc108a4"
 >
 <Comment>Identifies the modes where the function is available</Comment>
-<Expression>Kernel.Mode in [Mode.FS, Mode.LS, Mode.OS ]</Expression>
+<Expression>Kernel.Mode in [ModeEnum.FS, ModeEnum.LS, ModeEnum.OS ]</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -8301,7 +8322,7 @@
  Guid="8eb8e906-f64d-465b-93cd-048d5f78e96c"
 >
 <Comment>Identifies the modes where the function is available</Comment>
-<Expression>Kernel.Mode in [Mode.TR]</Expression>
+<Expression>Kernel.Mode in [ModeEnum.TR]</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -8326,7 +8347,7 @@
  Guid="c094ffa3-09e1-4637-b75d-a9c4873f33cc"
 >
 <Comment>Identifies the modes where the function is available</Comment>
-<Expression>Kernel.Mode in [Mode.SH, Mode.FS, Mode.LS, Mode.SR, Mode.OS, Mode.UN, Mode.PT, Mode.RV ]</Expression>
+<Expression>Kernel.Mode in [ModeEnum.SH, ModeEnum.FS, ModeEnum.LS, ModeEnum.SR, ModeEnum.OS, ModeEnum.UN, ModeEnum.PT, ModeEnum.RV ]</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -8351,7 +8372,7 @@
  Guid="f57a652d-8b28-4ac0-b528-85f42cb559ea"
 >
 <Comment>Identifies the modes where the function is available</Comment>
-<Expression>Kernel.Mode in [Mode.FS, Mode.LS, Mode.SR, Mode.OS, Mode.PT, Mode.RV ]</Expression>
+<Expression>Kernel.Mode in [ModeEnum.FS, ModeEnum.LS, ModeEnum.SR, ModeEnum.OS, ModeEnum.PT, ModeEnum.RV ]</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -8376,7 +8397,7 @@
  Guid="da028fdb-934a-4de2-881a-c3aecc1a195e"
 >
 <Comment>Identifies the modes where the function is available</Comment>
-<Expression>Kernel.Mode in [Mode.SB]</Expression>
+<Expression>Kernel.Mode in [ModeEnum.SB]</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -8401,7 +8422,7 @@
  Guid="fa4648fe-e3af-47e9-817c-b26e3076acc6"
 >
 <Comment>Identifies the modes where the function is available</Comment>
-<Expression>Kernel.Mode in [Mode.PT]</Expression>
+<Expression>Kernel.Mode in [ModeEnum.PT]</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -8426,7 +8447,7 @@
  Guid="8f46221f-c7f8-4557-9f52-dab476f5e3d2"
 >
 <Comment>Identifies the modes where the function is available</Comment>
-<Expression>Kernel.Mode in [Mode.RV]</Expression>
+<Expression>Kernel.Mode in [ModeEnum.RV]</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -8451,7 +8472,7 @@
  Guid="92c623f2-eef0-49a9-bb77-8aaf94d30044"
 >
 <Comment>Identifies the modes where the function is available</Comment>
-<Expression>Kernel.Mode in [Mode.SH]</Expression>
+<Expression>Kernel.Mode in [ModeEnum.SH]</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -8476,7 +8497,7 @@
  Guid="d1d50f4f-dc5f-455d-a476-a9f3ddc9debe"
 >
 <Comment>Identifies the modes where the function is available</Comment>
-<Expression>Kernel.Mode in [Mode.SH]</Expression>
+<Expression>Kernel.Mode in [ModeEnum.SH]</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -8501,7 +8522,7 @@
  Guid="55a5b761-33d9-4424-ba64-cf31c6266f1e"
 >
 <Comment>Identifies the modes where the function is available</Comment>
-<Expression>Kernel.Mode in [Mode.NP, Mode.SB, Mode.PS, Mode.SH, Mode.FS, Mode.LS, Mode.SR, Mode.OS, Mode.SL, Mode.NL, Mode.UN, Mode.TR, Mode.PT, Mode.SF, Mode.IS, Mode.SN, Mode.RV ]</Expression>
+<Expression>Kernel.Mode in [ModeEnum.NP, ModeEnum.SB, ModeEnum.PS, ModeEnum.SH, ModeEnum.FS, ModeEnum.LS, ModeEnum.SR, ModeEnum.OS, ModeEnum.SL, ModeEnum.NL, ModeEnum.UN, ModeEnum.TR, ModeEnum.PT, ModeEnum.SF, ModeEnum.IS, ModeEnum.SN, ModeEnum.RV ]</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -8531,7 +8552,7 @@
  Guid="be9b248f-1fee-4e53-81ab-514a924baa4d"
 >
 <Comment>Identifies the modes where the function is available</Comment>
-<Expression>Kernel.Mode in [Mode.SB, Mode.SH, Mode.FS, Mode.LS, Mode.SR, Mode.OS]
+<Expression>Kernel.Mode in [ModeEnum.SB, ModeEnum.SH, ModeEnum.FS, ModeEnum.LS, ModeEnum.SR, ModeEnum.OS]
   AND
 TIU.NonLeadingPermitted</Expression>
 </Case></Cases>
@@ -8558,7 +8579,7 @@ TIU.NonLeadingPermitted</Expression>
  Guid="c5ee4623-867d-45c4-a261-868fb7b2a856"
 >
 <Comment>Identifies the modes where the function is available</Comment>
-<Expression>Kernel.Mode in [Mode.SB, Mode.SH, Mode.FS, Mode.LS, Mode.SR, Mode.OS, Mode.UN, Mode.PT, Mode.SN]</Expression>
+<Expression>Kernel.Mode in [ModeEnum.SB, ModeEnum.SH, ModeEnum.FS, ModeEnum.LS, ModeEnum.SR, ModeEnum.OS, ModeEnum.UN, ModeEnum.PT, ModeEnum.SN]</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -8583,7 +8604,7 @@ TIU.NonLeadingPermitted</Expression>
  Guid="41d9fd46-bee9-4271-8f2a-1572a36dad5f"
 >
 <Comment>Identifies the modes where the function is available</Comment>
-<Expression>Kernel.Mode in [Mode.SB, Mode.FS, Mode.LS, Mode.SR, Mode.OS, Mode.NL, Mode.PT]</Expression>
+<Expression>Kernel.Mode in [ModeEnum.SB, ModeEnum.FS, ModeEnum.LS, ModeEnum.SR, ModeEnum.OS, ModeEnum.NL, ModeEnum.PT]</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -8608,7 +8629,7 @@ TIU.NonLeadingPermitted</Expression>
  Guid="1c38c9da-1851-4cef-86f7-297da0421a16"
 >
 <Comment>Identifies the modes where the function is available</Comment>
-<Expression>Kernel.Mode in [Mode.SB, Mode.SH, Mode.FS, Mode.LS, Mode.SR, Mode.OS, Mode.NL, Mode.UN, Mode.TR, Mode.PT, Mode.SN, Mode.RV]</Expression>
+<Expression>Kernel.Mode in [ModeEnum.SB, ModeEnum.SH, ModeEnum.FS, ModeEnum.LS, ModeEnum.SR, ModeEnum.OS, ModeEnum.NL, ModeEnum.UN, ModeEnum.TR, ModeEnum.PT, ModeEnum.SN, ModeEnum.RV]</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -8633,7 +8654,7 @@ TIU.NonLeadingPermitted</Expression>
  Guid="2f312b51-e737-432c-9cc9-4ae23962230d"
 >
 <Comment>Identifies the modes where the function is available</Comment>
-<Expression>Kernel.Mode in [Mode.SB, Mode.FS, Mode.LS, Mode.SR, Mode.OS, Mode.UN, Mode.PT, Mode.SN]</Expression>
+<Expression>Kernel.Mode in [ModeEnum.SB, ModeEnum.FS, ModeEnum.LS, ModeEnum.SR, ModeEnum.OS, ModeEnum.UN, ModeEnum.PT, ModeEnum.SN]</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -8658,7 +8679,7 @@ TIU.NonLeadingPermitted</Expression>
  Guid="73f32435-63c4-4634-b870-692d6d53d341"
 >
 <Comment>Identifies the modes where the function is available</Comment>
-<Expression>Kernel.Mode in [Mode.SR]</Expression>
+<Expression>Kernel.Mode in [ModeEnum.SR]</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -8683,7 +8704,7 @@ TIU.NonLeadingPermitted</Expression>
  Guid="406385b6-633e-4a2f-b461-6367e4974d34"
 >
 <Comment>Identifies the modes where the function is available</Comment>
-<Expression>Kernel.Mode in [Mode.SB, Mode.FS, Mode.LS, Mode.SR, Mode.OS, Mode.UN, Mode.SN ]</Expression>
+<Expression>Kernel.Mode in [ModeEnum.SB, ModeEnum.FS, ModeEnum.LS, ModeEnum.SR, ModeEnum.OS, ModeEnum.UN, ModeEnum.SN ]</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -8713,7 +8734,7 @@ TIU.NonLeadingPermitted</Expression>
  Guid="e8da73db-aef3-48aa-a309-2f92d005a69f"
 >
 <Comment>Identifies the modes where the function is available</Comment>
-<Expression>Kernel.Mode in [Mode.SB, Mode.LS, Mode.SR, Mode.OS, Mode.PT]</Expression>
+<Expression>Kernel.Mode in [ModeEnum.SB, ModeEnum.LS, ModeEnum.SR, ModeEnum.OS, ModeEnum.PT]</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -8738,7 +8759,7 @@ TIU.NonLeadingPermitted</Expression>
  Guid="77f2b1f6-166c-4d25-ba77-af77dc15dd72"
 >
 <Comment>Identifies the modes where the function is available</Comment>
-<Expression>Kernel.Mode in [Mode.SB, Mode.FS, Mode.LS, Mode.SR, Mode.OS, Mode.PT]</Expression>
+<Expression>Kernel.Mode in [ModeEnum.SB, ModeEnum.FS, ModeEnum.LS, ModeEnum.SR, ModeEnum.OS, ModeEnum.PT]</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -8763,7 +8784,7 @@ TIU.NonLeadingPermitted</Expression>
  Guid="c57564a1-d034-4617-8d3f-cf1eb5de2b89"
 >
 <Comment>Identifies the modes where the function is available</Comment>
-<Expression>Kernel.Mode in [Mode.SB]</Expression>
+<Expression>Kernel.Mode in [ModeEnum.SB]</Expression>
 </Case></Cases>
 </Function></Functions>
 </NameSpace>
