@@ -68,6 +68,8 @@
  Guid="33e06563-a800-4905-96bd-8b83452e1938"
 >
 <Expression>THERE_IS aTarget IN Kernel.SpeedAndDistanceMonitoring.TargetsList() | 
+(NOT (MA.IsEOA(aTarget) OR MA.IsSvL(aTarget)) )
+  AND  
 Odometry.TrainSpeed() &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.SupervisionStatus.SpeedOfTarget(aTarget)</Expression>
 </Case></Cases>
 </Function><Function
@@ -155,6 +157,8 @@ Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Max) &lt;= Kernel.SpeedAn
  Guid="c75a89eb-c9fe-4ac5-9250-b1dad82d823a"
 >
 <Expression>THERE_IS aTarget IN Kernel.SpeedAndDistanceMonitoring.TargetsList() | 
+(NOT (MA.IsEOA(aTarget) OR MA.IsSvL(aTarget)) )
+  AND  
 (aTarget.Speed &lt; Odometry.TrainSpeed()
   AND
  Odometry.TrainSpeed() &lt;= Kernel.MRSP.V_MRSP()
@@ -250,6 +254,8 @@ Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom) &gt; Kernel.SpeedAnd
  Guid="56e2b874-6051-4a14-9bc2-0f44e01ad161"
 >
 <Expression>THERE_IS aTarget IN Kernel.SpeedAndDistanceMonitoring.TargetsList() | 
+(NOT (MA.IsEOA(aTarget) OR MA.IsSvL(aTarget)) )
+  AND  
 (aTarget.Speed &lt; Odometry.TrainSpeed()
   AND  
  Odometry.TrainSpeed() &lt;= Kernel.MRSP.V_MRSP()
@@ -349,6 +355,8 @@ Kernel.MA.MA.TargetSpeed == 0.0
  Guid="2854a847-3e8d-4468-a9bd-a85e9df77c42"
 >
 <Expression>THERE_IS aTarget IN Kernel.SpeedAndDistanceMonitoring.TargetsList() | 
+(NOT (MA.IsEOA(aTarget) OR MA.IsSvL(aTarget)) )
+  AND  
 (
   aTarget.Speed &lt; Odometry.TrainSpeed()
     AND
@@ -447,6 +455,8 @@ Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom) &lt;= Kernel.SpeedAn
  Guid="2db9bb5e-952a-4ba8-af80-55bfaccbc14e"
 >
 <Expression>THERE_IS aTarget IN Kernel.SpeedAndDistanceMonitoring.TargetsList() |
+(NOT (MA.IsEOA(aTarget) OR MA.IsSvL(aTarget)) )
+  AND  
 (Kernel.MRSP.V_MRSP() &lt; Odometry.TrainSpeed()
   AND
  Odometry.TrainSpeed() &lt;= Kernel.MRSP.V_MRSP() + Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_warning ( Kernel.MRSP.V_MRSP() )
@@ -557,6 +567,8 @@ Kernel.MA.MA.TargetSpeed == 0.0
  Guid="ba3bceba-575d-4cfe-863f-7b13981fd406"
 >
 <Expression>THERE_IS aTarget IN Kernel.SpeedAndDistanceMonitoring.TargetsList() | 
+(NOT (MA.IsEOA(aTarget) OR MA.IsSvL(aTarget)) )
+  AND  
 (Kernel.MRSP.V_MRSP() &lt; Odometry.TrainSpeed()
   AND  
  Odometry.TrainSpeed() &lt;= Kernel.MRSP.V_MRSP() + Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_warning ( Kernel.MRSP.V_MRSP() )
@@ -656,6 +668,8 @@ Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom) &gt; Kernel.SpeedAnd
  Guid="ed30bc4a-a69c-4209-a3e4-837a6726cad1"
 >
 <Expression>THERE_IS aTarget IN Kernel.SpeedAndDistanceMonitoring.TargetsList() | 
+(NOT (MA.IsEOA(aTarget) OR MA.IsSvL(aTarget)) )
+  AND  
 (Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.SupervisionStatus.WarningSpeedOfTarget( aTarget ) &lt; Odometry.TrainSpeed()
   AND  
  Odometry.TrainSpeed() &lt;= Kernel.MRSP.V_MRSP() + Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_warning ( Kernel.MRSP.V_MRSP() )
@@ -751,6 +765,8 @@ Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom) &lt;= Kernel.SpeedAn
  Guid="20933763-b87b-4bf7-ab53-7119bba2d16a"
 >
 <Expression>THERE_IS aTarget IN Kernel.SpeedAndDistanceMonitoring.TargetsList() | 
+(NOT (MA.IsEOA(aTarget) OR MA.IsSvL(aTarget)) )
+  AND  
 (Kernel.MRSP.V_MRSP() + Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_warning ( Kernel.MRSP.V_MRSP() ) &lt; Odometry.TrainSpeed()
   AND  
  Odometry.TrainSpeed() &lt;= Kernel.MRSP.V_MRSP() + Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_sbi ( Kernel.MRSP.V_MRSP() )
@@ -862,6 +878,8 @@ Kernel.MA.MA.TargetSpeed == 0.0
  Guid="8425461c-f75f-42f6-8fe4-a064555e00d3"
 >
 <Expression>THERE_IS aTarget IN Kernel.SpeedAndDistanceMonitoring.TargetsList() | 
+(NOT (MA.IsEOA(aTarget) OR MA.IsSvL(aTarget)) )
+  AND  
 (Kernel.MRSP.V_MRSP() + Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_warning ( Kernel.MRSP.V_MRSP() ) &lt; Odometry.TrainSpeed()
   AND  
  Odometry.TrainSpeed() &lt;= Kernel.MRSP.V_MRSP() + Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_sbi ( Kernel.MRSP.V_MRSP() )
@@ -935,8 +953,6 @@ Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Max) &lt;= Kernel.SpeedAn
 >
 <PreConditions>
 <PreCondition
- Guid="3c4afc76-27f9-4694-8fad-3057f5ea8a07"
->Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.ReleaseSpeed &lt; Odometry.TrainSpeed()</PreCondition><PreCondition
  Guid="c7f073f8-260b-4b35-bede-4be01887b319"
 >Odometry.TrainSpeed()  &lt;=  Kernel.MRSP.V_MRSP() + Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_sbi( Kernel.MRSP.V_MRSP() )</PreCondition><PreCondition
  Guid="43cfa677-694e-4c1b-968a-0b887d27e12b"
@@ -955,13 +971,17 @@ Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Max) &gt; Kernel.SpeedAnd
 
 Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom) &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_SBI1(
     Vest =&gt; Odometry.TrainSpeed() )
-)</PreCondition></PreConditions>
+)</PreCondition><PreCondition
+ Guid="dfd7754d-e882-47a7-8ecf-db66cb027851"
+>Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.ReleaseSpeed &lt; Odometry.TrainSpeed()</PreCondition></PreConditions>
 <Expression>True</Expression>
 </Case><Case
  Name="MRSP target or LOA - Trigger condition fulfilled"
  Guid="5c4828b1-0a48-4d0a-a431-c8d2e4d06db0"
 >
 <Expression>THERE_IS aTarget IN Kernel.SpeedAndDistanceMonitoring.TargetsList() | 
+(NOT (MA.IsEOA(aTarget) OR MA.IsSvL(aTarget)) )
+  AND  
 (Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.SupervisionStatus.SBISpeedOfTarget(aTarget) &lt; Odometry.TrainSpeed()
   AND
  Odometry.TrainSpeed() &lt;= Kernel.MRSP.V_MRSP() + Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_sbi ( Kernel.MRSP.V_MRSP() )
@@ -1058,6 +1078,8 @@ Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom) &lt;= Kernel.SpeedAn
  Guid="103cd448-689f-4944-a9c6-cb6f24307ac2"
 >
 <Expression>THERE_IS aTarget IN Kernel.SpeedAndDistanceMonitoring.TargetsList() | 
+(NOT (MA.IsEOA(aTarget) OR MA.IsSvL(aTarget)) )
+  AND  
 (Kernel.MRSP.V_MRSP() + Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_sbi ( Kernel.MRSP.V_MRSP() ) &lt; Odometry.TrainSpeed()
   AND  
 Odometry.TrainSpeed() &lt;= Kernel.MRSP.V_MRSP() + Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_ebi ( Kernel.MRSP.V_MRSP() )
@@ -1164,6 +1186,8 @@ Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Max) &lt;= Kernel.SpeedAn
  Guid="4268be01-a895-4a34-b6c1-2472ae2e7c48"
 >
 <Expression>THERE_IS aTarget IN Kernel.SpeedAndDistanceMonitoring.TargetsList() | 
+(NOT (MA.IsEOA(aTarget) OR MA.IsSvL(aTarget)) )
+  AND  
 (Kernel.MRSP.V_MRSP() + Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_sbi ( Kernel.MRSP.V_MRSP() ) &lt; Odometry.TrainSpeed()
   AND  
 Odometry.TrainSpeed() &lt;= Kernel.MRSP.V_MRSP() + Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_ebi ( Kernel.MRSP.V_MRSP() )
@@ -1253,6 +1277,8 @@ Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Max) &gt; Kernel.SpeedAnd
  Guid="34e8f5f0-20b8-4ee6-84b1-5371fbbcad32"
 >
 <Expression>THERE_IS aTarget IN Kernel.SpeedAndDistanceMonitoring.TargetsList() | 
+(NOT (MA.IsEOA(aTarget) OR MA.IsSvL(aTarget)) )
+  AND  
 (aTarget.Speed + Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_ebi( aTarget.Speed ) &lt; Odometry.TrainSpeed()
   AND  
 Odometry.TrainSpeed() &lt;= Kernel.MRSP.V_MRSP() + Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_ebi ( Kernel.MRSP.V_MRSP() )
@@ -1342,6 +1368,8 @@ Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom) &lt;= Kernel.SpeedAn
  Guid="8ecc19c1-a5ef-4ee9-a774-b4c117f5757c"
 >
 <Expression>THERE_IS aTarget IN Kernel.SpeedAndDistanceMonitoring.TargetsList() | 
+(NOT (MA.IsEOA(aTarget) OR MA.IsSvL(aTarget)) )
+  AND  
 (Odometry.TrainSpeed() &gt; Kernel.MRSP.V_MRSP() + Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_ebi( Kernel.MRSP.V_MRSP() )
 
   AND  
@@ -1991,6 +2019,8 @@ Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom) &gt; Kernel.SpeedAnd
  Guid="fb0a9609-f3bc-473d-92b1-1df0e0b458e3"
 >
 <Expression>THERE_IS aTarget IN Kernel.SpeedAndDistanceMonitoring.TargetsList() | 
+(NOT (MA.IsEOA(aTarget) OR MA.IsSvL(aTarget)) )
+  AND  
 (Odometry.TrainSpeed() &gt; Kernel.MRSP.V_MRSP() + Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_ebi( Kernel.MRSP.V_MRSP() )
 
   AND  

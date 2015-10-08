@@ -623,7 +623,7 @@ b) is just a placeholder for a missed balise.</Comment>
 
   AND  
 
-(FIRST Balise IN BTM.CurrentBaliseGroup).Telegram.N_PIG &lt; (LAST Balise IN BTM.CurrentBaliseGroup).Telegram.N_PIG</PreCondition></PreConditions>
+(FIRST X IN CurrentBaliseGroup).Telegram.N_PIG &lt; (LAST Balise IN BTM.CurrentBaliseGroup).Telegram.N_PIG</PreCondition></PreConditions>
 <Expression>Orientation.Nominal</Expression>
 </Case><Case
  Name="Two balises stored, N_PIG_1 higher than N_PIG_2"
@@ -1851,7 +1851,7 @@ BTM.StoredBaliseStruct{
 <PreCondition
  Guid="e527dd06-8d8f-4ac9-aef1-75fbcae88607"
 >BTM.BaliseGroupOrientation() == Orientation.Nominal</PreCondition></PreConditions>
-<Expression>(LAST X IN BTM.CurrentBaliseGroup).Telegram.N_PIG + 1</Expression>
+<Expression>LastReceivedBalise().N_PIG + 1</Expression>
 </Case><Case
  Name="Reverse"
  Guid="96841db8-5eee-4ccf-985d-c60ea87e31ab"
@@ -1860,7 +1860,7 @@ BTM.StoredBaliseStruct{
 <PreCondition
  Guid="dccafee7-8c97-4e55-92e7-b52211cda954"
 >BTM.BaliseGroupOrientation() == Orientation.Reverse</PreCondition></PreConditions>
-<Expression>(LAST X IN BTM.CurrentBaliseGroup).Telegram.N_PIG + 1</Expression>
+<Expression>LastReceivedBalise().N_PIG + 1</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -1883,7 +1883,7 @@ BTM.StoredBaliseStruct{
 <PreConditions>
 <PreCondition
  Guid="ffbc3619-3161-4287-b261-cc5320a760c5"
->(COUNT X IN BTM.CurrentBaliseGroup) == (LAST X IN CurrentBaliseGroup).Telegram.N_TOTAL + 1</PreCondition></PreConditions>
+>(COUNT X IN BTM.CurrentBaliseGroup) == LastReceivedBalise().N_TOTAL + 1</PreCondition></PreConditions>
 <Expression>True</Expression>
 </Case><Case
  Name="First balise(s) missed, nominal direction"
@@ -1894,7 +1894,7 @@ BTM.StoredBaliseStruct{
  Guid="e9da31c6-973c-49aa-9e61-b5d14d2b5ebc"
 >BTM.BaliseGroupOrientation() == Orientation.Nominal
   AND  
-(LAST X IN BTM.CurrentBaliseGroup).Telegram.N_PIG == (LAST X IN BTM.CurrentBaliseGroup).Telegram.N_TOTAL</PreCondition></PreConditions>
+LastReceivedBalise().N_PIG == LastReceivedBalise().N_TOTAL</PreCondition></PreConditions>
 <Expression>True</Expression>
 </Case><Case
  Name="First balise(s) missed, reverse direction"
@@ -1905,7 +1905,7 @@ BTM.StoredBaliseStruct{
  Guid="c215fd2a-7ce8-464f-9671-48c87c63b97f"
 >BTM.BaliseGroupOrientation() == Orientation.Reverse
   AND  
-(LAST X IN BTM.CurrentBaliseGroup).Telegram.N_PIG == 0</PreCondition></PreConditions>
+LastReceivedBalise().N_PIG == 0</PreCondition></PreConditions>
 <Expression>True</Expression>
 </Case><Case
  Name="Otherwise"
@@ -2166,6 +2166,28 @@ NOT Kernel.ActiveFunctions.CheckLinkingConsistency()</PreCondition></PreConditio
  Guid="92341a32-c3fc-4bf4-97d3-27e83de4241d"
 >
 <Expression>Kernel.ActiveFunctions.CheckBGMessageIfLinking()</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.EUROBALISE.Message"
+ X="551"
+ Y="181"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="LastReceivedBalise"
+ Guid="9ef93e95-2da0-499b-a6c2-0030f99004f7"
+>
+<Cases>
+<Case
+ Name="Value"
+ Guid="2e6decc7-fdec-435b-b129-84f2dee4f761"
+>
+<PreConditions>
+<PreCondition
+ Guid="4c090882-353f-4098-b440-b8c9891dc115"
+>CurrentBaliseGroup != []</PreCondition></PreConditions>
+<Expression>(LAST X IN BTM.CurrentBaliseGroup).Telegram</Expression>
 </Case></Cases>
 </Function></Functions>
 <Procedures>
@@ -4474,9 +4496,9 @@ If all the messages of the current balise group have been received, calls Handle
 
   AND  
 
-Message.N_PIG != (LAST X IN BTM.CurrentBaliseGroup).Telegram.N_PIG + 1
+Message.N_PIG != LastReceivedBalise().N_PIG + 1
   AND  
-Message.N_PIG != (LAST X IN BTM.CurrentBaliseGroup).Telegram.N_PIG - 1</PreCondition></PreConditions>
+Message.N_PIG != LastReceivedBalise().N_PIG - 1</PreCondition></PreConditions>
 <Actions>
 </Actions>
 <SubRules>
@@ -4512,7 +4534,7 @@ Message.N_PIG != (LAST X IN BTM.CurrentBaliseGroup).Telegram.N_PIG - 1</PreCondi
 <PreConditions>
 <PreCondition
  Guid="57f49648-3125-475b-b122-ad0fd95f36b3"
->Message.N_PIG &gt; (LAST X IN BTM.CurrentBaliseGroup).Telegram.N_PIG</PreCondition></PreConditions>
+>Message.N_PIG &gt; LastReceivedBalise().N_PIG</PreCondition></PreConditions>
 <Actions>
 </Actions>
 <SubRules>
@@ -4538,16 +4560,16 @@ Message.N_PIG != (LAST X IN BTM.CurrentBaliseGroup).Telegram.N_PIG - 1</PreCondi
 >INSERT
 BTM.StoredBaliseStruct{
     Telegram =&gt; Messages.EUROBALISE.Message{
-        Q_UPDOWN =&gt; (LAST Balise IN BTM.CurrentBaliseGroup).Telegram.Q_UPDOWN,
-        M_VERSION =&gt; (LAST Balise IN BTM.CurrentBaliseGroup).Telegram.M_VERSION,
-        Q_MEDIA =&gt; (LAST Balise IN BTM.CurrentBaliseGroup).Telegram.Q_MEDIA,
-        N_PIG =&gt; (LAST Balise IN BTM.CurrentBaliseGroup).Telegram.N_PIG + 1,
-        N_TOTAL =&gt; (LAST Balise IN BTM.CurrentBaliseGroup).Telegram.N_TOTAL,
+        Q_UPDOWN =&gt; LastReceivedBalise().Q_UPDOWN,
+        M_VERSION =&gt; LastReceivedBalise().M_VERSION,
+        Q_MEDIA =&gt; LastReceivedBalise().Q_MEDIA,
+        N_PIG =&gt; LastReceivedBalise().N_PIG + 1,
+        N_TOTAL =&gt; LastReceivedBalise().N_TOTAL,
         M_DUP =&gt; Messages.M_DUP.No_duplicates,
         M_MCOUNT =&gt; Messages.M_MCOUNT.The_telegram_fits_with_all_telegrams_of_the_same_balise_group,
-        NID_C =&gt; (LAST Balise IN BTM.CurrentBaliseGroup).Telegram.NID_C,
-        NID_BG =&gt; (LAST Balise IN BTM.CurrentBaliseGroup).Telegram.NID_BG,
-        Q_LINK =&gt; (LAST Balise IN BTM.CurrentBaliseGroup).Telegram.Q_LINK,
+        NID_C =&gt; LastReceivedBalise().NID_C,
+        NID_BG =&gt; LastReceivedBalise().NID_BG,
+        Q_LINK =&gt; LastReceivedBalise().Q_LINK,
         Sequence1 =&gt; [],
         BitField =&gt; &apos;&apos;
     },
@@ -4586,7 +4608,7 @@ IN BTM.CurrentBaliseGroup</Action></Actions>
 <PreConditions>
 <PreCondition
  Guid="52b1a78c-1123-450e-b6aa-4403d2641216"
->Message.N_PIG &lt; (LAST X IN BTM.CurrentBaliseGroup).Telegram.N_PIG</PreCondition></PreConditions>
+>Message.N_PIG &lt; LastReceivedBalise().N_PIG</PreCondition></PreConditions>
 <Actions>
 </Actions>
 <SubRules>
@@ -4612,16 +4634,16 @@ IN BTM.CurrentBaliseGroup</Action></Actions>
 >INSERT
 BTM.StoredBaliseStruct{
     Telegram =&gt; Messages.EUROBALISE.Message{
-        Q_UPDOWN =&gt; (LAST Balise IN BTM.CurrentBaliseGroup).Telegram.Q_UPDOWN,
-        M_VERSION =&gt; (LAST Balise IN BTM.CurrentBaliseGroup).Telegram.M_VERSION,
-        Q_MEDIA =&gt; (LAST Balise IN BTM.CurrentBaliseGroup).Telegram.Q_MEDIA,
-        N_PIG =&gt; (LAST Balise IN BTM.CurrentBaliseGroup).Telegram.N_PIG - 1,
-        N_TOTAL =&gt; (LAST Balise IN BTM.CurrentBaliseGroup).Telegram.N_TOTAL,
+        Q_UPDOWN =&gt; LastReceivedBalise().Q_UPDOWN,
+        M_VERSION =&gt; LastReceivedBalise().M_VERSION,
+        Q_MEDIA =&gt; LastReceivedBalise().Q_MEDIA,
+        N_PIG =&gt; LastReceivedBalise().N_PIG - 1,
+        N_TOTAL =&gt; LastReceivedBalise().N_TOTAL,
         M_DUP =&gt; Messages.M_DUP.No_duplicates,
         M_MCOUNT =&gt; Messages.M_MCOUNT.The_telegram_fits_with_all_telegrams_of_the_same_balise_group,
-        NID_C =&gt; (LAST Balise IN BTM.CurrentBaliseGroup).Telegram.NID_C,
-        NID_BG =&gt; (LAST Balise IN BTM.CurrentBaliseGroup).Telegram.NID_BG,
-        Q_LINK =&gt; (LAST Balise IN BTM.CurrentBaliseGroup).Telegram.Q_LINK,
+        NID_C =&gt; LastReceivedBalise().NID_C,
+        NID_BG =&gt; LastReceivedBalise().NID_BG,
+        Q_LINK =&gt; LastReceivedBalise().Q_LINK,
         Sequence1 =&gt; [],
         BitField =&gt; &apos;&apos;
     },
@@ -5635,9 +5657,9 @@ LinkingUsed</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="9fd64923-94f0-464b-82e9-a6243ada4bc6"
->(LAST X IN BTM.CurrentBaliseGroup).Telegram.N_PIG != BTM.Message.N_PIG + 1
+>LastReceivedBalise().N_PIG != BTM.Message.N_PIG + 1
  AND 
-(LAST X IN BTM.CurrentBaliseGroup).Telegram.N_PIG != BTM.Message.N_PIG - 1</PreCondition></PreConditions>
+LastReceivedBalise().N_PIG != BTM.Message.N_PIG - 1</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="269ffc58-b53a-4182-9558-421f80084683"
@@ -5664,9 +5686,9 @@ IN BTM.CurrentBaliseGroup</Action></Actions>
 <PreConditions>
 <PreCondition
  Guid="3800c011-d0cf-4915-bef9-99ef9ea72e9a"
->(LAST X IN BTM.CurrentBaliseGroup).Telegram.N_PIG != BTM.Message.N_PIG + 1
+>LastReceivedBalise().N_PIG != BTM.Message.N_PIG + 1
  AND 
-(LAST X IN BTM.CurrentBaliseGroup).Telegram.N_PIG != BTM.Message.N_PIG - 1</PreCondition></PreConditions>
+LastReceivedBalise().N_PIG != BTM.Message.N_PIG - 1</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="d3c9bdd5-859e-40a0-bdb2-694159fc5769"
@@ -5693,9 +5715,9 @@ IN BTM.CurrentBaliseGroup</Action></Actions>
 <PreConditions>
 <PreCondition
  Guid="a200c8cf-88fa-4abe-8ca8-4b4dd1572ce7"
->(LAST X IN BTM.CurrentBaliseGroup).Telegram.N_PIG != BTM.Message.N_PIG + 1
+>LastReceivedBalise().N_PIG != BTM.Message.N_PIG + 1
  AND 
-(LAST X IN BTM.CurrentBaliseGroup).Telegram.N_PIG != BTM.Message.N_PIG - 1</PreCondition></PreConditions>
+LastReceivedBalise().N_PIG != BTM.Message.N_PIG - 1</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="810c1cad-4be1-483a-8474-bb40d256d36f"
@@ -5722,9 +5744,9 @@ IN BTM.CurrentBaliseGroup</Action></Actions>
 <PreConditions>
 <PreCondition
  Guid="0cb9b3ad-9837-4d08-afac-2ba347c89a90"
->(LAST X IN BTM.CurrentBaliseGroup).Telegram.N_PIG != BTM.Message.N_PIG + 1
+>LastReceivedBalise().N_PIG != BTM.Message.N_PIG + 1
  AND 
-(LAST X IN BTM.CurrentBaliseGroup).Telegram.N_PIG != BTM.Message.N_PIG - 1</PreCondition></PreConditions>
+LastReceivedBalise().N_PIG != BTM.Message.N_PIG - 1</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="a9da04e6-a71a-4157-a364-9a9315fc5433"
@@ -5751,9 +5773,9 @@ IN BTM.CurrentBaliseGroup</Action></Actions>
 <PreConditions>
 <PreCondition
  Guid="5ec57daa-1517-4d77-93ca-325a3c78f44c"
->(LAST X IN BTM.CurrentBaliseGroup).Telegram.N_PIG != BTM.Message.N_PIG + 1
+>LastReceivedBalise().N_PIG != BTM.Message.N_PIG + 1
  AND 
-(LAST X IN BTM.CurrentBaliseGroup).Telegram.N_PIG != BTM.Message.N_PIG - 1</PreCondition></PreConditions>
+LastReceivedBalise().N_PIG != BTM.Message.N_PIG - 1</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="9402818a-0fb2-4a36-a5a8-e417a291cc7b"
@@ -6101,7 +6123,7 @@ Available(Message_SystemVersion1)</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="80faa721-59ed-4ef4-a364-af49f0e5d159"
->( COUNT X IN BTM.CurrentBaliseGroup ) == (LAST X IN CurrentBaliseGroup).Telegram.N_TOTAL + 1</PreCondition></PreConditions>
+>( COUNT X IN BTM.CurrentBaliseGroup ) == LastReceivedBalise().N_TOTAL + 1</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="74d5488e-85d4-48e9-8de8-43a12dd4b955"
