@@ -1324,12 +1324,12 @@
   StartLevelCondition =&gt; M_LEVELTEXTDISPLAYToLevelConditionStruct
   (
     aValue =&gt; aPacket.M_LEVELTEXTDISPLAY_0,
-    NID_NTC =&gt; aPacket.NID_NTC
+    aNID_NTC =&gt; aPacket.NID_NTC
   ),
   EndLevelCondition =&gt; M_LEVELTEXTDISPLAYToLevelConditionStruct
   (
     aValue =&gt; aPacket.M_LEVELTEXTDISPLAY_1,
-    NID_NTC =&gt; aPacket.NID_NTC
+    aNID_NTC =&gt; aPacket.NID_NTC
   ),
   Length =&gt; ConvertLength
   (
@@ -1472,12 +1472,12 @@
   StartLevelCondition =&gt; M_LEVELTEXTDISPLAYToLevelConditionStruct
   (
     aValue =&gt; aPacket.M_LEVELTEXTDISPLAY_0,
-    NID_NTC =&gt; aPacket.NID_NTC
+    aNID_NTC =&gt; aPacket.NID_NTC
   ),
   EndLevelCondition =&gt; M_LEVELTEXTDISPLAYToLevelConditionStruct
   (
     aValue =&gt; aPacket.M_LEVELTEXTDISPLAY_1,
-    NID_NTC =&gt; aPacket.NID_NTC
+    aNID_NTC =&gt; aPacket.NID_NTC
   ),
   Length =&gt; ConvertLength
   (
@@ -1815,7 +1815,7 @@
 >
 </Parameter><Parameter
  Type="Messages.NID_NTC"
- Name="NID_NTC"
+ Name="aNID_NTC"
  Guid="b7109497-c018-4db7-a356-00fd19d3f240"
 >
 </Parameter></Parameters>
@@ -1901,7 +1901,7 @@
   IsLimitedByLevel =&gt; Boolean.True,
   Level =&gt; LevelDataStruct
   {
-    NTC =&gt; NID_NTC,
+    NTC =&gt; aNID_NTC,
     Value =&gt; LevelEnum.LNTC
   }
 }</Expression>
@@ -2296,7 +2296,7 @@
 <Parameters>
 <Parameter
  Type="TextMessageInterface"
- Name="aTextMessage"
+ Name="aMessage"
  Guid="c173fb9f-b0c3-4197-ad9c-1c5cf03ebb1a"
 >
 </Parameter></Parameters>
@@ -2308,21 +2308,21 @@
 <PreConditions>
 <PreCondition
  Guid="88451235-b776-4e6b-b6c7-253add891445"
->aTextMessage.FulfillAllTheEvents == True</PreCondition></PreConditions>
-<Expression>StartLocationConditionSatisfied( aTextMessage=&gt; aTextMessage )
+>aMessage.FulfillAllTheEvents == True</PreCondition></PreConditions>
+<Expression>StartLocationConditionSatisfied( aTextMessage=&gt; aMessage )
   AND
-ModeConditionSatisfied( aModeCondition =&gt; aTextMessage.StartModeCondition )
+ModeConditionSatisfied( aModeCondition =&gt; aMessage.StartModeCondition )
   AND
-LevelConditionSatisfied( aLevelCondition =&gt; aTextMessage.StartLevelCondition )</Expression>
+LevelConditionSatisfied( aLevelCondition =&gt; aMessage.StartLevelCondition )</Expression>
 </Case><Case
  Name="One condition has to be fulfilled"
  Guid="f9db6c5c-502f-4935-a5cd-4b8f508f9421"
 >
-<Expression>StartLocationConditionSatisfied( aTextMessage=&gt; aTextMessage )
+<Expression>StartLocationConditionSatisfied( aTextMessage=&gt; aMessage )
   OR
-ModeConditionSatisfied( aModeCondition =&gt; aTextMessage.StartModeCondition )
+ModeConditionSatisfied( aModeCondition =&gt; aMessage.StartModeCondition )
   OR
-LevelConditionSatisfied( aLevelCondition =&gt; aTextMessage.StartLevelCondition )</Expression>
+LevelConditionSatisfied( aLevelCondition =&gt; aMessage.StartLevelCondition )</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -2739,6 +2739,48 @@ LevelConditionSatisfied( aLevelCondition =&gt; aTextMessage.EndLevelCondition )<
 >
 <Expression>BaseTypes.Time.NA</Expression>
 </Case></Cases>
+</Function><Function
+ Type="Boolean"
+ X="10"
+ Y="620"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="AckStopsDisplay"
+ Guid="679873f0-1895-478d-8525-296904f5c9b7"
+>
+<ReqRef
+ Id="85357988-d98a-4224-aaee-19357a81c4e4"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="202c3a6f-6ecc-4387-b998-878b25644ef9"
+>
+</ReqRef><ReqRef
+ Id="0c454934-381e-4e47-b284-c33802dfdfd8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="22177cd8-8caa-49b7-8c82-fb45ab6dc8ec"
+>
+</ReqRef><ReqRef
+ Id="b78843ae-dd2b-41c1-84e6-8dd1ffe30817"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="df9a1121-8b6e-4b9e-9a37-e27cc12da96a"
+>
+</ReqRef><Comment>Indicates whether the driver confirmation is required for the given message and if the driver confirmation stops the display.</Comment>
+<Parameters>
+<Parameter
+ Type="TextMessageInterface"
+ Name="aMessage"
+ Guid="e23e03e6-adf8-408f-b355-9733693629db"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="a57265a7-17c6-4419-aa3d-930a74f96034"
+>
+<Expression>aMessage.DriverConfirmation != DriverConfirmationEnum.NoConfirmationRequired
+  AND
+aMessage.AckStopsDisplay</Expression>
+</Case></Cases>
 </Function></Functions>
 <Procedures>
 <Procedure
@@ -2870,6 +2912,50 @@ IN
 </ReqRef><Comment>Handles display of text messages according to their start and stop conditions.</Comment>
 <Rules>
 <Rule
+ Implemented="TRUE"
+ Name="Handle acknowledgements to display"
+ Guid="c02a22dd-1214-4409-bb98-3f9365313e8b"
+>
+<ReqRef
+ Id="85357988-d98a-4224-aaee-19357a81c4e4"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e9943e70-bae0-4767-a8da-5f81f945b6e3"
+>
+</ReqRef><ReqRef
+ Id="0c454934-381e-4e47-b284-c33802dfdfd8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="88ce1d95-fc18-4ee3-8107-f6d58911b46b"
+>
+</ReqRef><Comment>If there are some messages that can be displayed and need an acknowledgement, an acknowledgement is displayed for all of them.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Handle acknowledgements to display"
+ Guid="38ee7931-4827-41a9-9510-327310fe34e0"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="943b0a9a-3c3a-40ec-8317-ebc2577949a4"
+>APPLY
+  DMI.MasterDMI().In_AcknOfFixedTextInformation.InitiateRequest( aMessage =&gt; X )
+ON
+  FixedTextMessages |
+    StartConditionSatisfied( aMessage =&gt; X )
+      AND
+    X.DriverConfirmation != DriverConfirmationEnum.NoConfirmationRequired</Action><Action
+ Guid="5ec84996-aa93-42e1-b878-6b9ca6f8a7fa"
+>APPLY
+  DMI.MasterDMI().In_AcknOfPlainTextInformation.InitiateRequest( aMessage =&gt; X )
+ON
+  PlainTextMessages |
+    StartConditionSatisfied( aMessage =&gt; X )
+      AND
+    X.DriverConfirmation != DriverConfirmationEnum.NoConfirmationRequired</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
  Priority="UpdateINTERNAL"
  X="630"
  Y="170"
@@ -2879,7 +2965,17 @@ IN
  Name="Handle messages to display"
  Guid="ab4100c8-e201-4f50-94e7-03a7d1840334"
 >
-<Comment>If start conditions of some of stored messages are satisfied, they are displayed on the DMI.</Comment>
+<ReqRef
+ Id="85357988-d98a-4224-aaee-19357a81c4e4"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a190a479-9301-48fc-a124-9b51502adadc"
+>
+</ReqRef><ReqRef
+ Id="b78843ae-dd2b-41c1-84e6-8dd1ffe30817"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="2b82c76b-1c5f-4044-9ec6-af16c6fa6ea1"
+>
+</ReqRef><Comment>If start conditions of some of stored messages are satisfied, they are displayed on the DMI, except if the acknowledgement stops their display (in this case only the acknowledgement is displayed).</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
@@ -2895,12 +2991,18 @@ IN
 >APPLY
   DMI.MasterDMI().Out_FixedTextInformation.Display(  aMessage =&gt; X )
 ON
-  FixedTextMessages | StartConditionSatisfied( aTextMessage =&gt; X )</Action><Action
+  FixedTextMessages |
+    StartConditionSatisfied( aMessage =&gt; X )
+      AND
+    NOT AckStopsDisplay( aMessage=&gt; X)</Action><Action
  Guid="667bfee4-71be-4c54-a2fa-b363a325080f"
 >APPLY
   DMI.MasterDMI().Out_PlainTextInformation.Display(  aMessage =&gt; X )
 ON
-  PlainTextMessages | StartConditionSatisfied( aTextMessage =&gt; X )</Action></Actions>
+  PlainTextMessages |
+    StartConditionSatisfied( aMessage =&gt; X )
+      AND
+    NOT AckStopsDisplay( aMessage =&gt; X)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Implemented="TRUE"
@@ -2921,12 +3023,12 @@ ON
 <Action
  Guid="74e3f10e-f96c-4303-912d-73aa210e5a8d"
 >REMOVE ALL
-  StartConditionSatisfied( aTextMessage=&gt; X )
+  StartConditionSatisfied( aMessage=&gt; X )
 IN
   FixedTextMessages</Action><Action
  Guid="e737d28e-104c-49aa-ab8e-07098c8da82b"
 >REMOVE ALL
-  StartConditionSatisfied( aTextMessage=&gt; X )
+  StartConditionSatisfied( aMessage=&gt; X )
 IN
   PlainTextMessages</Action></Actions>
 </RuleCondition></Conditions>

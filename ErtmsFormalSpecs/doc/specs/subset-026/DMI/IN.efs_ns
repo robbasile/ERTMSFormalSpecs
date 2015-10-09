@@ -1916,8 +1916,8 @@
 <Comment>Ask the driver to acknowledge a fixed  information</Comment>
 <Parameters>
 <Parameter
- Type="String"
- Name="text"
+ Type="Kernel.TextMessages.FixedTextMessageStruct"
+ Name="aMessage"
  Guid="2fe8c008-b485-4fb9-98ca-fa943a90d87f"
 >
 </Parameter></Parameters>
@@ -1948,7 +1948,7 @@
 (
   anAcknowledgement =&gt; Acknowledgements.AckTypeEnum.FixedTextInformation,
   aLevel =&gt; EMPTY,
-  aFixedTextMessage =&gt; Message,
+  aFixedTextMessage =&gt; aMessage,
   aPlainTextMessage =&gt; EMPTY
 )</Action></Actions>
 </RuleCondition></Conditions>
@@ -2384,8 +2384,8 @@
 <Comment>Initiates the request</Comment>
 <Parameters>
 <Parameter
- Type="String"
- Name="text"
+ Type="Kernel.TextMessages.PlainTextMessageStruct"
+ Name="aMessage"
  Guid="a3aa7273-1e12-4b69-92a4-c5377de9fb50"
 >
 </Parameter></Parameters>
@@ -2417,7 +2417,7 @@
   anAcknowledgement =&gt; Acknowledgements.AckTypeEnum.PlainTextInformation,
   aLevel =&gt; EMPTY,
   aFixedTextMessage =&gt; EMPTY,
-  aPlainTextMessage =&gt; Message
+  aPlainTextMessage =&gt; aMessage
 )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
