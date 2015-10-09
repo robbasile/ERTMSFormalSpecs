@@ -967,7 +967,7 @@ Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.V_P_EBD_Target(
 <PreCondition
  Guid="8ccbaeff-7580-487f-bed3-10470968e535"
 >Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.SBD_Target(
-    Distance =&gt; Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom),
+    Distance =&gt; Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom),
     aTarget =&gt; MA.EOA()
 ) == BaseTypes.Speed.NA</PreCondition></PreConditions>
 <Expression>BaseTypes.Distance.Unknown</Expression>
@@ -1185,7 +1185,7 @@ Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT().Speed == 0.0</Pre
 Kernel.MA.IsSvL(Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT())</PreCondition></PreConditions>
 <Expression>BaseTypes.MaxDistance(
     X1=&gt;BaseTypes.MinDistance(
-        X1 =&gt; MA.EOA().Location - Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Nom),
+        X1 =&gt; MA.EOA().Location - Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom),
         X2 =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.SvLDistance()
     ),
     X2=&gt;0.0

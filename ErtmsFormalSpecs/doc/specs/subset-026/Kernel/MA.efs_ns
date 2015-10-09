@@ -2507,7 +2507,7 @@ MA.TargetSpeed &gt; 0.0</PreCondition></PreConditions>
 >Kernel.MA.ConsiderFrontEndAsSvL</PreCondition></PreConditions>
 <Expression>Kernel.MA.CreateTarget
 (
-    aLocation =&gt; Kernel.TrainPosition.FrontEndPosition(PointOfInterest =&gt; DistanceInterval.Max)
+    aLocation =&gt; Kernel.TrainPosition.FrontEndPosition(PointOfInterest =&gt; DistanceIntervalEnum.Max)
     aSpeed =&gt; 0.0,
     aLength =&gt; BaseTypes.Length.Infinity
 )</Expression>
@@ -2746,7 +2746,7 @@ Kernel.MA.MATimers.EndSectionTimerStart != BaseTypes.Time.NA
 (Kernel.DateAndTime.CurrentTime &gt; Kernel.MA.MATimers.EndSectionTimerStart + Kernel.MA.MA.EndSection.EndSectionTimeOut.TimeOut)</PreCondition></PreConditions>
 <Expression>CreateTarget(
     aLength=&gt;BaseTypes.Length.Infinity,
-    aLocation=&gt;Kernel.TrainPosition.FrontEndPosition(PointOfInterest=&gt;DistanceInterval.Nom),
+    aLocation=&gt;Kernel.TrainPosition.FrontEndPosition(PointOfInterest=&gt;DistanceIntervalEnum.Nom),
     aSpeed=&gt;0.0
 )</Expression>
 </Case><Case
@@ -2802,7 +2802,7 @@ Kernel.MA.MATimers.EndSectionTimerStart != BaseTypes.Time.NA
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="51961518-3917-4bc1-a215-290648b95dd0"
 >
-</ReqRef><Comment>Retruns the </Comment>
+</ReqRef><Comment>Retruns the</Comment>
 <Cases>
 <Case
  Name="Consider front end of train as EOA"
@@ -2814,7 +2814,7 @@ Kernel.MA.MATimers.EndSectionTimerStart != BaseTypes.Time.NA
 >Kernel.MA.ConsiderFrontEndAsSvL</PreCondition></PreConditions>
 <Expression>Kernel.MA.CreateTarget
 (
-    aLocation =&gt; Kernel.TrainPosition.FrontEndPosition(PointOfInterest =&gt; DistanceInterval.Nom)
+    aLocation =&gt; Kernel.TrainPosition.FrontEndPosition(PointOfInterest =&gt; DistanceIntervalEnum.Nom)
     aSpeed =&gt; 0.0,
     aLength =&gt; BaseTypes.Length.Infinity
 )</Expression>
@@ -3512,7 +3512,7 @@ In this case, the EOA should be moved to the train&apos;s current position with 
   MessageTypes.QScaleDistance(
       distance=&gt;Packet.D_ENDTIMERSTARTLOC,
       scale=&gt;Packet.Q_SCALE
-  ) &lt; Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Max)
+  ) &lt; Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max)
 )</PreCondition></PreConditions>
 <Actions>
 <Action
@@ -3550,7 +3550,7 @@ In this case, the EOA should be moved to the train&apos;s current position with 
   (
       distance =&gt; Packet.D_STARTOL,
       scale =&gt; Packet.Q_SCALE
-  ) &lt; Kernel.TrainPosition.FrontEndPosition(DistanceInterval.Max)
+  ) &lt; Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max)
 )</PreCondition></PreConditions>
 <Actions>
 <Action
