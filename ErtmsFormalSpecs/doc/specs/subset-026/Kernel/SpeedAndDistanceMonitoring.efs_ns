@@ -3176,7 +3176,7 @@ Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &gt;  Kernel.Spe
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="69d9c141-0c74-4244-ae95-168ffa79b8fb"
 >
-</ReqRef><Comment>Returns the list of targets corresponding to a decrease in permitted speed for the train</Comment>
+</ReqRef><Comment>Returns the list of supervised targets for the train.</Comment>
 <Cases>
 <Case
  Name="Supervise MRSP and max dist in SR mode"
@@ -3334,6 +3334,22 @@ BaseTypes.Distance.Unknown</PreCondition></PreConditions>
  Guid="db82fc54-36f1-4723-aeac-cbbd58c1af8d"
 >
 <Expression>Kernel.SpeedAndDistanceMonitoring.MonitoringType.None</Expression>
+</Case></Cases>
+</Function><Function
+ Type="TargetSpeedMonitoring.Targets"
+ X="441"
+ Y="1"
+ Width="100"
+ Height="50"
+ Name="MRSPTargets"
+ Guid="7849e29a-c61e-4bf4-bb42-781cc8e1a9f7"
+>
+<Cases>
+<Case
+ Name="Value"
+ Guid="fb67d731-5a0c-4ab6-a8a2-43706b43f760"
+>
+<Expression>MAP TARGETS(Kernel.MRSP.SpeedRestrictions) | X.Location &gt; TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom) USING X IN X</Expression>
 </Case></Cases>
 </Function></Functions>
 <Procedures>
