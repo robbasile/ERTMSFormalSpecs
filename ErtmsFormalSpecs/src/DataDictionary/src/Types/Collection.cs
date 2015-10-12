@@ -16,11 +16,11 @@
 
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using DataDictionary.Generated;
 using DataDictionary.Interpreter;
 using DataDictionary.Values;
-using Utils;
 
 namespace DataDictionary.Types
 {
@@ -247,15 +247,6 @@ namespace DataDictionary.Types
         }
 
         /// <summary>
-        ///     Adds a model element in this model element
-        /// </summary>
-        /// <param name="copy"></param>
-        public override void AddModelElement(IModelElement element)
-        {
-            base.AddModelElement(element);
-        }
-
-        /// <summary>
         ///     Builds the explanation of the element
         /// </summary>
         /// <param name="explanation"></param>
@@ -312,6 +303,103 @@ namespace DataDictionary.Types
             Collection retVal = (Collection) acceptor.getFactory().createCollection();
 
             Util.DontNotify(() => { retVal.Name = "Collection" + GetElementNumber(enclosingCollection); });
+
+            return retVal;
+        }
+
+        public override IValue PerformArithmericOperation(InterpretationContext context, IValue left, BinaryExpression.Operator Operation, IValue right)
+        {
+            ListValue retVal = null;
+
+            switch (Operation)
+            {
+                case BinaryExpression.Operator.Add:
+                    Collection leftType = left.Type as Collection;
+                    Collection rightType = right.Type as Collection;
+                    Collection returnType;
+
+                    if (leftType != null && rightType != null)
+                    {
+                        if (leftType is GenericCollection)
+                        {
+                            if (rightType is GenericCollection)
+                            {
+                                returnType = new GenericCollection(EFSSystem);
+                            }
+                            else
+                            {
+                                returnType = rightType;
+                            }
+                        }
+                        else
+                        {
+                            if (leftType == rightType)
+                            {
+                                returnType = leftType;
+                            }
+                            else
+                            {
+                                throw new Exception("Cannot determine the collection type for expression");
+                            }
+                        }
+
+                        ListValue leftValue = left as ListValue;
+                        ListValue rightValue = right as ListValue;
+                        if (leftValue != null && rightValue != null)
+                        {
+                            retVal = new ListValue(returnType, new List<IValue>());
+                            foreach (IValue val in leftValue.Val)
+                            {
+                                if (!(val is EmptyValue))
+                                {
+                                    retVal.Val.Add(val.RightSide(null, true, true));                                    
+                                }
+                            }
+                            foreach (IValue val in rightValue.Val)
+                            {
+                                if (!(val is EmptyValue))
+                                {
+                                    retVal.Val.Add(val.RightSide(null, true, true));
+                                }
+                            }
+                        }
+                        else
+                        {
+                            throw new Exception("Cannot add a collection to a single element");
+                        }
+                    }
+                    break;
+            }
+
+            return retVal;
+        }
+
+        /// <summary>
+        ///     Converts a value in this type
+        /// </summary>
+        /// <param name="value">The value to convert</param>
+        /// <returns></returns>
+        public override IValue convert(IValue value)
+        {
+            ListValue retVal = value as ListValue;
+
+            if (retVal != null)
+            {
+                if (retVal.ElementCount <= getMaxSize())
+                {
+                    foreach (IValue val in retVal.Val)
+                    {
+                        if (!Type.Match(val.Type))
+                        {
+                            throw new Exception("Invalid element type in collection " + val.LiteralName);
+                        }
+                    }
+                }
+                else
+                {
+                    throw new Exception("Too many elements in collection");
+                }
+            }
 
             return retVal;
         }

@@ -251,11 +251,16 @@ namespace DataDictionary.Interpreter.Statement
                 }
 
                 Range range = var.Type as Range;
+                Collection collection = var.Type as Collection;
                 if (range != null && range.convert(value) == null)
                 {
                     AddError("Value " + value + " is outside range");
                 }
-                else
+                else if (collection != null && collection.convert(value) == null)
+                {
+                    AddError("Value " + value + " cannot be assigned to variable");                    
+                }
+                else 
                 {
                     Change change = new Change(var, var.Value, value);
                     changes.Add(change, apply, runner);

@@ -4,6 +4,7 @@ using NUnit.Framework;
 using Utils;
 using Action = DataDictionary.Rules.Action;
 using Case = DataDictionary.Functions.Case;
+using Collection = DataDictionary.Types.Collection;
 using Enum = DataDictionary.Types.Enum;
 using EnumValue = DataDictionary.Constants.EnumValue;
 using Expectation = DataDictionary.Tests.Expectation;
@@ -365,6 +366,22 @@ namespace DataDictionary.test
         }
 
         /// <summary>
+        ///     Creates a colleciton in the namespace provided
+        /// </summary>
+        /// <param name="enclosing"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        protected Collection CreateCollection(NameSpace enclosing, string name)
+        {
+            Collection retVal = (Collection)Factory.createCollection();
+
+            enclosing.appendCollections(retVal);
+            retVal.Name = name;
+
+            return retVal;
+        }
+
+        /// <summary>
         ///     Creates a state machine in the structure provided
         /// </summary>
         /// <param name="enclosing"></param>
@@ -441,6 +458,7 @@ namespace DataDictionary.test
             Rule rule = (Rule) Factory.createRule();
             enclosing.appendRules(rule);
             rule.Name = name;
+            rule.setPriority(acceptor.RulePriority.aProcessing);
 
             return CreateRuleCondition(rule, name);
         }
