@@ -435,6 +435,30 @@
  Guid="30c3636c-7214-47d3-847c-2f991b9d4d55"
 >
 <Comment>Indicates when the display of the text message started.</Comment>
+</StructureElement><StructureElement
+ TypeName="Boolean"
+ Default="False"
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="MessageIsAcknowledged"
+ Guid="56d34027-04ca-4242-a3a8-487fd3b2306d"
+>
+<ReqRef
+ Id="85357988-d98a-4224-aaee-19357a81c4e4"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="8c9d599a-f1c6-4c3f-b46c-416ca8fc2bd5"
+>
+</ReqRef><ReqRef
+ Id="0c454934-381e-4e47-b284-c33802dfdfd8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d90671e1-72f2-4207-b3a3-37cbb5c9fa48"
+>
+</ReqRef><ReqRef
+ Id="b78843ae-dd2b-41c1-84e6-8dd1ffe30817"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="52f701a8-b72b-42fc-93dd-e5b8a16e3512"
+>
+</ReqRef><Comment>Indicates whether this text message has been acknowledged by the driver.</Comment>
 </StructureElement></Structure><Structure
  X="10"
  Y="100"
@@ -884,6 +908,30 @@
  Guid="41cc8dc2-4c1b-45b8-976f-0468975b3f3d"
 >
 <Comment>Indicates when the display of the text message started.</Comment>
+</StructureElement><StructureElement
+ TypeName="Boolean"
+ Default="False"
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="MessageIsAcknowledged"
+ Guid="7a354da1-f82f-43e6-ab8e-8afab0ae8381"
+>
+<ReqRef
+ Id="85357988-d98a-4224-aaee-19357a81c4e4"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="da5fdc53-fd67-4697-9891-98b2b9bb67df"
+>
+</ReqRef><ReqRef
+ Id="0c454934-381e-4e47-b284-c33802dfdfd8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="2cde5d9f-a0a5-48dc-b298-8b7ba3515f0d"
+>
+</ReqRef><ReqRef
+ Id="b78843ae-dd2b-41c1-84e6-8dd1ffe30817"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="7414815b-b6af-429b-8307-9575504737e3"
+>
+</ReqRef><Comment>Indicates whether this text message has been acknowledged by the driver.</Comment>
 </StructureElement><Interfaces>
 <StructureRef
  Name="TextMessageInterface"
@@ -1157,6 +1205,30 @@
  Guid="97122547-f703-4a22-ae90-ef22ac091ae4"
 >
 <Comment>Indicates when the display of the text message started.</Comment>
+</StructureElement><StructureElement
+ TypeName="Boolean"
+ Default="False"
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="MessageIsAcknowledged"
+ Guid="b3863a31-fc51-441d-868c-60d261c8707d"
+>
+<ReqRef
+ Id="85357988-d98a-4224-aaee-19357a81c4e4"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="8dacac7f-777b-4451-92d1-76458da2b85d"
+>
+</ReqRef><ReqRef
+ Id="0c454934-381e-4e47-b284-c33802dfdfd8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="19f07750-b858-4046-8431-34443123eaf0"
+>
+</ReqRef><ReqRef
+ Id="b78843ae-dd2b-41c1-84e6-8dd1ffe30817"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="5f922c86-190e-4277-a6a8-290ffbba594e"
+>
+</ReqRef><Comment>Indicates whether this text message has been acknowledged by the driver.</Comment>
 </StructureElement><Interfaces>
 <StructureRef
  Name="TextMessageInterface"
@@ -2348,7 +2420,7 @@ LevelConditionSatisfied( aLevelCondition =&gt; aMessage.StartLevelCondition )</E
 <Parameters>
 <Parameter
  Type="TextMessageInterface"
- Name="aTextMessage"
+ Name="aMessage"
  Guid="720972de-afc2-4c3e-b039-8c7d83649661"
 >
 </Parameter></Parameters>
@@ -2360,25 +2432,29 @@ LevelConditionSatisfied( aLevelCondition =&gt; aMessage.StartLevelCondition )</E
 <PreConditions>
 <PreCondition
  Guid="10b66425-dbad-4b27-980d-c12526c650c2"
->aTextMessage.FulfillAllTheEvents == True</PreCondition></PreConditions>
-<Expression>EndLocationConditionSatisfied(  aTextMessage =&gt; aTextMessage )
+>aMessage.FulfillAllTheEvents == True</PreCondition></PreConditions>
+<Expression>EndLocationConditionSatisfied(  aMessage =&gt; aMessage )
   AND
-TimerConditionSatisfied( aTextMessage=&gt; aTextMessage )
+TimerConditionSatisfied( aMessage=&gt; aMessage )
   AND
-ModeConditionSatisfied( aModeCondition =&gt; aTextMessage.EndModeCondition )
+ModeConditionSatisfied( aModeCondition =&gt; aMessage.EndModeCondition )
   AND
-LevelConditionSatisfied( aLevelCondition =&gt; aTextMessage.EndLevelCondition )</Expression>
+LevelConditionSatisfied( aLevelCondition =&gt; aMessage.EndLevelCondition )
+  AND
+AckConditionSatisfied( aMessage=&gt; aMessage )</Expression>
 </Case><Case
  Name="One condition has to be fulfilled"
  Guid="41f12ee7-3e93-4a38-b1a2-16ec896669f1"
 >
-<Expression>EndLocationConditionSatisfied(  aTextMessage =&gt; aTextMessage )
+<Expression>EndLocationConditionSatisfied(  aMessage =&gt; aMessage )
   OR
-TimerConditionSatisfied( aTextMessage=&gt; aTextMessage )
+TimerConditionSatisfied( aMessage=&gt; aMessage )
   OR
-ModeConditionSatisfied( aModeCondition =&gt; aTextMessage.EndModeCondition )
+ModeConditionSatisfied( aModeCondition =&gt; aMessage.EndModeCondition )
   OR
-LevelConditionSatisfied( aLevelCondition =&gt; aTextMessage.EndLevelCondition )</Expression>
+LevelConditionSatisfied( aLevelCondition =&gt; aMessage.EndLevelCondition )
+  OR
+AckConditionSatisfied( aMessage =&gt; aMessage )</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -2487,7 +2563,7 @@ LevelConditionSatisfied( aLevelCondition =&gt; aTextMessage.EndLevelCondition )<
 <Parameters>
 <Parameter
  Type="TextMessageInterface"
- Name="aTextMessage"
+ Name="aMessage"
  Guid="a6b105c9-3e3c-4a47-b2b3-84885d102181"
 >
 </Parameter></Parameters>
@@ -2499,10 +2575,10 @@ LevelConditionSatisfied( aLevelCondition =&gt; aTextMessage.EndLevelCondition )<
 <PreConditions>
 <PreCondition
  Guid="61dec2f5-59e9-4f4c-b53f-fce130dfbec6"
->aTextMessage.DisplayDuration != BaseTypes.Time.NA</PreCondition><PreCondition
+>aMessage.DisplayDuration != BaseTypes.Time.NA</PreCondition><PreCondition
  Guid="46181f25-f929-46df-bef7-a962ff5e4249"
->aTextMessage.DisplayStartTime != BaseTypes.Time.NA</PreCondition></PreConditions>
-<Expression>aTextMessage.DisplayStartTime + aTextMessage.DisplayDuration &lt;= Kernel.DateAndTime.CurrentTime</Expression>
+>aMessage.DisplayStartTime != BaseTypes.Time.NA</PreCondition></PreConditions>
+<Expression>aMessage.DisplayStartTime + aMessage.DisplayDuration &lt;= Kernel.DateAndTime.CurrentTime</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="4702eef8-76b4-4d1e-9025-8e56786d0c2a"
@@ -2582,7 +2658,7 @@ LevelConditionSatisfied( aLevelCondition =&gt; aTextMessage.EndLevelCondition )<
 <Parameters>
 <Parameter
  Type="TextMessageInterface"
- Name="aTextMessage"
+ Name="aMessage"
  Guid="1d4e738a-07b3-4334-b401-618830db272f"
 >
 </Parameter></Parameters>
@@ -2594,10 +2670,10 @@ LevelConditionSatisfied( aLevelCondition =&gt; aTextMessage.EndLevelCondition )<
 <PreConditions>
 <PreCondition
  Guid="811ca688-8b09-4823-bee6-1bbc18cc55ac"
->aTextMessage.Location != BaseTypes.Distance.Unknown</PreCondition><PreCondition
+>aMessage.Location != BaseTypes.Distance.Unknown</PreCondition><PreCondition
  Guid="abe433ad-9180-434d-a523-f0c499a42b33"
->aTextMessage.Length != BaseTypes.Distance.Unknown</PreCondition></PreConditions>
-<Expression>aTextMessage.Location + BaseTypes.LengthToDistance( Length =&gt; aTextMessage.Length ) &lt;= TrainPosition.FrontEndPosition (PointOfInterest =&gt; DistanceIntervalEnum.Nom )</Expression>
+>aMessage.Length != BaseTypes.Distance.Unknown</PreCondition></PreConditions>
+<Expression>aMessage.Location + BaseTypes.LengthToDistance( Length =&gt; aMessage.Length ) &lt;= TrainPosition.FrontEndPosition (PointOfInterest =&gt; DistanceIntervalEnum.Nom )</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="6210cb0d-bcee-4ed5-acb0-30fa00b0d1ce"
@@ -2755,11 +2831,6 @@ LevelConditionSatisfied( aLevelCondition =&gt; aTextMessage.EndLevelCondition )<
  Guid="202c3a6f-6ecc-4387-b998-878b25644ef9"
 >
 </ReqRef><ReqRef
- Id="0c454934-381e-4e47-b284-c33802dfdfd8"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="22177cd8-8caa-49b7-8c82-fb45ab6dc8ec"
->
-</ReqRef><ReqRef
  Id="b78843ae-dd2b-41c1-84e6-8dd1ffe30817"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="df9a1121-8b6e-4b9e-9a37-e27cc12da96a"
@@ -2780,6 +2851,50 @@ LevelConditionSatisfied( aLevelCondition =&gt; aTextMessage.EndLevelCondition )<
 <Expression>aMessage.DriverConfirmation != DriverConfirmationEnum.NoConfirmationRequired
   AND
 aMessage.AckStopsDisplay</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ X="120"
+ Y="620"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="AckConditionSatisfied"
+ Guid="a879e3f7-5130-4a2d-bc62-9a28890b6f52"
+>
+<ReqRef
+ Id="85357988-d98a-4224-aaee-19357a81c4e4"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="54e27f5d-95c4-418e-8f53-369969ff0d49"
+>
+</ReqRef><ReqRef
+ Id="b78843ae-dd2b-41c1-84e6-8dd1ffe30817"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c8e33e28-76e3-4635-9a85-a6679a11ebfd"
+>
+</ReqRef><Comment>Indicates if the acknowledgement condition is satisfied. The function returns true either if no acknowledgement is required for that texte message or if the acknowledgement is required and the driver has acknowledged.</Comment>
+<Parameters>
+<Parameter
+ Type="TextMessageInterface"
+ Name="aMessage"
+ Guid="11dc7828-23b2-41d8-be35-487b88798559"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="No ack required"
+ Guid="df44889a-a863-47e0-a4aa-5388d84eb780"
+>
+<PreConditions>
+<PreCondition
+ Guid="e3518408-0c8e-46d4-86e2-e78a9008caca"
+>aMessage.DriverConfirmation == DriverConfirmationEnum.NoConfirmationRequired</PreCondition></PreConditions>
+<Expression>True</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="b269257a-1e56-4083-9361-7e46018b7138"
+>
+<Expression>aMessage.MessageIsAcknowledged</Expression>
 </Case></Cases>
 </Function></Functions>
 <Procedures>
@@ -2994,7 +3109,7 @@ ON
   FixedTextMessages |
     StartConditionSatisfied( aMessage =&gt; X )
       AND
-    NOT AckStopsDisplay( aMessage=&gt; X)</Action><Action
+    NOT AckStopsDisplay( aMessage =&gt; X )</Action><Action
  Guid="667bfee4-71be-4c54-a2fa-b363a325080f"
 >APPLY
   DMI.MasterDMI().Out_PlainTextInformation.Display(  aMessage =&gt; X )
@@ -3003,6 +3118,94 @@ ON
     StartConditionSatisfied( aMessage =&gt; X )
       AND
     NOT AckStopsDisplay( aMessage =&gt; X)</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Implemented="TRUE"
+ Name="Handle fixed acknowledged messages"
+ Guid="96d55187-3938-49b5-bbfd-d5cbfbdc1d82"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Handle fixed acknowledged messages"
+ Guid="fe8b099a-6f3e-4aee-849c-6e9b2216d1f7"
+>
+<PreConditions>
+<PreCondition
+ Guid="02c197f2-48a2-487f-83e1-600479004548"
+>DMI.MasterDMI().In_AcknOfFixedTextInformation.InputInformation.RequestStatus == RequestEnum.Response</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="838a69f4-c01f-42a9-8b19-7f694b0e172a"
+>DMI.MasterDMI().In_AcknOfFixedTextInformation.InputInformation.RequestStatus &lt;- Default.RequestEnum.Disabled</Action></Actions>
+<SubRules>
+<Rule
+ Implemented="TRUE"
+ Name="Indicate the acknowledged message as acknowledged"
+ Guid="6988a438-1979-4f2a-b4df-a3586dfd4270"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Indicate the acknowledged message as acknowledged"
+ Guid="d5afc8e1-1385-45c2-bb89-644091924c2d"
+>
+<PreConditions>
+<PreCondition
+ Guid="30a5d1f5-3f32-4abe-9d39-308e4bbd2666"
+>THERE_IS aMessage IN DMI.MasterDMI().Out_FixedTextInformation.Messages | aMessage ==DMI.MasterDMI().In_AcknOfFixedTextInformation.Message</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="6bbe8a2c-28d2-4f85-aaab-d074e12b5abc"
+>(FIRST aMessage IN DMI.MasterDMI().Out_FixedTextInformation.Messages | aMessage == DMI.MasterDMI().In_AcknOfFixedTextInformation.Message ).MessageIsAcknowledged &lt;- True</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></SubRules>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Implemented="TRUE"
+ Name="Handle plain acknowledged messages"
+ Guid="f93108d5-7530-4ddc-a0f6-67ccb1739e08"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Handle plain acknowledged messages"
+ Guid="6c822f11-a4ec-4ed2-9c36-46984b3204df"
+>
+<PreConditions>
+<PreCondition
+ Guid="2df62722-961f-4c4d-a516-bff5021db628"
+>DMI.MasterDMI().In_AcknOfPlainTextInformation.InputInformation.RequestStatus == RequestEnum.Response</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="6e4376e6-02de-46a7-900a-401444526e8e"
+>DMI.MasterDMI().In_AcknOfPlainTextInformation.InputInformation.RequestStatus &lt;- Default.RequestEnum.Disabled</Action></Actions>
+<SubRules>
+<Rule
+ Implemented="TRUE"
+ Name="Indicate the acknowledged message as acknowledged"
+ Guid="c0baaacd-8cda-4b3a-833f-708752ba0be7"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Indicate the acknowledged message as acknowledged"
+ Guid="f3efbd47-a2b1-4f27-9d6b-b063ca558682"
+>
+<PreConditions>
+<PreCondition
+ Guid="7a61adec-0d5c-493d-bcbe-030375170dbb"
+>THERE_IS aMessage IN DMI.MasterDMI().Out_PlainTextInformation.Messages | aMessage ==DMI.MasterDMI().In_AcknOfPlainTextInformation.Message</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="f4722bf6-73a7-442b-ba6c-9a662ff85f63"
+>(FIRST aMessage IN DMI.MasterDMI().Out_FixedTextInformation.Messages | aMessage == DMI.MasterDMI().In_AcknOfFixedTextInformation.Message ).MessageIsAcknowledged &lt;- True</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></SubRules>
 </RuleCondition></Conditions>
 </Rule><Rule
  Implemented="TRUE"
@@ -3051,12 +3254,12 @@ IN
 <Action
  Guid="14229478-941a-4073-8794-660ffeb2e373"
 >REMOVE ALL
-  EndConditionSatisfied( aTextMessage=&gt; X )
+  EndConditionSatisfied( aMessage=&gt; X )
 IN
   DMI.MasterDMI().Out_FixedTextInformation.Messages</Action><Action
  Guid="944d0f12-47e8-4e82-b550-70151be74ac4"
 >REMOVE ALL
-  EndConditionSatisfied( aTextMessage=&gt; X )
+  EndConditionSatisfied( aMessage=&gt; X )
 IN
   DMI.MasterDMI().Out_PlainTextInformation.Messages</Action></Actions>
 </RuleCondition></Conditions>
