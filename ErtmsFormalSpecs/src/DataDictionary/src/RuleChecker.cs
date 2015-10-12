@@ -576,28 +576,36 @@ namespace DataDictionary
                 }
                 foreach (Types.Structure implementedStructure in structure.Interfaces)
                 {
-                    foreach (Types.StructureElement implementedElement in implementedStructure.Elements)
+                    if (implementedStructure != null)
                     {
-                        bool elementFound = false;
-                        foreach (Types.StructureElement element in structure.Elements)
+                        foreach (Types.StructureElement implementedElement in implementedStructure.Elements)
                         {
-                            if (element.Name.Equals(implementedElement.Name))
+                            bool elementFound = false;
+                            foreach (Types.StructureElement element in structure.Elements)
                             {
-                                elementFound = true;
-                                if (element.Type != implementedElement.Type)
+                                if (element.Name.Equals(implementedElement.Name))
                                 {
-                                    structure.AddError("The type of element " + element.Name + " (" + element.TypeName +
-                                                       ") does not correspond to the type of the implemented element (" +
-                                                       implementedElement.TypeName + ")");
+                                    elementFound = true;
+                                    if (element.Type != implementedElement.Type)
+                                    {
+                                        structure.AddError("The type of element " + element.Name + " (" +
+                                                           element.TypeName +
+                                                           ") does not correspond to the type of the implemented element (" +
+                                                           implementedElement.TypeName + ")");
+                                    }
+                                    break;
                                 }
-                                break;
+                            }
+                            if (elementFound == false)
+                            {
+                                structure.AddError("Inherited member " + implementedElement.Name + " from interface " +
+                                                   implementedStructure.Name + " is not implemented");
                             }
                         }
-                        if (elementFound == false)
-                        {
-                            structure.AddError("Inherited member " + implementedElement.Name + " from interface " +
-                                               implementedStructure.Name + " is not implemented");
-                        }
+                    }
+                    else
+                    {
+                        structure.AddError("Interface not found");                        
                     }
                 }
             }
