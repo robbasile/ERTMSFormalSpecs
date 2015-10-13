@@ -337,6 +337,10 @@ namespace DataDictionary.Types
                             {
                                 returnType = leftType;
                             }
+                            else if (leftType.Type == rightType.Type)
+                            {
+                                returnType = leftType;
+                            }
                             else
                             {
                                 throw new Exception("Cannot determine the collection type for expression");
