@@ -45823,7 +45823,7 @@ public enum ST_LEVEL {
      StLevel_NA,
      StLevel_L0,
      StLevel_L1,
-     StLevel_LSTM,
+     StLevel_LNTC,
      StLevel_L2,
      StLevel_L3
 };
@@ -45838,7 +45838,7 @@ public enum ST_MODE {
      Mode_SB,
      Mode_SH,
      Mode_FS,
-     Mode_UF,
+     Mode_UN,
      Mode_SR,
      Mode_OS,
      Mode_TR,
@@ -48340,11 +48340,11 @@ case 'L':
 {
 ctxt.advance();
 switch (ctxt.current()) {
-case 'S':
+case 'N':
 {
 ctxt.advance();
-ctxt.accept2('T','M');
-res = ST_LEVEL.StLevel_LSTM;
+ctxt.accept2('T','C');
+res = ST_LEVEL.StLevel_LNTC;
 break;
 } // Case
 case '3':
@@ -48390,7 +48390,7 @@ switch (v) {
  case ST_LEVEL.StLevel_NA: return "NA";
  case ST_LEVEL.StLevel_L0: return "L0";
  case ST_LEVEL.StLevel_L1: return "L1";
- case ST_LEVEL.StLevel_LSTM: return "LSTM";
+ case ST_LEVEL.StLevel_LNTC: return "LNTC";
  case ST_LEVEL.StLevel_L2: return "L2";
  case ST_LEVEL.StLevel_L3: return "L3";
 } return "";
@@ -48407,8 +48407,8 @@ if (str.Equals("L0")){
 if (str.Equals("L1")){
   return ST_LEVEL.StLevel_L1;
 } // If
-if (str.Equals("LSTM")){
-  return ST_LEVEL.StLevel_LSTM;
+if (str.Equals("LNTC")){
+  return ST_LEVEL.StLevel_LNTC;
 } // If
 if (str.Equals("L2")){
   return ST_LEVEL.StLevel_L2;
@@ -48435,8 +48435,8 @@ switch (ctxt.current()) {
 case 'U':
 {
 ctxt.advance();
-if (ctxt.lookAhead1('F')){
-res = ST_MODE.Mode_UF;
+if (ctxt.lookAhead1('N')){
+res = ST_MODE.Mode_UN;
 } else {
 ctxt.moveBack(1);
 res = ST_MODE.Mode_NA;
@@ -48624,7 +48624,7 @@ switch (v) {
  case ST_MODE.Mode_SB: return "SB";
  case ST_MODE.Mode_SH: return "SH";
  case ST_MODE.Mode_FS: return "FS";
- case ST_MODE.Mode_UF: return "UF";
+ case ST_MODE.Mode_UN: return "UN";
  case ST_MODE.Mode_SR: return "SR";
  case ST_MODE.Mode_OS: return "OS";
  case ST_MODE.Mode_TR: return "TR";
@@ -48663,8 +48663,8 @@ if (str.Equals("SH")){
 if (str.Equals("FS")){
   return ST_MODE.Mode_FS;
 } // If
-if (str.Equals("UF")){
-  return ST_MODE.Mode_UF;
+if (str.Equals("UN")){
+  return ST_MODE.Mode_UN;
 } // If
 if (str.Equals("SR")){
   return ST_MODE.Mode_SR;
