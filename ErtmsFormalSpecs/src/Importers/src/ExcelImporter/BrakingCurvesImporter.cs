@@ -19,14 +19,14 @@ using System.Collections.Generic;
 using System.Globalization;
 using DataDictionary;
 using DataDictionary.Tests;
+using GUIUtils.LongOperations;
 using Microsoft.Office.Interop.Excel;
-using Utils;
 using TestAction = DataDictionary.Rules.Action;
 
 
 namespace Importers.ExcelImporter
 {
-    public class BrakingCurvesImporter : ProgressHandler
+    public class BrakingCurvesImporter : BaseLongOperation
     {
         public Dictionary TheDictionary;
         public Step TheStep;
@@ -66,7 +66,6 @@ namespace Importers.ExcelImporter
         /// <summary>
         ///     Launches import of the excel file in the background task
         /// </summary>
-        /// <param name="arg"></param>
         public override void ExecuteWork()
         {
             if (TheDictionary != null)
@@ -141,6 +140,8 @@ namespace Importers.ExcelImporter
                     Console.WriteLine(e.Message);
                 }
                 application.Quit();
+
+                EfsSystem.Instance.Context.HandleChangeEvent(null, Context.ChangeKind.ModelChange);
             }
         }
 
@@ -163,13 +164,13 @@ namespace Importers.ExcelImporter
                 aSubStep.AddModelElement(powerOn);
 
                 TestAction modeInitialization = new TestAction();
-                modeInitialization.ExpressionText = "Kernel.Mode <- Mode.FS";
+                modeInitialization.ExpressionText = "Kernel.Mode <- ModeEnum.FS";
                 aSubStep.AddModelElement(modeInitialization);
             }
 
             TestAction levelInitialization = new TestAction();
             levelInitialization.ExpressionText =
-                "Kernel.Level <- Kernel.LevelData\n{\n    Value => LevelDataStruct { Value => Level.L1 },\n    DataState => DataState.Valid\n}";
+                "Kernel.Level <- Kernel.LevelData\n{\n    Value => LevelDataStruct { Value => LevelEnum.L1 },\n    DataState => DataStateEnum.Valid\n}";
             aSubStep.AddModelElement(levelInitialization);
 
             if (SetupFSMode)
@@ -181,7 +182,7 @@ namespace Importers.ExcelImporter
                 TestAction LRBGInitialization = new TestAction();
                 LRBGInitialization.ExpressionText = "BTM.LRBG <- BTM.BaliseGroupStruct{\n" +
                                                     "    NID => 0,\n" +
-                                                    "    Orientation => Default.Orientation.Nominal,\n" +
+                                                    "    Orientation => Default.OrientationEnum.Nominal,\n" +
                                                     "    Position => BTM.Position{\n" +
                                                     "        Position => 0.0,\n" +
                                                     "        UnderReadingAmountOdo => 0.0,\n" +
@@ -701,7 +702,7 @@ namespace Importers.ExcelImporter
             /* The national values must be valid */
             addAction(aSubStep,
                 String.Format(CultureInfo.InvariantCulture,
-                    "Kernel.NationalValues.ApplicableNationalValues.DataState <- Default.DataState.Valid"));
+                    "Kernel.NationalValues.ApplicableNationalValues.DataState <- Default.DataStateEnum.Valid"));
 
             Range aRange = aWorksheet.UsedRange;
 
