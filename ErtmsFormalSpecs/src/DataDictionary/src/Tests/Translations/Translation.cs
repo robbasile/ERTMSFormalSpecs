@@ -365,16 +365,16 @@ namespace DataDictionary.Tests.Translations
                 switch (val)
                 {
                     case 6:
-                        retVal = "Mode.SB";
+                        retVal = "ModeEnum.SB";
                         break;
                     default:
-                        retVal = "Mode.Unknown";
+                        retVal = "ModeEnum.Unknown";
                         break;
                 }
             }
             else
             {
-                retVal = "Mode." + str;
+                retVal = "ModeEnum." + str;
             }
 
             return retVal;
@@ -392,61 +392,61 @@ namespace DataDictionary.Tests.Translations
             switch (mode)
             {
                 case acceptor.ST_MODE.Mode_FS:
-                    retVal = "Mode.FS";
+                    retVal = "ModeEnum.FS";
                     break;
                 case acceptor.ST_MODE.Mode_IS:
-                    retVal = "Mode.IS";
+                    retVal = "ModeEnum.IS";
                     break;
                 case acceptor.ST_MODE.Mode_LS:
-                    retVal = "Mode.LS";
+                    retVal = "ModeEnum.LS";
                     break;
                 case acceptor.ST_MODE.Mode_NA:
-                    retVal = "Mode.NA";
+                    retVal = "ModeEnum.NA";
                     break;
                 case acceptor.ST_MODE.Mode_NL:
-                    retVal = "Mode.NL";
+                    retVal = "ModeEnum.NL";
                     break;
                 case acceptor.ST_MODE.Mode_NP:
-                    retVal = "Mode.NP";
+                    retVal = "ModeEnum.NP";
                     break;
                 case acceptor.ST_MODE.Mode_OS:
-                    retVal = "Mode.OS";
+                    retVal = "ModeEnum.OS";
                     break;
                 case acceptor.ST_MODE.Mode_PSH:
-                    retVal = "Mode.PSH";
+                    retVal = "ModeEnum.PSH";
                     break;
                 case acceptor.ST_MODE.Mode_PT:
-                    retVal = "Mode.PT";
+                    retVal = "ModeEnum.PT";
                     break;
                 case acceptor.ST_MODE.Mode_RE:
-                    retVal = "Mode.RE";
+                    retVal = "ModeEnum.RE";
                     break;
                 case acceptor.ST_MODE.Mode_SB:
-                    retVal = "Mode.SB";
+                    retVal = "ModeEnum.SB";
                     break;
                 case acceptor.ST_MODE.Mode_SF:
-                    retVal = "Mode.SF";
+                    retVal = "ModeEnum.SF";
                     break;
                 case acceptor.ST_MODE.Mode_SH:
-                    retVal = "Mode.SH";
+                    retVal = "ModeEnum.SH";
                     break;
                 case acceptor.ST_MODE.Mode_SL:
-                    retVal = "Mode.SL";
+                    retVal = "ModeEnum.SL";
                     break;
                 case acceptor.ST_MODE.Mode_SN:
-                    retVal = "Mode.SN";
+                    retVal = "ModeEnum.SN";
                     break;
                 case acceptor.ST_MODE.Mode_SR:
-                    retVal = "Mode.SR";
+                    retVal = "ModeEnum.SR";
                     break;
                 case acceptor.ST_MODE.Mode_TR:
-                    retVal = "Mode.TR";
+                    retVal = "ModeEnum.TR";
                     break;
-                case acceptor.ST_MODE.Mode_UF:
-                    retVal = "Mode.UF";
+                case acceptor.ST_MODE.Mode_UN:
+                    retVal = "ModeEnum.UF";
                     break;
                 default:
-                    retVal = "Mode.Unknown";
+                    retVal = "ModeEnum.Unknown";
                     break;
             }
 
@@ -1091,22 +1091,22 @@ namespace DataDictionary.Tests.Translations
             switch (format_decimal(str))
             {
                 case 0:
-                    retVal = "Level.L0";
+                    retVal = "LevelEnum.L0";
                     break;
                 case 1:
-                    retVal = "Level.L1";
+                    retVal = "LevelEnum.L1";
                     break;
                 case 2:
-                    retVal = "Level.LSTR";
+                    retVal = "LevelEnum.LNTC";
                     break;
                 case 3:
-                    retVal = "Level.L2";
+                    retVal = "LevelEnum.L2";
                     break;
                 case 4:
-                    retVal = "Level.L3";
+                    retVal = "LevelEnum.L3";
                     break;
                 default:
-                    retVal = "Level." + str;
+                    retVal = "LevelEnum." + str;
                     break;
             }
 
@@ -1125,22 +1125,22 @@ namespace DataDictionary.Tests.Translations
             switch (level)
             {
                 case acceptor.ST_LEVEL.StLevel_L0:
-                    retVal = "Level.L0";
+                    retVal = "LevelEnum.L0";
                     break;
                 case acceptor.ST_LEVEL.StLevel_L1:
-                    retVal = "Level.L1";
+                    retVal = "LevelEnum.L1";
                     break;
-                case acceptor.ST_LEVEL.StLevel_LSTM:
-                    retVal = "Level.LSTR";
+                case acceptor.ST_LEVEL.StLevel_LNTC:
+                    retVal = "LevelEnum.LNTC";
                     break;
                 case acceptor.ST_LEVEL.StLevel_L2:
-                    retVal = "Level.L2";
+                    retVal = "LevelEnum.L2";
                     break;
                 case acceptor.ST_LEVEL.StLevel_L3:
-                    retVal = "Level.L3";
+                    retVal = "LevelEnum.L3";
                     break;
                 default:
-                    retVal = "Level.Unknown";
+                    retVal = "LevelEnum.Unknown";
                     break;
             }
 
