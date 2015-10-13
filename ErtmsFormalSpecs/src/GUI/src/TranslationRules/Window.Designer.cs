@@ -86,7 +86,7 @@ namespace GUI.TranslationRules
             // 
             this.testBrowserStatusLabel.Name = "testBrowserStatusLabel";
             this.testBrowserStatusLabel.Size = new System.Drawing.Size(86, 22);
-            this.testBrowserStatusLabel.Text = "toolStripLabel1";
+            this.testBrowserStatusLabel.Text = "Translation rules";
             // 
             // toolStripSeparator2
             // 
