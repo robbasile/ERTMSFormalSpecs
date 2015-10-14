@@ -102,7 +102,7 @@ STOP_CONDITION
  Name="Value"
  Guid="17beface-fcb0-4eb8-b204-80baed457e28"
 >
-<Expression>BaseTypes.SpeedToMS( Vrelease + Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.Vdelta0rsob ( Vrelease ) ) * ( Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.T_traction(NoA_est=&gt;True) + Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.T_berem(NoA_est=&gt;True) )</Expression>
+<Expression>BaseTypes.SpeedToMS( Vrelease + Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.Vdelta0rsob ( Vrelease ) ) * ( Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.T_traction(NoA_est=&gt;False) + Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.T_berem(NoA_est=&gt;False) )</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Speed"
@@ -487,17 +487,20 @@ INITIAL_VALUE
 >
 <Expression>REDUCE
     Kernel.SpeedAndDistanceMonitoring.TargetsList() |
-        Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.d_tripEOA() &lt;= X.Location AND X.Location &lt; Kernel.MA.SvL().Location
+        Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.d_tripEOA() &lt;= X.Location AND X.Location &lt; aSvLlocation
 USING X IN
-    BaseTypes.MinSpeed ( X1 =&gt; Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.ComputeReleaseSpeedForTarget ( X ), X2 =&gt; RESULT )
+    BaseTypes.MinSpeed (
+        X1 =&gt; Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.ComputeReleaseSpeedForTarget ( X ),
+        X2 =&gt; RESULT
+    )
 INITIAL_VALUE
     Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.ComputeReleaseSpeedForTarget(
-    aTarget=&gt;Kernel.MA.CreateTarget(
-    aLength =&gt; BaseTypes.Distance.Infinity,
-    aLocation =&gt; aSvLlocation,
-    aSpeed =&gt; 0.0
-)
-)</Expression>
+        aTarget=&gt;Kernel.MA.CreateTarget (
+            aLength =&gt; BaseTypes.Length.Infinity,
+            aLocation =&gt; aSvLlocation,
+            aSpeed =&gt; 0.0
+        )
+    )</Expression>
 </Case></Cases>
 </Function><Function
  Type="Double"

@@ -1761,7 +1761,7 @@
         SystemReactionIfRadioChannelMonitoringTimeLimitExpires =&gt; Packet.M_NVCONTACT,
         MaxTimeSinceCreationInTheRBCOfLastReceivedTelegram =&gt; BaseTypes.Time ( Packet.T_NVCONTACT ),
         DistToBeAllowedForReversingInPostTripMode =&gt; MessageTypes.QScaleDistance ( Packet.D_NVPOTRP, Packet.Q_SCALE ),
-        MaxPermDistToRunInStaffResponsibleMode =&gt; MessageTypes.QScaleDistance ( Packet.D_NVSTFF, Packet.Q_SCALE ),
+        MaxPermDistToRunInStaffResponsibleMode =&gt; ConvertD_NVSTFF( Packet.D_NVSTFF, Packet.Q_SCALE ),
         DefaultLocationAccuracyOfABaliseGroup =&gt; Packet.Q_NVLOCACC,
         WeightingFactorForAvailableWheelRailAdhesion =&gt; WeightFactResolution ( Packet.M_NVAVADH ),
         ConfLevelForEmergBrakeSafeDecelerationOnDryRails =&gt; Packet.M_NVEBCL,
@@ -2764,6 +2764,55 @@
  Guid="cfd7cc3f-43ec-4123-93ba-c0e717d8c93b"
 >
 <Expression>Kernel.NationalValues.DefaultValues</Expression>
+</Case></Cases>
+</Function><Function
+ Type="BaseTypes.Distance"
+ X="441"
+ Y="1"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="ConvertD_NVSTFF"
+ Guid="1be97545-f7f7-400a-8718-5ee4ef37e881"
+>
+<ReqRef
+ Id="0b11d351-f4d6-4885-a839-fd32a3c44518"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ddc58660-37f2-47e3-a76f-35a5ea8d57b5"
+>
+</ReqRef><ReqRef
+ Id="3d674150-d04c-457d-a25d-785406224384"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="1a300bb9-e415-4226-8344-a8f0691495cf"
+>
+</ReqRef><Comment>Converts the received value of D_NVSTFF to an EFS distance, accounting for special values.</Comment>
+<Parameters>
+<Parameter
+ Type="MessageTypes.Distance"
+ Name="aDistance"
+ Guid="cfba55ec-c699-427e-98ae-7c9d6f263c40"
+>
+</Parameter><Parameter
+ Type="Messages.Q_SCALE"
+ Name="aScale"
+ Guid="8793f0e3-f1d2-4a1d-8cc8-4fe9e8c6197f"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Infinity"
+ Guid="dc296a10-c8c6-44aa-afa2-75be9685dd0b"
+>
+<PreConditions>
+<PreCondition
+ Guid="22793bb6-8a21-4963-9d60-a7a87f6250ca"
+>aDistance == 32767</PreCondition></PreConditions>
+<Expression>BaseTypes.Distance.Infinity</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="9de2ff2b-bbd0-4a8b-83d1-df467ed34fc5"
+>
+<Expression>MessageTypes.QScaleDistance ( aDistance, aScale )</Expression>
 </Case></Cases>
 </Function></Functions>
 <Procedures>

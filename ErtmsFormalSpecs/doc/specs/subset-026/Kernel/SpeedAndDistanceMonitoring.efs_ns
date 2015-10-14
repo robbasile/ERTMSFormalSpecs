@@ -3176,6 +3176,41 @@ Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &gt;  Kernel.Spe
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="69d9c141-0c74-4244-ae95-168ffa79b8fb"
 >
+</ReqRef><ReqRef
+ Id="5e616edd-93b3-48b1-9e3c-e0c863f4a609"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="094f9ba7-818c-4de5-a3f2-71445b3f7aae"
+>
+</ReqRef><ReqRef
+ Id="04a0794a-23c9-4383-8869-f2d8e4aab882"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e2a91ad4-9994-405f-b84b-fe633df721e0"
+>
+</ReqRef><ReqRef
+ Id="68cdb140-3c4e-4bdc-a122-88e2b2e22f7f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="1909ab94-c35f-4546-b55c-e33a92e19087"
+>
+</ReqRef><ReqRef
+ Id="cb22befd-4969-4fdf-9f68-f6b39ec1abe3"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d2c0bca9-63da-452f-91c0-11fed4519403"
+>
+</ReqRef><ReqRef
+ Id="6f7286d5-47c8-4fc2-8fd3-ed4da2867417"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9b768b5f-abb8-498d-89f6-2c769323d947"
+>
+</ReqRef><ReqRef
+ Id="3db576cb-65c4-4a7c-b6a3-7092c89448db"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="13ed312e-8f63-427d-b4c5-410bf7d6e94a"
+>
+</ReqRef><ReqRef
+ Id="ca1c598d-015e-44b0-9659-1a4c483f22b5"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="33ed3945-7d6c-41bb-99ec-04bae73ecac3"
+>
 </ReqRef><Comment>Returns the list of supervised targets for the train.</Comment>
 <Cases>
 <Case
@@ -3186,20 +3221,12 @@ Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &gt;  Kernel.Spe
 <PreCondition
  Guid="70b90267-1f97-420a-98f2-50458a60d168"
 >Kernel.ActiveFunctions.SuperviseTrainSpeed_MRSP_DistInSRMode()</PreCondition></PreConditions>
-<Expression>MAP TARGETS(MIN(
-    First =&gt; Kernel.MRSP.SpeedRestrictions,
-    Second =&gt; Kernel.NationalValues.MaxDistInSRSpeedRestriction
-)) | X.Location &gt; Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom)
-  USING X IN X</Expression>
+<Expression>MRSPTargets() + [Modes.StaffResponsible.SREndTarget()]</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="5bfa34f7-80f1-4c7a-8338-d7b0662d057c"
 >
-<Expression>MAP TARGETS(MIN(
-    First=&gt; Kernel.MRSP.SpeedRestrictions,
-    Second=&gt; Kernel.MA.SpeedRestrictions
-)) | X.Location &gt; Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom)
-  USING X IN X</Expression>
+<Expression>MRSPTargets() + [MA.EOA(), MA.SvL()]</Expression>
 </Case></Cases>
 </Function><Function
  Type="Kernel.SupervisionStatus"
@@ -3341,15 +3368,37 @@ BaseTypes.Distance.Unknown</PreCondition></PreConditions>
  Y="1"
  Width="100"
  Height="50"
+ Implemented="TRUE"
  Name="MRSPTargets"
  Guid="7849e29a-c61e-4bf4-bb42-781cc8e1a9f7"
 >
+<ReqRef
+ Id="5e616edd-93b3-48b1-9e3c-e0c863f4a609"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ffaf4a74-663e-45e5-a0e0-97640c9d57a8"
+>
+</ReqRef><ReqRef
+ Id="04a0794a-23c9-4383-8869-f2d8e4aab882"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ce9e3242-c3cb-4633-900b-329a1e7bf0ea"
+>
+</ReqRef><ReqRef
+ Id="3db576cb-65c4-4a7c-b6a3-7092c89448db"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="906ed3e6-0053-4cdd-965b-bcbd90b699f4"
+>
+</ReqRef><ReqRef
+ Id="ca1c598d-015e-44b0-9659-1a4c483f22b5"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="28cb966f-7bd6-4082-b56c-fc0e5f29371f"
+>
+</ReqRef><Comment>Calculates the list of currently supervised targets from the MRSP.</Comment>
 <Cases>
 <Case
  Name="Value"
  Guid="fb67d731-5a0c-4ab6-a8a2-43706b43f760"
 >
-<Expression>MAP TARGETS(Kernel.MRSP.SpeedRestrictions) | X.Location &gt; TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom) USING X IN X</Expression>
+<Expression>MAP TARGETS(Kernel.MRSP.SpeedRestrictions) | X.Location &gt;= TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) USING X IN X</Expression>
 </Case></Cases>
 </Function></Functions>
 <Procedures>
