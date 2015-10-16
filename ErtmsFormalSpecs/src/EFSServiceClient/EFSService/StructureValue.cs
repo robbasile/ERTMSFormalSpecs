@@ -24,11 +24,17 @@ namespace EFSServiceClient.EFSService
     public partial class StructureValue
     {
         /// <summary>
-        ///     Constructor
+        /// The (full) name of the structure
         /// </summary>
-        /// <param name="value"></param>
-        public StructureValue()
+        public string Name { get; set; }
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="name"></param>
+        public StructureValue(string name)
         {
+            Name = name;
             Value = new Dictionary<string, Value>();
         }
 
@@ -38,16 +44,21 @@ namespace EFSServiceClient.EFSService
         /// <returns></returns>
         public override string DisplayValue()
         {
-            string retVal = "{";
+            string retVal = Name + "{";
+            bool firstItem = true;
 
             foreach (KeyValuePair<string, Value> item in Value)
             {
-                if (retVal.Length != 1)
+                if (!firstItem)
                 {
                     retVal += ", ";
                 }
+                else
+                {
+                    firstItem = false;
+                }
 
-                retVal += item.Key + " => " + item.Value;
+                retVal += item.Key + " => " + item.Value.DisplayValue();
             }
 
             retVal += "}";
