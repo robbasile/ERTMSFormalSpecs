@@ -416,19 +416,31 @@ X2 =&gt; Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.ComputeStartRS
 >Vrel == BaseTypes.Speed.ComputeReleaseSpeedOnBoard</PreCondition></PreConditions>
 <Expression>REDUCE
     TARGETS (Kernel.MRSP.SpeedRestrictions) |
+    (
         StartRSM ( Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.ComputeReleaseSpeed (aSvLlocation) ) &lt;= X.Location
-    AND  
+          AND  
         X.Location &lt;= d_tripEOA()
-          OR  
+    )
+
+    OR  
+
+    (
         StartRSM ( ComputeReleaseSpeed (aSvLlocation) ) &lt;= X.Location + BaseTypes.LengthToDistance ( X.Length )
-    AND  
+          AND  
         X.Location + BaseTypes.LengthToDistance ( X.Length ) &lt;= d_tripEOA()
-          OR  
+    )
+
+    OR  
+
+    (
         X.Location &lt;= StartRSM ( ComputeReleaseSpeed (aSvLlocation) )
-    AND  
+          AND  
         d_tripEOA() &lt;= X.Location + BaseTypes.LengthToDistance ( X.Length )
+    )
+
 USING X IN
     BaseTypes.MinSpeed ( X1 =&gt; X.Speed, X2 =&gt; RESULT )
+
 INITIAL_VALUE
     ComputeReleaseSpeed (aSvLlocation)</Expression>
 </Case><Case
@@ -486,7 +498,7 @@ INITIAL_VALUE
  Guid="ccedf329-af56-4de8-8836-753af71472df"
 >
 <Expression>REDUCE
-    Kernel.SpeedAndDistanceMonitoring.TargetsList() |
+    TARGETS( Kernel.MRSP.SpeedRestrictions ) |
         Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.d_tripEOA() &lt;= X.Location AND X.Location &lt; aSvLlocation
 USING X IN
     BaseTypes.MinSpeed (
@@ -816,5 +828,51 @@ Available ( Kernel.MA.MA.EndSection.DangerPoint )</PreCondition></PreConditions>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="b76a1f8d-eee1-410d-bc86-0a3fe02ac997"
 >
-</ReqRef></Variable></Variables>
+</ReqRef></Variable><Variable
+ Type="Boolean"
+ DefaultValue="False"
+ VariableMode="Internal"
+ X="1"
+ Y="181"
+ Width="100"
+ Height="50"
+ Name="NewMAReceived"
+ Guid="74130320-3f6d-403c-be4f-3e1a511f0521"
+>
+<ReqRef
+ Id="a0847e53-15b5-49c2-aefc-16f1fc80b471"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="454ed848-a7c8-4984-8455-d59ee5254c90"
+>
+</ReqRef><Comment>Indicates that a new MA has been received and that the</Comment>
+</Variable></Variables>
+<Rules>
+<Rule
+ Priority="CleanUp"
+ X="441"
+ Y="1"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Clean up New MA received information"
+ Guid="eab36f6a-72e6-430f-8b47-188f19abf2a1"
+>
+<Comment>Ensures that the variable indicating that a new MA was received in teh last cycle is reset to False</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Reset NewMAReceived"
+ Guid="acc547b3-a390-409f-a8be-8dae49d7a4c3"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="37f259ff-b460-415e-a1fe-79537dc39294"
+>NewMAReceived &lt;- Boolean.False</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
 </NameSpace>

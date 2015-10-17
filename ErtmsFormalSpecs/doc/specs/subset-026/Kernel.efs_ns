@@ -10825,6 +10825,7 @@ BTM.Linking.RAMSWindowPassed()
  Name="Handle BTM inputs"
  Guid="7a73e5ba-e5fc-4096-af34-3907ed746ba0"
 >
+<Comment>Handle a received balise of trackside version 2.0</Comment>
 <PreConditions>
 <PreCondition
  Guid="e77d83c7-e2ac-4e97-a9b6-cf974eefafae"
@@ -10840,6 +10841,7 @@ BTM.Linking.RAMSWindowPassed()
  Name="Handle BTM input of previous version"
  Guid="363efc48-955d-49f8-9648-a3dc5f53b3d2"
 >
+<Comment>Handle a received balise of trackside version 1.0 or 1.1</Comment>
 <PreConditions>
 <PreCondition
  Guid="1711ea15-5231-46c6-baae-683199d992a4"
@@ -10952,6 +10954,34 @@ BTM.Linking.RAMSWindowPassed()
 <Action
  Guid="4e99e841-916b-4771-9cbe-a7999f9bbdbb"
 >Kernel.Modes.ModeTransitions.UpdateMode()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Implemented="TRUE"
+ Name="Calculate release speed"
+ Guid="d1e75719-9714-4fb2-8ed6-5baf20b446d3"
+>
+<ReqRef
+ Id="a0847e53-15b5-49c2-aefc-16f1fc80b471"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9b2224c5-7c0b-4f6b-91c3-3198abb19c42"
+>
+</ReqRef><Comment>If a new MA was received, the release speed needs to be recalculated.
+This is done now because the calculation depends on te mode.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Calculate release speed"
+ Guid="4630a00c-35d4-4955-bbb6-520fe7aa0eb9"
+>
+<PreConditions>
+<PreCondition
+ Guid="d50da949-0d51-43fa-a618-cca94087a273"
+>Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.NewMAReceived</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="660fdd03-e40d-4307-ad08-af2e56cbe8ce"
+>Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.UpdateReleaseSpeed()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
