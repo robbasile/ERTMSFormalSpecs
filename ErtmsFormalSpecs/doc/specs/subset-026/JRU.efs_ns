@@ -1047,7 +1047,7 @@ IN JRUMessages</Action></Actions>
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
- Name="Update FLOI"
+ Name="Update SBI"
  Guid="1daf6c7f-b2f7-473b-9358-cd415058af78"
 >
 <PreConditions>
@@ -1055,11 +1055,23 @@ IN JRUMessages</Action></Actions>
  Guid="f5d3dccb-474d-4877-afbc-cf2657785d82"
 >Kernel.ActiveFunctions.SuperviseTrainSpeed_All_Information()
   OR  
-Kernel.ActiveFunctions.SuperviseTrainSpeed_MRSP_DistInSRMode()</PreCondition></PreConditions>
+Kernel.ActiveFunctions.SuperviseTrainSpeed_MRSP_DistInSRMode()</PreCondition><PreCondition
+ Guid="10f2d19b-39d3-400b-933c-a01a34914ce7"
+>Kernel.SpeedAndDistanceMonitoring.Monitoring in [Kernel.SpeedAndDistanceMonitoring.MonitoringTypeSM.Ceiling, Kernel.SpeedAndDistanceMonitoring.MonitoringTypeSM.Target]</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="9bc80e3a-1a1a-429f-98aa-42c1d4d761ce"
 >JRU.JRU.PreviousVFloiValue &lt;- Kernel.SpeedAndDistanceMonitoring.Display.SBISpeed(Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom))</Action></Actions>
+</RuleCondition><RuleCondition
+ Name="Update SBI to NA"
+ Guid="267bdd0e-879b-4bec-bb56-8ee7247978be"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="b930117b-5170-4950-b82f-31a012694bb7"
+>JRU.JRU.PreviousVFloiValue &lt;- BaseTypes.Speed.NA</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
