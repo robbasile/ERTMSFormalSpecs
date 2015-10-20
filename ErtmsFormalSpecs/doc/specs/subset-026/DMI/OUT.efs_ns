@@ -2960,7 +2960,9 @@ This procedure does not do anything. The mode tracking is not necessary for this
 <Actions>
 <Action
  Guid="15e7d241-d0a9-4e0a-9407-d7f1fb5c72d6"
->THIS.OutputInformation.RequestDisplay()</Action></Actions>
+>THIS.OutputInformation.RequestDisplay()</Action><Action
+ Guid="3cd08e63-0f53-4075-a854-4e4d691edc22"
+>DisplayStartTime &lt;- Kernel.DateAndTime.CurrentTime</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -3011,6 +3013,29 @@ This procedure does not do anything. The mode tracking is not necessary for this
  Name="Mode"
  Guid="ec13b56c-9a0c-43f3-96f8-d20052458f8f"
 >
+</StructureElement><StructureElement
+ TypeName="BaseTypes.Time"
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="DisplayStartTime"
+ Guid="c34d719d-72b3-475c-9253-cdf19242a2e8"
+>
+<ReqRef
+ Id="48b266a3-bc31-49b2-8a03-dda08682c26f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ffe770df-a511-4c88-b157-8dec7cab4f5b"
+>
+</ReqRef><ReqRef
+ Id="394bd816-1dad-4040-96c1-2ecacabd7a91"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="795a911f-f032-49a2-85ac-42280e308bf5"
+>
+</ReqRef><ReqRef
+ Id="b431dd9b-82e0-4212-a738-839644e1d2d6"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="76210243-e26e-4bdf-9dba-32d6610d1018"
+>
+</ReqRef><Comment>Indicates the time at which the display of this information started.</Comment>
 </StructureElement></Structure><Structure
  Default=""
  X="770"
@@ -3337,7 +3362,17 @@ This procedure does not do anything. The mode tracking is not necessary for this
  Name="Updates the request status"
  Guid="ee1ecdad-884e-44b2-bcc0-ebe2d6314371"
 >
-<SubRules></SubRules>
+<ReqRef
+ Id="48b266a3-bc31-49b2-8a03-dda08682c26f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="130d5b00-7285-41c4-b894-c0a9cd31b50c"
+>
+</ReqRef><ReqRef
+ Id="d1db13e8-4cec-49c9-809c-4f37995c78d8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a20098e4-ad1b-46b6-8f25-aa12fd3a30c4"
+>
+</ReqRef><SubRules></SubRules>
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
@@ -3351,7 +3386,9 @@ This procedure does not do anything. The mode tracking is not necessary for this
 <Actions>
 <Action
  Guid="bde5049d-59cd-4e59-9aae-8ced22704724"
->THIS.OutputInformation.RequestDisplay()</Action></Actions>
+>THIS.OutputInformation.RequestDisplay()</Action><Action
+ Guid="ec207f74-86f8-4a10-8e13-59383f48d81e"
+>DisplayStartTime &lt;- Kernel.DateAndTime.CurrentTime</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -3403,6 +3440,24 @@ This procedure does not do anything. The mode tracking is not necessary for this
  Guid="3e89c279-075b-4ad4-ad32-1686682ba207"
 >
 <Comment>Indicates a malfunction on the trackside end</Comment>
+</StructureElement><StructureElement
+ TypeName="BaseTypes.Time"
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="DisplayStartTime"
+ Guid="da71caef-bb41-4c2e-9237-c843f361a147"
+>
+<ReqRef
+ Id="48b266a3-bc31-49b2-8a03-dda08682c26f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="658777f6-67e9-4aa5-aa46-bcc9ed550d51"
+>
+</ReqRef><ReqRef
+ Id="d1db13e8-4cec-49c9-809c-4f37995c78d8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d1344aae-1028-41ba-9c09-bab8a80d3888"
+>
+</ReqRef><Comment>Indicates the time at which the display of this information started.</Comment>
 </StructureElement></Structure><Structure
  Default=""
  X="110"
@@ -4777,7 +4832,17 @@ The brake reason.</Comment>
  Name="Updates the request status"
  Guid="dce2585d-7166-40c9-a2da-3cd89c8ad349"
 >
-<SubRules></SubRules>
+<ReqRef
+ Id="48b266a3-bc31-49b2-8a03-dda08682c26f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9edf8a45-23ef-4eec-a92d-34d382a16a4a"
+>
+</ReqRef><ReqRef
+ Id="bcc48b5f-180f-43fe-ac79-ff74b48f253c"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="14a86f5d-081c-4991-920a-9759de2d2380"
+>
+</ReqRef><SubRules></SubRules>
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
@@ -4791,7 +4856,9 @@ The brake reason.</Comment>
 <Actions>
 <Action
  Guid="7fb8d48f-64df-4c74-aad2-1430fab74b86"
->THIS.OutputInformation.RequestDisplay()</Action></Actions>
+>THIS.OutputInformation.RequestDisplay()</Action><Action
+ Guid="a71e856c-bb65-43cd-ba86-ccc883e15ffe"
+>DisplayStartTime &lt;- Kernel.DateAndTime.CurrentTime</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -4843,6 +4910,25 @@ The brake reason.</Comment>
  Guid="0d129f96-5a56-497a-9b5a-c1af8949d819"
 >
 <Comment>The train is incompatible with a trackside system</Comment>
+</StructureElement><StructureElement
+ TypeName="BaseTypes.Time"
+ Default=""
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="DisplayStartTime"
+ Guid="9c53a040-34b0-4158-984c-fa48e1cd6e27"
+>
+<ReqRef
+ Id="48b266a3-bc31-49b2-8a03-dda08682c26f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="03c1eb17-eb45-4d5e-a75f-aa3918cc3f5e"
+>
+</ReqRef><ReqRef
+ Id="bcc48b5f-180f-43fe-ac79-ff74b48f253c"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="79aeb502-da65-4934-8f2f-180bc0086dd8"
+>
+</ReqRef><Comment>Indicates the time at which the display of this information started.</Comment>
 </StructureElement></Structure><Structure
  Default=""
  X="330"
