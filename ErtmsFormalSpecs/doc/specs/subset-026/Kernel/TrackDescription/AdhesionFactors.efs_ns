@@ -84,7 +84,28 @@
  Guid="d67b211b-69b4-4985-ba92-7dc9bef02ff1"
 >
 </StructureRef></Interfaces>
-</Structure></Structures>
+</Structure><Structure
+ X="1"
+ Y="241"
+ Width="100"
+ Height="50"
+ Name="DriverSelection_SlipperyRailsStruct"
+ Guid="60a685ae-6f78-4f20-ac27-41a9da0e7376"
+>
+<StructureElement
+ TypeName="Messages.M_ADHESION"
+ Mode="Internal"
+ Name="AdhesionFactor"
+ Guid="ee85b3e9-adb1-45d9-8bec-6f7fd195683b"
+>
+</StructureElement><StructureElement
+ TypeName="Boolean"
+ Default="False"
+ Mode="Internal"
+ Name="DriverSelected"
+ Guid="3653ec06-1250-4c50-8297-8791872a1870"
+>
+</StructureElement></Structure></Structures>
 <Collections>
 <Collection
  TypeName="AdhesionFactorStruct"
@@ -192,7 +213,7 @@
  Name="Adhesion factor selected by driver"
  Guid="e546857e-a587-42d4-98fd-d1e84fc8628a"
 >
-<Expression>Kernel.TrackDescription.AdhesionFactors.SlipperyRailSelectedByDriver</Expression>
+<Expression>Kernel.TrackDescription.AdhesionFactors.SlipperyRailSelectedByDriver.AdhesionFactor</Expression>
 </Case></Cases>
 </Function></Functions>
 <Procedures>
@@ -412,8 +433,8 @@ IN
 >
 </ReqRef><Comment>The list of adhesion factors received from the trackside.</Comment>
 </Variable><Variable
- Type="Messages.M_ADHESION"
- DefaultValue="Messages.M_ADHESION.Non_slippery_rail"
+ Type="DriverSelection_SlipperyRailsStruct"
+ DefaultValue=""
  VariableMode="Internal"
  X="320"
  Y="10"
@@ -443,7 +464,7 @@ IN
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="2c6dfda9-3e8e-49eb-86ba-3a4a16d7bcb2"
 >
-</ReqRef><Comment>Indicates the &quot;Slippery rail&quot; value selected by driver.</Comment>
+</ReqRef><Comment>Indicates the &quot;Slippery rail&quot; value selected by driver and whetehr the driver selected the value.</Comment>
 </Variable></Variables>
 <Rules>
 <Rule
@@ -471,13 +492,14 @@ IN
 <PreConditions>
 <PreCondition
  Guid="d02e33ed-3490-4b02-bebd-9e5e8d1165aa"
->NOT Kernel.TrackDescription.AdhesionFactors.AdhFactorModificationAllowed()</PreCondition><PreCondition
- Guid="d9881cb1-eccb-462a-8786-64b1477dd895"
->Kernel.TrackDescription.AdhesionFactors.SlipperyRailSelectedByDriver == Messages.M_ADHESION.Slippery_rail</PreCondition></PreConditions>
+>NOT Kernel.TrackDescription.AdhesionFactors.AdhFactorModificationAllowed()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="11a62dee-1252-4610-8f17-8793fd2758a1"
->Kernel.TrackDescription.AdhesionFactors.SlipperyRailSelectedByDriver &lt;- Messages.M_ADHESION.Non_slippery_rail</Action></Actions>
+>Kernel.TrackDescription.AdhesionFactors.SlipperyRailSelectedByDriver &lt;- Kernel.TrackDescription.AdhesionFactors.DriverSelection_SlipperyRailsStruct{
+AdhesionFactor =&gt; Messages.M_ADHESION.Non_slippery_rail,
+DriverSelected =&gt; Boolean.False
+}</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  X="111"
