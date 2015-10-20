@@ -1271,7 +1271,7 @@ This procedure does not do anything. The mode tracking is not necessary for this
 <Comment>Requests to display the corresponding information</Comment>
 <Parameters>
 <Parameter
- Type="Kernel.BrakeCommands.BrakeReason"
+ Type="Kernel.BrakeCommands.BrakeReasonEnum"
  Name="reason"
  Guid="1c80bc76-35ec-4d87-9998-d6a3b0a48f28"
 >
@@ -1343,7 +1343,7 @@ This procedure does not do anything. The mode tracking is not necessary for this
  Guid="ff369b12-8507-481f-a9c7-c9314092b2d2"
 >
 </StructureElement><StructureElement
- TypeName="Kernel.BrakeCommands.BrakeReason"
+ TypeName="Kernel.BrakeCommands.BrakeReasonEnum"
  Default=""
  Mode="Outgoing"
  Implemented="TRUE"
@@ -4650,7 +4650,7 @@ This procedure does not do anything. The mode tracking is not necessary for this
 <Comment>Converts an emergency brake command from the kernel to the DMI format, and adds it to the list.</Comment>
 <Parameters>
 <Parameter
- Type="Kernel.BrakeCommands.EmergencyStopStruct"
+ Type="Kernel.BrakeCommands.BrakeCommandStruct"
  Name="aBrake"
  Guid="5b92a3d1-0a96-4fc9-8d23-b5991e83c424"
 >
@@ -4674,8 +4674,10 @@ This procedure does not do anything. The mode tracking is not necessary for this
 <Actions>
 <Action
  Guid="c283a468-baad-4098-b142-4c2335e295d6"
->INSERT BrakeStruct{
+>INSERT BrakeStruct
+{
     Brake =&gt; BrakeType.Emergency,
+    DisplayStartTime =&gt; aBrake.StartTime,
     Reason =&gt; aBrake.Reason
 }
 IN THIS.Reasons</Action></Actions>
@@ -4689,8 +4691,8 @@ IN THIS.Reasons</Action></Actions>
 <Comment>Converts an service brake command from the kernel to the DMI format, and adds it to the list.</Comment>
 <Parameters>
 <Parameter
- Type="Kernel.BrakeCommands.BrakeReason"
- Name="aReason"
+ Type="Kernel.BrakeCommands.BrakeCommandStruct"
+ Name="aBrake"
  Guid="1f3d80ce-59df-4dae-8686-fe70348dd50f"
 >
 </Parameter></Parameters>
@@ -4713,9 +4715,11 @@ IN THIS.Reasons</Action></Actions>
 <Actions>
 <Action
  Guid="dd0abde1-5fec-4a0e-8dd3-04b8231f18b7"
->INSERT BrakeStruct{
+>INSERT BrakeStruct
+{
     Brake =&gt; BrakeType.Service,
-    Reason =&gt; aReason
+    DisplayStartTime =&gt; aBrake.StartTime,
+    Reason =&gt; aBrake.Reason
 }
 IN THIS.Reasons</Action></Actions>
 </RuleCondition></Conditions>
@@ -4765,7 +4769,7 @@ The brake reason.</Comment>
  Name="Display"
  Guid="74ab3607-8dad-4080-9cdd-bee80faf67f0"
 >
-<Comment>Requests to display the corresponding information</Comment>
+<Comment>Requests to display the corresponding information.</Comment>
 <Rules>
 <Rule
  Priority="Processing"

@@ -99,7 +99,7 @@
 <Actions>
 <Action
  Guid="125667fb-2011-4636-9cf7-678ee98acb0f"
->Kernel.BrakeCommands.CommandEmergencyBrake(Kernel.BrakeCommands.BrakeReason.SpeedAndDistanceMonitoring)</Action></Actions>
+>Kernel.BrakeCommands.CommandEmergencyBrake(Kernel.BrakeCommands.BrakeReasonEnum.SpeedAndDistanceMonitoring)</Action></Actions>
 <Expectations>
 <Expectation
  Kind="Instantaneous"
@@ -153,7 +153,7 @@
 <Actions>
 <Action
  Guid="d058c056-de67-4dea-8146-4e362aaa3633"
->Kernel.BrakeCommands.ReleaseEBCommand(Kernel.BrakeCommands.BrakeReason.SpeedAndDistanceMonitoring)</Action></Actions>
+>Kernel.BrakeCommands.ReleaseEBCommand(Kernel.BrakeCommands.BrakeReasonEnum.SpeedAndDistanceMonitoring)</Action></Actions>
 <Expectations>
 <Expectation
  Kind="Instantaneous"
@@ -3085,8 +3085,14 @@ Priority =&gt; EURORADIO.MessagePriorityEnum.Normal
 <Actions>
 <Action
  Guid="e97294f7-e3a2-4be6-a29e-cef86ea38e9d"
->INSERT Kernel.BrakeCommands.BrakeReason.OrderFromRBC 
-  IN Kernel.BrakeCommands.ServiceBrakeCommands</Action></Actions>
+>INSERT
+Kernel.BrakeCommands.BrakeCommandStruct
+  {
+    Reason =&gt; Kernel.BrakeCommands.BrakeReasonEnum.OrderFromRBC,
+    StartTime =&gt; Kernel.DateAndTime.CurrentTime
+  }
+IN
+  Kernel.BrakeCommands.ServiceBrakeCommands</Action></Actions>
 <Expectations>
 <Expectation
  Kind="Instantaneous"

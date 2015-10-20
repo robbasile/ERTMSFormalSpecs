@@ -375,7 +375,7 @@ If the RBC does not send a consistent message within the period T_NVCONTACT, the
  Guid="1927d6d3-b902-49fb-8659-ba192ce507d3"
 >Kernel.DateAndTime.CurrentTime &gt; EURORADIO.RBCStruct.OnboardReference_MessageTimer + Kernel.NationalValues.CurrentNV().MaxTimeSinceCreationInTheRBCOfLastReceivedTelegram</PreCondition><PreCondition
  Guid="48586d1f-c5f2-41a2-a230-9552e9516335"
->NOT THERE_IS BrakeCommand IN Kernel.BrakeCommands.ServiceBrakeCommands | BrakeCommand == Kernel.BrakeCommands.BrakeReason.NoRadioMessageInDueTime</PreCondition><PreCondition
+>NOT THERE_IS BrakeCommand IN Kernel.BrakeCommands.ServiceBrakeCommands | BrakeCommand.Reason == Kernel.BrakeCommands.BrakeReasonEnum.NoRadioMessageInDueTime</PreCondition><PreCondition
  Guid="047d557f-5809-47bc-bd4b-a2ebcda881e8"
 >EURORADIO.RBCStruct.ContactTimerSupervised</PreCondition></PreConditions>
 <Actions>
@@ -415,7 +415,7 @@ Keep the reason for it to be displayed to the driver.</Comment>
     IsConditional =&gt; False,
     Id =&gt; 0,
     StopLocation =&gt; 0.0,
-    Reason =&gt; Kernel.BrakeCommands.BrakeReason.NoRadioMessageInDueTime
+    Reason =&gt; Kernel.BrakeCommands.BrakeReasonEnum.NoRadioMessageInDueTime
 }
 IN Kernel.BrakeCommands.EmergencyStops</Action></Actions>
 </RuleCondition><RuleCondition
@@ -437,7 +437,7 @@ Keep the reason for it to be displayed to the driver.</Comment>
 <Actions>
 <Action
  Guid="f97da9de-0e29-4726-9112-51860fdea0f0"
->Kernel.BrakeCommands.CommandServiceBrake(Kernel.BrakeCommands.BrakeReason.NoRadioMessageInDueTime)</Action></Actions>
+>Kernel.BrakeCommands.CommandServiceBrake(Kernel.BrakeCommands.BrakeReasonEnum.NoRadioMessageInDueTime)</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="No reaction"
@@ -476,7 +476,7 @@ Keep the reason for it to be displayed to the driver.</Comment>
 <PreConditions>
 <PreCondition
  Guid="c5a8af33-3e15-4fc3-97f7-d563354a6ec6"
->THERE_IS BrakeCommand IN Kernel.BrakeCommands.ServiceBrakeCommands | BrakeCommand == Kernel.BrakeCommands.BrakeReason.NoRadioMessageInDueTime</PreCondition><PreCondition
+>THERE_IS BrakeCommand IN Kernel.BrakeCommands.ServiceBrakeCommands | BrakeCommand.Reason == Kernel.BrakeCommands.BrakeReasonEnum.NoRadioMessageInDueTime</PreCondition><PreCondition
  Guid="dd697769-1f0a-42ce-a530-f721f5b8cb67"
 >Odometry.TrainIsAtStandstill()
   OR  
@@ -488,7 +488,7 @@ Keep the reason for it to be displayed to the driver.</Comment>
 <Actions>
 <Action
  Guid="ec756cc9-1422-4ce1-9f0c-f25195a8d5c9"
->Kernel.BrakeCommands.ReleaseSBCommand(Kernel.BrakeCommands.BrakeReason.NoRadioMessageInDueTime)</Action></Actions>
+>Kernel.BrakeCommands.ReleaseSBCommand(Kernel.BrakeCommands.BrakeReasonEnum.NoRadioMessageInDueTime)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Verification"
@@ -8106,7 +8106,7 @@ EURORADIO.Terminal1.RBCConnection.SafeRadioConnectionStatus == EURORADIO.SafeRad
  Guid="cc9777a1-c95d-4abd-9469-632ab302b08b"
 >Available ( aMessage.MOVEMENT_AUTHORITY )</PreCondition><PreCondition
  Guid="0a1244f7-fc1f-4b75-b7ab-0ca339366842"
->NOT (THERE_IS X IN Kernel.BrakeCommands.EmergencyStops | X.Reason == Kernel.BrakeCommands.BrakeReason.OrderFromRBC)</PreCondition></PreConditions>
+>NOT (THERE_IS X IN Kernel.BrakeCommands.EmergencyStops | X.Reason == Kernel.BrakeCommands.BrakeReasonEnum.OrderFromRBC)</PreCondition></PreConditions>
 <Actions>
 </Actions>
 <SubRules>
@@ -8411,7 +8411,7 @@ EURORADIO.Terminal1.RBCConnection.SafeRadioConnectionStatus == EURORADIO.SafeRad
  Guid="324ed534-7ece-4d2d-83d2-634f8405934d"
 >Available ( aMessage.REQUEST_TO_SHORTEN_MA )</PreCondition><PreCondition
  Guid="ac3c42b9-2925-4f5d-a63b-8248eade008e"
->NOT (THERE_IS X IN Kernel.BrakeCommands.EmergencyStops | X.Reason == Kernel.BrakeCommands.BrakeReason.OrderFromRBC)</PreCondition><PreCondition
+>NOT (THERE_IS X IN Kernel.BrakeCommands.EmergencyStops | X.Reason == Kernel.BrakeCommands.BrakeReasonEnum.OrderFromRBC)</PreCondition><PreCondition
  Guid="8a173bc3-dc84-4604-bb24-285a83717478"
 >Kernel.AcceptInformation.MovementAuthority( Source =&gt; Kernel.AcceptInformation.Source.RBC )</PreCondition><PreCondition
  Guid="ab8c98b5-fe4d-4bdb-955d-89bacc874dde"
@@ -8842,7 +8842,7 @@ MessageTypes.QScaleDistance(
  Guid="4b26ec5f-a027-4caa-bca8-cd8c1bb56153"
 >Available ( aMessage.MA_WITH_SHIFTED_LOCATION_REFERENCE )</PreCondition><PreCondition
  Guid="1d3581de-d6a2-4ce9-aa78-ab337178f1a0"
->NOT (THERE_IS X IN Kernel.BrakeCommands.EmergencyStops | X.Reason == Kernel.BrakeCommands.BrakeReason.OrderFromRBC)</PreCondition><PreCondition
+>NOT (THERE_IS X IN Kernel.BrakeCommands.EmergencyStops | X.Reason == Kernel.BrakeCommands.BrakeReasonEnum.OrderFromRBC)</PreCondition><PreCondition
  Guid="b64a17be-a369-4227-8a64-806ce5246093"
 >Kernel.AcceptInformation.MovementAuthority( Source =&gt; Kernel.AcceptInformation.Source.RBC )</PreCondition></PreConditions>
 <Actions>
@@ -9004,7 +9004,7 @@ MessageTypes.QScaleDistance(
  Guid="2218137b-5a46-48c7-996e-77239bd0276d"
 >Available ( aMessage.INFILL_MA )</PreCondition><PreCondition
  Guid="ef9e6dde-adf6-4d12-a2ca-7091646da7e6"
->NOT (THERE_IS X IN Kernel.BrakeCommands.EmergencyStops | X.Reason == Kernel.BrakeCommands.BrakeReason.OrderFromRBC)</PreCondition></PreConditions>
+>NOT (THERE_IS X IN Kernel.BrakeCommands.EmergencyStops | X.Reason == Kernel.BrakeCommands.BrakeReasonEnum.OrderFromRBC)</PreCondition></PreConditions>
 <Actions>
 </Actions>
 <SubRules>
