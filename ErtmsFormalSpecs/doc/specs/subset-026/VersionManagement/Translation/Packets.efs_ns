@@ -63,6 +63,19 @@
 </Parameter></Parameters>
 <Cases>
 <Case
+ Name="Packet 2 - System version order"
+ Guid="9b3c93f8-45a7-4561-befe-966d64cea4c7"
+>
+<PreConditions>
+<PreCondition
+ Guid="5300948b-45f4-43ac-9f0a-62ea975f7080"
+>Available(aPacket.TRACK_TO_TRAIN.SYSTEM_VERSION_ORDER)</PreCondition></PreConditions>
+<Expression>Messages.EUROBALISE.SubStructure1{
+TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message{
+SYSTEM_VERSION_ORDER =&gt; aPacket.TRACK_TO_TRAIN.SYSTEM_VERSION_ORDER
+}
+}</Expression>
+</Case><Case
  Name="Packet 3 - National values"
  Guid="1b9a902c-11f8-4322-b3e3-9466879bcd9c"
 >
@@ -89,6 +102,33 @@ TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message{
 >THERE_IS X IN aOtherPackets | Available(X.TRACK_TO_TRAIN.NATIONAL_VALUES_FOR_BRAKING_CURVES)</PreCondition></PreConditions>
 <Expression>Messages.EUROBALISE.SubStructure1{}</Expression>
 </Case><Case
+ Name="Packet 5 - Linking"
+ Guid="29982244-f0e9-49a4-bb2e-7ed9db5c3159"
+>
+<PreConditions>
+<PreCondition
+ Guid="00bdf02e-74fa-43cf-b257-f812ece0c922"
+>Available(aPacket.TRACK_TO_TRAIN.LINKING)</PreCondition></PreConditions>
+<Expression>Messages.EUROBALISE.SubStructure1{
+TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message{
+LINKING =&gt; aPacket.TRACK_TO_TRAIN.LINKING
+}
+}</Expression>
+</Case><Case
+ Name="Packet 6 - Virtual balise cover order"
+ Guid="4243e4f3-69ed-4a11-b114-c925b72bda72"
+>
+<PreConditions>
+<PreCondition
+ Guid="9e9b0bb8-b937-4068-ac72-b9cda857c610"
+>Available(aPacket.TRACK_TO_TRAIN.VIRTUAL_BALISE_COVER_ORDER
+)</PreCondition></PreConditions>
+<Expression>Messages.EUROBALISE.SubStructure1{
+TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message{
+VIRTUAL_BALISE_COVER_ORDER =&gt; aPacket.TRACK_TO_TRAIN.VIRTUAL_BALISE_COVER_ORDER
+}
+}</Expression>
+</Case><Case
  Name="Packet 12 - Level 1 MA"
  Guid="e9d5c96b-fe66-43ed-b2b1-867cbb135166"
 >
@@ -99,6 +139,19 @@ TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message{
 <Expression>Messages.EUROBALISE.SubStructure1{
 TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message{
     LEVEL_1_MOVEMENT_AUTHORITY =&gt; aPacket.TRACK_TO_TRAIN.LEVEL_1_MOVEMENT_AUTHORITY
+}
+}</Expression>
+</Case><Case
+ Name="Packet 15 - Level 2/3 MA"
+ Guid="d5a6a0fd-c1fc-47e3-93f1-068b309d77c9"
+>
+<PreConditions>
+<PreCondition
+ Guid="66d5b048-d581-4d8a-991e-2977d7b585ef"
+>Available(aPacket.TRACK_TO_TRAIN.LEVEL_2_3_MOVEMENT_AUTHORITY)</PreCondition></PreConditions>
+<Expression>Messages.EUROBALISE.SubStructure1{
+TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message{
+    LEVEL_2_3_MOVEMENT_AUTHORITY =&gt; aPacket.TRACK_TO_TRAIN.LEVEL_2_3_MOVEMENT_AUTHORITY
 }
 }</Expression>
 </Case><Case
@@ -180,6 +233,11 @@ TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message{
   END_OF_INFORMATION =&gt; EMPTY
 }
 }</Expression>
+</Case><Case
+ Name="Rejected"
+ Guid="3919b9ac-daa5-4247-9801-9d46d73c80c4"
+>
+<Expression>EMPTY</Expression>
 </Case></Cases>
 </Function></Functions>
 </NameSpace>
