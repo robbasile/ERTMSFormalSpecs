@@ -210,24 +210,94 @@
  Y="220"
  Width="100"
  Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
  Name="BrakeCommandStruct"
  Guid="dd6c6cc5-f7a1-49b0-a79a-2039a511287e"
 >
+<Comment>Represents a commanded brake with the time when it was commanded.</Comment>
 <StructureElement
  TypeName="BrakeReasonEnum"
  Default=""
  Mode="Internal"
+ Implemented="TRUE"
  Name="Reason"
  Guid="7e75a74e-9bcf-42df-8f35-f60be0ea90c2"
 >
-</StructureElement><StructureElement
+<ReqRef
+ Id="ce7d1ef1-5c76-4031-a912-dd0416fd0924"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="81a4aaf2-1fc6-42d5-8b22-a408898ecdf2"
+>
+</ReqRef></StructureElement><StructureElement
  TypeName="BaseTypes.Time"
  Default=""
  Mode="Internal"
+ Implemented="TRUE"
  Name="StartTime"
  Guid="c7be173b-6473-49ee-8ff7-b5cdbcedef86"
 >
-</StructureElement></Structure></Structures>
+<ReqRef
+ Id="48b266a3-bc31-49b2-8a03-dda08682c26f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b1715332-f40e-4d0c-af3b-856af30e42b5"
+>
+</ReqRef><ReqRef
+ Id="fbd7a40f-b260-46ee-a50e-1e1ca38bf9b0"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="96bb5e6e-e91e-46af-be92-fca96bb815fd"
+>
+</ReqRef><ReqRef
+ Id="c4ea6ee4-e69a-4ea3-8b70-c144c1c6670d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="59590ad2-bc48-40e7-bbf6-a93c9633a74f"
+>
+</ReqRef><ReqRef
+ Id="d6601e19-50aa-42f9-9f33-e9c387e22c56"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c9a3cc38-9238-4b57-a178-e9d700bb76c5"
+>
+</ReqRef><ReqRef
+ Id="47124f98-1fe8-4f66-b56c-cfd232ef63ac"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f067e32b-8e62-4933-aaaf-44a2aba549c1"
+>
+</ReqRef><ReqRef
+ Id="e02c427a-18c8-43af-bbb0-73494fe0764b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d30246c5-ef03-488a-916e-69bb7241c862"
+>
+</ReqRef><ReqRef
+ Id="59bc6958-130e-4bbe-874d-ec46318cf693"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="004339e9-8122-4dae-8279-201932c67072"
+>
+</ReqRef><ReqRef
+ Id="876838ed-02cc-41b2-87ca-ff2d3cf87010"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b861b1c2-fcd9-42e3-b6d1-92847f3871d9"
+>
+</ReqRef><ReqRef
+ Id="aee3452f-90fe-4894-8837-db929a450450"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a375e76a-b805-4ad6-b2ee-c51e3c341278"
+>
+</ReqRef><ReqRef
+ Id="81cd7f7a-253c-4a89-b244-5e4f5e929e7e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b2c79144-9f19-461a-9651-8466df776e1b"
+>
+</ReqRef><ReqRef
+ Id="bbdd49d3-5f60-4091-918b-d8f49c156b01"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="23b12ac8-f386-4de3-abb5-4f7c3032160e"
+>
+</ReqRef><ReqRef
+ Id="3b7983a4-5a0b-4be1-b7f2-1dfd93e3cad7"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="135e70f5-6bd7-4e11-bc5c-9768859708cb"
+>
+</ReqRef></StructureElement></Structure></Structures>
 <Collections>
 <Collection
  TypeName="BrakeCommandStruct"
@@ -963,7 +1033,7 @@ IN Kernel.BrakeCommands.EmergencyBrakeCommands</Action></Actions>
  Name="Display reversing distance for PT mode exceeded"
  Guid="81401ac5-b386-49b6-8b50-82fa759f7697"
 >
-<Comment>Displey the acknowledgement request for braking due to post trip distance exceeded.</Comment>
+<Comment>Display the acknowledgement request for braking due to post trip distance exceeded.</Comment>
 <PreConditions>
 <PreCondition
  Guid="19160b87-f20d-476b-bfdc-e2711367799f"
@@ -999,7 +1069,7 @@ IN Kernel.BrakeCommands.EmergencyBrakeCommands</Action></Actions>
 <PreConditions>
 <PreCondition
  Guid="9ada5197-67a4-47b9-9078-e3a0f603d9f5"
-> aBrakeCommand.Reason == BrakeReasonEnum.RAMSSupervision</PreCondition></PreConditions>
+>aBrakeCommand.Reason == BrakeReasonEnum.RAMSSupervision</PreCondition></PreConditions>
 <Actions>
 </Actions>
 </RuleCondition><RuleCondition
@@ -1012,7 +1082,7 @@ IN Kernel.BrakeCommands.EmergencyBrakeCommands</Action></Actions>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="1e0cc063-b97d-4cfd-9d3d-d571e9743250"
 >
-</ReqRef><Comment>Displey the acknowledgement request for braking due to reverse movement protection.</Comment>
+</ReqRef><Comment>Display the acknowledgement request for braking due to reverse movement protection.</Comment>
 <PreConditions>
 <PreCondition
  Guid="fa3d6fc0-ac3f-47f2-a420-06594633ff03"
@@ -1025,7 +1095,7 @@ IN Kernel.BrakeCommands.EmergencyBrakeCommands</Action></Actions>
  Name="Display reversing distance exceeded"
  Guid="70e023bc-d3bb-4de6-99dd-d0d6a6c0fdc1"
 >
-<Comment>Displey the acknowledgement request for braking due to reversing distance exceeded.</Comment>
+<Comment>Display the acknowledgement request for braking due to reversing distance exceeded.</Comment>
 <PreConditions>
 <PreCondition
  Guid="199b83b5-c112-4e3a-b720-69292ff59c06"
@@ -1044,7 +1114,7 @@ IN Kernel.BrakeCommands.EmergencyBrakeCommands</Action></Actions>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="4b0a0fa0-0d15-4487-be5a-8253bab71427"
 >
-</ReqRef><Comment>Displey the acknowledgement request for braking due to roll away protection.</Comment>
+</ReqRef><Comment>Display the acknowledgement request for braking due to roll away protection.</Comment>
 <PreConditions>
 <PreCondition
  Guid="cc0e14e8-7335-4932-bbf0-7d6684638c2e"
@@ -1083,7 +1153,7 @@ IN Kernel.BrakeCommands.EmergencyBrakeCommands</Action></Actions>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="409468b4-7a70-4c45-bb4e-70974c43f1ab"
 >
-</ReqRef><Comment>Displey the acknowledgement request for braking due to standstill supervision.</Comment>
+</ReqRef><Comment>Display the acknowledgement request for braking due to standstill supervision.</Comment>
 <PreConditions>
 <PreCondition
  Guid="dde5c0f6-c0c0-4bd2-9988-21ca98690bdd"
@@ -1108,7 +1178,7 @@ IN Kernel.BrakeCommands.EmergencyBrakeCommands</Action></Actions>
  Name="Display change of train data from an external source while the train was running"
  Guid="9766d5fb-3fa8-4bf7-bd9e-11c7be2dae10"
 >
-<Comment>Displey the acknowledgement request for braking due to change of train data while the train was running.</Comment>
+<Comment>Display the acknowledgement request for braking due to change of train data while the train was running.</Comment>
 <PreConditions>
 <PreCondition
  Guid="710d447f-5ca4-49c7-b3e2-aa48d389a6f7"
@@ -1121,7 +1191,7 @@ IN Kernel.BrakeCommands.EmergencyBrakeCommands</Action></Actions>
  Name="Display train movement detected during data entry"
  Guid="f8ee70da-3bb2-4bb2-88d2-70d6bf2b329e"
 >
-<Comment>Displey the acknowledgement request for braking due to train movement during data entry.</Comment>
+<Comment>Display the acknowledgement request for braking due to train movement during data entry.</Comment>
 <PreConditions>
 <PreCondition
  Guid="7881a385-4d8a-4ced-b695-de453d8b3058"
