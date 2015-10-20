@@ -201,6 +201,35 @@
  Guid="3b1cdd26-1229-48fc-937f-75c9a4415d11"
 >
 </ReqRef><Comment>Country identifier of the traction system.</Comment>
+</StructureElement><StructureElement
+ TypeName="BaseTypes.Time"
+ Default="BaseTypes.Time.NA"
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="StartTime"
+ Guid="629f55ad-b656-436f-86ed-3a0a1e9ee433"
+>
+<ReqRef
+ Id="48b266a3-bc31-49b2-8a03-dda08682c26f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="15a976af-c838-4673-aac7-af0ef2e3c033"
+>
+</ReqRef><ReqRef
+ Id="2c953852-61e9-4ee7-857f-4f48931ed71e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e8197615-123d-446a-9d47-60e2e5102181"
+>
+</ReqRef><ReqRef
+ Id="405052f7-8cab-4d49-b59c-a0bf70b9a734"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="871c9e19-a72a-4460-b2ee-ab345bcb9cfd"
+>
+</ReqRef><ReqRef
+ Id="84d60668-6d65-417b-beca-fb2801cbd5e6"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a7e5195a-7052-4324-95b8-4be4e3be25d9"
+>
+</ReqRef><Comment>The time when this route unsuitability becomes unsuitable.</Comment>
 </StructureElement><Interfaces>
 <StructureRef
  Name="BaseTypes.LocationInterface"
@@ -600,8 +629,8 @@ aLineGauge == Messages.M_LINEGAUGE.GC</PreCondition></PreConditions>
 </Function><Function
  Type="BaseTypes.Distance"
  Default=""
- X="110"
- Y="300"
+ X="570"
+ Y="180"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -1144,6 +1173,124 @@ Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.Items != []
 >Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.EmptyProfileDistance &lt;- aLocation</Action><Action
  Guid="dea25859-669e-4b52-ad0b-b13698635e80"
 >Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.InitialState &lt;- Messages.Q_TRACKINIT.Empty_profile__initial_states_to_be_resumed</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="460"
+ Y="280"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="UpdateStartTime"
+ Guid="59275e1b-348c-4e24-a5ca-36d2850bcb15"
+>
+<ReqRef
+ Id="48b266a3-bc31-49b2-8a03-dda08682c26f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="203513d2-732f-4bc0-969d-afdea7971916"
+>
+</ReqRef><ReqRef
+ Id="2c953852-61e9-4ee7-857f-4f48931ed71e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="7a8372c5-ff8d-499a-aaaa-6d3963bf1136"
+>
+</ReqRef><ReqRef
+ Id="405052f7-8cab-4d49-b59c-a0bf70b9a734"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="503b2351-334a-48ac-bb02-abe639b9ab1d"
+>
+</ReqRef><ReqRef
+ Id="84d60668-6d65-417b-beca-fb2801cbd5e6"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d7a01ab5-9da3-44a2-9da7-78d5aaacdb1f"
+>
+</ReqRef><Comment>If a route unsuitability becomes active, its start time is updated.</Comment>
+<Rules>
+<Rule
+ Implemented="TRUE"
+ Name="Update start time"
+ Guid="2c9d7642-86c4-49d5-9de7-152f35dc1b55"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Update start time"
+ Guid="58054978-5b55-41b4-a905-120f08ddfe4a"
+>
+<PreConditions>
+<PreCondition
+ Guid="57c8b8bd-ffac-4b4a-97b7-b8a607d59237"
+>RouteSuitabilityProfile != EMPTY</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="cf8c39d6-4a99-4e1d-8fbf-fb80cfeaddb2"
+>APPLY
+  UpdateStartTimeForItem( aRouteUnsuitability=&gt; X )
+ON
+  RouteSuitabilityProfile.Items</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="570"
+ Y="280"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="UpdateStartTimeForItem"
+ Guid="15a6ab0d-5b90-4ab6-9cb6-a53df918d526"
+>
+<ReqRef
+ Id="48b266a3-bc31-49b2-8a03-dda08682c26f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="1392c33e-9f2f-4def-872b-d125c5e2e6fe"
+>
+</ReqRef><ReqRef
+ Id="2c953852-61e9-4ee7-857f-4f48931ed71e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="152c0d47-e94d-4078-992d-68f59cde2e25"
+>
+</ReqRef><ReqRef
+ Id="405052f7-8cab-4d49-b59c-a0bf70b9a734"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="7a32794d-7621-402f-bda0-0dd894d9bf65"
+>
+</ReqRef><ReqRef
+ Id="84d60668-6d65-417b-beca-fb2801cbd5e6"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="914cbb2b-a2e1-4284-807c-19be2124319c"
+>
+</ReqRef><Comment>If a route unsuitability becomes active, its start time is updated.</Comment>
+<Parameters>
+<Parameter
+ Type="RouteSuitabilityItemStruct"
+ Name="aRouteUnsuitability"
+ Guid="865cd759-1a41-4fbc-937b-63b911593bb7"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Implemented="TRUE"
+ Name="Update start time for item"
+ Guid="592c2407-26dd-4de2-8ae6-e8f1862d24f2"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Update start time for item"
+ Guid="f7d47ecf-ddc3-45a2-9df3-172736bb1bc4"
+>
+<PreConditions>
+<PreCondition
+ Guid="65d09259-868f-4122-a27d-8956ffd24eb6"
+>IsUnsuitable( anItem =&gt; aRouteUnsuitability )</PreCondition><PreCondition
+ Guid="c648eccd-c685-43b8-96ff-854c9d8dca4d"
+>aRouteUnsuitability.StartTime == BaseTypes.Time.NA</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="6de6f34a-eaf3-45b6-b14f-a66664db6a74"
+>aRouteUnsuitability.StartTime &lt;- DateAndTime.CurrentTime</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
