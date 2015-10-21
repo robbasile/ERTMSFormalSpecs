@@ -134,14 +134,6 @@ namespace DataDictionary.test
         }
 
         /// <summary>
-        ///     The Parser
-        /// </summary>
-        protected Parser Parser
-        {
-            get { return System.Parser; }
-        }
-
-        /// <summary>
         ///     The factory used to create elements
         /// </summary>
         protected Factory Factory

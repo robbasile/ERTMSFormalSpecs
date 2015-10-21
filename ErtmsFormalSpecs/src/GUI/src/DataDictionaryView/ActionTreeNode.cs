@@ -101,7 +101,7 @@ namespace GUI.DataDictionaryView
         /// </summary>
         public virtual void SplitHandler(object sender, EventArgs args)
         {
-            Statement statement = Item.EFSSystem.Parser.Statement(Item, Item.ExpressionText);
+            Statement statement = new Parser().Statement(Item, Item.ExpressionText);
             VariableUpdateStatement variableUpdateStatement = statement as VariableUpdateStatement;
             if (variableUpdateStatement != null)
             {

@@ -202,7 +202,7 @@ namespace DataDictionary.Types
         {
             IValue retVal = null;
 
-            Expression expression = EFSSystem.Parser.Expression(this, image);
+            Expression expression = new Parser().Expression(this, image);
             if (expression != null)
             {
                 retVal = expression.GetExpressionValue(new InterpretationContext(this), null);

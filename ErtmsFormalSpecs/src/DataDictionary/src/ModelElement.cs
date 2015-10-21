@@ -226,7 +226,7 @@ namespace DataDictionary
 
             DontRaiseError(() =>
             {
-                Expression expression = EfsSystem.Instance.Parser.Expression(modelElement, name,
+                Expression expression = new Parser().Expression(modelElement, name,
                     AllMatches.INSTANCE, true, null, true);
 
                 if (expression != null)

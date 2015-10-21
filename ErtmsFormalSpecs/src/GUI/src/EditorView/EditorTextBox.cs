@@ -199,7 +199,7 @@ namespace GUI.EditorView
                         string newExpression = value.ToExpressionWithDefault();
                         const bool doSemanticalAnalysis = true;
                         const bool silent = true;
-                        retVal = EfsSystem.Instance.Parser.Expression(expression.Root, newExpression,
+                        retVal = new Parser().Expression(expression.Root, newExpression,
                             AllMatches.INSTANCE, doSemanticalAnalysis, null, silent);
                     }
                 });
@@ -325,7 +325,7 @@ namespace GUI.EditorView
                 }
 
                 string text = EditionTextBox.Text;
-                Expression expression = EfsSystem.Instance.Parser.Expression(root, text, AllMatches.INSTANCE,
+                Expression expression = new Parser().Expression(root, text, AllMatches.INSTANCE,
                     doSemanticalAnalysis, null, silent);
                 if (expression != null)
                 {
@@ -333,7 +333,7 @@ namespace GUI.EditorView
                     EditionTextBox.Text = expression.ToString();
                 }
 
-                Statement statement = EfsSystem.Instance.Parser.Statement(root, text, silent);
+                Statement statement = new Parser().Statement(root, text, silent);
                 if (statement != null)
                 {
                     statement = VisitStatement(statement);

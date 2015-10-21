@@ -62,7 +62,7 @@ namespace DataDictionary
             {
                 if (_type == null)
                 {
-                    Expression typeExpression = EFSSystem.Parser.Expression(this, getTypeName(),
+                    Expression typeExpression = new Parser().Expression(this, getTypeName(),
                         IsType.INSTANCE, true, null, true);
 
                     if (typeExpression != null)

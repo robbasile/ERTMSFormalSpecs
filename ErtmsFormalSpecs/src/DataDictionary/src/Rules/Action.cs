@@ -106,7 +106,7 @@ namespace DataDictionary.Rules
         {
             bool retVal = false;
 
-            Statement tree = EFSSystem.Parser.Statement(this, expression, true);
+            Statement tree = new Parser().Statement(this, expression, true);
             retVal = tree != null;
 
             return retVal;

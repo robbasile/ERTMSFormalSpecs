@@ -1112,23 +1112,6 @@ namespace DataDictionary
         }
 
         /// <summary>
-        ///     The evaluator for this dictionary
-        /// </summary>
-        private Parser _parser;
-
-        public Parser Parser
-        {
-            get
-            {
-                if (_parser == null)
-                {
-                    _parser = new Parser();
-                }
-                return _parser;
-            }
-        }
-
-        /// <summary>
         ///     Parses the statement provided
         /// </summary>
         /// <param name="root">the root element for which this statement is created</param>
@@ -1136,7 +1119,7 @@ namespace DataDictionary
         /// <returns></returns>
         public Statement ParseStatement(ModelElement root, string expression)
         {
-            return Parser.Statement(root, expression);
+            return new Parser().Statement(root, expression);
         }
 
         /// <summary>

@@ -170,7 +170,7 @@ namespace GUIUtils.Editor
                 {
                     string identifier = EditionTextBox.Text.Substring(start,
                         Math.Min(end - start + 1, EditionTextBox.Text.Length - start));
-                    Expression expression = EFSSystem.Parser.Expression(Instance as ModelElement, identifier,
+                    Expression expression = new Parser().Expression(Instance as ModelElement, identifier,
                         AllMatches.INSTANCE, true, null, true);
                     if (expression != null)
                     {
@@ -812,9 +812,9 @@ namespace GUIUtils.Editor
                         ModelElement modelElement = Instance as ModelElement;
                         if (modelElement != null)
                         {
-                            Expression listExpression = EFSSystem.Parser.Expression(modelElement,
+                            Expression listExpression = new Parser().Expression(modelElement,
                                 EditionTextBox.Text.Substring(start, len), IsVariableOrValue.INSTANCE, false, null, true);
-                            Expression currentExpression = EFSSystem.Parser.Expression(modelElement,
+                            Expression currentExpression = new Parser().Expression(modelElement,
                                 retVal.EnclosingName, AllMatches.INSTANCE, false, null, true);
                             Expression foreachExpression = new ForAllExpression(modelElement, modelElement,
                                 listExpression, "X", currentExpression, -1, -1);
@@ -835,7 +835,7 @@ namespace GUIUtils.Editor
                     int parentIndex = retVal.EnclosingName.LastIndexOf('(');
                     string functionName = retVal.EnclosingName.Substring(0, parentIndex);
 
-                    Expression expression = EFSSystem.Parser.Expression(Instance as ModelElement, functionName,
+                    Expression expression = new Parser().Expression(Instance as ModelElement, functionName,
                         AllMatches.INSTANCE, true, null, true);
                     Function function = expression.Ref as Function;
                     if (function != null)
@@ -846,7 +846,7 @@ namespace GUIUtils.Editor
                 }
                 else
                 {
-                    Expression expression = EFSSystem.Parser.Expression(Instance as ModelElement, retVal.EnclosingName,
+                    Expression expression = new Parser().Expression(Instance as ModelElement, retVal.EnclosingName,
                         AllMatches.INSTANCE, true, null, true);
 
                     if (expression != null)
@@ -1015,7 +1015,7 @@ namespace GUIUtils.Editor
 
                         case '{':
                             prefix = CurrentPrefix(EditionTextBox.SelectionStart - 1).Trim();
-                            Expression structureTypeExpression = EFSSystem.Parser.Expression(Instance as ModelElement,
+                            Expression structureTypeExpression = new Parser().Expression(Instance as ModelElement,
                                 prefix, IsStructure.INSTANCE, true, null, true);
                             if (structureTypeExpression != null)
                             {
@@ -1034,7 +1034,7 @@ namespace GUIUtils.Editor
 
                         case '(':
                             prefix = CurrentPrefix(EditionTextBox.SelectionStart - 1).Trim();
-                            Expression callableExpression = EFSSystem.Parser.Expression(Instance as ModelElement,
+                            Expression callableExpression = new Parser().Expression(Instance as ModelElement,
                                 prefix, IsCallable.INSTANCE, true, null, true);
                             if (callableExpression != null)
                             {
@@ -1057,7 +1057,7 @@ namespace GUIUtils.Editor
                             char prev = EditionTextBox.Text[EditionTextBox.SelectionStart - 1];
                             if ((prev == '<' && e.KeyChar == '-') || (prev == '=' && e.KeyChar == '>'))
                             {
-                                Expression variableExpression = EFSSystem.Parser.Expression(Instance as ModelElement,
+                                Expression variableExpression = new Parser().Expression(Instance as ModelElement,
                                     prefix, IsTypedElement.INSTANCE, true, null, true);
                                 if (variableExpression != null)
                                 {

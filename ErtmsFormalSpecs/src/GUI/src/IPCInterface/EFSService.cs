@@ -604,7 +604,7 @@ namespace GUI.IPCInterface
             EfsAccess.WaitOne();
             try
             {
-                Expression expressionTree = EfsSystem.Instance.Parser.Expression(EfsSystem.Instance.Dictionaries[0],
+                Expression expressionTree = new Parser().Expression(EfsSystem.Instance.Dictionaries[0],
                     expression);
                 if (expressionTree != null)
                 {
@@ -852,18 +852,21 @@ namespace GUI.IPCInterface
                 if (Runner != null)
                 {
                     const bool silent = true;
-                    Statement statement = EfsSystem.Instance.Parser.Statement(EfsSystem.Instance.Dictionaries[0],
-                        statementText, silent);
-
-                    if (statement != null)
+                    using (Parser parser = new Parser())
                     {
-                        Util.DontNotify(() =>
+                        Statement statement = parser.Statement(EfsSystem.Instance.Dictionaries[0],
+                            statementText, silent);
+
+                        if (statement != null)
                         {
-                            Action action = (Action) acceptor.getFactory().createAction();
-                            action.ExpressionText = statementText;
-                            VariableUpdate variableUpdate = new VariableUpdate(action, null, null);
-                            Runner.EventTimeLine.AddModelEvent(variableUpdate, Runner, true);
-                        });
+                            Util.DontNotify(() =>
+                            {
+                                Action action = (Action) acceptor.getFactory().createAction();
+                                action.ExpressionText = statementText;
+                                VariableUpdate variableUpdate = new VariableUpdate(action, null, null);
+                                Runner.EventTimeLine.AddModelEvent(variableUpdate, Runner, true);
+                            });
+                        }
                     }
                 }
             }

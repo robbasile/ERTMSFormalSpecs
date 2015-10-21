@@ -117,7 +117,7 @@ namespace DataDictionary.Tests
             {
                 if (__expression == null)
                 {
-                    __expression = EFSSystem.Parser.Expression(this, ExpressionText);
+                    __expression = new Parser().Expression(this, ExpressionText);
                 }
                 return __expression;
             }
@@ -159,7 +159,7 @@ namespace DataDictionary.Tests
         {
             bool retVal = false;
 
-            Expression tree = EFSSystem.Parser.Expression(this, expression);
+            Expression tree = new Parser().Expression(this, expression);
             retVal = tree != null;
 
             return retVal;
@@ -173,7 +173,7 @@ namespace DataDictionary.Tests
             {
                 if (conditionTree == null && getCondition() != null)
                 {
-                    conditionTree = EFSSystem.Parser.Expression(this, getCondition());
+                    conditionTree = new Parser().Expression(this, getCondition());
                 }
                 return conditionTree;
             }

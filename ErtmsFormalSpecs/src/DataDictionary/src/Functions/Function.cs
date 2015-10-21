@@ -77,7 +77,7 @@ namespace DataDictionary.Functions
             {
                 if (_returnType == null)
                 {
-                    Expression returnTypeExpression = EFSSystem.Parser.Expression(this, getTypeName(),
+                    Expression returnTypeExpression = new Parser().Expression(this, getTypeName(),
                         IsType.INSTANCE, true, null, true);
 
                     if (returnTypeExpression != null)

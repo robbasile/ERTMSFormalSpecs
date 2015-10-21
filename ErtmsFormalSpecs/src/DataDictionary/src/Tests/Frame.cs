@@ -159,12 +159,12 @@ namespace DataDictionary.Tests
                 {
                     try
                     {
-                        __cycleTime = EFSSystem.Parser.Expression(this, getCycleDuration());
+                        __cycleTime = new Parser().Expression(this, getCycleDuration());
                     }
                     catch (Exception e)
                     {
                         AddError("Invalid cycle type, 100 ms assumed");
-                        __cycleTime = EFSSystem.Parser.Expression(this, "100");
+                        __cycleTime = new Parser().Expression(this, "100");
                     }
                 }
 
@@ -220,7 +220,7 @@ namespace DataDictionary.Tests
         {
             bool retVal = false;
 
-            Expression tree = EFSSystem.Parser.Expression(this, expression, null, false, null, true);
+            Expression tree = new Parser().Expression(this, expression, null, false, null, true);
             retVal = tree != null;
 
             return retVal;
