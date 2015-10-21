@@ -611,6 +611,7 @@ namespace DataDictionary
         {
             Type retVal = null;
 
+            Dictionary<string, Type> definedTypes = DefinedTypes;
             if (name != null)
             {
                 if (nameSpace != null)
@@ -631,15 +632,15 @@ namespace DataDictionary
 
                             if (tmp == null)
                             {
-                                if (DefinedTypes.ContainsKey(name))
+                                if (definedTypes.ContainsKey(name))
                                 {
-                                    tmp = DefinedTypes[name];
+                                    tmp = definedTypes[name];
                                 }
                             }
 
-                            if (tmp == null && DefinedTypes.ContainsKey("Default." + name))
+                            if (tmp == null && definedTypes.ContainsKey("Default." + name))
                             {
-                                tmp = DefinedTypes["Default." + name];
+                                tmp = definedTypes["Default." + name];
                             }
                         }
 
@@ -650,13 +651,13 @@ namespace DataDictionary
                 }
                 else
                 {
-                    if (DefinedTypes.ContainsKey(name))
+                    if (definedTypes.ContainsKey(name))
                     {
-                        retVal = DefinedTypes[name];
+                        retVal = definedTypes[name];
                     }
-                    else if (DefinedTypes.ContainsKey("Default." + name))
+                    else if (definedTypes.ContainsKey("Default." + name))
                     {
-                        retVal = DefinedTypes["Default." + name];
+                        retVal = definedTypes["Default." + name];
                     }
                 }
             }
