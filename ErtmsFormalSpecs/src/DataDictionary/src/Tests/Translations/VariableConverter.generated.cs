@@ -260,8 +260,8 @@ namespace DataDictionary.Tests.Translations
           AddVariable("L_TAFDISPLAY", ConvertInt.INSTANCE);
           AddVariable("Q_ORIENTATION", ConvertInt.INSTANCE);
           AddVariable("Q_NVSRBKTRG", ConvertInt.INSTANCE);
-          AddVariable("M_AXLELOAD", ConvertInt.INSTANCE);
           AddVariable("M_TRACTION", ConvertInt.INSTANCE);
+          AddVariable("M_AXLELOAD", ConvertInt.INSTANCE);
           AddVariable("M_AXLELOADC", ConvertInt.INSTANCE);
           AddVariable("M_NVKVINT", ConvertInt.INSTANCE);
           AddVariable("M_TRACKCONDBC", ConvertInt.INSTANCE);
