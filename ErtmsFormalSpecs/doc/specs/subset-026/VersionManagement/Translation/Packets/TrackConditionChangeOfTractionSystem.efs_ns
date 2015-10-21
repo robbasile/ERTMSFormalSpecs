@@ -1,0 +1,304 @@
+<NameSpace
+ X="221"
+ Y="1"
+ Width="100"
+ Height="50"
+ Name="TrackConditionChangeOfTractionSystem"
+ Guid="aa4b1d1a-710b-49fc-a1d9-c6c47a8ad260"
+>
+<NameSpaces>
+</NameSpaces>
+<Structures>
+<Structure
+ X="640"
+ Y="0"
+ Width="100"
+ Height="50"
+ Name="M_TRACTIONTranslationStruct"
+ Guid="4015130f-97d2-483e-bbbe-eb5daa4edf5e"
+>
+<StructureElement
+ TypeName="Messages.M_VOLTAGE"
+ Default=""
+ Mode="Internal"
+ Name="M_VOLTAGE"
+ Guid="bf3ab253-bf06-4c62-8b72-cfb0f706bf37"
+>
+</StructureElement><StructureElement
+ TypeName="Messages.NID_CTRACTION"
+ Default="EMPTY"
+ Mode="Internal"
+ Name="NID_CTRACTION"
+ Guid="cf3b6e48-857b-4729-8eec-620f964cebd0"
+>
+</StructureElement><StructureElement
+ TypeName="Messages.SystemVersion1.M_TRACTION"
+ Default="0"
+ Mode="Internal"
+ Name="M_TRACTION"
+ Guid="520beba4-fb19-48be-9ae0-074c529b1151"
+>
+</StructureElement></Structure></Structures>
+<Collections>
+<Collection
+ TypeName="M_TRACTIONTranslationStruct"
+ MaxSize="23"
+ Default="[]"
+ X="390"
+ Y="0"
+ Width="100"
+ Height="50"
+ Name="M_TRACTIONTranslationCol"
+ Guid="d80312bf-0565-42b8-ac43-1657f8094e47"
+>
+</Collection></Collections>
+<Functions>
+<Function
+ Type="Boolean"
+ X="110"
+ Y="100"
+ Width="100"
+ Height="50"
+ Name="IsTranslatable"
+ Guid="4fc0b20f-d17d-4b50-aea7-5df8c0516ca2"
+>
+<Parameters>
+<Parameter
+ Type="Messages.SystemVersion1.M_TRACTION"
+ Name="aM_TRACTION"
+ Guid="9abb32d4-8063-4bb2-8b8b-3a8bdd0f9778"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="034e2533-92cd-4515-9c6f-898d00b3e176"
+>
+<Expression>THERE_IS X IN Translatable_M_TRACTION_Values | X.M_TRACTION == aM_TRACTION</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ X="221"
+ Y="1"
+ Width="100"
+ Height="50"
+ Name="UpdatedPacket"
+ Guid="026c54e9-e253-40c1-9db7-c7932bac4273"
+>
+<Parameters>
+<Parameter
+ Type="Messages.SystemVersion1.PACKET.TRACK_TO_TRAIN.TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM.Message"
+ Name="aPACKET"
+ Guid="a9d670b6-da0a-473d-b897-4d6da1b37bd6"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="NullM_TRACTION"
+ Guid="cc62ccef-f221-4dc3-915f-3034fada2bcc"
+>
+<PreConditions>
+<PreCondition
+ Guid="bbf5355f-e6de-4e06-aee2-ff18c56c4368"
+>aPACKET.M_TRACTION == 0
+</PreCondition></PreConditions>
+<Expression>Messages.PACKET.TRACK_TO_TRAIN.TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM.Message{
+NID_PACKET =&gt; 39,
+Q_DIR =&gt; aPacket.Q_DIR,
+L_PACKET =&gt; aPacket.L_PACKET,
+Q_SCALE =&gt; aPacket.Q_SCALE,
+D_TRACTION =&gt; aPacket.D_TRACTION,
+M_VOLTAGE =&gt; Translated_M_Voltage(aPACKET.M_TRACTION)
+}
+</Expression>
+</Case><Case
+ Name="NonNullM_TRACTION"
+ Guid="10af8d1d-b81e-4bb6-8557-81d45930ad7e"
+>
+<Expression>Messages.PACKET.TRACK_TO_TRAIN.TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM.Message{
+NID_PACKET =&gt; 39,
+Q_DIR =&gt; aPacket.Q_DIR,
+L_PACKET =&gt; aPacket.L_PACKET,
+Q_SCALE =&gt; aPacket.Q_SCALE,
+D_TRACTION =&gt; aPacket.D_TRACTION,
+M_VOLTAGE =&gt; Translated_M_Voltage(aPACKET.M_TRACTION)
+NID_CTRACTION=&gt; Translated_NID_CTRACTION(aPACKET.M_TRACTION)
+}
+</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.M_VOLTAGE"
+ X="771"
+ Y="1"
+ Width="100"
+ Height="50"
+ Name="Translated_M_Voltage"
+ Guid="81c59531-10be-467b-a7f9-fc71103af454"
+>
+<Parameters>
+<Parameter
+ Type="Messages.SystemVersion1.M_TRACTION"
+ Name="aM_TRACTION"
+ Guid="bd7a71e4-3208-4d85-9491-9e7744f5f2ca"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="4fad237b-e172-47cb-a14f-b525acd7a21b"
+>
+<Expression>(FIRST X IN Translatable_M_TRACTION_Values | X.M_TRACTION == aM_TRACTION).M_VOLTAGE</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.NID_CTRACTION"
+ X="771"
+ Y="1"
+ Width="100"
+ Height="50"
+ Name="Translated_NID_CTRACTION"
+ Guid="b360d2e4-0135-4d42-8358-4ae83375cf25"
+>
+<Parameters>
+<Parameter
+ Type="Messages.SystemVersion1.M_TRACTION"
+ Name="aM_TRACTION"
+ Guid="e61be087-3f8d-4573-968e-b85cf5483db9"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="5ffe552e-1953-45ee-9d03-22927aec7d4f"
+>
+<Expression>(FIRST X IN Translatable_M_TRACTION_Values | X.M_TRACTION == aM_TRACTION).NID_CTRACTION</Expression>
+</Case></Cases>
+</Function></Functions>
+<Variables>
+<Variable
+ Type="M_TRACTIONTranslationCol"
+ DefaultValue="[M_TRACTIONTranslationStruct{
+M_TRACTION =&gt; 0,
+M_VOLTAGE =&gt; 0,
+NID_CTRACTION =&gt; 0
+}, 
+M_TRACTIONTranslationStruct{
+M_TRACTION =&gt; 1,
+M_VOLTAGE =&gt; 3,
+NID_CTRACTION =&gt; 10
+}, 
+M_TRACTIONTranslationStruct{
+M_TRACTION =&gt; 2,
+M_VOLTAGE =&gt; 1,
+NID_CTRACTION =&gt; 12 
+}, 
+M_TRACTIONTranslationStruct{
+M_TRACTION =&gt; 3,
+M_VOLTAGE =&gt; 1,
+NID_CTRACTION =&gt; 13
+}, 
+M_TRACTIONTranslationStruct{
+M_TRACTION =&gt; 5,
+M_VOLTAGE =&gt; 4,
+NID_CTRACTION =&gt; 14
+}, 
+M_TRACTIONTranslationStruct{
+M_TRACTION =&gt; 6,
+M_VOLTAGE =&gt; 4,
+NID_CTRACTION =&gt; 1
+}, 
+M_TRACTIONTranslationStruct{
+M_TRACTION =&gt; 7,
+M_VOLTAGE =&gt; 1,
+NID_CTRACTION =&gt; 2
+}, 
+M_TRACTIONTranslationStruct{
+M_TRACTION =&gt; 8,
+M_VOLTAGE =&gt; 1,
+NID_CTRACTION =&gt; 3
+}, 
+M_TRACTIONTranslationStruct{
+M_TRACTION =&gt; 11,
+M_VOLTAGE =&gt; 2,
+NID_CTRACTION =&gt; 19
+}, 
+M_TRACTIONTranslationStruct{
+M_TRACTION =&gt; 12,
+M_VOLTAGE =&gt; 2,
+NID_CTRACTION =&gt; 20
+}, 
+M_TRACTIONTranslationStruct{
+M_TRACTION =&gt; 13,
+M_VOLTAGE =&gt; 2,
+NID_CTRACTION =&gt; 21
+}, 
+M_TRACTIONTranslationStruct{
+M_TRACTION =&gt; 15,
+M_VOLTAGE =&gt; 2,
+NID_CTRACTION =&gt; 22
+}, 
+M_TRACTIONTranslationStruct{
+M_TRACTION =&gt; 26,
+M_VOLTAGE =&gt; 1,
+NID_CTRACTION =&gt; 11
+}, 
+M_TRACTIONTranslationStruct{
+M_TRACTION =&gt; 31,
+M_VOLTAGE =&gt; 1,
+NID_CTRACTION =&gt; 18
+}, 
+M_TRACTIONTranslationStruct{
+M_TRACTION =&gt; 32,
+M_VOLTAGE =&gt; 3,
+NID_CTRACTION =&gt; 15
+}, 
+M_TRACTIONTranslationStruct{
+M_TRACTION =&gt; 33,
+M_VOLTAGE =&gt; 3,
+NID_CTRACTION =&gt; 16
+}, 
+M_TRACTIONTranslationStruct{
+M_TRACTION =&gt; 34,
+M_VOLTAGE =&gt; 1,
+NID_CTRACTION =&gt; 17
+}, 
+M_TRACTIONTranslationStruct{
+M_TRACTION =&gt; 41,
+M_VOLTAGE =&gt; 2,
+NID_CTRACTION =&gt; 4
+}, 
+M_TRACTIONTranslationStruct{
+M_TRACTION =&gt; 42,
+M_VOLTAGE =&gt; 2,
+NID_CTRACTION =&gt; 5
+}, 
+M_TRACTIONTranslationStruct{
+M_TRACTION =&gt; 43,
+M_VOLTAGE =&gt; 2,
+NID_CTRACTION =&gt; 6
+}, 
+M_TRACTIONTranslationStruct{
+M_TRACTION =&gt; 44,
+M_VOLTAGE =&gt; 2,
+NID_CTRACTION =&gt; 7
+}, 
+M_TRACTIONTranslationStruct{
+M_TRACTION =&gt; 45,
+M_VOLTAGE =&gt; 2,
+NID_CTRACTION =&gt; 8
+}, 
+M_TRACTIONTranslationStruct{
+M_TRACTION =&gt; 46,
+M_VOLTAGE =&gt; 2,
+NID_CTRACTION =&gt; 9
+}
+]"
+ VariableMode="Internal"
+ X="111"
+ Y="1"
+ Width="100"
+ Height="50"
+ Name="Translatable_M_TRACTION_Values"
+ Guid="90a9aa7e-b9a5-4e11-8c70-6ddd6893e070"
+>
+</Variable></Variables>
+</NameSpace>

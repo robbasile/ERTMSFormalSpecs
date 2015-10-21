@@ -15,6 +15,10 @@
  Name="NationalValues"
  Guid="5cc51d88-a2e0-4662-9abd-2239db80a521"
 >
+</NameSpaceRef><NameSpaceRef
+ Name="TrackConditionChangeOfTractionSystem"
+ Guid="66e965e8-9a19-4a58-a7c4-726aab62b4ba"
+>
 </NameSpaceRef></NameSpaces>
 <Functions>
 <Function
@@ -231,6 +235,49 @@ TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message{
   LSSMA_DISPLAY_TOGGLE_ORDER =&gt; EMPTY, 
   GENERIC_LS_FUNCTION_MARKER =&gt; EMPTY, 
   END_OF_INFORMATION =&gt; EMPTY
+}
+}</Expression>
+</Case><Case
+ Name="Packet 39 - Track condition change of traction system"
+ Guid="f43074c1-25da-45f2-9785-4d770d0f1c3c"
+>
+<PreConditions>
+<PreCondition
+ Guid="f273d61d-490b-4f66-b96c-6895c2197654"
+>Available(
+aPacket.TRACK_TO_TRAIN.TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM
+)</PreCondition><PreCondition
+ Guid="8b5c0625-60e0-43e5-bcd7-b03a56bc3204"
+>FORALL X IN aOtherPackets | NOT Available(X.TRACK_TO_TRAIN.TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM_BL3)</PreCondition><PreCondition
+ Guid="ab2ef42c-552e-4b98-9244-2b471d816822"
+>IsTranslatable(aPacket.TRACK_TO_TRAIN.TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM.M_TRACTION)</PreCondition></PreConditions>
+<Expression>TrackConditionChangeOfTractionSystem.UpdatedPacket(
+    aPACKET=&gt; aPacket.TRACK_TO_TRAIN.TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM
+)</Expression>
+</Case><Case
+ Name="Packet 41 - Level transition order"
+ Guid="68f713c9-d3d3-418e-a27c-e45fbc267bb1"
+>
+<PreConditions>
+<PreCondition
+ Guid="140ef4b1-c0bf-4f8d-bf26-9fb688a256d8"
+>Available(aPacket.TRACK_TO_TRAIN.LEVEL_TRANSITION_ORDER)</PreCondition></PreConditions>
+<Expression>Messages.EUROBALISE.SubStructure1{
+TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message{
+LEVEL_TRANSITION_ORDER=&gt; aPacket.TRACK_TO_TRAIN.LEVEL_TRANSITION_ORDER
+}
+}</Expression>
+</Case><Case
+ Name="Packet 41 - Level transition order_1"
+ Guid="d6a8ef43-942c-4570-9e05-4f2f4ac12d1a"
+>
+<PreConditions>
+<PreCondition
+ Guid="0e86b8cd-9d56-49f9-9b08-be88443350d6"
+>Available(aPacket.TRACK_TO_TRAIN.LEVEL_TRANSITION_ORDER)</PreCondition></PreConditions>
+<Expression>Messages.EUROBALISE.SubStructure1{
+TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message{
+LEVEL_TRANSITION_ORDER=&gt; aPacket.TRACK_TO_TRAIN.LEVEL_TRANSITION_ORDER
 }
 }</Expression>
 </Case><Case
