@@ -83,7 +83,7 @@ namespace DataDictionary.Rules
             {
                 if (__expression == null)
                 {
-                    __expression = EFSSystem.Parser.Expression(this, ExpressionText);
+                    __expression = new Parser().Expression(this, ExpressionText);
                 }
 
                 return __expression;
@@ -123,7 +123,7 @@ namespace DataDictionary.Rules
         {
             bool retVal = false;
 
-            Expression tree = EFSSystem.Parser.Expression(this, expression, null, false, null, true);
+            Expression tree = new Parser().Expression(this, expression, null, false, null, true);
             retVal = tree != null;
 
             return retVal;

@@ -157,7 +157,7 @@ namespace DataDictionary.Types
                 if (lastDotPosition > 0)
                 {
                     string prefix = image.Substring(0, lastDotPosition);
-                    Expression typeExpression = EFSSystem.Parser.Expression(this, prefix,
+                    Expression typeExpression = new Parser().Expression(this, prefix,
                         IsType.INSTANCE, true, null, true);
                     if (typeExpression != null && typeExpression.Ref == this)
                     {

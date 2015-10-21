@@ -86,7 +86,7 @@ namespace GUI.StateDiagram
             if (stateMachine != null)
             {
                 StateMachineVariableExpression =
-                    EfsSystem.Instance.Parser.Expression(EnclosingFinder<Dictionary>.find(stateMachine),
+                    new Parser().Expression(EnclosingFinder<Dictionary>.find(stateMachine),
                         stateMachine.FullName);
             }
             else

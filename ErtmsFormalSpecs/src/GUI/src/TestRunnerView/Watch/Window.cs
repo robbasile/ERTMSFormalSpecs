@@ -400,7 +400,7 @@ namespace GUI.TestRunnerView.Watch
                         {
                             try
                             {
-                                retVal = Instance.EFSSystem.Parser.Expression(Instance, Expression);
+                                retVal = new Parser().Expression(Instance, Expression);
                             }
                             catch (Exception)
                             {

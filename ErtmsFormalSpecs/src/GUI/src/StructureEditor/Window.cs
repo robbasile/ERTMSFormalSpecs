@@ -141,7 +141,7 @@ namespace GUI.StructureEditor
             {
                 if (Variable != null)
                 {
-                    Expression expression = EfsSystem.Instance.Parser.Expression(
+                    Expression expression = new Parser().Expression(
                         EnclosingFinder<Dictionary>.find(Variable), Variable.FullName);
                     IVariable variable = expression.GetVariable(new InterpretationContext());
                     if (variable != Variable)

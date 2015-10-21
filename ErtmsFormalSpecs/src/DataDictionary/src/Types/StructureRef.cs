@@ -136,7 +136,7 @@ namespace DataDictionary.Types
         {
             if (ReferencedStructureExpression == null)
             {
-                ReferencedStructureExpression = EFSSystem.Parser.Expression(this, ExpressionText, IsType.INSTANCE);
+                ReferencedStructureExpression = new Parser().Expression(this, ExpressionText, IsType.INSTANCE);
                 if (ReferencedStructureExpression != null)
                 {
                     foreach (Usage usage in ReferencedStructureExpression.StaticUsage.AllUsages)

@@ -485,7 +485,7 @@ namespace DataDictionary.Tests.Translations
             if (index > 0)
             {
                 string variableText = expression.Substring(0, index).Trim();
-                Expression expressionTree = EFSSystem.Parser.Expression(Dictionary, variableText);
+                Expression expressionTree = new Parser().Expression(Dictionary, variableText);
                 if (expressionTree != null)
                 {
                     Structure structureType = expressionTree.GetExpressionType() as Structure;

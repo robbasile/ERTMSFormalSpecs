@@ -28,7 +28,7 @@ namespace DataDictionary.test.updateModel
             Compiler.Compile_Synchronous(true);
             System.Runner = new Runner(false);
 
-            Expression expression = Parser.Expression(dictionary, "NameSpace.TheVariable");
+            Expression expression = new Parser().Expression(dictionary, "NameSpace.TheVariable");
             IValue value = expression.GetExpressionValue(new InterpretationContext(), null);
             Assert.AreEqual(value.LiteralName, "0");
 

@@ -102,7 +102,7 @@ namespace DataDictionary
             // Only check expressions for which the model is not updated
             if (!ParentHasBeenUpdated(model))
             {
-                Parser parser = model.EFSSystem.Parser;
+                Parser parser = new Parser();
                 try
                 {
                     retVal = parser.Expression(model, expression);
@@ -143,7 +143,7 @@ namespace DataDictionary
             // Only check statements for model elements which are not updated
             if (!ParentHasBeenUpdated(model))
             {
-                Parser parser = model.EFSSystem.Parser;
+                Parser parser = new Parser();
                 try
                 {
                     retVal = parser.Statement(model, expression);
@@ -1289,7 +1289,7 @@ namespace DataDictionary
         /// <param name="name"></param>
         private static void CheckIdentifier(ModelElement model, string name)
         {
-            if (!EfsSystem.Instance.Parser.IsIdentifier(name))
+            if (!new Parser().IsIdentifier(name))
             {
                 model.AddError("Invalid identifier");
             }

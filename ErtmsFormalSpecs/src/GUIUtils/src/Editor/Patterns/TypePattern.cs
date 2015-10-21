@@ -49,7 +49,7 @@ namespace GUIUtils.Editor.Patterns
 
             if (retVal && instance != null)
             {
-                Expression expression = instance.EFSSystem.Parser.Expression(instance, text, IsType.INSTANCE, true, null,
+                Expression expression = new Parser().Expression(instance, text, IsType.INSTANCE, true, null,
                     true);
                 retVal = (expression != null && expression.Ref != null) && !(expression.Ref is Function);
             }

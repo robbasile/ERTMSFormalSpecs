@@ -25,7 +25,7 @@ using Type = DataDictionary.Types.Type;
 
 namespace DataDictionary.Interpreter
 {
-    public class Parser
+    public class Parser : IDisposable
     {
         /// <summary>
         ///     The root element for which this expression is built and interpreted
@@ -42,7 +42,6 @@ namespace DataDictionary.Interpreter
         /// </summary>
         public Parser()
         {
-            NoReentrance = new Mutex(false, "Parser mutex");
         }
 
         /// <summary>
@@ -1086,11 +1085,6 @@ namespace DataDictionary.Interpreter
         }
 
         /// <summary>
-        ///     Ensures that the code is not reentrant
-        /// </summary>
-        private Mutex NoReentrance { get; set; }
-
-        /// <summary>
         ///     Provides the parse tree according to the expression provided
         /// </summary>
         /// <param name="root">the element for which this expression should be parsed</param>
@@ -1105,7 +1099,6 @@ namespace DataDictionary.Interpreter
         {
             Expression retVal = null;
 
-            NoReentrance.WaitOne();
             ModelElement.DontRaiseError(silent, () =>
             {
                 try
@@ -1149,10 +1142,6 @@ namespace DataDictionary.Interpreter
                 catch (Exception e)
                 {
                     root.AddException(e);
-                }
-                finally
-                {
-                    NoReentrance.ReleaseMutex();
                 }
             });
 
@@ -1307,8 +1296,6 @@ namespace DataDictionary.Interpreter
 
             try
             {
-                NoReentrance.WaitOne();
-
                 // Setup context
                 Root = root;
                 RootLog = log;
@@ -1322,10 +1309,6 @@ namespace DataDictionary.Interpreter
             catch (Exception e)
             {
                 Root.AddException(e);
-            }
-            finally
-            {
-                NoReentrance.ReleaseMutex();
             }
 
             return retVal;
@@ -1390,6 +1373,11 @@ namespace DataDictionary.Interpreter
             Buffer = expression.ToCharArray();
 
             return Term();
+        }
+
+        public void Dispose()
+        {
+            throw new NotImplementedException();
         }
     }
 }

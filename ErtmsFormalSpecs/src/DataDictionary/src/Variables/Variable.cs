@@ -226,7 +226,7 @@ namespace DataDictionary.Variables
             {
                 if (_expression == null)
                 {
-                    _expression = EFSSystem.Parser.Expression(this, ExpressionText);
+                    _expression = new Parser().Expression(this, ExpressionText);
                 }
 
                 return _expression;
@@ -266,7 +266,7 @@ namespace DataDictionary.Variables
             // ReSharper disable once JoinDeclarationAndInitializer
             bool retVal;
 
-            Expression tree = EFSSystem.Parser.Expression(this, expression, null, false, null, true);
+            Expression tree = new Parser().Expression(this, expression, null, false, null, true);
             retVal = tree != null;
 
             return retVal;

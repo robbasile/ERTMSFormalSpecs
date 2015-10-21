@@ -30,7 +30,7 @@ namespace DataDictionary.test.updateModel
 
             Compiler.Compile_Synchronous(true);
 
-            Expression expression = Parser.Expression(dictionary, "N1.Variable");
+            Expression expression = new Parser().Expression(dictionary, "N1.Variable");
             IValue value = expression.GetExpressionValue(new InterpretationContext(), null);
             Assert.AreEqual(value, state);
         }
