@@ -313,7 +313,8 @@ namespace DataDictionary.Types
                     State current = state2;
                     while (current != null & retVal == false)
                     {
-                        retVal = (current == state1);
+                        // HaCK: compare the names of states to determine compatibility
+                        retVal = (current.Name == state1.Name);
                         current = current.EnclosingState;
                     }
                 }
