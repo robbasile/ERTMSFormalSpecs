@@ -2051,6 +2051,43 @@ ON Kernel.BrakeCommands.ServiceBrakeCommands</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition></Conditions>
+</Rule><Rule
+ Implemented="TRUE"
+ Name="Update adhesion factor slippery rail"
+ Guid="54fcf6e8-43cb-4470-a6c9-2b6ed45934f7"
+>
+<ReqRef
+ Id="24260651-d1c0-4755-bba9-09153737ca10"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c3fa980c-1066-4def-8e9e-cea7cbb5466f"
+>
+</ReqRef><ReqRef
+ Id="315cffca-d457-4d11-91a0-59af0514973c"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="660deca3-efc5-425a-9a88-45cff88427c8"
+>
+</ReqRef><ReqRef
+ Id="115b09d2-66f8-4553-9085-6484d37ec385"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="5655d4b8-a599-40c9-aaec-55c677ea4cb4"
+>
+</ReqRef><Comment>Updates the displayed ERTMS/ETCS Level</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Update adhesion factor slippery rail"
+ Guid="4f21837f-ea1b-48b4-92f4-faedebebbf9a"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="fda36a1a-ad8b-41a6-a415-203a4ab5d869"
+>Out_AdhesionFactorSlipperyRail.Display(
+    aRailsSlippery=&gt;Kernel.TrackDescription.AdhesionFactors.CurrentValue() == Messages.M_ADHESION.Slippery_rail
+)</Action></Actions>
+</RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
 <StructureElement

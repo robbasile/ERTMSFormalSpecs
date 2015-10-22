@@ -3338,6 +3338,13 @@ This procedure does not do anything. The mode tracking is not necessary for this
  Guid="5dd0b2ce-d783-4170-94dd-639720c29e8d"
 >
 <Comment>Requests to display the corresponding information</Comment>
+<Parameters>
+<Parameter
+ Type="Boolean"
+ Name="aRailsSlippery"
+ Guid="a9cdd56d-6f3e-40f2-b94d-68719298c73b"
+>
+</Parameter></Parameters>
 <Rules>
 <Rule
  Priority="Processing"
@@ -3352,14 +3359,29 @@ This procedure does not do anything. The mode tracking is not necessary for this
  Name="Updates the request status"
  Guid="1151c1de-6d74-4e35-a217-ad44a59f39ea"
 >
+<Comment>Display the slippery rails information if allowed in the current mode and if the rails are slippery.</Comment>
 <PreConditions>
 <PreCondition
  Guid="345451c4-e8e5-4f56-8162-a16dacb212a9"
->AdhesionFactorSlipperyRailAvailable()</PreCondition></PreConditions>
+>AdhesionFactorSlipperyRailAvailable()</PreCondition><PreCondition
+ Guid="889478a6-e549-499a-b25c-b00432fd711f"
+>aRailsSlippery</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="1c7abe69-5878-481a-938e-91be58ded9b2"
 >THIS.OutputInformation.RequestDisplay()</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Hide otherwise"
+ Guid="fa51fbed-facd-4074-bec4-b075f40aa77e"
+>
+<Comment>If not alklowed or if the rails are dry, do not display teh rails slippery information.</Comment>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="fda5852d-0fe6-42ba-92a6-d4614e853937"
+>THIS.OutputInformation.DoNotDisplay()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -3367,31 +3389,8 @@ This procedure does not do anything. The mode tracking is not necessary for this
  Name="TrackMode"
  Guid="010861b6-a30d-4228-9184-7f935ef1212b"
 >
-<Comment>Tracks the changes of the mode</Comment>
-<Rules>
-<Rule
- Priority="Processing"
- Implemented="TRUE"
- Name="Updates the status of the request according to the mode"
- Guid="b235bbce-372e-4e92-965c-35245c8e8ec0"
->
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Updates the status of the request according to the mode"
- Guid="cc52fac5-6ac1-41ed-908a-31373e4ab2fa"
->
-<PreConditions>
-<PreCondition
- Guid="2ab71a5f-c534-435a-a675-90be94d82f8a"
->NOT AdhesionFactorSlipperyRailAvailable()</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="01e13747-048b-42ad-8309-2b5d0547ca0c"
->THIS.OutputInformation.DoNotDisplay()</Action></Actions>
-</RuleCondition></Conditions>
-</Rule></Rules>
+<Comment>Tracks the changes of the mode.
+This procedure does not do anything. The mode tracking is not necessary for this variable, as the procedure Display handles the refreshing at each cycle. (this is kept to keep track of the inconsistency with the other DMI variables).</Comment>
 </Procedure></Procedures>
 <StructureElement
  TypeName="OutputInformationStruct"
@@ -3401,14 +3400,6 @@ This procedure does not do anything. The mode tracking is not necessary for this
  NeedsRequirement="FALSE"
  Name="OutputInformation"
  Guid="d4dbf4df-8ac1-4f9c-bb0e-833c59335c2d"
->
-</StructureElement><StructureElement
- TypeName="Messages.M_ADHESION"
- Default="Messages.M_ADHESION.Non_slippery_rail"
- Mode="Internal"
- Implemented="TRUE"
- Name="AdhFactor"
- Guid="37897af4-2938-489e-ba40-a3360efa5b73"
 >
 </StructureElement></Structure><Structure
  Default=""

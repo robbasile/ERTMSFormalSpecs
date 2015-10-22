@@ -497,11 +497,11 @@ namespace DataDictionary
             {
                 if (_definedTypes == null)
                 {
-                    _definedTypes = new Dictionary<string, Type>();
+                    Dictionary<string, Type> definedTypes = new Dictionary<string, Type>();
 
                     foreach (Type type in EFSSystem.PredefinedTypes.Values)
                     {
-                        _definedTypes.Add(type.FullName, type);
+                        definedTypes.Add(type.FullName, type);
                     }
 
                     foreach (Type type in TypeFinder.INSTANCE.find(this))
@@ -517,15 +517,17 @@ namespace DataDictionary
                                 // Ignore state machines which are not root state machines
                                 if (stateMachine.EnclosingState == null)
                                 {
-                                    _definedTypes[type.FullName] = type;
+                                    definedTypes[type.FullName] = type;
                                 }
                             }
                         }
                         else
                         {
-                            _definedTypes[type.FullName] = type;
+                            definedTypes[type.FullName] = type;
                         }
                     }
+
+                    _definedTypes = definedTypes;
                 }
 
                 return _definedTypes;
