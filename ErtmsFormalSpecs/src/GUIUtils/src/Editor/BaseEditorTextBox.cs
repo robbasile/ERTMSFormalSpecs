@@ -1173,22 +1173,33 @@ namespace GUIUtils.Editor
         {
             if (callable.FormalParameters.Count > 0)
             {
-                text.WriteLine("(");
-                text.Indent(4, () =>
+                if (callable.FormalParameters.Count == 1)
                 {
-                    bool first = true;
-                    foreach (Parameter parameter in callable.FormalParameters)
+                    Parameter formalParameter = callable.FormalParameters[0] as Parameter;
+                    if(formalParameter != null)
                     {
-                        if (!first)
-                        {
-                            text.WriteLine(",");
-                        }
-                        text.Write(parameter.Name + "=>" + parameter.Type.Default);
-                        first = false;
+                        text.Write("( " + formalParameter.Name + " => " + formalParameter.Type.Default + " )");
                     }
-                });
-                text.WriteLine();
-                text.Write(")");
+                }
+                else
+                {
+                    text.WriteLine("(");
+                    text.Indent(4, () =>
+                    {
+                        bool first = true;
+                        foreach (Parameter parameter in callable.FormalParameters)
+                        {
+                            if (!first)
+                            {
+                                text.WriteLine(",");
+                            }
+                            text.Write(parameter.Name + " => " + parameter.Type.Default);
+                            first = false;
+                        }
+                    });
+                    text.WriteLine();
+                    text.Write(")");
+                }
             }
             else
             {
