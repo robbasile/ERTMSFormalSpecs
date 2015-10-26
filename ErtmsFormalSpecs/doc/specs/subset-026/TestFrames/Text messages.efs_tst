@@ -56,6 +56,7 @@
  Guid="33b48fbe-822d-415d-b413-5b3e417a3ded"
 >Testing.SetFSMode( HandleModeChange =&gt; False )</Action></Actions>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="SubStep3"
  Guid="cfd1dbba-e2db-42cf-92f4-9d28e2a1b9e8"
 >
@@ -218,18 +219,22 @@
   BitField =&gt; &apos;&apos;
 }</Action></Actions>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Check the text is stored but not displayed"
  Guid="1d26644b-4edb-454a-81fb-a147f12d455b"
 >
 <Expectations>
 <Expectation
+ Kind="Instantaneous"
  Blocking="FALSE"
  Guid="fba4d2b4-7892-4e04-a0dc-f2cb7805392d"
 >DMI.MasterDMI().Out_PlainTextInformation.OutputInformation.DisplayRequested == False</Expectation><Expectation
+ Kind="Instantaneous"
  Blocking="FALSE"
  Guid="8b8e3ac9-4bc6-44b3-85a4-d303e2417e5f"
 >COUNT X IN Kernel.TextMessages.PlainTextMessages == 1</Expectation></Expectations>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="The mode changes"
  Guid="69cce7d7-e42c-4b33-bebd-7643b27dcda7"
 >
@@ -238,11 +243,13 @@
  Guid="f202b732-e9b5-4cf2-808d-c255ff72d341"
 >Testing.SetLSMode( HandleModeChange =&gt; False )</Action></Actions>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Check the text is displayed"
  Guid="60e1c604-b86a-4206-8388-8ab8abdd12d0"
 >
 <Expectations>
 <Expectation
+ Kind="Instantaneous"
  Blocking="FALSE"
  Guid="cc0819c8-874e-42d6-99d8-a59f88c32073"
 >DMI.MasterDMI().Out_PlainTextInformation.OutputInformation.DisplayRequested == True</Expectation></Expectations>
