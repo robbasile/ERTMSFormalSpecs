@@ -15,17 +15,33 @@
  RBC_ID=""
  RBCPhone=""
  Completed="FALSE"
- Name="SubSequence1"
+ Name="Plain text messages reception"
  Guid="fcf0ea16-0d8c-4434-9c1b-31ac8ca020be"
 >
 <TestCases>
 <TestCase
  Feature="0"
  Case="0"
- Name="TestCase1"
+ Implemented="TRUE"
+ Name="Plain text message limited by level"
  Guid="c2228c68-7b76-410b-be81-77a4dd800847"
 >
-<Steps>
+<ReqRef
+ Id="c3338b70-b8f1-4525-ae95-a94e1b92981b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="8ab5347d-9378-4837-ae5f-5b41de90b02e"
+>
+</ReqRef><ReqRef
+ Id="87d5613b-8da1-42cf-8b12-597d82ffe263"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="bafcd7dc-7427-4969-b8cb-e35ee7ed7456"
+>
+</ReqRef><ReqRef
+ Id="d4e8e1bf-429b-4848-a14e-b3872a4b2100"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b0cec7b9-e68c-4545-947d-f1e0007bdc20"
+>
+</ReqRef><Steps>
 <Step
  IO="NA"
  LevelIN="NA"
@@ -96,7 +112,7 @@
  ModeIN="NA"
  ModeOUT="NA"
  TranslationRequired="FALSE"
- Name="Reception of plain text message depending on mode"
+ Name="Reception of plain text message depending on level"
  Guid="1e83fabf-241a-43d2-9bed-c2c597229e60"
 >
 <SubSteps>
@@ -146,13 +162,13 @@
           Q_TEXTCLASS =&gt; Messages.Q_TEXTCLASS.Auxiliary_Information, 
           Q_TEXTDISPLAY =&gt; Messages.Q_TEXTDISPLAY.No__display_as_soon_as___until_one_of_the_events_is_fulfilled, 
           D_TEXTDISPLAY =&gt; 200, 
-          M_MODETEXTDISPLAY_0 =&gt; Messages.M_MODETEXTDISPLAY.Limited_Supervision, 
-          M_LEVELTEXTDISPLAY_0 =&gt; Messages.M_LEVELTEXTDISPLAY.The_display_of_the_text_shall_not_be_limited_by_the_level, 
+          M_MODETEXTDISPLAY_0 =&gt; Messages.M_MODETEXTDISPLAY.The_display_of_the_text_shall_not_be_limited_by_the_mode, 
+          M_LEVELTEXTDISPLAY_0 =&gt; Messages.M_LEVELTEXTDISPLAY.Level_0,
           NID_NTC =&gt; 20, 
           L_TEXTDISPLAY =&gt; 1000, 
           T_TEXTDISPLAY =&gt; 20, 
           M_MODETEXTDISPLAY_1 =&gt; Messages.M_MODETEXTDISPLAY.The_display_of_the_text_shall_not_be_limited_by_the_mode, 
-          M_LEVELTEXTDISPLAY_1 =&gt; Messages.M_LEVELTEXTDISPLAY.The_display_of_the_text_shall_not_be_limited_by_the_level, 
+          M_LEVELTEXTDISPLAY_1 =&gt; Messages.M_LEVELTEXTDISPLAY.Level_1,
           Q_TEXTCONFIRM =&gt; Messages.Q_TEXTCONFIRM.No_confirmation_required, 
           Q_CONFTEXTDISPLAY =&gt; 0, 
           Q_TEXTREPORT =&gt; Messages.Q_TEXTREPORT.No_driver_acknowledgment_report_required, 
@@ -232,7 +248,10 @@
  Kind="Instantaneous"
  Blocking="FALSE"
  Guid="8b8e3ac9-4bc6-44b3-85a4-d303e2417e5f"
->COUNT X IN Kernel.TextMessages.PlainTextMessages == 1</Expectation></Expectations>
+>COUNT X IN Kernel.TextMessages.PlainTextMessages == 1</Expectation><Expectation
+ Blocking="FALSE"
+ Guid="974d4931-a5d4-4bd2-aa1a-31b7dcde5dc7"
+>COUNT X IN DMI.MasterDMI().Out_PlainTextInformation.Messages == 0</Expectation></Expectations>
 </SubStep><SubStep
  TimeDelay="NotDelayed"
  Name="The mode changes"
@@ -241,7 +260,7 @@
 <Actions>
 <Action
  Guid="f202b732-e9b5-4cf2-808d-c255ff72d341"
->Testing.SetLSMode( HandleModeChange =&gt; False )</Action></Actions>
+>Kernel.Level.Value.Value &lt;- Default.LevelEnum.L0</Action></Actions>
 </SubStep><SubStep
  TimeDelay="NotDelayed"
  Name="Check the text is displayed"
@@ -252,7 +271,13 @@
  Kind="Instantaneous"
  Blocking="FALSE"
  Guid="cc0819c8-874e-42d6-99d8-a59f88c32073"
->DMI.MasterDMI().Out_PlainTextInformation.OutputInformation.DisplayRequested == True</Expectation></Expectations>
+>DMI.MasterDMI().Out_PlainTextInformation.OutputInformation.DisplayRequested == True</Expectation><Expectation
+ Blocking="FALSE"
+ Guid="bd1df4c8-300b-4770-a818-c49224f8bf3f"
+>COUNT X IN DMI.MasterDMI().Out_PlainTextInformation.Messages == 1</Expectation><Expectation
+ Blocking="FALSE"
+ Guid="e2c7c16a-5bca-430e-b69b-aca952e3c782"
+>COUNT X IN Kernel.TextMessages.PlainTextMessages == 0</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step></Steps>
 </TestCase></TestCases>
