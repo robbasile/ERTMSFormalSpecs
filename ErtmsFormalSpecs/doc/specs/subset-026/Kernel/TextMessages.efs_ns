@@ -2381,20 +2381,20 @@
 <PreCondition
  Guid="88451235-b776-4e6b-b6c7-253add891445"
 >aMessage.FulfillAllTheEvents == True</PreCondition></PreConditions>
-<Expression>StartLocationConditionSatisfied( aTextMessage=&gt; aMessage )
+<Expression>StartLocationConditionSatisfied( aMessage=&gt; aMessage )
   AND
-ModeConditionSatisfied( aModeCondition =&gt; aMessage.StartModeCondition )
+ModeConditionSatisfied( aModeCondition =&gt; aMessage.StartModeCondition, aMessage =&gt; aMessage )
   AND
-LevelConditionSatisfied( aLevelCondition =&gt; aMessage.StartLevelCondition )</Expression>
+LevelConditionSatisfied( aLevelCondition =&gt; aMessage.StartLevelCondition, aMessage =&gt; aMessage )</Expression>
 </Case><Case
  Name="One condition has to be fulfilled"
  Guid="f9db6c5c-502f-4935-a5cd-4b8f508f9421"
 >
-<Expression>StartLocationConditionSatisfied( aTextMessage=&gt; aMessage )
+<Expression>StartLocationConditionSatisfied( aMessage=&gt; aMessage )
   OR
-ModeConditionSatisfied( aModeCondition =&gt; aMessage.StartModeCondition )
+ModeConditionSatisfied( aModeCondition =&gt; aMessage.StartModeCondition, aMessage =&gt; aMessage )
   OR
-LevelConditionSatisfied( aLevelCondition =&gt; aMessage.StartLevelCondition )</Expression>
+LevelConditionSatisfied( aLevelCondition =&gt; aMessage.StartLevelCondition, aMessage =&gt; aMessage )</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -2437,9 +2437,9 @@ LevelConditionSatisfied( aLevelCondition =&gt; aMessage.StartLevelCondition )</E
   AND
 TimerConditionSatisfied( aMessage=&gt; aMessage )
   AND
-ModeConditionSatisfied( aModeCondition =&gt; aMessage.EndModeCondition )
+ModeConditionSatisfied( aModeCondition =&gt; aMessage.EndModeCondition, aMessage =&gt; aMessage )
   AND
-LevelConditionSatisfied( aLevelCondition =&gt; aMessage.EndLevelCondition )
+LevelConditionSatisfied( aLevelCondition =&gt; aMessage.EndLevelCondition, aMessage =&gt; aMessage )
   AND
 AckConditionSatisfied( aMessage=&gt; aMessage )</Expression>
 </Case><Case
@@ -2450,9 +2450,9 @@ AckConditionSatisfied( aMessage=&gt; aMessage )</Expression>
   OR
 TimerConditionSatisfied( aMessage=&gt; aMessage )
   OR
-ModeConditionSatisfied( aModeCondition =&gt; aMessage.EndModeCondition )
+ModeConditionSatisfied( aModeCondition =&gt; aMessage.EndModeCondition, aMessage =&gt; aMessage )
   OR
-LevelConditionSatisfied( aLevelCondition =&gt; aMessage.EndLevelCondition )
+LevelConditionSatisfied( aLevelCondition =&gt; aMessage.EndLevelCondition, aMessage =&gt; aMessage )
   OR
 AckConditionSatisfied( aMessage =&gt; aMessage )</Expression>
 </Case></Cases>
@@ -2483,6 +2483,11 @@ AckConditionSatisfied( aMessage =&gt; aMessage )</Expression>
  Name="aModeCondition"
  Guid="9f91331e-99f0-49ed-88b0-7587d4038a2d"
 >
+</Parameter><Parameter
+ Type="TextMessageInterface"
+ Name="aMessage"
+ Guid="730aa122-8d7b-4c3b-aec3-d2d26e58a2d6"
+>
 </Parameter></Parameters>
 <Cases>
 <Case
@@ -2498,7 +2503,7 @@ AckConditionSatisfied( aMessage =&gt; aMessage )</Expression>
  Name="Otherwise"
  Guid="aa3a52c2-5f10-4ee6-a278-4098b1ebc259"
 >
-<Expression>True</Expression>
+<Expression>aMessage.FulfillAllTheEvents</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -2527,6 +2532,11 @@ AckConditionSatisfied( aMessage =&gt; aMessage )</Expression>
  Name="aLevelCondition"
  Guid="a80f1241-9a8b-4afa-9541-325b079973d3"
 >
+</Parameter><Parameter
+ Type="TextMessageInterface"
+ Name="aMessage"
+ Guid="6dbb33a6-edec-45cc-8a3a-13227e4138cb"
+>
 </Parameter></Parameters>
 <Cases>
 <Case
@@ -2537,12 +2547,12 @@ AckConditionSatisfied( aMessage =&gt; aMessage )</Expression>
 <PreCondition
  Guid="0387b433-fb26-4fe5-9a37-cd621bbcab32"
 >aLevelCondition.IsLimitedByLevel == True</PreCondition></PreConditions>
-<Expression>Kernel.Level.Value == aLevelCondition.Level</Expression>
+<Expression>Kernel.Level.Value.Value == aLevelCondition.Level.Value</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="2affa7eb-69d7-4cba-8865-ac2bc5d8cb79"
 >
-<Expression>True</Expression>
+<Expression>aMessage.FulfillAllTheEvents</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -2583,7 +2593,7 @@ AckConditionSatisfied( aMessage =&gt; aMessage )</Expression>
  Name="Otherwise"
  Guid="4702eef8-76b4-4d1e-9025-8e56786d0c2a"
 >
-<Expression>True</Expression>
+<Expression>aMessage.FulfillAllTheEvents</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -2609,7 +2619,7 @@ AckConditionSatisfied( aMessage =&gt; aMessage )</Expression>
 <Parameters>
 <Parameter
  Type="TextMessageInterface"
- Name="aTextMessage"
+ Name="aMessage"
  Guid="4e10b7ff-6545-4984-9f00-2c823eaf1a6e"
 >
 </Parameter></Parameters>
@@ -2621,13 +2631,13 @@ AckConditionSatisfied( aMessage =&gt; aMessage )</Expression>
 <PreConditions>
 <PreCondition
  Guid="5f340264-d594-4b66-a88d-6b53f647fba7"
->aTextMessage.Location != BaseTypes.Distance.Unknown</PreCondition></PreConditions>
-<Expression>aTextMessage.Location &lt;= TrainPosition.FrontEndPosition (PointOfInterest =&gt; DistanceIntervalEnum.Nom )</Expression>
+>aMessage.Location != BaseTypes.Distance.Unknown</PreCondition></PreConditions>
+<Expression>aMessage.Location &lt;= TrainPosition.FrontEndPosition (PointOfInterest =&gt; DistanceIntervalEnum.Nom )</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="954340ca-efb8-4036-8ea5-e43a86d3e778"
 >
-<Expression>True</Expression>
+<Expression>aMessage.FulfillAllTheEvents</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -2678,7 +2688,7 @@ AckConditionSatisfied( aMessage =&gt; aMessage )</Expression>
  Name="Otherwise"
  Guid="6210cb0d-bcee-4ed5-acb0-30fa00b0d1ce"
 >
-<Expression>True</Expression>
+<Expression>aMessage.FulfillAllTheEvents</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Distance"
@@ -2888,13 +2898,13 @@ aMessage.AckStopsDisplay</Expression>
 <PreConditions>
 <PreCondition
  Guid="e3518408-0c8e-46d4-86e2-e78a9008caca"
->aMessage.DriverConfirmation == DriverConfirmationEnum.NoConfirmationRequired</PreCondition></PreConditions>
-<Expression>True</Expression>
+>aMessage.DriverConfirmation != DriverConfirmationEnum.NoConfirmationRequired</PreCondition></PreConditions>
+<Expression>aMessage.MessageIsAcknowledged</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="b269257a-1e56-4083-9361-7e46018b7138"
 >
-<Expression>aMessage.MessageIsAcknowledged</Expression>
+<Expression>aMessage.FulfillAllTheEvents</Expression>
 </Case></Cases>
 </Function></Functions>
 <Procedures>
@@ -3124,6 +3134,7 @@ ON
  Name="Handle fixed acknowledged messages"
  Guid="96d55187-3938-49b5-bbfd-d5cbfbdc1d82"
 >
+<Comment>If an acknowledgement is received for a fixed text message, it is disabled and the corresponding text message is marked as acknowledged.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
@@ -3145,6 +3156,7 @@ ON
  Name="Indicate the acknowledged message as acknowledged"
  Guid="6988a438-1979-4f2a-b4df-a3586dfd4270"
 >
+<Comment>If the acknowledged message was displayed in the output information, it is marked as acknowledged.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
@@ -3168,6 +3180,7 @@ ON
  Name="Handle plain acknowledged messages"
  Guid="f93108d5-7530-4ddc-a0f6-67ccb1739e08"
 >
+<Comment>If an acknowledgement is received for a plain text message, it is disabled and the corresponding text message is marked as acknowledged.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
@@ -3189,6 +3202,7 @@ ON
  Name="Indicate the acknowledged message as acknowledged"
  Guid="c0baaacd-8cda-4b3a-833f-708752ba0be7"
 >
+<Comment>If the acknowledged message was displayed in the output information, it is marked as acknowledged.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
