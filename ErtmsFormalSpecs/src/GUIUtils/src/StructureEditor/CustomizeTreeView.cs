@@ -3,12 +3,12 @@
 // -- Licensed under the EUPL V.1.1
 // -- http://joinup.ec.europa.eu/software/page/eupl/licence-eupl
 // --
-// -- This file is part of ERTMSFormalSpec software and documentation
+// -- This file is part of ERTMSFormalSpecs software and documentation
 // --
-// --  ERTMSFormalSpec is free software: you can redistribute it and/or modify
+// --  ERTMSFormalSpecs is free software: you can redistribute it and/or modify
 // --  it under the terms of the EUPL General Public License, v.1.1
 // --
-// -- ERTMSFormalSpec is distributed in the hope that it will be useful,
+// -- ERTMSFormalSpecs is distributed in the hope that it will be useful,
 // -- but WITHOUT ANY WARRANTY; without even the implied warranty of
 // -- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 // --
@@ -21,7 +21,6 @@ using System.Drawing;
 using System.Windows.Forms;
 using BrightIdeasSoftware;
 using DataDictionary;
-using DataDictionary.Generated;
 using DataDictionary.Values;
 using DataDictionary.Variables;
 using Utils;
@@ -72,6 +71,13 @@ namespace GUIUtils.StructureEditor
             return retVal;
         }
 
+        public delegate void HandlePostClickAction();
+
+        /// <summary>
+        /// The action to be executed after the click handling
+        /// </summary>
+        public static HandlePostClickAction PostClickAction { get; set; }
+
         #region Stringonizer
 
         /// <summary>
@@ -91,7 +97,6 @@ namespace GUIUtils.StructureEditor
                     structureValue = (obj as Field).Value as StructureValue;
                 }
             }
-            Field field = obj as Field;
             if (structureValue != null)
             {
                 ListValue enclosingListValue = structureValue.Enclosing as ListValue;
@@ -399,21 +404,6 @@ namespace GUIUtils.StructureEditor
         #region Contextual menu
 
         /// <summary>
-        ///     Creates a variable according to the structure element provided
-        /// </summary>
-        /// <param name="element"></param>
-        /// <returns></returns>
-        private static Field CreateField(StructureElement element)
-        {
-            Structure elementStructureType = (Structure) element.Type;
-            StructureValue subValue = new StructureValue(elementStructureType, false);
-
-            Field retVal = new Field(elementStructureType, element);
-            retVal.Value = subValue;
-            return retVal;
-        }
-
-        /// <summary>
         ///     The base toolstrip button. Handles synchronization with the object list view
         /// </summary>
         public class BaseToolStripButton : ToolStripButton
@@ -424,7 +414,7 @@ namespace GUIUtils.StructureEditor
             protected CellRightClickEventArgs Args { get; set; }
 
             /// <summary>
-            ///     Constructor
+            /// Constructor
             /// </summary>
             /// <param name="args"></param>
             /// <param name="text"></param>
@@ -450,6 +440,11 @@ namespace GUIUtils.StructureEditor
                 }
 
                 base.OnClick(e);
+
+                if (PostClickAction != null)
+                {
+                    PostClickAction();
+                }
             }
 
             /// <summary>
