@@ -3126,30 +3126,35 @@ Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom) &gt; Kernel.Spee
 </ReqRef><Comment>Condition for transition from Target Speed Monitoring to Release Speed Monitoring.</Comment>
 <Cases>
 <Case
- Name="RSM already in rear of train"
- Guid="af63e5cf-3a7e-44bd-bbd7-da0b3a74ef0a"
+ Name="Release speed supervision not applicable"
+ Guid="798703a7-f9cc-4ec5-a130-755b1447ed77"
 >
 <PreConditions>
 <PreCondition
- Guid="35a78385-5ce1-4613-91ce-27ae1fc32d9e"
->Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.ReleaseSpeedSupervisionApplicable(Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT())
-AND
-Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.StartRSM(Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.ReleaseSpeedForTarget(Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT())) == BaseTypes.Distance.Unknown</PreCondition></PreConditions>
-<Expression>True</Expression>
+ Guid="cf3b896f-fb17-488d-b161-3d696a8be236"
+>NOT ReleaseSpeedMonitoring.ReleaseSpeedSupervisionApplicable()</PreCondition></PreConditions>
+<Expression>False</Expression>
 </Case><Case
- Name="Front end passed RSM start location"
+ Name="Max safe front end passed RSM start location calculated from EBD"
  Guid="06d8c12a-e5d7-40f6-abec-0d47871c3cd2"
 >
 <PreConditions>
 <PreCondition
- Guid="5acecc19-8795-458f-bf25-d3d7788ef394"
->Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.ReleaseSpeedSupervisionApplicable(Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT())
-AND
-Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &gt;  Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.StartRSM(Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.ReleaseSpeedForTarget(Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT()))</PreCondition></PreConditions>
-<Expression>True</Expression>
+ Guid="a2671150-1a48-4a93-a571-ee7dc6ed43f4"
+>ReleaseSpeedMonitoring.d_startRSM() == ReleaseSpeedMonitoring.d_SBI2_MREBDT(ReleaseSpeedMonitoring.ReleaseSpeed)</PreCondition></PreConditions>
+<Expression>TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &gt; ReleaseSpeedMonitoring.d_startRSM()</Expression>
+</Case><Case
+ Name="Estimated fron end passed the RSM start location calculated from the SBD"
+ Guid="bd2ace5d-961a-4ddb-90e5-69d8d84f685c"
+>
+<PreConditions>
+<PreCondition
+ Guid="f8adfacb-74dc-41a8-8697-5e6f221b4abc"
+>ReleaseSpeedMonitoring.d_startRSM() == TargetSpeedMonitoring.d_SBI1(ReleaseSpeedMonitoring.ReleaseSpeed)</PreCondition></PreConditions>
+<Expression>TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom) &gt; ReleaseSpeedMonitoring.d_startRSM()</Expression>
 </Case><Case
  Name="Otherwise"
- Guid="9b96ca59-f914-4805-9966-b093fbe6b969"
+ Guid="9f14db44-2384-4edc-874b-9d3b1e7e1632"
 >
 <Expression>False</Expression>
 </Case></Cases>

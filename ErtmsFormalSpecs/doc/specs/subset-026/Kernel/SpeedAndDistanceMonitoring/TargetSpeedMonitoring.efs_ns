@@ -200,17 +200,6 @@
 >NOT Kernel.MA.IsSvL(aTarget)</PreCondition></PreConditions>
 <Expression>BaseTypes.Distance.Unknown</Expression>
 </Case><Case
- Name="Release speed"
- Guid="f861860a-db19-489d-b147-5173feb7b3a0"
->
-<PreConditions>
-<PreCondition
- Guid="e21e5249-9a0e-4300-92e7-262b91c17598"
->Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.ReleaseSpeedSupervisionApplicable ( aTarget )</PreCondition><PreCondition
- Guid="afbb53f6-839f-4368-8e93-2501f82a48f1"
->Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.EBIvalue ( Vest =&gt; Vest, aTarget =&gt; aTarget, NoA_est =&gt; False ) &gt;= Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.StartRSM ( Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.ReleaseSpeed )</PreCondition></PreConditions>
-<Expression>Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.StartRSM ( Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.ReleaseSpeed )</Expression>
-</Case><Case
  Name="Value"
  Guid="1ef44712-63ce-42dc-8422-66cfdb895afb"
 >
@@ -347,57 +336,6 @@ X2=&gt; Vtarget + Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_sb
  Guid="f573b2a7-2c7b-41d0-b632-c6954262beea"
 >
 <Expression>0.0</Expression>
-</Case></Cases>
-</Function><Function
- Type="BaseTypes.Distance"
- Cacheable="TRUE"
- Default=""
- X="600"
- Y="160"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="d_SBI2_MREBDT"
- Guid="fdbf32ad-9c1a-414c-9d9f-a855f9b3ce5f"
->
-<ReqRef
- Id="faa860d4-6ec0-42c7-921a-65ae72f044ad"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="9d4c3746-0919-44e4-9a49-c3bc668fcde9"
->
-</ReqRef><Comment>Provides the SBI distance, calculated from the EBD curve, taken from the most restrictive target amongst the EBD based targets.</Comment>
-<Parameters>
-<Parameter
- Type="BaseTypes.Speed"
- Name="Vest"
- Guid="90356ed0-f9a4-427a-aabb-661c5b7c9ae7"
->
-</Parameter><Parameter
- Type="Boolean"
- Name="NoA_est"
- Guid="4b24f1f4-29bb-4b17-89e4-0976cb1beb13"
->
-</Parameter></Parameters>
-<Cases>
-<Case
- Name="Vest below all the supervised target speeds"
- Guid="30e99670-6938-4ffe-8626-22edbca60e82"
->
-<PreConditions>
-<PreCondition
- Guid="f3765bd0-74d9-4a3a-8931-9cd8e64befb5"
->FORALL X IN Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.EBDTargetsList() | Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_SBI2 ( Vest =&gt; Vest, aTarget =&gt; X, NoA_est =&gt; NoA_est ) == BaseTypes.Distance.Unknown</PreCondition></PreConditions>
-<Expression>BaseTypes.Distance.Unknown</Expression>
-</Case><Case
- Name="Value"
- Guid="673e0526-d664-4d47-ac36-3e9fd64b13fc"
->
-<Expression>REDUCE
-Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.EBDTargetsList() | X.Speed &lt;= Vest
-USING X IN
-    BaseTypes.MinDistance ( X1 =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_SBI2 ( Vest =&gt; Vest, aTarget =&gt; X, NoA_est =&gt; NoA_est ), X2 =&gt; RESULT )
-INITIAL_VALUE
-    BaseTypes.Distance.Infinity</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Speed"

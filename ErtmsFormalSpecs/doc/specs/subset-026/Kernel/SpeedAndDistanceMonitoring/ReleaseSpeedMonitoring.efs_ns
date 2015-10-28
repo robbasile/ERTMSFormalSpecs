@@ -50,17 +50,19 @@
 <PreConditions>
 <PreCondition
  Guid="cfb74eb7-5b05-4774-b2b9-0f958610469d"
-><Comment>This is the condition for the inequations in 3.13.9.4.8.2 to have a solution, derived from the most permissive cases of these inequations.</Comment>
+><Comment>This is the condition for the inequations in 3.13.9.4.8.2 to have a solution, derived from the most permissive cases of these inequations.
+
+The condition is that the target speed must be lower than the value of the EBD (at the trip location + Dbec) minus the speed measurement inaccuracy (if compensation is allowed).</Comment>
 aTarget.Speed &lt;= Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.EBD_Target(
     Distance=&gt;Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.d_tripEOA()+Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.Dbec(aTarget.Speed),
     aTarget=&gt;aTarget
 ) - Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.Vdelta0rsob(aTarget.Speed) + 1.0</PreCondition></PreConditions>
 <Expression>STABILIZE
-    VreleaseFunction ( Vrelease_prev =&gt; PREVIOUS, aTarget =&gt; aTarget )
+    SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.VreleaseFunction ( Vrelease_prev =&gt; PREVIOUS, aTarget =&gt; aTarget )
 INITIAL_VALUE
     aTarget.Speed
 STOP_CONDITION
-    BaseTypes.AbsoluteSpeed ( CURRENT - PREVIOUS ) &lt;= epsilon</Expression>
+    BaseTypes.AbsoluteSpeed ( CURRENT - PREVIOUS ) &lt;= SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.epsilon</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="a8f6ed86-5166-443e-b284-8ce4792d4d49"
@@ -224,13 +226,19 @@ BaseTypes.MaxDistance(
  Guid="af631487-52d1-4c71-a33c-05b2ff35e1b4"
 >Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.d_tripEOA() + Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.Dbec ( Vrelease_prev ) &lt; Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.EBD_TargetForSpeed
 (
-    Vest =&gt; Odometry.TrainSpeed(),
+    Vest =&gt; aTarget.Speed,
     aTarget =&gt; aTarget,
     NoA_est =&gt; True
 )</PreCondition><PreCondition
  Guid="b7339d74-9848-460e-b4e5-8cb15e9f1566"
->Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.EBD_Target ( Distance =&gt; ( Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.d_tripEOA() + Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.Dbec ( Vrelease_prev ) - Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.Vdelta0rsob ( Vrelease_prev ) ), aTarget =&gt; aTarget ) &gt; aTarget.Speed</PreCondition></PreConditions>
-<Expression>Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.EBD_Target ( Distance =&gt; ( Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.d_tripEOA () + Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.Dbec ( Vrelease_prev ) ), aTarget =&gt; aTarget ) - Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.Vdelta0rsob ( Vrelease_prev )</Expression>
+>SpeedAndDistanceMonitoring.DecelerationCurves.EBD_Target ( 
+    Distance =&gt; ( SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.d_tripEOA() + SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.Dbec ( Vrelease_prev ) ),
+    aTarget =&gt; aTarget
+ ) - SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.Vdelta0rsob ( Vrelease_prev ) &gt; aTarget.Speed</PreCondition></PreConditions>
+<Expression>SpeedAndDistanceMonitoring.DecelerationCurves.EBD_Target ( 
+    Distance =&gt; ( SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.d_tripEOA () + SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.Dbec ( Vrelease_prev ) ),
+    aTarget =&gt; aTarget )
+ - SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.Vdelta0rsob ( Vrelease_prev )</Expression>
 </Case><Case
  Name="Second case"
  Guid="40790e04-db87-45cd-b756-ba399d78f25b"
@@ -254,13 +262,6 @@ BaseTypes.MaxDistance(
  Guid="947f12c5-54eb-40a3-ba57-90c05f22f094"
 >
 </ReqRef><Comment>Indicates if the release speed is applicable (a valid MA with a release speed has been received).</Comment>
-<Parameters>
-<Parameter
- Type="TargetSpeedMonitoring.Target"
- Name="aTarget"
- Guid="ec3ee1ea-fda2-4335-a503-5b58f2354cee"
->
-</Parameter></Parameters>
 <Cases>
 <Case
  Name="MA available"
@@ -270,69 +271,12 @@ BaseTypes.MaxDistance(
 <PreCondition
  Guid="866eeedb-a5c6-4e3c-8ebd-dc36fd0b41d8"
 >Available ( Kernel.MA.MA )</PreCondition></PreConditions>
-<Expression>Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.ReleaseSpeedForTarget(aTarget) != 0.0 AND ( Kernel.MA.IsSvL ( aTarget ) OR Kernel.MA.IsEOA ( aTarget) )</Expression>
+<Expression>Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.ReleaseSpeed &gt; 0.0</Expression>
 </Case><Case
  Name="No MA available"
  Guid="adc1392e-9efe-4722-8768-64a0c90b707b"
 >
 <Expression>False</Expression>
-</Case></Cases>
-</Function><Function
- Type="BaseTypes.Distance"
- Cacheable="TRUE"
- Default=""
- X="220"
- Y="140"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="StartRSM"
- Guid="754f4971-8117-451a-8763-1c1beb1094b3"
->
-<ReqRef
- Id="a387bd06-4306-436c-ae73-a3faa509f059"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="47df3bc7-bdb1-4ef5-96e7-0315bef45b1c"
->
-</ReqRef><Comment>Provides the start location of the release speed monitoring for the release speed received as parameter.</Comment>
-<Parameters>
-<Parameter
- Type="BaseTypes.Speed"
- Name="Vrelease"
- Guid="e203dfb6-fbb5-4357-8b6a-8267a6b58496"
->
-</Parameter></Parameters>
-<Cases>
-<Case
- Name="No SvL"
- Guid="a78a9aee-7bab-4ef0-a3de-650f3eccbf65"
->
-<PreConditions>
-<PreCondition
- Guid="0d31f943-d426-48ba-a730-f200331c4b50"
->Kernel.MA.SvL() == EMPTY</PreCondition></PreConditions>
-<Expression>BaseTypes.MinDistance(
-X1 =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_SBI1(
-        Vest =&gt; Vrelease ),
-X2 =&gt; Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.ComputeStartRSM_otherTargets(Vrelease)
-)</Expression>
-</Case><Case
- Name="Value"
- Guid="0b1798da-f019-46e0-b3b0-7e38f14c1cbd"
->
-<Expression>BaseTypes.MinDistance(
-X1 =&gt; BaseTypes.MinDistance(
-    X1 =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_SBI1(
-        Vest =&gt; Vrelease
-        ),
-    X2 =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_SBI2(
-        Vest =&gt; Vrelease,
-        aTarget =&gt; Kernel.MA.SvL(),
-        NoA_est =&gt; True
-        )
-    ),
-X2 =&gt; Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.ComputeStartRSM_otherTargets(Vrelease)
-)</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Distance"
@@ -415,34 +359,13 @@ X2 =&gt; Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.ComputeStartRS
  Guid="285f2e84-9cb5-4250-a4ba-f84e839b607e"
 >Vrel == BaseTypes.Speed.ComputeReleaseSpeedOnBoard</PreCondition></PreConditions>
 <Expression>REDUCE
-    TARGETS (Kernel.MRSP.SpeedRestrictions) |
-    (
-        StartRSM ( Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.ComputeReleaseSpeed (aSvLlocation) ) &lt;= X.Location
-          AND  
-        X.Location &lt;= d_tripEOA()
-    )
-
-    OR  
-
-    (
-        StartRSM ( ComputeReleaseSpeed (aSvLlocation) ) &lt;= X.Location + BaseTypes.LengthToDistance ( X.Length )
-          AND  
-        X.Location + BaseTypes.LengthToDistance ( X.Length ) &lt;= d_tripEOA()
-    )
-
-    OR  
-
-    (
-        X.Location &lt;= StartRSM ( ComputeReleaseSpeed (aSvLlocation) )
-          AND  
-        d_tripEOA() &lt;= X.Location + BaseTypes.LengthToDistance ( X.Length )
-    )
+    TARGETS (Kernel.MRSP.SpeedRestrictions) | TargetLimitsReleaseSpeed(X)
 
 USING X IN
     BaseTypes.MinSpeed ( X1 =&gt; X.Speed, X2 =&gt; RESULT )
 
 INITIAL_VALUE
-    ComputeReleaseSpeed (aSvLlocation)</Expression>
+    SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.ComputeReleaseSpeed (aSvLlocation)</Expression>
 </Case><Case
  Name="UseNV"
  Guid="473ac93a-a231-4196-ad90-c6d9f673cf56"
@@ -671,6 +594,175 @@ INITIAL_VALUE
 >
 <Expression>Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.ReleaseSpeed</Expression>
 </Case></Cases>
+</Function><Function
+ Type="BaseTypes.Distance"
+ Cacheable="TRUE"
+ Default=""
+ X="600"
+ Y="160"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="d_SBI2_MREBDT"
+ Guid="fdbf32ad-9c1a-414c-9d9f-a855f9b3ce5f"
+>
+<ReqRef
+ Id="faa860d4-6ec0-42c7-921a-65ae72f044ad"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9d4c3746-0919-44e4-9a49-c3bc668fcde9"
+>
+</ReqRef><ReqRef
+ Id="a387bd06-4306-436c-ae73-a3faa509f059"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e645ca59-d8c0-44aa-8046-b09176279387"
+>
+</ReqRef><ReqRef
+ Id="7d29645c-18cf-4661-9edb-e3fcb091bc29"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="25e80762-dfc4-41c6-8e1b-1afe5e3f494e"
+>
+</ReqRef><Comment>Provides the SBI distance, calculated from the EBD curve, taken from the most restrictive target amongst the EBD based targets.</Comment>
+<Parameters>
+<Parameter
+ Type="BaseTypes.Speed"
+ Name="Vest"
+ Guid="90356ed0-f9a4-427a-aabb-661c5b7c9ae7"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="673e0526-d664-4d47-ac36-3e9fd64b13fc"
+>
+<Expression>REDUCE
+EBDTargetsBeyondTripLocation()
+USING X IN
+    BaseTypes.MinDistance ( X1 =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_SBI2 ( Vest =&gt; ReleaseSpeed, aTarget =&gt; X, NoA_est =&gt; True ), X2 =&gt; RESULT )
+INITIAL_VALUE
+    BaseTypes.Distance.Infinity</Expression>
+</Case></Cases>
+</Function><Function
+ Type="TargetSpeedMonitoring.Targets"
+ X="111"
+ Y="181"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="EBDTargetsBeyondTripLocation"
+ Guid="a28fd99c-8e8a-4f1a-a20b-92049e7f9d56"
+>
+<ReqRef
+ Id="faa860d4-6ec0-42c7-921a-65ae72f044ad"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6bd8e488-ad20-48a0-aa28-b76de0cea22b"
+>
+</ReqRef><Comment>The list of EBD based targets between the Trip location related to the EOA and the SvL (included).</Comment>
+<Cases>
+<Case
+ Name="Value"
+ Guid="57e15dc1-7269-4491-b658-85b4d53d4794"
+>
+<Expression>MAP TargetsList() |
+  X.Location &gt;= d_tripEOA()
+    AND  
+  X.Location &lt;= MA.SvL().Location
+USING X IN X</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ X="1"
+ Y="241"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="TargetLimitsReleaseSpeed"
+ Guid="be92270e-8d13-490d-9654-92314ebe2680"
+>
+<ReqRef
+ Id="e5364c1f-ad1b-41da-a26e-1153431ce5b8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="da21869d-471e-4e7a-a98e-5e04769bf220"
+>
+</ReqRef><Comment>Checks the target to see if it limits the MRSP in the area between the start location of the Release Speed Monitoring and the Trip location related to the EOA.</Comment>
+<Parameters>
+<Parameter
+ Type="TargetSpeedMonitoring.Target"
+ Name="aTarget"
+ Guid="63b35e43-3f75-44f5-b8a3-f2d47ccf8c5e"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Target location between RSM start and Trip location"
+ Guid="866bdda7-fd16-423a-ac87-22cfdfe64888"
+>
+<PreConditions>
+<PreCondition
+ Guid="e0243870-ed07-49ea-aafb-5a85d8454e43"
+>d_startRSM() &lt;= aTarget.Location</PreCondition><PreCondition
+ Guid="5b42e11e-37a4-4b89-83ce-f9ceaf501454"
+>aTarget.Location &lt;= SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.d_tripEOA()</PreCondition></PreConditions>
+<Expression>True</Expression>
+</Case><Case
+ Name="Target end between RSM start and Trip locations"
+ Guid="aa9cc23b-7fe3-4fe1-ad92-62baace7b072"
+>
+<PreConditions>
+<PreCondition
+ Guid="06a1b8b5-9e3a-463f-9481-b5e1613e399b"
+>d_startRSM() &lt;= aTarget.Location + BaseTypes.LengthToDistance ( aTarget.Length )</PreCondition><PreCondition
+ Guid="69c8c9ac-5f02-4f18-a8c8-6f582662cb4c"
+>aTarget.Location + BaseTypes.LengthToDistance ( aTarget.Length ) &lt;= SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.d_tripEOA()</PreCondition></PreConditions>
+<Expression>True</Expression>
+</Case><Case
+ Name="MRSP segment covers distance between RSM start and Trip locations"
+ Guid="b245093d-7e2d-4d74-9e86-f95d077f4ce0"
+>
+<PreConditions>
+<PreCondition
+ Guid="4922c95f-019b-4079-aa8d-e644e88346ee"
+>aTarget.Location &lt;= d_startRSM()</PreCondition><PreCondition
+ Guid="3c82b6cc-85f4-4948-ab70-23091c2df7ac"
+>SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.d_tripEOA() &lt;= aTarget.Location + BaseTypes.LengthToDistance ( aTarget.Length )</PreCondition></PreConditions>
+<Expression>True</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="e9f2782a-fdf7-4c54-ab51-da01b10bc35d"
+>
+<Expression>False</Expression>
+</Case></Cases>
+</Function><Function
+ Type="BaseTypes.Distance"
+ X="111"
+ Y="241"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="d_startRSM"
+ Guid="4ad0e951-bf6a-41ee-8c8a-cb14b144fd51"
+>
+<ReqRef
+ Id="faa860d4-6ec0-42c7-921a-65ae72f044ad"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="7d979a7a-1cb5-43c8-9f98-f8970c0223c7"
+>
+</ReqRef><Comment>Provides the start location of the Release Speed Monitoring.</Comment>
+<Cases>
+<Case
+ Name="SBI1 is most restrictive"
+ Guid="f5c359c2-059e-4eb3-9211-aab1b2005353"
+>
+<PreConditions>
+<PreCondition
+ Guid="d264ced2-7146-41a2-ac12-ae316cd591c7"
+>d_SBI2_MREBDT(ReleaseSpeed) - TargetSpeedMonitoring.d_SBI1(ReleaseSpeed) &gt;= TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) - TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom)</PreCondition></PreConditions>
+<Expression>TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom)</Expression>
+</Case><Case
+ Name="SBI2 is most restrictive"
+ Guid="70093667-b8cd-4803-8017-b59736523392"
+>
+<Expression>d_SBI2_MREBDT(ReleaseSpeed)</Expression>
+</Case></Cases>
 </Function></Functions>
 <Procedures>
 <Procedure
@@ -836,6 +928,7 @@ Available ( Kernel.MA.MA.EndSection.DangerPoint )</PreCondition></PreConditions>
  Y="181"
  Width="100"
  Height="50"
+ Implemented="TRUE"
  Name="NewMAReceived"
  Guid="74130320-3f6d-403c-be4f-3e1a511f0521"
 >
@@ -844,7 +937,7 @@ Available ( Kernel.MA.MA.EndSection.DangerPoint )</PreCondition></PreConditions>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="454ed848-a7c8-4984-8455-d59ee5254c90"
 >
-</ReqRef><Comment>Indicates that a new MA has been received and that the</Comment>
+</ReqRef><Comment>Indicates that a new MA has been received, so the release speed must be recalculated.</Comment>
 </Variable></Variables>
 <Rules>
 <Rule
@@ -872,7 +965,7 @@ Available ( Kernel.MA.MA.EndSection.DangerPoint )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="37f259ff-b460-415e-a1fe-79537dc39294"
->NewMAReceived &lt;- Boolean.False</Action></Actions>
+>SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.NewMAReceived &lt;- Boolean.False</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </NameSpace>
