@@ -155,13 +155,13 @@ namespace DataDictionary.Types
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public EnumValue findEnumValue(string name)
+        public EnumValue FindEnumValue(string name)
         {
             EnumValue retVal = (EnumValue) NamableUtils.FindByName(name, Values);
 
             if (retVal == null && EnclosingEnum != null)
             {
-                retVal = EnclosingEnum.findEnumValue(name);
+                retVal = EnclosingEnum.FindEnumValue(name);
             }
 
             return retVal;
@@ -172,7 +172,7 @@ namespace DataDictionary.Types
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public Enum findSubEnum(string name)
+        public Enum FindSubEnum(string name)
         {
             return (Enum) NamableUtils.FindByName(name, SubEnums);
         }
@@ -184,8 +184,8 @@ namespace DataDictionary.Types
         /// <param name="names">the simple value names</param>
         public IValue findValue(string[] names, int index)
         {
-            // HaCK: we should check the enclosing enums names
-            return findEnumValue(names[names.Length - 1]);
+            // HACK: we should check the enclosing enums names
+            return FindEnumValue(names[names.Length - 1]);
         }
 
         /// <summary>
@@ -200,7 +200,7 @@ namespace DataDictionary.Types
             string[] names = image.Split('.');
 
             // HaCK: we should check the enclosing enums names
-            retVal = findEnumValue(names[names.Length - 1]);
+            retVal = FindEnumValue(names[names.Length - 1]);
 
             if (retVal == null)
             {
@@ -256,9 +256,38 @@ namespace DataDictionary.Types
         }
 
         /// <summary>
+        /// An enum is equal to another enum if:
+        /// - it has the same value
+        /// - or it is a sub-enum with the same value
+        /// </summary>
+        /// <param name="left"></param>
+        /// <param name="right"></param>
+        /// <returns></returns>
+        public override bool CompareForEquality(IValue left, IValue right) // left == right
+        {
+            bool retVal = false;
+            if (left == right)
+            {
+                retVal = true;
+            }
+            else if (left.Type is Enum && right.Type is Enum)
+            {
+                // if left is sub-enum of right or right is sub-enum of left,
+                // then we can only compare their names
+                Enum leftTypeEnum = left.Type as Enum;
+                Enum rightTypeEnum = right.Type as Enum;
+                if (leftTypeEnum.SubEnums.Contains(rightTypeEnum) || rightTypeEnum.SubEnums.Contains(leftTypeEnum))
+                {
+                    retVal = left.Name == right.Name;
+                }
+            }
+            return retVal;
+        }
+
+        /// <summary>
         ///     Adds a model element in this model element
         /// </summary>
-        /// <param name="copy"></param>
+        /// <param name="element"></param>
         public override void AddModelElement(IModelElement element)
         {
             {
@@ -363,12 +392,12 @@ namespace DataDictionary.Types
 
                 foreach (EnumValue value in Values)
                 {
-                    EnumValue matchingValue = sourceEnum.findEnumValue(value.Name);
+                    EnumValue matchingValue = sourceEnum.FindEnumValue(value.Name);
                     value.setUpdates(matchingValue.Guid);
                 }
                 foreach (Enum subEnum in SubEnums)
                 {
-                    Enum matchingEnum = sourceEnum.findSubEnum(subEnum.Name);
+                    Enum matchingEnum = sourceEnum.FindSubEnum(subEnum.Name);
                     subEnum.SetUpdateInformation(matchingEnum);
                 }
             }
