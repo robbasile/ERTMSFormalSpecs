@@ -43,7 +43,7 @@ namespace GUIUtils.GraphVisualization.Graphs
         protected override void HandleDisplay(double maxDistance, double minDistance, double height)
         {
             ProfileSetFunction profileSetFunction = Function as ProfileSetFunction;
-            if (profileSetFunction != null)
+            if (profileSetFunction != null && profileSetFunction.Functions.Count > 0)
             {
                 ClearData();
                 SpeedDistancePoint startingPoint = DisplayPreviousData(maxDistance);
@@ -55,7 +55,7 @@ namespace GUIUtils.GraphVisualization.Graphs
             else
             {
                 ProfileFunction profileFunction = Function as ProfileFunction;
-                if (profileFunction != null)
+                if (profileFunction != null && profileFunction.Function != null)
                 {
                     ClearData();
                     SpeedDistancePoint startingPoint = DisplayPreviousData(maxDistance);
