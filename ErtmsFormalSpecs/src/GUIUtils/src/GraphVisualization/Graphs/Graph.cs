@@ -104,7 +104,6 @@ namespace GUIUtils.GraphVisualization.Graphs
         /// <param name="height"></param>
         public void Display(double maxDistance, double minDistance = 0, double height = double.NaN)
         {
-            ClearData();
             if (IsEnabled)
             {
                 HandleDisplay(maxDistance, minDistance, height);

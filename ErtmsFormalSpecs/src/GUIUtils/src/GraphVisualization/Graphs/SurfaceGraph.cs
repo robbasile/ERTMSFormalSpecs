@@ -46,6 +46,7 @@ namespace GUIUtils.GraphVisualization.Graphs
             SurfaceFunction surface = Function as SurfaceFunction;
             if (surface != null)
             {
+                ClearData();
                 if (double.IsNaN(height))
                 {
                     if (!double.IsNaN(GraphVisualizer.MaxY))

@@ -42,14 +42,12 @@ namespace GUIUtils.GraphVisualization.Graphs
         /// <param name="height"></param>
         protected override void HandleDisplay(double maxDistance, double minDistance, double height)
         {
-            SpeedDistancePoint startingPoint = DisplayPreviousData(maxDistance);
-
             ProfileSetFunction profileSetFunction = Function as ProfileSetFunction;
             if (profileSetFunction != null)
             {
                 foreach (IGraph graph in profileSetFunction.Functions)
                 {
-                    DisplayGraph(graph, maxDistance, startingPoint);
+                    DisplayGraph(graph, maxDistance);
                 }
             }
             else
@@ -57,7 +55,7 @@ namespace GUIUtils.GraphVisualization.Graphs
                 ProfileFunction profileFunction = Function as ProfileFunction;
                 if (profileFunction != null)
                 {
-                    DisplayGraph(profileFunction.Function, maxDistance, startingPoint);
+                    DisplayGraph(profileFunction.Function, maxDistance);
                 }
             }
         }
@@ -84,52 +82,57 @@ namespace GUIUtils.GraphVisualization.Graphs
         /// </summary>
         /// <param name="graph"></param>
         /// <param name="maxDistance"></param>
-        /// <param name="startingPoint"></param>
-        private void DisplayGraph(IGraph graph, double maxDistance, SpeedDistancePoint startingPoint)
+        private void DisplayGraph(IGraph graph, double maxDistance)
         {
-            if (graph != null && startingPoint != null)
+            
+            if (graph != null)
             {
-                for (int i = 0; i < graph.CountSegments(); i++)
+                ClearData();
+                SpeedDistancePoint startingPoint = DisplayPreviousData(maxDistance);
+                if (startingPoint != null)
                 {
-                    ISegment segment = graph.GetSegment(i);
-                    if (segment.D0 <= maxDistance &&
-                        (segment.D0 >= startingPoint.Distance ||
-                         (segment.Length == double.MaxValue || segment.D0 + segment.Length > startingPoint.Distance)))
+                    for (int i = 0; i < graph.CountSegments(); i++)
                     {
-                        double startLocation = Math.Max(startingPoint.Distance, segment.D0);
-                        double endLocation = maxDistance;
-                        if (!double.IsNaN(segment.Length))
+                        ISegment segment = graph.GetSegment(i);
+                        if (segment.D0 <= maxDistance &&
+                            (segment.D0 >= startingPoint.Distance ||
+                             (segment.Length == double.MaxValue || segment.D0 + segment.Length > startingPoint.Distance)))
                         {
-                            endLocation = Math.Min(segment.D0 + segment.Length, endLocation);
-                        }
-
-                        if (segment.A == 0) // this is a flat segment
-                        {
-                            AddPoint(new DataPoint(startLocation, segment.V0));
-                            AddPoint(new DataPoint(endLocation, segment.V0));
-                        }
-                        else // this is a curve
-                        {
-                            double distanceInterval = (endLocation - startLocation)/
-                                                      GraphVisualizer.DecelerationCurvePrecision;
-                            double distance = startLocation;
-                            for (int j = 0; j < GraphVisualizer.DecelerationCurvePrecision; j++)
+                            double startLocation = Math.Max(startingPoint.Distance, segment.D0);
+                            double endLocation = maxDistance;
+                            if (!double.IsNaN(segment.Length))
                             {
-                                AddDataPoint(distance, segment);
-                                distance += distanceInterval;
+                                endLocation = Math.Min(segment.D0 + segment.Length, endLocation);
                             }
-                            AddDataPoint(distance, segment);
+
+                            if (segment.A == 0) // this is a flat segment
+                            {
+                                AddPoint(new DataPoint(startLocation, segment.V0));
+                                AddPoint(new DataPoint(endLocation, segment.V0));
+                            }
+                            else // this is a curve
+                            {
+                                double distanceInterval = (endLocation - startLocation)/
+                                                          GraphVisualizer.DecelerationCurvePrecision;
+                                double distance = startLocation;
+                                for (int j = 0; j < GraphVisualizer.DecelerationCurvePrecision; j++)
+                                {
+                                    AddDataPoint(distance, segment);
+                                    distance += distanceInterval;
+                                }
+                                AddDataPoint(distance, segment);
+                            }
                         }
                     }
-                }
-                
-                // This empty data point is added in order to allow displaying several
-                // deceleration curves without linking the end of the previous curve
-                // with the start of the following curve
 
-                DataPoint dataPoint = new DataPoint(0, 0);
-                dataPoint.IsEmpty = true;
-                AddPoint(dataPoint);
+                    // This empty data point is added in order to allow displaying several
+                    // deceleration curves without linking the end of the previous curve
+                    // with the start of the following curve
+
+                    DataPoint dataPoint = new DataPoint(0, 0);
+                    dataPoint.IsEmpty = true;
+                    AddPoint(dataPoint);
+                }
             }
         }
 

@@ -77,7 +77,11 @@ namespace GUIUtils.GraphVisualization.Functions
         /// <param name="relocatedPosition"></param>
         public virtual void RecordCurrentValue(double currentPosition, double relocatedPosition)
         {
-            PreviousData.Add(new SpeedDistancePoint(currentPosition, GetValue(relocatedPosition).Speed));
+            SpeedDistancePoint currentPoint = GetValue(relocatedPosition);
+            if (currentPoint != null)
+            {
+                PreviousData.Add(new SpeedDistancePoint(currentPosition, currentPoint.Speed));
+            }
         }
 
         /// <summary>

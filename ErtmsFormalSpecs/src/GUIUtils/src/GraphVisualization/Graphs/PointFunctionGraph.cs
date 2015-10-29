@@ -44,6 +44,7 @@ namespace GUIUtils.GraphVisualization.Graphs
             PointFunction pointFunction = Function as PointFunction;
             if (pointFunction != null)
             {
+                ClearData();
                 Data.ChartType = SeriesChartType.Point;
                 if (GraphVisualizer.RecordPreviousValuesInTsm)
                 {
