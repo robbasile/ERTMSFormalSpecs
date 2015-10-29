@@ -45,9 +45,11 @@ namespace GUIUtils.GraphVisualization.Graphs
             ProfileSetFunction profileSetFunction = Function as ProfileSetFunction;
             if (profileSetFunction != null)
             {
+                ClearData();
+                SpeedDistancePoint startingPoint = DisplayPreviousData(maxDistance);
                 foreach (IGraph graph in profileSetFunction.Functions)
                 {
-                    DisplayGraph(graph, maxDistance);
+                    DisplayGraph(graph, maxDistance, startingPoint);
                 }
             }
             else
@@ -55,7 +57,9 @@ namespace GUIUtils.GraphVisualization.Graphs
                 ProfileFunction profileFunction = Function as ProfileFunction;
                 if (profileFunction != null)
                 {
-                    DisplayGraph(profileFunction.Function, maxDistance);
+                    ClearData();
+                    SpeedDistancePoint startingPoint = DisplayPreviousData(maxDistance);
+                    DisplayGraph(profileFunction.Function, maxDistance, startingPoint);
                 }
             }
         }
@@ -78,17 +82,15 @@ namespace GUIUtils.GraphVisualization.Graphs
         }
 
         /// <summary>
-        ///     Displays the provided function
+        /// Displays the provided function
         /// </summary>
         /// <param name="graph"></param>
         /// <param name="maxDistance"></param>
-        private void DisplayGraph(IGraph graph, double maxDistance)
+        /// <param name="startingPoint"></param>
+        private void DisplayGraph(IGraph graph, double maxDistance, SpeedDistancePoint startingPoint)
         {
-            
             if (graph != null)
             {
-                ClearData();
-                SpeedDistancePoint startingPoint = DisplayPreviousData(maxDistance);
                 if (startingPoint != null)
                 {
                     for (int i = 0; i < graph.CountSegments(); i++)
