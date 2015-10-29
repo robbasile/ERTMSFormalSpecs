@@ -31,5 +31,5 @@ clean:
 	make -C depends clean
 	make -C src clean
 	rm -rf distrib distrib.zip
-	-mkdir bin
+	-mkdir -p bin
 
