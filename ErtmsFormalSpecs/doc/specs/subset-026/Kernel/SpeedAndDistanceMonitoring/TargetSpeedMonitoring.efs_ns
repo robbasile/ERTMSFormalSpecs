@@ -229,8 +229,8 @@
  Guid="3cc56ab9-cd50-4bcd-a28a-ce08a5d1992d"
 >
 </Parameter><Parameter
- Type="BaseTypes.Speed"
- Name="Vtarget"
+ Type="Target"
+ Name="aTarget"
  Guid="8443afba-91bf-4019-a2da-f85044de80c5"
 >
 </Parameter><Parameter
@@ -244,42 +244,46 @@
  Name="EBD behind Dmaxsafefrontend"
  Guid="56d1a168-ba05-42f1-892e-04934c9d544b"
 >
+<Comment>If the full EBD is in rear of the estimated front end, return aTarget&apos;s speed + dV_sbi.
+This case protects against performing calculations on a EBD that is behingd the train.</Comment>
 <PreConditions>
 <PreCondition
  Guid="0d079f8d-23af-45e8-883b-25f7de1f76d3"
 >Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.EBD_TargetForSpeed(
-    Vest =&gt; Vtarget,
+    Vest =&gt; aTarget.Speed,
     NoA_est =&gt; False,
-    aTarget =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT()
+    aTarget =&gt; aTarget
 ) == BaseTypes.Distance.Unknown</PreCondition></PreConditions>
-<Expression>Vtarget + Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_sbi(Vtarget)</Expression>
+<Expression>aTarget.Speed + Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_sbi(aTarget.Speed)</Expression>
 </Case><Case
  Name="After EBD(Vtarget)"
  Guid="4284e6e0-7eb5-4a62-8c8f-0cbc28530501"
 >
+<Comment>If the foot of the EBD is closer than the extra distance at which it is evaluated, just return aTarget&apos;s speed + dV_sbi.</Comment>
 <PreConditions>
 <PreCondition
  Guid="af655905-681c-467c-8a8c-2b474bb03a43"
->Dmaxsafefrontend + BaseTypes.SpeedToMS(Odometry.TrainSpeed() ) * Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.T_bs2 + Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.Dbe_display ( Vest =&gt; Odometry.TrainSpeed(), NoA_est =&gt; NoA_est )
+>Dmaxsafefrontend + BaseTypes.SpeedToMS(aTarget.Speed) * Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.T_bs2 + Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.Dbe_display ( Vest =&gt; aTarget.Speed, NoA_est =&gt; NoA_est )
  &gt; 
 Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.EBD_TargetForSpeed(
-    Vest =&gt; Vtarget,
+    Vest =&gt; aTarget.Speed,
     NoA_est =&gt; False,
-    aTarget =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT()
+    aTarget =&gt; aTarget
 )</PreCondition></PreConditions>
-<Expression>Vtarget + Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_sbi(Vtarget)</Expression>
+<Expression>aTarget.Speed + Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_sbi(aTarget.Speed)</Expression>
 </Case><Case
  Name="Before EBD(Vtarget)"
  Guid="98ddd973-1247-4b2e-a164-ff0954d53d7e"
 >
+<Comment>The standard case: maximum between the EBD (at max safe front end) for aTarget to aTarget&apos;s speed.</Comment>
 <Expression>BaseTypes.MaxSpeed(
 X1 =&gt; Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.EBD_Target(
     Distance =&gt; Dmaxsafefrontend + 
-        BaseTypes.SpeedToMS( Odometry.TrainSpeed() ) * Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.T_bs2 + 
-        Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.Dbe_display ( Vest =&gt; Odometry.TrainSpeed(), NoA_est =&gt; NoA_est),
-    aTarget =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT()
-) - (Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.Vdelta0() + Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.Vdelta1(NoA_est) + Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.Vdelta2(NoA_est)),
-X2=&gt; Vtarget + Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_sbi(Vtarget)
+                BaseTypes.SpeedToMS( Odometry.TrainSpeed() ) * T_bs2 + 
+                DecelerationCurves.Dbe_display ( Vest =&gt; Odometry.TrainSpeed(), NoA_est =&gt; NoA_est),
+    aTarget =&gt; aTarget
+    ) - (DecelerationCurves.Vdelta0() + DecelerationCurves.Vdelta1(NoA_est) + DecelerationCurves.Vdelta2(NoA_est)),
+X2=&gt; aTarget.Speed + Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_sbi(aTarget.Speed)
 )</Expression>
 </Case></Cases>
 </Function><Function
@@ -843,10 +847,13 @@ Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.V_P_EBD_Target(
 
   X2 =&gt; BaseTypes.MinSpeed(
 
-    X1 =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Vsbi2(
-        Dmaxsafefrontend=&gt;Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max),
-        Vtarget=&gt;Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT().Speed,
-        NoA_est=&gt;False),
+    X1 =&gt; REDUCE TARGETS( SpeedRestrictions =&gt;  MRSP.SpeedRestrictions) USING X IN BaseTypes.MinSpeed(
+        X1 =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Vsbi2(
+            Dmaxsafefrontend =&gt; Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max),
+            aTarget =&gt; X,
+            NoA_est =&gt; False),
+        X2 =&gt; RESULT
+    ) INITIAL_VALUE BaseTypes.Speed.MaxSpeed,
     X2 =&gt; Kernel.MRSP.V_MRSP() + Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_sbi ( Kernel.MRSP.V_MRSP() )
     )
 )</Expression>
@@ -1207,7 +1214,7 @@ This protection is used in the case where V_SBI_DMI is calculated but the train 
 >Available (Kernel.MA.SvL())</PreCondition></PreConditions>
 <Expression>Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Vsbi2(
     Dmaxsafefrontend =&gt; Dmaxsafefrontend,
-    Vtarget =&gt; Kernel.MA.SvL().Speed,
+    aTarget =&gt; Kernel.MA.SvL(),
     NoA_est =&gt; False
 )</Expression>
 </Case><Case
