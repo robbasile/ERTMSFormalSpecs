@@ -245,20 +245,5 @@ namespace DataDictionary.Tests
 
             return retVal;
         }
-
-
-        /// <summary>
-        ///     Creates a default element
-        /// </summary>
-        /// <param name="enclosingCollection"></param>
-        /// <param name="enclosingId"></param>
-        /// <returns></returns>
-        public static SubStep CreateDefault(ICollection enclosingCollection, string enclosingId)
-        {
-            SubStep retVal = (SubStep) acceptor.getFactory().createSubStep();
-            Util.DontNotify(() => { retVal.Name = "SubStep" + GetElementNumber(enclosingCollection); });
-
-            return retVal;
-        }
     }
 }
