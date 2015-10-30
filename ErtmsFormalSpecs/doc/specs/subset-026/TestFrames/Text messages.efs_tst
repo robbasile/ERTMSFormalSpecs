@@ -41,6 +41,16 @@
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="b0cec7b9-e68c-4545-947d-f1e0007bdc20"
 >
+</ReqRef><ReqRef
+ Id="2e27e753-7cf9-4467-8241-c7589b808d3c"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e2fd6af0-5512-45f4-b301-eca220a4e964"
+>
+</ReqRef><ReqRef
+ Id="b7edc2b7-4bf2-4608-ae3f-df5b9ddaa39e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="25e57d8f-19c3-4b59-9b16-160e00064b79"
+>
 </ReqRef><Steps>
 <Step
  IO="NA"
@@ -163,12 +173,12 @@
           Q_TEXTDISPLAY =&gt; Messages.Q_TEXTDISPLAY.No__display_as_soon_as___until_one_of_the_events_is_fulfilled, 
           D_TEXTDISPLAY =&gt; 200, 
           M_MODETEXTDISPLAY_0 =&gt; Messages.M_MODETEXTDISPLAY.The_display_of_the_text_shall_not_be_limited_by_the_mode, 
-          M_LEVELTEXTDISPLAY_0 =&gt; Messages.M_LEVELTEXTDISPLAY.Level_0,
+          M_LEVELTEXTDISPLAY_0 =&gt; Messages.M_LEVELTEXTDISPLAY.Level_0, 
           NID_NTC =&gt; 20, 
           L_TEXTDISPLAY =&gt; 1000, 
           T_TEXTDISPLAY =&gt; 20, 
           M_MODETEXTDISPLAY_1 =&gt; Messages.M_MODETEXTDISPLAY.The_display_of_the_text_shall_not_be_limited_by_the_mode, 
-          M_LEVELTEXTDISPLAY_1 =&gt; Messages.M_LEVELTEXTDISPLAY.Level_1,
+          M_LEVELTEXTDISPLAY_1 =&gt; Messages.M_LEVELTEXTDISPLAY.Level_1, 
           Q_TEXTCONFIRM =&gt; Messages.Q_TEXTCONFIRM.No_confirmation_required, 
           Q_CONFTEXTDISPLAY =&gt; 0, 
           Q_TEXTREPORT =&gt; Messages.Q_TEXTREPORT.No_driver_acknowledgment_report_required, 
@@ -255,7 +265,7 @@
 >COUNT X IN DMI.MasterDMI().Out_PlainTextInformation.Messages == 0</Expectation></Expectations>
 </SubStep><SubStep
  TimeDelay="NotDelayed"
- Name="The mode changes"
+ Name="The level changes to L0"
  Guid="69cce7d7-e42c-4b33-bebd-7643b27dcda7"
 >
 <Actions>
@@ -281,6 +291,30 @@
  Blocking="FALSE"
  Guid="e2c7c16a-5bca-430e-b69b-aca952e3c782"
 >COUNT X IN Kernel.TextMessages.PlainTextMessages == 0</Expectation></Expectations>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="The level changes to L1"
+ Guid="53bcaa05-2486-497d-8077-69b72bd203df"
+>
+<Actions>
+<Action
+ Guid="17a66ce7-5641-4459-aca5-472fe9125ad3"
+>Kernel.Level.Value.Value &lt;- Default.LevelEnum.L1</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Check the text is not displayed anymore"
+ Guid="80aafa52-e3db-42f3-bd74-ab6412ac8d6e"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Blocking="FALSE"
+ Guid="697cce87-a412-480d-8f6a-979353631347"
+>COUNT X IN Kernel.TextMessages.PlainTextMessages == 0</Expectation><Expectation
+ Kind="Instantaneous"
+ Blocking="FALSE"
+ Guid="a206fc50-d4c3-4268-9b2a-4d17b95d3099"
+>COUNT X IN DMI.MasterDMI().Out_PlainTextInformation.Messages == 0</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step></Steps>
 </TestCase><TestCase
@@ -296,14 +330,24 @@
  Guid="9dace1c6-b2c5-4b3c-ab10-30630d60e58b"
 >
 </ReqRef><ReqRef
- Id="87d5613b-8da1-42cf-8b12-597d82ffe263"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="e1ab4ce2-5b8b-4bba-b7a7-c843da50d0e5"
->
-</ReqRef><ReqRef
  Id="d4e8e1bf-429b-4848-a14e-b3872a4b2100"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="4f14795b-f554-42a0-863d-d99fdd33e558"
+>
+</ReqRef><ReqRef
+ Id="498ad2ad-2817-404e-b61d-20ec57c5d991"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="7e938f8e-b61a-40b8-a4aa-0c0e03d1eb7c"
+>
+</ReqRef><ReqRef
+ Id="2e27e753-7cf9-4467-8241-c7589b808d3c"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="4f28eae6-7637-4716-8567-07e29d9355c8"
+>
+</ReqRef><ReqRef
+ Id="ce94f233-495d-4058-a149-705b10f330a4"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="386283e5-dcc5-44cd-8bca-b097f713b95a"
 >
 </ReqRef><Steps>
 <Step
@@ -433,8 +477,8 @@
           NID_NTC =&gt; 20, 
           L_TEXTDISPLAY =&gt; 1000, 
           T_TEXTDISPLAY =&gt; 20, 
-          M_MODETEXTDISPLAY_1 =&gt; Messages.M_MODETEXTDISPLAY.The_display_of_the_text_shall_not_be_limited_by_the_mode, 
-          M_LEVELTEXTDISPLAY_1 =&gt; Messages.M_LEVELTEXTDISPLAY.Level_1, 
+          M_MODETEXTDISPLAY_1 =&gt; Messages.M_MODETEXTDISPLAY.Staff_Responsible, 
+          M_LEVELTEXTDISPLAY_1 =&gt; Messages.M_LEVELTEXTDISPLAY.The_display_of_the_text_shall_not_be_limited_by_the_level, 
           Q_TEXTCONFIRM =&gt; Messages.Q_TEXTCONFIRM.No_confirmation_required, 
           Q_CONFTEXTDISPLAY =&gt; 0, 
           Q_TEXTREPORT =&gt; Messages.Q_TEXTREPORT.No_driver_acknowledgment_report_required, 
@@ -521,7 +565,7 @@
 >COUNT X IN DMI.MasterDMI().Out_PlainTextInformation.Messages == 0</Expectation></Expectations>
 </SubStep><SubStep
  TimeDelay="NotDelayed"
- Name="The mode changes"
+ Name="The mode changesto LS"
  Guid="f7978a7d-8835-4e62-b9d5-d920244fd3c0"
 >
 <Actions>
@@ -542,6 +586,379 @@
  Kind="Instantaneous"
  Blocking="FALSE"
  Guid="7089a54a-6a91-4d58-9ea5-156dd15d3dbe"
+>COUNT X IN Kernel.TextMessages.PlainTextMessages == 0</Expectation><Expectation
+ Kind="Instantaneous"
+ Blocking="FALSE"
+ Guid="f5717ff5-d7cb-4501-a166-762c82a17bfd"
+>COUNT X IN DMI.MasterDMI().Out_PlainTextInformation.Messages == 1</Expectation></Expectations>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="The mode changes to SR"
+ Guid="f960f53e-475a-4a98-971b-c3eb8dabd456"
+>
+<Actions>
+<Action
+ Guid="beb2a9e7-db5b-4897-9047-6a45c8d01e44"
+>Testing.SetSRMode( HandleModeChange =&gt; False )</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Check the text is not displayed anymore"
+ Guid="59e7ade0-0e72-4fb5-ab73-043284629bb9"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Blocking="FALSE"
+ Guid="838a0580-6218-487b-88bd-0f721db2ba01"
+>COUNT X IN DMI.MasterDMI().Out_PlainTextInformation.Messages == 0</Expectation><Expectation
+ Kind="Instantaneous"
+ Blocking="FALSE"
+ Guid="73108c72-efff-4c2c-81b7-e5bc3745d289"
+>COUNT X IN Kernel.TextMessages.PlainTextMessages == 0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Name="Plain text message limited by distance"
+ Guid="17456a46-64b6-449a-bb4d-3db81033bf5e"
+>
+<ReqRef
+ Id="c3338b70-b8f1-4525-ae95-a94e1b92981b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="1e6065ce-0c17-40a0-af95-22d86609d46c"
+>
+</ReqRef><ReqRef
+ Id="d4e8e1bf-429b-4848-a14e-b3872a4b2100"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d866ffc4-7963-4589-96d9-c086d92e3844"
+>
+</ReqRef><ReqRef
+ Id="9eb30a7d-c5fa-4984-9314-28bb7fb5f477"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="766cc16a-0f69-4a95-957c-e10559793780"
+>
+</ReqRef><ReqRef
+ Id="2e27e753-7cf9-4467-8241-c7589b808d3c"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="5f9b5127-f8b9-4051-ab65-c7bccdf50ee0"
+>
+</ReqRef><ReqRef
+ Id="73c47576-8644-4164-8004-5b88ee69fb9b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="522625a5-6bb8-4b19-8bb9-f42f384556c7"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Setup"
+ Guid="3bf99f38-99fc-41d8-a6ef-670a8963defa"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep1"
+ Guid="3a81b433-a5b4-4737-9492-bef9019c1f81"
+>
+<Actions>
+<Action
+ Guid="da5c1cb3-fc9e-40df-b487-2172aa0fc8f5"
+>Testing.InitializeTestEnvironment( TrainPosition =&gt; 0.0 )</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep2"
+ Guid="aa55055d-6adb-4037-9633-4709bc63e762"
+>
+<Actions>
+<Action
+ Guid="b53162a0-f5b1-4cb7-83bd-4f6024441e18"
+>Testing.SetFSMode( HandleModeChange =&gt; False )</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep3"
+ Guid="d629c0df-865d-40a0-bb75-8cbc6f12582f"
+>
+<Actions>
+<Action
+ Guid="89e6bc78-a33e-4d38-bb6a-a264da64873b"
+>Kernel.TrainPosition.Position.DirectionalPositionInformation.TrainOrientation &lt;- OrientationEnum.Nominal</Action><Action
+ Guid="3f1aa07b-3655-4410-aad6-0fcba9b37dfd"
+>BTM.LRBG &lt;- BTM.BaliseGroupStruct
+{
+  NID =&gt; 278, 
+  Orientation =&gt; Default.OrientationEnum.Nominal, 
+  Position =&gt; BTM.Position
+  {
+    OverReadingAmountOdo =&gt; 3.0, 
+    Position =&gt; 1080.0, 
+    UnderReadingAmountOdo =&gt; 3.0
+  }, 
+  Timestamp =&gt; Default.DateAndTime
+  {
+    Year =&gt; 2012, 
+    Month =&gt; 12, 
+    Day =&gt; 20, 
+    Hour =&gt; 20, 
+    Minute =&gt; 12, 
+    Second =&gt; 20, 
+    TTS =&gt; 600
+  }
+}</Action><Action
+ Guid="1bbca9d1-e6ce-4f02-a32d-c7fd86e9e0ab"
+>Odometry.NominalDistance &lt;- 2000.0</Action><Action
+ Guid="7bde4bfa-bba9-4f59-bfb5-516a2bf896c9"
+>DMI.MasterDMI().Out_PlainTextInformation.OutputInformation.DisplayRequested &lt;- False</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Reception of plain text message depending on distance"
+ Guid="43ba9f12-35e8-4ead-b06c-1260a03d7788"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Reception of first balise"
+ Guid="69ad4f55-44fd-4c6a-a5d2-c490f442dcec"
+>
+<Actions>
+<Action
+ Guid="0fcde410-ced0-47f8-9917-e26f65b51177"
+>BTM.Message &lt;- Messages.EUROBALISE.Message
+{
+  Q_UPDOWN =&gt; Messages.Q_UPDOWN.Up_link_telegram, 
+  M_VERSION =&gt; Messages.M_VERSION.Version_2_0__introduced_in_SRS_3_0_0, 
+  Q_MEDIA =&gt; Messages.Q_MEDIA.Balise, 
+  N_PIG =&gt; Messages.N_PIG._1C, 
+  N_TOTAL =&gt; Messages.N_TOTAL._1_balise_in_groupC, 
+  M_DUP =&gt; Messages.M_DUP.No_duplicates, 
+  M_MCOUNT =&gt; 4, 
+  NID_C =&gt; 20, 
+  NID_BG =&gt; 280, 
+  Q_LINK =&gt; Messages.Q_LINK.Linked, 
+  Sequence1 =&gt; [Messages.EUROBALISE.SubStructure1
+    {
+      TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message
+      {
+        PACKET_FOR_SENDING_PLAIN_TEXT_MESSAGES =&gt; Messages.PACKET.TRACK_TO_TRAIN.PACKET_FOR_SENDING_PLAIN_TEXT_MESSAGES.Message
+        {
+          Q_DIR =&gt; Messages.Q_DIR.Both_directions, 
+          Sequence1 =&gt; [Messages.PACKET.TRACK_TO_TRAIN.PACKET_FOR_SENDING_PLAIN_TEXT_MESSAGES.SubStructure1
+            {
+              X_TEXT =&gt; &apos;T&apos;
+            }, Messages.PACKET.TRACK_TO_TRAIN.PACKET_FOR_SENDING_PLAIN_TEXT_MESSAGES.SubStructure1
+            {
+              X_TEXT =&gt; &apos;e&apos;
+            }, Messages.PACKET.TRACK_TO_TRAIN.PACKET_FOR_SENDING_PLAIN_TEXT_MESSAGES.SubStructure1
+            {
+              X_TEXT =&gt; &apos;x&apos;
+            }, Messages.PACKET.TRACK_TO_TRAIN.PACKET_FOR_SENDING_PLAIN_TEXT_MESSAGES.SubStructure1
+            {
+              X_TEXT =&gt; &apos;t&apos;
+            }, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY], 
+          NID_PACKET =&gt; 72, 
+          L_PACKET =&gt; 0, 
+          Q_SCALE =&gt; Messages.Q_SCALE._1_m_scaleC, 
+          Q_TEXTCLASS =&gt; Messages.Q_TEXTCLASS.Auxiliary_Information, 
+          Q_TEXTDISPLAY =&gt; Messages.Q_TEXTDISPLAY.No__display_as_soon_as___until_one_of_the_events_is_fulfilled, 
+          D_TEXTDISPLAY =&gt; 400, 
+          M_MODETEXTDISPLAY_0 =&gt; Messages.M_MODETEXTDISPLAY.The_display_of_the_text_shall_not_be_limited_by_the_mode, 
+          M_LEVELTEXTDISPLAY_0 =&gt; Messages.M_LEVELTEXTDISPLAY.The_display_of_the_text_shall_not_be_limited_by_the_level, 
+          NID_NTC =&gt; 20, 
+          L_TEXTDISPLAY =&gt; 100, 
+          T_TEXTDISPLAY =&gt; 20, 
+          M_MODETEXTDISPLAY_1 =&gt; Messages.M_MODETEXTDISPLAY.The_display_of_the_text_shall_not_be_limited_by_the_mode, 
+          M_LEVELTEXTDISPLAY_1 =&gt; Messages.M_LEVELTEXTDISPLAY.The_display_of_the_text_shall_not_be_limited_by_the_level, 
+          Q_TEXTCONFIRM =&gt; Messages.Q_TEXTCONFIRM.No_confirmation_required, 
+          Q_CONFTEXTDISPLAY =&gt; 0, 
+          Q_TEXTREPORT =&gt; Messages.Q_TEXTREPORT.No_driver_acknowledgment_report_required, 
+          NID_TEXTMESSAGE =&gt; 0, 
+          NID_C =&gt; 0, 
+          NID_RBC =&gt; 0, 
+          L_TEXT =&gt; 0
+        }, 
+        SYSTEM_VERSION_ORDER =&gt; EMPTY, 
+        NATIONAL_VALUES =&gt; EMPTY, 
+        LINKING =&gt; EMPTY, 
+        LEVEL_1_MOVEMENT_AUTHORITY =&gt; EMPTY, 
+        STAFF_RESPONSIBLE_DISTANCE_INFORMATION_FROM_LOOP =&gt; EMPTY, 
+        LEVEL_2_3_MOVEMENT_AUTHORITY =&gt; EMPTY, 
+        REPOSITIONING_INFORMATION =&gt; EMPTY, 
+        GRADIENT_PROFILE =&gt; EMPTY, 
+        INTERNATIONAL_STATIC_SPEED_PROFILE =&gt; EMPTY, 
+        TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM =&gt; EMPTY, 
+        TRACK_CONDITION_CHANGE_OF_ALLOWED_CURRENT_CONSUMPTION =&gt; EMPTY, 
+        LEVEL_TRANSITION_ORDER =&gt; EMPTY, 
+        SESSION_MANAGEMENT =&gt; EMPTY, 
+        RADIO_NETWORK_REGISTRATION =&gt; EMPTY, 
+        CONDITIONAL_LEVEL_TRANSITION_ORDER =&gt; EMPTY, 
+        LIST_OF_BALISES_FOR_SH_AREA =&gt; EMPTY, 
+        AXLE_LOAD_SPEED_PROFILE =&gt; EMPTY, 
+        PERMITTED_BRAKING_DISTANCE_INFORMATION =&gt; EMPTY, 
+        MOVEMENT_AUTHORITY_REQUEST_PARAMETERS =&gt; EMPTY, 
+        POSITION_REPORT_PARAMETERS =&gt; EMPTY, 
+        LIST_OF_BALISES_IN_SR_AUTHORITY =&gt; EMPTY, 
+        INHIBITION_OF_REVOCABLE_TSRS_FROM_BALISES_IN_L2_3 =&gt; EMPTY, 
+        TEMPORARY_SPEED_RESTRICTION =&gt; EMPTY, 
+        TEMPORARY_SPEED_RESTRICTION_REVOCATION =&gt; EMPTY, 
+        TRACK_CONDITION_BIG_METAL_MASSES =&gt; EMPTY, 
+        TRACK_CONDITION =&gt; EMPTY, 
+        TRACK_CONDITION_STATION_PLATFORMS =&gt; EMPTY, 
+        ROUTE_SUITABILITY_DATA =&gt; EMPTY, 
+        ADHESION_FACTOR =&gt; EMPTY, 
+        PACKET_FOR_SENDING_FIXED_TEXT_MESSAGES =&gt; EMPTY, 
+        GEOGRAPHICAL_POSITION_INFORMATION =&gt; EMPTY, 
+        MODE_PROFILE =&gt; EMPTY, 
+        LEVEL_CROSSING_INFORMATION =&gt; EMPTY, 
+        TRACK_AHEAD_FREE_UP_TO_LEVEL_2_3_TRANSITION_LOCATION =&gt; EMPTY, 
+        RBC_TRANSITION_ORDER =&gt; EMPTY, 
+        DANGER_FOR_SHUNTING_INFORMATION =&gt; EMPTY, 
+        RADIO_INFILL_AREA_INFORMATION =&gt; EMPTY, 
+        SESSION_MANAGEMENT_WITH_NEIGHBOURING_RADIO_INFILL_UNIT =&gt; EMPTY, 
+        EOLM_PACKET =&gt; EMPTY, 
+        STOP_SHUNTING_ON_DESK_OPENING =&gt; EMPTY, 
+        INFILL_LOCATION_REFERENCE =&gt; EMPTY, 
+        STOP_IF_IN_STAFF_RESPONSIBLE =&gt; EMPTY, 
+        REVERSING_AREA_INFORMATION =&gt; EMPTY, 
+        REVERSING_SUPERVISION_INFORMATION =&gt; EMPTY, 
+        TRAIN_RUNNING_NUMBER_FROM_RBC =&gt; EMPTY, 
+        DEFAULT_GRADIENT_FOR_TEMPORARY_SPEED_RESTRICTION =&gt; EMPTY, 
+        INHIBITION_OF_BALISE_GROUP_MESSAGE_CONSISTENCY_REACTION =&gt; EMPTY, 
+        DEFAULT_BALISE_LOOP_OR_RIU_INFORMATION =&gt; EMPTY, 
+        DATA_USED_BY_APPLICATIONS_OUTSIDE_THE_ERTMS_ETCS_SYSTEM =&gt; EMPTY, 
+        VIRTUAL_BALISE_COVER_ORDER =&gt; EMPTY, 
+        LSSMA_DISPLAY_TOGGLE_ORDER =&gt; EMPTY, 
+        GENERIC_LS_FUNCTION_MARKER =&gt; EMPTY, 
+        END_OF_INFORMATION =&gt; EMPTY
+      }
+    }, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY], 
+  BitField =&gt; &apos;&apos;
+}</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Check the text is stored but not displayed"
+ Guid="a6529427-6059-4bb7-9c25-2c464a9625f8"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Blocking="FALSE"
+ Guid="74142459-0940-4584-bf34-0d37712bdaa9"
+>DMI.MasterDMI().Out_PlainTextInformation.OutputInformation.DisplayRequested == False</Expectation><Expectation
+ Kind="Instantaneous"
+ Blocking="FALSE"
+ Guid="7972f82a-8b1d-4b69-9070-54260164ae45"
+>COUNT X IN Kernel.TextMessages.PlainTextMessages == 1</Expectation><Expectation
+ Kind="Instantaneous"
+ Blocking="FALSE"
+ Guid="2d153a6d-64d2-475e-92d0-f5495556674d"
+>COUNT X IN DMI.MasterDMI().Out_PlainTextInformation.Messages == 0</Expectation></Expectations>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="The train is before the display location"
+ Guid="53383578-52ca-4023-8b42-3e06609fe23f"
+>
+<Actions>
+<Action
+ Guid="ff869f23-1732-4e99-bc68-2a52d66207dc"
+>Odometry.NominalDistance &lt;- Odometry.NominalDistance + 399.0</Action></Actions>
+</SubStep><SubStep
+ Name="Check the text message is not displayed"
+ Guid="d2562248-bfba-4bc4-8b0a-dce5b3a35638"
+>
+<Expectations>
+<Expectation
+ Blocking="FALSE"
+ Guid="78fafc6e-c746-421c-a466-4fbefc1a0699"
+>COUNT X IN Kernel.TextMessages.PlainTextMessages == 1</Expectation><Expectation
+ Blocking="FALSE"
+ Guid="f6656d02-415a-4e62-a153-f39904d94a6a"
+>DMI.MasterDMI().Out_PlainTextInformation.OutputInformation.DisplayRequested == False</Expectation><Expectation
+ Blocking="FALSE"
+ Guid="b1c75fbb-d2af-436c-b172-5011ee798a30"
+>COUNT X IN DMI.MasterDMI().Out_PlainTextInformation.Messages == 0</Expectation></Expectations>
+</SubStep><SubStep
+ Name="The train achieves the display location"
+ Guid="cefc2124-3571-42de-9ae6-6fbb099b57b7"
+>
+<Actions>
+<Action
+ Guid="119d9a4a-d398-4489-b398-366855ea2b7c"
+>Odometry.NominalDistance &lt;- Odometry.NominalDistance + 1.0</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Check the text is displayed"
+ Guid="e377a2d1-c82d-4a0d-a46b-dd28c6b51e54"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Blocking="FALSE"
+ Guid="14c8407d-14db-4cb7-aaa3-04e8c2fd8e87"
+>DMI.MasterDMI().Out_PlainTextInformation.OutputInformation.DisplayRequested == True</Expectation><Expectation
+ Kind="Instantaneous"
+ Blocking="FALSE"
+ Guid="57316d8c-ea80-479d-8932-73100a1cd756"
+>COUNT X IN Kernel.TextMessages.PlainTextMessages == 0</Expectation><Expectation
+ Kind="Instantaneous"
+ Blocking="FALSE"
+ Guid="0bd8ae4e-ba32-4a83-8ba0-f03f71b7bc57"
+>COUNT X IN DMI.MasterDMI().Out_PlainTextInformation.Messages == 1</Expectation></Expectations>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="The train is before the end display location"
+ Guid="b6b83d6c-39da-4f5c-875e-08f4b6dee9b4"
+>
+<Actions>
+<Action
+ Guid="27ede526-e6c2-4dbf-a662-aabbf2e88a54"
+>Odometry.NominalDistance &lt;- Odometry.NominalDistance + 99.9</Action></Actions>
+</SubStep><SubStep
+ Name="Check the text is still displayed"
+ Guid="ec446af9-76be-47ac-a6d6-4846f10da567"
+>
+<Expectations>
+<Expectation
+ Blocking="FALSE"
+ Guid="97542c52-3bd0-4443-9407-72554b6aae0a"
+>COUNT X IN Kernel.TextMessages.PlainTextMessages == 0</Expectation><Expectation
+ Blocking="FALSE"
+ Guid="514dacdc-0043-4730-9727-7ae69914d9c3"
+>DMI.MasterDMI().Out_PlainTextInformation.OutputInformation.DisplayRequested == True</Expectation><Expectation
+ Blocking="FALSE"
+ Guid="d4c3bb0b-31be-42dc-9a06-c83a2ae7aa0a"
+>COUNT X IN DMI.MasterDMI().Out_PlainTextInformation.Messages == 1</Expectation></Expectations>
+</SubStep><SubStep
+ Name="The train reaches the end display location"
+ Guid="da175d8d-d6b5-4c92-b965-5c1bff94587c"
+>
+<Actions>
+<Action
+ Guid="2ab7542c-5974-4ad4-9709-c7de9baaab68"
+>Odometry.NominalDistance &lt;- Odometry.NominalDistance + 1.0</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Check the text is not displayed anymore"
+ Guid="36be4163-9d10-4bf6-8ce1-6321cf6b098c"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Blocking="FALSE"
+ Guid="6015e401-b189-4c46-951d-57077a55e9da"
+>COUNT X IN DMI.MasterDMI().Out_PlainTextInformation.Messages == 0</Expectation><Expectation
+ Kind="Instantaneous"
+ Blocking="FALSE"
+ Guid="c76ee842-3929-4652-8a27-1243cd65b9fe"
 >COUNT X IN Kernel.TextMessages.PlainTextMessages == 0</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step></Steps>
