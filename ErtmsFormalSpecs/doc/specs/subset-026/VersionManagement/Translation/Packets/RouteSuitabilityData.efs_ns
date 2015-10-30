@@ -1,10 +1,10 @@
 <NameSpace
  X="221"
- Y="1"
+ Y="61"
  Width="100"
  Height="50"
- Name="TrackConditionChangeOfTractionSystem"
- Guid="aa4b1d1a-710b-49fc-a1d9-c6c47a8ad260"
+ Name="RouteSuitabilityData"
+ Guid="aa6dda9c-4323-412b-94be-c5bcd8582794"
 >
 <NameSpaces>
 </NameSpaces>
@@ -16,47 +16,44 @@
  Height="50"
  Implemented="TRUE"
  Name="M_TRACTIONTranslationStruct"
- Guid="4015130f-97d2-483e-bbbe-eb5daa4edf5e"
+ Guid="d0a4f67e-7498-4339-95b1-ffc7314219e1"
 >
 <ReqRef
  Id="59a35c8f-3529-429c-ba26-0353f79bee2a"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="43302339-f016-47bb-937a-3466034020bd"
+ Guid="682eda9c-983d-4b33-8aba-0f11492a4048"
 >
 </ReqRef><ReqRef
  Id="7f431043-0c98-4c63-98bd-9290aae694c8"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="3831fca6-56ed-4a03-b0ca-71fc2ae7ba92"
+ Guid="833b5107-2bea-4627-811d-abce3ca9ca3c"
 >
 </ReqRef><ReqRef
  Id="86e96b82-5c16-4333-be51-a07f3de01b90"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="0fac40d7-ff21-4f47-90c8-e223fba4c2ae"
+ Guid="fa449556-69b7-4bfe-9236-a6a419e81e72"
 >
 </ReqRef><Comment>Type definition. The variable Translatable_M_TRACTION_Values is a collection of such struct, one for each value of M_TRACTION and the corresponding values of M_VOLTAGE and NID_CTRACTION.</Comment>
 <StructureElement
  TypeName="Messages.M_VOLTAGE"
  Default=""
  Mode="Internal"
- Implemented="TRUE"
  Name="M_VOLTAGE"
- Guid="bf3ab253-bf06-4c62-8b72-cfb0f706bf37"
+ Guid="ff3d8db8-8498-4640-9853-ac4a044c12ea"
 >
 </StructureElement><StructureElement
  TypeName="Messages.NID_CTRACTION"
  Default="0"
  Mode="Internal"
- Implemented="TRUE"
  Name="NID_CTRACTION"
- Guid="cf3b6e48-857b-4729-8eec-620f964cebd0"
+ Guid="384de788-af18-4ec6-b55f-23906bb012b3"
 >
 </StructureElement><StructureElement
  TypeName="Messages.SystemVersion1.M_TRACTION"
  Default="0"
  Mode="Internal"
- Implemented="TRUE"
  Name="M_TRACTION"
- Guid="520beba4-fb19-48be-9ae0-074c529b1151"
+ Guid="1433de95-9b55-4a67-95c3-d7945745615d"
 >
 </StructureElement></Structure></Structures>
 <Collections>
@@ -70,129 +67,100 @@
  Height="50"
  Implemented="TRUE"
  Name="M_TRACTIONTranslationCol"
- Guid="d80312bf-0565-42b8-ac43-1657f8094e47"
+ Guid="465e6e6b-0abd-4021-ac63-e2a3b344d71c"
 >
 <ReqRef
  Id="59a35c8f-3529-429c-ba26-0353f79bee2a"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="1055a139-6803-47a2-9fad-e2a38b674ea3"
+ Guid="3d53476a-c59a-49b5-ae43-8dbd3e2a5914"
 >
 </ReqRef><ReqRef
  Id="7f431043-0c98-4c63-98bd-9290aae694c8"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="49a3cf56-7da4-4b7d-9c67-084b67b2b072"
+ Guid="3ba77830-0b81-49f8-97e1-ae328712a561"
 >
 </ReqRef><ReqRef
  Id="86e96b82-5c16-4333-be51-a07f3de01b90"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="56fca0a2-a8a4-4618-a592-724e0cdf45a0"
+ Guid="565d88c9-2a72-433e-b643-ec6ef19cfcd4"
 >
 </ReqRef><Comment>Definition of the type of the variable Translatable_M_TRACTION_Values: a collection of M_TRACTION_TranslationStruct.</Comment>
 </Collection></Collections>
 <Functions>
 <Function
- Type="Boolean"
- X="110"
- Y="100"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="IsTranslatable"
- Guid="4fc0b20f-d17d-4b50-aea7-5df8c0516ca2"
->
-<ReqRef
- Id="7f431043-0c98-4c63-98bd-9290aae694c8"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="c68c97b9-2790-485a-becb-5b924189076f"
->
-</ReqRef><ReqRef
- Id="86e96b82-5c16-4333-be51-a07f3de01b90"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="2890d755-3b6a-4c3a-99fb-478b1e8e800b"
->
-</ReqRef><ReqRef
- Id="59a35c8f-3529-429c-ba26-0353f79bee2a"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="3b9e4daf-251a-4190-b853-f0675d2958b8"
->
-</ReqRef><Comment>Function used in the third precondition for packet 39 translation. It searches for the actual value of M_TRACTION (the parameter aM_TRACTION) in the list provided by the set of M_TRACTION elements of the variable Translatable_M_TRACTION_Values and returns true if it finds it.</Comment>
-<Parameters>
-<Parameter
- Type="Messages.SystemVersion1.M_TRACTION"
- Name="aM_TRACTION"
- Guid="9abb32d4-8063-4bb2-8b8b-3a8bdd0f9778"
->
-</Parameter></Parameters>
-<Cases>
-<Case
- Name="Value"
- Guid="034e2533-92cd-4515-9c6f-898d00b3e176"
->
-<Expression>THERE_IS X IN Translatable_M_TRACTION_Values | X.M_TRACTION == aM_TRACTION</Expression>
-</Case></Cases>
-</Function><Function
- Type="Messages.PACKET.TRACK_TO_TRAIN.TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM.Message"
- X="221"
+ Type="Messages.PACKET.TRACK_TO_TRAIN.ROUTE_SUITABILITY_DATA.Message"
+ X="111"
  Y="1"
  Width="100"
  Height="50"
- Implemented="TRUE"
  Name="UpdatedPacket"
- Guid="026c54e9-e253-40c1-9db7-c7932bac4273"
+ Guid="42daa1ac-112f-4a3a-b276-da5305bb3570"
 >
 <ReqRef
- Id="7f431043-0c98-4c63-98bd-9290aae694c8"
+ Id="cdcbcfd1-5f99-449c-ae17-937656feec74"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="a55fd889-12f5-46fe-8ab7-b24fa5b2d1ee"
+ Guid="2fb6a8ce-4a6a-4678-8991-bdc06a7031dd"
 >
-</ReqRef><ReqRef
- Id="86e96b82-5c16-4333-be51-a07f3de01b90"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="2e72fa3d-22c2-4e43-9324-9695c1dfee00"
->
-</ReqRef><ReqRef
- Id="59a35c8f-3529-429c-ba26-0353f79bee2a"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="4c658df3-fe6e-40b3-b60e-ef632abcd803"
->
-</ReqRef><Comment>Update the packet 39 assuming the value of M_TRACTION was found in the translation table Translatable_M_TRACTION_Values.</Comment>
+</ReqRef><Comment>TO CORRECT: first case is not correct, second case is not implemented. They should be mixed.</Comment>
 <Parameters>
 <Parameter
- Type="Messages.SystemVersion1.PACKET.TRACK_TO_TRAIN.TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM.Message"
+ Type="Messages.SystemVersion1.PACKET.TRACK_TO_TRAIN.ROUTE_SUITABILITY_DATA.Message"
  Name="aPacket"
- Guid="a9d670b6-da0a-473d-b897-4d6da1b37bd6"
+ Guid="f16b36af-391d-446d-952b-efe14de1faa6"
 >
 </Parameter></Parameters>
 <Cases>
 <Case
- Name="NullM_TRACTION"
- Guid="cc62ccef-f221-4dc3-915f-3034fada2bcc"
+ Name="ShortMessage"
+ Guid="fa3df8ec-1866-4e02-906c-1cd2061c4be5"
+>
+<Comment>If Q_TRACKINIT == 1, then variables from D_SUITABILITY to the end are useless, but the packet is not rejected. We therefore set those last variables to their default values.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="14e34608-34c3-44b7-93a7-8fb74ce9823b"
+>aPacket.Q_TRACKINIT == 1</PreCondition></PreConditions>
+<Expression>Messages.PACKET.TRACK_TO_TRAIN.ROUTE_SUITABILITY_DATA.Message{
+NID_PACKET =&gt; 70,
+Q_DIR =&gt; aPacket.Q_DIR,
+L_PACKET =&gt; aPacket.L_PACKET,
+Q_SCALE =&gt; aPacket.Q_SCALE,
+Q_TRACKINIT =&gt; aPacket.Q_TRACKINIT,
+D_TRACKINIT =&gt; aPacket.D_TRACKINIT,
+D_SUITABILITY =&gt; 0,
+Q_SUITABILITY =&gt; 0,
+M_LINEGAUGE =&gt; 0,
+M_AXLELOADCAT =&gt; 0,
+M_VOLTAGE =&gt; 0,
+NID_CTRACTION =&gt; 0,
+N_ITER =&gt; 0,
+Sequence1 =&gt; []
+}</Expression>
+</Case><Case
+ Name="M_TRACTION"
+ Guid="57530b19-a4e9-4c2f-9d9a-6fe7a4a66214"
 >
 <PreConditions>
 <PreCondition
- Guid="bbf5355f-e6de-4e06-aee2-ff18c56c4368"
->aPacket.M_TRACTION == 0</PreCondition></PreConditions>
-<Expression>Messages.PACKET.TRACK_TO_TRAIN.TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM.Message{
-NID_PACKET =&gt; 39,
+ Guid="54a558c6-aa4c-4761-b862-852c0f1df1b7"
+><Comment>The remaining part of the packet is used only if Q_TRACKINIT == 0. The value &apos;2&apos; for Q_Suitability corresponds to &apos;Traction-System&apos;, i.e. the value &apos;10&apos; for the spec.</Comment>
+aPacket.Q_TRACKINIT == 0 AND aPacket.Q_SUITABILITY == 2 AND IsTranslatable(aPacket.M_TRACTION)</PreCondition></PreConditions>
+<Expression>Messages.PACKET.TRACK_TO_TRAIN.ROUTE_SUITABILITY_DATA.Message{
+NID_PACKET =&gt; 70,
 Q_DIR =&gt; aPacket.Q_DIR,
 L_PACKET =&gt; aPacket.L_PACKET,
 Q_SCALE =&gt; aPacket.Q_SCALE,
-D_TRACTION =&gt; aPacket.D_TRACTION,
-M_VOLTAGE =&gt; Translated_M_VOLTAGE(aPacket.M_TRACTION)
-}</Expression>
-</Case><Case
- Name="NonNullM_TRACTION"
- Guid="10af8d1d-b81e-4bb6-8557-81d45930ad7e"
->
-<Expression>Messages.PACKET.TRACK_TO_TRAIN.TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM.Message{
-NID_PACKET =&gt; 39,
-Q_DIR =&gt; aPacket.Q_DIR,
-L_PACKET =&gt; aPacket.L_PACKET,
-Q_SCALE =&gt; aPacket.Q_SCALE,
-D_TRACTION =&gt; aPacket.D_TRACTION,
+Q_TRACKINIT =&gt; aPacket.Q_TRACKINIT,
+D_TRACKINIT =&gt; aPacket.D_TRACKINIT,
+D_SUITABILITY =&gt; aPacket.D_SUITABILITY,
+Q_SUITABILITY =&gt; aPacket.Q_SUITABILITY,
+M_LINEGAUGE =&gt; 0,
+M_AXLELOADCAT =&gt; 0,
 M_VOLTAGE =&gt; Translated_M_VOLTAGE(aPacket.M_TRACTION),
-NID_CTRACTION=&gt; Translated_NID_CTRACTION(aPacket.M_TRACTION)
-}</Expression>
+NID_CTRACTION =&gt; Translated_NID_CTRACTION(aPacket.M_TRACTION),
+N_ITER =&gt; aPacket.N_ITER,
+Sequence1 =&gt; MAP aPacket.Sequence1 | X.Q_SUITABILITY == 2 AND IsTranslatable(X.M_TRACTION) USING X IN Translated_Substructure1(X)
+}
+</Expression>
 </Case></Cases>
 </Function><Function
  Type="Messages.M_VOLTAGE"
@@ -202,35 +170,35 @@ NID_CTRACTION=&gt; Translated_NID_CTRACTION(aPacket.M_TRACTION)
  Height="50"
  Implemented="TRUE"
  Name="Translated_M_VOLTAGE"
- Guid="81c59531-10be-467b-a7f9-fc71103af454"
+ Guid="e5e90a35-6398-448e-8e98-72b2ced3e98c"
 >
 <ReqRef
  Id="7f431043-0c98-4c63-98bd-9290aae694c8"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="da555f32-8f9e-44b9-8633-0edcd294d633"
+ Guid="ca15aba8-d01e-4263-85f1-a5efd944ac3a"
 >
 </ReqRef><ReqRef
  Id="86e96b82-5c16-4333-be51-a07f3de01b90"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="2cdd0038-1354-4516-959e-1502d1d3d426"
+ Guid="a80ae6fa-7c94-4ca8-a263-651864f154e6"
 >
 </ReqRef><ReqRef
  Id="59a35c8f-3529-429c-ba26-0353f79bee2a"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="2c4c1023-b8fd-4d61-8fd1-2cd19f03e168"
+ Guid="23a98888-790c-42cf-87f2-f30f97a7cf40"
 >
 </ReqRef><Comment>Returns the value of M_VOLTAGE corresponding to the given value of M_TRACTION.</Comment>
 <Parameters>
 <Parameter
  Type="Messages.SystemVersion1.M_TRACTION"
  Name="aM_TRACTION"
- Guid="bd7a71e4-3208-4d85-9491-9e7744f5f2ca"
+ Guid="41c546cd-158f-4d4a-8a70-f481a0cb2cc0"
 >
 </Parameter></Parameters>
 <Cases>
 <Case
  Name="Value"
- Guid="4fad237b-e172-47cb-a14f-b525acd7a21b"
+ Guid="4b2f10be-0321-40bf-b262-855207fa0302"
 >
 <Expression>(FIRST X IN Translatable_M_TRACTION_Values | X.M_TRACTION == aM_TRACTION).M_VOLTAGE</Expression>
 </Case></Cases>
@@ -242,37 +210,111 @@ NID_CTRACTION=&gt; Translated_NID_CTRACTION(aPacket.M_TRACTION)
  Height="50"
  Implemented="TRUE"
  Name="Translated_NID_CTRACTION"
- Guid="b360d2e4-0135-4d42-8358-4ae83375cf25"
+ Guid="38e8cc4d-1cdc-4935-9a74-a1441f16afda"
 >
 <ReqRef
  Id="7f431043-0c98-4c63-98bd-9290aae694c8"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="3051a2c1-668e-44ba-bf69-277fe7c58ed6"
+ Guid="d43b8fbb-7ea0-4ade-88aa-14958a842387"
 >
 </ReqRef><ReqRef
  Id="86e96b82-5c16-4333-be51-a07f3de01b90"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="cbcc7709-cf2c-49a9-bce1-b576344170bf"
+ Guid="76c2b19c-6fbf-45e5-8679-b0ed8db644ea"
 >
 </ReqRef><ReqRef
  Id="59a35c8f-3529-429c-ba26-0353f79bee2a"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="7dca8fbe-4491-450a-9a8d-80e846c7de9a"
+ Guid="b792e84e-9edc-4823-8cc5-aead7a1d7f1e"
 >
 </ReqRef><Comment>Returns the value of NID_CTRACTION corresponding to the given value of M_TRACTION.</Comment>
 <Parameters>
 <Parameter
  Type="Messages.SystemVersion1.M_TRACTION"
  Name="aM_TRACTION"
- Guid="e61be087-3f8d-4573-968e-b85cf5483db9"
+ Guid="718b5cfc-5b5f-4508-8c3d-c1b44148decb"
 >
 </Parameter></Parameters>
 <Cases>
 <Case
  Name="Value"
- Guid="5ffe552e-1953-45ee-9d03-22927aec7d4f"
+ Guid="a1c82762-7265-4d15-9d34-78515b10312c"
 >
 <Expression>(FIRST X IN Translatable_M_TRACTION_Values | X.M_TRACTION == aM_TRACTION).NID_CTRACTION</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ X="110"
+ Y="100"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="IsTranslatable"
+ Guid="5e429464-dd26-4f35-91db-542a37345cf0"
+>
+<ReqRef
+ Id="7f431043-0c98-4c63-98bd-9290aae694c8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="1160ab31-5c11-4a4f-85f7-4a043e599ff1"
+>
+</ReqRef><ReqRef
+ Id="86e96b82-5c16-4333-be51-a07f3de01b90"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="637632d7-4553-448c-bb58-b52def06d45d"
+>
+</ReqRef><ReqRef
+ Id="59a35c8f-3529-429c-ba26-0353f79bee2a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ec3296ee-613c-4a5a-87dd-012510df5987"
+>
+</ReqRef><Comment>Function used in the third precondition for packet 39 translation. It searches for the actual value of M_TRACTION (the parameter aM_TRACTION) in the list provided by the set of M_TRACTION elements of the variable Translatable_M_TRACTION_Values and returns true if it finds it.</Comment>
+<Parameters>
+<Parameter
+ Type="Messages.SystemVersion1.M_TRACTION"
+ Name="aM_TRACTION"
+ Guid="9e25382d-b09f-444b-b99e-0d828d1be6e0"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="00a72526-7fe4-4f3c-b043-dd73803d232c"
+>
+<Expression>THERE_IS X IN Translatable_M_TRACTION_Values | X.M_TRACTION == aM_TRACTION</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.PACKET.TRACK_TO_TRAIN.ROUTE_SUITABILITY_DATA.SubStructure1"
+ X="221"
+ Y="1"
+ Width="100"
+ Height="50"
+ Name="Translated_Substructure1"
+ Guid="4083961b-a946-45eb-afba-35e278ff9629"
+>
+<Parameters>
+<Parameter
+ Type="Messages.SystemVersion1.PACKET.TRACK_TO_TRAIN.ROUTE_SUITABILITY_DATA.SubStructure1"
+ Name="aSubstructure1"
+ Guid="35c7494c-4651-47e9-a2aa-0e0a9a57e3c0"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Translate"
+ Guid="0fd5688e-a707-4f7d-a406-fd9547666ba8"
+>
+<PreConditions>
+<PreCondition
+ Guid="ea19b395-a0b7-4dd7-a71b-0b0a8caf748f"
+>aSubstructure1.Q_SUITABILITY == 2 AND  IsTranslatable(aSubstructure1.M_TRACTION)</PreCondition></PreConditions>
+<Expression>Messages.PACKET.TRACK_TO_TRAIN.ROUTE_SUITABILITY_DATA.SubStructure1{
+D_SUITABILITY =&gt; aSubstructure1.D_SUITABILITY,
+Q_SUITABILITY =&gt; aSubstructure1.Q_SUITABILITY,
+M_LINEGAUGE =&gt; 0,
+M_AXLELOADCAT =&gt; 0,
+M_VOLTAGE =&gt; Translated_M_VOLTAGE(aSubstructure1.M_TRACTION),
+NID_CTRACTION =&gt; Translated_NID_CTRACTION(aSubstructure1.M_TRACTION)
+}</Expression>
 </Case></Cases>
 </Function></Functions>
 <Variables>
@@ -401,132 +443,132 @@ NID_CTRACTION =&gt; 9
  Height="50"
  Implemented="TRUE"
  Name="Translatable_M_TRACTION_Values"
- Guid="90a9aa7e-b9a5-4e11-8c70-6ddd6893e070"
+ Guid="f2f3d3fb-0ea1-4dd2-a4f7-9a16e18cac57"
 >
 <ReqRef
  Id="d01bf03a-9181-4b8e-a2f1-5a8073df22ee"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="55c1cf7a-7e88-48ea-83d0-98effaccdc0a"
+ Guid="b9ebf08c-460d-4bed-82e9-8e10a3bf7491"
 >
 </ReqRef><ReqRef
  Id="86e96b82-5c16-4333-be51-a07f3de01b90"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="a81d2c50-04cd-463b-9f6c-22fe86ad20b3"
+ Guid="6b45b9c9-d6fc-46c9-8d0f-c547b4cb08ed"
 >
 </ReqRef><ReqRef
  Id="7f431043-0c98-4c63-98bd-9290aae694c8"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="cfbafffb-4af8-41ef-ac47-08babca6b0c2"
+ Guid="91955ea2-8f50-41c2-8d03-146927b95666"
 >
 </ReqRef><ReqRef
  Id="f4e47b9a-36d5-423e-aaa0-d9bb568d357c"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="eef7d9bb-21cb-48d4-b12d-01107543b723"
+ Guid="a80801e2-acac-4487-95e8-827948709bf4"
 >
 </ReqRef><ReqRef
  Id="09083fe4-2cc3-4f4e-ae02-c0e8657b8749"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="444299df-e461-43d6-8301-8bf6037b5613"
+ Guid="fcf8b0a6-7fb2-4a4f-bfed-562e37a5b117"
 >
 </ReqRef><ReqRef
  Id="882645fe-7f05-47b3-b488-61db699ab023"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="03bad42b-d55f-462f-bd5d-d2206c6b2ac7"
+ Guid="4d603943-e661-41b0-864a-ae2e513f7a58"
 >
 </ReqRef><ReqRef
  Id="4d5d6f1d-33c9-42d4-bcd5-edd729f80bc4"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="7333a1c7-7015-400b-a8e0-79f75284cbe9"
+ Guid="51296e1e-2b18-4109-a386-6dc0103a06b3"
 >
 </ReqRef><ReqRef
  Id="e932db91-b59e-40a6-b698-e4a401ea7c1d"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="66302a61-087e-412d-a893-458775a56b5f"
+ Guid="a5921ade-b6e0-4e19-9887-57134be8cb18"
 >
 </ReqRef><ReqRef
  Id="e01f825b-536f-4bcd-b414-9f61a5a2c5bb"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="82fe2499-dad1-4341-b2cf-34b529c8e3f0"
+ Guid="b63ce5e6-5aa3-47f3-8c7a-f70325f6b8b9"
 >
 </ReqRef><ReqRef
  Id="df0c9118-c0bc-4fd9-acc7-3b7e74faa537"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="7c77424a-17c9-4c83-82c9-3ef4300e1f99"
+ Guid="ce9913d4-9b5f-4d2a-a822-6c55c466a7bc"
 >
 </ReqRef><ReqRef
  Id="3ad936cb-f87f-42a3-993b-783cea7ed6cf"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="3cab42a8-79f9-4c51-b856-3d91397b73fd"
+ Guid="18b15ca6-0c2f-4687-acfc-fc5fcb66add2"
 >
 </ReqRef><ReqRef
  Id="d4f42186-7e89-44fb-a5bd-1ba0b7305713"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="76488208-35d2-411a-8ea4-3fcf516a303d"
+ Guid="17e2bf45-d74e-4998-abba-8762a1f527e3"
 >
 </ReqRef><ReqRef
  Id="679cbe06-bde0-444d-980f-9a53e4a3ff8b"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="7b383b44-a6ab-4f8e-ba71-151e1241171e"
+ Guid="8c6aeb96-e4e1-46e5-90f9-0d9f07a2a982"
 >
 </ReqRef><ReqRef
  Id="65c34d4b-3c6c-4738-a291-587defed31e0"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="97537105-d48a-45dd-94f0-af02da2e7dab"
+ Guid="4ad12dd8-b649-49f8-a89a-1bbc7859fc9d"
 >
 </ReqRef><ReqRef
  Id="7f3853da-b449-4f75-b0a5-51d26b1221e0"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="48f326fc-a283-4446-bce3-dc0748c67685"
+ Guid="342b7b47-5537-447e-9f3b-e2e3a3425bc6"
 >
 </ReqRef><ReqRef
  Id="08ccc0ea-e1cc-4ce4-be82-19f1e65dff9e"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="b74ebf55-d45d-4cae-88c2-ec1378304406"
+ Guid="ef6311de-4e3b-4bc3-99cf-0200948907a4"
 >
 </ReqRef><ReqRef
  Id="7bb3ae96-81d0-46d9-96c0-602e25484343"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="7c98e448-b09b-4724-8c1c-ccc7e24bf57d"
+ Guid="2365a400-fccc-4d83-9639-08ad61e976a7"
 >
 </ReqRef><ReqRef
  Id="234cc2eb-e051-4e1b-bb84-e0f31da7ffee"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="d323cc6b-1de2-448e-bbc1-5e46915748fe"
+ Guid="789bad14-693f-418b-bf7e-791fdf2f97e2"
 >
 </ReqRef><ReqRef
  Id="ffff55ff-b853-4b8e-96c5-9c9d665432c6"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="b283a2a3-2492-493e-92d0-5353013e3bf1"
+ Guid="7008c80f-7727-4421-81af-a08e8925cb19"
 >
 </ReqRef><ReqRef
  Id="ff79195a-d849-43b4-b9ac-7163481c5182"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="298aef14-1732-45ca-96b4-c5543ac6428d"
+ Guid="5be1f155-3d2d-40df-9ccd-8508b1b78746"
 >
 </ReqRef><ReqRef
  Id="3d7de8be-deb5-4335-9aaa-e487f3a3d105"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="b2b2294d-9ef1-4b05-b71a-1dbbd30bbbda"
+ Guid="2739b429-a837-4abc-8574-7c4b2801a508"
 >
 </ReqRef><ReqRef
  Id="0336a5da-82d9-40bd-bf8b-3c5cceceedb7"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="f03089ac-27e9-4056-ad50-a6e0a194dab4"
+ Guid="a43af2ee-e985-41a6-9506-53197f43c42f"
 >
 </ReqRef><ReqRef
  Id="1fc35938-be35-4e82-90bb-a5f3aa9948ae"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="dc1c3e81-fc98-4ea7-8838-5ecbd0b1b63f"
+ Guid="4fcac6f8-b90f-483f-983a-85db95d27f3b"
 >
 </ReqRef><ReqRef
  Id="080a2b70-cc34-41f1-b1df-6545f53d5135"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="22b54466-2523-4d6b-b40d-dc61891f8c78"
+ Guid="50f33327-2cf1-4176-b7d9-8761b3569ebb"
 >
 </ReqRef><ReqRef
  Id="61e3e344-8cb8-459c-876c-7bcef021a607"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="8f0547f8-6699-4fd4-a57e-9df987bdd375"
+ Guid="e774dac9-fe5e-4d3e-a2f3-2648d07562db"
 >
 </ReqRef><Comment>Translation table for packet 39. The field M_TRACTION is replaced by two new fields: M_VOLTAGE and NID_CTRACTION. Their values depend on the value of M_TRACTION. This variable is a collection of struct, one for each value of M_TRACTION and the corresponding values of M_VOLTAGE and NID_CTRACTION.</Comment>
 </Variable></Variables>

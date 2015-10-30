@@ -1,0 +1,145 @@
+<NameSpace
+ X="771"
+ Y="1"
+ Width="100"
+ Height="50"
+ Name="GeographicalPositionInformation"
+ Guid="ceaa346e-635c-4e41-a945-9e02dcacf1fc"
+>
+<NameSpaces>
+</NameSpaces>
+<Functions>
+<Function
+ Type="Messages.PACKET.TRACK_TO_TRAIN.GEOGRAPHICAL_POSITION_INFORMATION.Message"
+ X="111"
+ Y="1"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="UpdatedPacket"
+ Guid="95fc5ad7-0253-4afb-9e87-61390cae3a29"
+>
+<ReqRef
+ Id="c218db07-182a-4d0e-ab42-6e8534725b2b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="5dd3946a-cd45-43ce-86d8-9e23a40d8e34"
+>
+</ReqRef><ReqRef
+ Id="eb1be6a4-5382-4db6-ad3d-b995d63de9c5"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f929a571-3509-4330-be42-5b7c9a63583c"
+>
+</ReqRef><Parameters>
+<Parameter
+ Type="Messages.SystemVersion1.PACKET.TRACK_TO_TRAIN.GEOGRAPHICAL_POSITION_INFORMATION.Message"
+ Name="aPacket"
+ Guid="860adb22-9183-4806-9614-8e014483126b"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="087871a0-9cf1-47b5-b3ad-c5a174ef894c"
+>
+<Expression>Messages.PACKET.TRACK_TO_TRAIN.GEOGRAPHICAL_POSITION_INFORMATION.Message{
+NID_PACKET =&gt; 79,
+Q_DIR =&gt; aPacket.Q_DIR,
+L_PACKET =&gt; aPacket.L_PACKET,
+Q_SCALE =&gt; aPacket.Q_SCALE,
+Q_NEWCOUNTRY =&gt; aPacket.Q_NEWCOUNTRY,
+NID_C =&gt; aPacket.NID_C,
+NID_BG =&gt; aPacket.NID_BG,
+D_POSOFF =&gt; aPacket.D_POSOFF,
+Q_MPOSITION =&gt; aPacket.Q_MPOSITION,
+M_POSITION =&gt; TranslateM_POSITION(
+    aOldM_POSITION =&gt; aPacket.M_POSITION),
+N_ITER =&gt; aPacket.N_ITER,
+Sequence1 =&gt; MAP aPacket.Sequence1 USING X IN TranslateSubstructure1(X)
+}</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.M_POSITION"
+ X="221"
+ Y="1"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="TranslateM_POSITION"
+ Guid="a3ca7941-5cb7-408f-9aa3-bbd51853308d"
+>
+<ReqRef
+ Id="c218db07-182a-4d0e-ab42-6e8534725b2b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="3e6477ef-5a30-4853-a999-8aee2b0d3351"
+>
+</ReqRef><ReqRef
+ Id="eb1be6a4-5382-4db6-ad3d-b995d63de9c5"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b4e9969c-003d-4311-8578-a443da5666eb"
+>
+</ReqRef><Parameters>
+<Parameter
+ Type="Messages.SystemVersion1.M_POSITION"
+ Name="aOldM_POSITION"
+ Guid="01ff0197-8059-451e-a6c1-ce8a7cac059b"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="UpperbBound"
+ Guid="b1a02dd2-c0cb-4639-a4da-a37d68b8880e"
+>
+<PreConditions>
+<PreCondition
+ Guid="808fff7c-dc05-4822-ad8e-250fc95f43b5"
+>aOldM_POSITION == 1048575</PreCondition></PreConditions>
+<Expression>16777215</Expression>
+</Case><Case
+ Name="Default"
+ Guid="f52b5313-8451-4300-b959-e7f1335c0170"
+>
+<Expression>aOldM_POSITION</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.PACKET.TRACK_TO_TRAIN.GEOGRAPHICAL_POSITION_INFORMATION.SubStructure1"
+ X="331"
+ Y="1"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="TranslateSubstructure1"
+ Guid="364790be-7868-4b9f-a944-dab5d219601e"
+>
+<ReqRef
+ Id="c218db07-182a-4d0e-ab42-6e8534725b2b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="97592598-950b-4666-b958-6a46beae6b61"
+>
+</ReqRef><ReqRef
+ Id="eb1be6a4-5382-4db6-ad3d-b995d63de9c5"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="277ad5ea-03bb-47c3-89c5-42becad11d8d"
+>
+</ReqRef><Parameters>
+<Parameter
+ Type="Messages.SystemVersion1.PACKET.TRACK_TO_TRAIN.GEOGRAPHICAL_POSITION_INFORMATION.SubStructure1"
+ Name="aSubStructure1"
+ Guid="0a8fd34e-3ece-4da2-bb22-c2356790dc56"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="8cde4c1e-0c2e-42d7-b0c1-39e8d8637f6f"
+>
+<Expression>Messages.PACKET.TRACK_TO_TRAIN.GEOGRAPHICAL_POSITION_INFORMATION.SubStructure1{
+  Q_NEWCOUNTRY =&gt; aSubStructure1.Q_NEWCOUNTRY, 
+  NID_C =&gt; aSubStructure1.NID_C, 
+  NID_BG =&gt; aSubStructure1.NID_BG, 
+  D_POSOFF =&gt; aSubStructure1.D_POSOFF, 
+  Q_MPOSITION =&gt; aSubStructure1.Q_MPOSITION, 
+  M_POSITION =&gt; TranslateM_POSITION(aSubStructure1.M_POSITION)
+}</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>

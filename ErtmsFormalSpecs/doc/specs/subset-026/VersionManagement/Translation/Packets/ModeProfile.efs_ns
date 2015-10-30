@@ -1,0 +1,101 @@
+<NameSpace
+ X="551"
+ Y="1"
+ Width="100"
+ Height="50"
+ Name="ModeProfile"
+ Guid="4a4e656f-b402-4dbf-ae51-9cedb738f8d3"
+>
+<NameSpaces>
+</NameSpaces>
+<Functions>
+<Function
+ Type="Messages.PACKET.TRACK_TO_TRAIN.MODE_PROFILE.Message"
+ X="111"
+ Y="1"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="UpdatedPacket"
+ Guid="93586ba9-989b-47ed-9aa1-4d58f988f801"
+>
+<ReqRef
+ Id="a5a976a9-3a94-456f-b7f4-515d3865dd17"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a6c2f718-02dd-4f74-bc10-b1f999f4ced9"
+>
+</ReqRef><ReqRef
+ Id="53495f75-2a8f-4dc6-84e1-d6921f3a3a10"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="1aca03f6-ef3f-407e-bd2e-7e6bdeaa6a6a"
+>
+</ReqRef><Parameters>
+<Parameter
+ Type="Messages.SystemVersion1.PACKET.TRACK_TO_TRAIN.MODE_PROFILE.Message"
+ Name="aPacket"
+ Guid="f734fe53-86ca-419d-993b-fd4cd698b743"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="e4ebd27c-f46e-45ee-98a6-6d7af53ae2de"
+>
+<Expression>Messages.PACKET.TRACK_TO_TRAIN.MODE_PROFILE.Message{
+  NID_PACKET =&gt; 80, 
+  Q_DIR =&gt; aPacket.Q_DIR,
+  L_PACKET =&gt; aPacket.L_PACKET,
+  Q_SCALE =&gt; aPacket.Q_SCALE,
+  D_MAMODE =&gt; aPacket.D_MAMODE,
+  M_MAMODE =&gt; aPacket.M_MAMODE, 
+  V_MAMODE =&gt; aPacket.V_MAMODE, 
+  L_MAMODE =&gt; aPacket.L_MAMODE, 
+  L_ACKMAMODE =&gt; aPacket.L_ACKMAMODE,
+  Q_MAMODE =&gt; 1, 
+  N_ITER =&gt; aPacket.N_ITER,
+  Sequence1 =&gt; MAP aPacket.Sequence1 USING X IN TranslateSubstructure1(X)
+}</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.PACKET.TRACK_TO_TRAIN.MODE_PROFILE.SubStructure1"
+ X="221"
+ Y="1"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="TranslateSubstructure1"
+ Guid="8c7a555e-0062-45ee-b0a3-07b98b8aa6ed"
+>
+<ReqRef
+ Id="a5a976a9-3a94-456f-b7f4-515d3865dd17"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="72e4bc0d-ac3a-491a-b81e-a90b50c71de3"
+>
+</ReqRef><ReqRef
+ Id="53495f75-2a8f-4dc6-84e1-d6921f3a3a10"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="324e3055-781f-4512-a56a-181a52bfcf1b"
+>
+</ReqRef><Parameters>
+<Parameter
+ Type="Messages.SystemVersion1.PACKET.TRACK_TO_TRAIN.MODE_PROFILE.SubStructure1"
+ Name="aSubStructure1"
+ Guid="5d3fe8b8-f81a-4343-b46d-f11f4fb875de"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="d428aeac-6b7e-4abc-a722-2e203444d671"
+>
+<Expression>Messages.PACKET.TRACK_TO_TRAIN.MODE_PROFILE.SubStructure1{
+  D_MAMODE =&gt; aSubStructure1.D_MAMODE,
+  M_MAMODE =&gt; aSubStructure1.M_MAMODE,
+  V_MAMODE =&gt; aSubStructure1.V_MAMODE,
+  L_MAMODE =&gt; aSubStructure1.L_MAMODE,
+  L_ACKMAMODE =&gt; aSubStructure1.L_ACKMAMODE, 
+  Q_MAMODE =&gt; 1
+}</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>

@@ -1,0 +1,141 @@
+<NameSpace
+ X="331"
+ Y="1"
+ Width="100"
+ Height="50"
+ Name="TrackCondition"
+ Guid="f7ab7211-e716-4823-89f6-fa3504840cc2"
+>
+<NameSpaces>
+</NameSpaces>
+<Functions>
+<Function
+ Type="Messages.PACKET.TRACK_TO_TRAIN.TRACK_CONDITION.Message"
+ X="111"
+ Y="1"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="UpdatedPacket"
+ Guid="51f52de1-7a6d-4783-8337-63c081877c3f"
+>
+<ReqRef
+ Id="5ef113ba-d211-4bc0-b419-9bbfe2e88e23"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="5ceabbc5-3c58-4ce1-8764-056d5ebefa9b"
+>
+</ReqRef><ReqRef
+ Id="79ed538a-a7a1-4183-9c4e-2cecb1cf8c5a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="688ef4f9-dfc5-4117-a27a-77f2f6480828"
+>
+</ReqRef><Parameters>
+<Parameter
+ Type="Messages.SystemVersion1.PACKET.TRACK_TO_TRAIN.TRACK_CONDITION.Message"
+ Name="aPacket"
+ Guid="befbb6fb-9f91-4a07-814f-e311165e7cbf"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="34a371ad-ac17-4279-b04b-fdaace1d3ca4"
+>
+<Expression>Messages.PACKET.TRACK_TO_TRAIN.TRACK_CONDITION.Message{
+  NID_PACKET =&gt; 68, 
+  Q_DIR =&gt; aPacket.Q_DIR, 
+  L_PACKET =&gt; aPacket.L_PACKET,
+  Q_SCALE =&gt; aPacket.Q_SCALE,
+  Q_TRACKINIT =&gt; aPacket.Q_TRACKINIT,
+  D_TRACKINIT =&gt; aPacket.D_TRACKINIT,
+  D_TRACKCOND =&gt; aPacket.D_TRACKCOND,
+  L_TRACKCOND =&gt; aPacket.L_TRACKCOND,
+  M_TRACKCOND =&gt; VersionManagement.Translation.Packets.TrackCondition.TranslateM_TRACKCOND(aPacket.M_TRACKCOND),
+  N_ITER =&gt; aPacket.N_ITER,
+  Sequence1 =&gt; MAP aPacket.Sequence1 USING X IN VersionManagement.Translation.Packets.TrackCondition.TranslateSubstructure1(X)
+}</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.M_TRACKCOND"
+ X="221"
+ Y="1"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="TranslateM_TRACKCOND"
+ Guid="aea366c0-9fb4-49d2-8624-6c73d5959ae2"
+>
+<ReqRef
+ Id="5ef113ba-d211-4bc0-b419-9bbfe2e88e23"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="fd7a38c5-1cad-487e-9283-110e2f9a58e7"
+>
+</ReqRef><ReqRef
+ Id="79ed538a-a7a1-4183-9c4e-2cecb1cf8c5a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="2b9decc9-1b97-4bb6-9e7f-40cfaa895def"
+>
+</ReqRef><Comment>Casting is fine since both types are ranges with the same boundaries: 0 to 15.</Comment>
+<Parameters>
+<Parameter
+ Type="Messages.SystemVersion1.M_TRACKCOND"
+ Name="aOLDM_TRACKCOND"
+ Guid="05bbdd9a-1fe3-46ca-aad5-ad5a7150bd32"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="TranslateM_TRACKCOND"
+ Guid="4204b8d7-7ef5-43ef-a729-db8a2d3197ec"
+>
+<PreConditions>
+<PreCondition
+ Guid="e8ca637d-6bb7-49d4-8809-7844a103d8ed"
+>aOLDM_TRACKCOND == 1 OR aOLDM_TRACKCOND == 2</PreCondition></PreConditions>
+<Expression>Messages.M_TRACKCOND(0)</Expression>
+</Case><Case
+ Name="LeftUnchanged"
+ Guid="25b2ba37-4f5c-45d1-88fc-280cba5f66f7"
+>
+<Expression>Messages.M_TRACKCOND(aOLDM_TRACKCOND)</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.PACKET.TRACK_TO_TRAIN.TRACK_CONDITION.SubStructure1"
+ X="331"
+ Y="1"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="TranslateSubstructure1"
+ Guid="11a187c5-df84-4eec-b335-90a7aeefbbcd"
+>
+<ReqRef
+ Id="5ef113ba-d211-4bc0-b419-9bbfe2e88e23"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a15487e6-db32-4291-a5d4-5a439aaaae43"
+>
+</ReqRef><ReqRef
+ Id="79ed538a-a7a1-4183-9c4e-2cecb1cf8c5a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="46e72af1-2785-4892-b42c-ff79d5cce3f2"
+>
+</ReqRef><Parameters>
+<Parameter
+ Type="Messages.SystemVersion1.PACKET.TRACK_TO_TRAIN.TRACK_CONDITION.SubStructure1"
+ Name="aSubStructure1"
+ Guid="0a6af117-35f9-4b97-8312-45ced6d4a0be"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="4e7fd05a-a25a-40d6-aa22-17582833809c"
+>
+<Expression>Messages.PACKET.TRACK_TO_TRAIN.TRACK_CONDITION.SubStructure1{
+D_TRACKCOND =&gt; aSubStructure1.D_TRACKCOND,
+L_TRACKCOND =&gt; aSubStructure1.L_TRACKCOND,
+M_TRACKCOND =&gt; TranslateM_TRACKCOND(aSubStructure1.M_TRACKCOND)
+}</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>

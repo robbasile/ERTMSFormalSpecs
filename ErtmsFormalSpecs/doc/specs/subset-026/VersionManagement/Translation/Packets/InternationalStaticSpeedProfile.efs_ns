@@ -18,7 +18,12 @@
  Name="SubStructure1_BL3"
  Guid="8d28050e-9ca0-47e3-9769-416063dfd885"
 >
-<Parameters>
+<ReqRef
+ Id="ce6b09b6-c260-4d91-b924-d9549fc5567a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="416b7776-d197-4ccb-bb51-e5616c485891"
+>
+</ReqRef><Parameters>
 <Parameter
  Type="Messages.SystemVersion1.PACKET.TRACK_TO_TRAIN.INTERNATIONAL_STATIC_SPEED_PROFILE.SubStructure1"
  Name="aSubStructure1"
@@ -58,7 +63,12 @@ V_DIFF =&gt; aSubStructure1.V_DIFF
  Name="NC_CDDIFFfromNC_DIFF_BL2"
  Guid="a1cf46e6-5a5b-4212-82cd-1f94a22ef284"
 >
-<Parameters>
+<ReqRef
+ Id="ce6b09b6-c260-4d91-b924-d9549fc5567a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="2ea44c3c-980f-47fa-b3e4-b6f8dc9c7f9f"
+>
+</ReqRef><Parameters>
 <Parameter
  Type="Messages.SystemVersion1.NC_DIFF"
  Name="NC_DIFF"
@@ -175,7 +185,12 @@ V_DIFF =&gt; aSubStructure1.V_DIFF
  Name="NC_DIFF_BL3fromNC_DIFF_BL2"
  Guid="f2db951a-6147-4b0e-8c1e-cfd36dba97f0"
 >
-<Parameters>
+<ReqRef
+ Id="ce6b09b6-c260-4d91-b924-d9549fc5567a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="1fc3bd19-3486-4097-bc4e-1bd1dd2d2b3a"
+>
+</ReqRef><Parameters>
 <Parameter
  Type="Messages.SystemVersion1.NC_DIFF"
  Name="NC_DIFF"
@@ -220,7 +235,12 @@ V_DIFF =&gt; aSubStructure1.V_DIFF
  Name="SubStructure3_BL3"
  Guid="b6a4bfca-ff56-42d8-aa0e-90b80b502a5a"
 >
-<Parameters>
+<ReqRef
+ Id="ce6b09b6-c260-4d91-b924-d9549fc5567a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="79dae66d-6943-4218-a8eb-5d619a751938"
+>
+</ReqRef><Parameters>
 <Parameter
  Type="Messages.SystemVersion1.PACKET.TRACK_TO_TRAIN.INTERNATIONAL_STATIC_SPEED_PROFILE.SubStructure3"
  Name="aSubStructure3"
@@ -260,7 +280,12 @@ V_DIFF =&gt; aSubStructure3.V_DIFF
  Name="UpdatedSSP"
  Guid="38b6b175-9015-4426-9a88-fb0f69ef0083"
 >
-<Parameters>
+<ReqRef
+ Id="ce6b09b6-c260-4d91-b924-d9549fc5567a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="20fe5535-c5d0-4aab-aaba-8ed1c183aa28"
+>
+</ReqRef><Parameters>
 <Parameter
  Type="Messages.SystemVersion1.PACKET.TRACK_TO_TRAIN.INTERNATIONAL_STATIC_SPEED_PROFILE.Message"
  Name="aPacket"
@@ -281,14 +306,14 @@ D_STATIC =&gt; aPacket.D_STATIC,
 V_STATIC =&gt; aPacket.V_STATIC,
 Q_FRONT =&gt; aPacket.Q_FRONT,
 N_ITER_0 =&gt; aPacket.N_ITER_0,
-Sequence1 =&gt; MAP aPacket.Sequence1 USING X IN SubStructure1_BL3(X),
+Sequence1 =&gt; MAP aPacket.Sequence1 USING X IN VersionManagement.Translation.Packets.InternationalStaticSpeedProfile.SubStructure1_BL3(X),
 N_ITER_1 =&gt; aPacket.N_ITER_1,
 Sequence3 =&gt; MAP aPacket.Sequence3 USING Y IN Messages.PACKET.TRACK_TO_TRAIN.INTERNATIONAL_STATIC_SPEED_PROFILE.SubStructure2{
     D_STATIC =&gt; Y.D_STATIC,
     V_STATIC =&gt; Y.V_STATIC,
     Q_FRONT =&gt; Y.Q_FRONT,
     N_ITER =&gt; Y.N_ITER,
-    Sequence2 =&gt; MAP Y.Sequence2 USING Z IN SubStructure3_BL3(Z)
+    Sequence2 =&gt; MAP Y.Sequence2 USING Z IN VersionManagement.Translation.Packets.InternationalStaticSpeedProfile.SubStructure3_BL3(Z)
     }
 }</Expression>
 </Case></Cases>

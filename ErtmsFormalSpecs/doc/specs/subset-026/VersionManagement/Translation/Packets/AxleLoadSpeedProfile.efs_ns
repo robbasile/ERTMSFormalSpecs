@@ -1,0 +1,267 @@
+<NameSpace
+ X="881"
+ Y="1"
+ Width="100"
+ Height="50"
+ Name="AxleLoadSpeedProfile"
+ Guid="9fd777d2-d586-4de5-ab5e-fefeee4acaf8"
+>
+<NameSpaces>
+</NameSpaces>
+<Functions>
+<Function
+ Type="Messages.M_AXLELOADCAT"
+ X="111"
+ Y="1"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="TranslateM_AXLELOAD"
+ Guid="efdb3277-7356-46b1-a4ba-abaf297101c6"
+>
+<ReqRef
+ Id="dfc68638-96a5-400c-a82c-84d0fd8105a7"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d5da739f-3952-4594-b5cd-9679e9a36596"
+>
+</ReqRef><ReqRef
+ Id="cf6e35f5-2279-4578-9d49-8349bcde43bb"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="88d4a9b8-b85c-4437-85bf-d6ed1ff4d070"
+>
+</ReqRef><ReqRef
+ Id="df94e616-cad0-4d32-a640-e0f632e31f50"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="5d6dbd8f-ccf4-47de-96c1-0cebe6f07343"
+>
+</ReqRef><Comment>Note: M_AXLELOAD is range from 0 to 127. Unit is 0.5 ton.</Comment>
+<Parameters>
+<Parameter
+ Type="Messages.SystemVersion1.M_AXLELOAD"
+ Name="aM_AXLELOAD"
+ Guid="8cf6937a-2b40-434f-aa9f-64d1bec9c5a3"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Lesser than 16t"
+ Guid="9b74f4e9-4957-4a06-8756-368de3091378"
+>
+<PreConditions>
+<PreCondition
+ Guid="16a26e21-2f9a-4dd8-a9c0-b04c36a54f9f"
+>aM_AXLELOAD &lt;= 32</PreCondition></PreConditions>
+<Expression>0</Expression>
+</Case><Case
+ Name="Lesser than 17t"
+ Guid="35642aa1-8234-4d7f-a6a3-6ae05141fe14"
+>
+<PreConditions>
+<PreCondition
+ Guid="fdb542c6-0f90-4c7b-a0fe-3f2508dee7f2"
+>aM_AXLELOAD &lt;= 34</PreCondition></PreConditions>
+<Expression>1</Expression>
+</Case><Case
+ Name="Lesser than 18t"
+ Guid="dbd4c61e-5176-4110-a6ad-270d6877d0da"
+>
+<PreConditions>
+<PreCondition
+ Guid="847ebad5-d33f-47e3-922c-b0c67f4c226b"
+>aM_AXLELOAD &lt;= 36</PreCondition></PreConditions>
+<Expression>2</Expression>
+</Case><Case
+ Name="Lesser than 20t"
+ Guid="7ed3a893-8856-45f8-96e8-e3e3d5dcc055"
+>
+<PreConditions>
+<PreCondition
+ Guid="ff41d362-b9ce-4f2c-b0de-9173882e90b1"
+>aM_AXLELOAD &lt;= 40</PreCondition></PreConditions>
+<Expression>4</Expression>
+</Case><Case
+ Name="Lesser than 22.5t"
+ Guid="894da59c-d55f-4645-b5a9-6d495c1b51da"
+>
+<PreConditions>
+<PreCondition
+ Guid="02fe16b4-e82c-41c9-9ef3-705b70f4bb28"
+>aM_AXLELOAD &lt;= 55</PreCondition></PreConditions>
+<Expression>7</Expression>
+</Case><Case
+ Name="Above 22.5t"
+ Guid="5f6febc3-28b9-4a56-a4d1-53c683fe808f"
+>
+<PreConditions>
+<PreCondition
+ Guid="dc618055-dd69-4222-b509-411c12c0429f"
+>aM_AXLELOAD &lt;= 80 OR aM_AXLELOAD == 126</PreCondition></PreConditions>
+<Expression>11</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.PACKET.TRACK_TO_TRAIN.AXLE_LOAD_SPEED_PROFILE.SubStructure1"
+ X="221"
+ Y="1"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="TranslateSubstructure1"
+ Guid="1c3f0851-6ef8-44b9-a322-c0ed19e8d1a4"
+>
+<ReqRef
+ Id="cf6e35f5-2279-4578-9d49-8349bcde43bb"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ce09615b-4b22-4170-8c42-53ce67cde009"
+>
+</ReqRef><ReqRef
+ Id="df94e616-cad0-4d32-a640-e0f632e31f50"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="11e004ed-751e-4d52-b503-11d4a488e737"
+>
+</ReqRef><Parameters>
+<Parameter
+ Type="Messages.SystemVersion1.PACKET.TRACK_TO_TRAIN.AXLE_LOAD_SPEED_PROFILE.SubStructure1"
+ Name="aSubstructure1"
+ Guid="8916639e-5bb7-415f-b086-4f3bb0257b89"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="d876ea77-1e67-4940-bf58-13d1e9e30807"
+>
+<Expression>Messages.PACKET.TRACK_TO_TRAIN.AXLE_LOAD_SPEED_PROFILE.SubStructure1{
+M_AXLELOADCAT =&gt; TranslateM_AXLELOAD(
+   aSubstructure1.M_AXLELOAD),
+V_AXLELOAD =&gt; aSubstructure1.V_AXLELOAD
+}</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.PACKET.TRACK_TO_TRAIN.AXLE_LOAD_SPEED_PROFILE.SubStructure3"
+ X="221"
+ Y="1"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="TranslateSubstructure3"
+ Guid="993048f2-0ed1-4633-acc3-2ef13b8b1fc6"
+>
+<ReqRef
+ Id="dfc68638-96a5-400c-a82c-84d0fd8105a7"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6747cdcf-2a88-4e6e-9518-640b9d2b7136"
+>
+</ReqRef><ReqRef
+ Id="df94e616-cad0-4d32-a640-e0f632e31f50"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="64674088-bab1-434e-9dfd-365dae95d0d4"
+>
+</ReqRef><Parameters>
+<Parameter
+ Type="Messages.SystemVersion1.PACKET.TRACK_TO_TRAIN.AXLE_LOAD_SPEED_PROFILE.SubStructure3"
+ Name="aSubstructure3"
+ Guid="1a78bf8b-32d9-4f84-bea4-af2dba0c2aba"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="8b0736ed-10fe-46b4-a6e6-ec3fcbf8b932"
+>
+<Expression>Messages.PACKET.TRACK_TO_TRAIN.AXLE_LOAD_SPEED_PROFILE.SubStructure3{
+M_AXLELOADCAT =&gt; VersionManagement.Translation.Packets.AxleLoadSpeedProfile.TranslateM_AXLELOAD(
+   aSubstructure3.M_AXLELOAD),
+V_AXLELOAD =&gt; aSubstructure3.V_AXLELOAD
+}</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.PACKET.TRACK_TO_TRAIN.AXLE_LOAD_SPEED_PROFILE.SubStructure2"
+ X="331"
+ Y="1"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="TranslateSubstructure2"
+ Guid="b41ddeee-8955-4d17-bea0-73466840476a"
+>
+<ReqRef
+ Id="cf6e35f5-2279-4578-9d49-8349bcde43bb"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ff6c47c3-75ef-4f53-ab70-b9aa961fe03a"
+>
+</ReqRef><ReqRef
+ Id="df94e616-cad0-4d32-a640-e0f632e31f50"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="12310843-08fa-45b2-88d4-5ab81eb72d47"
+>
+</ReqRef><Parameters>
+<Parameter
+ Type="Messages.SystemVersion1.PACKET.TRACK_TO_TRAIN.AXLE_LOAD_SPEED_PROFILE.SubStructure2"
+ Name="aSubstructure2"
+ Guid="192e3a4c-625d-4730-b46b-c09798139a01"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="109fb468-6644-4cbe-9447-334eccfe17b4"
+>
+<Expression>Messages.PACKET.TRACK_TO_TRAIN.AXLE_LOAD_SPEED_PROFILE.SubStructure2{
+D_AXLELOAD =&gt; aSubstructure2.D_AXLELOAD,
+L_AXLELOAD =&gt; aSubstructure2.L_AXLELOAD,
+Q_FRONT =&gt; aSubstructure2.Q_FRONT,
+N_ITER =&gt; aSubstructure2.N_ITER,
+Sequence2 =&gt; MAP aSubstructure2.Sequence2 USING X IN TranslateSubstructure3(X)
+}</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.PACKET.TRACK_TO_TRAIN.AXLE_LOAD_SPEED_PROFILE.Message"
+ X="441"
+ Y="1"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="UpdatedPacket"
+ Guid="88d85a26-7de8-499e-a0ef-43101ea62227"
+>
+<ReqRef
+ Id="df94e616-cad0-4d32-a640-e0f632e31f50"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f50c170f-fba3-414b-b455-73634e2ea264"
+>
+</ReqRef><ReqRef
+ Id="cf6e35f5-2279-4578-9d49-8349bcde43bb"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ae2dd0cb-b9fc-44c1-8a03-d23bdb26e942"
+>
+</ReqRef><Comment>D_TRACKINIT is set to 0. See comment of Case Packet 51 of calling function UpdatePacket.</Comment>
+<Parameters>
+<Parameter
+ Type="Messages.SystemVersion1.PACKET.TRACK_TO_TRAIN.AXLE_LOAD_SPEED_PROFILE.Message"
+ Name="aPacket"
+ Guid="57665fcf-a95e-444e-bb2b-80885f1b609f"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="88ff4260-7669-4d6b-bb94-2466b1ade73d"
+>
+<Expression>Messages.PACKET.TRACK_TO_TRAIN.AXLE_LOAD_SPEED_PROFILE.Message{
+NID_PACKET =&gt; 51,
+Q_DIR =&gt; aPacket.Q_DIR,
+L_PACKET =&gt; aPacket.L_PACKET,
+Q_SCALE =&gt; aPacket.Q_SCALE,
+Q_TRACKINIT =&gt; aPacket.Q_TRACKINIT,
+D_AXLELOAD =&gt; aPacket.D_AXLELOAD,
+L_AXLELOAD =&gt; aPacket.L_AXLELOAD,
+Q_FRONT =&gt; aPacket.Q_FRONT,
+N_ITER_0 =&gt; aPacket.N_ITER_0,
+Sequence1 =&gt; MAP aPacket.Sequence1 USING X IN TranslateSubstructure1(X),
+N_ITER_1 =&gt; aPacket.N_ITER_1,
+Sequence3 =&gt; MAP aPacket.Sequence3 USING X IN TranslateSubstructure2(X),
+D_TRACKINIT =&gt; 0
+}</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>
