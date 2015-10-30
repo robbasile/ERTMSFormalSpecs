@@ -41,7 +41,7 @@ namespace EFSServiceClient.EFSService
                     retVal += ", ";
                 }
 
-                retVal += item.ToString();
+                retVal += item.DisplayValue();
             }
 
             retVal += "]";
