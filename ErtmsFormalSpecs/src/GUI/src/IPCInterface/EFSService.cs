@@ -198,9 +198,27 @@ namespace GUI.IPCInterface
         /// <returns>The client id</returns>
         private int AddClient(bool listener)
         {
-            int retVal = Connections.Count;
+            int retVal = 0;
 
-            Connections.Add(new ConnectionStatus(listener));
+            bool added = false;
+            while ( retVal < Connections.Count && ! added )
+            {
+                if (!Connections[retVal].Active)
+                {
+                    Connections[retVal] = new ConnectionStatus(listener);
+                    added = true;
+                }
+                else
+                {
+                    retVal += 1;                    
+                }
+            }
+
+            if (!added)
+            {
+                Connections.Add(new ConnectionStatus(listener));
+                retVal = Connections.Count - 1;
+            }
 
             return retVal;
         }
@@ -247,7 +265,8 @@ namespace GUI.IPCInterface
         ///     Ensures that the client id is valid
         /// </summary>
         /// <param name="clientId"></param>
-        private void CheckClient(int clientId)
+        /// <param name="status">Sets the active client status</param>
+        private void CheckClient(int clientId, bool status = true)
         {
             if (clientId >= Connections.Count)
             {
@@ -256,14 +275,13 @@ namespace GUI.IPCInterface
             else
             {
                 // The client is alive again. Reconnect it.
-                Connections[clientId].Active = true;
+                Connections[clientId].Active = status;
             }
         }
 
         /// <summary>
         ///     Checks that a cycle can be launched, that is each client has voted for his next step
         /// </summary>
-        /// <param name="step"></param>
         /// <returns></returns>
         private bool CheckLaunch()
         {
@@ -318,7 +336,7 @@ namespace GUI.IPCInterface
         }
 
         /// <summary>
-        ///     1s between each client decisions
+        ///     5s between each client decisions
         /// </summary>
         private static readonly TimeSpan MaxDelta = new TimeSpan(0, 0, 0, 5, 0);
 
@@ -878,6 +896,17 @@ namespace GUI.IPCInterface
             {
                 EfsAccess.ReleaseMutex();
             }
+        }
+
+
+        /// <summary>
+        ///     Close the connection
+        /// </summary>
+        /// <param name="clientId">The id of the client</param>
+        /// <returns>true if cycle execution is successful, false when the client is asked not to perform his work</returns>
+        public void Close(int clientId)
+        {
+            CheckClient(clientId, false);
         }
 
         /// <summary>

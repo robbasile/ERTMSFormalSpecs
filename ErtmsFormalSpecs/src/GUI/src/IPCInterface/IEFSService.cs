@@ -145,5 +145,14 @@ namespace GUI.IPCInterface
         /// </summary>
         [OperationContract]
         void Restart();
+
+        /// <summary>
+        ///     Close the connection
+        /// </summary>
+        /// <param name="clientId">The id of the client</param>
+        /// <returns>true if cycle execution is successful, false when the client is asked not to perform his work</returns>
+        [OperationContract]
+        [FaultContract(typeof(EFSServiceFault))]
+        void Close(int clientId);
     }
 }

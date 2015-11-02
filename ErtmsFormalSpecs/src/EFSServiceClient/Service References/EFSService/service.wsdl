@@ -105,6 +105,15 @@
   <wsdl:message name="IEFSService_Restart_OutputMessage">
     <wsdl:part name="parameters" element="tns:RestartResponse" />
   </wsdl:message>
+  <wsdl:message name="IEFSService_Close_InputMessage">
+    <wsdl:part name="parameters" element="tns:Close" />
+  </wsdl:message>
+  <wsdl:message name="IEFSService_Close_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CloseResponse" />
+  </wsdl:message>
+  <wsdl:message name="IEFSService_Close_EFSServiceFaultFault_FaultMessage">
+    <wsdl:part xmlns:q6="http://schemas.datacontract.org/2004/07/GUI.IPCInterface" name="detail" element="q6:EFSServiceFault" />
+  </wsdl:message>
   <wsdl:portType name="IEFSService">
     <wsdl:operation name="ConnectUsingDefaultValues">
       <wsdl:input wsaw:Action="http://tempuri.org/IEFSService/ConnectUsingDefaultValues" message="tns:IEFSService_ConnectUsingDefaultValues_InputMessage" />
@@ -142,6 +151,11 @@
     <wsdl:operation name="Restart">
       <wsdl:input wsaw:Action="http://tempuri.org/IEFSService/Restart" message="tns:IEFSService_Restart_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IEFSService/RestartResponse" message="tns:IEFSService_Restart_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Close">
+      <wsdl:input wsaw:Action="http://tempuri.org/IEFSService/Close" message="tns:IEFSService_Close_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IEFSService/CloseResponse" message="tns:IEFSService_Close_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IEFSService/CloseEFSServiceFaultFault" name="EFSServiceFaultFault" message="tns:IEFSService_Close_EFSServiceFaultFault_FaultMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="NetTcpBinding_IEFSService" type="tns:IEFSService">
@@ -235,6 +249,18 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="Close">
+      <soap12:operation soapAction="http://tempuri.org/IEFSService/Close" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="EFSServiceFaultFault">
+        <soap12:fault use="literal" name="EFSServiceFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
   </wsdl:binding>
   <wsdl:service name="EFSService">
     <wsdl:port name="NetTcpBinding_IEFSService" binding="tns:NetTcpBinding_IEFSService">
@@ -242,7 +268,7 @@
       <wsa10:EndpointReference>
         <wsa10:Address>net.tcp://localhost:8001/EFSService</wsa10:Address>
         <Identity xmlns="http://schemas.xmlsoap.org/ws/2006/02/addressingidentity">
-          <Upn>laurent@phidani.be</Upn>
+          <Upn>CORP\laurent</Upn>
         </Identity>
       </wsa10:EndpointReference>
     </wsdl:port>
