@@ -1658,6 +1658,7 @@ This procedure does not do anything. The mode tracking is not necessary for this
  Name="Updates the request status"
  Guid="a8eaa78f-f047-4d99-a8fb-2f35d678f31e"
 >
+<Comment>Updates the request status and inserts the new message to the list of displayed messages.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
@@ -1675,6 +1676,29 @@ This procedure does not do anything. The mode tracking is not necessary for this
 >THIS.OutputInformation.RequestDisplay()</Action><Action
  Guid="c0458d3c-1475-4aca-a0cb-733f253f4596"
 >INSERT aMessage IN Messages</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Implemented="TRUE"
+ Name="Update the start display time"
+ Guid="6fd0556e-d786-45f6-aefe-b24e24c5ccf2"
+>
+<Comment>Updates the display start time for all the messages for which this values wasn&apos;t computed yet.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Update the start display time"
+ Guid="8b1afda3-6ac9-484d-9edf-33a9ae82556f"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="e6434c05-8e28-40d2-9d21-b1d3d5925f1e"
+>APPLY
+  X.DisplayStartTime &lt;- Kernel.DateAndTime.CurrentTime
+ON
+  Messages | X.DisplayStartTime == BaseTypes.Time.NA</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
