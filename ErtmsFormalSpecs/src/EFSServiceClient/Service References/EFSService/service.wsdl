@@ -99,6 +99,24 @@
   <wsdl:message name="IEFSService_Cycle_EFSServiceFaultFault_FaultMessage">
     <wsdl:part xmlns:q5="http://schemas.datacontract.org/2004/07/GUI.IPCInterface" name="detail" element="q5:EFSServiceFault" />
   </wsdl:message>
+  <wsdl:message name="IEFSService_Suspend_InputMessage">
+    <wsdl:part name="parameters" element="tns:Suspend" />
+  </wsdl:message>
+  <wsdl:message name="IEFSService_Suspend_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SuspendResponse" />
+  </wsdl:message>
+  <wsdl:message name="IEFSService_Suspend_EFSServiceFaultFault_FaultMessage">
+    <wsdl:part xmlns:q6="http://schemas.datacontract.org/2004/07/GUI.IPCInterface" name="detail" element="q6:EFSServiceFault" />
+  </wsdl:message>
+  <wsdl:message name="IEFSService_Awake_InputMessage">
+    <wsdl:part name="parameters" element="tns:Awake" />
+  </wsdl:message>
+  <wsdl:message name="IEFSService_Awake_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AwakeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IEFSService_Awake_EFSServiceFaultFault_FaultMessage">
+    <wsdl:part xmlns:q7="http://schemas.datacontract.org/2004/07/GUI.IPCInterface" name="detail" element="q7:EFSServiceFault" />
+  </wsdl:message>
   <wsdl:message name="IEFSService_Restart_InputMessage">
     <wsdl:part name="parameters" element="tns:Restart" />
   </wsdl:message>
@@ -112,7 +130,7 @@
     <wsdl:part name="parameters" element="tns:CloseResponse" />
   </wsdl:message>
   <wsdl:message name="IEFSService_Close_EFSServiceFaultFault_FaultMessage">
-    <wsdl:part xmlns:q6="http://schemas.datacontract.org/2004/07/GUI.IPCInterface" name="detail" element="q6:EFSServiceFault" />
+    <wsdl:part xmlns:q8="http://schemas.datacontract.org/2004/07/GUI.IPCInterface" name="detail" element="q8:EFSServiceFault" />
   </wsdl:message>
   <wsdl:portType name="IEFSService">
     <wsdl:operation name="ConnectUsingDefaultValues">
@@ -147,6 +165,16 @@
       <wsdl:input wsaw:Action="http://tempuri.org/IEFSService/Cycle" message="tns:IEFSService_Cycle_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IEFSService/CycleResponse" message="tns:IEFSService_Cycle_OutputMessage" />
       <wsdl:fault wsaw:Action="http://tempuri.org/IEFSService/CycleEFSServiceFaultFault" name="EFSServiceFaultFault" message="tns:IEFSService_Cycle_EFSServiceFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Suspend">
+      <wsdl:input wsaw:Action="http://tempuri.org/IEFSService/Suspend" message="tns:IEFSService_Suspend_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IEFSService/SuspendResponse" message="tns:IEFSService_Suspend_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IEFSService/SuspendEFSServiceFaultFault" name="EFSServiceFaultFault" message="tns:IEFSService_Suspend_EFSServiceFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Awake">
+      <wsdl:input wsaw:Action="http://tempuri.org/IEFSService/Awake" message="tns:IEFSService_Awake_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IEFSService/AwakeResponse" message="tns:IEFSService_Awake_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IEFSService/AwakeEFSServiceFaultFault" name="EFSServiceFaultFault" message="tns:IEFSService_Awake_EFSServiceFaultFault_FaultMessage" />
     </wsdl:operation>
     <wsdl:operation name="Restart">
       <wsdl:input wsaw:Action="http://tempuri.org/IEFSService/Restart" message="tns:IEFSService_Restart_InputMessage" />
@@ -240,6 +268,30 @@
         <soap12:fault use="literal" name="EFSServiceFaultFault" namespace="" />
       </wsdl:fault>
     </wsdl:operation>
+    <wsdl:operation name="Suspend">
+      <soap12:operation soapAction="http://tempuri.org/IEFSService/Suspend" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="EFSServiceFaultFault">
+        <soap12:fault use="literal" name="EFSServiceFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="Awake">
+      <soap12:operation soapAction="http://tempuri.org/IEFSService/Awake" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="EFSServiceFaultFault">
+        <soap12:fault use="literal" name="EFSServiceFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
     <wsdl:operation name="Restart">
       <soap12:operation soapAction="http://tempuri.org/IEFSService/Restart" style="document" />
       <wsdl:input>
@@ -268,7 +320,7 @@
       <wsa10:EndpointReference>
         <wsa10:Address>net.tcp://localhost:8001/EFSService</wsa10:Address>
         <Identity xmlns="http://schemas.xmlsoap.org/ws/2006/02/addressingidentity">
-          <Upn>CORP\laurent</Upn>
+          <Upn>svitlana@corp.phidani.be</Upn>
         </Identity>
       </wsa10:EndpointReference>
     </wsdl:port>

@@ -141,6 +141,22 @@ namespace GUI.IPCInterface
         bool Cycle(int clientId, Step step);
 
         /// <summary>
+        /// Suspends the execution of the connection
+        /// </summary>
+        /// <param name="clientId"></param>
+        [OperationContract]
+        [FaultContract(typeof(EFSServiceFault))]
+        void Suspend(int clientId);
+
+        /// <summary>
+        /// Awakes the connection
+        /// </summary>
+        /// <param name="clientId"></param>
+        [OperationContract]
+        [FaultContract(typeof(EFSServiceFault))]
+        void Awake(int clientId);
+
+        /// <summary>
         ///     Restarts the engine with default values
         /// </summary>
         [OperationContract]

@@ -94,6 +94,11 @@ namespace GUI.IPCInterface
             public bool Active { get; set; }
 
             /// <summary>
+            /// Indicates whether the connection is suspended or awake
+            /// </summary>
+            public bool Suspended { get; set; }
+
+            /// <summary>
             ///     The step for which the client is waiting
             /// </summary>
             public Step ExpectedStep { get; set; }
@@ -120,6 +125,7 @@ namespace GUI.IPCInterface
             public ConnectionStatus(bool listener)
             {
                 Active = true;
+                Suspended = false;
                 Listener = listener;
                 LastCycleRequest = DateTime.MinValue;
                 LastCycleResume = DateTime.MinValue;
@@ -210,7 +216,7 @@ namespace GUI.IPCInterface
                 }
                 else
                 {
-                    retVal += 1;                    
+                    retVal += 1;
                 }
             }
 
@@ -290,7 +296,7 @@ namespace GUI.IPCInterface
             // Checks that there are active connections
             foreach (ConnectionStatus status in Connections)
             {
-                if (status.Active)
+                if (status.Active && !status.Suspended)
                 {
                     retVal = true;
                     break;
@@ -302,7 +308,7 @@ namespace GUI.IPCInterface
                 // Checks that all active connection have selected their next step
                 foreach (ConnectionStatus status in Connections)
                 {
-                    if (status.Active && status.LastCycleRequest <= status.LastCycleResume)
+                    if (status.Active && !status.Suspended && status.LastCycleRequest <= status.LastCycleResume)
                     {
                         retVal = false;
                         break;
@@ -355,7 +361,7 @@ namespace GUI.IPCInterface
                 foreach (ConnectionStatus status in Connections)
                 {
                     TimeSpan delta = now - status.LastCycleRequest;
-                    if (delta > MaxDelta)
+                    if (delta > MaxDelta && !status.Suspended)
                     {
                         status.Active = false;
                     }
@@ -529,15 +535,47 @@ namespace GUI.IPCInterface
         }
 
         /// <summary>
+        /// Suspends the execution of the connection
+        /// </summary>
+        /// <param name="clientId"></param>
+        public void Suspend(int clientId)
+        {
+            CheckClient(clientId);
+            EfsAccess.WaitOne();
+            Connections[clientId].Suspended = true;
+            EfsAccess.ReleaseMutex();
+        }
+
+        /// <summary>
+        /// Awakes the connection
+        /// </summary>
+        /// <param name="clientId"></param>
+        public void Awake(int clientId)
+        {
+            CheckClient(clientId);
+            EfsAccess.WaitOne();
+            Connections[clientId].Suspended = false;
+            EfsAccess.ReleaseMutex();
+        }
+
+        /// <summary>
         ///     Restarts the engine with default values
         /// </summary>
         public void Restart()
         {
             EfsAccess.WaitOne();
-
             EfsSystem.Instance.Runner = new Runner(Explain, CycleDuration, KeepEventCount);
-
             EfsAccess.ReleaseMutex();
+        }
+
+        /// <summary>
+        ///     Close the connection
+        /// </summary>
+        /// <param name="clientId">The id of the client</param>
+        /// <returns>true if cycle execution is successful, false when the client is asked not to perform his work</returns>
+        public void Close(int clientId)
+        {
+            CheckClient(clientId, false);
         }
 
         /// <summary>
@@ -896,17 +934,6 @@ namespace GUI.IPCInterface
             {
                 EfsAccess.ReleaseMutex();
             }
-        }
-
-
-        /// <summary>
-        ///     Close the connection
-        /// </summary>
-        /// <param name="clientId">The id of the client</param>
-        /// <returns>true if cycle execution is successful, false when the client is asked not to perform his work</returns>
-        public void Close(int clientId)
-        {
-            CheckClient(clientId, false);
         }
 
         /// <summary>
