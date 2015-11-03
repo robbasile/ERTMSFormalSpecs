@@ -761,13 +761,13 @@ namespace DataDictionary
                         if (expression != null)
                         {
                             DerefExpression derefExpression = expression.Left as DerefExpression;
-                            if (derefExpression != null && derefExpression.IsValidExpressionComponent())
+                            if (derefExpression != null && !derefExpression.IsValidExpressionComponent())
                             {
                                 preCondition.AddError("Invalid left part");
                             }
 
                             derefExpression = expression.Right as DerefExpression;
-                            if (derefExpression != null && derefExpression.IsValidExpressionComponent())
+                            if (derefExpression != null && !derefExpression.IsValidExpressionComponent())
                             {
                                 preCondition.AddError("Invalid right part");
                             }

@@ -604,8 +604,17 @@ namespace DataDictionary.Interpreter
                     foreach (Expression expression in ActualParameters)
                     {
                         Parameter parameter = called.FormalParameters[i] as Parameter;
-                        CheckActualAgainstFormal(actuals, expression, parameter);
-                        i = i + 1;
+                        if (parameter != null)
+                        {
+                            CheckActualAgainstFormal(actuals, expression, parameter);
+                            i = i + 1;
+
+                            DerefExpression derefExpression = expression as DerefExpression;
+                            if (derefExpression != null && !derefExpression.IsValidExpressionComponent())
+                            {
+                                expression.AddError("Invalid value for the parameter " + parameter.Name);
+                            }
+                        }
                     }
 
                     foreach (KeyValuePair<Designator, Expression> pair in NamedActualParameters)

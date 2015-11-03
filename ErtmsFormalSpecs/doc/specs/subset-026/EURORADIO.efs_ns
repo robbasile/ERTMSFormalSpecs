@@ -481,9 +481,9 @@ Keep the reason for it to be displayed to the driver.</Comment>
 >Odometry.TrainIsAtStandstill()
   OR  
 (
-  Available(EURORADIO.RBCStruct.MessageIn)
+  Available(MessageIn)
     AND  
-  EURORADIO.IncomingMessageIsConsistent(EURORADIO.RBCStruct.MessageIn)
+  EURORADIO.IncomingMessageIsConsistent(MessageIn)
 )</PreCondition></PreConditions>
 <Actions>
 <Action
@@ -1569,7 +1569,7 @@ EURORADIO.RBCStruct.ConnectionState in EURORADIO.RBCStruct.ConnectionStateSM.Ter
  Guid="f86651e7-1ebb-49de-8053-907c88f5741d"
 >NumberOfSentRequests &lt;- 0</Action><Action
  Guid="3d5afa42-b712-4474-af54-81ae258173b2"
->DeleteInformation(EURORADIO.RBCStruct.SessionManagementData.SystemVersion)</Action><Action
+>DeleteInformation(SessionManagementData.SystemVersion)</Action><Action
  Guid="9687e639-b5c6-470d-813a-f17940cd2731"
 >ConnectionLostTime &lt;- BaseTypes.Time.Infinity</Action><Action
  Guid="ff4c1c3d-36bb-4e52-ae97-a17eabff757a"
@@ -1807,15 +1807,15 @@ EURORADIO.RBCStruct.ConnectionState in EURORADIO.RBCStruct.ConnectionStateSM.Ter
  Guid="3609f99b-b750-45f6-867f-aa05ae489fbd"
 >EURORADIO.RBCStruct.IsMainConnection</PreCondition><PreCondition
  Guid="17ba976d-ce42-46dc-bde1-e8c9dab8a0e3"
->EURORADIO.IncomingMessageIsConsistent(EURORADIO.RBCStruct.MessageIn)</PreCondition><PreCondition
+>EURORADIO.IncomingMessageIsConsistent(MessageIn)</PreCondition><PreCondition
  Guid="0fc0e74a-540a-4b62-9910-5cf32bab4dde"
->EURORADIO.DataPriorityCorrect(EURORADIO.RBCStruct.MessageIn)</PreCondition><PreCondition
+>EURORADIO.DataPriorityCorrect(MessageIn)</PreCondition><PreCondition
  Guid="a5c08762-5545-4f90-9842-d38abbcca45b"
 >MessageIn != EMPTY</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="7ffe8131-5392-4ec9-a32e-1ad7d3cb2dcd"
->EURORADIO.ProcessIncomingMessages(EURORADIO.RBCStruct.MessageIn.Message)</Action></Actions>
+>EURORADIO.ProcessIncomingMessages(MessageIn.Message)</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Handle acknowledgement of termination of a communication session"
@@ -1840,13 +1840,13 @@ EURORADIO.RBCStruct.ConnectionState in EURORADIO.RBCStruct.ConnectionStateSM.Ter
 <PreConditions>
 <PreCondition
  Guid="ced76e36-5c43-4286-9d04-213366e1c8a1"
->Available ( EURORADIO.RBCStruct.MessageIn.Message.ACKNOWLEDGEMENT_OF_TERMINATION_OF_A_COMMUNICATION_SESSION )</PreCondition><PreCondition
+>Available ( MessageIn.Message.ACKNOWLEDGEMENT_OF_TERMINATION_OF_A_COMMUNICATION_SESSION )</PreCondition><PreCondition
  Guid="13c1cfb4-786f-44c7-ab3b-d1905d1357a7"
 >EURORADIO.RBCStruct.IsMainConnection</PreCondition><PreCondition
  Guid="124fea1a-3ab9-46f0-8558-fed84187bc70"
->EURORADIO.IncomingMessageIsConsistent(EURORADIO.RBCStruct.MessageIn)</PreCondition><PreCondition
+>EURORADIO.IncomingMessageIsConsistent(MessageIn)</PreCondition><PreCondition
  Guid="47c9872f-d4f9-4b00-a1d9-e7deb93b84b7"
->EURORADIO.DataPriorityCorrect(EURORADIO.RBCStruct.MessageIn)</PreCondition></PreConditions>
+>EURORADIO.DataPriorityCorrect(MessageIn)</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="7073da78-58f0-4a39-ae89-49ca19eb62dd"
@@ -1879,9 +1879,9 @@ EURORADIO.RBCStruct.ConnectionState in EURORADIO.RBCStruct.ConnectionStateSM.Ter
  Guid="91826cfb-7c30-4aa3-b40e-60bf92efdbca"
 >NOT IsMainConnection</PreCondition><PreCondition
  Guid="885cc8be-6c21-4bda-af80-c9e89caad95a"
->EURORADIO.IncomingMessageIsConsistent(EURORADIO.RBCStruct.MessageIn)</PreCondition><PreCondition
+>EURORADIO.IncomingMessageIsConsistent(MessageIn)</PreCondition><PreCondition
  Guid="3ad5497d-99a8-4f54-837f-9d7aef66701b"
->EURORADIO.DataPriorityCorrect(EURORADIO.RBCStruct.MessageIn)</PreCondition></PreConditions>
+>EURORADIO.DataPriorityCorrect(MessageIn)</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="9e032a8e-c56d-4362-b6ed-8d69f6620598"
@@ -1927,9 +1927,9 @@ EURORADIO.RBCStruct.ConnectionState in EURORADIO.RBCStruct.ConnectionStateSM.Ter
  Guid="98ea9a9c-2ee4-4e8e-a1df-abd25b493ec0"
 >NOT IsMainConnection</PreCondition><PreCondition
  Guid="560e0917-ea2b-4726-bb4f-913cb848a16e"
->EURORADIO.IncomingMessageIsConsistent(EURORADIO.RBCStruct.MessageIn)</PreCondition><PreCondition
+>EURORADIO.IncomingMessageIsConsistent(MessageIn)</PreCondition><PreCondition
  Guid="314a1df3-6c27-4b22-b69f-1e8281322d0b"
->EURORADIO.DataPriorityCorrect(EURORADIO.RBCStruct.MessageIn)</PreCondition></PreConditions>
+>EURORADIO.DataPriorityCorrect(MessageIn)</PreCondition></PreConditions>
 <Actions>
 </Actions>
 <SubRules>
@@ -1951,7 +1951,7 @@ EURORADIO.RBCStruct.ConnectionState in EURORADIO.RBCStruct.ConnectionStateSM.Ter
 <PreConditions>
 <PreCondition
  Guid="786fa238-2b10-4508-9829-45e25ef541e2"
->Available ( EURORADIO.RBCStruct.MessageIn.Message.MOVEMENT_AUTHORITY )
+>Available ( MessageIn.Message.MOVEMENT_AUTHORITY )
   AND
 THERE_IS X IN EURORADIO.RBCStruct.MessageIn.Message.MOVEMENT_AUTHORITY.Sequence1 | Available
 (
@@ -1973,7 +1973,7 @@ THERE_IS X IN EURORADIO.RBCStruct.MessageIn.Message.MOVEMENT_AUTHORITY.Sequence1
 <PreConditions>
 <PreCondition
  Guid="8df7c3e8-4f00-4b37-a191-70653e26c0cb"
->Available ( EURORADIO.RBCStruct.MessageIn.Message.GENERAL_MESSAGE )
+>Available ( MessageIn.Message.GENERAL_MESSAGE )
   AND
 THERE_IS X IN EURORADIO.RBCStruct.MessageIn.Message.GENERAL_MESSAGE.Sequence1 | Available
 (
@@ -1995,7 +1995,7 @@ THERE_IS X IN EURORADIO.RBCStruct.MessageIn.Message.GENERAL_MESSAGE.Sequence1 | 
 <PreConditions>
 <PreCondition
  Guid="63d1690a-2f49-4ed2-b728-5a1d0b746001"
->Available ( EURORADIO.RBCStruct.MessageIn.Message.MA_WITH_SHIFTED_LOCATION_REFERENCE )
+>Available ( MessageIn.Message.MA_WITH_SHIFTED_LOCATION_REFERENCE )
   AND
 THERE_IS X IN EURORADIO.RBCStruct.MessageIn.Message.MA_WITH_SHIFTED_LOCATION_REFERENCE.Sequence1 | Available
 (
@@ -2038,9 +2038,9 @@ THERE_IS X IN EURORADIO.RBCStruct.MessageIn.Message.MA_WITH_SHIFTED_LOCATION_REF
 <PreConditions>
 <PreCondition
  Guid="7e373e36-9cfd-4bd6-ae02-19c507b789ff"
->EURORADIO.IncomingMessageIsConsistent(EURORADIO.RBCStruct.MessageIn)</PreCondition><PreCondition
+>EURORADIO.IncomingMessageIsConsistent(MessageIn)</PreCondition><PreCondition
  Guid="f35e5a44-14bb-4e4e-99ac-d7b833940825"
->EURORADIO.DataPriorityCorrect(EURORADIO.RBCStruct.MessageIn)</PreCondition></PreConditions>
+>EURORADIO.DataPriorityCorrect(MessageIn)</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="9de404b1-57c9-4a5f-83ae-aaca1042dd85"
@@ -2068,9 +2068,9 @@ THERE_IS X IN EURORADIO.RBCStruct.MessageIn.Message.MA_WITH_SHIFTED_LOCATION_REF
 </ReqRef><PreConditions>
 <PreCondition
  Guid="7e8d9ecc-51a7-4a36-8fd8-d391aca111ae"
->Available(EURORADIO.RBCStruct.MessageIn)
+>Available(MessageIn)
   AND  
-NOT EURORADIO.IncomingMessageIsConsistent(EURORADIO.RBCStruct.MessageIn)</PreCondition><PreCondition
+NOT EURORADIO.IncomingMessageIsConsistent(MessageIn)</PreCondition><PreCondition
  Guid="2b31e04f-298e-4823-8659-e35d735d2e04"
 >EURORADIO.SafeRadioConnectionAvailable()</PreCondition></PreConditions>
 <Actions>
@@ -2114,7 +2114,7 @@ NOT EURORADIO.IncomingMessageIsConsistent(EURORADIO.RBCStruct.MessageIn)</PreCon
 <PreConditions>
 <PreCondition
  Guid="e2742dfc-99b4-4a3e-aacf-41d5f195ccf0"
->Available(EURORADIO.RBCStruct.MessageOut.TRAIN_POSITION_REPORT)</PreCondition></PreConditions>
+>Available(MessageOut.TRAIN_POSITION_REPORT)</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="fde6857a-8e77-4276-8985-1fb52d774b29"
@@ -2459,7 +2459,7 @@ NOT EURORADIO.IncomingMessageIsConsistent(EURORADIO.RBCStruct.MessageIn)</PreCon
     L_MESSAGE =&gt; 0,
     T_TRAIN_0 =&gt; MessageTypes.UnResolveTime(Kernel.DateAndTime.CurrentTime),
     NID_ENGINE =&gt; Kernel.NidEngine,
-    T_TRAIN_1 =&gt; Messages.MESSAGE.TRACK_TO_TRAIN.GetT_TRAIN(EURORADIO.RBCStruct.MessageIn.Message)
+    T_TRAIN_1 =&gt; Messages.MESSAGE.TRACK_TO_TRAIN.GetT_TRAIN(MessageIn.Message)
 }</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
@@ -3492,7 +3492,7 @@ NOT EURORADIO.IncomingMessageIsConsistent(EURORADIO.RBCStruct.MessageIn)</PreCon
 <PreConditions>
 <PreCondition
  Guid="debc6364-ddf5-4ed8-82bb-c87f6321ac7b"
->EURORADIO.SystemVersionIsCompatible ( EURORADIO.RBCStruct.SessionManagementData.SystemVersion.Value )</PreCondition></PreConditions>
+>EURORADIO.SystemVersionIsCompatible ( SessionManagementData.SystemVersion.Value )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="b4f25d0d-6815-4c2d-ae03-b9c5f4fe9298"

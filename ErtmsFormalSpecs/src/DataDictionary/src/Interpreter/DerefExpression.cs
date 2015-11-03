@@ -271,19 +271,23 @@ namespace DataDictionary.Interpreter
         /// <returns></returns>
         public bool IsValidExpressionComponent()
         {
-            bool retVal = false;
+            bool retVal = true;
             int count = Arguments.Count;
             for (int i = count - 1; i > 0; i--)
             {
                 INamable aNamable = Arguments[i].Ref;
-                if (aNamable is Variable || aNamable is Types.Enum || aNamable is Constants.State)
+                if (aNamable is Variable ||
+                    aNamable is Function ||
+                    aNamable is Types.Enum ||
+                    aNamable is Constants.EnumValue ||
+                    aNamable is Constants.State)
                 {
                     break;
                 }
                 if ((aNamable is NameSpace) ||
                     (aNamable is Structure))
                 {
-                    retVal = true;
+                    retVal = false;
                 }
             }
             return retVal;
