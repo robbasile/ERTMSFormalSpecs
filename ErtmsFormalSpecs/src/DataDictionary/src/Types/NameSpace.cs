@@ -787,5 +787,22 @@ namespace DataDictionary.Types
 
             return nameSpace;
         }
+
+        /// <summary>
+        /// Clears the function cache for all functions in this namespace
+        /// </summary>
+        public void ClearFunctionCache()
+        {
+            foreach (Function function in Functions)
+            {
+                function.ClearCache();
+            }
+
+            foreach (NameSpace subNameSpace in NameSpaces)
+            {
+                subNameSpace.ClearFunctionCache();
+            }
+       
+        }
     }
 }

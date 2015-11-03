@@ -430,35 +430,13 @@ namespace GUI.IPCInterface
         /// <summary>
         ///     Clears the function cache after each full cycle
         /// </summary>
-        private void ClearFunctionCaches()
+        /// <param name="force">Forces the clear</param>
+        private void ClearFunctionCaches(bool force = false)
         {
             _cacheCycle = (_cacheCycle + 1)%CleanUpCycleCount;
-            if (_cacheCycle == 0)
+            if (force || _cacheCycle == 0)
             {
-                foreach (Dictionary dictionary in EfsSystem.Instance.Dictionaries)
-                {
-                    foreach (NameSpace nameSpace in dictionary.NameSpaces)
-                    {
-                        ClearNameSpaceFunctionCaches(nameSpace);
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        ///     Manually do the recursive call (instead of using a visitor
-        /// </summary>
-        /// <param name="nameSpace"></param>
-        private void ClearNameSpaceFunctionCaches(NameSpace nameSpace)
-        {
-            foreach (Function function in nameSpace.Functions)
-            {
-                function.ClearCache();
-            }
-
-            foreach (NameSpace subNameSpace in nameSpace.NameSpaces)
-            {
-                ClearNameSpaceFunctionCaches(subNameSpace);
+                EfsSystem.Instance.ClearFunctionCache();
             }
         }
 
@@ -564,6 +542,7 @@ namespace GUI.IPCInterface
         public void Restart()
         {
             EfsAccess.WaitOne();
+            ClearFunctionCaches(true);
             EfsSystem.Instance.Runner = new Runner(Explain, CycleDuration, KeepEventCount);
             EfsAccess.ReleaseMutex();
         }

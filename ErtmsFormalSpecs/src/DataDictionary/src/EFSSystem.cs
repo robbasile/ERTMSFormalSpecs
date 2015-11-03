@@ -1632,5 +1632,19 @@ namespace DataDictionary
 
             return Paragraph.CreateParagraphSetStatus(paragraphs);
         }
+
+        /// <summary>
+        /// Clears the cache for all functions
+        /// </summary>
+        public void ClearFunctionCache()
+        {
+            foreach (Dictionary dictionary in Dictionaries)
+            {
+                foreach (NameSpace nameSpace in dictionary.NameSpaces)
+                {
+                    nameSpace.ClearFunctionCache();
+                }
+            }
+        }
     }
 }

@@ -219,6 +219,10 @@ namespace DataDictionary.Tests.Runner
         {
             Util.DontNotify(() =>
             {
+                // Clears all caches
+                FinderRepository.INSTANCE.ClearCache();
+                EfsSystem.Instance.ClearFunctionCache();
+
                 // Setup the execution environment
                 Setuper setuper = new Setuper();
                 ExecutionTimeInitializer executionTimeInitializer = new ExecutionTimeInitializer();
@@ -227,9 +231,6 @@ namespace DataDictionary.Tests.Runner
                     setuper.visit(dictionary);
                     executionTimeInitializer.visit(dictionary);
                 }
-
-                // Clears all caches
-                FinderRepository.INSTANCE.ClearCache();
 
                 // Setup the step
                 if (SubSequence != null)
