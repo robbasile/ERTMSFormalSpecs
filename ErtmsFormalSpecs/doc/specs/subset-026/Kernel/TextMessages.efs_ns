@@ -15,6 +15,7 @@
  Y="10"
  Width="100"
  Height="50"
+ Implemented="TRUE"
  Name="DriverConfirmationEnum"
  Guid="98db2ffe-5a62-4bc5-b9b8-abfe303d1326"
 >
@@ -459,6 +460,20 @@
  Guid="52f701a8-b72b-42fc-93dd-e5b8a16e3512"
 >
 </ReqRef><Comment>Indicates whether this text message has been acknowledged by the driver.</Comment>
+</StructureElement><StructureElement
+ TypeName="Boolean"
+ Default="False"
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="BrakesAreApplied"
+ Guid="07640b63-f79a-4e9a-b391-a9f8aa89978e"
+>
+<ReqRef
+ Id="4a6d78d2-2283-4d49-8223-9600a9af81a4"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0a6ecf1d-b43d-4ff6-9e0a-062c1b552170"
+>
+</ReqRef><Comment>Indicates whether the brakes were applied due to reached end condition an no response from the driver.</Comment>
 </StructureElement></Structure><Structure
  X="10"
  Y="100"
@@ -656,6 +671,85 @@
  Guid="70ad4bd6-612e-474e-b40c-f39ff5e93b6a"
 >
 </ReqRef><Comment>Represents a fixed text message.</Comment>
+<Rules>
+<Rule
+ Implemented="TRUE"
+ Name="Handle end condition satisfied"
+ Guid="a2da2ce5-989c-4d25-8278-e4fd7c06d3e1"
+>
+<ReqRef
+ Id="4a6d78d2-2283-4d49-8223-9600a9af81a4"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b5e1b510-b1ed-4075-9d7a-25b1c1567acc"
+>
+</ReqRef><ReqRef
+ Id="6eb3d5ed-1de5-46fa-b514-2cbf2991759c"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="3806d7ee-dbea-4a17-9af8-b22e091855b4"
+>
+</ReqRef><Comment>If the end condition of a text message is satisfied and the message is still not removed by the rule Handle messages to display, that means that the driver didn&apos;t acknowledge this message yet. In that case, depending on the reaction asked by the trackside, the emergency brake or the service brake can be activated.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Handle end condition satisfied"
+ Guid="16f0a79c-5c19-42a5-8a47-89e8517c2f05"
+>
+<PreConditions>
+<PreCondition
+ Guid="275a86b3-0160-4f54-bc1e-95ab317bb50a"
+>EndConditionSatisfied( aMessage =&gt; THIS )</PreCondition><PreCondition
+ Guid="27e0b75e-adde-4bca-bda7-2f5f0e0904f6"
+>DriverConfirmation in [DriverConfirmationEnum.ConfirmationRequiredApplyEB, DriverConfirmationEnum.ConfirmationRequiredApplySB]</PreCondition><PreCondition
+ Guid="f5e88555-29c8-4016-8b6f-976e540a7b81"
+>NOT MessageIsAcknowledged</PreCondition><PreCondition
+ Guid="ecbe1842-4aa7-4e0e-b947-b78edd05ba17"
+>NOT BrakesAreApplied</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="ca016be1-e437-4837-8b24-e69b8968017b"
+>BrakesAreApplied &lt;- True</Action></Actions>
+<SubRules>
+<Rule
+ Implemented="TRUE"
+ Name="Apply brakes"
+ Guid="021b189e-31ce-420d-9ce0-67a7c6f54dbe"
+>
+<Comment>If the trackside requested to apply the emergency brake or the service brake, the on-board applies the corresponding brake.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Apply EB"
+ Guid="5d855043-4038-41fb-b7d5-307a06feb227"
+>
+<Comment>Apply the emergency brake if requested by trackside.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="cbe9d22b-c461-47b1-8428-63bbb76c8147"
+>DriverConfirmation == DriverConfirmationEnum.ConfirmationRequiredApplyEB</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="33c4edbf-cf0c-4203-8586-3bf8b27128b2"
+>BrakeCommands.CommandEmergencyBrake( Reason =&gt; BrakeCommands.BrakeReasonEnum.TextMessageAckTimeOut )</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Apply SB"
+ Guid="d727e115-2602-4ae2-9d5c-612b5db2ace0"
+>
+<Comment>Apply the service brake if requested by trackside.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="38b09d17-9790-44e8-a66e-38b21ab73a86"
+>DriverConfirmation == DriverConfirmationEnum.ConfirmationRequiredApplySB</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="ef71552f-1732-4a51-ab3d-e3a90fa6847b"
+>BrakeCommands.CommandServiceBrake( Reason =&gt; BrakeCommands.BrakeReasonEnum.TextMessageAckTimeOut )</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></SubRules>
+</RuleCondition></Conditions>
+</Rule></Rules>
 <StructureElement
  TypeName="Boolean"
  Default=""
@@ -932,6 +1026,20 @@
  Guid="7414815b-b6af-429b-8307-9575504737e3"
 >
 </ReqRef><Comment>Indicates whether this text message has been acknowledged by the driver.</Comment>
+</StructureElement><StructureElement
+ TypeName="Boolean"
+ Default="False"
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="BrakesAreApplied"
+ Guid="9b5e15a2-e64b-4d69-b9b6-6f50140c0da6"
+>
+<ReqRef
+ Id="4a6d78d2-2283-4d49-8223-9600a9af81a4"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="679605e1-2914-483d-9c7e-1e9d6f66e16f"
+>
+</ReqRef><Comment>Indicates whether the brakes were applied due to reached end condition an no response from the driver.</Comment>
 </StructureElement><Interfaces>
 <StructureRef
  Name="TextMessageInterface"
@@ -953,6 +1061,85 @@
  Guid="2a0ca70d-d639-4e11-8dd0-071d5b375bf0"
 >
 </ReqRef><Comment>Represents a plain text message.</Comment>
+<Rules>
+<Rule
+ Implemented="TRUE"
+ Name="Handle end condition satisfied"
+ Guid="5d5e78c3-aefe-4b9c-8ddf-54b93d91477c"
+>
+<ReqRef
+ Id="4a6d78d2-2283-4d49-8223-9600a9af81a4"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="cc4b3f66-44f7-4661-adf3-da7365d4dbf1"
+>
+</ReqRef><ReqRef
+ Id="6eb3d5ed-1de5-46fa-b514-2cbf2991759c"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d276c974-f4e9-429a-9ed1-15d6371ba90b"
+>
+</ReqRef><Comment>If the end condition of a text message is satisfied and the message is still not removed by the rule Handle messages to display, that means that the driver didn&apos;t acknowledge this message yet. In that case, depending on the reaction asked by the trackside, the emergency brake or the service brake can be activated.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Handle end condition satisfied"
+ Guid="4dda354a-98bd-4883-a278-2e6fb604b637"
+>
+<PreConditions>
+<PreCondition
+ Guid="1a4fae6b-b008-4915-b3a8-8e4d86ea756d"
+>EndConditionSatisfied( aMessage =&gt; THIS )</PreCondition><PreCondition
+ Guid="5eb4e27c-7252-4ff1-853e-d5dfacd39ada"
+>DriverConfirmation in [DriverConfirmationEnum.ConfirmationRequiredApplyEB, DriverConfirmationEnum.ConfirmationRequiredApplySB]</PreCondition><PreCondition
+ Guid="763a8109-98c2-4119-b2f0-3aae240bee2d"
+>NOT MessageIsAcknowledged</PreCondition><PreCondition
+ Guid="d7363a6d-d37f-4677-bacd-2a95c7047eac"
+>NOT BrakesAreApplied</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="4a6e9355-780a-4dc6-875e-95e1beb1b81a"
+>BrakesAreApplied &lt;- True</Action></Actions>
+<SubRules>
+<Rule
+ Implemented="TRUE"
+ Name="Apply brakes"
+ Guid="70386136-cbb6-4c5f-ac23-4063f6132b95"
+>
+<Comment>If the trackside requested to apply the emergency brake or the service brake, the on-board applies the corresponding brake.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Apply EB"
+ Guid="d60ce59a-107f-48ef-aa83-dd767a10bd21"
+>
+<Comment>Apply the emergency brake if requested by trackside.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="e9c20d92-d240-4853-8482-b422b778f67d"
+>DriverConfirmation == DriverConfirmationEnum.ConfirmationRequiredApplyEB</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="833d1d48-df2d-469f-9918-fdbc07311fc7"
+>BrakeCommands.CommandEmergencyBrake( Reason =&gt; BrakeCommands.BrakeReasonEnum.TextMessageAckTimeOut )</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Apply SB"
+ Guid="d5fcbb26-56b1-40f3-8419-e8d9af59f306"
+>
+<Comment>Apply the service brake if requested by trackside.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="be59e1e2-41fd-4dec-af4c-8b976f056f79"
+>DriverConfirmation == DriverConfirmationEnum.ConfirmationRequiredApplySB</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="73d1dfe5-3209-40ab-9a78-c87d63482e24"
+>BrakeCommands.CommandServiceBrake( Reason =&gt; BrakeCommands.BrakeReasonEnum.TextMessageAckTimeOut )</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></SubRules>
+</RuleCondition></Conditions>
+</Rule></Rules>
 <StructureElement
  TypeName="Boolean"
  Default=""
@@ -1229,6 +1416,20 @@
  Guid="5f922c86-190e-4277-a6a8-290ffbba594e"
 >
 </ReqRef><Comment>Indicates whether this text message has been acknowledged by the driver.</Comment>
+</StructureElement><StructureElement
+ TypeName="Boolean"
+ Default="False"
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="BrakesAreApplied"
+ Guid="9e75c2cb-f6cb-4e23-ba46-795f4ee72add"
+>
+<ReqRef
+ Id="4a6d78d2-2283-4d49-8223-9600a9af81a4"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="52bab2e7-4b30-46ca-a1d1-36b8eae09e03"
+>
+</ReqRef><Comment>Indicates whether the brakes were applied due to reached end condition an no response from the driver.</Comment>
 </StructureElement><Interfaces>
 <StructureRef
  Name="TextMessageInterface"
@@ -3134,7 +3335,12 @@ ON
  Name="Handle fixed acknowledged messages"
  Guid="96d55187-3938-49b5-bbfd-d5cbfbdc1d82"
 >
-<Comment>If an acknowledgement is received for a fixed text message, it is disabled and the corresponding text message is marked as acknowledged.</Comment>
+<ReqRef
+ Id="1a476091-ac8e-4e8a-9c18-42c2882c3cfb"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="79204928-5361-4e77-9a3c-3cf5e0e3fcca"
+>
+</ReqRef><Comment>If an acknowledgement is received for a fixed text message, it is disabled and the corresponding text message is marked as acknowledged.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
@@ -3180,7 +3386,12 @@ ON
  Name="Handle plain acknowledged messages"
  Guid="f93108d5-7530-4ddc-a0f6-67ccb1739e08"
 >
-<Comment>If an acknowledgement is received for a plain text message, it is disabled and the corresponding text message is marked as acknowledged.</Comment>
+<ReqRef
+ Id="1a476091-ac8e-4e8a-9c18-42c2882c3cfb"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="8339fbbf-e284-4284-a193-9e7352d2cdf7"
+>
+</ReqRef><Comment>If an acknowledgement is received for a plain text message, it is disabled and the corresponding text message is marked as acknowledged.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
