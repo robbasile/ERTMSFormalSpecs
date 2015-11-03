@@ -139,10 +139,6 @@ namespace DataDictionary.Interpreter.Statement
                 {
                     ListExpression.AddError("Invalid list value");
                 }
-                if (ListExpression.FullName.Contains("EURORADIO.RBCStruct"))
-                {
-                    ;
-                }
                 ListExpression.CheckExpression();
 
                 if (ListExpression.Ref is Parameter)

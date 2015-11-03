@@ -163,7 +163,7 @@ namespace DataDictionary.Interpreter.Statement
             else if (VariableIdentification.Ref is StructureElement)
             {
                 DerefExpression derefExpression = VariableIdentification as DerefExpression;
-                if (derefExpression != null && derefExpression.IsValidExpressionComponent())
+                if (derefExpression != null && !derefExpression.IsValidExpressionComponent())
                 {
                     Root.AddError("Invalid statement: the left part should be a variable");
                 }
