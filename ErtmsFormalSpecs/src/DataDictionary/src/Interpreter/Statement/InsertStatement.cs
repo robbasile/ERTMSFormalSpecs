@@ -134,6 +134,15 @@ namespace DataDictionary.Interpreter.Statement
         {
             if (ListExpression != null)
             {
+                DerefExpression derefExpression = ListExpression as DerefExpression;
+                if(derefExpression != null && !derefExpression.IsValidExpressionComponent())
+                {
+                    ListExpression.AddError("Invalid list value");
+                }
+                if (ListExpression.FullName.Contains("EURORADIO.RBCStruct"))
+                {
+                    ;
+                }
                 ListExpression.CheckExpression();
 
                 if (ListExpression.Ref is Parameter)

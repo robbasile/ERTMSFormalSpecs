@@ -208,6 +208,12 @@ namespace DataDictionary.Interpreter.ListOperators
             {
                 ListExpression.CheckExpression();
 
+                DerefExpression derefExpression = ListExpression as DerefExpression;
+                if (derefExpression != null && !derefExpression.IsValidExpressionComponent())
+                {
+                    ListExpression.AddError("Invalid list value");
+                }
+
                 Type listExpressionType = ListExpression.GetExpressionType();
                 if (!(listExpressionType is Collection))
                 {

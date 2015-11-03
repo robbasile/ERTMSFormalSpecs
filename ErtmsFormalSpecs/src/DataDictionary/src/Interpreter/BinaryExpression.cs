@@ -1214,6 +1214,11 @@ namespace DataDictionary.Interpreter
             Type leftType = Left.GetExpressionType();
             if (leftType != null)
             {
+                DerefExpression derefExpression = Left as DerefExpression;
+                if (derefExpression != null && !derefExpression.IsValidExpressionComponent())
+                {
+                    Left.AddError("Invalid value " + Left.FullName);
+                }
                 if (Operation == Operator.Is || (Operation == Operator.As))
                 {
                     Structure leftStructure = leftType as Structure;
@@ -1244,6 +1249,11 @@ namespace DataDictionary.Interpreter
                     Type rightType = Right.GetExpressionType();
                     if (rightType != null)
                     {
+                        derefExpression = Right as DerefExpression;
+                        if (derefExpression != null && !derefExpression.IsValidExpressionComponent())
+                        {
+                            Left.AddError("Invalid value " + Right.FullName);
+                        }
                         if (!leftType.ValidBinaryOperation(Operation, rightType)
                             && !rightType.ValidBinaryOperation(Operation, leftType))
                         {

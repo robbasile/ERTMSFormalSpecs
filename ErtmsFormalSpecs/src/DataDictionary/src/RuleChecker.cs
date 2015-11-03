@@ -115,6 +115,11 @@ namespace DataDictionary
                         {
                             model.AddError("Cannot determine expression type (5) for " + retVal.ToString());
                         }
+                        DerefExpression derefExpression = retVal as DerefExpression;
+                        if (derefExpression != null && !derefExpression.IsValidExpressionComponent())
+                        {
+                            model.AddError("Invalid expression");
+                        }
                     }
                     else
                     {

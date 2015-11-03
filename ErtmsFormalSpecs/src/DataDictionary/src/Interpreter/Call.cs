@@ -637,6 +637,11 @@ namespace DataDictionary.Interpreter
                             {
                                 CheckActualAgainstFormal(actuals, expression, parameter);
                             }
+                            DerefExpression derefExpression = expression as DerefExpression;
+                            if (derefExpression != null && !derefExpression.IsValidExpressionComponent())
+                            {
+                                expression.AddError("Invalid value for the parameter " + parameter.Name);
+                            }
                         }
                     }
 
