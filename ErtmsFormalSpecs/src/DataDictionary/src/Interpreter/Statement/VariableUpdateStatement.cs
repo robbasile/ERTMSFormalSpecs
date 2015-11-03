@@ -160,6 +160,26 @@ namespace DataDictionary.Interpreter.Statement
             {
                 Root.AddError("Cannot assign a value to a parameter (" + VariableIdentification + ")");
             }
+            else if (VariableIdentification.Ref is StructureElement)
+            {
+                DerefExpression deref = VariableIdentification as DerefExpression;
+                if (deref != null)
+                {
+                    int count = deref.Arguments.Count;
+                    for (int i = count - 2; i > 0; i--)
+                    {
+                        if (deref.Arguments[i].Ref is Variable)
+                        {
+                            break;
+                        }
+                        if ((deref.Arguments[i].Ref is NameSpace) ||
+                        (deref.Arguments[i].Ref is Structure))
+                        {
+                            Root.AddError("Invalid statement: the left part should be a variable");
+                        }
+                    }
+                }
+            }
 
             if (VariableIdentification.Ref == null)
             {
