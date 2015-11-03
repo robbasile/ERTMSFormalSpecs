@@ -139,7 +139,10 @@ namespace Importers.ExcelImporter
                 {
                     Console.WriteLine(e.Message);
                 }
-                application.Quit();
+                finally
+                {
+                    application.Quit();
+                }
 
                 EfsSystem.Instance.Context.HandleChangeEvent(null, Context.ChangeKind.ModelChange);
             }
