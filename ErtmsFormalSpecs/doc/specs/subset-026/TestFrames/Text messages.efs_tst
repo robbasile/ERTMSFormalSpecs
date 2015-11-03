@@ -1403,6 +1403,11 @@
 >DMI.MasterDMI().Out_PlainTextInformation.OutputInformation.DisplayRequested &lt;- False</Action></Actions>
 </SubStep></SubSteps>
 </Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
  TranslationRequired="FALSE"
  Name="Reception of plain text message depending on level, mode and distance"
  Guid="68ceb128-6bad-45dc-a7f7-fa1b03647d72"
@@ -1527,21 +1532,26 @@
   BitField =&gt; &apos;&apos;
 }</Action></Actions>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Check the text is stored but not displayed"
  Guid="bc00c96d-32e0-4048-8407-1ee829f085a7"
 >
 <Expectations>
 <Expectation
+ Kind="Instantaneous"
  Blocking="FALSE"
  Guid="3a2f9ef6-baf6-4b3d-a6f8-242eddf1ee99"
 >DMI.MasterDMI().Out_PlainTextInformation.OutputInformation.DisplayRequested == False</Expectation><Expectation
+ Kind="Instantaneous"
  Blocking="FALSE"
  Guid="b3fa014b-065b-4a64-a246-8c0f9abd298c"
 >COUNT X IN Kernel.TextMessages.PlainTextMessages == 1</Expectation><Expectation
+ Kind="Instantaneous"
  Blocking="FALSE"
  Guid="e5c740ee-7206-4eb6-98ed-a9374672ea8b"
 >COUNT X IN DMI.MasterDMI().Out_PlainTextInformation.Messages == 0</Expectation></Expectations>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="The mode changes"
  Guid="8adeef1a-ce6a-4ac4-acf9-0d1346f92e58"
 >
@@ -1550,21 +1560,26 @@
  Guid="e9b9c582-6382-419b-945f-ee3bff0a7116"
 >Testing.SetUNMode( HandleModeChange =&gt; False )</Action></Actions>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Check the text is not displayed"
  Guid="52378410-3d62-4bc2-b0ce-81c3f620b99c"
 >
 <Expectations>
 <Expectation
+ Kind="Instantaneous"
  Blocking="FALSE"
  Guid="ccc5f3e8-2177-410e-870f-50ff1b9afb8c"
 >COUNT X IN DMI.MasterDMI().Out_PlainTextInformation.Messages == 0</Expectation><Expectation
+ Kind="Instantaneous"
  Blocking="FALSE"
  Guid="aaceef01-6976-43d1-a475-7d334010f2e7"
 >COUNT X IN Kernel.TextMessages.PlainTextMessages == 1</Expectation><Expectation
+ Kind="Instantaneous"
  Blocking="FALSE"
  Guid="1ec21ae3-97d1-4fb1-8596-ae4732e9ff0c"
 >DMI.MasterDMI().Out_PlainTextInformation.OutputInformation.DisplayRequested == False</Expectation></Expectations>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="The level changes"
  Guid="c3490d5c-4826-480e-95d7-0b617a3ddcd0"
 >
@@ -1573,21 +1588,26 @@
  Guid="a20a37a0-4ff4-46c9-af9f-2de4a70dc610"
 >Kernel.Level.Value.Value &lt;- Default.LevelEnum.L0</Action></Actions>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Check the text is not displayed"
  Guid="31683194-43a7-4d29-93e1-09888c232b36"
 >
 <Expectations>
 <Expectation
+ Kind="Instantaneous"
  Blocking="FALSE"
  Guid="0819b78d-b8a0-4179-9361-df164add0d25"
 >COUNT X IN DMI.MasterDMI().Out_PlainTextInformation.Messages == 0</Expectation><Expectation
+ Kind="Instantaneous"
  Blocking="FALSE"
  Guid="69e5e8a8-e9d8-4e33-97f6-6b3f960a8b5b"
 >DMI.MasterDMI().Out_PlainTextInformation.OutputInformation.DisplayRequested == False</Expectation><Expectation
+ Kind="Instantaneous"
  Blocking="FALSE"
  Guid="5eb29a05-4f0f-4d7b-9ab3-c765419bc4cf"
 >COUNT X IN Kernel.TextMessages.PlainTextMessages == 1</Expectation></Expectations>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="The train achieves the display location"
  Guid="cdeff386-1260-4201-9c2e-1a9e37a43d2a"
 >
@@ -1596,21 +1616,26 @@
  Guid="7062039c-6a76-4d9e-8d41-65daafda1518"
 >Odometry.NominalDistance &lt;- Odometry.NominalDistance + 400.0</Action></Actions>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Check the text is displayed"
  Guid="718de26e-c5cb-4dca-93a2-f199cfe85225"
 >
 <Expectations>
 <Expectation
+ Kind="Instantaneous"
  Blocking="FALSE"
  Guid="9efba73d-3595-476e-9268-9b6c6f6ca8c0"
 >COUNT X IN DMI.MasterDMI().Out_PlainTextInformation.Messages == 1</Expectation><Expectation
+ Kind="Instantaneous"
  Blocking="FALSE"
  Guid="dc3ee784-8108-4c11-9f34-c8ca35555d06"
 >COUNT X IN Kernel.TextMessages.PlainTextMessages == 0</Expectation><Expectation
+ Kind="Instantaneous"
  Blocking="FALSE"
  Guid="28e9a9c3-ccf9-4863-b371-b1ef4851543f"
 >DMI.MasterDMI().Out_PlainTextInformation.OutputInformation.DisplayRequested == True</Expectation></Expectations>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="The train reaches the display stop location"
  Guid="1679189e-5bac-4581-9fcd-60b6a66c9095"
 >
@@ -1619,15 +1644,18 @@
  Guid="051c3ec5-b114-4f36-a444-95cb4b8a86e8"
 >Odometry.NominalDistance &lt;- Odometry.NominalDistance + 100.0</Action></Actions>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Check the text is still displayed"
  Guid="317ac462-7095-4fa2-a292-2ba5c9054fb0"
 >
 <Expectations>
 <Expectation
+ Kind="Instantaneous"
  Blocking="FALSE"
  Guid="beebd9b2-0213-4a7d-84dc-032355f84157"
 >COUNT X IN DMI.MasterDMI().Out_PlainTextInformation.Messages == 1</Expectation></Expectations>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="The timer expires"
  Guid="cf25f7a0-c4be-43bc-844f-e9b70727bb6c"
 >
@@ -1636,15 +1664,18 @@
  Guid="453c7737-5bdb-499b-9480-72fd4be072a0"
 >Kernel.DateAndTime.CurrentTime &lt;- Kernel.DateAndTime.CurrentTime + 20.0</Action></Actions>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Check the text is still displayed"
  Guid="a2fe1546-d0d7-496c-9a89-a0e6b6a69853"
 >
 <Expectations>
 <Expectation
+ Kind="Instantaneous"
  Blocking="FALSE"
  Guid="c9233f72-c669-48df-9997-e5dc4d637de2"
 >COUNT X IN DMI.MasterDMI().Out_PlainTextInformation.Messages == 1</Expectation></Expectations>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="The level changes"
  Guid="179aa1e9-5bdd-4ff6-a816-1715669979f9"
 >
@@ -1653,11 +1684,13 @@
  Guid="80014673-97b9-497a-9bfb-d09214c1456c"
 >Kernel.Level.Value.Value &lt;- Default.LevelEnum.L1</Action></Actions>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Check the text is not displayed anymore"
  Guid="ee5b4fa6-c8a9-4e67-99b0-8bb45138345f"
 >
 <Expectations>
 <Expectation
+ Kind="Instantaneous"
  Blocking="FALSE"
  Guid="1721dddf-188a-468e-bbb4-805e28c65dd8"
 >COUNT X IN DMI.MasterDMI().Out_PlainTextInformation.Messages == 0</Expectation></Expectations>
