@@ -795,7 +795,7 @@ Keep the reason for it to be displayed to the driver.</Comment>
 <PreConditions>
 <PreCondition
  Guid="96e96db5-efb2-4460-8166-cd2593b2ee48"
->EURORADIO.RBCStruct.MessageOut == EMPTY</PreCondition></PreConditions>
+>MessageOut == EMPTY</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="2d00e9a8-4356-42a6-a9b3-cdf669db2f2b"
@@ -1434,7 +1434,7 @@ EURORADIO.RBCStruct.MessageOut.MA_REQUEST.Sequence1</Action></Actions>
 <PreConditions>
 <PreCondition
  Guid="d112e636-6a6c-44a8-894b-ef7e12c2f473"
->EURORADIO.RBCStruct.ConnectionState in EURORADIO.RBCStruct.ConnectionStateSM.Connecting</PreCondition></PreConditions>
+>ConnectionState in EURORADIO.RBCStruct.ConnectionStateSM.Connecting</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="e922975d-2e7e-4fb8-ae7b-2051e81118c1"
@@ -1718,7 +1718,7 @@ EURORADIO.RBCStruct.ConnectionState in EURORADIO.RBCStruct.ConnectionStateSM.Ter
 <PreConditions>
 <PreCondition
  Guid="4b25cc29-6b61-46d2-b51e-3caa2964d74f"
->EURORADIO.RBCStruct.ConnectionState in EURORADIO.RBCStruct.ConnectionStateSM.Connecting</PreCondition></PreConditions>
+>ConnectionState in EURORADIO.RBCStruct.ConnectionStateSM.Connecting</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="5e12d8df-0bef-46ba-98ed-6197ab27501a"
@@ -1803,7 +1803,7 @@ EURORADIO.RBCStruct.ConnectionState in EURORADIO.RBCStruct.ConnectionStateSM.Ter
 <PreConditions>
 <PreCondition
  Guid="e865f160-465a-4fa6-bbdf-5c4aa595c910"
->EURORADIO.RBCStruct.ConnectionState not in EURORADIO.RBCStruct.ConnectionStateSM.Terminating</PreCondition><PreCondition
+>ConnectionState not in EURORADIO.RBCStruct.ConnectionStateSM.Terminating</PreCondition><PreCondition
  Guid="3609f99b-b750-45f6-867f-aa05ae489fbd"
 >EURORADIO.RBCStruct.IsMainConnection</PreCondition><PreCondition
  Guid="17ba976d-ce42-46dc-bde1-e8c9dab8a0e3"
@@ -1811,7 +1811,7 @@ EURORADIO.RBCStruct.ConnectionState in EURORADIO.RBCStruct.ConnectionStateSM.Ter
  Guid="0fc0e74a-540a-4b62-9910-5cf32bab4dde"
 >EURORADIO.DataPriorityCorrect(EURORADIO.RBCStruct.MessageIn)</PreCondition><PreCondition
  Guid="a5c08762-5545-4f90-9842-d38abbcca45b"
->EURORADIO.RBCStruct.MessageIn != EMPTY</PreCondition></PreConditions>
+>MessageIn != EMPTY</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="7ffe8131-5392-4ec9-a32e-1ad7d3cb2dcd"
@@ -1877,7 +1877,7 @@ EURORADIO.RBCStruct.ConnectionState in EURORADIO.RBCStruct.ConnectionStateSM.Ter
  Guid="463e0b98-b0fb-4545-a160-7e6de88c2d9d"
 >Kernel.TrainPosition.FrontEndPosition ( PointOfInterest =&gt; DistanceIntervalEnum.Max ) &lt; EURORADIO.PositionReport.RBCTransitionLocation</PreCondition><PreCondition
  Guid="91826cfb-7c30-4aa3-b40e-60bf92efdbca"
->NOT EURORADIO.RBCStruct.IsMainConnection</PreCondition><PreCondition
+>NOT IsMainConnection</PreCondition><PreCondition
  Guid="885cc8be-6c21-4bda-af80-c9e89caad95a"
 >EURORADIO.IncomingMessageIsConsistent(EURORADIO.RBCStruct.MessageIn)</PreCondition><PreCondition
  Guid="3ad5497d-99a8-4f54-837f-9d7aef66701b"
@@ -1925,7 +1925,7 @@ EURORADIO.RBCStruct.ConnectionState in EURORADIO.RBCStruct.ConnectionStateSM.Ter
 <PreConditions>
 <PreCondition
  Guid="98ea9a9c-2ee4-4e8e-a1df-abd25b493ec0"
->NOT EURORADIO.RBCStruct.IsMainConnection</PreCondition><PreCondition
+>NOT IsMainConnection</PreCondition><PreCondition
  Guid="560e0917-ea2b-4726-bb4f-913cb848a16e"
 >EURORADIO.IncomingMessageIsConsistent(EURORADIO.RBCStruct.MessageIn)</PreCondition><PreCondition
  Guid="314a1df3-6c27-4b22-b69f-1e8281322d0b"
@@ -2866,7 +2866,7 @@ NOT EURORADIO.IncomingMessageIsConsistent(EURORADIO.RBCStruct.MessageIn)</PreCon
 <PreConditions>
 <PreCondition
  Guid="71577537-bec3-47e6-8f53-baaa30b75738"
->EURORADIO.RBCStruct.SpecialCaseSessionEstablishmentReason != EURORADIO.SpecialCaseSessionEstablishmentReasonEnum.EstablishDueToModeChangeReport</PreCondition></PreConditions>
+>SpecialCaseSessionEstablishmentReason != EURORADIO.SpecialCaseSessionEstablishmentReasonEnum.EstablishDueToModeChangeReport</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="33377292-d119-402b-ae2d-61db25cf4847"
@@ -3158,7 +3158,7 @@ NOT EURORADIO.IncomingMessageIsConsistent(EURORADIO.RBCStruct.MessageIn)</PreCon
 <PreConditions>
 <PreCondition
  Guid="5f21704f-fd79-4d25-ac8d-54f9ec46d7e7"
->EURORADIO.RBCStruct.NumberOfSentRequests &lt; EURORADIO.NumberOfTimesToEstablishSafeRadioConnection</PreCondition></PreConditions>
+>NumberOfSentRequests &lt; EURORADIO.NumberOfTimesToEstablishSafeRadioConnection</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="6c9db820-9596-4dc3-b487-9fb6e343bc2b"
@@ -3196,7 +3196,7 @@ NOT EURORADIO.IncomingMessageIsConsistent(EURORADIO.RBCStruct.MessageIn)</PreCon
 <PreConditions>
 <PreCondition
  Guid="4932a3e3-358f-4a69-b034-4dadf129cf89"
->EURORADIO.RBCStruct.NumberOfSentRequests== EURORADIO.NumberOfMessageRepetitions</PreCondition></PreConditions>
+>NumberOfSentRequests== EURORADIO.NumberOfMessageRepetitions</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="947cdfdd-e42c-4684-9dd1-65abb983fad5"
@@ -3272,7 +3272,7 @@ NOT EURORADIO.IncomingMessageIsConsistent(EURORADIO.RBCStruct.MessageIn)</PreCon
 <PreConditions>
 <PreCondition
  Guid="42b7fc56-8758-4bcd-b6d1-4a6117a5fcd8"
->EURORADIO.RBCStruct.SafeRadioConnectionStatus == EURORADIO.SafeRadioConnectionStatusEnum.ConnectionLostOrSetUpFailed</PreCondition></PreConditions>
+>SafeRadioConnectionStatus == EURORADIO.SafeRadioConnectionStatusEnum.ConnectionLostOrSetUpFailed</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="e9181185-8e8c-4650-958c-c1504a7af145"
@@ -3321,7 +3321,7 @@ NOT EURORADIO.IncomingMessageIsConsistent(EURORADIO.RBCStruct.MessageIn)</PreCon
 <PreConditions>
 <PreCondition
  Guid="5083cef0-4d21-4fe5-85c2-290ee5188a42"
->EURORADIO.RBCStruct.SafeRadioConnectionStatus == EURORADIO.SafeRadioConnectionStatusEnum.ConnectionLostOrSetUpFailed</PreCondition></PreConditions>
+>SafeRadioConnectionStatus == EURORADIO.SafeRadioConnectionStatusEnum.ConnectionLostOrSetUpFailed</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="bc31242d-154e-4fba-9641-c2d05f26d6df"
@@ -3370,7 +3370,7 @@ NOT EURORADIO.IncomingMessageIsConsistent(EURORADIO.RBCStruct.MessageIn)</PreCon
 <PreConditions>
 <PreCondition
  Guid="22e018d3-10bf-4929-8646-a6e481649c82"
->EURORADIO.RBCStruct.SafeRadioConnectionStatus == EURORADIO.SafeRadioConnectionStatusEnum.ConnectionLostOrSetUpFailed</PreCondition></PreConditions>
+>SafeRadioConnectionStatus == EURORADIO.SafeRadioConnectionStatusEnum.ConnectionLostOrSetUpFailed</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="ce8c3db8-1afa-4d73-a3ff-6f1f77b6f44b"
@@ -3419,7 +3419,7 @@ NOT EURORADIO.IncomingMessageIsConsistent(EURORADIO.RBCStruct.MessageIn)</PreCon
 <PreConditions>
 <PreCondition
  Guid="88e4b051-3b68-4725-be0b-870325c876db"
->EURORADIO.RBCStruct.SafeRadioConnectionStatus == EURORADIO.SafeRadioConnectionStatusEnum.ConnectionLostOrSetUpFailed</PreCondition></PreConditions>
+>SafeRadioConnectionStatus == EURORADIO.SafeRadioConnectionStatusEnum.ConnectionLostOrSetUpFailed</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="ade10e05-e2c5-47ba-8103-854b4a1281cc"
@@ -3465,7 +3465,7 @@ NOT EURORADIO.IncomingMessageIsConsistent(EURORADIO.RBCStruct.MessageIn)</PreCon
 <PreConditions>
 <PreCondition
  Guid="fc7f4583-9abe-4721-9172-3d91c2dbab42"
->EURORADIO.RBCStruct.SessionManagementData.SystemVersion.DataState == DataStateEnum.Valid</PreCondition></PreConditions>
+>SessionManagementData.SystemVersion.DataState == DataStateEnum.Valid</PreCondition></PreConditions>
 <Actions>
 </Actions>
 <SubRules>
@@ -3524,7 +3524,7 @@ NOT EURORADIO.IncomingMessageIsConsistent(EURORADIO.RBCStruct.MessageIn)</PreCon
 <PreConditions>
 <PreCondition
  Guid="4bffab3a-5169-4aed-9ee7-64261867f61f"
->EURORADIO.RBCStruct.SpecialCaseSessionEstablishmentReason == EURORADIO.SpecialCaseSessionEstablishmentReasonEnum.EstablishDueToModeChangeReport</PreCondition></PreConditions>
+>SpecialCaseSessionEstablishmentReason == EURORADIO.SpecialCaseSessionEstablishmentReasonEnum.EstablishDueToModeChangeReport</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="52d6dbeb-bd94-41bc-ac4f-a65bcb5bd1e2"
@@ -3709,7 +3709,7 @@ EURORADIO.RBCStruct.ContactRBCOrder.ActionToPerform == EURORADIO.ContactActionEn
 <PreConditions>
 <PreCondition
  Guid="34eefb1c-0796-49d5-b242-36a5870c84ea"
->EURORADIO.RBCStruct.SafeRadioConnectionStatus == EURORADIO.SafeRadioConnectionStatusEnum.ConnectionLostOrSetUpFailed</PreCondition></PreConditions>
+>SafeRadioConnectionStatus == EURORADIO.SafeRadioConnectionStatusEnum.ConnectionLostOrSetUpFailed</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="c2ed4f87-deea-4f33-baef-8b0df77887fd"
@@ -3764,7 +3764,7 @@ EURORADIO.RBCStruct.ContactRBCOrder.ActionToPerform == EURORADIO.ContactActionEn
 <PreConditions>
 <PreCondition
  Guid="9ed069cc-4bb9-41e7-91a9-f2ab3cf61bbe"
->EURORADIO.RBCStruct.SafeRadioConnectionStatus == EURORADIO.SafeRadioConnectionStatusEnum.ConnectionLostOrSetUpFailed</PreCondition></PreConditions>
+>SafeRadioConnectionStatus == EURORADIO.SafeRadioConnectionStatusEnum.ConnectionLostOrSetUpFailed</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="8ee9506c-0e90-4b8e-9114-a15a029014d8"
@@ -3853,7 +3853,7 @@ EURORADIO.RBCStruct.ContactRBCOrder.ActionToPerform == EURORADIO.ContactActionEn
 <PreConditions>
 <PreCondition
  Guid="07e657aa-3707-4bda-a4f4-a6d13481015f"
->NOT EURORADIO.RBCStruct.IsMainConnection</PreCondition><PreCondition
+>NOT IsMainConnection</PreCondition><PreCondition
  Guid="22d43fd5-302a-4983-ae19-6ff1aa829b83"
 >Kernel.Mode not in [ModeEnum.SL, ModeEnum.NL]</PreCondition></PreConditions>
 <Actions>
@@ -3967,7 +3967,7 @@ EURORADIO.RBCStruct.ContactRBCOrder.ActionToPerform == EURORADIO.ContactActionEn
 <PreConditions>
 <PreCondition
  Guid="064e439a-0285-414a-99b9-02f9500239f5"
->NOT EURORADIO.RBCStruct.SessionManagementData.ConnectionIsEstablished</PreCondition><PreCondition
+>NOT SessionManagementData.ConnectionIsEstablished</PreCondition><PreCondition
  Guid="9ad4bbc1-055b-4beb-8d36-44281c10ab76"
 >EURORADIO.RBCStruct.LastRequestTime + EURORADIO.TimeBeforeMessageRepetition &lt;= Kernel.DateAndTime.CurrentTime</PreCondition></PreConditions>
 <Actions>
@@ -4015,7 +4015,7 @@ EURORADIO.RBCStruct.ContactRBCOrder.ActionToPerform == EURORADIO.ContactActionEn
 <PreConditions>
 <PreCondition
  Guid="d8e25a87-d35c-437f-864a-def0637bce1e"
->NOT EURORADIO.RBCStruct.SessionManagementData.ConnectionIsEstablished</PreCondition><PreCondition
+>NOT SessionManagementData.ConnectionIsEstablished</PreCondition><PreCondition
  Guid="0a7021de-e191-4898-b26d-a0940b487b89"
 >EURORADIO.RBCStruct.ConnectionLostTime + EURORADIO.MaxTimeToMaintainACommunicationSession &lt;= Kernel.DateAndTime.CurrentTime</PreCondition></PreConditions>
 <Actions>
@@ -4058,7 +4058,7 @@ EURORADIO.RBCStruct.ContactRBCOrder.ActionToPerform == EURORADIO.ContactActionEn
 <PreConditions>
 <PreCondition
  Guid="fdf0690f-8c7b-4ea5-b89d-cd31b038a0f6"
->EURORADIO.RBCStruct.SafeRadioConnectionStatus == EURORADIO.SafeRadioConnectionStatusEnum.ConnectionUp</PreCondition></PreConditions>
+>SafeRadioConnectionStatus == EURORADIO.SafeRadioConnectionStatusEnum.ConnectionUp</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="a81c9085-62ed-47f6-91c1-9573073688c8"
@@ -4087,7 +4087,7 @@ EURORADIO.RBCStruct.ContactRBCOrder.ActionToPerform == EURORADIO.ContactActionEn
 <PreConditions>
 <PreCondition
  Guid="b57d3086-f161-4390-bbfd-d8c3b479dc8b"
->EURORADIO.RBCStruct.SafeRadioConnectionStatus == EURORADIO.SafeRadioConnectionStatusEnum.ConnectionLostOrSetUpFailed</PreCondition><PreCondition
+>SafeRadioConnectionStatus == EURORADIO.SafeRadioConnectionStatusEnum.ConnectionLostOrSetUpFailed</PreCondition><PreCondition
  Guid="11f53a2e-cad9-47b3-bf29-0e89837f3128"
 >Kernel.HandleModeChange not in Kernel.HandleModeChangeSM.StartOfMission</PreCondition></PreConditions>
 <Actions>
@@ -4164,7 +4164,7 @@ EURORADIO.RBCStruct.ContactRBCOrder.ActionToPerform == EURORADIO.ContactActionEn
 <PreConditions>
 <PreCondition
  Guid="6222ed14-9c42-42d5-b29f-2e5222369f8c"
->EURORADIO.RBCStruct.SessionManagementData.ConnectionIsEstablished == False</PreCondition></PreConditions>
+>SessionManagementData.ConnectionIsEstablished == False</PreCondition></PreConditions>
 <Actions>
 </Actions>
 <SubRules>
@@ -4327,7 +4327,7 @@ EURORADIO.RBCStruct.ContactRBCOrder.ActionToPerform == EURORADIO.ContactActionEn
 <PreConditions>
 <PreCondition
  Guid="45eed858-9748-4822-b4df-ef101907fd7c"
->EURORADIO.RBCStruct.ContactRBCOrder != EMPTY</PreCondition></PreConditions>
+>ContactRBCOrder != EMPTY</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="1a1a20cb-a8df-46b4-acc5-16faf2b26075"
@@ -4356,7 +4356,7 @@ EURORADIO.RBCStruct.ContactRBCOrder.ActionToPerform == EURORADIO.ContactActionEn
 <PreConditions>
 <PreCondition
  Guid="a5ebfacd-6ea2-49c1-9d34-4a9492fec07c"
->EURORADIO.RBCStruct.ContactRBCOrder.ActionToPerform == EURORADIO.ContactActionEnum.Terminate</PreCondition></PreConditions>
+>ContactRBCOrder.ActionToPerform == EURORADIO.ContactActionEnum.Terminate</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="157b5e2a-e5c0-466b-937c-94f2fbf3214e"
@@ -4482,7 +4482,7 @@ Aftter a defined number of repetitions, if no acknowledgement is received from t
 <PreConditions>
 <PreCondition
  Guid="d39bee63-0912-4fd7-8aa4-ceebf64406ef"
->EURORADIO.RBCStruct.NumberOfSentRequests &lt; EURORADIO.NumberOfMessageRepetitions</PreCondition></PreConditions>
+>NumberOfSentRequests &lt; EURORADIO.NumberOfMessageRepetitions</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="8c94cd62-33d6-44a8-a726-b48c5e0f1d88"
@@ -4508,7 +4508,7 @@ Aftter a defined number of repetitions, if no acknowledgement is received from t
 <PreConditions>
 <PreCondition
  Guid="5616a12c-8a52-4abf-8880-c4a24d75d94e"
->EURORADIO.RBCStruct.NumberOfSentRequests== EURORADIO.NumberOfMessageRepetitions</PreCondition></PreConditions>
+>NumberOfSentRequests== EURORADIO.NumberOfMessageRepetitions</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="ca565153-dca3-42f4-a94e-b62cfede617a"
@@ -5392,7 +5392,7 @@ After that, if an order to contact an Accepting RBC was received, it will be han
  Guid="750af1cd-78f4-49b1-912d-21c46b11e6fe"
 >EURORADIO.TerminalStruct.RegistrationOrderIsReceived</PreCondition><PreCondition
  Guid="b0ae7084-c070-4a83-88ad-3044024b465c"
->EURORADIO.TerminalStruct.RBCConnection.ConnectionState not in [ EURORADIO.RBCStruct.ConnectionStateSM.Connecting, EURORADIO.RBCStruct.ConnectionStateSM.Connected ]</PreCondition></PreConditions>
+>RBCConnection.ConnectionState not in [ EURORADIO.RBCStruct.ConnectionStateSM.Connecting, EURORADIO.RBCStruct.ConnectionStateSM.Connected ]</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="065155db-ddc9-4232-a264-ba308cf6546f"
@@ -5440,9 +5440,9 @@ After that, if an order to contact an Accepting RBC was received, it will be han
 <PreConditions>
 <PreCondition
  Guid="6609a8b2-f994-43be-92b5-da74987f9e89"
->EURORADIO.TerminalStruct.AcceptingRBCContactOrder != EMPTY</PreCondition><PreCondition
+>AcceptingRBCContactOrder != EMPTY</PreCondition><PreCondition
  Guid="794b5113-e251-4f4a-8dc9-b8188f7513d9"
->EURORADIO.TerminalStruct.RBCConnection.ConnectionState not in [ EURORADIO.RBCStruct.ConnectionStateSM.Connecting, EURORADIO.RBCStruct.ConnectionStateSM.Connected ]</PreCondition></PreConditions>
+>RBCConnection.ConnectionState not in [ EURORADIO.RBCStruct.ConnectionStateSM.Connecting, EURORADIO.RBCStruct.ConnectionStateSM.Connected ]</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="4c9bfa8e-9202-472b-bf80-8e30b3ea5552"

@@ -162,22 +162,10 @@ namespace DataDictionary.Interpreter.Statement
             }
             else if (VariableIdentification.Ref is StructureElement)
             {
-                DerefExpression deref = VariableIdentification as DerefExpression;
-                if (deref != null)
+                DerefExpression derefExpression = VariableIdentification as DerefExpression;
+                if (derefExpression != null && derefExpression.IsValidExpressionComponent())
                 {
-                    int count = deref.Arguments.Count;
-                    for (int i = count - 2; i > 0; i--)
-                    {
-                        if (deref.Arguments[i].Ref is Variable)
-                        {
-                            break;
-                        }
-                        if ((deref.Arguments[i].Ref is NameSpace) ||
-                        (deref.Arguments[i].Ref is Structure))
-                        {
-                            Root.AddError("Invalid statement: the left part should be a variable");
-                        }
-                    }
+                    Root.AddError("Invalid statement: the left part should be a variable");
                 }
             }
 

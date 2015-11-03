@@ -434,6 +434,11 @@ namespace DataDictionary.Interpreter
             }
             if (Expression != null)
             {
+                DerefExpression derefExpression = Expression as DerefExpression;
+                if (derefExpression != null && derefExpression.IsValidExpressionComponent())
+                {
+                    Root.AddError("Invalid expression: not a variable");
+                }
                 Expression.CheckExpression();
             }
         }

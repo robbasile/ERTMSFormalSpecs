@@ -760,6 +760,17 @@ namespace DataDictionary
                             checkExpression(preCondition, preCondition.ExpressionText) as BinaryExpression;
                         if (expression != null)
                         {
+                            DerefExpression derefExpression = expression.Left as DerefExpression;
+                            if (derefExpression != null && derefExpression.IsValidExpressionComponent())
+                            {
+                                preCondition.AddError("Invalid left part");
+                            }
+
+                            derefExpression = expression.Right as DerefExpression;
+                            if (derefExpression != null && derefExpression.IsValidExpressionComponent())
+                            {
+                                preCondition.AddError("Invalid right part");
+                            }
                             if (expression.IsSimpleEquality())
                             {
                                 ITypedElement variable = expression.Left.Ref as ITypedElement;

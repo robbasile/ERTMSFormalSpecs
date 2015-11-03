@@ -265,6 +265,31 @@ namespace DataDictionary.Interpreter
         }
 
         /// <summary>
+        /// Indicates whether this expression references a valid expression component
+        /// (a variable or an enum)
+        /// </summary>
+        /// <returns></returns>
+        public bool IsValidExpressionComponent()
+        {
+            bool retVal = false;
+            int count = Arguments.Count;
+            for (int i = count - 1; i > 0; i--)
+            {
+                INamable aNamable = Arguments[i].Ref;
+                if (aNamable is Variable || aNamable is Types.Enum || aNamable is Constants.State)
+                {
+                    break;
+                }
+                if ((aNamable is NameSpace) ||
+                    (aNamable is Structure))
+                {
+                    retVal = true;
+                }
+            }
+            return retVal;
+        }
+
+        /// <summary>
         ///     Provides the value associated to this Expression
         /// </summary>
         /// <param name="context">The context on which the value must be found</param>
