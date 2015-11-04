@@ -204,29 +204,28 @@ namespace GUI.IPCInterface
         /// <returns>The client id</returns>
         private int AddClient(bool listener)
         {
-            int retVal = 0;
-
-            bool added = false;
-            while ( retVal < Connections.Count && ! added )
+            int retVal = 0; 
+            
+            // Try to find an empty slot in the connection list
+            // (e.g. a client which disconnected from the service)
+            while (retVal < Connections.Count)
             {
-                if (!Connections[retVal].Active)
+                if (Connections[retVal] == null)
                 {
                     Connections[retVal] = new ConnectionStatus(listener);
-                    added = true;
+                    break;
                 }
-                else
-                {
-                    retVal += 1;
-                }
+
+                retVal += 1;
             }
 
-            if (!added)
+            // No empty slot has been found in the connection list
+            if (retVal == Connections.Count)
             {
                 Connections.Add(new ConnectionStatus(listener));
-                retVal = Connections.Count - 1;
             }
 
-            return retVal;
+            return Connections.Count - 1;
         }
 
         /// <summary>
@@ -271,8 +270,7 @@ namespace GUI.IPCInterface
         ///     Ensures that the client id is valid
         /// </summary>
         /// <param name="clientId"></param>
-        /// <param name="status">Sets the active client status</param>
-        private void CheckClient(int clientId, bool status = true)
+        private void CheckClient(int clientId)
         {
             if (clientId >= Connections.Count)
             {
@@ -281,7 +279,7 @@ namespace GUI.IPCInterface
             else
             {
                 // The client is alive again. Reconnect it.
-                Connections[clientId].Active = status;
+                Connections[clientId].Active = true;
             }
         }
 
@@ -554,7 +552,8 @@ namespace GUI.IPCInterface
         /// <returns>true if cycle execution is successful, false when the client is asked not to perform his work</returns>
         public void Close(int clientId)
         {
-            CheckClient(clientId, false);
+            CheckClient(clientId);
+            Connections[clientId] = null;
         }
 
         /// <summary>
