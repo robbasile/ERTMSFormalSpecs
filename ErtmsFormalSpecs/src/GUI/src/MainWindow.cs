@@ -1096,7 +1096,7 @@ namespace GUI
                 {
                     frame.Translate(dictionary.TranslationDictionary);
                 }
-                EfsSystem.Instance.Context.HandleChangeEvent(null, Context.ChangeKind.ModelChange);
+                RefreshModel.Execute();
 
                 SpecIssuesReport aReport = new SpecIssuesReport(dictionary);
                 aReport.ShowDialog(this);
@@ -1136,7 +1136,8 @@ namespace GUI
             EfsSystem efsSystem = EfsSystem.Instance;
             efsSystem.Compiler.Compile_Synchronous(efsSystem.ShouldRebuild);
             efsSystem.ShouldRebuild = false;
-            efsSystem.Context.HandleChangeEvent(null, Context.ChangeKind.ModelChange);
+
+            RefreshModel.Execute();
         }
 
         private void showRulePerformancesToolStripMenuItem_Click(object sender, EventArgs e)

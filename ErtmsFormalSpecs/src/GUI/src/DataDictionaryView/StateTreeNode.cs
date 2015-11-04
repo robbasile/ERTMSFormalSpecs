@@ -23,6 +23,7 @@ using DataDictionary.Constants;
 using DataDictionary.Rules;
 using DataDictionary.Types;
 using GUI.Converters;
+using GUI.LongOperations;
 using GUI.Properties;
 using GUI.StateDiagram;
 using Action = DataDictionary.Rules.Action;
@@ -123,7 +124,7 @@ namespace GUI.DataDictionaryView
                     action.ExpressionText = "THIS <- " + dialog.EndStateName;
                     ruleCondition.appendActions(action);
 
-                    EfsSystem.Instance.Context.HandleChangeEvent(null, Context.ChangeKind.ModelChange);
+                    RefreshModel.Execute();
                 }
             }
         }

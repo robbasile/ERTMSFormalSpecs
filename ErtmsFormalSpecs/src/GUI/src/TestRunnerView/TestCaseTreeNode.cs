@@ -21,6 +21,7 @@ using System.Windows.Forms;
 using DataDictionary;
 using DataDictionary.Tests;
 using DataDictionary.Tests.Runner;
+using GUI.LongOperations;
 using GUI.Report;
 using GUIUtils;
 using Utils;
@@ -130,7 +131,8 @@ namespace GUI.TestRunnerView
         {
             FinderRepository.INSTANCE.ClearCache();
             Item.Translate(Item.Dictionary.TranslationDictionary);
-            EfsSystem.Instance.Context.HandleChangeEvent(null, Context.ChangeKind.ModelChange);
+
+            RefreshModel.Execute();
         }
 
         #region Execute tests

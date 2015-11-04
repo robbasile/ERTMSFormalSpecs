@@ -48,6 +48,7 @@ namespace GUIUtils.LongOperations
             efsSystem.Dictionaries.Remove(Dictionary);
             FinderRepository.INSTANCE.ClearCache();
             efsSystem.Compiler.Compile_Synchronous(true);
+
             efsSystem.Context.HandleChangeEvent(null, Context.ChangeKind.ModelChange);
         }
     }

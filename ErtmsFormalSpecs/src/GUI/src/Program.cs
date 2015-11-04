@@ -117,8 +117,7 @@ namespace GUI
             openFile.ExecuteUsingProgressDialog("Refreshing dictionary " +
                                                 Path.GetFileNameWithoutExtension(dictionary.FilePath));
 
-            RefreshModel refreshModel = new RefreshModel();
-            refreshModel.ExecuteUsingProgressDialog("Refreshing model", false);
+            RefreshModel.Execute();
         }
     }
 }

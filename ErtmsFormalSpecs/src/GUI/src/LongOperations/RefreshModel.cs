@@ -26,7 +26,16 @@ namespace GUI.LongOperations
     {
         public override void ExecuteWork()
         {
-            EfsSystem.Instance.Context.HandleEndOfCycle();
+            EfsSystem.Instance.Context.HandleChangeEvent(null, Context.ChangeKind.ModelChange);
+        }
+
+        /// <summary>
+        /// Executes a refresh model
+        /// </summary>
+        public static void Execute()
+        {
+            RefreshModel refreshModel = new RefreshModel();
+            refreshModel.ExecuteUsingProgressDialog("Refreshing model", false);
         }
     }
 }
