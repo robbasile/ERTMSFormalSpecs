@@ -2463,6 +2463,57 @@ NOT EURORADIO.IncomingMessageIsConsistent(MessageIn)</PreCondition><PreCondition
 }</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
+</Procedure><Procedure
+ Implemented="TRUE"
+ Name="SendTextMessageAcknowledgedByDriver"
+ Guid="56f4d06d-d8e6-4980-931b-ea16a300e388"
+>
+<ReqRef
+ Id="d24596c8-72fe-40e3-977b-33c6516a16ea"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ed91e6b8-b961-476b-94f9-4f0947ff2d15"
+>
+</ReqRef><Comment>Sends the text message acknowledged by driver message.</Comment>
+<Parameters>
+<Parameter
+ Type="Messages.NID_TEXTMESSAGE"
+ Name="aTextId"
+ Guid="df7ee3ca-d1eb-4ccf-9605-fe1d9439c519"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Implemented="TRUE"
+ Name="Handle sending of the message"
+ Guid="f1d246ca-ee29-4bc5-aea1-72090b9b81d8"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Handle sending of the message"
+ Guid="3442f95e-19e5-4581-b85c-0aed71014827"
+>
+<PreConditions>
+<PreCondition
+ Guid="a679b477-9031-458d-9c2b-e9610e1441d5"
+>EURORADIO.MessageCanBeSent ( anRBC =&gt; THIS )</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="2baca69d-6b3d-411b-b324-1ba24df48e9f"
+>InitializeOutMessage()</Action><Action
+ Guid="7e439f70-a29e-4ea4-99d1-6a99a4174ea3"
+>MessageOut.TEXT_MESSAGE_ACKNOWLEDGED_BY_DRIVER &lt;- Messages.MESSAGE.TRAIN_TO_TRACK.TEXT_MESSAGE_ACKNOWLEDGED_BY_DRIVER.Message
+{
+  NID_MESSAGE =&gt; 158, 
+  L_MESSAGE =&gt; 0, 
+  T_TRAIN =&gt; MessageTypes.UnResolveTime( time =&gt; Kernel.DateAndTime.CurrentTime ),
+  NID_ENGINE =&gt; Kernel.NidEngine,
+  NID_TEXTMESSAGE =&gt; aTextId, 
+  POSITION_REPORT =&gt; PositionReport.CreatePositionReport()
+}</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
  TypeName="InMessageStruct"

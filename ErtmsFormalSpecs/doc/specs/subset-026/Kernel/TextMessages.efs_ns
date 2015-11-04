@@ -3470,6 +3470,33 @@ ON
  Guid="6bbe8a2c-28d2-4f85-aaab-d074e12b5abc"
 >(FIRST aMessage IN DMI.MasterDMI().Out_FixedTextInformation.Messages | aMessage == DMI.MasterDMI().In_AcknOfFixedTextInformation.Message ).MessageIsAcknowledged &lt;- True</Action></Actions>
 </RuleCondition></Conditions>
+</Rule><Rule
+ Implemented="TRUE"
+ Name="Handle acknowledgement report"
+ Guid="db333ff8-1a99-439c-85a0-368a2fdff341"
+>
+<ReqRef
+ Id="d24596c8-72fe-40e3-977b-33c6516a16ea"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d7689d4b-6d8f-44dd-9e49-3cf312ef3933"
+>
+</ReqRef><Comment>In case the trackside requested to report the driver acknowledgement, the on-board sends a message to the RBC.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Handle acknowledgement report"
+ Guid="e4a42581-b2f8-45a7-b9c9-6fdac0390477"
+>
+<PreConditions>
+<PreCondition
+ Guid="1ec488c4-92fa-4579-85da-243e4f5b529f"
+>DMI.MasterDMI().In_AcknOfFixedTextInformation.Message.ReportInformation.ReportRequired</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="d9fcaaac-5dbf-4ce0-8d1f-aa2a5964deb8"
+>SendAcknowledgementReport( aMessage =&gt; DMI.MasterDMI().In_AcknOfFixedTextInformation.Message )</Action></Actions>
+</RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition></Conditions>
 </Rule><Rule
@@ -3520,6 +3547,33 @@ ON
 <Action
  Guid="f4722bf6-73a7-442b-ba6c-9a662ff85f63"
 >(FIRST aMessage IN DMI.MasterDMI().Out_FixedTextInformation.Messages | aMessage == DMI.MasterDMI().In_AcknOfFixedTextInformation.Message ).MessageIsAcknowledged &lt;- True</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Implemented="TRUE"
+ Name="Handle acknowledgement report"
+ Guid="a9dd594a-ea6a-47bd-bc1c-37e39d76b549"
+>
+<ReqRef
+ Id="d24596c8-72fe-40e3-977b-33c6516a16ea"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="3abc8cb0-00f8-4ad0-bc10-311e46db9646"
+>
+</ReqRef><Comment>In case the trackside requested to report the driver acknowledgement, the on-board sends a message to the RBC.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Handle acknowledgement report"
+ Guid="fd138d4f-78ea-4cd6-9060-1e9f9200b3f4"
+>
+<PreConditions>
+<PreCondition
+ Guid="b14015b9-9e05-43f3-8ad9-f644bbd521e6"
+>DMI.MasterDMI().In_AcknOfPlainTextInformation.Message.ReportInformation.ReportRequired</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="942fd3cc-a27e-4e45-9bb2-c28d74423482"
+>SendAcknowledgementReport( aMessage =&gt; DMI.MasterDMI().In_AcknOfPlainTextInformation.Message )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition></Conditions>
@@ -3578,6 +3632,79 @@ IN
   EndConditionSatisfied( aMessage=&gt; X )
 IN
   DMI.MasterDMI().Out_PlainTextInformation.Messages</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="730"
+ Y="140"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="SendAcknowledgementReport"
+ Guid="21674b58-1550-4da6-9347-66cb1ad0c861"
+>
+<ReqRef
+ Id="d24596c8-72fe-40e3-977b-33c6516a16ea"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="598f146e-862d-486e-b49d-600045ec450d"
+>
+</ReqRef><ReqRef
+ Id="8193d565-11c0-4fc4-98f4-e0be84322432"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="8a67d836-5045-4bfa-9294-7120085b147e"
+>
+</ReqRef><Comment>Sends the text acknowledgement report to the specified RBC.</Comment>
+<Parameters>
+<Parameter
+ Type="TextMessageInterface"
+ Name="aMessage"
+ Guid="c39ab6f2-0745-46b4-9662-e21dd498ca6b"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Implemented="TRUE"
+ Name="Select the RBC to contact"
+ Guid="c3cba9e8-598b-47fe-aa69-644231561c93"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Check the current RBC"
+ Guid="c6b3b607-6a57-46ca-bc5a-a3615a1e9228"
+>
+<Comment>If the specified RBC corresponds to the current connection, send the message to the current connection.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="0f28add5-2175-464e-82c3-2af39cc45dfd"
+>EURORADIO.HasActiveSession()</PreCondition><PreCondition
+ Guid="506b011c-7dba-4b8b-a03f-cc57d1fb0f0b"
+>EURORADIO.CurrentRBCConnection().ContactData.Id.Id == DMI.MasterDMI().In_AcknOfFixedTextInformation.Message.ReportInformation.NID_RBC</PreCondition><PreCondition
+ Guid="c860e5cf-4b89-4000-8af1-ad07763f9720"
+>EURORADIO.CurrentRBCConnection().ContactData.Id.Country == DMI.MasterDMI().In_AcknOfFixedTextInformation.Message.ReportInformation.NID_C</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="98639b6d-8ac7-441b-9816-4b6404835d3b"
+>EURORADIO.CurrentRBCConnection().SendTextMessageAcknowledgedByDriver( aTextId =&gt; DMI.MasterDMI().In_AcknOfFixedTextInformation.Message.ReportInformation.TextId )</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Check the handing over RBC"
+ Guid="8bb1c26d-b314-4789-8cff-d47e323c495d"
+>
+<Comment>If the specified RBC is the handing over RBC, send the message to the handing over RBC.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="d34fec77-c273-4b0e-bed3-2a3008534b50"
+>EURORADIO.HasActiveSession()</PreCondition><PreCondition
+ Guid="91489dbc-5e98-4a6a-a4ba-6a9fea3af535"
+>EURORADIO.SecondaryRBCConnection().ContactData.Id.Id == DMI.MasterDMI().In_AcknOfFixedTextInformation.Message.ReportInformation.NID_RBC</PreCondition><PreCondition
+ Guid="e462e0e0-3f7c-4f00-a85c-464901b044f9"
+>EURORADIO.SecondaryRBCConnection().ContactData.Id.Country == DMI.MasterDMI().In_AcknOfFixedTextInformation.Message.ReportInformation.NID_C</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="a4f5b195-c601-4015-97fd-fe549562c7be"
+>EURORADIO.SecondaryRBCConnection().SendTextMessageAcknowledgedByDriver( aTextId =&gt; DMI.MasterDMI().In_AcknOfFixedTextInformation.Message.ReportInformation.TextId )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
