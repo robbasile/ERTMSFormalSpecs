@@ -338,6 +338,171 @@ namespace GUI.TestRunnerView
             }
         }
 
+
+        public void GenerateThings(object sender, EventArgs args)
+        {
+            // ajoute un test case pour chaque ligne de la table Table 6.6.3.2.3.15.1
+            // structure:   Step 1 : initializeTestEnvionent
+            //              Step 2 : receive balise message avec 1 packet 39 où M_TRACTION déped de la ligne
+            //                          Expectation: traduction du packet est présent dans CurrentBaliseMessage
+            DataDictionary.Specification.Specification spec = (DataDictionary.Specification.Specification)Item.Dictionary.Specifications[0];
+            DataDictionary.Specification.Chapter chap = spec.FindChapter("6");
+            DataDictionary.Specification.Paragraph tableHeader = chap.FindParagraph("6.6.3.2.3.15", false);
+            tableHeader = (DataDictionary.Specification.Paragraph)tableHeader.SubParagraphs[0];
+
+            foreach(DataDictionary.Specification.Paragraph entry in tableHeader.SubParagraphs)
+            {
+                // 3 valeurs: tout jusqu'au premier ;
+                //            tout jusqu'au suivant ;
+                //            tout le reste
+                char[] separator = new char[] { ';', ' ' };
+                string[] values = entry.Text.Split(separator);
+                string M_TRACTION = values[0];
+                string M_VOLTAGE = values[2];
+                string NID_CTRACTION = values[4];
+
+
+                TestCase testCase = (TestCase)DataDictionary.Generated.acceptor.getFactory().createTestCase();
+                testCase.Name = "M_TRACTION = " + M_TRACTION; 
+
+                // 2 steps: init test environment & msg
+                // 1st step
+                Step step1 = (Step)DataDictionary.Generated.acceptor.getFactory().createStep();
+                step1.Name = "Step 1 - Initialize";
+                SubStep subStep1 = (SubStep)DataDictionary.Generated.acceptor.getFactory().createSubStep();
+                subStep1.Name = "Initialize test environment";
+                Action initialize = (Action)DataDictionary.Generated.acceptor.getFactory().createAction();
+                initialize.ExpressionText = "Testing.InitializeTestEnvironment(0.0)";
+                subStep1.appendActions(initialize);
+                step1.appendSubSteps(subStep1);
+                testCase.appendSteps(step1);
+                // 1st step END
+
+                // 2nd step
+                /* GAUTIER */
+                /*  Crée un deuxième step, avec un seul sub-step qui contient une action et une expectation */
+                Step step2 = (Step)DataDictionary.Generated.acceptor.getFactory().createStep();
+                step2.Name = "Check translation of Packet 39";
+                SubStep subStep2 = (SubStep)DataDictionary.Generated.acceptor.getFactory().createSubStep();
+                subStep2.Name = "Receive messages";
+                Action receiveMessage = (Action)DataDictionary.Generated.acceptor.getFactory().createAction();
+                receiveMessage.ExpressionText = "BTM.Message_SystemVersion1 <- " + GetBaliseMessage(M_TRACTION);
+                Expectation testTranslation = (Expectation)DataDictionary.Generated.acceptor.getFactory().createExpectation();
+                testTranslation.ExpressionText = "(FIRST X IN BTM.CurrentBaliseGroup).Telegram == " + GetCorrectTranslation(M_VOLTAGE, NID_CTRACTION);
+                subStep2.appendActions(receiveMessage);
+                subStep2.appendExpectations(testTranslation);
+                step2.appendSubSteps(subStep2);
+                testCase.appendSteps(step2);
+                // 2nd step END
+
+                Item.appendTestCases(testCase);
+            }
+        }
+
+        private string GetBaliseMessage(string M_TRACTION)
+        {
+            string retVal = "";
+
+            DataDictionary.Types.Structure BTMStructure = Item.Dictionary.FindByFullName("Messages.SystemVersion1.EUROBALISE.Message") as DataDictionary.Types.Structure;
+            if (BTMStructure != null)
+            {
+                DataDictionary.Values.StructureValue theMessage = new DataDictionary.Values.StructureValue(BTMStructure, true);
+
+                DataDictionary.Values.ListValue sequence1 = theMessage.SubVariables["Sequence1"].Value as DataDictionary.Values.ListValue;
+                if (sequence1 != null)
+                {
+                    DataDictionary.Types.Structure substructure1 = Item.Dictionary.FindByFullName("Messages.SystemVersion1.EUROBALISE.SubStructure1") as DataDictionary.Types.Structure;
+
+                    if (substructure1 != null)
+                    {
+                        DataDictionary.Values.StructureValue sstruct = substructure1.DefaultValue as DataDictionary.Values.StructureValue;
+
+                        DataDictionary.Types.Structure track_to_train = Item.Dictionary.FindByFullName("Messages.SystemVersion1.PACKET.TRACK_TO_TRAIN.Message") as DataDictionary.Types.Structure;
+                        if (track_to_train != null)
+                        {
+                            DataDictionary.Values.StructureValue tracktotrain = track_to_train.DefaultValue as DataDictionary.Values.StructureValue;
+
+                            DataDictionary.Types.Structure packet39 = Item.Dictionary.FindByFullName("Messages.SystemVersion1.PACKET.TRACK_TO_TRAIN.TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM.Message") as DataDictionary.Types.Structure;
+                            if (packet39 != null)
+                            {
+                                DataDictionary.Values.StructureValue Packet_39 = packet39.DefaultValue as DataDictionary.Values.StructureValue;
+
+                                DataDictionary.Values.IntValue M_Traction = Packet_39.SubVariables["M_TRACTION"].Value as DataDictionary.Values.IntValue;
+                                if (M_Traction != null)
+                                {
+                                    M_Traction.Val = decimal.Parse(M_TRACTION);
+                                }
+
+                                tracktotrain.SubVariables["TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM"].Value = Packet_39;
+                            }
+
+                            sstruct.SubVariables["TRACK_TO_TRAIN"].Value = tracktotrain;
+                        }
+                        sequence1.Val.Add(sstruct);
+                    }
+
+                }
+
+                retVal = theMessage.LiteralName;
+            }
+            return retVal;
+        }
+
+        private string GetCorrectTranslation(string M_VOLTAGE, string NID_CTRACTION)
+        {
+            string retVal = "";
+
+            DataDictionary.Types.Structure BTMStructure = Item.Dictionary.FindByFullName("Messages.EUROBALISE.Message") as DataDictionary.Types.Structure;
+            if (BTMStructure != null)
+            {
+                DataDictionary.Values.StructureValue theMessage = new DataDictionary.Values.StructureValue(BTMStructure, true);
+
+                DataDictionary.Values.ListValue sequence1 = theMessage.SubVariables["Sequence1"].Value as DataDictionary.Values.ListValue;
+                if (sequence1 != null)
+                {
+                    DataDictionary.Types.Structure substructure1 = Item.Dictionary.FindByFullName("Messages.EUROBALISE.SubStructure1") as DataDictionary.Types.Structure;
+
+                    if (substructure1 != null)
+                    {
+                        DataDictionary.Values.StructureValue sstruct = substructure1.DefaultValue as DataDictionary.Values.StructureValue;
+
+                        DataDictionary.Types.Structure track_to_train = Item.Dictionary.FindByFullName("Messages.PACKET.TRACK_TO_TRAIN.Message") as DataDictionary.Types.Structure;
+                        if (track_to_train != null)
+                        {
+                            DataDictionary.Values.StructureValue tracktotrain = track_to_train.DefaultValue as DataDictionary.Values.StructureValue;
+
+                            DataDictionary.Types.Structure packet39 = Item.Dictionary.FindByFullName("Messages.PACKET.TRACK_TO_TRAIN.TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM.Message") as DataDictionary.Types.Structure;
+                            if (packet39 != null)
+                            {
+                                DataDictionary.Values.StructureValue Packet_39 = packet39.DefaultValue as DataDictionary.Values.StructureValue;
+
+                                DataDictionary.Values.IntValue M_Voltage = Packet_39.SubVariables["M_VOLTAGE"].Value as DataDictionary.Values.IntValue;
+                                if (M_Voltage != null)
+                                {
+                                    M_Voltage.Val = decimal.Parse(M_VOLTAGE);
+                                }
+                                DataDictionary.Values.IntValue NID_CTraction = Packet_39.SubVariables["NID_CTRACTION"].Value as DataDictionary.Values.IntValue;
+                                if (NID_CTraction != null && NID_CTRACTION != "-")
+                                {
+                                    NID_CTraction.Val = decimal.Parse(NID_CTRACTION);
+                                }
+
+                                tracktotrain.SubVariables["TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM"].Value = Packet_39;
+                            }
+
+                            sstruct.SubVariables["TRACK_TO_TRAIN"].Value = tracktotrain;
+                        }
+                        sequence1.Val.Add(sstruct);
+                    }
+
+                }
+
+                retVal = theMessage.LiteralName;
+            }
+            return retVal;
+        }
+
+
         /// <summary>
         ///     The menu items for this tree node
         /// </summary>
@@ -349,6 +514,10 @@ namespace GUI.TestRunnerView
                 new MenuItem("Add test case", AddHandler),
                 new MenuItem("Delete", DeleteHandler)
             };
+
+
+            retVal.Add(new MenuItem("Generate packet 39 tests", GenerateThings));
+            retVal.Add(new MenuItem("-"));
 
             retVal.AddRange(base.GetMenuItems());
             retVal.Insert(6, new MenuItem("Apply translation rules", TranslateHandler));

@@ -10,6 +10,8 @@
 </NameSpaces>
 <Structures>
 <Structure
+ X="111"
+ Y="1"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -54,4 +56,57 @@
  Guid="c10feb6c-41f9-4fce-99b3-a20899055bf0"
 >
 </ReqRef></StructureElement></Structure></Structures>
+<Functions>
+<Function
+ Type="Boolean"
+ Name="MessageValuesCorrect"
+ Guid="dafd1166-b5dd-48d9-aeb2-a618d5e2fbbd"
+>
+<Comment>Checks the values in a structure of type VIRTUAL_BALISE_COVER_MARKER.Message</Comment>
+<Parameters>
+<Parameter
+ Type="VIRTUAL_BALISE_COVER_MARKER.Message"
+ Name="struct"
+ Guid="94bf9092-9711-49c2-b0eb-e15f72a8cc0b"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Message empty"
+ Guid="77d78be8-7c5b-4683-b606-862f4ce28566"
+>
+<PreConditions>
+<PreCondition
+ Guid="f444baf7-cbbf-42d2-a6ad-45d34fee2d12"
+>NOT Available(struct)</PreCondition></PreConditions>
+<Expression>True</Expression>
+</Case><Case
+ Name="struct.NID_PACKET invalid"
+ Guid="3a1aa2f3-072a-4cfa-9dcc-4cd64a301175"
+>
+<PreConditions>
+<PreCondition
+ Guid="3d92291a-5adb-4111-93d0-b7e85b8cfed8"
+>struct.NID_PACKET &lt; 0</PreCondition><PreCondition
+ Guid="42643c50-c925-42c9-b7bb-56b4142e949d"
+>struct.NID_PACKET &gt;= 256</PreCondition></PreConditions>
+<Expression>False</Expression>
+</Case><Case
+ Name="struct.NID_VBCMK invalid"
+ Guid="7b01dcd9-8771-4ff1-824b-55a84e7288e9"
+>
+<PreConditions>
+<PreCondition
+ Guid="7a804d4d-d2bb-4d49-82bd-1ad965ad1d9e"
+>struct.NID_VBCMK &lt; 0</PreCondition><PreCondition
+ Guid="8f7142de-cbe8-403b-84b3-b9b8d5867a43"
+>struct.NID_VBCMK &gt;= 64</PreCondition></PreConditions>
+<Expression>False</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="4517ec6a-82e7-4e4e-abd8-7907b7a3b1bb"
+>
+<Expression>True</Expression>
+</Case></Cases>
+</Function></Functions>
 </NameSpace>

@@ -47,6 +47,10 @@
  Name="RouteSuitabilityData"
  Guid="15b13366-4f82-4b14-a438-291c8f53fca5"
 >
+</NameSpaceRef><NameSpaceRef
+ Name="VirtualBaliseCoverMarker"
+ Guid="dd884cca-bfae-4863-b2cb-29e9aad71869"
+>
 </NameSpaceRef></NameSpaces>
 <Functions>
 <Function
@@ -345,6 +349,21 @@
  Id="cdcbcfd1-5f99-449c-ae17-937656feec74"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="4fcf2c5a-f9bf-4cd4-8260-cb57255e4f8a"
+>
+</ReqRef><ReqRef
+ Id="e95fb253-56e1-45cb-b698-e538d6a1c7e6"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="eb2a9fb5-c266-4120-a825-4d6b7b54f840"
+>
+</ReqRef><ReqRef
+ Id="5a9ff7a7-6960-4afb-b2d1-4e64bd0f979e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="5b415ac1-497c-49ae-9544-989f21b22330"
+>
+</ReqRef><ReqRef
+ Id="658e65f2-3dc7-409d-a8bc-f3a9e4f4924a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="3c6bc2ea-3487-4605-9214-d641e34e8af4"
 >
 </ReqRef><Parameters>
 <Parameter
@@ -1027,6 +1046,20 @@ REVERSING_SUPERVISION_INFORMATION =&gt; aPacket.TRACK_TO_TRAIN.REVERSING_SUPERVI
 }
 }</Expression>
 </Case><Case
+ Name="Packet 140 - Train running number from RBC"
+ Guid="5ed4fbca-303a-4173-9c94-3ac649cdc411"
+>
+<Comment>Packet 140 is left unchanged in our modelisation.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="8e453ee3-f5c4-4f3a-8153-246d7670d594"
+>Available(aPacket.TRACK_TO_TRAIN.TRAIN_RUNNING_NUMBER_FROM_RBC)</PreCondition></PreConditions>
+<Expression>Messages.EUROBALISE.SubStructure1{
+TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message{
+TRAIN_RUNNING_NUMBER_FROM_RBC =&gt; aPacket.TRACK_TO_TRAIN.TRAIN_RUNNING_NUMBER_FROM_RBC
+}
+}</Expression>
+</Case><Case
  Name="Packet 141 - Default gradient for temporary speed restriction"
  Guid="d1022339-9951-4686-b5e7-e8d37140f667"
 >
@@ -1052,6 +1085,22 @@ DEFAULT_GRADIENT_FOR_TEMPORARY_SPEED_RESTRICTION =&gt; aPacket.TRACK_TO_TRAIN.DE
 <Expression>Messages.EUROBALISE.SubStructure1{
 TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message{
 INHIBITION_OF_BALISE_GROUP_MESSAGE_CONSISTENCY_REACTION =&gt; aPacket.TRACK_TO_TRAIN.INHIBITION_OF_BALISE_GROUP_MESSAGE_CONSISTENCY_REACTION
+}
+}</Expression>
+</Case><Case
+ Name="Packet 200 - Virtual balise cover marker"
+ Guid="488f5573-f639-4edd-9fa7-b4ddeb55b215"
+>
+<Comment>From spec: NID_PACKET shall be set to 0 and both Q_DIR and L_PACKET shall be deleted. The last two variables are already deleted in the modelisation.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="d47b554c-fe35-41d5-b2c7-ec046f6bf3ce"
+>Available(aPacket.TRACK_TO_TRAIN.VIRTUAL_BALISE_COVER_MARKER)</PreCondition></PreConditions>
+<Expression>Messages.EUROBALISE.SubStructure1{
+TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message{
+VIRTUAL_BALISE_COVER_MARKER =&gt; VirtualBaliseCoverMarker.UpdatedPacket(
+aPacket =&gt;  aPacket.TRACK_TO_TRAIN.VIRTUAL_BALISE_COVER_MARKER
+)
 }
 }</Expression>
 </Case><Case

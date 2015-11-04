@@ -38,6 +38,7 @@
  TypeName="Messages.M_VOLTAGE"
  Default=""
  Mode="Internal"
+ Implemented="TRUE"
  Name="M_VOLTAGE"
  Guid="ff3d8db8-8498-4640-9853-ac4a044c12ea"
 >
@@ -45,6 +46,7 @@
  TypeName="Messages.NID_CTRACTION"
  Default="0"
  Mode="Internal"
+ Implemented="TRUE"
  Name="NID_CTRACTION"
  Guid="384de788-af18-4ec6-b55f-23906bb012b3"
 >
@@ -52,6 +54,7 @@
  TypeName="Messages.SystemVersion1.M_TRACTION"
  Default="0"
  Mode="Internal"
+ Implemented="TRUE"
  Name="M_TRACTION"
  Guid="1433de95-9b55-4a67-95c3-d7945745615d"
 >
@@ -101,8 +104,7 @@
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="2fb6a8ce-4a6a-4678-8991-bdc06a7031dd"
 >
-</ReqRef><Comment>TO CORRECT: first case is not correct, second case is not implemented. They should be mixed.</Comment>
-<Parameters>
+</ReqRef><Parameters>
 <Parameter
  Type="Messages.SystemVersion1.PACKET.TRACK_TO_TRAIN.ROUTE_SUITABILITY_DATA.Message"
  Name="aPacket"
@@ -159,8 +161,7 @@ M_VOLTAGE =&gt; Translated_M_VOLTAGE(aPacket.M_TRACTION),
 NID_CTRACTION =&gt; Translated_NID_CTRACTION(aPacket.M_TRACTION),
 N_ITER =&gt; aPacket.N_ITER,
 Sequence1 =&gt; MAP aPacket.Sequence1 | X.Q_SUITABILITY == 2 AND IsTranslatable(X.M_TRACTION) USING X IN Translated_Substructure1(X)
-}
-</Expression>
+}</Expression>
 </Case></Cases>
 </Function><Function
  Type="Messages.M_VOLTAGE"
