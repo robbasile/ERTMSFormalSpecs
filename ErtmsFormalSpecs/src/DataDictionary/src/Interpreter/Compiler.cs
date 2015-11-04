@@ -282,9 +282,12 @@ namespace DataDictionary.Interpreter
         /// </summary>
         public Compiler()
         {
-            DoCompile = true;
-            CompilerThread = ThreadUtil.CreateThread("Compiler", CompileContinuously);
-            CompilerThread.Start();
+            DoCompile = false;
+            if (false)
+            {
+                CompilerThread = ThreadUtil.CreateThread("Compiler", CompileContinuously);
+                CompilerThread.Start();
+            }
         }
 
         /// <summary>
