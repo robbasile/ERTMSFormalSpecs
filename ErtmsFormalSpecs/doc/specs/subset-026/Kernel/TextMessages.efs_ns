@@ -3107,6 +3107,88 @@ aMessage.AckStopsDisplay</Expression>
 >
 <Expression>aMessage.FulfillAllTheEvents</Expression>
 </Case></Cases>
+</Function><Function
+ Type="Boolean"
+ X="340"
+ Y="620"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="PlainTextMessageCanBeStored"
+ Guid="5b39b812-fdff-4c99-be28-2efe90eca8de"
+>
+<ReqRef
+ Id="e9319440-d575-4bbf-bea7-8925fa17233e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="75853590-61e3-409c-86b3-bffc19750935"
+>
+</ReqRef><Comment>Indicates whether the received plain text message has to be stored or rejected. A message has to be rejected if it requests to report the driver&apos;s acknowledgement to the RBC and if another message with the same request has already been stored and not acknowledged.</Comment>
+<Parameters>
+<Parameter
+ Type="Messages.PACKET.TRACK_TO_TRAIN.PACKET_FOR_SENDING_PLAIN_TEXT_MESSAGES.Message"
+ Name="aMessage"
+ Guid="21adae7b-1438-412c-ab62-a3a017e37edd"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Report to RBC required"
+ Guid="33a0bf10-7dca-417d-af24-f62e917f8799"
+>
+<PreConditions>
+<PreCondition
+ Guid="7417bb9a-c933-4506-9cfe-e221a779e244"
+>aMessage.Q_TEXTCONFIRM == Messages.Q_TEXTCONFIRM.Confirmation_required</PreCondition></PreConditions>
+<Expression>FORALL Msg IN PlainTextMessages | Msg.ReportInformation.TextId != aMessage.NID_TEXTMESSAGE
+  AND
+FORALL Ack IN DMI.IN.Acknowledgements.Acknowledgements | Ack.PlainTextMessage.ReportInformation.TextId != aMessage.NID_TEXTMESSAGE</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="44e2256c-226f-4cc7-887b-6338ed97cc20"
+>
+<Expression>True</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ X="230"
+ Y="620"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="FixedTextMessageCanBeStored"
+ Guid="895eed2e-7eb5-4c7f-a3d3-ce709df5831d"
+>
+<ReqRef
+ Id="e9319440-d575-4bbf-bea7-8925fa17233e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="8a953014-f0f6-4f33-a579-b965388476c5"
+>
+</ReqRef><Comment>Indicates whether the received fixed text message has to be stored or rejected. A message has to be rejected if it requests to report the driver&apos;s acknowledgement to the RBC and if another message with the same request has already been stored and not acknowledged.</Comment>
+<Parameters>
+<Parameter
+ Type="Messages.PACKET.TRACK_TO_TRAIN.PACKET_FOR_SENDING_FIXED_TEXT_MESSAGES.Message"
+ Name="aMessage"
+ Guid="457c8218-a0a0-49fb-a986-0114bfa63296"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Report to RBC required"
+ Guid="81fccd2c-7e77-4f1f-808b-5aaf932a69c1"
+>
+<PreConditions>
+<PreCondition
+ Guid="65fb36fe-288d-4274-aa03-50271e5a5984"
+>aMessage.Q_TEXTCONFIRM == Messages.Q_TEXTCONFIRM.Confirmation_required</PreCondition></PreConditions>
+<Expression>FORALL Msg IN FixedTextMessages | Msg.ReportInformation.TextId != aMessage.NID_TEXTMESSAGE
+  AND
+FORALL Ack IN DMI.IN.Acknowledgements.Acknowledgements | Ack.FixedTextMessage.ReportInformation.TextId != aMessage.NID_TEXTMESSAGE</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="f3f8ac10-1a68-43ec-8ec8-4967c1d72c27"
+>
+<Expression>True</Expression>
+</Case></Cases>
 </Function></Functions>
 <Procedures>
 <Procedure
@@ -3127,6 +3209,11 @@ aMessage.AckStopsDisplay</Expression>
  Id="13227255-d959-4724-9371-31427e4538a4"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="89a74b9a-5ed9-4600-9072-0f0417770732"
+>
+</ReqRef><ReqRef
+ Id="e9319440-d575-4bbf-bea7-8925fa17233e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b0c300ba-e931-452a-854f-03e418ff46c8"
 >
 </ReqRef><Comment>Handles the reception of a plain text message.</Comment>
 <Parameters>
@@ -3150,7 +3237,9 @@ aMessage.AckStopsDisplay</Expression>
  Guid="169d5c45-5275-4754-b311-c7012c7be25a"
 >
 <PreConditions>
-</PreConditions>
+<PreCondition
+ Guid="b1290752-fbf7-4a7f-887d-4a0e3eee00b5"
+>PlainTextMessageCanBeStored ( aMessage =&gt; aPacket )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="d6061559-c7de-402a-af86-fd675cfe5e2a"
@@ -3201,7 +3290,9 @@ IN
  Guid="0b558546-a1cc-4b56-a5f7-6f86c0c559bc"
 >
 <PreConditions>
-</PreConditions>
+<PreCondition
+ Guid="3eac35aa-977b-47e8-9789-cab4fe1ded6e"
+>FixedTextMessageCanBeStored( aMessage =&gt; aPacket )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="f403db65-1f85-45bd-a379-c9f84fe8a63a"
