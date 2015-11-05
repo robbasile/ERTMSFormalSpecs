@@ -95,8 +95,8 @@
  Default="0"
  Mode="InOut"
  Implemented="TRUE"
- Name="NID_C"
- Guid="8251e54f-be55-4746-9e10-e261da212f85"
+ Name="NID_C_0"
+ Guid="aba226f9-3df3-4056-bc45-fc5c4abdf62b"
 >
 </StructureElement><StructureElement
  TypeName="NID_BG"
@@ -125,6 +125,14 @@
  Guid="879968b6-70a0-4402-ae0a-8606a01229a3"
 >
 </ReqRef></StructureElement><StructureElement
+ TypeName="NID_C"
+ Default="0"
+ Mode="InOut"
+ Implemented="TRUE"
+ Name="NID_C_1"
+ Guid="7125dc8a-d8cc-4424-8d8d-1d21c34c5605"
+>
+</StructureElement><StructureElement
  TypeName="NID_BG"
  Default="0"
  Mode="InOut"
@@ -321,50 +329,39 @@
 >struct.Q_SCALE != 3</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
- Name="struct.NID_C invalid"
+ Name="struct.D_SR invalid"
  Guid="005c06bb-3d5a-41a4-a439-ffdecd84cf6c"
 >
 <PreConditions>
 <PreCondition
  Guid="6958a640-192b-4656-b004-8b02e3803018"
->struct.NID_C &lt; 0</PreCondition><PreCondition
+>struct.D_SR &lt; 0</PreCondition><PreCondition
  Guid="3f958f04-ea17-47a6-93a6-a080327aaae5"
->struct.NID_C &gt;= 1024</PreCondition></PreConditions>
+>struct.D_SR &gt;= 32768</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
- Name="struct.D_SR invalid"
+ Name="struct.N_ITER invalid"
  Guid="40b6b532-bc6e-483f-9c67-9257d575e50e"
 >
 <PreConditions>
 <PreCondition
  Guid="8bd09f82-d609-4541-8d53-79cf7b356b3f"
->struct.D_SR &lt; 0</PreCondition><PreCondition
+>struct.N_ITER &lt; 0</PreCondition><PreCondition
  Guid="26ff81e0-54d6-49bc-a7ea-c2213df0ae5c"
->struct.D_SR &gt;= 32768</PreCondition></PreConditions>
+>struct.N_ITER &gt;= 32</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
- Name="struct.N_ITER invalid"
+ Name="Sequence1 invalid"
  Guid="9f01ad5c-1d59-49a7-a7fa-09041d86fb56"
 >
 <PreConditions>
 <PreCondition
  Guid="ecb5a12b-6d43-473f-adac-e931015f63f9"
->struct.N_ITER &lt; 0</PreCondition><PreCondition
- Guid="70a264b8-35a1-446b-b2b4-33b86179f2f1"
->struct.N_ITER &gt;= 32</PreCondition></PreConditions>
-<Expression>False</Expression>
-</Case><Case
- Name="Sequence1 invalid"
- Guid="bd471406-d8eb-4825-b1cb-857221ad0a48"
->
-<PreConditions>
-<PreCondition
- Guid="4408b5ea-d631-49a2-a37b-c3f3df499cc2"
 >THERE_IS X IN struct.Sequence1 | NOT STAFF_RESPONSIBLE_DISTANCE_INFORMATION_FROM_LOOP.SubStructure1ValuesCorrect(X)</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
  Name="Otherwise"
- Guid="b0af4974-9e74-471d-ac45-2545d3b07a28"
+ Guid="bd471406-d8eb-4825-b1cb-857221ad0a48"
 >
 <Expression>True</Expression>
 </Case></Cases>
