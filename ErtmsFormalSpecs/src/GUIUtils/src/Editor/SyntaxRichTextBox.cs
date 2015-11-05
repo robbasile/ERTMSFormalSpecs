@@ -56,6 +56,7 @@ namespace GUIUtils.Editor
         /// </summary>
         public SyntaxRichTextBox()
         {
+            // ReSharper disable once DoNotCallOverridableMethodsInConstructor
             RegularFont = new Font(Font, FontStyle.Regular);
             Recognizer = new EfsRecognizer(RegularFont);
 
@@ -98,9 +99,6 @@ namespace GUIUtils.Editor
         /// Constants used in WndProc
         /// </summary>
         private const int WmPaint = 0x00f;
-        private const int WmHscroll = 0x114;
-        private const int WmVscroll = 0x115;
-        private const int WmMousewheel = 0x20A;
 
         /// <summary>
         ///     Captures WndProc event and filter out paint events when CanPaint is set to false to avoid flickering
@@ -113,19 +111,6 @@ namespace GUIUtils.Editor
                 // Capture the paint event to avoid painting when changes occur in the display
                 if (CanPaint)
                 {
-                    base.WndProc(ref m);
-                }
-                else
-                {
-                    m.Result = IntPtr.Zero;
-                }
-            }
-            else if (m.Msg == WmVscroll || m.Msg == WmHscroll || m.Msg == WmMousewheel) 
-            {
-                // Capture scroll events
-                if (CanPaint)
-                {
-                    ProcessAllLines();
                     base.WndProc(ref m);
                 }
                 else
@@ -221,8 +206,6 @@ namespace GUIUtils.Editor
         }
 
         // Only color the visible lines
-        private int _firstVisibleIndex;
-        private int _lastVisibleIndex;
         private HashSet<int> _processedLines;
 
         /// <summary>
@@ -230,8 +213,6 @@ namespace GUIUtils.Editor
         /// </summary>
         private void Clean()
         {
-            _firstVisibleIndex = -1;
-            _lastVisibleIndex = -1;
             _processedLines = new HashSet<int>();
         }
 
@@ -244,29 +225,18 @@ namespace GUIUtils.Editor
             {
                 CanPaint = false;
 
-                int firstVisibleIndex = GetCharIndexFromPosition(new Point(0, 0));
-                int lastVisibleIndex = GetCharIndexFromPosition(new Point(Size.Width, Size.Height));
-                if (firstVisibleIndex != _firstVisibleIndex || lastVisibleIndex != _lastVisibleIndex)
+                int lineNumber = 0;
+                int start = 0;
+                foreach (string line in Lines)
                 {
-                    _firstVisibleIndex = firstVisibleIndex;
-                    _lastVisibleIndex = lastVisibleIndex;
-
-                    int lineNumber = 0;
-                    int start = 0;
-                    foreach (string line in Lines)
+                    lineNumber = lineNumber + 1;
+                    if (!_processedLines.Contains(lineNumber))
                     {
-                        lineNumber = lineNumber + 1;
-                        if (start >= _firstVisibleIndex && start <= _lastVisibleIndex)
-                        {
-                            if (!_processedLines.Contains(lineNumber))
-                            {
-                                ProcessLine(start, line);
-                                _processedLines.Add(lineNumber);
-                            }
-                        }
-
-                        start = start + line.Length + 1;
+                        ProcessLine(start, line);
+                        _processedLines.Add(lineNumber);
                     }
+
+                    start = start + line.Length + 1;
                 }
 
                 CanPaint = true;
