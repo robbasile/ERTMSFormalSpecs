@@ -673,6 +673,7 @@
 </ReqRef><Comment>Represents a fixed text message.</Comment>
 <Rules>
 <Rule
+ Priority="Processing"
  Implemented="TRUE"
  Name="Handle end condition satisfied"
  Guid="a2da2ce5-989c-4d25-8278-e4fd7c06d3e1"
@@ -3546,7 +3547,7 @@ ON
 <Actions>
 <Action
  Guid="f4722bf6-73a7-442b-ba6c-9a662ff85f63"
->(FIRST aMessage IN DMI.MasterDMI().Out_FixedTextInformation.Messages | aMessage == DMI.MasterDMI().In_AcknOfFixedTextInformation.Message ).MessageIsAcknowledged &lt;- True</Action></Actions>
+>(FIRST aMessage IN DMI.MasterDMI().Out_PlainTextInformation.Messages | aMessage == DMI.MasterDMI().In_AcknOfPlainTextInformation.Message ).MessageIsAcknowledged &lt;- True</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Implemented="TRUE"
