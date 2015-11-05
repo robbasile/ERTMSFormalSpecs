@@ -35,13 +35,94 @@
 <PreCondition
  Guid="74d275c9-e80a-4055-be99-108b52573688"
 >OperatedSystemVersion in [SystemVersionEnum.Version2_0]</PreCondition></PreConditions>
-<Expression>Messages.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES.Message{
-  }</Expression>
+<Expression>Messages.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES.Message
+{
+  NID_PACKET =&gt; 3, 
+  Q_DIR =&gt; nvPacket.Q_DIR, 
+  L_PACKET =&gt; nvPacket.L_PACKET, 
+  Q_SCALE =&gt; nvPacket.Q_SCALE, 
+  D_VALIDNV =&gt; nvPacket.D_VALIDNV, 
+  NID_C =&gt; 0, 
+  N_ITER_0 =&gt; 0, 
+  Sequence1 =&gt; [], 
+  V_NVSHUNT =&gt; nvPacket.V_NVSHUNT, 
+  V_NVSTFF =&gt; nvPacket.V_NVSTFF, 
+  V_NVONSIGHT =&gt; nvPacket.V_NVONSIGHT, 
+  V_NVLIMSUPERV =&gt; MessageTypes.UnResolveSpeed(
+    speed=&gt;Kernel.NationalValues.ApplicableNationalValues.Value.LimitedSupervisionModeSpeedLimit,
+    resolution=&gt;5.0), 
+  V_NVUNFIT =&gt; nvPacket.V_NVUNFIT, 
+  V_NVREL =&gt; nvPacket.V_NVREL, 
+  D_NVROLL =&gt; nvPacket.V_NVROLL, 
+  Q_NVSBTSMPERM =&gt; nvPacket.Q_NVSRBKTRG, 
+  Q_NVEMRRLS =&gt; nvPacket.Q_NVEMRRLS, 
+  Q_NVGUIPERM =&gt; bcPacket.Q_NVGUIPERM, 
+  Q_NVSBFBPERM =&gt; bcPacket.Q_NVSBFBPERM, 
+  Q_NVINHSMICPERM =&gt; bcPacket.Q_NVINHSMICPERM, 
+  V_NVALLOWOVTRP =&gt; nvPacket.V_NVALLOWOVTRP, 
+  V_NVSUPOVTRP =&gt; nvPacket.V_NVSUPOVTRP, 
+  D_NVOVTRP =&gt; nvPacket.D_NVOVTRP, 
+  T_NVOVTRP =&gt; nvPacket.T_NVOVTRP, 
+  D_NVPOTRP =&gt; nvPacket.D_NVPOTRP, 
+  M_NVCONTACT =&gt; nvPacket.M_NVCONTACT, 
+  T_NVCONTACT =&gt; nvPacket.T_NVCONTACT, 
+  M_NVDERUN =&gt; nvPacket.M_NVDERUN, 
+  D_NVSTFF =&gt; nvPacket.D_NVSTFF, 
+  Q_NVDRIVER_ADHES =&gt; nvPacket.Q_NVDRIVER_ADHES, 
+  A_NVMAXREDADH1 =&gt; bcPacket.A_NVMAXREDADH1, 
+  A_NVMAXREDADH2 =&gt; bcPacket.A_NVMAXREDADH2, 
+  A_NVMAXREDADH3 =&gt; bcPacket.A_NVMAXREDADH3, 
+  Q_NVLOCACC =&gt; Kernel.NationalValues.ApplicableNationalValues.Value.DefaultLocationAccuracyOfABaliseGroup, 
+  M_NVAVADH =&gt; bcPacket.M_NVAVADH, 
+  M_NVEBCL =&gt; bcPacket.M_NVEBCL, 
+  Q_NVKINT =&gt; bcPacket.Q_NVKINT, 
+  Q_NVKVINTSET =&gt; bcPacket.Q_NVKVINTSET, 
+  A_NVP12 =&gt; bcPacket.A_NVP12, 
+  A_NVP23 =&gt; bcPacket.A_NVP23, 
+  V_NVKVINT =&gt; bcPacket.V_NVKVINT, 
+  M_NVKVINT_0 =&gt; bcPacket.M_NVKVINT_0, 
+  M_NVKVINT_1 =&gt; bcPacket.M_NVKVINT_1, 
+  N_ITER_1 =&gt; bcPacket.N_ITER_0, 
+  Sequence2 =&gt; [], 
+  N_ITER_2 =&gt; bcPacket.N_ITER_1, 
+  Sequence4 =&gt; [], 
+  L_NVKRINT =&gt; bcPacket.L_NVKRINT, 
+  M_NVKRINT =&gt; bcPacket.M_NVKRINT,
+  N_ITER_3 =&gt; bcPacket.N_ITER_2, 
+  Sequence5 =&gt; MAP aPacket.Sequence4 USING X IN SubStruct4TranslatedIntoSubStruct5(X), 
+  M_NVKTINT =&gt;  bcPacket.M_NVKTINT
+}</Expression>
 </Case><Case
  Name="Operated System version 1"
  Guid="6851fff0-3ff9-416a-b3b1-40371b667afe"
 >
 <Expression>Messages.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES.Message{
+}</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES.SubStructure5"
+ X="111"
+ Y="1"
+ Width="100"
+ Height="50"
+ Name="SubStruct4TranslatedIntoSubStruct5"
+ Guid="30ca8741-2f5e-4c40-a7e2-29113974f8f8"
+>
+<Parameters>
+<Parameter
+ Type="Messages.SystemVersion1.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES_FOR_BRAKING_CURVES.SubStructure4"
+ Name="aSubStructure4"
+ Guid="c22f80d8-4b5e-4f9a-8445-e80ab2b1ed4c"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="1d9d6663-bbe9-45bd-a98d-e4589fa5c622"
+>
+<Expression>Messages.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES.SubStructure5{
+L_NVKRINT =&gt; aSubStructure4.L_NVKRINT,
+M_NVKRINT =&gt; aSubStructure4.M_NVKRINT
 }</Expression>
 </Case></Cases>
 </Function></Functions>
