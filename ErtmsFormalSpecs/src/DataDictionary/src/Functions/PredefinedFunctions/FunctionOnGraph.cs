@@ -14,9 +14,7 @@
 // --
 // ------------------------------------------------------------------------------
 
-using System.Collections.Generic;
 using DataDictionary.Generated;
-using DataDictionary.Interpreter;
 using Type = DataDictionary.Types.Type;
 
 namespace DataDictionary.Functions.PredefinedFunctions
@@ -40,12 +38,12 @@ namespace DataDictionary.Functions.PredefinedFunctions
             : base(efsSystem, name)
         {
             Returns = (Function) acceptor.getFactory().createFunction();
-            Returns.Name = Name + "ReturnType";
+            Returns.Name = name + "ReturnType";
             Returns.ReturnType = EFSSystem.DoubleType;
             Returns.setFather(this);
 
             Parameter returnTypeParam = (Parameter) acceptor.getFactory().createParameter();
-            returnTypeParam.Name = Name + "ReturnTypeParam";
+            returnTypeParam.Name = name + "ReturnTypeParam";
             returnTypeParam.Type = EFSSystem.DoubleType;
             returnTypeParam.setFather(Returns);
             Returns.appendParameters(returnTypeParam);

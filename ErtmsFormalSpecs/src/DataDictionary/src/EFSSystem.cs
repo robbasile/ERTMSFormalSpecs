@@ -1638,6 +1638,11 @@ namespace DataDictionary
         /// </summary>
         public void ClearFunctionCache()
         {
+            foreach (PredefinedFunction function in PredefinedFunctions.Values)
+            {
+                function.ClearCache();
+            }
+
             foreach (Dictionary dictionary in Dictionaries)
             {
                 foreach (NameSpace nameSpace in dictionary.NameSpaces)
