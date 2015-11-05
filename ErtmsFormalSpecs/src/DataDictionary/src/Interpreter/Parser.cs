@@ -16,7 +16,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Threading;
 using DataDictionary.Generated;
 using DataDictionary.Interpreter.Filter;
 using DataDictionary.Interpreter.ListOperators;
@@ -36,13 +35,6 @@ namespace DataDictionary.Interpreter
         ///     The element for logs should be done
         /// </summary>
         public ModelElement RootLog { get; private set; }
-
-        /// <summary>
-        ///     Constructor
-        /// </summary>
-        public Parser()
-        {
-        }
 
         /// <summary>
         ///     The buffer which holds the expression
