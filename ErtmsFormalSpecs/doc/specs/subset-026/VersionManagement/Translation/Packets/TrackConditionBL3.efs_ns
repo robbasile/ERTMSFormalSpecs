@@ -1,0 +1,78 @@
+<NameSpace
+ X="661"
+ Y="61"
+ Width="100"
+ Height="50"
+ Name="TrackConditionBL3"
+ Guid="0c071c1f-cac0-4084-8320-7a56466533a8"
+>
+<NameSpaces>
+</NameSpaces>
+<Functions>
+<Function
+ Type="Messages.PACKET.TRACK_TO_TRAIN.TRACK_CONDITION.SubStructure1"
+ X="221"
+ Y="1"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="TranslateSubstructure1"
+ Guid="5f4bc08e-7623-491a-92ab-5cc77b7d6181"
+>
+<Parameters>
+<Parameter
+ Type="Messages.SystemVersion1.PACKET.TRACK_TO_TRAIN.TRACK_CONDITION_BL3.SubStructure1"
+ Name="aSubStructure1"
+ Guid="a262de13-0dec-4ab3-a9fb-03c821d23e42"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="717f89c8-0b0b-47f3-895a-1f1dc4e0cd1a"
+>
+<Expression>Messages.PACKET.TRACK_TO_TRAIN.TRACK_CONDITION.SubStructure1
+{
+  D_TRACKCOND =&gt; aSubStructure1.D_TRACKCOND, 
+  L_TRACKCOND =&gt; aSubStructure1.L_TRACKCOND, 
+  M_TRACKCOND =&gt; aSubStructure1.M_TRACKCONDBC
+}</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.PACKET.TRACK_TO_TRAIN.TRACK_CONDITION.Message"
+ X="111"
+ Y="1"
+ Width="100"
+ Height="50"
+ Name="UpdatedPacket"
+ Guid="a31df268-6dc0-4b7d-ae27-35a0527f3f30"
+>
+<Parameters>
+<Parameter
+ Type="Messages.SystemVersion1.PACKET.TRACK_TO_TRAIN.TRACK_CONDITION_BL3.Message"
+ Name="aPacket"
+ Guid="6db1e3fe-99b1-4181-94f1-a51a1151d827"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="9739a283-5173-44e9-bf70-b4c2f1999cda"
+>
+<Expression>Messages.PACKET.TRACK_TO_TRAIN.TRACK_CONDITION.Message
+{
+  NID_PACKET =&gt; 68, 
+  Q_DIR =&gt; aPacket.Q_DIR, 
+  L_PACKET =&gt; aPacket.L_PACKET, 
+  Q_SCALE =&gt; aPacket.Q_SCALE, 
+  Q_TRACKINIT =&gt; aPacket.Q_TRACKINIT, 
+  D_TRACKINIT =&gt; aPacket.D_TRACKINIT, 
+  D_TRACKCOND =&gt; aPacket.D_TRACKCOND, 
+  L_TRACKCOND =&gt; aPacket.L_TRACKCOND, 
+  M_TRACKCOND =&gt; aPacket.M_TRACKCONDBC, 
+  N_ITER =&gt; aPacket.N_ITER, 
+  Sequence1 =&gt; MAP aPacket.Sequence1 USING X IN TranslateSubstructure1(X)
+}</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>

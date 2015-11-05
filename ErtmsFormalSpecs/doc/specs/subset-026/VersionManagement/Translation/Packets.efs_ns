@@ -51,6 +51,19 @@
  Name="VirtualBaliseCoverMarker"
  Guid="dd884cca-bfae-4863-b2cb-29e9aad71869"
 >
+</NameSpaceRef><NameSpaceRef
+ Name="TrackConditionChangeOfTractionSystemBL3"
+ Guid="0e919b20-a04d-4ec7-a9a4-bd7511f67a35"
+>
+</NameSpaceRef><NameSpaceRef
+ Name="RouteSuitabilityDataBL3"
+>
+</NameSpaceRef><NameSpaceRef
+ Name="TrackConditionBL3"
+>
+</NameSpaceRef><NameSpaceRef
+ Name="FullNationalValues"
+>
 </NameSpaceRef></NameSpaces>
 <Functions>
 <Function
@@ -1101,6 +1114,48 @@ TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message{
 VIRTUAL_BALISE_COVER_MARKER =&gt; VirtualBaliseCoverMarker.UpdatedPacket(
 aPacket =&gt;  aPacket.TRACK_TO_TRAIN.VIRTUAL_BALISE_COVER_MARKER
 )
+}
+}</Expression>
+</Case><Case
+ Name="Packet 206 - Track condtion"
+ Guid="c6fb7c69-34af-40fc-ab7e-b17c71a1e636"
+>
+<Comment>Packet 206 has its NID_PACKET changed to 68.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="3bf803c1-d3fd-4322-99ba-615819e0a882"
+>Available(aPacket.TRACK_TO_TRAIN.TRACK_CONDITION_BL3)</PreCondition></PreConditions>
+<Expression>Messages.EUROBALISE.SubStructure1{
+TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message{
+TRACK_CONDITION =&gt; TrackConditionBL3.UpdatedPacket(aPacket.TRACK_TO_TRAIN.TRACK_CONDITION_BL3)
+}
+}</Expression>
+</Case><Case
+ Name="Packet 207 - Route suitability data"
+ Guid="63db37b9-53b0-4cd7-b0a1-467c38d49db3"
+>
+<Comment>Packet 207 has its NID_PACKET changed to 70.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="72ad9275-1f7b-4532-9635-bc7f2f3e772f"
+>Available(aPacket.TRACK_TO_TRAIN.ROUTE_SUITABILITY_DATA_BL3)</PreCondition></PreConditions>
+<Expression>Messages.EUROBALISE.SubStructure1{
+TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message{
+ROUTE_SUITABILITY_DATA=&gt; RouteSuitabilityDataBL3.UpdatedPacket(aPacket.TRACK_TO_TRAIN.ROUTE_SUITABILITY_DATA_BL3)
+}
+}</Expression>
+</Case><Case
+ Name="Packet 239 - Track condition change of traction system"
+ Guid="812f9940-f8d8-41e2-b30e-b8f33178bcee"
+>
+<Comment>Packet 239 has its NID_PACKET changed to 39.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="800eee17-5298-48a6-8191-e99215edc80d"
+>Available(aPacket.TRACK_TO_TRAIN.TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM_BL3)</PreCondition></PreConditions>
+<Expression>Messages.EUROBALISE.SubStructure1{
+TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message{
+TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM =&gt; TrackConditionChangeOfTractionSystemBL3.UpdatedPacket(aPacket.TRACK_TO_TRAIN.TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM_BL3)
 }
 }</Expression>
 </Case><Case

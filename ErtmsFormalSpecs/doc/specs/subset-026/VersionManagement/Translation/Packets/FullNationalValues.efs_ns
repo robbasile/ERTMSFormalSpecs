@@ -1,0 +1,48 @@
+<NameSpace
+ Name="FullNationalValues"
+ Guid="34ca1e38-a3b8-4958-8b10-7b80bfaa631c"
+>
+<NameSpaces>
+</NameSpaces>
+<Functions>
+<Function
+ Type="Messages.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES.Message"
+ X="1"
+ Y="61"
+ Width="100"
+ Height="50"
+ Name="UpdatedNV"
+ Guid="7bb2c00d-5a52-4a11-8044-8495d3da41a6"
+>
+<Parameters>
+<Parameter
+ Type="Messages.SystemVersion1.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES.Message"
+ Name="nvPacket"
+ Guid="0092d8e6-e97d-4254-bc0d-c1be40315f33"
+>
+</Parameter><Parameter
+ Type="Messages.SystemVersion1.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES_FOR_BRAKING_CURVES.Message"
+ Name="bcPacket"
+ Guid="ff7b86e3-fc02-41ca-b92d-8a23098df215"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Operated System version 2"
+ Guid="499ab789-3f4c-4bdc-bd7d-e8d6d633f70d"
+>
+<PreConditions>
+<PreCondition
+ Guid="74d275c9-e80a-4055-be99-108b52573688"
+>OperatedSystemVersion in [SystemVersionEnum.Version2_0]</PreCondition></PreConditions>
+<Expression>Messages.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES.Message{
+  }</Expression>
+</Case><Case
+ Name="Operated System version 1"
+ Guid="6851fff0-3ff9-416a-b3b1-40371b667afe"
+>
+<Expression>Messages.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES.Message{
+}</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>

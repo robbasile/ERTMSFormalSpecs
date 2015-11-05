@@ -112,13 +112,13 @@
  Default="0"
  Mode="InOut"
  Implemented="TRUE"
- Name="N_ITER"
- Guid="feacb41b-d225-44e7-96c5-8105266d5814"
+ Name="N_ITER_0"
+ Guid="84ef42c6-9be0-41e0-9c79-27c7a7c770d2"
 >
 <ReqRef
  Id="da594ef9-d8e9-4553-af3e-77f9102ec171"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="dfef77ef-26c9-45d6-8711-191ddf61a359"
+ Guid="a8bdc5fb-3222-4e41-8afe-4cbfbf9a31c6"
 >
 </ReqRef></StructureElement><StructureElement
  TypeName="Collection1"
@@ -563,8 +563,8 @@
  Default="0"
  Mode="InOut"
  Implemented="TRUE"
- Name="N_ITER_0"
- Guid="84ef42c6-9be0-41e0-9c79-27c7a7c770d2"
+ Name="N_ITER_1"
+ Guid="0db90956-a16e-4b0f-8409-6fa393bc366d"
 >
 </StructureElement><StructureElement
  TypeName="Collection2"
@@ -579,8 +579,8 @@
  Default="0"
  Mode="InOut"
  Implemented="TRUE"
- Name="N_ITER_1"
- Guid="0db90956-a16e-4b0f-8409-6fa393bc366d"
+ Name="N_ITER_2"
+ Guid="24d42822-3f16-40b3-a5bf-5bc2484805b3"
 >
 </StructureElement><StructureElement
  TypeName="Collection4"
@@ -611,8 +611,8 @@
  Default="0"
  Mode="InOut"
  Implemented="TRUE"
- Name="N_ITER_2"
- Guid="24d42822-3f16-40b3-a5bf-5bc2484805b3"
+ Name="N_ITER_3"
+ Guid="b0bfcdeb-2d83-4528-9910-2b1ae9c37a6c"
 >
 </StructureElement><StructureElement
  TypeName="Collection5"
@@ -1023,473 +1023,462 @@
 >struct.NID_C &gt;= 1024</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
- Name="struct.N_ITER invalid"
+ Name="Sequence1 invalid"
  Guid="2a081804-a049-47a0-9490-c850e698cf1d"
 >
 <PreConditions>
 <PreCondition
  Guid="127279b0-8cd0-43ab-b20d-9ed0c1fb1fa9"
->struct.N_ITER &lt; 0</PreCondition><PreCondition
- Guid="93c55eed-08d7-4f8b-b06c-8757e21c87ed"
->struct.N_ITER &gt;= 32</PreCondition></PreConditions>
+>THERE_IS X IN struct.Sequence1 | NOT NATIONAL_VALUES.SubStructure1ValuesCorrect(X)</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
- Name="Sequence1 invalid"
+ Name="struct.V_NVSHUNT invalid"
  Guid="2ece2b37-f51a-4244-9693-7b0c06853d2f"
 >
 <PreConditions>
 <PreCondition
  Guid="5c1746ae-f240-4ab0-ad5d-ada2523e28b8"
->THERE_IS X IN struct.Sequence1 | NOT NATIONAL_VALUES.SubStructure1ValuesCorrect(X)</PreCondition></PreConditions>
+>struct.V_NVSHUNT &lt; 0</PreCondition><PreCondition
+ Guid="244c8fe1-ab4c-483b-97b2-55a2cc943d39"
+>struct.V_NVSHUNT &gt;= 128</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
- Name="struct.V_NVSHUNT invalid"
+ Name="struct.V_NVSTFF invalid"
  Guid="befb45e6-048d-4adb-b53f-efba1f9a4b29"
 >
 <PreConditions>
 <PreCondition
  Guid="f91d7c21-0319-4980-8865-01b8a33312d4"
->struct.V_NVSHUNT &lt; 0</PreCondition><PreCondition
+>struct.V_NVSTFF &lt; 0</PreCondition><PreCondition
  Guid="b8dfd967-2c25-46c1-ba7c-29bb903698f9"
->struct.V_NVSHUNT &gt;= 128</PreCondition></PreConditions>
+>struct.V_NVSTFF &gt;= 128</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
- Name="struct.V_NVSTFF invalid"
+ Name="struct.V_NVONSIGHT invalid"
  Guid="693307a4-06a5-4cd5-99dd-440cbff9b77c"
 >
 <PreConditions>
 <PreCondition
  Guid="14f870d1-a174-4707-855d-9e6b0cc6a80d"
->struct.V_NVSTFF &lt; 0</PreCondition><PreCondition
+>struct.V_NVONSIGHT &lt; 0</PreCondition><PreCondition
  Guid="1499a077-f994-496d-b328-0293f0e64ecb"
->struct.V_NVSTFF &gt;= 128</PreCondition></PreConditions>
+>struct.V_NVONSIGHT &gt;= 128</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
- Name="struct.V_NVONSIGHT invalid"
+ Name="struct.V_NVLIMSUPERV invalid"
  Guid="4f98bbc2-f1bc-4efe-b0a1-5b9bc3d3142a"
 >
 <PreConditions>
 <PreCondition
  Guid="ec16b16a-7680-47fc-a8f5-a5055abed354"
->struct.V_NVONSIGHT &lt; 0</PreCondition><PreCondition
+>struct.V_NVLIMSUPERV &lt; 0</PreCondition><PreCondition
  Guid="5b0f1ec2-ac40-4bdf-89c2-e631e55338db"
->struct.V_NVONSIGHT &gt;= 128</PreCondition></PreConditions>
+>struct.V_NVLIMSUPERV &gt;= 128</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
- Name="struct.V_NVLIMSUPERV invalid"
+ Name="struct.V_NVUNFIT invalid"
  Guid="ec579a63-63a8-4da4-954e-b06e2e4ca7bb"
 >
 <PreConditions>
 <PreCondition
  Guid="acbb5203-f100-45dd-ae49-ab6cb8883cba"
->struct.V_NVLIMSUPERV &lt; 0</PreCondition><PreCondition
+>struct.V_NVUNFIT &lt; 0</PreCondition><PreCondition
  Guid="e949cebd-b140-419a-bbbd-54efb8f39ddc"
->struct.V_NVLIMSUPERV &gt;= 128</PreCondition></PreConditions>
+>struct.V_NVUNFIT &gt;= 128</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
- Name="struct.V_NVUNFIT invalid"
+ Name="struct.V_NVREL invalid"
  Guid="74311c76-82c2-4008-be2c-eed1057239e0"
 >
 <PreConditions>
 <PreCondition
  Guid="c76d6574-6749-479b-91bf-98f844a312c1"
->struct.V_NVUNFIT &lt; 0</PreCondition><PreCondition
+>struct.V_NVREL &lt; 0</PreCondition><PreCondition
  Guid="6c99dbeb-1f92-4245-9dd7-5d38263c1191"
->struct.V_NVUNFIT &gt;= 128</PreCondition></PreConditions>
+>struct.V_NVREL &gt;= 128</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
- Name="struct.V_NVREL invalid"
+ Name="struct.D_NVROLL invalid"
  Guid="77103360-2bc8-4cd2-a2f2-b7900fb0bffc"
 >
 <PreConditions>
 <PreCondition
  Guid="49250238-fc41-4b4f-a124-1363bae4569a"
->struct.V_NVREL &lt; 0</PreCondition><PreCondition
+>struct.D_NVROLL &lt; 0</PreCondition><PreCondition
  Guid="bc3da3c9-b070-4a72-a032-d558f17f3d61"
->struct.V_NVREL &gt;= 128</PreCondition></PreConditions>
+>struct.D_NVROLL &gt;= 32768</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
- Name="struct.D_NVROLL invalid"
+ Name="struct.Q_NVSBTSMPERM invalid"
  Guid="6473319b-ed33-4cd9-ace7-8c86284402d2"
 >
 <PreConditions>
 <PreCondition
  Guid="b7235f70-0fa9-49be-9a2c-64dbdfef82b8"
->struct.D_NVROLL &lt; 0</PreCondition><PreCondition
+>struct.Q_NVSBTSMPERM &lt; 0</PreCondition><PreCondition
  Guid="09a9dee1-1264-435f-a90b-135af73e9b07"
->struct.D_NVROLL &gt;= 32768</PreCondition></PreConditions>
+>struct.Q_NVSBTSMPERM &gt;= 2</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
- Name="struct.Q_NVSBTSMPERM invalid"
+ Name="struct.Q_NVEMRRLS invalid"
  Guid="2d7117dc-c3c2-42d6-bd4a-7fa602e7f2d8"
 >
 <PreConditions>
 <PreCondition
  Guid="d87deb06-231f-493b-9d57-9e05cdfc1dc9"
->struct.Q_NVSBTSMPERM &lt; 0</PreCondition><PreCondition
+>struct.Q_NVEMRRLS &lt; 0</PreCondition><PreCondition
  Guid="49023c4e-cf7e-4914-9b1b-9a3172c2e2cf"
->struct.Q_NVSBTSMPERM &gt;= 2</PreCondition></PreConditions>
+>struct.Q_NVEMRRLS &gt;= 2</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
- Name="struct.Q_NVEMRRLS invalid"
+ Name="struct.Q_NVGUIPERM invalid"
  Guid="5ea5944a-44eb-4ea9-a85a-99240a86deb0"
 >
 <PreConditions>
 <PreCondition
  Guid="d6d690d7-a80c-46e2-b175-baf2db332c10"
->struct.Q_NVEMRRLS &lt; 0</PreCondition><PreCondition
+>struct.Q_NVGUIPERM &lt; 0</PreCondition><PreCondition
  Guid="7fb9a045-c38f-420a-b829-feeadac91394"
->struct.Q_NVEMRRLS &gt;= 2</PreCondition></PreConditions>
+>struct.Q_NVGUIPERM &gt;= 2</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
- Name="struct.Q_NVGUIPERM invalid"
+ Name="struct.Q_NVSBFBPERM invalid"
  Guid="11825e2f-8004-4454-9b9d-f5f1782e2c3f"
 >
 <PreConditions>
 <PreCondition
  Guid="65dba6ab-bd45-4cb9-b124-cdb233a58d11"
->struct.Q_NVGUIPERM &lt; 0</PreCondition><PreCondition
+>struct.Q_NVSBFBPERM &lt; 0</PreCondition><PreCondition
  Guid="fb42199c-3f2e-47be-afeb-3d0947526c1e"
->struct.Q_NVGUIPERM &gt;= 2</PreCondition></PreConditions>
+>struct.Q_NVSBFBPERM &gt;= 2</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
- Name="struct.Q_NVSBFBPERM invalid"
+ Name="struct.Q_NVINHSMICPERM invalid"
  Guid="2c7c3a90-bcc4-4d6d-99b0-4dc15c9e81a4"
 >
 <PreConditions>
 <PreCondition
  Guid="15d4f506-d5b3-4f63-9866-7cfc9ebb8d19"
->struct.Q_NVSBFBPERM &lt; 0</PreCondition><PreCondition
+>struct.Q_NVINHSMICPERM &lt; 0</PreCondition><PreCondition
  Guid="cbaa1b33-ec17-4472-a786-125219c9f2c4"
->struct.Q_NVSBFBPERM &gt;= 2</PreCondition></PreConditions>
+>struct.Q_NVINHSMICPERM &gt;= 2</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
- Name="struct.Q_NVINHSMICPERM invalid"
+ Name="struct.V_NVALLOWOVTRP invalid"
  Guid="95cc176a-d2aa-4c6e-9b66-9e33537a0a86"
 >
 <PreConditions>
 <PreCondition
  Guid="ce085dfb-5e1b-4cd5-952b-47be60cb4958"
->struct.Q_NVINHSMICPERM &lt; 0</PreCondition><PreCondition
+>struct.V_NVALLOWOVTRP &lt; 0</PreCondition><PreCondition
  Guid="46b2c71c-5f20-4735-9a4b-dcd212c74602"
->struct.Q_NVINHSMICPERM &gt;= 2</PreCondition></PreConditions>
+>struct.V_NVALLOWOVTRP &gt;= 128</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
- Name="struct.V_NVALLOWOVTRP invalid"
+ Name="struct.V_NVSUPOVTRP invalid"
  Guid="8fe5e57c-b573-4d75-b1d2-b61c86ff8c94"
 >
 <PreConditions>
 <PreCondition
  Guid="58e260f2-47e7-4fa9-a5fe-377235fed158"
->struct.V_NVALLOWOVTRP &lt; 0</PreCondition><PreCondition
+>struct.V_NVSUPOVTRP &lt; 0</PreCondition><PreCondition
  Guid="7ad03f20-17cc-4169-9c0e-244f8cbf5dd4"
->struct.V_NVALLOWOVTRP &gt;= 128</PreCondition></PreConditions>
+>struct.V_NVSUPOVTRP &gt;= 128</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
- Name="struct.V_NVSUPOVTRP invalid"
+ Name="struct.D_NVOVTRP invalid"
  Guid="e8182c00-2e36-46a8-b5dd-f786c17d83bd"
 >
 <PreConditions>
 <PreCondition
  Guid="5203142f-7111-4dca-89fe-2095cf775a9d"
->struct.V_NVSUPOVTRP &lt; 0</PreCondition><PreCondition
+>struct.D_NVOVTRP &lt; 0</PreCondition><PreCondition
  Guid="e63261a1-4243-4187-aa61-d7d7e40ba8e0"
->struct.V_NVSUPOVTRP &gt;= 128</PreCondition></PreConditions>
+>struct.D_NVOVTRP &gt;= 32768</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
- Name="struct.D_NVOVTRP invalid"
+ Name="struct.T_NVOVTRP invalid"
  Guid="9896bc34-b5bb-4c62-9f3c-50d066dc137e"
 >
 <PreConditions>
 <PreCondition
  Guid="f84bdfc6-f5e4-4b5b-ad02-cec2ce77167c"
->struct.D_NVOVTRP &lt; 0</PreCondition><PreCondition
+>struct.T_NVOVTRP &lt; 0</PreCondition><PreCondition
  Guid="9d6800ad-b41a-4f8e-9c53-c45127754f29"
->struct.D_NVOVTRP &gt;= 32768</PreCondition></PreConditions>
+>struct.T_NVOVTRP &gt;= 256</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
- Name="struct.T_NVOVTRP invalid"
+ Name="struct.D_NVPOTRP invalid"
  Guid="97258440-3988-4a91-95f5-0e89240c9c32"
 >
 <PreConditions>
 <PreCondition
  Guid="7e6720e5-da15-44ec-a682-51ffc5127483"
->struct.T_NVOVTRP &lt; 0</PreCondition><PreCondition
+>struct.D_NVPOTRP &lt; 0</PreCondition><PreCondition
  Guid="6e17956b-37b5-4b3b-b847-4edd48660f3a"
->struct.T_NVOVTRP &gt;= 256</PreCondition></PreConditions>
+>struct.D_NVPOTRP &gt;= 32768</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
- Name="struct.D_NVPOTRP invalid"
+ Name="struct.M_NVCONTACT invalid"
  Guid="2df98b71-b727-4798-ae42-f442cfb8f43d"
 >
 <PreConditions>
 <PreCondition
  Guid="8b9cf2a0-83ac-4797-a742-a0c7acfd148c"
->struct.D_NVPOTRP &lt; 0</PreCondition><PreCondition
+>struct.M_NVCONTACT &lt; 0</PreCondition><PreCondition
  Guid="87a5e350-8900-4773-a458-df674f1e1b28"
->struct.D_NVPOTRP &gt;= 32768</PreCondition></PreConditions>
+>struct.M_NVCONTACT &gt;= 4</PreCondition><PreCondition
+ Guid="4883bcc3-424f-4497-8702-10aea0cb8bda"
+>struct.M_NVCONTACT != 3</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
- Name="struct.M_NVCONTACT invalid"
+ Name="struct.T_NVCONTACT invalid"
  Guid="e53a30b6-a07a-4168-b913-e1c5b1feb011"
 >
 <PreConditions>
 <PreCondition
  Guid="d8753ac9-7f1a-4d54-b88c-a08f2faca280"
->struct.M_NVCONTACT &lt; 0</PreCondition><PreCondition
+>struct.T_NVCONTACT &lt; 0</PreCondition><PreCondition
  Guid="d0af431e-d89d-4cd1-90e0-8a9cdf0c8ee5"
->struct.M_NVCONTACT &gt;= 4</PreCondition><PreCondition
- Guid="593d5f93-742b-45a7-9d86-dd68c722e61b"
->struct.M_NVCONTACT != 3</PreCondition></PreConditions>
+>struct.T_NVCONTACT &gt;= 256</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
- Name="struct.T_NVCONTACT invalid"
+ Name="struct.M_NVDERUN invalid"
  Guid="85291c5d-a2a9-432e-8e52-03d86ddd6a45"
 >
 <PreConditions>
 <PreCondition
  Guid="5dae731a-cf30-4447-82e8-272b648443da"
->struct.T_NVCONTACT &lt; 0</PreCondition><PreCondition
+>struct.M_NVDERUN &lt; 0</PreCondition><PreCondition
  Guid="5e339e86-38e3-4449-a88f-92799fae0bfb"
->struct.T_NVCONTACT &gt;= 256</PreCondition></PreConditions>
+>struct.M_NVDERUN &gt;= 2</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
- Name="struct.M_NVDERUN invalid"
+ Name="struct.D_NVSTFF invalid"
  Guid="339f2be0-075b-4561-965f-fcd8a65ab7b4"
 >
 <PreConditions>
 <PreCondition
  Guid="33e3a969-d393-45e5-88cd-92058c200766"
->struct.M_NVDERUN &lt; 0</PreCondition><PreCondition
+>struct.D_NVSTFF &lt; 0</PreCondition><PreCondition
  Guid="b82f5e45-ccaa-426a-a9f7-586e24244fc2"
->struct.M_NVDERUN &gt;= 2</PreCondition></PreConditions>
+>struct.D_NVSTFF &gt;= 32768</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
- Name="struct.D_NVSTFF invalid"
+ Name="struct.Q_NVDRIVER_ADHES invalid"
  Guid="d3ba84c0-33e3-43e6-a56b-0378a352e22f"
 >
 <PreConditions>
 <PreCondition
  Guid="605642b3-af4a-489f-bb7d-4fabcba155e7"
->struct.D_NVSTFF &lt; 0</PreCondition><PreCondition
+>struct.Q_NVDRIVER_ADHES &lt; 0</PreCondition><PreCondition
  Guid="1ea2c57c-16da-4cb7-846b-bbf17828a6f6"
->struct.D_NVSTFF &gt;= 32768</PreCondition></PreConditions>
+>struct.Q_NVDRIVER_ADHES &gt;= 2</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
- Name="struct.Q_NVDRIVER_ADHES invalid"
+ Name="struct.A_NVMAXREDADH1 invalid"
  Guid="bb8a8cbe-6c9c-4e9c-a96c-d2379a78069b"
 >
 <PreConditions>
 <PreCondition
  Guid="d61d6ef2-ace2-4940-aafe-a666dbf69748"
->struct.Q_NVDRIVER_ADHES &lt; 0</PreCondition><PreCondition
+>struct.A_NVMAXREDADH1 &lt; 0</PreCondition><PreCondition
  Guid="cc497942-1a9d-4735-b90f-07a602ab5045"
->struct.Q_NVDRIVER_ADHES &gt;= 2</PreCondition></PreConditions>
+>struct.A_NVMAXREDADH1 &gt;= 64</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
- Name="struct.A_NVMAXREDADH1 invalid"
+ Name="struct.A_NVMAXREDADH2 invalid"
  Guid="660a35b6-595e-47b3-8101-0ef4f94c4339"
 >
 <PreConditions>
 <PreCondition
  Guid="fa853494-03fa-4de4-84b1-6a75af995239"
->struct.A_NVMAXREDADH1 &lt; 0</PreCondition><PreCondition
+>struct.A_NVMAXREDADH2 &lt; 0</PreCondition><PreCondition
  Guid="69cb79a2-1370-4e97-8281-d8861126600d"
->struct.A_NVMAXREDADH1 &gt;= 64</PreCondition></PreConditions>
+>struct.A_NVMAXREDADH2 &gt;= 64</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
- Name="struct.A_NVMAXREDADH2 invalid"
+ Name="struct.A_NVMAXREDADH3 invalid"
  Guid="ec89d8ba-9d55-4356-97c1-c9b261840574"
 >
 <PreConditions>
 <PreCondition
  Guid="be448737-de01-40a4-8eb8-fbbf86443388"
->struct.A_NVMAXREDADH2 &lt; 0</PreCondition><PreCondition
+>struct.A_NVMAXREDADH3 &lt; 0</PreCondition><PreCondition
  Guid="5e30b4cd-a87d-4629-98f6-32286c131ba5"
->struct.A_NVMAXREDADH2 &gt;= 64</PreCondition></PreConditions>
+>struct.A_NVMAXREDADH3 &gt;= 64</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
- Name="struct.A_NVMAXREDADH3 invalid"
+ Name="struct.Q_NVLOCACC invalid"
  Guid="784091e8-b1d0-4ea9-be15-0644ead305e7"
 >
 <PreConditions>
 <PreCondition
  Guid="aea5094b-c2a6-439d-b1ab-046a6f9c0ba3"
->struct.A_NVMAXREDADH3 &lt; 0</PreCondition><PreCondition
+>struct.Q_NVLOCACC &lt; 0</PreCondition><PreCondition
  Guid="ba94a092-b937-487b-b8f6-1ee3d52c3cc7"
->struct.A_NVMAXREDADH3 &gt;= 64</PreCondition></PreConditions>
+>struct.Q_NVLOCACC &gt;= 64</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
- Name="struct.Q_NVLOCACC invalid"
+ Name="struct.M_NVAVADH invalid"
  Guid="0e53bfe3-3e6d-4122-9192-55adad9e8c91"
 >
 <PreConditions>
 <PreCondition
  Guid="ac31adcb-2deb-48db-9bbd-c8c70f0a6ed8"
->struct.Q_NVLOCACC &lt; 0</PreCondition><PreCondition
+>struct.M_NVAVADH &lt; 0</PreCondition><PreCondition
  Guid="3ce9eb42-1b71-477f-8c17-f540c6befd31"
->struct.Q_NVLOCACC &gt;= 64</PreCondition></PreConditions>
+>struct.M_NVAVADH &gt;= 32</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
- Name="struct.M_NVAVADH invalid"
+ Name="struct.M_NVEBCL invalid"
  Guid="70607397-4ce3-4d99-8c45-2cd3420d6b7c"
 >
 <PreConditions>
 <PreCondition
  Guid="1dfe6817-11f3-40f1-8cb7-420c133592be"
->struct.M_NVAVADH &lt; 0</PreCondition><PreCondition
- Guid="3446701e-95ac-495b-ab5a-756937f0343c"
->struct.M_NVAVADH &gt;= 32</PreCondition></PreConditions>
-<Expression>False</Expression>
-</Case><Case
- Name="struct.M_NVEBCL invalid"
- Guid="610ce7e0-d099-4fd5-8732-9361e23785fa"
->
-<PreConditions>
-<PreCondition
- Guid="13b505cc-4981-40d2-b0f9-4ebee8837dc8"
 >struct.M_NVEBCL &lt; 0</PreCondition><PreCondition
- Guid="f57920e5-3eac-460a-91e1-322fde6a9e27"
+ Guid="3446701e-95ac-495b-ab5a-756937f0343c"
 >struct.M_NVEBCL &gt;= 16</PreCondition><PreCondition
- Guid="eb1e03e3-f286-4f43-acba-dfb05217000d"
+ Guid="2cd7167e-62dd-4942-a773-8b0163d41c18"
 >struct.M_NVEBCL != 4</PreCondition><PreCondition
- Guid="658556da-5339-485b-9507-961272b103b2"
+ Guid="c66585e5-e768-4540-8a06-149ee1089636"
 >struct.M_NVEBCL != 5</PreCondition><PreCondition
- Guid="d5a39502-1cf5-4935-9d23-3c8118558e23"
+ Guid="1fb86a66-4872-48f5-b690-9695d3fd9724"
 >struct.M_NVEBCL != 6</PreCondition><PreCondition
- Guid="cf299195-e361-4db6-b70d-d7a42992d749"
+ Guid="bbfad4c2-a458-49ed-8c5a-258ed1e7cb65"
 >struct.M_NVEBCL != 7</PreCondition><PreCondition
- Guid="1f6082e8-4cea-4c3d-a42b-a17588ddbff4"
+ Guid="291732fd-9805-4a01-b64c-53279ab1f54c"
 >struct.M_NVEBCL != 8</PreCondition><PreCondition
- Guid="fff67f79-3580-4db3-8b07-cfcf4bd6161c"
+ Guid="c975d74b-865c-4db5-888e-8b0fad75aa7b"
 >struct.M_NVEBCL != 9</PreCondition><PreCondition
- Guid="8293b51b-236d-4ade-b7ec-d2ff6e39c732"
+ Guid="b52a7002-b8cf-4493-accb-b5f8b98fb0d8"
 >struct.M_NVEBCL &lt; 10
   AND  
 struct.M_NVEBCL &gt; 15</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
  Name="struct.Q_NVKINT invalid"
+ Guid="610ce7e0-d099-4fd5-8732-9361e23785fa"
+>
+<PreConditions>
+<PreCondition
+ Guid="13b505cc-4981-40d2-b0f9-4ebee8837dc8"
+>struct.Q_NVKINT &lt; 0</PreCondition><PreCondition
+ Guid="f57920e5-3eac-460a-91e1-322fde6a9e27"
+>struct.Q_NVKINT &gt;= 2</PreCondition></PreConditions>
+<Expression>False</Expression>
+</Case><Case
+ Name="struct.Q_NVKVINTSET invalid"
  Guid="3435bbe9-e7ba-42eb-928a-653fdbd9fd3e"
 >
 <PreConditions>
 <PreCondition
  Guid="c0e6f079-b593-46e7-b0cd-647b47387cbc"
->struct.Q_NVKINT &lt; 0</PreCondition><PreCondition
- Guid="0d319f61-3124-483c-af2b-b8def771f731"
->struct.Q_NVKINT &gt;= 2</PreCondition></PreConditions>
-<Expression>False</Expression>
-</Case><Case
- Name="struct.Q_NVKVINTSET invalid"
- Guid="5608e22c-d0aa-424f-ab82-e64146fd2ef2"
->
-<PreConditions>
-<PreCondition
- Guid="15bd6636-0a20-4caf-b561-a165fccc57a0"
 >struct.Q_NVKVINTSET &lt; 0</PreCondition><PreCondition
- Guid="a0dbf0aa-4417-470b-b289-e7d8a3c8d380"
+ Guid="0d319f61-3124-483c-af2b-b8def771f731"
 >struct.Q_NVKVINTSET &gt;= 4</PreCondition><PreCondition
- Guid="ed34ea39-95d8-401f-b027-4281a65d1cd1"
+ Guid="0252031d-3e28-4a5d-87ec-861bcf63ca86"
 >struct.Q_NVKVINTSET &lt; 2
   AND  
 struct.Q_NVKVINTSET &gt; 3</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
  Name="struct.A_NVP12 invalid"
+ Guid="5608e22c-d0aa-424f-ab82-e64146fd2ef2"
+>
+<PreConditions>
+<PreCondition
+ Guid="15bd6636-0a20-4caf-b561-a165fccc57a0"
+>struct.A_NVP12 &lt; 0</PreCondition><PreCondition
+ Guid="a0dbf0aa-4417-470b-b289-e7d8a3c8d380"
+>struct.A_NVP12 &gt;= 64</PreCondition></PreConditions>
+<Expression>False</Expression>
+</Case><Case
+ Name="struct.A_NVP23 invalid"
  Guid="5c547664-2a23-4b9a-a79d-c5ac92bf81f4"
 >
 <PreConditions>
 <PreCondition
  Guid="8742065a-992e-4fe6-a1a6-509b80b696fc"
->struct.A_NVP12 &lt; 0</PreCondition><PreCondition
+>struct.A_NVP23 &lt; 0</PreCondition><PreCondition
  Guid="bf060d1a-e337-49b9-9198-150440268181"
->struct.A_NVP12 &gt;= 64</PreCondition></PreConditions>
+>struct.A_NVP23 &gt;= 64</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
- Name="struct.A_NVP23 invalid"
+ Name="struct.V_NVKVINT invalid"
  Guid="cb970a54-af7f-4c61-8a01-6bb5c767dd8d"
 >
 <PreConditions>
 <PreCondition
  Guid="a32813be-488d-45d6-8570-e24b2b99a162"
->struct.A_NVP23 &lt; 0</PreCondition><PreCondition
+>struct.V_NVKVINT &lt; 0</PreCondition><PreCondition
  Guid="5236e830-d4d5-4095-aa2a-84b2e237ee3e"
->struct.A_NVP23 &gt;= 64</PreCondition></PreConditions>
+>struct.V_NVKVINT &gt;= 128</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
- Name="struct.V_NVKVINT invalid"
+ Name="Sequence2 invalid"
  Guid="2b386613-20ea-4b6f-a3ce-bbe380d76251"
 >
 <PreConditions>
 <PreCondition
  Guid="be0f3802-b88a-4110-9a54-775eb3660c48"
->struct.V_NVKVINT &lt; 0</PreCondition><PreCondition
- Guid="73eca647-c243-456d-8e71-9a98a938133b"
->struct.V_NVKVINT &gt;= 128</PreCondition></PreConditions>
+>THERE_IS X IN struct.Sequence2 | NOT NATIONAL_VALUES.SubStructure2ValuesCorrect(X)</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
- Name="Sequence2 invalid"
+ Name="Sequence4 invalid"
  Guid="c11d7ec0-98fb-496f-86c1-a7f98af285c2"
 >
 <PreConditions>
 <PreCondition
  Guid="6138344a-7517-4009-bd8e-7b48e24bafe3"
->THERE_IS X IN struct.Sequence2 | NOT NATIONAL_VALUES.SubStructure2ValuesCorrect(X)</PreCondition></PreConditions>
+>THERE_IS X IN struct.Sequence4 | NOT NATIONAL_VALUES.SubStructure3ValuesCorrect(X)</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
- Name="Sequence4 invalid"
+ Name="struct.L_NVKRINT invalid"
  Guid="f74f4155-f0a8-4635-96bb-d63d428e9203"
 >
 <PreConditions>
 <PreCondition
  Guid="51b99d6a-e24d-4198-a3bf-cf04a4b0f4b6"
->THERE_IS X IN struct.Sequence4 | NOT NATIONAL_VALUES.SubStructure3ValuesCorrect(X)</PreCondition></PreConditions>
+>struct.L_NVKRINT &lt; 0</PreCondition><PreCondition
+ Guid="89c571d1-338f-4aab-b4b8-9e7a3db01e19"
+>struct.L_NVKRINT &gt;= 32</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
- Name="struct.L_NVKRINT invalid"
+ Name="struct.M_NVKRINT invalid"
  Guid="a310bcb8-6b11-46a6-8fb9-d627ddc3447d"
 >
 <PreConditions>
 <PreCondition
  Guid="67089188-c8e7-4876-a458-7f7be4e9b313"
->struct.L_NVKRINT &lt; 0</PreCondition><PreCondition
+>struct.M_NVKRINT &lt; 0</PreCondition><PreCondition
  Guid="f7ff7090-296c-4f70-a158-4792502b4918"
->struct.L_NVKRINT &gt;= 32</PreCondition></PreConditions>
+>struct.M_NVKRINT &gt;= 32</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
- Name="struct.M_NVKRINT invalid"
+ Name="Sequence5 invalid"
  Guid="9c0b7d05-5273-4791-9c24-151c87e08bf3"
 >
 <PreConditions>
 <PreCondition
  Guid="aabf6c2c-8796-4173-9be2-3d6856a9ae45"
->struct.M_NVKRINT &lt; 0</PreCondition><PreCondition
- Guid="2dbf8b9b-a5f3-4f55-896a-241c4afc008b"
->struct.M_NVKRINT &gt;= 32</PreCondition></PreConditions>
+>THERE_IS X IN struct.Sequence5 | NOT NATIONAL_VALUES.SubStructure5ValuesCorrect(X)</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
- Name="Sequence5 invalid"
+ Name="struct.M_NVKTINT invalid"
  Guid="2ae1c8a4-4991-4d55-bd95-021457d6fc26"
 >
 <PreConditions>
 <PreCondition
  Guid="d6b04bf9-cb61-4f5a-b311-464a4a27ba5b"
->THERE_IS X IN struct.Sequence5 | NOT NATIONAL_VALUES.SubStructure5ValuesCorrect(X)</PreCondition></PreConditions>
-<Expression>False</Expression>
-</Case><Case
- Name="struct.M_NVKTINT invalid"
- Guid="979e2213-6ec3-4a23-9952-9b8b1ab258f0"
->
-<PreConditions>
-<PreCondition
- Guid="79ad9324-5ce4-42ae-b14c-3c48b9c0a4bc"
 >struct.M_NVKTINT &lt; 0</PreCondition><PreCondition
- Guid="8b97162b-6912-4645-a545-bc3064a02f99"
+ Guid="cdf59f8f-0442-4dd6-b025-bc4efa519f87"
 >struct.M_NVKTINT &gt;= 32</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
  Name="Otherwise"
- Guid="2a94179d-7c97-4035-aa42-5dd6465a8a3a"
+ Guid="979e2213-6ec3-4a23-9952-9b8b1ab258f0"
 >
 <Expression>True</Expression>
 </Case></Cases>
