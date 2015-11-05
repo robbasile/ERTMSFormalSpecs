@@ -1358,7 +1358,7 @@ namespace Importers.ExcelImporter
                     fillBrakingCurvesExpectations(aTestCase,
                         stepNumber++,
                         "SBD",
-                        "ERA_BrakingCurvesVerification.Compare\n(\n    Val1 => Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.SupervisionStatus.SBD_Target\n    (\n        Distance => ERA_BrakingCurvesVerification.ConvertTargetDistance (\n            aTarget => " +
+                        "ERA_BrakingCurvesVerification.Compare\n(\n    Val1 => Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.SBD_Target\n    (\n        Distance => ERA_BrakingCurvesVerification.ConvertTargetDistance (\n            aTarget => " +
                         target + ",\n            d => {1:0.0#}),\n        aTarget => " + target +
                         "\n    ),\n    Val2 => {0:0.0#}\n)",
                         speedValues,
@@ -1380,7 +1380,7 @@ namespace Importers.ExcelImporter
                     fillBrakingCurvesExpectations(aTestCase,
                         stepNumber++,
                         "SBI1",
-                        "ERA_BrakingCurvesVerification.Compare\n(\n    Val1 => Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.SupervisionStatus.d_SBI1_Target\n    (\n        Vest  => {0:0.0#},\n        aTarget => " +
+                        "ERA_BrakingCurvesVerification.Compare\n(\n    Val1 => Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_SBI1_Target\n    (\n        Vest  => {0:0.0#},\n        aTarget => " +
                         target +
                         "\n    ),\n    Val2 => ERA_BrakingCurvesVerification.ConvertTargetDistance (\n        aTarget => " +
                         target + ",\n        d => {1:0.0#} )\n)",
