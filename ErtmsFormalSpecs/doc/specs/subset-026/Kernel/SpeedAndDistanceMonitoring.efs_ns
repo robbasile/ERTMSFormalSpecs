@@ -2076,7 +2076,13 @@ Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.SupervisionStatus.r2(aTa
 <PreConditions>
 <PreCondition
  Guid="7a0d66ec-a534-4378-ba44-c2553e18fa8d"
->FORALL aTarget IN Kernel.SpeedAndDistanceMonitoring.TargetsList() |
+>(
+  Kernel.NationalValues.ReleaseOfEBIsPermitted()
+    OR  
+  NOT Kernel.SpeedAndDistanceMonitoring.EBSpecified
+)
+  AND  
+FORALL aTarget IN Kernel.SpeedAndDistanceMonitoring.TargetsList() |
 Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.SupervisionStatus.r3(aTarget)</PreCondition><PreCondition
  Guid="2c964c89-a3ab-47f0-9810-0b0e3f163cc8"
 >Kernel.SpeedAndDistanceMonitoring.TargetsList()
