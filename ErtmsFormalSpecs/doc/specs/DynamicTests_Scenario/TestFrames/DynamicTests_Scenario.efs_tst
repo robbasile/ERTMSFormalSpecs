@@ -239,31 +239,48 @@
 </SubStep></SubSteps>
 </Step><Step
  Distance="225"
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
  TranslationRequired="FALSE"
  Name="Step"
+ Guid="8eaffea9-b67f-4763-a758-905b06fdc694"
 >
 <SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="SubStep"
  Guid="3d164f0e-530e-42fa-b371-9f2a5c0be942"
 >
 <Actions>
 <Action
+ Guid="729b2845-5b32-4326-ba0f-087b876d17c7"
 >Odometry.NominalDistance &lt;- 225.0</Action></Actions>
 </SubStep></SubSteps>
 </Step><Step
  Distance="251"
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
  TranslationRequired="FALSE"
  Name="Step"
+ Guid="d9d29cdd-4c2b-4bb9-8ae4-f96b9c8a2a45"
 >
 <SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="SubStep"
  Guid="c3643bab-5118-4f79-8bd9-211f6f41a7d0"
 >
 <Actions>
 <Action
+ Guid="7303d3db-aaa9-4ba0-a44e-cf67917fdb61"
 >DMI.MasterDMI().In_AcknOfPlainTextInformation.ProvideDriverResponse()</Action><Action
+ Guid="99d36d46-2b45-46ec-aa26-3b6dc615fbdf"
 >Odometry.NominalDistance &lt;- 251.0</Action></Actions>
 </SubStep></SubSteps>
 </Step></Steps>
@@ -294,6 +311,210 @@
 <Actions>
 <Action
  Guid="904e3cf8-7a09-4a59-9568-add6955cff25"
+>Odometry.NominalDistance &lt;- 500.0</Action></Actions>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase></TestCases>
+</SubSequence><SubSequence
+ D_LRBG=""
+ Level=""
+ Mode=""
+ NID_LRBG=""
+ Q_DIRLRBG=""
+ Q_DIRTRAIN=""
+ Q_DLRBG=""
+ RBC_ID=""
+ RBCPhone=""
+ Completed="FALSE"
+ Name="Reception of fixed text message, driver doesn&apos;t acknowledge"
+ Guid="82d13d45-4ecc-4307-8bb3-0714fe7726dd"
+>
+<TestCases>
+<TestCase
+ Feature="0"
+ Case="0"
+ Name="TestCase"
+ Guid="80ced475-0520-4c43-bcb2-118942b460a1"
+>
+<Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step"
+ Guid="63760f5a-95ef-48fb-a277-1c768e4dedab"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep"
+ Guid="ed1fa4c3-c65c-4cb7-b63c-937a257c0365"
+>
+<Actions>
+<Action
+ Guid="cff40e15-9c7d-4e54-b8d2-aa1e42098679"
+>Testing.InitializeTestEnvironment( TrainPosition =&gt; 0.0 )</Action><Action
+ Guid="1e548ff1-971d-4cc1-b075-f5132216556e"
+>Odometry.NominalDistance &lt;- 0.0</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep"
+ Guid="18d1d04f-bbe9-4e7a-8f45-1a13f50040b2"
+>
+<Actions>
+<Action
+ Guid="b58b4693-c2fe-4730-9e2d-9d1ba25d9dec"
+>Testing.SetFSMode(True)</Action></Actions>
+</SubStep><SubStep
+ Name="SubStep"
+ Guid="ab2d749a-139b-45ff-8a06-0ddf1557f357"
+>
+<Actions>
+<Action
+>Odometry.EstimatedSpeed &lt;- 60.0</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ Distance="100"
+ TranslationRequired="FALSE"
+ Name="Step"
+>
+<SubSteps>
+<SubStep
+ Name="SubStep"
+ Guid="92224e9d-e1d2-4fd1-a223-7b98dea09215"
+>
+<Actions>
+<Action
+>BTM.Message &lt;- Messages.EUROBALISE.Message
+{
+  Q_UPDOWN =&gt; Messages.Q_UPDOWN.Up_link_telegram, 
+  M_VERSION =&gt; Messages.M_VERSION.Version_2_0__introduced_in_SRS_3_0_0, 
+  Q_MEDIA =&gt; Messages.Q_MEDIA.Balise, 
+  N_PIG =&gt; Messages.N_PIG._1C, 
+  N_TOTAL =&gt; Messages.N_TOTAL._1_balise_in_groupC, 
+  M_DUP =&gt; Messages.M_DUP.No_duplicates, 
+  Q_LINK =&gt; Messages.Q_LINK.Unlinked, 
+  Sequence1 =&gt; [Messages.EUROBALISE.SubStructure1
+    {
+      TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message
+      {
+        SYSTEM_VERSION_ORDER =&gt; EMPTY, 
+        NATIONAL_VALUES =&gt; EMPTY, 
+        LINKING =&gt; EMPTY, 
+        LEVEL_1_MOVEMENT_AUTHORITY =&gt; EMPTY, 
+        STAFF_RESPONSIBLE_DISTANCE_INFORMATION_FROM_LOOP =&gt; EMPTY, 
+        LEVEL_2_3_MOVEMENT_AUTHORITY =&gt; EMPTY, 
+        REPOSITIONING_INFORMATION =&gt; EMPTY, 
+        GRADIENT_PROFILE =&gt; EMPTY, 
+        INTERNATIONAL_STATIC_SPEED_PROFILE =&gt; EMPTY, 
+        TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM =&gt; EMPTY, 
+        TRACK_CONDITION_CHANGE_OF_ALLOWED_CURRENT_CONSUMPTION =&gt; EMPTY, 
+        LEVEL_TRANSITION_ORDER =&gt; EMPTY, 
+        SESSION_MANAGEMENT =&gt; EMPTY, 
+        RADIO_NETWORK_REGISTRATION =&gt; EMPTY, 
+        CONDITIONAL_LEVEL_TRANSITION_ORDER =&gt; EMPTY, 
+        LIST_OF_BALISES_FOR_SH_AREA =&gt; EMPTY, 
+        AXLE_LOAD_SPEED_PROFILE =&gt; EMPTY, 
+        PERMITTED_BRAKING_DISTANCE_INFORMATION =&gt; EMPTY, 
+        MOVEMENT_AUTHORITY_REQUEST_PARAMETERS =&gt; EMPTY, 
+        POSITION_REPORT_PARAMETERS =&gt; EMPTY, 
+        LIST_OF_BALISES_IN_SR_AUTHORITY =&gt; EMPTY, 
+        INHIBITION_OF_REVOCABLE_TSRS_FROM_BALISES_IN_L2_3 =&gt; EMPTY, 
+        TEMPORARY_SPEED_RESTRICTION =&gt; EMPTY, 
+        TEMPORARY_SPEED_RESTRICTION_REVOCATION =&gt; EMPTY, 
+        TRACK_CONDITION_BIG_METAL_MASSES =&gt; EMPTY, 
+        TRACK_CONDITION =&gt; EMPTY, 
+        TRACK_CONDITION_STATION_PLATFORMS =&gt; EMPTY, 
+        ROUTE_SUITABILITY_DATA =&gt; EMPTY, 
+        ADHESION_FACTOR =&gt; EMPTY, 
+        PACKET_FOR_SENDING_PLAIN_TEXT_MESSAGES =&gt; EMPTY, 
+        PACKET_FOR_SENDING_FIXED_TEXT_MESSAGES =&gt; Messages.PACKET.TRACK_TO_TRAIN.PACKET_FOR_SENDING_FIXED_TEXT_MESSAGES.Message
+        {
+          NID_PACKET =&gt; 76, 
+          Q_DIR =&gt; Messages.Q_DIR.Both_directions, 
+          L_PACKET =&gt; 0, 
+          Q_SCALE =&gt; Messages.Q_SCALE._1_m_scaleC, 
+          Q_TEXTCLASS =&gt; Messages.Q_TEXTCLASS.Auxiliary_Information, 
+          Q_TEXTDISPLAY =&gt; Messages.Q_TEXTDISPLAY.No__display_as_soon_as___until_one_of_the_events_is_fulfilled, 
+          D_TEXTDISPLAY =&gt; 200, 
+          M_MODETEXTDISPLAY_0 =&gt; Messages.M_MODETEXTDISPLAY.The_display_of_the_text_shall_not_be_limited_by_the_mode, 
+          M_LEVELTEXTDISPLAY_0 =&gt; Messages.M_LEVELTEXTDISPLAY.The_display_of_the_text_shall_not_be_limited_by_the_level, 
+          NID_NTC =&gt; 0, 
+          L_TEXTDISPLAY =&gt; 100, 
+          T_TEXTDISPLAY =&gt; 500, 
+          M_MODETEXTDISPLAY_1 =&gt; Messages.M_MODETEXTDISPLAY.The_display_of_the_text_shall_not_be_limited_by_the_mode, 
+          M_LEVELTEXTDISPLAY_1 =&gt; Messages.M_LEVELTEXTDISPLAY.The_display_of_the_text_shall_not_be_limited_by_the_level, 
+          Q_TEXTCONFIRM =&gt; Messages.Q_TEXTCONFIRM.Confirmation_required__command_application_of_the_emergency_brake_when_display_end_condition_is_fulfilled__unless_the_text_has_already_been_acknowledged_by_the_driver, 
+          Q_CONFTEXTDISPLAY =&gt; Messages.Q_CONFTEXTDISPLAY.Driver_acknowledgement_is_an_additional_condition_to_end_the_display, 
+          Q_TEXTREPORT =&gt; Messages.Q_TEXTREPORT.No_driver_acknowledgment_report_required, 
+          NID_TEXTMESSAGE =&gt; 0, 
+          NID_C =&gt; 0, 
+          NID_RBC =&gt; 0, 
+          Q_TEXT =&gt; Messages.Q_TEXT.__Level_crossing_not_protected_C
+        }, 
+        GEOGRAPHICAL_POSITION_INFORMATION =&gt; EMPTY, 
+        MODE_PROFILE =&gt; EMPTY, 
+        LEVEL_CROSSING_INFORMATION =&gt; EMPTY, 
+        TRACK_AHEAD_FREE_UP_TO_LEVEL_2_3_TRANSITION_LOCATION =&gt; EMPTY, 
+        RBC_TRANSITION_ORDER =&gt; EMPTY, 
+        DANGER_FOR_SHUNTING_INFORMATION =&gt; EMPTY, 
+        RADIO_INFILL_AREA_INFORMATION =&gt; EMPTY, 
+        SESSION_MANAGEMENT_WITH_NEIGHBOURING_RADIO_INFILL_UNIT =&gt; EMPTY, 
+        EOLM_PACKET =&gt; EMPTY, 
+        STOP_SHUNTING_ON_DESK_OPENING =&gt; EMPTY, 
+        INFILL_LOCATION_REFERENCE =&gt; EMPTY, 
+        STOP_IF_IN_STAFF_RESPONSIBLE =&gt; EMPTY, 
+        REVERSING_AREA_INFORMATION =&gt; EMPTY, 
+        REVERSING_SUPERVISION_INFORMATION =&gt; EMPTY, 
+        TRAIN_RUNNING_NUMBER_FROM_RBC =&gt; EMPTY, 
+        DEFAULT_GRADIENT_FOR_TEMPORARY_SPEED_RESTRICTION =&gt; EMPTY, 
+        INHIBITION_OF_BALISE_GROUP_MESSAGE_CONSISTENCY_REACTION =&gt; EMPTY, 
+        DEFAULT_BALISE_LOOP_OR_RIU_INFORMATION =&gt; EMPTY, 
+        DATA_USED_BY_APPLICATIONS_OUTSIDE_THE_ERTMS_ETCS_SYSTEM =&gt; EMPTY, 
+        VIRTUAL_BALISE_COVER_ORDER =&gt; EMPTY, 
+        LSSMA_DISPLAY_TOGGLE_ORDER =&gt; EMPTY, 
+        GENERIC_LS_FUNCTION_MARKER =&gt; EMPTY, 
+        END_OF_INFORMATION =&gt; EMPTY
+      }
+    }, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY], 
+  BitField =&gt; &apos;&apos;, 
+  M_MCOUNT =&gt; 4, 
+  NID_C =&gt; 10, 
+  NID_BG =&gt; 200
+}</Action><Action
+>Odometry.NominalDistance &lt;- 100.0</Action></Actions>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Name="Test case"
+ Guid="a235897a-a260-41df-ac00-60975b29c17a"
+>
+<Steps>
+<Step
+ Distance="500"
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step"
+ Guid="9d66b217-779b-4c9a-8803-9efad5fec1e0"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step"
+ Guid="1343ef92-4a09-435d-bb77-ea58d045a7db"
+>
+<Actions>
+<Action
+ Guid="0cf3cedf-3ce2-4042-bb6d-4b1432183d70"
 >Odometry.NominalDistance &lt;- 500.0</Action></Actions>
 </SubStep></SubSteps>
 </Step></Steps>
