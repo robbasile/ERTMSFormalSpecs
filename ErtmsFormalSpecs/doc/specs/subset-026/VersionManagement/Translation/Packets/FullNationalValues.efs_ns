@@ -43,8 +43,8 @@
   Q_SCALE =&gt; nvPacket.Q_SCALE, 
   D_VALIDNV =&gt; nvPacket.D_VALIDNV, 
   NID_C =&gt; 0, 
-  N_ITER_0 =&gt; 0, 
-  Sequence1 =&gt; [], 
+  N_ITER_0 =&gt; FIRST X IN nvPacket.Sequence1, 
+  Sequence1 =&gt; FILTER nvPacket.Sequence1 | X != FIRST Y IN nvPacket.Sequence1 USING X, 
   V_NVSHUNT =&gt; nvPacket.V_NVSHUNT, 
   V_NVSTFF =&gt; nvPacket.V_NVSTFF, 
   V_NVONSIGHT =&gt; nvPacket.V_NVONSIGHT, 
@@ -123,6 +123,32 @@
 <Expression>Messages.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES.SubStructure5{
 L_NVKRINT =&gt; aSubStructure4.L_NVKRINT,
 M_NVKRINT =&gt; aSubStructure4.M_NVKRINT
+}</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES.SubStructure1"
+ X="111"
+ Y="1"
+ Width="100"
+ Height="50"
+ Name="SubStruct1TranslatedIntoSubStruct1"
+ Guid="e1039265-4f0f-4d22-9a6b-2ce617b46025"
+>
+<Parameters>
+<Parameter
+ Type="Messages.SystemVersion1.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES.SubStructure1"
+ Name="aSubStructure1"
+ Guid="ab8c1f0b-b820-42d1-96a8-e32679d652a2"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="b627c249-7805-4dec-a82b-3bfeca6e31b2"
+>
+<Expression>Messages.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES.SubStructure1
+{
+  NID_C =&gt; aSubStructure1.NID_C
 }</Expression>
 </Case></Cases>
 </Function></Functions>

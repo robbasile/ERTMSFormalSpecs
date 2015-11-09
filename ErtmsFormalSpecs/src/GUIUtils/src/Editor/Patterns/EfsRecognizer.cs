@@ -36,7 +36,7 @@ namespace GUIUtils.Editor.Patterns
         /// </summary>
         private static readonly string[] Keywords =
         {
-            "FORALL", "THERE_IS", "FIRST", "LAST", "IN", "MAP", "REDUCE", "SUM", "\\|", "USING", "=>", "<-", "NOT",
+            "FORALL", "THERE_IS", "FIRST", "LAST", "IN", "MAP", "FILTER", "REDUCE", "SUM", "\\|", "USING", "=>", "<-", "NOT",
             "AND", "OR", "LET", "STABILIZE", "INITIAL_VALUE", "STOP_CONDITION",
             "==", "!=", "in", "not in", "<=", ">=", "<", ">", "is", "as", "\\+", "\\-", "\\*", "/", "\\^", "\\.",
             "APPLY", "ON", "INSERT", "WHEN", "FULL", "REPLACE", "REMOVE", "FIRST", "LAST", "ALL", "BY"
