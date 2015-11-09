@@ -846,7 +846,8 @@ namespace DataDictionary.Interpreter
 
                 if (MapExpression.Operator.Equals(listOp)
                     || ReduceExpression.Operator.Equals(listOp)
-                    || SumExpression.Operator.Equals(listOp) )
+                    || SumExpression.Operator.Equals(listOp)
+                    || FilterExpression.Operator.Equals(listOp))
                 {
                     Expression listExpression = Expression(0);
                     if (listExpression != null)
@@ -860,38 +861,47 @@ namespace DataDictionary.Interpreter
 
                         Match("USING");
                         string iteratorIdentifier = Identifier();
-                        Match("IN");
-                        Expression iteratorExpression = Expression(0);
-                        if (iteratorExpression != null)
+
+                        if (FilterExpression.Operator.Equals(listOp))
                         {
-                            if (MapExpression.Operator.Equals(listOp))
-                            {
-                                retVal = new MapExpression(Root, RootLog, listExpression, iteratorIdentifier, condition,
-                                    iteratorExpression, start, Index);
-                            }
-                            else if (SumExpression.Operator.Equals(listOp))
-                            {
-                                retVal = new SumExpression(Root, RootLog, listExpression, iteratorIdentifier, condition,
-                                    iteratorExpression, start, Index);
-                            }
-                            else if (ReduceExpression.Operator.Equals(listOp))
-                            {
-                                Match("INITIAL_VALUE");
-                                Expression initialValue = Expression(0);
-                                if (initialValue != null)
-                                {
-                                    retVal = new ReduceExpression(Root, RootLog, listExpression, iteratorIdentifier,
-                                        condition, iteratorExpression, initialValue, start, Index);
-                                }
-                                else
-                                {
-                                    throw new ParseErrorException("REDUCE requires an initial value", Index, Buffer);
-                                }
-                            }
+                            retVal = new FilterExpression(Root, RootLog, listExpression, iteratorIdentifier, condition,
+                                           start, Index);
                         }
                         else
                         {
-                            throw new ParseErrorException("Function designator expected", Index, Buffer);
+                            Match("IN");
+                            Expression iteratorExpression = Expression(0);
+                            if (iteratorExpression != null)
+                            {
+                                if (MapExpression.Operator.Equals(listOp))
+                                {
+                                    retVal = new MapExpression(Root, RootLog, listExpression, iteratorIdentifier, condition,
+                                        iteratorExpression, start, Index);
+                                }
+                                else if (SumExpression.Operator.Equals(listOp))
+                                {
+                                    retVal = new SumExpression(Root, RootLog, listExpression, iteratorIdentifier, condition,
+                                        iteratorExpression, start, Index);
+                                }
+                                else if (ReduceExpression.Operator.Equals(listOp))
+                                {
+                                    Match("INITIAL_VALUE");
+                                    Expression initialValue = Expression(0);
+                                    if (initialValue != null)
+                                    {
+                                        retVal = new ReduceExpression(Root, RootLog, listExpression, iteratorIdentifier,
+                                            condition, iteratorExpression, initialValue, start, Index);
+                                    }
+                                    else
+                                    {
+                                        throw new ParseErrorException("REDUCE requires an initial value", Index, Buffer);
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                throw new ParseErrorException("Function designator expected", Index, Buffer);
+                            }
                         }
                     }
                 }

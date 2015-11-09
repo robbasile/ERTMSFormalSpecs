@@ -1,4 +1,4 @@
-// ------------------------------------------------------------------------------
+﻿// ------------------------------------------------------------------------------
 // -- Copyright ERTMS Solutions
 // -- Licensed under the EUPL V.1.1
 // -- http://joinup.ec.europa.eu/software/page/eupl/licence-eupl
@@ -22,13 +22,12 @@ using Type = DataDictionary.Types.Type;
 
 namespace DataDictionary.Interpreter.ListOperators
 {
-    public class MapExpression : ExpressionBasedListExpression
+    public class FilterExpression : ConditionBasedListExpression
     {
         /// <summary>
         ///     The operator for this expression
         /// </summary>
-        public static string Operator = "MAP";
-
+        public static string Operator = "FILTER";
         /// <summary>
         ///     Constructor
         /// </summary>
@@ -36,13 +35,12 @@ namespace DataDictionary.Interpreter.ListOperators
         /// <param name="log"></param>
         /// <param name="listExpression"></param>
         /// <param name="condition"></param>
-        /// <param name="expression"></param>
         /// <param name="iteratorVariableName"></param>
         /// <param name="start">The start character for this expression in the original string</param>
         /// <param name="end">The end character for this expression in the original string</param>
-        public MapExpression(ModelElement root, ModelElement log, Expression listExpression, string iteratorVariableName,
-            Expression condition, Expression expression, int start, int end)
-            : base(root, log, listExpression, iteratorVariableName, condition, expression, start, end)
+        public FilterExpression(ModelElement root, ModelElement log, Expression listExpression,
+            string iteratorVariableName, Expression condition, int start, int end)
+            : base(root, log, listExpression, iteratorVariableName, condition, start, end)
         {
         }
 
@@ -52,26 +50,7 @@ namespace DataDictionary.Interpreter.ListOperators
         /// <returns></returns>
         public override Type GetExpressionType()
         {
-            Type retVal = null;
-
-            Type iteratorType = IteratorExpression.GetExpressionType();
-            if (iteratorType != null)
-            {
-                Collection collection = (Collection) acceptor.getFactory().createCollection();
-                collection.Enclosing = EfsSystem.Instance;
-                collection.Type = iteratorType;
-                Collection originalListType = ListExpression.GetExpressionType() as Collection;
-                if ( originalListType != null )
-                {
-                    collection.setMaxSize(originalListType.getMaxSize());
-                }
-
-                retVal = collection;
-            }
-            else
-            {
-                AddError("Cannot evaluate iterator type for " + ToString());
-            }
+            Type retVal = ListExpression.GetExpressionType();            
 
             return retVal;
         }
@@ -90,7 +69,7 @@ namespace DataDictionary.Interpreter.ListOperators
             if (value != null)
             {
                 int token = PrepareIteration(context);
-                retVal = new ListValue((Collection) GetExpressionType(), new List<IValue>());
+                retVal = new ListValue((Collection)GetExpressionType(), new List<IValue>());
                 foreach (IValue v in value.Val)
                 {
                     if (v != EfsSystem.Instance.EmptyValue)
@@ -101,7 +80,7 @@ namespace DataDictionary.Interpreter.ListOperators
                         if (ConditionSatisfied(context, explain))
                         {
                             MatchingElementFound = true;
-                            retVal.Val.Add(IteratorExpression.GetValue(context, explain));
+                            retVal.Val.Add(v);
                         }
                     }
                     NextIteration();
@@ -111,6 +90,7 @@ namespace DataDictionary.Interpreter.ListOperators
 
             return retVal;
         }
+
 
         /// <summary>
         ///     Builds the explanation of the element
@@ -131,18 +111,6 @@ namespace DataDictionary.Interpreter.ListOperators
 
             explanation.Write(" USING ");
             explanation.Write(IteratorVariable.Name);
-            explanation.Write(" IN ");
-            IteratorExpression.GetExplain(explanation);
-        }
-
-        /// <summary>
-        ///     Checks the expression and appends errors to the root tree node when inconsistencies are found
-        /// </summary>
-        public override void CheckExpression()
-        {
-            base.CheckExpression();
-
-            IteratorExpression.CheckExpression();
         }
     }
 }

@@ -15,13 +15,11 @@
 // ------------------------------------------------------------------------------
 
 using System.Collections.Generic;
-using DataDictionary.Generated;
 using DataDictionary.Interpreter.Filter;
 using DataDictionary.Variables;
 using Utils;
 using Collection = DataDictionary.Types.Collection;
 using Type = DataDictionary.Types.Type;
-using Variable = DataDictionary.Variables.Variable;
 
 namespace DataDictionary.Interpreter.ListOperators
 {
@@ -39,7 +37,8 @@ namespace DataDictionary.Interpreter.ListOperators
             CountExpression.Operator,
             ReduceExpression.Operator,
             SumExpression.Operator,
-            MapExpression.Operator
+            MapExpression.Operator,
+            FilterExpression.Operator
         };
 
         /// <summary>
