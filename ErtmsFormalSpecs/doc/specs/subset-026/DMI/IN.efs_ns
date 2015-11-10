@@ -2045,15 +2045,15 @@
 <PreConditions>
 <PreCondition
  Guid="5572fcd3-71a6-4fce-91e3-03f994294492"
->StartTime != BaseTypes.Time.NA</PreCondition><PreCondition
+>DisplayStartTime != BaseTypes.Time.NA</PreCondition><PreCondition
  Guid="08841d53-1313-454d-8f2d-2590fea1bf0a"
->StartTime + Acknowledgements.Tack &lt;= Kernel.DateAndTime.CurrentTime</PreCondition></PreConditions>
+>DisplayStartTime + Acknowledgements.Tack &lt;= Kernel.DateAndTime.CurrentTime</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="62fd7a18-4152-4c77-84ab-a04f6e72c0f6"
 >Kernel.BrakeCommands.CommandServiceBrake(Kernel.BrakeCommands.BrakeReasonEnum.LevelTransitionTimeOut)</Action><Action
  Guid="6c4365a6-3ad1-45f9-9345-7c142dece26e"
->StartTime &lt;- BaseTypes.Time.NA</Action></Actions>
+>DisplayStartTime &lt;- BaseTypes.Time.NA</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 <Procedures>
@@ -2093,7 +2093,7 @@
  Guid="64835c6d-c282-4078-825d-1d54c5a07cd0"
 >Acknowledgements.LastDriverAcknowledgementTime &lt;- Kernel.DateAndTime.CurrentTime</Action><Action
  Guid="1fd1e63d-cc7c-4195-8c58-7ea3b49aec47"
->StartTime &lt;- BaseTypes.Time.NA</Action></Actions>
+>DisplayStartTime &lt;- BaseTypes.Time.NA</Action></Actions>
 <SubRules>
 <Rule
  Priority="Processing"
@@ -2222,9 +2222,7 @@
   aLevel =&gt; Level,
   aFixedTextMessage =&gt; EMPTY,
   aPlainTextMessage =&gt; EMPTY
-)</Action><Action
- Guid="86ae2a15-1539-4218-862d-01e0cd218666"
->StartTime &lt;- Kernel.DateAndTime.CurrentTime</Action></Actions>
+)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -2282,15 +2280,15 @@
  Default="BaseTypes.Time.NA"
  Mode="Internal"
  Implemented="TRUE"
- Name="StartTime"
- Guid="a851520c-e94d-469f-928c-7f99cc1bdac0"
+ Name="DisplayStartTime"
+ Guid="6f2f505d-f171-4cb1-a8f6-fa4d9b10fd36"
 >
 <ReqRef
  Id="b80b16f5-2420-4404-a28c-46554a19a163"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="45791f9a-7e4d-43ae-bf66-8c86d658e398"
+ Guid="54d999ab-d2bc-45b5-9604-ccd962f37aaf"
 >
-</ReqRef><Comment>Represents the time when the driver ack was requested.</Comment>
+</ReqRef><Comment>Indicates the time when the acknowledgement has been requested.</Comment>
 </StructureElement></Structure><Structure
  Default=""
  X="230"
@@ -2524,7 +2522,9 @@
  Guid="16019496-7dbf-4a92-a6b2-2422e513d3f5"
 >THIS.InputInformation.AcceptDriverResponse()</Action><Action
  Guid="31f666b0-b4ab-41aa-b317-e4b413706169"
->Acknowledgements.LastDriverAcknowledgementTime &lt;- Kernel.DateAndTime.CurrentTime</Action></Actions>
+>Acknowledgements.LastDriverAcknowledgementTime &lt;- Kernel.DateAndTime.CurrentTime</Action><Action
+ Guid="005058df-54d4-4428-90a0-97e585b45f32"
+>DisplayStartTime &lt;- BaseTypes.Time.NA</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -2649,6 +2649,15 @@
  Guid="5b487e90-1709-4319-9a51-53e480f9c19d"
 >
 <Comment>Indicates that data has been received</Comment>
+</StructureElement><StructureElement
+ TypeName="BaseTypes.Time"
+ Default="BaseTypes.Time.NA"
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="DisplayStartTime"
+ Guid="f09b8980-f334-467d-833f-346be6095bb7"
+>
+<Comment>Indicates the time when the acknowledgement has been requested.</Comment>
 </StructureElement></Structure><Structure
  Default=""
  X="560"
@@ -3652,7 +3661,9 @@
  Guid="e2a59ace-9b37-4f65-86b3-afa908151d1a"
 >THIS.InputInformation.AcceptDriverResponse()</Action><Action
  Guid="c3dd4389-3bff-4d88-9517-d9f487192430"
->Acknowledgements.LastDriverAcknowledgementTime &lt;- Kernel.DateAndTime.CurrentTime</Action></Actions>
+>Acknowledgements.LastDriverAcknowledgementTime &lt;- Kernel.DateAndTime.CurrentTime</Action><Action
+ Guid="cd885bcd-0326-4593-b80f-db44f2efb1eb"
+>DisplayStartTime &lt;- BaseTypes.Time.NA</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -3786,6 +3797,15 @@
  Guid="81c1519d-e5b8-4b69-be29-1dcac8bd4916"
 >
 <Comment>The national system id to be acknowledged</Comment>
+</StructureElement><StructureElement
+ TypeName="BaseTypes.Time"
+ Default="BaseTypes.Time.NA"
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="DisplayStartTime"
+ Guid="cf7ae7b1-8054-42e5-a85d-f1e92ca98277"
+>
+<Comment>Indicates the time when the acknowledgement has been requested.</Comment>
 </StructureElement></Structure><Structure
  Default=""
  X="670"
@@ -4756,15 +4776,15 @@
 <PreConditions>
 <PreCondition
  Guid="2775ef0b-b3a6-48da-94f9-26d9cfeb65d1"
->StartTime + Acknowledgements.Tack &lt;= Kernel.DateAndTime.CurrentTime</PreCondition><PreCondition
+>DisplayStartTime + Acknowledgements.Tack &lt;= Kernel.DateAndTime.CurrentTime</PreCondition><PreCondition
  Guid="3c52fb7e-1a18-4da7-a48f-a4d860adb51b"
->StartTime != BaseTypes.Time.NA</PreCondition></PreConditions>
+>DisplayStartTime != BaseTypes.Time.NA</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="0032d2ab-08bf-4c4f-ab15-68154487a311"
 >Kernel.BrakeCommands.CommandServiceBrake(Kernel.BrakeCommands.BrakeReasonEnum.LSAckTimeOut)</Action><Action
  Guid="6f491ad8-ba42-4a4e-8984-12fd94d47199"
->StartTime &lt;- BaseTypes.Time.NA</Action></Actions>
+>DisplayStartTime &lt;- BaseTypes.Time.NA</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 <Procedures>
@@ -4802,7 +4822,7 @@
  Guid="7f80394d-d86d-4e0e-9ee9-48ab5ba67ea8"
 >THIS.InputInformation.AcceptDriverResponse()</Action><Action
  Guid="f5739bd9-6bb9-4273-8c76-672925676b7b"
->StartTime &lt;- BaseTypes.Time.NA</Action><Action
+>DisplayStartTime &lt;- BaseTypes.Time.NA</Action><Action
  Guid="d3f5b719-8924-41b4-95a7-22f478fe06d6"
 >Acknowledgements.LastDriverAcknowledgementTime &lt;- Kernel.DateAndTime.CurrentTime</Action></Actions>
 <SubRules>
@@ -4900,9 +4920,7 @@
   aLevel =&gt; EMPTY,
   aFixedTextMessage =&gt; EMPTY,
   aPlainTextMessage =&gt; EMPTY
-)</Action><Action
- Guid="31618ddd-9074-4f74-a558-ed0775cbd809"
->StartTime &lt;- Kernel.DateAndTime.CurrentTime</Action></Actions>
+)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -4983,20 +5001,20 @@
  Default="BaseTypes.Time.NA"
  Mode="Internal"
  Implemented="TRUE"
- Name="StartTime"
- Guid="3fc3d2c1-46ae-4545-8bf9-134926c008dd"
+ Name="DisplayStartTime"
+ Guid="b88167e8-e7df-4cba-be86-1a8309c0baa4"
 >
 <ReqRef
  Id="c4b29bf1-b564-4981-9967-9bc22c91b8f9"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="f51bd2bc-3e51-4339-b7ef-5f349578d09c"
+ Guid="564f7b78-37e5-4281-af84-d108fc1e9658"
 >
 </ReqRef><ReqRef
  Id="33d6b46d-2f8a-4411-8e48-aa43acd4cce3"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="7221c10f-f0cf-4ee7-bbd9-499cbe0d4e14"
+ Guid="9870ca1a-f8ca-4d98-aa1d-d78e033087db"
 >
-</ReqRef><Comment>Represents the time when the driver ack was requested.</Comment>
+</ReqRef><Comment>Indicates the time when the acknowledgement has been requested.</Comment>
 </StructureElement></Structure><Structure
  Default=""
  X="120"
@@ -5041,15 +5059,15 @@
 <PreConditions>
 <PreCondition
  Guid="f98185fc-8d18-4344-ae88-ea11e7b4c5fb"
->StartTime + Acknowledgements.Tack &lt;= Kernel.DateAndTime.CurrentTime</PreCondition><PreCondition
+>DisplayStartTime + Acknowledgements.Tack &lt;= Kernel.DateAndTime.CurrentTime</PreCondition><PreCondition
  Guid="e85bb8cf-bf9c-4519-a5bc-eba509a85d92"
->StartTime != BaseTypes.Time.NA</PreCondition></PreConditions>
+>DisplayStartTime != BaseTypes.Time.NA</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="456feea0-c81d-4514-89b4-32c53ca3f5d5"
 >Kernel.BrakeCommands.CommandServiceBrake(Kernel.BrakeCommands.BrakeReasonEnum.OSAckTimeOut)</Action><Action
  Guid="b1365a31-e3c0-48a6-8023-123f8107e243"
->StartTime &lt;- BaseTypes.Time.NA</Action></Actions>
+>DisplayStartTime &lt;- BaseTypes.Time.NA</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 <Procedures>
@@ -5087,7 +5105,7 @@
  Guid="719101c0-d5a3-40d8-a756-4698d9924399"
 >THIS.InputInformation.AcceptDriverResponse()</Action><Action
  Guid="09400527-1555-4055-9e37-f236e1de2bf6"
->StartTime &lt;- BaseTypes.Time.NA</Action><Action
+>DisplayStartTime &lt;- BaseTypes.Time.NA</Action><Action
  Guid="3d47d361-fdc1-4c8f-9c9d-a919f3f1dbbe"
 >Acknowledgements.LastDriverAcknowledgementTime &lt;- Kernel.DateAndTime.CurrentTime</Action></Actions>
 <SubRules>
@@ -5185,9 +5203,7 @@
   aLevel =&gt; EMPTY,
   aFixedTextMessage =&gt; EMPTY,
   aPlainTextMessage =&gt; EMPTY
-)</Action><Action
- Guid="5ac58b4f-4dd8-4f42-b19a-4fe5a43d85b8"
->StartTime &lt;- Kernel.DateAndTime.CurrentTime</Action></Actions>
+)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -5268,20 +5284,20 @@
  Default="BaseTypes.Time.NA"
  Mode="Internal"
  Implemented="TRUE"
- Name="StartTime"
- Guid="f1a00120-4f93-44b1-aead-4daaaaef2670"
+ Name="DisplayStartTime"
+ Guid="a4ddd6a5-c2ec-43c3-8af4-e95f29c7f567"
 >
 <ReqRef
  Id="c3352be2-25f7-499e-b638-51b4b8e180ed"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="c03cfb24-3729-4333-8504-2abf6b1a00c6"
+ Guid="9b43b380-3bf8-4788-b31b-57a1d33f2866"
 >
 </ReqRef><ReqRef
  Id="19ba3404-792f-4f75-a058-7b89395bce5c"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="a1754a02-8a17-4585-a28c-cfa7ee1cf073"
+ Guid="23cb1f8a-7efa-4e31-aac7-4179609424d9"
 >
-</ReqRef><Comment>Represents the time when the driver ack was requested.</Comment>
+</ReqRef><Comment>Indicates the time when the acknowledgement has been requested.</Comment>
 </StructureElement></Structure><Structure
  Default=""
  X="450"
@@ -5326,15 +5342,15 @@
 <PreConditions>
 <PreCondition
  Guid="88c0a656-36a1-4db8-bf13-a34783b84219"
->StartTime + Acknowledgements.Tack &lt;= Kernel.DateAndTime.CurrentTime</PreCondition><PreCondition
+>DisplayStartTime + Acknowledgements.Tack &lt;= Kernel.DateAndTime.CurrentTime</PreCondition><PreCondition
  Guid="b127519d-7a0e-4395-9e35-21f2d50b42bc"
->StartTime != BaseTypes.Time.NA</PreCondition></PreConditions>
+>DisplayStartTime != BaseTypes.Time.NA</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="b0b1c0a4-d1df-4954-a400-fe1668407d47"
 >Kernel.BrakeCommands.CommandServiceBrake(Kernel.BrakeCommands.BrakeReasonEnum.SHAckTimeOut)</Action><Action
  Guid="8844602a-4164-40d4-9b74-80b6eecc801c"
->StartTime &lt;- BaseTypes.Time.NA</Action></Actions>
+>DisplayStartTime &lt;- BaseTypes.Time.NA</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 <Procedures>
@@ -5372,7 +5388,7 @@
  Guid="24769eb4-f757-4ced-8cd3-4a57859a3edb"
 >THIS.InputInformation.AcceptDriverResponse()</Action><Action
  Guid="849c567f-569a-4156-aa21-b95e33a6f413"
->StartTime &lt;- BaseTypes.Time.NA</Action><Action
+>DisplayStartTime &lt;- BaseTypes.Time.NA</Action><Action
  Guid="16c2bfb8-4a51-4bc1-9876-08df1ccae17a"
 >Acknowledgements.LastDriverAcknowledgementTime &lt;- Kernel.DateAndTime.CurrentTime</Action></Actions>
 <SubRules>
@@ -5470,9 +5486,7 @@
   aLevel =&gt; EMPTY,
   aFixedTextMessage =&gt; EMPTY,
   aPlainTextMessage =&gt; EMPTY
-)</Action><Action
- Guid="0bc1dab8-7d59-4e81-a0d8-6e6f38a183ed"
->StartTime &lt;- Kernel.DateAndTime.CurrentTime</Action></Actions>
+)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -5553,20 +5567,20 @@
  Default="BaseTypes.Time.NA"
  Mode="Internal"
  Implemented="TRUE"
- Name="StartTime"
- Guid="3167d20d-8154-4cb6-97b2-237c435e01cb"
+ Name="DisplayStartTime"
+ Guid="6722ec23-e9e2-4804-ac18-a5bc94515368"
 >
 <ReqRef
  Id="81394bed-5665-4b0a-a527-9c845c6db537"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="6343108d-5337-4ddd-b03c-b7a4c59b4bb5"
+ Guid="fd8c5a04-f42f-4f10-bae9-c3734cf230dd"
 >
 </ReqRef><ReqRef
  Id="f1fefc2b-0ed9-4f11-9b47-0930e4ba5821"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="3d1316e4-2746-413a-8638-51dfafba24cd"
+ Guid="2351e4d5-0d53-432b-b70b-007390f20204"
 >
-</ReqRef><Comment>Represents the time when the driver ack was requested.</Comment>
+</ReqRef><Comment>Indicates the time when the acknowledgement has been requested.</Comment>
 </StructureElement></Structure><Structure
  Default=""
  X="670"
@@ -5618,7 +5632,9 @@
  Guid="522267fc-268b-4215-b3c6-3ee21396db96"
 >THIS.InputInformation.AcceptDriverResponse()</Action><Action
  Guid="66d7e755-911d-4270-83fc-d242e2e411c5"
->Acknowledgements.LastDriverAcknowledgementTime &lt;- Kernel.DateAndTime.CurrentTime</Action></Actions>
+>Acknowledgements.LastDriverAcknowledgementTime &lt;- Kernel.DateAndTime.CurrentTime</Action><Action
+ Guid="e93a587f-ef99-4668-a703-4b9b1571d596"
+>DisplayStartTime &lt;- BaseTypes.Time.NA</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -5733,6 +5749,15 @@
  Guid="c4b13137-eaa7-4560-aa15-130a711e7ae0"
 >
 <Comment>The request status</Comment>
+</StructureElement><StructureElement
+ TypeName="BaseTypes.Time"
+ Default="BaseTypes.Time.NA"
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="DisplayStartTime"
+ Guid="3fe16c1e-b2d0-4d21-9df9-1b5fdcf705f6"
+>
+<Comment>Indicates the time when the acknowledgement has been requested.</Comment>
 </StructureElement></Structure><Structure
  Default=""
  X="230"
@@ -5784,7 +5809,9 @@
  Guid="c6ae23b0-e926-44d7-9f0c-04a4eeee1ce1"
 >THIS.InputInformation.AcceptDriverResponse()</Action><Action
  Guid="c53fac22-f56a-4036-ae5c-fca91f78ccc2"
->Acknowledgements.LastDriverAcknowledgementTime &lt;- Kernel.DateAndTime.CurrentTime</Action></Actions>
+>Acknowledgements.LastDriverAcknowledgementTime &lt;- Kernel.DateAndTime.CurrentTime</Action><Action
+ Guid="1e8cc44c-5b7b-44c8-9eaa-ef4a80142b9d"
+>DisplayStartTime &lt;- BaseTypes.Time.NA</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -5899,6 +5926,15 @@
  Guid="2fd383d8-bc43-4027-9992-09ef5abbc8e9"
 >
 <Comment>The request status</Comment>
+</StructureElement><StructureElement
+ TypeName="BaseTypes.Time"
+ Default="BaseTypes.Time.NA"
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="DisplayStartTime"
+ Guid="04be1003-ff77-4c42-998a-5dd7211b5997"
+>
+<Comment>Indicates the time when the acknowledgement has been requested.</Comment>
 </StructureElement></Structure><Structure
  Default=""
  X="340"
@@ -5950,7 +5986,9 @@
  Guid="950a0d64-88c9-4e7b-bb22-eb3cb0644b8a"
 >THIS.InputInformation.AcceptDriverResponse()</Action><Action
  Guid="a456a31c-b18f-4410-a1fd-497e1f26b2af"
->Acknowledgements.LastDriverAcknowledgementTime &lt;- Kernel.DateAndTime.CurrentTime</Action></Actions>
+>Acknowledgements.LastDriverAcknowledgementTime &lt;- Kernel.DateAndTime.CurrentTime</Action><Action
+ Guid="2f8cfccb-7720-49bf-b0c2-d672771360d3"
+>DisplayStartTime &lt;- BaseTypes.Time.NA</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -6065,6 +6103,15 @@
  Guid="8860ea4e-d5a7-4857-90c3-f518617b2855"
 >
 <Comment>The request status</Comment>
+</StructureElement><StructureElement
+ TypeName="BaseTypes.Time"
+ Default="BaseTypes.Time.NA"
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="DisplayStartTime"
+ Guid="27f51881-408f-4559-94b1-afde1aadf0ee"
+>
+<Comment>Indicates the time when the acknowledgement has been requested.</Comment>
 </StructureElement></Structure><Structure
  Default=""
  X="120"
@@ -6116,7 +6163,9 @@
  Guid="beebc794-9e66-41ac-bdd5-4af14e37de2f"
 >THIS.InputInformation.AcceptDriverResponse()</Action><Action
  Guid="47e302ff-5b29-4e11-84a0-e44e6907a1fa"
->Acknowledgements.LastDriverAcknowledgementTime &lt;- Kernel.DateAndTime.CurrentTime</Action></Actions>
+>Acknowledgements.LastDriverAcknowledgementTime &lt;- Kernel.DateAndTime.CurrentTime</Action><Action
+ Guid="b9353a94-74c8-4e87-98f8-f4b6cd1e79c4"
+>DisplayStartTime &lt;- BaseTypes.Time.NA</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -6231,6 +6280,15 @@
  Guid="ca2bf460-6420-4e63-8943-6079578edb2c"
 >
 <Comment>The request status</Comment>
+</StructureElement><StructureElement
+ TypeName="BaseTypes.Time"
+ Default="BaseTypes.Time.NA"
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="DisplayStartTime"
+ Guid="6bb48685-a4ee-4365-8e42-2f88e4015054"
+>
+<Comment>Indicates the time when the acknowledgement has been requested.</Comment>
 </StructureElement></Structure><Structure
  Default=""
  X="340"
@@ -6282,7 +6340,9 @@
  Guid="448fbdbe-ce25-407b-85c4-cd5abdbb8a7e"
 >THIS.InputInformation.AcceptDriverResponse()</Action><Action
  Guid="98ce0cc1-cd9b-4947-b3eb-d699f541e406"
->Acknowledgements.LastDriverAcknowledgementTime &lt;- Kernel.DateAndTime.CurrentTime</Action></Actions>
+>Acknowledgements.LastDriverAcknowledgementTime &lt;- Kernel.DateAndTime.CurrentTime</Action><Action
+ Guid="66ab7117-57c9-431d-bb3d-5d043bec0523"
+>DisplayStartTime &lt;- BaseTypes.Time.NA</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -6397,6 +6457,15 @@
  Guid="43b2fd3d-d606-4c8b-9ded-8c2c33219b76"
 >
 <Comment>The request status</Comment>
+</StructureElement><StructureElement
+ TypeName="BaseTypes.Time"
+ Default="BaseTypes.Time.NA"
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="DisplayStartTime"
+ Guid="61cda17b-a308-42d7-8126-303731a4230d"
+>
+<Comment>Indicates the time when the acknowledgement has been requested.</Comment>
 </StructureElement></Structure><Structure
  Default=""
  X="120"
@@ -6448,7 +6517,9 @@
  Guid="0d0bb983-0452-4009-a999-338ab284e15a"
 >THIS.InputInformation.AcceptDriverResponse()</Action><Action
  Guid="31127aa6-4585-443b-9f95-0b7bdd65d729"
->Acknowledgements.LastDriverAcknowledgementTime &lt;- Kernel.DateAndTime.CurrentTime</Action></Actions>
+>Acknowledgements.LastDriverAcknowledgementTime &lt;- Kernel.DateAndTime.CurrentTime</Action><Action
+ Guid="37e53266-75ba-4b12-9800-b8f06ecbb368"
+>DisplayStartTime &lt;- BaseTypes.Time.NA</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -6563,6 +6634,15 @@
  Guid="9b2e83f1-cf76-4c3c-943d-076818d2dd7b"
 >
 <Comment>The request status</Comment>
+</StructureElement><StructureElement
+ TypeName="BaseTypes.Time"
+ Default="BaseTypes.Time.NA"
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="DisplayStartTime"
+ Guid="04fdc09e-3d58-4b5d-b9da-2821195ed561"
+>
+<Comment>Indicates the time when the acknowledgement has been requested.</Comment>
 </StructureElement></Structure><Structure
  Default=""
  X="450"
@@ -6614,7 +6694,9 @@
  Guid="3423bc91-1951-405d-8894-dbbeef15ee67"
 >THIS.InputInformation.AcceptDriverResponse()</Action><Action
  Guid="ca4701bf-3797-4398-a4b8-437e461e4cf5"
->Acknowledgements.LastDriverAcknowledgementTime &lt;- Kernel.DateAndTime.CurrentTime</Action></Actions>
+>Acknowledgements.LastDriverAcknowledgementTime &lt;- Kernel.DateAndTime.CurrentTime</Action><Action
+ Guid="8de78f0e-3bac-4634-9fa8-9fcc8ba9a7ad"
+>DisplayStartTime &lt;- BaseTypes.Time.NA</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -6730,6 +6812,15 @@
  Guid="15c6aabc-7dc2-44fc-ad25-b0ca24b2c304"
 >
 <Comment>The status of the request</Comment>
+</StructureElement><StructureElement
+ TypeName="BaseTypes.Time"
+ Default="BaseTypes.Time.NA"
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="DisplayStartTime"
+ Guid="ec286b38-b759-4cac-b5ec-2192f641670b"
+>
+<Comment>Indicates the time when the acknowledgement has been requested.</Comment>
 </StructureElement></Structure><Structure
  Default=""
  X="10"
@@ -6781,7 +6872,9 @@
  Guid="779ac761-1482-459c-8d66-c3944c74a0cb"
 >THIS.InputInformation.AcceptDriverResponse()</Action><Action
  Guid="f9ae8bd9-08fa-478c-8403-990329eb788b"
->Acknowledgements.LastDriverAcknowledgementTime &lt;- Kernel.DateAndTime.CurrentTime</Action></Actions>
+>Acknowledgements.LastDriverAcknowledgementTime &lt;- Kernel.DateAndTime.CurrentTime</Action><Action
+ Guid="825ddc6e-3a36-4d50-b831-89abd392f019"
+>DisplayStartTime &lt;- BaseTypes.Time.NA</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -6897,6 +6990,15 @@
  Guid="c07fb73e-ef31-4eaa-9296-1c48f1b00fb2"
 >
 <Comment>The status of the request</Comment>
+</StructureElement><StructureElement
+ TypeName="BaseTypes.Time"
+ Default="BaseTypes.Time.NA"
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="DisplayStartTime"
+ Guid="186f1b55-5f11-45ed-900c-bfbaebf44349"
+>
+<Comment>Indicates the time when the acknowledgement has been requested.</Comment>
 </StructureElement></Structure><Structure
  Default=""
  X="230"
@@ -6948,7 +7050,9 @@
  Guid="cac3a113-83af-4401-b059-0d1fdb629bb8"
 >THIS.InputInformation.AcceptDriverResponse()</Action><Action
  Guid="1bca1ab7-8ec0-45ee-addd-6917f32f4190"
->Acknowledgements.LastDriverAcknowledgementTime &lt;- Kernel.DateAndTime.CurrentTime</Action></Actions>
+>Acknowledgements.LastDriverAcknowledgementTime &lt;- Kernel.DateAndTime.CurrentTime</Action><Action
+ Guid="1751ed6d-3ff1-46bf-a977-11a58ef28838"
+>DisplayStartTime &lt;- BaseTypes.Time.NA</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -7064,6 +7168,15 @@
  Guid="42a5b38a-c042-4152-b33d-be49f5d170ff"
 >
 <Comment>The status of the request</Comment>
+</StructureElement><StructureElement
+ TypeName="BaseTypes.Time"
+ Default="BaseTypes.Time.NA"
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="DisplayStartTime"
+ Guid="d2000bd6-9549-4686-93b7-33765e4d7fb5"
+>
+<Comment>Indicates the time when the acknowledgement has been requested.</Comment>
 </StructureElement></Structure><Structure
  Default=""
  X="340"

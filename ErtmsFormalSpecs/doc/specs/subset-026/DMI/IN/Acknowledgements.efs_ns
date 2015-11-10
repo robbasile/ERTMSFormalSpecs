@@ -167,6 +167,16 @@
  Guid="8e11d458-e7e9-4437-90cb-9bcac2679ad9"
 >
 <Comment>If the current acknowledgement is a fixed text message acknowledgement, this field contains the message to acknowledge.</Comment>
+</StructureElement><StructureElement
+ TypeName="BaseTypes.Time"
+ Default=""
+ Mode="Internal"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="DisplayStartTime"
+ Guid="1acf8634-ac42-4166-a9ec-b1282f52b16f"
+>
+<Comment>The time when the acknowledgement was requested.</Comment>
 </StructureElement></Structure></Structures>
 <Collections>
 <Collection
@@ -457,12 +467,14 @@
 <Rules>
 <Rule
  Priority="Processing"
+ Implemented="TRUE"
  Name="Display acknowledgement"
  Guid="c7e527c8-0596-4858-891b-2d659b647f26"
 >
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
+ Implemented="TRUE"
  Name="Display acknowledgement"
  Guid="bc832c89-7983-450a-93bc-6e33a8a59cd5"
 >
@@ -475,6 +487,7 @@
 <SubRules>
 <Rule
  Priority="Processing"
+ Implemented="TRUE"
  Name="Display the first acknowledgement"
  Guid="aef22033-51de-4cf3-9624-35878fc053eb"
 >
@@ -482,68 +495,283 @@
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
- Name="Display the first acknowledgement"
+ Implemented="TRUE"
+ Name="Fixed text information"
  Guid="352cd135-76df-4610-b4c9-95af3f1f9272"
 >
+<Comment>Handles fixed text information acknowledgement.</Comment>
 <PreConditions>
-</PreConditions>
+<PreCondition
+ Guid="3f732099-6b8e-4d60-b01f-719efc845b3e"
+>(FIRST X IN Acknowledgements).Type == AckTypeEnum.FixedTextInformation</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="79227b68-79a6-49a8-a778-0c20d4e365a2"
->DMI.IN.Acknowledgements.FindDMIStructure( anAck =&gt; (FIRST X IN DMI.IN.Acknowledgements.Acknowledgements).Type ).InitiateRequest()</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- Name="Handle special cases"
- Guid="3355dd44-b750-4e07-8bea-cc4e9bb6664b"
->
-<Comment>Handles the fields relative to the text messages or level transitions, if any.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- NeedsRequirement="FALSE"
- Name="Fixed text information"
- Guid="8d0ac80b-db55-449c-a448-887699a94582"
->
-<Comment>If the first acknowledgement in the FIFO is acknowledgement for fixed text information, display it.</Comment>
-<PreConditions>
-<PreCondition
- Guid="f452f880-ffda-4ee9-98cd-10b7a3ace314"
->(FIRST Ack IN DMI.IN.Acknowledgements.Acknowledgements).Type == DMI.IN.Acknowledgements.AckTypeEnum.FixedTextInformation</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="2155274f-5ec7-4899-a5ce-2c15266e57b7"
+>DMI.MasterDMI().In_AcknOfFixedTextInformation.InputInformation.InitiateRequest()</Action><Action
+ Guid="f9c67a88-c16e-489c-95c4-a0eec21b7647"
 >DMI.MasterDMI().In_AcknOfFixedTextInformation.Message &lt;- (FIRST Ack IN DMI.IN.Acknowledgements.Acknowledgements).FixedTextMessage</Action></Actions>
 </RuleCondition><RuleCondition
- NeedsRequirement="FALSE"
- Name="Plain text information"
- Guid="a7cd7215-1d0b-4fe9-a26d-50bd4de05f67"
+ Implemented="TRUE"
+ Name="Level transition"
+ Guid="2c59f0dc-2369-45d1-80ff-c82e995ce320"
 >
-<Comment>If the first acknowledgement in the FIFO is acknowledgement for a plain text information, display the corresponding text.</Comment>
+<Comment>Handles level transition acknowledgement.</Comment>
 <PreConditions>
 <PreCondition
- Guid="80d87f94-3fef-457f-9ea4-6cd52cbb0b8f"
->(FIRST Ack IN DMI.IN.Acknowledgements.Acknowledgements).Type == DMI.IN.Acknowledgements.AckTypeEnum.PlainTextInformation</PreCondition></PreConditions>
+ Guid="e7897888-c5b2-4699-bf9b-71be6f6f4dba"
+>(FIRST X IN Acknowledgements).Type == AckTypeEnum.LevelTransition</PreCondition></PreConditions>
 <Actions>
 <Action
- Guid="f7d3dd16-4133-4aad-9a4e-edd3b4993732"
+ Guid="6426fe3a-9075-4b8d-a3b3-8e7ec4c4d7cf"
+>DMI.MasterDMI().In_AcknOfFixedTextInformation.InputInformation.InitiateRequest()</Action><Action
+ Guid="5532ec40-5883-43cf-b059-5befed14fd8f"
+>DMI.MasterDMI().In_AcknOfLevelTransition.DisplayStartTime &lt;- (FIRST X IN Acknowledgements).DisplayStartTime</Action><Action
+ Guid="fa418246-4527-4829-a658-2382222fd944"
+>DMI.MasterDMI().In_AcknOfLevelTransition.Level &lt;- (FIRST Ack IN DMI.IN.Acknowledgements.Acknowledgements).Level</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="LS mode"
+ Guid="f42ff2ce-2c93-4562-b808-b05ff7bb8164"
+>
+<Comment>Handles LS mode acknowledgement.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="4ba18387-8a0a-4c8b-95d9-b402891ca038"
+>(FIRST X IN Acknowledgements).Type == AckTypeEnum.LSMode</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="473ef589-bfcc-452b-8824-c94ca7f667a0"
+>DMI.MasterDMI().In_AcknOfLSMode.InputInformation.InitiateRequest()</Action><Action
+ Guid="00857fe0-b92a-4464-8bf9-0c3beb8a3b6f"
+>DMI.MasterDMI().In_AcknOfLSMode.DisplayStartTime &lt;- (FIRST X IN Acknowledgements).DisplayStartTime</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="OS mode"
+ Guid="623e2d3d-583a-4d1a-8f2e-20470a32a4c8"
+>
+<Comment>Handles OS mode acknowledgement.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="517cfcee-55c8-45f6-b3e0-783c4adbba34"
+>(FIRST X IN Acknowledgements).Type == AckTypeEnum.OSMode</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="b41f4c8f-61db-42bc-85f7-ea77690bdb74"
+>DMI.MasterDMI().In_AcknOfOSMode.InputInformation.InitiateRequest()</Action><Action
+ Guid="2692f446-c147-4ab4-93c2-c2192bae8295"
+>DMI.MasterDMI().In_AcknOfOSMode.DisplayStartTime &lt;- (FIRST X IN Acknowledgements).DisplayStartTime</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Plain text information"
+ Guid="c9055b4a-e7a6-4620-bf7d-694ba18d1fdf"
+>
+<Comment>Handles plain text information acknowledgement.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="7ed6fc40-bd68-40fd-b85b-e49189fa1ef5"
+>(FIRST X IN Acknowledgements).Type == AckTypeEnum.PlainTextInformation</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="68713e92-0aeb-42b8-a25e-27d1d9059b8e"
+>DMI.MasterDMI().In_AcknOfPlainTextInformation.InputInformation.InitiateRequest()</Action><Action
+ Guid="d50f8a34-9903-4b8b-9436-cd63a25dccbe"
 >DMI.MasterDMI().In_AcknOfPlainTextInformation.Message &lt;- (FIRST Ack IN DMI.IN.Acknowledgements.Acknowledgements).PlainTextMessage</Action></Actions>
 </RuleCondition><RuleCondition
- Name="Level transition"
- Guid="c38297d8-4b10-41a3-b5e0-67a7efb59a5d"
+ Implemented="TRUE"
+ Name="PT distance exceeded"
+ Guid="6bec59ac-d2bb-42b2-9db0-3006bfa74eba"
 >
-<Comment>If the first acknowledgement in the FIFO is acknowledgement for a level transition, display the corresponding level.</Comment>
+<Comment>Handles PT distance exceeded acknowledgement.</Comment>
 <PreConditions>
 <PreCondition
- Guid="82f781ca-6535-406a-ab48-9cefe9ce47b3"
->(FIRST Ack IN DMI.IN.Acknowledgements.Acknowledgements).Type == DMI.IN.Acknowledgements.AckTypeEnum.LevelTransition</PreCondition></PreConditions>
+ Guid="4f6bf81a-3a7e-4287-94bb-5477c139591d"
+>(FIRST X IN Acknowledgements).Type == AckTypeEnum.PostTripDistanceExceeded</PreCondition></PreConditions>
 <Actions>
 <Action
- Guid="2ab0dc5d-097c-431e-9e7d-e33a1781913f"
->DMI.MasterDMI().In_AcknOfLevelTransition.Level &lt;- (FIRST Ack IN DMI.IN.Acknowledgements.Acknowledgements).Level</Action></Actions>
+ Guid="c98b8006-802e-448e-97bf-8e54223f4fc1"
+>DMI.MasterDMI().In_AcknForPostTripDistanceExceeded.InputInformation.InitiateRequest()</Action><Action
+ Guid="952b168c-de46-4ca3-a1ec-9251806e60c1"
+>DMI.MasterDMI().In_AcknForPostTripDistanceExceeded.DisplayStartTime &lt;- (FIRST X IN Acknowledgements).DisplayStartTime</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Reverse movement protection"
+ Guid="c34a4766-52a6-4375-9b12-b250cdc66486"
+>
+<Comment>Handles reverse movement protecdtion acknowledgement.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="028682be-8f8a-42fe-9f23-31cb11dca2bd"
+>(FIRST X IN Acknowledgements).Type == AckTypeEnum.ReverseMovementProtection</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="59d40da3-036d-4672-bb11-698d19ef6eb7"
+>DMI.MasterDMI().In_AcknForReverseMovementProtection.InputInformation.InitiateRequest()</Action><Action
+ Guid="59d42d46-4951-4b05-8f81-c65615a2e1e9"
+>DMI.MasterDMI().In_AcknForReverseMovementProtection.DisplayStartTime &lt;- (FIRST X IN Acknowledgements).DisplayStartTime</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Reversing distance exceeded"
+ Guid="3f6dca25-b3b3-44f6-b4fa-4ceedb083c4a"
+>
+<Comment>Handles reversing distance exceeded acknowledgement.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="78451079-411c-44dc-8478-9d9c126a86ed"
+>(FIRST X IN Acknowledgements).Type == AckTypeEnum.ReversingDistanceExceeded</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="c495a4e5-1843-4435-b455-de518c79d989"
+>DMI.MasterDMI().In_AcknForReversingDistanceExceeded.InputInformation.InitiateRequest()</Action><Action
+ Guid="899c82a5-f3ab-40b1-ad70-adeead179447"
+>DMI.MasterDMI().In_AcknForReversingDistanceExceeded.DisplayStartTime &lt;- (FIRST X IN Acknowledgements).DisplayStartTime</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Roll away protection"
+ Guid="b4e00db0-9edd-4217-84bc-7d5c70131973"
+>
+<Comment>Handles roll away acknowledgement.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="3cc9008a-7418-4382-804a-aaa1a89db905"
+>(FIRST X IN Acknowledgements).Type == AckTypeEnum.RollAwayProtection</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="0a45a94f-f5c0-4880-8cb2-a1517ea4d948"
+>DMI.MasterDMI().In_AcknForRollAwayProtection.InputInformation.InitiateRequest()</Action><Action
+ Guid="7c172e26-7b03-48ca-b34a-935fb58a580d"
+>DMI.MasterDMI().In_AcknForRollAwayProtection.DisplayStartTime &lt;- (FIRST X IN Acknowledgements).DisplayStartTime</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="RV mode"
+ Guid="d240fb96-0d1d-4362-b896-10c356535265"
+>
+<Comment>Handles RV mode acknowledgement.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="04da1ac8-c0ee-45b4-9ea5-87f9765a900d"
+>(FIRST X IN Acknowledgements).Type == AckTypeEnum.RVMode</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="5c5d59cd-a0e1-4da2-850e-c003576af145"
+>DMI.MasterDMI().In_AcknOfRVMode.InputInformation.InitiateRequest()</Action><Action
+ Guid="9f3c24a6-ab56-498c-aa83-39ec411b807e"
+>DMI.MasterDMI().In_AcknOfRVMode.DisplayStartTime &lt;- (FIRST X IN Acknowledgements).DisplayStartTime</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="SH mode"
+ Guid="bac9394d-44ce-4f14-86fb-75bfaf776553"
+>
+<Comment>Handles SH mode acknowledgement.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="a3e7d0a0-0b76-4e91-bedd-71f5e2534f00"
+>(FIRST X IN Acknowledgements).Type == AckTypeEnum.SHMode</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="c7ac736a-fe3f-43f5-ae54-8f6c5650ce9f"
+>DMI.MasterDMI().In_AcknOfSHMode.InputInformation.InitiateRequest()</Action><Action
+ Guid="7b3d8b45-22d3-4aec-9a85-c9feb08f477e"
+>DMI.MasterDMI().In_AcknOfSHMode.DisplayStartTime &lt;- (FIRST X IN Acknowledgements).DisplayStartTime</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="SN mode"
+ Guid="47769b72-c524-43d4-9260-93037b180638"
+>
+<Comment>Handles SN mode acknowledgement.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="fdeb42c7-6f32-4ef7-b6eb-d755bf3c30bf"
+>(FIRST X IN Acknowledgements).Type == AckTypeEnum.SNMode</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="e77d43ae-8a3b-4cf6-8d6a-4f048dcca9fd"
+>DMI.MasterDMI().In_AcknOfSNMode.InputInformation.InitiateRequest()</Action><Action
+ Guid="bf6848ee-9b11-44c5-8036-55c327e72957"
+>DMI.MasterDMI().In_AcknOfSNMode.DisplayStartTime &lt;- (FIRST X IN Acknowledgements).DisplayStartTime</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="SR mode"
+ Guid="70c04e7c-4b8a-4ad5-b711-f97114597b6c"
+>
+<Comment>Handles SR mode acknowledgement.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="ff84598f-60ac-4f5e-8400-c2bf3c825a1b"
+>(FIRST X IN Acknowledgements).Type == AckTypeEnum.SRMode</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="4ebdd296-2d73-4a92-84e9-3f54b7b4fbd1"
+>DMI.MasterDMI().In_AcknOfSRMode.InputInformation.InitiateRequest()</Action><Action
+ Guid="09895623-3a5c-4bc3-aa45-a6432b5b1f6c"
+>DMI.MasterDMI().In_AcknOfSRMode.DisplayStartTime &lt;- (FIRST X IN Acknowledgements).DisplayStartTime</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Standstill supervision"
+ Guid="1b82c9bc-14f9-4c52-a527-7a53f3d92bca"
+>
+<Comment>Handles standstill supervision acknowledgement.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="ad56d793-743c-4c43-8ff4-9e85afcc82ab"
+>(FIRST X IN Acknowledgements).Type == AckTypeEnum.StandstillSupervision</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="54994880-130d-464d-a965-29ccd772980a"
+>DMI.MasterDMI().In_AcknForStandstillSupervision.InputInformation.InitiateRequest()</Action><Action
+ Guid="ea4298a1-3a63-4fa6-8455-0a75e71afb3d"
+>DMI.MasterDMI().In_AcknForStandstillSupervision.DisplayStartTime &lt;- (FIRST X IN Acknowledgements).DisplayStartTime</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Train data change from other source"
+ Guid="75f0b32c-d33d-4bb0-8247-678724599d03"
+>
+<Comment>Handles train data change from other source acknowledgement.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="1cdce8cd-94af-4d73-a8d3-b5e3634c491b"
+>(FIRST X IN Acknowledgements).Type == AckTypeEnum.TrainDataChangeFromOtherSource</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="60904897-7991-4d32-92bd-f968f45d36fc"
+>DMI.MasterDMI().In_AcknOfTrainDataChangeFromOtherSource.InputInformation.InitiateRequest()</Action><Action
+ Guid="8e78c4a5-1b44-4036-9d2c-d91bed062d51"
+>DMI.MasterDMI().In_AcknOfTrainDataChangeFromOtherSource.DisplayStartTime &lt;- (FIRST X IN Acknowledgements).DisplayStartTime</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Train trip"
+ Guid="c4eedb1f-7440-41d0-af65-b7a5dcc35e3c"
+>
+<Comment>Handles train trip acknowledgement.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="14647e41-860b-472f-8cfc-11b41c1cdc38"
+>(FIRST X IN Acknowledgements).Type == AckTypeEnum.TrainTrip</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="970a3af5-79c9-46b0-b79c-11c6409339cf"
+>DMI.MasterDMI().In_AcknOfTrainTrip.InputInformation.InitiateRequest()</Action><Action
+ Guid="c4d57b3a-9916-4a03-be9c-c707d3f46146"
+>DMI.MasterDMI().In_AcknOfTrainTrip.DisplayStartTime &lt;- (FIRST X IN Acknowledgements).DisplayStartTime</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="UN mode"
+ Guid="eda6ad94-9b6b-4a00-9efb-6f6aaaa357e5"
+>
+<Comment>Handles UN mode acknowledgement.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="63656444-a170-454c-85dd-59eefe08fb6c"
+>(FIRST X IN Acknowledgements).Type == AckTypeEnum.UNMode</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="e7b1ba04-26a7-48ee-b06e-da4348cbd8e1"
+>DMI.MasterDMI().In_AcknOfUNMode.InputInformation.InitiateRequest()</Action><Action
+ Guid="7c1f5d8f-07d9-42f8-8d85-c50fc752841f"
+>DMI.MasterDMI().In_AcknOfUNMode.DisplayStartTime &lt;- (FIRST X IN Acknowledgements).DisplayStartTime</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ Implemented="TRUE"
  Name="Remove the displayed acknowledgement"
  Guid="c9db9b36-f698-4139-bef6-bb4eda9e3a54"
 >
@@ -551,6 +779,7 @@
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
+ Implemented="TRUE"
  Name="Remove the displayed acknowledgement"
  Guid="35ead2e3-fbed-4917-b3c4-c57429eed002"
 >
@@ -670,12 +899,14 @@
 <Rules>
 <Rule
  Priority="Processing"
+ Implemented="TRUE"
  Name="Add acknowledgement"
  Guid="99407627-48e6-48a3-8172-b118e64f8876"
 >
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
+ Implemented="TRUE"
  Name="Add acknowledgement"
  Guid="337da90b-a5a7-4981-87f7-0f3f2889c9ba"
 >
@@ -696,7 +927,8 @@ anAcknowledgement == DMI.IN.Acknowledgements.AckTypeEnum.PlainTextInformation</P
     Type =&gt; anAcknowledgement,
     Level =&gt; aLevel,
     FixedTextMessage =&gt; aFixedTextMessage,
-    PlainTextMessage =&gt; aPlainTextMessage
+    PlainTextMessage =&gt; aPlainTextMessage,
+    DisplayStartTime =&gt; Kernel.DateAndTime.CurrentTime
   }
 IN
   DMI.IN.Acknowledgements.Acknowledgements</Action></Actions>
@@ -846,6 +1078,7 @@ IN
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
+ Implemented="TRUE"
  Name="Display acknowledgement"
  Guid="48071a66-2787-466d-a663-a78e14c2606d"
 >
@@ -881,6 +1114,7 @@ IN
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
+ Implemented="TRUE"
  Name="Update permission to display"
  Guid="34e87d81-cad2-423f-ac04-5cd4dbd1d575"
 >
