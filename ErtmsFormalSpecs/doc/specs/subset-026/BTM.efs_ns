@@ -508,7 +508,7 @@ b) is just a placeholder for a missed balise.</Comment>
  Pinned="TRUE"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
- Name="PositionFromOdometry"
+ Name="AntennaPositionFromOdometry"
  Guid="f0f2c6b2-53e3-4d96-808e-01b568084dd7"
 >
 <Comment>Provides the position from the Odometry</Comment>
@@ -520,7 +520,7 @@ b) is just a placeholder for a missed balise.</Comment>
 <Expression>BTM.Position
 {
   OverReadingAmountOdo =&gt; Odometry.Accuracy.D_ora,
-  Position =&gt; Odometry.NominalDistance,
+  Position =&gt; Odometry.NominalDistance - ActiveAntennaPosition,
   UnderReadingAmountOdo =&gt; Odometry.Accuracy.D_ura
 }</Expression>
 </Case></Cases>
@@ -899,7 +899,7 @@ PacketOrientation == Messages.Q_DIR.Both_directions</Expression>
  Height="50"
  Pinned="TRUE"
  Implemented="TRUE"
- Name="AntennaPosition"
+ Name="AntennaDistance"
  Guid="71e1a1a9-1a82-4b22-9f19-0ead55a18d7e"
 >
 <ReqRef
@@ -4209,7 +4209,7 @@ The list is updated in case two LRBGs provide the same MRSP, this should count a
 <Actions>
 <Action
  Guid="fc7c3af7-269c-418d-b2fd-6be29f8bd92b"
->BTM.UnlinkedBGPosition &lt;- BTM.PositionFromOdometry()</Action></Actions>
+>BTM.UnlinkedBGPosition &lt;- AntennaPositionFromOdometry()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -4461,7 +4461,7 @@ If all the messages of the current balise group have been received, calls Handle
 <Action
  Guid="97fe5801-fbb2-4588-b755-7418c4969256"
 >BTM.BGLocationReference &lt;- BTM.LocationReferenceStruct{
-    Position =&gt; PositionFromOdometry(),
+    Position =&gt; AntennaPositionFromOdometry(),
     Timestamp =&gt; Kernel.DateAndTime.Now()
 }</Action></Actions>
 </RuleCondition></Conditions>
