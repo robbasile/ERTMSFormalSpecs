@@ -1570,6 +1570,29 @@ This procedure does not do anything. The mode tracking is not necessary for this
  Guid="d998e2cd-9f0a-4366-bb76-ff996db04b98"
 >INSERT aMessage IN Messages</Action></Actions>
 </RuleCondition></Conditions>
+</Rule><Rule
+ Implemented="TRUE"
+ Name="Update the start display time"
+ Guid="34996d34-c9cc-4bf3-bd19-5ac48eaba80b"
+>
+<Comment>Updates the display start time for all the messages for which this values wasn&apos;t computed yet.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Update the start display time"
+ Guid="9ea584dc-d55d-4cfb-9f61-73cb0f3c54cf"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="0c431d1f-e27f-49b0-a975-ecaac3f176ee"
+>APPLY
+  X.DisplayStartTime &lt;- Kernel.DateAndTime.CurrentTime
+ON
+  Messages | X.DisplayStartTime == BaseTypes.Time.NA</Action></Actions>
+</RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
  Implemented="TRUE"
