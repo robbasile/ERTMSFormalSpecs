@@ -433,7 +433,14 @@ TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message{
 >Available(aPacket.TRACK_TO_TRAIN.NATIONAL_VALUES)</PreCondition><PreCondition
  Guid="ee9b7452-0339-486f-a470-9514c8e59036"
 >THERE_IS X IN aOtherPackets | Available(X.TRACK_TO_TRAIN.NATIONAL_VALUES_FOR_BRAKING_CURVES)</PreCondition></PreConditions>
-<Expression>Messages.EUROBALISE.SubStructure1{}</Expression>
+<Expression>Messages.EUROBALISE.SubStructure1{
+TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message{
+    NATIONAL_VALUES =&gt; FullNationalValues.UpdatedNV(aPacket.TRACK_TO_TRAIN.NATIONAL_VALUES,
+(FIRST X IN aOtherPackets | Available(X.TRACK_TO_TRAIN.NATIONAL_VALUES_FOR_BRAKING_CURVES)
+).TRACK_TO_TRAIN.NATIONAL_VALUES_FOR_BRAKING_CURVES)
+}
+}
+</Expression>
 </Case><Case
  Name="Packet 5 - Linking"
  Guid="29982244-f0e9-49a4-bb2e-7ed9db5c3159"

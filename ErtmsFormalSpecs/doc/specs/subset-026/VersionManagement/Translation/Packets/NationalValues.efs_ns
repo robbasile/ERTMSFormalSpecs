@@ -45,9 +45,9 @@
   L_PACKET =&gt; aPacket.L_PACKET, 
   Q_SCALE =&gt; aPacket.Q_SCALE, 
   D_VALIDNV =&gt; aPacket.D_VALIDNV, 
-  NID_C =&gt; 0, 
-  N_ITER =&gt; 0, 
-  Sequence1 =&gt; [], 
+  NID_C =&gt; (FIRST X IN aPacket.Sequence1).NID_C, 
+  N_ITER_0 =&gt; aPacket.N_ITER, 
+  Sequence1 =&gt; MAP aPacket.Sequence1 | X != FIRST Y IN aPacket.Sequence1 USING X IN NationalValues.SubStruct1TranslatedIntoSubStruct1(X), 
   V_NVSHUNT =&gt; aPacket.V_NVSHUNT, 
   V_NVSTFF =&gt; aPacket.V_NVSTFF, 
   V_NVONSIGHT =&gt; aPacket.V_NVONSIGHT, 
@@ -85,13 +85,13 @@
   V_NVKVINT =&gt; VersionManagement.Translation.Packets.NationalValues.CurrentValue_V_NVKVINT(), 
   M_NVKVINT_0 =&gt; VersionManagement.Translation.Packets.NationalValues.CurrentValue_M_NVKVINT_0(), 
   M_NVKVINT_1 =&gt; VersionManagement.Translation.Packets.NationalValues.CurrentValue_M_NVKVINT_1(), 
-  N_ITER_0 =&gt; 0, 
-  Sequence2 =&gt; [], 
   N_ITER_1 =&gt; 0, 
+  Sequence2 =&gt; [], 
+  N_ITER_2 =&gt; 0, 
   Sequence4 =&gt; [], 
   L_NVKRINT =&gt; 0, 
   M_NVKRINT =&gt; VersionManagement.Translation.Packets.NationalValues.CurrentValue_M_NVKRINT(), 
-  N_ITER_2 =&gt; 0, 
+  N_ITER_3 =&gt; 0, 
   Sequence5 =&gt; [], 
   M_NVKTINT =&gt; VersionManagement.Translation.Packets.NationalValues.CurrentValue_M_NVKTINT()
 }</Expression>
@@ -100,58 +100,58 @@
  Guid="3e1c9ecd-2afe-48ec-aeb6-0a7a9cd82528"
 >
 <Expression>Messages.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES.Message{
-NID_PACKET =&gt; 3,
-Q_DIR =&gt; 0,
-L_PACKET =&gt; 0,
-Q_SCALE =&gt; 0,
-D_VALIDNV =&gt; 0,
-NID_C =&gt; 0,
-N_ITER =&gt; 0,
-Sequence1 =&gt; [],
-V_NVSHUNT =&gt; 0,
-V_NVSTFF =&gt; 0,
-V_NVONSIGHT =&gt; 0,
-V_NVLIMSUPERV =&gt; 0,
-V_NVUNFIT =&gt; 0,
-V_NVREL =&gt; 0,
-D_NVROLL =&gt; 0,
-Q_NVSBTSMPERM =&gt; 0,
-Q_NVEMRRLS =&gt; 0,
-Q_NVGUIPERM =&gt; 0,
-Q_NVSBFBPERM =&gt; 0,
-Q_NVINHSMICPERM =&gt; 0,
-V_NVALLOWOVTRP =&gt; 0,
-V_NVSUPOVTRP =&gt; 0,
-D_NVOVTRP =&gt; 0,
-T_NVOVTRP =&gt; 0,
-D_NVPOTRP =&gt; 0,
-M_NVCONTACT =&gt; 0,
-T_NVCONTACT =&gt; 0,
-M_NVDERUN =&gt; 0,
-D_NVSTFF =&gt; 0,
-Q_NVDRIVER_ADHES =&gt; 0,
-A_NVMAXREDADH1 =&gt; 0,
-A_NVMAXREDADH2 =&gt; 0,
-A_NVMAXREDADH3 =&gt; 0,
-Q_NVLOCACC =&gt; 0,
-M_NVAVADH =&gt; 0,
-M_NVEBCL =&gt; 0,
-Q_NVKINT =&gt; 0,
-Q_NVKVINTSET =&gt; 0,
-A_NVP12 =&gt; 0,
-A_NVP23 =&gt; 0,
-V_NVKVINT =&gt; 0,
-M_NVKVINT_0 =&gt; 0,
-M_NVKVINT_1 =&gt; 0,
-N_ITER_0 =&gt; 0,
-Sequence2 =&gt; [],
-N_ITER_1 =&gt; 0,
-Sequence4 =&gt; [],
-L_NVKRINT =&gt; 0,
-M_NVKRINT =&gt; 0,
-N_ITER_2 =&gt; 0,
-Sequence5 =&gt; [],
-M_NVKTINT =&gt; 0
+  NID_PACKET =&gt; 3, 
+  Q_DIR =&gt; aPacket.Q_DIR, 
+  L_PACKET =&gt; aPacket.L_PACKET, 
+  Q_SCALE =&gt; aPacket.Q_SCALE, 
+  D_VALIDNV =&gt; aPacket.D_VALIDNV, 
+  NID_C =&gt; (FIRST X IN aPacket.Sequence1).NID_C, 
+  N_ITER_0 =&gt; aPacket.N_ITER, 
+  Sequence1 =&gt; MAP aPacket.Sequence1 | X != FIRST Y IN aPacket.Sequence1 USING X IN VersionManagement.Translation.Packets.NationalValues.SubStruct1TranslatedIntoSubStruct1(X), 
+  V_NVSHUNT =&gt; aPacket.V_NVSHUNT, 
+  V_NVSTFF =&gt; aPacket.V_NVSTFF, 
+  V_NVONSIGHT =&gt; aPacket.V_NVONSIGHT, 
+  V_NVLIMSUPERV =&gt; Default.MessageTypes.Speed(Kernel.NationalValues.DefaultValues.LimitedSupervisionModeSpeedLimit / 5.0), 
+  V_NVUNFIT =&gt; aPacket.V_NVUNFIT, 
+  V_NVREL =&gt; aPacket.V_NVREL, 
+  D_NVROLL =&gt; aPacket.D_NVROLL, 
+  Q_NVSBTSMPERM =&gt; aPacket.Q_NVSRBKTRG,
+  Q_NVEMRRLS =&gt; aPacket.Q_NVEMRRLS, 
+  Q_NVGUIPERM =&gt; Kernel.NationalValues.ApplicableNationalValues.Value.PermToUseGuidanceCurves, 
+  Q_NVSBFBPERM =&gt; Kernel.NationalValues.ApplicableNationalValues.Value.PermToUseTheServiceBrakeFeedback, 
+  Q_NVINHSMICPERM =&gt; Kernel.NationalValues.ApplicableNationalValues.Value.PermToInhibitTheCompOfTheSpeedMeasurementInaccuracy, 
+  V_NVALLOWOVTRP =&gt; aPacket.V_NVALLOWOVTRP, 
+  V_NVSUPOVTRP =&gt; aPacket.V_NVSUPOVTRP, 
+  D_NVOVTRP =&gt; aPacket.D_NVOVTRP, 
+  T_NVOVTRP =&gt; aPacket.T_NVOVTRP, 
+  D_NVPOTRP =&gt; aPacket.D_NVPOTRP, 
+  M_NVCONTACT =&gt; aPacket.M_NVCONTACT, 
+  T_NVCONTACT =&gt; aPacket.T_NVCONTACT, 
+  M_NVDERUN =&gt; aPacket.M_NVDERUN, 
+  D_NVSTFF =&gt; aPacket.D_NVSTFF, 
+  Q_NVDRIVER_ADHES =&gt; aPacket.Q_NVDRIVER_ADHES, 
+  A_NVMAXREDADH1 =&gt; VersionManagement.Translation.Packets.NationalValues.CurrentValue_A_NVMAXREDADH1(), 
+  A_NVMAXREDADH2 =&gt; VersionManagement.Translation.Packets.NationalValues.CurrentValue_A_NVMAXREDADH2(), 
+  A_NVMAXREDADH3 =&gt; VersionManagement.Translation.Packets.NationalValues.CurrentValue_A_NVMAXREDADH3(), 
+  Q_NVLOCACC =&gt; Kernel.NationalValues.DefaultValues.DefaultLocationAccuracyOfABaliseGroup, 
+  M_NVAVADH =&gt; Messages.M_NVAVADH(20.0 * Kernel.NationalValues.ApplicableNationalValues.Value.WeightingFactorForAvailableWheelRailAdhesion), 
+  M_NVEBCL =&gt; Kernel.NationalValues.ApplicableNationalValues.Value.ConfLevelForEmergBrakeSafeDecelerationOnDryRails, 
+  Q_NVKINT =&gt; 0, 
+  Q_NVKVINTSET =&gt; VersionManagement.Translation.Packets.NationalValues.CurrentValue_Q_NVKVINTSET(), 
+  A_NVP12 =&gt; VersionManagement.Translation.Packets.NationalValues.CurrentValue_A_NVP12(), 
+  A_NVP23 =&gt; VersionManagement.Translation.Packets.NationalValues.CurrentValue_A_NVP23(), 
+  V_NVKVINT =&gt; VersionManagement.Translation.Packets.NationalValues.CurrentValue_V_NVKVINT(), 
+  M_NVKVINT_0 =&gt; VersionManagement.Translation.Packets.NationalValues.CurrentValue_M_NVKVINT_0(), 
+  M_NVKVINT_1 =&gt; VersionManagement.Translation.Packets.NationalValues.CurrentValue_M_NVKVINT_1(), 
+  N_ITER_1 =&gt; 0, 
+  Sequence2 =&gt; [], 
+  N_ITER_2 =&gt; 0, 
+  Sequence4 =&gt; [], 
+  L_NVKRINT =&gt; 0, 
+  M_NVKRINT =&gt; VersionManagement.Translation.Packets.NationalValues.CurrentValue_M_NVKRINT(), 
+  N_ITER_3 =&gt; 0, 
+  Sequence5 =&gt; [], 
+  M_NVKTINT =&gt; VersionManagement.Translation.Packets.NationalValues.CurrentValue_M_NVKTINT()
 }</Expression>
 </Case></Cases>
 </Function><Function
@@ -512,6 +512,33 @@ M_NVKTINT =&gt; 0
  Guid="83ae7135-426f-4d22-a0d8-8ea82781a92e"
 >
 <Expression>MessageTypes.Acceleration(20.0 * Kernel.NationalValues.ApplicableNationalValues.Value.MaxDecelValueUnderReducedAdhesionCond2)</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES.SubStructure1"
+ X="111"
+ Y="1"
+ Width="100"
+ Height="50"
+ Name="SubStruct1TranslatedIntoSubStruct1"
+ Guid="e1039265-4f0f-4d22-9a6b-2ce617b46025"
+>
+<Comment>Translates the SubStructure1 of SystemVersion1.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES into the SubStructure1 of PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES.</Comment>
+<Parameters>
+<Parameter
+ Type="Messages.SystemVersion1.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES.SubStructure1"
+ Name="aSubStructure1"
+ Guid="ab8c1f0b-b820-42d1-96a8-e32679d652a2"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="b627c249-7805-4dec-a82b-3bfeca6e31b2"
+>
+<Expression>Messages.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES.SubStructure1
+{
+  NID_C =&gt; aSubStructure1.NID_C
+}</Expression>
 </Case></Cases>
 </Function></Functions>
 </NameSpace>

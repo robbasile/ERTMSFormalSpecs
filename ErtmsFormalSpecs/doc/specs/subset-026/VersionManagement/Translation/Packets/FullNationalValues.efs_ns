@@ -14,6 +14,7 @@
  Name="UpdatedNV"
  Guid="7bb2c00d-5a52-4a11-8044-8495d3da41a6"
 >
+<Comment>Concatenates packet 203 to Packet3 of SystemVersion1.PACKET.TRACK_TO_TRAIN to get Packet3 of PACKET.TRACK_TO_TRAIN.</Comment>
 <Parameters>
 <Parameter
  Type="Messages.SystemVersion1.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES.Message"
@@ -42,9 +43,9 @@
   L_PACKET =&gt; nvPacket.L_PACKET, 
   Q_SCALE =&gt; nvPacket.Q_SCALE, 
   D_VALIDNV =&gt; nvPacket.D_VALIDNV, 
-  NID_C =&gt; 0, 
-  N_ITER_0 =&gt; FIRST X IN nvPacket.Sequence1, 
-  Sequence1 =&gt; FILTER nvPacket.Sequence1 | X != FIRST Y IN nvPacket.Sequence1 USING X, 
+  NID_C =&gt; (FIRST X IN nvPacket.Sequence1).NID_C, 
+  N_ITER_0 =&gt; nvPacket.N_ITER, 
+  Sequence1 =&gt; MAP nvPacket.Sequence1 | X != FIRST Y IN nvPacket.Sequence1 USING X IN NationalValues.SubStruct1TranslatedIntoSubStruct1(X), 
   V_NVSHUNT =&gt; nvPacket.V_NVSHUNT, 
   V_NVSTFF =&gt; nvPacket.V_NVSTFF, 
   V_NVONSIGHT =&gt; nvPacket.V_NVONSIGHT, 
@@ -83,9 +84,9 @@
   M_NVKVINT_0 =&gt; bcPacket.M_NVKVINT_0, 
   M_NVKVINT_1 =&gt; bcPacket.M_NVKVINT_1, 
   N_ITER_1 =&gt; bcPacket.N_ITER_0, 
-  Sequence2 =&gt; [], 
+  Sequence2 =&gt; MAP bcPacket.Sequence1 USING X IN SubStruct1TranslatedIntoSubStruct2(X), 
   N_ITER_2 =&gt; bcPacket.N_ITER_1, 
-  Sequence4 =&gt; [], 
+  Sequence4 =&gt; MAP bcPacket.Sequence3 USING X IN SubStruct2TranslatedIntoSubStruct3(X), 
   L_NVKRINT =&gt; bcPacket.L_NVKRINT, 
   M_NVKRINT =&gt; bcPacket.M_NVKRINT,
   N_ITER_3 =&gt; bcPacket.N_ITER_2, 
@@ -97,6 +98,58 @@
  Guid="6851fff0-3ff9-416a-b3b1-40371b667afe"
 >
 <Expression>Messages.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES.Message{
+NID_PACKET =&gt; 3, 
+  Q_DIR =&gt; nvPacket.Q_DIR, 
+  L_PACKET =&gt; nvPacket.L_PACKET, 
+  Q_SCALE =&gt; nvPacket.Q_SCALE, 
+  D_VALIDNV =&gt; nvPacket.D_VALIDNV, 
+  NID_C =&gt; (FIRST X IN nvPacket.Sequence1).NID_C, 
+  N_ITER_0 =&gt; nvPacket.N_ITER, 
+  Sequence1 =&gt; MAP nvPacket.Sequence1 | X != FIRST Y IN nvPacket.Sequence1 USING X IN NationalValues.SubStruct1TranslatedIntoSubStruct1(X), 
+  V_NVSHUNT =&gt; nvPacket.V_NVSHUNT, 
+  V_NVSTFF =&gt; nvPacket.V_NVSTFF, 
+  V_NVONSIGHT =&gt; nvPacket.V_NVONSIGHT, 
+  V_NVLIMSUPERV =&gt; Default.MessageTypes.Speed(Kernel.NationalValues.DefaultValues.LimitedSupervisionModeSpeedLimit / 5.0), 
+  V_NVUNFIT =&gt; nvPacket.V_NVUNFIT, 
+  V_NVREL =&gt; nvPacket.V_NVREL, 
+  D_NVROLL =&gt; nvPacket.D_NVROLL, 
+  Q_NVSBTSMPERM =&gt; nvPacket.Q_NVSRBKTRG, 
+  Q_NVEMRRLS =&gt; nvPacket.Q_NVEMRRLS, 
+  Q_NVGUIPERM =&gt; bcPacket.Q_NVGUIPERM, 
+  Q_NVSBFBPERM =&gt; bcPacket.Q_NVSBFBPERM, 
+  Q_NVINHSMICPERM =&gt; bcPacket.Q_NVINHSMICPERM, 
+  V_NVALLOWOVTRP =&gt; nvPacket.V_NVALLOWOVTRP, 
+  V_NVSUPOVTRP =&gt; nvPacket.V_NVSUPOVTRP, 
+  D_NVOVTRP =&gt; nvPacket.D_NVOVTRP, 
+  T_NVOVTRP =&gt; nvPacket.T_NVOVTRP, 
+  D_NVPOTRP =&gt; nvPacket.D_NVPOTRP, 
+  M_NVCONTACT =&gt; nvPacket.M_NVCONTACT, 
+  T_NVCONTACT =&gt; nvPacket.T_NVCONTACT, 
+  M_NVDERUN =&gt; nvPacket.M_NVDERUN, 
+  D_NVSTFF =&gt; nvPacket.D_NVSTFF, 
+  Q_NVDRIVER_ADHES =&gt; nvPacket.Q_NVDRIVER_ADHES, 
+  A_NVMAXREDADH1 =&gt; bcPacket.A_NVMAXREDADH1, 
+  A_NVMAXREDADH2 =&gt; bcPacket.A_NVMAXREDADH2, 
+  A_NVMAXREDADH3 =&gt; bcPacket.A_NVMAXREDADH3, 
+ Q_NVLOCACC =&gt; Kernel.NationalValues.DefaultValues.DefaultLocationAccuracyOfABaliseGroup, 
+  M_NVAVADH =&gt; bcPacket.M_NVAVADH, 
+  M_NVEBCL =&gt; bcPacket.M_NVEBCL, 
+  Q_NVKINT =&gt; bcPacket.Q_NVKINT, 
+  Q_NVKVINTSET =&gt; bcPacket.Q_NVKVINTSET, 
+  A_NVP12 =&gt; bcPacket.A_NVP12, 
+  A_NVP23 =&gt; bcPacket.A_NVP23, 
+  V_NVKVINT =&gt; bcPacket.V_NVKVINT, 
+  M_NVKVINT_0 =&gt; bcPacket.M_NVKVINT_0, 
+  M_NVKVINT_1 =&gt; bcPacket.M_NVKVINT_1, 
+  N_ITER_1 =&gt; bcPacket.N_ITER_0, 
+  Sequence2 =&gt; MAP bcPacket.Sequence1 USING X IN SubStruct1TranslatedIntoSubStruct2(X), 
+  N_ITER_2 =&gt; bcPacket.N_ITER_1, 
+  Sequence4 =&gt; MAP bcPacket.Sequence3 USING X IN SubStruct2TranslatedIntoSubStruct3(X), 
+  L_NVKRINT =&gt; bcPacket.L_NVKRINT, 
+  M_NVKRINT =&gt; bcPacket.M_NVKRINT,
+  N_ITER_3 =&gt; bcPacket.N_ITER_2, 
+  Sequence5 =&gt; MAP bcPacket.Sequence4 USING X IN SubStruct4TranslatedIntoSubStruct5(X), 
+  M_NVKTINT =&gt;  bcPacket.M_NVKTINT
 }</Expression>
 </Case></Cases>
 </Function><Function
@@ -108,6 +161,7 @@
  Name="SubStruct4TranslatedIntoSubStruct5"
  Guid="30ca8741-2f5e-4c40-a7e2-29113974f8f8"
 >
+<Comment>Translates the SubStructure4 of SystemVersion1.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES_FOR_BRAKING_CURVES into the corresponding SubStructure5 of PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES.</Comment>
 <Parameters>
 <Parameter
  Type="Messages.SystemVersion1.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES_FOR_BRAKING_CURVES.SubStructure4"
@@ -126,25 +180,118 @@ M_NVKRINT =&gt; aSubStructure4.M_NVKRINT
 }</Expression>
 </Case></Cases>
 </Function><Function
+ Type="Messages.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES.SubStructure2"
+ X="111"
+ Y="1"
+ Width="100"
+ Height="50"
+ Name="SubStruct1TranslatedIntoSubStruct2"
+ Guid="20d710bf-8efe-4a34-8b81-3dddf107eca6"
+>
+<Comment>Translates the SubStructure1 of SystemVersion1.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES_FOR_BRAKING_CURVES into the corresponding SubStructure2 of PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES.</Comment>
+<Parameters>
+<Parameter
+ Type="Messages.SystemVersion1.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES_FOR_BRAKING_CURVES.SubStructure1"
+ Name="aSubStructure1"
+ Guid="50633320-cdb3-4caa-be3d-f6300421d4e4"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="3e15bcc2-369b-456a-a851-5e9d9ea249a5"
+>
+<Expression>Messages.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES.SubStructure2
+{
+  V_NVKVINT =&gt; aSubStructure1.V_NVKVINT, 
+  M_NVKVINT_0 =&gt; aSubStructure1.M_NVKVINT_0, 
+  M_NVKVINT_1 =&gt; aSubStructure1.M_NVKVINT_1
+}</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES.SubStructure4"
+ X="111"
+ Y="1"
+ Width="100"
+ Height="50"
+ Name="SubStruct3TranslatedIntoSubStruct4"
+ Guid="5fc20d63-ba76-4b85-9494-73f7617f5065"
+>
+<Comment>Translates the SubStructure3 of SystemVersion1.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES_FOR_BRAKING_CURVES into the corresponding SubStructure4 of PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES.</Comment>
+<Parameters>
+<Parameter
+ Type="Messages.SystemVersion1.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES_FOR_BRAKING_CURVES.SubStructure3"
+ Name="aSubStructure3"
+ Guid="cb1f54b2-e038-4358-9214-7f3e46653a12"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="95fe9cfc-8893-4c96-b995-d7237074d1e7"
+>
+<Expression>Messages.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES.SubStructure4
+{
+  V_NVKVINT =&gt; aSubStructure3.V_NVKVINT, 
+  M_NVKVINT_0 =&gt; aSubStructure3.M_NVKVINT_0, 
+  M_NVKVINT_1 =&gt; aSubStructure3.M_NVKVINT_1
+}</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES.SubStructure3"
+ X="111"
+ Y="1"
+ Width="100"
+ Height="50"
+ Name="SubStruct2TranslatedIntoSubStruct3"
+ Guid="958553a3-78c6-47d6-9867-2d07d28ae7f2"
+>
+<Comment>Translates the SubStructure2 of SystemVersion1.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES_FOR_BRAKING_CURVES into the corresponding SubStructure3 of PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES.</Comment>
+<Parameters>
+<Parameter
+ Type="Messages.SystemVersion1.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES_FOR_BRAKING_CURVES.SubStructure2"
+ Name="aSubStructure2"
+ Guid="68c8dc96-ccd6-46d4-a744-46e329659e10"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="6dc904cf-012f-4085-8983-94731df6edef"
+>
+<Expression>Messages.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES.SubStructure3
+{
+  Q_NVKVINTSET =&gt; aSubStructure2.Q_NVKVINTSET, 
+  A_NVP12 =&gt; aSubStructure2.A_NVP12, 
+  A_NVP23 =&gt; aSubStructure2.A_NVP23, 
+  V_NVKVINT =&gt; aSubStructure2.V_NVKVINT, 
+  M_NVKVINT_0 =&gt; aSubStructure2.M_NVKVINT_0, 
+  M_NVKVINT_1 =&gt; aSubStructure2.M_NVKVINT_1, 
+  N_ITER =&gt; aSubStructure2.N_ITER, 
+  Sequence3 =&gt; MAP aSubStructure2.Sequence2 USING X IN SubStruct3TranslatedIntoSubStruct4( X)
+}</Expression>
+</Case></Cases>
+</Function><Function
  Type="Messages.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES.SubStructure1"
  X="111"
  Y="1"
  Width="100"
  Height="50"
  Name="SubStruct1TranslatedIntoSubStruct1"
- Guid="e1039265-4f0f-4d22-9a6b-2ce617b46025"
+ Guid="c9ab4424-fe1b-4afa-9901-7f7e5db7ae07"
 >
+<Comment>Translates the SubStructure1 of SystemVersion1.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES into the SubStructure1 of PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES.</Comment>
 <Parameters>
 <Parameter
  Type="Messages.SystemVersion1.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES.SubStructure1"
  Name="aSubStructure1"
- Guid="ab8c1f0b-b820-42d1-96a8-e32679d652a2"
+ Guid="e593d51a-de37-4e45-9e99-06eabfd689c4"
 >
 </Parameter></Parameters>
 <Cases>
 <Case
  Name="Value"
- Guid="b627c249-7805-4dec-a82b-3bfeca6e31b2"
+ Guid="f83ac046-f9c0-4ea3-b3d5-42bab6a0ed42"
 >
 <Expression>Messages.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES.SubStructure1
 {
