@@ -71,7 +71,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
                 return
                     EFSSystem.FindType(
                         OverallNameSpaceFinder.INSTANCE.findByName(EFSSystem.Dictionaries[0], "Default"),
-                        "Default.DateAndTime");
+                        "Default.DateAndTimeStruct");
             }
         }
 
@@ -101,7 +101,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
         }
 
         /// <summary>
-        ///     Creates a EFS DateAndTime structure from a System.DateTime
+        ///     Creates a EFS DateAndTimeStruct structure from a System.DateTime
         /// </summary>
         /// <param name="value">The values that will go into the structure</param>
         /// <param name="structureType">The structure type</param>

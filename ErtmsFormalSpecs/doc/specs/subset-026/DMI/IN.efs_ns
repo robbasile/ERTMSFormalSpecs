@@ -2045,15 +2045,15 @@
 <PreConditions>
 <PreCondition
  Guid="5572fcd3-71a6-4fce-91e3-03f994294492"
->DisplayStartTime != BaseTypes.Time.NA</PreCondition><PreCondition
+>DisplayStartTime.Timer != BaseTypes.Time.NA</PreCondition><PreCondition
  Guid="08841d53-1313-454d-8f2d-2590fea1bf0a"
->DisplayStartTime + Acknowledgements.Tack &lt;= Kernel.DateAndTime.CurrentTime</PreCondition></PreConditions>
+>DisplayStartTime.Timer + Acknowledgements.Tack &lt;= Kernel.DateAndTime.CurrentTime</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="62fd7a18-4152-4c77-84ab-a04f6e72c0f6"
 >Kernel.BrakeCommands.CommandServiceBrake(Kernel.BrakeCommands.BrakeReasonEnum.LevelTransitionTimeOut)</Action><Action
  Guid="6c4365a6-3ad1-45f9-9345-7c142dece26e"
->DisplayStartTime &lt;- BaseTypes.Time.NA</Action></Actions>
+>DisplayStartTime.ResetTimer()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 <Procedures>
@@ -2093,7 +2093,7 @@
  Guid="64835c6d-c282-4078-825d-1d54c5a07cd0"
 >Acknowledgements.LastDriverAcknowledgementTime &lt;- Kernel.DateAndTime.CurrentTime</Action><Action
  Guid="1fd1e63d-cc7c-4195-8c58-7ea3b49aec47"
->DisplayStartTime &lt;- BaseTypes.Time.NA</Action></Actions>
+>DisplayStartTime.ResetTimer()</Action></Actions>
 <SubRules>
 <Rule
  Priority="Processing"
@@ -2276,8 +2276,8 @@
 >
 <Comment>Contains the information about which is the level to perform the transition</Comment>
 </StructureElement><StructureElement
- TypeName="BaseTypes.Time"
- Default="BaseTypes.Time.NA"
+ TypeName="DisplayedTimerStruct"
+ Default=""
  Mode="Internal"
  Implemented="TRUE"
  Name="DisplayStartTime"
@@ -2524,7 +2524,7 @@
  Guid="31f666b0-b4ab-41aa-b317-e4b413706169"
 >Acknowledgements.LastDriverAcknowledgementTime &lt;- Kernel.DateAndTime.CurrentTime</Action><Action
  Guid="005058df-54d4-4428-90a0-97e585b45f32"
->DisplayStartTime &lt;- BaseTypes.Time.NA</Action></Actions>
+>DisplayStartTime.ResetTimer()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -2650,8 +2650,8 @@
 >
 <Comment>Indicates that data has been received</Comment>
 </StructureElement><StructureElement
- TypeName="BaseTypes.Time"
- Default="BaseTypes.Time.NA"
+ TypeName="DisplayedTimerStruct"
+ Default=""
  Mode="Internal"
  Implemented="TRUE"
  Name="DisplayStartTime"
@@ -3663,7 +3663,7 @@
  Guid="c3dd4389-3bff-4d88-9517-d9f487192430"
 >Acknowledgements.LastDriverAcknowledgementTime &lt;- Kernel.DateAndTime.CurrentTime</Action><Action
  Guid="cd885bcd-0326-4593-b80f-db44f2efb1eb"
->DisplayStartTime &lt;- BaseTypes.Time.NA</Action></Actions>
+>DisplayStartTime.ResetTimer()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -3798,8 +3798,8 @@
 >
 <Comment>The national system id to be acknowledged</Comment>
 </StructureElement><StructureElement
- TypeName="BaseTypes.Time"
- Default="BaseTypes.Time.NA"
+ TypeName="DisplayedTimerStruct"
+ Default=""
  Mode="Internal"
  Implemented="TRUE"
  Name="DisplayStartTime"
@@ -4776,15 +4776,15 @@
 <PreConditions>
 <PreCondition
  Guid="2775ef0b-b3a6-48da-94f9-26d9cfeb65d1"
->DisplayStartTime + Acknowledgements.Tack &lt;= Kernel.DateAndTime.CurrentTime</PreCondition><PreCondition
+>DisplayStartTime.Timer + Acknowledgements.Tack &lt;= Kernel.DateAndTime.CurrentTime</PreCondition><PreCondition
  Guid="3c52fb7e-1a18-4da7-a48f-a4d860adb51b"
->DisplayStartTime != BaseTypes.Time.NA</PreCondition></PreConditions>
+>DisplayStartTime.Timer != BaseTypes.Time.NA</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="0032d2ab-08bf-4c4f-ab15-68154487a311"
 >Kernel.BrakeCommands.CommandServiceBrake(Kernel.BrakeCommands.BrakeReasonEnum.LSAckTimeOut)</Action><Action
  Guid="6f491ad8-ba42-4a4e-8984-12fd94d47199"
->DisplayStartTime &lt;- BaseTypes.Time.NA</Action></Actions>
+>DisplayStartTime.ResetTimer()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 <Procedures>
@@ -4822,7 +4822,7 @@
  Guid="7f80394d-d86d-4e0e-9ee9-48ab5ba67ea8"
 >THIS.InputInformation.AcceptDriverResponse()</Action><Action
  Guid="f5739bd9-6bb9-4273-8c76-672925676b7b"
->DisplayStartTime &lt;- BaseTypes.Time.NA</Action><Action
+>DisplayStartTime.ResetTimer()</Action><Action
  Guid="d3f5b719-8924-41b4-95a7-22f478fe06d6"
 >Acknowledgements.LastDriverAcknowledgementTime &lt;- Kernel.DateAndTime.CurrentTime</Action></Actions>
 <SubRules>
@@ -4997,8 +4997,8 @@
 >
 <Comment>The status of the request</Comment>
 </StructureElement><StructureElement
- TypeName="BaseTypes.Time"
- Default="BaseTypes.Time.NA"
+ TypeName="DisplayedTimerStruct"
+ Default=""
  Mode="Internal"
  Implemented="TRUE"
  Name="DisplayStartTime"
@@ -5059,15 +5059,15 @@
 <PreConditions>
 <PreCondition
  Guid="f98185fc-8d18-4344-ae88-ea11e7b4c5fb"
->DisplayStartTime + Acknowledgements.Tack &lt;= Kernel.DateAndTime.CurrentTime</PreCondition><PreCondition
+>DisplayStartTime.Timer + Acknowledgements.Tack &lt;= Kernel.DateAndTime.CurrentTime</PreCondition><PreCondition
  Guid="e85bb8cf-bf9c-4519-a5bc-eba509a85d92"
->DisplayStartTime != BaseTypes.Time.NA</PreCondition></PreConditions>
+>DisplayStartTime.Timer != BaseTypes.Time.NA</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="456feea0-c81d-4514-89b4-32c53ca3f5d5"
 >Kernel.BrakeCommands.CommandServiceBrake(Kernel.BrakeCommands.BrakeReasonEnum.OSAckTimeOut)</Action><Action
  Guid="b1365a31-e3c0-48a6-8023-123f8107e243"
->DisplayStartTime &lt;- BaseTypes.Time.NA</Action></Actions>
+>DisplayStartTime.ResetTimer()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 <Procedures>
@@ -5105,7 +5105,7 @@
  Guid="719101c0-d5a3-40d8-a756-4698d9924399"
 >THIS.InputInformation.AcceptDriverResponse()</Action><Action
  Guid="09400527-1555-4055-9e37-f236e1de2bf6"
->DisplayStartTime &lt;- BaseTypes.Time.NA</Action><Action
+>DisplayStartTime.ResetTimer()</Action><Action
  Guid="3d47d361-fdc1-4c8f-9c9d-a919f3f1dbbe"
 >Acknowledgements.LastDriverAcknowledgementTime &lt;- Kernel.DateAndTime.CurrentTime</Action></Actions>
 <SubRules>
@@ -5280,8 +5280,8 @@
 >
 <Comment>The status of the request</Comment>
 </StructureElement><StructureElement
- TypeName="BaseTypes.Time"
- Default="BaseTypes.Time.NA"
+ TypeName="DisplayedTimerStruct"
+ Default=""
  Mode="Internal"
  Implemented="TRUE"
  Name="DisplayStartTime"
@@ -5342,15 +5342,15 @@
 <PreConditions>
 <PreCondition
  Guid="88c0a656-36a1-4db8-bf13-a34783b84219"
->DisplayStartTime + Acknowledgements.Tack &lt;= Kernel.DateAndTime.CurrentTime</PreCondition><PreCondition
+>DisplayStartTime.Timer + Acknowledgements.Tack &lt;= Kernel.DateAndTime.CurrentTime</PreCondition><PreCondition
  Guid="b127519d-7a0e-4395-9e35-21f2d50b42bc"
->DisplayStartTime != BaseTypes.Time.NA</PreCondition></PreConditions>
+>DisplayStartTime.Timer != BaseTypes.Time.NA</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="b0b1c0a4-d1df-4954-a400-fe1668407d47"
 >Kernel.BrakeCommands.CommandServiceBrake(Kernel.BrakeCommands.BrakeReasonEnum.SHAckTimeOut)</Action><Action
  Guid="8844602a-4164-40d4-9b74-80b6eecc801c"
->DisplayStartTime &lt;- BaseTypes.Time.NA</Action></Actions>
+>DisplayStartTime.ResetTimer()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 <Procedures>
@@ -5388,7 +5388,7 @@
  Guid="24769eb4-f757-4ced-8cd3-4a57859a3edb"
 >THIS.InputInformation.AcceptDriverResponse()</Action><Action
  Guid="849c567f-569a-4156-aa21-b95e33a6f413"
->DisplayStartTime &lt;- BaseTypes.Time.NA</Action><Action
+>DisplayStartTime.ResetTimer()</Action><Action
  Guid="16c2bfb8-4a51-4bc1-9876-08df1ccae17a"
 >Acknowledgements.LastDriverAcknowledgementTime &lt;- Kernel.DateAndTime.CurrentTime</Action></Actions>
 <SubRules>
@@ -5563,8 +5563,8 @@
 >
 <Comment>The status of the request</Comment>
 </StructureElement><StructureElement
- TypeName="BaseTypes.Time"
- Default="BaseTypes.Time.NA"
+ TypeName="DisplayedTimerStruct"
+ Default=""
  Mode="Internal"
  Implemented="TRUE"
  Name="DisplayStartTime"
@@ -5634,7 +5634,7 @@
  Guid="66d7e755-911d-4270-83fc-d242e2e411c5"
 >Acknowledgements.LastDriverAcknowledgementTime &lt;- Kernel.DateAndTime.CurrentTime</Action><Action
  Guid="e93a587f-ef99-4668-a703-4b9b1571d596"
->DisplayStartTime &lt;- BaseTypes.Time.NA</Action></Actions>
+>DisplayStartTime.ResetTimer()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -5750,8 +5750,8 @@
 >
 <Comment>The request status</Comment>
 </StructureElement><StructureElement
- TypeName="BaseTypes.Time"
- Default="BaseTypes.Time.NA"
+ TypeName="DisplayedTimerStruct"
+ Default=""
  Mode="Internal"
  Implemented="TRUE"
  Name="DisplayStartTime"
@@ -5811,7 +5811,7 @@
  Guid="c53fac22-f56a-4036-ae5c-fca91f78ccc2"
 >Acknowledgements.LastDriverAcknowledgementTime &lt;- Kernel.DateAndTime.CurrentTime</Action><Action
  Guid="1e8cc44c-5b7b-44c8-9eaa-ef4a80142b9d"
->DisplayStartTime &lt;- BaseTypes.Time.NA</Action></Actions>
+>DisplayStartTime.ResetTimer()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -5927,8 +5927,8 @@
 >
 <Comment>The request status</Comment>
 </StructureElement><StructureElement
- TypeName="BaseTypes.Time"
- Default="BaseTypes.Time.NA"
+ TypeName="DisplayedTimerStruct"
+ Default=""
  Mode="Internal"
  Implemented="TRUE"
  Name="DisplayStartTime"
@@ -5988,7 +5988,7 @@
  Guid="a456a31c-b18f-4410-a1fd-497e1f26b2af"
 >Acknowledgements.LastDriverAcknowledgementTime &lt;- Kernel.DateAndTime.CurrentTime</Action><Action
  Guid="2f8cfccb-7720-49bf-b0c2-d672771360d3"
->DisplayStartTime &lt;- BaseTypes.Time.NA</Action></Actions>
+>DisplayStartTime.ResetTimer()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -6104,8 +6104,8 @@
 >
 <Comment>The request status</Comment>
 </StructureElement><StructureElement
- TypeName="BaseTypes.Time"
- Default="BaseTypes.Time.NA"
+ TypeName="DisplayedTimerStruct"
+ Default=""
  Mode="Internal"
  Implemented="TRUE"
  Name="DisplayStartTime"
@@ -6165,7 +6165,7 @@
  Guid="47e302ff-5b29-4e11-84a0-e44e6907a1fa"
 >Acknowledgements.LastDriverAcknowledgementTime &lt;- Kernel.DateAndTime.CurrentTime</Action><Action
  Guid="b9353a94-74c8-4e87-98f8-f4b6cd1e79c4"
->DisplayStartTime &lt;- BaseTypes.Time.NA</Action></Actions>
+>DisplayStartTime.ResetTimer()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -6281,8 +6281,8 @@
 >
 <Comment>The request status</Comment>
 </StructureElement><StructureElement
- TypeName="BaseTypes.Time"
- Default="BaseTypes.Time.NA"
+ TypeName="DisplayedTimerStruct"
+ Default=""
  Mode="Internal"
  Implemented="TRUE"
  Name="DisplayStartTime"
@@ -6342,7 +6342,7 @@
  Guid="98ce0cc1-cd9b-4947-b3eb-d699f541e406"
 >Acknowledgements.LastDriverAcknowledgementTime &lt;- Kernel.DateAndTime.CurrentTime</Action><Action
  Guid="66ab7117-57c9-431d-bb3d-5d043bec0523"
->DisplayStartTime &lt;- BaseTypes.Time.NA</Action></Actions>
+>DisplayStartTime.ResetTimer()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -6458,8 +6458,8 @@
 >
 <Comment>The request status</Comment>
 </StructureElement><StructureElement
- TypeName="BaseTypes.Time"
- Default="BaseTypes.Time.NA"
+ TypeName="DisplayedTimerStruct"
+ Default=""
  Mode="Internal"
  Implemented="TRUE"
  Name="DisplayStartTime"
@@ -6519,7 +6519,7 @@
  Guid="31127aa6-4585-443b-9f95-0b7bdd65d729"
 >Acknowledgements.LastDriverAcknowledgementTime &lt;- Kernel.DateAndTime.CurrentTime</Action><Action
  Guid="37e53266-75ba-4b12-9800-b8f06ecbb368"
->DisplayStartTime &lt;- BaseTypes.Time.NA</Action></Actions>
+>DisplayStartTime.ResetTimer()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -6635,8 +6635,8 @@
 >
 <Comment>The request status</Comment>
 </StructureElement><StructureElement
- TypeName="BaseTypes.Time"
- Default="BaseTypes.Time.NA"
+ TypeName="DisplayedTimerStruct"
+ Default=""
  Mode="Internal"
  Implemented="TRUE"
  Name="DisplayStartTime"
@@ -6696,7 +6696,7 @@
  Guid="ca4701bf-3797-4398-a4b8-437e461e4cf5"
 >Acknowledgements.LastDriverAcknowledgementTime &lt;- Kernel.DateAndTime.CurrentTime</Action><Action
  Guid="8de78f0e-3bac-4634-9fa8-9fcc8ba9a7ad"
->DisplayStartTime &lt;- BaseTypes.Time.NA</Action></Actions>
+>DisplayStartTime.ResetTimer()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -6813,8 +6813,8 @@
 >
 <Comment>The status of the request</Comment>
 </StructureElement><StructureElement
- TypeName="BaseTypes.Time"
- Default="BaseTypes.Time.NA"
+ TypeName="DisplayedTimerStruct"
+ Default=""
  Mode="Internal"
  Implemented="TRUE"
  Name="DisplayStartTime"
@@ -6874,7 +6874,7 @@
  Guid="f9ae8bd9-08fa-478c-8403-990329eb788b"
 >Acknowledgements.LastDriverAcknowledgementTime &lt;- Kernel.DateAndTime.CurrentTime</Action><Action
  Guid="825ddc6e-3a36-4d50-b831-89abd392f019"
->DisplayStartTime &lt;- BaseTypes.Time.NA</Action></Actions>
+>DisplayStartTime.ResetTimer()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -6991,8 +6991,8 @@
 >
 <Comment>The status of the request</Comment>
 </StructureElement><StructureElement
- TypeName="BaseTypes.Time"
- Default="BaseTypes.Time.NA"
+ TypeName="DisplayedTimerStruct"
+ Default=""
  Mode="Internal"
  Implemented="TRUE"
  Name="DisplayStartTime"
@@ -7052,7 +7052,7 @@
  Guid="1bca1ab7-8ec0-45ee-addd-6917f32f4190"
 >Acknowledgements.LastDriverAcknowledgementTime &lt;- Kernel.DateAndTime.CurrentTime</Action><Action
  Guid="1751ed6d-3ff1-46bf-a977-11a58ef28838"
->DisplayStartTime &lt;- BaseTypes.Time.NA</Action></Actions>
+>DisplayStartTime.ResetTimer()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -7169,8 +7169,8 @@
 >
 <Comment>The status of the request</Comment>
 </StructureElement><StructureElement
- TypeName="BaseTypes.Time"
- Default="BaseTypes.Time.NA"
+ TypeName="DisplayedTimerStruct"
+ Default=""
  Mode="Internal"
  Implemented="TRUE"
  Name="DisplayStartTime"

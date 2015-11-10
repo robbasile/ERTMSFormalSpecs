@@ -168,7 +168,7 @@
 >
 <Comment>If the current acknowledgement is a fixed text message acknowledgement, this field contains the message to acknowledge.</Comment>
 </StructureElement><StructureElement
- TypeName="BaseTypes.Time"
+ TypeName="DisplayedTimerStruct"
  Default=""
  Mode="Internal"
  Implemented="TRUE"
@@ -928,7 +928,11 @@ anAcknowledgement == DMI.IN.Acknowledgements.AckTypeEnum.PlainTextInformation</P
     Level =&gt; aLevel,
     FixedTextMessage =&gt; aFixedTextMessage,
     PlainTextMessage =&gt; aPlainTextMessage,
-    DisplayStartTime =&gt; Kernel.DateAndTime.CurrentTime
+    DisplayStartTime =&gt; DisplayedTimerStruct
+    {
+      Timer =&gt; Kernel.DateAndTime.CurrentTime,
+      DateAndTime =&gt; Kernel.DateAndTime.Now()
+    }
   }
 IN
   DMI.IN.Acknowledgements.Acknowledgements</Action></Actions>

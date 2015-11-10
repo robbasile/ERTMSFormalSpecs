@@ -183,15 +183,18 @@ namespace Importers.ExcelImporter
                 aSubStep.AddModelElement(odometryInitialization);
 
                 TestAction LRBGInitialization = new TestAction();
-                LRBGInitialization.ExpressionText = "BTM.LRBG <- BTM.BaliseGroupStruct{\n" +
+                LRBGInitialization.ExpressionText = "BTM.LRBG <- BTM.BaliseGroupStruct\n" +
+                                                    "    {\n" +
                                                     "    NID => 0,\n" +
                                                     "    Orientation => Default.OrientationEnum.Nominal,\n" +
-                                                    "    Position => BTM.Position{\n" +
+                                                    "    Position => BTM.Position\n" +
+                                                    "    {\n" +
                                                     "        Position => 0.0,\n" +
                                                     "        UnderReadingAmountOdo => 0.0,\n" +
                                                     "        OverReadingAmountOdo => 0.0\n" +
                                                     "    },\n" +
-                                                    "    Timestamp => Default.DateAndTime{\n" +
+                                                    "    Timestamp => Default.DateAndTimeStruct\n" +
+                                                    "    {\n" +
                                                     "        Year => 2012,\n" +
                                                     "        Month => 12,\n" +
                                                     "        Day => 20,\n" +

@@ -1552,6 +1552,7 @@ This procedure does not do anything. The mode tracking is not necessary for this
  Name="Updates the request status"
  Guid="6830768e-799d-4864-9239-cbe2466815c9"
 >
+<Comment>Updates the request status and inserts the new message to the list of displayed messages.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
@@ -1589,9 +1590,9 @@ This procedure does not do anything. The mode tracking is not necessary for this
 <Action
  Guid="0c431d1f-e27f-49b0-a975-ecaac3f176ee"
 >APPLY
-  X.DisplayStartTime &lt;- Kernel.DateAndTime.CurrentTime
+  X.DisplayStartTime.StartTimer()
 ON
-  Messages | X.DisplayStartTime == BaseTypes.Time.NA</Action></Actions>
+  Messages | X.DisplayStartTime.Timer == BaseTypes.Time.NA</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -1719,9 +1720,9 @@ ON
 <Action
  Guid="e6434c05-8e28-40d2-9d21-b1d3d5925f1e"
 >APPLY
-  X.DisplayStartTime &lt;- Kernel.DateAndTime.CurrentTime
+  X.DisplayStartTime.StartTimer()
 ON
-  Messages | X.DisplayStartTime == BaseTypes.Time.NA</Action></Actions>
+  Messages | X.DisplayStartTime.Timer == BaseTypes.Time.NA</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -4204,7 +4205,7 @@ This procedure does not do anything. The mode tracking is not necessary for this
  Guid="770c2f2f-601a-4cd1-ba05-412d07f35ace"
 >
 </StructureElement><StructureElement
- TypeName="DateAndTime"
+ TypeName="DateAndTimeStruct"
  Default=""
  Mode="Outgoing"
  Implemented="TRUE"

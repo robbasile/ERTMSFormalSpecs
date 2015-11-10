@@ -3722,6 +3722,105 @@ ON Kernel.BrakeCommands.ServiceBrakeCommands</Action></Actions>
  Guid="491a575f-6a1f-4acb-9b41-2a3bc3b5fd0d"
 >
 </ReqRef><Comment>Indicates the time when the display of the brake reason started on the DMI.</Comment>
+</StructureElement></Structure><Structure
+ X="881"
+ Y="1"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="DisplayedTimerStruct"
+ Guid="c37b1aa2-eaeb-4377-989b-3b6d1bc64a77"
+>
+<Comment>This structure is used to store the timer information that will be displayed on the DMI. It contains:
+- the Timer (start time) used to determine if the timer expired
+- the DateAndTime information, used to be displayed on the DMI.</Comment>
+<Procedures>
+<Procedure
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="StartTimer"
+ Guid="dbdad6d9-39de-428d-99bd-cca937af1fb1"
+>
+<Comment>Starts the timer, i.e. sets its values to the current time.</Comment>
+<Rules>
+<Rule
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Start timer"
+ Guid="64ca1307-f60f-409c-afd0-1034f1244717"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Start timer"
+ Guid="3e71d3f6-6776-4316-beea-bcc799a0724d"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="d0cf5c42-f620-445b-b0ae-125c5be8e1b9"
+>Timer &lt;- Kernel.DateAndTime.CurrentTime</Action><Action
+ Guid="55cee79d-e964-41c8-946c-d9be1e963e3c"
+>DateAndTime &lt;- Kernel.DateAndTime.Now()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="ResetTimer"
+ Guid="99c6c1dc-7e97-418e-9572-b00fa7a1be34"
+>
+<Comment>Resets the timer values.</Comment>
+<Rules>
+<Rule
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Reset timer"
+ Guid="d4d1cf7d-50ae-4d0e-a14b-e24bc069bbe8"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Reset timer"
+ Guid="1a689dbc-4ffc-4029-a082-ac50e4a3174a"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="29db9284-2607-40bf-bde8-dd696ba3bd51"
+>Timer &lt;- Default.BaseTypes.Time.NA</Action><Action
+ Guid="7c873ef9-2149-4f75-b4e2-36397a196582"
+>DateAndTime &lt;- EMPTY</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure></Procedures>
+<StructureElement
+ TypeName="BaseTypes.Time"
+ Default="BaseTypes.Time.NA"
+ Mode="Internal"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Timer"
+ Guid="5dbc0ca8-56fc-40cd-80a9-7622188ff9a6"
+>
+<Comment>The time relative time of the timer start.</Comment>
+</StructureElement><StructureElement
+ TypeName="Default.DateAndTimeStruct"
+ Default="EMPTY"
+ Mode="Internal"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="DateAndTime"
+ Guid="d549d0a7-df5d-4df7-816c-aa374dd42067"
+>
+<Comment>The absolute time of the timer start.</Comment>
 </StructureElement></Structure></Structures>
 <Collections>
 <Collection

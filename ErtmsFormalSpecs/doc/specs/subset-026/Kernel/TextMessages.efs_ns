@@ -427,8 +427,8 @@
 >
 </ReqRef><Comment>Information about the report of text message confirmation by the driver.</Comment>
 </StructureElement><StructureElement
- TypeName="BaseTypes.Time"
- Default="BaseTypes.Time.NA"
+ TypeName="DMI.DisplayedTimerStruct"
+ Default=""
  Mode="Internal"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
@@ -994,8 +994,8 @@
 >
 </ReqRef><Comment>The number of the fixed text message.</Comment>
 </StructureElement><StructureElement
- TypeName="BaseTypes.Time"
- Default="BaseTypes.Time.NA"
+ TypeName="DMI.DisplayedTimerStruct"
+ Default=""
  Mode="Internal"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
@@ -1384,8 +1384,8 @@
 >
 </ReqRef><Comment>The plain text to be displayed.</Comment>
 </StructureElement><StructureElement
- TypeName="BaseTypes.Time"
- Default="BaseTypes.Time.NA"
+ TypeName="DMI.DisplayedTimerStruct"
+ Default=""
  Mode="Internal"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
@@ -2789,8 +2789,8 @@ AckConditionSatisfied( aMessage =&gt; aMessage )</Expression>
  Guid="61dec2f5-59e9-4f4c-b53f-fce130dfbec6"
 >aMessage.DisplayDuration != BaseTypes.Time.NA</PreCondition><PreCondition
  Guid="46181f25-f929-46df-bef7-a962ff5e4249"
->aMessage.DisplayStartTime != BaseTypes.Time.NA</PreCondition></PreConditions>
-<Expression>aMessage.DisplayStartTime + aMessage.DisplayDuration &lt;= Kernel.DateAndTime.CurrentTime</Expression>
+>aMessage.DisplayStartTime.Timer != BaseTypes.Time.NA</PreCondition></PreConditions>
+<Expression>aMessage.DisplayStartTime.Timer + aMessage.DisplayDuration &lt;= Kernel.DateAndTime.CurrentTime</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="4702eef8-76b4-4d1e-9025-8e56786d0c2a"
