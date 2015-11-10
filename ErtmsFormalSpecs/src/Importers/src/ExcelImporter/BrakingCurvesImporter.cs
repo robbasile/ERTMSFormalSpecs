@@ -231,7 +231,7 @@ namespace Importers.ExcelImporter
             /* I didn't find this value in ERA sheets, but I observed than their P function can exceed 160 km/h => the maximum speed should be greater than 160 km/h */
             addAction(aSubStep,
                 String.Format(CultureInfo.InvariantCulture, "Kernel.TrainData.TrainData.Value.MaximumSpeed <- {0:0.0}",
-                    180.0));
+                    600.0));
 
             Worksheet aWorksheet = workbook.Sheets[1] as Worksheet;
             bool isPassengerTrain;

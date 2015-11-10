@@ -87,26 +87,31 @@ namespace DataDictionary
                     dictionary.allNameSpaceRefs().Clear();
                     dictionary.allTestRefs().Clear();
 
-                    if (dictionary.allNameSpaces() != null)
+                    // Only split namespace and test files when the dictionary holds namespaces
+                    if (dictionary.countNameSpaces() > 0)
                     {
                         foreach (Types.NameSpace subNameSpace in dictionary.allNameSpaces())
                         {
                             dictionary.appendNameSpaceRefs(referenceNameSpace(dictionary, subNameSpace));
                         }
-                    }
 
-                    if (dictionary.allTests() != null)
-                    {
-                        foreach (Frame frame in dictionary.allTests())
+                        if (dictionary.allTests() != null)
                         {
-                            dictionary.appendTestRefs(referenceFrame(dictionary, frame));
+                            foreach (Frame frame in dictionary.allTests())
+                            {
+                                dictionary.appendTestRefs(referenceFrame(dictionary, frame));
+                            }
                         }
+                        dictionary.StoreInfo();
                     }
-                    dictionary.StoreInfo();
                 }
                 else
                 {
-                    dictionary.RestoreInfo();
+                    // Only build back split information when the dictionary held namespaces
+                    if (dictionary._savedNameSpaces != null && dictionary._savedNameSpaces.Count > 0)
+                    {
+                        dictionary.RestoreInfo();
+                    }
                 }
             }
 
@@ -339,6 +344,7 @@ namespace DataDictionary
         /// </summary>
         public void StoreInfo()
         {
+            // Save the name spaces in separate files
             _savedNameSpaces = new ArrayList();
             foreach (Types.NameSpace aNameSpace in allNameSpaces())
             {
@@ -346,6 +352,7 @@ namespace DataDictionary
             }
             allNameSpaces().Clear();
 
+            // Save the test frames in separate files
             _savedTests = new ArrayList();
             foreach (Frame aTest in allTests())
             {
@@ -359,6 +366,7 @@ namespace DataDictionary
         /// </summary>
         public void RestoreInfo()
         {
+            // Restore the namespaces as they were before the save operation
             setAllNameSpaces(new ArrayList());
             foreach (Types.NameSpace aNameSpace in _savedNameSpaces)
             {
@@ -367,6 +375,7 @@ namespace DataDictionary
             }
             _savedNameSpaces.Clear();
 
+            // Restore the tests as they were before the save operation
             setAllTests(new ArrayList());
             foreach (Frame aTest in _savedTests)
             {

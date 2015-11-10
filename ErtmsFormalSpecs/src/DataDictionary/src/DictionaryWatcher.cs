@@ -75,15 +75,29 @@ namespace DataDictionary
 
             CriticalRegion = new Mutex(false, "Critical region");
 
-            string path = Path.GetDirectoryName(dictionary.FilePath) + Path.DirectorySeparatorChar +
-                          Path.GetFileNameWithoutExtension(dictionary.FilePath);
-            path = Path.GetFullPath(path);
-            Directory.CreateDirectory(path);
-            Watcher = new FileSystemWatcher(path, "*.*")
+            if (dictionary.countNameSpaces() > 0)
             {
-                IncludeSubdirectories = true,
-                NotifyFilter = NotifyFilters.LastWrite
-            };
+                string path = Path.GetDirectoryName(dictionary.FilePath) + Path.DirectorySeparatorChar +
+                              Path.GetFileNameWithoutExtension(dictionary.FilePath);
+                path = Path.GetFullPath(path);
+                Directory.CreateDirectory(path);
+                Watcher = new FileSystemWatcher(path, "*.*")
+                {
+                    IncludeSubdirectories = true,
+                    NotifyFilter = NotifyFilters.LastWrite
+                };
+            }
+            else
+            {
+                string path = Path.GetDirectoryName(dictionary.FilePath);
+                string fileName = Path.GetFileName(dictionary.FilePath);
+                Watcher = new FileSystemWatcher(path, fileName)
+                {
+                    IncludeSubdirectories = false,
+                    NotifyFilter = NotifyFilters.LastWrite
+                };                
+            }
+
             Watcher.Changed += Watcher_Changed;
             Watcher.Created += Watcher_Changed;
             Watcher.Deleted += Watcher_Changed;
