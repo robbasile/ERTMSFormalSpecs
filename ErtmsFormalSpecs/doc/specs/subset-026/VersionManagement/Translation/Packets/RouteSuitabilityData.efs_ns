@@ -96,6 +96,7 @@
  Y="1"
  Width="100"
  Height="50"
+ Implemented="TRUE"
  Name="UpdatedPacket"
  Guid="42daa1ac-112f-4a3a-b276-da5305bb3570"
 >
@@ -145,7 +146,7 @@ Sequence1 =&gt; []
 <PreCondition
  Guid="54a558c6-aa4c-4761-b862-852c0f1df1b7"
 ><Comment>The remaining part of the packet is used only if Q_TRACKINIT == 0. The value &apos;2&apos; for Q_Suitability corresponds to &apos;Traction-System&apos;, i.e. the value &apos;10&apos; for the spec.</Comment>
-aPacket.Q_TRACKINIT == 0 AND aPacket.Q_SUITABILITY == 2 AND IsTranslatable(aPacket.M_TRACTION)</PreCondition></PreConditions>
+aPacket.Q_TRACKINIT == 0 AND aPacket.Q_SUITABILITY == 2 AND Translation.Packets.RouteSuitabilityData.IsTranslatable(aPacket.M_TRACTION)</PreCondition></PreConditions>
 <Expression>Messages.PACKET.TRACK_TO_TRAIN.ROUTE_SUITABILITY_DATA.Message{
 NID_PACKET =&gt; 70,
 Q_DIR =&gt; aPacket.Q_DIR,
@@ -157,10 +158,10 @@ D_SUITABILITY =&gt; aPacket.D_SUITABILITY,
 Q_SUITABILITY =&gt; aPacket.Q_SUITABILITY,
 M_LINEGAUGE =&gt; 0,
 M_AXLELOADCAT =&gt; 0,
-M_VOLTAGE =&gt; Translated_M_VOLTAGE(aPacket.M_TRACTION),
-NID_CTRACTION =&gt; Translated_NID_CTRACTION(aPacket.M_TRACTION),
+M_VOLTAGE =&gt; VersionManagement.Translation.Packets.RouteSuitabilityData.Translated_M_VOLTAGE(aPacket.M_TRACTION),
+NID_CTRACTION =&gt; VersionManagement.Translation.Packets.RouteSuitabilityData.Translated_NID_CTRACTION(aPacket.M_TRACTION),
 N_ITER =&gt; aPacket.N_ITER,
-Sequence1 =&gt; MAP aPacket.Sequence1 | X.Q_SUITABILITY == 2 AND IsTranslatable(X.M_TRACTION) USING X IN Translated_Substructure1(X)
+Sequence1 =&gt; MAP aPacket.Sequence1 | X.Q_SUITABILITY == 2 AND VersionManagement.Translation.Packets.RouteSuitabilityData.IsTranslatable(X.M_TRACTION) USING X IN VersionManagement.Translation.Packets.RouteSuitabilityData.Translated_Substructure1(X)
 }</Expression>
 </Case></Cases>
 </Function><Function
@@ -201,7 +202,7 @@ Sequence1 =&gt; MAP aPacket.Sequence1 | X.Q_SUITABILITY == 2 AND IsTranslatable(
  Name="Value"
  Guid="4b2f10be-0321-40bf-b262-855207fa0302"
 >
-<Expression>(FIRST X IN Translatable_M_TRACTION_Values | X.M_TRACTION == aM_TRACTION).M_VOLTAGE</Expression>
+<Expression>(FIRST X IN Translation.Packets.RouteSuitabilityData.Translatable_M_TRACTION_Values | X.M_TRACTION == aM_TRACTION).M_VOLTAGE</Expression>
 </Case></Cases>
 </Function><Function
  Type="Messages.NID_CTRACTION"
@@ -241,7 +242,7 @@ Sequence1 =&gt; MAP aPacket.Sequence1 | X.Q_SUITABILITY == 2 AND IsTranslatable(
  Name="Value"
  Guid="a1c82762-7265-4d15-9d34-78515b10312c"
 >
-<Expression>(FIRST X IN Translatable_M_TRACTION_Values | X.M_TRACTION == aM_TRACTION).NID_CTRACTION</Expression>
+<Expression>(FIRST X IN Translation.Packets.RouteSuitabilityData.Translatable_M_TRACTION_Values | X.M_TRACTION == aM_TRACTION).NID_CTRACTION</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -281,7 +282,7 @@ Sequence1 =&gt; MAP aPacket.Sequence1 | X.Q_SUITABILITY == 2 AND IsTranslatable(
  Name="Value"
  Guid="00a72526-7fe4-4f3c-b043-dd73803d232c"
 >
-<Expression>THERE_IS X IN Translatable_M_TRACTION_Values | X.M_TRACTION == aM_TRACTION</Expression>
+<Expression>THERE_IS X IN Translation.Packets.RouteSuitabilityData.Translatable_M_TRACTION_Values | X.M_TRACTION == aM_TRACTION</Expression>
 </Case></Cases>
 </Function><Function
  Type="Messages.PACKET.TRACK_TO_TRAIN.ROUTE_SUITABILITY_DATA.SubStructure1"
@@ -289,6 +290,7 @@ Sequence1 =&gt; MAP aPacket.Sequence1 | X.Q_SUITABILITY == 2 AND IsTranslatable(
  Y="1"
  Width="100"
  Height="50"
+ Implemented="TRUE"
  Name="Translated_Substructure1"
  Guid="4083961b-a946-45eb-afba-35e278ff9629"
 >
@@ -307,131 +309,131 @@ Sequence1 =&gt; MAP aPacket.Sequence1 | X.Q_SUITABILITY == 2 AND IsTranslatable(
 <PreConditions>
 <PreCondition
  Guid="ea19b395-a0b7-4dd7-a71b-0b0a8caf748f"
->aSubstructure1.Q_SUITABILITY == 2 AND  IsTranslatable(aSubstructure1.M_TRACTION)</PreCondition></PreConditions>
+>aSubstructure1.Q_SUITABILITY == 2 AND  Translation.Packets.RouteSuitabilityData.IsTranslatable(aSubstructure1.M_TRACTION)</PreCondition></PreConditions>
 <Expression>Messages.PACKET.TRACK_TO_TRAIN.ROUTE_SUITABILITY_DATA.SubStructure1{
 D_SUITABILITY =&gt; aSubstructure1.D_SUITABILITY,
 Q_SUITABILITY =&gt; aSubstructure1.Q_SUITABILITY,
 M_LINEGAUGE =&gt; 0,
 M_AXLELOADCAT =&gt; 0,
-M_VOLTAGE =&gt; Translated_M_VOLTAGE(aSubstructure1.M_TRACTION),
-NID_CTRACTION =&gt; Translated_NID_CTRACTION(aSubstructure1.M_TRACTION)
+M_VOLTAGE =&gt; VersionManagement.Translation.Packets.RouteSuitabilityData.Translated_M_VOLTAGE(aSubstructure1.M_TRACTION),
+NID_CTRACTION =&gt; VersionManagement.Translation.Packets.RouteSuitabilityData.Translated_NID_CTRACTION(aSubstructure1.M_TRACTION)
 }</Expression>
 </Case></Cases>
 </Function></Functions>
 <Variables>
 <Variable
  Type="M_TRACTIONTranslationCol"
- DefaultValue="[M_TRACTIONTranslationStruct{
+ DefaultValue="[Translation.Packets.RouteSuitabilityData.M_TRACTIONTranslationStruct{
 M_TRACTION =&gt; 0,
 M_VOLTAGE =&gt; 0,
 NID_CTRACTION =&gt; 0
 }, 
-M_TRACTIONTranslationStruct{
+Translation.Packets.RouteSuitabilityData.M_TRACTIONTranslationStruct{
 M_TRACTION =&gt; 1,
 M_VOLTAGE =&gt; 3,
 NID_CTRACTION =&gt; 10
 }, 
-M_TRACTIONTranslationStruct{
+Translation.Packets.RouteSuitabilityData.M_TRACTIONTranslationStruct{
 M_TRACTION =&gt; 2,
 M_VOLTAGE =&gt; 1,
 NID_CTRACTION =&gt; 12 
 }, 
-M_TRACTIONTranslationStruct{
+Translation.Packets.RouteSuitabilityData.M_TRACTIONTranslationStruct{
 M_TRACTION =&gt; 3,
 M_VOLTAGE =&gt; 1,
 NID_CTRACTION =&gt; 13
 }, 
-M_TRACTIONTranslationStruct{
+Translation.Packets.RouteSuitabilityData.M_TRACTIONTranslationStruct{
 M_TRACTION =&gt; 5,
 M_VOLTAGE =&gt; 4,
 NID_CTRACTION =&gt; 14
 }, 
-M_TRACTIONTranslationStruct{
+Translation.Packets.RouteSuitabilityData.M_TRACTIONTranslationStruct{
 M_TRACTION =&gt; 6,
 M_VOLTAGE =&gt; 4,
 NID_CTRACTION =&gt; 1
 }, 
-M_TRACTIONTranslationStruct{
+Translation.Packets.RouteSuitabilityData.M_TRACTIONTranslationStruct{
 M_TRACTION =&gt; 7,
 M_VOLTAGE =&gt; 1,
 NID_CTRACTION =&gt; 2
 }, 
-M_TRACTIONTranslationStruct{
+Translation.Packets.RouteSuitabilityData.M_TRACTIONTranslationStruct{
 M_TRACTION =&gt; 8,
 M_VOLTAGE =&gt; 1,
 NID_CTRACTION =&gt; 3
 }, 
-M_TRACTIONTranslationStruct{
+Translation.Packets.RouteSuitabilityData.M_TRACTIONTranslationStruct{
 M_TRACTION =&gt; 11,
 M_VOLTAGE =&gt; 2,
 NID_CTRACTION =&gt; 19
 }, 
-M_TRACTIONTranslationStruct{
+Translation.Packets.RouteSuitabilityData.M_TRACTIONTranslationStruct{
 M_TRACTION =&gt; 12,
 M_VOLTAGE =&gt; 2,
 NID_CTRACTION =&gt; 20
 }, 
-M_TRACTIONTranslationStruct{
+Translation.Packets.RouteSuitabilityData.M_TRACTIONTranslationStruct{
 M_TRACTION =&gt; 13,
 M_VOLTAGE =&gt; 2,
 NID_CTRACTION =&gt; 21
 }, 
-M_TRACTIONTranslationStruct{
+Translation.Packets.RouteSuitabilityData.M_TRACTIONTranslationStruct{
 M_TRACTION =&gt; 15,
 M_VOLTAGE =&gt; 2,
 NID_CTRACTION =&gt; 22
 }, 
-M_TRACTIONTranslationStruct{
+Translation.Packets.RouteSuitabilityData.M_TRACTIONTranslationStruct{
 M_TRACTION =&gt; 26,
 M_VOLTAGE =&gt; 1,
 NID_CTRACTION =&gt; 11
 }, 
-M_TRACTIONTranslationStruct{
+Translation.Packets.RouteSuitabilityData.M_TRACTIONTranslationStruct{
 M_TRACTION =&gt; 31,
 M_VOLTAGE =&gt; 1,
 NID_CTRACTION =&gt; 18
 }, 
-M_TRACTIONTranslationStruct{
+Translation.Packets.RouteSuitabilityData.M_TRACTIONTranslationStruct{
 M_TRACTION =&gt; 32,
 M_VOLTAGE =&gt; 3,
 NID_CTRACTION =&gt; 15
 }, 
-M_TRACTIONTranslationStruct{
+Translation.Packets.RouteSuitabilityData.M_TRACTIONTranslationStruct{
 M_TRACTION =&gt; 33,
 M_VOLTAGE =&gt; 3,
 NID_CTRACTION =&gt; 16
 }, 
-M_TRACTIONTranslationStruct{
+Translation.Packets.RouteSuitabilityData.M_TRACTIONTranslationStruct{
 M_TRACTION =&gt; 34,
 M_VOLTAGE =&gt; 1,
 NID_CTRACTION =&gt; 17
 }, 
-M_TRACTIONTranslationStruct{
+Translation.Packets.RouteSuitabilityData.M_TRACTIONTranslationStruct{
 M_TRACTION =&gt; 41,
 M_VOLTAGE =&gt; 2,
 NID_CTRACTION =&gt; 4
 }, 
-M_TRACTIONTranslationStruct{
+Translation.Packets.RouteSuitabilityData.M_TRACTIONTranslationStruct{
 M_TRACTION =&gt; 42,
 M_VOLTAGE =&gt; 2,
 NID_CTRACTION =&gt; 5
 }, 
-M_TRACTIONTranslationStruct{
+Translation.Packets.RouteSuitabilityData.M_TRACTIONTranslationStruct{
 M_TRACTION =&gt; 43,
 M_VOLTAGE =&gt; 2,
 NID_CTRACTION =&gt; 6
 }, 
-M_TRACTIONTranslationStruct{
+Translation.Packets.RouteSuitabilityData.M_TRACTIONTranslationStruct{
 M_TRACTION =&gt; 44,
 M_VOLTAGE =&gt; 2,
 NID_CTRACTION =&gt; 7
 }, 
-M_TRACTIONTranslationStruct{
+Translation.Packets.RouteSuitabilityData.M_TRACTIONTranslationStruct{
 M_TRACTION =&gt; 45,
 M_VOLTAGE =&gt; 2,
 NID_CTRACTION =&gt; 8
 }, 
-M_TRACTIONTranslationStruct{
+Translation.Packets.RouteSuitabilityData.M_TRACTIONTranslationStruct{
 M_TRACTION =&gt; 46,
 M_VOLTAGE =&gt; 2,
 NID_CTRACTION =&gt; 9

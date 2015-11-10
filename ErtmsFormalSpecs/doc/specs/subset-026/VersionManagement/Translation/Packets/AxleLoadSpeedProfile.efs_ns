@@ -131,7 +131,7 @@
  Guid="d876ea77-1e67-4940-bf58-13d1e9e30807"
 >
 <Expression>Messages.PACKET.TRACK_TO_TRAIN.AXLE_LOAD_SPEED_PROFILE.SubStructure1{
-M_AXLELOADCAT =&gt; TranslateM_AXLELOAD(
+M_AXLELOADCAT =&gt; VersionManagement.Translation.Packets.AxleLoadSpeedProfile.TranslateM_AXLELOAD(
    aSubstructure1.M_AXLELOAD),
 V_AXLELOAD =&gt; aSubstructure1.V_AXLELOAD
 }</Expression>
@@ -211,7 +211,7 @@ D_AXLELOAD =&gt; aSubstructure2.D_AXLELOAD,
 L_AXLELOAD =&gt; aSubstructure2.L_AXLELOAD,
 Q_FRONT =&gt; aSubstructure2.Q_FRONT,
 N_ITER =&gt; aSubstructure2.N_ITER,
-Sequence2 =&gt; MAP aSubstructure2.Sequence2 USING X IN TranslateSubstructure3(X)
+Sequence2 =&gt; MAP aSubstructure2.Sequence2 USING X IN VersionManagement.Translation.Packets.AxleLoadSpeedProfile.TranslateSubstructure3(X)
 }</Expression>
 </Case></Cases>
 </Function><Function
@@ -257,9 +257,9 @@ D_AXLELOAD =&gt; aPacket.D_AXLELOAD,
 L_AXLELOAD =&gt; aPacket.L_AXLELOAD,
 Q_FRONT =&gt; aPacket.Q_FRONT,
 N_ITER_0 =&gt; aPacket.N_ITER_0,
-Sequence1 =&gt; MAP aPacket.Sequence1 USING X IN TranslateSubstructure1(X),
+Sequence1 =&gt; MAP aPacket.Sequence1 USING X IN VersionManagement.Translation.Packets.AxleLoadSpeedProfile.TranslateSubstructure1(X),
 N_ITER_1 =&gt; aPacket.N_ITER_1,
-Sequence3 =&gt; MAP aPacket.Sequence3 USING X IN TranslateSubstructure2(X),
+Sequence3 =&gt; MAP aPacket.Sequence3 USING X IN VersionManagement.Translation.Packets.AxleLoadSpeedProfile.TranslateSubstructure2(X),
 D_TRACKINIT =&gt; 0
 }</Expression>
 </Case></Cases>

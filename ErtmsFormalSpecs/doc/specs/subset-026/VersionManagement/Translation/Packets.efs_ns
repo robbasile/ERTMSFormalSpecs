@@ -75,6 +75,7 @@
  Y="721"
  Width="100"
  Height="50"
+ Implemented="TRUE"
  Name="UpdatedPacketsList"
  Guid="995a4f04-07fa-438d-9389-5ac679e5abfc"
 >
@@ -90,7 +91,7 @@
  Name="Value"
  Guid="091ada07-8629-4aa6-b301-e3c2025b1676"
 >
-<Expression>MAP aPacketsList USING X IN UpdatePacket(X, aPacketsList)</Expression>
+<Expression>MAP aPacketsList USING X IN Translation.Packets.UpdatePacket(X, aPacketsList)</Expression>
 </Case></Cases>
 </Function><Function
  Type="Messages.EUROBALISE.SubStructure1"
@@ -98,6 +99,7 @@
  Y="721"
  Width="100"
  Height="50"
+ Implemented="TRUE"
  Name="UpdatePacket"
  Guid="a27afb76-2b09-47f0-aaae-cebbb66810d8"
 >
@@ -381,6 +383,26 @@
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="3c6bc2ea-3487-4605-9214-d641e34e8af4"
 >
+</ReqRef><ReqRef
+ Id="7d8f8622-194c-4676-ae06-a6de207382eb"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="10218d97-8c4b-4beb-b350-2b9fff932065"
+>
+</ReqRef><ReqRef
+ Id="151b7606-a494-4c37-b213-78285a81ee36"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0fb4ce89-94ce-4e37-a72a-2dbac80e08b3"
+>
+</ReqRef><ReqRef
+ Id="307e55cd-3b43-43bd-820d-42c2e4cce1cd"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6e05e50a-ca88-4d51-b05d-bf5a566e361d"
+>
+</ReqRef><ReqRef
+ Id="048c6803-4b5c-44eb-a168-96210bf6ea7a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e44f5a6d-0067-43ca-bec3-86844586f447"
+>
 </ReqRef><Parameters>
 <Parameter
  Type="Messages.SystemVersion1.EUROBALISE.SubStructure1"
@@ -420,7 +442,7 @@ SYSTEM_VERSION_ORDER =&gt; aPacket.TRACK_TO_TRAIN.SYSTEM_VERSION_ORDER
 >FORALL X IN aOtherPackets | NOT Available(X.TRACK_TO_TRAIN.NATIONAL_VALUES_FOR_BRAKING_CURVES)</PreCondition></PreConditions>
 <Expression>Messages.EUROBALISE.SubStructure1{
 TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message{
-    NATIONAL_VALUES =&gt; NationalValues.UpdatedNV(aPacket.TRACK_TO_TRAIN.NATIONAL_VALUES)
+    NATIONAL_VALUES =&gt; VersionManagement.Translation.Packets.NationalValues.UpdatedNV(aPacket.TRACK_TO_TRAIN.NATIONAL_VALUES)
 }
 }</Expression>
 </Case><Case
@@ -435,12 +457,11 @@ TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message{
 >THERE_IS X IN aOtherPackets | Available(X.TRACK_TO_TRAIN.NATIONAL_VALUES_FOR_BRAKING_CURVES)</PreCondition></PreConditions>
 <Expression>Messages.EUROBALISE.SubStructure1{
 TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message{
-    NATIONAL_VALUES =&gt; FullNationalValues.UpdatedNV(aPacket.TRACK_TO_TRAIN.NATIONAL_VALUES,
+    NATIONAL_VALUES =&gt; VersionManagement.Translation.Packets.FullNationalValues.UpdatedNV(aPacket.TRACK_TO_TRAIN.NATIONAL_VALUES,
 (FIRST X IN aOtherPackets | Available(X.TRACK_TO_TRAIN.NATIONAL_VALUES_FOR_BRAKING_CURVES)
 ).TRACK_TO_TRAIN.NATIONAL_VALUES_FOR_BRAKING_CURVES)
 }
-}
-</Expression>
+}</Expression>
 </Case><Case
  Name="Packet 5 - Linking"
  Guid="29982244-f0e9-49a4-bb2e-7ed9db5c3159"
@@ -528,7 +549,7 @@ TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message{
   LEVEL_2_3_MOVEMENT_AUTHORITY =&gt; EMPTY, 
   REPOSITIONING_INFORMATION =&gt; EMPTY, 
   GRADIENT_PROFILE =&gt; EMPTY, 
-  INTERNATIONAL_STATIC_SPEED_PROFILE =&gt; InternationalStaticSpeedProfile.UpdatedSSP( aPacket.TRACK_TO_TRAIN.INTERNATIONAL_STATIC_SPEED_PROFILE),
+  INTERNATIONAL_STATIC_SPEED_PROFILE =&gt; VersionManagement.Translation.Packets.InternationalStaticSpeedProfile.UpdatedSSP( aPacket.TRACK_TO_TRAIN.INTERNATIONAL_STATIC_SPEED_PROFILE),
   TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM =&gt; EMPTY, 
   TRACK_CONDITION_CHANGE_OF_ALLOWED_CURRENT_CONSUMPTION =&gt; EMPTY, 
   LEVEL_TRANSITION_ORDER =&gt; EMPTY, 
@@ -591,11 +612,11 @@ aPacket.TRACK_TO_TRAIN.TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM
  Guid="8b5c0625-60e0-43e5-bcd7-b03a56bc3204"
 >FORALL X IN aOtherPackets | NOT Available(X.TRACK_TO_TRAIN.TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM_BL3)</PreCondition><PreCondition
  Guid="ab2ef42c-552e-4b98-9244-2b471d816822"
->TrackConditionChangeOfTractionSystem.IsTranslatable(aPacket.TRACK_TO_TRAIN.TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM.M_TRACTION)</PreCondition></PreConditions>
+>Translation.Packets.TrackConditionChangeOfTractionSystem.IsTranslatable(aPacket.TRACK_TO_TRAIN.TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM.M_TRACTION)</PreCondition></PreConditions>
 <Expression>Messages.EUROBALISE.SubStructure1{
 TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message{
 TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM
- =&gt; TrackConditionChangeOfTractionSystem.UpdatedPacket(
+ =&gt; VersionManagement.Translation.Packets.TrackConditionChangeOfTractionSystem.UpdatedPacket(
     aPacket=&gt; aPacket.TRACK_TO_TRAIN.TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM
 )
 }
@@ -748,7 +769,7 @@ LIST_OF_BALISES_FOR_SH_AREA =&gt; aPacket.TRACK_TO_TRAIN.LIST_OF_BALISES_FOR_SH_
 >Available(aPacket.TRACK_TO_TRAIN.AXLE_LOAD_SPEED_PROFILE)</PreCondition></PreConditions>
 <Expression>Messages.EUROBALISE.SubStructure1{
 TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message{
-AXLE_LOAD_SPEED_PROFILE =&gt; AxleLoadSpeedProfile.UpdatedPacket(aPacket.TRACK_TO_TRAIN.AXLE_LOAD_SPEED_PROFILE)}
+AXLE_LOAD_SPEED_PROFILE =&gt; VersionManagement.Translation.Packets.AxleLoadSpeedProfile.UpdatedPacket(aPacket.TRACK_TO_TRAIN.AXLE_LOAD_SPEED_PROFILE)}
 }</Expression>
 </Case><Case
  Name="Packet 57 - Movement authority request parameters"
@@ -847,7 +868,7 @@ TRACK_CONDITION_BIG_METAL_MASSES =&gt; aPacket.TRACK_TO_TRAIN.TRACK_CONDITION_BI
 >FORALL X IN aOtherPackets | NOT Available(X.TRACK_TO_TRAIN.TRACK_CONDITION_BL3)</PreCondition></PreConditions>
 <Expression>Messages.EUROBALISE.SubStructure1{
 TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message{
-TRACK_CONDITION =&gt; TrackCondition.UpdatedPacket(
+TRACK_CONDITION =&gt; VersionManagement.Translation.Packets.TrackCondition.UpdatedPacket(
     aPacket=&gt; aPacket.TRACK_TO_TRAIN.TRACK_CONDITION
 )
 }
@@ -865,7 +886,7 @@ TRACK_CONDITION =&gt; TrackCondition.UpdatedPacket(
 >FORALL X IN aOtherPackets | NOT Available(X.TRACK_TO_TRAIN.ROUTE_SUITABILITY_DATA_BL3)</PreCondition></PreConditions>
 <Expression>Messages.EUROBALISE.SubStructure1{
 TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message{
-ROUTE_SUITABILITY_DATA =&gt; RouteSuitabilityData.UpdatedPacket(
+ROUTE_SUITABILITY_DATA =&gt; VersionManagement.Translation.Packets.RouteSuitabilityData.UpdatedPacket(
     aPacket=&gt; aPacket.TRACK_TO_TRAIN.ROUTE_SUITABILITY_DATA
 )
 }
@@ -895,7 +916,7 @@ ADHESION_FACTOR =&gt; aPacket.TRACK_TO_TRAIN.ADHESION_FACTOR
 >Available(aPacket.TRACK_TO_TRAIN.PACKET_FOR_SENDING_PLAIN_TEXT_MESSAGES)</PreCondition></PreConditions>
 <Expression>Messages.EUROBALISE.SubStructure1{
 TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message{
-PACKET_FOR_SENDING_PLAIN_TEXT_MESSAGES =&gt; PacketForSendingPlainTextMessages.UpdatedPacket(
+PACKET_FOR_SENDING_PLAIN_TEXT_MESSAGES =&gt; VersionManagement.Translation.Packets.PacketForSendingPlainTextMessages.UpdatedPacket(
     aPacket=&gt; aPacket.TRACK_TO_TRAIN.PACKET_FOR_SENDING_PLAIN_TEXT_MESSAGES)
 }
 }</Expression>
@@ -910,7 +931,7 @@ PACKET_FOR_SENDING_PLAIN_TEXT_MESSAGES =&gt; PacketForSendingPlainTextMessages.U
 >Available(aPacket.TRACK_TO_TRAIN.GEOGRAPHICAL_POSITION_INFORMATION)</PreCondition></PreConditions>
 <Expression>Messages.EUROBALISE.SubStructure1{
 TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message{
-GEOGRAPHICAL_POSITION_INFORMATION =&gt; GeographicalPositionInformation.UpdatedPacket(
+GEOGRAPHICAL_POSITION_INFORMATION =&gt; VersionManagement.Translation.Packets.GeographicalPositionInformation.UpdatedPacket(
     aPacket=&gt; aPacket.TRACK_TO_TRAIN.GEOGRAPHICAL_POSITION_INFORMATION)
 }
 }</Expression>
@@ -924,7 +945,7 @@ GEOGRAPHICAL_POSITION_INFORMATION =&gt; GeographicalPositionInformation.UpdatedP
 >Available(aPacket.TRACK_TO_TRAIN.MODE_PROFILE)</PreCondition></PreConditions>
 <Expression>Messages.EUROBALISE.SubStructure1{
 TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message{
-MODE_PROFILE =&gt; ModeProfile.UpdatedPacket(
+MODE_PROFILE =&gt; VersionManagement.Translation.Packets.ModeProfile.UpdatedPacket(
     aPacket=&gt; aPacket.TRACK_TO_TRAIN.MODE_PROFILE)
 }
 }</Expression>
@@ -1121,7 +1142,7 @@ INHIBITION_OF_BALISE_GROUP_MESSAGE_CONSISTENCY_REACTION =&gt; aPacket.TRACK_TO_T
 >Available(aPacket.TRACK_TO_TRAIN.VIRTUAL_BALISE_COVER_MARKER)</PreCondition></PreConditions>
 <Expression>Messages.EUROBALISE.SubStructure1{
 TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message{
-VIRTUAL_BALISE_COVER_MARKER =&gt; VirtualBaliseCoverMarker.UpdatedPacket(
+VIRTUAL_BALISE_COVER_MARKER =&gt; VersionManagement.Translation.Packets.VirtualBaliseCoverMarker.UpdatedPacket(
 aPacket =&gt;  aPacket.TRACK_TO_TRAIN.VIRTUAL_BALISE_COVER_MARKER
 )
 }
@@ -1137,7 +1158,7 @@ aPacket =&gt;  aPacket.TRACK_TO_TRAIN.VIRTUAL_BALISE_COVER_MARKER
 >Available(aPacket.TRACK_TO_TRAIN.TRACK_CONDITION_BL3)</PreCondition></PreConditions>
 <Expression>Messages.EUROBALISE.SubStructure1{
 TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message{
-TRACK_CONDITION =&gt; TrackConditionBL3.UpdatedPacket(aPacket.TRACK_TO_TRAIN.TRACK_CONDITION_BL3)
+TRACK_CONDITION =&gt; VersionManagement.Translation.Packets.TrackConditionBL3.UpdatedPacket(aPacket.TRACK_TO_TRAIN.TRACK_CONDITION_BL3)
 }
 }</Expression>
 </Case><Case
@@ -1151,7 +1172,7 @@ TRACK_CONDITION =&gt; TrackConditionBL3.UpdatedPacket(aPacket.TRACK_TO_TRAIN.TRA
 >Available(aPacket.TRACK_TO_TRAIN.ROUTE_SUITABILITY_DATA_BL3)</PreCondition></PreConditions>
 <Expression>Messages.EUROBALISE.SubStructure1{
 TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message{
-ROUTE_SUITABILITY_DATA=&gt; RouteSuitabilityDataBL3.UpdatedPacket(aPacket.TRACK_TO_TRAIN.ROUTE_SUITABILITY_DATA_BL3)
+ROUTE_SUITABILITY_DATA=&gt; VersionManagement.Translation.Packets.RouteSuitabilityDataBL3.UpdatedPacket(aPacket.TRACK_TO_TRAIN.ROUTE_SUITABILITY_DATA_BL3)
 }
 }</Expression>
 </Case><Case
@@ -1165,7 +1186,7 @@ ROUTE_SUITABILITY_DATA=&gt; RouteSuitabilityDataBL3.UpdatedPacket(aPacket.TRACK_
 >Available(aPacket.TRACK_TO_TRAIN.TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM_BL3)</PreCondition></PreConditions>
 <Expression>Messages.EUROBALISE.SubStructure1{
 TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message{
-TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM =&gt; TrackConditionChangeOfTractionSystemBL3.UpdatedPacket(aPacket.TRACK_TO_TRAIN.TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM_BL3)
+TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM =&gt; VersionManagement.Translation.Packets.TrackConditionChangeOfTractionSystemBL3.UpdatedPacket(aPacket.TRACK_TO_TRAIN.TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM_BL3)
 }
 }</Expression>
 </Case><Case
