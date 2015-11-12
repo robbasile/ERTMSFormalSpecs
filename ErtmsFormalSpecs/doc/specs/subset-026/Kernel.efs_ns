@@ -169,6 +169,16 @@
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="61042f83-ef00-4d83-a1d7-6e7bd80bad74"
 >
+</ReqRef><ReqRef
+ Id="313db158-8af2-41a8-be01-840abeafc4cb"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="aaf8b972-2a1d-4703-bfd7-0e690d10a639"
+>
+</ReqRef><ReqRef
+ Id="f1a72111-334b-4c63-9709-ceaeefe93df9"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="dc9e343d-df3b-405d-be2f-6b52f3b362d1"
+>
 </ReqRef><Comment>The Driver ID with its datastate.</Comment>
 <StructureElement
  TypeName="String"
@@ -178,7 +188,12 @@
  Name="Value"
  Guid="90be93b8-05c2-41ad-a0dd-b4160dfc7e67"
 >
-<Comment>The value of the driver id.</Comment>
+<ReqRef
+ Id="9c578eef-4c8d-4689-8bcd-50c0c356864e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0b449d4c-1673-45a5-84b1-a163d9735ec1"
+>
+</ReqRef><Comment>The value of the driver id.</Comment>
 </StructureElement><StructureElement
  TypeName="DataStateEnum"
  Default="DataStateEnum.Unknown"
@@ -5507,6 +5522,7 @@ Available ( EURORADIO.CurrentRBCConnection().MessageIn.Message.TRAIN_ACCEPTED )<
  Name="ReceiveRBCAnswer"
  Guid="4fb76308-8c43-4588-ac36-6cc28530c0b3"
 >
+<Comment>Handle the RBC answer to the MA request.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
@@ -5519,7 +5535,9 @@ Available ( EURORADIO.CurrentRBCConnection().MessageIn.Message.TRAIN_ACCEPTED )<
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="b6409de6-9d3e-45e9-8c24-5e29a04be86e"
 >
-</ReqRef><PreConditions>
+</ReqRef><Comment>RBC authorises SR mode.
+Propose SR mode to the driver before starting the mission.</Comment>
+<PreConditions>
 <PreCondition
  Guid="e43fdd3d-fef1-4b2f-b931-a04bddf3ae57"
 >Kernel.Modes.StaffResponsible.SRAuthorised()</PreCondition></PreConditions>
@@ -5552,7 +5570,9 @@ Available ( EURORADIO.CurrentRBCConnection().MessageIn.Message.TRAIN_ACCEPTED )<
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="96fbcfe9-e5d6-4e33-b1dd-6046522695e4"
 >
-</ReqRef><PreConditions>
+</ReqRef><Comment>Received MA + OS, LS or SH mode profile.
+Request driver acknowledgement before starting the mission.</Comment>
+<PreConditions>
 <PreCondition
  Guid="c68f737a-0f09-4eeb-a036-f347bea64aeb"
 >Kernel.MA.ModeProfile.ModeProfileIsApplicable()</PreCondition><PreCondition
@@ -5610,7 +5630,8 @@ Available ( EURORADIO.CurrentRBCConnection().MessageIn.Message.TRAIN_ACCEPTED )<
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="97d2ce10-a69d-404a-929f-9171db38cb14"
 >
-</ReqRef><SubRules></SubRules>
+</ReqRef><Comment>If the MA request function is available, send an MA request and go to the state &quot;MA request sent&quot;.</Comment>
+<SubRules></SubRules>
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
@@ -5619,7 +5640,9 @@ Available ( EURORADIO.CurrentRBCConnection().MessageIn.Message.TRAIN_ACCEPTED )<
  Guid="acb4561b-7ad4-4ed7-a69d-efcf4bcd5ce3"
 >
 <PreConditions>
-</PreConditions>
+<PreCondition
+ Guid="3926adee-59c5-4136-b0a8-7084a163195e"
+>Kernel.ActiveFunctions.RequestMA_StartSelected()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="d8168522-2e95-455d-b009-9b8a1f790460"
@@ -7520,7 +7543,7 @@ If there are pending emergency stops, go to S130.</Comment>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="30a17e3a-a4b7-439e-80f7-9617bf8770fd"
 >
-</ReqRef><Comment>State S140: The Driver can select either &apos;Start&apos; or entry in SH Mode. Depoending on the Level and the Driver&apos;s selection, proceed to States S160 or S170, or start the &quot;Shunting initiated by Driver&quot; procedure.</Comment>
+</ReqRef><Comment>State S140: The Driver can select either &apos;Start&apos; or entry in SH Mode. Depending on the Level and the Driver&apos;s selection, proceed to States S160 or S170, or start the &quot;Shunting initiated by Driver&quot; procedure.</Comment>
 <StateMachine
  Default="Kernel.HandleModeChangeSM.TrainTrip.S140.RequestDriverSelection"
  Implemented="TRUE"
@@ -7609,9 +7632,7 @@ If there are pending emergency stops, go to S130.</Comment>
 <PreConditions>
 <PreCondition
  Guid="8bd93a06-a6f7-4104-bfab-95efe47e32c4"
->Kernel.TrainData.TrainData.DataState == DataStateEnum.Valid</PreCondition><PreCondition
- Guid="3d121aaf-ce72-4fcb-be0a-50d25dbb19f7"
->Kernel.ActiveFunctions.RequestMA_StartSelected()</PreCondition></PreConditions>
+>Kernel.TrainData.TrainData.DataState == DataStateEnum.Valid</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="579b0f8d-9f55-46d4-b079-98656a53e736"
@@ -7845,13 +7866,14 @@ If the Driver selects Entry in SH, initiate &quot;Shunting initiated by Driver&q
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
- Verified="TRUE"
  NeedsRequirement="FALSE"
  Name="Send MA request"
  Guid="c64ab4f8-bcad-43bf-ace1-61357da48ff5"
 >
 <PreConditions>
-</PreConditions>
+<PreCondition
+ Guid="f795015d-7980-4c60-9ad7-76b79fb6917b"
+>Kernel.ActiveFunctions.RequestMA_StartSelected()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="39540147-4615-44eb-84a8-9083d135c7c0"
