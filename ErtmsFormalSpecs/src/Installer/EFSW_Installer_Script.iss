@@ -60,9 +60,7 @@ Source: ..\..\doc\EFS_Product_Release_Info.pdf; DestDir: {app}\doc;
 Source: ..\..\doc\specs\subset-026.efs; DestDir: {userdocs}\ERTMSFormalSpecs;
 Source: ..\..\doc\specs\subset-026\*; DestDir: {userdocs}\ERTMSFormalSpecs\subset-026; Flags: recursesubdirs
 Source: ..\..\doc\specs\braking curves verification.efs; DestDir: {userdocs}\ERTMSFormalSpecs;
-Source: ..\..\doc\specs\braking curves verification\*; DestDir: {userdocs}\ERTMSFormalSpecs\braking curves verification; Flags: recursesubdirs
 Source: ..\..\doc\specs\DMIFunctionalTests.efs; DestDir: {userdocs}\ERTMSFormalSpecs;
-Source: ..\..\doc\specs\DMIFunctionalTests\*; DestDir: {userdocs}\ERTMSFormalSpecs\DMIFunctionalTests; Flags: recursesubdirs
 
 [Icons]
 Name: "{group}\docs\User's Manual"; Filename: "{app}\doc\EFSW_User_Guide.pdf";
