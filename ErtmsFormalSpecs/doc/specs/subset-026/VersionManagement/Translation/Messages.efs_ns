@@ -7,5 +7,223 @@
  Guid="a0f07ae5-1c52-4e44-a006-c011aba7a114"
 >
 <NameSpaces>
-</NameSpaces>
+<NameSpaceRef
+ Name="ConditionalEmergencyStop"
+>
+</NameSpaceRef><NameSpaceRef
+ Name="TrackAheadFreeRequest"
+>
+</NameSpaceRef><NameSpaceRef
+ Name="TrainRejected"
+>
+</NameSpaceRef></NameSpaces>
+<Functions>
+<Function
+ Type="Messages.MESSAGE.TRACK_TO_TRAIN.Message"
+ X="111"
+ Y="1"
+ Width="100"
+ Height="50"
+ Name="UpdateMessage"
+ Guid="e8dee18a-f970-46da-9b8a-c89c6728e3f3"
+>
+<Parameters>
+<Parameter
+ Type="Messages.SystemVersion1.MESSAGE.TRACK_TO_TRAIN.Message"
+ Name="aMessage"
+ Guid="4ee61a45-b19b-499a-ae97-fc5433c3dcec"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Message 2 - SR Authorisation"
+ Guid="21606ef8-3953-4416-8fe0-f560b87ce98d"
+>
+<Comment>Message 2 is left unchanged.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="40c88b0e-6eb1-4024-983c-d6e818092bc1"
+>Available(aMessage.SR_AUTHORISATION)</PreCondition></PreConditions>
+<Expression>Messages.MESSAGE.TRACK_TO_TRAIN.Message{
+SR_AUTHORISATION =&gt; aMessage.SR_AUTHORISATION
+}</Expression>
+</Case><Case
+ Name="Message 3 - Movement Authority"
+ Guid="9d211da9-1a15-47d2-8fe2-e4e6392d4544"
+>
+<Comment>Message 3 is left unchanged.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="330e5cbf-8c17-481e-8264-a2d429c5609e"
+>Available(aMessage.MOVEMENT_AUTHORITY)</PreCondition></PreConditions>
+<Expression>Messages.MESSAGE.TRACK_TO_TRAIN.Message{
+MOVEMENT_AUTHORITY =&gt; aMessage.MOVEMENT_AUTHORITY
+}</Expression>
+</Case><Case
+ Name="Message 6 - Recognition of exit from TRIP mode"
+ Guid="97acf804-c788-46b4-a27f-99f22dd78cbb"
+>
+<Comment>Message 6 is left unchanged.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="e259eb9b-548d-4a31-b557-f3ddf5a9d818"
+>Available(aMessage.RECOGNITION_OF_EXIT_FROM_TRIP_MODE)</PreCondition></PreConditions>
+<Expression>Messages.MESSAGE.TRACK_TO_TRAIN.Message{
+RECOGNITION_OF_EXIT_FROM_TRIP_MODE =&gt; aMessage.RECOGNITION_OF_EXIT_FROM_TRIP_MODE
+}</Expression>
+</Case><Case
+ Name="Message 8 - Acknowledgement of Train Data"
+ Guid="53589542-cd42-4c78-b0b3-5b840f59c88e"
+>
+<Comment>Message 8 is left unchanged.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="c075dcc1-dcd7-4863-a013-acf9f7cf5a6e"
+>Available(aMessage.ACKNOWLEDGEMENT_OF_TRAIN_DATA)</PreCondition></PreConditions>
+<Expression>Messages.MESSAGE.TRACK_TO_TRAIN.Message{
+ACKNOWLEDGEMENT_OF_TRAIN_DATA =&gt; aMessage.ACKNOWLEDGEMENT_OF_TRAIN_DATA
+}</Expression>
+</Case><Case
+ Name="Message 9 - Request to shorten MA"
+ Guid="f5b978ab-1b1b-4ec5-b276-da4bb75e826a"
+>
+<Comment>Message 9 is left unchanged.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="0dc77d61-1204-4d9b-b66f-d8f648213608"
+>Available(aMessage.REQUEST_TO_SHORTEN_MA)</PreCondition></PreConditions>
+<Expression>Messages.MESSAGE.TRACK_TO_TRAIN.Message{
+REQUEST_TO_SHORTEN_MA =&gt; aMessage.REQUEST_TO_SHORTEN_MA
+}</Expression>
+</Case><Case
+ Name="Message 15 - Conditional emergency stop"
+ Guid="f98f987a-3897-495a-99ff-676b2989be8c"
+>
+<Comment>Message 15: D_REF should be set to 0</Comment>
+<PreConditions>
+<PreCondition
+ Guid="bd92b2f3-45a6-4f39-843a-137fde9e3f95"
+>Available(aMessage.CONDITIONAL_EMERGENCY_STOP)</PreCondition></PreConditions>
+<Expression>Messages.MESSAGE.TRACK_TO_TRAIN.Message{
+CONDITIONAL_EMERGENCY_STOP
+ =&gt; ConditionalEmergencyStop.UpdatedMessage(aMessage.CONDITIONAL_EMERGENCY_STOP)
+}</Expression>
+</Case><Case
+ Name="Message 16 - Unconditional emergency stop"
+ Guid="3877b389-334d-41c3-ae6d-856d2a1d75b7"
+>
+<Comment>Message 16 is left unchanged.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="5db93aa2-cfcb-47e2-98ad-b4c5cdbb4720"
+>Available(aMessage.UNCONDITIONAL_EMERGENCY_STOP)</PreCondition></PreConditions>
+<Expression>Messages.MESSAGE.TRACK_TO_TRAIN.Message{
+UNCONDITIONAL_EMERGENCY_STOP
+ =&gt; aMessage.UNCONDITIONAL_EMERGENCY_STOP
+}</Expression>
+</Case><Case
+ Name="Message 18 - Revocation of emergency stop"
+ Guid="527657c0-b0c2-4a16-90b9-6b6cfd0f6dbf"
+>
+<Comment>Message 18 is left unchanged.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="57deab06-045f-43ae-897b-dcf16b4c1f30"
+>Available(aMessage.REVOCATION_OF_EMERGENCY_STOP)</PreCondition></PreConditions>
+<Expression>Messages.MESSAGE.TRACK_TO_TRAIN.Message{
+REVOCATION_OF_EMERGENCY_STOP
+ =&gt; aMessage.REVOCATION_OF_EMERGENCY_STOP
+}</Expression>
+</Case><Case
+ Name="Message 27 - SH refused"
+ Guid="afddc385-43b8-435b-abb9-e3dd8d86ca8f"
+>
+<Comment>Message 27 is left unchanged.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="673594ef-f8e6-4c23-9e7a-61d14eb41eda"
+>Available(aMessage.SH_REFUSED)</PreCondition></PreConditions>
+<Expression>Messages.MESSAGE.TRACK_TO_TRAIN.Message{
+SH_REFUSED
+ =&gt; aMessage.SH_REFUSED}</Expression>
+</Case><Case
+ Name="Message 32 - RBC/RIU system version"
+ Guid="5e97bee7-6030-4b43-b36c-6a7ababed940"
+>
+<Comment>Message 32 is left unchanged.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="5ee50bbd-fcb2-4dca-9177-d06f1b72dc27"
+>Available(aMessage.RIU_SYSTEM_VERSION)</PreCondition></PreConditions>
+<Expression>Messages.MESSAGE.TRACK_TO_TRAIN.Message{
+RIU_SYSTEM_VERSION
+ =&gt; aMessage.RIU_SYSTEM_VERSION}</Expression>
+</Case><Case
+ Name="Message 34 - Track ahead free request"
+ Guid="a899f286-dcd2-4c4e-8fee-d46a44e4e398"
+>
+<Comment>Message 34: D_REF should be set to 0</Comment>
+<PreConditions>
+<PreCondition
+ Guid="12a56dbd-e946-4b29-8424-31ae4cf07174"
+>Available(aMessage.TRACK_AHEAD_FREE_REQUEST)</PreCondition></PreConditions>
+<Expression>Messages.MESSAGE.TRACK_TO_TRAIN.Message{
+TRACK_AHEAD_FREE_REQUEST
+ =&gt; TrackAheadFreeRequest.UpdatedMessage(aMessage.TRACK_AHEAD_FREE_REQUEST)
+}</Expression>
+</Case><Case
+ Name="Message 38 - Acknowledgement of termination of a communication session"
+ Guid="1a72c9fb-cacb-4296-b327-371fb396ed96"
+>
+<Comment>Message 38 is left unchanged.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="a1f0452c-bc65-4250-ba03-4c617873ce15"
+>Available(aMessage.ACKNOWLEDGEMENT_OF_TERMINATION_OF_A_COMMUNICATION_SESSION)</PreCondition></PreConditions>
+<Expression>Messages.MESSAGE.TRACK_TO_TRAIN.Message{
+ACKNOWLEDGEMENT_OF_TERMINATION_OF_A_COMMUNICATION_SESSION
+ =&gt; aMessage.ACKNOWLEDGEMENT_OF_TERMINATION_OF_A_COMMUNICATION_SESSION}</Expression>
+</Case><Case
+ Name="Message 40 - Train rejected"
+ Guid="a33c928f-3efd-4293-b9fd-5d7855d79e1d"
+>
+<Comment>Message 40: NID_LRBG should be set to 16777215</Comment>
+<PreConditions>
+<PreCondition
+ Guid="175f923d-a682-4da5-98da-a2f5000031b7"
+>Available(aMessage.TRAIN_REJECTED)</PreCondition></PreConditions>
+<Expression>Messages.MESSAGE.TRACK_TO_TRAIN.Message{
+TRAIN_REJECTED
+ =&gt; TrainRejected.UpdatedMessage(aMessage.TRAIN_REJECTED)
+}</Expression>
+</Case><Case
+ Name="Message 43 - SoM position report confirmed by RBC"
+ Guid="9d18a0d2-efdb-4d41-a5c1-dbb4fe1aacdd"
+>
+<Comment>Message 43 is left unchanged.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="7b5e0d3b-5449-4206-b67a-a08989e58262"
+>Available(aMessage.SOM_POSITION_REPORT_CONFIRMED_BY_RBC)</PreCondition></PreConditions>
+<Expression>Messages.MESSAGE.TRACK_TO_TRAIN.Message{
+SOM_POSITION_REPORT_CONFIRMED_BY_RBC =&gt; aMessage.SOM_POSITION_REPORT_CONFIRMED_BY_RBC}</Expression>
+</Case><Case
+ Name="Message 45 - Assignment of coordinate system"
+ Guid="e538b5a6-3f4d-4ab2-8715-73789b6aa424"
+>
+<Comment>Message 45 is left unchanged.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="3a36962d-c294-48b6-afe8-35386f2f3f36"
+>Available(aMessage.ASSIGNMENT_OF_COORDINATE_SYSTEM)</PreCondition></PreConditions>
+<Expression>Messages.MESSAGE.TRACK_TO_TRAIN.Message{
+ASSIGNMENT_OF_COORDINATE_SYSTEM =&gt; aMessage.ASSIGNMENT_OF_COORDINATE_SYSTEM}</Expression>
+</Case><Case
+ Name="Rejected"
+ Guid="52947929-0ed5-487e-9fdf-87c95f896320"
+>
+<Comment>Default case: message is rejected.</Comment>
+<Expression>EMPTY</Expression>
+</Case></Cases>
+</Function></Functions>
 </NameSpace>

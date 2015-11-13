@@ -1,0 +1,48 @@
+<NameSpace
+ X="221"
+ Y="1"
+ Width="100"
+ Height="50"
+ Name="ConditionalEmergencyStop"
+ Guid="6d43f8fe-c381-4115-94fa-fdf87bdf87a7"
+>
+<NameSpaces>
+</NameSpaces>
+<Functions>
+<Function
+ Type="Messages.MESSAGE.TRACK_TO_TRAIN.CONDITIONAL_EMERGENCY_STOP.Message"
+ X="111"
+ Y="1"
+ Width="100"
+ Height="50"
+ Name="UpdatedMessage"
+ Guid="828321ad-a10c-4bef-95b5-1cb286617dd0"
+>
+<Parameters>
+<Parameter
+ Type="Messages.SystemVersion1.MESSAGE.TRACK_TO_TRAIN.CONDITIONAL_EMERGENCY_STOP.Message"
+ Name="aMessage"
+ Guid="b5977ce7-72f6-4b64-bd7b-1469c4ea9aae"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="c2e5db48-5c5b-4a20-9db4-22d63c78e8dd"
+>
+<Expression>Messages.MESSAGE.TRACK_TO_TRAIN.CONDITIONAL_EMERGENCY_STOP.Message
+{
+  NID_MESSAGE =&gt; aMessage.NID_MESSAGE, 
+  L_MESSAGE =&gt; aMessage.L_MESSAGE, 
+  T_TRAIN =&gt; aMessage.T_TRAIN, 
+  M_ACK =&gt; aMessage.M_ACK, 
+  NID_LRBG =&gt; aMessage.NID_LRBG, 
+  NID_EM =&gt; aMessage.NID_EM, 
+  Q_SCALE =&gt; aMessage.Q_SCALE, 
+  D_REF =&gt; 0, 
+  Q_DIR =&gt; aMessage.Q_DIR, 
+  D_EMERGENCYSTOP =&gt; aMessage.D_EMERGENCYSTOP
+}</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>
