@@ -15,7 +15,6 @@
 // ------------------------------------------------------------------------------
 
 using System.Collections.Generic;
-using DataDictionary;
 using DataDictionary.Interpreter;
 using DataDictionary.Rules;
 using DataDictionary.Variables;

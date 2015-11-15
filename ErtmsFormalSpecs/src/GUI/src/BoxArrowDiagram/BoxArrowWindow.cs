@@ -15,6 +15,7 @@
 // ------------------------------------------------------------------------------
 
 using DataDictionary;
+using DataDictionary.Rules;
 using Utils;
 using WeifenLuo.WinFormsUI.Docking;
 
@@ -62,6 +63,11 @@ namespace GUI.BoxArrowDiagram
                 {
                     BoxArrowContainerPanel.RefreshControl();
                 }
+            }
+
+            if (changeKind == Context.ChangeKind.EndOfCycle)
+            {
+                BoxArrowContainerPanel.Refresh();
             }
 
             return retVal;
