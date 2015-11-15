@@ -668,6 +668,10 @@ namespace DataDictionary.Types
         /// <returns></returns>
         public override IValue getValue(string image)
         {
+            if (image.StartsWith("'") && image.EndsWith("'"))
+            {
+                image = image.Substring(1, image.Length - 2);
+            }
             return new StringValue(this, image);
         }
 
@@ -678,7 +682,10 @@ namespace DataDictionary.Types
 
         public override IValue DefaultValue
         {
-            get { return getValue(Default); }
+            get
+            {
+                return getValue(Default);
+            }
         }
 
         public override bool CompareForEquality(IValue left, IValue right)
