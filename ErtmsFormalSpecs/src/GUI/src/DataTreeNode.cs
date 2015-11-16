@@ -463,8 +463,7 @@ namespace GUI
                 ModelElement modelElement = element as ModelElement;
                 if (modelElement != null)
                 {
-                    visit(modelElement);
-                    dispatch(modelElement);
+                    visit(modelElement, true);
                 }
             }
 
@@ -535,8 +534,7 @@ namespace GUI
                 ModelElement modelElement = element as ModelElement;
                 if (modelElement != null)
                 {
-                    visit(modelElement);
-                    dispatch(modelElement);
+                    visit(modelElement, true);
                 }
             }
 
@@ -575,6 +573,67 @@ namespace GUI
             MarkAsVerifiedVisitor visitor = new MarkAsVerifiedVisitor(Model);
         }
 
+        private class SearchAndReplaceVisitor : Visitor
+        {
+            /// <summary>
+            /// The string to search
+            /// </summary>
+            private string SearchString { get; set; }
+
+            /// <summary>
+            /// The replace string
+            /// </summary>
+            private string ReplaceString { get; set; }
+
+            /// <summary>
+            /// Constructor
+            /// </summary>
+            /// <param name="model"></param>
+            /// <param name="searchString"></param>
+            /// <param name="replaceString"></param>
+            public SearchAndReplaceVisitor(IModelElement model, string searchString, string replaceString)
+            {
+                ModelElement modelElement = model as ModelElement;
+                if (modelElement != null)
+                {
+                    visit(modelElement, true);
+                }
+                ReplaceString = replaceString;
+                SearchString = searchString;
+            }
+
+            public override void visit(BaseModelElement obj, bool visitSubNodes)
+            {
+                IExpressionable expressionable = obj as IExpressionable;
+
+                if ( expressionable != null )
+                {
+                    // Perform search and replace on ExpressionText
+                    if (obj.ExpressionText.IndexOf(SearchString) >= 0)
+                    {
+                        obj.ExpressionText = obj.ExpressionText.Replace(SearchString, ReplaceString);
+                    }
+                }
+
+                base.visit(obj, visitSubNodes);
+            }
+        }
+
+        /// <summary>
+        ///     Perform a search and replace on all IExpressionable in this model element
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void SearchAndReplace(object sender, EventArgs e)
+        {
+            SearchAndReplaceWindow dialog = new SearchAndReplaceWindow();
+            DialogResult result = dialog.ShowDialog();
+            if ( result == DialogResult.OK )
+            {
+                SearchAndReplaceVisitor visitor = new SearchAndReplaceVisitor(Model, dialog.SearchString, dialog.ReplaceString);
+            }
+        }
+
         /// <summary>
         ///     Recursively marks all model elements as verified
         /// </summary>
@@ -606,6 +665,7 @@ namespace GUI
             MenuItem newItem = new MenuItem("Recursive actions...");
             newItem.MenuItems.Add(new MenuItem("Mark as implemented", MarkAsImplemented));
             newItem.MenuItems.Add(new MenuItem("Mark as verified", MarkAsVerified));
+            newItem.MenuItems.Add(new MenuItem("Search and replace", SearchAndReplace));
             retVal.Add(newItem);
             retVal.Add(new MenuItem("-"));
             retVal.Add(new MenuItem("Check", Check));
