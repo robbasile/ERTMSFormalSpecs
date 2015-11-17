@@ -14,7 +14,7 @@ namespace GUI
         /// <summary>
         /// Result of this dialog
         /// </summary>
-        DialogResult Result { get; set; }
+        public DialogResult Result { get; set; }
 
         public SearchAndReplaceWindow()
         {

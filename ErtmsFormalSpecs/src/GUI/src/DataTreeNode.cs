@@ -593,13 +593,13 @@ namespace GUI
             /// <param name="replaceString"></param>
             public SearchAndReplaceVisitor(IModelElement model, string searchString, string replaceString)
             {
+                ReplaceString = replaceString;
+                SearchString = searchString;
                 ModelElement modelElement = model as ModelElement;
                 if (modelElement != null)
                 {
                     visit(modelElement, true);
                 }
-                ReplaceString = replaceString;
-                SearchString = searchString;
             }
 
             public override void visit(BaseModelElement obj, bool visitSubNodes)
@@ -627,8 +627,8 @@ namespace GUI
         protected void SearchAndReplace(object sender, EventArgs e)
         {
             SearchAndReplaceWindow dialog = new SearchAndReplaceWindow();
-            DialogResult result = dialog.ShowDialog();
-            if ( result == DialogResult.OK )
+            dialog.ShowDialog();
+            if (dialog.Result == DialogResult.OK)
             {
                 SearchAndReplaceVisitor visitor = new SearchAndReplaceVisitor(Model, dialog.SearchString, dialog.ReplaceString);
             }
