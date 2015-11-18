@@ -41,30 +41,6 @@
 }</Expression>
 </Case></Cases>
 </Function><Function
- Type="Messages.MESSAGE.TRACK_TO_TRAIN.GENERAL_MESSAGE.Collection1"
- X="50"
- Y="330"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="UpdatedPacketsList"
- Guid="c32b058b-23ee-4d83-a081-b541a7cda0e6"
->
-<Parameters>
-<Parameter
- Type="Messages.SystemVersion1.MESSAGE.TRACK_TO_TRAIN.GENERAL_MESSAGE.Collection1"
- Name="aPacketsList"
- Guid="69f63f48-3875-4336-b54a-11734c6aa08f"
->
-</Parameter></Parameters>
-<Cases>
-<Case
- Name="Value"
- Guid="3bced887-9edd-419b-b766-5af996e0a3a9"
->
-<Expression>MAP aPacketsList USING X IN UpdatePacket(X, aPacketsList)</Expression>
-</Case></Cases>
-</Function><Function
  Type="Messages.MESSAGE.TRACK_TO_TRAIN.GENERAL_MESSAGE.SubStructure1"
  X="190"
  Y="330"
@@ -440,6 +416,30 @@ TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM =&gt; VersionManagement.Translation.Pa
 >
 <Comment>Default case: packet is rejected.</Comment>
 <Expression>EMPTY</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.MESSAGE.TRACK_TO_TRAIN.GENERAL_MESSAGE.Collection1"
+ X="50"
+ Y="330"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="UpdatedPacketsList"
+ Guid="6b4d30b8-6fa2-414a-95a3-1f4d32dd8dbc"
+>
+<Parameters>
+<Parameter
+ Type="Messages.SystemVersion1.MESSAGE.TRACK_TO_TRAIN.GENERAL_MESSAGE.Collection1"
+ Name="aPacketsList"
+ Guid="9fde46d9-6c04-4d4c-8ed5-453e71c970da"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="65d7fe7b-a50e-4955-bdd7-111d5242372a"
+>
+<Expression>MAP aPacketsList USING X IN UpdatePacket(X, aPacketsList)</Expression>
 </Case></Cases>
 </Function></Functions>
 </NameSpace>

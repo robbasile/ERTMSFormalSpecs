@@ -129,7 +129,7 @@ REQUEST_TO_SHORTEN_MA =&gt; aMessage.REQUEST_TO_SHORTEN_MA
 >Available(aMessage.CONDITIONAL_EMERGENCY_STOP)</PreCondition></PreConditions>
 <Expression>Messages.MESSAGE.TRACK_TO_TRAIN.Message{
 CONDITIONAL_EMERGENCY_STOP
- =&gt; ConditionalEmergencyStop.UpdatedMessage(aMessage.CONDITIONAL_EMERGENCY_STOP)
+ =&gt; VersionManagement.Translation.Messages.ConditionalEmergencyStop.UpdatedMessage(aMessage.CONDITIONAL_EMERGENCY_STOP)
 }</Expression>
 </Case><Case
  Name="Message 16 - Unconditional emergency stop"
@@ -167,7 +167,7 @@ REVOCATION_OF_EMERGENCY_STOP
  Guid="37c8b254-f240-44b7-a8af-e65c50f0381d"
 >Available(aMessage.GENERAL_MESSAGE)</PreCondition></PreConditions>
 <Expression>Messages.MESSAGE.TRACK_TO_TRAIN.Message{
-GENERAL_MESSAGE =&gt; GeneralMessage.UpdatedMessage(aMessage.GENERAL_MESSAGE)
+GENERAL_MESSAGE =&gt; VersionManagement.Translation.Messages.GeneralMessage.UpdatedMessage(aMessage.GENERAL_MESSAGE)
 }</Expression>
 </Case><Case
  Name="Message 27 - SH refused"
@@ -182,6 +182,18 @@ GENERAL_MESSAGE =&gt; GeneralMessage.UpdatedMessage(aMessage.GENERAL_MESSAGE)
 SH_REFUSED
  =&gt; aMessage.SH_REFUSED}</Expression>
 </Case><Case
+ Name="Message 28 - SH authorised"
+ Guid="76b312b2-252d-4817-8222-96d343d0b33d"
+>
+<Comment>Message 28 uses the packet translation function.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="e032a5b5-190f-42ec-890b-261bc0b27085"
+>Available(aMessage.SH_AUTHORISED)</PreCondition></PreConditions>
+<Expression>Messages.MESSAGE.TRACK_TO_TRAIN.Message{
+SH_AUTHORISED =&gt; VersionManagement.Translation.Messages.SHAuthorised.UpdatedMessage(aMessage.SH_AUTHORISED)
+}</Expression>
+</Case><Case
  Name="Message 32 - RBC/RIU system version"
  Guid="5e97bee7-6030-4b43-b36c-6a7ababed940"
 >
@@ -194,6 +206,18 @@ SH_REFUSED
 RIU_SYSTEM_VERSION
  =&gt; aMessage.RIU_SYSTEM_VERSION}</Expression>
 </Case><Case
+ Name="Message 33 - MA with shifted location reference"
+ Guid="d85ca6b2-ab11-4368-b868-984135fd928b"
+>
+<Comment>Message 33 uses the packet translation function.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="18f154aa-90b4-4884-8819-8fbac3a1e9fa"
+>Available(aMessage.MA_WITH_SHIFTED_LOCATION_REFERENCE)</PreCondition></PreConditions>
+<Expression>Messages.MESSAGE.TRACK_TO_TRAIN.Message{
+MA_WITH_SHIFTED_LOCATION_REFERENCE =&gt; VersionManagement.Translation.Messages.MAWithShiftedLocationReference.UpdatedMessage(aMessage.MA_WITH_SHIFTED_LOCATION_REFERENCE)
+}</Expression>
+</Case><Case
  Name="Message 34 - Track ahead free request"
  Guid="a899f286-dcd2-4c4e-8fee-d46a44e4e398"
 >
@@ -204,7 +228,19 @@ RIU_SYSTEM_VERSION
 >Available(aMessage.TRACK_AHEAD_FREE_REQUEST)</PreCondition></PreConditions>
 <Expression>Messages.MESSAGE.TRACK_TO_TRAIN.Message{
 TRACK_AHEAD_FREE_REQUEST
- =&gt; TrackAheadFreeRequest.UpdatedMessage(aMessage.TRACK_AHEAD_FREE_REQUEST)
+ =&gt; VersionManagement.Translation.Messages.TrackAheadFreeRequest.UpdatedMessage(aMessage.TRACK_AHEAD_FREE_REQUEST)
+}</Expression>
+</Case><Case
+ Name="Message 37 - Infill MA"
+ Guid="0bb0f8db-f567-4fed-b370-9d5eb03d47df"
+>
+<Comment>Message 37 uses the packet translation function.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="ee521a74-351a-44ac-a309-1776c8176eb0"
+>Available(aMessage.INFILL_MA)</PreCondition></PreConditions>
+<Expression>Messages.MESSAGE.TRACK_TO_TRAIN.Message{
+INFILL_MA =&gt; VersionManagement.Translation.Messages.InfillMA.UpdatedMessage(aMessage.INFILL_MA)
 }</Expression>
 </Case><Case
  Name="Message 39 - Acknowledgement of termination of a communication session"
@@ -229,7 +265,7 @@ ACKNOWLEDGEMENT_OF_TERMINATION_OF_A_COMMUNICATION_SESSION
 >Available(aMessage.TRAIN_REJECTED)</PreCondition></PreConditions>
 <Expression>Messages.MESSAGE.TRACK_TO_TRAIN.Message{
 TRAIN_REJECTED
- =&gt; TrainRejected.UpdatedMessage(aMessage.TRAIN_REJECTED)
+ =&gt; VersionManagement.Translation.Messages.TrainRejected.UpdatedMessage(aMessage.TRAIN_REJECTED)
 }</Expression>
 </Case><Case
  Name="Message 41 - Train accepted"
@@ -242,7 +278,7 @@ TRAIN_REJECTED
 >Available(aMessage.TRAIN_ACCEPTED)</PreCondition></PreConditions>
 <Expression>Messages.MESSAGE.TRACK_TO_TRAIN.Message{
 TRAIN_ACCEPTED
- =&gt; TrainAccepted.UpdatedMessage(aMessage.TRAIN_ACCEPTED)
+ =&gt; VersionManagement.Translation.Messages.TrainAccepted.UpdatedMessage(aMessage.TRAIN_ACCEPTED)
 }</Expression>
 </Case><Case
  Name="Message 43 - SoM position report confirmed by RBC"

@@ -398,5 +398,69 @@ TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM =&gt; VersionManagement.Translation.Pa
 <Comment>Default case: packet is rejected.</Comment>
 <Expression>EMPTY</Expression>
 </Case></Cases>
+</Function><Function
+ Type="Messages.MESSAGE.TRACK_TO_TRAIN.MA_WITH_SHIFTED_LOCATION_REFERENCE.Collection1"
+ X="50"
+ Y="330"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="UpdatedPacketsList"
+ Guid="e97a7048-5329-47ee-9258-5193edf33099"
+>
+<Parameters>
+<Parameter
+ Type="Messages.SystemVersion1.MESSAGE.TRACK_TO_TRAIN.MA_WITH_SHIFTED_LOCATION_REFERENCE.Collection1"
+ Name="aPacketsList"
+ Guid="d46ddd3a-9e02-43fa-88b7-abffa2372d67"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="8d912174-e9e2-42f8-9da4-78277355791a"
+>
+<Expression>MAP aPacketsList USING X IN UpdatePacket(X, aPacketsList)</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.MESSAGE.TRACK_TO_TRAIN.MA_WITH_SHIFTED_LOCATION_REFERENCE.Message"
+ X="111"
+ Y="1"
+ Width="100"
+ Height="50"
+ Name="UpdatedMessage"
+ Guid="965257bc-426f-405f-a571-baafda6356a5"
+>
+<ReqRef
+ Id="ca463c03-7353-453a-bfed-3225d1f0e3a2"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0d1d0b0a-6a43-448a-b281-0b754be9609d"
+>
+</ReqRef><Parameters>
+<Parameter
+ Type="Messages.SystemVersion1.MESSAGE.TRACK_TO_TRAIN.MA_WITH_SHIFTED_LOCATION_REFERENCE.Message"
+ Name="aMessage"
+ Guid="3e56da78-2789-471a-89fe-9ec90af66ff7"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="c09d0379-1d40-4dda-9fe8-4cc4a66add0f"
+>
+<Comment>LEVEL_2_3_MOVEMENT_AUTHORITY is left unchanged.</Comment>
+<Expression>Messages.MESSAGE.TRACK_TO_TRAIN.MA_WITH_SHIFTED_LOCATION_REFERENCE.Message
+{
+  NID_MESSAGE =&gt; aMessage.NID_MESSAGE, 
+  L_MESSAGE =&gt; aMessage.L_MESSAGE, 
+  T_TRAIN =&gt; aMessage.T_TRAIN, 
+  M_ACK =&gt; aMessage.M_ACK, 
+  NID_LRBG =&gt; aMessage.NID_LRBG, 
+  Q_SCALE =&gt; aMessage.Q_SCALE, 
+  D_REF =&gt; aMessage.D_REF, 
+  LEVEL_2_3_MOVEMENT_AUTHORITY =&gt; aMessage.LEVEL_2_3_MOVEMENT_AUTHORITY, 
+Sequence1 =&gt; UpdatedPacketsList( aMessage.Sequence1 )
+}</Expression>
+</Case></Cases>
 </Function></Functions>
 </NameSpace>

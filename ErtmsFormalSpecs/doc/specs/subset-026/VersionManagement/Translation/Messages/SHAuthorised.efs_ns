@@ -1,4 +1,8 @@
 <NameSpace
+ X="111"
+ Y="61"
+ Width="100"
+ Height="50"
  Name="SHAuthorised"
  Guid="06495b20-b75d-43ba-bdae-a770aed35abc"
 >
@@ -371,6 +375,62 @@ TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM =&gt; VersionManagement.Translation.Pa
 >
 <Comment>Default case: packet is rejected.</Comment>
 <Expression>EMPTY</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.MESSAGE.TRACK_TO_TRAIN.SH_AUTHORISED.Collection1"
+ X="50"
+ Y="330"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="UpdatedPacketsList"
+ Guid="c32b058b-23ee-4d83-a081-b541a7cda0e6"
+>
+<Parameters>
+<Parameter
+ Type="Messages.SystemVersion1.MESSAGE.TRACK_TO_TRAIN.SH_AUTHORISED.Collection1"
+ Name="aPacketsList"
+ Guid="69f63f48-3875-4336-b54a-11734c6aa08f"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="3bced887-9edd-419b-b766-5af996e0a3a9"
+>
+<Expression>MAP aPacketsList USING X IN UpdatePacket(X, aPacketsList)</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.MESSAGE.TRACK_TO_TRAIN.SH_AUTHORISED.Message"
+ X="111"
+ Y="1"
+ Width="100"
+ Height="50"
+ Name="UpdatedMessage"
+ Guid="27cdca75-5d54-4af2-b53b-d356ff30a2c5"
+>
+<Parameters>
+<Parameter
+ Type="Messages.SystemVersion1.MESSAGE.TRACK_TO_TRAIN.SH_AUTHORISED.Message"
+ Name="aMessage"
+ Guid="053febed-f6e0-4892-9b14-7d4387d3415e"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="af63c083-cb88-492d-9b35-14cf34e64ba2"
+>
+<Expression>Messages.MESSAGE.TRACK_TO_TRAIN.SH_AUTHORISED.Message
+{
+  NID_MESSAGE =&gt; aMessage.NID_MESSAGE, 
+  L_MESSAGE =&gt; aMessage.L_MESSAGE, 
+  T_TRAIN_0 =&gt; aMessage.T_TRAIN_0, 
+  M_ACK =&gt; aMessage.M_ACK, 
+  NID_LRBG =&gt; aMessage.NID_LRBG, 
+  T_TRAIN_1 =&gt; aMessage.T_TRAIN_1, 
+  Sequence1 =&gt; UpdatedPacketsList( aMessage.Sequence1 )
+}</Expression>
 </Case></Cases>
 </Function></Functions>
 </NameSpace>

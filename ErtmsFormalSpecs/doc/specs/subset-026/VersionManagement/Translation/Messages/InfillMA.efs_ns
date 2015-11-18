@@ -272,5 +272,73 @@ TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM =&gt; VersionManagement.Translation.Pa
 <Comment>Default case: packet is rejected.</Comment>
 <Expression>EMPTY</Expression>
 </Case></Cases>
+</Function><Function
+ Type="Messages.MESSAGE.TRACK_TO_TRAIN.INFILL_MA.Collection1"
+ X="50"
+ Y="330"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="UpdatedPacketsList"
+ Guid="93ab0fc7-e087-4950-b5ab-ea110d394985"
+>
+<Parameters>
+<Parameter
+ Type="Messages.SystemVersion1.MESSAGE.TRACK_TO_TRAIN.INFILL_MA.Collection1"
+ Name="aPacketsList"
+ Guid="b7441a69-7a8a-4f09-8f4d-593fa0b1f501"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="490a2abb-e1e3-43c1-a70b-d49f537898de"
+>
+<Expression>MAP aPacketsList USING X IN UpdatePacket(X, aPacketsList)</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.MESSAGE.TRACK_TO_TRAIN.INFILL_MA.Message"
+ X="111"
+ Y="1"
+ Width="100"
+ Height="50"
+ Name="UpdatedMessage"
+ Guid="d8999261-5904-4a9f-a595-88234238a927"
+>
+<ReqRef
+ Id="d8935b22-a2ba-405a-aca9-b9a3996a8b90"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="2b98a053-9f48-4390-a3eb-7171c6464884"
+>
+</ReqRef><ReqRef
+ Id="34d1aabe-33ce-4baf-b7b2-d4bd41eb7142"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9eef5e75-f16d-4116-b9ee-754a6e7d524a"
+>
+</ReqRef><Parameters>
+<Parameter
+ Type="Messages.SystemVersion1.MESSAGE.TRACK_TO_TRAIN.INFILL_MA.Message"
+ Name="aMessage"
+ Guid="9e97d7e2-d7a9-4db8-ba65-73c7073f4467"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="3f49c1b6-2a02-4575-b434-c09d63bb79ca"
+>
+<Comment>INFILL_LOCATION_REFERENCE and LEVEL_1_MOVEMENT_AUTHORITY are left unchanged.</Comment>
+<Expression>Messages.MESSAGE.TRACK_TO_TRAIN.INFILL_MA.Message
+{
+  NID_MESSAGE =&gt; aMessage.NID_MESSAGE, 
+  L_MESSAGE =&gt; aMessage.L_MESSAGE, 
+  T_TRAIN =&gt; aMessage.T_TRAIN, 
+  M_ACK =&gt; aMessage.M_ACK, 
+  NID_LRBG =&gt; aMessage.NID_LRBG, 
+  INFILL_LOCATION_REFERENCE =&gt; aMessage.INFILL_LOCATION_REFERENCE,
+  LEVEL_1_MOVEMENT_AUTHORITY =&gt; aMessage.LEVEL_1_MOVEMENT_AUTHORITY, 
+  Sequence1 =&gt; UpdatedPacketsList( aMessage.Sequence1 )
+}</Expression>
+</Case></Cases>
 </Function></Functions>
 </NameSpace>
