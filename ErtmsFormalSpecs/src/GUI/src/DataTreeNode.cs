@@ -630,7 +630,10 @@ namespace GUI
             dialog.ShowDialog();
             if (dialog.Result == DialogResult.OK)
             {
-                SearchAndReplaceVisitor visitor = new SearchAndReplaceVisitor(Model, dialog.SearchString, dialog.ReplaceString);
+                DataDictionary.Util.DontNotify(() =>
+                    {
+                        SearchAndReplaceVisitor visitor = new SearchAndReplaceVisitor(Model, dialog.SearchString, dialog.ReplaceString);
+                    });
             }
         }
 
