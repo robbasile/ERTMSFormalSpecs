@@ -280,7 +280,9 @@ Only emergency stop orders can be high priority.</Comment>
 <Actions>
 <Action
  Guid="0271d2ba-8432-4ab8-9751-21368dd80660"
->MessageIn &lt;- EMPTY</Action></Actions>
+>MessageIn &lt;- EMPTY</Action><Action
+ Guid="d4cee0a7-dcf3-4eb6-ac2a-1101421d03d6"
+>MessageIn_SystemVersion1 &lt;- EMPTY</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Verification"
@@ -481,9 +483,9 @@ Keep the reason for it to be displayed to the driver.</Comment>
 >Odometry.TrainIsAtStandstill()
   OR  
 (
-  Available(MessageIn)
+  Available(ReceivedMessage(THIS))
     AND  
-  EURORADIO.IncomingMessageIsConsistent(MessageIn)
+  EURORADIO.IncomingMessageIsConsistent(ReceivedMessage(THIS))
 )</PreCondition></PreConditions>
 <Actions>
 <Action
@@ -1807,15 +1809,15 @@ ConnectionState in EURORADIO.RBCStruct.ConnectionStateSM.Terminating</PreConditi
  Guid="3609f99b-b750-45f6-867f-aa05ae489fbd"
 >IsMainConnection</PreCondition><PreCondition
  Guid="17ba976d-ce42-46dc-bde1-e8c9dab8a0e3"
->EURORADIO.IncomingMessageIsConsistent(MessageIn)</PreCondition><PreCondition
+>EURORADIO.IncomingMessageIsConsistent(ReceivedMessage(THIS))</PreCondition><PreCondition
  Guid="0fc0e74a-540a-4b62-9910-5cf32bab4dde"
->EURORADIO.DataPriorityCorrect(MessageIn)</PreCondition><PreCondition
+>EURORADIO.DataPriorityCorrect(ReceivedMessage(THIS))</PreCondition><PreCondition
  Guid="a5c08762-5545-4f90-9842-d38abbcca45b"
->MessageIn != EMPTY</PreCondition></PreConditions>
+>ReceivedMessage(THIS) != EMPTY</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="7ffe8131-5392-4ec9-a32e-1ad7d3cb2dcd"
->EURORADIO.ProcessIncomingMessages(MessageIn.Message)</Action></Actions>
+>EURORADIO.ProcessIncomingMessages(ReceivedMessage(THIS).Message)</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Handle acknowledgement of termination of a communication session"
@@ -1840,13 +1842,13 @@ ConnectionState in EURORADIO.RBCStruct.ConnectionStateSM.Terminating</PreConditi
 <PreConditions>
 <PreCondition
  Guid="ced76e36-5c43-4286-9d04-213366e1c8a1"
->Available ( MessageIn.Message.ACKNOWLEDGEMENT_OF_TERMINATION_OF_A_COMMUNICATION_SESSION )</PreCondition><PreCondition
+>Available ( ReceivedMessage(THIS).Message.ACKNOWLEDGEMENT_OF_TERMINATION_OF_A_COMMUNICATION_SESSION )</PreCondition><PreCondition
  Guid="13c1cfb4-786f-44c7-ab3b-d1905d1357a7"
 >IsMainConnection</PreCondition><PreCondition
  Guid="124fea1a-3ab9-46f0-8558-fed84187bc70"
->EURORADIO.IncomingMessageIsConsistent(MessageIn)</PreCondition><PreCondition
+>EURORADIO.IncomingMessageIsConsistent(ReceivedMessage(THIS))</PreCondition><PreCondition
  Guid="47c9872f-d4f9-4b00-a1d9-e7deb93b84b7"
->EURORADIO.DataPriorityCorrect(MessageIn)</PreCondition></PreConditions>
+>EURORADIO.DataPriorityCorrect(ReceivedMessage(THIS))</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="7073da78-58f0-4a39-ae89-49ca19eb62dd"
@@ -1885,7 +1887,7 @@ ConnectionState in EURORADIO.RBCStruct.ConnectionStateSM.Terminating</PreConditi
 <Actions>
 <Action
  Guid="9e032a8e-c56d-4362-b6ed-8d69f6620598"
->INSERT EURORADIO.RBCStruct.MessageIn.Message IN EURORADIO.MessagesToHandle</Action></Actions>
+>INSERT ReceivedMessage(THIS).Message IN EURORADIO.MessagesToHandle</Action></Actions>
 <SubRules>
 <Rule
  Priority="Processing"
@@ -1904,11 +1906,11 @@ ConnectionState in EURORADIO.RBCStruct.ConnectionStateSM.Terminating</PreConditi
 <PreConditions>
 <PreCondition
  Guid="1ca3c59e-b767-47ad-8622-1b9ce4436495"
->Available ( Element =&gt; MessageIn.Message.ACKNOWLEDGEMENT_OF_TRAIN_DATA )</PreCondition></PreConditions>
+>Available ( Element =&gt; ReceivedMessage(THIS).Message.ACKNOWLEDGEMENT_OF_TRAIN_DATA )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="7e16bf07-3f0a-476e-a107-bf3d03af299e"
->EURORADIO.HandleAcknowledgementOfTrainData ( aMessage =&gt; MessageIn.Message.ACKNOWLEDGEMENT_OF_TRAIN_DATA )</Action></Actions>
+>EURORADIO.HandleAcknowledgementOfTrainData ( aMessage =&gt; ReceivedMessage(THIS).Message.ACKNOWLEDGEMENT_OF_TRAIN_DATA )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition><RuleCondition
@@ -1927,9 +1929,9 @@ ConnectionState in EURORADIO.RBCStruct.ConnectionStateSM.Terminating</PreConditi
  Guid="98ea9a9c-2ee4-4e8e-a1df-abd25b493ec0"
 >NOT IsMainConnection</PreCondition><PreCondition
  Guid="560e0917-ea2b-4726-bb4f-913cb848a16e"
->EURORADIO.IncomingMessageIsConsistent(MessageIn)</PreCondition><PreCondition
+>EURORADIO.IncomingMessageIsConsistent(ReceivedMessage(THIS))</PreCondition><PreCondition
  Guid="314a1df3-6c27-4b22-b69f-1e8281322d0b"
->EURORADIO.DataPriorityCorrect(MessageIn)</PreCondition></PreConditions>
+>EURORADIO.DataPriorityCorrect(ReceivedMessage(THIS))</PreCondition></PreConditions>
 <Actions>
 </Actions>
 <SubRules>
@@ -1951,9 +1953,9 @@ ConnectionState in EURORADIO.RBCStruct.ConnectionStateSM.Terminating</PreConditi
 <PreConditions>
 <PreCondition
  Guid="786fa238-2b10-4508-9829-45e25ef541e2"
->Available ( MessageIn.Message.MOVEMENT_AUTHORITY )
+>Available ( ReceivedMessage(THIS).Message.MOVEMENT_AUTHORITY )
   AND
-THERE_IS X IN MessageIn.Message.MOVEMENT_AUTHORITY.Sequence1 | Available
+THERE_IS X IN ReceivedMessage(THIS).Message.MOVEMENT_AUTHORITY.Sequence1 | Available
 (
     Element =&gt; X.SESSION_MANAGEMENT
 )</PreCondition></PreConditions>
@@ -1962,7 +1964,7 @@ THERE_IS X IN MessageIn.Message.MOVEMENT_AUTHORITY.Sequence1 | Available
  Guid="7db46596-2bec-4dca-b309-8c30a034a2a6"
 >EURORADIO.TracksideOrderedSessionReceived
 (
-    Packet =&gt; ( FIRST X IN MessageIn.Message.MOVEMENT_AUTHORITY.Sequence1 | Available ( X.SESSION_MANAGEMENT ) ).SESSION_MANAGEMENT
+    Packet =&gt; ( FIRST X IN ReceivedMessage(THIS).Message.MOVEMENT_AUTHORITY.Sequence1 | Available ( X.SESSION_MANAGEMENT ) ).SESSION_MANAGEMENT
 )</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
@@ -1973,9 +1975,9 @@ THERE_IS X IN MessageIn.Message.MOVEMENT_AUTHORITY.Sequence1 | Available
 <PreConditions>
 <PreCondition
  Guid="8df7c3e8-4f00-4b37-a191-70653e26c0cb"
->Available ( MessageIn.Message.GENERAL_MESSAGE )
+>Available ( ReceivedMessage(THIS).Message.GENERAL_MESSAGE )
   AND
-THERE_IS X IN MessageIn.Message.GENERAL_MESSAGE.Sequence1 | Available
+THERE_IS X IN ReceivedMessage(THIS).Message.GENERAL_MESSAGE.Sequence1 | Available
 (
     Element =&gt; X.SESSION_MANAGEMENT
 )</PreCondition></PreConditions>
@@ -1984,7 +1986,7 @@ THERE_IS X IN MessageIn.Message.GENERAL_MESSAGE.Sequence1 | Available
  Guid="14902768-9399-4452-99ff-ce813a430af4"
 >EURORADIO.TracksideOrderedSessionReceived
 (
-    Packet =&gt; ( FIRST X IN MessageIn.Message.GENERAL_MESSAGE.Sequence1 | Available ( X.SESSION_MANAGEMENT ) ).SESSION_MANAGEMENT
+    Packet =&gt; ( FIRST X IN ReceivedMessage(THIS).Message.GENERAL_MESSAGE.Sequence1 | Available ( X.SESSION_MANAGEMENT ) ).SESSION_MANAGEMENT
 )</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
@@ -1995,9 +1997,9 @@ THERE_IS X IN MessageIn.Message.GENERAL_MESSAGE.Sequence1 | Available
 <PreConditions>
 <PreCondition
  Guid="63d1690a-2f49-4ed2-b728-5a1d0b746001"
->Available ( MessageIn.Message.MA_WITH_SHIFTED_LOCATION_REFERENCE )
+>Available ( ReceivedMessage(THIS).Message.MA_WITH_SHIFTED_LOCATION_REFERENCE )
   AND
-THERE_IS X IN MessageIn.Message.MA_WITH_SHIFTED_LOCATION_REFERENCE.Sequence1 | Available
+THERE_IS X IN ReceivedMessage(THIS).Message.MA_WITH_SHIFTED_LOCATION_REFERENCE.Sequence1 | Available
 (
     Element =&gt; X.SESSION_MANAGEMENT
 )</PreCondition></PreConditions>
@@ -2006,7 +2008,7 @@ THERE_IS X IN MessageIn.Message.MA_WITH_SHIFTED_LOCATION_REFERENCE.Sequence1 | A
  Guid="84c889be-4150-4fb0-a74e-cd11567c7278"
 >EURORADIO.TracksideOrderedSessionReceived
 (
-    Packet =&gt; ( FIRST X IN MessageIn.Message.MA_WITH_SHIFTED_LOCATION_REFERENCE.Sequence1 | Available ( X.SESSION_MANAGEMENT ) ).SESSION_MANAGEMENT
+    Packet =&gt; ( FIRST X IN ReceivedMessage(THIS).Message.MA_WITH_SHIFTED_LOCATION_REFERENCE.Sequence1 | Available ( X.SESSION_MANAGEMENT ) ).SESSION_MANAGEMENT
 )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
@@ -2038,9 +2040,9 @@ THERE_IS X IN MessageIn.Message.MA_WITH_SHIFTED_LOCATION_REFERENCE.Sequence1 | A
 <PreConditions>
 <PreCondition
  Guid="7e373e36-9cfd-4bd6-ae02-19c507b789ff"
->EURORADIO.IncomingMessageIsConsistent(MessageIn)</PreCondition><PreCondition
+>EURORADIO.IncomingMessageIsConsistent(ReceivedMessage(THIS))</PreCondition><PreCondition
  Guid="f35e5a44-14bb-4e4e-99ac-d7b833940825"
->EURORADIO.DataPriorityCorrect(MessageIn)</PreCondition></PreConditions>
+>EURORADIO.DataPriorityCorrect(ReceivedMessage(THIS))</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="9de404b1-57c9-4a5f-83ae-aaca1042dd85"
@@ -2068,9 +2070,9 @@ THERE_IS X IN MessageIn.Message.MA_WITH_SHIFTED_LOCATION_REFERENCE.Sequence1 | A
 </ReqRef><PreConditions>
 <PreCondition
  Guid="7e8d9ecc-51a7-4a36-8fd8-d391aca111ae"
->Available(MessageIn)
+>Available(ReceivedMessage(THIS))
   AND  
-NOT EURORADIO.IncomingMessageIsConsistent(MessageIn)</PreCondition><PreCondition
+NOT EURORADIO.IncomingMessageIsConsistent(ReceivedMessage(THIS))</PreCondition><PreCondition
  Guid="2b31e04f-298e-4823-8659-e35d735d2e04"
 >EURORADIO.SafeRadioConnectionAvailable()</PreCondition></PreConditions>
 <Actions>
@@ -2459,7 +2461,7 @@ NOT EURORADIO.IncomingMessageIsConsistent(MessageIn)</PreCondition><PreCondition
     L_MESSAGE =&gt; 0,
     T_TRAIN_0 =&gt; MessageTypes.UnResolveTime(Kernel.DateAndTime.CurrentTime),
     NID_ENGINE =&gt; Kernel.NidEngine,
-    T_TRAIN_1 =&gt; Messages.MESSAGE.TRACK_TO_TRAIN.GetT_TRAIN(MessageIn.Message)
+    T_TRAIN_1 =&gt; Messages.MESSAGE.TRACK_TO_TRAIN.GetT_TRAIN(ReceivedMessage(THIS).Message)
 }</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
@@ -2702,6 +2704,15 @@ NOT EURORADIO.IncomingMessageIsConsistent(MessageIn)</PreCondition><PreCondition
  Guid="bee59af2-52dd-4958-bac2-504a0b82d537"
 >
 </ReqRef><Comment>Indicates whether supervision of T_NVCONTACT is active.</Comment>
+</StructureElement><StructureElement
+ TypeName="InMessage_SystemVersion1Struct"
+ Default="EMPTY"
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="MessageIn_SystemVersion1"
+ Guid="309836ef-93e0-4706-ba4e-ae4083cfa138"
+>
+<Comment>Represents the message received from the current RBC. If no message is received, the structure is EMPTY.</Comment>
 </StructureElement><StateMachines>
 <StateMachine
  Default="EURORADIO.RBCStruct.ConnectionStateSM.Inactive"
@@ -5617,6 +5628,45 @@ After that, if an order to contact an Accepting RBC was received, it will be han
  Guid="0b2e7125-3440-427c-b7ba-4c8917135d86"
 >
 <Comment>The priority of the received message.</Comment>
+</StructureElement></Structure><Structure
+ Default=""
+ X="480"
+ Y="310"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="InMessage_SystemVersion1Struct"
+ Guid="3020153e-8173-49fd-8c01-be3c4370533f"
+>
+<ReqRef
+ Id="e700d18e-d4e8-422a-990c-f149f477ef14"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="29b9ef36-11bc-497b-8c73-c634b2f36286"
+>
+</ReqRef><ReqRef
+ Id="e9f7415c-2605-40c6-82c5-5211a7679d76"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6636ff02-d674-479c-8a2b-3bda353ad6e1"
+>
+</ReqRef><Comment>Structure containing the message received from the RBC with its priority. A SystemVersion1 message.</Comment>
+<StructureElement
+ TypeName="Messages.SystemVersion1.MESSAGE.TRACK_TO_TRAIN.Message"
+ Default="EMPTY"
+ Mode="InOut"
+ Implemented="TRUE"
+ Name="Message"
+ Guid="6b4295eb-9ea5-4c32-bded-a450b0b505e8"
+>
+<Comment>The message received from trackside.</Comment>
+</StructureElement><StructureElement
+ TypeName="MessagePriorityEnum"
+ Default=""
+ Mode="Incoming"
+ Implemented="TRUE"
+ Name="Priority"
+ Guid="d7d54247-aacf-4f1e-b78f-a422ff095cb7"
+>
+<Comment>The priority of the received message.</Comment>
 </StructureElement></Structure></Structures>
 <Collections>
 <Collection
@@ -6957,6 +7007,52 @@ Available(Message.Message.UNCONDITIONAL_EMERGENCY_STOP)</Expression>
  Guid="ab2962af-22fb-4515-b99a-f531820a4683"
 >
 <Expression>EURORADIO.CurrentRBCConnection().ConnectionState in EURORADIO.CurrentRBCConnection().ConnectionStateSM.Connected</Expression>
+</Case></Cases>
+</Function><Function
+ Type="InMessageStruct"
+ X="441"
+ Y="1"
+ Width="100"
+ Height="50"
+ Name="ReceivedMessage"
+ Guid="d126b310-93ea-4ece-8b07-e1d48e7f71b4"
+>
+<Parameters>
+<Parameter
+ Type="RBCStruct"
+ Name="aRBC"
+ Guid="e9364fbc-653d-436f-9845-70172a947dc8"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="SystemVersion2"
+ Guid="0eed7905-5925-4d06-b79a-6bddb3558e77"
+>
+<PreConditions>
+<PreCondition
+ Guid="d93e10a3-f60a-4838-a1f9-4380368bed3d"
+>aRBC.SessionManagementData.SystemVersion.Value == SystemVersionEnum.Version2_0</PreCondition></PreConditions>
+<Expression>aRBC.MessageIn</Expression>
+</Case><Case
+ Name="SystemVersion1"
+ Guid="6cbaa36d-e7ce-404a-9651-13301db09ffd"
+>
+<PreConditions>
+<PreCondition
+ Guid="5b4ae8ca-3693-499a-b2c5-e032b3c04a41"
+>aRBC.SessionManagementData.SystemVersion.Value in [SystemVersionEnum.Version1_0, SystemVersionEnum.Version1_1]
+
+</PreCondition></PreConditions>
+<Expression>InMessageStruct{
+Message =&gt; VersionManagement.Translation.Messages.UpdateMessage( aRBC.MessageIn_SystemVersion1.Message),
+Priority =&gt; aRBC.MessageIn_SystemVersion1.Priority
+}</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="7007ce9c-428e-4497-95a8-8aca4ff6fa78"
+>
+<Expression>EMPTY</Expression>
 </Case></Cases>
 </Function></Functions>
 <Procedures>
@@ -9310,7 +9406,7 @@ MessageTypes.QScaleDistance(
 <PreConditions>
 <PreCondition
  Guid="c1dca0d3-0c3e-4b48-861c-8a4487b94bdc"
->Messages.MESSAGE.TRACK_TO_TRAIN.GetM_ACK(EURORADIO.CurrentRBCConnection().MessageIn.Message) == Messages.M_ACK.Acknowledgement_required</PreCondition></PreConditions>
+>Messages.MESSAGE.TRACK_TO_TRAIN.GetM_ACK(EURORADIO.ReceivedMessage( EURORADIO.CurrentRBCConnection()).Message) == Messages.M_ACK.Acknowledgement_required</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="19b6e284-2a5e-48ed-8f16-6aa19fd8ac3e"

@@ -1820,9 +1820,9 @@ NOT TIU.SBApplied</PreCondition></PreConditions>
 >Odometry.TrainIsAtStandstill()
   OR  
 (
-  Available(EURORADIO.CurrentRBCConnection().MessageIn)
+  Available(EURORADIO.ReceivedMessage( EURORADIO.CurrentRBCConnection()))
     AND  
-  EURORADIO.IncomingMessageIsConsistent(EURORADIO.CurrentRBCConnection().MessageIn)
+  EURORADIO.IncomingMessageIsConsistent(EURORADIO.ReceivedMessage( EURORADIO.CurrentRBCConnection()))
 )</PreCondition></PreConditions>
 <Actions>
 <Action
