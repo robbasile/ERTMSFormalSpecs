@@ -18,6 +18,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading;
 using DataDictionary.Generated;
 using DataDictionary.Specification;
 using Utils;
@@ -55,6 +56,8 @@ namespace DataDictionary
         ///     Used to temporarily store the list of test frames
         /// </summary>
         private ArrayList _savedTests;
+
+        private Mutex CriticalSection { get; set; }
 
         /// <summary>
         ///     Updates the dictionary contents before saving it
@@ -415,11 +418,19 @@ namespace DataDictionary
         /// </summary>
         public void InitDeclaredElements()
         {
-            DeclaredElements = new Dictionary<string, List<INamable>>();
-
-            foreach (Types.NameSpace nameSpace in NameSpaces)
+            CriticalSection.WaitOne();
+            try
             {
-                ISubDeclaratorUtils.AppendNamable(this, nameSpace);
+                DeclaredElements = new Dictionary<string, List<INamable>>();
+
+                foreach (Types.NameSpace nameSpace in NameSpaces)
+                {
+                    ISubDeclaratorUtils.AppendNamable(this, nameSpace);
+                }
+            }
+            finally
+            {
+                CriticalSection.ReleaseMutex();
             }
         }
 
@@ -506,34 +517,42 @@ namespace DataDictionary
             {
                 if (_definedTypes == null)
                 {
-                    _definedTypes = new Dictionary<string, Type>();
-
-                    foreach (Type type in EFSSystem.PredefinedTypes.Values)
+                    CriticalSection.WaitOne();
+                    try
                     {
-                        _definedTypes.Add(type.FullName, type);
-                    }
+                        _definedTypes = new Dictionary<string, Type>();
 
-                    foreach (Type type in TypeFinder.INSTANCE.find(this))
-                    {
-                        // Ignore state machines which have no substate
-                        if (type is StateMachine)
+                        foreach (Type type in EFSSystem.PredefinedTypes.Values)
                         {
-                            StateMachine stateMachine = type as StateMachine;
+                            _definedTypes.Add(type.FullName, type);
+                        }
 
+                        foreach (Type type in TypeFinder.INSTANCE.find(this))
+                        {
                             // Ignore state machines which have no substate
-                            if (stateMachine.States.Count > 0)
+                            if (type is StateMachine)
                             {
-                                // Ignore state machines which are not root state machines
-                                if (stateMachine.EnclosingState == null)
+                                StateMachine stateMachine = type as StateMachine;
+
+                                // Ignore state machines which have no substate
+                                if (stateMachine.States.Count > 0)
                                 {
-                                    _definedTypes[type.FullName] = type;
+                                    // Ignore state machines which are not root state machines
+                                    if (stateMachine.EnclosingState == null)
+                                    {
+                                        _definedTypes[type.FullName] = type;
+                                    }
                                 }
                             }
+                            else
+                            {
+                                _definedTypes[type.FullName] = type;
+                            }
                         }
-                        else
-                        {
-                            _definedTypes[type.FullName] = type;
-                        }
+                    }
+                    finally
+                    {
+                        CriticalSection.ReleaseMutex();
                     }
                 }
 
@@ -542,45 +561,22 @@ namespace DataDictionary
         }
 
         /// <summary>
-        ///     Associates the types with their full name
-        /// </summary>
-        private Dictionary<Rule, RuleDisabling> _cachedRuleDisablings;
-
-        public Dictionary<Rule, RuleDisabling> CachedRuleDisablings
-        {
-            get
-            {
-                if (_cachedRuleDisablings == null)
-                {
-                    _cachedRuleDisablings = new Dictionary<Rule, RuleDisabling>();
-
-                    foreach (RuleDisabling ruleDisabling in RuleDisablings)
-                    {
-                        Rule disabledRule = EFSSystem.FindRule(ruleDisabling.getRule());
-                        if (disabledRule != null)
-                        {
-                            _cachedRuleDisablings.Add(disabledRule, ruleDisabling);
-                        }
-                        else
-                        {
-                            ruleDisabling.AddError("Cannot find corresponding rule");
-                        }
-                    }
-                }
-
-                return _cachedRuleDisablings;
-            }
-        }
-
-        /// <summary>
         ///     Clears the caches of this dictionary
         /// </summary>
         public override void ClearCache()
         {
-            _definedTypes = null;
-            _cachedRuleDisablings = null;
-            DeclaredElements = null;
-            _cache.Clear();
+            CriticalSection.WaitOne();
+            try
+            {
+                _definedTypes = null;
+                _cache.Clear();
+                DeclaredElements = null;
+
+            }
+            finally
+            {
+                CriticalSection.ReleaseMutex();
+            }
         }
 
         /// <summary>
@@ -625,38 +621,47 @@ namespace DataDictionary
             {
                 if (nameSpace != null)
                 {
-                    if (!_cache.ContainsKey(nameSpace))
+                                        CriticalSection.WaitOne();
+                    try
                     {
-                        _cache[nameSpace] = new Dictionary<string, Type>();
-                    }
-                    Dictionary<string, Type> subCache = _cache[nameSpace];
 
-                    if (!subCache.ContainsKey(name))
-                    {
-                        Type tmp = null;
-
-                        if (!Utils.Util.isEmpty(name))
+                        if (!_cache.ContainsKey(nameSpace))
                         {
-                            tmp = nameSpace.findTypeByName(name);
+                            _cache[nameSpace] = new Dictionary<string, Type>();
+                        }
+                        Dictionary<string, Type> subCache = _cache[nameSpace];
 
-                            if (tmp == null)
+                        if (!subCache.ContainsKey(name))
+                        {
+                            Type tmp = null;
+
+                            if (!Utils.Util.isEmpty(name))
                             {
-                                if (definedTypes.ContainsKey(name))
+                                tmp = nameSpace.findTypeByName(name);
+
+                                if (tmp == null)
                                 {
-                                    tmp = definedTypes[name];
+                                    if (definedTypes.ContainsKey(name))
+                                    {
+                                        tmp = definedTypes[name];
+                                    }
+                                }
+
+                                if (tmp == null && definedTypes.ContainsKey("Default." + name))
+                                {
+                                    tmp = definedTypes["Default." + name];
                                 }
                             }
 
-                            if (tmp == null && definedTypes.ContainsKey("Default." + name))
-                            {
-                                tmp = definedTypes["Default." + name];
-                            }
+                            subCache[name] = tmp;
                         }
 
-                        subCache[name] = tmp;
+                        retVal = subCache[name];
                     }
-
-                    retVal = subCache[name];
+                    finally
+                    {
+                        CriticalSection.ReleaseMutex();
+                    }
                 }
                 else
                 {
@@ -732,6 +737,7 @@ namespace DataDictionary
         public Dictionary()
         {
             FinderRepository.INSTANCE.Register(this);
+            CriticalSection = new Mutex(false, "Dictionary critical section");
         }
 
         /// <summary>

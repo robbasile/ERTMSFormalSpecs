@@ -15,6 +15,7 @@
 // ------------------------------------------------------------------------------
 
 using System.Collections.Generic;
+using System.Threading;
 
 namespace Utils
 {
@@ -122,6 +123,8 @@ namespace Utils
     /// </summary>
     public class ISubDeclaratorUtils
     {
+        private static Mutex CriticalSection = new Mutex(false);
+
         /// <summary>
         ///     Appends a namable in a dictionary of a sub declarator
         /// </summary>
@@ -133,11 +136,19 @@ namespace Utils
             {
                 if (!Util.isEmpty(namable.Name))
                 {
-                    if (!subDeclarator.DeclaredElements.ContainsKey(namable.Name))
+                    CriticalSection.WaitOne();
+                    try
                     {
-                        subDeclarator.DeclaredElements[namable.Name] = new List<INamable>();
+                        if (!subDeclarator.DeclaredElements.ContainsKey(namable.Name))
+                        {
+                            subDeclarator.DeclaredElements[namable.Name] = new List<INamable>();
+                        }
+                        subDeclarator.DeclaredElements[namable.Name].Add(namable);
                     }
-                    subDeclarator.DeclaredElements[namable.Name].Add(namable);
+                    finally
+                    {
+                        CriticalSection.ReleaseMutex();
+                    }
                 }
             }
         }
@@ -152,11 +163,19 @@ namespace Utils
         {
             if (namable != null)
             {
-                if (!subDeclarator.DeclaredElements.ContainsKey(name))
+                CriticalSection.WaitOne();
+                try
                 {
-                    subDeclarator.DeclaredElements[name] = new List<INamable>();
+                    if (!subDeclarator.DeclaredElements.ContainsKey(name))
+                    {
+                        subDeclarator.DeclaredElements[name] = new List<INamable>();
+                    }
+                    subDeclarator.DeclaredElements[name].Add(namable);
                 }
-                subDeclarator.DeclaredElements[name].Add(namable);
+                finally
+                {
+                    CriticalSection.ReleaseMutex();
+                }
             }
         }
 
@@ -168,19 +187,27 @@ namespace Utils
         /// <param name="retVal"></param>
         public static void Find(ISubDeclarator subDeclarator, string name, List<INamable> retVal)
         {
-            // Ensure that the declared elements are initialized
-            if (subDeclarator.DeclaredElements == null)
+            CriticalSection.WaitOne();
+            try
             {
-                subDeclarator.InitDeclaredElements();
-            }
-
-            if (name != null)
-            {
-                List<INamable> tmp;
-                if (subDeclarator.DeclaredElements.TryGetValue(name, out tmp))
+                // Ensure that the declared elements are initialized
+                if (subDeclarator.DeclaredElements == null)
                 {
-                    retVal.AddRange(tmp);
+                    subDeclarator.InitDeclaredElements();
                 }
+
+                if (name != null)
+                {
+                    List<INamable> tmp;
+                    if (subDeclarator.DeclaredElements.TryGetValue(name, out tmp))
+                    {
+                        retVal.AddRange(tmp);
+                    }
+                }
+            }
+            finally
+            {
+                CriticalSection.ReleaseMutex();
             }
         }
 
@@ -194,17 +221,25 @@ namespace Utils
         {
             bool retVal = false;
 
-            List<INamable> tmp;
-            if (subDeclarator.DeclaredElements.TryGetValue(value.Name, out tmp))
+            CriticalSection.WaitOne();
+            try
             {
-                foreach (INamable namable in tmp)
+                List<INamable> tmp;
+                if (subDeclarator.DeclaredElements.TryGetValue(value.Name, out tmp))
                 {
-                    if (namable == value)
+                    foreach (INamable namable in tmp)
                     {
-                        retVal = true;
-                        break;
+                        if (namable == value)
+                        {
+                            retVal = true;
+                            break;
+                        }
                     }
                 }
+            }
+            finally
+            {
+                CriticalSection.ReleaseMutex();
             }
 
             return retVal;
