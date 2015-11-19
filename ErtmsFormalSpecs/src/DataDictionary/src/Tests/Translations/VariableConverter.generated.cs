@@ -61,13 +61,9 @@ namespace DataDictionary.Tests.Translations
           AddVariable("A_NVP12", ConvertInt.INSTANCE);
           AddVariable("A_NVP23", ConvertInt.INSTANCE);
           AddVariable("V_NVKVINT", ConvertInt.INSTANCE);
-          AddVariable("M_NVKVINT_0", ConvertInt.INSTANCE);
-          AddVariable("M_NVKVINT_1", ConvertInt.INSTANCE);
-          AddVariable("N_ITER_0", ConvertInt.INSTANCE);
-          AddVariable("N_ITER_1", ConvertInt.INSTANCE);
+          AddVariable("M_NVKVINT", ConvertInt.INSTANCE);
           AddVariable("L_NVKRINT", ConvertInt.INSTANCE);
           AddVariable("M_NVKRINT", ConvertInt.INSTANCE);
-          AddVariable("N_ITER_2", ConvertInt.INSTANCE);
           AddVariable("M_NVKTINT", ConvertInt.INSTANCE);
           AddVariable("D_LINK", ConvertInt.INSTANCE);
           AddVariable("Q_NEWCOUNTRY", ConvertInt.INSTANCE);
@@ -96,10 +92,6 @@ namespace DataDictionary.Tests.Translations
           AddVariable("T_OL", ConvertInt.INSTANCE);
           AddVariable("D_OL", ConvertInt.INSTANCE);
           AddVariable("V_RELEASEOL", ConvertInt.INSTANCE);
-          AddVariable("Q_NEWCOUNTRY_0", ConvertInt.INSTANCE);
-          AddVariable("NID_BG_0", ConvertInt.INSTANCE);
-          AddVariable("Q_NEWCOUNTRY_1", ConvertInt.INSTANCE);
-          AddVariable("NID_BG_1", ConvertInt.INSTANCE);
           AddVariable("D_SR", ConvertInt.INSTANCE);
           AddVariable("D_GRADIENT", ConvertInt.INSTANCE);
           AddVariable("Q_GDIR", ConvertInt.INSTANCE);
@@ -163,12 +155,10 @@ namespace DataDictionary.Tests.Translations
           AddVariable("Q_TEXTCLASS", ConvertInt.INSTANCE);
           AddVariable("Q_TEXTDISPLAY", ConvertInt.INSTANCE);
           AddVariable("D_TEXTDISPLAY", ConvertInt.INSTANCE);
-          AddVariable("M_MODETEXTDISPLAY_0", ConvertInt.INSTANCE);
-          AddVariable("M_LEVELTEXTDISPLAY_0", ConvertInt.INSTANCE);
+          AddVariable("M_MODETEXTDISPLAY", ConvertInt.INSTANCE);
+          AddVariable("M_LEVELTEXTDISPLAY", ConvertInt.INSTANCE);
           AddVariable("L_TEXTDISPLAY", ConvertInt.INSTANCE);
           AddVariable("T_TEXTDISPLAY", ConvertInt.INSTANCE);
-          AddVariable("M_MODETEXTDISPLAY_1", ConvertInt.INSTANCE);
-          AddVariable("M_LEVELTEXTDISPLAY_1", ConvertInt.INSTANCE);
           AddVariable("Q_TEXTCONFIRM", ConvertInt.INSTANCE);
           AddVariable("Q_CONFTEXTDISPLAY", ConvertInt.INSTANCE);
           AddVariable("Q_TEXTREPORT", ConvertString.INSTANCE);
@@ -195,10 +185,8 @@ namespace DataDictionary.Tests.Translations
           AddVariable("D_RBCTR", ConvertInt.INSTANCE);
           AddVariable("Q_ASPECT", ConvertInt.INSTANCE);
           AddVariable("Q_RIU", ConvertInt.INSTANCE);
-          AddVariable("NID_C_0", ConvertInt.INSTANCE);
           AddVariable("NID_RIU", ConvertInt.INSTANCE);
           AddVariable("D_INFILL", ConvertInt.INSTANCE);
-          AddVariable("NID_C_1", ConvertInt.INSTANCE);
           AddVariable("NID_LOOP", ConvertInt.INSTANCE);
           AddVariable("D_LOOP", ConvertInt.INSTANCE);
           AddVariable("L_LOOP", ConvertInt.INSTANCE);
@@ -247,8 +235,6 @@ namespace DataDictionary.Tests.Translations
           AddVariable("T_TRAIN", ConvertInt.INSTANCE);
           AddVariable("NID_ENGINE", ConvertInt.INSTANCE);
           AddVariable("Q_MARQSTREASON", ConvertInt.INSTANCE);
-          AddVariable("T_TRAIN_0", ConvertInt.INSTANCE);
-          AddVariable("T_TRAIN_1", ConvertInt.INSTANCE);
           AddVariable("NID_EM", ConvertInt.INSTANCE);
           AddVariable("Q_EMERGENCYSTOP", ConvertInt.INSTANCE);
           AddVariable("Q_INFILL", ConvertInt.INSTANCE);
@@ -263,7 +249,6 @@ namespace DataDictionary.Tests.Translations
           AddVariable("M_TRACTION", ConvertInt.INSTANCE);
           AddVariable("M_AXLELOAD", ConvertInt.INSTANCE);
           AddVariable("M_AXLELOADC", ConvertInt.INSTANCE);
-          AddVariable("M_NVKVINT", ConvertInt.INSTANCE);
           AddVariable("M_TRACKCONDBC", ConvertInt.INSTANCE);
           AddVariable("Q_TRACKDEL", ConvertInt.INSTANCE);
         }
