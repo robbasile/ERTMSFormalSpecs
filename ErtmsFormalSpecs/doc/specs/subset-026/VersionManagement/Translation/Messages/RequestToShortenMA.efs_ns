@@ -1,0 +1,107 @@
+<NameSpace
+ Name="RequestToShortenMA"
+ Guid="8cb2ca16-24b0-4bcd-abd8-9f3d6c29f175"
+>
+<NameSpaces>
+</NameSpaces>
+<Functions>
+<Function
+ Type="Messages.MESSAGE.TRACK_TO_TRAIN.REQUEST_TO_SHORTEN_MA.Message"
+ X="111"
+ Y="1"
+ Width="100"
+ Height="50"
+ Name="UpdatedMessage"
+ Guid="5e5bbfea-57b7-4e57-8718-614fee720f2c"
+>
+<Parameters>
+<Parameter
+ Type="Messages.SystemVersion1.MESSAGE.TRACK_TO_TRAIN.REQUEST_TO_SHORTEN_MA.Message"
+ Name="aMessage"
+ Guid="ab7a501c-52a3-4186-b0a8-1829b2f2d96a"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="f5c7d9ff-faeb-41da-8ce4-bd99f99c6e3b"
+>
+<Expression>Messages.MESSAGE.TRACK_TO_TRAIN.REQUEST_TO_SHORTEN_MA.Message
+{
+  NID_MESSAGE =&gt; aMessage.NID_MESSAGE, 
+  L_MESSAGE =&gt; aMessage.L_MESSAGE, 
+  T_TRAIN =&gt; aMessage.T_TRAIN, 
+  M_ACK =&gt; aMessage.M_ACK, 
+  NID_LRBG =&gt; aMessage.NID_LRBG, 
+  LEVEL_2_3_MOVEMENT_AUTHORITY =&gt; aMessage.LEVEL_2_3_MOVEMENT_AUTHORITY, 
+  Sequence1 =&gt; UpdatedPacketsList( aMessage.Sequence1 )
+}</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.MESSAGE.TRACK_TO_TRAIN.REQUEST_TO_SHORTEN_MA.Collection1"
+ X="50"
+ Y="330"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="UpdatedPacketsList"
+ Guid="f44b46a6-3262-43b9-ad38-d8e6f31f6e7c"
+>
+<Parameters>
+<Parameter
+ Type="Messages.SystemVersion1.MESSAGE.TRACK_TO_TRAIN.REQUEST_TO_SHORTEN_MA.Collection1"
+ Name="aPacketsList"
+ Guid="882141c1-8a29-4b04-87a4-b1bd298e3340"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="5f1c4a07-6cfb-4fb7-b6af-7e855fbe4cb8"
+>
+<Expression>MAP aPacketsList USING X IN UpdatePacket(X, aPacketsList)</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.MESSAGE.TRACK_TO_TRAIN.REQUEST_TO_SHORTEN_MA.SubStructure1"
+ X="190"
+ Y="330"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="UpdatePacket"
+ Guid="37c6e035-11c7-4283-8186-c6b509e532b8"
+>
+<Parameters>
+<Parameter
+ Type="Messages.SystemVersion1.MESSAGE.TRACK_TO_TRAIN.REQUEST_TO_SHORTEN_MA.SubStructure1"
+ Name="aPacket"
+ Guid="0f141bf4-a8ba-4cef-8fd7-550c9d132ce3"
+>
+</Parameter><Parameter
+ Type="Messages.SystemVersion1.MESSAGE.TRACK_TO_TRAIN.REQUEST_TO_SHORTEN_MA.Collection1"
+ Name="aOtherPackets"
+ Guid="e2e901e7-451f-407a-ba74-2ada7ae2685d"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Packet 80 - Mode Profile"
+ Guid="9dde21e3-1ab8-4163-90b0-df4b5c8903db"
+>
+<PreConditions>
+<PreCondition
+ Guid="d6e5954b-82eb-4d56-8d2f-9885db3b62f9"
+>Available(aPacket.MODE_PROFILE)</PreCondition></PreConditions>
+<Expression>Messages.MESSAGE.TRACK_TO_TRAIN.REQUEST_TO_SHORTEN_MA.SubStructure1{
+MODE_PROFILE =&gt; VersionManagement.Translation.Packets.ModeProfile.UpdatedPacket(
+    aPacket=&gt; aPacket.MODE_PROFILE)
+}</Expression>
+</Case><Case
+ Name="Rejected"
+ Guid="4a6b98fd-4a6e-4592-ae54-d0a58112bef0"
+>
+<Comment>Default case: packet is rejected.</Comment>
+<Expression>EMPTY</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>

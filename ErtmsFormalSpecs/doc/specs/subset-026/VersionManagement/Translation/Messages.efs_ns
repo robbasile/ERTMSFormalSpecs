@@ -39,6 +39,12 @@
  Name="SHAuthorised"
  Guid="adf113e8-74a7-4a60-8aa8-28652f500c9c"
 >
+</NameSpaceRef><NameSpaceRef
+ Name="RequestToShortenMA"
+>
+</NameSpaceRef><NameSpaceRef
+ Name="MovementAuthority"
+>
 </NameSpaceRef></NameSpaces>
 <Functions>
 <Function
@@ -80,7 +86,7 @@ SR_AUTHORISATION =&gt; aMessage.SR_AUTHORISATION
  Guid="330e5cbf-8c17-481e-8264-a2d429c5609e"
 >Available(aMessage.MOVEMENT_AUTHORITY)</PreCondition></PreConditions>
 <Expression>Messages.MESSAGE.TRACK_TO_TRAIN.Message{
-MOVEMENT_AUTHORITY =&gt; aMessage.MOVEMENT_AUTHORITY
+MOVEMENT_AUTHORITY =&gt; MovementAuthority.UpdatedMessage(aMessage.MOVEMENT_AUTHORITY)
 }</Expression>
 </Case><Case
  Name="Message 6 - Recognition of exit from TRIP mode"
@@ -116,7 +122,7 @@ ACKNOWLEDGEMENT_OF_TRAIN_DATA =&gt; aMessage.ACKNOWLEDGEMENT_OF_TRAIN_DATA
  Guid="0dc77d61-1204-4d9b-b66f-d8f648213608"
 >Available(aMessage.REQUEST_TO_SHORTEN_MA)</PreCondition></PreConditions>
 <Expression>Messages.MESSAGE.TRACK_TO_TRAIN.Message{
-REQUEST_TO_SHORTEN_MA =&gt; aMessage.REQUEST_TO_SHORTEN_MA
+REQUEST_TO_SHORTEN_MA =&gt; RequestToShortenMA.UpdatedMessage(aMessage.REQUEST_TO_SHORTEN_MA)
 }</Expression>
 </Case><Case
  Name="Message 15 - Conditional emergency stop"
