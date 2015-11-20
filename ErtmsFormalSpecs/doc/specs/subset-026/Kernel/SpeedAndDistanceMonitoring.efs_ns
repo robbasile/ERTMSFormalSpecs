@@ -760,7 +760,7 @@ Kernel.SpeedAndDistanceMonitoring.SupervisedTargets</PreCondition></PreCondition
 </Rule><Rule
  Priority="Processing"
  Implemented="TRUE"
- Name="Revoke EB command"
+ Name="Update EB command"
  Guid="e10749b0-c07d-4d0d-9284-d7355a198a6c"
 >
 <ReqRef
@@ -778,8 +778,7 @@ Kernel.SpeedAndDistanceMonitoring.SupervisedTargets</PreCondition></PreCondition
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="fe6aa726-b452-42c8-aef8-91e78f63fd0b"
 >
-</ReqRef><Comment>Revoke the EB command if it is applied and the revokation condition is met.
-This is used to handle the case where a previous brake command was not revoked before the monitoring type changed (see 3.13.10.6.2).</Comment>
+</ReqRef><Comment>Apply or revoke the EB command, depending on the different trigger and revokation conditions (see 3.13.10.6.2).</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
@@ -798,18 +797,30 @@ This is used to handle the case where a previous brake command was not revoked b
   Kernel.NationalValues.ReleaseOfEBIsPermitted()
     AND  
   Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.SupervisionStatus.r1()
-)</PreCondition><PreCondition
- Guid="6e383709-198a-4022-b704-cdda4e7fa6b8"
->THIS not in Kernel.SpeedAndDistanceMonitoring.MonitoringTypeSM.Ceiling.Intervention</PreCondition></PreConditions>
+)</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="b433482f-4bca-4601-847e-971895a08735"
 >Kernel.SpeedAndDistanceMonitoring.RevokeEBCommand()</Action></Actions>
+</RuleCondition><RuleCondition
+ Name="EB not commanded"
+ Guid="8cd1d8d3-a301-49ba-be29-baa69a1e7405"
+>
+<PreConditions>
+<PreCondition
+ Guid="b88f1880-c00d-4064-89e8-108719618388"
+>CeilingSpeedMonitoring.SupervisionStatus.t5()</PreCondition><PreCondition
+ Guid="07505e4a-e44f-4e56-a5fa-37d7d83fcecf"
+>NOT EBSpecified</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="226fe175-04af-4daa-bef3-67d43abe2a59"
+>TriggerEBCommand()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
  Implemented="TRUE"
- Name="Revoke SB command"
+ Name="Update SB command"
  Guid="61694b26-e88d-4cdd-a639-c0318a3269d7"
 >
 <ReqRef
@@ -833,8 +844,6 @@ This is used to handle the case where a previous brake command was not revoked b
 >
 <PreConditions>
 <PreCondition
- Guid="5afc9a75-50b7-4403-b867-8e5cb6cd826f"
->THIS not in Kernel.SpeedAndDistanceMonitoring.MonitoringTypeSM.Ceiling.Intervention</PreCondition><PreCondition
  Guid="be96773f-ef9a-4716-aa64-d88a3d1fe8f6"
 >Kernel.SpeedAndDistanceMonitoring.SBSpecified</PreCondition><PreCondition
  Guid="0dd5e148-39c4-4b87-b032-62c0ff4db389"
@@ -843,6 +852,20 @@ This is used to handle the case where a previous brake command was not revoked b
 <Action
  Guid="f46f7791-f7bb-45b2-bcbd-39fe148da8d7"
 >Kernel.SpeedAndDistanceMonitoring.RevokeSBCommand()</Action></Actions>
+</RuleCondition><RuleCondition
+ Name="SB not commanded"
+ Guid="05bd0755-de1e-49f6-b515-a1ee2183b182"
+>
+<PreConditions>
+<PreCondition
+ Guid="e15255bc-f387-4c08-a56d-bafd8b141fa1"
+>NOT SBSpecified</PreCondition><PreCondition
+ Guid="600903d5-380d-4149-80aa-48310934d644"
+>CeilingSpeedMonitoring.SupervisionStatus.t4()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="4376c575-b8d3-4029-81fc-afb4b4a47b06"
+>TriggerSBCommand()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </StateMachine><EnterAction>
@@ -2128,7 +2151,7 @@ Kernel.SpeedAndDistanceMonitoring.SupervisedTargets</PreCondition></PreCondition
 </Rule><Rule
  Priority="Processing"
  Implemented="TRUE"
- Name="Revoke SB command"
+ Name="Update SB command"
  Guid="64ff6938-112d-4a91-8f6e-9e3c7d7caaa0"
 >
 <ReqRef
@@ -2177,8 +2200,6 @@ This is used to handle the case where a previous brake command was not revoked b
 >
 <PreConditions>
 <PreCondition
- Guid="f47a2b74-fe47-4744-ab8a-8827832e5cf8"
->THIS not in Kernel.SpeedAndDistanceMonitoring.MonitoringTypeSM.Target.Intervention</PreCondition><PreCondition
  Guid="e00bdd73-5703-4cd4-9566-fa3472b3b1d8"
 >FORALL aTarget IN Kernel.SpeedAndDistanceMonitoring.TargetsList() |
 (
@@ -2194,6 +2215,24 @@ Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.SupervisionStatus.r3(aTa
 <Action
  Guid="60f0485d-848a-4cc0-a28f-9d97ae37e8dc"
 >Kernel.SpeedAndDistanceMonitoring.RevokeSBCommand()</Action></Actions>
+</RuleCondition><RuleCondition
+ Name="SB not commanded"
+ Guid="0bcde192-cae8-4580-b38a-97e60da79389"
+>
+<PreConditions>
+<PreCondition
+ Guid="9794f4f5-fca1-4565-bf00-6bfb4caba683"
+>NOT Kernel.SpeedAndDistanceMonitoring.SBSpecified</PreCondition><PreCondition
+ Guid="0853620b-2c03-40bd-88e5-f993043f9f18"
+>TargetSpeedMonitoring.SupervisionStatus.t10()
+  OR  
+TargetSpeedMonitoring.SupervisionStatus.t11()
+  OR  
+TargetSpeedMonitoring.SupervisionStatus.t12()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="7bad018c-821e-4b5d-9414-7ee02faccd43"
+>Kernel.SpeedAndDistanceMonitoring.TriggerSBCommand()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -2633,7 +2672,7 @@ Kernel.SpeedAndDistanceMonitoring.SupervisedTargets</PreCondition></PreCondition
 <Rule
  Priority="Processing"
  Implemented="TRUE"
- Name="Revoke EB command"
+ Name="Update EB command"
  Guid="d8790369-f290-4449-9602-b380066e6646"
 >
 <ReqRef
@@ -2659,14 +2698,26 @@ This is used to handle the case where a previous brake command was not revoked b
 <PreCondition
  Guid="28aa3645-ad8c-44a4-8f88-5dcbcf2d4dbb"
 >Kernel.SpeedAndDistanceMonitoring.EBSpecified</PreCondition><PreCondition
- Guid="807fdc20-55c9-472c-999c-994c30ff1291"
->THIS not in Kernel.SpeedAndDistanceMonitoring.MonitoringTypeSM.Release.Intervention</PreCondition><PreCondition
  Guid="bcca89cc-d192-41f8-802e-09bf205730cb"
 >Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.SupervisionStatus.r0()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="4c9a1a22-88ae-4562-8a6e-2ac5a1aa8e96"
 >Kernel.SpeedAndDistanceMonitoring.RevokeEBCommand()</Action></Actions>
+</RuleCondition><RuleCondition
+ Name="EB not commanded"
+ Guid="7bda3036-5443-4d91-8fd6-cf199e55597e"
+>
+<PreConditions>
+<PreCondition
+ Guid="3cbe9031-480c-42cf-bdd6-347abe4697d0"
+>NOT Kernel.SpeedAndDistanceMonitoring.EBSpecified</PreCondition><PreCondition
+ Guid="4472cd09-1a3f-4179-a7e6-e79446019289"
+>Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.SupervisionStatus.t2()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="fe18f2c7-ef71-4d22-984e-315c71a21139"
+>Kernel.SpeedAndDistanceMonitoring.TriggerEBCommand()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </StateMachine><EnterAction>
