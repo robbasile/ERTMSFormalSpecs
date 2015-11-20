@@ -29,7 +29,8 @@
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="badd9c3f-7cfb-4f73-becf-89bee03c0faf"
 >
-</ReqRef></Range><Range
+</ReqRef><Comment>The range of values for the integrated correction factor Kr, expressed in its natural units.</Comment>
+</Range><Range
  MinValue="0.0"
  MaxValue="1.55"
  Precision="DoublePrecision"
@@ -48,7 +49,8 @@
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="52c4aabe-1a96-4a92-b633-e84a2717dc9e"
 >
-</ReqRef></Range><Range
+</ReqRef><Comment>The range of values for the integrated correction factor Kt, expressed in its natural units.</Comment>
+</Range><Range
  MinValue="0.0"
  MaxValue="2.54"
  Precision="DoublePrecision"
@@ -67,7 +69,8 @@
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="e85e8098-f9e8-4a78-aa5f-3334ef67666f"
 >
-</ReqRef></Range><Range
+</ReqRef><Comment>The range of values for the speed dependant integrated correction factor Kv, expressed in its natural units.</Comment>
+</Range><Range
  MinValue="0.0"
  MaxValue="1.0"
  Precision="DoublePrecision"
@@ -86,7 +89,8 @@
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="5ee86021-e176-4540-845e-68bcbed2e0c0"
 >
-</ReqRef></Range></Ranges>
+</ReqRef><Comment>The range of values for the weighting factor for the wheel/rail adhesion, expressed in its natural units.</Comment>
+</Range></Ranges>
 <Structures>
 <Structure
  Default=""
@@ -170,11 +174,11 @@
 >
 </ReqRef><Comment>Distance from where the National Values become applicable.</Comment>
 </StructureElement><StructureElement
- TypeName="Messages.NID_C"
- Default="1"
+ TypeName="ApplicableCountriesCol"
+ Default="[1]"
  Mode="Internal"
  Implemented="TRUE"
- Name="NID_C"
+ Name="ApplicableCountries"
  Guid="2daff9ab-7bc6-4adb-9c60-2ace0c3012f4"
 >
 <ReqRef
@@ -928,7 +932,16 @@
 >
 </ReqRef></StructureElement><StructureElement
  TypeName="KrIntValueSetStruct"
- Default=""
+ Default="Kernel.NationalValues.KrIntValueSetStruct{
+Val0 =&gt; KrIntValueStruct{
+    LengthStep =&gt; BaseTypes.Length.Infinity,
+    Value =&gt; 0.9
+},
+Val1 =&gt; EMPTY,
+Val2 =&gt; EMPTY,
+Val3 =&gt; EMPTY,
+Val4 =&gt; EMPTY
+}"
  Mode="Internal"
  Implemented="TRUE"
  Name="IntegratedCorrectionFactorKrInt"
@@ -954,9 +967,21 @@
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="d1f1ca27-c707-4f46-b5e4-176dca58b7fb"
 >
-</ReqRef></StructureElement><StructureElement
+</ReqRef><Comment>The set of train length-dependant deceleration factors.</Comment>
+</StructureElement><StructureElement
  TypeName="KvIntValueSet_FreightTrainStruct"
- Default=""
+ Default="Kernel.NationalValues.KvIntValueSet_FreightTrainStruct{
+Val0 =&gt; KvIntValue_FreightTrainStruct{
+    SpeedStep =&gt; BaseTypes.Speed.Infinity,
+    Value =&gt; 0.7
+},
+Val1 =&gt; EMPTY,
+Val2 =&gt; EMPTY,
+Val3 =&gt; EMPTY,
+Val4 =&gt; EMPTY,
+A_NVP12 =&gt; BaseTypes.Acceleration.NA,
+A_NVP23 =&gt; BaseTypes.Acceleration.NA
+}"
  Mode="Internal"
  Implemented="TRUE"
  Name="IntegratedCorrectionFactorKvInt_FreightTrain"
@@ -1022,9 +1047,22 @@
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="8ea67b74-f21c-41ed-aa90-6ac54ab88773"
 >
-</ReqRef></StructureElement><StructureElement
+</ReqRef><Comment>The set of speed step-dependant deceleration factors if the train is a freight train.</Comment>
+</StructureElement><StructureElement
  TypeName="KvIntValueSet_PassengerTrainStruct"
- Default=""
+ Default="Kernel.NationalValues.KvIntValueSet_PassengerTrainStruct{
+Val0 =&gt; KvIntValue_PassengerTrainStruct{
+    SpeedStep =&gt; BaseTypes.Speed.Infinity,
+    ValueA =&gt; 0.7,
+    ValueB =&gt; 0.7
+},
+Val1 =&gt; EMPTY,
+Val2 =&gt; EMPTY,
+Val3 =&gt; EMPTY,
+Val4 =&gt; EMPTY,
+A_NVP12 =&gt; BaseTypes.Acceleration.NA,
+A_NVP23 =&gt; BaseTypes.Acceleration.NA
+}"
  Mode="Internal"
  Implemented="TRUE"
  Name="IntegratedCorrectionFactorKvInt_PassengerTrain"
@@ -1090,7 +1128,8 @@
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="508639e7-3ae6-49d2-aa5f-0456c0f87d77"
 >
-</ReqRef></StructureElement></Structure><Structure
+</ReqRef><Comment>The set of speed step-dependant deceleration factors if the train is a passenger train.</Comment>
+</StructureElement></Structure><Structure
  Default=""
  X="180"
  Y="670"
@@ -1102,6 +1141,7 @@
  Name="KrIntValueStruct"
  Guid="c31d7ee3-3af1-4ae0-b186-feafcd48f1b7"
 >
+<Comment>Structure containing the length-dependant correction factor with the upper applicable length for this factor.</Comment>
 <StructureElement
  TypeName="BaseTypes.Length"
  Default="BaseTypes.Length.Infinity"
@@ -1164,7 +1204,8 @@
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="29afc98c-9444-4d34-bc61-4a0968a7719c"
 >
-</ReqRef><StructureElement
+</ReqRef><Comment>Structure for describing the set of train length-dependant deceleration factors.</Comment>
+<StructureElement
  TypeName="KrIntValueStruct"
  Default="Kernel.NationalValues.KrIntValueStruct { LengthStep =&gt; BaseTypes.Length.Infinity, Value =&gt; 0.9 }"
  Mode="Internal"
@@ -1173,6 +1214,7 @@
  Name="Val0"
  Guid="7ef8d393-cc5f-4bb0-947d-f184d16c29d2"
 >
+<Comment>First value, for train length up to the associated length.</Comment>
 </StructureElement><StructureElement
  TypeName="KrIntValueStruct"
  Default=""
@@ -1182,6 +1224,7 @@
  Name="Val1"
  Guid="2909821e-15d5-4ed1-8806-1ea57b07a1bb"
 >
+<Comment>Second value, for train length greater than the length of Val0 and up to the associated length.</Comment>
 </StructureElement><StructureElement
  TypeName="KrIntValueStruct"
  Default=""
@@ -1191,6 +1234,7 @@
  Name="Val2"
  Guid="9e6497ed-2530-4d75-a79d-7e59df9f0358"
 >
+<Comment>Third value, for train length greater than the length of Val1 and up to the associated length.</Comment>
 </StructureElement><StructureElement
  TypeName="KrIntValueStruct"
  Default=""
@@ -1200,6 +1244,7 @@
  Name="Val3"
  Guid="fb5fed5e-0767-445d-aa03-40874a51c170"
 >
+<Comment>Fourth value, for train length greater than the length of Val2 and up to the associated length.</Comment>
 </StructureElement><StructureElement
  TypeName="KrIntValueStruct"
  Default=""
@@ -1209,6 +1254,7 @@
  Name="Val4"
  Guid="2bc9baf5-689c-4683-8c9d-7e61496df30f"
 >
+<Comment>Fifth value, for train length greater than the length of Val3 and up to the associated length.</Comment>
 </StructureElement></Structure><Structure
  Default=""
  X="1030"
@@ -1226,7 +1272,8 @@
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="9325be5c-2ae2-45d3-89e9-4047d8447dbe"
 >
-</ReqRef><StructureElement
+</ReqRef><Comment>Structure containing the speed-dependant correction factor for a freight train with the upper applicable speed limit for this factor.</Comment>
+<StructureElement
  TypeName="BaseTypes.Speed"
  Default="BaseTypes.Speed.Infinity"
  Mode="Internal"
@@ -1288,7 +1335,8 @@
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="1b6ca6d9-af29-41fb-8884-16691ab512e2"
 >
-</ReqRef><StructureElement
+</ReqRef><Comment>Structure for describing the set of speed-dependant deceleration factors for a passenger train.</Comment>
+<StructureElement
  TypeName="KvIntValue_PassengerTrainStruct"
  Default="Kernel.NationalValues.KvIntValue_PassengerTrainStruct { SpeedStep =&gt; 0.0 }"
  Mode="Internal"
@@ -1297,6 +1345,7 @@
  Name="Val0"
  Guid="32e7fed3-82c9-4a30-9723-7ddb812e1a54"
 >
+<Comment>First value, for current train speed up to the associated speed.</Comment>
 </StructureElement><StructureElement
  TypeName="KvIntValue_PassengerTrainStruct"
  Default=""
@@ -1306,6 +1355,7 @@
  Name="Val1"
  Guid="d0bed2e7-0357-46b6-b1df-3887b953a918"
 >
+<Comment>Second value, for current train speed greater than the speed of Val0 and up to the associated speed.</Comment>
 </StructureElement><StructureElement
  TypeName="KvIntValue_PassengerTrainStruct"
  Default=""
@@ -1315,6 +1365,7 @@
  Name="Val2"
  Guid="784af310-64db-45ea-8945-9debe85398e9"
 >
+<Comment>Third value, for current train speed greater than the speed of Val1 and up to the associated speed.</Comment>
 </StructureElement><StructureElement
  TypeName="KvIntValue_PassengerTrainStruct"
  Default=""
@@ -1324,6 +1375,7 @@
  Name="Val3"
  Guid="b6f84fc9-f2fd-4b2a-bdf4-f8bb288f005f"
 >
+<Comment>Fourth value, for current train speed greater than the speed of Val2 and up to the associated speed.</Comment>
 </StructureElement><StructureElement
  TypeName="KvIntValue_PassengerTrainStruct"
  Default=""
@@ -1333,6 +1385,7 @@
  Name="Val4"
  Guid="0da50072-1206-49c3-982a-373b7742f3c3"
 >
+<Comment>Fifth value, for current train speed greater than the speed of Val3 and up to the associated speed.</Comment>
 </StructureElement><StructureElement
  TypeName="BaseTypes.Acceleration"
  Default="BaseTypes.Acceleration.NA"
@@ -1380,7 +1433,8 @@
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="5e551b39-6edc-411d-943b-a6f242016007"
 >
-</ReqRef><StructureElement
+</ReqRef><Comment>Structure containing the speed-dependant correction factors for a passenger train with the upper applicable speed limit for these factors.</Comment>
+<StructureElement
  TypeName="BaseTypes.Speed"
  Default="BaseTypes.Speed.Infinity"
  Mode="Internal"
@@ -1460,7 +1514,8 @@
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="8a0c46cd-284a-4aa7-89d7-6eace2642d2a"
 >
-</ReqRef><StructureElement
+</ReqRef><Comment>Structure for describing the set of speed-dependant deceleration factors for a freight train.</Comment>
+<StructureElement
  TypeName="KvIntValue_FreightTrainStruct"
  Default="Kernel.NationalValues.KvIntValue_FreightTrainStruct { SpeedStep =&gt; 0.0 }"
  Mode="Internal"
@@ -1469,6 +1524,7 @@
  Name="Val0"
  Guid="a60cb805-d9e9-4372-a55b-ce8a0d497687"
 >
+<Comment>First value, for current train speed up to the associated speed.</Comment>
 </StructureElement><StructureElement
  TypeName="KvIntValue_FreightTrainStruct"
  Default=""
@@ -1478,6 +1534,7 @@
  Name="Val1"
  Guid="33f08a11-2a39-4d31-bd5e-1ad84fd30640"
 >
+<Comment>Second value, for current train speed greater than the speed of Val0 and up to the associated speed.</Comment>
 </StructureElement><StructureElement
  TypeName="KvIntValue_FreightTrainStruct"
  Default=""
@@ -1487,6 +1544,7 @@
  Name="Val2"
  Guid="d6aff7bf-fc34-4004-bbe1-5f38a14b3c1f"
 >
+<Comment>Third value, for current train speed greater than the speed of Val1 and up to the associated speed.</Comment>
 </StructureElement><StructureElement
  TypeName="KvIntValue_FreightTrainStruct"
  Default=""
@@ -1496,6 +1554,7 @@
  Name="Val3"
  Guid="4e29ebd9-6b3c-4411-9190-483564a11c6c"
 >
+<Comment>Fourth value, for current train speed greater than the speed of Val2 and up to the associated speed.</Comment>
 </StructureElement><StructureElement
  TypeName="KvIntValue_FreightTrainStruct"
  Default=""
@@ -1505,6 +1564,7 @@
  Name="Val4"
  Guid="eae61b8e-dc0d-4dc5-8b6d-7912317aa661"
 >
+<Comment>Fifth value, for current train speed greater than the speed of Val3 and up to the associated speed.</Comment>
 </StructureElement><StructureElement
  TypeName="BaseTypes.Acceleration"
  Default="BaseTypes.Acceleration.NA"
@@ -1532,6 +1592,26 @@
  Guid="0df20cd4-18d6-43a3-b121-fc6f2ac663b3"
 >
 </ReqRef></StructureElement></Structure></Structures>
+<Collections>
+<Collection
+ TypeName="Messages.NID_C"
+ MaxSize="32"
+ Default="[]"
+ X="661"
+ Y="61"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="ApplicableCountriesCol"
+ Guid="72a4a89d-abc6-4f6e-a42f-ec748292780f"
+>
+<ReqRef
+ Id="bb94d1fa-9b3e-4389-bf7a-f04d1654005b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="249e5f31-23c3-422f-9f26-6046279cb95d"
+>
+</ReqRef><Comment>Collection of country identifiers in which the transmitted national values will be valid.</Comment>
+</Collection></Collections>
 <Functions>
 <Function
  Type="NationalValuesStruct"
@@ -1722,11 +1802,6 @@
  Name="Packet"
  Guid="e62ecd1d-56cd-44f1-b01c-5208db3510ec"
 >
-</Parameter><Parameter
- Type="Messages.NID_C"
- Name="NID_C"
- Guid="5f8009a4-5898-45d8-ac3b-bef69d574398"
->
 </Parameter></Parameters>
 <Cases>
 <Case
@@ -1737,7 +1812,7 @@
 {
     DataState =&gt; DataStateEnum.Valid,
     ApplicableStartLocation =&gt; MessageTypes.QScaleDistance ( distance =&gt; Packet.D_VALIDNV, scale =&gt; Packet.Q_SCALE ),
-    NID_C =&gt; NID_C,
+    ApplicableCountries =&gt; [Packet.NID_C] + MAP Packet.Sequence1 USING X IN  X.NID_C,
     Value =&gt; NationalDefaultDataStruct
     {
         ModificationOfAdhesionFactorByDriver =&gt; Packet.Q_NVDRIVER_ADHES,
@@ -1814,7 +1889,8 @@
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="0ed7cc48-1798-42c3-820d-e2ce21b2162d"
 >
-</ReqRef><Parameters>
+</ReqRef><Comment>Returns the override speed restriction from the national values.</Comment>
+<Parameters>
 <Parameter
  Type="BaseTypes.Distance"
  Name="aDistance"
@@ -2090,7 +2166,8 @@
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="a3165ba0-ad25-42e6-9bbd-10c131d4f413"
 >
-</ReqRef><Parameters>
+</ReqRef><Comment>Returns the applicable length dependant correction factor.</Comment>
+<Parameters>
 <Parameter
  Type="KrIntValueSetStruct"
  Name="aKr_int"
@@ -2179,7 +2256,8 @@
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="b9dbb08b-4b23-4967-96ba-1746d32ecc48"
 >
-</ReqRef><Parameters>
+</ReqRef><Comment>Returns the applicable speed dependant correction factor for a freight train.</Comment>
+<Parameters>
 <Parameter
  Type="KvIntValueSet_FreightTrainStruct"
  Name="aKv_int"
@@ -2273,7 +2351,8 @@
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="4bf52e43-db72-4051-a19c-e73b946b25f5"
 >
-</ReqRef><Parameters>
+</ReqRef><Comment>Returns the applicable speed dependant correction factor for a passenger train.</Comment>
+<Parameters>
 <Parameter
  Type="KvIntValueSet_PassengerTrainStruct"
  Name="aKv_int"
@@ -2382,7 +2461,8 @@
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="c73d3bac-607f-4f5f-bc81-39f5c5f89cb5"
 >
-</ReqRef><Parameters>
+</ReqRef><Comment>Returns the applicable speed dependant correction factor for a passenger train, depending on the current deceleration.</Comment>
+<Parameters>
 <Parameter
  Type="BaseTypes.Acceleration"
  Name="A_P12"
@@ -2446,7 +2526,8 @@
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="fd6af1bc-e625-49e9-a33f-eaa1db8d8455"
 >
-</ReqRef><Parameters>
+</ReqRef><Comment>Returns the currently applicable speed dependant correction factor to the train deceleration.</Comment>
+<Parameters>
 <Parameter
  Type="BaseTypes.Speed"
  Name="V"
@@ -2486,7 +2567,8 @@
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="82c0aaf5-610a-4688-aa13-548259970495"
 >
-</ReqRef><Parameters>
+</ReqRef><Comment>Returns the currently applicable length dependant correction factor to the train deceleration.</Comment>
+<Parameters>
 <Parameter
  Type="BaseTypes.Length"
  Name="L"
@@ -2564,7 +2646,8 @@
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="8533894c-673c-4d54-bbdf-78b59534da7e"
 >
-</ReqRef><Cases>
+</ReqRef><Comment>Indicates whether the national values allow computation of guidance curves.</Comment>
+<Cases>
 <Case
  Name="Value"
  Guid="bc94fc99-7234-43fb-9a3e-d1c10cbbc101"
@@ -2589,7 +2672,8 @@
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="c83ce6d6-46b1-452b-adaf-52aa5261bf33"
 >
-</ReqRef><Cases>
+</ReqRef><Comment>Indicates whether the national values inhibit the compensation of the speed inaccuracy.</Comment>
+<Cases>
 <Case
  Name="Value"
  Guid="7e79a92c-a2be-4cad-af3c-e69674b84aa6"
@@ -2614,7 +2698,8 @@
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="963a4f47-3b16-4fce-84d9-f6ce3b001a46"
 >
-</ReqRef><Cases>
+</ReqRef><Comment>Returns the release speed specified by the national values.</Comment>
+<Cases>
 <Case
  Name="Value"
  Guid="02a4b48d-4259-464e-8f73-0f5587887c26"
@@ -2639,7 +2724,8 @@
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="107fcc47-58a6-48b0-86ce-4fc5a73fd976"
 >
-</ReqRef><Cases>
+</ReqRef><Comment>Indicates whether use of the service brake feedback is permitted by the national values.</Comment>
+<Cases>
 <Case
  Name="Value"
  Guid="a50453e8-e00d-4277-ab5d-eed72b01afff"
@@ -2663,7 +2749,8 @@
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="caf1decf-26b8-4671-a9ac-fb85b6756eb0"
 >
-</ReqRef><Cases>
+</ReqRef><Comment>Indicates whether the national values allow the release of the emergency brake.</Comment>
+<Cases>
 <Case
  Name="Standstill"
  Guid="779c4f9e-14ef-41b5-9896-f28f9f3d6f59"
@@ -2706,7 +2793,8 @@
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="554ae5f2-28c8-4673-b2cf-c5ce3332b28d"
 >
-</ReqRef><Cases>
+</ReqRef><Comment>Indicates whether the national values inhibit the use of the service brake.</Comment>
+<Cases>
 <Case
  Name="Value"
  Guid="c997c9fa-d93f-43fd-a275-a6d486580da9"
@@ -2726,6 +2814,7 @@
  Name="IntegratedCorrectionFactorForBrakeBuildUpTime"
  Guid="58e29de2-38e6-4c37-984c-18341be74312"
 >
+<Comment>Returns the integrated correction factor for brake build-up time from the national values.</Comment>
 <Cases>
 <Case
  Name="NationalValues"
@@ -2847,17 +2936,12 @@
  Name="Packet"
  Guid="73c73be5-6790-4797-81da-79e7d0bf91e2"
 >
-</Parameter><Parameter
- Type="Messages.NID_C"
- Name="NID_C"
- Guid="b6bb64be-41ab-4d1e-87cb-b24adec63416"
->
 </Parameter></Parameters>
 <Rules>
 <Rule
  Priority="UpdateINTERNAL"
  Implemented="TRUE"
- Name="Applicable"
+ Name="Save values"
  Guid="80014809-036c-4c0f-a293-fe3c0fabda65"
 >
 <SubRules></SubRules>
@@ -2865,9 +2949,10 @@
 <RuleCondition
  Implemented="TRUE"
  NeedsRequirement="FALSE"
- Name="Applicable"
+ Name="Applicable immediately"
  Guid="9ecfa029-358c-4e67-b280-b1c2c7c956bb"
 >
+<Comment>Update the applicable national values if the packet specifies that D_VALIDNV is 0.</Comment>
 <PreConditions>
 <PreCondition
  Guid="52fb718b-2072-4fd0-8a86-000eb368f226"
@@ -2875,7 +2960,7 @@
 <Actions>
 <Action
  Guid="d415aa33-b4bc-4ba1-8db5-dbd2e13601f3"
->Kernel.NationalValues.ApplicableNationalValues &lt;- Kernel.NationalValues.CreateNewNationalValues(Packet=&gt;Packet,NID_C=&gt;NID_C)</Action><Action
+>Kernel.NationalValues.ApplicableNationalValues &lt;- Kernel.NationalValues.CreateNewNationalValues(Packet=&gt;Packet)</Action><Action
  Guid="35a81e6f-bd61-417f-a93e-59bc81782b23"
 >Kernel.NationalValues.CreateKrIntValueSet ( InitialLength =&gt; Packet.L_NVKRINT, InitialValue =&gt; Packet.M_NVKRINT, Values =&gt; Packet.Sequence5, NV =&gt; Kernel.NationalValues.ApplicableNationalValues.Value )</Action><Action
  Guid="951447f5-5a2a-4c70-87ac-2b53e8353455"
@@ -2894,29 +2979,19 @@
 )</Action><Action
  Guid="f1cc0bbf-6a30-48ec-8c8f-ca1fe1b930a2"
 >InvalidateInformation(Kernel.NationalValues.NotApplicableNationalValues)</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="UpdateINTERNAL"
- Implemented="TRUE"
- Name="NotApplicable"
- Guid="8527bf5f-6596-4006-9b1c-a5a86c6c0429"
->
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
+</RuleCondition><RuleCondition
  Implemented="TRUE"
  NeedsRequirement="FALSE"
- Name="NotApplicable"
+ Name="Otherwise"
  Guid="11bce0ae-9087-4ce0-8136-eac08be8036b"
 >
+<Comment>If D_VALIDNV is greater than 0, fill the Not Yet Applicable NV.</Comment>
 <PreConditions>
-<PreCondition
- Guid="1cb1d1f9-ebab-4653-95c1-777309bf5e80"
->Packet.D_VALIDNV != 0</PreCondition></PreConditions>
+</PreConditions>
 <Actions>
 <Action
  Guid="bef218a7-7827-4209-8533-6afe05207b4c"
->Kernel.NationalValues.NotApplicableNationalValues &lt;- Kernel.NationalValues.CreateNewNationalValues(Packet=&gt;Packet,NID_C=&gt;NID_C)</Action><Action
+>Kernel.NationalValues.NotApplicableNationalValues &lt;- Kernel.NationalValues.CreateNewNationalValues(Packet=&gt;Packet)</Action><Action
  Guid="6dc15f14-398f-4870-b52d-fae96dcfed5b"
 >Kernel.NationalValues.CreateKrIntValueSet ( InitialLength =&gt; Packet.L_NVKRINT, InitialValue =&gt; Packet.M_NVKRINT, Values =&gt; Packet.Sequence5, NV =&gt; Kernel.NationalValues.NotApplicableNationalValues.Value )</Action><Action
  Guid="86ba960f-d314-42e0-9c88-b0f8cdf9042a"
@@ -2949,7 +3024,7 @@
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="41a66756-1091-4400-811d-10a29d021279"
 >
-</ReqRef><Comment>Fills the KrInt information from information received from the National Values.</Comment>
+</ReqRef><Comment>Fills the KvInt information from information received from the National Values.</Comment>
 <Parameters>
 <Parameter
  Type="Messages.Q_NVKINT"
@@ -3018,6 +3093,7 @@
  Name="CreateKvIntValueSet_PassengerTrains"
  Guid="1e43d804-f9d7-4d4d-a15f-b9f65504559d"
 >
+<Comment>Fill the KvInt values for a passenger train.</Comment>
 <PreConditions>
 <PreCondition
  Guid="06329fdb-8319-4e26-93df-d6d9f07bad23"
@@ -3046,6 +3122,7 @@
  Name="CreateKvIntValueSet_FreightTrains"
  Guid="59663646-e8b5-4759-93cf-2915c990e2b2"
 >
+<Comment>Fill the KvInt values for a freight train.</Comment>
 <PreConditions>
 <PreCondition
  Guid="919a2555-4dd3-4f9c-855c-a9c8796519d8"
@@ -3080,7 +3157,7 @@
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="cf47aa4d-f4d3-4592-97ef-9d52dee16594"
 >
-</ReqRef><Comment>Fill the elements of KrInt (the first element was filled by the procedure CreateKrIntValueSet). The selected element to fill is the first element was has not yet been initialized (the value of LengthStep equals Infinity).</Comment>
+</ReqRef><Comment>Fill the elements of KvInt (the first element was filled by the procedure CreateKvIntValueSet). The selected element to fill is the first element was has not yet been initialized (the value of SpeedStep equals Infinity).</Comment>
 <Parameters>
 <Parameter
  Type="Messages.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES.SubStructure3"
@@ -3109,6 +3186,7 @@
  Name="CreateKvIntValueSet_PassengerTrains"
  Guid="c2203fea-1127-47f1-8f3b-a728f4666f63"
 >
+<Comment>Fill the KvInt values for a passenger train.</Comment>
 <PreConditions>
 <PreCondition
  Guid="34bb0503-8b99-4b19-8002-ba061392e9e4"
@@ -3133,6 +3211,7 @@
  Name="CreateKvIntValueSet_FreightTrains"
  Guid="78f55658-1f84-478c-83ef-ff07d80194e8"
 >
+<Comment>Fill the KvInt values for a freight train.</Comment>
 <PreConditions>
 <PreCondition
  Guid="9a5695d7-df3c-4438-b7d2-8150630c4f57"
@@ -3258,6 +3337,7 @@
  Name="Val1"
  Guid="a548a9e9-19a9-4936-ae84-aac982f8fbea"
 >
+<Comment>Fill Val1.</Comment>
 <PreConditions>
 <PreCondition
  Guid="9f8e3b44-8bd4-434b-9172-62bf9d06bbb5"
@@ -3274,6 +3354,7 @@
  Name="Val2"
  Guid="b2a7306a-d340-423c-a67c-62456985b5e5"
 >
+<Comment>Fill Val2.</Comment>
 <PreConditions>
 <PreCondition
  Guid="a228458a-68e0-40c0-856a-cdaad8190f2e"
@@ -3290,6 +3371,7 @@
  Name="Val3"
  Guid="c4b12856-5734-440b-8c19-046529f7fad8"
 >
+<Comment>Fill Val3.</Comment>
 <PreConditions>
 <PreCondition
  Guid="7812895a-aa18-450e-b769-cfbc8c81c6d6"
@@ -3306,6 +3388,7 @@
  Name="Val4"
  Guid="54599c2f-da34-4134-9021-19dade47a6ec"
 >
+<Comment>Fill Val4.</Comment>
 <PreConditions>
 <PreCondition
  Guid="cd40286c-b38e-41c9-9538-28ca990b3778"
@@ -3332,7 +3415,7 @@
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="fc23a190-7451-4644-b1b4-234e28c4e3b0"
 >
-</ReqRef><Comment>Fill the elements of KrInt (the first element was filled by the procedure CreateKrIntValueSet). The selected element to fill is the first element was has not yet been initialized (the value of LengthStep equals Infinity).</Comment>
+</ReqRef><Comment>Fill the elements of KvInt (the first element was filled by the procedure CreateKvIntValueSet). The selected element to fill is the first element was has not yet been initialized (the value of SpeedStep equals Infinity).</Comment>
 <Parameters>
 <Parameter
  Type="MessageTypes.Speed"
@@ -3361,6 +3444,7 @@
  Name="Val1"
  Guid="82b1b4e1-2a39-44bc-b022-47b6a3614dd1"
 >
+<Comment>Fill Val1.</Comment>
 <PreConditions>
 <PreCondition
  Guid="a3614ae8-6bb6-4357-ae33-171e1ecd43aa"
@@ -3375,6 +3459,7 @@
  Name="Val2"
  Guid="eab18f0a-3f3f-487c-a90c-4f61ede9bc83"
 >
+<Comment>Fill Val2.</Comment>
 <PreConditions>
 <PreCondition
  Guid="a0c2fe13-5b8c-4214-aac3-05d63a1dc27b"
@@ -3389,6 +3474,7 @@
  Name="Val3"
  Guid="b6b0b546-46bb-4cbb-8668-659cf88dbb24"
 >
+<Comment>Fill Val3.</Comment>
 <PreConditions>
 <PreCondition
  Guid="e53c7325-d435-4af8-ba0c-5a61dd278eb9"
@@ -3403,6 +3489,7 @@
  Name="Val4"
  Guid="043fe851-1b8c-4394-b674-e37b3da69ef2"
 >
+<Comment>Fill Val4.</Comment>
 <PreConditions>
 <PreCondition
  Guid="ec306e92-2b25-4fdd-bc62-d737038b3298"
@@ -3427,7 +3514,7 @@
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="9a62f1dd-c07b-4d3c-ace0-e49584a0cd54"
 >
-</ReqRef><Comment>Fill the elements of KrInt (the first element was filled by the procedure CreateKrIntValueSet). The selected element to fill is the first element was has not yet been initialized (the value of LengthStep equals Infinity).</Comment>
+</ReqRef><Comment>Fill the elements of KvInt (the first element was filled by the procedure CreateKvIntValueSet). The selected element to fill is the first element was has not yet been initialized (the value of SpeedStep equals Infinity).</Comment>
 <Parameters>
 <Parameter
  Type="Messages.M_NVKVINT"
@@ -3466,6 +3553,7 @@
  Name="Val1"
  Guid="ed36a08c-e6fc-451a-93b8-9d4b27a44f6e"
 >
+<Comment>Fill Val1.</Comment>
 <PreConditions>
 <PreCondition
  Guid="87b7e9f2-598a-445e-a254-d8962f7e6018"
@@ -3484,6 +3572,7 @@
  Name="Val2"
  Guid="f34ab6c8-3712-44f4-92f6-c11b21762eab"
 >
+<Comment>Fill Val2.</Comment>
 <PreConditions>
 <PreCondition
  Guid="bfbe6406-1d30-4a23-ad74-6d1eeb2cc39c"
@@ -3502,6 +3591,7 @@
  Name="Val3"
  Guid="689618d8-c573-4f3a-9a25-dc877fc7c098"
 >
+<Comment>Fill Val3.</Comment>
 <PreConditions>
 <PreCondition
  Guid="47e8da02-6679-45ee-82e9-2c28bd1147a0"
@@ -3520,6 +3610,7 @@
  Name="Val4"
  Guid="99066f5f-0fdb-4029-ab78-27860ffc26da"
 >
+<Comment>Fill Val4.</Comment>
 <PreConditions>
 <PreCondition
  Guid="77d7e468-8f99-4d92-ae50-152b5ccb16b3"
@@ -3637,13 +3728,13 @@
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
- Name="Check validity of applicable NV"
+ Name="Applicable NV are invalid"
  Guid="149a4213-82ab-4b90-8d0f-40de14980099"
 >
 <PreConditions>
 <PreCondition
  Guid="1d251459-4031-4574-932c-7aeb54c545ce"
->NewNID_C != Kernel.NationalValues.ApplicableNationalValues.NID_C</PreCondition></PreConditions>
+>FORALL X IN Kernel.NationalValues.ApplicableNationalValues.ApplicableCountries | X != NewNID_C</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="f039d4fe-9946-4e32-b3ea-8e63009c2b98"
@@ -3660,13 +3751,13 @@
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
- Name="Check validity of not applicable NV"
+ Name="Not yet applicable NV are invalid"
  Guid="7d0e086d-3655-4742-8017-689740bdc759"
 >
 <PreConditions>
 <PreCondition
  Guid="97a9d53e-6fa0-47ab-aadd-d4edccaeb238"
->NewNID_C != Kernel.NationalValues.NotApplicableNationalValues.NID_C</PreCondition></PreConditions>
+>FORALL X IN  Kernel.NationalValues.NotApplicableNationalValues.ApplicableCountries | X != NewNID_C</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="2134d273-bb2d-4f47-8382-637bbcd7727e"
@@ -3834,7 +3925,7 @@ Kernel.TrainPosition.FrontEndPosition( PointOfInterest =&gt; DistanceIntervalEnu
  Guid="adc91ac5-b5ab-4419-ace6-47b0b51d178d"
 >Kernel.NationalValues.ApplicableNationalValues.ApplicableStartLocation &lt;- Kernel.NationalValues.NotApplicableNationalValues.ApplicableStartLocation</Action><Action
  Guid="53f5c8f6-af1f-4c8e-aba4-051e9cf0fb58"
->Kernel.NationalValues.ApplicableNationalValues.NID_C &lt;- Kernel.NationalValues.NotApplicableNationalValues.NID_C</Action></Actions>
+>Kernel.NationalValues.ApplicableNationalValues.ApplicableCountries &lt;- Kernel.NationalValues.NotApplicableNationalValues.ApplicableCountries</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </NameSpace>
