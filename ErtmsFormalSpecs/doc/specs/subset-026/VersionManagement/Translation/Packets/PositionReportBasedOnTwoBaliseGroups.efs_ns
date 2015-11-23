@@ -1,0 +1,79 @@
+<NameSpace
+ X="441"
+ Y="121"
+ Width="100"
+ Height="50"
+ Name="PositionReportBasedOnTwoBaliseGroups"
+ Guid="f538c0fc-e89a-4211-b56b-f9c045519e22"
+>
+<NameSpaces>
+</NameSpaces>
+<Functions>
+<Function
+ Type="Messages.SystemVersion1.PACKET.TRAIN_TO_TRACK.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS.Message"
+ X="111"
+ Y="1"
+ Width="100"
+ Height="50"
+ Name="DowndatedPacket"
+ Guid="b8821ab7-9fdd-43a7-a150-2156482f57e9"
+>
+<Parameters>
+<Parameter
+ Type="Messages.PACKET.TRAIN_TO_TRACK.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS.Message"
+ Name="aPacket"
+ Guid="3cb79d8d-32d5-47c9-97de-932e3df58da2"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Passive_Shunting"
+ Guid="0488136d-7a38-4fce-b3f4-01d45ec53e44"
+>
+<PreConditions>
+<PreCondition
+ Guid="24c632e8-6126-4349-900e-f354201c13f1"
+>aPacket.M_MODE == Messages.M_MODE.Passive_Shunting</PreCondition></PreConditions>
+<Expression>Messages.SystemVersion1.PACKET.TRAIN_TO_TRACK.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS.Message{
+NID_PACKET =&gt; aPacket.NID_PACKET,
+L_PACKET =&gt; aPacket.L_PACKET,
+Q_SCALE =&gt; aPacket.Q_SCALE,
+NID_LRBG =&gt; aPacket.NID_LRBG,
+D_LRBG =&gt; aPacket.D_LRBG,
+Q_DIRLRBG =&gt; aPacket.Q_DIRLRBG,
+Q_DLRBG =&gt; aPacket.Q_DLRBG,
+L_DOUBTOVER =&gt; aPacket.L_DOUBTOVER,
+L_DOUBTUNDER =&gt; aPacket.L_DOUBTUNDER,
+Q_LENGTH =&gt; aPacket.Q_LENGTH,
+L_TRAININT =&gt; aPacket.L_TRAININT,
+V_TRAIN =&gt; aPacket.V_TRAIN,
+Q_DIRTRAIN =&gt; aPacket.Q_DIRTRAIN,
+M_MODE =&gt; Messages.SystemVersion1.M_MODE.Shunting,
+M_LEVEL =&gt; aPacket.M_LEVEL,
+NID_NTC =&gt; aPacket.NID_NTC
+}</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="ccdedc3e-094e-4b4f-85c4-98c85c334ff9"
+>
+<Expression>Messages.SystemVersion1.PACKET.TRAIN_TO_TRACK.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS.Message{
+NID_PACKET =&gt; aPacket.NID_PACKET,
+L_PACKET =&gt; aPacket.L_PACKET,
+Q_SCALE =&gt; aPacket.Q_SCALE,
+NID_LRBG =&gt; aPacket.NID_LRBG,
+D_LRBG =&gt; aPacket.D_LRBG,
+Q_DIRLRBG =&gt; aPacket.Q_DIRLRBG,
+Q_DLRBG =&gt; aPacket.Q_DLRBG,
+L_DOUBTOVER =&gt; aPacket.L_DOUBTOVER,
+L_DOUBTUNDER =&gt; aPacket.L_DOUBTUNDER,
+Q_LENGTH =&gt; aPacket.Q_LENGTH,
+L_TRAININT =&gt; aPacket.L_TRAININT,
+V_TRAIN =&gt; aPacket.V_TRAIN,
+Q_DIRTRAIN =&gt; aPacket.Q_DIRTRAIN,
+M_MODE =&gt; aPacket.M_MODE,
+M_LEVEL =&gt; aPacket.M_LEVEL,
+NID_NTC =&gt; aPacket.NID_NTC
+}</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>

@@ -1,0 +1,85 @@
+<NameSpace
+ X="441"
+ Y="61"
+ Width="100"
+ Height="50"
+ Name="TrainPositionReport"
+ Guid="83954d4c-8d64-44f8-90c7-6fa8133af03c"
+>
+<NameSpaces>
+</NameSpaces>
+<Functions>
+<Function
+ Type="Messages.SystemVersion1.MESSAGE.TRAIN_TO_TRACK.TRAIN_POSITION_REPORT.Message"
+ X="551"
+ Y="1"
+ Width="100"
+ Height="50"
+ Name="DonwdatedMessage"
+ Guid="3fa77729-310c-406a-8659-473ce6c38097"
+>
+<Parameters>
+<Parameter
+ Type="Messages.MESSAGE.TRAIN_TO_TRACK.TRAIN_POSITION_REPORT.Message"
+ Name="aMessage"
+ Guid="8da2ec05-4f8c-4b26-9b07-47276c6e5926"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="b7ef83a1-42a5-4256-900d-cdfee68130ec"
+>
+<Expression>Messages.SystemVersion1.MESSAGE.TRAIN_TO_TRACK.TRAIN_POSITION_REPORT.Message
+{
+  NID_MESSAGE =&gt; aMessage.NID_MESSAGE, 
+  L_MESSAGE =&gt; aMessage.L_MESSAGE, 
+  T_TRAIN =&gt; aMessage.T_TRAIN, 
+  NID_ENGINE =&gt; aMessage.NID_ENGINE, 
+  POSITION_REPORT =&gt; VersionManagement.Translation.Packets.PositionReports.DowndatedPacket( aMessage.POSITION_REPORT), 
+  Sequence1 =&gt; MAP aMessage.Sequence1 USING X IN DowndatedPackets(X)
+}</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.SystemVersion1.MESSAGE.TRAIN_TO_TRACK.TRAIN_POSITION_REPORT.SubStructure1"
+ X="111"
+ Y="1"
+ Width="100"
+ Height="50"
+ Name="DowndatedPackets"
+ Guid="93989604-5d5b-4dc8-b0db-dd3f7f876e6c"
+>
+<Parameters>
+<Parameter
+ Type="Messages.MESSAGE.TRAIN_TO_TRACK.TRAIN_POSITION_REPORT.SubStructure1"
+ Name="aPacket"
+ Guid="0e500799-9725-4c1e-8c08-15523bd2e8e1"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="DataUsedByApplicationsOutsideTheERTMS_ETCSSystem"
+ Guid="4f3d6389-7c90-4ca8-abdb-91246dc1ebd3"
+>
+<PreConditions>
+<PreCondition
+ Guid="9c0f76ed-c495-47ba-b9ba-2041a3d0dd59"
+>Available(aPacket.DATA_USED_BY_APPLICATIONS_OUTSIDE_THE_ERTMS_ETCS_SYSTEM)</PreCondition></PreConditions>
+<Expression>Messages.SystemVersion1.MESSAGE.TRAIN_TO_TRACK.TRAIN_POSITION_REPORT.SubStructure1{
+DATA_USED_BY_APPLICATIONS_OUTSIDE_THE_ERTMS_ETCS_SYSTEM =&gt; 
+aPacket.DATA_USED_BY_APPLICATIONS_OUTSIDE_THE_ERTMS_ETCS_SYSTEM
+}</Expression>
+</Case><Case
+ Name="ErrorReporting"
+ Guid="8ff2f24c-fee8-41fc-be36-a0b398e3ecb1"
+>
+<PreConditions>
+<PreCondition
+ Guid="f071cf1b-918d-492d-b0c8-b868db4a70b7"
+>Available(aPacket.ERROR_REPORTING)</PreCondition></PreConditions>
+<Expression>Messages.SystemVersion1.MESSAGE.TRAIN_TO_TRACK.TRAIN_POSITION_REPORT.SubStructure1{
+ERROR_REPORTING =&gt; VersionManagement.Translation.Packets.ErrorReporting.DowndatedPacket( aPacket.ERROR_REPORTING)
+}</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>

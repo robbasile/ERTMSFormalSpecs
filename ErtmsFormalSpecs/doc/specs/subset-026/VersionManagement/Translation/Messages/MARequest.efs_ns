@@ -1,0 +1,104 @@
+<NameSpace
+ Name="MARequest"
+ Guid="8e9c5f1c-f3e4-4c6d-8b45-13d74e17c7eb"
+>
+<NameSpaces>
+</NameSpaces>
+<Functions>
+<Function
+ Type="Messages.SystemVersion1.MESSAGE.TRAIN_TO_TRACK.MA_REQUEST.Message"
+ X="551"
+ Y="1"
+ Width="100"
+ Height="50"
+ Name="DonwdatedMessage"
+ Guid="507d758b-ace9-4e65-ba2b-34de49bae897"
+>
+<Parameters>
+<Parameter
+ Type="Messages.MESSAGE.TRAIN_TO_TRACK.MA_REQUEST.Message"
+ Name="aMessage"
+ Guid="84a370c4-5a54-4619-a559-fb29169ccb00"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="499f9cf7-68fe-4241-9360-22218f709346"
+>
+<Expression>Messages.SystemVersion1.MESSAGE.TRAIN_TO_TRACK.MA_REQUEST.Message
+{
+  NID_MESSAGE =&gt; aMessage.NID_MESSAGE, 
+  L_MESSAGE =&gt; aMessage.L_MESSAGE, 
+  T_TRAIN =&gt; aMessage.T_TRAIN, 
+  NID_ENGINE =&gt; aMessage.NID_ENGINE, 
+  Q_TRACKDEL =&gt; TranslatedQ_MARQSTREASON( aMessage.Q_MARQSTREASON), 
+  POSITION_REPORT =&gt; VersionManagement.Translation.Packets.PositionReports.DowndatedPacket( aMessage.POSITION_REPORT), 
+  Sequence1 =&gt; MAP aMessage.Sequence1 USING X IN DowndatedPacket(X)
+}</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.SystemVersion1.Q_TRACKDEL"
+ X="111"
+ Y="1"
+ Width="100"
+ Height="50"
+ Name="TranslatedQ_MARQSTREASON"
+ Guid="f173eca1-89ea-4840-9a68-e1214ed81e75"
+>
+<Parameters>
+<Parameter
+ Type="Messages.Q_MARQSTREASON"
+ Name="aQ_MARQSTREASON"
+ Guid="c328263e-8069-43b6-a42b-7eb50134ffc3"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Deletion"
+ Guid="1e1b4540-811e-4e6d-b7b4-381c9ec16a3b"
+>
+<PreConditions>
+<PreCondition
+ Guid="472a90f8-cb77-4c49-883d-2cd83817e7e1"
+>aQ_MARQSTREASON == Messages.Q_MARQSTREASON.Track_description_deleted</PreCondition></PreConditions>
+<Expression>Messages.SystemVersion1.Q_TRACKDEL.Track_description_deleted</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="824b1c34-4de9-45a0-b9ba-ef384a57aab2"
+>
+<Expression>Messages.SystemVersion1.Q_TRACKDEL.No_track_description_deleted</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.SystemVersion1.MESSAGE.TRAIN_TO_TRACK.MA_REQUEST.SubStructure1"
+ X="190"
+ Y="330"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="DowndatedPacket"
+ Guid="afc6e2e3-3d3e-4ff8-998f-fed85b2d8618"
+>
+<Parameters>
+<Parameter
+ Type="Messages.MESSAGE.TRAIN_TO_TRACK.MA_REQUEST.SubStructure1"
+ Name="aPacket"
+ Guid="c13f84d9-108b-478c-9d55-c6613684ff6d"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Packet 132_9: Level 2-3 transition information"
+ Guid="aaa765e1-a7c5-4f9a-8ea1-c29f264e4224"
+>
+<PreConditions>
+<PreCondition
+ Guid="0337e395-efb5-4066-94cc-242550690420"
+>Available(aPacket.LEVEL_2_3_TRANSITION_INFORMATION)</PreCondition></PreConditions>
+<Expression>Messages.SystemVersion1.MESSAGE.TRAIN_TO_TRACK.MA_REQUEST.SubStructure1{
+LEVEL_2_3_TRANSITION_INFORMATION =&gt; aPacket.LEVEL_2_3_TRANSITION_INFORMATION
+}
+</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>

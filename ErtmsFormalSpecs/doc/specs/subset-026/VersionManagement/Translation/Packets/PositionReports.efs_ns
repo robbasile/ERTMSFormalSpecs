@@ -1,0 +1,57 @@
+<NameSpace
+ X="881"
+ Y="61"
+ Width="100"
+ Height="50"
+ Name="PositionReports"
+ Guid="10cf263c-38c5-49b7-8d96-51b00a9afe52"
+>
+<NameSpaces>
+</NameSpaces>
+<Functions>
+<Function
+ Type="Messages.SystemVersion1.PACKET.TRAIN_TO_TRACK.POSITION_REPORTS.Message"
+ X="111"
+ Y="1"
+ Width="100"
+ Height="50"
+ Name="DowndatedPacket"
+ Guid="231bd37b-badd-46bb-a7c7-b690698ea84a"
+>
+<Parameters>
+<Parameter
+ Type="Messages.PACKET.TRAIN_TO_TRACK.POSITION_REPORTS.Message"
+ Name="aPacket"
+ Guid="a5dc9d8e-0e0a-4a4b-9070-d2cf567ba383"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="PositionReport"
+ Guid="5f6cdbb9-28ae-431f-bdba-3874e9143808"
+>
+<PreConditions>
+<PreCondition
+ Guid="e2adb1af-7e00-4d35-9f51-0062bb147083"
+>Available( aPacket.POSITION_REPORT)</PreCondition></PreConditions>
+<Expression>Messages.SystemVersion1.PACKET.TRAIN_TO_TRACK.POSITION_REPORTS.Message
+{
+  POSITION_REPORT =&gt; PositionReport.DowndatedPacket(aPacket.POSITION_REPORT), 
+  POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS =&gt; EMPTY
+}</Expression>
+</Case><Case
+ Name="PositionReportBasedOnTwoBaliseGroups"
+ Guid="16af63a6-d8b6-4871-835b-f5f521811520"
+>
+<PreConditions>
+<PreCondition
+ Guid="ee2da3a3-05b5-489a-8e15-e3d9250eed82"
+>Available( aPacket.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS)</PreCondition></PreConditions>
+<Expression>Messages.SystemVersion1.PACKET.TRAIN_TO_TRACK.POSITION_REPORTS.Message
+{
+  POSITION_REPORT =&gt; EMPTY, 
+  POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS =&gt; PositionReportBasedOnTwoBaliseGroups.DowndatedPacket( aPacket.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS)
+}</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>

@@ -1,0 +1,140 @@
+<NameSpace
+ X="331"
+ Y="61"
+ Width="100"
+ Height="50"
+ Name="AcknowledgementOfEmergencyStop"
+ Guid="85c4f3d0-c754-4e84-a2a3-22867c3b96e7"
+>
+<NameSpaces>
+</NameSpaces>
+<Structures>
+<Structure
+ X="111"
+ Y="1"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="QEmergencyStopTranslationStruct"
+ Guid="8ab5c7bc-f0c0-47df-a800-06ff305ed5ca"
+>
+<StructureElement
+ TypeName="Messages.Q_EMERGENCYSTOP"
+ Default=""
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="Q_EMERGENCYSTOP_Version2"
+ Guid="23ed3497-7163-4969-a357-13b090188bb5"
+>
+</StructureElement><StructureElement
+ TypeName="Messages.SystemVersion1.Q_EMERGENCYSTOP"
+ Default=""
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="Q_EMERGENCYSTOP_Version1"
+ Guid="7447a4a4-3d9e-43b3-995c-df552f28e826"
+>
+</StructureElement></Structure></Structures>
+<Collections>
+<Collection
+ TypeName="QEmergencyStopTranslationStruct"
+ MaxSize="4"
+ Default="[]"
+ X="221"
+ Y="1"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="QEmergencyStopTranslationCol"
+ Guid="4d39a0fc-49d8-4678-b995-096d3e2dd260"
+>
+<Comment>Definition of the type of the variable Translatable_Q_EMERGENCYSTOP_Values</Comment>
+</Collection></Collections>
+<Functions>
+<Function
+ Type="Messages.SystemVersion1.Q_EMERGENCYSTOP"
+ X="441"
+ Y="1"
+ Width="100"
+ Height="50"
+ Name="TranslatedQ_EMERGENCYSTOP"
+ Guid="a6948c03-0121-4274-a044-de79effe9aff"
+>
+<Parameters>
+<Parameter
+ Type="Messages.Q_EMERGENCYSTOP"
+ Name="aQ_EMERGENCYSTOP"
+ Guid="58ae04d6-a67c-4c53-bb42-626569752d01"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="11a51f19-b2f2-4776-ad17-7ee230d7769c"
+>
+<Expression>(FIRST X IN  Translatable_Q_EMERGENCYSTOP_Values| X.Q_EMERGENCYSTOP_Version2 == aQ_EMERGENCYSTOP).Q_EMERGENCYSTOP_Version1</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.SystemVersion1.MESSAGE.TRAIN_TO_TRACK.ACKNOWLEDGEMENT_OF_EMERGENCY_STOP.Message"
+ X="551"
+ Y="1"
+ Width="100"
+ Height="50"
+ Name="DonwdatedMessage"
+ Guid="8ba15e49-af63-48b4-9ba8-e540f2cabc5c"
+>
+<Parameters>
+<Parameter
+ Type="Messages.MESSAGE.TRAIN_TO_TRACK.ACKNOWLEDGEMENT_OF_EMERGENCY_STOP.Message"
+ Name="aMessage"
+ Guid="c166d666-504b-4a2f-8838-ccb017ea7a0b"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="d103cc1e-de1f-4af8-a90a-0150c0c4f07b"
+>
+<Expression>Messages.SystemVersion1.MESSAGE.TRAIN_TO_TRACK.ACKNOWLEDGEMENT_OF_EMERGENCY_STOP.Message
+{
+  NID_MESSAGE =&gt; aMessage.NID_MESSAGE, 
+  L_MESSAGE =&gt; aMessage.L_MESSAGE, 
+  T_TRAIN =&gt; aMessage.T_TRAIN, 
+  NID_ENGINE =&gt; aMessage.NID_ENGINE, 
+  NID_EM =&gt; aMessage.NID_EM, 
+  Q_EMERGENCYSTOP =&gt; TranslatedQ_EMERGENCYSTOP( aMessage.Q_EMERGENCYSTOP), 
+  POSITION_REPORT =&gt; VersionManagement.Translation.Packets.PositionReports.DowndatedPacket( aMessage.POSITION_REPORT )
+}</Expression>
+</Case></Cases>
+</Function></Functions>
+<Variables>
+<Variable
+ Type="QEmergencyStopTranslationCol"
+ DefaultValue="[QEmergencyStopTranslationStruct{
+Q_EMERGENCYSTOP_Version2 =&gt; Messages.Q_EMERGENCYSTOP.Conditional_Emergency_Stop_accepted__with_update_of_EOA__ref_3_10_2_2,
+Q_EMERGENCYSTOP_Version1 =&gt; Messages.SystemVersion1.Q_EMERGENCYSTOP.Conditional_Emergency_Stop_accepted
+},
+QEmergencyStopTranslationStruct{
+Q_EMERGENCYSTOP_Version2 =&gt; Messages.Q_EMERGENCYSTOP.Conditional_Emergency_Stop_accepted__with_no_update_of_EOA__ref_3_10_2_2,
+Q_EMERGENCYSTOP_Version1 =&gt; Messages.SystemVersion1.Q_EMERGENCYSTOP.Conditional_Emergency_Stop_accepted
+},
+QEmergencyStopTranslationStruct{
+Q_EMERGENCYSTOP_Version2 =&gt; Messages.Q_EMERGENCYSTOP.Not_relevant__Unconditional_Emergency_Stop___ref_3_10_2_3,
+Q_EMERGENCYSTOP_Version1 =&gt; Messages.SystemVersion1.Q_EMERGENCYSTOP.Not_relevant__Unconditional_Emergency_Stop
+},
+QEmergencyStopTranslationStruct{
+Q_EMERGENCYSTOP_Version2 =&gt; Messages.Q_EMERGENCYSTOP.Conditional_Emergency_Stop_rejected__because_the_train_has_passed_the_emergency_stop_location__ref_3_10_2_2,
+Q_EMERGENCYSTOP_Version1 =&gt; Messages.SystemVersion1.Q_EMERGENCYSTOP.Conditional_Emergency_Stop_rejected
+}]"
+ VariableMode="Internal"
+ X="331"
+ Y="1"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="Translatable_Q_EMERGENCYSTOP_Values"
+ Guid="11b1278c-b09a-4d06-85d1-7d7da8bee1bf"
+>
+<Comment>Translation table needed for translation of radio message number 147. The values of the variable Q_EMERGENCYSTOP depend on the version of the message.</Comment>
+</Variable></Variables>
+</NameSpace>

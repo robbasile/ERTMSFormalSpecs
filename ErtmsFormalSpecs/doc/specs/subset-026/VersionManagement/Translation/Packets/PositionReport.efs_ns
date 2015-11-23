@@ -1,0 +1,79 @@
+<NameSpace
+ X="331"
+ Y="121"
+ Width="100"
+ Height="50"
+ Name="PositionReport"
+ Guid="f1436b2a-c6b4-4d0d-a845-0fdf23a39598"
+>
+<NameSpaces>
+</NameSpaces>
+<Functions>
+<Function
+ Type="Messages.SystemVersion1.PACKET.TRAIN_TO_TRACK.POSITION_REPORT.Message"
+ X="111"
+ Y="1"
+ Width="100"
+ Height="50"
+ Name="DowndatedPacket"
+ Guid="f889624f-c23c-4335-8c33-aceb6eeabb35"
+>
+<Parameters>
+<Parameter
+ Type="Messages.PACKET.TRAIN_TO_TRACK.POSITION_REPORT.Message"
+ Name="aPacket"
+ Guid="30bc2224-38a6-48e7-93ba-6b1142b1ff44"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Passive_Shunting"
+ Guid="14175fce-9792-49fc-a111-6dd1d6db1aa2"
+>
+<PreConditions>
+<PreCondition
+ Guid="7385315f-c7fc-47ee-afd1-b03d363969d8"
+>aPacket.M_MODE == Messages.M_MODE.Passive_Shunting</PreCondition></PreConditions>
+<Expression>Messages.SystemVersion1.PACKET.TRAIN_TO_TRACK.POSITION_REPORT.Message{
+NID_PACKET =&gt; aPacket.NID_PACKET,
+L_PACKET =&gt; aPacket.L_PACKET,
+Q_SCALE =&gt; aPacket.Q_SCALE,
+NID_LRBG =&gt; aPacket.NID_LRBG,
+D_LRBG =&gt; aPacket.D_LRBG,
+Q_DIRLRBG =&gt; aPacket.Q_DIRLRBG,
+Q_DLRBG =&gt; aPacket.Q_DLRBG,
+L_DOUBTOVER =&gt; aPacket.L_DOUBTOVER,
+L_DOUBTUNDER =&gt; aPacket.L_DOUBTUNDER,
+Q_LENGTH =&gt; aPacket.Q_LENGTH,
+L_TRAININT =&gt; aPacket.L_TRAININT,
+V_TRAIN =&gt; aPacket.V_TRAIN,
+Q_DIRTRAIN =&gt; aPacket.Q_DIRTRAIN,
+M_MODE =&gt; Messages.SystemVersion1.M_MODE.Shunting,
+M_LEVEL =&gt; aPacket.M_LEVEL,
+NID_NTC =&gt; aPacket.NID_NTC
+}</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="a9573017-fa96-4c56-99fc-0f52b31f064d"
+>
+<Expression>Messages.SystemVersion1.PACKET.TRAIN_TO_TRACK.POSITION_REPORT.Message{
+NID_PACKET =&gt; aPacket.NID_PACKET,
+L_PACKET =&gt; aPacket.L_PACKET,
+Q_SCALE =&gt; aPacket.Q_SCALE,
+NID_LRBG =&gt; aPacket.NID_LRBG,
+D_LRBG =&gt; aPacket.D_LRBG,
+Q_DIRLRBG =&gt; aPacket.Q_DIRLRBG,
+Q_DLRBG =&gt; aPacket.Q_DLRBG,
+L_DOUBTOVER =&gt; aPacket.L_DOUBTOVER,
+L_DOUBTUNDER =&gt; aPacket.L_DOUBTUNDER,
+Q_LENGTH =&gt; aPacket.Q_LENGTH,
+L_TRAININT =&gt; aPacket.L_TRAININT,
+V_TRAIN =&gt; aPacket.V_TRAIN,
+Q_DIRTRAIN =&gt; aPacket.Q_DIRTRAIN,
+M_MODE =&gt; aPacket.M_MODE,
+M_LEVEL =&gt; aPacket.M_LEVEL,
+NID_NTC =&gt; aPacket.NID_NTC
+}</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>

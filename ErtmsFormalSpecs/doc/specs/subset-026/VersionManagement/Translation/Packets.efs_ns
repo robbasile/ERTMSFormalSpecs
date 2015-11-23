@@ -67,6 +67,21 @@
  Name="FullNationalValues"
  Guid="b6dc573c-94ea-45bd-82f9-d8849b13250a"
 >
+</NameSpaceRef><NameSpaceRef
+ Name="PositionReport"
+ Guid="d1b97660-e058-4a52-b67f-b8eea85429e9"
+>
+</NameSpaceRef><NameSpaceRef
+ Name="PositionReportBasedOnTwoBaliseGroups"
+ Guid="72dca40f-e172-4b98-8f14-bed82e130bed"
+>
+</NameSpaceRef><NameSpaceRef
+ Name="ErrorReporting"
+ Guid="963be51f-a1cd-4be9-881f-5c6d6db0b930"
+>
+</NameSpaceRef><NameSpaceRef
+ Name="PositionReports"
+>
 </NameSpaceRef></NameSpaces>
 <Functions>
 <Function
@@ -1150,6 +1165,101 @@ DEFAULT_BALISE_LOOP_OR_RIU_INFORMATION =&gt; aPacket.TRACK_TO_TRAIN.DEFAULT_BALI
 </Case><Case
  Name="Rejected"
  Guid="adfb15d0-63d9-4107-b46f-10cd3037fbda"
+>
+<Comment>Default case: packet is rejected.</Comment>
+<Expression>EMPTY</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.SystemVersion1.PACKET.TRAIN_TO_TRACK.Message"
+ X="221"
+ Y="121"
+ Width="100"
+ Height="50"
+ Name="DowndatePacket"
+ Guid="1bcee5ba-078c-4fd6-905d-431491f22ff8"
+>
+<Parameters>
+<Parameter
+ Type="Messages.PACKET.TRAIN_TO_TRACK.Message"
+ Name="aPacket"
+ Guid="e5b7937d-625e-4f41-9248-9a9781c2ea5f"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Packet XXX_0: Position report"
+ Guid="4bdf5678-639d-4f00-950a-1edaacc29b5c"
+>
+<PreConditions>
+<PreCondition
+ Guid="5d5c44ed-5bef-4881-8515-998050bedd1b"
+>Available(aPacket.POSITION_REPORT)</PreCondition></PreConditions>
+<Expression>Messages.SystemVersion1.PACKET.TRAIN_TO_TRACK.Message{
+POSITION_REPORT
+ =&gt; PositionReport.DowndatedPacket(aPacket.POSITION_REPORT)
+}</Expression>
+</Case><Case
+ Name="Packet XXX_1: Position report based on two balise groups"
+ Guid="1f17777d-b1c4-44f5-8b8a-1af7991ea5d4"
+>
+<PreConditions>
+<PreCondition
+ Guid="6d23497b-d851-4c68-b713-2b5ae3ee4679"
+>Available(aPacket.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS)</PreCondition></PreConditions>
+<Expression>Messages.SystemVersion1.PACKET.TRAIN_TO_TRACK.Message{
+POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS
+ =&gt; PositionReportBasedOnTwoBaliseGroups.DowndatedPacket(aPacket.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS)
+}</Expression>
+</Case><Case
+ Name="Packet 159_3: On-board telephone numbers"
+ Guid="6b05362d-36a9-4afb-8cfe-6f897ab15fd9"
+>
+<PreConditions>
+<PreCondition
+ Guid="be663487-41b4-44ce-96e5-39c11d7a0927"
+>Available(aPacket.ONBOARD_TELEPHONE_NUMBERS)</PreCondition></PreConditions>
+<Expression>Messages.SystemVersion1.PACKET.TRAIN_TO_TRACK.Message{
+ONBOARD_TELEPHONE_NUMBERS =&gt; aPacket.ONBOARD_TELEPHONE_NUMBERS
+}</Expression>
+</Case><Case
+ Name="Packet XXX_4: Error reporting"
+ Guid="7f6a5c24-fd49-4936-b1c8-656be9465a50"
+>
+<PreConditions>
+<PreCondition
+ Guid="6f53057a-8456-4425-a677-d01bde28fa86"
+>Available(aPacket.ERROR_REPORTING)</PreCondition></PreConditions>
+<Expression>Messages.SystemVersion1.PACKET.TRAIN_TO_TRACK.Message{
+ERROR_REPORTING
+ =&gt; ErrorReporting.DowndatedPacket(aPacket.ERROR_REPORTING)
+}</Expression>
+</Case><Case
+ Name="Packet XXX_5: Train running number"
+ Guid="3e4303c3-448f-498a-9388-e3080aa18f66"
+>
+<PreConditions>
+<PreCondition
+ Guid="65e68991-48b9-4144-95fc-af20b1a7473d"
+>Available(aPacket.TRAIN_RUNNING_NUMBER)</PreCondition></PreConditions>
+<Expression>Messages.SystemVersion1.PACKET.TRAIN_TO_TRACK.Message{
+TRAIN_RUNNING_NUMBER
+ =&gt; aPacket.TRAIN_RUNNING_NUMBER
+}</Expression>
+</Case><Case
+ Name="Packet 132_9: Level 2-3 transition information"
+ Guid="ff72ebf5-c58b-4df7-b31a-0041892e1484"
+>
+<PreConditions>
+<PreCondition
+ Guid="f33cf652-2d30-4151-ab02-9ae1a84a8944"
+>Available(aPacket.LEVEL_2_3_TRANSITION_INFORMATION)</PreCondition></PreConditions>
+<Expression>Messages.SystemVersion1.PACKET.TRAIN_TO_TRACK.Message{
+LEVEL_2_3_TRANSITION_INFORMATION
+ =&gt; aPacket.LEVEL_2_3_TRANSITION_INFORMATION
+}</Expression>
+</Case><Case
+ Name="Rejected"
+ Guid="5b305cc5-ff9e-49fd-b261-cf6b1e0abb9d"
 >
 <Comment>Default case: packet is rejected.</Comment>
 <Expression>EMPTY</Expression>

@@ -1,0 +1,64 @@
+<NameSpace
+ X="551"
+ Y="121"
+ Width="100"
+ Height="50"
+ Name="ErrorReporting"
+ Guid="d0be2883-ad82-4844-8d21-db0ef6693f2b"
+>
+<NameSpaces>
+</NameSpaces>
+<Functions>
+<Function
+ Type="Messages.SystemVersion1.PACKET.TRAIN_TO_TRACK.ERROR_REPORTING.Message"
+ X="111"
+ Y="1"
+ Width="100"
+ Height="50"
+ Name="DowndatedPacket"
+ Guid="f3f31b1e-a871-4d86-a817-ebce0db7474d"
+>
+<Parameters>
+<Parameter
+ Type="Messages.PACKET.TRAIN_TO_TRACK.ERROR_REPORTING.Message"
+ Name="aPacket"
+ Guid="d6f47f42-b13e-4ba6-99be-316ce8e6aa0b"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="M_ERROR_6_7"
+ Guid="10011e42-90fc-43b9-b084-ad06b7021b97"
+>
+<PreConditions>
+<PreCondition
+ Guid="b0d17440-608e-4903-9eb2-7cf0cfc9ea67"
+>aPacket.M_ERROR == Messages.M_ERROR.Safety_critical_failure__ref_4_4_6_1_6___4_4_15_1_5</PreCondition></PreConditions>
+<Expression>Messages.SystemVersion1.PACKET.TRAIN_TO_TRACK.ERROR_REPORTING.Message
+{
+  NID_PACKET =&gt; aPacket.NID_PACKET, 
+  L_PACKET =&gt; aPacket.L_PACKET, 
+  M_ERROR =&gt; Messages.SystemVersion1.M_ERROR.Safety_critical_failure__ref__4_4_6_1_6__4_4_15_1_5
+}</Expression>
+</Case><Case
+ Name="M_ERROR_7-8_Empty"
+ Guid="50f80124-1f88-4b70-afef-362b2d57c26b"
+>
+<PreConditions>
+<PreCondition
+ Guid="5b924704-4a27-44c4-909b-6d8fd333abcc"
+>aPacket.M_ERROR in[Messages.M_ERROR.Double_linking_error__3_16_2_7_1, Messages.M_ERROR.Double_repositioning_error__3_16_2_7_2]</PreCondition></PreConditions>
+<Expression>EMPTY</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="3e3d02bd-6061-4623-bbf1-72e8b125d0ef"
+>
+<Expression>Messages.SystemVersion1.PACKET.TRAIN_TO_TRACK.ERROR_REPORTING.Message
+{
+  NID_PACKET =&gt; aPacket.NID_PACKET, 
+  L_PACKET =&gt; aPacket.L_PACKET, 
+  M_ERROR =&gt; aPacket.M_ERROR
+}</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>
