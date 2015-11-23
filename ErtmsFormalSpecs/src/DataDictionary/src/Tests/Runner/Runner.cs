@@ -490,15 +490,15 @@ namespace DataDictionary.Tests.Runner
 
                         if (val != null)
                         {
-                            Variables.Variable tmp = new Variables.Variable
-                            {
-                                Name = "list_entry",
-                                Type = collectionType.Type
-                            };
-
                             foreach (IValue subVal in val.Val)
                             {
-                                tmp.Value = subVal;
+                                Variables.Variable tmp = new Variables.Variable
+                                {
+                                    Name = "list_entry",
+                                    Type = collectionType.Type,
+                                    Value = subVal
+                                };
+
                                 EvaluateVariable(priority, activations, tmp, explanation);
                             }
                         }
