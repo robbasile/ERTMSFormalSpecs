@@ -1817,8 +1817,23 @@ A_NVP23 =&gt; BaseTypes.Acceleration.NA
             aValue =&gt; aPacket.M_NVKRINT,
             aValuesSet =&gt; aPacket.Sequence5
         ),
-        IntegratedCorrectionFactorKvInt_FreightTrain =&gt; EMPY,
-        IntegratedCorrectionFactorKvInt_PassengerTrain =&gt; EMPTY,
+        IntegratedCorrectionFactorKvInt_FreightTrain =&gt; ReceivedKvIntValues_Freight(
+            aTrainType =&gt; aPacket.Q_NVKVINTSET,
+            aKvIntValuesReceived =&gt; aPacket.Q_NVKINT,
+            aSpeed =&gt; aPacket.V_NVKVINT,
+            aValue =&gt; aPacket.M_NVKVINT_0,
+            aValuesSet =&gt; aPacket.Sequence2
+        ),
+        IntegratedCorrectionFactorKvInt_PassengerTrain =&gt; ReceivedKvIntValues_Passenger(
+            aTrainType =&gt; aPacket.Q_NVKVINTSET,
+            aKvIntValuesReceived =&gt; aPacket.Q_NVKINT,
+            aAcceleration_Low =&gt; aPacket.A_NVP12,
+            aAcceleration_High =&gt; aPacket.A_NVP23,
+            aSpeed =&gt; aPacket.V_NVKVINT,
+            aValue_Low =&gt; aPacket.M_NVKVINT_0,
+            aValue_High =&gt; aPacket.M_NVKVINT_1,
+            aValuesSet =&gt; aPacket.Sequence2
+        ),
         IntegratedCorrectionFactorForBrakeBuildUpTime =&gt; KtResolution ( aPacket.M_NVKTINT ),
         MaxDecelValueUnderReducedAdhesionCond1 =&gt; MessageTypes.AccelerationResolution ( aPacket.A_NVMAXREDADH1, 0.05 ),
         MaxDecelValueUnderReducedAdhesionCond2 =&gt; MessageTypes.AccelerationResolution ( aPacket.A_NVMAXREDADH2, 0.05 ),
@@ -3034,11 +3049,12 @@ Value =&gt; Kernel.NationalValues.KrResolution((LAST X IN aValuesSet).M_NVKRINT)
 }</Expression>
 </Case></Cases>
 </Function><Function
- Type="Boolean"
+ Type="KvIntValueSet_PassengerTrainStruct"
  X="1"
  Y="361"
  Width="100"
  Height="50"
+ Implemented="TRUE"
  Name="ReceivedKvIntValues_Passenger"
  Guid="2e0041d3-6b7f-4d61-9967-ed2984387525"
 >
@@ -3047,7 +3063,9 @@ Value =&gt; Kernel.NationalValues.KrResolution((LAST X IN aValuesSet).M_NVKRINT)
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="06f8a056-8837-4b21-964e-2b6b29b79601"
 >
-</ReqRef><Parameters>
+</ReqRef><Comment>Creates the set of KvInt correction factors for a passenger train based on the National Values packet received.
+If the packet indicates KrInt values, this function returns EMPTY.</Comment>
+<Parameters>
 <Parameter
  Type="Messages.Q_NVKVINTSET"
  Name="aTrainType"
@@ -3083,6 +3101,11 @@ Value =&gt; Kernel.NationalValues.KrResolution((LAST X IN aValuesSet).M_NVKRINT)
  Name="aValue_High"
  Guid="aafd1be2-8d4d-4f18-a32a-ec4b7fac7014"
 >
+</Parameter><Parameter
+ Type="Messages.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES.Collection2"
+ Name="aValuesSet"
+ Guid="cc9c9ad1-8ea8-433b-8c6e-a5ff6f8ab796"
+>
 </Parameter></Parameters>
 <Cases>
 <Case
@@ -3097,17 +3120,154 @@ Value =&gt; Kernel.NationalValues.KrResolution((LAST X IN aValuesSet).M_NVKRINT)
 aTrainType != Messages.Q_NVKVINTSET.Conventional_passenger_trains</PreCondition></PreConditions>
 <Expression>EMPTY</Expression>
 </Case><Case
- Name="Case2"
+ Name="Single value"
  Guid="57d7836c-5b00-49d3-ad2e-a6f7c59c2da9"
 >
-<Expression>EMPTY</Expression>
+<PreConditions>
+<PreCondition
+ Guid="3f809112-5d36-46ae-b0e6-f6c26ac10e2d"
+>COUNT X IN aValuesSet == 0</PreCondition></PreConditions>
+<Expression>KvIntValueSet_PassengerTrainStruct{
+    Val0 =&gt; KvIntValue_PassengerTrainStruct{
+        SpeedStep =&gt; MessageTypes.SpeedResolution(aSpeed, 5.0),
+        ValueA =&gt; KvResolution(aValue_Low),
+        ValueB =&gt; KvResolution(aValue_High)
+    },
+    Val1 =&gt; EMPTY,
+    Val2 =&gt; EMPTY,
+    Val3 =&gt; EMPTY,
+    Val4 =&gt; EMPTY,
+    A_NVP12 =&gt; - MessageTypes.AccelerationResolution(aAcceleration_Low, 0.05),
+    A_NVP23 =&gt; - MessageTypes.AccelerationResolution(aAcceleration_High, 0.05)
+}</Expression>
+</Case><Case
+ Name="Two values"
+ Guid="eee6e30f-d24f-4d9e-ad25-b96266b1d65b"
+>
+<PreConditions>
+<PreCondition
+ Guid="a5120d65-7e50-42aa-beb5-e670f1248ad0"
+>COUNT X IN aValuesSet == 1</PreCondition></PreConditions>
+<Expression>KvIntValueSet_PassengerTrainStruct{
+    Val0 =&gt; KvIntValue_PassengerTrainStruct{
+        SpeedStep =&gt; MessageTypes.SpeedResolution(aSpeed, 5.0),
+        ValueA =&gt; KvResolution(aValue_Low),
+        ValueB =&gt; KvResolution(aValue_High)
+    },
+    Val1 =&gt; KvIntValue_PassengerTrainStruct{
+        SpeedStep =&gt; MessageTypes.SpeedResolution((FIRST X IN aValuesSet).V_NVKVINT, 5.0),
+        ValueA =&gt; KvResolution((FIRST X IN aValuesSet).M_NVKVINT_0),
+        ValueB =&gt; KvResolution((FIRST X IN aValuesSet).M_NVKVINT_1)
+    },
+    Val2 =&gt; EMPTY,
+    Val3 =&gt; EMPTY,
+    Val4 =&gt; EMPTY,
+    A_NVP12 =&gt; - MessageTypes.AccelerationResolution(aAcceleration_Low, 0.05),
+    A_NVP23 =&gt; - MessageTypes.AccelerationResolution(aAcceleration_High, 0.05)
+}</Expression>
+</Case><Case
+ Name="Three values"
+ Guid="e7e8f45d-31bc-496a-978e-e7790ce13204"
+>
+<PreConditions>
+<PreCondition
+ Guid="419885c7-9d53-468b-847f-ac74c6452f0d"
+>COUNT X IN aValuesSet == 2</PreCondition></PreConditions>
+<Expression>KvIntValueSet_PassengerTrainStruct{
+    Val0 =&gt; KvIntValue_PassengerTrainStruct{
+        SpeedStep =&gt; MessageTypes.SpeedResolution(aSpeed, 5.0),
+        ValueA =&gt; KvResolution(aValue_Low),
+        ValueB =&gt; KvResolution(aValue_High)
+    },
+    Val1 =&gt; KvIntValue_PassengerTrainStruct{
+        SpeedStep =&gt; MessageTypes.SpeedResolution((FIRST X IN aValuesSet).V_NVKVINT, 5.0),
+        ValueA =&gt; KvResolution((FIRST X IN aValuesSet).M_NVKVINT_0),
+        ValueB =&gt; KvResolution((FIRST X IN aValuesSet).M_NVKVINT_1)
+    },
+    Val2 =&gt; KvIntValue_PassengerTrainStruct{
+        SpeedStep =&gt; MessageTypes.SpeedResolution((LAST X IN aValuesSet).V_NVKVINT, 5.0),
+        ValueA =&gt; KvResolution((LAST X IN aValuesSet).M_NVKVINT_0),
+        ValueB =&gt; KvResolution((LAST X IN aValuesSet).M_NVKVINT_1)
+    },
+    Val3 =&gt; EMPTY,
+    Val4 =&gt; EMPTY,
+    A_NVP12 =&gt; - MessageTypes.AccelerationResolution(aAcceleration_Low, 0.05),
+    A_NVP23 =&gt; - MessageTypes.AccelerationResolution(aAcceleration_High, 0.05)
+}</Expression>
+</Case><Case
+ Name="Four values"
+ Guid="83b4e039-6584-4a6b-9045-eaffa6f4f1fa"
+>
+<PreConditions>
+<PreCondition
+ Guid="71657f3b-f80d-4450-a1f7-51b431cfad7b"
+>COUNT X IN aValuesSet == 3</PreCondition></PreConditions>
+<Expression>KvIntValueSet_PassengerTrainStruct{
+    Val0 =&gt; KvIntValue_PassengerTrainStruct{
+        SpeedStep =&gt; MessageTypes.SpeedResolution(aSpeed, 5.0),
+        ValueA =&gt; KvResolution(aValue_Low),
+        ValueB =&gt; KvResolution(aValue_High)
+    },
+    Val1 =&gt; KvIntValue_PassengerTrainStruct{
+        SpeedStep =&gt; MessageTypes.SpeedResolution((FIRST X IN aValuesSet).V_NVKVINT, 5.0),
+        ValueA =&gt; KvResolution((FIRST X IN aValuesSet).M_NVKVINT_0),
+        ValueB =&gt; KvResolution((FIRST X IN aValuesSet).M_NVKVINT_1)
+    },
+    Val2 =&gt; KvIntValue_PassengerTrainStruct{
+        SpeedStep =&gt; MessageTypes.SpeedResolution((FIRST X IN aValuesSet | X != FIRST X IN aValuesSet).V_NVKVINT, 5.0),
+        ValueA =&gt; KvResolution((FIRST X IN aValuesSet | X != FIRST X IN aValuesSet).M_NVKVINT_0),
+        ValueB =&gt; KvResolution((FIRST X IN aValuesSet | X != FIRST X IN aValuesSet).M_NVKVINT_1)
+    },
+    Val3 =&gt; KvIntValue_PassengerTrainStruct{
+        SpeedStep =&gt; MessageTypes.SpeedResolution((LAST X IN aValuesSet).V_NVKVINT, 5.0),
+        ValueA =&gt; KvResolution((LAST X IN aValuesSet).M_NVKVINT_0),
+        ValueB =&gt; KvResolution((LAST X IN aValuesSet).M_NVKVINT_1)
+    },
+    Val4 =&gt; EMPTY,
+    A_NVP12 =&gt; - MessageTypes.AccelerationResolution(aAcceleration_Low, 0.05),
+    A_NVP23 =&gt; - MessageTypes.AccelerationResolution(aAcceleration_High, 0.05)
+}</Expression>
+</Case><Case
+ Name="Five values"
+ Guid="67b6ed7f-0148-4d62-91ec-501d8e55d8b9"
+>
+<Expression>KvIntValueSet_PassengerTrainStruct{
+    Val0 =&gt; KvIntValue_PassengerTrainStruct{
+        SpeedStep =&gt; MessageTypes.SpeedResolution(aSpeed, 5.0),
+        ValueA =&gt; KvResolution(aValue_Low),
+        ValueB =&gt; KvResolution(aValue_High)
+    },
+    Val1 =&gt; KvIntValue_PassengerTrainStruct{
+        SpeedStep =&gt; MessageTypes.SpeedResolution((FIRST X IN aValuesSet).V_NVKVINT, 5.0),
+        ValueA =&gt; KvResolution((FIRST X IN aValuesSet).M_NVKVINT_0),
+        ValueB =&gt; KvResolution((FIRST X IN aValuesSet).M_NVKVINT_1)
+    },
+    Val2 =&gt; KvIntValue_PassengerTrainStruct{
+        SpeedStep =&gt; MessageTypes.SpeedResolution((FIRST X IN aValuesSet | X != FIRST X IN aValuesSet).V_NVKVINT, 5.0),
+        ValueA =&gt; KvResolution((FIRST X IN aValuesSet | X != FIRST X IN aValuesSet).M_NVKVINT_0),
+        ValueB =&gt; KvResolution((FIRST X IN aValuesSet | X != FIRST X IN aValuesSet).M_NVKVINT_1)
+    },
+    Val3 =&gt; KvIntValue_PassengerTrainStruct{
+        SpeedStep =&gt; MessageTypes.SpeedResolution((LAST X IN aValuesSet | X != LAST X IN aValuesSet).V_NVKVINT, 5.0),
+        ValueA =&gt; KvResolution((LAST X IN aValuesSet | X != LAST X IN aValuesSet).M_NVKVINT_0),
+        ValueB =&gt; KvResolution((LAST X IN aValuesSet | X != LAST X IN aValuesSet).M_NVKVINT_1)
+    },
+    Val4 =&gt; KvIntValue_PassengerTrainStruct{
+        SpeedStep =&gt; MessageTypes.SpeedResolution((LAST X IN aValuesSet).V_NVKVINT, 5.0),
+        ValueA =&gt; KvResolution((LAST X IN aValuesSet).M_NVKVINT_0),
+        ValueB =&gt; KvResolution((LAST X IN aValuesSet).M_NVKVINT_1)
+    },
+    A_NVP12 =&gt; - MessageTypes.AccelerationResolution(aAcceleration_Low, 0.05),
+    A_NVP23 =&gt; - MessageTypes.AccelerationResolution(aAcceleration_High, 0.05)
+}</Expression>
 </Case></Cases>
 </Function><Function
- Type="Boolean"
+ Type="KvIntValueSet_FreightTrainStruct"
  X="1"
  Y="601"
  Width="100"
  Height="50"
+ Implemented="TRUE"
  Name="ReceivedKvIntValues_Freight"
  Guid="6c95c06d-ca8a-4f2c-8938-f7eebd8baec7"
 >
@@ -3116,7 +3276,9 @@ aTrainType != Messages.Q_NVKVINTSET.Conventional_passenger_trains</PreCondition>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="a39ec72c-d3c1-44a5-ad33-2508dd68c223"
 >
-</ReqRef><Parameters>
+</ReqRef><Comment>Creates the set of KvInt correction factors for a freight train based on the National Values packet received.
+If the packet indicates KrInt values, this function returns EMPTY.</Comment>
+<Parameters>
 <Parameter
  Type="Messages.Q_NVKINT"
  Name="aKvIntValuesReceived"
@@ -3137,6 +3299,11 @@ aTrainType != Messages.Q_NVKVINTSET.Conventional_passenger_trains</PreCondition>
  Name="aValue"
  Guid="b3b10122-6c9e-45dc-859c-060fc6b416b4"
 >
+</Parameter><Parameter
+ Type="Messages.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES.Collection2"
+ Name="aValuesSet"
+ Guid="4316f3f9-0289-4a07-b351-3de7aad39aeb"
+>
 </Parameter></Parameters>
 <Cases>
 <Case
@@ -3151,10 +3318,121 @@ aTrainType != Messages.Q_NVKVINTSET.Conventional_passenger_trains</PreCondition>
 aTrainType != Messages.Q_NVKVINTSET.Freight_trains</PreCondition></PreConditions>
 <Expression>EMPTY</Expression>
 </Case><Case
- Name="Case2"
+ Name="Single value"
  Guid="3033771c-c671-4f36-b228-7d0cd6698d0e"
 >
-<Expression>EMPTY</Expression>
+<PreConditions>
+<PreCondition
+ Guid="83ff88d0-7be2-4257-b838-928896c5793a"
+>COUNT X IN aValuesSet == 0</PreCondition></PreConditions>
+<Expression>KvIntValueSet_FreightTrainStruct{
+    Val0 =&gt; KvIntValue_FreightTrainStruct{
+        SpeedStep =&gt; MessageTypes.SpeedResolution(aSpeed, 5.0),
+        Value =&gt; KvResolution(aValue)
+    },
+    Val1 =&gt; EMPTY,
+    Val2 =&gt; EMPTY,
+    Val3 =&gt; EMPTY,
+    Val4 =&gt; EMPTY
+}</Expression>
+</Case><Case
+ Name="Two values"
+ Guid="4d558174-0aaa-4737-b3dd-20e7b3e72703"
+>
+<PreConditions>
+<PreCondition
+ Guid="239e457e-3cc5-4fa3-b5ed-fa7af6f01311"
+>COUNT X IN aValuesSet == 1</PreCondition></PreConditions>
+<Expression>KvIntValueSet_FreightTrainStruct{
+    Val0 =&gt; KvIntValue_FreightTrainStruct{
+        SpeedStep =&gt; MessageTypes.SpeedResolution(aSpeed, 5.0),
+        Value =&gt; KvResolution(aValue)
+    },
+    Val1 =&gt; KvIntValue_FreightTrainStruct{
+        SpeedStep =&gt; MessageTypes.SpeedResolution((FIRST X IN aValuesSet).V_NVKVINT, 5.0),
+        Value =&gt; KvResolution((FIRST X IN aValuesSet).M_NVKVINT_0)
+    },
+    Val2 =&gt; EMPTY,
+    Val3 =&gt; EMPTY,
+    Val4 =&gt; EMPTY
+}</Expression>
+</Case><Case
+ Name="Three values"
+ Guid="3be9263a-0213-4675-acd1-2b583c9ef69d"
+>
+<PreConditions>
+<PreCondition
+ Guid="837edf8f-b3c1-4c00-ad15-486de7ea1323"
+>COUNT X IN aValuesSet == 2</PreCondition></PreConditions>
+<Expression>KvIntValueSet_FreightTrainStruct{
+    Val0 =&gt; KvIntValue_FreightTrainStruct{
+        SpeedStep =&gt; MessageTypes.SpeedResolution(aSpeed, 5.0),
+        Value =&gt; KvResolution(aValue)
+    },
+    Val1 =&gt; KvIntValue_FreightTrainStruct{
+        SpeedStep =&gt; MessageTypes.SpeedResolution((FIRST X IN aValuesSet).V_NVKVINT, 5.0),
+        Value =&gt; KvResolution((FIRST X IN aValuesSet).M_NVKVINT_0)
+    },
+    Val2 =&gt; KvIntValue_FreightTrainStruct{
+        SpeedStep =&gt; MessageTypes.SpeedResolution((LAST X IN aValuesSet).V_NVKVINT, 5.0),
+        Value =&gt; KvResolution((LAST X IN aValuesSet).M_NVKVINT_0)
+    },
+    Val3 =&gt; EMPTY,
+    Val4 =&gt; EMPTY
+}</Expression>
+</Case><Case
+ Name="Four values"
+ Guid="fb2466bd-8b19-411f-a612-dee013e8fede"
+>
+<PreConditions>
+<PreCondition
+ Guid="a9d36130-d3ab-4eeb-8ac9-2129b5ed9656"
+>COUNT X IN aValuesSet == 3</PreCondition></PreConditions>
+<Expression>KvIntValueSet_FreightTrainStruct{
+    Val0 =&gt; KvIntValue_FreightTrainStruct{
+        SpeedStep =&gt; MessageTypes.SpeedResolution(aSpeed, 5.0),
+        Value =&gt; KvResolution(aValue)
+    },
+    Val1 =&gt; KvIntValue_FreightTrainStruct{
+        SpeedStep =&gt; MessageTypes.SpeedResolution((FIRST X IN aValuesSet).V_NVKVINT, 5.0),
+        Value =&gt; KvResolution((FIRST X IN aValuesSet).M_NVKVINT_0)
+    },
+    Val2 =&gt; KvIntValue_FreightTrainStruct{
+        SpeedStep =&gt; MessageTypes.SpeedResolution((FIRST X IN aValuesSet | X != FIRST X IN aValuesSet).V_NVKVINT, 5.0),
+        Value =&gt; KvResolution((FIRST X IN aValuesSet | X != FIRST X IN aValuesSet).M_NVKVINT_0)
+    },
+    Val3 =&gt; KvIntValue_FreightTrainStruct{
+        SpeedStep =&gt; MessageTypes.SpeedResolution((LAST X IN aValuesSet).V_NVKVINT, 5.0),
+        Value =&gt; KvResolution((LAST X IN aValuesSet).M_NVKVINT_0)
+    },
+    Val4 =&gt; EMPTY
+}</Expression>
+</Case><Case
+ Name="Five values"
+ Guid="8f204248-60a1-4650-931b-9fd48e0ed7be"
+>
+<Expression>KvIntValueSet_FreightTrainStruct{
+    Val0 =&gt; KvIntValue_FreightTrainStruct{
+        SpeedStep =&gt; MessageTypes.SpeedResolution(aSpeed, 5.0),
+        Value =&gt; KvResolution(aValue)
+    },
+    Val1 =&gt; KvIntValue_FreightTrainStruct{
+        SpeedStep =&gt; MessageTypes.SpeedResolution((FIRST X IN aValuesSet).V_NVKVINT, 5.0),
+        Value =&gt; KvResolution((FIRST X IN aValuesSet).M_NVKVINT_0)
+    },
+    Val2 =&gt; KvIntValue_FreightTrainStruct{
+        SpeedStep =&gt; MessageTypes.SpeedResolution((FIRST X IN aValuesSet | X != FIRST X IN aValuesSet).V_NVKVINT, 5.0),
+        Value =&gt; KvResolution((FIRST X IN aValuesSet | X != FIRST X IN aValuesSet).M_NVKVINT_0)
+    },
+    Val3 =&gt; KvIntValue_FreightTrainStruct{
+        SpeedStep =&gt; MessageTypes.SpeedResolution((LAST X IN aValuesSet | X != LAST X IN aValuesSet).V_NVKVINT, 5.0),
+        Value =&gt; KvResolution((LAST X IN aValuesSet | X != LAST X IN aValuesSet).M_NVKVINT_0)
+    },
+    Val4 =&gt; KvIntValue_FreightTrainStruct{
+        SpeedStep =&gt; MessageTypes.SpeedResolution((LAST X IN aValuesSet).V_NVKVINT, 5.0),
+        Value =&gt; KvResolution((LAST X IN aValuesSet).M_NVKVINT_0)
+    }
+}</Expression>
 </Case></Cases>
 </Function></Functions>
 <Procedures>
@@ -3214,20 +3492,6 @@ aTrainType != Messages.Q_NVKVINTSET.Freight_trains</PreCondition></PreConditions
 <Action
  Guid="d415aa33-b4bc-4ba1-8db5-dbd2e13601f3"
 >Kernel.NationalValues.ApplicableNationalValues &lt;- Kernel.NationalValues.CreateNewNationalValues(aPacket=&gt;Packet)</Action><Action
- Guid="951447f5-5a2a-4c70-87ac-2b53e8353455"
->Kernel.NationalValues.CreateKvIntValueSet
-(
-    Qualifier =&gt; Packet.Q_NVKINT,
-    TrainType =&gt; Packet.Q_NVKVINTSET,
-    LowerLimit =&gt; Packet.A_NVP12,
-    UpperLimit =&gt; Packet.A_NVP23,
-    InitialSpeed =&gt; Packet.V_NVKVINT,
-    InitialValueA =&gt; Packet.M_NVKVINT_0,
-    InitialValueB =&gt; Packet.M_NVKVINT_1,
-    Values =&gt; Packet.Sequence2,
-    ValueSets =&gt; Packet.Sequence4,
-    NV =&gt; Kernel.NationalValues.ApplicableNationalValues.Value
-)</Action><Action
  Guid="f1cc0bbf-6a30-48ec-8c8f-ca1fe1b930a2"
 >InvalidateInformation(Kernel.NationalValues.NotApplicableNationalValues)</Action></Actions>
 </RuleCondition><RuleCondition
@@ -3242,310 +3506,7 @@ aTrainType != Messages.Q_NVKVINTSET.Freight_trains</PreCondition></PreConditions
 <Actions>
 <Action
  Guid="bef218a7-7827-4209-8533-6afe05207b4c"
->Kernel.NationalValues.NotApplicableNationalValues &lt;- Kernel.NationalValues.CreateNewNationalValues(aPacket=&gt;Packet)</Action><Action
- Guid="86ba960f-d314-42e0-9c88-b0f8cdf9042a"
->Kernel.NationalValues.CreateKvIntValueSet
-(
-    Qualifier =&gt; Packet.Q_NVKINT,
-    TrainType =&gt; Packet.Q_NVKVINTSET,
-    LowerLimit =&gt; Packet.A_NVP12,
-    UpperLimit =&gt; Packet.A_NVP23,
-    InitialSpeed =&gt; Packet.V_NVKVINT,
-    InitialValueA =&gt; Packet.M_NVKVINT_0,
-    InitialValueB =&gt; Packet.M_NVKVINT_1,
-    Values =&gt; Packet.Sequence2,
-    ValueSets =&gt; Packet.Sequence4,
-    NV =&gt; Kernel.NationalValues.NotApplicableNationalValues.Value
-)</Action></Actions>
-</RuleCondition></Conditions>
-</Rule></Rules>
-</Procedure><Procedure
- X="960"
- Y="60"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="CreateKvIntValue"
- Guid="dcada860-e0bd-45ef-ab27-2c683e2449f8"
->
-<Comment>Fill the elements of KvInt (the first element was filled by the procedure CreateKvIntValueSet). The selected element to fill is the first element was has not yet been initialized (the value of SpeedStep equals Infinity).</Comment>
-<Parameters>
-<Parameter
- Type="Messages.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES.SubStructure3"
- Name="Value"
- Guid="faa7f9c1-70c0-4e34-a12f-c01b6dab8ad7"
->
-</Parameter></Parameters>
-<Rules>
-<Rule
- Priority="Processing"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="CreateKvIntValue"
- Guid="dc45a021-a9a8-4bf8-a3b3-dcac427944cf"
->
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="CreateKvIntValueSet_PassengerTrains"
- Guid="c2203fea-1127-47f1-8f3b-a728f4666f63"
->
-<Comment>Fill the KvInt values for a passenger train.</Comment>
-<PreConditions>
-<PreCondition
- Guid="34bb0503-8b99-4b19-8002-ba061392e9e4"
->Value.Q_NVKVINTSET == Messages.Q_NVKVINTSET.Conventional_passenger_trains</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="0aad9b94-a9e0-4bb6-b42c-5bf3abac6040"
->NV.IntegratedCorrectionFactorKvInt_PassengerTrain.Val0.SpeedStep &lt;- MessageTypes.SpeedResolution ( Value.V_NVKVINT, 5.0 )</Action><Action
- Guid="4d10563c-b59e-4804-ae09-22d07721b276"
->NV.IntegratedCorrectionFactorKvInt_PassengerTrain.Val0.ValueA &lt;- Kernel.NationalValues.KvResolution ( Value.M_NVKVINT_0 )</Action><Action
- Guid="5d7394d8-aa09-4dab-8901-4bb657c592f5"
->NV.IntegratedCorrectionFactorKvInt_PassengerTrain.Val0.ValueB &lt;- Kernel.NationalValues.KvResolution ( Value.M_NVKVINT_1 )</Action><Action
- Guid="85397132-e980-4289-911c-34475e387dba"
->NV.IntegratedCorrectionFactorKvInt_PassengerTrain.A_NVP12 &lt;- MessageTypes.AccelerationResolution ( Value.A_NVP12, 0.05 )</Action><Action
- Guid="dcf17b74-527b-4ea5-b8d4-eb2c3baeed9d"
->NV.IntegratedCorrectionFactorKvInt_PassengerTrain.A_NVP23 &lt;- MessageTypes.AccelerationResolution ( Value.A_NVP23, 0.05 )</Action><Action
- Guid="897f29cb-d63b-4a40-b33b-c2efd03314c8"
->APPLY Kernel.NationalValues.CreateKvIntValue_PassengerTrain ( ValueA =&gt; X.M_NVKVINT_0, ValueB =&gt; X.M_NVKVINT_1, Speed =&gt; X.V_NVKVINT, KvInt =&gt; NV.IntegratedCorrectionFactorKvInt_PassengerTrain ) ON Value.Sequence3</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="CreateKvIntValueSet_FreightTrains"
- Guid="78f55658-1f84-478c-83ef-ff07d80194e8"
->
-<Comment>Fill the KvInt values for a freight train.</Comment>
-<PreConditions>
-<PreCondition
- Guid="9a5695d7-df3c-4438-b7d2-8150630c4f57"
->Value.Q_NVKVINTSET == Messages.Q_NVKVINTSET.Freight_trains</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="a6f1abff-276f-405d-a44b-777620b05ffa"
->NV.IntegratedCorrectionFactorKvInt_FreightTrain.Val0.SpeedStep &lt;- MessageTypes.SpeedResolution ( Value.V_NVKVINT, 5.0 )</Action><Action
- Guid="eb7b31e9-85ff-47d9-8073-fc583564acff"
->NV.IntegratedCorrectionFactorKvInt_FreightTrain.A_NVP12 &lt;- MessageTypes.AccelerationResolution ( Value.A_NVP12, 0.05 )</Action><Action
- Guid="4f6674c9-942f-4859-a24d-b3d2052d5f97"
->NV.IntegratedCorrectionFactorKvInt_FreightTrain.A_NVP23 &lt;- MessageTypes.AccelerationResolution ( Value.A_NVP23, 0.05 )</Action><Action
- Guid="c6395a3d-341e-4c95-af1b-5174a6caf594"
->APPLY Kernel.NationalValues.CreateKvIntValue_FreightTrain ( Speed =&gt; X.V_NVKVINT, KvInt =&gt; NV.IntegratedCorrectionFactorKvInt_FreightTrain ) ON Value.Sequence3</Action></Actions>
-</RuleCondition></Conditions>
-</Rule></Rules>
-</Procedure><Procedure
- X="850"
- Y="120"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="CreateKvIntValue_FreightTrain"
- Guid="cb53bd91-f44c-4c6b-a33f-1a47175393f4"
->
-<Comment>Fill the elements of KvInt (the first element was filled by the procedure CreateKvIntValueSet). The selected element to fill is the first element was has not yet been initialized (the value of SpeedStep equals Infinity).</Comment>
-<Parameters>
-<Parameter
- Type="MessageTypes.Speed"
- Name="Speed"
- Guid="bc7f4837-0193-49e9-85fe-ef6a49d94878"
->
-</Parameter><Parameter
- Type="KvIntValueSet_FreightTrainStruct"
- Name="KvInt"
- Guid="6dcb0279-a53e-4c43-a096-c9815c3d8ce4"
->
-</Parameter></Parameters>
-<Rules>
-<Rule
- Priority="Processing"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="CreateKvIntValue"
- Guid="2988db9c-7f01-4bb8-ae49-5f3bf2515baf"
->
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Val1"
- Guid="82b1b4e1-2a39-44bc-b022-47b6a3614dd1"
->
-<Comment>Fill Val1.</Comment>
-<PreConditions>
-<PreCondition
- Guid="a3614ae8-6bb6-4357-ae33-171e1ecd43aa"
->KvInt.Val1.SpeedStep == BaseTypes.Speed.Infinity</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="9a6b1e17-ad76-4c59-afc6-f336d0c358dc"
->KvInt.Val1.SpeedStep &lt;- MessageTypes.SpeedResolution ( Speed, 5.0 )</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Val2"
- Guid="eab18f0a-3f3f-487c-a90c-4f61ede9bc83"
->
-<Comment>Fill Val2.</Comment>
-<PreConditions>
-<PreCondition
- Guid="a0c2fe13-5b8c-4214-aac3-05d63a1dc27b"
->KvInt.Val2.SpeedStep == BaseTypes.Speed.Infinity</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="e985bd1f-70dc-4961-bdde-1c08a935989a"
->KvInt.Val2.SpeedStep &lt;- MessageTypes.SpeedResolution ( Speed, 5.0 )</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Val3"
- Guid="b6b0b546-46bb-4cbb-8668-659cf88dbb24"
->
-<Comment>Fill Val3.</Comment>
-<PreConditions>
-<PreCondition
- Guid="e53c7325-d435-4af8-ba0c-5a61dd278eb9"
->KvInt.Val3.SpeedStep == BaseTypes.Speed.Infinity</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="1917adc2-911a-47c0-9fad-2d3b551b256c"
->KvInt.Val2.SpeedStep &lt;- MessageTypes.SpeedResolution ( Speed, 5.0 )</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Val4"
- Guid="043fe851-1b8c-4394-b674-e37b3da69ef2"
->
-<Comment>Fill Val4.</Comment>
-<PreConditions>
-<PreCondition
- Guid="ec306e92-2b25-4fdd-bc62-d737038b3298"
->KvInt.Val4.SpeedStep == BaseTypes.Speed.Infinity</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="77ea9c6e-78a8-4919-b755-d5d5f968162c"
->KvInt.Val2.SpeedStep &lt;- MessageTypes.SpeedResolution ( Speed, 5.0 )</Action></Actions>
-</RuleCondition></Conditions>
-</Rule></Rules>
-</Procedure><Procedure
- X="960"
- Y="120"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="CreateKvIntValue_PassengerTrain"
- Guid="16eeba6c-5933-4e9c-9500-5f6ed3103619"
->
-<Comment>Fill the elements of KvInt (the first element was filled by the procedure CreateKvIntValueSet). The selected element to fill is the first element was has not yet been initialized (the value of SpeedStep equals Infinity).</Comment>
-<Parameters>
-<Parameter
- Type="Messages.M_NVKVINT"
- Name="ValueA"
- Guid="0b02cadd-57b7-44bc-9648-40494e808d93"
->
-</Parameter><Parameter
- Type="Messages.M_NVKVINT"
- Name="ValueB"
- Guid="3fee1c5c-33fd-4f07-9f27-9fdf3115800a"
->
-</Parameter><Parameter
- Type="MessageTypes.Speed"
- Name="Speed"
- Guid="45903244-9b5e-40e6-b7ff-ca917ef60781"
->
-</Parameter><Parameter
- Type="KvIntValueSet_PassengerTrainStruct"
- Name="KvInt"
- Guid="95dbbc80-2905-4e9b-84e3-910fdbd4e6ef"
->
-</Parameter></Parameters>
-<Rules>
-<Rule
- Priority="Processing"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="CreateKvIntValue"
- Guid="344c10aa-2c66-4385-9bb4-1a35ee5ad517"
->
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Val1"
- Guid="ed36a08c-e6fc-451a-93b8-9d4b27a44f6e"
->
-<Comment>Fill Val1.</Comment>
-<PreConditions>
-<PreCondition
- Guid="87b7e9f2-598a-445e-a254-d8962f7e6018"
->KvInt.Val1.SpeedStep == BaseTypes.Speed.Infinity</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="02098015-9328-4060-bf47-a34950e5e92f"
->KvInt.Val1.SpeedStep &lt;- MessageTypes.SpeedResolution ( Speed, 5.0 )</Action><Action
- Guid="ff12d93b-63e4-4cac-827e-85f00b5ddc71"
->KvInt.Val1.ValueA &lt;- Kernel.NationalValues.KvResolution ( ValueA )</Action><Action
- Guid="3f7c9184-c574-4923-8508-d5f4d62c2fe3"
->KvInt.Val1.ValueB &lt;- Kernel.NationalValues.KvResolution ( ValueB )</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Val2"
- Guid="f34ab6c8-3712-44f4-92f6-c11b21762eab"
->
-<Comment>Fill Val2.</Comment>
-<PreConditions>
-<PreCondition
- Guid="bfbe6406-1d30-4a23-ad74-6d1eeb2cc39c"
->KvInt.Val2.SpeedStep == BaseTypes.Speed.Infinity</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="c6c70a21-8882-4b1f-9ba4-1518a04379f5"
->KvInt.Val2.SpeedStep &lt;- MessageTypes.SpeedResolution ( Speed, 5.0 )</Action><Action
- Guid="9a98ff4a-e97b-4cb1-93cd-620014766dd0"
->KvInt.Val2.ValueA &lt;- Kernel.NationalValues.KvResolution ( ValueA )</Action><Action
- Guid="50e95d44-1e25-487a-b47e-6a2f21a21a4f"
->KvInt.Val2.ValueB &lt;- Kernel.NationalValues.KvResolution ( ValueB )</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Val3"
- Guid="689618d8-c573-4f3a-9a25-dc877fc7c098"
->
-<Comment>Fill Val3.</Comment>
-<PreConditions>
-<PreCondition
- Guid="47e8da02-6679-45ee-82e9-2c28bd1147a0"
->KvInt.Val3.SpeedStep == BaseTypes.Speed.Infinity</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="815b91fb-c06e-4553-aeac-aaec02534634"
->KvInt.Val3.SpeedStep &lt;- MessageTypes.SpeedResolution ( Speed, 5.0 )</Action><Action
- Guid="c1b56876-41e2-417d-b749-c70677c9dbb6"
->KvInt.Val3.ValueA &lt;- Kernel.NationalValues.KvResolution ( ValueA )</Action><Action
- Guid="913e1348-aa70-4eae-9e3a-c066e7e65fa4"
->KvInt.Val3.ValueB &lt;- Kernel.NationalValues.KvResolution ( ValueB )</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Val4"
- Guid="99066f5f-0fdb-4029-ab78-27860ffc26da"
->
-<Comment>Fill Val4.</Comment>
-<PreConditions>
-<PreCondition
- Guid="77d7e468-8f99-4d92-ae50-152b5ccb16b3"
->KvInt.Val4.SpeedStep == BaseTypes.Speed.Infinity</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="998253c5-2808-4b46-9455-7f6ec1bd4330"
->KvInt.Val4.SpeedStep &lt;- MessageTypes.SpeedResolution ( Speed, 5.0 )</Action><Action
- Guid="fe54f14e-3a30-4835-89c9-1def6c8149d5"
->KvInt.Val4.ValueA &lt;- Kernel.NationalValues.KvResolution ( ValueA )</Action><Action
- Guid="603fb8b0-b3d7-4c1e-8412-657adf28d887"
->KvInt.Val4.ValueB &lt;- Kernel.NationalValues.KvResolution ( ValueB )</Action></Actions>
+>Kernel.NationalValues.NotApplicableNationalValues &lt;- Kernel.NationalValues.CreateNewNationalValues(aPacket=&gt;Packet)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
