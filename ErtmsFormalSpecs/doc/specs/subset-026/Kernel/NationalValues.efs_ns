@@ -1980,7 +1980,7 @@ A_NVP23 =&gt; BaseTypes.Acceleration.NA
 <PreConditions>
 <PreCondition
  Guid="c74660cf-9016-4488-aff2-22f1b3e04e9b"
->Kernel.TrainData.TrainData.Value.BrakePosition in [Kernel.TrainData.BrakingParameters.BrakePositions.FreightTrainInP,Kernel.TrainData.BrakingParameters.BrakePositions.FreightTrainInG]</PreCondition></PreConditions>
+>TrainData.TrainData.Value.BrakePosition in [TrainData.BrakingParameters.BrakePositions.FreightTrainInP,TrainData.BrakingParameters.BrakePositions.FreightTrainInG]</PreCondition></PreConditions>
 <Expression>Kernel.NationalValues.CurrentNV().MaxDecelValueUnderReducedAdhesionCond3</Expression>
 </Case><Case
  Name="PassengerTrainWithBrakesIndependentFromWheelRailAdhesion"
@@ -1989,9 +1989,9 @@ A_NVP23 =&gt; BaseTypes.Acceleration.NA
 <PreConditions>
 <PreCondition
  Guid="62e0ee78-f62c-40f0-8088-bcee31304ad7"
->Kernel.TrainData.TrainData.Value.BrakePosition == Kernel.TrainData.BrakingParameters.BrakePositions.PassengerTrainInP</PreCondition><PreCondition
+>TrainData.TrainData.Value.BrakePosition == TrainData.BrakingParameters.BrakePositions.PassengerTrainInP</PreCondition><PreCondition
  Guid="5891c969-d31e-43b7-92a0-bb72d17d9fe0"
->Kernel.TrainData.BrakingParameters.ContributionOfSpecialBrakeIsTakenIntoAccount()</PreCondition></PreConditions>
+>TrainData.BrakingParameters.ContributionOfSpecialBrakeIsTakenIntoAccount()</PreCondition></PreConditions>
 <Expression>Kernel.NationalValues.CurrentNV().MaxDecelValueUnderReducedAdhesionCond1</Expression>
 </Case><Case
  Name="PassengerTrainWithoutBrakesIndependentFromWheelRailAdhesion"
@@ -2000,9 +2000,9 @@ A_NVP23 =&gt; BaseTypes.Acceleration.NA
 <PreConditions>
 <PreCondition
  Guid="b0e1e819-ae1e-47aa-b0f4-05f1cf67d2c7"
->Kernel.TrainData.TrainData.Value.BrakePosition == Kernel.TrainData.BrakingParameters.BrakePositions.PassengerTrainInP</PreCondition><PreCondition
+>TrainData.TrainData.Value.BrakePosition == TrainData.BrakingParameters.BrakePositions.PassengerTrainInP</PreCondition><PreCondition
  Guid="0aae850b-97c9-46c9-a0d2-a0f698d84d30"
->NOT Kernel.TrainData.BrakingParameters.ContributionOfSpecialBrakeIsTakenIntoAccount()</PreCondition></PreConditions>
+>NOT TrainData.BrakingParameters.ContributionOfSpecialBrakeIsTakenIntoAccount()</PreCondition></PreConditions>
 <Expression>Kernel.NationalValues.CurrentNV().MaxDecelValueUnderReducedAdhesionCond2</Expression>
 </Case></Cases>
 </Function><Function
@@ -2490,7 +2490,7 @@ A_NVP23 =&gt; BaseTypes.Acceleration.NA
 <PreConditions>
 <PreCondition
  Guid="babb1c5e-ab27-4870-8aa7-a3f9c7e3ccd5"
->A_P12 &gt;= Kernel.TrainData.BrakingParameters.A_ebmax()</PreCondition></PreConditions>
+>A_P12 &gt;= TrainData.BrakingParameters.A_ebmax()</PreCondition></PreConditions>
 <Expression>ValA</Expression>
 </Case><Case
  Name="A_ebmax &gt;= A_P23"
@@ -2499,13 +2499,13 @@ A_NVP23 =&gt; BaseTypes.Acceleration.NA
 <PreConditions>
 <PreCondition
  Guid="d6fe66a2-65bf-4439-bd2e-8d048171dd3d"
->A_P23 &lt;= Kernel.TrainData.BrakingParameters.A_ebmax()</PreCondition></PreConditions>
+>A_P23 &lt;= TrainData.BrakingParameters.A_ebmax()</PreCondition></PreConditions>
 <Expression>ValB</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="541c5db0-4ec6-4417-97e7-de4c74359602"
 >
-<Expression>ValA + ( Kernel.TrainData.BrakingParameters.A_ebmax() - A_P12 ) / ( A_P23 - A_P12 ) * ( ValB-ValA )</Expression>
+<Expression>ValA + ( TrainData.BrakingParameters.A_ebmax() - A_P12 ) / ( A_P23 - A_P12 ) * ( ValB-ValA )</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Acceleration"
@@ -2540,7 +2540,7 @@ A_NVP23 =&gt; BaseTypes.Acceleration.NA
 <PreConditions>
 <PreCondition
  Guid="1b966e7b-4628-49e9-a576-795207603422"
->Kernel.TrainData.TrainData.Value.BrakePosition == Kernel.TrainData.BrakingParameters.BrakePositions.PassengerTrainInP</PreCondition></PreConditions>
+>TrainData.TrainData.Value.BrakePosition == TrainData.BrakingParameters.BrakePositions.PassengerTrainInP</PreCondition></PreConditions>
 <Expression>Kernel.NationalValues.Kv_intFunction_PassengerTrains ( aKv_int =&gt; Kernel.NationalValues.CurrentNV().IntegratedCorrectionFactorKvInt_PassengerTrain, V =&gt; V )</Expression>
 </Case><Case
  Name="Freight train"

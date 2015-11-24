@@ -1,0 +1,356 @@
+<NameSpace
+ Name="ValidatedTrainData"
+ Guid="0d96627d-2fb0-4bfd-aff9-0730a078a781"
+>
+<NameSpaces>
+</NameSpaces>
+<Structures>
+<Structure
+ X="221"
+ Y="1"
+ Width="100"
+ Height="50"
+ Name="M_AXLELOADCATTranslationStruct"
+ Guid="dea65e3e-9b08-4bb1-a20f-77322c96dc6f"
+>
+<StructureElement
+ TypeName="Messages.M_AXLELOADCAT"
+ Default=""
+ Mode="Internal"
+ Name="M_AXLELOADCAT"
+ Guid="99a860c2-a5ea-4ead-b8d4-8b198e0c1538"
+>
+</StructureElement><StructureElement
+ TypeName="Messages.SystemVersion1.M_AXLELOAD"
+ Default=""
+ Mode="Internal"
+ Name="M_AXLELOAD"
+ Guid="447d38d9-8171-432b-b44b-37c679c7fe59"
+>
+</StructureElement></Structure><Structure
+ X="661"
+ Y="1"
+ Width="100"
+ Height="50"
+ Name="NC_CDTRAINTranslationStruct"
+ Guid="7958b37d-8349-4d68-b916-c43a04db7ccd"
+>
+<StructureElement
+ TypeName="Messages.NC_CDTRAIN"
+ Default=""
+ Mode="Internal"
+ Name="OnBoard_NC_CDTRAIN"
+ Guid="b5ff53ff-fe9d-45d0-93f7-3cac76a1fc03"
+>
+</StructureElement><StructureElement
+ TypeName="Messages.SystemVersion1.NC_TRAIN"
+ Default=""
+ Mode="Internal"
+ Name="NC_TRAIN"
+ Guid="0ea1981e-d987-44f7-96e1-2529b5d168f0"
+>
+</StructureElement></Structure></Structures>
+<Collections>
+<Collection
+ TypeName="M_AXLELOADCATTranslationStruct"
+ MaxSize="17"
+ Default="[]"
+ X="331"
+ Y="1"
+ Width="100"
+ Height="50"
+ Name="M_AXLELOADCATTranslationCol"
+ Guid="5335f057-62d3-410f-ac9b-e26be9ce6981"
+>
+</Collection><Collection
+ TypeName="NC_CDTRAINTranslationStruct"
+ MaxSize="11"
+ Default="[]"
+ X="331"
+ Y="1"
+ Width="100"
+ Height="50"
+ Name="NC_CDTRAINTranslationCol"
+ Guid="b23fe40a-af33-4c66-bae0-a642c2f43876"
+>
+</Collection></Collections>
+<Functions>
+<Function
+ Type="Messages.SystemVersion1.PACKET.TRAIN_TO_TRACK.VALIDATED_TRAIN_DATA.Message"
+ X="111"
+ Y="1"
+ Width="100"
+ Height="50"
+ Name="DowndatedPacket"
+ Guid="ac7204ce-fe63-4ad2-91e6-254e08ad64ad"
+>
+<Parameters>
+<Parameter
+ Type="Messages.PACKET.TRAIN_TO_TRACK.VALIDATED_TRAIN_DATA.Message"
+ Name="aPacket"
+ Guid="ed188da6-5e8e-4b16-a116-9da49a34cc3c"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="aec186c0-aad8-4832-aa84-2936032bbe9b"
+>
+<Expression>Messages.SystemVersion1.PACKET.TRAIN_TO_TRACK.VALIDATED_TRAIN_DATA.Message
+{
+  NID_PACKET =&gt; aPacket.NID_PACKET, 
+  L_PACKET =&gt; aPacket.L_PACKET, 
+  NID_OPERATIONAL =&gt; Kernel.TrainRunningNumber.Value, 
+  NC_TRAIN =&gt; Translated_NC_CDTRAIN( Kernel.TrainData.TrainData.TrainCategoriesStruct.CantDeficiency) + 512 * Kernel.TrainData.GetOtherInternationalTrainCategories() ,
+  L_TRAIN =&gt; aPacket.L_TRAIN, 
+  V_MAXTRAIN =&gt; aPacket.V_MAXTRAIN, 
+  M_LOADINGGAUGE =&gt; 0, 
+  M_AXLELOAD =&gt; VersionManagement.Translation.Packets.ValidatedTrainData.Translated_M_AXLELOADCAT( aPacket.M_AXLELOADCAT), 
+  M_AIRTIGHT =&gt; aPacket.M_AIRTIGHT, 
+  N_ITER_0 =&gt; 0, 
+  Sequence1 =&gt; [], 
+  N_ITER_1 =&gt; aPacket.N_ITER_1, 
+  Sequence2 =&gt; MAP aPacket.Sequence2 USING X IN VersionManagement.Translation.Packets.ValidatedTrainData.TranslateSubStruct(X)
+}</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.SystemVersion1.M_AXLELOAD"
+ X="771"
+ Y="1"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="Translated_M_AXLELOADCAT"
+ Guid="b57d9362-ccc0-4cf4-b49f-6cd434c283d9"
+>
+<Comment>Returns the value of M_AXLELOAD corresponding to the given value of M_AXLELOADCAT.</Comment>
+<Parameters>
+<Parameter
+ Type="Messages.M_AXLELOADCAT"
+ Name="aM_AXLELOADCAT"
+ Guid="22f65505-1489-4771-b33f-554009eb4c74"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="d7b4bad8-f77b-412e-bf02-4a6f0be645ce"
+>
+<Expression>(FIRST X IN Translatable_M_AXLELOADCAT_Values | X.M_AXLELOADCAT == aM_AXLELOADCAT).M_AXLELOAD</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.SystemVersion1.PACKET.TRAIN_TO_TRACK.VALIDATED_TRAIN_DATA.SubStructure2"
+ X="551"
+ Y="1"
+ Width="100"
+ Height="50"
+ Name="TranslateSubStruct"
+ Guid="c3c356fb-e974-4b06-a60a-7c250d886331"
+>
+<Parameters>
+<Parameter
+ Type="Messages.PACKET.TRAIN_TO_TRACK.VALIDATED_TRAIN_DATA.SubStructure2"
+ Name="aSubStruct"
+ Guid="01de4de8-8f22-4b2a-88df-3179ebe93a54"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="62c50154-f158-48da-8111-45dab8efa319"
+>
+<Expression>Messages.SystemVersion1.PACKET.TRAIN_TO_TRACK.VALIDATED_TRAIN_DATA.SubStructure2{
+NID_NTC =&gt; aSubStruct.NID_NTC
+}</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ X="881"
+ Y="1"
+ Width="100"
+ Height="50"
+ Name="Is_NC_TRAIN_Translatable"
+ Guid="8317f15c-0eda-4352-8565-4dcff5fc0359"
+>
+<Parameters>
+<Parameter
+ Type="Messages.NC_TRAIN"
+ Name="aNC_TRAIN"
+ Guid="ba9fd8ce-a423-420c-baf9-76d7bf0dd758"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="bb09cb4f-e051-4b5f-964c-5ee487e63312"
+>
+<Expression>THERE_IS aNC_TRAIN IN [
+Messages.NC_TRAIN.Freight_train_braked_in__G__position,
+Messages.NC_TRAIN.Freight_train_braked_in__P__position,
+Messages.NC_TRAIN.Passenger_train,
+Messages.NC_TRAIN.Train_does_not_belong_to_any_of_the__Other_International__Train_Category
+]</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.SystemVersion1.NC_TRAIN"
+ X="771"
+ Y="1"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="Translated_NC_CDTRAIN"
+ Guid="b1ed5e32-5b31-4086-bc4b-29fa1ffb1010"
+>
+<Comment>Returns the value of NC_TRAIN corresponding to the given value of NC_CDTRAIN.</Comment>
+<Parameters>
+<Parameter
+ Type="Messages.NC_CDTRAIN"
+ Name="aNC_CDTRAIN"
+ Guid="fe1a068d-6de2-40ad-b1e3-660fbfc7d101"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="dc85a767-309e-4b12-b408-99e243c323d2"
+>
+<Expression>(FIRST X IN Translatable_NC_CDTRAIN_Values | X.OnBoard_NC_CDTRAIN == aNC_CDTRAIN).NC_TRAIN</Expression>
+</Case></Cases>
+</Function></Functions>
+<Variables>
+<Variable
+ Type="M_AXLELOADCATTranslationCol"
+ DefaultValue="[
+M_AXLELOADCATTranslationStruct{
+M_AXLELOADCAT =&gt; Messages.M_AXLELOADCAT.A,
+M_AXLELOAD =&gt; 32
+},
+M_AXLELOADCATTranslationStruct{
+M_AXLELOADCAT =&gt; Messages.M_AXLELOADCAT.HS17,
+M_AXLELOAD =&gt; 34
+},
+M_AXLELOADCATTranslationStruct{
+M_AXLELOADCAT =&gt; Messages.M_AXLELOADCAT.B1,
+M_AXLELOAD =&gt; 36
+},
+M_AXLELOADCATTranslationStruct{
+M_AXLELOADCAT =&gt; Messages.M_AXLELOADCAT.B2,
+M_AXLELOAD =&gt; 36
+},
+M_AXLELOADCATTranslationStruct{
+M_AXLELOADCAT =&gt; Messages.M_AXLELOADCAT.C2,
+M_AXLELOAD =&gt; 40
+},
+M_AXLELOADCATTranslationStruct{
+M_AXLELOADCAT =&gt; Messages.M_AXLELOADCAT.C3,
+M_AXLELOAD =&gt; 40
+},
+M_AXLELOADCATTranslationStruct{
+M_AXLELOADCAT =&gt; Messages.M_AXLELOADCAT.C4,
+M_AXLELOAD =&gt; 40
+},
+M_AXLELOADCATTranslationStruct{
+M_AXLELOADCAT =&gt; Messages.M_AXLELOADCAT.D2,
+M_AXLELOAD =&gt; 45
+},
+M_AXLELOADCATTranslationStruct{
+M_AXLELOADCAT =&gt; Messages.M_AXLELOADCAT.D3,
+M_AXLELOAD =&gt; 45
+},
+M_AXLELOADCATTranslationStruct{
+M_AXLELOADCAT =&gt; Messages.M_AXLELOADCAT.D4,
+M_AXLELOAD =&gt; 45
+},
+M_AXLELOADCATTranslationStruct{
+M_AXLELOADCAT =&gt; Messages.M_AXLELOADCAT.D4XL,
+M_AXLELOAD =&gt; 45
+},
+M_AXLELOADCATTranslationStruct{
+M_AXLELOADCAT =&gt; Messages.M_AXLELOADCAT.E4,
+M_AXLELOAD =&gt; 50
+},
+M_AXLELOADCATTranslationStruct{
+M_AXLELOADCAT =&gt; Messages.M_AXLELOADCAT.E5,
+M_AXLELOAD =&gt; 50
+}
+]"
+ VariableMode="Internal"
+ X="441"
+ Y="1"
+ Width="100"
+ Height="50"
+ Name="Translatable_M_AXLELOADCAT_Values"
+ Guid="d616ee31-5873-4ee6-b512-c5a010cc71db"
+>
+<Comment>Translation table for packet 129. The field M_AXLELOADCAT is replaced by M_AXLELOAD. This variable is a collection of struct, one for each value of M_AXLELOADCAT and the corresponding values for M_AXLELOAD.
+Remind that M_AXLELOAD has a precision of 0.5t.</Comment>
+</Variable><Variable
+ Type="NC_CDTRAINTranslationCol"
+ DefaultValue="[
+NC_CDTRAINTranslationStruct
+{
+OnBoard_NC_CDTRAIN =&gt; Messages.NC_CDTRAIN.Cant_Deficiency_80_mm,
+NC_TRAIN =&gt; Messages.SystemVersion1.NC_TRAIN.Cant_deficiency_80_mm
+},
+NC_CDTRAINTranslationStruct
+{
+OnBoard_NC_CDTRAIN =&gt; Messages.NC_CDTRAIN.Cant_Deficiency_100_mm,
+NC_TRAIN =&gt; Messages.SystemVersion1.NC_TRAIN.Cant_deficiency_100_mm
+},
+NC_CDTRAINTranslationStruct
+{
+OnBoard_NC_CDTRAIN =&gt; Messages.NC_CDTRAIN.Cant_Deficiency_130_mm,
+NC_TRAIN =&gt; Messages.SystemVersion1.NC_TRAIN.Cant_deficiency_130_mm
+},
+NC_CDTRAINTranslationStruct
+{
+OnBoard_NC_CDTRAIN =&gt; Messages.NC_CDTRAIN.Cant_Deficiency_150_mm,
+NC_TRAIN =&gt; Messages.SystemVersion1.NC_TRAIN.Cant_deficiency_150_mm
+},
+NC_CDTRAINTranslationStruct
+{
+OnBoard_NC_CDTRAIN =&gt; Messages.NC_CDTRAIN.Cant_Deficiency_165_mm,
+NC_TRAIN =&gt; Messages.SystemVersion1.NC_TRAIN.Cant_deficiency_165_mm
+},
+NC_CDTRAINTranslationStruct
+{
+OnBoard_NC_CDTRAIN =&gt; Messages.NC_CDTRAIN.Cant_Deficiency_180_mm,
+NC_TRAIN =&gt; Messages.SystemVersion1.NC_TRAIN.Cant_deficiency_180_mm
+},
+NC_CDTRAINTranslationStruct
+{
+OnBoard_NC_CDTRAIN =&gt; Messages.NC_CDTRAIN.Cant_Deficiency_210_mm,
+NC_TRAIN =&gt; Messages.SystemVersion1.NC_TRAIN.Cant_deficiency_210_mm
+},
+NC_CDTRAINTranslationStruct
+{
+OnBoard_NC_CDTRAIN =&gt; Messages.NC_CDTRAIN.Cant_Deficiency_225_mm,
+NC_TRAIN =&gt; Messages.SystemVersion1.NC_TRAIN.Cant_deficiency_225_mm
+},
+NC_CDTRAINTranslationStruct
+{
+OnBoard_NC_CDTRAIN =&gt; Messages.NC_CDTRAIN.Cant_Deficiency_245_mm,
+NC_TRAIN =&gt; Messages.SystemVersion1.NC_TRAIN.Cant_deficiency_245_mm
+},
+NC_CDTRAINTranslationStruct
+{
+OnBoard_NC_CDTRAIN =&gt; Messages.NC_CDTRAIN.Cant_Deficiency_275_mm,
+NC_TRAIN =&gt; Messages.SystemVersion1.NC_TRAIN.Cant_Deficiency_275_mm
+},
+NC_CDTRAINTranslationStruct
+{
+OnBoard_NC_CDTRAIN =&gt; Messages.NC_CDTRAIN.Cant_Deficiency_300_mm,
+NC_TRAIN =&gt; Messages.SystemVersion1.NC_TRAIN.Cant_deficiency_300_mm
+}
+]"
+ VariableMode="Internal"
+ X="441"
+ Y="1"
+ Width="100"
+ Height="50"
+ Name="Translatable_NC_CDTRAIN_Values"
+ Guid="229cc1c7-240d-427c-bcc2-5fc6ba9d1038"
+>
+<Comment>Translation table for packet 129. The field NC_CDTRAIN is replaced by NC_TRAIN. This variable is a collection of struct, one for each value of NC_CDTRAIN and the corresponding values for NC_TRAIN.</Comment>
+</Variable></Variables>
+</NameSpace>

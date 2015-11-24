@@ -382,7 +382,7 @@
 <Expression>NOT
 (
   Kernel.TrackDescription.RouteSuitability.GaugesMatch ( aLineGauge =&gt; anItem.LineGauge,
-                           aLoadingGauge =&gt; Kernel.TrainData.TrainData.Value.LoadingGauge)
+                           aLoadingGauge =&gt; TrainData.TrainData.Value.LoadingGauge)
 )
   AND
 NOT THERE_IS X IN
@@ -392,7 +392,7 @@ NOT THERE_IS X IN
     X.Location == anItem.Location
       AND
     Kernel.TrackDescription.RouteSuitability.GaugesMatch ( aLineGauge =&gt; X.LineGauge,
-                             aLoadingGauge =&gt; Kernel.TrainData.TrainData.Value.LoadingGauge)</Expression>
+                             aLoadingGauge =&gt; TrainData.TrainData.Value.LoadingGauge)</Expression>
 </Case><Case
  Name="Axle load"
  Guid="2161906b-ab60-44ec-864b-1b522510851f"
@@ -401,7 +401,7 @@ NOT THERE_IS X IN
 <PreCondition
  Guid="0d721740-4b22-49e4-8662-bbec0e59cfbf"
 >anItem.Type == Messages.Q_SUITABILITY.Max_axle_load</PreCondition></PreConditions>
-<Expression>anItem.MaxAxleLoad &lt; Kernel.TrainData.TrainData.Value.AxleLoadCategory</Expression>
+<Expression>anItem.MaxAxleLoad &lt; TrainData.TrainData.Value.AxleLoadCategory</Expression>
 </Case><Case
  Name="Traction system"
  Guid="8f15b209-1d1a-42cb-b75f-339d72abcb35"
@@ -413,7 +413,7 @@ NOT THERE_IS X IN
 <Expression>NOT
 (
   THERE_IS X IN
-    Kernel.TrainData.TrainData.Value.TractionSystems |
+    TrainData.TrainData.Value.TractionSystems |
       X.Voltage == anItem.TractionSystem
         AND
       X.Country == anItem.NidCTraction

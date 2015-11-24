@@ -538,7 +538,7 @@ The formulae are easier than in subset 26 since the values of grad and M_rotatin
 <PreConditions>
 <PreCondition
  Guid="c251abd5-ae0b-4546-9370-af15eefc6a37"
->Kernel.TrainData.TrainData.Value.M_rotating_nom == Percentage.NA</PreCondition><PreCondition
+>TrainData.TrainData.Value.M_rotating_nom == Percentage.NA</PreCondition><PreCondition
  Guid="846fd481-cff0-4851-a79a-3806b43dc156"
 >Gradient &gt;= 0.0</PreCondition></PreConditions>
 <Expression>Gradient / ( 1000.0 + 10.0 * Kernel.TrackDescription.Gradient.M_rotating_max )</Expression>
@@ -549,7 +549,7 @@ The formulae are easier than in subset 26 since the values of grad and M_rotatin
 <PreConditions>
 <PreCondition
  Guid="0c4fb344-37be-4402-877a-6091ddd07b6a"
->Kernel.TrainData.TrainData.Value.M_rotating_nom == Percentage.NA</PreCondition><PreCondition
+>TrainData.TrainData.Value.M_rotating_nom == Percentage.NA</PreCondition><PreCondition
  Guid="840b9fe7-a3cb-4516-8985-3ad058907ce2"
 >Gradient &lt; 0.0</PreCondition></PreConditions>
 <Expression>Gradient / ( 1000.0 + 10.0 * Kernel.TrackDescription.Gradient.M_rotating_min )</Expression>
@@ -560,10 +560,10 @@ The formulae are easier than in subset 26 since the values of grad and M_rotatin
 <PreConditions>
 <PreCondition
  Guid="21a4ccda-967e-4cc1-b49f-3d34f6d5ba6f"
->Kernel.TrainData.TrainData.Value.M_rotating_nom != Percentage.NA</PreCondition><PreCondition
+>TrainData.TrainData.Value.M_rotating_nom != Percentage.NA</PreCondition><PreCondition
  Guid="783c230a-2105-4754-b542-f92714c1641c"
 >Gradient &gt;= 0.0</PreCondition></PreConditions>
-<Expression>Gradient / ( 1000.0 + 10.0 * Kernel.TrainData.TrainData.Value.M_rotating_nom )</Expression>
+<Expression>Gradient / ( 1000.0 + 10.0 * TrainData.TrainData.Value.M_rotating_nom )</Expression>
 </Case><Case
  Name="M_rotating_nom is known, downhill"
  Guid="55cdf420-e991-4448-baca-eb9bd494e509"
@@ -571,10 +571,10 @@ The formulae are easier than in subset 26 since the values of grad and M_rotatin
 <PreConditions>
 <PreCondition
  Guid="9da3d253-e3ad-45a0-b304-aa2afdc7dba3"
->Kernel.TrainData.TrainData.Value.M_rotating_nom != Percentage.NA</PreCondition><PreCondition
+>TrainData.TrainData.Value.M_rotating_nom != Percentage.NA</PreCondition><PreCondition
  Guid="53f7dda7-3bf5-47a2-8563-d694f266b4dc"
 >Gradient &lt; 0.0</PreCondition></PreConditions>
-<Expression>Gradient / ( 1000.0 + 10.0 * Kernel.TrainData.TrainData.Value.M_rotating_nom )</Expression>
+<Expression>Gradient / ( 1000.0 + 10.0 * TrainData.TrainData.Value.M_rotating_nom )</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Acceleration"
@@ -666,7 +666,7 @@ The formulae are easier than in subset 26 since the values of grad and M_rotatin
  Guid="4dd28f32-dbba-44cf-abd7-7cd0c8d4e2ab"
 >
 <Expression>(REDUCE Kernel.TrackDescription.Gradient.Gradients 
-    USING X IN  MIN ( RESULT, FUNCTION d : BaseTypes.Distance =&gt; Kernel.TrackDescription.Gradient.GradientInfoProfile_NonCompensated( GradientInfo =&gt; X, Distance =&gt; d, TrainLength =&gt; Kernel.TrainData.TrainData.Value.TrainLength ) )
+    USING X IN  MIN ( RESULT, FUNCTION d : BaseTypes.Distance =&gt; Kernel.TrackDescription.Gradient.GradientInfoProfile_NonCompensated( GradientInfo =&gt; X, Distance =&gt; d, TrainLength =&gt; TrainData.TrainData.Value.TrainLength ) )
   INITIAL_VALUE BaseTypes.IndefiniteGradientFunction) (Distance)</Expression>
 </Case></Cases>
 </Function><Function
@@ -789,7 +789,7 @@ Outside the distances provided by the gradient, the gradient value is defined as
 <PreConditions>
 <PreCondition
  Guid="55d1dd43-8bdd-4519-b0f6-3ff74b3c4c3c"
->Distance &gt;= Kernel.TrackDescription.Gradient.GradientEnd ( GradientInfo ) + BaseTypes.LengthToDistance ( Kernel.TrainData.TrainData.Value.TrainLength )</PreCondition></PreConditions>
+>Distance &gt;= Kernel.TrackDescription.Gradient.GradientEnd ( GradientInfo ) + BaseTypes.LengthToDistance ( TrainData.TrainData.Value.TrainLength )</PreCondition></PreConditions>
 <Expression>BaseTypes.Gradient.Indefinite</Expression>
 </Case><Case
  Name="Within gradient info"

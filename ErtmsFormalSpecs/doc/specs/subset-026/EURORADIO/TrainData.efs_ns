@@ -101,7 +101,7 @@
     M_LOADINGGAUGE =&gt; Kernel.TrainData.TrainData.Value.LoadingGauge,
     N_AXLE =&gt; Kernel.TrainData.TrainData.Value.AxleNumber,
     NC_CDTRAIN =&gt; Kernel.TrainData.TrainData.Value.TrainCategories.CantDeficiency,
-    NC_TRAIN =&gt; EURORADIO.TrainData.FillOtherInternationalTrainCategories(),
+    NC_TRAIN =&gt; Kernel.TrainData.GetOtherInternationalTrainCategories(),
     NID_PACKET =&gt; 11,
     V_MAXTRAIN =&gt; MessageTypes.UnResolveSpeed ( speed =&gt; Kernel.TrainData.TrainData.Value.MaximumSpeed, resolution =&gt; 5.0 ),
     N_ITER_0 =&gt; COUNT X IN ( Kernel.TrainData.TrainData.Value.TractionSystems ),
@@ -184,140 +184,6 @@
     M_VOLTAGE =&gt; aTractionSystem.Voltage,
     NID_CTRACTION =&gt; aTractionSystem.Country
 }</Expression>
-</Case></Cases>
-</Function><Function
- Type="Messages.NC_TRAIN"
- Default=""
- X="440"
- Y="60"
- Width="100"
- Height="50"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="FillOtherInternationalTrainCategories"
- Guid="c1d3528b-5f7a-4246-8274-92444f0e615a"
->
-<ReqRef
- Id="d1064b23-7377-4cb2-b7ca-5cec6c1f6c69"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="075733f9-43cd-4d7c-b13c-0f3e918ecc59"
->
-</ReqRef><Comment>Fills the other international train categories information in format that will be sent to the RBC.</Comment>
-<Cases>
-<Case
- Name="Freight in P, freight in G, passanger"
- Guid="7541b57c-4ec7-4c23-b4cd-581853a4c25d"
->
-<PreConditions>
-<PreCondition
- Guid="afcd3e27-5585-42ea-83a3-8241f2579ad9"
->THERE_IS X IN
-  Kernel.TrainData.TrainData.Value.TrainCategories.OtherInternational
-|
-  X == Kernel.TrainData.TrainCategoryEnum.FreightTrainInP</PreCondition><PreCondition
- Guid="cc8204b3-1c2b-44d6-abe7-0f212c5660e5"
->THERE_IS X IN
-  Kernel.TrainData.TrainData.Value.TrainCategories.OtherInternational
-|
-  X == Kernel.TrainData.TrainCategoryEnum.FreightTrainInG</PreCondition><PreCondition
- Guid="6089474c-4595-4dff-a38b-0d12cf3e3e51"
->THERE_IS X IN
-  Kernel.TrainData.TrainData.Value.TrainCategories.OtherInternational
-|
-  X == Kernel.TrainData.TrainCategoryEnum.PassengerTrain</PreCondition></PreConditions>
-<Expression>7</Expression>
-</Case><Case
- Name="Freight in P, freight in G"
- Guid="343f4b54-4c91-459c-bec8-7909414385dc"
->
-<PreConditions>
-<PreCondition
- Guid="2b1339ca-e393-4f52-bd77-d3c16ef5d167"
->THERE_IS X IN
-  Kernel.TrainData.TrainData.Value.TrainCategories.OtherInternational
-|
-  X == Kernel.TrainData.TrainCategoryEnum.FreightTrainInG</PreCondition><PreCondition
- Guid="b200bee5-5186-4e5c-b14b-4346f6db8091"
->THERE_IS X IN
-  Kernel.TrainData.TrainData.Value.TrainCategories.OtherInternational
-|
-  X == Kernel.TrainData.TrainCategoryEnum.FreightTrainInP</PreCondition></PreConditions>
-<Expression>3</Expression>
-</Case><Case
- Name="Freight in P, passenger"
- Guid="665584e3-814c-4da0-b87f-517c9df0a4be"
->
-<PreConditions>
-<PreCondition
- Guid="30459bd9-3801-464e-8d4e-26fcab329e75"
->THERE_IS X IN
-  Kernel.TrainData.TrainData.Value.TrainCategories.OtherInternational
-|
-  X == Kernel.TrainData.TrainCategoryEnum.PassengerTrain</PreCondition><PreCondition
- Guid="13ed1d90-650a-4749-972e-3132bb5e709c"
->THERE_IS X IN
-  Kernel.TrainData.TrainData.Value.TrainCategories.OtherInternational
-|
-  X == Kernel.TrainData.TrainCategoryEnum.FreightTrainInP</PreCondition></PreConditions>
-<Expression>5</Expression>
-</Case><Case
- Name="Freight in G, passenger"
- Guid="73254acd-86de-4525-b1e6-dd26bfc636b2"
->
-<PreConditions>
-<PreCondition
- Guid="27d97e11-8f88-414a-94b6-9369e261f35f"
->THERE_IS X IN
-  Kernel.TrainData.TrainData.Value.TrainCategories.OtherInternational
-|
-  X == Kernel.TrainData.TrainCategoryEnum.FreightTrainInG</PreCondition><PreCondition
- Guid="f5d25510-c8af-4a36-a2ab-f533e210375c"
->THERE_IS X IN
-  Kernel.TrainData.TrainData.Value.TrainCategories.OtherInternational
-|
-  X == Kernel.TrainData.TrainCategoryEnum.PassengerTrain</PreCondition></PreConditions>
-<Expression>6</Expression>
-</Case><Case
- Name="Freight in P"
- Guid="1bdf51ec-0cff-4f29-8359-2fa730a3eb38"
->
-<PreConditions>
-<PreCondition
- Guid="b08f6a49-acb6-4bf6-a717-3fb887d382c5"
->THERE_IS X IN
-  Kernel.TrainData.TrainData.Value.TrainCategories.OtherInternational
-|
-  X == Kernel.TrainData.TrainCategoryEnum.FreightTrainInP</PreCondition></PreConditions>
-<Expression>1</Expression>
-</Case><Case
- Name="Freight in G"
- Guid="c1b70baa-fc04-46e3-92b4-c243ae9cb7d4"
->
-<PreConditions>
-<PreCondition
- Guid="40c5d1b8-459d-4c0e-96d1-4d9ab316fe63"
->THERE_IS X IN
-  Kernel.TrainData.TrainData.Value.TrainCategories.OtherInternational
-|
-  X == Kernel.TrainData.TrainCategoryEnum.FreightTrainInG</PreCondition></PreConditions>
-<Expression>2</Expression>
-</Case><Case
- Name="Passenger"
- Guid="f75af032-a59b-40fa-a330-ebb0a0ff610f"
->
-<PreConditions>
-<PreCondition
- Guid="7d6f63a4-b15a-469d-a0b2-a69ad48f3fc3"
->THERE_IS X IN
-  Kernel.TrainData.TrainData.Value.TrainCategories.OtherInternational
-|
-  X == Kernel.TrainData.TrainCategoryEnum.PassengerTrain</PreCondition></PreConditions>
-<Expression>4</Expression>
-</Case><Case
- Name="No category"
- Guid="ae1eaab3-bdbf-49b9-8a26-0ec23d39764c"
->
-<Expression>0</Expression>
 </Case></Cases>
 </Function><Function
  Type="Messages.PACKET.TRAIN_TO_TRACK.VALIDATED_TRAIN_DATA.SubStructure2"

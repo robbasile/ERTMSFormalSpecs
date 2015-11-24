@@ -865,8 +865,8 @@
 <PreConditions>
 <PreCondition
  Guid="59fd3e62-37f9-4040-ac3a-96214d7a24cf"
->Kernel.TrainData.TrainData.Value.SBModels != EMPTY</PreCondition></PreConditions>
-<Expression>Kernel.TrainData.BrakingParameters.Default_brk_service (V) + Kernel.TrackDescription.PermittedBrakingDistance.A_gradient(Gradient)</Expression>
+>TrainData.TrainData.Value.SBModels != EMPTY</PreCondition></PreConditions>
+<Expression>TrainData.BrakingParameters.Default_brk_service (V) + Kernel.TrackDescription.PermittedBrakingDistance.A_gradient(Gradient)</Expression>
 </Case><Case
  Name="From conversion model"
  Guid="40d171e2-7f71-49f1-9dbe-19e8a8faac39"
@@ -874,8 +874,8 @@
 <PreConditions>
 <PreCondition
  Guid="e650e13e-81be-4737-a404-293cace431a0"
->Kernel.TrainData.BrakingParameters.ConversionModel.ConversionModelIsUsed()</PreCondition></PreConditions>
-<Expression>Kernel.TrainData.BrakingParameters.ConversionModel.A_brake_service ( V ) + Kernel.TrackDescription.PermittedBrakingDistance.A_gradient(Gradient)</Expression>
+>TrainData.BrakingParameters.ConversionModel.ConversionModelIsUsed()</PreCondition></PreConditions>
+<Expression>TrainData.BrakingParameters.ConversionModel.A_brake_service ( V ) + Kernel.TrackDescription.PermittedBrakingDistance.A_gradient(Gradient)</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Speed"
@@ -1098,14 +1098,14 @@ INITIAL_VALUE BaseTypes.MaxSpeedFunction ) (Distance)</Expression>
 <PreConditions>
 <PreCondition
  Guid="aadc4768-d9d0-4121-ad97-03daa65b322c"
->Kernel.TrainData.TrainData.Value.EBModels != EMPTY</PreCondition></PreConditions>
-<Expression>Kernel.TrainData.BrakingParameters.Kdry_rst (
+>TrainData.TrainData.Value.EBModels != EMPTY</PreCondition></PreConditions>
+<Expression>TrainData.BrakingParameters.Kdry_rst (
     V =&gt; V,
     M_NVEBCL =&gt; Kernel.NationalValues.CurrentNV().ConfLevelForEmergBrakeSafeDecelerationOnDryRails )
  * 
-(Kernel.TrainData.BrakingParameters.Kwet_rst ( V ) + Kernel.NationalValues.CurrentNV().WeightingFactorForAvailableWheelRailAdhesion * ( 1.0 - Kernel.TrainData.BrakingParameters.Kwet_rst ( V ) ) )
+(TrainData.BrakingParameters.Kwet_rst ( V ) + Kernel.NationalValues.CurrentNV().WeightingFactorForAvailableWheelRailAdhesion * ( 1.0 - TrainData.BrakingParameters.Kwet_rst ( V ) ) )
  * 
-Kernel.TrainData.BrakingParameters.Default_brk_emergency(V)</Expression>
+TrainData.BrakingParameters.Default_brk_emergency(V)</Expression>
 </Case><Case
  Name="From conversion model"
  Guid="23cbc22f-2c1a-405b-8152-7a44c441b6f3"
@@ -1113,8 +1113,8 @@ Kernel.TrainData.BrakingParameters.Default_brk_emergency(V)</Expression>
 <PreConditions>
 <PreCondition
  Guid="572e8bb1-06af-4554-aad8-8dee18cd6e36"
->Kernel.TrainData.BrakingParameters.ConversionModel.ConversionModelIsUsed()</PreCondition></PreConditions>
-<Expression>BaseTypes.Acceleration ( Kernel.NationalValues.Kv_int ( V ) * Kernel.NationalValues.Kr_int ( Kernel.TrainData.TrainData.Value.TrainLength ) ) * Kernel.TrainData.BrakingParameters.ConversionModel.A_brake_emergency ( V )</Expression>
+>TrainData.BrakingParameters.ConversionModel.ConversionModelIsUsed()</PreCondition></PreConditions>
+<Expression>BaseTypes.Acceleration ( Kernel.NationalValues.Kv_int ( V ) * Kernel.NationalValues.Kr_int ( TrainData.TrainData.Value.TrainLength ) ) * TrainData.BrakingParameters.ConversionModel.A_brake_emergency ( V )</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Speed"
@@ -1870,9 +1870,9 @@ ON
 <Actions>
 <Action
  Guid="812f3ae6-01ea-41a2-9abe-58774618967b"
->Kernel.TrackDescription.PermittedBrakingDistance.PrevEBModels &lt;- Kernel.TrainData.TrainData.Value.EBModels</Action><Action
+>Kernel.TrackDescription.PermittedBrakingDistance.PrevEBModels &lt;- TrainData.TrainData.Value.EBModels</Action><Action
  Guid="245ad180-10c2-4230-93e8-c5930841f91a"
->Kernel.TrackDescription.PermittedBrakingDistance.PrevSBModels &lt;- Kernel.TrainData.TrainData.Value.SBModels</Action><Action
+>Kernel.TrackDescription.PermittedBrakingDistance.PrevSBModels &lt;- TrainData.TrainData.Value.SBModels</Action><Action
  Guid="06efd726-cf60-44b1-ba6a-733cf20e54d5"
 >Kernel.TrackDescription.PermittedBrakingDistance.CompensationForSpeedInaccuracyInhibited &lt;- Kernel.NationalValues.CompensationOfInaccuracyOfTheSpeedIsInhibited()</Action></Actions>
 </RuleCondition></Conditions>
@@ -2133,7 +2133,7 @@ Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.SpeedR
 </ReqRef><Comment>Contains the speed restrictions due to permitted braking distance.</Comment>
 </Variable><Variable
  Type="TrainData.BrakingParameters.EBModelSet"
- DefaultValue=""
+ DefaultValue="TrainData.BrakingParameters.EBModelSet{}"
  VariableMode="Internal"
  X="340"
  Y="10"
@@ -2151,7 +2151,7 @@ Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.SpeedR
 </ReqRef><Comment>Contains the previous value of emergency braking models.</Comment>
 </Variable><Variable
  Type="TrainData.BrakingParameters.SBModelSet"
- DefaultValue=""
+ DefaultValue="TrainData.BrakingParameters.SBModelSet{}"
  VariableMode="Internal"
  X="450"
  Y="10"
@@ -2270,9 +2270,9 @@ Value provided by Subset-041, paragraph 5.2.1.1</Comment>
   AND  
 Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.SpeedRestrictions != []</PreCondition><PreCondition
  Guid="9040d4f6-e334-4442-b2a9-d02e2978ab34"
->Kernel.TrackDescription.PermittedBrakingDistance.PrevEBModels != Kernel.TrainData.TrainData.Value.EBModels
+>Kernel.TrackDescription.PermittedBrakingDistance.PrevEBModels != TrainData.TrainData.Value.EBModels
   OR  
-Kernel.TrackDescription.PermittedBrakingDistance.PrevSBModels != Kernel.TrainData.TrainData.Value.SBModels</PreCondition></PreConditions>
+Kernel.TrackDescription.PermittedBrakingDistance.PrevSBModels != TrainData.TrainData.Value.SBModels</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="1dcf7b2e-7a94-49c7-9f7e-7826aa500f44"
@@ -2281,9 +2281,9 @@ Kernel.TrackDescription.PermittedBrakingDistance.PrevSBModels != Kernel.TrainDat
 ON
     Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.SpeedRestrictions</Action><Action
  Guid="e57ed655-74a3-4d58-acdf-6cde21486ad5"
->Kernel.TrackDescription.PermittedBrakingDistance.PrevSBModels &lt;- Kernel.TrainData.TrainData.Value.SBModels</Action><Action
+>Kernel.TrackDescription.PermittedBrakingDistance.PrevSBModels &lt;- TrainData.TrainData.Value.SBModels</Action><Action
  Guid="89055dbd-938e-45d3-90a9-42cb151bc8f0"
->Kernel.TrackDescription.PermittedBrakingDistance.PrevEBModels &lt;- Kernel.TrainData.TrainData.Value.EBModels</Action></Actions>
+>Kernel.TrackDescription.PermittedBrakingDistance.PrevEBModels &lt;- TrainData.TrainData.Value.EBModels</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="National Values, permission to compensate for inaccuracy of speed measurement changes"

@@ -70,7 +70,7 @@ aTarget.Location == BaseTypes.Distance.Unknown</PreCondition></PreConditions>
     Speed =&gt; aTarget.Speed + DecelerationCurves.TargetSpeed_Offset(aTarget),
     Length =&gt; aTarget.Length
 },
-    DecelerationFactor=&gt;Kernel.TrainData.BrakingParameters.A_safe,
+    DecelerationFactor=&gt;TrainData.BrakingParameters.A_safe,
     EndSpeed =&gt; aTarget.Speed
 )(Distance)</Expression>
 </Case></Cases>
@@ -516,13 +516,13 @@ BaseTypes.SpeedToMS ( BaseTypes.MaxSpeed ( X1 =&gt; Vest + Kernel.SpeedAndDistan
 <PreConditions>
 <PreCondition
  Guid="cf6f9fc7-ccd1-4d65-a066-2ba3eebe0aad"
->Kernel.TrainData.TrainData.Value.TractionCutOffInterfaceIsImplemented</PreCondition></PreConditions>
-<Expression>BaseTypes.MaxTime ( X1 =&gt; ( Kernel.TrainData.BrakingParameters.T_traction_cut_off (NoA_est) - ( Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.T_warning + Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.T_bs2 ) ), X2 =&gt; 0.0 )</Expression>
+>TrainData.TrainData.Value.TractionCutOffInterfaceIsImplemented</PreCondition></PreConditions>
+<Expression>BaseTypes.MaxTime ( X1 =&gt; ( TrainData.BrakingParameters.T_traction_cut_off (NoA_est) - ( Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.T_warning + Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.T_bs2 ) ), X2 =&gt; 0.0 )</Expression>
 </Case><Case
  Name="Traction cut-off is not implemented"
  Guid="804ac0bb-4c17-41aa-97a4-accc7affd282"
 >
-<Expression>Kernel.TrainData.BrakingParameters.T_traction_cut_off (NoA_est)</Expression>
+<Expression>TrainData.BrakingParameters.T_traction_cut_off (NoA_est)</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Time"
@@ -566,7 +566,7 @@ BaseTypes.SpeedToMS ( BaseTypes.MaxSpeed ( X1 =&gt; Vest + Kernel.SpeedAndDistan
  Name="SB feedback interface not available"
  Guid="b91d6f8c-55b0-4316-b754-68a920fca082"
 >
-<Expression>BaseTypes.MaxTime ( X1 =&gt; 0.8 * Kernel.TrainData.BrakingParameters.T_bs(), X2 =&gt; 5.0 )</Expression>
+<Expression>BaseTypes.MaxTime ( X1 =&gt; 0.8 * TrainData.BrakingParameters.T_bs(), X2 =&gt; 5.0 )</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Time"
@@ -603,7 +603,7 @@ BaseTypes.SpeedToMS ( BaseTypes.MaxSpeed ( X1 =&gt; Vest + Kernel.SpeedAndDistan
  Name="Value"
  Guid="aeee2a9d-0dc9-46c1-819a-97c42f1e0772"
 >
-<Expression>BaseTypes.MaxTime ( X1 =&gt; Kernel.TrainData.BrakingParameters.T_be () - Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.T_traction (NoA_est), X2 =&gt; 0.0 )</Expression>
+<Expression>BaseTypes.MaxTime ( X1 =&gt; TrainData.BrakingParameters.T_be () - Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.T_traction (NoA_est), X2 =&gt; 0.0 )</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -633,7 +633,7 @@ BaseTypes.SpeedToMS ( BaseTypes.MaxSpeed ( X1 =&gt; Vest + Kernel.SpeedAndDistan
  Name="Value"
  Guid="71109ff6-fbb8-4107-af8e-80f3dc312afd"
 >
-<Expression>Kernel.TrainData.TrainData.Value.SBFeedbackIsImplemented AND Kernel.NationalValues.UseOfSBFeedbackIsPermitted()</Expression>
+<Expression>TrainData.TrainData.Value.SBFeedbackIsImplemented AND Kernel.NationalValues.UseOfSBFeedbackIsPermitted()</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -774,7 +774,7 @@ aTarget.Location == BaseTypes.Distance.Unknown</PreCondition></PreConditions>
 >
 <Expression>FullDecelerationForTarget (
     Target =&gt; aTarget,
-    DecelerationFactor=&gt;Kernel.TrainData.BrakingParameters.A_normal_service,
+    DecelerationFactor=&gt;TrainData.BrakingParameters.A_normal_service,
     EndSpeed =&gt; aTarget.Speed
 )(Distance)</Expression>
 </Case></Cases>
@@ -850,7 +850,7 @@ aTarget.Location == BaseTypes.Distance.Unknown</PreCondition></PreConditions>
 >
 <Expression>FullDecelerationForTarget(
     Target =&gt; aTarget,
-    DecelerationFactor =&gt; Kernel.TrainData.BrakingParameters.A_expected,
+    DecelerationFactor =&gt; TrainData.BrakingParameters.A_expected,
     EndSpeed =&gt; 0.0
 ) (Distance)</Expression>
 </Case></Cases>

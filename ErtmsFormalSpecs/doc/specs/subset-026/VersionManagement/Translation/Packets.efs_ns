@@ -81,34 +81,15 @@
 >
 </NameSpaceRef><NameSpaceRef
  Name="PositionReports"
+ Guid="04d6b3af-25a8-4751-b10c-c284e90fff32"
+>
+</NameSpaceRef><NameSpaceRef
+ Name="ValidatedTrainData"
+ Guid="07a46e3a-ed1e-4c77-be47-ddb8e9004e40"
 >
 </NameSpaceRef></NameSpaces>
 <Functions>
 <Function
- Type="Messages.EUROBALISE.Collection1"
- X="50"
- Y="330"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="UpdatedPacketsList"
- Guid="995a4f04-07fa-438d-9389-5ac679e5abfc"
->
-<Parameters>
-<Parameter
- Type="Messages.SystemVersion1.EUROBALISE.Collection1"
- Name="aPacketsList"
- Guid="9432c31b-d073-424a-b9eb-1613221c51ec"
->
-</Parameter></Parameters>
-<Cases>
-<Case
- Name="Value"
- Guid="091ada07-8629-4aa6-b301-e3c2025b1676"
->
-<Expression>MAP aPacketsList USING X IN UpdatePacket(X, aPacketsList)</Expression>
-</Case></Cases>
-</Function><Function
  Type="Messages.EUROBALISE.SubStructure1"
  X="190"
  Y="330"
@@ -1256,6 +1237,18 @@ TRAIN_RUNNING_NUMBER
 <Expression>Messages.SystemVersion1.PACKET.TRAIN_TO_TRACK.Message{
 LEVEL_2_3_TRANSITION_INFORMATION
  =&gt; aPacket.LEVEL_2_3_TRANSITION_INFORMATION
+}</Expression>
+</Case><Case
+ Name="Packet 129_11: Validated train data"
+ Guid="26b90e7d-c55f-4240-b0ae-49e2b814476f"
+>
+<PreConditions>
+<PreCondition
+ Guid="fac191b7-9c3d-4407-ad5a-f06f9ba4a1d2"
+>Available( aPacket.VALIDATED_TRAIN_DATA)</PreCondition></PreConditions>
+<Expression>Messages.SystemVersion1.PACKET.TRAIN_TO_TRACK.Message{
+VALIDATED_TRAIN_DATA
+ =&gt; ValidatedTrainData.DowndatedPacket(aPacket.VALIDATED_TRAIN_DATA)
 }</Expression>
 </Case><Case
  Name="Rejected"

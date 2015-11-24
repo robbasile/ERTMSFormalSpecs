@@ -1,0 +1,44 @@
+<NameSpace
+ X="661"
+ Y="61"
+ Width="100"
+ Height="50"
+ Name="ValidatedTrainData"
+ Guid="7d334ff7-ed4b-4f04-877d-c543a813b862"
+>
+<NameSpaces>
+</NameSpaces>
+<Functions>
+<Function
+ Type="Messages.SystemVersion1.MESSAGE.TRAIN_TO_TRACK.VALIDATED_TRAIN_DATA.Message"
+ X="551"
+ Y="1"
+ Width="100"
+ Height="50"
+ Name="DowndatedMessage"
+ Guid="1de70491-0cbf-4404-9e26-e947d9ddec16"
+>
+<Parameters>
+<Parameter
+ Type="Messages.MESSAGE.TRAIN_TO_TRACK.VALIDATED_TRAIN_DATA.Message"
+ Name="aMessage"
+ Guid="dd36de3d-1de8-47fc-862f-fb9adde0383f"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="e73c0a73-fc2e-45a8-91cd-1706da8fae63"
+>
+<Expression>Messages.SystemVersion1.MESSAGE.TRAIN_TO_TRACK.VALIDATED_TRAIN_DATA.Message
+{
+  NID_MESSAGE =&gt; aMessage.NID_MESSAGE, 
+  L_MESSAGE =&gt; aMessage.L_MESSAGE, 
+  T_TRAIN =&gt; aMessage.T_TRAIN, 
+  NID_ENGINE =&gt; aMessage.NID_ENGINE, 
+  POSITION_REPORT =&gt; VersionManagement.Translation.Packets.PositionReports.DowndatedPacket( aMessage.POSITION_REPORT), 
+  VALIDATED_TRAIN_DATA =&gt; Packets.ValidatedTrainData.DowndatedPacket( aMessage.VALIDATED_TRAIN_DATA)
+}</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>

@@ -53,12 +53,19 @@
 >
 </NameSpaceRef><NameSpaceRef
  Name="TrainPositionReport"
+ Guid="46dcb75e-8bc0-4bb7-a5e6-6000e3c6f40e"
 >
 </NameSpaceRef><NameSpaceRef
  Name="MARequest"
+ Guid="81f90d2d-d1aa-4b49-8a1d-1bf75489e154"
 >
 </NameSpaceRef><NameSpaceRef
  Name="SoMPositionReport"
+ Guid="d1e857eb-e25d-4f96-b954-581c7d498dd4"
+>
+</NameSpaceRef><NameSpaceRef
+ Name="ValidatedTrainData"
+ Guid="c7654ae5-9105-4f2d-8f56-085d26b2b2ce"
 >
 </NameSpaceRef></NameSpaces>
 <Functions>
@@ -610,7 +617,7 @@ ASSIGNMENT_OF_COORDINATE_SYSTEM =&gt; aMessage.ASSIGNMENT_OF_COORDINATE_SYSTEM}<
  Guid="6202414d-d27c-4832-8323-7f2c8548ed12"
 >Available(aMessage.VALIDATED_TRAIN_DATA)</PreCondition></PreConditions>
 <Expression>Messages.SystemVersion1.MESSAGE.TRAIN_TO_TRACK.Message{
-VALIDATED_TRAIN_DATA =&gt; aMessage.VALIDATED_TRAIN_DATA
+VALIDATED_TRAIN_DATA =&gt; ValidatedTrainData.DowndatedMessage(aMessage.VALIDATED_TRAIN_DATA)
 }</Expression>
 </Case><Case
  Name="Message 130 - Request for shunting"
@@ -622,6 +629,17 @@ VALIDATED_TRAIN_DATA =&gt; aMessage.VALIDATED_TRAIN_DATA
 >Available(aMessage.REQUEST_FOR_SHUNTING)</PreCondition></PreConditions>
 <Expression>Messages.SystemVersion1.MESSAGE.TRAIN_TO_TRACK.Message{
 REQUEST_FOR_SHUNTING =&gt; aMessage.REQUEST_FOR_SHUNTING}</Expression>
+</Case><Case
+ Name="Message 132 - MA Request"
+ Guid="5b0f2e83-7c6b-4e8b-a56f-8c2a8935447f"
+>
+<PreConditions>
+<PreCondition
+ Guid="87ded31a-14d5-433d-b486-fc22f99e74f9"
+>Available(aMessage.MA_REQUEST)</PreCondition></PreConditions>
+<Expression>Messages.SystemVersion1.MESSAGE.TRAIN_TO_TRACK.Message{
+MA_REQUEST =&gt; MARequest.DonwdatedMessage(aMessage.MA_REQUEST)
+}</Expression>
 </Case><Case
  Name="Message 136 - Train position report"
  Guid="563996aa-9d03-47fd-bc6c-f7230c7649bd"
@@ -746,7 +764,7 @@ TERMINATION_OF_A_COMMUNICATION_SESSION =&gt; aMessage.TERMINATION_OF_A_COMMUNICA
 SOM_POSITION_REPORT =&gt; SoMPositionReport.DonwdatedMessage(aMessage.SOM_POSITION_REPORT)
 }</Expression>
 </Case><Case
- Name="Message 158 - Test message acknowledge by driver"
+ Name="Message 158 - Text message acknowledge by driver"
  Guid="30a5c784-b2d2-4868-ac88-b3f64c5911c8"
 >
 <PreConditions>
@@ -755,6 +773,16 @@ SOM_POSITION_REPORT =&gt; SoMPositionReport.DonwdatedMessage(aMessage.SOM_POSITI
 >Available(aMessage.TEXT_MESSAGE_ACKNOWLEDGED_BY_DRIVER)</PreCondition></PreConditions>
 <Expression>Messages.SystemVersion1.MESSAGE.TRAIN_TO_TRACK.Message{
 TEXT_MESSAGE_ACKNOWLEDGED_BY_DRIVER =&gt; aMessage.TEXT_MESSAGE_ACKNOWLEDGED_BY_DRIVER}</Expression>
+</Case><Case
+ Name="Message 159 - Session Established"
+ Guid="e230a587-9765-47b9-8408-0b8335db698e"
+>
+<PreConditions>
+<PreCondition
+ Guid="25486732-2b6f-4407-9b21-8b412a0dc195"
+>Available(aMessage.SESSION_ESTABLISHED)</PreCondition></PreConditions>
+<Expression>Messages.SystemVersion1.MESSAGE.TRAIN_TO_TRACK.Message{
+SESSION_ESTABLISHED =&gt; aMessage.SESSION_ESTABLISHED}</Expression>
 </Case><Case
  Name="Rejected"
  Guid="e4b52697-81d9-4a3b-9940-7d6c0dc94be9"

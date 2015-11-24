@@ -2101,7 +2101,7 @@ Kernel.TrainPosition.Position.DataState == DataStateEnum.Unknown</PreCondition><
   Level =&gt; Kernel.Level.Value, 
   Enter =&gt; True, 
   ReValidate =&gt; True
-  NTCLevels =&gt; Kernel.TrainData.TrainData.Value.LevelsSupportedOnBoard
+  NTCLevels =&gt; TrainData.TrainData.Value.LevelsSupportedOnBoard
 )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
@@ -2140,7 +2140,7 @@ Kernel.TrainPosition.Position.DataState == DataStateEnum.Unknown</PreCondition><
   },
   Enter =&gt; True, 
   ReValidate =&gt; False,
-  NTCLevels =&gt; Kernel.TrainData.TrainData.Value.LevelsSupportedOnBoard
+  NTCLevels =&gt; TrainData.TrainData.Value.LevelsSupportedOnBoard
 )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
@@ -2930,7 +2930,7 @@ Kernel.TrainPosition.Position.DataState == DataStateEnum.Unknown</PreCondition><
 <PreConditions>
 <PreCondition
  Guid="267dcd69-cf04-4818-90af-fbe4cb809ecc"
->Kernel.TrainData.TrainData.DataState == DataStateEnum.Valid</PreCondition></PreConditions>
+>TrainData.TrainData.DataState == DataStateEnum.Valid</PreCondition></PreConditions>
 <Actions>
 </Actions>
 <SubRules>
@@ -5056,7 +5056,7 @@ Available ( EURORADIO.ReceivedMessage( EURORADIO.CurrentRBCConnection()).Message
  Guid="b31bdb03-0a0c-4c13-b1d6-f32f94ef9601"
 >DMI.MasterDMI().In_TrainData.InitiateRequest()</Action><Action
  Guid="64561bba-163c-4270-bb88-1af4a286e579"
->DeleteInformation(Kernel.TrainData.TrainData)</Action></Actions>
+>DeleteInformation(TrainData.TrainData)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </StateMachine></State><State
@@ -5112,7 +5112,7 @@ Available ( EURORADIO.ReceivedMessage( EURORADIO.CurrentRBCConnection()).Message
 </ReqRef><PreConditions>
 <PreCondition
  Guid="2b33748d-d204-4162-af58-ac54b3c897fd"
->Kernel.TrainData.TrainData.DataState == DataStateEnum.Valid</PreCondition></PreConditions>
+>TrainData.TrainData.DataState == DataStateEnum.Valid</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="5d2f8550-d6a7-4e7c-9170-2995928a8efe"
@@ -5147,7 +5147,7 @@ Available ( EURORADIO.ReceivedMessage( EURORADIO.CurrentRBCConnection()).Message
  Guid="ce1ab44e-d0f7-48a7-ae25-c80ffd65e042"
 >DMI.MasterDMI().In_TrainData.InputInformation.RequestStatus == RequestEnum.Disabled</PreCondition><PreCondition
  Guid="ab790024-9e0a-42c2-be46-c6e98482506c"
->Kernel.TrainData.TrainData.DataState != DataStateEnum.Valid</PreCondition></PreConditions>
+>TrainData.TrainData.DataState != DataStateEnum.Valid</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="cc9df94f-1f51-4398-bbf0-ca4d8820a9d9"
@@ -6059,7 +6059,7 @@ Request driver acknowledgement before starting the mission.</Comment>
  Guid="7e8aca9e-bed4-4228-a2b5-d53dc47080f8"
 >THIS in Kernel.HandleModeChangeSM.StartOfMission.S10 OR THIS in Kernel.HandleModeChangeSM.StartOfMission.S20</PreCondition><PreCondition
  Guid="e5583ad4-e0b3-48b8-968c-2ff42b9ff8df"
->Kernel.TrainData.TrainData.DataState == DataStateEnum.Valid</PreCondition></PreConditions>
+>TrainData.TrainData.DataState == DataStateEnum.Valid</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="05cd468b-cd97-4e44-8932-f2bcfe89a0d7"
@@ -6350,7 +6350,7 @@ Request driver acknowledgement before starting the mission.</Comment>
     Level =&gt; Kernel.Level.Value,
     Enter =&gt; True,
     ReValidate =&gt; False,
-    NTCLevels =&gt; Kernel.TrainData.TrainData.Value.LevelsSupportedOnBoard
+    NTCLevels =&gt; TrainData.TrainData.Value.LevelsSupportedOnBoard
 )</Action></Actions>
 <SubRules>
 <Rule
@@ -7581,7 +7581,7 @@ If there are pending emergency stops, go to S130.</Comment>
 <PreConditions>
 <PreCondition
  Guid="8bd93a06-a6f7-4104-bfab-95efe47e32c4"
->Kernel.TrainData.TrainData.DataState == DataStateEnum.Valid</PreCondition></PreConditions>
+>TrainData.TrainData.DataState == DataStateEnum.Valid</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="579b0f8d-9f55-46d4-b079-98656a53e736"
@@ -8402,7 +8402,7 @@ If the on-board does not have valid Train Data stored, go to A140.</Comment>
 <PreConditions>
 <PreCondition
  Guid="009375ee-d07e-4c39-9d8c-5d10e25e1063"
->Kernel.TrainData.TrainData.DataState == DataStateEnum.Valid</PreCondition></PreConditions>
+>TrainData.TrainData.DataState == DataStateEnum.Valid</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="d1abc592-c25b-46e3-bedc-b40ab4be542f"
@@ -8426,7 +8426,7 @@ If the on-board does not have valid Train Data stored, go to A140.</Comment>
 <PreConditions>
 <PreCondition
  Guid="7c9fb8b6-860d-4f53-a90c-4267b9f1482e"
->Kernel.TrainData.TrainData.DataState != DataStateEnum.Valid</PreCondition></PreConditions>
+>TrainData.TrainData.DataState != DataStateEnum.Valid</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="08e32f3e-7e99-4a6b-8345-c01f48191fbe"
@@ -11719,7 +11719,7 @@ JRU.SendNewMessage(JRU.JRU1)</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="233d466f-c13c-48ce-b531-3f6d6409cf04"
->Kernel.TrainData.TrainData.DataState == DataStateEnum.Valid</PreCondition><PreCondition
+>TrainData.TrainData.DataState == DataStateEnum.Valid</PreCondition><PreCondition
  Guid="3f8076a9-083b-45f2-8b1e-a94cdecf7ee6"
 >Kernel.HandleModeChange in [Kernel.HandleModeChangeSM.StartOfMission.S10, Kernel.HandleModeChangeSM.StartOfMission.S20]</PreCondition><PreCondition
  Guid="54366b06-846d-4f54-9579-7705393fafe6"
@@ -12496,7 +12496,7 @@ train data is valid (or the mode is shunting)</Comment>
   Kernel.Mode == ModeEnum.SN
 )</PreCondition><PreCondition
  Guid="ae0dfdfe-20fd-4409-9b91-c08c8f9c6ce1"
->Kernel.TrainData.TrainData.DataState == DataStateEnum.Valid
+>TrainData.TrainData.DataState == DataStateEnum.Valid
 
   OR  
 
