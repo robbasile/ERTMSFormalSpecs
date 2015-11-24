@@ -1045,7 +1045,7 @@ INITIAL_VALUE Kernel.MA.CreateTarget (
 </Parameter></Parameters>
 <Cases>
 <Case
- Name="Level 1"
+ Name="Level 1, End unknown"
  Guid="2e6b1009-f980-487a-849d-ebb6b37ddf03"
 >
 <PreConditions>
@@ -1053,9 +1053,18 @@ INITIAL_VALUE Kernel.MA.CreateTarget (
  Guid="882879c9-2057-45f9-afa8-3b11d5abd62a"
 >Kernel.Level.Value.Value == LevelEnum.L1</PreCondition><PreCondition
  Guid="10848d71-717a-4061-bb58-ba05a566ffb4"
->Kernel.MA.SignallingRelatedSpeedRestriction.End == BaseTypes.Distance.Unknown
-  OR
-d &lt; Kernel.MA.SignallingRelatedSpeedRestriction.End</PreCondition></PreConditions>
+>Kernel.MA.SignallingRelatedSpeedRestriction.End == BaseTypes.Distance.Unknown</PreCondition></PreConditions>
+<Expression>Kernel.MA.SignallingRelatedSpeedRestriction.Value</Expression>
+</Case><Case
+ Name="Level 1, before speed restriction end"
+ Guid="7744e1bb-1000-449a-ae1c-f49bb21d3391"
+>
+<PreConditions>
+<PreCondition
+ Guid="d2bff3e6-038c-4b12-badc-217bacb1cdff"
+>Kernel.Level.Value.Value == LevelEnum.L1</PreCondition><PreCondition
+ Guid="f951c6ec-5896-44d3-b028-65064fc48a8a"
+>d &lt; Kernel.MA.SignallingRelatedSpeedRestriction.End</PreCondition></PreConditions>
 <Expression>Kernel.MA.SignallingRelatedSpeedRestriction.Value</Expression>
 </Case><Case
  Name="Otherwise"
