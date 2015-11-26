@@ -3753,9 +3753,13 @@ Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.Items != []</Pr
 <Actions>
 <Action
  Guid="266b0e21-033c-4f94-9e7e-7d0ac5fc523a"
->Kernel.NationalValues.ApplicableNationalValues.ApplicableStartLocation &lt;- BaseTypes.OffsetDistance(
+>Kernel.NationalValues.ApplicableNationalValues.ApplicableStartLocation &lt;- 
+BaseTypes.MaxDistance(
+    X1 =&gt; BaseTypes.OffsetDistance(
     aDistance =&gt; Kernel.NationalValues.ApplicableNationalValues.ApplicableStartLocation,
     aOffset =&gt; DistanceFromLRBG
+),
+    X2 =&gt; 0.0
 )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
