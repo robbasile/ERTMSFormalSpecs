@@ -1,6 +1,6 @@
 <NameSpace
- X="110"
- Y="60"
+ X="40"
+ Y="80"
  Width="100"
  Height="50"
  Name="EmergencyBrakes"
@@ -12,8 +12,8 @@
 <Function
  Type="Boolean"
  Default=""
- X="30"
- Y="160"
+ X="40"
+ Y="20"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -65,12 +65,30 @@
  SpecId="33a01dd1-de78-4ea3-9e96-a198d1a29277"
  Guid="9ceeb9ee-52d1-45dc-a331-a88b5d8d4309"
 >
+</ReqRef><ReqRef
+ Id="7d9d0edb-ad9a-48db-a67e-e74e1be64d74"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="3042bb1a-cd82-4efc-b153-5d8b371754ad"
+>
 </ReqRef><Comment>Indicates whether the EB is commanded</Comment>
 <Cases>
 <Case
- Name="Always"
+ Name="No SB defined in train"
+ Guid="5908b953-5d19-4d9f-b018-d262ffe1a5dc"
+>
+<Comment>In the case where the SB is not defined in the train, the EB should be applied instead of the SB</Comment>
+<PreConditions>
+<PreCondition
+ Guid="7f38fcaf-4871-4a97-8db7-909a39e949bb"
+>NOT Kernel.BrakeCommands.SBIsAvailableForUse()</PreCondition></PreConditions>
+<Expression>ServiceBrakes.Commanded()
+OR 
+THERE_IS brake_reason IN Kernel.BrakeCommands.EmergencyBrakeCommands</Expression>
+</Case><Case
+ Name="Otherwise"
  Guid="76f42d3c-2d8e-41a3-94a1-f3805216d01e"
 >
+<Comment>EB is applied when there is a reason to apply it</Comment>
 <Expression>THERE_IS brake_reason IN Kernel.BrakeCommands.EmergencyBrakeCommands</Expression>
 </Case></Cases>
 </Function></Functions>

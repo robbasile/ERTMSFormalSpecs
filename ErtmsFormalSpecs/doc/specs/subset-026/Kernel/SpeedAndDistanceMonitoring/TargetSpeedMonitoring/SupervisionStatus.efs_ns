@@ -2000,5 +2000,207 @@ Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &gt; Kernel.Spee
     Vest =&gt; Kernel.MRSP.V_MRSP(),
     aTarget =&gt; aTarget ) )</Expression>
 </Case></Cases>
+</Function><Function
+ Type="SupervisionStatusEnum"
+ X="160"
+ Y="270"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="Transition"
+ Guid="ee82f4ce-f19c-426d-9248-b2467feaf7b2"
+>
+<ReqRef
+ Id="db019e71-db84-41ad-a3fe-4bf8dae5a1a3"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="fd3f8380-26d9-4984-9999-dfa965d0825e"
+>
+</ReqRef><ReqRef
+ Id="a23ad28c-4aab-471e-a48b-97cc5e84f75a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="bf2c9acd-6995-4a8d-b92b-9b976fe4eb71"
+>
+</ReqRef><ReqRef
+ Id="c37a61a0-4999-47a6-a190-260324acdb40"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c3658840-a190-4cc7-8a77-2ab1e4c2a4f8"
+>
+</ReqRef><ReqRef
+ Id="f48b3d4c-0b20-4478-8d97-831556c6050e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a15656e6-3470-4532-b4d3-49a28928ed8c"
+>
+</ReqRef><ReqRef
+ Id="e5f050bb-7e6e-461d-b803-0fddb0a89260"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6aee3e29-5e84-4207-a6bc-2bdda454558f"
+>
+</ReqRef><ReqRef
+ Id="87168408-94a2-4eeb-8c4a-666507a95b45"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d5d4cdeb-9d1f-471a-9d10-321da412a47f"
+>
+</ReqRef><Comment>Computes the next supervision status according to the current one</Comment>
+<Parameters>
+<Parameter
+ Type="SupervisionStatusEnum"
+ Name="current"
+ Guid="a0bfb403-6136-486e-a6c4-8e8cf82b3200"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Transition to Intervention (p1)"
+ Guid="213dc55a-319d-4a74-a22b-3418d7acb894"
+>
+<Comment>Transition =&gt; Intervention</Comment>
+<PreConditions>
+<PreCondition
+ Guid="9289be11-6c89-4600-bbc8-f1482b5d9797"
+>t10() OR t11() OR t12() OR t13() OR t14()</PreCondition></PreConditions>
+<Expression>SupervisionStatusEnum.Intervention</Expression>
+</Case><Case
+ Name="Transition to Normal from Intervention (p1)"
+ Guid="2a908e62-1090-4622-b7ee-69cc2166bed9"
+>
+<Comment>Transition to normal from intervention</Comment>
+<PreConditions>
+<PreCondition
+ Guid="48218571-a8dc-4386-9fdb-9b8d74248c76"
+>current in [SupervisionStatusEnum.Intervention]</PreCondition><PreCondition
+ Guid="c1b3809f-f8f5-4938-9760-664ad5643a2c"
+>r0() OR 
+( FORALL target IN TargetsList() |  r1(  target ) OR r2(  target ) )</PreCondition></PreConditions>
+<Expression>SupervisionStatusEnum.Normal</Expression>
+</Case><Case
+ Name="Transition to Normal from Indication (p1)"
+ Guid="92fb9c1e-3c6d-4d2e-b945-8e264cc08727"
+>
+<Comment>Transition to normal</Comment>
+<PreConditions>
+<PreCondition
+ Guid="eaba3318-5920-42b5-998d-c1db00c24458"
+>current in [SupervisionStatusEnum.Indication]</PreCondition><PreCondition
+ Guid="94760f09-44e6-44c2-99c6-f778216f4628"
+>FORALL target IN TargetsList() |  
+(
+  ( r1(  target ) OR r2(  target ) )
+    AND
+  NOT EoASvlWithReleaseSpeed( target ) OR ChangeOfDisplayedTarget()
+)</PreCondition></PreConditions>
+<Expression>SupervisionStatusEnum.Normal</Expression>
+</Case><Case
+ Name="Transition to Normal"
+ Guid="e5fb31a1-78dc-4988-bc9f-b9468e30ef0a"
+>
+<Comment>Transition to normal</Comment>
+<PreConditions>
+<PreCondition
+ Guid="69a676f6-e2b3-4a33-b200-d999292feb92"
+>current in [SupervisionStatusEnum.Overspeed, SupervisionStatusEnum.Warning]</PreCondition><PreCondition
+ Guid="f165f76f-31c4-4f44-8f03-6f8ee4e52087"
+>( FORALL target IN TargetsList() |  r1(  target ) OR r2(  target ) )</PreCondition></PreConditions>
+<Expression>SupervisionStatusEnum.Normal</Expression>
+</Case><Case
+ Name="Transition to Warning (p2)"
+ Guid="8e8098fc-8d3f-48a8-92b1-8ba60ecf76ea"
+>
+<Comment>Transition to warning</Comment>
+<PreConditions>
+<PreCondition
+ Guid="8b60a634-1848-4265-a5b7-4ec3c585a0a9"
+>current in [SupervisionStatusEnum.Normal, SupervisionStatusEnum.Indication, SupervisionStatusEnum.Overspeed]</PreCondition><PreCondition
+ Guid="668513f0-fd61-456a-b203-dbf267dd72ae"
+>t7() OR t8() OR t9()</PreCondition></PreConditions>
+<Expression>SupervisionStatusEnum.Warning</Expression>
+</Case><Case
+ Name="Transition to Indication (p2)"
+ Guid="bb8bf5a4-c496-44fe-ba38-09fbd456ab67"
+>
+<Comment>Transition to indication</Comment>
+<PreConditions>
+<PreCondition
+ Guid="971e8b54-de8c-4cfe-b110-f5145e867d38"
+>current in [SupervisionStatusEnum.Overspeed, SupervisionStatusEnum.Warning, SupervisionStatusEnum.Intervention]</PreCondition><PreCondition
+ Guid="6c0cb6ee-e302-4861-950d-4b1bc347e9ae"
+>FORALL target IN TargetsList() |  r3(  target )</PreCondition></PreConditions>
+<Expression>SupervisionStatusEnum.Indication</Expression>
+</Case><Case
+ Name="Transition to Overspeed (p3)"
+ Guid="fb4014f2-e725-4e15-b1b5-fd68af59744a"
+>
+<Comment>Transition to overspeed</Comment>
+<PreConditions>
+<PreCondition
+ Guid="09114317-b2f7-4a4e-8b83-f5ceb946d1d7"
+>current in [SupervisionStatusEnum.Normal, SupervisionStatusEnum.Indication]</PreCondition><PreCondition
+ Guid="cea2f273-58e3-4792-aad2-92a1acbbe14b"
+><Comment>The current status</Comment>
+t4() OR t5() OR t6()</PreCondition></PreConditions>
+<Expression>SupervisionStatusEnum.Overspeed</Expression>
+</Case><Case
+ Name="Transition to Indication (p4)"
+ Guid="e22e4cbc-f744-4375-ac20-65e48775ffd4"
+>
+<Comment>Transition to indication</Comment>
+<PreConditions>
+<PreCondition
+ Guid="3b54771b-1a55-4eae-a16a-a79cf07e1ad3"
+>current in [SupervisionStatusEnum.Normal]</PreCondition><PreCondition
+ Guid="fd9eb240-291b-4005-ac35-e21daf9b2cb4"
+>t3()</PreCondition></PreConditions>
+<Expression>SupervisionStatusEnum.Indication</Expression>
+</Case><Case
+ Name="No change"
+ Guid="67305bba-a360-431d-ba3d-14b53ecf82a9"
+>
+<Comment>No change occurs</Comment>
+<Expression>current</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ X="300"
+ Y="270"
+ Width="100"
+ Height="50"
+ NeedsRequirement="FALSE"
+ Name="EoASvlWithReleaseSpeed"
+ Guid="77ecc733-f484-4d96-a181-ab6ee9d71f6e"
+>
+<Comment>Indicates whether the target is EOA or Svl and the release speed is greater than zero</Comment>
+<Parameters>
+<Parameter
+ Type="TargetSpeedMonitoring.Target"
+ Name="target"
+ Guid="f2c9c8e9-9ca7-4caa-9cd8-47b6557012e5"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Case1"
+ Guid="6d255513-7d2e-4650-96fa-53a65a0827a0"
+>
+<Expression>(MA.IsEOA( target ) OR MA.IsSvL( target ))
+AND 
+ReleaseSpeedMonitoring.ReleaseSpeed &gt; 0.0</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ X="300"
+ Y="330"
+ Width="100"
+ Height="50"
+ NeedsRequirement="FALSE"
+ Name="ChangeOfDisplayedTarget"
+ Guid="e281ef34-f501-4d05-a3e9-ff3c72dacc14"
+>
+<Comment>Indicates whether there is a change of displayed target</Comment>
+<Cases>
+<Case
+ Name="Case1"
+ Guid="0df69ff5-b7cb-474e-9652-739992c3c628"
+>
+<Expression>MRDT() != PreviousDisplayedTarget</Expression>
+</Case></Cases>
 </Function></Functions>
 </NameSpace>

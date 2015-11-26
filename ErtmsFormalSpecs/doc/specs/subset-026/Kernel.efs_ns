@@ -101,57 +101,6 @@
  Guid="eef80823-0615-45fc-a444-9fbc869e6385"
 >
 </NameSpaceRef></NameSpaces>
-<Enumerations>
-<Enum
- Default="SupervisionStatus.Normal"
- X="350"
- Y="520"
- Width="100"
- Height="50"
- Pinned="TRUE"
- Implemented="TRUE"
- Name="SupervisionStatus"
- Guid="c9d18bec-7195-4bb6-aaa2-9ff991ede889"
->
-<ReqRef
- Id="b8bd12fa-1398-4b7e-82b5-d9fea4894091"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="2f379230-3d40-4cc0-b28d-f53dbfc3c9a6"
->
-</ReqRef><ReqRef
- Id="10645ba3-8d86-41ad-9956-71f5be85b4c1"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="9c1e13b0-2e44-4db1-994c-8902fa382bf6"
->
-</ReqRef><Comment>The status of speed and distance monitoring supervision.</Comment>
-<Values>
-<EnumValue
- Value=""
- Name="Normal"
- Guid="5ea9d991-d631-4e90-84a8-965e96ba5099"
->
-</EnumValue><EnumValue
- Value=""
- Name="Indication"
- Guid="cab7f584-8a99-4283-91b3-05fdeb3529e9"
->
-</EnumValue><EnumValue
- Value=""
- Name="Overspeed"
- Guid="4c141925-46fa-4e0f-8166-3d3405393ee9"
->
-</EnumValue><EnumValue
- Value=""
- Name="Warning"
- Guid="746caa14-cd5f-4b1d-96ac-0ee96d8dd12f"
->
-</EnumValue><EnumValue
- Value=""
- Name="Intervention"
- Guid="4a408ece-65d9-422b-9c10-cc70fbeae70c"
->
-</EnumValue></Values>
-</Enum></Enumerations>
 <Structures>
 <Structure
  Default=""
@@ -11060,40 +11009,18 @@ This is done now because the calculation depends on te mode.</Comment>
 <RuleCondition
  Implemented="TRUE"
  NeedsRequirement="FALSE"
- Name="Start monitoring if required"
+ Name="Update the monitoring status if required"
  Guid="ee02abe1-f4e4-43e6-9173-89fd8a75b37e"
 >
 <Comment>If a mode was entered where the speed and distance monitoring is active, the correct type and status must be selected</Comment>
 <PreConditions>
 <PreCondition
  Guid="7a9bc363-3120-4ac9-8dd9-c9e77819a97c"
->Kernel.ActiveFunctions.SuperviseTrainSpeed_All_Information()
-  OR
-Kernel.ActiveFunctions.SuperviseTrainSpeed_MRSP_DistInSRMode()</PreCondition><PreCondition
- Guid="832ab586-f8ea-4eda-9499-173a0d12a7ec"
->Kernel.SpeedAndDistanceMonitoring.Monitoring in SpeedAndDistanceMonitoring.MonitoringTypeSM.Idle</PreCondition></PreConditions>
+>Kernel.ActiveFunctions.SuperviseTrainSpeed()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="1ea62aa3-6056-40d4-8b5a-3eb7fbfb176b"
 >Kernel.SpeedAndDistanceMonitoring.SelectMonitoringType()</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- Name="Supervise CSM"
- Guid="d2143410-130a-4e02-87c5-997dc73eba9c"
->
-<Comment>If the celining speed monitoring has to be entered =&gt; change the monitoring.</Comment>
-<PreConditions>
-<PreCondition
- Guid="d33202ae-a180-4e5e-94cf-d027d1ba507c"
->Kernel.ActiveFunctions.SuperviseTrainSpeed_CSM()
-  OR  
-Kernel.ActiveFunctions.SuperviseTrainSpeed_MRSP()</PreCondition><PreCondition
- Guid="57c7f626-0e3d-4519-afa6-517fadf1862d"
->Kernel.SpeedAndDistanceMonitoring.Monitoring not in SpeedAndDistanceMonitoring.MonitoringTypeSM.Ceiling</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="2af78366-a5fa-4945-bc34-75104fbbf1b3"
->Kernel.SpeedAndDistanceMonitoring.Monitoring &lt;- SpeedAndDistanceMonitoring.MonitoringTypeSM.Ceiling</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  NeedsRequirement="FALSE"
@@ -11104,11 +11031,63 @@ Kernel.ActiveFunctions.SuperviseTrainSpeed_MRSP()</PreCondition><PreCondition
 <PreConditions>
 <PreCondition
  Guid="5a06828f-3ad3-414d-a5d5-e64ce6ce5964"
->Kernel.SpeedAndDistanceMonitoring.Monitoring not in [SpeedAndDistanceMonitoring.MonitoringTypeSM.Idle]</PreCondition></PreConditions>
+>SpeedAndDistanceMonitoring.Monitoring not in SpeedAndDistanceMonitoring.MonitoringTypeSM.Idle</PreCondition><PreCondition
+ Guid="2c65f51f-0179-40a4-aa6c-6760fa0e4a3d"
+>NOT Kernel.ActiveFunctions.SuperviseTrainSpeed()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="5298da62-c34c-4732-a368-5c9e79af8089"
 >Kernel.SpeedAndDistanceMonitoring.StopMonitoring()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Implemented="TRUE"
+ Name="Handle Supervision Status"
+ Guid="1a4b4842-f836-475a-967b-81dfeaecab69"
+>
+<ReqRef
+ Id="87168408-94a2-4eeb-8c4a-666507a95b45"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f215d48d-1d21-4428-a763-37996f837469"
+>
+</ReqRef><ReqRef
+ Id="3935be43-6132-47c6-8ef3-28195e4f690c"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="1d33b649-c665-4e28-98b9-2f0e3c71d4c2"
+>
+</ReqRef><ReqRef
+ Id="452e7369-8988-4a04-9d16-d7e769201a71"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="845fddbc-7ea4-48f1-9132-b069e2e0faf8"
+>
+</ReqRef><ReqRef
+ Id="da801456-beb5-47fa-b81e-22d23298cdb1"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="fc90b263-2e2f-4a1d-a7bb-2673bfc6ebaf"
+>
+</ReqRef><ReqRef
+ Id="8468de24-42eb-4959-a546-99c00cccb22a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="fc823907-482a-4ccd-9613-8b6157a5a1c8"
+>
+</ReqRef><ReqRef
+ Id="ec29a885-8a5f-4c6e-82e7-4e5b41a7dd5d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="47a7c495-7562-49bf-870d-28397be4fdfe"
+>
+</ReqRef><Comment>Updates the supervision status accotding to the monitoring</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Handle Supervision Status"
+ Guid="7ad6f11e-05a7-4097-9e25-c74af53a797b"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="f0b17e67-98e9-4dc1-984e-5b14a9998bd7"
+>SpeedAndDistanceMonitoring.SupervisionStatus &lt;- SpeedAndDistanceMonitoring.SupervisionStatusTransition()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Implemented="TRUE"

@@ -1323,9 +1323,9 @@ PreviousMode: represents the train mode displayed on the DMI during the previous
  Guid="b2656408-99e7-4f0c-bc3a-526060dfebca"
 >Kernel.SpeedAndDistanceMonitoring.Monitoring in [Kernel.SpeedAndDistanceMonitoring.MonitoringTypeSM.Ceiling, Kernel.SpeedAndDistanceMonitoring.MonitoringTypeSM.Target]</PreCondition><PreCondition
  Guid="859e941a-b30f-46f2-9d7b-1cc226cc0fbe"
->Kernel.SpeedAndDistanceMonitoring.SupervisionStatus() != Kernel.SupervisionStatus.Normal
+>Kernel.SpeedAndDistanceMonitoring.GetSupervisionStatus() != Kernel.SpeedAndDistanceMonitoring.SupervisionStatusEnum.Normal
   AND  
-Kernel.SpeedAndDistanceMonitoring.SupervisionStatus() != Kernel.SupervisionStatus.Indication</PreCondition><PreCondition
+Kernel.SpeedAndDistanceMonitoring.GetSupervisionStatus() != Kernel.SpeedAndDistanceMonitoring.SupervisionStatusEnum.Indication</PreCondition><PreCondition
  Guid="d5634a7b-6cad-4c6f-9dc8-a6a83557e821"
 >Kernel.TrainPosition.Position.DataState == DataStateEnum.Valid</PreCondition><PreCondition
  Guid="104bfae1-3091-47e6-b63e-77df74bc368a"
@@ -1738,7 +1738,7 @@ Kernel.ActiveFunctions.SuperviseTrainSpeed_MRSP_DistInSRMode()</PreCondition></P
 <Actions>
 <Action
  Guid="ff5f5c50-07e9-4fef-b3f1-354e16f8124b"
->Out_SpeedAndDistanceMonitoringSupervisionStatus.SupervisionStatus &lt;- Kernel.SpeedAndDistanceMonitoring.SupervisionStatus()</Action></Actions>
+>Out_SpeedAndDistanceMonitoringSupervisionStatus.SupervisionStatus &lt;- Kernel.SpeedAndDistanceMonitoring.GetSupervisionStatus()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition></Conditions>

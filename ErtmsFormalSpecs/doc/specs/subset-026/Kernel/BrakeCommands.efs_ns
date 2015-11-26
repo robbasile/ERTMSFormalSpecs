@@ -539,6 +539,37 @@ DMI.MasterDMI().In_AcknForReversingDistanceExceeded.InputInformation.DriverAnswe
 >
 <Expression>EMPTY</Expression>
 </Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Cacheable="TRUE"
+ Default=""
+ X="250"
+ Y="270"
+ Width="100"
+ Height="50"
+ Pinned="TRUE"
+ Implemented="TRUE"
+ Name="SBIsAvailableForUse"
+ Guid="b0b21ecb-3c0b-4844-9f7a-1a6e39b0b2fa"
+>
+<ReqRef
+ Id="00747c30-1c6d-4751-8e5f-6d65f3085d3a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="20f62c9a-5203-4f25-baf1-01ba9e1875ec"
+>
+</ReqRef><ReqRef
+ Id="0f223275-ff77-4025-a194-a347f5ef0542"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b286a8d9-d73a-4c9b-b746-0bdd2e873eac"
+>
+</ReqRef><Comment>Checks if the service brake is present and whther its use is allowed in the national values</Comment>
+<Cases>
+<Case
+ Name="Value"
+ Guid="d01614d0-298f-4107-8b27-4e7ff976e5e9"
+>
+<Expression>Kernel.TrainData.TrainData.Value.SBCommandIsImplemented AND NOT Kernel.NationalValues.UseOfSBIsInhibited()</Expression>
+</Case></Cases>
 </Function></Functions>
 <Procedures>
 <Procedure
@@ -1044,7 +1075,7 @@ IN Kernel.BrakeCommands.EmergencyBrakeCommands</Action></Actions>
 </Rule></Rules>
 </Procedure><Procedure
  X="250"
- Y="270"
+ Y="350"
  Width="100"
  Height="50"
  Name="DisplayBrakeCommand"

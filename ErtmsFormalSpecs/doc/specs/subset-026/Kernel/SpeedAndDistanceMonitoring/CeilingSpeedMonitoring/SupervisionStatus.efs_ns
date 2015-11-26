@@ -184,5 +184,112 @@
 >
 <Expression>Odometry.TrainSpeed() &lt;= Kernel.MRSP.V_MRSP()</Expression>
 </Case></Cases>
+</Function><Function
+ Type="SupervisionStatusEnum"
+ X="0"
+ Y="230"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="Transition"
+ Guid="c786ce10-0a8f-491f-a919-46446b8ece32"
+>
+<ReqRef
+ Id="644aa967-53f8-4d2c-b5ba-6a857c9cda54"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ca6504f6-3675-495d-a46a-ceb3c26ab15f"
+>
+</ReqRef><ReqRef
+ Id="c8000537-75f6-4a09-8790-4dca0585d9f8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="639a5286-ad9c-4cbc-83a1-ae9b2960ee56"
+>
+</ReqRef><ReqRef
+ Id="ec408fb0-3a70-40f7-81a8-7756f7442566"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b9605689-dd1e-4016-9349-ccb2c0ae125a"
+>
+</ReqRef><ReqRef
+ Id="c7bd0529-99a5-4600-bea6-5ef4c7039d03"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="cfe13cd3-82d7-46e1-b887-9705920767cf"
+>
+</ReqRef><ReqRef
+ Id="58cc5fd9-b319-4df9-87ac-13d82ceb4312"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="dce5432c-0805-4261-b32f-9e6c5c083827"
+>
+</ReqRef><Comment>Computes the next supervision status according to the current one</Comment>
+<Parameters>
+<Parameter
+ Type="SupervisionStatusEnum"
+ Name="current"
+ Guid="da24d7ec-0e42-4569-b285-2df8f688288e"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Transition to Intervention"
+ Guid="f5a84799-67f9-4c1d-a66a-407cdc414f8a"
+>
+<Comment>Transition =&gt; Intervention</Comment>
+<PreConditions>
+<PreCondition
+ Guid="2cdaccb8-f7aa-41b0-86be-f732454d0a9b"
+>t4() OR t5()</PreCondition></PreConditions>
+<Expression>SupervisionStatusEnum.Intervention</Expression>
+</Case><Case
+ Name="Transition to Normal for Intervention"
+ Guid="666c8512-7ba9-4f79-89ec-99a7238ec024"
+>
+<Comment>Transition to warning</Comment>
+<PreConditions>
+<PreCondition
+ Guid="9b3a20ed-8812-434e-bb61-62e864ea8c6a"
+>current in [SupervisionStatusEnum.Intervention]</PreCondition><PreCondition
+ Guid="8ce7f04e-f9f0-4a7c-afc0-e4aee21a7598"
+>r0() OR r1()</PreCondition></PreConditions>
+<Expression>SupervisionStatusEnum.Normal</Expression>
+</Case><Case
+ Name="Transition to Normal"
+ Guid="9cfedda9-e519-4e47-bd37-d5191cb8b17a"
+>
+<Comment>Transition to warning</Comment>
+<PreConditions>
+<PreCondition
+ Guid="f1cca3f6-d71c-467e-9411-f3bfd53fe8d2"
+>r1()</PreCondition></PreConditions>
+<Expression>SupervisionStatusEnum.Normal</Expression>
+</Case><Case
+ Name="Transition to Warning"
+ Guid="03535b18-5f70-46bb-8489-843758101814"
+>
+<Comment>Transition to warning</Comment>
+<PreConditions>
+<PreCondition
+ Guid="2cad754a-aead-436f-a3b3-b61366130ad3"
+>current in [SupervisionStatusEnum.Normal, SupervisionStatusEnum.Indication, SupervisionStatusEnum.Overspeed]</PreCondition><PreCondition
+ Guid="f09a27d9-7b42-4926-a31a-a3d0a22e78a9"
+>t3()</PreCondition></PreConditions>
+<Expression>SupervisionStatusEnum.Intervention</Expression>
+</Case><Case
+ Name="Transition to Overspeed"
+ Guid="850a260e-8424-4b3d-a1bc-c093bac08e39"
+>
+<Comment>Transition to warning</Comment>
+<PreConditions>
+<PreCondition
+ Guid="e19087e1-0e1b-44c2-9d17-d63302ac7791"
+>current in [SupervisionStatusEnum.Normal, SupervisionStatusEnum.Indication]</PreCondition><PreCondition
+ Guid="0606667e-3f8e-4362-81bc-2ab530130ea0"
+>t2()</PreCondition></PreConditions>
+<Expression>SupervisionStatusEnum.Overspeed</Expression>
+</Case><Case
+ Name="No change"
+ Guid="16eb830e-5e09-4b28-8c7a-679299a617a6"
+>
+<Comment>No change occurs</Comment>
+<Expression>current</Expression>
+</Case></Cases>
 </Function></Functions>
 </NameSpace>

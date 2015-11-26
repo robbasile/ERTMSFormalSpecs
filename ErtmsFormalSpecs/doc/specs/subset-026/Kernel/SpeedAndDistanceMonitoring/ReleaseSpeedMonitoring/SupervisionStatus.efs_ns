@@ -109,5 +109,102 @@
 >
 <Expression>Odometry.TrainSpeed() &lt;= Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.ReleaseSpeed</Expression>
 </Case></Cases>
+</Function><Function
+ Type="SupervisionStatusEnum"
+ X="20"
+ Y="220"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="Transition"
+ Guid="3d249824-ab6d-45d6-8134-0ee278881476"
+>
+<ReqRef
+ Id="dce4a4ca-1d9d-4bec-bbd0-b82a791c93bb"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b40abadc-0dc2-4968-90d9-5416c17b9657"
+>
+</ReqRef><ReqRef
+ Id="dd0da099-d404-4f93-b840-c25c06defab7"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="61ec8113-15d5-4981-8ce6-6fc2425ae118"
+>
+</ReqRef><ReqRef
+ Id="cc58f785-b8ad-4070-9b9a-b6ec8e0f6e2a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d24f64b8-7909-4be3-b6d0-523fbdc1e187"
+>
+</ReqRef><ReqRef
+ Id="b1282fd5-cab1-48c7-bdf8-26de1ac6a0f5"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="1062dc18-61b3-4294-97c7-98e86e39a92d"
+>
+</ReqRef><ReqRef
+ Id="4bd9437c-f793-4471-b3f2-d0e50cda8c6a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="26b3c0c7-d8ed-4e51-9578-df5671d893cd"
+>
+</ReqRef><Comment>Computes the next supervision status according to the current one</Comment>
+<Parameters>
+<Parameter
+ Type="SupervisionStatusEnum"
+ Name="current"
+ Guid="ef54ff67-03f3-45e4-8038-6609557c0341"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Transition to Intervention (p1)"
+ Guid="1d49c984-208b-4e60-9b3a-ebaa72706c7c"
+>
+<Comment>Transition to intervention</Comment>
+<PreConditions>
+<PreCondition
+ Guid="cb9b5779-2d6d-4ff5-9e64-1a541a6582c9"
+>t2()</PreCondition></PreConditions>
+<Expression>SupervisionStatusEnum.Intervention</Expression>
+</Case><Case
+ Name="Transition to Indication (p1)"
+ Guid="647d84c8-1a63-419b-b928-b20a7f0fa94a"
+>
+<Comment>Transition to indication</Comment>
+<PreConditions>
+<PreCondition
+ Guid="307dca26-cdbd-4979-a169-a645136e5c86"
+>current in [SupervisionStatusEnum.Normal]</PreCondition><PreCondition
+ Guid="cec4038d-aef9-4142-9597-e5416a97eada"
+>t1()</PreCondition></PreConditions>
+<Expression>SupervisionStatusEnum.Indication</Expression>
+</Case><Case
+ Name="Transition to Indication (2) (p1)"
+ Guid="19d400a5-8ea3-437c-918c-f2dd83068efc"
+>
+<Comment>Transition to indication</Comment>
+<PreConditions>
+<PreCondition
+ Guid="40dddacb-4681-40d7-a238-b25091b068cf"
+>current in [SupervisionStatusEnum.Overspeed, SupervisionStatusEnum.Warning]</PreCondition><PreCondition
+ Guid="3897c1b4-dc5f-4d88-94ed-4be1da9a7e65"
+>r1()</PreCondition></PreConditions>
+<Expression>SupervisionStatusEnum.Indication</Expression>
+</Case><Case
+ Name="Transition to Indication (2) (p1)_1"
+ Guid="3566c2fd-e677-41c6-9834-b96038c92cc4"
+>
+<Comment>Transition to indication</Comment>
+<PreConditions>
+<PreCondition
+ Guid="5c60ff01-720e-4a35-be3b-01d550bcabff"
+>current in [SupervisionStatusEnum.Intervention]</PreCondition><PreCondition
+ Guid="6bcb33a4-689f-4a2d-b5b1-029d13b98e38"
+>r0()</PreCondition></PreConditions>
+<Expression>SupervisionStatusEnum.Indication</Expression>
+</Case><Case
+ Name="No change"
+ Guid="c520240f-9d25-4505-b6da-007b37fdd025"
+>
+<Comment>No change occurs</Comment>
+<Expression>current</Expression>
+</Case></Cases>
 </Function></Functions>
 </NameSpace>

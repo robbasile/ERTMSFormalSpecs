@@ -1094,7 +1094,7 @@ Kernel.ActiveFunctions.SuperviseTrainSpeed_MRSP_DistInSRMode()</PreCondition><Pr
 <Actions>
 <Action
  Guid="e147e5df-e42d-47f4-b4b4-bfe04454a4d4"
->JRUStruct.PreviousSpeedAndDistanceSupervisionStatus &lt;- Kernel.SpeedAndDistanceMonitoring.SupervisionStatus()</Action></Actions>
+>JRUStruct.PreviousSpeedAndDistanceSupervisionStatus &lt;- Kernel.SpeedAndDistanceMonitoring.GetSupervisionStatus()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -1454,7 +1454,7 @@ Kernel.ActiveFunctions.SuperviseTrainSpeed_MRSP_DistInSRMode()</PreCondition><Pr
 >
 </ReqRef><Comment>Will store the previous value of the M_SDMTYPE variable</Comment>
 </StructureElement><StructureElement
- TypeName="Kernel.SupervisionStatus"
+ TypeName="Kernel.SpeedAndDistanceMonitoring.SupervisionStatusEnum"
  Default=""
  Mode="Internal"
  Implemented="TRUE"
@@ -4050,7 +4050,7 @@ M_NON_LEADING =&gt; JRU.TypeConvertors.ToJRUNonLeadingPermited()
  Guid="0f85d667-58cc-4f06-9c3a-6a0eea33498d"
 >Kernel.ActiveFunctions.SuperviseTrainSpeed_All_Information()
   AND  
-jru.PreviousSpeedAndDistanceSupervisionStatus != Kernel.SpeedAndDistanceMonitoring.SupervisionStatus()</PreCondition></PreConditions>
+jru.PreviousSpeedAndDistanceSupervisionStatus != Kernel.SpeedAndDistanceMonitoring.GetSupervisionStatus()</PreCondition></PreConditions>
 <Expression>True</Expression>
 </Case><Case
  Name="Permitted speed changed"
