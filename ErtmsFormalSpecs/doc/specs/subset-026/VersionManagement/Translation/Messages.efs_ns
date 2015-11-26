@@ -229,7 +229,7 @@ SR_AUTHORISATION =&gt; aMessage.SR_AUTHORISATION
  Guid="330e5cbf-8c17-481e-8264-a2d429c5609e"
 >Available(aMessage.MOVEMENT_AUTHORITY)</PreCondition></PreConditions>
 <Expression>Messages.MESSAGE.TRACK_TO_TRAIN.Message{
-MOVEMENT_AUTHORITY =&gt; MovementAuthority.UpdatedMessage(aMessage.MOVEMENT_AUTHORITY)
+MOVEMENT_AUTHORITY =&gt; VersionManagement.Translation.Messages.MovementAuthority.UpdatedMessage(aMessage.MOVEMENT_AUTHORITY)
 }</Expression>
 </Case><Case
  Name="Message 6 - Recognition of exit from TRIP mode"
@@ -265,7 +265,7 @@ ACKNOWLEDGEMENT_OF_TRAIN_DATA =&gt; aMessage.ACKNOWLEDGEMENT_OF_TRAIN_DATA
  Guid="0dc77d61-1204-4d9b-b66f-d8f648213608"
 >Available(aMessage.REQUEST_TO_SHORTEN_MA)</PreCondition></PreConditions>
 <Expression>Messages.MESSAGE.TRACK_TO_TRAIN.Message{
-REQUEST_TO_SHORTEN_MA =&gt; RequestToShortenMA.UpdatedMessage(aMessage.REQUEST_TO_SHORTEN_MA)
+REQUEST_TO_SHORTEN_MA =&gt; VersionManagement.Translation.Messages.RequestToShortenMA.UpdatedMessage(aMessage.REQUEST_TO_SHORTEN_MA)
 }</Expression>
 </Case><Case
  Name="Message 15 - Conditional emergency stop"
@@ -617,7 +617,7 @@ ASSIGNMENT_OF_COORDINATE_SYSTEM =&gt; aMessage.ASSIGNMENT_OF_COORDINATE_SYSTEM}<
  Guid="6202414d-d27c-4832-8323-7f2c8548ed12"
 >Available(aMessage.VALIDATED_TRAIN_DATA)</PreCondition></PreConditions>
 <Expression>Messages.SystemVersion1.MESSAGE.TRAIN_TO_TRACK.Message{
-VALIDATED_TRAIN_DATA =&gt; ValidatedTrainData.DowndatedMessage(aMessage.VALIDATED_TRAIN_DATA)
+VALIDATED_TRAIN_DATA =&gt; VersionManagement.Translation.Messages.ValidatedTrainData.DowndatedMessage(aMessage.VALIDATED_TRAIN_DATA)
 }</Expression>
 </Case><Case
  Name="Message 130 - Request for shunting"
@@ -638,7 +638,7 @@ REQUEST_FOR_SHUNTING =&gt; aMessage.REQUEST_FOR_SHUNTING}</Expression>
  Guid="87ded31a-14d5-433d-b486-fc22f99e74f9"
 >Available(aMessage.MA_REQUEST)</PreCondition></PreConditions>
 <Expression>Messages.SystemVersion1.MESSAGE.TRAIN_TO_TRACK.Message{
-MA_REQUEST =&gt; MARequest.DonwdatedMessage(aMessage.MA_REQUEST)
+MA_REQUEST =&gt; VersionManagement.Translation.Messages.MARequest.DonwdatedMessage(aMessage.MA_REQUEST)
 }</Expression>
 </Case><Case
  Name="Message 136 - Train position report"
@@ -649,7 +649,7 @@ MA_REQUEST =&gt; MARequest.DonwdatedMessage(aMessage.MA_REQUEST)
  Guid="5dc771b0-faa4-46a5-84a6-5630323fb1b1"
 >Available(aMessage.TRAIN_POSITION_REPORT)</PreCondition></PreConditions>
 <Expression>Messages.SystemVersion1.MESSAGE.TRAIN_TO_TRACK.Message{
-TRAIN_POSITION_REPORT =&gt; TrainPositionReport.DonwdatedMessage(aMessage.TRAIN_POSITION_REPORT)
+TRAIN_POSITION_REPORT =&gt; VersionManagement.Translation.Messages.TrainPositionReport.DonwdatedMessage(aMessage.TRAIN_POSITION_REPORT)
 }</Expression>
 </Case><Case
  Name="Message 137 - Request to shorten MA is granted"
@@ -690,7 +690,7 @@ ACKNOWLEDGEMENT =&gt; aMessage.ACKNOWLEDGEMENT}</Expression>
  Guid="b6a97533-1612-4ab2-b145-ecfc89dde425"
 >Available(aMessage.ACKNOWLEDGEMENT_OF_EMERGENCY_STOP)</PreCondition></PreConditions>
 <Expression>Messages.SystemVersion1.MESSAGE.TRAIN_TO_TRACK.Message{
-ACKNOWLEDGEMENT_OF_EMERGENCY_STOP =&gt; AcknowledgementOfEmergencyStop.DonwdatedMessage( aMessage.ACKNOWLEDGEMENT_OF_EMERGENCY_STOP)
+ACKNOWLEDGEMENT_OF_EMERGENCY_STOP =&gt; VersionManagement.Translation.Messages.AcknowledgementOfEmergencyStop.DonwdatedMessage( aMessage.ACKNOWLEDGEMENT_OF_EMERGENCY_STOP)
 }</Expression>
 </Case><Case
  Name="Message 149 - Track ahead free granteed"
@@ -761,18 +761,8 @@ TERMINATION_OF_A_COMMUNICATION_SESSION =&gt; aMessage.TERMINATION_OF_A_COMMUNICA
  Guid="37159740-677c-4956-84be-58f3e2d8b3c2"
 >Available(aMessage.TRAIN_POSITION_REPORT)</PreCondition></PreConditions>
 <Expression>Messages.SystemVersion1.MESSAGE.TRAIN_TO_TRACK.Message{
-SOM_POSITION_REPORT =&gt; SoMPositionReport.DonwdatedMessage(aMessage.SOM_POSITION_REPORT)
+SOM_POSITION_REPORT =&gt; VersionManagement.Translation.Messages.SoMPositionReport.DonwdatedMessage(aMessage.SOM_POSITION_REPORT)
 }</Expression>
-</Case><Case
- Name="Message 158 - Text message acknowledge by driver"
- Guid="30a5c784-b2d2-4868-ac88-b3f64c5911c8"
->
-<PreConditions>
-<PreCondition
- Guid="732db003-bf56-4033-8fa3-20234d6de997"
->Available(aMessage.TEXT_MESSAGE_ACKNOWLEDGED_BY_DRIVER)</PreCondition></PreConditions>
-<Expression>Messages.SystemVersion1.MESSAGE.TRAIN_TO_TRACK.Message{
-TEXT_MESSAGE_ACKNOWLEDGED_BY_DRIVER =&gt; aMessage.TEXT_MESSAGE_ACKNOWLEDGED_BY_DRIVER}</Expression>
 </Case><Case
  Name="Message 159 - Session Established"
  Guid="e230a587-9765-47b9-8408-0b8335db698e"
@@ -787,7 +777,8 @@ SESSION_ESTABLISHED =&gt; aMessage.SESSION_ESTABLISHED}</Expression>
  Name="Rejected"
  Guid="e4b52697-81d9-4a3b-9940-7d6c0dc94be9"
 >
-<Comment>Default case: rejection.</Comment>
+<Comment>Default case: rejection.
+Note: the NR messages (not relevant) are rejected.</Comment>
 <Expression>EMPTY</Expression>
 </Case></Cases>
 </Function></Functions>

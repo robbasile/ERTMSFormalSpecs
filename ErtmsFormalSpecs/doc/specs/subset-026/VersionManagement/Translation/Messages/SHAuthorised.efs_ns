@@ -16,7 +16,7 @@
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="UpdatePacket"
+ Name="UpdatePacket_SubStruct1"
  Guid="6a20e900-f33e-4a60-a7a4-7719d7c017de"
 >
 <ReqRef
@@ -66,64 +66,6 @@
 ).NATIONAL_VALUES_FOR_BRAKING_CURVES)
 }</Expression>
 </Case><Case
- Name="Packet 5 - Linking"
- Guid="0fe15a41-ca6d-469a-be31-15ec79c17a51"
->
-<Comment>Packet 5 is left unchanged.</Comment>
-<PreConditions>
-<PreCondition
- Guid="d1fdf187-6962-47f8-ac40-525997a97dc5"
->Available(aPacket.LINKING)</PreCondition></PreConditions>
-<Expression>Messages.MESSAGE.TRACK_TO_TRAIN.SH_AUTHORISED.SubStructure1{
-LINKING =&gt; aPacket.LINKING
-}</Expression>
-</Case><Case
- Name="Packet 39 - Track condition change of traction system"
- Guid="970a7151-58f6-4c9b-a105-6eeb5262823c"
->
-<Comment>Updating packet 39 if the packet 239 is absent and depending on the value of M_TRACTION.
-This packet is rejected (see default case) if packet 239 is found or if the value of M_TRACTION is not translatable.</Comment>
-<PreConditions>
-<PreCondition
- Guid="6ff4ada2-9d40-4db1-9691-03b14aeda775"
->Available(
-aPacket.TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM
-)</PreCondition><PreCondition
- Guid="74743799-7ab9-4a8d-98f8-8b30ea20d397"
->FORALL X IN aOtherPackets | NOT Available(X.TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM_BL3)</PreCondition><PreCondition
- Guid="efd8c179-44cc-4ffe-9253-e8d8718ce6e2"
->Translation.Packets.TrackConditionChangeOfTractionSystem.IsTranslatable(aPacket.TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM.M_TRACTION)</PreCondition></PreConditions>
-<Expression>Messages.MESSAGE.TRACK_TO_TRAIN.SH_AUTHORISED.SubStructure1{
-TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM
- =&gt; VersionManagement.Translation.Packets.TrackConditionChangeOfTractionSystem.UpdatedPacket(
-    aPacket=&gt; aPacket.TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM
-)
-}</Expression>
-</Case><Case
- Name="Packet 41 - Level transition order"
- Guid="4a061935-bd0a-4c8e-84d2-1c60c423b679"
->
-<Comment>Packet 41 is left unchanged.</Comment>
-<PreConditions>
-<PreCondition
- Guid="f5ea664b-e50f-49ef-a90e-550cff9d0ce1"
->Available(aPacket.LEVEL_TRANSITION_ORDER)</PreCondition></PreConditions>
-<Expression>Messages.MESSAGE.TRACK_TO_TRAIN.SH_AUTHORISED.SubStructure1{
-LEVEL_TRANSITION_ORDER=&gt; aPacket.LEVEL_TRANSITION_ORDER
-}</Expression>
-</Case><Case
- Name="Packet 42 - Session management"
- Guid="12e557fa-455e-45d8-ba7b-26dfcaea87c7"
->
-<Comment>Packet 42 is left unchanged.</Comment>
-<PreConditions>
-<PreCondition
- Guid="846372ed-d85f-4312-887a-db9cbafcc5df"
->Available(aPacket.SESSION_MANAGEMENT)</PreCondition></PreConditions>
-<Expression>Messages.MESSAGE.TRACK_TO_TRAIN.SH_AUTHORISED.SubStructure1{
-SESSION_MANAGEMENT=&gt; aPacket.SESSION_MANAGEMENT
-}</Expression>
-</Case><Case
  Name="Packet 44 - Data used by applications outside the ERTMS/ETCS system"
  Guid="779b1a51-bdf4-4e24-a8a6-ccfe836ae0b5"
 >
@@ -136,243 +78,16 @@ SESSION_MANAGEMENT=&gt; aPacket.SESSION_MANAGEMENT
     DATA_USED_BY_APPLICATIONS_OUTSIDE_THE_ERTMS_ETCS_SYSTEM =&gt; VersionManagement.Translation.Packets.DataUsedByApplicationsOutsideTheERTMS_ETCSSystem.UpdatedPacket(aPacket.DATA_USED_BY_APPLICATIONS_OUTSIDE_THE_ERTMS_ETCS_SYSTEM)
   }</Expression>
 </Case><Case
- Name="Packet 45 - Radio network registration"
- Guid="cf34ccac-d92d-4cd6-adac-34a1fdeeea19"
->
-<Comment>Packet 45 is left unchanged.</Comment>
-<PreConditions>
-<PreCondition
- Guid="877101c7-3f6d-49fa-a50a-2f91b17bc176"
->Available(aPacket.RADIO_NETWORK_REGISTRATION)</PreCondition></PreConditions>
-<Expression>Messages.MESSAGE.TRACK_TO_TRAIN.SH_AUTHORISED.SubStructure1{
-RADIO_NETWORK_REGISTRATION =&gt; aPacket.RADIO_NETWORK_REGISTRATION
-}</Expression>
-</Case><Case
  Name="Packet 49 - List of balises for SH area"
- Guid="6510880f-8a5d-4e19-881f-57a41ce7ac59"
+ Guid="fc70af72-6be0-4c16-9912-f3f07d6cd5d0"
 >
 <Comment>Packet 49 is left unchanged.</Comment>
 <PreConditions>
 <PreCondition
- Guid="6d887824-a207-4779-9c8f-78fa77f0b373"
+ Guid="fe7cbe91-41e3-4031-9a20-070141336ed3"
 >Available(aPacket.LIST_OF_BALISES_FOR_SH_AREA)</PreCondition></PreConditions>
 <Expression>Messages.MESSAGE.TRACK_TO_TRAIN.SH_AUTHORISED.SubStructure1{
 LIST_OF_BALISES_FOR_SH_AREA =&gt; aPacket.LIST_OF_BALISES_FOR_SH_AREA}</Expression>
-</Case><Case
- Name="Packet 51 - Axle load speed profile"
- Guid="bc76c365-268f-45b1-a4c4-2aed66806a54"
->
-<Comment>D_TRACKINIT is used only if Q_TRACKINIT is 1, in which case D_TRACKINIT is always 0. We set it to 0 in any case.</Comment>
-<PreConditions>
-<PreCondition
- Guid="1b7bd2cd-de28-4ddd-acd2-e518273fe103"
->Available(aPacket.AXLE_LOAD_SPEED_PROFILE)</PreCondition></PreConditions>
-<Expression>Messages.MESSAGE.TRACK_TO_TRAIN.SH_AUTHORISED.SubStructure1{
-AXLE_LOAD_SPEED_PROFILE =&gt; VersionManagement.Translation.Packets.AxleLoadSpeedProfile.UpdatedPacket(aPacket.AXLE_LOAD_SPEED_PROFILE)
-}</Expression>
-</Case><Case
- Name="Packet 57 - Movement authority request parameters"
- Guid="a8183c3c-9509-4b3d-8bb9-a5dbb40b1495"
->
-<Comment>Packet 57 is left unchanged.</Comment>
-<PreConditions>
-<PreCondition
- Guid="6b6f1d79-ea67-40c1-be2d-df72ae8db920"
->Available(aPacket.MOVEMENT_AUTHORITY_REQUEST_PARAMETERS)</PreCondition></PreConditions>
-<Expression>Messages.MESSAGE.TRACK_TO_TRAIN.SH_AUTHORISED.SubStructure1{
-MOVEMENT_AUTHORITY_REQUEST_PARAMETERS =&gt; aPacket.MOVEMENT_AUTHORITY_REQUEST_PARAMETERS
-}</Expression>
-</Case><Case
- Name="Packet 58 - Position report parameters"
- Guid="2dbda741-a42d-4b75-83e2-99bdc6b5ce0c"
->
-<Comment>Packet 58 is left unchanged.</Comment>
-<PreConditions>
-<PreCondition
- Guid="f11497ec-1d29-4b72-884b-5721f99573b9"
->Available(aPacket.POSITION_REPORT_PARAMETERS)</PreCondition></PreConditions>
-<Expression>Messages.MESSAGE.TRACK_TO_TRAIN.SH_AUTHORISED.SubStructure1{
-POSITION_REPORT_PARAMETERS =&gt; aPacket.POSITION_REPORT_PARAMETERS
-}</Expression>
-</Case><Case
- Name="Packet 65 - Temporary speed restriction"
- Guid="d6560d18-3895-449a-b765-cda8c86553ea"
->
-<Comment>Packet 65 is left unchanged.</Comment>
-<PreConditions>
-<PreCondition
- Guid="b6a7c9d5-8d08-4b0d-9f6c-2849b205fb58"
->Available(aPacket.TEMPORARY_SPEED_RESTRICTION)</PreCondition></PreConditions>
-<Expression>Messages.MESSAGE.TRACK_TO_TRAIN.SH_AUTHORISED.SubStructure1{
-TEMPORARY_SPEED_RESTRICTION =&gt; aPacket.TEMPORARY_SPEED_RESTRICTION
-}</Expression>
-</Case><Case
- Name="Packet 66 - Temporary speed restriction revocation"
- Guid="8220c70e-db30-4f5d-b6f9-af0de9b9c31a"
->
-<Comment>Packet 66 is left unchanged.</Comment>
-<PreConditions>
-<PreCondition
- Guid="cb0041db-9416-47e7-b9f9-7ff98e3087f2"
->Available(aPacket.TEMPORARY_SPEED_RESTRICTION_REVOCATION)</PreCondition></PreConditions>
-<Expression>Messages.MESSAGE.TRACK_TO_TRAIN.SH_AUTHORISED.SubStructure1{
-TEMPORARY_SPEED_RESTRICTION_REVOCATION =&gt; aPacket.TEMPORARY_SPEED_RESTRICTION_REVOCATION
-}</Expression>
-</Case><Case
- Name="Packet 68 - Track condition"
- Guid="22fb0039-18aa-4b52-a402-5638552af9e3"
->
-<Comment>Packet 68 is left unchanged unless packet 206 is present, in which case it replaces packet 68, or the value of M_TRACKCOND is either 1 or 2, in which case M_TRACKCOND becomes 0.</Comment>
-<PreConditions>
-<PreCondition
- Guid="073401ae-7c8e-4151-a189-5b3e8023e2b4"
->Available(aPacket.TRACK_CONDITION)</PreCondition><PreCondition
- Guid="ed331594-12a5-4808-92f0-8a55c0041ea6"
->FORALL X IN aOtherPackets | NOT Available(X.TRACK_CONDITION_BL3)</PreCondition></PreConditions>
-<Expression>Messages.MESSAGE.TRACK_TO_TRAIN.SH_AUTHORISED.SubStructure1{
-TRACK_CONDITION =&gt; VersionManagement.Translation.Packets.TrackCondition.UpdatedPacket(
-    aPacket=&gt; aPacket.TRACK_CONDITION
-)
-}</Expression>
-</Case><Case
- Name="Packet 70 - Route suitability data"
- Guid="e49a06a6-fc3e-439f-a30d-987929dfc970"
->
-<Comment>By default, Packet 70 is rejected, in particular if Packet 207 is present.See however the function RouteSuitabilityData.UpdatedPacket for exceptional cases.</Comment>
-<PreConditions>
-<PreCondition
- Guid="08555a40-75be-4a49-be2f-77f2aee1de0d"
->Available(aPacket.ROUTE_SUITABILITY_DATA)</PreCondition><PreCondition
- Guid="99a88038-9e93-47fd-97ea-17f9a4a5975a"
->FORALL X IN aOtherPackets | NOT Available(X.ROUTE_SUITABILITY_DATA_BL3)</PreCondition></PreConditions>
-<Expression>Messages.MESSAGE.TRACK_TO_TRAIN.SH_AUTHORISED.SubStructure1{
-ROUTE_SUITABILITY_DATA =&gt; VersionManagement.Translation.Packets.RouteSuitabilityData.UpdatedPacket(
-    aPacket=&gt; aPacket.ROUTE_SUITABILITY_DATA
-)
-}</Expression>
-</Case><Case
- Name="Packet 71 - Adhesion factor"
- Guid="c5c07134-29f4-4a74-bdde-fe27a4abf3fb"
->
-<Comment>Packet 71 is left unchanged.</Comment>
-<PreConditions>
-<PreCondition
- Guid="9fdd8ade-49d1-4ea2-993d-014fb4819f09"
->Available(aPacket.ADHESION_FACTOR)</PreCondition></PreConditions>
-<Expression>Messages.MESSAGE.TRACK_TO_TRAIN.SH_AUTHORISED.SubStructure1{
-ADHESION_FACTOR =&gt;
-aPacket.ADHESION_FACTOR
-}</Expression>
-</Case><Case
- Name="Packet 72 - Packet for sending plain text messages"
- Guid="b33cbfb2-327d-49e4-aee0-f17796231814"
->
-<Comment>Packet translatation modelled as follows: Q_CONFTEXTDISPLAY and Q_TEXTREPORT are always set to 0 and NID_TEXTMESSAGE, NID_C and NID_RBC are set to their default values by not prescribing them any value (since Q_TEXTREPORT cannot evaluate to 1).</Comment>
-<PreConditions>
-<PreCondition
- Guid="d7fc85a2-6b48-4d96-a741-3ea55c51ad71"
->Available(aPacket.PACKET_FOR_SENDING_PLAIN_TEXT_MESSAGES)</PreCondition></PreConditions>
-<Expression>Messages.MESSAGE.TRACK_TO_TRAIN.SH_AUTHORISED.SubStructure1{
-PACKET_FOR_SENDING_PLAIN_TEXT_MESSAGES =&gt; VersionManagement.Translation.Packets.PacketForSendingPlainTextMessages.UpdatedPacket(
-    aPacket=&gt; aPacket.PACKET_FOR_SENDING_PLAIN_TEXT_MESSAGES)
-}</Expression>
-</Case><Case
- Name="Packet 79 - Geographical position information"
- Guid="f0abc26f-cb94-4e18-82ca-2326d081c8bf"
->
-<Comment>The only change between the two versions is the size of the range M_POSITION. Hence the last acceptable value, understood as infinity, is adapted.</Comment>
-<PreConditions>
-<PreCondition
- Guid="272e5cc5-2311-439f-a273-4aa3bfb645db"
->Available(aPacket.GEOGRAPHICAL_POSITION_INFORMATION)</PreCondition></PreConditions>
-<Expression>Messages.MESSAGE.TRACK_TO_TRAIN.SH_AUTHORISED.SubStructure1{
-GEOGRAPHICAL_POSITION_INFORMATION =&gt; VersionManagement.Translation.Packets.GeographicalPositionInformation.UpdatedPacket(
-    aPacket=&gt; aPacket.GEOGRAPHICAL_POSITION_INFORMATION)
-}</Expression>
-</Case><Case
- Name="Packet 131 - RBC transition order"
- Guid="a2522c0f-b938-4d44-9001-056227221a92"
->
-<Comment>Packet 131 is left unchanged.</Comment>
-<PreConditions>
-<PreCondition
- Guid="79b2b5f2-30fe-4a18-86e7-66a038393287"
->Available(aPacket.RBC_TRANSITION_ORDER)</PreCondition></PreConditions>
-<Expression>Messages.MESSAGE.TRACK_TO_TRAIN.SH_AUTHORISED.SubStructure1{
-RBC_TRANSITION_ORDER =&gt; aPacket.RBC_TRANSITION_ORDER
-}</Expression>
-</Case><Case
- Name="Packet 138 - Reversing area information"
- Guid="f1206a19-2afe-4fa8-a4cc-9026bca2265b"
->
-<Comment>Packet 138 is left unchanged.</Comment>
-<PreConditions>
-<PreCondition
- Guid="07696da1-2b44-4e80-be01-587383fa17a0"
->Available(aPacket.REVERSING_AREA_INFORMATION)</PreCondition></PreConditions>
-<Expression>Messages.MESSAGE.TRACK_TO_TRAIN.SH_AUTHORISED.SubStructure1{
-REVERSING_AREA_INFORMATION =&gt; aPacket.REVERSING_AREA_INFORMATION
-}</Expression>
-</Case><Case
- Name="Packet 139 - Reversing supervision information"
- Guid="12a2645c-bba7-44a3-a886-71589939838c"
->
-<Comment>Packet 139 is left unchanged.</Comment>
-<PreConditions>
-<PreCondition
- Guid="613e6725-9df7-43b7-b412-822e6a2ab9ff"
->Available(aPacket.REVERSING_SUPERVISION_INFORMATION)</PreCondition></PreConditions>
-<Expression>Messages.MESSAGE.TRACK_TO_TRAIN.SH_AUTHORISED.SubStructure1{
-REVERSING_SUPERVISION_INFORMATION =&gt; aPacket.REVERSING_SUPERVISION_INFORMATION
-}</Expression>
-</Case><Case
- Name="Packet 140 - Train running number from RBC"
- Guid="afa8a7eb-476a-4ba3-aced-d79a0ed2530b"
->
-<Comment>Packet 140 is left unchanged in our modelisation.</Comment>
-<PreConditions>
-<PreCondition
- Guid="40e576e5-0f4e-4477-bee7-0cf2082edde7"
->Available(aPacket.TRAIN_RUNNING_NUMBER_FROM_RBC)</PreCondition></PreConditions>
-<Expression>Messages.MESSAGE.TRACK_TO_TRAIN.SH_AUTHORISED.SubStructure1{
-TRAIN_RUNNING_NUMBER_FROM_RBC =&gt; aPacket.TRAIN_RUNNING_NUMBER_FROM_RBC
-}</Expression>
-</Case><Case
- Name="Packet 206 - Track condtion"
- Guid="471a7e37-5364-4802-afbf-6a44c25d847d"
->
-<Comment>Packet 206 has its NID_PACKET changed to 68.</Comment>
-<PreConditions>
-<PreCondition
- Guid="4c1ec46e-bec1-40a4-966c-d0edfb4a05f5"
->Available(aPacket.TRACK_CONDITION_BL3)</PreCondition></PreConditions>
-<Expression>Messages.MESSAGE.TRACK_TO_TRAIN.SH_AUTHORISED.SubStructure1{
-TRACK_CONDITION =&gt; VersionManagement.Translation.Packets.TrackConditionBL3.UpdatedPacket(aPacket.TRACK_CONDITION_BL3)
-}</Expression>
-</Case><Case
- Name="Packet 207 - Route suitability data"
- Guid="3f9fd953-7ac0-4a64-83b9-ba5592efc533"
->
-<Comment>Packet 207 has its NID_PACKET changed to 70.</Comment>
-<PreConditions>
-<PreCondition
- Guid="9145a297-8e66-4825-be19-690dc28fbe24"
->Available(aPacket.ROUTE_SUITABILITY_DATA_BL3)</PreCondition></PreConditions>
-<Expression>Messages.MESSAGE.TRACK_TO_TRAIN.SH_AUTHORISED.SubStructure1{
-ROUTE_SUITABILITY_DATA=&gt; VersionManagement.Translation.Packets.RouteSuitabilityDataBL3.UpdatedPacket(aPacket.ROUTE_SUITABILITY_DATA_BL3)
-}</Expression>
-</Case><Case
- Name="Packet 239 - Track condition change of traction system"
- Guid="cd0d238b-b40c-4ce2-8949-e18fbdea1b56"
->
-<Comment>Packet 239 has its NID_PACKET changed to 39.</Comment>
-<PreConditions>
-<PreCondition
- Guid="792ba7cf-9e66-45f0-abfa-17f45fbaf12a"
->Available(aPacket.TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM_BL3)</PreCondition></PreConditions>
-<Expression>Messages.MESSAGE.TRACK_TO_TRAIN.SH_AUTHORISED.SubStructure1{
-TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM =&gt; VersionManagement.Translation.Packets.TrackConditionChangeOfTractionSystemBL3.UpdatedPacket(aPacket.TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM_BL3)
-}</Expression>
 </Case><Case
  Name="Rejected"
  Guid="6c7023a1-8211-4595-85c1-d2357e7d37d6"
@@ -387,7 +102,7 @@ TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM =&gt; VersionManagement.Translation.Pa
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="UpdatedPacketsList"
+ Name="UpdatedPacketsList_SubStruct1"
  Guid="c32b058b-23ee-4d83-a081-b541a7cda0e6"
 >
 <ReqRef
@@ -407,7 +122,7 @@ TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM =&gt; VersionManagement.Translation.Pa
  Name="Value"
  Guid="3bced887-9edd-419b-b766-5af996e0a3a9"
 >
-<Expression>MAP aPacketsList USING X IN UpdatePacket(X, aPacketsList)</Expression>
+<Expression>MAP aPacketsList USING X IN Translation.Messages.SHAuthorised.UpdatePacket_SubStruct1(X, aPacketsList)</Expression>
 </Case></Cases>
 </Function><Function
  Type="Messages.MESSAGE.TRACK_TO_TRAIN.SH_AUTHORISED.Message"
@@ -443,8 +158,358 @@ TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM =&gt; VersionManagement.Translation.Pa
   M_ACK =&gt; aMessage.M_ACK, 
   NID_LRBG =&gt; aMessage.NID_LRBG, 
   T_TRAIN_1 =&gt; aMessage.T_TRAIN_1, 
-  Sequence1 =&gt; UpdatedPacketsList( aMessage.Sequence1 )
+  Sequence1 =&gt; VersionManagement.Translation.Messages.SHAuthorised.UpdatedPacketsList_SubStruct1( aMessage.Sequence1 ),
+ Sequence2 =&gt; VersionManagement.Translation.Messages.SHAuthorised.UpdatedPacketsList_SubStruct2( aMessage.Sequence1 )
 }</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.MESSAGE.TRACK_TO_TRAIN.SH_AUTHORISED.SubStructure2"
+ X="190"
+ Y="330"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="UpdatePacket_SubStruct2"
+ Guid="bb1a6f87-d556-40c6-be72-42e19ba96dd6"
+>
+<ReqRef
+ Id="f300439c-ed18-415a-b40f-a47221e0532f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6794b9ef-82c7-4c67-92c1-ff12c7591d65"
+>
+</ReqRef><Parameters>
+<Parameter
+ Type="Messages.SystemVersion1.MESSAGE.TRACK_TO_TRAIN.SH_AUTHORISED.SubStructure1"
+ Name="aPacket"
+ Guid="169eb99b-4565-4d12-ac6b-d64b6850cfdb"
+>
+</Parameter><Parameter
+ Type="Messages.SystemVersion1.MESSAGE.TRACK_TO_TRAIN.SH_AUTHORISED.Collection1"
+ Name="aOtherPackets"
+ Guid="b520583c-62dc-436e-8204-b5319dbf94a3"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Packet 5 - Linking"
+ Guid="7973a83b-0181-44a6-ba87-f5a36ca70057"
+>
+<Comment>Packet 5 is left unchanged.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="e1cda543-e472-42eb-bbbc-0fb2ca44c887"
+>Available(aPacket.LINKING)</PreCondition></PreConditions>
+<Expression>Messages.MESSAGE.TRACK_TO_TRAIN.SH_AUTHORISED.SubStructure2{
+LINKING =&gt; aPacket.LINKING
+}</Expression>
+</Case><Case
+ Name="Packet 39 - Track condition change of traction system"
+ Guid="77bf991f-3c56-42ec-a60c-8feae363a3ba"
+>
+<Comment>Updating packet 39 if the packet 239 is absent and depending on the value of M_TRACTION.
+This packet is rejected (see default case) if packet 239 is found or if the value of M_TRACTION is not translatable.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="ba2038d8-e657-4128-9ca0-ff241b75f05d"
+>Available(
+aPacket.TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM
+)</PreCondition><PreCondition
+ Guid="eb1c811d-73cd-4102-9f56-de5beb6997dc"
+>FORALL X IN aOtherPackets | NOT Available(X.TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM_BL3)</PreCondition><PreCondition
+ Guid="06018513-7342-45f8-a5ab-59f726f57c05"
+>Translation.Packets.TrackConditionChangeOfTractionSystem.IsTranslatable(aPacket.TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM.M_TRACTION)</PreCondition></PreConditions>
+<Expression>Messages.MESSAGE.TRACK_TO_TRAIN.SH_AUTHORISED.SubStructure2{
+TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM
+ =&gt; VersionManagement.Translation.Packets.TrackConditionChangeOfTractionSystem.UpdatedPacket(
+    aPacket=&gt; aPacket.TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM
+)
+}</Expression>
+</Case><Case
+ Name="Packet 41 - Level transition order"
+ Guid="a97a2c8e-73e4-45f2-a78c-ed520d970b0a"
+>
+<Comment>Packet 41 is left unchanged.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="5d7a0d3e-33da-4de9-aa38-275871c59aed"
+>Available(aPacket.LEVEL_TRANSITION_ORDER)</PreCondition></PreConditions>
+<Expression>Messages.MESSAGE.TRACK_TO_TRAIN.SH_AUTHORISED.SubStructure2{
+LEVEL_TRANSITION_ORDER=&gt; aPacket.LEVEL_TRANSITION_ORDER
+}</Expression>
+</Case><Case
+ Name="Packet 42 - Session management"
+ Guid="396a3b3e-baf0-48fd-b00c-017bee736eba"
+>
+<Comment>Packet 42 is left unchanged.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="5466761a-700c-4d06-b785-c8165f472973"
+>Available(aPacket.SESSION_MANAGEMENT)</PreCondition></PreConditions>
+<Expression>Messages.MESSAGE.TRACK_TO_TRAIN.SH_AUTHORISED.SubStructure2{
+SESSION_MANAGEMENT=&gt; aPacket.SESSION_MANAGEMENT
+}</Expression>
+</Case><Case
+ Name="Packet 45 - Radio network registration"
+ Guid="a7e6d24f-925f-40b3-bb8c-30d0f37d57c8"
+>
+<Comment>Packet 45 is left unchanged.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="7055736c-7bcd-4e87-8214-87aae49b7354"
+>Available(aPacket.RADIO_NETWORK_REGISTRATION)</PreCondition></PreConditions>
+<Expression>Messages.MESSAGE.TRACK_TO_TRAIN.SH_AUTHORISED.SubStructure2{
+RADIO_NETWORK_REGISTRATION =&gt; aPacket.RADIO_NETWORK_REGISTRATION
+}</Expression>
+</Case><Case
+ Name="Packet 51 - Axle load speed profile"
+ Guid="7c64a4ea-41c1-4f28-8ea7-fbacbafac18e"
+>
+<Comment>D_TRACKINIT is used only if Q_TRACKINIT is 1, in which case D_TRACKINIT is always 0. We set it to 0 in any case.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="f3350b07-f930-4028-9a43-76c1efb7b2be"
+>Available(aPacket.AXLE_LOAD_SPEED_PROFILE)</PreCondition></PreConditions>
+<Expression>Messages.MESSAGE.TRACK_TO_TRAIN.SH_AUTHORISED.SubStructure2{
+AXLE_LOAD_SPEED_PROFILE =&gt; VersionManagement.Translation.Packets.AxleLoadSpeedProfile.UpdatedPacket(aPacket.AXLE_LOAD_SPEED_PROFILE)
+}</Expression>
+</Case><Case
+ Name="Packet 57 - Movement authority request parameters"
+ Guid="bfdcdd5c-a2ae-4b2d-9bd9-8bc76f9ebae0"
+>
+<Comment>Packet 57 is left unchanged.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="c910b640-c453-4ab6-869e-394aa82e4963"
+>Available(aPacket.MOVEMENT_AUTHORITY_REQUEST_PARAMETERS)</PreCondition></PreConditions>
+<Expression>Messages.MESSAGE.TRACK_TO_TRAIN.SH_AUTHORISED.SubStructure2{
+MOVEMENT_AUTHORITY_REQUEST_PARAMETERS =&gt; aPacket.MOVEMENT_AUTHORITY_REQUEST_PARAMETERS
+}</Expression>
+</Case><Case
+ Name="Packet 58 - Position report parameters"
+ Guid="b591e090-f055-4ba8-bdd6-090f996bfe26"
+>
+<Comment>Packet 58 is left unchanged.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="e01b663b-d32d-4073-aec9-80912befb0a8"
+>Available(aPacket.POSITION_REPORT_PARAMETERS)</PreCondition></PreConditions>
+<Expression>Messages.MESSAGE.TRACK_TO_TRAIN.SH_AUTHORISED.SubStructure2{
+POSITION_REPORT_PARAMETERS =&gt; aPacket.POSITION_REPORT_PARAMETERS
+}</Expression>
+</Case><Case
+ Name="Packet 65 - Temporary speed restriction"
+ Guid="4e609ec7-4e37-4e6c-a89b-d4597b475716"
+>
+<Comment>Packet 65 is left unchanged.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="480809b6-5eeb-4726-90db-7b048309b2e0"
+>Available(aPacket.TEMPORARY_SPEED_RESTRICTION)</PreCondition></PreConditions>
+<Expression>Messages.MESSAGE.TRACK_TO_TRAIN.SH_AUTHORISED.SubStructure2{
+TEMPORARY_SPEED_RESTRICTION =&gt; aPacket.TEMPORARY_SPEED_RESTRICTION
+}</Expression>
+</Case><Case
+ Name="Packet 66 - Temporary speed restriction revocation"
+ Guid="836e8d0c-7024-464d-b678-6178d57e3044"
+>
+<Comment>Packet 66 is left unchanged.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="9c3c56bb-7869-462f-b1ab-9f76870ed00e"
+>Available(aPacket.TEMPORARY_SPEED_RESTRICTION_REVOCATION)</PreCondition></PreConditions>
+<Expression>Messages.MESSAGE.TRACK_TO_TRAIN.SH_AUTHORISED.SubStructure2{
+TEMPORARY_SPEED_RESTRICTION_REVOCATION =&gt; aPacket.TEMPORARY_SPEED_RESTRICTION_REVOCATION
+}</Expression>
+</Case><Case
+ Name="Packet 68 - Track condition"
+ Guid="831d5579-de9b-4088-99b9-94ba4ed987ec"
+>
+<Comment>Packet 68 is left unchanged unless packet 206 is present, in which case it replaces packet 68, or the value of M_TRACKCOND is either 1 or 2, in which case M_TRACKCOND becomes 0.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="709bd94a-464b-4c23-865c-14818a873fb9"
+>Available(aPacket.TRACK_CONDITION)</PreCondition><PreCondition
+ Guid="1d11d8e2-0700-40f7-83c8-c953523d31ed"
+>FORALL X IN aOtherPackets | NOT Available(X.TRACK_CONDITION_BL3)</PreCondition></PreConditions>
+<Expression>Messages.MESSAGE.TRACK_TO_TRAIN.SH_AUTHORISED.SubStructure2{
+TRACK_CONDITION =&gt; VersionManagement.Translation.Packets.TrackCondition.UpdatedPacket(
+    aPacket=&gt; aPacket.TRACK_CONDITION
+)
+}</Expression>
+</Case><Case
+ Name="Packet 70 - Route suitability data"
+ Guid="09cee267-5757-4959-b185-82f3735913c8"
+>
+<Comment>By default, Packet 70 is rejected, in particular if Packet 207 is present.See however the function RouteSuitabilityData.UpdatedPacket for exceptional cases.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="2a13bbc7-19db-4fd5-b156-8e92035e5598"
+>Available(aPacket.ROUTE_SUITABILITY_DATA)</PreCondition><PreCondition
+ Guid="acdfebb4-80bf-4195-b842-74ba5aaf1349"
+>FORALL X IN aOtherPackets | NOT Available(X.ROUTE_SUITABILITY_DATA_BL3)</PreCondition></PreConditions>
+<Expression>Messages.MESSAGE.TRACK_TO_TRAIN.SH_AUTHORISED.SubStructure2{
+ROUTE_SUITABILITY_DATA =&gt; VersionManagement.Translation.Packets.RouteSuitabilityData.UpdatedPacket(
+    aPacket=&gt; aPacket.ROUTE_SUITABILITY_DATA
+)
+}</Expression>
+</Case><Case
+ Name="Packet 71 - Adhesion factor"
+ Guid="89f355d2-5df1-44bd-959b-e1db2d2cc7c0"
+>
+<Comment>Packet 71 is left unchanged.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="235fac32-9f5d-4e8c-a559-b44d88415708"
+>Available(aPacket.ADHESION_FACTOR)</PreCondition></PreConditions>
+<Expression>Messages.MESSAGE.TRACK_TO_TRAIN.SH_AUTHORISED.SubStructure2{
+ADHESION_FACTOR =&gt;
+aPacket.ADHESION_FACTOR
+}</Expression>
+</Case><Case
+ Name="Packet 72 - Packet for sending plain text messages"
+ Guid="b48435db-d890-407d-b509-51d4d5e658b1"
+>
+<Comment>Packet translatation modelled as follows: Q_CONFTEXTDISPLAY and Q_TEXTREPORT are always set to 0 and NID_TEXTMESSAGE, NID_C and NID_RBC are set to their default values by not prescribing them any value (since Q_TEXTREPORT cannot evaluate to 1).</Comment>
+<PreConditions>
+<PreCondition
+ Guid="bf4bea6b-3996-43ff-90cd-305b3859d949"
+>Available(aPacket.PACKET_FOR_SENDING_PLAIN_TEXT_MESSAGES)</PreCondition></PreConditions>
+<Expression>Messages.MESSAGE.TRACK_TO_TRAIN.SH_AUTHORISED.SubStructure2{
+PACKET_FOR_SENDING_PLAIN_TEXT_MESSAGES =&gt; VersionManagement.Translation.Packets.PacketForSendingPlainTextMessages.UpdatedPacket(
+    aPacket=&gt; aPacket.PACKET_FOR_SENDING_PLAIN_TEXT_MESSAGES)
+}</Expression>
+</Case><Case
+ Name="Packet 79 - Geographical position information"
+ Guid="f048d4c7-3a5a-4485-95ea-f8596899379f"
+>
+<Comment>The only change between the two versions is the size of the range M_POSITION. Hence the last acceptable value, understood as infinity, is adapted.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="6ca2cf06-1c9e-4a71-88d0-f234399e9507"
+>Available(aPacket.GEOGRAPHICAL_POSITION_INFORMATION)</PreCondition></PreConditions>
+<Expression>Messages.MESSAGE.TRACK_TO_TRAIN.SH_AUTHORISED.SubStructure2{
+GEOGRAPHICAL_POSITION_INFORMATION =&gt; VersionManagement.Translation.Packets.GeographicalPositionInformation.UpdatedPacket(
+    aPacket=&gt; aPacket.GEOGRAPHICAL_POSITION_INFORMATION)
+}</Expression>
+</Case><Case
+ Name="Packet 131 - RBC transition order"
+ Guid="b55491be-2158-408a-949f-c18b60eead21"
+>
+<Comment>Packet 131 is left unchanged.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="c3c8109a-41cf-4988-9e35-d1b257c989dc"
+>Available(aPacket.RBC_TRANSITION_ORDER)</PreCondition></PreConditions>
+<Expression>Messages.MESSAGE.TRACK_TO_TRAIN.SH_AUTHORISED.SubStructure2{
+RBC_TRANSITION_ORDER =&gt; aPacket.RBC_TRANSITION_ORDER
+}</Expression>
+</Case><Case
+ Name="Packet 138 - Reversing area information"
+ Guid="0ddaedc7-457d-42f8-94f6-46f80d13cca3"
+>
+<Comment>Packet 138 is left unchanged.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="d88cf596-10bf-4419-a902-bbeab4215cb8"
+>Available(aPacket.REVERSING_AREA_INFORMATION)</PreCondition></PreConditions>
+<Expression>Messages.MESSAGE.TRACK_TO_TRAIN.SH_AUTHORISED.SubStructure2{
+REVERSING_AREA_INFORMATION =&gt; aPacket.REVERSING_AREA_INFORMATION
+}</Expression>
+</Case><Case
+ Name="Packet 139 - Reversing supervision information"
+ Guid="5c9ffe85-537a-46e9-a215-ff8a5bc84819"
+>
+<Comment>Packet 139 is left unchanged.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="aca650f3-052e-488f-a00e-27f11f4d243c"
+>Available(aPacket.REVERSING_SUPERVISION_INFORMATION)</PreCondition></PreConditions>
+<Expression>Messages.MESSAGE.TRACK_TO_TRAIN.SH_AUTHORISED.SubStructure2{
+REVERSING_SUPERVISION_INFORMATION =&gt; aPacket.REVERSING_SUPERVISION_INFORMATION
+}</Expression>
+</Case><Case
+ Name="Packet 140 - Train running number from RBC"
+ Guid="15456974-8993-4a0a-8266-1c7220d643e9"
+>
+<Comment>Packet 140 is left unchanged in our modelisation.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="3c0afe99-6f0c-4c72-bc8a-10528d338afc"
+>Available(aPacket.TRAIN_RUNNING_NUMBER_FROM_RBC)</PreCondition></PreConditions>
+<Expression>Messages.MESSAGE.TRACK_TO_TRAIN.SH_AUTHORISED.SubStructure2{
+TRAIN_RUNNING_NUMBER_FROM_RBC =&gt; aPacket.TRAIN_RUNNING_NUMBER_FROM_RBC
+}</Expression>
+</Case><Case
+ Name="Packet 206 - Track condtion"
+ Guid="8a944abb-7bb1-4346-97e8-a0ca050dc2ae"
+>
+<Comment>Packet 206 has its NID_PACKET changed to 68.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="a57874a2-7ef4-465a-9f51-0619f90c823d"
+>Available(aPacket.TRACK_CONDITION_BL3)</PreCondition></PreConditions>
+<Expression>Messages.MESSAGE.TRACK_TO_TRAIN.SH_AUTHORISED.SubStructure2{
+TRACK_CONDITION =&gt; VersionManagement.Translation.Packets.TrackConditionBL3.UpdatedPacket(aPacket.TRACK_CONDITION_BL3)
+}</Expression>
+</Case><Case
+ Name="Packet 207 - Route suitability data"
+ Guid="74bb38b4-42b6-450b-8d76-0fdb1ea97074"
+>
+<Comment>Packet 207 has its NID_PACKET changed to 70.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="12a7e311-d011-40f6-b6eb-c240fb7ca1a2"
+>Available(aPacket.ROUTE_SUITABILITY_DATA_BL3)</PreCondition></PreConditions>
+<Expression>Messages.MESSAGE.TRACK_TO_TRAIN.SH_AUTHORISED.SubStructure2{
+ROUTE_SUITABILITY_DATA=&gt; VersionManagement.Translation.Packets.RouteSuitabilityDataBL3.UpdatedPacket(aPacket.ROUTE_SUITABILITY_DATA_BL3)
+}</Expression>
+</Case><Case
+ Name="Packet 239 - Track condition change of traction system"
+ Guid="6d7c6c3b-9408-47a7-a3f9-06998a36a03d"
+>
+<Comment>Packet 239 has its NID_PACKET changed to 39.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="48a4679d-9d58-4cd3-9e9f-df1897ef6a67"
+>Available(aPacket.TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM_BL3)</PreCondition></PreConditions>
+<Expression>Messages.MESSAGE.TRACK_TO_TRAIN.SH_AUTHORISED.SubStructure2{
+TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM =&gt; VersionManagement.Translation.Packets.TrackConditionChangeOfTractionSystemBL3.UpdatedPacket(aPacket.TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM_BL3)
+}</Expression>
+</Case><Case
+ Name="Rejected"
+ Guid="033d8619-0b58-459d-9c89-654900b951e7"
+>
+<Comment>Default case: packet is rejected.</Comment>
+<Expression>EMPTY</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.MESSAGE.TRACK_TO_TRAIN.SH_AUTHORISED.Collection2"
+ X="50"
+ Y="330"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="UpdatedPacketsList_SubStruct2"
+ Guid="76ce5775-1562-4903-9730-7725436d27f5"
+>
+<ReqRef
+ Id="f300439c-ed18-415a-b40f-a47221e0532f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e47a8d7a-8a15-43e5-bc6b-ed225ac0d3f4"
+>
+</ReqRef><Parameters>
+<Parameter
+ Type="Messages.SystemVersion1.MESSAGE.TRACK_TO_TRAIN.SH_AUTHORISED.Collection1"
+ Name="aPacketsList"
+ Guid="5315d77c-44bd-486c-aafe-3066235a2f45"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="e8b395bf-553b-4894-8b84-f945001fa740"
+>
+<Expression>MAP aPacketsList USING X IN Translation.Messages.SHAuthorised.UpdatePacket_SubStruct2(X, aPacketsList)</Expression>
 </Case></Cases>
 </Function></Functions>
 </NameSpace>

@@ -101,8 +101,8 @@
   NID_PACKET =&gt; aPacket.NID_PACKET, 
   L_PACKET =&gt; aPacket.L_PACKET, 
   NID_OPERATIONAL =&gt; Kernel.TrainRunningNumber.Value, 
-  NC_TRAIN =&gt; Translated_NC_CDTRAIN( Kernel.TrainData.TrainData.TrainCategoriesStruct.CantDeficiency) + 512 * Kernel.TrainData.GetOtherInternationalTrainCategories() ,
-  L_TRAIN =&gt; aPacket.L_TRAIN, 
+  NC_TRAIN =&gt; VersionManagement.Translation.Packets.ValidatedTrainData.Translated_NC_CDTRAIN( Kernel.TrainData.TrainData.Value.TrainCategories.CantDeficiency) + 512 * Kernel.TrainData.GetOtherInternationalTrainCategories() ,
+L_TRAIN =&gt; aPacket.L_TRAIN, 
   V_MAXTRAIN =&gt; aPacket.V_MAXTRAIN, 
   M_LOADINGGAUGE =&gt; 0, 
   M_AXLELOAD =&gt; VersionManagement.Translation.Packets.ValidatedTrainData.Translated_M_AXLELOADCAT( aPacket.M_AXLELOADCAT), 
@@ -136,7 +136,7 @@
  Name="Value"
  Guid="d7b4bad8-f77b-412e-bf02-4a6f0be645ce"
 >
-<Expression>(FIRST X IN Translatable_M_AXLELOADCAT_Values | X.M_AXLELOADCAT == aM_AXLELOADCAT).M_AXLELOAD</Expression>
+<Expression>(FIRST X IN Translation.Packets.ValidatedTrainData.Translatable_M_AXLELOADCAT_Values | X.M_AXLELOADCAT == aM_AXLELOADCAT).M_AXLELOAD</Expression>
 </Case></Cases>
 </Function><Function
  Type="Messages.SystemVersion1.PACKET.TRAIN_TO_TRACK.VALIDATED_TRAIN_DATA.SubStructure2"
@@ -214,62 +214,62 @@ Messages.NC_TRAIN.Train_does_not_belong_to_any_of_the__Other_International__Trai
  Name="Value"
  Guid="dc85a767-309e-4b12-b408-99e243c323d2"
 >
-<Expression>(FIRST X IN Translatable_NC_CDTRAIN_Values | X.OnBoard_NC_CDTRAIN == aNC_CDTRAIN).NC_TRAIN</Expression>
+<Expression>(FIRST X IN Translation.Packets.ValidatedTrainData.Translatable_NC_CDTRAIN_Values | X.OnBoard_NC_CDTRAIN == aNC_CDTRAIN).NC_TRAIN</Expression>
 </Case></Cases>
 </Function></Functions>
 <Variables>
 <Variable
  Type="M_AXLELOADCATTranslationCol"
  DefaultValue="[
-M_AXLELOADCATTranslationStruct{
+Translation.Packets.ValidatedTrainData.M_AXLELOADCATTranslationStruct{
 M_AXLELOADCAT =&gt; Messages.M_AXLELOADCAT.A,
 M_AXLELOAD =&gt; 32
 },
-M_AXLELOADCATTranslationStruct{
+Translation.Packets.ValidatedTrainData.M_AXLELOADCATTranslationStruct{
 M_AXLELOADCAT =&gt; Messages.M_AXLELOADCAT.HS17,
 M_AXLELOAD =&gt; 34
 },
-M_AXLELOADCATTranslationStruct{
+Translation.Packets.ValidatedTrainData.M_AXLELOADCATTranslationStruct{
 M_AXLELOADCAT =&gt; Messages.M_AXLELOADCAT.B1,
 M_AXLELOAD =&gt; 36
 },
-M_AXLELOADCATTranslationStruct{
+Translation.Packets.ValidatedTrainData.M_AXLELOADCATTranslationStruct{
 M_AXLELOADCAT =&gt; Messages.M_AXLELOADCAT.B2,
 M_AXLELOAD =&gt; 36
 },
-M_AXLELOADCATTranslationStruct{
+Translation.Packets.ValidatedTrainData.M_AXLELOADCATTranslationStruct{
 M_AXLELOADCAT =&gt; Messages.M_AXLELOADCAT.C2,
 M_AXLELOAD =&gt; 40
 },
-M_AXLELOADCATTranslationStruct{
+Translation.Packets.ValidatedTrainData.M_AXLELOADCATTranslationStruct{
 M_AXLELOADCAT =&gt; Messages.M_AXLELOADCAT.C3,
 M_AXLELOAD =&gt; 40
 },
-M_AXLELOADCATTranslationStruct{
+Translation.Packets.ValidatedTrainData.M_AXLELOADCATTranslationStruct{
 M_AXLELOADCAT =&gt; Messages.M_AXLELOADCAT.C4,
 M_AXLELOAD =&gt; 40
 },
-M_AXLELOADCATTranslationStruct{
+Translation.Packets.ValidatedTrainData.M_AXLELOADCATTranslationStruct{
 M_AXLELOADCAT =&gt; Messages.M_AXLELOADCAT.D2,
 M_AXLELOAD =&gt; 45
 },
-M_AXLELOADCATTranslationStruct{
+Translation.Packets.ValidatedTrainData.M_AXLELOADCATTranslationStruct{
 M_AXLELOADCAT =&gt; Messages.M_AXLELOADCAT.D3,
 M_AXLELOAD =&gt; 45
 },
-M_AXLELOADCATTranslationStruct{
+Translation.Packets.ValidatedTrainData.M_AXLELOADCATTranslationStruct{
 M_AXLELOADCAT =&gt; Messages.M_AXLELOADCAT.D4,
 M_AXLELOAD =&gt; 45
 },
-M_AXLELOADCATTranslationStruct{
+Translation.Packets.ValidatedTrainData.M_AXLELOADCATTranslationStruct{
 M_AXLELOADCAT =&gt; Messages.M_AXLELOADCAT.D4XL,
 M_AXLELOAD =&gt; 45
 },
-M_AXLELOADCATTranslationStruct{
+Translation.Packets.ValidatedTrainData.M_AXLELOADCATTranslationStruct{
 M_AXLELOADCAT =&gt; Messages.M_AXLELOADCAT.E4,
 M_AXLELOAD =&gt; 50
 },
-M_AXLELOADCATTranslationStruct{
+Translation.Packets.ValidatedTrainData.M_AXLELOADCATTranslationStruct{
 M_AXLELOADCAT =&gt; Messages.M_AXLELOADCAT.E5,
 M_AXLELOAD =&gt; 50
 }
@@ -287,57 +287,57 @@ Remind that M_AXLELOAD has a precision of 0.5t.</Comment>
 </Variable><Variable
  Type="NC_CDTRAINTranslationCol"
  DefaultValue="[
-NC_CDTRAINTranslationStruct
+Translation.Packets.ValidatedTrainData.NC_CDTRAINTranslationStruct
 {
 OnBoard_NC_CDTRAIN =&gt; Messages.NC_CDTRAIN.Cant_Deficiency_80_mm,
 NC_TRAIN =&gt; Messages.SystemVersion1.NC_TRAIN.Cant_deficiency_80_mm
 },
-NC_CDTRAINTranslationStruct
+Translation.Packets.ValidatedTrainData.NC_CDTRAINTranslationStruct
 {
 OnBoard_NC_CDTRAIN =&gt; Messages.NC_CDTRAIN.Cant_Deficiency_100_mm,
 NC_TRAIN =&gt; Messages.SystemVersion1.NC_TRAIN.Cant_deficiency_100_mm
 },
-NC_CDTRAINTranslationStruct
+Translation.Packets.ValidatedTrainData.NC_CDTRAINTranslationStruct
 {
 OnBoard_NC_CDTRAIN =&gt; Messages.NC_CDTRAIN.Cant_Deficiency_130_mm,
 NC_TRAIN =&gt; Messages.SystemVersion1.NC_TRAIN.Cant_deficiency_130_mm
 },
-NC_CDTRAINTranslationStruct
+Translation.Packets.ValidatedTrainData.NC_CDTRAINTranslationStruct
 {
 OnBoard_NC_CDTRAIN =&gt; Messages.NC_CDTRAIN.Cant_Deficiency_150_mm,
 NC_TRAIN =&gt; Messages.SystemVersion1.NC_TRAIN.Cant_deficiency_150_mm
 },
-NC_CDTRAINTranslationStruct
+Translation.Packets.ValidatedTrainData.NC_CDTRAINTranslationStruct
 {
 OnBoard_NC_CDTRAIN =&gt; Messages.NC_CDTRAIN.Cant_Deficiency_165_mm,
 NC_TRAIN =&gt; Messages.SystemVersion1.NC_TRAIN.Cant_deficiency_165_mm
 },
-NC_CDTRAINTranslationStruct
+Translation.Packets.ValidatedTrainData.NC_CDTRAINTranslationStruct
 {
 OnBoard_NC_CDTRAIN =&gt; Messages.NC_CDTRAIN.Cant_Deficiency_180_mm,
 NC_TRAIN =&gt; Messages.SystemVersion1.NC_TRAIN.Cant_deficiency_180_mm
 },
-NC_CDTRAINTranslationStruct
+Translation.Packets.ValidatedTrainData.NC_CDTRAINTranslationStruct
 {
 OnBoard_NC_CDTRAIN =&gt; Messages.NC_CDTRAIN.Cant_Deficiency_210_mm,
 NC_TRAIN =&gt; Messages.SystemVersion1.NC_TRAIN.Cant_deficiency_210_mm
 },
-NC_CDTRAINTranslationStruct
+Translation.Packets.ValidatedTrainData.NC_CDTRAINTranslationStruct
 {
 OnBoard_NC_CDTRAIN =&gt; Messages.NC_CDTRAIN.Cant_Deficiency_225_mm,
 NC_TRAIN =&gt; Messages.SystemVersion1.NC_TRAIN.Cant_deficiency_225_mm
 },
-NC_CDTRAINTranslationStruct
+Translation.Packets.ValidatedTrainData.NC_CDTRAINTranslationStruct
 {
 OnBoard_NC_CDTRAIN =&gt; Messages.NC_CDTRAIN.Cant_Deficiency_245_mm,
 NC_TRAIN =&gt; Messages.SystemVersion1.NC_TRAIN.Cant_deficiency_245_mm
 },
-NC_CDTRAINTranslationStruct
+Translation.Packets.ValidatedTrainData.NC_CDTRAINTranslationStruct
 {
 OnBoard_NC_CDTRAIN =&gt; Messages.NC_CDTRAIN.Cant_Deficiency_275_mm,
 NC_TRAIN =&gt; Messages.SystemVersion1.NC_TRAIN.Cant_Deficiency_275_mm
 },
-NC_CDTRAINTranslationStruct
+Translation.Packets.ValidatedTrainData.NC_CDTRAINTranslationStruct
 {
 OnBoard_NC_CDTRAIN =&gt; Messages.NC_CDTRAIN.Cant_Deficiency_300_mm,
 NC_TRAIN =&gt; Messages.SystemVersion1.NC_TRAIN.Cant_deficiency_300_mm

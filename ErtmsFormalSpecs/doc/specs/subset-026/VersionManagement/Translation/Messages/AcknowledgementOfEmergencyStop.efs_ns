@@ -72,7 +72,7 @@
  Name="Value"
  Guid="11a51f19-b2f2-4776-ad17-7ee230d7769c"
 >
-<Expression>(FIRST X IN  Translatable_Q_EMERGENCYSTOP_Values| X.Q_EMERGENCYSTOP_Version2 == aQ_EMERGENCYSTOP).Q_EMERGENCYSTOP_Version1</Expression>
+<Expression>(FIRST X IN  Translation.Messages.AcknowledgementOfEmergencyStop.Translatable_Q_EMERGENCYSTOP_Values| X.Q_EMERGENCYSTOP_Version2 == aQ_EMERGENCYSTOP).Q_EMERGENCYSTOP_Version1</Expression>
 </Case></Cases>
 </Function><Function
  Type="Messages.SystemVersion1.MESSAGE.TRAIN_TO_TRACK.ACKNOWLEDGEMENT_OF_EMERGENCY_STOP.Message"
@@ -102,7 +102,7 @@
   T_TRAIN =&gt; aMessage.T_TRAIN, 
   NID_ENGINE =&gt; aMessage.NID_ENGINE, 
   NID_EM =&gt; aMessage.NID_EM, 
-  Q_EMERGENCYSTOP =&gt; TranslatedQ_EMERGENCYSTOP( aMessage.Q_EMERGENCYSTOP), 
+  Q_EMERGENCYSTOP =&gt; VersionManagement.Translation.Messages.AcknowledgementOfEmergencyStop.TranslatedQ_EMERGENCYSTOP( aMessage.Q_EMERGENCYSTOP), 
   POSITION_REPORT =&gt; VersionManagement.Translation.Packets.PositionReports.DowndatedPacket( aMessage.POSITION_REPORT )
 }</Expression>
 </Case></Cases>
@@ -110,19 +110,19 @@
 <Variables>
 <Variable
  Type="QEmergencyStopTranslationCol"
- DefaultValue="[QEmergencyStopTranslationStruct{
+ DefaultValue="[Translation.Messages.AcknowledgementOfEmergencyStop.QEmergencyStopTranslationStruct{
 Q_EMERGENCYSTOP_Version2 =&gt; Messages.Q_EMERGENCYSTOP.Conditional_Emergency_Stop_accepted__with_update_of_EOA__ref_3_10_2_2,
 Q_EMERGENCYSTOP_Version1 =&gt; Messages.SystemVersion1.Q_EMERGENCYSTOP.Conditional_Emergency_Stop_accepted
 },
-QEmergencyStopTranslationStruct{
+Translation.Messages.AcknowledgementOfEmergencyStop.QEmergencyStopTranslationStruct{
 Q_EMERGENCYSTOP_Version2 =&gt; Messages.Q_EMERGENCYSTOP.Conditional_Emergency_Stop_accepted__with_no_update_of_EOA__ref_3_10_2_2,
 Q_EMERGENCYSTOP_Version1 =&gt; Messages.SystemVersion1.Q_EMERGENCYSTOP.Conditional_Emergency_Stop_accepted
 },
-QEmergencyStopTranslationStruct{
+Translation.Messages.AcknowledgementOfEmergencyStop.QEmergencyStopTranslationStruct{
 Q_EMERGENCYSTOP_Version2 =&gt; Messages.Q_EMERGENCYSTOP.Not_relevant__Unconditional_Emergency_Stop___ref_3_10_2_3,
 Q_EMERGENCYSTOP_Version1 =&gt; Messages.SystemVersion1.Q_EMERGENCYSTOP.Not_relevant__Unconditional_Emergency_Stop
 },
-QEmergencyStopTranslationStruct{
+Translation.Messages.AcknowledgementOfEmergencyStop.QEmergencyStopTranslationStruct{
 Q_EMERGENCYSTOP_Version2 =&gt; Messages.Q_EMERGENCYSTOP.Conditional_Emergency_Stop_rejected__because_the_train_has_passed_the_emergency_stop_location__ref_3_10_2_2,
 Q_EMERGENCYSTOP_Version1 =&gt; Messages.SystemVersion1.Q_EMERGENCYSTOP.Conditional_Emergency_Stop_rejected
 }]"
