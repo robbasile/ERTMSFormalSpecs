@@ -14,7 +14,9 @@
 // --
 // ------------------------------------------------------------------------------
 
+using System;
 using System.Drawing;
+using System.Globalization;
 using System.Windows.Forms;
 using DataDictionary.Specification;
 using GUI.BoxArrowDiagram;
@@ -103,15 +105,34 @@ namespace GUI.RequirementSetDiagram
             string name = GuiUtils.AdjustForDisplay(TypedModel.GraphicalName, Width, Font);
             SizeF textSize = g.MeasureString(name, Font);
             g.DrawString(name, Font, new SolidBrush(NormalPen.Color), Location.X + Width/2 - textSize.Width/2,
-                Location.Y + Height/2 - Font.Height/2);
+                Location.Y + Height/4 - Font.Height/2);
 
             // Draws the completion box
-            g.DrawRectangle(NormalPen, Location.X + 10, Location.Y + Height - 20, Width - 20, 10);
+            g.DrawRectangle(NormalPen, Location.X + 10, Location.Y + Height / 2 - 5, Width - 20, 10);
             Paragraph.ParagraphSetMetrics metrics;
             if (((RequirementSetPanel) Panel).Metrics.TryGetValue(TypedModel, out metrics))
             {
                 FillCompletion(g, metrics.ImplementedCount, metrics.ImplementableCount, ImplementedColor, 10);
                 FillCompletion(g, metrics.TestedCount, metrics.ImplementableCount, TestedColor, 5);
+
+
+                // Completion information
+                float percentHeight = Location.Y + Height*3/4 - Font.Height/2;
+
+                // Display percent of implemented requirements in this requirement set
+                double percentofImplementedRequirements = 100 * (double) metrics.ImplementedCount/
+                                               TypedModel.Dictionary.ApplicableParagraphs.Count;
+                percentofImplementedRequirements = Math.Round(percentofImplementedRequirements, 2);
+                string percentOfRequirementsDisplay = GuiUtils.AdjustForDisplay(percentofImplementedRequirements.ToString(CultureInfo.InvariantCulture) + "%", Width, Font);
+                SizeF percentImplementedTextSize = g.MeasureString(percentOfRequirementsDisplay, Font);
+                g.DrawString(percentOfRequirementsDisplay, Font, new SolidBrush(NormalPen.Color), Location.X + Width / 4 - percentImplementedTextSize.Width / 2, percentHeight);
+
+                // Display percent of not implemented requirements in this set
+                // NOTE: this is different from 1 - implemented in this set
+                double percentOfNotImplementedRequirements = Math.Round(100 * (double)metrics.UnImplementedCount / TypedModel.Dictionary.ApplicableParagraphs.Count, 2);
+                string percentOfNotImplementedDisplay = GuiUtils.AdjustForDisplay(percentOfNotImplementedRequirements.ToString(CultureInfo.InvariantCulture) + "%", Width, Font);
+                SizeF percentNotImplementedTextSize = g.MeasureString(percentOfNotImplementedDisplay, Font);
+                g.DrawString(percentOfNotImplementedDisplay, Font, new SolidBrush(NormalPen.Color), Location.X + 3 * Width / 4 - percentNotImplementedTextSize.Width / 2, percentHeight);
             }
         }
 
@@ -132,7 +153,7 @@ namespace GUI.RequirementSetDiagram
                 ratio = (double) performed/(double) total;
                 // ReSharper restore RedundantCast
             }
-            g.FillRectangle(new SolidBrush(color), Location.X + 10 + 1, Location.Y + Height - 20 + 10 - width + 1,
+            g.FillRectangle(new SolidBrush(color), Location.X + 10 + 1, Location.Y + Height / 2 - 5 + 10 - width + 1,
                 (int) ((Width - 20)*ratio) - 1, width - 1);
         }
     }
