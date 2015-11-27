@@ -605,7 +605,7 @@ aPacket.TRACK_TO_TRAIN.TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM
  Guid="cd6d48a7-2a55-465f-8e9e-2d647eb65872"
 >FORALL X IN aOtherPackets | NOT Available(X.TRACK_TO_TRAIN.TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM_BL3)</PreCondition><PreCondition
  Guid="075e3f77-7a75-4b74-8b4e-79d8e9d6e7cc"
->Translation.Packets.TrackConditionChangeOfTractionSystem.IsTranslatable(aPacket.TRACK_TO_TRAIN.TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM.M_TRACTION)</PreCondition></PreConditions>
+>VersionManagement.Translation.Packets.TrackConditionChangeOfTractionSystem.IsTranslatable(aPacket.TRACK_TO_TRAIN.TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM.M_TRACTION)</PreCondition></PreConditions>
 <Expression>Messages.EUROBALISE.SubStructure1{
 TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message{
 TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM
@@ -1156,10 +1156,56 @@ DEFAULT_BALISE_LOOP_OR_RIU_INFORMATION =&gt; aPacket.TRACK_TO_TRAIN.DEFAULT_BALI
  Y="121"
  Width="100"
  Height="50"
+ Implemented="TRUE"
  Name="DowndatePacket"
  Guid="1bcee5ba-078c-4fd6-905d-431491f22ff8"
 >
-<Parameters>
+<ReqRef
+ Id="921e191b-86b3-43ca-8fed-a852ab016995"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a8d69aea-1cf2-4610-8e6c-0debfae09149"
+>
+</ReqRef><ReqRef
+ Id="337c4822-5e9e-4234-b67f-88b3d49391e4"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="03819dd0-e42f-4a87-ac82-a357e2c874da"
+>
+</ReqRef><ReqRef
+ Id="66ac7def-25c2-4ef0-9070-07256c21044e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="4f722055-e01f-4b00-9b3e-987f63bb4d01"
+>
+</ReqRef><ReqRef
+ Id="e891fe2f-aed3-405d-b103-91668a833f74"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b94a4eb5-2bb1-4697-803f-0886c2607e1b"
+>
+</ReqRef><ReqRef
+ Id="b5eca3ce-5912-453e-9f62-b17f480a67de"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="7fef92eb-def2-4fc4-83ba-39ff77f5ff9a"
+>
+</ReqRef><ReqRef
+ Id="8531853b-853e-49d5-8c90-39cf14fa899e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0c047252-8d17-40d9-8fa6-d770efd6f2bf"
+>
+</ReqRef><ReqRef
+ Id="a7eda3fe-1ed3-4287-b911-d3deb68ba6ac"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="821407d6-cd7c-4a72-8f81-61c176e5759b"
+>
+</ReqRef><ReqRef
+ Id="6c2e702e-8913-40d8-b971-f199b5fe6600"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0cbf20b9-440f-49f8-b763-65ea932dba8a"
+>
+</ReqRef><ReqRef
+ Id="43b3bf25-efde-4556-a2c8-3c7986a36998"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="1f7da84a-c453-4e68-a772-e7897f5beb12"
+>
+</ReqRef><Parameters>
 <Parameter
  Type="Messages.PACKET.TRAIN_TO_TRACK.Message"
  Name="aPacket"
@@ -1215,18 +1261,6 @@ ERROR_REPORTING
  =&gt; VersionManagement.Translation.Packets.ErrorReporting.DowndatedPacket(aPacket.ERROR_REPORTING)
 }</Expression>
 </Case><Case
- Name="Packet XXX_5: Train running number"
- Guid="3e4303c3-448f-498a-9388-e3080aa18f66"
->
-<PreConditions>
-<PreCondition
- Guid="65e68991-48b9-4144-95fc-af20b1a7473d"
->Available(aPacket.TRAIN_RUNNING_NUMBER)</PreCondition></PreConditions>
-<Expression>Messages.SystemVersion1.PACKET.TRAIN_TO_TRACK.Message{
-TRAIN_RUNNING_NUMBER
- =&gt; aPacket.TRAIN_RUNNING_NUMBER
-}</Expression>
-</Case><Case
  Name="Packet 132_9: Level 2-3 transition information"
  Guid="ff72ebf5-c58b-4df7-b31a-0041892e1484"
 >
@@ -1254,7 +1288,7 @@ VALIDATED_TRAIN_DATA
  Name="Rejected"
  Guid="5b305cc5-ff9e-49fd-b261-cf6b1e0abb9d"
 >
-<Comment>Default case: packet is rejected.</Comment>
+<Comment>Default case: packet is rejected. Not relevant packet are deleted too.</Comment>
 <Expression>EMPTY</Expression>
 </Case></Cases>
 </Function></Functions>
