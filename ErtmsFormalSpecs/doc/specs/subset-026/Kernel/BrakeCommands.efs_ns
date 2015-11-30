@@ -570,6 +570,58 @@ DMI.MasterDMI().In_AcknForReversingDistanceExceeded.InputInformation.DriverAnswe
 >
 <Expression>Kernel.TrainData.TrainData.Value.SBCommandIsImplemented AND NOT Kernel.NationalValues.UseOfSBIsInhibited()</Expression>
 </Case></Cases>
+</Function><Function
+ Type="Boolean"
+ X="730"
+ Y="200"
+ Width="100"
+ Height="50"
+ NeedsRequirement="FALSE"
+ Name="EBCommanded"
+ Guid="7c6fca2e-59c6-4eac-af6e-9107019243ea"
+>
+<Comment>Indicates that the emergency brakes are commanded for a specific reason</Comment>
+<Parameters>
+<Parameter
+ Type="BrakeReasonEnum"
+ Name="reason"
+ Guid="285e7f08-5793-4f6c-8104-e96c58de5acb"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Always"
+ Guid="47826e30-c290-4e3c-9ffb-aed4e7447f09"
+>
+<Expression>THERE_IS brake IN EmergencyBrakeCommands |
+  brake.Reason == reason</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ X="730"
+ Y="260"
+ Width="100"
+ Height="50"
+ NeedsRequirement="FALSE"
+ Name="SBCommanded"
+ Guid="fba5d4be-77c0-4793-85ad-aaf36746d339"
+>
+<Comment>Indicates that the service brakes are commanded for a specific reason</Comment>
+<Parameters>
+<Parameter
+ Type="BrakeReasonEnum"
+ Name="reason"
+ Guid="289933f3-aac2-45ea-8897-835cd63b4446"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Always"
+ Guid="5ae2bf3b-023c-4c68-be73-0e2cc2331c55"
+>
+<Expression>THERE_IS brake IN ServiceBrakeCommands |
+  brake.Reason == reason</Expression>
+</Case></Cases>
 </Function></Functions>
 <Procedures>
 <Procedure

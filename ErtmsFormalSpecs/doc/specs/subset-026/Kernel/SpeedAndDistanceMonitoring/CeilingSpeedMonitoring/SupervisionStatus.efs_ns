@@ -229,17 +229,19 @@
 </Parameter></Parameters>
 <Cases>
 <Case
- Name="Transition to Intervention"
+ Name="Transition to Intervention (p1)"
  Guid="f5a84799-67f9-4c1d-a66a-407cdc414f8a"
 >
-<Comment>Transition =&gt; Intervention</Comment>
+<Comment>Transition =&gt; Intervention (p1)</Comment>
 <PreConditions>
 <PreCondition
+ Guid="8c4a9fca-eaf6-4797-9c4d-a0ac2442c4cc"
+>current in  [SupervisionStatusEnum.Normal, SupervisionStatusEnum.Indication, SupervisionStatusEnum.Overspeed, SupervisionStatusEnum.Warning]</PreCondition><PreCondition
  Guid="2cdaccb8-f7aa-41b0-86be-f732454d0a9b"
 >t4() OR t5()</PreCondition></PreConditions>
 <Expression>SupervisionStatusEnum.Intervention</Expression>
 </Case><Case
- Name="Transition to Normal for Intervention"
+ Name="Transition to Normal for Intervention (p1)"
  Guid="666c8512-7ba9-4f79-89ec-99a7238ec024"
 >
 <Comment>Transition to warning</Comment>
@@ -248,20 +250,25 @@
  Guid="9b3a20ed-8812-434e-bb61-62e864ea8c6a"
 >current in [SupervisionStatusEnum.Intervention]</PreCondition><PreCondition
  Guid="8ce7f04e-f9f0-4a7c-afc0-e4aee21a7598"
->r0() OR r1()</PreCondition></PreConditions>
+>r0()  OR 
+(
+  r1()  AND CanLeaveIntervention()
+)</PreCondition></PreConditions>
 <Expression>SupervisionStatusEnum.Normal</Expression>
 </Case><Case
- Name="Transition to Normal"
+ Name="Transition to Normal (p1)"
  Guid="9cfedda9-e519-4e47-bd37-d5191cb8b17a"
 >
 <Comment>Transition to warning</Comment>
 <PreConditions>
 <PreCondition
+ Guid="7117ccdc-ac87-4243-80c5-a2417e033704"
+>current in  [SupervisionStatusEnum.Indication, SupervisionStatusEnum.Overspeed, SupervisionStatusEnum.Warning]</PreCondition><PreCondition
  Guid="f1cca3f6-d71c-467e-9411-f3bfd53fe8d2"
 >r1()</PreCondition></PreConditions>
 <Expression>SupervisionStatusEnum.Normal</Expression>
 </Case><Case
- Name="Transition to Warning"
+ Name="Transition to Warning (p2)"
  Guid="03535b18-5f70-46bb-8489-843758101814"
 >
 <Comment>Transition to warning</Comment>
@@ -273,7 +280,7 @@
 >t3()</PreCondition></PreConditions>
 <Expression>SupervisionStatusEnum.Warning</Expression>
 </Case><Case
- Name="Transition to Overspeed"
+ Name="Transition to Overspeed (p3)"
  Guid="850a260e-8424-4b3d-a1bc-c093bac08e39"
 >
 <Comment>Transition to warning</Comment>

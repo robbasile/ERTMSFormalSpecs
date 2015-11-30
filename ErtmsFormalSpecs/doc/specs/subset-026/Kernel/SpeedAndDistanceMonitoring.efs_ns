@@ -1534,6 +1534,25 @@ Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max)</Expression>
 <Comment>Always</Comment>
 <Expression>TargetsList() != SupervisedTargets</Expression>
 </Case></Cases>
+</Function><Function
+ Type="Boolean"
+ X="771"
+ Y="1"
+ Width="100"
+ Height="50"
+ NeedsRequirement="FALSE"
+ Name="CanLeaveIntervention"
+ Guid="6b701277-9c49-4cc9-add4-65f57f3360f9"
+>
+<Comment>Indicates that one can leave the intervention status</Comment>
+<Cases>
+<Case
+ Name="Always"
+ Guid="83c45543-9115-43e4-90bc-fc59b73cc3a6"
+>
+<Expression>NOT BrakeCommands.EBCommanded( reason =&gt; BrakeCommands.BrakeReasonEnum.SpeedAndDistanceMonitoring )
+OR NationalValues.ReleaseOfEBIsPermitted() </Expression>
+</Case></Cases>
 </Function></Functions>
 <Procedures>
 <Procedure
@@ -2070,6 +2089,7 @@ Odometry.TrainIsAtStandstill()</PreCondition></PreConditions>
  Y="290"
  Width="100"
  Height="50"
+ NeedsRequirement="FALSE"
  Name="UpdateMonitoring"
  Guid="44ff8c48-8591-4b42-bab5-ebe53142e4c2"
 >
@@ -2083,12 +2103,14 @@ Odometry.TrainIsAtStandstill()</PreCondition></PreConditions>
 </Parameter></Parameters>
 <Rules>
 <Rule
+ NeedsRequirement="FALSE"
  Name="Monitoring changed"
  Guid="869d709e-09b9-4797-96af-b50ec19b96bf"
 >
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
+ NeedsRequirement="FALSE"
  Name="Monitoring changed"
  Guid="9a26583a-29ab-4678-be28-3b22b9a48b25"
 >
@@ -2100,6 +2122,7 @@ Odometry.TrainIsAtStandstill()</PreCondition></PreConditions>
 </Actions>
 <SubRules>
 <Rule
+ NeedsRequirement="FALSE"
  Name="Monitoring changed"
  Guid="25d477d6-c545-4fbb-be3d-ce9edfa9af3a"
 >
@@ -2109,7 +2132,12 @@ Odometry.TrainIsAtStandstill()</PreCondition></PreConditions>
  Name="Switch to CSM"
  Guid="b3d06ecb-6f5e-4aa5-820b-35476930e3a1"
 >
-<Comment>Switch to CSM</Comment>
+<ReqRef
+ Id="4ef8d95d-9b39-4a31-af31-f673833b0f7b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="68d48741-91cc-48da-a5ca-6b4fae1cc22b"
+>
+</ReqRef><Comment>Switch to CSM</Comment>
 <PreConditions>
 <PreCondition
  Guid="40daffeb-caab-4bf4-9272-2e75fb907fdc"
@@ -2195,7 +2223,12 @@ Odometry.TrainIsAtStandstill()</PreCondition></PreConditions>
  Name="Switch to RSM"
  Guid="0444d8f9-42c4-4375-954c-a654eb4971c9"
 >
-<Comment>Switch to RSM</Comment>
+<ReqRef
+ Id="4ef8d95d-9b39-4a31-af31-f673833b0f7b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="fd96b98a-3185-48f1-b8d6-2399c2394b3a"
+>
+</ReqRef><Comment>Switch to RSM</Comment>
 <PreConditions>
 <PreCondition
  Guid="07549389-40ca-4065-8425-9ca86c5186ff"
@@ -2218,7 +2251,12 @@ Odometry.TrainIsAtStandstill()</PreCondition></PreConditions>
  Name="From TSM"
  Guid="104642dc-b440-4abe-9ffd-a1b1fdddce31"
 >
-<PreConditions>
+<ReqRef
+ Id="16a2ffa9-a581-4832-8287-d3a982f4ddd7"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0c3f491f-aefa-44e7-b23a-a83c832c11ff"
+>
+</ReqRef><PreConditions>
 <PreCondition
  Guid="b48e0bb6-172e-41b9-a29f-6214c12f6ecd"
 >PreviousMonitoring == MonitoringType.TSM</PreCondition></PreConditions>

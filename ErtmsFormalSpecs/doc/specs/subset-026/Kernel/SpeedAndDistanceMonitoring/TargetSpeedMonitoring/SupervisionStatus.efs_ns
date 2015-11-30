@@ -2057,7 +2057,10 @@ Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &gt; Kernel.Spee
 <PreConditions>
 <PreCondition
  Guid="9289be11-6c89-4600-bbc8-f1482b5d9797"
->t10() OR t11() OR t12() OR t13() OR t14()</PreCondition></PreConditions>
+><Comment>Beware, transition t15() does not belong to table in 3.13.10.4.15 but is present in 3.13.10.4.10</Comment>
+t10() OR t11() OR t12() OR t13() OR t14() OR t15()</PreCondition><PreCondition
+ Guid="e659195c-8106-44aa-a781-0d22c5c5b622"
+>current in  [SupervisionStatusEnum.Normal, SupervisionStatusEnum.Indication, SupervisionStatusEnum.Overspeed, SupervisionStatusEnum.Warning]</PreCondition></PreConditions>
 <Expression>SupervisionStatusEnum.Intervention</Expression>
 </Case><Case
  Name="Transition to Normal from Intervention (p1)"
@@ -2070,7 +2073,11 @@ Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &gt; Kernel.Spee
 >current in [SupervisionStatusEnum.Intervention]</PreCondition><PreCondition
  Guid="c1b3809f-f8f5-4938-9760-664ad5643a2c"
 >r0() OR 
-( FORALL target IN TargetsList() |  r1(  target ) OR r2(  target ) )</PreCondition></PreConditions>
+( 
+    CanLeaveIntervention() 
+ AND
+    FORALL target IN TargetsList() |   r1(  target ) OR r2(  target ) 
+)</PreCondition></PreConditions>
 <Expression>SupervisionStatusEnum.Normal</Expression>
 </Case><Case
  Name="Transition to Normal from Indication (p1)"
@@ -2090,7 +2097,7 @@ Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &gt; Kernel.Spee
 )</PreCondition></PreConditions>
 <Expression>SupervisionStatusEnum.Normal</Expression>
 </Case><Case
- Name="Transition to Normal"
+ Name="Transition to Normal (p1)"
  Guid="e5fb31a1-78dc-4988-bc9f-b9468e30ef0a"
 >
 <Comment>Transition to normal</Comment>
@@ -2114,6 +2121,20 @@ Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &gt; Kernel.Spee
 >t7() OR t8() OR t9()</PreCondition></PreConditions>
 <Expression>SupervisionStatusEnum.Warning</Expression>
 </Case><Case
+ Name="Transition to Indication (from Intervention) (p2)"
+ Guid="d65e6832-0e62-4ad3-85fa-6f6be858a587"
+>
+<Comment>Transition to indication</Comment>
+<PreConditions>
+<PreCondition
+ Guid="0699dc5c-3975-4325-aea8-6b7b155d1212"
+>current in [SupervisionStatusEnum.Intervention]</PreCondition><PreCondition
+ Guid="c966826c-234c-47cb-b953-06e8fe313f2f"
+>CanLeaveIntervention()
+AND 
+FORALL target IN TargetsList() |  r3(  target )</PreCondition></PreConditions>
+<Expression>SupervisionStatusEnum.Indication</Expression>
+</Case><Case
  Name="Transition to Indication (p2)"
  Guid="bb8bf5a4-c496-44fe-ba38-09fbd456ab67"
 >
@@ -2121,7 +2142,7 @@ Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &gt; Kernel.Spee
 <PreConditions>
 <PreCondition
  Guid="971e8b54-de8c-4cfe-b110-f5145e867d38"
->current in [SupervisionStatusEnum.Overspeed, SupervisionStatusEnum.Warning, SupervisionStatusEnum.Intervention]</PreCondition><PreCondition
+>current in [SupervisionStatusEnum.Overspeed, SupervisionStatusEnum.Warning]</PreCondition><PreCondition
  Guid="6c0cb6ee-e302-4861-950d-4b1bc347e9ae"
 >FORALL target IN TargetsList() |  r3(  target )</PreCondition></PreConditions>
 <Expression>SupervisionStatusEnum.Indication</Expression>
