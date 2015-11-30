@@ -304,7 +304,9 @@ Only emergency stop orders can be high priority.</Comment>
 <Actions>
 <Action
  Guid="a88d3410-4254-4ea2-b4be-62c09e71fb63"
->MessageOut &lt;- EMPTY</Action></Actions>
+>MessageOut &lt;- EMPTY</Action><Action
+ Guid="798b1369-7cf8-4c83-8a3c-9a9a4fec6355"
+>MessageOut_SystemVersion1 &lt;- EMPTY</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Verification"
@@ -604,7 +606,26 @@ Keep the reason for it to be displayed to the driver.</Comment>
 <Actions>
 <Action
  Guid="d36b5e14-701a-47f8-a07f-2c20c9a57a79"
->InitializeOutMessage()</Action><Action
+>InitializeOutMessage()</Action></Actions>
+<SubRules>
+<Rule
+ Implemented="TRUE"
+ Name="Prepare message"
+ Guid="0a4339b6-f580-4dca-a29e-5b02266c4bfb"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Prepare message"
+ Guid="eafd8d49-47e4-425e-9aea-c5bc7e00361c"
+>
+<PreConditions>
+<PreCondition
+ Guid="155ea6fb-968e-4fa2-ba8e-579277f7afc0"
+>THIS.SessionManagementData.SystemVersion.Value == SystemVersionEnum.Version2_0</PreCondition></PreConditions>
+<Actions>
+<Action
  Guid="79dbebec-3f39-4331-b8b2-edabf9c5149b"
 >MessageOut.TRAIN_POSITION_REPORT &lt;- Messages.MESSAGE.TRAIN_TO_TRACK.TRAIN_POSITION_REPORT.Message
 {
@@ -615,8 +636,8 @@ Keep the reason for it to be displayed to the driver.</Comment>
     Sequence1 =&gt; [],
     T_TRAIN =&gt; MessageTypes.UnResolveTime( time =&gt; Kernel.DateAndTime.CurrentTime)
 }</Action></Actions>
-<SubRules>
-<Rule
+</RuleCondition></Conditions>
+</Rule><Rule
  Priority="Processing"
  Implemented="TRUE"
  Name="Include error report"
@@ -638,7 +659,9 @@ Keep the reason for it to be displayed to the driver.</Comment>
 <PreConditions>
 <PreCondition
  Guid="6ae49c95-7d4b-42c1-8330-6a69edd591a3"
->THERE_IS Fault IN Kernel.SafetyCriticalFaults | Fault.Timestamp == Kernel.DateAndTime.Now()</PreCondition></PreConditions>
+>THERE_IS Fault IN Kernel.SafetyCriticalFaults | Fault.Timestamp == Kernel.DateAndTime.Now()</PreCondition><PreCondition
+ Guid="4c9bb920-8b4f-41e8-b06d-5ef689c0e285"
+>THIS.SessionManagementData.SystemVersion.Value == SystemVersionEnum.Version2_0</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="e07dcf11-0ce2-47e9-879e-4b160dbf579e"
@@ -650,6 +673,79 @@ Keep the reason for it to be displayed to the driver.</Comment>
     }
 }
  IN MessageOut.TRAIN_POSITION_REPORT.Sequence1</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Implemented="TRUE"
+ Name="Prepare message_1"
+ Guid="7d815f61-fbaa-4224-b47b-75fd1d4da8df"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Prepare message"
+ Guid="1dcda26a-bc22-45b0-b171-d0c419f4738f"
+>
+<PreConditions>
+<PreCondition
+ Guid="835b3439-04f9-497f-a44b-883f8f136463"
+>THIS.SessionManagementData.SystemVersion.Value in [SystemVersionEnum.Version1_0, SystemVersionEnum.Version1_1]</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="51d9638b-ca76-4429-833b-085ce02c3c05"
+>MessageOut_SystemVersion1 &lt;- VersionManagement.Translation.Messages.DowndateMessage( Messages.MESSAGE.TRAIN_TO_TRACK.Message{
+TRAIN_POSITION_REPORT =&gt; Messages.MESSAGE.TRAIN_TO_TRACK.TRAIN_POSITION_REPORT.Message
+{
+    L_MESSAGE =&gt; EMPTY,
+    NID_ENGINE =&gt; Kernel.NidEngine,
+    NID_MESSAGE =&gt; 136,
+    POSITION_REPORT =&gt; EURORADIO.PositionReport.CreatePositionReport(),
+    Sequence1 =&gt; [],
+    T_TRAIN =&gt; MessageTypes.UnResolveTime( time =&gt; Kernel.DateAndTime.CurrentTime)
+}
+}
+)</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Include error report_1"
+ Guid="5feb5fb4-88af-4f06-920c-584acfb86bf9"
+>
+<ReqRef
+ Id="9e2c2d2b-5db5-4ed7-ac2d-0ff95a23e76f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e7d4ebef-78e0-4538-bbc1-b5647f66683c"
+>
+</ReqRef><Comment>If a safety critical fault was detected in this cycle, send it to the RBC</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Add packet 4"
+ Guid="3d6841f2-1fe8-47f8-8c6b-a689eb0e0b2d"
+>
+<PreConditions>
+<PreCondition
+ Guid="40d23162-7627-4bb0-93cb-d25a350c019e"
+>THERE_IS Fault IN Kernel.SafetyCriticalFaults | Fault.Timestamp == Kernel.DateAndTime.Now()</PreCondition><PreCondition
+ Guid="58ad7e6a-7834-491b-927a-97b941ffec84"
+>THIS.SessionManagementData.SystemVersion.Value in [SystemVersionEnum.Version1_0, SystemVersionEnum.Version1_1]</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="b84fad51-f9f1-4595-89c6-4e8b98de5851"
+>INSERT 
+VersionManagement.Translation.Messages.TrainPositionReport.DowndatedPackets(
+Messages.MESSAGE.TRAIN_TO_TRACK.TRAIN_POSITION_REPORT.SubStructure1{
+    ERROR_REPORTING =&gt; Messages.PACKET.TRAIN_TO_TRACK.ERROR_REPORTING.Message{
+        NID_PACKET =&gt; 4,
+        L_PACKET =&gt; 0,
+        M_ERROR =&gt; (FIRST X IN Kernel.SafetyCriticalFaults | X.Timestamp == Kernel.DateAndTime.Now()).Fault
+    }
+}
+)
+
+ IN MessageOut_SystemVersion1.TRAIN_POSITION_REPORT.Sequence1</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition><RuleCondition
@@ -742,6 +838,27 @@ Keep the reason for it to be displayed to the driver.</Comment>
 <Rule
  Priority="Processing"
  Implemented="TRUE"
+ Name="Initialize output message"
+ Guid="3764661a-62ed-4d3e-bad8-e44f0cfca265"
+>
+<Comment>Create an empty train-to-track message in MessageOUT.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Initialize output message"
+ Guid="2deed0a5-79d6-41a9-8564-92acc7625ca2"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="b1ccb1c5-b9fd-4818-b709-5d94d5c2e4b1"
+>InitializeOutMessage()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
  Name="Handle sending of the message"
  Guid="a12be67a-f112-414a-af20-7873c6b0671e"
 >
@@ -756,11 +873,11 @@ Keep the reason for it to be displayed to the driver.</Comment>
 <PreConditions>
 <PreCondition
  Guid="51eef2a5-c279-4323-a925-b48791cf1653"
->EURORADIO.MessageCanBeSent ( anRBC =&gt; THIS )</PreCondition></PreConditions>
+>EURORADIO.MessageCanBeSent ( anRBC =&gt; THIS )</PreCondition><PreCondition
+ Guid="25f7ca0c-abdb-4650-9802-c9c0b8ea754f"
+>THIS.SessionManagementData.SystemVersion.Value == SystemVersionEnum.Version2_0</PreCondition></PreConditions>
 <Actions>
 <Action
- Guid="ad87a631-5eb9-4189-b1f9-c830843481d2"
->InitializeOutMessage()</Action><Action
  Guid="ee5a0c21-596d-4adf-9f6e-f3f46a1437d7"
 >MessageOut.SOM_POSITION_REPORT &lt;- Messages.MESSAGE.TRAIN_TO_TRACK.SOM_POSITION_REPORT.Message
 {
@@ -772,6 +889,33 @@ Keep the reason for it to be displayed to the driver.</Comment>
     Sequence1 =&gt; EMPTY,
     T_TRAIN =&gt; MessageTypes.UnResolveTime( time =&gt; Kernel.DateAndTime.CurrentTime)
 }</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Handle sending of the message_SystemVersion1"
+ Guid="cd68a70e-f9f3-4d42-b1c0-ce8341ae3395"
+>
+<PreConditions>
+<PreCondition
+ Guid="c7adc641-90f0-4015-8271-f070e87b0979"
+>EURORADIO.MessageCanBeSent ( anRBC =&gt; THIS )</PreCondition><PreCondition
+ Guid="5d678fd1-6bb5-41df-b97a-b025a7a15a1d"
+>THIS.SessionManagementData.SystemVersion.Value in [SystemVersionEnum.Version1_0, SystemVersionEnum.Version1_1]</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="3a935f84-1cab-4b6e-8500-42a700962fea"
+>MessageOut_SystemVersion1 &lt;- VersionManagement.Translation.Messages.DowndateMessage( Messages.MESSAGE.TRAIN_TO_TRACK.Message{
+SOM_POSITION_REPORT =&gt; Messages.MESSAGE.TRAIN_TO_TRACK.SOM_POSITION_REPORT.Message
+{
+    L_MESSAGE =&gt; EMPTY,
+    NID_ENGINE =&gt; Kernel.NidEngine,
+    NID_MESSAGE =&gt; 157,
+    Q_STATUS =&gt; EURORADIO.PositionReport.FillQStatus(),
+    POSITION_REPORT =&gt; EURORADIO.PositionReport.CreatePositionReport(),
+    Sequence1 =&gt; EMPTY,
+    T_TRAIN =&gt; MessageTypes.UnResolveTime( time =&gt; Kernel.DateAndTime.CurrentTime)
+}
+}
+)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -797,7 +941,7 @@ Keep the reason for it to be displayed to the driver.</Comment>
 <PreConditions>
 <PreCondition
  Guid="96e96db5-efb2-4460-8166-cd2593b2ee48"
->MessageOut == EMPTY</PreCondition></PreConditions>
+>THIS.SessionManagementData.SystemVersion.Value == SystemVersionEnum.Version2_0 AND        MessageOut == EMPTY</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="2d00e9a8-4356-42a6-a9b3-cdf669db2f2b"
@@ -820,6 +964,38 @@ Keep the reason for it to be displayed to the driver.</Comment>
     TERMINATION_OF_A_COMMUNICATION_SESSION =&gt; EMPTY,
     SOM_POSITION_REPORT =&gt; EMPTY,
     TEXT_MESSAGE_ACKNOWLEDGED_BY_DRIVER =&gt; EMPTY,
+    SESSION_ESTABLISHED =&gt; EMPTY
+}</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Initialize out message_SystemVersion1"
+ Guid="348f5f41-a008-4bed-a620-7d2787a66dda"
+>
+<PreConditions>
+<PreCondition
+ Guid="2b7090a0-900a-45a9-9746-14a0d3269f77"
+>THIS.SessionManagementData.SystemVersion.Value in [SystemVersionEnum.Version1_0, SystemVersionEnum.Version1_1]  AND MessageOut == EMPTY</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="dedbced8-d278-4612-ade8-4c0a47925279"
+>MessageOut_SystemVersion1 &lt;- Messages.SystemVersion1.MESSAGE.TRAIN_TO_TRACK.Message
+{
+    VALIDATED_TRAIN_DATA =&gt; EMPTY,
+    TRAIN_POSITION_REPORT =&gt; EMPTY,
+    REQUEST_FOR_SHUNTING =&gt; EMPTY,
+    MA_REQUEST =&gt; EMPTY,
+    TRAIN_POSITION_REPORT =&gt; EMPTY,
+    REQUEST_TO_SHORTEN_MA_IS_GRANTED =&gt; EMPTY,
+    REQUEST_TO_SHORTEN_MA_IS_REJECTED =&gt; EMPTY,
+    ACKNOWLEDGEMENT =&gt; EMPTY,
+    ACKNOWLEDGEMENT_OF_EMERGENCY_STOP =&gt; EMPTY,
+    TRACK_AHEAD_FREE_GRANTED =&gt; EMPTY,
+    END_OF_MISSION =&gt; EMPTY,
+    RADIO_INFILL_REQUEST =&gt; EMPTY,
+    NO_COMPATIBLE_VERSION_SUPPORTED =&gt; EMPTY,
+    INITIATION_OF_A_COMMUNICATION_SESSION =&gt; EMPTY,
+    TERMINATION_OF_A_COMMUNICATION_SESSION =&gt; EMPTY,
+    SOM_POSITION_REPORT =&gt; EMPTY,
     SESSION_ESTABLISHED =&gt; EMPTY
 }</Action></Actions>
 </RuleCondition></Conditions>
@@ -884,6 +1060,27 @@ Keep the reason for it to be displayed to the driver.</Comment>
 <Rule
  Priority="Processing"
  Implemented="TRUE"
+ Name="Initialize output message"
+ Guid="11324c24-1a43-4c0f-980e-cbf4c89ad7a0"
+>
+<Comment>Create an empty train-to-track message in MessageOUT.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Initialize output message"
+ Guid="9045a06a-d09f-41a3-99e9-3597703b9533"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="81824e94-b141-436c-aaf0-683be2dc9fb2"
+>InitializeOutMessage()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
  Name="Handle sending of the message"
  Guid="511ff74f-c4b6-4b78-810c-99f0123510ee"
 >
@@ -898,11 +1095,11 @@ Keep the reason for it to be displayed to the driver.</Comment>
 <PreConditions>
 <PreCondition
  Guid="43a64c64-9f21-4ab1-a3d9-84265343cd86"
->EURORADIO.MessageCanBeSent ( anRBC =&gt; THIS )</PreCondition></PreConditions>
+>EURORADIO.MessageCanBeSent ( anRBC =&gt; THIS )</PreCondition><PreCondition
+ Guid="88d381d2-d427-48d2-b592-66ca1daf74ff"
+>THIS.SessionManagementData.SystemVersion.Value == SystemVersionEnum.Version2_0</PreCondition></PreConditions>
 <Actions>
 <Action
- Guid="5e0b679f-e1cd-4f2e-a08e-c29838eb1d21"
->InitializeOutMessage()</Action><Action
  Guid="f26165a7-1b31-4afe-b6c9-ea1f49fa06de"
 >MessageOut.VALIDATED_TRAIN_DATA &lt;- Messages.MESSAGE.TRAIN_TO_TRACK.VALIDATED_TRAIN_DATA.Message
 {
@@ -913,6 +1110,32 @@ Keep the reason for it to be displayed to the driver.</Comment>
     POSITION_REPORT =&gt; EURORADIO.PositionReport.CreatePositionReport(),
     VALIDATED_TRAIN_DATA =&gt; EURORADIO.TrainData.CreateTrainData()
 }</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Handle sending of the message_SystemVersion1"
+ Guid="85da6cc2-e715-42fd-bbd8-4e5ec091c2b7"
+>
+<PreConditions>
+<PreCondition
+ Guid="edc25c06-4cac-4db8-90b3-13b62489f1cf"
+>EURORADIO.MessageCanBeSent ( anRBC =&gt; THIS )</PreCondition><PreCondition
+ Guid="b9387b68-cd9e-4714-9693-305d09d4efd6"
+>THIS.SessionManagementData.SystemVersion.Value in [SystemVersionEnum.Version1_0, SystemVersionEnum.Version1_1]</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="21ef3fb5-dc88-49d6-8310-bd9632815714"
+>MessageOut_SystemVersion1 &lt;- VersionManagement.Translation.Messages.DowndateMessage( Messages.MESSAGE.TRAIN_TO_TRACK.Message{
+VALIDATED_TRAIN_DATA =&gt; Messages.MESSAGE.TRAIN_TO_TRACK.VALIDATED_TRAIN_DATA.Message
+{
+    NID_MESSAGE =&gt; 129,
+    L_MESSAGE =&gt; 0,
+    T_TRAIN =&gt; MessageTypes.UnResolveTime( time =&gt; Kernel.DateAndTime.CurrentTime),
+    NID_ENGINE =&gt; Kernel.NidEngine,
+    POSITION_REPORT =&gt; EURORADIO.PositionReport.CreatePositionReport(),
+    VALIDATED_TRAIN_DATA =&gt; EURORADIO.TrainData.CreateTrainData()
+}
+}
+)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -965,6 +1188,27 @@ Keep the reason for it to be displayed to the driver.</Comment>
 <Rule
  Priority="Processing"
  Implemented="TRUE"
+ Name="Initialize output message"
+ Guid="768b0a00-533b-41d6-ae85-818dee312803"
+>
+<Comment>Create an empty train-to-track message in MessageOUT.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Initialize output message"
+ Guid="2968d04e-41f5-45ea-93af-489bfa1fa379"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="4cd778bf-8694-4ae5-bdde-b65aa81a38dd"
+>InitializeOutMessage()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
  Name="Handle sending of the message"
  Guid="3eabc145-1193-4620-be32-ebc6cf35c2b4"
 >
@@ -979,11 +1223,11 @@ Keep the reason for it to be displayed to the driver.</Comment>
 <PreConditions>
 <PreCondition
  Guid="dcd16c79-c050-4122-bc72-ff483044e164"
->EURORADIO.MessageCanBeSent ( anRBC =&gt; THIS )</PreCondition></PreConditions>
+>EURORADIO.MessageCanBeSent ( anRBC =&gt; THIS )</PreCondition><PreCondition
+ Guid="d7658b35-3c82-4d6c-9f77-60e90361a617"
+>THIS.SessionManagementData.SystemVersion.Value == SystemVersionEnum.Version2_0</PreCondition></PreConditions>
 <Actions>
 <Action
- Guid="159f8be9-e901-46cd-b31a-91728b854d33"
->InitializeOutMessage()</Action><Action
  Guid="5d5990b8-a350-4843-9667-b01f3a4ae06c"
 >MessageOut.END_OF_MISSION &lt;-Messages.MESSAGE.TRAIN_TO_TRACK.END_OF_MISSION.Message
 {
@@ -993,6 +1237,31 @@ Keep the reason for it to be displayed to the driver.</Comment>
     NID_ENGINE =&gt; Kernel.NidEngine,
     POSITION_REPORT =&gt; EURORADIO.PositionReport.CreatePositionReport()
 }</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Handle sending of the message_SystemVersion1"
+ Guid="cf262306-83f7-42fb-82eb-4878895fb6c0"
+>
+<PreConditions>
+<PreCondition
+ Guid="04e95178-f7a6-4af4-8433-ce21fc2330ed"
+>EURORADIO.MessageCanBeSent ( anRBC =&gt; THIS )</PreCondition><PreCondition
+ Guid="284ce047-805c-4913-a775-8bd17b0c6cf9"
+>THIS.SessionManagementData.SystemVersion.Value in [SystemVersionEnum.Version1_0, SystemVersionEnum.Version1_1]</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="35ca1cbd-3d15-4d44-b31e-f883af239a19"
+>MessageOut_SystemVersion1 &lt;- VersionManagement.Translation.Messages.DowndateMessage( Messages.MESSAGE.TRAIN_TO_TRACK.Message{
+END_OF_MISSION =&gt; Messages.MESSAGE.TRAIN_TO_TRACK.END_OF_MISSION.Message
+{
+    NID_MESSAGE =&gt; 150,
+    L_MESSAGE =&gt; 0,
+    T_TRAIN =&gt; MessageTypes.UnResolveTime( time =&gt; Kernel.DateAndTime.CurrentTime),
+    NID_ENGINE =&gt; Kernel.NidEngine,
+    POSITION_REPORT =&gt; EURORADIO.PositionReport.CreatePositionReport()
+}
+}
+)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -1045,6 +1314,27 @@ Keep the reason for it to be displayed to the driver.</Comment>
 <Rule
  Priority="Processing"
  Implemented="TRUE"
+ Name="Initialize output message"
+ Guid="3608e592-3b97-4c7e-893c-5987036f2dd6"
+>
+<Comment>Create an empty train-to-track message in MessageOUT.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Initialize output message"
+ Guid="3db45a68-db5d-4e98-9a7d-83cbb4f2372c"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="187501bf-e512-477f-83b7-e4093109a069"
+>InitializeOutMessage()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
  Name="Handle sending of the message"
  Guid="aae94d1a-4576-49d7-ab43-e61a40efe9e9"
 >
@@ -1059,11 +1349,11 @@ Keep the reason for it to be displayed to the driver.</Comment>
 <PreConditions>
 <PreCondition
  Guid="90577e69-faf5-403a-8ad8-3b0225de321b"
->EURORADIO.MessageCanBeSent ( anRBC =&gt; THIS )</PreCondition></PreConditions>
+>EURORADIO.MessageCanBeSent ( anRBC =&gt; THIS )</PreCondition><PreCondition
+ Guid="9aa23c53-8223-4af3-9652-378da2c9d96c"
+>THIS.SessionManagementData.SystemVersion.Value == SystemVersionEnum.Version2_0</PreCondition></PreConditions>
 <Actions>
 <Action
- Guid="22e1fb48-7194-41fa-9413-884aed465214"
->InitializeOutMessage()</Action><Action
  Guid="7297c0d3-1229-4d0e-9a96-f81af5183fa9"
 >MessageOut.REQUEST_FOR_SHUNTING &lt;- Messages.MESSAGE.TRAIN_TO_TRACK.REQUEST_FOR_SHUNTING.Message
 {
@@ -1073,6 +1363,31 @@ Keep the reason for it to be displayed to the driver.</Comment>
     NID_ENGINE =&gt; Kernel.NidEngine,
     POSITION_REPORT =&gt; EURORADIO.PositionReport.CreatePositionReport()
 }</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Handle sending of the message_SystemVersion1"
+ Guid="d353e41e-3e18-47bf-bae7-00723ac32f3b"
+>
+<PreConditions>
+<PreCondition
+ Guid="7dd5c3d7-6b69-49bb-92d8-12ec5470f852"
+>EURORADIO.MessageCanBeSent ( anRBC =&gt; THIS )</PreCondition><PreCondition
+ Guid="c526f8f2-5767-4732-b753-f72d47f7f90b"
+>THIS.SessionManagementData.SystemVersion.Value in [SystemVersionEnum.Version1_0, SystemVersionEnum.Version1_1]</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="5a75d40e-d470-4cb6-bc3c-79961db9e587"
+>MessageOut_SystemVersion1 &lt;- VersionManagement.Translation.Messages.DowndateMessage( Messages.MESSAGE.TRAIN_TO_TRACK.Message{
+REQUEST_FOR_SHUNTING =&gt;Messages.MESSAGE.TRAIN_TO_TRACK.REQUEST_FOR_SHUNTING.Message
+{
+    NID_MESSAGE =&gt; 130,
+    L_MESSAGE =&gt; 0,
+    T_TRAIN =&gt; MessageTypes.UnResolveTime( time =&gt; Kernel.DateAndTime.CurrentTime),
+    NID_ENGINE =&gt; Kernel.NidEngine,
+    POSITION_REPORT =&gt; EURORADIO.PositionReport.CreatePositionReport()
+}
+}
+)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -1168,7 +1483,9 @@ Keep the reason for it to be displayed to the driver.</Comment>
  Guid="48295035-e9ad-4544-9df0-05b1d725b286"
 >EURORADIO.MessageCanBeSent ( anRBC =&gt; THIS )</PreCondition></PreConditions>
 <Actions>
-</Actions>
+<Action
+ Guid="bbc2b765-d74b-4410-be48-a4a557591e5e"
+>InitializeOutMessage()</Action></Actions>
 <SubRules>
 <Rule
  Priority="Processing"
@@ -1185,11 +1502,11 @@ Keep the reason for it to be displayed to the driver.</Comment>
  Guid="028126ab-0258-4ee6-819e-a978c06643da"
 >
 <PreConditions>
-</PreConditions>
+<PreCondition
+ Guid="827efda7-dc02-41b7-9aa8-5c8d0121492d"
+>THIS.SessionManagementData.SystemVersion.Value == SystemVersionEnum.Version2_0</PreCondition></PreConditions>
 <Actions>
 <Action
- Guid="bd0bff4f-a385-4604-9275-9ca2e8029bb5"
->InitializeOutMessage()</Action><Action
  Guid="f105e56b-cf2d-4016-b30e-0ea135442f31"
 >MessageOut.MA_REQUEST &lt;- Messages.MESSAGE.TRAIN_TO_TRACK.MA_REQUEST.Message
 {
@@ -1223,7 +1540,9 @@ Keep the reason for it to be displayed to the driver.</Comment>
 <PreConditions>
 <PreCondition
  Guid="2dd7f6aa-12b8-4aa9-8130-0d8662cb6f64"
->aPacket != EMPTY</PreCondition></PreConditions>
+>aPacket != EMPTY</PreCondition><PreCondition
+ Guid="6dcb1dc1-68c9-4445-b437-415fc245e3fe"
+>THIS.SessionManagementData.SystemVersion.Value == SystemVersionEnum.Version2_0</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="f44318cf-785d-4f2d-b554-9b4fc910b4f0"
@@ -1234,6 +1553,76 @@ Messages.MESSAGE.TRAIN_TO_TRACK.MA_REQUEST.SubStructure1
 }
   IN
 MessageOut.MA_REQUEST.Sequence1</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Fill the message_SystemVersion1"
+ Guid="0fefa2cc-d420-4d0e-8b41-841f70052390"
+>
+<Comment>First, fill the fields of the message.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Fill the message"
+ Guid="4b106845-664f-4812-a9df-d564f974c226"
+>
+<PreConditions>
+<PreCondition
+ Guid="f0389d34-b14a-414c-880c-0dd57d77a0be"
+>THIS.SessionManagementData.SystemVersion.Value in [SystemVersionEnum.Version1_0, SystemVersionEnum.Version1_1]</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="aebac597-d459-4675-bede-1523779e3f91"
+>MessageOut_SystemVersion1 &lt;- VersionManagement.Translation.Messages.DowndateMessage( Messages.MESSAGE.TRAIN_TO_TRACK.Message{
+MA_REQUEST =&gt;Messages.MESSAGE.TRAIN_TO_TRACK.MA_REQUEST.Message
+{
+    NID_MESSAGE =&gt; 132,
+    L_MESSAGE =&gt; 0,
+    T_TRAIN =&gt; MessageTypes.UnResolveTime( time =&gt; Kernel.DateAndTime.CurrentTime),
+    NID_ENGINE =&gt; Kernel.NidEngine,
+    Q_MARQSTREASON =&gt; aReason,
+    POSITION_REPORT =&gt; PositionReport.CreatePositionReport()
+}
+}
+)</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Add the optional packet, if any_SystemVersion1"
+ Guid="309d57ea-3e9b-4464-8b93-e6dac98f3449"
+>
+<ReqRef
+ Id="c2016b38-4117-4913-9885-bc04bda19872"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b6eccbc1-6e3f-446b-9d5a-0217a4584328"
+>
+</ReqRef><Comment>Then, add the optional packet, if any.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Add the optional packet, if any"
+ Guid="dfcad0c9-c121-4d20-b04d-d12e093ac472"
+>
+<PreConditions>
+<PreCondition
+ Guid="022f5767-9f9e-4c6e-88ab-66bcf26a9c8a"
+>aPacket != EMPTY</PreCondition><PreCondition
+ Guid="0fe612e6-e93a-473f-9355-2b3abeb7d426"
+>THIS.SessionManagementData.SystemVersion.Value in [SystemVersionEnum.Version1_0, SystemVersionEnum.Version1_1]</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="2898b615-44c5-4643-8bde-990246d68881"
+>INSERT
+Messages.SystemVersion1.MESSAGE.TRAIN_TO_TRACK.MA_REQUEST.SubStructure1
+{
+    LEVEL_2_3_TRANSITION_INFORMATION =&gt; aPacket
+}
+  IN
+MessageOut_SystemVersion1.MA_REQUEST.Sequence1</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -1340,6 +1729,27 @@ MessageOut.MA_REQUEST.Sequence1</Action></Actions>
 <Rule
  Priority="Processing"
  Implemented="TRUE"
+ Name="Initialize output message"
+ Guid="47f12a31-c101-4e2a-9cf8-0574ec2882fd"
+>
+<Comment>Create an empty train-to-track message in MessageOUT.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Initialize output message"
+ Guid="a6871485-a588-4bee-a3cc-ed5ae32c0725"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="6e5868d3-df73-4c91-ad4f-8f53ac927e7e"
+>InitializeOutMessage()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
  Name="Handle sending of the message"
  Guid="ac03dd37-e4fd-465d-893a-8278a0376598"
 >
@@ -1348,17 +1758,17 @@ MessageOut.MA_REQUEST.Sequence1</Action></Actions>
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
- Name="Initialize message"
+ Name="Handle sending of the message"
  Guid="61954d2d-de18-46d5-90c5-adb4d2c9e3ba"
 >
 <PreConditions>
 <PreCondition
  Guid="b9bcf8d4-dd8a-4dbf-8d77-1f95a1ddbeae"
->EURORADIO.MessageCanBeSent ( anRBC =&gt; THIS )</PreCondition></PreConditions>
+>EURORADIO.MessageCanBeSent ( anRBC =&gt; THIS )</PreCondition><PreCondition
+ Guid="bebd0493-9af8-4846-98d5-34cc4e2c9c07"
+>THIS.SessionManagementData.SystemVersion.Value == SystemVersionEnum.Version2_0</PreCondition></PreConditions>
 <Actions>
 <Action
- Guid="3977b5c4-e5bf-434c-932e-ed4d7cff72f5"
->InitializeOutMessage()</Action><Action
  Guid="bf04e5dc-64f2-41c2-8382-b29798e0e305"
 >MessageOut.ACKNOWLEDGEMENT_OF_EMERGENCY_STOP &lt;- Messages.MESSAGE.TRAIN_TO_TRACK.ACKNOWLEDGEMENT_OF_EMERGENCY_STOP.Message
  {
@@ -1370,6 +1780,33 @@ MessageOut.MA_REQUEST.Sequence1</Action></Actions>
     Q_EMERGENCYSTOP =&gt; Qualifier,
     POSITION_REPORT =&gt; EURORADIO.PositionReport.CreatePositionReport()
  }</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Handle sending of the message_SystemVersion1"
+ Guid="cbcade94-2e32-4bb9-92fe-4610350e4790"
+>
+<PreConditions>
+<PreCondition
+ Guid="8deea3cb-d94a-4976-b005-8415c64893c3"
+>EURORADIO.MessageCanBeSent ( anRBC =&gt; THIS )</PreCondition><PreCondition
+ Guid="c72d9b79-87b3-4a23-a7eb-cf5ec2e6b87f"
+>THIS.SessionManagementData.SystemVersion.Value in [SystemVersionEnum.Version1_0, SystemVersionEnum.Version1_1]</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="394c2f18-e20e-46c9-b5f1-580ab32072e6"
+>MessageOut_SystemVersion1 &lt;- VersionManagement.Translation.Messages.DowndateMessage( Messages.MESSAGE.TRAIN_TO_TRACK.Message{
+ACKNOWLEDGEMENT_OF_EMERGENCY_STOP =&gt; Messages.MESSAGE.TRAIN_TO_TRACK.ACKNOWLEDGEMENT_OF_EMERGENCY_STOP.Message
+ {
+    NID_MESSAGE =&gt; aMessage.CONDITIONAL_EMERGENCY_STOP.NID_MESSAGE,
+    L_MESSAGE =&gt; 0,
+    T_TRAIN =&gt; MessageTypes.UnResolveTime( time =&gt; Kernel.DateAndTime.CurrentTime),
+    NID_ENGINE =&gt; Kernel.NidEngine,
+    NID_EM =&gt; aMessage.CONDITIONAL_EMERGENCY_STOP.NID_EM,
+    Q_EMERGENCYSTOP =&gt; Qualifier,
+    POSITION_REPORT =&gt; EURORADIO.PositionReport.CreatePositionReport()
+ }
+}
+)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -1422,6 +1859,27 @@ MessageOut.MA_REQUEST.Sequence1</Action></Actions>
 <Rule
  Priority="Processing"
  Implemented="TRUE"
+ Name="Initialize output message"
+ Guid="c65d4bb7-630c-4ec2-90ce-ef998933ca68"
+>
+<Comment>Create an empty train-to-track message in MessageOUT.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Initialize output message"
+ Guid="42176a9f-0e01-4d45-8b62-10fc8e233092"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="563251c1-2574-4fa0-836d-6e4f832ddb19"
+>InitializeOutMessage()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
  Name="Handle sending of the message"
  Guid="fbc287fc-61e7-449e-9d9f-a7e57f921c47"
 >
@@ -1436,11 +1894,11 @@ MessageOut.MA_REQUEST.Sequence1</Action></Actions>
 <PreConditions>
 <PreCondition
  Guid="d112e636-6a6c-44a8-894b-ef7e12c2f473"
->ConnectionState in EURORADIO.RBCStruct.ConnectionStateSM.Connecting</PreCondition></PreConditions>
+>ConnectionState in EURORADIO.RBCStruct.ConnectionStateSM.Connecting</PreCondition><PreCondition
+ Guid="2fb5011e-bd83-4b96-899c-c39519f5f8b3"
+>THIS.SessionManagementData.SystemVersion.Value == SystemVersionEnum.Version2_0</PreCondition></PreConditions>
 <Actions>
 <Action
- Guid="e922975d-2e7e-4fb8-ae7b-2051e81118c1"
->InitializeOutMessage()</Action><Action
  Guid="5496a749-0788-45c7-917c-9edb136dfa0c"
 >MessageOut.INITIATION_OF_A_COMMUNICATION_SESSION &lt;- Messages.MESSAGE.TRAIN_TO_TRACK.INITIATION_OF_A_COMMUNICATION_SESSION.Message
 {
@@ -1448,6 +1906,30 @@ MessageOut.MA_REQUEST.Sequence1</Action></Actions>
     L_MESSAGE =&gt; 0,
     T_TRAIN =&gt; MessageTypes.UnResolveTime( time =&gt; Kernel.DateAndTime.CurrentTime),
     NID_ENGINE =&gt; Kernel.NidEngine}</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Handle sending of the message_SystemVersion1"
+ Guid="42383dc4-f915-4a0b-8304-af5279fd6169"
+>
+<PreConditions>
+<PreCondition
+ Guid="beb34d23-c391-4490-a88c-04b0c81d7c8a"
+>ConnectionState in EURORADIO.RBCStruct.ConnectionStateSM.Connecting</PreCondition><PreCondition
+ Guid="5209652a-ffe8-4484-a927-e7bf9c29cbb9"
+>THIS.SessionManagementData.SystemVersion.Value in [SystemVersionEnum.Version1_0, SystemVersionEnum.Version1_1]</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="03d659e2-c88c-413b-90b3-8ca66ad841ff"
+>MessageOut_SystemVersion1 &lt;- VersionManagement.Translation.Messages.DowndateMessage( Messages.MESSAGE.TRAIN_TO_TRACK.Message{
+INITIATION_OF_A_COMMUNICATION_SESSION &lt;- Messages.MESSAGE.TRAIN_TO_TRACK.INITIATION_OF_A_COMMUNICATION_SESSION.Message
+{
+    NID_MESSAGE =&gt; 155,
+    L_MESSAGE =&gt; 0,
+    T_TRAIN =&gt; MessageTypes.UnResolveTime( time =&gt; Kernel.DateAndTime.CurrentTime),
+    NID_ENGINE =&gt; Kernel.NidEngine
+}
+}
+)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -1505,6 +1987,27 @@ MessageOut.MA_REQUEST.Sequence1</Action></Actions>
 <Rule
  Priority="Processing"
  Implemented="TRUE"
+ Name="Initialize output message"
+ Guid="f3aee149-7695-4f3e-a44a-49e2b558625b"
+>
+<Comment>Create an empty train-to-track message in MessageOUT.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Initialize output message"
+ Guid="ad915db8-0cba-4771-b0df-408784bfc4bc"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="a9d0f88f-cb0d-4627-ac6f-88fba8c2d721"
+>InitializeOutMessage()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
  Name="Handle sending of the message"
  Guid="abadcaa6-e65d-4b7d-bbcb-b0cfdae0dd85"
 >
@@ -1521,11 +2024,11 @@ MessageOut.MA_REQUEST.Sequence1</Action></Actions>
  Guid="84bd5198-9d19-4348-b537-6f637bae715f"
 >EURORADIO.MessageCanBeSent ( anRBC =&gt; THIS )
   OR
-ConnectionState in EURORADIO.RBCStruct.ConnectionStateSM.Terminating</PreCondition></PreConditions>
+ConnectionState in EURORADIO.RBCStruct.ConnectionStateSM.Terminating</PreCondition><PreCondition
+ Guid="c758ba2d-df26-47ed-a700-135d008db709"
+>THIS.SessionManagementData.SystemVersion.Value == SystemVersionEnum.Version2_0</PreCondition></PreConditions>
 <Actions>
 <Action
- Guid="9025ba4e-91d5-4f92-8289-74df36138ac0"
->InitializeOutMessage()</Action><Action
  Guid="1069c60a-1628-4196-9f66-c7cb41b5fed5"
 >MessageOut.TERMINATION_OF_A_COMMUNICATION_SESSION &lt;- Messages.MESSAGE.TRAIN_TO_TRACK.TERMINATION_OF_A_COMMUNICATION_SESSION.Message
 {
@@ -1533,6 +2036,32 @@ ConnectionState in EURORADIO.RBCStruct.ConnectionStateSM.Terminating</PreConditi
     L_MESSAGE =&gt; 0,
     T_TRAIN =&gt; MessageTypes.UnResolveTime( time =&gt; Kernel.DateAndTime.CurrentTime),
     NID_ENGINE =&gt; Kernel.NidEngine}</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Handle sending of the message_SystemVersion1"
+ Guid="5b4f6801-d1ba-4634-a5f2-ca7ed1639246"
+>
+<PreConditions>
+<PreCondition
+ Guid="f468533a-3a94-4cf7-bf90-5636b1eac33c"
+>EURORADIO.MessageCanBeSent ( anRBC =&gt; THIS )
+  OR
+ConnectionState in EURORADIO.RBCStruct.ConnectionStateSM.Terminating</PreCondition><PreCondition
+ Guid="ace5a6c8-4b40-4534-8690-0542e353a685"
+>THIS.SessionManagementData.SystemVersion.Value in [SystemVersionEnum.Version1_0, SystemVersionEnum.Version1_1]</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="314cf52c-7ac3-4af0-974b-1c5d6868c690"
+>MessageOut_SystemVersion1 &lt;- VersionManagement.Translation.Messages.DowndateMessage( Messages.MESSAGE.TRAIN_TO_TRACK.Message{
+TERMINATION_OF_A_COMMUNICATION_SESSION =&gt; Messages.MESSAGE.TRAIN_TO_TRACK.TERMINATION_OF_A_COMMUNICATION_SESSION.Message
+{
+    NID_MESSAGE =&gt; 156,
+    L_MESSAGE =&gt; 0,
+    T_TRAIN =&gt; MessageTypes.UnResolveTime( time =&gt; Kernel.DateAndTime.CurrentTime),
+    NID_ENGINE =&gt; Kernel.NidEngine
+}
+}
+)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -1628,6 +2157,27 @@ ConnectionState in EURORADIO.RBCStruct.ConnectionStateSM.Terminating</PreConditi
 <Rule
  Priority="Processing"
  Implemented="TRUE"
+ Name="Initialize output message"
+ Guid="c15dcb9d-3043-463c-a121-584ce060a5ba"
+>
+<Comment>Create an empty train-to-track message in MessageOUT.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Initialize output message"
+ Guid="34a4329b-2c57-4fc0-a0e4-2a3249db9fdf"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="e69e3eab-da9f-4830-bb66-dbbf17d0561e"
+>InitializeOutMessage()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
  Name="Handle sending of the message"
  Guid="1244adad-26bd-4648-a76e-d5556c06a19d"
 >
@@ -1642,11 +2192,11 @@ ConnectionState in EURORADIO.RBCStruct.ConnectionStateSM.Terminating</PreConditi
 <PreConditions>
 <PreCondition
  Guid="ccdbc887-50da-463a-8631-8c3ad89ca42a"
->EURORADIO.MessageCanBeSent ( anRBC =&gt; THIS )</PreCondition></PreConditions>
+>EURORADIO.MessageCanBeSent ( anRBC =&gt; THIS )</PreCondition><PreCondition
+ Guid="ecf38360-9f8c-4e5a-be77-bb0b868e5fe2"
+>THIS.SessionManagementData.SystemVersion.Value == SystemVersionEnum.Version2_0</PreCondition></PreConditions>
 <Actions>
 <Action
- Guid="85c99237-2ff3-4b7b-aacc-47f1527582f4"
->InitializeOutMessage()</Action><Action
  Guid="18250444-a45a-46a1-8101-7880251ca79d"
 >MessageOut.NO_COMPATIBLE_VERSION_SUPPORTED &lt;- Messages.MESSAGE.TRAIN_TO_TRACK.NO_COMPATIBLE_VERSION_SUPPORTED.Message
 {
@@ -1654,6 +2204,30 @@ ConnectionState in EURORADIO.RBCStruct.ConnectionStateSM.Terminating</PreConditi
     L_MESSAGE =&gt; 0,
     T_TRAIN =&gt; MessageTypes.UnResolveTime( time =&gt; Kernel.DateAndTime.CurrentTime),
     NID_ENGINE =&gt; Kernel.NidEngine}</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Handle sending of the message_SystemVersion1"
+ Guid="5fee2c38-83c8-4375-86d7-0f16d9bb9f3d"
+>
+<PreConditions>
+<PreCondition
+ Guid="a59259d4-5fb3-46d1-98be-ef697c53e92e"
+>EURORADIO.MessageCanBeSent ( anRBC =&gt; THIS )</PreCondition><PreCondition
+ Guid="19eabf18-91a7-4c27-bd80-3f3c27b77da1"
+>THIS.SessionManagementData.SystemVersion.Value in [SystemVersionEnum.Version1_0, SystemVersionEnum.Version1_1]</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="5f99fc43-5ec4-44ca-be37-7e23f7b8a779"
+>MessageOut_SystemVersion1 &lt;- VersionManagement.Translation.Messages.DowndateMessage( Messages.MESSAGE.TRAIN_TO_TRACK.Message{
+NO_COMPATIBLE_VERSION_SUPPORTED =&gt;Messages.MESSAGE.TRAIN_TO_TRACK.NO_COMPATIBLE_VERSION_SUPPORTED.Message
+{
+    NID_MESSAGE =&gt; 154,
+    L_MESSAGE =&gt; 0,
+    T_TRAIN =&gt; MessageTypes.UnResolveTime( time =&gt; Kernel.DateAndTime.CurrentTime),
+    NID_ENGINE =&gt; Kernel.NidEngine
+}
+}
+)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -1706,6 +2280,27 @@ ConnectionState in EURORADIO.RBCStruct.ConnectionStateSM.Terminating</PreConditi
 <Rule
  Priority="Processing"
  Implemented="TRUE"
+ Name="Initialize output message"
+ Guid="6c52dfaf-a8d7-4929-a8c1-7d16cb7e9bd5"
+>
+<Comment>Create an empty train-to-track message in MessageOUT.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Initialize output message"
+ Guid="4befb4cc-6383-49b8-9d8a-0b850a587774"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="d3e2baec-7c7d-48ae-9a69-d962f17359c8"
+>InitializeOutMessage()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
  Name="Handle sending of the message"
  Guid="d4bdb090-dcbc-4828-9a82-becf0ea7fc4a"
 >
@@ -1720,11 +2315,11 @@ ConnectionState in EURORADIO.RBCStruct.ConnectionStateSM.Terminating</PreConditi
 <PreConditions>
 <PreCondition
  Guid="4b25cc29-6b61-46d2-b51e-3caa2964d74f"
->ConnectionState in EURORADIO.RBCStruct.ConnectionStateSM.Connecting</PreCondition></PreConditions>
+>ConnectionState in EURORADIO.RBCStruct.ConnectionStateSM.Connecting</PreCondition><PreCondition
+ Guid="ee02897a-06aa-4160-af96-3c8e50b2cdc9"
+>THIS.SessionManagementData.SystemVersion.Value == SystemVersionEnum.Version2_0</PreCondition></PreConditions>
 <Actions>
 <Action
- Guid="5e12d8df-0bef-46ba-98ed-6197ab27501a"
->InitializeOutMessage()</Action><Action
  Guid="1f5b8c56-d5aa-4705-8653-1f7558f6dad4"
 >MessageOut.SESSION_ESTABLISHED &lt;- Messages.MESSAGE.TRAIN_TO_TRACK.SESSION_ESTABLISHED.Message
 {
@@ -1752,6 +2347,49 @@ ConnectionState in EURORADIO.RBCStruct.ConnectionStateSM.Terminating</PreConditi
         }
     ]
 }</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Handle sending of the message_SystemVersion1"
+ Guid="f77851d5-35f7-4bac-af2d-7152fbd66a40"
+>
+<PreConditions>
+<PreCondition
+ Guid="13583e10-f68d-40cd-b226-e1e628e65d64"
+>ConnectionState in EURORADIO.RBCStruct.ConnectionStateSM.Connecting</PreCondition><PreCondition
+ Guid="daa58f7c-afc1-4390-baff-ee486bdb12ed"
+>THIS.SessionManagementData.SystemVersion.Value in [SystemVersionEnum.Version1_0, SystemVersionEnum.Version1_1]</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="cd1114a3-df33-474d-9a13-46aefc831ff4"
+>MessageOut_SystemVersion1 &lt;- VersionManagement.Translation.Messages.DowndateMessage( Messages.MESSAGE.TRAIN_TO_TRACK.Message{
+SESSION_ESTABLISHED =&gt;Messages.MESSAGE.TRAIN_TO_TRACK.SESSION_ESTABLISHED.Message
+{
+    NID_MESSAGE =&gt; 159,
+    L_MESSAGE =&gt; 0,
+    T_TRAIN =&gt; MessageTypes.UnResolveTime( time =&gt; Kernel.DateAndTime.CurrentTime),
+    NID_ENGINE =&gt; Kernel.NidEngine,
+    Sequence1 =&gt;
+    [
+        Messages.MESSAGE.TRAIN_TO_TRACK.SESSION_ESTABLISHED.SubStructure1
+        {
+            ONBOARD_TELEPHONE_NUMBERS =&gt; Messages.PACKET.TRAIN_TO_TRACK.ONBOARD_TELEPHONE_NUMBERS.Message
+            {
+                NID_PACKET =&gt; 3,
+                L_PACKET =&gt; 0,
+                N_ITER =&gt; 1,
+                Sequence1 =&gt;
+                [
+                    Messages.PACKET.TRAIN_TO_TRACK.ONBOARD_TELEPHONE_NUMBERS.SubStructure1
+                    {
+                        NID_RADIO =&gt; EURORADIO.CurrentRBCConnection().ContactData.PhoneNumber
+                    }
+                ]
+            }
+        }
+    ]
+}
+}
+)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -2233,6 +2871,27 @@ NOT EURORADIO.IncomingMessageIsConsistent(ReceivedMessage(THIS))</PreCondition><
 <Rule
  Priority="Processing"
  Implemented="TRUE"
+ Name="Initialize output message"
+ Guid="a4e4cb6a-0157-42e6-925e-f02b0a2bfa47"
+>
+<Comment>Create an empty train-to-track message in MessageOUT.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Initialize output message"
+ Guid="4c572337-e3ad-48c0-bc35-ca3f7749c501"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="d362940e-b44b-48cc-aee6-c7f6133843a6"
+>InitializeOutMessage()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
  Name="Handle sending of the message"
  Guid="143ae29d-9939-4a1a-8d9d-ee90dc49c9de"
 >
@@ -2247,11 +2906,11 @@ NOT EURORADIO.IncomingMessageIsConsistent(ReceivedMessage(THIS))</PreCondition><
 <PreConditions>
 <PreCondition
  Guid="fb4f6985-6111-40cd-b353-065cc84a8954"
->EURORADIO.MessageCanBeSent ( anRBC =&gt; THIS )</PreCondition></PreConditions>
+>EURORADIO.MessageCanBeSent ( anRBC =&gt; THIS )</PreCondition><PreCondition
+ Guid="77a2c921-3016-4960-9bf4-6dc30cbcd513"
+>THIS.SessionManagementData.SystemVersion.Value == SystemVersionEnum.Version2_0</PreCondition></PreConditions>
 <Actions>
 <Action
- Guid="6a3a929b-edfd-4e1a-9442-0bbac9df7970"
->InitializeOutMessage()</Action><Action
  Guid="2091b658-8d3c-4f9f-8a7c-27a0abad7399"
 >MessageOut.TRACK_AHEAD_FREE_GRANTED &lt;- Messages.MESSAGE.TRAIN_TO_TRACK.TRACK_AHEAD_FREE_GRANTED.Message
 {
@@ -2261,6 +2920,31 @@ NOT EURORADIO.IncomingMessageIsConsistent(ReceivedMessage(THIS))</PreCondition><
     NID_ENGINE =&gt; Kernel.NidEngine,
     POSITION_REPORT =&gt; EURORADIO.PositionReport.CreatePositionReport()
 }</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Handle sending of the message_SystemVersion1"
+ Guid="a41da72b-e4ff-461c-b1a7-30840b5ac161"
+>
+<PreConditions>
+<PreCondition
+ Guid="6847cc12-053f-4f68-819e-a12af616d239"
+>EURORADIO.MessageCanBeSent ( anRBC =&gt; THIS )</PreCondition><PreCondition
+ Guid="bd3af989-ef2a-41df-a50e-b65ea7529e1a"
+>THIS.SessionManagementData.SystemVersion.Value in [SystemVersionEnum.Version1_0, SystemVersionEnum.Version1_1]</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="6a0fe074-4693-4031-ad5a-7e83e0521a87"
+>MessageOut_SystemVersion1 &lt;- VersionManagement.Translation.Messages.DowndateMessage( Messages.MESSAGE.TRAIN_TO_TRACK.Message{
+TRACK_AHEAD_FREE_GRANTED =&gt; Messages.MESSAGE.TRAIN_TO_TRACK.TRACK_AHEAD_FREE_GRANTED.Message
+{
+    NID_MESSAGE =&gt; 149,
+    L_MESSAGE =&gt; 0,
+    T_TRAIN =&gt; MessageTypes.UnResolveTime(Kernel.DateAndTime.CurrentTime),
+    NID_ENGINE =&gt; Kernel.NidEngine,
+    POSITION_REPORT =&gt; EURORADIO.PositionReport.CreatePositionReport()
+}
+}
+)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -2295,6 +2979,27 @@ NOT EURORADIO.IncomingMessageIsConsistent(ReceivedMessage(THIS))</PreCondition><
 <Rule
  Priority="Processing"
  Implemented="TRUE"
+ Name="Initialize output message"
+ Guid="d8f5ea71-98f5-42fd-976c-aed166604386"
+>
+<Comment>Create an empty train-to-track message in MessageOUT.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Initialize output message"
+ Guid="158da2a9-0b79-443e-8d20-a3f1ee0430b2"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="bde0b939-4130-4d14-9a9d-dafe57323de2"
+>InitializeOutMessage()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
  Name="Handle sending of the message"
  Guid="ad27e878-f406-4859-9052-1e5e67ff13e0"
 >
@@ -2308,11 +3013,11 @@ NOT EURORADIO.IncomingMessageIsConsistent(ReceivedMessage(THIS))</PreCondition><
 <PreConditions>
 <PreCondition
  Guid="1d902fe6-ea84-4af6-bbaa-8fd69eb809c1"
->EURORADIO.MessageCanBeSent ( anRBC =&gt; THIS )</PreCondition></PreConditions>
+>EURORADIO.MessageCanBeSent ( anRBC =&gt; THIS )</PreCondition><PreCondition
+ Guid="712d1b49-20e4-4a86-8a90-58787336ae81"
+>THIS.SessionManagementData.SystemVersion.Value == SystemVersionEnum.Version2_0</PreCondition></PreConditions>
 <Actions>
 <Action
- Guid="43edf13b-9cdd-474c-85b2-dc247f443bbe"
->InitializeOutMessage()</Action><Action
  Guid="74740856-044d-4604-8674-3d69b129c01e"
 >MessageOut.REQUEST_TO_SHORTEN_MA_IS_GRANTED &lt;- Messages.MESSAGE.TRAIN_TO_TRACK.REQUEST_TO_SHORTEN_MA_IS_GRANTED.Message
 {
@@ -2323,6 +3028,32 @@ NOT EURORADIO.IncomingMessageIsConsistent(ReceivedMessage(THIS))</PreCondition><
     T_TRAIN_1 =&gt; TimeStamp,
     POSITION_REPORT =&gt; EURORADIO.PositionReport.CreatePositionReport()
 }</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Handle sending of the message_SystemVersion1"
+ Guid="65de919a-08e7-4ae4-bc5f-a01bb435bf19"
+>
+<PreConditions>
+<PreCondition
+ Guid="f3e6a27e-9efa-420a-ad37-c701aa335d8e"
+>EURORADIO.MessageCanBeSent ( anRBC =&gt; THIS )</PreCondition><PreCondition
+ Guid="673a4620-4245-4705-a976-bec90a48ae69"
+>THIS.SessionManagementData.SystemVersion.Value in [SystemVersionEnum.Version1_0, SystemVersionEnum.Version1_1]</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="44bca1dd-5235-411f-882c-fea5e1a0c194"
+>MessageOut_SystemVersion1 &lt;- VersionManagement.Translation.Messages.DowndateMessage( Messages.MESSAGE.TRAIN_TO_TRACK.Message{
+REQUEST_TO_SHORTEN_MA_IS_GRANTED =&gt;Messages.MESSAGE.TRAIN_TO_TRACK.REQUEST_TO_SHORTEN_MA_IS_GRANTED.Message
+{
+    NID_MESSAGE =&gt; 137,
+    L_MESSAGE =&gt; 0,
+    T_TRAIN_0 =&gt; MessageTypes.UnResolveTime( time =&gt; Kernel.DateAndTime.CurrentTime),
+    NID_ENGINE =&gt; Kernel.NidEngine,
+    T_TRAIN_1 =&gt; TimeStamp,
+    POSITION_REPORT =&gt; EURORADIO.PositionReport.CreatePositionReport()
+}
+}
+)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -2357,6 +3088,27 @@ NOT EURORADIO.IncomingMessageIsConsistent(ReceivedMessage(THIS))</PreCondition><
 <Rule
  Priority="Processing"
  Implemented="TRUE"
+ Name="Initialize output message"
+ Guid="bfe3ef6b-9e8e-42df-8339-4bb2b8062ac0"
+>
+<Comment>Create an empty train-to-track message in MessageOUT.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Initialize output message"
+ Guid="c1bae45d-ef29-47d6-a2c8-3ab65d5dbbd1"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="f778fbfb-d3c3-40b6-9b8d-670766abe0d7"
+>InitializeOutMessage()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
  Name="Handle sending of the message"
  Guid="39f84bff-762f-4177-b2aa-20a9830468b7"
 >
@@ -2370,11 +3122,11 @@ NOT EURORADIO.IncomingMessageIsConsistent(ReceivedMessage(THIS))</PreCondition><
 <PreConditions>
 <PreCondition
  Guid="587bce12-1b33-45d4-b051-bd8e6b1c2816"
->EURORADIO.MessageCanBeSent ( anRBC =&gt; THIS )</PreCondition></PreConditions>
+>EURORADIO.MessageCanBeSent ( anRBC =&gt; THIS )</PreCondition><PreCondition
+ Guid="c0e9bcbf-36b3-4876-8791-90ea6a212e9a"
+>THIS.SessionManagementData.SystemVersion.Value == SystemVersionEnum.Version2_0</PreCondition></PreConditions>
 <Actions>
 <Action
- Guid="7ed237dc-daab-4130-b9a9-b5705be38e8f"
->InitializeOutMessage()</Action><Action
  Guid="161b0fe4-e5f5-4031-ad42-d8dead2fea9a"
 >MessageOut.REQUEST_TO_SHORTEN_MA_IS_REJECTED &lt;- Messages.MESSAGE.TRAIN_TO_TRACK.REQUEST_TO_SHORTEN_MA_IS_REJECTED.Message
 {
@@ -2385,6 +3137,32 @@ NOT EURORADIO.IncomingMessageIsConsistent(ReceivedMessage(THIS))</PreCondition><
     T_TRAIN_1 =&gt; TimeStamp,
     POSITION_REPORT =&gt; EURORADIO.PositionReport.CreatePositionReport()
 }</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Handle sending of the message_SystemVersion1"
+ Guid="5aac79d2-aad6-4453-9075-ec490852fb51"
+>
+<PreConditions>
+<PreCondition
+ Guid="c2e9c4b7-bfb4-4cc0-aa3f-36431502d748"
+>EURORADIO.MessageCanBeSent ( anRBC =&gt; THIS )</PreCondition><PreCondition
+ Guid="f6cd6312-10a5-488c-8529-29455e7e6d8d"
+>THIS.SessionManagementData.SystemVersion.Value in [SystemVersionEnum.Version1_0, SystemVersionEnum.Version1_1]</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="0dba7f94-fe10-4436-876a-669425b3cae2"
+>MessageOut_SystemVersion1 &lt;- VersionManagement.Translation.Messages.DowndateMessage( Messages.MESSAGE.TRAIN_TO_TRACK.Message{
+REQUEST_TO_SHORTEN_MA_IS_REJECTED &lt;- Messages.MESSAGE.TRAIN_TO_TRACK.REQUEST_TO_SHORTEN_MA_IS_REJECTED.Message
+{
+    NID_MESSAGE =&gt; 138,
+    L_MESSAGE =&gt; 0,
+    T_TRAIN_0 =&gt; MessageTypes.UnResolveTime( time =&gt; Kernel.DateAndTime.CurrentTime),
+    NID_ENGINE =&gt; Kernel.NidEngine,
+    T_TRAIN_1 =&gt; TimeStamp,
+    POSITION_REPORT =&gt; EURORADIO.PositionReport.CreatePositionReport()
+}
+}
+)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -2452,7 +3230,9 @@ NOT EURORADIO.IncomingMessageIsConsistent(ReceivedMessage(THIS))</PreCondition><
 <PreConditions>
 <PreCondition
  Guid="11fd9486-6ef6-4899-acc4-0a5d5647da68"
->EURORADIO.MessageCanBeSent ( anRBC =&gt; THIS )</PreCondition></PreConditions>
+>EURORADIO.MessageCanBeSent ( anRBC =&gt; THIS )</PreCondition><PreCondition
+ Guid="83a5771a-50ba-43f4-87d9-67cbed546a35"
+>THIS.SessionManagementData.SystemVersion.Value == SystemVersionEnum.Version2_0</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="bf147e3b-7386-4f94-9725-2f8ca11d85bf"
@@ -2463,6 +3243,30 @@ NOT EURORADIO.IncomingMessageIsConsistent(ReceivedMessage(THIS))</PreCondition><
     NID_ENGINE =&gt; Kernel.NidEngine,
     T_TRAIN_1 =&gt; Messages.MESSAGE.TRACK_TO_TRAIN.GetT_TRAIN(ReceivedMessage(THIS).Message)
 }</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Handle sending of the message_SystemVersion1"
+ Guid="c6c9fbb0-7287-4f44-a1ea-963d0e4f82ff"
+>
+<PreConditions>
+<PreCondition
+ Guid="ec4bc044-ed2f-437d-a5f8-4a2416fbd1c8"
+>EURORADIO.MessageCanBeSent ( anRBC =&gt; THIS )</PreCondition><PreCondition
+ Guid="08fd370c-9c72-4dd1-8885-fe58e5ff1b16"
+>THIS.SessionManagementData.SystemVersion.Value in [SystemVersionEnum.Version1_0, SystemVersionEnum.Version1_1]</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="205a321f-d3dc-431b-8378-d8e80921b74b"
+>MessageOut_SystemVersion1 &lt;- VersionManagement.Translation.Messages.DowndateMessage( Messages.MESSAGE.TRAIN_TO_TRACK.Message{
+    ACKNOWLEDGEMENT =&gt;   Messages.MESSAGE.TRAIN_TO_TRACK.ACKNOWLEDGEMENT.Message{
+    NID_MESSAGE =&gt; 146,
+    L_MESSAGE =&gt; 0,
+    T_TRAIN_0 =&gt; MessageTypes.UnResolveTime(Kernel.DateAndTime.CurrentTime),
+    NID_ENGINE =&gt; Kernel.NidEngine,
+    T_TRAIN_1 =&gt; Messages.MESSAGE.TRACK_TO_TRAIN.GetT_TRAIN(ReceivedMessage(THIS).Message)
+}
+}
+)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -2485,6 +3289,27 @@ NOT EURORADIO.IncomingMessageIsConsistent(ReceivedMessage(THIS))</PreCondition><
 </Parameter></Parameters>
 <Rules>
 <Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Initialize output message"
+ Guid="876d52ec-dffd-4c3b-940e-814202c86497"
+>
+<Comment>Create an empty train-to-track message in MessageOUT.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Initialize output message"
+ Guid="be0ef67e-d5bc-4467-bf14-e732bb69939e"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="b50b262f-a59f-4262-9f9e-11d11b3ee836"
+>InitializeOutMessage()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
  Implemented="TRUE"
  Name="Handle sending of the message"
  Guid="f1d246ca-ee29-4bc5-aea1-72090b9b81d8"
@@ -2499,11 +3324,11 @@ NOT EURORADIO.IncomingMessageIsConsistent(ReceivedMessage(THIS))</PreCondition><
 <PreConditions>
 <PreCondition
  Guid="a679b477-9031-458d-9c2b-e9610e1441d5"
->EURORADIO.MessageCanBeSent ( anRBC =&gt; THIS )</PreCondition></PreConditions>
+>EURORADIO.MessageCanBeSent ( anRBC =&gt; THIS )</PreCondition><PreCondition
+ Guid="718b00ee-4c57-480a-b80e-5ff4599f7af5"
+>THIS.SessionManagementData.SystemVersion.Value == SystemVersionEnum.Version2_0</PreCondition></PreConditions>
 <Actions>
 <Action
- Guid="2baca69d-6b3d-411b-b324-1ba24df48e9f"
->InitializeOutMessage()</Action><Action
  Guid="7e439f70-a29e-4ea4-99d1-6a99a4174ea3"
 >MessageOut.TEXT_MESSAGE_ACKNOWLEDGED_BY_DRIVER &lt;- Messages.MESSAGE.TRAIN_TO_TRACK.TEXT_MESSAGE_ACKNOWLEDGED_BY_DRIVER.Message
 {
@@ -2707,12 +3532,21 @@ NOT EURORADIO.IncomingMessageIsConsistent(ReceivedMessage(THIS))</PreCondition><
 </StructureElement><StructureElement
  TypeName="InMessage_SystemVersion1Struct"
  Default="EMPTY"
- Mode="Internal"
+ Mode="InOut"
  Implemented="TRUE"
  Name="MessageIn_SystemVersion1"
  Guid="309836ef-93e0-4706-ba4e-ae4083cfa138"
 >
 <Comment>Represents the message received from the current RBC. If no message is received, the structure is EMPTY.</Comment>
+</StructureElement><StructureElement
+ TypeName="Messages.SystemVersion1.MESSAGE.TRAIN_TO_TRACK.Message"
+ Default="EMPTY"
+ Mode="InOut"
+ Implemented="TRUE"
+ Name="MessageOut_SystemVersion1"
+ Guid="cef649cb-9dcb-4646-b89f-8eb10281c2ab"
+>
+<Comment>Represents the message to send to the current RBC. If no message has to be sent, the structure is EMPTY.</Comment>
 </StructureElement><StateMachines>
 <StateMachine
  Default="EURORADIO.RBCStruct.ConnectionStateSM.Inactive"
