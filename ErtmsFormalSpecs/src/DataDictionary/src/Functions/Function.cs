@@ -577,10 +577,6 @@ namespace DataDictionary.Functions
                             retVal.Add(new Graph.Segment(0, double.MaxValue, new Graph.Segment.Curve()));
                         }
                     }
-                    else
-                    {
-                        AddError("Cannot evaluate graph");
-                    }
                 }
             }
             else
