@@ -75,34 +75,37 @@ namespace DataDictionary
 
             CriticalRegion = new Mutex(false, "Critical region");
 
-            if (dictionary.countNameSpaces() > 0)
+            if (dictionary.FilePath != null)
             {
-                string path = Path.GetDirectoryName(dictionary.FilePath) + Path.DirectorySeparatorChar +
-                              Path.GetFileNameWithoutExtension(dictionary.FilePath);
-                path = Path.GetFullPath(path);
-                Directory.CreateDirectory(path);
-                Watcher = new FileSystemWatcher(path, "*.*")
+                if (dictionary.countNameSpaces() > 0)
                 {
-                    IncludeSubdirectories = true,
-                    NotifyFilter = NotifyFilters.LastWrite
-                };
-            }
-            else
-            {
-                string path = Path.GetDirectoryName(dictionary.FilePath);
-                string fileName = Path.GetFileName(dictionary.FilePath);
-                Watcher = new FileSystemWatcher(path, fileName)
+                    string path = Path.GetDirectoryName(dictionary.FilePath) + Path.DirectorySeparatorChar +
+                                  Path.GetFileNameWithoutExtension(dictionary.FilePath);
+                    path = Path.GetFullPath(path);
+                    Directory.CreateDirectory(path);
+                    Watcher = new FileSystemWatcher(path, "*.*")
+                    {
+                        IncludeSubdirectories = true,
+                        NotifyFilter = NotifyFilters.LastWrite
+                    };
+                }
+                else
                 {
-                    IncludeSubdirectories = false,
-                    NotifyFilter = NotifyFilters.LastWrite
-                };                
+                    string path = Path.GetDirectoryName(dictionary.FilePath);
+                    string fileName = Path.GetFileName(dictionary.FilePath);
+                    Watcher = new FileSystemWatcher(path, fileName)
+                    {
+                        IncludeSubdirectories = false,
+                        NotifyFilter = NotifyFilters.LastWrite
+                    };
+                }
+
+                Watcher.Changed += Watcher_Changed;
+                Watcher.Created += Watcher_Changed;
+                Watcher.Deleted += Watcher_Changed;
+
+                StartWatching();
             }
-
-            Watcher.Changed += Watcher_Changed;
-            Watcher.Created += Watcher_Changed;
-            Watcher.Deleted += Watcher_Changed;
-
-            StartWatching();
         }
 
         /// <summary>
@@ -114,15 +117,20 @@ namespace DataDictionary
         {
             CriticalRegion.WaitOne();
 
-            LastChange = DateTime.Now;
-
-            if (WaitEndOfBurst == null || !WaitEndOfBurst.IsAlive)
+            try
             {
-                WaitEndOfBurst = new Thread(SendChangeEvent);
-                WaitEndOfBurst.Start();
-            }
+                LastChange = DateTime.Now;
 
-            CriticalRegion.ReleaseMutex();
+                if (WaitEndOfBurst == null || !WaitEndOfBurst.IsAlive)
+                {
+                    WaitEndOfBurst = new Thread(SendChangeEvent);
+                    WaitEndOfBurst.Start();
+                }
+            }
+            finally
+            {
+                CriticalRegion.ReleaseMutex();   
+            }
         }
 
         /// <summary>
