@@ -577,6 +577,10 @@ namespace DataDictionary.Functions
                             retVal.Add(new Graph.Segment(0, double.MaxValue, new Graph.Segment.Curve()));
                         }
                     }
+                    else
+                    {
+                        AddError("Cannot reduce Evaluate boundaries on expression " + expression);
+                    }
                 }
             }
             else
@@ -899,12 +903,11 @@ namespace DataDictionary.Functions
         {
             Surface retVal;
 
-            // Evaluate the axis
+            // Evaluate the axis on which the reduction occurs
             parameter = null;
             foreach (PreCondition preCondition in cas.PreConditions)
             {
-                List<ISegment> boundaries = EvaluateBoundaries(context, preCondition, surface.XParameter, explain);
-                if (boundaries.Count != 0 && !FullRange(boundaries))
+                if (ExpressionBasedOnParameter(surface.XParameter, preCondition.Expression))
                 {
                     if (parameter != surface.YParameter)
                     {
@@ -915,19 +918,16 @@ namespace DataDictionary.Functions
                         throw new Exception("Cannot reduce a graph on both X axis and Y axis on the same time (1)");
                     }
                 }
-                else
+
+                if (ExpressionBasedOnParameter(surface.YParameter, preCondition.Expression))
                 {
-                    boundaries = EvaluateBoundaries(context, preCondition, surface.YParameter, explain);
-                    if (boundaries.Count != 0 && !FullRange(boundaries))
+                    if (parameter != surface.XParameter)
                     {
-                        if (parameter != surface.XParameter)
-                        {
-                            parameter = surface.YParameter;
-                        }
-                        else
-                        {
-                            throw new Exception("Cannot reduce a graph on both X axis and Y axis on the same time (2)");
-                        }
+                        parameter = surface.YParameter;
+                    }
+                    else
+                    {
+                        throw new Exception("Cannot reduce a graph on both X axis and Y axis on the same time (2)");
                     }
                 }
             }
