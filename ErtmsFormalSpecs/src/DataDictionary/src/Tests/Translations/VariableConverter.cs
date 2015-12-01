@@ -159,42 +159,36 @@ namespace DataDictionary.Tests.Translations
         {
             object retVal = null;
 
-            if (Converters.ContainsKey(variable))
+            BaseConverter converter = ConverterForKey(variable);
+            if (converter != null)
             {
-                BaseConverter converter = Converters[variable];
                 retVal = converter.convertFrom(value);
-            }
-            else
-            {
-                BaseConverter converter = ConverterForKey(variable);
-                if (converter != null)
-                {
-                    retVal = converter.convertFrom(value);
-                }
             }
 
             return retVal;
         }
 
         /// <summary>
+        ///     Find as converter for a specific variable.
         ///     If the dictionary of variables does not contain a particular name, check for
         ///     cases where there is a more developed version of the variable name
         /// </summary>
-        /// <param name="Key"></param>
+        /// <param name="key"></param>
         /// <returns></returns>
-        private BaseConverter ConverterForKey(string Key)
+        private BaseConverter ConverterForKey(string key)
         {
             BaseConverter retVal = null;
 
-            foreach (KeyValuePair<string, BaseConverter> variable in Converters)
+            // Remove the suffix "_n" from the key (if any)
+            if (key.Length > 2)
             {
-                // Check for a key with the name we are looking for, followed by an underscore
-                if (variable.Key.StartsWith(Key + "_0"))
+                if (key[key.Length - 2] == '_' && char.IsDigit(key[key.Length-1]))
                 {
-                    retVal = variable.Value;
-                    break;
+                    key = key.Substring(0, key.Length - 2);
                 }
             }
+
+            Converters.TryGetValue(key, out retVal);
 
             return retVal;
         }
