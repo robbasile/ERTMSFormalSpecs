@@ -2521,7 +2521,7 @@ TELEGRAM=&gt; BTM.Message
 HEADER =&gt; JRU.CreateHeader(9),
 NID_C =&gt; RBCContactIbnformation.Country,
 NID_RBC =&gt; RBCContactIbnformation.Id,
-TELEGRAM =&gt; RbcInfo.MessageIn.Message
+TELEGRAM =&gt; EURORADIO.ReceivedMessage(RbcInfo).Message
 }</Expression>
 </Case></Cases>
 </Function><Function
@@ -2633,7 +2633,7 @@ TELEGRAM =&gt; RbcInfo.MessageOut
 <PreConditions>
 <PreCondition
  Guid="4666d863-3e7c-4a72-b9e5-0e61297c2721"
->RbcInfo.MessageIn != EMPTY</PreCondition></PreConditions>
+>EURORADIO.ReceivedMessage(RbcInfo) != EMPTY</PreCondition></PreConditions>
 <Expression>True</Expression>
 </Case><Case
  Name="Otherwise"
