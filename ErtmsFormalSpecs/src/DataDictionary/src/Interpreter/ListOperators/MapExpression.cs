@@ -91,7 +91,8 @@ namespace DataDictionary.Interpreter.ListOperators
             {
                 int token = PrepareIteration(context);
                 retVal = new ListValue((Collection) GetExpressionType(), new List<IValue>());
-                foreach (IValue v in value.Val)
+                List<IValue> range = new List<IValue>(value.Val);
+                foreach (IValue v in range)
                 {
                     if (v != EfsSystem.Instance.EmptyValue)
                     {
