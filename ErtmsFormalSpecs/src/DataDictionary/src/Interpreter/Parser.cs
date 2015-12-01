@@ -1377,9 +1377,11 @@ namespace DataDictionary.Interpreter
             return Term();
         }
 
+        /// <summary>
+        /// Implements IDisposable
+        /// </summary>
         public void Dispose()
         {
-            throw new NotImplementedException();
         }
     }
 }
