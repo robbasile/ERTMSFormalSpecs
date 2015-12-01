@@ -105,7 +105,7 @@ namespace DataDictionary.Types
             ListValue list2 = other as ListValue;
             if (list1 != null && list2 != null)
             {
-                if (list1.ElementCount == list2.ElementCount)
+                if (list1.Val.Count == list2.Val.Count)
                 {
                     retVal = true;
                     foreach (IValue val1 in list1.Val)
@@ -389,7 +389,7 @@ namespace DataDictionary.Types
 
             if (retVal != null)
             {
-                if (retVal.ElementCount <= getMaxSize())
+                if (retVal.Val.Count <= getMaxSize())
                 {
                     foreach (IValue val in retVal.Val)
                     {
@@ -403,6 +403,8 @@ namespace DataDictionary.Types
                 {
                     throw new Exception("Too many elements in collection");
                 }
+
+                retVal.Type = this;
             }
 
             return retVal;
@@ -421,6 +423,7 @@ namespace DataDictionary.Types
         public GenericCollection(EfsSystem efsSystem)
         {
             Enclosing = efsSystem;
+            setMaxSize(int.MaxValue);
         }
 
         /// <summary>

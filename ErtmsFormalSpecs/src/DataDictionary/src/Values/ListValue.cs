@@ -113,9 +113,12 @@ namespace DataDictionary.Values
         {
             foreach (IValue value in other.Val)
             {
-                // TODO : This will cause an issue when going back in the time line. 
-                // All values should be copied instead
-                Val.Add(value);
+                if (value != EfsSystem.Instance.EmptyValue)
+                {
+                    // TODO : This will cause an issue when going back in the time line. 
+                    // All values should be copied instead
+                    Val.Add(value);
+                }
             }
         }
 
@@ -138,44 +141,12 @@ namespace DataDictionary.Values
         {
             ListValue retVal = this;
 
-            //  Complete the list with empty values
-            Collection collectionType = variable.Type as Collection;
-            if (collectionType != null)
-            {
-                EmptyValue emptyValue = EfsSystem.Instance.EmptyValue;
-                while (retVal.Val.Count < collectionType.getMaxSize())
-                {
-                    retVal.Val.Add(emptyValue);
-                }
-            }
-
             if (setEnclosing)
             {
                 retVal.Enclosing = variable;
             }
 
             return retVal;
-        }
-
-        /// <summary>
-        ///     Provides the number of non empty elements in the list value
-        /// </summary>
-        public int ElementCount
-        {
-            get
-            {
-                int retVal = 0;
-
-                foreach (IValue value in Val)
-                {
-                    if (!(value is EmptyValue))
-                    {
-                        retVal += 1;
-                    }
-                }
-
-                return retVal;
-            }
         }
 
         /// <summary>

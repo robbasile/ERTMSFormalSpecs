@@ -124,6 +124,7 @@ namespace DataDictionary.Interpreter.ListOperators
                 {
                     if (v != EfsSystem.Instance.EmptyValue)
                     {
+                        // All elements should always be != from EmptyValue
                         ElementFound = true;
                         IteratorVariable.Value = v;
                         if (ConditionSatisfied(context, explain))
@@ -283,7 +284,8 @@ namespace DataDictionary.Interpreter.ListOperators
                     foreach (IValue v in value.Val)
                     {
                         if (v != EfsSystem.Instance.EmptyValue)
-                        {
+                        {                        
+                            // All elements should always be != from EmptyValue
                             ElementFound = true;
                             IteratorVariable.Value = v;
                             if (ConditionSatisfied(context, explain))
@@ -340,6 +342,7 @@ namespace DataDictionary.Interpreter.ListOperators
                     {
                         if (v != EfsSystem.Instance.EmptyValue)
                         {
+                            // All elements should always be != from EmptyValue
                             ElementFound = true;
                             IteratorVariable.Value = v;
                             if (ConditionSatisfied(context, explain))

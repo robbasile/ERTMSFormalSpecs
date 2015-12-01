@@ -78,20 +78,14 @@ namespace DataDictionary.Functions.PredefinedFunctions
                 {
                     Type elementType = collectionType.Type;
 
-                    int i = 0;
-                    while (i < value.Val.Count && value.Val[i] != EFSSystem.EmptyValue)
+                    if (value.Val.Count >= collectionType.getMaxSize())
                     {
-                        i += 1;
-                    }
-
-                    if (i < value.Val.Count)
-                    {
-                        retVal = elementType.DefaultValue;
-                        value.Val[i] = retVal;
+                        AddError("Cannot allocate element in list : list full");
                     }
                     else
                     {
-                        AddError("Cannot allocate element in list : list full");
+                        retVal = elementType.DefaultValue;
+                        value.Val.Add(retVal);                        
                     }
                 }
             }

@@ -337,7 +337,7 @@ namespace GUIUtils.StructureEditor
             ListValue listValue = value as ListValue;
             if (listValue != null)
             {
-                retVal = listValue.ElementCount > 0;
+                retVal = listValue.Val.Count > 0;
             }
 
             return retVal;
@@ -699,7 +699,7 @@ namespace GUIUtils.StructureEditor
                 if (enclosingVariable != null)
                 {
                     Collection collection = (Collection) enclosingVariable.Type;
-                    if (listValue.ElementCount < collection.getMaxSize())
+                    if (listValue.Val.Count < collection.getMaxSize())
                     {
                         items.Add(new ToolStripAddValueInList(args, enclosingVariable));
                     }

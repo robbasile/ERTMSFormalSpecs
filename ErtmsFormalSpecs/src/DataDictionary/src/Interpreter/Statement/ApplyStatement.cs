@@ -266,6 +266,7 @@ namespace DataDictionary.Interpreter.Statement
                         {
                             if (value != EfsSystem.Instance.EmptyValue)
                             {
+                                // All elements should always be != from EmptyValue
                                 elementFound = true;
                                 IteratorVariable.Value = value;
                                 if (ConditionSatisfied(context, explanation))

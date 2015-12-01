@@ -283,24 +283,17 @@ namespace DataDictionary.Interpreter.Statement
                         IValue value = listValue.Val[index];
                         index = NextIndex(index);
 
-                        if (value == EfsSystem.Instance.EmptyValue)
+                        IteratorVariable.Value = value;
+                        if (ConditionSatisfied(context, explanation))
                         {
-                            InsertInResult(newListValue, value);
+                            if (Position != PositionEnum.All)
+                            {
+                                break;
+                            }
                         }
                         else
                         {
-                            IteratorVariable.Value = value;
-                            if (ConditionSatisfied(context, explanation))
-                            {
-                                if (Position != PositionEnum.All)
-                                {
-                                    break;
-                                }
-                            }
-                            else
-                            {
-                                InsertInResult(newListValue, value);
-                            }
+                            InsertInResult(newListValue, value);
                         }
                     }
 
@@ -311,12 +304,6 @@ namespace DataDictionary.Interpreter.Statement
 
                         InsertInResult(newListValue, value);
                         index = NextIndex(index);
-                    }
-
-                    // Fill the gap
-                    while (newListValue.Val.Count < listValue.Val.Count)
-                    {
-                        newListValue.Val.Add(EfsSystem.Instance.EmptyValue);
                     }
 
                     Change change = new Change(variable, variable.Value, newListValue);

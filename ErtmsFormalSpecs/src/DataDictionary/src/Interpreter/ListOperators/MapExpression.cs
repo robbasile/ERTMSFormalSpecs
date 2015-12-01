@@ -96,6 +96,7 @@ namespace DataDictionary.Interpreter.ListOperators
                 {
                     if (v != EfsSystem.Instance.EmptyValue)
                     {
+                        // All elements should always be != from EmptyValue
                         ElementFound = true;
                         IteratorVariable.Value = v;
 

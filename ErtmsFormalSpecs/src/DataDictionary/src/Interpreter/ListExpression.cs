@@ -110,6 +110,7 @@ namespace DataDictionary.Interpreter
                     ExpressionType.Type = elementType;
                     ExpressionType.Name = "ListOf_" + elementType.FullName;
                     ExpressionType.Enclosing = Root.EFSSystem;
+                    ExpressionType.setMaxSize(ListElements.Count);
 
                     StaticUsage.AddUsage(elementType, Root, Usage.ModeEnum.Type);
                 }
@@ -157,12 +158,15 @@ namespace DataDictionary.Interpreter
                 IValue val = expr.GetValue(context, explain);
                 if (val != null)
                 {
-                    retVal.Val.Add(val);
+                    if (val != EfsSystem.Instance.EmptyValue)
+                    {
+                        retVal.Val.Add(val);
+                    }
                 }
                 else
                 {
                     AddError("Cannot evaluate " + expr);
-                }
+                }            
             }
 
             return retVal;

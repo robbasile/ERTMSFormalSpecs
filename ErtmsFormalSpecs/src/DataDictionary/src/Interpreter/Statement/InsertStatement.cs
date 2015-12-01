@@ -238,11 +238,10 @@ namespace DataDictionary.Interpreter.Statement
                         if (!listValue.Val.Contains(value))
                         {
                             ListValue newListValue = new ListValue(listValue);
-                            int index = newListValue.Val.IndexOf(EfsSystem.Instance.EmptyValue);
-                            if (index >= 0)
+                            if (newListValue.Val.Count < newListValue.CollectionType.getMaxSize())
                             {
                                 ExplanationPart.CreateSubExplanation(explanation, "Inserting", value);
-                                newListValue.Val[index] = value;
+                                newListValue.Val.Add(value);                                
                             }
                             else
                             {
@@ -251,7 +250,7 @@ namespace DataDictionary.Interpreter.Statement
                                 {
                                     IValue removeValue = ReplaceElement.GetExpressionValue(context, explanation);
                                     ExplanationPart.CreateSubExplanation(explanation, "Replaced element", removeValue);
-                                    index = newListValue.Val.IndexOf(removeValue);
+                                    int index = newListValue.Val.IndexOf(removeValue);
                                     if (index >= 0)
                                     {
                                         ExplanationPart.CreateSubExplanation(explanation, "Replacing", value);
