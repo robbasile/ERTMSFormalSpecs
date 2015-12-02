@@ -285,7 +285,7 @@ Only emergency stop orders can be high priority.</Comment>
 >MessageIn_SystemVersion1 &lt;- EMPTY</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
- Priority="Verification"
+ Priority="CleanUp"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="Clear output message"
@@ -304,9 +304,9 @@ Only emergency stop orders can be high priority.</Comment>
 <Actions>
 <Action
  Guid="a88d3410-4254-4ea2-b4be-62c09e71fb63"
->MessageOut &lt;- EMPTY</Action><Action
+>MessageOut.MessageOut_SystemVersion2 &lt;- EMPTY</Action><Action
  Guid="798b1369-7cf8-4c83-8a3c-9a9a4fec6355"
->MessageOut_SystemVersion1 &lt;- EMPTY</Action></Actions>
+>MessageOut.MessageOut_SystemVersion1 &lt;- EMPTY</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Verification"
@@ -529,6 +529,30 @@ Keep the reason for it to be displayed to the driver.</Comment>
  Guid="9f0b8b99-968a-4132-a255-930a6cfcfa7c"
 >SessionManagementData.ConnectionIsEstablished &lt;- False</Action></Actions>
 </RuleCondition></Conditions>
+</Rule><Rule
+ Priority="UpdateOUT"
+ Name="Handle system version"
+ Guid="e941d9be-8af0-4666-8a42-e6771e677b2d"
+>
+<Comment>Send the message in the version required by the RBC</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Name="Handle system version"
+ Guid="0db9254c-fe5d-41d6-8166-62b022018ce6"
+>
+<PreConditions>
+<PreCondition
+ Guid="798beeeb-d703-46cb-af52-16f433fdb1ca"
+>THIS.SessionManagementData.SystemVersion in [
+  EURORADIO.SystemVersionEnum.Version1_0,
+  EURORADIO.SystemVersionEnum.Version1_1
+]</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="1ff25552-3656-4048-bdc5-c4632f27127b"
+>THIS.MessageOut.MessageOut_SystemVersion1 &lt;- Translate ( THIS.MessageOut.MessageOut_SystemVersion2)</Action></Actions>
+</RuleCondition></Conditions>
 </Rule></Rules>
 <Procedures>
 <Procedure
@@ -627,7 +651,7 @@ Keep the reason for it to be displayed to the driver.</Comment>
 <Actions>
 <Action
  Guid="79dbebec-3f39-4331-b8b2-edabf9c5149b"
->MessageOut.TRAIN_POSITION_REPORT &lt;- Messages.MESSAGE.TRAIN_TO_TRACK.TRAIN_POSITION_REPORT.Message
+>MessageOut.MessageOut_SystemVersion2.TRAIN_POSITION_REPORT &lt;- Messages.MESSAGE.TRAIN_TO_TRACK.TRAIN_POSITION_REPORT.Message
 {
     L_MESSAGE =&gt; EMPTY,
     NID_ENGINE =&gt; Kernel.NidEngine,
@@ -672,7 +696,7 @@ Keep the reason for it to be displayed to the driver.</Comment>
         M_ERROR =&gt; (FIRST X IN Kernel.SafetyCriticalFaults | X.Timestamp == Kernel.DateAndTime.Now()).Fault
     }
 }
- IN MessageOut.TRAIN_POSITION_REPORT.Sequence1</Action></Actions>
+ IN MessageOut.MessageOut_SystemVersion2.TRAIN_POSITION_REPORT.Sequence1</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Implemented="TRUE"
@@ -693,7 +717,7 @@ Keep the reason for it to be displayed to the driver.</Comment>
 <Actions>
 <Action
  Guid="51d9638b-ca76-4429-833b-085ce02c3c05"
->MessageOut_SystemVersion1 &lt;- VersionManagement.Translation.Messages.DowndateMessage( Messages.MESSAGE.TRAIN_TO_TRACK.Message{
+>MessageOut.MessageOut_SystemVersion1 &lt;- VersionManagement.Translation.Messages.DowndateMessage( Messages.MESSAGE.TRAIN_TO_TRACK.Message{
 TRAIN_POSITION_REPORT =&gt; Messages.MESSAGE.TRAIN_TO_TRACK.TRAIN_POSITION_REPORT.Message
 {
     L_MESSAGE =&gt; EMPTY,
@@ -745,7 +769,7 @@ Messages.MESSAGE.TRAIN_TO_TRACK.TRAIN_POSITION_REPORT.SubStructure1{
 }
 )
 
- IN MessageOut_SystemVersion1.TRAIN_POSITION_REPORT.Sequence1</Action></Actions>
+ IN MessageOut.MessageOut_SystemVersion1.TRAIN_POSITION_REPORT.Sequence1</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition><RuleCondition
@@ -879,7 +903,7 @@ Messages.MESSAGE.TRAIN_TO_TRACK.TRAIN_POSITION_REPORT.SubStructure1{
 <Actions>
 <Action
  Guid="ee5a0c21-596d-4adf-9f6e-f3f46a1437d7"
->MessageOut.SOM_POSITION_REPORT &lt;- Messages.MESSAGE.TRAIN_TO_TRACK.SOM_POSITION_REPORT.Message
+>MessageOut.MessageOut_SystemVersion2.SOM_POSITION_REPORT &lt;- Messages.MESSAGE.TRAIN_TO_TRACK.SOM_POSITION_REPORT.Message
 {
     L_MESSAGE =&gt; EMPTY,
     NID_ENGINE =&gt; Kernel.NidEngine,
@@ -903,7 +927,7 @@ Messages.MESSAGE.TRAIN_TO_TRACK.TRAIN_POSITION_REPORT.SubStructure1{
 <Actions>
 <Action
  Guid="3a935f84-1cab-4b6e-8500-42a700962fea"
->MessageOut_SystemVersion1 &lt;- VersionManagement.Translation.Messages.DowndateMessage( Messages.MESSAGE.TRAIN_TO_TRACK.Message{
+>MessageOut.MessageOut_SystemVersion1 &lt;- VersionManagement.Translation.Messages.DowndateMessage( Messages.MESSAGE.TRAIN_TO_TRACK.Message{
 SOM_POSITION_REPORT =&gt; Messages.MESSAGE.TRAIN_TO_TRACK.SOM_POSITION_REPORT.Message
 {
     L_MESSAGE =&gt; EMPTY,
@@ -945,7 +969,7 @@ SOM_POSITION_REPORT =&gt; Messages.MESSAGE.TRAIN_TO_TRACK.SOM_POSITION_REPORT.Me
 <Actions>
 <Action
  Guid="2d00e9a8-4356-42a6-a9b3-cdf669db2f2b"
->MessageOut &lt;- Messages.MESSAGE.TRAIN_TO_TRACK.Message
+>MessageOut.MessageOut_SystemVersion2 &lt;- Messages.MESSAGE.TRAIN_TO_TRACK.Message
 {
     VALIDATED_TRAIN_DATA =&gt; EMPTY,
     TRAIN_POSITION_REPORT =&gt; EMPTY,
@@ -978,7 +1002,7 @@ SOM_POSITION_REPORT =&gt; Messages.MESSAGE.TRAIN_TO_TRACK.SOM_POSITION_REPORT.Me
 <Actions>
 <Action
  Guid="dedbced8-d278-4612-ade8-4c0a47925279"
->MessageOut_SystemVersion1 &lt;- Messages.SystemVersion1.MESSAGE.TRAIN_TO_TRACK.Message
+>MessageOut.MessageOut_SystemVersion1 &lt;- Messages.SystemVersion1.MESSAGE.TRAIN_TO_TRACK.Message
 {
     VALIDATED_TRAIN_DATA =&gt; EMPTY,
     TRAIN_POSITION_REPORT =&gt; EMPTY,
@@ -1101,7 +1125,7 @@ SOM_POSITION_REPORT =&gt; Messages.MESSAGE.TRAIN_TO_TRACK.SOM_POSITION_REPORT.Me
 <Actions>
 <Action
  Guid="f26165a7-1b31-4afe-b6c9-ea1f49fa06de"
->MessageOut.VALIDATED_TRAIN_DATA &lt;- Messages.MESSAGE.TRAIN_TO_TRACK.VALIDATED_TRAIN_DATA.Message
+>MessageOut.MessageOut_SystemVersion2.VALIDATED_TRAIN_DATA &lt;- Messages.MESSAGE.TRAIN_TO_TRACK.VALIDATED_TRAIN_DATA.Message
 {
     NID_MESSAGE =&gt; 129,
     L_MESSAGE =&gt; 0,
@@ -1124,7 +1148,7 @@ SOM_POSITION_REPORT =&gt; Messages.MESSAGE.TRAIN_TO_TRACK.SOM_POSITION_REPORT.Me
 <Actions>
 <Action
  Guid="21ef3fb5-dc88-49d6-8310-bd9632815714"
->MessageOut_SystemVersion1 &lt;- VersionManagement.Translation.Messages.DowndateMessage( Messages.MESSAGE.TRAIN_TO_TRACK.Message{
+>MessageOut.MessageOut_SystemVersion1 &lt;- VersionManagement.Translation.Messages.DowndateMessage( Messages.MESSAGE.TRAIN_TO_TRACK.Message{
 VALIDATED_TRAIN_DATA =&gt; Messages.MESSAGE.TRAIN_TO_TRACK.VALIDATED_TRAIN_DATA.Message
 {
     NID_MESSAGE =&gt; 129,
@@ -1229,7 +1253,7 @@ VALIDATED_TRAIN_DATA =&gt; Messages.MESSAGE.TRAIN_TO_TRACK.VALIDATED_TRAIN_DATA.
 <Actions>
 <Action
  Guid="5d5990b8-a350-4843-9667-b01f3a4ae06c"
->MessageOut.END_OF_MISSION &lt;-Messages.MESSAGE.TRAIN_TO_TRACK.END_OF_MISSION.Message
+>MessageOut.MessageOut_SystemVersion2.END_OF_MISSION &lt;-Messages.MESSAGE.TRAIN_TO_TRACK.END_OF_MISSION.Message
 {
     NID_MESSAGE =&gt; 150,
     L_MESSAGE =&gt; 0,
@@ -1251,7 +1275,7 @@ VALIDATED_TRAIN_DATA =&gt; Messages.MESSAGE.TRAIN_TO_TRACK.VALIDATED_TRAIN_DATA.
 <Actions>
 <Action
  Guid="35ca1cbd-3d15-4d44-b31e-f883af239a19"
->MessageOut_SystemVersion1 &lt;- VersionManagement.Translation.Messages.DowndateMessage( Messages.MESSAGE.TRAIN_TO_TRACK.Message{
+>MessageOut.MessageOut_SystemVersion1 &lt;- VersionManagement.Translation.Messages.DowndateMessage( Messages.MESSAGE.TRAIN_TO_TRACK.Message{
 END_OF_MISSION =&gt; Messages.MESSAGE.TRAIN_TO_TRACK.END_OF_MISSION.Message
 {
     NID_MESSAGE =&gt; 150,
@@ -1355,7 +1379,7 @@ END_OF_MISSION =&gt; Messages.MESSAGE.TRAIN_TO_TRACK.END_OF_MISSION.Message
 <Actions>
 <Action
  Guid="7297c0d3-1229-4d0e-9a96-f81af5183fa9"
->MessageOut.REQUEST_FOR_SHUNTING &lt;- Messages.MESSAGE.TRAIN_TO_TRACK.REQUEST_FOR_SHUNTING.Message
+>MessageOut.MessageOut_SystemVersion2.REQUEST_FOR_SHUNTING &lt;- Messages.MESSAGE.TRAIN_TO_TRACK.REQUEST_FOR_SHUNTING.Message
 {
     NID_MESSAGE =&gt; 130,
     L_MESSAGE =&gt; 0,
@@ -1377,7 +1401,7 @@ END_OF_MISSION =&gt; Messages.MESSAGE.TRAIN_TO_TRACK.END_OF_MISSION.Message
 <Actions>
 <Action
  Guid="5a75d40e-d470-4cb6-bc3c-79961db9e587"
->MessageOut_SystemVersion1 &lt;- VersionManagement.Translation.Messages.DowndateMessage( Messages.MESSAGE.TRAIN_TO_TRACK.Message{
+>MessageOut.MessageOut_SystemVersion1 &lt;- VersionManagement.Translation.Messages.DowndateMessage( Messages.MESSAGE.TRAIN_TO_TRACK.Message{
 REQUEST_FOR_SHUNTING =&gt;Messages.MESSAGE.TRAIN_TO_TRACK.REQUEST_FOR_SHUNTING.Message
 {
     NID_MESSAGE =&gt; 130,
@@ -1504,18 +1528,18 @@ REQUEST_FOR_SHUNTING =&gt;Messages.MESSAGE.TRAIN_TO_TRACK.REQUEST_FOR_SHUNTING.M
 <PreConditions>
 <PreCondition
  Guid="827efda7-dc02-41b7-9aa8-5c8d0121492d"
->THIS.SessionManagementData.SystemVersion.Value == SystemVersionEnum.Version2_0</PreCondition></PreConditions>
+>RBCStruct.SessionManagementData.SystemVersion.Value == SystemVersionEnum.Version2_0</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="f105e56b-cf2d-4016-b30e-0ea135442f31"
->MessageOut.MA_REQUEST &lt;- Messages.MESSAGE.TRAIN_TO_TRACK.MA_REQUEST.Message
+>MessageOut.MessageOut_SystemVersion2.MA_REQUEST &lt;- Messages.MESSAGE.TRAIN_TO_TRACK.MA_REQUEST.Message
 {
     NID_MESSAGE =&gt; 132,
     L_MESSAGE =&gt; 0,
     T_TRAIN =&gt; MessageTypes.UnResolveTime( time =&gt; Kernel.DateAndTime.CurrentTime),
     NID_ENGINE =&gt; Kernel.NidEngine,
     Q_MARQSTREASON =&gt; aReason,
-    POSITION_REPORT =&gt; PositionReport.CreatePositionReport()
+    POSITION_REPORT =&gt; EURORADIO.PositionReport.CreatePositionReport()
 }</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
@@ -1542,7 +1566,7 @@ REQUEST_FOR_SHUNTING =&gt;Messages.MESSAGE.TRAIN_TO_TRACK.REQUEST_FOR_SHUNTING.M
  Guid="2dd7f6aa-12b8-4aa9-8130-0d8662cb6f64"
 >aPacket != EMPTY</PreCondition><PreCondition
  Guid="6dcb1dc1-68c9-4445-b437-415fc245e3fe"
->THIS.SessionManagementData.SystemVersion.Value == SystemVersionEnum.Version2_0</PreCondition></PreConditions>
+>RBCStruct.SessionManagementData.SystemVersion.Value == SystemVersionEnum.Version2_0</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="f44318cf-785d-4f2d-b554-9b4fc910b4f0"
@@ -1552,7 +1576,7 @@ Messages.MESSAGE.TRAIN_TO_TRACK.MA_REQUEST.SubStructure1
     LEVEL_2_3_TRANSITION_INFORMATION =&gt; aPacket
 }
   IN
-MessageOut.MA_REQUEST.Sequence1</Action></Actions>
+MessageOut.MessageOut_SystemVersion2.MA_REQUEST.Sequence1</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -1571,11 +1595,11 @@ MessageOut.MA_REQUEST.Sequence1</Action></Actions>
 <PreConditions>
 <PreCondition
  Guid="f0389d34-b14a-414c-880c-0dd57d77a0be"
->THIS.SessionManagementData.SystemVersion.Value in [SystemVersionEnum.Version1_0, SystemVersionEnum.Version1_1]</PreCondition></PreConditions>
+>RBCStruct.SessionManagementData.SystemVersion.Value in [SystemVersionEnum.Version1_0, SystemVersionEnum.Version1_1]</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="aebac597-d459-4675-bede-1523779e3f91"
->MessageOut_SystemVersion1 &lt;- VersionManagement.Translation.Messages.DowndateMessage( Messages.MESSAGE.TRAIN_TO_TRACK.Message{
+>MessageOut.MessageOut_SystemVersion1 &lt;- VersionManagement.Translation.Messages.DowndateMessage( Messages.MESSAGE.TRAIN_TO_TRACK.Message{
 MA_REQUEST =&gt;Messages.MESSAGE.TRAIN_TO_TRACK.MA_REQUEST.Message
 {
     NID_MESSAGE =&gt; 132,
@@ -1583,7 +1607,7 @@ MA_REQUEST =&gt;Messages.MESSAGE.TRAIN_TO_TRACK.MA_REQUEST.Message
     T_TRAIN =&gt; MessageTypes.UnResolveTime( time =&gt; Kernel.DateAndTime.CurrentTime),
     NID_ENGINE =&gt; Kernel.NidEngine,
     Q_MARQSTREASON =&gt; aReason,
-    POSITION_REPORT =&gt; PositionReport.CreatePositionReport()
+    POSITION_REPORT =&gt; EURORADIO.PositionReport.CreatePositionReport()
 }
 }
 )</Action></Actions>
@@ -1612,7 +1636,7 @@ MA_REQUEST =&gt;Messages.MESSAGE.TRAIN_TO_TRACK.MA_REQUEST.Message
  Guid="022f5767-9f9e-4c6e-88ab-66bcf26a9c8a"
 >aPacket != EMPTY</PreCondition><PreCondition
  Guid="0fe612e6-e93a-473f-9355-2b3abeb7d426"
->THIS.SessionManagementData.SystemVersion.Value in [SystemVersionEnum.Version1_0, SystemVersionEnum.Version1_1]</PreCondition></PreConditions>
+>RBCStruct.SessionManagementData.SystemVersion.Value in [SystemVersionEnum.Version1_0, SystemVersionEnum.Version1_1]</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="2898b615-44c5-4643-8bde-990246d68881"
@@ -1622,7 +1646,7 @@ Messages.SystemVersion1.MESSAGE.TRAIN_TO_TRACK.MA_REQUEST.SubStructure1
     LEVEL_2_3_TRANSITION_INFORMATION =&gt; aPacket
 }
   IN
-MessageOut_SystemVersion1.MA_REQUEST.Sequence1</Action></Actions>
+MessageOut.MessageOut_SystemVersion1.MA_REQUEST.Sequence1</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -1770,7 +1794,7 @@ MessageOut_SystemVersion1.MA_REQUEST.Sequence1</Action></Actions>
 <Actions>
 <Action
  Guid="bf04e5dc-64f2-41c2-8382-b29798e0e305"
->MessageOut.ACKNOWLEDGEMENT_OF_EMERGENCY_STOP &lt;- Messages.MESSAGE.TRAIN_TO_TRACK.ACKNOWLEDGEMENT_OF_EMERGENCY_STOP.Message
+>MessageOut.MessageOut_SystemVersion2.ACKNOWLEDGEMENT_OF_EMERGENCY_STOP &lt;- Messages.MESSAGE.TRAIN_TO_TRACK.ACKNOWLEDGEMENT_OF_EMERGENCY_STOP.Message
  {
     NID_MESSAGE =&gt; aMessage.CONDITIONAL_EMERGENCY_STOP.NID_MESSAGE,
     L_MESSAGE =&gt; 0,
@@ -1794,7 +1818,7 @@ MessageOut_SystemVersion1.MA_REQUEST.Sequence1</Action></Actions>
 <Actions>
 <Action
  Guid="394c2f18-e20e-46c9-b5f1-580ab32072e6"
->MessageOut_SystemVersion1 &lt;- VersionManagement.Translation.Messages.DowndateMessage( Messages.MESSAGE.TRAIN_TO_TRACK.Message{
+>MessageOut.MessageOut_SystemVersion1 &lt;- VersionManagement.Translation.Messages.DowndateMessage( Messages.MESSAGE.TRAIN_TO_TRACK.Message{
 ACKNOWLEDGEMENT_OF_EMERGENCY_STOP =&gt; Messages.MESSAGE.TRAIN_TO_TRACK.ACKNOWLEDGEMENT_OF_EMERGENCY_STOP.Message
  {
     NID_MESSAGE =&gt; aMessage.CONDITIONAL_EMERGENCY_STOP.NID_MESSAGE,
@@ -1900,7 +1924,7 @@ ACKNOWLEDGEMENT_OF_EMERGENCY_STOP =&gt; Messages.MESSAGE.TRAIN_TO_TRACK.ACKNOWLE
 <Actions>
 <Action
  Guid="5496a749-0788-45c7-917c-9edb136dfa0c"
->MessageOut.INITIATION_OF_A_COMMUNICATION_SESSION &lt;- Messages.MESSAGE.TRAIN_TO_TRACK.INITIATION_OF_A_COMMUNICATION_SESSION.Message
+>MessageOut.MessageOut_SystemVersion2.INITIATION_OF_A_COMMUNICATION_SESSION &lt;- Messages.MESSAGE.TRAIN_TO_TRACK.INITIATION_OF_A_COMMUNICATION_SESSION.Message
 {
     NID_MESSAGE =&gt; 155,
     L_MESSAGE =&gt; 0,
@@ -1920,7 +1944,7 @@ ACKNOWLEDGEMENT_OF_EMERGENCY_STOP =&gt; Messages.MESSAGE.TRAIN_TO_TRACK.ACKNOWLE
 <Actions>
 <Action
  Guid="03d659e2-c88c-413b-90b3-8ca66ad841ff"
->MessageOut_SystemVersion1 &lt;- VersionManagement.Translation.Messages.DowndateMessage( Messages.MESSAGE.TRAIN_TO_TRACK.Message{
+>MessageOut.MessageOut_SystemVersion1 &lt;- VersionManagement.Translation.Messages.DowndateMessage( Messages.MESSAGE.TRAIN_TO_TRACK.Message{
 INITIATION_OF_A_COMMUNICATION_SESSION &lt;- Messages.MESSAGE.TRAIN_TO_TRACK.INITIATION_OF_A_COMMUNICATION_SESSION.Message
 {
     NID_MESSAGE =&gt; 155,
@@ -2030,7 +2054,7 @@ ConnectionState in EURORADIO.RBCStruct.ConnectionStateSM.Terminating</PreConditi
 <Actions>
 <Action
  Guid="1069c60a-1628-4196-9f66-c7cb41b5fed5"
->MessageOut.TERMINATION_OF_A_COMMUNICATION_SESSION &lt;- Messages.MESSAGE.TRAIN_TO_TRACK.TERMINATION_OF_A_COMMUNICATION_SESSION.Message
+>MessageOut.MessageOut_SystemVersion2.TERMINATION_OF_A_COMMUNICATION_SESSION &lt;- Messages.MESSAGE.TRAIN_TO_TRACK.TERMINATION_OF_A_COMMUNICATION_SESSION.Message
 {
     NID_MESSAGE =&gt; 156,
     L_MESSAGE =&gt; 0,
@@ -2052,7 +2076,7 @@ ConnectionState in EURORADIO.RBCStruct.ConnectionStateSM.Terminating</PreConditi
 <Actions>
 <Action
  Guid="314cf52c-7ac3-4af0-974b-1c5d6868c690"
->MessageOut_SystemVersion1 &lt;- VersionManagement.Translation.Messages.DowndateMessage( Messages.MESSAGE.TRAIN_TO_TRACK.Message{
+>MessageOut.MessageOut_SystemVersion1 &lt;- VersionManagement.Translation.Messages.DowndateMessage( Messages.MESSAGE.TRAIN_TO_TRACK.Message{
 TERMINATION_OF_A_COMMUNICATION_SESSION =&gt; Messages.MESSAGE.TRAIN_TO_TRACK.TERMINATION_OF_A_COMMUNICATION_SESSION.Message
 {
     NID_MESSAGE =&gt; 156,
@@ -2198,7 +2222,7 @@ TERMINATION_OF_A_COMMUNICATION_SESSION =&gt; Messages.MESSAGE.TRAIN_TO_TRACK.TER
 <Actions>
 <Action
  Guid="18250444-a45a-46a1-8101-7880251ca79d"
->MessageOut.NO_COMPATIBLE_VERSION_SUPPORTED &lt;- Messages.MESSAGE.TRAIN_TO_TRACK.NO_COMPATIBLE_VERSION_SUPPORTED.Message
+>MessageOut.MessageOut_SystemVersion2.NO_COMPATIBLE_VERSION_SUPPORTED &lt;- Messages.MESSAGE.TRAIN_TO_TRACK.NO_COMPATIBLE_VERSION_SUPPORTED.Message
 {
     NID_MESSAGE =&gt; 154,
     L_MESSAGE =&gt; 0,
@@ -2218,7 +2242,7 @@ TERMINATION_OF_A_COMMUNICATION_SESSION =&gt; Messages.MESSAGE.TRAIN_TO_TRACK.TER
 <Actions>
 <Action
  Guid="5f99fc43-5ec4-44ca-be37-7e23f7b8a779"
->MessageOut_SystemVersion1 &lt;- VersionManagement.Translation.Messages.DowndateMessage( Messages.MESSAGE.TRAIN_TO_TRACK.Message{
+>MessageOut.MessageOut_SystemVersion1 &lt;- VersionManagement.Translation.Messages.DowndateMessage( Messages.MESSAGE.TRAIN_TO_TRACK.Message{
 NO_COMPATIBLE_VERSION_SUPPORTED =&gt;Messages.MESSAGE.TRAIN_TO_TRACK.NO_COMPATIBLE_VERSION_SUPPORTED.Message
 {
     NID_MESSAGE =&gt; 154,
@@ -2321,7 +2345,7 @@ NO_COMPATIBLE_VERSION_SUPPORTED =&gt;Messages.MESSAGE.TRAIN_TO_TRACK.NO_COMPATIB
 <Actions>
 <Action
  Guid="1f5b8c56-d5aa-4705-8653-1f7558f6dad4"
->MessageOut.SESSION_ESTABLISHED &lt;- Messages.MESSAGE.TRAIN_TO_TRACK.SESSION_ESTABLISHED.Message
+>MessageOut.MessageOut_SystemVersion2.SESSION_ESTABLISHED &lt;- Messages.MESSAGE.TRAIN_TO_TRACK.SESSION_ESTABLISHED.Message
 {
     NID_MESSAGE =&gt; 159,
     L_MESSAGE =&gt; 0,
@@ -2361,7 +2385,7 @@ NO_COMPATIBLE_VERSION_SUPPORTED =&gt;Messages.MESSAGE.TRAIN_TO_TRACK.NO_COMPATIB
 <Actions>
 <Action
  Guid="cd1114a3-df33-474d-9a13-46aefc831ff4"
->MessageOut_SystemVersion1 &lt;- VersionManagement.Translation.Messages.DowndateMessage( Messages.MESSAGE.TRAIN_TO_TRACK.Message{
+>MessageOut.MessageOut_SystemVersion1 &lt;- VersionManagement.Translation.Messages.DowndateMessage( Messages.MESSAGE.TRAIN_TO_TRACK.Message{
 SESSION_ESTABLISHED =&gt;Messages.MESSAGE.TRAIN_TO_TRACK.SESSION_ESTABLISHED.Message
 {
     NID_MESSAGE =&gt; 159,
@@ -2754,7 +2778,7 @@ NOT EURORADIO.IncomingMessageIsConsistent(ReceivedMessage(THIS))</PreCondition><
 <PreConditions>
 <PreCondition
  Guid="e2742dfc-99b4-4a3e-aacf-41d5f195ccf0"
->Available(MessageOut.TRAIN_POSITION_REPORT)</PreCondition></PreConditions>
+>Available(MessageOut.MessageOut_SystemVersion2.TRAIN_POSITION_REPORT)</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="fde6857a-8e77-4276-8985-1fb52d774b29"
@@ -2765,7 +2789,28 @@ NOT EURORADIO.IncomingMessageIsConsistent(ReceivedMessage(THIS))</PreCondition><
         M_ERROR =&gt; Messages.M_ERROR.Radio__message_consistency_error__ref__3_16_3_1_1a_c
     }
 }
- IN MessageOut.TRAIN_POSITION_REPORT.Sequence1</Action></Actions>
+ IN MessageOut.MessageOut_SystemVersion2.TRAIN_POSITION_REPORT.Sequence1</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Add error packet_SystemVersion1"
+ Guid="c5693070-3dd8-4c7c-aa5b-cd0c5a31fd5b"
+>
+<PreConditions>
+<PreCondition
+ Guid="be45a440-f709-44c1-a5c9-0246266d39fd"
+>Available(MessageOut.MessageOut_SystemVersion1.TRAIN_POSITION_REPORT)</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="f21700c1-f340-4b65-a798-5ec783adce70"
+>INSERT Messages.SystemVersion1.MESSAGE.TRAIN_TO_TRACK.TRAIN_POSITION_REPORT.SubStructure1{
+    ERROR_REPORTING =&gt; VersionManagement.Translation.Packets.ErrorReporting.DowndatedPacket(Messages.PACKET.TRAIN_TO_TRACK.ERROR_REPORTING.Message{
+        NID_PACKET =&gt; 4,
+        L_PACKET =&gt; 0,
+        M_ERROR =&gt; Messages.M_ERROR.Radio__message_consistency_error__ref__3_16_3_1_1a_c
+    }
+)
+}
+ IN MessageOut.MessageOut_SystemVersion1.TRAIN_POSITION_REPORT.Sequence1</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition></Conditions>
@@ -2912,7 +2957,7 @@ NOT EURORADIO.IncomingMessageIsConsistent(ReceivedMessage(THIS))</PreCondition><
 <Actions>
 <Action
  Guid="2091b658-8d3c-4f9f-8a7c-27a0abad7399"
->MessageOut.TRACK_AHEAD_FREE_GRANTED &lt;- Messages.MESSAGE.TRAIN_TO_TRACK.TRACK_AHEAD_FREE_GRANTED.Message
+>MessageOut.MessageOut_SystemVersion2.TRACK_AHEAD_FREE_GRANTED &lt;- Messages.MESSAGE.TRAIN_TO_TRACK.TRACK_AHEAD_FREE_GRANTED.Message
 {
     NID_MESSAGE =&gt; 149,
     L_MESSAGE =&gt; 0,
@@ -2934,7 +2979,7 @@ NOT EURORADIO.IncomingMessageIsConsistent(ReceivedMessage(THIS))</PreCondition><
 <Actions>
 <Action
  Guid="6a0fe074-4693-4031-ad5a-7e83e0521a87"
->MessageOut_SystemVersion1 &lt;- VersionManagement.Translation.Messages.DowndateMessage( Messages.MESSAGE.TRAIN_TO_TRACK.Message{
+>MessageOut.MessageOut_SystemVersion1 &lt;- VersionManagement.Translation.Messages.DowndateMessage( Messages.MESSAGE.TRAIN_TO_TRACK.Message{
 TRACK_AHEAD_FREE_GRANTED =&gt; Messages.MESSAGE.TRAIN_TO_TRACK.TRACK_AHEAD_FREE_GRANTED.Message
 {
     NID_MESSAGE =&gt; 149,
@@ -3019,7 +3064,7 @@ TRACK_AHEAD_FREE_GRANTED =&gt; Messages.MESSAGE.TRAIN_TO_TRACK.TRACK_AHEAD_FREE_
 <Actions>
 <Action
  Guid="74740856-044d-4604-8674-3d69b129c01e"
->MessageOut.REQUEST_TO_SHORTEN_MA_IS_GRANTED &lt;- Messages.MESSAGE.TRAIN_TO_TRACK.REQUEST_TO_SHORTEN_MA_IS_GRANTED.Message
+>MessageOut.MessageOut_SystemVersion2.REQUEST_TO_SHORTEN_MA_IS_GRANTED &lt;- Messages.MESSAGE.TRAIN_TO_TRACK.REQUEST_TO_SHORTEN_MA_IS_GRANTED.Message
 {
     NID_MESSAGE =&gt; 137,
     L_MESSAGE =&gt; 0,
@@ -3042,7 +3087,7 @@ TRACK_AHEAD_FREE_GRANTED =&gt; Messages.MESSAGE.TRAIN_TO_TRACK.TRACK_AHEAD_FREE_
 <Actions>
 <Action
  Guid="44bca1dd-5235-411f-882c-fea5e1a0c194"
->MessageOut_SystemVersion1 &lt;- VersionManagement.Translation.Messages.DowndateMessage( Messages.MESSAGE.TRAIN_TO_TRACK.Message{
+>MessageOut.MessageOut_SystemVersion1 &lt;- VersionManagement.Translation.Messages.DowndateMessage( Messages.MESSAGE.TRAIN_TO_TRACK.Message{
 REQUEST_TO_SHORTEN_MA_IS_GRANTED =&gt;Messages.MESSAGE.TRAIN_TO_TRACK.REQUEST_TO_SHORTEN_MA_IS_GRANTED.Message
 {
     NID_MESSAGE =&gt; 137,
@@ -3128,7 +3173,7 @@ REQUEST_TO_SHORTEN_MA_IS_GRANTED =&gt;Messages.MESSAGE.TRAIN_TO_TRACK.REQUEST_TO
 <Actions>
 <Action
  Guid="161b0fe4-e5f5-4031-ad42-d8dead2fea9a"
->MessageOut.REQUEST_TO_SHORTEN_MA_IS_REJECTED &lt;- Messages.MESSAGE.TRAIN_TO_TRACK.REQUEST_TO_SHORTEN_MA_IS_REJECTED.Message
+>MessageOut.MessageOut_SystemVersion2.REQUEST_TO_SHORTEN_MA_IS_REJECTED &lt;- Messages.MESSAGE.TRAIN_TO_TRACK.REQUEST_TO_SHORTEN_MA_IS_REJECTED.Message
 {
     NID_MESSAGE =&gt; 138,
     L_MESSAGE =&gt; 0,
@@ -3151,7 +3196,7 @@ REQUEST_TO_SHORTEN_MA_IS_GRANTED =&gt;Messages.MESSAGE.TRAIN_TO_TRACK.REQUEST_TO
 <Actions>
 <Action
  Guid="0dba7f94-fe10-4436-876a-669425b3cae2"
->MessageOut_SystemVersion1 &lt;- VersionManagement.Translation.Messages.DowndateMessage( Messages.MESSAGE.TRAIN_TO_TRACK.Message{
+>MessageOut.MessageOut_SystemVersion1 &lt;- VersionManagement.Translation.Messages.DowndateMessage( Messages.MESSAGE.TRAIN_TO_TRACK.Message{
 REQUEST_TO_SHORTEN_MA_IS_REJECTED &lt;- Messages.MESSAGE.TRAIN_TO_TRACK.REQUEST_TO_SHORTEN_MA_IS_REJECTED.Message
 {
     NID_MESSAGE =&gt; 138,
@@ -3236,7 +3281,7 @@ REQUEST_TO_SHORTEN_MA_IS_REJECTED &lt;- Messages.MESSAGE.TRAIN_TO_TRACK.REQUEST_
 <Actions>
 <Action
  Guid="bf147e3b-7386-4f94-9725-2f8ca11d85bf"
->MessageOut.ACKNOWLEDGEMENT &lt;- Messages.MESSAGE.TRAIN_TO_TRACK.ACKNOWLEDGEMENT.Message{
+>MessageOut.MessageOut_SystemVersion2.ACKNOWLEDGEMENT &lt;- Messages.MESSAGE.TRAIN_TO_TRACK.ACKNOWLEDGEMENT.Message{
     NID_MESSAGE =&gt; 146,
     L_MESSAGE =&gt; 0,
     T_TRAIN_0 =&gt; MessageTypes.UnResolveTime(Kernel.DateAndTime.CurrentTime),
@@ -3257,7 +3302,7 @@ REQUEST_TO_SHORTEN_MA_IS_REJECTED &lt;- Messages.MESSAGE.TRAIN_TO_TRACK.REQUEST_
 <Actions>
 <Action
  Guid="205a321f-d3dc-431b-8378-d8e80921b74b"
->MessageOut_SystemVersion1 &lt;- VersionManagement.Translation.Messages.DowndateMessage( Messages.MESSAGE.TRAIN_TO_TRACK.Message{
+>MessageOut.MessageOut_SystemVersion1 &lt;- VersionManagement.Translation.Messages.DowndateMessage( Messages.MESSAGE.TRAIN_TO_TRACK.Message{
     ACKNOWLEDGEMENT =&gt;   Messages.MESSAGE.TRAIN_TO_TRACK.ACKNOWLEDGEMENT.Message{
     NID_MESSAGE =&gt; 146,
     L_MESSAGE =&gt; 0,
@@ -3330,7 +3375,7 @@ REQUEST_TO_SHORTEN_MA_IS_REJECTED &lt;- Messages.MESSAGE.TRAIN_TO_TRACK.REQUEST_
 <Actions>
 <Action
  Guid="7e439f70-a29e-4ea4-99d1-6a99a4174ea3"
->MessageOut.TEXT_MESSAGE_ACKNOWLEDGED_BY_DRIVER &lt;- Messages.MESSAGE.TRAIN_TO_TRACK.TEXT_MESSAGE_ACKNOWLEDGED_BY_DRIVER.Message
+>MessageOut.MessageOut_SystemVersion2.TEXT_MESSAGE_ACKNOWLEDGED_BY_DRIVER &lt;- Messages.MESSAGE.TRAIN_TO_TRACK.TEXT_MESSAGE_ACKNOWLEDGED_BY_DRIVER.Message
 {
   NID_MESSAGE =&gt; 158, 
   L_MESSAGE =&gt; 0, 
@@ -3352,7 +3397,7 @@ REQUEST_TO_SHORTEN_MA_IS_REJECTED &lt;- Messages.MESSAGE.TRAIN_TO_TRACK.REQUEST_
 >
 <Comment>Represents the message received from the current RBC. If no message is received, the structure is EMPTY.</Comment>
 </StructureElement><StructureElement
- TypeName="Messages.MESSAGE.TRAIN_TO_TRACK.Message"
+ TypeName="OutMessageStruct"
  Default="EMPTY"
  Mode="InOut"
  Implemented="TRUE"
@@ -3538,15 +3583,6 @@ REQUEST_TO_SHORTEN_MA_IS_REJECTED &lt;- Messages.MESSAGE.TRAIN_TO_TRACK.REQUEST_
  Guid="309836ef-93e0-4706-ba4e-ae4083cfa138"
 >
 <Comment>Represents the message received from the current RBC. If no message is received, the structure is EMPTY.</Comment>
-</StructureElement><StructureElement
- TypeName="Messages.SystemVersion1.MESSAGE.TRAIN_TO_TRACK.Message"
- Default="EMPTY"
- Mode="InOut"
- Implemented="TRUE"
- Name="MessageOut_SystemVersion1"
- Guid="cef649cb-9dcb-4646-b89f-8eb10281c2ab"
->
-<Comment>Represents the message to send to the current RBC. If no message has to be sent, the structure is EMPTY.</Comment>
 </StructureElement><StateMachines>
 <StateMachine
  Default="EURORADIO.RBCStruct.ConnectionStateSM.Inactive"
@@ -6501,6 +6537,33 @@ After that, if an order to contact an Accepting RBC was received, it will be han
  Guid="d7d54247-aacf-4f1e-b78f-a422ff095cb7"
 >
 <Comment>The priority of the received message.</Comment>
+</StructureElement></Structure><Structure
+ X="111"
+ Y="181"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="OutMessageStruct"
+ Guid="55eb5951-263a-4bc7-b715-7a1f713ed5e5"
+>
+<StructureElement
+ TypeName="Messages.MESSAGE.TRAIN_TO_TRACK.Message"
+ Default="EMPTY"
+ Mode="InOut"
+ Implemented="TRUE"
+ Name="MessageOut_SystemVersion2"
+ Guid="b58e710c-b251-4018-a051-2f0752cf3227"
+>
+<Comment>Represents the message to send to the current RBC. If no message has to be sent, the structure is EMPTY.</Comment>
+</StructureElement><StructureElement
+ TypeName="Messages.SystemVersion1.MESSAGE.TRAIN_TO_TRACK.Message"
+ Default="EMPTY"
+ Mode="InOut"
+ Implemented="TRUE"
+ Name="MessageOut_SystemVersion1"
+ Guid="2fef7ece-8133-490b-b333-0dfc174f1f48"
+>
+<Comment>Represents the message to send to the current RBC. If no message has to be sent, the structure is EMPTY.</Comment>
 </StructureElement></Structure></Structures>
 <Collections>
 <Collection

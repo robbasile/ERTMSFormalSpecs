@@ -5573,7 +5573,9 @@ LinkingUsed</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="1b712eb9-748d-46bf-8c8d-c27d38cd9233"
->(FIRST X IN BTM.CurrentBaliseGroup).Telegram.Q_LINK == Messages.Q_LINK.Linked</PreCondition></PreConditions>
+>(FIRST X IN BTM.CurrentBaliseGroup).Telegram.Q_LINK == Messages.Q_LINK.Linked</PreCondition><PreCondition
+ Guid="ef730bb5-0b67-4d71-b150-1292cafb0287"
+>EURORADIO.CurrentRBCConnection().SessionManagementData.SystemVersion.Value == EURORADIO.SystemVersionEnum.Version2_0</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="a799a8d5-87d6-44ca-89ee-51fdaf8c1bda"
@@ -5584,7 +5586,31 @@ LinkingUsed</PreCondition></PreConditions>
         M_ERROR =&gt; Messages.M_ERROR.Linked_balise_group__message_consistency_error_ref__3_16_2_4_1_4
     }
 }
- IN EURORADIO.CurrentRBCConnection().MessageOut.TRAIN_POSITION_REPORT.Sequence1</Action></Actions>
+ IN EURORADIO.CurrentRBCConnection().MessageOut.MessageOut_SystemVersion2.TRAIN_POSITION_REPORT.Sequence1</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Linked BG_SystemVersion1"
+ Guid="3e74cba3-d389-4956-9be3-24094fe05a0c"
+>
+<Comment>Linked BG.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="66b6bb23-9f8c-4a5c-bcb7-2710421b2c19"
+>(FIRST X IN BTM.CurrentBaliseGroup).Telegram.Q_LINK == Messages.Q_LINK.Linked</PreCondition><PreCondition
+ Guid="3763a112-71a0-49ea-8acd-c500297e8176"
+>EURORADIO.CurrentRBCConnection().SessionManagementData.SystemVersion.Value in [EURORADIO.SystemVersionEnum.Version1_0, EURORADIO.SystemVersionEnum.Version1_1]</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="f80a3366-f1e1-4b11-9f86-04936f4975d6"
+>INSERT VersionManagement.Translation.Messages.TrainPositionReport.DowndatedPackets(Messages.MESSAGE.TRAIN_TO_TRACK.TRAIN_POSITION_REPORT.SubStructure1{
+    ERROR_REPORTING =&gt; Messages.PACKET.TRAIN_TO_TRACK.ERROR_REPORTING.Message{
+        NID_PACKET =&gt; 4,
+        L_PACKET =&gt; 0,
+        M_ERROR =&gt; Messages.M_ERROR.Linked_balise_group__message_consistency_error_ref__3_16_2_4_1_4
+    }
+}
+)
+ IN EURORADIO.CurrentRBCConnection().MessageOut.MessageOut_SystemVersion1.TRAIN_POSITION_REPORT.Sequence1</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Unlinked BG"
@@ -5594,7 +5620,9 @@ LinkingUsed</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="65edcb1c-73ff-444e-a73a-95910c623c13"
->(FIRST X IN BTM.CurrentBaliseGroup).Telegram.Q_LINK == Messages.Q_LINK.Unlinked</PreCondition></PreConditions>
+>(FIRST X IN BTM.CurrentBaliseGroup).Telegram.Q_LINK == Messages.Q_LINK.Unlinked</PreCondition><PreCondition
+ Guid="8fef0a34-9077-40dd-b45b-32573ed3e43a"
+>EURORADIO.CurrentRBCConnection().SessionManagementData.SystemVersion.Value in [EURORADIO.SystemVersionEnum.Version1_0, EURORADIO.SystemVersionEnum.Version1_1]</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="799a57f6-ac42-4626-a3a5-fd1e9fba2324"
@@ -5605,7 +5633,31 @@ LinkingUsed</PreCondition></PreConditions>
         M_ERROR =&gt; Messages.M_ERROR.Unlinked_balise_group__message_consistency_error__ref__3_16_2_5
     }
 }
- IN EURORADIO.CurrentRBCConnection().MessageOut.TRAIN_POSITION_REPORT.Sequence1</Action></Actions>
+ IN EURORADIO.CurrentRBCConnection().MessageOut.MessageOut_SystemVersion2.TRAIN_POSITION_REPORT.Sequence1</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Unlinked BG_1"
+ Guid="acfaeb5f-c5df-4246-8032-b1fad6da6b2b"
+>
+<Comment>Unlinked BG.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="347e046d-6703-45b9-8c5f-b3755b8fd8be"
+>(FIRST X IN BTM.CurrentBaliseGroup).Telegram.Q_LINK == Messages.Q_LINK.Unlinked</PreCondition><PreCondition
+ Guid="7124abde-5674-43a4-a187-97dd1e4adc18"
+>EURORADIO.CurrentRBCConnection().SessionManagementData.SystemVersion.Value in [EURORADIO.SystemVersionEnum.Version1_0, EURORADIO.SystemVersionEnum.Version1_1]</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="fa152397-40d5-46aa-8c00-c16539941f5c"
+>INSERT VersionManagement.Translation.Messages.TrainPositionReport.DowndatedPackets( Messages.MESSAGE.TRAIN_TO_TRACK.TRAIN_POSITION_REPORT.SubStructure1{
+    ERROR_REPORTING =&gt; Messages.PACKET.TRAIN_TO_TRACK.ERROR_REPORTING.Message{
+        NID_PACKET =&gt; 4,
+        L_PACKET =&gt; 0,
+        M_ERROR =&gt; Messages.M_ERROR.Unlinked_balise_group__message_consistency_error__ref__3_16_2_5
+    }
+}
+)
+ IN EURORADIO.CurrentRBCConnection().MessageOut.MessageOut_SystemVersion1.TRAIN_POSITION_REPORT.Sequence1</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition></Conditions>
