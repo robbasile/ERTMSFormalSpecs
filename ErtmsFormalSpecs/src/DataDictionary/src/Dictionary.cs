@@ -861,12 +861,9 @@ namespace DataDictionary
                 EFSSystem.Compiler.Compile_Synchronous(EFSSystem.ShouldRebuild);
                 EFSSystem.ShouldRebuild = false;
 
-                MarkingHistory.PerformMark(() =>
-                {
-                    // Check dead model
-                    UsageChecker visitor = new UsageChecker(this);
-                    visitor.visit(this, true);
-                });
+                // Check dead model
+                UsageChecker visitor = new UsageChecker(this);
+                visitor.visit(this, true);
             });
         }
 

@@ -25,7 +25,7 @@ namespace GUIUtils.LongOperations
         /// </summary>
         public override void ExecuteWork()
         {
-            Util.DontNotify(() =>
+            MarkingHistory.PerformMark(() =>
             {
                 foreach (Dictionary dictionary in EfsSystem.Instance.Dictionaries)
                 {

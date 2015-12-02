@@ -14,7 +14,6 @@
 // --
 // ------------------------------------------------------------------------------
 
-using System.ComponentModel;
 using DataDictionary;
 
 namespace GUIUtils.LongOperations
