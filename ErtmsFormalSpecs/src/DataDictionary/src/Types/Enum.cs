@@ -266,21 +266,26 @@ namespace DataDictionary.Types
         public override bool CompareForEquality(IValue left, IValue right) // left == right
         {
             bool retVal = false;
-            if (left == right)
+
+            if (left != null && right != null)
             {
-                retVal = true;
-            }
-            else if (left.Type is Enum && right.Type is Enum)
-            {
-                // if left is sub-enum of right or right is sub-enum of left,
-                // then we can only compare their names
-                Enum leftTypeEnum = left.Type as Enum;
-                Enum rightTypeEnum = right.Type as Enum;
-                if (leftTypeEnum.SubEnums.Contains(rightTypeEnum) || rightTypeEnum.SubEnums.Contains(leftTypeEnum))
+                if (left == right)
                 {
-                    retVal = left.Name == right.Name;
+                    retVal = true;
+                }
+                else if (left.Type is Enum && right.Type is Enum)
+                {
+                    // if left is sub-enum of right or right is sub-enum of left,
+                    // then we can only compare their names
+                    Enum leftTypeEnum = left.Type as Enum;
+                    Enum rightTypeEnum = right.Type as Enum;
+                    if (leftTypeEnum.SubEnums.Contains(rightTypeEnum) || rightTypeEnum.SubEnums.Contains(leftTypeEnum))
+                    {
+                        retVal = left.Name == right.Name;
+                    }
                 }
             }
+
             return retVal;
         }
 

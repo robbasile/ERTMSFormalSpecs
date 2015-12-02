@@ -91,10 +91,10 @@ namespace DataDictionary.Rules
         /// <param name="value"></param>
         private void ChangeVariableValue(IValue value)
         {
-            Variable.Value = value;
-
-            if (Variable != null)
+            if (!Variable.Type.CompareForEquality(Variable.Value, value))
             {
+                // Only update the variable when the value changes
+                Variable.Value = value;
                 Variable.HandleChange();
             }
         }

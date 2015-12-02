@@ -237,6 +237,16 @@ namespace DataDictionary.Variables
         /// </summary>
         public void HandleChange()
         {
+            StructureValue value = Enclosing as StructureValue;
+            if (value != null)
+            {
+                IVariable variable = value.Enclosing as IVariable;
+                if (variable != null)
+                {
+                    variable.HandleChange();
+                }
+            }
+
             StructureElement.HandleChange();
         }
     }
