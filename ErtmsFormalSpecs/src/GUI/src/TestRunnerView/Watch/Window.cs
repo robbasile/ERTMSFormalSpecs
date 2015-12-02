@@ -21,6 +21,7 @@ using System.Windows.Forms;
 using BrightIdeasSoftware;
 using DataDictionary;
 using DataDictionary.Interpreter;
+using DataDictionary.Tests.Runner;
 using DataDictionary.Values;
 using DataDictionary.Variables;
 using Utils;
@@ -460,6 +461,9 @@ namespace GUI.TestRunnerView.Watch
                                     if (val != null)
                                     {
                                         variable.Value = val;
+                                        CacheImpact cacheImpact = new CacheImpact();
+                                        variable.HandleChange(cacheImpact);
+                                        cacheImpact.ClearCaches(); 
                                     }
                                 }
                             }

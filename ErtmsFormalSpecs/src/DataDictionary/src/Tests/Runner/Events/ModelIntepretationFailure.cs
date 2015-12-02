@@ -38,23 +38,6 @@ namespace DataDictionary.Tests.Runner.Events
         }
 
         /// <summary>
-        ///     Adds this expectation in the list of active expectations in the time line
-        /// </summary>
-        /// <param name="runner"></param>
-        public override void Apply(Runner runner)
-        {
-            base.Apply(runner);
-        }
-
-        /// <summary>
-        ///     Rolls back this event
-        /// </summary>
-        public override void RollBack()
-        {
-            base.RollBack();
-        }
-
-        /// <summary>
         ///     The namespace associated to this event
         /// </summary>
         public override NameSpace NameSpace

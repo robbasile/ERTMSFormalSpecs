@@ -109,6 +109,11 @@ namespace DataDictionary.Variables
             return Parameter.IsParent(element);
         }
 
+        public void ClearCache()
+        {
+            // Nothing to do
+        }
+
         public NameSpace NameSpace
         {
             get { return Parameter.NameSpace; }
@@ -163,8 +168,9 @@ namespace DataDictionary.Variables
             get { return null; }
         }
 
-        public void HandleChange()
+        public void HandleChange(CacheImpact cacheImpact)
         {
+            // Nothing to do
         }
     }
 }

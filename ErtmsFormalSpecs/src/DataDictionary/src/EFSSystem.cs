@@ -1112,6 +1112,13 @@ namespace DataDictionary
         }
 
         /// <summary>
+        /// No caches
+        /// </summary>
+        public void ClearCache()
+        {
+        }
+
+        /// <summary>
         ///     Parses the statement provided
         /// </summary>
         /// <param name="root">the root element for which this statement is created</param>

@@ -68,7 +68,7 @@ namespace DataDictionary.Rules
         {
             if (!Applied)
             {
-                ChangeVariableValue(NewValue);
+                ChangeVariableValue(runner, NewValue);
                 Applied = true;
             }
         }
@@ -76,11 +76,12 @@ namespace DataDictionary.Rules
         /// <summary>
         ///     Rolls back the change
         /// </summary>
-        public void RollBack()
+        /// <param name="runner"></param>
+        public void RollBack(Runner runner)
         {
             if (Applied)
             {
-                ChangeVariableValue(PreviousValue);
+                ChangeVariableValue(runner, PreviousValue);
                 Applied = false;
             }
         }
@@ -88,14 +89,15 @@ namespace DataDictionary.Rules
         /// <summary>
         ///     Changes the value of the corresponding variable
         /// </summary>
+        /// <param name="runner"></param>
         /// <param name="value"></param>
-        private void ChangeVariableValue(IValue value)
+        private void ChangeVariableValue(Runner runner, IValue value)
         {
             if (!Variable.Type.CompareForEquality(Variable.Value, value))
             {
                 // Only update the variable when the value changes
                 Variable.Value = value;
-                Variable.HandleChange();
+                Variable.HandleChange(runner.CacheImpact);
             }
         }
 
@@ -163,6 +165,7 @@ namespace DataDictionary.Rules
                 // To fix this, changes should be unapplied at the end of the procedure call change evaluation to be applied back 
                 // during the activation application.
                 change.Apply(runner);
+                runner.CacheImpact.ClearCaches();
             }
         }
 
@@ -196,11 +199,12 @@ namespace DataDictionary.Rules
         /// <summary>
         ///     Roll back all changes in the list
         /// </summary>
-        public void RollBack()
+        /// <param name="runner"></param>
+        public void RollBack(Runner runner)
         {
             for (int i = Changes.Count - 1; i >= 0; i--)
             {
-                Changes[i].RollBack();
+                Changes[i].RollBack(runner);
             }
         }
 

@@ -855,10 +855,12 @@ namespace GUI.IPCInterface
                     {
                         Util.DontNotify(() =>
                         {
+                            Runner.CacheImpact = new CacheImpact();
                             SyntheticVariableUpdateAction action = new SyntheticVariableUpdateAction(variable,
                                 value.ConvertBack(variable.Type));
                             VariableUpdate variableUpdate = new VariableUpdate(action, null, null);
                             Runner.EventTimeLine.AddModelEvent(variableUpdate, Runner, true);
+                            Runner.ClearCaches();
                         });
                     }
                     else
@@ -895,10 +897,12 @@ namespace GUI.IPCInterface
                         {
                             Util.DontNotify(() =>
                             {
+                                Runner.CacheImpact = new CacheImpact();
                                 Action action = (Action) acceptor.getFactory().createAction();
                                 action.ExpressionText = statementText;
                                 VariableUpdate variableUpdate = new VariableUpdate(action, null, null);
                                 Runner.EventTimeLine.AddModelEvent(variableUpdate, Runner, true);
+                                Runner.ClearCaches();
                             });
                         }
                     }

@@ -92,10 +92,11 @@ namespace DataDictionary.Tests.Runner.Events
         /// <summary>
         ///     Rollsback the changes performed during this event
         /// </summary>
-        public override void RollBack()
+        /// <param name="runner"></param>
+        public override void RollBack(Runner runner)
         {
-            base.RollBack();
-            Changes.RollBack();
+            base.RollBack(runner);
+            Changes.RollBack(runner);
         }
 
         /// <summary>

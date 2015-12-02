@@ -14,13 +14,15 @@
 // --
 // ------------------------------------------------------------------------------
 
+using System.Collections.Generic;
+using DataDictionary.Tests.Runner;
 using DataDictionary.Types;
 using DataDictionary.Values;
 using Utils;
 
 namespace DataDictionary.Variables
 {
-    public interface IVariable : IModelElement, ITypedElement, ISubDeclarator
+    public interface IVariable : ITypedElement, ISubDeclarator
     {
         /// <summary>
         ///     Provides the value of the variable
@@ -35,7 +37,8 @@ namespace DataDictionary.Variables
         /// <summary>
         /// Actions to be taken when the value of the variable changes
         /// </summary>
-        void HandleChange();
+        /// <param name="references"></param>
+        void HandleChange(CacheImpact references);
 
     }
 }

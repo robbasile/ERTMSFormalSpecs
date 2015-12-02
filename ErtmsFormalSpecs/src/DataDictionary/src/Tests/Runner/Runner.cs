@@ -55,6 +55,11 @@ namespace DataDictionary.Tests.Runner
         public SubSequence SubSequence { get; private set; }
 
         /// <summary>
+        /// The model elements for which the cache should be cleaned
+        /// </summary>
+        public CacheImpact CacheImpact { get; set; }
+
+        /// <summary>
         ///     The step between two activations
         /// </summary>
         private double _step = 0.1;
@@ -369,7 +374,7 @@ namespace DataDictionary.Tests.Runner
         {
             Util.DontNotify(() =>
             {
-
+                CacheImpact = new CacheImpact();
                 CurrentPriority = priority;
 
                 // Activates the processing engine
@@ -385,6 +390,7 @@ namespace DataDictionary.Tests.Runner
                 List<VariableUpdate> updates = new List<VariableUpdate>();
                 EvaluateActivations(activations, priority, ref updates);
                 ApplyUpdates(updates);
+                ClearCaches();
                 CheckExpectationsState(priority);
             });
         }
@@ -786,6 +792,15 @@ namespace DataDictionary.Tests.Runner
         }
 
         /// <summary>
+        /// Clears the cache of all impacted elements
+        /// </summary>
+        public void ClearCaches()
+        {
+            CacheImpact.ClearCaches();
+            CacheImpact = null;
+        }
+
+        /// <summary>
         ///     Setups the sub-step by applying its actions and adding its expects in the expect list
         /// </summary>
         public void SetupSubStep(SubStep subStep)
@@ -797,7 +812,9 @@ namespace DataDictionary.Tests.Runner
                 // No setup can occur when some expectations are still active
                 if (!EventTimeLine.ContainsSubStep(subStep))
                 {
+                    CacheImpact = new CacheImpact();
                     EventTimeLine.AddModelEvent(new SubStepActivated(subStep, CurrentPriority), this, true);
+                    ClearCaches();
                 }
             });
         }
@@ -1335,7 +1352,9 @@ namespace DataDictionary.Tests.Runner
         /// </summary>
         public void StepBack()
         {
-            EventTimeLine.StepBack(_step);
+            CacheImpact = new CacheImpact();
+            EventTimeLine.StepBack(this, _step);
+            ClearCaches();
             _currentSubStepIndex = RebuildCurrentSubStep;
             _currentStepIndex = RebuildCurrentSubStep;
             _currentTestCaseIndex = RebuildCurrentSubStep;

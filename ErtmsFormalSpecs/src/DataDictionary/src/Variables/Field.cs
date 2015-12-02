@@ -133,6 +133,11 @@ namespace DataDictionary.Variables
             return StructureElement.IsParent(element);
         }
 
+        public void ClearCache()
+        {
+            // Nothing to do
+        }
+
         /// <summary>
         /// The structure element for which this field is built
         /// </summary>
@@ -235,7 +240,8 @@ namespace DataDictionary.Variables
         /// <summary>
         /// Actions to be taken when the variable's value changes
         /// </summary>
-        public void HandleChange()
+        /// <param name="cacheImpact"></param>
+        public void HandleChange(CacheImpact cacheImpact)
         {
             StructureValue value = Enclosing as StructureValue;
             if (value != null)
@@ -243,11 +249,11 @@ namespace DataDictionary.Variables
                 IVariable variable = value.Enclosing as IVariable;
                 if (variable != null)
                 {
-                    variable.HandleChange();
+                    variable.HandleChange(cacheImpact);
                 }
             }
 
-            StructureElement.HandleChange();
+            StructureElement.HandleChange(cacheImpact);
         }
     }
 }

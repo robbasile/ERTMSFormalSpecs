@@ -17,6 +17,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using XmlBooster;
 
 namespace Utils
@@ -107,6 +108,11 @@ namespace Utils
         /// <param name="element"></param>
         /// <returns></returns>
         bool IsParent(IModelElement element);
+
+        /// <summary>
+        /// Clears the caches of this model element
+        /// </summary>
+        void ClearCache();
     }
 
     public abstract class ModelElement : XmlBBase, IModelElement
@@ -524,13 +530,14 @@ namespace Utils
         /// <summary>
         ///     Handles a change of the model element by invalidating the cache of all element in CacheDependancy
         /// </summary>
-        public virtual void HandleChange()
+        /// <param name="cacheImpact"></param>
+        public virtual void HandleChange(CacheImpact cacheImpact)
         {
             if (CacheDependancy != null)
             {
                 foreach (ModelElement element in CacheDependancy)
                 {
-                    element.ClearCache();
+                    cacheImpact.Add(element);
                 }
             }
         }

@@ -165,8 +165,9 @@ namespace DataDictionary.Tests.Runner.Events
         /// <summary>
         ///     Steps one step backward
         /// </summary>
+        /// <param name="runner"></param>
         /// <param name="time">the time to step back</param>
-        public void StepBack(double time)
+        public void StepBack(Runner runner, double time)
         {
             Changed = true;
             CurrentTime = CurrentTime - time;
@@ -184,7 +185,7 @@ namespace DataDictionary.Tests.Runner.Events
                 }
                 else
                 {
-                    evt.RollBack();
+                    evt.RollBack(runner);
                     Events.Remove(evt);
                 }
             }

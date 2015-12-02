@@ -73,9 +73,10 @@ namespace DataDictionary.Tests.Runner.Events
         /// <summary>
         ///     Rollsback the changes performed during this event
         /// </summary>
-        public override void RollBack()
+        /// <param name="runner"></param>
+        public override void RollBack(Runner runner)
         {
-            base.RollBack();
+            base.RollBack(runner);
 
             Expect.State = PrevState;
         }
@@ -123,9 +124,10 @@ namespace DataDictionary.Tests.Runner.Events
         /// <summary>
         ///     Rollsback the changes performed during this event
         /// </summary>
-        public override void RollBack()
+        /// <param name="runner"></param>
+        public override void RollBack(Runner runner)
         {
-            base.RollBack();
+            base.RollBack(runner);
 
             TimeLine.ActiveExpectations.Add(Expect);
             Expect.Expectation.RemoveLog(ElementLog);
@@ -163,11 +165,12 @@ namespace DataDictionary.Tests.Runner.Events
         /// <summary>
         ///     Rolls back the changes for this expectation
         /// </summary>
-        public override void RollBack()
+        /// <param name="runner"></param>
+        public override void RollBack(Runner runner)
         {
             TimeLine.ActiveExpectations.Add(Expect);
 
-            base.RollBack();
+            base.RollBack(runner);
         }
     }
 }

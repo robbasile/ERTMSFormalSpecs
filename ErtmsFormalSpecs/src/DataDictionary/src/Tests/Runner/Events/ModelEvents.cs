@@ -140,7 +140,8 @@ namespace DataDictionary.Tests.Runner.Events
         /// <summary>
         ///     Rollsback the changes performed during this event
         /// </summary>
-        public virtual void RollBack()
+        /// <param name="runner"></param>
+        public virtual void RollBack(Runner runner)
         {
             // By default, nothing to rollback
         }

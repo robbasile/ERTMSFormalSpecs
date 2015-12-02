@@ -104,11 +104,12 @@ namespace DataDictionary.Tests.Runner.Events
         /// <summary>
         ///     Rolls back this event
         /// </summary>
-        public override void RollBack()
+        /// <param name="runner"></param>
+        public override void RollBack(Runner runner)
         {
             TimeLine.ActiveExpectations.Remove(this);
 
-            base.RollBack();
+            base.RollBack(runner);
         }
     }
 }

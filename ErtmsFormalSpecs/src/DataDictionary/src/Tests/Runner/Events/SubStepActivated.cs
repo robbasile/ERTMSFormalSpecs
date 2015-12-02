@@ -137,11 +137,12 @@ namespace DataDictionary.Tests.Runner.Events
         /// <summary>
         ///     Rolls back this step be removing it from the cache
         /// </summary>
-        public override void RollBack()
+        /// <param name="runner"></param>
+        public override void RollBack(Runner runner)
         {
             TimeLine.SubStepActivationCache.Remove(SubStep);
 
-            base.RollBack();
+            base.RollBack(runner);
         }
     }
 }

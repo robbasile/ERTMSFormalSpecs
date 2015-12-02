@@ -238,6 +238,13 @@ namespace DataDictionary.Values
         }
 
         /// <summary>
+        /// Nothing to do
+        /// </summary>
+        public void ClearCache()
+        {
+        }
+
+        /// <summary>
         ///     Builds the explanation of the element
         /// </summary>
         /// <param name="explanation"></param>

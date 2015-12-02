@@ -530,14 +530,18 @@ namespace DataDictionary.Variables
             set { setPinned(value); }
         }
 
-        public override void HandleChange()
+        /// <summary>
+        /// Handles the changes for this variable
+        /// </summary>
+        /// <param name="cacheImpact"></param>
+        public override void HandleChange(CacheImpact cacheImpact)
         {
-            base.HandleChange();
+            base.HandleChange(cacheImpact);
 
             Structure structure = Type as Structure;
             if (structure != null)
             {
-                structure.HandleChange();
+                structure.HandleChange(cacheImpact);
             }
 
             StructureValue enclosingStructureValue = Enclosing as StructureValue;
@@ -546,7 +550,7 @@ namespace DataDictionary.Variables
                 IVariable enclosingVariable = enclosingStructureValue.Enclosing as IVariable;
                 if (enclosingVariable != null)
                 {
-                    enclosingVariable.HandleChange();
+                    enclosingVariable.HandleChange(cacheImpact);
                 }
             }
         }

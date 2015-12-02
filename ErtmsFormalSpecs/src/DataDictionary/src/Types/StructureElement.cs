@@ -329,10 +329,11 @@ namespace DataDictionary.Types
         /// <summary>
         ///     Handles a change of the model element by invalidating the cache of all element in CacheDependancy
         /// </summary>
-        public override void HandleChange()
+        /// <param name="cacheImpact"></param>
+        public override void HandleChange(CacheImpact cacheImpact)
         {
-            base.HandleChange();
-            Structure.HandleChange();
+            base.HandleChange(cacheImpact);
+            Structure.HandleChange(cacheImpact);
         }
 
         /// <summary>

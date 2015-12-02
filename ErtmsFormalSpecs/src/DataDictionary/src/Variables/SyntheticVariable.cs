@@ -130,6 +130,11 @@ namespace DataDictionary.Variables
             return false;
         }
 
+        public void ClearCache()
+        {
+            // Nothing to do
+        }
+
         /// <summary>
         /// The structure element for which this field is built
         /// </summary>
@@ -227,9 +232,10 @@ namespace DataDictionary.Variables
         /// <summary>
         /// Actions to be taken when the variable's value changes
         /// </summary>
-        public void HandleChange()
+        /// <param name="cacheImpact"></param>
+        public void HandleChange(CacheImpact cacheImpact)
         {
-            Type.HandleChange();
+            Type.HandleChange(cacheImpact);
         }
     }
 }
