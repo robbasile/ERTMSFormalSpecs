@@ -840,12 +840,9 @@ namespace DataDictionary
                     EFSSystem.Compiler.Compile_Synchronous(EFSSystem.ShouldRebuild);
                     EFSSystem.ShouldRebuild = false;
 
-                    MarkingHistory.PerformMark(() =>
-                    {
-                        // Check rules
-                        RuleCheckerVisitor visitor = new RuleCheckerVisitor(this);
-                        visitor.visit(this, true);
-                    });
+                    // Check rules
+                    RuleCheckerVisitor visitor = new RuleCheckerVisitor(this);
+                    visitor.visit(this, true);
                 }
                 catch (Exception)
                 {

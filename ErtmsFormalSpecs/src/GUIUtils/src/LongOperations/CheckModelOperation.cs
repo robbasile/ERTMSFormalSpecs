@@ -25,10 +25,13 @@ namespace GUIUtils.LongOperations
         /// </summary>
         public override void ExecuteWork()
         {
-            foreach (Dictionary dictionary in EfsSystem.Instance.Dictionaries)
+            MarkingHistory.PerformMark(() =>
             {
-                dictionary.CheckRules();
-            }
+                foreach (Dictionary dictionary in EfsSystem.Instance.Dictionaries)
+                {
+                    dictionary.CheckRules();
+                }
+            });
         }
     }
 }
