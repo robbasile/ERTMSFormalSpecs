@@ -11,6 +11,7 @@
 <Functions>
 <Function
  Type="Boolean"
+ Default=""
  X="111"
  Y="1"
  Width="100"
@@ -73,6 +74,7 @@
 </ReqRef><Comment>Handles all the deleted or reset information on mode change.</Comment>
 <Rules>
 <Rule
+ Priority="Processing"
  Implemented="TRUE"
  Name="Handle National Values"
  Guid="c42f0a6e-4f26-4007-9865-95daee50f3b8"
@@ -85,6 +87,7 @@
 </ReqRef><Comment>National values are always unchanged (since &quot;NR&quot; is considered the same as &quot;U&quot;)</Comment>
 <SubRules></SubRules>
 </Rule><Rule
+ Priority="Processing"
  Implemented="TRUE"
  Name="Handle Not yet applicable National Values"
  Guid="55e5fa54-105b-4fa5-b539-ecf5e27768f9"
@@ -112,6 +115,7 @@
 >DeleteInformation(Kernel.NationalValues.NotApplicableNationalValues)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
+ Priority="Processing"
  Implemented="TRUE"
  Name="Handle Linking"
  Guid="f79c567f-e5ca-4f50-9ddf-672c8fdfaba1"
@@ -139,6 +143,7 @@
 >BTM.Linking.Linkings &lt;- []</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
+ Priority="Processing"
  Implemented="TRUE"
  Name="Handle Movement Authority"
  Guid="fdee097b-5c44-4dfc-8642-a77e2c06caf4"
@@ -171,6 +176,7 @@
 >Kernel.MA.MA &lt;- EMPTY</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
+ Priority="Processing"
  Implemented="TRUE"
  Name="Handle Gradient Profile"
  Guid="008b6cfb-1642-4bcd-817c-c5de4cc750d4"
@@ -203,6 +209,7 @@
 >Kernel.TrackDescription.Gradient.Gradients &lt;- []</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
+ Priority="Processing"
  Implemented="TRUE"
  Name="Handle International SSP"
  Guid="a50646b0-5b9b-4e23-b00f-f33c1d3add66"
@@ -235,6 +242,7 @@
 >Kernel.TrackDescription.StaticSpeedProfile.SSP &lt;- []</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
+ Priority="Processing"
  Implemented="TRUE"
  Name="Handle Axle load speed profile"
  Guid="0723e2ee-e8cb-4631-b60a-4b4b817ab48e"
@@ -271,6 +279,7 @@
 }</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
+ Priority="Processing"
  Implemented="TRUE"
  Name="Handle STM max speed"
  Guid="30d0428b-09a3-4229-aaff-eabb6e7fbc15"
@@ -302,6 +311,7 @@
 }</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
+ Priority="Processing"
  Implemented="TRUE"
  Name="Handle STM system speed/distance"
  Guid="d0df241e-fc14-438c-be63-574d6e2a84d1"
@@ -333,6 +343,7 @@ Distance =&gt; BaseTypes.Distance.Unknown
 }</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
+ Priority="Processing"
  Implemented="TRUE"
  Name="Handle Level Transition Order"
  Guid="fdcb6290-98ad-46ae-929b-f561a3f00cf6"
@@ -362,6 +373,7 @@ Distance =&gt; BaseTypes.Distance.Unknown
 >Kernel.LevelTransition.LevelTransitionToProcess &lt;- EMPTY</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
+ Priority="Processing"
  Implemented="TRUE"
  Name="Handle Stop Shunting on desk opening"
  Guid="4d922aaf-9986-415e-9427-f3caf03d279f"
@@ -389,6 +401,7 @@ Distance =&gt; BaseTypes.Distance.Unknown
 >Kernel.Modes.Shunting.StopShuntingOnDeskOpening &lt;- Boolean.False</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
+ Priority="Processing"
  Implemented="TRUE"
  Name="Handle List of balises for SH area"
  Guid="37024921-e65b-4ba1-85be-c1730d2ed2e9"
@@ -419,6 +432,7 @@ BGs =&gt; []
 }</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
+ Priority="Processing"
  Implemented="TRUE"
  Name="Handle MA Request Parameters"
  Guid="fe023574-eecb-4c80-9777-67ed38525837"
@@ -446,6 +460,7 @@ BGs =&gt; []
 >Kernel.MA.MARequest.MARequestParameters &lt;- EMPTY</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
+ Priority="Processing"
  Implemented="TRUE"
  Name="Handle Position Report parameters"
  Guid="d71fc9ba-0f84-41ac-85c4-2a13a7832594"
@@ -473,6 +488,7 @@ BGs =&gt; []
 >DeleteInformation(EURORADIO.PositionReport.PositionReportParameters)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
+ Priority="Processing"
  Implemented="TRUE"
  Name="Handle List of Balises in SR Authority + SR mode speed limit and distance"
  Guid="9b9c02eb-02af-453d-94df-11e082b152c1"
@@ -502,6 +518,7 @@ BGs =&gt; []
 >Kernel.Modes.ModeRelatedSpeedLimits.TracksideModeRelatedSpeedRestrictions.SR &lt;- Default.BaseTypes.Speed.NA</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
+ Priority="Processing"
  Implemented="TRUE"
  Name="Handle Temporary Speed Restriction"
  Guid="48d09c47-c0de-4d84-9ac8-f9bf885e1f40"
@@ -529,6 +546,7 @@ BGs =&gt; []
 >Kernel.TSR.TSRs &lt;- []</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
+ Priority="Processing"
  Implemented="TRUE"
  Name="Handle Inhibition of revocable TSRs from balises in L2/3"
  Guid="b5a8a7b9-2528-4ca8-924c-1e332a4afa19"
@@ -556,6 +574,7 @@ BGs =&gt; []
 >Kernel.TSR.InhibitRevocableTSRsFromBalises &lt;- Boolean.False</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
+ Priority="Processing"
  Implemented="TRUE"
  Name="Handle Default Gradient for TSR"
  Guid="e66acf7a-16cb-4100-8d22-5c3412bcdf1a"
@@ -583,6 +602,7 @@ BGs =&gt; []
 >Kernel.TrackDescription.Gradient.DefaultGradientForTSR &lt;- EMPTY</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
+ Priority="Processing"
  Implemented="TRUE"
  Name="Handle Signalling related Speed Restriction"
  Guid="6f4c779d-dd4e-4260-8790-367e6127fa1d"
@@ -613,6 +633,7 @@ End =&gt; BaseTypes.Distance.Unknown
 }</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
+ Priority="Processing"
  Implemented="TRUE"
  Name="Handle Route Suitability Data"
  Guid="a177dafa-0b69-4574-80b8-f1a740a82b7a"
@@ -649,6 +670,7 @@ End =&gt; BaseTypes.Distance.Unknown
 }</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
+ Priority="Processing"
  Implemented="TRUE"
  Name="Handle Adhesion Factors"
  Guid="d171824f-953d-446c-8b0f-8778988b2f55"
@@ -686,6 +708,7 @@ End =&gt; BaseTypes.Distance.Unknown
 >Kernel.TrackDescription.AdhesionFactors.AdhFactors &lt;- []</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
+ Priority="Processing"
  Implemented="TRUE"
  Name="Handle Plain Text Information"
  Guid="5f88d717-5d2b-4a6a-bc37-7f0379c6a6a3"
@@ -713,6 +736,7 @@ End =&gt; BaseTypes.Distance.Unknown
 >Kernel.PlainTextInformation &lt;- &apos;&apos;</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
+ Priority="Processing"
  Implemented="TRUE"
  Name="Handle Fixed Text Information"
  Guid="a8072633-1b24-4d57-ab79-4a01a95f5524"
@@ -740,6 +764,7 @@ End =&gt; BaseTypes.Distance.Unknown
 >Kernel.FixedTextInformation &lt;- &apos;&apos;</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
+ Priority="Processing"
  Implemented="TRUE"
  Name="Handle Geographical Position"
  Guid="a586419f-3c90-409a-88fe-d236d7f1f791"
@@ -767,6 +792,7 @@ End =&gt; BaseTypes.Distance.Unknown
 >Kernel.GeographicalPosition.GeographicalPositionInformation &lt;- []</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
+ Priority="Processing"
  Implemented="TRUE"
  Name="Handle Mode Profile"
  Guid="24263de3-0c4b-4025-8e2d-cf439c2c7798"
@@ -794,6 +820,7 @@ End =&gt; BaseTypes.Distance.Unknown
 >Kernel.MA.ModeProfile.Profile &lt;- []</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
+ Priority="Processing"
  Implemented="TRUE"
  Name="Handle RBC Transition Order"
  Guid="af7c6858-a79d-48b3-a2df-8b307a80544d"
@@ -821,6 +848,7 @@ End =&gt; BaseTypes.Distance.Unknown
 >EURORADIO.SecondaryTerminal().AcceptingRBCContactOrder &lt;- EMPTY</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
+ Priority="Processing"
  Name="Handle Radio Infill Area information"
  Guid="113ad32b-efc9-408d-9e33-298a3af482c9"
 >
@@ -844,6 +872,7 @@ End =&gt; BaseTypes.Distance.Unknown
 </Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
+ Priority="Processing"
  Name="Handle EOLM information"
  Guid="019e3e1f-da7f-40ea-b310-cdd986de2e0d"
 >
@@ -867,6 +896,7 @@ End =&gt; BaseTypes.Distance.Unknown
 </Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
+ Priority="Processing"
  Implemented="TRUE"
  Name="Handle Track Conditions 1"
  Guid="0e721665-38cb-4fc4-b13b-4af1800424fd"
@@ -906,6 +936,7 @@ End =&gt; BaseTypes.Distance.Unknown
 >Kernel.TrackDescription.TrackConditions.General.TCProfile &lt;- MAP Kernel.TrackDescription.TrackConditions.General.TCProfile USING X IN Kernel.TrackDescription.TrackConditions.General.HandleTCPwhenEnteringGivenMode1( X )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
+ Priority="Processing"
  Implemented="TRUE"
  Name="Handle Track Conditions 2"
  Guid="45888872-8b5a-4ce6-90ff-90c44d1cbd8b"
@@ -945,6 +976,7 @@ End =&gt; BaseTypes.Distance.Unknown
 >Kernel.TrackDescription.TrackConditions.General.TCProfile&lt;- MAP Kernel.TrackDescription.TrackConditions.General.TCProfile USING X IN Kernel.TrackDescription.TrackConditions.General.HandleTCPwhenEnteringGivenMode2( X )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
+ Priority="Processing"
  Implemented="TRUE"
  Name="Handle Track condition big metal masses"
  Guid="b4d771b3-74ac-459e-a5eb-b6b56702d49c"
@@ -979,6 +1011,7 @@ End =&gt; BaseTypes.Distance.Unknown
 >Kernel.TrackDescription.TrackConditions.BigMetalMasses.TCBigMetalMasses &lt;- []</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
+ Priority="Processing"
  Implemented="TRUE"
  Name="Handle Unconditional Emergency Stops"
  Guid="bd652071-cf72-437e-9250-d82d4d78f845"
@@ -1006,6 +1039,7 @@ End =&gt; BaseTypes.Distance.Unknown
 >REMOVE ALL (NOT X.IsConditional) IN BrakeCommands.EmergencyStops</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
+ Priority="Processing"
  Implemented="TRUE"
  Name="Handle Conditional Emergency Stops"
  Guid="20aa3965-a886-420e-98fe-50f51feb10b0"
@@ -1033,6 +1067,7 @@ End =&gt; BaseTypes.Distance.Unknown
 >REMOVE ALL X.IsConditional IN BrakeCommands.EmergencyStops</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
+ Priority="Processing"
  Implemented="TRUE"
  Name="Handle Train Position"
  Guid="ccad0e0f-38a9-4883-a6d4-f3bbc329003e"
@@ -1060,6 +1095,7 @@ End =&gt; BaseTypes.Distance.Unknown
 >InvalidateInformation(Kernel.TrainPosition.Position)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
+ Priority="Processing"
  Implemented="TRUE"
  Name="Handle Train Data"
  Guid="b5ecf93a-97fe-4f39-bca3-8aa51d036e47"
@@ -1107,6 +1143,7 @@ End =&gt; BaseTypes.Distance.Unknown
 >InvalidateInformation(TrainData.TrainData)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
+ Priority="Processing"
  Implemented="TRUE"
  Name="Handle ERTMS/ETCS level"
  Guid="b3f6cdf8-805b-40ce-afef-882f407a489d"
@@ -1134,6 +1171,7 @@ End =&gt; BaseTypes.Distance.Unknown
 >InvalidateInformation(Kernel.Level)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
+ Priority="Processing"
  Name="Handle Table of priority of trackside supported levels"
  Guid="63a1621f-26fe-4c62-8a0e-eeb8b90129f4"
 >
@@ -1158,6 +1196,7 @@ End =&gt; BaseTypes.Distance.Unknown
 </Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
+ Priority="Processing"
  Implemented="TRUE"
  Name="Handle Driver ID"
  Guid="68b82cbc-37de-4344-b51e-324b118ff8b5"
@@ -1200,6 +1239,7 @@ End =&gt; BaseTypes.Distance.Unknown
 >InvalidateInformation(Kernel.DriverId)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
+ Priority="Processing"
  Implemented="TRUE"
  Name="Handle Radio Network ID"
  Guid="6225c74e-c88a-45fe-b5fa-4486908502c1"
@@ -1212,6 +1252,7 @@ End =&gt; BaseTypes.Distance.Unknown
 </ReqRef><Comment>The Radio Network ID is always unchanged (since &quot;NR&quot; is considered the same as &quot;U&quot;)</Comment>
 <SubRules></SubRules>
 </Rule><Rule
+ Priority="Processing"
  Implemented="TRUE"
  Name="Handle RBC ID/Phone Number"
  Guid="bd82da1f-3440-4082-a81c-007787a891ae"
@@ -1254,6 +1295,7 @@ End =&gt; BaseTypes.Distance.Unknown
 >InvalidateInformation(EURORADIO.CurrentRBCConnection().ContactData)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
+ Priority="Processing"
  Implemented="TRUE"
  Name="Handle Train Running Number"
  Guid="16504d29-2bef-4b3e-8279-b9bd7f3ff9dc"
@@ -1296,6 +1338,7 @@ End =&gt; BaseTypes.Distance.Unknown
 >InvalidateInformation(Kernel.TrainRunningNumber)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
+ Priority="Processing"
  Implemented="TRUE"
  Name="Handle Reversing Area Information"
  Guid="cbcd26bc-a7d0-4d9a-a9aa-7bd381816e3a"
@@ -1328,6 +1371,7 @@ End =&gt; BaseTypes.Distance.Unknown
 >Kernel.TrackDescription.ReversingArea.ReversingAreaProfile &lt;- EMPTY</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
+ Priority="Processing"
  Implemented="TRUE"
  Name="Handle Reversing Supervision Information"
  Guid="33464c48-567f-4234-8c71-fab79b8e18ff"
@@ -1359,6 +1403,7 @@ End =&gt; BaseTypes.Distance.Unknown
 >Kernel.TrackDescription.ReversingArea.ReversingAreaProfile.MaxDistance &lt;- Default.BaseTypes.Distance.Unknown</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
+ Priority="Processing"
  Implemented="TRUE"
  Name="Handle Track Ahead Free Request"
  Guid="1e39850c-2d75-468d-bbc3-f58382fedd81"
@@ -1386,6 +1431,7 @@ End =&gt; BaseTypes.Distance.Unknown
 >Kernel.TrackAheadFree.TrackAheadFreeRequest &lt;- EMPTY</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
+ Priority="Processing"
  Implemented="TRUE"
  Name="Handle Permitted Braking Distance Information"
  Guid="aff11fb8-d3f5-4a16-bda5-704ec341a1c5"
@@ -1418,6 +1464,7 @@ End =&gt; BaseTypes.Distance.Unknown
 >Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.SpeedRestrictions &lt;- []</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
+ Priority="Processing"
  Implemented="TRUE"
  Name="Handle Level Crossing information"
  Guid="1afb4b5b-f967-4e05-b2e2-3a3bc2e09d3f"
@@ -1447,6 +1494,7 @@ End =&gt; BaseTypes.Distance.Unknown
 >Kernel.LX.SupervisedLevelCrossings &lt;- []</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
+ Priority="Processing"
  Implemented="TRUE"
  Name="Handle RBC/RIU System Version"
  Guid="ae7a09da-7bd1-4c19-aa06-684b1e4c1d16"
@@ -1474,6 +1522,7 @@ End =&gt; BaseTypes.Distance.Unknown
 >DeleteInformation(EURORADIO.CurrentRBCConnection().SessionManagementData.SystemVersion)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
+ Priority="Processing"
  Implemented="TRUE"
  Name="Handle Operated System Version"
  Guid="25fa7716-cba0-45d5-b8a2-3365bb52b21f"
@@ -1486,6 +1535,7 @@ End =&gt; BaseTypes.Distance.Unknown
 </ReqRef><Comment>The Operated System Version is always unchanged (since &quot;NR&quot; is considered the same as &quot;U&quot;)</Comment>
 <SubRules></SubRules>
 </Rule><Rule
+ Priority="Processing"
  Implemented="TRUE"
  Name="Handle Virtual Balise Covers"
  Guid="b5c4f0d5-1e46-4ff7-9cb1-8a617110c3db"
@@ -1498,6 +1548,7 @@ End =&gt; BaseTypes.Distance.Unknown
 </ReqRef><Comment>The Virtual Balise Covers are always unchanged (since &quot;NR&quot; is considered the same as &quot;U&quot;)</Comment>
 <SubRules></SubRules>
 </Rule><Rule
+ Priority="Processing"
  Implemented="TRUE"
  Name="Handle Language used to display information to the driver"
  Guid="ab68f8e2-c1bb-47aa-91ec-9d9562c9b20a"
@@ -1510,6 +1561,7 @@ End =&gt; BaseTypes.Distance.Unknown
 </ReqRef><Comment>The Language used to display information to the driver is always unchanged (since &quot;NR&quot; is considered the same as &quot;U&quot;)</Comment>
 <SubRules></SubRules>
 </Rule><Rule
+ Priority="Processing"
  Implemented="TRUE"
  Name="Handle Generic LS function marker"
  Guid="3feff474-8adc-4a4e-8f94-0cbe6b5a5358"
@@ -1522,6 +1574,7 @@ End =&gt; BaseTypes.Distance.Unknown
 </ReqRef><Comment>The Generic LS function marker is always unchanged (since &quot;NR&quot; is considered the same as &quot;U&quot;)</Comment>
 <SubRules></SubRules>
 </Rule><Rule
+ Priority="Processing"
  Implemented="TRUE"
  Name="Handle LSSMA display toggle on order"
  Guid="895d0366-c883-49cb-87a8-f3cfce1f98e8"
@@ -1596,6 +1649,7 @@ End =&gt; BaseTypes.Distance.Unknown
 </ReqRef><Comment>Applies or releases the emergency brake due to the mode; in NP, SF and TR modes the emergency brake must remain applied at all times.</Comment>
 <Rules>
 <Rule
+ Priority="Processing"
  Implemented="TRUE"
  Name="Handle the brake command"
  Guid="792bc9d0-ff68-4941-b2c6-65d4ba175fed"

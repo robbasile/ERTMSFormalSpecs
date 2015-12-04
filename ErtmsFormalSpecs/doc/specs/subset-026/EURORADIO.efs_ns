@@ -599,6 +599,7 @@ Keep the reason for it to be displayed to the driver.</Comment>
 >InitializeOutMessage()</Action></Actions>
 <SubRules>
 <Rule
+ Priority="Processing"
  Implemented="TRUE"
  Name="Prepare message"
  Guid="0a4339b6-f580-4dca-a29e-5b02266c4bfb"
@@ -2745,6 +2746,7 @@ NOT EURORADIO.IncomingMessageIsConsistent(UpdatedMessageIn(THIS))</PreCondition>
 >InitializeOutMessage()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
+ Priority="Processing"
  Implemented="TRUE"
  Name="Handle sending of the message"
  Guid="f1d246ca-ee29-4bc5-aea1-72090b9b81d8"
@@ -2781,6 +2783,7 @@ NOT EURORADIO.IncomingMessageIsConsistent(UpdatedMessageIn(THIS))</PreCondition>
 >
 <Rules>
 <Rule
+ Priority="Processing"
  Implemented="TRUE"
  Name="SystemVersion1"
  Guid="bdb2d3b1-f022-4196-b9ae-f61b9eb71e48"
@@ -7187,6 +7190,7 @@ Available(UpdatedReceivedMessage(aRBC).UNCONDITIONAL_EMERGENCY_STOP)</Expression
 </Case></Cases>
 </Function><Function
  Type="Boolean"
+ Default=""
  X="660"
  Y="720"
  Width="100"
@@ -7219,6 +7223,7 @@ Available(UpdatedReceivedMessage(aRBC).UNCONDITIONAL_EMERGENCY_STOP)</Expression
 </Case></Cases>
 </Function><Function
  Type="Messages.EURORADIO.MessageIn.Message"
+ Default=""
  X="441"
  Y="1"
  Width="100"
@@ -7259,6 +7264,7 @@ Priority =&gt; aRBC.MessageIn.Priority
 </Case></Cases>
 </Function><Function
  Type="Messages.MESSAGE.TRACK_TO_TRAIN.Message"
+ Default=""
  X="111"
  Y="181"
  Width="100"
@@ -7283,6 +7289,7 @@ Priority =&gt; aRBC.MessageIn.Priority
 </Case></Cases>
 </Function><Function
  Type="RBCStruct"
+ Default=""
  X="661"
  Y="181"
  Width="100"
@@ -8348,6 +8355,7 @@ EURORADIO.Terminal1.RBCConnection.SafeRadioConnectionStatus == EURORADIO.SafeRad
 </Parameter></Parameters>
 <Rules>
 <Rule
+ Priority="Processing"
  Implemented="TRUE"
  Name="Linking"
  Guid="b523ec16-e78f-443e-bc71-c86ea98fb8ce"
@@ -8389,6 +8397,7 @@ EURORADIO.Terminal1.RBCConnection.SafeRadioConnectionStatus == EURORADIO.SafeRad
   ON aMessage.GENERAL_MESSAGE.Sequence1 | Available(X.LINKING)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
+ Priority="Processing"
  Implemented="TRUE"
  Name="Level transition"
  Guid="2de45eff-8689-46b3-81c8-51492ec1fe26"
@@ -10631,6 +10640,7 @@ But at the end of the cycle the conditions required for sending of position repo
 )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
+ Priority="Processing"
  Implemented="TRUE"
  Name="Inhibition of revocable TSRs available"
  Guid="af690be3-ef6e-4ea9-8205-18f02935969f"

@@ -2822,6 +2822,7 @@ A_NVP23 =&gt; BaseTypes.Acceleration.NA
 </Case></Cases>
 </Function><Function
  Type="NationalDefaultDataStruct"
+ Default=""
  X="250"
  Y="120"
  Width="100"
@@ -2854,6 +2855,7 @@ A_NVP23 =&gt; BaseTypes.Acceleration.NA
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Distance"
+ Default=""
  X="470"
  Y="0"
  Width="100"
@@ -2903,6 +2905,7 @@ A_NVP23 =&gt; BaseTypes.Acceleration.NA
 </Case></Cases>
 </Function><Function
  Type="KrIntValueSetStruct"
+ Default=""
  X="1"
  Y="301"
  Width="100"
@@ -3054,6 +3057,7 @@ Value =&gt; Kernel.NationalValues.KrResolution((LAST X IN aValuesSet).M_NVKRINT)
 </Case></Cases>
 </Function><Function
  Type="KvIntValueSet_PassengerTrainStruct"
+ Default=""
  X="1"
  Y="361"
  Width="100"
@@ -3235,6 +3239,7 @@ If the packet indicates KrInt values, this function returns EMPTY.</Comment>
 </Case></Cases>
 </Function><Function
  Type="KvIntValueSet_FreightTrainStruct"
+ Default=""
  X="1"
  Y="601"
  Width="100"
@@ -3391,6 +3396,7 @@ If the packet indicates KrInt values, this function returns EMPTY.</Comment>
 </Case></Cases>
 </Function><Function
  Type="Messages.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES.SubStructure3"
+ Default=""
  X="111"
  Y="301"
  Width="100"
@@ -3637,6 +3643,7 @@ Sequence3 =&gt; MAP aPacket.Sequence2 USING X IN Messages.PACKET.TRACK_TO_TRAIN.
 </Parameter></Parameters>
 <Rules>
 <Rule
+ Priority="Processing"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="Check validity of applicable NV"
@@ -3660,6 +3667,7 @@ Sequence3 =&gt; MAP aPacket.Sequence2 USING X IN Messages.PACKET.TRACK_TO_TRAIN.
 >InvalidateInformation(Kernel.NationalValues.ApplicableNationalValues)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
+ Priority="Processing"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="Check validity of not applicable NV"
