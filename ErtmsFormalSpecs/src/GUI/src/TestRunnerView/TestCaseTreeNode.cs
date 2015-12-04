@@ -168,25 +168,28 @@ namespace GUI.TestRunnerView
                 if (Window != null)
                 {
                     SynchronizerList.SuspendSynchronization();
-                    SubSequence subSequence = TestCase.Enclosing as SubSequence;
-                    if (subSequence != null && TestCase.Steps.Count > 0)
+                    MarkingHistory.PerformMark(() =>
                     {
-                        Step step = null;
-                        bool found = false;
-                        foreach (TestCase current in subSequence.TestCases)
+                        SubSequence subSequence = TestCase.Enclosing as SubSequence;
+                        if (subSequence != null && TestCase.Steps.Count > 0)
                         {
-                            if (found && current.Steps.Count > 0)
+                            Step step = null;
+                            bool found = false;
+                            foreach (TestCase current in subSequence.TestCases)
                             {
-                                step = (Step) current.Steps[0];
-                                break;
+                                if (found && current.Steps.Count > 0)
+                                {
+                                    step = (Step) current.Steps[0];
+                                    break;
+                                }
+
+                                found = (current == TestCase);
                             }
 
-                            found = (current == TestCase);
+                            Runner runner = Window.GetRunner(subSequence);
+                            runner.RunUntilStep(step);
                         }
-
-                        Runner runner = Window.GetRunner(subSequence);
-                        runner.RunUntilStep(step);
-                    }
+                    });
                     SynchronizerList.ResumeSynchronization();
                 }
             }

@@ -409,10 +409,13 @@ namespace GUI.TestRunnerView
             Window window = BaseForm as Window;
             if (window != null)
             {
-                ExecuteTestsHandler executeTestHandler = new ExecuteTestsHandler(window, Item, false);
-                executeTestHandler.ExecuteUsingProgressDialog("Executing test steps");
+                MarkingHistory.PerformMark(() =>
+                {
+                    ExecuteTestsHandler executeTestHandler = new ExecuteTestsHandler(window, Item, false);
+                    executeTestHandler.ExecuteUsingProgressDialog("Executing test steps");
+                    EfsSystem.Instance.Context.HandleEndOfCycle();
+                });
 
-                EfsSystem.Instance.Context.HandleEndOfCycle();
                 window.tabControl1.SelectedTab = window.testExecutionTabPage;
             }
         }

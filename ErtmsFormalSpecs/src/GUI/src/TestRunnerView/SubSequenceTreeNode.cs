@@ -28,7 +28,6 @@ using GUIUtils;
 using GUIUtils.LongOperations;
 using Utils;
 using Action = DataDictionary.Rules.Action;
-using ModelElement = Utils.ModelElement;
 using Util = DataDictionary.Util;
 
 namespace GUI.TestRunnerView
@@ -238,9 +237,12 @@ namespace GUI.TestRunnerView
             {
                 if (Window != null)
                 {
-                    Window.SetSubSequence(SubSequence);
-                    EfsSystem.Instance.Runner = new Runner(SubSequence, true, true);
-                    EfsSystem.Instance.Runner.RunUntilStep(null);
+                    MarkingHistory.PerformMark(() =>
+                    {
+                        Window.SetSubSequence(SubSequence);
+                        EfsSystem.Instance.Runner = new Runner(SubSequence, true, true);
+                        EfsSystem.Instance.Runner.RunUntilStep(null);
+                    });
                 }
             }
         }

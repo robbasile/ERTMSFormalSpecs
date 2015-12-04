@@ -27,7 +27,6 @@ using GUI.Report;
 using GUIUtils;
 using GUIUtils.LongOperations;
 using Utils;
-using ModelElement = Utils.ModelElement;
 using Util = DataDictionary.Util;
 
 namespace GUI.TestRunnerView
@@ -184,40 +183,44 @@ namespace GUI.TestRunnerView
             public override void ExecuteWork()
             {
                 SynchronizerList.SuspendSynchronization();
+
                 if (Window != null)
                 {
                     Window.SetFrame(Frame);
-
-                    try
+                    MarkingHistory.PerformMark(() =>
                     {
-                        // Compile everything
-                        Frame.EFSSystem.Compiler.Compile_Synchronous(Frame.EFSSystem.ShouldRebuild);
-                        Frame.EFSSystem.ShouldRebuild = false;
-
-                        Failed = 0;
-                        ArrayList subSequences = Frame.SubSequences;
-                        subSequences.Sort();
-                        foreach (SubSequence subSequence in subSequences)
+                        try
                         {
-                            Dialog.UpdateMessage("Executing " + subSequence.Name);
+                            // Compile everything
+                            Frame.EFSSystem.Compiler.Compile_Synchronous(Frame.EFSSystem.ShouldRebuild);
+                            Frame.EFSSystem.ShouldRebuild = false;
 
-                            const bool explain = false;
-                            const bool ensureCompiled = false;
-                            Frame.EFSSystem.Runner = new Runner(subSequence, explain, ensureCompiled);
-
-                            int testCasesFailed = subSequence.ExecuteAllTestCases(Frame.EFSSystem.Runner);
-                            if (testCasesFailed > 0)
+                            Failed = 0;
+                            ArrayList subSequences = Frame.SubSequences;
+                            subSequences.Sort();
+                            foreach (SubSequence subSequence in subSequences)
                             {
-                                subSequence.AddError("Execution failed");
-                                Failed += 1;
+                                Dialog.UpdateMessage("Executing " + subSequence.Name);
+
+                                const bool explain = false;
+                                const bool ensureCompiled = false;
+                                Frame.EFSSystem.Runner = new Runner(subSequence, explain, ensureCompiled);
+
+                                int testCasesFailed = subSequence.ExecuteAllTestCases(Frame.EFSSystem.Runner);
+                                if (testCasesFailed > 0)
+                                {
+                                    subSequence.AddError("Execution failed");
+                                    Failed += 1;
+                                }
                             }
                         }
-                    }
-                    finally
-                    {
-                        Frame.EFSSystem.Runner = null;
-                    }
+                        finally
+                        {
+                            Frame.EFSSystem.Runner = null;
+                        }
+                    });
                 }
+
                 SynchronizerList.ResumeSynchronization();
             }
         }
