@@ -24,6 +24,7 @@ using DataDictionary;
 using GUI.IPCInterface;
 using GUI.LongOperations;
 using GUIUtils;
+using GUIUtils.LongOperations;
 using log4net.Config;
 using Utils;
 using Util = DataDictionary.Util;
@@ -91,10 +92,20 @@ namespace GUI
                     thread.Start();
                 }
 
-                foreach (string file in args)
+                // Opens the Dictionary files and check them
+                bool shouldPlace = true;
+                foreach (string fileName in args)
                 {
-                    window.OpenFile(file);
+                    const bool allowErrors = false;
+                    OpenFileOperation openFileOperation = new OpenFileOperation(fileName, EfsSystem.Instance, allowErrors, true);
+                    openFileOperation.ExecuteUsingProgressDialog("Opening file");
+                    window.SetupWindows(openFileOperation.Dictionary, shouldPlace);
+                    shouldPlace = false;
                 }
+
+                CheckModelOperation checkModel = new CheckModelOperation();
+                checkModel.ExecuteUsingProgressDialog("Checking model");
+
                 Application.Run(window);
                 CloseEfsService();
             }

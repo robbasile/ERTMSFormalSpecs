@@ -471,9 +471,8 @@ namespace GUI
         {
             const bool allowErrors = false;
             bool shouldPlace = EfsSystem.Dictionaries.Count == 0;
-
             OpenFileOperation openFileOperation = new OpenFileOperation(fileName, EfsSystem, allowErrors, true);
-            openFileOperation.ExecuteUsingProgressDialog("Opening file");
+            openFileOperation.ExecuteUsingProgressDialog("Opening file " + fileName);
 
             // Open the windows
             if (openFileOperation.Dictionary != null)
@@ -485,7 +484,7 @@ namespace GUI
             }
             else if (!openFileOperation.Dialog.Canceled)
             {
-                MessageBox.Show("Cannot open file, please see log file (GUI.Log) for more information",
+                MessageBox.Show("Cannot open file, please see the console for more information",
                     "Cannot open file", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -495,7 +494,7 @@ namespace GUI
         /// </summary>
         /// <param name="dictionary"></param>
         /// <param name="shouldPlace"></param>
-        private void SetupWindows(Dictionary dictionary, bool shouldPlace)
+        public void SetupWindows(Dictionary dictionary, bool shouldPlace)
         {
             Util.DontNotify(() =>
             {
