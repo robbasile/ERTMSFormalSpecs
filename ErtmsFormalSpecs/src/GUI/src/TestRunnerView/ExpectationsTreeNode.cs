@@ -55,7 +55,6 @@ namespace GUI.TestRunnerView
             {
                 subNodes.Add(new ExpectationTreeNode(expectation, recursive));
             }
-            subNodes.Sort();
         }
 
         /// <summary>
