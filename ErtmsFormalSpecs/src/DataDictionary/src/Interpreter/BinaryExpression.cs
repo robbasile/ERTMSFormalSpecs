@@ -421,7 +421,7 @@ namespace DataDictionary.Interpreter
                         rightValue = Right.GetValue(context, binaryExpressionExplanation);
                         if (rightValue != null)
                         {
-                            retVal = leftValue.Type.PerformArithmericOperation(context, leftValue, Operation,
+                            retVal = Left.GetExpressionType().PerformArithmericOperation(context, leftValue, Operation,
                                 rightValue);
                         }
                         else
@@ -532,7 +532,7 @@ namespace DataDictionary.Interpreter
                         rightValue = Right.GetValue(context, binaryExpressionExplanation);
                         if (rightValue != null)
                         {
-                            retVal = EfsSystem.Instance.GetBoolean(leftValue.Type.Less(leftValue, rightValue));
+                            retVal = EfsSystem.Instance.GetBoolean(Left.GetExpressionType().Less(leftValue, rightValue));
                         }
                         else
                         {
@@ -547,7 +547,7 @@ namespace DataDictionary.Interpreter
                         if (rightValue != null)
                         {
                             retVal =
-                                EfsSystem.Instance.GetBoolean(leftValue.Type.CompareForEquality(leftValue, rightValue) ||
+                                EfsSystem.Instance.GetBoolean(Left.GetExpressionType().CompareForEquality(leftValue, rightValue) ||
                                                      leftValue.Type.Less(leftValue, rightValue));
                         }
                         else
@@ -562,7 +562,7 @@ namespace DataDictionary.Interpreter
                         rightValue = Right.GetValue(context, binaryExpressionExplanation);
                         if (rightValue != null)
                         {
-                            retVal = EfsSystem.Instance.GetBoolean(leftValue.Type.Greater(leftValue, rightValue));
+                            retVal = EfsSystem.Instance.GetBoolean(Left.GetExpressionType().Greater(leftValue, rightValue));
                         }
                         else
                         {
@@ -577,7 +577,7 @@ namespace DataDictionary.Interpreter
                         if (rightValue != null)
                         {
                             retVal =
-                                EfsSystem.Instance.GetBoolean(leftValue.Type.CompareForEquality(leftValue, rightValue) ||
+                                EfsSystem.Instance.GetBoolean(Left.GetExpressionType().CompareForEquality(leftValue, rightValue) ||
                                                      leftValue.Type.Greater(leftValue, rightValue));
                         }
                         else
@@ -592,7 +592,7 @@ namespace DataDictionary.Interpreter
                         rightValue = Right.GetValue(context, binaryExpressionExplanation);
                         if (rightValue != null)
                         {
-                            retVal = EfsSystem.Instance.GetBoolean(leftValue.Type.CompareForEquality(leftValue, rightValue));
+                            retVal = EfsSystem.Instance.GetBoolean(Left.GetExpressionType().CompareForEquality(leftValue, rightValue));
                         }
                         else
                         {
@@ -606,7 +606,7 @@ namespace DataDictionary.Interpreter
                         rightValue = Right.GetValue(context, binaryExpressionExplanation);
                         if (rightValue != null)
                         {
-                            retVal = EfsSystem.Instance.GetBoolean(!leftValue.Type.CompareForEquality(leftValue, rightValue));
+                            retVal = EfsSystem.Instance.GetBoolean(!Left.GetExpressionType().CompareForEquality(leftValue, rightValue));
                         }
                         else
                         {
@@ -620,7 +620,7 @@ namespace DataDictionary.Interpreter
                         rightValue = Right.GetValue(context, binaryExpressionExplanation);
                         if (rightValue != null)
                         {
-                            retVal = EfsSystem.Instance.GetBoolean(rightValue.Type.Contains(rightValue, leftValue));
+                            retVal = EfsSystem.Instance.GetBoolean(Right.GetExpressionType().Contains(rightValue, leftValue));
                         }
                         else
                         {
@@ -634,7 +634,7 @@ namespace DataDictionary.Interpreter
                         rightValue = Right.GetValue(context, binaryExpressionExplanation);
                         if (rightValue != null)
                         {
-                            retVal = EfsSystem.Instance.GetBoolean(!rightValue.Type.Contains(rightValue, leftValue));
+                            retVal = EfsSystem.Instance.GetBoolean(!Right.GetExpressionType().Contains(rightValue, leftValue));
                         }
                         else
                         {
