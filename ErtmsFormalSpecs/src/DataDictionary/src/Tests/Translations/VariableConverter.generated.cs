@@ -251,6 +251,7 @@ namespace DataDictionary.Tests.Translations
           AddVariable("M_AXLELOADC", ConvertInt.INSTANCE);
           AddVariable("M_TRACKCONDBC", ConvertInt.INSTANCE);
           AddVariable("Q_TRACKDEL", ConvertInt.INSTANCE);
+          AddVariable("Priority", ConvertInt.INSTANCE);
         }
     }
 }

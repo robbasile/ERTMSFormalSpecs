@@ -216,16 +216,16 @@
 <Expectation
  Kind="Instantaneous"
  Guid="31917e75-fa22-4839-b21d-f09896c44470"
->Available ( EURORADIO.CurrentRBCConnection().MessageOut.MessageOut_SystemVersion2.REQUEST_FOR_SHUNTING )</Expectation><Expectation
+>Available ( EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.REQUEST_FOR_SHUNTING )</Expectation><Expectation
  Kind="Instantaneous"
  Guid="08297e63-d50e-4743-a487-131b1caef282"
->Available ( EURORADIO.CurrentRBCConnection().MessageOut.MessageOut_SystemVersion2.REQUEST_FOR_SHUNTING.POSITION_REPORT )</Expectation><Expectation
+>Available ( EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.REQUEST_FOR_SHUNTING.POSITION_REPORT )</Expectation><Expectation
  Kind="Instantaneous"
  Guid="cd36919c-e791-48d2-a0ab-1a02c188b6c0"
->Available ( EURORADIO.CurrentRBCConnection().MessageOut.MessageOut_SystemVersion2.REQUEST_FOR_SHUNTING.POSITION_REPORT.POSITION_REPORT )</Expectation><Expectation
+>Available ( EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.REQUEST_FOR_SHUNTING.POSITION_REPORT.POSITION_REPORT )</Expectation><Expectation
  Kind="Instantaneous"
  Guid="c8734efa-398d-4f81-b7b9-998484d4fc04"
->EURORADIO.CurrentRBCConnection().MessageOut.MessageOut_SystemVersion2.REQUEST_FOR_SHUNTING.POSITION_REPORT.POSITION_REPORT.D_LRBG == 170</Expectation><Expectation
+>EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.REQUEST_FOR_SHUNTING.POSITION_REPORT.POSITION_REPORT.D_LRBG == 170</Expectation><Expectation
  Kind="Instantaneous"
  Guid="09dde367-cfdb-449e-8e83-b36863391132"
 >Kernel.HandleModeChange in Kernel.HandleModeChange.ShuntingInitiatedByDriver.S050</Expectation></Expectations>
@@ -276,19 +276,19 @@
 <Expectation
  Kind="Instantaneous"
  Guid="87fbfa9c-d5ca-4542-b8e4-8b5642065068"
->Available ( EURORADIO.CurrentRBCConnection().MessageOut.MessageOut_SystemVersion2.REQUEST_FOR_SHUNTING )</Expectation><Expectation
+>Available ( EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.REQUEST_FOR_SHUNTING )</Expectation><Expectation
  Kind="Instantaneous"
  Guid="a7595a90-7e93-43c9-b3f0-930da74af5e1"
 >Kernel.HandleModeChange in Kernel.HandleModeChange.ShuntingInitiatedByDriver.S050</Expectation><Expectation
  Kind="Instantaneous"
  Guid="e050cdcc-9f41-4b32-8734-8dff81b58902"
->Available ( EURORADIO.CurrentRBCConnection().MessageOut.MessageOut_SystemVersion2.REQUEST_FOR_SHUNTING.POSITION_REPORT.POSITION_REPORT )</Expectation><Expectation
+>Available ( EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.REQUEST_FOR_SHUNTING.POSITION_REPORT.POSITION_REPORT )</Expectation><Expectation
  Kind="Instantaneous"
  Guid="b01af4c6-2d57-4e13-b7b9-a0132b848898"
->Available ( EURORADIO.CurrentRBCConnection().MessageOut.MessageOut_SystemVersion2.REQUEST_FOR_SHUNTING.POSITION_REPORT )</Expectation><Expectation
+>Available ( EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.REQUEST_FOR_SHUNTING.POSITION_REPORT )</Expectation><Expectation
  Kind="Instantaneous"
  Guid="c5d98aa2-ce88-4b75-b28b-1f9f74618ba1"
->EURORADIO.CurrentRBCConnection().MessageOut.MessageOut_SystemVersion2.REQUEST_FOR_SHUNTING.POSITION_REPORT.POSITION_REPORT.D_LRBG == MessageTypes.Distance.Unknown</Expectation></Expectations>
+>EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.REQUEST_FOR_SHUNTING.POSITION_REPORT.POSITION_REPORT.D_LRBG == MessageTypes.Distance.Unknown</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step></Steps>
 </TestCase></TestCases>
@@ -402,10 +402,10 @@
 >Kernel.HandleModeChange in Kernel.HandleModeChange.ShuntingInitiatedByDriver.S100</Expectation><Expectation
  Kind="Instantaneous"
  Guid="da3e6840-ed56-45fe-a009-678eeca7d148"
->Available ( EURORADIO.CurrentRBCConnection().MessageOut.MessageOut_SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT )</Expectation><Expectation
+>Available ( EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT )</Expectation><Expectation
  Kind="Instantaneous"
  Guid="3a5b8619-a2a7-4426-93a0-b25c96451268"
->EURORADIO.CurrentRBCConnection().MessageOut.MessageOut_SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT.M_MODE == Messages.M_MODE.Shunting</Expectation></Expectations>
+>EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT.M_MODE == Messages.M_MODE.Shunting</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step></Steps>
 </TestCase></TestCases>
@@ -2427,9 +2427,9 @@
  Guid="8001092a-741a-4e3e-b489-86d1eb13ffda"
 >Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.ShuntingInitiatedByDriver.S050</Action><Action
  Guid="31f2f172-b4e6-435e-8fed-e196ab8a6be1"
->EURORADIO.CurrentRBCConnection().MessageIn &lt;- EURORADIO.InMessageStruct
+>EURORADIO.CurrentRBCConnection().MessageIn &lt;- Messages.EURORADIO.MessageIn.Message
 {
-    Message =&gt; Messages.MESSAGE.TRACK_TO_TRAIN.Message
+    SystemVersion2 =&gt; Messages.MESSAGE.TRACK_TO_TRAIN.Message
 {
     SH_AUTHORISED =&gt; Messages.MESSAGE.TRACK_TO_TRAIN.SH_AUTHORISED.Message
     {
@@ -2442,7 +2442,8 @@
         Sequence1 =&gt; []
     }
 },
-    Priority =&gt; EURORADIO.MessagePriorityEnum.Normal
+    SystemVersion1 =&gt; EMPTY,
+    Priority =&gt; Messages.EURORADIO.MessagePriorityEnum.Normal
 }</Action><Action
  Guid="932f8466-8efb-4f4a-bca2-23e6aade4ef3"
 >Kernel.Modes.Shunting.BaliseGroupsForShArea &lt;- Kernel.Modes.Shunting.ExpectedBGstruct{
@@ -2553,9 +2554,9 @@
     }
 ]</Action><Action
  Guid="bf3a353a-33a2-431f-921d-382773e99196"
->EURORADIO.CurrentRBCConnection().MessageIn &lt;- EURORADIO.InMessageStruct
+>EURORADIO.CurrentRBCConnection().MessageIn &lt;- Messages.EURORADIO.MessageIn.Message
 {
-    Message =&gt; Messages.MESSAGE.TRACK_TO_TRAIN.Message
+    SystemVersion2 =&gt; Messages.MESSAGE.TRACK_TO_TRAIN.Message
 {
     SH_AUTHORISED =&gt; Messages.MESSAGE.TRACK_TO_TRAIN.SH_AUTHORISED.Message
     {
@@ -2595,7 +2596,8 @@
         ]
     }
 },
-    Priority =&gt; EURORADIO.MessagePriorityEnum.Normal
+    SystemVersion1 =&gt; EMPTY,
+    Priority =&gt; Messages.EURORADIO.MessagePriorityEnum.Normal
 }</Action></Actions>
 <Expectations>
 <Expectation
@@ -2663,9 +2665,9 @@
  Guid="331fe43e-a7f4-477b-8cdc-658c29d9996c"
 >Kernel.HandleModeChange &lt;- Kernel.HandleModeChange.ShuntingInitiatedByDriver.S050</Action><Action
  Guid="a1dc89b8-de03-4b4a-b954-a7928fc9c80e"
->EURORADIO.CurrentRBCConnection().MessageIn &lt;- EURORADIO.InMessageStruct
+>EURORADIO.CurrentRBCConnection().MessageIn &lt;- Messages.EURORADIO.MessageIn.Message
 {
-    Message =&gt; Messages.MESSAGE.TRACK_TO_TRAIN.Message
+    SystemVersion2 =&gt; Messages.MESSAGE.TRACK_TO_TRAIN.Message
 {
     SH_REFUSED =&gt; Messages.MESSAGE.TRACK_TO_TRAIN.SH_REFUSED.Message
     {
@@ -2677,7 +2679,8 @@
         T_TRAIN_1 =&gt; 18
     }
 },
-    Priority =&gt; EURORADIO.MessagePriorityEnum.Normal
+    SystemVersion1 =&gt; EMPTY,
+    Priority =&gt; Messages.EURORADIO.MessagePriorityEnum.Normal
 }</Action></Actions>
 <Expectations>
 <Expectation
@@ -2787,9 +2790,9 @@
 <Actions>
 <Action
  Guid="5992c6be-0ff3-4def-8e69-61787ba2c858"
->EURORADIO.CurrentRBCConnection().MessageIn &lt;- EURORADIO.InMessageStruct
+>EURORADIO.CurrentRBCConnection().MessageIn &lt;- Messages.EURORADIO.MessageIn.Message
 {
-    Message =&gt; Messages.MESSAGE.TRACK_TO_TRAIN.Message
+    SystemVersion2 =&gt; Messages.MESSAGE.TRACK_TO_TRAIN.Message
 {
     ACKNOWLEDGEMENT_OF_TERMINATION_OF_A_COMMUNICATION_SESSION =&gt; Messages.MESSAGE.TRACK_TO_TRAIN.ACKNOWLEDGEMENT_OF_TERMINATION_OF_A_COMMUNICATION_SESSION.Message
     {
@@ -2800,7 +2803,8 @@
         NID_LRBG =&gt; 3090
     }
 },
-    Priority =&gt; EURORADIO.MessagePriorityEnum.Normal
+    SystemVersion1 =&gt; EMPTY,
+    Priority =&gt; Messages.EURORADIO.MessagePriorityEnum.Normal
 }</Action><Action
  Guid="acb7646f-f1a4-40a3-904d-dcc6dd6aad26"
 >Kernel.HandleModeChange &lt;- Kernel.HandleModeChange.ShuntingInitiatedByDriver.S100</Action></Actions>

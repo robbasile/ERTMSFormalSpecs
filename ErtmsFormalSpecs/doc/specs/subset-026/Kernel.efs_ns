@@ -3220,7 +3220,7 @@ Kernel.TrainPosition.Position.DataState == DataStateEnum.Unknown</PreCondition><
 <PreConditions>
 <PreCondition
  Guid="fa5ebf7a-bef7-4b7f-89cb-3a7476c280c7"
->Available ( EURORADIO.ReceivedMessage(EURORADIO.CurrentRBCConnection()).Message.ACKNOWLEDGEMENT_OF_TRAIN_DATA )</PreCondition></PreConditions>
+>Available ( EURORADIO.UpdatedReceivedMessage(EURORADIO.CurrentRBCConnection()).ACKNOWLEDGEMENT_OF_TRAIN_DATA )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="397ea484-7ad6-41e6-b5a6-c34208a005e0"
@@ -4610,7 +4610,8 @@ Kernel.TrainPosition.Position.DataState == DataStateEnum.Unknown</PreCondition><
 >
 <States>
 <State
- Y="60"
+ X="1"
+ Y="1"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -4703,9 +4704,9 @@ Kernel.TrainPosition.Position.DataState == DataStateEnum.Unknown</PreCondition><
 </ReqRef><PreConditions>
 <PreCondition
  Guid="e174bb1b-121a-49c0-94b2-fe0469288e7a"
->Available ( EURORADIO.ReceivedMessage( EURORADIO.CurrentRBCConnection()).Message)
+>Available ( EURORADIO.UpdatedReceivedMessage( EURORADIO.CurrentRBCConnection()))
   AND  
-Available ( EURORADIO.ReceivedMessage( EURORADIO.CurrentRBCConnection()).Message.SOM_POSITION_REPORT_CONFIRMED_BY_RBC )</PreCondition></PreConditions>
+Available ( EURORADIO.UpdatedReceivedMessage( EURORADIO.CurrentRBCConnection()).SOM_POSITION_REPORT_CONFIRMED_BY_RBC )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="ee978564-2709-449b-ab4b-8943f2e8d7c5"
@@ -4723,9 +4724,9 @@ Available ( EURORADIO.ReceivedMessage( EURORADIO.CurrentRBCConnection()).Message
 </ReqRef><PreConditions>
 <PreCondition
  Guid="7e3d4f3c-1ecf-4e97-94e5-b4b1b5f9d602"
->Available ( EURORADIO.ReceivedMessage( EURORADIO.CurrentRBCConnection()).Message)
+>Available ( EURORADIO.UpdatedReceivedMessage( EURORADIO.CurrentRBCConnection()))
   AND  
-Available ( EURORADIO.ReceivedMessage( EURORADIO.CurrentRBCConnection()).Message.TRAIN_ACCEPTED )</PreCondition></PreConditions>
+Available ( EURORADIO.UpdatedReceivedMessage( EURORADIO.CurrentRBCConnection()).TRAIN_ACCEPTED )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="5e2b1e6f-8c5b-403f-8c90-3806f64b7cfb"
@@ -4743,7 +4744,7 @@ Available ( EURORADIO.ReceivedMessage( EURORADIO.CurrentRBCConnection()).Message
 </ReqRef><PreConditions>
 <PreCondition
  Guid="de03c077-54fc-4fc8-943f-861d8b9e01bc"
->Available ( EURORADIO.ReceivedMessage( EURORADIO.CurrentRBCConnection()).Message.TRAIN_REJECTED )</PreCondition></PreConditions>
+>Available ( EURORADIO.UpdatedReceivedMessage( EURORADIO.CurrentRBCConnection()).TRAIN_REJECTED )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="fe9c8493-0fdb-47e4-839b-5796c6122ec5"
@@ -7279,7 +7280,7 @@ Once an acknowledgement is received, go to D130.</Comment>
 <PreConditions>
 <PreCondition
  Guid="ec9ad665-223e-468e-92f5-4db91abad7e4"
->Available ( EURORADIO.ReceivedMessage( EURORADIO.CurrentRBCConnection()).Message.RECOGNITION_OF_EXIT_FROM_TRIP_MODE )</PreCondition></PreConditions>
+>Available ( EURORADIO.UpdatedReceivedMessage( EURORADIO.CurrentRBCConnection()).RECOGNITION_OF_EXIT_FROM_TRIP_MODE )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="3d6ba8d3-b9b6-4b6c-8abc-8567bb7efd73"
@@ -8859,11 +8860,11 @@ The report is handled in the EURORADIO namespace</Comment>
 <PreConditions>
 <PreCondition
  Guid="fc2d9fa3-d834-42a2-8978-11653b10d672"
->Available ( FIRST X IN EURORADIO.ReceivedMessage( EURORADIO.CurrentRBCConnection()).Message.SH_AUTHORISED.Sequence1 | Available ( X.LIST_OF_BALISES_FOR_SH_AREA ) )</PreCondition></PreConditions>
+>Available ( FIRST X IN EURORADIO.UpdatedReceivedMessage( EURORADIO.CurrentRBCConnection()).SH_AUTHORISED.Sequence1 | Available ( X.LIST_OF_BALISES_FOR_SH_AREA ) )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="9284dece-9f13-46bf-bcd9-3348e25bdd07"
->Kernel.Modes.Shunting.HandleNewListOfBaliseGroups ( ( FIRST X IN EURORADIO.ReceivedMessage( EURORADIO.CurrentRBCConnection()).Message.SH_AUTHORISED.Sequence1 | Available ( X.LIST_OF_BALISES_FOR_SH_AREA ) ).LIST_OF_BALISES_FOR_SH_AREA )</Action></Actions>
+>Kernel.Modes.Shunting.HandleNewListOfBaliseGroups ( ( FIRST X IN EURORADIO.UpdatedReceivedMessage( EURORADIO.CurrentRBCConnection()).SH_AUTHORISED.Sequence1 | Available ( X.LIST_OF_BALISES_FOR_SH_AREA ) ).LIST_OF_BALISES_FOR_SH_AREA )</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  NeedsRequirement="FALSE"
@@ -9008,7 +9009,7 @@ The report is handled in the EURORADIO namespace</Comment>
 <PreConditions>
 <PreCondition
  Guid="d075df1e-8e73-44f1-a0a9-974b22889c71"
->Available ( EURORADIO.ReceivedMessage( EURORADIO.CurrentRBCConnection()).Message.SH_AUTHORISED )</PreCondition></PreConditions>
+>Available ( EURORADIO.UpdatedReceivedMessage( EURORADIO.CurrentRBCConnection()).SH_AUTHORISED )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="856800ed-d6ae-4e2c-8be9-f0cd6886fe2e"
@@ -9027,7 +9028,7 @@ The report is handled in the EURORADIO namespace</Comment>
 <PreConditions>
 <PreCondition
  Guid="93d54865-8d2f-441e-a570-f13e9e6ca697"
->Available ( EURORADIO.ReceivedMessage( EURORADIO.CurrentRBCConnection()).Message.SH_REFUSED )</PreCondition></PreConditions>
+>Available ( EURORADIO.UpdatedReceivedMessage( EURORADIO.CurrentRBCConnection()).SH_REFUSED )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="d7ff52cc-1ac0-478f-8ca6-569249a73c39"
@@ -9339,7 +9340,7 @@ The report is handled in the EURORADIO namespace</Comment>
 <PreConditions>
 <PreCondition
  Guid="c39189e5-1965-4459-a3a9-c5b49d00b0ad"
->Available ( EURORADIO.ReceivedMessage( EURORADIO.CurrentRBCConnection()).Message.ACKNOWLEDGEMENT_OF_TERMINATION_OF_A_COMMUNICATION_SESSION )</PreCondition></PreConditions>
+>Available ( EURORADIO.UpdatedReceivedMessage( EURORADIO.CurrentRBCConnection()).ACKNOWLEDGEMENT_OF_TERMINATION_OF_A_COMMUNICATION_SESSION )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="a9bd1583-0026-4a84-8cb8-5c279f955c1c"
