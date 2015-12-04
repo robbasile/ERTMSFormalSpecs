@@ -60,6 +60,17 @@ namespace GUI.DataDictionaryView
                     RefreshNode();
                 }
             }
+
+            /// <summary>
+            /// Indicates that the action is active
+            /// </summary>
+            [Category("Description")]
+            // ReSharper disable once UnusedMember.Local
+            public bool Active
+            {
+                get { return !Item.DeActivated; }
+                set { Item.DeActivated= !value; }
+            }
         }
 
         /// <summary>

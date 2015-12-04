@@ -258,6 +258,11 @@ namespace DataDictionary.Rules
         }
 
         /// <summary>
+        /// Indicates if the action has been deactivated
+        /// </summary>
+        public bool DeActivated { get; set; }
+
+        /// <summary>
         ///     Creates a list of changes to be applied on the system
         /// </summary>
         /// <param name="context">The context on which the changes should be computed</param>
@@ -269,32 +274,35 @@ namespace DataDictionary.Rules
         public virtual void GetChanges(InterpretationContext context, ChangeList changes, ExplanationPart explanation,
             bool apply, Runner runner)
         {
-            long start = Environment.TickCount;
-
-            try
+            if (!DeActivated)
             {
-                if (Statement != null)
+                long start = Environment.TickCount;
+
+                try
                 {
-                    Statement.GetChanges(context, changes, explanation, apply, runner);
+                    if (Statement != null)
+                    {
+                        Statement.GetChanges(context, changes, explanation, apply, runner);
+                    }
+                    else
+                    {
+                        AddError("Invalid actions statement");
+                    }
                 }
-                else
+                catch (Exception e)
                 {
-                    AddError("Invalid actions statement");
+                    AddException(e);
                 }
-            }
-            catch (Exception e)
-            {
-                AddException(e);
-            }
 
-            long stop = Environment.TickCount;
-            long span = (stop - start);
+                long stop = Environment.TickCount;
+                long span = (stop - start);
 
-            if (RuleCondition != null && RuleCondition.EnclosingRule != null)
-            {
-                // Rule execution execution time (as opposed to guard evaluation)
-                RuleCondition.EnclosingRule.ExecutionTimeInMilli += span;
-                RuleCondition.EnclosingRule.ExecutionCount += 1;
+                if (RuleCondition != null && RuleCondition.EnclosingRule != null)
+                {
+                    // Rule execution execution time (as opposed to guard evaluation)
+                    RuleCondition.EnclosingRule.ExecutionTimeInMilli += span;
+                    RuleCondition.EnclosingRule.ExecutionCount += 1;
+                }
             }
         }
 

@@ -921,6 +921,11 @@ namespace DataDictionary
                 {
                     action.AddException(exception);
                 }
+
+                if (action.DeActivated)
+                {
+                    action.AddWarning("Action has been deactivated");
+                }
             }
 
             base.visit(obj, subNodes);
