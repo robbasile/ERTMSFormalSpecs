@@ -66,6 +66,7 @@ namespace GUI
             ItemDrag += ItemDragHandler;
             DragEnter += DragEnterHandler;
             DragDrop += DragDropHandler;
+            DragOver += BaseTreeView_DragOver;
             AllowDrop = true;
 
             BeforeExpand += BeforeExpandHandler;
@@ -108,6 +109,16 @@ namespace GUI
             DoubleBuffered = true;
 
             Refactor = true;
+        }
+
+        /// <summary>
+        /// Handles the automatic scrolling on the tree view
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void BaseTreeView_DragOver(object sender, DragEventArgs e)
+        {
+            this.Scroll();
         }
 
         private void BaseTreeView_KeyUp(object sender, KeyEventArgs e)
