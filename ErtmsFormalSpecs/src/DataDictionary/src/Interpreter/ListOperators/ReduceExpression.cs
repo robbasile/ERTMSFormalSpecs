@@ -259,6 +259,21 @@ namespace DataDictionary.Interpreter.ListOperators
             {
                 AddError("Cannot determine initial value expression type for " + ToString());
             }
+
+
+            bool refToResultFound = false;
+            foreach (Usage usage in IteratorExpression.StaticUsage.AllUsages)
+            {
+                if (usage.Referenced == IteratorVariable)
+                {
+                    refToResultFound = true;
+                    break;
+                }
+            }
+            if (!refToResultFound)
+            {
+                AddWarning("REDUCE expressions should reference RESULT variable");
+            }
         }
 
         /// <summary>
