@@ -32,7 +32,7 @@ using Visitor = DataDictionary.Generated.Visitor;
 
 namespace DataDictionary.Rules
 {
-    public class Rule : Generated.Rule, ITextualExplain, IGraphicalDisplay
+    public class Rule : Generated.Rule, IGraphicalDisplay
     {
         /// <summary>
         ///     Provides the execution time for this rule, in milliseconds
@@ -160,26 +160,30 @@ namespace DataDictionary.Rules
         {
             get
             {
+                ArrayList retVal;
+
                 if (EnclosingRuleCondition != null)
                 {
-                    return EnclosingRuleCondition.SubRules;
+                    retVal = EnclosingRuleCondition.SubRules;
                 }
-                if (EnclosingProcedure != null)
+                else if (EnclosingProcedure != null)
                 {
-                    return EnclosingProcedure.Rules;
+                    retVal = EnclosingProcedure.Rules;
                 }
-                if (EnclosingStateMachine != null)
+                else if (EnclosingStateMachine != null)
                 {
-                    return EnclosingStateMachine.Rules;
+                    retVal = EnclosingStateMachine.Rules;
                 }
-                if (EnclosingStructure != null)
+                else if (EnclosingStructure != null)
                 {
-                    return EnclosingStructure.Rules;
+                    retVal = EnclosingStructure.Rules;
                 }
                 else
                 {
-                    return NameSpace.Rules;
+                    retVal = NameSpace.Rules;
                 }
+
+                return retVal;
             }
         }
 
@@ -290,27 +294,27 @@ namespace DataDictionary.Rules
         /// <summary>
         ///     Provides the activation priority list for this rule
         /// </summary>
-        private HashSet<acceptor.RulePriority> activationPriorities;
+        private HashSet<acceptor.RulePriority> _activationPriorities;
 
         public HashSet<acceptor.RulePriority> ActivationPriorities
         {
             get
             {
-                if (activationPriorities == null)
+                if (_activationPriorities == null)
                 {
-                    activationPriorities = new HashSet<acceptor.RulePriority>();
-                    activationPriorities.Add(getPriority());
+                    _activationPriorities = new HashSet<acceptor.RulePriority>();
+                    _activationPriorities.Add(getPriority());
                     foreach (RuleCondition condition in RuleConditions)
                     {
                         foreach (Rule subRule in condition.SubRules)
                         {
-                            activationPriorities.UnionWith(subRule.ActivationPriorities);
+                            _activationPriorities.UnionWith(subRule.ActivationPriorities);
                         }
                     }
                 }
-                return activationPriorities;
+                return _activationPriorities;
             }
-            set { activationPriorities = value; }
+            set { _activationPriorities = value; }
         }
 
         /// <summary>
@@ -319,9 +323,8 @@ namespace DataDictionary.Rules
         /// <param name="runner"></param>
         /// <param name="priority">the priority level : a rule can be activated only if its priority level == priority</param>
         /// <param name="instance">The instance on which the rule must be evaluated</param>
-        /// <param name="ruleConditions">the rule conditions to be activated</param>
+        /// <param name="activations">the rule conditions to be activated</param>
         /// <param name="explanation">The explanation part to be filled</param>
-        /// <param name="runner"></param>
         /// <returns>the number of actions that were activated during this evaluation</returns>
         public bool Evaluate(Runner runner, acceptor.RulePriority priority, IModelElement instance,
             HashSet<Runner.Activation> activations, ExplanationPart explanation)
@@ -436,7 +439,7 @@ namespace DataDictionary.Rules
         /// <summary>
         ///     Adds a model element in this model element
         /// </summary>
-        /// <param name="copy"></param>
+        /// <param name="element"></param>
         public override void AddModelElement(IModelElement element)
         {
             {
