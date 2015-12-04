@@ -1995,7 +1995,7 @@ ConnectionState in EURORADIO.RBCStruct.ConnectionStateSM.Terminating</PreConditi
  Guid="0fc0e74a-540a-4b62-9910-5cf32bab4dde"
 >EURORADIO.DataPriorityCorrect(UpdatedRBCStruct(THIS))</PreCondition><PreCondition
  Guid="a5c08762-5545-4f90-9842-d38abbcca45b"
->UpdatedMessageIn(THIS) != EMPTY</PreCondition></PreConditions>
+>UpdatedMessageIn(THIS).SystemVersion2 != EMPTY</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="7ffe8131-5392-4ec9-a32e-1ad7d3cb2dcd"
@@ -7250,19 +7250,12 @@ Available(UpdatedReceivedMessage(aRBC).UNCONDITIONAL_EMERGENCY_STOP)</Expression
 <PreConditions>
 <PreCondition
  Guid="5b4ae8ca-3693-499a-b2c5-e032b3c04a41"
->aRBC.SessionManagementData.SystemVersion.Value in [SystemVersionEnum.Version1_0, SystemVersionEnum.Version1_1]</PreCondition><PreCondition
- Guid="5b26be75-d66a-4a4c-b136-2134d933b0a5"
->aRBC.MessageIn.SystemVersion1 != EMPTY</PreCondition></PreConditions>
+>aRBC.SessionManagementData.SystemVersion.Value in [SystemVersionEnum.Version1_0, SystemVersionEnum.Version1_1]</PreCondition></PreConditions>
 <Expression>Messages.EURORADIO.MessageIn.Message{
 SystemVersion2 =&gt; VersionManagement.Translation.Messages.UpdateMessage( aRBC.MessageIn.SystemVersion1),
 SystemVersion1 =&gt; EMPTY,
 Priority =&gt; aRBC.MessageIn.Priority
 }</Expression>
-</Case><Case
- Name="Otherwise"
- Guid="7007ce9c-428e-4497-95a8-8aca4ff6fa78"
->
-<Expression>EMPTY</Expression>
 </Case></Cases>
 </Function><Function
  Type="Messages.MESSAGE.TRACK_TO_TRAIN.Message"
@@ -7286,16 +7279,7 @@ Priority =&gt; aRBC.MessageIn.Priority
  Name="Value"
  Guid="1e3835bd-b15a-4885-8aa5-95f4976e3a61"
 >
-<PreConditions>
-<PreCondition
- Guid="a8830bab-3f11-4f1b-898b-7f321e897a1e"
->aRBC.MessageIn != EMPTY</PreCondition></PreConditions>
 <Expression>UpdatedMessageIn(aRBC).SystemVersion2</Expression>
-</Case><Case
- Name="Otherwise"
- Guid="c544ff2e-994c-44de-9558-6b5714e07e8d"
->
-<Expression>EMPTY</Expression>
 </Case></Cases>
 </Function><Function
  Type="RBCStruct"
@@ -7316,24 +7300,9 @@ Priority =&gt; aRBC.MessageIn.Priority
 </Parameter></Parameters>
 <Cases>
 <Case
- Name="SystemVersion2"
- Guid="27c775a2-156b-44da-a4db-a7980ca3efbf"
->
-<PreConditions>
-<PreCondition
- Guid="0107493b-114c-440b-8f27-bf5274d5fae2"
->aRBC.SessionManagementData.SystemVersion.Value == SystemVersionEnum.Version2_0</PreCondition></PreConditions>
-<Expression>aRBC</Expression>
-</Case><Case
- Name="SystemVersion1"
+ Name="Value"
  Guid="f89c53a7-8135-4290-96c2-c03a1e56dfb1"
 >
-<PreConditions>
-<PreCondition
- Guid="9e6b2861-bc2e-4f4e-82f8-038601a63039"
->aRBC.SessionManagementData.SystemVersion.Value in [SystemVersionEnum.Version1_0, SystemVersionEnum.Version1_1]</PreCondition><PreCondition
- Guid="0467125d-81db-4bad-9f85-062ea75fa83e"
->aRBC.MessageIn.SystemVersion1 != EMPTY</PreCondition></PreConditions>
 <Expression>EURORADIO.RBCStruct
 {
   MessageIn =&gt; UpdatedMessageIn( aRBC ), 
@@ -7351,11 +7320,6 @@ Priority =&gt; aRBC.MessageIn.Priority
   OnboardReference_MessageTimer =&gt; aRBC.OnboardReference_MessageTimer, 
   ContactTimerSupervised =&gt; aRBC.ContactTimerSupervised
 }</Expression>
-</Case><Case
- Name="Otherwise"
- Guid="ad1d2c3a-1ee5-43f5-af90-ea8a510d3aec"
->
-<Expression>EMPTY</Expression>
 </Case></Cases>
 </Function></Functions>
 <Procedures>
