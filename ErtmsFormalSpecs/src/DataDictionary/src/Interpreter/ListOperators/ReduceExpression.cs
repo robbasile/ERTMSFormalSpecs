@@ -264,7 +264,7 @@ namespace DataDictionary.Interpreter.ListOperators
             bool refToResultFound = false;
             foreach (Usage usage in IteratorExpression.StaticUsage.AllUsages)
             {
-                if (usage.Referenced == IteratorVariable)
+                if (usage.Referenced == AccumulatorVariable && usage.Mode == Usage.ModeEnum.Read)
                 {
                     refToResultFound = true;
                     break;
