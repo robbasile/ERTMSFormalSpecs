@@ -44,14 +44,15 @@ namespace DataDictionary
         ///     Sets the default values for the element provided as parameter
         /// </summary>
         /// <param name="model"></param>
-        public void SetDefaultValue(IXmlBBase model)
+        public void SetDefaultValue<T>(T model)
+            where T : IXmlBBase
         {
             // We are creating a new element, notification about changes in that element
             // are not necessary.
             Util.DontNotify(() =>
             {
                 // ReSharper disable once ConvertToLambdaExpression
-                visit(model, true);
+                dispatch(model);
             });
         }
 
