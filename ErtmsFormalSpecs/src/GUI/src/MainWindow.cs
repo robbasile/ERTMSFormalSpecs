@@ -472,7 +472,7 @@ namespace GUI
             const bool allowErrors = false;
             bool shouldPlace = EfsSystem.Dictionaries.Count == 0;
             OpenFileOperation openFileOperation = new OpenFileOperation(fileName, EfsSystem, allowErrors, true);
-            openFileOperation.ExecuteUsingProgressDialog("Opening file " + fileName);
+            openFileOperation.ExecuteUsingProgressDialog("Opening file " + fileName, false);
 
             // Open the windows
             if (openFileOperation.Dictionary != null)

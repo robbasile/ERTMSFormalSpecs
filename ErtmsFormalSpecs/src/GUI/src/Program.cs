@@ -98,7 +98,7 @@ namespace GUI
                 {
                     const bool allowErrors = false;
                     OpenFileOperation openFileOperation = new OpenFileOperation(fileName, EfsSystem.Instance, allowErrors, true);
-                    openFileOperation.ExecuteUsingProgressDialog("Opening file");
+                    openFileOperation.ExecuteUsingProgressDialog("Opening file", false);
                     window.SetupWindows(openFileOperation.Dictionary, shouldPlace);
                     shouldPlace = false;
                 }
@@ -126,7 +126,7 @@ namespace GUI
         {
             OpenFileOperation openFile = new OpenFileOperation(dictionary.FilePath, EfsSystem.Instance, false, true);
             openFile.ExecuteUsingProgressDialog("Refreshing dictionary " +
-                                                Path.GetFileNameWithoutExtension(dictionary.FilePath));
+                                                Path.GetFileNameWithoutExtension(dictionary.FilePath), false);
 
             RefreshModel.Execute();
         }
