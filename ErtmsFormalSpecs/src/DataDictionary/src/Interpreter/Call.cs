@@ -780,7 +780,7 @@ namespace DataDictionary.Interpreter
             Surface retVal = base.CreateSurface(context, xParam, yParam, explain);
 
             Function function = GetFunction(context, explain);
-            Cast cast = Called.Ref as Cast;
+            Cast cast = function as Cast;
             if (cast != null)
             {
                 // In case of cast, just take the surface of the enclosed expression
