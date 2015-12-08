@@ -17,6 +17,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Text;
 using System.Windows.Forms;
 using DataDictionary;
 using GUIUtils.Editor.Patterns;
@@ -240,6 +241,119 @@ namespace GUIUtils.Editor
                 }
 
                 CanPaint = true;
+            }
+        }
+
+        /// <summary>
+        /// Indents the contents of the syntax text box
+        /// </summary>
+        public void Indent()
+        {
+            if (ApplyPatterns)
+            {
+                int indentLevel = 0;
+
+                // Removes all spaces and carriage returns from the text.
+                string text = Text.Replace('\n', ' ');
+                while (text.IndexOf("  ", StringComparison.Ordinal) >= 0)
+                {
+                    text = text.Replace("  ", " ");                    
+                }
+
+                bool startOfLine = true;
+                StringBuilder result = new StringBuilder();
+                for (int i = 0; i < text.Length; i++)
+                {
+                    char c = text[i];
+
+                    if (c == '(' || c == '{' || c == '[')
+                    {
+                        result.Append(c);
+                        if (!Couple(text, i))
+                        {
+                            indentLevel += 1;
+                            NewLine(result, indentLevel);
+                            startOfLine = true;
+                        }
+
+                    }
+                    else if (c == ')' || c == '}' || c == ']')
+                    {
+                        if (!Couple(text, i - 1))
+                        {
+                            indentLevel -= 1;
+                            NewLine(result, indentLevel);
+                        }
+                        result.Append(c);
+                        startOfLine = false;
+                    }
+                    else if (c == ',')
+                    {
+                        result.Append(c);
+                        NewLine(result, indentLevel);
+                        startOfLine = true;
+                    }
+                    else if (c == ' ')
+                    {
+                        if (!startOfLine)
+                        {
+                            result.Append(c);
+                        }
+                    }
+                    else
+                    {
+                        result.Append(c);
+                    }
+
+                    startOfLine = startOfLine && c == ' ';
+                }
+
+                Text = result.ToString();
+                ProcessAllLines();
+            }
+        }
+
+        /// <summary>
+        /// Indicates that two consecutive characters are a couple of parenthesis, brackets or curved brackets
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="i"></param>
+        /// <returns></returns>
+        private bool Couple(string text, int i)
+        {
+            bool retVal = false;
+
+            if (i > 0 && i < text.Length - 1)
+            {
+                retVal = (text[i] == '(' && text[i + 1] == ')')
+                         || (text[i] == '{' && text[i + 1] == '}')
+                         || (text[i] == '[' && text[i + 1] == ']');
+            }
+
+            return retVal;
+        }
+
+        /// <summary>
+        /// Adds a new line
+        /// </summary>
+        /// <param name="builder"></param>
+        /// <param name="level"></param>
+        private void NewLine(StringBuilder builder, int level)
+        {
+            builder.Append('\n');
+            AddIndent(builder, level);            
+        }
+
+        /// <summary>
+        /// Adds an indent on the string
+        /// </summary>
+        /// <param name="builder"></param>
+        /// <param name="level"></param>
+        private void AddIndent(StringBuilder builder, int level)
+        {
+            for (int i = 0; i < level; i++)
+            {
+                builder.Append("    ");
             }
         }
     }

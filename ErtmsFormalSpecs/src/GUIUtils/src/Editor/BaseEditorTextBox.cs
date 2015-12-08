@@ -969,6 +969,15 @@ namespace GUIUtils.Editor
                                 EditionTextBox.Select(EditionTextBox.SelectionStart - 1, 1);
                                 EditionTextBox.SelectedText = "";
                                 DisplayComboBox();
+                                e.Handled = true;
+                                break;
+
+                            case Keys.I:
+                                // Remove the space that has just been added
+                                EditionTextBox.Select(EditionTextBox.SelectionStart - 1, 1);
+                                EditionTextBox.SelectedText = "";
+                                EditionTextBox.Indent();
+                                e.Handled = true;
                                 break;
                         }
                     }
@@ -991,6 +1000,11 @@ namespace GUIUtils.Editor
 
                         case Keys.C:
                             EditionTextBox.Copy();
+                            e.Handled = true;
+                            break;
+
+                        case Keys.V:
+                            EditionTextBox.Paste();
                             e.Handled = true;
                             break;
                     }
@@ -1347,6 +1361,11 @@ namespace GUIUtils.Editor
                     EditionTextBox.ProcessAllLines();
                 }
             }
+        }
+
+        private void indentToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            EditionTextBox.Indent();
         }
     }
 }

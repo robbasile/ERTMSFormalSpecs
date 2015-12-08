@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             this.SelectionComboBox = new System.Windows.Forms.ComboBox();
-            this.EditionTextBox = new SyntaxRichTextBox();
+            this.EditionTextBox = new GUIUtils.Editor.SyntaxRichTextBox();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -38,7 +38,9 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.undoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.redoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.explainRichTextBox = new SyntaxRichTextBox();
+            this.explainRichTextBox = new GUIUtils.Editor.SyntaxRichTextBox();
+            this.indentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -56,7 +58,9 @@
             // 
             // EditionTextBox
             // 
+            this.EditionTextBox.ApplyPatterns = true;
             this.EditionTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.EditionTextBox.Instance = null;
             this.EditionTextBox.Location = new System.Drawing.Point(0, 0);
             this.EditionTextBox.Name = "EditionTextBox";
             this.EditionTextBox.Size = new System.Drawing.Size(330, 162);
@@ -71,54 +75,58 @@
             this.pasteToolStripMenuItem,
             this.toolStripSeparator1,
             this.undoToolStripMenuItem,
-            this.redoToolStripMenuItem});
+            this.redoToolStripMenuItem,
+            this.toolStripSeparator2,
+            this.indentToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(104, 120);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(153, 170);
             // 
             // copyToolStripMenuItem
             // 
             this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
-            this.copyToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
+            this.copyToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.copyToolStripMenuItem.Text = "Copy";
             this.copyToolStripMenuItem.Click += new System.EventHandler(this.copyToolStripMenuItem_Click);
             // 
             // cutToolStripMenuItem
             // 
             this.cutToolStripMenuItem.Name = "cutToolStripMenuItem";
-            this.cutToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
+            this.cutToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.cutToolStripMenuItem.Text = "Cut";
             this.cutToolStripMenuItem.Click += new System.EventHandler(this.cutToolStripMenuItem_Click);
             // 
             // pasteToolStripMenuItem
             // 
             this.pasteToolStripMenuItem.Name = "pasteToolStripMenuItem";
-            this.pasteToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
+            this.pasteToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.pasteToolStripMenuItem.Text = "Paste";
             this.pasteToolStripMenuItem.Click += new System.EventHandler(this.pasteToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(100, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
             // 
             // undoToolStripMenuItem
             // 
             this.undoToolStripMenuItem.Name = "undoToolStripMenuItem";
-            this.undoToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
+            this.undoToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.undoToolStripMenuItem.Text = "Undo";
             this.undoToolStripMenuItem.Click += new System.EventHandler(this.undoToolStripMenuItem_Click);
             // 
             // redoToolStripMenuItem
             // 
             this.redoToolStripMenuItem.Name = "redoToolStripMenuItem";
-            this.redoToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
+            this.redoToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.redoToolStripMenuItem.Text = "Redo";
             this.redoToolStripMenuItem.Click += new System.EventHandler(this.redoToolStripMenuItem_Click);
             // 
             // explainRichTextBox
             // 
+            this.explainRichTextBox.ApplyPatterns = true;
             this.explainRichTextBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.explainRichTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.explainRichTextBox.Instance = null;
             this.explainRichTextBox.Location = new System.Drawing.Point(76, 30);
             this.explainRichTextBox.Name = "explainRichTextBox";
             this.explainRichTextBox.ReadOnly = true;
@@ -126,6 +134,18 @@
             this.explainRichTextBox.TabIndex = 2;
             this.explainRichTextBox.Text = "";
             this.explainRichTextBox.Visible = false;
+            // 
+            // indentToolStripMenuItem
+            // 
+            this.indentToolStripMenuItem.Name = "indentToolStripMenuItem";
+            this.indentToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.indentToolStripMenuItem.Text = "Indent";
+            this.indentToolStripMenuItem.Click += new System.EventHandler(this.indentToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(149, 6);
             // 
             // BaseEditorTextBox
             // 
@@ -153,5 +173,7 @@
         private System.Windows.Forms.ToolStripMenuItem copyToolStripMenuItem;
         private SyntaxRichTextBox explainRichTextBox;
         public SyntaxRichTextBox EditionTextBox;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripMenuItem indentToolStripMenuItem;
     }
 }
