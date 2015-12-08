@@ -21,7 +21,7 @@
 <Enum
  Default="EURORADIO.SafeRadioConnectionStatusEnum.NoConnection"
  X="480"
- Y="210"
+ Y="290"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -2781,6 +2781,7 @@ NOT EURORADIO.IncomingMessageIsConsistent(UpdatedMessageIn(THIS))</PreCondition>
  Name="TranslateOutMessage"
  Guid="dc5ebc50-48d5-4510-8456-ec079bec4700"
 >
+<Comment>Operational version of messages is SystemVersion2. If the OutMessage has to be sent to constituent only able to receive lower version messages, the message is translated.</Comment>
 <Rules>
 <Rule
  Priority="Processing"
@@ -7224,13 +7225,16 @@ Available(UpdatedReceivedMessage(aRBC).UNCONDITIONAL_EMERGENCY_STOP)</Expression
 </Function><Function
  Type="Messages.EURORADIO.MessageIn.Message"
  Default=""
- X="441"
- Y="1"
+ X="220"
+ Y="900"
  Width="100"
  Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
  Name="UpdatedMessageIn"
  Guid="d126b310-93ea-4ece-8b07-e1d48e7f71b4"
 >
+<Comment>The operational version of incoming messages is SystemVersion2. This function is used to translate a lower version version received message. It returns a Messages.EURORADIO.MessageIn.Message structure. Note that the original and stored structure is not changed.</Comment>
 <Parameters>
 <Parameter
  Type="RBCStruct"
@@ -7265,14 +7269,16 @@ Priority =&gt; aRBC.MessageIn.Priority
 </Function><Function
  Type="Messages.MESSAGE.TRACK_TO_TRAIN.Message"
  Default=""
- X="111"
- Y="181"
+ X="440"
+ Y="900"
  Width="100"
  Height="50"
  Implemented="TRUE"
+ NeedsRequirement="FALSE"
  Name="UpdatedReceivedMessage"
  Guid="f08cda05-d060-4cdf-a4f1-a938a9178de2"
 >
+<Comment>The operational version of incoming messages is SystemVersion2. This function is used to translate a lower version version received message. It returns a Messages.MESSAGE.TRACK_TO_TRAIN.Message structure. Note that the original and stored structure is not changed.</Comment>
 <Parameters>
 <Parameter
  Type="RBCStruct"
@@ -7290,14 +7296,16 @@ Priority =&gt; aRBC.MessageIn.Priority
 </Function><Function
  Type="RBCStruct"
  Default=""
- X="661"
- Y="181"
+ X="330"
+ Y="900"
  Width="100"
  Height="50"
  Implemented="TRUE"
+ NeedsRequirement="FALSE"
  Name="UpdatedRBCStruct"
  Guid="3b3df9c0-e3e7-43f4-9ae1-b1037f80d560"
 >
+<Comment>The operational version of incoming messages is SystemVersion2. This function is used to translate a lower version version received message. It returns a RBCStruct structure. Note that the original and stored structure is not changed.</Comment>
 <Parameters>
 <Parameter
  Type="RBCStruct"
