@@ -10802,29 +10802,13 @@ BTM.Linking.RAMSWindowPassed()
 <PreConditions>
 <PreCondition
  Guid="e77d83c7-e2ac-4e97-a9b6-cf974eefafae"
->Available ( BTM.Message )</PreCondition><PreCondition
+>Available ( BTM.Message.SystemVersion1) OR Available(BTM.Message.SystemVersion2)</PreCondition><PreCondition
  Guid="a3cd896f-c1dd-4f6c-b119-3337fd5cc404"
 >NOT Kernel.UndesirableMovement.ReverseMovementDetected()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="96ddb3ee-57c1-40a0-bc68-2be6f515660e"
->BTM.StoreBaliseGroupMessage ( BTM.Message )</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- Name="Handle BTM input of previous version"
- Guid="363efc48-955d-49f8-9648-a3dc5f53b3d2"
->
-<Comment>Handle a received balise of trackside version 1.0 or 1.1</Comment>
-<PreConditions>
-<PreCondition
- Guid="1711ea15-5231-46c6-baae-683199d992a4"
->NOT Kernel.UndesirableMovement.ReverseMovementDetected()</PreCondition><PreCondition
- Guid="32ddc820-7a7d-4127-a3e3-b21db44672ba"
->Available ( BTM.Message_SystemVersion1)</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="c2bd4ed9-0e4c-489d-a1e3-6967d7e3f16a"
->BTM.StoreBaliseGroupMessage ( VersionManagement.Translation.UpdatedBaliseMessage(BTM.Message_SystemVersion1) )</Action></Actions>
+>BTM.StoreBaliseGroupMessage ( BTM.UpdatedReceivedMessage(BTM.Message))</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"

@@ -2191,6 +2191,51 @@ NOT Kernel.ActiveFunctions.CheckLinkingConsistency()</PreCondition></PreConditio
 >CurrentBaliseGroup != []</PreCondition></PreConditions>
 <Expression>(LAST X IN BTM.CurrentBaliseGroup).Telegram</Expression>
 </Case></Cases>
+</Function><Function
+ Type="Messages.EUROBALISE.Message"
+ Default=""
+ X="551"
+ Y="181"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="UpdatedReceivedMessage"
+ Guid="7d7eed3f-34d0-4860-b21c-d1c2bf916454"
+>
+<Comment>This function returns the translated version of the received balise message. Note that the BTM struct Message is left unchanged. Returns EMPTY if both SystemVersion are empty.</Comment>
+<Parameters>
+<Parameter
+ Type="Messages.BTM.Message"
+ Name="aMessage"
+ Guid="9cc39e95-c5d2-4610-bd5e-cc9a4bb97177"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="SystemVersion2"
+ Guid="9d81f325-89f9-4d5a-a705-b3cbf9a2bb84"
+>
+<PreConditions>
+<PreCondition
+ Guid="e01bb44f-8f18-4f93-b8a3-eb4bdea23f23"
+>Available( aMessage.SystemVersion2)</PreCondition></PreConditions>
+<Expression>aMessage.SystemVersion2</Expression>
+</Case><Case
+ Name="SystemVersion1"
+ Guid="7962ecd0-6df0-4778-a185-77e6b15e8b77"
+>
+<PreConditions>
+<PreCondition
+ Guid="add78aea-b85c-4eb5-9db0-97b08150a845"
+>Available(aMessage.SystemVersion1)</PreCondition></PreConditions>
+<Expression>VersionManagement.Translation.UpdatedBaliseMessage(aMessage.SystemVersion1)</Expression>
+</Case><Case
+ Name="Default"
+ Guid="467845c9-3e20-4eee-bd0d-abebfcc8f698"
+>
+<Expression>EMPTY</Expression>
+</Case></Cases>
 </Function></Functions>
 <Procedures>
 <Procedure
@@ -4941,7 +4986,7 @@ The parameter DistanceFromLRBG is needed for the case when the handled BG will b
       BaliseGroup =&gt; BaliseGroupStruct
       {
           Position =&gt; BGLocationReference.Position,
-          NID =&gt; Message.NID_BG,
+          NID =&gt; BTM.UpdatedReceivedMessage(BTM.Message).NID_BG,
           Orientation =&gt; BaliseGroupOrientation(),
           Timestamp =&gt; BGLocationReference.Timestamp
       },
@@ -4964,11 +5009,11 @@ The parameter DistanceFromLRBG is needed for the case when the handled BG will b
 <PreConditions>
 <PreCondition
  Guid="1f80f179-74aa-465e-b6d3-e15aba062a97"
->BTM.Message.Q_LINK == Messages.Q_LINK.Unlinked</PreCondition></PreConditions>
+>BTM.UpdatedReceivedMessage(BTM.Message).Q_LINK == Messages.Q_LINK.Unlinked</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="c995c1c6-6e01-4775-b912-22de76bd76ca"
->BTM.HandleUnlinkedBG(BTM.Message)</Action><Action
+>BTM.HandleUnlinkedBG(BTM.UpdatedReceivedMessage(BTM.Message))</Action><Action
  Guid="e0d92db1-ce43-4385-ae52-42c474a91e91"
 >INSERT
   BTM.PreviousBaliseGroupStruct
@@ -4976,7 +5021,7 @@ The parameter DistanceFromLRBG is needed for the case when the handled BG will b
       BaliseGroup =&gt; BaliseGroupStruct
       {
           Position =&gt; BGLocationReference.Position,
-          NID =&gt; Message.NID_BG,
+          NID =&gt; BTM.UpdatedReceivedMessage(BTM.Message).NID_BG,
           Orientation =&gt; BaliseGroupOrientation(),
           Timestamp =&gt; BGLocationReference.Timestamp
       },
@@ -5002,7 +5047,7 @@ The parameter DistanceFromLRBG is needed for the case when the handled BG will b
       BaliseGroup =&gt; BaliseGroupStruct
       {
           Position =&gt; BGLocationReference.Position,
-          NID =&gt; Message.NID_BG,
+          NID =&gt; BTM.UpdatedReceivedMessage(BTM.Message).NID_BG,
           Orientation =&gt; BaliseGroupOrientation(),
           Timestamp =&gt; BGLocationReference.Timestamp
       },
@@ -5661,9 +5706,9 @@ LinkingUsed</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="9fd64923-94f0-464b-82e9-a6243ada4bc6"
->LastReceivedBalise().N_PIG != BTM.Message.N_PIG + 1
+>LastReceivedBalise().N_PIG != BTM.UpdatedReceivedMessage(BTM.Message).N_PIG + 1
  AND 
-LastReceivedBalise().N_PIG != BTM.Message.N_PIG - 1</PreCondition></PreConditions>
+LastReceivedBalise().N_PIG != BTM.UpdatedReceivedMessage(BTM.Message).N_PIG - 1</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="269ffc58-b53a-4182-9558-421f80084683"
@@ -5690,9 +5735,9 @@ IN BTM.CurrentBaliseGroup</Action></Actions>
 <PreConditions>
 <PreCondition
  Guid="3800c011-d0cf-4915-bef9-99ef9ea72e9a"
->LastReceivedBalise().N_PIG != BTM.Message.N_PIG + 1
+>LastReceivedBalise().N_PIG != BTM.UpdatedReceivedMessage(BTM.Message).N_PIG + 1
  AND 
-LastReceivedBalise().N_PIG != BTM.Message.N_PIG - 1</PreCondition></PreConditions>
+LastReceivedBalise().N_PIG != BTM.UpdatedReceivedMessage(BTM.Message).N_PIG - 1</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="d3c9bdd5-859e-40a0-bdb2-694159fc5769"
@@ -5719,9 +5764,9 @@ IN BTM.CurrentBaliseGroup</Action></Actions>
 <PreConditions>
 <PreCondition
  Guid="a200c8cf-88fa-4abe-8ca8-4b4dd1572ce7"
->LastReceivedBalise().N_PIG != BTM.Message.N_PIG + 1
+>LastReceivedBalise().N_PIG != BTM.UpdatedReceivedMessage(BTM.Message).N_PIG + 1
  AND 
-LastReceivedBalise().N_PIG != BTM.Message.N_PIG - 1</PreCondition></PreConditions>
+LastReceivedBalise().N_PIG != BTM.UpdatedReceivedMessage(BTM.Message).N_PIG - 1</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="810c1cad-4be1-483a-8474-bb40d256d36f"
@@ -5748,9 +5793,9 @@ IN BTM.CurrentBaliseGroup</Action></Actions>
 <PreConditions>
 <PreCondition
  Guid="0cb9b3ad-9837-4d08-afac-2ba347c89a90"
->LastReceivedBalise().N_PIG != BTM.Message.N_PIG + 1
+>LastReceivedBalise().N_PIG != BTM.UpdatedReceivedMessage(BTM.Message).N_PIG + 1
  AND 
-LastReceivedBalise().N_PIG != BTM.Message.N_PIG - 1</PreCondition></PreConditions>
+LastReceivedBalise().N_PIG != BTM.UpdatedReceivedMessage(BTM.Message).N_PIG - 1</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="a9da04e6-a71a-4157-a364-9a9315fc5433"
@@ -5777,9 +5822,9 @@ IN BTM.CurrentBaliseGroup</Action></Actions>
 <PreConditions>
 <PreCondition
  Guid="5ec57daa-1517-4d77-93ca-325a3c78f44c"
->LastReceivedBalise().N_PIG != BTM.Message.N_PIG + 1
+>LastReceivedBalise().N_PIG != BTM.UpdatedReceivedMessage(BTM.Message).N_PIG + 1
  AND 
-LastReceivedBalise().N_PIG != BTM.Message.N_PIG - 1</PreCondition></PreConditions>
+LastReceivedBalise().N_PIG != BTM.UpdatedReceivedMessage(BTM.Message).N_PIG - 1</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="9402818a-0fb2-4a36-a5a8-e417a291cc7b"
@@ -5880,26 +5925,6 @@ IN BTM.CurrentBaliseGroup</Action></Actions>
  Guid="57948d85-1356-4bc4-b9c8-e84ed230ec71"
 >
 </ReqRef><Comment>This variable represents the error in detection of balise group location by the train.</Comment>
-</Variable><Variable
- Type="Messages.EUROBALISE.Message"
- DefaultValue="EMPTY"
- VariableMode="InOut"
- X="440"
- Y="620"
- Width="100"
- Height="50"
- Pinned="TRUE"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Message"
- Guid="2941a0d4-d55f-4c80-bb47-581b43815e79"
->
-<ReqRef
- Id="8147a385-c93e-43f4-9eb0-fab4bf63ca62"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="2db7d565-1f17-4df4-84b2-499dc3e16704"
->
-</ReqRef><Comment>This variable holds the balise message to be processed.</Comment>
 </Variable><Variable
  Type="BaliseGroupStruct"
  DefaultValue="EMPTY"
@@ -6057,16 +6082,28 @@ IN BTM.CurrentBaliseGroup</Action></Actions>
 >
 </ReqRef><Comment>The maximum distance between consecutive balises in the same balise group.</Comment>
 </Variable><Variable
- Type="Messages.SystemVersion1.EUROBALISE.Message"
- DefaultValue="EMPTY"
- VariableMode="Internal"
- X="820"
- Y="620"
+ Type="Messages.BTM.Message"
+ DefaultValue="Messages.BTM.Message
+{
+  SystemVersion2 =&gt; EMPTY, 
+  SystemVersion1 =&gt; EMPTY, 
+  BitField =&gt; &apos;&apos;
+}"
+ VariableMode="InOut"
+ X="551"
+ Y="121"
  Width="100"
  Height="50"
- Name="Message_SystemVersion1"
- Guid="6b70edc9-75d7-45b2-bdd7-73774fd5235a"
+ Implemented="TRUE"
+ Name="Message"
+ Guid="1718ba3c-1f2d-488c-bcc0-2bc18b4a3118"
 >
+<ReqRef
+ Id="8147a385-c93e-43f4-9eb0-fab4bf63ca62"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6afe7006-60ac-439e-bf42-1ee96a969e00"
+>
+</ReqRef><Comment>This variable holds the balise message to be processed.</Comment>
 </Variable></Variables>
 <Rules>
 <Rule
@@ -6096,17 +6133,17 @@ IN BTM.CurrentBaliseGroup</Action></Actions>
 <PreConditions>
 <PreCondition
  Guid="4132dda5-2120-4cda-bde2-a390d3213f78"
->Available ( BTM.Message )
+>Available ( Message.SystemVersion1 )
   OR  
-Available(Message_SystemVersion1)</PreCondition></PreConditions>
+Available(Message.SystemVersion2)</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="55b1daa4-5af4-4eac-af28-8e10152fc2c2"
->BTM.Message &lt;- EMPTY</Action><Action
+>Message.SystemVersion2 &lt;- EMPTY</Action><Action
  Guid="7da08b97-ae8e-47fd-9114-27a1f90cc66e"
 >Kernel.Infill.Data &lt;- EMPTY</Action><Action
  Guid="aa76230d-c79f-456c-95ac-adda5c0403e8"
->Message_SystemVersion1 &lt;- EMPTY</Action></Actions>
+>Message.SystemVersion1 &lt;- EMPTY</Action></Actions>
 <SubRules>
 <Rule
  Priority="CleanUp"
@@ -6167,11 +6204,11 @@ Available(Message_SystemVersion1)</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="95d3af00-daf2-474d-a7c2-53f8614e06c6"
->Available ( BTM.Message )</PreCondition><PreCondition
+>Available ( BTM.UpdatedReceivedMessage(BTM.Message))</PreCondition><PreCondition
  Guid="ca2a5585-b8af-4d33-b11d-0f7a241172b0"
 >(COUNT X IN BTM.CurrentBaliseGroup ) &gt; 0</PreCondition><PreCondition
  Guid="facbef4e-0427-43dc-8246-9424d20c4b03"
->BTM.Message.NID_BG != (FIRST X IN BTM.CurrentBaliseGroup).Telegram.NID_BG</PreCondition></PreConditions>
+>BTM.UpdatedReceivedMessage(BTM.Message).NID_BG != (FIRST X IN BTM.CurrentBaliseGroup).Telegram.NID_BG</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="c0bed554-3138-4c67-a342-dec6ad0a32dc"
@@ -6204,7 +6241,7 @@ Available(Message_SystemVersion1)</PreCondition></PreConditions>
  Guid="bcbaf299-4fb5-4823-af9f-f2b1a74d1582"
 >Odometry.NominalDistance &gt; BTM.PrevBalisePosition + BTM.MaxDistBetweenBalises</PreCondition><PreCondition
  Guid="9ef66ef6-b578-4d26-b7c7-bc7dab3ace1c"
->NOT Available(BTM.Message)</PreCondition></PreConditions>
+>NOT Available(BTM.UpdatedReceivedMessage(BTM.Message))</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="ba00487e-7656-41a0-9bd0-98cb43c0ceec"

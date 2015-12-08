@@ -2439,7 +2439,7 @@ M_BRAKE_COMMAND_STATE=&gt;JRU.TypeConvertors.ToJRUSBCommanded()
 <PreConditions>
 <PreCondition
  Guid="7b7b86aa-0bd6-4ed9-8037-b93c8a9ed1b8"
->BTM.Message != EMPTY</PreCondition></PreConditions>
+>BTM.UpdatedReceivedMessage(BTM.Message) != EMPTY</PreCondition></PreConditions>
 <Expression>True</Expression>
 </Case><Case
  Name="Otherwise"
@@ -2476,7 +2476,7 @@ M_BRAKE_COMMAND_STATE=&gt;JRU.TypeConvertors.ToJRUSBCommanded()
 >
 <Expression>Messages.JRU.MESSAGE.TELEGRAM_FROM_BALISE.Message{
     HEADER =&gt; JRU.CreateHeader(6),
-TELEGRAM=&gt; BTM.Message
+TELEGRAM=&gt; BTM.UpdatedReceivedMessage(BTM.Message)
 }</Expression>
 </Case></Cases>
 </Function><Function
