@@ -38,7 +38,18 @@ namespace GUI.ModelDiagram.Boxes
         /// </summary>
         public override string ModelName
         {
-            get { return "Procedure"; }
+            get
+            {
+                string retVal = "Procedure";
+
+                Procedure procedure = (Procedure)TypedModel;
+                if (ComputedPositionAndSize)
+                {
+                    retVal += " " + procedure.Name;
+                }
+
+                return retVal;
+            }
         }
     }
 }

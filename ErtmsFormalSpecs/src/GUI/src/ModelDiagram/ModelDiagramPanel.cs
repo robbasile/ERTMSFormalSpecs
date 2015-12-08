@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using DataDictionary;
 using DataDictionary.Functions;
+using DataDictionary.Interpreter.Statement;
 using DataDictionary.Rules;
 using DataDictionary.Types;
 using DataDictionary.Variables;
@@ -27,6 +28,7 @@ using GUI.ModelDiagram.Arrows;
 using GUI.ModelDiagram.Boxes;
 using GUIUtils.Editor.Patterns;
 using Utils;
+using Action = DataDictionary.Rules.Action;
 using Enum = DataDictionary.Types.Enum;
 using Type = DataDictionary.Types.Type;
 
@@ -65,6 +67,33 @@ namespace GUI.ModelDiagram
         }
 
         /// <summary>
+        ///     The procedure for which this panel is built
+        /// </summary>
+        public Procedure Procedure
+        {
+            get { return Model as Procedure; }
+            set { Model = value; }
+        }
+
+        /// <summary>
+        ///     The rule for which this panel is built
+        /// </summary>
+        public Rule Rule
+        {
+            get { return Model as Rule; }
+            set { Model = value; }
+        }
+
+        /// <summary>
+        ///     The rule condition for which this panel is built
+        /// </summary>
+        public RuleCondition RuleCondition
+        {
+            get { return Model as RuleCondition; }
+            set { Model = value; }
+        }
+
+        /// <summary>
         /// Tokenizes EFS text
         /// </summary>
         public EfsRecognizer Recognizer { get; private set; }
@@ -74,7 +103,7 @@ namespace GUI.ModelDiagram
         /// </summary>
         public ModelDiagramPanel()
         {
-            Recognizer = new EfsRecognizer(Font);   
+            Recognizer = new EfsRecognizer(Font);
         }
 
         /// <summary>
@@ -172,6 +201,18 @@ namespace GUI.ModelDiagram
                 retVal = new RuleModelControl(this, rule);
             }
 
+            RuleCondition ruleCondition = model as RuleCondition;
+            if (ruleCondition != null)
+            {
+                retVal = new RuleConditionModelControl(this, ruleCondition);
+            }
+
+            Action action = model as Action;
+            if (action != null)
+            {
+                retVal = new ActionModelControl(this, action);
+            }
+
             return retVal;
         }
 
@@ -206,6 +247,21 @@ namespace GUI.ModelDiagram
             if (Function != null)
             {
                 BuildFunctionBoxes(retVal);
+            }
+
+            if (Procedure != null)
+            {
+                BuildProcedureBoxes(retVal);
+            }
+
+            if (RuleCondition != null)
+            {
+                BuildRuleConditionBoxes(RuleCondition, retVal);                
+            }
+
+            if (Rule != null)
+            {
+                BuildRuleBoxes(Rule, retVal);
             }
 
             return retVal;
@@ -282,6 +338,59 @@ namespace GUI.ModelDiagram
         }
 
         /// <summary>
+        /// Builds the boxes representing the contents of a procedure
+        /// </summary>
+        /// <param name="retVal"></param>
+        private void BuildProcedureBoxes(ICollection<IGraphicalDisplay> retVal)
+        {
+            retVal.Add(Procedure);
+            foreach (Parameter parameter in Procedure.FormalParameters)
+            {
+                retVal.Add(parameter);
+            }
+            foreach (Rule rule in Procedure.Rules)
+            {
+                BuildRuleBoxes(rule, retVal);
+            }
+        }
+
+        /// <summary>
+        /// Builds the boxes representing the contents of a rule
+        /// </summary>
+        /// <param name="rule"></param>
+        /// <param name="retVal"></param>
+        private void BuildRuleBoxes(Rule rule, ICollection<IGraphicalDisplay> retVal)
+        {
+            retVal.Add(rule);
+            foreach (RuleCondition condition in rule.RuleConditions)
+            {
+                BuildRuleConditionBoxes(condition, retVal);
+            }
+        }
+
+        /// <summary>
+        /// Builds the boxes representing the contents of a rule condition
+        /// </summary>
+        /// <param name="condition"></param>
+        /// <param name="retVal"></param>
+        private void BuildRuleConditionBoxes(RuleCondition condition, ICollection<IGraphicalDisplay> retVal)
+        {
+            retVal.Add(condition);
+            foreach (PreCondition preCondition in condition.PreConditions)
+            {
+                retVal.Add(preCondition);
+            }
+            foreach (Action action in condition.Actions)
+            {
+                retVal.Add(action);
+            }
+            foreach (Rule subRule in condition.SubRules)
+            {
+                BuildRuleBoxes(subRule, retVal);
+            }
+        }
+
+        /// <summary>
         ///     Provides the arrows between the models displayed in this panel
         /// </summary>
         /// <returns></returns>
@@ -338,11 +447,26 @@ namespace GUI.ModelDiagram
         {
             if (Function != null)
             {
-                CreateFunctionLayout();
+                CreateFunctionLayout(Function);
+            }
+            else if (Procedure != null)
+            {
+                PanelSize = new Size(0, 0);
+                CreateProcedureLayout(Procedure);
+            }
+            else if (Rule != null)
+            {
+                PanelSize = new Size(0, 0);
+                CreateRuleLayout(Rule, new Point(0, 0));
+            }
+            else if (RuleCondition != null)
+            {
+                PanelSize = new Size(0, 0);
+                CreateRuleConditionLayout(RuleCondition, new Point(0, 0));
             }
             else
             {
-                base.UpdateBoxPosition();                
+                base.UpdateBoxPosition();
             }
         }
 
@@ -361,7 +485,7 @@ namespace GUI.ModelDiagram
             PanelSize = new Size(
                 Math.Max(PanelSize.Width, control.Location.X + control.Size.Width + 20),
                 Math.Max(PanelSize.Height, control.Location.Y + control.Size.Height + 20)
-            );
+                );
         }
 
         /// <summary>
@@ -378,8 +502,9 @@ namespace GUI.ModelDiagram
             // Compute the size of the displayed text
             SizeF stringSize = GuiUtils.Graphics.MeasureString(text, font);
             control.Size = new Size(
-                Math.Max(control.Size.Width, (int)stringSize.Width + 20),
-                control.Size.Height + (int) stringSize.Height + 5);
+                Math.Max(control.Size.Width, (int) stringSize.Width + 20),
+                Math.Max ( control.Size.Height, location.Y - control.Location.Y + (int) stringSize.Height + 5)
+            );
 
             // Position the text
             control.Texts.Add(new ModelControl.TextPosition
@@ -409,21 +534,21 @@ namespace GUI.ModelDiagram
 
             // Increase control size according to title
             retVal = SetText(
-                control, 
-                control.ModelName, 
-                control.Bold, 
-                Color.Black, 
+                control,
+                control.ModelName,
+                control.Bold,
+                Color.Black,
                 retVal);
 
             // Increase control size according to comment
             ICommentable commentable = control.TypedModel as ICommentable;
-            if ( commentable != null )
+            if (commentable != null)
             {
                 retVal = SetText(
-                    control, 
-                    commentable.Comment, 
-                    control.Italic, 
-                    Color.Green, 
+                    control,
+                    commentable.Comment,
+                    control.Italic,
+                    Color.Green,
                     retVal);
             }
 
@@ -439,44 +564,72 @@ namespace GUI.ModelDiagram
         /// <param name="enclosingControl">The parent control</param>
         /// <param name="subControl">The control to inbed</param>
         /// <param name="location">The location where to inbed the sub control</param>
+        /// <param name="tab"></param>
         /// <returns>return>The location where filling should be continued</returns>
-        private Point Inbed(ModelControl enclosingControl, ModelControl subControl, Point location)
+        private Point InbedTopDown(ModelControl enclosingControl, ModelControl subControl, Point location, bool tab = true)
         {
+            int delta = tab ? 10 : 0;
+
             // Increase the enclosing control size 
             enclosingControl.Size = new Size(
-                Math.Max(enclosingControl.Width, subControl.Width + location.X + 10), 
-                enclosingControl.Size.Height + subControl.Size.Height + 10
+                Math.Max(enclosingControl.Width, location.X - enclosingControl.Location.X + subControl.Width + 20),
+                Math.Max(enclosingControl.Size.Height, subControl.Size.Height + location.Y - enclosingControl.Location.Y + 10)
             );
             RegisterControl(enclosingControl);
 
             return new Point(
                 subControl.Location.X,
-                subControl.Location.Y + subControl.Size.Height + 10); 
+                subControl.Location.Y + subControl.Size.Height + delta);
+        }
+
+        /// <summary>
+        /// Inbeds a control (the subControl) in a control
+        /// </summary>
+        /// <param name="enclosingControl">The parent control</param>
+        /// <param name="subControl">The control to inbed</param>
+        /// <param name="location">The location where to inbed the sub control</param>
+        /// <param name="tab"></param>
+        /// <returns>return>The location where filling should be continued</returns>
+        private Point InbedLeftRight(ModelControl enclosingControl, ModelControl subControl, Point location, bool tab = true)
+        {
+            int delta = tab ? 10 : 0;
+
+            // Increase the enclosing control size 
+            enclosingControl.Size = new Size(
+                Math.Max(enclosingControl.Size.Width, subControl.Width + subControl.Location.X - enclosingControl.Location.X + 10),
+                Math.Max(enclosingControl.Size.Height, subControl.Size.Height + location.Y - enclosingControl.Location.Y + 10)
+            );
+            RegisterControl(enclosingControl);
+
+            return new Point(
+                subControl.Location.X + subControl.Width + delta,
+                subControl.Location.Y);
         }
 
         /// <summary>
         /// Creates the layout for a function contents
         /// </summary>
-        private void CreateFunctionLayout()
+        /// <param name="function"></param>
+        private void CreateFunctionLayout(Function function)
         {
             PanelSize = new Size(0, 0);
 
             // Setup the function control location and size
-            FunctionModelControl functionControl = (FunctionModelControl) GetBoxControl(Function);
+            FunctionModelControl functionControl = (FunctionModelControl) GetBoxControl(function);
             Point location = SetSizeAndLocation(functionControl, new Point(10, 10));
 
             // Compute the position automatically
             location = new Point(20, location.Y);
-            foreach (Parameter parameter in Function.FormalParameters)
+            foreach (Parameter parameter in function.FormalParameters)
             {
                 // Compute the parameter box size
                 ParameterModelControl parameterControl = (ParameterModelControl) GetBoxControl(parameter);
                 SetSizeAndLocation(parameterControl, location);
-                location = Inbed(functionControl, parameterControl, location);
+                location = InbedTopDown(functionControl, parameterControl, location);
             }
 
             location = new Point(30, functionControl.Location.Y + functionControl.Size.Height + 10);
-            foreach (Case cas in Function.Cases)
+            foreach (Case cas in function.Cases)
             {
                 CaseModelControl caseControl = (CaseModelControl) GetBoxControl(cas);
                 location = SetSizeAndLocation(caseControl, location);
@@ -488,19 +641,144 @@ namespace GUI.ModelDiagram
                         (PreConditionModelControl) GetBoxControl(preCondition);
 
                     location = SetSizeAndLocation(preConditionControl, location);
-                    SetText(preConditionControl, preCondition.ExpressionText, preConditionControl.Font, Color.Transparent, location);
-                    location = Inbed(caseControl, preConditionControl, location);
+                    SetText(preConditionControl, preCondition.ExpressionText, preConditionControl.Font,
+                        Color.Transparent, location);
+                    location = InbedTopDown(caseControl, preConditionControl, location);
                 }
 
                 // Sets the control contents
                 location = new Point(30, location.Y);
-                location = SetText(caseControl, caseControl.TypedModel.GraphicalName, caseControl.Font, Color.Transparent, location);
+                location = SetText(caseControl, caseControl.TypedModel.GraphicalName, caseControl.Font,
+                    Color.Transparent, location);
+
+                location = InbedTopDown(functionControl, caseControl, location);
 
                 // Prepare for next loop iteration
                 location = new Point(30, location.Y + 10);
             }
 
             pictureBox.Size = MaxSize(PanelSize, Size);
+        }
+
+        /// <summary>
+        /// Creates the layout for a procedure contents
+        /// </summary>
+        /// <param name="procedure"></param>
+        private void CreateProcedureLayout(Procedure procedure)
+        {
+            PanelSize = new Size(0, 0);
+
+            // Setup the function control location and size
+            ProcedureModelControl procedureControl = (ProcedureModelControl)GetBoxControl(procedure);
+            Point location = SetSizeAndLocation(procedureControl, new Point(10, 10));
+
+            // Compute the position automatically
+            location = new Point(20, location.Y);
+            foreach (Parameter parameter in procedure.FormalParameters)
+            {
+                // Compute the parameter box size
+                ParameterModelControl parameterControl = (ParameterModelControl)GetBoxControl(parameter);
+                SetSizeAndLocation(parameterControl, location);
+                location = InbedTopDown(procedureControl, parameterControl, location);
+            }
+
+            location = new Point(30, procedureControl.Location.Y + procedureControl.Size.Height + 10);
+            foreach (Rule rule in procedure.Rules)
+            {
+                RuleModelControl ruleControl = CreateRuleLayout(rule, location);
+                location = InbedTopDown(procedureControl, ruleControl, location, false);
+                location = new Point(location.X - 10, location.Y + 10);
+            }
+
+            pictureBox.Size = MaxSize(PanelSize, Size);
+        }
+
+        /// <summary>
+        /// Creates the layout for a rule contents
+        /// </summary>
+        /// <param name="rule"></param>
+        /// <param name="location"></param>
+        private RuleModelControl CreateRuleLayout(Rule rule, Point location)
+        {
+            // Setup the rule control location and size
+            RuleModelControl ruleControl = (RuleModelControl) GetBoxControl(rule);
+            if (ruleControl != null)
+            {
+                location = new Point(location.X + 10, location.Y);
+                location = SetSizeAndLocation(ruleControl, location);
+
+                // Compute the position automatically
+                location = new Point(location.X + 10, location.Y);
+                foreach (RuleCondition ruleCondition in rule.RuleConditions)
+                {
+                    RuleConditionModelControl ruleConditionControl = CreateRuleConditionLayout(ruleCondition, location);
+                    if (ruleConditionControl != null)
+                    {
+                        location = InbedTopDown(ruleControl, ruleConditionControl, location, false);
+                    }
+                    location = new Point(location.X - 10, location.Y + 10);
+                    ruleControl.Size = new Size(ruleControl.Size.Width, ruleControl.Size.Height + 20);
+                }
+
+                pictureBox.Size = MaxSize(PanelSize, Size);
+            }
+
+            return ruleControl;
+        }
+
+        /// <summary>
+        /// Creates the layout for a rule condition contents
+        /// </summary>
+        /// <param name="ruleCondition"></param>
+        /// <param name="location"></param>
+        private RuleConditionModelControl CreateRuleConditionLayout(RuleCondition ruleCondition, Point location)
+        {
+            PanelSize = new Size(0, 0);
+
+            // Setup the function control location and size
+            RuleConditionModelControl ruleConditionControl = (RuleConditionModelControl) GetBoxControl(ruleCondition);
+            if (ruleConditionControl != null)
+            {
+                location = new Point(location.X + 10, location.Y);
+                location = SetSizeAndLocation(ruleConditionControl, location);
+
+                // Compute the position automatically
+                location = new Point(location.X + 30,
+                    ruleConditionControl.Location.Y + ruleConditionControl.Size.Height + 10);
+                foreach (PreCondition preCondition in ruleCondition.PreConditions)
+                {
+                    PreConditionModelControl preConditionControl =
+                        (PreConditionModelControl)GetBoxControl(preCondition);
+
+                    location = SetSizeAndLocation(preConditionControl, location);
+                    SetText(preConditionControl, preCondition.ExpressionText, preConditionControl.Font, Color.Transparent,
+                        location);
+                    location = InbedTopDown(ruleConditionControl, preConditionControl, location);
+                }
+
+                location = new Point(location.X - 20, location.Y);
+                foreach (Action action in ruleCondition.Actions)
+                {
+                    ActionModelControl actionControl = (ActionModelControl)GetBoxControl(action);
+
+                    location = SetSizeAndLocation(actionControl, location);
+                    SetText(actionControl, action.ExpressionText, actionControl.Font, Color.Transparent, location);
+                    location = InbedTopDown(ruleConditionControl, actionControl, location);
+                }
+
+                foreach (Rule subRule in ruleCondition.SubRules)
+                {
+                    RuleModelControl ruleControl = CreateRuleLayout(subRule, location);
+                    if (ruleControl != null)
+                    {
+                        location = InbedLeftRight(ruleConditionControl, ruleControl, location, false);
+                    }
+                }
+
+                pictureBox.Size = MaxSize(PanelSize, Size);
+            }
+
+            return ruleConditionControl;
         }
     }
 }

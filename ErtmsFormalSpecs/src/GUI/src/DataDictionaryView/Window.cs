@@ -19,6 +19,7 @@ using System.Windows.Forms;
 using DataDictionary;
 using DataDictionary.Constants;
 using DataDictionary.Functions;
+using DataDictionary.Rules;
 using DataDictionary.Types;
 using DataDictionary.Variables;
 using GUI.Properties;
@@ -172,6 +173,21 @@ namespace GUI.DataDictionaryView
             if (model == null)
             {
                 model = EnclosingFinder<Function>.find(context.Element, true);
+            }
+
+            if (model == null)
+            {
+                model = EnclosingFinder<Procedure>.find(context.Element, true);
+            }
+
+            if (model == null)
+            {
+                model = EnclosingFinder<RuleCondition>.find(context.Element, true);
+            }
+
+            if (model == null)
+            {
+                model = EnclosingFinder<Rule>.find(context.Element, true);
             }
 
             if (model == null)

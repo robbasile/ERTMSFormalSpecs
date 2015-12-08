@@ -14,6 +14,7 @@
 // --
 // ------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
@@ -108,6 +109,18 @@ namespace GUI.DataDictionaryView
             return retVal;
         }
 
+
+        /// <summary>
+        ///     Adds a condition to the rule
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        public void AddCondition(object sender, EventArgs args)
+        {
+            RuleCondition condition = DataDictionary.Rules.RuleCondition.CreateDefault(Item.RuleConditions);
+            Item.appendConditions(condition);
+        }
+
         /// <summary>
         ///     The menu items for this tree node
         /// </summary>
@@ -115,6 +128,10 @@ namespace GUI.DataDictionaryView
         protected override List<MenuItem> GetMenuItems()
         {
             List<MenuItem> retVal = new List<MenuItem>();
+
+            MenuItem addItem = new MenuItem("Add...");
+            addItem.MenuItems.Add(new MenuItem("Condition", AddCondition));
+            retVal.Add(addItem);
 
             MenuItem updateItem = new MenuItem("Update...");
             updateItem.MenuItems.Add(new MenuItem("Update", AddUpdate));

@@ -15,25 +15,25 @@
 // ------------------------------------------------------------------------------
 
 using System.Drawing;
-using DataDictionary.Functions;
+using DataDictionary.Rules;
 
 namespace GUI.ModelDiagram.Boxes
 {
     /// <summary>
-    ///     The boxes that represent a function
+    ///     The boxes that represent a rule condition
     /// </summary>
-    public class CaseModelControl : ModelControl
+    public class RuleConditionModelControl : ModelControl
     {
         /// <summary>
         ///     Constructor
         /// </summary>
         /// <param name="panel"></param>
         /// <param name="model"></param>
-        public CaseModelControl(ModelDiagramPanel panel, Case model)
+        public RuleConditionModelControl(ModelDiagramPanel panel, RuleCondition model)
             : base(panel, model)
         {
             BoxMode = BoxModeEnum.RoundedCorners;
-            NormalColor = Color.LightSeaGreen;
+            NormalColor = Color.LightBlue;
         }
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace GUI.ModelDiagram.Boxes
         /// </summary>
         public override string ModelName
         {
-            get { return "Case " + TypedModel.Name; }
+            get { return "  Rule condition : " + TypedModel.GraphicalName; }
         }
     }
 }

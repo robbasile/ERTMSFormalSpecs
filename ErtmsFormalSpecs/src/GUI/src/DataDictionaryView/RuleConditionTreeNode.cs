@@ -125,6 +125,14 @@ namespace GUI.DataDictionaryView
         }
 
         /// <summary>
+        ///     Adds a rule
+        /// </summary>
+        public void AddRuleHandler(object sender, EventArgs args)
+        {
+            Item.appendSubRules(Rule.CreateDefault(Item.SubRules));
+        }
+
+        /// <summary>
         ///     The menu items for this tree node
         /// </summary>
         /// <returns></returns>
@@ -135,6 +143,7 @@ namespace GUI.DataDictionaryView
             MenuItem newItem = new MenuItem("Add...");
             newItem.MenuItems.Add(new MenuItem("Pre-condition", AddPreConditionHandler));
             newItem.MenuItems.Add(new MenuItem("Action", AddActionHandler));
+            newItem.MenuItems.Add(new MenuItem("Sub-rule", AddRuleHandler));
             retVal.Add(newItem);
             retVal.Add(new MenuItem("Delete", DeleteHandler));
             retVal.AddRange(base.GetMenuItems());

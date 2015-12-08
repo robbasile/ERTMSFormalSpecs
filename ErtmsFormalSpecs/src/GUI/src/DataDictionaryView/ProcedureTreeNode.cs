@@ -14,11 +14,14 @@
 // --
 // ------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
 using DataDictionary;
-using DataDictionary.Functions;
+using DataDictionary.Generated;
+using Dictionary = DataDictionary.Dictionary;
+using Procedure = DataDictionary.Functions.Procedure;
 
 namespace GUI.DataDictionaryView
 {
@@ -106,12 +109,26 @@ namespace GUI.DataDictionaryView
         }
 
         /// <summary>
+        ///     Adds a copy of the current model element to the selected dictionary, if a copy does not already exist
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        public void AddRule(object sender, EventArgs args)
+        {
+            Item.appendRules(DataDictionary.Rules.Rule.CreateDefault(Item.Rules));
+        }
+
+        /// <summary>
         ///     The menu items for this tree node
         /// </summary>
         /// <returns></returns>
         protected override List<MenuItem> GetMenuItems()
         {
             List<MenuItem> retVal = new List<MenuItem>();
+
+            MenuItem addItem = new MenuItem("Add...");
+            addItem.MenuItems.Add(new MenuItem("Rule", AddRule));
+            retVal.Add(addItem);
 
             MenuItem updateItem = new MenuItem("Update...");
             updateItem.MenuItems.Add(new MenuItem("Update", AddUpdate));

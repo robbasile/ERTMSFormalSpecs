@@ -29,7 +29,7 @@ using Structure = DataDictionary.Types.Structure;
 
 namespace DataDictionary.Rules
 {
-    public class RuleCondition : Generated.RuleCondition, ITextualExplain
+    public class RuleCondition : Generated.RuleCondition, ITextualExplain, IGraphicalDisplay
     {
         /// <summary>
         ///     Constructor
@@ -548,5 +548,12 @@ namespace DataDictionary.Rules
             return retVal;
         }
 
+        public int X { get; set; }
+        public int Y { get; set; }
+        public int Width { get; set; }
+        public int Height { get; set; }
+        public string GraphicalName { get { return Name; }}
+        public bool Hidden { get; set; }
+        public bool Pinned { get; set; }
     }
 }

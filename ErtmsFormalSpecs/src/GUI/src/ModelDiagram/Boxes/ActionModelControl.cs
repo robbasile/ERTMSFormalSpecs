@@ -14,26 +14,23 @@
 // --
 // ------------------------------------------------------------------------------
 
-using System.Drawing;
-using DataDictionary.Functions;
+using DataDictionary.Rules;
 
 namespace GUI.ModelDiagram.Boxes
 {
     /// <summary>
-    ///     The boxes that represent a function
+    ///     The boxes that represent a rule condition
     /// </summary>
-    public class CaseModelControl : ModelControl
+    public class ActionModelControl : ModelControl
     {
         /// <summary>
         ///     Constructor
         /// </summary>
         /// <param name="panel"></param>
         /// <param name="model"></param>
-        public CaseModelControl(ModelDiagramPanel panel, Case model)
+        public ActionModelControl(ModelDiagramPanel panel, Action model)
             : base(panel, model)
         {
-            BoxMode = BoxModeEnum.RoundedCorners;
-            NormalColor = Color.LightSeaGreen;
         }
 
         /// <summary>
@@ -41,7 +38,7 @@ namespace GUI.ModelDiagram.Boxes
         /// </summary>
         public override string ModelName
         {
-            get { return "Case " + TypedModel.Name; }
+            get { return "Action"; }
         }
     }
 }
