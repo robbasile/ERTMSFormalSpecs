@@ -255,6 +255,10 @@ namespace GUI.DataDictionaryView
                 if (changeKind != Context.ChangeKind.EndOfCycle)
                 {
                     modelDiagramPanel.RefreshControl();
+                    if (stateDiagramPanel != null)
+                    {
+                        stateDiagramPanel.RefreshControl();
+                    }
 
                     Dictionary enclosing = EnclosingFinder<Dictionary>.find(modelElement, true);
                     if (modelElement == null || enclosing == Dictionary)

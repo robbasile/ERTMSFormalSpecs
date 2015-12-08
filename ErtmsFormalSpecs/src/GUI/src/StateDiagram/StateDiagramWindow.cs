@@ -14,6 +14,7 @@
 // --
 // ------------------------------------------------------------------------------
 
+using System.Xml.Schema;
 using DataDictionary.Constants;
 using DataDictionary.Rules;
 using DataDictionary.Types;
@@ -34,6 +35,12 @@ namespace GUI.StateDiagram
         public override BoxArrowPanel<StateMachine, State, Transition> CreatePanel()
         {
             return new StatePanel();
+        }
+
+        protected override StateMachine Model
+        {
+            get { return StatePanel.Model; }
+            set { StatePanel.Model = value; }
         }
     }
 }

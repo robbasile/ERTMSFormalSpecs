@@ -126,9 +126,12 @@ namespace GUI.StateDiagram
         {
             List<State> retVal = new List<State>();
 
-            foreach (State state in Model.States)
+            if (Model != null)
             {
-                retVal.Add(state);
+                foreach (State state in Model.States)
+                {
+                    retVal.Add(state);
+                }
             }
 
             return retVal;
@@ -140,7 +143,14 @@ namespace GUI.StateDiagram
         /// <returns></returns>
         public override List<Transition> GetArrows()
         {
-            return Model.Transitions;
+            List<Transition> retVal = new List<Transition>();
+
+            if (Model != null)
+            {
+                retVal = Model.Transitions;
+            }
+
+            return retVal;
         }
 
         /// <summary>
@@ -172,11 +182,19 @@ namespace GUI.StateDiagram
         /// <param name="model"></param>
         public override void SelectModel(object model)
         {
-            State state = EnclosingFinder<State>.find(model as IModelElement, true);
-
-            if (state != null)
+            RuleCondition ruleCondition = EnclosingFinder<RuleCondition>.find(model as IModelElement, true);
+            if (ruleCondition != null)
             {
-                base.SelectModel(state);                
+                base.SelectModel(ruleCondition);
+            }
+            else
+            {
+                State state = EnclosingFinder<State>.find(model as IModelElement, true);
+
+                if (state != null)
+                {
+                    base.SelectModel(state);
+                }                
             }
         }
     }

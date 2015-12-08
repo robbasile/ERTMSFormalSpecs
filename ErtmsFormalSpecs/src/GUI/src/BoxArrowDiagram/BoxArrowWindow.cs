@@ -15,7 +15,6 @@
 // ------------------------------------------------------------------------------
 
 using DataDictionary;
-using DataDictionary.Rules;
 using Utils;
 using WeifenLuo.WinFormsUI.Docking;
 
@@ -29,7 +28,7 @@ namespace GUI.BoxArrowDiagram
         /// <summary>
         ///     The enclosing model
         /// </summary>
-        protected TEnclosing Model { get; set; }
+        protected virtual TEnclosing Model { get; set; }
 
         /// <summary>
         ///     Constructor
@@ -59,9 +58,25 @@ namespace GUI.BoxArrowDiagram
 
             if (retVal)
             {
-                if (modelElement == Model)
+                if (modelElement == null)
                 {
                     BoxArrowContainerPanel.RefreshControl();
+                }
+                else
+                {
+                    TEnclosing enclosing = EnclosingFinder<TEnclosing>.find(modelElement, true);
+                    while (enclosing != null)
+                    {
+                        if (enclosing == Model)
+                        {
+                            BoxArrowContainerPanel.RefreshControl();
+                            enclosing = null;
+                        }
+                        else
+                        {
+                            enclosing = EnclosingFinder<TEnclosing>.find(enclosing as IEnclosed, false);
+                        }
+                    }
                 }
             }
 
