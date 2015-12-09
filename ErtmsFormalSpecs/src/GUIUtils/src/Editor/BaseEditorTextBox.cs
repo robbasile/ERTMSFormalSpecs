@@ -1004,7 +1004,6 @@ namespace GUIUtils.Editor
                             break;
 
                         case Keys.V:
-                            EditionTextBox.Paste();
                             e.Handled = true;
                             break;
                     }
