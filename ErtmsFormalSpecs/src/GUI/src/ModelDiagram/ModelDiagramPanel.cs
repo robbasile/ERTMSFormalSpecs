@@ -542,6 +542,40 @@ namespace GUI.ModelDiagram
                         }
                     }
                 }
+
+                if (Function != null)
+                {
+                    Function function = item as Function;
+                    if (function != null)
+                    {
+                        Case previousCase = null;
+                        foreach (Case cas in function.Cases)
+                        {
+                            if (previousCase != null)
+                            {
+                                retVal.Add(new OthewiseArrow(previousCase, cas));
+                            }
+                            previousCase = cas;
+                        }
+                    }
+                }
+
+                if (Procedure != null || Rule != null || RuleCondition != null)
+                {
+                    Rule rule = item as Rule;
+                    if (rule != null)
+                    {
+                        RuleCondition previousCondition = null;
+                        foreach (RuleCondition condition in rule.RuleConditions)
+                        {
+                            if (previousCondition != null)
+                            {
+                                retVal.Add(new OthewiseArrow(previousCondition, condition));
+                            }
+                            previousCondition = condition;
+                        }
+                    }
+                }
             }
 
             return retVal;
@@ -841,8 +875,8 @@ namespace GUI.ModelDiagram
                     {
                         location = InbedTopDown(ruleControl, ruleConditionControl, location, false);
                     }
-                    location = new Point(location.X - 10, location.Y + 10);
-                    ruleControl.Size = new Size(ruleControl.Size.Width, ruleControl.Size.Height + 20);
+                    location = new Point(location.X - 10, location.Y + 20);
+                    ruleControl.Size = new Size(ruleControl.Size.Width, ruleControl.Size.Height + 30);
                 }
 
                 pictureBox.Size = MaxSize(PanelSize, Size);

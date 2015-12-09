@@ -21,35 +21,34 @@ using Utils;
 namespace GUI.ModelDiagram.Arrows
 {
     /// <summary>
-    ///     An arrow between the models
+    ///     An arrow
     /// </summary>
-    public class ModelArrowControl : ArrowControl<IModelElement, IGraphicalDisplay, ModelArrow>
+    public class OthewiseArrow : ModelArrow
     {
         /// <summary>
         ///     Constructor
         /// </summary>
-        /// <param name="panel"></param>
-        /// <param name="model"></param>
-        public ModelArrowControl(ModelDiagramPanel panel, ModelArrow model)
-            : base(panel, model)
+        /// <param name="source"></param>
+        /// <param name="target"></param>
+        public OthewiseArrow(IGraphicalDisplay source, IGraphicalDisplay target)
+            : base(source, target, "", null)
         {
-            DefaultArrowLength = 30;
+        }
 
-            if (model is VariableTypeArrow )
-            {
-                ArrowFill = ArrowFillEnum.Fill;
-                ArrowMode = ArrowModeEnum.Full;
-            }
-            else if (model is OthewiseArrow)
-            {
-                ArrowFill = ArrowFillEnum.Line;
-                ArrowMode = ArrowModeEnum.Full;                
-            }
-            else
-            {
-                ArrowFill = ArrowFillEnum.Line;
-                ArrowMode = ArrowModeEnum.Half;
-            }
+        /// <summary>
+        ///     Sets the source box for this arrow
+        /// </summary>
+        /// <param name="initialBox"></param>
+        public override void SetInitialBox(IGraphicalDisplay initialBox)
+        {
+        }
+
+        /// <summary>
+        ///     Sets the target box for this arrow
+        /// </summary>
+        /// <param name="targetBox"></param>
+        public override void SetTargetBox(IGraphicalDisplay targetBox)
+        {
         }
     }
 }
