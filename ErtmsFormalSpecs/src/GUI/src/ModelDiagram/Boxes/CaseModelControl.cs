@@ -33,7 +33,7 @@ namespace GUI.ModelDiagram.Boxes
             : base(panel, model)
         {
             BoxMode = BoxModeEnum.RoundedCorners;
-            NormalColor = Color.LightSeaGreen;
+            NormalColor = Color.LightBlue;
         }
 
         /// <summary>

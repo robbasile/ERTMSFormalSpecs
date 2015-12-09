@@ -177,17 +177,17 @@ namespace GUI.DataDictionaryView
 
             if (model == null)
             {
-                model = EnclosingFinder<Procedure>.find(context.Element, true);
-            }
-
-            if (model == null)
-            {
                 model = EnclosingFinder<RuleCondition>.find(context.Element, true);
             }
 
             if (model == null)
             {
                 model = EnclosingFinder<Rule>.find(context.Element, true);
+            }
+
+            if (model == null)
+            {
+                model = EnclosingFinder<Procedure>.find(context.Element, true);
             }
 
             if (model == null)

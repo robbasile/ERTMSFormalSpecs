@@ -19,7 +19,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using DataDictionary;
 using DataDictionary.Functions;
-using DataDictionary.Interpreter.Statement;
 using DataDictionary.Rules;
 using DataDictionary.Types;
 using DataDictionary.Variables;
