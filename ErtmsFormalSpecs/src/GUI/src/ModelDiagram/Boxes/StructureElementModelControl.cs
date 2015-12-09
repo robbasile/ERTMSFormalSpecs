@@ -14,21 +14,21 @@
 // --
 // ------------------------------------------------------------------------------
 
-using DataDictionary.Rules;
+using DataDictionary.Types;
 
 namespace GUI.ModelDiagram.Boxes
 {
     /// <summary>
-    ///     The boxes that represent an action
+    ///     The boxes that represent a structure element
     /// </summary>
-    public class ActionModelControl : ModelControl
+    public class StructureElementModelControl : ModelControl
     {
         /// <summary>
         ///     Constructor
         /// </summary>
         /// <param name="panel"></param>
         /// <param name="model"></param>
-        public ActionModelControl(ModelDiagramPanel panel, Action model)
+        public StructureElementModelControl(ModelDiagramPanel panel, StructureElement model)
             : base(panel, model)
         {
         }
@@ -38,7 +38,18 @@ namespace GUI.ModelDiagram.Boxes
         /// </summary>
         public override string ModelName
         {
-            get { return "Action"; }
+            get
+            {
+                string retVal = "";
+
+                StructureElement element = TypedModel as StructureElement;
+                if (element != null)
+                {
+                    retVal = element.Name + " : " + element.getTypeName();
+                }
+
+                return retVal;
+            }
         }
     }
 }

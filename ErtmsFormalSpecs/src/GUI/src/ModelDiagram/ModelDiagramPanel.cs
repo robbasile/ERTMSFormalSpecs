@@ -84,6 +84,15 @@ namespace GUI.ModelDiagram
         }
 
         /// <summary>
+        ///     The structure for which this panel is built
+        /// </summary>
+        public Structure Structure
+        {
+            get { return Model as Structure; }
+            set { Model = value; }
+        }
+
+        /// <summary>
         ///     The rule condition for which this panel is built
         /// </summary>
         public RuleCondition RuleCondition
@@ -194,6 +203,12 @@ namespace GUI.ModelDiagram
                 }
             }
 
+            StructureElement element = model as StructureElement;
+            if (element != null)
+            {
+                retVal = new StructureElementModelControl(this, element);
+            }
+
             Rule rule = model as Rule;
             if (rule != null)
             {
@@ -250,7 +265,7 @@ namespace GUI.ModelDiagram
 
             if (Procedure != null)
             {
-                BuildProcedureBoxes(retVal);
+                BuildProcedureBoxes(Procedure, retVal);
             }
 
             if (RuleCondition != null)
@@ -261,6 +276,11 @@ namespace GUI.ModelDiagram
             if (Rule != null)
             {
                 BuildRuleBoxes(Rule, retVal);
+            }
+
+            if (Structure != null)
+            {
+                BuildStructureBoxes(Structure, retVal);
             }
 
             return retVal;
@@ -339,15 +359,16 @@ namespace GUI.ModelDiagram
         /// <summary>
         /// Builds the boxes representing the contents of a procedure
         /// </summary>
+        /// <param name="procedure"></param>
         /// <param name="retVal"></param>
-        private void BuildProcedureBoxes(ICollection<IGraphicalDisplay> retVal)
+        private void BuildProcedureBoxes(Procedure procedure, ICollection<IGraphicalDisplay> retVal)
         {
-            retVal.Add(Procedure);
-            foreach (Parameter parameter in Procedure.FormalParameters)
+            retVal.Add(procedure);
+            foreach (Parameter parameter in procedure.FormalParameters)
             {
                 retVal.Add(parameter);
             }
-            foreach (Rule rule in Procedure.Rules)
+            foreach (Rule rule in procedure.Rules)
             {
                 BuildRuleBoxes(rule, retVal);
             }
@@ -364,6 +385,25 @@ namespace GUI.ModelDiagram
             foreach (RuleCondition condition in rule.RuleConditions)
             {
                 BuildRuleConditionBoxes(condition, retVal);
+            }
+        }
+
+        /// <summary>
+        /// Builds the boxes representing the contents of a structure
+        /// </summary>
+        /// <param name="structure"></param>
+        /// <param name="retVal"></param>
+        private void BuildStructureBoxes(Structure structure, ICollection<IGraphicalDisplay> retVal)
+        {
+            retVal.Add(structure);
+            foreach (StructureElement element in structure.Elements)
+            {
+                retVal.Add(element);
+            }
+
+            foreach (Procedure procedure in structure.Procedures)
+            {
+                BuildProcedureBoxes(procedure, retVal);
             }
         }
 
@@ -451,7 +491,7 @@ namespace GUI.ModelDiagram
             else if (Procedure != null)
             {
                 PanelSize = new Size(0, 0);
-                CreateProcedureLayout(Procedure);
+                CreateProcedureLayout(Procedure, new Point(10,10));
             }
             else if (Rule != null)
             {
@@ -462,6 +502,11 @@ namespace GUI.ModelDiagram
             {
                 PanelSize = new Size(0, 0);
                 CreateRuleConditionLayout(RuleCondition, new Point(0, 0));
+            }
+            else if (Structure != null)
+            {
+                PanelSize = new Size(0, 0);
+                CreateStructureLayout(Structure, new Point(0, 0));
             }
             else
             {
@@ -663,13 +708,14 @@ namespace GUI.ModelDiagram
         /// Creates the layout for a procedure contents
         /// </summary>
         /// <param name="procedure"></param>
-        private void CreateProcedureLayout(Procedure procedure)
+        /// <param name="location"></param>
+        private ProcedureModelControl CreateProcedureLayout(Procedure procedure, Point location)
         {
             PanelSize = new Size(0, 0);
 
             // Setup the function control location and size
             ProcedureModelControl procedureControl = (ProcedureModelControl)GetBoxControl(procedure);
-            Point location = SetSizeAndLocation(procedureControl, new Point(10, 10));
+            location = SetSizeAndLocation(procedureControl, location);
 
             // Compute the position automatically
             location = new Point(20, location.Y);
@@ -690,6 +736,7 @@ namespace GUI.ModelDiagram
             }
 
             pictureBox.Size = MaxSize(PanelSize, Size);
+            return procedureControl;
         }
 
         /// <summary>
@@ -779,5 +826,48 @@ namespace GUI.ModelDiagram
 
             return ruleConditionControl;
         }
+
+        /// <summary>
+        /// Creates the layout for a rule condition contents
+        /// </summary>
+        /// <param name="structure"></param>
+        /// <param name="location"></param>
+        private StructureModelControl CreateStructureLayout(Structure structure, Point location)
+        {
+            PanelSize = new Size(0, 0);
+
+            // Setup the function control location and size
+            StructureModelControl structureControl = (StructureModelControl)GetBoxControl(structure);
+            if (structureControl != null)
+            {
+                location = new Point(location.X + 10, location.Y);
+                location = SetSizeAndLocation(structureControl, location);
+
+                // Compute the position automatically
+                location = new Point(location.X + 10, structureControl.Location.Y + structureControl.Size.Height + 10);
+                foreach (StructureElement element in structure.Elements)
+                {
+                    StructureElementModelControl elementModelControl =
+                        (StructureElementModelControl)GetBoxControl(element);
+
+                    location = SetSizeAndLocation(elementModelControl, location);
+                    location = InbedTopDown(structureControl, elementModelControl, location);
+                }
+
+                location = new Point(location.X + 10, structureControl.Location.Y + structureControl.Size.Height + 10);
+                foreach (Procedure procedure in structure.Procedures)
+                {
+                    ProcedureModelControl procedureControl = CreateProcedureLayout(procedure, location);
+                    location = InbedTopDown(structureControl, procedureControl, location);
+                    location = new Point(location.X, location.Y + 10);
+                    structureControl.Size = new Size(structureControl.Size.Width, structureControl.Size.Height + 20);
+                }
+
+                pictureBox.Size = MaxSize(PanelSize, Size);
+            }
+
+            return structureControl;
+        }
+
     }
 }

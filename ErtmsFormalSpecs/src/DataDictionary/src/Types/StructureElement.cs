@@ -27,7 +27,7 @@ using Utils;
 namespace DataDictionary.Types
 {
     public class StructureElement : Generated.StructureElement, ITypedElement, ISubDeclarator, ITextualExplain,
-        IDefaultValueElement
+        IDefaultValueElement, IGraphicalDisplay
     {
         public NameSpace NameSpace
         {
@@ -378,5 +378,13 @@ namespace DataDictionary.Types
 
             return retVal;
         }
+
+        public int X { get; set; }
+        public int Y { get; set; }
+        public int Width { get; set; }
+        public int Height { get; set; }
+        public string GraphicalName { get { return Name; } }
+        public bool Hidden { get; set; }
+        public bool Pinned { get; set; }
     }
 }

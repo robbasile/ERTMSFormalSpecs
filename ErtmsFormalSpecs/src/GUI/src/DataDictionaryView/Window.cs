@@ -192,6 +192,11 @@ namespace GUI.DataDictionaryView
 
             if (model == null)
             {
+                model = EnclosingFinder<Structure>.find(context.Element, true);
+            }
+
+            if (model == null)
+            {
                 model = EnclosingFinder<NameSpace>.find(context.Element, true);
             }
 
