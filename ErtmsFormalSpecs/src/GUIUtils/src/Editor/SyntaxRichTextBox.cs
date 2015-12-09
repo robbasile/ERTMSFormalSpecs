@@ -17,6 +17,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using DataDictionary;
@@ -226,20 +227,39 @@ namespace GUIUtils.Editor
             {
                 CanPaint = false;
 
-                int lineNumber = 0;
-                int start = 0;
-                foreach (string line in Lines)
+                if (Lines.Count() < 300)
                 {
-                    lineNumber = lineNumber + 1;
-                    if (!_processedLines.Contains(lineNumber))
+                    int lineNumber = 0;
+                    int start = 0;
+                    foreach (string line in Lines)
                     {
-                        ProcessLine(start, line);
-                        _processedLines.Add(lineNumber);
+                        lineNumber = lineNumber + 1;
+                        if (!_processedLines.Contains(lineNumber))
+                        {
+                            ProcessLine(start, line);
+                            _processedLines.Add(lineNumber);
+                        }
+
+                        start = start + line.Length + 1;
                     }
-
-                    start = start + line.Length + 1;
                 }
+                else
+                {
+                    // For longer text, it takes too much time to apply to coloring algorithm. 
+                    // Don't color anything in that case
+                    int savedSelectionStart = SelectionStart;
+                    int savedSelectionLength = SelectionLength;
+                    Color savedSelectionColor = SelectionBackColor;
 
+                    SelectionStart = 0;
+                    SelectionLength = TextLength;
+                    SelectionColor = Color.Black;
+                    SelectionFont = RegularFont;
+
+                    SelectionStart = savedSelectionStart;
+                    SelectionLength = savedSelectionLength;
+                    SelectionColor = savedSelectionColor; 
+                }
                 CanPaint = true;
             }
         }
