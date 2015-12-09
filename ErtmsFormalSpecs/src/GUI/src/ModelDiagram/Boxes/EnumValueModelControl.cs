@@ -14,37 +14,38 @@
 // --
 // ------------------------------------------------------------------------------
 
-using DataDictionary.Types;
+using DataDictionary.Constants;
 
 namespace GUI.ModelDiagram.Boxes
 {
     /// <summary>
-    ///     The boxes that represent an enumeration
+    ///     The boxes that represent an enumeration value
     /// </summary>
-    public class EnumModelControl : TypeModelControl
+    public class EnumValueModelControl : ModelControl
     {
         /// <summary>
         ///     Constructor
         /// </summary>
         /// <param name="panel"></param>
         /// <param name="model"></param>
-        public EnumModelControl(ModelDiagramPanel panel, Enum model)
+        public EnumValueModelControl(ModelDiagramPanel panel, EnumValue model)
             : base(panel, model)
         {
         }
 
         /// <summary>
-        ///     The name of the kind of type
+        ///     The name of the kind of model
         /// </summary>
         public override string ModelName
         {
             get
             {
-                string retVal = "Enumeration";
+                string retVal = "";
 
-                if (ComputedPositionAndSize)
+                EnumValue value = TypedModel as EnumValue;
+                if (value != null)
                 {
-                    retVal = "Enumeration : " + TypedModel.GraphicalName;
+                    retVal = value.Name;
                 }
 
                 return retVal;

@@ -27,7 +27,7 @@ using Type = DataDictionary.Types.Type;
 
 namespace DataDictionary.Constants
 {
-    public class EnumValue : Generated.EnumValue, IValue
+    public class EnumValue : Generated.EnumValue, IValue, IGraphicalDisplay
     {
         /// <summary>
         ///     The corresponding type
@@ -225,5 +225,13 @@ namespace DataDictionary.Constants
 
             return retVal;
         }
+
+        public int X { get; set; }
+        public int Y { get; set; }
+        public int Width { get; set; }
+        public int Height { get; set; }
+        public string GraphicalName { get { return Name; } }
+        public bool Hidden { get; set; }
+        public bool Pinned { get; set; }
     }
 }

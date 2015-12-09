@@ -18,6 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using DataDictionary;
+using DataDictionary.Constants;
 using DataDictionary.Functions;
 using DataDictionary.Rules;
 using DataDictionary.Types;
@@ -36,7 +37,7 @@ namespace GUI.ModelDiagram
     /// <summary>
     ///     The panel used to display model elements (types, variables, rules, ...)
     /// </summary>
-    public class ModelDiagramPanel : BoxArrowPanel<IModelElement, IGraphicalDisplay, ModelArrow>
+    public sealed class ModelDiagramPanel : BoxArrowPanel<IModelElement, IGraphicalDisplay, ModelArrow>
     {
         /// <summary>
         ///     The namespace for which this panel is built
@@ -98,6 +99,24 @@ namespace GUI.ModelDiagram
         public RuleCondition RuleCondition
         {
             get { return Model as RuleCondition; }
+            set { Model = value; }
+        }
+
+        /// <summary>
+        ///     The range for which this panel is built
+        /// </summary>
+        public Range Range
+        {
+            get { return Model as Range; }
+            set { Model = value; }
+        }
+
+        /// <summary>
+        ///     The enum for which this panel is built
+        /// </summary>
+        public Enum Enum
+        {
+            get { return Model as Enum; }
             set { Model = value; }
         }
 
@@ -176,6 +195,12 @@ namespace GUI.ModelDiagram
             if (enumeration != null)
             {
                 retVal = new EnumModelControl(this, enumeration);
+            }
+
+            EnumValue value = model as EnumValue;
+            if (value!= null)
+            {
+                retVal = new EnumValueModelControl(this, value);
             }
 
             Collection collection = model as Collection;
@@ -281,6 +306,16 @@ namespace GUI.ModelDiagram
             if (Structure != null)
             {
                 BuildStructureBoxes(Structure, retVal);
+            }
+
+            if (Range != null)
+            {
+                BuildRangeBoxes(Range, retVal);
+            }
+
+            if (Enum != null)
+            {
+                BuildEnumBoxes(Enum, retVal);
             }
 
             return retVal;
@@ -408,6 +443,39 @@ namespace GUI.ModelDiagram
         }
 
         /// <summary>
+        /// Builds the boxes representing the contents of a range 
+        /// </summary>
+        /// <param name="range"></param>
+        /// <param name="retVal"></param>
+        private void BuildRangeBoxes(Range range, ICollection<IGraphicalDisplay> retVal)
+        {
+            retVal.Add(range);
+            foreach (EnumValue value in range.SpecialValues)
+            {
+                retVal.Add(value);
+            }
+        }
+
+        /// <summary>
+        /// Builds the boxes representing the contents of a range 
+        /// </summary>
+        /// <param name="enumeration"></param>
+        /// <param name="retVal"></param>
+        private void BuildEnumBoxes(Enum enumeration, ICollection<IGraphicalDisplay> retVal)
+        {
+            retVal.Add(enumeration);
+            foreach (EnumValue value in enumeration.Values)
+            {
+                retVal.Add(value);
+            }
+
+            foreach (Enum subEnum in enumeration.SubEnums)
+            {
+                BuildEnumBoxes(subEnum, retVal);
+            }
+        }
+
+        /// <summary>
         /// Builds the boxes representing the contents of a rule condition
         /// </summary>
         /// <param name="condition"></param>
@@ -507,6 +575,16 @@ namespace GUI.ModelDiagram
             {
                 PanelSize = new Size(0, 0);
                 CreateStructureLayout(Structure, new Point(0, 0));
+            }
+            else if (Range != null)
+            {
+                PanelSize = new Size(0, 0);
+                CreateRangeLayout(Range, new Point(0, 0));
+            }
+            else if (Enum != null)
+            {
+                PanelSize = new Size(0, 0);
+                CreateEnumLayout(Enum, new Point(0, 0));
             }
             else
             {
@@ -654,12 +732,13 @@ namespace GUI.ModelDiagram
         /// Creates the layout for a function contents
         /// </summary>
         /// <param name="function"></param>
-        private void CreateFunctionLayout(Function function)
+        // ReSharper disable once UnusedMethodReturnValue.Local
+        private ModelControl CreateFunctionLayout(Function function)
         {
             PanelSize = new Size(0, 0);
 
             // Setup the function control location and size
-            FunctionModelControl functionControl = (FunctionModelControl) GetBoxControl(function);
+            ModelControl functionControl = (ModelControl)GetBoxControl(function);
             Point location = SetSizeAndLocation(functionControl, new Point(10, 10));
 
             // Compute the position automatically
@@ -667,7 +746,7 @@ namespace GUI.ModelDiagram
             foreach (Parameter parameter in function.FormalParameters)
             {
                 // Compute the parameter box size
-                ParameterModelControl parameterControl = (ParameterModelControl) GetBoxControl(parameter);
+                ModelControl parameterControl = (ModelControl)GetBoxControl(parameter);
                 SetSizeAndLocation(parameterControl, location);
                 location = InbedTopDown(functionControl, parameterControl, location);
             }
@@ -675,14 +754,13 @@ namespace GUI.ModelDiagram
             location = new Point(30, functionControl.Location.Y + functionControl.Size.Height + 10);
             foreach (Case cas in function.Cases)
             {
-                CaseModelControl caseControl = (CaseModelControl) GetBoxControl(cas);
+                ModelControl caseControl = (ModelControl)GetBoxControl(cas);
                 location = SetSizeAndLocation(caseControl, location);
 
                 location = new Point(50, location.Y);
                 foreach (PreCondition preCondition in cas.PreConditions)
                 {
-                    PreConditionModelControl preConditionControl =
-                        (PreConditionModelControl) GetBoxControl(preCondition);
+                    ModelControl preConditionControl =(ModelControl)GetBoxControl(preCondition);
 
                     location = SetSizeAndLocation(preConditionControl, location);
                     SetText(preConditionControl, preCondition.ExpressionText, preConditionControl.Font,
@@ -702,6 +780,7 @@ namespace GUI.ModelDiagram
             }
 
             pictureBox.Size = MaxSize(PanelSize, Size);
+            return functionControl;
         }
 
         /// <summary>
@@ -709,12 +788,12 @@ namespace GUI.ModelDiagram
         /// </summary>
         /// <param name="procedure"></param>
         /// <param name="location"></param>
-        private ProcedureModelControl CreateProcedureLayout(Procedure procedure, Point location)
+        private ModelControl CreateProcedureLayout(Procedure procedure, Point location)
         {
             PanelSize = new Size(0, 0);
 
             // Setup the function control location and size
-            ProcedureModelControl procedureControl = (ProcedureModelControl)GetBoxControl(procedure);
+            ModelControl procedureControl = (ModelControl)GetBoxControl(procedure);
             location = SetSizeAndLocation(procedureControl, location);
 
             // Compute the position automatically
@@ -722,7 +801,7 @@ namespace GUI.ModelDiagram
             foreach (Parameter parameter in procedure.FormalParameters)
             {
                 // Compute the parameter box size
-                ParameterModelControl parameterControl = (ParameterModelControl)GetBoxControl(parameter);
+                ModelControl parameterControl = (ModelControl)GetBoxControl(parameter);
                 SetSizeAndLocation(parameterControl, location);
                 location = InbedTopDown(procedureControl, parameterControl, location);
             }
@@ -730,7 +809,7 @@ namespace GUI.ModelDiagram
             location = new Point(30, procedureControl.Location.Y + procedureControl.Size.Height + 10);
             foreach (Rule rule in procedure.Rules)
             {
-                RuleModelControl ruleControl = CreateRuleLayout(rule, location);
+                ModelControl ruleControl = CreateRuleLayout(rule, location);
                 location = InbedTopDown(procedureControl, ruleControl, location, false);
                 location = new Point(location.X - 10, location.Y + 10);
             }
@@ -744,10 +823,10 @@ namespace GUI.ModelDiagram
         /// </summary>
         /// <param name="rule"></param>
         /// <param name="location"></param>
-        private RuleModelControl CreateRuleLayout(Rule rule, Point location)
+        private ModelControl CreateRuleLayout(Rule rule, Point location)
         {
             // Setup the rule control location and size
-            RuleModelControl ruleControl = (RuleModelControl) GetBoxControl(rule);
+            ModelControl ruleControl = (ModelControl)GetBoxControl(rule);
             if (ruleControl != null)
             {
                 location = new Point(location.X + 10, location.Y);
@@ -757,7 +836,7 @@ namespace GUI.ModelDiagram
                 location = new Point(location.X + 10, location.Y);
                 foreach (RuleCondition ruleCondition in rule.RuleConditions)
                 {
-                    RuleConditionModelControl ruleConditionControl = CreateRuleConditionLayout(ruleCondition, location);
+                    ModelControl ruleConditionControl = CreateRuleConditionLayout(ruleCondition, location);
                     if (ruleConditionControl != null)
                     {
                         location = InbedTopDown(ruleControl, ruleConditionControl, location, false);
@@ -777,12 +856,12 @@ namespace GUI.ModelDiagram
         /// </summary>
         /// <param name="ruleCondition"></param>
         /// <param name="location"></param>
-        private RuleConditionModelControl CreateRuleConditionLayout(RuleCondition ruleCondition, Point location)
+        private ModelControl CreateRuleConditionLayout(RuleCondition ruleCondition, Point location)
         {
             PanelSize = new Size(0, 0);
 
             // Setup the function control location and size
-            RuleConditionModelControl ruleConditionControl = (RuleConditionModelControl) GetBoxControl(ruleCondition);
+            ModelControl ruleConditionControl = (ModelControl)GetBoxControl(ruleCondition);
             if (ruleConditionControl != null)
             {
                 location = new Point(location.X + 10, location.Y);
@@ -793,8 +872,7 @@ namespace GUI.ModelDiagram
                     ruleConditionControl.Location.Y + ruleConditionControl.Size.Height + 10);
                 foreach (PreCondition preCondition in ruleCondition.PreConditions)
                 {
-                    PreConditionModelControl preConditionControl =
-                        (PreConditionModelControl)GetBoxControl(preCondition);
+                    ModelControl preConditionControl = (ModelControl)GetBoxControl(preCondition);
 
                     location = SetSizeAndLocation(preConditionControl, location);
                     SetText(preConditionControl, preCondition.ExpressionText, preConditionControl.Font, Color.Transparent,
@@ -805,7 +883,7 @@ namespace GUI.ModelDiagram
                 location = new Point(location.X - 20, location.Y);
                 foreach (Action action in ruleCondition.Actions)
                 {
-                    ActionModelControl actionControl = (ActionModelControl)GetBoxControl(action);
+                    ModelControl actionControl = (ModelControl)GetBoxControl(action);
 
                     location = SetSizeAndLocation(actionControl, location);
                     SetText(actionControl, action.ExpressionText, actionControl.Font, Color.Transparent, location);
@@ -814,7 +892,7 @@ namespace GUI.ModelDiagram
 
                 foreach (Rule subRule in ruleCondition.SubRules)
                 {
-                    RuleModelControl ruleControl = CreateRuleLayout(subRule, location);
+                    ModelControl ruleControl = CreateRuleLayout(subRule, location);
                     if (ruleControl != null)
                     {
                         location = InbedLeftRight(ruleConditionControl, ruleControl, location, false);
@@ -832,12 +910,13 @@ namespace GUI.ModelDiagram
         /// </summary>
         /// <param name="structure"></param>
         /// <param name="location"></param>
-        private StructureModelControl CreateStructureLayout(Structure structure, Point location)
+        // ReSharper disable once UnusedMethodReturnValue.Local
+        private ModelControl CreateStructureLayout(Structure structure, Point location)
         {
             PanelSize = new Size(0, 0);
 
             // Setup the function control location and size
-            StructureModelControl structureControl = (StructureModelControl)GetBoxControl(structure);
+            ModelControl structureControl = (ModelControl) GetBoxControl(structure);
             if (structureControl != null)
             {
                 location = new Point(location.X + 10, location.Y);
@@ -847,8 +926,7 @@ namespace GUI.ModelDiagram
                 location = new Point(location.X + 10, structureControl.Location.Y + structureControl.Size.Height + 10);
                 foreach (StructureElement element in structure.Elements)
                 {
-                    StructureElementModelControl elementModelControl =
-                        (StructureElementModelControl)GetBoxControl(element);
+                    ModelControl elementModelControl = (ModelControl)GetBoxControl(element);
 
                     location = SetSizeAndLocation(elementModelControl, location);
                     location = InbedTopDown(structureControl, elementModelControl, location);
@@ -857,7 +935,7 @@ namespace GUI.ModelDiagram
                 location = new Point(location.X + 10, structureControl.Location.Y + structureControl.Size.Height + 10);
                 foreach (Procedure procedure in structure.Procedures)
                 {
-                    ProcedureModelControl procedureControl = CreateProcedureLayout(procedure, location);
+                    ModelControl procedureControl = CreateProcedureLayout(procedure, location);
                     location = InbedTopDown(structureControl, procedureControl, location);
                     location = new Point(location.X, location.Y + 10);
                     structureControl.Size = new Size(structureControl.Size.Width, structureControl.Size.Height + 20);
@@ -869,5 +947,81 @@ namespace GUI.ModelDiagram
             return structureControl;
         }
 
+        /// <summary>
+        /// Creates the layout for a range contents
+        /// </summary>
+        /// <param name="range"></param>
+        /// <param name="location"></param>
+        // ReSharper disable once UnusedMethodReturnValue.Local
+        private ModelControl CreateRangeLayout(Range range, Point location)
+        {
+            // Setup the rule control location and size
+            ModelControl rangeControl = (ModelControl)GetBoxControl(range);
+            if (rangeControl != null)
+            {
+                location = new Point(location.X + 10, location.Y);
+                location = SetSizeAndLocation(rangeControl, location);
+
+                // Compute the position automatically
+                location = new Point(location.X + 10, location.Y);
+                foreach (EnumValue value in range.SpecialValues)
+                {
+                    ModelControl valueControl = (ModelControl)GetBoxControl(value);
+                    location = SetSizeAndLocation(valueControl, location);
+                    if (valueControl != null)
+                    {
+                        location = InbedTopDown(rangeControl, valueControl, location, false);
+                    }
+                    location = new Point(location.X, location.Y + 10);
+                    rangeControl.Size = new Size(rangeControl.Size.Width, rangeControl.Size.Height + 20);
+                }
+
+                pictureBox.Size = MaxSize(PanelSize, Size);
+            }
+
+            return rangeControl;
+        }
+
+        /// <summary>
+        /// Creates the layout for an enumeration contents
+        /// </summary>
+        /// <param name="enumeration"></param>
+        /// <param name="location"></param>
+        private ModelControl CreateEnumLayout(Enum enumeration, Point location)
+        {
+            // Setup the rule control location and size
+            ModelControl enumerationControl = (ModelControl)GetBoxControl(enumeration);
+            if (enumerationControl != null)
+            {
+                location = new Point(location.X + 10, location.Y);
+                location = SetSizeAndLocation(enumerationControl, location);
+
+                // Compute the position automatically
+                location = new Point(location.X + 10, location.Y);
+                foreach (EnumValue value in enumeration.Values)
+                {
+                    ModelControl valueControl = (ModelControl)GetBoxControl(value);
+                    location = SetSizeAndLocation(valueControl, location);
+                    if (valueControl != null)
+                    {
+                        location = InbedTopDown(enumerationControl, valueControl, location, false);
+                    }
+                    location = new Point(location.X, location.Y + 10);
+                    enumerationControl.Size = new Size(enumerationControl.Size.Width, enumerationControl.Size.Height + 20);
+                }
+
+                foreach (Enum subEnum in enumeration.SubEnums)
+                {
+                    ModelControl subEnumControl = CreateEnumLayout(subEnum, location);
+                    location = InbedTopDown(enumerationControl, subEnumControl, location, false);
+                    location = new Point(location.X - 10, location.Y + 10);
+                    enumerationControl.Size = new Size(enumerationControl.Size.Width, enumerationControl.Size.Height + 20);
+                }
+
+                pictureBox.Size = MaxSize(PanelSize, Size);
+            }
+
+            return enumerationControl;
+        }
     }
 }

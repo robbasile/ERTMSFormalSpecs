@@ -14,10 +14,8 @@
 // --
 // ------------------------------------------------------------------------------
 
-using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Windows.Forms;
 using DataDictionary;
 using GUI.BoxArrowDiagram;
 using GUI.ModelDiagram.Arrows;

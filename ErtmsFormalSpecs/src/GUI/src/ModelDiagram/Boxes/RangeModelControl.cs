@@ -38,7 +38,17 @@ namespace GUI.ModelDiagram.Boxes
         /// </summary>
         public override string ModelName
         {
-            get { return "Range"; }
+            get
+            {
+                string retVal = "Range";
+
+                if (ComputedPositionAndSize)
+                {
+                    retVal = "Range : " + TypedModel.GraphicalName;
+                }
+
+                return retVal;
+            }
         }
     }
 }
