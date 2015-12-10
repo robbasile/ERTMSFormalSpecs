@@ -603,7 +603,7 @@ This is used to handle the case where a previous brake command was not revoked b
 >RevokeEBCommand()</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
- Name="Enables EB commands"
+ Name="Enable EB command"
  Guid="e392c399-16e2-4029-a0db-9d14f4e796ec"
 >
 <Comment>Apply emergency brake.</Comment>
@@ -1124,7 +1124,7 @@ Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.d_preindication(aTarget)
 (
   aTarget.Location != BaseTypes.Distance.Infinity
     AND
-  NOT Kernel.MA.IsEOA(aTarget)
+  (NOT Kernel.MA.IsEOA(aTarget) OR Kernel.MA.IsSvL(aTarget))
     AND
   Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &gt; Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.d_preindication(aTarget)
 )</PreCondition></PreConditions>

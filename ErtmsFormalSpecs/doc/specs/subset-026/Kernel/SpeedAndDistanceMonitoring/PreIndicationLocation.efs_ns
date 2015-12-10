@@ -276,24 +276,7 @@ Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationLimitAtSpeed(
 ) &lt; Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom)</PreCondition></PreConditions>
 <Expression>BaseTypes.Distance.Unknown</Expression>
 </Case><Case
- Name="EOA, first case"
- Guid="e4ed753d-ac09-403e-afd3-fb72a28b9706"
->
-<PreConditions>
-<PreCondition
- Guid="0b29228c-ccce-4669-acfd-3f9141ede40a"
->Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationLimitAtSpeed_EOA(
-    aSpeed =&gt; Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationSegment(aTarget).Speed
-) &lt;= Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationSegment(aTarget).Location + BaseTypes.LengthToDistance(Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationSegment(aTarget).Length)</PreCondition><PreCondition
- Guid="a697db5b-8d80-4750-948c-b0b45689adc2"
->Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationSegment(aTarget).Location &lt; Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationLimitAtSpeed_EOA(
-    aSpeed =&gt; Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationSegment(aTarget).Speed
-)</PreCondition><PreCondition
- Guid="b45489d6-5cf3-4f02-83f3-ec715922f527"
->Kernel.MA.IsEOA ( aTarget )</PreCondition></PreConditions>
-<Expression>Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationLimitAtSpeed_EOA(Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationSegment(aTarget).Speed) - BaseTypes.SpeedToMS(Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationSegment(aTarget).Speed) * Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.T_preindication</Expression>
-</Case><Case
- Name="Other target, first case"
+ Name="First case"
  Guid="41f0a5a1-7965-4568-834c-248d28641324"
 >
 <PreConditions>
@@ -308,10 +291,10 @@ Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationLimitAtSpeed(
     aTarget =&gt; aTarget,
     aSpeed =&gt; Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationSegment(aTarget).Speed
 )</PreCondition></PreConditions>
-<Expression>Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationLimitAtSpeed(
+<Expression>IndicationLimitAtSpeed(
     aTarget =&gt; aTarget,
-    aSpeed =&gt; Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationSegment(aTarget).Speed
-) - BaseTypes.SpeedToMS(Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationSegment(aTarget).Speed) * Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.T_preindication</Expression>
+    aSpeed =&gt; IndicationSegment(aTarget).Speed
+) - BaseTypes.SpeedToMS(IndicationSegment(aTarget).Speed) * T_preindication</Expression>
 </Case><Case
  Name="Second case"
  Guid="fa19f559-65e4-402a-897b-7fda2bfa28dd"
