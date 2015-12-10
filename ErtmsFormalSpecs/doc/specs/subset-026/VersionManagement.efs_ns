@@ -14,43 +14,224 @@
 </NameSpaceRef></NameSpaces>
 <Enumerations>
 <Enum
- Default="VersionManagement.SystemVersionEnum.Version2_0"
+ Default="SystemVersion_X_Enum.Version2"
  X="30"
  Y="120"
  Width="100"
  Height="50"
- Name="SystemVersionEnum"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="SystemVersion_X_Enum"
  Guid="77f31ac3-7a9c-4338-91eb-52d0c1c55f0c"
 >
+<ReqRef
+ Id="a32b885e-f73e-44f1-9cba-50faee55ee28"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="17ebe643-ebf8-454d-bc2d-7bf40dc20bbd"
+>
+</ReqRef><ReqRef
+ Id="93b767f2-b6d6-4d86-96fa-030d812c8f40"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="5ad9e709-82fc-4af1-8654-3e980bee3f95"
+>
+</ReqRef><Comment>The operated system version number X.</Comment>
 <Values>
 <EnumValue
  Value=""
- Name="Version1_0"
+ Name="Version1"
  Guid="1cbb3c3b-7be7-4c62-8e00-04b460cbd35a"
 >
 </EnumValue><EnumValue
  Value=""
- Name="Version1_1"
- Guid="a0059c59-2ac8-4ec6-88fe-be62d41c2f7b"
->
-</EnumValue><EnumValue
- Value=""
- Name="Version2_0"
+ Name="Version2"
  Guid="a9fcd07f-d5c4-433c-85d1-02b402022885"
 >
 </EnumValue></Values>
 </Enum></Enumerations>
+<Functions>
+<Function
+ Type="SystemVersion_X_Enum"
+ Default=""
+ X="331"
+ Y="1"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="OperatedSystemVersionFromBTM"
+ Guid="6b40882e-580e-472c-a433-b9892d1500ba"
+>
+<ReqRef
+ Id="f60bbaad-2b86-4ba0-903d-6f4c835bd243"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d6acccb3-b5a0-43b7-9bd5-0e8886a74461"
+>
+</ReqRef><ReqRef
+ Id="2cde43dc-b585-44b6-9f88-b1b7235d55ee"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="710a6720-e47f-49da-baa6-4ac98cb076bf"
+>
+</ReqRef><ReqRef
+ Id="4127aa10-80a1-49bd-b357-9d840ef580da"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="108e9141-723d-434e-a46f-a2f34e4f636d"
+>
+</ReqRef><Comment>Returns the OperatedSystemVersion as computed from BTM informations only.</Comment>
+<Parameters>
+<Parameter
+ Type="Messages.BTM.Message"
+ Name="aMessage"
+ Guid="87b15484-c517-4527-a349-19ea721ab771"
+>
+</Parameter><Parameter
+ Type="SystemVersion_X_Enum"
+ Name="aSystemVersion"
+ Guid="3500c482-d7a7-4356-963d-66dede36490c"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="SystemVersionOrder2"
+ Guid="f0e2529e-634d-426e-84a4-aa4819889870"
+>
+<PreConditions>
+<PreCondition
+ Guid="e9bd2fe3-257e-4c69-9fda-e543eae451eb"
+>THERE_IS X IN aMessage.SystemVersion2.Sequence1 | Available(X.TRACK_TO_TRAIN.SYSTEM_VERSION_ORDER)</PreCondition></PreConditions>
+<Expression>SystemVersionFromMessageVersion((FIRST X IN aMessage.SystemVersion2.Sequence1 | Available(X.TRACK_TO_TRAIN.SYSTEM_VERSION_ORDER)).TRACK_TO_TRAIN.SYSTEM_VERSION_ORDER.M_VERSION)</Expression>
+</Case><Case
+ Name="SystemVersionOrder1"
+ Guid="67721ca0-a445-48a0-a593-02688f33a486"
+>
+<PreConditions>
+<PreCondition
+ Guid="17a84b42-be68-4ffb-8868-e40c90681742"
+>THERE_IS X IN aMessage.SystemVersion1.Sequence1 | Available(X.TRACK_TO_TRAIN.SYSTEM_VERSION_ORDER)</PreCondition></PreConditions>
+<Expression>SystemVersionFromMessageVersion((FIRST X IN aMessage.SystemVersion1.Sequence1 | Available(X.TRACK_TO_TRAIN.SYSTEM_VERSION_ORDER)).TRACK_TO_TRAIN.SYSTEM_VERSION_ORDER.M_VERSION)</Expression>
+</Case><Case
+ Name="NoOrder Message  System Version 1 available"
+ Guid="1af32091-2fa3-4c11-8243-bfd4413da4df"
+>
+<PreConditions>
+<PreCondition
+ Guid="44831ce4-f7e7-4c49-a206-e73d1663c4b2"
+>Available(aMessage.SystemVersion1)</PreCondition></PreConditions>
+<Expression>HighestSystemVersion(
+    firstSystemVersion =&gt; aSystemVersion,
+    secondSystemVersion =&gt; SystemVersion_X_Enum.Version1
+)</Expression>
+</Case><Case
+ Name="NoOrder Message  System Version 2 available"
+ Guid="c0a69b67-a86f-49fd-bde1-21ae588341b0"
+>
+<PreConditions>
+<PreCondition
+ Guid="c87b1654-d1e1-4210-bae3-001b60cfeded"
+>Available(aMessage.SystemVersion2)</PreCondition></PreConditions>
+<Expression>HighestSystemVersion(
+    firstSystemVersion =&gt; aSystemVersion,
+    secondSystemVersion =&gt; SystemVersion_X_Enum.Version2
+)</Expression>
+</Case></Cases>
+</Function><Function
+ Type="SystemVersion_X_Enum"
+ Default=""
+ X="441"
+ Y="1"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="HighestSystemVersion"
+ Guid="fff77ca3-acda-46f0-9c27-ece699366110"
+>
+<Comment>Compares the two received SystemVersions and returns the highest.</Comment>
+<Parameters>
+<Parameter
+ Type="SystemVersion_X_Enum"
+ Name="firstSystemVersion"
+ Guid="d2fc276f-4953-4daa-9253-22b4df064a99"
+>
+</Parameter><Parameter
+ Type="SystemVersion_X_Enum"
+ Name="secondSystemVersion"
+ Guid="398593d6-bfd6-4945-b14b-42fb42322a75"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Version2"
+ Guid="be944d36-ac58-4bbc-94b0-373f804cb9b5"
+>
+<PreConditions>
+<PreCondition
+ Guid="f3506b2e-36b1-48e1-bde4-a9da3a9a4ca6"
+>SystemVersion_X_Enum.Version2 in [firstSystemVersion, secondSystemVersion]</PreCondition></PreConditions>
+<Expression>SystemVersion_X_Enum.Version2</Expression>
+</Case><Case
+ Name="Version1"
+ Guid="8687262c-d957-4468-aca6-fe25f3050598"
+>
+<Expression>SystemVersion_X_Enum.Version1</Expression>
+</Case></Cases>
+</Function><Function
+ Type="SystemVersion_X_Enum"
+ Default=""
+ X="551"
+ Y="1"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="SystemVersionFromMessageVersion"
+ Guid="896b7777-2789-45f7-b46c-d4480f5ffbd0"
+>
+<Comment>Simply returns the operated system version(SystemVersion_X_Enum) computed from the message version</Comment>
+<Parameters>
+<Parameter
+ Type="Messages.M_VERSION"
+ Name="aMessageVersion"
+ Guid="d328a1a7-4b4a-4ed9-9b3f-bff6cc5b7028"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Version2"
+ Guid="d2401ee4-aadc-4e5f-a1c5-2920bc360e25"
+>
+<PreConditions>
+<PreCondition
+ Guid="456e295a-5674-45dc-acdd-4adb81eace22"
+>aMessageVersion == Messages.M_VERSION.Version_2_0__introduced_in_SRS_3_0_0</PreCondition></PreConditions>
+<Expression>SystemVersion_X_Enum.Version2</Expression>
+</Case><Case
+ Name="Version1"
+ Guid="765e9875-e2d1-4a70-9174-3ff09cf1836d"
+>
+<Expression>SystemVersion_X_Enum.Version1</Expression>
+</Case></Cases>
+</Function></Functions>
 <Variables>
 <Variable
- Type="SystemVersionEnum"
- DefaultValue="VersionManagement.SystemVersionEnum.Version2_0"
+ Type="SystemVersion_X_Enum"
+ DefaultValue="SystemVersion_X_Enum.Version2"
  VariableMode="Internal"
  X="30"
  Y="20"
  Width="100"
  Height="50"
+ Implemented="TRUE"
  Name="OperatedSystemVersion"
  Guid="2a6afa22-1c47-4c74-af18-2f4397f8b1f4"
 >
-</Variable></Variables>
+<ReqRef
+ Id="a32b885e-f73e-44f1-9cba-50faee55ee28"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d2a822e4-3343-4bc7-92ef-b9e373c34100"
+>
+</ReqRef><ReqRef
+ Id="93b767f2-b6d6-4d86-96fa-030d812c8f40"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d7916eaf-3c47-468c-914b-85eff529f389"
+>
+</ReqRef></Variable></Variables>
 </NameSpace>
