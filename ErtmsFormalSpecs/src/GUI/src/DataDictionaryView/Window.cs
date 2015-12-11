@@ -123,39 +123,44 @@ namespace GUI.DataDictionaryView
         private void UpdateModelView(Context.SelectionContext context, bool rebuildRightPart)
         {
             StateMachine stateMachine = GetStateMachine(context);
+            IModelElement model = DisplayedElementInModelDiagramPanel(context);
 
-            if (stateMachine != null)
+            if ( model is Structure && stateMachine != null )
+            {
+                model = null;
+            }
+
+            if (model != null )
             {
                 if (rebuildRightPart)
                 {
-                    IVariable variable = context.Element as IVariable;
-                    modelDiagramPanel.Visible = false;
-                    if (variable != null)
-                    {
-                        stateDiagramPanel.SetStateMachine(variable);
-                    }
-                    else
-                    {
-                        stateDiagramPanel.Model = stateMachine;
-                    }
-                    stateDiagramPanel.Visible = true;
-                    stateDiagramPanel.RefreshControl();
+                    stateDiagramPanel.Visible = false;
+                    modelDiagramPanel.Model = model;
+                    modelDiagramPanel.Visible = true;
+                    modelDiagramPanel.RefreshControl();
                 }
-                stateDiagramPanel.SelectModel(context.Element);
+                modelDiagramPanel.SelectModel(context.Element);
             }
             else
             {
-                IModelElement model = DisplayedElementInModelDiagramPanel(context);
-                if (model != null)
+                if (stateMachine != null)
                 {
                     if (rebuildRightPart)
                     {
-                        stateDiagramPanel.Visible = false;
-                        modelDiagramPanel.Model = model;
-                        modelDiagramPanel.Visible = true;
-                        modelDiagramPanel.RefreshControl();
+                        IVariable variable = context.Element as IVariable;
+                        modelDiagramPanel.Visible = false;
+                        if (variable != null)
+                        {
+                            stateDiagramPanel.SetStateMachine(variable);
+                        }
+                        else
+                        {
+                            stateDiagramPanel.Model = stateMachine;
+                        }
+                        stateDiagramPanel.Visible = true;
+                        stateDiagramPanel.RefreshControl();
                     }
-                    modelDiagramPanel.SelectModel(context.Element);
+                    stateDiagramPanel.SelectModel(context.Element);
                 }
             }
         }
