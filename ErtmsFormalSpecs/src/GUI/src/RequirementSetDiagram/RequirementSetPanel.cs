@@ -34,22 +34,21 @@ namespace GUI.RequirementSetDiagram
     {
         protected override ContextMenu BuildContextMenu(GraphicElement element)
         {
-            ContextMenu retVal = base.BuildContextMenu(element);
+            ContextMenu retVal = new ContextMenu();
+
+            // 
+            // addRequirementSetMenuItem
+            // 
+            MenuItem addRequirementSetMenuItem = new MenuItem
+            {
+                Name = "addRequirementSetMenuItem",
+                Text = "Add requirement set"
+            };
+            retVal.MenuItems.Add(addRequirementSetMenuItem);
+            addRequirementSetMenuItem.Click += HandleAddRequirement;
 
             if (element != null)
             {
-                retVal = new ContextMenu();
-
-                // 
-                // addRequirementSetMenuItem
-                // 
-                MenuItem addRequirementSetMenuItem = new MenuItem
-                {
-                    Name = "addRequirementSetMenuItem",
-                    Text = "Add requirement set"
-                };
-                addRequirementSetMenuItem.Click += HandleAddRequirement;
-                retVal.MenuItems.Add(addRequirementSetMenuItem);
                 // 
                 // addDependanceMenuItem
                 // 
