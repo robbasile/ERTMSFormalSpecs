@@ -19,7 +19,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
 using DataDictionary;
-using DataDictionary.Generated;
 using Dictionary = DataDictionary.Dictionary;
 using Procedure = DataDictionary.Functions.Procedure;
 
@@ -109,7 +108,17 @@ namespace GUI.DataDictionaryView
         }
 
         /// <summary>
-        ///     Adds a copy of the current model element to the selected dictionary, if a copy does not already exist
+        ///     Adds a parameter in the procedure
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        public void AddParameter(object sender, EventArgs args)
+        {
+            Item.appendParameters(Parameter.CreateDefault(Item.FormalParameters));
+        }
+
+        /// <summary>
+        ///     Adds a rule in the procedure
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="args"></param>
@@ -127,6 +136,7 @@ namespace GUI.DataDictionaryView
             List<MenuItem> retVal = new List<MenuItem>();
 
             MenuItem addItem = new MenuItem("Add...");
+            addItem.MenuItems.Add(new MenuItem("Parameter", AddParameter));
             addItem.MenuItems.Add(new MenuItem("Rule", AddRule));
             retVal.Add(addItem);
 
