@@ -135,5 +135,19 @@ namespace GUI.StateDiagram
                 EfsSystem.Instance.Context.SelectElement(model, Panel, criteria);
             }
         }
+
+        /// <summary>
+        /// handles a double click on a transition
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="mouseEventArgs"></param>
+        public override void HandleDoubleClick(object sender, MouseEventArgs mouseEventArgs)
+        {
+            IModelElement model = TypedModel.RuleCondition;
+            if (model != null)
+            {
+                EfsSystem.Instance.Context.SelectElement(model, Panel, Context.SelectionCriteria.DoubleClick);
+            }
+        }
     }
 }
