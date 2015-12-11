@@ -214,17 +214,30 @@ namespace GUI.SpecificationView
                     }
                     else
                     {
-                        id = Item.GetNewSubParagraphId(true);
-                        data = text;
+                        if (id == "-")
+                        {
+                            id = Item.GetNewSubParagraphId(true);
+                            data = text.Substring(1).Trim();
+                        }
+                        else
+                        {
+                            id = Item.GetNewSubParagraphId(false);
+                            data = text.Trim();
+                        }
                     }
                 }
                 else
                 {
-                    id = Item.GetNewSubParagraphId(true);
+                    id = Item.GetNewSubParagraphId(false);
                     data = text;
                 }
                 data = data.Replace("\r", "");
                 data = data.Replace("\n", "");
+                data = data.Trim();
+                while (id.EndsWith("."))
+                {
+                    id = id.Substring(0, id.Length - 1).Trim();
+                }
 
                 Paragraph paragraph = Paragraph.CreateDefault(Item.SubParagraphs, Item.FullId);
                 paragraph.FullId = id;
