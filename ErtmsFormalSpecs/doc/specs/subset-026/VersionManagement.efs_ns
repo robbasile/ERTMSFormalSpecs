@@ -14,14 +14,14 @@
 </NameSpaceRef></NameSpaces>
 <Enumerations>
 <Enum
- Default="SystemVersion_X_Enum.Version2"
+ Default="SystemVersion_Enum.Version2_0"
  X="30"
  Y="120"
  Width="100"
  Height="50"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
- Name="SystemVersion_X_Enum"
+ Name="SystemVersion_Enum"
  Guid="77f31ac3-7a9c-4338-91eb-52d0c1c55f0c"
 >
 <ReqRef
@@ -34,23 +34,28 @@
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="5ad9e709-82fc-4af1-8654-3e980bee3f95"
 >
-</ReqRef><Comment>The operated system version number X.</Comment>
+</ReqRef><Comment>The operated system version number.</Comment>
 <Values>
 <EnumValue
  Value=""
- Name="Version1"
+ Name="Version1_0"
  Guid="1cbb3c3b-7be7-4c62-8e00-04b460cbd35a"
 >
 </EnumValue><EnumValue
  Value=""
- Name="Version2"
+ Name="Version2_0"
  Guid="a9fcd07f-d5c4-433c-85d1-02b402022885"
+>
+</EnumValue><EnumValue
+ Value=""
+ Name="Version1_1"
+ Guid="1f153b83-5624-478e-b29d-a641c0dfcd33"
 >
 </EnumValue></Values>
 </Enum></Enumerations>
 <Functions>
 <Function
- Type="SystemVersion_X_Enum"
+ Type="SystemVersion_Enum"
  Default=""
  X="331"
  Y="1"
@@ -83,7 +88,7 @@
  Guid="87b15484-c517-4527-a349-19ea721ab771"
 >
 </Parameter><Parameter
- Type="SystemVersion_X_Enum"
+ Type="SystemVersion_Enum"
  Name="aSystemVersion"
  Guid="3500c482-d7a7-4356-963d-66dede36490c"
 >
@@ -117,7 +122,7 @@
 >Available(aMessage.SystemVersion1)</PreCondition></PreConditions>
 <Expression>HighestSystemVersion(
     firstSystemVersion =&gt; aSystemVersion,
-    secondSystemVersion =&gt; SystemVersion_X_Enum.Version1
+    secondSystemVersion =&gt; SystemVersionFromMessageVersion(aMessage.SystemVersion1.M_VERSION)
 )</Expression>
 </Case><Case
  Name="NoOrder Message  System Version 2 available"
@@ -129,11 +134,11 @@
 >Available(aMessage.SystemVersion2)</PreCondition></PreConditions>
 <Expression>HighestSystemVersion(
     firstSystemVersion =&gt; aSystemVersion,
-    secondSystemVersion =&gt; SystemVersion_X_Enum.Version2
+    secondSystemVersion =&gt; SystemVersionFromMessageVersion(aMessage.SystemVersion2.M_VERSION)
 )</Expression>
 </Case></Cases>
 </Function><Function
- Type="SystemVersion_X_Enum"
+ Type="SystemVersion_Enum"
  Default=""
  X="441"
  Y="1"
@@ -147,34 +152,43 @@
 <Comment>Compares the two received SystemVersions and returns the highest.</Comment>
 <Parameters>
 <Parameter
- Type="SystemVersion_X_Enum"
+ Type="SystemVersion_Enum"
  Name="firstSystemVersion"
  Guid="d2fc276f-4953-4daa-9253-22b4df064a99"
 >
 </Parameter><Parameter
- Type="SystemVersion_X_Enum"
+ Type="SystemVersion_Enum"
  Name="secondSystemVersion"
  Guid="398593d6-bfd6-4945-b14b-42fb42322a75"
 >
 </Parameter></Parameters>
 <Cases>
 <Case
- Name="Version2"
+ Name="Version2_0"
  Guid="be944d36-ac58-4bbc-94b0-373f804cb9b5"
 >
 <PreConditions>
 <PreCondition
  Guid="f3506b2e-36b1-48e1-bde4-a9da3a9a4ca6"
->SystemVersion_X_Enum.Version2 in [firstSystemVersion, secondSystemVersion]</PreCondition></PreConditions>
-<Expression>SystemVersion_X_Enum.Version2</Expression>
+>SystemVersion_Enum.Version2_0 in [firstSystemVersion, secondSystemVersion]</PreCondition></PreConditions>
+<Expression>SystemVersion_Enum.Version2_0</Expression>
 </Case><Case
- Name="Version1"
+ Name="Version2_1"
+ Guid="79a5c0d2-622c-47b0-972f-13d07543ea78"
+>
+<PreConditions>
+<PreCondition
+ Guid="4f3e44d1-1b4f-4171-bf80-c928b2b6597b"
+>SystemVersion_Enum.Version1_1 in [firstSystemVersion, secondSystemVersion]</PreCondition></PreConditions>
+<Expression>SystemVersion_Enum.Version1_1</Expression>
+</Case><Case
+ Name="Version1_0"
  Guid="8687262c-d957-4468-aca6-fe25f3050598"
 >
-<Expression>SystemVersion_X_Enum.Version1</Expression>
+<Expression>SystemVersion_Enum.Version1_0</Expression>
 </Case></Cases>
 </Function><Function
- Type="SystemVersion_X_Enum"
+ Type="SystemVersion_Enum"
  Default=""
  X="551"
  Y="1"
@@ -195,25 +209,111 @@
 </Parameter></Parameters>
 <Cases>
 <Case
- Name="Version2"
+ Name="Version2_0"
  Guid="d2401ee4-aadc-4e5f-a1c5-2920bc360e25"
 >
 <PreConditions>
 <PreCondition
  Guid="456e295a-5674-45dc-acdd-4adb81eace22"
 >aMessageVersion == Messages.M_VERSION.Version_2_0__introduced_in_SRS_3_0_0</PreCondition></PreConditions>
-<Expression>SystemVersion_X_Enum.Version2</Expression>
+<Expression>SystemVersion_Enum.Version2_0</Expression>
 </Case><Case
- Name="Version1"
+ Name="Version1_1"
+ Guid="fd076b17-90b6-49d8-a853-8fbbf80c7191"
+>
+<PreConditions>
+<PreCondition
+ Guid="824422d6-9237-4f09-94e3-c662b7b5d6bc"
+>aMessageVersion == Messages.M_VERSION.Version_1_1__introduced_in_SRS_3_0_0</PreCondition></PreConditions>
+<Expression>SystemVersion_Enum.Version1_1</Expression>
+</Case><Case
+ Name="Version1_0"
  Guid="765e9875-e2d1-4a70-9174-3ff09cf1836d"
 >
-<Expression>SystemVersion_X_Enum.Version1</Expression>
+<Expression>SystemVersion_Enum.Version1_0</Expression>
+</Case></Cases>
+</Function><Function
+ Type="SystemVersion_Enum"
+ Default=""
+ X="661"
+ Y="1"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="OperatedsystemVersionFromRBC"
+ Guid="de0e0b56-d8a5-4742-8dfc-210cd2c7b4a2"
+>
+<ReqRef
+ Id="f2f03310-b2fa-4db9-9295-74b339bd6a55"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="057fc94d-d78a-4ff7-b8ce-3375613dc953"
+>
+</ReqRef><Comment>Returns the system version from the given RBC struct.</Comment>
+<Parameters>
+<Parameter
+ Type="EURORADIO.RBCStruct"
+ Name="aRBCStruct"
+ Guid="951c3777-60c4-4325-b9ad-7a5b76c63b9a"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="d80a8535-735d-416c-aab0-a235014bb9ec"
+>
+<Expression>SystemVersionFromEURORADIOSystemVersion(aRBCStruct.SessionManagementData.SystemVersion.Value)</Expression>
+</Case></Cases>
+</Function><Function
+ Type="SystemVersion_Enum"
+ Default=""
+ X="771"
+ Y="1"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="SystemVersionFromEURORADIOSystemVersion"
+ Guid="a0c39be3-4a58-4bdd-afbc-578380cb15ae"
+>
+<Comment>Simple translation from EURORADIO systemVersion to Operated system version.
+</Comment>
+<Parameters>
+<Parameter
+ Type="EURORADIO.SystemVersionEnum"
+ Name="aEURORADIOSystemVersion"
+ Guid="7c413842-5cfa-4976-b6bd-2048dea73b99"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Version2_0"
+ Guid="ce31e2b7-3bb3-47be-a602-ed9a775d8f02"
+>
+<PreConditions>
+<PreCondition
+ Guid="18d11feb-b804-4ecc-934c-93008e11e075"
+>aEURORADIOSystemVersion == EURORADIO.SystemVersionEnum.Version2_0</PreCondition></PreConditions>
+<Expression>SystemVersion_Enum.Version2_0</Expression>
+</Case><Case
+ Name="Version1_1"
+ Guid="60bf6caf-fc18-4c9f-908f-c23a38a0891a"
+>
+<PreConditions>
+<PreCondition
+ Guid="68036920-801a-4738-ad7b-ba66ec0ef2a8"
+>aEURORADIOSystemVersion == EURORADIO.SystemVersionEnum.Version1_1</PreCondition></PreConditions>
+<Expression>SystemVersion_Enum.Version1_1</Expression>
+</Case><Case
+ Name="Version1_0"
+ Guid="f6f0c526-20e6-40aa-b704-6f42b106ee86"
+>
+<Expression>SystemVersion_Enum.Version1_0</Expression>
 </Case></Cases>
 </Function></Functions>
 <Variables>
 <Variable
- Type="SystemVersion_X_Enum"
- DefaultValue="SystemVersion_X_Enum.Version2"
+ Type="SystemVersion_Enum"
+ DefaultValue="SystemVersion_Enum.Version2_0"
  VariableMode="Internal"
  X="30"
  Y="20"

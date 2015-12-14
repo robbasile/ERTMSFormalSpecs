@@ -1,4 +1,8 @@
 <NameSpace
+ X="1"
+ Y="181"
+ Width="100"
+ Height="50"
  Name="ValidatedTrainData"
  Guid="0d96627d-2fb0-4bfd-aff9-0730a078a781"
 >
@@ -16,20 +20,27 @@
  Name="M_AXLELOADCATTranslationStruct"
  Guid="dea65e3e-9b08-4bb1-a20f-77322c96dc6f"
 >
+<Comment>Internal.</Comment>
 <StructureElement
  TypeName="Messages.M_AXLELOADCAT"
  Default=""
  Mode="Internal"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
  Name="M_AXLELOADCAT"
  Guid="99a860c2-a5ea-4ead-b8d4-8b198e0c1538"
 >
+<Comment>Internal.</Comment>
 </StructureElement><StructureElement
  TypeName="Messages.SystemVersion1.M_AXLELOAD"
  Default=""
  Mode="Internal"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
  Name="M_AXLELOAD"
  Guid="447d38d9-8171-432b-b44b-37c679c7fe59"
 >
+<Comment>Internal.</Comment>
 </StructureElement></Structure><Structure
  Default=""
  X="661"
@@ -41,20 +52,27 @@
  Name="NC_CDTRAINTranslationStruct"
  Guid="7958b37d-8349-4d68-b916-c43a04db7ccd"
 >
+<Comment>Internal.</Comment>
 <StructureElement
  TypeName="Messages.NC_CDTRAIN"
  Default=""
  Mode="Internal"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
  Name="OnBoard_NC_CDTRAIN"
  Guid="b5ff53ff-fe9d-45d0-93f7-3cac76a1fc03"
 >
+<Comment>Internal.</Comment>
 </StructureElement><StructureElement
  TypeName="Messages.SystemVersion1.NC_TRAIN"
  Default=""
  Mode="Internal"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
  Name="NC_TRAIN"
  Guid="0ea1981e-d987-44f7-96e1-2529b5d168f0"
 >
+<Comment>Internal.</Comment>
 </StructureElement></Structure></Structures>
 <Collections>
 <Collection
@@ -70,6 +88,7 @@
  Name="M_AXLELOADCATTranslationCol"
  Guid="5335f057-62d3-410f-ac9b-e26be9ce6981"
 >
+<Comment>Internal.</Comment>
 </Collection><Collection
  TypeName="NC_CDTRAINTranslationStruct"
  MaxSize="11"
@@ -83,6 +102,7 @@
  Name="NC_CDTRAINTranslationCol"
  Guid="b23fe40a-af33-4c66-bae0-a642c2f43876"
 >
+<Comment>Internal.</Comment>
 </Collection></Collections>
 <Functions>
 <Function
@@ -211,7 +231,8 @@
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="d2b55b5c-b40b-4007-a403-a08d4add7322"
 >
-</ReqRef><Parameters>
+</ReqRef><Comment>Translates the packet calling the right function for the subpart.</Comment>
+<Parameters>
 <Parameter
  Type="Messages.PACKET.TRAIN_TO_TRACK.VALIDATED_TRAIN_DATA.Message"
  Name="aPacket"
@@ -283,7 +304,8 @@ L_TRAIN =&gt; aPacket.L_TRAIN,
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="5f1f44fd-ca84-4b25-84a8-a23cc09508cb"
 >
-</ReqRef><Parameters>
+</ReqRef><Comment>Translates Substructure1 only.</Comment>
+<Parameters>
 <Parameter
  Type="Messages.PACKET.TRAIN_TO_TRACK.VALIDATED_TRAIN_DATA.SubStructure2"
  Name="aSubStruct"
@@ -311,6 +333,7 @@ NID_NTC =&gt; aSubStruct.NID_NTC
  Name="Is_NC_TRAIN_Translatable"
  Guid="8317f15c-0eda-4352-8565-4dcff5fc0359"
 >
+<Comment>Checks whether NC_TRAIN should be translated.</Comment>
 <Parameters>
 <Parameter
  Type="Messages.NC_TRAIN"
