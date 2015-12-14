@@ -11,7 +11,8 @@
 <Structures>
 <Structure
  Default=""
- X="220"
+ X="111"
+ Y="1"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -142,7 +143,8 @@
  TypeName="StationPlatformInformationStruct"
  MaxSize="20"
  Default="[]"
- Y="90"
+ X="221"
+ Y="1"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -160,7 +162,8 @@
 <Function
  Type="StationPlatformInformationStruct"
  Default=""
- Y="180"
+ X="1"
+ Y="1"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -287,7 +290,7 @@
 <Parameters>
 <Parameter
  Type="BaseTypes.Distance"
- Name="Distance"
+ Name="aDistance"
  Guid="ad8bfb82-9d1d-4f78-9327-d0547ff855b7"
 >
 </Parameter></Parameters>
@@ -296,14 +299,12 @@
  Name="Previous conditions exist"
  Guid="28014667-2c1f-4d20-a679-bb29ffde644d"
 >
-<Comment>There are track conditions prior to the requested distance</Comment>
+<Comment>There are track conditions prior to the requested distance.</Comment>
 <PreConditions>
 <PreCondition
  Guid="e92f1a3d-f7dc-457f-8125-b090db9ad12b"
->THERE_IS X IN Kernel.TrackDescription.TrackConditions.StationPlatform.TCStationPlatforms | (X.Location &lt;= Distance)</PreCondition></PreConditions>
-<Expression>REDUCE Kernel.TrackDescription.TrackConditions.StationPlatform.TCStationPlatforms | (X.Location == Kernel.TrackDescription.TrackConditions.StationPlatform.SPProfileStartLocation(Distance) )
-    USING X IN X.Value
-  INITIAL_VALUE EMPTY</Expression>
+>THERE_IS X IN Kernel.TrackDescription.TrackConditions.StationPlatform.TCStationPlatforms | (X.Location &lt;= aDistance)</PreCondition></PreConditions>
+<Expression>(LAST StPlat IN TCStationPlatforms | StPlat.Location &lt;= aDistance).Value</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="570cdb8c-639b-4935-b08a-7b1c6548fedb"
@@ -381,7 +382,8 @@ Kernel.TrackDescription.TrackConditions.StationPlatform.SPAtDistance(Kernel.Trai
 </Function></Functions>
 <Procedures>
 <Procedure
- Y="270"
+ X="441"
+ Y="1"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -814,6 +816,8 @@ IN
  Type="StationPlatforms"
  DefaultValue=""
  VariableMode="Internal"
+ X="331"
+ Y="1"
  Width="100"
  Height="50"
  Implemented="TRUE"

@@ -1008,7 +1008,7 @@ BTM.Linking.CurrentBGWithinFrame()</PreCondition></PreConditions>
  Name="GetLinkingFromNidBG"
  Guid="93f9bc96-b4a2-47d3-bb90-7c1578e1dd2d"
 >
-<Comment>Takes a BG identifier and returns the linking corresponding to it (if one exists)</Comment>
+<Comment>Takes a BG identifier and returns the linking corresponding to it (if one exists).</Comment>
 <Parameters>
 <Parameter
  Type="Messages.NID_BG"
@@ -1021,9 +1021,7 @@ BTM.Linking.CurrentBGWithinFrame()</PreCondition></PreConditions>
  Name="Value"
  Guid="c33cb167-421e-456d-a6bf-0eddbeb039be"
 >
-<Expression>REDUCE BTM.Linking.Linkings | X.BaliseGroupIdentifier == NID_BG
-  USING X IN X
-  INITIAL_VALUE LAST X IN BTM.Linking.Linkings</Expression>
+<Expression>FIRST BG IN BTM.Linking.Linkings | BG.BaliseGroupIdentifier == NID_BG</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"

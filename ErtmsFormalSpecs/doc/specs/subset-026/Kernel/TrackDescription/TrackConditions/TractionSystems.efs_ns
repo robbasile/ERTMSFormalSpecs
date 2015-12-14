@@ -161,7 +161,7 @@
 >
 <Comment>The starting point is when the max safe front end of the train passes the location specified in the message</Comment>
 <Expression>Kernel.TrackDescription.TrackConditions.TractionSystems.TSAtDistance(
-    Distance=&gt; Kernel.TrainPosition.FrontEndPosition(PointOfInterest=&gt;DistanceIntervalEnum.Max)
+    aDistance=&gt; Kernel.TrainPosition.FrontEndPosition(PointOfInterest=&gt;DistanceIntervalEnum.Max)
 )</Expression>
 </Case></Cases>
 </Function><Function
@@ -190,11 +190,11 @@
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="7bb60dc9-8c94-484e-afb9-09a40b9afe28"
 >
-</ReqRef><Comment>Returns the profile for when the train position is the given distance</Comment>
+</ReqRef><Comment>Returns the profile for when the train position is the given distance.</Comment>
 <Parameters>
 <Parameter
  Type="BaseTypes.Distance"
- Name="Distance"
+ Name="aDistance"
  Guid="4ad88712-818a-43e8-ad3a-9557b156a126"
 >
 </Parameter></Parameters>
@@ -207,10 +207,8 @@
 <PreConditions>
 <PreCondition
  Guid="eb420e4a-b35e-4d9b-8ab6-a8f9e8ba7043"
->THERE_IS X IN Kernel.TrackDescription.TrackConditions.TractionSystems.TCTractionSystems | (X.Location &lt;= Distance)</PreCondition></PreConditions>
-<Expression>REDUCE Kernel.TrackDescription.TrackConditions.TractionSystems.TCTractionSystems | (X.Location == Kernel.TrackDescription.TrackConditions.TractionSystems.TSProfileStartLocation(Distance=&gt;Distance) )
-    USING X IN X.Value
-  INITIAL_VALUE EMPTY</Expression>
+>THERE_IS X IN Kernel.TrackDescription.TrackConditions.TractionSystems.TCTractionSystems | (X.Location &lt;= aDistance)</PreCondition></PreConditions>
+<Expression>(LAST TractSyst IN TCTractionSystems | TractSyst.Location &lt;= aDistance).Value</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="30b40833-011c-494f-bd47-713f9a91c456"

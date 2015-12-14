@@ -74,7 +74,8 @@
 <Collection
  TypeName="CurrentConsumptionInformationStruct"
  Default="[]"
- Y="90"
+ X="111"
+ Y="1"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -92,7 +93,8 @@
 <Function
  Type="BaseTypes.Distance"
  Default=""
- Y="180"
+ X="1"
+ Y="1"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -141,11 +143,11 @@
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="8bbaebb5-3e7c-4769-80a9-8b204f502a8d"
 >
-</ReqRef><Comment>Returns the maximum current consumption when the train position is the given distance</Comment>
+</ReqRef><Comment>Returns the maximum current consumption when the train position is the given distance.</Comment>
 <Parameters>
 <Parameter
  Type="BaseTypes.Distance"
- Name="Distance"
+ Name="aDistance"
  Guid="ff8645c0-e9e1-485b-b7cb-a55b36ebb471"
 >
 </Parameter></Parameters>
@@ -158,10 +160,8 @@
 <PreConditions>
 <PreCondition
  Guid="fe703eb9-0bfa-4767-ad0c-4c1a9a1884d0"
->THERE_IS X IN Kernel.TrackDescription.TrackConditions.CurrentConsumption.TCCurrentConsumption | (X.Location &lt;= Distance)</PreCondition></PreConditions>
-<Expression>REDUCE Kernel.TrackDescription.TrackConditions.CurrentConsumption.TCCurrentConsumption | (X.Location == Kernel.TrackDescription.TrackConditions.CurrentConsumption.CCProfileStartLocation(Distance=&gt;Distance) )
-    USING X IN X.Value
-  INITIAL_VALUE EMPTY</Expression>
+>THERE_IS X IN Kernel.TrackDescription.TrackConditions.CurrentConsumption.TCCurrentConsumption | (X.Location &lt;= aDistance)</PreCondition></PreConditions>
+<Expression>(LAST CurCons IN TCCurrentConsumption | CurCons.Location &lt;= aDistance).Value</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="92e6a955-2b99-423a-a556-0ee84bbb954f"
@@ -193,13 +193,14 @@
 >
 <Comment>The starting point is when the max safe front end of the train passes the location specified in the message</Comment>
 <Expression>Kernel.TrackDescription.TrackConditions.CurrentConsumption.CCAtDistance(
-    Distance=&gt; Kernel.TrainPosition.FrontEndPosition(PointOfInterest=&gt;DistanceIntervalEnum.Max)
+    aDistance=&gt; Kernel.TrainPosition.FrontEndPosition(PointOfInterest=&gt;DistanceIntervalEnum.Max)
 )</Expression>
 </Case></Cases>
 </Function></Functions>
 <Procedures>
 <Procedure
- Y="270"
+ X="331"
+ Y="1"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -370,6 +371,8 @@ IN
  Type="CurrentConsumptions"
  DefaultValue=""
  VariableMode="Internal"
+ X="221"
+ Y="1"
  Width="100"
  Height="50"
  Implemented="TRUE"

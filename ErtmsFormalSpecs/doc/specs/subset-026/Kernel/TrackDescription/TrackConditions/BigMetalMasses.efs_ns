@@ -144,11 +144,11 @@
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="563157e7-d50e-4ba2-b3f0-a362fd4d3850"
 >
-</ReqRef><Comment>Returns True if the train has been warned about big metal masses on the trackside at the given distance</Comment>
+</ReqRef><Comment>Returns True if the train has been warned about big metal masses on the trackside at the given distance.</Comment>
 <Parameters>
 <Parameter
  Type="BaseTypes.Distance"
- Name="Distance"
+ Name="aDistance"
  Guid="0eecc0ea-9d46-43f0-91a6-74b5edaced51"
 >
 </Parameter></Parameters>
@@ -161,10 +161,8 @@
 <PreConditions>
 <PreCondition
  Guid="832233ef-515a-48e0-b7e8-861ac3cdeea6"
->THERE_IS X IN Kernel.TrackDescription.TrackConditions.BigMetalMasses.TCBigMetalMasses | (X.Location &lt;= Distance)</PreCondition></PreConditions>
-<Expression>REDUCE Kernel.TrackDescription.TrackConditions.BigMetalMasses.TCBigMetalMasses | (X.Location == Kernel.TrackDescription.TrackConditions.BigMetalMasses.BMMProfileStartLocation(Distance=&gt;Distance) )
-    USING X IN X.Value
-  INITIAL_VALUE EMPTY</Expression>
+>THERE_IS X IN Kernel.TrackDescription.TrackConditions.BigMetalMasses.TCBigMetalMasses | (X.Location &lt;= aDistance)</PreCondition></PreConditions>
+<Expression>(LAST BMM IN TCBigMetalMasses | BMM.Location &lt;= aDistance).Value</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="6de7d371-027a-4f79-8920-bfbb8eaa86b6"
@@ -274,9 +272,9 @@
  Guid="210e3e31-9619-4f77-a0aa-d3297a0df930"
 >
 <Comment>See TrackConditions.General.CurrentConditions() for justification of max OR min</Comment>
-<Expression>Kernel.TrackDescription.TrackConditions.BigMetalMasses.BMMAtDistance(Distance=&gt; Kernel.TrainPosition.FrontEndPosition(PointOfInterest=&gt;DistanceIntervalEnum.Max))
+<Expression>Kernel.TrackDescription.TrackConditions.BigMetalMasses.BMMAtDistance(aDistance=&gt; Kernel.TrainPosition.FrontEndPosition(PointOfInterest=&gt;DistanceIntervalEnum.Max))
   OR  
-Kernel.TrackDescription.TrackConditions.BigMetalMasses.BMMAtDistance(Distance=&gt; Kernel.TrainPosition.FrontEndPosition(PointOfInterest=&gt;DistanceIntervalEnum.Min))</Expression>
+Kernel.TrackDescription.TrackConditions.BigMetalMasses.BMMAtDistance(aDistance=&gt; Kernel.TrainPosition.FrontEndPosition(PointOfInterest=&gt;DistanceIntervalEnum.Min))</Expression>
 </Case></Cases>
 </Function></Functions>
 <Procedures>

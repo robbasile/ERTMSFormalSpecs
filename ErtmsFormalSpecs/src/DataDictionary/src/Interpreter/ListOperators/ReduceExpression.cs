@@ -272,7 +272,7 @@ namespace DataDictionary.Interpreter.ListOperators
             }
             if (!refToResultFound)
             {
-                AddWarning("REDUCE expressions should reference RESULT variable");
+                AddError("REDUCE expressions should reference RESULT variable");
             }
         }
 

@@ -15,8 +15,8 @@
 <Structures>
 <Structure
  Default=""
- X="111"
- Y="61"
+ X="550"
+ Y="90"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -185,7 +185,7 @@
 </ReqRef><Comment>The eddy current brake should be disabled for the emergency brake</Comment>
 </StructureElement></Structure><Structure
  Default=""
- X="220"
+ X="380"
  Y="90"
  Width="100"
  Height="50"
@@ -249,8 +249,8 @@
  TypeName="TrackConditionInformationStruct"
  MaxSize="20"
  Default="[]"
- X="111"
- Y="121"
+ X="380"
+ Y="0"
  Width="100"
  Height="50"
  Pinned="TRUE"
@@ -274,8 +274,8 @@
 <Function
  Type="BaseTypes.Distance"
  Default=""
- X="1"
- Y="121"
+ X="440"
+ Y="240"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -563,42 +563,42 @@ When this is recorded in TCProfile, the end points are adjusted so that they are
 When the train passes over a profile point, it doesn&apos;t know if that point marks a start of section, end of section or even both. If it is a start of section, the condition takes effect as soon as the max safe front end of the train passes over it. If it is an end, the condition stays in effect until the min safe front end passes over it. So to account for all cases, each condition is given as the combination of the profile at the max safe front end and the min safe front end of most conditions, and the value at the estimated front end of the train for Tunnel Stopping Area and Sound Horn</Comment>
 <Expression>Kernel.TrackDescription.TrackConditions.General.TrackConditionStruct {
     NonStoppingArea =&gt; CombineConditions(
-    Profile1=&gt;ProfileAtDistance(Distance=&gt;TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max)),
-    Profile2=&gt;ProfileAtDistance(Distance=&gt;TrainPosition.FrontEndPosition(DistanceIntervalEnum.Min))
+    Profile1=&gt;ProfileAtDistance(aDistance=&gt;TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max)),
+    Profile2=&gt;ProfileAtDistance(aDistance=&gt;TrainPosition.FrontEndPosition(DistanceIntervalEnum.Min))
 ).NonStoppingArea,
-    TunnelStoppingArea =&gt; ProfileAtDistance(Distance=&gt;TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom)).TunnelStoppingArea,
-    SoundHorn =&gt; ProfileAtDistance(Distance=&gt;TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom)).SoundHorn,
+    TunnelStoppingArea =&gt; ProfileAtDistance(aDistance=&gt;TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom)).TunnelStoppingArea,
+    SoundHorn =&gt; ProfileAtDistance(aDistance=&gt;TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom)).SoundHorn,
     PowerlessSection_LowerPantograph =&gt; CombineConditions(
-    Profile1=&gt;ProfileAtDistance(Distance=&gt;TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max)),
-    Profile2=&gt;ProfileAtDistance(Distance=&gt;TrainPosition.FrontEndPosition(DistanceIntervalEnum.Min))
+    Profile1=&gt;ProfileAtDistance(aDistance=&gt;TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max)),
+    Profile2=&gt;ProfileAtDistance(aDistance=&gt;TrainPosition.FrontEndPosition(DistanceIntervalEnum.Min))
 ).PowerlessSection_LowerPantograph,
     RadioHole =&gt; CombineConditions(
-    Profile1=&gt;ProfileAtDistance(Distance=&gt;TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max)),
-    Profile2=&gt;ProfileAtDistance(Distance=&gt;TrainPosition.FrontEndPosition(DistanceIntervalEnum.Min))
+    Profile1=&gt;ProfileAtDistance(aDistance=&gt;TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max)),
+    Profile2=&gt;ProfileAtDistance(aDistance=&gt;TrainPosition.FrontEndPosition(DistanceIntervalEnum.Min))
 ).RadioHole,
     AirTightness =&gt; CombineConditions(
-    Profile1=&gt;ProfileAtDistance(Distance=&gt;TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max)),
-    Profile2=&gt;ProfileAtDistance(Distance=&gt;TrainPosition.FrontEndPosition(DistanceIntervalEnum.Min))
+    Profile1=&gt;ProfileAtDistance(aDistance=&gt;TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max)),
+    Profile2=&gt;ProfileAtDistance(aDistance=&gt;TrainPosition.FrontEndPosition(DistanceIntervalEnum.Min))
 ).AirTightness,
     SwitchOffRegenerativeBrake =&gt; CombineConditions(
-    Profile1=&gt;ProfileAtDistance(Distance=&gt;TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max)),
-    Profile2=&gt;ProfileAtDistance(Distance=&gt;TrainPosition.FrontEndPosition(DistanceIntervalEnum.Min))
+    Profile1=&gt;ProfileAtDistance(aDistance=&gt;TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max)),
+    Profile2=&gt;ProfileAtDistance(aDistance=&gt;TrainPosition.FrontEndPosition(DistanceIntervalEnum.Min))
 ).SwitchOffRegenerativeBrake,
     SwitchOffEddyCurrentBrakeForSB =&gt; CombineConditions(
-    Profile1=&gt;ProfileAtDistance(Distance=&gt;TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max)),
-    Profile2=&gt;ProfileAtDistance(Distance=&gt;TrainPosition.FrontEndPosition(DistanceIntervalEnum.Min))
+    Profile1=&gt;ProfileAtDistance(aDistance=&gt;TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max)),
+    Profile2=&gt;ProfileAtDistance(aDistance=&gt;TrainPosition.FrontEndPosition(DistanceIntervalEnum.Min))
 ).SwitchOffEddyCurrentBrakeForSB,
     SwitchOffMagneticShoeBrake =&gt; CombineConditions(
-    Profile1=&gt;ProfileAtDistance(Distance=&gt;TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max)),
-    Profile2=&gt;ProfileAtDistance(Distance=&gt;TrainPosition.FrontEndPosition(DistanceIntervalEnum.Min))
+    Profile1=&gt;ProfileAtDistance(aDistance=&gt;TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max)),
+    Profile2=&gt;ProfileAtDistance(aDistance=&gt;TrainPosition.FrontEndPosition(DistanceIntervalEnum.Min))
 ).SwitchOffMagneticShoeBrake,
     PowerlessSection_SwitchOffTheMainPowerSwitch =&gt; CombineConditions(
-    Profile1=&gt;ProfileAtDistance(Distance=&gt;TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max)),
-    Profile2=&gt;ProfileAtDistance(Distance=&gt;TrainPosition.FrontEndPosition(DistanceIntervalEnum.Min))
+    Profile1=&gt;ProfileAtDistance(aDistance=&gt;TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max)),
+    Profile2=&gt;ProfileAtDistance(aDistance=&gt;TrainPosition.FrontEndPosition(DistanceIntervalEnum.Min))
 ).PowerlessSection_SwitchOffTheMainPowerSwitch,
     SwitchOffEddyCurrentBrakeForEB =&gt; CombineConditions(
-    Profile1=&gt;ProfileAtDistance(Distance=&gt;TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max)),
-    Profile2=&gt;ProfileAtDistance(Distance=&gt;TrainPosition.FrontEndPosition(DistanceIntervalEnum.Min))
+    Profile1=&gt;ProfileAtDistance(aDistance=&gt;TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max)),
+    Profile2=&gt;ProfileAtDistance(aDistance=&gt;TrainPosition.FrontEndPosition(DistanceIntervalEnum.Min))
 ).SwitchOffEddyCurrentBrakeForEB 
 }</Expression>
 </Case></Cases>
@@ -634,11 +634,11 @@ When the train passes over a profile point, it doesn&apos;t know if that point m
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="96a8a9dd-a2ba-48f0-b528-9e3d3110860f"
 >
-</ReqRef><Comment>Returns the profile for when the train position is the given distance</Comment>
+</ReqRef><Comment>Returns the profile for when the train position is the given distance.</Comment>
 <Parameters>
 <Parameter
  Type="BaseTypes.Distance"
- Name="Distance"
+ Name="aDistance"
  Guid="2678be51-6010-4be4-96e2-76ffc257d512"
 >
 </Parameter></Parameters>
@@ -651,61 +651,14 @@ When the train passes over a profile point, it doesn&apos;t know if that point m
 <PreConditions>
 <PreCondition
  Guid="52fe1d2c-2078-4728-828e-aae8e72d359f"
->THERE_IS X IN Kernel.TrackDescription.TrackConditions.General.TCProfile | (X.Location &lt;= Distance)</PreCondition></PreConditions>
-<Expression>REDUCE Kernel.TrackDescription.TrackConditions.General.TCProfile| (X.Location == Kernel.TrackDescription.TrackConditions.General.ProfileStartLocation(Distance=&gt;Distance) )
-    USING X IN X.Value
-  INITIAL_VALUE Kernel.TrackDescription.TrackConditions.General.TrackConditionStruct
-{
-    NonStoppingArea =&gt; False,
-    TunnelStoppingArea =&gt; False,
-    SoundHorn =&gt; False,
-    PowerlessSection_LowerPantograph =&gt; False,
-    RadioHole =&gt; False,
-    AirTightness =&gt; False,
-    SwitchOffRegenerativeBrake =&gt; False,
-    SwitchOffEddyCurrentBrakeForSB =&gt; False,
-    SwitchOffMagneticShoeBrake =&gt; False,
-    PowerlessSection_SwitchOffTheMainPowerSwitch =&gt; False,
-    SwitchOffEddyCurrentBrakeForEB =&gt; False
-}</Expression>
+>THERE_IS X IN Kernel.TrackDescription.TrackConditions.General.TCProfile | (X.Location &lt;= aDistance)</PreCondition></PreConditions>
+<Expression>(LAST GenCond IN TCProfile | GenCond.Location &lt;= aDistance).Value</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="264e9b1f-172c-4ce9-9266-3c27430f3c9f"
 >
 <Comment>There are no track conditions that apply before the requested distance</Comment>
 <Expression>Kernel.TrackDescription.TrackConditions.General.TrackConditionStruct { }</Expression>
-</Case></Cases>
-</Function><Function
- Type="BaseTypes.Distance"
- Default=""
- X="440"
- Y="240"
- Width="100"
- Height="50"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="ProfileStartLocation"
- Guid="ac10a90f-1f2c-4250-a97d-b854f8049d28"
->
-<Comment>Returns the track conditions that apply at the given distance</Comment>
-<Parameters>
-<Parameter
- Type="BaseTypes.Distance"
- Name="Distance"
- Guid="65eec8a2-f270-40fc-bfbe-d0f18c0e740d"
->
-</Parameter></Parameters>
-<Cases>
-<Case
- Name="Value"
- Guid="075984f4-a690-4a84-8ced-fd83b88786b7"
->
-<Comment>Returns the element in TCProfile with the largest distance that is less than or equal to the parameter</Comment>
-<Expression>REDUCE Kernel.TrackDescription.TrackConditions.General.TCProfile| (X.Location &lt;= Distance)
-    USING X IN BaseTypes.MaxDistance(
-        X1=&gt;X.Location,
-        X2=&gt;RESULT)
-  INITIAL_VALUE 0.0</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Distance"
@@ -796,7 +749,7 @@ The use of profile points and the functions in this namespace can be found in Er
 <Expression>Kernel.TrackDescription.TrackConditions.General.TrackConditionInformationStruct
 {
     Location =&gt; Location,
-    Value =&gt; ProfileAtDistance(Distance=&gt; Location)
+    Value =&gt; ProfileAtDistance(aDistance=&gt; Location)
 }</Expression>
 </Case><Case
  Name="AirTightness"
@@ -810,7 +763,7 @@ The use of profile points and the functions in this namespace can be found in Er
     Location =&gt; Location,
     Value =&gt; CombineConditions
     (
-        Profile1=&gt; ProfileAtDistance(Distance=&gt;Location),
+        Profile1=&gt; ProfileAtDistance(aDistance=&gt;Location),
         Profile2=&gt;TrackConditionStruct{AirTightness=&gt;True} 
     )
 }</Expression>
@@ -826,7 +779,7 @@ The use of profile points and the functions in this namespace can be found in Er
     Location =&gt; Location,
     Value =&gt; CombineConditions
     (
-        Profile1=&gt; ProfileAtDistance(Distance=&gt;Location),
+        Profile1=&gt; ProfileAtDistance(aDistance=&gt;Location),
         Profile2=&gt;TrackConditionStruct{NonStoppingArea=&gt;True} 
     )
 }</Expression>
@@ -842,7 +795,7 @@ The use of profile points and the functions in this namespace can be found in Er
     Location =&gt; Location,
     Value =&gt; CombineConditions
     (
-        Profile1=&gt; ProfileAtDistance(Distance=&gt;Location),
+        Profile1=&gt; ProfileAtDistance(aDistance=&gt;Location),
         Profile2=&gt;TrackConditionStruct{PowerlessSection_LowerPantograph=&gt;True} 
     )
 }</Expression>
@@ -858,7 +811,7 @@ The use of profile points and the functions in this namespace can be found in Er
     Location =&gt; Location,
     Value =&gt; CombineConditions
     (
-        Profile1=&gt; ProfileAtDistance(Distance=&gt;Location),
+        Profile1=&gt; ProfileAtDistance(aDistance=&gt;Location),
         Profile2=&gt;TrackConditionStruct{PowerlessSection_SwitchOffTheMainPowerSwitch=&gt;True} 
     )
 }</Expression>
@@ -874,7 +827,7 @@ The use of profile points and the functions in this namespace can be found in Er
     Location =&gt; Location,
     Value =&gt; CombineConditions
     (
-        Profile1=&gt; ProfileAtDistance(Distance=&gt;Location),
+        Profile1=&gt; ProfileAtDistance(aDistance=&gt;Location),
         Profile2=&gt;TrackConditionStruct{RadioHole=&gt;True} 
     )
 }</Expression>
@@ -890,7 +843,7 @@ The use of profile points and the functions in this namespace can be found in Er
     Location =&gt; Location,
     Value =&gt; CombineConditions
     (
-        Profile1=&gt; ProfileAtDistance(Distance=&gt;Location),
+        Profile1=&gt; ProfileAtDistance(aDistance=&gt;Location),
         Profile2=&gt;TrackConditionStruct{SoundHorn=&gt;True} 
     )
 }</Expression>
@@ -906,7 +859,7 @@ The use of profile points and the functions in this namespace can be found in Er
     Location =&gt; Location,
     Value =&gt; CombineConditions
     (
-        Profile1=&gt; ProfileAtDistance(Distance=&gt;Location),
+        Profile1=&gt; ProfileAtDistance(aDistance=&gt;Location),
         Profile2=&gt;TrackConditionStruct{SwitchOffEddyCurrentBrakeForEB=&gt;True} 
     )
 }</Expression>
@@ -922,7 +875,7 @@ The use of profile points and the functions in this namespace can be found in Er
     Location =&gt; Location,
     Value =&gt; CombineConditions
     (
-        Profile1=&gt; ProfileAtDistance(Distance=&gt;Location),
+        Profile1=&gt; ProfileAtDistance(aDistance=&gt;Location),
         Profile2=&gt;TrackConditionStruct{SwitchOffEddyCurrentBrakeForSB=&gt;True} 
     )
 }</Expression>
@@ -938,7 +891,7 @@ The use of profile points and the functions in this namespace can be found in Er
     Location =&gt; Location,
     Value =&gt; CombineConditions
     (
-        Profile1=&gt; ProfileAtDistance(Distance=&gt;Location),
+        Profile1=&gt; ProfileAtDistance(aDistance=&gt;Location),
         Profile2=&gt;TrackConditionStruct{SwitchOffMagneticShoeBrake=&gt;True} 
     )
 }</Expression>
@@ -954,7 +907,7 @@ The use of profile points and the functions in this namespace can be found in Er
     Location =&gt; Location,
     Value =&gt; CombineConditions
     (
-        Profile1=&gt; ProfileAtDistance(Distance=&gt;Location),
+        Profile1=&gt; ProfileAtDistance(aDistance=&gt;Location),
         Profile2=&gt;TrackConditionStruct{SwitchOffRegenerativeBrake=&gt;True} 
     )
 }</Expression>
@@ -970,7 +923,7 @@ The use of profile points and the functions in this namespace can be found in Er
     Location =&gt; Location,
     Value =&gt; CombineConditions
     (
-        Profile1=&gt; ProfileAtDistance(Distance=&gt;Location),
+        Profile1=&gt; ProfileAtDistance(aDistance=&gt;Location),
         Profile2=&gt;TrackConditionStruct{TunnelStoppingArea=&gt;True} 
     )
 }</Expression>
@@ -1533,7 +1486,7 @@ Kernel.ActiveFunctions.ManageTrackConditions_SoundHorn()</PreCondition></PreCond
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
- X="330"
+ X="0"
  Y="330"
  Width="100"
  Height="50"
@@ -1651,8 +1604,8 @@ IN
  Type="TrackConditions"
  DefaultValue=""
  VariableMode="Internal"
- X="111"
- Y="1"
+ X="220"
+ Y="0"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -1714,10 +1667,11 @@ IN
  Type="BaseTypes.Time"
  DefaultValue="4.0"
  VariableMode="Constant"
- X="1"
- Y="61"
+ X="110"
+ Y="0"
  Width="100"
  Height="50"
+ Implemented="TRUE"
  Name="T_SoundHorn"
  Guid="4fea4751-da92-4903-896f-7f1ddc8a4b6c"
 >
