@@ -23,6 +23,7 @@ using DataDictionary;
 using DataDictionary.Tests;
 using DataDictionary.Tests.Runner;
 using GUI.LongOperations;
+using GUI.Properties;
 using GUI.Report;
 using GUIUtils;
 using GUIUtils.LongOperations;
@@ -204,7 +205,7 @@ namespace GUI.TestRunnerView
 
                                 const bool explain = false;
                                 const bool ensureCompiled = false;
-                                Frame.EFSSystem.Runner = new Runner(subSequence, explain, ensureCompiled);
+                                Frame.EFSSystem.Runner = new Runner(subSequence, explain, ensureCompiled, Settings.Default.CheckForCompatibleChanges);
 
                                 int testCasesFailed = subSequence.ExecuteAllTestCases(Frame.EFSSystem.Runner);
                                 if (testCasesFailed > 0)

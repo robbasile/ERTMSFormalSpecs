@@ -90,17 +90,24 @@ namespace DataDictionary.Tests.Runner
         public bool PleaseWait { get; set; }
 
         /// <summary>
-        ///     Constructor
+        /// Indicates that no variables are accessed twice during the same cycle
+        /// </summary>
+        public bool CheckForCompatibleChanges { get; set; }
+
+        /// <summary>
+        /// Constructor
         /// </summary>
         /// <param name="subSequence"></param>
         /// <param name="explain"></param>
         /// <param name="ensureCompilation">Indicates that the runner should make sure that the system is compiled</param>
-        public Runner(SubSequence subSequence, bool explain, bool ensureCompilation)
+        /// <param name="checkForCompatibleChanges">Indicates that the runner should check that no variables are accessed twice during the same cycle</param>
+        public Runner(SubSequence subSequence, bool explain, bool ensureCompilation, bool checkForCompatibleChanges = false)
         {
             EventTimeLine = new EventTimeLine();
             SubSequence = subSequence;
             EfsSystem.Instance.Runner = this;
             Explain = explain;
+            CheckForCompatibleChanges = checkForCompatibleChanges;
 
             if (ensureCompilation)
             {
@@ -555,11 +562,6 @@ namespace DataDictionary.Tests.Runner
                 }
             }
         }
-
-        /// <summary>
-        ///     Indicates that the changes performed should be checked for compatibility
-        /// </summary>
-        private bool CheckForCompatibleChanges = false;
 
         /// <summary>
         ///     Applies the selected actions and update the system state

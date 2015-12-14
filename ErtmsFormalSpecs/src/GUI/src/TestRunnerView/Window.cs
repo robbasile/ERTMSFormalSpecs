@@ -61,7 +61,7 @@ namespace GUI.TestRunnerView
             {
                 if (subSequence != null)
                 {
-                    EfsSystem.Runner = new Runner(subSequence, false, true);
+                    EfsSystem.Runner = new Runner(subSequence, false, true, Settings.Default.CheckForCompatibleChanges);
                 }
             }
 
@@ -305,7 +305,7 @@ namespace GUI.TestRunnerView
                     SubSequence subSequence = Frame.findSubSequence(subSequenceSelectorComboBox.Text);
                     if (subSequence != null)
                     {
-                        EfsSystem.Runner = new Runner(subSequence, true, true);
+                        EfsSystem.Runner = new Runner(subSequence, true, true, Settings.Default.CheckForCompatibleChanges);
                     }
                 }
                 else

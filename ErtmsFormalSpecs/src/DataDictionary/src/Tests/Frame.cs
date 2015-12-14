@@ -45,8 +45,9 @@ namespace DataDictionary.Tests
         ///     Executes the test cases for this test sequence
         /// </summary>
         /// <param name="ensureCompilationDone"></param>
+        /// <param name="checkForCompatibleChanges"></param>
         /// <returns>the number of failed sub sequences</returns>
-        public int ExecuteAllTests(bool ensureCompilationDone)
+        public int ExecuteAllTests(bool ensureCompilationDone, bool checkForCompatibleChanges = false)
         {
             int retVal = 0;
 
@@ -63,7 +64,7 @@ namespace DataDictionary.Tests
                 {
                     const bool explain = false;
                     const bool ensureCompiled = false;
-                    EFSSystem.Runner = new Runner.Runner(subSequence, explain, ensureCompiled);
+                    EFSSystem.Runner = new Runner.Runner(subSequence, explain, ensureCompiled, checkForCompatibleChanges);
                     int testCasesFailed = subSequence.ExecuteAllTestCases(EFSSystem.Runner);
                     if (testCasesFailed > 0)
                     {

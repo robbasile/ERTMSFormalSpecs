@@ -31,6 +31,18 @@ namespace GUI.Options
                 set { Settings.Default.DisplayRequirementsAsList = value; }
             }
 
+            [Category("Display")]
+            [DisplayName("Display all variables in structure editor")]
+            [Description(
+                "When set to true, indicates that all the variables should be displayed in the structure editor, even those which are empty"
+                )]
+            // ReSharper disable once UnusedMember.Local
+            public bool DisplayAllVariablesInStructureEditor
+            {
+                get { return Settings.Default.DisplayAllVariablesInStructureEditor; }
+                set { Settings.Default.DisplayAllVariablesInStructureEditor = value; }
+            }
+
             [Category("Files")]
             [DisplayName("Lock opened files")]
             [Description(
@@ -53,18 +65,6 @@ namespace GUI.Options
             {
                 get { return Settings.Default.ConvertObsoleteVersionOfModelFile; }
                 set { Settings.Default.ConvertObsoleteVersionOfModelFile = value; }
-            }
-
-            [Category("Display")]
-            [DisplayName("Display all variables in structure editor")]
-            [Description(
-                "When set to true, indicates that all the variables should be displayed in the structure editor, even those which are empty"
-                )]
-            // ReSharper disable once UnusedMember.Local
-            public bool DisplayAllVariablesInStructureEditor
-            {
-                get { return Settings.Default.DisplayAllVariablesInStructureEditor; }
-                set { Settings.Default.DisplayAllVariablesInStructureEditor = value; }
             }
 
             [Category("Behaviour")]
@@ -96,6 +96,16 @@ namespace GUI.Options
             {
                 get { return Settings.Default.AllowRefactor; }
                 set { Settings.Default.AllowRefactor = value; }
+            }
+
+            [Category("Behaviour")]
+            [DisplayName("Check for compatible changes")]
+            [Description("Verifies that no variables are accessed twice during the same cycle")]
+            // ReSharper disable once UnusedMember.Local
+            public bool CheckForCompatibleChanges
+            {
+                get { return Settings.Default.CheckForCompatibleChanges; }
+                set { Settings.Default.CheckForCompatibleChanges = value; }
             }
         }
 

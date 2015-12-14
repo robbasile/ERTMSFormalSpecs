@@ -240,7 +240,7 @@ namespace GUI.TestRunnerView
                     MarkingHistory.PerformMark(() =>
                     {
                         Window.SetSubSequence(SubSequence);
-                        EfsSystem.Instance.Runner = new Runner(SubSequence, true, true);
+                        EfsSystem.Instance.Runner = new Runner(SubSequence, true, true, Settings.Default.CheckForCompatibleChanges);
                         EfsSystem.Instance.Runner.RunUntilStep(null);
                     });
                 }

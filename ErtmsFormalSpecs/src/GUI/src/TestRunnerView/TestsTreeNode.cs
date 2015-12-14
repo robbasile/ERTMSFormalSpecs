@@ -21,6 +21,7 @@ using System.Windows.Forms;
 using DataDictionary;
 using DataDictionary.Tests;
 using GUI.ExcelImport;
+using GUI.Properties;
 using GUI.Report;
 using GUIUtils;
 using GUIUtils.LongOperations;
@@ -130,7 +131,7 @@ namespace GUI.TestRunnerView
                     Dialog.UpdateMessage("Executing " + frame.Name);
 
                     const bool ensureCompilationDone = false;
-                    int failedFrames = frame.ExecuteAllTests(ensureCompilationDone);
+                    int failedFrames = frame.ExecuteAllTests(ensureCompilationDone, Settings.Default.CheckForCompatibleChanges);
                     if (failedFrames > 0)
                     {
                         Failed += 1;
