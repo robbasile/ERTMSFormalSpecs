@@ -7340,6 +7340,150 @@ Priority =&gt; aRBC.MessageIn.Priority
   ContactTimerSupervised =&gt; aRBC.ContactTimerSupervised
 }</Expression>
 </Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="551"
+ Y="1"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="RevAreaPacketAvailable"
+ Guid="56479f30-de92-43f3-983b-e6d609303b1f"
+>
+<Comment>Indicates whether a Reversing Area Information packet is available.</Comment>
+<Parameters>
+<Parameter
+ Type="Messages.PACKET.TRACK_TO_TRAIN.REVERSING_AREA_INFORMATION.Message"
+ Name="aPacket"
+ Guid="01149e04-edd8-4139-9e0c-1aaf39df6e05"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="The packet is not empty"
+ Guid="daf6fd28-499e-4fb5-bf5e-6604a8f53842"
+>
+<PreConditions>
+<PreCondition
+ Guid="9c73eba3-f546-4fe7-b14f-7ec5213fc40f"
+>aPacket != EMPTY</PreCondition></PreConditions>
+<Expression>Kernel.AcceptInformation.ReversingAreaInformation( Source =&gt; Kernel.AcceptInformation.Source.RBC )</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="3fc2db1a-d8e7-4a78-8813-dc4305f855ec"
+>
+<Expression>False</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="551"
+ Y="1"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="RevSupPacketAvailable"
+ Guid="5a15b6b0-6503-4dc2-be26-fe1ae431de97"
+>
+<Comment>Indicates whether a Reversing Supervision Information packet is available.</Comment>
+<Parameters>
+<Parameter
+ Type="Messages.PACKET.TRACK_TO_TRAIN.REVERSING_SUPERVISION_INFORMATION.Message"
+ Name="aPacket"
+ Guid="ba08a442-7a5a-43c5-b049-16c67eee0e93"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="The packet is not empty"
+ Guid="011ef2e2-dee6-491b-bb09-972182c46e59"
+>
+<PreConditions>
+<PreCondition
+ Guid="b3f59daf-4b85-4b03-b696-37c47cd379c0"
+>aPacket != EMPTY</PreCondition></PreConditions>
+<Expression>Kernel.AcceptInformation.ReversingSupervisionInformation( Source =&gt; Kernel.AcceptInformation.Source.RBC )</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="f3b8bab9-4f60-4802-9670-cebb93731f1a"
+>
+<Expression>False</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.PACKET.TRACK_TO_TRAIN.REVERSING_AREA_INFORMATION.Message"
+ Default=""
+ X="551"
+ Y="61"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="ProvideRevAreaPacketToHandle"
+ Guid="ce723317-2337-45d6-a038-8c9439200eaa"
+>
+<Comment>Given a Reversing Area Information packet, returns this packet if it is available and can be handled and returns EMPTY otherwise.</Comment>
+<Parameters>
+<Parameter
+ Type="Messages.PACKET.TRACK_TO_TRAIN.REVERSING_AREA_INFORMATION.Message"
+ Name="aPacket"
+ Guid="613c0694-6762-4913-91d7-c9d8c24dcabc"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="The packet is available"
+ Guid="3bcda17f-0b3e-4795-bb17-1e010a9fdda6"
+>
+<PreConditions>
+<PreCondition
+ Guid="c0c259f6-48de-485a-92a8-7d19cb166bf7"
+>RevAreaPacketAvailable( aPacket =&gt; aPacket )</PreCondition></PreConditions>
+<Expression>aPacket</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="64de3bfb-c9bb-4037-b16d-672fc7d3ee98"
+>
+<Expression>EMPTY</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.PACKET.TRACK_TO_TRAIN.REVERSING_SUPERVISION_INFORMATION.Message"
+ Default=""
+ X="551"
+ Y="61"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="ProvideRevSupPacketToHandle"
+ Guid="26c274cc-0222-46ea-9597-7c45a593bbaa"
+>
+<Comment>Given a Reversing Supervision Information packet, returns this packet if it is available and can be handled and returns EMPTY otherwise.</Comment>
+<Parameters>
+<Parameter
+ Type="Messages.PACKET.TRACK_TO_TRAIN.REVERSING_SUPERVISION_INFORMATION.Message"
+ Name="aPacket"
+ Guid="0cef4881-2743-4734-956e-a4bcd8f2f1b7"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="The packet is available"
+ Guid="e5a43c3a-1fa2-40ac-b5af-0c80e960a9aa"
+>
+<PreConditions>
+<PreCondition
+ Guid="6da5e448-015b-4c78-8fa7-cb1c8865ad7b"
+>RevSupPacketAvailable( aPacket =&gt; aPacket )</PreCondition></PreConditions>
+<Expression>aPacket</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="c63340b3-6649-4f1f-a54e-c0f7ab44cc29"
+>
+<Expression>EMPTY</Expression>
+</Case></Cases>
 </Function></Functions>
 <Procedures>
 <Procedure
@@ -8548,7 +8692,7 @@ EURORADIO.Terminal1.RBCConnection.SafeRadioConnectionStatus == EURORADIO.SafeRad
 <Rule
  Priority="Processing"
  Implemented="TRUE"
- Name="Gradient profile available"
+ Name="Gradient Profile available"
  Guid="539f7a0f-52e3-44ad-9ab0-68b3b3aaf17c"
 >
 <ReqRef
@@ -8571,7 +8715,7 @@ EURORADIO.Terminal1.RBCConnection.SafeRadioConnectionStatus == EURORADIO.SafeRad
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
- Name="Gradient profile available"
+ Name="Gradient Profile Available"
  Guid="beef185c-ea8f-43e9-84d0-f3353e3dbec6"
 >
 <PreConditions>
@@ -8588,7 +8732,7 @@ EURORADIO.Terminal1.RBCConnection.SafeRadioConnectionStatus == EURORADIO.SafeRad
 </Rule><Rule
  Priority="Processing"
  Implemented="TRUE"
- Name="International static speed profile available"
+ Name="International Static Speed Profile available"
  Guid="8864fbd0-0eae-4dce-8805-790e4f3551ee"
 >
 <ReqRef
@@ -8611,7 +8755,7 @@ EURORADIO.Terminal1.RBCConnection.SafeRadioConnectionStatus == EURORADIO.SafeRad
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
- Name="International static speed profile available"
+ Name="International Static Speed Profile available"
  Guid="bd9a92b7-41d2-4214-92f6-33a7d4278a14"
 >
 <PreConditions>
@@ -8628,7 +8772,7 @@ EURORADIO.Terminal1.RBCConnection.SafeRadioConnectionStatus == EURORADIO.SafeRad
 </Rule><Rule
  Priority="Processing"
  Implemented="TRUE"
- Name="List of balises for SH area available"
+ Name="List of Balises for SH Area available"
  Guid="fcf5520f-ce3c-4f17-b984-02a819e47adb"
 >
 <ReqRef
@@ -8646,7 +8790,7 @@ EURORADIO.Terminal1.RBCConnection.SafeRadioConnectionStatus == EURORADIO.SafeRad
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
- Name="List of balises for SH area available"
+ Name="List of Balises for SH Area available"
  Guid="1ac428d8-87fc-45d9-a277-e609c689b426"
 >
 <PreConditions>
@@ -9446,7 +9590,7 @@ MessageTypes.QScaleDistance(
 <Rule
  Priority="Processing"
  Implemented="TRUE"
- Name="Route suitability data available"
+ Name="Route Suitability Data available"
  Guid="1cfcd676-857b-4365-ae5e-e92d658219b7"
 >
 <ReqRef
@@ -9459,7 +9603,7 @@ MessageTypes.QScaleDistance(
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
- Name="Route suitability data available"
+ Name="Route Suitability Data Available"
  Guid="cfe0f284-c660-462a-b15f-f16501bcb05d"
 >
 <PreConditions>
@@ -9476,7 +9620,7 @@ MessageTypes.QScaleDistance(
 </Rule><Rule
  Priority="Processing"
  Implemented="TRUE"
- Name="Mode profile available"
+ Name="Mode Profile available"
  Guid="ba5e7903-74f0-416c-ace9-cdc1392a7a73"
 >
 <ReqRef
@@ -9494,7 +9638,7 @@ MessageTypes.QScaleDistance(
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
- Name="Mode profile available"
+ Name="Mode Profile available"
  Guid="5723e1bb-1530-43ae-b94a-8989fd2a71a0"
 >
 <PreConditions>
@@ -9514,7 +9658,7 @@ MessageTypes.QScaleDistance(
 </Rule><Rule
  Priority="Processing"
  Implemented="TRUE"
- Name="Level transition order available"
+ Name="Level Transition Order available"
  Guid="1e3c7c24-198c-43ed-975b-dbe5a441caf3"
 >
 <ReqRef
@@ -9527,7 +9671,7 @@ MessageTypes.QScaleDistance(
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
- Name="Level transition order available"
+ Name="Level Transition Order available"
  Guid="b23111b6-dc5d-4ef3-bcdc-8872f1653ec4"
 >
 <PreConditions>
@@ -9540,6 +9684,45 @@ MessageTypes.QScaleDistance(
 <Action
  Guid="fd9f395f-4d3f-45ad-b8bf-3444ca9d3d17"
 >Kernel.LevelTransition.LTOReceived ( Packet =&gt; ( FIRST X IN aMessage.INFILL_MA.Sequence1 | Available ( X.LEVEL_TRANSITION_ORDER )).LEVEL_TRANSITION_ORDER )</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Reversing Area or Supervision Information available"
+ Guid="3f894663-c54e-41c2-a609-1a567adb163c"
+>
+<ReqRef
+ Id="571b7bcf-500a-4e43-8f4b-dfb64cfd4845"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="1c9a3d6a-a47e-4525-a5b6-2b54ace48bde"
+>
+</ReqRef><ReqRef
+ Id="796923a0-8b8a-4e7b-8af3-43f3398b27dd"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d02d5846-bae2-414d-a6ae-fb865c435047"
+>
+</ReqRef><Comment>Handles reception of reversing area information (and possibly reversing supervision information) received with the infill MA.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Reversing Area or Supervision Information available"
+ Guid="abc54951-3a16-4e4b-9f70-5973641d7308"
+>
+<PreConditions>
+<PreCondition
+ Guid="ce890c1b-352c-4169-aac9-4eae048a5315"
+>RevAreaPacketAvailable( aPacket =&gt; ( FIRST X IN aMessage.INFILL_MA.Sequence1 | Available ( X.LEVEL_TRANSITION_ORDER )).REVERSING_AREA_INFORMATION )
+  OR
+RevSupPacketAvailable( aPacket =&gt; ( FIRST X IN aMessage.INFILL_MA.Sequence1 | Available ( X.LEVEL_TRANSITION_ORDER )).REVERSING_SUPERVISION_INFORMATION )</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="69e91bbd-8a57-46be-bda5-64b428bb0975"
+>Kernel.TrackDescription.ReversingArea.ReversingAreaOrSupervisionInformationReceived
+(
+    RvAreaPacket =&gt; ProvideRevAreaPacketToHandle( aPacket =&gt; ( FIRST X IN aMessage.INFILL_MA.Sequence1 | Available ( X.LEVEL_TRANSITION_ORDER )).REVERSING_AREA_INFORMATION ),
+    RvSupPacket =&gt; ProvideRevSupPacketToHandle( aPacket =&gt; ( FIRST X IN aMessage.INFILL_MA.Sequence1 | Available ( X.LEVEL_TRANSITION_ORDER )).REVERSING_SUPERVISION_INFORMATION )
+)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition></Conditions>
@@ -10510,7 +10693,7 @@ But at the end of the cycle the conditions required for sending of position repo
 <Rule
  Priority="Processing"
  Implemented="TRUE"
- Name="Session management available"
+ Name="Session Management available"
  Guid="617c0d85-e001-4ba2-9a2e-7ed40b53d7d6"
 >
 <ReqRef
@@ -10529,7 +10712,7 @@ But at the end of the cycle the conditions required for sending of position repo
 <RuleCondition
  Implemented="TRUE"
  NeedsRequirement="FALSE"
- Name="Session management available"
+ Name="Session Management available"
  Guid="1535de84-4fd0-4408-a56b-3b0d008655c4"
 >
 <PreConditions>
@@ -10546,7 +10729,7 @@ But at the end of the cycle the conditions required for sending of position repo
 </Rule><Rule
  Priority="Processing"
  Implemented="TRUE"
- Name="Radio Network registration available"
+ Name="Radio Network Registration available"
  Guid="ed7d1e6a-a0a3-49c9-8fd4-be819eba3a56"
 >
 <ReqRef
@@ -10586,7 +10769,7 @@ But at the end of the cycle the conditions required for sending of position repo
 </Rule><Rule
  Priority="Processing"
  Implemented="TRUE"
- Name="Movement authority request parameters available"
+ Name="Movement Authority Request Parameters available"
  Guid="d246069e-15d2-49e9-b02f-d74d788b9fd2"
 >
 <ReqRef
@@ -10599,7 +10782,7 @@ But at the end of the cycle the conditions required for sending of position repo
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
- Name="Movement authority request parameters available"
+ Name="Movement Authority Request parameters available"
  Guid="f690f045-757e-4168-850f-58888f04d1ab"
 >
 <PreConditions>
@@ -10616,7 +10799,7 @@ But at the end of the cycle the conditions required for sending of position repo
 </Rule><Rule
  Priority="UpdateINTERNAL"
  Implemented="TRUE"
- Name="Position report parameters available"
+ Name="Position Report Parameters available"
  Guid="935df013-36d5-46e2-8fd1-1c22e87f3dfc"
 >
 <ReqRef
@@ -10629,7 +10812,7 @@ But at the end of the cycle the conditions required for sending of position repo
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
- Name="Position report parameters available"
+ Name="Position Report Parameters available"
  Guid="8f6b94f8-5ebc-4d66-9acf-ddf51ba1d957"
 >
 <ReqRef
@@ -10654,7 +10837,7 @@ But at the end of the cycle the conditions required for sending of position repo
 </Rule><Rule
  Priority="Processing"
  Implemented="TRUE"
- Name="Inhibition of revocable TSRs available"
+ Name="Inhibition of Revocable TSRs available"
  Guid="af690be3-ef6e-4ea9-8205-18f02935969f"
 >
 <ReqRef
@@ -10667,7 +10850,7 @@ But at the end of the cycle the conditions required for sending of position repo
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
- Name="Inhibition of revocable TSRs available"
+ Name="Inhibition of Revocable TSRs available"
  Guid="56131adf-96b9-4baa-a67e-e37203b207b9"
 >
 <PreConditions>
@@ -10684,7 +10867,7 @@ But at the end of the cycle the conditions required for sending of position repo
 </Rule><Rule
  Priority="Processing"
  Implemented="TRUE"
- Name="Route suitability data available"
+ Name="Route Suitability Data available"
  Guid="4aa1a01f-4254-4958-b0e8-99b5cb30cc20"
 >
 <ReqRef
@@ -10697,7 +10880,7 @@ But at the end of the cycle the conditions required for sending of position repo
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
- Name="Route suitability data available"
+ Name="Route Suitability Data available"
  Guid="c0c990ba-89d9-47e6-b458-c64d95c8112c"
 >
 <PreConditions>
@@ -10714,7 +10897,7 @@ But at the end of the cycle the conditions required for sending of position repo
 </Rule><Rule
  Priority="Processing"
  Implemented="TRUE"
- Name="Plain text message available"
+ Name="Plain Text Message available"
  Guid="f949498c-4264-473b-8fe3-dded70bc46b4"
 >
 <ReqRef
@@ -10743,7 +10926,7 @@ But at the end of the cycle the conditions required for sending of position repo
 <RuleCondition
  Implemented="TRUE"
  NeedsRequirement="FALSE"
- Name="Plain text message available"
+ Name="Plain Text Message available"
  Guid="ca5611a1-ba25-4121-b582-8c676a1386d5"
 >
 <PreConditions>
@@ -10760,7 +10943,7 @@ But at the end of the cycle the conditions required for sending of position repo
 </Rule><Rule
  Priority="Processing"
  Implemented="TRUE"
- Name="Fixed text message available"
+ Name="Fixed Text Message available"
  Guid="662b0bb6-4120-49dc-885b-a473919c1a4f"
 >
 <ReqRef
@@ -10789,7 +10972,7 @@ But at the end of the cycle the conditions required for sending of position repo
 <RuleCondition
  Implemented="TRUE"
  NeedsRequirement="FALSE"
- Name="Fixed text message available"
+ Name="Fixed Text Message available"
  Guid="5ae23c00-498d-4bca-99ee-98955a460120"
 >
 <PreConditions>
@@ -10806,7 +10989,7 @@ But at the end of the cycle the conditions required for sending of position repo
 </Rule><Rule
  Priority="Processing"
  Implemented="TRUE"
- Name="Geographical position available"
+ Name="Geographical Position available"
  Guid="c6392e10-ecba-405d-a76b-2510ba3260e4"
 >
 <ReqRef
@@ -10819,7 +11002,7 @@ But at the end of the cycle the conditions required for sending of position repo
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
- Name="Geographical position available"
+ Name="Geographical Position available"
  Guid="61fbd0fd-4497-4000-98e8-49e1aeafeb65"
 >
 <PreConditions>
@@ -10836,7 +11019,7 @@ But at the end of the cycle the conditions required for sending of position repo
 </Rule><Rule
  Priority="Processing"
  Implemented="TRUE"
- Name="RBC transition order available"
+ Name="RBC Transition Order available"
  Guid="bbd085cd-6114-4a8e-9372-7befdce23b2b"
 >
 <ReqRef
@@ -10854,7 +11037,7 @@ But at the end of the cycle the conditions required for sending of position repo
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
- Name="RBC transition order available"
+ Name="RBC Transition Order available"
  Guid="53418cea-2cd8-4707-94b4-ccdc60514170"
 >
 <PreConditions>
@@ -10871,7 +11054,7 @@ But at the end of the cycle the conditions required for sending of position repo
 </Rule><Rule
  Priority="Processing"
  Implemented="TRUE"
- Name="Reversing area information received"
+ Name="Reversing Area or Supervision Information available"
  Guid="d991fd29-3448-414c-b173-d33dc950f456"
 >
 <ReqRef
@@ -10894,70 +11077,43 @@ But at the end of the cycle the conditions required for sending of position repo
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="089b9fba-2bb7-463a-8dda-057dea445026"
 >
+</ReqRef><ReqRef
+ Id="571b7bcf-500a-4e43-8f4b-dfb64cfd4845"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="20354611-538d-4cae-8923-aae139a579ad"
+>
+</ReqRef><ReqRef
+ Id="796923a0-8b8a-4e7b-8af3-43f3398b27dd"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="fe6c9879-e8c2-4819-bb52-efe9da28bb8a"
+>
 </ReqRef><Comment>Handles reception of reversing area information.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
- Name="Reversing area information received"
+ Name="Reversing Area or Supervision Information available"
  Guid="8a00d353-62fa-4dcf-986c-2ccf3f3da7bf"
 >
 <PreConditions>
 <PreCondition
  Guid="2060598f-0aa3-4dff-9cfc-d591ff131003"
->THERE_IS X IN Packets | Available ( X.REVERSING_AREA_INFORMATION)</PreCondition><PreCondition
- Guid="dd515f89-a7ca-4ad5-8028-653e08841979"
->THERE_IS X IN Packets | Available ( X.REVERSING_SUPERVISION_INFORMATION)</PreCondition><PreCondition
- Guid="4cb43dde-7a55-468e-aaf3-f494df41adcb"
->Kernel.AcceptInformation.ReversingAreaInformation( Source =&gt; Kernel.AcceptInformation.Source.RBC )</PreCondition></PreConditions>
+>RevAreaPacketAvailable( aPacket =&gt; ( FIRST X IN Packets | Available ( X.LEVEL_TRANSITION_ORDER )).REVERSING_AREA_INFORMATION )
+  OR
+RevSupPacketAvailable( aPacket =&gt; ( FIRST X IN Packets | Available ( X.LEVEL_TRANSITION_ORDER )).REVERSING_SUPERVISION_INFORMATION )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="80535626-724a-4983-90b1-d0fe24394982"
->Kernel.TrackDescription.ReversingArea.ReversingAreaInformationReceived
+>Kernel.TrackDescription.ReversingArea.ReversingAreaOrSupervisionInformationReceived
 (
-    RVAreaPacket =&gt; ( FIRST X IN Packets | Available (X.REVERSING_AREA_INFORMATION)).REVERSING_AREA_INFORMATION,
-    RVSupervisionPacket =&gt; ( FIRST X IN Packets | Available (X.REVERSING_SUPERVISION_INFORMATION)).REVERSING_SUPERVISION_INFORMATION
+    RvAreaPacket =&gt; ProvideRevAreaPacketToHandle( aPacket =&gt; ( FIRST X IN Packets | Available ( X.LEVEL_TRANSITION_ORDER )).REVERSING_AREA_INFORMATION ),
+    RvSupPacket =&gt; ProvideRevSupPacketToHandle( aPacket =&gt; ( FIRST X IN Packets | Available ( X.LEVEL_TRANSITION_ORDER )).REVERSING_SUPERVISION_INFORMATION )
 )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
  Implemented="TRUE"
- Name="Reversing supervision information received"
- Guid="28f5a732-ce0a-4051-bbf4-03e0557c4a7b"
->
-<ReqRef
- Id="c93e250c-fc42-406f-9706-6ec7488b8982"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="b0c86519-5005-4a55-ba21-787201b11562"
->
-</ReqRef><ReqRef
- Id="f08e576d-1c61-4c2b-b742-29f729a5728f"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="005e242c-9fab-496a-8cc4-ba3c58514f36"
->
-</ReqRef><Comment>Handles reception of reversing supervision information.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Reversing supervision information received"
- Guid="af2c5570-7a4d-4054-82ad-57ef1d45427e"
->
-<PreConditions>
-<PreCondition
- Guid="193d11a0-6c10-4e95-88ed-a9e108627cb4"
->THERE_IS X IN Packets | Available ( X.REVERSING_SUPERVISION_INFORMATION)</PreCondition><PreCondition
- Guid="9fdd2f17-56a0-4794-be18-df9bf1785e48"
->Kernel.AcceptInformation.ReversingSupervisionInformation( Source =&gt; Kernel.AcceptInformation.Source.RBC )</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="44c794a5-cbc0-4338-8222-edf600f1a426"
->Kernel.TrackDescription.ReversingArea.ReversingSupervisionInformationReceived(RVSupervisionPacket =&gt; ( FIRST X IN Packets | Available (X.REVERSING_SUPERVISION_INFORMATION)).REVERSING_SUPERVISION_INFORMATION)</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- Implemented="TRUE"
- Name="LSSMA display toggle order available"
+ Name="LSSMA Display Toggle Order available"
  Guid="cf3b6a56-0f48-4763-a9f3-26f5e0f6b0db"
 >
 <ReqRef

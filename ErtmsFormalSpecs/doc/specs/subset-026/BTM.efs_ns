@@ -1053,118 +1053,6 @@ PacketOrientation == Messages.Q_DIR.Both_directions</Expression>
 <Expression>FIRST X IN aTelegram.Sequence1 | X.TRACK_TO_TRAIN.LEVEL_1_MOVEMENT_AUTHORITY  != EMPTY</Expression>
 </Case></Cases>
 </Function><Function
- Type="Boolean"
- Default=""
- X="150"
- Y="260"
- Width="100"
- Height="50"
- Pinned="TRUE"
- Implemented="TRUE"
- Name="HasRevSupervisionInfo"
- Guid="1a1f56fd-2bca-4f91-8a90-d02c1d34904e"
->
-<ReqRef
- Id="bfc8eaed-659b-4a63-9e2b-52dca586a727"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="776cc102-c320-45b4-830b-b8189af452ff"
->
-</ReqRef><ReqRef
- Id="796923a0-8b8a-4e7b-8af3-43f3398b27dd"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="cebd3778-349b-4050-93a8-a0dfd8d2e4c2"
->
-</ReqRef><ReqRef
- Id="f4d58bfc-b004-4e15-9756-926a4d1205e0"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="f8e437a8-dde7-4808-8770-089c08dda5c3"
->
-</ReqRef><ReqRef
- Id="93098cba-bfd3-4dc4-ba29-a6f4fdc5a8cb"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="5597689f-4307-4c4f-8fe7-8c75b0597f58"
->
-</ReqRef><Comment>Indicates whether a balise telegram contains a Reversing Supervision Information packet</Comment>
-<Parameters>
-<Parameter
- Type="Messages.EUROBALISE.Message"
- Name="Message"
- Guid="4688b46d-e4e8-466b-aad0-200c946f0564"
->
-</Parameter></Parameters>
-<Cases>
-<Case
- Name="Value"
- Guid="b4fdb318-b4e0-4c4b-b434-1bdd7551b194"
->
-<Expression>THERE_IS X IN Message.Sequence1 | BTM.ConsiderPacket ( PacketOrientation =&gt; X.TRACK_TO_TRAIN.REVERSING_SUPERVISION_INFORMATION.Q_DIR )</Expression>
-</Case></Cases>
-</Function><Function
- Type="Boolean"
- Default=""
- X="260"
- Y="260"
- Width="100"
- Height="50"
- Pinned="TRUE"
- Implemented="TRUE"
- Name="HasRevAreaInfo"
- Guid="3e1ec123-1277-43e1-8020-f53b8b7b36ee"
->
-<ReqRef
- Id="bfc8eaed-659b-4a63-9e2b-52dca586a727"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="a9b2f062-cc58-466d-9320-d4f34f0d8890"
->
-</ReqRef><ReqRef
- Id="53afec70-5418-4e7d-9064-ba5f0d67662c"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="1e583727-4512-4797-a4f4-45b5da707d06"
->
-</ReqRef><Comment>Indicates whether a balise telegram contains a Reversing Area Information packet</Comment>
-<Parameters>
-<Parameter
- Type="Messages.EUROBALISE.Message"
- Name="Message"
- Guid="613ee0bb-d29c-42e6-8428-b617bc90c20b"
->
-</Parameter></Parameters>
-<Cases>
-<Case
- Name="Value"
- Guid="9ac75977-fe1c-450f-b401-f49ef5704cd6"
->
-<Expression>THERE_IS X IN Message.Sequence1 | BTM.ConsiderPacket ( PacketOrientation =&gt; X.TRACK_TO_TRAIN.REVERSING_AREA_INFORMATION.Q_DIR )</Expression>
-</Case></Cases>
-</Function><Function
- Type="Messages.PACKET.TRACK_TO_TRAIN.REVERSING_SUPERVISION_INFORMATION.Message"
- Default=""
- X="370"
- Y="200"
- Width="100"
- Height="50"
- Pinned="TRUE"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="RevSupervisionPacket"
- Guid="efd345de-9a3d-4acd-8130-8374e0a4e556"
->
-<Comment>Returns the Reversing Supervision Information packet contained in a balise telegram</Comment>
-<Parameters>
-<Parameter
- Type="Messages.EUROBALISE.Message"
- Name="Message"
- Guid="26b316b0-4f2b-4f56-b2bd-c5a13a7b0f63"
->
-</Parameter></Parameters>
-<Cases>
-<Case
- Name="Value"
- Guid="e23f384e-04ed-4772-979f-42235888b0a5"
->
-<Expression>(FIRST X IN Message.Sequence1 | BTM.ConsiderPacket(X.TRACK_TO_TRAIN.REVERSING_SUPERVISION_INFORMATION.Q_DIR) ).TRACK_TO_TRAIN.REVERSING_SUPERVISION_INFORMATION</Expression>
-</Case></Cases>
-</Function><Function
  Type="Messages.EUROBALISE.SubStructure1"
  Default=""
  X="40"
@@ -1595,8 +1483,8 @@ NOT
 </Function><Function
  Type="Boolean"
  Default=""
- X="370"
- Y="400"
+ X="260"
+ Y="260"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -2171,8 +2059,8 @@ NOT Kernel.ActiveFunctions.CheckLinkingConsistency()</PreCondition></PreConditio
 </Function><Function
  Type="Messages.EUROBALISE.Message"
  Default=""
- X="480"
- Y="20"
+ X="370"
+ Y="200"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -2194,8 +2082,8 @@ NOT Kernel.ActiveFunctions.CheckLinkingConsistency()</PreCondition></PreConditio
 </Function><Function
  Type="Messages.EUROBALISE.Message"
  Default=""
- X="551"
- Y="181"
+ X="150"
+ Y="260"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -2233,6 +2121,154 @@ NOT Kernel.ActiveFunctions.CheckLinkingConsistency()</PreCondition></PreConditio
 </Case><Case
  Name="Default"
  Guid="467845c9-3e20-4eee-bd0d-abebfcc8f698"
+>
+<Expression>EMPTY</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="480"
+ Y="80"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="RevAreaPacketAvailable"
+ Guid="e1c305f1-2233-4bdd-b0a7-f7220d350f40"
+>
+<Comment>Indicates whether a Reversing Area Information packet is available.</Comment>
+<Parameters>
+<Parameter
+ Type="Messages.PACKET.TRACK_TO_TRAIN.REVERSING_AREA_INFORMATION.Message"
+ Name="aPacket"
+ Guid="91b32c95-09fc-462c-8c90-3e708016c9f6"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="The packet is not empty"
+ Guid="5f593ccb-9b54-4fd9-a6ce-83aa65678fc8"
+>
+<PreConditions>
+<PreCondition
+ Guid="e14e7585-37e2-4bea-adeb-fcf857a7fdac"
+>aPacket != EMPTY</PreCondition></PreConditions>
+<Expression>ConsiderPacket ( PacketOrientation =&gt; aPacket.Q_DIR )
+  AND
+Kernel.AcceptInformation.ReversingAreaInformation( Source =&gt; Kernel.AcceptInformation.Source.BaliseGroup )</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="128113f1-00a9-4011-b2d9-031940921a40"
+>
+<Expression>False</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="480"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="RevSupPacketAvailable"
+ Guid="2d41eb1a-3aca-4e2c-aa04-117a1ba896ae"
+>
+<Comment>Indicates whether a Reversing Supervision Information packet is available.</Comment>
+<Parameters>
+<Parameter
+ Type="Messages.PACKET.TRACK_TO_TRAIN.REVERSING_SUPERVISION_INFORMATION.Message"
+ Name="aPacket"
+ Guid="43232690-9816-4ca1-947c-dfb3ba7c55d3"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="The packet is not empty"
+ Guid="d7b4d836-06d2-49c7-b877-e0c9518838d7"
+>
+<PreConditions>
+<PreCondition
+ Guid="aea590da-9233-4091-bdaa-7e129f1a1909"
+>aPacket != EMPTY</PreCondition></PreConditions>
+<Expression>ConsiderPacket ( PacketOrientation =&gt; aPacket.Q_DIR )
+  AND
+Kernel.AcceptInformation.ReversingSupervisionInformation( Source =&gt; Kernel.AcceptInformation.Source.BaliseGroup )</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="6d166964-7ab0-476a-af1d-63ddca1fcd88"
+>
+<Expression>False</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.PACKET.TRACK_TO_TRAIN.REVERSING_AREA_INFORMATION.Message"
+ Default=""
+ X="480"
+ Y="140"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="ProvideRevAreaPacketToHandle"
+ Guid="849bf35a-7622-45ba-bf86-281e2aa818a0"
+>
+<Comment>Given a Reversing Area Information packet, returns this packet if it is available and can be handled and returns EMPTY otherwise.</Comment>
+<Parameters>
+<Parameter
+ Type="Messages.PACKET.TRACK_TO_TRAIN.REVERSING_AREA_INFORMATION.Message"
+ Name="aPacket"
+ Guid="2c53e7e1-aaef-4da0-b23f-81b73f52cb3d"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="The packet is available"
+ Guid="8e78f827-b5c7-491a-8b00-32731ca2f936"
+>
+<PreConditions>
+<PreCondition
+ Guid="7f2f5be6-a2f3-4bc4-a457-ebe771773c8c"
+>RevAreaPacketAvailable( aPacket =&gt; aPacket )</PreCondition></PreConditions>
+<Expression>aPacket</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="c25c99d4-9ae0-4d79-9ad3-0f4ce1a17553"
+>
+<Expression>EMPTY</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.PACKET.TRACK_TO_TRAIN.REVERSING_SUPERVISION_INFORMATION.Message"
+ Default=""
+ X="480"
+ Y="200"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="ProvideRevSupPacketToHandle"
+ Guid="becae289-1edb-41fe-babe-b5f1e1e06ed1"
+>
+<Comment>Given a Reversing Supervision Information packet, returns this packet if it is available and can be handled and returns EMPTY otherwise.</Comment>
+<Parameters>
+<Parameter
+ Type="Messages.PACKET.TRACK_TO_TRAIN.REVERSING_SUPERVISION_INFORMATION.Message"
+ Name="aPacket"
+ Guid="4f1e17e0-eacf-4d74-84a6-711f77b5748a"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="The packet is available"
+ Guid="23e02682-1557-4ae3-8164-1c8268cf06ed"
+>
+<PreConditions>
+<PreCondition
+ Guid="786ceabc-42e9-40a6-b5d9-f055f8ebd612"
+>RevSupPacketAvailable( aPacket =&gt; aPacket )</PreCondition></PreConditions>
+<Expression>aPacket</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="a179ccb3-80cd-4f31-bd09-739522d2dc78"
 >
 <Expression>EMPTY</Expression>
 </Case></Cases>
@@ -3155,7 +3191,7 @@ True</PreCondition></PreConditions>
 >Kernel.Infill.InfillReceived ( Packet.TRACK_TO_TRAIN.INFILL_LOCATION_REFERENCE )</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
- Name="Reversing Area Information available"
+ Name="Reversing Area or Supervision Information available"
  Guid="8c565102-6dfc-467b-bba2-7bdae0720fa5"
 >
 <ReqRef
@@ -3183,58 +3219,35 @@ True</PreCondition></PreConditions>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="0f217554-67f7-4f8b-8222-39736c4f1466"
 >
-</ReqRef><Comment>Handles Reversion Area Information packet, if available.</Comment>
-<PreConditions>
-<PreCondition
- Guid="229f8b76-fd9c-43fc-9e81-d3eeef35a300"
->BTM.ConsiderPacket ( PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.REVERSING_AREA_INFORMATION.Q_DIR )</PreCondition><PreCondition
- Guid="63b7ef27-bbc6-42a7-8bf2-d97a8e0a60c8"
->THERE_IS X IN BTM.CurrentBaliseGroup | BTM.HasRevSupervisionInfo(Message=&gt;X.Telegram)</PreCondition><PreCondition
- Guid="6690bf2e-a45a-4a8a-ad44-1204ba66e591"
->Kernel.AcceptInformation.ReversingAreaInformation( Source =&gt; Kernel.AcceptInformation.Source.BaliseGroup )</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="1ee33c0c-afa3-45e6-af12-67634aef90fc"
->Kernel.TrackDescription.ReversingArea.ReversingAreaInformationReceived
-(
-    RVAreaPacket =&gt; Packet.TRACK_TO_TRAIN.REVERSING_AREA_INFORMATION,
-    RVSupervisionPacket =&gt; BTM.RevSupervisionPacket((FIRST X IN BTM.CurrentBaliseGroup | BTM.HasRevSupervisionInfo(X.Telegram)).Telegram)
-)</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- Name="Reversing Supervision Information available"
- Guid="b14b8020-8f06-4cd3-9875-0f6272c057e0"
->
-<ReqRef
- Id="53afec70-5418-4e7d-9064-ba5f0d67662c"
+</ReqRef><ReqRef
+ Id="796923a0-8b8a-4e7b-8af3-43f3398b27dd"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="3b4c1e76-3a54-4b21-8a42-356857b73b51"
+ Guid="ee588ecf-e52d-4e87-89b5-7ceb19383b5f"
 >
 </ReqRef><ReqRef
  Id="46356051-e464-4ceb-b54c-41ef8dc6017f"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="2e0d080b-b316-4905-aa7a-e6db27ae2f57"
+ Guid="6f108d26-7bb6-4017-829b-07be0a892e76"
 >
 </ReqRef><ReqRef
  Id="c93e250c-fc42-406f-9706-6ec7488b8982"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="d9f75ebc-0a77-4f54-b9f8-26439dc73299"
+ Guid="b139424f-252b-4a32-98af-e3f786f4b561"
 >
-</ReqRef><Comment>Handles Reverising Supervision Information, if available.</Comment>
+</ReqRef><Comment>Handles Reversion Area Information packet, if available.</Comment>
 <PreConditions>
 <PreCondition
- Guid="84dbb76c-bf59-462a-9f3c-525182a0b7cf"
->BTM.ConsiderPacket ( PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.REVERSING_SUPERVISION_INFORMATION.Q_DIR )</PreCondition><PreCondition
- Guid="248dc82c-f2d7-416f-ae54-eab951eba3be"
->NOT ( THERE_IS X IN BTM.CurrentBaliseGroup | BTM.HasRevAreaInfo(Message=&gt;X.Telegram) )</PreCondition><PreCondition
- Guid="d05ae38b-93a3-4fa6-a368-ee92b1173201"
->Kernel.AcceptInformation.ReversingSupervisionInformation( Source =&gt; Kernel.AcceptInformation.Source.BaliseGroup )</PreCondition></PreConditions>
+ Guid="63bcc506-85c0-4763-9549-2f5c4eec0646"
+>RevAreaPacketAvailable( aPacket =&gt; Packet.TRACK_TO_TRAIN.REVERSING_AREA_INFORMATION )
+  OR
+RevSupPacketAvailable( aPacket =&gt; Packet.TRACK_TO_TRAIN.REVERSING_SUPERVISION_INFORMATION )</PreCondition></PreConditions>
 <Actions>
 <Action
- Guid="a1a7e48f-51d5-472f-856b-f4e81ce62319"
->Kernel.TrackDescription.ReversingArea.ReversingSupervisionInformationReceived
+ Guid="1ee33c0c-afa3-45e6-af12-67634aef90fc"
+>Kernel.TrackDescription.ReversingArea.ReversingAreaOrSupervisionInformationReceived
 (
-    RVSupervisionPacket =&gt; Packet.TRACK_TO_TRAIN.REVERSING_SUPERVISION_INFORMATION
+  RvAreaPacket =&gt; ProvideRevAreaPacketToHandle( aPacket =&gt; Packet.TRACK_TO_TRAIN.REVERSING_AREA_INFORMATION ),
+  RvSupPacket =&gt; ProvideRevSupPacketToHandle( aPacket =&gt; Packet.TRACK_TO_TRAIN.REVERSING_SUPERVISION_INFORMATION )
 )</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
@@ -6090,8 +6103,8 @@ IN BTM.CurrentBaliseGroup</Action></Actions>
   BitField =&gt; &apos;&apos;
 }"
  VariableMode="InOut"
- X="551"
- Y="121"
+ X="590"
+ Y="200"
  Width="100"
  Height="50"
  Implemented="TRUE"
