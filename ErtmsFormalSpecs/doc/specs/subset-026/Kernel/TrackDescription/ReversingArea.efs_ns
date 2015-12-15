@@ -116,18 +116,10 @@
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="c577d8ea-46d9-4c98-9514-0eaefd361a8d"
 >
-</ReqRef></StructureElement><StructureElement
- TypeName="BaseTypes.Distance"
- Default=""
- Mode="Internal"
- Implemented="TRUE"
- Name="FixedRefLocation"
- Guid="21361470-33c2-4ad5-a41c-9bc72db9dee1"
->
-<ReqRef
- Id="f4d58bfc-b004-4e15-9756-926a4d1205e0"
+</ReqRef><ReqRef
+ Id="3518255f-a436-4201-afb9-867bb586c371"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="6864878b-3130-414c-9fe1-6b14e35b7479"
+ Guid="794a7a2f-1359-417b-a189-44815dc342be"
 >
 </ReqRef></StructureElement></Structure></Structures>
 <Procedures>
@@ -154,6 +146,11 @@
  Id="8cd5d7d8-c20a-4927-9990-dacc4a577a3e"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="6fe12e18-8c66-4e2d-8fa1-92e22a2680cc"
+>
+</ReqRef><ReqRef
+ Id="9cfe52e2-c938-4965-bdaa-d8fc20e83a9a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="7fa1081a-6e9e-47a0-92b3-76de48daadda"
 >
 </ReqRef><Comment>Deletes the reversing area profile beyond the provided location.</Comment>
 <Parameters>
@@ -195,6 +192,7 @@
  Y="61"
  Width="100"
  Height="50"
+ Implemented="TRUE"
  Name="ReversingAreaOrSupervisionInformationReceived"
  Guid="2646b97c-1311-4a25-b2a4-2ffcdd752126"
 >
@@ -223,7 +221,8 @@
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="983f8efe-7bfe-41d2-b2a6-e1d0a851d644"
 >
-</ReqRef><Parameters>
+</ReqRef><Comment>Handles reception of the reversing area and the reversing supervision.</Comment>
+<Parameters>
 <Parameter
  Type="Messages.PACKET.TRACK_TO_TRAIN.REVERSING_AREA_INFORMATION.Message"
  Name="RvAreaPacket"
@@ -263,7 +262,8 @@
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="bb825b48-5667-46f1-8ada-5abaf30eaab7"
 >
-</ReqRef><SubRules></SubRules>
+</ReqRef><Comment>If available, the reversing area is handled first. The newly received information replaced the previous information.</Comment>
+<SubRules></SubRules>
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
@@ -322,7 +322,8 @@
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="e4af5025-2bd1-4b11-bd32-95290b26c50f"
 >
-</ReqRef><SubRules></SubRules>
+</ReqRef><Comment>After the reversing area, the reversing supervision information is handled. The newly received information replaces the previous information.</Comment>
+<SubRules></SubRules>
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
@@ -343,6 +344,39 @@
   MaxDistance =&gt; MessageTypes.QScaleDistance ( distance =&gt; RvSupPacket.D_REVERSE, scale =&gt; RvSupPacket.Q_SCALE ),
   Speed =&gt; MessageTypes.SpeedResolution ( speed =&gt; RvSupPacket.V_REVERSE, resolution =&gt; 5.0 )
 }</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Update Fixed Referend Location"
+ Guid="20d843a0-7594-431a-8fbb-92e6835ed343"
+>
+<ReqRef
+ Id="53afec70-5418-4e7d-9064-ba5f0d67662c"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="fc464801-434f-4ea1-8980-383edcbd3624"
+>
+</ReqRef><ReqRef
+ Id="f4d58bfc-b004-4e15-9756-926a4d1205e0"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b106d08d-21e7-4415-a47d-1bb21c72dd31"
+>
+</ReqRef><Comment>If a new reversing area is received, the new fixed reference location is computed according to the received data. Otherwise, in case only the reversing supervision information is updated, the fixed reference location is not updated.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="New reversing area"
+ Guid="88520c30-e91d-4a9a-8925-8fc84a2760ae"
+>
+<PreConditions>
+<PreCondition
+ Guid="993fb3cc-c001-41c7-9f52-9b4d9c9010b4"
+>RvAreaPacket != EMPTY</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="0ab15d1c-00e9-4104-b40f-6d39a27d33f5"
+>ReferenceLocation &lt;- ReversingAreaProfile.Location + BaseTypes.LengthToDistance( Length =&gt; ReversingAreaProfile.Length)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
@@ -406,9 +440,33 @@
  Y="0"
  Width="100"
  Height="50"
+ Implemented="TRUE"
  Name="ReversingSupervisionInformation"
  Guid="2ac38805-34f7-41ef-9be4-066157b1d213"
 >
+<ReqRef
+ Id="796923a0-8b8a-4e7b-8af3-43f3398b27dd"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="4c15ea5f-842e-4c4b-ad4a-b7b2821a3cde"
+>
+</ReqRef></Variable><Variable
+ Type="BaseTypes.Distance"
+ DefaultValue="BaseTypes.Distance.Unknown"
+ VariableMode="Internal"
+ X="1"
+ Y="121"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="ReferenceLocation"
+ Guid="755d8b17-55c8-4242-9a44-9315c04f874f"
+>
+<ReqRef
+ Id="f4d58bfc-b004-4e15-9756-926a4d1205e0"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f9498b94-71c2-4b12-b984-5d4a366221ee"
+>
+</ReqRef><Comment>Represents the fixed reference location o the reversing area.</Comment>
 </Variable></Variables>
 <Rules>
 <Rule
@@ -436,12 +494,15 @@
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="d9eae696-5553-4e54-9fe1-9c7d36984134"
 >
-</ReqRef><SubRules></SubRules>
+</ReqRef><Comment>If the train is at standstill and is inside the reversing area, the on-board proposes to the driver to select reversing.</Comment>
+<SubRules></SubRules>
 <Conditions>
 <RuleCondition
+ Implemented="TRUE"
  Name="Display reversing is possible"
  Guid="34c1c15d-2542-4693-8f4c-fa21656c0db9"
 >
+<Comment>If the train is at standstill and is inside the reversing area, the on-board proposes to the driver to select reversing.</Comment>
 <PreConditions>
 <PreCondition
  Guid="3a60ad8a-066b-4032-aad4-7f219f88137c"
@@ -478,7 +539,8 @@ Kernel.TrainPosition.FrontEndPosition ( DistanceIntervalEnum.Nom ) &lt; Kernel.T
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="444bd9cb-97de-4907-bf65-2b50208b648a"
 >
-</ReqRef><SubRules></SubRules>
+</ReqRef><Comment>If the on-board equipment detects the driver&apos;s intention to reverse, it asks the driver to acknowledge the trainsition to RV mode.</Comment>
+<SubRules></SubRules>
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
@@ -502,7 +564,7 @@ Kernel.TrainPosition.FrontEndPosition ( DistanceIntervalEnum.Nom ) &lt; Kernel.T
  Name="Stop displaying reversing"
  Guid="90328f0a-2643-46c8-8557-a501d97d34d2"
 >
-<Comment>If the train starts moving forwards again after stopping in a reversing area, stop displaying the reversing acknowledgements on the DMI</Comment>
+<Comment>If the train starts moving forwards again after stopping in a reversing area, stop displaying the reversing acknowledgements on the DMI.</Comment>
 <PreConditions>
 <PreCondition
  Guid="1113e21c-9e1a-49e0-a1f1-181177c541a7"
@@ -513,6 +575,55 @@ Kernel.TrainPosition.FrontEndPosition ( DistanceIntervalEnum.Nom ) &lt; Kernel.T
 >DMI.MasterDMI().Out_ReversingAllowed.OutputInformation.DoNotDisplay()</Action><Action
  Guid="315ca243-f3b2-480f-87b3-9bdefeaa17b1"
 >DMI.MasterDMI().In_AcknOfRVMode.InputInformation.Disable()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ X="1"
+ Y="181"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="Supervise reverse movement"
+ Guid="96e4d638-cb3b-4edf-994b-45983e30891f"
+>
+<ReqRef
+ Id="ec69a33a-c4a2-4cac-a583-23ae4a1ea22d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c168ed5a-07bd-4788-82cc-1a7540b86cb7"
+>
+</ReqRef><ReqRef
+ Id="c37afeb1-2b13-4b84-9827-12fd7e37b1aa"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="8afc8e91-0db4-4985-80ee-5bf4ecd80d14"
+>
+</ReqRef><ReqRef
+ Id="f9c64995-d84e-42ac-b3e5-517223de7279"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d41bcdad-5650-4eaa-95f1-fe37cac215fb"
+>
+</ReqRef><ReqRef
+ Id="8fbfc24f-85cf-4a9a-92c5-bdff11b4a94c"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="5bc883d0-b268-4ff3-884f-dfe1ab5ec57d"
+>
+</ReqRef><Comment>If the maximum distance to run in RV mode is exceeded, the emergency brake is applied. We suppose that the nominal distance provided by the odometry decreases during the reverse movement.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Supervise reverse movement"
+ Guid="fc2a7c3f-5f94-4cae-9403-45b15efec8f6"
+>
+<PreConditions>
+<PreCondition
+ Guid="c917897a-fe88-44d7-a417-513bc8bb12ad"
+>Kernel.Mode == ModeEnum.RV</PreCondition><PreCondition
+ Guid="85b941c3-958b-4c2e-af86-eb66a71aa284"
+>Kernel.TrainPosition.FrontEndPosition( PointOfInterest =&gt; DistanceIntervalEnum.Nom ) &lt; ReferenceLocation - ReversingSupervisionInformation.MaxDistance</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="c9fe4921-5934-4929-bd63-e8b768bf5ac1"
+>BrakeCommands.CommandEmergencyBrake( Reason =&gt; BrakeCommands.BrakeReasonEnum.ReversingDistanceExceeded )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </NameSpace>

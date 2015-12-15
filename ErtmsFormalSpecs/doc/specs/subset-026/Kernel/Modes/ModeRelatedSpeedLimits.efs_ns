@@ -9,62 +9,6 @@
 >
 <NameSpaces>
 </NameSpaces>
-<Structures>
-<Structure
- Default=""
- X="180"
- Y="20"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="TracksideModeRelatedSpeedRestrictionsStruct"
- Guid="523cf0fe-f3be-44f2-b067-220907fe2557"
->
-<ReqRef
- Id="98959354-04de-4b43-8a9c-c23b7263bdfb"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="0e33271a-7d5e-413c-80b5-4ff4ab6e1100"
->
-</ReqRef><ReqRef
- Id="3518255f-a436-4201-afb9-867bb586c371"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="a646c4bc-b9f7-4e7d-b26d-ba0f7864ad62"
->
-</ReqRef><ReqRef
- Id="aee41b7b-392b-4306-b271-aa82bdfb015f"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="2f9b40b2-bb4a-49bb-bb57-f7fbe2795e3a"
->
-</ReqRef><Comment>Represents the mode related speed restrictions that can be modified by driver or trackside.</Comment>
-<StructureElement
- TypeName="BaseTypes.Speed"
- Default="BaseTypes.Speed.NA"
- Mode="Internal"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="RV"
- Guid="33e5e3c5-e050-4101-bdfc-2821e58ea8e5"
->
-<ReqRef
- Id="3518255f-a436-4201-afb9-867bb586c371"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="ccf52cfd-71d5-4d0e-9a79-7147de02038b"
->
-</ReqRef></StructureElement><StructureElement
- TypeName="BaseTypes.Speed"
- Default="BaseTypes.Speed.NA"
- Mode="Internal"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="SR"
- Guid="b06dc96d-0b09-4f8b-8a36-57f22f60b6f6"
->
-<ReqRef
- Id="98959354-04de-4b43-8a9c-c23b7263bdfb"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="72a2c856-e5d4-41e4-983d-5981458bd3e3"
->
-</ReqRef></StructureElement></Structure></Structures>
 <Functions>
 <Function
  Type="BaseTypes.Speed"
@@ -195,6 +139,11 @@
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="0e8b0742-c356-4597-9678-802af4200d39"
 >
+</ReqRef><ReqRef
+ Id="c37afeb1-2b13-4b84-9827-12fd7e37b1aa"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c8d15f57-ebee-4a20-8bfe-c598c9b44269"
+>
 </ReqRef><Comment>Provides the speed limit related to the current mode of tha train.</Comment>
 <Parameters>
 <Parameter
@@ -285,18 +234,23 @@
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="bf68be8f-3968-4d7f-a969-22e313093029"
 >
+</ReqRef><ReqRef
+ Id="c37afeb1-2b13-4b84-9827-12fd7e37b1aa"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="5d3639a8-1274-49c6-bbce-17418b1891f5"
+>
 </ReqRef><Comment>Provides the speed limit related to RV mode.
 - If a value was provided by the trackside, this value is returned</Comment>
 <Cases>
 <Case
- Name="ValueGivenByTrackside"
+ Name="Value given by trackside"
  Guid="5d629c12-78c2-4b45-815d-a32bda373c8d"
 >
 <PreConditions>
 <PreCondition
  Guid="144d404c-f63e-4ce8-a8be-3dc962c0b300"
->Kernel.Modes.ModeRelatedSpeedLimits.TracksideModeRelatedSpeedRestrictions.RV  != BaseTypes.Speed.NA</PreCondition></PreConditions>
-<Expression>Kernel.Modes.ModeRelatedSpeedLimits.TracksideModeRelatedSpeedRestrictions.RV</Expression>
+>Kernel.TrackDescription.ReversingArea.ReversingSupervisionInformation != EMPTY</PreCondition></PreConditions>
+<Expression>Kernel.TrackDescription.ReversingArea.ReversingSupervisionInformation.Speed</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="c1d2a189-7e17-4d73-b553-1dfdc2ee840e"
@@ -387,8 +341,8 @@
 <PreConditions>
 <PreCondition
  Guid="68da82cd-26fd-4256-bdaf-17972b445617"
->Kernel.Modes.ModeRelatedSpeedLimits.TracksideModeRelatedSpeedRestrictions.SR != BaseTypes.Speed.NA</PreCondition></PreConditions>
-<Expression>Kernel.Modes.ModeRelatedSpeedLimits.TracksideModeRelatedSpeedRestrictions.SR</Expression>
+>SRModeSpeedRestriction != BaseTypes.Speed.NA</PreCondition></PreConditions>
+<Expression>SRModeSpeedRestriction</Expression>
 </Case><Case
  Name="National or default value"
  Guid="ae5a5f7b-fa96-44ee-a2a2-f2a542977dde"
@@ -424,15 +378,15 @@
 </Function></Functions>
 <Variables>
 <Variable
- Type="TracksideModeRelatedSpeedRestrictionsStruct"
- DefaultValue="Kernel.Modes.ModeRelatedSpeedLimits.TracksideModeRelatedSpeedRestrictionsStruct{}"
+ Type="BaseTypes.Speed"
+ DefaultValue="BaseTypes.Speed.NA"
  VariableMode="Internal"
  X="10"
  Y="20"
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="TracksideModeRelatedSpeedRestrictions"
+ Name="SRModeSpeedRestriction"
  Guid="e6bda1a3-4d1c-45fb-9723-b1d6b5c96df2"
 >
 <ReqRef
@@ -460,5 +414,6 @@
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="87bd0d9e-1198-4864-a10a-7beb4e014469"
 >
-</ReqRef></Variable></Variables>
+</ReqRef><Comment>The SR mode related speed restriction, provided by the trackside.</Comment>
+</Variable></Variables>
 </NameSpace>
