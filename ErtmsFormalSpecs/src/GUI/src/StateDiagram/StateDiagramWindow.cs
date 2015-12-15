@@ -14,7 +14,6 @@
 // --
 // ------------------------------------------------------------------------------
 
-using System.Xml.Schema;
 using DataDictionary.Constants;
 using DataDictionary.Rules;
 using DataDictionary.Types;

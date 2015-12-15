@@ -15,6 +15,7 @@
 // ------------------------------------------------------------------------------
 
 using System.Collections.Generic;
+using System.Net.Configuration;
 using DataDictionary.Interpreter;
 using DataDictionary.Rules;
 using DataDictionary.Variables;
@@ -48,6 +49,23 @@ namespace GUI.StateDiagram
             return new TransitionControl(this, model);
         }
 
+        /// <summary>
+        ///     Provides the base tree node associated to a model element
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        protected override BaseTreeNode CorrespondingNode(IModelElement model)
+        {
+            BaseTreeNode retVal = base.CorrespondingNode(model);
+
+            StateMachine stateMachine = model as StateMachine;
+            if (retVal == null && stateMachine != null && stateMachine.EnclosingState != null )
+            {
+                retVal = base.CorrespondingNode(stateMachine.EnclosingState);
+            }
+
+            return retVal;
+        }
 
         /// <summary>
         ///     Sets the state machine type

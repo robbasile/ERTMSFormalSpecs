@@ -124,13 +124,65 @@ namespace GUI.DataDictionaryView
         {
             StateMachine stateMachine = GetStateMachine(context);
             IModelElement model = DisplayedElementInModelDiagramPanel(context);
-
-            if ( model is Structure && stateMachine != null )
+            if (stateMachine == null)
             {
-                model = null;
+                DisplayModel(context, rebuildRightPart, model);
             }
+            else
+            {
+                if (model is NameSpace)
+                {
+                    DisplayStateMachine(context, rebuildRightPart, stateMachine);
+                }
+                else if (model is Structure)
+                {
+                    DisplayStateMachine(context, rebuildRightPart, stateMachine);
+                }
+                else
+                {
+                    DisplayModel(context, rebuildRightPart, model);                    
+                }
+            }
+        }
 
-            if (model != null )
+        /// <summary>
+        /// Displays the state machine instead of the model
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="rebuildRightPart"></param>
+        /// <param name="stateMachine"></param>
+        private void DisplayStateMachine(Context.SelectionContext context, bool rebuildRightPart, StateMachine stateMachine)
+        {
+            if (stateMachine != null)
+            {
+                if (rebuildRightPart)
+                {
+                    IVariable variable = context.Element as IVariable;
+                    modelDiagramPanel.Visible = false;
+                    if (variable != null)
+                    {
+                        stateDiagramPanel.SetStateMachine(variable);
+                    }
+                    else
+                    {
+                        stateDiagramPanel.Model = stateMachine;
+                    }
+                    stateDiagramPanel.Visible = true;
+                    stateDiagramPanel.RefreshControl();
+                }
+                stateDiagramPanel.SelectModel(context.Element);
+            }
+        }
+
+        /// <summary>
+        /// Displays the model instead of the state machine
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="rebuildRightPart"></param>
+        /// <param name="model"></param>
+        private void DisplayModel(Context.SelectionContext context, bool rebuildRightPart, IModelElement model)
+        {
+            if (model != null)
             {
                 if (rebuildRightPart)
                 {
@@ -140,28 +192,6 @@ namespace GUI.DataDictionaryView
                     modelDiagramPanel.RefreshControl();
                 }
                 modelDiagramPanel.SelectModel(context.Element);
-            }
-            else
-            {
-                if (stateMachine != null)
-                {
-                    if (rebuildRightPart)
-                    {
-                        IVariable variable = context.Element as IVariable;
-                        modelDiagramPanel.Visible = false;
-                        if (variable != null)
-                        {
-                            stateDiagramPanel.SetStateMachine(variable);
-                        }
-                        else
-                        {
-                            stateDiagramPanel.Model = stateMachine;
-                        }
-                        stateDiagramPanel.Visible = true;
-                        stateDiagramPanel.RefreshControl();
-                    }
-                    stateDiagramPanel.SelectModel(context.Element);
-                }
             }
         }
 

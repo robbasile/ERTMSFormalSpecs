@@ -139,7 +139,7 @@ namespace GUI.BoxArrowDiagram
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        protected BaseTreeNode CorrespondingNode(IModelElement model)
+        protected virtual BaseTreeNode CorrespondingNode(IModelElement model)
         {
             BaseTreeNode retVal = null;
 
