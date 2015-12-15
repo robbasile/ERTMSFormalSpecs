@@ -155,6 +155,11 @@ Kernel.UndesirableMovement.MovedForwardBeyondReference(Kernel.UndesirableMovemen
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="10ece08b-ef61-4f57-ace9-76ac6c878a6a"
 >
+</ReqRef><ReqRef
+ Id="31365cae-7dc0-4858-90da-11d6ffeaacef"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="333baf67-8c16-4da3-a679-858f5db3217e"
+>
 </ReqRef><Comment>Checks that the train moved backwards beyond the national value for the allowed roll away distance.</Comment>
 <Parameters>
 <Parameter
@@ -165,8 +170,17 @@ Kernel.UndesirableMovement.MovedForwardBeyondReference(Kernel.UndesirableMovemen
 </Parameter></Parameters>
 <Cases>
 <Case
- Name="Value"
+ Name="Reversing mode"
  Guid="147fc84c-d166-41f7-a3de-26c6ef999b5d"
+>
+<PreConditions>
+<PreCondition
+ Guid="cc1b9283-1c87-4432-8dbe-c2fd0ccd3330"
+>Kernel.Mode == ModeEnum.RV</PreCondition></PreConditions>
+<Expression>Odometry.NominalDistance - aReferenceDistance &gt; Kernel.NationalValues.ApplicableNationalValues.Value.DistToBeUsedInRollAwayProt_RevMvtProt_StandstillSup</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="cece71ce-efaa-45fe-b7c5-6e2603442a61"
 >
 <Expression>aReferenceDistance - Odometry.NominalDistance &gt; Kernel.NationalValues.ApplicableNationalValues.Value.DistToBeUsedInRollAwayProt_RevMvtProt_StandstillSup</Expression>
 </Case></Cases>
@@ -244,6 +258,11 @@ Kernel.UndesirableMovement.MovedForwardBeyondReference(Kernel.UndesirableMovemen
  Id="cf125334-c2c0-4fcc-91c8-a060267517e1"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="ec9b3f79-7186-4b25-8283-5b65db3b5a17"
+>
+</ReqRef><ReqRef
+ Id="31365cae-7dc0-4858-90da-11d6ffeaacef"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a81ac085-cedc-4e24-838e-cbd086f22b2c"
 >
 </ReqRef><Comment>Indicates whether the conditions to trigger a brake command due to the reverse movement protection have been fulfilled.</Comment>
 <Cases>
