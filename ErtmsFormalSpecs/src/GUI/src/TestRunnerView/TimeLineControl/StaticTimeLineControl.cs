@@ -356,6 +356,18 @@ namespace GUI.TestRunnerView.TimeLineControl
                     return retVal;
                 }
             }
+
+            protected override void OnClick(EventArgs e)
+            {
+                BaseModelElement model = null;
+                if (Selected != null)
+                {
+                    model = Selected.Instance as ModelElement;
+                }
+                EfsSystem.Instance.Context.HandleChangeEvent(model, Context.ChangeKind.ModelChange);                    
+
+                base.OnClick(e);
+            }
         }
 
         /// <summary>
