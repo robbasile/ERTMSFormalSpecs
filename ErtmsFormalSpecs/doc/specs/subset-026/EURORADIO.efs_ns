@@ -9727,16 +9727,16 @@ MessageTypes.QScaleDistance(
 <PreConditions>
 <PreCondition
  Guid="ce890c1b-352c-4169-aac9-4eae048a5315"
->RevAreaPacketAvailable( aPacket =&gt; ( FIRST X IN aMessage.INFILL_MA.Sequence1 | Available ( X.LEVEL_TRANSITION_ORDER )).REVERSING_AREA_INFORMATION )
+>RevAreaPacketAvailable( aPacket =&gt; ( FIRST X IN aMessage.INFILL_MA.Sequence1 | Available ( X.REVERSING_AREA_INFORMATION)).REVERSING_AREA_INFORMATION )
   OR
-RevSupPacketAvailable( aPacket =&gt; ( FIRST X IN aMessage.INFILL_MA.Sequence1 | Available ( X.LEVEL_TRANSITION_ORDER )).REVERSING_SUPERVISION_INFORMATION )</PreCondition></PreConditions>
+RevSupPacketAvailable( aPacket =&gt; ( FIRST X IN aMessage.INFILL_MA.Sequence1 | Available ( X.REVERSING_SUPERVISION_INFORMATION )).REVERSING_SUPERVISION_INFORMATION )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="69e91bbd-8a57-46be-bda5-64b428bb0975"
 >Kernel.TrackDescription.ReversingArea.ReversingAreaOrSupervisionInformationReceived
 (
-    RvAreaPacket =&gt; ProvideRevAreaPacketToHandle( aPacket =&gt; ( FIRST X IN aMessage.INFILL_MA.Sequence1 | Available ( X.LEVEL_TRANSITION_ORDER )).REVERSING_AREA_INFORMATION ),
-    RvSupPacket =&gt; ProvideRevSupPacketToHandle( aPacket =&gt; ( FIRST X IN aMessage.INFILL_MA.Sequence1 | Available ( X.LEVEL_TRANSITION_ORDER )).REVERSING_SUPERVISION_INFORMATION )
+    RvAreaPacket =&gt; ProvideRevAreaPacketToHandle( aPacket =&gt; ( FIRST X IN aMessage.INFILL_MA.Sequence1 | Available ( X.REVERSING_AREA_INFORMATION )).REVERSING_AREA_INFORMATION ),
+    RvSupPacket =&gt; ProvideRevSupPacketToHandle( aPacket =&gt; ( FIRST X IN aMessage.INFILL_MA.Sequence1 | Available ( X.REVERSING_SUPERVISION_INFORMATION)).REVERSING_SUPERVISION_INFORMATION )
 )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
@@ -11133,16 +11133,16 @@ But at the end of the cycle the conditions required for sending of position repo
 <PreConditions>
 <PreCondition
  Guid="2060598f-0aa3-4dff-9cfc-d591ff131003"
->RevAreaPacketAvailable( aPacket =&gt; ( FIRST X IN Packets | Available ( X.LEVEL_TRANSITION_ORDER )).REVERSING_AREA_INFORMATION )
+>RevAreaPacketAvailable( aPacket =&gt; ( FIRST X IN Packets | Available ( X.REVERSING_AREA_INFORMATION )).REVERSING_AREA_INFORMATION )
   OR
-RevSupPacketAvailable( aPacket =&gt; ( FIRST X IN Packets | Available ( X.LEVEL_TRANSITION_ORDER )).REVERSING_SUPERVISION_INFORMATION )</PreCondition></PreConditions>
+RevSupPacketAvailable( aPacket =&gt; ( FIRST X IN Packets | Available ( X.REVERSING_SUPERVISION_INFORMATION)).REVERSING_SUPERVISION_INFORMATION )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="80535626-724a-4983-90b1-d0fe24394982"
 >Kernel.TrackDescription.ReversingArea.ReversingAreaOrSupervisionInformationReceived
 (
-    RvAreaPacket =&gt; ProvideRevAreaPacketToHandle( aPacket =&gt; ( FIRST X IN Packets | Available ( X.LEVEL_TRANSITION_ORDER )).REVERSING_AREA_INFORMATION ),
-    RvSupPacket =&gt; ProvideRevSupPacketToHandle( aPacket =&gt; ( FIRST X IN Packets | Available ( X.LEVEL_TRANSITION_ORDER )).REVERSING_SUPERVISION_INFORMATION )
+    RvAreaPacket =&gt; ProvideRevAreaPacketToHandle( aPacket =&gt; ( FIRST X IN Packets | Available ( X.REVERSING_AREA_INFORMATION )).REVERSING_AREA_INFORMATION ),
+    RvSupPacket =&gt; ProvideRevSupPacketToHandle( aPacket =&gt; ( FIRST X IN Packets | Available ( X.REVERSING_SUPERVISION_INFORMATION )).REVERSING_SUPERVISION_INFORMATION )
 )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
