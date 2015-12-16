@@ -139,8 +139,8 @@
 </ReqRef></StructureElement></Structure></Structures>
 <Procedures>
 <Procedure
- X="260"
- Y="180"
+ X="140"
+ Y="220"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -203,8 +203,8 @@
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
- X="1"
- Y="61"
+ X="20"
+ Y="220"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -468,8 +468,8 @@
  Type="BaseTypes.Distance"
  DefaultValue="BaseTypes.Distance.Unknown"
  VariableMode="Internal"
- X="1"
- Y="121"
+ X="380"
+ Y="0"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -487,7 +487,7 @@
 <Rule
  Priority="Processing"
  X="20"
- Y="260"
+ Y="290"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -593,8 +593,8 @@ Kernel.TrainPosition.FrontEndPosition ( DistanceIntervalEnum.Nom ) &lt; Kernel.T
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
- X="1"
- Y="181"
+ X="140"
+ Y="290"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -636,24 +636,62 @@ Kernel.TrainPosition.FrontEndPosition ( DistanceIntervalEnum.Nom ) &lt; Kernel.T
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="bcaaba49-c4ad-41ba-806e-240aa255e962"
 >
+</ReqRef><ReqRef
+ Id="b596a179-fa52-42d4-92cc-16da956cad47"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="08e064ae-8ec5-470a-8822-d20d9ee97805"
+>
 </ReqRef><Comment>If the maximum distance to run in RV mode is exceeded, the emergency brake is applied. We suppose that the nominal distance provided by the odometry decreases during the reverse movement.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
- Name="Supervise reverse movement"
+ Name="Apply EB if maximum distance is exceeded"
  Guid="fc2a7c3f-5f94-4cae-9403-45b15efec8f6"
 >
+<ReqRef
+ Id="2f6bd005-a2d8-47d5-81dd-123d253a456b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f113f460-eb5b-443d-8c2c-21f268d21912"
+>
+</ReqRef><Comment>In the distance to run in RV is exceeded and if the train runs in the direction opposite to the train orientation, the EB is commanded.</Comment>
 <PreConditions>
 <PreCondition
  Guid="c917897a-fe88-44d7-a417-513bc8bb12ad"
 >Kernel.Mode == ModeEnum.RV</PreCondition><PreCondition
  Guid="85b941c3-958b-4c2e-af86-eb66a71aa284"
->Kernel.TrainPosition.FrontEndPosition( PointOfInterest =&gt; DistanceIntervalEnum.Nom ) &lt; ReferenceLocation - ReversingSupervisionInformation.MaxDistance</PreCondition></PreConditions>
+>Kernel.TrainPosition.FrontEndPosition( PointOfInterest =&gt; DistanceIntervalEnum.Nom ) &lt; ReferenceLocation - ReversingSupervisionInformation.MaxDistance</PreCondition><PreCondition
+ Guid="671a67d5-7071-40f9-986a-0cce362a6c85"
+>NOT Odometry.TrainIsAtStandstill()</PreCondition><PreCondition
+ Guid="82bda9bd-d076-4255-a4cf-c6d009269cf9"
+>NOT BrakeCommands.EBCommanded( reason =&gt; BrakeCommands.BrakeReasonEnum.ReversingDistanceExceeded )</PreCondition><PreCondition
+ Guid="09aaf27a-083d-41df-a7a7-4acc01d67f65"
+>TrainPosition.Position.DirectionalPositionInformation.TrainOrientation != TrainPosition.Position.DirectionalPositionInformation.TrainRunningDirection</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="c9fe4921-5934-4929-bd63-e8b768bf5ac1"
 >BrakeCommands.CommandEmergencyBrake( Reason =&gt; BrakeCommands.BrakeReasonEnum.ReversingDistanceExceeded )</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Revoke EB if the train is at standstill"
+ Guid="ac05dbc7-47d1-4bd6-bf5c-9a18a55f55c5"
+>
+<ReqRef
+ Id="1689bc46-9302-42da-8c46-cd0d3a17a1f3"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="2936c96c-26b4-4618-939c-695d0dd8512d"
+>
+</ReqRef><Comment>If the train is at standstill, the EB command due to RV disatnce exceeded is revoked.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="3fe2b1b4-f921-4f65-a48a-678d726aff56"
+>Odometry.TrainIsAtStandstill()</PreCondition><PreCondition
+ Guid="f5e3bdfa-6b5e-4e76-9de8-97452d0bcb45"
+>BrakeCommands.EBCommanded( reason =&gt; BrakeCommands.BrakeReasonEnum.ReversingDistanceExceeded )</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="df8d1958-62a8-4aa8-8c8e-1b31ec0f6666"
+>BrakeCommands.ReleaseEBCommand( Reason =&gt; BrakeCommands.BrakeReasonEnum.ReversingDistanceExceeded )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </NameSpace>

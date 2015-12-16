@@ -274,7 +274,7 @@
  Name="Revoke EB command"
  Guid="2c39971c-5608-4bf6-ba58-06a7bd8ded3c"
 >
-<Comment>Revokes the EB command</Comment>
+<Comment>Revokes the EB command.</Comment>
 <PreConditions>
 <PreCondition
  Guid="ba2d5d10-548d-4d8b-9ffb-90416e35045f"
@@ -294,7 +294,7 @@
  Name="Apply EB"
  Guid="8cd1d8d3-a301-49ba-be29-baa69a1e7405"
 >
-<Comment>Applies emergency brakes</Comment>
+<Comment>Applies emergency brakes.</Comment>
 <PreConditions>
 <PreCondition
  Guid="b88f1880-c00d-4064-89e8-108719618388"
@@ -302,6 +302,27 @@
 <Actions>
 <Action
  Guid="226fe175-04af-4daa-bef3-67d43abe2a59"
+>TriggerEBCommand()</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Apply EB in RV"
+ Guid="6536a141-ca40-4fb2-b16d-e0e06ba101fd"
+>
+<ReqRef
+ Id="4942989a-27b7-455c-b74f-e8f066ff634b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="aaad35bd-6eb6-422d-90c7-d52702020633"
+>
+</ReqRef><Comment>Applies emergency brakes if in RV mode.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="18dc0596-5393-4ac0-a87c-a1347ce27825"
+>CeilingSpeedMonitoring.SupervisionStatus.t4()</PreCondition><PreCondition
+ Guid="2f70f08c-fca8-468f-86db-e339dc8875e2"
+>Kernel.Mode == ModeEnum.RV</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="8e15cb2e-7abd-411b-b9ec-bd2754b5c5a3"
 >TriggerEBCommand()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
@@ -353,11 +374,18 @@ This is used to handle the case where a previous brake command was not revoked b
  Name="Apply SB"
  Guid="05bd0755-de1e-49f6-b515-a1ee2183b182"
 >
-<Comment>Applies emergency brakes</Comment>
+<ReqRef
+ Id="4942989a-27b7-455c-b74f-e8f066ff634b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="5446cd91-3df0-472d-aa62-8cddee5e06e5"
+>
+</ReqRef><Comment>Applies emergency brakes</Comment>
 <PreConditions>
 <PreCondition
  Guid="600903d5-380d-4149-80aa-48310934d644"
->CeilingSpeedMonitoring.SupervisionStatus.t4()</PreCondition></PreConditions>
+>CeilingSpeedMonitoring.SupervisionStatus.t4()</PreCondition><PreCondition
+ Guid="5618ae2f-6260-409f-ba21-41bec991ef9a"
+>Kernel.Mode != ModeEnum.RV</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="4376c575-b8d3-4029-81fc-afb4b4a47b06"
