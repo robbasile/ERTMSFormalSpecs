@@ -1,0 +1,916 @@
+<Frame
+ CycleDuration="Kernel.CycleDuration"
+ Name="Reversing - Functional tests"
+ Guid="2f354a88-9ee4-45c4-8669-c53e61edcb60"
+>
+<SubSequences>
+<SubSequence
+ D_LRBG=""
+ Level=""
+ Mode=""
+ NID_LRBG=""
+ Q_DIRLRBG=""
+ Q_DIRTRAIN=""
+ Q_DLRBG=""
+ RBC_ID=""
+ RBCPhone=""
+ Name="In RV mode"
+ Guid="01ffd411-0d63-4ddf-b22f-2e6049883994"
+>
+<TestCases>
+<TestCase
+ Implemented="TRUE"
+ Name="Train in RV mode"
+ Guid="823425b2-80f2-4ea7-8eae-271111ff9403"
+>
+<ReqRef
+ Id="46356051-e464-4ceb-b54c-41ef8dc6017f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="3b614966-32ff-43a8-b7b9-8df8714adbb7"
+>
+</ReqRef><ReqRef
+ Id="f3aec789-8e42-4041-befb-bf3d53519577"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9c23e7f4-4683-4a77-bbed-9f7449ebf625"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Setup"
+ Guid="d5ca6c92-133f-409b-950a-f28a2440d12d"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="bc8dc926-f091-4662-8e43-73b1e063c9a5"
+>
+<Actions>
+<Action
+ Guid="1e9ca831-d684-4776-b481-bd799bb5990f"
+>Testing.InitializeTestEnvironment(100.0)</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep2"
+ Guid="7c308469-bf50-4d37-8200-5a747d46ba2c"
+>
+<Actions>
+<Action
+ Guid="cf9c73cf-fba6-4013-ae53-0c73d888c161"
+>Testing.SetRVMode(False)</Action><Action
+ Guid="52dabdf8-85b6-4fd4-8561-303b01845d78"
+>Kernel.Level.Value.Value &lt;- LevelEnum.L1</Action><Action
+ Guid="28f2718e-971b-4cbe-af4c-9ce46387c01a"
+>Kernel.LevelTransition.LevelTransitionToProcess &lt;- Kernel.LevelTransition.LevelTransitionStruct
+{
+  AcknLength =&gt; 0.0,
+  TRLevel =&gt; LevelDataStruct
+  {
+    NTC =&gt; NID_NTC.NOT_APPLICABLE,
+    Value =&gt; LevelEnum.L2
+  }
+}</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep3"
+ Guid="3a0becf3-06f9-4270-9047-4e0b6ef091ab"
+>
+<Actions>
+<Action
+ Guid="6b48ae3f-1421-47b8-840e-cf15416d3548"
+>Odometry.NominalDistance &lt;- 2200.0</Action><Action
+ Guid="93a5c600-9053-4fb0-9ff7-c267c03bd5b2"
+>Kernel.TrackDescription.ReversingArea.ReversingAreaProfile &lt;- Kernel.TrackDescription.ReversingArea.ReversingAreaStruct
+{
+    Location =&gt; 2000.0,
+    Length =&gt; 400.0
+}</Action><Action
+ Guid="c4b40c71-a8e2-4943-90d0-68bf2d5ab39b"
+>Kernel.TrackDescription.ReversingArea.ReversingSupervisionInformation &lt;- Kernel.TrackDescription.ReversingArea.ReversingSupervisionStruct
+{
+    MaxDistance =&gt; 500.0,
+    Speed =&gt; 30.0
+}</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step2 - New reversing supervision information"
+ Guid="88e4a90a-a103-4727-8374-8676269853be"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="1df65bf5-afd5-4c7c-a4a5-48b54e127e51"
+>
+<Actions>
+<Action
+ Guid="6f5ffd69-e552-4031-bd10-d3b13ad9d1d1"
+>EURORADIO.CurrentRBCConnection().MessageIn &lt;- Messages.EURORADIO.MessageIn.Message
+{
+    SystemVersion2 =&gt; Messages.MESSAGE.TRACK_TO_TRAIN.Message{
+    GENERAL_MESSAGE =&gt; Messages.MESSAGE.TRACK_TO_TRAIN.GENERAL_MESSAGE.Message{
+        NID_MESSAGE =&gt; 24,
+        L_MESSAGE =&gt; 0,
+        T_TRAIN =&gt; 1532,
+        M_ACK =&gt; Messages.M_ACK.No_acknowledgement_required,
+        NID_LRBG =&gt; 1986,
+        Sequence1 =&gt; [
+            Messages.MESSAGE.TRACK_TO_TRAIN.GENERAL_MESSAGE.SubStructure1{
+                REVERSING_SUPERVISION_INFORMATION =&gt; Messages.PACKET.TRACK_TO_TRAIN.REVERSING_SUPERVISION_INFORMATION.Message{
+                    NID_PACKET =&gt; 139,
+                    Q_DIR =&gt; Messages.Q_DIR.Both_directions,
+                    L_PACKET =&gt; 0,
+                    Q_SCALE =&gt; Messages.Q_SCALE._1_m_scaleC,
+                    D_REVERSE =&gt; 780,
+                    V_REVERSE =&gt; 5
+                }
+            }
+        ]
+    }
+},
+    SystemVersion1 =&gt; EMPTY,
+    Priority =&gt; Messages.EURORADIO.MessagePriorityEnum.Normal
+}</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="d3dab160-e275-4577-9cef-8d1cffead892"
+>Kernel.TrackDescription.ReversingArea.ReversingAreaProfile == Kernel.TrackDescription.ReversingArea.ReversingAreaStruct
+{
+    Location =&gt; 2000.0,
+    Length =&gt; 400.0
+}</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="03b08bac-8669-4604-82b2-b4eb40f34b5a"
+>Kernel.TrackDescription.ReversingArea.ReversingSupervisionInformation == Kernel.TrackDescription.ReversingArea.ReversingSupervisionStruct
+{
+    MaxDistance =&gt; 780.0,
+    Speed =&gt; 25.0
+}</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step3 - New reversing area + supervision information"
+ Guid="6a3ca4e5-7bb7-44d4-9007-72fa175b2114"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="b2c308cc-a08c-4877-a20e-407c28af783b"
+>
+<Actions>
+<Action
+ Guid="aeca44a4-d4c8-4fdb-abb9-13624c3f1047"
+>EURORADIO.CurrentRBCConnection().MessageIn &lt;- Messages.EURORADIO.MessageIn.Message
+{
+    SystemVersion2 =&gt; Messages.MESSAGE.TRACK_TO_TRAIN.Message{
+    GENERAL_MESSAGE =&gt; Messages.MESSAGE.TRACK_TO_TRAIN.GENERAL_MESSAGE.Message{
+        NID_MESSAGE =&gt; 24,
+        L_MESSAGE =&gt; 0,
+        T_TRAIN =&gt; 1532,
+        M_ACK =&gt; Messages.M_ACK.No_acknowledgement_required,
+        NID_LRBG =&gt; 1986,
+        Sequence1 =&gt; [
+            Messages.MESSAGE.TRACK_TO_TRAIN.GENERAL_MESSAGE.SubStructure1{
+                REVERSING_AREA_INFORMATION =&gt; Messages.PACKET.TRACK_TO_TRAIN.REVERSING_AREA_INFORMATION.Message{
+                    NID_PACKET =&gt; 138,
+                    Q_DIR =&gt; Messages.Q_DIR.Both_directions,
+                    L_PACKET =&gt; 0,
+                    Q_SCALE =&gt; Messages.Q_SCALE._1_m_scaleC,
+                    D_STARTREVERSE =&gt; 1500,
+                    L_REVERSEAREA =&gt; 750
+                }
+            },
+            Messages.MESSAGE.TRACK_TO_TRAIN.GENERAL_MESSAGE.SubStructure1{
+                REVERSING_SUPERVISION_INFORMATION =&gt; Messages.PACKET.TRACK_TO_TRAIN.REVERSING_SUPERVISION_INFORMATION.Message{
+                    NID_PACKET =&gt; 139,
+                    Q_DIR =&gt; Messages.Q_DIR.Both_directions,
+                    L_PACKET =&gt; 0,
+                    Q_SCALE =&gt; Messages.Q_SCALE._1_m_scaleC,
+                    D_REVERSE =&gt; 1000,
+                    V_REVERSE =&gt; 8
+                }
+            }
+        ]
+    }
+},
+    SystemVersion1 =&gt; EMPTY,
+    Priority =&gt; Messages.EURORADIO.MessagePriorityEnum.Normal
+}</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="d3de18b7-79c8-48c2-a6e0-f687804acd25"
+>Kernel.TrackDescription.ReversingArea.ReversingAreaProfile == Kernel.TrackDescription.ReversingArea.ReversingAreaStruct
+{
+    Location =&gt; 1500.0,
+    Length =&gt; 750.0
+}</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="7f26a0b5-8513-4ebc-9e39-ed827d3d9c4c"
+>Kernel.TrackDescription.ReversingArea.ReversingSupervisionInformation == Kernel.TrackDescription.ReversingArea.ReversingSupervisionStruct
+{
+    MaxDistance =&gt; 1000.0,
+    Speed =&gt; 40.0
+}</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase></TestCases>
+</SubSequence><SubSequence
+ D_LRBG=""
+ Level=""
+ Mode=""
+ NID_LRBG=""
+ Q_DIRLRBG=""
+ Q_DIRTRAIN=""
+ Q_DLRBG=""
+ RBC_ID=""
+ RBCPhone=""
+ Name="Reversing of movement direction"
+ Guid="9645e2f7-c086-42f0-a724-accbd32d8689"
+>
+<TestCases>
+<TestCase
+ Implemented="TRUE"
+ Name="Receiving the reversing area information"
+ Guid="583afbd0-e7d7-4d9c-b755-c80fd6a8061a"
+>
+<ReqRef
+ Id="571b7bcf-500a-4e43-8f4b-dfb64cfd4845"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a6172fd6-877f-43cd-bf41-bb8095315a2b"
+>
+</ReqRef><ReqRef
+ Id="5c6d17a2-fb76-49ca-a5dd-f555641e5dac"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="fa2ea63f-c5a7-45f0-9c2c-816edffc80bf"
+>
+</ReqRef><ReqRef
+ Id="796923a0-8b8a-4e7b-8af3-43f3398b27dd"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="780bdc20-839e-440c-9a09-097e1a9977c4"
+>
+</ReqRef><ReqRef
+ Id="f4d58bfc-b004-4e15-9756-926a4d1205e0"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="10844a03-6d08-435d-a7a8-21d3fa2358e6"
+>
+</ReqRef><ReqRef
+ Id="93098cba-bfd3-4dc4-ba29-a6f4fdc5a8cb"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="620f4792-939a-41ee-a8dd-d660002d3be1"
+>
+</ReqRef><ReqRef
+ Id="54c20a27-60da-4df1-80ba-7ba841d7258f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a7fc265c-78ed-40a1-925b-06f8e7a894c0"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Initialize necessary data"
+ Guid="d2ca716f-6477-4d97-9e15-0773abfc246a"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1 - Initialize test environment"
+ Guid="5d7df13c-22d0-40cc-a613-04a284c6246c"
+>
+<Actions>
+<Action
+ Guid="33530600-366a-4095-9aa1-c9289de072c8"
+>Testing.InitializeTestEnvironment(100.0)</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step2 - Set FS mode"
+ Guid="a05dc2ae-1481-42f5-9c32-ae0f2f9bed87"
+>
+<Actions>
+<Action
+ Guid="e8ca7193-30ea-4b20-8203-631df913e693"
+>Testing.SetFSMode(False)</Action><Action
+ Guid="ea8973ad-6173-476b-a7ba-cd60e1ef6c0e"
+>Kernel.Level &lt;- Kernel.LevelData{
+    Value =&gt; LevelDataStruct
+    {
+        NTC =&gt; NID_NTC.NOT_APPLICABLE,
+        Value =&gt; LevelEnum.L2
+    },
+    DataState =&gt; DataStateEnum.Valid
+}</Action><Action
+ Guid="abb6155c-8668-4012-8452-638ab56b11ff"
+>Kernel.MA.MA &lt;- Kernel.MA.MAStruct{
+    TargetSpeed =&gt; 0.0,
+    Sections =&gt; [],
+    EndSection =&gt; Kernel.MA.EndSectionStruct{
+        Length =&gt; 10000.0
+    }
+}</Action><Action
+ Guid="44d9cd39-b464-40c0-9597-d291ffac0f2a"
+>Kernel.LevelTransition.LevelTransitionToProcess &lt;- Kernel.LevelTransition.LevelTransitionStruct
+{
+  AcknLength =&gt; 0.0,
+  TRLevel =&gt; LevelDataStruct
+  {
+    NTC =&gt; NID_NTC.NOT_APPLICABLE,
+    Value =&gt; LevelEnum.L1
+  }
+}</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step2 - Receive reversing area + supervision information"
+ Guid="85b10373-e22d-4a10-bc0a-4020226e798b"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1 - Get the two packets from a balise"
+ Guid="d45f7348-61b0-41e4-87e2-3cbd4ba7f765"
+>
+<Actions>
+<Action
+ Guid="43ff6e86-2d38-49cc-ae1a-5ebe83203f4f"
+>BTM.Message.SystemVersion2 &lt;- Messages.EUROBALISE.Message
+{
+    Q_UPDOWN=&gt; Messages.Q_UPDOWN.Up_link_telegram,
+    M_VERSION =&gt; Messages.M_VERSION.Version_1_1__introduced_in_SRS_3_0_0,
+    Q_MEDIA =&gt; Messages.Q_MEDIA.Balise,
+    N_PIG =&gt; Messages.N_PIG._1C,
+    N_TOTAL =&gt; Messages.N_TOTAL._2_balises_in_groupC,
+    M_DUP =&gt; Messages.M_DUP.No_duplicates,
+    M_MCOUNT =&gt; Messages.M_MCOUNT.The_telegram_fits_with_all_telegrams_of_the_same_balise_group,
+    NID_C =&gt; 85,
+    NID_BG =&gt; 5461,
+    Q_LINK =&gt; Messages.Q_LINK.Unlinked,
+    Sequence1 =&gt; [
+        Messages.EUROBALISE.SubStructure1 
+        {
+            TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message
+            {
+                REVERSING_AREA_INFORMATION =&gt; Messages.PACKET.TRACK_TO_TRAIN.REVERSING_AREA_INFORMATION.Message
+                {
+                    NID_PACKET =&gt; 138,
+                    Q_DIR =&gt; Messages.Q_DIR.Nominal,
+                    L_PACKET =&gt; 0,
+                    Q_SCALE =&gt; Messages.Q_SCALE._1_m_scaleC,
+                    D_STARTREVERSE =&gt; 1500,
+                    L_REVERSEAREA =&gt; 350
+                }
+            }
+        }
+    ],
+    BitField =&gt; &apos;&apos;
+}</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step2 - Second balise for direction"
+ Guid="156230c9-35b3-4d0a-88d0-0fa9a5382113"
+>
+<Actions>
+<Action
+ Guid="2f7f5e4e-d4ba-469e-9d3f-01c17f465ffe"
+>BTM.Message.SystemVersion2 &lt;- Messages.EUROBALISE.Message{
+    Q_UPDOWN =&gt; Messages.Q_UPDOWN.Up_link_telegram,
+    M_VERSION =&gt; Messages.M_VERSION.Version_1_1__introduced_in_SRS_3_0_0,
+    Q_MEDIA =&gt; Messages.Q_MEDIA.Balise,
+    N_PIG =&gt; Messages.N_PIG._2C,
+    N_TOTAL =&gt; Messages.N_TOTAL._2_balises_in_groupC,
+    M_DUP =&gt; Messages.M_DUP.No_duplicates,
+    M_MCOUNT =&gt; Messages.M_MCOUNT.The_telegram_fits_with_all_telegrams_of_the_same_balise_group,
+    NID_C =&gt; 85,
+    NID_BG =&gt; 5461,
+    Q_LINK =&gt; Messages.Q_LINK.Unlinked,
+    Sequence1 =&gt; [
+        Messages.EUROBALISE.SubStructure1 
+        {
+
+            TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message
+            {
+                REVERSING_SUPERVISION_INFORMATION =&gt; Messages.PACKET.TRACK_TO_TRAIN.REVERSING_SUPERVISION_INFORMATION.Message
+                {
+                    NID_PACKET =&gt; 139,
+                    Q_DIR =&gt; Messages.Q_DIR.Nominal,
+                    L_PACKET =&gt; 0,
+                    Q_SCALE =&gt; Messages.Q_SCALE._1_m_scaleC,
+                    D_REVERSE =&gt; 500,
+                    V_REVERSE =&gt; 6
+                }
+            }
+        }
+    ],
+    BitField =&gt; &apos;&apos;
+}</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="0367df3d-8937-493e-950d-d1bfc367c29d"
+>Kernel.TrackDescription.ReversingArea.ReversingSupervisionInformation == Kernel.TrackDescription.ReversingArea.ReversingSupervisionStruct
+{
+    MaxDistance =&gt; 500.0,
+    Speed =&gt; 30.0
+}</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="aea0077c-586f-4a20-a865-0145c5ca2c10"
+>Kernel.TrackDescription.ReversingArea.ReversingAreaProfile == Kernel.TrackDescription.ReversingArea.ReversingAreaStruct
+{
+    Location =&gt; 1500.0,
+    Length =&gt; 350.0
+}</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step3 - New reversing area + supervision information"
+ Guid="93aa4790-473f-4dad-9f89-151072b57e57"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="b24ec383-6bcd-428b-814d-a3571a84909f"
+>
+<Actions>
+<Action
+ Guid="dea17cba-d529-4024-adef-f537a4fc9fc8"
+>EURORADIO.CurrentRBCConnection().MessageIn &lt;- Messages.EURORADIO.MessageIn.Message
+{
+    SystemVersion2 =&gt; Messages.MESSAGE.TRACK_TO_TRAIN.Message{
+    GENERAL_MESSAGE =&gt; Messages.MESSAGE.TRACK_TO_TRAIN.GENERAL_MESSAGE.Message{
+        NID_MESSAGE =&gt; 24,
+        L_MESSAGE =&gt; 0,
+        T_TRAIN =&gt; 1600,
+        M_ACK =&gt; Messages.M_ACK.No_acknowledgement_required,
+        NID_LRBG =&gt; 1986,
+        Sequence1 =&gt; [
+            Messages.MESSAGE.TRACK_TO_TRAIN.GENERAL_MESSAGE.SubStructure1{
+                REVERSING_AREA_INFORMATION =&gt; Messages.PACKET.TRACK_TO_TRAIN.REVERSING_AREA_INFORMATION.Message{
+                    NID_PACKET =&gt; 138,
+                    Q_DIR =&gt; Messages.Q_DIR.Both_directions,
+                    L_PACKET =&gt; 0,
+                    Q_SCALE =&gt; Messages.Q_SCALE._1_m_scaleC,
+                    D_STARTREVERSE =&gt; 1800,
+                    L_REVERSEAREA =&gt; 500
+                }
+            },
+            Messages.MESSAGE.TRACK_TO_TRAIN.GENERAL_MESSAGE.SubStructure1{
+                REVERSING_SUPERVISION_INFORMATION =&gt; Messages.PACKET.TRACK_TO_TRAIN.REVERSING_SUPERVISION_INFORMATION.Message{
+                    NID_PACKET =&gt; 139,
+                    Q_DIR =&gt; Messages.Q_DIR.Both_directions,
+                    L_PACKET =&gt; 0,
+                    Q_SCALE =&gt; Messages.Q_SCALE._1_m_scaleC,
+                    D_REVERSE =&gt; 630,
+                    V_REVERSE =&gt; 8
+                }
+            }
+        ]
+    }
+},
+    SystemVersion1 =&gt; EMPTY,
+    Priority =&gt; Messages.EURORADIO.MessagePriorityEnum.Normal
+}</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="fa9689c5-a160-4bf9-ac63-e41596394ae5"
+>Kernel.TrackDescription.ReversingArea.ReversingAreaProfile == Kernel.TrackDescription.ReversingArea.ReversingAreaStruct
+{
+    Location =&gt; 1800.0,
+    Length =&gt; 500.0
+}</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="a6721ccb-4e26-4b87-bbcb-cff7b5a0aa48"
+>Kernel.TrackDescription.ReversingArea.ReversingSupervisionInformation == Kernel.TrackDescription.ReversingArea.ReversingSupervisionStruct
+{
+    MaxDistance =&gt; 630.0,
+    Speed =&gt; 40.0
+}</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Implemented="TRUE"
+ Name="Receiving new reversing supervision information"
+ Guid="60462297-0fda-4227-9d77-8d4c252d409b"
+>
+<ReqRef
+ Id="c0badaef-72d8-45d1-ab9f-8d178e73e47d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="046fce93-9af9-4694-849c-1dda201b2b6f"
+>
+</ReqRef><ReqRef
+ Id="53afec70-5418-4e7d-9064-ba5f0d67662c"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c683b53b-60c6-42c0-86fa-e5c0e9be4f00"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="New reversing supervision information"
+ Guid="b28ff1da-832c-46f5-97ae-b013595ae92b"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="87832219-3266-481d-b038-c020c787a2c2"
+>
+<Actions>
+<Action
+ Guid="1ee50d8a-8129-47be-90ca-6265066ce668"
+>EURORADIO.CurrentRBCConnection().MessageIn &lt;- Messages.EURORADIO.MessageIn.Message
+{
+    SystemVersion2 =&gt; Messages.MESSAGE.TRACK_TO_TRAIN.Message{
+    GENERAL_MESSAGE =&gt; Messages.MESSAGE.TRACK_TO_TRAIN.GENERAL_MESSAGE.Message{
+        NID_MESSAGE =&gt; 24,
+        L_MESSAGE =&gt; 0,
+        T_TRAIN =&gt; 1532,
+        M_ACK =&gt; Messages.M_ACK.No_acknowledgement_required,
+        NID_LRBG =&gt; 1986,
+        Sequence1 =&gt; [
+            Messages.MESSAGE.TRACK_TO_TRAIN.GENERAL_MESSAGE.SubStructure1{
+                REVERSING_SUPERVISION_INFORMATION =&gt; Messages.PACKET.TRACK_TO_TRAIN.REVERSING_SUPERVISION_INFORMATION.Message{
+                    NID_PACKET =&gt; 139,
+                    Q_DIR =&gt; Messages.Q_DIR.Both_directions,
+                    L_PACKET =&gt; 0,
+                    Q_SCALE =&gt; Messages.Q_SCALE._1_m_scaleC,
+                    D_REVERSE =&gt; 580,
+                    V_REVERSE =&gt; 5
+                }
+            }
+        ]
+    }
+},
+    SystemVersion1 =&gt; EMPTY,
+    Priority =&gt; Messages.EURORADIO.MessagePriorityEnum.Normal
+}</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="ebd96b51-d51f-458c-b70f-a03df6ff3768"
+>Kernel.TrackDescription.ReversingArea.ReversingSupervisionInformation == Kernel.TrackDescription.ReversingArea.ReversingSupervisionStruct
+{
+    MaxDistance =&gt; 580.0,
+    Speed =&gt; 25.0
+}</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="9d0664f8-c0f2-4a50-9ceb-ad98bbbb249b"
+>Kernel.TrackDescription.ReversingArea.ReversingAreaProfile == Kernel.TrackDescription.ReversingArea.ReversingAreaStruct
+{
+    Location =&gt; 1800.0,
+    Length =&gt; 500.0
+}</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Implemented="TRUE"
+ Name="Sections are measured from the estimated front end"
+ Guid="749073dd-99df-4f52-93a7-55d5e8c3a435"
+>
+<ReqRef
+ Id="8fbfc24f-85cf-4a9a-92c5-bdff11b4a94c"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="af80da96-65e8-4198-9e7b-9c79e143ff6d"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Location check"
+ Guid="d09c07b9-2dad-42a8-a74a-0ce9aac62dbe"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1 - Max safe front end passes start"
+ Guid="e8f9bda9-114d-4697-a349-3338f6144e8d"
+>
+<Actions>
+<Action
+ Guid="e08fbbbe-23ff-4554-807d-7ded416f000a"
+>Odometry.NominalDistance &lt;- 1790.0</Action><Action
+ Guid="09627ea4-8ee6-438b-bb9a-21717de3f7e4"
+>Odometry.Accuracy.D_ora &lt;- 24.0</Action><Action
+ Guid="4a9a6620-7dfa-4163-8e6f-eda43a0f346a"
+>Odometry.Accuracy.D_ura &lt;- 24.0</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="ef983158-89b8-4a34-8cca-98377d0de9d0"
+>NOT (DMI.MasterDMI().Out_ReversingAllowed.OutputInformation.DisplayRequested)</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="74f847d5-b1b3-4833-a2b3-eee702e66307"
+>Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom) &lt; Kernel.TrackDescription.ReversingArea.ReversingAreaProfile.Location</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="be0981fb-9610-4eb7-bbd7-12f016404a86"
+>Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &gt; Kernel.TrackDescription.ReversingArea.ReversingAreaProfile.Location</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="f38059ab-0201-4211-b48b-66d1bc54b00c"
+>BTM.LRBG.Position.Position == 0.0</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="59e33ba2-0798-4a34-8b3f-bdf80d68b6ee"
+>Kernel.TrackDescription.ReversingArea.ReversingAreaProfile.Location == 1800.0</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="e1f0fd5e-637f-4c8a-aceb-26498844e934"
+>(BTM.LRBG.Position.Position + Kernel.TrackDescription.ReversingArea.ReversingAreaProfile.Location) == 1800.0</Expectation></Expectations>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step2 - Estimated front end passes start"
+ Guid="9ebcf0e0-30c3-4fd9-9cc6-0c2e528c0a9b"
+>
+<Actions>
+<Action
+ Guid="81ca8e16-8cd5-45ca-9274-dcc322aa80e1"
+>Odometry.NominalDistance &lt;- 1810.0</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="5038686e-1d0e-4195-abf3-f710b0739afe"
+>DMI.MasterDMI().Out_ReversingAllowed.OutputInformation.DisplayRequested</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="0.3"
+ Guid="92720950-7bdf-49ab-9bab-6ad2cad24600"
+>Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Min) &lt; Kernel.TrackDescription.ReversingArea.ReversingAreaProfile.Location</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="084582dc-5a06-4899-8fe9-e5d1d9f06fc9"
+>Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom) &gt; Kernel.TrackDescription.ReversingArea.ReversingAreaProfile.Location</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Implemented="TRUE"
+ Name="At standstill"
+ Guid="74a26b13-205c-4c23-8bdb-603c8a2dc059"
+>
+<ReqRef
+ Id="e5f97755-8416-4822-93e4-2c3e935d4b0e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c9338ee5-4904-4562-9880-9871f4d1a760"
+>
+</ReqRef><ReqRef
+ Id="e9db5333-b289-4dc4-a0ff-2523b0f32009"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="66e89eb6-420a-4b68-a0cd-6bd38edc4751"
+>
+</ReqRef><ReqRef
+ Id="29dc5283-29cc-4891-9d74-78e5761b8a31"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9b3c3ae6-ec13-45e1-bc56-639633010c12"
+>
+</ReqRef><ReqRef
+ Id="e3631d58-4959-4120-ba5d-9c47c20697ac"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="3806cdfb-6637-4eab-814d-7fbd1dc9b23c"
+>
+</ReqRef><ReqRef
+ Id="3145c17a-3e8d-4814-a54e-7c42d2781956"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="bbba17fd-2183-409d-986e-976ddf6ddc98"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Standstill"
+ Guid="b7fd7b96-a42f-4c46-8673-97bea9d35415"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="9ae3c747-0653-45ec-af3c-16cae8a0fa7b"
+>
+<Actions>
+<Action
+ Guid="76b276e6-6fe7-46c4-9a6a-91f52730ba29"
+>Odometry.EstimatedSpeed &lt;- 0.0</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step2 - Outside of reversing area"
+ Guid="aed0ee18-206b-4d06-9c79-657836a19acb"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1 - At standstill outside of accepted area"
+ Guid="71d3f0fe-6a7c-47e9-b755-5c05fd70895e"
+>
+<Actions>
+<Action
+ Guid="391337fe-714a-46ce-8987-27c997236ecd"
+>Odometry.NominalDistance &lt;- 1500.0</Action><Action
+ Guid="98e04246-5355-4769-95cc-7cfbc946e794"
+><Comment>Reset the state of the</Comment>
+DMI.MasterDMI().Out_ReversingAllowed.OutputInformation.DoNotDisplay()</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="0.3"
+ Guid="b95e54a7-e4b0-4e60-8451-9c74e81884a6"
+>NOT ( DMI.MasterDMI().Out_ReversingAllowed.OutputInformation.DisplayRequested )</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="d9f9e45d-b757-4ccd-ac4d-eea8d0db7efa"
+>Kernel.TrackDescription.ReversingArea.ReversingAreaProfile.Location == 1800.0</Expectation></Expectations>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step2 - Driver tries reversing"
+ Guid="32a1a9bc-a5c6-47c0-a142-4536a5fa2ac0"
+>
+<Actions>
+<Action
+ Guid="32bf4d15-c5fb-4811-b92b-27301a838d76"
+>Kernel.TrackDescription.ReversingArea.DriverTriesReversing &lt;- True</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="6f75dbb5-4edd-4d24-b8f5-fd37f1c9c39b"
+>Kernel.Mode == ModeEnum.FS</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="181e2062-4c34-4873-9f33-7733d7e1b1fa"
+>DMI.MasterDMI().In_AcknOfRVMode.InputInformation.RequestStatus == RequestEnum.Disabled</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step3 - Inside reversing area"
+ Guid="bab1a1bb-e1dc-47e9-9bee-db04f3ad74c1"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1 - Train stopped inside reversing area"
+ Guid="f12475e9-9115-4e65-81b9-fb2576ad04dd"
+>
+<Actions>
+<Action
+ Guid="eb92cd46-17c6-4b22-b707-e9cd6e56ebb6"
+>Odometry.NominalDistance &lt;- 2100.0</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="fe8d1954-4e0d-48ed-84f4-6373e290e7c5"
+>DMI.MasterDMI().Out_ReversingAllowed.OutputInformation.DisplayRequested</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="e1da8f4e-d2bf-4e27-b6cd-b07097d37728"
+>Kernel.TrackDescription.ReversingArea.ReversingAreaProfile.Location == 1800.0</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="5047b596-4e75-45eb-a526-edd0bfa23f65"
+>Kernel.TrackDescription.ReversingArea.ReversingAreaProfile.Location + Kernel.TrackDescription.ReversingArea.ReversingAreaProfile.Length == 2300.0</Expectation></Expectations>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step2 - Driver tries reversing"
+ Guid="7bc2e46c-1ec7-4918-9985-b41ce2dc0d06"
+>
+<Actions>
+<Action
+ Guid="d935a1f8-1927-4fa2-a3fc-699c5f426c03"
+>Kernel.TrackDescription.ReversingArea.DriverTriesReversing &lt;- True</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="2eb779f0-a826-4746-8c18-92e56602f6a7"
+>DMI.MasterDMI().In_AcknOfRVMode.InputInformation.RequestStatus == RequestEnum.Request</Expectation></Expectations>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step3 - Driver acknowledges RV"
+ Guid="1b26efba-4d42-4234-bf10-eba63267f251"
+>
+<Actions>
+<Action
+ Guid="f88146f5-3122-4970-9caf-38c8384c9025"
+>DMI.MasterDMI().In_AcknOfRVMode.ProvideDriverResponse()</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="c49f3f9e-1f22-4f4b-ae7f-e2c6f03080a5"
+>Kernel.Mode == ModeEnum.RV</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step4 - In motion"
+ Guid="006b2c08-610b-4967-85d4-888c8f574ddf"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1 - Moving in reversing area"
+ Guid="d118acae-6343-406d-be6c-37a83061dcbe"
+>
+<Actions>
+<Action
+ Guid="e1f65c08-0f2a-46a3-befa-8ade3d73e6a4"
+>Odometry.EstimatedSpeed &lt;- 50.0</Action><Action
+ Guid="62f760d1-0d53-43aa-85b5-c21581e3db84"
+>Odometry.NominalDistance &lt;- 2100.0</Action><Action
+ Guid="7ec4d4ae-5632-4675-b048-dafb8d059777"
+>Testing.SetFSMode(False)</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="257c390f-1b07-44d5-a774-6c1fb40b6293"
+>NOT (DMI.MasterDMI().Out_ReversingAllowed.OutputInformation.DisplayRequested)</Expectation></Expectations>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step2 - Driver tries reversing in motion"
+ Guid="6b99ea27-0b5c-48e8-bb02-ed44b9a0b572"
+>
+<Actions>
+<Action
+ Guid="b3ce0f71-67a5-4de4-baf4-ebd27af26014"
+>Kernel.TrackDescription.ReversingArea.DriverTriesReversing &lt;- True</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="fad9323a-3235-4c3d-8d88-41219b50c0b1"
+>DMI.MasterDMI().In_AcknOfRVMode.InputInformation.RequestStatus == RequestEnum.Disabled</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase></TestCases>
+</SubSequence></SubSequences>
+</Frame>
