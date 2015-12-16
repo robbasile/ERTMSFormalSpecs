@@ -631,7 +631,7 @@ namespace DataDictionary.Interpreter
                         {
                             if (actuals.ContainsKey(name))
                             {
-                                AddError("Parameter " + name + " isassigned twice in " + ToString());
+                                AddError("Parameter " + name + " is assigned twice in " + ToString());
                             }
                             else
                             {
