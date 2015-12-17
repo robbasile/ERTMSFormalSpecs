@@ -27,8 +27,13 @@
 <Parameters>
 <Parameter
  Type="BaseTypes.Distance"
- Name="TrainPosition"
+ Name="aTrainPosition"
  Guid="b894618b-26aa-4a32-847f-200c7b0a7005"
+>
+</Parameter><Parameter
+ Type="ModeEnum"
+ Name="aMode"
+ Guid="698b7b4f-d838-4027-9165-b71b5c9e7098"
 >
 </Parameter></Parameters>
 <Rules>
@@ -111,7 +116,7 @@ DMI2 will be the slave and will be connected to the first desk of the CabB.</Com
     DataState =&gt; DataStateEnum.Valid
 }</Action><Action
  Guid="b179176e-e37d-4e0e-9d73-12f61aeb9d8c"
->Odometry.NominalDistance &lt;- TrainPosition</Action><Action
+>Odometry.NominalDistance &lt;- aTrainPosition</Action><Action
  Guid="98e08c63-83b7-41b2-ab3c-cd186f5db212"
 >Odometry.Accuracy &lt;- Odometry.OdometerAccuracy
 {
@@ -147,7 +152,7 @@ DMI2 will be the slave and will be connected to the first desk of the CabB.</Com
 </Rule><Rule
  Priority="Processing"
  NeedsRequirement="FALSE"
- Name="Level and Mode"
+ Name="Level"
  Guid="23241729-77da-4af7-95bc-a581e75caa00"
 >
 <Comment>Set NP mode and level 0.</Comment>
@@ -162,8 +167,6 @@ DMI2 will be the slave and will be connected to the first desk of the CabB.</Com
 </PreConditions>
 <Actions>
 <Action
- Guid="087defa8-343b-4b96-8b73-b683fccec68c"
->Kernel.Mode &lt;- ModeEnum.NP</Action><Action
  Guid="d06920a7-6f22-4431-934e-43981011947e"
 >Kernel.Level.Value.Value &lt;- LevelEnum.L0</Action></Actions>
 </RuleCondition></Conditions>
@@ -361,6 +364,272 @@ DMI2 will be the slave and will be connected to the first desk of the CabB.</Com
 <Action
  Guid="e2e35dfb-2542-4a77-afc3-0648bf2da90b"
 >Kernel.PowerOn &lt;- True</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Mode"
+ Guid="b5fc1b04-c3b0-4194-b2b0-d463cd1b1e0d"
+>
+<Comment>Sets the mode.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="FS"
+ Guid="1b1e003f-f6ba-435e-9137-c194e470083f"
+>
+<Comment>Set FS mode.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="43156928-3fe3-43a7-81ab-9a3360e77140"
+>aMode == ModeEnum.FS</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="ed8d4e04-8a59-49b7-b718-f124b25db271"
+>SetFSMode( HandleModeChange =&gt; False )</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="OS"
+ Guid="197d78da-a93f-444f-b67d-204a99815663"
+>
+<Comment>Set OS mode.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="2cad04f6-eb08-4810-9516-1c261cce9dae"
+>aMode == ModeEnum.OS</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="9f489a7e-0982-45cf-a405-268e8f2cae14"
+>SetOSMode( HandleModeChange =&gt; False )</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="SR"
+ Guid="1e87bf02-2bf4-4871-866e-22dd7eec2c98"
+>
+<Comment>Set SR mode.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="61394d06-50bc-4a4f-9052-abf15470e2d6"
+>aMode == ModeEnum.SR</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="61e199aa-cc68-4bb5-959d-a5f3714e2ece"
+>SetSRMode( HandleModeChange =&gt; False )</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="SH"
+ Guid="19fdc28c-dd4b-47b2-9a62-6d3b0ef2a48b"
+>
+<Comment>Set SH mode.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="ca93b8cb-2ef4-46e2-adc4-7fa63a5b7da4"
+>aMode == ModeEnum.SH</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="5a2a8771-b42a-4567-8f66-2a0ba59e290c"
+>SetSHMode( HandleModeChange =&gt; False )</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="UN"
+ Guid="95fcd741-069e-484b-878d-a590608eab4b"
+>
+<Comment>Set UN mode.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="fd65976b-e05e-4f14-8625-5f2594920d4f"
+>aMode == ModeEnum.UN</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="aeec47fd-c8cb-4fad-a849-ffbd93d5b1c2"
+>SetUNMode( HandleModeChange =&gt; False )</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="SL"
+ Guid="94393051-dfbc-456e-b19b-dff1b3f06c63"
+>
+<Comment>Set SL mode.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="a64d80ac-a31e-499e-8802-7a710c862847"
+>aMode == ModeEnum.SL</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="ac7b9dca-1435-419d-886c-bf5af37ed00c"
+>SetSLMode( HandleModeChange =&gt; False )</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="SB"
+ Guid="6402cd86-9d5d-4730-8642-42cf66500d6f"
+>
+<Comment>Set SB mode.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="9ac9d4a0-c24b-4808-94e0-78419ab237da"
+>aMode == ModeEnum.SB</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="4998ae6f-e241-4aca-8a56-71e3a10f157e"
+>SetSBMode( HandleModeChange =&gt; False )</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="TR"
+ Guid="231950d7-6ea7-40f4-8adb-ec5dbab723ba"
+>
+<Comment>Set TR mode.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="5abdd723-d8b1-45f2-aef2-aef09e97cb02"
+>aMode == ModeEnum.TR</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="9c1d202c-c890-4cad-aece-26251a5e2a93"
+>SetTRMode( HandleModeChange =&gt; False )</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="PT"
+ Guid="3607783f-b5b1-40bc-b900-e7a9240fb789"
+>
+<Comment>Set PT mode.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="7f649530-4510-4570-a7a1-a9063b140537"
+>aMode == ModeEnum.PT</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="73d353ee-8bc5-4552-9215-f8c2b5e18f1d"
+>SetPTMode( HandleModeChange =&gt; False )</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="SF"
+ Guid="5d31f760-23bd-45f3-b7c8-c02421b0f6a8"
+>
+<Comment>Set SF mode.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="e5e75f3f-d49d-42bb-ae24-2f1dfde9069f"
+>aMode == ModeEnum.SF</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="31946884-729b-4e54-b0fe-4a180bd1d86e"
+>SetSFMode( HandleModeChange =&gt; False )</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="IS"
+ Guid="14ab08b4-709b-41c8-a084-78586aaf010c"
+>
+<Comment>Set IS mode.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="ce38cf09-933f-4060-98a7-56eef9cb745a"
+>aMode == ModeEnum.IS</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="c8e1c892-d480-44e1-9408-153d11b5602a"
+>SetISMode( HandleModeChange =&gt; False )</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="NL"
+ Guid="653b8f1c-9448-4570-8f97-bb6bb499e1a5"
+>
+<Comment>Set NL mode.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="f779ed79-6e64-486a-8434-c489c50ae8a3"
+>aMode == ModeEnum.NL</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="f5d72707-90d1-4e78-ba6b-9f82244b8d1d"
+>SetNLMode( HandleModeChange =&gt; False )</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="LS"
+ Guid="28fdb77b-5da9-4d83-93dd-1b9d402bd20c"
+>
+<Comment>Set LS mode.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="3623c46a-5596-49c2-b017-45b4b424f971"
+>aMode == ModeEnum.LS</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="7d225996-16cb-446a-92dc-86acd327795d"
+>SetLSMode( HandleModeChange =&gt; False )</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="SN"
+ Guid="1fd2e649-fd47-4642-9a61-6493427cba9e"
+>
+<Comment>Set SN mode.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="7ce04348-e7e2-4fbc-8a0e-a152bd068906"
+>aMode == ModeEnum.SN</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="f18d97ac-1edc-47f6-ab4f-4ef018d9fcc1"
+>SetSNMode( HandleModeChange =&gt; False )</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="RV"
+ Guid="0daf58e4-52f1-4358-8f94-4b7a98baebdb"
+>
+<Comment>Set RV mode.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="b092c0f6-450f-4e99-8844-0aebac63f10d"
+>aMode == ModeEnum.RV</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="36772f99-eddf-4ae8-92c8-83a3cd37a14c"
+>SetRVMode( HandleModeChange =&gt; False )</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="PS"
+ Guid="15bc7b20-773a-4fdd-8c50-ffac95cbb45a"
+>
+<Comment>Set PS mode.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="c3928f57-daa5-46a0-8760-4b3593374a63"
+>aMode == ModeEnum.PS</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="5d6e336d-0e51-4476-abba-5e7994dbf3b4"
+>SetPSMode( HandleModeChange =&gt; False )</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="NP"
+ Guid="f89bddba-9cbc-4011-8938-0f9a53961ed4"
+>
+<Comment>Set NP mode.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="11ced72e-cad7-42a7-8f96-c4b5bb3d94a2"
+>aMode == ModeEnum.NP</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="45b6ff90-aecc-4204-847b-3e1c519c1dc4"
+>SetNPMode( HandleModeChange =&gt; False )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure

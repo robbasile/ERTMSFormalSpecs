@@ -62,34 +62,11 @@
 <Actions>
 <Action
  Guid="5760df5d-2cdf-41ef-aa12-9fb65d94b437"
->Testing.InitializeTestEnvironment(100.0)</Action></Actions>
-</SubStep></SubSteps>
-</Step><Step
- IO="NA"
- LevelIN="NA"
- LevelOUT="NA"
- ModeIN="NA"
- ModeOUT="NA"
- TranslationRequired="FALSE"
- Name="Step2 - Mode OS + Level 1"
- Guid="850d75d2-61b0-4607-89a3-c62483a23723"
->
-<Comment>level 1 needed to change to a valid mode</Comment>
-<SubSteps>
-<SubStep
- TimeDelay="NotDelayed"
- Name="Sub-step1"
- Guid="bcf334ba-e0b0-497d-9cb9-2891af8aa1d5"
->
-<Actions>
-<Action
- Guid="8310c54d-3c6f-43a4-ae0e-0966b5828271"
->Testing.SetOSMode(False)</Action></Actions>
-</SubStep><SubStep
- TimeDelay="NotDelayed"
- Name="Sub-step2"
- Guid="4fee872b-e11e-489c-a3cf-c063d7bc944d"
->
+>Testing.InitializeTestEnvironment
+(
+    aTrainPosition =&gt; 100.0,
+    aMode =&gt; ModeEnum.OS
+)</Action></Actions>
 <Expectations>
 <Expectation
  Kind="Instantaneous"
@@ -615,15 +592,7 @@ BTM.Linking.Linkings</Action></Actions>
 >
 <SubSteps>
 <SubStep
- TimeDelay="NotDelayed"
- Name="SubStep1 - Initialize test environment"
- Guid="3de3aa38-5c91-4e01-8bac-5d11b1518fbb"
->
-<Actions>
-<Action
- Guid="ceae8009-5ac9-4ebc-aad9-319bc44a266b"
->Testing.InitializeTestEnvironment(100.0)</Action></Actions>
-</SubStep><SubStep
+ SkipEngine="TRUE"
  TimeDelay="NotDelayed"
  Name="Sub-step2 -  Reset MA (+Grad+SSP)"
  Guid="a58a93d8-8899-4314-a596-95b38c07d4a0"
@@ -644,7 +613,11 @@ BTM.Linking.Linkings</Action></Actions>
 <Actions>
 <Action
  Guid="851e79be-bb39-4eb2-9bfa-d90c79f36350"
->Testing.SetFSMode(False)</Action></Actions>
+>Testing.InitializeTestEnvironment
+(
+    aTrainPosition =&gt; 100.0,
+    aMode =&gt; ModeEnum.FS
+)</Action></Actions>
 </SubStep></SubSteps>
 </Step><Step
  IO="NA"
@@ -982,15 +955,7 @@ BTM.Linking.Linkings</Action></Actions>
 >
 <SubSteps>
 <SubStep
- TimeDelay="NotDelayed"
- Name="SubStep1 - Initialize test environment"
- Guid="f96d2200-552a-4bae-abc2-4ab5a86d6e77"
->
-<Actions>
-<Action
- Guid="2a6a0d5e-36e0-49d8-8cd7-d0a9c03920b6"
->Testing.InitializeTestEnvironment(100.0)</Action></Actions>
-</SubStep><SubStep
+ SkipEngine="TRUE"
  TimeDelay="NotDelayed"
  Name="Sub-step2 -  Reset MA (+Grad+SSP)"
  Guid="cb424143-9d9f-4533-9165-f621b066ab54"
@@ -1011,7 +976,11 @@ BTM.Linking.Linkings</Action></Actions>
 <Actions>
 <Action
  Guid="03fe55a3-0390-4e3f-b31c-944e40bea766"
->Testing.SetFSMode(False)</Action></Actions>
+>Testing.InitializeTestEnvironment
+(
+    aTrainPosition =&gt; 100.0,
+    aMode =&gt; ModeEnum.FS
+)</Action></Actions>
 </SubStep></SubSteps>
 </Step><Step
  IO="NA"
@@ -1352,16 +1321,11 @@ BTM.Linking.Linkings</Action></Actions>
 <Actions>
 <Action
  Guid="70d64647-6a83-4cb1-b705-d9888a212c0c"
->Testing.InitializeTestEnvironment(100.0)</Action></Actions>
-</SubStep><SubStep
- TimeDelay="NotDelayed"
- Name="Sub-step 2 - Put the train in FS mode"
- Guid="709ba5f4-41fe-41e0-b69a-1a78916665f5"
->
-<Actions>
-<Action
- Guid="04d18e63-f531-47e5-9530-3d1987d063f8"
->Testing.SetFSMode(False)</Action><Action
+>Testing.InitializeTestEnvironment
+(
+    aTrainPosition =&gt; 100.0,
+    aMode =&gt; ModeEnum.FS
+)</Action><Action
  Guid="c7786d3d-8216-4903-99d3-4a9853645272"
 >Odometry.Accuracy &lt;- Odometry.OdometerAccuracy{
     D_ura =&gt; 2.0,
@@ -1591,7 +1555,11 @@ IN BTM.Linking.Linkings</Action></Actions>
 <Actions>
 <Action
  Guid="168dec10-d8af-4035-bd99-aab1fd05a951"
->Testing.InitializeTestEnvironment(100.0)</Action></Actions>
+>Testing.InitializeTestEnvironment
+(
+    aTrainPosition =&gt; 100.0,
+    aMode =&gt; ModeEnum.FS
+)</Action></Actions>
 </SubStep><SubStep
  TimeDelay="NotDelayed"
  Name="Sub-step2 - Initialize elements to accept MA"
@@ -1876,7 +1844,11 @@ IN BTM.Linking.Linkings</Action></Actions>
 <Actions>
 <Action
  Guid="8ac64e1b-ddeb-49b4-b220-ee7b7bf2e5b1"
->Testing.InitializeTestEnvironment(100.0)</Action></Actions>
+>Testing.InitializeTestEnvironment
+(
+    aTrainPosition =&gt; 100.0,
+    aMode =&gt; ModeEnum.FS
+)</Action></Actions>
 </SubStep><SubStep
  TimeDelay="NotDelayed"
  Name="Sub-step2 - Initialize elements to accept MA"
@@ -2148,16 +2120,18 @@ IN BTM.Linking.Linkings</Action></Actions>
 <Actions>
 <Action
  Guid="3bd1723b-f422-4840-87f4-1ce4bca51d1c"
->Testing.InitializeTestEnvironment(100.0)</Action></Actions>
+>Testing.InitializeTestEnvironment
+(
+    aTrainPosition =&gt; 100.0,
+    aMode =&gt; ModeEnum.LS
+)</Action></Actions>
 </SubStep><SubStep
  TimeDelay="NotDelayed"
- Name="Sub-step2 - Set LS mode"
+ Name="Sub-step2 - Set linking"
  Guid="7fedee45-3836-479b-bdef-62956b69b93c"
 >
 <Actions>
 <Action
- Guid="30196bf2-8e59-4d75-96a6-a9e4f4add9f6"
->Testing.SetLSMode(False)</Action><Action
  Guid="79625563-7378-4962-8641-5e0d4e2bde41"
 >BTM.Linking.Linkings &lt;- [BTM.Linking.LinkingDataStruct{
     LocationAccuracy =&gt; 2.0,
@@ -2516,7 +2490,11 @@ IN BTM.Linking.Linkings</Action></Actions>
 <Actions>
 <Action
  Guid="ada25dbf-c1ad-42b5-8b70-656553572189"
->Testing.InitializeTestEnvironment(100.0)</Action></Actions>
+>Testing.InitializeTestEnvironment
+(
+    aTrainPosition =&gt; 100.0,
+    aMode =&gt; ModeEnum.FS
+)</Action></Actions>
 </SubStep><SubStep
  TimeDelay="NotDelayed"
  Name="Sub-step2 - Initialize elements to accept MA"
@@ -2782,7 +2760,11 @@ IN BTM.Linking.Linkings</Action></Actions>
 <Actions>
 <Action
  Guid="7f635957-221c-46fe-a4fe-bf22ec150c9b"
->Testing.InitializeTestEnvironment(100.0)</Action></Actions>
+>Testing.InitializeTestEnvironment
+(
+    aTrainPosition =&gt; 100.0,
+    aMode =&gt; ModeEnum.FS
+)</Action></Actions>
 </SubStep><SubStep
  TimeDelay="NotDelayed"
  Name="Sub-step2 - Initialize elements to accept MA"
@@ -3079,16 +3061,18 @@ IN BTM.Linking.Linkings</Action></Actions>
 <Actions>
 <Action
  Guid="8d62c5a5-f8e2-42b2-a73a-578dff07dbf7"
->Testing.InitializeTestEnvironment(100.0)</Action></Actions>
+>Testing.InitializeTestEnvironment
+(
+    aTrainPosition =&gt; 100.0,
+    aMode =&gt; ModeEnum.LS
+)</Action></Actions>
 </SubStep><SubStep
  TimeDelay="NotDelayed"
- Name="Sub-step2 - Set LS mode"
+ Name="Sub-step2 - Set linking"
  Guid="359c2b43-76af-4306-9d9f-efd5e485c7fc"
 >
 <Actions>
 <Action
- Guid="7025c03c-594a-4a68-9089-ed15fb7c1721"
->Testing.SetLSMode(False)</Action><Action
  Guid="b9cb4289-750c-418a-9d74-eb7b202e37b7"
 >BTM.Linking.Linkings &lt;- [BTM.Linking.LinkingDataStruct{
     LocationAccuracy =&gt; 5.0,
@@ -3448,16 +3432,11 @@ IN BTM.Linking.Linkings</Action></Actions>
 <Actions>
 <Action
  Guid="81cf7e2c-6f75-4878-beb6-8fd81694ede9"
->Testing.InitializeTestEnvironment(100.0)</Action></Actions>
-</SubStep><SubStep
- TimeDelay="NotDelayed"
- Name="Sub-step 2 - Set mode"
- Guid="14353223-b296-43a4-9e1b-0eb79f1db4f6"
->
-<Actions>
-<Action
- Guid="107bbff6-500d-4b7f-ae85-d239ccc33bd8"
->Testing.SetFSMode(False)</Action></Actions>
+>Testing.InitializeTestEnvironment
+(
+    aTrainPosition =&gt; 100.0,
+    aMode =&gt; ModeEnum.FS
+)</Action></Actions>
 </SubStep><SubStep
  TimeDelay="NotDelayed"
  Name="Sub-step 3 - Set up an MA"
@@ -3938,16 +3917,18 @@ IN BTM.Linking.Linkings</Action></Actions>
 <Actions>
 <Action
  Guid="36f92aba-c6d0-4333-98c3-d169aa531756"
->Testing.InitializeTestEnvironment(100.0)</Action></Actions>
+>Testing.InitializeTestEnvironment
+(
+    aTrainPosition =&gt; 100.0,
+    aMode =&gt; ModeEnum.FS
+)</Action></Actions>
 </SubStep><SubStep
  TimeDelay="NotDelayed"
- Name="Sub-step 2 - Set FS mode"
+ Name="Sub-step 2 - Set odometry accuracy"
  Guid="d3af7ffb-ba0e-4323-a0bd-f0919404817c"
 >
 <Actions>
 <Action
- Guid="f5a0ac0a-4021-4bcf-a2cb-473c8e775a34"
->Testing.SetFSMode(False)</Action><Action
  Guid="ebbf20af-9222-4368-9b08-85f64ad56ef8"
 >Odometry.Accuracy &lt;- Odometry.OdometerAccuracy{
     D_ura =&gt; 2.0,
@@ -4434,33 +4415,11 @@ BTM.Linking.Linkings</Action><Action
 <Actions>
 <Action
  Guid="653b111c-f27f-4260-91f9-a925a82382ef"
->Testing.InitializeTestEnvironment(100.0)</Action></Actions>
-</SubStep></SubSteps>
-</Step><Step
- IO="NA"
- LevelIN="NA"
- LevelOUT="NA"
- ModeIN="NA"
- ModeOUT="NA"
- TranslationRequired="FALSE"
- Name="Step2 - Mode OS + Level1"
- Guid="82619df7-4532-470a-af95-2f24a9e126ac"
->
-<SubSteps>
-<SubStep
- TimeDelay="NotDelayed"
- Name="SubStep1"
- Guid="4e2e53ca-ad6c-4bb6-a44b-d7deb133b7a2"
->
-<Actions>
-<Action
- Guid="ee2ab38c-de10-4959-b02b-2784d1849bbc"
->Testing.SetOSMode(False)</Action></Actions>
-</SubStep><SubStep
- TimeDelay="NotDelayed"
- Name="Sub-step2"
- Guid="920f0b9b-d4ce-4d50-be26-88fb5606a432"
->
+>Testing.InitializeTestEnvironment
+(
+    aTrainPosition =&gt; 100.0,
+    aMode =&gt; ModeEnum.OS
+)</Action></Actions>
 <Expectations>
 <Expectation
  Kind="Instantaneous"
@@ -4954,7 +4913,11 @@ BTM.Linking.Linkings</Action><Action
 <Actions>
 <Action
  Guid="17c18d3d-05fe-477c-80cd-907873eb9bc4"
->Testing.InitializeTestEnvironment(100.0)</Action></Actions>
+>Testing.InitializeTestEnvironment
+(
+    aTrainPosition =&gt; 100.0,
+    aMode =&gt; ModeEnum.SR
+)</Action></Actions>
 </SubStep><SubStep
  TimeDelay="NotDelayed"
  Name="Sub-step2 - Initialize elements to accept MA"
@@ -4964,7 +4927,7 @@ BTM.Linking.Linkings</Action><Action
 <Action
  Guid="ff795c92-bec8-49aa-93b1-7e989a2dc607"
 >Testing.InitializeElementsForMA()</Action><Action
- Guid="48c42840-c63b-47ba-97af-b50360201698"
+ Guid="88391cc3-9bb7-400e-b9b8-093a6e4c8dcd"
 >Kernel.MA.MA &lt;- EMPTY</Action></Actions>
 </SubStep></SubSteps>
 </Step><Step
@@ -5438,7 +5401,11 @@ BTM.Linking.Linkings</Action><Action
 <Actions>
 <Action
  Guid="8112a78f-f4db-4662-a23a-f04301e39529"
->Testing.InitializeTestEnvironment(100.0)</Action></Actions>
+>Testing.InitializeTestEnvironment
+(
+    aTrainPosition =&gt; 100.0,
+    aMode =&gt; ModeEnum.SR
+)</Action></Actions>
 </SubStep><SubStep
  TimeDelay="NotDelayed"
  Name="Sub-step2 - Initialize elements to accept MA"
@@ -5963,7 +5930,11 @@ BTM.Linking.Linkings</Action><Action
 <Actions>
 <Action
  Guid="c74d7824-7f20-439c-9b52-30b274ed2e59"
->Testing.InitializeTestEnvironment(100.0)</Action></Actions>
+>Testing.InitializeTestEnvironment
+(
+    aTrainPosition =&gt; 100.0,
+    aMode =&gt; ModeEnum.FS
+)</Action></Actions>
 </SubStep><SubStep
  TimeDelay="NotDelayed"
  Name="Sub-step2 - Initialize elements to accept MA"
@@ -6337,7 +6308,11 @@ BTM.Linking.Linkings</Action><Action
 <Actions>
 <Action
  Guid="9697545b-cb87-4c3d-bd7f-811f1285e4c5"
->Testing.InitializeTestEnvironment(100.0)</Action></Actions>
+>Testing.InitializeTestEnvironment
+(
+    aTrainPosition =&gt; 100.0,
+    aMode =&gt; ModeEnum.FS
+)</Action></Actions>
 </SubStep><SubStep
  TimeDelay="NotDelayed"
  Name="Sub-step2 - Initialize elements to accept MA"
@@ -6543,16 +6518,18 @@ BTM.Linking.Linkings</Action><Action
 <Actions>
 <Action
  Guid="eb85624b-9d19-4c22-9f0f-6a2f202ac254"
->Testing.InitializeTestEnvironment(100.0)</Action></Actions>
+>Testing.InitializeTestEnvironment
+(
+    aTrainPosition =&gt; 100.0,
+    aMode =&gt; ModeEnum.LS
+)</Action></Actions>
 </SubStep><SubStep
  TimeDelay="NotDelayed"
- Name="Sub-step2 - Set LS mode"
+ Name="Sub-step2 - Set linking"
  Guid="f61659f1-0ad4-4a46-be0d-f7e850531e82"
 >
 <Actions>
 <Action
- Guid="865d7d8c-ef57-43e4-bbb1-af19291b23cb"
->Testing.SetLSMode(False)</Action><Action
  Guid="c4892bfc-e3e4-47dc-8797-5e10e23eea1e"
 >BTM.Linking.Linkings &lt;- [BTM.Linking.LinkingDataStruct{
     LocationAccuracy =&gt; 5.0,
@@ -7002,7 +6979,11 @@ BTM.Linking.Linkings</Action><Action
 <Actions>
 <Action
  Guid="f0ff2822-e109-4079-9fbb-5e183c2e5e63"
->Testing.InitializeTestEnvironment(100.0)</Action></Actions>
+>Testing.InitializeTestEnvironment
+(
+    aTrainPosition =&gt; 100.0,
+    aMode =&gt; ModeEnum.FS
+)</Action></Actions>
 </SubStep><SubStep
  TimeDelay="NotDelayed"
  Name="Sub-step2 - Initialize elements to accept MA"

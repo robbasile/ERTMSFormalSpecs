@@ -58,28 +58,11 @@
 <Actions>
 <Action
  Guid="bdd61a93-0235-4ee8-b6c5-ffe9f42f2813"
->Testing.InitializeTestEnvironment(100.0)</Action></Actions>
-</SubStep></SubSteps>
-</Step><Step
- IO="NA"
- LevelIN="NA"
- LevelOUT="NA"
- ModeIN="NA"
- ModeOUT="NA"
- TranslationRequired="FALSE"
- Name="Step2 Level 1 + Mode OS"
- Guid="24e2c1a4-b7bd-4395-aedc-ac54c9c1f59a"
->
-<SubSteps>
-<SubStep
- TimeDelay="NotDelayed"
- Name="SubStep1"
- Guid="daeea5dc-7da7-4b11-b3dc-9c38cc57322b"
->
-<Actions>
-<Action
- Guid="00cfd274-d88c-4af4-a3c6-4b9cc4c052b8"
->Testing.SetOSMode(False)</Action></Actions>
+>Testing.InitializeTestEnvironment
+(
+    aTrainPosition =&gt; 100.0,
+    aMode =&gt; ModeEnum.OS
+)</Action></Actions>
 <Expectations>
 <Expectation
  Kind="Instantaneous"
@@ -382,7 +365,11 @@ Messages.EUROBALISE.SubStructure1
 <Actions>
 <Action
  Guid="1f6188e7-7f95-4369-b53a-502bf13f7a66"
->Testing.InitializeTestEnvironment(100.0)</Action></Actions>
+>Testing.InitializeTestEnvironment
+(
+    aTrainPosition =&gt; 100.0,
+    aMode =&gt; ModeEnum.OS
+)</Action></Actions>
 </SubStep></SubSteps>
 </Step><Step
  IO="NA"
@@ -391,7 +378,7 @@ Messages.EUROBALISE.SubStructure1
  ModeIN="NA"
  ModeOUT="NA"
  TranslationRequired="FALSE"
- Name="Step2 - Mode OS + Level 2"
+ Name="Step2 - Level 2"
  Guid="b00b8618-530f-4569-a0d5-3ba8e1b0b459"
 >
 <Comment>Actions needed for enter OS mode</Comment>
@@ -406,9 +393,7 @@ Messages.EUROBALISE.SubStructure1
  Guid="e6a3e76d-a7c5-48b6-b749-3aca9e7138af"
 >Kernel.Level.DataState &lt;- DataStateEnum.Valid</Action><Action
  Guid="004582be-59ab-4517-bc66-927226eba055"
->Kernel.Level.Value.Value &lt;- LevelEnum.L2</Action><Action
- Guid="0dabce00-6076-4ca8-90fb-9af44279f3e0"
->Testing.SetOSMode(False)</Action></Actions>
+>Kernel.Level.Value.Value &lt;- LevelEnum.L2</Action></Actions>
 <Expectations>
 <Expectation
  Kind="Instantaneous"
@@ -705,7 +690,11 @@ Messages.EUROBALISE.SubStructure1
 <Actions>
 <Action
  Guid="b8765871-1ceb-4b9c-916d-b81f711859d1"
->Testing.InitializeTestEnvironment(100.0)</Action></Actions>
+>Testing.InitializeTestEnvironment
+(
+    aTrainPosition =&gt; 100.0,
+    aMode =&gt; ModeEnum.SR
+)</Action></Actions>
 </SubStep><SubStep
  TimeDelay="NotDelayed"
  Name="Sub-step2 - Initialize elements to accept MA"

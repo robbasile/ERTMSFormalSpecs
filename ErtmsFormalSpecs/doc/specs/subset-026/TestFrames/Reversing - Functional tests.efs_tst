@@ -53,7 +53,11 @@
 <Actions>
 <Action
  Guid="1e9ca831-d684-4776-b481-bd799bb5990f"
->Testing.InitializeTestEnvironment(100.0)</Action></Actions>
+>Testing.InitializeTestEnvironment
+(
+    aTrainPosition =&gt; 100.0,
+    aMode =&gt; ModeEnum.RV
+)</Action></Actions>
 </SubStep><SubStep
  TimeDelay="NotDelayed"
  Name="SubStep2"
@@ -61,8 +65,6 @@
 >
 <Actions>
 <Action
- Guid="cf9c73cf-fba6-4013-ae53-0c73d888c161"
->Testing.SetRVMode(False)</Action><Action
  Guid="52dabdf8-85b6-4fd4-8561-303b01845d78"
 >Kernel.Level.Value.Value &lt;- LevelEnum.L1</Action><Action
  Guid="28f2718e-971b-4cbe-af4c-9ce46387c01a"
@@ -306,16 +308,18 @@
 <Actions>
 <Action
  Guid="33530600-366a-4095-9aa1-c9289de072c8"
->Testing.InitializeTestEnvironment(100.0)</Action></Actions>
+>Testing.InitializeTestEnvironment
+(
+    aTrainPosition =&gt; 100.0,
+    aMode =&gt; ModeEnum.FS
+)</Action></Actions>
 </SubStep><SubStep
  TimeDelay="NotDelayed"
- Name="Sub-step2 - Set FS mode"
+ Name="Sub-step2 - Set MA and level"
  Guid="a05dc2ae-1481-42f5-9c32-ae0f2f9bed87"
 >
 <Actions>
 <Action
- Guid="e8ca7193-30ea-4b20-8203-631df913e693"
->Testing.SetFSMode(False)</Action><Action
  Guid="ea8973ad-6173-476b-a7ba-cd60e1ef6c0e"
 >Kernel.Level &lt;- Kernel.LevelData{
     Value =&gt; LevelDataStruct
