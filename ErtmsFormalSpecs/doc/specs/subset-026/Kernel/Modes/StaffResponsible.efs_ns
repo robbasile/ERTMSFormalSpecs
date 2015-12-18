@@ -98,7 +98,7 @@
 <Parameters>
 <Parameter
  Type="Messages.MESSAGE.TRACK_TO_TRAIN.SR_AUTHORISATION.Collection1"
- Name="BaliseGroups"
+ Name="aBaliseGroups"
  Guid="281a18bb-5a7e-4be0-b4b7-f80d47a7f630"
 >
 </Parameter></Parameters>
@@ -110,13 +110,13 @@
 <PreConditions>
 <PreCondition
  Guid="9ecc1bb5-c313-4f0f-a485-66904cd9320b"
->BaliseGroups == []</PreCondition></PreConditions>
+>aBaliseGroups == []</PreCondition></PreConditions>
 <Expression>EMPTY</Expression>
 </Case><Case
  Name="BaliseGroupsSent"
  Guid="f68b1349-529c-473d-ae9e-ff267673371a"
 >
-<Expression>MAP ( FIRST X IN ( BaliseGroups ) ).LIST_OF_BALISES_IN_SR_AUTHORITY.Sequence1 USING X IN Kernel.Modes.StaffResponsible.CreateBaliseGroup ( X )</Expression>
+<Expression>MAP ( FIRST X IN ( aBaliseGroups ) ).LIST_OF_BALISES_IN_SR_AUTHORITY.Sequence1 USING X IN Kernel.Modes.StaffResponsible.CreateBaliseGroup ( X )</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaliseGroup"
@@ -201,7 +201,7 @@ Kernel.Modes.StaffResponsible.SRAuthorisation.Location &lt;= Kernel.TrainPositio
 <Parameters>
 <Parameter
  Type="BTM.BaliseGroupMessages"
- Name="BaliseGroup"
+ Name="aBaliseGroup"
  Guid="dcfb0369-9e7b-4de9-965e-99dbe7026338"
 >
 </Parameter></Parameters>
@@ -229,9 +229,9 @@ Kernel.Modes.StaffResponsible.SRAuthorisation.Location &lt;= Kernel.TrainPositio
  Guid="ee3f88ec-f193-44c3-89c3-4adbb14ed494"
 >
 <Expression>THERE_IS StaffResponsibleBG IN Kernel.Modes.StaffResponsible.SRAuthorisation.BGs | 
-(FIRST Balise IN BaliseGroup).Telegram.NID_C == StaffResponsibleBG.NID_C
+(FIRST Balise IN aBaliseGroup).Telegram.NID_C == StaffResponsibleBG.NID_C
   AND  
-(FIRST Balise IN BaliseGroup).Telegram.NID_BG == StaffResponsibleBG.NID_BG</Expression>
+(FIRST Balise IN aBaliseGroup).Telegram.NID_BG == StaffResponsibleBG.NID_BG</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Distance"
@@ -404,7 +404,7 @@ Kernel.Modes.StaffResponsible.SRAuthorisation.Location &lt;= Kernel.TrainPositio
 >Kernel.Modes.StaffResponsible.SRAuthorisation &lt;- Kernel.Modes.StaffResponsible.SRStruct
 {
     Location =&gt; MessageTypes.QScaleDistance ( distance =&gt; Packet.D_SR, scale =&gt; Packet.Q_SCALE ),
-    BGs =&gt; CreateBaliseGroups ( BaliseGroups =&gt; Packet.Sequence1 ),
+    BGs =&gt; CreateBaliseGroups ( aBaliseGroups =&gt; Packet.Sequence1 ),
     BGListReceived =&gt; (Packet.Sequence1 == [])
 }</Action></Actions>
 <SubRules>
