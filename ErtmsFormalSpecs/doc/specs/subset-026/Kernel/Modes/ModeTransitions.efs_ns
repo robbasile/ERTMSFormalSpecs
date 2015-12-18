@@ -3417,6 +3417,7 @@ TIU.NonLeadingPermitted</Expression>
 <Rules>
 <Rule
  Priority="Processing"
+ Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="Update mode"
  Guid="cb9bee43-a1ca-465a-96a0-ed1fdbbb6026"
@@ -3501,6 +3502,7 @@ TIU.NonLeadingPermitted</Expression>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition><RuleCondition
+ Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="SB"
  Guid="69f62779-e596-4f71-a363-c4bd65348a81"
@@ -3515,6 +3517,7 @@ TIU.NonLeadingPermitted</Expression>
 <SubRules>
 <Rule
  Priority="Processing"
+ Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="SB"
  Guid="01123f6c-b8f1-409e-a84d-ee71e25c6a88"
@@ -4649,16 +4652,6 @@ If the train position is invalid, delete the stored position.</Comment>
  Guid="85c2a8dc-5559-4aa2-b095-ea6fe358ac97"
 >
 </ReqRef><ReqRef
- Id="33a7fb0f-f8e5-43db-a250-1d176afdcb55"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="3c77977b-5e92-4e70-8371-cd8367c367c1"
->
-</ReqRef><ReqRef
- Id="39941df7-787e-4ef3-839d-a438e01d3964"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="96631572-8367-48de-a1f3-83a09ba188c4"
->
-</ReqRef><ReqRef
  Id="d758396f-ddb9-4d8c-bf3c-a1a542db11d8"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="c368623f-1739-455e-9499-b5f0103b6466"
@@ -4671,48 +4664,38 @@ If the train position is invalid, delete the stored position.</Comment>
 <Actions>
 <Action
  Guid="9fe0a95f-f89e-4f08-9e17-cb2bb00c610d"
->Kernel.Mode &lt;- ModeEnum.SH</Action><Action
- Guid="62c05706-a8e9-4700-baa8-e12085fcd574"
->Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.EndOfMission</Action></Actions>
+>Kernel.Mode &lt;- ModeEnum.SH</Action></Actions>
 <SubRules>
 <Rule
  Priority="Processing"
  Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Handle driver acknowledgement"
- Guid="d9a8b015-2ae5-4958-adf8-efa8627f24e6"
+ Name="Handle entry in SH"
+ Guid="0f117e98-f71e-4368-81aa-e52b5dedfc8f"
 >
 <ReqRef
+ Id="33a7fb0f-f8e5-43db-a250-1d176afdcb55"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="54ae2dc2-442f-450a-90c2-a4e49d120c73"
+>
+</ReqRef><ReqRef
  Id="39ae88ad-20ca-43d1-8c3f-5f7172777b6e"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="196d16ce-07df-4c77-8bc0-214fdab6e53a"
+ Guid="b021cdac-b3df-4542-8495-8bf26f075aba"
 >
-</ReqRef><Comment>Initiate an acknowledgement request for SH mode.</Comment>
+</ReqRef><Comment>Executes actions related to entry in SH mode.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
- Name="Driver didn&apos;t acknowledged"
- Guid="7b768bcf-9180-4b9a-95f6-2e5ab2cef83a"
+ Name="Handle entry in SH"
+ Guid="19eb38fd-659c-472e-86a2-6e1ca824dd3a"
 >
-<ReqRef
- Id="9802040a-5388-4af0-8605-01cd7d0816f3"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="6bb6f99b-c4eb-477d-922e-b2b57bbe4b73"
->
-</ReqRef><ReqRef
- Id="d758396f-ddb9-4d8c-bf3c-a1a542db11d8"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="db1fe7c9-bfe4-41fc-9fdc-58fdba978d23"
->
-</ReqRef><PreConditions>
-<PreCondition
- Guid="10ecf215-bca6-46bc-ad15-5cfba4796ef7"
->Kernel.Modes.ModeTransitions.Condition51()</PreCondition></PreConditions>
+<PreConditions>
+</PreConditions>
 <Actions>
 <Action
- Guid="540401a8-1d40-426d-bfef-ca358e2e8e26"
->DMI.MasterDMI().In_AcknOfSHMode.InitiateRequest()</Action></Actions>
+ Guid="86142fc9-0665-4dd2-8e35-6068bd3339ff"
+>Shunting.HandleEntryInSH()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition><RuleCondition
@@ -5195,16 +5178,6 @@ If the train position is invalid, delete the stored position.</Comment>
  Guid="d902e2c8-23a5-41dc-82cb-c1a325bc87df"
 >
 </ReqRef><ReqRef
- Id="39941df7-787e-4ef3-839d-a438e01d3964"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="68698aaa-8a1f-4a99-9e7e-8bf12bcafce4"
->
-</ReqRef><ReqRef
- Id="33a7fb0f-f8e5-43db-a250-1d176afdcb55"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="63a5a01c-33fc-4261-b71d-0b3956fa4ea3"
->
-</ReqRef><ReqRef
  Id="d758396f-ddb9-4d8c-bf3c-a1a542db11d8"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="a6cd79a9-cdd7-4a63-839b-d1c19b69a3cf"
@@ -5222,47 +5195,38 @@ If the train position is invalid, delete the stored position.</Comment>
 <Actions>
 <Action
  Guid="b5215a1a-fc01-4533-9260-a393853372c1"
->Kernel.Mode &lt;- ModeEnum.SH</Action><Action
- Guid="764bf138-023d-46b4-85b1-f88869e49d21"
->Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.EndOfMission</Action></Actions>
+>Kernel.Mode &lt;- ModeEnum.SH</Action></Actions>
 <SubRules>
 <Rule
  Priority="Processing"
  Implemented="TRUE"
- Name="Handle driver acknowledgement"
- Guid="3cd82461-f805-4157-bc8b-0dd5dbeaf975"
+ Name="Handle entry in SH"
+ Guid="725abc6e-c160-4a79-aa5f-936d21f77e7f"
 >
 <ReqRef
+ Id="33a7fb0f-f8e5-43db-a250-1d176afdcb55"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="21e7f2c1-7b7a-4070-94c8-cc6feee54174"
+>
+</ReqRef><ReqRef
  Id="39ae88ad-20ca-43d1-8c3f-5f7172777b6e"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="7cb9b1d5-55fd-4543-b70f-2c0da1c7fe12"
+ Guid="c86b3337-a7bc-4556-a6e9-93a747b4323f"
 >
-</ReqRef><Comment>Initiate an acknowledgement request for SH mode.</Comment>
+</ReqRef><Comment>Executes actions related to entry in SH mode.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
- Name="Driver didn&apos;t acknowledged"
- Guid="a9cae2b5-2d59-4153-8f9f-9cc5c4e96356"
+ Name="Handle entry in SH"
+ Guid="8069183c-bdbf-4c3b-97eb-a68366eed6cf"
 >
-<ReqRef
- Id="9802040a-5388-4af0-8605-01cd7d0816f3"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="e0e3280e-f8b5-466f-94f0-7930de045375"
->
-</ReqRef><ReqRef
- Id="d758396f-ddb9-4d8c-bf3c-a1a542db11d8"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="25c45f46-51f0-4457-915d-ff865272c021"
->
-</ReqRef><PreConditions>
-<PreCondition
- Guid="67578ffc-8304-4323-8245-1717f4ad26b8"
->Kernel.Modes.ModeTransitions.Condition51()</PreCondition></PreConditions>
+<PreConditions>
+</PreConditions>
 <Actions>
 <Action
- Guid="9fd5a8f3-7571-42c8-a535-aa7f4ae3b2bf"
->DMI.MasterDMI().In_AcknOfSHMode.InitiateRequest()</Action></Actions>
+ Guid="6093bfd7-b034-4498-80ad-942909ee0f07"
+>Shunting.HandleEntryInSH()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition><RuleCondition
@@ -5660,16 +5624,6 @@ If the train position is invalid, delete the stored position.</Comment>
  Guid="e1c99814-67d4-45ea-a506-c76163c1b892"
 >
 </ReqRef><ReqRef
- Id="39941df7-787e-4ef3-839d-a438e01d3964"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="4ed1bebf-3783-40b2-a8a3-e74881d98b9b"
->
-</ReqRef><ReqRef
- Id="33a7fb0f-f8e5-43db-a250-1d176afdcb55"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="3eb8ac57-c895-477a-8f3a-2533cc280bf4"
->
-</ReqRef><ReqRef
  Id="d758396f-ddb9-4d8c-bf3c-a1a542db11d8"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="b831225c-ceeb-4134-a55b-d999f3720a87"
@@ -5682,47 +5636,38 @@ If the train position is invalid, delete the stored position.</Comment>
 <Actions>
 <Action
  Guid="82cc1ef7-931c-4187-a7ac-ff6a9835f7d9"
->Kernel.Mode &lt;- ModeEnum.SH</Action><Action
- Guid="6af85193-39ba-4242-8da3-688249bd858d"
->Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.EndOfMission</Action></Actions>
+>Kernel.Mode &lt;- ModeEnum.SH</Action></Actions>
 <SubRules>
 <Rule
  Priority="Processing"
  Implemented="TRUE"
- Name="Handle driver acknowledgement"
- Guid="c34b1a24-57d3-45fe-98ac-90d3d44f9b37"
+ Name="Handle entry in SH"
+ Guid="1e13309e-45c8-4f4c-935e-860d1bdec875"
 >
 <ReqRef
- Id="d758396f-ddb9-4d8c-bf3c-a1a542db11d8"
+ Id="33a7fb0f-f8e5-43db-a250-1d176afdcb55"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="e87aed0e-aac1-4453-8a11-b6be4cc0a03f"
+ Guid="44ca74d0-3f8f-4b09-b5cf-642ca299bb1c"
 >
-</ReqRef><Comment>Initiate an acknowledgement request for SH mode.</Comment>
+</ReqRef><ReqRef
+ Id="39ae88ad-20ca-43d1-8c3f-5f7172777b6e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="211fd506-1fd8-4c0f-b3d4-0b583f6dd08f"
+>
+</ReqRef><Comment>Executes actions related to entry in SH mode.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
- Name="Driver didn&apos;t acknowledged"
- Guid="947f9109-ea29-4699-93a2-d5d13f489b97"
+ Name="Handle entry in SH"
+ Guid="c7745df5-530a-43fb-9aa0-cad71d35e9b4"
 >
-<ReqRef
- Id="9802040a-5388-4af0-8605-01cd7d0816f3"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="674cf327-43b2-49e3-895e-e2d335391648"
->
-</ReqRef><ReqRef
- Id="d758396f-ddb9-4d8c-bf3c-a1a542db11d8"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="e0ec9989-7210-461a-9cf6-b27ae2079dc3"
->
-</ReqRef><PreConditions>
-<PreCondition
- Guid="726b1efa-85ab-4c32-b4a4-0843546839df"
->Kernel.Modes.ModeTransitions.Condition51()</PreCondition></PreConditions>
+<PreConditions>
+</PreConditions>
 <Actions>
 <Action
- Guid="44cd4d54-21f3-45e5-866e-1be29e2b0266"
->DMI.MasterDMI().In_AcknOfSHMode.InitiateRequest()</Action></Actions>
+ Guid="4ca9ff07-7015-447b-a450-b5f168a09f40"
+>Shunting.HandleEntryInSH()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition><RuleCondition
@@ -6089,16 +6034,6 @@ If the train position is invalid, delete the stored position.</Comment>
  Guid="a2a0239b-e7bd-4c07-996b-512f5caa9c9d"
 >
 </ReqRef><ReqRef
- Id="39941df7-787e-4ef3-839d-a438e01d3964"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="80215a24-9d25-46d9-ae1f-edafdb83b38e"
->
-</ReqRef><ReqRef
- Id="33a7fb0f-f8e5-43db-a250-1d176afdcb55"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="bbbbd3dc-1515-4cb3-a2a6-5fc4c971631c"
->
-</ReqRef><ReqRef
  Id="d758396f-ddb9-4d8c-bf3c-a1a542db11d8"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="57d0e192-5159-4cb6-8676-4ef08c56185d"
@@ -6111,47 +6046,38 @@ If the train position is invalid, delete the stored position.</Comment>
 <Actions>
 <Action
  Guid="0c866550-24d3-48f6-a67a-7944f909d0e3"
->Kernel.Mode &lt;- ModeEnum.SH</Action><Action
- Guid="65c1ab30-db8f-4aa5-b86d-f35799bc5075"
->Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.EndOfMission</Action></Actions>
+>Kernel.Mode &lt;- ModeEnum.SH</Action></Actions>
 <SubRules>
 <Rule
  Priority="Processing"
  Implemented="TRUE"
- Name="Handle driver acknowledgement"
- Guid="f90cc228-bb56-462a-a1e7-ed125da779bd"
+ Name="Handle entry in SH"
+ Guid="07e825d2-fe7f-40d4-ad29-a1efa613debf"
 >
 <ReqRef
+ Id="33a7fb0f-f8e5-43db-a250-1d176afdcb55"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="1ab24d9c-91c6-44c7-99a5-040ca54498c8"
+>
+</ReqRef><ReqRef
  Id="39ae88ad-20ca-43d1-8c3f-5f7172777b6e"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="298b7872-7f13-4d3e-94b5-876fa4397498"
+ Guid="0d727e46-54e3-443b-8b88-8e368fe66e51"
 >
-</ReqRef><Comment>Initiate an acknowledgement request for SH mode.</Comment>
+</ReqRef><Comment>Executes actions related to entry in SH mode.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
- Name="Driver didn&apos;t acknowledged"
- Guid="bbd4c294-a742-4e69-b68e-bbb57802316b"
+ Name="Handle entry in SH"
+ Guid="a691478e-cab9-4f01-8823-b2573b4c6a42"
 >
-<ReqRef
- Id="9802040a-5388-4af0-8605-01cd7d0816f3"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="fadac6df-8464-461a-a82e-fc65f3e8b6a3"
->
-</ReqRef><ReqRef
- Id="d758396f-ddb9-4d8c-bf3c-a1a542db11d8"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="c7508b25-9e11-479e-9d12-e045520dc4ad"
->
-</ReqRef><PreConditions>
-<PreCondition
- Guid="bb3eed69-6b07-43d3-b0c7-4fec8b1f0d0e"
->Kernel.Modes.ModeTransitions.Condition51()</PreCondition></PreConditions>
+<PreConditions>
+</PreConditions>
 <Actions>
 <Action
- Guid="002aeea6-6008-4709-b4e0-3761fab5c1e5"
->DMI.MasterDMI().In_AcknOfSHMode.InitiateRequest()</Action></Actions>
+ Guid="b4f28c72-df74-408b-982d-be7f401e42ed"
+>Shunting.HandleEntryInSH()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition><RuleCondition
@@ -6735,16 +6661,6 @@ If the train position is invalid, delete the stored position.</Comment>
  Guid="bfc9960b-a340-4fe6-be25-ba97990cbdea"
 >
 </ReqRef><ReqRef
- Id="39941df7-787e-4ef3-839d-a438e01d3964"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="db91c073-083a-4499-b446-12f78b0d1b4a"
->
-</ReqRef><ReqRef
- Id="33a7fb0f-f8e5-43db-a250-1d176afdcb55"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="ed7bb8cf-f478-4179-aa5b-1abc7db3590b"
->
-</ReqRef><ReqRef
  Id="d758396f-ddb9-4d8c-bf3c-a1a542db11d8"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="46090e38-6e17-4819-96cd-1108e5e202de"
@@ -6757,47 +6673,38 @@ If the train position is invalid, delete the stored position.</Comment>
 <Actions>
 <Action
  Guid="269fd4a9-45eb-4a45-9008-9c5f70eef35e"
->Kernel.Mode &lt;- ModeEnum.SH</Action><Action
- Guid="2aff7b26-bdff-4e7c-8683-2c13ee100ed8"
->Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.EndOfMission</Action></Actions>
+>Kernel.Mode &lt;- ModeEnum.SH</Action></Actions>
 <SubRules>
 <Rule
  Priority="Processing"
  Implemented="TRUE"
- Name="Handle driver acknowledgement"
- Guid="690385b4-f814-4633-8373-cb529b83edff"
+ Name="Handle entry in SH"
+ Guid="c01f4bdb-56e0-462f-9a0f-3601a8db82d0"
 >
 <ReqRef
+ Id="33a7fb0f-f8e5-43db-a250-1d176afdcb55"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a677d4c1-cc52-4760-b79e-2cd29edf2f62"
+>
+</ReqRef><ReqRef
  Id="39ae88ad-20ca-43d1-8c3f-5f7172777b6e"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="a990fd34-7e18-41fa-9d17-3b13b9a37fe3"
+ Guid="bb665fc1-c1ed-4a74-82e7-cbbe39bf0ec0"
 >
-</ReqRef><Comment>Initiate an acknowledgement request for SH mode.</Comment>
+</ReqRef><Comment>Executes actions related to entry in SH mode.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
- Name="Driver didn&apos;t acknowleged"
- Guid="96c4b02f-d745-4fe4-b233-fdddefb4f334"
+ Name="Handle entry in SH"
+ Guid="f538ee32-ff16-42bd-9d31-7ad644dbf0fa"
 >
-<ReqRef
- Id="9802040a-5388-4af0-8605-01cd7d0816f3"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="900a9692-4112-49ab-ac3b-40c6efda7497"
->
-</ReqRef><ReqRef
- Id="d758396f-ddb9-4d8c-bf3c-a1a542db11d8"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="c74160bc-8d0b-4336-8b14-108e3b18f702"
->
-</ReqRef><PreConditions>
-<PreCondition
- Guid="79edac91-f2be-42a3-ac07-66c66395bd37"
->Kernel.Modes.ModeTransitions.Condition61()</PreCondition></PreConditions>
+<PreConditions>
+</PreConditions>
 <Actions>
 <Action
- Guid="86ca924b-9186-48d7-a3ba-8f03ffdd77ae"
->DMI.MasterDMI().In_AcknOfSHMode.InitiateRequest()</Action></Actions>
+ Guid="c1752bdc-e814-47e1-9f5c-b21c07023147"
+>Shunting.HandleEntryInSH()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition><RuleCondition
@@ -7345,33 +7252,35 @@ If the train position is invalid, delete the stored position.</Comment>
  Priority="Processing"
  Implemented="TRUE"
  Name="End of mission"
- Guid="83809e31-bddc-436c-a3a1-1a302a3db1c9"
+ Guid="9323f165-2fa3-41e0-bd7c-063c6dabeb10"
 >
 <ReqRef
  Id="3df563f2-b5be-4707-9c14-fed9bce37577"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="077ddc32-db11-4321-8497-c6ac8f424ed4"
+ Guid="a7d71d75-6331-4cc7-89e8-850d84bd1059"
 >
 </ReqRef><ReqRef
  Id="33a7fb0f-f8e5-43db-a250-1d176afdcb55"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="07314d5e-9828-4311-846f-dd9d7349e326"
+ Guid="3134241d-aa94-4872-81b2-7227ab65a918"
 >
-</ReqRef><Comment>End the current mission.</Comment>
+</ReqRef><Comment>Entry in SH from PT is considered as end of mission of there is an on-going mission. The case of entry in SH initiated by driver is handled in Kernel.HandleModeChangeSM.ShuntingInitiatedByDriver procedure.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
  Name="End of mission"
- Guid="44289ce2-adef-4005-a29f-0b1b52a39d5f"
+ Guid="f66d74fc-c4b4-499a-b6db-b3ec8763983e"
 >
 <PreConditions>
 <PreCondition
- Guid="34c751f1-5c9f-4b54-948e-6e7dcdff4ea9"
->Kernel.MissionIsOnGoing</PreCondition></PreConditions>
+ Guid="77a7d354-ef26-4e74-9aea-07f7e53242a3"
+>Kernel.MissionIsOnGoing</PreCondition><PreCondition
+ Guid="0af3d9ca-f7a6-4822-ad36-7ba874f35cdd"
+>NOT (Kernel.HandleModeChange in Kernel.HandleModeChangeSM.ShuntingInitiatedByDriver)</PreCondition></PreConditions>
 <Actions>
 <Action
- Guid="c11c83ab-cd63-4fa3-9ca1-d20b3a57ab13"
+ Guid="2de70f99-afea-40c5-a5d6-6cbd9be1cf03"
 >Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.EndOfMission</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
@@ -7806,16 +7715,6 @@ If the train position is invalid, delete the stored position.</Comment>
  Guid="c91c7de2-55b2-4157-8506-b53d3d2deb97"
 >
 </ReqRef><ReqRef
- Id="39941df7-787e-4ef3-839d-a438e01d3964"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="33f63727-8402-461b-a956-2a6381717d10"
->
-</ReqRef><ReqRef
- Id="33a7fb0f-f8e5-43db-a250-1d176afdcb55"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="fa2d670f-d855-42ce-b6e0-3e0cc26e539a"
->
-</ReqRef><ReqRef
  Id="d758396f-ddb9-4d8c-bf3c-a1a542db11d8"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="5164f464-c7ae-426c-bea2-8d964f484e0f"
@@ -7828,47 +7727,38 @@ If the train position is invalid, delete the stored position.</Comment>
 <Actions>
 <Action
  Guid="904b5ada-2482-458a-b8eb-b9a738e6781e"
->Kernel.Mode &lt;- ModeEnum.SH</Action><Action
- Guid="e6ac087d-797f-45f2-868b-f0c29860cf78"
->Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.EndOfMission</Action></Actions>
+>Kernel.Mode &lt;- ModeEnum.SH</Action></Actions>
 <SubRules>
 <Rule
  Priority="Processing"
  Implemented="TRUE"
- Name="Handle driver acknowledgement"
- Guid="5bea6188-99ea-40d8-a1d9-b3781e056821"
+ Name="Handle entry in SH"
+ Guid="7382f569-7b97-45b9-bb1d-118bb73403ad"
 >
 <ReqRef
+ Id="33a7fb0f-f8e5-43db-a250-1d176afdcb55"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ecf2d37e-a2fc-4f73-b9cc-dd951f9fab4a"
+>
+</ReqRef><ReqRef
  Id="39ae88ad-20ca-43d1-8c3f-5f7172777b6e"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="f0e26017-02e2-41fa-b01c-993f187acb2f"
+ Guid="15425550-7d52-4cbe-8d10-0e4b6e2afab4"
 >
-</ReqRef><Comment>Initiate request for acknowledgement of SH mode.</Comment>
+</ReqRef><Comment>Executes actions related to entry in SH mode.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
- Name="Driver didn&apos;t acknowledged"
- Guid="081b76d4-8325-4443-967b-92d8ba1a65f6"
+ Name="Handle entry in SH"
+ Guid="8e812b18-add1-4e8a-880f-cc484adc08e6"
 >
-<ReqRef
- Id="9802040a-5388-4af0-8605-01cd7d0816f3"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="165d59c1-bc2b-4bd1-8c15-4132b2a977d8"
->
-</ReqRef><ReqRef
- Id="d758396f-ddb9-4d8c-bf3c-a1a542db11d8"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="0a8fb43a-fafb-4159-a4b1-149498b4196a"
->
-</ReqRef><PreConditions>
-<PreCondition
- Guid="24c008a1-694c-4855-a6a9-b75b2949d1d4"
->Kernel.Modes.ModeTransitions.Condition61()</PreCondition></PreConditions>
+<PreConditions>
+</PreConditions>
 <Actions>
 <Action
- Guid="a9ae647f-26f7-4bce-bff1-a904b2c3722b"
->DMI.MasterDMI().In_AcknOfSHMode.InitiateRequest()</Action></Actions>
+ Guid="ca43fef5-06ae-495e-a011-41d323e6a49a"
+>Shunting.HandleEntryInSH()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition><RuleCondition

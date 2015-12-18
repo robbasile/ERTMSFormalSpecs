@@ -112,7 +112,7 @@
 <Parameters>
 <Parameter
  Type="BTM.BaliseGroupMessages"
- Name="BaliseGroup"
+ Name="aBaliseGroup"
  Guid="3962d2b0-ecec-4b93-a205-aba274e1fd26"
 >
 </Parameter></Parameters>
@@ -140,9 +140,9 @@
  Guid="d67e003d-78e3-4271-811a-7eba7708ed34"
 >
 <Expression>THERE_IS ShuntingBG IN Kernel.Modes.Shunting.BaliseGroupsForShArea.BGs | 
-(FIRST Balise IN BaliseGroup).Telegram.NID_C == ShuntingBG.NID_C
+(FIRST Balise IN aBaliseGroup).Telegram.NID_C == ShuntingBG.NID_C
   AND  
-(FIRST Balise IN BaliseGroup).Telegram.NID_BG == ShuntingBG.NID_BG</Expression>
+(FIRST Balise IN aBaliseGroup).Telegram.NID_BG == ShuntingBG.NID_BG</Expression>
 </Case></Cases>
 </Function></Functions>
 <Procedures>
@@ -282,6 +282,89 @@
 <Action
  Guid="3f463e23-b785-4883-aa96-4162c727bca8"
 >Kernel.Modes.Shunting.StopIfInShunting &lt;- True</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="230"
+ Y="390"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="HandleEntryInSH"
+ Guid="0ca50c4e-080c-4d78-91ff-6988f2965858"
+>
+<ReqRef
+ Id="39941df7-787e-4ef3-839d-a438e01d3964"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="db72559b-a875-4e82-873c-5c500fc65b57"
+>
+</ReqRef><Comment>Handles actions to be executed when the train enters SH mode.</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Handle driver acknowledgement"
+ Guid="c34b1a24-57d3-45fe-98ac-90d3d44f9b37"
+>
+<ReqRef
+ Id="d758396f-ddb9-4d8c-bf3c-a1a542db11d8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e87aed0e-aac1-4453-8a11-b6be4cc0a03f"
+>
+</ReqRef><Comment>Initiate an acknowledgement request for SH mode.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Driver didn&apos;t acknowledged"
+ Guid="947f9109-ea29-4699-93a2-d5d13f489b97"
+>
+<ReqRef
+ Id="9802040a-5388-4af0-8605-01cd7d0816f3"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="674cf327-43b2-49e3-895e-e2d335391648"
+>
+</ReqRef><ReqRef
+ Id="d758396f-ddb9-4d8c-bf3c-a1a542db11d8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e0ec9989-7210-461a-9cf6-b27ae2079dc3"
+>
+</ReqRef><PreConditions>
+<PreCondition
+ Guid="726b1efa-85ab-4c32-b4a4-0843546839df"
+>Kernel.Modes.ModeTransitions.Condition51()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="44cd4d54-21f3-45e5-866e-1be29e2b0266"
+>DMI.MasterDMI().In_AcknOfSHMode.InitiateRequest()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="End of mission"
+ Guid="7c936227-4a94-40c2-a3d5-3f6441409578"
+>
+<ReqRef
+ Id="33a7fb0f-f8e5-43db-a250-1d176afdcb55"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c001a358-2e22-493f-bc32-24fe249af3d1"
+>
+</ReqRef><Comment>The entry in SH from modes FS, LS, OS, SR, SN, UN or PT (in case a missin was on-going) is considered as end of mission. The case of entry in SH initiated by driver is handled in Kernel.HandleModeChangeSM.ShuntingInitiatedByDriver procedure.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="End of mission"
+ Guid="de4fe4ac-9f98-4e08-819e-479623663073"
+>
+<PreConditions>
+<PreCondition
+ Guid="afb6ac9e-b97f-4336-8e75-5c0681f6cb4e"
+>NOT (Kernel.HandleModeChange in Kernel.HandleModeChangeSM.ShuntingInitiatedByDriver)</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="a9697edc-d1dc-404f-9895-db5575f8cb3a"
+>Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.EndOfMission</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
