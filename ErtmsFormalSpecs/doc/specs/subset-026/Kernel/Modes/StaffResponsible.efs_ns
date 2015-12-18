@@ -599,6 +599,38 @@ Kernel.Modes.StaffResponsible.SRAuthorisation.Location &lt;= Kernel.TrainPositio
 <Rules>
 <Rule
  Priority="Processing"
+ X="20"
+ Y="420"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Handle SR related requirements"
+ Guid="6049de0f-5a78-4755-be24-b73240084c4e"
+>
+<ReqRef
+ Id="8c14b4d4-3334-4bde-8fbe-a813c933db9a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="479ac080-fb11-49d1-84f7-cb53df76bc4d"
+>
+</ReqRef><Comment>Handles requirements imposed by SR mode.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Handle SR related requirements"
+ Guid="e071a9d2-6456-49a1-bd3a-de6d0dd6473f"
+>
+<PreConditions>
+<PreCondition
+ Guid="21a82574-2998-4c05-a0d5-6da5c72d3d27"
+>Kernel.Mode == ModeEnum.SR</PreCondition></PreConditions>
+<Actions>
+</Actions>
+<SubRules>
+<Rule
+ Priority="Processing"
  X="310"
  Y="250"
  Width="100"
@@ -683,43 +715,6 @@ Kernel.Modes.StaffResponsible.SRAuthorisation.Location &lt;= Kernel.TrainPositio
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
- X="530"
- Y="250"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="Standstill for entry of SR speed and distance"
- Guid="4dbe28af-93a1-4547-b8a0-82f7dc8cedc1"
->
-<ReqRef
- Id="a527b959-0a75-42e2-a5d7-aa805d764a9e"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="56d9d598-3e24-439d-ad48-8415359734e9"
->
-</ReqRef><ReqRef
- Id="4e8c1c55-62b9-4117-bfb0-fb984f83aa6b"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="616a4822-2c47-4f7d-adb2-469e2a4e7649"
->
-</ReqRef><Comment>If train movement is detected while the driver is entering new SR speed and distance information, activate the brakes.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Train movement detected"
- Guid="37e26b65-969d-406f-8ea1-089f5643d56e"
->
-<PreConditions>
-<PreCondition
- Guid="0ebb6c20-ebff-423e-ae86-7373db4b82ef"
->DMI.MasterDMI().In_SRModeSpeedLimitAndDistance.InputInformation.RequestStatus == RequestEnum.Request</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="eec5ece7-4498-4b79-8af7-6b2f2683b723"
->Kernel.BrakeCommands.CommandServiceBrake(BrakeCommands.BrakeReasonEnum.SupervisingStandstill)</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
  X="420"
  Y="250"
  Width="100"
@@ -769,6 +764,45 @@ Kernel.Modes.StaffResponsible.SRAuthorisation.Location &lt;= Kernel.TrainPositio
 <Action
  Guid="1168f969-c721-4d44-a41d-330a21b954cb"
 >DMI.MasterDMI().In_SRModeSpeedLimitAndDistance.InitiateRequest()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ X="530"
+ Y="250"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="Standstill for entry of SR speed and distance"
+ Guid="4dbe28af-93a1-4547-b8a0-82f7dc8cedc1"
+>
+<ReqRef
+ Id="a527b959-0a75-42e2-a5d7-aa805d764a9e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="56d9d598-3e24-439d-ad48-8415359734e9"
+>
+</ReqRef><ReqRef
+ Id="4e8c1c55-62b9-4117-bfb0-fb984f83aa6b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="616a4822-2c47-4f7d-adb2-469e2a4e7649"
+>
+</ReqRef><Comment>If train movement is detected while the driver is entering new SR speed and distance information, activate the brakes.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Train movement detected"
+ Guid="37e26b65-969d-406f-8ea1-089f5643d56e"
+>
+<PreConditions>
+<PreCondition
+ Guid="0ebb6c20-ebff-423e-ae86-7373db4b82ef"
+>DMI.MasterDMI().In_SRModeSpeedLimitAndDistance.InputInformation.RequestStatus == RequestEnum.Request</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="eec5ece7-4498-4b79-8af7-6b2f2683b723"
+>Kernel.BrakeCommands.CommandServiceBrake(BrakeCommands.BrakeReasonEnum.SupervisingStandstill)</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></SubRules>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </NameSpace>
