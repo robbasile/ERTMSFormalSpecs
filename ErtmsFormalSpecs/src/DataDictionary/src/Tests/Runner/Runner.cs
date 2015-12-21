@@ -633,8 +633,8 @@ namespace DataDictionary.Tests.Runner
                                             string action2 = ((INamable) otherAction.Enclosing).FullName + " : " +
                                                              traceBack[otherChange].Action.FullName;
                                             variableUpdate.Action.AddError(
-                                                "Simultaneous change of the same variable with different values. Conflit between " +
-                                                action1 + " and " + action2);
+                                                "Simultaneous change of the variable " + variable.FullName + " with different values. Conflit between\n" +
+                                                action1 + "\n and \n" + action2);
                                         }
                                     }
                                     else
