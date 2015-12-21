@@ -1965,7 +1965,9 @@ ActiveFunctions.SuperviseTrainSpeed_MRSP()</PreCondition><PreCondition
  Guid="1bdbbe3f-110e-40d0-b1fa-f58ed5a4738f"
 >Kernel.NationalValues.ReleaseOfEBIsPermitted()
   OR  
-Odometry.TrainIsAtStandstill()</PreCondition></PreConditions>
+Odometry.TrainIsAtStandstill()</PreCondition><PreCondition
+ Guid="0ee0e105-14b6-40a4-9e47-e92e0f1b34ff"
+>Kernel.BrakeCommands.EBCommanded( reason =&gt; Kernel.BrakeCommands.BrakeReasonEnum.SpeedAndDistanceMonitoring )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="887e30d6-0424-450f-9820-8621c7adf272"
@@ -1998,13 +2000,13 @@ Odometry.TrainIsAtStandstill()</PreCondition></PreConditions>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="4517cf0f-7747-468b-b8da-bea0259c6130"
 >
-</ReqRef><Comment>Handles a revocation of the service brake. If theer is no service brake applicable for use on the train, revokes the emergency brake</Comment>
+</ReqRef><Comment>Handles a revocation of the service brake. If theer is no service brake applicable for use on the train, revokes the emergency brake.</Comment>
 <Rules>
 <Rule
  Priority="Processing"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
- Name="RevokeSBCommand"
+ Name="Revoke SB command"
  Guid="a6d0da46-9ebd-4a4b-a6a2-40ff906bdbb4"
 >
 <SubRules></SubRules>
@@ -2012,12 +2014,14 @@ Odometry.TrainIsAtStandstill()</PreCondition></PreConditions>
 <RuleCondition
  Implemented="TRUE"
  NeedsRequirement="FALSE"
- Name="SBIsAvailableForUse"
+ Name="Revoke SB command"
  Guid="091c4b2f-c933-4ad4-a5e9-32790977174f"
 >
 <Comment>If the SB is available, the revocation command is handled</Comment>
 <PreConditions>
-</PreConditions>
+<PreCondition
+ Guid="5026b8ff-4526-42af-8f90-1695fd5d93c8"
+>Kernel.BrakeCommands.SBCommanded( reason =&gt; Kernel.BrakeCommands.BrakeReasonEnum.SpeedAndDistanceMonitoring )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="8e9bb0b4-29f2-4783-8066-9b7d714df901"
