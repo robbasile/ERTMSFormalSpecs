@@ -6000,7 +6000,7 @@ Request driver acknowledgement before starting the mission.</Comment>
 </Rule></SubRules>
 </RuleCondition></Conditions>
 </Rule><Rule
- Priority="Processing"
+ Priority="UpdateINTERNAL"
  Implemented="TRUE"
  Name="Loss of open session"
  Guid="6bad3eaf-2f24-4bf6-91d5-36263a6c6158"
@@ -6047,7 +6047,8 @@ Request driver acknowledgement before starting the mission.</Comment>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="3fd7f5ee-ae12-4095-b1bb-15a5f0497c66"
 >
-</ReqRef><SubRules></SubRules>
+</ReqRef><Comment>Proposes Override in states S10 and S20, otherwise removes it. The condition on SB mode is added in order to avoid executing the actions of this rule when the mode changed and End of SoM rule was not applied yet.</Comment>
+<SubRules></SubRules>
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
@@ -6061,7 +6062,9 @@ Request driver acknowledgement before starting the mission.</Comment>
  Guid="7e8aca9e-bed4-4228-a2b5-d53dc47080f8"
 >THIS in Kernel.HandleModeChangeSM.StartOfMission.S10 OR THIS in Kernel.HandleModeChangeSM.StartOfMission.S20</PreCondition><PreCondition
  Guid="e5583ad4-e0b3-48b8-968c-2ff42b9ff8df"
->TrainData.TrainData.DataState == DataStateEnum.Valid</PreCondition></PreConditions>
+>TrainData.TrainData.DataState == DataStateEnum.Valid</PreCondition><PreCondition
+ Guid="7cedc0e6-04c9-45f9-8804-e2834014d2b5"
+>Kernel.Mode == ModeEnum.SB</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="05cd468b-cd97-4e44-8932-f2bcfe89a0d7"
@@ -6073,7 +6076,9 @@ Request driver acknowledgement before starting the mission.</Comment>
 >
 <Comment>Disable the override when not in states S10 and S20</Comment>
 <PreConditions>
-</PreConditions>
+<PreCondition
+ Guid="e3dc7206-ac11-4e85-8a56-0a663e5631dd"
+>Kernel.Mode == ModeEnum.SB</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="bf81f04d-cac3-4266-9b0e-e6bebcc4c043"
