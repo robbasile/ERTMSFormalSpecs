@@ -10810,6 +10810,32 @@ BTM.Linking.RAMSWindowPassed()
 </Rule><Rule
  Priority="Processing"
  Implemented="TRUE"
+ Name="Update Operated System Version"
+ Guid="130c1bf5-7a06-4d86-89ef-056079708a2c"
+>
+<ReqRef
+ Id="fc9c2633-16cf-4cca-9698-93622e8854e0"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6f1f9d15-af0a-4378-a0f3-6ac0d36c69c2"
+>
+</ReqRef><Comment>Update the Operated System Version prior to check message consistency. This is the default behaviour applied at each cycle. The operated system version may also be updated while crossing a RBC location border or setting the level .</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="UpdateOperatedSystemVersion"
+ Guid="43e28c73-6a67-4b39-add2-1203be3bfaf3"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="c9010095-5f8d-417c-a8ab-dab19e770b55"
+>VersionManagement.UpdateOperatedSystemVersion(EURORADIO.CurrentRBCConnection())</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="Handle BTM inputs"
  Guid="1ba806ee-8de8-4b1e-bb93-49c5dce8f696"
@@ -11886,6 +11912,47 @@ JRU.SendNewMessage(JRU.JRU1)</PreCondition></PreConditions>
 <Action
  Guid="402e6d77-6da8-4bb4-8707-384237982f18"
 >EURORADIO.CurrentRBCConnection().OnboardReference_MessageTimer &lt;- Kernel.DateAndTime.CurrentTime</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Update Operated System Version"
+ Guid="02819503-ae2b-48be-8fa9-91efb7c799eb"
+>
+<ReqRef
+ Id="db045494-fb76-4337-b953-a8221cd64dd5"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="722d5034-bf22-4386-982f-7c40a3fcef59"
+>
+</ReqRef><ReqRef
+ Id="ce4aa798-341e-4b38-b7bf-f32bc3bfe840"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="4c404b71-0886-454f-8caa-b1d01aa7678b"
+>
+</ReqRef><Comment>Cfr requirement, as soon as the level is changed to level 2/3, the operated system version should be set according to the RBC system version, provided there is one. Note that changing level from level 2/3 to a lower does not require an immediate change of the operated system version, hence one will use the default rule at next cycle.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Update Operated System Version"
+ Guid="c7671cc7-3c0f-4ff6-9d46-e08778f764be"
+>
+<ReqRef
+ Id="8b537bfe-42bf-4ed8-b4bd-e2df5c6fe959"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="1d9256fc-aa4f-4e90-be01-41c286c3038c"
+>
+</ReqRef><PreConditions>
+<PreCondition
+ Guid="1d5dc132-863c-4b1b-af3c-040e8f055f2f"
+>aLevel.Value in [LevelEnum.L2, LevelEnum.L3]</PreCondition><PreCondition
+ Guid="ac4f3df6-32bf-4fca-b3ba-52704e013136"
+>Available(EURORADIO.CurrentRBCConnection().SessionManagementData.SystemVersion.Value)</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="2721b392-0f2d-4f22-a2f2-a992c2772727"
+>VersionManagement.UpdateOperatedSystemVersion(EURORADIO.CurrentRBCConnection())</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>

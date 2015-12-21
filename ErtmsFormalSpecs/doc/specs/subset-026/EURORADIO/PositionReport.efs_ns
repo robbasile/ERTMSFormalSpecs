@@ -1529,6 +1529,40 @@ EURORADIO.PositionReport.PositionReportParameters.DataState != DataStateEnum.Val
 <Rule
  Priority="Processing"
  Implemented="TRUE"
+ Name="Update Operated System Version"
+ Guid="a1886eeb-8e1d-4357-8a4c-46a4877ac587"
+>
+<ReqRef
+ Id="7554348e-8fcd-45ef-ac22-1cad92d6fc83"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="2b32ab8f-57ce-4c3e-be35-2450e8cb3e7b"
+>
+</ReqRef><ReqRef
+ Id="78790160-9d84-4f81-9b72-11429ec5a69f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="dbaf8056-e4ff-4ded-bdc9-e8be28e3bf17"
+>
+</ReqRef><Comment>Cfr requirement: the operated system version should be set according to the accepting RBC system version a soon as the border location has been crossed by the max safe front end, i.e. exactly when the first position report has to be sent. This provided a connexion has been established.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Update Operated System Version"
+ Guid="e426680c-9da5-4148-bb7e-a4f2a6930751"
+>
+<PreConditions>
+<PreCondition
+ Guid="bde030ab-df0b-41a4-8990-fc29342a1b91"
+>EURORADIO.SecondaryRBCConnection() != EMPTY</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="5e69bff3-886e-4b37-9fb0-0dfd85564b16"
+>VersionManagement.UpdateOperatedSystemVersion(EURORADIO.SecondaryRBCConnection())</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
  Name="Send position report to the Handing Over RBC"
  Guid="6486cfb7-05a5-4b21-8ff2-fe88b7333743"
 >
