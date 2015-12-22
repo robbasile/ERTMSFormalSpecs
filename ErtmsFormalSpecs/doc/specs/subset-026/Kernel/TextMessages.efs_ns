@@ -3285,6 +3285,36 @@ FORALL Ack IN DMI.IN.Acknowledgements.Acknowledgements | Ack.FixedTextMessage.Re
   CreatePlainTextMessage( aPacket =&gt; aPacket)
 IN
   PlainTextMessages</Action></Actions>
+<SubRules>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="System Version X = 1"
+ Guid="fa27e83f-9d2e-4417-a918-fb26ead17511"
+>
+<ReqRef
+ Id="4711bf7f-fcec-4b8d-812e-13af28894835"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="fd0699d8-997b-476a-be44-504306fdbc0a"
+>
+</ReqRef><Comment>Implementation of 6.6.2.1.1: while the main operated system version is 1, i.e. no communication with RBC, acknowledgement of text message by driver should end display.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="System Version X = 1"
+ Guid="89581ac5-3897-41e3-bcd0-9ab7b793b295"
+>
+<PreConditions>
+<PreCondition
+ Guid="de543213-b8a6-47e2-97ca-19272b4de9d7"
+>VersionManagement.MainVersionFromDetailledVersion(VersionManagement.OperatedSystemVersion) == VersionManagement.SystemMainVersion_Enum.Version1</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="2c5e1c77-1a11-4b96-97ae-e81217f0c08f"
+>APPLY ForceAckStopsDisplay_PT(X) ON PlainTextMessages</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></SubRules>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -3339,6 +3369,36 @@ IN
   CreateFixedTextMessage( aPacket =&gt; aPacket)
 IN
   FixedTextMessages</Action></Actions>
+<SubRules>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="System Version X = 1"
+ Guid="c537dbf1-7f2d-465f-bd96-5143a660b946"
+>
+<ReqRef
+ Id="4711bf7f-fcec-4b8d-812e-13af28894835"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="14a7b092-307b-4e2b-943f-0b2ac474612a"
+>
+</ReqRef><Comment>Implementation of 6.6.2.1.1: while the main operated system version is 1, i.e. no communication with RBC, acknowledgement of text message by driver should end display.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="System Version X = 1"
+ Guid="4d451e48-b8ee-4592-82fe-020d1171d4e4"
+>
+<PreConditions>
+<PreCondition
+ Guid="b91a7f15-e82f-463f-8e26-3826c13fc022"
+>VersionManagement.MainVersionFromDetailledVersion(VersionManagement.OperatedSystemVersion) == VersionManagement.SystemMainVersion_Enum.Version1</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="fa908987-65db-4023-a66c-dcaf63bb8edd"
+>APPLY ForceAckStopsDisplay_FT(X) ON FixedTextMessages</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></SubRules>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -3754,6 +3814,98 @@ IN
 <Action
  Guid="a4f5b195-c601-4015-97fd-fe549562c7be"
 >EURORADIO.SecondaryRBCConnection().SendTextMessageAcknowledgedByDriver( aTextId =&gt; DMI.MasterDMI().In_AcknOfFixedTextInformation.Message.ReportInformation.TextId )</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="441"
+ Y="1"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="ForceAckStopsDisplay_FT"
+ Guid="d9c86ce4-c9b1-4b10-ab19-a7beb0354ebf"
+>
+<ReqRef
+ Id="4711bf7f-fcec-4b8d-812e-13af28894835"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a9fa418a-78e8-49d5-b561-d29e3424895b"
+>
+</ReqRef><Comment>Internal procedure to help implementation of 6.6.2.1.1 .</Comment>
+<Parameters>
+<Parameter
+ Type="FixedTextMessageStruct"
+ Name="aFixedTextMessage"
+ Guid="6a7b205f-be5d-486d-8b3a-4f8d029bec02"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="SetAckStopsDisplay"
+ Guid="e950d994-5f28-4367-b4d8-1ea279a9e7ab"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="SetAckStopsDisplay"
+ Guid="88a38242-d677-4d56-a4c4-50507cb0b798"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="4f1795d3-0a52-4b18-ae4b-9b3814c2a220"
+>aFixedTextMessage.AckStopsDisplay =&gt; True</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="441"
+ Y="1"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="ForceAckStopsDisplay_PT"
+ Guid="fdcb4b85-11f0-4df6-973e-f0cedb5295ab"
+>
+<ReqRef
+ Id="4711bf7f-fcec-4b8d-812e-13af28894835"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f4f7c3bf-b41a-40f0-91a5-8cceb0c84d68"
+>
+</ReqRef><Comment>Internal procedure to help implementation of 6.6.2.1.1 .</Comment>
+<Parameters>
+<Parameter
+ Type="PlainTextMessageStruct"
+ Name="aPlainTextMessage"
+ Guid="ca86eea8-4632-4ee7-9996-23feb4d2d294"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="SetAckStopsDisplay"
+ Guid="d65731cb-e796-498a-97a4-1b3544d09fb2"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="SetAckStopsDisplay"
+ Guid="cb29519a-ed5b-4947-bbf6-1d7188336ad1"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="712223a2-ec22-442c-8623-2b9fec12dc41"
+>aPlainTextMessage.AckStopsDisplay =&gt; True</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
