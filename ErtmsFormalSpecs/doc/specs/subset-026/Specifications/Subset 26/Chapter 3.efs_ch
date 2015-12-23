@@ -38121,11 +38121,18 @@ If the on-board equipment does not support the system version number X transmitt
  scope="FLAGS"
  bl="3.2.0"
  name=""
- status="NA"
+ reviewed="TRUE"
+ status="Implemented"
  version="3.0.0"
  Name=""
  Guid="60efe390-3247-4eda-8c5c-bccbbf90f679"
->The on-board equipment shall check the ERTMS/ETCS system version number X transmitted by any balise:
+><ReqRef
+ Id="a58b7a74-18f2-44e4-8cd3-c27acb5736a3"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="2b8137ee-c78e-4a0b-bf0c-f0ea48be8ded"
+>
+</ReqRef><Comment>The situations a, b, d described in this requirement cannot happen within efs due to own additional requirement A1.1.3.7. The only possible situation is situation c. The requirement is therefore set as Implemented since translations have been implemented.</Comment>
+The on-board equipment shall check the ERTMS/ETCS system version number X transmitted by any balise:
 	a) In all levels, if this system version number X equals to 0, the balise information shall be ignored.
 	b) In all levels, if this system version number X is different from 0 and lower than the lowest system version number X supported by the on-board equipment, it shall be able to interpret the balise information, to the extent defined for each type of information (see chapter 6 for detailed requirements). If the on-board is not able to interpret the information, this shall be considered as a message consistency error.
 	c) In all levels, if this system version number X is amongst its supported ones, the onboard equipment shall be able to interpret the balise information. See chapter 6 for detailed requirements.

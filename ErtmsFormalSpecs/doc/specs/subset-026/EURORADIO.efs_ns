@@ -2718,6 +2718,11 @@ NOT EURORADIO.IncomingMessageIsConsistent(UpdatedMessageIn(THIS))</PreCondition>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="ed91e6b8-b961-476b-94f9-4f0947ff2d15"
 >
+</ReqRef><ReqRef
+ Id="8982834e-9034-43e0-b234-2c3cd71eec0b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c105a94c-d618-4080-9a4a-172e37fc7890"
+>
 </ReqRef><Comment>Sends the text message acknowledged by driver message.</Comment>
 <Parameters>
 <Parameter
@@ -2765,7 +2770,9 @@ NOT EURORADIO.IncomingMessageIsConsistent(UpdatedMessageIn(THIS))</PreCondition>
 <PreConditions>
 <PreCondition
  Guid="a679b477-9031-458d-9c2b-e9610e1441d5"
->EURORADIO.MessageCanBeSent ( anRBC =&gt; THIS )</PreCondition></PreConditions>
+>EURORADIO.MessageCanBeSent ( anRBC =&gt; THIS )</PreCondition><PreCondition
+ Guid="7c31d7af-e44f-440c-bbef-c3ee741512fc"
+>VersionManagement.MainVersionFromDetailledVersion(VersionManagement.SystemVersionFromEURORADIOSystemVersion( THIS.SessionManagementData.SystemVersion.Value)) != VersionManagement.SystemMainVersion_Enum.Version1</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="7e439f70-a29e-4ea4-99d1-6a99a4174ea3"
