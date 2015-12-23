@@ -17,6 +17,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using DataDictionary.Generated;
+using DataDictionary.src;
 using DataDictionary.Variables;
 using Utils;
 using Function = DataDictionary.Functions.Function;
@@ -29,6 +30,23 @@ namespace DataDictionary.Types
     public class NameSpace : Generated.NameSpace, ISubDeclarator, IFinder, IEnclosesNameSpaces, IGraphicalDisplay,
         ICommentable
     {
+        /// <summary>
+        /// The name of the frame
+        /// </summary>
+        public override string Name
+        {
+            get { return getName(); }
+            set
+            {
+                if (getName() != value)
+                {
+                    // if the name changes, the previous file has to be deleted
+                    RecordFilesToDelete();
+                }
+                setName(value);
+            }
+        }
+
         /// <summary>
         ///     Used to temporarily store the list of sub-namespaces
         /// </summary>
@@ -802,7 +820,30 @@ namespace DataDictionary.Types
             {
                 subNameSpace.ClearFunctionCache();
             }
-       
+        }
+
+        /// <summary>
+        /// Removes the namespace and stores the files to delete
+        /// </summary>
+        public override void Delete ()
+        {
+            RecordFilesToDelete ();
+            base.Delete ();
+        }
+
+        /// <summary>
+        /// Stores the files to be deleted
+        /// </summary>
+        private void RecordFilesToDelete()
+        {
+            string path = Dictionary.FilePath.Remove(Dictionary.FilePath.LastIndexOf('.'));
+            path += "\\" + FullName.Replace(".", "\\");
+            if (NameSpaces.Count > 0)
+            {
+                // If the namespace contains sub-namespaces, we have to remove its folder
+                Dictionary.AddDeleteFilesElement(new DeleteFilesHandler(true, path));
+            }
+            Dictionary.AddDeleteFilesElement(new DeleteFilesHandler(false, path + ".efs_ns"));
         }
     }
 }

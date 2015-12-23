@@ -19,6 +19,7 @@ using System.Collections;
 using System.Collections.Generic;
 using DataDictionary.Generated;
 using Utils;
+using DataDictionary.src;
 
 namespace DataDictionary.Specification
 {
@@ -31,6 +32,24 @@ namespace DataDictionary.Specification
         {
             get { return "Chapter " + getId(); }
             set { }
+        }
+
+        /// <summary>
+        /// The id of the chapter
+        /// </summary>
+        public string Id
+        {
+            get { return getId (); }
+            set
+            {
+                if (value != getId ())
+                {
+                    // if the name changes, the previous file has to be deleted
+                    RecordFilesToDelete();
+                }
+                setId (value);
+            }
+            
         }
 
         /// <summary>
@@ -240,7 +259,7 @@ namespace DataDictionary.Specification
         /// <summary>
         ///     Adds a model element in this model element
         /// </summary>
-        /// <param name="copy"></param>
+        /// <param name="element"></param>
         public override void AddModelElement(IModelElement element)
         {
             {
@@ -288,7 +307,7 @@ namespace DataDictionary.Specification
         public Chapter CreateChapterUpdate(Specification specification)
         {
             Chapter retVal = new Chapter();
-            retVal.setId(getId());
+            retVal.Id = Id;
             retVal.setUpdates(Guid);
 
             specification.appendChapters(retVal);
@@ -367,10 +386,29 @@ namespace DataDictionary.Specification
             Util.DontNotify(() =>
             {
                 retVal.Name = "Chapter" + GetElementNumber(enclosingCollection);
-                retVal.setId(GetElementNumber(enclosingCollection).ToString());
+                retVal.Id = GetElementNumber(enclosingCollection).ToString();
             });
 
             return retVal;
+        }
+
+        /// <summary>
+        /// Removes the chapter and stores the file to delete
+        /// </summary>
+        public override void Delete()
+        {
+            RecordFilesToDelete ();
+            base.Delete();
+        }
+
+        /// <summary>
+        /// Stores the files to be deleted
+        /// </summary>
+        private void RecordFilesToDelete ()
+        {
+            string path = Dictionary.FilePath.Remove(Dictionary.FilePath.LastIndexOf('.'));
+            path += "\\Specifications\\" + FullName.Replace(".", "\\") + ".efs_ch";
+            Dictionary.AddDeleteFilesElement(new DeleteFilesHandler(false, path));
         }
     }
 }

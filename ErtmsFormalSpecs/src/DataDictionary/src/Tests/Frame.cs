@@ -19,6 +19,7 @@ using System.Collections;
 using System.Collections.Generic;
 using DataDictionary.Generated;
 using DataDictionary.Interpreter;
+using DataDictionary.src;
 using Utils;
 using TranslationDictionary = DataDictionary.Tests.Translations.TranslationDictionary;
 
@@ -26,6 +27,23 @@ namespace DataDictionary.Tests
 {
     public class Frame : Generated.Frame, IExpressionable, ICommentable
     {
+        /// <summary>
+        /// The name of the frame
+        /// </summary>
+        public override string Name
+        {
+            get { return getName (); }
+            set
+            {
+                if (getName () != value)
+                {
+                    // if the name changes, the previous file has to be deleted
+                    RecordFilesToDelete ();
+                }
+                setName (value);
+            }
+        }
+
         /// <summary>
         ///     The frame sub sequences
         /// </summary>
@@ -258,6 +276,25 @@ namespace DataDictionary.Tests
         {
             get { return getComment(); }
             set { setComment(value); }
+        }
+
+        /// <summary>
+        /// Removes the frame and stores the file to delete
+        /// </summary>
+        public override void Delete()
+        {
+            RecordFilesToDelete ();
+            base.Delete();
+        }
+
+        /// <summary>
+        /// Stores the files to be deleted
+        /// </summary>
+        private void RecordFilesToDelete ()
+        {
+            string path = Dictionary.FilePath.Remove(Dictionary.FilePath.LastIndexOf('.'));
+            path += "\\TestFrames\\" + FullName.Replace(".", "\\") + ".efs_tst";
+            Dictionary.AddDeleteFilesElement(new DeleteFilesHandler(false, path));
         }
     }
 }

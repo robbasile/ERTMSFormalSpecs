@@ -21,6 +21,7 @@ using System.IO;
 using System.Threading;
 using DataDictionary.Generated;
 using DataDictionary.Specification;
+using DataDictionary.src;
 using Utils;
 using XmlBooster;
 using Chapter = DataDictionary.Specification.Chapter;
@@ -46,6 +47,11 @@ namespace DataDictionary
         ///     The file path associated to the dictionary
         /// </summary>
         public string FilePath { get; set; }
+
+        /// <summary>
+        /// The list of files to delete during the saving of the dictionary
+        /// </summary>
+        private List <DeleteFilesHandler> FilesToDelete { get; set; }
 
         /// <summary>
         ///     Used to temporarily store the list of sub-namespaces
@@ -339,6 +345,12 @@ namespace DataDictionary
                 {
                     Watcher.StartWatching();
                 }
+
+                foreach (DeleteFilesHandler file in FilesToDelete)
+                {
+                    file.DeleteFile();
+                }
+                FilesToDelete.Clear ();
             });
         }
 
@@ -738,6 +750,7 @@ namespace DataDictionary
         {
             FinderRepository.INSTANCE.Register(this);
             CriticalSection = new Mutex(false, "Dictionary critical section");
+            FilesToDelete = new List <DeleteFilesHandler> ();
         }
 
         /// <summary>
@@ -1508,6 +1521,15 @@ namespace DataDictionary
         {
             Dictionary retVal = (Dictionary) acceptor.getFactory().createDictionary();
             return retVal;
+        }
+
+        /// <summary>
+        /// Adds a new file to delete
+        /// </summary>
+        /// <param name="element"></param>
+        public void AddDeleteFilesElement (DeleteFilesHandler element)
+        {
+            FilesToDelete.Add (element);
         }
     }
 }

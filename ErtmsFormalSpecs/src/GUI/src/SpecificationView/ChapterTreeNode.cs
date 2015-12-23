@@ -39,7 +39,7 @@ namespace GUI.SpecificationView
                 get { return Item.getId(); }
                 set
                 {
-                    Item.setId(value);
+                    Item.Id = value;
                     RefreshNode();
                 }
             }
