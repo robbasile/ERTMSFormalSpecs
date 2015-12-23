@@ -508,15 +508,8 @@ namespace GUIUtils.StructureEditor
                 ListValue value = Variable.Value as ListValue;
                 if (value != null)
                 {
-                    for (int i = 0; i < value.Val.Count; i++)
-                    {
-                        if (value.Val[i] == EfsSystem.Instance.EmptyValue)
-                        {
-                            value.Val[i] = element;
-                            element.Enclosing = Variable.Value;
-                            break;
-                        }
-                    }
+                    value.Val.Add (element);
+                    element.Enclosing = value;
                 }
 
                 base.OnClick(e);
