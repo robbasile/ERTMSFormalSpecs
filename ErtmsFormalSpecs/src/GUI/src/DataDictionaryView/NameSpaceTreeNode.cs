@@ -211,8 +211,7 @@ namespace GUI.DataDictionaryView
 
             retVal.Add(new MenuItem("Delete", DeleteHandler));
             retVal.AddRange(base.GetMenuItems());
-            retVal.Insert(5, new MenuItem("-"));
-            retVal.Insert(6, new MenuItem("Functional view", ShowFunctionalViewHandler));
+            retVal.Insert(5, new MenuItem("Functional view", ShowFunctionalViewHandler));
 
             return retVal;
         }
