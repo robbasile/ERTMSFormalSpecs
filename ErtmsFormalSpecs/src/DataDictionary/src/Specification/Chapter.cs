@@ -406,9 +406,12 @@ namespace DataDictionary.Specification
         /// </summary>
         private void RecordFilesToDelete ()
         {
-            string path = Dictionary.FilePath.Remove(Dictionary.FilePath.LastIndexOf('.'));
-            path += "\\Specifications\\" + FullName.Replace(".", "\\") + ".efs_ch";
-            Dictionary.AddDeleteFilesElement(new DeleteFilesHandler(false, path));
+            if (Dictionary != null)
+            {
+                string path = Dictionary.FilePath.Remove (Dictionary.FilePath.LastIndexOf ('.'));
+                path += "\\Specifications\\" + FullName.Replace (".", "\\") + ".efs_ch";
+                Dictionary.AddDeleteFilesElement (new DeleteFilesHandler (false, path));
+            }
         }
     }
 }
