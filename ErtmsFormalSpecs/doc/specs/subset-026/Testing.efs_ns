@@ -742,7 +742,7 @@ DMI2 will be the slave and will be connected to the first desk of the CabB.</Com
  Priority="Processing"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
- Name="Set previous mode to FS"
+ Name="Set previous mode"
  Guid="ffbb0242-653e-4c52-ab07-b5f472cc6593"
 >
 <Comment>If the parameter HandleModeCahnge is set to false, the previous mode is also set to FS to block the mode change effects.</Comment>
@@ -754,6 +754,7 @@ DMI2 will be the slave and will be connected to the first desk of the CabB.</Com
  Name="Set previous mode to FS"
  Guid="b3c90fd8-cfe7-4c57-af5e-c74fcaa322b9"
 >
+<Comment>If we do not want to have mode change effects, set the previous mode to FS.</Comment>
 <PreConditions>
 <PreCondition
  Guid="093c64d1-2d06-4a17-b771-118414c49249"
@@ -762,6 +763,21 @@ DMI2 will be the slave and will be connected to the first desk of the CabB.</Com
 <Action
  Guid="ecacd905-81cb-43c3-8c0e-e2ca36cb0357"
 >Kernel.Modes.ModeTransitions.PrevMode &lt;- ModeEnum.FS</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Set previous mode to NP"
+ Guid="a295d6e5-ce79-42fa-af7c-9313924d9898"
+>
+<Comment>If we do want to have mode change effects, set the previous mode to NP.</Comment>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="ee2a861c-85f3-4acb-928c-d01eaa0f2eaf"
+>Kernel.Modes.ModeTransitions.PrevMode &lt;- ModeEnum.NP</Action><Action
+ Guid="d0259358-ba18-45a6-ada8-f210b328a129"
+>DMI.MasterDMI().PreviousMode &lt;- ModeEnum.NP</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -1058,7 +1074,7 @@ Kernel.TrackDescription.StaticSpeedProfile.SSP == []</PreCondition></PreConditio
  Priority="Processing"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
- Name="Set previous mode to LS"
+ Name="Set previous mode"
  Guid="1e4f6b9c-b3f4-45ac-adc6-5e28476145b7"
 >
 <Comment>If the parameter HandleModeCahnge is set to false, the previous mode is also set to LS to block the mode change effects.</Comment>
@@ -1070,6 +1086,7 @@ Kernel.TrackDescription.StaticSpeedProfile.SSP == []</PreCondition></PreConditio
  Name="Set previous mode to LS"
  Guid="c30b814f-8e00-4e82-998a-2d354ec4d1e6"
 >
+<Comment>If we do not want to have mode change effects, set the previous mode to LS.</Comment>
 <PreConditions>
 <PreCondition
  Guid="5b512b96-d570-4845-a002-3f0b24a0c943"
@@ -1078,6 +1095,21 @@ Kernel.TrackDescription.StaticSpeedProfile.SSP == []</PreCondition></PreConditio
 <Action
  Guid="b58de7db-c2a4-4ef0-90fb-e41fe6ba5af8"
 >Kernel.Modes.ModeTransitions.PrevMode &lt;- ModeEnum.LS</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Set previous mode to NP"
+ Guid="5862e246-3217-45e0-85b0-3a9a21303d29"
+>
+<Comment>If we do want to have mode change effects, set the previous mode to NP.</Comment>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="abbc7c2c-ca09-4cbc-b536-36ba58a8d608"
+>Kernel.Modes.ModeTransitions.PrevMode &lt;- ModeEnum.NP</Action><Action
+ Guid="16c8a888-3245-4b20-9705-722e3c66abe9"
+>DMI.MasterDMI().PreviousMode &lt;- ModeEnum.NP</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -1386,7 +1418,7 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
  Priority="Processing"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
- Name="Set previous mode to SR"
+ Name="Set previous mode"
  Guid="b64f0d31-b0f4-4bb1-8299-a9b966667d3c"
 >
 <Comment>If the parameter HandleModeChange is set to false, the previous mode is also set to SR to block the mode change effects.</Comment>
@@ -1398,6 +1430,7 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
  Name="Set previous mode to SR"
  Guid="a0142416-382d-44b4-a6f5-5da7c532d4f5"
 >
+<Comment>If we do not want to have mode change effects, set the previous mode to SR.</Comment>
 <PreConditions>
 <PreCondition
  Guid="82743dbd-4efd-46d1-8031-5ea49b2b86c4"
@@ -1406,6 +1439,21 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
 <Action
  Guid="09eacb09-807e-4a02-81a0-07b6842328d0"
 >Kernel.Modes.ModeTransitions.PrevMode &lt;- ModeEnum.SR</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Set previous mode to NP"
+ Guid="1543d2be-3c32-49fe-ba7f-b94bdabbde9c"
+>
+<Comment>If we do want to have mode change effects, set the previous mode to NP.</Comment>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="17513104-5b1a-479b-83a3-c0bc6957411b"
+>Kernel.Modes.ModeTransitions.PrevMode &lt;- ModeEnum.NP</Action><Action
+ Guid="870ad849-62ab-47f2-9b99-532de089e1ca"
+>DMI.MasterDMI().PreviousMode &lt;- ModeEnum.NP</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -1696,7 +1744,7 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
  Priority="Processing"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
- Name="Set previous mode to OS"
+ Name="Set previous mode"
  Guid="165723af-e8a3-4798-a733-596ac4215f5b"
 >
 <Comment>If the parameter HandleModeCahnge is set to false, the previous mode is also set to OS to block the mode change effects.</Comment>
@@ -1708,6 +1756,7 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
  Name="Set previous mode to OS"
  Guid="635f39bd-6246-4e1c-9436-7dbffad456a0"
 >
+<Comment>If we do not want to have mode change effects, set the previous mode to OS.</Comment>
 <PreConditions>
 <PreCondition
  Guid="74cf8f57-5e03-41aa-9cfe-f9c18b5dbde4"
@@ -1716,6 +1765,21 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
 <Action
  Guid="0740d2d7-2419-4454-ae73-d0347f3f2e64"
 >Kernel.Modes.ModeTransitions.PrevMode &lt;- ModeEnum.OS</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Set previous mode to NP"
+ Guid="75b8096e-7542-481b-9631-3411bbcad155"
+>
+<Comment>If we do want to have mode change effects, set the previous mode to NP.</Comment>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="0233f8fa-bbfb-4508-a97d-0f3612c6d3c5"
+>Kernel.Modes.ModeTransitions.PrevMode &lt;- ModeEnum.NP</Action><Action
+ Guid="018a0a4d-901c-44f6-a852-09c45e1d2515"
+>DMI.MasterDMI().PreviousMode &lt;- ModeEnum.NP</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -2024,7 +2088,7 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
  Priority="Processing"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
- Name="Set previous mode to SH"
+ Name="Set previous mode"
  Guid="37eeed15-f83f-41f6-897f-112746d9dc8e"
 >
 <Comment>If the parameter HandleModeCahnge is set to false, the previous mode is also set to SH to block the mode change effects.</Comment>
@@ -2036,6 +2100,7 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
  Name="Set previous mode to SH"
  Guid="4a634e15-2e68-4135-bc16-4fd761a35294"
 >
+<Comment>If we do not want to have mode change effects, set the previous mode to SH.</Comment>
 <PreConditions>
 <PreCondition
  Guid="64d5245f-aaef-4a99-93fa-2c4a76ab45da"
@@ -2044,6 +2109,21 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
 <Action
  Guid="df1e25fb-5847-4a05-8618-d82242574b12"
 >Kernel.Modes.ModeTransitions.PrevMode &lt;- ModeEnum.SH</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Set previous mode to NP"
+ Guid="b7ee81ec-fbc9-47c9-ab15-658885c9f7a9"
+>
+<Comment>If we do want to have mode change effects, set the previous mode to NP.</Comment>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="7b7f93fe-138a-4d91-8770-8065b29e4bab"
+>Kernel.Modes.ModeTransitions.PrevMode &lt;- ModeEnum.NP</Action><Action
+ Guid="c47aa15a-4e7f-4236-8897-7dc367a8662b"
+>DMI.MasterDMI().PreviousMode &lt;- ModeEnum.NP</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -2306,7 +2386,7 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
  Priority="Processing"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
- Name="Set previous mode to UN"
+ Name="Set previous mode"
  Guid="dc70e11f-5012-467e-b13c-19ac94b71e1f"
 >
 <Comment>If the parameter HandleModeChange is set to false, the previous mode is also set to UN to block the mode change effects.</Comment>
@@ -2318,6 +2398,7 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
  Name="Set previous mode to UN"
  Guid="e617dccb-3eec-44de-b24f-06e7e1aa3d3e"
 >
+<Comment>If we do not want to have mode change effects, set the previous mode to UN.</Comment>
 <PreConditions>
 <PreCondition
  Guid="29a659f6-b59b-4be7-9a4e-bcd6896b71a6"
@@ -2326,6 +2407,21 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
 <Action
  Guid="adb7741c-1d5b-44a6-a818-0f7b3d19a667"
 >Kernel.Modes.ModeTransitions.PrevMode &lt;- ModeEnum.UN</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Set previous mode to NP"
+ Guid="3703d978-9902-4ad1-a4ea-7bca73ea9eee"
+>
+<Comment>If we do want to have mode change effects, set the previous mode to NP.</Comment>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="6f62f466-2f7b-49bb-b2ac-05e72fa43bba"
+>Kernel.Modes.ModeTransitions.PrevMode &lt;- ModeEnum.NP</Action><Action
+ Guid="27ab3cd8-9956-4442-a6c9-eb4586a06da6"
+>DMI.MasterDMI().PreviousMode &lt;- ModeEnum.NP</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -2496,7 +2592,7 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
  Priority="Processing"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
- Name="Set previous mode to PS"
+ Name="Set previous mode"
  Guid="c9329b69-58fc-47dd-84b1-bfb656b44c18"
 >
 <Comment>If the parameter HandleModeCahnge is set to false, the previous mode is also set to PS to block the mode change effects.</Comment>
@@ -2508,6 +2604,7 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
  Name="Set previous mode to PS"
  Guid="ab09c9ed-cb38-4957-ae57-6696bec76f1e"
 >
+<Comment>If we do not want to have mode change effects, set the previous mode to PS.</Comment>
 <PreConditions>
 <PreCondition
  Guid="478312cd-cb5d-41a3-a3f5-c9ee6bd524e4"
@@ -2516,6 +2613,21 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
 <Action
  Guid="f20d501c-9ef1-437f-990f-efbcfa5a049d"
 >Kernel.Modes.ModeTransitions.PrevMode &lt;- ModeEnum.PS</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Set previous mode to NP"
+ Guid="5e1483fe-d90b-4f9a-aaf8-71b05d7b4eb6"
+>
+<Comment>If we do want to have mode change effects, set the previous mode to NP.</Comment>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="23011c44-e897-4467-9665-85e4ed3eecae"
+>Kernel.Modes.ModeTransitions.PrevMode &lt;- ModeEnum.NP</Action><Action
+ Guid="5a986105-a021-44c9-b438-2daeaa20c921"
+>DMI.MasterDMI().PreviousMode &lt;- ModeEnum.NP</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -2778,7 +2890,7 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
  Priority="Processing"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
- Name="Set previous mode to SL"
+ Name="Set previous mode"
  Guid="47eadf56-0bed-4a36-9e92-b21eef7aa0d9"
 >
 <Comment>If the parameter HandleModeChange is set to false, the previous mode is also set to SL to block the mode change effects.</Comment>
@@ -2790,6 +2902,7 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
  Name="Set previous mode to SL"
  Guid="9ac3aed2-c7f4-4125-a7c2-26b298c79465"
 >
+<Comment>If we do not want to have mode change effects, set the previous mode to SL.</Comment>
 <PreConditions>
 <PreCondition
  Guid="96810d90-fcd1-4494-9d06-d9483442c4db"
@@ -2798,6 +2911,21 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
 <Action
  Guid="67c81480-60aa-4266-9bd6-456f122577a2"
 >Kernel.Modes.ModeTransitions.PrevMode &lt;- ModeEnum.SL</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Set previous mode to NP"
+ Guid="98b33bc2-3e7f-4232-9e4f-1689bf0d8bd6"
+>
+<Comment>If we do want to have mode change effects, set the previous mode to NP.</Comment>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="b6ced074-3fcf-4063-b9c8-c7eb51f3841c"
+>Kernel.Modes.ModeTransitions.PrevMode &lt;- ModeEnum.NP</Action><Action
+ Guid="a2826968-af83-4bfc-831c-ece9fd4d9354"
+>DMI.MasterDMI().PreviousMode &lt;- ModeEnum.NP</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -2940,7 +3068,7 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
  Priority="Processing"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
- Name="Set previous mode to SB"
+ Name="Set previous mode"
  Guid="5879e6ad-e170-4708-87d2-4c536ec7e625"
 >
 <Comment>If the parameter HandleModeCahnge is set to false, the previous mode is also set to SB to block the mode change effects.</Comment>
@@ -2952,6 +3080,7 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
  Name="Set previous mode to SB"
  Guid="ed5c4549-6b47-46c1-8051-a1d51d3cf87b"
 >
+<Comment>If we do not want to have mode change effects, set the previous mode to SB.</Comment>
 <PreConditions>
 <PreCondition
  Guid="2350c9ef-0eb2-4b82-a97b-286234844857"
@@ -2960,6 +3089,21 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
 <Action
  Guid="2983528d-25f4-4600-bb1e-f5a208315f81"
 >Kernel.Modes.ModeTransitions.PrevMode &lt;- ModeEnum.SB</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Set previous mode to NP"
+ Guid="43a86f05-bb05-46bb-a3c8-d3f7af46c033"
+>
+<Comment>If we do want to have mode change effects, set the previous mode to NP.</Comment>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="258716af-7a22-474c-b7bc-af317c9c8574"
+>Kernel.Modes.ModeTransitions.PrevMode &lt;- ModeEnum.NP</Action><Action
+ Guid="3e1f73e3-f4b7-4964-bb23-f364c079ab9b"
+>DMI.MasterDMI().PreviousMode &lt;- ModeEnum.NP</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -3101,7 +3245,7 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
  Priority="Processing"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
- Name="Set previous mode to TR"
+ Name="Set previous mode"
  Guid="a1a9e74a-480c-4127-8400-3e7a9dbe646d"
 >
 <Comment>If the parameter HandleModeChange is set to false, the previous mode is also set to TR to block the mode change effects.</Comment>
@@ -3113,6 +3257,7 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
  Name="Set previous mode to TR"
  Guid="36ab5c56-50de-495f-8597-85cd3bffcc73"
 >
+<Comment>If we do not want to have mode change effects, set the previous mode to TR.</Comment>
 <PreConditions>
 <PreCondition
  Guid="3264a469-44cc-4085-af55-108d60c0daf5"
@@ -3123,6 +3268,21 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
 >Kernel.Modes.ModeTransitions.PrevMode &lt;- ModeEnum.TR</Action><Action
  Guid="c8f05693-c9ce-4476-b78e-8bc2a42b4cf8"
 >Kernel.BrakeCommands.CommandEmergencyBrake(Kernel.BrakeCommands.BrakeReasonEnum.PermanentCommandInCurrentMode)</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Set previous mode to NP"
+ Guid="98e4348b-09bd-4bd5-ade1-ea204ea9dcb3"
+>
+<Comment>If we do want to have mode change effects, set the previous mode to NP.</Comment>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="e4273a59-2feb-43c4-9429-4d292e7fc504"
+>Kernel.Modes.ModeTransitions.PrevMode &lt;- ModeEnum.NP</Action><Action
+ Guid="adf7f120-35c8-42c3-a4bf-c49b8c11b33a"
+>DMI.MasterDMI().PreviousMode &lt;- ModeEnum.NP</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -3240,7 +3400,7 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
  Priority="Processing"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
- Name="Set previous mode to PT"
+ Name="Set previous mode"
  Guid="7d154ef2-1bd4-4921-9a92-78f75ebcc299"
 >
 <Comment>If the parameter HandleModeCahnge is set to false, the previous mode is also set to PT to block the mode change effects.</Comment>
@@ -3252,6 +3412,7 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
  Name="Set previous mode to PT"
  Guid="d210a191-7d12-42ca-885c-0d7525de8d26"
 >
+<Comment>If we do not want to have mode change effects, set the previous mode to PT.</Comment>
 <PreConditions>
 <PreCondition
  Guid="2a981bfd-3f51-470a-b91b-bd45bef58960"
@@ -3260,6 +3421,21 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
 <Action
  Guid="a3eb066d-81d3-4471-9adc-93a0c989486c"
 >Kernel.Modes.ModeTransitions.PrevMode &lt;- ModeEnum.PT</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Set previous mode to NP"
+ Guid="909cfb80-3ac4-400b-94fa-0ee7582e5edb"
+>
+<Comment>If we do want to have mode change effects, set the previous mode to NP.</Comment>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="a9eecbd7-6796-4ad9-a93d-679764f97a1a"
+>Kernel.Modes.ModeTransitions.PrevMode &lt;- ModeEnum.NP</Action><Action
+ Guid="d8c05094-12b3-4b22-bbd5-54b5e324b185"
+>DMI.MasterDMI().PreviousMode &lt;- ModeEnum.NP</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -3377,7 +3553,7 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
  Priority="Processing"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
- Name="Set previous mode to SF"
+ Name="Set previous mode"
  Guid="727a5e04-2acf-4067-a2ee-b82eee156af4"
 >
 <Comment>If the parameter HandleModeCahnge is set to false, the previous mode is also set to SF to block the mode change effects.</Comment>
@@ -3389,6 +3565,7 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
  Name="Set previous mode to SF"
  Guid="bd8f8300-909f-4f56-91d8-805db5310b4e"
 >
+<Comment>If we do not want to have mode change effects, set the previous mode to SF.</Comment>
 <PreConditions>
 <PreCondition
  Guid="ebfee60e-48ea-48cf-94f9-8f3658fab6a2"
@@ -3399,6 +3576,21 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
 >Kernel.Modes.ModeTransitions.PrevMode &lt;- ModeEnum.SF</Action><Action
  Guid="ba060028-274d-4108-878f-d6278d29cb96"
 >Kernel.BrakeCommands.CommandEmergencyBrake(Kernel.BrakeCommands.BrakeReasonEnum.PermanentCommandInCurrentMode)</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Set previous mode to NP"
+ Guid="b0b7f132-40bb-4ccf-abe4-7207fae16f8c"
+>
+<Comment>If we do want to have mode change effects, set the previous mode to NP.</Comment>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="e80cfa70-d6a5-4435-a1b3-1f4693b6f9a7"
+>Kernel.Modes.ModeTransitions.PrevMode &lt;- ModeEnum.NP</Action><Action
+ Guid="a2dad492-661c-42ce-ac5b-8e7bf6f23719"
+>DMI.MasterDMI().PreviousMode &lt;- ModeEnum.NP</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -3493,7 +3685,7 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
  Priority="Processing"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
- Name="Set previous mode to IS"
+ Name="Set previous mode"
  Guid="ca624dee-0818-4750-ab41-f6aa09635a73"
 >
 <Comment>If the parameter HandleModeCahnge is set to false, the previous mode is also set to IS to block the mode change effects.</Comment>
@@ -3505,6 +3697,7 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
  Name="Set previous mode to IS"
  Guid="9cfa7375-7cfa-416a-bd8b-3150c7eca298"
 >
+<Comment>If we do not want to have mode change effects, set the previous mode to IS.</Comment>
 <PreConditions>
 <PreCondition
  Guid="bb241c9e-0858-43ca-8f30-cddf969e0cfe"
@@ -3513,6 +3706,21 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
 <Action
  Guid="6e9eb4c0-bf07-495b-a8e6-172ad074382b"
 >Kernel.Modes.ModeTransitions.PrevMode &lt;- ModeEnum.IS</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Set previous mode to NP"
+ Guid="ab2884c9-f9b8-432a-908e-701974de36f4"
+>
+<Comment>If we do want to have mode change effects, set the previous mode to NP.</Comment>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="1a135845-2316-458b-a64f-f64a1965a521"
+>Kernel.Modes.ModeTransitions.PrevMode &lt;- ModeEnum.NP</Action><Action
+ Guid="4a5a6aa3-c350-4679-9e30-bc2930efcdfb"
+>DMI.MasterDMI().PreviousMode &lt;- ModeEnum.NP</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -3630,7 +3838,7 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
  Priority="Processing"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
- Name="Set previous mode to SN"
+ Name="Set previous mode"
  Guid="140d30da-1f50-4eab-ae9b-8b4ea27926c8"
 >
 <Comment>If the parameter HandleModeChange is set to false, the previous mode is also set to SN to block the mode change effects.</Comment>
@@ -3642,6 +3850,7 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
  Name="Set previous mode to SN"
  Guid="bdc3a519-00b7-41e6-8117-5c29e6cc1f09"
 >
+<Comment>If we do not want to have mode change effects, set the previous mode to SN.</Comment>
 <PreConditions>
 <PreCondition
  Guid="581a5a3e-cb21-4655-83d2-f770ce89287b"
@@ -3650,6 +3859,21 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
 <Action
  Guid="e917c724-9f22-4469-b558-c003a65ecdc2"
 >Kernel.Modes.ModeTransitions.PrevMode &lt;- ModeEnum.SN</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Set previous mode to NP"
+ Guid="61cecaeb-60ef-4317-a5da-a1bc19632239"
+>
+<Comment>If we do want to have mode change effects, set the previous mode to NP.</Comment>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="d1df9299-b33d-4c3c-8247-f7d49d6cd559"
+>Kernel.Modes.ModeTransitions.PrevMode &lt;- ModeEnum.NP</Action><Action
+ Guid="f46983da-d28e-4769-8c59-1da0c51fd242"
+>DMI.MasterDMI().PreviousMode &lt;- ModeEnum.NP</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -3819,7 +4043,7 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
  Priority="Processing"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
- Name="Set previous mode to NP"
+ Name="Set previous mode"
  Guid="0c5e6754-e048-4e42-85e4-67d8fd76c868"
 >
 <Comment>If the parameter HandleModeCahnge is set to false, the previous mode is also set to NP to block the mode change effects.</Comment>
@@ -3831,6 +4055,7 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
  Name="Set previous mode to NP"
  Guid="8ebdfc9f-c2c5-4b2e-b752-d67355b6c413"
 >
+<Comment>If we do not want to have mode change effects, set the previous mode to NP.</Comment>
 <PreConditions>
 <PreCondition
  Guid="32a9adb4-3245-4c1e-b95c-67069794cf4b"
@@ -3841,6 +4066,19 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
 >Kernel.Modes.ModeTransitions.PrevMode &lt;- ModeEnum.NP</Action><Action
  Guid="e6983aab-b519-4cb7-a77c-73b9922a4ed3"
 >Kernel.BrakeCommands.CommandEmergencyBrake(Kernel.BrakeCommands.BrakeReasonEnum.PermanentCommandInCurrentMode)</Action></Actions>
+</RuleCondition><RuleCondition
+ Name="Set previous mode to SB"
+ Guid="76ad682f-0281-40f8-a3f7-b6e703316efa"
+>
+<Comment>If we do want to have mode change effects, set the previous mode to SB.</Comment>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="bee8c964-228c-47a6-bac4-c12d12d32541"
+>Kernel.Modes.ModeTransitions.PrevMode &lt;- ModeEnum.SB</Action><Action
+ Guid="4041729a-0ee3-4def-ae1c-abb0cc84cedd"
+>DMI.MasterDMI().PreviousMode &lt;- ModeEnum.SB</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -3935,7 +4173,7 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
  Priority="Processing"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
- Name="Set previous mode to NL"
+ Name="Set previous mode"
  Guid="c07600e2-4182-459b-afb5-6dc4657bebd9"
 >
 <Comment>If the parameter HandleModeCahnge is set to false, the previous mode is also set to NL to block the mode change effects.</Comment>
@@ -3947,6 +4185,7 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
  Name="Set previous mode to NL"
  Guid="3b73c4b6-5cb1-42eb-aa1b-c39ab4fc138a"
 >
+<Comment>If we do not want to have mode change effects, set the previous mode to NL.</Comment>
 <PreConditions>
 <PreCondition
  Guid="a78ab73b-65c9-4c76-a953-58b97fdc9d61"
@@ -3955,6 +4194,21 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
 <Action
  Guid="084a67aa-2e91-485d-a22e-f1d649b0f0e1"
 >Kernel.Modes.ModeTransitions.PrevMode &lt;- ModeEnum.NL</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Set previous mode to NP"
+ Guid="d98e8b75-2151-4e4a-8e3b-8822222c7e1a"
+>
+<Comment>If we do want to have mode change effects, set the previous mode to NP.</Comment>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="e6a92b40-a69c-4fe5-854e-80031524c196"
+>Kernel.Modes.ModeTransitions.PrevMode &lt;- ModeEnum.NP</Action><Action
+ Guid="26fb5fd7-cf73-48b9-9bc6-5cc59edd61df"
+>DMI.MasterDMI().PreviousMode &lt;- ModeEnum.NP</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -4118,7 +4372,7 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
  Priority="Processing"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
- Name="Set previous mode to RV"
+ Name="Set previous mode"
  Guid="fbd378bb-5830-44cf-8a48-f2015c264db2"
 >
 <Comment>If the parameter HandleModeCahnge is set to false, the previous mode is also set to RV to block the mode change effects.</Comment>
@@ -4130,6 +4384,7 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
  Name="Set previous mode to RV"
  Guid="78d6d2ec-a047-4744-a886-57f89cc7528d"
 >
+<Comment>If we do not want to have mode change effects, set the previous mode to RV.</Comment>
 <PreConditions>
 <PreCondition
  Guid="2439538a-0d31-4974-a2a9-beb92863e373"
@@ -4138,6 +4393,21 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
 <Action
  Guid="20cc6c55-0cef-4e3e-8cbd-1930bf899ecb"
 >Kernel.Modes.ModeTransitions.PrevMode &lt;- ModeEnum.RV</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Set previous mode to NP"
+ Guid="b17a9c35-8003-4892-abbd-9d6d84fc104d"
+>
+<Comment>If we do want to have mode change effects, set the previous mode to NP.</Comment>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="d12013f1-f5fc-46d8-9bc1-d5a2c2788b32"
+>Kernel.Modes.ModeTransitions.PrevMode &lt;- ModeEnum.NP</Action><Action
+ Guid="9408e78c-40fb-41f0-946b-bfba9da60a91"
+>DMI.MasterDMI().PreviousMode &lt;- ModeEnum.NP</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
