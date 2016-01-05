@@ -1023,44 +1023,6 @@ Packet.Sequence1</Action></Actions>
 </Rule><Rule
  Priority="Processing"
  Implemented="TRUE"
- Name="Inform the driver"
- Guid="898f996b-69b4-4d52-ae1f-3dd5bfa05238"
->
-<ReqRef
- Id="91f853db-5446-42e9-bd20-c7df2c617fdd"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="6988d1f9-f232-4f42-9d62-6452b2d50767"
->
-</ReqRef><ReqRef
- Id="54debebc-e391-4fd2-a3d7-8e0abf2a1c27"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="168bf46d-fb43-4d00-b2df-67169b6ca76c"
->
-</ReqRef><ReqRef
- Id="a0fffb6f-52dd-4294-b705-ac27dc95a180"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="9eb81320-eade-44b5-b9b0-46d61d2f7258"
->
-</ReqRef><Comment>Inform the driver about the level transition.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Inform the driver"
- Guid="2cf55614-4bd8-418a-b952-e32bea75338f"
->
-<PreConditions>
-<PreCondition
- Guid="ecd809b6-fe50-4f30-836d-be2034857212"
->Kernel.LevelTransition.LevelTransitionToProcess.TRLevel.Value != Kernel.Level.Value.Value</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="fd368ae9-0601-449f-b2c9-e3ef3f7370e8"
->DMI.MasterDMI().Out_LevelTransitionAnnouncement.Display(Kernel.LevelTransition.LevelTransitionToProcess.TRLevel.Value)</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- Implemented="TRUE"
  Name="CheckAcknowledgement"
  Guid="ca6a90e6-8f59-4986-8c59-80e27df43cd1"
 >

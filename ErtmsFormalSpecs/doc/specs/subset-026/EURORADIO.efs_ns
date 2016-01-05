@@ -11621,41 +11621,6 @@ RevSupPacketAvailable( aPacket =&gt; ( FIRST X IN Packets | Available ( X.REVERS
 </Variable></Variables>
 <Rules>
 <Rule
- Priority="UpdateOUT"
- X="970"
- Y="730"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="Display safe radio connection status"
- Guid="18070fc1-1c1f-49a3-9614-912ceed3ce08"
->
-<ReqRef
- Id="747bae2e-7720-4f04-ac58-bf2f7feb9e50"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="097a1101-bbb5-47b6-8a23-e0471f5aec25"
->
-</ReqRef><ReqRef
- Id="56576e5f-6491-43ac-bb6d-439d660b8baf"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="f9f3c652-cd83-4755-9589-a4c05d733c14"
->
-</ReqRef><Comment>Requests the display of safe radio connection status.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Display safe radio connection status"
- Guid="255ec871-8428-4c10-a557-e7c18206ba7a"
->
-<PreConditions>
-</PreConditions>
-<Actions>
-<Action
- Guid="02baeff3-ba76-4e24-b9bf-d47379e408b5"
->DMI.MasterDMI().Out_SafeRadioConnectionIndication.Display()</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
  Priority="Processing"
  X="850"
  Y="730"
@@ -11681,7 +11646,7 @@ RevSupPacketAvailable( aPacket =&gt; ( FIRST X IN Packets | Available ( X.REVERS
 <PreConditions>
 <PreCondition
  Guid="61a5462f-dc93-45db-bd21-2c092de05ca3"
->EURORADIO.RBCContactOrderToRepeat != EMPTY</PreCondition></PreConditions>
+>Available(EURORADIO.RBCContactOrderToRepeat)</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="b5fbfee4-ca84-4128-9ab3-2edd2f4447ef"
@@ -11781,7 +11746,7 @@ RevSupPacketAvailable( aPacket =&gt; ( FIRST X IN Packets | Available ( X.REVERS
  Guid="fbbf50ac-5249-404e-b0c9-37d0b6c10c28"
 >Kernel.TrainPosition.FrontEndPosition( PointOfInterest =&gt; DistanceIntervalEnum.Nom ) &gt;= EURORADIO.SecondaryTerminal().AcceptingRBCContactOrder.EndOfValidityLocation</PreCondition><PreCondition
  Guid="8159a3b5-93ba-4abf-b8a6-c47c500d081c"
->EURORADIO.SecondaryTerminal().AcceptingRBCContactOrder != EMPTY</PreCondition></PreConditions>
+>Available(EURORADIO.SecondaryTerminal().AcceptingRBCContactOrder)</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="2754ef6d-2232-4088-8ba2-11d0dd9c37dd"

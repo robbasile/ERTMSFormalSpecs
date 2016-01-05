@@ -180,6 +180,36 @@ Returns False if they are equal.</Comment>
 >
 <Expression>T1.TTS &gt; T2.TTS</Expression>
 </Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="221"
+ Y="1"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="TimeOutPassed"
+ Guid="0da0210f-9e2c-4e27-8ee9-cb92d0d9a018"
+>
+<Comment>Takes a time-out value and determines whether it has been passed.</Comment>
+<Parameters>
+<Parameter
+ Type="DateAndTimeStruct"
+ Name="TimeOut"
+ Guid="1968e4b1-2b88-4bd8-8fe7-4b1ae038c5b1"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="ef19c724-b6c9-40d9-b56f-307213943064"
+>
+<Expression>T1LaterThanT2(
+    T1 =&gt; Now(),
+    T2 =&gt; TimeOut
+)</Expression>
+</Case></Cases>
 </Function></Functions>
 <Variables>
 <Variable

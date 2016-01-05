@@ -401,7 +401,7 @@ INITIAL_VALUE BaseTypes.MaxSpeedFunction) (Distance)</Expression>
 </Parameter></Parameters>
 <Cases>
 <Case
- Name="SameId"
+ Name="Same Id"
  Guid="3c7d1422-3ee4-4419-ad6e-520b797ab236"
 >
 <PreConditions>
@@ -413,13 +413,13 @@ INITIAL_VALUE BaseTypes.MaxSpeedFunction) (Distance)</Expression>
     Id =&gt; Packet.NID_LX,
     Location =&gt; MessageTypes.QScaleDistance ( distance =&gt; Packet.D_LX, scale =&gt; Packet.Q_SCALE ),
     Length =&gt; MessageTypes.QScaleLength ( length =&gt; Packet.L_LX, scale =&gt; Packet.Q_SCALE ),
-    IsProtected =&gt; ProtectedStatusToBoolean( ProtectedStatus =&gt; Packet.Q_LXSTATUS ),
+    IsProtected =&gt; ProtectedStatus( ProtectedStatus =&gt; Packet.Q_LXSTATUS ),
     Speed =&gt; MessageTypes.SpeedResolution ( Packet.V_LX, 5.0 ),
     StoppingRequired =&gt; StoppingRequiredToBoolean ( StoppingRequired =&gt; Packet.Q_STOPLX ),
     StoppingAreaLength =&gt; MessageTypes.QScaleLength ( length =&gt; Packet.L_STOPLX, scale =&gt; Packet.Q_SCALE)
 }</Expression>
 </Case><Case
- Name="DifferentId"
+ Name="Different Id"
  Guid="83d8765c-1d6d-4d4d-8c18-5de1e74b359e"
 >
 <PreConditions>
@@ -533,7 +533,7 @@ INITIAL_VALUE BaseTypes.MaxSpeedFunction) (Distance)</Expression>
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="ProtectedStatusToBoolean"
+ Name="ProtectedStatus"
  Guid="8388855e-6f8c-400a-a1b7-2d924d38d55b"
 >
 <ReqRef
@@ -551,19 +551,10 @@ INITIAL_VALUE BaseTypes.MaxSpeedFunction) (Distance)</Expression>
 </Parameter></Parameters>
 <Cases>
 <Case
- Name="Protected"
+ Name="Value"
  Guid="a654a386-812f-4d56-8045-d81f8ed1faf7"
 >
-<PreConditions>
-<PreCondition
- Guid="3de1d21c-2b6b-464b-970a-78aa75c3988a"
->ProtectedStatus == Messages.Q_LXSTATUS.LX_is_protected</PreCondition></PreConditions>
-<Expression>True</Expression>
-</Case><Case
- Name="Non protected"
- Guid="94dc838f-a58c-48b9-9fcc-e6482b615fad"
->
-<Expression>False</Expression>
+<Expression>ProtectedStatus == Messages.Q_LXSTATUS.LX_is_protected</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -971,7 +962,7 @@ Kernel.LX.SBI1IsMostRestrictive( aLX =&gt; aLX )</PreCondition></PreConditions>
  Guid="e89fb9b7-30a6-45e2-a222-5eb95d588c17"
 >THERE_IS aCrossing IN SupervisedLevelCrossings | NOT aCrossing.IsProtected</PreCondition></PreConditions>
 <Expression>SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target{
-    Location =&gt; REDUCE SupervisedLevelCrossings | NOT X.IsProtected
+    Location =&gt; REDUCE LX.SupervisedLevelCrossings | NOT X.IsProtected
                             USING X IN BaseTypes.MinDistance(
                                 X1 =&gt; X.Location,
                                 X2 =&gt; RESULT
@@ -985,6 +976,113 @@ Kernel.LX.SBI1IsMostRestrictive( aLX =&gt; aLX )</PreCondition></PreConditions>
  Guid="90b5a5ab-eed8-4d23-9d1d-d23034f2cf1a"
 >
 <Expression>EMPTY</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="1"
+ Y="241"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="DisplayLXNotProtected"
+ Guid="fb86e18d-6a7d-40fb-a895-d5811c19eddc"
+>
+<ReqRef
+ Id="18f662c4-1a06-4ad0-9986-1dc47f1c5948"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f36acbe7-bfaa-4d32-84ae-2b9caf3da269"
+>
+</ReqRef><ReqRef
+ Id="c29d61b8-fc7e-4e30-a772-7fcd54f864fe"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="dfaa2b4c-6508-4cb4-9930-41e213df555b"
+>
+</ReqRef><ReqRef
+ Id="c8715350-50d3-418e-a138-39f03d488016"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="5dc777c4-074e-4e71-acf8-5b49fef08e10"
+>
+</ReqRef><ReqRef
+ Id="25f5d4dc-17ae-428e-804b-cad4501f9207"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="12cd13fc-ab1c-4a59-a088-e5b12859a0af"
+>
+</ReqRef><ReqRef
+ Id="cb0fc7f5-a2fc-4ade-96c4-44833122166e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6db88e9d-3400-430e-8c5a-23c1a4e203d6"
+>
+</ReqRef><ReqRef
+ Id="6b88cee7-690c-471d-bb1a-10dfa73e675a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f0488359-1b85-4aa7-b74e-106537c6674b"
+>
+</ReqRef><ReqRef
+ Id="ff71a9f1-39e5-4439-b9c5-c29510d74dd2"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="7cd7e59d-9196-439f-ba55-2f8eb86d85f5"
+>
+</ReqRef><Comment>Indicates whether the indication of an upcoming non protected level crossing should be displayed.
+
+Display if
+    EOA/SvL related to LX start location is MRDT
+    Supervision of LX Start location-&gt; LX speed restriction in MRSP
+Hide when
+    &quot;LX is protected&quot; is recceived
+    Train passed the LX end location with the min safe front end</Comment>
+<Cases>
+<Case
+ Name="Nothing to display"
+ Guid="b2043677-ed1f-45a6-9e0d-479406d48c2b"
+>
+<PreConditions>
+<PreCondition
+ Guid="8976ef73-c3fb-4715-a8aa-6bf8e6e63530"
+>FORALL X IN SupervisedLevelCrossings | X.IsProtected</PreCondition><PreCondition
+ Guid="78380289-98fa-4aa9-8404-16ccf1a129ad"
+>FORALL X IN MRSPLevelCrossings | X.IsProtected</PreCondition></PreConditions>
+<Expression>False</Expression>
+</Case><Case
+ Name="Before start of display"
+ Guid="683852d4-0c94-42db-bc6c-45a4c10f29bc"
+>
+<PreConditions>
+<PreCondition
+ Guid="a2aca15e-1f5e-42ac-867d-5bd90d918c88"
+>Available( EOAAndSvL())
+  AND  
+(
+  (
+  EOAAndSvL() != MA.EOA()
+    AND  
+  EOAAndSvL() != MA.SvL()
+  )
+    OR  
+  EOAAndSvL() != SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT()
+)</PreCondition></PreConditions>
+<Expression>False</Expression>
+</Case><Case
+ Name="After end of display"
+ Guid="9d3055c1-56be-485c-9e01-f2cb3a527744"
+>
+<PreConditions>
+<PreCondition
+ Guid="46d068d2-738d-49a5-b613-96465f2f52c5"
+>FORALL aSpeedRestriction  IN MRSPLevelCrossings | 
+(
+  aSpeedRestriction.IsProtected
+    OR  
+  TrainPosition.FrontEndPosition(DistanceIntervalEnum.Min) &gt; aSpeedRestriction.Location + BaseTypes.LengthToDistance(aSpeedRestriction.Length)
+)</PreCondition><PreCondition
+ Guid="f72ece1f-4e59-45c0-9855-564c7832c059"
+>MRSPLevelCrossings != []</PreCondition></PreConditions>
+<Expression>False</Expression>
+</Case><Case
+ Name="Display LX status not protected"
+ Guid="8e81181a-a360-4028-9cf5-a98c9a302ddf"
+>
+<Expression>True</Expression>
 </Case></Cases>
 </Function></Functions>
 <Procedures>
@@ -1570,37 +1668,6 @@ IN
  Guid="eaeb6921-d9a0-4958-91f2-a984b2a8ea0a"
 >(FIRST aLX IN Kernel.LX.MRSPLevelCrossings | aLX.Id == NID_LX).Length &lt;-(FIRST aLX IN Kernel.LX.MRSPLevelCrossings | aLX.Id == NID_LX).Length + LocationUpdate</Action></Actions>
 </RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- Implemented="TRUE"
- Name="Inform the driver"
- Guid="e0044ca1-3bd7-4fab-b3cb-cf80a0734dca"
->
-<ReqRef
- Id="c8715350-50d3-418e-a138-39f03d488016"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="b156166a-a6c7-45fb-90d6-15a704d818d6"
->
-</ReqRef><ReqRef
- Id="18f662c4-1a06-4ad0-9986-1dc47f1c5948"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="bf42ee5c-676d-4d39-aab2-05f9b1783028"
->
-</ReqRef><Comment>Finally, inform the driver about this non protected level crossing.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Inform the driver"
- Guid="4bc8f1bc-3573-41b1-97eb-d350315c8c0d"
->
-<PreConditions>
-</PreConditions>
-<Actions>
-<Action
- Guid="cb3438fb-461e-47a2-9168-e34f0ee654c3"
->DMI.MasterDMI().Out_LXStatusNotProtected.Display()</Action></Actions>
-</RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
 <Variables>
@@ -1654,124 +1721,6 @@ IN
 </Variable></Variables>
 <Rules>
 <Rule
- Priority="Processing"
- X="1"
- Y="301"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="Handle LX display"
- Guid="e0068546-9dde-4553-815c-8ae3cb5cbe59"
->
-<ReqRef
- Id="18f662c4-1a06-4ad0-9986-1dc47f1c5948"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="4bb56f4d-c2b0-43e0-8331-b8eb588a3fe2"
->
-</ReqRef><ReqRef
- Id="25f5d4dc-17ae-428e-804b-cad4501f9207"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="f09fff25-eccc-4a73-86b5-b90037fff38d"
->
-</ReqRef><Comment>Handles the display rules of the non protected level crossings.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="LX not displayed yet, MRDT is LX"
- Guid="4137f509-807d-4468-9922-6d4e586500e9"
->
-<ReqRef
- Id="c29d61b8-fc7e-4e30-a772-7fcd54f864fe"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="2262339d-1319-49ca-89bb-ba23504280e2"
->
-</ReqRef><ReqRef
- Id="18f662c4-1a06-4ad0-9986-1dc47f1c5948"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="edb6a290-6fa2-49c1-99c9-4042b60f02c6"
->
-</ReqRef><ReqRef
- Id="ff71a9f1-39e5-4439-b9c5-c29510d74dd2"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="2c64cc6f-b6c2-4826-b7e1-815a892ecce4"
->
-</ReqRef><Comment>If a non protected LX becomes an MRDT, it has to be displayed.</Comment>
-<PreConditions>
-<PreCondition
- Guid="844caf83-5600-405c-a667-ab3aeb77a763"
->Kernel.LX.SupervisedLevelCrossings != []
-
-  AND  
-
-Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT().Location == Kernel.LX.NearestLX( LXCollection =&gt; Kernel.LX.SupervisedLevelCrossings).Location
-  AND  
-Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT().Speed == 0.0</PreCondition><PreCondition
- Guid="be2849b2-d98c-45ab-95e8-0e4ecae4735a"
->NOT DMI.MasterDMI().Out_LXStatusNotProtected.OutputInformation.DisplayRequested</PreCondition><PreCondition
- Guid="caa6693a-447c-49de-97ec-4021fea274e1"
->DMI.MasterDMI().Out_TargetSpeed.OutputInformation.DisplayRequested == True</PreCondition><PreCondition
- Guid="433c1762-c317-4ac3-9395-a34b66a74ca2"
->DMI.MasterDMI().Out_TargetDistance.OutputInformation.DisplayRequested == True</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="a55924d2-3614-4ec0-b0cf-adcee82b22a9"
->DMI.MasterDMI().Out_LXStatusNotProtected.Display()</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- Name="LX already displayed, LX end location is passed"
- Guid="c7b1fae9-7c0a-4ad7-a8a7-644c62c2b481"
->
-<ReqRef
- Id="25f5d4dc-17ae-428e-804b-cad4501f9207"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="89089e75-5236-432d-9e9c-6df5e64a4c71"
->
-</ReqRef><ReqRef
- Id="6b88cee7-690c-471d-bb1a-10dfa73e675a"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="6d0cd065-4d70-41fa-a218-be0f3f4aa3ff"
->
-</ReqRef><Comment>If a non protected LX is displayed but its end location is passed, it has to be removed from the DMI.</Comment>
-<PreConditions>
-<PreCondition
- Guid="59536c72-3242-4ff5-b2ee-668c56877ea9"
->DMI.MasterDMI().Out_LXStatusNotProtected.OutputInformation.DisplayRequested == True</PreCondition><PreCondition
- Guid="570cd62d-e6c3-4bf4-98a5-66f73c5b5f58"
->THERE_IS aLX IN Kernel.LX.MRSPLevelCrossings |
-  aLX.Location + aLX.Length &lt;= Kernel.TrainPosition.FrontEndPosition( PointOfInterest =&gt; DistanceIntervalEnum.Min )</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="01f88f62-b0ed-4467-aec6-1f4c3123d7a9"
->DMI.MasterDMI().Out_LXStatusNotProtected.OutputInformation.DoNotDisplay()</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- Name="LX already displayed, LX is protected"
- Guid="2c76b7b1-e5fe-4e11-98c1-a67fc189f9b8"
->
-<ReqRef
- Id="cb0fc7f5-a2fc-4ade-96c4-44833122166e"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="657c115f-a556-4c8b-ac86-9070453ab817"
->
-</ReqRef><ReqRef
- Id="25f5d4dc-17ae-428e-804b-cad4501f9207"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="e275b9e6-c9ea-4fc7-b965-a4dfef951d3f"
->
-</ReqRef><Comment>If a non protected LX is displayed but it becomes protected, it is removed from the DMI.</Comment>
-<PreConditions>
-<PreCondition
- Guid="7a8cb1c6-907a-4bc5-8e82-8f6cdd5f8664"
->DMI.MasterDMI().Out_LXStatusNotProtected.OutputInformation.DisplayRequested == True</PreCondition><PreCondition
- Guid="0bb08515-f6b7-4264-8561-d8984d21ec31"
->Kernel.LX.NearestLX( LXCollection =&gt; Kernel.LX.MRSPLevelCrossings ).IsProtected</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="24be345a-d6c9-4ee9-b037-c1b1dc08b714"
->DMI.MasterDMI().Out_LXStatusNotProtected.OutputInformation.DoNotDisplay()</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
  Priority="Processing"
  X="1"
  Y="361"

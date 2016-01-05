@@ -606,5 +606,36 @@ INITIAL_VALUE
 >
 <Expression>BaseTypes.Speed.NA</Expression>
 </Case></Cases>
+</Function><Function
+ Type="SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target"
+ Default=""
+ X="1"
+ Y="61"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="CurrentMRSPSegment"
+ Guid="f92dbfdf-45f5-420f-bfcc-73ce905f35b7"
+>
+<Comment>Provides a target correspondin to the current segment of the MRSP (starting at the train&apos;s position, until the next discontinuity).</Comment>
+<Cases>
+<Case
+ Name="Value"
+ Guid="a9bc4f55-8a6e-42ec-a603-704d4465b864"
+>
+<Expression>SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target{
+    Location =&gt; TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom),
+    Speed =&gt; Kernel.MRSP.SpeedRestrictions(TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom)),
+    Length =&gt; BaseTypes.DistanceToLength(
+        REDUCE Discontinuities(SpeedAndDistanceMonitoring.PermittedSpeedProfile)
+        USING X IN BaseTypes.MinDistance(
+            X1 =&gt; X.Location,
+            X2 =&gt; RESULT
+            )
+        INITIAL_VALUE BaseTypes.Distance.Infinity
+        )
+}</Expression>
+</Case></Cases>
 </Function></Functions>
 </NameSpace>

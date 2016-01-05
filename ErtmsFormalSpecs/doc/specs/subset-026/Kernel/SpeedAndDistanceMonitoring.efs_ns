@@ -1587,6 +1587,38 @@ Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max)</Expression>
 <Expression>NOT BrakeCommands.EBCommanded( reason =&gt; BrakeCommands.BrakeReasonEnum.SpeedAndDistanceMonitoring )
 OR NationalValues.ReleaseOfEBIsPermitted()</Expression>
 </Case></Cases>
+</Function><Function
+ Type="BaseTypes.Speed"
+ Default=""
+ X="1"
+ Y="241"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="PermittedSpeedProfile"
+ Guid="fc687755-fa10-43c0-bbd2-bc13ea43f2db"
+>
+<Parameters>
+<Parameter
+ Type="BaseTypes.Distance"
+ Name="d"
+ Guid="094d7fab-d9e4-433a-aab7-8d5af12ed905"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="6cf22ded-76e9-4257-ac9a-938b8b63edb7"
+>
+<Expression>MIN(
+    First =&gt; MIN(
+        First =&gt; MRSP.SpeedRestrictions,
+        Second =&gt; MA.SpeedRestrictions
+        ),
+    Second =&gt; NationalValues.MaxDistInSRSpeedRestriction
+)(d)</Expression>
+</Case></Cases>
 </Function></Functions>
 <Procedures>
 <Procedure

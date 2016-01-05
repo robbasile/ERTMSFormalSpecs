@@ -681,9 +681,7 @@ The bcd notation as required by 7.5.92 is not possible in the model. Hence we st
 <Actions>
 <Action
  Guid="aee9aa7f-4169-4102-b351-66eba99c9579"
->THIS &lt;- Kernel.HandleModeChangeSM.StartOfMission</Action><Action
- Guid="c5dad18c-564b-40ea-9f84-cf4231876525"
->DMI.MasterDMI().Out_ErtmsEtcsMode.Display()</Action></Actions>
+>THIS &lt;- Kernel.HandleModeChangeSM.StartOfMission</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -5889,9 +5887,7 @@ Request driver acknowledgement before starting the mission.</Comment>
 <Actions>
 <Action
  Guid="c2ff2f06-99f6-4ffc-a1cc-75a14cb093b3"
->THIS &lt;- Kernel.HandleModeChangeSM.StartOfMission.S10</Action><Action
- Guid="9c07045d-c83d-497c-a1b8-0793c8e6e1b8"
->DMI.MasterDMI().Out_RadioNetworkRegistrationFailed.Display()</Action></Actions>
+>THIS &lt;- Kernel.HandleModeChangeSM.StartOfMission.S10</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </StateMachine></State></States>
@@ -9152,9 +9148,7 @@ The report is handled in the EURORADIO namespace</Comment>
 <PreConditions>
 </PreConditions>
 <Actions>
-<Action
- Guid="31c565eb-78c5-44f5-a021-826bc21c5ab8"
->DMI.MasterDMI().Out_ShuntingRefusedByRbc.Display()</Action></Actions>
+</Actions>
 <SubRules>
 <Rule
  Priority="Processing"
@@ -9971,34 +9965,6 @@ Kernel.OverrideSupervision.FormerSRDistance &lt; Kernel.TrainPosition.FrontEndPo
  Guid="05bdf6c2-bfb5-4f91-b20d-55d9f8e5777f"
 >Kernel.OverrideSupervision.FormerSRDistance &lt;- BaseTypes.Distance.Infinity</Action></Actions>
 </RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- Implemented="TRUE"
- Name="Display to driver"
- Guid="ec4abf5c-00f2-4f7d-959d-53c21a1c0915"
->
-<ReqRef
- Id="6bfffc4c-98dc-4742-aa70-9301ecbe28b5"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="20455f06-9aeb-47d2-907d-dbe1863814e7"
->
-</ReqRef><Comment>Display the information &quot;Override active&quot; to the driver.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Display &quot;Override&quot;"
- Guid="3a28f37f-3a59-4ef1-8532-bc909819e29b"
->
-<PreConditions>
-</PreConditions>
-<Actions>
-<Action
- Guid="508908a2-7410-4dcc-8a2c-1c051c0d09be"
->DMI.MasterDMI().Out_OverrideStatus.Display()</Action><Action
- Guid="949e79c0-9662-49b9-b39c-a37fd4d36ee5"
->DMI.MasterDMI().Out_OverrideStatus.OverrideStatus &lt;- True</Action></Actions>
-</RuleCondition></Conditions>
 </Rule></Rules>
 </StateMachine><EnterAction>
 <Rule
@@ -10676,6 +10642,26 @@ Kernel.OverrideSupervision.FormerSRDistance &lt; Kernel.TrainPosition.FrontEndPo
     FormerEOAPassed =&gt; False,
     FormerSRDistance =&gt; BaseTypes.Distance.Infinity
 }</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="111"
+ Y="361"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="OverrideActive"
+ Guid="409a3731-f022-4397-9982-ec0fa12db89e"
+>
+<Comment>Indicates whether the status of the Override function is active.</Comment>
+<Cases>
+<Case
+ Name="Value"
+ Guid="89588ddc-3469-432d-9f78-120b01e751bb"
+>
+<Expression>HandleModeChange in [HandleModeChangeSM.Override]</Expression>
 </Case></Cases>
 </Function></Functions>
 <Procedures>
@@ -12430,38 +12416,6 @@ JRU.SendNewMessage(JRU.JRU1)</PreCondition></PreConditions>
 <Action
  Guid="64fdc2b6-5a0c-4668-8243-6d9c40b99a78"
 >Kernel.HandleOutputs()</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- X="230"
- Y="560"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="Display mode"
- Guid="496d1c7f-ec8d-4d53-bcff-fe9d45fb2c3e"
->
-<ReqRef
- Id="c0f8621d-7742-4d77-95a3-e39271f0f811"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="fa7e2285-ed3e-40aa-ab19-45e8f4bc9654"
->
-</ReqRef><Comment>When the desk is open, the mode is diplayed.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="If the desk is open, send mode to the DMI"
- Guid="3efbfb47-02cd-4fcf-8b3e-7489604734ea"
->
-<PreConditions>
-<PreCondition
- Guid="5261edd1-1888-4b24-a3be-96e0042f3f52"
->DMI.DeskIsOpen(DMI.MasterDMI())</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="8a9c5110-e954-49ff-9f0c-1b49b54cf754"
->DMI.MasterDMI().Out_ErtmsEtcsMode.Display()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"

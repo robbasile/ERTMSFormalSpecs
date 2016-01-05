@@ -137,6 +137,84 @@
  Guid="3c557a3b-9a96-493d-b35f-f5e3d3d7c12d"
 >
 </ReqRef></StructureElement></Structure></Structures>
+<Functions>
+<Function
+ Type="Boolean"
+ Default=""
+ X="1"
+ Y="61"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="ReversingAllowed"
+ Guid="7751e3f3-0673-4505-94ca-9d2297be4161"
+>
+<ReqRef
+ Id="e9db5333-b289-4dc4-a0ff-2523b0f32009"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="649df0e1-36bd-48b6-a739-fb8a6ffdd7c9"
+>
+</ReqRef><ReqRef
+ Id="e5f97755-8416-4822-93e4-2c3e935d4b0e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="69601603-4046-465b-a379-612b99f7ce26"
+>
+</ReqRef><ReqRef
+ Id="29dc5283-29cc-4891-9d74-78e5761b8a31"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="5e624a40-5a9c-4fb5-a5b9-8d5c4b0bd8db"
+>
+</ReqRef><Comment>Indicates whether the rain is allowed to begin a reversing movement.</Comment>
+<Cases>
+<Case
+ Name="Value"
+ Guid="ba42e7be-863c-45f9-bd68-21517dcdd4d3"
+>
+<Expression>Odometry.TrainIsAtStandstill()
+  AND  
+FrontEndIsInRVArea()</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="1"
+ Y="121"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="FrontEndIsInRVArea"
+ Guid="fb0bafd4-6346-47e0-9207-f58a17267093"
+>
+<ReqRef
+ Id="8fbfc24f-85cf-4a9a-92c5-bdff11b4a94c"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="5439cb31-deba-4813-96b1-6fbe68096755"
+>
+</ReqRef><ReqRef
+ Id="29dc5283-29cc-4891-9d74-78e5761b8a31"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0464e484-ea6a-471c-8712-eef44870e051"
+>
+</ReqRef><Comment>Determines whether there is a stored RV area and if the estimated front end is inside it.</Comment>
+<Cases>
+<Case
+ Name="No reversing profile"
+ Guid="1a52b72e-dc04-42c3-a3ca-da5afb577096"
+>
+<PreConditions>
+<PreCondition
+ Guid="e40d0492-5c16-4c23-8c3c-0de08498de85"
+>NOT Available ( Kernel.TrackDescription.ReversingArea.ReversingAreaProfile )</PreCondition></PreConditions>
+<Expression>False</Expression>
+</Case><Case
+ Name="Value"
+ Guid="938e2924-f1a7-4689-815b-691b530a3554"
+>
+<Expression>Kernel.TrackDescription.ReversingArea.ReversingAreaProfile.Location &lt;= Kernel.TrainPosition.FrontEndPosition ( DistanceIntervalEnum.Nom )
+  AND  
+Kernel.TrainPosition.FrontEndPosition ( DistanceIntervalEnum.Nom ) &lt; Kernel.TrackDescription.ReversingArea.ReversingAreaProfile.Location + BaseTypes.LengthToDistance ( Kernel.TrackDescription.ReversingArea.ReversingAreaProfile.Length )</Expression>
+</Case></Cases>
+</Function></Functions>
 <Procedures>
 <Procedure
  X="140"
@@ -509,6 +587,21 @@
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="d9eae696-5553-4e54-9fe1-9c7d36984134"
 >
+</ReqRef><ReqRef
+ Id="e9db5333-b289-4dc4-a0ff-2523b0f32009"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="65c73fb8-ab7a-49cc-9b2d-2a836436236d"
+>
+</ReqRef><ReqRef
+ Id="8d1e3977-b707-4d35-b1ef-efbfffcd16e6"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="3add7575-2795-47ce-b0eb-81f7e629736b"
+>
+</ReqRef><ReqRef
+ Id="e3631d58-4959-4120-ba5d-9c47c20697ac"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="543bcaec-0dac-471f-9f68-2f89ef07d96f"
+>
 </ReqRef><Comment>If the train is at standstill and is inside the reversing area, the on-board proposes to the driver to select reversing.</Comment>
 <SubRules></SubRules>
 <Conditions>
@@ -520,75 +613,36 @@
 <Comment>If the train is at standstill and is inside the reversing area, the on-board proposes to the driver to select reversing.</Comment>
 <PreConditions>
 <PreCondition
- Guid="3a60ad8a-066b-4032-aad4-7f219f88137c"
->Available ( Kernel.TrackDescription.ReversingArea.ReversingAreaProfile )
-  AND  
-Kernel.TrackDescription.ReversingArea.ReversingAreaProfile.Location &lt;= Kernel.TrainPosition.FrontEndPosition ( DistanceIntervalEnum.Nom )
-  AND  
-Kernel.TrainPosition.FrontEndPosition ( DistanceIntervalEnum.Nom ) &lt; Kernel.TrackDescription.ReversingArea.ReversingAreaProfile.Location + BaseTypes.LengthToDistance ( Kernel.TrackDescription.ReversingArea.ReversingAreaProfile.Length )</PreCondition><PreCondition
- Guid="e2780f24-dfce-4f80-a1ed-40804c6f02f9"
->Odometry.TrainIsAtStandstill()</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="c6bbbe2b-df51-414e-8d94-4d76c44eb4a0"
->DMI.MasterDMI().Out_ReversingAllowed.Display()</Action></Actions>
-<SubRules>
-<Rule
- Priority="Processing"
- Implemented="TRUE"
- Name="Ask acknowledge of RV mode"
- Guid="99a34030-abb4-4de0-81bd-caf232e017fa"
->
-<ReqRef
- Id="e3631d58-4959-4120-ba5d-9c47c20697ac"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="4d6dab7d-3951-4a3f-b33a-84a4db385f24"
->
-</ReqRef><ReqRef
- Id="8d1e3977-b707-4d35-b1ef-efbfffcd16e6"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="fbbde686-60e2-4ec4-b0e3-14492941dd78"
->
-</ReqRef><ReqRef
- Id="e9db5333-b289-4dc4-a0ff-2523b0f32009"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="444bd9cb-97de-4907-bf65-2b50208b648a"
->
-</ReqRef><Comment>If the on-board equipment detects the driver&apos;s intention to reverse, it asks the driver to acknowledge the trainsition to RV mode.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Ask acknowledge of RV mode"
- Guid="ff334cc3-7e39-49af-8b39-e6763492aa47"
->
-<PreConditions>
-<PreCondition
- Guid="02c224ed-0cc3-46ef-b8e8-dec3d21df680"
->Kernel.TrackDescription.ReversingArea.DriverTriesReversing</PreCondition><PreCondition
+ Guid="a54d0740-d9d6-4ecd-930d-ad366a334730"
+>ReversingAllowed()</PreCondition><PreCondition
  Guid="a87006bb-b89e-40ff-a62f-44b80838edb8"
->NOT (DMI.MasterDMI().In_AcknOfRVMode.InputInformation.RequestStatus == RequestEnum.Request)</PreCondition></PreConditions>
+>DMI.MasterDMI().In_AcknOfRVMode.InputInformation.RequestStatus == RequestEnum.Disabled</PreCondition><PreCondition
+ Guid="02c224ed-0cc3-46ef-b8e8-dec3d21df680"
+>Kernel.TrackDescription.ReversingArea.DriverTriesReversing</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="ed5d42aa-ccad-44b5-b83e-130460638fea"
 >DMI.MasterDMI().In_AcknOfRVMode.InitiateRequest()</Action></Actions>
-</RuleCondition></Conditions>
-</Rule></SubRules>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
- Name="Stop displaying reversing"
- Guid="90328f0a-2643-46c8-8557-a501d97d34d2"
+ Name="Hide ack of reversing mode"
+ Guid="766ca48e-df02-455a-8bef-cfd05e623a92"
 >
-<Comment>If the train starts moving forwards again after stopping in a reversing area, stop displaying the reversing acknowledgements on the DMI.</Comment>
+<Comment>If the train can no longer enter RV mode but the request has been displayed, hide it.</Comment>
 <PreConditions>
 <PreCondition
- Guid="1113e21c-9e1a-49e0-a1f1-181177c541a7"
->NOT (Odometry.TrainIsAtStandstill())</PreCondition></PreConditions>
+ Guid="db77783c-afb6-44f1-9658-6c35954a36ca"
+>DMI.MasterDMI().In_AcknOfRVMode.InputInformation.RequestStatus == RequestEnum.Request</PreCondition><PreCondition
+ Guid="2eb95408-f48b-4c00-b4bc-c0fd04394790"
+>NOT
+(
+ReversingAllowed()
+  OR  
+DriverTriesReversing
+)</PreCondition></PreConditions>
 <Actions>
 <Action
- Guid="693639f6-da52-48b4-9947-750a66a4dcf4"
->DMI.MasterDMI().Out_ReversingAllowed.OutputInformation.DoNotDisplay()</Action><Action
- Guid="315ca243-f3b2-480f-87b3-9bdefeaa17b1"
+ Guid="7e30fdb1-7e05-4e31-8293-5b5edb798c12"
 >DMI.MasterDMI().In_AcknOfRVMode.InputInformation.Disable()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule

@@ -1015,34 +1015,6 @@ IN
 ON
     Packet.Sequence1</Action></Actions>
 </RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- Implemented="TRUE"
- Name="Display route unsuitabilities"
- Guid="f8360467-fd68-45b4-af74-60c647dacc4f"
->
-<ReqRef
- Id="beedf65d-aba6-4017-83dd-0fe57bc88e85"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="1bd9e0ea-3dc1-42da-ba8d-40b75846ab2a"
->
-</ReqRef><Comment>If a route unsuitability is found, it is displayed to the driver.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Display route unsuitabilities"
- Guid="0d656aad-3889-48e4-9449-e9f4ed8bca2a"
->
-<PreConditions>
-<PreCondition
- Guid="1a52cb97-8d8a-4b18-8f75-61e6c0468f61"
->THERE_IS X IN Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.Items | Kernel.TrackDescription.RouteSuitability.IsUnsuitable ( X )</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="c06648a3-cff4-478f-8884-305f08c7951e"
->DMI.MasterDMI().Out_RouteUnsuitabilities.Display()</Action></Actions>
-</RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
  X="240"

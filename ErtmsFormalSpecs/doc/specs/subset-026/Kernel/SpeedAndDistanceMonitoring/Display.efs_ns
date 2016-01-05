@@ -40,9 +40,7 @@
 <PreConditions>
 <PreCondition
  Guid="eae54f73-e54c-496a-b739-536763fd2530"
->Kernel.SpeedAndDistanceMonitoring.GetMonitoringType() == Kernel.SpeedAndDistanceMonitoring.MonitoringType.PIM
-  OR  
-Kernel.SpeedAndDistanceMonitoring.GetMonitoringType() == Kernel.SpeedAndDistanceMonitoring.MonitoringType.TSM</PreCondition></PreConditions>
+>Kernel.SpeedAndDistanceMonitoring.GetMonitoringType() in [Kernel.SpeedAndDistanceMonitoring.MonitoringType.PIM, Kernel.SpeedAndDistanceMonitoring.MonitoringType.TSM]</PreCondition></PreConditions>
 <Expression>Kernel.MA.IsEOA(Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT())
   OR  
 Kernel.MA.IsSvL(Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT())</Expression>
@@ -106,6 +104,11 @@ Kernel.MA.IsSvL(Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT())<
  Guid="5ba6a2ec-fce4-46ab-8e17-256f0a63ae84"
 >Kernel.SpeedAndDistanceMonitoring.Monitoring in [MonitoringTypeSM.Target, MonitoringTypeSM.Release]</PreCondition></PreConditions>
 <Expression>Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.V_P_DMI()</Expression>
+</Case><Case
+ Name="No monitoring"
+ Guid="04a5e145-1016-4f38-8932-0f95a42ea43c"
+>
+<Expression>BaseTypes.Speed.NA</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Speed"
@@ -149,6 +152,11 @@ Kernel.MA.IsSvL(Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT())<
  Guid="1eda699e-a4d2-4106-8a9a-daf5761de88c"
 >Kernel.SpeedAndDistanceMonitoring.Monitoring in MonitoringTypeSM.Target</PreCondition></PreConditions>
 <Expression>Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.V_SBI_DMI()</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="07d8597d-5080-4592-9364-68effd5fe51e"
+>
+<Expression>BaseTypes.Speed.NA</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -203,9 +211,7 @@ Kernel.SpeedAndDistanceMonitoring.GetMonitoringType() == Kernel.SpeedAndDistance
  Name="In TSM or PIM"
  Guid="1e9502cd-e9d2-4538-94b0-a6b1ec5dbc9c"
 >
-<Expression>Kernel.SpeedAndDistanceMonitoring.GetMonitoringType() == Kernel.SpeedAndDistanceMonitoring.MonitoringType.PIM
-  OR  
-Kernel.SpeedAndDistanceMonitoring.GetMonitoringType() == Kernel.SpeedAndDistanceMonitoring.MonitoringType.TSM</Expression>
+<Expression>Kernel.SpeedAndDistanceMonitoring.GetMonitoringType() in [Kernel.SpeedAndDistanceMonitoring.MonitoringType.PIM, Kernel.SpeedAndDistanceMonitoring.MonitoringType.TSM]</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -234,11 +240,7 @@ Kernel.SpeedAndDistanceMonitoring.GetMonitoringType() == Kernel.SpeedAndDistance
  Name="In PIM, TSM or RSM"
  Guid="2d23ed32-c791-4f2c-a838-05eef58b8112"
 >
-<Expression>Kernel.SpeedAndDistanceMonitoring.GetMonitoringType() == Kernel.SpeedAndDistanceMonitoring.MonitoringType.PIM
-  OR  
-Kernel.SpeedAndDistanceMonitoring.GetMonitoringType() == Kernel.SpeedAndDistanceMonitoring.MonitoringType.TSM
-  OR  
-Kernel.SpeedAndDistanceMonitoring.GetMonitoringType() == Kernel.SpeedAndDistanceMonitoring.MonitoringType.RSM</Expression>
+<Expression>Kernel.SpeedAndDistanceMonitoring.GetMonitoringType() in [Kernel.SpeedAndDistanceMonitoring.MonitoringType.PIM, Kernel.SpeedAndDistanceMonitoring.MonitoringType.TSM, Kernel.SpeedAndDistanceMonitoring.MonitoringType.RSM]</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Distance"
@@ -404,6 +406,72 @@ INITIAL_VALUE Kernel.MA.ClosestTarget(
     Target1 =&gt; MA.EOA(),
     Target2 =&gt; Kernel.MA.SvL()
 )</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="221"
+ Y="1"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="DisplaySBISpeed"
+ Guid="97bb1728-2cff-42ff-b083-57242a76b997"
+>
+<ReqRef
+ Id="eb90e9d9-f130-4725-b447-bd6e474f0c8b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b26dfe18-b610-472b-8a78-fd4b9000ebe8"
+>
+</ReqRef><ReqRef
+ Id="d5f24a7e-2926-4921-9498-c6e5c16964e4"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9c8a1a5f-b339-4fa5-bfe8-ecd56aee5347"
+>
+</ReqRef><Comment>Indicates whether the DMI should display the SBI speed
+.</Comment>
+<Cases>
+<Case
+ Name="Value"
+ Guid="8bc2f483-fb14-4f83-95e8-bfe092b87bc5"
+>
+<Expression>Monitoring in [MonitoringTypeSM.Ceiling, MonitoringTypeSM.Target]
+  AND  
+GetSupervisionStatus() in [SupervisionStatusEnum.Overspeed, SupervisionStatusEnum.Warning, SupervisionStatusEnum.Intervention]</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="10"
+ Y="70"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="DisplayPermittedSpeed"
+ Guid="b17119fd-7b3d-4e3e-877f-2aa079d010e3"
+>
+<ReqRef
+ Id="74e64307-2966-461e-a976-9a0194ca8514"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="7a088ca9-8522-4d16-8f30-44d2dfa604e0"
+>
+</ReqRef><ReqRef
+ Id="66b79932-5e84-4126-abe6-3094347749c2"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c78b8f8e-9b11-4aa1-a4c6-e8236d0674dd"
+>
+</ReqRef><ReqRef
+ Id="09e9b21f-a204-44c7-9829-f4221f5ff7a6"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ddd22956-4dc8-457b-856c-ad25f6fb403e"
+>
+</ReqRef><Comment>Indicates whether the DMI should display the target speed.</Comment>
+<Cases>
+<Case
+ Name="Speed and distance monitoring active"
+ Guid="e92d79c5-ad29-46d6-a718-dd96ab16deb1"
+>
+<Expression>Kernel.SpeedAndDistanceMonitoring.GetMonitoringType() in [Kernel.SpeedAndDistanceMonitoring.MonitoringType.CSM, Kernel.SpeedAndDistanceMonitoring.MonitoringType.PIM, Kernel.SpeedAndDistanceMonitoring.MonitoringType.TSM, Kernel.SpeedAndDistanceMonitoring.MonitoringType.RSM]</Expression>
 </Case></Cases>
 </Function></Functions>
 </NameSpace>

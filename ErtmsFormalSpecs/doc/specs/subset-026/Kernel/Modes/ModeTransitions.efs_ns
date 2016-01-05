@@ -8148,38 +8148,6 @@ Kernel.Modes.ModeTransitions.PrevMode == ModeEnum.SL</PreCondition></PreConditio
 </Rule><Rule
  Priority="Processing"
  Implemented="TRUE"
- Name="FS"
- Guid="3f86a7bf-7ef9-4e47-8bf0-12834e8d9248"
->
-<ReqRef
- Id="3d4bd2d4-777c-4d6d-85c1-ab231d5aee49"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="778438b4-07a2-47b9-9c56-eef2acbed6b9"
->
-</ReqRef><Comment>If the FS mode is entered and the gradient or the SSP do not cover the whole length of the train, the message Entry in FS is displayed to the driver.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Entry in FS"
- Guid="732f5a4a-c546-4fbb-904c-23c4b1656ae6"
->
-<PreConditions>
-<PreCondition
- Guid="6fbe47aa-ca2b-4420-a0b0-c8f1462ea615"
->Kernel.TrainPosition.RearEndPosition(PointOfInterest =&gt; DistanceIntervalEnum.Nom) &lt; (FIRST X IN Kernel.TrackDescription.Gradient.Gradients).Location
-  OR
-Kernel.TrainPosition.RearEndPosition(PointOfInterest =&gt; DistanceIntervalEnum.Nom) &lt; (FIRST X IN Kernel.TrackDescription.StaticSpeedProfile.SSP).Location</PreCondition><PreCondition
- Guid="3fe81a1f-a14a-42cf-86f4-2c6b8b82bf29"
->Kernel.Mode == ModeEnum.FS</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="0227ac5d-5147-488a-b254-c00debe67dd3"
->DMI.MasterDMI().Out_EntryInFsOs.Display()</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- Implemented="TRUE"
  Name="SR"
  Guid="aca2dab1-2c2b-4dcb-ab3e-9f95bc4e94ee"
 >
@@ -8270,11 +8238,6 @@ Kernel.TrainPosition.RearEndPosition(PointOfInterest =&gt; DistanceIntervalEnum.
  Guid="d46910df-d4f4-42c3-9db9-05a4b304759d"
 >
 <ReqRef
- Id="6be93d46-2f3c-4a81-bc6f-06a7adbaa419"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="efc8e2a1-2455-41ad-91a4-1cd982258c9a"
->
-</ReqRef><ReqRef
  Id="bfa19147-2761-42df-ba10-9c9270fb2bb5"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="f3870796-87dd-4780-b54a-addf152dd2e2"
@@ -8300,31 +8263,6 @@ Kernel.TrainPosition.RearEndPosition(PointOfInterest =&gt; DistanceIntervalEnum.
 </Actions>
 <SubRules>
 <Rule
- Priority="Processing"
- Implemented="TRUE"
- Name="Entry in OS"
- Guid="fb17311a-d4e5-4f9a-b3cf-69b1103902d8"
->
-<Comment>If the gradient or the SSP do not cover the whole length of the train, the message Entry in OS is displayed to the driver.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Entry in OS display"
- Guid="058db7e6-1f6f-4be0-84b9-bacd91a0e2fe"
->
-<PreConditions>
-<PreCondition
- Guid="bdaf3f2c-b960-43bc-a4ec-57911fd13a3e"
->Kernel.TrainPosition.RearEndPosition(PointOfInterest =&gt; DistanceIntervalEnum.Nom) &lt; (FIRST X IN Kernel.TrackDescription.Gradient.Gradients).Location
-  OR
-Kernel.TrainPosition.RearEndPosition(PointOfInterest =&gt; DistanceIntervalEnum.Nom) &lt; (FIRST X IN Kernel.TrackDescription.StaticSpeedProfile.SSP).Location</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="38bedf25-537f-4716-bcea-51905cd7ae66"
->DMI.MasterDMI().Out_EntryInFsOs.Display()</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
  Priority="Processing"
  Implemented="TRUE"
  Name="Cancel override"
@@ -8530,7 +8468,7 @@ Kernel.TrainPosition.RearEndPosition(PointOfInterest =&gt; DistanceIntervalEnum.
 <Actions>
 <Action
  Guid="0aa12865-2a4e-4155-b6cb-66ce493b30d1"
->Kernel.Modes.LimitedSupervision.DisplayLSSMA &lt;- False</Action></Actions>
+>LimitedSupervision.LSSMADisplayOrder &lt;- Messages.Q_LSSMA.Toggle_off</Action></Actions>
 <SubRules>
 <Rule
  Priority="Processing"
