@@ -1899,17 +1899,18 @@ AND
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="c281e1a3-f940-47ba-ab42-ca4f58a3824c"
 >
-</ReqRef><Comment>Returns True if:
-  - the driver has selected &quot;Override&quot;
-  - the train speed is less than or equal to the speed limit for triggering &quot;override&quot;.</Comment>
+</ReqRef><ReqRef
+ Id="6cb79caf-9664-41f0-8a62-909fbaf148e0"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e5606096-b7d9-4347-8d80-c72394621558"
+>
+</ReqRef><Comment>Returns True if the driver has selected &quot;Override&quot;.</Comment>
 <Cases>
 <Case
  Name="Value"
  Guid="e322a5e8-a872-4bb1-b82a-a30c01a9deb1"
 >
-<Expression>DMI.MasterDMI().In_OverrideRequest.InputInformation.DriverAnswered
-  AND  
-Odometry.TrainSpeed() &lt; Kernel.NationalValues.CurrentNV().SpeedLimitForTriggeringTheOverrideFunction</Expression>
+<Expression>DMI.MasterDMI().In_OverrideRequest.InputInformation.DriverAnswered</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -3124,9 +3125,12 @@ NOT Kernel.MA.ModeProfile.ModeProfileIsApplicable()</Expression>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="86afb637-2bd6-49a2-9eb0-3a540f4a822b"
 >
-</ReqRef><Comment>Returns True if:
-  - the driver has selected &quot;Override&quot;
-  - the train speed is less than or equal to the speed limit for triggering &quot;override&quot;.</Comment>
+</ReqRef><ReqRef
+ Id="6cb79caf-9664-41f0-8a62-909fbaf148e0"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b2dfdbb7-2a24-4368-8693-fceb8586a63f"
+>
+</ReqRef><Comment>Returns True if the driver has selected &quot;Override&quot; in &quot;Train Trip&quot; procedure.</Comment>
 <Cases>
 <Case
  Name="Value"
@@ -3236,9 +3240,12 @@ DMI.MasterDMI().In_AcknOfSRMode.InputInformation.DriverAnswered</Expression>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="696e7ac2-25a9-45ff-81b2-dfda8fd82a89"
 >
-</ReqRef><Comment>Returns True if:
-  - the driver has selected &quot;Override&quot;
-  - the train speed is less than or equal to the speed limit for triggering &quot;override&quot;.</Comment>
+</ReqRef><ReqRef
+ Id="6cb79caf-9664-41f0-8a62-909fbaf148e0"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="66f55a41-d25c-4676-b5e4-bc251306d83a"
+>
+</ReqRef><Comment>Returns True if the driver has selected &quot;Override&quot; in &quot;Start of Mission&quot; procedure.</Comment>
 <Cases>
 <Case
  Name="Value"
@@ -3921,6 +3928,11 @@ TIU.NonLeadingPermitted</Expression>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="68606fef-649a-4b70-9e35-6deea005f2bb"
 >
+</ReqRef><ReqRef
+ Id="6cb79caf-9664-41f0-8a62-909fbaf148e0"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="2e37f41a-aa02-462a-9aeb-0cc04cfcd686"
+>
 </ReqRef><Comment>Transition to SR.</Comment>
 <PreConditions>
 <PreCondition
@@ -4335,7 +4347,12 @@ If the train position is invalid, delete the stored position.</Comment>
  Name="SH"
  Guid="4dc91b00-7218-43de-9eb2-350896eaba71"
 >
-<Comment>If the current mode is SH, handle the transitions.</Comment>
+<ReqRef
+ Id="d0f2374c-749b-4fbb-9d15-8d758e11d01c"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="8cb67438-ff0f-4de1-a133-a02390037b69"
+>
+</ReqRef><Comment>If the current mode is SH, handle the transitions.</Comment>
 <PreConditions>
 <PreCondition
  Guid="e365c02c-bff3-45a5-8fea-b1b644fb7a9c"
@@ -4824,6 +4841,11 @@ If the train position is invalid, delete the stored position.</Comment>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="e687701a-9efe-48e4-a259-f9ad3b16ca57"
 >
+</ReqRef><ReqRef
+ Id="6cb79caf-9664-41f0-8a62-909fbaf148e0"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c97e71ef-f6e8-42e7-a76c-b7a4fbb4ac96"
+>
 </ReqRef><Comment>Transition to SR.</Comment>
 <PreConditions>
 <PreCondition
@@ -5284,6 +5306,11 @@ If the train position is invalid, delete the stored position.</Comment>
  Id="8162358e-10fe-45f4-90f6-aa80df16375b"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="39e15aaa-6506-4e20-8cac-79a3139e3088"
+>
+</ReqRef><ReqRef
+ Id="6cb79caf-9664-41f0-8a62-909fbaf148e0"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="5f755202-6ea2-4a76-adc9-da2508233a04"
 >
 </ReqRef><Comment>Transition to SR.</Comment>
 <PreConditions>
@@ -6235,6 +6262,11 @@ If the train position is invalid, delete the stored position.</Comment>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="3e754ddc-0005-47d9-a275-c274e512baaa"
 >
+</ReqRef><ReqRef
+ Id="6cb79caf-9664-41f0-8a62-909fbaf148e0"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ba09b385-4a82-47ce-b06f-51e4de0e3fe6"
+>
 </ReqRef><Comment>Transition to SR.</Comment>
 <PreConditions>
 <PreCondition
@@ -6595,6 +6627,11 @@ If the train position is invalid, delete the stored position.</Comment>
  Id="e31df8ad-91cc-48d8-b1bc-08033015869b"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="5357fc7b-2641-473e-af50-4c27f6d8c09e"
+>
+</ReqRef><ReqRef
+ Id="c8b3f989-1504-46c0-84e3-3b54fdc4e132"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="dbc84b3a-c644-4057-b74e-6a878a9df29a"
 >
 </ReqRef><Comment>Transition to SR.</Comment>
 <PreConditions>
@@ -7380,6 +7417,11 @@ If the train position is invalid, delete the stored position.</Comment>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="0c198f77-af53-40a6-99aa-7aee7a61f6f7"
 >
+</ReqRef><ReqRef
+ Id="6cb79caf-9664-41f0-8a62-909fbaf148e0"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="edba3a96-efd8-4213-a1bc-e5e0689c83af"
+>
 </ReqRef><Comment>Transition to SR.</Comment>
 <PreConditions>
 <PreCondition
@@ -7649,6 +7691,11 @@ If the train position is invalid, delete the stored position.</Comment>
  Id="155e7556-7d15-4a61-b6c6-8ea5b8fb8bed"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="4123d5c4-6d81-402c-a3e3-c1323e76e96f"
+>
+</ReqRef><ReqRef
+ Id="c8b3f989-1504-46c0-84e3-3b54fdc4e132"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="1ea8bb87-2b7c-4f17-9774-498e8e885eb9"
 >
 </ReqRef><Comment>Transition to SR.</Comment>
 <PreConditions>
@@ -8202,6 +8249,7 @@ Kernel.Modes.ModeTransitions.PrevMode == ModeEnum.SL</PreCondition></PreConditio
 </Rule><Rule
  Priority="Processing"
  Implemented="TRUE"
+ Verified="TRUE"
  Name="Override emergency stops"
  Guid="e77a41de-011e-4a67-b0b9-f65424882e49"
 >

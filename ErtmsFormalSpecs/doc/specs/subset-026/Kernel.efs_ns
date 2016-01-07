@@ -9944,6 +9944,11 @@ Kernel.OverrideSupervision.FormerSRDistance &lt; Kernel.TrainPosition.FrontEndPo
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="69ad2538-a36e-4b83-89d9-50e4ef90ed02"
 >
+</ReqRef><ReqRef
+ Id="353d33b3-3a7a-4759-8b9b-62204429d75a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="52f0aa38-01be-4193-97eb-b85c99f5712c"
+>
 </ReqRef><Comment>When SR mode is left with Override active, the former EOA and former distance ot run in SR mode are deleted.</Comment>
 <SubRules></SubRules>
 <Conditions>
@@ -9996,11 +10001,11 @@ Kernel.OverrideSupervision.FormerSRDistance &lt; Kernel.TrainPosition.FrontEndPo
  Name="Keep time/position"
  Guid="818a83cf-a514-4750-97fb-fb63cd3cf4b3"
 >
-<Comment>When the override function is started, keep track of the time and the train&apos;s position.</Comment>
+<Comment>When the override function is started, keep track of the time and the train&apos;s position. If the override supervision information was not computed yet, compute it.</Comment>
 <PreConditions>
 <PreCondition
  Guid="73487484-6317-433f-b27d-182c6c1faad7"
->NOT Available(Kernel.OverrideSupervision)</PreCondition></PreConditions>
+>Kernel.OverrideSupervision == OverrideStruct{}</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="50a004ec-46ec-4689-a29b-ad545f58ee5d"
@@ -11790,11 +11795,20 @@ JRU.SendNewMessage(JRU.JRU1)</PreCondition></PreConditions>
  Width="100"
  Height="50"
  Implemented="TRUE"
- NeedsRequirement="FALSE"
  Name="EndOverride"
  Guid="46a89eb4-28a7-4a35-95d2-db008fb9934f"
 >
-<Comment>Handles the end of override.</Comment>
+<ReqRef
+ Id="353d33b3-3a7a-4759-8b9b-62204429d75a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="5740ae44-ee8d-4b9a-acd0-e6ac728aa3d5"
+>
+</ReqRef><ReqRef
+ Id="1503ba8c-af0d-46c6-b258-a866be408e80"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="8bf6af2b-0f04-42a8-8c7c-8581e13c077f"
+>
+</ReqRef><Comment>Handles the end of override.</Comment>
 <Rules>
 <Rule
  Priority="Processing"
@@ -11816,7 +11830,9 @@ JRU.SendNewMessage(JRU.JRU1)</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="70a4411a-1087-4c86-b65c-3de7854e4391"
->Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.NoProcedure</Action></Actions>
+>Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.NoProcedure</Action><Action
+ Guid="147e79fc-6593-44c5-9910-7c179394fafd"
+>OverrideSupervision.FormerEOA &lt;- Default.BaseTypes.Distance.Infinity</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -12244,7 +12260,7 @@ JRU.SendNewMessage(JRU.JRU1)</PreCondition></PreConditions>
 </ReqRef><Comment>The detected safety critical faults that need to be handled.</Comment>
 </Variable><Variable
  Type="OverrideStruct"
- DefaultValue=""
+ DefaultValue="OverrideStruct{}"
  VariableMode="Internal"
  X="630"
  Y="200"
@@ -12468,6 +12484,7 @@ When the rear end of the train passes the start of the profiles, the message is 
  Width="100"
  Height="50"
  Implemented="TRUE"
+ Verified="TRUE"
  Name="Start override"
  Guid="b1e3dc85-1f10-41dd-825e-decee298c974"
 >
@@ -12501,7 +12518,7 @@ When the rear end of the train passes the start of the profiles, the message is 
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="1d33f27d-4fbf-401b-ad5b-e867333ec100"
 >
-</ReqRef><Comment>Offer selection of &quot;Override&quot; to the driver when the conditions are met and, if the driver selects &quot;Override&quot;, start the procedure.</Comment>
+</ReqRef><Comment>Offer selection of &quot;Override&quot; to the driver when the conditions are met.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
@@ -12516,7 +12533,7 @@ train data is valid (or the mode is shunting)</Comment>
 <PreConditions>
 <PreCondition
  Guid="f3325596-5c2a-4e9e-8e9d-b04bb76b9f22"
->Odometry.TrainSpeed() &lt;= Kernel.NationalValues.CurrentNV().OverrideSpeedLimitToBeSupervisedWhenOverrideIsActive</PreCondition><PreCondition
+>Odometry.TrainSpeed() &lt;= Kernel.NationalValues.CurrentNV().SpeedLimitForTriggeringTheOverrideFunction</PreCondition><PreCondition
  Guid="89bc026e-9e30-4588-8f51-bda92c55e80f"
 >Kernel.Mode in [ModeEnum.FS, ModeEnum.LS, ModeEnum.OS, ModeEnum.SR, ModeEnum.SH, ModeEnum.UN, ModeEnum.PT]
 
