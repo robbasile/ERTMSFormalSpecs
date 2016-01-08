@@ -3157,6 +3157,37 @@ True</PreCondition></PreConditions>
 >EURORADIO.RBCTransitionOrderReceived ( aPacket=&gt;Packet.TRACK_TO_TRAIN.RBC_TRANSITION_ORDER )</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
+ Name="Danger for Shunting Information available"
+ Guid="e8ccf594-23b3-4744-b15f-c4b35864e52f"
+>
+<ReqRef
+ Id="7fc85086-374e-4ffb-8cf2-1b9f49820e19"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="15a6020a-063d-4e4b-9cff-bf13e794d102"
+>
+</ReqRef><ReqRef
+ Id="48f89af6-963e-401c-b92f-a9358f6df7a4"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="bbaee891-2543-4787-a0ff-b5e598fb457b"
+>
+</ReqRef><ReqRef
+ Id="d932cea7-ce9f-4909-afff-2c36046cea2a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="af8bc229-2270-4e7f-8349-2b622375e36c"
+>
+</ReqRef><Comment>Handles danger for shunting information packet, if available.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="ee3f0441-5064-4305-9a97-cb34fdfcb6ae"
+>BTM.ConsiderPacket ( PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.DANGER_FOR_SHUNTING_INFORMATION.Q_DIR )</PreCondition><PreCondition
+ Guid="cd9409cf-f236-4e01-b50f-35db0d073fff"
+>Kernel.AcceptInformation.DangerForSHInformation( Source =&gt; Kernel.AcceptInformation.Source.BaliseGroup )</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="f9fc9537-6eef-4645-990f-5fbf39d7d5be"
+>Kernel.Modes.Shunting.DangerForShuntingReceived( Packet =&gt; Packet.TRACK_TO_TRAIN.DANGER_FOR_SHUNTING_INFORMATION )</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="Infill available"
  Guid="8e2593a0-4d11-4587-9407-2b308ebfcce2"
@@ -3189,6 +3220,37 @@ True</PreCondition></PreConditions>
 <Action
  Guid="ea30ca4a-effe-4d43-9d7d-d40dfd84ca89"
 >Kernel.Infill.InfillReceived ( Packet.TRACK_TO_TRAIN.INFILL_LOCATION_REFERENCE )</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Stop if in Staff Responsible received"
+ Guid="c81a37f3-9453-49af-8106-2a112ae51ef0"
+>
+<ReqRef
+ Id="06ef59af-bb51-412c-87ce-d6392fed31d6"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="5ac70e3a-7371-40ea-ac78-1d94399cfe97"
+>
+</ReqRef><ReqRef
+ Id="31fb455b-2925-497c-b09a-b8b9573a81ff"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="cc8c6131-376a-4df9-93e9-6fa93fd35002"
+>
+</ReqRef><ReqRef
+ Id="d932cea7-ce9f-4909-afff-2c36046cea2a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="fe412d94-645e-4e66-8efd-d7afe571ecda"
+>
+</ReqRef><Comment>Handles stop if in Staff Responsible packet, if available.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="f3d31b2a-4feb-4fc0-89e6-2a8af9b05bb0"
+>BTM.ConsiderPacket ( PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.STOP_IF_IN_STAFF_RESPONSIBLE.Q_DIR )</PreCondition><PreCondition
+ Guid="ae3b8881-0559-4f9b-bf45-671195823a70"
+>Kernel.AcceptInformation.StopIfInSRMode( Source =&gt; Kernel.AcceptInformation.Source.BaliseGroup )</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="b3cc9653-78b6-414b-a8a6-81914195a393"
+>Kernel.Modes.StaffResponsible.StopIfInSRReceived( Packet =&gt; Packet.TRACK_TO_TRAIN.STOP_IF_IN_STAFF_RESPONSIBLE )</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Reversing Area or Supervision Information available"
