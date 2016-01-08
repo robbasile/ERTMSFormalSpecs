@@ -255,17 +255,24 @@
  Name="Override active"
  Guid="1857fd33-3da2-40b2-ad13-85a503098a0f"
 >
-<Comment>If the Override function is active, the train does not stop but Override is ended.</Comment>
+<ReqRef
+ Id="c9c7c7f3-3d1c-42b1-b80c-061de2d83f8e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d2f68725-a8de-4703-9e4a-c5b15adf6e66"
+>
+</ReqRef><Comment>If the Override function is active, the train does not stop but Override is ended.</Comment>
 <PreConditions>
 <PreCondition
  Guid="4d39a90f-c81a-4f51-a5b1-20e9d9c1f07c"
->Kernel.HandleModeChange in Kernel.HandleModeChangeSM.Override</PreCondition><PreCondition
+>Override.OverrideIsActive()</PreCondition><PreCondition
  Guid="ba960bd4-10a9-4d91-b2b0-31b5a8c79323"
->NOT Kernel.ActiveFunctions.SuperviseBalisesForShunting()</PreCondition></PreConditions>
+>NOT Kernel.ActiveFunctions.SuperviseBalisesForShunting()</PreCondition><PreCondition
+ Guid="13cb848b-7b25-419d-9e68-9c559777ed7e"
+>Kernel.Mode not in [ModeEnum.UN, ModeEnum.SN]</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="a1b65b7d-2e90-4c38-be22-aa1bed1d3a6e"
->Kernel.EndOverride()</Action></Actions>
+>Override.EndOverride()</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Stop if required"

@@ -495,17 +495,24 @@ Kernel.Modes.StaffResponsible.SRAuthorisation.Location &lt;= Kernel.TrainPositio
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="8146747c-a2b6-414c-9128-aa9edb39338a"
 >
+</ReqRef><ReqRef
+ Id="c9c7c7f3-3d1c-42b1-b80c-061de2d83f8e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="3419af62-6fd6-42c6-ab7f-c75cfc1cc4c4"
+>
 </ReqRef><Comment>If the Override function is active, the train does not stop but Override is ended.</Comment>
 <PreConditions>
 <PreCondition
  Guid="c6ccbc54-4698-42e2-84cf-735584fc7270"
->Kernel.HandleModeChange in Kernel.HandleModeChangeSM.Override</PreCondition><PreCondition
+>Override.OverrideIsActive()</PreCondition><PreCondition
  Guid="2b9b3be8-ca3a-4110-b2d6-f86ce72fafa9"
->Kernel.ActiveFunctions.SuperviseBalisesForSR()</PreCondition></PreConditions>
+>Kernel.ActiveFunctions.SuperviseBalisesForSR()</PreCondition><PreCondition
+ Guid="27b64623-730b-4476-9fe1-36e87b0f5f39"
+>Kernel.Mode not in [ModeEnum.UN, ModeEnum.SN]</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="cfba8bf9-5231-4e99-acf5-5b104f9d1dde"
->Kernel.EndOverride()</Action></Actions>
+>Override.EndOverride()</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Handle packet"

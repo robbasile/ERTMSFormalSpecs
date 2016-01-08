@@ -2931,6 +2931,11 @@ Kernel.MA.MATimers.EndSectionTimerStart != BaseTypes.Time.NA
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="c53d8ba1-e994-4318-9d8a-5e790e6ee731"
 >
+</ReqRef><ReqRef
+ Id="c9c7c7f3-3d1c-42b1-b80c-061de2d83f8e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b45fc0ee-504c-4701-bed3-3908a66484bc"
+>
 </ReqRef><Comment>Ends the Override function if the MA received is not a trip order (if V_MAIN != 0).</Comment>
 <SubRules></SubRules>
 <Conditions>
@@ -2942,11 +2947,13 @@ Kernel.MA.MATimers.EndSectionTimerStart != BaseTypes.Time.NA
 <PreConditions>
 <PreCondition
  Guid="bd46248f-d028-4d5e-95b6-25ea8c62ed58"
->Kernel.HandleModeChange in Kernel.HandleModeChangeSM.Override</PreCondition></PreConditions>
+>Override.OverrideIsActive()</PreCondition><PreCondition
+ Guid="053853b8-9c88-4d62-ba52-8d9b2261b3a4"
+>Kernel.Mode not in [ModeEnum.UN, ModeEnum.SN]</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="fec4ea71-9030-4796-a90a-2d1c21a90d00"
->Kernel.EndOverride()</Action></Actions>
+>Override.EndOverride()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -3111,6 +3118,11 @@ Kernel.MA.MATimers.LOATimerStart &lt;- Kernel.MA.MATimers.CurrentBGTimeOfPassage
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="154d3390-eeb7-4179-a42a-789e2abe0f3d"
 >
+</ReqRef><ReqRef
+ Id="c9c7c7f3-3d1c-42b1-b80c-061de2d83f8e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="522c0c40-9182-4b47-907e-eb0ee723dcc4"
+>
 </ReqRef><Comment>Ends the Override function if the MA received is not a trip order (if V_MAIN != 0).</Comment>
 <SubRules></SubRules>
 <Conditions>
@@ -3122,13 +3134,15 @@ Kernel.MA.MATimers.LOATimerStart &lt;- Kernel.MA.MATimers.CurrentBGTimeOfPassage
 <PreConditions>
 <PreCondition
  Guid="6c1d680b-de67-4a2b-b1e5-4f97fa26d8d4"
->Kernel.HandleModeChange in Kernel.HandleModeChangeSM.Override</PreCondition><PreCondition
+>Override.OverrideIsActive()</PreCondition><PreCondition
  Guid="18ef947f-814b-4b60-9630-be17bd17273e"
->Packet.V_MAIN != 0</PreCondition></PreConditions>
+>Packet.V_MAIN != 0</PreCondition><PreCondition
+ Guid="af686ed0-4141-488a-8e9d-316c1d0246a0"
+>Kernel.Mode not in [ModeEnum.UN, ModeEnum.SN]</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="2b82f74d-810e-4f72-977c-0ca411d9a9bd"
->Kernel.EndOverride()</Action></Actions>
+>Override.EndOverride()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure

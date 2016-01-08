@@ -1,0 +1,512 @@
+<NameSpace
+ X="780"
+ Y="130"
+ Width="100"
+ Height="50"
+ Name="Override"
+ Guid="30b135fc-d374-4855-bce0-804f02f62e01"
+>
+<NameSpaces>
+</NameSpaces>
+<Structures>
+<Structure
+ Default=""
+ X="40"
+ Y="10"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="OverrideStruct"
+ Guid="6846afff-0879-454d-808c-c741e2c2be09"
+>
+<ReqRef
+ Id="772e0087-dcb8-45bf-a888-56863cd592af"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e4665502-f20f-4ae5-9eef-9d6589a6dc5c"
+>
+</ReqRef><Comment>Structure of the elements supervised for the end of the override function.</Comment>
+<StructureElement
+ TypeName="BaseTypes.Time"
+ Default="BaseTypes.Time.Infinity"
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="StartTime"
+ Guid="6c2d41ef-ee1d-43d1-ab48-93cd103471f1"
+>
+<ReqRef
+ Id="8cf2cb63-f4b5-47e6-8f30-09f773417468"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="368ca11d-1a00-4043-a5bc-c52d224dfa30"
+>
+</ReqRef><Comment>Stores the time when the Override was activates. When the train reached the maximum allowed time to run with Override active (a national value), Override ends.</Comment>
+</StructureElement><StructureElement
+ TypeName="BaseTypes.Distance"
+ Default="BaseTypes.Distance.Infinity"
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="StartLocation"
+ Guid="b1fd4423-0b7f-4a90-a6e0-0db208bb07d9"
+>
+<ReqRef
+ Id="53125a9b-26fb-4d1d-bc8f-0e7ab8e929ee"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="88190445-977c-49b5-99a7-7e758d1dcf5b"
+>
+</ReqRef><Comment>The location where the Override was entered. When the train covers the maximum allowed distance to run with Override active (a national value), Override ends.</Comment>
+</StructureElement><StructureElement
+ TypeName="BaseTypes.Distance"
+ Default="BaseTypes.Distance.Infinity"
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="FormerEOA"
+ Guid="b8f6f2a0-ea1f-4d1a-9996-f07696441220"
+>
+<ReqRef
+ Id="89900100-9bcf-431a-af98-adc2b2350eea"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="975b7fb5-b8ca-4164-8475-9ead0279a62c"
+>
+</ReqRef><Comment>When the former EOA (if the mode was SR before the driver pressed &quot;Override&quot;) is passed with the active antenna, the Override ends.</Comment>
+</StructureElement><StructureElement
+ TypeName="BaseTypes.Distance"
+ Default="BaseTypes.Distance.Infinity"
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="FormerSRDistance"
+ Guid="ef25fcc8-c4f6-4444-8efc-cc199d9b97b2"
+>
+<ReqRef
+ Id="2ef118e4-847b-423d-9ca2-dbddfc439fbb"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="127c1e54-38d8-411a-ae3c-956ee67ff50c"
+>
+</ReqRef><Comment>When the former distance to run in SR (if the mode was SR before the driver pressed &quot;Override&quot;) is passed with the train front end, the Override ends.</Comment>
+</StructureElement><StructureElement
+ TypeName="Boolean"
+ Default="False"
+ Mode="Internal"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="FormerEOAPassed"
+ Guid="f75532ee-2783-49a2-9925-9866fdff39f7"
+>
+<Comment>Indicates that the former EOA was passed while Override was active.</Comment>
+</StructureElement></Structure></Structures>
+<Functions>
+<Function
+ Type="Boolean"
+ Default=""
+ X="260"
+ Y="100"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="OverrideIsActive"
+ Guid="409a3731-f022-4397-9982-ec0fa12db89e"
+>
+<ReqRef
+ Id="6bfffc4c-98dc-4742-aa70-9301ecbe28b5"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="dcc68425-01f1-418b-919c-1ac0a0ec25e3"
+>
+</ReqRef><Comment>Indicates whether the status of the Override function is active.</Comment>
+<Cases>
+<Case
+ Name="Value"
+ Guid="89588ddc-3469-432d-9f78-120b01e751bb"
+>
+<Expression>HandleModeChange in [HandleModeChangeSM.Override]</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Override.OverrideStruct"
+ Default=""
+ X="380"
+ Y="100"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="CreateOverrideSupervision"
+ Guid="02edb472-4f83-4aa3-a358-a432a0a2b778"
+>
+<ReqRef
+ Id="772e0087-dcb8-45bf-a888-56863cd592af"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c648210c-6062-4901-b2bc-0841f7d31bbc"
+>
+</ReqRef><ReqRef
+ Id="8cf2cb63-f4b5-47e6-8f30-09f773417468"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="bd0ba1dc-93eb-4795-822d-57352eee2cb3"
+>
+</ReqRef><ReqRef
+ Id="53125a9b-26fb-4d1d-bc8f-0e7ab8e929ee"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e279b0fe-0107-4e6e-9553-2839a67f50cd"
+>
+</ReqRef><ReqRef
+ Id="89900100-9bcf-431a-af98-adc2b2350eea"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="8620ead6-5a7d-4472-bea4-92c331358117"
+>
+</ReqRef><ReqRef
+ Id="2ef118e4-847b-423d-9ca2-dbddfc439fbb"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="698a332b-3299-4812-abda-a0fa4860e8e5"
+>
+</ReqRef><ReqRef
+ Id="c176c2fd-8220-4c07-85eb-a6e9249944c8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a138dbe8-51de-4bd1-aa3a-fe63aa80da2e"
+>
+</ReqRef><Comment>Fills the elements used in end of override supervision. The default values for any unused field are all infinity.</Comment>
+<Cases>
+<Case
+ Name="Value"
+ Guid="e6b80f3f-f2db-4c81-b680-c5a4cbb63d54"
+>
+<Expression>Kernel.Override.OverrideStruct
+{
+    StartTime =&gt; DateAndTime.CurrentTime,
+    StartLocation =&gt; Odometry.NominalDistance,
+    FormerEOA =&gt; ComputeFormerEOA(),
+    FormerEOAPassed =&gt; False,
+    FormerSRDistance =&gt; ComputeFormerSRDistance()
+}</Expression>
+</Case></Cases>
+</Function><Function
+ Type="BaseTypes.Distance"
+ Default=""
+ X="551"
+ Y="1"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="ComputeFormerEOA"
+ Guid="aceb91b4-76de-4d26-b6ab-f563e862ad7b"
+>
+<ReqRef
+ Id="c176c2fd-8220-4c07-85eb-a6e9249944c8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="63a83929-9182-4f4a-8ca6-a2d4fb25b466"
+>
+</ReqRef><ReqRef
+ Id="89900100-9bcf-431a-af98-adc2b2350eea"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="5e0552ba-8f0e-4c14-baa3-826c92ad02b9"
+>
+</ReqRef><ReqRef
+ Id="b5348bb2-ed11-48b7-89f4-8e3118fd396a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d8a36f8b-2c44-4cab-83f6-8b7a59bae3c2"
+>
+</ReqRef><Comment>Computes the former FA when the Override is activated.</Comment>
+<Cases>
+<Case
+ Name="SB or PT mode"
+ Guid="38299d11-9ff2-4aa6-912b-cf2db11d3255"
+>
+<PreConditions>
+<PreCondition
+ Guid="9e1640cc-d2b5-4b0b-b3e4-54d34380580b"
+>Kernel.Mode in [ModeEnum.SB, ModeEnum.PT]</PreCondition></PreConditions>
+<Expression>Odometry.NominalDistance</Expression>
+</Case><Case
+ Name="FS, LS or OS mode"
+ Guid="4692c3cf-db45-4f56-b1e9-08aa1d2df5c5"
+>
+<PreConditions>
+<PreCondition
+ Guid="cc13a10d-575d-4958-8f6c-2533f862aef9"
+>Kernel.Mode in [ModeEnum.FS, ModeEnum.LS, ModeEnum.OS]</PreCondition></PreConditions>
+<Expression>MA.EOA().Location</Expression>
+</Case><Case
+ Name="No MA"
+ Guid="52f9a63c-399c-46ec-8c52-bba726c89ed1"
+>
+<Expression>BaseTypes.Distance.Infinity</Expression>
+</Case></Cases>
+</Function><Function
+ Type="BaseTypes.Distance"
+ Default=""
+ X="661"
+ Y="1"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="ComputeFormerSRDistance"
+ Guid="b43bcfd2-5cb0-4e6f-b7be-09492a68725a"
+>
+<ReqRef
+ Id="2ef118e4-847b-423d-9ca2-dbddfc439fbb"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ac9e5945-964a-450e-a258-bf66226b228f"
+>
+</ReqRef><Comment>Computes the former SR distance when Override is activated.</Comment>
+<Cases>
+<Case
+ Name="SR Mode, MA available"
+ Guid="73fe4c7d-5104-4f1c-b365-aa7bbba3c36f"
+>
+<PreConditions>
+<PreCondition
+ Guid="3435614c-b411-4a76-ab2d-738f68231ca4"
+>Kernel.Mode == ModeEnum.SR</PreCondition><PreCondition
+ Guid="dc8684f7-9a39-4b23-b7ed-cf85f596f3c4"
+>Available (Kernel.MA.MA)</PreCondition></PreConditions>
+<Expression>TrainPosition.SRStartDistance + Modes.StaffResponsible.DistanceToRun()</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="06a47120-b3c6-4c92-8a90-ff35dae5f3c2"
+>
+<Expression>BaseTypes.Distance.Infinity</Expression>
+</Case></Cases>
+</Function></Functions>
+<Procedures>
+<Procedure
+ X="260"
+ Y="10"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="EntryInOverride"
+ Guid="ed94cf2e-a14c-45bd-8258-bca590c0bf58"
+>
+<Comment>Procedure for handling the initiation of Override.</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Delete train position in SoM"
+ Guid="6dce938d-d516-44be-ab40-1546e1ef1d8e"
+>
+<ReqRef
+ Id="ea9d2d52-6bdb-4a6e-9836-53be43a10271"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f36a0c7b-f5bb-4f3a-b84b-9776cdc78423"
+>
+</ReqRef><Comment>If the driver selects &quot;Override&quot; during the Start of Mission procedure, before the train position is validated, the position data is deleted (the data state becomes &quot;Unknown&quot;).</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Delete train position in SoM"
+ Guid="21f38b96-59db-4282-a0ef-c8ecbaaea010"
+>
+<PreConditions>
+<PreCondition
+ Guid="233d466f-c13c-48ce-b531-3f6d6409cf04"
+>TrainData.TrainData.DataState == DataStateEnum.Valid</PreCondition><PreCondition
+ Guid="3f8076a9-083b-45f2-8b1e-a94cdecf7ee6"
+>Kernel.HandleModeChange in [Kernel.HandleModeChangeSM.StartOfMission.S10, Kernel.HandleModeChangeSM.StartOfMission.S20]</PreCondition><PreCondition
+ Guid="54366b06-846d-4f54-9579-7705393fafe6"
+>Kernel.TrainPosition.Position.DataState == DataStateEnum.Invalid</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="e4a4be8d-1fcb-4ea1-945a-bbb90d84c8ad"
+>DeleteInformation(Kernel.TrainPosition.Position)</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Start Override"
+ Guid="320bf327-4cdf-4db7-90c9-adcb5eb8e75a"
+>
+<Comment>Begin the Override procedure.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Start Override"
+ Guid="7ef77041-24a9-43ef-9bba-d11046e37500"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="45c6dd0a-b525-4d63-b8ac-302a43f9eaed"
+>Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.Override</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="380"
+ Y="10"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="EndOverride"
+ Guid="46a89eb4-28a7-4a35-95d2-db008fb9934f"
+>
+<ReqRef
+ Id="353d33b3-3a7a-4759-8b9b-62204429d75a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="5740ae44-ee8d-4b9a-acd0-e6ac728aa3d5"
+>
+</ReqRef><ReqRef
+ Id="1503ba8c-af0d-46c6-b258-a866be408e80"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="8bf6af2b-0f04-42a8-8c7c-8581e13c077f"
+>
+</ReqRef><Comment>Handles the end of override.</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="End override"
+ Guid="2dcf3833-1680-4550-a670-413ba3dc3902"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="End override"
+ Guid="859677c6-d19b-4cfb-9dfb-bfab9fec2331"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="70a4411a-1087-4c86-b65c-3de7854e4391"
+>Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.NoProcedure</Action><Action
+ Guid="147e79fc-6593-44c5-9910-7c179394fafd"
+>Kernel.Override.OverrideSupervision.FormerEOA &lt;- Default.BaseTypes.Distance.Infinity</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure></Procedures>
+<Variables>
+<Variable
+ Type="OverrideStruct"
+ DefaultValue="Kernel.Override.OverrideStruct{}"
+ VariableMode="Internal"
+ X="40"
+ Y="100"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="OverrideSupervision"
+ Guid="cf58c50f-847f-4c1c-a73d-58f17831de7c"
+>
+<ReqRef
+ Id="772e0087-dcb8-45bf-a888-56863cd592af"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="53f776ee-e7af-41ae-8630-ca52345ebb95"
+>
+</ReqRef><ReqRef
+ Id="8cf2cb63-f4b5-47e6-8f30-09f773417468"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="79021528-aa2f-4b5f-9062-2b44033f11de"
+>
+</ReqRef><ReqRef
+ Id="53125a9b-26fb-4d1d-bc8f-0e7ab8e929ee"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="756007a0-d4ad-414a-b48b-a2c5f1419a57"
+>
+</ReqRef><ReqRef
+ Id="89900100-9bcf-431a-af98-adc2b2350eea"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f85b4368-cfed-4662-8fff-1a51f69ec18c"
+>
+</ReqRef><ReqRef
+ Id="2ef118e4-847b-423d-9ca2-dbddfc439fbb"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c59f336f-b2f2-4e8e-9cb2-404b52a80e33"
+>
+</ReqRef><Comment>The elements used in end of Override supervision.</Comment>
+</Variable></Variables>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="40"
+ Y="220"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="Start override"
+ Guid="b1e3dc85-1f10-41dd-825e-decee298c974"
+>
+<ReqRef
+ Id="d49a941c-d8b5-4e50-b2ec-1b316ac95380"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="442e638b-b9ae-416a-9502-b86495fbebdd"
+>
+</ReqRef><ReqRef
+ Id="b6c74cc9-fab4-4443-8044-94744d509710"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="60815184-e046-47fc-b7d1-99409d485f21"
+>
+</ReqRef><ReqRef
+ Id="eacc4d2f-2afc-4984-8b90-39c8df55a09c"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0dbc5fc0-707a-4e47-8af7-997c80c0ed8e"
+>
+</ReqRef><ReqRef
+ Id="efea06c4-e975-4824-a134-e96d2951823a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="dc9b11c5-dbaa-4cfd-8a6d-bc9a209a7c2e"
+>
+</ReqRef><ReqRef
+ Id="05727841-f740-43e0-b45d-53ac5d5b8d94"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="96a71151-6d24-4008-ad49-7e07df284d16"
+>
+</ReqRef><ReqRef
+ Id="367acb62-7870-4387-9a8f-345d0059c752"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="1d33f27d-4fbf-401b-ad5b-e867333ec100"
+>
+</ReqRef><Comment>Offer selection of &quot;Override&quot; to the driver when the conditions are met.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Offer selection of Override function to the driver"
+ Guid="34934ae3-8cac-42ba-8d97-008701286c8e"
+>
+<Comment>The &quot;Override&quot; button shall be presented to the driver if
+the speed is below the override speed limit
+the current mode is in the list
+train data is valid (or the mode is shunting)</Comment>
+<PreConditions>
+<PreCondition
+ Guid="f3325596-5c2a-4e9e-8e9d-b04bb76b9f22"
+>Odometry.TrainSpeed() &lt;= Kernel.NationalValues.CurrentNV().SpeedLimitForTriggeringTheOverrideFunction</PreCondition><PreCondition
+ Guid="89bc026e-9e30-4588-8f51-bda92c55e80f"
+>Kernel.Mode in [ModeEnum.FS, ModeEnum.LS, ModeEnum.OS, ModeEnum.SR, ModeEnum.SH, ModeEnum.UN, ModeEnum.PT]
+
+  OR  
+
+(
+  Kernel.Level.Value.Value in [LevelEnum.L2, LevelEnum.L3]
+    AND  
+  Kernel.Mode == ModeEnum.SB
+)
+
+  OR  
+
+(
+  Kernel.Level.Value.Value == LevelEnum.LNTC
+    AND  
+  Kernel.Mode == ModeEnum.SN
+)</PreCondition><PreCondition
+ Guid="ae0dfdfe-20fd-4409-9b91-c08c8f9c6ce1"
+>TrainData.TrainData.DataState == DataStateEnum.Valid
+
+  OR  
+
+Kernel.Mode == ModeEnum.SH</PreCondition><PreCondition
+ Guid="3e5831d6-3cad-4abd-bf05-5319aed2d040"
+>Kernel.ActiveFunctions.EnableOverride()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="bab8de6a-7a28-4649-98e6-e6e684ccc6f2"
+>DMI.MasterDMI().In_OverrideRequest.InitiateRequest()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</NameSpace>

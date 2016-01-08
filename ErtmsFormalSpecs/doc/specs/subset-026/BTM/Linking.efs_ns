@@ -1780,8 +1780,7 @@ Activate the service brake if a second linked BG in a row is missed.</Comment>
 <Actions>
 <Action
  Guid="8d1a6745-9466-4063-a719-d54c187a08dc"
->BTM.Linking.MessageRejected &lt;- 
-NOT Kernel.Modes.Shunting.BGIsExpected(BTM.CurrentBaliseGroup)</Action></Actions>
+>BTM.Linking.MessageRejected &lt;- NOT Kernel.Modes.Shunting.BGIsExpected(BTM.CurrentBaliseGroup)</Action></Actions>
 <SubRules>
 <Rule
  Priority="Processing"
@@ -1811,11 +1810,13 @@ NOT Kernel.Modes.Shunting.BGIsExpected(BTM.CurrentBaliseGroup)</Action></Actions
 <PreConditions>
 <PreCondition
  Guid="4d72ed6a-34ed-4ae1-bee2-5d3eee748c56"
->Kernel.HandleModeChange in Kernel.HandleModeChangeSM.Override</PreCondition></PreConditions>
+>Kernel.Override.OverrideIsActive()</PreCondition><PreCondition
+ Guid="7cc8d037-8b04-42f7-ba28-aa0267b49cb4"
+>NOT Kernel.Modes.Shunting.BGIsExpected(BTM.CurrentBaliseGroup)</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="a1911e56-0595-4442-9bba-9d751ab62385"
->Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.NoProcedure</Action></Actions>
+>Kernel.Override.EndOverride()</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Otherwise"
@@ -1823,7 +1824,9 @@ NOT Kernel.Modes.Shunting.BGIsExpected(BTM.CurrentBaliseGroup)</Action></Actions
 >
 <Comment>Otherwise, the the train will Trip.</Comment>
 <PreConditions>
-</PreConditions>
+<PreCondition
+ Guid="dd9b3225-2527-4b38-b5cc-9e1c9a9aec2c"
+>NOT Kernel.Override.OverrideIsActive()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="834b94d2-1cc0-44a6-9de5-016da6df76c4"
@@ -1848,8 +1851,7 @@ NOT Kernel.Modes.Shunting.BGIsExpected(BTM.CurrentBaliseGroup)</Action></Actions
 <Actions>
 <Action
  Guid="6cb1c474-bc67-4f05-835f-4028f0ac9989"
->BTM.Linking.MessageRejected &lt;- 
-NOT Kernel.Modes.StaffResponsible.BGIsExpected(BTM.CurrentBaliseGroup)</Action></Actions>
+>BTM.Linking.MessageRejected &lt;- NOT Kernel.Modes.StaffResponsible.BGIsExpected(BTM.CurrentBaliseGroup)</Action></Actions>
 <SubRules>
 <Rule
  Priority="Processing"
@@ -1879,13 +1881,13 @@ NOT Kernel.Modes.StaffResponsible.BGIsExpected(BTM.CurrentBaliseGroup)</Action><
 <PreConditions>
 <PreCondition
  Guid="99004535-a5d7-4dad-b64c-4b6ccd0e0a0a"
->Kernel.HandleModeChange in Kernel.HandleModeChangeSM.Override</PreCondition><PreCondition
- Guid="cda6dbac-1ddb-4e29-8b9b-56e7a8bb178c"
+>Kernel.Override.OverrideIsActive()</PreCondition><PreCondition
+ Guid="27d3d240-9b53-4aab-802c-a16ca17e0216"
 >NOT Kernel.Modes.StaffResponsible.BGIsExpected(BTM.CurrentBaliseGroup)</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="50b573f5-f985-4c63-a42e-68a3738515a0"
->Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.NoProcedure</Action></Actions>
+>Kernel.Override.EndOverride()</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Otherwise"
@@ -1894,8 +1896,8 @@ NOT Kernel.Modes.StaffResponsible.BGIsExpected(BTM.CurrentBaliseGroup)</Action><
 <Comment>Otherwise, the the train will Trip.</Comment>
 <PreConditions>
 <PreCondition
- Guid="2ea72c49-38c0-4146-9bc3-1ff2bb440767"
->Kernel.HandleModeChange not in Kernel.HandleModeChangeSM.Override</PreCondition></PreConditions>
+ Guid="e6c3708a-6599-485b-9b48-0b9a8b0301e7"
+>NOT Kernel.Override.OverrideIsActive()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="da4003ca-f51b-4105-998f-3eb77cbdfcde"
