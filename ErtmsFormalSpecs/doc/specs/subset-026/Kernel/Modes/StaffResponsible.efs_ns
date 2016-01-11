@@ -281,7 +281,7 @@ Kernel.Modes.StaffResponsible.SRAuthorisation.Location &lt;= Kernel.TrainPositio
  Guid="738bcd15-c113-45d0-8ca8-16a08f625fc7"
 >Available(Kernel.Modes.StaffResponsible.SRAuthorisation)</PreCondition><PreCondition
  Guid="5af6ee90-8c46-4ec6-a4d6-06ccf8474ed5"
->Kernel.HandleModeChange not in Kernel.HandleModeChangeSM.Override</PreCondition></PreConditions>
+>NOT Kernel.Override.OverrideIsActive()</PreCondition></PreConditions>
 <Expression>Kernel.Modes.StaffResponsible.SRAuthorisation.Location</Expression>
 </Case><Case
  Name="Use national value"
@@ -512,7 +512,9 @@ Kernel.Modes.StaffResponsible.SRAuthorisation.Location &lt;= Kernel.TrainPositio
 <Actions>
 <Action
  Guid="cfba8bf9-5231-4e99-acf5-5b104f9d1dde"
->Override.EndOverride()</Action></Actions>
+>Override.EndOverride()</Action><Action
+ Guid="ee530426-7a3a-43f9-a36e-2095195fbb0f"
+>Kernel.Override.OverrideSupervision.FormerEOA &lt;- Default.BaseTypes.Distance.Infinity</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Handle packet"

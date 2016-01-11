@@ -221,6 +221,15 @@
 >Kernel.Mode in [ModeEnum.FS, ModeEnum.LS, ModeEnum.OS]</PreCondition></PreConditions>
 <Expression>MA.EOA().Location</Expression>
 </Case><Case
+ Name="SR mode"
+ Guid="cf8aa8e3-a0c7-44c3-849f-a0141e2766ef"
+>
+<PreConditions>
+<PreCondition
+ Guid="a01226c9-c131-421c-a773-ffbc5c3acc08"
+>Kernel.Mode == ModeEnum.SR</PreCondition></PreConditions>
+<Expression>OverrideSupervision.FormerEOA</Expression>
+</Case><Case
  Name="No MA"
  Guid="52f9a63c-399c-46ec-8c52-bba726c89ed1"
 >
@@ -339,20 +348,11 @@
  Width="100"
  Height="50"
  Implemented="TRUE"
+ NeedsRequirement="FALSE"
  Name="EndOverride"
  Guid="46a89eb4-28a7-4a35-95d2-db008fb9934f"
 >
-<ReqRef
- Id="353d33b3-3a7a-4759-8b9b-62204429d75a"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="5740ae44-ee8d-4b9a-acd0-e6ac728aa3d5"
->
-</ReqRef><ReqRef
- Id="1503ba8c-af0d-46c6-b258-a866be408e80"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="8bf6af2b-0f04-42a8-8c7c-8581e13c077f"
->
-</ReqRef><Comment>Handles the end of override.</Comment>
+<Comment>Handles the end of override.</Comment>
 <Rules>
 <Rule
  Priority="Processing"
@@ -374,9 +374,7 @@
 <Actions>
 <Action
  Guid="70a4411a-1087-4c86-b65c-3de7854e4391"
->Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.NoProcedure</Action><Action
- Guid="147e79fc-6593-44c5-9910-7c179394fafd"
->Kernel.Override.OverrideSupervision.FormerEOA &lt;- Default.BaseTypes.Distance.Infinity</Action></Actions>
+>Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.NoProcedure</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>

@@ -783,7 +783,7 @@ Odometry.TrainIsAtStandstill()</Expression>
 >
 <Expression>Kernel.Modes.Shunting.StopIfInShunting
   AND  
-Kernel.HandleModeChange not in Kernel.HandleModeChangeSM.Override</Expression>
+NOT Kernel.Override.OverrideIsActive()</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -824,7 +824,7 @@ Kernel.HandleModeChange not in Kernel.HandleModeChangeSM.Override</Expression>
  Name="Value"
  Guid="5686c435-0bc4-418f-8e0c-8a3b1ddb1349"
 >
-<Expression>Kernel.HandleModeChange in Kernel.HandleModeChangeSM.Override
+<Expression>Kernel.Override.OverrideIsActive()
   AND  
 Kernel.Level.Value.Value == LevelEnum.L1</Expression>
 </Case></Cases>
@@ -863,7 +863,7 @@ Override.OverrideSupervision.FormerEOA &lt; Kernel.TrainPosition.FrontEndPositio
 NOT Override.OverrideSupervision.FormerEOAPassed
 )
   AND  
-Kernel.HandleModeChange not in Kernel.HandleModeChangeSM.Override</Expression>
+NOT Kernel.Override.OverrideIsActive()</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -956,7 +956,7 @@ TIU.NonLeadingPermitted</Expression>
  Name="Value"
  Guid="6e85bf2e-e3a7-472c-9cea-c751c8b54f03"
 >
-<Expression>Kernel.HandleModeChange in Kernel.HandleModeChangeSM.Override
+<Expression>Kernel.Override.OverrideIsActive()
   AND  
 NOT THERE_IS EmergencyStop IN Kernel.BrakeCommands.EmergencyStops | (NOT EmergencyStop.IsConditional)
   AND  
@@ -1260,7 +1260,7 @@ DMI.MasterDMI().In_AcknOfSNMode.InputInformation.DriverAnswered</Expression>
 >
 <Expression>Kernel.Modes.Shunting.UnexpectedBGPassed
   AND  
-Kernel.HandleModeChange not in Kernel.HandleModeChangeSM.Override</Expression>
+NOT Kernel.Override.OverrideIsActive</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -1350,7 +1350,7 @@ DMI.MasterDMI().In_AcknOfUNMode.InputInformation.DriverAnswered</Expression>
 >VersionManagement.MainVersionFromDetailledVersion(VersionManagement.OperatedSystemVersion) == VersionManagement.SystemMainVersion_Enum.Version1</PreCondition></PreConditions>
 <Expression>Kernel.Modes.StaffResponsible.StopIfInStaffResponsible
   AND  
-Kernel.HandleModeChange not in Kernel.HandleModeChangeSM.Override</Expression>
+NOT Kernel.Override.OverrideIsActive()</Expression>
 </Case><Case
  Name="Value"
  Guid="7df588b1-7b61-44ff-b4c0-8cef08b7afe0"
@@ -1363,7 +1363,7 @@ Kernel.HandleModeChange not in Kernel.HandleModeChangeSM.Override</Expression>
   FORALL BaliseGroup IN Kernel.Modes.StaffResponsible.SRAuthorisation.BGs | ((FIRST X IN BTM.CurrentBaliseGroup).Telegram.NID_BG != BaliseGroup.NID_BG  OR  (FIRST X IN BTM.CurrentBaliseGroup).Telegram.NID_C != BaliseGroup.NID_C) 
 )
   AND  
-Kernel.HandleModeChange not in Kernel.HandleModeChangeSM.Override</Expression>
+NOT Kernel.Override.OverrideIsActive()</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -1396,7 +1396,7 @@ Kernel.HandleModeChange not in Kernel.HandleModeChangeSM.Override</Expression>
 >
 <Expression>Kernel.TrainPosition.DistanceRunInSR(DistanceIntervalEnum.Nom) &gt; Kernel.Modes.StaffResponsible.DistanceToRun()
   AND  
-Kernel.HandleModeChange not in Kernel.HandleModeChangeSM.Override</Expression>
+NOT Kernel.Override.OverrideIsActive()</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -1669,7 +1669,7 @@ TIU.PassiveShuntingPermitted</Expression>
 >
 <Expression>Kernel.SpeedAndDistanceMonitoring.TrainTripped
   AND  
-Kernel.HandleModeChange not in Kernel.HandleModeChangeSM.Override</Expression>
+NOT Kernel.Override.OverrideIsActive()</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -1943,7 +1943,7 @@ AND
 >
 <Expression>Kernel.Modes.StaffResponsible.UnexpectedBGPassed
   AND  
-Kernel.HandleModeChange not in Kernel.HandleModeChangeSM.Override</Expression>
+NOT Kernel.Override.OverrideIsActive()</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -2805,7 +2805,7 @@ BTM.CurrentBaliseGroup != []
   AND  
 THERE_IS EmergencyStop IN Kernel.BrakeCommands.EmergencyStops
   AND  
-Kernel.HandleModeChange not in Kernel.HandleModeChangeSM.Override</Expression>
+NOT Kernel.Override.OverrideIsActive()</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
