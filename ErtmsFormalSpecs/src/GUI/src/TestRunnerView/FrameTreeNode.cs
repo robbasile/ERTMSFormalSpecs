@@ -305,11 +305,10 @@ namespace GUI.TestRunnerView
             };
 
             retVal.AddRange(base.GetMenuItems());
-            retVal.Insert(5, new MenuItem("-"));
-            retVal.Insert(6, new MenuItem("Apply translation rules", TranslateHandler));
-            retVal.Insert(7, new MenuItem("-"));
-            retVal.Insert(8, new MenuItem("Execute", RunHandler));
-            retVal.Insert(9, new MenuItem("Create report", ReportHandler));
+            retVal.Insert(5, new MenuItem("Apply translation rules", TranslateHandler));
+            retVal.Insert(6, new MenuItem("-"));
+            retVal.Insert(7, new MenuItem("Execute", RunHandler));
+            retVal.Insert(8, new MenuItem("Create report", ReportHandler));
 
             return retVal;
         }
