@@ -279,46 +279,17 @@
  Height="50"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
- Name="EntryInOverride"
+ Name="EnterInOverride"
  Guid="ed94cf2e-a14c-45bd-8258-bca590c0bf58"
 >
-<Comment>Procedure for handling the initiation of Override.</Comment>
+<ReqRef
+ Id="367acb62-7870-4387-9a8f-345d0059c752"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="eaf75393-60bb-44df-8a34-7a5c3624b9a2"
+>
+</ReqRef><Comment>Procedure for handling the initiation of Override.</Comment>
 <Rules>
 <Rule
- Priority="Processing"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Delete train position in SoM"
- Guid="6dce938d-d516-44be-ab40-1546e1ef1d8e"
->
-<ReqRef
- Id="ea9d2d52-6bdb-4a6e-9836-53be43a10271"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="f36a0c7b-f5bb-4f3a-b84b-9776cdc78423"
->
-</ReqRef><Comment>If the driver selects &quot;Override&quot; during the Start of Mission procedure, before the train position is validated, the position data is deleted (the data state becomes &quot;Unknown&quot;).</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Delete train position in SoM"
- Guid="21f38b96-59db-4282-a0ef-c8ecbaaea010"
->
-<PreConditions>
-<PreCondition
- Guid="233d466f-c13c-48ce-b531-3f6d6409cf04"
->TrainData.TrainData.DataState == DataStateEnum.Valid</PreCondition><PreCondition
- Guid="3f8076a9-083b-45f2-8b1e-a94cdecf7ee6"
->Kernel.HandleModeChange in [Kernel.HandleModeChangeSM.StartOfMission.S10, Kernel.HandleModeChangeSM.StartOfMission.S20]</PreCondition><PreCondition
- Guid="54366b06-846d-4f54-9579-7705393fafe6"
->Kernel.TrainPosition.Position.DataState == DataStateEnum.Invalid</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="e4a4be8d-1fcb-4ea1-945a-bbb90d84c8ad"
->DeleteInformation(Kernel.TrainPosition.Position)</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
  Priority="Processing"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
@@ -335,7 +306,9 @@
  Guid="7ef77041-24a9-43ef-9bba-d11046e37500"
 >
 <PreConditions>
-</PreConditions>
+<PreCondition
+ Guid="e6199c15-a5cc-4446-9d31-3a6b941d300a"
+>Kernel.ActiveFunctions.EnableOverride()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="45c6dd0a-b525-4d63-b8ac-302a43f9eaed"
@@ -454,12 +427,7 @@
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="96a71151-6d24-4008-ad49-7e07df284d16"
 >
-</ReqRef><ReqRef
- Id="367acb62-7870-4387-9a8f-345d0059c752"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="1d33f27d-4fbf-401b-ad5b-e867333ec100"
->
-</ReqRef><Comment>Offer selection of &quot;Override&quot; to the driver when the conditions are met.</Comment>
+</ReqRef><Comment>Offer selection of &quot;Override&quot; to the driver when the conditions are met. The SB related case is handled in states S10 and S20 of Start of Mission procedure.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
@@ -481,14 +449,6 @@ train data is valid (or the mode is shunting)</Comment>
   OR  
 
 (
-  Kernel.Level.Value.Value in [LevelEnum.L2, LevelEnum.L3]
-    AND  
-  Kernel.Mode == ModeEnum.SB
-)
-
-  OR  
-
-(
   Kernel.Level.Value.Value == LevelEnum.LNTC
     AND  
   Kernel.Mode == ModeEnum.SN
@@ -498,9 +458,7 @@ train data is valid (or the mode is shunting)</Comment>
 
   OR  
 
-Kernel.Mode == ModeEnum.SH</PreCondition><PreCondition
- Guid="3e5831d6-3cad-4abd-bf05-5319aed2d040"
->Kernel.ActiveFunctions.EnableOverride()</PreCondition></PreConditions>
+Kernel.Mode == ModeEnum.SH</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="bab8de6a-7a28-4649-98e6-e6e684ccc6f2"

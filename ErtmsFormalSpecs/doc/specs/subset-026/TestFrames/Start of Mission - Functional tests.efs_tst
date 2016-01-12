@@ -3611,6 +3611,26 @@
  Guid="a19811c0-e28e-4a72-a01f-8b7fde155c28"
 >Kernel.HandleModeChange &lt;- Kernel.HandleModeChange.NoProcedure</Action></Actions>
 </SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step2 - Set level to L2 as required by Override procedure"
+ Guid="80d3946b-2b07-4418-beb2-0bc7fc2cc3ad"
+>
+<SubSteps>
+<SubStep
+ Name="SubStep1"
+ Guid="84a26e23-32d3-43b5-9624-0012abe0ce2f"
+>
+<Actions>
+<Action
+ Guid="95a412d8-13f6-475f-ad44-f0cae645e49f"
+>Kernel.Level.Value.Value &lt;- Default.LevelEnum.L2</Action></Actions>
+</SubStep></SubSteps>
 </Step></Steps>
 </TestCase><TestCase
  Feature="0"
@@ -3680,10 +3700,6 @@
 <Action
  Guid="4c8e4e7a-21b5-43d5-b74d-0be7d2e932a6"
 >Kernel.TrainPosition.Position.DataState &lt;- DataStateEnum.Valid</Action><Action
- Guid="52887c9c-8cd8-4995-94c8-4dc59fb32e95"
->Testing.SetSBMode(False)</Action><Action
- Guid="9d83dad4-f6cf-4d2d-8062-4c9e637fbf7d"
->Kernel.HandleModeChange &lt;- Kernel.HandleModeChange.StartOfMission.S10</Action><Action
  Guid="1c9d7c15-4282-4d24-9841-e116e4250d78"
 >DMI.MasterDMI().In_OverrideRequest.ProvideDriverResponse()</Action></Actions>
 <Expectations>
@@ -3714,8 +3730,6 @@
 >
 <Actions>
 <Action
- Guid="54b6b3da-c25d-4c5d-a85d-5ae80db41fd1"
->DMI.MasterDMI().In_OverrideRequest.ProvideDriverResponse()</Action><Action
  Guid="ce11d0cb-79e6-4d74-801f-03551d8a6c2c"
 >Kernel.TrainPosition.Position.DataState &lt;- DataStateEnum.Invalid</Action><Action
  Guid="0f62c46f-d1a3-4d5e-ab28-2a8827999572"
@@ -3724,6 +3738,14 @@
 >Testing.SetSBMode(False)</Action><Action
  Guid="3aba4fa0-d588-453d-9507-aba652709aa1"
 >BTM.LRBG &lt;- EMPTY</Action></Actions>
+</SubStep><SubStep
+ Name="SubStep2"
+ Guid="53bb0fb0-4e0d-4c3a-abbb-161e47f27692"
+>
+<Actions>
+<Action
+ Guid="54b6b3da-c25d-4c5d-a85d-5ae80db41fd1"
+>DMI.MasterDMI().In_OverrideRequest.ProvideDriverResponse()</Action></Actions>
 <Expectations>
 <Expectation
  Kind="Instantaneous"
@@ -3807,11 +3829,7 @@
  Guid="69bea249-672a-43ff-98b9-fb0386202581"
 >DMI.MasterDMI().In_OverrideRequest.ProvideDriverResponse()</Action><Action
  Guid="0a3e19cd-d737-42a3-a4de-b3d5e4a13972"
->Kernel.TrainPosition.Position.DataState &lt;- DataStateEnum.Valid</Action><Action
- Guid="da6c2016-c93a-4374-a858-b730c5501565"
->Testing.SetSBMode(False)</Action><Action
- Guid="b0dde548-c847-488f-b0f8-e4c76548108b"
->Kernel.HandleModeChange &lt;- Kernel.HandleModeChange.StartOfMission.S20</Action></Actions>
+>Kernel.TrainPosition.Position.DataState &lt;- DataStateEnum.Valid</Action></Actions>
 <Expectations>
 <Expectation
  Kind="Instantaneous"
@@ -3841,14 +3859,20 @@
 >
 <Actions>
 <Action
- Guid="ef9c9abb-9583-4494-9356-29af7c932ac2"
->DMI.MasterDMI().In_OverrideRequest.ProvideDriverResponse()</Action><Action
  Guid="b27f6859-b638-41e5-b98b-1de2fbf11901"
 >Kernel.TrainPosition.Position.DataState &lt;- DataStateEnum.Invalid</Action><Action
  Guid="a0ad3f05-141a-4574-885f-5832d8c8d6ae"
 >Kernel.HandleModeChange &lt;- Kernel.HandleModeChange.StartOfMission.S20</Action><Action
  Guid="a27a4018-b1d5-431b-928e-a8b304b3b283"
 >Testing.SetSBMode(False)</Action></Actions>
+</SubStep><SubStep
+ Name="SubStep2"
+ Guid="b9592289-7048-4157-a9e6-49d6491cadde"
+>
+<Actions>
+<Action
+ Guid="ef9c9abb-9583-4494-9356-29af7c932ac2"
+>DMI.MasterDMI().In_OverrideRequest.ProvideDriverResponse()</Action></Actions>
 <Expectations>
 <Expectation
  Kind="Instantaneous"

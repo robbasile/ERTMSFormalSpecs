@@ -5799,9 +5799,14 @@ In addition the procedure allows to avoid a train trip when passing a balise gro
  reviewed="TRUE"
  status="Implemented"
  version="3.0.0"
+ specIssue="TRUE"
  Name=""
  Guid="efea06c4-e975-4824-a134-e96d2951823a"
->The current mode is Full Supervision, Limited Supervision, On Sight, Staff Responsible, Shunting, Unfitted, Post Trip, Stand By (in level 2/3 only) or SN (National System) AND<RequirementSets>
+><Comment>This requirement seems to be inconsistent with Start of Mission procedure, which states in paragraph 5.4.5.3.a that &quot;only at S10 and S20 and if valid Train data is available, to select “Override”. If the driver chooses to do so, then the process shall go to the procedure “Override” and, if  the  position  is  still  invalid,  the  ERTMS/ETCS  on-board  shall  delete  the  train position data (new status: “unknown”)&quot;.
+There are two inconsistencies:
+- according to the current paragraph, the Override can be proposed to the driver in SB mode when the level is 2 or 3, but the paragraph 5.4.5.3 states that it can only be selected in states S10 and S20;
+- on the other hand, the paragraph 5.4.5.3 states that Override can be selected in states S10 and S20 regardless the level, but the current paragraph imposes that the level has to be 2 or 3.</Comment>
+The current mode is Full Supervision, Limited Supervision, On Sight, Staff Responsible, Shunting, Unfitted, Post Trip, Stand By (in level 2/3 only) or SN (National System) AND<RequirementSets>
 <RequirementSetReference
  RefId="b2515c38-1e5c-4be6-9107-9fb08c2038ed"
  Guid="4ad8e90a-5764-4f18-b72b-e80ca1f4f020"

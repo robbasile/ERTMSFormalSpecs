@@ -5965,6 +5965,26 @@ Request driver acknowledgement before starting the mission.</Comment>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="3fd7f5ee-ae12-4095-b1bb-15a5f0497c66"
 >
+</ReqRef><ReqRef
+ Id="27505e7a-adbc-4a50-abcd-d2a99c3b8ff8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6b5c13cc-eaba-4ec4-8326-fcd1c2368895"
+>
+</ReqRef><ReqRef
+ Id="efea06c4-e975-4824-a134-e96d2951823a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="4ec98045-f7c9-46ea-a335-61f80896a51e"
+>
+</ReqRef><ReqRef
+ Id="05727841-f740-43e0-b45d-53ac5d5b8d94"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6d8d4d33-6f02-42df-a652-17ec5d036011"
+>
+</ReqRef><ReqRef
+ Id="d49a941c-d8b5-4e50-b2ec-1b316ac95380"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d8a4c5c6-7b46-4915-a092-7f7026d31015"
+>
 </ReqRef><Comment>Proposes Override in states S10 and S20, otherwise removes it. The condition on SB mode is added in order to avoid executing the actions of this rule when the mode changed and End of SoM rule was not applied yet.</Comment>
 <SubRules></SubRules>
 <Conditions>
@@ -5982,25 +6002,13 @@ Request driver acknowledgement before starting the mission.</Comment>
  Guid="e5583ad4-e0b3-48b8-968c-2ff42b9ff8df"
 >TrainData.TrainData.DataState == DataStateEnum.Valid</PreCondition><PreCondition
  Guid="7cedc0e6-04c9-45f9-8804-e2834014d2b5"
->Kernel.Mode == ModeEnum.SB</PreCondition></PreConditions>
+>Kernel.Mode == ModeEnum.SB</PreCondition><PreCondition
+ Guid="9b44bd18-fbe3-42e7-bd19-3d825053d540"
+>Kernel.Level.Value.Value in [LevelEnum.L2, LevelEnum.L3]</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="05cd468b-cd97-4e44-8932-f2bcfe89a0d7"
 >DMI.MasterDMI().In_OverrideRequest.InitiateRequest()</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- Name="Override is not available for the other states of the state machine"
- Guid="bba737a7-6898-4d3c-a730-0a2d65ef6dcf"
->
-<Comment>Disable the override when not in states S10 and S20</Comment>
-<PreConditions>
-<PreCondition
- Guid="e3dc7206-ac11-4e85-8a56-0a663e5631dd"
->Kernel.Mode == ModeEnum.SB</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="bf81f04d-cac3-4266-9b0e-e6bebcc4c043"
->DMI.MasterDMI().In_OverrideRequest.InputInformation.Disable()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"

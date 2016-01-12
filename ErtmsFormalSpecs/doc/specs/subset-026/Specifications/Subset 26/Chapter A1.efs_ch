@@ -3431,6 +3431,44 @@ Due to this, we will assume that a National values packet (packet 3 - 7.4.2.1.1)
  Guid="bf729509-0f18-4ced-a1a4-2ba82b22e471"
 >
 </RequirementSetReference></RequirementSets>
+</Paragraph><Paragraph
+ id="A1.1.39"
+ type="TITLE"
+ scope="FLAGS"
+ bl=""
+ name=""
+ status="NotImplementable"
+ version="3.0.0"
+ Name=""
+ Guid="f1b43000-13cd-4ca9-96b3-a64faa957dfc"
+>Procedure Override<Sub>
+<Paragraph
+ id="A1.1.39.1"
+ type="REQUIREMENT"
+ scope="FLAGS"
+ bl=""
+ name=""
+ status="Implemented"
+ version="3.0.0"
+ Name=""
+ Guid="27505e7a-adbc-4a50-abcd-d2a99c3b8ff8"
+>Paragraph 5.8.2.1.b (&quot;The current mode is Full Supervision, Limited Supervision, On Sight, Staff Responsible, Shunting, Unfitted, Post Trip, Stand By (in level 2/3 only) or SN (National System) AND&quot;) seems to be inconsistent with Start of Mission procedure, which states in paragraph 5.4.5.3.a that &quot;only at S10 and S20 and if valid Train data is available, to select “Override”. If the driver chooses to do so, then the process shall go to the procedure “Override” and, if  the  position  is  still  invalid,  the  ERTMS/ETCS  on-board  shall  delete  the  train position data (new status: “unknown”)&quot;.
+There are two inconsistencies:
+- according to the current paragraph, the Override can be proposed to the driver in SB mode when the level is 2 or 3, but the paragraph 5.4.5.3 states that it can only be selected in states S10 and S20;
+- on the other hand, the paragraph 5.4.5.3 states that Override can be selected in states S10 and S20 regardless the level, but the current paragraph imposes that the level has to be 2 or 3.
+We assume that the selection of override can only be proposed in states S10 and S20 of Start of Mission procedure and only if the level is 2 or 3.<RequirementSets>
+<RequirementSetReference
+ RefId="b2515c38-1e5c-4be6-9107-9fb08c2038ed"
+ Guid="91e81ebc-6820-442b-897c-2e23a58dc286"
+>
+</RequirementSetReference></RequirementSets>
+</Paragraph></Sub>
+<RequirementSets>
+<RequirementSetReference
+ RefId="b2515c38-1e5c-4be6-9107-9fb08c2038ed"
+ Guid="cf49d6ed-4d06-4013-b6c0-ff8f4f5e9299"
+>
+</RequirementSetReference></RequirementSets>
 </Paragraph></Sub>
 <RequirementSets>
 <RequirementSetReference

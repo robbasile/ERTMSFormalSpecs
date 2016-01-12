@@ -1260,7 +1260,7 @@ DMI.MasterDMI().In_AcknOfSNMode.InputInformation.DriverAnswered</Expression>
 >
 <Expression>Kernel.Modes.Shunting.UnexpectedBGPassed
   AND  
-NOT Kernel.Override.OverrideIsActive</Expression>
+NOT Kernel.Override.OverrideIsActive()</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -3963,7 +3963,8 @@ If the train position is invalid, delete the stored position.</Comment>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="822e538d-07ab-495d-9ca5-aee57109288e"
 >
-</ReqRef><PreConditions>
+</ReqRef><Comment>Handle selection of SR.</Comment>
+<PreConditions>
 <PreCondition
  Guid="976ed7c9-c965-47ac-a82f-204c44b898be"
 >Kernel.Modes.ModeTransitions.Condition8_SB()</PreCondition></PreConditions>
@@ -4006,6 +4007,56 @@ If the train position is invalid, delete the stored position.</Comment>
 <Actions>
 <Action
  Guid="732da1ab-fa5e-42b6-97bd-ccd958e4ff85"
+>DeleteInformation(Kernel.TrainPosition.Position)</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></SubRules>
+</RuleCondition><RuleCondition
+ Name="Driver selected Override"
+ Guid="e2cfe6b5-cac6-4a15-9c78-e3070c88ffcc"
+>
+<ReqRef
+ Id="b6c74cc9-fab4-4443-8044-94744d509710"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="7656b094-6b88-4f0c-8bcf-174b5ea59535"
+>
+</ReqRef><Comment>Handle selection of Override.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="b00b8432-45e2-4f5b-95af-9964d5f33bfc"
+>Kernel.Modes.ModeTransitions.Condition37_SB()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="0b0750d8-3ae1-4080-b60e-862c8f47e728"
+>Kernel.Override.EnterInOverride()</Action></Actions>
+<SubRules>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Delete train position in SoM"
+ Guid="6dce938d-d516-44be-ab40-1546e1ef1d8e"
+>
+<ReqRef
+ Id="ea9d2d52-6bdb-4a6e-9836-53be43a10271"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f36a0c7b-f5bb-4f3a-b84b-9776cdc78423"
+>
+</ReqRef><Comment>If the driver selects &quot;Override&quot; during the Start of Mission procedure, before the train position is validated, the position data is deleted (the data state becomes &quot;Unknown&quot;).</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Delete train position in SoM"
+ Guid="21f38b96-59db-4282-a0ef-c8ecbaaea010"
+>
+<PreConditions>
+<PreCondition
+ Guid="54366b06-846d-4f54-9579-7705393fafe6"
+>Kernel.TrainPosition.Position.DataState == DataStateEnum.Invalid</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="e4a4be8d-1fcb-4ea1-945a-bbb90d84c8ad"
 >DeleteInformation(Kernel.TrainPosition.Position)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
