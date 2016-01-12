@@ -5952,67 +5952,6 @@ Request driver acknowledgement before starting the mission.</Comment>
 </Rule><Rule
  Priority="Processing"
  Implemented="TRUE"
- Name="Allow override"
- Guid="40873990-c653-4a47-8e1e-79827bce9616"
->
-<ReqRef
- Id="4691efdb-b90a-4120-a11d-7598ae98c8c7"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="61543729-93a3-43ce-a6b3-eae6109243f9"
->
-</ReqRef><ReqRef
- Id="2812be46-6d39-4894-be55-c728964a7c49"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="3fd7f5ee-ae12-4095-b1bb-15a5f0497c66"
->
-</ReqRef><ReqRef
- Id="27505e7a-adbc-4a50-abcd-d2a99c3b8ff8"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="6b5c13cc-eaba-4ec4-8326-fcd1c2368895"
->
-</ReqRef><ReqRef
- Id="efea06c4-e975-4824-a134-e96d2951823a"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="4ec98045-f7c9-46ea-a335-61f80896a51e"
->
-</ReqRef><ReqRef
- Id="05727841-f740-43e0-b45d-53ac5d5b8d94"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="6d8d4d33-6f02-42df-a652-17ec5d036011"
->
-</ReqRef><ReqRef
- Id="d49a941c-d8b5-4e50-b2ec-1b316ac95380"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="d8a4c5c6-7b46-4915-a092-7f7026d31015"
->
-</ReqRef><Comment>Proposes Override in states S10 and S20, otherwise removes it. The condition on SB mode is added in order to avoid executing the actions of this rule when the mode changed and End of SoM rule was not applied yet.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Propose override for states S10 and S20"
- Guid="c9ee8de7-2b98-4b64-9126-b8c58c5b84fe"
->
-<Comment>Propose override only in states S10 and S20</Comment>
-<PreConditions>
-<PreCondition
- Guid="7e8aca9e-bed4-4228-a2b5-d53dc47080f8"
->THIS in Kernel.HandleModeChangeSM.StartOfMission.S10 OR THIS in Kernel.HandleModeChangeSM.StartOfMission.S20</PreCondition><PreCondition
- Guid="e5583ad4-e0b3-48b8-968c-2ff42b9ff8df"
->TrainData.TrainData.DataState == DataStateEnum.Valid</PreCondition><PreCondition
- Guid="7cedc0e6-04c9-45f9-8804-e2834014d2b5"
->Kernel.Mode == ModeEnum.SB</PreCondition><PreCondition
- Guid="9b44bd18-fbe3-42e7-bd19-3d825053d540"
->Kernel.Level.Value.Value in [LevelEnum.L2, LevelEnum.L3]</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="05cd468b-cd97-4e44-8932-f2bcfe89a0d7"
->DMI.MasterDMI().In_OverrideRequest.InitiateRequest()</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- Implemented="TRUE"
  Name="Allow reenter driver id for states S10 and S20"
  Guid="eecffdff-c38a-4e86-8625-e1b7be52a479"
 >
@@ -8556,40 +8495,6 @@ The report is handled in the EURORADIO namespace</Comment>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </StateMachine></State></States>
-<Rules>
-<Rule
- Priority="Processing"
- Implemented="TRUE"
- Name="RBC session is lost"
- Guid="092cede9-6e29-495d-beaf-a9d8de683e6d"
->
-<ReqRef
- Id="988a3e55-0b0a-467b-a0e7-398bad5bf268"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="96ae4a3d-1a06-4ba9-9cb3-204f9b217be1"
->
-</ReqRef><Comment>If, after the on-board enters PT Mode, the Level is level 2 or 3 and the RBC connection is lost, the Driver will have the possibility to select &quot;Override&quot; and the procedure Override will start, ending Train Trip.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="RBC session is lost"
- Guid="cab91482-1636-48b2-83bd-468a910bfc13"
->
-<PreConditions>
-<PreCondition
- Guid="8c1e2769-86c8-4300-9e20-b03a15486023"
->Kernel.Level.Value.Value in [LevelEnum.L2, LevelEnum.L3]</PreCondition><PreCondition
- Guid="a20f6e13-1dca-41c0-9034-0684b14f90db"
->NOT EURORADIO.HasActiveSession()</PreCondition><PreCondition
- Guid="fe2f1b03-ffc7-44cd-ab00-daa877c92ff5"
->Kernel.Mode == ModeEnum.PT</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="88f1d610-071e-42a9-a7c7-fcf95319b179"
->DMI.MasterDMI().In_OverrideRequest.InitiateRequest()</Action></Actions>
-</RuleCondition></Conditions>
-</Rule></Rules>
 </StateMachine></State><State
  X="30"
  Y="160"

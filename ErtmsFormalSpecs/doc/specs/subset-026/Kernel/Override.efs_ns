@@ -399,7 +399,7 @@
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="Start override"
+ Name="Handle Override request"
  Guid="b1e3dc85-1f10-41dd-825e-decee298c974"
 >
 <ReqRef
@@ -432,13 +432,13 @@
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
- Name="Offer selection of Override function to the driver"
+ Name="Offer selection of Override function to the driver if conditions are met"
  Guid="34934ae3-8cac-42ba-8d97-008701286c8e"
 >
 <Comment>The &quot;Override&quot; button shall be presented to the driver if
-the speed is below the override speed limit
-the current mode is in the list
-train data is valid (or the mode is shunting)</Comment>
+- the speed is below the override speed limit
+- the current mode is in the list
+- train data is valid (or the mode is shunting).</Comment>
 <PreConditions>
 <PreCondition
  Guid="f3325596-5c2a-4e9e-8e9d-b04bb76b9f22"
@@ -463,6 +463,85 @@ Kernel.Mode == ModeEnum.SH</PreCondition></PreConditions>
 <Action
  Guid="bab8de6a-7a28-4649-98e6-e6e684ccc6f2"
 >DMI.MasterDMI().In_OverrideRequest.InitiateRequest()</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="SoM procedure: propose override for states S10 and S20"
+ Guid="c9ee8de7-2b98-4b64-9126-b8c58c5b84fe"
+>
+<ReqRef
+ Id="2812be46-6d39-4894-be55-c728964a7c49"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="83a04236-bbac-42ee-81dd-28eaf81afa14"
+>
+</ReqRef><ReqRef
+ Id="27505e7a-adbc-4a50-abcd-d2a99c3b8ff8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="541ad401-ac4f-4589-b174-941d1f796e61"
+>
+</ReqRef><ReqRef
+ Id="4691efdb-b90a-4120-a11d-7598ae98c8c7"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0cefd724-5cd4-40f6-b0b2-ff4cb9721fba"
+>
+</ReqRef><Comment>The &quot;Override button&quot; shall be presented to the driver in states S10 and S20 of SoM procedure, if level is 2 or 3.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="7e8aca9e-bed4-4228-a2b5-d53dc47080f8"
+>Kernel.HandleModeChange in Kernel.HandleModeChangeSM.StartOfMission.S10
+  OR
+Kernel.HandleModeChange in Kernel.HandleModeChangeSM.StartOfMission.S20</PreCondition><PreCondition
+ Guid="e5583ad4-e0b3-48b8-968c-2ff42b9ff8df"
+>TrainData.TrainData.DataState == DataStateEnum.Valid</PreCondition><PreCondition
+ Guid="7cedc0e6-04c9-45f9-8804-e2834014d2b5"
+>Kernel.Mode == ModeEnum.SB</PreCondition><PreCondition
+ Guid="9b44bd18-fbe3-42e7-bd19-3d825053d540"
+>Kernel.Level.Value.Value in [LevelEnum.L2, LevelEnum.L3]</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="05cd468b-cd97-4e44-8932-f2bcfe89a0d7"
+>DMI.MasterDMI().In_OverrideRequest.InitiateRequest()</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Train Trip procedure: RBC session is lost"
+ Guid="cab91482-1636-48b2-83bd-468a910bfc13"
+>
+<ReqRef
+ Id="988a3e55-0b0a-467b-a0e7-398bad5bf268"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a75eb959-53dc-4656-822d-0649cb5889e1"
+>
+</ReqRef><Comment>The &quot;Override&quot; button shall be presented to the driver if the RBC session is lost in PT mode.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="8c1e2769-86c8-4300-9e20-b03a15486023"
+>Kernel.Level.Value.Value in [LevelEnum.L2, LevelEnum.L3]</PreCondition><PreCondition
+ Guid="a20f6e13-1dca-41c0-9034-0684b14f90db"
+>NOT EURORADIO.HasActiveSession()</PreCondition><PreCondition
+ Guid="fe2f1b03-ffc7-44cd-ab00-daa877c92ff5"
+>Kernel.Mode == ModeEnum.PT</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="88f1d610-071e-42a9-a7c7-fcf95319b179"
+>DMI.MasterDMI().In_OverrideRequest.InitiateRequest()</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="If conditions are not met, disable the Override request"
+ Guid="215de86f-0d1c-43b9-92e7-23ad5ceb7af7"
+>
+<Comment>Otherwise, the &quot;Override&quot; button shall be disabled.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="b740a727-6af2-48f9-a0a4-768d63c3b12b"
+>DMI.MasterDMI().In_OverrideRequest.InputInformation.RequestStatus == RequestEnum.Request</PreCondition><PreCondition
+ Guid="50c98a78-ab0a-41c0-9f32-ca78ebec874e"
+>NOT (Kernel.HandleModeChange in Kernel.HandleModeChangeSM.StartOfMission.S10)</PreCondition><PreCondition
+ Guid="4e321836-299a-4da6-892d-b6692465b02d"
+>NOT (Kernel.HandleModeChange in Kernel.HandleModeChangeSM.StartOfMission.S20)</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="31098721-6e6c-48e8-ac01-f2097b4ab51b"
+>DMI.MasterDMI().In_OverrideRequest.InputInformation.Disable()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </NameSpace>

@@ -565,40 +565,144 @@
  ModeIN="NA"
  ModeOUT="NA"
  TranslationRequired="FALSE"
- Name="Step1"
- Guid="968b7014-36f2-42f0-ac72-c06350222d88"
+ Name="Setup"
+ Guid="5f849d65-aeee-458b-aab3-81fe960eb230"
 >
 <SubSteps>
 <SubStep
  TimeDelay="NotDelayed"
- Name="SubStep1"
- Guid="acb48324-e9b1-447c-ab00-46b9419e30e0"
+ Name="Set mode"
+ Guid="0aec154b-20b4-4f79-b2ff-cb5288bb0e11"
 >
+<Actions>
+<Action
+ Guid="0a254bf3-c376-4388-a3fd-4f359da3b81d"
+>Testing.InitializeTestEnvironment
+(
+    aTrainPosition =&gt; 0.0,
+    aMode =&gt; ModeEnum.FS
+)</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Disable override request"
+ Guid="1406c91e-7c4f-414a-9aae-9d234dab176f"
+>
+<Actions>
+<Action
+ Guid="581c7fd1-4311-4fc1-be7e-b4488d040ef3"
+>DMI.MasterDMI().In_OverrideRequest.InputInformation.RequestStatus &lt;- Default.RequestEnum.Disabled</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Set train data"
+ Guid="76330f9b-a21f-48ea-9718-bbfd011aff89"
+>
+<Actions>
+<Action
+ Guid="c2a5c24c-269c-400e-859c-5fe0adc24211"
+>Kernel.TrainData.TrainData.DataState &lt;- Default.DataStateEnum.Valid</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Set speed"
+ Guid="2dc1aaa0-6bdd-48ff-a4c6-5506fd34f7f1"
+>
+<Actions>
+<Action
+ Guid="254fa785-6aee-4c7a-bc03-7c0d7ef68f13"
+>Odometry.EstimatedSpeed &lt;- 20.0</Action><Action
+ Guid="50af8f0e-d3bc-4904-801d-9f17694f4aea"
+>Kernel.NationalValues.CurrentNV().SpeedLimitForTriggeringTheOverrideFunction &lt;- 20.0</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Check override is proposed"
+ Guid="be0a7de5-341a-414a-9acd-6f35070fe797"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Check override is proposed"
+ Guid="7570d5da-4760-4b12-a7a6-074210222c2c"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="6e3e42c1-1a75-4e9a-be58-4bd4dcd35a31"
+>DMI.MasterDMI().In_OverrideRequest.InputInformation.RequestStatus == RequestEnum.Request</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Speed condition is not satisfied anymore"
+ Guid="26955155-015e-46e4-8534-00b12970b224"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Speed condition is not satisfied anymore"
+ Guid="3eee637c-46cd-437d-8221-36ed9c15e1a9"
+>
+<Actions>
+<Action
+ Guid="f0548cde-03c6-4ee2-b5ac-6d2d829662b4"
+>Odometry.EstimatedSpeed &lt;- 21.0</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Check override is not proposed anymore"
+ Guid="e73e2093-7060-40bd-8f7f-f6833ff3b938"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Check override is not proposed anymore"
+ Guid="60485fec-e591-43f0-8d6f-4968c697523d"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="3399dc5e-6d5a-4d5b-8495-750df3ae5130"
+>DMI.MasterDMI().In_OverrideRequest.InputInformation.RequestStatus == RequestEnum.Disabled</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step></Steps>
 </TestCase><TestCase
  Name="Mode condition not satisfied"
- Guid="2927abdf-c279-49a3-8547-33873ad6b661"
+ Guid="25dd63fd-d235-49e9-8990-be36609c15d2"
 >
 <ReqRef
  Id="d49a941c-d8b5-4e50-b2ec-1b316ac95380"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="a07dfe62-ddc1-4dd0-9efa-7a7d1ee1ef07"
+ Guid="42d41c84-6a18-4957-b31a-1b09bfa87573"
 >
 </ReqRef><ReqRef
  Id="eacc4d2f-2afc-4984-8b90-39c8df55a09c"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="927a841c-bf5b-4742-b2c8-2de4d4543cf7"
+ Guid="3f9bbdd4-c963-4340-beea-465c7e09fdbc"
 >
 </ReqRef><ReqRef
  Id="efea06c4-e975-4824-a134-e96d2951823a"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="12406a51-a162-4d73-b602-aa2e252efba6"
+ Guid="00ed2a2f-f223-4ec5-99ad-e8c64f502892"
 >
 </ReqRef><ReqRef
  Id="05727841-f740-43e0-b45d-53ac5d5b8d94"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="62e36566-0676-4308-b91d-57d551972c1d"
+ Guid="80df7e1f-4b08-4888-9813-d584020496cf"
 >
 </ReqRef><Steps>
 <Step
@@ -608,40 +712,144 @@
  ModeIN="NA"
  ModeOUT="NA"
  TranslationRequired="FALSE"
- Name="Step1"
- Guid="ab08bd26-7f75-462d-99cc-ad849c4f9872"
+ Name="Setup"
+ Guid="68d6ca03-8ffa-430b-95be-ca58e70b4d46"
 >
 <SubSteps>
 <SubStep
  TimeDelay="NotDelayed"
- Name="SubStep1"
- Guid="e1f5ecf0-e9c8-4675-a36c-271dc76dea92"
+ Name="Set mode"
+ Guid="15fd485c-e1fb-48f3-a11b-c6e768330b6d"
 >
+<Actions>
+<Action
+ Guid="88d9e2e3-5221-4379-9e26-f487147275b6"
+>Testing.InitializeTestEnvironment
+(
+    aTrainPosition =&gt; 0.0,
+    aMode =&gt; ModeEnum.FS
+)</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Disable override request"
+ Guid="002eeebb-a4a3-4595-88c1-05f7f765203c"
+>
+<Actions>
+<Action
+ Guid="84c3558e-5f0c-46a5-b778-b3ed8efbdfc7"
+>DMI.MasterDMI().In_OverrideRequest.InputInformation.RequestStatus &lt;- Default.RequestEnum.Disabled</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Set train data"
+ Guid="89cf8fad-21e5-4dac-bfde-578b413ac08a"
+>
+<Actions>
+<Action
+ Guid="c46b09be-4bfe-4cc0-b484-2e29667d1b1c"
+>Kernel.TrainData.TrainData.DataState &lt;- Default.DataStateEnum.Valid</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Set speed"
+ Guid="0a73540b-b153-44c9-bcf2-b6114a8a2949"
+>
+<Actions>
+<Action
+ Guid="a5f224ff-924a-4ca9-8a4d-a6f416ff5c2b"
+>Odometry.EstimatedSpeed &lt;- 20.0</Action><Action
+ Guid="aff0509d-5f97-4862-8fa6-5b08b954ea38"
+>Kernel.NationalValues.CurrentNV().SpeedLimitForTriggeringTheOverrideFunction &lt;- 20.0</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Check override is proposed"
+ Guid="5ed71747-300b-44c1-8209-1f74d0653c67"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Check override is proposed"
+ Guid="651ccdce-9248-4d2e-b2a9-8100ffdfcbb7"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="0b6611ed-6dd6-48ea-b849-6ad91a02dee6"
+>DMI.MasterDMI().In_OverrideRequest.InputInformation.RequestStatus == RequestEnum.Request</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Mode condition is not satisfied anymore"
+ Guid="14a40216-3f69-41c2-a9f3-7046d424e56e"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Mode condition is not satisfied anymore"
+ Guid="7657db98-f730-418d-8828-c7faa10dfdba"
+>
+<Actions>
+<Action
+ Guid="fdd57350-dae7-47a0-85d3-2d917ea69c92"
+>Kernel.Mode &lt;- Default.ModeEnum.TR</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Check override is not proposed anymore"
+ Guid="613c9a6c-c13c-472d-893a-c0c960a34511"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Check override is not proposed anymore"
+ Guid="3db71d86-f99c-4e8d-a7b8-b22677783b5c"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="10328979-a3b9-42ab-bf95-bff4ef4be64a"
+>DMI.MasterDMI().In_OverrideRequest.InputInformation.RequestStatus == RequestEnum.Disabled</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step></Steps>
 </TestCase><TestCase
- Name="Train data condition not satisfied"
- Guid="07637947-27b2-4be3-bdd2-33051e89466b"
+ Name="Train Data condition not satisfied"
+ Guid="e9a26002-0291-45e4-97ea-d4046d872f9e"
 >
 <ReqRef
  Id="d49a941c-d8b5-4e50-b2ec-1b316ac95380"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="d3814a90-3b03-40d4-bd4c-712a10be4ee6"
+ Guid="c57c22f2-389c-4688-8805-c35ffcc0761c"
 >
 </ReqRef><ReqRef
  Id="eacc4d2f-2afc-4984-8b90-39c8df55a09c"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="fe0795c9-2f60-4c5d-9681-7fc5da6bfb76"
+ Guid="4dac1133-9ace-4390-8a56-debe4d82fd1e"
 >
 </ReqRef><ReqRef
  Id="efea06c4-e975-4824-a134-e96d2951823a"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="0c80025d-d164-4194-a2c0-f9ca37580fd3"
+ Guid="86539912-4193-4496-a6db-b2bd67c09825"
 >
 </ReqRef><ReqRef
  Id="05727841-f740-43e0-b45d-53ac5d5b8d94"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="f6bcbf83-9f6a-4f74-9a7d-c1116d31dd61"
+ Guid="bb779005-e114-4069-9899-0a343a64bc97"
 >
 </ReqRef><Steps>
 <Step
@@ -651,15 +859,119 @@
  ModeIN="NA"
  ModeOUT="NA"
  TranslationRequired="FALSE"
- Name="Step1"
- Guid="16af07c7-cc94-4367-aee1-c059bd6540fc"
+ Name="Setup"
+ Guid="1ed8b9b4-025c-4b54-be88-33dc2e35a950"
 >
 <SubSteps>
 <SubStep
  TimeDelay="NotDelayed"
- Name="SubStep1"
- Guid="d39cf0e6-83fd-45c1-a1ad-ca2e80c91a31"
+ Name="Set mode"
+ Guid="bf99ce7d-4fe2-49b5-944a-19cb94c90fbc"
 >
+<Actions>
+<Action
+ Guid="45dd0368-70c3-4c7c-adbd-218a1b182692"
+>Testing.InitializeTestEnvironment
+(
+    aTrainPosition =&gt; 0.0,
+    aMode =&gt; ModeEnum.FS
+)</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Disable override request"
+ Guid="6273e3a9-994f-4820-91e7-32d21777ede9"
+>
+<Actions>
+<Action
+ Guid="edf6d7a4-687d-4070-9541-86aa255bb37d"
+>DMI.MasterDMI().In_OverrideRequest.InputInformation.RequestStatus &lt;- Default.RequestEnum.Disabled</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Set train data"
+ Guid="db360b33-5933-4527-8121-32657f29a1be"
+>
+<Actions>
+<Action
+ Guid="ce96dbd1-700c-447d-99c2-9126b11be5a9"
+>Kernel.TrainData.TrainData.DataState &lt;- Default.DataStateEnum.Valid</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Set speed"
+ Guid="d5076046-18a9-41b1-9c53-79c1c3534dd8"
+>
+<Actions>
+<Action
+ Guid="bcf712e9-25e6-4eb1-ae5c-fa3404dd2b2c"
+>Odometry.EstimatedSpeed &lt;- 20.0</Action><Action
+ Guid="81800404-81b9-481a-beb6-d58f7b20f196"
+>Kernel.NationalValues.CurrentNV().SpeedLimitForTriggeringTheOverrideFunction &lt;- 20.0</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Check override is proposed"
+ Guid="15b01321-b8bd-416b-96c6-89acb8a828fc"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Check override is proposed"
+ Guid="4af4c12e-7c45-4723-bf50-3d6c5fc50b73"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="6a2ea906-318c-4f9e-96af-d6711aa04c2e"
+>DMI.MasterDMI().In_OverrideRequest.InputInformation.RequestStatus == RequestEnum.Request</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Train Data condition is not satisfied anymore"
+ Guid="0f6aea1e-667e-4755-bbfd-0c8ee1968342"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Train data condition is not satisfied anymore"
+ Guid="1bbfefdc-911a-4b84-abd5-1b3ab804b344"
+>
+<Actions>
+<Action
+ Guid="a88412cd-c7a7-40b8-8580-4eac3fd2e5c0"
+>Kernel.TrainData.TrainData.DataState &lt;- Default.DataStateEnum.Invalid</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Check override is not proposed anymore"
+ Guid="2d80462f-dc55-40ca-a3d6-f0f06b0388cf"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Check override is not proposed anymore"
+ Guid="614482f1-0cc4-42c7-b9eb-9f0d63393872"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="e25fea2a-9476-44b3-a095-0e24848a8c1e"
+>DMI.MasterDMI().In_OverrideRequest.InputInformation.RequestStatus == RequestEnum.Disabled</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step></Steps>
 </TestCase></TestCases>
