@@ -270,6 +270,49 @@
 >
 <Expression>BaseTypes.Distance.Infinity</Expression>
 </Case></Cases>
+</Function><Function
+ Type="SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target"
+ Default=""
+ X="771"
+ Y="1"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="EOA"
+ Guid="7a4be8ce-e011-430c-8465-405cafe12bb4"
+>
+<ReqRef
+ Id="b5348bb2-ed11-48b7-89f4-8e3118fd396a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="2a73ea02-b1c8-4a52-adeb-9bb40d2553e2"
+>
+</ReqRef><Comment>Provides the End of Authority related to Override supervision. If Override is not active anymore, the former EoA is supervised. Otherwise, no EoA is supervised.</Comment>
+<Cases>
+<Case
+ Name="Override is not active"
+ Guid="baf0cf7e-dd4f-41ef-94b5-ee01044b690c"
+>
+<PreConditions>
+<PreCondition
+ Guid="836306fa-b16e-402a-bcc8-4e8f5710aa60"
+>OverrideIsActive()</PreCondition></PreConditions>
+<Expression>SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target
+{
+  Location =&gt; OverrideSupervision.FormerEOA,
+  Speed =&gt; 0.0,
+  Length =&gt; 0.0
+}</Expression>
+</Case><Case
+ Name="Override is active"
+ Guid="46a4e9ef-086a-40d1-abc7-e71c247296b2"
+>
+<Expression>SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target
+{
+  Location =&gt; BaseTypes.Distance.Infinity,
+  Speed =&gt; 0.0,
+  Length =&gt; 0.0
+}</Expression>
+</Case></Cases>
 </Function></Functions>
 <Procedures>
 <Procedure
