@@ -49,8 +49,18 @@
 >Testing.InitializeTestEnvironment
 (
     aTrainPosition =&gt; 100.0,
-    aMode =&gt; ModeEnum.SR
+    aMode =&gt; ModeEnum.FS
 )</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="b095af2c-36d3-4f0f-9959-93df2567ad9d"
+>Kernel.MA.EOA().Location == 4500.0</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="4a0c74ee-2496-472e-b716-801db0f1ab1b"
+>Kernel.MA.EOA().Location &gt; BTM.AntennaDistance(DistanceIntervalEnum.Min)</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step></Steps>
 </TestCase><TestCase
@@ -86,15 +96,22 @@
 <Actions>
 <Action
  Guid="08e54d9b-0485-4d36-9bae-767c1dbb80a4"
->Kernel.HandleModeChange &lt;- Kernel.HandleModeChange.TrainTrip.A025</Action></Actions>
+>Kernel.HandleModeChange &lt;- Kernel.HandleModeChange.TrainTrip.A025</Action><Action
+ Guid="87cac4e1-9b76-48b8-adf7-87427461d2a4"
+>Odometry.NominalDistance &lt;- 4550.0</Action></Actions>
 <Expectations>
 <Expectation
  Kind="Instantaneous"
  Guid="f9bd6585-dd77-4fc9-bbe5-fcbbce2b37e8"
 >Kernel.Mode == ModeEnum.TR</Expectation><Expectation
  Kind="Instantaneous"
+ DeadLine="1"
  Guid="a73f5ae0-34bf-4ef6-a915-f999bd841d56"
->Kernel.HandleModeChange in Kernel.HandleModeChange.TrainTrip.D020</Expectation></Expectations>
+>Kernel.HandleModeChange in Kernel.HandleModeChange.TrainTrip.D020</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="18ecbc31-7d4f-4a09-b1af-b4c9f33009d6"
+>Kernel.MA.EOA().Location &lt;= BTM.AntennaDistance(DistanceIntervalEnum.Min)</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step></Steps>
 </TestCase></TestCases>
@@ -409,12 +426,8 @@
 >
 <Actions>
 <Action
- Guid="1d44e362-3fac-4384-9b94-99c5356a3383"
->Testing.InitializeTestEnvironment
-(
-    aTrainPosition =&gt; 100.0,
-    aMode =&gt; ModeEnum.PT
-)</Action></Actions>
+ Guid="e5b80563-8790-44f3-a408-1eed12b6a95f"
+>Testing.SetTRMode(False)</Action></Actions>
 </SubStep><SubStep
  TimeDelay="NotDelayed"
  Name="Sub-step2"
@@ -424,8 +437,6 @@
 <Action
  Guid="e11dcb7a-211c-4a96-b3ac-1964437f8ff3"
 >EURORADIO.CurrentRBCConnection().ContactData.DataState &lt;- DataStateEnum.Valid</Action><Action
- Guid="e5b80563-8790-44f3-a408-1eed12b6a95f"
->Testing.SetTRMode(False)</Action><Action
  Guid="4897dd23-8844-4d04-ab1a-deb0c6579dd5"
 >EURORADIO.CurrentRBCConnection().ConnectionState &lt;- EURORADIO.RBCStruct.ConnectionStateSM.Connected</Action></Actions>
 </SubStep></SubSteps>
@@ -456,16 +467,15 @@
 >
 <SubSteps>
 <SubStep
- TimeDelay="NotDelayed"
- Name="Sub-step1"
- Guid="953381cc-48fd-4c4e-9fdb-df727334496e"
+ Name="SubStep1"
+ Guid="b0abcc37-3fbe-4c13-b26c-b5815bb29dd6"
 >
 <Actions>
 <Action
  Guid="caa7f11f-45b4-43f6-9126-e19406456822"
 >Kernel.HandleModeChange &lt;- Kernel.HandleModeChange.TrainTrip.A115</Action><Action
  Guid="a07ec782-12a3-4e5a-941d-61d9da12c288"
->Testing.SetPTMode(False)</Action></Actions>
+>Kernel.Mode &lt;- Default.ModeEnum.PT</Action></Actions>
 <Expectations>
 <Expectation
  Kind="Instantaneous"
@@ -3471,8 +3481,14 @@ Value =&gt; LevelEnum.L2
 >
 <Actions>
 <Action
- Guid="c505134e-4da4-4241-8981-e75724893ab0"
->Kernel.HandleModeChange &lt;- Kernel.HandleModeChange.TrainTrip.S170.RequestDriverAck</Action><Action
+ Guid="57bf4eda-a6fc-4d69-9f35-277e5eb3284b"
+>Testing.SetPTMode(False)</Action></Actions>
+</SubStep><SubStep
+ Name="SubStep"
+ Guid="0f6ee735-b456-4683-960d-21e354d9ce6e"
+>
+<Actions>
+<Action
  Guid="622d12e5-68f1-4560-8f73-77df8e7845c1"
 >Kernel.MA.ModeProfile.Profile &lt;- 
 [
@@ -3496,8 +3512,8 @@ Value =&gt; LevelEnum.L2
         Length =&gt; 1000.0
     }
 }</Action><Action
- Guid="57bf4eda-a6fc-4d69-9f35-277e5eb3284b"
->Testing.SetPTMode(False)</Action></Actions>
+ Guid="c505134e-4da4-4241-8981-e75724893ab0"
+>Kernel.HandleModeChange &lt;- Kernel.HandleModeChange.TrainTrip.S170.RequestDriverAck</Action></Actions>
 <Expectations>
 <Expectation
  Kind="Instantaneous"
@@ -3509,7 +3525,7 @@ Value =&gt; LevelEnum.L2
 >Kernel.HandleModeChange in Kernel.HandleModeChange.TrainTrip.S170.DriverAckRequested</Expectation></Expectations>
 </SubStep><SubStep
  TimeDelay="NotDelayed"
- Name="Sub-step2 - Acknowledge the acknowledgement"
+ Name="Sub-step3 - Acknowledge the acknowledgement"
  Guid="c9349c8d-9925-4a20-bf6f-0b129894e782"
 >
 <Actions>
@@ -3535,8 +3551,14 @@ Value =&gt; LevelEnum.L2
 >
 <Actions>
 <Action
- Guid="92a2ef62-6a73-4828-bb4d-f3d21a4eecda"
->Kernel.HandleModeChange &lt;- Kernel.HandleModeChange.TrainTrip.S170.RequestDriverAck</Action><Action
+ Guid="08e3eb0d-1078-4dac-af3b-68e229f66e96"
+>Testing.SetPTMode(False)</Action></Actions>
+</SubStep><SubStep
+ Name="SubStep2"
+ Guid="98082832-6068-467c-88fe-e3d073da9706"
+>
+<Actions>
+<Action
  Guid="956814f5-6ae3-4634-99ff-d556dd257086"
 >Kernel.MA.ModeProfile.Profile &lt;- 
 [
@@ -3560,17 +3582,17 @@ Value =&gt; LevelEnum.L2
         Length =&gt; 1000.0
     }
 }</Action><Action
- Guid="08e3eb0d-1078-4dac-af3b-68e229f66e96"
->Testing.SetPTMode(False)</Action></Actions>
+ Guid="92a2ef62-6a73-4828-bb4d-f3d21a4eecda"
+>Kernel.HandleModeChange &lt;- Kernel.HandleModeChange.TrainTrip.S170.RequestDriverAck</Action></Actions>
 <Expectations>
 <Expectation
  Kind="Instantaneous"
+ Guid="c203b2ad-8177-4093-949d-2c02070d317b"
+>Kernel.HandleModeChange in Kernel.HandleModeChange.TrainTrip.S170.DriverAckRequested</Expectation><Expectation
+ Kind="Instantaneous"
  DeadLine="2"
  Guid="52583fcd-5abb-4321-ba6d-1df1d6d0e506"
->DMI.MasterDMI().In_AcknOfSHMode.InputInformation.RequestStatus == RequestEnum.Request</Expectation><Expectation
- Kind="Instantaneous"
- Guid="c203b2ad-8177-4093-949d-2c02070d317b"
->Kernel.HandleModeChange in Kernel.HandleModeChange.TrainTrip.S170.DriverAckRequested</Expectation></Expectations>
+>DMI.MasterDMI().In_AcknOfSHMode.InputInformation.RequestStatus == RequestEnum.Request</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step></Steps>
 </TestCase><TestCase
@@ -3605,12 +3627,18 @@ Value =&gt; LevelEnum.L2
 >
 <Actions>
 <Action
- Guid="0d6988b3-d110-485c-8e04-ad33105ec8aa"
->DMI.MasterDMI().In_AcknOfOSMode.ProvideDriverResponse()</Action><Action
- Guid="1eb8b613-4fdf-44a0-ad21-81275f6c9f7b"
->Kernel.HandleModeChange &lt;- Kernel.HandleModeChange.TrainTrip.S170.DriverAckRequested</Action><Action
  Guid="6372aa2e-c918-4d00-bd12-e15b58dc6097"
 >Testing.SetPTMode(False)</Action></Actions>
+</SubStep><SubStep
+ Name="SubStep2"
+ Guid="fc9d2445-8bcf-4666-8ad8-f8cd5debd6a1"
+>
+<Actions>
+<Action
+ Guid="1eb8b613-4fdf-44a0-ad21-81275f6c9f7b"
+>Kernel.HandleModeChange &lt;- Kernel.HandleModeChange.TrainTrip.S170.DriverAckRequested</Action><Action
+ Guid="0d6988b3-d110-485c-8e04-ad33105ec8aa"
+>DMI.MasterDMI().In_AcknOfOSMode.ProvideDriverResponse()</Action></Actions>
 <Expectations>
 <Expectation
  Kind="Instantaneous"
@@ -3641,23 +3669,29 @@ Value =&gt; LevelEnum.L2
 >
 <Actions>
 <Action
+ Guid="610fe633-9889-496d-aee7-488d975759bb"
+>Testing.SetPTMode(False)</Action></Actions>
+</SubStep><SubStep
+ Name="SubStep2"
+ Guid="011458e1-26ea-439d-9190-14ef41772687"
+>
+<Actions>
+<Action
  Guid="b8c4e189-ae2f-46c9-b6ce-5b4bf1b0565f"
 >Kernel.HandleModeChange &lt;- Kernel.HandleModeChange.TrainTrip.S170.DriverAckRequested</Action><Action
  Guid="b6fc34b7-9761-49b8-a5fd-84727a84592b"
->DMI.MasterDMI().In_AcknOfLSMode.ProvideDriverResponse()</Action><Action
- Guid="610fe633-9889-496d-aee7-488d975759bb"
->Testing.SetPTMode(False)</Action></Actions>
+>DMI.MasterDMI().In_AcknOfLSMode.ProvideDriverResponse()</Action></Actions>
 <Expectations>
 <Expectation
  Kind="Instantaneous"
- Guid="2ad13437-d946-4af0-8282-9b005eab9dc1"
->DMI.MasterDMI().In_AcknOfLSMode.InputInformation.RequestStatus == RequestEnum.Disabled</Expectation><Expectation
+ Guid="4a42f6cb-f0af-45c1-8456-e0dbb1901d76"
+>Kernel.HandleModeChange in Kernel.HandleModeChange.NoProcedure</Expectation><Expectation
  Kind="Instantaneous"
  Guid="36dd95a7-fd4d-450e-9256-36d7e805e79d"
 >Kernel.Mode == ModeEnum.LS</Expectation><Expectation
  Kind="Instantaneous"
- Guid="4a42f6cb-f0af-45c1-8456-e0dbb1901d76"
->Kernel.HandleModeChange in Kernel.HandleModeChange.NoProcedure</Expectation></Expectations>
+ Guid="2ad13437-d946-4af0-8282-9b005eab9dc1"
+>DMI.MasterDMI().In_AcknOfLSMode.InputInformation.RequestStatus == RequestEnum.Disabled</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step><Step
  IO="NA"
@@ -3677,23 +3711,29 @@ Value =&gt; LevelEnum.L2
 >
 <Actions>
 <Action
+ Guid="eb070d75-9d56-4d2d-aeb4-91df7df7f5bb"
+>Testing.SetPTMode(False)</Action></Actions>
+</SubStep><SubStep
+ Name="SubStep2"
+ Guid="fbf05a06-daa0-43f2-b7a8-b07580debfc4"
+>
+<Actions>
+<Action
  Guid="c9ce3fbf-43ab-4221-ae35-53957508ed25"
 >Kernel.HandleModeChange &lt;- Kernel.HandleModeChange.TrainTrip.S170.DriverAckRequested</Action><Action
  Guid="1ac13bf1-2969-4f21-8e52-70ccda23e54c"
->DMI.MasterDMI().In_AcknOfSHMode.ProvideDriverResponse()</Action><Action
- Guid="eb070d75-9d56-4d2d-aeb4-91df7df7f5bb"
->Testing.SetPTMode(False)</Action></Actions>
+>DMI.MasterDMI().In_AcknOfSHMode.ProvideDriverResponse()</Action></Actions>
 <Expectations>
 <Expectation
  Kind="Instantaneous"
- Guid="5c4bfe60-83eb-4d53-80c4-53efb259da88"
->DMI.MasterDMI().In_AcknOfOSMode.InputInformation.RequestStatus == RequestEnum.Disabled</Expectation><Expectation
+ Guid="9066175c-9640-4fed-a16c-c1a69cda3b5e"
+>Kernel.HandleModeChange in Kernel.HandleModeChange.NoProcedure</Expectation><Expectation
  Kind="Instantaneous"
  Guid="08c8c742-d335-4d42-b108-aa1e6a885353"
 >Kernel.Mode == ModeEnum.SH</Expectation><Expectation
  Kind="Instantaneous"
- Guid="9066175c-9640-4fed-a16c-c1a69cda3b5e"
->Kernel.HandleModeChange in Kernel.HandleModeChange.NoProcedure</Expectation></Expectations>
+ Guid="5c4bfe60-83eb-4d53-80c4-53efb259da88"
+>DMI.MasterDMI().In_AcknOfOSMode.InputInformation.RequestStatus == RequestEnum.Disabled</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step></Steps>
 </TestCase></TestCases>
