@@ -626,6 +626,21 @@ INITIAL_VALUE
 <Comment>Provides a target correspondin to the current segment of the MRSP (starting at the train&apos;s position, until the next discontinuity).</Comment>
 <Cases>
 <Case
+ Name="No discontinuities ahead of train position"
+ Guid="9a41b521-e1e1-4bbd-a725-d8043ded16ee"
+>
+<PreConditions>
+<PreCondition
+ Guid="69272027-ca1f-4faa-bc60-eb9539253167"
+>NOT THERE_IS aTarget IN Discontinuities(SpeedAndDistanceMonitoring.PermittedSpeedProfile) | aTarget.Location &gt; TrainPosition.FrontEndPosition( PointOfInterest =&gt; DistanceIntervalEnum.Nom )</PreCondition></PreConditions>
+<Expression>LET position &lt;- TrainPosition.FrontEndPosition( PointOfInterest =&gt; DistanceIntervalEnum.Nom ) IN
+
+SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target{
+Location =&gt; position,
+Speed =&gt; Kernel.MRSP.SpeedRestrictions( position ),
+Length =&gt; BaseTypes.Length.Infinity
+}</Expression>
+</Case><Case
  Name="Value"
  Guid="a9bc4f55-8a6e-42ec-a603-704d4465b864"
 >
@@ -633,13 +648,13 @@ INITIAL_VALUE
     Location =&gt; TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom),
     Speed =&gt; Kernel.MRSP.SpeedRestrictions(TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom)),
     Length =&gt; BaseTypes.DistanceToLength(
-        REDUCE Discontinuities(SpeedAndDistanceMonitoring.PermittedSpeedProfile)
+        (REDUCE Discontinuities(SpeedAndDistanceMonitoring.PermittedSpeedProfile) | X.Location &gt; TrainPosition.FrontEndPosition( PointOfInterest =&gt; DistanceIntervalEnum.Nom )
         USING X IN BaseTypes.MinDistance(
             X1 =&gt; X.Location,
             X2 =&gt; RESULT
             )
         INITIAL_VALUE BaseTypes.Distance.Infinity
-        )
+        ) - TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom))
 }</Expression>
 </Case></Cases>
 </Function></Functions>
