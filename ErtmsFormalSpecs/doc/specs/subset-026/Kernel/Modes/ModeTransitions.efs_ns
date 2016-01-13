@@ -3646,6 +3646,11 @@ TIU.NonLeadingPermitted</Expression>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="f6e18848-1a16-48d0-af78-a42907f8a055"
 >
+</ReqRef><ReqRef
+ Id="eb5aeb5a-ad87-4472-bf20-a249e1f525d2"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="96602141-25d4-4583-b5e3-1389b3b3658c"
+>
 </ReqRef><Comment>Transition to TR.</Comment>
 <PreConditions>
 <PreCondition
@@ -4514,6 +4519,11 @@ If the train position is invalid, delete the stored position.</Comment>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="8c751ad2-e917-43f5-86ff-ccd5b3bfd655"
 >
+</ReqRef><ReqRef
+ Id="eb5aeb5a-ad87-4472-bf20-a249e1f525d2"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f1d23fd4-6099-46ab-83b5-4b8dd828cfe0"
+>
 </ReqRef><Comment>Transition to TR.</Comment>
 <PreConditions>
 <PreCondition
@@ -4699,6 +4709,11 @@ If the train position is invalid, delete the stored position.</Comment>
  Id="f27f67c3-6ff7-425e-8ab3-f3eb40f14326"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="9be1a5a8-4741-4794-ac92-c3bf47be321e"
+>
+</ReqRef><ReqRef
+ Id="eb5aeb5a-ad87-4472-bf20-a249e1f525d2"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="4199f55a-1e96-4bf7-8464-d7b743a0226d"
 >
 </ReqRef><Comment>Transition to TR.</Comment>
 <PreConditions>
@@ -5238,6 +5253,11 @@ If the train position is invalid, delete the stored position.</Comment>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="da88a336-ca1b-494f-a777-e56bcbe34690"
 >
+</ReqRef><ReqRef
+ Id="eb5aeb5a-ad87-4472-bf20-a249e1f525d2"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a9d26752-5bf7-4a4e-9015-506a3e30eac7"
+>
 </ReqRef><Comment>Transition to TR.</Comment>
 <PreConditions>
 <PreCondition
@@ -5701,6 +5721,11 @@ If the train position is invalid, delete the stored position.</Comment>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="8555b571-6618-417d-b2f4-bd4cad4f9f1d"
 >
+</ReqRef><ReqRef
+ Id="eb5aeb5a-ad87-4472-bf20-a249e1f525d2"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0758fad6-219c-49ff-9e03-6c539d6144f9"
+>
 </ReqRef><Comment>Transition to TR.</Comment>
 <PreConditions>
 <PreCondition
@@ -6100,6 +6125,11 @@ If the train position is invalid, delete the stored position.</Comment>
  Id="f27f67c3-6ff7-425e-8ab3-f3eb40f14326"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="437d0119-2c40-4352-acf2-f927523b91ac"
+>
+</ReqRef><ReqRef
+ Id="eb5aeb5a-ad87-4472-bf20-a249e1f525d2"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="666229b9-97e4-4986-b25e-7ce5b48e1b26"
 >
 </ReqRef><Comment>Transition to TR.</Comment>
 <PreConditions>
@@ -6754,6 +6784,11 @@ If the train position is invalid, delete the stored position.</Comment>
  Id="57170c34-fdd6-4c7a-96b4-267f63401692"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="fe65b6d9-5e45-4436-a13f-bcfc20074a47"
+>
+</ReqRef><ReqRef
+ Id="eb5aeb5a-ad87-4472-bf20-a249e1f525d2"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="be79a499-70aa-4af5-beb0-9ed1855b203c"
 >
 </ReqRef><Comment>Transition to TR.</Comment>
 <PreConditions>
@@ -8775,4 +8810,28 @@ IN MA.ModeProfile.Profile</Action></Actions>
 >
 <Comment>Used to detect that the mode of the train has changed.</Comment>
 </Variable></Variables>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="221"
+ Y="541"
+ Width="100"
+ Height="50"
+ Name="Update previous mode"
+ Guid="0576564d-fc54-44ed-8060-cb33f2be942f"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Name="Update previous mode"
+ Guid="a6111ffe-d83c-4735-a30f-d9bd063ade90"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="bb2c9fea-5c8b-43f5-941d-34c210be91ef"
+>Kernel.Modes.ModeTransitions.PrevMode &lt;- Kernel.Mode</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
 </NameSpace>

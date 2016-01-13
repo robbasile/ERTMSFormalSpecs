@@ -287,7 +287,14 @@ Kernel.ActiveFunctions.SuperviseTrainSpeed_All_Information()
 <PreConditions>
 <PreCondition
  Guid="e6e2dfb6-e10b-4b64-8387-340273acfb3a"
->Monitoring in [MonitoringTypeSM.Release]</PreCondition></PreConditions>
+><Comment>In RSM and in TSM (but not PIM) we do not need to calculate the indication location since it is already in rear of the train.</Comment>
+Monitoring == MonitoringTypeSM.Release
+  OR
+(
+Monitoring == MonitoringTypeSM.Target
+  AND  
+NOT IsInPIM()
+)</PreCondition></PreConditions>
 <Expression>BaseTypes.Distance.Unknown</Expression>
 </Case><Case
  Name="Target is EOA and SvL, d_I is behind the train"

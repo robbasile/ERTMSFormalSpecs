@@ -1001,15 +1001,21 @@
 <SubSteps>
 <SubStep
  TimeDelay="NotDelayed"
- Name="Sub-step1"
+ Name="Sub-step1 - Set PT mode"
  Guid="b8bf881d-7807-4c51-8091-49a3c1c333e1"
+>
+<Actions>
+<Action
+ Guid="4609cee0-2d28-4a64-8391-eed07fd3eb4c"
+>Testing.SetPTMode(False)</Action></Actions>
+</SubStep><SubStep
+ Name="Check the transition"
+ Guid="1f8de568-ceb9-45a7-9577-8c50f8db032f"
 >
 <Actions>
 <Action
  Guid="5f3d41e9-9277-43fd-b429-fecb388c992e"
 >Kernel.HandleModeChange &lt;- Kernel.HandleModeChange.ShuntingInitiatedByDriver.A220</Action><Action
- Guid="4609cee0-2d28-4a64-8391-eed07fd3eb4c"
->Testing.SetPTMode(False)</Action><Action
  Guid="d1973753-b84a-4a35-a958-9c1429f6f62c"
 >DMI.MasterDMI().Out_ShuntingRefusedByRbc.OutputInformation.DisplayRequested &lt;- False</Action></Actions>
 <Expectations>

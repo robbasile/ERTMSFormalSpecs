@@ -43,6 +43,11 @@
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="22cc8876-20c7-4e32-a4bc-4a0d9be649f0"
 >
+</ReqRef><ReqRef
+ Id="b6c74cc9-fab4-4443-8044-94744d509710"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="be043de2-ef83-4af2-bde6-e83d0e266d0a"
+>
 </ReqRef><Steps>
 <Step
  IO="NA"
@@ -79,7 +84,17 @@
  Name="FS"
  Guid="a68e774f-2ab0-4cb0-9db5-52ff8f7db89f"
 >
-<SubSteps>
+<ReqRef
+ Id="6cb79caf-9664-41f0-8a62-909fbaf148e0"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="696e0d0f-31a1-4539-81b7-0e3c1be11310"
+>
+</ReqRef><ReqRef
+ Id="b735f776-78bc-4533-ae37-e969165c04c0"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="cfb19b27-aa40-4a72-b174-face1302fd40"
+>
+</ReqRef><SubSteps>
 <SubStep
  TimeDelay="NotDelayed"
  Name="Setup"
@@ -119,6 +134,37 @@
  DeadLine="1"
  Guid="f5ec906a-448f-4f13-bd2c-5a9bb3e4c678"
 >DMI.MasterDMI().In_OverrideRequest.InputInformation.RequestStatus == RequestEnum.Request</Expectation></Expectations>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Provide driver selection"
+ Guid="71875208-a814-4fbd-966a-f320ab6b2b5a"
+>
+<Actions>
+<Action
+ Guid="c31f76f8-91ca-4591-839b-fd31f8291b3f"
+>DMI.MasterDMI().In_OverrideRequest.ProvideDriverResponse()</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Check the mode"
+ Guid="eabc6f69-910d-466c-925d-c33595b89932"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="af6d371d-b400-44cc-8a9d-2bbe5e9cd601"
+>Kernel.Mode == ModeEnum.SR</Expectation></Expectations>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Check procedure is Override"
+ Guid="25c18bd6-4e3e-49b4-be85-4b9274faeae4"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="479608cf-d27a-4e5f-bf87-2b4ce263bad2"
+>Kernel.HandleModeChange in Kernel.HandleModeChangeSM.Override</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step><Step
  IO="NA"
@@ -130,7 +176,17 @@
  Name="LS"
  Guid="a8ad517d-66eb-4a3a-8066-9149f0541a06"
 >
-<SubSteps>
+<ReqRef
+ Id="6cb79caf-9664-41f0-8a62-909fbaf148e0"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="104c408e-552b-4ac0-868e-350c3ed75b54"
+>
+</ReqRef><ReqRef
+ Id="b735f776-78bc-4533-ae37-e969165c04c0"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b20d01d9-7e86-43f6-8f7f-919e2199f595"
+>
+</ReqRef><SubSteps>
 <SubStep
  TimeDelay="NotDelayed"
  Name="Setup"
@@ -170,6 +226,37 @@
  DeadLine="1"
  Guid="1058c6c4-40a9-4567-9973-2bc365a5deb2"
 >DMI.MasterDMI().In_OverrideRequest.InputInformation.RequestStatus == RequestEnum.Request</Expectation></Expectations>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Provide driver selection"
+ Guid="a7b3f7b6-fe43-4bf7-9863-b9133cc0062b"
+>
+<Actions>
+<Action
+ Guid="2f5a52bb-c717-4e55-95ab-bb98f4e36009"
+>DMI.MasterDMI().In_OverrideRequest.ProvideDriverResponse()</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Check the mode"
+ Guid="a1b88f9f-7bae-4899-b2f1-2034299e39db"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="83a2d7d2-6d9b-4e88-90af-b30965021b07"
+>Kernel.Mode == ModeEnum.SR</Expectation></Expectations>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Check procedure is Override"
+ Guid="62471d5d-d86e-4e12-a531-6a88adaafa4f"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="e93cd6c2-b676-4fc7-92b4-f8729ca992a6"
+>Kernel.HandleModeChange in Kernel.HandleModeChangeSM.Override</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step><Step
  IO="NA"
@@ -181,7 +268,17 @@
  Name="OS"
  Guid="a30c98f3-caff-43b2-b313-0ba3742e653f"
 >
-<SubSteps>
+<ReqRef
+ Id="6cb79caf-9664-41f0-8a62-909fbaf148e0"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="eb73fea7-ac1e-4bde-bfbc-dd8b53427a9b"
+>
+</ReqRef><ReqRef
+ Id="b735f776-78bc-4533-ae37-e969165c04c0"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="2f782adb-e496-454c-bb38-a91db6d7e979"
+>
+</ReqRef><SubSteps>
 <SubStep
  TimeDelay="NotDelayed"
  Name="Setup"
@@ -192,7 +289,7 @@
  Guid="98b68d6e-1e22-42da-9d92-7dbea63acfdb"
 >Testing.InitializeTestEnvironment
 (
-    aTrainPosition =&gt; 0.0,
+    aTrainPosition =&gt; 100.0,
     aMode =&gt; ModeEnum.OS
 )</Action></Actions>
 </SubStep><SubStep
@@ -220,7 +317,42 @@
  Kind="Instantaneous"
  DeadLine="1"
  Guid="52ccc031-fdb3-4e5e-b27c-3f4c48ff7008"
->DMI.MasterDMI().In_OverrideRequest.InputInformation.RequestStatus == RequestEnum.Request</Expectation></Expectations>
+>DMI.MasterDMI().In_OverrideRequest.InputInformation.RequestStatus == RequestEnum.Request</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="3e6ba719-30ac-46af-9767-de65d768a9a1"
+>Kernel.MA.EOA().Location == 4500.0</Expectation></Expectations>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Provide driver selection"
+ Guid="2110b187-875a-42e6-8dc0-c4ae444c8e92"
+>
+<Actions>
+<Action
+ Guid="a77714e4-bfb9-4672-9515-b16cfaf3d988"
+>DMI.MasterDMI().In_OverrideRequest.ProvideDriverResponse()</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Check the mode"
+ Guid="27c21399-8c30-4197-bf42-952d9ca90684"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="ae9226b9-cd37-4cd3-b9f6-939a07b78dfa"
+>Kernel.Mode == ModeEnum.SR</Expectation></Expectations>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Check procedure is Override"
+ Guid="0de115f3-9713-40c6-a3da-58d61f6defa6"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="ce7b70ec-51cb-49c7-a69d-f24d6b8fbf33"
+>Kernel.HandleModeChange in Kernel.HandleModeChangeSM.Override</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step><Step
  IO="NA"
@@ -232,7 +364,12 @@
  Name="SR"
  Guid="8be9c11e-7cda-4ae5-b309-59c1b772444f"
 >
-<SubSteps>
+<ReqRef
+ Id="6cb79caf-9664-41f0-8a62-909fbaf148e0"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b6f971d5-3068-40c2-bd7a-f841b0c6faa4"
+>
+</ReqRef><SubSteps>
 <SubStep
  TimeDelay="NotDelayed"
  Name="Setup"
@@ -272,6 +409,37 @@
  DeadLine="1"
  Guid="a87c32ad-ea3a-4614-ad86-0856830c1363"
 >DMI.MasterDMI().In_OverrideRequest.InputInformation.RequestStatus == RequestEnum.Request</Expectation></Expectations>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Provide driver selection"
+ Guid="4554d04e-dfdb-4b81-a62f-11ea942bff55"
+>
+<Actions>
+<Action
+ Guid="d97723c9-460f-4880-a29a-931223d92bc0"
+>DMI.MasterDMI().In_OverrideRequest.ProvideDriverResponse()</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Check the mode"
+ Guid="2e540024-df15-423e-b8e0-001632bb430f"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="c5904a0f-ef4a-435a-a1bc-482614a8731c"
+>Kernel.Mode == ModeEnum.SR</Expectation></Expectations>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Check procedure is Override"
+ Guid="e9452341-c33c-48e5-98b2-b72b6a8b3ed7"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="46a1a350-a9e3-42b6-8cc3-10abb051a06c"
+>Kernel.HandleModeChange in Kernel.HandleModeChangeSM.Override</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step><Step
  IO="NA"
@@ -283,7 +451,17 @@
  Name="SH"
  Guid="e2134c68-308e-4ea7-b376-6507a6a67f8c"
 >
-<SubSteps>
+<ReqRef
+ Id="d0f2374c-749b-4fbb-9d15-8d758e11d01c"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="3af545ed-153d-46b0-984f-27ec820a5f22"
+>
+</ReqRef><ReqRef
+ Id="b735f776-78bc-4533-ae37-e969165c04c0"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d9b73b7e-fe69-4c34-9377-5b46b198465d"
+>
+</ReqRef><SubSteps>
 <SubStep
  TimeDelay="NotDelayed"
  Name="Setup"
@@ -323,6 +501,37 @@
  DeadLine="1"
  Guid="f8c502af-9b8d-4ed8-ba90-56db415886eb"
 >DMI.MasterDMI().In_OverrideRequest.InputInformation.RequestStatus == RequestEnum.Request</Expectation></Expectations>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Provide driver selection"
+ Guid="87d0d893-f2f1-4110-8328-d459aa5c9d91"
+>
+<Actions>
+<Action
+ Guid="83243fb9-4534-4ef7-b9e2-f4a1515ca8b7"
+>DMI.MasterDMI().In_OverrideRequest.ProvideDriverResponse()</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Check the mode"
+ Guid="07c600bf-df4b-482d-bc48-fdb925f5d7d5"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="c6397e56-5916-45f7-b108-833ccf281c87"
+>Kernel.Mode == ModeEnum.SH</Expectation></Expectations>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Check procedure is Override"
+ Guid="31adadee-5036-4cc3-a4be-0495f736d71a"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="c94e2dcd-00ec-4b28-b7b9-cc1689a8d2e3"
+>Kernel.HandleModeChange in Kernel.HandleModeChangeSM.Override</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step><Step
  IO="NA"
@@ -334,7 +543,12 @@
  Name="UN"
  Guid="1c5ca116-dcc0-4c1c-a04c-849c170e5db5"
 >
-<SubSteps>
+<ReqRef
+ Id="b735f776-78bc-4533-ae37-e969165c04c0"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="61c50b1a-5008-4339-8b10-7ec090d4ef75"
+>
+</ReqRef><SubSteps>
 <SubStep
  TimeDelay="NotDelayed"
  Name="Setup"
@@ -374,6 +588,59 @@
  DeadLine="1"
  Guid="32cb976b-3dce-4d39-a4fb-496e4129b875"
 >DMI.MasterDMI().In_OverrideRequest.InputInformation.RequestStatus == RequestEnum.Request</Expectation></Expectations>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Provide driver selection"
+ Guid="b69ef1c8-db23-4753-90ae-7e3cf53a26ec"
+>
+<Actions>
+<Action
+ Guid="10e75b36-30db-4ae0-ad57-886b2ebb3b2b"
+>DMI.MasterDMI().In_OverrideRequest.ProvideDriverResponse()</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Check the mode is unchanged"
+ Guid="2afa3099-6d9e-419b-9b68-4b2947df34fc"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="0c5115f7-cd60-43e6-b1bf-59da46c5408b"
+>Kernel.Mode == ModeEnum.UN</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="a78b629c-fb51-4373-8c19-fe7312544326"
+>Kernel.Level.Value.Value == LevelEnum.L0</Expectation></Expectations>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Check procedure is Override"
+ Guid="95c8d8cd-fa52-4de4-879c-cde85f5a1653"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="5e6f07a3-026b-4439-9e77-3a1be5efd05a"
+>Kernel.HandleModeChange in Kernel.HandleModeChangeSM.Override</Expectation></Expectations>
+</SubStep><SubStep
+ Name="Level changes to L1"
+ Guid="90f31479-5967-4258-bf74-5524fe1f09cf"
+>
+<Actions>
+<Action
+ Guid="27ec639a-724d-488d-9af4-0feceed10d5e"
+>Kernel.Level.Value.Value &lt;- Default.LevelEnum.L1</Action></Actions>
+</SubStep><SubStep
+ Name="Check the mode is SR"
+ Guid="fcb4b0ee-548e-4220-9048-ea946eb4d753"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="fcea0711-4ba2-4631-b909-71dd3ba93929"
+>Kernel.Mode == ModeEnum.SR</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step><Step
  IO="NA"
@@ -385,7 +652,17 @@
  Name="PT"
  Guid="3f02af93-54bf-4937-a7b2-aebe9d16439f"
 >
-<SubSteps>
+<ReqRef
+ Id="6cb79caf-9664-41f0-8a62-909fbaf148e0"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="378e1b14-052a-4922-9dff-77e44af0a96d"
+>
+</ReqRef><ReqRef
+ Id="b735f776-78bc-4533-ae37-e969165c04c0"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="382e9dde-fe39-4271-a814-ffb5af9b9b75"
+>
+</ReqRef><SubSteps>
 <SubStep
  TimeDelay="NotDelayed"
  Name="Setup"
@@ -413,7 +690,9 @@
  Guid="76d8c87b-2b76-4c44-825e-2ef7dd219d7d"
 >Odometry.EstimatedSpeed &lt;- 12.0</Action><Action
  Guid="495c1e52-fdec-440a-91db-50de60808de9"
->Kernel.TrainData.TrainData.DataState &lt;- Default.DataStateEnum.Valid</Action></Actions>
+>Kernel.TrainData.TrainData.DataState &lt;- Default.DataStateEnum.Valid</Action><Action
+ Guid="417f0b9a-06fd-4011-a1e4-3788a72eeb75"
+>Kernel.Level.Value.Value &lt;- Default.LevelEnum.L2</Action></Actions>
 </SubStep><SubStep
  TimeDelay="NotDelayed"
  Name="Check override is proposed"
@@ -425,6 +704,37 @@
  DeadLine="1"
  Guid="5924cd34-ee9f-485b-bdc2-3383c985e9d5"
 >DMI.MasterDMI().In_OverrideRequest.InputInformation.RequestStatus == RequestEnum.Request</Expectation></Expectations>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Provide driver selection"
+ Guid="f487f1f8-a1da-4a76-8b8b-e66b5a1a5321"
+>
+<Actions>
+<Action
+ Guid="96d72877-83c7-4c55-875c-25d65a12fe0a"
+>DMI.MasterDMI().In_OverrideRequest.ProvideDriverResponse()</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Check the mode"
+ Guid="fe5f4174-a52c-4bed-8bd1-f08349bed347"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="80b8125e-9b69-403e-88e3-afe30be261ec"
+>Kernel.Mode == ModeEnum.SR</Expectation></Expectations>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Check procedure is Override"
+ Guid="20f963fa-a45a-4339-81a4-2045d0fb4bf6"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="f908d9c0-08c4-4bad-a9ee-f5746b2410ed"
+>Kernel.HandleModeChange in Kernel.HandleModeChangeSM.Override</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step><Step
  IO="NA"
@@ -436,7 +746,17 @@
  Name="SB"
  Guid="89af5163-c8dd-4477-bd50-69f91595560c"
 >
-<SubSteps>
+<ReqRef
+ Id="6cb79caf-9664-41f0-8a62-909fbaf148e0"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="058d3927-ae5b-40f7-b574-7d5609dd06a6"
+>
+</ReqRef><ReqRef
+ Id="b735f776-78bc-4533-ae37-e969165c04c0"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="35208321-bdc7-4f3c-9691-130915cd2135"
+>
+</ReqRef><SubSteps>
 <SubStep
  TimeDelay="NotDelayed"
  Name="Setup"
@@ -480,6 +800,37 @@
  DeadLine="1"
  Guid="8931db34-dc1a-4f3e-b45d-b630d313f93f"
 >DMI.MasterDMI().In_OverrideRequest.InputInformation.RequestStatus == RequestEnum.Request</Expectation></Expectations>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Provide driver selection"
+ Guid="b8418ac5-57e4-42be-9267-c0072c5549ab"
+>
+<Actions>
+<Action
+ Guid="c273cd90-86ca-4972-b84e-26f7a1e3d225"
+>DMI.MasterDMI().In_OverrideRequest.ProvideDriverResponse()</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Check the mode"
+ Guid="a3c3d21f-693b-4152-b362-aeb7605bb917"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="599b907e-e8ac-457b-bbf4-0a98c2e730fe"
+>Kernel.Mode == ModeEnum.SR</Expectation></Expectations>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Check procedure is Override"
+ Guid="9e520c5c-4d43-40a5-9344-d7272f23f185"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="30b04f0c-9678-4a70-b7a9-ae4b6e108eb2"
+>Kernel.HandleModeChange in Kernel.HandleModeChangeSM.Override</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step><Step
  IO="NA"
@@ -491,7 +842,17 @@
  Name="SN"
  Guid="34e704bd-393f-47b1-942e-64e65b6d06f2"
 >
-<SubSteps>
+<ReqRef
+ Id="c8b3f989-1504-46c0-84e3-3b54fdc4e132"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0114c705-0ef0-4b31-8f7a-2bcafa966ad5"
+>
+</ReqRef><ReqRef
+ Id="b735f776-78bc-4533-ae37-e969165c04c0"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c0eb19f0-790e-4a76-b9b7-34e93f01ac83"
+>
+</ReqRef><SubSteps>
 <SubStep
  TimeDelay="NotDelayed"
  Name="Setup"
@@ -531,6 +892,61 @@
  DeadLine="1"
  Guid="826e7877-7744-4138-8fc9-c9480307341e"
 >DMI.MasterDMI().In_OverrideRequest.InputInformation.RequestStatus == RequestEnum.Request</Expectation></Expectations>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Provide driver selection"
+ Guid="2ee1a722-8fed-4635-8b06-4aead953caa4"
+>
+<Actions>
+<Action
+ Guid="b039200c-9b8a-4502-97b3-20b99ea94cdb"
+>DMI.MasterDMI().In_OverrideRequest.ProvideDriverResponse()</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Check the mode is unchanged"
+ Guid="1f82b89a-241f-4146-8e87-2f61a917449e"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="ab35eef5-89dc-4b6a-abd3-3d220ae1b7d8"
+>Kernel.Mode == ModeEnum.SN</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="2230a977-d60c-4003-8c85-454d0780ea1b"
+>Kernel.Level.Value.Value == LevelEnum.LNTC</Expectation></Expectations>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Check procedure is Override"
+ Guid="c0074273-8b61-43b2-87a4-c87891837849"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="96825d23-70cc-4f0e-822d-ca399a5758cf"
+>Kernel.HandleModeChange in Kernel.HandleModeChangeSM.Override</Expectation></Expectations>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Level changes to L1"
+ Guid="a25818cf-e8fe-44ef-9928-27bf35bb45d6"
+>
+<Actions>
+<Action
+ Guid="ba9f046b-dbba-4e3c-a05f-57adc2674915"
+>Kernel.Level.Value.Value &lt;- Default.LevelEnum.L1</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Check the mode is SR"
+ Guid="c98a5743-c90b-4eb8-a89d-f6405158519c"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="b49c53f5-dfc6-4c01-b82a-5514bafded94"
+>Kernel.Mode == ModeEnum.SR</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step></Steps>
 </TestCase><TestCase
@@ -972,131 +1388,6 @@
  DeadLine="1"
  Guid="e25fea2a-9476-44b3-a095-0e24848a8c1e"
 >DMI.MasterDMI().In_OverrideRequest.InputInformation.RequestStatus == RequestEnum.Disabled</Expectation></Expectations>
-</SubStep></SubSteps>
-</Step></Steps>
-</TestCase><TestCase
- Name="Override procedure is triggered when selected by the driver"
- Guid="ed797f74-e842-4084-a720-4ef8891028a8"
->
-<ReqRef
- Id="b6c74cc9-fab4-4443-8044-94744d509710"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="d77f05a1-b5e8-49c3-8b71-442d288e5b93"
->
-</ReqRef><Steps>
-<Step
- IO="NA"
- LevelIN="NA"
- LevelOUT="NA"
- ModeIN="NA"
- ModeOUT="NA"
- TranslationRequired="FALSE"
- Name="Setup"
- Guid="0209929d-24cd-4f6e-9f5f-c574102eccec"
->
-<SubSteps>
-<SubStep
- TimeDelay="NotDelayed"
- Name="Set mode"
- Guid="587f35e5-5f10-4e0d-8c34-0d9ccb448fb0"
->
-<Actions>
-<Action
- Guid="696c55da-5843-408e-9955-5caea8b5ccf9"
->Testing.InitializeTestEnvironment
-(
-    aTrainPosition =&gt; 0.0,
-    aMode =&gt; ModeEnum.FS
-)</Action></Actions>
-</SubStep><SubStep
- TimeDelay="NotDelayed"
- Name="Disable override request and set no procedure"
- Guid="8a37ec4a-d226-4c01-96f2-405d94087806"
->
-<Actions>
-<Action
- Guid="4d14444b-1c55-4a16-8e1e-2a2327c1c231"
->DMI.MasterDMI().In_OverrideRequest.InputInformation.RequestStatus &lt;- Default.RequestEnum.Disabled</Action><Action
- Guid="b75e1e53-582e-4e98-ab11-3f0ff4097ff5"
->Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.NoProcedure</Action></Actions>
-</SubStep><SubStep
- TimeDelay="NotDelayed"
- Name="Set train data"
- Guid="42007ebf-f9f2-4336-a58d-a7ab9205d2ae"
->
-<Actions>
-<Action
- Guid="f0da9f47-5f75-4ecc-ac97-be08c361aa3c"
->Kernel.TrainData.TrainData.DataState &lt;- Default.DataStateEnum.Valid</Action></Actions>
-</SubStep><SubStep
- TimeDelay="NotDelayed"
- Name="Set speed"
- Guid="10f49902-09ba-48d7-8b93-502c378f7699"
->
-<Actions>
-<Action
- Guid="3e95c86d-0a06-4bdc-8670-a570eb13dfae"
->Odometry.EstimatedSpeed &lt;- 20.0</Action><Action
- Guid="9bb41292-9b71-4c85-b9d0-b8c83ad6ae24"
->Kernel.NationalValues.CurrentNV().SpeedLimitForTriggeringTheOverrideFunction &lt;- 20.0</Action></Actions>
-</SubStep></SubSteps>
-</Step><Step
- IO="NA"
- LevelIN="NA"
- LevelOUT="NA"
- ModeIN="NA"
- ModeOUT="NA"
- TranslationRequired="FALSE"
- Name="Check override is proposed"
- Guid="d4380813-b6b4-4302-a8ff-3f3123eaf1d6"
->
-<SubSteps>
-<SubStep
- TimeDelay="NotDelayed"
- Name="Check override is proposed"
- Guid="59768f16-761e-4347-ac56-a27c599b168c"
->
-<Expectations>
-<Expectation
- Kind="Instantaneous"
- DeadLine="1"
- Guid="0c2a1706-c88c-48f9-a954-f34c2c7d5d48"
->DMI.MasterDMI().In_OverrideRequest.InputInformation.RequestStatus == RequestEnum.Request</Expectation><Expectation
- Kind="Instantaneous"
- DeadLine="1"
- Guid="406f9d30-9c81-49c1-aa65-a602962dd1fb"
->Kernel.HandleModeChange in Kernel.HandleModeChangeSM.NoProcedure</Expectation></Expectations>
-</SubStep></SubSteps>
-</Step><Step
- IO="NA"
- LevelIN="NA"
- LevelOUT="NA"
- ModeIN="NA"
- ModeOUT="NA"
- TranslationRequired="FALSE"
- Name="Check override procedure is launched when the driver selects override"
- Guid="b611ac66-186b-4dd6-a35e-881c71cfe5cd"
->
-<SubSteps>
-<SubStep
- TimeDelay="NotDelayed"
- Name="Driver answers"
- Guid="847ca383-bb07-4837-9aa1-c280cc96db16"
->
-<Actions>
-<Action
- Guid="28fd078b-5d4e-4bdd-9eff-c06cbe539947"
->DMI.MasterDMI().In_OverrideRequest.ProvideDriverResponse()</Action></Actions>
-</SubStep><SubStep
- Name="SubStep2"
- Guid="b24c52c7-fd7c-4d51-a2b3-08e03881cea6"
->
-<Expectations>
-<Expectation
- Kind="Instantaneous"
- DeadLine="1"
- Guid="1384c918-a7b7-48d6-a258-b456155985b4"
->Kernel.HandleModeChange in Kernel.HandleModeChangeSM.Override</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step></Steps>
 </TestCase></TestCases>

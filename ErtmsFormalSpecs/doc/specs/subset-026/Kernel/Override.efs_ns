@@ -209,7 +209,7 @@
 <PreConditions>
 <PreCondition
  Guid="9e1640cc-d2b5-4b0b-b3e4-54d34380580b"
->Kernel.Mode in [ModeEnum.SB, ModeEnum.PT]</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.PrevMode in [ModeEnum.SB, ModeEnum.PT]</PreCondition></PreConditions>
 <Expression>Odometry.NominalDistance</Expression>
 </Case><Case
  Name="FS, LS or OS mode"
@@ -218,7 +218,7 @@
 <PreConditions>
 <PreCondition
  Guid="cc13a10d-575d-4958-8f6c-2533f862aef9"
->Kernel.Mode in [ModeEnum.FS, ModeEnum.LS, ModeEnum.OS]</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.PrevMode in [ModeEnum.FS, ModeEnum.LS, ModeEnum.OS]</PreCondition></PreConditions>
 <Expression>MA.EOA().Location</Expression>
 </Case><Case
  Name="SR mode"
@@ -227,7 +227,7 @@
 <PreConditions>
 <PreCondition
  Guid="a01226c9-c131-421c-a773-ffbc5c3acc08"
->Kernel.Mode == ModeEnum.SR</PreCondition></PreConditions>
+>Kernel.Modes.ModeTransitions.PrevMode == ModeEnum.SR</PreCondition></PreConditions>
 <Expression>OverrideSupervision.FormerEOA</Expression>
 </Case><Case
  Name="No MA"
