@@ -131,10 +131,10 @@ namespace GUI
         /// <returns></returns>
         protected virtual bool ShouldDisplayChange(IModelElement modelElement, Context.ChangeKind changeKind)
         {
-            bool retVal = modelElement == null || DisplayedModel == null || DisplayedModel.IsParent(modelElement);
+            bool retVal = true;
 
             // When end of cycle, only redisplay when the displayed element related to a variable
-            if (retVal && changeKind == Context.ChangeKind.EndOfCycle)
+            if (changeKind == Context.ChangeKind.EndOfCycle)
             {
                 IVariable variable = EnclosingFinder<IVariable>.find(DisplayedModel, true);
                 retVal = (variable != null);
