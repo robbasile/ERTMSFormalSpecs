@@ -17,7 +17,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Threading;
 using DataDictionary.Generated;
 using DataDictionary.Interpreter.Refactor;
 using DataDictionary.Types;
@@ -226,11 +225,6 @@ namespace DataDictionary.Interpreter
         }
 
         /// <summary>
-        ///     Indicates that the compilation should be performed
-        /// </summary>
-        public bool DoCompile { get; set; }
-
-        /// <summary>
         ///     The compilation options needed for the next compile
         /// </summary>
         private class CompilationOptions
@@ -263,52 +257,9 @@ namespace DataDictionary.Interpreter
         }
 
         /// <summary>
-        ///     The next compile session options
-        /// </summary>
-        private CompilationOptions NextCompile { get; set; }
-
-        /// <summary>
         ///     The current compilation session options
         /// </summary>
-        private CompilationOptions CurrentCompile { get; set; }
-
-        /// <summary>
-        ///     The compiler thread
-        /// </summary>
-        private Thread CompilerThread { get; set; }
-
-        /// <summary>
-        ///     Constructor
-        /// </summary>
-        public Compiler()
-        {
-            DoCompile = false;
-            if (false)
-            {
-                CompilerThread = ThreadUtil.CreateThread("Compiler", CompileContinuously);
-                CompilerThread.Start();
-            }
-        }
-
-        /// <summary>
-        ///     Perform continuous compilation
-        /// </summary>
-        /// <param name="obj"></param>
-        private void CompileContinuously(object obj)
-        {
-            while (DoCompile)
-            {
-                CurrentCompile = NextCompile;
-                if (CurrentCompile != null)
-                {
-                    NextCompile = null;
-                    PerformCompile(CurrentCompile);
-                    CurrentCompile.CompilationDone = true;
-                }
-
-                Thread.Sleep(100);
-            }
-        }
+        private CompilationOptions Options { get; set; }
 
         /// <summary>
         ///     Creates the function dependancies
@@ -534,11 +485,14 @@ namespace DataDictionary.Interpreter
         }
 
         /// <summary>
-        ///     Compiles or recompiles everything
+        ///     Performs a synchronous compilation
         /// </summary>
-        private void PerformCompile(CompilationOptions options)
+        /// <param name="rebuild"></param>
+        /// <param name="silent"></param>
+        public void Compile_Synchronous (bool rebuild, bool silent = false)
         {
-            ModelElement.DontRaiseError(options.SilentCompile, () =>
+            Options = new CompilationOptions (rebuild, silent);
+            ModelElement.DontRaiseError(Options.SilentCompile, () =>
             {
                 try
                 {
@@ -546,12 +500,15 @@ namespace DataDictionary.Interpreter
                     FinderRepository.INSTANCE.ClearCache();
 
                     // Initialises the declared elements
-                    CleanBeforeCompilation cleanBeforeCompilation = new CleanBeforeCompilation(options, true);
+                    // ReSharper disable once UnusedVariable
+                    CleanBeforeCompilation clean_before_compilation = new CleanBeforeCompilation(Options, true);
 
                     // Create the update information
-                    FindUpdates findUpdates = new FindUpdates();
+                    // ReSharper disable once UnusedVariable
+                    FindUpdates find_updates = new FindUpdates();
 
                     // Unifies the state machines and structure according to the update information
+                    // ReSharper disable once UnusedVariable
                     Unify unify = new Unify();
 
                     // Compiles each expression and each statement encountered in the nodes
@@ -560,79 +517,25 @@ namespace DataDictionary.Interpreter
                         visit(dictionary, true);
                     }
 
-                    if (options.Rebuild)
+                    if (Options.Rebuild)
                     {
-                        CreateDependancy createDependancy = new CreateDependancy();
-                        if (createDependancy.DependancyChange)
+                        CreateDependancy create_dependancy = new CreateDependancy();
+                        if (create_dependancy.DependancyChange)
                         {
-                            FlattenDependancy flattenDependancy = new FlattenDependancy();
+                            // ReSharper disable once UnusedVariable
+                            FlattenDependancy flatten_dependancy = new FlattenDependancy();
                         }
                     }
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
                     // TODO : I don't know what to do. 
                     // Please, at least, don't remove this
                     Debugger.Break();
+                    EfsSystem.Instance.ShouldRebuild = true;
+
                 }
             });
-        }
-
-        /// <summary>
-        ///     Setups the NextCompile option
-        /// </summary>
-        /// <param name="rebuild"></param>
-        /// <param name="silent"></param>
-        /// <returns></returns>
-        private CompilationOptions SetupCompilationOptions(bool rebuild, bool silent)
-        {
-            CompilationOptions options = NextCompile;
-
-            if (options != null)
-            {
-                options.Rebuild = options.Rebuild || rebuild;
-                options.SilentCompile = options.SilentCompile || silent;
-            }
-            else
-            {
-                options = new CompilationOptions(rebuild, silent);
-                NextCompile = options;
-            }
-
-            return options;
-        }
-
-        /// <summary>
-        ///     Performs a synchronous compilation
-        /// </summary>
-        /// <param name="rebuild"></param>
-        /// <param name="silent"></param>
-        public void Compile_Synchronous(bool rebuild, bool silent = false)
-        {
-            if (DoCompile)
-            {
-                // Background compilation process is running
-                CompilationOptions options = SetupCompilationOptions(rebuild, silent);
-                while (!options.CompilationDone)
-                {
-                    Thread.Sleep(100);
-                }
-            }
-            else
-            {
-                CurrentCompile = new CompilationOptions(rebuild, silent);
-                PerformCompile(CurrentCompile);
-            }
-        }
-
-        /// <summary>
-        ///     Performs an asynchronous compilation
-        /// </summary>
-        /// <param name="rebuild"></param>
-        /// <param name="silent"></param>
-        public void Compile_Asynchronous(bool rebuild, bool silent = false)
-        {
-            SetupCompilationOptions(rebuild, silent);
         }
 
         #region Compilation
@@ -643,7 +546,7 @@ namespace DataDictionary.Interpreter
             if (expressionable != null)
             {
                 // In case of rebuild, cleans the previously constructed tree
-                if (CurrentCompile.Rebuild)
+                if (Options.Rebuild)
                 {
                     expressionable.CleanCompilation();
                 }

@@ -1409,7 +1409,6 @@ namespace DataDictionary
         /// </summary>
         public void Stop()
         {
-            Compiler.DoCompile = false;
             Context.Stop();
         }
 
