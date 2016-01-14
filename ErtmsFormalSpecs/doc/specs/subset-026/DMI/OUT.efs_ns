@@ -4082,10 +4082,15 @@ Kernel.ActiveFunctions.SuperviseTrainSpeed_MRSP()</PreCondition></PreConditions>
  Guid="bbda0746-b83a-4d19-82f7-b7a1006d3eef"
 >THIS.OutputInformation.RequestDisplay()</Action><Action
  Guid="c8879d51-a624-4958-86e2-c9fc8e2ca983"
->THIS.MRSP &lt;- [Kernel.MRSP.CurrentMRSPSegment()] + 
+><Comment>Provides the list of targets to be displayed on the planning area. Since their position has to be updated according to the current position of the train, the front end position is substracted from the location of each target (with minimum allowed value 0).</Comment>
+THIS.MRSP &lt;- 
 MAP Discontinuities(Kernel.SpeedAndDistanceMonitoring.PermittedSpeedProfile)
   USING X IN Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target{
-    Location =&gt; BaseTypes.OffsetDistance(aDistance =&gt; X.Location, aOffset =&gt; Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom) ),
+    Location =&gt; BaseTypes.MaxDistance
+    (
+      X1 =&gt; 0.0,
+      X2 =&gt; BaseTypes.OffsetDistance(aDistance =&gt; X.Location, aOffset =&gt; Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom)
+    ) ),
     Speed =&gt; X.Speed,
     Length =&gt; X.Length
 }</Action></Actions>
