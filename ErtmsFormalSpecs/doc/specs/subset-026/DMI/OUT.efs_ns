@@ -2944,8 +2944,8 @@ This procedure does not do anything. The mode tracking is not necessary for this
 <Comment>Requests to display the corresponding information</Comment>
 <Parameters>
 <Parameter
- Type="LevelEnum"
- Name="aLevel"
+ Type="Kernel.LevelTransition.LevelTransitionStruct"
+ Name="aLevelTransition"
  Guid="034cf696-bf4b-46d4-837e-d6a838268c3a"
 >
 </Parameter></Parameters>
@@ -2968,13 +2968,13 @@ This procedure does not do anything. The mode tracking is not necessary for this
  Guid="f2534e40-a1bf-436e-91f5-bdf2eec94c25"
 >LevelTransitionAnnouncementAvailable()</PreCondition><PreCondition
  Guid="b046f01c-0d02-4e27-8d29-311b4858c102"
->Kernel.Level.Value.Value != aLevel</PreCondition></PreConditions>
+>Available(aLevelTransition.TRLevel.Value)</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="02004a9a-391e-42b3-8ade-c978676f41e1"
 >THIS.OutputInformation.RequestDisplay()</Action><Action
  Guid="1f7b0608-20d4-48f7-abe9-c5a26a9cf3bd"
->THIS.Level &lt;- aLevel</Action></Actions>
+>THIS.Level &lt;- aLevelTransition.TRLevel.Value</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Hide otherwise"
