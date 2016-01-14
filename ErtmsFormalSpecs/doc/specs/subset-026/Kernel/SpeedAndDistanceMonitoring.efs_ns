@@ -35,7 +35,7 @@
 </NameSpaceRef></NameSpaces>
 <Enumerations>
 <Enum
- Default="None"
+ Default="MonitoringType.None"
  X="410"
  Y="450"
  Width="100"
@@ -129,7 +129,7 @@
 </Enum></Enumerations>
 <StateMachines>
 <StateMachine
- Default="Idle"
+ Default="MonitoringTypeSM.Idle"
  X="300"
  Y="450"
  Width="100"
@@ -858,11 +858,11 @@ This is used to handle the case where a previous brake command was not revoked b
 <PreConditions>
 <PreCondition
  Guid="bcca89cc-d192-41f8-802e-09bf205730cb"
->Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.SupervisionStatus.r0()</PreCondition></PreConditions>
+>SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.SupervisionStatus.r0()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="4c9a1a22-88ae-4562-8a6e-2ac5a1aa8e96"
->Kernel.SpeedAndDistanceMonitoring.RevokeEBCommand()</Action></Actions>
+>SpeedAndDistanceMonitoring.RevokeEBCommand()</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Enable EB command"
@@ -872,11 +872,11 @@ This is used to handle the case where a previous brake command was not revoked b
 <PreConditions>
 <PreCondition
  Guid="4472cd09-1a3f-4179-a7e6-e79446019289"
->Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.SupervisionStatus.t2()</PreCondition></PreConditions>
+>SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.SupervisionStatus.t2()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="fe18f2c7-ef71-4d22-984e-315c71a21139"
->Kernel.SpeedAndDistanceMonitoring.TriggerEBCommand()</Action></Actions>
+>SpeedAndDistanceMonitoring.TriggerEBCommand()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </StateMachine><EnterAction>
@@ -1126,20 +1126,9 @@ This is used to handle the case where a previous brake command was not revoked b
 <PreConditions>
 <PreCondition
  Guid="a9cf64fe-934f-41fc-b58b-190b853ccc0d"
->THERE_IS aTarget IN Kernel.SpeedAndDistanceMonitoring.TargetsList() | 
+>THERE_IS aTarget IN SpeedAndDistanceMonitoring.TargetsList() | 
 aTarget.Location != BaseTypes.Distance.Infinity AND
-Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.d_preindication(aTarget) == BaseTypes.Distance.Unknown</PreCondition></PreConditions>
-<Expression>True</Expression>
-</Case><Case
- Name="Pre-indication location passed for EOA"
- Guid="f0cd8ffe-2e79-410b-b2e9-034bf769cd3e"
->
-<PreConditions>
-<PreCondition
- Guid="96175b91-2dbd-4a14-a23b-62cb8fcb040c"
->Available( Element =&gt;   Kernel.MA.MA)</PreCondition><PreCondition
- Guid="bfcf63b7-d97a-49e6-b888-4f4d30e3dcdc"
->Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom) &gt; Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.d_preindication(MA.EOA())</PreCondition></PreConditions>
+SpeedAndDistanceMonitoring.PreIndicationLocation.d_preindication(aTarget) == BaseTypes.Distance.Unknown</PreCondition></PreConditions>
 <Expression>True</Expression>
 </Case><Case
  Name="Train passed pre-indication location"
@@ -1148,13 +1137,11 @@ Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.d_preindication(aTarget)
 <PreConditions>
 <PreCondition
  Guid="699a6b10-e831-4c8a-a3ed-591f85155457"
->THERE_IS aTarget IN Kernel.SpeedAndDistanceMonitoring.TargetsList() | 
+>THERE_IS aTarget IN SpeedAndDistanceMonitoring.TargetsList() | 
 (
   aTarget.Location != BaseTypes.Distance.Infinity
     AND
-  (NOT Kernel.MA.IsEOA(aTarget) OR Kernel.MA.IsSvL(aTarget))
-    AND
-  Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &gt; Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.d_preindication(aTarget)
+  TrainFrontRef( aTarget ) &gt; SpeedAndDistanceMonitoring.PreIndicationLocation.d_preindication(aTarget)
 )</PreCondition></PreConditions>
 <Expression>True</Expression>
 </Case><Case
@@ -1343,8 +1330,8 @@ Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.d_preindication(aTarget)
 <PreConditions>
 <PreCondition
  Guid="53ca0f91-10e5-4dd6-9f22-b2d224fc39db"
->Kernel.SpeedAndDistanceMonitoring.Monitoring in Kernel.SpeedAndDistanceMonitoring.MonitoringTypeSM.Ceiling</PreCondition></PreConditions>
-<Expression>Kernel.SpeedAndDistanceMonitoring.MonitoringType.CSM</Expression>
+>SpeedAndDistanceMonitoring.Monitoring in SpeedAndDistanceMonitoring.MonitoringTypeSM.Ceiling</PreCondition></PreConditions>
+<Expression>SpeedAndDistanceMonitoring.MonitoringType.CSM</Expression>
 </Case><Case
  Name="RSM"
  Guid="ab09e191-d5d0-47ea-86f7-b616445f8c35"
@@ -1352,8 +1339,8 @@ Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.d_preindication(aTarget)
 <PreConditions>
 <PreCondition
  Guid="3f7d104e-b754-41d8-bad2-d90b3d89ee60"
->Kernel.SpeedAndDistanceMonitoring.Monitoring in Kernel.SpeedAndDistanceMonitoring.MonitoringTypeSM.Release</PreCondition></PreConditions>
-<Expression>Kernel.SpeedAndDistanceMonitoring.MonitoringType.RSM</Expression>
+>SpeedAndDistanceMonitoring.Monitoring in SpeedAndDistanceMonitoring.MonitoringTypeSM.Release</PreCondition></PreConditions>
+<Expression>SpeedAndDistanceMonitoring.MonitoringType.RSM</Expression>
 </Case><Case
  Name="PIM"
  Guid="fcc4c295-dfef-4a1c-b298-67754bc3bed5"
@@ -1362,7 +1349,7 @@ Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.d_preindication(aTarget)
 <PreCondition
  Guid="83cbb20b-cbe1-4364-967a-c98eb720ea26"
 >IsInPIM()</PreCondition></PreConditions>
-<Expression>Kernel.SpeedAndDistanceMonitoring.MonitoringType.PIM</Expression>
+<Expression>SpeedAndDistanceMonitoring.MonitoringType.PIM</Expression>
 </Case><Case
  Name="TSM"
  Guid="924a647c-efa7-4ca3-98ed-a77cb55a7fba"
@@ -1370,13 +1357,13 @@ Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.d_preindication(aTarget)
 <PreConditions>
 <PreCondition
  Guid="896f70f4-6cd5-4242-b439-75100b519427"
->Kernel.SpeedAndDistanceMonitoring.Monitoring in Kernel.SpeedAndDistanceMonitoring.MonitoringTypeSM.Target</PreCondition></PreConditions>
-<Expression>Kernel.SpeedAndDistanceMonitoring.MonitoringType.TSM</Expression>
+>SpeedAndDistanceMonitoring.Monitoring in SpeedAndDistanceMonitoring.MonitoringTypeSM.Target</PreCondition></PreConditions>
+<Expression>SpeedAndDistanceMonitoring.MonitoringType.TSM</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="db82fc54-36f1-4723-aeac-cbbd58c1af8d"
 >
-<Expression>Kernel.SpeedAndDistanceMonitoring.MonitoringType.None</Expression>
+<Expression>SpeedAndDistanceMonitoring.MonitoringType.None</Expression>
 </Case></Cases>
 </Function><Function
  Type="TargetSpeedMonitoring.Targets"
@@ -1451,37 +1438,24 @@ Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.d_preindication(aTarget)
 <PreConditions>
 <PreCondition
  Guid="30ecc4c4-3928-4247-aa7a-f4e3ead580a5"
->Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationLimitAtSpeed(
-    aTarget =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT(),
+>SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationLimitAtSpeed(
+    aTarget =&gt; SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT(),
     aSpeed =&gt; Kernel.MRSP.V_MRSP()
 )
 == 
 BaseTypes.Distance.Unknown</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
- Name="Supervising EOA"
- Guid="aa7c1687-db9f-42e7-9b27-854a5c1ca741"
->
-<PreConditions>
-<PreCondition
- Guid="13595185-7215-4f20-b593-e8a513c671f2"
->MA.IsEOA(TargetSpeedMonitoring.MRDT())</PreCondition></PreConditions>
-<Expression>Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationLimitAtSpeed(
-    aTarget =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT(),
-    aSpeed =&gt; Kernel.MRSP.V_MRSP()
-) 
-&gt; 
-Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom)</Expression>
-</Case><Case
  Name="Supervising EBD based target"
  Guid="58163953-79e3-4ee7-8f09-181f91ab9bfd"
 >
-<Expression>Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationLimitAtSpeed(
-    aTarget =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT(),
+<Expression>LET MRDT &lt;- SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT() IN
+SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationLimitAtSpeed(
+    aTarget =&gt; MRDT,
     aSpeed =&gt; Kernel.MRSP.V_MRSP()
 ) 
 &gt; 
-Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max)</Expression>
+TrainFrontRef( MRDT )</Expression>
 </Case></Cases>
 </Function><Function
  Type="SupervisionStatusEnum"
@@ -1570,8 +1544,8 @@ Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max)</Expression>
 </Function><Function
  Type="Boolean"
  Default=""
- X="771"
- Y="1"
+ X="470"
+ Y="90"
  Width="100"
  Height="50"
  NeedsRequirement="FALSE"
@@ -1599,6 +1573,7 @@ OR NationalValues.ReleaseOfEBIsPermitted()</Expression>
  Name="PermittedSpeedProfile"
  Guid="fc687755-fa10-43c0-bbd2-bc13ea43f2db"
 >
+<Comment>The full profile of the permitted speed, accounting for MRSP, MA and distance to run in SR.</Comment>
 <Parameters>
 <Parameter
  Type="BaseTypes.Distance"
@@ -1618,6 +1593,208 @@ OR NationalValues.ReleaseOfEBIsPermitted()</Expression>
         ),
     Second =&gt; NationalValues.MaxDistInSRSpeedRestriction
 )(d)</Expression>
+</Case></Cases>
+</Function><Function
+ Type="BaseTypes.Distance"
+ Default=""
+ X="441"
+ Y="181"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="TrainFrontRef"
+ Guid="d7ff63eb-5a3d-4352-93e3-9f57bfe797eb"
+>
+<ReqRef
+ Id="690e9583-3caf-46eb-b721-bed7b3d89e9b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="7ca249d5-ff3f-4c9c-b7c7-5986491e6f9b"
+>
+</ReqRef><ReqRef
+ Id="2b4c3cb7-6f06-408a-bfd7-85f5c5069e00"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="104d016a-0fd5-4de8-8e35-ea1777474a83"
+>
+</ReqRef><ReqRef
+ Id="7525f72a-3b46-498c-8c48-1ed3ad888b1a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="749c133e-5493-49af-a6c9-7c76cdfd723d"
+>
+</ReqRef><ReqRef
+ Id="32b65a6d-139f-482e-98ed-7dd88679ba95"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="94963a34-1624-45ae-acfa-29b250646f0d"
+>
+</ReqRef><ReqRef
+ Id="5554abd5-d957-475f-aa3a-5ae657f9ccf3"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="2d9d443b-d3e3-4b4e-9cc3-6bba130ba01f"
+>
+</ReqRef><ReqRef
+ Id="235a2d43-f1f5-49b1-8517-1f6b17a29a4c"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c5b6e2b7-4040-4033-966d-0182899ef463"
+>
+</ReqRef><ReqRef
+ Id="fda34875-06ef-46a2-b272-8fdf00368ad5"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="70e19caa-eb26-4e0e-b442-55f046a7ec5c"
+>
+</ReqRef><ReqRef
+ Id="81b045fa-67f4-4abe-9d72-380cb0687a1d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="45c98b31-07ef-44fa-a804-8ce8876b998e"
+>
+</ReqRef><ReqRef
+ Id="366c7bc8-9a83-43fb-b4e8-f41812946c97"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="76858f21-de40-4ec3-97f2-d27327dd2bf1"
+>
+</ReqRef><ReqRef
+ Id="ac2002ec-cc04-4e25-8344-d90765ce4d29"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="857b8103-f311-40b5-ac03-89b0e025460a"
+>
+</ReqRef><ReqRef
+ Id="d394cede-dff2-4764-b72a-288ee8d5617c"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="684a3fa2-0a09-46ba-8a5b-35b0527f53ec"
+>
+</ReqRef><ReqRef
+ Id="d916181f-d7a1-4043-9617-e814b97ae7b4"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="fbf308fa-34c6-4f4d-876a-826f4c801f6f"
+>
+</ReqRef><ReqRef
+ Id="0342251f-d656-4d41-8ece-bde758fbfadf"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="cbd6d607-c8d8-42d9-9d53-43e848a50849"
+>
+</ReqRef><ReqRef
+ Id="49cb1ac1-74b3-4afe-865d-d6b4401719da"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="02354fe3-1abb-452e-9a68-ac65f8603d0d"
+>
+</ReqRef><ReqRef
+ Id="b3b7e30c-6bb4-4cd9-8e6d-dfb514676cbd"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="99a3eed0-3678-44b8-a0b4-27e5f018a060"
+>
+</ReqRef><ReqRef
+ Id="e354be4a-8c30-493a-8607-87b51d1ac30c"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d4b37714-f959-4683-a6ff-bacc8299eedf"
+>
+</ReqRef><ReqRef
+ Id="6d9d71c4-5508-47ef-ab3d-c32522306769"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e84c15c6-9d8d-4fe2-8280-caa484312f5d"
+>
+</ReqRef><ReqRef
+ Id="a77d9b43-ca07-4b88-99c9-aee4aac78473"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6a42ac51-b5f5-4e5d-ae04-fd8de3f28431"
+>
+</ReqRef><ReqRef
+ Id="17f454b2-95a3-43f9-9580-b68b6c425861"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="7bf17baa-68d9-4429-a06c-cbb15426d9c5"
+>
+</ReqRef><ReqRef
+ Id="1900c77e-8d93-44ae-a0c6-75c7b767420f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="58cd7cc1-6b5d-43c2-9f80-79b41fb3573d"
+>
+</ReqRef><ReqRef
+ Id="3b4965fd-7899-4aeb-8759-571b7de8121d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="282206cf-89cc-415e-b0d4-26ef891e8513"
+>
+</ReqRef><ReqRef
+ Id="7ea3bac1-7296-4790-a939-f6100738c30a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6e560acb-1855-45fd-b337-54bdefd3ae64"
+>
+</ReqRef><ReqRef
+ Id="f528e538-4118-4426-920e-582f6cf5c8ec"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="54167281-0001-4638-b103-fd4651f7620b"
+>
+</ReqRef><ReqRef
+ Id="e54412a7-2129-4360-a62a-d2fccfd74679"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6cc312c2-8bae-42cf-8d65-fb439227eaf9"
+>
+</ReqRef><ReqRef
+ Id="024d5773-00f6-4c63-83dd-29b47ad8e8ff"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="7933c6be-de43-4cde-af7b-a82610d42850"
+>
+</ReqRef><ReqRef
+ Id="14be9c17-d5ca-40d8-ae7f-15b68df84b13"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="622af456-6fb9-4e7b-aada-c88f5d6a1269"
+>
+</ReqRef><ReqRef
+ Id="01550cfd-1b51-4675-b2c3-6dae7cf1ea0d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="1f70a45f-3cf0-4f72-af6f-49bf374c8c37"
+>
+</ReqRef><ReqRef
+ Id="8cbd8d63-d690-46a3-949e-0118624c0bda"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="81e09f47-9c11-417d-9bbc-f1b937568b7a"
+>
+</ReqRef><ReqRef
+ Id="f1638f47-91c3-47b5-95c8-929a83f2c89a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="333c3461-3944-4d1f-a5ef-1a8d506c1cbf"
+>
+</ReqRef><ReqRef
+ Id="6adc672f-bb83-47c8-850c-a7604401a379"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="5bb1864c-d545-4ef2-9a74-1cb19c1be14a"
+>
+</ReqRef><ReqRef
+ Id="1230c827-9c0a-4903-80b2-609619e53d02"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="1cd1e435-73a2-4ce6-bafc-c4384cbdb417"
+>
+</ReqRef><ReqRef
+ Id="184511ec-2ccf-4307-aa0d-64e5b4424e92"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="832beb96-ced2-4efd-a115-4ed765b6b1a6"
+>
+</ReqRef><ReqRef
+ Id="c41cb7ca-ee2d-4af2-841c-855ef592089d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6d50d958-cce3-4b08-a4b6-3bbc60824519"
+>
+</ReqRef><Comment>Determines the front end to be used for braking curves calculated from the given target.</Comment>
+<Parameters>
+<Parameter
+ Type="TargetSpeedMonitoring.Target"
+ Name="aTarget"
+ Guid="944384a5-4b32-4e10-a2c1-1f4b05679b61"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Target is EOA"
+ Guid="00f20366-0735-4c0d-8f9f-edcab8e5d746"
+>
+<PreConditions>
+<PreCondition
+ Guid="342391e5-1ef5-4d81-b8cd-fe6fa17fc9fb"
+>MA.IsEOA( aTarget )</PreCondition><PreCondition
+ Guid="8db0f52e-9a2d-4fc5-a547-fb9b6789e38e"
+>NOT MA.IsSvL( aTarget )</PreCondition></PreConditions>
+<Expression>Kernel.TrainPosition.FrontEndPosition( DistanceIntervalEnum.Nom )</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="d28fa42d-bbcf-4de6-8f51-5089e6fa457d"
+>
+<Expression>Kernel.TrainPosition.FrontEndPosition( DistanceIntervalEnum.Max )</Expression>
 </Case></Cases>
 </Function></Functions>
 <Procedures>
@@ -2144,7 +2321,7 @@ Odometry.TrainIsAtStandstill()</PreCondition><PreCondition
 <PreConditions>
 <PreCondition
  Guid="32ca5a8e-3e3a-4109-82c7-f43c4deb007e"
->Kernel.SpeedAndDistanceMonitoring.Monitoring not in Kernel.SpeedAndDistanceMonitoring.MonitoringTypeSM.Idle</PreCondition><PreCondition
+>SpeedAndDistanceMonitoring.Monitoring not in SpeedAndDistanceMonitoring.MonitoringTypeSM.Idle</PreCondition><PreCondition
  Guid="3949a806-a2cc-4c53-b7d8-c00f2a2b444e"
 >NOT Kernel.ActiveFunctions.SuperviseTrainSpeed()</PreCondition></PreConditions>
 <Actions>
@@ -2199,9 +2376,11 @@ Odometry.TrainIsAtStandstill()</PreCondition><PreCondition
  Name="Monitoring changed"
  Guid="25d477d6-c545-4fbb-be3d-ce9edfa9af3a"
 >
+<Comment>Update the monitoring if the calculated value is different from the stored value.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
+ Implemented="TRUE"
  Name="Switch to CSM"
  Guid="b3d06ecb-6f5e-4aa5-820b-35476930e3a1"
 >
@@ -2252,6 +2431,8 @@ Odometry.TrainIsAtStandstill()</PreCondition><PreCondition
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition><RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
  Name="Switch to TSM"
  Guid="4ca44dcf-dfd1-4f84-9289-23481831c1f0"
 >
@@ -2295,6 +2476,7 @@ Odometry.TrainIsAtStandstill()</PreCondition><PreCondition
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition><RuleCondition
+ Implemented="TRUE"
  Name="Switch to RSM"
  Guid="0444d8f9-42c4-4375-954c-a654eb4971c9"
 >
@@ -2317,6 +2499,7 @@ Odometry.TrainIsAtStandstill()</PreCondition><PreCondition
 <SubRules>
 <Rule
  Priority="Processing"
+ Implemented="TRUE"
  Name="From TSM"
  Guid="d701797a-75e7-4cf2-a0db-445fd87f5ccd"
 >
@@ -2324,6 +2507,7 @@ Odometry.TrainIsAtStandstill()</PreCondition><PreCondition
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
+ Implemented="TRUE"
  Name="From TSM"
  Guid="104642dc-b440-4abe-9ffd-a1b1fdddce31"
 >
@@ -2350,7 +2534,7 @@ Odometry.TrainIsAtStandstill()</PreCondition><PreCondition
 <Variables>
 <Variable
  Type="MonitoringTypeSM"
- DefaultValue="Kernel.SpeedAndDistanceMonitoring.MonitoringTypeSM.Ceiling"
+ DefaultValue="SpeedAndDistanceMonitoring.MonitoringTypeSM.Ceiling"
  VariableMode="Internal"
  X="300"
  Y="350"
@@ -2516,14 +2700,25 @@ Odometry.TrainIsAtStandstill()</PreCondition><PreCondition
  Y="530"
  Width="100"
  Height="50"
- NeedsRequirement="FALSE"
+ Implemented="TRUE"
  Name="Keep track of monitoring type"
  Guid="5a913d9a-aa83-4a3a-8d86-5b3d89b58012"
 >
-<Comment>Keep track of monitoring type to detect changes</Comment>
+<ReqRef
+ Id="4ef8d95d-9b39-4a31-af31-f673833b0f7b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a10ca413-bb13-496e-b1ce-de2391e551e3"
+>
+</ReqRef><ReqRef
+ Id="16a2ffa9-a581-4832-8287-d3a982f4ddd7"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="55733316-9bda-4235-83c7-ac935d45d575"
+>
+</ReqRef><Comment>Keep track of monitoring type to detect changes</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
+ Implemented="TRUE"
  Name="Keep track of monitoring type"
  Guid="b8d69c5e-38a9-4eb4-9a4e-f6a484c23aec"
 >
@@ -2540,14 +2735,30 @@ Odometry.TrainIsAtStandstill()</PreCondition><PreCondition
  Y="220"
  Width="100"
  Height="50"
- NeedsRequirement="FALSE"
+ Implemented="TRUE"
  Name="Keep track of the supervised targets"
  Guid="253737bd-84b5-4db4-998f-42909322ddca"
 >
-<Comment>Keep track of supervised target to detect changes</Comment>
+<ReqRef
+ Id="c0c90876-1322-4533-951c-924804b80043"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="7bf00831-6045-4bbd-a905-e10af99d49e4"
+>
+</ReqRef><ReqRef
+ Id="f966f396-c00e-4f6b-945d-6cde4527e814"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="73c74fb0-44fb-43ec-9ee9-f83c431e9cf0"
+>
+</ReqRef><ReqRef
+ Id="620d2411-2c42-403d-9139-cdb6a68c48b2"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="1c9a25dd-bb74-4a7e-88c7-1f6f2662171c"
+>
+</ReqRef><Comment>Keep track of supervised target to detect changes</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
+ Implemented="TRUE"
  Name="Keep track of the supervised targets"
  Guid="3149879b-d2c1-4c52-a2e0-df00b59d8a8e"
 >
