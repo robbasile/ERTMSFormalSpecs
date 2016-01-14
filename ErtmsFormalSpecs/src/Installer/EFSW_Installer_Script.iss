@@ -18,6 +18,8 @@ OutputBaseFileName=ERTMSFormalSpecs_Setup
 ChangesAssociations=yes
 SetupIconFile=..\GUI\EFS.ico        
 UninstallDisplayIcon={app}\bin\ERTMSFormalSpecs.exe
+PrivilegesRequired=lowest
+DisableProgramGroupPage=yes
 
 [Dirs]
 Name: "{app}\"; Permissions: everyone-modify
@@ -57,10 +59,10 @@ Source: ..\..\bin\Utils.pdb; DestDir: {app}\bin; Flags: ignoreversion
 
 Source: ..\..\doc\EFSW_User_Guide.pdf; DestDir: {app}\doc;
 Source: ..\..\doc\EFS_Product_Release_Info.pdf; DestDir: {app}\doc;
-Source: ..\..\doc\specs\subset-026.efs; DestDir: {userdocs}\ERTMSFormalSpecs;
-Source: ..\..\doc\specs\subset-026\*; DestDir: {userdocs}\ERTMSFormalSpecs\subset-026; Flags: recursesubdirs
-Source: ..\..\doc\specs\braking curves verification.efs; DestDir: {userdocs}\ERTMSFormalSpecs;
-Source: ..\..\doc\specs\DMIFunctionalTests.efs; DestDir: {userdocs}\ERTMSFormalSpecs;
+Source: ..\..\doc\specs\subset-026.efs; DestDir: "{code:GetDir|0}";
+Source: ..\..\doc\specs\subset-026\*; DestDir: "{code:GetDir|0}\subset-026"; Flags: recursesubdirs
+Source: ..\..\doc\specs\braking curves verification.efs; DestDir: "{code:GetDir|0}";
+Source: ..\..\doc\specs\DMIFunctionalTests.efs; DestDir: "{code:GetDir|0}";
 
 [Icons]
 Name: "{group}\docs\User's Manual"; Filename: "{app}\doc\EFSW_User_Guide.pdf";
@@ -98,5 +100,33 @@ begin
     end;
     result := false;
   end;
+end;
+
+var
+  DirPage: TInputDirWizardPage;
+
+function GetDir(Param: String): String;
+begin
+  Result := DirPage.Values[StrToInt(Param)];
+end;
+
+procedure InitializeWizard;
+begin
+  // create a directory input page
+  DirPage := CreateInputDirPage(wpSelectDir, 'Select the location for the Model files', 'Where should the model files be installed ?', 'Setup will install the files related to the model in the following folder.', False, '');
+  DirPage.Add('Location of the model files');
+  DirPage.Values[0] := GetPreviousData('ModelFiles', ExpandConstant('{userdocs}') + '\ERTMSFormalSpecs');
+end;
+
+procedure RegisterPreviousData(PreviousDataKey: Integer);
+begin
+  // store chosen directories for the next run of the setup
+  SetPreviousData(PreviousDataKey, 'ModelFiles', DirPage.Values[0]);
+end;
+
+function UpdateReadyMemo(Space, NewLine, MemoUserInfoInfo, MemoDirInfo, MemoTypeInfo, MemoComponentsInfo, MemoGroupInfo, MemoTasksInfo: String): String;
+begin
+  Result := MemoDirInfo + NewLine + NewLine +
+        'Model install location:' + NewLine + Space + GetDir('0');
 end;
 
