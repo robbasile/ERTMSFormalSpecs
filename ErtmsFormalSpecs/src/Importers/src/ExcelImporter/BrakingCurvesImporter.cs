@@ -623,7 +623,7 @@ namespace Importers.ExcelImporter
             double LocationAccuracy = (double) (aRange.Cells[2, 7] as Range).Value2;
             addAction(aSubStep,
                 String.Format(CultureInfo.InvariantCulture,
-                    "Odometry.Accuracy <- Odometry.OdometerAccuracy{{\n    D_ura => {0:0.0},\n    D_ora => 0.0,\n    V_ura => 0.0,\n    V_ora => 0.0\n}}",
+                    "BTM.BGLocationDetectionError <- {0:0.0}",
                     LocationAccuracy));
 
 
