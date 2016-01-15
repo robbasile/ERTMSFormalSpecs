@@ -31,6 +31,7 @@ using GUI.Status;
 using GUIUtils;
 using GUIUtils.LongOperations;
 using Importers.ExcelImporter;
+using Microsoft.Win32;
 using Utils;
 using WeifenLuo.WinFormsUI.Docking;
 using Dictionary = DataDictionary.Dictionary;
@@ -455,8 +456,13 @@ namespace GUI
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Title = "Open ERTMS Formal Spec file";
             openFileDialog.Filter = "EFS Files (*.efs)|*.efs|All Files (*.*)|*.*";
-            openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) +
-                                              Path.DirectorySeparatorChar + "ERTMSFormalSpecs";
+
+            // Retrieve the location where the model files have been installed
+            // or use ../doc/specs when the EFS has not been installed (development environment)
+            const string keyName =
+                @"HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Uninstall\ERTMSFormalSpecs_is1";
+            const string valueName = @"Inno Setup CodeFile: ModelFiles";
+            openFileDialog.InitialDirectory = (string)Registry.GetValue(keyName, valueName, @"..\doc\specs"); ;
             if (openFileDialog.ShowDialog(this) == DialogResult.OK)
             {
                 OpenFile(openFileDialog.FileName);
