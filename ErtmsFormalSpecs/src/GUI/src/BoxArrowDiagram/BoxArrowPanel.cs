@@ -111,17 +111,7 @@ namespace GUI.BoxArrowDiagram
         {
             ContextMenu retVal = null;
 
-            // Build the contextual menu according to the enclosing panel tree view
-            IModelElement model = null;
-            if (element != null)
-            {
-                model = element.Model as IModelElement;
-            }
-            if (model == null)
-            {
-                model = Model as IModelElement;
-            }
-
+            IModelElement model = GetModelFromGraphicElement(element);
             BaseTreeNode node = CorrespondingNode(model);
             if (node == null)
             {
@@ -131,7 +121,27 @@ namespace GUI.BoxArrowDiagram
             {
                 retVal = node.ContextMenu;
             }
+
             return retVal;
+        }
+
+        /// <summary>
+        /// Provides the IModelElement element from the graphic element
+        /// </summary>
+        /// <param name="element"></param>
+        /// <returns></returns>
+        protected virtual IModelElement GetModelFromGraphicElement(GraphicElement element)
+        {
+            IModelElement model = null;
+            if (element != null)
+            {
+                model = element.Model as IModelElement;
+            }
+            if (model == null)
+            {
+                model = Model as IModelElement;
+            }
+            return model;
         }
 
         /// <summary>

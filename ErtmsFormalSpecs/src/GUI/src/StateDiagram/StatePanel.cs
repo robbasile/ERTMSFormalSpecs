@@ -16,6 +16,7 @@
 
 using System.Collections.Generic;
 using System.Net.Configuration;
+using DataDictionary;
 using DataDictionary.Interpreter;
 using DataDictionary.Rules;
 using DataDictionary.Variables;
@@ -47,6 +48,28 @@ namespace GUI.StateDiagram
         public override ArrowControl<StateMachine, State, Transition> CreateArrow(Transition model)
         {
             return new TransitionControl(this, model);
+        }
+
+        /// <summary>
+        /// Provides the IModelElement element from the graphic element
+        /// </summary>
+        /// <param name="element"></param>
+        /// <returns></returns>
+        protected override IModelElement GetModelFromGraphicElement(GraphicElement element)
+        {
+            IModelElement retVal;
+
+            if (element is TransitionControl)
+            {
+                TransitionControl transition = element as TransitionControl;
+                retVal = transition.TypedModel.RuleCondition;
+            }
+            else
+            {
+                retVal = base.GetModelFromGraphicElement(element);
+            }
+
+            return retVal;
         }
 
         /// <summary>
