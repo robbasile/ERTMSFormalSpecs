@@ -59,7 +59,7 @@ namespace DataDictionary.Tests
         /// <summary>
         /// The timer associated to this sub-step
         /// </summary>
-        public int Timer
+        public double Timer
         {
             get { return getTimer(); }
             set { setTimer(value); }

@@ -27757,11 +27757,11 @@ if (temp >= 0){
 return false;
 }
 
-private  int aTimer;
+private  double aTimer;
 
-public  int getTimer() { return aTimer;}
+public  double getTimer() { return aTimer;}
 
-public  void setTimer(int v) {
+public  void setTimer(double v) {
   aTimer = v;
   __setDirty(true);
   NotifyControllers(null);
@@ -27786,7 +27786,7 @@ aActions=(null);
 aExpectations=(null);
 aSkipEngine=(false);
 aTimeDelay=(0);
-aTimer=(0);
+aTimer=(0.0);
 aComment=(null);
 }
 
@@ -28086,7 +28086,7 @@ ctxt.fail ("Duplicate attribute: Timer");
 } // If
 fl1468 = true ; 
 quoteChar = ctxt.acceptQuote();
-this.setTimer(ctxt.fetchInteger());
+this.setTimer(ctxt.fetchDouble());
 ctxt.accept(quoteChar);
 ctxt.skipWhiteSpace();
 break;
@@ -28162,7 +28162,7 @@ if (!fl1467){
 this.setTimeDelay(acceptor.TimeDelay.aNotDelayed);
 } // If
 if (!fl1468){
-this.setTimer(0);
+this.setTimer(0.0);
 } // If
 if (!fl1472){
 this.setIsRemoved( false);
