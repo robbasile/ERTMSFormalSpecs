@@ -17,6 +17,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Threading;
 using DataDictionary.Generated;
 using DataDictionary.Interpreter.Refactor;
 using DataDictionary.Types;
@@ -527,13 +528,20 @@ namespace DataDictionary.Interpreter
                         }
                     }
                 }
+                catch (ThreadAbortException)
+                {
+                    EfsSystem.Instance.ShouldRebuild = true;
+                }
                 catch (Exception e)
                 {
                     // TODO : I don't know what to do. 
                     // Please, at least, don't remove this
                     Debugger.Break();
+                    Console.WriteLine();
+                    Console.WriteLine(e.Message);
+                    Console.WriteLine(e.StackTrace);
+                    Console.WriteLine();
                     EfsSystem.Instance.ShouldRebuild = true;
-
                 }
             });
         }
