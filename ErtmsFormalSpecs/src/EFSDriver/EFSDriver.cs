@@ -52,7 +52,6 @@ namespace EFSDriver
                 else
                 {
                     Invoke((MethodInvoker) delegate { variableValueTextBox.Enabled = false; });
-                    ;
                 }
             }
         }
