@@ -71,9 +71,10 @@ namespace Importers.ExcelImporter
             if (TheDictionary != null)
             {
                 Application application = new Application();
+                Workbook workbook = null;
                 try
                 {
-                    Workbook workbook = application.Workbooks.Open(FileName);
+                    workbook = application.Workbooks.Open(FileName);
                     Worksheet trainData = workbook.Sheets[1] as Worksheet;
                     Range aRange = trainData.UsedRange;
                     string trainTypeName = (string) (aRange.Cells[14, 4] as Range).Value2;
@@ -141,6 +142,10 @@ namespace Importers.ExcelImporter
                 }
                 finally
                 {
+                    if (workbook != null)
+                    {
+                        workbook.Close(false);
+                    }
                     application.Quit();
                 }
 
