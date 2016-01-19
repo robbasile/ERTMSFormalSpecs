@@ -1,0 +1,657 @@
+<Frame
+ CycleDuration="Kernel.CycleDuration"
+ Name="Train position confidence interval"
+ Guid="58ffabdf-8d0a-4d9d-bb7f-fcb3053a1ac2"
+>
+<SubSequences>
+<SubSequence
+ D_LRBG=""
+ Level=""
+ Mode=""
+ NID_LRBG=""
+ Q_DIRLRBG=""
+ Q_DIRTRAIN=""
+ Q_DLRBG=""
+ RBC_ID=""
+ RBCPhone=""
+ Name="Confidence interval"
+ Guid="cc938e65-4819-44c7-89d3-6b038562e00e"
+>
+<TestCases>
+<TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Setup"
+ Guid="2c053e2c-66cd-46f3-90f6-535df239e7da"
+>
+<Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Initialize test environment"
+ Guid="1050db74-08ea-45ca-a4ca-e2d179a7fe9c"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="bfd5a86e-8cf5-4b36-bb0f-162eafd5e57c"
+>
+<Actions>
+<Action
+ Guid="14c7ebdf-a1cb-4e5c-b49e-b7631be1c15d"
+>Testing.InitializeTestEnvironment
+(
+    aTrainPosition =&gt; 100.0,
+    aMode =&gt; ModeEnum.SR
+)</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step2 - Setup"
+ Guid="4f532702-dacc-4b26-a723-f1914bd62d90"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="61b149f2-d96b-4636-86a5-2fb9e35f37a1"
+>
+<Actions>
+<Action
+ Guid="3a743613-bf8a-42db-b38e-c6a87320b820"
+>BTM.LRBG&lt;- BTM.BaliseGroupStruct{
+  NID=&gt;9616,
+  Orientation=&gt;OrientationEnum.Nominal,
+  Position=&gt;BTM.Position{
+    OverReadingAmountOdo=&gt;2.0,
+    Position=&gt;1080.0,
+    UnderReadingAmountOdo=&gt;1.0
+  }
+}</Action><Action
+ Guid="51a7c7d3-e744-4ed9-a6f9-a9fac1198ea1"
+>BTM.BGLocationDetectionError &lt;- 4.0</Action><Action
+ Guid="25eeca45-bb65-494a-aaa5-018919036dc0"
+>Odometry.Accuracy &lt;- Odometry.OdometerAccuracy
+{
+    D_ura =&gt; 10.0,
+    D_ora =&gt; 12.0,
+    V_ora =&gt; 0.0,
+    V_ura =&gt; 0.0
+}</Action><Action
+ Guid="3369d9cd-bb18-4361-9cbf-c04e24b9812c"
+>Odometry.NominalDistance &lt;- 2000.0</Action></Actions>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="BG location accuracy value"
+ Guid="f5e2da28-568d-45c5-b945-65c9ff4df8fb"
+>
+<ReqRef
+ Id="a2fa811d-bd40-4622-98d9-2f0c4c579f2b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0b767c9a-2763-4f81-9cb4-15d9165b48a6"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Linking information available"
+ Guid="15b87fd3-36d3-48aa-a301-be61e9ae9f3f"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="76e20a92-f134-4ea9-b8ab-c5257849d379"
+>
+<Actions>
+<Action
+ Guid="98fa411e-18c4-41aa-9b3a-883915b498c4"
+>BTM.Linking.Linkings&lt;- 
+[ 
+  BTM.Linking.LinkingDataStruct{
+    LocationAccuracy =&gt; 14.0,
+    Orientation =&gt; OrientationEnum.Unknown,
+    Reaction =&gt; BTM.Linking.LinkingReaction.NoReaction,
+    Distance =&gt; 1000.0,
+    BaliseGroupIdentifier =&gt; 0
+}
+]</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="e603f1d1-1640-4d35-9d7f-732df52110e1"
+>BTM.BGLocationAccuracy() == 14.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Linking not available, national values available"
+ Guid="0e80a7e7-34b2-47d1-ac01-6387d9c6d308"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="f73a6faa-bcfc-4bb1-b7a3-8b742cfa87b1"
+>
+<Actions>
+<Action
+ Guid="9117ba90-3772-4cc2-b418-3fd93769c44b"
+>Kernel.NationalValues.ApplicableNationalValues.Value.DefaultLocationAccuracyOfABaliseGroup &lt;- 3</Action><Action
+ Guid="a3c51f2d-e1fa-4918-8c11-98fdb6ad23ce"
+>BTM.Linking.Linkings &lt;- []</Action><Action
+ Guid="5879d1a1-3b62-44d2-93aa-46bf651dde01"
+>Kernel.NationalValues.ApplicableNationalValues.DataState &lt;- DataStateEnum.Valid</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="8359b2a0-88f8-4007-98e7-d335898276b1"
+>BTM.BGLocationAccuracy() == 3.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Linking and national values not available"
+ Guid="98ff14f4-6a10-4fd2-8594-e25b9d9875d1"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="05f4c525-3b7b-40ca-90b2-a1723819a4b5"
+>
+<Actions>
+<Action
+ Guid="d9ab9a6e-1293-490d-abde-ed895b1a9458"
+>BTM.Linking.Linkings &lt;- []</Action><Action
+ Guid="0a3e1ee5-74c5-4774-8d57-cdf6f9b9990f"
+>Kernel.NationalValues.ApplicableNationalValues.DataState &lt;- DataStateEnum.Invalid</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="0d2cad50-2382-4c9c-b52a-1f0fdc3a77c6"
+>BTM.BGLocationAccuracy() == 12.0</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="b4123106-b9c0-47ae-8b57-5a4e4c2d2606"
+>Kernel.NationalValues.DefaultValues.DefaultLocationAccuracyOfABaliseGroup == 12</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Over-reading amount"
+ Guid="878ac5f1-d849-4069-863f-63e157374009"
+>
+<ReqRef
+ Id="8a1fe4ea-dcfd-4748-bc1e-b8b0be8aa8e0"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="34786b8d-609b-4f72-985d-4a1be24908ec"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Over-reading amount"
+ Guid="e40c4b55-6009-474c-b224-5b2e1c693eb0"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="8d3fa556-ee40-41b3-b047-8be6c1f7172b"
+>
+<Actions>
+<Action
+ Guid="7daa7eb9-a054-406d-8aa5-670b3c2d7c35"
+>BTM.LRBG.Position.OverReadingAmountOdo &lt;- 1.0</Action><Action
+ Guid="b823d03e-5866-4953-9573-51171464c0c7"
+>Odometry.Accuracy.D_ora &lt;- 4.0</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="2a9f8959-dc65-49b6-a27e-e9e8e51fe00c"
+>Kernel.TrainPosition.ConfidenceInterval.OverReadingAmount() == 7.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Under-reading amount"
+ Guid="4b6d2cd5-b2ba-47e2-966c-268c1329b547"
+>
+<ReqRef
+ Id="8a1fe4ea-dcfd-4748-bc1e-b8b0be8aa8e0"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d0965da0-32ad-4699-a71c-a59135bc5217"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Under-reading amount"
+ Guid="cbc2d3a1-bf0f-4e75-8f86-2b0057d7740a"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="b7cb2b72-d68d-4adb-9361-79ffd8004c31"
+>
+<Actions>
+<Action
+ Guid="81c50d0f-d3d5-4050-b153-cae26773c600"
+>BTM.LRBG.Position.UnderReadingAmountOdo &lt;- 1.0</Action><Action
+ Guid="8a5014c4-a363-4797-b8c5-1ac01dce5c40"
+>Odometry.Accuracy.D_ura &lt;- 5.0</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="3d4b23ce-303a-4673-9def-1faa00e032bb"
+>Kernel.TrainPosition.ConfidenceInterval.UnderReadingAmount() == 8.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Confidence interval"
+ Guid="1de2ad69-3701-458d-aad4-7177832351c4"
+>
+<ReqRef
+ Id="d7a377d0-4389-4441-8bda-036db6e7805a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ea09ee30-618f-474a-8a7e-a0697685425f"
+>
+</ReqRef><ReqRef
+ Id="8a1fe4ea-dcfd-4748-bc1e-b8b0be8aa8e0"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ce977280-1cdf-4ead-aa5f-0b12ff56d471"
+>
+</ReqRef><ReqRef
+ Id="9e4c5ab1-4454-4b08-9df1-666cf07b17ca"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d5697ba7-846b-4ea8-b5dd-7b60556c30e7"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="L_DOUBTOVER"
+ Guid="a91062be-db98-4b8c-a2c6-c980a14c634a"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="9923001a-419f-4e3e-89d6-93cfee196c82"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="04f6ec29-4144-4a30-8e66-471f7bd9a6b4"
+>Kernel.TrainPosition.ConfidenceInterval.ConfidenceInterval(ConfidenceIntervalEnum.L_DOUBTOVER) == 19.0</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="2cfa2d2b-4730-42d7-b1c3-119a750f903f"
+>BTM.BGLocationAccuracy() == 12.0</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="02a780c0-dcf0-404c-9f36-8598f67b948c"
+>Kernel.TrainPosition.ConfidenceInterval.OverReadingAmount() == 7.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="L_DOUBTUNDER"
+ Guid="a3ef96e0-6f1a-4a78-80e3-440729ef3230"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="d93c4384-93ad-47e4-8662-ebe132cd03e1"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="14894af4-cb92-49f2-bb91-93dbc4be1021"
+>Kernel.TrainPosition.ConfidenceInterval.ConfidenceInterval(ConfidenceIntervalEnum.L_DOUBTUNDER) == 20.0</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="40a3aafd-40bf-41be-82f1-ad71daa49dc7"
+>Kernel.TrainPosition.ConfidenceInterval.UnderReadingAmount() == 8.0</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="333fdbdc-8ac6-40ad-8dcd-ca5d16d8617f"
+>BTM.BGLocationAccuracy() == 12.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Distance from LRBG"
+ Guid="75876a3e-6e28-4d28-b36c-e3e5a4fc7792"
+>
+<Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Distance from LRBG"
+ Guid="26c9f2df-0b5f-4922-be73-c0d888ee620b"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="9ef92e5b-9619-404d-a287-85d929a49207"
+>
+<Actions>
+<Action
+ Guid="d56c073a-99d4-41f6-81bc-d940791eed95"
+>Odometry.NominalDistance &lt;- 200.0</Action><Action
+ Guid="d3e40717-e6da-40be-98e8-81a0b8a4a9f8"
+>BTM.LRBG.Position.Position &lt;- 40.0</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="ac2d9338-6b39-4cd6-8ccd-d91bbfa54036"
+>Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom) == 160.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Train front end position"
+ Guid="08d70c22-0a57-4e38-abd1-663b1b7c68b0"
+>
+<ReqRef
+ Id="bcb653a9-abe2-44a8-ac09-0df33ec9af30"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="67333ed2-d237-426c-b68d-ce3a2df5bc48"
+>
+</ReqRef><ReqRef
+ Id="2ecb1ec4-fc6b-4879-a45a-e1b1c55b41fe"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="567608bd-1044-49a1-a780-6f065b7ca46e"
+>
+</ReqRef><ReqRef
+ Id="4a9c97b2-dfca-4175-b297-9da9fc3d16fc"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f39c0c2f-1e95-44ab-9d47-defed49ff4fd"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Estimated front end"
+ Guid="e8d68072-4bd6-42ea-aba2-95fa329610b9"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="4986448e-b180-4ebe-84cc-4e146564f876"
+>
+<Actions>
+<Action
+ Guid="0f0d888d-d2be-46c2-bcbd-deb6deb7de26"
+>Odometry.NominalDistance &lt;- 1800.0</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="36e490a0-132b-4056-8037-5f8cf20354b3"
+>Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom) == Odometry.NominalDistance - BTM.LRBG.Position.Position</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Maximum safe front end"
+ Guid="863655ea-cdb6-45bb-b5c8-3772f85dc7f2"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="228a72ce-9182-4f52-90f6-3b46debc9982"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="f2b07138-ab94-475c-8fa0-ca113eaaa511"
+>Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) == 1780.0</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="5ff1dd2c-f06c-4e27-bcde-d113e6f77da1"
+>BaseTypes.LengthToDistance(Kernel.TrainPosition.ConfidenceInterval.ConfidenceInterval(ConfidenceIntervalEnum.L_DOUBTUNDER)) == 20.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Minimum safe front end"
+ Guid="d347164c-6e75-4036-a6ad-fefe39b1774e"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="7ea2de2e-a1c0-4c7a-98f3-2605922d479e"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="2f6bcdac-5400-4a70-90fb-b4008debfe80"
+>Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Min) == 1741.0</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="83a75474-76ae-4355-9e87-505de8d87dc8"
+>BaseTypes.LengthToDistance(Kernel.TrainPosition.ConfidenceInterval.ConfidenceInterval(ConfidenceIntervalEnum.L_DOUBTOVER)) == 19.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Additional over-reading amount"
+ Guid="fc43cd47-b103-4c3a-84a8-9d39cbcb1818"
+>
+<ReqRef
+ Id="d5dcae2f-5a41-4d4b-ab0d-436579a7646a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b56031c0-f672-4d87-8310-b78af7001ba7"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Additional over-reading amount"
+ Guid="5c67ec6e-4687-4c0b-837a-cd3a6093e506"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="ac28cc70-a003-4b31-b85a-9f0ec8082abc"
+>
+<Actions>
+<Action
+ Guid="2ac5c457-4f96-48a7-abae-e0ce5f2e9de9"
+>BTM.UnlinkedBGPosition.OverReadingAmountOdo &lt;- 2.0</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="eb7dfe08-5828-48c6-b87d-6c38d32d7c83"
+>Kernel.TrainPosition.ConfidenceInterval.AdditionalOverReadingAmount() == 6.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Additional under-reading amount"
+ Guid="0864ff81-073f-4c7f-87fb-0308d31780a3"
+>
+<ReqRef
+ Id="d5dcae2f-5a41-4d4b-ab0d-436579a7646a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b6b5139b-c222-40c3-8cad-9e8280e425b4"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Additional under-reading amount"
+ Guid="63dbc1fa-1d77-4220-bef0-525106f3b05c"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="15f4eb91-cd5d-4d3f-86d7-57e7ad6eef1b"
+>
+<Actions>
+<Action
+ Guid="8dba7698-9a16-43fc-8a9b-fd655635bda7"
+>BTM.UnlinkedBGPosition.UnderReadingAmountOdo &lt;- 2.0</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="e390e0d7-7ada-4163-80f3-957409e033b3"
+>Kernel.TrainPosition.ConfidenceInterval.AdditionalUnderReadingAmount() == 7.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Additional confidence interval"
+ Guid="453fd39b-7866-4737-aa2c-0ff5259b1059"
+>
+<ReqRef
+ Id="d5dcae2f-5a41-4d4b-ab0d-436579a7646a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6552d91b-57af-4eb2-81bb-63343d7550d9"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="L_DOUBTOVER"
+ Guid="9b7c6099-798c-4075-b736-c006c33006ad"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="2fa2b9ff-b8c4-484d-a89f-0d08ed6ddd50"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="18ed3482-5f08-4190-bd42-e55e00f2f277"
+>Kernel.TrainPosition.ConfidenceInterval.AdditionalConfidenceInterval(ConfidenceIntervalEnum.L_DOUBTOVER) == Kernel.TrainPosition.ConfidenceInterval.AdditionalOverReadingAmount() + BTM.BGLocationAccuracy()</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="L_DOUBTUNDER"
+ Guid="0eb96aa5-8c32-40af-9a53-d2f6a1549554"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="1887c2ce-cb7a-456f-8df5-d21e5735e3af"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="40fb8d72-c6b0-4529-8194-c4ff8d55eff4"
+>Kernel.TrainPosition.ConfidenceInterval.AdditionalConfidenceInterval(ConfidenceIntervalEnum.L_DOUBTUNDER) == Kernel.TrainPosition.ConfidenceInterval.AdditionalUnderReadingAmount() + BTM.BGLocationAccuracy()</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase></TestCases>
+</SubSequence></SubSequences>
+</Frame>

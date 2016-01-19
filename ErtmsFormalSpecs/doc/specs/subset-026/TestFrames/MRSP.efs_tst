@@ -1,0 +1,1162 @@
+<Frame
+ CycleDuration="Kernel.CycleDuration"
+ Name="MRSP"
+ Guid="60965167-f04c-4387-8c78-59ca4c289330"
+>
+<SubSequences>
+<SubSequence
+ D_LRBG=""
+ Level=""
+ Mode=""
+ NID_LRBG=""
+ Q_DIRLRBG=""
+ Q_DIRTRAIN=""
+ Q_DLRBG=""
+ RBC_ID=""
+ RBCPhone=""
+ Name="Combine inputs"
+ Guid="2c56eaa0-b7e7-43a3-9732-ea2b6ee9beae"
+>
+<TestCases>
+<TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Setup"
+ Guid="492c8dc2-73e2-4a49-812a-caa89ba526dc"
+>
+<Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Initialize train data"
+ Guid="8456bd89-9ebe-4ae3-a46c-63ff974f5378"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="89da1b93-315d-403d-a3c1-e743ea66afc6"
+>
+<Actions>
+<Action
+ Guid="7b691301-f460-4369-a85d-a8332a4a0609"
+>Testing.InitializeTestEnvironment
+(
+    aTrainPosition =&gt; 100.0,
+    aMode =&gt; ModeEnum.LS
+)</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step2 - Setup"
+ Guid="18d8fe02-af63-45c0-9e0e-903992ded7f9"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="219e517e-afee-44cd-a137-0ca61090959c"
+>
+<Actions>
+<Action
+ Guid="447a13c6-7869-4e6d-b198-f34868d3782f"
+>BTM.LRBG&lt;- BTM.BaliseGroupStruct{
+  NID=&gt;9616,
+  Orientation=&gt;OrientationEnum.Nominal,
+  Position=&gt;BTM.Position{
+    OverReadingAmountOdo=&gt;21.0,
+    Position=&gt;0.0,
+    UnderReadingAmountOdo=&gt;19.0
+  }
+}</Action><Action
+ Guid="57aa25ab-c1d6-43f3-baf6-a4da7421249d"
+>Kernel.TSR.TSRs &lt;- []</Action><Action
+ Guid="395088be-f8ce-4106-9942-8089ec905817"
+>Odometry.NominalDistance &lt;- 2000.0</Action><Action
+ Guid="1b78718f-fef3-445a-ab5b-55a2bd3189d5"
+>Kernel.TrainData.TrainData.Value.TrainCategories &lt;- Kernel.TrainData.TrainCategoriesStruct
+{
+    CantDeficiency =&gt; Messages.NC_CDTRAIN.Cant_Deficiency_210_mm,
+    OtherInternational =&gt; [Kernel.TrainData.TrainCategoryEnum.FreightTrainInP]
+}</Action><Action
+ Guid="4fabcf28-2abb-4012-b6f0-7d0d7850ee95"
+>Odometry.Accuracy &lt;- Odometry.OdometerAccuracy
+{
+    D_ura =&gt; 54.0,
+    D_ora =&gt; 58.0,
+    V_ora =&gt; 0.0,
+    V_ura =&gt; 0.0
+}</Action><Action
+ Guid="45269fed-4882-48ba-a991-92a720e87828"
+>Kernel.TrainData.TrainData.Value.TrainLength &lt;- 100.0</Action><Action
+ Guid="5006031f-e374-43c9-9b6f-dec27b7223ff"
+>Kernel.TrainData.TrainData.Value.M_rotating_nom &lt;- 0.05</Action><Action
+ Guid="1064c05a-15cb-429d-b8ff-4928f64c8c1e"
+>Kernel.TrainData.TrainData.Value.MaximumSpeed &lt;- 110.0</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="4a8ec298-26a7-4be5-a17b-a2985fd73814"
+>Kernel.MRSP.SpeedRestrictions ( 0.0 ) == 70.0</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="d740810a-d248-4643-a458-7989d55a13be"
+>Kernel.MRSP.SpeedRestrictions ( 1000.0 ) == 70.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ Name="Receive National values"
+ Guid="7b175291-dbbf-4dbd-924a-5d8ce19f5c3f"
+>
+<ReqRef
+ Id="aee41b7b-392b-4306-b271-aa82bdfb015f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="aab1df6a-8ced-4449-8498-fc97b21bf38b"
+>
+</ReqRef><ReqRef
+ Id="6c7cb844-1387-4693-8b9c-f27e4a5bc4f0"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9721ad76-7b51-45b4-ae38-0d678c3a15c7"
+>
+</ReqRef><ReqRef
+ Id="4f903ab1-ca58-4171-a91a-e6c23000fe4e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="87c08f62-13b1-492c-a85e-700bb0222e3f"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Provide applicable NV"
+ Guid="dbc4a389-bd2b-459c-993d-57b70ba1b30a"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="356f3c84-c382-449d-ad9b-9eac34883a78"
+>
+<Actions>
+<Action
+ Guid="54de5ccf-9c43-4f95-8b86-3076de2b8308"
+>BTM.Message.SystemVersion2 &lt;- Messages.EUROBALISE.Message
+{
+    Q_UPDOWN =&gt; Messages.Q_UPDOWN.Up_link_telegram,
+    M_VERSION =&gt; Messages.M_VERSION.Version_2_0__introduced_in_SRS_3_0_0,
+    Q_MEDIA =&gt; Messages.Q_MEDIA.Balise,
+    N_PIG =&gt; 0,
+    N_TOTAL =&gt; 0,
+    M_DUP =&gt; Messages.M_DUP.No_duplicates,
+    M_MCOUNT =&gt; 4,
+    NID_C =&gt; 140,
+    NID_BG =&gt; 2124,
+    Q_LINK =&gt; Messages.Q_LINK.Linked,
+    Sequence1 =&gt; 
+    [
+        Messages.EUROBALISE.SubStructure1
+        {
+            TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message
+            {
+                NATIONAL_VALUES =&gt; Messages.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES.Message
+                {
+                    NID_PACKET =&gt; 3,
+                    Q_DIR =&gt; Messages.Q_DIR.Both_directions,
+                    L_PACKET =&gt; 200,
+                    Q_SCALE =&gt; Messages.Q_SCALE._10_cm_scaleC,
+                    D_VALIDNV =&gt; 0,
+                    NID_C =&gt; 140,
+                    V_NVSHUNT =&gt; 10,
+                    V_NVSTFF =&gt; 16,
+                    V_NVONSIGHT =&gt; 22,
+                    V_NVLIMSUPERV =&gt; 12,
+                    V_NVUNFIT =&gt; 14,
+                    V_NVREL =&gt; 8,
+                    D_NVROLL =&gt; 1200,
+                    Q_NVSBTSMPERM =&gt; Messages.Q_NVSBTSMPERM.Yes,
+                    Q_NVEMRRLS =&gt; Messages.Q_NVEMRRLS.Revoke_emergency_brake_command_at_standstill,
+                    Q_NVGUIPERM =&gt; Messages.Q_NVGUIPERM.No,
+                    Q_NVSBFBPERM =&gt; Messages.Q_NVSBFBPERM.No,
+                    Q_NVINHSMICPERM =&gt; Messages.Q_NVINHSMICPERM.Yes,
+                    V_NVALLOWOVTRP =&gt; 9,
+                    V_NVSUPOVTRP =&gt; 11,
+                    D_NVOVTRP =&gt; 2000,
+                    T_NVOVTRP =&gt; 150,
+                    D_NVPOTRP =&gt; 8000,
+                    M_NVCONTACT =&gt; Messages.M_NVCONTACT.Train_trip,
+                    T_NVCONTACT =&gt; 400,
+                    M_NVDERUN =&gt; Messages.M_NVDERUN.Yes,
+                    D_NVSTFF =&gt; 7000,
+                    Q_NVDRIVER_ADHES =&gt; Messages.Q_NVDRIVER_ADHES.Allowed,
+                    A_NVMAXREDADH1 =&gt; 10,
+                    A_NVMAXREDADH2 =&gt; 7,
+                    A_NVMAXREDADH3 =&gt; 5,
+                    Q_NVLOCACC =&gt; 10,
+                    M_NVAVADH =&gt; 4,
+                    M_NVEBCL =&gt; Messages.M_NVEBCL.Confidence_level___99_9,
+                    Q_NVKINT =&gt; Messages.Q_NVKINT.Integrated_correction_factors_follow,
+                    Q_NVKVINTSET =&gt; Messages.Q_NVKVINTSET.Conventional_passenger_trains,
+                    A_NVP12 =&gt; 12,
+                    A_NVP23 =&gt; 15,
+                    V_NVKVINT =&gt; 4,
+                    M_NVKVINT_0 =&gt; 22,
+                    M_NVKVINT_1 =&gt; 39,
+                    Sequence2 =&gt; 
+                    [
+                        Messages.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES.SubStructure2
+                        {
+                            V_NVKVINT =&gt; 8,
+                            M_NVKVINT_0 =&gt; 26,
+                            M_NVKVINT_1 =&gt; 40
+                        }, 
+                        Messages.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES.SubStructure2
+                        {
+                            V_NVKVINT =&gt; 10,
+                            M_NVKVINT_0 =&gt; 30,
+                            M_NVKVINT_1 =&gt; 57
+                        }, 
+                        Messages.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES.SubStructure2
+                        {
+                            V_NVKVINT =&gt; 14,
+                            M_NVKVINT_0 =&gt; 40,
+                            M_NVKVINT_1 =&gt; 80
+                        }, 
+                        Messages.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES.SubStructure2
+                        {
+                            V_NVKVINT =&gt; 18,
+                            M_NVKVINT_0 =&gt; 60,
+                            M_NVKVINT_1 =&gt; 100
+                        }
+                    ],
+                    Sequence4 =&gt; 
+                    [
+                        Messages.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES.SubStructure3
+                        {
+                            Q_NVKVINTSET =&gt; Messages.Q_NVKVINTSET.Freight_trains,
+                            A_NVP12 =&gt; 16,
+                            A_NVP23 =&gt; 20,
+                            V_NVKVINT =&gt; 8,
+                            M_NVKVINT_0 =&gt; 40,
+                            M_NVKVINT_1 =&gt; 50,
+                            Sequence3 =&gt; 
+                            [
+                                Messages.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES.SubStructure4
+                                {
+                                    V_NVKVINT =&gt; 14,
+                                    M_NVKVINT_0 =&gt; 64,
+                                    M_NVKVINT_1 =&gt; 80
+                                }, 
+                                Messages.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES.SubStructure4
+                                {
+                                    V_NVKVINT =&gt; 18,
+                                    M_NVKVINT_0 =&gt; 80,
+                                    M_NVKVINT_1 =&gt; 100
+                                }
+                            ]
+                        }
+                    ],
+                    L_NVKRINT =&gt; Messages.L_NVKRINT._0mC,
+                    M_NVKRINT =&gt; 20,
+                    Sequence5 =&gt; 
+                    [
+                        Messages.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES.SubStructure5
+                        {
+                            L_NVKRINT =&gt; Messages.L_NVKRINT._150mC,
+                            M_NVKRINT =&gt; 20
+                        }, 
+                        Messages.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES.SubStructure5
+                        {
+                            L_NVKRINT =&gt; Messages.L_NVKRINT._1100mC,
+                            M_NVKRINT =&gt; 28
+                        }
+                    ],
+                    M_NVKTINT =&gt; 25
+                }
+            }
+        }
+    ]
+}</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="6632fa1c-bf3c-435b-8c54-8f5d3cf3a021"
+>Kernel.MRSP.SpeedRestrictions ( 4000.0 ) == 60.0</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="78121cf3-63c7-41e4-b03f-15cc7b9abe0a"
+>Kernel.MRSP.SpeedRestrictions ( 2000.0 ) == 60.0</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="7b05b43b-4479-4166-a988-dd6ffe1baeac"
+>Kernel.MRSP.SpeedRestrictions ( 6000.0 ) == 60.0</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="c0749cf0-8ef1-4fc0-a2ea-1adeb2202ecd"
+>Kernel.MRSP.SpeedRestrictions ( 8000.0 ) == 60.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ Name="Receive TSR"
+ Guid="f610a0e9-4aef-41ff-8abe-bbb7abb799af"
+>
+<ReqRef
+ Id="d925afa7-0975-42ee-8f81-820493dda041"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="329629c9-871b-4df2-926a-4e34805065c8"
+>
+</ReqRef><ReqRef
+ Id="6c7cb844-1387-4693-8b9c-f27e4a5bc4f0"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="85f1913f-7d8b-458e-a24f-47631021ce41"
+>
+</ReqRef><ReqRef
+ Id="4f903ab1-ca58-4171-a91a-e6c23000fe4e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ccb66dc2-0816-4b7e-b917-8177e8794a8a"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Provide TSR"
+ Guid="3ca4194b-e358-484a-9577-2fa9676dbe99"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="77b3fc4a-6f78-4d5d-8d1b-25cbcd691575"
+>
+<Actions>
+<Action
+ Guid="beb61e33-1c48-431b-997b-70dc3af3f04a"
+>BTM.Message.SystemVersion2 &lt;- Messages.EUROBALISE.Message
+{
+    Q_UPDOWN =&gt; Messages.Q_UPDOWN.Up_link_telegram,
+    M_VERSION =&gt; Messages.M_VERSION.Version_2_0__introduced_in_SRS_3_0_0,
+    Q_MEDIA =&gt; Messages.Q_MEDIA.Balise,
+    N_PIG =&gt; 0,
+    N_TOTAL =&gt; 0,
+    M_DUP =&gt; Messages.M_DUP.No_duplicates,
+    M_MCOUNT =&gt; 4,
+    NID_C =&gt; 140,
+    NID_BG =&gt; 2124,
+    Q_LINK =&gt; Messages.Q_LINK.Linked,
+    Sequence1 =&gt; 
+    [
+        Messages.EUROBALISE.SubStructure1
+        {
+            TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message
+            {
+                TEMPORARY_SPEED_RESTRICTION =&gt; Messages.PACKET.TRACK_TO_TRAIN.TEMPORARY_SPEED_RESTRICTION.Message
+                {
+                    NID_PACKET =&gt; 8,
+                    Q_DIR =&gt; Messages.Q_DIR.Both_directions,
+                    L_PACKET =&gt; 400,
+                    Q_SCALE =&gt; Messages.Q_SCALE._1_m_scaleC,
+                    NID_TSR =&gt; 1515,
+                    D_TSR =&gt; 4000,
+                    L_TSR =&gt; 2500,
+                    Q_FRONT =&gt; Messages.Q_FRONT.No_train_length_delay_on_validity_end_point_of_profile_element,
+                    V_TSR =&gt; 5
+                }
+            }
+        }
+    ]
+}</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="7b972f96-e342-446d-a598-3d0788acc566"
+>Kernel.MRSP.SpeedRestrictions ( 4000.0 ) == 25.0</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="b69b4d4f-a081-4ef0-baa2-908ef44dead6"
+>Kernel.MRSP.SpeedRestrictions ( 3000.0 ) == 60.0</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="5dcf6dac-c81f-45ec-8621-67109f01ad5f"
+>Kernel.MRSP.SpeedRestrictions ( 7000.0 ) == 60.0</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="a6891b27-dfbe-4f04-9997-5c9443208f28"
+>Kernel.MRSP.SpeedRestrictions ( 8000.0 ) == 60.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ Name="Receive LX"
+ Guid="7436573a-752e-431b-81f6-28c1c7318618"
+>
+<ReqRef
+ Id="f80261a5-4553-4c43-ab09-2cf0da750a7e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="eb64402e-b082-4627-9207-c80bc2d38b3c"
+>
+</ReqRef><ReqRef
+ Id="6c7cb844-1387-4693-8b9c-f27e4a5bc4f0"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e927e3f0-a88e-4bbd-8537-8803a7ec9fea"
+>
+</ReqRef><ReqRef
+ Id="4f903ab1-ca58-4171-a91a-e6c23000fe4e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="516283a7-3378-4f35-b08f-63c373287619"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Provide LX"
+ Guid="c3e5f06a-d08b-462e-bd27-1a808c1de49b"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1 - non protected LX, not in MRSP"
+ Guid="ace46cf1-4d11-45cd-b62c-e7c00697b000"
+>
+<Actions>
+<Action
+ Guid="db68b74d-5ad2-4199-bc53-bbbab2dcc181"
+>BTM.Message.SystemVersion2 &lt;- Messages.EUROBALISE.Message
+{
+    Q_UPDOWN =&gt; Messages.Q_UPDOWN.Up_link_telegram,
+    M_VERSION =&gt; Messages.M_VERSION.Version_2_0__introduced_in_SRS_3_0_0,
+    Q_MEDIA =&gt; Messages.Q_MEDIA.Balise,
+    N_PIG =&gt; 0,
+    N_TOTAL =&gt; 0,
+    M_DUP =&gt; Messages.M_DUP.No_duplicates,
+    M_MCOUNT =&gt; 4,
+    NID_C =&gt; 140,
+    NID_BG =&gt; 2124,
+    Q_LINK =&gt; Messages.Q_LINK.Linked,
+    Sequence1 =&gt; 
+    [
+        Messages.EUROBALISE.SubStructure1
+        {
+            TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message
+            {
+                LEVEL_CROSSING_INFORMATION =&gt; Messages.PACKET.TRACK_TO_TRAIN.LEVEL_CROSSING_INFORMATION.Message
+                {
+                    NID_PACKET =&gt; 88,
+                    Q_DIR =&gt; Messages.Q_DIR.Both_directions,
+                    L_PACKET =&gt; 400,
+                    Q_SCALE =&gt; Messages.Q_SCALE._1_m_scaleC,
+                    NID_LX =&gt; 20,
+                    D_LX =&gt; 2000,
+                    L_LX =&gt; 250,
+                    Q_LXSTATUS =&gt; Messages.Q_LXSTATUS.LX_is_not_protected,
+                    V_LX =&gt; 8,
+                    Q_STOPLX =&gt; Messages.Q_STOPLX.No_stop_required,
+                    L_STOPLX =&gt; 0
+                }
+            }
+        }
+    ]
+}</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="8b6c92e1-71a3-4694-bbb9-e12c838e3c4f"
+>Kernel.MRSP.SpeedRestrictions ( 4000.0 ) == 25.0</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="bd9ff725-66e7-42cf-9e37-4096f6f2f632"
+>Kernel.MRSP.SpeedRestrictions ( 3000.0 ) == 60.0</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="20ee7faf-cb60-4819-9f6e-a438e6e3399d"
+>Kernel.MRSP.SpeedRestrictions ( 7000.0 ) == 60.0</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="e26ff167-4046-4fb5-86d7-7cceb7e53d3c"
+>Kernel.MRSP.SpeedRestrictions ( 8000.0 ) == 60.0</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="255cd9e9-44c0-48f2-847c-92a5f0e6cc82"
+>Kernel.MRSP.SpeedRestrictions ( 2000.0 ) == 60.0</Expectation></Expectations>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step2 - non protected LX, in MRSP"
+ Guid="31dd83db-3f2a-40fe-acd1-5fa897bfe9aa"
+>
+<Actions>
+<Action
+ Guid="6fe5328a-865e-4d7d-93a9-829fe6bdb31f"
+>BTM.Message.SystemVersion2 &lt;- Messages.EUROBALISE.Message
+{
+    Q_UPDOWN =&gt; Messages.Q_UPDOWN.Up_link_telegram,
+    M_VERSION =&gt; Messages.M_VERSION.Version_2_0__introduced_in_SRS_3_0_0,
+    Q_MEDIA =&gt; Messages.Q_MEDIA.Balise,
+    N_PIG =&gt; 0,
+    N_TOTAL =&gt; 0,
+    M_DUP =&gt; Messages.M_DUP.No_duplicates,
+    M_MCOUNT =&gt; 4,
+    NID_C =&gt; 140,
+    NID_BG =&gt; 2124,
+    Q_LINK =&gt; Messages.Q_LINK.Linked,
+    Sequence1 =&gt; 
+    [
+        Messages.EUROBALISE.SubStructure1
+        {
+            TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message
+            {
+                LEVEL_CROSSING_INFORMATION =&gt; Messages.PACKET.TRACK_TO_TRAIN.LEVEL_CROSSING_INFORMATION.Message
+                {
+                    NID_PACKET =&gt; 88,
+                    Q_DIR =&gt; Messages.Q_DIR.Both_directions,
+                    L_PACKET =&gt; 400,
+                    Q_SCALE =&gt; Messages.Q_SCALE._1_m_scaleC,
+                    NID_LX =&gt; 21,
+                    D_LX =&gt; 20,
+                    L_LX =&gt; 70,
+                    Q_LXSTATUS =&gt; Messages.Q_LXSTATUS.LX_is_not_protected,
+                    V_LX =&gt; 8,
+                    Q_STOPLX =&gt; Messages.Q_STOPLX.No_stop_required,
+                    L_STOPLX =&gt; 0
+                }
+            }
+        }
+    ]
+}</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="6a574960-d3fe-4553-a23d-b7ff4e99834a"
+>Kernel.MRSP.SpeedRestrictions ( 2000.0 ) == 60.0</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="fe08018e-7ac7-437d-8b60-b6172040cb87"
+>Kernel.MRSP.SpeedRestrictions ( 3000.0 ) == 60.0</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="dc6c1364-9001-4ec9-87db-9aefabd5b150"
+>Kernel.MRSP.SpeedRestrictions ( 4000.0 ) == 25.0</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="45c7126f-def6-4470-9ead-42c27d52c2b3"
+>Kernel.MRSP.SpeedRestrictions ( 7000.0 ) == 60.0</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="e6131e81-a4c6-4539-b540-54848c50b8a7"
+>Kernel.MRSP.SpeedRestrictions ( 8000.0 ) == 60.0</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="83a9dcfa-9360-4ba7-a079-4253749295fa"
+>Kernel.MRSP.SpeedRestrictions ( 50.0 ) == 40.0</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="e381aeeb-3139-4be7-ab42-8caba06fd331"
+>Kernel.MRSP.SpeedRestrictions ( 500.0 ) == 60.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ Name="Override function is activated"
+ Guid="aefb49b1-f12c-4a18-b1a6-2aa64833a7bc"
+>
+<ReqRef
+ Id="740a2050-4496-4fb8-9389-3250365d206a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0faae8c5-78ac-4ffd-a7d6-3c46c72a95c6"
+>
+</ReqRef><ReqRef
+ Id="4ffc9c73-6c94-446a-8dc8-d6d9277102e2"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="132263b3-2201-408a-8fae-2738ab4f665b"
+>
+</ReqRef><ReqRef
+ Id="6c7cb844-1387-4693-8b9c-f27e4a5bc4f0"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9e34cb3b-84fc-45a6-a269-d4f93d827054"
+>
+</ReqRef><ReqRef
+ Id="4f903ab1-ca58-4171-a91a-e6c23000fe4e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="392dd195-4891-483a-950d-841c729d3ce1"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Provide applicable NV"
+ Guid="4fb3c67b-b6d9-46e3-9a03-2fadf5461022"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="cef26fee-6c1c-43c9-bb3d-e54450debe89"
+>
+<Actions>
+<Action
+ Guid="e315cecd-fb84-49ea-a3b8-1656a7b36f49"
+>Kernel.HandleModeChange &lt;- Kernel.HandleModeChange.Override</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="26a00677-e63a-4067-9777-8b25eb8bd020"
+>Kernel.MRSP.SpeedRestrictions ( 1000.0 ) == 60.0</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="70fc1b8b-5495-4123-94d0-2f42835a8528"
+>Kernel.MRSP.SpeedRestrictions ( 8000.0 ) == 60.0</Expectation><Expectation
+ Kind="Instantaneous"
+ Blocking="FALSE"
+ Guid="ca998c5c-0167-479f-adf1-8b3c6d311105"
+>Kernel.NationalValues.CurrentNV().OverrideSpeedLimitToBeSupervisedWhenOverrideIsActive == 55.0</Expectation><Expectation
+ Kind="Instantaneous"
+ Blocking="FALSE"
+ Guid="76fc0331-c271-45a7-8d13-c9ebd6dae161"
+>NOT Kernel.ActiveFunctions.DetermineMRSP_Override()</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ Name="Receive STM max speed"
+ Guid="3819611a-dfd4-4877-8ee5-3f180355ba08"
+>
+<ReqRef
+ Id="8321661d-73c4-49fe-acb7-74e4bc41bd37"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="19b8ca34-6233-4d97-9794-e801e3ac0d27"
+>
+</ReqRef><ReqRef
+ Id="8321661d-73c4-49fe-acb7-74e4bc41bd37"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e3db3153-d2f9-4f9e-a445-dbfece2661b6"
+>
+</ReqRef><ReqRef
+ Id="6c7cb844-1387-4693-8b9c-f27e4a5bc4f0"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="89ba0eb7-76a6-4e07-ba04-4226ff7b9287"
+>
+</ReqRef><ReqRef
+ Id="4f903ab1-ca58-4171-a91a-e6c23000fe4e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f29d2b68-376e-4b4d-bdbc-b3d91932203a"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Provide STM max speed"
+ Guid="b4eee6c7-32d7-44ba-8258-545d56699b32"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="64af4d0a-e10c-4bba-a92e-f1102b4bf016"
+>
+<Actions>
+<Action
+ Guid="905801c6-3a61-4039-8280-09d8de975c27"
+>STM.MaxSpeed.Speed &lt;- 50.0</Action><Action
+ Guid="c68fb52b-76d0-4e74-8885-76a7a68923c1"
+>STM.MaxSpeed.HasToBeSupervised &lt;- True</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="604ba91b-3356-40f7-8bc4-ba8f0fefad1b"
+>Kernel.MRSP.SpeedRestrictions ( 1000.0 ) == 50.0</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="b233a741-ae1a-49f1-aed0-d77b6227e53d"
+>Kernel.MRSP.SpeedRestrictions ( 3000.0 ) == 50.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ Name="Receive STM system speed"
+ Guid="5bf9c5bc-f013-4cd7-a7b1-ee3317e62fe5"
+>
+<ReqRef
+ Id="5b427521-61cb-409a-8485-a942fda2760a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e9c88bff-8fb8-45a2-b37d-c60e3f76a80f"
+>
+</ReqRef><ReqRef
+ Id="5b427521-61cb-409a-8485-a942fda2760a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="1fb94a45-6995-40d7-b6cc-edf24f73f3f3"
+>
+</ReqRef><ReqRef
+ Id="6c7cb844-1387-4693-8b9c-f27e4a5bc4f0"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="85457da0-7075-4e5c-9208-e56c5b835b3a"
+>
+</ReqRef><ReqRef
+ Id="4f903ab1-ca58-4171-a91a-e6c23000fe4e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="851e1ee2-633b-4182-884b-563c00302336"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Provide STM system speed"
+ Guid="5f076d16-8ce3-4459-8578-6751607a5572"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="c870c03e-239d-40cf-b517-7fa3c10cd39e"
+>
+<Actions>
+<Action
+ Guid="e7401a31-df1b-4e9d-b288-83c7e33570c2"
+>STM.SystemSpeed.Speed &lt;- 45.0</Action><Action
+ Guid="7df81766-7040-4743-9b9c-400564976344"
+>STM.SystemSpeed.HasToBeSupervised &lt;- True</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="3688136a-1420-474d-a12c-dcaeb479b966"
+>Kernel.MRSP.SpeedRestrictions ( 1000.0 ) == 45.0</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="6c6d85fc-befe-4c7c-8782-d5d518fcf5dd"
+>Kernel.MRSP.SpeedRestrictions ( 3000.0 ) == 45.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ Name="Receive axle load profile"
+ Guid="233549a5-0f89-49fa-b61f-73f86d4e72ce"
+>
+<ReqRef
+ Id="38267eb5-348a-4d09-b4c6-4907aea348f2"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="86306a51-4d1e-4a79-9020-24465924ec05"
+>
+</ReqRef><ReqRef
+ Id="6c7cb844-1387-4693-8b9c-f27e4a5bc4f0"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e3c4aafe-e360-4c15-a301-c59284f2150f"
+>
+</ReqRef><ReqRef
+ Id="4f903ab1-ca58-4171-a91a-e6c23000fe4e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="8936d46f-3743-4060-b107-bb203f6a4e31"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Provide axle load profile"
+ Guid="ebfb4e83-c746-4240-8fea-4bb76c77f6c6"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="1dfae13c-2c9e-44b4-9e28-04b0e5174354"
+>
+<Actions>
+<Action
+ Guid="fd8133a8-07d8-4322-afd4-1b4857e68971"
+>BTM.Message.SystemVersion2 &lt;- Messages.EUROBALISE.Message
+{
+    Q_UPDOWN =&gt; Messages.Q_UPDOWN.Up_link_telegram,
+    M_VERSION =&gt; Messages.M_VERSION.Version_2_0__introduced_in_SRS_3_0_0,
+    Q_MEDIA =&gt; Messages.Q_MEDIA.Balise,
+    N_PIG =&gt; 0,
+    N_TOTAL =&gt; 0,
+    M_DUP =&gt; Messages.M_DUP.No_duplicates,
+    M_MCOUNT =&gt; 4,
+    NID_C =&gt; 140,
+    NID_BG =&gt; 2100,
+    Q_LINK =&gt; Messages.Q_LINK.Linked,
+    Sequence1 =&gt; 
+    [
+        Messages.EUROBALISE.SubStructure1
+        {
+            TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message
+            {
+                AXLE_LOAD_SPEED_PROFILE =&gt; Messages.PACKET.TRACK_TO_TRAIN.AXLE_LOAD_SPEED_PROFILE.Message
+                {
+                    NID_PACKET =&gt; 88,
+                    Q_DIR =&gt; Messages.Q_DIR.Both_directions,
+                    L_PACKET =&gt; 400,
+                    Q_SCALE =&gt; Messages.Q_SCALE._1_m_scaleC,
+                    Q_TRACKINIT =&gt; Messages.Q_TRACKINIT.No_initial_states_to_be_resumed__profile_to_follow,
+                    D_AXLELOAD =&gt; 1000,
+                    L_AXLELOAD =&gt; 300,
+                    Q_FRONT =&gt; Messages.Q_FRONT.Train_length_delay_on_validity_end_point_of_profile_element,
+                    Sequence1 =&gt; 
+                    [
+                        Messages.PACKET.TRACK_TO_TRAIN.AXLE_LOAD_SPEED_PROFILE.SubStructure1
+                        {
+                            M_AXLELOADCAT =&gt; Messages.M_AXLELOADCAT.A,
+                            V_AXLELOAD =&gt; 14
+                        }, 
+                        Messages.PACKET.TRACK_TO_TRAIN.AXLE_LOAD_SPEED_PROFILE.SubStructure1
+                        {
+                            M_AXLELOADCAT =&gt; Messages.M_AXLELOADCAT.B2,
+                            V_AXLELOAD =&gt; 12
+                        }, 
+                        Messages.PACKET.TRACK_TO_TRAIN.AXLE_LOAD_SPEED_PROFILE.SubStructure1
+                        {
+                            M_AXLELOADCAT =&gt; Messages.M_AXLELOADCAT.C4,
+                            V_AXLELOAD =&gt; 8
+                        }, 
+                        Messages.PACKET.TRACK_TO_TRAIN.AXLE_LOAD_SPEED_PROFILE.SubStructure1
+                        {
+                            M_AXLELOADCAT =&gt; Messages.M_AXLELOADCAT.E5,
+                            V_AXLELOAD =&gt; 4
+                        }
+                    ],
+                    Sequence3 =&gt; 
+                    [
+                        Messages.PACKET.TRACK_TO_TRAIN.AXLE_LOAD_SPEED_PROFILE.SubStructure2
+                        {
+                            D_AXLELOAD =&gt; 2000,
+                            L_AXLELOAD =&gt; 1000,
+                            Q_FRONT =&gt; Messages.Q_FRONT.Train_length_delay_on_validity_end_point_of_profile_element,
+                            Sequence2 =&gt; 
+                            [
+                                Messages.PACKET.TRACK_TO_TRAIN.AXLE_LOAD_SPEED_PROFILE.SubStructure3
+                                {
+                                    M_AXLELOADCAT =&gt; Messages.M_AXLELOADCAT.A,
+                                    V_AXLELOAD =&gt; 16
+                                }, 
+                                Messages.PACKET.TRACK_TO_TRAIN.AXLE_LOAD_SPEED_PROFILE.SubStructure3
+                                {
+                                    M_AXLELOADCAT =&gt; Messages.M_AXLELOADCAT.B2,
+                                    V_AXLELOAD =&gt; 14
+                                }, 
+                                Messages.PACKET.TRACK_TO_TRAIN.AXLE_LOAD_SPEED_PROFILE.SubStructure3
+                                {
+                                    M_AXLELOADCAT =&gt; Messages.M_AXLELOADCAT.C4,
+                                    V_AXLELOAD =&gt; 12
+                                }, 
+                                Messages.PACKET.TRACK_TO_TRAIN.AXLE_LOAD_SPEED_PROFILE.SubStructure3
+                                {
+                                    M_AXLELOADCAT =&gt; Messages.M_AXLELOADCAT.D4XL,
+                                    V_AXLELOAD =&gt; 10
+                                }, 
+                                Messages.PACKET.TRACK_TO_TRAIN.AXLE_LOAD_SPEED_PROFILE.SubStructure3
+                                {
+                                    M_AXLELOADCAT =&gt; Messages.M_AXLELOADCAT.E5,
+                                    V_AXLELOAD =&gt; 6
+                                }
+                            ]
+                        }
+                    ],
+                    D_TRACKINIT =&gt; 0
+                }
+            }
+        }
+    ]
+}</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="fe6ba916-9dc1-45d1-8519-2a9dfc3bb592"
+>Kernel.MRSP.SpeedRestrictions ( 1000.0 ) == 20.0</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="8fba03b3-23aa-48d3-bb10-76b58279a15b"
+>Kernel.MRSP.SpeedRestrictions ( 3000.0 ) == 30.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ NeedsRequirement="FALSE"
+ Name="Receive gradient info"
+ Guid="280f3dae-455a-4ba2-9d67-5fd22ddcf5dd"
+>
+<Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Receive gradient info"
+ Guid="23a7c921-8b51-47a1-b1ca-abdebdfd2a1f"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="9e5ec97a-8f49-4477-ae7c-3ed7413f7567"
+>
+<Actions>
+<Action
+ Guid="6b098b64-3297-43d4-9e8d-05f21ade42d1"
+>BTM.Message.SystemVersion2 &lt;- Messages.EUROBALISE.Message
+{
+    Q_UPDOWN =&gt; Messages.Q_UPDOWN.Up_link_telegram,
+    M_VERSION =&gt; Messages.M_VERSION.Version_2_0__introduced_in_SRS_3_0_0,
+    Q_MEDIA =&gt; Messages.Q_MEDIA.Balise,
+    N_PIG =&gt; 0,
+    N_TOTAL =&gt; 0,
+    M_DUP =&gt; Messages.M_DUP.No_duplicates,
+    M_MCOUNT =&gt; 4,
+    NID_C =&gt; 140,
+    NID_BG =&gt; 2124,
+    Q_LINK =&gt; Messages.Q_LINK.Linked,
+    Sequence1 =&gt; 
+    [
+        Messages.EUROBALISE.SubStructure1
+        {
+            TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message
+            {
+                GRADIENT_PROFILE =&gt; Messages.PACKET.TRACK_TO_TRAIN.GRADIENT_PROFILE.Message
+                {
+                    NID_PACKET =&gt; 21,
+                    Q_DIR =&gt; Messages.Q_DIR.Both_directions,
+                    L_PACKET =&gt; 400,
+                    Q_SCALE =&gt; Messages.Q_SCALE._1_m_scaleC,
+                    D_GRADIENT =&gt; 4000,
+                    Q_GDIR =&gt; Messages.Q_GDIR.uphill,
+                    G_A =&gt; 2,
+                    N_ITER =&gt; 3,
+                    Sequence1 =&gt; 
+                    [
+                        Messages.PACKET.TRACK_TO_TRAIN.GRADIENT_PROFILE.SubStructure1
+                        {
+                            D_GRADIENT =&gt; 2000,
+                            Q_GDIR =&gt; Messages.Q_GDIR.downhill,
+                            G_A =&gt; 1
+                        }, 
+                        Messages.PACKET.TRACK_TO_TRAIN.GRADIENT_PROFILE.SubStructure1
+                        {
+                            D_GRADIENT =&gt; 1000,
+                            Q_GDIR =&gt; Messages.Q_GDIR.downhill,
+                            G_A =&gt; 4
+                        }, 
+                        Messages.PACKET.TRACK_TO_TRAIN.GRADIENT_PROFILE.SubStructure1
+                        {
+                            D_GRADIENT =&gt; 5000,
+                            Q_GDIR =&gt; Messages.Q_GDIR.uphill,
+                            G_A =&gt; 3
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}</Action></Actions>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ NeedsRequirement="FALSE"
+ Name="Receive Static Speed Profile"
+ Guid="d91566ba-b2e3-4fa2-94b4-edc37c387f7a"
+>
+<ReqRef
+ Id="3e4a183c-969d-4574-ac8c-666dd8215c79"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="4ab31733-b26b-4cb8-819e-d4032e14e5f5"
+>
+</ReqRef><ReqRef
+ Id="6c7cb844-1387-4693-8b9c-f27e4a5bc4f0"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="7ea7bb20-0fb8-4743-8853-a790f527a761"
+>
+</ReqRef><ReqRef
+ Id="4f903ab1-ca58-4171-a91a-e6c23000fe4e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6c8dc12f-b186-4757-883e-02bc38289bb2"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Receive Static Speed Profile"
+ Guid="908f4c23-2ad8-42a1-9595-677247236b03"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="a998ae91-c865-444d-8318-9d814c19f537"
+>
+<Actions>
+<Action
+ Guid="14d575cc-e5ad-488f-b1e1-1c81b52cfda6"
+>BTM.Message.SystemVersion2 &lt;- Messages.EUROBALISE.Message
+{
+    Q_UPDOWN =&gt; Messages.Q_UPDOWN.Up_link_telegram,
+    M_VERSION =&gt; Messages.M_VERSION.Version_2_0__introduced_in_SRS_3_0_0,
+    Q_MEDIA =&gt; Messages.Q_MEDIA.Balise,
+    N_PIG =&gt; 0,
+    N_TOTAL =&gt; 0,
+    M_DUP =&gt; Messages.M_DUP.No_duplicates,
+    M_MCOUNT =&gt; 4,
+    NID_C =&gt; 140,
+    NID_BG =&gt; 2124,
+    Q_LINK =&gt; Messages.Q_LINK.Unlinked,
+    Sequence1 =&gt; 
+    [
+        Messages.EUROBALISE.SubStructure1
+        {
+            TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message
+            {
+                INTERNATIONAL_STATIC_SPEED_PROFILE =&gt; Messages.PACKET.TRACK_TO_TRAIN.INTERNATIONAL_STATIC_SPEED_PROFILE.Message
+                {
+                    NID_PACKET =&gt; 27,
+                    Q_DIR =&gt; Messages.Q_DIR.Both_directions,
+                    L_PACKET =&gt; 400,
+                    Q_SCALE =&gt; Messages.Q_SCALE._1_m_scaleC,
+                    D_STATIC =&gt; 4500,
+                    V_STATIC =&gt; 8,
+                    Q_FRONT =&gt; Messages.Q_FRONT.Train_length_delay_on_validity_end_point_of_profile_element,
+                    N_ITER_0 =&gt; 5,
+                    Sequence1 =&gt; 
+                    [
+                        Messages.PACKET.TRACK_TO_TRAIN.INTERNATIONAL_STATIC_SPEED_PROFILE.SubStructure1
+                        {
+                            Q_DIFF =&gt; Messages.Q_DIFF.Cant_Deficiency_specific_category,
+                            NC_CDDIFF =&gt; Messages.NC_CDDIFF.Specific_SSP_applicable_to_Cant_Deficiency_130_mm,
+                            NC_DIFF =&gt; Messages.NC_DIFF.Specific_SSP_applicable_to_Freight_train_braked_in__P__position,
+                            V_DIFF =&gt; 6
+                        }, 
+                        Messages.PACKET.TRACK_TO_TRAIN.INTERNATIONAL_STATIC_SPEED_PROFILE.SubStructure1
+                        {
+                            Q_DIFF =&gt; Messages.Q_DIFF.Cant_Deficiency_specific_category,
+                            NC_CDDIFF =&gt; Messages.NC_CDDIFF.Specific_SSP_applicable_to_Cant_Deficiency_210_mm,
+                            NC_DIFF =&gt; Messages.NC_DIFF.Specific_SSP_applicable_to_Freight_train_braked_in__P__position,
+                            V_DIFF =&gt; 2
+                        }, 
+                        Messages.PACKET.TRACK_TO_TRAIN.INTERNATIONAL_STATIC_SPEED_PROFILE.SubStructure1
+                        {
+                            Q_DIFF =&gt; Messages.Q_DIFF.Other_specific_category__does_not_replace_the_Cant_Deficiency_SSP,
+                            NC_CDDIFF =&gt; Messages.NC_CDDIFF.Specific_SSP_applicable_to_Cant_Deficiency_130_mm,
+                            NC_DIFF =&gt; Messages.NC_DIFF.Specific_SSP_applicable_to_Freight_train_braked_in__G__position,
+                            V_DIFF =&gt; 10
+                        }, 
+                        Messages.PACKET.TRACK_TO_TRAIN.INTERNATIONAL_STATIC_SPEED_PROFILE.SubStructure1
+                        {
+                            Q_DIFF =&gt; Messages.Q_DIFF.Other_specific_category__does_not_replace_the_Cant_Deficiency_SSP,
+                            NC_CDDIFF =&gt; Messages.NC_CDDIFF.Specific_SSP_applicable_to_Cant_Deficiency_130_mm,
+                            NC_DIFF =&gt; Messages.NC_DIFF.Specific_SSP_applicable_to_Freight_train_braked_in__P__position,
+                            V_DIFF =&gt; 7
+                        }, 
+                        Messages.PACKET.TRACK_TO_TRAIN.INTERNATIONAL_STATIC_SPEED_PROFILE.SubStructure1
+                        {
+                            Q_DIFF =&gt; Messages.Q_DIFF.Other_specific_category__does_not_replace_the_Cant_Deficiency_SSP,
+                            NC_CDDIFF =&gt; Messages.NC_CDDIFF.Specific_SSP_applicable_to_Cant_Deficiency_150_mm,
+                            NC_DIFF =&gt; Messages.NC_DIFF.Specific_SSP_applicable_to_Passenger_train,
+                            V_DIFF =&gt; 14
+                        }
+                    ],
+                    Sequence3 =&gt; 
+                    [
+                        Messages.PACKET.TRACK_TO_TRAIN.INTERNATIONAL_STATIC_SPEED_PROFILE.SubStructure2
+                        {
+                            D_STATIC =&gt; 1000,
+                            V_STATIC =&gt; 10,
+                            Q_FRONT =&gt; Messages.Q_FRONT.No_train_length_delay_on_validity_end_point_of_profile_element,
+                            N_ITER =&gt; 3,
+                            Sequence2 =&gt; 
+                            [
+                                Messages.PACKET.TRACK_TO_TRAIN.INTERNATIONAL_STATIC_SPEED_PROFILE.SubStructure3
+                                {
+                                    Q_DIFF =&gt; Messages.Q_DIFF.Other_specific_category__does_not_replace_the_Cant_Deficiency_SSP,
+                                    NC_CDDIFF =&gt; Messages.NC_CDDIFF.Specific_SSP_applicable_to_Cant_Deficiency_150_mm,
+                                    NC_DIFF =&gt; Messages.NC_DIFF.Specific_SSP_applicable_to_Freight_train_braked_in__G__position,
+                                    V_DIFF =&gt; 12
+                                }, 
+                                Messages.PACKET.TRACK_TO_TRAIN.INTERNATIONAL_STATIC_SPEED_PROFILE.SubStructure3
+                                {
+                                    Q_DIFF =&gt; Messages.Q_DIFF.Other_specific_category__does_not_replace_the_Cant_Deficiency_SSP,
+                                    NC_CDDIFF =&gt; Messages.NC_CDDIFF.Specific_SSP_applicable_to_Cant_Deficiency_150_mm,
+                                    NC_DIFF =&gt; Messages.NC_DIFF.Specific_SSP_applicable_to_Freight_train_braked_in__P__position,
+                                    V_DIFF =&gt; 6
+                                }, 
+                                Messages.PACKET.TRACK_TO_TRAIN.INTERNATIONAL_STATIC_SPEED_PROFILE.SubStructure3
+                                {
+                                    Q_DIFF =&gt; Messages.Q_DIFF.Other_specific_category__does_not_replace_the_Cant_Deficiency_SSP,
+                                    NC_CDDIFF =&gt; Messages.NC_CDDIFF.Specific_SSP_applicable_to_Cant_Deficiency_150_mm,
+                                    NC_DIFF =&gt; Messages.NC_DIFF.Specific_SSP_applicable_to_Passenger_train,
+                                    V_DIFF =&gt; 8
+                                }
+                            ]
+                        }, 
+                        Messages.PACKET.TRACK_TO_TRAIN.INTERNATIONAL_STATIC_SPEED_PROFILE.SubStructure2
+                        {
+                            D_STATIC =&gt; 2000,
+                            V_STATIC =&gt; 127,
+                            Q_FRONT =&gt; Messages.Q_FRONT.No_train_length_delay_on_validity_end_point_of_profile_element,
+                            N_ITER =&gt; 0,
+                            Sequence2 =&gt; 
+                            [
+                            ]
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="9e586964-8f5b-48cc-9689-9a58584bba44"
+>Kernel.MRSP.SpeedRestrictions ( 4500.0 ) == 10.0</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="0993693a-5ae2-44ed-a56c-bf0084ac8469"
+>Kernel.MRSP.SpeedRestrictions ( 5499.0 ) == 10.0</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="e1a0cf83-5829-4698-bbdb-c9dcf984d6d9"
+>Kernel.MRSP.SpeedRestrictions ( 5500.0 ) == 25.0</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="e8970cf0-f1ed-4fa4-b2aa-7a9911fe3aab"
+>Kernel.MRSP.SpeedRestrictions ( 6000.0 ) == 25.0</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="43419182-be3b-4880-8a52-b96bff0b9242"
+>Kernel.MRSP.SpeedRestrictions ( 7000.0 ) == 30.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase></TestCases>
+</SubSequence></SubSequences>
+</Frame>

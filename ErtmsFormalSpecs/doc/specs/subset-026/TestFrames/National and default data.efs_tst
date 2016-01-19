@@ -1,0 +1,5811 @@
+<Frame
+ CycleDuration="Kernel.CycleDuration"
+ Name="National and default data"
+ Guid="a0224e84-a0f6-4706-95e3-e83a008d080c"
+>
+<SubSequences>
+<SubSequence
+ D_LRBG=""
+ Level=""
+ Mode=""
+ NID_LRBG=""
+ Q_DIRLRBG=""
+ Q_DIRTRAIN=""
+ Q_DLRBG=""
+ RBC_ID=""
+ RBCPhone=""
+ Name="Applicable national values received from a BG"
+ Guid="6b4e3cf2-2096-41ce-9126-07792f414613"
+>
+<TestCases>
+<TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Step1 - Setup"
+ Guid="2a90eae6-6ace-4a60-89d6-871f2c31bd62"
+>
+<Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Setup"
+ Guid="38ca894e-4346-4efd-b96a-3a2b22d749b9"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="fa16c040-7d27-4a46-965f-58f335590ca9"
+>
+<Actions>
+<Action
+ Guid="9e814716-1793-4d4b-a72e-e0ebfcdff694"
+>Testing.InitializeTestEnvironment
+(
+    aTrainPosition =&gt; 100.0,
+    aMode =&gt; ModeEnum.SR
+)</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step2 - New national values received"
+ Guid="c4ed307b-420d-411d-9986-383ccba35a13"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="605d7477-b324-4e9b-b056-6c48fe8111f1"
+>
+<Actions>
+<Action
+ Guid="d40eb755-b1a8-4196-b901-a5b4f633ada5"
+>BTM.Message.SystemVersion2 &lt;- Messages.EUROBALISE.Message
+{
+    Q_UPDOWN =&gt; Messages.Q_UPDOWN.Up_link_telegram,
+    M_VERSION =&gt; Messages.M_VERSION.Version_2_0__introduced_in_SRS_3_0_0,
+    Q_MEDIA =&gt; Messages.Q_MEDIA.Balise,
+    N_PIG =&gt; 0,
+    N_TOTAL =&gt; 0,
+    M_DUP =&gt; Messages.M_DUP.No_duplicates,
+    M_MCOUNT =&gt; 4,
+    NID_C =&gt; 140,
+    NID_BG =&gt; 2124,
+    Q_LINK =&gt; Messages.Q_LINK.Linked,
+    Sequence1 =&gt; 
+    [
+        Messages.EUROBALISE.SubStructure1
+        {
+            TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message
+            {
+                NATIONAL_VALUES =&gt; Messages.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES.Message
+                {
+                    NID_PACKET =&gt; 3,
+                    Q_DIR =&gt; Messages.Q_DIR.Both_directions,
+                    L_PACKET =&gt; 200,
+                    Q_SCALE =&gt; Messages.Q_SCALE._10_cm_scaleC,
+                    D_VALIDNV =&gt; 0,
+                    NID_C =&gt; 140,
+                    V_NVSHUNT =&gt; 10,
+                    V_NVSTFF =&gt; 16,
+                    V_NVONSIGHT =&gt; 22,
+                    V_NVLIMSUPERV =&gt; 18,
+                    V_NVUNFIT =&gt; 14,
+                    V_NVREL =&gt; 8,
+                    D_NVROLL =&gt; 1200,
+                    Q_NVSBTSMPERM =&gt; Messages.Q_NVSBTSMPERM.Yes,
+                    Q_NVEMRRLS =&gt; Messages.Q_NVEMRRLS.Revoke_emergency_brake_command_at_standstill,
+                    Q_NVGUIPERM =&gt; Messages.Q_NVGUIPERM.Yes,
+                    Q_NVSBFBPERM =&gt; Messages.Q_NVSBFBPERM.No,
+                    Q_NVINHSMICPERM =&gt; Messages.Q_NVINHSMICPERM.Yes,
+                    V_NVALLOWOVTRP =&gt; 9,
+                    V_NVSUPOVTRP =&gt; 11,
+                    D_NVOVTRP =&gt; 2000,
+                    T_NVOVTRP =&gt; 150,
+                    D_NVPOTRP =&gt; 8000,
+                    M_NVCONTACT =&gt; Messages.M_NVCONTACT.Train_trip,
+                    T_NVCONTACT =&gt; 400,
+                    M_NVDERUN =&gt; Messages.M_NVDERUN.Yes,
+                    D_NVSTFF =&gt; 7000,
+                    Q_NVDRIVER_ADHES =&gt; Messages.Q_NVDRIVER_ADHES.Allowed,
+                    A_NVMAXREDADH1 =&gt; 10,
+                    A_NVMAXREDADH2 =&gt; 7,
+                    A_NVMAXREDADH3 =&gt; 5,
+                    Q_NVLOCACC =&gt; 10,
+                    M_NVAVADH =&gt; 4,
+                    M_NVEBCL =&gt; Messages.M_NVEBCL.Confidence_level___99_9,
+                    Q_NVKINT =&gt; Messages.Q_NVKINT.Integrated_correction_factors_follow,
+                    Q_NVKVINTSET =&gt; Messages.Q_NVKVINTSET.Conventional_passenger_trains,
+                    A_NVP12 =&gt; 12,
+                    A_NVP23 =&gt; 15,
+                    V_NVKVINT =&gt; 4,
+                    M_NVKVINT_0 =&gt; 22,
+                    M_NVKVINT_1 =&gt; 39,
+                    Sequence2 =&gt; 
+                    [
+                        Messages.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES.SubStructure2
+                        {
+                            V_NVKVINT =&gt; 8,
+                            M_NVKVINT_0 =&gt; 26,
+                            M_NVKVINT_1 =&gt; 40
+                        }, 
+                        Messages.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES.SubStructure2
+                        {
+                            V_NVKVINT =&gt; 10,
+                            M_NVKVINT_0 =&gt; 30,
+                            M_NVKVINT_1 =&gt; 57
+                        }, 
+                        Messages.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES.SubStructure2
+                        {
+                            V_NVKVINT =&gt; 14,
+                            M_NVKVINT_0 =&gt; 40,
+                            M_NVKVINT_1 =&gt; 80
+                        }, 
+                        Messages.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES.SubStructure2
+                        {
+                            V_NVKVINT =&gt; 18,
+                            M_NVKVINT_0 =&gt; 60,
+                            M_NVKVINT_1 =&gt; 100
+                        }
+                    ],
+                    Sequence4 =&gt; 
+                    [
+                        Messages.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES.SubStructure3
+                        {
+                            Q_NVKVINTSET =&gt; Messages.Q_NVKVINTSET.Freight_trains,
+                            A_NVP12 =&gt; 16,
+                            A_NVP23 =&gt; 20,
+                            V_NVKVINT =&gt; 8,
+                            M_NVKVINT_0 =&gt; 35,
+                            M_NVKVINT_1 =&gt; 0,
+                            Sequence3 =&gt; 
+                            [
+                                Messages.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES.SubStructure4
+                                {
+                                    V_NVKVINT =&gt; 14,
+                                    M_NVKVINT_0 =&gt; 64,
+                                    M_NVKVINT_1 =&gt; 80
+                                }, 
+                                Messages.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES.SubStructure4
+                                {
+                                    V_NVKVINT =&gt; 18,
+                                    M_NVKVINT_0 =&gt; 80,
+                                    M_NVKVINT_1 =&gt; 100
+                                }
+                            ]
+                        }
+                    ],
+                    L_NVKRINT =&gt; Messages.L_NVKRINT._0mC,
+                    M_NVKRINT =&gt; 6,
+                    Sequence5 =&gt; 
+                    [
+                        Messages.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES.SubStructure5
+                        {
+                            L_NVKRINT =&gt; Messages.L_NVKRINT._150mC,
+                            M_NVKRINT =&gt; 10
+                        }, 
+                        Messages.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES.SubStructure5
+                        {
+                            L_NVKRINT =&gt; Messages.L_NVKRINT._500mC,
+                            M_NVKRINT =&gt; 14
+                        }, 
+                        Messages.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES.SubStructure5
+                        {
+                            L_NVKRINT =&gt; Messages.L_NVKRINT._1100mC,
+                            M_NVKRINT =&gt; 20
+                        }, 
+                        Messages.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES.SubStructure5
+                        {
+                            L_NVKRINT =&gt; Messages.L_NVKRINT._1500mC,
+                            M_NVKRINT =&gt; 28
+                        }
+                    ],
+                    M_NVKTINT =&gt; 25
+                }
+            }
+        }
+    ]
+}</Action></Actions>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Modification of adhesion factor by driver"
+ Guid="ad7ec6a2-c822-48cb-a02e-ca7446b08245"
+>
+<ReqRef
+ Id="5e746ce1-3ef0-4f84-8d48-0e1e88904204"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="dd6ec8a6-dab1-486e-b37e-0f48f7ea4391"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Modification of adhesion factor by driver"
+ Guid="37c64003-725a-4600-953c-18b03cf4ac07"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="79b0c6e8-f40e-4c34-9f23-b8b6e6de96bf"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="6985ab38-af3b-4b29-98fb-f9aea5034005"
+>Kernel.NationalValues.ApplicableNationalValues.Value.ModificationOfAdhesionFactorByDriver == Messages.Q_NVDRIVER_ADHES.Allowed</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Shunting mode speed limit"
+ Guid="d73f9f54-2b55-4114-9e8c-9d562b0b4b10"
+>
+<ReqRef
+ Id="cf121ea5-16c6-4ee1-8543-aee4ed3e60ee"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f3389ba4-8e79-47f5-8028-475e8472ca4a"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Shunting mode speed limit"
+ Guid="216af190-241f-4aba-b962-e39ca7101666"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="caaddeca-6227-448e-a295-7af384ccfd3f"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="9ca04657-bcea-4305-bad2-e94b4ae328a8"
+>Kernel.NationalValues.ApplicableNationalValues.Value.ShuntingModeSpeedLimit == 50.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Staff Responsible mode speed limit"
+ Guid="8256ef4b-3bc9-4f11-8090-07d386143b58"
+>
+<ReqRef
+ Id="68883fc3-c6a5-47b4-bc4d-75ef7328646c"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="30aac8a1-4730-4013-8a18-8857112ade4f"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Staff Responsible mode speed limit"
+ Guid="1fb0d36c-8423-4b4a-bd02-197d88c548a2"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="a47b667b-a851-4576-938d-c1b18fb02f29"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="5c9ff12e-c61a-41de-9e15-ebd07d7d1cb6"
+>Kernel.NationalValues.ApplicableNationalValues.Value.StaffResponsibleModeSpeedLimit == 80.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="On Sight mode speed limit"
+ Guid="1b318d03-63e1-495c-b367-ec19b323b9f1"
+>
+<ReqRef
+ Id="b8e14a8d-e04d-4cec-ac0b-5d81c7c442aa"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ac5353e6-adae-4d89-a70e-7493a13af079"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - On Sight mode speed limit"
+ Guid="e4066a62-10cf-4eec-a94f-13d64fdbe8e7"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="11548ec4-52ff-4072-8089-3e1275ef0b61"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="95f7a04e-5440-4dac-8f74-7a9a7d3677e5"
+>Kernel.NationalValues.ApplicableNationalValues.Value.OnSightModeSpeedLimit == 110.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Limited Supervision mode speed limit"
+ Guid="76895019-6d67-4318-9006-630c28dcfa47"
+>
+<ReqRef
+ Id="dcb4c590-15d1-437f-a21f-2bb72c135087"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="633d075e-d6a1-45e3-b023-d03b839d92cb"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Limited Supervision mode speed limit"
+ Guid="371cc6ec-9473-4130-805b-b2e737412bc5"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="38b6e382-bb4e-41a6-9b24-bff44a773bde"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="91d0969f-a3fc-472a-b164-36751005929f"
+>Kernel.NationalValues.ApplicableNationalValues.Value.LimitedSupervisionModeSpeedLimit == 90.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Unfitted mode speed limit"
+ Guid="124ac758-ab4b-4cce-b754-7e99dd1fa2c2"
+>
+<ReqRef
+ Id="c6ce3eac-dbf6-4ac8-9e8b-769f4f794527"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="135a75ee-7d16-45d7-ae64-73118cc0de2f"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Unfitted mode speed limit"
+ Guid="4db88fc6-d166-4342-b4a1-0a5a77098262"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="93ca4f59-4919-4960-9cff-6f08ca008771"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="25e38b1e-e7a2-450f-bc1b-ce6b08162ac5"
+>Kernel.NationalValues.ApplicableNationalValues.Value.UnfittedModeSpeedLimit == 70.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Release Speed"
+ Guid="26eec587-93d8-4da5-aadc-27653c6d8ab4"
+>
+<ReqRef
+ Id="419b54e3-c0d5-4436-96e7-6b557414c8b4"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="27fb6563-0825-4bc0-9ae1-76c94d123136"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Release Speed"
+ Guid="3ffa8c10-4ebf-4850-a95b-7e9e221ca88a"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="bc2fb582-3f6f-47e1-8bd5-1405313a3aec"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="ce3bd664-7763-4092-995f-a988fcee4223"
+>Kernel.NationalValues.ApplicableNationalValues.Value.ReleaseSpeed == 40.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Distance to be used in roll away protection, ..."
+ Guid="3eb35b04-aecc-443d-96de-c89fe70bdc02"
+>
+<ReqRef
+ Id="86484324-f5d8-46c9-afec-7de29e7d0b2d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d51c9180-ee05-4ef2-bf6a-0e9d45de1b45"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1"
+ Guid="9daf6af0-6261-439f-a846-dde835111282"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="762c3bd7-3db3-410d-aa0b-31525e909d5b"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="c50a11be-b28b-4051-b615-bd50c9a7bc42"
+>Kernel.NationalValues.ApplicableNationalValues.Value.DistToBeUsedInRollAwayProt_RevMvtProt_StandstillSup== 120.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Use service brake in target speed monitoring"
+ Guid="bad50e90-243b-4e17-8d4f-eb475adefd71"
+>
+<ReqRef
+ Id="d4577a2e-04bc-4d08-bb25-856e75975567"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="36812a6d-878a-4dce-98ba-dd1def91ac9e"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Use service brake in target speed monitoring"
+ Guid="8d6ce375-d5b3-48c6-aa41-697023a7a749"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="cc0447d3-fd2b-4329-9970-408102920eb7"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="3cec4595-6c28-4c30-a709-c8a8783fe095"
+>Kernel.NationalValues.ApplicableNationalValues.Value.UseServiceBrakeInTargetSpeedMonitoring == Messages.Q_NVSBTSMPERM.Yes</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Permission to release emergency brake"
+ Guid="e3bf9840-2cbb-4d1c-8255-8b3d397e1142"
+>
+<ReqRef
+ Id="f0514754-78f9-44cc-aa63-24a37276ca93"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="24799d03-c75e-407b-b5c2-aa32951deacd"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Permission to release emergency brake"
+ Guid="5853066f-b6e4-49f0-a058-027cae03e677"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="e9e60f30-b22a-41bc-a49f-a3d63f01ec8a"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="693b191b-2d31-4722-9a32-8cf229bdd82b"
+>Kernel.NationalValues.ApplicableNationalValues.Value.PermToReleaseEmergencyBrake == Messages.Q_NVEMRRLS.Revoke_emergency_brake_command_at_standstill</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Permission to use guidance curves"
+ Guid="f66cd82e-45b2-497d-9980-3ddf30d7aff1"
+>
+<ReqRef
+ Id="3a44059a-2f71-401f-9364-677c23b51750"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="5034e2b7-e58a-4030-92b9-c5f6dc202a20"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Permission to use guidance curves"
+ Guid="a52d57d2-be77-4405-b7fb-1a19bd74bf74"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="4ce5b2f7-603f-456b-aa84-92576f91f6ee"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="bb9a594e-4735-43cb-ac98-3078cee963e6"
+>Kernel.NationalValues.ApplicableNationalValues.Value.PermToUseGuidanceCurves == Messages.Q_NVGUIPERM.Yes</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Permission to use the service brake feedback"
+ Guid="3c4bbf11-daf4-4136-9858-3e4c97382860"
+>
+<ReqRef
+ Id="23092785-c209-44ef-a5f5-2db7d9d0f65b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="109df1c0-1b40-4d4a-8519-cf0cb4cc0fbf"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Permission to use the service brake feedback"
+ Guid="c72c3136-16d8-4ca6-8b57-fddfee36c432"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="70117d77-209b-4f52-aab3-2e7057f6313e"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="11dc6d2c-064a-4f27-924f-f3f7e1fb4351"
+>Kernel.NationalValues.ApplicableNationalValues.Value.PermToUseTheServiceBrakeFeedback == Messages.Q_NVSBFBPERM.No</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Permission to inhibit the compensation of the speed ..."
+ Guid="7dd3deb6-63f8-4644-b8c7-c467be6f9b69"
+>
+<ReqRef
+ Id="075bcce7-569f-4935-b08c-c8d743da733b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="7eda2c95-ca6a-4b63-ada0-73a0c756b2d2"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Permission to inhibit the compensation of the speed ..."
+ Guid="0087db35-d175-4251-9a82-ee5142ed59af"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="4c4019f8-80a0-4ebc-8d44-f90b041cd05e"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="718a602f-9b85-462d-95ab-af257982f88e"
+>Kernel.NationalValues.ApplicableNationalValues.Value.PermToInhibitTheCompOfTheSpeedMeasurementInaccuracy == Messages.Q_NVINHSMICPERM.Yes</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Speed limit for triggering the override function"
+ Guid="8e5423b4-2eae-4c44-9006-3fa13c9094a8"
+>
+<ReqRef
+ Id="1812b2b8-e2e8-4575-8d53-68f83a984593"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0fa61be6-0292-40ca-adb0-c32331cff0a3"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Speed limit for triggering the override function"
+ Guid="a20307c6-44ba-4e25-9cc2-7e697746d136"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="2336f619-36cf-433a-ac08-9863bdcfdb92"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="6ed9040e-d211-48d2-b6d9-16764c7ea868"
+>Kernel.NationalValues.ApplicableNationalValues.Value.SpeedLimitForTriggeringTheOverrideFunction == 45.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Override speed limit to be supervised when override is active"
+ Guid="c471ea9d-f9c5-43a3-8472-c2a7298487ef"
+>
+<ReqRef
+ Id="6c694ff5-5ebf-40f6-86ea-d7d66de576cd"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="7d447e14-e9ba-4bae-a315-bf28ae49b0b7"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Override speed limit to be supervised when override is active"
+ Guid="90cb9350-b182-4abc-a9cb-24baea704156"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="b36e0d1b-c17a-4535-b827-80dd59c376f0"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="ce77dafe-22b0-461b-a12e-62493b8a4f36"
+>Kernel.NationalValues.ApplicableNationalValues.Value.OverrideSpeedLimitToBeSupervisedWhenOverrideIsActive == 55.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Distance to train trip suppression when override is triggered"
+ Guid="a70cf102-f22f-48d4-bb9f-b2e2c7a7b29f"
+>
+<ReqRef
+ Id="0d778c1c-3670-40c3-ad58-48b71867e056"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f905f163-2dcd-4b1a-be60-0580b1713925"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Distance for train trip suppression when override is triggered"
+ Guid="c6f58989-ceb7-4ab4-84e2-45d5d59eae77"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="8e00953a-a1e3-455d-817f-4cd3c6876f77"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="d39e8c7f-887a-460b-b553-ba12ea6ea835"
+>Kernel.NationalValues.ApplicableNationalValues.Value.DistForTrainTripSuppressionWhenOverrideIsTriggered == 200.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Max time for train trip suppression when override is triggered"
+ Guid="49bbe95b-c288-47c1-a623-8755cea7e924"
+>
+<ReqRef
+ Id="7ca74073-9f1d-48d5-830a-bf7a2b0ba8cc"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="65ff9865-a384-41ea-994c-691ad8917ec1"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Max time for train trip suppression when override is triggered"
+ Guid="e563ca5f-dd87-4d14-ad31-95341aed1de3"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="261c18cd-f5c2-4dde-9dd6-ae96a04d777a"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="57acae9d-26c9-4a85-ab48-02bf0ef76cf1"
+>Kernel.NationalValues.ApplicableNationalValues.Value.MaxTimeForTrainTripSuppressionWhenOverrideIsTriggered == 150.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Change of driver ID permitted while running"
+ Guid="d79de9f0-e5ed-42b1-9400-b383be0cf979"
+>
+<ReqRef
+ Id="ead174d5-0da6-4970-aeca-47d81ad0968b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c2823f9c-6713-42a3-8223-c37e738a55da"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Change of driver ID permitted while running"
+ Guid="e2f79434-c3ef-420b-9544-b2b4346a45f0"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="04d7f31f-baf4-431e-81ce-3819b4f10758"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="77bc517c-4262-4b3a-9723-59e2b2a17885"
+>Kernel.NationalValues.ApplicableNationalValues.Value.ChangeOfDriverIDPermittedWhileRunning == Messages.M_NVDERUN.Yes</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="System reaction if radio channel monitoring time limit expires"
+ Guid="9581a325-c36d-4f32-8f7f-e9da33454cb6"
+>
+<ReqRef
+ Id="55b6aecf-dac0-4374-8142-63150d4492d7"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="2d035227-2946-4494-a77e-42a3f0151e66"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - System reaction if radio channel monitoring thime limit expires"
+ Guid="a55c710b-ea26-4007-9a56-d34b74aa499d"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="06f21376-8358-44d5-98cf-c0d7b09d9b24"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="db9c4a7a-0ab4-4e94-bbc8-15e9f4598786"
+>Kernel.NationalValues.ApplicableNationalValues.Value.SystemReactionIfRadioChannelMonitoringTimeLimitExpires == Messages.M_NVCONTACT.Train_trip</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Maximum time since creation in the RBC of last received telegram"
+ Guid="cd706cb4-5ba3-4f5c-ba11-c20310a04567"
+>
+<ReqRef
+ Id="56736501-c0fe-4e20-a3ab-b24a8c64423d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="8a67c44c-06ab-417d-b1b0-bf6ae4576a92"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Maximum time since creation in the RBC of last received telegram"
+ Guid="af7ed40c-d031-4801-99c2-5bebb1a43bed"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="4a05ef0e-77fa-4fe0-8eac-82d9c1e46c91"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="18a64232-af7d-45cd-bf06-380b0fc6bb7e"
+>Kernel.NationalValues.ApplicableNationalValues.Value.MaxTimeSinceCreationInTheRBCOfLastReceivedTelegram == 400.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Distance to be allowed for reversing in Post Trip mode"
+ Guid="fef77dda-e6bd-40c7-9adf-e0702939a60b"
+>
+<ReqRef
+ Id="c73407b1-d957-40a8-b7a0-3f88757d1b9a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="8d237642-1825-4062-98b5-c5380c612de0"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Distance to be allowed for reversing in Post Trip mode"
+ Guid="d9eb642d-8ab7-4542-9fd0-1bd7335ceb9b"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="0fd581c8-e94b-44a1-9802-dcf2e367fc51"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="73cb7d2e-5b31-4642-b395-ef13b95247bc"
+>Kernel.NationalValues.ApplicableNationalValues.Value.DistToBeAllowedForReversingInPostTripMode == 800.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Max permitted distance to run in Staff Responsible mode"
+ Guid="752e1adc-5754-49a1-b935-2860065da073"
+>
+<ReqRef
+ Id="b258d7fb-75e8-43fb-bc4c-fdc3974f2a68"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="06fc7629-a8aa-4c0e-aa57-8503d0dfa92b"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Max permitted distance to run in Staff Responsible mode"
+ Guid="ab16c0e7-d9fc-4f7d-b8d5-fb2946d8e665"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="25060f9b-ac03-4852-9ffa-afc54ed273f3"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="42a907a3-8d7b-445a-bcb5-ccfffc75dd17"
+>Kernel.NationalValues.ApplicableNationalValues.Value.MaxPermDistToRunInStaffResponsibleMode == 700.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Default location accuracy of a balise group"
+ Guid="c914eac5-f21e-45cf-bef7-6e5d1e8b59ef"
+>
+<ReqRef
+ Id="7e712341-8fcf-474b-a20b-d3dc889cf08a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f385df5f-ada7-47bc-98e8-cf1dd42117df"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Default location accuracy of a balise group"
+ Guid="f1d8a58a-6de2-4ee7-8095-f632a3acf35b"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="ef9bb05c-982e-435a-b635-04e0946a3776"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="a9ed209f-7e42-4f2c-b89e-bb6f7b7e039e"
+>Kernel.NationalValues.ApplicableNationalValues.Value.DefaultLocationAccuracyOfABaliseGroup == 10</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Weighting factor for available wheel rail adhesion"
+ Guid="40ac8ce6-95ff-4d99-9a07-b487c1d990c9"
+>
+<ReqRef
+ Id="0b52f25f-041c-43c7-96d8-cbe52bdb5426"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e33d37bc-d4a4-476a-989e-d16133354a22"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Weighting factor for available wheel rail adhesion"
+ Guid="7b21c9ee-3695-4df9-b83f-cad7c778315a"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="b8de0f19-6b1a-4986-bf30-1abd6f80bd2b"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="66c0e3e7-8665-42f7-bc81-0d54984cffcb"
+>Kernel.NationalValues.ApplicableNationalValues.Value.WeightingFactorForAvailableWheelRailAdhesion == 0.2</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Confidence level for emergency brake safe deceleration on dry rails"
+ Guid="0ff5acb4-c18a-4884-8273-ebf2b3b9a468"
+>
+<ReqRef
+ Id="0baa8d9f-c0f0-4278-9075-88b483b08359"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a028dbb4-6801-46a4-befc-c89cc421cbe5"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Confidence level for emergency brake safe deceleration on dry rails"
+ Guid="3b9e7299-856a-45ea-a486-42218584b2f0"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="09e790aa-6871-40cb-96e1-936dec70cc8d"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="970f5158-b376-4036-8896-3ef19e3265bb"
+>Kernel.NationalValues.ApplicableNationalValues.Value.ConfLevelForEmergBrakeSafeDecelerationOnDryRails == Messages.M_NVEBCL.Confidence_level___99_9</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Integrated correction factor Kr_int"
+ Guid="44e3abb4-d3f0-41b0-9ad9-f214bbf72a0b"
+>
+<ReqRef
+ Id="e6844f24-1a39-4a99-a4bd-ee1d57741bee"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="7add9f7e-b2d5-44f6-85ec-75809f2790d7"
+>
+</ReqRef><ReqRef
+ Id="25f7c7cb-d1ef-4503-82f7-346e03536773"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="333cbefe-71ca-4b3f-9e49-20eb66fe655a"
+>
+</ReqRef><ReqRef
+ Id="fb41c5b9-b4fa-4a64-bfb1-6a3d6b819885"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9a30a25d-78e2-47cd-acc1-8d69b60df40b"
+>
+</ReqRef><ReqRef
+ Id="80a66105-c23f-482c-b740-9e83ccd82aa5"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="eefd98c5-4cdc-48d6-89e9-9047188451ec"
+>
+</ReqRef><ReqRef
+ Id="2abf254f-b4a4-4636-8c8e-99996cd4851e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e33d7dde-1343-48c1-831a-5cb3095efac3"
+>
+</ReqRef><ReqRef
+ Id="8cd1b370-4096-41a0-a4ba-709970b131cd"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="35ecfa52-f475-41fc-88c1-c81f8d80601e"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Integrated correction factor Kr_int"
+ Guid="0b2eb145-7cda-4913-aaa5-5d30f1d3fbf6"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="e24c3019-b4a4-44b1-872f-6ee7e521c360"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="e28f2072-5abb-446f-a8fd-0b8383d3e2f4"
+>Kernel.NationalValues.ApplicableNationalValues.Value.IntegratedCorrectionFactorKrInt.Val0.Value == 0.3</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="986e7927-3062-41fe-b6e0-e8c5c9e4127d"
+>Kernel.NationalValues.ApplicableNationalValues.Value.IntegratedCorrectionFactorKrInt.Val0.LengthStep == 0.0</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="27129757-3570-41bb-8d9e-aa03ae35e049"
+>Kernel.NationalValues.ApplicableNationalValues.Value.IntegratedCorrectionFactorKrInt.Val2.Value == 0.7</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="5db8d0ab-8b88-425c-bf8a-c79b44d3bda5"
+>Kernel.NationalValues.ApplicableNationalValues.Value.IntegratedCorrectionFactorKrInt.Val2.LengthStep == 500.0</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="716f6a64-c827-4e40-91f0-549b0ffc329e"
+>Kernel.NationalValues.ApplicableNationalValues.Value.IntegratedCorrectionFactorKrInt.Val1.Value == 0.5</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="a54d381f-2a66-42e5-9903-98cb23d55ab4"
+>Kernel.NationalValues.ApplicableNationalValues.Value.IntegratedCorrectionFactorKrInt.Val1.LengthStep == 150.0</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="fd10c81e-7ebe-4d4b-a265-7966bcce3f02"
+>Kernel.NationalValues.ApplicableNationalValues.Value.IntegratedCorrectionFactorKrInt.Val4.LengthStep == BaseTypes.Length.Infinity</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="567f0160-e939-4e17-9b0a-016c47747378"
+>Kernel.NationalValues.ApplicableNationalValues.Value.IntegratedCorrectionFactorKrInt.Val3.LengthStep == 1100.0</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="d797b6c9-1b40-4b64-aa1f-821628472911"
+>Kernel.NationalValues.ApplicableNationalValues.Value.IntegratedCorrectionFactorKrInt.Val3.Value == 1.0</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="65667063-e8c9-4166-8854-3adc3754e849"
+>Kernel.NationalValues.ApplicableNationalValues.Value.IntegratedCorrectionFactorKrInt.Val4.Value == 1.4</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="a303825c-4ac1-44b5-8c26-8a37d7cae38e"
+>Kernel.NationalValues.Kr_int ( 0.0 ) == 0.3</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="89de3b67-76be-4da9-b88a-b466873913e6"
+>Kernel.NationalValues.Kr_int ( 200.0 ) == 0.7</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="2ccdf7a4-668b-4640-bcdc-633e54dc4970"
+>Kernel.NationalValues.Kr_int ( 1000.0 ) == 1.0</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="c3987920-49cf-4ded-8af6-caca87427f1e"
+>Kernel.NationalValues.Kr_int ( 1200.0 ) == 1.4</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="81075837-b1e7-4640-b011-82a114ecf2d8"
+>Kernel.NationalValues.Kr_int ( 2000.0 ) == 1.4</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="b0c6052b-4254-442a-8071-d25aec1468d6"
+>Kernel.NationalValues.Kr_int ( 32000.0 ) == 1.4</Expectation><Expectation
+ Kind="Instantaneous"
+ Blocking="FALSE"
+ Guid="9798e615-39d5-46fe-a147-474e41019b02"
+>Kernel.NationalValues.Kr_int ( 120.0 ) == 0.5</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Integrated correction factor Kv_int"
+ Guid="ca2f5f23-9ac3-4290-8c9f-73bffa7851bb"
+>
+<ReqRef
+ Id="c50b4a75-1478-431a-9fc7-a709e78aec0a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="fead2bc1-160e-4a43-9dcf-05a77dad94e9"
+>
+</ReqRef><ReqRef
+ Id="2200ce2a-cb53-4489-8469-546d7e953ce4"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="68066471-2f92-4780-b88c-25e33adc7d67"
+>
+</ReqRef><ReqRef
+ Id="4e43c303-7c49-45b5-baa7-e7d052b88d04"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e86bc8f2-5bd2-4a8e-8fdf-e79200757b8b"
+>
+</ReqRef><ReqRef
+ Id="b57ecdfb-662d-4696-9c28-868f1cdb7deb"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="25a03347-632a-4ab5-b84f-68a9596c5411"
+>
+</ReqRef><ReqRef
+ Id="73cf0b53-78ae-4ea4-8a36-3217d4acf417"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f5157fd1-ffe8-4029-b3f3-1e1e219b4567"
+>
+</ReqRef><ReqRef
+ Id="479916ae-45c8-472d-9390-572251963c4f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a4434d26-6f10-400e-8055-48849556d649"
+>
+</ReqRef><ReqRef
+ Id="13908a17-3c3e-4130-9376-d19b1e00066d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="cbded835-02b1-4837-af61-7e36867c910b"
+>
+</ReqRef><ReqRef
+ Id="2abf254f-b4a4-4636-8c8e-99996cd4851e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="bc06b116-543c-4274-92e8-4dd87d1403bf"
+>
+</ReqRef><ReqRef
+ Id="5ee1dd50-3153-404e-a1f7-2980262f157e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e6e0ad13-83c7-45ca-bd31-258bfe1cb518"
+>
+</ReqRef><ReqRef
+ Id="8cd1b370-4096-41a0-a4ba-709970b131cd"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="8035ea17-c4db-4718-8ffa-10187613c419"
+>
+</ReqRef><ReqRef
+ Id="eeb1f154-0934-483a-bd4e-d32bc969bbc3"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="1d893b10-0305-4d85-b671-111ef20224e3"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Integrated correction factor Kv_int (Passenger train)"
+ Guid="748ef60a-462e-48e7-9ff9-e193c7345a75"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="d560fb65-6ed7-4153-97b7-56c212e04960"
+>
+<Actions>
+<Action
+ Guid="fea501ee-f6e3-4ffb-b84c-6a1c5e2d6291"
+>Kernel.TrainData.TrainData.Value.BrakePosition &lt;- Kernel.TrainData.BrakingParameters.BrakePositions.PassengerTrainInP</Action><Action
+ Guid="89d41a1b-1eff-4344-a61f-4be40cb4d843"
+>Kernel.TrainData.TrainData.Value.EBModels &lt;- Kernel.TrainData.BrakingParameters.EBModelSet
+{
+    ModelSet =&gt; Kernel.TrainData.BrakingParameters.BrakingModelSet{
+        EddyCurrent =&gt; Kernel.TrainData.BrakingParameters.BrakingModel{
+            Val0 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue{
+                SpeedStep =&gt; 0.0,
+                Acceleration =&gt; -0.7
+            },
+            Val1 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue{
+                SpeedStep =&gt; 30.0,
+                Acceleration =&gt; 0.65
+            },
+            Val2 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue{
+                SpeedStep =&gt; 60.0,
+                Acceleration =&gt; 0.6
+            },
+            Val3 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue{
+                SpeedStep =&gt; 100.0,
+                Acceleration =&gt; 0.5
+            },
+            Val4 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue{
+                SpeedStep =&gt; 150.0,
+                Acceleration =&gt; 0.45
+            },
+            Val5 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue{
+                SpeedStep =&gt; 180.0,
+                Acceleration =&gt; 0.25
+            },
+            Val6 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue{
+                SpeedStep =&gt; 240.0,
+                Acceleration =&gt; 0.2
+            }
+        },
+        EddyCurrent_Magnetic =&gt; Kernel.TrainData.BrakingParameters.BrakingModel{
+            Val0 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue{
+                SpeedStep =&gt; 0.0,
+                Acceleration =&gt; 0.8
+            },
+            Val1 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue{
+                SpeedStep =&gt; 25.0,
+                Acceleration =&gt; 0.75
+            },
+            Val2 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue{
+                SpeedStep =&gt; 40.0,
+                Acceleration =&gt; 0.7
+            },
+            Val3 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue{
+                SpeedStep =&gt; 80.0,
+                Acceleration =&gt; 0.6
+            },
+            Val4 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue{
+                SpeedStep =&gt; 120.0,
+                Acceleration =&gt; 0.4
+            },
+            Val5 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue{
+                SpeedStep =&gt; 180.0,
+                Acceleration =&gt; 0.3
+            },
+            Val6 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue{
+                SpeedStep =&gt; 250.0,
+                Acceleration =&gt; 0.2
+            }
+        },
+        EddyCurrent_Regenerative =&gt; Kernel.TrainData.BrakingParameters.BrakingModel{
+            Val0 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue{
+                SpeedStep =&gt; 0.0,
+                Acceleration =&gt; 0.99
+            },
+            Val1 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue{
+                SpeedStep =&gt; 40.0,
+                Acceleration =&gt; 0.9
+            },
+            Val2 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue{
+                SpeedStep =&gt; 80.0,
+                Acceleration =&gt; 0.8
+            },
+            Val3 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue{
+                SpeedStep =&gt; 120.0,
+                Acceleration =&gt; 0.7
+            },
+            Val4 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue{
+                SpeedStep =&gt; 150.0,
+                Acceleration =&gt; 0.6
+            },
+            Val5 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue{
+                SpeedStep =&gt; 190.0,
+                Acceleration =&gt; 0.5
+            },
+            Val6 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue{
+                SpeedStep =&gt; 220.0,
+                Acceleration =&gt; 0.45
+            }
+        },
+        EddyCurrent_Magnetic_Regenerative =&gt; Kernel.TrainData.BrakingParameters.BrakingModel{
+            Val0 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue{
+                SpeedStep =&gt; 0.0,
+                Acceleration =&gt; 0.7
+            },
+            Val1 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue{
+                SpeedStep =&gt; 40.0,
+                Acceleration =&gt; 0.6
+            },
+            Val2 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue{
+                SpeedStep =&gt; 80.0,
+                Acceleration =&gt; 0.5
+            },
+            Val3 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue{
+                SpeedStep =&gt; 120.0,
+                Acceleration =&gt; 0.45
+            },
+            Val4 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue{
+                SpeedStep =&gt; 170.0,
+                Acceleration =&gt; 0.4
+            },
+            Val5 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue{
+                SpeedStep =&gt; 220.0,
+                Acceleration =&gt; 0.3
+            },
+            Val6 =&gt; Kernel.TrainData.BrakingParameters.BrakingModelValue{
+                SpeedStep =&gt; 270.0,
+                Acceleration =&gt; 0.22
+            }
+        }
+    }
+}</Action><Action
+ Guid="e9c4adc5-f739-48d1-9ff0-2a51143b0a72"
+>Kernel.TrainData.TrainData.Value.EddyCurrentBrakeInterface &lt;- Kernel.TrainData.BrakingParameters.BrakeInterfaceStatus.EB</Action><Action
+ Guid="6687a599-cc3b-4694-9833-cdd29cbe2baf"
+>Kernel.TrainData.TrainData.Value.MagneticShoeBrakeInterface &lt;- Kernel.TrainData.BrakingParameters.BrakeInterfaceStatus.EB</Action><Action
+ Guid="0bfc0915-8cba-4c7c-b5ed-aec25304a21c"
+>Kernel.TrainData.TrainData.Value.RegenerativeBrakeInterface &lt;- Kernel.TrainData.BrakingParameters.BrakeInterfaceStatus.EB</Action><Action
+ Guid="2cea4079-7f26-4027-8b40-13064b407a0e"
+>TIU.SpecialBrakeStatus.RegenerativeBrakeIsActive &lt;- True</Action><Action
+ Guid="c96ac005-854b-454f-bdcb-2d0d285c8af4"
+>TIU.SpecialBrakeStatus.EddyCurrentBrakeIsActive &lt;- True</Action><Action
+ Guid="5c16ad01-cc07-4d76-baf5-1081adeafe15"
+>TIU.SpecialBrakeStatus.MagneticShoeBrakeIsActive &lt;- True</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="f6f29908-10a4-47e4-a910-c2375a70a2e9"
+>Kernel.NationalValues.ApplicableNationalValues.Value.IntegratedCorrectionFactorKvInt_PassengerTrain.A_NVP12 == -0.6</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="db674f75-9a3d-4b5b-a78d-9aea165acfe3"
+>Kernel.NationalValues.ApplicableNationalValues.Value.IntegratedCorrectionFactorKvInt_PassengerTrain.A_NVP23 == -0.75</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="1a1e35d0-188e-425f-ba00-d36185b65627"
+>Kernel.NationalValues.ApplicableNationalValues.Value.IntegratedCorrectionFactorKvInt_PassengerTrain.Val0.SpeedStep == 20.0</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="569d2f3a-7c9d-446a-937a-94be1019db4f"
+>Kernel.NationalValues.ApplicableNationalValues.Value.IntegratedCorrectionFactorKvInt_PassengerTrain.Val0.ValueA== 0.44</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="7850143d-73cc-47cf-a066-e282fb8e08c9"
+>Kernel.NationalValues.ApplicableNationalValues.Value.IntegratedCorrectionFactorKvInt_PassengerTrain.Val0.ValueB == 0.78</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="2475201a-159e-4468-8cd9-9267e80fe4ce"
+>Kernel.NationalValues.ApplicableNationalValues.Value.IntegratedCorrectionFactorKvInt_PassengerTrain.Val1.SpeedStep == 40.0</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="8993122d-c188-4eef-8745-2901f7be0b5c"
+>Kernel.NationalValues.ApplicableNationalValues.Value.IntegratedCorrectionFactorKvInt_PassengerTrain.Val2.SpeedStep == 50.0</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="847f7cc8-de4a-4005-b531-290940a95cf5"
+>Kernel.NationalValues.ApplicableNationalValues.Value.IntegratedCorrectionFactorKvInt_PassengerTrain.Val3.SpeedStep == 70.0</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="890f024a-384a-44db-858d-432432e5a5fd"
+>Kernel.NationalValues.ApplicableNationalValues.Value.IntegratedCorrectionFactorKvInt_PassengerTrain.Val4.SpeedStep == BaseTypes.Speed.Infinity</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="2bad2272-f21a-4b40-865c-32b7adafcc2a"
+>Kernel.NationalValues.ApplicableNationalValues.Value.IntegratedCorrectionFactorKvInt_PassengerTrain.Val1.ValueA== 0.52</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="1b184c58-2e3b-4a7e-969f-b10f912b01e1"
+>Kernel.NationalValues.ApplicableNationalValues.Value.IntegratedCorrectionFactorKvInt_PassengerTrain.Val2.ValueA== 0.6</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="e4bcf91a-2b1e-4c5d-b649-97e823ba2b4b"
+>Kernel.NationalValues.ApplicableNationalValues.Value.IntegratedCorrectionFactorKvInt_PassengerTrain.Val3.ValueA== 0.8</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="93a3bd3f-dbf2-4cac-ba60-0037f7386109"
+>Kernel.NationalValues.ApplicableNationalValues.Value.IntegratedCorrectionFactorKvInt_PassengerTrain.Val4.ValueA== 1.2</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="da800658-6f39-4b0d-ba40-387e0383ffc6"
+>Kernel.NationalValues.ApplicableNationalValues.Value.IntegratedCorrectionFactorKvInt_PassengerTrain.Val1.ValueB == 0.8</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="d5039cc7-898c-4a49-a6f0-198cf4e31af6"
+>Kernel.NationalValues.ApplicableNationalValues.Value.IntegratedCorrectionFactorKvInt_PassengerTrain.Val2.ValueB == 1.14</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="9631280a-3e74-4566-a2a8-6a844c0b3465"
+>Kernel.NationalValues.ApplicableNationalValues.Value.IntegratedCorrectionFactorKvInt_PassengerTrain.Val3.ValueB == 1.6</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="cca4027b-31fb-470b-8590-5a6477fc782c"
+>Kernel.NationalValues.ApplicableNationalValues.Value.IntegratedCorrectionFactorKvInt_PassengerTrain.Val4.ValueB == 2.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step2 - Integrated correction factor Kv_int (Freight train)"
+ Guid="e9511337-300a-4384-bb14-c2ea2dbf033c"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="5a48d246-2387-4bab-8d1a-ad85f3b2e6d5"
+>
+<Actions>
+<Action
+ Guid="9ab3ef6b-fd93-4f43-a7d4-b119fa376c1d"
+>Kernel.TrainData.TrainData.Value.BrakePosition &lt;- Kernel.TrainData.BrakingParameters.BrakePositions.FreightTrainInP</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="7d912460-082f-45df-b89a-00aee8b27900"
+>Kernel.NationalValues.ApplicableNationalValues.Value.IntegratedCorrectionFactorKvInt_FreightTrain.Val0.SpeedStep == 40.0</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="c2292740-b0a8-47ea-a481-4d2a40699d75"
+>Kernel.NationalValues.ApplicableNationalValues.Value.IntegratedCorrectionFactorKvInt_FreightTrain.Val0.Value == 0.7</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="72e3e325-75d9-439c-a938-07c007761a26"
+>Kernel.NationalValues.ApplicableNationalValues.Value.IntegratedCorrectionFactorKvInt_FreightTrain.Val1.SpeedStep == 70.0</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="2f639676-0889-44c8-978b-b4a90bbec58e"
+>Kernel.NationalValues.ApplicableNationalValues.Value.IntegratedCorrectionFactorKvInt_FreightTrain.Val2.SpeedStep == BaseTypes.Speed.Infinity</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="109ca8a2-b660-4481-810c-1beca3ccbc0e"
+>Kernel.NationalValues.ApplicableNationalValues.Value.IntegratedCorrectionFactorKvInt_FreightTrain.Val1.Value == 1.28</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="4576ce64-72a7-4edf-a1a0-262e55afe87e"
+>Kernel.NationalValues.ApplicableNationalValues.Value.IntegratedCorrectionFactorKvInt_FreightTrain.Val2.Value == 1.6</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Integrated correction factor for brake build up time"
+ Guid="18cc1360-c3d3-4c93-9b05-703d937fb269"
+>
+<ReqRef
+ Id="b84c39d8-6718-43f5-8a15-c15fecc7e1e3"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f0074564-e69c-4bab-8342-154dd15fca8c"
+>
+</ReqRef><ReqRef
+ Id="f4734217-febd-4c83-b03b-95421ce86be2"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="36e059d1-ef6b-4934-81fa-a94cc562094a"
+>
+</ReqRef><ReqRef
+ Id="8cd1b370-4096-41a0-a4ba-709970b131cd"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6132863d-6957-49c8-aca9-a8fcf66e8643"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Integrated correction factor for brake build up time"
+ Guid="7cc9d432-6b92-4dea-9947-2f2964e74d1e"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="42db6fc8-0db3-49e6-b5dc-f78c2c28cf20"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="46e9400d-5a0a-4f52-8aaa-27fab6b8b804"
+>Kernel.NationalValues.ApplicableNationalValues.Value.IntegratedCorrectionFactorForBrakeBuildUpTime == 1.25</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Maximum deceleration value under reduced adhesion conditions (1)"
+ Guid="7af83ccc-d591-447f-87c1-5e0bc9dd10e9"
+>
+<ReqRef
+ Id="4bdf713f-a04b-4492-92ac-08b864e26449"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="bd88d4f1-963a-467d-9880-0136170f2f57"
+>
+</ReqRef><ReqRef
+ Id="f3bcff62-12ff-4959-a7b5-1a7089516acb"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="85096229-271a-48da-a94e-abe86aca2cc8"
+>
+</ReqRef><ReqRef
+ Id="1ea1fcd0-0483-4f31-9e4e-972784b19f91"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ce1d52ac-60e8-4e30-91d1-1c8a696487d3"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Maximum deceleration value under reduced adhesion conditions (1)"
+ Guid="51dfd6ff-224f-451b-b51e-adddc7525270"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="6327891b-a91c-40b5-96a6-a985dfdb0481"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="e3502b70-1289-43c4-b8b1-45176815bfe4"
+>Kernel.NationalValues.ApplicableNationalValues.Value.MaxDecelValueUnderReducedAdhesionCond1 == 0.5</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Maximum deceleration value under reduced adhesion conditions (2)"
+ Guid="06b306a5-4f16-43b0-bacb-921c7860685f"
+>
+<ReqRef
+ Id="afa7ef49-e01b-49da-851e-e4a4e62f5e1a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="774a0ba8-3446-418a-a545-529bb6cc4d2c"
+>
+</ReqRef><ReqRef
+ Id="f3bcff62-12ff-4959-a7b5-1a7089516acb"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="dcabdd38-ad29-4bfb-a5ef-15ef49b955fa"
+>
+</ReqRef><ReqRef
+ Id="6f5803a9-c056-47a1-9fd1-1c160eb10885"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c085f147-93a4-4e1f-881b-2fe39fdd0188"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Maximum deceleration value under reduced adhesion conditions (2)"
+ Guid="618661c6-34cc-4127-9caa-9c0aa158f2a1"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="4a2c205b-4997-41fd-a05d-2d7a024bd450"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="79d1993e-a7f5-4296-8d9f-b70c2e4c1286"
+>Kernel.NationalValues.ApplicableNationalValues.Value.MaxDecelValueUnderReducedAdhesionCond2 == 7.0 * 0.05</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Maximum deceleration value under reduced adhesion conditions (3)"
+ Guid="c7736abe-10a5-4ea0-8281-7508e066c940"
+>
+<ReqRef
+ Id="2fe949f8-b640-443c-afa7-6dee7bf83063"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="df044587-8be8-4969-a9e4-1532ede10989"
+>
+</ReqRef><ReqRef
+ Id="f3bcff62-12ff-4959-a7b5-1a7089516acb"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="94eb1303-1f6b-4678-a695-a7271bbc8d05"
+>
+</ReqRef><ReqRef
+ Id="66b1a76d-7680-41c7-a08d-7daf6f301b1d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="4cbf1477-9b18-4818-a64b-0feee337638b"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Maximum deceleration value under reduced adhesion conditions (3)"
+ Guid="2f9a29a5-0479-4171-b633-5d5e331aa8f4"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="9b43c249-78ee-4bf4-a2bb-816a3d199144"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="43be12ad-2a4a-4105-b05a-139a335c43d4"
+>Kernel.NationalValues.ApplicableNationalValues.Value.MaxDecelValueUnderReducedAdhesionCond3 == 0.25</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Data state"
+ Guid="6fc97dda-11a4-410a-b443-bc995213009e"
+>
+<Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Data state"
+ Guid="3496ffa7-e226-4d04-bb93-60f66b173437"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="4575d74a-53d0-479b-ae0a-2c5ef2f8f328"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="21bb0783-0cfe-4a15-b21c-8261ca186a71"
+>Kernel.NationalValues.ApplicableNationalValues.DataState == DataStateEnum.Valid</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Country"
+ Guid="65da58b5-cda8-4688-bb92-3239ed3c6ff5"
+>
+<ReqRef
+ Id="766f0274-5b6e-4050-a48d-226dccf68782"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a4da9a90-79dd-4337-a587-4392ab307634"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Country"
+ Guid="ecb8005f-726d-4572-b10a-fe5a54dab985"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="df179e9d-5ced-42c3-ab4e-c3d13791b249"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="5842e131-9ade-46c3-93cc-a339f760704f"
+>Kernel.NationalValues.ApplicableNationalValues.ApplicableCountries == [140]</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Remaining distance"
+ Guid="a4a4e9a8-439f-437d-ad1b-9bfc73fc8ac1"
+>
+<ReqRef
+ Id="bb94d1fa-9b3e-4389-bf7a-f04d1654005b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="42fc9f3c-08ba-4682-a15a-3a9c195862e3"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Remaining distance"
+ Guid="b15bc1bf-d902-4f59-b7fe-e43ba5a46626"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="2ab9eb4d-135e-4630-a413-6dfa501e2f0a"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="32659aed-53df-4228-8d44-ea16959d9bc8"
+>Kernel.NationalValues.ApplicableNationalValues.ApplicableStartLocation == 0.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase></TestCases>
+</SubSequence><SubSequence
+ D_LRBG=""
+ Level=""
+ Mode=""
+ NID_LRBG=""
+ Q_DIRLRBG=""
+ Q_DIRTRAIN=""
+ Q_DLRBG=""
+ RBC_ID=""
+ RBCPhone=""
+ Name="Default data"
+ Guid="ae81a50c-5273-41ee-b980-7f9fefe70df6"
+>
+<TestCases>
+<TestCase
+ Feature="0"
+ Case="0"
+ NeedsRequirement="FALSE"
+ Name="Setup"
+ Guid="704ad7c1-1d44-438b-898f-d604f2addad8"
+>
+<Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Setup"
+ Guid="8f65b619-61f6-4f23-aca7-4b11c13cbd7e"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="4534cbed-a24d-42cd-b544-b0421553627e"
+>
+<Actions>
+<Action
+ Guid="0e8c9329-f567-454b-9f33-2e4a295a83f1"
+>Testing.InitializeTestEnvironment
+(
+    aTrainPosition =&gt; 100.0,
+    aMode =&gt; ModeEnum.SR
+)</Action></Actions>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Modification of adhesion factor by driver"
+ Guid="f3ace2c4-d105-4d43-a6a1-4ce2ae9569bb"
+>
+<ReqRef
+ Id="5e746ce1-3ef0-4f84-8d48-0e1e88904204"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="89d30b0c-1914-4d51-9ba2-722bb0604613"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Modification of adhesion factor by driver"
+ Guid="64a30d3a-c47f-49d4-bc71-12290d3ae72d"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="c0a18ef2-84db-4c88-a617-702ab4d70e80"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="c602c374-ac1a-4ef8-ac05-a9f4f25b20b1"
+>Kernel.NationalValues.DefaultValues.ModificationOfAdhesionFactorByDriver == Messages.Q_NVDRIVER_ADHES.Not_allowed</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Shunting mode speed limit"
+ Guid="dbeecb54-ed23-4432-a120-0420383d83dc"
+>
+<ReqRef
+ Id="cf121ea5-16c6-4ee1-8543-aee4ed3e60ee"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="4f703e11-976a-4f4d-bd50-cc2b0064833d"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Shunting mode speed limit"
+ Guid="22e15cf4-2277-4f9e-81a0-89884a7cf1e8"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="134ac1f2-7e5d-462c-9f66-3482badff8ad"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="187a62dc-7c85-4210-908a-a54a588f8a94"
+>Kernel.NationalValues.DefaultValues.ShuntingModeSpeedLimit == 30.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Staff Responsible mode speed limit"
+ Guid="7bf6c175-482e-47a1-bf1d-952b32b30f18"
+>
+<ReqRef
+ Id="68883fc3-c6a5-47b4-bc4d-75ef7328646c"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="94565da1-052e-4d43-9d36-aa496d30e552"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Staff Responsible mode speed limit"
+ Guid="bb96e0d5-c8a8-4ee3-93fe-f39edd7a6aed"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="652099da-7eaf-4210-a782-d67460675eea"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="248167b7-c71c-4889-839c-c542f60fb4fc"
+>Kernel.NationalValues.DefaultValues.StaffResponsibleModeSpeedLimit == 40.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="On Sight mode speed limit"
+ Guid="808785b7-9a87-40a4-b97b-f83f8e6ec620"
+>
+<ReqRef
+ Id="b8e14a8d-e04d-4cec-ac0b-5d81c7c442aa"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="dec0a235-7156-4ad9-a41d-f210a2f9a159"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - On Sight mode speed limit"
+ Guid="7c3f450d-ea23-4084-9d81-78a0146350a0"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="3b2d9cff-4890-427a-b887-466d6f334320"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="95aa394f-d00b-4531-92c4-1b69edc19c26"
+>Kernel.NationalValues.DefaultValues.OnSightModeSpeedLimit == 30.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Limited Supervision mode speed limit"
+ Guid="5d1db75e-c8e6-4c94-9f6b-32322491a220"
+>
+<ReqRef
+ Id="dcb4c590-15d1-437f-a21f-2bb72c135087"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="38cc4556-d09c-4872-a109-647843f53c0c"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Limited Supervision mode speed limit"
+ Guid="5ef8e5c1-6ab7-47e6-adde-41723d679c71"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="0e4d0fe0-3909-4e14-b66f-9bdd7a1d38da"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="301dca80-3208-4488-82f9-8e7b19912242"
+>Kernel.NationalValues.DefaultValues.LimitedSupervisionModeSpeedLimit == 100.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Unfitted mode speed limit"
+ Guid="d1e4cd5f-f966-49e0-bff5-3931b9296b51"
+>
+<ReqRef
+ Id="c6ce3eac-dbf6-4ac8-9e8b-769f4f794527"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="782669d5-6caa-4f1a-9fa7-47407795ac91"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Unfitted mode speed limit"
+ Guid="03c56682-62a3-45ad-a895-2b54a5c86c6e"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="b3d2a08c-9848-4f74-bef9-1af207b3346d"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="927469c2-758a-40a3-9aea-caed66cc1372"
+>Kernel.NationalValues.DefaultValues.UnfittedModeSpeedLimit == 100.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Release Speed"
+ Guid="8a4762e7-d445-4745-87f6-9619d4328fc4"
+>
+<ReqRef
+ Id="419b54e3-c0d5-4436-96e7-6b557414c8b4"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="25105e0b-16a0-4dcc-808c-dcb13f7bccd8"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Release Speed"
+ Guid="ff1a93ae-cb40-4807-a00e-1b247dcc96b3"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="22600511-c33f-4035-ac9c-7c46dc9d047d"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="6ed135f6-8ced-4ce0-b7ee-a035d1d3f72e"
+>Kernel.NationalValues.DefaultValues.ReleaseSpeed == 40.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Distance to be used in roll away protection, ..."
+ Guid="851dff7e-b516-4e22-a42a-fd47d284b0d3"
+>
+<ReqRef
+ Id="86484324-f5d8-46c9-afec-7de29e7d0b2d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e264599e-78f9-4f21-98dd-3309cc30f0a4"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1"
+ Guid="6d1ee15d-0870-45f1-bfb3-8c676fcdb64d"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="3c362af3-a28f-426c-af3b-8cc763ab63a7"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="57a53440-6a33-4eae-9208-1c5d1df8146a"
+>Kernel.NationalValues.DefaultValues.DistToBeUsedInRollAwayProt_RevMvtProt_StandstillSup== 2.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Use service brake in target speed monitoring"
+ Guid="c425a2b3-1608-4401-99ff-4aaff7cd8ebd"
+>
+<ReqRef
+ Id="d4577a2e-04bc-4d08-bb25-856e75975567"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="4362aa11-c3f7-49b5-a399-fd962423e333"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Use service brake in target speed monitoring"
+ Guid="de4adf20-1159-4227-845b-e05fd3792522"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="21ba151d-c387-4b53-8882-14e4c91f0229"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="f3790c61-e09c-49a4-bd1c-b6410cb60fa4"
+>Kernel.NationalValues.DefaultValues.UseServiceBrakeInTargetSpeedMonitoring == Messages.Q_NVSBTSMPERM.Yes</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Permission to release emergency brake"
+ Guid="60d63485-70cb-4afa-ba94-1d4d5225cfd6"
+>
+<ReqRef
+ Id="f0514754-78f9-44cc-aa63-24a37276ca93"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="277e36d8-050d-4d70-b7d6-7c80d35d48d6"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Permission to release emergency brake"
+ Guid="bc134c87-8424-4cf6-afab-5095c36bb725"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="f313f6f7-d6dc-45d5-ba0e-a27c0c814e7d"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="b1d26acf-cf0b-4931-89ea-9db3fa4a38e7"
+>Kernel.NationalValues.DefaultValues.PermToReleaseEmergencyBrake == Messages.Q_NVEMRRLS.Revoke_emergency_brake_command_at_standstill</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Permission to use guidance curves"
+ Guid="d6e71733-15f0-412c-a374-4817a87d0859"
+>
+<ReqRef
+ Id="3a44059a-2f71-401f-9364-677c23b51750"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c02ad007-f3d1-4c9e-9ec5-0dade22a03a9"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Permission to use guidance curves"
+ Guid="3090be40-3dc8-4d15-89ff-fa58c9d3e42b"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="ac1f9e82-7dfe-48a0-8c85-8bb9cdaca7f7"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="ad615885-60da-4217-9fa4-ac1eecb04f10"
+>Kernel.NationalValues.DefaultValues.PermToUseGuidanceCurves == Messages.Q_NVGUIPERM.No</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Permission to use the service brake feedback"
+ Guid="6e468d12-a734-4c26-bbb3-546d7dc636db"
+>
+<ReqRef
+ Id="23092785-c209-44ef-a5f5-2db7d9d0f65b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="50381939-ee91-46a3-8fad-1a36f130ef34"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Permission to use the service brake feedback"
+ Guid="dbeb1a2a-3aaa-43d0-9ace-2d275e7dafef"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="61bdf51e-0096-47aa-9760-cd2ba889bbcf"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="d40214c7-eec4-4230-9f48-b2214df2cfda"
+>Kernel.NationalValues.DefaultValues.PermToUseTheServiceBrakeFeedback == Messages.Q_NVSBFBPERM.No</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Permission to inhibit the compensation of the speed ..."
+ Guid="12fe7fa4-4ade-44d9-a4fa-04dc93b30789"
+>
+<ReqRef
+ Id="075bcce7-569f-4935-b08c-c8d743da733b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d4e9bff5-e1ab-4062-a708-275415578487"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Permission to inhibit the compensation of the speed ..."
+ Guid="f536fe2c-7d4a-49bf-8d27-a50ae2e7f965"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="0985338d-48ba-42de-90b7-291fb777e734"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="9d2f494a-1eec-4eba-82c6-49e485c5067d"
+>Kernel.NationalValues.DefaultValues.PermToInhibitTheCompOfTheSpeedMeasurementInaccuracy == Messages.Q_NVINHSMICPERM.No</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Speed limit for triggering the override function"
+ Guid="3c6ea192-313c-4509-9a83-4fe5cd68b24a"
+>
+<ReqRef
+ Id="1812b2b8-e2e8-4575-8d53-68f83a984593"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ecdd185f-d216-45aa-8557-8a790ab91c05"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Speed limit for triggering the override function"
+ Guid="29900b00-9a5b-490a-b5b4-9a1ac33ab0ff"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="9a614f74-9564-4bda-a114-2294249e8697"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="3bb5bcde-f540-4ec7-a085-694afbfd2079"
+>Kernel.NationalValues.DefaultValues.SpeedLimitForTriggeringTheOverrideFunction == 0.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Override speed limit to be supervised when override is active"
+ Guid="ee6d8bbc-754e-45ea-8214-a4dddf5be748"
+>
+<ReqRef
+ Id="6c694ff5-5ebf-40f6-86ea-d7d66de576cd"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="bf404cab-1101-46a2-99f6-9e20a199452a"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Override speed limit to be supervised when override is active"
+ Guid="12e5fa1a-18fc-4558-bfdd-ce9083bb81ca"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="f48f6672-a1a7-4ead-954e-0cc8f841d251"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="457ef9ce-9a76-4749-87d3-aa3a9adcbee0"
+>Kernel.NationalValues.DefaultValues.OverrideSpeedLimitToBeSupervisedWhenOverrideIsActive == 30.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Distance to train trip suppression when override is triggered"
+ Guid="cc54d966-f8d1-4bcf-9fff-507700fe7d8b"
+>
+<ReqRef
+ Id="0d778c1c-3670-40c3-ad58-48b71867e056"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="04c78f0a-a6ca-4e49-a317-be23de20cb72"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Distance for train trip suppression when override is triggered"
+ Guid="8cf6e6b9-ef77-4058-9736-b50230d47cdc"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="1869935c-f860-47ed-a039-3d615c5a8c18"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="db4a8ff0-38a2-4cf2-9859-d83e06de1419"
+>Kernel.NationalValues.DefaultValues.DistForTrainTripSuppressionWhenOverrideIsTriggered == 200.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Max time for train trip suppression when override is triggered"
+ Guid="f0561681-a2bf-44f7-8541-062cbda98070"
+>
+<ReqRef
+ Id="7ca74073-9f1d-48d5-830a-bf7a2b0ba8cc"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="113f42c0-8432-418a-9ea0-2f0ba96007ca"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Max time for train trip suppression when override is triggered"
+ Guid="26005454-f2da-4dde-9c9d-65fe22c48d44"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="adfcdab8-c4b1-4c86-bf8a-baf034a15538"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="61e8746b-d6ba-49d9-9d55-a7c600758f4c"
+>Kernel.NationalValues.DefaultValues.MaxTimeForTrainTripSuppressionWhenOverrideIsTriggered == 60.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Change of driver ID permitted while running"
+ Guid="8a59ba4c-9033-4ccd-a127-fc1a8e2927d9"
+>
+<ReqRef
+ Id="ead174d5-0da6-4970-aeca-47d81ad0968b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ed18ce84-1c33-4f26-8f0e-1f3e2f93ee95"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Change of driver ID permitted while running"
+ Guid="fd1c3eda-a054-4da5-8ba8-cf4435cb65a6"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="0a367bc8-1668-4cba-b027-2e3bf3978e15"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="057252c5-2e40-44b7-8d16-503fa165cb3f"
+>Kernel.NationalValues.DefaultValues.ChangeOfDriverIDPermittedWhileRunning == Messages.M_NVDERUN.Yes</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="System reaction if radio channel monitoring time limit expires"
+ Guid="4e4099af-ca97-4720-898a-7a0ea34965cd"
+>
+<ReqRef
+ Id="55b6aecf-dac0-4374-8142-63150d4492d7"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="caacdec1-38d9-4c69-8ea7-86f281371424"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - System reaction if radio channel monitoring thime limit expires"
+ Guid="290e387a-5711-4cc3-a4de-3fc258b54792"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="e1aac8da-5af2-49d2-9f2e-dc6530fe21c1"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="f8178a02-dd90-4234-b61a-77412f21b89a"
+>Kernel.NationalValues.DefaultValues.SystemReactionIfRadioChannelMonitoringTimeLimitExpires == Messages.M_NVCONTACT.No_Reaction</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Maximum time since creation in the RBC of last received telegram"
+ Guid="08b4d004-a466-4f3c-9f2d-94d5982dd590"
+>
+<ReqRef
+ Id="56736501-c0fe-4e20-a3ab-b24a8c64423d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="57752617-3c0b-4426-8950-dfa481cf2f2d"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Maximum time since creation in the RBC of last received telegram"
+ Guid="287f17e2-9638-45b8-ba31-d4860400818a"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="6d5a0497-ad9e-41e7-935e-523353ec5b67"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="80de780d-7c5c-4244-88a4-cf628d27f50a"
+>Kernel.NationalValues.DefaultValues.MaxTimeSinceCreationInTheRBCOfLastReceivedTelegram == BaseTypes.Time.Infinity</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Distance to be allowed for reversing in Post Trip mode"
+ Guid="812ec103-be8a-4938-9b60-d400f534c896"
+>
+<ReqRef
+ Id="c73407b1-d957-40a8-b7a0-3f88757d1b9a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c2e2d4c3-537f-455d-a46e-8a2ae899956b"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Distance to be allowed for reversing in Post Trip mode"
+ Guid="1400f2fa-0a5c-4ba6-b678-7ae965395fe9"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="fe1cdc38-b2f3-4ab2-b7f8-e48c718bb407"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="3b12665b-710a-4806-934d-43dc1b152d0c"
+>Kernel.NationalValues.DefaultValues.DistToBeAllowedForReversingInPostTripMode == 200.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Max permitted distance to run in Staff Responsible mode"
+ Guid="04514f7e-a831-42c3-8360-427362092abf"
+>
+<ReqRef
+ Id="b258d7fb-75e8-43fb-bc4c-fdc3974f2a68"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0f44fcc4-ac06-4575-9311-99be7503b36c"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Max permitted distance to run in Staff Responsible mode"
+ Guid="05e5532d-7916-468c-9bb5-9ce061a28528"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="378d7678-804d-4535-96e6-2fc4a4ca6699"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="a59d1c28-fc98-4cbd-a0ff-5a0dbd545426"
+>Kernel.NationalValues.DefaultValues.MaxPermDistToRunInStaffResponsibleMode == BaseTypes.Distance.Infinity</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Default location accuracy of a balise group"
+ Guid="207a4079-7f4d-4d7a-b7ed-3d5a8e652039"
+>
+<ReqRef
+ Id="7e712341-8fcf-474b-a20b-d3dc889cf08a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="56922da9-2769-494d-ab7a-c04a42b1c053"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Default location accuracy of a balise group"
+ Guid="423054a3-a45f-435a-a8e2-9dbaee40cb48"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="134e1aed-ebe6-498c-ad6c-80afb8917350"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="080791b6-5fb5-440a-b366-1174122dbf16"
+>Kernel.NationalValues.DefaultValues.DefaultLocationAccuracyOfABaliseGroup == 12</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Weighting factor for available wheel rail adhesion"
+ Guid="1322e061-5518-45b2-b374-d62f809319d9"
+>
+<ReqRef
+ Id="0b52f25f-041c-43c7-96d8-cbe52bdb5426"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="8c4d2bbc-07e1-4ec2-9fa8-a8b01a72f405"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Weighting factor for available wheel rail adhesion"
+ Guid="fe46d7e8-e90b-4759-95d3-4d13fe46d12e"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="36512bef-a5f7-41c8-a5cc-b8c9ac4e8464"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="69daf0d2-a89d-41a8-bb7f-7e9eed58a56d"
+>Kernel.NationalValues.DefaultValues.WeightingFactorForAvailableWheelRailAdhesion == 0.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Confidence level for emergency brake safe deceleration on dry rails"
+ Guid="3fc9f41e-2c5f-4284-a252-80b124ab2662"
+>
+<ReqRef
+ Id="0baa8d9f-c0f0-4278-9075-88b483b08359"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9b07c295-f35a-463f-83bd-06a1e42d3bb5"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Confidence level for emergency brake safe deceleration on dry rails"
+ Guid="6ca97c76-8242-4add-98f0-cd04ae9c6942"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="961acf66-e852-4e88-841d-0696bb8b463f"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="5db01d52-9a50-4bf1-8923-7231a2e6b8ed"
+>Kernel.NationalValues.DefaultValues.ConfLevelForEmergBrakeSafeDecelerationOnDryRails == Messages.M_NVEBCL.Confidence_level___99_9999999</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Integrated correction factor Kr_int"
+ Guid="d334dbaf-4740-4a26-9330-9eee2a95ec7c"
+>
+<ReqRef
+ Id="e6844f24-1a39-4a99-a4bd-ee1d57741bee"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d30ad889-b2bd-439f-a40e-976cfee4ee48"
+>
+</ReqRef><ReqRef
+ Id="25f7c7cb-d1ef-4503-82f7-346e03536773"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d3ad3ea4-0cb7-478a-b4f4-a294ecc447e2"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Integrated correction factor Kr_int"
+ Guid="1d90d5a8-6438-454c-a58b-42b6e3f52261"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="5f27dbd1-3484-4fe4-b2e4-6e1db0b344bc"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="2a6cff55-60cb-4265-9a54-63c3e465eacb"
+>Kernel.NationalValues.DefaultValues.IntegratedCorrectionFactorKrInt.Val0.LengthStep == BaseTypes.Length.Infinity</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="214f2cf0-d659-4db3-b972-0c3ab9d47b6c"
+>Kernel.NationalValues.ApplicableNationalValues.Value.IntegratedCorrectionFactorKrInt.Val0.Value == 0.9</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Integrated correction factor Kv_int"
+ Guid="dde2438f-f6e1-40b3-95d6-6c3b5994609e"
+>
+<ReqRef
+ Id="c50b4a75-1478-431a-9fc7-a709e78aec0a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="fa3a5108-675c-4ebd-99bc-b9bcf1d10e42"
+>
+</ReqRef><ReqRef
+ Id="2200ce2a-cb53-4489-8469-546d7e953ce4"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="31e6c79a-6e8c-4f77-ac6b-6612cd4e8e6e"
+>
+</ReqRef><ReqRef
+ Id="4e43c303-7c49-45b5-baa7-e7d052b88d04"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b545a097-5bb1-4b73-9969-a013a8035747"
+>
+</ReqRef><ReqRef
+ Id="b57ecdfb-662d-4696-9c28-868f1cdb7deb"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c0aa0e77-567e-48c5-a01b-051bd3796ee6"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Integrated correction factor Kv_int (Passenger train)"
+ Guid="2fd8ffa7-f41f-4d8e-9cb6-efc140a42cae"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="9be03b8e-3cff-4871-8262-41cb4222c038"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="65fc523b-e4bd-454f-8d33-3a43439f548b"
+>Kernel.NationalValues.DefaultValues.IntegratedCorrectionFactorKvInt_PassengerTrain.Val0.SpeedStep == BaseTypes.Speed.Infinity</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="11b08e31-1198-41cc-a42e-8925adb0d920"
+>Kernel.NationalValues.DefaultValues.IntegratedCorrectionFactorKvInt_PassengerTrain.A_NVP23 == BaseTypes.Acceleration.NA</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="ed4ce745-cb92-4f5d-ba7c-e3fa23cc950a"
+>Kernel.NationalValues.DefaultValues.IntegratedCorrectionFactorKvInt_PassengerTrain.A_NVP12 == BaseTypes.Acceleration.NA</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="24e9ef2b-4815-4ae7-af2d-ccb03c57ddf6"
+>Kernel.NationalValues.DefaultValues.IntegratedCorrectionFactorKvInt_FreightTrain.Val0.SpeedStep == BaseTypes.Speed.Infinity</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="cb0e9901-824a-4f39-80c6-395bc3d19fe6"
+>Kernel.NationalValues.DefaultValues.IntegratedCorrectionFactorKvInt_FreightTrain.Val0.Value == 0.7</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="4f571e25-f99b-411b-bc77-a32a23d2e352"
+>Kernel.NationalValues.DefaultValues.IntegratedCorrectionFactorKvInt_PassengerTrain.Val0.ValueA == 0.7</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="cc0aed01-660a-4558-b5ea-2595b6dda9ae"
+>Kernel.NationalValues.DefaultValues.IntegratedCorrectionFactorKvInt_PassengerTrain.Val0.ValueB == 0.7</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Integrated correction factor for brake build up time"
+ Guid="ae8c22fb-b572-4a79-9d96-2bb1f59a1047"
+>
+<ReqRef
+ Id="b84c39d8-6718-43f5-8a15-c15fecc7e1e3"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9719b5d2-2bae-4adf-be64-1463ec78053c"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Integrated correction factor for brake build up time"
+ Guid="000911fd-e9fc-4633-8e07-6f4a187f5c28"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="21b065e4-12e9-46cf-b32a-0ede2c8404a9"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="f0257d06-f3cd-4348-ae4b-1d1f5f56fdba"
+>Kernel.NationalValues.DefaultValues.IntegratedCorrectionFactorForBrakeBuildUpTime == 1.1</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Maximum deceleration value under reduced adhesion conditions (1)"
+ Guid="c9e3d8ab-9035-44f8-bf3c-9193654a4bf0"
+>
+<ReqRef
+ Id="4bdf713f-a04b-4492-92ac-08b864e26449"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="3200725a-964e-4ee8-a8a7-be29e791f5f8"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Maximum deceleration value under reduced adhesion conditions (1)"
+ Guid="0317f9e4-6667-4934-97b0-f0bea80c1314"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="8b928137-b945-4050-8342-e4677f92dbe4"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="076afafa-bebb-4c54-8599-7bf07aade562"
+>Kernel.NationalValues.DefaultValues.MaxDecelValueUnderReducedAdhesionCond1 == 1.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Maximum deceleration value under reduced adhesion conditions (2)"
+ Guid="446221f3-4e53-452d-b62c-e5804c5d75b7"
+>
+<ReqRef
+ Id="afa7ef49-e01b-49da-851e-e4a4e62f5e1a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f32fef92-40bc-4d9c-bdd3-764bac18dd12"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Maximum deceleration value under reduced adhesion conditions (2)"
+ Guid="f69f7fb5-825d-44fc-aa00-1b2c12826606"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="2efcf1e5-ba72-47a5-abae-898f7837c22b"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="6886ab62-6e79-4bd8-acf8-d04909df79c5"
+>Kernel.NationalValues.DefaultValues.MaxDecelValueUnderReducedAdhesionCond2 == 0.7</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Maximum deceleration value under reduced adhesion conditions (3)"
+ Guid="50d80822-793f-4fcc-ad2f-d3cf900464e2"
+>
+<ReqRef
+ Id="2fe949f8-b640-443c-afa7-6dee7bf83063"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d1b6e9f1-4783-4564-8409-132868dd19a4"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Maximum deceleration value under reduced adhesion conditions (3)"
+ Guid="3f25deb4-0f35-43b8-8290-63470d7a00bc"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="00fc419b-d617-4378-a51b-c6fb1fa3df43"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="af014ac4-f2a1-49b8-ba72-82c1097ce860"
+>Kernel.NationalValues.DefaultValues.MaxDecelValueUnderReducedAdhesionCond3 == 0.7</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase></TestCases>
+</SubSequence><SubSequence
+ D_LRBG=""
+ Level=""
+ Mode=""
+ NID_LRBG=""
+ Q_DIRLRBG=""
+ Q_DIRTRAIN=""
+ Q_DLRBG=""
+ RBC_ID=""
+ RBCPhone=""
+ Name="Mode related speed restrictions"
+ Guid="4b772a8d-d4a8-4f55-8317-2eeb42cb07b8"
+>
+<TestCases>
+<TestCase
+ Feature="0"
+ Case="0"
+ NeedsRequirement="FALSE"
+ Name="Setup"
+ Guid="c6106fe6-7e00-49d4-85b2-a8434c5dd4f2"
+>
+<Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Setup"
+ Guid="2773fa42-b4b7-430a-92ce-b1f6b88f2ebc"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="f27a6f46-701a-43b0-9cc0-230679933be5"
+>
+<Actions>
+<Action
+ Guid="1c4c08d1-9b08-4996-ab7f-d9908f765856"
+>Testing.InitializeTestEnvironment
+(
+    aTrainPosition =&gt; 100.0,
+    aMode =&gt; ModeEnum.SR
+)</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step2"
+ Guid="d19b8c1e-2a4a-4cdd-9242-e33bed80f7d1"
+>
+<Actions>
+<Action
+ Guid="448732bb-203d-4534-8846-289ae99d58a5"
+>Kernel.Level.Value.Value &lt;- LevelEnum.L1</Action><Action
+ Guid="d241dfc8-c97f-4275-be39-b16499c0970d"
+>Kernel.NationalValues.ApplicableNationalValues.DataState &lt;- DataStateEnum.Valid</Action></Actions>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ Name="Default values"
+ Guid="f080dd48-a2bb-4060-9794-2f1fa2f0549e"
+>
+<ReqRef
+ Id="aee41b7b-392b-4306-b271-aa82bdfb015f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="4faf72db-878e-4603-8d5a-46899174ab8f"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - LS"
+ Guid="4aa7ec8c-dc73-4b14-bafc-e1e8833cd8f9"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="5335aec9-30a2-453b-8d73-6b2e7169e92e"
+>
+<Actions>
+<Action
+ Guid="09689e6f-d211-40e4-95bf-6d50de4cece2"
+>Testing.SetLSMode(False)</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="4d4a8d8b-15ac-40a9-bce2-42ed36933348"
+>Kernel.Modes.ModeRelatedSpeedLimits.SpeedRestrictions ( 0.0 ) == 100.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step2 - OS"
+ Guid="df1db28b-16ec-4110-9abc-6edcf2c0e306"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="3fb2b884-415d-45f1-8190-d55e44e38a1c"
+>
+<Actions>
+<Action
+ Guid="4fe23c35-2027-4a4e-9ce7-3e76c92f9fca"
+>Testing.SetOSMode(False)</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="29964aee-529a-48f8-8ba8-41b26493c33d"
+>Kernel.Modes.ModeRelatedSpeedLimits.SpeedRestrictions ( 0.0 )  == 30.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step3 - RV"
+ Guid="545a84f6-9090-4f50-aa5f-b60b799eae20"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="445d7bda-8611-445e-9fea-310b9856721e"
+>
+<Actions>
+<Action
+ Guid="284a7335-29ef-4148-a417-2294dc11c28c"
+>Testing.SetRVMode(False)</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="354500c6-bff9-431a-b073-0be10df429f0"
+>Kernel.Modes.ModeRelatedSpeedLimits.SpeedRestrictions ( 0.0 ) == BaseTypes.Speed.MaxSpeed</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step4 - SH"
+ Guid="817fec3c-01be-48f8-b6b6-437d7690c864"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="7504cb24-78cd-4347-ab1b-90a948613c8f"
+>
+<Actions>
+<Action
+ Guid="e9d41de0-1747-40a1-9696-16775ab76cf5"
+>Testing.SetSHMode(False)</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="6b94ec17-6ce5-44af-95ca-4236edc44377"
+>Kernel.Modes.ModeRelatedSpeedLimits.SpeedRestrictions ( 0.0 ) == 30.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step5 - SR"
+ Guid="474e920b-e3f9-47ad-893c-e0983df6e2ff"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="d5a93f6b-e7b5-40bd-a65f-27536bd274c4"
+>
+<Actions>
+<Action
+ Guid="0a409a1e-5bf3-4043-a012-dce0b10f6d3b"
+>Testing.SetSRMode(False)</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="6b261498-a595-4407-9173-a69ee3a0825b"
+>Kernel.Modes.ModeRelatedSpeedLimits.SpeedRestrictions ( 0.0 ) == 40.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step6 - UN"
+ Guid="702f4deb-d309-4527-bcdd-fb24d33d28b7"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="9ffec38e-b732-4340-a146-30000421fb47"
+>
+<Actions>
+<Action
+ Guid="36dd1f82-b44a-4d23-baf5-a3167f781cb6"
+>Testing.SetUNMode(False)</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="508e7b36-e86d-429f-80ab-fcf12ec71801"
+>Kernel.Modes.ModeRelatedSpeedLimits.SpeedRestrictions ( 0.0 ) == 100.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ Name="National values"
+ Guid="9f565a45-a37c-46cc-b74b-e28bc2d35fa1"
+>
+<ReqRef
+ Id="aee41b7b-392b-4306-b271-aa82bdfb015f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="943d6495-21c9-4ce3-9544-3bf6e1f8503c"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - New national values received"
+ Guid="2737a8bc-ac5d-496f-b51c-7ac274a87ed7"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="d1734028-32ad-43ed-9a6e-7dafef5882e6"
+>
+<Actions>
+<Action
+ Guid="9ed695d3-1269-4718-821b-a39b01ad5698"
+>BTM.Message.SystemVersion2 &lt;- Messages.EUROBALISE.Message
+{
+    Q_UPDOWN =&gt; Messages.Q_UPDOWN.Up_link_telegram,
+    M_VERSION =&gt; Messages.M_VERSION.Version_2_0__introduced_in_SRS_3_0_0,
+    Q_MEDIA =&gt; Messages.Q_MEDIA.Balise,
+    N_PIG =&gt; 0,
+    N_TOTAL =&gt; 0,
+    M_DUP =&gt; Messages.M_DUP.No_duplicates,
+    M_MCOUNT =&gt; 4,
+    NID_C =&gt; 140,
+    NID_BG =&gt; 2124,
+    Q_LINK =&gt; Messages.Q_LINK.Linked,
+    Sequence1 =&gt; 
+    [
+        Messages.EUROBALISE.SubStructure1
+        {
+            TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message
+            {
+                NATIONAL_VALUES =&gt; Messages.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES.Message
+                {
+                    NID_PACKET =&gt; 3,
+                    Q_DIR =&gt; Messages.Q_DIR.Both_directions,
+                    L_PACKET =&gt; 200,
+                    Q_SCALE =&gt; Messages.Q_SCALE._10_cm_scaleC,
+                    D_VALIDNV =&gt; 0,
+                    NID_C =&gt; 140,
+                    V_NVSHUNT =&gt; 10,
+                    V_NVSTFF =&gt; 16,
+                    V_NVONSIGHT =&gt; 22,
+                    V_NVLIMSUPERV =&gt; 18,
+                    V_NVUNFIT =&gt; 14,
+                    V_NVREL =&gt; 8,
+                    D_NVROLL =&gt; 1200,
+                    Q_NVSBTSMPERM =&gt; Messages.Q_NVSBTSMPERM.Yes,
+                    Q_NVEMRRLS =&gt; Messages.Q_NVEMRRLS.Revoke_emergency_brake_command_at_standstill,
+                    Q_NVGUIPERM =&gt; Messages.Q_NVGUIPERM.Yes,
+                    Q_NVSBFBPERM =&gt; Messages.Q_NVSBFBPERM.No,
+                    Q_NVINHSMICPERM =&gt; Messages.Q_NVINHSMICPERM.Yes,
+                    V_NVALLOWOVTRP =&gt; 9,
+                    V_NVSUPOVTRP =&gt; 11,
+                    D_NVOVTRP =&gt; 2000,
+                    T_NVOVTRP =&gt; 150,
+                    D_NVPOTRP =&gt; 8000,
+                    M_NVCONTACT =&gt; Messages.M_NVCONTACT.Train_trip,
+                    T_NVCONTACT =&gt; 400,
+                    M_NVDERUN =&gt; Messages.M_NVDERUN.Yes,
+                    D_NVSTFF =&gt; 7000,
+                    Q_NVDRIVER_ADHES =&gt; Messages.Q_NVDRIVER_ADHES.Allowed,
+                    A_NVMAXREDADH1 =&gt; 10,
+                    A_NVMAXREDADH2 =&gt; 7,
+                    A_NVMAXREDADH3 =&gt; 5,
+                    Q_NVLOCACC =&gt; 10,
+                    M_NVAVADH =&gt; 4,
+                    M_NVEBCL =&gt; Messages.M_NVEBCL.Confidence_level___99_9,
+                    Q_NVKINT =&gt; Messages.Q_NVKINT.Integrated_correction_factors_follow,
+                    Q_NVKVINTSET =&gt; Messages.Q_NVKVINTSET.Conventional_passenger_trains,
+                    A_NVP12 =&gt; 10,
+                    A_NVP23 =&gt; 14,
+                    V_NVKVINT =&gt; 8,
+                    M_NVKVINT_0 =&gt; 16,
+                    M_NVKVINT_1 =&gt; 29,
+                    Sequence2 =&gt; 
+                    [
+                        Messages.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES.SubStructure2
+                        {
+                            V_NVKVINT =&gt; 12,
+                            M_NVKVINT_0 =&gt; 21,
+                            M_NVKVINT_1 =&gt; 48
+                        }, 
+                        Messages.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES.SubStructure2
+                        {
+                            V_NVKVINT =&gt; 19,
+                            M_NVKVINT_0 =&gt; 45,
+                            M_NVKVINT_1 =&gt; 72
+                        }
+                    ],
+                    Sequence4 =&gt; 
+                    [
+                        Messages.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES.SubStructure3
+                        {
+                            Q_NVKVINTSET =&gt; Messages.Q_NVKVINTSET.Freight_trains,
+                            A_NVP12 =&gt; 11,
+                            A_NVP23 =&gt; 21,
+                            V_NVKVINT =&gt; 9,
+                            M_NVKVINT_0 =&gt; 10,
+                            M_NVKVINT_1 =&gt; 45,
+                            Sequence3 =&gt; 
+                            [
+                                Messages.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES.SubStructure4
+                                {
+                                    V_NVKVINT =&gt; 15,
+                                    M_NVKVINT_0 =&gt; 34,
+                                    M_NVKVINT_1 =&gt; 81
+                                }, 
+                                Messages.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES.SubStructure4
+                                {
+                                    V_NVKVINT =&gt; 24,
+                                    M_NVKVINT_0 =&gt; 62,
+                                    M_NVKVINT_1 =&gt; 112
+                                }
+                            ]
+                        }
+                    ],
+                    L_NVKRINT =&gt; Messages.L_NVKRINT._0mC,
+                    M_NVKRINT =&gt; 4,
+                    Sequence5 =&gt; 
+                    [
+                        Messages.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES.SubStructure5
+                        {
+                            L_NVKRINT =&gt; Messages.L_NVKRINT._200mC,
+                            M_NVKRINT =&gt; 8
+                        }, 
+                        Messages.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES.SubStructure5
+                        {
+                            L_NVKRINT =&gt; Messages.L_NVKRINT._500mC,
+                            M_NVKRINT =&gt; 17
+                        }
+                    ],
+                    M_NVKTINT =&gt; 25
+                }
+            }
+        }
+    ]
+}</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step2 - LS"
+ Guid="38a5f3a0-e3f9-40e5-b3ad-1ed75226a55c"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="59c8d301-3959-4d48-8f45-f177683176af"
+>
+<Actions>
+<Action
+ Guid="c0dad537-d2f4-482d-9c2f-69285ca77424"
+>Testing.SetLSMode(False)</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="f5510888-1955-4d6e-9b24-e525e3c4af7d"
+>Kernel.Modes.ModeRelatedSpeedLimits.SpeedRestrictions ( 0.0 ) == 90.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step3 - OS"
+ Guid="d111e240-0728-40c8-8e66-3f33dd2ded9b"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="b5da5b63-9ebd-4bd5-a749-d4943898bac4"
+>
+<Actions>
+<Action
+ Guid="ea22e555-f33f-4e9a-9a8e-8d21425f715a"
+>Testing.SetOSMode(False)</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="64af78a0-fca6-4199-a1eb-160b7edf5ffa"
+>Kernel.Modes.ModeRelatedSpeedLimits.SpeedRestrictions ( 0.0 ) == 110.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step4 - RV"
+ Guid="77daf5d2-a68f-463b-a966-80cdd2f9b723"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="927a325d-5f97-47bf-a571-8b97a7bff817"
+>
+<Actions>
+<Action
+ Guid="dd2d3185-23c0-44df-94fc-f0d044aa30b0"
+>Testing.SetRVMode(False)</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="633fff35-df62-4451-bdd5-479650afc45f"
+>Kernel.Modes.ModeRelatedSpeedLimits.SpeedRestrictions ( 0.0 ) == BaseTypes.Speed.MaxSpeed</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step5 - SH"
+ Guid="6617bb17-06a9-408d-b5b5-bfefdd8d601b"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="6149fad4-7790-4215-b1b4-e73ace567942"
+>
+<Actions>
+<Action
+ Guid="59a5dee7-fa67-47fe-b428-cc07a81cbdce"
+>Testing.SetSHMode(False)</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="e1ab8573-2ad5-4fab-a75f-e494c16b1d51"
+>Kernel.Modes.ModeRelatedSpeedLimits.SpeedRestrictions ( 0.0 ) == 50.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step6 - SR"
+ Guid="a2974ee4-b807-46e4-a41d-87cf41cde687"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="4e972817-749e-42f3-9bdb-40474f1d0404"
+>
+<Actions>
+<Action
+ Guid="bcd439e1-f521-4895-b511-70b10e290f67"
+>Testing.SetSRMode(False)</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="97048f12-f5de-4ca5-9ae5-9d7649b2d418"
+>Kernel.Modes.ModeRelatedSpeedLimits.SpeedRestrictions ( 0.0 ) == 80.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step7 - UN"
+ Guid="58abaca6-435b-4a47-9961-98cd48a2ec0d"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="d325b54a-ad0f-4893-a82b-2f2b7e9c320d"
+>
+<Actions>
+<Action
+ Guid="750bb5c1-ecc1-4332-8e3c-6c1c1fff49b0"
+>Testing.SetUNMode(False)</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="28ac8f11-d174-4664-a6b6-820ef6eb1ccc"
+>Kernel.Modes.ModeRelatedSpeedLimits.SpeedRestrictions ( 0.0 ) == 70.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Name="Speed limits given by the trackside or by the driver"
+ Guid="a87319ef-a3bf-4242-aea8-898f149213bb"
+>
+<ReqRef
+ Id="aee41b7b-392b-4306-b271-aa82bdfb015f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c50b4373-acff-4818-935b-57e7ba270c03"
+>
+</ReqRef><ReqRef
+ Id="4650224e-986e-4212-b1a4-704ebe9317a4"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="53649efb-af34-43c8-b36c-69302cd45ffd"
+>
+</ReqRef><ReqRef
+ Id="3518255f-a436-4201-afb9-867bb586c371"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="bba0841c-6f67-470e-b15a-67b5bce7b5a2"
+>
+</ReqRef><ReqRef
+ Id="98959354-04de-4b43-8a9c-c23b7263bdfb"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d4805f41-dc10-4171-a8ec-bea179b9dba6"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Speed limits given by the trackside"
+ Guid="9a36aeed-2aec-4b47-b732-be550dd37eba"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="a4bf29cd-ce71-4d4c-b36d-59184584bdce"
+>
+<Actions>
+<Action
+ Guid="e6c2f508-255f-4840-8ce2-6d6041dfa09a"
+>INSERT Kernel.MA.ModeProfile.ModeProfileStruct
+{
+    AcknLength =&gt; 0.0,
+    Location =&gt; 0.0,
+    Length =&gt; 1000.0,
+    Mode =&gt; ModeEnum.ModeProfile.LS,
+    Speed =&gt; 40.0,
+    SupervisionQualifier =&gt; Messages.Q_MAMODE.as_both_the_EOA_and_SvL__instead_of_the_EOA_and_SvL_given_by_the_MA
+}
+IN
+Kernel.MA.ModeProfile.Profile</Action><Action
+ Guid="6f73de89-04b6-4823-bd30-99d4e72760ae"
+>INSERT Kernel.MA.ModeProfile.ModeProfileStruct
+{
+    AcknLength =&gt; 0.0,
+    Location =&gt; 0.0,
+    Length =&gt; 1000.0,
+    Mode =&gt; ModeEnum.ModeProfile.OS,
+    Speed =&gt; 60.0,
+    SupervisionQualifier =&gt; Messages.Q_MAMODE.as_both_the_EOA_and_SvL__instead_of_the_EOA_and_SvL_given_by_the_MA
+}
+IN
+Kernel.MA.ModeProfile.Profile</Action><Action
+ Guid="5c94d663-aeb3-47c8-83cb-4c22abf8693f"
+>Kernel.TrackDescription.ReversingArea.ReversingSupervisionInformation &lt;- Kernel.TrackDescription.ReversingArea.ReversingSupervisionStruct
+{
+  MaxDistance =&gt; 400.0,
+  Speed =&gt; 70.0
+}</Action><Action
+ Guid="0a933615-6f72-4c4e-8e67-b2472d67bfae"
+>INSERT Kernel.MA.ModeProfile.ModeProfileStruct
+{
+    AcknLength =&gt; 0.0,
+    Location =&gt; 0.0,
+    Length =&gt; 1000.0,
+    Mode =&gt; ModeEnum.ModeProfile.SH,
+    Speed =&gt; 30.0,
+    SupervisionQualifier =&gt; Messages.Q_MAMODE.as_both_the_EOA_and_SvL__instead_of_the_EOA_and_SvL_given_by_the_MA
+}
+IN
+Kernel.MA.ModeProfile.Profile</Action><Action
+ Guid="85784dcc-9ae2-4f1d-a9c3-a3ea357c135e"
+>Kernel.Modes.ModeRelatedSpeedLimits.SRModeSpeedRestriction &lt;- 100.0</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step2 - LS"
+ Guid="782bbf7a-1ff0-4b19-89f4-565c5f36de78"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="75763f0b-3f39-413a-ab14-05d030c73d25"
+>
+<Actions>
+<Action
+ Guid="f796112e-381c-428e-9e49-c1edc1d9199d"
+>Testing.SetLSMode(False)</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="5bee71d2-977d-4bac-aafa-f0401a1171d6"
+>Kernel.Modes.ModeRelatedSpeedLimits.SpeedRestrictions ( 0.0 ) == 40.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step3 - OS"
+ Guid="8c0e3e7b-b31c-4c8c-baba-708073dc01c9"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="8f026888-d6ea-4bb8-a176-88eb90b74d3b"
+>
+<Actions>
+<Action
+ Guid="2757af99-712e-4949-b518-4ce63cb8e345"
+>Testing.SetOSMode(False)</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="2e11e900-0d97-44be-9356-4aacb51ccf4a"
+>Kernel.Modes.ModeRelatedSpeedLimits.SpeedRestrictions ( 0.0 ) == 60.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step4 - RV"
+ Guid="98eb7dd2-e555-46a2-b478-10341e566f1b"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="0ac60315-5287-4e4c-b629-54707d7cb2d2"
+>
+<Actions>
+<Action
+ Guid="a36908d6-75fb-49e6-830d-52fa811a905d"
+>Testing.SetRVMode(False)</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="e8f57297-7c6b-4b1f-94b0-e8e143addc91"
+>Kernel.Modes.ModeRelatedSpeedLimits.SpeedRestrictions ( 0.0 ) == 70.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step5 - SH"
+ Guid="ba9efb66-3c17-41f7-bbeb-90effa6d0684"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="6c9be2ac-a680-4e05-bcf6-39ba188951b9"
+>
+<Actions>
+<Action
+ Guid="66c6dab8-d4bd-4bb1-9c38-c1ff32169a21"
+>Testing.SetSHMode(False)</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="b61b5801-8008-408e-890f-ea7287ea8d4e"
+>Kernel.Modes.ModeRelatedSpeedLimits.SpeedRestrictions ( 0.0 ) == 30.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step6 - SR"
+ Guid="d6407aec-76a5-4a9f-b1e2-a09d197bc0e6"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="8074abc8-1a31-43b3-b972-2afdf492f488"
+>
+<Actions>
+<Action
+ Guid="53910db8-3235-43d3-86ca-54c1d6d187f9"
+>Testing.SetSRMode(False)</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="33f0aee3-74a0-4cfc-a291-a3b1f7be7f5f"
+>Kernel.Modes.ModeRelatedSpeedLimits.SpeedRestrictions ( 0.0 ) == 100.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step7 - UN"
+ Guid="40fca6ce-a5c9-429b-b642-1b0bcde8a619"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="562da96c-aa5f-4ecb-95a1-bdcda6b3b9fa"
+>
+<Actions>
+<Action
+ Guid="e74ccb98-0e62-42b5-8acc-bf5af929a6ac"
+>Testing.SetUNMode(False)</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="dd164014-302a-4a11-b9a3-4dd0fa4a5b3b"
+>Kernel.Modes.ModeRelatedSpeedLimits.SpeedRestrictions ( 0.0 ) == 70.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase></TestCases>
+</SubSequence><SubSequence
+ D_LRBG=""
+ Level=""
+ Mode=""
+ NID_LRBG=""
+ Q_DIRLRBG=""
+ Q_DIRTRAIN=""
+ Q_DLRBG=""
+ RBC_ID=""
+ RBCPhone=""
+ Name="Not applicable national values received from a BG"
+ Guid="1fc956aa-dc2c-43bb-bc1a-01b9df752f7b"
+>
+<TestCases>
+<TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="New national values received"
+ Guid="9574bdfd-cad4-4e86-aea7-d8bbe7d28562"
+>
+<Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Setup"
+ Guid="aa0ec414-b1af-4567-9dcc-41d5885bfe6d"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="42cd7437-feb2-48cc-9ce1-293d9756409c"
+>
+<Actions>
+<Action
+ Guid="67ab2051-e53d-493b-8e98-f6bd9164b2f9"
+>Testing.InitializeTestEnvironment
+(
+    aTrainPosition =&gt; 100.0,
+    aMode =&gt; ModeEnum.SR
+)</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step2 - New national values received"
+ Guid="0ccca86c-2e2e-4a1e-9c26-69d5c8482bee"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="2441bdd1-22cb-4014-bbc8-7e15615805c0"
+>
+<Actions>
+<Action
+ Guid="bbe93976-3068-44a4-8c40-5a364d8f532e"
+>BTM.Message.SystemVersion2 &lt;- Messages.EUROBALISE.Message
+{
+    Q_UPDOWN=&gt;Messages.Q_UPDOWN.Up_link_telegram,
+    M_VERSION=&gt;32,
+    Q_MEDIA=&gt;Messages.Q_MEDIA.Balise,
+    N_PIG=&gt;0,
+    N_TOTAL=&gt;0,
+    M_DUP=&gt;Messages.M_DUP.No_duplicates,
+    M_MCOUNT=&gt;4,
+    NID_C=&gt;180,
+    NID_BG=&gt;2124,
+    Q_LINK=&gt;Messages.Q_LINK.Linked,
+    Sequence1=&gt;
+    [
+        Messages.EUROBALISE.SubStructure1
+        {
+            TRACK_TO_TRAIN=&gt;Messages.PACKET.TRACK_TO_TRAIN.Message
+            {
+                NATIONAL_VALUES =&gt; Messages.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES.Message
+                {
+                    NID_PACKET =&gt; 3,
+                    L_PACKET =&gt; 200,
+                    Q_DIR =&gt; Messages.Q_DIR.Both_directions,
+                    Q_SCALE =&gt; Messages.Q_SCALE._10_m_scaleC,
+                    NID_C =&gt; 180,
+                    D_VALIDNV =&gt; 120,
+                    Q_NVDRIVER_ADHES =&gt; Messages.Q_NVDRIVER_ADHES.Allowed,
+                    V_NVSHUNT =&gt; 9,
+                    V_NVSTFF =&gt; 12,
+                    V_NVONSIGHT =&gt; 20,
+                    V_NVLIMSUPERV =&gt; 16,
+                    V_NVUNFIT =&gt; 10,
+                    V_NVREL =&gt; 9,
+                    D_NVROLL =&gt; 14,
+                    Q_NVSBTSMPERM =&gt; Messages.Q_NVSBTSMPERM.No,
+                    Q_NVEMRRLS =&gt; Messages.Q_NVEMRRLS.Revoke_emergency_brake_command_at_standstill,
+                    Q_NVGUIPERM =&gt; Messages.Q_NVGUIPERM.No,
+                    Q_NVSBFBPERM =&gt; Messages.Q_NVSBFBPERM.Yes,
+                    Q_NVINHSMICPERM =&gt; Messages.Q_NVINHSMICPERM.No,
+                    V_NVALLOWOVTRP =&gt; 15,
+                    V_NVSUPOVTRP =&gt; 5,
+                    D_NVOVTRP =&gt; 24,
+                    T_NVOVTRP =&gt; 100,
+                    M_NVDERUN =&gt; Messages.M_NVDERUN.No,
+                    M_NVCONTACT =&gt; Messages.M_NVCONTACT.No_Reaction,
+                    T_NVCONTACT =&gt; 300,
+                    D_NVPOTRP =&gt; 100,
+                    D_NVSTFF =&gt; 60,
+                    Q_NVLOCACC =&gt; 7,
+                    M_NVAVADH =&gt; 2,
+                    M_NVEBCL =&gt; Messages.M_NVEBCL.Confidence_level___99_999,
+                    L_NVKRINT =&gt; Messages.L_NVKRINT._0mC,
+                    M_NVKRINT =&gt; 10,
+                    Sequence5 =&gt;
+                    [
+                        Messages.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES.SubStructure5
+                        {
+                            L_NVKRINT =&gt; Messages.L_NVKRINT._100mC,
+                            M_NVKRINT =&gt; 15
+                        },
+                        Messages.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES.SubStructure5
+                        {
+                            L_NVKRINT =&gt; Messages.L_NVKRINT._1000mC,
+                            M_NVKRINT =&gt; 18
+                        }
+                    ],
+                    Q_NVKINT =&gt; Messages.Q_NVKINT.Integrated_correction_factors_follow,
+                    Q_NVKVINTSET =&gt; Messages.Q_NVKVINTSET.Conventional_passenger_trains,
+                    A_NVP12 =&gt; 10,
+                    A_NVP23 =&gt; 14,
+                    V_NVKVINT =&gt; 8,
+                    M_NVKVINT_0 =&gt; 16,
+                    M_NVKVINT_1 =&gt; 29,
+                    Sequence2 =&gt;
+                    [
+                        Messages.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES.SubStructure2
+                        {
+                            V_NVKVINT =&gt; 12,
+                            M_NVKVINT_0 =&gt; 21,
+                            M_NVKVINT_1 =&gt; 48
+                        },
+                        Messages.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES.SubStructure2
+                        {
+                            V_NVKVINT =&gt; 19,
+                            M_NVKVINT_0 =&gt; 45,
+                            M_NVKVINT_1 =&gt; 72
+                        }
+                    ],
+                    Sequence4 =&gt;
+                    [
+                        Messages.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES.SubStructure3
+                        {
+                            Q_NVKVINTSET =&gt; Messages.Q_NVKVINTSET.Freight_trains,
+                            A_NVP12 =&gt; 11,
+                            A_NVP23 =&gt; 21,
+                            V_NVKVINT =&gt; 9,
+                            M_NVKVINT_0 =&gt; 10,
+                            M_NVKVINT_1 =&gt; 45,
+                            Sequence3 =&gt;
+                            [
+                                Messages.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES.SubStructure4
+                                {
+                                    V_NVKVINT =&gt; 15,
+                                    M_NVKVINT_0 =&gt; 34,
+                                    M_NVKVINT_1 =&gt; 81
+                                },
+                                Messages.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES.SubStructure4
+                                {
+                                    V_NVKVINT =&gt; 24,
+                                    M_NVKVINT_0 =&gt; 62,
+                                    M_NVKVINT_1 =&gt; 112
+                                }
+                            ]
+                        }
+                    ],
+                    M_NVKTINT =&gt; 18,
+                    A_NVMAXREDADH1 =&gt; 4,
+                    A_NVMAXREDADH2 =&gt; 2,
+                    A_NVMAXREDADH3 =&gt; 1
+                }
+            }
+        }
+    ]
+}</Action><Action
+ Guid="4a14e858-244c-42de-b266-dc97a19e6235"
+>BTM.LRBG &lt;- BTM.BaliseGroupStruct
+{
+    NID =&gt; 9620,
+    Orientation =&gt; OrientationEnum.Nominal,
+    Position =&gt; BTM.Position
+    {
+        OverReadingAmountOdo =&gt; 4.0,
+        Position =&gt; 3000.0,
+        UnderReadingAmountOdo =&gt; 7.0
+    }
+}</Action><Action
+ Guid="ab38d4aa-b3f1-4bdd-8e13-3cd1c8af204d"
+>Odometry.NominalDistance &lt;- 5000.0</Action></Actions>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Modification of adhesion factor by driver"
+ Guid="5a167898-48cc-4199-8d1b-cf3c8032ffd7"
+>
+<ReqRef
+ Id="5e746ce1-3ef0-4f84-8d48-0e1e88904204"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="888f9707-4858-4ccf-918d-0603b62831fd"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Modification of adhesion factor by driver"
+ Guid="64fc4152-852b-425a-b883-4606bae6d082"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="e9974bb6-86fe-4fdb-bed0-1ec368d31a5f"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="95faef7a-aa04-4430-a04a-d2db67fa594d"
+>Kernel.NationalValues.NotApplicableNationalValues.Value.ModificationOfAdhesionFactorByDriver == Messages.Q_NVDRIVER_ADHES.Allowed</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Shunting mode speed limit"
+ Guid="e2f18fff-1147-476c-a9ef-d53c0f4861e9"
+>
+<ReqRef
+ Id="cf121ea5-16c6-4ee1-8543-aee4ed3e60ee"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b375092d-3d71-48d7-9fdb-84459402b5cf"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Shunting mode speed limit"
+ Guid="dbafd940-6074-4d25-9f41-d89f5725d2d6"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="628c09ef-4cba-4491-aac3-dc43a93117be"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="6bb0cba2-bbda-497c-8a65-c586ccf03d29"
+>Kernel.NationalValues.NotApplicableNationalValues.Value.ShuntingModeSpeedLimit == 45.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Staff Responsible mode speed limit"
+ Guid="c848d48a-052e-48ec-8aaa-9fa14b64b3fd"
+>
+<ReqRef
+ Id="68883fc3-c6a5-47b4-bc4d-75ef7328646c"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a9424eca-9fae-4003-858d-b1f46f785cdf"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Staff Responsible mode speed limit"
+ Guid="fef6f434-6d74-4855-bf1d-b482dbeeecc7"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="998c3f84-646f-40ff-b327-f6b093837b19"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="de3577c5-863e-4ff7-83c8-3ca1174b52a6"
+>Kernel.NationalValues.NotApplicableNationalValues.Value.StaffResponsibleModeSpeedLimit == 60.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="On Sight mode speed limit"
+ Guid="c2587c53-0ec2-4424-bf14-7c96fed64188"
+>
+<ReqRef
+ Id="b8e14a8d-e04d-4cec-ac0b-5d81c7c442aa"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="879b6663-eaf4-4712-9447-f3d5f989edc6"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - On Sight mode speed limit"
+ Guid="79474f8d-91a3-447a-b2cf-b36a044ad372"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="fb050081-f96d-4661-95e2-45efdeecbc95"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="c24fb615-374f-4490-a5e0-b1accc0c0f75"
+>Kernel.NationalValues.NotApplicableNationalValues.Value.OnSightModeSpeedLimit == 100.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Limited Supervision mode speed limit"
+ Guid="e6d8d607-2d92-4900-9d55-ceab21a8e390"
+>
+<ReqRef
+ Id="dcb4c590-15d1-437f-a21f-2bb72c135087"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0d6140a4-8a84-47d4-b819-899576f861ca"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Limited Supervision mode speed limit"
+ Guid="b9368821-46ad-49e8-b7be-44c99078836f"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="85bb30a4-a6e0-4bad-8d84-f0985fa4adb1"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="1195375c-b544-4c55-8123-0948e43ee3bc"
+>Kernel.NationalValues.NotApplicableNationalValues.Value.LimitedSupervisionModeSpeedLimit == 80.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Unfitted mode speed limit"
+ Guid="a540af71-7186-43a8-a977-5bffbf535db3"
+>
+<ReqRef
+ Id="c6ce3eac-dbf6-4ac8-9e8b-769f4f794527"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9eeebae7-31cc-46cd-8e85-d174409a6c82"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Unfitted mode speed limit"
+ Guid="d01a0949-fad0-40a7-a666-b8803d286fd4"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="0e5b4a35-6693-4111-8f30-2a19298c1cf4"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="a06cad5c-0027-4b7b-a6b0-7e747b70d70c"
+>Kernel.NationalValues.NotApplicableNationalValues.Value.UnfittedModeSpeedLimit == 50.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Release Speed"
+ Guid="f2defbfb-c487-471f-9bbe-c2910b6c6883"
+>
+<ReqRef
+ Id="419b54e3-c0d5-4436-96e7-6b557414c8b4"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="18ca62d6-7d86-4ade-8692-170cb3502b1d"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Release Speed"
+ Guid="4eb601c2-15fa-47d0-80dc-8b7e1b9139d7"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="ed5cdec4-83a9-4eee-b988-e77c467ae07b"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="5fda636e-b0b5-4f73-93af-16e80bbc5a6b"
+>Kernel.NationalValues.NotApplicableNationalValues.Value.ReleaseSpeed == 45.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Distance to be used in roll away protection, ..."
+ Guid="912627cd-16db-4a7d-a1c4-752ec72d2fb6"
+>
+<ReqRef
+ Id="86484324-f5d8-46c9-afec-7de29e7d0b2d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="bf82b5ba-8828-4063-a0ea-95c2c18009c4"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1"
+ Guid="c755a519-0c5f-40c5-b069-696d3127a14c"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="06a31357-ef49-4d24-8e5a-aee5cab7deda"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="3b067bce-d311-4da8-8adf-36213c6b9f76"
+>Kernel.NationalValues.NotApplicableNationalValues.Value.DistToBeUsedInRollAwayProt_RevMvtProt_StandstillSup== 140.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Use service brake in target speed monitoring"
+ Guid="c56c1ff3-5f54-4ae2-acb0-d9f5885fe857"
+>
+<ReqRef
+ Id="d4577a2e-04bc-4d08-bb25-856e75975567"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0c0b6337-e5d2-456e-b70f-8a511cf94644"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Use service brake in target speed monitoring"
+ Guid="cdabb57c-ddf4-4a04-8593-f001ef29a4f0"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="b4bf799c-b8ad-4212-be97-b6d51d13ffdf"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="a20353be-2afc-4ecf-86b5-08cfc4ef90c0"
+>Kernel.NationalValues.NotApplicableNationalValues.Value.UseServiceBrakeInTargetSpeedMonitoring == Messages.Q_NVSBTSMPERM.No</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Permission to release emergency brake"
+ Guid="3edcd54f-1cd2-476e-bff8-144e4238b20a"
+>
+<ReqRef
+ Id="f0514754-78f9-44cc-aa63-24a37276ca93"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="639c52e6-a691-40bf-9a44-232508cf891e"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Permission to release emergency brake"
+ Guid="cd84d022-3021-4948-92a2-2b1193ccb172"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="369dc21f-c51e-4fa5-a27f-44ffa2aa20e2"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="5888d645-8c4d-45e4-97a6-f815b05f45b8"
+>Kernel.NationalValues.NotApplicableNationalValues.Value.PermToReleaseEmergencyBrake == Messages.Q_NVEMRRLS.Revoke_emergency_brake_command_at_standstill</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Permission to use guidance curves"
+ Guid="5537e3ef-90c1-4327-b807-6d88462f86e7"
+>
+<ReqRef
+ Id="3a44059a-2f71-401f-9364-677c23b51750"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f1c98b5a-7815-43b2-b2bb-b4ecd4bc0919"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Permission to use guidance curves"
+ Guid="3dc4af0a-cf51-446c-9c8a-33480af705ac"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="06fa3c36-80f8-4585-88a8-5c9ce230f1e0"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="ed9abd77-0c12-4fcd-9a41-de41129a4e63"
+>Kernel.NationalValues.NotApplicableNationalValues.Value.PermToUseGuidanceCurves == Messages.Q_NVGUIPERM.No</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Permission to use the service brake feedback"
+ Guid="47372daa-22b0-40c9-bf71-8afef27778eb"
+>
+<ReqRef
+ Id="23092785-c209-44ef-a5f5-2db7d9d0f65b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="bdaec83c-fa24-4cce-b311-54ed311fac96"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Permission to use the service brake feedback"
+ Guid="711a361c-f1e3-4026-b865-f7267690a4a3"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="b977b7d0-4246-4994-9956-16e2dac731a5"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="7fb2ba63-22a1-475a-86d6-2362299fab1e"
+>Kernel.NationalValues.NotApplicableNationalValues.Value.PermToUseTheServiceBrakeFeedback == Messages.Q_NVSBFBPERM.Yes</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Permission to inhibit the compensation of the speed ..."
+ Guid="9c45dc6e-e058-4c2e-930a-3b044e4a0734"
+>
+<ReqRef
+ Id="075bcce7-569f-4935-b08c-c8d743da733b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e15f7e3f-d769-4191-a6c4-88000aa87ef0"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Permission to inhibit the compensation of the speed ..."
+ Guid="d256a404-1d56-44e9-96b3-d7a764c6446a"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="cacfb41b-bc5e-4601-9597-e5af5e778ac2"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="3bd4677c-7ea2-4785-b310-b6f4c0625ebd"
+>Kernel.NationalValues.NotApplicableNationalValues.Value.PermToInhibitTheCompOfTheSpeedMeasurementInaccuracy == Messages.Q_NVINHSMICPERM.No</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Speed limit for triggering the override function"
+ Guid="cac37f64-9565-4f7d-9fa3-9ba49d1fa32d"
+>
+<ReqRef
+ Id="1812b2b8-e2e8-4575-8d53-68f83a984593"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a7e50bf1-e754-4db0-adf2-8ff01041868a"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Speed limit for triggering the override function"
+ Guid="8b4c9cb3-92d9-4767-9a45-77e65d70372f"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="6bc54da3-f0b0-4ec4-8238-01c9d5111446"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="c5aee68b-24a9-4b0f-98bb-3702d4bf7f13"
+>Kernel.NationalValues.NotApplicableNationalValues.Value.SpeedLimitForTriggeringTheOverrideFunction == 75.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Override speed limit to be supervised when override is active"
+ Guid="287d2304-9034-4847-a3c4-6a0fba3997e9"
+>
+<ReqRef
+ Id="6c694ff5-5ebf-40f6-86ea-d7d66de576cd"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="af0ff0a2-eb29-4468-b727-9864b8e25197"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Override speed limit to be supervised when override is active"
+ Guid="a7beb9f4-ccfd-41b5-83fc-d86875fd9652"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="6e21c435-81cf-43d3-bd67-dff70c2c3e51"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="2c157fe1-add0-4fb1-8118-f1184a94b2fa"
+>Kernel.NationalValues.NotApplicableNationalValues.Value.OverrideSpeedLimitToBeSupervisedWhenOverrideIsActive == 25.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Distance to train trip suppression when override is triggered"
+ Guid="a5477dde-3fde-476b-9a68-6933aa88cf39"
+>
+<ReqRef
+ Id="0d778c1c-3670-40c3-ad58-48b71867e056"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="8c462fe2-6565-48d3-bd7c-821931b5ab1c"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Distance for train trip suppression when override is triggered"
+ Guid="e89bacaa-7c9a-4592-96a7-87723a43773e"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="41671af4-24ff-4288-9436-a53bb3a63fd7"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="2aab086c-4d1b-4789-a934-7b017dcb053d"
+>Kernel.NationalValues.NotApplicableNationalValues.Value.DistForTrainTripSuppressionWhenOverrideIsTriggered == 240.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Max time for train trip suppression when override is triggered"
+ Guid="925bc490-9239-46f8-8a7a-5c231bae7cc4"
+>
+<ReqRef
+ Id="7ca74073-9f1d-48d5-830a-bf7a2b0ba8cc"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a81d7f8e-e696-4dc5-a5ba-542e38d19891"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Max time for train trip suppression when override is triggered"
+ Guid="c8112276-0b3a-4c2e-b0bf-3fcd768385ce"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="6c4d5423-63e5-4e19-a733-ab1d7976a588"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="a35a9f64-4e72-43db-b422-554812fc5890"
+>Kernel.NationalValues.NotApplicableNationalValues.Value.MaxTimeForTrainTripSuppressionWhenOverrideIsTriggered == 100.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Change of driver ID permitted while running"
+ Guid="3168aa1d-4eed-4728-bec3-3a02618a7441"
+>
+<ReqRef
+ Id="ead174d5-0da6-4970-aeca-47d81ad0968b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e5034121-1913-4314-8801-bb323b1f2cda"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Change of driver ID permitted while running"
+ Guid="670d9738-a6ad-4282-b645-e209f6dfe5db"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="2efa6f4e-8ae6-47b0-a981-3aa9c022bd02"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="d0cdc03c-772b-4b16-ba1e-5f4e4bb5122f"
+>Kernel.NationalValues.NotApplicableNationalValues.Value.ChangeOfDriverIDPermittedWhileRunning == Messages.M_NVDERUN.No</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="System reaction if radio channel monitoring time limit expires"
+ Guid="57057cec-a945-4eca-8535-65ec01ef6991"
+>
+<ReqRef
+ Id="55b6aecf-dac0-4374-8142-63150d4492d7"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ffe41606-2fb0-430f-bc3a-d17cd29e14a9"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - System reaction if radio channel monitoring thime limit expires"
+ Guid="cb7682ac-2601-409e-9520-bb4975ff9b07"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="a7f74fb7-88ba-4b37-852f-3d4fdbc98f88"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="9f932582-6752-4cd6-8ff8-cacf31b221e2"
+>Kernel.NationalValues.NotApplicableNationalValues.Value.SystemReactionIfRadioChannelMonitoringTimeLimitExpires == Messages.M_NVCONTACT.No_Reaction</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Maximum time since creation in the RBC of last received telegram"
+ Guid="cdc08427-d81a-494e-ac28-6557069d4e2d"
+>
+<ReqRef
+ Id="56736501-c0fe-4e20-a3ab-b24a8c64423d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ef249c54-2316-47c1-88b3-764142cbf6bb"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Maximum time since creation in the RBC of last received telegram"
+ Guid="534fe2e3-58c2-492c-b4ca-fe12f254dbe8"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="427f7b55-1f20-4ae2-b189-48c2e82c5b7b"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="729f5de8-9fb1-425b-b2f6-4422cf9b2fa3"
+>Kernel.NationalValues.NotApplicableNationalValues.Value.MaxTimeSinceCreationInTheRBCOfLastReceivedTelegram == 300.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Distance to be allowed for reversing in Post Trip mode"
+ Guid="be89e461-9555-4c02-b6f1-df0e6ca23166"
+>
+<ReqRef
+ Id="c73407b1-d957-40a8-b7a0-3f88757d1b9a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a6942ae8-e810-43cd-a55d-573bac058473"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Distance to be allowed for reversing in Post Trip mode"
+ Guid="46d976db-48c4-4a86-87bb-8caf46758e7f"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="6a5faa67-a8ec-4c0b-b0d7-9321c02b6fee"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="47d86c7a-aa83-496c-94c0-33f1f2670718"
+>Kernel.NationalValues.NotApplicableNationalValues.Value.DistToBeAllowedForReversingInPostTripMode == 1000.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Max permitted distance to run in Staff Responsible mode"
+ Guid="60b31a30-c1ea-47d9-b307-feadd2dcfe44"
+>
+<ReqRef
+ Id="b258d7fb-75e8-43fb-bc4c-fdc3974f2a68"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b31d6cf1-4c13-4903-812f-9accf015214e"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Max permitted distance to run in Staff Responsible mode"
+ Guid="986073bf-df96-49b7-a8cc-02703a5a13c1"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="1631eb50-5903-4179-89af-088e184dd572"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="c872a698-1f69-4a26-a3e7-383d87125c5c"
+>Kernel.NationalValues.NotApplicableNationalValues.Value.MaxPermDistToRunInStaffResponsibleMode == 600.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Default location accuracy of a balise group"
+ Guid="0aab859f-4e42-4d9c-88c2-2c6ef95941c4"
+>
+<ReqRef
+ Id="7e712341-8fcf-474b-a20b-d3dc889cf08a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d5cb6b37-7af7-4c42-a2b3-23cf5cce488a"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Default location accuracy of a balise group"
+ Guid="637f5ff6-4eb0-4ec7-8303-ec7ae2375cf6"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="ba907fad-bef4-4e25-b842-fe62eea13da9"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="49b6c214-35db-4185-9dc2-bd790b2e3c4d"
+>Kernel.NationalValues.NotApplicableNationalValues.Value.DefaultLocationAccuracyOfABaliseGroup == 7</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Weighting factor for available wheel rail adhesion"
+ Guid="450a7ab9-5e5f-42b5-8004-18e1e51fb642"
+>
+<ReqRef
+ Id="0b52f25f-041c-43c7-96d8-cbe52bdb5426"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="2b767534-e27a-4100-bb77-cf402decced0"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Weighting factor for available wheel rail adhesion"
+ Guid="52dda462-6910-49f5-87fc-f1a370d94dcd"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="db4e6901-7c72-4a52-841c-a34e53166ada"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="a08bac96-1268-43d5-aa21-2ac6881eeac6"
+>Kernel.NationalValues.NotApplicableNationalValues.Value.WeightingFactorForAvailableWheelRailAdhesion == 0.1</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Confidence level for emergency brake safe deceleration on dry rails"
+ Guid="2fc88497-45e0-4837-a543-b39f9fd4be5b"
+>
+<ReqRef
+ Id="0baa8d9f-c0f0-4278-9075-88b483b08359"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="5c7e1fd0-0548-43b7-8ca2-95f100747e6e"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Confidence level for emergency brake safe deceleration on dry rails"
+ Guid="1dda98f3-f83d-48ef-b377-69c9e2fd45d7"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="53a79e17-494a-4588-adb5-9acba5999621"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="05c0c5bc-048f-4f18-860e-fcdbbf21a69e"
+>Kernel.NationalValues.NotApplicableNationalValues.Value.ConfLevelForEmergBrakeSafeDecelerationOnDryRails == Messages.M_NVEBCL.Confidence_level___99_999</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Integrated correction factor Kr_int"
+ Guid="99f23816-7f4a-4314-9273-0bf30e400a9e"
+>
+<ReqRef
+ Id="e6844f24-1a39-4a99-a4bd-ee1d57741bee"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9cb4c2de-4460-4876-9320-a23594826499"
+>
+</ReqRef><ReqRef
+ Id="25f7c7cb-d1ef-4503-82f7-346e03536773"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f0d414ac-70e0-4d17-a5d5-d3f9f331105b"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Integrated correction factor Kr_int"
+ Guid="3b09c56d-bc86-4fa5-9603-902cb482869e"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="46eeb7c8-54bb-4c04-9f97-aee116288463"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="48f773d5-c083-40fc-9420-6544b671d6a7"
+>Kernel.NationalValues.NotApplicableNationalValues.Value.IntegratedCorrectionFactorKrInt.Val0.LengthStep == 0.0</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="1ee0e364-e0bb-473c-af8f-41c6fccfeff9"
+>Kernel.NationalValues.NotApplicableNationalValues.Value.IntegratedCorrectionFactorKrInt.Val1.LengthStep == 100.0</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="af6e99e2-1105-4aa1-a8ca-6d3535c7d58a"
+>Kernel.NationalValues.NotApplicableNationalValues.Value.IntegratedCorrectionFactorKrInt.Val2.LengthStep == BaseTypes.Length.Infinity</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="686f45c6-80a0-4773-9d98-0dd84959ce07"
+>Kernel.NationalValues.NotApplicableNationalValues.Value.IntegratedCorrectionFactorKrInt.Val1.Value == 0.75</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="1dbca6b2-4361-45eb-8ef5-0032ca7db31a"
+>Kernel.NationalValues.NotApplicableNationalValues.Value.IntegratedCorrectionFactorKrInt.Val0.Value == 0.5</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="b3d18633-8668-4613-9946-3000feb12b93"
+>Kernel.NationalValues.NotApplicableNationalValues.Value.IntegratedCorrectionFactorKrInt.Val2.Value == 0.9</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Integrated correction factor Kv_int"
+ Guid="42e695a3-1c0e-4e7b-b6e6-773dac4bab96"
+>
+<ReqRef
+ Id="c50b4a75-1478-431a-9fc7-a709e78aec0a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="450c06ee-169c-4927-8ff9-195899a3754b"
+>
+</ReqRef><ReqRef
+ Id="2200ce2a-cb53-4489-8469-546d7e953ce4"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="88b0f8ed-3fc5-462d-9bd1-e4b5d7e8a6c2"
+>
+</ReqRef><ReqRef
+ Id="4e43c303-7c49-45b5-baa7-e7d052b88d04"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0d95d23f-ca73-4a6f-a670-f5093bdb0add"
+>
+</ReqRef><ReqRef
+ Id="b57ecdfb-662d-4696-9c28-868f1cdb7deb"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6aa9ca29-6b9d-4d3b-8472-4717c0d335f6"
+>
+</ReqRef><ReqRef
+ Id="479916ae-45c8-472d-9390-572251963c4f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e6ab1c9f-8359-4c62-ab2b-4cb3e5fb8465"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Integrated correction factor Kv_int (Passenger train)"
+ Guid="65977d21-1fea-44f4-9639-1a1bca110a7f"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="3c715b2a-45e3-4bbf-a4c1-ce44eb2f4ecc"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="76b9064c-0ddb-4e13-8641-0dc47c484e12"
+>Kernel.NationalValues.NotApplicableNationalValues.Value.IntegratedCorrectionFactorKvInt_PassengerTrain.A_NVP12 == -0.5</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="2968cf0f-84a7-47ee-ae76-bd6c4a929525"
+>Kernel.NationalValues.NotApplicableNationalValues.Value.IntegratedCorrectionFactorKvInt_PassengerTrain.A_NVP23 == -0.7</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="0a45bf3e-8797-48fc-b73c-f2a8902f1fc7"
+>Kernel.NationalValues.NotApplicableNationalValues.Value.IntegratedCorrectionFactorKvInt_PassengerTrain.Val0.SpeedStep == 40.0</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="e78b2bdb-c19b-449c-86fb-c29e6cfe697a"
+>Kernel.NationalValues.NotApplicableNationalValues.Value.IntegratedCorrectionFactorKvInt_PassengerTrain.Val0.ValueA== 0.32</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="a8d20b50-1225-420b-bfc0-8317b203a497"
+>Kernel.NationalValues.NotApplicableNationalValues.Value.IntegratedCorrectionFactorKvInt_PassengerTrain.Val0.ValueB == 0.58</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="0ea0e4ea-40c3-4605-a324-d9dbdf601c23"
+>Kernel.NationalValues.NotApplicableNationalValues.Value.IntegratedCorrectionFactorKvInt_PassengerTrain.Val1.SpeedStep == 60.0</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="8d544ae0-dd52-45fc-8ef0-6c26efa6dbc1"
+>Kernel.NationalValues.NotApplicableNationalValues.Value.IntegratedCorrectionFactorKvInt_PassengerTrain.Val2.SpeedStep == BaseTypes.Speed.Infinity</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="fe457bee-9360-4538-9e3d-5512f3a5d261"
+>Kernel.NationalValues.NotApplicableNationalValues.Value.IntegratedCorrectionFactorKvInt_PassengerTrain.Val1.ValueA== 0.42</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="08109dd6-a0a7-435f-833c-e4fea51b5e3d"
+>Kernel.NationalValues.NotApplicableNationalValues.Value.IntegratedCorrectionFactorKvInt_PassengerTrain.Val2.ValueA== 0.9</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="dadf7792-966d-4544-a1cc-bc0a22e9e11a"
+>Kernel.NationalValues.NotApplicableNationalValues.Value.IntegratedCorrectionFactorKvInt_PassengerTrain.Val1.ValueB == 0.96</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="e80c24e8-8dcc-4532-b014-2953aeba6e2b"
+>Kernel.NationalValues.NotApplicableNationalValues.Value.IntegratedCorrectionFactorKvInt_PassengerTrain.Val2.ValueB == 1.44</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step2 - Integrated correction factor Kv_int (Freight train)"
+ Guid="6a7d74e2-e88d-492d-8eae-c3da389cb2f5"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="5393cb33-f953-4d69-8ceb-7aba7eaaa98e"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="5b12f35b-1fc5-486e-a0e4-ad751f5768cd"
+>Kernel.NationalValues.NotApplicableNationalValues.Value.IntegratedCorrectionFactorKvInt_FreightTrain.Val0.SpeedStep == 45.0</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="774d6f8b-8764-406c-98f3-a20d41f24ab4"
+>Kernel.NationalValues.NotApplicableNationalValues.Value.IntegratedCorrectionFactorKvInt_FreightTrain.Val0.Value == 0.2</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="703ef654-d086-44cc-83e2-14f3ac34e7ce"
+>Kernel.NationalValues.NotApplicableNationalValues.Value.IntegratedCorrectionFactorKvInt_FreightTrain.Val1.SpeedStep == 75.0</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="3b099a3e-d4f2-4fb3-bef7-a0632bdd3123"
+>Kernel.NationalValues.NotApplicableNationalValues.Value.IntegratedCorrectionFactorKvInt_FreightTrain.Val2.SpeedStep == BaseTypes.Speed.Infinity</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="654984d3-babb-4cc8-8e7c-58aa9e0cebd6"
+>Kernel.NationalValues.NotApplicableNationalValues.Value.IntegratedCorrectionFactorKvInt_FreightTrain.Val1.Value == 0.68</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="29a538ad-e34f-4d3f-855d-ef9d83c12ab5"
+>Kernel.NationalValues.NotApplicableNationalValues.Value.IntegratedCorrectionFactorKvInt_FreightTrain.Val2.Value == 1.24</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Integrated correction factor for brake build up time"
+ Guid="d8e0799a-b4db-4b41-ac80-4917f96517e6"
+>
+<ReqRef
+ Id="b84c39d8-6718-43f5-8a15-c15fecc7e1e3"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9282d3b3-f1ed-4bb8-a844-6df885fff9c2"
+>
+</ReqRef><ReqRef
+ Id="f4734217-febd-4c83-b03b-95421ce86be2"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="96321c6e-de18-4533-a24e-84a34160dc3c"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Integrated correction factor for brake build up time"
+ Guid="50afbe8a-d15b-4442-98f1-d87beec44c1e"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="e00840d0-d225-4e4d-974c-73c20dc0a453"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="66a18544-c5b3-4f19-a564-0c773a324ca5"
+>Kernel.NationalValues.NotApplicableNationalValues.Value.IntegratedCorrectionFactorForBrakeBuildUpTime == 0.9</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Maximum deceleration value under reduced adhesion conditions (1)"
+ Guid="519f216a-87b4-44ff-b8b9-a99c21092b2c"
+>
+<ReqRef
+ Id="4bdf713f-a04b-4492-92ac-08b864e26449"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="baaaae03-72c7-44cc-b3b7-20945db3bc2e"
+>
+</ReqRef><ReqRef
+ Id="f3bcff62-12ff-4959-a7b5-1a7089516acb"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="3f03e0cf-6450-43ab-82b9-a73565bd14c3"
+>
+</ReqRef><ReqRef
+ Id="1ea1fcd0-0483-4f31-9e4e-972784b19f91"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a7350cb8-5884-4a9d-9133-ff65c2b89e90"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Maximum deceleration value under reduced adhesion conditions (1)"
+ Guid="eea46fb3-82d8-4338-9c4a-957497a72534"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="e998d6f8-f3bc-4bf6-b34d-a093ad35b554"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="17deb49f-b708-4d03-9575-b2c08f213d6c"
+>Kernel.NationalValues.NotApplicableNationalValues.Value.MaxDecelValueUnderReducedAdhesionCond1 == 4.0 * 0.05</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Maximum deceleration value under reduced adhesion conditions (2)"
+ Guid="a4a449d5-a6f1-4fba-9621-deb15d17bfa6"
+>
+<ReqRef
+ Id="afa7ef49-e01b-49da-851e-e4a4e62f5e1a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="5f269b1b-a16f-42fc-920c-d295b1e9d1a2"
+>
+</ReqRef><ReqRef
+ Id="f3bcff62-12ff-4959-a7b5-1a7089516acb"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6c49c04f-5195-4969-baf7-20ce726228d8"
+>
+</ReqRef><ReqRef
+ Id="6f5803a9-c056-47a1-9fd1-1c160eb10885"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="eaa29c8d-55f8-4686-bb13-e36206ba5205"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Maximum deceleration value under reduced adhesion conditions (2)"
+ Guid="12669c9f-1b6a-47ef-8d55-ca1b41d87f35"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="0018bb14-1538-4446-8143-6cc4e4cc41fd"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="bd4b47b5-7977-4248-9395-c1e69d3414b2"
+>Kernel.NationalValues.NotApplicableNationalValues.Value.MaxDecelValueUnderReducedAdhesionCond2 == 2.0 * 0.05</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Maximum deceleration value under reduced adhesion conditions (3)"
+ Guid="f2649e20-f813-4eb0-9f05-f3a08f707174"
+>
+<ReqRef
+ Id="2fe949f8-b640-443c-afa7-6dee7bf83063"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9c1521b1-31c0-4ec2-b6c5-d6a8c75ff14b"
+>
+</ReqRef><ReqRef
+ Id="f3bcff62-12ff-4959-a7b5-1a7089516acb"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c448a447-97a0-4123-a185-a81de917a8bf"
+>
+</ReqRef><ReqRef
+ Id="66b1a76d-7680-41c7-a08d-7daf6f301b1d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="dc2614ec-428d-4acf-91a8-e3ee2312c414"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Maximum deceleration value under reduced adhesion conditions (3)"
+ Guid="3b95f701-7417-4792-bd2f-7a4c23c32815"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="ed2c9b92-0e55-4abf-aaed-85a24dd37f61"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="47537f2e-2e64-470a-a4c3-16642f61651c"
+>Kernel.NationalValues.NotApplicableNationalValues.Value.MaxDecelValueUnderReducedAdhesionCond3 == 1.0 * 0.05</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Data state"
+ Guid="e7c4c4f4-a871-400f-b2d1-034d9d73b346"
+>
+<Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Data state"
+ Guid="b5ed9008-2819-435b-a8db-77c07cb65726"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="fb60e690-3748-4664-8baa-edd2167067a0"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="16972562-4692-4a4c-bad0-50aa6fa06bbd"
+>Kernel.NationalValues.NotApplicableNationalValues.DataState == DataStateEnum.Valid</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Country"
+ Guid="73dd8821-ee3c-4dab-bdf1-59b32c2703e2"
+>
+<ReqRef
+ Id="766f0274-5b6e-4050-a48d-226dccf68782"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="16fdf92b-73c8-4bd3-b67d-85649d39f4ae"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Country"
+ Guid="eabc167b-1337-4ded-8598-32ae38a9f488"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="6bc131bc-4a52-4002-b537-cb96eea43759"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="d0e7793d-2b51-46f0-b08f-4c1e1ff6afa6"
+>Kernel.NationalValues.NotApplicableNationalValues.ApplicableCountries == [180]</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Applicable distance"
+ Guid="abb9c17d-ad68-4104-b79b-f9595bb50b37"
+>
+<ReqRef
+ Id="bb94d1fa-9b3e-4389-bf7a-f04d1654005b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="3b37f4c9-288b-4898-b797-7d8683ad97e4"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Remaining distance"
+ Guid="28027e81-5db3-4a15-b12d-208453b7fe2f"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="d0d10c1c-67c4-4c1a-9d18-ac26a8617cb4"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="3d129452-ad51-42e9-94f5-81927f1f278a"
+>Kernel.NationalValues.NotApplicableNationalValues.ApplicableStartLocation == 1200.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase></TestCases>
+</SubSequence><SubSequence
+ D_LRBG=""
+ Level=""
+ Mode=""
+ NID_LRBG=""
+ Q_DIRLRBG=""
+ Q_DIRTRAIN=""
+ Q_DLRBG=""
+ RBC_ID=""
+ RBCPhone=""
+ Name="Override function related speed restrictions"
+ Guid="ac2692d3-e5ec-453a-a375-f46a617102c8"
+>
+<TestCases>
+<TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Setup"
+ Guid="39ca10e5-d0f5-4105-958b-93f3914c2d27"
+>
+<Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Setup"
+ Guid="c87bea32-e44e-4303-b8f1-4f7667e56fd8"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="de344356-2da9-4f51-b4f1-0f9a3451046c"
+>
+<Actions>
+<Action
+ Guid="142010be-574a-4d61-b9ea-f2e96b3eadfe"
+>Testing.InitializeTestEnvironment
+(
+    aTrainPosition =&gt; 100.0,
+    aMode =&gt; ModeEnum.SR
+)</Action></Actions>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ Name="Default value"
+ Guid="8ec8cf89-9ba2-40ff-bbef-9c912377068f"
+>
+<ReqRef
+ Id="740a2050-4496-4fb8-9389-3250365d206a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="2fc9dd16-b9b7-484f-bc6b-490c21db7335"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Begin override"
+ Guid="f9d86d9b-8dad-415e-be64-7e0b1a7b8d9b"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="f764f1f6-8507-4df6-bb14-055a6ee4f821"
+>
+<Actions>
+<Action
+ Guid="abede0fa-384a-492c-bdfc-1de32036b32a"
+>Kernel.Override.OverrideSupervision &lt;- Kernel.Override.OverrideStruct{
+    StartTime =&gt; 120.0,
+    StartLocation =&gt; 500.0,
+    FormerEOA =&gt; 650.0
+}</Action><Action
+ Guid="0aabe223-dd09-43fb-9772-210dccd2b1e0"
+>Testing.SetSRMode(False)</Action><Action
+ Guid="2534e631-ea69-4bd3-a8b7-be1fd53a0123"
+>Kernel.NationalValues.ApplicableNationalValues.Value.MaxPermDistToRunInStaffResponsibleMode &lt;- 1500.0</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep2"
+ Guid="9d3bf7e6-b0ca-480c-b7a7-0730b8eb8ed5"
+>
+<Actions>
+<Action
+ Guid="753697a8-1fc4-4433-9d73-32f7a6e4304e"
+>Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.Override</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="2365053c-b51f-47f8-86ae-e442fc72a7c9"
+>Kernel.NationalValues.OverrideRelatedSpeedRestrictions(0.0) == 30.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ Name="National values received"
+ Guid="e6216af9-dbaa-453e-a204-9fd05e0ad155"
+>
+<ReqRef
+ Id="740a2050-4496-4fb8-9389-3250365d206a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ba264388-c36c-42fd-b80b-74f33772d0cc"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - New national values received"
+ Guid="dec825ff-fd59-49f6-9355-33a1668a7646"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="a9c64479-b1dd-43be-8c4f-198fc9c6899b"
+>
+<Actions>
+<Action
+ Guid="a281e5de-7d47-45c7-ad2a-24d98e9d5235"
+>BTM.Message.SystemVersion2 &lt;- Messages.EUROBALISE.Message
+{
+    Q_UPDOWN=&gt;Messages.Q_UPDOWN.Up_link_telegram,
+    M_VERSION=&gt;32,
+    Q_MEDIA=&gt;Messages.Q_MEDIA.Balise,
+    N_PIG=&gt;0,
+    N_TOTAL=&gt;0,
+    M_DUP=&gt;Messages.M_DUP.No_duplicates,
+    M_MCOUNT=&gt;4,
+    NID_C=&gt;140,
+    NID_BG=&gt;2124,
+    Q_LINK=&gt;Messages.Q_LINK.Linked,
+    Sequence1=&gt;
+    [
+        Messages.EUROBALISE.SubStructure1
+        {
+            TRACK_TO_TRAIN=&gt;Messages.PACKET.TRACK_TO_TRAIN.Message
+            {
+                NATIONAL_VALUES =&gt; Messages.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES.Message
+                {
+                    NID_PACKET =&gt; 3,
+                    L_PACKET =&gt; 200,
+                    Q_DIR =&gt; Messages.Q_DIR.Both_directions,
+                    Q_SCALE =&gt; Messages.Q_SCALE._10_cm_scaleC,
+                    D_VALIDNV =&gt; 0,
+                    NID_C =&gt; 140,
+                    Q_NVDRIVER_ADHES =&gt; Messages.Q_NVDRIVER_ADHES.Allowed,
+                    V_NVSHUNT =&gt; 10,
+                    V_NVSTFF =&gt; 16,
+                    V_NVONSIGHT =&gt; 22,
+                    V_NVLIMSUPERV =&gt; 18,
+                    V_NVUNFIT =&gt; 14,
+                    V_NVREL =&gt; 8,
+                    D_NVROLL =&gt; 1200,
+                    Q_NVSBTSMPERM =&gt; Messages.Q_NVSBTSMPERM.Yes,
+                    Q_NVEMRRLS =&gt;Messages.Q_NVEMRRLS.Revoke_emergency_brake_command_at_standstill,
+                    Q_NVGUIPERM =&gt; Messages.Q_NVGUIPERM.Yes,
+                    Q_NVSBFBPERM =&gt; Messages.Q_NVSBFBPERM.No,
+                    Q_NVINHSMICPERM =&gt; Messages.Q_NVINHSMICPERM.Yes,
+                    V_NVALLOWOVTRP =&gt; 9,
+                    V_NVSUPOVTRP =&gt; 11,
+                    D_NVOVTRP =&gt; 2000,
+                    T_NVOVTRP =&gt; 150,
+                    M_NVDERUN =&gt; Messages.M_NVDERUN.Yes,
+                    M_NVCONTACT =&gt; Messages.M_NVCONTACT.Train_trip,
+                    T_NVCONTACT =&gt; 400,
+                    D_NVPOTRP =&gt; 8000,
+                    D_NVSTFF =&gt; 7000,
+                    Q_NVLOCACC =&gt; 10,
+                    M_NVAVADH =&gt; 4,
+                    M_NVEBCL =&gt; Messages.M_NVEBCL.Confidence_level___99_9,
+                    L_NVKRINT =&gt; Messages.L_NVKRINT._0mC,
+                    M_NVKRINT =&gt; 12,
+                    Sequence5 =&gt;
+                    [
+                        Messages.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES.SubStructure5
+                        {
+                            L_NVKRINT =&gt; Messages.L_NVKRINT._75mC,
+                            M_NVKRINT =&gt; 15
+                        },
+                        Messages.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES.SubStructure5
+                        {
+                            L_NVKRINT =&gt; Messages.L_NVKRINT._200mC,
+                            M_NVKRINT =&gt; 16
+                        }
+                    ],
+                    Q_NVKINT =&gt; Messages.Q_NVKINT.Integrated_correction_factors_follow,
+                    Q_NVKVINTSET =&gt; Messages.Q_NVKVINTSET.Conventional_passenger_trains,
+                    A_NVP12 =&gt; 10,
+                    A_NVP23 =&gt; 14,
+                    V_NVKVINT =&gt; 8,
+                    M_NVKVINT_0 =&gt; 16,
+                    M_NVKVINT_1 =&gt; 29,
+                    Sequence2 =&gt;
+                    [
+                        Messages.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES.SubStructure2
+                        {
+                            V_NVKVINT =&gt; 12,
+                            M_NVKVINT_0 =&gt; 21,
+                            M_NVKVINT_1 =&gt; 48
+                        },
+                        Messages.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES.SubStructure2
+                        {
+                            V_NVKVINT =&gt; 19,
+                            M_NVKVINT_0 =&gt; 45,
+                            M_NVKVINT_1 =&gt; 72
+                        }
+                    ],
+                    Sequence4 =&gt;
+                    [
+                        Messages.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES.SubStructure3
+                        {
+                            Q_NVKVINTSET =&gt; Messages.Q_NVKVINTSET.Freight_trains,
+                            A_NVP12 =&gt; 11,
+                            A_NVP23 =&gt; 21,
+                            V_NVKVINT =&gt; 9,
+                            M_NVKVINT_0 =&gt; 10,
+                            M_NVKVINT_1 =&gt; 45,
+                            Sequence3 =&gt;
+                            [
+                                Messages.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES.SubStructure4
+                                {
+                                    V_NVKVINT =&gt; 15,
+                                    M_NVKVINT_0 =&gt; 34,
+                                    M_NVKVINT_1 =&gt; 81
+                                },
+                                Messages.PACKET.TRACK_TO_TRAIN.NATIONAL_VALUES.SubStructure4
+                                {
+                                    V_NVKVINT =&gt; 24,
+                                    M_NVKVINT_0 =&gt; 62,
+                                    M_NVKVINT_1 =&gt; 112
+                                }
+                            ]
+                        }
+                    ],
+                    M_NVKTINT =&gt; 25,
+                    A_NVMAXREDADH1 =&gt; 10,
+                    A_NVMAXREDADH2 =&gt; 7,
+                    A_NVMAXREDADH3 =&gt; 5
+                }
+            }
+        }
+    ]
+}</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="db612693-1798-45f8-bd0d-78bd7087c786"
+>Kernel.NationalValues.OverrideRelatedSpeedRestrictions(0.0) == 55.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Override function is disabled"
+ Guid="2ed940f6-f5b3-4ab5-a03b-bab1d87a3ac8"
+>
+<Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Override function is disabled"
+ Guid="7487106a-4d63-43ab-8b33-4e1f9fc69ee3"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="6db6f87b-0d37-4954-855f-fe6823379fb5"
+>
+<Actions>
+<Action
+ Guid="6a37ef0b-2521-48b2-8e52-8ee998915e55"
+>Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.StartOfMission</Action><Action
+ Guid="f16e6a21-12b4-45e3-baf9-76d995172aa1"
+>Testing.SetSBMode( HandleModeChange =&gt; False )</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="e6bde19b-bd36-4a52-9c17-b15e9493e655"
+>Kernel.NationalValues.OverrideRelatedSpeedRestrictions(0.0) == BaseTypes.Speed.MaxSpeed</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase></TestCases>
+</SubSequence></SubSequences>
+</Frame>

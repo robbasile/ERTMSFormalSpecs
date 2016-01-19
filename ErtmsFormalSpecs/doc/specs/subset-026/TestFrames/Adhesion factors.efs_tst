@@ -1,0 +1,506 @@
+<Frame
+ CycleDuration="Kernel.CycleDuration"
+ Name="Adhesion factors"
+ Guid="2ab8dbc3-5096-4a82-8fca-d7cfba1fe382"
+>
+<SubSequences>
+<SubSequence
+ D_LRBG=""
+ Level=""
+ Mode=""
+ NID_LRBG=""
+ Q_DIRLRBG=""
+ Q_DIRTRAIN=""
+ Q_DLRBG=""
+ RBC_ID=""
+ RBCPhone=""
+ Name="Adhesion factors"
+ Guid="d8a10531-62fd-4a83-9886-8b5dc6c1f3b5"
+>
+<TestCases>
+<TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Setup &amp; Receive adhesion factors"
+ Guid="2e1d7957-8992-4d02-8941-d042558e53c0"
+>
+<ReqRef
+ Id="f83a7563-dcc4-4041-8201-a5d79f86a5c0"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e7d44427-7101-49f1-9371-d325a3be4133"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Setup"
+ Guid="fdeb24d7-5f62-437a-891d-7df2e6144232"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="089df6d0-9cdf-499e-a6fa-5096b17c68b7"
+>
+<Actions>
+<Action
+ Guid="d06b0d63-61b8-438c-a3cf-359ab2350b27"
+>Testing.InitializeTestEnvironment
+(
+    aTrainPosition =&gt; 100.0,
+    aMode =&gt; ModeEnum.FS
+)</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step2 - Setup"
+ Guid="273617fe-d741-49a5-96f6-34e490ae48ab"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="59dc109f-fd85-4093-a5a3-84ee61438ac2"
+>
+<Actions>
+<Action
+ Guid="03f35f24-1aed-4b77-b63c-55d7c14b5572"
+>BTM.LRBG &lt;- BTM.BaliseGroupStruct
+{
+    NID =&gt; 9600,
+    Orientation =&gt; OrientationEnum.Nominal,
+    Position =&gt; BTM.Position
+    {
+        OverReadingAmountOdo =&gt; 0.0,
+        Position =&gt; 500.0,
+        UnderReadingAmountOdo =&gt; 0.0
+    }
+}</Action><Action
+ Guid="08379c9e-a5f7-43d3-841b-159147d82d4f"
+>Kernel.TrackDescription.AdhesionFactors.AdhFactors &lt;- []</Action><Action
+ Guid="d9422de3-2313-4e53-9f60-0b55e446f488"
+>Kernel.TrainData.TrainData.Value.TrainLength &lt;- 120.0</Action><Action
+ Guid="c4eb67d0-cbae-46e8-b9c4-ae580febeac2"
+>Odometry.NominalDistance &lt;- 605.0</Action><Action
+ Guid="6a35ce9d-2acc-4ac8-bbcc-8fcbc0e6d3aa"
+>INSERT BTM.Linking.LinkingDataStruct{
+    LocationAccuracy =&gt; 0.0,
+    Orientation =&gt; OrientationEnum.Nominal,
+    Reaction =&gt; BTM.Linking.LinkingReaction.NoReaction,
+    Distance =&gt; 100.0,
+    BaliseGroupIdentifier =&gt; 2100
+}
+IN BTM.Linking.Linkings</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step3 - Receive adhesion factors"
+ Guid="d079d1da-90f8-4537-8200-09477a424366"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="6e9eaa54-e895-43d0-8ba4-0eb2b9f6594b"
+>
+<Actions>
+<Action
+ Guid="bae981f2-039a-4ba4-a762-e76c19e8b1d1"
+>BTM.Message.SystemVersion2 &lt;- Messages.EUROBALISE.Message
+{
+    Q_UPDOWN=&gt; Messages.Q_UPDOWN.Up_link_telegram,
+    M_VERSION=&gt;32,
+    Q_MEDIA=&gt;Messages.Q_MEDIA.Balise,
+    N_PIG=&gt;0,
+    N_TOTAL=&gt;0,
+    M_DUP=&gt;Messages.M_DUP.No_duplicates,
+    M_MCOUNT=&gt;4,
+    NID_C=&gt;1,
+    NID_BG=&gt;2100,
+    Q_LINK=&gt;Messages.Q_LINK.Linked,
+    Sequence1=&gt;
+    [
+        Messages.EUROBALISE.SubStructure1
+        {
+            TRACK_TO_TRAIN=&gt;Messages.PACKET.TRACK_TO_TRAIN.Message
+            {
+                ADHESION_FACTOR =&gt;Messages.PACKET.TRACK_TO_TRAIN.ADHESION_FACTOR.Message
+                {
+                    NID_PACKET =&gt; 71,
+                    Q_DIR =&gt; Messages.Q_DIR.Nominal,
+                    L_PACKET =&gt; 400,
+                    Q_SCALE =&gt; Messages.Q_SCALE._1_m_scaleC,
+                    D_ADHESION =&gt; 1000,
+                    L_ADHESION =&gt; 500,
+                    M_ADHESION =&gt; Messages.M_ADHESION.Slippery_rail
+                }
+            }
+        },
+        Messages.EUROBALISE.SubStructure1
+        {
+            TRACK_TO_TRAIN=&gt;Messages.PACKET.TRACK_TO_TRAIN.Message
+            {
+                ADHESION_FACTOR =&gt;Messages.PACKET.TRACK_TO_TRAIN.ADHESION_FACTOR.Message
+                {
+                    NID_PACKET =&gt; 71,
+                    Q_DIR =&gt; Messages.Q_DIR.Nominal,
+                    L_PACKET =&gt; 400,
+                    Q_SCALE =&gt; Messages.Q_SCALE._1_m_scaleC,
+                    D_ADHESION =&gt; 4000,
+                    L_ADHESION =&gt; 300,
+                    M_ADHESION =&gt; Messages.M_ADHESION.Non_slippery_rail
+                }
+            }
+        },
+        Messages.EUROBALISE.SubStructure1
+        {
+            TRACK_TO_TRAIN=&gt;Messages.PACKET.TRACK_TO_TRAIN.Message
+            {
+                ADHESION_FACTOR =&gt;Messages.PACKET.TRACK_TO_TRAIN.ADHESION_FACTOR.Message
+                {
+                    NID_PACKET =&gt; 71,
+                    Q_DIR =&gt; Messages.Q_DIR.Nominal,
+                    L_PACKET =&gt; 400,
+                    Q_SCALE =&gt; Messages.Q_SCALE._1_m_scaleC,
+                    D_ADHESION =&gt; 6000,
+                    L_ADHESION =&gt; 400,
+                    M_ADHESION =&gt; Messages.M_ADHESION.Slippery_rail
+                }
+            }
+        }
+    ]
+}</Action></Actions>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ NeedsRequirement="FALSE"
+ Name="Check adhesion factor info"
+ Guid="153ce702-43fc-4ad9-b07b-39f7fd8ea2cb"
+>
+<ReqRef
+ Id="edb711e6-2b8c-4c00-88b8-563ee23ec94b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ff25c01d-916e-4f05-8841-eccee5685d7e"
+>
+</ReqRef><ReqRef
+ Id="d3e2813d-25b4-419a-8bc7-765e8794c652"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="4729b116-b1a6-487d-846a-1fdf5813a9ed"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Check adhesion factors info"
+ Guid="f59233b7-8cce-48d5-ae7f-54970957622e"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="85c0ba27-e35f-436f-8b01-d1d10a6e1991"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="df36f075-0134-4030-bdb7-54b2d20c02b8"
+>Kernel.TrackDescription.AdhesionFactors.AdhFactors != []</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="74eb1a2f-5502-4b82-b67f-d2ba93df16fa"
+>(FIRST X IN Kernel.TrackDescription.AdhesionFactors.AdhFactors).Location == 1000.0</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="c7bbf38b-0e5c-4ed7-a07b-521005bc519d"
+>(FIRST X IN Kernel.TrackDescription.AdhesionFactors.AdhFactors).Length == 500.0</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="37f6c845-b336-44b8-86d6-7120ac7ce6f8"
+>(FIRST X IN Kernel.TrackDescription.AdhesionFactors.AdhFactors).Value == Messages.M_ADHESION.Slippery_rail</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="e79c4c49-9982-44a2-9a74-72b71adc7ce3"
+>(LAST X IN Kernel.TrackDescription.AdhesionFactors.AdhFactors).Location == 6000.0</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="6cf51c71-1505-41f9-8867-15a11b505ba4"
+>(LAST X IN Kernel.TrackDescription.AdhesionFactors.AdhFactors).Length == 400.0</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="3df654b5-0fef-4aa2-8710-28d6f5982a71"
+>(LAST X IN Kernel.TrackDescription.AdhesionFactors.AdhFactors).Value == Messages.M_ADHESION.Slippery_rail</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="2ef33510-0fba-4515-b61c-a82f1ce6cb05"
+>Kernel.TrackDescription.AdhesionFactors.AdhFactorLength ( FIRST X IN Kernel.TrackDescription.AdhesionFactors.AdhFactors ) == 620.0</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="ae8b1ff9-c58c-4de7-8212-a5471f80938a"
+>Kernel.TrackDescription.AdhesionFactors.AdhFactorLength ( LAST X IN Kernel.TrackDescription.AdhesionFactors.AdhFactors ) == 520.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Receive new adhesion factors"
+ Guid="6d3dca5e-4a17-400b-a5de-901bc99df32b"
+>
+<ReqRef
+ Id="7d335a9b-a371-42e5-aaba-0565884b8283"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a884bfcb-8b42-4f78-b9ca-1fb6a9ab8988"
+>
+</ReqRef><ReqRef
+ Id="24260651-d1c0-4755-bba9-09153737ca10"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f5d3dabc-9b71-4a18-abec-bf8f940672d2"
+>
+</ReqRef><ReqRef
+ Id="f83a7563-dcc4-4041-8201-a5d79f86a5c0"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="095cdced-f53c-4807-a9f9-518541353e4b"
+>
+</ReqRef><ReqRef
+ Id="edb711e6-2b8c-4c00-88b8-563ee23ec94b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="7155875d-c67e-414b-be04-ff26747fedd5"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Receive new adhesion factors"
+ Guid="9dd501ad-8264-42aa-93fa-575af9805359"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="3bde3a1c-2c17-4c1e-9561-13347da2237f"
+>
+<Actions>
+<Action
+ Guid="9e7db158-4897-4531-acff-3982cfa664e7"
+>BTM.Message.SystemVersion2 &lt;- Messages.EUROBALISE.Message
+{
+    Q_UPDOWN=&gt; Messages.Q_UPDOWN.Up_link_telegram,
+    M_VERSION=&gt;32,
+    Q_MEDIA=&gt;Messages.Q_MEDIA.Balise,
+    N_PIG=&gt;0,
+    N_TOTAL=&gt;1,
+    M_DUP=&gt;Messages.M_DUP.No_duplicates,
+    M_MCOUNT=&gt;4,
+    NID_C=&gt;1,
+    NID_BG=&gt;2100,
+    Q_LINK=&gt;Messages.Q_LINK.Linked,
+    Sequence1=&gt;
+    [
+        Messages.EUROBALISE.SubStructure1
+        {
+            TRACK_TO_TRAIN=&gt;Messages.PACKET.TRACK_TO_TRAIN.Message
+            {
+                ADHESION_FACTOR =&gt;Messages.PACKET.TRACK_TO_TRAIN.ADHESION_FACTOR.Message
+                {
+                    NID_PACKET =&gt; 71,
+                    Q_DIR =&gt; Messages.Q_DIR.Nominal,
+                    L_PACKET =&gt; 400,
+                    Q_SCALE =&gt; Messages.Q_SCALE._1_m_scaleC,
+                    D_ADHESION =&gt; 3700,
+                    L_ADHESION =&gt; 500,
+                    M_ADHESION =&gt; Messages.M_ADHESION.Slippery_rail
+                }
+            }
+        }
+    ]
+}</Action><Action
+ Guid="cf1c52d4-7629-45cd-9a3e-ff13546e893e"
+>BTM.LRBG &lt;- BTM.BaliseGroupStruct
+{
+    NID =&gt; 2100,
+    Orientation =&gt; OrientationEnum.Nominal,
+    Position =&gt; BTM.Position
+    {
+        OverReadingAmountOdo =&gt; 0.0,
+        Position =&gt; 1000.0,
+        UnderReadingAmountOdo =&gt; 0.0
+    }
+}</Action><Action
+ Guid="8f49d8a5-0dd5-4b89-93c8-d95abd90af56"
+>Odometry.NominalDistance &lt;- 1100.0</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step2"
+ Guid="2c193a98-3cf1-41fa-85b1-559ba046517c"
+>
+<Actions>
+<Action
+ Guid="e7e96654-4d07-443f-90e7-dfd9d7ba70e7"
+>BTM.Message.SystemVersion2 &lt;- Messages.EUROBALISE.Message
+{
+    Q_UPDOWN=&gt; Messages.Q_UPDOWN.Up_link_telegram,
+    M_VERSION=&gt;32,
+    Q_MEDIA=&gt;Messages.Q_MEDIA.Balise,
+    N_PIG=&gt;1,
+    N_TOTAL=&gt;1,
+    M_DUP=&gt;Messages.M_DUP.No_duplicates,
+    M_MCOUNT=&gt;4,
+    NID_C=&gt;1,
+    NID_BG=&gt;2100,
+    Q_LINK=&gt;Messages.Q_LINK.Linked,
+    Sequence1=&gt;[]
+}</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step2 - Check adhesion factor info"
+ Guid="10e38711-d7e0-4fa5-8281-1a14b1d420e8"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="6e5e23be-651e-43f5-a265-4eda2c6c9014"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="f7101f47-1578-48ec-b51c-fe2dfd9801b1"
+>(FIRST X IN Kernel.TrackDescription.AdhesionFactors.AdhFactors).Location == 1000.0</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="27729425-3ef8-49f6-a3af-7c5e918598dd"
+>(FIRST X IN Kernel.TrackDescription.AdhesionFactors.AdhFactors).Length == 500.0</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="aac26e26-268e-47f7-8945-bedb298e0884"
+>(FIRST X IN Kernel.TrackDescription.AdhesionFactors.AdhFactors).Value == Messages.M_ADHESION.Slippery_rail</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="4dc9275c-d51c-41b0-85e2-9bb9e1d36af1"
+>(LAST X IN Kernel.TrackDescription.AdhesionFactors.AdhFactors).Length == 500.0</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="29d3a97b-9877-4f37-bcbb-f1194ed6f832"
+>(LAST X IN Kernel.TrackDescription.AdhesionFactors.AdhFactors).Value == Messages.M_ADHESION.Slippery_rail</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="3ed3e61c-73c3-48e0-9d0e-4e78a1237f51"
+>(LAST X IN Kernel.TrackDescription.AdhesionFactors.AdhFactors).Location == 3700.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Check selection of slippery rail by the driver"
+ Guid="c9cb6c69-8b0f-4ae1-9d32-952ce480e782"
+>
+<ReqRef
+ Id="8c94001e-944c-4e4c-9425-db637f743011"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ac319c97-e3a4-4b59-8f3e-8b4dd0a44687"
+>
+</ReqRef><ReqRef
+ Id="115b09d2-66f8-4553-9085-6484d37ec385"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="4f7422fd-cdf0-4a4e-befa-ffc13cc6dd03"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Default value"
+ Guid="91c37405-df4b-4942-8abc-8d5126888cc7"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="8610d23e-7219-406a-be71-f76e2e8a4e35"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="1c456ff5-44eb-4a1f-aebd-0737363e7c33"
+>Kernel.TrackDescription.AdhesionFactors.SlipperyRailSelectedByDriver == False</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step2 - Modification of slippery rail permitted by National values"
+ Guid="697d5eeb-519c-4448-a597-9239d96f6625"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="f55b8188-38a2-4bac-b379-cbac4188b642"
+>
+<Actions>
+<Action
+ Guid="f84a8482-d910-447a-914c-08647439ca44"
+>Kernel.NationalValues.ApplicableNationalValues.DataState &lt;- DataStateEnum.Valid</Action><Action
+ Guid="a3ce216b-60d4-4f42-8f08-84b2c865d9ef"
+>Kernel.NationalValues.ApplicableNationalValues.Value.ModificationOfAdhesionFactorByDriver &lt;- Messages.Q_NVDRIVER_ADHES.Allowed</Action><Action
+ Guid="ae798b68-a25f-4dc4-85fd-29136d477b48"
+>Kernel.TrackDescription.AdhesionFactors.SlipperyRailSelectedByDriver &lt;- True</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step3 - Modification of slippery rail no more permitted by National values"
+ Guid="dc4c6883-6115-4680-afcf-393c881e43e9"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="de48dea4-a829-473a-bc68-63c300b67973"
+>
+<Actions>
+<Action
+ Guid="ac1227f1-73a6-4260-8b0f-8659d339b3b0"
+>Kernel.NationalValues.ApplicableNationalValues.Value.ModificationOfAdhesionFactorByDriver &lt;- Messages.Q_NVDRIVER_ADHES.Not_allowed</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="24050a59-0b6d-491b-a779-8b262e0f1857"
+>Kernel.TrackDescription.AdhesionFactors.SlipperyRailSelectedByDriver == False</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase></TestCases>
+</SubSequence></SubSequences>
+</Frame>

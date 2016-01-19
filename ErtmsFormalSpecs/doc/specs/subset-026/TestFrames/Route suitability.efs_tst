@@ -1,0 +1,1957 @@
+<Frame
+ CycleDuration="Kernel.CycleDuration"
+ Name="Route suitability"
+ Guid="2064d644-0aa2-4ee7-b226-1cad2774a63b"
+>
+<SubSequences>
+<SubSequence
+ D_LRBG=""
+ Level=""
+ Mode=""
+ NID_LRBG=""
+ Q_DIRLRBG=""
+ Q_DIRTRAIN=""
+ Q_DLRBG=""
+ RBC_ID=""
+ RBCPhone=""
+ Name="Check for unsuitabilities"
+ Guid="ae582d00-3164-42be-a65d-9293ab89b396"
+>
+<TestCases>
+<TestCase
+ Implemented="TRUE"
+ Verified="TRUE"
+ Name="Check that unsuitability flags for each data type"
+ Guid="9d8a2a1a-fdf3-4b9f-b1d9-20188fa02227"
+>
+<ReqRef
+ Id="072f0acc-a45c-44b9-8efe-422c893a3dfd"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="48202bdb-f369-4c3f-903e-7df09cffa2c0"
+>
+</ReqRef><ReqRef
+ Id="636c0584-97a6-40a1-b98c-c6fb3a5d973f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="74419dbe-81b6-4b96-a082-ef56f5581ef0"
+>
+</ReqRef><ReqRef
+ Id="96afd3a3-f828-4c6e-a46d-9b0d96a7a22a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="df9bed6f-3132-4075-982c-33f1c86df087"
+>
+</ReqRef><ReqRef
+ Id="d89b3c91-52f0-4b3a-b8c5-a651c28e580d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d2a6362d-a235-40cf-bcdf-cf6f9d48533a"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step 1 - Initialize train data"
+ Guid="90d63062-5102-443d-8097-664ed245909b"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep 1 - Initialize test environment"
+ Guid="5598477a-6c68-4f98-b7a6-3ba9453ce565"
+>
+<Actions>
+<Action
+ Guid="e133f5c0-5e8a-443e-b277-0244b0d5c7e9"
+>Testing.InitializeTestEnvironment
+(
+    aTrainPosition =&gt; 100.0,
+    aMode =&gt; ModeEnum.FS
+)</Action><Action
+ Guid="ea916ee3-73cd-4b96-99de-100d21ecd3a7"
+>Testing.InitializeElementsForMA()</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step 2 - Setup for the BG"
+ Guid="84f95230-a464-4ee2-a32b-192336f1348d"
+>
+<Actions>
+<Action
+ Guid="305f1322-2269-4d9b-b834-9acaafa09a60"
+>BTM.LRBG &lt;- BTM.BaliseGroupStruct
+{
+    NID =&gt; 255,
+    Orientation =&gt; OrientationEnum.Nominal,
+    Position =&gt; BTM.Position
+    {
+        OverReadingAmountOdo =&gt; 2.0,
+        Position =&gt; 0.0,
+        UnderReadingAmountOdo =&gt; 2.0
+
+    }
+}</Action><Action
+ Guid="2b15a820-9a66-447f-970b-968844ce68c8"
+>BTM.PreviousBaliseGroups &lt;- []</Action><Action
+ Guid="dc249aaf-f113-4dfc-bb75-315b6e2c9ddb"
+>Odometry.NominalDistance &lt;- 0.0</Action><Action
+ Guid="a7ca5e3a-5697-4cea-b978-536d61c541de"
+>Kernel.MA.MA &lt;- Kernel.MA.MAStruct{
+    TargetSpeed =&gt; 0.0,
+    Sections =&gt; [],
+    EndSection =&gt; Kernel.MA.EndSectionStruct{
+        Length =&gt; 2000.0
+    }
+}</Action><Action
+ Guid="2bcf037a-a4cf-4f6b-94a7-d23dd91fcb36"
+>Kernel.TrainPosition.Position.DataState &lt;- DataStateEnum.Valid</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step 3 - Give the train some data"
+ Guid="98b20a29-94b2-4dcb-ac8c-6a9689be478d"
+>
+<Actions>
+<Action
+ Guid="87ce4717-0c73-4279-9609-29ca2f59c631"
+>Kernel.TrainData.TrainData.DataState &lt;- DataStateEnum.Valid</Action><Action
+ Guid="3aaf456d-edaa-4f48-b345-fb0b1db94915"
+>Kernel.TrainData.TrainData.Value.AxleLoadCategory &lt;- Messages.M_AXLELOADCAT.C3</Action><Action
+ Guid="7e5e7f85-d6db-4a29-b173-8dc81b7d21a0"
+>Kernel.TrainData.TrainData.Value.LoadingGauge &lt;- Messages.M_LOADINGGAUGE.GA</Action><Action
+ Guid="3ee62c26-5981-4b2c-89d0-bb83c9c7deee"
+>Kernel.TrainData.TrainData.Value.TractionSystems &lt;- 
+[
+    Kernel.TrainData.TractionSystem
+    {
+        Voltage =&gt; Messages.M_VOLTAGE.AC_25_kV_50_Hz,
+        Country =&gt; 80
+    }
+    ,
+    Kernel.TrainData.TractionSystem
+    {
+        Voltage =&gt; Messages.M_VOLTAGE.AC_15_kV_16_7_Hz,
+        Country =&gt; 80
+    }
+]</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step 4 - Set mode"
+ Guid="e58ff3fb-107c-4fe0-a5cc-b214439f4d24"
+>
+<Actions>
+<Action
+ Guid="7dc895b6-09f8-461d-8cfc-3782b47e905c"
+>Testing.SetOSMode(False)</Action><Action
+ Guid="88a4c24d-98d5-4990-bb07-aab8c362f785"
+>Kernel.Modes.ModeTransitions.PrevMode &lt;- ModeEnum.SB</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step 2 - Loading gauge limitation"
+ Guid="e353935e-2e05-4e24-979a-9c1ce4bd831f"
+>
+<Comment>The balise transmits a route suitability packet that the train stores</Comment>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep 1 - Receive the information from balise"
+ Guid="47035008-26b2-436c-8156-d5ae9f623f20"
+>
+<Actions>
+<Action
+ Guid="5d03feed-a1b7-484f-9fb1-4607ad39e390"
+>BTM.Message.SystemVersion2 &lt;- Messages.EUROBALISE.Message
+{
+    Q_UPDOWN =&gt; Messages.Q_UPDOWN.Up_link_telegram,
+    M_VERSION =&gt; 32,
+    Q_MEDIA =&gt; Messages.Q_MEDIA.Balise,
+    N_PIG =&gt; Messages.N_PIG._1C,
+    N_TOTAL =&gt; Messages.N_TOTAL._1_balise_in_groupC,
+    M_DUP =&gt; Messages.M_DUP.No_duplicates,
+    M_MCOUNT =&gt; 1,
+    NID_C =&gt; 80,
+    NID_BG =&gt; 256,
+    Q_LINK =&gt; Messages.Q_LINK.Unlinked,
+    Sequence1 =&gt; 
+     [
+        Messages.EUROBALISE.SubStructure1
+         {
+            TRACK_TO_TRAIN=&gt;Messages.PACKET.TRACK_TO_TRAIN.Message
+             {
+                ROUTE_SUITABILITY_DATA =&gt; Messages.PACKET.TRACK_TO_TRAIN.ROUTE_SUITABILITY_DATA.Message
+                 {
+                      NID_PACKET =&gt; 70,
+                      Q_DIR =&gt; Messages.Q_DIR.Both_directions,
+                      L_PACKET =&gt; 1,
+                      Q_SCALE =&gt; Messages.Q_SCALE._1_m_scaleC,
+                      Q_TRACKINIT =&gt; 0,
+
+                      D_SUITABILITY =&gt; 500,
+                      Q_SUITABILITY =&gt; Messages.Q_SUITABILITY.Loading_gauge_profile,
+                      M_LINEGAUGE =&gt; Messages.M_LINEGAUGE.GB,
+
+                      N_ITER =&gt; 0
+                 }
+             }
+         }
+     ]
+ }</Action><Action
+ Guid="2a99ceac-12db-479c-8b16-4186315ebed4"
+>BTM.LRBG &lt;- BTM.BaliseGroupStruct
+{
+    NID =&gt; 256,
+    Orientation =&gt; OrientationEnum.Nominal,
+    Position =&gt; BTM.Position
+    {
+        OverReadingAmountOdo =&gt; 2.0,
+        Position =&gt; 250.0,
+        UnderReadingAmountOdo =&gt; 2.0
+
+    }
+}</Action><Action
+ Guid="b7e1c3b5-d3da-4098-bad0-95b3d38feb34"
+>Odometry.NominalDistance &lt;- 250.0</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep 2 - Expectations _ incorrect loading gauge"
+ Guid="f126ee4d-ff56-49e2-9b61-441a9157aca0"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="e1c901e7-38c9-4207-aa37-889f322ed57e"
+>Kernel.TrackDescription.RouteSuitability.IsUnsuitable(LAST X IN Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.Items) == Boolean.True</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="1fe0f5b2-d2bc-494d-a4bb-afbb53f69cdc"
+>( LAST X IN Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.Items).Type == Messages.Q_SUITABILITY.Loading_gauge_profile</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="b8dd528c-bf69-46b0-aee9-57b01648c436"
+>(COUNT X IN Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.Items) == 1</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step 3 - Axle load category"
+ Guid="45cd46f6-f4fa-4d57-9d42-d8e3e2c964bd"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep 1 - Receive the information from a balise"
+ Guid="2c8ea325-9d76-4a8e-8ff9-fc6116699fe9"
+>
+<Actions>
+<Action
+ Guid="e5f761ff-39d7-4fa5-8384-8ba607d32e60"
+>BTM.Message.SystemVersion2 &lt;- Messages.EUROBALISE.Message
+{
+    Q_UPDOWN =&gt; Messages.Q_UPDOWN.Up_link_telegram,
+    M_VERSION =&gt; 32,
+    Q_MEDIA =&gt; Messages.Q_MEDIA.Balise,
+    N_PIG =&gt; Messages.N_PIG._1C,
+    N_TOTAL =&gt; Messages.N_TOTAL._1_balise_in_groupC,
+    M_DUP =&gt; Messages.M_DUP.No_duplicates,
+    M_MCOUNT =&gt; 1,
+    NID_C =&gt; 80,
+    NID_BG =&gt; 257,
+    Q_LINK =&gt; Messages.Q_LINK.Unlinked,
+    Sequence1 =&gt; 
+     [
+        Messages.EUROBALISE.SubStructure1
+         {
+            TRACK_TO_TRAIN=&gt;Messages.PACKET.TRACK_TO_TRAIN.Message
+             {
+                ROUTE_SUITABILITY_DATA =&gt; Messages.PACKET.TRACK_TO_TRAIN.ROUTE_SUITABILITY_DATA.Message
+                 {
+                      NID_PACKET =&gt; 70,
+                      Q_DIR =&gt; Messages.Q_DIR.Both_directions,
+                      L_PACKET =&gt; 1,
+                      Q_SCALE =&gt; Messages.Q_SCALE._1_m_scaleC,
+                      Q_TRACKINIT =&gt; 0,
+
+                      D_SUITABILITY =&gt; 500,
+                      Q_SUITABILITY =&gt; Messages.Q_SUITABILITY.Max_axle_load,
+                      M_AXLELOADCAT =&gt; Messages.M_AXLELOADCAT.B1,
+
+                      N_ITER =&gt; 0
+                 }
+             }
+         }
+     ]
+ }</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep 2 - Expectations _ incorrect axle load category"
+ Guid="5db6bbac-f46e-4329-b870-73151738e6ba"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="6dec155d-6039-4dbc-8940-027ccbd1df79"
+>Kernel.TrackDescription.RouteSuitability.IsUnsuitable ( LAST X IN Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.Items) == Boolean.True</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="98239d5f-b6a4-4e3c-a4c3-1ba9dd08c2e9"
+>( LAST X IN Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.Items).Type == Messages.Q_SUITABILITY.Max_axle_load</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="094f9f91-e39b-476d-8355-36a374ac46f6"
+>(COUNT X IN Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.Items) == 2</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step 4 - Traction system"
+ Guid="0fb5b751-e4e4-44b3-aa9c-cdd57c1dc122"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep 1 - Receive the information from a balise"
+ Guid="81640aa8-68f5-4d19-8ea0-c0ba2a88bdf6"
+>
+<Actions>
+<Action
+ Guid="78c91775-c97c-4936-a640-3b5e78b5da7e"
+>BTM.Message.SystemVersion2 &lt;- Messages.EUROBALISE.Message
+{
+    Q_UPDOWN =&gt; Messages.Q_UPDOWN.Up_link_telegram,
+    M_VERSION =&gt; 32,
+    Q_MEDIA =&gt; Messages.Q_MEDIA.Balise,
+    N_PIG =&gt; Messages.N_PIG._1C,
+    N_TOTAL =&gt; Messages.N_TOTAL._1_balise_in_groupC,
+    M_DUP =&gt; Messages.M_DUP.No_duplicates,
+    M_MCOUNT =&gt; 1,
+    NID_C =&gt; 80,
+    NID_BG =&gt; 258,
+    Q_LINK =&gt; Messages.Q_LINK.Unlinked,
+    Sequence1 =&gt; 
+     [
+        Messages.EUROBALISE.SubStructure1
+         {
+            TRACK_TO_TRAIN=&gt;Messages.PACKET.TRACK_TO_TRAIN.Message
+             {
+                ROUTE_SUITABILITY_DATA =&gt; Messages.PACKET.TRACK_TO_TRAIN.ROUTE_SUITABILITY_DATA.Message
+                 {
+                      NID_PACKET =&gt; 70,
+                      Q_DIR =&gt; Messages.Q_DIR.Both_directions,
+                      L_PACKET =&gt; 1,
+                      Q_SCALE =&gt; Messages.Q_SCALE._1_m_scaleC,
+                      Q_TRACKINIT =&gt; 0,
+
+                      D_SUITABILITY =&gt; 500,
+                      Q_SUITABILITY =&gt; Messages.Q_SUITABILITY.Traction_system,
+                      M_VOLTAGE =&gt; Messages.M_VOLTAGE.DC_1_5_kV,
+                      NID_CTRACTION =&gt; 80,
+
+                      N_ITER =&gt; 0
+                 }
+             }
+         }
+     ]
+ }</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep 2 - Expectations _ incorrect traction system"
+ Guid="9b06f21a-df06-40b0-8107-b1eabaf9ae90"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="a5f1d5ba-48ec-465c-b739-abe7f65cb3db"
+>Kernel.TrackDescription.RouteSuitability.IsUnsuitable ( LAST X IN Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.Items) == Boolean.True</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="fbaba285-4636-46bc-b1f7-36f24cc47ad3"
+>( LAST X IN Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.Items).Type == Messages.Q_SUITABILITY.Traction_system</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="e8ceb019-ba66-4c4b-b03f-6ec405eb9524"
+>( COUNT X IN Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.Items) == 3</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase></TestCases>
+</SubSequence><SubSequence
+ D_LRBG=""
+ Level=""
+ Mode=""
+ NID_LRBG=""
+ Q_DIRLRBG=""
+ Q_DIRTRAIN=""
+ Q_DLRBG=""
+ RBC_ID=""
+ RBCPhone=""
+ Name="EOA and SvL when there is unsuitability"
+ Guid="d3522343-efbf-4e69-b8fb-819b897b1bbc"
+>
+<TestCases>
+<TestCase
+ Implemented="TRUE"
+ Verified="TRUE"
+ Name="Unsuitability for upcoming track"
+ Guid="499a9a82-8fd1-4ae0-9338-78d58e6e375b"
+>
+<ReqRef
+ Id="beedf65d-aba6-4017-83dd-0fe57bc88e85"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c36b1be0-5ee5-49a0-99da-7283669c3fcc"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step 1 - Initialize train data"
+ Guid="2a0185b8-4874-4e77-a18f-760388b2c23a"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep 1 - Initialize test environment"
+ Guid="6f7c3060-a327-45be-8cbb-01ac27ac7872"
+>
+<Actions>
+<Action
+ Guid="a4e6e6b8-effa-4367-a651-06b7d80948fe"
+>Testing.InitializeTestEnvironment
+(
+    aTrainPosition =&gt; 100.0,
+    aMode =&gt; ModeEnum.SR
+)</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step 2 - Balise Group setup"
+ Guid="092959b1-39ea-4e07-b44f-a111932be729"
+>
+<Actions>
+<Action
+ Guid="4d3c9161-a94a-4e46-9049-dc15813314ed"
+>BTM.PreviousBaliseGroups &lt;- []</Action><Action
+ Guid="2e060564-cb52-4933-9704-e8d806049d73"
+>Odometry.NominalDistance &lt;- 100.0</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step 3 - Give the train some data"
+ Guid="20af7b53-bc06-41d3-a98a-9ac9bd3e9716"
+>
+<Actions>
+<Action
+ Guid="cff7c100-3d03-4b57-9958-6da33d55410b"
+>Kernel.TrainData.TrainData.Value.TractionSystems &lt;- 
+[
+    Kernel.TrainData.TractionSystem
+    {
+        Voltage =&gt; Messages.M_VOLTAGE.AC_25_kV_50_Hz,
+        Country =&gt; 85
+    }
+    ,
+    Kernel.TrainData.TractionSystem
+    {
+        Voltage =&gt; Messages.M_VOLTAGE.DC_3_kV,
+        Country =&gt; 85
+    }
+]</Action><Action
+ Guid="663a8233-0c68-4e0d-b5e6-25e08c1eb4de"
+>Testing.SetLSMode(False)</Action><Action
+ Guid="73f9498d-1fef-41b1-bc52-3551f92e8008"
+>Kernel.TrainData.TrainData.Value.AxleLoadCategory &lt;- Messages.M_AXLELOADCAT.C3</Action><Action
+ Guid="f5d7a1b6-09f5-4aca-bdf7-e41640d7a1b0"
+>Kernel.TrainData.TrainData.Value.LoadingGauge &lt;- Messages.M_LOADINGGAUGE.GA</Action><Action
+ Guid="b4137faa-681f-4c5c-ae67-3fd9860d05fb"
+>Kernel.TrainData.TrainData.DataState &lt;- DataStateEnum.Valid</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step 2 - Get the route suitability data from a balise"
+ Guid="6d858312-27e7-44bd-b32e-a4b88708ebde"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep 1 - Receive the data"
+ Guid="3caa7c50-1840-48af-97d9-08b7e44f60f5"
+>
+<Actions>
+<Action
+ Guid="6fb2c99b-b099-4d94-820a-a1a741d99b3f"
+>BTM.Message.SystemVersion2 &lt;- Messages.EUROBALISE.Message
+{
+    Q_UPDOWN =&gt; Messages.Q_UPDOWN.Up_link_telegram,
+    M_VERSION =&gt; 32,
+    Q_MEDIA =&gt; Messages.Q_MEDIA.Balise,
+    N_PIG =&gt; Messages.N_PIG._1C,
+    N_TOTAL =&gt; Messages.N_TOTAL._1_balise_in_groupC,
+    M_DUP =&gt; Messages.M_DUP.No_duplicates,
+    M_MCOUNT =&gt; 1,
+    NID_C =&gt; 85,
+    NID_BG =&gt; 258,
+    Q_LINK =&gt; Messages.Q_LINK.Unlinked,
+    Sequence1 =&gt; 
+     [
+        Messages.EUROBALISE.SubStructure1
+         {
+            TRACK_TO_TRAIN=&gt;Messages.PACKET.TRACK_TO_TRAIN.Message
+             {
+                ROUTE_SUITABILITY_DATA =&gt; Messages.PACKET.TRACK_TO_TRAIN.ROUTE_SUITABILITY_DATA.Message
+                 {
+                      NID_PACKET =&gt; 70,
+                      Q_DIR =&gt; Messages.Q_DIR.Both_directions,
+                      L_PACKET =&gt; 1,
+                      Q_SCALE =&gt; Messages.Q_SCALE._1_m_scaleC,
+                      Q_TRACKINIT =&gt; 0,
+
+                      D_SUITABILITY =&gt; 700,
+                      Q_SUITABILITY =&gt; Messages.Q_SUITABILITY.Traction_system,
+                      M_VOLTAGE =&gt; Messages.M_VOLTAGE.DC_600_750_V,
+                      NID_CTRACTION =&gt; 85,
+
+                      N_ITER =&gt; 2,
+                      Sequence1 =&gt; [
+                          Messages.PACKET.TRACK_TO_TRAIN.ROUTE_SUITABILITY_DATA.SubStructure1
+                           {
+                              D_SUITABILITY =&gt; 400,
+                              Q_SUITABILITY =&gt; Messages.Q_SUITABILITY.Traction_system,
+                              M_VOLTAGE =&gt; Messages.M_VOLTAGE.AC_25_kV_50_Hz,
+                              NID_CTRACTION =&gt; 85
+                           }
+                          ,
+                          Messages.PACKET.TRACK_TO_TRAIN.ROUTE_SUITABILITY_DATA.SubStructure1
+                           {
+                              D_SUITABILITY =&gt; 1000,
+                              Q_SUITABILITY =&gt; Messages.Q_SUITABILITY.Max_axle_load,
+                              M_AXLELOADCAT =&gt; Messages.M_AXLELOADCAT.C2
+                           }
+                       ]
+                 }
+             }
+         }
+     ]
+ }</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step 2 - Check the unsuitabilities are recorded"
+ Guid="8c9de7ee-52cd-49f5-87cc-fd79b9104ce0"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="d46b4cf8-f81c-47b0-808b-dd4511c9768e"
+>(COUNT X IN Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.Items) == 3</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="f7636d79-0e59-4355-8907-8c16ba6833e8"
+>Kernel.TrackDescription.RouteSuitability.IsUnsuitable (FIRST X IN Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.Items) == Boolean.True</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="efee40e8-722e-4cc4-9620-b55ebb931fa0"
+>Kernel.TrackDescription.RouteSuitability.IsUnsuitable (LAST X IN Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.Items) == Boolean.True</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="338382e1-4efa-41f3-aae4-19a91ce443d8"
+>THERE_IS X IN Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.Items | Kernel.TrackDescription.RouteSuitability.IsUnsuitable( anItem=&gt; X ) == Boolean.False</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step 3 - Expectations"
+ Guid="1ff2f5a2-bb91-4e6d-97ef-fea078356949"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep 1 - The unsuitabilities are displayed on the DMI"
+ Guid="45b37b2a-8fe6-48ee-8ad1-8cc6545dc596"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="69ab5fff-1c92-45d9-a616-b89705074b74"
+>(COUNT X IN DMI.MasterDMI().Out_RouteUnsuitabilities.RouteUnsuitabilities) == 2</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="9829518d-bd36-4076-bc59-827e5e74f334"
+>DMI.MasterDMI().Out_RouteUnsuitabilities.OutputInformation.DisplayRequested == Boolean.True</Expectation></Expectations>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step 2 - Start of the closest unsuitability is considered EOA with no release speed"
+ Guid="18ea8222-0404-4066-a1c7-f8465f67e960"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="5285880e-7ea4-4f87-8aad-182dd1f1c14d"
+>Kernel.MA.EOA().Location != BaseTypes.Distance.Infinity</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="409876eb-d3bd-4264-b343-ef498fdd5ea4"
+>Kernel.MA.EOA().Location == 700.0</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="2a941fbf-19be-4cd3-b971-d86450092454"
+>Kernel.MA.EOA().Speed == 0.0</Expectation></Expectations>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step 3 - Start of the closest unsuitability is considered SvL"
+ Guid="0aea355d-7a0a-4976-8b7f-a699d719a8ca"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="1a65d5a1-0fef-40fe-8e7b-384ae032aaa5"
+>Kernel.MA.SvL().Location == 700.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase></TestCases>
+</SubSequence><SubSequence
+ D_LRBG=""
+ Level=""
+ Mode=""
+ NID_LRBG=""
+ Q_DIRLRBG=""
+ Q_DIRTRAIN=""
+ Q_DLRBG=""
+ RBC_ID=""
+ RBCPhone=""
+ Name="Handle route suitability data from a balise - All correct"
+ Guid="2de400e8-76dc-4bb1-888a-6f1ac62158d8"
+>
+<TestCases>
+<TestCase
+ Implemented="TRUE"
+ Verified="TRUE"
+ Name="Receive and store a route suitability message from a balise"
+ Guid="07a2596f-970e-4c2b-8ee8-3747a2a0c0ce"
+>
+<ReqRef
+ Id="3eae43ab-6f26-4908-9360-5a8ce0bec069"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="80668661-a2d8-4b86-896d-2436f42f5317"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step 1 - Initialize train data"
+ Guid="5ff6e63a-0856-472e-951f-753e4f7e7fc7"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep 1 - Initialize test environment"
+ Guid="78024ff6-7571-41b0-b8c2-40391d543185"
+>
+<Actions>
+<Action
+ Guid="7bd1c3e7-2578-4737-bc35-7bf501ee8089"
+>Testing.InitializeTestEnvironment
+(
+    aTrainPosition =&gt; 100.0,
+    aMode =&gt; ModeEnum.OS
+)</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step 3 - Setup for the BG"
+ Guid="b7fc74df-4aa7-47f0-8ab5-43cd83d7857e"
+>
+<Actions>
+<Action
+ Guid="f12bf86a-c22c-4e25-aea2-a43022dae57e"
+>BTM.LRBG &lt;- BTM.BaliseGroupStruct
+{
+    NID =&gt; 255,
+    Orientation =&gt; OrientationEnum.Nominal,
+    Position =&gt; BTM.Position
+    {
+        OverReadingAmountOdo =&gt; 2.0,
+        Position =&gt; 0.0,
+        UnderReadingAmountOdo =&gt; 2.0
+
+    }
+}</Action><Action
+ Guid="da854a71-291c-446c-bf14-78cd1f1c1eb5"
+>BTM.PreviousBaliseGroups &lt;- []</Action><Action
+ Guid="c52d0e63-7526-4e71-a8e0-641715e2cf29"
+>Odometry.NominalDistance &lt;- 0.0</Action><Action
+ Guid="eb190964-e518-4aeb-bae4-0c3b08a8f883"
+>Kernel.TrainPosition.Position.DataState &lt;- DataStateEnum.Valid</Action><Action
+ Guid="68694749-8398-4c95-9322-2a9b00a2c988"
+>Kernel.MA.MA &lt;- Kernel.MA.MAStruct{
+    TargetSpeed =&gt; 0.0,
+    EndSection =&gt; Kernel.MA.EndSectionStruct{
+        Length =&gt; 2000.0
+    },
+    TargetSpeedTimeOut =&gt; 0.0
+}</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step 4 - Set the train data"
+ Guid="f0647dbf-6179-479c-8cf4-151604f7a58b"
+>
+<Actions>
+<Action
+ Guid="4a8b4b3e-a45f-48ad-8df6-3a8862266f37"
+>Kernel.TrainData.TrainData.DataState &lt;- DataStateEnum.Valid</Action><Action
+ Guid="722323b2-b5ba-419c-a481-e6b98dac8c44"
+>Kernel.TrainData.TrainData.Value.AxleLoadCategory &lt;- Messages.M_AXLELOADCAT.D4</Action><Action
+ Guid="367c0892-ecdd-4210-b20a-afd00e09c83a"
+>Kernel.TrainData.TrainData.Value.LoadingGauge &lt;- Messages.M_LOADINGGAUGE.GB</Action><Action
+ Guid="8fd4a764-f3e7-4020-8ebd-8925a572d831"
+>Kernel.TrainData.TrainData.Value.TractionSystems &lt;- 
+[
+    Kernel.TrainData.TractionSystem
+    {
+        Voltage =&gt; Messages.M_VOLTAGE.AC_25_kV_50_Hz,
+        Country =&gt; 80
+    }
+    ,
+    Kernel.TrainData.TractionSystem
+    {
+        Voltage =&gt; Messages.M_VOLTAGE.DC_3_kV,
+        Country =&gt; 80
+    }
+]</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step 2 - Receive a message from the balise"
+ Guid="e7e0af1b-05c9-4981-b4e6-b8d366d1bb80"
+>
+<Comment>The balise transmits a route suitability packet that the train stores</Comment>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep 1 - The message gets sent"
+ Guid="9f468db7-a6d1-4d77-8b66-df4150604482"
+>
+<Actions>
+<Action
+ Guid="3d373245-3e5e-4372-a97c-ad10b6cf9cb4"
+>BTM.Message.SystemVersion2 &lt;- Messages.EUROBALISE.Message
+{
+    Q_UPDOWN =&gt; Messages.Q_UPDOWN.Up_link_telegram,
+    M_VERSION =&gt; 32,
+    Q_MEDIA =&gt; Messages.Q_MEDIA.Balise,
+    N_PIG =&gt; Messages.N_PIG._1C,
+    N_TOTAL =&gt; Messages.N_TOTAL._1_balise_in_groupC,
+    M_DUP =&gt; Messages.M_DUP.No_duplicates,
+    M_MCOUNT =&gt; 1,
+    NID_C =&gt; 80,
+    NID_BG =&gt; 256,
+    Q_LINK =&gt; Messages.Q_LINK.Unlinked,
+    Sequence1 =&gt; 
+    [
+        Messages.EUROBALISE.SubStructure1
+        {
+            TRACK_TO_TRAIN=&gt;Messages.PACKET.TRACK_TO_TRAIN.Message
+            {
+                ROUTE_SUITABILITY_DATA =&gt; Messages.PACKET.TRACK_TO_TRAIN.ROUTE_SUITABILITY_DATA.Message
+                {
+                      NID_PACKET =&gt; 70,
+                      Q_DIR =&gt; Messages.Q_DIR.Both_directions,
+                      L_PACKET =&gt; 1,
+                      Q_SCALE =&gt; Messages.Q_SCALE._1_m_scaleC,
+                      Q_TRACKINIT =&gt; 0,
+
+                      D_SUITABILITY =&gt; 500,
+                      Q_SUITABILITY =&gt; Messages.Q_SUITABILITY.Loading_gauge_profile,
+                      M_LINEGAUGE =&gt; Messages.M_LINEGAUGE.GB,
+
+                      N_ITER =&gt; 2,
+                      Sequence1 =&gt; [
+                        Messages.PACKET.TRACK_TO_TRAIN.ROUTE_SUITABILITY_DATA.SubStructure1{
+                            D_SUITABILITY =&gt; 1000,
+                            Q_SUITABILITY =&gt; Messages.Q_SUITABILITY.Max_axle_load,
+                            M_AXLELOADCAT =&gt; Messages.M_AXLELOADCAT.D4
+                        }
+                        ,
+                        Messages.PACKET.TRACK_TO_TRAIN.ROUTE_SUITABILITY_DATA.SubStructure1{
+                            D_SUITABILITY =&gt; 2000,
+                            Q_SUITABILITY =&gt; Messages.Q_SUITABILITY.Traction_system,
+                            M_VOLTAGE =&gt; Messages.M_VOLTAGE.AC_25_kV_50_Hz,
+                            NID_CTRACTION =&gt; 80
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}</Action><Action
+ Guid="399fb599-76dc-4a54-acf0-c76531a8f4ef"
+>Odometry.NominalDistance &lt;- 250.0</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step 3 - Expectations"
+ Guid="f8021b81-5ad6-4c9e-b585-55fcf07dd0a5"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep 1 - Check that the message was stored"
+ Guid="588059ac-d6a4-4526-ac64-b6f0b83d9f82"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="d8197f0c-ee80-46df-8db9-476c07187e57"
+>(LAST X IN Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.Items).NidCTraction == 80</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="b2be7619-db97-4931-bc20-c69af53c64c0"
+>(COUNT X IN Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.Items) == 3</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="0f08b536-83f1-4e8f-afc9-094f88eb7965"
+>(FIRST X IN Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.Items).Location == 500.0</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="e39e583b-87d0-476f-b422-a14c14ea85b0"
+>(FIRST X IN Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.Items).LineGauge == Messages.M_LINEGAUGE.GB</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="0ddeb3ea-caf9-4c79-a64b-3d649f712d85"
+>(FIRST X IN Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.Items).Type == Messages.Q_SUITABILITY.Loading_gauge_profile</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="c5fbed39-6356-4c0e-b7f3-8b4bfc80ccf8"
+>(LAST X IN Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.Items).Location == 2000.0</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="b6aaf730-08d6-4aca-9bde-2736151002b9"
+>(LAST X IN Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.Items).TractionSystem == Messages.M_VOLTAGE.AC_25_kV_50_Hz</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="4c03c706-5e86-437c-996a-a9c74e790cea"
+>(LAST X IN Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.Items).Type == Messages.Q_SUITABILITY.Traction_system</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="0c90100c-e33e-4236-b027-3dbd15f18f5b"
+>Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.InitialState == 0</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="b9b55801-26ed-4880-92bd-2ce0858c4896"
+>THERE_IS X IN Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.Items | (X.Location == 1000.0 AND X.Type ==  Messages.Q_SUITABILITY.Max_axle_load AND X.MaxAxleLoad == Messages.M_AXLELOADCAT.D4)</Expectation></Expectations>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step 2 - Check that inconsistencies are correctly identified"
+ Guid="4341c3e5-24fb-4fca-8782-70b44b8e7ce0"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="551d95c0-219d-4380-8fd2-6e5edc3dd475"
+>( FORALL X IN Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.Items | Kernel.TrackDescription.RouteSuitability.IsUnsuitable ( anItem=&gt; X ) == Boolean.False )</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase></TestCases>
+</SubSequence><SubSequence
+ D_LRBG=""
+ Level=""
+ Mode=""
+ NID_LRBG=""
+ Q_DIRLRBG=""
+ Q_DIRTRAIN=""
+ Q_DLRBG=""
+ RBC_ID=""
+ RBCPhone=""
+ Name="Handle route suitability from the RBC"
+ Guid="ae0d8fa7-50f7-412f-a423-197e37f0717c"
+>
+<TestCases>
+<TestCase
+ Implemented="TRUE"
+ Name="Receive and store a route suitability message from the RBC"
+ Guid="5a138290-8020-4f34-96bc-eab131fe5a2d"
+>
+<ReqRef
+ Id="3eae43ab-6f26-4908-9360-5a8ce0bec069"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a272213c-3a9f-4fdf-a5ce-95415a98dd9c"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step 1 - Initialize train data"
+ Guid="e6fecda5-f241-4e47-beac-1700c367444b"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep 1 - Initialize test environment"
+ Guid="921cacbd-3e22-4b59-a41b-a3839bf74692"
+>
+<Actions>
+<Action
+ Guid="882a70a3-530c-49fd-83fb-ac3c41115c89"
+>Testing.InitializeTestEnvironment
+(
+    aTrainPosition =&gt; 100.0,
+    aMode =&gt; ModeEnum.OS
+)</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step 2 - Setup"
+ Guid="25de3e75-cca1-4b0b-91a1-f2eead292cdf"
+>
+<Actions>
+<Action
+ Guid="53932b9f-14c8-402b-aeb6-cbeded3be5c2"
+>Odometry.NominalDistance &lt;- 250.0</Action><Action
+ Guid="61455775-3df5-4bdd-a7f3-b26122d6367b"
+>BTM.LRBG &lt;- BTM.BaliseGroupStruct
+{
+    NID =&gt; 256,
+    Orientation =&gt; OrientationEnum.Nominal,
+    Position =&gt; BTM.Position
+    {
+        OverReadingAmountOdo =&gt; 2.0,
+        Position =&gt; 250.0,
+        UnderReadingAmountOdo =&gt; 2.0
+
+    }
+}</Action><Action
+ Guid="a324e9b2-7632-4097-8894-e9aecc1be8d0"
+>Kernel.LevelTransition.LevelTransitionToProcess &lt;- Kernel.LevelTransition.LevelTransitionStruct
+{
+  AcknLength =&gt; 0.0,
+  TRLevel =&gt; LevelDataStruct
+  {
+    NTC =&gt; NID_NTC.NOT_APPLICABLE,
+    Value =&gt; LevelEnum.L2
+  }
+}</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step 3 - Start radio connection"
+ Guid="b1b911c1-96d3-48bf-8a50-ac706ce508b2"
+>
+<Actions>
+<Action
+ Guid="7d20c1d7-70a0-4e59-9dc6-0e6a66d18c06"
+>EURORADIO.CurrentRBCConnection().ContactData.DataState &lt;- DataStateEnum.Valid</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step 4 - Give the train some data"
+ Guid="811864bb-cbae-464b-8121-49f1f6002fd9"
+>
+<Actions>
+<Action
+ Guid="e4b13975-bd1c-4427-867d-89ad02c55add"
+>Kernel.TrainData.TrainData.Value.TractionSystems &lt;- 
+[
+    Kernel.TrainData.TractionSystem
+    {
+        Voltage =&gt; Messages.M_VOLTAGE.AC_25_kV_50_Hz,
+        Country =&gt; 80
+    }
+    ,
+    Kernel.TrainData.TractionSystem
+    {
+        Voltage =&gt; Messages.M_VOLTAGE.DC_3_kV,
+        Country =&gt; 80
+    }
+]</Action><Action
+ Guid="aeb5b994-c5ce-427b-ab7e-7887ffc94d36"
+>Kernel.TrainData.TrainData.Value.LoadingGauge &lt;- Messages.M_LOADINGGAUGE.GB</Action><Action
+ Guid="7cdad4cd-ff08-4d14-a1ab-be02dd044adb"
+>Kernel.TrainData.TrainData.Value.AxleLoadCategory &lt;- Messages.M_AXLELOADCAT.D4</Action><Action
+ Guid="d2f645ca-9f29-4a7c-a67c-537525a6ba59"
+>Kernel.TrainData.TrainData.DataState &lt;- DataStateEnum.Valid</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step 2 - Receive a message from the RBC"
+ Guid="bd16148e-fe85-47b7-bae4-e9d89adb796f"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep1"
+ Guid="36e5a7bf-0b47-471a-9ee0-34be77938eea"
+>
+<Actions>
+<Action
+ Guid="623c11c2-cec8-43ec-bc1b-debdcefffd26"
+>EURORADIO.CurrentRBCConnection().MessageIn &lt;- Messages.EURORADIO.MessageIn.Message
+{
+    SystemVersion2 =&gt; Messages.MESSAGE.TRACK_TO_TRAIN.Message
+ {
+    GENERAL_MESSAGE =&gt; Messages.MESSAGE.TRACK_TO_TRAIN.GENERAL_MESSAGE.Message
+     {
+        NID_MESSAGE =&gt; 24,
+        L_MESSAGE =&gt; 0,
+        T_TRAIN =&gt; 654643,
+        M_ACK =&gt; Messages.M_ACK.No_acknowledgement_required,
+        NID_LRBG =&gt; 256,
+
+        Sequence1 =&gt; [
+
+            Messages.MESSAGE.TRACK_TO_TRAIN.GENERAL_MESSAGE.SubStructure1{
+
+                ROUTE_SUITABILITY_DATA =&gt; Messages.PACKET.TRACK_TO_TRAIN.ROUTE_SUITABILITY_DATA.Message
+                 {
+                    NID_PACKET =&gt; 70,
+                    Q_DIR =&gt; Messages.Q_DIR.Nominal,
+                    L_PACKET =&gt; 1,
+                    Q_SCALE =&gt; Messages.Q_SCALE._1_m_scaleC,
+                    Q_TRACKINIT =&gt; 0,
+
+                    D_SUITABILITY =&gt; 500,
+                    Q_SUITABILITY =&gt; Messages.Q_SUITABILITY.Loading_gauge_profile,
+                    M_LINEGAUGE =&gt; Messages.M_LINEGAUGE.GB,
+
+                    N_ITER =&gt; 2,
+                    Sequence1 =&gt; [
+                      Messages.PACKET.TRACK_TO_TRAIN.ROUTE_SUITABILITY_DATA.SubStructure1{
+                          D_SUITABILITY =&gt; 1000,
+                          Q_SUITABILITY =&gt; Messages.Q_SUITABILITY.Max_axle_load,
+                          M_AXLELOADCAT =&gt; Messages.M_AXLELOADCAT.D4
+                       }
+                      ,
+                      Messages.PACKET.TRACK_TO_TRAIN.ROUTE_SUITABILITY_DATA.SubStructure1{
+                          D_SUITABILITY =&gt; 2000,
+                          Q_SUITABILITY =&gt; Messages.Q_SUITABILITY.Traction_system,
+                          M_VOLTAGE =&gt; Messages.M_VOLTAGE.AC_25_kV_50_Hz,
+                          NID_CTRACTION =&gt; 80
+                       }
+                     ]
+                 }
+             }
+         ]
+     }
+ },
+    SystemVersion1 =&gt; EMPTY,
+    Priority =&gt; Messages.EURORADIO.MessagePriorityEnum.Normal
+}</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step 3 - Expectations"
+ Guid="4b9c8519-5a82-4549-9283-86eedd5009a3"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep 1 - Check that the message was stored"
+ Guid="30be861f-ec90-42b4-b96c-5c10c1493c41"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="fac4c56e-b236-4d10-b5c5-73b8aec206f3"
+>(LAST X IN Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.Items).NidCTraction == 80</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="29b7ba20-867c-4c40-b525-05b1012a67a3"
+>(COUNT X IN Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.Items) == 3</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="fceae6ba-e38c-49b9-9ac7-082b0d6b07c8"
+>(FIRST X IN Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.Items).Location == 500.0</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="7ab8319c-55cb-412b-b544-4bf767b80f8b"
+>(FIRST X IN Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.Items).LineGauge == Messages.M_LINEGAUGE.GB</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="28ecefba-f238-48ee-b5b5-f368ffeb5ec2"
+>(FIRST X IN Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.Items).Type == Messages.Q_SUITABILITY.Loading_gauge_profile</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="2f2814e1-8e85-4cb3-ae1a-0efca86b2127"
+>(LAST X IN Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.Items).Location == 2000.0</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="269c68bc-b651-4115-a295-592f591cd628"
+>(LAST X IN Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.Items).TractionSystem == Messages.M_VOLTAGE.AC_25_kV_50_Hz</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="abd61f75-d524-4227-a846-702a18927abc"
+>(LAST X IN Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.Items).Type == Messages.Q_SUITABILITY.Traction_system</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="a89f1035-3d52-4f28-b67d-38cee43dc66f"
+>Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.InitialState == 0</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="cf41088a-7a1d-49dd-b869-df70923c86ef"
+>THERE_IS X IN Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.Items | (X.Location == 1000.0 AND X.Type ==  Messages.Q_SUITABILITY.Max_axle_load AND X.MaxAxleLoad == Messages.M_AXLELOADCAT.D4)</Expectation></Expectations>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step 2 - Check that inconsistencies are correctly identified"
+ Guid="49fd774d-f16e-4ba8-9523-77f6f6bddbd9"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="80aa9580-bbc9-46c2-99df-a7bba81ac078"
+>( FORALL X IN Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.Items | Kernel.TrackDescription.RouteSuitability.IsUnsuitable ( anItem=&gt; X ) == Boolean.False )</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase></TestCases>
+</SubSequence><SubSequence
+ D_LRBG=""
+ Level=""
+ Mode=""
+ NID_LRBG=""
+ Q_DIRLRBG=""
+ Q_DIRTRAIN=""
+ Q_DLRBG=""
+ RBC_ID=""
+ RBCPhone=""
+ Name="Routes are correctly flagged for axle load categories"
+ Guid="b3cce70b-fe4c-4f30-ae13-103b48883c0d"
+>
+<TestCases>
+<TestCase
+ Implemented="TRUE"
+ Verified="TRUE"
+ Name="Check that route suitability is correctly identified for axle load categories"
+ Guid="39274fc9-f3af-4ed4-8c23-1c717d2efd5b"
+>
+<ReqRef
+ Id="072f0acc-a45c-44b9-8efe-422c893a3dfd"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="fa92ae94-7cf4-4316-9497-7e1ad1839a65"
+>
+</ReqRef><ReqRef
+ Id="d89b3c91-52f0-4b3a-b8c5-a651c28e580d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="999abd54-adfa-4bb1-9ec5-2d96348ae5e9"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step 1 - Initialize train data"
+ Guid="1c4efe83-4bf2-4fa6-a4be-e86d1b5d03d8"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep 1 - Initialize test environment"
+ Guid="c8d0c413-1e3f-43dc-91c6-d668f11716ec"
+>
+<Actions>
+<Action
+ Guid="ac02120c-f92f-4c36-a9f3-fa5617c02fe7"
+>Testing.InitializeTestEnvironment
+(
+    aTrainPosition =&gt; 100.0,
+    aMode =&gt; ModeEnum.OS
+)</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step 2 - BG setup"
+ Guid="6358818b-33bd-4785-98de-932be500d446"
+>
+<Actions>
+<Action
+ Guid="1134eeeb-14ab-4aed-a508-614fadfe8e2f"
+>BTM.LRBG &lt;- BTM.BaliseGroupStruct{
+    Position =&gt; BTM.Position{
+        Position =&gt; 0.0,
+        UnderReadingAmountOdo =&gt; 2.0,
+        OverReadingAmountOdo =&gt; 2.0
+    },
+    NID =&gt; 255,
+    Orientation =&gt; OrientationEnum.Nominal
+}</Action><Action
+ Guid="174be167-0da3-4c8a-ad9a-b44ec1e3e0a3"
+>BTM.PreviousBaliseGroups &lt;- []</Action><Action
+ Guid="7406e63d-5f24-45be-a27e-037c5831b2ea"
+>Odometry.NominalDistance &lt;- 0.0</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step 3 - Set the train data"
+ Guid="d7c01eb5-0e9d-4417-a75c-6806e7c200c8"
+>
+<Actions>
+<Action
+ Guid="71f03a7b-ff8d-4ebf-a7bc-015004a6326a"
+>Kernel.TrainData.TrainData.Value.TractionSystems &lt;- 
+[
+    Kernel.TrainData.TractionSystem
+    {
+        Voltage =&gt; Messages.M_VOLTAGE.AC_25_kV_50_Hz,
+        Country =&gt; 80
+    }
+    ,
+    Kernel.TrainData.TractionSystem
+    {
+        Voltage =&gt; Messages.M_VOLTAGE.AC_15_kV_16_7_Hz,
+        Country =&gt; 80
+    }
+]</Action><Action
+ Guid="d5ff80a8-12d2-4b04-9ff4-455b37f8d143"
+>Kernel.TrainData.TrainData.Value.LoadingGauge &lt;- Messages.M_LOADINGGAUGE.GA</Action><Action
+ Guid="905ffffc-20cc-4180-abdb-4dca8e908575"
+>Kernel.TrainData.TrainData.Value.AxleLoadCategory &lt;- Messages.M_AXLELOADCAT.C3</Action><Action
+ Guid="9270577f-542b-430d-9189-443a2ec3e31e"
+>Kernel.TrainData.TrainData.DataState &lt;- DataStateEnum.Valid</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step 2 - Receive route suitability data with axle load category greater than train&apos;s"
+ Guid="a583f9e6-68b8-4ad5-9799-1f3298068ddf"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep 1 - Receive the route suitability data from a balise"
+ Guid="062fbd20-e612-4f95-b040-c6d4f2a3237f"
+>
+<Actions>
+<Action
+ Guid="44f63bd3-fe96-45bf-a348-54561e964f60"
+>BTM.Message.SystemVersion2 &lt;- Messages.EUROBALISE.Message
+{
+    Q_UPDOWN =&gt; Messages.Q_UPDOWN.Up_link_telegram,
+    M_VERSION =&gt; 32,
+    Q_MEDIA =&gt; Messages.Q_MEDIA.Balise,
+    N_PIG =&gt; Messages.N_PIG._1C,
+    N_TOTAL =&gt; Messages.N_TOTAL._1_balise_in_groupC,
+    M_DUP =&gt; Messages.M_DUP.No_duplicates,
+    M_MCOUNT =&gt; 1,
+    NID_C =&gt; 80,
+    NID_BG =&gt; 256,
+    Q_LINK =&gt; Messages.Q_LINK.Unlinked,
+    Sequence1 =&gt; [Messages.EUROBALISE.SubStructure1
+{
+    TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message
+    {
+        ROUTE_SUITABILITY_DATA =&gt; Messages.PACKET.TRACK_TO_TRAIN.ROUTE_SUITABILITY_DATA.Message
+        {
+            NID_PACKET =&gt; 70,
+            Q_DIR =&gt; Messages.Q_DIR.Both_directions,
+            L_PACKET =&gt; 1,
+            Q_SCALE =&gt; Messages.Q_SCALE._1_m_scaleC,
+            Q_TRACKINIT =&gt; 0,
+            D_SUITABILITY =&gt; 500,
+            Q_SUITABILITY =&gt; Messages.Q_SUITABILITY.Max_axle_load,
+            M_AXLELOADCAT =&gt; Messages.M_AXLELOADCAT.D2,
+            N_ITER =&gt; 0
+        }
+    }
+}]
+}</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step 2 - Expectations"
+ Guid="7a83c7bf-56c6-4225-9be5-08561bbc7086"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="6829f88c-aac1-4637-a2ff-5b57ae80739c"
+>Kernel.TrackDescription.RouteSuitability.IsUnsuitable ( LAST X IN Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.Items) == Boolean.False</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step 3 - Receive route suitability data with axle load category equal to train&apos;s"
+ Guid="bf46c795-9848-4602-879b-6ee7ac78e472"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step 1 - Receive the data from a balise"
+ Guid="10c2eae9-b6ac-4830-bb28-8cc18ac05ea4"
+>
+<Actions>
+<Action
+ Guid="82f27a1e-698d-4d67-849f-2ff4e76efe15"
+>BTM.Message.SystemVersion2 &lt;- Messages.EUROBALISE.Message
+{
+    Q_UPDOWN =&gt; Messages.Q_UPDOWN.Up_link_telegram,
+    M_VERSION =&gt; Messages.M_VERSION.Version_2_0__introduced_in_SRS_3_0_0,
+    Q_MEDIA =&gt; Messages.Q_MEDIA.Balise,
+    N_PIG =&gt; Messages.N_PIG._1C,
+    N_TOTAL =&gt; Messages.N_TOTAL._1_balise_in_groupC,
+    M_DUP =&gt; Messages.M_DUP.No_duplicates,
+    M_MCOUNT =&gt; 1,
+    NID_C =&gt; 80,
+    NID_BG =&gt; 257,
+    Q_LINK =&gt; Messages.Q_LINK.Unlinked,
+    Sequence1 =&gt; [Messages.EUROBALISE.SubStructure1
+{
+    TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message
+    {
+        ROUTE_SUITABILITY_DATA =&gt; Messages.PACKET.TRACK_TO_TRAIN.ROUTE_SUITABILITY_DATA.Message
+        {
+            NID_PACKET =&gt; 70,
+            Q_DIR =&gt; Messages.Q_DIR.Both_directions,
+            L_PACKET =&gt; 1,
+            Q_SCALE =&gt; Messages.Q_SCALE._1_m_scaleC,
+            Q_TRACKINIT =&gt; 0,
+            D_SUITABILITY =&gt; 500,
+            Q_SUITABILITY =&gt; Messages.Q_SUITABILITY.Max_axle_load,
+            M_AXLELOADCAT =&gt; Messages.M_AXLELOADCAT.C3,
+            N_ITER =&gt; 0
+        }
+    }
+}]
+}</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step 2 - Expectations"
+ Guid="e384ca70-ff44-463c-b7cb-88ed1ebae389"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="46487812-0ff9-499e-8cbf-7e26230c00a0"
+>Kernel.TrackDescription.RouteSuitability.IsUnsuitable ( LAST X IN Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.Items) == Boolean.False</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step 4 - Receive route suitability data with axle load category less than train&apos;s"
+ Guid="a99aebbe-17b8-4dbf-bd6d-e1d131f9fa03"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep 1 - Receive the data from a balise"
+ Guid="fd66a4b8-9de7-4837-a826-bc4d75d0792c"
+>
+<Actions>
+<Action
+ Guid="2fe23fb9-a4d6-4823-965b-47effad03da6"
+>BTM.Message.SystemVersion2 &lt;- Messages.EUROBALISE.Message
+{
+    Q_UPDOWN =&gt; Messages.Q_UPDOWN.Up_link_telegram,
+    M_VERSION =&gt; Messages.M_VERSION.Version_2_0__introduced_in_SRS_3_0_0,
+    Q_MEDIA =&gt; Messages.Q_MEDIA.Balise,
+    N_PIG =&gt; Messages.N_PIG._1C,
+    N_TOTAL =&gt; Messages.N_TOTAL._1_balise_in_groupC,
+    M_DUP =&gt; Messages.M_DUP.No_duplicates,
+    M_MCOUNT =&gt; 1,
+    NID_C =&gt; 80,
+    NID_BG =&gt; 258,
+    Q_LINK =&gt; Messages.Q_LINK.Unlinked,
+    Sequence1 =&gt; [Messages.EUROBALISE.SubStructure1
+{
+    TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message
+    {
+        ROUTE_SUITABILITY_DATA =&gt; Messages.PACKET.TRACK_TO_TRAIN.ROUTE_SUITABILITY_DATA.Message
+        {
+            NID_PACKET =&gt; 70,
+            Q_DIR =&gt; Messages.Q_DIR.Both_directions,
+            L_PACKET =&gt; 1,
+            Q_SCALE =&gt; Messages.Q_SCALE._1_m_scaleC,
+            Q_TRACKINIT =&gt; 0,
+            D_SUITABILITY =&gt; 500,
+            Q_SUITABILITY =&gt; Messages.Q_SUITABILITY.Max_axle_load,
+            M_AXLELOADCAT =&gt; Messages.M_AXLELOADCAT.A,
+            N_ITER =&gt; 0
+        }
+    }
+}]
+}</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step 2 - Expectations"
+ Guid="328919d6-1f90-475b-b8fd-18547090a5e6"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="20f8ed22-ce30-487a-b8f9-9f66a7a1f7ef"
+>Kernel.TrackDescription.RouteSuitability.IsUnsuitable ( LAST X IN Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.Items) == Boolean.True</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase></TestCases>
+</SubSequence><SubSequence
+ D_LRBG=""
+ Level=""
+ Mode=""
+ NID_LRBG=""
+ Q_DIRLRBG=""
+ Q_DIRTRAIN=""
+ Q_DLRBG=""
+ RBC_ID=""
+ RBCPhone=""
+ Name="Routes are correctly flagged for loading gauges"
+ Guid="39b4cfbd-f343-4a26-b663-d36379e5e43d"
+>
+<TestCases>
+<TestCase
+ Implemented="TRUE"
+ Verified="TRUE"
+ Name="Check that route suitability is correctly identified for loading gauges"
+ Guid="47850c3d-70bf-412c-b5aa-a35c6b25e36b"
+>
+<ReqRef
+ Id="636c0584-97a6-40a1-b98c-c6fb3a5d973f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b800cd6d-3420-4848-938d-717059403fe9"
+>
+</ReqRef><ReqRef
+ Id="072f0acc-a45c-44b9-8efe-422c893a3dfd"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="098030f2-721c-4c43-bdb0-89e2a6eeb9ce"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step 1 - Initialize train data"
+ Guid="bd046993-4711-4a48-ba4a-f917ff51b2a8"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep 1 - Intitialize test environment"
+ Guid="3299f464-fa7e-4f09-808d-572640753786"
+>
+<Actions>
+<Action
+ Guid="136c7225-175e-462a-a63a-cbd54224e3e2"
+>Testing.InitializeTestEnvironment
+(
+    aTrainPosition =&gt; 100.0,
+    aMode =&gt; ModeEnum.OS
+)</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step 2 - BG setup"
+ Guid="3ea0e2d6-4a23-4fb0-9e36-4986ee991b57"
+>
+<Actions>
+<Action
+ Guid="9620d730-ab38-4e28-af37-3c59c973d834"
+>BTM.LRBG &lt;- BTM.BaliseGroupStruct{
+    Position =&gt; BTM.Position{
+        Position =&gt; 0.0,
+        UnderReadingAmountOdo =&gt; 2.0,
+        OverReadingAmountOdo =&gt; 2.0
+    },
+    NID =&gt; 255,
+    Orientation =&gt; OrientationEnum.Nominal
+}</Action><Action
+ Guid="0f4eb182-db69-42e8-a6d3-4816e7a41410"
+>BTM.PreviousBaliseGroups &lt;- []</Action><Action
+ Guid="e795c3ea-2e2d-45a2-b3c0-2ae3dc050eeb"
+>Odometry.NominalDistance &lt;- 0.0</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step 3 - Set the train data"
+ Guid="494dda87-d9a0-456d-8aef-1affea3fca9c"
+>
+<Actions>
+<Action
+ Guid="333fe891-907f-4205-8f6a-78d645510e00"
+>Kernel.TrainData.TrainData.DataState &lt;- DataStateEnum.Valid</Action><Action
+ Guid="c45d08de-9d7b-41e5-b642-9829181a5acc"
+>Kernel.TrainData.TrainData.Value.AxleLoadCategory &lt;- Messages.M_AXLELOADCAT.C3</Action><Action
+ Guid="90eb17dd-eff2-436b-9c08-bdcd36921f26"
+>Kernel.TrainData.TrainData.Value.LoadingGauge &lt;- Messages.M_LOADINGGAUGE.GA</Action><Action
+ Guid="0407ce1a-0376-4201-b7a3-0a15ecb0ec3b"
+>Kernel.TrainData.TrainData.Value.TractionSystems &lt;- 
+[
+    Kernel.TrainData.TractionSystem
+    {
+        Voltage =&gt; Messages.M_VOLTAGE.AC_25_kV_50_Hz,
+        Country =&gt; 80
+    }
+    ,
+    Kernel.TrainData.TractionSystem
+    {
+        Voltage =&gt; Messages.M_VOLTAGE.DC_3_kV,
+        Country =&gt; 80
+    }
+]</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step 2 - Receive route suitability data containing a loading gauge that matches the train&apos;s"
+ Guid="0d53edb5-6272-4adf-987f-4cccb19d7640"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep 1 - Receive the route suitability data from a balise"
+ Guid="b1d0052b-c430-4f94-afbb-84ec438d63f8"
+>
+<Actions>
+<Action
+ Guid="24cbe0ff-a171-4070-8429-c1900bca10ef"
+>BTM.Message.SystemVersion2 &lt;- Messages.EUROBALISE.Message
+{
+    Q_UPDOWN =&gt; Messages.Q_UPDOWN.Up_link_telegram,
+    M_VERSION =&gt; Messages.M_VERSION.Version_2_0__introduced_in_SRS_3_0_0,
+    Q_MEDIA =&gt; Messages.Q_MEDIA.Balise,
+    N_PIG =&gt; Messages.N_PIG._1C,
+    N_TOTAL =&gt; Messages.N_TOTAL._1_balise_in_groupC,
+    M_DUP =&gt; Messages.M_DUP.No_duplicates,
+    M_MCOUNT =&gt; 1,
+    NID_C =&gt; 85,
+    NID_BG =&gt; 256,
+    Q_LINK =&gt; Messages.Q_LINK.Unlinked,
+    Sequence1 =&gt; [Messages.EUROBALISE.SubStructure1
+{
+    TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message
+    {
+        ROUTE_SUITABILITY_DATA =&gt; Messages.PACKET.TRACK_TO_TRAIN.ROUTE_SUITABILITY_DATA.Message
+        {
+            NID_PACKET =&gt; 70,
+            Q_DIR =&gt; Messages.Q_DIR.Both_directions,
+            L_PACKET =&gt; 1,
+            Q_SCALE =&gt; Messages.Q_SCALE._1_m_scaleC,
+            Q_TRACKINIT =&gt; 0,
+            D_SUITABILITY =&gt; 500,
+            Q_SUITABILITY =&gt; Messages.Q_SUITABILITY.Loading_gauge_profile,
+            M_LINEGAUGE =&gt; Messages.M_LINEGAUGE.G1,
+            N_ITER =&gt; 1,
+            Sequence1 =&gt; [Messages.PACKET.TRACK_TO_TRAIN.ROUTE_SUITABILITY_DATA.SubStructure1
+{
+    D_SUITABILITY =&gt; 500,
+    Q_SUITABILITY =&gt; Messages.Q_SUITABILITY.Loading_gauge_profile,
+    M_LINEGAUGE =&gt; Messages.M_LINEGAUGE.GA
+}]
+        }
+    }
+}]
+}</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step 2 - Expectations"
+ Guid="8ab909dd-8d90-4b1f-8be5-691414ed7b40"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="dbf613f2-518f-4b86-a062-805a42e729b7"
+>Kernel.TrackDescription.RouteSuitability.IsUnsuitable ( anItem =&gt; FIRST X IN Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.Items ) == Boolean.False</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="4f50f7ec-61e2-4695-842c-c6ffb76dd5cc"
+>Kernel.TrackDescription.RouteSuitability.IsUnsuitable ( anItem =&gt; LAST X IN Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.Items ) == Boolean.False</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step 3 - Receive route suitability data without a loading gauge matching the train&apos;s"
+ Guid="6a972e5a-1769-4a58-8261-e0a21c724b2c"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step 1 - Receive the route suitability data from a balise"
+ Guid="97f2ba5a-6f66-45aa-be1e-d16636f12f56"
+>
+<Actions>
+<Action
+ Guid="3c0505b3-6cce-4ece-bac7-642fb8b8cd58"
+>BTM.Message.SystemVersion2 &lt;- Messages.EUROBALISE.Message
+{
+    Q_UPDOWN =&gt; Messages.Q_UPDOWN.Up_link_telegram,
+    M_VERSION =&gt; Messages.M_VERSION.Version_2_0__introduced_in_SRS_3_0_0,
+    Q_MEDIA =&gt; Messages.Q_MEDIA.Balise,
+    N_PIG =&gt; Messages.N_PIG._1C,
+    N_TOTAL =&gt; Messages.N_TOTAL._1_balise_in_groupC,
+    M_DUP =&gt; Messages.M_DUP.No_duplicates,
+    M_MCOUNT =&gt; 1,
+    NID_C =&gt; 85,
+    NID_BG =&gt; 257,
+    Q_LINK =&gt; Messages.Q_LINK.Unlinked,
+    Sequence1 =&gt; [Messages.EUROBALISE.SubStructure1
+{
+    TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message
+    {
+        ROUTE_SUITABILITY_DATA =&gt; Messages.PACKET.TRACK_TO_TRAIN.ROUTE_SUITABILITY_DATA.Message
+        {
+            NID_PACKET =&gt; 70,
+            Q_DIR =&gt; Messages.Q_DIR.Both_directions,
+            L_PACKET =&gt; 1,
+            Q_SCALE =&gt; Messages.Q_SCALE._1_m_scaleC,
+            Q_TRACKINIT =&gt; 0,
+            D_SUITABILITY =&gt; 1000,
+            Q_SUITABILITY =&gt; Messages.Q_SUITABILITY.Loading_gauge_profile,
+            M_LINEGAUGE =&gt; Messages.M_LINEGAUGE.GB,
+            N_ITER =&gt; 1,
+            Sequence1 =&gt; [Messages.PACKET.TRACK_TO_TRAIN.ROUTE_SUITABILITY_DATA.SubStructure1
+{
+    D_SUITABILITY =&gt; 1000,
+    Q_SUITABILITY =&gt; Messages.Q_SUITABILITY.Loading_gauge_profile,
+    M_LINEGAUGE =&gt; Messages.M_LINEGAUGE.GC
+}]
+        }
+    }
+}]
+}</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step 2 - Expectations"
+ Guid="b944c1f0-e253-4695-83c9-36e266a88aa4"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="dab80ece-de48-4d47-a794-9356b401edd0"
+>Kernel.TrackDescription.RouteSuitability.IsUnsuitable ( anItem =&gt; FIRST X IN Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.Items ) == Boolean.True</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="682d2d85-0610-43b4-9219-e9c248df2caa"
+>Kernel.TrackDescription.RouteSuitability.IsUnsuitable ( anItem =&gt; LAST X IN Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.Items ) == Boolean.True</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase></TestCases>
+</SubSequence><SubSequence
+ D_LRBG=""
+ Level=""
+ Mode=""
+ NID_LRBG=""
+ Q_DIRLRBG=""
+ Q_DIRTRAIN=""
+ Q_DLRBG=""
+ RBC_ID=""
+ RBCPhone=""
+ Name="Routes are correctly flagged for traction systems"
+ Guid="b41b69a5-5fd0-457e-872d-1d9a9370a069"
+>
+<TestCases>
+<TestCase
+ Implemented="TRUE"
+ Verified="TRUE"
+ Name="Check that route suitability is correctly identified for traction systems"
+ Guid="8d6ccd4f-6330-45c1-87dd-b488c9a05907"
+>
+<ReqRef
+ Id="3eae43ab-6f26-4908-9360-5a8ce0bec069"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0e70c5dd-0fd7-4bcc-80ad-c22f117f48ae"
+>
+</ReqRef><ReqRef
+ Id="072f0acc-a45c-44b9-8efe-422c893a3dfd"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0e7aeadd-c651-4796-9933-502038de0044"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step 1 - Initialize train data"
+ Guid="ebd03d63-ab50-4d2f-9fab-a8b62068baf8"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep 1 - Initialize test environment"
+ Guid="0b15988d-b796-44e4-9159-b236d19912c4"
+>
+<Actions>
+<Action
+ Guid="1c32bb8b-6d09-4f59-92c0-4eb4c78c7d9b"
+>Testing.InitializeTestEnvironment
+(
+    aTrainPosition =&gt; 100.0,
+    aMode =&gt; ModeEnum.OS
+)</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step 2 - BG setup"
+ Guid="39c37cb5-f7df-4522-9d51-bb5169cd5c80"
+>
+<Actions>
+<Action
+ Guid="0a09021d-6b1d-4f6f-b7db-8bff77ab550e"
+>BTM.LRBG &lt;- BTM.BaliseGroupStruct{
+    Position =&gt; BTM.Position{
+        Position =&gt; 0.0,
+        UnderReadingAmountOdo =&gt; 2.0,
+        OverReadingAmountOdo =&gt; 2.0
+    },
+    NID =&gt; 255,
+    Orientation =&gt; OrientationEnum.Nominal
+}</Action><Action
+ Guid="2713bb78-2132-4e5b-9b35-3a869ad82086"
+>BTM.PreviousBaliseGroups &lt;- []</Action><Action
+ Guid="628726d0-d32d-4548-9379-623dc2d8b88f"
+>Odometry.NominalDistance &lt;- 0.0</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step 3 - Give the train some data"
+ Guid="1eeedcfb-6be1-4137-b840-cf118da41056"
+>
+<Actions>
+<Action
+ Guid="686215c7-c52b-4166-9885-ca719ff93889"
+>Kernel.TrainData.TrainData.DataState &lt;- DataStateEnum.Valid</Action><Action
+ Guid="57273a80-8d3d-4754-a3e8-8ad9167e4f9e"
+>Kernel.TrainData.TrainData.Value.AxleLoadCategory &lt;- Messages.M_AXLELOADCAT.C3</Action><Action
+ Guid="47f2f561-a43f-4c02-ac57-a67e12dd83bc"
+>Kernel.TrainData.TrainData.Value.LoadingGauge &lt;- Messages.M_LOADINGGAUGE.GA</Action><Action
+ Guid="cbdebaec-8eb2-4028-83bc-0089003ce284"
+>Kernel.TrainData.TrainData.Value.TractionSystems &lt;- 
+[
+    Kernel.TrainData.TractionSystem
+    {
+        Voltage =&gt; Messages.M_VOLTAGE.AC_25_kV_50_Hz,
+        Country =&gt; 85
+    }
+    ,
+    Kernel.TrainData.TractionSystem
+    {
+        Voltage =&gt; Messages.M_VOLTAGE.DC_3_kV,
+        Country =&gt; 85
+    }
+]</Action><Action
+ Guid="70a4be54-cfd8-4255-8bc1-375c4b9b20c0"
+>Kernel.TrackDescription.StaticSpeedProfile.SSP &lt;- 
+[
+  Kernel.TrackDescription.StaticSpeedProfile.StaticSpeedRestrictionStruct
+  {
+    Location =&gt; 0.0,
+    BasicSpeed =&gt; BaseTypes.Speed.MaxSpeed,
+    TrainLengthDelay =&gt; Messages.Q_FRONT.No_train_length_delay_on_validity_end_point_of_profile_element,
+    Categories =&gt; []
+  }
+]</Action><Action
+ Guid="9df9ef0e-6aa3-4517-93a2-b5510394bf41"
+>Kernel.TrackDescription.Gradient.Gradients &lt;-
+[
+Kernel.TrackDescription.Gradient.GradientStruct
+  {
+    Location =&gt; 0.0,
+    Gradient =&gt; 0.0
+  }
+]</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step 2 - Receive route suitability data with traction system train can use"
+ Guid="1da6e617-7238-491d-8383-76224b01b47d"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep 1 - Receive the route suitability data from a balise"
+ Guid="6469e1bc-0d9d-4cee-81b6-40b0f6b70921"
+>
+<Actions>
+<Action
+ Guid="52e0cc4e-a4bc-4044-ae7f-c0a868225e84"
+>BTM.Message.SystemVersion2 &lt;- Messages.EUROBALISE.Message
+{
+    Q_UPDOWN =&gt; Messages.Q_UPDOWN.Up_link_telegram,
+    M_VERSION =&gt; Messages.M_VERSION.Version_2_0__introduced_in_SRS_3_0_0,
+    Q_MEDIA =&gt; Messages.Q_MEDIA.Balise,
+    N_PIG =&gt; Messages.N_PIG._1C,
+    N_TOTAL =&gt; Messages.N_TOTAL._1_balise_in_groupC,
+    M_DUP =&gt; Messages.M_DUP.No_duplicates,
+    M_MCOUNT =&gt; 1,
+    NID_C =&gt; 85,
+    NID_BG =&gt; 256,
+    Q_LINK =&gt; Messages.Q_LINK.Unlinked,
+    Sequence1 =&gt; [Messages.EUROBALISE.SubStructure1
+{
+    TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message
+    {
+        ROUTE_SUITABILITY_DATA =&gt; Messages.PACKET.TRACK_TO_TRAIN.ROUTE_SUITABILITY_DATA.Message
+        {
+            NID_PACKET =&gt; 70,
+            Q_DIR =&gt; Messages.Q_DIR.Both_directions,
+            L_PACKET =&gt; 1,
+            Q_SCALE =&gt; Messages.Q_SCALE._1_m_scaleC,
+            Q_TRACKINIT =&gt; 0,
+            D_SUITABILITY =&gt; 500,
+            Q_SUITABILITY =&gt; Messages.Q_SUITABILITY.Traction_system,
+            M_VOLTAGE =&gt; Messages.M_VOLTAGE.AC_25_kV_50_Hz,
+            NID_CTRACTION =&gt; 85,
+            N_ITER =&gt; 0
+        }
+    }
+}]
+}</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step 2 - Expectations"
+ Guid="8b31097e-888d-477c-8a97-a0e51600db0d"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="f3e49d5b-980e-4e80-b730-7e2211e3263a"
+>Kernel.TrackDescription.RouteSuitability.IsUnsuitable ( LAST X IN Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.Items) == Boolean.False</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step 3 - Receive route suitability data with traction system train can&apos;t use"
+ Guid="94ca3667-48dd-4b56-b1bd-2a05f6070c6e"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep 1 - Receive route suitability data from a balise"
+ Guid="b7caea46-1465-46cd-a9f6-d6179c7e490e"
+>
+<Actions>
+<Action
+ Guid="ef4447a2-c007-4b00-b63c-26b84e3a3a3f"
+>BTM.Message.SystemVersion2 &lt;- Messages.EUROBALISE.Message
+{
+    Q_UPDOWN =&gt; Messages.Q_UPDOWN.Up_link_telegram,
+    M_VERSION =&gt; Messages.M_VERSION.Version_2_0__introduced_in_SRS_3_0_0,
+    Q_MEDIA =&gt; Messages.Q_MEDIA.Balise,
+    N_PIG =&gt; Messages.N_PIG._1C,
+    N_TOTAL =&gt; Messages.N_TOTAL._1_balise_in_groupC,
+    M_DUP =&gt; Messages.M_DUP.No_duplicates,
+    M_MCOUNT =&gt; 1,
+    NID_C =&gt; 85,
+    NID_BG =&gt; 256,
+    Q_LINK =&gt; Messages.Q_LINK.Unlinked,
+    Sequence1 =&gt; [Messages.EUROBALISE.SubStructure1
+{
+    TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message
+    {
+        ROUTE_SUITABILITY_DATA =&gt; Messages.PACKET.TRACK_TO_TRAIN.ROUTE_SUITABILITY_DATA.Message
+        {
+            NID_PACKET =&gt; 70,
+            Q_DIR =&gt; Messages.Q_DIR.Both_directions,
+            L_PACKET =&gt; 1,
+            Q_SCALE =&gt; Messages.Q_SCALE._1_m_scaleC,
+            Q_TRACKINIT =&gt; 0,
+            D_SUITABILITY =&gt; 500,
+            Q_SUITABILITY =&gt; Messages.Q_SUITABILITY.Traction_system,
+            M_VOLTAGE =&gt; Messages.M_VOLTAGE.DC_600_750_V,
+            NID_CTRACTION =&gt; 85,
+            N_ITER =&gt; 0
+        }
+    }
+}]
+}</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step 2 - Expectations"
+ Guid="36162196-5995-481d-872a-7f730171dae2"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="85320656-534e-4ca8-9fea-51236d78ef70"
+>Kernel.TrackDescription.RouteSuitability.IsUnsuitable ( LAST X IN Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.Items) == Boolean.True</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase></TestCases>
+</SubSequence></SubSequences>
+</Frame>

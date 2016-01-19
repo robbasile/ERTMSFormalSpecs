@@ -1,0 +1,1680 @@
+<Frame
+ CycleDuration="Kernel.CycleDuration"
+ Name="BTM"
+ Guid="5b372ec5-f0b3-436d-9307-65a14e7045b1"
+>
+<SubSequences>
+<SubSequence
+ D_LRBG=""
+ Level=""
+ Mode=""
+ NID_LRBG=""
+ Q_DIRLRBG=""
+ Q_DIRTRAIN=""
+ Q_DLRBG=""
+ RBC_ID=""
+ RBCPhone=""
+ Name="Balise reception"
+ Guid="1a6470b3-6523-497b-8a05-b8015a23de66"
+>
+<TestCases>
+<TestCase
+ Feature="0"
+ Case="0"
+ NeedsRequirement="FALSE"
+ Name="Initial configuration"
+ Guid="7835c324-b46d-4925-a268-1a5ca3483ef5"
+>
+<Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Setup"
+ Guid="16531070-a591-4596-b458-2bb870bc531a"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="4c965dec-2d18-43d9-b37f-f72544bfe165"
+>
+<Actions>
+<Action
+ Guid="27063b28-0bb7-43df-b0e5-fdd37bec8011"
+>Testing.InitializeTestEnvironment
+(
+    aTrainPosition =&gt; 100.0,
+    aMode =&gt; ModeEnum.SR
+)</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step2"
+ Guid="2ecd4a3e-d5c1-4b91-96f9-5d6726ba4dbc"
+>
+<Actions>
+<Action
+ Guid="43940f1a-e9cd-42cd-9351-7d776696e95d"
+>BTM.PreviousBaliseGroups &lt;- []</Action><Action
+ Guid="6afbfe83-f264-40bf-ac6a-b2eda0519956"
+>Odometry.Accuracy &lt;- Odometry.OdometerAccuracy
+{
+    D_ura =&gt; 0.0,
+    D_ora =&gt; 0.0,
+    V_ora =&gt; 0.0,
+    V_ura =&gt; 0.0
+}</Action><Action
+ Guid="25fa421f-5aa3-4b07-8288-7a8d5554a14e"
+>BTM.LRBG &lt;- EMPTY</Action></Actions>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ NeedsRequirement="FALSE"
+ Name="Reception of a single balise"
+ Guid="0450cf10-a321-4f19-93a7-8ffaf32bb83d"
+>
+<Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Single balise reception"
+ Guid="0e452b2c-78ef-486f-8bf6-76ed658bc6b7"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="7afa3c68-2afa-49ca-af38-357e9ee59611"
+>
+<Actions>
+<Action
+ Guid="2d0e462e-a590-4d02-b346-697e66a47a6f"
+>BTM.Message.SystemVersion2  &lt;- Messages.EUROBALISE.Message
+{
+    Q_UPDOWN =&gt; Messages.Q_UPDOWN.Up_link_telegram,
+    M_VERSION =&gt; 32,
+    Q_MEDIA =&gt; Messages.Q_MEDIA.Balise,
+    N_PIG =&gt; 0,
+    N_TOTAL =&gt; 0,
+    M_DUP =&gt; Messages.M_DUP.No_duplicates,
+    M_MCOUNT =&gt; 4,
+    NID_C =&gt; 140,
+    NID_BG =&gt; 2124,
+    Q_LINK =&gt; Messages.Q_LINK.Linked,
+    Sequence1 =&gt; 
+    [
+        
+    ]
+}</Action><Action
+ Guid="3af58f36-7ed9-4b18-a581-edc3a117a8e3"
+>Odometry.NominalDistance &lt;- 24510.0</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="34d0ae22-cdcb-441a-87c5-d6ecf1642bab"
+>BTM.LRBG.NID == 2124</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="1ca3ac69-9f50-4e9b-9247-96fd64e4dd5e"
+>BTM.LRBG.Position.Position == 24505.0</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="4bcabb29-01a1-4ca5-b1bd-2e849bf026a6"
+>BTM.PreviousBaliseGroups == []</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="9daf3be5-4cf7-40eb-91b7-c8fa60b154ec"
+>BTM.LRBG.Orientation == OrientationEnum.Unknown</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ NeedsRequirement="FALSE"
+ Name="Reception of a balise group, nominal orientation"
+ Guid="eb730338-80d5-4d0d-bc75-a327221c8c9b"
+>
+<ReqRef
+ Id="fa52def8-80bf-416e-a115-e86bb26fb0ed"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="fca3ae45-b547-47ca-9e86-6157e13acb41"
+>
+</ReqRef><ReqRef
+ Id="5a70895f-ceeb-4c8f-9e52-f3de05ca5a83"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="2eeede72-1656-4a2d-9106-03848cdbf487"
+>
+</ReqRef><ReqRef
+ Id="d1944e18-a016-48f1-9817-9a6c415e92e4"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="8f730be7-d104-42b6-96a3-ae8c2ff51b7d"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Reception of the first balise of the balise group"
+ Guid="410d795b-9b03-40cd-af95-b4c7af8fd551"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="f19548c5-60e5-4b5b-b44e-95e9662d7fc3"
+>
+<Actions>
+<Action
+ Guid="0e610322-f645-4784-a933-fc8767f22174"
+>BTM.Message.SystemVersion2  &lt;- Messages.EUROBALISE.Message
+{
+    Q_UPDOWN=&gt; Messages.Q_UPDOWN.Up_link_telegram,
+    M_VERSION=&gt;32,
+    Q_MEDIA=&gt;Messages.Q_MEDIA.Balise,
+    N_PIG=&gt;0,
+    N_TOTAL=&gt;2,
+    M_DUP=&gt;Messages.M_DUP.No_duplicates,
+    M_MCOUNT=&gt;4,
+    NID_C=&gt;140,
+    NID_BG=&gt;2125,
+    Q_LINK=&gt;Messages.Q_LINK.Linked,
+    Sequence1=&gt; []
+}</Action><Action
+ Guid="e04f8f3e-12e8-4782-911d-99b3302ca18a"
+>Odometry.NominalDistance &lt;- 25620.0</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="f373516c-0c24-4f6e-9958-599d87cb333d"
+>BTM.LRBG.NID == 2124</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="8b1cf0c8-d46d-43bd-a82f-344bd16202b9"
+>BTM.LRBG.Position.Position == 24505.0</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="1b21f890-14a0-4544-b017-c3d13002f5f9"
+>BTM.PreviousBaliseGroups == 
+[
+  BTM.PreviousBaliseGroupStruct
+  {
+    IsLRBG =&gt; True,
+    IsSingle =&gt; True,
+    BaliseGroup =&gt; BTM.BaliseGroupStruct
+    {
+      Timestamp =&gt; AddToDate(
+              StartDate =&gt; Kernel.DateAndTime.StartDate,
+              Increment =&gt; 2.0 * Kernel.CycleDuration
+          ),
+      NID =&gt; 2124,
+      Orientation =&gt; OrientationEnum.Unknown,
+      Position =&gt; BTM.Position
+      {
+        OverReadingAmountOdo =&gt; 0.0,
+        Position =&gt; 24505.0,
+        UnderReadingAmountOdo =&gt; 0.0
+      }
+    }
+  }
+]</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step2 - Reception of the second balise of the balise group"
+ Guid="b4475a6d-792f-47c0-951e-e35cfe4ca382"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="c6426e83-b76c-4fe0-9ed0-fe689bed686f"
+>
+<Actions>
+<Action
+ Guid="f727939a-e973-4c6d-825e-6b41b9b16b40"
+>BTM.Message.SystemVersion2  &lt;- Messages.EUROBALISE.Message
+{
+    Q_UPDOWN=&gt; Messages.Q_UPDOWN.Up_link_telegram,
+    M_VERSION=&gt;32,
+    Q_MEDIA=&gt;Messages.Q_MEDIA.Balise,
+    N_PIG=&gt;1,
+    N_TOTAL=&gt;2,
+    M_DUP=&gt;Messages.M_DUP.No_duplicates,
+    M_MCOUNT=&gt;4,
+    NID_C=&gt;140,
+    NID_BG=&gt;2125,
+    Q_LINK=&gt;Messages.Q_LINK.Linked,
+    Sequence1=&gt; []
+}</Action><Action
+ Guid="f1161bcc-645c-4bc8-b05c-d252c065a7d3"
+>Odometry.NominalDistance &lt;- 25640.0</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="74ab5d1c-5446-4698-8379-6d905fe4f26b"
+>BTM.LRBG.NID == 2124</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step3 - Reception of the third balise of the balise group"
+ Guid="ebec7038-12ed-4096-b0b8-a824fa5a5ce7"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="c53201e8-ae27-412d-948e-b9d81ef25d1d"
+>
+<Actions>
+<Action
+ Guid="261ae929-d87f-454e-b5e6-a2ce098e830e"
+>BTM.Message.SystemVersion2  &lt;- Messages.EUROBALISE.Message
+{
+    Q_UPDOWN=&gt; Messages.Q_UPDOWN.Up_link_telegram,
+    M_VERSION=&gt;32,
+    Q_MEDIA=&gt;Messages.Q_MEDIA.Balise,
+    N_PIG=&gt;2,
+    N_TOTAL=&gt;2,
+    M_DUP=&gt;Messages.M_DUP.No_duplicates,
+    M_MCOUNT=&gt;4,
+    NID_C=&gt;140,
+    NID_BG=&gt;2125,
+    Q_LINK=&gt;Messages.Q_LINK.Linked,
+    Sequence1=&gt; []
+}</Action><Action
+ Guid="51aa591e-8f19-4958-9fc6-15d638819102"
+>Odometry.NominalDistance &lt;- 25700.0</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="3974992a-df70-45ea-b879-d7267a1553ac"
+>BTM.PreviousBaliseGroups == 
+[
+  BTM.PreviousBaliseGroupStruct
+  {
+    IsLRBG =&gt; True,
+    IsSingle =&gt; True,
+    BaliseGroup =&gt; BTM.BaliseGroupStruct
+    {
+      Timestamp =&gt; AddToDate(
+              StartDate =&gt; Kernel.DateAndTime.StartDate,
+              Increment =&gt; 2.0 * Kernel.CycleDuration
+          ),
+      NID =&gt; 2124,
+      Orientation =&gt; OrientationEnum.Unknown,
+      Position =&gt; BTM.Position
+      {
+        OverReadingAmountOdo =&gt; 0.0,
+        Position =&gt; 24505.0,
+        UnderReadingAmountOdo =&gt; 0.0
+      }
+    }
+  }
+]</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="c19fe6d4-2ae9-4ddf-a0b1-9e897172676b"
+>BTM.LRBG.NID == 2125</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="c3143b65-e4e1-477f-b34a-43564d528aff"
+>BTM.LRBG.Position.Position == 25615.0</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="d46cf54d-4687-4b80-a638-55af420a9766"
+>BTM.LRBG.Orientation == OrientationEnum.Nominal</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ NeedsRequirement="FALSE"
+ Name="Reception of a balise group, reverse orientation"
+ Guid="27ea3567-1f12-47cb-aaa0-5487a4bdedca"
+>
+<ReqRef
+ Id="fa52def8-80bf-416e-a115-e86bb26fb0ed"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0289f5b3-e951-471d-af77-eddac7b47886"
+>
+</ReqRef><ReqRef
+ Id="5a70895f-ceeb-4c8f-9e52-f3de05ca5a83"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="55435459-adc1-47d2-929f-42655ed8af56"
+>
+</ReqRef><ReqRef
+ Id="d1944e18-a016-48f1-9817-9a6c415e92e4"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="070e631a-7a7b-4f15-bd07-8574ef6c838e"
+>
+</ReqRef><ReqRef
+ Id="675394d7-4475-4a7f-9846-627ae90086d9"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="db879dc5-6f20-494a-80e9-1d300e95d483"
+>
+</ReqRef><ReqRef
+ Id="50574953-3247-4859-8de2-1049ab46e862"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="4d0d7293-2001-42eb-bd9c-94ee893b4938"
+>
+</ReqRef><ReqRef
+ Id="18834f9f-2f32-40fe-9d9a-97c8e2991f93"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ef95e02a-1731-49bc-8852-ab05e1f50c84"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Reception of the first balise of the balise group"
+ Guid="9699e77b-7559-40eb-9da0-59969f7986ba"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="257381f0-c5a4-4dd1-8ef7-1ba1f3d95126"
+>
+<Actions>
+<Action
+ Guid="ef31176f-836e-46fd-8d51-f9de38845099"
+>BTM.Message.SystemVersion2  &lt;- Messages.EUROBALISE.Message
+{
+    Q_UPDOWN=&gt; Messages.Q_UPDOWN.Up_link_telegram,
+    M_VERSION=&gt;32,
+    Q_MEDIA=&gt;Messages.Q_MEDIA.Balise,
+    N_PIG=&gt;2,
+    N_TOTAL=&gt;2,
+    M_DUP=&gt;Messages.M_DUP.No_duplicates,
+    M_MCOUNT=&gt;4,
+    NID_C=&gt;140,
+    NID_BG=&gt;2126,
+    Q_LINK=&gt;Messages.Q_LINK.Linked,
+    Sequence1=&gt; []
+}</Action><Action
+ Guid="6834b603-5559-400e-8dd1-79c78698b019"
+>Odometry.NominalDistance &lt;- 27530.0</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="18cdb046-f654-46ef-902f-d30b56aa2ce8"
+>BTM.LRBG.NID == 2125</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="f4a0fac2-617b-401a-8780-e6f292d377e9"
+>BTM.PreviousBaliseGroups == 
+[
+  BTM.PreviousBaliseGroupStruct
+  {
+    IsLRBG =&gt; True,
+    IsSingle =&gt; True,
+    BaliseGroup =&gt; BTM.BaliseGroupStruct
+    {
+      Timestamp =&gt; AddToDate(
+              StartDate =&gt; Kernel.DateAndTime.StartDate,
+              Increment =&gt; 2.0 * Kernel.CycleDuration
+          ),
+      NID =&gt; 2124,
+      Orientation =&gt; OrientationEnum.Unknown,
+      Position =&gt; BTM.Position
+      {
+        OverReadingAmountOdo =&gt; 0.0,
+        Position =&gt; 24505.0,
+        UnderReadingAmountOdo =&gt; 0.0
+      }
+    }
+  },
+  BTM.PreviousBaliseGroupStruct
+  {
+    IsLRBG =&gt; True,
+    IsSingle =&gt; False,
+    BaliseGroup =&gt; BTM.BaliseGroupStruct
+    {
+      Timestamp =&gt; AddToDate(
+              StartDate =&gt; Kernel.DateAndTime.StartDate,
+              Increment =&gt; 3.0 * Kernel.CycleDuration
+          ),
+      NID =&gt; 2125,
+      Orientation =&gt; OrientationEnum.Nominal,
+      Position =&gt; BTM.Position
+      {
+        OverReadingAmountOdo =&gt; 0.0,
+        Position =&gt; 25615.0,
+        UnderReadingAmountOdo =&gt; 0.0
+      }
+    }
+  }
+]</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="51a05657-bdf6-41d1-94d7-0d94719599ca"
+>BTM.LRBG.Position.Position == 25615.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step2 - Reception of the second balise of the balise group"
+ Guid="2b2d23e5-1d5e-4925-9b96-417a35a7ae23"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="37e33b34-ac78-412c-bb2e-c90177a29f50"
+>
+<Actions>
+<Action
+ Guid="18cc0d5b-e409-44e5-8d17-feb310a51305"
+>BTM.Message.SystemVersion2  &lt;- Messages.EUROBALISE.Message
+{
+    Q_UPDOWN=&gt; Messages.Q_UPDOWN.Up_link_telegram,
+    M_VERSION=&gt;32,
+    Q_MEDIA=&gt;Messages.Q_MEDIA.Balise,
+    N_PIG=&gt;1,
+    N_TOTAL=&gt;2,
+    M_DUP=&gt;Messages.M_DUP.No_duplicates,
+    M_MCOUNT=&gt;4,
+    NID_C=&gt;140,
+    NID_BG=&gt;2126,
+    Q_LINK=&gt;Messages.Q_LINK.Linked,
+    Sequence1=&gt; []
+}</Action><Action
+ Guid="21ddd6a7-1230-4267-8389-3cd4b2d5b967"
+>Odometry.NominalDistance &lt;- 27550.0</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="3bc1cd18-1d6e-4b08-a2d0-6eccde816cd1"
+>BTM.LRBG.NID == 2125</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step3 - Reception of the third balise of the balise group"
+ Guid="d78e8b3a-2b74-43e6-af37-c2af84a79d07"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="283a336a-569d-45d0-a8da-06fa1d30870d"
+>
+<Actions>
+<Action
+ Guid="f85dc298-50a7-47a4-8af9-f2dbc6097dc4"
+>BTM.Message.SystemVersion2  &lt;- Messages.EUROBALISE.Message
+{
+    Q_UPDOWN=&gt; Messages.Q_UPDOWN.Up_link_telegram,
+    M_VERSION=&gt;32,
+    Q_MEDIA=&gt;Messages.Q_MEDIA.Balise,
+    N_PIG=&gt;0,
+    N_TOTAL=&gt;2,
+    M_DUP=&gt;Messages.M_DUP.No_duplicates,
+    M_MCOUNT=&gt;4,
+    NID_C=&gt;140,
+    NID_BG=&gt;2126,
+    Q_LINK=&gt;Messages.Q_LINK.Linked,
+    Sequence1=&gt; []
+}</Action><Action
+ Guid="02040f3f-156b-426d-b34b-658c7ac61c00"
+>Odometry.NominalDistance &lt;- 27570.0</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="11b12127-cfc8-4ace-b8f3-7800fbd1a1d1"
+>BTM.PreviousBaliseGroups ==
+[
+  BTM.PreviousBaliseGroupStruct
+  {
+    IsLRBG =&gt; True,
+    IsSingle =&gt; True,
+    BaliseGroup =&gt; BTM.BaliseGroupStruct
+    {
+      Timestamp =&gt; AddToDate(
+              StartDate =&gt; Kernel.DateAndTime.StartDate,
+              Increment =&gt; 2.0 * Kernel.CycleDuration
+          ),
+      NID =&gt; 2124,
+      Orientation =&gt; OrientationEnum.Unknown,
+      Position =&gt; BTM.Position
+      {
+        OverReadingAmountOdo =&gt; 0.0,
+        Position =&gt; 24505.0,
+        UnderReadingAmountOdo =&gt; 0.0
+      }
+    }
+  },
+  BTM.PreviousBaliseGroupStruct
+  {
+    IsLRBG =&gt; True,
+    IsSingle =&gt; False,
+    BaliseGroup =&gt; BTM.BaliseGroupStruct
+    {
+      Timestamp =&gt; AddToDate(
+              StartDate =&gt; Kernel.DateAndTime.StartDate,
+              Increment =&gt; 3.0 * Kernel.CycleDuration
+          ),
+      NID =&gt; 2125,
+      Orientation =&gt; OrientationEnum.Nominal,
+      Position =&gt; BTM.Position
+      {
+        OverReadingAmountOdo =&gt; 0.0,
+        Position =&gt; 25615.0,
+        UnderReadingAmountOdo =&gt; 0.0
+      }
+    }
+  }
+]</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="e1b1fd20-c262-4949-a9bb-af63c57a6894"
+>BTM.LRBG.NID == 2126</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="39b29536-ca4c-40a2-97e0-818673b43001"
+>BTM.LRBG.Position.Position == 27565.0</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="4df8d3f3-d44d-434e-bc58-c42462ffc7c7"
+>BTM.LRBG.Orientation == OrientationEnum.Reverse</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase></TestCases>
+</SubSequence><SubSequence
+ D_LRBG=""
+ Level=""
+ Mode=""
+ NID_LRBG=""
+ Q_DIRLRBG=""
+ Q_DIRTRAIN=""
+ Q_DLRBG=""
+ RBC_ID=""
+ RBCPhone=""
+ Name="Balise reception, change in M_MCOUNT"
+ Guid="9c0fa902-7cc5-4db4-a89d-b20db4f27766"
+>
+<TestCases>
+<TestCase
+ Feature="0"
+ Case="0"
+ NeedsRequirement="FALSE"
+ Name="Initial configuration"
+ Guid="11ca446c-234d-4531-bfe2-689300500610"
+>
+<Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Setup"
+ Guid="fbb27f60-3c8f-4d58-b722-89ecdf373c84"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="12644425-c70d-45cc-95a6-4b8bf758df71"
+>
+<Actions>
+<Action
+ Guid="6f5accb4-6eb0-4b94-8375-a546328afa4b"
+>Testing.InitializeTestEnvironment
+(
+    aTrainPosition =&gt; 100.0,
+    aMode =&gt; ModeEnum.SR
+)</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step2"
+ Guid="d9055ab7-1f89-4ee6-bafd-75a1d3248838"
+>
+<Actions>
+<Action
+ Guid="7807144f-8f03-471b-a433-5dd90d3e9df8"
+>BTM.PreviousBaliseGroups &lt;- []</Action><Action
+ Guid="067498ad-b89c-479f-9ee5-49f51a5053f3"
+>BTM.LRBG &lt;- EMPTY</Action><Action
+ Guid="b460f7e0-8f3a-4219-a772-7a10a9e0df3e"
+>Odometry.EstimatedSpeed &lt;-42.0</Action></Actions>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ NeedsRequirement="FALSE"
+ Name="Reception of a balise group, where M_MCOUNT changes"
+ Guid="e575af7b-b830-4a2d-9c96-f71ed3938e86"
+>
+<Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Reception of the first balise of the balise group"
+ Guid="febb867b-bfb9-415a-ab0f-2d025b8f84d5"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="374989b2-411b-42cb-91fe-1fc1783abb6e"
+>
+<Actions>
+<Action
+ Guid="e00b79cc-6436-41e9-9860-df8dad054f6e"
+>BTM.Message.SystemVersion2  &lt;- Messages.EUROBALISE.Message
+{
+    Q_UPDOWN=&gt; Messages.Q_UPDOWN.Up_link_telegram,
+    M_VERSION=&gt;32,
+    Q_MEDIA=&gt;Messages.Q_MEDIA.Balise,
+    N_PIG=&gt;0,
+    N_TOTAL=&gt;2,
+    M_DUP=&gt;Messages.M_DUP.No_duplicates,
+    M_MCOUNT=&gt;4,
+    NID_C=&gt;140,
+    NID_BG=&gt;2125,
+    Q_LINK=&gt;Messages.Q_LINK.Linked,
+    Sequence1=&gt; []
+}</Action><Action
+ Guid="3723cf1a-e8ed-44b4-89d4-2a2adcad6686"
+>Odometry.NominalDistance &lt;- 25620.0</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step2 - Reception of the second balise of the balise group, change of M_MCOUNT"
+ Guid="70a69414-e719-4078-aae0-16b707ead0d0"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="4dd664f5-270b-4888-9164-97279e6e5883"
+>
+<Actions>
+<Action
+ Guid="2981cd85-b188-4a73-8244-96aa0023e0b5"
+>BTM.Message.SystemVersion2  &lt;- Messages.EUROBALISE.Message
+{
+    Q_UPDOWN=&gt; Messages.Q_UPDOWN.Up_link_telegram,
+    M_VERSION=&gt;32,
+    Q_MEDIA=&gt;Messages.Q_MEDIA.Balise,
+    N_PIG=&gt;1,
+    N_TOTAL=&gt;2,
+    M_DUP=&gt;Messages.M_DUP.No_duplicates,
+    M_MCOUNT=&gt;27,
+    NID_C=&gt;140,
+    NID_BG=&gt;2125,
+    Q_LINK=&gt;Messages.Q_LINK.Linked,
+    Sequence1=&gt; []
+}</Action><Action
+ Guid="be9f6ce1-6ef7-4988-8039-cac0c44f7ad8"
+>Odometry.NominalDistance &lt;- 25640.0</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step3 - Reception of the third balise of the balise group"
+ Guid="4aaa5313-78a4-43a6-9912-b1c7405c6600"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="40a0df6e-f263-419d-9908-9b0ad429574d"
+>
+<Actions>
+<Action
+ Guid="ea4b807c-20ee-49e3-bc13-df3283536cb1"
+>BTM.Message.SystemVersion2  &lt;- Messages.EUROBALISE.Message
+{
+    Q_UPDOWN=&gt; Messages.Q_UPDOWN.Up_link_telegram,
+    M_VERSION=&gt;32,
+    Q_MEDIA=&gt;Messages.Q_MEDIA.Balise,
+    N_PIG=&gt;2,
+    N_TOTAL=&gt;2,
+    M_DUP=&gt;Messages.M_DUP.No_duplicates,
+    M_MCOUNT=&gt;27,
+    NID_C=&gt;140,
+    NID_BG=&gt;2125,
+    Q_LINK=&gt;Messages.Q_LINK.Linked,
+    Sequence1=&gt; []
+}</Action><Action
+ Guid="03a4cb33-cded-4953-b14d-b2495ed88817"
+>Odometry.NominalDistance &lt;- 25700.0</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="589c878b-4876-4bf4-9384-6bd181195fc8"
+>BTM.PreviousBaliseGroups == []</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="54e80aaa-dc45-4611-a63d-b6ceff0b1f74"
+>NOT Available ( BTM.LRBG )</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase></TestCases>
+</SubSequence><SubSequence
+ D_LRBG=""
+ Level=""
+ Mode=""
+ NID_LRBG=""
+ Q_DIRLRBG=""
+ Q_DIRTRAIN=""
+ Q_DLRBG=""
+ RBC_ID=""
+ RBCPhone=""
+ Name="Balise reception, duplicate balise"
+ Guid="a5a98a60-aea2-4797-89da-1609a46abe90"
+>
+<TestCases>
+<TestCase
+ Feature="0"
+ Case="0"
+ NeedsRequirement="FALSE"
+ Name="Initial configuration"
+ Guid="38f2e273-7e2b-430f-b95a-6f88cde9d138"
+>
+<Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Setup"
+ Guid="95ed98ff-3c88-417e-be74-6f00badba7ff"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="8d92caad-b65d-4e18-ac8e-35b8d6d99a8d"
+>
+<Actions>
+<Action
+ Guid="6e475486-df27-4ab3-adc8-cf1f6f063861"
+>Testing.InitializeTestEnvironment
+(
+    aTrainPosition =&gt; 100.0,
+    aMode =&gt; ModeEnum.SR
+)</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step2"
+ Guid="6085ebfe-945e-4b72-b56e-63f42eb01d3b"
+>
+<Actions>
+<Action
+ Guid="a7005535-0efe-4c9a-acfa-03fe12bb4137"
+>BTM.PreviousBaliseGroups &lt;- []</Action><Action
+ Guid="f4615242-7803-4cc3-b444-c1169039879f"
+>Odometry.Accuracy &lt;- Odometry.OdometerAccuracy
+{
+    D_ura =&gt; 0.0,
+    D_ora =&gt; 0.0,
+    V_ora =&gt; 0.0,
+    V_ura =&gt; 0.0
+}</Action><Action
+ Guid="902f6fe9-87b4-4f05-bc7d-30060b72cc3a"
+>BTM.LRBG &lt;- EMPTY</Action></Actions>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ NeedsRequirement="FALSE"
+ Name="Reception of a duplicate message in the balise group"
+ Guid="0a56b531-24da-400d-9723-07ab0ffa7146"
+>
+<Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Reception of the first balise of the balise group"
+ Guid="474cf5a4-cd54-4b51-b3c0-d2d157fc4384"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="240d4b0d-0b69-4e5f-8119-fd19722a033c"
+>
+<Actions>
+<Action
+ Guid="8be53b4d-ed53-49fb-bcc2-5af962b18ab0"
+>BTM.Message.SystemVersion2  &lt;- Messages.EUROBALISE.Message
+{
+    Q_UPDOWN=&gt; Messages.Q_UPDOWN.Up_link_telegram,
+    M_VERSION=&gt;32,
+    Q_MEDIA=&gt;Messages.Q_MEDIA.Balise,
+    N_PIG=&gt;0,
+    N_TOTAL=&gt;3,
+    M_DUP=&gt;Messages.M_DUP.No_duplicates,
+    M_MCOUNT=&gt;4,
+    NID_C=&gt;140,
+    NID_BG=&gt;2125,
+    Q_LINK=&gt;Messages.Q_LINK.Linked,
+    Sequence1=&gt; []
+}</Action><Action
+ Guid="c645cd42-0eb2-4d28-93e5-b3b03ce425cd"
+>Odometry.NominalDistance &lt;- 25620.0</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="1cf5d5f1-0ca5-4188-a97d-0318f4bdb876"
+>NOT Available ( BTM.LRBG )</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step2 - Reception of the second message, duplicate of the third"
+ Guid="59379570-fa91-4612-8ef6-c98e5f57ee0d"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="cf50e40b-36a1-477c-9a1b-c3c7aa84f7da"
+>
+<Actions>
+<Action
+ Guid="a47cb684-9982-4c59-91bf-ac814cc3cac9"
+>BTM.Message.SystemVersion2  &lt;- Messages.EUROBALISE.Message
+{
+    Q_UPDOWN=&gt; Messages.Q_UPDOWN.Up_link_telegram,
+    M_VERSION=&gt;32,
+    Q_MEDIA=&gt;Messages.Q_MEDIA.Balise,
+    N_PIG=&gt;1,
+    N_TOTAL=&gt;3,
+    M_DUP=&gt;Messages.M_DUP.This_balise_is_a_duplicate_of_the_next_balise__seen_in_the_nominal_direction_of_the_balise_group,
+    M_MCOUNT=&gt;4,
+    NID_C=&gt;140,
+    NID_BG=&gt;2125,
+    Q_LINK=&gt;Messages.Q_LINK.Linked,
+    Sequence1=&gt; []
+}</Action><Action
+ Guid="c66736ac-a517-4e5d-b4db-4e7a6a9b9683"
+>Odometry.NominalDistance &lt;- 25640.0</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step3 - Reception of the third message, duplicate message of the second"
+ Guid="323940ea-c8c2-423b-8e32-1dd66c258a5c"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="d293c6b9-11d3-4abf-aaa6-e56d43d15fc6"
+>
+<Actions>
+<Action
+ Guid="eaf239d7-60d3-429c-9557-84196f6320d2"
+>BTM.Message.SystemVersion2  &lt;- Messages.EUROBALISE.Message
+{
+    Q_UPDOWN=&gt; Messages.Q_UPDOWN.Up_link_telegram,
+    M_VERSION=&gt;32,
+    Q_MEDIA=&gt;Messages.Q_MEDIA.Balise,
+    N_PIG=&gt;2,
+    N_TOTAL=&gt;3,
+    M_DUP=&gt;Messages.M_DUP.This_balise_is_a_duplicate_of_the_previous_balise__seen_in_the_nominal_direction_of_the_balise_group,
+    M_MCOUNT=&gt;4,
+    NID_C=&gt;140,
+    NID_BG=&gt;2125,
+    Q_LINK=&gt;Messages.Q_LINK.Linked,
+    Sequence1=&gt; []
+}</Action><Action
+ Guid="85ffc9ca-5608-4b97-bf20-785ae7e47d36"
+>Odometry.NominalDistance &lt;- 25640.0</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="7317dc84-1cb4-4990-8d7d-dae77c44f763"
+>( COUNT X IN BTM.CurrentBaliseGroup ) == 2</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step4 - Reception of the fourth balise of the balise group"
+ Guid="3c5ad897-4749-4acf-bbd3-e55e2cc767fb"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="4f017984-0101-4378-8ea3-5271a3e989e9"
+>
+<Actions>
+<Action
+ Guid="e4833b30-336c-420c-adcc-82782da9a8d2"
+>BTM.Message.SystemVersion2  &lt;- Messages.EUROBALISE.Message
+{
+    Q_UPDOWN=&gt; Messages.Q_UPDOWN.Up_link_telegram,
+    M_VERSION=&gt;32,
+    Q_MEDIA=&gt;Messages.Q_MEDIA.Balise,
+    N_PIG=&gt;3,
+    N_TOTAL=&gt;3,
+    M_DUP=&gt;Messages.M_DUP.No_duplicates,
+    M_MCOUNT=&gt;4,
+    NID_C=&gt;140,
+    NID_BG=&gt;2125,
+    Q_LINK=&gt;Messages.Q_LINK.Linked,
+    Sequence1=&gt; []
+}</Action><Action
+ Guid="9fa77034-ffe9-4103-89a7-dcd78022276e"
+>Odometry.NominalDistance &lt;- 25700.0</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="a5bd4a0f-ee45-4988-a9a7-c5b535786dc4"
+>BTM.PreviousBaliseGroups == []</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="acb3d576-1f67-4807-a092-124734211c6d"
+>BTM.LRBG.NID == 2125</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="544f4cd5-4ab1-4399-be77-69f9a8903782"
+>BTM.LRBG.Position.Position == 25615.0</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="9f5d9607-20c1-469d-beec-a402516b818b"
+>BTM.LRBG.Orientation == OrientationEnum.Nominal</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="050763d4-c458-4ba4-8526-14011c6a2251"
+>( COUNT X IN BTM.CurrentBaliseGroup ) == 3</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase></TestCases>
+</SubSequence><SubSequence
+ D_LRBG=""
+ Level=""
+ Mode=""
+ NID_LRBG=""
+ Q_DIRLRBG=""
+ Q_DIRTRAIN=""
+ Q_DLRBG=""
+ RBC_ID=""
+ RBCPhone=""
+ Name="Balise reception, incomplete balise group received"
+ Guid="44aa3712-051d-481c-badb-925c18ecf83d"
+>
+<TestCases>
+<TestCase
+ Feature="0"
+ Case="0"
+ NeedsRequirement="FALSE"
+ Name="Initial configuration"
+ Guid="34443d02-8317-4ff0-972b-1b5aa06a2077"
+>
+<Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Setup"
+ Guid="f9446108-14cf-4ec3-82d6-bf2766966e75"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="aca629e9-f689-4c96-a0a7-9ec0bf1a95be"
+>
+<Actions>
+<Action
+ Guid="189e70b8-ac7d-4f21-89cc-ff451abebdaa"
+>Testing.InitializeTestEnvironment
+(
+    aTrainPosition =&gt; 100.0,
+    aMode =&gt; ModeEnum.SR
+)</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step2"
+ Guid="1d929cbb-ae5a-4ce1-86c1-c6e7aebd3192"
+>
+<Actions>
+<Action
+ Guid="3a746cf7-888a-4309-a179-3c8900f2b529"
+>BTM.PreviousBaliseGroups &lt;- []</Action><Action
+ Guid="08fa9d78-bd71-4609-b1da-aec34f4739fe"
+>Odometry.Accuracy &lt;- Odometry.OdometerAccuracy
+{
+    D_ura =&gt; 0.0,
+    D_ora =&gt; 0.0,
+    V_ora =&gt; 0.0,
+    V_ura =&gt; 0.0
+}</Action><Action
+ Guid="90336814-7f61-40b9-8899-96a5698541b5"
+>BTM.LRBG &lt;- EMPTY</Action></Actions>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ NeedsRequirement="FALSE"
+ Name="Reception of a incomplete balise group"
+ Guid="e5f154f7-7d55-4482-8cb3-ae7e36d34b47"
+>
+<Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Reception of the first balise of the balise group"
+ Guid="f143e137-3ec4-45f5-a962-ef3efbbf46af"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="4852436b-5fdf-4853-b277-f3988a203304"
+>
+<Actions>
+<Action
+ Guid="5b4f59a2-c717-48bc-81ec-183022470e51"
+>BTM.Message.SystemVersion2  &lt;- Messages.EUROBALISE.Message
+{
+    Q_UPDOWN=&gt; Messages.Q_UPDOWN.Up_link_telegram,
+    M_VERSION=&gt;32,
+    Q_MEDIA=&gt;Messages.Q_MEDIA.Balise,
+    N_PIG=&gt;0,
+    N_TOTAL=&gt;6,
+    M_DUP=&gt;Messages.M_DUP.No_duplicates,
+    M_MCOUNT=&gt;4,
+    NID_C=&gt;140,
+    NID_BG=&gt;2125,
+    Q_LINK=&gt;Messages.Q_LINK.Linked,
+    Sequence1=&gt; []
+}</Action><Action
+ Guid="06c99288-f806-40dc-8884-77f3247a3eb1"
+>Odometry.NominalDistance &lt;- 25620.0</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="266b2646-48f9-4766-8895-e79c06d364cd"
+>NOT Available ( BTM.LRBG )</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step2 - Reception of the second balise of the balise group"
+ Guid="dc725b07-60aa-4c93-a4d1-6d79eba2d328"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="0a6e7a28-59b3-4844-abdf-38431ab8f016"
+>
+<Actions>
+<Action
+ Guid="66464ee6-fc21-47b8-99d3-614919ada8aa"
+>BTM.Message.SystemVersion2  &lt;- Messages.EUROBALISE.Message
+{
+    Q_UPDOWN=&gt; Messages.Q_UPDOWN.Up_link_telegram,
+    M_VERSION=&gt;32,
+    Q_MEDIA=&gt;Messages.Q_MEDIA.Balise,
+    N_PIG=&gt;1,
+    N_TOTAL=&gt;6,
+    M_DUP=&gt;Messages.M_DUP.No_duplicates,
+    M_MCOUNT=&gt;4,
+    NID_C=&gt;140,
+    NID_BG=&gt;2125,
+    Q_LINK=&gt;Messages.Q_LINK.Linked,
+    Sequence1=&gt; []
+}</Action><Action
+ Guid="f9a23f1e-8988-4246-a78b-e032df44f69b"
+>Odometry.NominalDistance &lt;- 25640.0</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step4 - Reception of the third balise of the balise group"
+ Guid="fae312bc-1a74-467b-bc2e-39b91bddacf8"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="201c8256-45fe-4cb4-9b82-58f822554f96"
+>
+<Actions>
+<Action
+ Guid="fd8365c3-1193-4e6a-9d56-eaec7b8c61b7"
+>BTM.Message.SystemVersion2  &lt;- Messages.EUROBALISE.Message
+{
+    Q_UPDOWN=&gt; Messages.Q_UPDOWN.Up_link_telegram,
+    M_VERSION=&gt;32,
+    Q_MEDIA=&gt;Messages.Q_MEDIA.Balise,
+    N_PIG=&gt;2,
+    N_TOTAL=&gt;6,
+    M_DUP=&gt;Messages.M_DUP.No_duplicates,
+    M_MCOUNT=&gt;4,
+    NID_C=&gt;140,
+    NID_BG=&gt;2125,
+    Q_LINK=&gt;Messages.Q_LINK.Linked,
+    Sequence1=&gt; []
+}</Action><Action
+ Guid="f9d4ff72-a3c1-4d56-8c7a-0502fb89115c"
+>Odometry.NominalDistance &lt;- 25700.0</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="edeb343c-794a-44c0-a81d-1b7df604bae1"
+>BTM.PreviousBaliseGroups == []</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="4dc326f3-41ad-4b1b-b89a-9acaa18a9b5f"
+>NOT Available ( BTM.LRBG )</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="ef133b2d-1dd7-4724-b567-baa70bc16f74"
+>COUNT X IN BTM.CurrentBaliseGroup == 3</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ NeedsRequirement="FALSE"
+ Name="Reception of balise of another balise group"
+ Guid="043b2a3d-6d51-459b-b5de-dc728866269b"
+>
+<Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Reception of the first balise of the balise group"
+ Guid="10010dae-4e22-4bf2-859e-435315256194"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="5438d66b-9276-44be-afde-a30c61a295f3"
+>
+<Actions>
+<Action
+ Guid="afb298c4-ac03-46e6-85c5-da6d684c6ee9"
+>BTM.Message.SystemVersion2  &lt;- Messages.EUROBALISE.Message
+{
+    Q_UPDOWN=&gt; Messages.Q_UPDOWN.Up_link_telegram,
+    M_VERSION=&gt;32,
+    Q_MEDIA=&gt;Messages.Q_MEDIA.Balise,
+    N_PIG=&gt;0,
+    N_TOTAL=&gt;0,
+    M_DUP=&gt;Messages.M_DUP.No_duplicates,
+    M_MCOUNT=&gt;4,
+    NID_C=&gt;140,
+    NID_BG=&gt;3234,
+    Q_LINK=&gt;Messages.Q_LINK.Linked,
+    Sequence1=&gt; []
+}</Action><Action
+ Guid="b181dcd8-99ea-4f23-9873-595a03d7137f"
+>Odometry.NominalDistance &lt;- 25620.0</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="c86e2d07-003d-48f4-915c-f468e2f488c6"
+>NOT Available ( BTM.LRBG )</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="a90a5241-f3ef-4abc-a215-a6f2eff1951f"
+>( COUNT X IN BTM.CurrentBaliseGroup ) == 1</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase></TestCases>
+</SubSequence><SubSequence
+ D_LRBG=""
+ Level=""
+ Mode=""
+ NID_LRBG=""
+ Q_DIRLRBG=""
+ Q_DIRTRAIN=""
+ Q_DLRBG=""
+ RBC_ID=""
+ RBCPhone=""
+ Name="Balise reception, missed balises in current BG"
+ Guid="21f32b92-4911-48ed-8dde-caa62dd0254a"
+>
+<TestCases>
+<TestCase
+ Implemented="TRUE"
+ Name="Initial configuration"
+ Guid="ec459605-e0fe-4a3e-b1ef-54bbeffbaf1c"
+>
+<ReqRef
+ Id="bc35119f-f1da-40d4-b6f7-b73c9ba07d98"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="46283c8d-e949-43f6-9c36-d852def81cec"
+>
+</ReqRef><ReqRef
+ Id="bb8f4e12-123f-4746-81d4-bd86e68fad6b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c3c0e15e-26b7-422e-b40b-e0d93c61e5ba"
+>
+</ReqRef><ReqRef
+ Id="5c440e26-b092-4abd-8105-dca981501e3f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e6d007df-e344-4ab7-82d1-dfabfef59c0f"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Initialize test environment"
+ Guid="c3751bec-f27c-4c48-9330-042087e978fc"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="6075bfda-2337-4412-a842-fb973f9e6f84"
+>
+<Actions>
+<Action
+ Guid="4c100790-e6f0-46fa-ba69-2b7dd969943c"
+>Testing.InitializeTestEnvironment
+(
+    aTrainPosition =&gt; 100.0,
+    aMode =&gt; ModeEnum.SR
+)</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step2 - Set up the partially received BG"
+ Guid="6ba69804-6aeb-44b4-ae92-16b4d63d4d07"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="21fe3969-f405-441c-8104-eee60f212a93"
+>
+<Actions>
+<Action
+ Guid="c3298322-b036-4d1f-bb39-a305e97480d0"
+>BTM.CurrentBaliseGroup &lt;- 
+[
+    BTM.StoredBaliseStruct
+    {
+        Telegram =&gt; Messages.EUROBALISE.Message
+        {
+            Q_UPDOWN =&gt; Messages.Q_UPDOWN.Up_link_telegram,
+            M_VERSION =&gt; Messages.M_VERSION.Version_1_1__introduced_in_SRS_3_0_0,
+            Q_MEDIA =&gt; Messages.Q_MEDIA.Balise,
+            N_PIG =&gt; 0,
+            N_TOTAL =&gt; Messages.N_TOTAL._8_balises_in_groupC,
+            M_DUP =&gt; Messages.M_DUP.No_duplicates,
+            M_MCOUNT =&gt; Messages.M_MCOUNT.The_telegram_never_fits_any_message_of_the_group,
+            NID_C =&gt; 85,
+            NID_BG =&gt; 1234,
+            Q_LINK =&gt; Messages.Q_LINK.Unlinked,
+            Sequence1 =&gt; 
+            [
+                
+            ],
+            BitField =&gt; &apos;&apos;
+        },
+        Missed =&gt; Boolean.False
+    },
+BTM.StoredBaliseStruct
+    {
+        Telegram =&gt; Messages.EUROBALISE.Message
+        {
+            Q_UPDOWN =&gt; Messages.Q_UPDOWN.Up_link_telegram,
+            M_VERSION =&gt; Messages.M_VERSION.Version_1_1__introduced_in_SRS_3_0_0,
+            Q_MEDIA =&gt; Messages.Q_MEDIA.Balise,
+            N_PIG =&gt; 1,
+            N_TOTAL =&gt; Messages.N_TOTAL._8_balises_in_groupC,
+            M_DUP =&gt; Messages.M_DUP.No_duplicates,
+            M_MCOUNT =&gt; Messages.M_MCOUNT.The_telegram_never_fits_any_message_of_the_group,
+            NID_C =&gt; 85,
+            NID_BG =&gt; 1234,
+            Q_LINK =&gt; Messages.Q_LINK.Unlinked,
+            Sequence1 =&gt; 
+            [
+                
+            ],
+            BitField =&gt; &apos;&apos;
+        },
+        Missed =&gt; Boolean.False
+    }
+]</Action><Action
+ Guid="aae398d3-2cba-4838-8c3e-8dadb7d5e105"
+>BTM.PrevBalisePosition &lt;- Odometry.NominalDistance</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="05eddfe4-dde5-4170-a401-56ca81348a80"
+>(COUNT X IN BTM.CurrentBaliseGroup) == 2</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step3 - Receive a much later balise in the group"
+ Guid="0b81d8ce-56e0-4eb4-a764-847f8d8a7d60"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="a505ca77-5082-421e-95db-ab791c9d8adc"
+>
+<Actions>
+<Action
+ Guid="68661380-f9b3-45f7-9fcb-1eaf0a3263ed"
+>BTM.Message.SystemVersion2  &lt;- Messages.EUROBALISE.Message
+{
+    Q_UPDOWN =&gt; Messages.Q_UPDOWN.Up_link_telegram,
+    M_VERSION =&gt; Messages.M_VERSION.Version_1_1__introduced_in_SRS_3_0_0,
+    Q_MEDIA =&gt; Messages.Q_MEDIA.Balise,
+    N_PIG =&gt; 5,
+    N_TOTAL =&gt; Messages.N_TOTAL._8_balises_in_groupC,
+    M_DUP =&gt; Messages.M_DUP.No_duplicates,
+    M_MCOUNT =&gt; Messages.M_MCOUNT.The_telegram_never_fits_any_message_of_the_group,
+    NID_C =&gt; 85,
+    NID_BG =&gt; 1234,
+    Q_LINK =&gt; Messages.Q_LINK.Unlinked,
+    Sequence1 =&gt; 
+    [
+        
+    ],
+    BitField =&gt; &apos;&apos;
+}</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="8a48aab5-b5c5-49e7-a146-a3cbcd0356f6"
+>COUNT X IN BTM.CurrentBaliseGroup == 6</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="301a2ea0-837d-4546-9ecb-342ed33d6a4e"
+>(COUNT X IN BTM.CurrentBaliseGroup | X.Missed) == 3</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step4 - Miss the next balise, is added as virtual"
+ Guid="88dabec1-ae07-4d9f-9b51-01e9602f7b84"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="6634a744-f596-4fa4-95ae-b079056b3029"
+>
+<Actions>
+<Action
+ Guid="df665fe4-9362-4922-93a7-e2fb5259630d"
+>Odometry.NominalDistance &lt;- Odometry.NominalDistance + BTM.MaxDistBetweenBalises + 1.0</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="7a336339-9f5c-4d99-9e63-093a2b63cc95"
+>COUNT X IN BTM.CurrentBaliseGroup == 7</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="089ee130-68cc-40d8-a9bc-86ae45f361b5"
+>(COUNT X IN BTM.CurrentBaliseGroup | X.Missed) == 4</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase></TestCases>
+</SubSequence><SubSequence
+ D_LRBG=""
+ Level=""
+ Mode=""
+ NID_LRBG=""
+ Q_DIRLRBG=""
+ Q_DIRTRAIN=""
+ Q_DLRBG=""
+ RBC_ID=""
+ RBCPhone=""
+ Name="Duplicate balise missed, message accepted"
+ Guid="f999a54d-d665-4023-8740-227d71cbd3f4"
+>
+<TestCases>
+<TestCase
+ Name="Initial configuration"
+ Guid="c22db42f-a530-4623-b6eb-c1fe23d2da01"
+>
+<ReqRef
+ Id="0eeafa43-5aca-4a22-b601-8acb4a81c8cd"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="2fa1298b-2e4b-487a-be76-a90d19098b16"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Setup"
+ Guid="efa7c73b-c1d6-4c2f-9b31-cf0584fd6943"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1 - Initialize test environment"
+ Guid="dd655a8c-1968-4635-8b06-d088f3655cc5"
+>
+<Actions>
+<Action
+ Guid="f777f5ff-7ce6-49d6-a2e5-bdc5452e967a"
+>Testing.InitializeTestEnvironment
+(
+    aTrainPosition =&gt; 100.0,
+    aMode =&gt; ModeEnum.FS
+)</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step2 - Set linking"
+ Guid="5a68e61b-68d6-478d-85a6-3652e3ea8cd7"
+>
+<Actions>
+<Action
+ Guid="81e0c746-4f0c-4dea-8822-0a6c3cc43aff"
+>BTM.Linking.Linkings &lt;- [BTM.Linking.LinkingDataStruct{
+    LocationAccuracy =&gt; 10.0,
+    Orientation =&gt; OrientationEnum.Nominal,
+    Reaction =&gt; BTM.Linking.LinkingReaction.NoReaction,
+    Distance =&gt; 100.0,
+    BaliseGroupIdentifier =&gt; 1532
+}]</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step2 - Reception of the first balise"
+ Guid="becff723-e552-4684-bb7a-4815a66b6afd"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="10db4a4e-0c7f-4fca-88c0-27911c05e4a6"
+>
+<Actions>
+<Action
+ Guid="4f02eab6-6337-4451-ba9c-47a0169d1965"
+>BTM.Message.SystemVersion2  &lt;- Messages.EUROBALISE.Message
+{
+    Q_UPDOWN =&gt; Messages.Q_UPDOWN.Up_link_telegram,
+    M_VERSION =&gt; Messages.M_VERSION.Version_1_1__introduced_in_SRS_3_0_0,
+    Q_MEDIA =&gt; Messages.Q_MEDIA.Balise,
+    N_PIG =&gt; Messages.N_PIG._1C,
+    N_TOTAL =&gt; Messages.N_TOTAL._3_balises_in_groupC,
+    M_DUP =&gt; Messages.M_DUP.This_balise_is_a_duplicate_of_the_next_balise__seen_in_the_nominal_direction_of_the_balise_group,
+    M_MCOUNT =&gt; Messages.M_MCOUNT.The_telegram_fits_with_all_telegrams_of_the_same_balise_group,
+    NID_C =&gt; 85,
+    NID_BG =&gt; 1532,
+    Q_LINK =&gt; Messages.Q_LINK.Linked,
+    Sequence1 =&gt; 
+    [
+        Messages.EUROBALISE.SubStructure1
+        {
+            TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message
+            {
+                VIRTUAL_BALISE_COVER_ORDER =&gt; Messages.PACKET.TRACK_TO_TRAIN.VIRTUAL_BALISE_COVER_ORDER.Message
+                {
+                    NID_PACKET =&gt; 6,
+                    Q_DIR =&gt; Messages.Q_DIR.Nominal,
+                    L_PACKET =&gt; 0,
+                    Q_VBCO =&gt; Messages.Q_VBCO.Set_the_Virtual_Balise_cover,
+                    NID_VBCMK =&gt; 53,
+                    NID_C =&gt; 85,
+                    T_VBC =&gt; 6
+                }
+            }
+        }, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY
+    ],
+    BitField =&gt; &apos;&apos;
+}</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="e9820094-7f22-4afa-b765-dc0531f37e06"
+>COUNT X IN BTM.CurrentBaliseGroup == 1</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="fcf3e4a7-d053-4b1e-be93-8f92be9a6f77"
+>Kernel.VirtualBaliseCover.VirtualBaliseCovers.VBCs == []</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step3 - No reception of the second balise, messsage still handled"
+ Guid="270c0dd3-38ce-4d99-a75f-0f2f4c43ddf7"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="9c286725-7794-41b0-a11f-ce5679acb151"
+>
+<Actions>
+<Action
+ Guid="a219b5bc-66a0-448f-b16a-21bec9b010e9"
+>BTM.Message.SystemVersion2  &lt;- Messages.EUROBALISE.Message{
+    Q_UPDOWN =&gt; Messages.Q_UPDOWN.Up_link_telegram,
+    M_VERSION =&gt; Messages.M_VERSION.Version_1_1__introduced_in_SRS_3_0_0,
+    Q_MEDIA =&gt; Messages.Q_MEDIA.Balise,
+    N_PIG =&gt; Messages.N_PIG._3C,
+    N_TOTAL =&gt; Messages.N_TOTAL._3_balises_in_groupC,
+    M_DUP =&gt; Messages.M_DUP.No_duplicates,
+    M_MCOUNT =&gt; Messages.M_MCOUNT.The_telegram_fits_with_all_telegrams_of_the_same_balise_group,
+    NID_C =&gt; 85,
+    NID_BG =&gt; 1532,
+    Q_LINK =&gt; Messages.Q_LINK.Linked,
+    Sequence1 =&gt; [],
+    BitField =&gt; &apos;&apos;
+}</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="c1410cea-d6cf-40eb-ba20-dc71de1c9e8c"
+>THERE_IS X IN Kernel.VirtualBaliseCover.VirtualBaliseCovers.VBCs</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase></TestCases>
+</SubSequence></SubSequences>
+</Frame>

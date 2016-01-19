@@ -1,0 +1,2840 @@
+<Frame
+ CycleDuration="Kernel.CycleDuration"
+ Name="Mode Profile"
+ Guid="ecd23e23-74a4-4253-886c-662fd58ae43f"
+>
+<SubSequences>
+<SubSequence
+ D_LRBG=""
+ Level=""
+ Mode=""
+ NID_LRBG=""
+ Q_DIRLRBG=""
+ Q_DIRTRAIN=""
+ Q_DLRBG=""
+ RBC_ID=""
+ RBCPhone=""
+ Name="A previous list of balise groups for SH area shall be deleted or replaced by a new list"
+ Guid="79c51421-c76a-4d49-88dd-4d5a69994ae8"
+>
+<TestCases>
+<TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ Name="A previous list of balise groups for SH area shall be deleted or replaced by a new list"
+ Guid="9b0146ae-8024-4236-ad76-510cfe26898b"
+>
+<ReqRef
+ Id="e543ef61-ec28-453c-9012-2aea6278273d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="57d7f054-0045-4db6-ab84-6b8b0ac67445"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Setup"
+ Guid="5386fdaa-5d88-4a6a-909f-236cf8ab618e"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1 - Initialize test environment"
+ Guid="c3417991-1fa1-4b50-a148-86068c48b762"
+>
+<Actions>
+<Action
+ Guid="da8d5ea2-0f55-4dff-89c0-08902cdabefd"
+>Testing.InitializeTestEnvironment
+(
+    aTrainPosition =&gt; 100.0,
+    aMode =&gt; ModeEnum.FS
+)</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step2 - Initialize elements to receive MA"
+ Guid="ae90ab5e-aac6-455b-b9b3-4ac0a0f95a62"
+>
+<Actions>
+<Action
+ Guid="9e76a834-5e5f-40c8-9386-211efa715484"
+>Testing.InitializeElementsForMA()</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step2 - Mode SR + Level.L1"
+ Guid="bae952f1-6bad-4ea1-b6c3-4b1159c55f93"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="ed3cd89a-2b5c-4a2c-bb12-f6d6fe91dd58"
+>
+<Actions>
+<Action
+ Guid="c2ceb03f-6b94-43a7-86a8-a55adfcc0ca7"
+>Testing.SetSRMode(False)</Action><Action
+ Guid="eeccca6a-edc6-42b0-99ba-503b42f6ba5c"
+>Kernel.Modes.StaffResponsible.SRAuthorisation &lt;- Kernel.Modes.StaffResponsible.SRStruct{
+    Location =&gt; BaseTypes.Distance.Infinity,
+    BGs =&gt; [],
+    BGListReceived =&gt; False
+}</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step3 - BTM.Message ModeProfileSH + List for SH 2124"
+ Guid="f8404f07-89f6-4ae7-9f88-d73f89144b3a"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="f21a0eec-d355-4d20-a5d4-f09cfe376ccb"
+>
+<Actions>
+<Action
+ Guid="61696ae0-bae0-432a-8531-5dab958fd932"
+>BTM.Message.SystemVersion2 &lt;- Messages.EUROBALISE.Message
+{
+    Q_UPDOWN =&gt; Messages.Q_UPDOWN.Up_link_telegram,
+    M_VERSION =&gt; 32,
+    Q_MEDIA =&gt; Messages.Q_MEDIA.Balise,
+    N_PIG =&gt; 0,
+    N_TOTAL =&gt; 0,
+    M_DUP =&gt; Messages.M_DUP.No_duplicates,
+    M_MCOUNT =&gt; 4,
+    NID_C =&gt; 140,
+    NID_BG =&gt; 2020,
+    Q_LINK =&gt; Messages.Q_LINK.Unlinked,
+    Sequence1 =&gt; 
+    [
+        Messages.EUROBALISE.SubStructure1
+        {
+            TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message
+            {
+                LEVEL_1_MOVEMENT_AUTHORITY =&gt; Messages.PACKET.TRACK_TO_TRAIN.LEVEL_1_MOVEMENT_AUTHORITY.Message
+                {
+                    NID_PACKET =&gt; 12,
+                    Q_DIR =&gt; Messages.Q_DIR.Both_directions,
+                    L_PACKET =&gt; 400,
+                    Q_SCALE =&gt; Messages.Q_SCALE._1_m_scaleC,
+                    V_MAIN =&gt; 16,
+                    V_LOA =&gt; 8,
+                    T_LOA =&gt; 200,
+                    N_ITER =&gt; 0,
+                    Sequence1 =&gt; 
+                    [
+                        
+                    ],
+                    L_ENDSECTION =&gt; 10000,
+                    Q_SECTIONTIMER =&gt; Messages.Q_SECTIONTIMER.No_Section_Timer_information,
+                    T_SECTIONTIMER =&gt; 0,
+                    D_SECTIONTIMERSTOPLOC =&gt; 0,
+                    Q_ENDTIMER =&gt; Messages.Q_ENDTIMER.No_End_section_timer_information,
+                    T_ENDTIMER =&gt; 0,
+                    D_ENDTIMERSTARTLOC =&gt; 0,
+                    Q_DANGERPOINT =&gt; Messages.Q_DANGERPOINT.Danger_point_information_to_follow,
+                    D_DP =&gt; 12000,
+                    V_RELEASEDP =&gt; 5,
+                    Q_OVERLAP =&gt; Messages.Q_OVERLAP.No_overlap_information,
+                    D_STARTOL =&gt; 0,
+                    T_OL =&gt; 0,
+                    D_OL =&gt; 0,
+                    V_RELEASEOL =&gt; 0
+                }
+            }
+        }, Messages.EUROBALISE.SubStructure1
+        {
+            TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message
+            {
+                MODE_PROFILE =&gt; Messages.PACKET.TRACK_TO_TRAIN.MODE_PROFILE.Message
+                {
+                    NID_PACKET =&gt; 80,
+                    Q_DIR =&gt; Messages.Q_DIR.Both_directions,
+                    L_PACKET =&gt; 0,
+                    Q_SCALE =&gt; Messages.Q_SCALE._1_m_scaleC,
+                    D_MAMODE =&gt; 500,
+                    M_MAMODE =&gt; Messages.M_MAMODE.Shunting,
+                    V_MAMODE =&gt; 10,
+                    L_MAMODE =&gt; 100,
+                    L_ACKMAMODE =&gt; 500,
+                    Q_MAMODE =&gt; Messages.Q_MAMODE.as_both_the_EOA_and_SvL__instead_of_the_EOA_and_SvL_given_by_the_MA,
+                    N_ITER =&gt; 0,
+                    Sequence1 =&gt; 
+                    [
+                        
+                    ]
+                }
+            }
+        }, Messages.EUROBALISE.SubStructure1
+        {
+            TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message
+            {
+                LIST_OF_BALISES_FOR_SH_AREA =&gt; Messages.PACKET.TRACK_TO_TRAIN.LIST_OF_BALISES_FOR_SH_AREA.Message
+                {
+                    NID_PACKET =&gt; 49,
+                    Q_DIR =&gt; Messages.Q_DIR.Both_directions,
+                    L_PACKET =&gt; 8,
+                    N_ITER =&gt; 1,
+                    Sequence1 =&gt; 
+                    [
+                        Messages.PACKET.TRACK_TO_TRAIN.LIST_OF_BALISES_FOR_SH_AREA.SubStructure1
+                        {
+                            Q_NEWCOUNTRY =&gt; Messages.Q_NEWCOUNTRY.Same_country___railway_administration__no_NID_C_follows,
+                            NID_C =&gt; 140,
+                            NID_BG =&gt; 1212
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="7a2fd659-56ac-4f79-b4b0-5c29a74b53e9"
+>Kernel.Modes.Shunting.BaliseGroupsForShArea.BGs ==
+[Kernel.BaliseGroup
+{
+NewCountry =&gt; Boolean.False,
+NID_C =&gt; 140,
+NID_BG =&gt; 1212
+}
+]</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="08173977-757b-45f1-a48b-ca915a0fd599"
+>Kernel.Modes.Shunting.BaliseGroupsForShArea.ListReceived == True</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step4 - BTM.Message ModeProfile SH + List for SH 2125"
+ Guid="2b8dd10c-e756-43db-8346-7c2446cb0c79"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="b0309d4e-700a-4e15-8bb1-1275ccffa93f"
+>
+<Actions>
+<Action
+ Guid="66a66669-6d1f-41f7-91da-0162681e1a51"
+>BTM.Message.SystemVersion2 &lt;- Messages.EUROBALISE.Message
+{
+    Q_UPDOWN=&gt; Messages.Q_UPDOWN.Up_link_telegram,
+    M_VERSION=&gt;32,
+    Q_MEDIA=&gt;Messages.Q_MEDIA.Balise,
+    N_PIG=&gt;0,
+    N_TOTAL=&gt;0,
+    M_DUP=&gt;Messages.M_DUP.No_duplicates,
+    M_MCOUNT=&gt;4,
+    NID_C=&gt;140,
+    NID_BG=&gt;2125,
+    Q_LINK=&gt;Messages.Q_LINK.Unlinked,
+    Sequence1=&gt;
+    [ 
+       Messages.EUROBALISE.SubStructure1
+        {
+            TRACK_TO_TRAIN=&gt;Messages.PACKET.TRACK_TO_TRAIN.Message
+            {
+                MODE_PROFILE=&gt;Messages.PACKET.TRACK_TO_TRAIN.MODE_PROFILE.Message
+                {
+                   D_MAMODE=&gt;100,
+                   L_ACKMAMODE=&gt;400,
+                   L_MAMODE=&gt;200,
+                   L_PACKET=&gt;0,
+                   M_MAMODE=&gt;   Messages.M_MAMODE.Shunting,               
+                   N_ITER=&gt;0,
+                   NID_PACKET=&gt;80,
+                   Q_DIR=&gt; Messages.Q_DIR.Both_directions,
+                   Q_MAMODE=&gt; Messages.Q_MAMODE.as_both_the_EOA_and_SvL__instead_of_the_EOA_and_SvL_given_by_the_MA,
+                   Q_SCALE=&gt;Messages.Q_SCALE._1_m_scaleC,
+                   V_MAMODE=&gt;10,
+                   Sequence1=&gt;[] 
+               }
+          }
+      },
+       Messages.EUROBALISE.SubStructure1
+        {
+            TRACK_TO_TRAIN=&gt;Messages.PACKET.TRACK_TO_TRAIN.Message
+            {
+                 LEVEL_1_MOVEMENT_AUTHORITY=&gt;Messages.PACKET.TRACK_TO_TRAIN.LEVEL_1_MOVEMENT_AUTHORITY.Message
+                {
+                    NID_PACKET=&gt;12,
+                    Q_DIR=&gt;Messages.Q_DIR.Both_directions,
+                    L_PACKET=&gt;400,
+                    Q_SCALE=&gt;Messages.Q_SCALE._1_m_scaleC,
+                    V_MAIN=&gt;16,
+                    V_LOA=&gt;8,
+                    T_LOA=&gt;200,
+                    N_ITER=&gt;0,
+                    Sequence1=&gt;[],
+                    L_ENDSECTION=&gt;10000,
+                    Q_SECTIONTIMER=&gt;Messages.Q_SECTIONTIMER.No_Section_Timer_information,
+                    T_SECTIONTIMER=&gt;0,
+                    D_SECTIONTIMERSTOPLOC=&gt;0,
+                    Q_ENDTIMER=&gt;Messages.Q_ENDTIMER.No_End_section_timer_information,
+                    T_ENDTIMER=&gt;0,
+                    D_ENDTIMERSTARTLOC=&gt;0,
+                    Q_DANGERPOINT=&gt;Messages.Q_DANGERPOINT.Danger_point_information_to_follow,
+                    D_DP=&gt;12000,
+                    V_RELEASEDP=&gt;5,
+                    Q_OVERLAP=&gt;Messages.Q_OVERLAP.No_overlap_information,
+                    D_STARTOL=&gt;0,
+                    T_OL=&gt;0,
+                    D_OL=&gt;0,
+                    V_RELEASEOL=&gt;0
+                }
+            }
+         },
+           Messages.EUROBALISE.SubStructure1
+        {
+            TRACK_TO_TRAIN=&gt;Messages.PACKET.TRACK_TO_TRAIN.Message
+            {
+                               LIST_OF_BALISES_FOR_SH_AREA =&gt; Messages.PACKET.TRACK_TO_TRAIN.LIST_OF_BALISES_FOR_SH_AREA.Message
+                  {
+                      NID_PACKET =&gt; 49,
+                      Q_DIR =&gt; Messages.Q_DIR.Both_directions,
+                      L_PACKET =&gt; 10,
+                      N_ITER =&gt; 1,
+                      Sequence1 =&gt; 
+                              [
+                                 Messages.PACKET.TRACK_TO_TRAIN.LIST_OF_BALISES_FOR_SH_AREA.SubStructure1
+                                  {
+                                        NID_BG=&gt; 1313,
+                                        NID_C=&gt;140,
+                                        Q_NEWCOUNTRY=&gt;Messages.Q_NEWCOUNTRY.Same_country___railway_administration__no_NID_C_follows
+                                    }
+                              ]
+                   } 
+            }
+         }
+                ]
+}</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="245094cb-e085-40ae-8a12-2f71a9f29056"
+>Kernel.Modes.Shunting.BaliseGroupsForShArea.BGs ==
+[Kernel.BaliseGroup
+{
+NewCountry =&gt; Boolean.False,
+NID_C =&gt; 140,
+NID_BG =&gt; 1313
+}
+]</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="c49b15fe-7a7c-482b-9fab-b5dbcec023cf"
+>Kernel.Modes.Shunting.BaliseGroupsForShArea.ListReceived == True</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase></TestCases>
+</SubSequence><SubSequence
+ D_LRBG=""
+ Level=""
+ Mode=""
+ NID_LRBG=""
+ Q_DIRLRBG=""
+ Q_DIRTRAIN=""
+ Q_DLRBG=""
+ RBC_ID=""
+ RBCPhone=""
+ Name="Beginning/End of ModeProfile relates to Max/Min SafeFrontEnd"
+ Guid="e456aa15-0b46-42b8-a6b9-55c7c9f8d4d8"
+>
+<TestCases>
+<TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ Name="Beginning/End of ModeProfile relates to Max/Min SafeFrontEnd"
+ Guid="345a15e1-72cf-497e-a2bd-eb7f92c579d3"
+>
+<ReqRef
+ Id="3b16e285-2513-4123-a986-2b50cf27f60f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="2ca583d0-4ac9-4859-aa30-b48b35220371"
+>
+</ReqRef><ReqRef
+ Id="c3a0339b-08aa-4713-aace-4e545d160b65"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e5578f50-a91d-41da-82b7-017428aa63cb"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Setup"
+ Guid="d5a93ce3-09e1-4770-abbc-ef9a26cb462d"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1 - Initialize test environment"
+ Guid="74c6fa17-3711-4d0a-b304-df313a9731d0"
+>
+<Actions>
+<Action
+ Guid="a386d4bf-a98c-414d-9941-74a6e0279238"
+>Testing.InitializeTestEnvironment
+(
+    aTrainPosition =&gt; 100.0,
+    aMode =&gt; ModeEnum.FS
+)</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step2 - Initialize elements to receive MA"
+ Guid="c6b1d20e-93cf-4170-92f8-01f7543f51c6"
+>
+<Actions>
+<Action
+ Guid="4cede54b-e052-4e0c-9897-6af845ddbc4f"
+>Testing.InitializeElementsForMA()</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step2 - Level and PreviousMode received"
+ Guid="afc6636e-b3d1-46cc-a7ca-470be0ec776d"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="79270f11-a753-4ca7-aeb9-c9a1a1b61a1a"
+>
+<Actions>
+<Action
+ Guid="b83172f0-53c6-414d-bd5a-8fbbd46c6588"
+>Testing.SetSRMode(False)</Action><Action
+ Guid="2a0e029f-f30e-4388-aecc-cba76aed7216"
+>Odometry.Accuracy &lt;- Odometry.OdometerAccuracy{
+    D_ura =&gt; 12.0,
+    D_ora =&gt; 14.0,
+    V_ora =&gt; 0.0,
+    V_ura =&gt; 0.0
+}</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="f0cf036d-d691-4c93-8558-286fd10237c4"
+>Kernel.Mode == ModeEnum.SR</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step3 - LS ModeProfile and MA received"
+ Guid="2a31f5f2-acd2-428c-862f-0d6c244a071f"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="bf8b4127-4417-48a7-bc19-35d0d9449499"
+>
+<Actions>
+<Action
+ Guid="55bd8c19-ed35-4fb4-9e01-bc860219e290"
+>INSERT Kernel.MA.ModeProfile.ModeProfileStruct 
+{ 
+    Location=&gt;130.0,
+    Length=&gt;200.0,
+    Speed=&gt;100.0,
+    Mode=&gt;ModeEnum.ModeProfile.LS  
+}
+IN Kernel.MA.ModeProfile.Profile</Action><Action
+ Guid="222add84-b557-4aeb-afae-e51db78ff6af"
+>Kernel.MA.MA &lt;- Kernel.MA.MAStruct
+{
+    TargetSpeed =&gt; 0.0,
+    Sections =&gt; [],
+    EndSection =&gt;Kernel.MA.EndSectionStruct
+{
+        EndSectionTimeOut =&gt; Kernel.MA.MATimers.TimeOut
+       {
+            TimeOut =&gt; 5.0,
+            Distance =&gt; 1000.0
+        },
+        TimeOut =&gt; Kernel.MA.MATimers.TimeOut
+        {
+            TimeOut =&gt; 10.0,
+            Distance =&gt; 1000.0
+        },
+        Length =&gt; 1000.0,
+        DangerPoint =&gt; Kernel.MA.DangerPointStruct
+        {
+            Distance =&gt;10.0,
+            ReleaseSpeed =&gt; 0.0
+        },
+        Overlap =&gt; Kernel.MA.OverlapStruct
+      {
+            Distance =&gt; 0.0,
+            TimerDistance =&gt; 0.0,
+            ReleaseSpeed =&gt; 0.0,
+            TimeOut =&gt; 0.0
+        }
+    },
+    TargetSpeedTimeOut =&gt; 0.0
+}</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="0bb3ce4b-67b4-479b-89a3-4c2380b0a608"
+>Kernel.Mode == ModeEnum.SR</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="e7a0e9c8-f6b3-4772-a2ba-5f46f10867bb"
+>Kernel.TrainPosition.FrontEndPosition(
+    PointOfInterest=&gt;DistanceIntervalEnum.Min
+) == 75.0</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="6091f94d-9b15-40d7-93aa-52386da95411"
+>Kernel.TrainPosition.FrontEndPosition(
+    PointOfInterest=&gt;DistanceIntervalEnum.Max
+) == 122.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step4 - Max SafeFrontEnd Before LS ModeProfile"
+ Guid="230b94d6-e610-46d9-8fa6-9ffca4859c0b"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="4f365257-b148-486b-bf1e-c69fd4505a04"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="d277cb09-4094-4696-844b-40a0bf1a600d"
+>Kernel.Mode != ModeEnum.LS</Expectation><Expectation
+ Kind="Instantaneous"
+ Blocking="FALSE"
+ Guid="a1fae729-4a09-4242-a5f5-3daaed0ebafd"
+>Kernel.TrainPosition.FrontEndPosition(
+    PointOfInterest=&gt;DistanceIntervalEnum.Max
+) == 122.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step5 - Beginning of LS Mode Profile"
+ Guid="53fb2cb4-33b9-498d-b0c6-b343ad93d98f"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="54218b4b-c192-4e88-98bd-84b74ee3334b"
+>
+<Actions>
+<Action
+ Guid="1cfafc51-3e01-455d-af93-bde127d0ee9a"
+>Odometry.NominalDistance &lt;- 108.0</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="be755886-23b1-4718-b933-f2c36dea0052"
+>Kernel.Mode == ModeEnum.LS</Expectation><Expectation
+ Kind="Instantaneous"
+ Blocking="FALSE"
+ Guid="afd0558c-84a8-4d43-aca4-7e68797d5359"
+>Kernel.TrainPosition.FrontEndPosition(
+    PointOfInterest=&gt;DistanceIntervalEnum.Max
+) == 130.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step6 - Max SafeFrontEnd After LS ModeProfile"
+ Guid="eef49175-a42c-4a99-b18f-a75d15dd6387"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="1ab89d13-ab8f-4307-a873-8d47a31205e0"
+>
+<Actions>
+<Action
+ Guid="e9f59385-cd26-4a5c-95ed-838a7a741149"
+>Odometry.NominalDistance &lt;- 120.0</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="d51afe73-8bae-474c-8f7b-a88605d002ab"
+>Kernel.Mode == ModeEnum.LS</Expectation><Expectation
+ Kind="Instantaneous"
+ Blocking="FALSE"
+ Guid="e235c8fd-ce53-44ed-be10-f140b592c89f"
+>Kernel.TrainPosition.FrontEndPosition(
+    PointOfInterest=&gt;DistanceIntervalEnum.Max
+) == 142.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step7 - Min SafeFrontEnd Before Exit LSModeProfile"
+ Guid="3bb0dd9d-7911-4f35-b784-22947f737563"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="52cd95b4-74f5-4dee-9b9b-e01fb4e3879b"
+>
+<Actions>
+<Action
+ Guid="861404ae-e63f-4101-a1e9-c6c7d1c0e3b6"
+>Odometry.NominalDistance &lt;- 345.0</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="4d86c70d-2aea-4a5e-9de4-50e2bd5d256c"
+>Kernel.Mode == ModeEnum.LS</Expectation><Expectation
+ Kind="Instantaneous"
+ Blocking="FALSE"
+ Guid="5c250db5-2207-4ac1-8641-e40cf0014ff8"
+>Kernel.TrainPosition.FrontEndPosition(
+    PointOfInterest=&gt;DistanceIntervalEnum.Min
+) == 320.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step8 - Min SafeFrontEnd After Exit LS ModeProfile"
+ Guid="003c0bea-df92-4e02-9738-fc884cbae2ac"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="184aa61d-9f82-47e4-91ce-fcaebf41f3ea"
+>
+<Actions>
+<Action
+ Guid="f20aa08e-409a-4700-a2cc-8f47078b5fa2"
+>Odometry.NominalDistance &lt;- 356.0</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="e49677eb-e81e-4b31-af7a-7a48d8c042c2"
+>Kernel.Mode != ModeEnum.LS</Expectation><Expectation
+ Kind="Instantaneous"
+ Blocking="FALSE"
+ Guid="fa21f63c-5f66-48e4-9252-8911ce70912f"
+>Kernel.TrainPosition.FrontEndPosition(
+    PointOfInterest=&gt;DistanceIntervalEnum.Min
+) == 331.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase></TestCases>
+</SubSequence><SubSequence
+ D_LRBG=""
+ Level=""
+ Mode=""
+ NID_LRBG=""
+ Q_DIRLRBG=""
+ Q_DIRTRAIN=""
+ Q_DLRBG=""
+ RBC_ID=""
+ RBCPhone=""
+ Name="Mode Profile LS/OS defines Entry and Length of the Mode"
+ Guid="e810ec05-fa8d-4f03-af0c-bcb88161db5e"
+>
+<TestCases>
+<TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ Name="Mode Profile OS defines Entry and Length of the Mode"
+ Guid="2d263d29-b15c-449b-b526-f184bd499f98"
+>
+<ReqRef
+ Id="b4a804d0-53f6-49e2-9897-24b3babe34bd"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6839464a-4e26-43a3-a93c-d37eff66c343"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Setup"
+ Guid="e774c15a-9f97-412d-b768-43af926e20d3"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1 - Initialize test environment"
+ Guid="88778560-6379-4ef7-b4f5-8464633f1c7e"
+>
+<Actions>
+<Action
+ Guid="e6e9b2d2-1c0c-43e4-ad13-cc802e353399"
+>Testing.InitializeTestEnvironment
+(
+    aTrainPosition =&gt; 100.0,
+    aMode =&gt; ModeEnum.FS
+)</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step2 - Initialize elements to receive MA"
+ Guid="6636b65c-bc42-42c5-bea6-170a24409260"
+>
+<Actions>
+<Action
+ Guid="4ef3f678-1ac8-49ab-a1a7-035df96727f8"
+>Testing.InitializeElementsForMA()</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step2 - Mode Setup"
+ Guid="334d9f88-d825-492f-892d-ed5fef1095ff"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="4c6ec885-ff24-4330-ab8a-b7657b82e1e0"
+>
+<Actions>
+<Action
+ Guid="fa1e73ff-180d-4691-be9d-3d44e9e6552a"
+>Testing.SetSRMode(False)</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="d495096a-4c55-4265-a695-178c31e53881"
+>Kernel.Mode == ModeEnum.SR</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step3 BTM.Message Mode Profile OS Entry and Length received"
+ Guid="71261abf-281d-48ee-b660-7ba2d4bcc3e9"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="a31b8c1c-a130-4dd3-984f-7e2856dfd899"
+>
+<Actions>
+<Action
+ Guid="985e6633-a15f-4931-89b9-9c51c94c7a00"
+>BTM.Message.SystemVersion2 &lt;- Messages.EUROBALISE.Message
+{
+    Q_UPDOWN=&gt; Messages.Q_UPDOWN.Up_link_telegram,
+    M_VERSION=&gt;32,
+    Q_MEDIA=&gt;Messages.Q_MEDIA.Balise,
+    N_PIG=&gt;0,
+    N_TOTAL=&gt;0,
+    M_DUP=&gt;Messages.M_DUP.No_duplicates,
+    M_MCOUNT=&gt;4,
+    NID_C=&gt;140,
+    NID_BG=&gt;2124,
+    Q_LINK=&gt;Messages.Q_LINK.Unlinked,
+    Sequence1=&gt;
+    [ 
+       Messages.EUROBALISE.SubStructure1
+        {
+            TRACK_TO_TRAIN=&gt;Messages.PACKET.TRACK_TO_TRAIN.Message
+            {
+                MODE_PROFILE=&gt;Messages.PACKET.TRACK_TO_TRAIN.MODE_PROFILE.Message
+                {
+                   D_MAMODE=&gt;50,
+                   L_ACKMAMODE=&gt;500,
+                   L_MAMODE=&gt;200,
+                   L_PACKET=&gt;0,
+                   M_MAMODE=&gt; Messages.M_MAMODE.On_Sight,               
+                   N_ITER=&gt;0,
+                   NID_PACKET=&gt;80,
+                   Q_DIR=&gt; Messages.Q_DIR.Both_directions,
+                   Q_MAMODE=&gt; Messages.Q_MAMODE.as_both_the_EOA_and_SvL__instead_of_the_EOA_and_SvL_given_by_the_MA,
+                   Q_SCALE=&gt;Messages.Q_SCALE._1_m_scaleC,
+                   V_MAMODE=&gt;10,
+                   Sequence1=&gt; [] 
+                }
+           }
+               },
+     Messages.EUROBALISE.SubStructure1
+        {
+            TRACK_TO_TRAIN=&gt;Messages.PACKET.TRACK_TO_TRAIN.Message
+            {
+                 LEVEL_1_MOVEMENT_AUTHORITY=&gt;Messages.PACKET.TRACK_TO_TRAIN.LEVEL_1_MOVEMENT_AUTHORITY.Message
+                {
+                    NID_PACKET=&gt;12,
+                    Q_DIR=&gt;Messages.Q_DIR.Both_directions,
+                    L_PACKET=&gt;400,
+                    Q_SCALE=&gt;Messages.Q_SCALE._1_m_scaleC,
+                    V_MAIN=&gt;16,
+                    V_LOA=&gt;8,
+                    T_LOA=&gt;200,
+                    N_ITER=&gt;0,
+                    Sequence1=&gt;[],
+                    L_ENDSECTION=&gt;1000,
+                    Q_SECTIONTIMER=&gt;Messages.Q_SECTIONTIMER.No_Section_Timer_information,
+                    T_SECTIONTIMER=&gt;0,
+                    D_SECTIONTIMERSTOPLOC=&gt;0,
+                    Q_ENDTIMER=&gt;Messages.Q_ENDTIMER.No_End_section_timer_information,
+                    T_ENDTIMER=&gt;0,
+                    D_ENDTIMERSTARTLOC=&gt;0,
+                    Q_DANGERPOINT=&gt;Messages.Q_DANGERPOINT.Danger_point_information_to_follow,
+                    D_DP=&gt;12000,
+                    V_RELEASEDP=&gt;5,
+                    Q_OVERLAP=&gt;Messages.Q_OVERLAP.No_overlap_information,
+                    D_STARTOL=&gt;0,
+                    T_OL=&gt;0,
+                    D_OL=&gt;0,
+                    V_RELEASEOL=&gt;0
+                }
+            }
+         }
+                           ]
+}</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step4 - Data Check"
+ Guid="fba1b585-4c0b-4020-945c-211d3c7cf776"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="43b9eedd-4722-4277-b3c6-656728164885"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="8ed469b0-5b5e-4ff6-a137-57ca069159ea"
+>(FIRST X IN Kernel.MA.ModeProfile.Profile).Length == 200.0</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="a999aee5-abd2-4bff-9f63-4098e0f263de"
+>(FIRST X IN Kernel.MA.ModeProfile.Profile).Location == 50.0</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="5a1d6e40-a375-468f-a52b-80e05bc93205"
+>(FIRST X IN Kernel.MA.ModeProfile.Profile).Mode == ModeEnum.ModeProfile.OS</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ Name="Mode Profile LS defines Entry and Length of the Mode"
+ Guid="3fd3de8c-7408-4e72-8d32-8ff6566fb424"
+>
+<ReqRef
+ Id="b4a804d0-53f6-49e2-9897-24b3babe34bd"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="56397877-5ec0-40ff-a32d-32bd0b01bec1"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Mode Setup"
+ Guid="e082ad71-7186-4c88-a12e-46406824713b"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="3461be3f-7ae1-4308-a292-6fa2645c58e4"
+>
+<Actions>
+<Action
+ Guid="ff407fc7-f993-4549-9856-eecd1b8f3d55"
+>Testing.SetSRMode(False)</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="23f5283a-fc1f-429f-b093-de7205771903"
+>Kernel.Mode == ModeEnum.SR</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step2 BTM.Message Mode Profile LS Entry and Length received"
+ Guid="8e7a2f75-b994-487d-9a7b-35ff4175dc72"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="13a2b8c3-6d33-46c7-ab24-fdbe4db97c99"
+>
+<Actions>
+<Action
+ Guid="ad426baa-cf57-459d-add5-e655d67b0bf0"
+>BTM.Message.SystemVersion2 &lt;- Messages.EUROBALISE.Message
+{
+    Q_UPDOWN=&gt; Messages.Q_UPDOWN.Up_link_telegram,
+    M_VERSION=&gt;32,
+    Q_MEDIA=&gt;Messages.Q_MEDIA.Balise,
+    N_PIG=&gt;0,
+    N_TOTAL=&gt;0,
+    M_DUP=&gt;Messages.M_DUP.No_duplicates,
+    M_MCOUNT=&gt;4,
+    NID_C=&gt;140,
+    NID_BG=&gt;2124,
+    Q_LINK=&gt;Messages.Q_LINK.Unlinked,
+    Sequence1=&gt;
+    [ 
+       Messages.EUROBALISE.SubStructure1
+        {
+            TRACK_TO_TRAIN=&gt;Messages.PACKET.TRACK_TO_TRAIN.Message
+            {
+                MODE_PROFILE=&gt;Messages.PACKET.TRACK_TO_TRAIN.MODE_PROFILE.Message
+                {
+                   D_MAMODE=&gt;50,
+                   L_ACKMAMODE=&gt;500,
+                   L_MAMODE=&gt;200,
+                   L_PACKET=&gt;0,
+                   M_MAMODE=&gt; Messages.M_MAMODE.Limited_Supervision,               
+                   N_ITER=&gt;0,
+                   NID_PACKET=&gt;80,
+                   Q_DIR=&gt; Messages.Q_DIR.Both_directions,
+                   Q_MAMODE=&gt; Messages.Q_MAMODE.as_both_the_EOA_and_SvL__instead_of_the_EOA_and_SvL_given_by_the_MA,
+                   Q_SCALE=&gt;Messages.Q_SCALE._1_m_scaleC,
+                   V_MAMODE=&gt;10,
+                   Sequence1=&gt; [] 
+                }
+           }
+               },
+     Messages.EUROBALISE.SubStructure1
+        {
+            TRACK_TO_TRAIN=&gt;Messages.PACKET.TRACK_TO_TRAIN.Message
+            {
+                 LEVEL_1_MOVEMENT_AUTHORITY=&gt;Messages.PACKET.TRACK_TO_TRAIN.LEVEL_1_MOVEMENT_AUTHORITY.Message
+                {
+                    NID_PACKET=&gt;12,
+                    Q_DIR=&gt;Messages.Q_DIR.Both_directions,
+                    L_PACKET=&gt;400,
+                    Q_SCALE=&gt;Messages.Q_SCALE._1_m_scaleC,
+                    V_MAIN=&gt;16,
+                    V_LOA=&gt;8,
+                    T_LOA=&gt;200,
+                    N_ITER=&gt;0,
+                    Sequence1=&gt;[],
+                    L_ENDSECTION=&gt;1000,
+                    Q_SECTIONTIMER=&gt;Messages.Q_SECTIONTIMER.No_Section_Timer_information,
+                    T_SECTIONTIMER=&gt;0,
+                    D_SECTIONTIMERSTOPLOC=&gt;0,
+                    Q_ENDTIMER=&gt;Messages.Q_ENDTIMER.No_End_section_timer_information,
+                    T_ENDTIMER=&gt;0,
+                    D_ENDTIMERSTARTLOC=&gt;0,
+                    Q_DANGERPOINT=&gt;Messages.Q_DANGERPOINT.Danger_point_information_to_follow,
+                    D_DP=&gt;12000,
+                    V_RELEASEDP=&gt;5,
+                    Q_OVERLAP=&gt;Messages.Q_OVERLAP.No_overlap_information,
+                    D_STARTOL=&gt;0,
+                    T_OL=&gt;0,
+                    D_OL=&gt;0,
+                    V_RELEASEOL=&gt;0
+                }
+            }
+         }
+                           ]
+}</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step3 - Data Check"
+ Guid="32b170b6-fb3b-4196-b996-31066816d7b3"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="9d6f68ac-b505-4fda-ae07-69a6fd377a48"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="42c6a155-080c-454a-95e3-73c6b4f767b9"
+>(FIRST X IN Kernel.MA.ModeProfile.Profile).Length == 200.0</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="6c939f76-b9fc-4a76-90a5-5dbf1290319c"
+>(FIRST X IN Kernel.MA.ModeProfile.Profile).Location == 50.0</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="d12eb96d-7078-45e1-8757-0af5ccbbc3ed"
+>(FIRST X IN Kernel.MA.ModeProfile.Profile).Mode == ModeEnum.ModeProfile.LS</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase></TestCases>
+</SubSequence><SubSequence
+ D_LRBG=""
+ Level=""
+ Mode=""
+ NID_LRBG=""
+ Q_DIRLRBG=""
+ Q_DIRTRAIN=""
+ Q_DLRBG=""
+ RBC_ID=""
+ RBCPhone=""
+ Name="Mode Profile SH defines only Entry of the Mode"
+ Guid="c8ac2316-58db-45e6-a8f0-b21c6e766e8a"
+>
+<TestCases>
+<TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ Name="Mode Profile SH defines only Entry of the Mode"
+ Guid="691b9e1a-3447-4080-af84-c67147634a63"
+>
+<ReqRef
+ Id="b4a804d0-53f6-49e2-9897-24b3babe34bd"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="cea18a97-71cf-4c90-bc11-73745e2bc2c5"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Setup"
+ Guid="56f7ae32-364f-4783-b59b-5af64ce49565"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1 - Initialize test environment"
+ Guid="12a00679-2f9f-4599-97bb-3f153fc81764"
+>
+<Actions>
+<Action
+ Guid="9f5c77e8-51fc-4081-8b5b-8c025cd35e78"
+>Testing.InitializeTestEnvironment
+(
+    aTrainPosition =&gt; 100.0,
+    aMode =&gt; ModeEnum.FS
+)</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step2 - Initialize elements to receive MA"
+ Guid="82d28114-58ae-4460-862e-602759c73c49"
+>
+<Actions>
+<Action
+ Guid="656d4871-b2ad-4bfc-b586-8b4ebed338d0"
+>Testing.InitializeElementsForMA()</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step2 - Level and Previous Mode received"
+ Guid="c70efc95-737f-4d7b-ba28-0a92610837b1"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="dfd05c79-2421-4074-951a-268a582f3ea7"
+>
+<Actions>
+<Action
+ Guid="946ecb49-8643-49ca-8093-241db29eaba6"
+>Testing.SetSRMode(False)</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="ae4fa91e-aea7-4376-b75b-fe76b057ac0d"
+>Kernel.Mode == ModeEnum.SR</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step3 BTM.Message Mode Profile SH Entry of Mode received"
+ Guid="451388d9-7673-4ed0-8af7-78d77859e8a9"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="0238f472-84e0-4408-9a37-416f9d086158"
+>
+<Actions>
+<Action
+ Guid="d589225c-d1e4-4d55-99cc-ace77d23c050"
+>BTM.Message.SystemVersion2 &lt;- Messages.EUROBALISE.Message
+{
+    Q_UPDOWN=&gt; Messages.Q_UPDOWN.Up_link_telegram,
+    M_VERSION=&gt;32,
+    Q_MEDIA=&gt;Messages.Q_MEDIA.Balise,
+    N_PIG=&gt;0,
+    N_TOTAL=&gt;0,
+    M_DUP=&gt;Messages.M_DUP.No_duplicates,
+    M_MCOUNT=&gt;4,
+    NID_C=&gt;140,
+    NID_BG=&gt;2124,
+    Q_LINK=&gt;Messages.Q_LINK.Unlinked,
+    Sequence1=&gt;
+    [ 
+       Messages.EUROBALISE.SubStructure1
+        {
+            TRACK_TO_TRAIN=&gt;Messages.PACKET.TRACK_TO_TRAIN.Message
+            {
+                MODE_PROFILE=&gt;Messages.PACKET.TRACK_TO_TRAIN.MODE_PROFILE.Message
+                {
+                   D_MAMODE=&gt;500,
+                   L_ACKMAMODE=&gt;500,
+                   L_MAMODE=&gt;100,
+                   L_PACKET=&gt;0,
+                   M_MAMODE=&gt;   Messages.M_MAMODE.Shunting,               
+                   N_ITER=&gt;0,
+                   NID_PACKET=&gt;80,
+                   Q_DIR=&gt; Messages.Q_DIR.Both_directions,
+                   Q_MAMODE=&gt; Messages.Q_MAMODE.as_both_the_EOA_and_SvL__instead_of_the_EOA_and_SvL_given_by_the_MA,
+                   Q_SCALE=&gt;Messages.Q_SCALE._1_m_scaleC,
+                   V_MAMODE=&gt;10,
+                   Sequence1=&gt;[] 
+               }
+          }
+      },
+       Messages.EUROBALISE.SubStructure1
+        {
+            TRACK_TO_TRAIN=&gt;Messages.PACKET.TRACK_TO_TRAIN.Message
+            {
+                 LEVEL_1_MOVEMENT_AUTHORITY=&gt;Messages.PACKET.TRACK_TO_TRAIN.LEVEL_1_MOVEMENT_AUTHORITY.Message
+                {
+                    NID_PACKET=&gt;12,
+                    Q_DIR=&gt;Messages.Q_DIR.Both_directions,
+                    L_PACKET=&gt;400,
+                    Q_SCALE=&gt;Messages.Q_SCALE._1_m_scaleC,
+                    V_MAIN=&gt;16,
+                    V_LOA=&gt;8,
+                    T_LOA=&gt;200,
+                    N_ITER=&gt;0,
+                    Sequence1=&gt;[],
+                    L_ENDSECTION=&gt;1000,
+                    Q_SECTIONTIMER=&gt;Messages.Q_SECTIONTIMER.No_Section_Timer_information,
+                    T_SECTIONTIMER=&gt;0,
+                    D_SECTIONTIMERSTOPLOC=&gt;0,
+                    Q_ENDTIMER=&gt;Messages.Q_ENDTIMER.No_End_section_timer_information,
+                    T_ENDTIMER=&gt;0,
+                    D_ENDTIMERSTARTLOC=&gt;0,
+                    Q_DANGERPOINT=&gt;Messages.Q_DANGERPOINT.Danger_point_information_to_follow,
+                    D_DP=&gt;12000,
+                    V_RELEASEDP=&gt;5,
+                    Q_OVERLAP=&gt;Messages.Q_OVERLAP.No_overlap_information,
+                    D_STARTOL=&gt;0,
+                    T_OL=&gt;0,
+                    D_OL=&gt;0,
+                    V_RELEASEOL=&gt;0
+                }
+            }
+         },
+           Messages.EUROBALISE.SubStructure1
+        {
+            TRACK_TO_TRAIN=&gt;Messages.PACKET.TRACK_TO_TRAIN.Message
+            {
+                               LIST_OF_BALISES_FOR_SH_AREA =&gt; Messages.PACKET.TRACK_TO_TRAIN.LIST_OF_BALISES_FOR_SH_AREA.Message
+                  {
+                      NID_PACKET =&gt; 49,
+                      Q_DIR =&gt; Messages.Q_DIR.Both_directions,
+                      L_PACKET =&gt; 0,
+                      N_ITER =&gt; 1,
+                      Sequence1 =&gt; 
+                              [
+                                 Messages.PACKET.TRACK_TO_TRAIN.LIST_OF_BALISES_FOR_SH_AREA.SubStructure1
+                                  {
+                                        NID_BG=&gt; 2124,
+                                        NID_C=&gt;140,
+                                        Q_NEWCOUNTRY=&gt;Messages.Q_NEWCOUNTRY.Same_country___railway_administration__no_NID_C_follows
+                                    }
+                              ]
+                   } 
+            }
+         }
+                ]
+}</Action><Action
+ Guid="0a787737-853c-4581-acb5-cd0b81fa8ee0"
+>Odometry.NominalDistance &lt;- 250.0</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step4 - Data check"
+ Guid="bcf0aaad-dadd-4745-b549-61a2ef0feace"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="59823879-2459-4c2b-ad4e-ca7a38228a77"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="8b630413-e7c8-4c72-816f-28ec97921ce4"
+>Kernel.Mode == ModeEnum.FS</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="c43eca27-8d50-4ed2-8876-56567fbe8260"
+>(FIRST X IN Kernel.MA.ModeProfile.Profile).Length == BaseTypes.Length.NA</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="6f67534b-0b35-4531-92ef-8dbb48dbae0d"
+>(FIRST X IN Kernel.MA.ModeProfile.Profile).Location ==  500.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step5 - Reach SH mode entry location"
+ Guid="8c70323e-27e6-4a3a-a877-ca5c5672bae6"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep1"
+ Guid="bd592d74-cb01-4e7f-add9-cdd2623728b8"
+>
+<Actions>
+<Action
+ Guid="cb96b3c7-9478-42d8-8768-e8f17a7712d0"
+>Odometry.NominalDistance &lt;- 601.0</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Blocking="FALSE"
+ Guid="6575479e-ecaf-46d4-b6d5-96b43cde9b8e"
+>Kernel.Mode == ModeEnum.SH</Expectation><Expectation
+ Kind="Instantaneous"
+ Blocking="FALSE"
+ Guid="a64e6c4d-3a35-4ff3-bf0a-76ee1c48440b"
+>Kernel.MA.ModeProfile.Profile == []</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase></TestCases>
+</SubSequence><SubSequence
+ D_LRBG=""
+ Level=""
+ Mode=""
+ NID_LRBG=""
+ Q_DIRLRBG=""
+ Q_DIRTRAIN=""
+ Q_DLRBG=""
+ RBC_ID=""
+ RBCPhone=""
+ Name="New MA by INFILL shall delete the current MP after the reference location of the INFILL"
+ Guid="bb139fc7-2a15-42f5-ad27-7b2f7d5586ba"
+>
+<TestCases>
+<TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ Name="New MA by INFILL shall delete the current MP after the reference location of the INFILL"
+ Guid="97cd96ea-2033-46d4-9d34-865fa5c10d9c"
+>
+<ReqRef
+ Id="2a495f6e-680c-4def-a6b5-d8bcd1f41a9d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="29636993-6a70-401b-9b27-6ffa638e353a"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Setup"
+ Guid="6c45502b-0472-43d3-96b8-b40bac262afd"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1 - Initialize test environment"
+ Guid="a93f1832-777f-4dbd-a952-4482ab3ccf3e"
+>
+<Actions>
+<Action
+ Guid="fbbfc174-db4c-408a-b6b4-43b65e089315"
+>Testing.InitializeTestEnvironment
+(
+    aTrainPosition =&gt; 100.0,
+    aMode =&gt; ModeEnum.FS
+)</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step2 - Initialize elements to receive MA"
+ Guid="0c953c0a-5dfb-44f9-a802-9269e2209ac3"
+>
+<Actions>
+<Action
+ Guid="5d94da00-f947-4386-8f14-1c76a41f9577"
+>Testing.InitializeElementsForMA()</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step2 - Mode FS"
+ Guid="da4f66ce-1121-4d4e-8791-e9927035a721"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="48a369a0-2ce4-4f05-9871-bce13b0c9235"
+>
+<Actions>
+<Action
+ Guid="fbedf80d-cba4-44a8-bb88-066be608e7d9"
+>Testing.SetFSMode(False)</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step3 BTM.LRBG + BTM.Linking"
+ Guid="719c6911-6056-4de5-81ba-17643c785340"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="05520619-50cc-48d7-89a6-5303b68020f0"
+>
+<Actions>
+<Action
+ Guid="771f1935-3b8d-4347-934a-593ce345d424"
+>INSERT BTM.Linking.LinkingDataStruct 
+{
+    BaliseGroupIdentifier =&gt; 2126,
+    Distance =&gt;700.0,
+    Orientation =&gt; OrientationEnum.Nominal,
+    LocationAccuracy =&gt; 5.0
+}
+IN BTM.Linking.Linkings</Action><Action
+ Guid="77f02070-d627-4264-b312-76aa7c22fd36"
+>BTM.LRBG &lt;- 
+BTM.BaliseGroupStruct {
+    NID=&gt;2124,
+    Orientation=&gt;OrientationEnum.Nominal,
+    Position=&gt;
+        BTM.Position {
+            OverReadingAmountOdo=&gt;2.0,
+            Position=&gt;1000.0,
+            UnderReadingAmountOdo=&gt;2.0
+        }
+}</Action><Action
+ Guid="87c811c7-5485-4669-b07a-f2ffb9316510"
+>Kernel.TrainPosition.Position &lt;- Kernel.TrainPosition.TrainPositionStruct
+{
+    DirectionalPositionInformation =&gt; Kernel.TrainPosition.DirectionalTrainPositionInformationStruct
+{
+        TrainFrontEndPosition =&gt; OrientationEnum.Nominal,
+        TrainOrientation =&gt; OrientationEnum.Nominal,
+        TrainRunningDirection =&gt; OrientationEnum.Nominal
+    },
+    DataState =&gt; DataStateEnum.Valid
+}</Action><Action
+ Guid="02031fde-702b-44e4-b93c-47a947e13d4d"
+>Odometry.Accuracy.D_ora &lt;- 4.0</Action><Action
+ Guid="56d776c9-14d5-4d55-95c5-6f709f9e6b73"
+>INSERT Kernel.MA.ModeProfile.ModeProfileStruct
+{ 
+    Location=&gt;100.0,
+    Length=&gt;1000.0,
+    Mode=&gt;ModeEnum.ModeProfile.OS
+}
+IN Kernel.MA.ModeProfile.Profile</Action><Action
+ Guid="cf37ba8d-e325-4cb8-8e6b-eb5e6a1ab29e"
+>Odometry.NominalDistance &lt;- 1050.0</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="ebb215bb-a5b4-4a05-b096-77d1d822bf74"
+>(FIRST X IN Kernel.MA.ModeProfile.Profile).Length == 1000.0</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="ddc67563-7978-4e39-8f5d-f038cdfce56f"
+>(FIRST X IN Kernel.MA.ModeProfile.Profile).Mode == ModeEnum.ModeProfile.OS</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="48ef5462-ea55-4b9e-bce1-4f7a1abc2e40"
+>(FIRST X IN Kernel.MA.ModeProfile.Profile).Location == 100.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step4 - BTM.Message with MA, MP and INFILL"
+ Guid="cce2f13d-2ce0-40a9-af79-e729edd8bec7"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1 - First balise of unlinked balise group received"
+ Guid="4ee1f52d-f62c-4290-a9fa-a91e3bb54e49"
+>
+<Actions>
+<Action
+ Guid="792011e0-70ae-469d-a050-9d3b871c2bf0"
+>BTM.Message.SystemVersion2 &lt;- Messages.EUROBALISE.Message
+{
+    Q_UPDOWN=&gt; Messages.Q_UPDOWN.Up_link_telegram,
+    M_VERSION=&gt;32,
+    Q_MEDIA=&gt;Messages.Q_MEDIA.Balise,
+    N_PIG=&gt;0,
+    N_TOTAL=&gt;1,
+    M_DUP=&gt;Messages.M_DUP.No_duplicates,
+    M_MCOUNT=&gt;4,
+    NID_C=&gt;140,
+    NID_BG=&gt;2125,
+    Q_LINK=&gt;Messages.Q_LINK.Unlinked,
+    Sequence1=&gt;
+    [ 
+        Messages.EUROBALISE.SubStructure1
+        {
+            TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message
+            {
+                INFILL_LOCATION_REFERENCE =&gt;Messages.PACKET.TRACK_TO_TRAIN.INFILL_LOCATION_REFERENCE.Message
+                {
+                    L_PACKET=&gt;10,
+                    NID_BG=&gt;2126,
+                    NID_C=&gt;140,
+                    NID_PACKET=&gt;136,
+                    Q_DIR=&gt;Messages.Q_DIR.Nominal,
+                    Q_NEWCOUNTRY=&gt;Messages.Q_NEWCOUNTRY.Same_country___railway_administration__no_NID_C_follows
+                }
+            }
+        },
+        Messages.EUROBALISE.SubStructure1
+        {
+            TRACK_TO_TRAIN=&gt;Messages.PACKET.TRACK_TO_TRAIN.Message
+            {
+                LEVEL_1_MOVEMENT_AUTHORITY=&gt;Messages.PACKET.TRACK_TO_TRAIN.LEVEL_1_MOVEMENT_AUTHORITY.Message
+                {
+                    NID_PACKET=&gt;12,
+                    Q_DIR=&gt;Messages.Q_DIR.Nominal,
+                    L_PACKET=&gt;400,
+                    Q_SCALE=&gt;Messages.Q_SCALE._1_m_scaleC,
+                    V_MAIN=&gt;16,
+                    V_LOA=&gt;8,
+                    T_LOA=&gt;200,
+                    N_ITER=&gt;0,
+                    Sequence1=&gt;[],
+                    L_ENDSECTION=&gt;1000,
+                    Q_SECTIONTIMER=&gt;Messages.Q_SECTIONTIMER.No_Section_Timer_information,
+                    T_SECTIONTIMER=&gt;0,
+                    D_SECTIONTIMERSTOPLOC=&gt;0,
+                    Q_ENDTIMER=&gt;Messages.Q_ENDTIMER.No_End_section_timer_information,
+                    T_ENDTIMER=&gt;0,
+                    D_ENDTIMERSTARTLOC=&gt;0,
+                    Q_DANGERPOINT=&gt;Messages.Q_DANGERPOINT.Danger_point_information_to_follow,
+                    D_DP=&gt;12000,
+                    V_RELEASEDP=&gt;5,
+                    Q_OVERLAP=&gt;Messages.Q_OVERLAP.No_overlap_information,
+                    D_STARTOL=&gt;0,
+                    T_OL=&gt;0,
+                    D_OL=&gt;0,
+                    V_RELEASEOL=&gt;0
+                }
+            }
+        },
+        Messages.EUROBALISE.SubStructure1
+        {
+            TRACK_TO_TRAIN=&gt;Messages.PACKET.TRACK_TO_TRAIN.Message
+            {
+                MODE_PROFILE=&gt;Messages.PACKET.TRACK_TO_TRAIN.MODE_PROFILE.Message
+                {
+                    D_MAMODE=&gt;50,
+                    L_ACKMAMODE=&gt;10,
+                    L_MAMODE=&gt;500,
+                    L_PACKET=&gt;0,
+                    M_MAMODE=&gt;   Messages.M_MAMODE.Limited_Supervision,               
+                    N_ITER=&gt;0,
+                    NID_PACKET=&gt;80,
+                    Q_DIR=&gt; Messages.Q_DIR.Nominal,
+                    Q_MAMODE=&gt; Messages.Q_MAMODE.as_both_the_EOA_and_SvL__instead_of_the_EOA_and_SvL_given_by_the_MA,
+                    Q_SCALE=&gt;Messages.Q_SCALE._1_m_scaleC,
+                    V_MAMODE=&gt;10,
+                    Sequence1=&gt;[]
+                }
+            }
+        }
+    ]
+}</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step2 - Second balise of unlinked balise group received"
+ Guid="b94674d0-5230-4259-9c20-b8a03d7c1fe2"
+>
+<Actions>
+<Action
+ Guid="e4637c34-3411-4ec5-8e39-811f68716a9c"
+>BTM.Message.SystemVersion2 &lt;- Messages.EUROBALISE.Message
+{
+    Q_UPDOWN=&gt; Messages.Q_UPDOWN.Up_link_telegram,
+    M_VERSION=&gt;32,
+    Q_MEDIA=&gt;Messages.Q_MEDIA.Balise,
+    N_PIG=&gt;1,
+    N_TOTAL=&gt;1,
+    M_DUP=&gt;Messages.M_DUP.No_duplicates,
+    M_MCOUNT=&gt;4,
+    NID_C=&gt;140,
+    NID_BG=&gt;2125,
+    Q_LINK=&gt;Messages.Q_LINK.Unlinked,
+    Sequence1=&gt;[]
+}</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step5 - Data check"
+ Guid="aca6ee7b-6535-4da9-b7c5-65d66348b5cb"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="8ca92d37-7b6a-4f4f-86f8-7ba8fd5392b8"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="b7b3447b-3865-47f3-91ba-7ce184685692"
+>(FIRST X IN Kernel.MA.ModeProfile.Profile).Length == 600.0</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="ab7d3d03-22f3-45c0-af32-333aaf15829f"
+>(FIRST X IN Kernel.MA.ModeProfile.Profile | X.Mode == ModeEnum.ModeProfile.LS).Length == 500.0</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="13d64d40-7650-4476-ae34-50b9afeb31aa"
+>(FIRST X IN Kernel.MA.ModeProfile.Profile).Mode == ModeEnum.ModeProfile.OS</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="8d04aa7f-97fe-43a8-94a9-afb4cfd05271"
+>THERE_IS X IN Kernel.MA.ModeProfile.Profile | X.Mode == ModeEnum.ModeProfile.LS</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="ef460206-db53-4646-a4ef-216ae970ca2b"
+>(FIRST X IN Kernel.MA.ModeProfile.Profile).Location == 100.0</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="91e0099c-03bd-4c7c-89f8-6f80016345f0"
+>(FIRST X IN Kernel.MA.ModeProfile.Profile | X.Mode == ModeEnum.ModeProfile.LS).Location == 750.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase></TestCases>
+</SubSequence><SubSequence
+ D_LRBG=""
+ Level=""
+ Mode=""
+ NID_LRBG=""
+ Q_DIRLRBG=""
+ Q_DIRTRAIN=""
+ Q_DLRBG=""
+ RBC_ID=""
+ RBCPhone=""
+ Name="On reception of a new MA ( with or without MP ) the current MP should be deleted."
+ Guid="e85fefac-7b85-405e-8dc2-51ac55c55cda"
+>
+<TestCases>
+<TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ Name="MA without Mode Profile received"
+ Guid="2778a18b-d0f2-45f6-949f-449da5f96991"
+>
+<ReqRef
+ Id="74a25803-8c28-4708-b506-55a76bd8bc21"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b9bdda9c-d39c-4280-b126-1c9d9b7da13f"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Setup"
+ Guid="8e085c31-fb42-42da-b162-76d2dc8c0538"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1 - Initialize test environment"
+ Guid="40f118e1-1e20-46e9-9a5e-fb547e936262"
+>
+<Actions>
+<Action
+ Guid="f427a599-4bae-4d0c-8481-1fd943d1ecdd"
+>Testing.InitializeTestEnvironment
+(
+    aTrainPosition =&gt; 100.0,
+    aMode =&gt; ModeEnum.SB
+)</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step2 - Initialize elements to receive MA"
+ Guid="b6a3e60e-1851-4b42-87bb-35ba98814813"
+>
+<Actions>
+<Action
+ Guid="dc2e6e35-822f-4d89-bc54-353f33b550f3"
+>Testing.InitializeElementsForMA()</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step2 - MA with ModeProfile"
+ Guid="1d2ea50d-06a9-422e-a818-4589cd1bc4c9"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="b587db35-6b8d-423a-b692-7021dad6bff1"
+>
+<Actions>
+<Action
+ Guid="c93fae71-1d7b-4b86-8ce7-3dfb97070d3d"
+>BTM.Message.SystemVersion2 &lt;- Messages.EUROBALISE.Message
+{
+    Q_UPDOWN=&gt; Messages.Q_UPDOWN.Up_link_telegram,
+    M_VERSION=&gt;32,
+    Q_MEDIA=&gt;Messages.Q_MEDIA.Balise,
+    N_PIG=&gt;0,
+    N_TOTAL=&gt;0,
+    M_DUP=&gt;Messages.M_DUP.No_duplicates,
+    M_MCOUNT=&gt;4,
+    NID_C=&gt;140,
+    NID_BG=&gt;2124,
+    Q_LINK=&gt;Messages.Q_LINK.Unlinked,
+    Sequence1=&gt;
+    [ 
+       Messages.EUROBALISE.SubStructure1
+        {
+            TRACK_TO_TRAIN=&gt;Messages.PACKET.TRACK_TO_TRAIN.Message
+            {
+                MODE_PROFILE=&gt;Messages.PACKET.TRACK_TO_TRAIN.MODE_PROFILE.Message
+                {
+                   D_MAMODE=&gt;0,
+                   L_ACKMAMODE=&gt;500,
+                   L_MAMODE=&gt;100,
+                   L_PACKET=&gt;0,
+                   M_MAMODE=&gt;   Messages.M_MAMODE.Shunting,               
+                   N_ITER=&gt;0,
+                   NID_PACKET=&gt;80,
+                   Q_DIR=&gt; Messages.Q_DIR.Both_directions,
+                   Q_MAMODE=&gt; Messages.Q_MAMODE.as_both_the_EOA_and_SvL__instead_of_the_EOA_and_SvL_given_by_the_MA,
+                   Q_SCALE=&gt;Messages.Q_SCALE._1_m_scaleC,
+                   V_MAMODE=&gt;1,
+                   Sequence1=&gt;[] 
+             }
+          }
+               },
+Messages.EUROBALISE.SubStructure1
+        {
+            TRACK_TO_TRAIN=&gt;Messages.PACKET.TRACK_TO_TRAIN.Message
+            {
+                 LEVEL_1_MOVEMENT_AUTHORITY=&gt;Messages.PACKET.TRACK_TO_TRAIN.LEVEL_1_MOVEMENT_AUTHORITY.Message
+                {
+                    NID_PACKET=&gt;12,
+                    Q_DIR=&gt;Messages.Q_DIR.Both_directions,
+                    L_PACKET=&gt;400,
+                    Q_SCALE=&gt;Messages.Q_SCALE._1_m_scaleC,
+                    V_MAIN=&gt;16,
+                    V_LOA=&gt;8,
+                    T_LOA=&gt;200,
+                    N_ITER=&gt;0,
+                    Sequence1=&gt;[],
+                    L_ENDSECTION=&gt;10000,
+                    Q_SECTIONTIMER=&gt;Messages.Q_SECTIONTIMER.No_Section_Timer_information,
+                    T_SECTIONTIMER=&gt;0,
+                    D_SECTIONTIMERSTOPLOC=&gt;0,
+                    Q_ENDTIMER=&gt;Messages.Q_ENDTIMER.No_End_section_timer_information,
+                    T_ENDTIMER=&gt;0,
+                    D_ENDTIMERSTARTLOC=&gt;0,
+                    Q_DANGERPOINT=&gt;Messages.Q_DANGERPOINT.Danger_point_information_to_follow,
+                    D_DP=&gt;12000,
+                    V_RELEASEDP=&gt;5,
+                    Q_OVERLAP=&gt;Messages.Q_OVERLAP.No_overlap_information,
+                    D_STARTOL=&gt;0,
+                    T_OL=&gt;0,
+                    D_OL=&gt;0,
+                    V_RELEASEOL=&gt;0
+                }
+            }
+         },
+           Messages.EUROBALISE.SubStructure1
+        {
+            TRACK_TO_TRAIN=&gt;Messages.PACKET.TRACK_TO_TRAIN.Message
+            {
+                               LIST_OF_BALISES_FOR_SH_AREA =&gt; Messages.PACKET.TRACK_TO_TRAIN.LIST_OF_BALISES_FOR_SH_AREA.Message
+                  {
+                      NID_PACKET =&gt; 49,
+                      Q_DIR =&gt; Messages.Q_DIR.Both_directions,
+                      L_PACKET =&gt; 0,
+                      N_ITER =&gt; 1,
+                      Sequence1 =&gt; 
+                              [
+                                 Messages.PACKET.TRACK_TO_TRAIN.LIST_OF_BALISES_FOR_SH_AREA.SubStructure1
+                                  {
+                                        NID_BG=&gt; 2124,
+                                        Q_NEWCOUNTRY=&gt;Messages.Q_NEWCOUNTRY.Same_country___railway_administration__no_NID_C_follows,
+                                        NID_C=&gt;140
+                                    }
+                              ]
+                   } 
+            }
+         }
+                ]
+}</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="44165740-27f5-40ce-9f27-340dea84e13a"
+>Kernel.MA.ModeProfile.Profile != []</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="525b1579-9f54-4c80-bd8b-4fbc12da6f9d"
+>(FIRST X IN Kernel.MA.ModeProfile.Profile).Mode == ModeEnum.ModeProfile.SH</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step3 - New MA without Mode Profile"
+ Guid="ac73429b-c983-41c5-b593-aba19679669e"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="33d34040-c80d-4c93-82fb-17a050ac253c"
+>
+<Actions>
+<Action
+ Guid="e5659ea4-b0ea-4323-a6d5-ee91a7375078"
+>BTM.Message.SystemVersion2 &lt;- Messages.EUROBALISE.Message
+{
+    Q_UPDOWN=&gt; Messages.Q_UPDOWN.Up_link_telegram,
+    M_VERSION=&gt;32,
+    Q_MEDIA=&gt;Messages.Q_MEDIA.Balise,
+    N_PIG=&gt;0,
+    N_TOTAL=&gt;0,
+    M_DUP=&gt;Messages.M_DUP.No_duplicates,
+    M_MCOUNT=&gt;4,
+    NID_C=&gt;140,
+    NID_BG=&gt;2124,
+    Q_LINK=&gt;Messages.Q_LINK.Unlinked,
+    Sequence1=&gt;
+    [ 
+       Messages.EUROBALISE.SubStructure1
+        {
+            TRACK_TO_TRAIN=&gt;Messages.PACKET.TRACK_TO_TRAIN.Message
+            {
+                                LEVEL_1_MOVEMENT_AUTHORITY=&gt;Messages.PACKET.TRACK_TO_TRAIN.LEVEL_1_MOVEMENT_AUTHORITY.Message
+                {
+                    NID_PACKET=&gt;12,
+                    Q_DIR=&gt;Messages.Q_DIR.Both_directions,
+                    L_PACKET=&gt;400,
+                    Q_SCALE=&gt;Messages.Q_SCALE._1_m_scaleC,
+                    V_MAIN=&gt;16,
+                    V_LOA=&gt;8,
+                    T_LOA=&gt;200,
+                    N_ITER=&gt;0,
+                    Sequence1=&gt;[],
+                    L_ENDSECTION=&gt;10000,
+                    Q_SECTIONTIMER=&gt;Messages.Q_SECTIONTIMER.No_Section_Timer_information,
+                    T_SECTIONTIMER=&gt;0,
+                    D_SECTIONTIMERSTOPLOC=&gt;0,
+                    Q_ENDTIMER=&gt;Messages.Q_ENDTIMER.No_End_section_timer_information,
+                    T_ENDTIMER=&gt;0,
+                    D_ENDTIMERSTARTLOC=&gt;0,
+                    Q_DANGERPOINT=&gt;Messages.Q_DANGERPOINT.Danger_point_information_to_follow,
+                    D_DP=&gt;12000,
+                    V_RELEASEDP=&gt;5,
+                    Q_OVERLAP=&gt;Messages.Q_OVERLAP.No_overlap_information,
+                    D_STARTOL=&gt;0,
+                    T_OL=&gt;0,
+                    D_OL=&gt;0,
+                    V_RELEASEOL=&gt;0
+                }
+            }
+        }             
+   ]
+}</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step4 - Data check"
+ Guid="a64c4ab8-5275-416b-bd80-0e4918ccfc09"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="d59ebc49-b727-42f2-be17-50f0a00e1749"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="003712ef-d291-4afd-a579-b5cc3cd9368e"
+>Kernel.MA.ModeProfile.Profile == []</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ Name="MA  with ModeProfile received"
+ Guid="1faa2330-c771-4126-a0d4-1fdd26740314"
+>
+<ReqRef
+ Id="74a25803-8c28-4708-b506-55a76bd8bc21"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ac17ff8b-d2c3-429c-9623-ac33dec2633d"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - MA with ModeProfile received"
+ Guid="63e23c96-5a93-428a-bf65-ec3a903152c6"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="3aaf9f37-97c8-44e9-8d81-85da0e380d19"
+>
+<Actions>
+<Action
+ Guid="fded8e08-a92c-44bd-99b7-b64a85bb6079"
+>BTM.Message.SystemVersion2 &lt;- Messages.EUROBALISE.Message
+{
+    Q_UPDOWN=&gt; Messages.Q_UPDOWN.Up_link_telegram,
+    M_VERSION=&gt;32,
+    Q_MEDIA=&gt;Messages.Q_MEDIA.Balise,
+    N_PIG=&gt;0,
+    N_TOTAL=&gt;0,
+    M_DUP=&gt;Messages.M_DUP.No_duplicates,
+    M_MCOUNT=&gt;4,
+    NID_C=&gt;140,
+    NID_BG=&gt;2124,
+    Q_LINK=&gt;Messages.Q_LINK.Unlinked,
+    Sequence1=&gt;
+    [ 
+       Messages.EUROBALISE.SubStructure1
+        {
+            TRACK_TO_TRAIN=&gt;Messages.PACKET.TRACK_TO_TRAIN.Message
+            {
+                MODE_PROFILE=&gt;Messages.PACKET.TRACK_TO_TRAIN.MODE_PROFILE.Message
+                {
+                   D_MAMODE=&gt;0,
+                   L_ACKMAMODE=&gt;500,
+                   L_MAMODE=&gt;100,
+                   L_PACKET=&gt;0,
+                   M_MAMODE=&gt;   Messages.M_MAMODE.Shunting,               
+                   N_ITER=&gt;0,
+                   NID_PACKET=&gt;80,
+                   Q_DIR=&gt; Messages.Q_DIR.Both_directions,
+                   Q_MAMODE=&gt; Messages.Q_MAMODE.as_both_the_EOA_and_SvL__instead_of_the_EOA_and_SvL_given_by_the_MA,
+                   Q_SCALE=&gt;Messages.Q_SCALE._1_m_scaleC,
+                   V_MAMODE=&gt;1,
+                   Sequence1=&gt;[]
+          }
+            } 
+               },
+ Messages.EUROBALISE.SubStructure1
+        {
+            TRACK_TO_TRAIN=&gt;Messages.PACKET.TRACK_TO_TRAIN.Message
+            {
+                 LEVEL_1_MOVEMENT_AUTHORITY=&gt;Messages.PACKET.TRACK_TO_TRAIN.LEVEL_1_MOVEMENT_AUTHORITY.Message
+                {
+                    NID_PACKET=&gt;12,
+                    Q_DIR=&gt;Messages.Q_DIR.Both_directions,
+                    L_PACKET=&gt;400,
+                    Q_SCALE=&gt;Messages.Q_SCALE._1_m_scaleC,
+                    V_MAIN=&gt;16,
+                    V_LOA=&gt;8,
+                    T_LOA=&gt;200,
+                    N_ITER=&gt;0,
+                    Sequence1=&gt;[],
+                    L_ENDSECTION=&gt;10000,
+                    Q_SECTIONTIMER=&gt;Messages.Q_SECTIONTIMER.No_Section_Timer_information,
+                    T_SECTIONTIMER=&gt;0,
+                    D_SECTIONTIMERSTOPLOC=&gt;0,
+                    Q_ENDTIMER=&gt;Messages.Q_ENDTIMER.No_End_section_timer_information,
+                    T_ENDTIMER=&gt;0,
+                    D_ENDTIMERSTARTLOC=&gt;0,
+                    Q_DANGERPOINT=&gt;Messages.Q_DANGERPOINT.Danger_point_information_to_follow,
+                    D_DP=&gt;12000,
+                    V_RELEASEDP=&gt;5,
+                    Q_OVERLAP=&gt;Messages.Q_OVERLAP.No_overlap_information,
+                    D_STARTOL=&gt;0,
+                    T_OL=&gt;0,
+                    D_OL=&gt;0,
+                    V_RELEASEOL=&gt;0
+                }
+            }
+         },
+           Messages.EUROBALISE.SubStructure1
+        {
+            TRACK_TO_TRAIN=&gt;Messages.PACKET.TRACK_TO_TRAIN.Message
+            {
+                               LIST_OF_BALISES_FOR_SH_AREA =&gt; Messages.PACKET.TRACK_TO_TRAIN.LIST_OF_BALISES_FOR_SH_AREA.Message
+                  {
+                      NID_PACKET =&gt; 49,
+                      Q_DIR =&gt; Messages.Q_DIR.Both_directions,
+                      L_PACKET =&gt; 0,
+                      N_ITER =&gt; 1,
+                      Sequence1 =&gt; 
+                              [
+                                 Messages.PACKET.TRACK_TO_TRAIN.LIST_OF_BALISES_FOR_SH_AREA.SubStructure1
+                                  {
+                                        NID_BG=&gt; 2124,
+                                        Q_NEWCOUNTRY=&gt;Messages.Q_NEWCOUNTRY.Same_country___railway_administration__no_NID_C_follows,
+                                        NID_C=&gt;140
+                                    }
+                              ]
+                   } 
+            }
+         }
+                ]
+}</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="aff9551e-a94b-4bc1-89e5-ea7962a81bfc"
+>Kernel.MA.ModeProfile.Profile != []</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="f94e98b3-78ef-4118-a010-935645ba69a6"
+>(FIRST X IN Kernel.MA.ModeProfile.Profile).Mode == ModeEnum.ModeProfile.SH</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step2 - New MA with ModeProfile received"
+ Guid="5a856fd4-3b65-4686-8bdc-20ca68dcfe31"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="9fdf9866-8dea-420b-8a63-a6ad70438867"
+>
+<Actions>
+<Action
+ Guid="538064e2-0e32-4c6e-b450-74cb9c5ab693"
+>BTM.Message.SystemVersion2 &lt;- Messages.EUROBALISE.Message
+{
+    Q_UPDOWN=&gt; Messages.Q_UPDOWN.Up_link_telegram,
+    M_VERSION=&gt;32,
+    Q_MEDIA=&gt;Messages.Q_MEDIA.Balise,
+    N_PIG=&gt;0,
+    N_TOTAL=&gt;0,
+    M_DUP=&gt;Messages.M_DUP.No_duplicates,
+    M_MCOUNT=&gt;4,
+    NID_C=&gt;140,
+    NID_BG=&gt;2124,
+    Q_LINK=&gt;Messages.Q_LINK.Unlinked,
+    Sequence1=&gt;
+    [ 
+       Messages.EUROBALISE.SubStructure1
+        {
+            TRACK_TO_TRAIN=&gt;Messages.PACKET.TRACK_TO_TRAIN.Message
+            {
+                MODE_PROFILE=&gt;Messages.PACKET.TRACK_TO_TRAIN.MODE_PROFILE.Message
+                {
+                   D_MAMODE=&gt;100,
+                   L_ACKMAMODE=&gt;700,
+                   L_MAMODE=&gt;200,
+                   L_PACKET=&gt;0,
+                   M_MAMODE=&gt;   Messages.M_MAMODE.On_Sight,               
+                   N_ITER=&gt;1,
+                   NID_PACKET=&gt;80,
+                   Q_DIR=&gt; Messages.Q_DIR.Both_directions,
+                   Q_MAMODE=&gt; Messages.Q_MAMODE.as_both_the_EOA_and_SvL__instead_of_the_EOA_and_SvL_given_by_the_MA,
+                   Q_SCALE=&gt;Messages.Q_SCALE._1_m_scaleC,
+                   V_MAMODE=&gt;1,
+                   Sequence1=&gt;[] 
+            }
+        }
+               },
+ Messages.EUROBALISE.SubStructure1
+        {
+            TRACK_TO_TRAIN=&gt;Messages.PACKET.TRACK_TO_TRAIN.Message
+            {
+                 LEVEL_1_MOVEMENT_AUTHORITY=&gt;Messages.PACKET.TRACK_TO_TRAIN.LEVEL_1_MOVEMENT_AUTHORITY.Message
+                {
+                    NID_PACKET=&gt;12,
+                    Q_DIR=&gt;Messages.Q_DIR.Both_directions,
+                    L_PACKET=&gt;400,
+                    Q_SCALE=&gt;Messages.Q_SCALE._1_m_scaleC,
+                    V_MAIN=&gt;16,
+                    V_LOA=&gt;8,
+                    T_LOA=&gt;200,
+                    N_ITER=&gt;0,
+                    Sequence1=&gt;[],
+                    L_ENDSECTION=&gt;10000,
+                    Q_SECTIONTIMER=&gt;Messages.Q_SECTIONTIMER.No_Section_Timer_information,
+                    T_SECTIONTIMER=&gt;0,
+                    D_SECTIONTIMERSTOPLOC=&gt;0,
+                    Q_ENDTIMER=&gt;Messages.Q_ENDTIMER.No_End_section_timer_information,
+                    T_ENDTIMER=&gt;0,
+                    D_ENDTIMERSTARTLOC=&gt;0,
+                    Q_DANGERPOINT=&gt;Messages.Q_DANGERPOINT.Danger_point_information_to_follow,
+                    D_DP=&gt;12000,
+                    V_RELEASEDP=&gt;5,
+                    Q_OVERLAP=&gt;Messages.Q_OVERLAP.No_overlap_information,
+                    D_STARTOL=&gt;0,
+                    T_OL=&gt;0,
+                    D_OL=&gt;0,
+                    V_RELEASEOL=&gt;0
+                }
+            }
+         }
+                ]
+}</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step3 - Data check"
+ Guid="9da6c1d9-47b4-4dc3-89ac-56a6a382775f"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="83c2bd12-68d4-4334-aae0-be7aad4328a7"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="4db40825-2cb1-43d7-afb8-15868eb511c7"
+>Kernel.MA.ModeProfile.Profile != []</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="96f71285-245f-42e7-be71-8084d5efc18f"
+>(FIRST X IN Kernel.MA.ModeProfile.Profile).Mode == ModeEnum.ModeProfile.OS</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase></TestCases>
+</SubSequence><SubSequence
+ D_LRBG=""
+ Level=""
+ Mode=""
+ NID_LRBG=""
+ Q_DIRLRBG=""
+ Q_DIRTRAIN=""
+ Q_DLRBG=""
+ RBC_ID=""
+ RBCPhone=""
+ Name="The Mode Profile can request OS Mode"
+ Guid="2a55ed72-d9f6-4619-b7fe-01e2a3e02596"
+>
+<TestCases>
+<TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ Name="OS Mode Profile received"
+ Guid="ccd88264-4f06-4553-9a6c-01ca917b5700"
+>
+<ReqRef
+ Id="cbef1165-fc33-4ac1-994e-5f8a83f5e225"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="762e4312-321a-4576-98b0-c0770d56ec12"
+>
+</ReqRef><ReqRef
+ Id="2ef2992f-43ce-4f58-abf6-55560cf910bd"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0c2e8799-449f-463d-a9c8-3bfc35aa6231"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Setup"
+ Guid="6987ec17-c6d1-4b5f-8022-23f0c370b2d1"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1 - Initialize test environment"
+ Guid="7b9d2fa2-9066-4b41-aab4-26b10610d55d"
+>
+<Actions>
+<Action
+ Guid="c8ded6f6-b54b-47fa-af26-0ac4b4854213"
+>Testing.InitializeTestEnvironment
+(
+    aTrainPosition =&gt; 100.0,
+    aMode =&gt; ModeEnum.FS
+)</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step2 - Initialize elements to receive MA"
+ Guid="78edc3c8-9f55-4a46-95f2-f9bde2d35702"
+>
+<Actions>
+<Action
+ Guid="56bba492-396e-4133-8f0e-342669487a52"
+>Testing.InitializeElementsForMA()</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step2 - ModeSR"
+ Guid="3721a608-f0af-4d29-9f73-8bca8d865d62"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="9a40b15c-eb88-466b-a657-75c01df7dd9b"
+>
+<Actions>
+<Action
+ Guid="f2c57cdf-0dcf-4bb3-b962-004dbab1dee7"
+>Testing.SetSRMode(False)</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step3 - BTM.Message ModeProfile OS + Level.L1"
+ Guid="2fd4f08e-a34b-4d75-8b35-53d265ffc2a7"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="d07750ce-8cf5-4fe5-b649-d7051caae3b7"
+>
+<Actions>
+<Action
+ Guid="ae6a3f01-4fa8-404e-b174-7714383ff119"
+>BTM.Message.SystemVersion2 &lt;- Messages.EUROBALISE.Message
+{
+    Q_UPDOWN=&gt; Messages.Q_UPDOWN.Up_link_telegram,
+    M_VERSION=&gt;32,
+    Q_MEDIA=&gt;Messages.Q_MEDIA.Balise,
+    N_PIG=&gt;0,
+    N_TOTAL=&gt;0,
+    M_DUP=&gt;Messages.M_DUP.No_duplicates,
+    M_MCOUNT=&gt;4,
+    NID_C=&gt;140,
+    NID_BG=&gt;2124,
+    Q_LINK=&gt;Messages.Q_LINK.Unlinked,
+    Sequence1=&gt;
+    [ 
+       Messages.EUROBALISE.SubStructure1
+        {
+            TRACK_TO_TRAIN=&gt;Messages.PACKET.TRACK_TO_TRAIN.Message
+            {
+                MODE_PROFILE=&gt;Messages.PACKET.TRACK_TO_TRAIN.MODE_PROFILE.Message
+                {
+                   D_MAMODE=&gt;0,
+                   L_ACKMAMODE=&gt;500,
+                   L_MAMODE=&gt;100,
+                   L_PACKET=&gt;0,
+                   M_MAMODE=&gt;Messages.M_MAMODE.On_Sight,               
+                   N_ITER=&gt;0,
+                   NID_PACKET=&gt;80,
+                   Q_DIR=&gt; Messages.Q_DIR.Both_directions,
+                   Q_MAMODE=&gt; Messages.Q_MAMODE.as_both_the_EOA_and_SvL__instead_of_the_EOA_and_SvL_given_by_the_MA,
+                   Q_SCALE=&gt;Messages.Q_SCALE._1_m_scaleC,
+                   V_MAMODE=&gt;10,
+                   Sequence1=&gt;[] 
+                }
+           }
+               },
+ Messages.EUROBALISE.SubStructure1
+        {
+            TRACK_TO_TRAIN=&gt;Messages.PACKET.TRACK_TO_TRAIN.Message
+            {
+                 LEVEL_1_MOVEMENT_AUTHORITY=&gt;Messages.PACKET.TRACK_TO_TRAIN.LEVEL_1_MOVEMENT_AUTHORITY.Message
+                {
+                    NID_PACKET=&gt;12,
+                    Q_DIR=&gt;Messages.Q_DIR.Both_directions,
+                    L_PACKET=&gt;400,
+                    Q_SCALE=&gt;Messages.Q_SCALE._1_m_scaleC,
+                    V_MAIN=&gt;16,
+                    V_LOA=&gt;8,
+                    T_LOA=&gt;200,
+                    N_ITER=&gt;0,
+                    Sequence1=&gt;[],
+                    L_ENDSECTION=&gt;1000,
+                    Q_SECTIONTIMER=&gt;Messages.Q_SECTIONTIMER.No_Section_Timer_information,
+                    T_SECTIONTIMER=&gt;0,
+                    D_SECTIONTIMERSTOPLOC=&gt;0,
+                    Q_ENDTIMER=&gt;Messages.Q_ENDTIMER.No_End_section_timer_information,
+                    T_ENDTIMER=&gt;0,
+                    D_ENDTIMERSTARTLOC=&gt;0,
+                    Q_DANGERPOINT=&gt;Messages.Q_DANGERPOINT.Danger_point_information_to_follow,
+                    D_DP=&gt;12000,
+                    V_RELEASEDP=&gt;5,
+                    Q_OVERLAP=&gt;Messages.Q_OVERLAP.No_overlap_information,
+                    D_STARTOL=&gt;0,
+                    T_OL=&gt;0,
+                    D_OL=&gt;0,
+                    V_RELEASEOL=&gt;0
+                }
+            }
+         }
+                           ]
+}</Action><Action
+ Guid="74c3d78a-6ba4-47c3-8329-689a10773c47"
+>Kernel.Level.DataState &lt;- DataStateEnum.Valid</Action><Action
+ Guid="a676a454-eef5-456c-a111-f4bb49fea9d5"
+>Kernel.Level.Value.Value &lt;- LevelEnum.L1</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step4 - Mode Check"
+ Guid="9f4aa9c3-b764-42e4-aadc-9452b209d121"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="cac622dd-4cd1-4829-9340-5f03024b2a07"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="ab028293-2b83-468d-acfc-15e0548ee31b"
+>Kernel.Mode == ModeEnum.OS</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="180f03e6-86ac-4f0e-bb56-88e855f0e428"
+>Kernel.MA.ModeProfile.CurrentMode() == ModeEnum.ModeProfile.OS</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase></TestCases>
+</SubSequence><SubSequence
+ D_LRBG=""
+ Level=""
+ Mode=""
+ NID_LRBG=""
+ Q_DIRLRBG=""
+ Q_DIRTRAIN=""
+ Q_DLRBG=""
+ RBC_ID=""
+ RBCPhone=""
+ Name="The ModeProfile can request LS Mode"
+ Guid="915bda91-17d5-4be8-bc11-fd4e38b3187d"
+>
+<TestCases>
+<TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ Name="LS Mode Profile received"
+ Guid="4b33409c-c8c0-4112-bea3-27f19cc84405"
+>
+<ReqRef
+ Id="cbef1165-fc33-4ac1-994e-5f8a83f5e225"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b961ff9c-7785-4ade-b2c4-992d9eedac02"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Setup"
+ Guid="9dd050ab-b411-45e9-a5a8-8848b63b1665"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1 - Initialize test environment"
+ Guid="921b9d0b-5e63-427a-9de9-9c997bcb5c22"
+>
+<Actions>
+<Action
+ Guid="f358eae4-295d-439a-b327-4b13f0875b28"
+>Testing.InitializeTestEnvironment
+(
+    aTrainPosition =&gt; 100.0,
+    aMode =&gt; ModeEnum.FS
+)</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step2 - Initialize elements to receive MA"
+ Guid="c65ee4cd-4432-4989-9c19-6e64ae6f5582"
+>
+<Actions>
+<Action
+ Guid="a94b78e4-b907-4e50-ae67-b56503281a90"
+>Testing.InitializeElementsForMA()</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step2 - ModeSR"
+ Guid="94f90593-ed34-4bd4-9e73-40c012660f73"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="be4a041d-3fbe-4d9d-8d52-29dfa6491aaf"
+>
+<Actions>
+<Action
+ Guid="a0525c1c-de56-4d44-b52c-b1a5bab7037f"
+>Testing.SetSRMode(False)</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step3 - BTM.Message ModeProfile LS + Level.L1"
+ Guid="64600652-fc84-41e4-858b-b4446e0989f1"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="360eb4df-9e04-474c-8139-5fec20311591"
+>
+<Actions>
+<Action
+ Guid="28a25905-eeae-4f7b-bf3e-071e779d2d8d"
+>BTM.Message.SystemVersion2 &lt;- Messages.EUROBALISE.Message
+{
+    Q_UPDOWN=&gt; Messages.Q_UPDOWN.Up_link_telegram,
+    M_VERSION=&gt;32,
+    Q_MEDIA=&gt;Messages.Q_MEDIA.Balise,
+    N_PIG=&gt;0,
+    N_TOTAL=&gt;0,
+    M_DUP=&gt;Messages.M_DUP.No_duplicates,
+    M_MCOUNT=&gt;4,
+    NID_C=&gt;140,
+    NID_BG=&gt;2124,
+    Q_LINK=&gt;Messages.Q_LINK.Unlinked,
+    Sequence1=&gt;
+    [ 
+       Messages.EUROBALISE.SubStructure1
+        {
+            TRACK_TO_TRAIN=&gt;Messages.PACKET.TRACK_TO_TRAIN.Message
+            {
+                MODE_PROFILE=&gt;Messages.PACKET.TRACK_TO_TRAIN.MODE_PROFILE.Message
+                {
+                   D_MAMODE=&gt;0,
+                   L_ACKMAMODE=&gt;500,
+                   L_MAMODE=&gt;100,
+                   L_PACKET=&gt;0,
+                   M_MAMODE=&gt;Messages.M_MAMODE.Limited_Supervision,               
+                   N_ITER=&gt;0,
+                   NID_PACKET=&gt;80,
+                   Q_DIR=&gt; Messages.Q_DIR.Both_directions,
+                   Q_MAMODE=&gt; Messages.Q_MAMODE.as_both_the_EOA_and_SvL__instead_of_the_EOA_and_SvL_given_by_the_MA,
+                   Q_SCALE=&gt;Messages.Q_SCALE._1_m_scaleC,
+                   V_MAMODE=&gt;10,
+                   Sequence1=&gt;[] 
+                }
+           }
+               },
+ Messages.EUROBALISE.SubStructure1
+        {
+            TRACK_TO_TRAIN=&gt;Messages.PACKET.TRACK_TO_TRAIN.Message
+            {
+                 LEVEL_1_MOVEMENT_AUTHORITY=&gt;Messages.PACKET.TRACK_TO_TRAIN.LEVEL_1_MOVEMENT_AUTHORITY.Message
+                {
+                    NID_PACKET=&gt;12,
+                    Q_DIR=&gt;Messages.Q_DIR.Both_directions,
+                    L_PACKET=&gt;400,
+                    Q_SCALE=&gt;Messages.Q_SCALE._1_m_scaleC,
+                    V_MAIN=&gt;16,
+                    V_LOA=&gt;8,
+                    T_LOA=&gt;200,
+                    N_ITER=&gt;0,
+                    Sequence1=&gt;[],
+                    L_ENDSECTION=&gt;1000,
+                    Q_SECTIONTIMER=&gt;Messages.Q_SECTIONTIMER.No_Section_Timer_information,
+                    T_SECTIONTIMER=&gt;0,
+                    D_SECTIONTIMERSTOPLOC=&gt;0,
+                    Q_ENDTIMER=&gt;Messages.Q_ENDTIMER.No_End_section_timer_information,
+                    T_ENDTIMER=&gt;0,
+                    D_ENDTIMERSTARTLOC=&gt;0,
+                    Q_DANGERPOINT=&gt;Messages.Q_DANGERPOINT.Danger_point_information_to_follow,
+                    D_DP=&gt;12000,
+                    V_RELEASEDP=&gt;5,
+                    Q_OVERLAP=&gt;Messages.Q_OVERLAP.No_overlap_information,
+                    D_STARTOL=&gt;0,
+                    T_OL=&gt;0,
+                    D_OL=&gt;0,
+                    V_RELEASEOL=&gt;0
+                }
+            }
+         }
+                           ]
+}</Action><Action
+ Guid="c7e1a96c-8027-45b0-bea3-459324b4fcf8"
+>Kernel.Level.Value.Value &lt;- LevelEnum.L1</Action><Action
+ Guid="5ff1b196-a35a-4fb9-b795-a9b62bbff45b"
+>Kernel.Level.DataState &lt;- DataStateEnum.Valid</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step4 - Mode Check"
+ Guid="7ede0f2c-7d42-40a2-8a74-8bc7d136df0e"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="d2d31652-31b0-47ed-8d4f-e50c8b997d0d"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="e7b92ed9-255a-4797-bbd0-f6479381d2b3"
+>Kernel.Mode == ModeEnum.LS</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="3c72bfee-3386-46e2-a622-680ad76e65b9"
+>Kernel.MA.ModeProfile.CurrentMode() == ModeEnum.ModeProfile.LS</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase></TestCases>
+</SubSequence><SubSequence
+ D_LRBG=""
+ Level=""
+ Mode=""
+ NID_LRBG=""
+ Q_DIRLRBG=""
+ Q_DIRTRAIN=""
+ Q_DLRBG=""
+ RBC_ID=""
+ RBCPhone=""
+ Name="The ModeProfile can request SH Mode"
+ Guid="5725a1f1-2db7-4872-ae7b-dcaabe98891c"
+>
+<TestCases>
+<TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ Name="SH Mode Profile received"
+ Guid="be69de3e-c9d4-4b77-a51d-c08ae49f5f81"
+>
+<ReqRef
+ Id="cbef1165-fc33-4ac1-994e-5f8a83f5e225"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="81317d1e-61f1-45f8-b283-87f81b600b53"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Setup"
+ Guid="1e8a68a1-10e7-4fab-9454-c2ca0271a1e8"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1 - Initialize test environment"
+ Guid="c8af07cd-78c1-4f90-8ce1-a433264d752e"
+>
+<Actions>
+<Action
+ Guid="36eacec9-9312-43fc-b9e2-e958be491fc4"
+>Testing.InitializeTestEnvironment
+(
+    aTrainPosition =&gt; 100.0,
+    aMode =&gt; ModeEnum.FS
+)</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step2 - Initialize elements to receive MA"
+ Guid="39f73505-f76f-4e7a-8773-812441aab469"
+>
+<Actions>
+<Action
+ Guid="9a7c466b-4c42-48c8-9dd7-3b7cf7aa0e66"
+>Testing.InitializeElementsForMA()</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step2 - ModeSR"
+ Guid="72843ce1-3daa-4b37-b240-4765c1fd3d37"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="ae2e818b-7c30-4e0b-9caf-3725baf0b551"
+>
+<Actions>
+<Action
+ Guid="490821c8-1910-411c-9106-eab8f2a4aadb"
+>Testing.SetSRMode(False)</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step3 - BTM.Message ModeProfileSH"
+ Guid="dfc896b4-d9e2-4e42-94f5-2f4cd742f898"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="7629d782-4325-4e8c-9c46-56c68403ffae"
+>
+<Actions>
+<Action
+ Guid="fd3e1617-20c8-4a5e-bcfa-fbfa5691fadc"
+>BTM.Message.SystemVersion2 &lt;- Messages.EUROBALISE.Message
+{
+    Q_UPDOWN=&gt; Messages.Q_UPDOWN.Up_link_telegram,
+    M_VERSION=&gt;32,
+    Q_MEDIA=&gt;Messages.Q_MEDIA.Balise,
+    N_PIG=&gt;0,
+    N_TOTAL=&gt;0,
+    M_DUP=&gt;Messages.M_DUP.No_duplicates,
+    M_MCOUNT=&gt;4,
+    NID_C=&gt;140,
+    NID_BG=&gt;2124,
+    Q_LINK=&gt;Messages.Q_LINK.Unlinked,
+    Sequence1=&gt;
+    [ 
+       Messages.EUROBALISE.SubStructure1
+        {
+            TRACK_TO_TRAIN=&gt;Messages.PACKET.TRACK_TO_TRAIN.Message
+            {
+                MODE_PROFILE=&gt;Messages.PACKET.TRACK_TO_TRAIN.MODE_PROFILE.Message
+                {
+                   D_MAMODE=&gt;0,
+                   L_ACKMAMODE=&gt;500,
+                   L_MAMODE=&gt;100,
+                   L_PACKET=&gt;0,
+                   M_MAMODE=&gt;   Messages.M_MAMODE.Shunting,               
+                   N_ITER=&gt;0,
+                   NID_PACKET=&gt;80,
+                   Q_DIR=&gt; Messages.Q_DIR.Both_directions,
+                   Q_MAMODE=&gt; Messages.Q_MAMODE.as_both_the_EOA_and_SvL__instead_of_the_EOA_and_SvL_given_by_the_MA,
+                   Q_SCALE=&gt;Messages.Q_SCALE._1_m_scaleC,
+                   V_MAMODE=&gt;10,
+                   Sequence1=&gt;[] 
+               }
+          }
+      },
+       Messages.EUROBALISE.SubStructure1
+        {
+            TRACK_TO_TRAIN=&gt;Messages.PACKET.TRACK_TO_TRAIN.Message
+            {
+                 LEVEL_1_MOVEMENT_AUTHORITY=&gt;Messages.PACKET.TRACK_TO_TRAIN.LEVEL_1_MOVEMENT_AUTHORITY.Message
+                {
+                    NID_PACKET=&gt;12,
+                    Q_DIR=&gt;Messages.Q_DIR.Both_directions,
+                    L_PACKET=&gt;400,
+                    Q_SCALE=&gt;Messages.Q_SCALE._1_m_scaleC,
+                    V_MAIN=&gt;16,
+                    V_LOA=&gt;8,
+                    T_LOA=&gt;200,
+                    N_ITER=&gt;0,
+                    Sequence1=&gt;[],
+                    L_ENDSECTION=&gt;10000,
+                    Q_SECTIONTIMER=&gt;Messages.Q_SECTIONTIMER.No_Section_Timer_information,
+                    T_SECTIONTIMER=&gt;0,
+                    D_SECTIONTIMERSTOPLOC=&gt;0,
+                    Q_ENDTIMER=&gt;Messages.Q_ENDTIMER.No_End_section_timer_information,
+                    T_ENDTIMER=&gt;0,
+                    D_ENDTIMERSTARTLOC=&gt;0,
+                    Q_DANGERPOINT=&gt;Messages.Q_DANGERPOINT.Danger_point_information_to_follow,
+                    D_DP=&gt;12000,
+                    V_RELEASEDP=&gt;5,
+                    Q_OVERLAP=&gt;Messages.Q_OVERLAP.No_overlap_information,
+                    D_STARTOL=&gt;0,
+                    T_OL=&gt;0,
+                    D_OL=&gt;0,
+                    V_RELEASEOL=&gt;0
+                }
+            }
+         },
+           Messages.EUROBALISE.SubStructure1
+        {
+            TRACK_TO_TRAIN=&gt;Messages.PACKET.TRACK_TO_TRAIN.Message
+            {
+                               LIST_OF_BALISES_FOR_SH_AREA =&gt; Messages.PACKET.TRACK_TO_TRAIN.LIST_OF_BALISES_FOR_SH_AREA.Message
+                  {
+                      NID_PACKET =&gt; 49,
+                      Q_DIR =&gt; Messages.Q_DIR.Both_directions,
+                      L_PACKET =&gt; 0,
+                      N_ITER =&gt; 1,
+                      Sequence1 =&gt; 
+                              [
+                                 Messages.PACKET.TRACK_TO_TRAIN.LIST_OF_BALISES_FOR_SH_AREA.SubStructure1
+                                  {
+                                        NID_BG=&gt; 2124,
+                                        NID_C=&gt;140,
+                                        Q_NEWCOUNTRY=&gt;Messages.Q_NEWCOUNTRY.Same_country___railway_administration__no_NID_C_follows
+                                    }
+                              ]
+                   } 
+            }
+         }
+                ]
+}</Action><Action
+ Guid="96806aa4-4c43-41fd-abb5-70459d02afe7"
+>Kernel.Level.Value.Value &lt;- LevelEnum.L1</Action><Action
+ Guid="7ab11c91-1ed6-4075-9e4f-339670218272"
+>Kernel.Level.DataState &lt;- DataStateEnum.Valid</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step4 - Mode Check"
+ Guid="edb7d4f2-e844-4b24-a6a2-fd99556784db"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="3131d645-8b79-4a88-a031-2e1653cc10bd"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="1221095b-aa04-4c1e-9d2c-eb68a697acb9"
+>Kernel.Mode == ModeEnum.SH</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase></TestCases>
+</SubSequence></SubSequences>
+</Frame>

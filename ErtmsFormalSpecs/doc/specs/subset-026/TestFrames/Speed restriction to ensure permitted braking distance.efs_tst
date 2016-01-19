@@ -1,0 +1,967 @@
+<Frame
+ CycleDuration="Kernel.CycleDuration"
+ Name="Speed restriction to ensure permitted braking distance"
+ Guid="f61afcb4-7561-47ee-a31f-83068e0d1c2f"
+>
+<SubSequences>
+<SubSequence
+ D_LRBG=""
+ Level=""
+ Mode=""
+ NID_LRBG=""
+ Q_DIRLRBG=""
+ Q_DIRTRAIN=""
+ Q_DLRBG=""
+ RBC_ID=""
+ RBCPhone=""
+ Name="Check initial state"
+ Guid="879ac57f-39d7-47be-89cc-934a6f096312"
+>
+<TestCases>
+<TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ Name="Test case1"
+ Guid="5380c330-3b40-4d8e-bb0b-9f0f8d3194d3"
+>
+<ReqRef
+ Id="c0212afe-50dc-4499-9f13-e6a734ef08fe"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="2d48a89a-5b04-43ff-8d10-77a77c16f276"
+>
+</ReqRef><ReqRef
+ Id="1be737d0-fb4e-4643-926f-c5fcada702d0"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="181f0ecb-0c8f-499f-91ed-196c07950c7a"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Setup"
+ Guid="6e3070e0-07ec-491f-bfbe-1548d5494982"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="fb2a929c-4a70-436e-8b81-f07099e41b98"
+>
+<Actions>
+<Action
+ Guid="0f1cf408-c7d2-437c-bf2d-5f60a219606b"
+>Testing.InitializeTestEnvironment
+(
+    aTrainPosition =&gt; 100.0,
+    aMode =&gt; ModeEnum.SR
+)</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step2 - Check for absence of restrictions"
+ Guid="5245e804-8af3-4093-9a13-0d607b756da7"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="b8beeb23-d969-402c-8674-5b0e09b1ed23"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="d464f7ab-0613-4b52-811d-342f70729cb8"
+>Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.SpeedRestrictions == []</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="189657f3-2162-456b-9c3f-24e5cc518bc5"
+>Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictions(
+    Distance=&gt;0.0
+) == BaseTypes.Speed.MaxSpeed</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase></TestCases>
+</SubSequence><SubSequence
+ D_LRBG=""
+ Level=""
+ Mode=""
+ NID_LRBG=""
+ Q_DIRLRBG=""
+ Q_DIRTRAIN=""
+ Q_DLRBG=""
+ RBC_ID=""
+ RBCPhone=""
+ Name="Send + store PBD message"
+ Guid="f3939ef1-6f7e-4cc4-8755-ff67604843a3"
+>
+<TestCases>
+<TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ Name="Test case1"
+ Guid="d7ecfa0c-e669-4e80-bb45-94b5a0f6d7b0"
+>
+<ReqRef
+ Id="c0212afe-50dc-4499-9f13-e6a734ef08fe"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9fdf40b0-80a7-4d4f-87c4-9a4000a3a29f"
+>
+</ReqRef><ReqRef
+ Id="0c087a57-86f8-4190-81b9-2698efc3cc18"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d5bd2f4e-d055-4480-bf22-87a3fd8071a5"
+>
+</ReqRef><ReqRef
+ Id="7286d7a7-e1e5-4269-ae7b-f3e6ff5a129f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e9c13844-389e-46e3-a23f-65a6a4f80be9"
+>
+</ReqRef><Comment>packets 65 and 141 are relevant? NO
+we need packet number 52
+pbd sr</Comment>
+<Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Setup"
+ Guid="f1f409f3-38bd-4298-a035-c96ba88f0aa5"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="8b2d5645-ff7f-4b86-b023-2c331db65de1"
+>
+<Actions>
+<Action
+ Guid="553f2344-8990-4399-9cc8-dad50b7081d5"
+>Testing.InitializeTestEnvironment
+(
+    aTrainPosition =&gt; 100.0,
+    aMode =&gt; ModeEnum.FS
+)</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step2 - Set Initial values"
+ Guid="ae7c6412-7ac5-438f-aac0-5bbcc23564a2"
+>
+<Comment>refer to 3.11.11.7</Comment>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="70aafa94-726c-4969-b865-6817cbd35ac2"
+>
+<Actions>
+<Action
+ Guid="a316eb92-88c2-4319-9f64-0acaf4b7986c"
+>BTM.LRBG&lt;- BTM.BaliseGroupStruct
+{
+    NID=&gt;9616,
+    Orientation=&gt;OrientationEnum.Nominal,
+    Position=&gt;BTM.Position
+    {
+        OverReadingAmountOdo =&gt; 0.0,
+        Position =&gt; 11000.0,
+        UnderReadingAmountOdo =&gt; 0.0
+    }
+}</Action><Action
+ Guid="0cfcefa8-0c14-4e51-b2aa-688b9eb8b584"
+>Odometry.NominalDistance &lt;- 11100.0</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step3 - Send out PBD message"
+ Guid="9f7c5bcc-db26-45d5-9419-62ce3a176570"
+>
+<Comment>Q_FRONT could be Messages.Q_FRONT.No_train_length_delay_on_validity_end_point_of_profile_element</Comment>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="46498a06-b11d-4963-98cb-5c771d277485"
+>
+<Actions>
+<Action
+ Guid="1a3485d4-0764-4c27-af8e-9db934294126"
+>BTM.Message.SystemVersion2 &lt;- Messages.EUROBALISE.Message
+{
+    Q_UPDOWN =&gt; Messages.Q_UPDOWN.Down_link_telegram,
+    M_VERSION =&gt; Messages.M_VERSION.Version_2_0__introduced_in_SRS_3_0_0,
+    Q_MEDIA =&gt; Messages.Q_MEDIA.Balise,
+    N_PIG =&gt; 0,
+    N_TOTAL =&gt; 0,
+    M_DUP =&gt; Messages.M_DUP.No_duplicates,
+    M_MCOUNT =&gt; 0,
+    NID_C =&gt; 0,
+    NID_BG =&gt; 9616,
+    Q_LINK =&gt; Messages.Q_LINK.Unlinked,
+    Sequence1 =&gt; [Messages.EUROBALISE.SubStructure1
+{
+    TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message
+    {
+        PERMITTED_BRAKING_DISTANCE_INFORMATION =&gt; Messages.PACKET.TRACK_TO_TRAIN.PERMITTED_BRAKING_DISTANCE_INFORMATION.Message
+        {
+            Q_DIR =&gt; Messages.Q_DIR.Both_directions,
+            L_PACKET =&gt; 0,
+            Q_SCALE =&gt; Messages.Q_SCALE._1_m_scaleC,
+            Q_TRACKINIT =&gt; Messages.Q_TRACKINIT.No_initial_states_to_be_resumed__profile_to_follow,
+            D_PBD =&gt; 2000,
+            Q_GDIR =&gt; Messages.Q_GDIR.uphill,
+            G_PBDSR =&gt; 10,
+            Q_PBDSR =&gt; Messages.Q_PBDSR.SB_intervention_requested,
+            D_PBDSR =&gt; 1000,
+            L_PBDSR =&gt; 5000,
+            N_ITER =&gt; 1,
+            Sequence1 =&gt; [Messages.PACKET.TRACK_TO_TRAIN.PERMITTED_BRAKING_DISTANCE_INFORMATION.SubStructure1
+{
+    D_PBD =&gt; 3000,
+    Q_GDIR =&gt; Messages.Q_GDIR.downhill,
+    G_PBDSR =&gt; 20,
+    Q_PBDSR =&gt; Messages.Q_PBDSR.EB_intervention_requested,
+    D_PBDSR =&gt; 2000,
+    L_PBDSR =&gt; 6000
+}]
+        }
+    }
+}]
+}</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step4 - Check that PBD values are stored correctly"
+ Guid="36056467-f847-4a38-b874-f8064d299b3f"
+>
+<Comment>The value of &quot;Speed&quot; is not tested here because it is the result of an internal calculation inside the Kernel (and hence not explicitly set in the the BTM.Message)</Comment>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="41dfdb42-79dc-46d0-9b68-7faa02b33dc4"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="0f9596e2-2bb3-4abb-81f5-366d660c1969"
+>(FIRST X IN Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.SpeedRestrictions).Gradient == 10.0</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="c5e6d62c-e49c-4444-b09c-245ec998986d"
+>(FIRST X IN Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.SpeedRestrictions).Length == 5000.0</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="2eaa1e91-248b-45ed-ab9b-ba025c5011ab"
+>(FIRST X IN Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.SpeedRestrictions).Location == 1000.0</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="a1ca7683-6e16-484d-8126-a823a6ffac66"
+>(FIRST X IN Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.SpeedRestrictions).BrakeType == Messages.Q_PBDSR.SB_intervention_requested</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="d556051a-f086-4980-8815-d80985633b1b"
+>(FIRST X IN Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.SpeedRestrictions).BrakingDistance == 2000.0</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="ca32ab3c-20c0-4ba0-8b5d-a73dad4d6d23"
+>(LAST X IN Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.SpeedRestrictions).BrakeType == Messages.Q_PBDSR.EB_intervention_requested</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="1a3438fb-40b5-45ce-8611-939871f6361b"
+>(LAST X IN Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.SpeedRestrictions).BrakingDistance == 3000.0</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="eed5f495-1609-48c1-b205-403a819494ea"
+>(LAST X IN Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.SpeedRestrictions).Gradient == -20.0</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="fc44b898-e8bf-4d0b-99be-10d89b984ac8"
+>(LAST X IN Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.SpeedRestrictions).Length == 6000.0</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="0b1e6ff6-ebf5-4fb5-b069-e762feeb4d3b"
+>(LAST X IN Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.SpeedRestrictions).Location == 2000.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase></TestCases>
+</SubSequence><SubSequence
+ D_LRBG=""
+ Level=""
+ Mode=""
+ NID_LRBG=""
+ Q_DIRLRBG=""
+ Q_DIRTRAIN=""
+ Q_DLRBG=""
+ RBC_ID=""
+ RBCPhone=""
+ Name="Values of new packet overwrite values from old packet"
+ Guid="d102ab81-7ff6-45ee-bc16-dabf40ab0157"
+>
+<TestCases>
+<TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ Name="Test case1 - Complete replacement"
+ Guid="3b401cb6-db41-4d68-8852-2553d242288d"
+>
+<ReqRef
+ Id="90d5e9cb-5620-45e8-a0aa-6018093e3100"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="abdefdae-05a0-4dab-a943-6c514e6df776"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Setup"
+ Guid="c26f698c-67ca-4d12-9f22-2db1a450af1e"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="abd74df0-29bd-4357-a122-3c9ff972cb19"
+>
+<Actions>
+<Action
+ Guid="903aa526-ff72-474d-a695-4945758a4f86"
+>Testing.InitializeTestEnvironment
+(
+    aTrainPosition =&gt; 100.0,
+    aMode =&gt; ModeEnum.FS
+)</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step2 - Initialize Kernel with PBD values"
+ Guid="0320613d-704e-4cd7-9cf2-855d41e2ef78"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="e54409c9-59f6-4789-958d-8137ab9d5a9a"
+>
+<Actions>
+<Action
+ Guid="6218ecaa-9d9d-4768-b737-3c135f17e1ec"
+>Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.SpeedRestrictions &lt;- 
+ [
+     Kernel.TrackDescription.PermittedBrakingDistance.SRPBDStruct {
+     BrakeType =&gt; Messages.Q_PBDSR.SB_intervention_requested,
+     BrakingDistance =&gt; 100.0,
+     Gradient =&gt; 0.0,
+     Length =&gt; 1000.0,
+     Location =&gt; 10000.0
+    },
+     Kernel.TrackDescription.PermittedBrakingDistance.SRPBDStruct {
+     BrakeType =&gt; Messages.Q_PBDSR.SB_intervention_requested,
+     BrakingDistance =&gt; 200.0,
+     Gradient =&gt; 10.0,
+     Length =&gt; 2000.0,
+     Location =&gt; 20000.0
+    },
+     Kernel.TrackDescription.PermittedBrakingDistance.SRPBDStruct {
+     BrakeType =&gt; Messages.Q_PBDSR.SB_intervention_requested,
+     BrakingDistance =&gt; 300.0,
+     Gradient =&gt; 20.0,
+     Length =&gt; 30000.0,
+     Location =&gt; 30000.0
+    }
+]</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="9a070ec9-4a02-41b0-875e-f6e66738b738"
+>(COUNT X IN Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.SpeedRestrictions) == 3</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Send out PBD message"
+ Guid="8870e4e9-718b-4181-a69e-a76163776576"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="19421151-2645-480b-a0db-95ef053e266d"
+>
+<Actions>
+<Action
+ Guid="8967f0e4-c513-47a0-b6f8-e7ea30aef80f"
+>BTM.Message.SystemVersion2 &lt;- Messages.EUROBALISE.Message
+{
+    Q_UPDOWN =&gt; Messages.Q_UPDOWN.Down_link_telegram,
+    M_VERSION =&gt; Messages.M_VERSION.Version_2_0__introduced_in_SRS_3_0_0,
+    Q_MEDIA =&gt; Messages.Q_MEDIA.Balise,
+    N_PIG =&gt; 0,
+    N_TOTAL =&gt; 0,
+    M_DUP =&gt; Messages.M_DUP.No_duplicates,
+    M_MCOUNT =&gt; 0,
+    NID_C =&gt; 0,
+    NID_BG =&gt; 9616,
+    Q_LINK =&gt; Messages.Q_LINK.Unlinked,
+    Sequence1 =&gt; [Messages.EUROBALISE.SubStructure1
+{
+    TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message
+    {
+        PERMITTED_BRAKING_DISTANCE_INFORMATION =&gt; Messages.PACKET.TRACK_TO_TRAIN.PERMITTED_BRAKING_DISTANCE_INFORMATION.Message
+        {
+            Q_DIR =&gt; Messages.Q_DIR.Both_directions,
+            L_PACKET =&gt; 0,
+            Q_SCALE =&gt; Messages.Q_SCALE._1_m_scaleC,
+            Q_TRACKINIT =&gt; Messages.Q_TRACKINIT.No_initial_states_to_be_resumed__profile_to_follow,
+            D_PBD =&gt; 2000,
+            Q_GDIR =&gt; Messages.Q_GDIR.uphill,
+            G_PBDSR =&gt; 10,
+            Q_PBDSR =&gt; Messages.Q_PBDSR.SB_intervention_requested,
+            D_PBDSR =&gt; 1000,
+            L_PBDSR =&gt; 5000,
+            N_ITER =&gt; 0
+        }
+    }
+}]
+}</Action><Action
+ Guid="e86d4048-c5fe-4314-b348-bb85051e1cde"
+>BTM.LRBG&lt;- BTM.BaliseGroupStruct
+{
+    NID=&gt;9616,
+    Orientation=&gt;OrientationEnum.Nominal,
+    Position=&gt;BTM.Position
+    {
+        OverReadingAmountOdo =&gt; 0.0,
+        Position =&gt; 0.0,
+        UnderReadingAmountOdo =&gt; 0.0
+    }
+}</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Check that PBD message has overwritten old values"
+ Guid="be8ff30d-9817-453e-a4de-edde4a38ce7c"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="7103460d-b5a1-450b-b2c5-1ce012c207a8"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="b7124996-5ceb-4de5-9911-1524a9c328d0"
+>(COUNT X IN Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.SpeedRestrictions) == 1</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="2bae8607-7e63-4e84-845b-59c99dfe1137"
+>(FIRST X IN Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.SpeedRestrictions).BrakeType == Messages.Q_PBDSR.SB_intervention_requested</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="c9395a46-0c82-4858-9ef8-ec835e32ff16"
+>(FIRST X IN Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.SpeedRestrictions).BrakingDistance == 2000.0</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="1a444aa9-57fb-46bc-94bf-59e37716aba9"
+>(FIRST X IN Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.SpeedRestrictions).Gradient == 10.0</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="e9538c5d-98c5-4267-9404-a85e12fc9426"
+>(FIRST X IN Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.SpeedRestrictions).Length == 5000.0</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="d5afe472-2afa-4122-8fa3-524201ee9870"
+>(FIRST X IN Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.SpeedRestrictions).Location == 1000.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ Name="Test case2 - Partial replacement"
+ Guid="fb6d86e1-08fb-4b7f-b763-dcf261511a44"
+>
+<ReqRef
+ Id="90d5e9cb-5620-45e8-a0aa-6018093e3100"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b31e842c-bc14-4504-92d1-27964879d5d3"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Setup"
+ Guid="48df180b-712a-47c4-b15e-8ca0bd4c0eaa"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="761385f8-e314-4d0b-94d9-b1e09fcb91d5"
+>
+<Actions>
+<Action
+ Guid="af56def2-f0b1-40af-9c25-e19988b828da"
+>Testing.InitializeTestEnvironment
+(
+    aTrainPosition =&gt; 100.0,
+    aMode =&gt; ModeEnum.FS
+)</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step2 - Initialize Kernel with PBD values"
+ Guid="4bea4144-c88a-4415-a8d1-6c3d113b4d9c"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="89027b94-c86c-4d02-a157-6d219e608a99"
+>
+<Actions>
+<Action
+ Guid="bc155ec1-d71b-4aee-88ab-77d9ff191ce2"
+>Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.SpeedRestrictions &lt;- 
+ [
+     Kernel.TrackDescription.PermittedBrakingDistance.SRPBDStruct {
+     BrakeType =&gt; Messages.Q_PBDSR.SB_intervention_requested,
+     BrakingDistance =&gt; 100.0,
+     Gradient =&gt; 0.0,
+     Length =&gt; 1000.0,
+     Location =&gt; 10000.0
+    },
+     Kernel.TrackDescription.PermittedBrakingDistance.SRPBDStruct {
+     BrakeType =&gt; Messages.Q_PBDSR.SB_intervention_requested,
+     BrakingDistance =&gt; 200.0,
+     Gradient =&gt; 10.0,
+     Length =&gt; 2000.0,
+     Location =&gt; 20000.0
+    },
+     Kernel.TrackDescription.PermittedBrakingDistance.SRPBDStruct {
+     BrakeType =&gt; Messages.Q_PBDSR.SB_intervention_requested,
+     BrakingDistance =&gt; 300.0,
+     Gradient =&gt; 20.0,
+     Length =&gt; 30000.0,
+     Location =&gt; 30000.0
+    }
+]</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="360ce70e-69aa-4aba-9610-3dfd390fd9fe"
+>(COUNT X IN Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.SpeedRestrictions) == 3</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Send out PBD message"
+ Guid="3954b5fd-5894-4177-809b-ed43c5e2dfc8"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="19b2d592-b268-4a38-b2f7-58c9834efc2f"
+>
+<Actions>
+<Action
+ Guid="6525d9a3-a1dd-41f9-a286-14752fbf7458"
+>BTM.Message.SystemVersion2 &lt;- Messages.EUROBALISE.Message
+{
+    Q_UPDOWN =&gt; Messages.Q_UPDOWN.Down_link_telegram,
+    M_VERSION =&gt; Messages.M_VERSION.Version_2_0__introduced_in_SRS_3_0_0,
+    Q_MEDIA =&gt; Messages.Q_MEDIA.Balise,
+    N_PIG =&gt; 0,
+    N_TOTAL =&gt; 0,
+    M_DUP =&gt; Messages.M_DUP.No_duplicates,
+    M_MCOUNT =&gt; 0,
+    NID_C =&gt; 0,
+    NID_BG =&gt; 9616,
+    Q_LINK =&gt; Messages.Q_LINK.Unlinked,
+    Sequence1 =&gt; [Messages.EUROBALISE.SubStructure1
+{
+    TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message
+    {
+        PERMITTED_BRAKING_DISTANCE_INFORMATION =&gt; Messages.PACKET.TRACK_TO_TRAIN.PERMITTED_BRAKING_DISTANCE_INFORMATION.Message
+        {
+            Q_DIR =&gt; Messages.Q_DIR.Both_directions,
+            L_PACKET =&gt; 0,
+            Q_SCALE =&gt; Messages.Q_SCALE._1_m_scaleC,
+            Q_TRACKINIT =&gt; Messages.Q_TRACKINIT.No_initial_states_to_be_resumed__profile_to_follow,
+            D_PBD =&gt; 2000,
+            Q_GDIR =&gt; Messages.Q_GDIR.uphill,
+            G_PBDSR =&gt; 10,
+            Q_PBDSR =&gt; Messages.Q_PBDSR.SB_intervention_requested,
+            D_PBDSR =&gt; 19999,
+            L_PBDSR =&gt; 2000,
+            N_ITER =&gt; 0
+        }
+    }
+}]
+}</Action><Action
+ Guid="1277cc4a-62f1-493f-82be-3269015c772b"
+>BTM.LRBG&lt;- BTM.BaliseGroupStruct
+{
+    NID=&gt;9616,
+    Orientation=&gt;OrientationEnum.Nominal,
+    Position=&gt;BTM.Position
+    {
+        OverReadingAmountOdo =&gt; 0.0,
+        Position =&gt; 0.0,
+        UnderReadingAmountOdo =&gt; 0.0
+    }
+}</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Check that PBD message has overwritten old values"
+ Guid="256f617e-0216-48d6-bc8d-99fb293b6a11"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="8186f321-9e5b-4d89-a576-c6dd4c74c775"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="c4432fb0-c52a-48e1-8b22-b03360312024"
+>(COUNT X IN Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.SpeedRestrictions) == 2</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="3a7fe02a-b742-4e79-a81a-1c0599eaacee"
+>(FIRST X IN Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.SpeedRestrictions).BrakeType == Messages.Q_PBDSR.SB_intervention_requested</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="64fcea32-fcbf-46c7-b50c-b48c8fa34dea"
+>(FIRST X IN Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.SpeedRestrictions).BrakingDistance == 100.0</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="badec944-be9a-49f3-8e14-8dce935edd6d"
+>(FIRST X IN Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.SpeedRestrictions).Gradient == 0.0</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="ca1bc390-a5a4-482b-9732-0b3fb07829c4"
+>(FIRST X IN Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.SpeedRestrictions).Length == 1000.0</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="3d2ea9e7-05ea-4f19-bb25-2bf4cbe06543"
+>(FIRST X IN Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.SpeedRestrictions).Location == 10000.0</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="841fe4e5-09f9-4846-929a-37dc08b1bd8e"
+>(LAST X IN Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.SpeedRestrictions).BrakeType == Messages.Q_PBDSR.SB_intervention_requested</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="4a2341f8-38e2-4b23-a524-32ffd07903a2"
+>(LAST X IN Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.SpeedRestrictions).BrakingDistance == 2000.0</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="b18c52af-a53f-4f15-8d4c-9a998784d019"
+>(LAST X IN Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.SpeedRestrictions).Gradient == 10.0</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="0b6514b3-0b67-405d-8171-7726daafcd35"
+>(LAST X IN Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.SpeedRestrictions).Location == 19999.0</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="bba02ee1-e262-4544-adbc-0c4e0f75ee13"
+>(LAST X IN Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.SpeedRestrictions).Length == 2000.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ Name="Test case3 - No replacement"
+ Guid="72a8e7a9-2ad5-4cc9-bcf5-2849834b945a"
+>
+<ReqRef
+ Id="90d5e9cb-5620-45e8-a0aa-6018093e3100"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="1cc7e196-ac08-4128-92ee-8da89ec057a1"
+>
+</ReqRef><Comment>Since we are pushing preexisting values directly into the kernel (step2) we cannot verify if a balise message with the same N_PIG actually overwrites values of an old message with the same N_PIG. But it can be shown that old values are kept and new ones are simply added.</Comment>
+<Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Setup"
+ Guid="a69ea3b8-c09e-4604-be4d-cd9f6fa99cc1"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="183fff24-4a2a-440e-8a33-514c7da0f3e3"
+>
+<Actions>
+<Action
+ Guid="e3aaab6d-f81b-495f-b9ff-116cd35ec9cc"
+>Testing.InitializeTestEnvironment
+(
+    aTrainPosition =&gt; 100.0,
+    aMode =&gt; ModeEnum.FS
+)</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step2 - Initialize Kernel with PBD values"
+ Guid="966f35c2-a85e-43aa-a550-c66f4eab3117"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="d504360d-7a5a-43c9-9bbc-1ed69e135f67"
+>
+<Actions>
+<Action
+ Guid="f46f36f9-d24b-45e4-bb18-5ab94171e1d9"
+>Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.SpeedRestrictions &lt;- 
+ [
+     Kernel.TrackDescription.PermittedBrakingDistance.SRPBDStruct {
+     BrakeType =&gt; Messages.Q_PBDSR.SB_intervention_requested,
+     BrakingDistance =&gt; 100.0,
+     Gradient =&gt; 0.0,
+     Length =&gt; 1000.0,
+     Location =&gt; 10000.0
+    },
+     Kernel.TrackDescription.PermittedBrakingDistance.SRPBDStruct {
+     BrakeType =&gt; Messages.Q_PBDSR.SB_intervention_requested,
+     BrakingDistance =&gt; 200.0,
+     Gradient =&gt; 10.0,
+     Length =&gt; 2000.0,
+     Location =&gt; 20000.0
+    },
+     Kernel.TrackDescription.PermittedBrakingDistance.SRPBDStruct {
+     BrakeType =&gt; Messages.Q_PBDSR.SB_intervention_requested,
+     BrakingDistance =&gt; 300.0,
+     Gradient =&gt; 20.0,
+     Length =&gt; 3000.0,
+     Location =&gt; 30000.0
+    }
+]</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="235988ec-ea69-482b-a8fe-482456221436"
+>(COUNT X IN Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.SpeedRestrictions) == 3</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Send out PBD message"
+ Guid="1f14c3a1-2f57-4018-b9e4-da378909c580"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="9ffd43d2-2ad0-457b-86ce-12dd18e6f0c0"
+>
+<Actions>
+<Action
+ Guid="4525eeb3-1472-4070-93c8-f5233f063b9e"
+>BTM.Message.SystemVersion2 &lt;- Messages.EUROBALISE.Message
+{
+    Q_UPDOWN =&gt; Messages.Q_UPDOWN.Down_link_telegram,
+    M_VERSION =&gt; Messages.M_VERSION.Version_2_0__introduced_in_SRS_3_0_0,
+    Q_MEDIA =&gt; Messages.Q_MEDIA.Balise,
+    N_PIG =&gt; 0,
+    N_TOTAL =&gt; 0,
+    M_DUP =&gt; Messages.M_DUP.No_duplicates,
+    M_MCOUNT =&gt; 0,
+    NID_C =&gt; 0,
+    NID_BG =&gt; 9616,
+    Q_LINK =&gt; Messages.Q_LINK.Unlinked,
+    Sequence1 =&gt; [Messages.EUROBALISE.SubStructure1
+{
+    TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message
+    {
+        PERMITTED_BRAKING_DISTANCE_INFORMATION =&gt; Messages.PACKET.TRACK_TO_TRAIN.PERMITTED_BRAKING_DISTANCE_INFORMATION.Message
+        {
+            Q_DIR =&gt; Messages.Q_DIR.Both_directions,
+            L_PACKET =&gt; 0,
+            Q_SCALE =&gt; Messages.Q_SCALE._1_m_scaleC,
+            Q_TRACKINIT =&gt; Messages.Q_TRACKINIT.No_initial_states_to_be_resumed__profile_to_follow,
+            D_PBD =&gt; 400,
+            Q_GDIR =&gt; Messages.Q_GDIR.uphill,
+            G_PBDSR =&gt; 10,
+            Q_PBDSR =&gt; Messages.Q_PBDSR.SB_intervention_requested,
+            D_PBDSR =&gt; 30001,
+            L_PBDSR =&gt; 2000,
+            N_ITER =&gt; 0
+        }
+    }
+}]
+}</Action><Action
+ Guid="f4cfc4df-73f3-49ad-88c3-7499ed3f21ac"
+>BTM.LRBG&lt;- BTM.BaliseGroupStruct
+{
+    NID=&gt;9616,
+    Orientation=&gt;OrientationEnum.Nominal,
+    Position=&gt;BTM.Position
+    {
+        OverReadingAmountOdo =&gt; 0.0,
+        Position =&gt; 0.0,
+        UnderReadingAmountOdo =&gt; 0.0
+    }
+}</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Check that PBD message has overwritten no old values"
+ Guid="003ce4ae-c668-4b8d-8d30-7be7ac919af6"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="225dd0bc-0b43-43f5-8325-84b72e769d87"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="f7bce56c-0afa-4801-af35-fd2cb47aa795"
+>(COUNT X IN Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.SpeedRestrictions) == 4</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="4142b7d3-d955-43f4-8578-53e9409d3d5d"
+>(FIRST X IN Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.SpeedRestrictions).BrakeType == Messages.Q_PBDSR.SB_intervention_requested</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="5703fc82-8266-4aa5-b692-51cef59d3dc8"
+>(FIRST X IN Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.SpeedRestrictions).BrakingDistance == 100.0</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="6c515339-c5a7-4194-8c77-05bbf297e552"
+>(FIRST X IN Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.SpeedRestrictions).Gradient == 0.0</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="322943eb-d800-493c-8259-68a3bcf91128"
+>(FIRST X IN Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.SpeedRestrictions).Length == 1000.0</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="8e150811-c85f-4676-a66e-0d5cd4a030b2"
+>(FIRST X IN Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.SpeedRestrictions).Location == 10000.0</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="dedfe017-5d29-4e0b-a6ad-c94d6fefe888"
+>(LAST X IN Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.SpeedRestrictions).BrakeType == Messages.Q_PBDSR.SB_intervention_requested</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="ee0662cb-bd98-4f26-b7b7-86104adbc1ae"
+>(LAST X IN Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.SpeedRestrictions).BrakingDistance == 400.0</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="84b84dbd-a709-4502-85eb-b0ddf2e22a28"
+>(LAST X IN Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.SpeedRestrictions).Gradient == 10.0</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="f61c8cd5-a62b-4bc3-9c81-3938e2d5281b"
+>(LAST X IN Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.SpeedRestrictions).Location == 30001.0</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="14414072-d146-44a0-9cd2-40bad5ea3486"
+>(LAST X IN Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.SpeedRestrictions).Length == 2000.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase></TestCases>
+</SubSequence></SubSequences>
+</Frame>
