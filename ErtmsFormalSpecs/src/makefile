@@ -1,4 +1,4 @@
-.phony:all clean increase_release_number release
+.phony:all clean increase_release_number release fullbuild
 .default:all
 
 include etc/makefile.shared
@@ -53,3 +53,6 @@ release: clean increase_release_number patch_configuration_file Installer/EFSW_I
 	@echo === Building Installer package	
 	@../depends/InnoInstaller5/ISCC.exe Installer/EFSW_Installer_Script.iss /q
 
+fullbuild: clean
+	@echo === Rebuilding solution in Release mode
+	$(BUILD) /t:Rebuild /p:Configuration=Release

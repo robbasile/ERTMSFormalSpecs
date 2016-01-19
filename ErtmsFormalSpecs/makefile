@@ -1,4 +1,4 @@
-.PHONY: all release test gitclone nightbuild java clean
+.PHONY: all release test gitclone nightbuild fullbuild java clean
 
 all:
 	make -C depends all
@@ -33,3 +33,9 @@ clean:
 	rm -rf distrib distrib.zip
 	-mkdir -p bin
 
+fullbuild: 
+	make -C depends clean
+	make -C src clean
+	make -C src fullbuild
+	make test
+	echo "done."
