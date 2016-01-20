@@ -9,15 +9,15 @@ release: clean
 	make distrib
 
 distrib:
-	cp bin/DataDictionary.dll release
-	cp bin/EFSServiceClient.dll release
-	cp bin/ErtmsSolutions.dll release
-	cp bin/GUIUtils.dll release
-	cp bin/HistoricalData.dll release
-	cp bin/Importer.dll release
-	cp bin/Reports.dll release
-	cp bin/Utils.dll release
-	cp bin/XmlBooster.dll release
+	cp bin/DataDictionary.dll 	../../efs_dlls/released
+	cp bin/EFSServiceClient.dll 	../../efs_dlls/released
+	cp bin/ErtmsSolutions.dll 	../../efs_dlls/released
+	cp bin/GUIUtils.dll 		../../efs_dlls/released
+	cp bin/HistoricalData.dll 	../../efs_dlls/released
+	cp bin/Importer.dll 		../../efs_dlls/released
+	cp bin/Reports.dll 		../../efs_dlls/released
+	cp bin/Utils.dll  		../../efs_dlls/released
+	cp bin/XmlBooster.dll		../../efs_dlls/released
 
 gitclone:
 	-rm -rf ERTMSFormalSpecs
