@@ -6,6 +6,18 @@ all:
 
 release: clean
 	make -C src release
+	make distrib
+
+distrib:
+	cp bin/DataDictionary.dll release
+	cp bin/EFSServiceClient.dll release
+	cp bin/ErtmsSolutions.dll release
+	cp bin/GUIUtils.dll release
+	cp bin/HistoricalData.dll release
+	cp bin/Importer.dll release
+	cp bin/Reports.dll release
+	cp bin/Utils.dll release
+	cp bin/XmlBooster.dll release
 
 gitclone:
 	-rm -rf ERTMSFormalSpecs
