@@ -47,9 +47,7 @@ patch_configuration_file:
 	@echo === Patch configuration file
 	@-$(XMLB_CALL) -SCRIPT patch_configuration_file.rcs ../bin/GUI.exe.config
 
-release: clean increase_release_number patch_configuration_file Installer/EFSW_Installer_Script.iss	
-	@echo === Rebuilding solution in Release mode
-	$(BUILD) /t:Rebuild /p:Configuration=Release
+release: clean increase_release_number patch_configuration_file Installer/EFSW_Installer_Script.iss	fullbuild
 	@echo === Building Installer package	
 	@../depends/InnoInstaller5/ISCC.exe Installer/EFSW_Installer_Script.iss /q
 
