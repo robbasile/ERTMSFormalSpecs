@@ -228,6 +228,8 @@ namespace GUI.TestRunnerView
         public void AddHandler(object sender, EventArgs args)
         {
             Item.appendSteps(Step.CreateDefault(Item.Steps));
+            // TODO do this in a less ad hoc way
+            RefreshModel.Execute();
         }
 
         /// <summary>
