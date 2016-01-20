@@ -7267,7 +7267,9 @@ Available(UpdatedReceivedMessage(aRBC).UNCONDITIONAL_EMERGENCY_STOP)</Expression
 <PreConditions>
 <PreCondition
  Guid="d93e10a3-f60a-4838-a1f9-4380368bed3d"
->aRBC.SessionManagementData.SystemVersion.Value == SystemVersionEnum.Version2_0</PreCondition></PreConditions>
+>aRBC.SessionManagementData.SystemVersion.Value == SystemVersionEnum.Version2_0</PreCondition><PreCondition
+ Guid="61706c4c-00c8-497f-9455-3ab19998360f"
+>aRBC.SessionManagementData.SystemVersion.DataState == Default.DataStateEnum.Valid</PreCondition></PreConditions>
 <Expression>aRBC.MessageIn</Expression>
 </Case><Case
  Name="SystemVersion1"
@@ -7276,12 +7278,42 @@ Available(UpdatedReceivedMessage(aRBC).UNCONDITIONAL_EMERGENCY_STOP)</Expression
 <PreConditions>
 <PreCondition
  Guid="5b4ae8ca-3693-499a-b2c5-e032b3c04a41"
->aRBC.SessionManagementData.SystemVersion.Value in [SystemVersionEnum.Version1_0, SystemVersionEnum.Version1_1]</PreCondition></PreConditions>
+>aRBC.SessionManagementData.SystemVersion.Value in [SystemVersionEnum.Version1_0, SystemVersionEnum.Version1_1]</PreCondition><PreCondition
+ Guid="f9cc1307-7563-446d-ac74-b1e5ae9b3406"
+>aRBC.SessionManagementData.SystemVersion.DataState == Default.DataStateEnum.Valid</PreCondition></PreConditions>
 <Expression>Messages.EURORADIO.MessageIn.Message{
 SystemVersion2 =&gt; VersionManagement.Translation.Messages.UpdateMessage( aRBC.MessageIn.SystemVersion1),
 SystemVersion1 =&gt; EMPTY,
 Priority =&gt; aRBC.MessageIn.Priority
 }</Expression>
+</Case><Case
+ Name="Transmission of system version V2"
+ Guid="371ea5ae-9bdd-4812-afa8-b3f13bc2d339"
+>
+<Comment>If I do not know the system version yet, I have to trust the MessageIn structure to determine whether I need to apply translation or not.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="7abd061d-5394-4064-9d64-0d4e2f38f8a9"
+>aRBC.SessionManagementData.SystemVersion.DataState == Default.DataStateEnum.Unknown</PreCondition><PreCondition
+ Guid="d0419429-ecfa-4baf-aaff-8e8bf1472064"
+>aRBC.MessageIn.SystemVersion1 == EMPTY</PreCondition></PreConditions>
+<Expression>aRBC.MessageIn</Expression>
+</Case><Case
+ Name="Transmission of system version V1"
+ Guid="8a1aede6-afdc-4711-98b7-c0ea9ce124eb"
+>
+<PreConditions>
+<PreCondition
+ Guid="554b3e0f-b9c6-4ea2-9cde-99bd87d7b888"
+>aRBC.SessionManagementData.SystemVersion.DataState == Default.DataStateEnum.Unknown</PreCondition><PreCondition
+ Guid="3712036e-fe02-4c6e-a064-7b7928fd3058"
+>aRBC.MessageIn.SystemVersion2 == EMPTY</PreCondition></PreConditions>
+<Expression>Messages.EURORADIO.MessageIn.Message{
+SystemVersion2 =&gt; VersionManagement.Translation.Messages.UpdateMessage( aRBC.MessageIn.SystemVersion1),
+SystemVersion1 =&gt; EMPTY,
+Priority =&gt; aRBC.MessageIn.Priority
+}
+</Expression>
 </Case></Cases>
 </Function><Function
  Type="Messages.MESSAGE.TRACK_TO_TRAIN.Message"
