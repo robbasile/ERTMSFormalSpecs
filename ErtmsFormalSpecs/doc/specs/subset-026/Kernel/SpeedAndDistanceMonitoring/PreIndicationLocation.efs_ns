@@ -76,7 +76,7 @@
 >Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.EBD_Target(
     Distance =&gt; Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom),
     aTarget =&gt; aTarget
-) &lt; Kernel.MRSP.SpeedRestrictions(Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom))</PreCondition></PreConditions>
+) &lt; Vmrsp</PreCondition></PreConditions>
 <Expression>BaseTypes.Distance.Unknown</Expression>
 </Case><Case
  Name="Value"
@@ -301,17 +301,29 @@ Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationLimitAtSpeed(
 >
 <PreConditions>
 <PreCondition
- Guid="e0a60a90-5e23-4565-820e-7eeb897d42f6"
->Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationLimitAtSpeed(
-    aTarget =&gt; aTarget,
-    aSpeed =&gt; Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.NextMRSPSegment(Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationSegment(aTarget).Location).Speed
-) &lt;= Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationSegment(aTarget).Location + BaseTypes.LengthToDistance(Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationSegment(aTarget).Length)</PreCondition><PreCondition
  Guid="ca3a5b34-272b-4664-a001-2443e4f76a1d"
->Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationSegment(aTarget).Location + BaseTypes.LengthToDistance(Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationSegment(aTarget).Length) &lt; Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationLimitAtSpeed(
+>LET indicationSegment &lt;- Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationSegment(aTarget) IN
+
+indicationSegment.Location + BaseTypes.LengthToDistance(indicationSegment.Length) &lt; Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationLimitAtSpeed(
     aTarget =&gt; aTarget,
-    aSpeed =&gt; Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationSegment(aTarget).Speed
-)</PreCondition></PreConditions>
-<Expression>Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationSegment(aTarget).Location + BaseTypes.LengthToDistance(Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationSegment(aTarget).Length) - BaseTypes.SpeedToMS(Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationSegment(aTarget).Speed) * Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.T_preindication</Expression>
+    aSpeed =&gt; indicationSegment.Speed
+)</PreCondition><PreCondition
+ Guid="e0a60a90-5e23-4565-820e-7eeb897d42f6"
+>LET indicationSegment &lt;- Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationSegment(aTarget) IN
+LET followingSegment &lt;- Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.NextMRSPSegment(indicationSegment) IN
+
+Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationLimitAtSpeed(
+    aTarget =&gt; aTarget,
+    aSpeed =&gt; followingSegment.Speed
+) == BaseTypes.Distance.Unknown
+  OR  
+Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationLimitAtSpeed(
+    aTarget =&gt; aTarget,
+    aSpeed =&gt; followingSegment.Speed
+) &lt;= indicationSegment.Location + BaseTypes.LengthToDistance(indicationSegment.Length)</PreCondition></PreConditions>
+<Expression>LET indicationSegment &lt;- Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationSegment(aTarget) IN
+
+indicationSegment.Location + BaseTypes.LengthToDistance(indicationSegment.Length) - BaseTypes.SpeedToMS(indicationSegment.Speed) * Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.T_preindication</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Distance"
@@ -840,6 +852,16 @@ Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.d_SBI2 ( aTarget =&gt; a
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="da8234b0-8ef6-479d-8cdd-ee7174d98044"
 >
+</ReqRef><ReqRef
+ Id="79d237ba-e92a-46b0-950c-865f9cc103d4"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="36f34bb9-55fb-49de-aa00-1b37a5559e9f"
+>
+</ReqRef><ReqRef
+ Id="0caf8b75-8a3a-41e0-8e89-c4aca1a87cc2"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="afa97246-cdc4-4302-a284-f70e41c70a80"
+>
 </ReqRef><Comment>Finds the segment closest to the train&apos;s position for which the indication distance can be calculated.</Comment>
 <Parameters>
 <Parameter
@@ -853,16 +875,19 @@ Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.d_SBI2 ( aTarget =&gt; a
  Name="Value"
  Guid="65e8517d-765a-4233-8fe2-e98a9b1e8ff4"
 >
-<PreConditions>
-<PreCondition
- Guid="bfdaf29a-1f80-4463-9603-459fedf40bdc"
->THERE_IS X IN Discontinuities(Kernel.MRSP.SpeedRestrictions) | Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IsIndicated( aSegment =&gt; X, aTarget =&gt; aTarget)</PreCondition></PreConditions>
-<Expression>FIRST X IN Discontinuities(Kernel.MRSP.SpeedRestrictions) | Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IsIndicated( aSegment =&gt; X, aTarget =&gt; aTarget)</Expression>
-</Case><Case
- Name="No valid segment"
- Guid="21945e3e-b493-4b78-88eb-12707d7a9061"
->
-<Expression>Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.FirstMRSPSegment()</Expression>
+<Expression>REDUCE Discontinuities(Kernel.MRSP.SpeedRestrictions) |
+    Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IsIndicated(
+      aSegment =&gt; X,
+      aTarget =&gt; aTarget
+    )
+      AND  
+    X.Location &lt; aTarget.Location
+  USING X IN 
+    Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.FarthestTarget(
+      Target1 =&gt; X,
+      Target2 =&gt; RESULT
+    )
+  INITIAL_VALUE Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.FirstMRSPSegment()</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -885,6 +910,11 @@ Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.d_SBI2 ( aTarget =&gt; a
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="87291bac-a513-45bf-a79d-e7886ad89b84"
 >
+</ReqRef><ReqRef
+ Id="0caf8b75-8a3a-41e0-8e89-c4aca1a87cc2"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b9121c26-c4d3-4a93-9388-a57d78ccfc05"
+>
 </ReqRef><Comment>Checks the segment to determine whether it should be used to get the pre indication location for the target.</Comment>
 <Parameters>
 <Parameter
@@ -903,6 +933,7 @@ Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.d_SBI2 ( aTarget =&gt; a
  Name="Deceleration curve is strictly below the segment"
  Guid="69aa3677-d1d1-4cc2-a656-38a575f834ba"
 >
+<Comment>In this case the segment can not be used to calculate the pre-indication location.</Comment>
 <PreConditions>
 <PreCondition
  Guid="95a7b5fc-4e10-4680-bc3b-0aba5cba9511"
@@ -915,6 +946,7 @@ Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.d_SBI2 ( aTarget =&gt; a
  Name="Deceleration curve intersects the MRSP segment"
  Guid="53b4ad83-5ded-4020-8bc8-482176f957dc"
 >
+<Comment>In this case, the pre-indication location will be calculated from the distance at which the curve intersects the segment.</Comment>
 <PreConditions>
 <PreCondition
  Guid="64fb4fb8-7d9c-4a75-b14e-00f77be935a7"
@@ -935,10 +967,37 @@ Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.d_SBI2 ( aTarget =&gt; a
  Name="DecelerationCurve is above the MRSP"
  Guid="30256e1f-c62c-421b-8e53-d7c6374df846"
 >
+<Comment>In this case, we need to check that the speed of the following segment is higher than the current.
+If so, the pre-indication location will be calculated from the end point of this segment.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="34130e44-cb69-4b45-9375-aa48d695d802"
+>THERE_IS segment IN Discontinuities( MRSP.SpeedRestrictions ) | segment.Location &gt; aSegment.Location</PreCondition></PreConditions>
 <Expression>Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationLimitAtSpeed(
     aTarget =&gt; aTarget,
-    aSpeed =&gt; Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.NextMRSPSegment(aSegment.Location).Speed
-) &lt; Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.NextMRSPSegment(aSegment.Location).Location</Expression>
+    aSpeed =&gt; aSegment.Speed
+) &gt; aSegment.Location + BaseTypes.LengthToDistance( aSegment.Length )
+
+  AND  
+
+Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.NextMRSPSegment(aSegment).Speed &gt; aSegment.Speed
+  AND  
+(
+  Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationLimitAtSpeed(
+    aTarget =&gt; aTarget,
+    aSpeed =&gt; Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.NextMRSPSegment(aSegment).Speed
+  ) == BaseTypes.Distance.Unknown
+    OR
+  Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationLimitAtSpeed(
+    aTarget =&gt; aTarget,
+    aSpeed =&gt; Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.NextMRSPSegment(aSegment).Speed
+  ) &lt; Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.NextMRSPSegment(aSegment).Location
+)</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="2ad40293-22b6-46d1-af59-4b212966fb52"
+>
+<Expression>False</Expression>
 </Case></Cases>
 </Function><Function
  Type="TargetSpeedMonitoring.Target"
@@ -955,8 +1014,8 @@ Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.d_SBI2 ( aTarget =&gt; a
 <Comment>Returns the first segment that starts beyond the given location.</Comment>
 <Parameters>
 <Parameter
- Type="BaseTypes.Distance"
- Name="aLocation"
+ Type="TargetSpeedMonitoring.Target"
+ Name="aSegment"
  Guid="677ba32b-3d12-4bfc-8f7c-29136c733d13"
 >
 </Parameter></Parameters>
@@ -965,11 +1024,7 @@ Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.d_SBI2 ( aTarget =&gt; a
  Name="Value"
  Guid="8b1b10ae-427c-48df-9e74-cdc2b608d1b5"
 >
-<Expression>REDUCE Discontinuities(Kernel.MRSP.SpeedRestrictions) | X.Location &gt; aLocation USING X IN Kernel.MA.ClosestTarget(
-    Target1 =&gt; X,
-    Target2 =&gt; RESULT
-)
-INITIAL_VALUE MA.EOA()</Expression>
+<Expression>FIRST X IN Discontinuities( MRSP.SpeedRestrictions ) | X.Location &gt; aSegment.Location</Expression>
 </Case></Cases>
 </Function><Function
  Type="TargetSpeedMonitoring.Target"
@@ -989,13 +1044,7 @@ Used as the first segment of the MRSP.</Comment>
  Name="Value"
  Guid="5812b2a4-7d11-4dce-83cf-2e4ebbd40441"
 >
-<Expression>LET CurrentLocation &lt;- Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom)
-  IN
-Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target{
-    Location =&gt; CurrentLocation,
-    Speed =&gt; MRSP.V_MRSP(),
-    Length =&gt; BaseTypes.DistanceToLength(PreIndicationLocation.NextMRSPSegment(CurrentLocation).Location - CurrentLocation)
-}</Expression>
+<Expression>FIRST X IN Discontinuities( MRSP.SpeedRestrictions )</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Distance"
