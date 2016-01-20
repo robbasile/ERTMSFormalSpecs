@@ -2140,6 +2140,116 @@ Fetches the time from the kernel and adjusts according to the current country id
 >Out_ShuntingRefusedByRbc.Display(Kernel.HandleModeChange in [Kernel.HandleModeChangeSM.ShuntingInitiatedByDriver.A220])</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
+</Procedure><Procedure
+ Implemented="TRUE"
+ Name="Open"
+ Guid="38cb193d-05ba-4a10-8fb1-247e0b6f797f"
+>
+<ReqRef
+ Id="839d8340-fe74-4358-8e90-bbcbf37f22e7"
+ SpecId="33a01dd1-de78-4ea3-9e96-a198d1a29277"
+ Guid="18bb0846-11cc-4939-84ae-8903581c739a"
+>
+</ReqRef><ReqRef
+ Id="2285ede8-d6ee-4335-ad56-8651d6bcf99c"
+ SpecId="33a01dd1-de78-4ea3-9e96-a198d1a29277"
+ Guid="83580ea0-0675-4bdc-af7d-ff8a3af8761f"
+>
+</ReqRef><Comment>Opens the desk corresponding to this DMI</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Rule1"
+ Guid="6ae108c5-e47a-4ed5-86cb-411a222b7ae7"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Open the desk 1"
+ Guid="de0ff942-925f-45c1-a6a0-39a04eff64b4"
+>
+<Comment>This DMI is connected to Desk1</Comment>
+<PreConditions>
+<PreCondition
+ Guid="d31696a6-05f1-4d25-aaaa-85153632ad1b"
+>Desk == CabDeskEnum.Desk1</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="6f0fee77-792d-44f2-b7cf-27769c7ce1c7"
+>CabOfDMI( THIS ).Desk1IsActive &lt;- True</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Open the desk 2"
+ Guid="3e0259d5-68ca-4a1b-92f8-62b468662166"
+>
+<Comment>This DMI is connected to Desk2</Comment>
+<PreConditions>
+<PreCondition
+ Guid="44753fa0-f32d-4973-ae7d-7af9fdca173f"
+>Desk == CabDeskEnum.Desk2</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="8db11887-3d8b-4bce-a811-11612613459f"
+>CabOfDMI( THIS ).Desk2IsActive &lt;- True</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ Implemented="TRUE"
+ Name="Close"
+ Guid="af44812e-c9c3-49aa-b490-e3e47b225b9a"
+>
+<ReqRef
+ Id="839d8340-fe74-4358-8e90-bbcbf37f22e7"
+ SpecId="33a01dd1-de78-4ea3-9e96-a198d1a29277"
+ Guid="a9bd60b5-609f-41db-baab-29f505828bd7"
+>
+</ReqRef><ReqRef
+ Id="2285ede8-d6ee-4335-ad56-8651d6bcf99c"
+ SpecId="33a01dd1-de78-4ea3-9e96-a198d1a29277"
+ Guid="783f7522-4a76-47d8-884d-262a4987398f"
+>
+</ReqRef><Comment>Closes the desk corresponding to this DMI</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Rule1"
+ Guid="ee3c6cf3-6d53-4049-a92c-fc22899f55b6"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Open the desk 1"
+ Guid="ca497cfc-98f1-4dc0-a2ec-a91e12fb5b45"
+>
+<Comment>This DMI is connected to Desk1</Comment>
+<PreConditions>
+<PreCondition
+ Guid="ced1669d-757b-4d31-a76e-54de6a6ce886"
+>Desk == CabDeskEnum.Desk1</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="bbd03125-1837-4b28-ac54-47e47ee7301c"
+>CabOfDMI( THIS ).Desk1IsActive &lt;- False</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Open the desk 2"
+ Guid="29bf7aff-7284-4e95-87bf-f5b376a475d5"
+>
+<Comment>This DMI is connected to Desk2</Comment>
+<PreConditions>
+<PreCondition
+ Guid="ad1dead6-a7f9-4102-8e6c-dac5bbd45534"
+>Desk == CabDeskEnum.Desk2</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="1c53fea9-819e-483b-b872-07ee34f8025d"
+>CabOfDMI( THIS ).Desk2IsActive &lt;- False</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
  TypeName="IN.TrainDataEntryRequest"
