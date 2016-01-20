@@ -33,9 +33,5 @@ clean:
 	rm -rf distrib distrib.zip
 	-mkdir -p bin
 
-fullbuild: 
-	make -C depends clean
-	make -C src clean
+fullbuild: clean
 	make -C src fullbuild
-	make test
-	echo "done."
