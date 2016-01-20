@@ -210,7 +210,11 @@ namespace DataDictionary.Functions
                     }
                     else
                     {
-                        retVal = MS_To_KmH(Math.Sqrt(KmH_To_MS(V0)*KmH_To_MS(V0) + 2*A*(d - d0)));
+                        retVal = MS_To_KmH(
+                            Math.Sqrt(
+                                Math.Round(KmH_To_MS(V0)*KmH_To_MS(V0) + 2*A*(d - d0), 5)
+                                )
+                            );
                     }
                     return retVal;
                 }
