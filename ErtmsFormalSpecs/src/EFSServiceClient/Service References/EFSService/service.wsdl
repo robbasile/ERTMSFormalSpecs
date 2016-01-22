@@ -123,6 +123,18 @@
   <wsdl:message name="IEFSService_Restart_OutputMessage">
     <wsdl:part name="parameters" element="tns:RestartResponse" />
   </wsdl:message>
+  <wsdl:message name="IEFSService_Load_InputMessage">
+    <wsdl:part name="parameters" element="tns:Load" />
+  </wsdl:message>
+  <wsdl:message name="IEFSService_Load_OutputMessage">
+    <wsdl:part name="parameters" element="tns:LoadResponse" />
+  </wsdl:message>
+  <wsdl:message name="IEFSService_Stop_InputMessage">
+    <wsdl:part name="parameters" element="tns:Stop" />
+  </wsdl:message>
+  <wsdl:message name="IEFSService_Stop_OutputMessage">
+    <wsdl:part name="parameters" element="tns:StopResponse" />
+  </wsdl:message>
   <wsdl:message name="IEFSService_Close_InputMessage">
     <wsdl:part name="parameters" element="tns:Close" />
   </wsdl:message>
@@ -179,6 +191,14 @@
     <wsdl:operation name="Restart">
       <wsdl:input wsaw:Action="http://tempuri.org/IEFSService/Restart" message="tns:IEFSService_Restart_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IEFSService/RestartResponse" message="tns:IEFSService_Restart_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Load">
+      <wsdl:input wsaw:Action="http://tempuri.org/IEFSService/Load" message="tns:IEFSService_Load_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IEFSService/LoadResponse" message="tns:IEFSService_Load_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Stop">
+      <wsdl:input wsaw:Action="http://tempuri.org/IEFSService/Stop" message="tns:IEFSService_Stop_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IEFSService/StopResponse" message="tns:IEFSService_Stop_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation name="Close">
       <wsdl:input wsaw:Action="http://tempuri.org/IEFSService/Close" message="tns:IEFSService_Close_InputMessage" />
@@ -301,6 +321,24 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="Load">
+      <soap12:operation soapAction="http://tempuri.org/IEFSService/Load" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Stop">
+      <soap12:operation soapAction="http://tempuri.org/IEFSService/Stop" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="Close">
       <soap12:operation soapAction="http://tempuri.org/IEFSService/Close" style="document" />
       <wsdl:input>
@@ -320,7 +358,7 @@
       <wsa10:EndpointReference>
         <wsa10:Address>net.tcp://localhost:8001/EFSService</wsa10:Address>
         <Identity xmlns="http://schemas.xmlsoap.org/ws/2006/02/addressingidentity">
-          <Upn>svitlana@corp.phidani.be</Upn>
+          <Upn>james@corp.phidani.be</Upn>
         </Identity>
       </wsa10:EndpointReference>
     </wsdl:port>

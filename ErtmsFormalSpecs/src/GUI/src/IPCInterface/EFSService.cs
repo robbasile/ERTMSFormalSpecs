@@ -18,6 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.ServiceModel;
 using System.Threading;
+using System.Windows.Forms;
 using DataDictionary;
 using DataDictionary.Functions;
 using DataDictionary.Generated;
@@ -29,6 +30,7 @@ using DataDictionary.Tests.Runner.Events;
 using DataDictionary.Values;
 using DataDictionary.Variables;
 using GUI.IPCInterface.Values;
+using GUI.LongOperations;
 using GUIUtils;
 using Utils;
 using Action = DataDictionary.Rules.Action;
@@ -542,6 +544,28 @@ namespace GUI.IPCInterface
             EfsAccess.WaitOne();
             ClearFunctionCaches(true);
             EfsSystem.Instance.Runner = new Runner(Explain, CycleDuration, KeepEventCount);
+            EfsAccess.ReleaseMutex();
+        }
+
+        /// <summary>
+        ///     Loads the dictionary designated by filename
+        /// </summary>
+        /// <param name="fileName"></param>
+        public void Load(string fileName)
+        {
+            EfsAccess.WaitOne();
+            MainWindow window = GuiUtils.MdiWindow;
+            window.Invoke((MethodInvoker) (() => window.OpenFile(fileName)));
+            EfsAccess.ReleaseMutex();
+        }
+
+        /// <summary>
+        ///     Stops the session by closing the main window
+        /// </summary>
+        public void Stop()
+        {
+            EfsAccess.WaitOne();
+            GuiUtils.MdiWindow.Close();
             EfsAccess.ReleaseMutex();
         }
 

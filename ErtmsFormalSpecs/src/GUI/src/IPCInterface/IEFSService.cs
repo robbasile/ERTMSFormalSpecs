@@ -74,8 +74,7 @@ namespace GUI.IPCInterface
 
     [ServiceContract]
     public interface IEFSService
-    {
-        /// <summary>
+    {/// <summary>
         ///     Connects to the service using the default parameters
         /// </summary>
         /// <param name="listener">Indicates that the client is a listener</param>
@@ -161,6 +160,19 @@ namespace GUI.IPCInterface
         /// </summary>
         [OperationContract]
         void Restart();
+
+        /// <summary>
+        ///     Loads a dictionary into the application
+        /// </summary>
+        /// <param name="filename"></param>
+        [OperationContract]
+        void Load(string filename);
+
+        /// <summary>
+        ///     Closes the application
+        /// </summary>
+        [OperationContract]
+        void Stop();
 
         /// <summary>
         ///     Close the connection
