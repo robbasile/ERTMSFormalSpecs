@@ -271,7 +271,7 @@
 <Expression>BaseTypes.Distance.Infinity</Expression>
 </Case></Cases>
 </Function><Function
- Type="SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target"
+ Type="TargetStruct"
  Default=""
  X="771"
  Y="1"
@@ -295,22 +295,24 @@
 <PreConditions>
 <PreCondition
  Guid="836306fa-b16e-402a-bcc8-4e8f5710aa60"
->OverrideIsActive()</PreCondition></PreConditions>
-<Expression>SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target
+>NOT OverrideIsActive()</PreCondition></PreConditions>
+<Expression>TargetStruct
 {
-  Location =&gt; OverrideSupervision.FormerEOA,
-  Speed =&gt; 0.0,
-  Length =&gt; 0.0
+    Location =&gt; OverrideSupervision.FormerEOA,
+    Length =&gt; BaseTypes.Length.Infinity,
+    Speed =&gt; 0.0,
+    Type =&gt; TargetTypeEnum.EOA
 }</Expression>
 </Case><Case
  Name="Override is active"
  Guid="46a4e9ef-086a-40d1-abc7-e71c247296b2"
 >
-<Expression>SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target
+<Expression>TargetStruct
 {
-  Location =&gt; BaseTypes.Distance.Infinity,
-  Speed =&gt; 0.0,
-  Length =&gt; 0.0
+    Location =&gt; BaseTypes.Distance.Infinity,
+    Length =&gt; BaseTypes.Length.Infinity,
+    Speed =&gt; 0.0,
+    Type =&gt; TargetTypeEnum.EOA
 }</Expression>
 </Case></Cases>
 </Function></Functions>

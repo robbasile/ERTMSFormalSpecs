@@ -506,14 +506,14 @@ INITIAL_VALUE Kernel.BrakeCommands.EmergencyStopStruct
 DMI.MasterDMI().In_AcknForReversingDistanceExceeded.InputInformation.DriverAnswered</Expression>
 </Case></Cases>
 </Function><Function
- Type="SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target"
+ Type="TargetStruct"
  Default=""
  X="250"
  Y="210"
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="EOAAndSvL"
+ Name="EOA"
  Guid="07b09c44-6a9c-4cda-8530-beb2f202d4a1"
 >
 <ReqRef
@@ -531,11 +531,12 @@ DMI.MasterDMI().In_AcknForReversingDistanceExceeded.InputInformation.DriverAnswe
 <PreCondition
  Guid="9236bd91-f38c-45cb-b48f-1a10ba6614d6"
 >THERE_IS X IN Kernel.BrakeCommands.EmergencyStops | ( (X.Reason == BrakeReasonEnum.OrderFromRBC) AND (X.IsConditional) )</PreCondition></PreConditions>
-<Expression>MA.CreateTarget(
-    aLength =&gt; BaseTypes.Distance.Infinity,
-    aLocation =&gt; Kernel.BrakeCommands.ClosestStopLocation( Kernel.BrakeCommands.EmergencyStops ).StopLocation,
-    aSpeed =&gt; 0.0
-)</Expression>
+<Expression>TargetStruct{
+    Location =&gt; Kernel.BrakeCommands.ClosestStopLocation( Kernel.BrakeCommands.EmergencyStops ).StopLocation,
+    Length =&gt; BaseTypes.Distance.Infinity,
+    Speed =&gt; 0.0,
+    Type =&gt; TargetTypeEnum.EOA
+}</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="14129b95-8bea-46a0-86e0-ef70fcd816d0"
@@ -626,6 +627,44 @@ DMI.MasterDMI().In_AcknForReversingDistanceExceeded.InputInformation.DriverAnswe
 >
 <Expression>THERE_IS brake IN ServiceBrakeCommands |
   brake.Reason == reason</Expression>
+</Case></Cases>
+</Function><Function
+ Type="TargetStruct"
+ Default=""
+ X="250"
+ Y="210"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="SvL"
+ Guid="642afa49-a4ef-46c2-ab6c-a7c83604f9c2"
+>
+<ReqRef
+ Id="4f290d49-e10d-41ae-a385-d9a756df04d3"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="37cadd14-fb40-4aa5-b3cc-697c97070fb5"
+>
+</ReqRef><Comment>If a conditional emergency stop has been accepted by the on-board, the emergency stop location is considered as the EOA and the SvL.</Comment>
+<Cases>
+<Case
+ Name="Conditional emergency stop accepted"
+ Guid="9acb8210-7c99-483d-9121-fb82206321e7"
+>
+<PreConditions>
+<PreCondition
+ Guid="c80ea8a0-639e-475d-beda-f705b00d96e1"
+>THERE_IS X IN Kernel.BrakeCommands.EmergencyStops | ( (X.Reason == BrakeReasonEnum.OrderFromRBC) AND (X.IsConditional) )</PreCondition></PreConditions>
+<Expression>TargetStruct{
+    Location =&gt; Kernel.BrakeCommands.ClosestStopLocation( Kernel.BrakeCommands.EmergencyStops ).StopLocation,
+    Length =&gt; BaseTypes.Distance.Infinity,
+    Speed =&gt; 0.0,
+    Type =&gt; TargetTypeEnum.SvL
+}</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="3578c8cf-b8b2-4c52-8c57-4d0713a38125"
+>
+<Expression>EMPTY</Expression>
 </Case></Cases>
 </Function></Functions>
 <Procedures>

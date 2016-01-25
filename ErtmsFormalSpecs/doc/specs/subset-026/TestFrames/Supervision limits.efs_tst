@@ -1649,10 +1649,10 @@ Regenerative =&gt; Kernel.TrainData.BrakingParameters.BrakingModel{
  Guid="2f70a364-eabf-4ba6-b2e1-a12467cd7c4f"
 >Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_EBI (
     Vest =&gt; 30.0,
-    aTarget =&gt; FIRST X IN TARGETS (Kernel.MA.SpeedRestrictions) ) &gt; 5069.769 AND
+    aTarget =&gt; Kernel.MA.SvL() ) &gt; 5069.769 AND
 Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_EBI (
     Vest =&gt; 30.0,
-    aTarget =&gt; FIRST X IN TARGETS (Kernel.MA.SpeedRestrictions) ) &lt; 5069.77</Expectation><Expectation
+    aTarget =&gt; Kernel.MA.SvL() ) &lt; 5069.77</Expectation><Expectation
  Kind="Instantaneous"
  Guid="79cd7589-aabc-4666-98fe-0ebd937a2236"
 >Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.Dbec ( Vest =&gt; 30.0, Vtarget =&gt; 0.0, NoA_est =&gt; False ) &gt; 19.7646
@@ -1667,14 +1667,14 @@ Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.Dbec ( Vest =&gt; 30.0, Vta
     Function =&gt; FUNCTION d : Default.BaseTypes.Distance =&gt; Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.EBD_Target
     (
         Distance =&gt; d,
-        aTarget =&gt; FIRST X IN TARGETS (Kernel.MA.SpeedRestrictions)
+        aTarget =&gt; Kernel.MA.SvL()
     ),
     Speed =&gt; 34.416 ) &gt; 5089.533 AND
 DistanceForSpeed (
     Function =&gt; FUNCTION d : Default.BaseTypes.Distance =&gt; Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.EBD_Target
     (
         Distance =&gt; d,
-        aTarget =&gt; FIRST X IN TARGETS (Kernel.MA.SpeedRestrictions)
+        aTarget =&gt; Kernel.MA.SvL()
     ),
     Speed =&gt; 34.416 ) &lt; 5089.534</Expectation></Expectations>
 </SubStep></SubSteps>
@@ -1892,19 +1892,19 @@ Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.Dbec ( Vest =&gt; 30.0, Vta
  Guid="cfc6960f-0752-4713-8620-d422713c0ded"
 >Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_EBI (
     Vest =&gt; 30.0,
-    aTarget =&gt; FIRST X IN TARGETS (Kernel.MA.SpeedRestrictions) ) &gt; 5069.769 AND
+    aTarget =&gt; Kernel.MA.SvL() ) &gt; 5069.769 AND
 Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_EBI (
     Vest =&gt; 30.0,
-    aTarget =&gt; FIRST X IN TARGETS (Kernel.MA.SpeedRestrictions) ) &lt; 5069.77</Expectation><Expectation
+    aTarget =&gt; Kernel.MA.SvL() ) &lt; 5069.77</Expectation><Expectation
  Kind="Instantaneous"
  Guid="446708da-441e-49a4-b524-20a17221c826"
 >Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_SBI2 (
     Vest =&gt; 30.0,
-    aTarget =&gt; FIRST X IN TARGETS (Kernel.MA.SpeedRestrictions),
+    aTarget =&gt; Kernel.MA.SvL(),
     NoA_est =&gt; False ) &gt; 5063.76 AND
 Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_SBI2 (
     Vest =&gt; 30.0,
-    aTarget =&gt; FIRST X IN TARGETS (Kernel.MA.SpeedRestrictions),
+    aTarget =&gt; Kernel.MA.SvL(),
     NoA_est =&gt; False ) &lt; 5063.77</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step></Steps>
@@ -2057,17 +2057,16 @@ IN
 Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.Dbec ( Vest =&gt; 88.0, Vtarget =&gt; 25.0, NoA_est =&gt; False ) &lt; 52.698</Expectation><Expectation
  Kind="Instantaneous"
  Guid="c3cb0ba7-9949-4344-a76f-ffe6903fd857"
->Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Vsbi2 ( Dmaxsafefrontend =&gt; Kernel.TrainPosition.FrontEndPosition ( DistanceIntervalEnum.Max ), aTarget =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT(), NoA_est =&gt; False ) &gt; 46.5924
+>Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Vsbi2 ( Dmaxsafefrontend =&gt; Kernel.TrainPosition.FrontEndPosition ( DistanceIntervalEnum.Max ), aTarget =&gt; Kernel.MA.SvL(), NoA_est =&gt; False ) &gt; 46.5924
   AND  
-Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Vsbi2 ( Dmaxsafefrontend =&gt; Kernel.TrainPosition.FrontEndPosition ( DistanceIntervalEnum.Max ), aTarget =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT()
-, NoA_est =&gt; False ) &lt; 46.5925</Expectation><Expectation
+Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Vsbi2 ( Dmaxsafefrontend =&gt; Kernel.TrainPosition.FrontEndPosition ( DistanceIntervalEnum.Max ), aTarget =&gt; Kernel.MA.SvL(), NoA_est =&gt; False ) &lt; 46.5925</Expectation><Expectation
  Kind="Instantaneous"
  Guid="1e131370-c40d-48a6-9528-a5e8504aad2f"
 >Kernel.TrainPosition.FrontEndPosition ( DistanceIntervalEnum.Max ) == 2011.0</Expectation><Expectation
  Kind="Instantaneous"
  DeadLine="1"
  Guid="15ace69d-42d4-467a-9def-8223f21cd543"
->Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Vsbi2 ( Dmaxsafefrontend =&gt; Kernel.TrainPosition.FrontEndPosition ( DistanceIntervalEnum.Max ), aTarget =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target{
+>Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Vsbi2 ( Dmaxsafefrontend =&gt; Kernel.TrainPosition.FrontEndPosition ( DistanceIntervalEnum.Max ), aTarget =&gt; TargetStruct{
 Location =&gt; Kernel.TrainPosition.FrontEndPosition( PointOfInterest =&gt; DistanceIntervalEnum.Nom ) + 300.0,
 Speed =&gt; 50.0,
 Length =&gt; 10.0
@@ -2123,8 +2122,8 @@ Length =&gt; 10.0
 <Expectation
  Kind="Instantaneous"
  Guid="f485a7c1-80cd-4e3f-937a-ef1d22809065"
->Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_W  ( aTarget =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT(), Vest =&gt; 25.0) &gt; 6617.257 AND
-Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_W  ( aTarget =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT(), Vest =&gt; 25.0) &lt; 6617.258</Expectation></Expectations>
+>Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_W  ( aTarget =&gt; Kernel.MA.SvL(), Vest =&gt; 25.0) &gt; 6617.257 AND
+Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_W  ( aTarget =&gt; Kernel.MA.SvL(), Vest =&gt; 25.0) &lt; 6617.258</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step></Steps>
 </TestCase><TestCase
@@ -2179,8 +2178,8 @@ Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_W  ( aTarget =&gt; Ker
 <Expectation
  Kind="Instantaneous"
  Guid="77fe5651-de1c-45dc-8094-96f352e2265c"
->Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_P  ( aTarget =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT(), Vest =&gt; 25.0, NoA_est =&gt; False ) &gt; 6603.368 AND
-Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_P  ( aTarget =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT(), Vest =&gt; 25.0, NoA_est =&gt; False ) &lt; 6603.369</Expectation></Expectations>
+>Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_P  ( aTarget =&gt; Kernel.MA.SvL(), Vest =&gt; 25.0, NoA_est =&gt; False ) &gt; 6603.368 AND
+Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_P  ( aTarget =&gt; Kernel.MA.SvL(), Vest =&gt; 25.0, NoA_est =&gt; False ) &lt; 6603.369</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step><Step
  IO="NA"
@@ -2459,7 +2458,7 @@ Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.Dbec ( Vest =&gt; 100.0, Vt
 <Expectation
  Kind="Instantaneous"
  Guid="67d45c4b-7112-4a53-aa07-3fe0e581b39b"
->Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.V_P_EBD_Target ( d_maxsafefront =&gt; Kernel.TrainPosition.FrontEndPosition ( DistanceIntervalEnum.Max ), aTarget =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target{
+>Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.V_P_EBD_Target ( d_maxsafefront =&gt; Kernel.TrainPosition.FrontEndPosition ( DistanceIntervalEnum.Max ), aTarget =&gt; TargetStruct{
     Location =&gt; 7000.0,
     Speed =&gt; 20.0,
     Length =&gt; 500.0

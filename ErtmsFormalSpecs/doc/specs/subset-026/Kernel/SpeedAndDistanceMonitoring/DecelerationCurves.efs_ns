@@ -43,7 +43,7 @@
  Guid="cd5be458-075b-4dc4-815b-076a138762c0"
 >
 </Parameter><Parameter
- Type="TargetSpeedMonitoring.Target"
+ Type="TargetStruct"
  Name="aTarget"
  Guid="8501f4ac-1027-438f-8b73-554bf6ce8129"
 >
@@ -65,10 +65,9 @@ aTarget.Location == BaseTypes.Distance.Unknown</PreCondition></PreConditions>
  Guid="e744ba80-63dc-46f3-837d-ede2f1c0ffb4"
 >
 <Expression>FullDecelerationForTarget (
-    Target=&gt;Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target{
+    Target=&gt;TargetStruct{
     Location =&gt; aTarget.Location,
-    Speed =&gt; aTarget.Speed + DecelerationCurves.TargetSpeed_Offset(aTarget),
-    Length =&gt; aTarget.Length
+    Speed =&gt; aTarget.Speed + DecelerationCurves.TargetSpeed_Offset(aTarget)
 },
     DecelerationFactor=&gt;TrainData.BrakingParameters.A_safe,
     EndSpeed =&gt; aTarget.Speed
@@ -99,7 +98,7 @@ aTarget.Location == BaseTypes.Distance.Unknown</PreCondition></PreConditions>
  Guid="d26ac90a-7c32-4398-9b35-4f8e11a76abd"
 >
 </Parameter><Parameter
- Type="TargetSpeedMonitoring.Target"
+ Type="TargetStruct"
  Name="aTarget"
  Guid="9205a509-dcbb-4180-aaea-8ee866a17e88"
 >
@@ -210,8 +209,20 @@ aTarget.Location == BaseTypes.Distance.Unknown</PreCondition></PreConditions>
  Name="Value"
  Guid="65053d1d-56ea-40c0-958e-a23368d66654"
 >
-<Expression>BaseTypes.SpeedToMS ( BaseTypes.MaxSpeed ( X1 =&gt; Vest + Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.Vdelta0() + Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.Vdelta1(NoA_est) / 2.0, X2 =&gt; Vtarget ) ) * Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.T_traction(NoA_est) +
-BaseTypes.SpeedToMS ( BaseTypes.MaxSpeed ( X1 =&gt; Vest + Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.Vdelta0() + Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.Vdelta1(NoA_est), X2 =&gt; Vtarget ) + Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.Vdelta2(NoA_est) / 2.0 )  * Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.T_berem(NoA_est)</Expression>
+<Expression>BaseTypes.SpeedToMS (
+  BaseTypes.MaxSpeed (
+    X1 =&gt; Vest + Vdelta0() + Vdelta1(NoA_est) / 2.0,
+    X2 =&gt; Vtarget
+  )
+) * T_traction(NoA_est)
+ +
+BaseTypes.SpeedToMS (
+  BaseTypes.MaxSpeed (
+    X1 =&gt; Vest + Vdelta0() + Vdelta1(NoA_est),
+    X2 =&gt; Vtarget
+  ) + 
+  Vdelta2(NoA_est) / 2.0
+)  * T_berem(NoA_est)</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Acceleration"
@@ -423,7 +434,7 @@ BaseTypes.SpeedToMS ( BaseTypes.MaxSpeed ( X1 =&gt; Vest + Kernel.SpeedAndDistan
 <Comment>Creates a speed restriction associated to a given target, by adding the increment dV_ebi if the target speed is different from 0.</Comment>
 <Parameters>
 <Parameter
- Type="TargetSpeedMonitoring.Target"
+ Type="TargetStruct"
  Name="aTarget"
  Guid="5566a9f8-2b1f-4cec-a053-8f5c6b9f5b76"
 >
@@ -654,7 +665,7 @@ BaseTypes.SpeedToMS ( BaseTypes.MaxSpeed ( X1 =&gt; Vest + Kernel.SpeedAndDistan
 </ReqRef><Comment>Determines whether the target is the target corresponding to th emaximum distance permitted to run in SR mode.</Comment>
 <Parameters>
 <Parameter
- Type="TargetSpeedMonitoring.Target"
+ Type="TargetStruct"
  Name="aTarget"
  Guid="ba615372-f957-4517-b63d-b9f2700fbf68"
 >
@@ -668,9 +679,7 @@ BaseTypes.SpeedToMS ( BaseTypes.MaxSpeed ( X1 =&gt; Vest + Kernel.SpeedAndDistan
 <PreCondition
  Guid="47e945e0-0d82-416d-8a82-055c5554df35"
 >Kernel.Mode == ModeEnum.SR</PreCondition></PreConditions>
-<Expression>aTarget.Location == Kernel.NationalValues.CurrentNV().MaxPermDistToRunInStaffResponsibleMode
-  AND  
-aTarget.Speed == 0.0</Expression>
+<Expression>aTarget.Type == TargetTypeEnum.MaxDistInSR</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="a4d5a76f-96ff-4cd5-b4aa-81d1f9d49a7b"
@@ -751,7 +760,7 @@ BaseTypes.SpeedToMS( Vest + Kernel.SpeedAndDistanceMonitoring.DecelerationCurves
  Guid="8f4624dd-8b20-4778-ba7f-9c3202f4412d"
 >
 </Parameter><Parameter
- Type="TargetSpeedMonitoring.Target"
+ Type="TargetStruct"
  Name="aTarget"
  Guid="134a8097-f893-43c3-bc23-58de8bfc6e16"
 >
@@ -818,20 +827,20 @@ aTarget.Location == BaseTypes.Distance.Unknown</PreCondition></PreConditions>
  Guid="23bddcb1-5ccf-4509-baaa-6ded3d3e37f2"
 >
 </Parameter><Parameter
- Type="TargetSpeedMonitoring.Target"
+ Type="TargetStruct"
  Name="aTarget"
  Guid="039cf632-3886-4722-b209-2317834458c4"
 >
 </Parameter></Parameters>
 <Cases>
 <Case
- Name="Supervising LOA - no SBD"
+ Name="Target is not the EOA"
  Guid="361b514a-64d7-4327-8368-010c348c88e1"
 >
 <PreConditions>
 <PreCondition
  Guid="3c2e4284-6ce3-4369-8f13-1b7ce48c3d1c"
->NOT Kernel.MA.EOADefined()</PreCondition></PreConditions>
+>aTarget.Type != TargetTypeEnum.EOA</PreCondition></PreConditions>
 <Expression>BaseTypes.Speed.NA</Expression>
 </Case><Case
  Name="Target at infinity"
@@ -874,7 +883,7 @@ aTarget.Location == BaseTypes.Distance.Unknown</PreCondition></PreConditions>
  Guid="5adf2764-19a7-48cf-addd-30e7791ff59f"
 >
 </Parameter><Parameter
- Type="TargetSpeedMonitoring.Target"
+ Type="TargetStruct"
  Name="aTarget"
  Guid="a587ea44-f686-4370-9a34-89bf21378e98"
 >
@@ -921,7 +930,7 @@ aTarget.Location == BaseTypes.Distance.Unknown</PreCondition></PreConditions>
  Guid="82adb4d9-0905-4248-baf0-f4f32fe28ffa"
 >
 </Parameter><Parameter
- Type="TargetSpeedMonitoring.Target"
+ Type="TargetStruct"
  Name="aTarget"
  Guid="daa1769c-5ca6-4109-a2a6-7645abb3ddbb"
 >
@@ -976,7 +985,7 @@ aTarget.Location == BaseTypes.Distance.Unknown</PreCondition></PreConditions>
 </ReqRef><Comment>Calculates the offset in speed for the calculation of the EBD of this target.</Comment>
 <Parameters>
 <Parameter
- Type="TargetSpeedMonitoring.Target"
+ Type="TargetStruct"
  Name="aTarget"
  Guid="314a43e6-5668-4dd0-a211-3012ca9b585d"
 >

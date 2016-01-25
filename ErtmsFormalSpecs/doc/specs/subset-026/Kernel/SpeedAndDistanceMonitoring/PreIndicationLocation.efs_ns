@@ -59,7 +59,7 @@
  Guid="55a81856-c78d-4268-b3ab-6a25fab54e07"
 >
 </Parameter><Parameter
- Type="TargetSpeedMonitoring.Target"
+ Type="TargetStruct"
  Name="aTarget"
  Guid="ad8a6301-49b4-439c-a3dc-051c1433b04e"
 >
@@ -115,7 +115,7 @@
  Guid="b48a3e8a-35b5-483a-87e0-86b3a3d4039d"
 >
 </Parameter><Parameter
- Type="TargetSpeedMonitoring.Target"
+ Type="TargetStruct"
  Name="aTarget"
  Guid="3bcc2f1b-2aa5-4627-9be3-2550e4ab4459"
 >
@@ -252,7 +252,7 @@
 </ReqRef><Comment>Calculates the pre-indication location for the deceleration curve of the given target. The target MRSPn is placed at the start of the following section.</Comment>
 <Parameters>
 <Parameter
- Type="TargetSpeedMonitoring.Target"
+ Type="TargetStruct"
  Name="aTarget"
  Guid="157d4132-628f-4d83-ba3d-e059b7db2413"
 >
@@ -350,7 +350,7 @@ indicationSegment.Location + BaseTypes.LengthToDistance(indicationSegment.Length
  Guid="6508e397-bc4d-4595-8635-f9557fc76553"
 >
 </Parameter><Parameter
- Type="TargetSpeedMonitoring.Target"
+ Type="TargetStruct"
  Name="aTarget"
  Guid="93c5bc3e-e389-48f8-b43d-fde5addad986"
 >
@@ -384,7 +384,7 @@ indicationSegment.Location + BaseTypes.LengthToDistance(indicationSegment.Length
 <PreConditions>
 <PreCondition
  Guid="5a134c95-d52f-4f4c-b96c-6001a9bd4881"
->Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.d_SBI2 ( aTarget =&gt; aTarget, Vmrsp =&gt; Vmrsp ) == BaseTypes.Distance.Unknown
+>Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.d_SBI2 ( aTarget =&gt; aTarget, Vmrsp =&gt; Vmrsp ) == BaseTypes.Distance.Infinity
   OR  
 Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.d_SBI2 ( aTarget =&gt; aTarget, Vmrsp =&gt; Vmrsp ) == BaseTypes.Distance.Unknown</PreCondition></PreConditions>
 <Expression>BaseTypes.Distance.Unknown</Expression>
@@ -435,7 +435,7 @@ Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.d_SBI2 ( aTarget =&gt; a
 </ReqRef><Comment>Returns the preindication location related to the first target from the requested distance</Comment>
 <Parameters>
 <Parameter
- Type="TargetSpeedMonitoring.Target"
+ Type="TargetStruct"
  Name="aTarget"
  Guid="2a8f9e5c-277a-4339-94b8-4748c513989a"
 >
@@ -660,48 +660,6 @@ Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.d_SBI2 ( aTarget =&gt; a
 ) - BaseTypes.SpeedToMS ( Vmrsp ) * Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.T_bs1ind()</Expression>
 </Case></Cases>
 </Function><Function
- Type="TargetSpeedMonitoring.Target"
- Cacheable="TRUE"
- Default=""
- X="10"
- Y="240"
- Width="100"
- Height="50"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="FarthestTarget"
- Guid="93ecc986-4c53-41ee-8535-339f6af414ff"
->
-<Comment>Returnst the further of the two targets, measured from the train&apos;s location.</Comment>
-<Parameters>
-<Parameter
- Type="TargetSpeedMonitoring.Target"
- Name="Target1"
- Guid="f6d35e1d-c5aa-44c4-a371-97dea0aa6d7f"
->
-</Parameter><Parameter
- Type="TargetSpeedMonitoring.Target"
- Name="Target2"
- Guid="b855c6c5-922e-4978-8c72-41862551d44f"
->
-</Parameter></Parameters>
-<Cases>
-<Case
- Name="X2 farther"
- Guid="a18c0721-d716-4163-85b9-7d7ae2c22c4b"
->
-<PreConditions>
-<PreCondition
- Guid="a69c5fe7-6c32-419c-a407-ec1411bd8f9f"
->Target2.Location &gt; Target1.Location</PreCondition></PreConditions>
-<Expression>Target2</Expression>
-</Case><Case
- Name="Otherwise"
- Guid="a0f6d6c5-c63f-4e3f-a84c-8279a872a0bb"
->
-<Expression>Target1</Expression>
-</Case></Cases>
-</Function><Function
  Type="BaseTypes.Distance"
  Default=""
  X="280"
@@ -740,7 +698,7 @@ Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.d_SBI2 ( aTarget =&gt; a
 </ReqRef><Comment>Returns the indication location for the provided target at the given speed.</Comment>
 <Parameters>
 <Parameter
- Type="TargetSpeedMonitoring.Target"
+ Type="TargetStruct"
  Name="aTarget"
  Guid="3b9e6892-412a-4b0a-b6c7-8281545cb5f3"
 >
@@ -752,23 +710,6 @@ Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.d_SBI2 ( aTarget =&gt; a
 </Parameter></Parameters>
 <Cases>
 <Case
- Name="Target is EOA and SvL"
- Guid="10cd98e5-3c09-4e4e-8392-396c12888a2a"
->
-<PreConditions>
-<PreCondition
- Guid="1e5ea735-1a8d-4ad1-b977-61c8d5bcfa20"
->Kernel.MA.IsEOA(aTarget)</PreCondition><PreCondition
- Guid="418dc536-a090-449a-9d33-6f447bda41da"
->Kernel.MA.IsSvL(aTarget)</PreCondition></PreConditions>
-<Expression>BaseTypes.MinDistance(
-    X1=&gt;Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationLimitAtSpeed_EOA(aSpeed),
-    X2=&gt;Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationLimitAtSpeed_EBDTarget(
-        aTarget =&gt; aTarget,
-        aSpeed =&gt; aSpeed
-    )
-)</Expression>
-</Case><Case
  Name="Target is EOA"
  Guid="6d279dde-6fc3-49db-9bc6-85994754ca68"
 >
@@ -832,7 +773,7 @@ Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.d_SBI2 ( aTarget =&gt; a
 <Expression>Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.d_P_EOA(aSpeed) - BaseTypes.SpeedToMS(aSpeed) * Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.T_indication()</Expression>
 </Case></Cases>
 </Function><Function
- Type="TargetSpeedMonitoring.Target"
+ Type="TargetStruct"
  Default=""
  X="10"
  Y="100"
@@ -865,7 +806,7 @@ Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.d_SBI2 ( aTarget =&gt; a
 </ReqRef><Comment>Finds the segment closest to the train&apos;s position for which the indication distance can be calculated.</Comment>
 <Parameters>
 <Parameter
- Type="TargetSpeedMonitoring.Target"
+ Type="TargetStruct"
  Name="aTarget"
  Guid="c3a80d33-4986-4018-b262-8ca9db2fe1ba"
 >
@@ -883,7 +824,7 @@ Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.d_SBI2 ( aTarget =&gt; a
       AND  
     X.Location &lt; aTarget.Location
   USING X IN 
-    Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.FarthestTarget(
+    FarthestTarget(
       Target1 =&gt; X,
       Target2 =&gt; RESULT
     )
@@ -918,12 +859,12 @@ Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.d_SBI2 ( aTarget =&gt; a
 </ReqRef><Comment>Checks the segment to determine whether it should be used to get the pre indication location for the target.</Comment>
 <Parameters>
 <Parameter
- Type="TargetSpeedMonitoring.Target"
+ Type="TargetStruct"
  Name="aSegment"
  Guid="2e9136ce-41e7-4204-8137-61c3ed38137d"
 >
 </Parameter><Parameter
- Type="TargetSpeedMonitoring.Target"
+ Type="TargetStruct"
  Name="aTarget"
  Guid="0a903f24-514c-4ec7-9575-d67a9d255174"
 >
@@ -1000,7 +941,7 @@ Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.NextMRSPSegment(aSegment
 <Expression>False</Expression>
 </Case></Cases>
 </Function><Function
- Type="TargetSpeedMonitoring.Target"
+ Type="TargetStruct"
  Default=""
  X="120"
  Y="160"
@@ -1014,7 +955,7 @@ Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.NextMRSPSegment(aSegment
 <Comment>Returns the first segment that starts beyond the given location.</Comment>
 <Parameters>
 <Parameter
- Type="TargetSpeedMonitoring.Target"
+ Type="TargetStruct"
  Name="aSegment"
  Guid="677ba32b-3d12-4bfc-8f7c-29136c733d13"
 >
@@ -1027,7 +968,7 @@ Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.NextMRSPSegment(aSegment
 <Expression>FIRST X IN Discontinuities( MRSP.SpeedRestrictions ) | X.Location &gt; aSegment.Location</Expression>
 </Case></Cases>
 </Function><Function
- Type="TargetSpeedMonitoring.Target"
+ Type="TargetStruct"
  Default=""
  X="10"
  Y="160"
@@ -1085,7 +1026,7 @@ Used as the first segment of the MRSP.</Comment>
 </ReqRef><Comment>Returns the indication location for the provided EBD-based target at the given speed.</Comment>
 <Parameters>
 <Parameter
- Type="TargetSpeedMonitoring.Target"
+ Type="TargetStruct"
  Name="aTarget"
  Guid="9295fb6c-226c-4921-9872-e7cd693ea13f"
 >

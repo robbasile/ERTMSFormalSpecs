@@ -612,6 +612,44 @@
  Guid="68e9c636-e0c9-4c67-b4ba-4bb2b12af233"
 >
 </EnumValue></Values>
+</Enum><Enum
+ Default="MRSP"
+ X="441"
+ Y="1"
+ Width="100"
+ Height="50"
+ NeedsRequirement="FALSE"
+ Name="TargetTypeEnum"
+ Guid="2f5a1cb6-040f-475d-852c-72191def55e1"
+>
+<Comment>Enumeration of the types of targets.</Comment>
+<Values>
+<EnumValue
+ Value=""
+ Name="EOA"
+ Guid="4a18fa57-8aa0-4277-956e-a3d4769fcfed"
+>
+</EnumValue><EnumValue
+ Value=""
+ Name="SvL"
+ Guid="7830f38d-c0d6-4496-98c0-9bb8d44ecd4a"
+>
+</EnumValue><EnumValue
+ Value=""
+ Name="LOA"
+ Guid="99a49a74-5331-4be0-9146-756c92bccc95"
+>
+</EnumValue><EnumValue
+ Value=""
+ Name="MRSP"
+ Guid="483cdc1f-5e42-40d0-98ae-5318038c7ac8"
+>
+</EnumValue><EnumValue
+ Value=""
+ Name="MaxDistInSR"
+ Guid="58cb88e0-4425-45d5-a0b5-52cb97ac776c"
+>
+</EnumValue></Values>
 </Enum></Enumerations>
 <Structures>
 <Structure
@@ -763,6 +801,62 @@
  Guid="1fa92c54-20d8-46f4-8135-3e0d592de2be"
 >
 <Comment>The data state of the information.</Comment>
+</StructureElement></Structure><Structure
+ Default=""
+ X="690"
+ Y="100"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="TargetStruct"
+ Guid="865a3683-bb23-4dc3-bad6-3c9736df8945"
+>
+<ReqRef
+ Id="7bd72bb5-368f-4b82-82c7-aa311cc5f660"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="3dd56d31-d853-4199-97b4-4131ad0b9682"
+>
+</ReqRef><Comment>Structure defining a target: provides the start location, the maximum speed and the length over which the speed restriction takes effect.</Comment>
+<StructureElement
+ TypeName="BaseTypes.Distance"
+ Default="0.0"
+ Mode="Internal"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Location"
+ Guid="88225cf3-e583-44c0-a7f6-549db0535f7b"
+>
+<Comment>Start location of the target, measured from the LRBG reference location.</Comment>
+</StructureElement><StructureElement
+ TypeName="BaseTypes.Speed"
+ Default="0.0"
+ Mode="Internal"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Speed"
+ Guid="b11369ec-bacd-41aa-908d-ce2d06353482"
+>
+<Comment>Speed restriction btween (Location) and (Location + Length)</Comment>
+</StructureElement><StructureElement
+ TypeName="BaseTypes.Length"
+ Default="0.0"
+ Mode="Internal"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Length"
+ Guid="356de4a2-3e92-44b2-b72b-958de1aac294"
+>
+<Comment>Length of the target</Comment>
+</StructureElement><StructureElement
+ TypeName="TargetTypeEnum"
+ Default="TargetTypeEnum.MRSP"
+ Mode="Internal"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Type"
+ Guid="afbfb614-77fb-43d8-b266-c6d5742a648a"
+>
+<Comment>The type of the target, indicating the cause of the speed restriction.</Comment>
 </StructureElement></Structure></Structures>
 <Collections>
 <Collection
@@ -792,6 +886,24 @@
  Guid="8a3c402f-8f3c-40aa-8c33-06e02505e0e6"
 >
 </ReqRef><Comment>#designchoice MaxSize is an arbitrarily chosen value. #morido, 13/10/09</Comment>
+</Collection><Collection
+ TypeName="TargetStruct"
+ MaxSize="100"
+ Default="[]"
+ X="690"
+ Y="0"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="TargetsCol"
+ Guid="b733d87f-dc21-4dab-9e13-5bd163b900e0"
+>
+<ReqRef
+ Id="c7a43456-5326-4c4d-b89f-23b71a0240bf"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="7467c00d-368c-4bd4-952f-b51ddf6093bb"
+>
+</ReqRef><Comment>Collection of targets</Comment>
 </Collection></Collections>
 <Functions>
 <Function
@@ -1886,6 +1998,107 @@
  Guid="60e6d962-ab8a-483d-98e4-059b0772bd1f"
 >Orientation == Messages.Q_LINKORIENTATION.The_balise_group_is_seen_by_the_train_in_reverse_direction</PreCondition></PreConditions>
 <Expression>OrientationEnum.Reverse</Expression>
+</Case></Cases>
+</Function><Function
+ Type="TargetStruct"
+ Default=""
+ X="360"
+ Y="250"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="ClosestTarget"
+ Guid="cafbe57a-b0c3-4040-b9ad-e2a5ef544a40"
+>
+<Comment>Returns the Target with the closest Location</Comment>
+<Parameters>
+<Parameter
+ Type="TargetStruct"
+ Name="Target1"
+ Guid="c87fc4ae-7099-42f6-ac05-c31337c8482e"
+>
+</Parameter><Parameter
+ Type="TargetStruct"
+ Name="Target2"
+ Guid="ab06e05e-c9e5-482d-b89c-212bfea05d5b"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Target 1 not available"
+ Guid="1db5767f-3dbf-4b5a-8b0e-991a1cdfc0d9"
+>
+<PreConditions>
+<PreCondition
+ Guid="ebbd5faf-30a8-4438-92d7-f236276bdcd1"
+>NOT Available(Target1)</PreCondition></PreConditions>
+<Expression>Target2</Expression>
+</Case><Case
+ Name="Target 2 not available"
+ Guid="c1fb7312-6e80-4b98-8dbb-68709e18c231"
+>
+<PreConditions>
+<PreCondition
+ Guid="b15897b4-95f7-4ac3-99b4-28fb52e7273c"
+>NOT Available(Target2)</PreCondition></PreConditions>
+<Expression>Target1</Expression>
+</Case><Case
+ Name="Target1 &gt; Target2"
+ Guid="02b5439b-5aed-4aee-be41-d98dc687b3dd"
+>
+<PreConditions>
+<PreCondition
+ Guid="499fd9ac-9444-4444-9617-752e11984521"
+>Target1.Location &gt; Target2.Location</PreCondition></PreConditions>
+<Expression>Target2</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="4f50de9a-b574-43d0-b9cd-fac4a9d4b3ec"
+>
+<Expression>Target1</Expression>
+</Case></Cases>
+</Function><Function
+ Type="TargetStruct"
+ Cacheable="TRUE"
+ Default=""
+ X="10"
+ Y="240"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="FarthestTarget"
+ Guid="93ecc986-4c53-41ee-8535-339f6af414ff"
+>
+<Comment>Returnst the further of the two targets, measured from the train&apos;s location.</Comment>
+<Parameters>
+<Parameter
+ Type="TargetStruct"
+ Name="Target1"
+ Guid="f6d35e1d-c5aa-44c4-a371-97dea0aa6d7f"
+>
+</Parameter><Parameter
+ Type="TargetStruct"
+ Name="Target2"
+ Guid="b855c6c5-922e-4978-8c72-41862551d44f"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="X2 farther"
+ Guid="a18c0721-d716-4163-85b9-7d7ae2c22c4b"
+>
+<PreConditions>
+<PreCondition
+ Guid="a69c5fe7-6c32-419c-a407-ec1411bd8f9f"
+>Target2.Location &gt; Target1.Location</PreCondition></PreConditions>
+<Expression>Target2</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="a0f6d6c5-c63f-4e3f-a84c-8279a872a0bb"
+>
+<Expression>Target1</Expression>
 </Case></Cases>
 </Function></Functions>
 <Procedures>

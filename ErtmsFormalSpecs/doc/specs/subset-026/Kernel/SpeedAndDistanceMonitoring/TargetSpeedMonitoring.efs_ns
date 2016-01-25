@@ -12,74 +12,6 @@
  Guid="84e1d314-47ad-4b92-9302-e2f9c5fcc279"
 >
 </NameSpaceRef></NameSpaces>
-<Structures>
-<Structure
- Default=""
- X="690"
- Y="100"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="Target"
- Guid="865a3683-bb23-4dc3-bad6-3c9736df8945"
->
-<ReqRef
- Id="7bd72bb5-368f-4b82-82c7-aa311cc5f660"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="3dd56d31-d853-4199-97b4-4131ad0b9682"
->
-</ReqRef><Comment>Structure defining a target: provides the start location, the maximum speed and the length over which the speed restriction takes effect.</Comment>
-<StructureElement
- TypeName="BaseTypes.Distance"
- Default="0.0"
- Mode="Internal"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Location"
- Guid="88225cf3-e583-44c0-a7f6-549db0535f7b"
->
-<Comment>Start location of the target, measured from the LRBG reference location.</Comment>
-</StructureElement><StructureElement
- TypeName="BaseTypes.Speed"
- Default="0.0"
- Mode="Internal"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Speed"
- Guid="b11369ec-bacd-41aa-908d-ce2d06353482"
->
-<Comment>Speed restriction btween (Location) and (Location + Length)</Comment>
-</StructureElement><StructureElement
- TypeName="BaseTypes.Length"
- Default="0.0"
- Mode="Internal"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Length"
- Guid="356de4a2-3e92-44b2-b72b-958de1aac294"
->
-<Comment>Length of the target</Comment>
-</StructureElement></Structure></Structures>
-<Collections>
-<Collection
- TypeName="Target"
- MaxSize="100"
- Default="[]"
- X="690"
- Y="0"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="Targets"
- Guid="b733d87f-dc21-4dab-9e13-5bd163b900e0"
->
-<ReqRef
- Id="c7a43456-5326-4c4d-b89f-23b71a0240bf"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="7467c00d-368c-4bd4-952f-b51ddf6093bb"
->
-</ReqRef><Comment>Collection of targets</Comment>
-</Collection></Collections>
 <Functions>
 <Function
  Type="BaseTypes.Distance"
@@ -116,7 +48,7 @@
  Guid="ef4e3d67-de48-4bd6-bc1c-dee6ea188efb"
 >
 </Parameter><Parameter
- Type="Target"
+ Type="TargetStruct"
  Name="aTarget"
  Guid="fda9571d-8f47-429b-99a5-c0d911da3501"
 >
@@ -182,7 +114,7 @@
  Guid="5eef95c0-266d-4452-9c08-920bc4be143f"
 >
 </Parameter><Parameter
- Type="Target"
+ Type="TargetStruct"
  Name="aTarget"
  Guid="75aff4e1-bc80-4c0c-ae1b-cd01e124a020"
 >
@@ -195,9 +127,7 @@
 <PreConditions>
 <PreCondition
  Guid="65546442-3705-4e59-b830-1df5a25f1dba"
->Kernel.MA.IsEOA(aTarget)</PreCondition><PreCondition
- Guid="6883e2e6-e39b-4743-93a8-bfe56a8a8462"
->NOT Kernel.MA.IsSvL(aTarget)</PreCondition></PreConditions>
+>Kernel.MA.IsEOA(aTarget)</PreCondition></PreConditions>
 <Expression>BaseTypes.Distance.Unknown</Expression>
 </Case><Case
  Name="Value"
@@ -229,7 +159,7 @@
  Guid="3cc56ab9-cd50-4bcd-a28a-ce08a5d1992d"
 >
 </Parameter><Parameter
- Type="Target"
+ Type="TargetStruct"
  Name="aTarget"
  Guid="8443afba-91bf-4019-a2da-f85044de80c5"
 >
@@ -473,7 +403,7 @@ X2=&gt; aTarget.Speed + Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring
  Guid="9d0d9740-70a0-4e00-91b9-22507eb04f5c"
 >
 </Parameter><Parameter
- Type="Target"
+ Type="TargetStruct"
  Name="aTarget"
  Guid="66a7c1ee-0117-4b52-a235-d68da4f21e6f"
 >
@@ -599,24 +529,6 @@ Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT().Speed == 0.0</Pre
     Vest =&gt; Odometry.TrainSpeed()
 )</Expression>
 </Case><Case
- Name="MRDT is EOA and SvL"
- Guid="430f4d66-7d96-4911-b664-34103125c36f"
->
-<PreConditions>
-<PreCondition
- Guid="43fd7b3b-ae4b-4db8-8d6a-66c4945d6c5a"
->Kernel.MA.IsEOA(Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT())</PreCondition><PreCondition
- Guid="b9e5861d-1cf0-4bb8-8775-388619535030"
->Kernel.MA.IsSvL(Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT())</PreCondition></PreConditions>
-<Expression>BaseTypes.MinSpeed(
-    X1=&gt;Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.V_P_EBD_Target(
-    d_maxsafefront =&gt; Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max),
-    aTarget =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT(),
-    Vest =&gt; Odometry.TrainSpeed()
-),
-    X2=&gt;Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.V_P_EOA(d_estfront=&gt;Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom), Vest=&gt;Odometry.TrainSpeed())
-)</Expression>
-</Case><Case
  Name="MRDT is the EOA"
  Guid="da50275f-a949-4fe9-b3ab-e1285e86eb11"
 >
@@ -636,7 +548,7 @@ Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT().Speed == 0.0</Pre
 )</Expression>
 </Case></Cases>
 </Function><Function
- Type="Target"
+ Type="TargetStruct"
  Cacheable="TRUE"
  Default=""
  X="640"
@@ -666,7 +578,7 @@ INITIAL_VALUE
     Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MovementEnd()</Expression>
 </Case></Cases>
 </Function><Function
- Type="Target"
+ Type="TargetStruct"
  Default=""
  X="110"
  Y="220"
@@ -684,12 +596,12 @@ INITIAL_VALUE
 </ReqRef><Comment>Returns the closer target between the two parameters</Comment>
 <Parameters>
 <Parameter
- Type="Target"
+ Type="TargetStruct"
  Name="X1"
  Guid="99b4f72a-6815-4d7e-8399-67569b67864b"
 >
 </Parameter><Parameter
- Type="Target"
+ Type="TargetStruct"
  Name="X2"
  Guid="03f9e4e0-748a-4af5-91fc-184584ea00dc"
 >
@@ -971,7 +883,7 @@ Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.V_P_EBD_Target(
  Guid="d1a8330c-ead3-4993-b78a-39e9eef5f008"
 >
 </Parameter><Parameter
- Type="Target"
+ Type="TargetStruct"
  Name="aTarget"
  Guid="c9becbd7-3eaf-4f49-9887-db0a41cbd161"
 >
@@ -1006,58 +918,6 @@ Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.EBD_TargetForSpeed(aTarget=
     Vtarget =&gt; aTarget.Speed,
     NoA_est =&gt; NoA_est
 )</Expression>
-</Case></Cases>
-</Function><Function
- Type="Boolean"
- Default=""
- X="710"
- Y="280"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="SBI1BelowSBI2"
- Guid="4c03af12-8299-47f1-a36e-5ceafe500d01"
->
-<ReqRef
- Id="7525f72a-3b46-498c-8c48-1ed3ad888b1a"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="a089428b-43ef-4852-b96c-8fd5280e0e7f"
->
-</ReqRef><ReqRef
- Id="d542f99e-9462-4bb6-9087-35da9a233e06"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="9bb4026c-f84c-4db5-bd43-c6cc4f1a26e1"
->
-</ReqRef><Comment>Checks that the MA ends with a EOA and, if so, returns true if the SBD curve is closer than the EBD</Comment>
-<Parameters>
-<Parameter
- Type="BaseTypes.Distance"
- Name="d_SBI1"
- Guid="dad67edd-3fe4-4175-a913-c3a4ad872b4b"
->
-</Parameter><Parameter
- Type="BaseTypes.Distance"
- Name="d_SBI2"
- Guid="175339e3-7d3f-4c7b-b400-62a0f1c45654"
->
-</Parameter></Parameters>
-<Cases>
-<Case
- Name="No EOA defined"
- Guid="68dd7cc9-0d1c-45c8-bc0c-958e6b369768"
->
-<PreConditions>
-<PreCondition
- Guid="1f71df51-c1b0-48e4-a4f9-a4588272738b"
->NOT Kernel.MA.EOADefined()</PreCondition></PreConditions>
-<Expression>False</Expression>
-</Case><Case
- Name="Value"
- Guid="8bdc9210-c59d-4c1b-9357-b46432397840"
->
-<Expression>d_SBI1 - Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom)
- &lt;= 
-d_SBI2 - Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max)</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Distance"
@@ -1149,7 +1009,7 @@ Kernel.MA.IsSvL(Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT())<
 )</Expression>
 </Case></Cases>
 </Function><Function
- Type="Targets"
+ Type="TargetsCol"
  Cacheable="TRUE"
  Default=""
  X="310"
@@ -1166,20 +1026,7 @@ Kernel.MA.IsSvL(Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT())<
  Name="Value"
  Guid="432773f1-009d-4b37-a703-f1ec3389f415"
 >
-<Expression>MAP TARGETS(
-MIN(
-    First =&gt; MIN(
-        First =&gt; Kernel.MRSP.SpeedRestrictions,
-        Second =&gt; Kernel.NationalValues.MaxDistInSRSpeedRestriction
-    ),
-    Second =&gt; MIN(
-        First=&gt;Kernel.MA.LOASpeedRestriction,
-        Second=&gt;Kernel.MA.SvLSpeedRestriction
-    )
-)
-)
- | X.Location &gt; Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom)
-  USING X IN X</Expression>
+<Expression>FILTER TargetsList() | NOT MA.IsEOA( X ) USING X</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Speed"
@@ -1253,7 +1100,7 @@ This protection is used in the case where V_SBI_DMI is calculated but the train 
 <Expression>BaseTypes.Distance.Infinity</Expression>
 </Case></Cases>
 </Function><Function
- Type="Target"
+ Type="TargetStruct"
  Default=""
  X="0"
  Y="220"
@@ -1274,7 +1121,7 @@ This protection is used in the case where V_SBI_DMI is calculated but the train 
 <PreCondition
  Guid="d7ba719f-1746-439b-a044-d8afca29cefb"
 >Kernel.Mode == ModeEnum.SR</PreCondition></PreConditions>
-<Expression>Kernel.MA.ClosestTarget(
+<Expression>ClosestTarget(
     Target1 =&gt; Kernel.Modes.StaffResponsible.SREndTarget(),
     Target2 =&gt; MA.EOA()
 )</Expression>
@@ -1291,7 +1138,7 @@ This protection is used in the case where V_SBI_DMI is calculated but the train 
  Name="Otherwise"
  Guid="7ef2beef-6af6-4e22-9ddb-b9729db49aae"
 >
-<Expression>Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target{
+<Expression>TargetStruct{
     Location =&gt; BaseTypes.Distance.Infinity,
     Speed =&gt; 0.0,
     Length =&gt; 0.0
@@ -1337,7 +1184,7 @@ This protection is used in the case where V_SBI_DMI is calculated but the train 
  Guid="a679d79b-6b64-4bad-8798-bde3ea65acb4"
 >
 </Parameter><Parameter
- Type="Target"
+ Type="TargetStruct"
  Name="aTarget"
  Guid="a5d96bf6-4309-4789-9c0f-1b38496becaf"
 >
@@ -1414,7 +1261,7 @@ This protection is used in the case where V_SBI_DMI is calculated but the train 
 </ReqRef><Comment>Provide the distance d_P fore the given target at the current MRSP speed.</Comment>
 <Parameters>
 <Parameter
- Type="Target"
+ Type="TargetStruct"
  Name="aTarget"
  Guid="b58b45bb-a4c8-495c-9a62-6b4931d211f9"
 >
@@ -1455,25 +1302,6 @@ This protection is used in the case where V_SBI_DMI is calculated but the train 
 ) == BaseTypes.Distance.Unknown</PreCondition></PreConditions>
 <Expression>BaseTypes.Distance.Infinity</Expression>
 </Case><Case
- Name="GUI inhibited, target is EOA and SvL"
- Guid="a42c1bd2-14b0-4580-b061-2254cb519513"
->
-<PreConditions>
-<PreCondition
- Guid="65a5614d-60ca-4a36-a627-5106f5cb7398"
->Kernel.MA.IsEOA(aTarget)  AND  Kernel.MA.IsSvL(aTarget)</PreCondition><PreCondition
- Guid="f8b12caf-4941-4c55-b89d-a3482b613d38"
->NOT Kernel.NationalValues.ComputationOfGUIIsEnabled()</PreCondition></PreConditions>
-<Expression>BaseTypes.MinDistance(
-    X1 =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_SBI1(Vest),
-    X2 =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_SBI2
-    (
-        Vest =&gt; Vest,
-        aTarget =&gt; aTarget,
-        NoA_est =&gt; NoA_est
-    )
-) - BaseTypes.SpeedToMS ( Vest ) * Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.T_driver</Expression>
-</Case><Case
  Name="GUI inhibited, target is EOA"
  Guid="e10687c2-894c-4b95-a293-4ff0b2eda62d"
 >
@@ -1498,26 +1326,6 @@ This protection is used in the case where V_SBI_DMI is calculated but the train 
     aTarget =&gt; aTarget,
     NoA_est =&gt; NoA_est
 ) - BaseTypes.SpeedToMS ( Vest ) * Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.T_driver</Expression>
-</Case><Case
- Name="GUI enabled, target is EOA and SvL"
- Guid="f848e959-57c7-4a2e-995b-00d8efadb351"
->
-<PreConditions>
-<PreCondition
- Guid="ef0a59de-6723-4391-98f0-4e31d544e6fe"
->Kernel.MA.IsEOA(aTarget)  AND  Kernel.MA.IsSvL(aTarget)</PreCondition></PreConditions>
-<Expression>BaseTypes.MinDistance (
-    X1 =&gt; BaseTypes.MinDistance(
-        X1 =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_SBI1(Vest),
-        X2 =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_SBI2
-        (
-            Vest =&gt; Vest,
-            aTarget =&gt; aTarget,
-            NoA_est =&gt; NoA_est
-        )
-    ) - BaseTypes.SpeedToMS ( Vest ) * Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.T_driver,
-    X2 =&gt; DistanceForSpeed ( Function =&gt; FUNCTION d : Default.BaseTypes.Distance =&gt; Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.GUI_Target ( Distance =&gt; d, aTarget =&gt; aTarget ), Speed =&gt; Vest )
-)</Expression>
 </Case><Case
  Name="GUI enabled, target is EOA"
  Guid="1a97b839-c0ea-49d7-9973-e4f7d632d92a"
@@ -1557,7 +1365,7 @@ This protection is used in the case where V_SBI_DMI is calculated but the train 
  Guid="b6ae4883-4a43-4eb6-8b24-168c2b7c4558"
 >
 </Parameter><Parameter
- Type="Target"
+ Type="TargetStruct"
  Name="aTarget"
  Guid="592d6c81-6feb-4883-8746-b8a936ff31b4"
 >
@@ -1617,38 +1425,13 @@ This protection is used in the case where V_SBI_DMI is calculated but the train 
  Guid="858de658-9932-4f69-bf0c-a532d954bb11"
 >
 </Parameter><Parameter
- Type="Target"
+ Type="TargetStruct"
  Name="aTarget"
  Guid="b411cfd0-85d0-4d65-8c4f-51a05f00f016"
 >
 </Parameter></Parameters>
 <Cases>
 <Case
- Name="Supervised target is both EOA and SvL"
- Guid="0351d0c8-4eb4-40fd-8b47-5ef9492f4f5d"
->
-<PreConditions>
-<PreCondition
- Guid="7c6e9266-5b4e-4edd-8437-f7a60a50df1e"
->Kernel.MA.IsEOA(aTarget)  AND  Kernel.MA.IsSvL(aTarget)</PreCondition><PreCondition
- Guid="2952f66f-195c-4a20-986e-90e3a323c202"
->Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_SBI1( Vest ) != BaseTypes.Distance.Unknown</PreCondition><PreCondition
- Guid="e7774ac0-6c83-47c5-bcd6-3170af6e52e7"
->Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_SBI2
-(
-    Vest =&gt; Vest,
-    aTarget =&gt; aTarget,
-    NoA_est =&gt; False
-) != BaseTypes.Distance.Unknown</PreCondition></PreConditions>
-<Expression>BaseTypes.MinDistance(
-    X1 =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_SBI2(
-        Vest =&gt; Vest,
-        aTarget =&gt; aTarget,
-        NoA_est =&gt; False
-    ),
-    X2 =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_SBI1( Vest )
-) - BaseTypes.SpeedToMS ( Vest ) * Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.T_warning</Expression>
-</Case><Case
  Name="Supervised target is the EOA, SBI1 unknown"
  Guid="ef872010-6c93-46ef-8c75-fd147510ab27"
 >
@@ -1713,7 +1496,7 @@ This protection is used in the case where V_SBI_DMI is calculated but the train 
 </ReqRef><Comment>Provides the location corresponding to the intervention location for the provided speed and target.</Comment>
 <Parameters>
 <Parameter
- Type="Target"
+ Type="TargetStruct"
  Name="aTarget"
  Guid="c02d7eed-d37a-432d-8aae-271c683cfd82"
 >
@@ -2005,7 +1788,7 @@ Kernel.ActiveFunctions.SuperviseTrainSpeed_All_Information()</PreCondition></Pre
 >
 </ReqRef><Comment>Time between Warning supervision limit and SBI.</Comment>
 </Variable><Variable
- Type="TargetSpeedMonitoring.Target"
+ Type="TargetStruct"
  DefaultValue="EMPTY"
  VariableMode="Internal"
  X="530"

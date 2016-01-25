@@ -22,7 +22,7 @@ using DataDictionary.Variables;
 using Collection = DataDictionary.Types.Collection;
 using Structure = DataDictionary.Types.Structure;
 using Type = DataDictionary.Types.Type;
-using Variable = DataDictionary.Variables.Variable;
+using NameSpace = DataDictionary.Types.NameSpace;
 
 namespace DataDictionary.Functions.PredefinedFunctions
 {
@@ -44,8 +44,8 @@ namespace DataDictionary.Functions.PredefinedFunctions
                 return
                     EFSSystem.FindType(
                         OverallNameSpaceFinder.INSTANCE.findByName(EFSSystem.Dictionaries[0],
-                            "Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring"),
-                        "Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Targets");
+                            "Default"),
+                        "TargetsCol");
             }
         }
 
@@ -94,8 +94,8 @@ namespace DataDictionary.Functions.PredefinedFunctions
                 (Collection)
                     EFSSystem.FindType(
                         OverallNameSpaceFinder.INSTANCE.findByName(EFSSystem.Dictionaries[0],
-                            "Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring"),
-                        "Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Targets");
+                            "Default"),
+                        "TargetsCol");
             ListValue collection = new ListValue(collectionType, new List<IValue>());
 
             Function function = context.FindOnStack(Targets).Value as Function;
@@ -143,12 +143,12 @@ namespace DataDictionary.Functions.PredefinedFunctions
         /// <returns></returns>
         private StructureValue CreateTarget(double start, double length, double speed)
         {
+            NameSpace defaultNameSpace = OverallNameSpaceFinder.INSTANCE.findByName(EFSSystem.Dictionaries[0], "Default");
             Structure structureType =
                 (Structure)
                     EFSSystem.FindType(
-                        OverallNameSpaceFinder.INSTANCE.findByName(EFSSystem.Dictionaries[0],
-                            "Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring"),
-                        "Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target");
+                        defaultNameSpace,
+                        "TargetStruct");
             StructureValue value = new StructureValue(structureType);
 
             Field speedV = value.CreateField(value, "Speed", structureType);
@@ -159,6 +159,11 @@ namespace DataDictionary.Functions.PredefinedFunctions
 
             Field lengthV = value.CreateField(value, "Length", structureType);
             lengthV.Value = new DoubleValue(EFSSystem.DoubleType, length);
+
+            Enum targetType = (Enum)EFSSystem.FindType(defaultNameSpace, "TargetTypeEnum");
+            Field type = value.CreateField(value, "Type", structureType);
+            type.Value = targetType.DefaultValue;
+
             return value;
         }
     }

@@ -420,7 +420,7 @@ NOT THERE_IS X IN
 )</Expression>
 </Case></Cases>
 </Function><Function
- Type="SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target"
+ Type="TargetStruct"
  Default=""
  X="240"
  Y="180"
@@ -476,13 +476,14 @@ Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.Items != []
 THERE_IS X IN Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.Items | Kernel.TrackDescription.RouteSuitability.IsUnsuitable ( X )</PreCondition><PreCondition
  Guid="3082a207-3a50-4aef-8222-4d01347f6929"
 >Kernel.ActiveFunctions.ManageRouteSuitability()</PreCondition></PreConditions>
-<Expression>Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target
+<Expression>TargetStruct
 {
-    Length =&gt; BaseTypes.Length.Infinity,
     Location =&gt; REDUCE TrackDescription.RouteSuitability.RouteSuitabilityProfile.Items | TrackDescription.RouteSuitability.IsUnsuitable ( X )
                         USING X IN BaseTypes.MinDistance ( X1 =&gt; X.Location, X2 =&gt; RESULT )
                         INITIAL_VALUE BaseTypes.Distance.Infinity,
-    Speed =&gt; 0.0
+    Length =&gt; BaseTypes.Length.Infinity,
+    Speed =&gt; 0.0,
+    Type =&gt; TargetTypeEnum.EOA
 }</Expression>
 </Case><Case
  Name="Otherwise"
@@ -491,7 +492,7 @@ THERE_IS X IN Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.I
 <Expression>EMPTY</Expression>
 </Case></Cases>
 </Function><Function
- Type="SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target"
+ Type="TargetStruct"
  Default=""
  X="350"
  Y="180"
@@ -535,13 +536,14 @@ THERE_IS X IN Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.I
 Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.Items != []
   AND
 THERE_IS X IN Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.Items | Kernel.TrackDescription.RouteSuitability.IsUnsuitable ( X )</PreCondition></PreConditions>
-<Expression>Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target
+<Expression>TargetStruct
 {
-    Length =&gt; BaseTypes.Length.Infinity,
     Location =&gt; REDUCE TrackDescription.RouteSuitability.RouteSuitabilityProfile.Items | TrackDescription.RouteSuitability.IsUnsuitable ( X )
                         USING X IN BaseTypes.MinDistance ( X1 =&gt; X.Location, X2 =&gt; RESULT )
                         INITIAL_VALUE BaseTypes.Distance.Infinity,
-    Speed =&gt; 0.0
+    Length =&gt; BaseTypes.Length.Infinity,
+    Speed =&gt; 0.0,
+    Type =&gt; TargetTypeEnum.SvL
 }</Expression>
 </Case><Case
  Name="Otherwise"

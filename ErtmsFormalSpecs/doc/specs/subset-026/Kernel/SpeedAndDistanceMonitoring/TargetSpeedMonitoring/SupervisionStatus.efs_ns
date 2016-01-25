@@ -1463,7 +1463,7 @@ Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &lt;= Kernel.Spe
 </ReqRef><Comment>Revocation 1: True if V is less than or equal to the speed of target.</Comment>
 <Parameters>
 <Parameter
- Type="Target"
+ Type="TargetStruct"
  Name="aTarget"
  Guid="4b2890d3-9788-4e83-ace0-a28b24d7cb3c"
 >
@@ -1537,7 +1537,7 @@ MA.IsSvL(aTarget)</PreCondition></PreConditions>
 </ReqRef><Comment>Revocation 2: True if V is between the speed of target and the MRSP speed, and if the front end is in rear of the indication distance for V.</Comment>
 <Parameters>
 <Parameter
- Type="Target"
+ Type="TargetStruct"
  Name="aTarget"
  Guid="97ae5371-6a85-47b4-addd-afbad2d41527"
 >
@@ -1651,7 +1651,7 @@ Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &lt;= Kernel.Spe
 </ReqRef><Comment>Revocation 3: True if V is between the speed of target and the MRSP speed, and if the front end is in rear of the permitted distance for V.</Comment>
 <Parameters>
 <Parameter
- Type="Target"
+ Type="TargetStruct"
  Name="aTarget"
  Guid="4df47526-6e82-43fd-9d1c-034b9374b057"
 >
@@ -1784,7 +1784,7 @@ Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &lt;= Kernel.Spe
 </ReqRef><Comment>This function returns the Target Speed of the currently supervised target, unless it is the EOA or the SvL, in which case it returns the associated release speed.</Comment>
 <Parameters>
 <Parameter
- Type="Target"
+ Type="TargetStruct"
  Name="aTarget"
  Guid="a42fe859-9b76-438a-be40-dc0154cd6d13"
 >
@@ -1834,7 +1834,7 @@ Kernel.MA.IsSvL(aTarget)</PreCondition><PreCondition
 </ReqRef><Comment>Returns the target speed + the difference to warning speed for a LOA or MRDT target, or the release speed for a EOA or SvL.</Comment>
 <Parameters>
 <Parameter
- Type="Target"
+ Type="TargetStruct"
  Name="aTarget"
  Guid="bcffc93e-fb88-409d-b230-a75428068c5e"
 >
@@ -1884,7 +1884,7 @@ Kernel.MA.IsSvL(aTarget)</PreCondition></PreConditions>
 </ReqRef><Comment>Returns the target speed + the difference to sbi speed for a LOA or MRSP target, or the release speed for a EOA or SvL.</Comment>
 <Parameters>
 <Parameter
- Type="Target"
+ Type="TargetStruct"
  Name="aTarget"
  Guid="868355bf-af60-4a8e-b83e-1f294c8c1df6"
 >
@@ -2193,14 +2193,14 @@ t4() OR t5() OR t6()</PreCondition></PreConditions>
 <Comment>Indicates whether the target is EOA or Svl and the release speed is greater than zero</Comment>
 <Parameters>
 <Parameter
- Type="TargetSpeedMonitoring.Target"
+ Type="TargetStruct"
  Name="target"
  Guid="f2c9c8e9-9ca7-4caa-9cd8-47b6557012e5"
 >
 </Parameter></Parameters>
 <Cases>
 <Case
- Name="Case1"
+ Name="Value"
  Guid="6d255513-7d2e-4650-96fa-53a65a0827a0"
 >
 <Expression>(MA.IsEOA( target ) OR MA.IsSvL( target ))
@@ -2221,7 +2221,7 @@ ReleaseSpeedMonitoring.ReleaseSpeed &gt; 0.0</Expression>
 <Comment>Indicates whether there is a change of displayed target</Comment>
 <Cases>
 <Case
- Name="Case1"
+ Name="Value"
  Guid="0df69ff5-b7cb-474e-9652-739992c3c628"
 >
 <Expression>MRDT() != PreviousDisplayedTarget</Expression>

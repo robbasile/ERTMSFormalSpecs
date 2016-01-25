@@ -185,9 +185,7 @@ Kernel.MA.IsSvL(Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT())<
  Name="In CSM or PIM"
  Guid="9ee1faaa-c254-4694-813e-d2f3b395ff81"
 >
-<Expression>Kernel.SpeedAndDistanceMonitoring.GetMonitoringType() == Kernel.SpeedAndDistanceMonitoring.MonitoringType.CSM
-  OR  
-Kernel.SpeedAndDistanceMonitoring.GetMonitoringType() == Kernel.SpeedAndDistanceMonitoring.MonitoringType.PIM</Expression>
+<Expression>Kernel.SpeedAndDistanceMonitoring.GetMonitoringType() in [Kernel.SpeedAndDistanceMonitoring.MonitoringType.CSM, Kernel.SpeedAndDistanceMonitoring.MonitoringType.PIM]</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -281,83 +279,23 @@ Kernel.ActiveFunctions.SuperviseTrainSpeed_All_Information()
 )</PreCondition></PreConditions>
 <Expression>BaseTypes.Distance.Unknown</Expression>
 </Case><Case
- Name="In RSM"
+ Name="In RSM or in TSM"
  Guid="eb912e76-b2e4-4dc5-9bce-22fb930ffb1f"
 >
 <PreConditions>
 <PreCondition
  Guid="e6e2dfb6-e10b-4b64-8387-340273acfb3a"
 ><Comment>In RSM and in TSM (but not PIM) we do not need to calculate the indication location since it is already in rear of the train.</Comment>
-Monitoring == MonitoringTypeSM.Release
+Monitoring in MonitoringTypeSM.Release
   OR
 (
-Monitoring == MonitoringTypeSM.Target
+Monitoring in MonitoringTypeSM.Target
   AND  
 NOT IsInPIM()
 )</PreCondition></PreConditions>
 <Expression>BaseTypes.Distance.Unknown</Expression>
 </Case><Case
- Name="Target is EOA and SvL, d_I is behind the train"
- Guid="fe28ed82-2e5d-41b3-870d-8ff61d651d2f"
->
-<PreConditions>
-<PreCondition
- Guid="5e4034ab-adf6-4452-96bf-d3015792e2f0"
->(
-  Kernel.MA.IsEOA(Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT())
-    AND  
-  Kernel.MA.IsSvL(Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT())
-)
-
-  AND  
-
-Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationLimitAtSpeed_EOA(Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationSegment(Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT()).Speed ) == BaseTypes.Distance.Unknown
-  AND  
-Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationLimitAtSpeed(
-    aTarget =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT(),
-    aSpeed =&gt; Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationSegment(Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT()).Speed)
- == BaseTypes.Distance.Unknown</PreCondition></PreConditions>
-<Expression>BaseTypes.Distance.Unknown</Expression>
-</Case><Case
- Name="Target is EOA and SvL"
- Guid="780e5118-4f03-4b5f-96df-326b84b4c8b9"
->
-<PreConditions>
-<PreCondition
- Guid="a80219d7-bc70-4e31-8cd3-c78974f9a44f"
->Kernel.MA.IsEOA(Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT())
-  AND  
-Kernel.MA.IsSvL(Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT())</PreCondition></PreConditions>
-<Expression>BaseTypes.MinDistance(
-    X1 =&gt; Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationLimitAtSpeed_EOA(Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationSegment(Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT()).Speed),
-    X2 =&gt; Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationLimitAtSpeed(
-    aTarget =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT(),
-    aSpeed =&gt; Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationSegment(Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT()).Speed)
-) - Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom)</Expression>
-</Case><Case
- Name="Target is EOA and d_I is behind the train"
- Guid="f4f0cfde-b07c-40dd-b482-58aee844d5a0"
->
-<PreConditions>
-<PreCondition
- Guid="ef820a57-90ad-4617-a69a-6c1a406ec324"
->Kernel.MA.IsEOA(Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT())
-
-  AND  
-
-Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationLimitAtSpeed_EOA(Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationSegment(Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT()).Speed ) == BaseTypes.Distance.Unknown</PreCondition></PreConditions>
-<Expression>BaseTypes.Distance.Unknown</Expression>
-</Case><Case
- Name="The target is the EOA"
- Guid="2d7b4d78-e0c2-4eca-a426-4c460d8b1599"
->
-<PreConditions>
-<PreCondition
- Guid="2aac3ae2-f418-460d-aaeb-f270e8019b10"
->Kernel.MA.IsEOA(Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT())</PreCondition></PreConditions>
-<Expression>Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationLimitAtSpeed_EOA(Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationSegment(Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT()).Speed) - Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom)</Expression>
-</Case><Case
- Name="Another target, d_I behind the train"
+ Name="d_I behind the train"
  Guid="913a30c9-7476-4590-a80b-3970deaa3894"
 >
 <PreConditions>
@@ -369,7 +307,7 @@ Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationLimitAtSpeed_E
  == BaseTypes.Distance.Unknown</PreCondition></PreConditions>
 <Expression>BaseTypes.Distance.Unknown</Expression>
 </Case><Case
- Name="It is another target"
+ Name="Otherwise"
  Guid="8bdffb03-588c-4283-94e4-00ae6887a869"
 >
 <Expression>Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationLimitAtSpeed(
@@ -377,7 +315,7 @@ Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationLimitAtSpeed_E
     aSpeed =&gt; Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationSegment(Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT()).Speed) - Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom)</Expression>
 </Case></Cases>
 </Function><Function
- Type="TargetSpeedMonitoring.Target"
+ Type="TargetStruct"
  Default=""
  X="340"
  Y="70"
@@ -405,14 +343,15 @@ this is used ot limit the planning information displayed to the driver on the DM
  Guid="9bbb9be3-b612-4e3a-aeb1-5b4e2db35f77"
 >
 <Expression>REDUCE Kernel.SpeedAndDistanceMonitoring.TargetsList() | X.Speed == 0.0 USING X 
-IN Kernel.MA.ClosestTarget(
+IN ClosestTarget(
     Target1 =&gt; X,
     Target2 =&gt; RESULT
 )
-INITIAL_VALUE Kernel.MA.ClosestTarget(
-    Target1 =&gt; MA.EOA(),
-    Target2 =&gt; Kernel.MA.SvL()
-)</Expression>
+INITIAL_VALUE TargetStruct {
+    Location =&gt; BaseTypes.Distance.Infinity, 
+    Length =&gt; BaseTypes.Length.Infinity,
+    Speed =&gt; 0.0
+}</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"

@@ -4145,13 +4145,14 @@ The list is updated in case two LRBGs provide the same MRSP, this should count a
 <Actions>
 <Action
  Guid="48f28414-15b8-407c-9ccc-7b7bbb265b2f"
->Kernel.SpeedAndDistanceMonitoring.SupervisedTargets &lt;- MAP Kernel.SpeedAndDistanceMonitoring.SupervisedTargets USING X IN Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target{
+>Kernel.SpeedAndDistanceMonitoring.SupervisedTargets &lt;- MAP Kernel.SpeedAndDistanceMonitoring.SupervisedTargets USING X IN TargetStruct{
     Location =&gt; BaseTypes.OffsetDistance(
         aDistance =&gt; X.Location,
         aOffset =&gt; DistanceFromLRBG
     ),
     Speed =&gt; X.Speed,
-    Length =&gt; X.Length
+    Length =&gt; X.Length,
+    Type =&gt; X.Type
 }</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule

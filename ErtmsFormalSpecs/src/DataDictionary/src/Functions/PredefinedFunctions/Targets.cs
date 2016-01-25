@@ -49,8 +49,8 @@ namespace DataDictionary.Functions.PredefinedFunctions
                 return
                     EFSSystem.FindType(
                         OverallNameSpaceFinder.INSTANCE.findByName(EFSSystem.Dictionaries[0],
-                            "Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring"),
-                        "Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Targets");
+                            "Default"),
+                        "TargetsCol");
             }
         }
 
@@ -99,8 +99,8 @@ namespace DataDictionary.Functions.PredefinedFunctions
                 (Collection)
                     EFSSystem.FindType(
                         OverallNameSpaceFinder.INSTANCE.findByName(EFSSystem.Dictionaries[0],
-                            "Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring"),
-                        "Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Targets");
+                            "Default"),
+                        "TargetsCol");
             ListValue collection = new ListValue(collectionType, new List<IValue>());
 
             // compute targets from the MRSP
@@ -129,12 +129,12 @@ namespace DataDictionary.Functions.PredefinedFunctions
                 Graph graph = function.Graph;
                 if (graph != null && graph.Segments.Count > 1)
                 {
-                    NameSpace nameSpace = OverallNameSpaceFinder.INSTANCE.findByName(EFSSystem.Dictionaries[0],
-                        "Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring");
+                    NameSpace defaultNameSpace = OverallNameSpaceFinder.INSTANCE.findByName(EFSSystem.Dictionaries[0],
+                        "Default");
                     Structure structureType = (Structure)
                         EFSSystem.FindType(
-                            nameSpace,
-                            "Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target"
+                            defaultNameSpace,
+                            "TargetStruct"
                         );
 
                     double prevSpeed = graph.Segments[0].Evaluate(graph.Segments[0].Start);
@@ -151,6 +151,10 @@ namespace DataDictionary.Functions.PredefinedFunctions
 
                         Field length = value.CreateField(value, "Length", structureType);
                         length.Value = SegmentLength(s.End);
+
+                        Enum targetType = (Enum) EFSSystem.FindType(defaultNameSpace, "TargetTypeEnum");
+                        Field type = value.CreateField(value, "Type", structureType);
+                        type.Value = targetType.DefaultValue;
 
                         // Only add the target for the current segment to the collection if it brings a reduction in permitted speed
                         if (s.Evaluate(s.Start) < prevSpeed)

@@ -1087,7 +1087,7 @@ Announcement.Type == Kernel.TrackDescription.TrackConditions.General.TCDisplay.T
 >NOT Condition.IsAnnouncement</PreCondition></PreConditions>
 <Expression>Odometry.EstimatedSpeed &gt;= Kernel.TrackDescription.TrackConditions.General.TCDisplay.VirtualSBIForTarget(
     Distance=&gt; Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom),
-    Target=&gt;Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target{
+    Target=&gt;TargetStruct{
         Location =&gt; Condition.Location + BaseTypes.LengthToDistance(Condition.Length),
         Speed =&gt; 0.0,
         Length =&gt; 1.0
@@ -1105,7 +1105,7 @@ Announcement.Type == Kernel.TrackDescription.TrackConditions.General.TCDisplay.T
 >NOT Condition.IsAnnouncement</PreCondition></PreConditions>
 <Expression>Odometry.EstimatedSpeed &gt;= Kernel.TrackDescription.TrackConditions.General.TCDisplay.VirtualSBIForTarget(
     Distance=&gt; Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Min),
-    Target=&gt;Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target{
+    Target=&gt;TargetStruct{
         Location =&gt; Condition.Location + BaseTypes.LengthToDistance(Condition.Length),
         Speed =&gt; 0.0,
         Length =&gt; 1.0
@@ -1280,7 +1280,7 @@ Condition.Type == Kernel.TrackDescription.TrackConditions.General.TCDisplay.TCTy
 >Condition.Type == Kernel.TrackDescription.TrackConditions.General.TCDisplay.TCTypeEnum.NonStoppingArea</PreCondition></PreConditions>
 <Expression>Odometry.TrainSpeed() &gt;= Kernel.TrackDescription.TrackConditions.General.TCDisplay.VirtualSBIForTarget(
     Distance=&gt;Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max),
-    Target=&gt;Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target{
+    Target=&gt;TargetStruct{
         Location =&gt; Condition.Location + BaseTypes.LengthToDistance(Condition.Length),
         Speed =&gt; 0.0,
         Length =&gt; BaseTypes.Length.Infinity}
@@ -1352,7 +1352,7 @@ Condition.Type == Kernel.TrackDescription.TrackConditions.General.TCDisplay.TCTy
  Guid="a5bed748-c7c1-4fb4-874f-b749d688adb1"
 >
 </Parameter><Parameter
- Type="SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target"
+ Type="TargetStruct"
  Name="Target"
  Guid="361d8801-cc78-4d8c-a114-d10e57711ff6"
 >
@@ -1363,7 +1363,7 @@ Condition.Type == Kernel.TrackDescription.TrackConditions.General.TCDisplay.TCTy
  Guid="1f75f261-a1ed-4441-b109-7e0bcc2a7ac8"
 >
 <Expression>DecelerationProfile(
-    SpeedRestrictions=&gt; FUNCTION d : Default.BaseTypes.Distance =&gt; Kernel.TrackDescription.TrackConditions.General.TCDisplay.VirtualSpeedRestriction(Distance=&gt;d, Target=&gt;Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target{
+    SpeedRestrictions=&gt; FUNCTION d : Default.BaseTypes.Distance =&gt; Kernel.TrackDescription.TrackConditions.General.TCDisplay.VirtualSpeedRestriction(Distance=&gt;d, Target=&gt;TargetStruct{
     Location =&gt; Target.Location - BaseTypes.SpeedToMS ( Odometry.TrainSpeed() ) * SpeedAndDistanceMonitoring.TargetSpeedMonitoring.T_bs1,
     Speed =&gt; 0.0,
     Length =&gt; 0.0
@@ -1400,7 +1400,7 @@ Condition.Type == Kernel.TrackDescription.TrackConditions.General.TCDisplay.TCTy
  Guid="70e22ed7-0c40-4621-b333-d82e16d3ef6e"
 >
 </Parameter><Parameter
- Type="SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target"
+ Type="TargetStruct"
  Name="Target"
  Guid="9c3765ad-4033-4e59-bb97-622b108f95b0"
 >
@@ -1642,7 +1642,7 @@ INITIAL_VALUE BaseTypes.Distance.Infinity</Expression>
 >Condition.Type == Kernel.TrackDescription.TrackConditions.General.TCDisplay.TCTypeEnum.NonStoppingArea</PreCondition></PreConditions>
 <Expression>Odometry.TrainSpeed() &gt;= Kernel.TrackDescription.TrackConditions.General.TCDisplay.VirtualSBIForTarget(
     Distance=&gt; Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Min),
-    Target=&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target{
+    Target=&gt; TargetStruct{
         Location =&gt; Condition.Location + BaseTypes.LengthToDistance(Condition.Length),
         Speed =&gt; 0.0,
         Length =&gt; 1.0
@@ -1658,7 +1658,7 @@ INITIAL_VALUE BaseTypes.Distance.Infinity</Expression>
 >Condition.Type == Kernel.TrackDescription.TrackConditions.General.TCDisplay.TCTypeEnum.TunnelStoppingArea</PreCondition></PreConditions>
 <Expression>Odometry.TrainSpeed() &gt;= Kernel.TrackDescription.TrackConditions.General.TCDisplay.VirtualSBIForTarget(
     Distance=&gt; Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom),
-    Target=&gt;Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target{
+    Target=&gt;TargetStruct{
         Location =&gt; Condition.Location + BaseTypes.LengthToDistance(Condition.Length),
         Speed =&gt; 0.0,
         Length =&gt; 1.0

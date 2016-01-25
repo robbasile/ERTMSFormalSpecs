@@ -37,7 +37,7 @@
 </ReqRef><Comment>Computes the value of the release speed, by iterating the function VreleaseFunction.</Comment>
 <Parameters>
 <Parameter
- Type="TargetSpeedMonitoring.Target"
+ Type="TargetStruct"
  Name="aTarget"
  Guid="8809f63d-2e33-47d3-b643-a3629f325926"
 >
@@ -211,7 +211,7 @@ BaseTypes.MaxDistance(
  Guid="1805aa0c-0d02-4572-98ea-abed7e76dbd5"
 >
 </Parameter><Parameter
- Type="TargetSpeedMonitoring.Target"
+ Type="TargetStruct"
  Name="aTarget"
  Guid="31c4457c-faad-4bcb-be68-c2dbf699fceb"
 >
@@ -430,11 +430,12 @@ USING X IN
     )
 INITIAL_VALUE
     Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.ComputeReleaseSpeedForTarget(
-        aTarget=&gt;Kernel.MA.CreateTarget (
-            aLength =&gt; BaseTypes.Length.Infinity,
-            aLocation =&gt; aSvLlocation,
-            aSpeed =&gt; 0.0
-        )
+        aTarget =&gt; TargetStruct{
+            Location =&gt; aSvLlocation,
+            Length =&gt; BaseTypes.Length.Infinity,
+            Speed =&gt; 0.0,
+            Type =&gt; TargetTypeEnum.SvL
+        }
     )</Expression>
 </Case></Cases>
 </Function><Function
@@ -553,7 +554,7 @@ INITIAL_VALUE
 </ReqRef><Comment>Returns the release speed for the provided EOAl or SvL.</Comment>
 <Parameters>
 <Parameter
- Type="TargetSpeedMonitoring.Target"
+ Type="TargetStruct"
  Name="aTarget"
  Guid="0cd76e62-92e9-449c-9f09-78250ae3929e"
 >
@@ -642,7 +643,7 @@ INITIAL_VALUE
     BaseTypes.Distance.Infinity</Expression>
 </Case></Cases>
 </Function><Function
- Type="TargetSpeedMonitoring.Targets"
+ Type="TargetsCol"
  Default=""
  X="600"
  Y="140"
@@ -688,7 +689,7 @@ USING X IN X</Expression>
 </ReqRef><Comment>Checks the target to see if it limits the MRSP in the area between the start location of the Release Speed Monitoring and the Trip location related to the EOA.</Comment>
 <Parameters>
 <Parameter
- Type="TargetSpeedMonitoring.Target"
+ Type="TargetStruct"
  Name="aTarget"
  Guid="63b35e43-3f75-44f5-b8a3-f2d47ccf8c5e"
 >

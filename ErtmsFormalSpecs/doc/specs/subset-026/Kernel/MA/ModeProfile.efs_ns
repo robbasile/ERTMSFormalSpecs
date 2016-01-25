@@ -495,7 +495,7 @@ aProfile.Mode == ModeEnum.ModeProfile.LS</PreCondition></PreConditions>
 <Expression>aProfile.Location - BaseTypes.LengthToDistance ( aProfile.AcknLength ) &lt;= Kernel.TrainPosition.FrontEndPosition ( DistanceIntervalEnum.Nom )</Expression>
 </Case></Cases>
 </Function><Function
- Type="SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target"
+ Type="TargetStruct"
  Default=""
  X="260"
  Y="80"
@@ -535,11 +535,12 @@ aProfile.Mode == ModeEnum.ModeProfile.LS</PreCondition></PreConditions>
 >Kernel.MA.ModeProfile.Profile != []</PreCondition><PreCondition
  Guid="72d9cd73-06fc-4d5b-abaa-ec05e4cb3dc7"
 >Kernel.MA.ModeProfile.FirstNonApplicableModeProfile() != EMPTY</PreCondition></PreConditions>
-<Expression>Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target
+<Expression>TargetStruct
 {
     Location =&gt; ( MA.ModeProfile.FirstNonApplicableModeProfile() ).Location,
+    Length =&gt; ( MA.ModeProfile.FirstNonApplicableModeProfile() ).Length,
     Speed =&gt; 0.0,
-    Length =&gt; ( MA.ModeProfile.FirstNonApplicableModeProfile() ).Length
+    Type =&gt; TargetTypeEnum.EOA
 }</Expression>
 </Case><Case
  Name="No Mode Profile EOA available"
@@ -548,7 +549,7 @@ aProfile.Mode == ModeEnum.ModeProfile.LS</PreCondition></PreConditions>
 <Expression>EMPTY</Expression>
 </Case></Cases>
 </Function><Function
- Type="SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target"
+ Type="TargetStruct"
  Default=""
  X="260"
  Y="140"
@@ -590,11 +591,12 @@ aProfile.Mode == ModeEnum.ModeProfile.LS</PreCondition></PreConditions>
 >Kernel.MA.ModeProfile.Profile != []</PreCondition><PreCondition
  Guid="ae49b5bd-f40e-49bd-b5bd-ea562a6cde15"
 >Available ( Kernel.MA.MA )</PreCondition></PreConditions>
-<Expression>Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target
+<Expression>TargetStruct
 {
+    Length =&gt; ( MA.ModeProfile.FirstNonApplicableModeProfile() ).Length,
     Location =&gt; ( MA.ModeProfile.FirstNonApplicableModeProfile() ).Location,
     Speed =&gt; 0.0,
-    Length =&gt; ( MA.ModeProfile.FirstNonApplicableModeProfile() ).Length
+    Type =&gt; TargetTypeEnum.SvL
 }</Expression>
 </Case><Case
  Name="No Mode Profile SvL available"

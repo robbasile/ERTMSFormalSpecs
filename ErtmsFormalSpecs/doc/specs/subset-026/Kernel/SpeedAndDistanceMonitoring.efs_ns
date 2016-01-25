@@ -1213,7 +1213,7 @@ SpeedAndDistanceMonitoring.PreIndicationLocation.d_preindication(aTarget) == Bas
 <Expression>False</Expression>
 </Case></Cases>
 </Function><Function
- Type="TargetSpeedMonitoring.Targets"
+ Type="TargetsCol"
  Cacheable="TRUE"
  Default=""
  X="150"
@@ -1366,7 +1366,7 @@ SpeedAndDistanceMonitoring.PreIndicationLocation.d_preindication(aTarget) == Bas
 <Expression>SpeedAndDistanceMonitoring.MonitoringType.None</Expression>
 </Case></Cases>
 </Function><Function
- Type="TargetSpeedMonitoring.Targets"
+ Type="TargetsCol"
  Default=""
  X="150"
  Y="220"
@@ -1773,7 +1773,7 @@ OR NationalValues.ReleaseOfEBIsPermitted()</Expression>
 </ReqRef><Comment>Determines the front end to be used for braking curves calculated from the given target.</Comment>
 <Parameters>
 <Parameter
- Type="TargetSpeedMonitoring.Target"
+ Type="TargetStruct"
  Name="aTarget"
  Guid="944384a5-4b32-4e10-a2c1-1f4b05679b61"
 >
@@ -1786,9 +1786,7 @@ OR NationalValues.ReleaseOfEBIsPermitted()</Expression>
 <PreConditions>
 <PreCondition
  Guid="342391e5-1ef5-4d81-b8cd-fe6fa17fc9fb"
->MA.IsEOA( aTarget )</PreCondition><PreCondition
- Guid="8db0f52e-9a2d-4fc5-a547-fb9b6789e38e"
->NOT MA.IsSvL( aTarget )</PreCondition></PreConditions>
+>MA.IsEOA( aTarget )</PreCondition></PreConditions>
 <Expression>Kernel.TrainPosition.FrontEndPosition( DistanceIntervalEnum.Nom )</Expression>
 </Case><Case
  Name="Otherwise"
@@ -2620,7 +2618,7 @@ Odometry.TrainIsAtStandstill()</PreCondition><PreCondition
 >
 </ReqRef><Comment>Indicates if the train is tripped.</Comment>
 </Variable><Variable
- Type="TargetSpeedMonitoring.Targets"
+ Type="TargetsCol"
  DefaultValue="[]"
  VariableMode="Internal"
  X="40"

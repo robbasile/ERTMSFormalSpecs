@@ -612,7 +612,7 @@ INITIAL_VALUE
 <Expression>BaseTypes.Speed.NA</Expression>
 </Case></Cases>
 </Function><Function
- Type="SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target"
+ Type="TargetStruct"
  Default=""
  X="1"
  Y="61"
@@ -635,7 +635,7 @@ INITIAL_VALUE
 >NOT THERE_IS aTarget IN Discontinuities(SpeedAndDistanceMonitoring.PermittedSpeedProfile) | aTarget.Location &gt; TrainPosition.FrontEndPosition( PointOfInterest =&gt; DistanceIntervalEnum.Nom )</PreCondition></PreConditions>
 <Expression>LET position &lt;- TrainPosition.FrontEndPosition( PointOfInterest =&gt; DistanceIntervalEnum.Nom ) IN
 
-SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target{
+TargetStruct{
 Location =&gt; position,
 Speed =&gt; Kernel.MRSP.SpeedRestrictions( position ),
 Length =&gt; BaseTypes.Length.Infinity
@@ -644,7 +644,7 @@ Length =&gt; BaseTypes.Length.Infinity
  Name="Value"
  Guid="a9bc4f55-8a6e-42ec-a603-704d4465b864"
 >
-<Expression>SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target{
+<Expression>TargetStruct{
     Location =&gt; TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom),
     Speed =&gt; Kernel.MRSP.SpeedRestrictions(TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom)),
     Length =&gt; BaseTypes.DistanceToLength(

@@ -193,7 +193,7 @@
 >
 </ReqRef><Comment>Represents the length of the section.</Comment>
 </StructureElement><StructureElement
- TypeName="MATimers.TimeOut"
+ TypeName="MATimers.TimeOutStruct"
  Default="EMPTY"
  Mode="Internal"
  Implemented="TRUE"
@@ -249,7 +249,7 @@
 >
 </ReqRef><Comment>Stores all the information relative to the final section of the MA</Comment>
 <StructureElement
- TypeName="MATimers.TimeOut"
+ TypeName="MATimers.TimeOutStruct"
  Default="EMPTY"
  Mode="Internal"
  Implemented="TRUE"
@@ -274,7 +274,7 @@
 >
 </ReqRef><Comment>Represents the end section time-out, if any.</Comment>
 </StructureElement><StructureElement
- TypeName="MATimers.TimeOut"
+ TypeName="MATimers.TimeOutStruct"
  Default="EMPTY"
  Mode="Internal"
  Implemented="TRUE"
@@ -625,7 +625,7 @@ Location stores the previous End of Movement Authority location.</Comment>
 >
 </ReqRef><Comment>Represents MA sections.</Comment>
 </Collection><Collection
- TypeName="SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target"
+ TypeName="TargetStruct"
  Default="[EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY]"
  X="30"
  Y="340"
@@ -640,7 +640,7 @@ Location stores the previous End of Movement Authority location.</Comment>
 </Collection></Collections>
 <Functions>
 <Function
- Type="SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target"
+ Type="TargetStruct"
  Default=""
  X="30"
  Y="10"
@@ -747,25 +747,27 @@ Location stores the previous End of Movement Authority location.</Comment>
 <PreCondition
  Guid="75f48500-72d8-4a4b-86ff-6f95103a88c9"
 >NOT ActiveFunctions.DetermineEOA_SvL_etc()</PreCondition></PreConditions>
-<Expression>CreateTarget(
-    aLength =&gt; BaseTypes.Length.Infinity,
-    aLocation =&gt; BaseTypes.Distance.Infinity,
-    aSpeed =&gt; 0.0
-)</Expression>
+<Expression>TargetStruct{
+    Location =&gt; BaseTypes.Distance.Infinity,
+    Length =&gt; BaseTypes.Length.Infinity,
+    Speed =&gt; 0.0,
+    Type =&gt; TargetTypeEnum.EOA
+}</Expression>
 </Case><Case
  Name="Returns the closest EOA"
  Guid="4c10b760-6b33-42af-8b63-16dfab10d6b2"
 >
 <Expression>REDUCE EOACollection()
-    USING X IN Kernel.MA.ClosestTarget(
+    USING X IN ClosestTarget(
     Target1=&gt;X,
     Target2=&gt;RESULT
 )
-INITIAL_VALUE Kernel.MA.CreateTarget (
-    aSpeed =&gt; 0.0,
-    aLocation =&gt; BaseTypes.Distance.Infinity,
-    aLength =&gt; BaseTypes.Length.Infinity
- )</Expression>
+INITIAL_VALUE TargetStruct{
+    Location =&gt; BaseTypes.Distance.Infinity,
+    Length =&gt; BaseTypes.Length.Infinity,
+    Speed =&gt; 0.0,
+    Type =&gt; TargetTypeEnum.EOA
+}</Expression>
 </Case></Cases>
 </Function><Function
  Type="SectionStruct"
@@ -840,7 +842,7 @@ INITIAL_VALUE Kernel.MA.CreateTarget (
 <Expression>Kernel.MA.SectionStruct
 {
     Length =&gt; MessageTypes.QScaleLength ( length =&gt; ERTMSSection.L_SECTION, scale =&gt; Scale),
-    TimeOut =&gt;MATimers.TimeOut
+    TimeOut =&gt;MATimers.TimeOutStruct
     {
         Distance =&gt; MessageTypes.QScaleDistance ( distance =&gt; ERTMSSection.D_SECTIONTIMERSTOPLOC, scale =&gt; Scale ),
         TimeOut =&gt; BaseTypes.Time ( ERTMSSection.T_SECTIONTIMER ),
@@ -1324,7 +1326,7 @@ INITIAL_VALUE Kernel.MA.CreateTarget (
 </ReqRef><Comment>Indicates if a target is a supervision limit.</Comment>
 <Parameters>
 <Parameter
- Type="SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target"
+ Type="TargetStruct"
  Name="aTarget"
  Guid="67dba448-4631-4b0f-8f87-40417ba9fde8"
 >
@@ -1338,9 +1340,7 @@ INITIAL_VALUE Kernel.MA.CreateTarget (
 <PreCondition
  Guid="68c98959-5719-4240-adc2-65c6fe2557a9"
 >Available( Element =&gt; Kernel.MA.SvL())</PreCondition></PreConditions>
-<Expression>aTarget.Speed == Kernel.MA.SvL().Speed
-  AND
-aTarget.Location == Kernel.MA.SvL().Location</Expression>
+<Expression>aTarget.Type == TargetTypeEnum.SvL</Expression>
 </Case><Case
  Name="No SvL defined"
  Guid="056f0d64-169b-43ef-91ed-958eba8bc866"
@@ -1367,7 +1367,7 @@ aTarget.Location == Kernel.MA.SvL().Location</Expression>
 </ReqRef><Comment>Indicates if a target is an end of authority.</Comment>
 <Parameters>
 <Parameter
- Type="SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target"
+ Type="TargetStruct"
  Name="aTarget"
  Guid="4beac925-e434-459f-bfd5-6120b9bd9bdf"
 >
@@ -1381,7 +1381,7 @@ aTarget.Location == Kernel.MA.SvL().Location</Expression>
 <PreCondition
  Guid="a7bbbdad-720b-4304-9e62-657988c6fd3f"
 >Kernel.MA.MA.TargetSpeed == 0.0</PreCondition></PreConditions>
-<Expression>aTarget.Speed == 0.0 AND aTarget.Location == EOA().Location</Expression>
+<Expression>aTarget.Type == TargetTypeEnum.EOA</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="09357f4d-8e1d-4b43-8c43-65824ded4969"
@@ -1389,7 +1389,7 @@ aTarget.Location == Kernel.MA.SvL().Location</Expression>
 <Expression>False</Expression>
 </Case></Cases>
 </Function><Function
- Type="SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target"
+ Type="TargetStruct"
  Default=""
  X="360"
  Y="190"
@@ -1484,7 +1484,7 @@ aTarget.Location == Kernel.MA.SvL().Location</Expression>
  Guid="c9018509-c2de-4033-826b-342a2bc196c4"
 >
 <Expression>REDUCE SvLCollection()
-    USING X IN Kernel.MA.ClosestTarget(
+    USING X IN ClosestTarget(
     Target1=&gt;X,
     Target2=&gt;RESULT
 )
@@ -1783,107 +1783,6 @@ USING X IN
   )</Expression>
 </Case></Cases>
 </Function><Function
- Type="SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target"
- Default=""
- X="470"
- Y="10"
- Width="100"
- Height="50"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="CreateTarget"
- Guid="4eae3efb-cf37-40c6-b570-057cfe92f4fb"
->
-<Comment>Creates a structure of type Kernel.SpeedAndDistanceMonitoring.TargetSupervision.Target to be inserted in a collection</Comment>
-<Parameters>
-<Parameter
- Type="BaseTypes.Length"
- Name="aLength"
- Guid="19ee40a1-1c14-4335-9c10-ba93e1f10c50"
->
-</Parameter><Parameter
- Type="BaseTypes.Distance"
- Name="aLocation"
- Guid="be24d2d0-10d8-450c-9e0a-02ed43a8c656"
->
-</Parameter><Parameter
- Type="BaseTypes.Speed"
- Name="aSpeed"
- Guid="1c00a9ac-74f3-49ee-b5e4-377bdb739c13"
->
-</Parameter></Parameters>
-<Cases>
-<Case
- Name="Create a Target item"
- Guid="007ca2b0-325c-4d7c-9d0d-91c1956a9c62"
->
-<Expression>Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target 
-{
-    Length =&gt; aLength,
-    Location =&gt; aLocation,
-    Speed =&gt; aSpeed
- }</Expression>
-</Case></Cases>
-</Function><Function
- Type="SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target"
- Default=""
- X="360"
- Y="250"
- Width="100"
- Height="50"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="ClosestTarget"
- Guid="cafbe57a-b0c3-4040-b9ad-e2a5ef544a40"
->
-<Comment>Returns the Target, EOA or SvL, with the closest Location</Comment>
-<Parameters>
-<Parameter
- Type="SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target"
- Name="Target1"
- Guid="c87fc4ae-7099-42f6-ac05-c31337c8482e"
->
-</Parameter><Parameter
- Type="SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target"
- Name="Target2"
- Guid="ab06e05e-c9e5-482d-b89c-212bfea05d5b"
->
-</Parameter></Parameters>
-<Cases>
-<Case
- Name="Target 1 not available"
- Guid="1db5767f-3dbf-4b5a-8b0e-991a1cdfc0d9"
->
-<PreConditions>
-<PreCondition
- Guid="ebbd5faf-30a8-4438-92d7-f236276bdcd1"
->NOT Available(Target1)</PreCondition></PreConditions>
-<Expression>Target2</Expression>
-</Case><Case
- Name="Target 2 not available"
- Guid="c1fb7312-6e80-4b98-8dbb-68709e18c231"
->
-<PreConditions>
-<PreCondition
- Guid="b15897b4-95f7-4ac3-99b4-28fb52e7273c"
->NOT Available(Target2)</PreCondition></PreConditions>
-<Expression>Target1</Expression>
-</Case><Case
- Name="Target1 &gt; Target2"
- Guid="02b5439b-5aed-4aee-be41-d98dc687b3dd"
->
-<PreConditions>
-<PreCondition
- Guid="499fd9ac-9444-4444-9617-752e11984521"
->Target1.Location &gt; Target2.Location</PreCondition></PreConditions>
-<Expression>Target2</Expression>
-</Case><Case
- Name="Otherwise"
- Guid="4f50de9a-b574-43d0-b9cd-fac4a9d4b3ec"
->
-<Expression>Target1</Expression>
-</Case></Cases>
-</Function><Function
  Type="Boolean"
  Default=""
  X="580"
@@ -1931,7 +1830,7 @@ USING X IN
   &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I
 (
     Vest =&gt; Odometry.EstimatedSpeed,
-    aTarget =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target
+    aTarget =&gt; TargetStruct
     {
         Location =&gt; MessageTypes.QScaleDistance
         (
@@ -2343,7 +2242,7 @@ BaseTypes.LengthToDistance ( aDistanceInterval )</PreCondition></PreConditions>
 </ReqRef><Comment>Indicates whether the target is the Limit of Authority.</Comment>
 <Parameters>
 <Parameter
- Type="SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target"
+ Type="TargetStruct"
  Name="aTarget"
  Guid="cd7e9cbb-0024-403b-a312-bc5116041a87"
 >
@@ -2357,7 +2256,7 @@ BaseTypes.LengthToDistance ( aDistanceInterval )</PreCondition></PreConditions>
 <PreCondition
  Guid="668d5eea-df0b-4924-a0e6-00866076b288"
 >Kernel.MA.MA.TargetSpeed != 0.0</PreCondition></PreConditions>
-<Expression>aTarget.Speed == Kernel.MA.MA.TargetSpeed AND aTarget.Location == EOA().Location</Expression>
+<Expression>aTarget.Type == TargetTypeEnum.LOA</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="0d85991e-96d7-4f30-8df5-ac99ec296c1c"
@@ -2365,7 +2264,7 @@ BaseTypes.LengthToDistance ( aDistanceInterval )</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case></Cases>
 </Function><Function
- Type="SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target"
+ Type="TargetStruct"
  Default=""
  X="690"
  Y="70"
@@ -2421,11 +2320,12 @@ MA.TargetSpeed &gt; 0.0</PreCondition></PreConditions>
 <PreCondition
  Guid="fdcb47e2-3bac-46ca-bb70-9c121f5d362f"
 >Available(MA.EndSection.Overlap)</PreCondition></PreConditions>
-<Expression>CreateTarget(
-    aLength =&gt; BaseTypes.Length.Infinity,
-    aLocation =&gt; OverlapLocation(),
-    aSpeed =&gt; 0.0
-)</Expression>
+<Expression>TargetStruct{
+    Location =&gt; OverlapLocation(),
+    Length =&gt; BaseTypes.Length.Infinity,
+    Speed =&gt; 0.0,
+    Type =&gt; TargetTypeEnum.SvL
+}</Expression>
 </Case><Case
  Name="Danger point"
  Guid="2109c193-ab09-4b9f-b0ce-b68e0c297469"
@@ -2434,23 +2334,25 @@ MA.TargetSpeed &gt; 0.0</PreCondition></PreConditions>
 <PreCondition
  Guid="9a0b66c5-3a7d-478a-bbd2-0d4a4742db14"
 >Available(MA.EndSection.DangerPoint)</PreCondition></PreConditions>
-<Expression>CreateTarget (
-    aLocation =&gt; Kernel.MA.DangerPointLocation(),
-    aSpeed =&gt; 0.0,
-    aLength =&gt; BaseTypes.Length.Infinity
- )</Expression>
+<Expression>TargetStruct{
+    Location =&gt; DangerPointLocation(),
+    Length =&gt; BaseTypes.Length.Infinity,
+    Speed =&gt; 0.0,
+    Type =&gt; TargetTypeEnum.SvL
+}</Expression>
 </Case><Case
  Name="End of MA"
  Guid="460c59a6-8eae-4eed-8072-cdeaf9c8624b"
 >
-<Expression>CreateTarget(
-    aLocation =&gt; EOA().Location,
-    aSpeed =&gt; 0.0,
-    aLength =&gt; BaseTypes.Length.Infinity
-)</Expression>
+<Expression>TargetStruct{
+    Location =&gt; EOA().Location,
+    Length =&gt; BaseTypes.Length.Infinity,
+    Speed =&gt; 0.0,
+    Type =&gt; TargetTypeEnum.SvL
+}</Expression>
 </Case></Cases>
 </Function><Function
- Type="SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target"
+ Type="TargetStruct"
  Default=""
  X="690"
  Y="130"
@@ -2480,11 +2382,12 @@ MA.TargetSpeed &gt; 0.0</PreCondition></PreConditions>
 <PreCondition
  Guid="b63b232b-8a2e-423e-8e74-569777cb27f2"
 >Available(Kernel.MA.MATimers.TimedOutSection())</PreCondition></PreConditions>
-<Expression>CreateTarget(
-    aLength=&gt;BaseTypes.Length.Infinity,
-    aLocation=&gt;Kernel.MA.MATimers.TimeOutSectionStart(),
-    aSpeed=&gt;0.0
-)</Expression>
+<Expression>TargetStruct{
+    Location =&gt; Kernel.MA.MATimers.TimeOutSectionStart(),
+    Length =&gt; BaseTypes.Length.Infinity,
+    Speed =&gt; 0.0,
+    Type =&gt; TargetTypeEnum.SvL
+}</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="84b25762-3bf8-4b3e-b677-8db4dff706ec"
@@ -2492,7 +2395,7 @@ MA.TargetSpeed &gt; 0.0</PreCondition></PreConditions>
 <Expression>EMPTY</Expression>
 </Case></Cases>
 </Function><Function
- Type="SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target"
+ Type="TargetStruct"
  Default=""
  X="690"
  Y="250"
@@ -2517,12 +2420,12 @@ MA.TargetSpeed &gt; 0.0</PreCondition></PreConditions>
 <PreCondition
  Guid="089816d0-4828-45ea-809d-ffcb4adea3b0"
 >Kernel.MA.ConsiderFrontEndAsSvL</PreCondition></PreConditions>
-<Expression>Kernel.MA.CreateTarget
-(
-    aLocation =&gt; Kernel.TrainPosition.FrontEndPosition(PointOfInterest =&gt; DistanceIntervalEnum.Max)
-    aSpeed =&gt; 0.0,
-    aLength =&gt; BaseTypes.Length.Infinity
-)</Expression>
+<Expression>TargetStruct{
+    Location =&gt; Kernel.TrainPosition.FrontEndPosition(PointOfInterest =&gt; DistanceIntervalEnum.Max),
+    Length =&gt; BaseTypes.Length.Infinity,
+    Speed =&gt; 0.0,
+    Type =&gt; TargetTypeEnum.SvL
+}</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="b5110435-2219-4d9b-ac97-291af4a3d29b"
@@ -2530,7 +2433,7 @@ MA.TargetSpeed &gt; 0.0</PreCondition></PreConditions>
 <Expression>EMPTY</Expression>
 </Case></Cases>
 </Function><Function
- Type="SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Targets"
+ Type="Default.TargetsCol"
  Default=""
  X="800"
  Y="10"
@@ -2591,13 +2494,13 @@ MA.TargetSpeed &gt; 0.0</PreCondition></PreConditions>
   TrackDescription.RouteSuitability.SvL(),
   ModeProfile.SvL(),
   SupervisedLocation_TimedOutSection(),
-  LX.EOAAndSvL(),
+  LX.SvL(),
   SupervisedLocation_TrainFrontEnd(),
-  BrakeCommands.EOAAndSvL()
+  BrakeCommands.SvL()
 ]</Expression>
 </Case></Cases>
 </Function><Function
- Type="SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Targets"
+ Type="Default.TargetsCol"
  Default=""
  X="800"
  Y="70"
@@ -2668,9 +2571,9 @@ MA.TargetSpeed &gt; 0.0</PreCondition></PreConditions>
 >
 <Expression>[
   Kernel.TrackDescription.RouteSuitability.EOA(),
-  BrakeCommands.EOAAndSvL(),
+  BrakeCommands.EOA(),
   Kernel.MA.ModeProfile.EOA(),
-  LX.EOAAndSvL(),
+  LX.EOA(),
   EndOfAuthority_TimedOutSection(),
   EndOfAuthority_EndSectionTimeOut(),
   EndOfAuthority_EndOfMA(),
@@ -2679,7 +2582,7 @@ MA.TargetSpeed &gt; 0.0</PreCondition></PreConditions>
 ]</Expression>
 </Case></Cases>
 </Function><Function
- Type="SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target"
+ Type="TargetStruct"
  Default=""
  X="1"
  Y="841"
@@ -2709,11 +2612,12 @@ MA.TargetSpeed &gt; 0.0</PreCondition></PreConditions>
 <PreCondition
  Guid="e661ac41-d678-4806-b290-3a249f6360fe"
 >Available(Kernel.MA.MATimers.TimedOutSection())</PreCondition></PreConditions>
-<Expression>CreateTarget(
-    aLength =&gt; BaseTypes.Length.Infinity,
-    aLocation =&gt; Kernel.MA.MATimers.TimeOutSectionStart(),
-    aSpeed =&gt; 0.0
-)</Expression>
+<Expression>TargetStruct{
+    Location =&gt; MATimers.TimeOutSectionStart(),
+    Length =&gt; BaseTypes.Length.Infinity,
+    Speed =&gt; 0.0,
+    Type =&gt; TargetTypeEnum.EOA
+}</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="74e0c0d1-022a-445c-a8f7-8f3af66917d5"
@@ -2721,7 +2625,7 @@ MA.TargetSpeed &gt; 0.0</PreCondition></PreConditions>
 <Expression>EMPTY</Expression>
 </Case></Cases>
 </Function><Function
- Type="SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target"
+ Type="TargetStruct"
  Default=""
  X="1"
  Y="901"
@@ -2762,11 +2666,12 @@ Available(MA.EndSection.EndSectionTimeOut)
 Kernel.MA.MATimers.EndSectionTimerStart != BaseTypes.Time.NA
   AND  
 (Kernel.DateAndTime.CurrentTime &gt; Kernel.MA.MATimers.EndSectionTimerStart + Kernel.MA.MA.EndSection.EndSectionTimeOut.TimeOut)</PreCondition></PreConditions>
-<Expression>CreateTarget(
-    aLength=&gt;BaseTypes.Length.Infinity,
-    aLocation=&gt;Kernel.TrainPosition.FrontEndPosition(PointOfInterest=&gt;DistanceIntervalEnum.Nom),
-    aSpeed=&gt;0.0
-)</Expression>
+<Expression>TargetStruct{
+    Location =&gt; Kernel.TrainPosition.FrontEndPosition(PointOfInterest=&gt;DistanceIntervalEnum.Nom),
+    Length =&gt; BaseTypes.Length.Infinity,
+    Speed =&gt; 0.0,
+    Type =&gt; TargetTypeEnum.EOA
+}</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="f205bb95-fd7e-4e44-909f-5d558a1be7ea"
@@ -2774,7 +2679,7 @@ Kernel.MA.MATimers.EndSectionTimerStart != BaseTypes.Time.NA
 <Expression>EMPTY</Expression>
 </Case></Cases>
 </Function><Function
- Type="SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target"
+ Type="TargetStruct"
  Default=""
  X="1"
  Y="961"
@@ -2794,20 +2699,35 @@ Kernel.MA.MATimers.EndSectionTimerStart != BaseTypes.Time.NA
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="570ec2b4-0365-4b7e-a9d7-f7582fb79879"
 >
-</ReqRef><Comment>Provides the end of authority at the end o fthe movement authority.</Comment>
+</ReqRef><Comment>Provides the end of authority at the end of the movement authority.</Comment>
 <Cases>
 <Case
- Name="Value"
+ Name="EOA"
  Guid="4f0b25fe-2cb7-4a9e-ac8d-d32bef2c5a73"
 >
-<Expression>CreateTarget(
-    aLength =&gt; BaseTypes.Length.Infinity,
-    aLocation =&gt; EndOfMA(),
-    aSpeed =&gt; MA.TargetSpeed
-)</Expression>
+<PreConditions>
+<PreCondition
+ Guid="3674cffc-c437-4fcc-bf23-aff74ac24194"
+>MA.TargetSpeed == 0.0</PreCondition></PreConditions>
+<Expression>TargetStruct{
+    Location =&gt; EndOfMA(),
+    Length =&gt; BaseTypes.Length.Infinity,
+    Speed =&gt; 0.0,
+    Type =&gt; TargetTypeEnum.EOA
+}</Expression>
+</Case><Case
+ Name="LOA"
+ Guid="cfb41f38-fe3d-4f61-840a-2001b82d1696"
+>
+<Expression>TargetStruct{
+    Location =&gt; EndOfMA(),
+    Length =&gt; BaseTypes.Length.Infinity,
+    Speed =&gt; MA.TargetSpeed,
+    Type =&gt; TargetTypeEnum.LOA
+}</Expression>
 </Case></Cases>
 </Function><Function
- Type="SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target"
+ Type="TargetStruct"
  Default=""
  X="690"
  Y="190"
@@ -2832,12 +2752,12 @@ Kernel.MA.MATimers.EndSectionTimerStart != BaseTypes.Time.NA
 <PreCondition
  Guid="be419057-d7be-458d-a75e-c5be7603cd33"
 >Kernel.MA.ConsiderFrontEndAsSvL</PreCondition></PreConditions>
-<Expression>Kernel.MA.CreateTarget
-(
-    aLocation =&gt; Kernel.TrainPosition.FrontEndPosition(PointOfInterest =&gt; DistanceIntervalEnum.Nom)
-    aSpeed =&gt; 0.0,
-    aLength =&gt; BaseTypes.Length.Infinity
-)</Expression>
+<Expression>TargetStruct{
+    Location =&gt; Kernel.TrainPosition.FrontEndPosition(PointOfInterest =&gt; DistanceIntervalEnum.Nom),
+    Length =&gt; BaseTypes.Length.Infinity,
+    Speed =&gt; 0.0,
+    Type =&gt; TargetTypeEnum.EOA
+}</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="dcdb552a-a715-4d98-b1af-5139d6d5bed5"
@@ -3635,7 +3555,7 @@ In this case, the EOA should be moved to the train&apos;s current position with 
 <Actions>
 <Action
  Guid="87500986-c033-4c28-8541-ba9f21d938cd"
->Kernel.MA.MA.EndSection.EndSectionTimeOut &lt;- Kernel.MA.MATimers.TimeOut
+>Kernel.MA.MA.EndSection.EndSectionTimeOut &lt;- MATimers.TimeOutStruct
 {
     Distance =&gt; MessageTypes.QScaleDistance ( distance =&gt; Packet.D_ENDTIMERSTARTLOC, scale =&gt; Packet.Q_SCALE ),
     TimeOut =&gt; BaseTypes.Time( Packet.T_ENDTIMER )
@@ -3700,7 +3620,7 @@ In this case, the EOA should be moved to the train&apos;s current position with 
 <Actions>
 <Action
  Guid="accafb31-0bfe-4626-8086-677db8bffb6e"
->Kernel.MA.MA.EndSection.TimeOut &lt;- Kernel.MA.MATimers.TimeOut
+>Kernel.MA.MA.EndSection.TimeOut &lt;- MATimers.TimeOutStruct
 {
     Distance =&gt; MessageTypes.QScaleDistance ( distance =&gt; Packet.D_SECTIONTIMERSTOPLOC, scale =&gt; Packet.Q_SCALE ),
     TimeOut =&gt; BaseTypes.Time ( Packet.T_SECTIONTIMER )
