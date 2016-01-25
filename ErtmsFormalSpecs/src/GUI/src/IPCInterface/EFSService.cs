@@ -237,9 +237,16 @@ namespace GUI.IPCInterface
         /// <returns>The client identifier</returns>
         public int ConnectUsingDefaultValues(bool listener)
         {
-            EfsAccess.WaitOne();
-            int clientId = AddClient(listener);
-            EfsAccess.ReleaseMutex();
+            int clientId = -1;
+            try
+            {
+                EfsAccess.WaitOne ();
+                clientId = AddClient (listener);
+            }
+            finally
+            {
+                EfsAccess.ReleaseMutex();
+            }
 
             return clientId;
         }
@@ -254,17 +261,21 @@ namespace GUI.IPCInterface
         /// <param name="keepEventCount">The number of events that should be kept in memory</param>
         public int Connect(bool listener, bool explain, bool logEvents, int cycleDuration, int keepEventCount)
         {
-            EfsAccess.WaitOne();
-
-            int clientId = AddClient(listener);
-
-            Explain = explain;
-            LogEvents = logEvents;
-            CycleDuration = cycleDuration;
-            KeepEventCount = keepEventCount;
-
-            EfsAccess.ReleaseMutex();
-
+            int clientId = -1;
+            try
+            {
+                EfsAccess.WaitOne ();
+                clientId = AddClient (listener);
+                Explain = explain;
+                LogEvents = logEvents;
+                CycleDuration = cycleDuration;
+                KeepEventCount = keepEventCount;
+            }
+            finally
+            {
+                EfsAccess.ReleaseMutex();
+            }
+            
             return clientId;
         }
 
@@ -499,10 +510,15 @@ namespace GUI.IPCInterface
                 Connections[clientId].LastCycleResume = DateTime.MinValue;
                 Connections[clientId].ExpectedStep = step;
 
-                StepAccess[step].WaitOne();
-
-                Connections[clientId].LastCycleResume = DateTime.Now;
-                StepAccess[step].ReleaseMutex();
+                try
+                {
+                    StepAccess [step].WaitOne ();
+                    Connections [clientId].LastCycleResume = DateTime.Now;
+                }
+                finally
+                {
+                    StepAccess[step].ReleaseMutex();
+                }
             }
             else
             {
@@ -518,10 +534,16 @@ namespace GUI.IPCInterface
         /// <param name="clientId"></param>
         public void Suspend(int clientId)
         {
-            CheckClient(clientId);
-            EfsAccess.WaitOne();
-            Connections[clientId].Suspended = true;
-            EfsAccess.ReleaseMutex();
+            try
+            {
+                CheckClient(clientId);
+                EfsAccess.WaitOne();
+                Connections[clientId].Suspended = true;
+            }
+            finally
+            {
+                EfsAccess.ReleaseMutex();
+            }
         }
 
         /// <summary>
@@ -530,10 +552,16 @@ namespace GUI.IPCInterface
         /// <param name="clientId"></param>
         public void Awake(int clientId)
         {
-            CheckClient(clientId);
-            EfsAccess.WaitOne();
-            Connections[clientId].Suspended = false;
-            EfsAccess.ReleaseMutex();
+            try
+            {
+                CheckClient(clientId);
+                EfsAccess.WaitOne();
+                Connections[clientId].Suspended = false;
+            }
+            finally
+            {
+                EfsAccess.ReleaseMutex();
+            }
         }
 
         /// <summary>
@@ -541,10 +569,16 @@ namespace GUI.IPCInterface
         /// </summary>
         public void Restart()
         {
-            EfsAccess.WaitOne();
-            ClearFunctionCaches(true);
-            EfsSystem.Instance.Runner = new Runner(Explain, CycleDuration, KeepEventCount);
-            EfsAccess.ReleaseMutex();
+            try
+            {
+                EfsAccess.WaitOne();
+                ClearFunctionCaches(true);
+                EfsSystem.Instance.Runner = new Runner(Explain, CycleDuration, KeepEventCount);
+            }
+            finally
+            {
+                EfsAccess.ReleaseMutex();
+            }
         }
 
         /// <summary>
@@ -553,10 +587,16 @@ namespace GUI.IPCInterface
         /// <param name="fileName"></param>
         public void Load(string fileName)
         {
-            EfsAccess.WaitOne();
-            MainWindow window = GuiUtils.MdiWindow;
-            window.Invoke((MethodInvoker) (() => window.OpenFile(fileName)));
-            EfsAccess.ReleaseMutex();
+            try
+            {
+                EfsAccess.WaitOne ();
+                MainWindow window = GuiUtils.MdiWindow;
+                window.Invoke ((MethodInvoker) (() => window.OpenFile (fileName)));
+            }
+            finally
+            {
+                EfsAccess.ReleaseMutex();
+            }
         }
 
         /// <summary>
@@ -564,9 +604,15 @@ namespace GUI.IPCInterface
         /// </summary>
         public void Stop()
         {
-            EfsAccess.WaitOne();
-            GuiUtils.MdiWindow.Close();
-            EfsAccess.ReleaseMutex();
+            try
+            {
+                EfsAccess.WaitOne ();
+                GuiUtils.MdiWindow.Close ();
+            }
+            finally
+            {
+                EfsAccess.ReleaseMutex();
+            }
         }
 
         /// <summary>
