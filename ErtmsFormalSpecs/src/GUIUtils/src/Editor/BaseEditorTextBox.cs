@@ -615,6 +615,7 @@ namespace GUIUtils.Editor
             LastExpression.Operator + " X IN <collection> | <condition>",
             CountExpression.Operator + " X IN <collection> | <condition>",
             MapExpression.Operator + " <collection> | <condition> USING X IN <map_expression>",
+            FilterExpression.Operator + " <collection> | <condition> USING X",
             SumExpression.Operator + " <collection> | <condition> USING X IN <map_expression>",
             ReduceExpression.Operator +
             " <collection> | <condition> USING X IN <reduce_expression> INITIAL_VALUE <expression>",
