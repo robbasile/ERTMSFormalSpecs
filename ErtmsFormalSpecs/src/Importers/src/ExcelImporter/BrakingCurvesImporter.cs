@@ -1377,7 +1377,7 @@ namespace Importers.ExcelImporter
                     fillBrakingCurvesExpectations(aTestCase,
                         stepNumber++,
                         "EBI",
-                        "ERA_BrakingCurvesVerification.Compare\n(\n    Val1 => ERA_BrakingCurvesVerification.EBIDistanceFromTarget (\n        aTarget => Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target {{\n                Speed => " +
+                        "ERA_BrakingCurvesVerification.Compare\n(\n    Val1 => ERA_BrakingCurvesVerification.EBIDistanceFromTarget (\n        aTarget => Default.TargetStruct {{\n                Speed => " +
                         TargetSpeed + ".0,\n                Location => " + TargetDistance +
                         ".0,\n                Length => Default.BaseTypes.Length.Infinity }},\n        aSpeed => {0:0.0#} ),\n    Val2 => {1:0.0#}\n)",
                         speedValues,
