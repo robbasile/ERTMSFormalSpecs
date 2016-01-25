@@ -1307,7 +1307,7 @@ namespace Importers.ExcelImporter
                 int stepNumber = 1;
 
                 string target =
-                    "Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target {{\n                Speed => " +
+                    "Default.TargetStruct {{\n                Speed => " +
                     TargetSpeed + ".0,\n                Location => " + TargetDistance +
                     ".0,\n                Length => Default.BaseTypes.Length.Infinity }}";
 
@@ -1400,7 +1400,7 @@ namespace Importers.ExcelImporter
                     fillBrakingCurvesExpectations(aTestCase,
                         stepNumber++,
                         "SBI2",
-                        "ERA_BrakingCurvesVerification.Compare\n(\n    Val1 => ERA_BrakingCurvesVerification.SBIDistanceFromTarget (\n        aTarget => Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Target {{\n                Speed => " +
+                        "ERA_BrakingCurvesVerification.Compare\n(\n    Val1 => ERA_BrakingCurvesVerification.SBIDistanceFromTarget (\n        aTarget => Default.TargetStruct {{\n                Speed => " +
                         TargetSpeed + ".0,\n                Location => " + TargetDistance +
                         ".0,\n                Length => Default.BaseTypes.Length.Infinity }},\n         aSpeed => {0:0.0#} ),\n    Val2 => {1:0.0#}\n)",
                         speedValues,
