@@ -294,9 +294,12 @@ namespace DataDictionary.Tests
         {
             if (Dictionary != null)
             {
-                string path = Dictionary.FilePath.Remove (Dictionary.FilePath.LastIndexOf ('.'));
-                path += "\\TestFrames\\" + FullName.Replace (".", "\\") + ".efs_tst";
-                Dictionary.AddDeleteFilesElement (new DeleteFilesHandler (false, path));
+                if (Dictionary.FilePath.Contains("."))
+                {
+                    string path = Dictionary.FilePath.Remove(Dictionary.FilePath.LastIndexOf('.'));
+                    path += "\\TestFrames\\" + FullName.Replace(".", "\\") + ".efs_tst";
+                    Dictionary.AddDeleteFilesElement(new DeleteFilesHandler(false, path));
+                }
             }
         }
     }

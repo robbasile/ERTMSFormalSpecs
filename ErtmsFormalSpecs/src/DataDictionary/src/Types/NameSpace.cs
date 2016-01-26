@@ -838,14 +838,17 @@ namespace DataDictionary.Types
         {
             if (Dictionary != null)
             {
-                string path = Dictionary.FilePath.Remove (Dictionary.FilePath.LastIndexOf ('.'));
-                path += "\\" + FullName.Replace (".", "\\");
-                if (NameSpaces.Count > 0)
+                if (Dictionary.FilePath.Contains("."))
                 {
-                    // If the namespace contains sub-namespaces, we have to remove its folder
-                    Dictionary.AddDeleteFilesElement (new DeleteFilesHandler (true, path));
+                    string path = Dictionary.FilePath.Remove(Dictionary.FilePath.LastIndexOf('.'));
+                    path += "\\" + FullName.Replace(".", "\\");
+                    if (NameSpaces.Count > 0)
+                    {
+                        // If the namespace contains sub-namespaces, we have to remove its folder
+                        Dictionary.AddDeleteFilesElement(new DeleteFilesHandler(true, path));
+                    }
+                    Dictionary.AddDeleteFilesElement(new DeleteFilesHandler(false, path + ".efs_ns"));
                 }
-                Dictionary.AddDeleteFilesElement (new DeleteFilesHandler (false, path + ".efs_ns"));
             }
         }
     }
