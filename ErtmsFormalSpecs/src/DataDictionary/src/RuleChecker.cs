@@ -67,7 +67,6 @@ namespace DataDictionary
         {
             FinderRepository.INSTANCE.ClearCache();
             Dictionary = dictionary;
-            declaredTypes.Clear();
         }
 
         /// <summary>
@@ -249,8 +248,7 @@ namespace DataDictionary
                     else
                     {
                         Tests.Step step = (Tests.Step) testCase.Steps[0];
-
-                        if (step.Name != null)
+                        if (step.Name != "")
                         {
                             if (step.Name.IndexOf("Setup") < 0 && step.Name.IndexOf("Initialize") < 0)
                             {
@@ -258,10 +256,7 @@ namespace DataDictionary
                                     "First step of the first test case of a subsequence should be used to setup the system, and should hold 'Setup' or 'Initialize' in its name");
                             }
                         }
-                        else
-                        {
-                            step.AddWarning("All steps should have a name");
-                        }
+
                     }
                 }
             }
@@ -319,6 +314,10 @@ namespace DataDictionary
                 }
             }
 
+            if (step.Name == Tests.Step.DefaultName)
+            {
+                step.AddWarning("All steps should be given a name");
+            }
 
             base.visit(obj, visitSubNodes);
         }
@@ -1013,14 +1012,6 @@ namespace DataDictionary
             base.visit(obj, visitSubNodes);
         }
 
-        /// <summary>
-        ///     The type names encountered
-        /// </summary>
-        private Dictionary<string, Type> declaredTypes = new Dictionary<string, Type>();
-
-        private static string TYPE_DECLARED_SEVERAL_TIMES =
-            "Another type with the same name is declared somewhere else in the model";
-
         public override void visit(Generated.Type obj, bool visitSubNodes)
         {
             Type type = obj as Type;
@@ -1082,16 +1073,6 @@ namespace DataDictionary
                                 }
                             }
                         }
-                    }
-
-                    if (declaredTypes.ContainsKey(type.FullName))
-                    {
-                        declaredTypes[type.Name].AddError(TYPE_DECLARED_SEVERAL_TIMES);
-                        type.AddError(TYPE_DECLARED_SEVERAL_TIMES);
-                    }
-                    else
-                    {
-                        declaredTypes[type.Name] = type;
                     }
 
                     Collection collection = type as Collection;

@@ -28,22 +28,25 @@ namespace DataDictionary.Tests
 {
     public class Step : Generated.Step, ICommentable, ITextualExplain
     {
+        /// <summary>
+        ///     The text displayed for a step that has not been named
+        /// </summary>
+        public static string DefaultName = "New step";
+
         public override string Name
         {
             get
             {
                 string retVal = base.Name;
 
-                if (getTCS_Order() != 0)
+                if (Utils.Util.isEmpty(retVal))
                 {
-                    retVal = "Step " + getTCS_Order() + ": " + getDescription();
+                    retVal = getDescription();
                 }
-                else
+
+                if (Utils.Util.isEmpty(retVal))
                 {
-                    if (Utils.Util.isEmpty(retVal))
-                    {
-                        retVal = getDescription();
-                    }
+                    retVal = DefaultName;
                 }
 
                 return retVal;
@@ -223,7 +226,6 @@ namespace DataDictionary.Tests
 
             Util.DontNotify(() =>
             {
-                retVal.Name = "Step" + GetElementNumber(enclosingCollection);
                 retVal.appendSubSteps(SubStep.CreateDefault(retVal.SubSteps));
             });
 
