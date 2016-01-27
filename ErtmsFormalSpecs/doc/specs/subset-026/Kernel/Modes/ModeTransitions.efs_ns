@@ -8769,29 +8769,6 @@ IN MA.ModeProfile.Profile</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Store mode for future cycles"
- Guid="d004968d-75d3-4604-be2f-e2ea41d8767e"
->
-<Comment>Updates the value of PrevMode for the next cycle.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Store updated mode for future cycles"
- Guid="22fc13e6-890f-4c4a-951d-025dfc1bb994"
->
-<PreConditions>
-</PreConditions>
-<Actions>
-<Action
- Guid="b813f85d-64b5-4dab-a102-d4cca3850e17"
->Kernel.Modes.ModeTransitions.PrevMode &lt;- Kernel.Mode</Action></Actions>
-</RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
 <Variables>
@@ -8812,14 +8789,16 @@ IN MA.ModeProfile.Profile</Action></Actions>
 </Variable></Variables>
 <Rules>
 <Rule
- Priority="Processing"
+ Priority="CleanUp"
  X="221"
  Y="541"
  Width="100"
  Height="50"
+ Implemented="TRUE"
  Name="Update previous mode"
  Guid="0576564d-fc54-44ed-8060-cb33f2be942f"
 >
+<Comment>Updates the previous mode for the following cycles.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition

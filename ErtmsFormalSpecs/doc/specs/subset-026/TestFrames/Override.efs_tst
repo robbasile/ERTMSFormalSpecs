@@ -14,7 +14,281 @@
  Q_DLRBG=""
  RBC_ID=""
  RBCPhone=""
- Name="Selection of Override"
+ Name="Once Override is triggered"
+ Guid="7fa10d86-6ce5-4cf3-a21a-50726170ea65"
+>
+<TestCases>
+<TestCase
+ Implemented="TRUE"
+ Name="Trigger Override"
+ Guid="724da3a7-9a89-4673-b3d2-84c05328efb1"
+>
+<ReqRef
+ Id="d49a941c-d8b5-4e50-b2ec-1b316ac95380"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e1413239-3f23-45dd-abfe-69d7d6762b57"
+>
+</ReqRef><ReqRef
+ Id="eacc4d2f-2afc-4984-8b90-39c8df55a09c"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="791713a0-2e20-4b50-9b71-ea6f418bbf1f"
+>
+</ReqRef><ReqRef
+ Id="efea06c4-e975-4824-a134-e96d2951823a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="57047a8f-c29c-4011-b8fb-6fe8165bd74d"
+>
+</ReqRef><ReqRef
+ Id="05727841-f740-43e0-b45d-53ac5d5b8d94"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="744d312c-512a-4813-b4fa-d260103eba2b"
+>
+</ReqRef><ReqRef
+ Id="b6c74cc9-fab4-4443-8044-94744d509710"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="3b33273d-0a2b-4b0d-8b81-c88e66919e91"
+>
+</ReqRef><ReqRef
+ Id="f9493d17-4616-4ea8-b1c6-66d4c67d37c7"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="3d8e58eb-ef05-4b82-ae27-98db9e39c4dd"
+>
+</ReqRef><ReqRef
+ Id="6a40406a-77fa-40f4-a719-22600646d460"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="81431e37-f6b3-42ae-88f1-8e0b9446692f"
+>
+</ReqRef><ReqRef
+ Id="6bfffc4c-98dc-4742-aa70-9301ecbe28b5"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e1f6e17c-5527-4cf1-9380-d86698c34866"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Setup"
+ Guid="402be51a-5414-4fb0-bab3-5e9e0523c9c6"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Setup"
+ Guid="2c6b89cb-7b6a-425b-8555-ad78688dcbfe"
+>
+<Actions>
+<Action
+ Guid="a18655f9-2119-47e1-ae43-511c41cb8868"
+>Testing.InitializeTestEnvironment
+(
+    aTrainPosition =&gt; 0.0,
+    aMode =&gt; ModeEnum.FS
+)</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Set Train Data and speed"
+ Guid="a67926f8-7ae8-4692-99df-5c881e50adfc"
+>
+<Actions>
+<Action
+ Guid="65eff35e-c155-4c1e-aeb1-eb3b2de365d3"
+>DMI.MasterDMI().In_OverrideRequest.InputInformation.RequestStatus &lt;- Default.RequestEnum.Disabled</Action><Action
+ Guid="87f069b5-7edf-4ff0-b803-942b15b0da76"
+>Kernel.NationalValues.CurrentNV().SpeedLimitForTriggeringTheOverrideFunction &lt;- 20.0</Action><Action
+ Guid="d637de6b-e949-4e5b-876d-cbe1d95ed648"
+>Odometry.EstimatedSpeed &lt;- 12.0</Action><Action
+ Guid="465bc68d-b1f6-44d8-be88-17587cf7312c"
+>Kernel.TrainData.TrainData.DataState &lt;- Default.DataStateEnum.Valid</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Check override is proposed"
+ Guid="7444ddf9-d558-4dd6-bd6e-f268d0fde1cc"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="f51da6f7-eaf3-4f2d-80c0-d1a03ce45507"
+>DMI.MasterDMI().In_OverrideRequest.InputInformation.RequestStatus == RequestEnum.Request</Expectation></Expectations>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Add emergency stops"
+ Guid="7609e46b-f375-4444-8e26-f079d2188b7f"
+>
+<Actions>
+<Action
+ Guid="b51c21e8-6f98-41ff-884e-2f840778f428"
+>Kernel.BrakeCommands.EmergencyStops &lt;-
+[
+  Kernel.BrakeCommands.EmergencyStopStruct
+  {
+    IsConditional =&gt; Boolean.False,
+    Id =&gt; 2,
+    StopLocation =&gt; 200.0,
+    Reason =&gt; Kernel.BrakeCommands.BrakeReasonEnum.SupervisingStandstill
+  },
+  Kernel.BrakeCommands.EmergencyStopStruct
+  {
+    IsConditional =&gt; Boolean.True,
+    Id =&gt; 7,
+    StopLocation =&gt; 40.0,
+    Reason =&gt; Kernel.BrakeCommands.BrakeReasonEnum.LinkingInconsistency
+  }
+]</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="c7efe26b-27f4-4bc5-bd9b-b53296594d43"
+>COUNT X IN Kernel.BrakeCommands.EmergencyStops == 2</Expectation></Expectations>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Check SR information cannot be modified even at standstill"
+ Guid="a258238d-b022-417d-a1ab-cce5714ff0a7"
+>
+<Actions>
+<Action
+ Guid="be93c436-2fc0-4a2c-a544-4e4a286c53d2"
+>Odometry.EstimatedSpeed &lt;- 0.0</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="1d39764c-03fd-4f41-92eb-a22fc5cf20d1"
+>DMI.MasterDMI().In_SRModeSpeedLimitAndDistanceEntryRequest.InputInformation.RequestStatus == RequestEnum.Disabled</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="05958621-c26a-4c02-aeac-ab39eb18191b"
+>DMI.MasterDMI().In_SRModeSpeedLimitAndDistance.InputInformation.RequestStatus == RequestEnum.Disabled</Expectation></Expectations>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Check &quot;override active&quot; is not displayed"
+ Guid="fe496de9-4a49-461e-8320-5b01dafc7d4a"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="8e8d2fa1-a257-40ef-b149-86eb44f51d12"
+>NOT DMI.MasterDMI().Out_OverrideStatus.OutputInformation.DisplayRequested</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="81cad6b1-ffa3-480b-8335-131dec9a97a3"
+>NOT DMI.MasterDMI().Out_OverrideStatus.OverrideStatus</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Trigger Override"
+ Guid="ff850221-a626-42ec-ae70-0895becd5234"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Provide driver selection"
+ Guid="3f351d2a-4cb1-4a63-8578-df535149f846"
+>
+<Actions>
+<Action
+ Guid="a58743cd-6f8f-4331-be5e-18b7fb837546"
+>DMI.MasterDMI().In_OverrideRequest.ProvideDriverResponse()</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Check procedure is Override and emergency stops are deleted"
+ Guid="bf2250f0-baa0-4e89-a36b-cf480da0b68c"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="fc574bbc-ef7f-446d-9abb-2e2246a7ac4f"
+>Kernel.Mode == ModeEnum.SR</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="a41cabdb-de0a-4f0f-b2f6-f3c7c0848d52"
+>Kernel.HandleModeChange in Kernel.HandleModeChangeSM.Override</Expectation></Expectations>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Check emergeny stops are deleted"
+ Guid="87e865d7-7a4a-4877-9e59-e3203b308736"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="17e1533f-3f64-46b4-87b4-4ad89208e6df"
+>COUNT X IN Kernel.BrakeCommands.EmergencyStops == 0</Expectation></Expectations>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Check &quot;override active&quot; is indicated to the driver"
+ Guid="30277732-97db-4c06-bf97-3210a2d60cb9"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="9e0bda92-06e3-4f66-9a6a-8c2593ef9beb"
+>DMI.MasterDMI().Out_OverrideStatus.OutputInformation.DisplayRequested == True</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="b5f83250-0a9e-4252-b075-3c09837380ad"
+>DMI.MasterDMI().Out_OverrideStatus.OverrideStatus == True</Expectation></Expectations>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Check driver may ask modification of SR mode information"
+ Guid="d65392c8-0f61-4468-898e-3525b87a052c"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="96fab299-43f1-44db-8121-319deae40640"
+>DMI.MasterDMI().In_SRModeSpeedLimitAndDistanceEntryRequest.InputInformation.RequestStatus == RequestEnum.Request</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="b64912e0-d628-46e0-a147-7e0e94ddef7b"
+>DMI.MasterDMI().In_SRModeSpeedLimitAndDistance.InputInformation.RequestStatus == RequestEnum.Disabled</Expectation></Expectations>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Check driver may modify the SR mode information"
+ Guid="10119115-985d-4856-9920-16b26b91b617"
+>
+<Actions>
+<Action
+ Guid="325f6cc0-b2fd-4740-b83a-c3b9c63004ce"
+>DMI.MasterDMI().In_SRModeSpeedLimitAndDistanceEntryRequest.ProvideDriverResponse()</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="7b0ff7bc-4dc7-4d08-b2b3-64e1262f4c52"
+>DMI.MasterDMI().In_SRModeSpeedLimitAndDistance.InputInformation.RequestStatus == RequestEnum.Request</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="b499a34d-6abd-48ef-bdcc-2cd8fbce8978"
+>DMI.MasterDMI().In_SRModeSpeedLimitAndDistanceEntryRequest.InputInformation.RequestStatus == RequestEnum.Disabled</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase></TestCases>
+</SubSequence><SubSequence
+ D_LRBG=""
+ Level=""
+ Mode=""
+ NID_LRBG=""
+ Q_DIRLRBG=""
+ Q_DIRTRAIN=""
+ Q_DLRBG=""
+ RBC_ID=""
+ RBCPhone=""
+ Name="Selection of Override: All conditions satisfied"
  Guid="e1137c1e-991d-45c1-8d71-98a852cf44c7"
 >
 <TestCases>
@@ -833,6 +1107,17 @@
  DeadLine="1"
  Guid="30b04f0c-9678-4a70-b7a9-ae4b6e108eb2"
 >Kernel.HandleModeChange in Kernel.HandleModeChangeSM.Override</Expectation></Expectations>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Check the former EoA"
+ Guid="3c4971e8-50b2-4ab8-92eb-33d990d381cd"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="2f0fb6f7-3605-49db-b3a1-60a18b36746f"
+>Kernel.Override.OverrideSupervision.FormerEOA == Kernel.TrainPosition.FrontEndPosition( PointOfInterest =&gt; DistanceIntervalEnum.Nom )</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step><Step
  IO="NA"
@@ -951,154 +1236,22 @@
 >Kernel.Mode == ModeEnum.SR</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step></Steps>
-</TestCase><TestCase
- Name="Speed condition not satisfied"
- Guid="621178ad-6cdc-47a7-af4d-77d5f1896e75"
+</TestCase></TestCases>
+</SubSequence><SubSequence
+ D_LRBG=""
+ Level=""
+ Mode=""
+ NID_LRBG=""
+ Q_DIRLRBG=""
+ Q_DIRTRAIN=""
+ Q_DLRBG=""
+ RBC_ID=""
+ RBCPhone=""
+ Name="Selection of Override: Mode condition not satisfied"
+ Guid="538d6d2e-66c0-420b-9644-1c8eace91c33"
 >
-<ReqRef
- Id="d49a941c-d8b5-4e50-b2ec-1b316ac95380"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="adb76242-70fa-4e9a-8ea3-456bf8c761f2"
->
-</ReqRef><ReqRef
- Id="eacc4d2f-2afc-4984-8b90-39c8df55a09c"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="78ae6ed2-1073-4103-a991-fde37c6401f1"
->
-</ReqRef><ReqRef
- Id="efea06c4-e975-4824-a134-e96d2951823a"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="29cc37fa-3e2f-4fa7-baf9-dd45ba840e47"
->
-</ReqRef><ReqRef
- Id="05727841-f740-43e0-b45d-53ac5d5b8d94"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="4f7d2007-9825-4896-afd3-04f866bc2ac9"
->
-</ReqRef><Steps>
-<Step
- IO="NA"
- LevelIN="NA"
- LevelOUT="NA"
- ModeIN="NA"
- ModeOUT="NA"
- TranslationRequired="FALSE"
- Name="Setup"
- Guid="5f849d65-aeee-458b-aab3-81fe960eb230"
->
-<SubSteps>
-<SubStep
- TimeDelay="NotDelayed"
- Name="Set mode"
- Guid="0aec154b-20b4-4f79-b2ff-cb5288bb0e11"
->
-<Actions>
-<Action
- Guid="0a254bf3-c376-4388-a3fd-4f359da3b81d"
->Testing.InitializeTestEnvironment
-(
-    aTrainPosition =&gt; 0.0,
-    aMode =&gt; ModeEnum.FS
-)</Action></Actions>
-</SubStep><SubStep
- TimeDelay="NotDelayed"
- Name="Disable override request"
- Guid="1406c91e-7c4f-414a-9aae-9d234dab176f"
->
-<Actions>
-<Action
- Guid="581c7fd1-4311-4fc1-be7e-b4488d040ef3"
->DMI.MasterDMI().In_OverrideRequest.InputInformation.RequestStatus &lt;- Default.RequestEnum.Disabled</Action></Actions>
-</SubStep><SubStep
- TimeDelay="NotDelayed"
- Name="Set train data"
- Guid="76330f9b-a21f-48ea-9718-bbfd011aff89"
->
-<Actions>
-<Action
- Guid="c2a5c24c-269c-400e-859c-5fe0adc24211"
->Kernel.TrainData.TrainData.DataState &lt;- Default.DataStateEnum.Valid</Action></Actions>
-</SubStep><SubStep
- TimeDelay="NotDelayed"
- Name="Set speed"
- Guid="2dc1aaa0-6bdd-48ff-a4c6-5506fd34f7f1"
->
-<Actions>
-<Action
- Guid="254fa785-6aee-4c7a-bc03-7c0d7ef68f13"
->Odometry.EstimatedSpeed &lt;- 20.0</Action><Action
- Guid="50af8f0e-d3bc-4904-801d-9f17694f4aea"
->Kernel.NationalValues.CurrentNV().SpeedLimitForTriggeringTheOverrideFunction &lt;- 20.0</Action></Actions>
-</SubStep></SubSteps>
-</Step><Step
- IO="NA"
- LevelIN="NA"
- LevelOUT="NA"
- ModeIN="NA"
- ModeOUT="NA"
- TranslationRequired="FALSE"
- Name="Check override is proposed"
- Guid="be0a7de5-341a-414a-9acd-6f35070fe797"
->
-<SubSteps>
-<SubStep
- TimeDelay="NotDelayed"
- Name="Check override is proposed"
- Guid="7570d5da-4760-4b12-a7a6-074210222c2c"
->
-<Expectations>
-<Expectation
- Kind="Instantaneous"
- DeadLine="1"
- Guid="6e3e42c1-1a75-4e9a-be58-4bd4dcd35a31"
->DMI.MasterDMI().In_OverrideRequest.InputInformation.RequestStatus == RequestEnum.Request</Expectation></Expectations>
-</SubStep></SubSteps>
-</Step><Step
- IO="NA"
- LevelIN="NA"
- LevelOUT="NA"
- ModeIN="NA"
- ModeOUT="NA"
- TranslationRequired="FALSE"
- Name="Speed condition is not satisfied anymore"
- Guid="26955155-015e-46e4-8534-00b12970b224"
->
-<SubSteps>
-<SubStep
- TimeDelay="NotDelayed"
- Name="Speed condition is not satisfied anymore"
- Guid="3eee637c-46cd-437d-8221-36ed9c15e1a9"
->
-<Actions>
-<Action
- Guid="f0548cde-03c6-4ee2-b5ac-6d2d829662b4"
->Odometry.EstimatedSpeed &lt;- 21.0</Action></Actions>
-</SubStep></SubSteps>
-</Step><Step
- IO="NA"
- LevelIN="NA"
- LevelOUT="NA"
- ModeIN="NA"
- ModeOUT="NA"
- TranslationRequired="FALSE"
- Name="Check override is not proposed anymore"
- Guid="e73e2093-7060-40bd-8f7f-f6833ff3b938"
->
-<SubSteps>
-<SubStep
- TimeDelay="NotDelayed"
- Name="Check override is not proposed anymore"
- Guid="60485fec-e591-43f0-8d6f-4968c697523d"
->
-<Expectations>
-<Expectation
- Kind="Instantaneous"
- DeadLine="1"
- Guid="3399dc5e-6d5a-4d5b-8495-750df3ae5130"
->DMI.MasterDMI().In_OverrideRequest.InputInformation.RequestStatus == RequestEnum.Disabled</Expectation></Expectations>
-</SubStep></SubSteps>
-</Step></Steps>
-</TestCase><TestCase
+<TestCases>
+<TestCase
  Name="Mode condition not satisfied"
  Guid="25dd63fd-d235-49e9-8990-be36609c15d2"
 >
@@ -1245,7 +1398,325 @@
 >DMI.MasterDMI().In_OverrideRequest.InputInformation.RequestStatus == RequestEnum.Disabled</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step></Steps>
-</TestCase><TestCase
+</TestCase></TestCases>
+</SubSequence><SubSequence
+ D_LRBG=""
+ Level=""
+ Mode=""
+ NID_LRBG=""
+ Q_DIRLRBG=""
+ Q_DIRTRAIN=""
+ Q_DLRBG=""
+ RBC_ID=""
+ RBCPhone=""
+ Name="Selection of Override: Override procedure is triggered when selected by the driver"
+ Guid="a34ec8c2-abc2-4d0e-8c3c-fd962d2a0508"
+>
+<TestCases>
+<TestCase
+ Name="Override procedure is triggered when selected by the driver"
+ Guid="ed797f74-e842-4084-a720-4ef8891028a8"
+>
+<ReqRef
+ Id="b6c74cc9-fab4-4443-8044-94744d509710"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d77f05a1-b5e8-49c3-8b71-442d288e5b93"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Setup"
+ Guid="0209929d-24cd-4f6e-9f5f-c574102eccec"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Set mode"
+ Guid="587f35e5-5f10-4e0d-8c34-0d9ccb448fb0"
+>
+<Actions>
+<Action
+ Guid="696c55da-5843-408e-9955-5caea8b5ccf9"
+>Testing.InitializeTestEnvironment
+(
+    aTrainPosition =&gt; 0.0,
+    aMode =&gt; ModeEnum.FS
+)</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Disable override request and set no procedure"
+ Guid="8a37ec4a-d226-4c01-96f2-405d94087806"
+>
+<Actions>
+<Action
+ Guid="4d14444b-1c55-4a16-8e1e-2a2327c1c231"
+>DMI.MasterDMI().In_OverrideRequest.InputInformation.RequestStatus &lt;- Default.RequestEnum.Disabled</Action><Action
+ Guid="b75e1e53-582e-4e98-ab11-3f0ff4097ff5"
+>Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.NoProcedure</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Set train data"
+ Guid="42007ebf-f9f2-4336-a58d-a7ab9205d2ae"
+>
+<Actions>
+<Action
+ Guid="f0da9f47-5f75-4ecc-ac97-be08c361aa3c"
+>Kernel.TrainData.TrainData.DataState &lt;- Default.DataStateEnum.Valid</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Set speed"
+ Guid="10f49902-09ba-48d7-8b93-502c378f7699"
+>
+<Actions>
+<Action
+ Guid="3e95c86d-0a06-4bdc-8670-a570eb13dfae"
+>Odometry.EstimatedSpeed &lt;- 20.0</Action><Action
+ Guid="9bb41292-9b71-4c85-b9d0-b8c83ad6ae24"
+>Kernel.NationalValues.CurrentNV().SpeedLimitForTriggeringTheOverrideFunction &lt;- 20.0</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Check override is proposed"
+ Guid="d4380813-b6b4-4302-a8ff-3f3123eaf1d6"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Check override is proposed"
+ Guid="59768f16-761e-4347-ac56-a27c599b168c"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="0c2a1706-c88c-48f9-a954-f34c2c7d5d48"
+>DMI.MasterDMI().In_OverrideRequest.InputInformation.RequestStatus == RequestEnum.Request</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="406f9d30-9c81-49c1-aa65-a602962dd1fb"
+>Kernel.HandleModeChange in Kernel.HandleModeChangeSM.NoProcedure</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Check override procedure is launched when the driver selects override"
+ Guid="b611ac66-186b-4dd6-a35e-881c71cfe5cd"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Driver answers"
+ Guid="847ca383-bb07-4837-9aa1-c280cc96db16"
+>
+<Actions>
+<Action
+ Guid="28fd078b-5d4e-4bdd-9eff-c06cbe539947"
+>DMI.MasterDMI().In_OverrideRequest.ProvideDriverResponse()</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep2"
+ Guid="b24c52c7-fd7c-4d51-a2b3-08e03881cea6"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="1384c918-a7b7-48d6-a258-b456155985b4"
+>Kernel.HandleModeChange in Kernel.HandleModeChangeSM.Override</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase></TestCases>
+</SubSequence><SubSequence
+ D_LRBG=""
+ Level=""
+ Mode=""
+ NID_LRBG=""
+ Q_DIRLRBG=""
+ Q_DIRTRAIN=""
+ Q_DLRBG=""
+ RBC_ID=""
+ RBCPhone=""
+ Name="Selection of Override: Speed condition not satisfied"
+ Guid="9396e4c3-d19d-478d-89bb-cf7a4d4f88ed"
+>
+<TestCases>
+<TestCase
+ Name="Speed condition not satisfied"
+ Guid="621178ad-6cdc-47a7-af4d-77d5f1896e75"
+>
+<ReqRef
+ Id="d49a941c-d8b5-4e50-b2ec-1b316ac95380"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="adb76242-70fa-4e9a-8ea3-456bf8c761f2"
+>
+</ReqRef><ReqRef
+ Id="eacc4d2f-2afc-4984-8b90-39c8df55a09c"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="78ae6ed2-1073-4103-a991-fde37c6401f1"
+>
+</ReqRef><ReqRef
+ Id="efea06c4-e975-4824-a134-e96d2951823a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="29cc37fa-3e2f-4fa7-baf9-dd45ba840e47"
+>
+</ReqRef><ReqRef
+ Id="05727841-f740-43e0-b45d-53ac5d5b8d94"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="4f7d2007-9825-4896-afd3-04f866bc2ac9"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Setup"
+ Guid="5f849d65-aeee-458b-aab3-81fe960eb230"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Set mode"
+ Guid="0aec154b-20b4-4f79-b2ff-cb5288bb0e11"
+>
+<Actions>
+<Action
+ Guid="0a254bf3-c376-4388-a3fd-4f359da3b81d"
+>Testing.InitializeTestEnvironment
+(
+    aTrainPosition =&gt; 0.0,
+    aMode =&gt; ModeEnum.FS
+)</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Disable override request"
+ Guid="1406c91e-7c4f-414a-9aae-9d234dab176f"
+>
+<Actions>
+<Action
+ Guid="581c7fd1-4311-4fc1-be7e-b4488d040ef3"
+>DMI.MasterDMI().In_OverrideRequest.InputInformation.RequestStatus &lt;- Default.RequestEnum.Disabled</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Set train data"
+ Guid="76330f9b-a21f-48ea-9718-bbfd011aff89"
+>
+<Actions>
+<Action
+ Guid="c2a5c24c-269c-400e-859c-5fe0adc24211"
+>Kernel.TrainData.TrainData.DataState &lt;- Default.DataStateEnum.Valid</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Set speed"
+ Guid="2dc1aaa0-6bdd-48ff-a4c6-5506fd34f7f1"
+>
+<Actions>
+<Action
+ Guid="254fa785-6aee-4c7a-bc03-7c0d7ef68f13"
+>Odometry.EstimatedSpeed &lt;- 20.0</Action><Action
+ Guid="50af8f0e-d3bc-4904-801d-9f17694f4aea"
+>Kernel.NationalValues.CurrentNV().SpeedLimitForTriggeringTheOverrideFunction &lt;- 20.0</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Check override is proposed"
+ Guid="be0a7de5-341a-414a-9acd-6f35070fe797"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Check override is proposed"
+ Guid="7570d5da-4760-4b12-a7a6-074210222c2c"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="6e3e42c1-1a75-4e9a-be58-4bd4dcd35a31"
+>DMI.MasterDMI().In_OverrideRequest.InputInformation.RequestStatus == RequestEnum.Request</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Speed condition is not satisfied anymore"
+ Guid="26955155-015e-46e4-8534-00b12970b224"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Speed condition is not satisfied anymore"
+ Guid="3eee637c-46cd-437d-8221-36ed9c15e1a9"
+>
+<Actions>
+<Action
+ Guid="f0548cde-03c6-4ee2-b5ac-6d2d829662b4"
+>Odometry.EstimatedSpeed &lt;- 21.0</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Check override is not proposed anymore"
+ Guid="e73e2093-7060-40bd-8f7f-f6833ff3b938"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Check override is not proposed anymore"
+ Guid="60485fec-e591-43f0-8d6f-4968c697523d"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="3399dc5e-6d5a-4d5b-8495-750df3ae5130"
+>DMI.MasterDMI().In_OverrideRequest.InputInformation.RequestStatus == RequestEnum.Disabled</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase></TestCases>
+</SubSequence><SubSequence
+ D_LRBG=""
+ Level=""
+ Mode=""
+ NID_LRBG=""
+ Q_DIRLRBG=""
+ Q_DIRTRAIN=""
+ Q_DLRBG=""
+ RBC_ID=""
+ RBCPhone=""
+ Name="Selection of Override: Train Data condition not satisfied"
+ Guid="9d0d6637-51f5-4c15-97a2-394de53b5924"
+>
+<TestCases>
+<TestCase
  Name="Train Data condition not satisfied"
  Guid="e9a26002-0291-45e4-97ea-d4046d872f9e"
 >
@@ -1390,403 +1861,6 @@
  DeadLine="1"
  Guid="e25fea2a-9476-44b3-a095-0e24848a8c1e"
 >DMI.MasterDMI().In_OverrideRequest.InputInformation.RequestStatus == RequestEnum.Disabled</Expectation></Expectations>
-</SubStep></SubSteps>
-</Step></Steps>
-</TestCase><TestCase
- Name="Override procedure is triggered when selected by the driver"
- Guid="ed797f74-e842-4084-a720-4ef8891028a8"
->
-<ReqRef
- Id="b6c74cc9-fab4-4443-8044-94744d509710"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="d77f05a1-b5e8-49c3-8b71-442d288e5b93"
->
-</ReqRef><Steps>
-<Step
- IO="NA"
- LevelIN="NA"
- LevelOUT="NA"
- ModeIN="NA"
- ModeOUT="NA"
- TranslationRequired="FALSE"
- Name="Setup"
- Guid="0209929d-24cd-4f6e-9f5f-c574102eccec"
->
-<SubSteps>
-<SubStep
- TimeDelay="NotDelayed"
- Name="Set mode"
- Guid="587f35e5-5f10-4e0d-8c34-0d9ccb448fb0"
->
-<Actions>
-<Action
- Guid="696c55da-5843-408e-9955-5caea8b5ccf9"
->Testing.InitializeTestEnvironment
-(
-    aTrainPosition =&gt; 0.0,
-    aMode =&gt; ModeEnum.FS
-)</Action></Actions>
-</SubStep><SubStep
- TimeDelay="NotDelayed"
- Name="Disable override request and set no procedure"
- Guid="8a37ec4a-d226-4c01-96f2-405d94087806"
->
-<Actions>
-<Action
- Guid="4d14444b-1c55-4a16-8e1e-2a2327c1c231"
->DMI.MasterDMI().In_OverrideRequest.InputInformation.RequestStatus &lt;- Default.RequestEnum.Disabled</Action><Action
- Guid="b75e1e53-582e-4e98-ab11-3f0ff4097ff5"
->Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.NoProcedure</Action></Actions>
-</SubStep><SubStep
- TimeDelay="NotDelayed"
- Name="Set train data"
- Guid="42007ebf-f9f2-4336-a58d-a7ab9205d2ae"
->
-<Actions>
-<Action
- Guid="f0da9f47-5f75-4ecc-ac97-be08c361aa3c"
->Kernel.TrainData.TrainData.DataState &lt;- Default.DataStateEnum.Valid</Action></Actions>
-</SubStep><SubStep
- TimeDelay="NotDelayed"
- Name="Set speed"
- Guid="10f49902-09ba-48d7-8b93-502c378f7699"
->
-<Actions>
-<Action
- Guid="3e95c86d-0a06-4bdc-8670-a570eb13dfae"
->Odometry.EstimatedSpeed &lt;- 20.0</Action><Action
- Guid="9bb41292-9b71-4c85-b9d0-b8c83ad6ae24"
->Kernel.NationalValues.CurrentNV().SpeedLimitForTriggeringTheOverrideFunction &lt;- 20.0</Action></Actions>
-</SubStep></SubSteps>
-</Step><Step
- IO="NA"
- LevelIN="NA"
- LevelOUT="NA"
- ModeIN="NA"
- ModeOUT="NA"
- TranslationRequired="FALSE"
- Name="Check override is proposed"
- Guid="d4380813-b6b4-4302-a8ff-3f3123eaf1d6"
->
-<SubSteps>
-<SubStep
- TimeDelay="NotDelayed"
- Name="Check override is proposed"
- Guid="59768f16-761e-4347-ac56-a27c599b168c"
->
-<Expectations>
-<Expectation
- Kind="Instantaneous"
- DeadLine="1"
- Guid="0c2a1706-c88c-48f9-a954-f34c2c7d5d48"
->DMI.MasterDMI().In_OverrideRequest.InputInformation.RequestStatus == RequestEnum.Request</Expectation><Expectation
- Kind="Instantaneous"
- DeadLine="1"
- Guid="406f9d30-9c81-49c1-aa65-a602962dd1fb"
->Kernel.HandleModeChange in Kernel.HandleModeChangeSM.NoProcedure</Expectation></Expectations>
-</SubStep></SubSteps>
-</Step><Step
- IO="NA"
- LevelIN="NA"
- LevelOUT="NA"
- ModeIN="NA"
- ModeOUT="NA"
- TranslationRequired="FALSE"
- Name="Check override procedure is launched when the driver selects override"
- Guid="b611ac66-186b-4dd6-a35e-881c71cfe5cd"
->
-<SubSteps>
-<SubStep
- TimeDelay="NotDelayed"
- Name="Driver answers"
- Guid="847ca383-bb07-4837-9aa1-c280cc96db16"
->
-<Actions>
-<Action
- Guid="28fd078b-5d4e-4bdd-9eff-c06cbe539947"
->DMI.MasterDMI().In_OverrideRequest.ProvideDriverResponse()</Action></Actions>
-</SubStep><SubStep
- TimeDelay="NotDelayed"
- Name="SubStep2"
- Guid="b24c52c7-fd7c-4d51-a2b3-08e03881cea6"
->
-<Expectations>
-<Expectation
- Kind="Instantaneous"
- DeadLine="1"
- Guid="1384c918-a7b7-48d6-a258-b456155985b4"
->Kernel.HandleModeChange in Kernel.HandleModeChangeSM.Override</Expectation></Expectations>
-</SubStep></SubSteps>
-</Step></Steps>
-</TestCase></TestCases>
-</SubSequence><SubSequence
- D_LRBG=""
- Level=""
- Mode=""
- NID_LRBG=""
- Q_DIRLRBG=""
- Q_DIRTRAIN=""
- Q_DLRBG=""
- RBC_ID=""
- RBCPhone=""
- Name="Once Override is triggered"
- Guid="7fa10d86-6ce5-4cf3-a21a-50726170ea65"
->
-<TestCases>
-<TestCase
- Implemented="TRUE"
- Name="Trigger Override"
- Guid="724da3a7-9a89-4673-b3d2-84c05328efb1"
->
-<ReqRef
- Id="d49a941c-d8b5-4e50-b2ec-1b316ac95380"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="e1413239-3f23-45dd-abfe-69d7d6762b57"
->
-</ReqRef><ReqRef
- Id="eacc4d2f-2afc-4984-8b90-39c8df55a09c"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="791713a0-2e20-4b50-9b71-ea6f418bbf1f"
->
-</ReqRef><ReqRef
- Id="efea06c4-e975-4824-a134-e96d2951823a"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="57047a8f-c29c-4011-b8fb-6fe8165bd74d"
->
-</ReqRef><ReqRef
- Id="05727841-f740-43e0-b45d-53ac5d5b8d94"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="744d312c-512a-4813-b4fa-d260103eba2b"
->
-</ReqRef><ReqRef
- Id="b6c74cc9-fab4-4443-8044-94744d509710"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="3b33273d-0a2b-4b0d-8b81-c88e66919e91"
->
-</ReqRef><ReqRef
- Id="f9493d17-4616-4ea8-b1c6-66d4c67d37c7"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="3d8e58eb-ef05-4b82-ae27-98db9e39c4dd"
->
-</ReqRef><ReqRef
- Id="6a40406a-77fa-40f4-a719-22600646d460"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="81431e37-f6b3-42ae-88f1-8e0b9446692f"
->
-</ReqRef><ReqRef
- Id="6bfffc4c-98dc-4742-aa70-9301ecbe28b5"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="e1f6e17c-5527-4cf1-9380-d86698c34866"
->
-</ReqRef><Steps>
-<Step
- IO="NA"
- LevelIN="NA"
- LevelOUT="NA"
- ModeIN="NA"
- ModeOUT="NA"
- TranslationRequired="FALSE"
- Name="Setup"
- Guid="402be51a-5414-4fb0-bab3-5e9e0523c9c6"
->
-<SubSteps>
-<SubStep
- TimeDelay="NotDelayed"
- Name="Setup"
- Guid="2c6b89cb-7b6a-425b-8555-ad78688dcbfe"
->
-<Actions>
-<Action
- Guid="a18655f9-2119-47e1-ae43-511c41cb8868"
->Testing.InitializeTestEnvironment
-(
-    aTrainPosition =&gt; 0.0,
-    aMode =&gt; ModeEnum.FS
-)</Action></Actions>
-</SubStep><SubStep
- TimeDelay="NotDelayed"
- Name="Set Train Data and speed"
- Guid="a67926f8-7ae8-4692-99df-5c881e50adfc"
->
-<Actions>
-<Action
- Guid="65eff35e-c155-4c1e-aeb1-eb3b2de365d3"
->DMI.MasterDMI().In_OverrideRequest.InputInformation.RequestStatus &lt;- Default.RequestEnum.Disabled</Action><Action
- Guid="87f069b5-7edf-4ff0-b803-942b15b0da76"
->Kernel.NationalValues.CurrentNV().SpeedLimitForTriggeringTheOverrideFunction &lt;- 20.0</Action><Action
- Guid="d637de6b-e949-4e5b-876d-cbe1d95ed648"
->Odometry.EstimatedSpeed &lt;- 12.0</Action><Action
- Guid="465bc68d-b1f6-44d8-be88-17587cf7312c"
->Kernel.TrainData.TrainData.DataState &lt;- Default.DataStateEnum.Valid</Action></Actions>
-</SubStep><SubStep
- TimeDelay="NotDelayed"
- Name="Check override is proposed"
- Guid="7444ddf9-d558-4dd6-bd6e-f268d0fde1cc"
->
-<Expectations>
-<Expectation
- Kind="Instantaneous"
- DeadLine="1"
- Guid="f51da6f7-eaf3-4f2d-80c0-d1a03ce45507"
->DMI.MasterDMI().In_OverrideRequest.InputInformation.RequestStatus == RequestEnum.Request</Expectation></Expectations>
-</SubStep><SubStep
- TimeDelay="NotDelayed"
- Name="Add emergency stops"
- Guid="7609e46b-f375-4444-8e26-f079d2188b7f"
->
-<Actions>
-<Action
- Guid="b51c21e8-6f98-41ff-884e-2f840778f428"
->Kernel.BrakeCommands.EmergencyStops &lt;-
-[
-  Kernel.BrakeCommands.EmergencyStopStruct
-  {
-    IsConditional =&gt; Boolean.False,
-    Id =&gt; 2,
-    StopLocation =&gt; 200.0,
-    Reason =&gt; Kernel.BrakeCommands.BrakeReasonEnum.SupervisingStandstill
-  },
-  Kernel.BrakeCommands.EmergencyStopStruct
-  {
-    IsConditional =&gt; Boolean.True,
-    Id =&gt; 7,
-    StopLocation =&gt; 40.0,
-    Reason =&gt; Kernel.BrakeCommands.BrakeReasonEnum.LinkingInconsistency
-  }
-]</Action></Actions>
-<Expectations>
-<Expectation
- Kind="Instantaneous"
- DeadLine="1"
- Guid="c7efe26b-27f4-4bc5-bd9b-b53296594d43"
->COUNT X IN Kernel.BrakeCommands.EmergencyStops == 2</Expectation></Expectations>
-</SubStep><SubStep
- TimeDelay="NotDelayed"
- Name="Check SR information cannot be modified even at standstill"
- Guid="a258238d-b022-417d-a1ab-cce5714ff0a7"
->
-<Actions>
-<Action
- Guid="be93c436-2fc0-4a2c-a544-4e4a286c53d2"
->Odometry.EstimatedSpeed &lt;- 0.0</Action></Actions>
-<Expectations>
-<Expectation
- Kind="Instantaneous"
- DeadLine="1"
- Guid="1d39764c-03fd-4f41-92eb-a22fc5cf20d1"
->DMI.MasterDMI().In_SRModeSpeedLimitAndDistanceEntryRequest.InputInformation.RequestStatus == RequestEnum.Disabled</Expectation><Expectation
- Kind="Instantaneous"
- DeadLine="1"
- Guid="05958621-c26a-4c02-aeac-ab39eb18191b"
->DMI.MasterDMI().In_SRModeSpeedLimitAndDistance.InputInformation.RequestStatus == RequestEnum.Disabled</Expectation></Expectations>
-</SubStep><SubStep
- Name="Check &quot;override active&quot; is not displayed"
- Guid="fe496de9-4a49-461e-8320-5b01dafc7d4a"
->
-<Expectations>
-<Expectation
- Kind="Instantaneous"
- DeadLine="1"
- Guid="8e8d2fa1-a257-40ef-b149-86eb44f51d12"
->NOT DMI.MasterDMI().Out_OverrideStatus.OutputInformation.DisplayRequested</Expectation><Expectation
- Kind="Instantaneous"
- DeadLine="1"
- Guid="81cad6b1-ffa3-480b-8335-131dec9a97a3"
->NOT DMI.MasterDMI().Out_OverrideStatus.OverrideStatus</Expectation></Expectations>
-</SubStep></SubSteps>
-</Step><Step
- IO="NA"
- LevelIN="NA"
- LevelOUT="NA"
- ModeIN="NA"
- ModeOUT="NA"
- TranslationRequired="FALSE"
- Name="Trigger Override"
- Guid="ff850221-a626-42ec-ae70-0895becd5234"
->
-<SubSteps>
-<SubStep
- TimeDelay="NotDelayed"
- Name="Provide driver selection"
- Guid="3f351d2a-4cb1-4a63-8578-df535149f846"
->
-<Actions>
-<Action
- Guid="a58743cd-6f8f-4331-be5e-18b7fb837546"
->DMI.MasterDMI().In_OverrideRequest.ProvideDriverResponse()</Action></Actions>
-</SubStep><SubStep
- TimeDelay="NotDelayed"
- Name="Check procedure is Override and emergency stops are deleted"
- Guid="bf2250f0-baa0-4e89-a36b-cf480da0b68c"
->
-<Expectations>
-<Expectation
- Kind="Instantaneous"
- DeadLine="1"
- Guid="fc574bbc-ef7f-446d-9abb-2e2246a7ac4f"
->Kernel.Mode == ModeEnum.SR</Expectation><Expectation
- Kind="Instantaneous"
- DeadLine="1"
- Guid="a41cabdb-de0a-4f0f-b2f6-f3c7c0848d52"
->Kernel.HandleModeChange in Kernel.HandleModeChangeSM.Override</Expectation></Expectations>
-</SubStep><SubStep
- TimeDelay="NotDelayed"
- Name="Check emergeny stops are deleted"
- Guid="87e865d7-7a4a-4877-9e59-e3203b308736"
->
-<Expectations>
-<Expectation
- Kind="Instantaneous"
- DeadLine="1"
- Guid="17e1533f-3f64-46b4-87b4-4ad89208e6df"
->COUNT X IN Kernel.BrakeCommands.EmergencyStops == 0</Expectation></Expectations>
-</SubStep><SubStep
- Name="Check &quot;override active&quot; is indicated to the driver"
- Guid="30277732-97db-4c06-bf97-3210a2d60cb9"
->
-<Expectations>
-<Expectation
- Kind="Instantaneous"
- DeadLine="1"
- Guid="9e0bda92-06e3-4f66-9a6a-8c2593ef9beb"
->DMI.MasterDMI().Out_OverrideStatus.OutputInformation.DisplayRequested == True</Expectation><Expectation
- Kind="Instantaneous"
- DeadLine="1"
- Guid="b5f83250-0a9e-4252-b075-3c09837380ad"
->DMI.MasterDMI().Out_OverrideStatus.OverrideStatus == True</Expectation></Expectations>
-</SubStep><SubStep
- TimeDelay="NotDelayed"
- Name="Check driver may ask modification of SR mode information"
- Guid="d65392c8-0f61-4468-898e-3525b87a052c"
->
-<Expectations>
-<Expectation
- Kind="Instantaneous"
- DeadLine="1"
- Guid="96fab299-43f1-44db-8121-319deae40640"
->DMI.MasterDMI().In_SRModeSpeedLimitAndDistanceEntryRequest.InputInformation.RequestStatus == RequestEnum.Request</Expectation><Expectation
- Kind="Instantaneous"
- DeadLine="1"
- Guid="b64912e0-d628-46e0-a147-7e0e94ddef7b"
->DMI.MasterDMI().In_SRModeSpeedLimitAndDistance.InputInformation.RequestStatus == RequestEnum.Disabled</Expectation></Expectations>
-</SubStep><SubStep
- Name="Check driver may modify the SR mode information"
- Guid="10119115-985d-4856-9920-16b26b91b617"
->
-<Actions>
-<Action
- Guid="325f6cc0-b2fd-4740-b83a-c3b9c63004ce"
->DMI.MasterDMI().In_SRModeSpeedLimitAndDistanceEntryRequest.ProvideDriverResponse()</Action></Actions>
-<Expectations>
-<Expectation
- Kind="Instantaneous"
- DeadLine="1"
- Guid="7b0ff7bc-4dc7-4d08-b2b3-64e1262f4c52"
->DMI.MasterDMI().In_SRModeSpeedLimitAndDistance.InputInformation.RequestStatus == RequestEnum.Request</Expectation><Expectation
- Kind="Instantaneous"
- DeadLine="1"
- Guid="b499a34d-6abd-48ef-bdcc-2cd8fbce8978"
->DMI.MasterDMI().In_SRModeSpeedLimitAndDistanceEntryRequest.InputInformation.RequestStatus == RequestEnum.Disabled</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step></Steps>
 </TestCase></TestCases>
