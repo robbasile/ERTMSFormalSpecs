@@ -473,6 +473,12 @@ namespace DataDictionary
                 {
                     ((ModelElement) commentable).AddInfo("This element should be documented");
                 }
+
+                if (!String.IsNullOrEmpty(commentable.Comment)
+                      && commentable.Comment.Contains("TODO") )
+                {
+                    ((ModelElement) commentable).AddInfo("This element is unfinished - see comment");
+                }
             }
         }
 
