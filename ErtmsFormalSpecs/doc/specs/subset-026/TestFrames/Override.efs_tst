@@ -1519,5 +1519,276 @@
 </SubStep></SubSteps>
 </Step></Steps>
 </TestCase></TestCases>
+</SubSequence><SubSequence
+ D_LRBG=""
+ Level=""
+ Mode=""
+ NID_LRBG=""
+ Q_DIRLRBG=""
+ Q_DIRTRAIN=""
+ Q_DLRBG=""
+ RBC_ID=""
+ RBCPhone=""
+ Name="Once Override is triggered"
+ Guid="7fa10d86-6ce5-4cf3-a21a-50726170ea65"
+>
+<TestCases>
+<TestCase
+ Implemented="TRUE"
+ Name="Trigger Override"
+ Guid="724da3a7-9a89-4673-b3d2-84c05328efb1"
+>
+<ReqRef
+ Id="d49a941c-d8b5-4e50-b2ec-1b316ac95380"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e1413239-3f23-45dd-abfe-69d7d6762b57"
+>
+</ReqRef><ReqRef
+ Id="eacc4d2f-2afc-4984-8b90-39c8df55a09c"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="791713a0-2e20-4b50-9b71-ea6f418bbf1f"
+>
+</ReqRef><ReqRef
+ Id="efea06c4-e975-4824-a134-e96d2951823a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="57047a8f-c29c-4011-b8fb-6fe8165bd74d"
+>
+</ReqRef><ReqRef
+ Id="05727841-f740-43e0-b45d-53ac5d5b8d94"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="744d312c-512a-4813-b4fa-d260103eba2b"
+>
+</ReqRef><ReqRef
+ Id="b6c74cc9-fab4-4443-8044-94744d509710"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="3b33273d-0a2b-4b0d-8b81-c88e66919e91"
+>
+</ReqRef><ReqRef
+ Id="f9493d17-4616-4ea8-b1c6-66d4c67d37c7"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="3d8e58eb-ef05-4b82-ae27-98db9e39c4dd"
+>
+</ReqRef><ReqRef
+ Id="6a40406a-77fa-40f4-a719-22600646d460"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="81431e37-f6b3-42ae-88f1-8e0b9446692f"
+>
+</ReqRef><ReqRef
+ Id="6bfffc4c-98dc-4742-aa70-9301ecbe28b5"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e1f6e17c-5527-4cf1-9380-d86698c34866"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Setup"
+ Guid="402be51a-5414-4fb0-bab3-5e9e0523c9c6"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Setup"
+ Guid="2c6b89cb-7b6a-425b-8555-ad78688dcbfe"
+>
+<Actions>
+<Action
+ Guid="a18655f9-2119-47e1-ae43-511c41cb8868"
+>Testing.InitializeTestEnvironment
+(
+    aTrainPosition =&gt; 0.0,
+    aMode =&gt; ModeEnum.FS
+)</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Set Train Data and speed"
+ Guid="a67926f8-7ae8-4692-99df-5c881e50adfc"
+>
+<Actions>
+<Action
+ Guid="65eff35e-c155-4c1e-aeb1-eb3b2de365d3"
+>DMI.MasterDMI().In_OverrideRequest.InputInformation.RequestStatus &lt;- Default.RequestEnum.Disabled</Action><Action
+ Guid="87f069b5-7edf-4ff0-b803-942b15b0da76"
+>Kernel.NationalValues.CurrentNV().SpeedLimitForTriggeringTheOverrideFunction &lt;- 20.0</Action><Action
+ Guid="d637de6b-e949-4e5b-876d-cbe1d95ed648"
+>Odometry.EstimatedSpeed &lt;- 12.0</Action><Action
+ Guid="465bc68d-b1f6-44d8-be88-17587cf7312c"
+>Kernel.TrainData.TrainData.DataState &lt;- Default.DataStateEnum.Valid</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Check override is proposed"
+ Guid="7444ddf9-d558-4dd6-bd6e-f268d0fde1cc"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="f51da6f7-eaf3-4f2d-80c0-d1a03ce45507"
+>DMI.MasterDMI().In_OverrideRequest.InputInformation.RequestStatus == RequestEnum.Request</Expectation></Expectations>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Add emergency stops"
+ Guid="7609e46b-f375-4444-8e26-f079d2188b7f"
+>
+<Actions>
+<Action
+ Guid="b51c21e8-6f98-41ff-884e-2f840778f428"
+>Kernel.BrakeCommands.EmergencyStops &lt;-
+[
+  Kernel.BrakeCommands.EmergencyStopStruct
+  {
+    IsConditional =&gt; Boolean.False,
+    Id =&gt; 2,
+    StopLocation =&gt; 200.0,
+    Reason =&gt; Kernel.BrakeCommands.BrakeReasonEnum.SupervisingStandstill
+  },
+  Kernel.BrakeCommands.EmergencyStopStruct
+  {
+    IsConditional =&gt; Boolean.True,
+    Id =&gt; 7,
+    StopLocation =&gt; 40.0,
+    Reason =&gt; Kernel.BrakeCommands.BrakeReasonEnum.LinkingInconsistency
+  }
+]</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="c7efe26b-27f4-4bc5-bd9b-b53296594d43"
+>COUNT X IN Kernel.BrakeCommands.EmergencyStops == 2</Expectation></Expectations>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Check SR information cannot be modified even at standstill"
+ Guid="a258238d-b022-417d-a1ab-cce5714ff0a7"
+>
+<Actions>
+<Action
+ Guid="be93c436-2fc0-4a2c-a544-4e4a286c53d2"
+>Odometry.EstimatedSpeed &lt;- 0.0</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="1d39764c-03fd-4f41-92eb-a22fc5cf20d1"
+>DMI.MasterDMI().In_SRModeSpeedLimitAndDistanceEntryRequest.InputInformation.RequestStatus == RequestEnum.Disabled</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="05958621-c26a-4c02-aeac-ab39eb18191b"
+>DMI.MasterDMI().In_SRModeSpeedLimitAndDistance.InputInformation.RequestStatus == RequestEnum.Disabled</Expectation></Expectations>
+</SubStep><SubStep
+ Name="Check &quot;override active&quot; is not displayed"
+ Guid="fe496de9-4a49-461e-8320-5b01dafc7d4a"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="8e8d2fa1-a257-40ef-b149-86eb44f51d12"
+>NOT DMI.MasterDMI().Out_OverrideStatus.OutputInformation.DisplayRequested</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="81cad6b1-ffa3-480b-8335-131dec9a97a3"
+>NOT DMI.MasterDMI().Out_OverrideStatus.OverrideStatus</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Trigger Override"
+ Guid="ff850221-a626-42ec-ae70-0895becd5234"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Provide driver selection"
+ Guid="3f351d2a-4cb1-4a63-8578-df535149f846"
+>
+<Actions>
+<Action
+ Guid="a58743cd-6f8f-4331-be5e-18b7fb837546"
+>DMI.MasterDMI().In_OverrideRequest.ProvideDriverResponse()</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Check procedure is Override and emergency stops are deleted"
+ Guid="bf2250f0-baa0-4e89-a36b-cf480da0b68c"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="fc574bbc-ef7f-446d-9abb-2e2246a7ac4f"
+>Kernel.Mode == ModeEnum.SR</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="a41cabdb-de0a-4f0f-b2f6-f3c7c0848d52"
+>Kernel.HandleModeChange in Kernel.HandleModeChangeSM.Override</Expectation></Expectations>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Check emergeny stops are deleted"
+ Guid="87e865d7-7a4a-4877-9e59-e3203b308736"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="17e1533f-3f64-46b4-87b4-4ad89208e6df"
+>COUNT X IN Kernel.BrakeCommands.EmergencyStops == 0</Expectation></Expectations>
+</SubStep><SubStep
+ Name="Check &quot;override active&quot; is indicated to the driver"
+ Guid="30277732-97db-4c06-bf97-3210a2d60cb9"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="9e0bda92-06e3-4f66-9a6a-8c2593ef9beb"
+>DMI.MasterDMI().Out_OverrideStatus.OutputInformation.DisplayRequested == True</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="b5f83250-0a9e-4252-b075-3c09837380ad"
+>DMI.MasterDMI().Out_OverrideStatus.OverrideStatus == True</Expectation></Expectations>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Check driver may ask modification of SR mode information"
+ Guid="d65392c8-0f61-4468-898e-3525b87a052c"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="96fab299-43f1-44db-8121-319deae40640"
+>DMI.MasterDMI().In_SRModeSpeedLimitAndDistanceEntryRequest.InputInformation.RequestStatus == RequestEnum.Request</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="b64912e0-d628-46e0-a147-7e0e94ddef7b"
+>DMI.MasterDMI().In_SRModeSpeedLimitAndDistance.InputInformation.RequestStatus == RequestEnum.Disabled</Expectation></Expectations>
+</SubStep><SubStep
+ Name="Check driver may modify the SR mode information"
+ Guid="10119115-985d-4856-9920-16b26b91b617"
+>
+<Actions>
+<Action
+ Guid="325f6cc0-b2fd-4740-b83a-c3b9c63004ce"
+>DMI.MasterDMI().In_SRModeSpeedLimitAndDistanceEntryRequest.ProvideDriverResponse()</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="7b0ff7bc-4dc7-4d08-b2b3-64e1262f4c52"
+>DMI.MasterDMI().In_SRModeSpeedLimitAndDistance.InputInformation.RequestStatus == RequestEnum.Request</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="b499a34d-6abd-48ef-bdcc-2cd8fbce8978"
+>DMI.MasterDMI().In_SRModeSpeedLimitAndDistanceEntryRequest.InputInformation.RequestStatus == RequestEnum.Disabled</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase></TestCases>
 </SubSequence></SubSequences>
 </Frame>

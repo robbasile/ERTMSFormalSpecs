@@ -749,22 +749,6 @@ Kernel.Modes.StaffResponsible.SRAuthorisation.Location &lt;= Kernel.TrainPositio
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
- Name="Initiate request"
- Guid="a4777087-732f-4a93-9540-3ae1bccb98b5"
->
-<Comment>If the train is at standstill, display entry request.</Comment>
-<PreConditions>
-<PreCondition
- Guid="edb541f1-b1e5-47df-b3e6-8f97cf0d62a1"
->Odometry.TrainIsAtStandstill()</PreCondition><PreCondition
- Guid="2bb08af0-9bc3-42ee-8e1f-6c0fc8522662"
->DMI.MasterDMI().In_SRModeSpeedLimitAndDistanceEntryRequest.InputInformation.RequestStatus != RequestEnum.Request</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="c2aeb6e2-d835-4907-921b-659073bb1bfd"
->DMI.MasterDMI().In_SRModeSpeedLimitAndDistanceEntryRequest.InitiateRequest()</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
  Name="Handle driver request"
  Guid="8d7b926b-9061-47a2-b29e-efe39f6a4b59"
 >
@@ -777,6 +761,24 @@ Kernel.Modes.StaffResponsible.SRAuthorisation.Location &lt;= Kernel.TrainPositio
 <Action
  Guid="1168f969-c721-4d44-a41d-330a21b954cb"
 >DMI.MasterDMI().In_SRModeSpeedLimitAndDistance.InitiateRequest()</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Initiate request"
+ Guid="a4777087-732f-4a93-9540-3ae1bccb98b5"
+>
+<Comment>If the train is at standstill, display entry request.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="edb541f1-b1e5-47df-b3e6-8f97cf0d62a1"
+>Odometry.TrainIsAtStandstill()</PreCondition><PreCondition
+ Guid="2bb08af0-9bc3-42ee-8e1f-6c0fc8522662"
+>DMI.MasterDMI().In_SRModeSpeedLimitAndDistanceEntryRequest.InputInformation.RequestStatus != RequestEnum.Request</PreCondition><PreCondition
+ Guid="1a158348-3a7b-4748-8016-db736a2be174"
+>DMI.MasterDMI().In_SRModeSpeedLimitAndDistance.InputInformation.RequestStatus != RequestEnum.Request</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="c2aeb6e2-d835-4907-921b-659073bb1bfd"
+>DMI.MasterDMI().In_SRModeSpeedLimitAndDistanceEntryRequest.InitiateRequest()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
