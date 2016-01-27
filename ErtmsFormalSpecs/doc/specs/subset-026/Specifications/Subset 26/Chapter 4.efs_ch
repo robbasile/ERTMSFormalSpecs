@@ -14657,9 +14657,11 @@ Current ERTMS/ETCS level; A: SB, TR; X: SH, FS, LS, SR, OS, NL, UN, PT, SN, RV; 
  reviewed="TRUE"
  status="Implemented"
  version="3.0.0"
+ specIssue="TRUE"
  Name=""
  Guid="d71c157f-0723-4ca1-a3ca-bd2eb1e89ec3"
->Permitted Speed; A: SH, SR, OS; X: FS, RV; GREYED: SN; NA: SF, IS<RequirementSets>
+><Comment>The PermittedSpeed and TargetSpeed should not be sent to the DMI while in LS mode, but are nevertheless required according to DMI specifications (Table 11). Furthermore, the LSMaxSpeed should never be sent to the dmi but is required according to DMI specifications (Table 11 second exception): for this, it is hacked (directly taken by the DMI code, without using the standard transfer method).</Comment>
+Permitted Speed; A: SH, SR, OS; X: FS, RV; GREYED: SN; NA: SF, IS<RequirementSets>
 <RequirementSetReference
  RefId="b2515c38-1e5c-4be6-9107-9fb08c2038ed"
  Guid="c97f73e4-5abf-4de9-8a67-bde319007414"
