@@ -326,12 +326,12 @@ namespace DataDictionary.Rules
         /// <param name="activations">the rule conditions to be activated</param>
         /// <param name="explanation">The explanation part to be filled</param>
         /// <returns>the number of actions that were activated during this evaluation</returns>
-        public bool Evaluate(Runner runner, acceptor.RulePriority priority, IModelElement instance,
+        public bool Evaluate(Runner runner, acceptor.RulePriority? priority, IModelElement instance,
             HashSet<Runner.Activation> activations, ExplanationPart explanation)
         {
             bool retVal = false;
 
-            if (UpdatedBy.Count == 0 && !IsRemoved && ActivationPriorities.Contains(priority))
+            if (UpdatedBy.Count == 0 && !IsRemoved && (priority == null || ActivationPriorities.Contains((acceptor.RulePriority) priority)))
             {
                 long start = Environment.TickCount;
 

@@ -672,7 +672,7 @@ namespace DataDictionary.Tests.Runner
                     {
                         if (change.Variable.Type is StateMachine)
                         {
-                            State leavingState = (State) change.Variable.Value;
+                            State leavingState = (State) change.PreviousValue;
                             State enteringState = (State) change.NewValue;
 
                             bool transitionFound = false;
@@ -690,10 +690,8 @@ namespace DataDictionary.Tests.Runner
                                 Tuple<State, State> transition = new Tuple<State, State>(leavingState, enteringState);
                                 transitions.Add(transition);
 
-                                HandleLeaveState(priority, newUpdates, change.Variable, (State) change.Variable.Value,
-                                    (State) change.NewValue);
-                                HandleEnterState(priority, newUpdates, change.Variable, (State) change.Variable.Value,
-                                    (State) change.NewValue);
+                                HandleLeaveState(priority, newUpdates, change.Variable, leavingState, enteringState);
+                                HandleEnterState(priority, newUpdates, change.Variable, leavingState, enteringState);
                             }
                         }
                     }
@@ -728,7 +726,9 @@ namespace DataDictionary.Tests.Runner
                         ExplanationPart explanation = new ExplanationPart(rule, "Rule evaluation");
                         HashSet<Activation> newActivations = new HashSet<Activation>();
                         List<VariableUpdate> newUpdates = new List<VariableUpdate>();
-                        rule.Evaluate(this, priority, variable, newActivations, explanation);
+                        // the priority is not specified for the rule evaluation since
+                        // the rules of the enter states have to be executed regardless the priority
+                        rule.Evaluate(this, null, variable, newActivations, explanation);
                         EvaluateActivations(newActivations, priority, ref newUpdates);
                         updates.AddRange(newUpdates);
                     }
@@ -766,7 +766,9 @@ namespace DataDictionary.Tests.Runner
                         ExplanationPart explanation = new ExplanationPart(rule, "Rule evaluation");
                         HashSet<Activation> newActivations = new HashSet<Activation>();
                         List<VariableUpdate> newUpdates = new List<VariableUpdate>();
-                        rule.Evaluate(this, priority, variable, newActivations, explanation);
+                        // the priority is not specified for the rule evaluation since
+                        // the rules of the leave states have to be executed regardless the priority
+                        rule.Evaluate(this, null, variable, newActivations, explanation);
                         EvaluateActivations(newActivations, priority, ref newUpdates);
                         updates.AddRange(newUpdates);
                     }
