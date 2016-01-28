@@ -1125,64 +1125,6 @@ PacketOrientation == Messages.Q_DIR.Both_directions</Expression>
 <Expression>(FIRST X IN BTM.CurrentBaliseGroup | (X.Telegram.M_MCOUNT != 255 AND X.Telegram.M_MCOUNT != 254)).Telegram.M_MCOUNT</Expression>
 </Case></Cases>
 </Function><Function
- Type="Boolean"
- Default=""
- X="370"
- Y="140"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="ReceivedSystemVersionIsHigher"
- Guid="341abf45-2ef9-4f3a-8684-67a844487ddb"
->
-<ReqRef
- Id="f60bbaad-2b86-4ba0-903d-6f4c835bd243"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="47a6daa9-d620-48f3-81de-ae4ba9df4d1b"
->
-</ReqRef><Comment>Indicates if the system version received from the trackside is hither than the current system version of the on-board equipment.</Comment>
-<Parameters>
-<Parameter
- Type="Messages.M_VERSION"
- Name="aSystemVersion"
- Guid="d19cd45d-4aad-450f-8074-abb9fc0e8da7"
->
-</Parameter></Parameters>
-<Cases>
-<Case
- Name="Version 1_0"
- Guid="b2ceec95-1369-46f8-80a3-e7ee061284ac"
->
-<PreConditions>
-<PreCondition
- Guid="1c1f2c92-0380-4338-92f7-f18aeaeb41b8"
->aSystemVersion == Messages.M_VERSION.Version_1_0__introduced_in_SRS_1_2_0_and_re_used_in_SRSs_2_0_0__2_2_2__2_3_0</PreCondition></PreConditions>
-<Expression>False</Expression>
-</Case><Case
- Name="Version 1_1"
- Guid="bcafc376-653f-4483-b43f-89677e82e8ac"
->
-<PreConditions>
-<PreCondition
- Guid="f84ef23f-8e82-4d88-a3d5-6b0a3b601437"
->aSystemVersion == Messages.M_VERSION.Version_1_1__introduced_in_SRS_3_0_0</PreCondition></PreConditions>
-<Expression>Kernel.OperatedSystemVersion.Value == Messages.M_VERSION.Version_1_0__introduced_in_SRS_1_2_0_and_re_used_in_SRSs_2_0_0__2_2_2__2_3_0</Expression>
-</Case><Case
- Name="Version 2_0"
- Guid="63f434dd-6de6-4226-aad1-a03b1d8a6cdc"
->
-<PreConditions>
-<PreCondition
- Guid="6a03fdcc-a3df-451f-85fe-5bc2614268fc"
->aSystemVersion == Messages.M_VERSION.Version_2_0__introduced_in_SRS_3_0_0</PreCondition></PreConditions>
-<Expression>Kernel.OperatedSystemVersion.Value in [Messages.M_VERSION.Version_1_0__introduced_in_SRS_1_2_0_and_re_used_in_SRSs_2_0_0__2_2_2__2_3_0, Messages.M_VERSION.Version_1_1__introduced_in_SRS_3_0_0]</Expression>
-</Case><Case
- Name="Otherwise"
- Guid="1f63e25c-3f0e-4216-a35b-1417d2ae25d9"
->
-<Expression>False</Expression>
-</Case></Cases>
-</Function><Function
  Type="BaseTypes.Distance"
  Default=""
  X="150"
@@ -4987,34 +4929,6 @@ The parameter DistanceFromLRBG is needed for the case when the handled BG will b
 </Parameter></Parameters>
 <Rules>
 <Rule
- Priority="Processing"
- Implemented="TRUE"
- Name="Handle system version"
- Guid="b5ff5e59-ec2a-47c8-9c8c-975ba1218c51"
->
-<ReqRef
- Id="f60bbaad-2b86-4ba0-903d-6f4c835bd243"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="9a2fcc37-af14-4feb-baac-c45c604a25a2"
->
-</ReqRef><Comment>In the system version transmitted by the balise is higher than the system version of the on-board equipment, the on-board equipment shall use it.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Handle system version"
- Guid="fd5a3fb1-7afb-4311-9621-0c6665317e8b"
->
-<PreConditions>
-<PreCondition
- Guid="a4a26815-f310-42ac-9a12-55c06c9b7f2b"
->BTM.ReceivedSystemVersionIsHigher (aSystemVersion =&gt; (FIRST X IN BTM.CurrentBaliseGroup).Telegram.M_VERSION )</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="947f5c13-b3ba-42c5-bebd-24f3bf75e2f2"
->Kernel.OperatedSystemVersion.Value &lt;- (FIRST X IN BTM.CurrentBaliseGroup).Telegram.M_VERSION</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
  Priority="Processing"
  Implemented="TRUE"
  Name="Handle LRBG"

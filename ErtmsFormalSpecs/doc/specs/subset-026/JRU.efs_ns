@@ -1025,7 +1025,7 @@ IN JRUMessages</Action></Actions>
  Guid="2530de24-0c40-4088-b0a4-1325135e6574"
 >PreviousTrainData &lt;- Kernel.TrainData.TrainData.Value</Action><Action
  Guid="06d0091f-b48f-486b-8088-c41f6e231e53"
->PreviousSystemVersion &lt;- Kernel.OperatedSystemVersion.Value</Action><Action
+>PreviousSystemVersion &lt;- VersionManagement.MessageVersionFromSystemVersion(VersionManagement.OperatedSystemVersion)</Action><Action
  Guid="3bf2231c-6b43-4768-99dc-85f531bfcf5c"
 >PreviousVirtualBaliseCovers &lt;- Kernel.VirtualBaliseCover.VirtualBaliseCovers.VBCs</Action><Action
  Guid="65f7cd8d-4303-454d-abfb-ae779fe99371"
@@ -1800,7 +1800,7 @@ If the LSSMA is not displayed, the value is set to BaseTypes.Speed.NA.</Comment>
         V_TRAIN =&gt; JRU.TypeConvertors.ToJRUVtrain(),
         DRIVER_ID =&gt; Kernel.DriverId.Value,
         NID_ENGINE =&gt; Kernel.NidEngine,
-        SYSTEM_VERSION =&gt; JRU.TypeConvertors.ToJRUSystemVersion(Kernel.OperatedSystemVersion),
+        SYSTEM_VERSION =&gt; JRU.TypeConvertors.ToJRUSystemVersion(VersionManagement.MessageVersionFromSystemVersion(VersionManagement.OperatedSystemVersion)),
         LEVEL =&gt; JRU.TypeConvertors.ToJRULevel(Kernel.Level.Value.Value),
         MODE =&gt; JRU.TypeConvertors.ToJRUMode(Kernel.Mode)
     }</Expression>
@@ -2076,7 +2076,7 @@ JRU.SendLSSMAMessage(jru)</PreCondition><PreCondition
 <PreConditions>
 <PreCondition
  Guid="e4396d39-c942-4dc4-a21c-8e4ffecaaa74"
->jru.PreviousSystemVersion != Kernel.OperatedSystemVersion.Value</PreCondition></PreConditions>
+>jru.PreviousSystemVersion != VersionManagement.MessageVersionFromSystemVersion(VersionManagement.OperatedSystemVersion)</PreCondition></PreConditions>
 <Expression>True</Expression>
 </Case><Case
  Name="Same System Version"

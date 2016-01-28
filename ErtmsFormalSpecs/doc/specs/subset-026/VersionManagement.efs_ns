@@ -15,7 +15,7 @@
 <Enumerations>
 <Enum
  Default="SystemVersion_Enum.Version2_0"
- X="30"
+ X="130"
  Y="120"
  Width="100"
  Height="50"
@@ -393,6 +393,55 @@
 >aDetailledVersion in [SystemVersion_Enum.Version1_0, SystemVersion_Enum.Version1_1]</PreCondition></PreConditions>
 <Expression>SystemMainVersion_Enum.Version1</Expression>
 </Case></Cases>
+</Function><Function
+ Type="Messages.M_VERSION"
+ Default=""
+ X="1"
+ Y="61"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="MessageVersionFromSystemVersion"
+ Guid="b9895084-c256-4ae1-b258-c06c461fb657"
+>
+<Comment>Simply performs a one to one correspondance between to types.</Comment>
+<Parameters>
+<Parameter
+ Type="SystemVersion_Enum"
+ Name="aSystemVersion"
+ Guid="6e071bfe-b3a4-42fa-98a8-a655abbb22f8"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Version2_0"
+ Guid="3ab71753-c7c1-4204-af74-53fe06525f08"
+>
+<PreConditions>
+<PreCondition
+ Guid="15247498-8f7e-478d-a514-253967f1c23e"
+>aSystemVersion == SystemVersion_Enum.Version2_0</PreCondition></PreConditions>
+<Expression>Messages.M_VERSION.Version_2_0__introduced_in_SRS_3_0_0</Expression>
+</Case><Case
+ Name="Version1_1"
+ Guid="e8d49d0a-244f-43f2-917a-4e0effb22861"
+>
+<PreConditions>
+<PreCondition
+ Guid="7a291515-0813-4d6c-b616-a62465247eed"
+>aSystemVersion == SystemVersion_Enum.Version1_1</PreCondition></PreConditions>
+<Expression>Messages.M_VERSION.Version_1_1__introduced_in_SRS_3_0_0</Expression>
+</Case><Case
+ Name="Version1_0"
+ Guid="c5606ebe-0909-4dec-877c-2de7b8a659da"
+>
+<PreConditions>
+<PreCondition
+ Guid="a1bc4666-de83-4e87-9103-7bde7f5fc88b"
+>aSystemVersion == SystemVersion_Enum.Version1_0</PreCondition></PreConditions>
+<Expression>Messages.M_VERSION.Version_1_0__introduced_in_SRS_1_2_0_and_re_used_in_SRSs_2_0_0__2_2_2__2_3_0</Expression>
+</Case></Cases>
 </Function></Functions>
 <Procedures>
 <Procedure
@@ -499,7 +548,7 @@ This is the default rule which will be called at the beginning of each cycle, be
  Type="SystemVersion_Enum"
  DefaultValue="SystemVersion_Enum.Version2_0"
  VariableMode="Internal"
- X="30"
+ X="130"
  Y="0"
  Width="100"
  Height="50"

@@ -3801,9 +3801,7 @@
  Guid="c2126f5a-c6ee-4ba5-b495-be5a3af646f8"
 >Kernel.HandleModeChange &lt;- Kernel.HandleModeChange.StartOfMission</Action><Action
  Guid="c74cc1a6-159c-49e5-ae1e-9d9263a8241f"
->Kernel.OperatedSystemVersion.Value &lt;- Messages.M_VERSION.Version_1_1__introduced_in_SRS_3_0_0</Action><Action
- Guid="d7a5ea84-8d0b-431e-83e1-136f86b9cff1"
->Kernel.OperatedSystemVersion.DataState &lt;- DataStateEnum.Valid</Action><Action
+>VersionManagement.OperatedSystemVersion &lt;- VersionManagement.SystemVersionFromMessageVersion( Messages.M_VERSION.Version_1_1__introduced_in_SRS_3_0_0)</Action><Action
  Guid="6c69efc3-6672-4d50-a53b-88b74a0fe2c4"
 >Testing.SetSBMode(False)</Action></Actions>
 </SubStep></SubSteps>
@@ -3831,10 +3829,7 @@
 <Expectation
  Kind="Instantaneous"
  Guid="60889212-f580-4ffe-b488-067714f1fce8"
->Kernel.OperatedSystemVersion.Value == Messages.M_VERSION.Version_1_1__introduced_in_SRS_3_0_0</Expectation><Expectation
- Kind="Instantaneous"
- Guid="9e72f01a-2cfe-4379-beaa-9e7ef75efb39"
->Kernel.OperatedSystemVersion.DataState == DataStateEnum.Valid</Expectation></Expectations>
+>VersionManagement.OperatedSystemVersion == VersionManagement.SystemVersionFromMessageVersion( Messages.M_VERSION.Version_1_1__introduced_in_SRS_3_0_0)</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step></Steps>
 </TestCase></TestCases>

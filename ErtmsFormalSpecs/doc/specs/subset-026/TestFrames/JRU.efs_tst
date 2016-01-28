@@ -666,7 +666,7 @@ Priority =&gt; Messages.EURORADIO.MessagePriorityEnum.Normal
     aMode =&gt; ModeEnum.SR
 )</Action><Action
  Guid="e6d751be-0d92-48fc-8346-14fa456df4d8"
->Kernel.OperatedSystemVersion.Value &lt;- Messages.M_VERSION.Version_1_1__introduced_in_SRS_3_0_0</Action></Actions>
+>VersionManagement.OperatedSystemVersion &lt;- VersionManagement.SystemVersionFromMessageVersion( Messages.M_VERSION.Version_1_1__introduced_in_SRS_3_0_0)</Action></Actions>
 <Expectations>
 <Expectation
  Kind="Instantaneous"
@@ -693,18 +693,18 @@ Priority =&gt; Messages.EURORADIO.MessagePriorityEnum.Normal
 <Actions>
 <Action
  Guid="88c763c3-f445-43f3-84ca-799a536de6c6"
->Kernel.OperatedSystemVersion.Value &lt;- Messages.M_VERSION.Version_1_0__introduced_in_SRS_1_2_0_and_re_used_in_SRSs_2_0_0__2_2_2__2_3_0</Action></Actions>
+>VersionManagement.OperatedSystemVersion &lt;- VersionManagement.SystemVersionFromMessageVersion( Messages.M_VERSION.Version_1_0__introduced_in_SRS_1_2_0_and_re_used_in_SRSs_2_0_0__2_2_2__2_3_0)</Action></Actions>
 <Expectations>
 <Expectation
  Kind="Instantaneous"
  DeadLine="1"
  Guid="c154f097-e810-48fd-83eb-5d09d63f6596"
->JRU.JRU1.PreviousSystemVersion != Kernel.OperatedSystemVersion.Value</Expectation><Expectation
+>JRU.JRU1.PreviousSystemVersion != VersionManagement.MessageVersionFromSystemVersion(VersionManagement.OperatedSystemVersion)</Expectation><Expectation
  Kind="Instantaneous"
  DeadLine="1"
  Guid="ae6e6aa4-69a1-48a0-882c-06189b466e0f"
 >THERE_IS X IN JRU.JRU1.JRUMessages | X.GENERAL_MESSAGE.HEADER.SYSTEM_VERSION == JRU.TypeConvertors.ToJRUSystemVersion(
-    SystemVersion=&gt; Kernel.OperatedSystemVersion
+    VersionManagement.MessageVersionFromSystemVersion( VersionManagement.OperatedSystemVersion)
 )</Expectation><Expectation
  Kind="Instantaneous"
  DeadLine="5.5"
