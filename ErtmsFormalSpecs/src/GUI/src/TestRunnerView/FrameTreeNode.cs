@@ -20,7 +20,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
 using DataDictionary;
-using DataDictionary.Tests;
 using DataDictionary.Tests.Runner;
 using GUI.LongOperations;
 using GUI.Properties;
@@ -28,6 +27,8 @@ using GUI.Report;
 using GUIUtils;
 using GUIUtils.LongOperations;
 using Utils;
+using Frame = DataDictionary.Tests.Frame;
+using SubSequence = DataDictionary.Tests.SubSequence;
 using Util = DataDictionary.Util;
 
 namespace GUI.TestRunnerView
@@ -268,29 +269,6 @@ namespace GUI.TestRunnerView
             aReport.Show();
         }
 
-        public void InitFixer(object sender, EventArgs args)
-        {
-            foreach (SubSequence subSequence in Item.SubSequences)
-            {
-                foreach (TestCase testCase in subSequence.TestCases)
-                {
-                    foreach (Step step in testCase.Steps)
-                    {
-                        foreach (SubStep subStep in step.SubSteps)
-                        {
-                            foreach (DataDictionary.Rules.Action action in subStep.Actions)
-                            {
-                                if (action.ExpressionText == "Testing.InitializeTEstEnvironment(100)")
-                                {
-                                    action.ExpressionText = "Testing.InitializeTEstEnvironment(100, ModeEnum.NP)";
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
         /// <summary>
         ///     The menu items for this tree node
         /// </summary>
@@ -299,7 +277,6 @@ namespace GUI.TestRunnerView
         {
             List<MenuItem> retVal = new List<MenuItem>
             {
-                new MenuItem("Fix InitializeTestEnvironment", InitFixer),
                 new MenuItem("Add sub-sequence", AddHandler),
                 new MenuItem("Delete", DeleteHandler)
             };
