@@ -4933,11 +4933,6 @@ If the train position is invalid, delete the stored position.</Comment>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="c97e71ef-f6e8-42e7-a76c-b7a4fbb4ac96"
 >
-</ReqRef><ReqRef
- Id="b6c74cc9-fab4-4443-8044-94744d509710"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="cbf1ee2d-c5e6-4499-aff5-f819ee605436"
->
 </ReqRef><Comment>Transition to SR.</Comment>
 <PreConditions>
 <PreCondition
@@ -4946,9 +4941,7 @@ If the train position is invalid, delete the stored position.</Comment>
 <Actions>
 <Action
  Guid="710496db-b7d6-47d5-9b66-6924aaa03904"
->Kernel.Mode &lt;- ModeEnum.SR</Action><Action
- Guid="3fa4a26a-b1c3-41a3-8518-64fa10f73d8e"
->Kernel.Override.EnterInOverride()</Action></Actions>
+>Kernel.Mode &lt;- ModeEnum.SR</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="FS -&gt; OS"
@@ -5411,11 +5404,6 @@ If the train position is invalid, delete the stored position.</Comment>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="5f755202-6ea2-4a76-adc9-da2508233a04"
 >
-</ReqRef><ReqRef
- Id="b6c74cc9-fab4-4443-8044-94744d509710"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="7e891ddd-6fa2-4954-8db8-024d2ba68234"
->
 </ReqRef><Comment>Transition to SR.</Comment>
 <PreConditions>
 <PreCondition
@@ -5424,9 +5412,7 @@ If the train position is invalid, delete the stored position.</Comment>
 <Actions>
 <Action
  Guid="e9cb6850-4ae4-45c9-ac65-b4b686b8f082"
->Kernel.Mode &lt;- ModeEnum.SR</Action><Action
- Guid="28c40d36-6f17-4268-967e-592cfc5b35af"
->Kernel.Override.EnterInOverride()</Action></Actions>
+>Kernel.Mode &lt;- ModeEnum.SR</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="LS -&gt; OS"
@@ -6383,11 +6369,6 @@ If the train position is invalid, delete the stored position.</Comment>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="ba09b385-4a82-47ce-b06f-51e4de0e3fe6"
 >
-</ReqRef><ReqRef
- Id="b6c74cc9-fab4-4443-8044-94744d509710"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="593973c8-a796-4d19-b879-9c87f5e683ac"
->
 </ReqRef><Comment>Transition to SR.</Comment>
 <PreConditions>
 <PreCondition
@@ -6396,9 +6377,7 @@ If the train position is invalid, delete the stored position.</Comment>
 <Actions>
 <Action
  Guid="54178808-2fce-4e35-b0c9-a834a37967ea"
->Kernel.Mode &lt;- ModeEnum.SR</Action><Action
- Guid="e737b22a-a654-4975-bb71-d25309733baf"
->Kernel.Override.EnterInOverride()</Action></Actions>
+>Kernel.Mode &lt;- ModeEnum.SR</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="OS -&gt; NL"
@@ -8361,28 +8340,33 @@ Kernel.Modes.ModeTransitions.PrevMode == ModeEnum.SL</PreCondition></PreConditio
 <Rule
  Priority="Processing"
  Implemented="TRUE"
- Name="SR start distance"
- Guid="d4c717aa-3340-44ce-849c-7ee75429742f"
+ Name="Override selected"
+ Guid="7865b98a-29c1-41d8-a330-dc5b2956b1f7"
 >
-<Comment>Keep the current location for tracking the maximum distance to run in SR.</Comment>
+<Comment>If the driver has selected &quot;Override&quot;, trigger the procedure &quot;Override&quot;.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
- Name="SR start distance"
- Guid="b6b6416f-c41a-4755-8eac-3de5193c6825"
+ Name="Override selected"
+ Guid="5820ec18-a1ea-4c39-8ad7-edfcfb72111a"
 >
 <PreConditions>
-</PreConditions>
+<PreCondition
+ Guid="c6fe72fa-111f-4ee5-bc98-fee5bfd679f6"
+>Kernel.Modes.ModeTransitions.Condition37()
+  OR
+Kernel.Modes.ModeTransitions.Condition37_SB()
+  OR
+Kernel.Modes.ModeTransitions.Condition37_PT()</PreCondition></PreConditions>
 <Actions>
 <Action
- Guid="9861dab1-0ea0-474a-a570-5c9f716e8ed6"
->Kernel.TrainPosition.SRStartDistance &lt;- Odometry.NominalDistance</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
+ Guid="d81738e0-3328-4d77-9265-2d1bb1cbfef2"
+>Kernel.Override.EnterInOverride()</Action></Actions>
+<SubRules>
+<Rule
  Priority="Processing"
  Implemented="TRUE"
- Verified="TRUE"
  Name="Override emergency stops"
  Guid="e77a41de-011e-4a67-b0b9-f65424882e49"
 >
@@ -8402,13 +8386,34 @@ Kernel.Modes.ModeTransitions.PrevMode == ModeEnum.SL</PreCondition></PreConditio
 <PreConditions>
 <PreCondition
  Guid="3e6ea886-5b5f-4381-be51-f5bbba1f6269"
->Kernel.Level.Value.Value in [LevelEnum.L2, LevelEnum.L3]</PreCondition><PreCondition
- Guid="c6fe72fa-111f-4ee5-bc98-fee5bfd679f6"
->Kernel.Modes.ModeTransitions.Condition37()</PreCondition></PreConditions>
+>Kernel.Level.Value.Value in [LevelEnum.L2, LevelEnum.L3]</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="12cd0b21-f7bb-489e-a62c-37d6a11a5429"
 >Kernel.BrakeCommands.EmergencyStops &lt;- []</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></SubRules>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="SR start distance"
+ Guid="d4c717aa-3340-44ce-849c-7ee75429742f"
+>
+<Comment>Keep the current location for tracking the maximum distance to run in SR.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="SR start distance"
+ Guid="b6b6416f-c41a-4755-8eac-3de5193c6825"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="9861dab1-0ea0-474a-a570-5c9f716e8ed6"
+>Kernel.TrainPosition.SRStartDistance &lt;- Odometry.NominalDistance</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition></Conditions>

@@ -8664,9 +8664,13 @@ Level 1, 2, 3.<RequirementSets>
  reviewed="TRUE"
  status="Implemented"
  version="3.0.0"
+ specIssue="TRUE"
  Name=""
  Guid="367acb62-7870-4387-9a8f-345d0059c752"
->Override (Trip inhibition)4; 5.8; SH, SR, UN, SN<RequirementSets>
+><Comment>According to the Table 4.7.2, Override can be selected in modes SB, SH, FS, LS, OS, UN, PT and SN. Moreover, paragraph 5.8.3.1.1 states that if Override was selected in FS, LS or OS modes, then the former EoA has to be retained. That means that:
+- either Override can be activated in FS, LS and OS modes, but it is inconsistent with the current requirement
+- or before activating Override the mode of the train changes to SR, but it is inconsistent with paragraph 5.8.3.1.1 because in SR mode the EoA is not computed (according to the Table 4.5.2).</Comment>
+Override (Trip inhibition)4; 5.8; SH, SR, UN, SN<RequirementSets>
 <RequirementSetReference
  RefId="b2515c38-1e5c-4be6-9107-9fb08c2038ed"
  Guid="4e2701cf-e1ee-4f3b-9025-eb89a28e0f97"

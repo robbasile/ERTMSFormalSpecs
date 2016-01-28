@@ -96,8 +96,8 @@
 <Function
  Type="Boolean"
  Default=""
- X="260"
- Y="100"
+ X="390"
+ Y="10"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -121,8 +121,8 @@
 </Function><Function
  Type="Override.OverrideStruct"
  Default=""
- X="380"
- Y="100"
+ X="390"
+ Y="130"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -159,6 +159,11 @@
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="a138dbe8-51de-4bd1-aa3a-fe63aa80da2e"
 >
+</ReqRef><ReqRef
+ Id="2e017c9a-dfbb-4e5e-845b-7cb9c2043788"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="85ee4ae5-823a-4c7a-900a-ca9af69a52da"
+>
 </ReqRef><Comment>Fills the elements used in end of override supervision. The default values for any unused field are all infinity.</Comment>
 <Cases>
 <Case
@@ -177,8 +182,8 @@
 </Function><Function
  Type="BaseTypes.Distance"
  Default=""
- X="551"
- Y="1"
+ X="390"
+ Y="70"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -209,7 +214,7 @@
 <PreConditions>
 <PreCondition
  Guid="9e1640cc-d2b5-4b0b-b3e4-54d34380580b"
->Kernel.Modes.ModeTransitions.PrevMode in [ModeEnum.SB, ModeEnum.PT]</PreCondition></PreConditions>
+>Kernel.Mode in [ModeEnum.SB, ModeEnum.PT]</PreCondition></PreConditions>
 <Expression>Odometry.NominalDistance</Expression>
 </Case><Case
  Name="FS, LS or OS mode"
@@ -218,7 +223,7 @@
 <PreConditions>
 <PreCondition
  Guid="cc13a10d-575d-4958-8f6c-2533f862aef9"
->Kernel.Modes.ModeTransitions.PrevMode in [ModeEnum.FS, ModeEnum.LS, ModeEnum.OS]</PreCondition></PreConditions>
+>Kernel.Mode in [ModeEnum.FS, ModeEnum.LS, ModeEnum.OS]</PreCondition></PreConditions>
 <Expression>MA.EOA().Location</Expression>
 </Case><Case
  Name="SR mode"
@@ -227,7 +232,7 @@
 <PreConditions>
 <PreCondition
  Guid="a01226c9-c131-421c-a773-ffbc5c3acc08"
->Kernel.Modes.ModeTransitions.PrevMode == ModeEnum.SR</PreCondition></PreConditions>
+>Kernel.Mode == ModeEnum.SR</PreCondition></PreConditions>
 <Expression>OverrideSupervision.FormerEOA</Expression>
 </Case><Case
  Name="No MA"
@@ -238,8 +243,8 @@
 </Function><Function
  Type="BaseTypes.Distance"
  Default=""
- X="661"
- Y="1"
+ X="390"
+ Y="190"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -273,8 +278,8 @@
 </Function><Function
  Type="TargetStruct"
  Default=""
- X="771"
- Y="1"
+ X="390"
+ Y="250"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -361,8 +366,8 @@
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
- X="380"
- Y="10"
+ X="260"
+ Y="70"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -393,6 +398,41 @@
 <Action
  Guid="70a4411a-1087-4c86-b65c-3de7854e4391"
 >Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.NoProcedure</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="260"
+ Y="130"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="StoreOverrideSupervisionInformation"
+ Guid="48ca992b-9d9f-4132-814a-3cac6b9b121b"
+>
+<Comment>Stores the information needed for Override supervision, before entering in Override.</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Store supervision information"
+ Guid="17531b5d-625e-4e86-a896-bcdcc2ec28f8"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Store supervision information"
+ Guid="1b523430-5c26-4247-8514-3d5030e22e32"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="404b36bd-4ffa-4964-91e3-22de61cf8e86"
+>OverrideSupervision &lt;- CreateOverrideSupervision()</Action><Action
+ Guid="1fa26ea2-4074-4e28-a3ba-5e19d44a7462"
+>Kernel.TrainPosition.SRStartDistance &lt;- Odometry.NominalDistance</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>

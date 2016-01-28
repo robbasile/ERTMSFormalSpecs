@@ -9779,28 +9779,19 @@ Odometry.NominalDistance &gt; Override.OverrideSupervision.StartLocation + Natio
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="136f294b-fec3-4d76-9b38-98844238deb5"
 >
-</ReqRef><ReqRef
- Id="2e017c9a-dfbb-4e5e-845b-7cb9c2043788"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="3ffa73f4-bca8-4a9a-9047-58997ec2bf89"
->
 </ReqRef><Comment>Action to execute when Override is entered.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
- Name="Keep time/position"
+ Name="Update SR start distance"
  Guid="818a83cf-a514-4750-97fb-fb63cd3cf4b3"
 >
 <Comment>When the override function is started, keep track of the time and the train&apos;s position. If the override supervision information was not computed yet, compute it.</Comment>
 <PreConditions>
 </PreConditions>
 <Actions>
-<Action
- Guid="50a004ec-46ec-4689-a29b-ad545f58ee5d"
->Kernel.Override.OverrideSupervision &lt;- Kernel.Override.CreateOverrideSupervision()</Action><Action
- Guid="1fa26ea2-4074-4e28-a3ba-5e19d44a7462"
->Kernel.TrainPosition.SRStartDistance &lt;- Odometry.NominalDistance</Action></Actions>
+</Actions>
 </RuleCondition></Conditions>
 </Rule></EnterAction>
 </State><State
