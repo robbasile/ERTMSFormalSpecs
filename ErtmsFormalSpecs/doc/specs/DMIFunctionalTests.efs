@@ -72229,6 +72229,144 @@ StartTime =&gt; 0.0
 </Step></Steps>
 </TestCase></TestCases>
 </SubSequence></SubSequences>
+</Frame><Frame
+ CycleDuration="0.1"
+ Name="PASP information"
+ Guid="9add77ea-ce51-4adf-a845-8cf1ed44d48c"
+>
+<SubSequences>
+<SubSequence
+ D_LRBG=""
+ Level=""
+ Mode=""
+ NID_LRBG=""
+ Q_DIRLRBG=""
+ Q_DIRTRAIN=""
+ Q_DLRBG=""
+ RBC_ID=""
+ RBCPhone=""
+ Name="Planning area information is displayed relative to the train front end"
+ Guid="70ea52ff-372e-4c7f-b3d0-e3d021f61c02"
+>
+<Comment>As a design choice for EFS + the DMI application, all displayed profile data is sent to the DMI with locations relative to the estimated front end of the train (ie. the relocation of stored data relative to the train front end is done by EFS, not the DMI).</Comment>
+<TestCases>
+<TestCase
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Route unsuitabilities"
+ Guid="e4bc057d-2e45-440f-a963-e1d8d1478150"
+>
+<Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Initialize test"
+ Guid="f2e6ae61-e56f-45fd-8651-b488c996bec5"
+>
+<SubSteps>
+<SubStep
+ Name="Initialize test environment"
+ Guid="37b74ddd-268d-4630-8789-2258af5ca0db"
+>
+<Actions>
+<Action
+ Guid="1f507f10-b7b3-4113-a5cb-38a53428cafe"
+>Testing.InitializeTestEnvironment(
+    aTrainPosition =&gt; 0.0,
+    aMode =&gt; ModeEnum.FS
+)</Action></Actions>
+</SubStep><SubStep
+ Name="Set Line gauge route suitability + unsuitable train data"
+ Guid="b4387ff4-bb50-433c-9a32-49367ef3d44c"
+>
+<Actions>
+<Action
+ Guid="e0ca50f2-ef98-4853-b3fd-7fc462785d39"
+>Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile &lt;- Kernel.TrackDescription.RouteSuitability.RouteSuitabilityInformationStruct{
+EmptyProfileDistance =&gt; 500.0,
+InitialState =&gt; 1,
+Items =&gt; [Kernel.TrackDescription.RouteSuitability.RouteSuitabilityItemStruct{
+Type =&gt; Messages.Q_SUITABILITY.Loading_gauge_profile,
+Location =&gt; 150.0,
+LineGauge =&gt; Messages.M_LOADINGGAUGE.GB,
+MaxAxleLoad =&gt; 0,
+TractionSystem =&gt; 0,
+NidCTraction =&gt; 0,
+StartTime =&gt; BaseTypes.Time.NA
+}]
+}</Action><Action
+ Guid="c6747edb-45eb-4b1c-9493-0fc547cfa2da"
+>Kernel.TrainData.TrainData.Value.LoadingGauge &lt;- Messages.M_LOADINGGAUGE.G1</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Test displayed value"
+ Guid="f1c58b54-c728-4bb4-9788-63218f6d4368"
+>
+<SubSteps>
+<SubStep
+ Name="At initial location"
+ Guid="2242cd11-8fbc-4ae9-9aae-83224f2177a1"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="012a6095-dc5b-4e72-932a-0db2cf4ff9cb"
+>THERE_IS X IN DMI.MasterDMI().Out_RouteUnsuitabilities.RouteUnsuitabilities | X.Location == 150.0</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="e59b1d62-8cae-45b0-bb8f-b8f4df268925"
+>THERE_IS X IN DMI.MasterDMI().Out_RouteUnsuitabilities.RouteUnsuitabilities | X.Type == Messages.Q_SUITABILITY.Loading_gauge_profile</Expectation></Expectations>
+</SubStep><SubStep
+ Name="100 m past initial location"
+ Guid="852ac57d-d534-4113-971e-8958d51a6950"
+>
+<Actions>
+<Action
+ Guid="cc17eaec-8c0c-4f88-b517-0afc96eedec3"
+>Odometry.NominalDistance &lt;- 100.0</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="43fa57de-cf49-4423-beaa-caaceb715037"
+>THERE_IS X IN DMI.MasterDMI().Out_RouteUnsuitabilities.RouteUnsuitabilities | X.Location == 50.0</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="4c931d1d-aff3-45f1-baf6-38869f672b5b"
+>THERE_IS X IN DMI.MasterDMI().Out_RouteUnsuitabilities.RouteUnsuitabilities | X.Type == Messages.Q_SUITABILITY.Loading_gauge_profile</Expectation></Expectations>
+</SubStep><SubStep
+ Name="At unsuitability location"
+ Guid="e24497dd-ce5e-4e9a-a5f1-212ee4d1635b"
+>
+<Actions>
+<Action
+ Guid="30948cfe-7b4c-4cbe-9e17-835f61969883"
+>Odometry.NominalDistance &lt;- 150.0</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="ee08f163-21c1-433d-b3df-fa18f96947ea"
+>THERE_IS X IN DMI.MasterDMI().Out_RouteUnsuitabilities.RouteUnsuitabilities | X.Location == 0.0</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="fbf2e419-1e65-430d-8586-9e7be042cc0b"
+>THERE_IS X IN DMI.MasterDMI().Out_RouteUnsuitabilities.RouteUnsuitabilities | X.Type == Messages.Q_SUITABILITY.Loading_gauge_profile</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase></TestCases>
+</SubSequence></SubSequences>
 </Frame></Tests>
 <TranslationDictionary
  Guid="0edddaae-4abb-44f9-a519-e6b8bde44a35"

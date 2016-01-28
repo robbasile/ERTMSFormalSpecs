@@ -4769,7 +4769,18 @@ THERE_IS X IN aSuitabilityProfile.Items | Kernel.TrackDescription.RouteSuitabili
  Guid="355191c9-cd4c-4c2d-ab05-02b8bf18ea2e"
 >THIS.OutputInformation.RequestDisplay()</Action><Action
  Guid="83f5bc24-9627-448e-abdb-b44383da44ed"
->THIS.RouteUnsuitabilities &lt;- FILTER aSuitabilityProfile.Items | Kernel.TrackDescription.RouteSuitability.IsUnsuitable(X) USING X</Action></Actions>
+>THIS.RouteUnsuitabilities &lt;- MAP aSuitabilityProfile.Items | Kernel.TrackDescription.RouteSuitability.IsUnsuitable(X) USING X IN Kernel.TrackDescription.RouteSuitability.RouteSuitabilityItemStruct{
+Type =&gt; X.Type,
+Location =&gt; BaseTypes.OffsetDistance(
+    aDistance =&gt; X.Location,
+    aOffset =&gt; Kernel.TrainPosition.FrontEndPosition( PointOfInterest =&gt; DistanceIntervalEnum.Nom )
+),
+LineGauge =&gt; X.LineGauge,
+MaxAxleLoad =&gt; X.MaxAxleLoad,
+TractionSystem =&gt; X.TractionSystem,
+NidCTraction =&gt; X.NidCTraction,
+StartTime =&gt; X.StartTime
+}</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Hide otherwise"
