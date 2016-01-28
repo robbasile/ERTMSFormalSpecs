@@ -1949,5 +1949,433 @@
 </SubStep></SubSteps>
 </Step></Steps>
 </TestCase></TestCases>
+</SubSequence><SubSequence
+ D_LRBG=""
+ Level=""
+ Mode=""
+ NID_LRBG=""
+ Q_DIRLRBG=""
+ Q_DIRTRAIN=""
+ Q_DLRBG=""
+ RBC_ID=""
+ RBCPhone=""
+ Name="Former EoA is deleted when SR mode is left"
+ Guid="7f04ff41-d68f-4de9-ba4d-a4e8cf8277be"
+>
+<TestCases>
+<TestCase
+ Name="Former EoA is deleted when SR mode is left"
+ Guid="f72092ee-0347-4c5c-99ea-72f1efab3940"
+>
+<ReqRef
+ Id="353d33b3-3a7a-4759-8b9b-62204429d75a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="df2a5133-6fab-4881-a108-fd6f47002ef2"
+>
+</ReqRef><ReqRef
+ Id="3cd20802-0d33-4118-a4aa-0df579f9f5c9"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="3e1e9714-98f4-4431-be40-d9057d12d5bf"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Trigger Override"
+ Guid="ae1b6675-3f5b-4a05-a621-389c4f43505d"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Setup"
+ Guid="ea42f168-e5d3-4a06-a9ef-690ce1ddcccd"
+>
+<Actions>
+<Action
+ Guid="1b0198ec-fb20-4245-898d-3928cd3feb6d"
+>Testing.InitializeTestEnvironment
+(
+    aTrainPosition =&gt; 0.0,
+    aMode =&gt; ModeEnum.FS
+)</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Set Train Data and speed"
+ Guid="3f27347c-eb80-456b-a74c-4c4a76c6d668"
+>
+<Actions>
+<Action
+ Guid="5333bcf4-5fdc-47ea-8a5e-f5980e6e1a6f"
+>DMI.MasterDMI().In_OverrideRequest.InputInformation.RequestStatus &lt;- Default.RequestEnum.Disabled</Action><Action
+ Guid="6d7a16b2-f1fd-420f-bb59-c265cde7c4fe"
+>Kernel.NationalValues.CurrentNV().SpeedLimitForTriggeringTheOverrideFunction &lt;- 20.0</Action><Action
+ Guid="932c6a3c-e49d-4a53-9816-a44eb4263b30"
+>Odometry.EstimatedSpeed &lt;- 12.0</Action><Action
+ Guid="6d10c23b-67c6-48cc-bb3b-c87f3fe68e75"
+>Kernel.TrainData.TrainData.DataState &lt;- Default.DataStateEnum.Valid</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Check override is proposed"
+ Guid="ac40d332-7020-430f-ae0b-94749df5bef1"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="0c9c84bf-312c-4360-99a2-c96db4fea08d"
+>DMI.MasterDMI().In_OverrideRequest.InputInformation.RequestStatus == RequestEnum.Request</Expectation></Expectations>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Check EoA value"
+ Guid="6a9bc3d0-348c-4963-8e74-59a8de03ff89"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="75f42203-60e2-4fd1-9b1f-13426b91ae75"
+>Kernel.MA.EOA().Location == 4500.0</Expectation></Expectations>
+</SubStep><SubStep
+ Name="Trigger Override"
+ Guid="0949162d-c4f8-419b-91d4-ee0cac196241"
+>
+<Actions>
+<Action
+ Guid="70dc55df-ae72-47e1-a3de-9440c0e3baed"
+>DMI.MasterDMI().In_OverrideRequest.ProvideDriverResponse()</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Former EoA is deleted when SR mode is left"
+ Guid="77eddba8-6040-4e26-b431-9dfec49b9eaf"
+>
+<SubSteps>
+<SubStep
+ Name="Check former EoA value"
+ Guid="2861f262-bf35-428b-8bba-d117cd142146"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="d37d86c1-5863-49b5-a683-c75a0f1be47b"
+>Kernel.Override.OverrideSupervision.FormerEOA == 4500.0 </Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="cc950a9a-7f76-4c3f-b2ad-787518f9b3cd"
+>Kernel.Mode == ModeEnum.SR</Expectation></Expectations>
+</SubStep><SubStep
+ Name="Leave SR mode"
+ Guid="af84bfe8-9639-4879-85c9-932f4a50daf9"
+>
+<Actions>
+<Action
+ Guid="8b0cbb7e-7655-4c13-8ade-fa59fe5fcfab"
+>Kernel.Level.Value.Value &lt;- Default.LevelEnum.L0</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="6ea4efff-3ecc-4093-9de4-2fe377ef34b1"
+>Kernel.Mode == ModeEnum.UN</Expectation></Expectations>
+</SubStep><SubStep
+ Name="Check former EoA is deleted"
+ Guid="20215588-2b49-4459-a17d-29790c254090"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="0c192129-0bde-4440-99ee-1d4b09d966e4"
+>Kernel.Override.OverrideSupervision.FormerEOA == BaseTypes.Distance.Infinity</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase></TestCases>
+</SubSequence><SubSequence
+ D_LRBG=""
+ Level=""
+ Mode=""
+ NID_LRBG=""
+ Q_DIRLRBG=""
+ Q_DIRTRAIN=""
+ Q_DLRBG=""
+ RBC_ID=""
+ RBCPhone=""
+ Name="Former EoA is deleted when &quot;stop in SR&quot; is received"
+ Guid="d3801dd4-4b18-41dc-978c-9ec7c4b74dc9"
+>
+<TestCases>
+<TestCase
+ Name="Former EoA is deleted when &quot;stop in SR&quot; is received"
+ Guid="6d64ab26-b12c-42fb-8ae9-49a931a1a05f"
+>
+<ReqRef
+ Id="353d33b3-3a7a-4759-8b9b-62204429d75a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="bde6119e-889a-43e6-945a-cf04e4ccc059"
+>
+</ReqRef><ReqRef
+ Id="1503ba8c-af0d-46c6-b258-a866be408e80"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9c501401-aece-425a-b48a-4bb79ae50274"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Trigger Override"
+ Guid="49560ebe-b65b-4c27-8dca-56051f4b285f"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Setup"
+ Guid="3748e57e-bb97-4ae9-ab79-9c66f39f4db3"
+>
+<Actions>
+<Action
+ Guid="657c4b7d-87d8-4d00-a19c-68e7ad51297e"
+>Testing.InitializeTestEnvironment
+(
+    aTrainPosition =&gt; 0.0,
+    aMode =&gt; ModeEnum.FS
+)</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Setup for BG reception"
+ Guid="d95b63c2-407b-4556-86fa-7602ceb09462"
+>
+<Actions>
+<Action
+ Guid="981f8f90-3466-42a4-8d2d-04a1cfcf1798"
+>BTM.LRBG &lt;- BTM.BaliseGroupStruct
+{
+    NID =&gt; 255,
+    Orientation =&gt; OrientationEnum.Nominal,
+    Position =&gt; BTM.Position
+    {
+        OverReadingAmountOdo =&gt; 2.0,
+        Position =&gt; 0.0,
+        UnderReadingAmountOdo =&gt; 2.0
+
+    }
+}</Action><Action
+ Guid="032dece1-5fb9-459e-921c-502aead281a2"
+>BTM.PreviousBaliseGroups &lt;- []</Action><Action
+ Guid="154ad0e1-17ac-4d09-9d65-aee23039ff5f"
+>Odometry.NominalDistance &lt;- 0.0</Action><Action
+ Guid="2b55dcc5-42f6-423c-a951-65546ee9a559"
+>Kernel.MA.MA &lt;- Kernel.MA.MAStruct{
+    TargetSpeed =&gt; 0.0,
+    Sections =&gt; [],
+    EndSection =&gt; Kernel.MA.EndSectionStruct{
+        Length =&gt; 2000.0
+    }
+}</Action><Action
+ Guid="afde237c-b1ea-4bcb-8f1a-49e2f097df87"
+>Kernel.TrainPosition.Position.DataState &lt;- DataStateEnum.Valid</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Set Train Data and speed"
+ Guid="8e002637-0986-4e4f-8df8-9b624663d625"
+>
+<Actions>
+<Action
+ Guid="57ce6409-4d47-4d7c-b5a5-f8cd405f53ff"
+>DMI.MasterDMI().In_OverrideRequest.InputInformation.RequestStatus &lt;- Default.RequestEnum.Disabled</Action><Action
+ Guid="6d36c227-ea66-4fe2-aba8-2ee13df1cc00"
+>Kernel.NationalValues.CurrentNV().SpeedLimitForTriggeringTheOverrideFunction &lt;- 20.0</Action><Action
+ Guid="1a65db1c-9470-457f-bbfa-a4789aa0f2f1"
+>Odometry.EstimatedSpeed &lt;- 12.0</Action><Action
+ Guid="ef3066e4-51fa-4af1-8a74-35b8453390dd"
+>Kernel.TrainData.TrainData.DataState &lt;- Default.DataStateEnum.Valid</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Check override is proposed"
+ Guid="8cc36600-5489-4f6f-a417-cac9017512b1"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="5533e302-561a-4dac-b1ab-552c92c990f2"
+>DMI.MasterDMI().In_OverrideRequest.InputInformation.RequestStatus == RequestEnum.Request</Expectation></Expectations>
+</SubStep><SubStep
+ Name="Check EoA value"
+ Guid="3d14dd27-7b74-4046-8a3f-764b420e2f07"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="724d7101-1605-4220-87c0-962594a04b96"
+>Kernel.MA.EOA().Location == 2000.0</Expectation></Expectations>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Trigger Override"
+ Guid="a76ec108-12a6-443b-a2e1-d37517132469"
+>
+<Actions>
+<Action
+ Guid="3d12f8d0-dfac-4237-bf28-ad1a9730001f"
+>DMI.MasterDMI().In_OverrideRequest.ProvideDriverResponse()</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Former EoA is deleted when &quot;stop in SR&quot; is received"
+ Guid="92fc608b-22b7-4717-a431-c6c2a5d63b96"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Check former EoA value"
+ Guid="232ef47f-78dc-4ba0-9124-dbf5a8e1d689"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="41c73bd3-06a2-44d6-bf52-8c0034ab8b15"
+>Kernel.Override.OverrideSupervision.FormerEOA == 2000.0 </Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="19252464-369f-4ace-9d88-7cc0492054d2"
+>Kernel.Mode == ModeEnum.SR</Expectation></Expectations>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Provide &quot;stop in SR&quot; information"
+ Guid="cbf3e123-eff7-41bc-849a-998a87af3e89"
+>
+<Actions>
+<Action
+ Guid="d7c31e7a-d0ae-4709-852a-0d5d071d7df4"
+>BTM.Message.SystemVersion2 &lt;- Messages.EUROBALISE.Message
+{
+  Q_UPDOWN =&gt; Messages.Q_UPDOWN.Up_link_telegram, 
+  M_VERSION =&gt; 32, 
+  Q_MEDIA =&gt; Messages.Q_MEDIA.Balise, 
+  N_PIG =&gt; Messages.N_PIG._1C, 
+  N_TOTAL =&gt; Messages.N_TOTAL._1_balise_in_groupC, 
+  M_DUP =&gt; Messages.M_DUP.No_duplicates, 
+  M_MCOUNT =&gt; 1, 
+  NID_C =&gt; 80, 
+  NID_BG =&gt; 256, 
+  Q_LINK =&gt; Messages.Q_LINK.Unlinked, 
+  Sequence1 =&gt; [Messages.EUROBALISE.SubStructure1
+    {
+      TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message
+      {
+        STOP_IF_IN_STAFF_RESPONSIBLE =&gt; Messages.PACKET.TRACK_TO_TRAIN.STOP_IF_IN_STAFF_RESPONSIBLE.Message
+        {
+          Q_SRSTOP =&gt; Messages.Q_SRSTOP.Stop_if_in_SR_mode, 
+          NID_PACKET =&gt; 137, 
+          Q_DIR =&gt; Messages.Q_DIR.Both_directions, 
+          L_PACKET =&gt; 0
+        }, 
+        VIRTUAL_BALISE_COVER_MARKER =&gt; EMPTY, 
+        SYSTEM_VERSION_ORDER =&gt; EMPTY, 
+        NATIONAL_VALUES =&gt; EMPTY, 
+        LINKING =&gt; EMPTY, 
+        LEVEL_1_MOVEMENT_AUTHORITY =&gt; EMPTY, 
+        STAFF_RESPONSIBLE_DISTANCE_INFORMATION_FROM_LOOP =&gt; EMPTY, 
+        LEVEL_2_3_MOVEMENT_AUTHORITY =&gt; EMPTY, 
+        REPOSITIONING_INFORMATION =&gt; EMPTY, 
+        GRADIENT_PROFILE =&gt; EMPTY, 
+        INTERNATIONAL_STATIC_SPEED_PROFILE =&gt; EMPTY, 
+        TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM =&gt; EMPTY, 
+        TRACK_CONDITION_CHANGE_OF_ALLOWED_CURRENT_CONSUMPTION =&gt; EMPTY, 
+        LEVEL_TRANSITION_ORDER =&gt; EMPTY, 
+        SESSION_MANAGEMENT =&gt; EMPTY, 
+        RADIO_NETWORK_REGISTRATION =&gt; EMPTY, 
+        CONDITIONAL_LEVEL_TRANSITION_ORDER =&gt; EMPTY, 
+        LIST_OF_BALISES_FOR_SH_AREA =&gt; EMPTY, 
+        AXLE_LOAD_SPEED_PROFILE =&gt; EMPTY, 
+        PERMITTED_BRAKING_DISTANCE_INFORMATION =&gt; EMPTY, 
+        MOVEMENT_AUTHORITY_REQUEST_PARAMETERS =&gt; EMPTY, 
+        POSITION_REPORT_PARAMETERS =&gt; EMPTY, 
+        LIST_OF_BALISES_IN_SR_AUTHORITY =&gt; EMPTY, 
+        INHIBITION_OF_REVOCABLE_TSRS_FROM_BALISES_IN_L2_3 =&gt; EMPTY, 
+        TEMPORARY_SPEED_RESTRICTION =&gt; EMPTY, 
+        TEMPORARY_SPEED_RESTRICTION_REVOCATION =&gt; EMPTY, 
+        TRACK_CONDITION_BIG_METAL_MASSES =&gt; EMPTY, 
+        TRACK_CONDITION =&gt; EMPTY, 
+        TRACK_CONDITION_STATION_PLATFORMS =&gt; EMPTY, 
+        ROUTE_SUITABILITY_DATA =&gt; EMPTY, 
+        ADHESION_FACTOR =&gt; EMPTY, 
+        PACKET_FOR_SENDING_PLAIN_TEXT_MESSAGES =&gt; EMPTY, 
+        PACKET_FOR_SENDING_FIXED_TEXT_MESSAGES =&gt; EMPTY, 
+        GEOGRAPHICAL_POSITION_INFORMATION =&gt; EMPTY, 
+        MODE_PROFILE =&gt; EMPTY, 
+        LEVEL_CROSSING_INFORMATION =&gt; EMPTY, 
+        TRACK_AHEAD_FREE_UP_TO_LEVEL_2_3_TRANSITION_LOCATION =&gt; EMPTY, 
+        RBC_TRANSITION_ORDER =&gt; EMPTY, 
+        DANGER_FOR_SHUNTING_INFORMATION =&gt; EMPTY, 
+        RADIO_INFILL_AREA_INFORMATION =&gt; EMPTY, 
+        SESSION_MANAGEMENT_WITH_NEIGHBOURING_RADIO_INFILL_UNIT =&gt; EMPTY, 
+        EOLM_PACKET =&gt; EMPTY, 
+        STOP_SHUNTING_ON_DESK_OPENING =&gt; EMPTY, 
+        INFILL_LOCATION_REFERENCE =&gt; EMPTY, 
+        REVERSING_AREA_INFORMATION =&gt; EMPTY, 
+        REVERSING_SUPERVISION_INFORMATION =&gt; EMPTY, 
+        TRAIN_RUNNING_NUMBER_FROM_RBC =&gt; EMPTY, 
+        DEFAULT_GRADIENT_FOR_TEMPORARY_SPEED_RESTRICTION =&gt; EMPTY, 
+        INHIBITION_OF_BALISE_GROUP_MESSAGE_CONSISTENCY_REACTION =&gt; EMPTY, 
+        DEFAULT_BALISE_LOOP_OR_RIU_INFORMATION =&gt; EMPTY, 
+        DATA_USED_BY_APPLICATIONS_OUTSIDE_THE_ERTMS_ETCS_SYSTEM =&gt; EMPTY, 
+        VIRTUAL_BALISE_COVER_ORDER =&gt; EMPTY, 
+        LSSMA_DISPLAY_TOGGLE_ORDER =&gt; EMPTY, 
+        GENERIC_LS_FUNCTION_MARKER =&gt; EMPTY, 
+        END_OF_INFORMATION =&gt; EMPTY
+      }
+    }], 
+  BitField =&gt; &apos;&apos;
+}</Action><Action
+ Guid="b89a388d-c96d-4efb-a7d5-61de5c4b05cc"
+>Odometry.NominalDistance &lt;- 250.0</Action><Action
+ Guid="e25c7f85-0411-412f-9b00-991b35230dfc"
+>BTM.LRBG &lt;- BTM.BaliseGroupStruct
+{
+    NID =&gt; 256,
+    Orientation =&gt; OrientationEnum.Nominal,
+    Position =&gt; BTM.Position
+    {
+        OverReadingAmountOdo =&gt; 2.0,
+        Position =&gt; 250.0,
+        UnderReadingAmountOdo =&gt; 2.0
+
+    }
+}</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Check former EoA is deleted"
+ Guid="50d5c517-5a22-4ad0-968b-146ddd78ed83"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="1875c7e2-7ac0-4d12-ab0e-fc00b5f98154"
+>Kernel.Override.OverrideSupervision.FormerEOA == BaseTypes.Distance.Infinity</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase></TestCases>
 </SubSequence></SubSequences>
 </Frame>

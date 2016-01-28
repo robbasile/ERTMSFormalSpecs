@@ -9719,43 +9719,6 @@ Odometry.NominalDistance &gt; Override.OverrideSupervision.StartLocation + Natio
  Guid="192f8825-d3ec-42a6-80c0-9875a6d04ff0"
 >Override.EndOverride()</Action></Actions>
 </RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- Implemented="TRUE"
- Name="SR mode left"
- Guid="8c1d6949-e81f-4f51-b08e-516dedd14dfb"
->
-<ReqRef
- Id="3cd20802-0d33-4118-a4aa-0df579f9f5c9"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="69ad2538-a36e-4b83-89d9-50e4ef90ed02"
->
-</ReqRef><ReqRef
- Id="353d33b3-3a7a-4759-8b9b-62204429d75a"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="52f0aa38-01be-4193-97eb-b85c99f5712c"
->
-</ReqRef><Comment>When SR mode is left with Override active, the former EOA and former distance ot run in SR mode are deleted.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Mode not in SR"
- Guid="f0f54e27-874f-45d6-a1de-d20a8d27fbf5"
->
-<PreConditions>
-<PreCondition
- Guid="38a39d16-ba12-45c0-999f-5e1bccff6184"
->Kernel.Mode != ModeEnum.SR</PreCondition><PreCondition
- Guid="4372dba9-4e42-4273-bfed-1fd6179da849"
->Override.OverrideSupervision.FormerSRDistance != BaseTypes.Distance.Infinity</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="b75a25bc-d9be-4708-8cf7-2864b6bc4db1"
->Override.OverrideSupervision.FormerEOA &lt;- BaseTypes.Distance.Infinity</Action><Action
- Guid="05bdf6c2-bfb5-4f91-b20d-55d9f8e5777f"
->Override.OverrideSupervision.FormerSRDistance &lt;- BaseTypes.Distance.Infinity</Action></Actions>
-</RuleCondition></Conditions>
 </Rule></Rules>
 </StateMachine><EnterAction>
 <Rule
