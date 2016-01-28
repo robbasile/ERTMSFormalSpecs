@@ -477,7 +477,7 @@ namespace DataDictionary
                 if (!String.IsNullOrEmpty(commentable.Comment)
                       && commentable.Comment.Contains("TODO") )
                 {
-                    ((ModelElement) commentable).AddInfo("This element is unfinished - see comment");
+                    ((ModelElement) commentable).AddInfo("The implementation of this element is unfinished - see comment");
                 }
             }
         }
