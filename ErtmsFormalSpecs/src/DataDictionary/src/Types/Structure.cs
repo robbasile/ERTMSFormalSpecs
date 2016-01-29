@@ -350,7 +350,7 @@ namespace DataDictionary.Types
 
             if (!retVal)
             {
-                if (left.Type == right.Type)
+                if (left != null && right != null && left.Type == right.Type)
                 {
                     StructureValue leftValue = left as StructureValue;
                     StructureValue rightValue = right as StructureValue;

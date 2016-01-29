@@ -188,7 +188,7 @@ namespace DataDictionary.Types
         {
             IValue retVal = null;
 
-            if (Char.IsLetter(image[0]) || image[0] == '_')
+            if (image.Length > 0 && Char.IsLetter(image[0]) || image[0] == '_')
             {
                 int lastDotPosition = image.LastIndexOf('.');
                 if (lastDotPosition > 0)
