@@ -122,6 +122,29 @@ namespace GUI.DataDictionaryView
         }
 
         /// <summary>
+        /// Deletes the selected rule
+        /// </summary>
+        public override void DeleteHandler(object sender, EventArgs args)
+        {
+            if (Item.EnclosingState != null)
+            {
+                State enclosingState = Item.EnclosingState;
+                if (enclosingState.getEnterAction () == Item)
+                {
+                    enclosingState.setEnterAction (null);
+                }
+                else if (enclosingState.getLeaveAction () == Item)
+                {
+                    enclosingState.setLeaveAction (null);
+                }
+            }
+            else
+            {
+                base.DeleteHandler (sender, args);
+            }
+        }
+
+        /// <summary>
         ///     The menu items for this tree node
         /// </summary>
         /// <returns></returns>

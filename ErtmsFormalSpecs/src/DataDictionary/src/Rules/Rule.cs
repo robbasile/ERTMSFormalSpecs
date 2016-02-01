@@ -156,6 +156,14 @@ namespace DataDictionary.Rules
             get { return EnclosingFinder<StateMachine>.find(this); }
         }
 
+        /// <summary>
+        /// The enclosing state (if any)
+        /// </summary>
+        public State EnclosingState
+        {
+            get { return EnclosingFinder <State>.find (this); }
+        }
+
         public override ArrayList EnclosingCollection
         {
             get
