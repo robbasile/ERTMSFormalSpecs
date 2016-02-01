@@ -223,7 +223,7 @@ namespace GUI.DataDictionaryView
             retVal.AddRange(base.GetMenuItems());
             retVal.Insert(6, new MenuItem("-"));
             retVal.Insert(7, new MenuItem("Add transition", AddTransitionHandler));
-            retVal.Insert(8, new MenuItem("Add leave action", AddLeaveActionHandler));
+            retVal.Insert(8, new MenuItem("Add enter action", AddEnterActionHandler));
             retVal.Insert(9, new MenuItem("Add leave action", AddLeaveActionHandler));
             retVal.Insert(10, new MenuItem("-"));
             retVal.Insert(11, new MenuItem("View state diagram", ViewStateDiagramHandler));
