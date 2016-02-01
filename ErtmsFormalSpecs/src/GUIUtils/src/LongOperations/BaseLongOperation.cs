@@ -80,7 +80,9 @@ namespace GUIUtils.LongOperations
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message + @"\n" + e.StackTrace, @"Exception raised");
+                    MessageBox.Show (e.Message + @"\n" + e.StackTrace, @"Exception raised", MessageBoxButtons.OK,
+                                     MessageBoxIcon.Error, MessageBoxDefaultButton.Button1,
+                                     MessageBoxOptions.ServiceNotification);
                 }
                 finally
                 {
