@@ -390,6 +390,7 @@
  Guid="2501153b-e85e-46cb-b8d1-f20433c86827"
 >DMI.MasterDMI().In_OverrideRequest.InputInformation.RequestStatus == RequestEnum.Request</Expectation></Expectations>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Set list of expected balises in SR mode"
  Guid="71df63cc-abf2-4063-b6d1-799ff97920b4"
 >
@@ -1165,6 +1166,7 @@
 >
 <SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="Check Override is active"
  Guid="317eb46a-a43e-4b2e-833c-fe5a378b253e"
 >
@@ -1175,6 +1177,7 @@
  Guid="89675ab7-e273-4415-87ac-6d7b1aa62da5"
 >Kernel.Override.OverrideIsActive()</Expectation></Expectations>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Max time is exceeded"
  Guid="636faf83-dde0-47fc-83db-adbd4f3d9e3a"
 >
@@ -1183,6 +1186,7 @@
  Guid="ac195f2c-ce1c-4d8c-a378-40467e21f517"
 >Kernel.DateAndTime.CurrentTime &lt;- Kernel.DateAndTime.CurrentTime + Kernel.NationalValues.ApplicableNationalValues.Value.MaxTimeForTrainTripSuppressionWhenOverrideIsTriggered</Action></Actions>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Check Override is not active anymore"
  Guid="6eaf88ce-6962-46f2-8adb-b960d19f6d26"
 >
@@ -1296,6 +1300,7 @@
 >
 <SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="Check Override is activate"
  Guid="b9868c93-75f9-480e-b88e-8edc7a87eff7"
 >
@@ -1310,6 +1315,7 @@
  Guid="fcf80f92-a4c4-4cc9-82a0-c0965bc2bf65"
 >Kernel.Mode == ModeEnum.SR</Expectation></Expectations>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Change mode to LS"
  Guid="cc0f2abf-ad2e-4d03-805e-e8186f3306b4"
 >
@@ -1346,6 +1352,7 @@
  Guid="9125e5ca-4ba5-43b5-8056-6d8fab4a1660"
 >Testing.InitializeElementsForMA()</Action></Actions>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Check Override is not activate anymore"
  Guid="7786ae11-3575-47a5-828e-96bd9afb8b3e"
 >
@@ -1933,6 +1940,7 @@
  Guid="0c577fff-82e8-4215-aad0-be17075daf93"
 >DMI.MasterDMI().In_OverrideRequest.InputInformation.RequestStatus == RequestEnum.Request</Expectation></Expectations>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Set SR distance"
  Guid="3b48b261-78fb-4956-b968-f4b466856e4d"
 >
@@ -2405,6 +2413,7 @@
 >
 <SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="Check Override is activate"
  Guid="6e0adbc7-7043-427d-a9fd-cda5472de8f4"
 >
@@ -2419,6 +2428,7 @@
  Guid="dd0d14a7-b2c8-47de-bbac-b2c8b82d400d"
 >Kernel.Mode == ModeEnum.SR</Expectation></Expectations>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Stop in SR is received"
  Guid="bbb8f083-d56b-4ee2-a0a2-0f76aebeb04c"
 >
@@ -2507,6 +2517,7 @@
   BitField =&gt; &apos;&apos;
 }</Action></Actions>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Check Override is not activate anymore"
  Guid="e357d86e-6f82-4d24-a05f-88156ca8746c"
 >
@@ -3234,6 +3245,7 @@
  Guid="b499a34d-6abd-48ef-bdcc-2cd8fbce8978"
 >DMI.MasterDMI().In_SRModeSpeedLimitAndDistanceEntryRequest.InputInformation.RequestStatus == RequestEnum.Disabled</Expectation></Expectations>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Check former EoA"
  Guid="d8186a00-1bf7-460c-b11c-d9ed969b8528"
 >
@@ -3242,7 +3254,7 @@
  Kind="Instantaneous"
  DeadLine="1"
  Guid="913ecadd-156b-46b3-9ed7-4b2abbe61f31"
->Kernel.Override.OverrideSupervision.FormerEOA == 4500.0 </Expectation></Expectations>
+>Kernel.Override.OverrideSupervision.FormerEOA == 4500.0</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step><Step
  IO="NA"
@@ -3266,6 +3278,7 @@
 >
 </ReqRef><SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="Move the train"
  Guid="9045ab0c-ab2b-4bb3-a0be-6f2b4e2f956f"
 >
@@ -3284,6 +3297,7 @@
  Guid="5a01185a-b62b-4eb2-b161-c04915bc1178"
 >DMI.MasterDMI().In_OverrideRequest.InputInformation.RequestStatus == RequestEnum.Request</Expectation></Expectations>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Trigger Override again + check time and distance information restarted"
  Guid="937e8ccf-4f52-42bd-b39a-6e568ec44926"
 >
@@ -3302,6 +3316,7 @@
  Guid="b146789c-c341-4ce1-a3bb-696d9ed4415a"
 >Kernel.Override.OverrideSupervision.StartTime == Kernel.DateAndTime.CurrentTime</Expectation></Expectations>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Check former EoA did not change"
  Guid="f3bdb2eb-23d3-4b75-b22f-bfaacc6a5c69"
 >
@@ -3324,6 +3339,7 @@
 >
 <SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="Exit from Override"
  Guid="642fe23a-b9d0-45d4-99b3-8894c872691b"
 >
@@ -3346,6 +3362,7 @@
  Guid="ff516d27-1978-475d-9c2b-04b804b2a5c8"
 >Kernel.Override.OverrideSupervision.FormerEOA == 4500.0</Expectation></Expectations>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Approach the former EoA: no trip"
  Guid="c5bfcb23-b5fc-462d-8f29-abbdb817cb69"
 >
@@ -3360,6 +3377,7 @@
  Guid="6cb34be7-bc71-465a-81a4-1947183ca49c"
 >Kernel.Mode == ModeEnum.SR</Expectation></Expectations>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Overpass the former EoA: trip"
  Guid="d1324898-52e2-4c27-87ff-e9efa6440dff"
 >
@@ -3470,6 +3488,11 @@
  Id="c176c2fd-8220-4c07-85eb-a6e9249944c8"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="c619b8cd-8557-4500-97f3-e86176b0ba52"
+>
+</ReqRef><ReqRef
+ Id="0882a887-8e70-4391-9d2b-97be7cebd091"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="425c2f39-4fd2-4599-be73-37b26a766a7e"
 >
 </ReqRef><SubSteps>
 <SubStep
@@ -3585,6 +3608,11 @@
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="43c2b7af-5c97-4a27-9313-9c9b10a36dbc"
 >
+</ReqRef><ReqRef
+ Id="0882a887-8e70-4391-9d2b-97be7cebd091"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c47123aa-30e6-47ba-bff4-6d113ec683bf"
+>
 </ReqRef><SubSteps>
 <SubStep
  TimeDelay="NotDelayed"
@@ -3698,6 +3726,11 @@
  Id="c176c2fd-8220-4c07-85eb-a6e9249944c8"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="dbdd9662-a5fa-4fa0-af42-e52887dad0e8"
+>
+</ReqRef><ReqRef
+ Id="0882a887-8e70-4391-9d2b-97be7cebd091"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a2798c2d-7a87-4983-8efa-2b08917a8501"
 >
 </ReqRef><SubSteps>
 <SubStep
@@ -5331,6 +5364,154 @@
  DeadLine="1"
  Guid="7eb3047d-490b-46b7-a319-43664f37e95e"
 >NOT Kernel.Override.OverrideIsActive()</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase></TestCases>
+</SubSequence><SubSequence
+ D_LRBG=""
+ Level=""
+ Mode=""
+ NID_LRBG=""
+ Q_DIRLRBG=""
+ Q_DIRTRAIN=""
+ Q_DLRBG=""
+ RBC_ID=""
+ RBCPhone=""
+ Name="Train trip inhibition"
+ Guid="e1e6064c-dd94-4c42-bc06-f54460f0b853"
+>
+<TestCases>
+<TestCase
+ Name="Train tirp inhibition"
+ Guid="51c7b40c-fb23-4eed-918a-f0638827dec3"
+>
+<ReqRef
+ Id="3419ac3c-8b3b-4465-8ba8-a0628cc3c11b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="3cb97de9-9b3e-45d8-b50c-09b57920b9f8"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Setup - Trigger Override"
+ Guid="a176182d-03fd-4ca8-942e-90e0018674f9"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Setup"
+ Guid="ace79368-cc33-4331-b02c-9f0815c9f45e"
+>
+<Actions>
+<Action
+ Guid="646c5ae7-daa0-4423-9b1b-6b451dea1545"
+>Testing.InitializeTestEnvironment
+(
+    aTrainPosition =&gt; 0.0,
+    aMode =&gt; ModeEnum.FS
+)</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Set Train Data and speed"
+ Guid="55bb53a2-d111-4dca-ac06-d0065a633b3d"
+>
+<Actions>
+<Action
+ Guid="3364c953-5575-483d-b65f-3c5c4866e8a9"
+>DMI.MasterDMI().In_OverrideRequest.InputInformation.RequestStatus &lt;- Default.RequestEnum.Disabled</Action><Action
+ Guid="dca73c80-9adf-40fc-a3f8-50ac65a0d26e"
+>Kernel.NationalValues.CurrentNV().SpeedLimitForTriggeringTheOverrideFunction &lt;- 20.0</Action><Action
+ Guid="e3ec4b73-200d-46ce-981a-45ac2feaf040"
+>Odometry.EstimatedSpeed &lt;- 12.0</Action><Action
+ Guid="69b96d38-73d5-4634-adbe-0b501f9da0ac"
+>Kernel.TrainData.TrainData.DataState &lt;- Default.DataStateEnum.Valid</Action><Action
+ Guid="4509e602-ce8a-4cd3-82dd-971fc065004d"
+>Kernel.NationalValues.ApplicableNationalValues.Value.DistForTrainTripSuppressionWhenOverrideIsTriggered &lt;- 600.0</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Check override is proposed"
+ Guid="04b4286a-b00b-46b0-bef3-88b79d80a252"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="4131785a-25c7-4ed5-bf95-d709e6e626e6"
+>DMI.MasterDMI().In_OverrideRequest.InputInformation.RequestStatus == RequestEnum.Request</Expectation></Expectations>
+</SubStep><SubStep
+ Name="Check EoA location"
+ Guid="647b459e-dee4-4b47-a9be-edd9961d4eae"
+>
+<Actions>
+<Action
+ Guid="cf17f491-1bb5-4996-80ee-dda1d0af1eb7"
+>Odometry.NominalDistance &lt;- 4300.0</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="7ef5baaa-a87b-42b4-ac93-8dd9de7f30ce"
+>Kernel.MA.EOA().Location == 4500.0</Expectation></Expectations>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Trigger Override"
+ Guid="a1224991-5709-479c-9b2c-f1eb6016d2c4"
+>
+<Actions>
+<Action
+ Guid="204533a6-1901-4c30-8869-416d124acddd"
+>DMI.MasterDMI().In_OverrideRequest.ProvideDriverResponse()</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Check train trip is inhibited"
+ Guid="ca7e0f6a-3294-4323-a1e5-31902e441d71"
+>
+<SubSteps>
+<SubStep
+ Name="Check Override is active"
+ Guid="049d3070-5570-4f17-b421-50e9f215992c"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="c9dcf4d2-9e32-4800-ae1f-d87ad8a637ad"
+>Kernel.Override.OverrideIsActive() == True</Expectation></Expectations>
+</SubStep><SubStep
+ Name="Overpass EoA"
+ Guid="acf7e142-5d29-440b-b358-e46872534170"
+>
+<Actions>
+<Action
+ Guid="11d749e6-2b08-40f2-bc6b-b03562067ebe"
+>Odometry.NominalDistance &lt;- 4520.0</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="7308d261-b75b-4199-b80f-a5f58cd6b3dd"
+>Kernel.Override.OverrideSupervision.FormerEOA &lt; Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Min)</Expectation></Expectations>
+</SubStep><SubStep
+ Name="Check mode is not trip"
+ Guid="54076117-7f5c-4e8b-900f-ca7188da8c14"
+>
+<Expectations>
+<Expectation
+ Kind="Continuous"
+ DeadLine="1"
+ Guid="9daaaa4d-a125-47cb-9801-523a8c2d395d"
+>Kernel.Mode == ModeEnum.SR</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step></Steps>
 </TestCase></TestCases>
