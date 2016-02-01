@@ -490,8 +490,10 @@ namespace GUI
             }
             else if (!openFileOperation.Dialog.Canceled)
             {
-                MessageBox.Show("Cannot open file, please see the console for more information",
-                    "Cannot open file", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // DefaultDesktopOnly option is added in order to avoid exceptions during nightbuild execution
+                MessageBox.Show ("Cannot open file, please see the console for more information", "Cannot open file",
+                                 MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1,
+                                 MessageBoxOptions.DefaultDesktopOnly);
             }
         }
 
