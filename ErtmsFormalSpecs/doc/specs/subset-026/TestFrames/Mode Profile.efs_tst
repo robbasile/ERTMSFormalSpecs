@@ -2836,5 +2836,408 @@ Messages.EUROBALISE.SubStructure1
 </SubStep></SubSteps>
 </Step></Steps>
 </TestCase></TestCases>
+</SubSequence><SubSequence
+ D_LRBG=""
+ Level=""
+ Mode=""
+ NID_LRBG=""
+ Q_DIRLRBG=""
+ Q_DIRTRAIN=""
+ Q_DLRBG=""
+ RBC_ID=""
+ RBCPhone=""
+ Name="Once the driver has acknowledged a mode profile, the on-board remains in the new mode"
+ Guid="e2e4f3d4-1923-4ca5-932f-5ca323802069"
+>
+<TestCases>
+<TestCase
+ Implemented="TRUE"
+ Name="OS"
+ Guid="128304d8-ada2-49c4-aab5-6aee46b8c4b8"
+>
+<ReqRef
+ Id="84c5d520-4f6e-4239-99e9-92522d5ed604"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c7035d83-0dde-4dcf-adae-e8e82610a354"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Setup test"
+ Guid="550babca-2fc5-4052-b69e-263ca46d43e5"
+>
+<SubSteps>
+<SubStep
+ Name="Initialize test environment"
+ Guid="95feeb81-00ee-4f89-adde-34e24a63515f"
+>
+<Actions>
+<Action
+ Guid="d360aed5-c903-45aa-a2c0-66ea8c1dc1ce"
+>Testing.InitializeTestEnvironment(
+    aTrainPosition =&gt; 0.0,
+    aMode =&gt; ModeEnum.FS
+)</Action></Actions>
+</SubStep><SubStep
+ Name="Add mode profile"
+ Guid="f4db778e-3264-4874-85db-4b3194e3afae"
+>
+<Actions>
+<Action
+ Guid="a2753812-872d-4d07-91e9-6ff8909013ee"
+>Kernel.MA.ModeProfile.Profile &lt;- [Kernel.MA.ModeProfile.ModeProfileStruct{
+Location =&gt; 200.0,
+Mode =&gt; ModeEnum.ModeProfile.OS,
+Speed =&gt; 50.0,
+Length =&gt; 500.0,
+AcknLength =&gt; 200.0,
+SupervisionQualifier =&gt; Messages.Q_MAMODE.as_both_the_EOA_and_SvL__instead_of_the_EOA_and_SvL_given_by_the_MA
+}]</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Acknowledge OS mode"
+ Guid="e9fecfdb-2631-4b6e-9ee1-369ad542bbd4"
+>
+<SubSteps>
+<SubStep
+ Name="Acknowledgement request of OS mode is displayed"
+ Guid="29da908d-af8d-4cd0-bfcc-44681e99df1f"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="2d4f4177-9d61-4c5b-8c14-2db5d8798e39"
+>DMI.MasterDMI().In_AcknOfOSMode.InputInformation.RequestStatus == RequestEnum.Request</Expectation></Expectations>
+</SubStep><SubStep
+ Name="Driver acknowledges OS mode"
+ Guid="73ee9afa-b52c-4a44-b3be-2fff18a94910"
+>
+<Actions>
+<Action
+ Guid="a72bc661-cc24-465c-b1c7-4d34a24c6089"
+>DMI.MasterDMI().In_AcknOfOSMode.InputInformation.RequestStatus &lt;- Default.RequestEnum.Response</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="896dc1dc-0926-4d67-88d6-f34fd6fa41ff"
+>Kernel.Mode == ModeEnum.OS</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Remain in OS"
+ Guid="4accffc8-faff-4d22-8338-de527d2f7fef"
+>
+<SubSteps>
+<SubStep
+ Name="Mode stays OS"
+ Guid="fc73de63-4b76-4544-bae7-8a310b629e48"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="45bddec8-a0b1-493b-bdd5-3cf82dc1b3ad"
+>Kernel.Mode == ModeEnum.OS</Expectation></Expectations>
+</SubStep><SubStep
+ Name="After moving a little, mode is still OS"
+ Guid="2baefbc8-c36f-4144-a0aa-54d63beff5ac"
+>
+<Actions>
+<Action
+ Guid="7eb14ab4-791b-4c67-95d0-9ef693f3c630"
+>Odometry.EstimatedSpeed &lt;- 20.0</Action><Action
+ Guid="7a26d041-c570-4735-b32a-2f4f08bb8ac9"
+>Odometry.NominalDistance &lt;- 50.0</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="a64bee10-37e7-493c-8dc8-4a480811e6a4"
+>Kernel.Mode == ModeEnum.OS</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Implemented="TRUE"
+ Name="LS"
+ Guid="84535333-b7e8-4ff4-b0a6-1fb215f50b1a"
+>
+<ReqRef
+ Id="84c5d520-4f6e-4239-99e9-92522d5ed604"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c4c9b508-58d4-4584-8a63-070d7825efc0"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Setup test"
+ Guid="19286f21-d7af-4ae6-80ce-9a4156b4f0bf"
+>
+<SubSteps>
+<SubStep
+ Name="Initialize test environment"
+ Guid="5c0f364c-cb07-4dfc-ae03-05c20b23c5fe"
+>
+<Actions>
+<Action
+ Guid="bc4e047d-eff6-41ad-93a4-5c082af9f664"
+>Testing.InitializeTestEnvironment(
+    aTrainPosition =&gt; 0.0,
+    aMode =&gt; ModeEnum.FS
+)</Action></Actions>
+</SubStep><SubStep
+ Name="Set specific values"
+ Guid="78087f2e-d758-44e0-8cfd-5fe3109fb4a6"
+>
+<Actions>
+<Action
+ Guid="73150f6b-2b99-452d-8ed2-97c1ee0e1917"
+>Kernel.MA.ModeProfile.Profile &lt;- [Kernel.MA.ModeProfile.ModeProfileStruct{
+Location =&gt; 200.0,
+Mode =&gt; ModeEnum.ModeProfile.LS,
+Speed =&gt; 50.0,
+Length =&gt; 500.0,
+AcknLength =&gt; 200.0,
+SupervisionQualifier =&gt; Messages.Q_MAMODE.as_both_the_EOA_and_SvL__instead_of_the_EOA_and_SvL_given_by_the_MA
+}]</Action><Action
+ Guid="018ad45b-2512-4b46-9a0d-bebb2013cab3"
+>DMI.IN.Acknowledgements.LastDriverAcknowledgementTime &lt;- Default.BaseTypes.Time.NA</Action><Action
+ Guid="d030b874-abec-447f-bbb6-77ccca1b389c"
+>DMI.IN.Acknowledgements.DisplayAllowed &lt;- Boolean.True</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Acknowledge LS mode"
+ Guid="1f117e91-3afa-48a2-be24-e9987288f877"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Acknowledgement request of LS mode is displayed"
+ Guid="de56b0f6-da2e-4350-98b4-1f9baac2f55e"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="b41c960f-da96-44e1-af73-7bb7f5121f56"
+>DMI.MasterDMI().In_AcknOfLSMode.InputInformation.RequestStatus == RequestEnum.Request</Expectation></Expectations>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Driver acknowledges OS mode"
+ Guid="ff9f4ca6-79bd-4e1e-b734-48f9fb53c6f2"
+>
+<Actions>
+<Action
+ Guid="e746c0ab-83e1-46f8-aaee-eb55d8005ac6"
+>DMI.MasterDMI().In_AcknOfLSMode.InputInformation.RequestStatus &lt;- Default.RequestEnum.Response</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="d56953fe-9c28-45c1-be16-f7614cfe56ef"
+>Kernel.Mode == ModeEnum.LS</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Remain in LS"
+ Guid="9870b2c7-0243-4974-9cf3-e2242ff1e7b8"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Mode stays LS"
+ Guid="0cacc345-e3a6-4492-b1d0-4b271f5369e7"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="c5a0296f-a5bf-4706-9ac0-2d0dbf817f64"
+>Kernel.Mode == ModeEnum.LS</Expectation></Expectations>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="After moving a little, mode is still LS"
+ Guid="7579d79f-e2ab-47c7-b684-f4fd862d1991"
+>
+<Actions>
+<Action
+ Guid="32717c69-9d96-4794-ab60-b8db67c07a39"
+>Odometry.EstimatedSpeed &lt;- 20.0</Action><Action
+ Guid="bdbbcd16-70d0-40ff-8c47-ce1809137b7e"
+>Odometry.NominalDistance &lt;- 50.0</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="cf89d1b3-24d3-44a2-a0d1-68d2291358e8"
+>Kernel.Mode == ModeEnum.LS</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Implemented="TRUE"
+ Name="SH"
+ Guid="f35605b8-6ffc-4640-81ab-1f380fd80ae6"
+>
+<ReqRef
+ Id="84c5d520-4f6e-4239-99e9-92522d5ed604"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="cea4e948-482a-43ec-841c-a3980b639fe8"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Setup test"
+ Guid="80d52174-b701-4d8d-9919-a8cf2d18954c"
+>
+<SubSteps>
+<SubStep
+ Name="Initialize test environment"
+ Guid="a8cf539b-a915-42b0-bf12-acc818382051"
+>
+<Actions>
+<Action
+ Guid="955fca37-373f-4e90-902c-8ce539e95d2c"
+>Testing.InitializeTestEnvironment(
+    aTrainPosition =&gt; 0.0,
+    aMode =&gt; ModeEnum.FS
+)</Action></Actions>
+</SubStep><SubStep
+ Name="Set specific values"
+ Guid="0c8854d9-0ce5-4b6f-a25e-4ba278dc3c48"
+>
+<Actions>
+<Action
+ Guid="d7176af5-f0a0-420d-987e-f3db105912cc"
+>Kernel.MA.ModeProfile.Profile &lt;- [Kernel.MA.ModeProfile.ModeProfileStruct{
+Location =&gt; 200.0,
+Mode =&gt; ModeEnum.ModeProfile.SH,
+Speed =&gt; 50.0,
+Length =&gt; Default.BaseTypes.Length.NA,
+AcknLength =&gt; 200.0,
+SupervisionQualifier =&gt; Messages.Q_MAMODE.as_both_the_EOA_and_SvL__instead_of_the_EOA_and_SvL_given_by_the_MA
+}]</Action><Action
+ Guid="39d28919-6045-4081-af0a-2bc64a534473"
+>DMI.IN.Acknowledgements.LastDriverAcknowledgementTime &lt;- Default.BaseTypes.Time.NA</Action><Action
+ Guid="789e6126-8036-434a-bf16-67f609729905"
+>DMI.IN.Acknowledgements.DisplayAllowed &lt;- Boolean.True</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Acknowledge SH mode"
+ Guid="125cbf68-64c4-4eeb-9e96-cba4aaf7e22d"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Acknowledgement request of SH mode is displayed"
+ Guid="259ad88c-74f1-4e52-915f-c8efd81ee588"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="4dfdaf9f-29d7-4c2b-b824-78291cc027f8"
+>DMI.MasterDMI().In_AcknOfSHMode.InputInformation.RequestStatus == RequestEnum.Request</Expectation></Expectations>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Driver acknowledges SH mode"
+ Guid="7d0a9c0c-c8b1-40d4-a608-ee527d88f533"
+>
+<Actions>
+<Action
+ Guid="d6e1acdd-f2ed-40ca-8ae7-abd99cabe75c"
+>DMI.MasterDMI().In_AcknOfSHMode.InputInformation.RequestStatus &lt;- Default.RequestEnum.Response</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="d08e3b2b-c93d-47a8-97cb-004c99fd2197"
+>Kernel.Mode == ModeEnum.SH</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Remain in SH"
+ Guid="69ba08dc-65db-4234-b61d-f3976b0de90a"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Mode stays SH"
+ Guid="d0397a61-ebfa-4d81-a5d5-6cd95f9fef3e"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="d4b8b123-e40c-4ffe-a2e1-7b014f5face9"
+>Kernel.Mode == ModeEnum.SH</Expectation></Expectations>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="After moving a little, mode is still SH"
+ Guid="f7146c84-608d-40b4-b667-f83d03e93694"
+>
+<Actions>
+<Action
+ Guid="bdb102b5-67bd-486b-b21a-680d8fdca3f9"
+>Odometry.EstimatedSpeed &lt;- 20.0</Action><Action
+ Guid="29a48ec7-1fac-4cab-87a5-d35ee21bebac"
+>Odometry.NominalDistance &lt;- 50.0</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="085727ad-5b77-4dfc-85e9-f3ae4d55c78c"
+>Kernel.Mode == ModeEnum.SH</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase></TestCases>
 </SubSequence></SubSequences>
 </Frame>

@@ -246,6 +246,11 @@ Kernel.TrainPosition.FrontEndPosition ( DistanceIntervalEnum.Min ) &lt; aModePro
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="39dc7a5b-e779-417c-856c-4c64e105ebe7"
 >
+</ReqRef><ReqRef
+ Id="84c5d520-4f6e-4239-99e9-92522d5ed604"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="71060e6a-7ec2-4198-bd87-d927bde4f74a"
+>
 </ReqRef><Comment>Indicates if the mode profile is applicable (i.e. there is a mode profile stored on-board and the train is within this mode profile).</Comment>
 <Cases>
 <Case
@@ -261,7 +266,16 @@ Kernel.TrainPosition.FrontEndPosition ( DistanceIntervalEnum.Min ) &lt; aModePro
  Name="Mode profile available"
  Guid="b3d11290-015c-4b99-9601-fe80c8d7ebc7"
 >
-<Expression>Kernel.MA.ModeProfile.DistanceIsWithinAModeProfile ( FIRST X IN Kernel.MA.ModeProfile.Profile )</Expression>
+<Expression>LET modeProfile &lt;- FIRST X IN Kernel.MA.ModeProfile.Profile IN
+
+Kernel.MA.ModeProfile.DistanceIsWithinAModeProfile ( modeProfile )
+
+  OR  
+(
+  Kernel.Mode == modeProfile.Mode
+    AND  
+  AcknAreaReached( modeProfile)
+)</Expression>
 </Case></Cases>
 </Function><Function
  Type="ModeEnum.ModeProfile"
@@ -1429,7 +1443,7 @@ Kernel.MA.ModeProfile.AcknAreaReached ( FIRST X IN Kernel.MA.ModeProfile.Profile
  Guid="66b2c6ba-7c31-4c87-9718-93a1cb7db83d"
 >Kernel.Modes.ModeRelatedSpeedLimits.OSModeSpeedLimit() &gt; Odometry.TrainSpeed()</PreCondition><PreCondition
  Guid="9c07352e-7368-4267-b097-8f8ae8201d4d"
->NOT (DMI.MasterDMI().In_AcknOfOSMode.InputInformation.RequestStatus != RequestEnum.Request)</PreCondition></PreConditions>
+>NOT (DMI.MasterDMI().In_AcknOfOSMode.InputInformation.RequestStatus == RequestEnum.Request)</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="82ba23e0-1820-477a-9003-f622746b0571"
