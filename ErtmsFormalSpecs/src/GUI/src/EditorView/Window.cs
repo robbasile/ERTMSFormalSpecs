@@ -130,7 +130,7 @@ namespace GUI.EditorView
         }
 
         /// <summary>
-        ///     Indicates whether auto completion is available
+        /// Indicates whether syntax highlighting is available
         /// </summary>
         public bool SyntaxHighlight
         {

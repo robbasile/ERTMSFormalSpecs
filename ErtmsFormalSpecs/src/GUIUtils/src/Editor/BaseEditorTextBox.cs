@@ -1056,7 +1056,6 @@ namespace GUIUtils.Editor
                                 if (callable != null)
                                 {
                                     TextualExplanation text = new TextualExplanation();
-                                    ;
                                     CreateCallableParameters(text, callable);
                                     EditionTextBox.SelectedText = text.Text;
                                     EditionTextBox.ProcessAllLines();
