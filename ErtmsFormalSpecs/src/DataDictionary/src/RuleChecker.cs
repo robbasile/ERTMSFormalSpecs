@@ -1256,6 +1256,10 @@ namespace DataDictionary
             Types.Enum enumeration = (Types.Enum) obj;
 
             List<Constants.EnumValue> valuesFound = new List<Constants.EnumValue>();
+            if (!enumeration.Default.Contains (".")) // the full name is not provided
+            {
+                enumeration.Default = enumeration.FullName + "." + enumeration.Default;
+            }
             foreach (Constants.EnumValue enumValue in enumeration.Values)
             {
                 if (!string.IsNullOrEmpty(enumValue.getValue()))
@@ -1264,14 +1268,14 @@ namespace DataDictionary
                     {
                         if (enumValue.getValue().CompareTo(other.getValue()) == 0)
                         {
-                            enumValue.AddError("Duplicate enumeration value");
-                            other.AddError("Duplicate enumeration value");
+                            enumValue.AddError("Duplicated enumeration value");
+                            other.AddError("Duplicated enumeration value");
                         }
 
                         if (enumValue.LiteralName == other.LiteralName)
                         {
-                            enumValue.AddError("Duplicate enumeration value name");
-                            other.AddError("Duplicate enumeration value name");
+                            enumValue.AddError("Duplicated enumeration value name");
+                            other.AddError("Duplicated enumeration value name");
                         }
                     }
                     valuesFound.Add(enumValue);
