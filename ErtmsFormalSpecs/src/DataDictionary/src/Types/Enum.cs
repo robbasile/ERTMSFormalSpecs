@@ -67,6 +67,27 @@ namespace DataDictionary.Types
         }
 
         /// <summary>
+        /// The default value of the enum
+        /// </summary>
+        public override string Default
+        {
+            get
+            {
+                string retVal = getDefault();
+                if (retVal.Contains("."))
+                {
+                    string[] elements = retVal.Split('.');
+                    retVal = elements[elements.Length - 1];
+                }
+                return FullName + "." + retVal;
+            }
+            set
+            {
+                setDefault (value);
+            }
+        }
+
+        /// <summary>
         ///     Provides all the sub enums this enumeration can define
         /// </summary>
         public ArrayList SubEnums

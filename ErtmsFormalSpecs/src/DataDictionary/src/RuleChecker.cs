@@ -1257,10 +1257,6 @@ namespace DataDictionary
             Types.Enum enumeration = (Types.Enum) obj;
 
             List<Constants.EnumValue> valuesFound = new List<Constants.EnumValue>();
-            if (!enumeration.Default.Contains (".")) // the full name is not provided
-            {
-                enumeration.Default = enumeration.FullName + "." + enumeration.Default;
-            }
             foreach (Constants.EnumValue enumValue in enumeration.Values)
             {
                 if (!string.IsNullOrEmpty(enumValue.getValue()))
