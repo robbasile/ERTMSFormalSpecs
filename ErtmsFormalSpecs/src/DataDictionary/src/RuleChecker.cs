@@ -423,59 +423,60 @@ namespace DataDictionary
         /// <param name="commentable"></param>
         private static void checkComment(ICommentable commentable)
         {
-            if (commentable != null && string.IsNullOrEmpty(commentable.Comment))
+            if (commentable != null)
             {
-                NameSpace nameSpace = EnclosingNameSpaceFinder.find((ModelElement) commentable);
-                bool requiresComment = nameSpace != null;
-
-                Types.StateMachine stateMachine = commentable as Types.StateMachine;
-                if (stateMachine != null)
+                if (string.IsNullOrEmpty(commentable.Comment))
                 {
-                    requiresComment = stateMachine.EnclosingStateMachine == null;
-                }
+                    NameSpace nameSpace = EnclosingNameSpaceFinder.find((ModelElement) commentable);
+                    bool requiresComment = nameSpace != null;
 
-                Rules.RuleCondition ruleCondition = commentable as Rules.RuleCondition;
-                if (ruleCondition != null)
-                {
-                    requiresComment = ruleCondition.EnclosingRule.RuleConditions.Count > 1;
-                }
-
-                if (commentable is NameSpace
-                    || commentable is Functions.Case
-                    || commentable is Rules.PreCondition
-                    || commentable is Rules.Action)
-                {
-                    requiresComment = false;
-                }
-
-                Rule rule = commentable as Rule;
-                if (rule != null && rule.EnclosingProcedure != null)
-                {
-                    requiresComment = rule.EnclosingProcedure.Rules.Count > 1;
-                }
-
-                ITypedElement typedElement = commentable as ITypedElement;
-                if (typedElement != null)
-                {
-                    if (typedElement.Type != null)
+                    Types.StateMachine stateMachine = commentable as Types.StateMachine;
+                    if (stateMachine != null)
                     {
-                        requiresComment = requiresComment && string.IsNullOrEmpty(typedElement.Type.Comment);
+                        requiresComment = stateMachine.EnclosingStateMachine == null;
+                    }
+
+                    Rules.RuleCondition ruleCondition = commentable as Rules.RuleCondition;
+                    if (ruleCondition != null)
+                    {
+                        requiresComment = ruleCondition.EnclosingRule.RuleConditions.Count > 1;
+                    }
+
+                    if (commentable is NameSpace
+                        || commentable is Functions.Case
+                        || commentable is Rules.PreCondition
+                        || commentable is Rules.Action)
+                    {
+                        requiresComment = false;
+                    }
+
+                    Rule rule = commentable as Rule;
+                    if (rule != null && rule.EnclosingProcedure != null)
+                    {
+                        requiresComment = rule.EnclosingProcedure.Rules.Count > 1;
+                    }
+
+                    ITypedElement typedElement = commentable as ITypedElement;
+                    if (typedElement != null)
+                    {
+                        if (typedElement.Type != null)
+                        {
+                            requiresComment = requiresComment && string.IsNullOrEmpty(typedElement.Type.Comment);
+                        }
+                    }
+
+                    IVariable variable = commentable as IVariable;
+                    if (variable != null)
+                    {
+                        requiresComment = false;
+                    }
+
+                    if (requiresComment)
+                    {
+                        ((ModelElement) commentable).AddInfo("This element should be documented");
                     }
                 }
-
-                IVariable variable = commentable as IVariable;
-                if (variable != null)
-                {
-                    requiresComment = false;
-                }
-
-                if (requiresComment)
-                {
-                    ((ModelElement) commentable).AddInfo("This element should be documented");
-                }
-
-                if (!String.IsNullOrEmpty(commentable.Comment)
-                      && commentable.Comment.Contains("TODO") )
+                else if (commentable.Comment.Contains("TODO") )
                 {
                     ((ModelElement) commentable).AddInfo("The implementation of this element is unfinished - see comment");
                 }
