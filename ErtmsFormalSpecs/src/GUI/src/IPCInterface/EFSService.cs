@@ -30,19 +30,15 @@ using DataDictionary.Tests.Runner.Events;
 using DataDictionary.Values;
 using DataDictionary.Variables;
 using GUI.IPCInterface.Values;
-using GUI.LongOperations;
 using GUIUtils;
 using Utils;
 using Action = DataDictionary.Rules.Action;
 using BoolValue = DataDictionary.Values.BoolValue;
-using Dictionary = DataDictionary.Dictionary;
 using DoubleValue = DataDictionary.Values.DoubleValue;
 using Enum = System.Enum;
 using EnumValue = DataDictionary.Constants.EnumValue;
-using Function = DataDictionary.Generated.Function;
 using IntValue = DataDictionary.Values.IntValue;
 using ListValue = DataDictionary.Values.ListValue;
-using NameSpace = DataDictionary.Types.NameSpace;
 using Parameter = DataDictionary.Parameter;
 using State = DataDictionary.Constants.State;
 using StringValue = DataDictionary.Values.StringValue;
@@ -935,8 +931,9 @@ namespace GUI.IPCInterface
                     }
                     else
                     {
-                        throw new FaultException<EFSServiceFault>(
-                            new EFSServiceFault("Cannot find variable " + variableName));
+                        throw new FaultException <EFSServiceFault> (
+                            new EFSServiceFault ("Cannot find variable " + variableName),
+                            new FaultReason (new FaultReasonText ("Cannot find variable " + variableName)));
                     }
                 }
             }
