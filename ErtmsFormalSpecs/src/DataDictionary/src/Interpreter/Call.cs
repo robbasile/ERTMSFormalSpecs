@@ -496,7 +496,8 @@ namespace DataDictionary.Interpreter
                     {
                         AddError("Cannot evaluate value for parameter " + i + " (" + expression +
                                  ") of function " + callable.Name);
-                        throw new Exception("Evaluation of parameters failed");
+                        throw new Exception ("Evaluation of parameters failed: Cannot evaluate value for parameter " + i +
+                                             " (" + expression + ") of function " + callable.Name);
                     }
                     ExplanationPart.SetNamable(subExplanation, val);
 
@@ -518,7 +519,7 @@ namespace DataDictionary.Interpreter
                     else
                     {
                         AddError("Cannot evaluate value for parameter " + pair.Key + " of function " + callable.Name);
-                        throw new Exception("Evaluation of parameters failed");
+                        throw new Exception("Evaluation of parameters failed: cannot evaluate value for parameter " + pair.Key + " of function " + callable.Name);
                     }
                     ExplanationPart.SetNamable(subExplanation, val);
                 }
