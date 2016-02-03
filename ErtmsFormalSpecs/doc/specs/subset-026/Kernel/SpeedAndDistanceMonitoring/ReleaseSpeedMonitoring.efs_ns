@@ -793,6 +793,21 @@ USING X IN X</Expression>
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="MA ends at LOA"
+ Guid="90c3abf4-c241-4124-ae6b-0ac66479bfd5"
+>
+<Comment>If the end of the MA is a LOA, there is no release speed.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="27f4a5ae-e2fc-477e-9d35-51899d02973a"
+>MA.MA.TargetSpeed &gt; 0.0</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="f6da3cf1-b3cc-40c1-9e06-680d8d7e4871"
+>ReleaseSpeed &lt;- Default.BaseTypes.Speed.NA</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
  Name="Section time-out"
  Guid="fa35354e-1628-4379-9b8c-c233d2693a53"
 >
@@ -904,7 +919,7 @@ Available ( Kernel.MA.MA.EndSection.DangerPoint )</PreCondition></PreConditions>
 </ReqRef><Comment>Used for stabilization of release speed computation.</Comment>
 </Variable><Variable
  Type="BaseTypes.Speed"
- DefaultValue="0.0"
+ DefaultValue="BaseTypes.Speed.NA"
  VariableMode="Internal"
  X="260"
  Y="200"

@@ -469,7 +469,7 @@
 </Parameter></Parameters>
 <Cases>
 <Case
- Name="X1 infinite or EMPTY"
+ Name="X1 infinite or invalid"
  Guid="d57e04b6-76aa-4dc8-8233-33a2f391cf3e"
 >
 <PreConditions>
@@ -477,10 +477,10 @@
  Guid="094da13e-4192-42ef-bf05-53db1c77139e"
 >NOT Available( X1 )
   OR  
-X1 == BaseTypes.Speed.Infinity</PreCondition></PreConditions>
+X1 in [BaseTypes.Speed.Infinity, BaseTypes.Speed.NA]</PreCondition></PreConditions>
 <Expression>X2</Expression>
 </Case><Case
- Name="X2 infinite or EMPTY"
+ Name="X2 infinite or invalid"
  Guid="beb03f4c-47b0-4382-bc42-5c7bc9df5d13"
 >
 <PreConditions>
@@ -488,7 +488,7 @@ X1 == BaseTypes.Speed.Infinity</PreCondition></PreConditions>
  Guid="8963b136-a96e-4ff5-a09f-4edbef177341"
 >NOT Available( X2 )
   OR  
-X2 == BaseTypes.Speed.Infinity</PreCondition></PreConditions>
+X2 in [BaseTypes.Speed.Infinity, BaseTypes.Speed.NA]</PreCondition></PreConditions>
 <Expression>X1</Expression>
 </Case><Case
  Name="X1 &lt; X2"
@@ -777,22 +777,30 @@ X2 == BaseTypes.Speed.Infinity</PreCondition></PreConditions>
 </Parameter></Parameters>
 <Cases>
 <Case
- Name="X1 infinite"
+ Name="X1 infinite or X2 invalid"
  Guid="fd262265-ecab-4ef4-9bba-bb59b177dbf2"
 >
 <PreConditions>
 <PreCondition
  Guid="c43a7fd6-7fcf-431d-b520-2e58c690ee22"
->X1 == BaseTypes.Speed.Infinity</PreCondition></PreConditions>
+>X1 == BaseTypes.Speed.Infinity
+  OR  
+NOT Available( X2 )
+  OR  
+X2 == BaseTypes.Speed.NA</PreCondition></PreConditions>
 <Expression>X1</Expression>
 </Case><Case
- Name="X2 infinite"
+ Name="X2 infinite or X1 invalid"
  Guid="4ccc9d3a-cae0-4cb8-857f-a0a7f75de3bc"
 >
 <PreConditions>
 <PreCondition
  Guid="43f9dafb-2ce7-4125-a514-1be107b5bbfc"
->X2 == BaseTypes.Speed.Infinity</PreCondition></PreConditions>
+>X2 == BaseTypes.Speed.Infinity
+  OR  
+NOT Available( X1 )
+  OR  
+X1 == BaseTypes.Speed.NA</PreCondition></PreConditions>
 <Expression>X2</Expression>
 </Case><Case
  Name="X1 &lt; X2"
