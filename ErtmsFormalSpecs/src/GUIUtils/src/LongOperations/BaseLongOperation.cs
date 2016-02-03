@@ -47,7 +47,14 @@ namespace GUIUtils.LongOperations
         /// </summary>
         protected BaseLongOperation()
         {
-            ShowDialog = true;
+            if (Environment.UserInteractive)
+            {
+                ShowDialog = true;
+            }
+            else
+            {
+                ShowDialog = false;
+            }
         }
 
         /// <summary>
@@ -68,7 +75,7 @@ namespace GUIUtils.LongOperations
                     if (ShowDialog)
                     {
                         Dialog = new ProgressDialog(message, this, allowCancel);
-                        Dialog.ShowDialog();
+                        Dialog.ShowDialog ();
                     }
                     else
                     {
