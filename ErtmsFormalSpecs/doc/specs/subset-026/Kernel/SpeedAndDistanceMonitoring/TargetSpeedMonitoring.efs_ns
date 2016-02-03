@@ -759,7 +759,8 @@ Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.V_P_EBD_Target(
 
   X2 =&gt; BaseTypes.MinSpeed(
 
-    X1 =&gt; REDUCE TARGETS( SpeedRestrictions =&gt;  MRSP.SpeedRestrictions) USING X IN BaseTypes.MinSpeed(
+    X1 =&gt; REDUCE TARGETS( MIN( First =&gt; MRSP.SpeedRestrictions, Second =&gt; MA.LOASpeedRestriction) ) USING X IN
+      BaseTypes.MinSpeed(
         X1 =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Vsbi2(
             Dmaxsafefrontend =&gt; Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max),
             aTarget =&gt; X,
