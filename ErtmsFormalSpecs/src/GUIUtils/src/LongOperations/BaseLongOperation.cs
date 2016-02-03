@@ -80,6 +80,7 @@ namespace GUIUtils.LongOperations
                 }
                 catch (Exception e)
                 {
+                    Console.WriteLine(e.Message + @"\n" + e.StackTrace, @"Exception raised");
                     // DefaultDesktopOnly option is added in order to avoid exceptions during nightbuild execution
                     MessageBox.Show (e.Message + @"\n" + e.StackTrace, @"Exception raised", MessageBoxButtons.OK,
                                      MessageBoxIcon.Error, MessageBoxDefaultButton.Button1,
