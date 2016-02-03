@@ -26,7 +26,7 @@ namespace DataDictionary.test.updateModel
 
             Compiler.Compile_Synchronous(true);
 
-            Expression expression = new Parser().Expression(dictionary, "N1.Procedure()");
+            Expression expression = new Interpreter.Parser().Expression(dictionary, "N1.Procedure()");
 
             Assert.AreEqual(Utils.ModelElement.Errors.Count, 1);
         }
