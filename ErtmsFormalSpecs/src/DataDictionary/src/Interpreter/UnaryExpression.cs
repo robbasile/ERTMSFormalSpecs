@@ -204,6 +204,20 @@ namespace DataDictionary.Interpreter
 
                 return retVal;
             }
+            set
+            {
+                if (Term != null)
+                {
+                    Term.Ref = value;
+                }
+                else if (Expression != null)
+                {
+                    if (UnaryOp == null)
+                    {
+                        Expression.Ref = value;
+                    }
+                }
+            }
         }
 
         /// <summary>

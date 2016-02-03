@@ -53,6 +53,11 @@ namespace DataDictionary.Interpreter
         public int End { get; set; }
 
         /// <summary>
+        /// Indicates that the element has been completely parsed
+        /// </summary>
+        public bool CompletelyParsed { get; set; }
+
+        /// <summary>
         ///     Constructor
         /// </summary>
         /// <param name="root">The root element for which this interpreter tree node is created</param>
@@ -66,6 +71,7 @@ namespace DataDictionary.Interpreter
             StaticUsage = null;
             Start = start;
             End = end;
+            CompletelyParsed = false;
         }
 
         public string Name

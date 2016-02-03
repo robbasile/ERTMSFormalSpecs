@@ -232,8 +232,9 @@ namespace DataDictionary.Interpreter.Statement
                         if (deref != null)
                         {
                             int count = deref.Arguments.Count;
-                            if ((deref.Arguments[count - 2].Ref is NameSpace) ||
-                                (deref.Arguments[count - 2].Ref is Structure))
+                            Expression baseExpression = deref.Arguments[count - 2];
+                            INamable referenced = baseExpression.Ref;
+                            if ((referenced is NameSpace) || (referenced is Structure && !(baseExpression is Call)))
                             {
                                 Root.AddError(
                                     "Invalid procedure call : context should be the instance on which the call is performed");

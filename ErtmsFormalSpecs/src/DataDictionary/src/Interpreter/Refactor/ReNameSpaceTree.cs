@@ -37,6 +37,13 @@ namespace DataDictionary.Interpreter.Refactor
                 if (expression != null)
                 {
                     ModelElement model = expression.Ref as ModelElement;
+
+                    if (model is Structure && expression is Call)
+                    {
+                        // Because this is the return value instead of the target element
+                        model = null;
+                    }
+
                     if (model != null)
                     {
                         string referenceName = model.ReferenceName(BaseLocation);

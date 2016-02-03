@@ -159,6 +159,17 @@ namespace DataDictionary.Interpreter
 
                 return retVal;
             }
+            set
+            {
+                if (Designator != null)
+                {
+                    Designator.Ref = value;
+                }
+                else if (LiteralValue != null)
+                {
+                    LiteralValue.Ref = value;
+                }                
+            }
         }
 
         /// <summary>

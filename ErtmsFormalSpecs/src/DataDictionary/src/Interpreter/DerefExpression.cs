@@ -56,11 +56,6 @@ namespace DataDictionary.Interpreter
         }
 
         /// <summary>
-        ///     The model element referenced by this designator.
-        /// </summary>
-        public override INamable Ref { get; protected set; }
-
-        /// <summary>
         ///     Provides the ICallable referenced by this
         /// </summary>
         public ICallable Called
@@ -175,6 +170,11 @@ namespace DataDictionary.Interpreter
                         retVal.Values.Add(elem);
                     }
                 }
+            }
+
+            if (retVal.IsUnique)
+            {
+                Arguments[0].Ref = retVal.Values[0].Value;
             }
 
             if (!retVal.IsEmpty)

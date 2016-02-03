@@ -146,12 +146,7 @@ namespace DataDictionary.Interpreter
         /// <summary>
         ///     Provides the INamable which is referenced by this expression, if any
         /// </summary>
-        public virtual INamable Ref
-        {
-            get { return null; }
-            // ReSharper disable once ValueParameterNotUsed
-            protected set { }
-        }
+        public virtual INamable Ref { get; set; }
 
         /// <summary>
         ///     Provides the ICallable that is statically defined

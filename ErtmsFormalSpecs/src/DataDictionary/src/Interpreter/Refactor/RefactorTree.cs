@@ -129,7 +129,14 @@ namespace DataDictionary.Interpreter.Refactor
                     }
                     else
                     {
-                        replaced = ReplaceNonTerminal(expression, expression.Ref as ModelElement);
+                        if (expression is Call && expression.Ref is Structure)
+                        {
+                            replaced = ReplaceNonTerminal(expression, null);
+                        }
+                        else
+                        {
+                            replaced = ReplaceNonTerminal(expression, expression.Ref as ModelElement);                            
+                        }
                     }
 
                     if (!replaced)
