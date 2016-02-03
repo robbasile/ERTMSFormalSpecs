@@ -38,12 +38,11 @@ namespace DataDictionary.Interpreter
         ///     Constructor
         /// </summary>
         /// <param name="value"></param>
-        /// <param name="start">The start character for this expression in the original string</param>
-        /// <param name="end">The end character for this expression in the original string</param>
         /// <param name="root"></param>
         /// <param name="log"></param>
-        public StringExpression(ModelElement root, ModelElement log, string value, int start, int end)
-            : base(root, log, start, end)
+        /// <param name="parsingData">Additional information about the parsing process</param>
+        public StringExpression(ModelElement root, ModelElement log, string value, ParsingData parsingData)
+            : base(root, log, parsingData)
         {
             Image = value;
         }

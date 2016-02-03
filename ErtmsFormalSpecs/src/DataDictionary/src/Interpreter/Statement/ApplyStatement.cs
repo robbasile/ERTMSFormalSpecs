@@ -56,11 +56,10 @@ namespace DataDictionary.Interpreter.Statement
         /// <param name="appliedStatement">The statement to be applied when the condition is satisfied</param>
         /// <param name="listExpression">The list to work on</param>
         /// <param name="conditionExpression">The condition to apply on the list elements</param>
-        /// <param name="start">The start character for this expression in the original string</param>
-        /// <param name="end">The end character for this expression in the original string</param>
+        /// <param name="parsingData">Additional information about the parsing process</param>
         public ApplyStatement(ModelElement root, ModelElement log, Statement appliedStatement, Expression listExpression,
-            Expression conditionExpression, int start, int end)
-            : base(root, log, start, end)
+            Expression conditionExpression, ParsingData parsingData)
+            : base(root, log, parsingData)
         {
             DeclaredElements = new Dictionary<string, List<INamable>>();
 

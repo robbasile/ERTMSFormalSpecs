@@ -46,10 +46,9 @@ namespace DataDictionary.Interpreter
         /// <param name="log"></param>
         /// <param name="value"></param>
         /// <param name="type"></param>
-        /// <param name="start">The start character for this expression in the original string</param>
-        /// <param name="end">The end character for this expression in the original string</param>
-        public NumberExpression(ModelElement root, ModelElement log, string value, Type type, int start, int end)
-            : base(root, log, start, end)
+        /// <param name="parsingData">Additional information about the parsing process</param>
+        public NumberExpression(ModelElement root, ModelElement log, string value, Type type, ParsingData parsingData)
+            : base(root, log, parsingData)
         {
             Image = value;
             Type = type;

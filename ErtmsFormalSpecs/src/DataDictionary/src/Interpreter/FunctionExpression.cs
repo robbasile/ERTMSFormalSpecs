@@ -45,11 +45,10 @@ namespace DataDictionary.Interpreter
         /// <param name="log"></param>
         /// <param name="parameters">the function parameters</param>
         /// <param name="root"></param>
-        /// <param name="start">The start character for this expression in the original string</param>
-        /// <param name="end">The end character for this expression in the original string</param>
+        /// <param name="parsingData">Additional information about the parsing process</param>
         public FunctionExpression(ModelElement root, ModelElement log, List<Parameter> parameters, Expression expression,
-            int start, int end)
-            : base(root, log, start, end)
+            ParsingData parsingData)
+            : base(root, log, parsingData)
         {
             Parameters = parameters;
 

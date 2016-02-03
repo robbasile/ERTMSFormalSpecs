@@ -41,11 +41,10 @@ namespace DataDictionary.Interpreter
         /// <param name="log"></param>
         /// <param name="structure"></param>
         /// <param name="associations"></param>
-        /// <param name="start">The start character for this expression in the original string</param>
-        /// <param name="end">The end character for this expression in the original string</param>
+        /// <param name="parsingData">Additional information about the parsing process</param>
         public StructExpression(ModelElement root, ModelElement log, Expression structure,
-            Dictionary<Designator, Expression> associations, int start, int end)
-            : base(root, log, start, end)
+            Dictionary<Designator, Expression> associations, ParsingData parsingData)
+            : base(root, log, parsingData)
         {
             Structure = structure;
             SetAssociation(associations);

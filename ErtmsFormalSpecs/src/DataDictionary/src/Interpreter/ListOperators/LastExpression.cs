@@ -34,11 +34,10 @@ namespace DataDictionary.Interpreter.ListOperators
         /// <param name="listExpression"></param>
         /// <param name="iteratorVariableName"></param>
         /// <param name="condition"></param>
-        /// <param name="start">The start character for this expression in the original string</param>
-        /// <param name="end">The end character for this expression in the original string</param>
+        /// <param name="parsingData">Additional information about the parsing process</param>
         public LastExpression(ModelElement root, ModelElement log, Expression listExpression,
-            string iteratorVariableName, Expression condition, int start, int end)
-            : base(root, log, listExpression, iteratorVariableName, condition, start, end)
+            string iteratorVariableName, Expression condition, ParsingData parsingData)
+            : base(root, log, listExpression, iteratorVariableName, condition, parsingData)
         {
         }
 

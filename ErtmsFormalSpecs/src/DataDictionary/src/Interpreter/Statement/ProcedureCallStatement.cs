@@ -39,10 +39,9 @@ namespace DataDictionary.Interpreter.Statement
         /// <param name="root">The root element for which this element is built</param>
         /// <param name="log"></param>
         /// <param name="call">The corresponding function call designator</param>
-        /// <param name="start">The start character for this expression in the original string</param>
-        /// <param name="end">The end character for this expression in the original string</param>
-        public ProcedureCallStatement(ModelElement root, ModelElement log, Call call, int start, int end)
-            : base(root, log, start, end)
+        /// <param name="parsingData">Additional information about the parsing process</param>
+        public ProcedureCallStatement(ModelElement root, ModelElement log, Call call, ParsingData parsingData)
+            : base(root, log, parsingData)
         {
             Call = call;
             Call.Enclosing = this;

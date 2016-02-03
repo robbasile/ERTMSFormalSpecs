@@ -41,10 +41,9 @@ namespace DataDictionary.Interpreter
         /// <param name="root">The root element for which this model is built</param>
         /// <param name="log"></param>
         /// <param name="designator"></param>
-        /// <param name="start">The start character for this expression in the original string</param>
-        /// <param name="end">The end character for this expression in the original string</param>
-        public Term(ModelElement root, ModelElement log, Designator designator, int start, int end)
-            : base(root, log, start, end)
+        /// <param name="parsingData">Additional information about the parsing process</param>
+        public Term(ModelElement root, ModelElement log, Designator designator, ParsingData parsingData)
+            : base(root, log, parsingData)
         {
             Designator = SetEnclosed(designator);
         }
@@ -55,10 +54,9 @@ namespace DataDictionary.Interpreter
         /// <param name="root">The root element for which this model is built</param>
         /// <param name="log"></param>
         /// <param name="literal"></param>
-        /// <param name="start">The start character for this expression in the original string</param>
-        /// <param name="end">The end character for this expression in the original string</param>
-        public Term(ModelElement root, ModelElement log, Expression literal, int start, int end)
-            : base(root, log, start, end)
+        /// <param name="parsingData">Additional information about the parsing process</param>
+        public Term(ModelElement root, ModelElement log, Expression literal, ParsingData parsingData)
+            : base(root, log, parsingData)
         {
             LiteralValue = literal;
         }

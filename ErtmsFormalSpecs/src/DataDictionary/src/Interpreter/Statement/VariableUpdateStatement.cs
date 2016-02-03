@@ -49,11 +49,10 @@ namespace DataDictionary.Interpreter.Statement
         /// <param name="log"></param>
         /// <param name="variableIdentification"></param>
         /// <param name="expression"></param>
-        /// <param name="start">The start character for this expression in the original string</param>
-        /// <param name="end">The end character for this expression in the original string</param>
+        /// <param name="parsingData">Additional information about the parsing process</param>
         public VariableUpdateStatement(ModelElement root, ModelElement log, Expression variableIdentification,
-            Expression expression, int start, int end)
-            : base(root, log, start, end)
+            Expression expression, ParsingData parsingData)
+            : base(root, log, parsingData)
         {
             VariableIdentification = variableIdentification;
             VariableIdentification.Enclosing = this;

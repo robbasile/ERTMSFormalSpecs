@@ -50,11 +50,10 @@ namespace DataDictionary.Interpreter.Statement
         /// <param name="value">The value to insert</param>
         /// <param name="listExpression">The list to alter</param>
         /// <param name="replaceElement">The element to be replaced, if any</param>
-        /// <param name="start">The start character for this expression in the original string</param>
-        /// <param name="end">The end character for this expression in the original string</param>
+        /// <param name="parsingData">Additional information about the parsing process</param>
         public InsertStatement(ModelElement root, ModelElement log, Expression value, Expression listExpression,
-            Expression replaceElement, int start, int end)
-            : base(root, log, start, end)
+            Expression replaceElement, ParsingData parsingData)
+            : base(root, log, parsingData)
         {
             Value = value;
             Value.Enclosing = this;

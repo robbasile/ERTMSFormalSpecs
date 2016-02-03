@@ -56,11 +56,10 @@ namespace DataDictionary.Interpreter.Statement
         /// <param name="value">The value to insert in the list</param>
         /// <param name="listExpression">The list affected by the replace statement</param>
         /// <param name="condition">The condition which indicates the value to be replaced</param>
-        /// <param name="start">The start character for this expression in the original string</param>
-        /// <param name="end">The end character for this expression in the original string</param>
+        /// <param name="parsingData">Additional information about the parsing process</param>
         public ReplaceStatement(ModelElement root, ModelElement log, Expression value, Expression listExpression,
-            Expression condition, int start, int end)
-            : base(root, log, start, end)
+            Expression condition, ParsingData parsingData)
+            : base(root, log, parsingData)
         {
             Value = value;
             Value.Enclosing = this;

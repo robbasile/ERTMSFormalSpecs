@@ -818,7 +818,7 @@ namespace GUIUtils.Editor
                             Expression currentExpression = new Parser().Expression(modelElement,
                                 retVal.EnclosingName, AllMatches.INSTANCE, false, null, true);
                             Expression foreachExpression = new ForAllExpression(modelElement, modelElement,
-                                listExpression, "X", currentExpression, -1, -1);
+                                listExpression, "X", currentExpression, ParsingData.SyntheticElement);
                             foreachExpression.SemanticAnalysis();
                             if (currentExpression.Ref != null)
                             {

@@ -43,35 +43,40 @@ namespace DataDictionary.Interpreter
         public Usages StaticUsage { get; protected set; }
 
         /// <summary>
-        ///     The start character in the string for this expression
+        ///     Additional information about parsing process
         /// </summary>
-        public int Start { get; set; }
+        public ParsingData ParsingData { get; private set; }
 
         /// <summary>
-        ///     The end character in the string for this expression
+        /// The position of the first character
         /// </summary>
-        public int End { get; set; }
+        public int Start
+        {
+            get { return ParsingData.Start; }
+            set { ParsingData.Start = value; }
+        }
 
         /// <summary>
-        /// Indicates that the element has been completely parsed
+        /// The position of the last character 
         /// </summary>
-        public bool CompletelyParsed { get; set; }
+        public int End
+        {
+            get { return ParsingData.End; }
+            set { ParsingData.End = value; }            
+        }
 
         /// <summary>
         ///     Constructor
         /// </summary>
         /// <param name="root">The root element for which this interpreter tree node is created</param>
         /// <param name="log">The element on which logs should be added</param>
-        /// <param name="start">The start character for this expression in the original string</param>
-        /// <param name="end">The end character for this expression in the original string</param>
-        protected InterpreterTreeNode(ModelElement root, ModelElement log, int start, int end)
+        /// <param name="parsingData">Additional information about the parsing process</param>
+        protected InterpreterTreeNode(ModelElement root, ModelElement log, ParsingData parsingData)
         {
             Root = root;
             RootLog = log;
             StaticUsage = null;
-            Start = start;
-            End = end;
-            CompletelyParsed = false;
+            ParsingData = parsingData;
         }
 
         public string Name

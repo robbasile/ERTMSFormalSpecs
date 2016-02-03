@@ -73,6 +73,30 @@ namespace DataDictionary.Interpreter
         private bool PartialParsing { get; set; }
 
         /// <summary>
+        /// Indicates, in Partial parsing whether a parsing error has been found
+        /// </summary>
+        private bool ParsingErrorFound { get; set; }
+
+        /// <summary>
+        /// When an error is found, provides the expected input
+        /// </summary>
+        private string[] Expected { get; set; }
+
+        /// <summary>
+        /// Creates the parsing data according to the parameters provided and the parsing status
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <param name="complete"></param>
+        /// <returns></returns>
+        private ParsingData CreateParsingData(int start, int end, bool complete = true)
+        {
+            ParsingData retVal = new ParsingData(start, end, complete && !ParsingErrorFound);
+
+            return retVal;
+        }
+
+        /// <summary>
         ///     Provides the identifier at the current position
         /// </summary>
         /// <returns></returns>
@@ -130,10 +154,7 @@ namespace DataDictionary.Interpreter
             string identifier = Identifier();
             if (identifier != null)
             {
-                retVal = new Designator(Root, RootLog, identifier, start, start + identifier.Length)
-                {
-                    CompletelyParsed = true
-                };
+                retVal = new Designator(Root, RootLog, identifier, CreateParsingData(start, start + identifier.Length));
             }
 
             return retVal;
@@ -183,14 +204,18 @@ namespace DataDictionary.Interpreter
         /// <returns></returns>
         private string LookAhead(IEnumerable<string> expected)
         {
+            string retVal = null;
+
             foreach (string value in expected)
             {
                 if (LookAhead(value))
                 {
-                    return value;
+                    retVal = value;
+                    break;
                 }
             }
-            return null;
+
+            return retVal;
         }
 
         /// <summary>
@@ -206,7 +231,15 @@ namespace DataDictionary.Interpreter
             }
             else
             {
-                throw new ParseErrorException("Expecting " + expected, Index, Buffer);
+                if (PartialParsing)
+                {
+                    ParsingErrorFound = true;
+                    Expected = new[] {expected};
+                }
+                else
+                {
+                    throw new ParseErrorException("Expecting " + expected, Index, Buffer);
+                }
             }
         }
 
@@ -247,7 +280,7 @@ namespace DataDictionary.Interpreter
         private T MandatoryParse<T>(ParseSubPart<T> parse, params string[] prefix)
             where T : class
         {
-            T retVal;
+            T retVal = null;
 
             string lookAhead = LookAhead(prefix);
             if (lookAhead != null)
@@ -257,7 +290,15 @@ namespace DataDictionary.Interpreter
             }
             else
             {
-                throw new ParseErrorException("Expected " + prefix, Index, Buffer);
+                if (PartialParsing)
+                {
+                    ParsingErrorFound = true;
+                    Expected = prefix;
+                }
+                else
+                {
+                    throw new ParseErrorException("Expected " + prefix, Index, Buffer);                    
+                }
             }
 
             return retVal;
@@ -305,11 +346,9 @@ namespace DataDictionary.Interpreter
                 if (LookAhead("'"))
                 {
                     Match("'");
-                    retVal = new StringExpression(Root, RootLog, new String(Buffer, start, Index - start - 1), start - 1,
-                        Index)
-                    {
-                        CompletelyParsed = true
-                    };
+                    retVal = new StringExpression(Root, RootLog, 
+                        new String(Buffer, start, Index - start - 1), 
+                        CreateParsingData(start - 1, Index));
                 }
                 else
                 {
@@ -367,10 +406,7 @@ namespace DataDictionary.Interpreter
             if (digitFound)
             {
                 string str = new String(Buffer, Index, len);
-                retVal = new NumberExpression(Root, RootLog, str, type, start, str.Length)
-                {
-                    CompletelyParsed = true
-                };
+                retVal = new NumberExpression(Root, RootLog, str, type, CreateParsingData(start, str.Length));
                 Index += len;
             }
 
@@ -400,10 +436,7 @@ namespace DataDictionary.Interpreter
                 if (LookAhead("]"))
                 {
                     Match("]");
-                    retVal = new ListExpression(Root, RootLog, list, start, Index)
-                    {
-                        CompletelyParsed = true
-                    };
+                    retVal = new ListExpression(Root, RootLog, list, CreateParsingData(start, Index));
                 }
                 else
                 {
@@ -425,17 +458,14 @@ namespace DataDictionary.Interpreter
                             {
                                 Match("]");
 
-                                retVal = new ListExpression(Root, RootLog, list, start, Index)
-                                {
-                                    CompletelyParsed = true
-                                };
+                                retVal = new ListExpression(Root, RootLog, list, CreateParsingData(start, Index));
                                 findListEntries = false;
                             }
                             else
                             {
                                 if (PartialParsing)
                                 {
-                                    retVal = new ListExpression(Root, RootLog, list, start, Index);
+                                    retVal = new ListExpression(Root, RootLog, list, CreateParsingData(start, Index, false));
                                 }
                                 else
                                 {
@@ -485,10 +515,7 @@ namespace DataDictionary.Interpreter
                     if (LookAhead("}"))
                     {
                         Match("}");
-                        retVal = new StructExpression(Root, RootLog, structureId, associations, start, Index)
-                        {
-                            CompletelyParsed = true
-                        };
+                        retVal = new StructExpression(Root, RootLog, structureId, associations, CreateParsingData(start, Index));
                     }
                     else
                     {
@@ -499,11 +526,7 @@ namespace DataDictionary.Interpreter
                             string id = Identifier();
                             if (id != null)
                             {
-                                Designator designator = new Designator(Root, RootLog, id, startId, startId + id.Length)
-                                {
-                                    CompletelyParsed = true
-                                };
-
+                                Designator designator = new Designator(Root, RootLog, id, CreateParsingData(startId, startId + id.Length));
                                 Expression expression = MandatoryParse(()=>Expression(0), AssignOps);
                                 if (expression != null)
                                 {
@@ -535,20 +558,15 @@ namespace DataDictionary.Interpreter
                             else if (LookAhead("}"))
                             {
                                 Match("}");
-                                retVal = new StructExpression(Root, RootLog, structureId, associations, start, Index)
-                                {
-                                    CompletelyParsed = true
-                                };
+                                retVal = new StructExpression(Root, RootLog, structureId, associations, CreateParsingData(start, Index));
                                 break;
                             }
                             else
                             {
                                 if (PartialParsing)
                                 {
-                                    retVal = new StructExpression(Root, RootLog, structureId, associations, start, Index)
-                                    {
-                                        CompletelyParsed = false
-                                    };
+                                    retVal = new StructExpression(Root, RootLog, structureId, associations,
+                                        CreateParsingData(start, Index, false));
                                 }
                                 else
                                 {
@@ -592,18 +610,9 @@ namespace DataDictionary.Interpreter
             while (id != null)
             {
                 dotFound = false;
-                Designator designator = new Designator(Root, RootLog, id, start, start + id.Length)
-                {
-                    CompletelyParsed = true
-                };
-                Term term = new Term(Root, RootLog, designator, designator.Start, designator.End)
-                {
-                    CompletelyParsed = true
-                };
-                UnaryExpression unaryExpression = new UnaryExpression(Root, RootLog, term, term.Start, term.End)
-                {
-                    CompletelyParsed = true
-                };
+                Designator designator = new Designator(Root, RootLog, id, CreateParsingData(start, start + id.Length));
+                Term term = new Term(Root, RootLog, designator, CreateParsingData(designator.Start, designator.End));
+                UnaryExpression unaryExpression = new UnaryExpression(Root, RootLog, term, CreateParsingData(term.Start, term.End));
                 derefArguments.Add(unaryExpression);
 
                 id = null;
@@ -623,11 +632,8 @@ namespace DataDictionary.Interpreter
             }
             else if (derefArguments.Count > 1)
             {
-                retVal = new DerefExpression(Root, RootLog, derefArguments, derefArguments[0].Start,
-                    derefArguments[derefArguments.Count - 1].End)
-                {
-                    CompletelyParsed = !dotFound
-                };
+                retVal = new DerefExpression(Root, RootLog, derefArguments,
+                    CreateParsingData(derefArguments[0].Start, derefArguments[derefArguments.Count - 1].End));
             }
 
             return retVal;
@@ -656,10 +662,7 @@ namespace DataDictionary.Interpreter
             Expression literalValue = EvaluateLiteral();
             if (literalValue != null)
             {
-                retVal = new Term(Root, RootLog, literalValue, literalValue.Start, literalValue.End)
-                {
-                    CompletelyParsed = true
-                };
+                retVal = new Term(Root, RootLog, literalValue, CreateParsingData(literalValue.Start, literalValue.End));
             }
 
             if (retVal == null)
@@ -667,10 +670,7 @@ namespace DataDictionary.Interpreter
                 Designator designator = Designator();
                 if (designator != null)
                 {
-                    retVal = new Term(Root, RootLog, designator, designator.Start, designator.End)
-                    {
-                        CompletelyParsed = true
-                    };
+                    retVal = new Term(Root, RootLog, designator, CreateParsingData(designator.Start, designator.End));
                 }
             }
 
@@ -704,11 +704,8 @@ namespace DataDictionary.Interpreter
                         Expression expression = Expression(0);
                         if (expression != null)
                         {
-                            retVal = new LetExpression(Root, RootLog, boundVariable, bindinExpression, expression, start,
-                                Index)
-                            {
-                                CompletelyParsed = true
-                            };
+                            retVal = new LetExpression(Root, RootLog, boundVariable, bindinExpression, expression,
+                                CreateParsingData(start, Index));
                         }
                         else
                         {
@@ -800,7 +797,7 @@ namespace DataDictionary.Interpreter
                 if (expressionRight != null)
                 {
                     retVal = new BinaryExpression(Root, RootLog, expressionLeft, oper, expressionRight,
-                        expressionLeft.Start, expressionRight.End); // {op_i+1} Expression_i+1
+                        CreateParsingData(expressionLeft.Start, expressionRight.End)); // {op_i+1} Expression_i+1
                     retVal = ExpressionContinuation(expressionLevel, retVal); // Expression_iCont
                 }
             }
@@ -854,10 +851,8 @@ namespace DataDictionary.Interpreter
                         RootLog.AddWarning("Invalid deref expression for [" + invalidDeref +
                                            "] skipping empty dereference");
                     }
-                    current = new DerefExpression(Root, RootLog, tmp, expressionLeft.Start, tmp[tmp.Count - 1].End)
-                    {
-                        CompletelyParsed = true
-                    };
+                    current = new DerefExpression(Root, RootLog, tmp,
+                        CreateParsingData(expressionLeft.Start, tmp[tmp.Count - 1].End));
                 }
 
                 while (LookAhead("("))
@@ -869,11 +864,8 @@ namespace DataDictionary.Interpreter
             if (derefArguments.Count > 0)
             {
                 derefArguments.Add(current);
-                current = new DerefExpression(Root, RootLog, derefArguments, derefArguments[0].Start,
-                    derefArguments[derefArguments.Count - 1].End)
-                {
-                    CompletelyParsed = true
-                };
+                current = new DerefExpression(Root, RootLog, derefArguments,
+                    CreateParsingData(derefArguments[0].Start, derefArguments[derefArguments.Count - 1].End));
             }
 
             return current;
@@ -891,7 +883,7 @@ namespace DataDictionary.Interpreter
             SkipWhiteSpaces();
             if (LookAhead("("))
             {
-                retVal = new Call(Root, RootLog, left, left.Start, -1);
+                retVal = new Call(Root, RootLog, left, CreateParsingData(left.Start, -1));
                 Match("(");
                 bool cont = true;
                 while (cont)
@@ -900,7 +892,6 @@ namespace DataDictionary.Interpreter
                     if (LookAhead(")"))
                     {
                         Match(")");
-                        retVal.CompletelyParsed = true;
                         cont = false;
                     }
                     else
@@ -915,10 +906,7 @@ namespace DataDictionary.Interpreter
                             if (assignOp != null)
                             {
                                 Match(assignOp);
-                                parameter = new Designator(Root, RootLog, id, current2, current2 + id.Length)
-                                {
-                                    CompletelyParsed = true
-                                };
+                                parameter = new Designator(Root, RootLog, id, CreateParsingData(current2, current2 + id.Length));
                             }
                             else
                             {
@@ -937,7 +925,6 @@ namespace DataDictionary.Interpreter
                             else if (LookAhead(")"))
                             {
                                 Match(")");
-                                retVal.CompletelyParsed = true;
                                 cont = false;
                             }
                         }
@@ -945,6 +932,7 @@ namespace DataDictionary.Interpreter
                         {
                             if (PartialParsing)
                             {
+                                retVal.ParsingData.CompletelyParsed = false;
                                 cont = false;
                             }
                             else
@@ -989,7 +977,7 @@ namespace DataDictionary.Interpreter
                         if (FilterExpression.Operator.Equals(listOp))
                         {
                             retVal = new FilterExpression(Root, RootLog, listExpression, iteratorIdentifier, condition,
-                                           start, Index);
+                                           CreateParsingData(start, Index));
                         }
                         else
                         {
@@ -999,12 +987,12 @@ namespace DataDictionary.Interpreter
                                 if (MapExpression.Operator.Equals(listOp))
                                 {
                                     retVal = new MapExpression(Root, RootLog, listExpression, iteratorIdentifier, condition,
-                                        iteratorExpression, start, Index);
+                                        iteratorExpression, CreateParsingData(start, Index));
                                 }
                                 else if (SumExpression.Operator.Equals(listOp))
                                 {
                                     retVal = new SumExpression(Root, RootLog, listExpression, iteratorIdentifier, condition,
-                                        iteratorExpression, start, Index);
+                                        iteratorExpression, CreateParsingData(start, Index));
                                 }
                                 else if (ReduceExpression.Operator.Equals(listOp))
                                 {
@@ -1012,7 +1000,7 @@ namespace DataDictionary.Interpreter
                                     if (initialValue != null)
                                     {
                                         retVal = new ReduceExpression(Root, RootLog, listExpression, iteratorIdentifier,
-                                            condition, iteratorExpression, initialValue, start, Index);
+                                            condition, iteratorExpression, initialValue, CreateParsingData(start, Index));
                                     }
                                 }
                             }
@@ -1031,27 +1019,27 @@ namespace DataDictionary.Interpreter
                         if (ThereIsExpression.Operator.Equals(listOp))
                         {
                             retVal = new ThereIsExpression(Root, RootLog, listExpression, iteratorIdentifier, condition,
-                                start, Index);
+                                CreateParsingData(start, Index));
                         }
                         else if (ForAllExpression.Operator.Equals(listOp))
                         {
                             retVal = new ForAllExpression(Root, RootLog, listExpression, iteratorIdentifier, condition,
-                                start, Index);
+                                CreateParsingData(start, Index));
                         }
                         else if (FirstExpression.Operator.Equals(listOp))
                         {
                             retVal = new FirstExpression(Root, RootLog, listExpression, iteratorIdentifier, condition,
-                                start, Index);
+                                CreateParsingData(start, Index));
                         }
                         else if (LastExpression.Operator.Equals(listOp))
                         {
                             retVal = new LastExpression(Root, RootLog, listExpression, iteratorIdentifier, condition,
-                                start, Index);
+                                CreateParsingData(start, Index));
                         }
                         else if (CountExpression.Operator.Equals(listOp))
                         {
                             retVal = new CountExpression(Root, RootLog, listExpression, iteratorIdentifier, condition,
-                                start, Index);
+                                CreateParsingData(start, Index));
                         }
                     }
                 }
@@ -1077,7 +1065,7 @@ namespace DataDictionary.Interpreter
             {
                 Match(unaryOp);
                 Expression expression = Expression(6);
-                retVal = new UnaryExpression(Root, RootLog, expression, unaryOp, start, Index);
+                retVal = new UnaryExpression(Root, RootLog, expression, unaryOp, CreateParsingData(start, Index));
             }
             else
             {
@@ -1087,7 +1075,8 @@ namespace DataDictionary.Interpreter
                     Expression initialValue = MandatoryParse(() => Expression(0), "INITIAL_VALUE");
                     Expression condition = MandatoryParse(() => Expression(0), "STOP_CONDITION");
 
-                    retVal = new StabilizeExpression(Root, RootLog, expression, initialValue, condition, start, Index);
+                    retVal = new StabilizeExpression(Root, RootLog, expression, initialValue, condition,
+                        CreateParsingData(start, Index));
                 }
                 else
                 {
@@ -1101,12 +1090,12 @@ namespace DataDictionary.Interpreter
                         Term term = Term();
                         if (term != null)
                         {
-                            retVal = new UnaryExpression(Root, RootLog, term, start, Index);
+                            retVal = new UnaryExpression(Root, RootLog, term, CreateParsingData(start, Index));
                         }
                         else if (LookAhead("("))
                         {
                             Match("(");
-                            retVal = new UnaryExpression(Root, RootLog, Expression(0), null, start, -1);
+                            retVal = new UnaryExpression(Root, RootLog, Expression(0), null, CreateParsingData(start, -1));
                             Match(")");
                             retVal.End = Index;
 
@@ -1175,7 +1164,8 @@ namespace DataDictionary.Interpreter
                     Expression expression = Expression(0);
                     if (expression != null)
                     {
-                        retVal = new FunctionExpression(Root, RootLog, parameters, expression, start, Index);
+                        retVal = new FunctionExpression(Root, RootLog, parameters, expression,
+                            CreateParsingData(start, Index));
                     }
                     else
                     {
@@ -1285,7 +1275,8 @@ namespace DataDictionary.Interpreter
                         Match("|");
                         condition = Expression(0);
                     }
-                    retVal = new ApplyStatement(Root, RootLog, appliedStatement, listExpression, condition, start, Index);
+                    retVal = new ApplyStatement(Root, RootLog, appliedStatement, listExpression, condition,
+                        CreateParsingData(start, Index));
                 }
                 else
                 {
@@ -1309,7 +1300,8 @@ namespace DataDictionary.Interpreter
 
                         replaceElement = Expression(0);
                     }
-                    retVal = new InsertStatement(Root, RootLog, value, list, replaceElement, start, Index);
+                    retVal = new InsertStatement(Root, RootLog, value, list, replaceElement, 
+                        CreateParsingData(start, Index));
                 }
             }
             else if (LookAhead("REMOVE"))
@@ -1339,7 +1331,8 @@ namespace DataDictionary.Interpreter
                 }
                 Match("IN");
                 Expression list = Expression(0);
-                retVal = new RemoveStatement(Root, RootLog, condition, position, list, start, Index);
+                retVal = new RemoveStatement(Root, RootLog, condition, position, list, 
+                    CreateParsingData(start, Index));
             }
             else if (LookAhead("REPLACE"))
             {
@@ -1350,7 +1343,8 @@ namespace DataDictionary.Interpreter
                 Match("BY");
                 Expression value = Expression(0);
 
-                retVal = new ReplaceStatement(Root, RootLog, value, list, condition, start, Index);
+                retVal = new ReplaceStatement(Root, RootLog, value, list, condition, 
+                    CreateParsingData(start, Index));
             }
             else
             {
@@ -1370,7 +1364,8 @@ namespace DataDictionary.Interpreter
 
                         if (expression2 != null)
                         {
-                            retVal = new VariableUpdateStatement(Root, RootLog, expression, expression2, start, Index);
+                            retVal = new VariableUpdateStatement(Root, RootLog, expression, expression2, 
+                                CreateParsingData(start, Index));
                         }
                         else
                         {
@@ -1384,7 +1379,7 @@ namespace DataDictionary.Interpreter
                         Call call = expression as Call;
                         if (call != null)
                         {
-                            retVal = new ProcedureCallStatement(Root, RootLog, call, start, Index);
+                            retVal = new ProcedureCallStatement(Root, RootLog, call, CreateParsingData(start, Index));
                         }
                     }
                 }

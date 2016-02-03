@@ -48,15 +48,14 @@ namespace DataDictionary.Interpreter
         ///     Constructor
         /// </summary>
         /// <param name="root">the root element for which this expression should be parsed</param>
-        /// <param name="start">The start character for this expression in the original string</param>
-        /// <param name="end">The end character for this expression in the original string</param>
         /// <param name="log"></param>
         /// <param name="boundVariableName">The name of the bound variable</param>
         /// <param name="bindingExpression">The binding expression which provides the value of the variable</param>
         /// <param name="expression">The expression to be evaluated</param>
+        /// <param name="parsingData">Additional information about the parsing process</param>
         public LetExpression(ModelElement root, ModelElement log, string boundVariableName, Expression bindingExpression,
-            Expression expression, int start, int end)
-            : base(root, log, start, end)
+            Expression expression, ParsingData parsingData)
+            : base(root, log, parsingData)
         {
             BoundVariable = CreateBoundVariable(boundVariableName, null);
 

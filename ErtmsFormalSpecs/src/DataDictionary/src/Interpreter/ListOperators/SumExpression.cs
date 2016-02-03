@@ -55,11 +55,10 @@ namespace DataDictionary.Interpreter.ListOperators
         /// <param name="expression"></param>
         /// <param name="root">the root element for which this expression should be parsed</param>
         /// <param name="iteratorVariableName"></param>
-        /// <param name="start">The start character for this expression in the original string</param>
-        /// <param name="end">The end character for this expression in the original string</param>
+        /// <param name="parsingData">Additional information about the parsing process</param>
         public SumExpression(ModelElement root, ModelElement log, Expression listExpression, string iteratorVariableName,
-            Expression condition, Expression expression, int start, int end)
-            : base(root, log, listExpression, iteratorVariableName, condition, expression, start, end)
+            Expression condition, Expression expression, ParsingData parsingData)
+            : base(root, log, listExpression, iteratorVariableName, condition, expression, parsingData)
         {
             AccumulatorVariable = CreateBoundVariable("RESULT", null);
             ISubDeclaratorUtils.AppendNamable(this, AccumulatorVariable);
@@ -68,11 +67,21 @@ namespace DataDictionary.Interpreter.ListOperators
             {
                 DefinedAccumulator = SetEnclosed(expression);
                 Accumulator =
-                    SetEnclosed(new BinaryExpression(Root, RootLog, DefinedAccumulator, BinaryExpression.Operator.Add,
-                        new UnaryExpression(Root, RootLog,
-                            new Term(Root, RootLog, new Designator(Root, RootLog, "RESULT", -1, -1), -1, -1), -1, -1),
-                        -1,
-                        -1));
+                    SetEnclosed(new BinaryExpression(
+                        Root,
+                        RootLog,
+                        DefinedAccumulator,
+                        BinaryExpression.Operator.Add,
+                        new UnaryExpression(
+                            Root,
+                            RootLog,
+                            new Term(
+                                Root,
+                                RootLog,
+                                new Designator(Root, RootLog, "RESULT", ParsingData.SyntheticElement),
+                                ParsingData.SyntheticElement),
+                            ParsingData.SyntheticElement),
+                        ParsingData.SyntheticElement));
             }
         }
 

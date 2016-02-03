@@ -65,11 +65,10 @@ namespace DataDictionary.Interpreter.Statement
         /// <param name="condition">The corresponding function call designator</param>
         /// <param name="position">The position in which the element should be removed</param>
         /// <param name="listExpression">The expressions used to compute the parameters</param>
-        /// <param name="start"></param>
-        /// <param name="end"></param>
+        /// <param name="parsingData">Additional information about the parsing process</param>
         public RemoveStatement(ModelElement root, ModelElement log, Expression condition, PositionEnum position,
-            Expression listExpression, int start, int end)
-            : base(root, log, start, end)
+            Expression listExpression, ParsingData parsingData)
+            : base(root, log, parsingData)
         {
             Condition = condition;
             if (condition != null)

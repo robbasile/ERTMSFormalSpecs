@@ -63,11 +63,10 @@ namespace DataDictionary.Interpreter.ListOperators
         /// <param name="log"></param>
         /// <param name="listExpression"></param>
         /// <param name="iteratorVariableName">The name of the iterator variable</param>
-        /// <param name="start">The start character for this expression in the original string</param>
-        /// <param name="end">The end character for this expression in the original string</param>
+        /// <param name="parsingData">Additional information about the parsing process</param>
         protected ListOperatorExpression(ModelElement root, ModelElement log, Expression listExpression,
-            string iteratorVariableName, int start, int end)
-            : base(root, log, start, end)
+            string iteratorVariableName, ParsingData parsingData)
+            : base(root, log, parsingData)
         {
             ListExpression = SetEnclosed(listExpression);
 

@@ -62,10 +62,9 @@ namespace DataDictionary.Interpreter
         /// </summary>
         /// <param name="root">The root for which this expression should be evaluated</param>
         /// <param name="log"></param>
-        /// <param name="start">The start character for this expression in the original string</param>
-        /// <param name="end">The end character for this expression in the original string</param>
-        protected Expression(ModelElement root, ModelElement log, int start, int end)
-            : base(root, log, start, end)
+        /// <param name="parsingData">Additional information about the parsing process</param>
+        protected Expression(ModelElement root, ModelElement log, ParsingData parsingData)
+            : base(root, log, parsingData)
         {
         }
 

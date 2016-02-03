@@ -137,10 +137,9 @@ namespace DataDictionary.Interpreter
         /// <param name="root"></param>
         /// <param name="log"></param>
         /// <param name="image">The designator image</param>
-        /// <param name="start">The start character for this expression in the original string</param>
-        /// <param name="end">The end character for this expression in the original string</param>
-        public Designator(ModelElement root, ModelElement log, string image, int start, int end)
-            : base(root, log, start, end)
+        /// <param name="parsingData">Additional information about the parsing process</param>
+        public Designator(ModelElement root, ModelElement log, string image, ParsingData parsingData)
+            : base(root, log, parsingData)
         {
             Image = image;
         }

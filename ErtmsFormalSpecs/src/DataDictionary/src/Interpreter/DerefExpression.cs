@@ -39,10 +39,9 @@ namespace DataDictionary.Interpreter
         /// <param name="root"></param>
         /// <param name="log"></param>
         /// <param name="arguments"></param>
-        /// <param name="start">The start character for this expression in the original string</param>
-        /// <param name="end">The end character for this expression in the original string</param>
-        public DerefExpression(ModelElement root, ModelElement log, List<Expression> arguments, int start, int end)
-            : base(root, log, start, end)
+        /// <param name="parsingData">Additional information about the parsing process</param>
+        public DerefExpression(ModelElement root, ModelElement log, List<Expression> arguments, ParsingData parsingData)
+            : base(root, log, parsingData)
         {
             if (arguments != null)
             {

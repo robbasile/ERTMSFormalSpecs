@@ -81,10 +81,9 @@ namespace DataDictionary.Interpreter
         /// <param name="root">The root element for which this element is built</param>
         /// <param name="log"></param>
         /// <param name="called">The called function</param>
-        /// <param name="start">The start character for this expression in the original string</param>
-        /// <param name="end">The end character for this expression in the original string</param>
-        public Call(ModelElement root, ModelElement log, Expression called, int start, int end)
-            : base(root, log, start, end)
+        /// <param name="parsingData">Additional information about the parsing process</param>
+        public Call(ModelElement root, ModelElement log, Expression called, ParsingData parsingData)
+            : base(root, log, parsingData)
         {
             Called = SetEnclosed(called);
         }

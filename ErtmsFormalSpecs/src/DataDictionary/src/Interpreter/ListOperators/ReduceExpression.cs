@@ -53,12 +53,10 @@ namespace DataDictionary.Interpreter.ListOperators
         /// <param name="condition"></param>
         /// <param name="function"></param>
         /// <param name="initialValue"></param>
-        /// <param name="start">The start character for this expression in the original string</param>
-        /// <param name="end">The end character for this expression in the original string</param>
+        /// <param name="parsingData">Additional information about the parsing process</param>
         public ReduceExpression(ModelElement root, ModelElement log, Expression listExpression,
-            string iteratorVariableName, Expression condition, Expression function, Expression initialValue, int start,
-            int end)
-            : base(root, log, listExpression, iteratorVariableName, condition, function, start, end)
+            string iteratorVariableName, Expression condition, Expression function, Expression initialValue, ParsingData parsingData)
+            : base(root, log, listExpression, iteratorVariableName, condition, function, parsingData)
         {
             InitialValue = SetEnclosed(initialValue);
 

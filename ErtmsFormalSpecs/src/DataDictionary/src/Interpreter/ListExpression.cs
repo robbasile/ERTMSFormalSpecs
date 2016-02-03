@@ -35,13 +35,12 @@ namespace DataDictionary.Interpreter
         /// <summary>
         ///     Constructor
         /// </summary>
-        /// <param name="elements"></param>
-        /// <param name="start">The start character for this expression in the original string</param>
-        /// <param name="end">The end character for this expression in the original string</param>
         /// <param name="root"></param>
         /// <param name="log"></param>
-        public ListExpression(ModelElement root, ModelElement log, List<Expression> elements, int start, int end)
-            : base(root, log, start, end)
+        /// <param name="elements"></param>
+        /// <param name="parsingData">Additional information about the parsing process</param>
+        public ListExpression(ModelElement root, ModelElement log, List<Expression> elements, ParsingData parsingData)
+            : base(root, log, parsingData)
         {
             SetListElements(elements);
         }

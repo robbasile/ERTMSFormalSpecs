@@ -126,11 +126,10 @@ namespace DataDictionary.Interpreter
         /// <param name="left"></param>
         /// <param name="op"></param>
         /// <param name="right"></param>
-        /// <param name="start">The start character for this expression in the original string</param>
-        /// <param name="end">The end character for this expression in the original string</param>
+        /// <param name="parsingData">Additional information about the parsing process</param>
         public BinaryExpression(ModelElement root, ModelElement log, Expression left, Operator op, Expression right,
-            int start, int end)
-            : base(root, log, start, end)
+            ParsingData parsingData)
+            : base(root, log, parsingData)
         {
             Left = SetEnclosed(left);
             Operation = op;

@@ -39,10 +39,9 @@ namespace DataDictionary.Interpreter
         /// <param name="root">The root for which this expression should be evaluated</param>
         /// <param name="log"></param>
         /// <param name="term"></param>
-        /// <param name="start">The start character for this expression in the original string</param>
-        /// <param name="end">The end character for this expression in the original string</param>
-        public UnaryExpression(ModelElement root, ModelElement log, Term term, int start, int end)
-            : base(root, log, start, end)
+        /// <param name="parsingData">Additional information about the parsing process</param>
+        public UnaryExpression(ModelElement root, ModelElement log, Term term, ParsingData parsingData)
+            : base(root, log, parsingData)
         {
             Term = SetEnclosed(term);
         }
@@ -73,11 +72,9 @@ namespace DataDictionary.Interpreter
         /// <param name="log"></param>
         /// <param name="expression">The enclosed expression</param>
         /// <param name="unaryOp">the unary operator for this unary expression</param>
-        /// <param name="start">The start character for this expression in the original string</param>
-        /// <param name="end">The end character for this expression in the original string</param>
-        public UnaryExpression(ModelElement root, ModelElement log, Expression expression, string unaryOp, int start,
-            int end)
-            : base(root, log, start, end)
+        /// <param name="parsingData">Additional information about the parsing process</param>
+        public UnaryExpression(ModelElement root, ModelElement log, Expression expression, string unaryOp, ParsingData parsingData)
+            : base(root, log, parsingData)
         {
             Expression = SetEnclosed(expression);
             UnaryOp = unaryOp;
