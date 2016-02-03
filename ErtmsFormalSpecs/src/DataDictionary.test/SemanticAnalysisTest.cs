@@ -66,14 +66,14 @@ namespace DataDictionary.test
 
             Util.IsThereAnyError isThereAnyError = new Util.IsThereAnyError();
             Assert.AreEqual(0, isThereAnyError.ErrorsFound.Count);
-            Assert.AreEqual("[EMPTY, EMPTY, EMPTY]", variable.Value.LiteralName);
+            Assert.AreEqual("[]", variable.Value.LiteralName);
 
             Runner runner = new Runner(false);
             runner.Cycle();
-            Assert.AreEqual("[" + structure.DefaultValue.LiteralName + ", EMPTY, EMPTY]", variable.Value.LiteralName);
+            Assert.AreEqual("[" + structure.DefaultValue.LiteralName + "]", variable.Value.LiteralName);
 
             runner.Cycle();
-            Assert.AreEqual("[" + structure.DefaultValue.LiteralName + ", " + structure.DefaultValue.LiteralName + ", EMPTY]", variable.Value.LiteralName);
+            Assert.AreEqual("[" + structure.DefaultValue.LiteralName + ", " + structure.DefaultValue.LiteralName + "]", variable.Value.LiteralName);
 
             runner.Cycle();
             Assert.AreEqual("[" + structure.DefaultValue.LiteralName + ", " + structure.DefaultValue.LiteralName + ", " + structure.DefaultValue.LiteralName + "]", variable.Value.LiteralName);
