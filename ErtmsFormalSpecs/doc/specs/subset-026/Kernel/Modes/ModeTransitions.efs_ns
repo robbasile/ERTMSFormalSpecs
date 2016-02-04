@@ -1361,11 +1361,11 @@ NOT Kernel.Override.OverrideIsActive()</Expression>
  Guid="7df588b1-7b61-44ff-b4c0-8cef08b7afe0"
 >
 <Expression>Kernel.Modes.StaffResponsible.StopIfInStaffResponsible
-  AND  
+  AND
 (
   NOT Kernel.Modes.StaffResponsible.SRAuthorisation.BGListReceived
     OR  
-  FORALL BaliseGroup IN Kernel.Modes.StaffResponsible.SRAuthorisation.BGs | ((FIRST X IN BTM.CurrentBaliseGroup).Telegram.NID_BG != BaliseGroup.NID_BG  OR  (FIRST X IN BTM.CurrentBaliseGroup).Telegram.NID_C != BaliseGroup.NID_C) 
+  Kernel.Modes.StaffResponsible.UnexpectedBGPassed
 )
   AND  
 NOT Kernel.Override.OverrideIsActive()</Expression>
@@ -8810,6 +8810,7 @@ IN MA.ModeProfile.Profile</Action></Actions>
  Width="100"
  Height="50"
  Implemented="TRUE"
+ NeedsRequirement="FALSE"
  Name="Update previous mode"
  Guid="0576564d-fc54-44ed-8060-cb33f2be942f"
 >
@@ -8817,6 +8818,8 @@ IN MA.ModeProfile.Profile</Action></Actions>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
  Name="Update previous mode"
  Guid="a6111ffe-d83c-4735-a30f-d9bd063ade90"
 >

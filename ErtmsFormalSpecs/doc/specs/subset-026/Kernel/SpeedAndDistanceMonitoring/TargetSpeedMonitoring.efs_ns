@@ -430,7 +430,7 @@ X2=&gt; aTarget.Speed + Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring
 <PreConditions>
 <PreCondition
  Guid="7b9f6890-4be7-49cf-9750-bc2b6d56cfb4"
->d_maxsafefront + BaseTypes.SpeedToMS(Vest) * ( Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.T_driver + Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.T_bs2 ) + Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.Dbe_display( Vest =&gt; Vest, NoA_est=&gt;False)
+>d_maxsafefront + BaseTypes.SpeedToMS(Vest) * ( Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.T_driver +   Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.T_bs2 ) +   Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.Dbe_display( Vest =&gt; Vest, NoA_est=&gt;False)
   &lt;  
 Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.EBD_TargetForSpeed(
     Vest =&gt; aTarget.Speed,
@@ -909,11 +909,14 @@ Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.EBD_TargetForSpeed(aTarget=
  Name="Value"
  Guid="f6c71c64-a1ed-4e52-9eee-68edbd4d2eb7"
 >
-<Expression>Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.EBD_TargetForSpeed(
+<Expression>Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.EBD_TargetForSpeed
+(
     aTarget =&gt; aTarget,
     Vest =&gt; Vest,
     NoA_est =&gt; NoA_est
-) - Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.Dbec (
+)
+  - Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.Dbec
+(
     Vest =&gt; Vest,
     Vtarget =&gt; aTarget.Speed,
     NoA_est =&gt; NoA_est
@@ -1295,7 +1298,8 @@ This protection is used in the case where V_SBI_DMI is calculated but the train 
 <PreConditions>
 <PreCondition
  Guid="13250617-f02f-44c1-afbf-b1bcac4bd983"
->Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_SBI2(
+>Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_SBI2
+(
     Vest =&gt; Vest,
     aTarget =&gt; aTarget,
     NoA_est =&gt; NoA_est

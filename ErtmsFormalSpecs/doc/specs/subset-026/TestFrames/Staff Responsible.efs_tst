@@ -1,0 +1,751 @@
+<Frame
+ CycleDuration="0.1"
+ Name="Staff Responsible"
+ Guid="875c48ee-522e-4bc3-8b16-884e5a59fb9c"
+>
+<SubSequences>
+<SubSequence
+ D_LRBG=""
+ Level=""
+ Mode=""
+ NID_LRBG=""
+ Q_DIRLRBG=""
+ Q_DIRTRAIN=""
+ Q_DLRBG=""
+ RBC_ID=""
+ RBCPhone=""
+ Name="Stop if in SR: train is tripped"
+ Guid="69b8ffb3-3ed9-4fd0-ad12-1d87b3d17470"
+>
+<TestCases>
+<TestCase
+ Name="Check train is tripped if Stop if in SR received and the BG in not in the list"
+ Guid="4f5922fb-d7e4-4eb8-b3b1-00bd4fe3d32b"
+>
+<ReqRef
+ Id="01a39be8-2459-4c78-a817-469f0b6b6748"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="5207c1b4-1d42-4ab8-bc5f-ad9d88ba56d2"
+>
+</ReqRef><ReqRef
+ Id="77289e9b-8c64-4406-8d33-fcf9d018e94c"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6e5cf4f4-a63a-4901-a323-90175a9bd9c4"
+>
+</ReqRef><ReqRef
+ Id="98a5c6ab-1a8f-4522-b2ce-57728dc6df86"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="02663aea-a268-4c31-849b-b7e1844a2fdc"
+>
+</ReqRef><ReqRef
+ Id="4194dc47-a12e-4906-99ac-3f43ccf3b796"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a5141cec-4a45-470c-8925-d883a1ff151d"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Setup"
+ Guid="089f010e-d75f-4dbf-82f7-24971454938f"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Initialize test environment"
+ Guid="61619494-3724-4677-8eef-96a29fb7eeb8"
+>
+<Actions>
+<Action
+ Guid="520b4f4d-be73-45aa-9326-316791b9d037"
+>Testing.InitializeTestEnvironment
+(
+    aTrainPosition =&gt; 0.0,
+    aMode =&gt; Default.ModeEnum.SR
+)</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Setup for BG reception"
+ Guid="1820129c-e160-40e4-b893-8ced066a7620"
+>
+<Actions>
+<Action
+ Guid="4ed35b7c-035f-4ef4-9c1c-6dba7025fe0f"
+>BTM.LRBG &lt;- BTM.BaliseGroupStruct
+{
+    NID =&gt; 255,
+    Orientation =&gt; OrientationEnum.Nominal,
+    Position =&gt; BTM.Position
+    {
+        OverReadingAmountOdo =&gt; 2.0,
+        Position =&gt; 0.0,
+        UnderReadingAmountOdo =&gt; 2.0
+
+    }
+}</Action><Action
+ Guid="dbd03462-b060-4d6d-a6fc-32481a55f46b"
+>BTM.PreviousBaliseGroups &lt;- []</Action><Action
+ Guid="1115beb1-0bf6-4d45-81e1-ae4c7e736873"
+>Odometry.NominalDistance &lt;- 0.0</Action><Action
+ Guid="a5ca1d22-deda-4783-ab67-247d92009a7e"
+>Kernel.MA.MA &lt;- Kernel.MA.MAStruct{
+    TargetSpeed =&gt; 0.0,
+    Sections =&gt; [],
+    EndSection =&gt; Kernel.MA.EndSectionStruct{
+        Length =&gt; 2000.0
+    }
+}</Action><Action
+ Guid="64e26692-1509-4a3d-8f67-51fd65898a49"
+>Kernel.TrainPosition.Position.DataState &lt;- DataStateEnum.Valid</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Set list of SR balises"
+ Guid="d86fe88b-6eab-4243-a067-349478e62089"
+>
+<Actions>
+<Action
+ Guid="10e259e4-cbe0-4f32-93ad-57df7570f98f"
+>Kernel.Modes.StaffResponsible.SRAuthorisation &lt;- Kernel.Modes.StaffResponsible.SRStruct
+{
+  BGs =&gt;
+  [
+    Kernel.BaliseGroup
+    {
+      NewCountry =&gt; Boolean.False,
+      NID_C =&gt; 20,
+      NID_BG =&gt; 404
+    },
+    Kernel.BaliseGroup
+    {
+      NewCountry =&gt; Boolean.False,
+      NID_C =&gt; 20,
+      NID_BG =&gt; 406
+    },
+    Kernel.BaliseGroup
+    {
+      NewCountry =&gt; Boolean.False,
+      NID_C =&gt; 20,
+      NID_BG =&gt; 408
+    }
+  ],
+  BGListReceived =&gt; Boolean.True,
+  Location =&gt; 3000.0
+}</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Reception of Stop if in SR"
+ Guid="bc27476b-d803-4877-b17e-9d6ca464885c"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Check mode is SR"
+ Guid="7ac125e7-7a5d-46fd-ae74-f097b8ae5bff"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="bf946057-34dd-4d7f-96c3-5fa71665f0b8"
+>Kernel.Mode == ModeEnum.SR</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="7d3b0dc8-f42b-406c-b4a7-ff2998f2c91e"
+>COUNT X IN Kernel.BrakeCommands.EmergencyBrakeCommands == 0</Expectation></Expectations>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Reception of Stop if in SR"
+ Guid="0c7b07a6-46d2-499d-9eba-4afde00017f8"
+>
+<Actions>
+<Action
+ Guid="52f184f5-81ca-4750-b4ca-805587bd4e9c"
+>BTM.Message.SystemVersion2 &lt;- Messages.EUROBALISE.Message
+{
+  Q_UPDOWN =&gt; Messages.Q_UPDOWN.Up_link_telegram, 
+  M_VERSION =&gt; 32, 
+  Q_MEDIA =&gt; Messages.Q_MEDIA.Balise, 
+  N_PIG =&gt; Messages.N_PIG._1C, 
+  N_TOTAL =&gt; Messages.N_TOTAL._1_balise_in_groupC, 
+  M_DUP =&gt; Messages.M_DUP.No_duplicates, 
+  M_MCOUNT =&gt; 1, 
+  NID_C =&gt; 80, 
+  NID_BG =&gt; 256, 
+  Q_LINK =&gt; Messages.Q_LINK.Unlinked, 
+  Sequence1 =&gt; [Messages.EUROBALISE.SubStructure1
+    {
+      TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message
+      {
+        STOP_IF_IN_STAFF_RESPONSIBLE =&gt; Messages.PACKET.TRACK_TO_TRAIN.STOP_IF_IN_STAFF_RESPONSIBLE.Message
+        {
+          Q_DIR =&gt; Messages.Q_DIR.Both_directions, 
+          Q_SRSTOP =&gt; Messages.Q_SRSTOP.Stop_if_in_SR_mode
+        }, 
+        VIRTUAL_BALISE_COVER_MARKER =&gt; EMPTY, 
+        SYSTEM_VERSION_ORDER =&gt; EMPTY, 
+        NATIONAL_VALUES =&gt; EMPTY, 
+        LINKING =&gt; EMPTY, 
+        LEVEL_1_MOVEMENT_AUTHORITY =&gt; EMPTY, 
+        STAFF_RESPONSIBLE_DISTANCE_INFORMATION_FROM_LOOP =&gt; EMPTY, 
+        LEVEL_2_3_MOVEMENT_AUTHORITY =&gt; EMPTY, 
+        REPOSITIONING_INFORMATION =&gt; EMPTY, 
+        GRADIENT_PROFILE =&gt; EMPTY, 
+        INTERNATIONAL_STATIC_SPEED_PROFILE =&gt; EMPTY, 
+        TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM =&gt; EMPTY, 
+        TRACK_CONDITION_CHANGE_OF_ALLOWED_CURRENT_CONSUMPTION =&gt; EMPTY, 
+        LEVEL_TRANSITION_ORDER =&gt; EMPTY, 
+        SESSION_MANAGEMENT =&gt; EMPTY, 
+        RADIO_NETWORK_REGISTRATION =&gt; EMPTY, 
+        CONDITIONAL_LEVEL_TRANSITION_ORDER =&gt; EMPTY, 
+        LIST_OF_BALISES_FOR_SH_AREA =&gt; EMPTY, 
+        AXLE_LOAD_SPEED_PROFILE =&gt; EMPTY, 
+        PERMITTED_BRAKING_DISTANCE_INFORMATION =&gt; EMPTY, 
+        MOVEMENT_AUTHORITY_REQUEST_PARAMETERS =&gt; EMPTY, 
+        POSITION_REPORT_PARAMETERS =&gt; EMPTY, 
+        LIST_OF_BALISES_IN_SR_AUTHORITY =&gt; EMPTY, 
+        INHIBITION_OF_REVOCABLE_TSRS_FROM_BALISES_IN_L2_3 =&gt; EMPTY, 
+        TEMPORARY_SPEED_RESTRICTION =&gt; EMPTY, 
+        TEMPORARY_SPEED_RESTRICTION_REVOCATION =&gt; EMPTY, 
+        TRACK_CONDITION_BIG_METAL_MASSES =&gt; EMPTY, 
+        TRACK_CONDITION =&gt; EMPTY, 
+        TRACK_CONDITION_STATION_PLATFORMS =&gt; EMPTY, 
+        ROUTE_SUITABILITY_DATA =&gt; EMPTY, 
+        ADHESION_FACTOR =&gt; EMPTY, 
+        PACKET_FOR_SENDING_PLAIN_TEXT_MESSAGES =&gt; EMPTY, 
+        PACKET_FOR_SENDING_FIXED_TEXT_MESSAGES =&gt; EMPTY, 
+        GEOGRAPHICAL_POSITION_INFORMATION =&gt; EMPTY, 
+        MODE_PROFILE =&gt; EMPTY, 
+        LEVEL_CROSSING_INFORMATION =&gt; EMPTY, 
+        TRACK_AHEAD_FREE_UP_TO_LEVEL_2_3_TRANSITION_LOCATION =&gt; EMPTY, 
+        RBC_TRANSITION_ORDER =&gt; EMPTY, 
+        DANGER_FOR_SHUNTING_INFORMATION =&gt; EMPTY, 
+        RADIO_INFILL_AREA_INFORMATION =&gt; EMPTY, 
+        SESSION_MANAGEMENT_WITH_NEIGHBOURING_RADIO_INFILL_UNIT =&gt; EMPTY, 
+        EOLM_PACKET =&gt; EMPTY, 
+        STOP_SHUNTING_ON_DESK_OPENING =&gt; EMPTY, 
+        INFILL_LOCATION_REFERENCE =&gt; EMPTY, 
+        REVERSING_AREA_INFORMATION =&gt; EMPTY, 
+        REVERSING_SUPERVISION_INFORMATION =&gt; EMPTY, 
+        TRAIN_RUNNING_NUMBER_FROM_RBC =&gt; EMPTY, 
+        DEFAULT_GRADIENT_FOR_TEMPORARY_SPEED_RESTRICTION =&gt; EMPTY, 
+        INHIBITION_OF_BALISE_GROUP_MESSAGE_CONSISTENCY_REACTION =&gt; EMPTY, 
+        DEFAULT_BALISE_LOOP_OR_RIU_INFORMATION =&gt; EMPTY, 
+        DATA_USED_BY_APPLICATIONS_OUTSIDE_THE_ERTMS_ETCS_SYSTEM =&gt; EMPTY, 
+        VIRTUAL_BALISE_COVER_ORDER =&gt; EMPTY, 
+        LSSMA_DISPLAY_TOGGLE_ORDER =&gt; EMPTY, 
+        GENERIC_LS_FUNCTION_MARKER =&gt; EMPTY, 
+        END_OF_INFORMATION =&gt; EMPTY
+      }
+    }], 
+  BitField =&gt; &apos;&apos;
+}</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Check mode is TR"
+ Guid="671e21d9-b546-471b-b2d9-8a020d917945"
+>
+<Expectations>
+<Expectation
+ Kind="Continuous"
+ DeadLine="1"
+ Guid="8287270b-4150-4056-986a-7bc034a85393"
+>COUNT X IN Kernel.BrakeCommands.EmergencyBrakeCommands &gt; 0</Expectation><Expectation
+ Kind="Continuous"
+ DeadLine="1"
+ Guid="5184b082-913e-4390-b270-66ccfa53f9fb"
+>Kernel.Mode == ModeEnum.TR</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Name="Check train is tripped if Stop if in SR received and no list of expected BGs is received"
+ Guid="727d6d93-1130-4e39-91c4-19e0d1fe3f39"
+>
+<ReqRef
+ Id="01a39be8-2459-4c78-a817-469f0b6b6748"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ce543473-b014-4560-9bd7-bec50dbe9c14"
+>
+</ReqRef><ReqRef
+ Id="77289e9b-8c64-4406-8d33-fcf9d018e94c"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="435d0e61-d2e1-4b79-883d-d7c65d7da251"
+>
+</ReqRef><ReqRef
+ Id="98a5c6ab-1a8f-4522-b2ce-57728dc6df86"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="7d28b360-e217-4149-ac40-094ff7046f57"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Setup"
+ Guid="36abd467-9fbd-461b-8aab-742313dc4707"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Initialize test environment"
+ Guid="4382567a-2e6d-4086-98a8-5cca9a596440"
+>
+<Actions>
+<Action
+ Guid="eee5b56c-028e-431b-b577-f0b200ea50ed"
+>Testing.InitializeTestEnvironment
+(
+    aTrainPosition =&gt; 0.0,
+    aMode =&gt; Default.ModeEnum.SR
+)</Action><Action
+ Guid="14ac8898-69b8-47e5-9824-d2a2223f58db"
+>Kernel.BrakeCommands.EmergencyBrakeCommands &lt;- []</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Setup for BG reception"
+ Guid="0263ecc2-f071-4b23-8135-7094a006bd20"
+>
+<Actions>
+<Action
+ Guid="5c5e9bf2-f78e-4e5d-8b4b-def936d569f8"
+>BTM.LRBG &lt;- BTM.BaliseGroupStruct
+{
+    NID =&gt; 255,
+    Orientation =&gt; OrientationEnum.Nominal,
+    Position =&gt; BTM.Position
+    {
+        OverReadingAmountOdo =&gt; 2.0,
+        Position =&gt; 0.0,
+        UnderReadingAmountOdo =&gt; 2.0
+
+    }
+}</Action><Action
+ Guid="94dd763e-8bb7-45ca-9f31-810426fba5fd"
+>BTM.PreviousBaliseGroups &lt;- []</Action><Action
+ Guid="2ea2f8de-3155-4210-868e-3a670c7284cb"
+>Odometry.NominalDistance &lt;- 0.0</Action><Action
+ Guid="8458531a-639c-4ef5-bde8-43fca56bb16f"
+>Kernel.MA.MA &lt;- Kernel.MA.MAStruct{
+    TargetSpeed =&gt; 0.0,
+    Sections =&gt; [],
+    EndSection =&gt; Kernel.MA.EndSectionStruct{
+        Length =&gt; 2000.0
+    }
+}</Action><Action
+ Guid="e535ceef-1b9e-4e56-aefa-50536a7fdf43"
+>Kernel.TrainPosition.Position.DataState &lt;- DataStateEnum.Valid</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Set list of SR balises"
+ Guid="e26e9afa-6f76-4bc4-bd22-2d75e046f544"
+>
+<Actions>
+<Action
+ Guid="55edce53-f409-477c-ad15-f8bfad2e236d"
+>Kernel.Modes.StaffResponsible.SRAuthorisation &lt;- Kernel.Modes.StaffResponsible.SRStruct
+{
+  BGs =&gt; [],
+  BGListReceived =&gt; Boolean.False,
+  Location =&gt; 3000.0
+}</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Reception of Stop if in SR"
+ Guid="c7df02ba-a2e0-4b28-8433-c417448ccbb4"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Check mode is SR"
+ Guid="7f49cbb2-fbb2-4957-85e3-6f46267b320e"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="e41dea04-c008-4dd5-93eb-f81d185796ee"
+>Kernel.Mode == ModeEnum.SR</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="18e68585-2b33-4a7a-96bf-58518b1a1aef"
+>COUNT X IN Kernel.BrakeCommands.EmergencyBrakeCommands == 0</Expectation></Expectations>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Reception of Stop if in SR"
+ Guid="78aba60c-c0dd-46fe-9a14-5f11b8e7ae41"
+>
+<Actions>
+<Action
+ Guid="86e2589d-8772-4af8-bf9c-658037cfa730"
+>BTM.Message.SystemVersion2 &lt;- Messages.EUROBALISE.Message
+{
+  Q_UPDOWN =&gt; Messages.Q_UPDOWN.Up_link_telegram, 
+  M_VERSION =&gt; 32, 
+  Q_MEDIA =&gt; Messages.Q_MEDIA.Balise, 
+  N_PIG =&gt; Messages.N_PIG._1C, 
+  N_TOTAL =&gt; Messages.N_TOTAL._1_balise_in_groupC, 
+  M_DUP =&gt; Messages.M_DUP.No_duplicates, 
+  M_MCOUNT =&gt; 1, 
+  NID_C =&gt; 80, 
+  NID_BG =&gt; 256, 
+  Q_LINK =&gt; Messages.Q_LINK.Unlinked, 
+  Sequence1 =&gt; [Messages.EUROBALISE.SubStructure1
+    {
+      TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message
+      {
+        STOP_IF_IN_STAFF_RESPONSIBLE =&gt; Messages.PACKET.TRACK_TO_TRAIN.STOP_IF_IN_STAFF_RESPONSIBLE.Message
+        {
+          Q_DIR =&gt; Messages.Q_DIR.Both_directions, 
+          Q_SRSTOP =&gt; Messages.Q_SRSTOP.Stop_if_in_SR_mode
+        }, 
+        VIRTUAL_BALISE_COVER_MARKER =&gt; EMPTY, 
+        SYSTEM_VERSION_ORDER =&gt; EMPTY, 
+        NATIONAL_VALUES =&gt; EMPTY, 
+        LINKING =&gt; EMPTY, 
+        LEVEL_1_MOVEMENT_AUTHORITY =&gt; EMPTY, 
+        STAFF_RESPONSIBLE_DISTANCE_INFORMATION_FROM_LOOP =&gt; EMPTY, 
+        LEVEL_2_3_MOVEMENT_AUTHORITY =&gt; EMPTY, 
+        REPOSITIONING_INFORMATION =&gt; EMPTY, 
+        GRADIENT_PROFILE =&gt; EMPTY, 
+        INTERNATIONAL_STATIC_SPEED_PROFILE =&gt; EMPTY, 
+        TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM =&gt; EMPTY, 
+        TRACK_CONDITION_CHANGE_OF_ALLOWED_CURRENT_CONSUMPTION =&gt; EMPTY, 
+        LEVEL_TRANSITION_ORDER =&gt; EMPTY, 
+        SESSION_MANAGEMENT =&gt; EMPTY, 
+        RADIO_NETWORK_REGISTRATION =&gt; EMPTY, 
+        CONDITIONAL_LEVEL_TRANSITION_ORDER =&gt; EMPTY, 
+        LIST_OF_BALISES_FOR_SH_AREA =&gt; EMPTY, 
+        AXLE_LOAD_SPEED_PROFILE =&gt; EMPTY, 
+        PERMITTED_BRAKING_DISTANCE_INFORMATION =&gt; EMPTY, 
+        MOVEMENT_AUTHORITY_REQUEST_PARAMETERS =&gt; EMPTY, 
+        POSITION_REPORT_PARAMETERS =&gt; EMPTY, 
+        LIST_OF_BALISES_IN_SR_AUTHORITY =&gt; EMPTY, 
+        INHIBITION_OF_REVOCABLE_TSRS_FROM_BALISES_IN_L2_3 =&gt; EMPTY, 
+        TEMPORARY_SPEED_RESTRICTION =&gt; EMPTY, 
+        TEMPORARY_SPEED_RESTRICTION_REVOCATION =&gt; EMPTY, 
+        TRACK_CONDITION_BIG_METAL_MASSES =&gt; EMPTY, 
+        TRACK_CONDITION =&gt; EMPTY, 
+        TRACK_CONDITION_STATION_PLATFORMS =&gt; EMPTY, 
+        ROUTE_SUITABILITY_DATA =&gt; EMPTY, 
+        ADHESION_FACTOR =&gt; EMPTY, 
+        PACKET_FOR_SENDING_PLAIN_TEXT_MESSAGES =&gt; EMPTY, 
+        PACKET_FOR_SENDING_FIXED_TEXT_MESSAGES =&gt; EMPTY, 
+        GEOGRAPHICAL_POSITION_INFORMATION =&gt; EMPTY, 
+        MODE_PROFILE =&gt; EMPTY, 
+        LEVEL_CROSSING_INFORMATION =&gt; EMPTY, 
+        TRACK_AHEAD_FREE_UP_TO_LEVEL_2_3_TRANSITION_LOCATION =&gt; EMPTY, 
+        RBC_TRANSITION_ORDER =&gt; EMPTY, 
+        DANGER_FOR_SHUNTING_INFORMATION =&gt; EMPTY, 
+        RADIO_INFILL_AREA_INFORMATION =&gt; EMPTY, 
+        SESSION_MANAGEMENT_WITH_NEIGHBOURING_RADIO_INFILL_UNIT =&gt; EMPTY, 
+        EOLM_PACKET =&gt; EMPTY, 
+        STOP_SHUNTING_ON_DESK_OPENING =&gt; EMPTY, 
+        INFILL_LOCATION_REFERENCE =&gt; EMPTY, 
+        REVERSING_AREA_INFORMATION =&gt; EMPTY, 
+        REVERSING_SUPERVISION_INFORMATION =&gt; EMPTY, 
+        TRAIN_RUNNING_NUMBER_FROM_RBC =&gt; EMPTY, 
+        DEFAULT_GRADIENT_FOR_TEMPORARY_SPEED_RESTRICTION =&gt; EMPTY, 
+        INHIBITION_OF_BALISE_GROUP_MESSAGE_CONSISTENCY_REACTION =&gt; EMPTY, 
+        DEFAULT_BALISE_LOOP_OR_RIU_INFORMATION =&gt; EMPTY, 
+        DATA_USED_BY_APPLICATIONS_OUTSIDE_THE_ERTMS_ETCS_SYSTEM =&gt; EMPTY, 
+        VIRTUAL_BALISE_COVER_ORDER =&gt; EMPTY, 
+        LSSMA_DISPLAY_TOGGLE_ORDER =&gt; EMPTY, 
+        GENERIC_LS_FUNCTION_MARKER =&gt; EMPTY, 
+        END_OF_INFORMATION =&gt; EMPTY
+      }
+    }], 
+  BitField =&gt; &apos;&apos;
+}</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Check mode is TR"
+ Guid="6eef5444-65c3-4296-ab69-b0631f0a40fb"
+>
+<Expectations>
+<Expectation
+ Kind="Continuous"
+ DeadLine="1"
+ Guid="34ed0fa0-c95c-4e4a-bc0f-9b78df5209d8"
+>COUNT X IN Kernel.BrakeCommands.EmergencyBrakeCommands &gt; 0</Expectation><Expectation
+ Kind="Continuous"
+ DeadLine="1"
+ Guid="07a7251f-9511-4ba7-b49c-e850890693d9"
+>Kernel.Mode == ModeEnum.TR</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase></TestCases>
+</SubSequence><SubSequence
+ D_LRBG=""
+ Level=""
+ Mode=""
+ NID_LRBG=""
+ Q_DIRLRBG=""
+ Q_DIRTRAIN=""
+ Q_DLRBG=""
+ RBC_ID=""
+ RBCPhone=""
+ Name="Stop if in SR: train is not tripped"
+ Guid="b193af1f-c87f-4095-a25d-9816154a0471"
+>
+<TestCases>
+<TestCase
+ Name="Check train is not tripped if Stop if in SR received and the BG is in the list"
+ Guid="ebfd7e08-4f85-4a8c-8822-86c869adc458"
+>
+<ReqRef
+ Id="01a39be8-2459-4c78-a817-469f0b6b6748"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="71df72c3-f0d0-4d36-91a3-be0ccc2d4643"
+>
+</ReqRef><ReqRef
+ Id="77289e9b-8c64-4406-8d33-fcf9d018e94c"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c68920d3-8274-4c72-93d2-fa0073cd5f74"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Setup"
+ Guid="a3a14f79-0fc2-4647-bddd-5099185a4ead"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Initialize test environment"
+ Guid="dd7d193c-a2ce-40f2-95d7-6b8ed7649a03"
+>
+<Actions>
+<Action
+ Guid="34c78572-7904-4e62-bb7a-76f3701fbdef"
+>Testing.InitializeTestEnvironment
+(
+    aTrainPosition =&gt; 0.0,
+    aMode =&gt; Default.ModeEnum.SR
+)</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Setup for BG reception"
+ Guid="d192a9fa-9273-48fe-9bcf-61c46ae3ac95"
+>
+<Actions>
+<Action
+ Guid="509a575b-49cd-4d0f-b3c1-17c8464fe156"
+>BTM.LRBG &lt;- BTM.BaliseGroupStruct
+{
+    NID =&gt; 255,
+    Orientation =&gt; OrientationEnum.Nominal,
+    Position =&gt; BTM.Position
+    {
+        OverReadingAmountOdo =&gt; 2.0,
+        Position =&gt; 0.0,
+        UnderReadingAmountOdo =&gt; 2.0
+
+    }
+}</Action><Action
+ Guid="2b645fb1-287d-429a-9df6-1d3f6b0b61b6"
+>BTM.PreviousBaliseGroups &lt;- []</Action><Action
+ Guid="42eb71d6-1c31-4adf-88ee-fc6bdc759ba0"
+>Odometry.NominalDistance &lt;- 0.0</Action><Action
+ Guid="a8ae0cc6-bf3e-485b-bd38-37acd60401e1"
+>Kernel.MA.MA &lt;- Kernel.MA.MAStruct{
+    TargetSpeed =&gt; 0.0,
+    Sections =&gt; [],
+    EndSection =&gt; Kernel.MA.EndSectionStruct{
+        Length =&gt; 2000.0
+    }
+}</Action><Action
+ Guid="e9fc76da-c4ff-4cc1-a95e-20334cd27673"
+>Kernel.TrainPosition.Position.DataState &lt;- DataStateEnum.Valid</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Set list of SR balises"
+ Guid="01cc4098-6c2f-4713-8c46-b58d1d10f6c4"
+>
+<Actions>
+<Action
+ Guid="c9cb0e32-2dd2-4c44-8900-3d84a0deb8cb"
+>Kernel.Modes.StaffResponsible.SRAuthorisation &lt;- Kernel.Modes.StaffResponsible.SRStruct
+{
+  BGs =&gt;
+  [
+    Kernel.BaliseGroup
+    {
+      NewCountry =&gt; Boolean.False,
+      NID_C =&gt; 20,
+      NID_BG =&gt; 404
+    },
+    Kernel.BaliseGroup
+    {
+      NewCountry =&gt; Boolean.False,
+      NID_C =&gt; 20,
+      NID_BG =&gt; 406
+    },
+    Kernel.BaliseGroup
+    {
+      NewCountry =&gt; Boolean.False,
+      NID_C =&gt; 20,
+      NID_BG =&gt; 408
+    }
+  ],
+  BGListReceived =&gt; Boolean.True,
+  Location =&gt; 3000.0
+}</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Reception of Stop if in SR"
+ Guid="3a4ebe82-d3e0-4dcc-9d8f-7d05676778a4"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Check mode is SR"
+ Guid="abc353d4-fe94-4e3d-a6dd-51779f0412ae"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="3cca18a0-b45a-437b-843e-6f5c6f15f221"
+>Kernel.Mode == ModeEnum.SR</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="e36b103a-2030-484c-a63a-8b70a37502b9"
+>COUNT X IN Kernel.BrakeCommands.EmergencyBrakeCommands == 0</Expectation></Expectations>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Reception of Stop if in SR"
+ Guid="978e3aee-c14b-4412-8953-ab71842d5c68"
+>
+<Actions>
+<Action
+ Guid="03043f67-01d0-4450-9756-f1586ce16f5a"
+>BTM.Message.SystemVersion2 &lt;- Messages.EUROBALISE.Message
+{
+  Q_UPDOWN =&gt; Messages.Q_UPDOWN.Up_link_telegram, 
+  M_VERSION =&gt; 32, 
+  Q_MEDIA =&gt; Messages.Q_MEDIA.Balise, 
+  N_PIG =&gt; Messages.N_PIG._1C, 
+  N_TOTAL =&gt; Messages.N_TOTAL._1_balise_in_groupC, 
+  M_DUP =&gt; Messages.M_DUP.No_duplicates, 
+  M_MCOUNT =&gt; 1, 
+  NID_C =&gt; 20, 
+  NID_BG =&gt; 406, 
+  Q_LINK =&gt; Messages.Q_LINK.Unlinked, 
+  Sequence1 =&gt; [Messages.EUROBALISE.SubStructure1
+    {
+      TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message
+      {
+        STOP_IF_IN_STAFF_RESPONSIBLE =&gt; Messages.PACKET.TRACK_TO_TRAIN.STOP_IF_IN_STAFF_RESPONSIBLE.Message
+        {
+          Q_DIR =&gt; Messages.Q_DIR.Both_directions, 
+          Q_SRSTOP =&gt; Messages.Q_SRSTOP.Stop_if_in_SR_mode, 
+          NID_PACKET =&gt; 137, 
+          L_PACKET =&gt; 0
+        }, 
+        VIRTUAL_BALISE_COVER_MARKER =&gt; EMPTY, 
+        SYSTEM_VERSION_ORDER =&gt; EMPTY, 
+        NATIONAL_VALUES =&gt; EMPTY, 
+        LINKING =&gt; EMPTY, 
+        LEVEL_1_MOVEMENT_AUTHORITY =&gt; EMPTY, 
+        STAFF_RESPONSIBLE_DISTANCE_INFORMATION_FROM_LOOP =&gt; EMPTY, 
+        LEVEL_2_3_MOVEMENT_AUTHORITY =&gt; EMPTY, 
+        REPOSITIONING_INFORMATION =&gt; EMPTY, 
+        GRADIENT_PROFILE =&gt; EMPTY, 
+        INTERNATIONAL_STATIC_SPEED_PROFILE =&gt; EMPTY, 
+        TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM =&gt; EMPTY, 
+        TRACK_CONDITION_CHANGE_OF_ALLOWED_CURRENT_CONSUMPTION =&gt; EMPTY, 
+        LEVEL_TRANSITION_ORDER =&gt; EMPTY, 
+        SESSION_MANAGEMENT =&gt; EMPTY, 
+        RADIO_NETWORK_REGISTRATION =&gt; EMPTY, 
+        CONDITIONAL_LEVEL_TRANSITION_ORDER =&gt; EMPTY, 
+        LIST_OF_BALISES_FOR_SH_AREA =&gt; EMPTY, 
+        AXLE_LOAD_SPEED_PROFILE =&gt; EMPTY, 
+        PERMITTED_BRAKING_DISTANCE_INFORMATION =&gt; EMPTY, 
+        MOVEMENT_AUTHORITY_REQUEST_PARAMETERS =&gt; EMPTY, 
+        POSITION_REPORT_PARAMETERS =&gt; EMPTY, 
+        LIST_OF_BALISES_IN_SR_AUTHORITY =&gt; EMPTY, 
+        INHIBITION_OF_REVOCABLE_TSRS_FROM_BALISES_IN_L2_3 =&gt; EMPTY, 
+        TEMPORARY_SPEED_RESTRICTION =&gt; EMPTY, 
+        TEMPORARY_SPEED_RESTRICTION_REVOCATION =&gt; EMPTY, 
+        TRACK_CONDITION_BIG_METAL_MASSES =&gt; EMPTY, 
+        TRACK_CONDITION =&gt; EMPTY, 
+        TRACK_CONDITION_STATION_PLATFORMS =&gt; EMPTY, 
+        ROUTE_SUITABILITY_DATA =&gt; EMPTY, 
+        ADHESION_FACTOR =&gt; EMPTY, 
+        PACKET_FOR_SENDING_PLAIN_TEXT_MESSAGES =&gt; EMPTY, 
+        PACKET_FOR_SENDING_FIXED_TEXT_MESSAGES =&gt; EMPTY, 
+        GEOGRAPHICAL_POSITION_INFORMATION =&gt; EMPTY, 
+        MODE_PROFILE =&gt; EMPTY, 
+        LEVEL_CROSSING_INFORMATION =&gt; EMPTY, 
+        TRACK_AHEAD_FREE_UP_TO_LEVEL_2_3_TRANSITION_LOCATION =&gt; EMPTY, 
+        RBC_TRANSITION_ORDER =&gt; EMPTY, 
+        DANGER_FOR_SHUNTING_INFORMATION =&gt; EMPTY, 
+        RADIO_INFILL_AREA_INFORMATION =&gt; EMPTY, 
+        SESSION_MANAGEMENT_WITH_NEIGHBOURING_RADIO_INFILL_UNIT =&gt; EMPTY, 
+        EOLM_PACKET =&gt; EMPTY, 
+        STOP_SHUNTING_ON_DESK_OPENING =&gt; EMPTY, 
+        INFILL_LOCATION_REFERENCE =&gt; EMPTY, 
+        REVERSING_AREA_INFORMATION =&gt; EMPTY, 
+        REVERSING_SUPERVISION_INFORMATION =&gt; EMPTY, 
+        TRAIN_RUNNING_NUMBER_FROM_RBC =&gt; EMPTY, 
+        DEFAULT_GRADIENT_FOR_TEMPORARY_SPEED_RESTRICTION =&gt; EMPTY, 
+        INHIBITION_OF_BALISE_GROUP_MESSAGE_CONSISTENCY_REACTION =&gt; EMPTY, 
+        DEFAULT_BALISE_LOOP_OR_RIU_INFORMATION =&gt; EMPTY, 
+        DATA_USED_BY_APPLICATIONS_OUTSIDE_THE_ERTMS_ETCS_SYSTEM =&gt; EMPTY, 
+        VIRTUAL_BALISE_COVER_ORDER =&gt; EMPTY, 
+        LSSMA_DISPLAY_TOGGLE_ORDER =&gt; EMPTY, 
+        GENERIC_LS_FUNCTION_MARKER =&gt; EMPTY, 
+        END_OF_INFORMATION =&gt; EMPTY
+      }
+    }], 
+  BitField =&gt; &apos;&apos;
+}</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Check mode is TR"
+ Guid="e3a67c0c-46c4-41f2-b8ff-6b355d40c2b4"
+>
+<Expectations>
+<Expectation
+ Kind="Continuous"
+ DeadLine="1"
+ Guid="d32a54d4-4b5b-4c64-953f-788610fc7b8c"
+>COUNT X IN Kernel.BrakeCommands.EmergencyBrakeCommands == 0</Expectation><Expectation
+ Kind="Continuous"
+ DeadLine="1"
+ Guid="b60cc418-4c10-4e74-a7c7-1a0420c8ab32"
+>Kernel.Mode != ModeEnum.TR</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase></TestCases>
+</SubSequence></SubSequences>
+</Frame>
