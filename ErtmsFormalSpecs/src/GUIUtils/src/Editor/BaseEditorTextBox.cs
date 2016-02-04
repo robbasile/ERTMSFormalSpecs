@@ -662,13 +662,12 @@ namespace GUIUtils.Editor
             SearchOptions searchOptions = BuildSearchOptions(text);
             prefix = searchOptions.Prefix;
 
-            int value;
             bool isANumber = false;
             if (!string.IsNullOrEmpty(searchOptions.EnclosingName))
             {
-                isANumber =
-                    int.TryParse(searchOptions.EnclosingName.Substring(0, searchOptions.EnclosingName.Length - 1),
-                        out value);
+                int value;
+                string image = searchOptions.EnclosingName.Substring(0, searchOptions.EnclosingName.Length - 1);
+                isANumber = int.TryParse(image, out value);
             }
 
             if (!isANumber)
@@ -725,7 +724,7 @@ namespace GUIUtils.Editor
             /// <summary>
             ///     The list of instances on which the search should occur
             /// </summary>
-            public List<INamable> Instances { get; set; }
+            public List<INamable> Instances { get; private set; }
 
             /// <summary>
             ///     Constructor
