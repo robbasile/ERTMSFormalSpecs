@@ -15,7 +15,6 @@
 // ------------------------------------------------------------------------------
 
 using System.Collections.Generic;
-using DataDictionary.Generated;
 using DataDictionary.Values;
 using Collection = DataDictionary.Types.Collection;
 using Type = DataDictionary.Types.Type;
@@ -28,6 +27,7 @@ namespace DataDictionary.Interpreter.ListOperators
         ///     The operator for this expression
         /// </summary>
         public static string Operator = "FILTER";
+
         /// <summary>
         ///     Constructor
         /// </summary>

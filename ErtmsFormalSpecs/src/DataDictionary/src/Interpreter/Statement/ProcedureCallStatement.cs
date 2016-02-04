@@ -43,8 +43,7 @@ namespace DataDictionary.Interpreter.Statement
         public ProcedureCallStatement(ModelElement root, ModelElement log, Call call, ParsingData parsingData)
             : base(root, log, parsingData)
         {
-            Call = call;
-            Call.Enclosing = this;
+            Call = SetEnclosed(call);
         }
 
         /// <summary>
@@ -58,8 +57,15 @@ namespace DataDictionary.Interpreter.Statement
 
             if (retVal)
             {
-                Call.SemanticAnalysis(instance);
-                StaticUsage.AddUsages(Call.StaticUsage, Usage.ModeEnum.Call);
+                if (Call != null)
+                {
+                    Call.SemanticAnalysis(instance);
+                    StaticUsage.AddUsages(Call.StaticUsage, Usage.ModeEnum.Call);
+                }
+                else
+                {
+                    AddError("Called procedure not provided");
+                }
             }
 
             return retVal;

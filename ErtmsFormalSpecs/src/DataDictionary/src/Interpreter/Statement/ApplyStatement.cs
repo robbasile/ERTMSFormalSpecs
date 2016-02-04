@@ -63,17 +63,9 @@ namespace DataDictionary.Interpreter.Statement
         {
             DeclaredElements = new Dictionary<string, List<INamable>>();
 
-            AppliedStatement = appliedStatement;
-            AppliedStatement.Enclosing = this;
-
-            ListExpression = listExpression;
-            ListExpression.Enclosing = this;
-
-            ConditionExpression = conditionExpression;
-            if (ConditionExpression != null)
-            {
-                ConditionExpression.Enclosing = this;
-            }
+            AppliedStatement = SetEnclosed(appliedStatement);
+            ListExpression = SetEnclosed(listExpression);
+            ConditionExpression = SetEnclosed(conditionExpression);
 
             IteratorVariable = CreateBoundVariable("X", null);
             InitDeclaredElements();
@@ -114,13 +106,20 @@ namespace DataDictionary.Interpreter.Statement
             if (retVal)
             {
                 // ListExpression
-                ListExpression.SemanticAnalysis(instance, IsRightSide.INSTANCE);
-                StaticUsage.AddUsages(ListExpression.StaticUsage, Usage.ModeEnum.ReadAndWrite);
-
-                Collection collectionType = ListExpression.GetExpressionType() as Collection;
-                if (collectionType != null)
+                if (ListExpression != null)
                 {
-                    IteratorVariable.Type = collectionType.Type;
+                    ListExpression.SemanticAnalysis(instance, IsRightSide.INSTANCE);
+                    StaticUsage.AddUsages(ListExpression.StaticUsage, Usage.ModeEnum.ReadAndWrite);
+
+                    Collection collectionType = ListExpression.GetExpressionType() as Collection;
+                    if (collectionType != null)
+                    {
+                        IteratorVariable.Type = collectionType.Type;
+                    }
+                }
+                else
+                {
+                    AddError("List expression not provided");
                 }
 
                 // ConditionExpression
@@ -130,8 +129,15 @@ namespace DataDictionary.Interpreter.Statement
                     StaticUsage.AddUsages(ConditionExpression.StaticUsage, Usage.ModeEnum.Read);
                 }
 
-                AppliedStatement.SemanticAnalysis(instance);
-                StaticUsage.AddUsages(AppliedStatement.StaticUsage, Usage.ModeEnum.Call);
+                if (AppliedStatement != null)
+                {
+                    AppliedStatement.SemanticAnalysis(instance);
+                    StaticUsage.AddUsages(AppliedStatement.StaticUsage, Usage.ModeEnum.Call);
+                }
+                else
+                {
+                    AddError("Applied statement not provided");
+                }
             }
 
             return retVal;

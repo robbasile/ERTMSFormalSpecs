@@ -83,6 +83,10 @@ namespace DataDictionary.Interpreter.ListOperators
 
                     AccumulatorVariable.Type = InitialValue.GetExpressionType();
                 }
+                else
+                {
+                    AddError("Initial value not provided");
+                }
             }
 
             return retVal;

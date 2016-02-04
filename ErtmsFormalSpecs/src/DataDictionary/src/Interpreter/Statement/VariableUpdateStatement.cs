@@ -54,11 +54,8 @@ namespace DataDictionary.Interpreter.Statement
             Expression expression, ParsingData parsingData)
             : base(root, log, parsingData)
         {
-            VariableIdentification = variableIdentification;
-            VariableIdentification.Enclosing = this;
-
-            Expression = expression;
-            Expression.Enclosing = this;
+            VariableIdentification = SetEnclosed(variableIdentification);
+            Expression = SetEnclosed(expression);
         }
 
         /// <summary>
@@ -73,8 +70,15 @@ namespace DataDictionary.Interpreter.Statement
             if (retVal)
             {
                 // VariableIdentification
-                VariableIdentification.SemanticAnalysis(instance, IsLeftSide.INSTANCE);
-                StaticUsage.AddUsages(VariableIdentification.StaticUsage, Usage.ModeEnum.Write);
+                if (VariableIdentification != null)
+                {
+                    VariableIdentification.SemanticAnalysis(instance, IsLeftSide.INSTANCE);
+                    StaticUsage.AddUsages(VariableIdentification.StaticUsage, Usage.ModeEnum.Write);
+                }
+                else
+                {
+                    AddError("Altered variable not specified");
+                }
 
                 // Expression
                 Expression.SemanticAnalysis(instance, IsRightSide.INSTANCE);

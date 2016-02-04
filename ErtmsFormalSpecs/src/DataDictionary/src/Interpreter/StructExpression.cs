@@ -101,6 +101,10 @@ namespace DataDictionary.Interpreter
                         }
                     }
                 }
+                else
+                {
+                    AddError("Structure type not specified");
+                }
             }
 
             return retVal;

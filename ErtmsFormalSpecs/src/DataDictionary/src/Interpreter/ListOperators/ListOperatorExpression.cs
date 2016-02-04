@@ -115,19 +115,26 @@ namespace DataDictionary.Interpreter.ListOperators
             if (retVal)
             {
                 // ListExpression
-                ListExpression.SemanticAnalysis(instance, IsRightSide.INSTANCE);
-                StaticUsage.AddUsages(ListExpression.StaticUsage, Usage.ModeEnum.Read);
-
-                Collection collectionType = ListExpression.GetExpressionType() as Collection;
-                if (collectionType != null)
+                if (ListExpression != null)
                 {
-                    StaticUsage.AddUsage(collectionType, Root, Usage.ModeEnum.Type);
-                    IteratorVariable.Type = collectionType.Type;
-                    PreviousIteratorVariable.Type = collectionType.Type;
+                    ListExpression.SemanticAnalysis(instance, IsRightSide.INSTANCE);
+                    StaticUsage.AddUsages(ListExpression.StaticUsage, Usage.ModeEnum.Read);
+
+                    Collection collectionType = ListExpression.GetExpressionType() as Collection;
+                    if (collectionType != null)
+                    {
+                        StaticUsage.AddUsage(collectionType, Root, Usage.ModeEnum.Type);
+                        IteratorVariable.Type = collectionType.Type;
+                        PreviousIteratorVariable.Type = collectionType.Type;
+                    }
+                    else
+                    {
+                        AddError("Cannot determine collection type on list expression " + ToString());
+                    }
                 }
                 else
                 {
-                    AddError("Cannot determine collection type on list expression " + ToString());
+                    AddError("List expression not provided");
                 }
             }
 

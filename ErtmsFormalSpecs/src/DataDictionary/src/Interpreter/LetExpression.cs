@@ -120,12 +120,21 @@ namespace DataDictionary.Interpreter
                         AddError("Cannot determine binding expression type for " + ToString());
                     }
                 }
+                else
+                {
+                    AddError("Binding expression not provided");
+                }
+
 
                 // The evaluated expression
                 if (Expression != null)
                 {
                     Expression.SemanticAnalysis(instance, expectation);
                     StaticUsage.AddUsages(Expression.StaticUsage, Usage.ModeEnum.Read);
+                }
+                else
+                {
+                    AddError("Value expression not provided");
                 }
             }
 

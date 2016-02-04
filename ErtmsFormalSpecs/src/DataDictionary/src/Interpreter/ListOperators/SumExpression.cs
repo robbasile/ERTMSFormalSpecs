@@ -98,20 +98,18 @@ namespace DataDictionary.Interpreter.ListOperators
             if (retVal)
             {
                 // Accumulator
-                if (AccumulatorVariable != null)
-                {
-                    AccumulatorVariable.Type = GetExpressionType();                    
-                }
+                AccumulatorVariable.Type = GetExpressionType();                    
 
                 if (DefinedAccumulator != null)
                 {
-                    DefinedAccumulator.SemanticAnalysis(instance, AllMatches.INSTANCE);                    
-                }
-
-                if (Accumulator != null)
-                {
+                    DefinedAccumulator.SemanticAnalysis(instance, AllMatches.INSTANCE);
+               
                     Accumulator.SemanticAnalysis(instance, AllMatches.INSTANCE);
-                    StaticUsage.AddUsages(Accumulator.StaticUsage, Usage.ModeEnum.Read);                    
+                    StaticUsage.AddUsages(Accumulator.StaticUsage, Usage.ModeEnum.Read);
+                }
+                else
+                {
+                    AddError("Accumulator expression not provided");
                 }
             }
 

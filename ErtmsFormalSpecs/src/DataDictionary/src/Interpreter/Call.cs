@@ -239,6 +239,10 @@ namespace DataDictionary.Interpreter
 
                     ParameterAssociation = CreateParameterAssociation(Called.Ref as ICallable);
                 }
+                else
+                {
+                    AddError("Called function not provided");
+                }
             }
 
             return retVal;

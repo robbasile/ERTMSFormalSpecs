@@ -51,7 +51,7 @@ namespace DataDictionary.test
             StructureElement structElem = CreateStructureElement(structure, "Value", "Boolean");
             structElem.setDefault("True");
 
-            Collection collection = CreateCollection(nameSpace, "Coll");
+            Collection collection = CreateCollection(nameSpace, "Coll", "ModelElement", 10);
             collection.Type = structure;
             collection.setMaxSize(3);
             collection.Default = "[]"; 

@@ -128,6 +128,10 @@ namespace DataDictionary.Interpreter
                     CurrentIteration.Type = InitialValue.GetExpressionType();
                     StaticUsage.AddUsage(InitialValue.GetExpressionType(), Root, Usage.ModeEnum.Type);
                 }
+                else
+                {
+                    AddError("Initial value not provided");
+                }
 
                 // Expression
                 if (Expression != null)
@@ -135,12 +139,20 @@ namespace DataDictionary.Interpreter
                     Expression.SemanticAnalysis(instance, AllMatches.INSTANCE);
                     StaticUsage.AddUsages(Expression.StaticUsage, Usage.ModeEnum.Read);
                 }
+                else
+                {
+                    Root.AddError("Accumulator expression value not provided");
+                }
 
                 // Condition
                 if (Condition != null)
                 {
                     Condition.SemanticAnalysis(instance, AllMatches.INSTANCE);
                     StaticUsage.AddUsages(Condition.StaticUsage, Usage.ModeEnum.Read);
+                }
+                else
+                {
+                    Root.AddError("Stop condition not provided");
                 }
             }
 

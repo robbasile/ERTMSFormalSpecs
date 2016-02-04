@@ -61,14 +61,9 @@ namespace DataDictionary.Interpreter.Statement
             Expression condition, ParsingData parsingData)
             : base(root, log, parsingData)
         {
-            Value = value;
-            Value.Enclosing = this;
-
-            ListExpression = listExpression;
-            ListExpression.Enclosing = this;
-
-            Condition = condition;
-            Condition.Enclosing = this;
+            Value = SetEnclosed(value);
+            ListExpression = SetEnclosed(listExpression);
+            Condition = SetEnclosed(condition);
 
             IteratorVariable = CreateBoundVariable("X", null);
             InitDeclaredElements();
@@ -111,33 +106,48 @@ namespace DataDictionary.Interpreter.Statement
             if (retVal)
             {
                 // ListExpression
-                ListExpression.SemanticAnalysis(instance);
-                StaticUsage.AddUsages(ListExpression.StaticUsage, Usage.ModeEnum.ReadAndWrite);
+                Collection collectionType = null;
+                if (ListExpression != null)
+                {
+                    ListExpression.SemanticAnalysis(instance);
+                    StaticUsage.AddUsages(ListExpression.StaticUsage, Usage.ModeEnum.ReadAndWrite);
 
-                Collection collectionType = ListExpression.GetExpressionType() as Collection;
-                if (collectionType != null)
-                {
-                    IteratorVariable.Type = collectionType.Type;
-                }
-                else
-                {
-                    AddError("Cannot determine collection type");
-                }
-
-                // Value
-                Value.SemanticAnalysis(instance);
-                StaticUsage.AddUsages(Value.StaticUsage, Usage.ModeEnum.Read);
-                Type valueType = Value.GetExpressionType();
-                if (valueType != null)
-                {
-                    if (collectionType != null && !valueType.Match(collectionType.Type))
+                    collectionType = ListExpression.GetExpressionType() as Collection;
+                    if (collectionType != null)
                     {
-                        AddError("Type of " + Value + " does not match collection type " + collectionType);
+                        IteratorVariable.Type = collectionType.Type;
+                    }
+                    else
+                    {
+                        AddError("Cannot determine collection type");
                     }
                 }
                 else
                 {
-                    AddError("Cannot determine type of " + Value);
+                    AddError("List expression not provided");
+                }
+
+                // Value
+                if (Value != null)
+                {
+                    Value.SemanticAnalysis(instance);
+                    StaticUsage.AddUsages(Value.StaticUsage, Usage.ModeEnum.Read);
+                    Type valueType = Value.GetExpressionType();
+                    if (valueType != null)
+                    {
+                        if (collectionType != null && !valueType.Match(collectionType.Type))
+                        {
+                            AddError("Type of " + Value + " does not match collection type " + collectionType);
+                        }
+                    }
+                    else
+                    {
+                        AddError("Cannot determine type of " + Value);
+                    }
+                }
+                else
+                {
+                    AddError("Replacement value not provided");
                 }
 
                 // Condition

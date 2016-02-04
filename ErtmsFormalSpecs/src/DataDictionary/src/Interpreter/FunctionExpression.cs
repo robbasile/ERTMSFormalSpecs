@@ -51,9 +51,7 @@ namespace DataDictionary.Interpreter
             : base(root, log, parsingData)
         {
             Parameters = parameters;
-
-            Expression = expression;
-            Expression.Enclosing = this;
+            Expression = SetEnclosed(expression);
 
             InitDeclaredElements();
         }
@@ -99,8 +97,15 @@ namespace DataDictionary.Interpreter
 
             if (retVal)
             {
-                Expression.SemanticAnalysis(instance, AllMatches.INSTANCE);
-                StaticUsage.AddUsages(Expression.StaticUsage, null);
+                if (Expression != null)
+                {
+                    Expression.SemanticAnalysis(instance, AllMatches.INSTANCE);
+                    StaticUsage.AddUsages(Expression.StaticUsage, null);
+                }
+                else
+                {
+                    AddError("Function body not provided");
+                }
             }
 
             return retVal;

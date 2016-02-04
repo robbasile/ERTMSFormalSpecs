@@ -40,8 +40,7 @@ namespace DataDictionary.Interpreter.ListOperators
             string iteratorVariableName, Expression condition, Expression iteratorExpression, ParsingData parsingData)
             : base(root, log, listExpression, iteratorVariableName, condition, parsingData)
         {
-            IteratorExpression = iteratorExpression;
-            IteratorExpression.Enclosing = this;
+            IteratorExpression = SetEnclosed(iteratorExpression);
         }
 
         /// <summary>
@@ -61,6 +60,10 @@ namespace DataDictionary.Interpreter.ListOperators
                 {
                     IteratorExpression.SemanticAnalysis(instance, AllMatches.INSTANCE);
                     StaticUsage.AddUsages(IteratorExpression.StaticUsage, Usage.ModeEnum.Read);
+                }
+                else
+                {
+                    AddError("Iterator expression not provided");
                 }
             }
 

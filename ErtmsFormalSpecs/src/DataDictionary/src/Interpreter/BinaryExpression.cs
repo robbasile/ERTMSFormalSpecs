@@ -154,6 +154,10 @@ namespace DataDictionary.Interpreter
                     Left.SemanticAnalysis(instance, IsRightSide.INSTANCE);
                     StaticUsage.AddUsages(Left.StaticUsage, Usage.ModeEnum.Read);
                 }
+                else
+                {
+                    AddError("Left expression not provided");
+                }
 
                 // Right
                 if (Right != null)
@@ -168,6 +172,10 @@ namespace DataDictionary.Interpreter
                         Right.SemanticAnalysis(instance, IsRightSide.INSTANCE);
                         StaticUsage.AddUsages(Right.StaticUsage, Usage.ModeEnum.Read);
                     }
+                }
+                else
+                {
+                    AddError("Right expression not provided");
                 }
             }
 

@@ -70,16 +70,9 @@ namespace DataDictionary.Interpreter.Statement
             Expression listExpression, ParsingData parsingData)
             : base(root, log, parsingData)
         {
-            Condition = condition;
-            if (condition != null)
-            {
-                condition.Enclosing = this;
-            }
-
+            Condition = SetEnclosed(condition);
             Position = position;
-
-            ListExpression = listExpression;
-            ListExpression.Enclosing = this;
+            ListExpression = SetEnclosed(listExpression);
 
             IteratorVariable = CreateBoundVariable("X", null);
             InitDeclaredElements();
@@ -122,13 +115,20 @@ namespace DataDictionary.Interpreter.Statement
             if (retVal)
             {
                 // ListExpression
-                ListExpression.SemanticAnalysis(instance);
-                StaticUsage.AddUsages(ListExpression.StaticUsage, Usage.ModeEnum.ReadAndWrite);
-
-                Collection collectionType = ListExpression.GetExpressionType() as Collection;
-                if (collectionType != null)
+                if (ListExpression != null)
                 {
-                    IteratorVariable.Type = collectionType.Type;
+                    ListExpression.SemanticAnalysis(instance);
+                    StaticUsage.AddUsages(ListExpression.StaticUsage, Usage.ModeEnum.ReadAndWrite);
+
+                    Collection collectionType = ListExpression.GetExpressionType() as Collection;
+                    if (collectionType != null)
+                    {
+                        IteratorVariable.Type = collectionType.Type;
+                    }
+                }
+                else
+                {
+                    AddError("List expression not provided");
                 }
 
                 // Condition

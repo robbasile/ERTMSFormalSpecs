@@ -55,17 +55,9 @@ namespace DataDictionary.Interpreter.Statement
             Expression replaceElement, ParsingData parsingData)
             : base(root, log, parsingData)
         {
-            Value = value;
-            Value.Enclosing = this;
-
-            ListExpression = listExpression;
-            ListExpression.Enclosing = this;
-
-            if (replaceElement != null)
-            {
-                ReplaceElement = replaceElement;
-                ReplaceElement.Enclosing = this;
-            }
+            Value = SetEnclosed(value);
+            ListExpression = SetEnclosed(listExpression);
+            ReplaceElement = SetEnclosed(replaceElement);
         }
 
         /// <summary>
@@ -80,12 +72,26 @@ namespace DataDictionary.Interpreter.Statement
             if (retVal)
             {
                 // Value
-                Value.SemanticAnalysis(instance);
-                StaticUsage.AddUsages(Value.StaticUsage, Usage.ModeEnum.Read);
+                if (Value != null)
+                {
+                    Value.SemanticAnalysis(instance);
+                    StaticUsage.AddUsages(Value.StaticUsage, Usage.ModeEnum.Read);
+                }
+                else
+                {
+                    AddError("Value to insert not provided");
+                }
 
                 // ListExpression
-                ListExpression.SemanticAnalysis(instance, IsLeftSide.INSTANCE);
-                StaticUsage.AddUsages(ListExpression.StaticUsage, Usage.ModeEnum.ReadAndWrite);
+                if (ListExpression != null)
+                {
+                    ListExpression.SemanticAnalysis(instance, IsLeftSide.INSTANCE);
+                    StaticUsage.AddUsages(ListExpression.StaticUsage, Usage.ModeEnum.ReadAndWrite);
+                }
+                else
+                {
+                    AddError("List expression not provided");
+                }
 
                 // ReplaceElement
                 if (ReplaceElement != null)

@@ -16,6 +16,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using DataDictionary.Generated;
 using DataDictionary.Interpreter.Filter;
 using DataDictionary.Interpreter.ListOperators;
@@ -97,6 +98,28 @@ namespace DataDictionary.Interpreter
         }
 
         /// <summary>
+        /// The keywords, which should not be taken as identifiers
+        /// </summary>
+        private static string[] Keywords = {
+            "OR", "AND", "in", "not in", "is", "as", 
+            "LET", 
+            "STABILIZE", "INITIAL_VALUE", "STOP_CONDITION", 
+            CountExpression.Operator, "USING", 
+            FilterExpression.Operator, 
+            FirstExpression.Operator, 
+            ForAllExpression.Operator, 
+            LastExpression.Operator, 
+            MapExpression.Operator, 
+            ReduceExpression.Operator,
+            SumExpression.Operator, 
+            ThereIsExpression.Operator, 
+            "APPLY", "ON",
+            "INSERT", "WHEN", "FULL", "REPLACE",
+            "REMOVE", "FIRST", "LAST", "ALL",
+            "REPLACE", "BY"
+        };
+
+        /// <summary>
         ///     Provides the identifier at the current position
         /// </summary>
         /// <returns></returns>
@@ -104,6 +127,7 @@ namespace DataDictionary.Interpreter
         {
             string retVal = null;
 
+            int start = Index;
             SkipWhiteSpaces();
             if (Index < Buffer.Length)
             {
@@ -121,6 +145,13 @@ namespace DataDictionary.Interpreter
                     retVal = new String(Buffer, Index, i);
                     Index = Index + i;
                 }
+            }
+
+            // Ensure that the identifier is not a keyword
+            if (Keywords.Contains(retVal))
+            {
+                retVal = null;
+                Index = start;
             }
 
             return retVal;
@@ -969,40 +1000,34 @@ namespace DataDictionary.Interpreter
                     || FilterExpression.Operator.Equals(listOp))
                 {
                     Expression listExpression = Expression(0);
-                    if (listExpression != null)
-                    {
-                        Expression condition = ConditionalParse(()=>Expression(0), "|");
-                        string iteratorIdentifier = MandatoryParse(()=>Identifier(), "USING");
+                    Expression condition = ConditionalParse(() => Expression(0), "|");
+                    string iteratorIdentifier = MandatoryParse(() => Identifier(), "USING");
 
-                        if (FilterExpression.Operator.Equals(listOp))
+                    if (FilterExpression.Operator.Equals(listOp))
+                    {
+                        retVal = new FilterExpression(Root, RootLog, listExpression, iteratorIdentifier, condition,
+                            CreateParsingData(start, Index));
+                    }
+                    else
+                    {
+                        Expression iteratorExpression = MandatoryParse(() => Expression(0), "IN");
+                        if (MapExpression.Operator.Equals(listOp))
                         {
-                            retVal = new FilterExpression(Root, RootLog, listExpression, iteratorIdentifier, condition,
-                                           CreateParsingData(start, Index));
+                            retVal = new MapExpression(Root, RootLog, listExpression, iteratorIdentifier, condition,
+                                iteratorExpression, CreateParsingData(start, Index));
                         }
-                        else
+                        else if (SumExpression.Operator.Equals(listOp))
                         {
-                            Expression iteratorExpression = MandatoryParse(() => Expression(0), "IN");
-                            if (iteratorExpression != null)
+                            retVal = new SumExpression(Root, RootLog, listExpression, iteratorIdentifier, condition,
+                                iteratorExpression, CreateParsingData(start, Index));
+                        }
+                        else if (ReduceExpression.Operator.Equals(listOp))
+                        {
+                            Expression initialValue = MandatoryParse(() => Expression(0), "INITIAL_VALUE");
+                            if (initialValue != null)
                             {
-                                if (MapExpression.Operator.Equals(listOp))
-                                {
-                                    retVal = new MapExpression(Root, RootLog, listExpression, iteratorIdentifier, condition,
-                                        iteratorExpression, CreateParsingData(start, Index));
-                                }
-                                else if (SumExpression.Operator.Equals(listOp))
-                                {
-                                    retVal = new SumExpression(Root, RootLog, listExpression, iteratorIdentifier, condition,
-                                        iteratorExpression, CreateParsingData(start, Index));
-                                }
-                                else if (ReduceExpression.Operator.Equals(listOp))
-                                {
-                                    Expression initialValue = MandatoryParse(() => Expression(0), "INITIAL_VALUE");
-                                    if (initialValue != null)
-                                    {
-                                        retVal = new ReduceExpression(Root, RootLog, listExpression, iteratorIdentifier,
-                                            condition, iteratorExpression, initialValue, CreateParsingData(start, Index));
-                                    }
-                                }
+                                retVal = new ReduceExpression(Root, RootLog, listExpression, iteratorIdentifier,
+                                    condition, iteratorExpression, initialValue, CreateParsingData(start, Index));
                             }
                         }
                     }
@@ -1013,7 +1038,7 @@ namespace DataDictionary.Interpreter
                     Expression listExpression = MandatoryParse(() => Expression(6), "IN");
                     if (listExpression != null)
                     {
-                        Expression condition = ConditionalParse(()=>Expression(0), "|");
+                        Expression condition = ConditionalParse(() => Expression(0), "|");
 
                         // Create the right class for this list operation
                         if (ThereIsExpression.Operator.Equals(listOp))
@@ -1213,19 +1238,23 @@ namespace DataDictionary.Interpreter
                     PartialParsing = partial;
                     retVal = Expression(0);
 
-                    SkipWhiteSpaces();
-                    if (Index != Buffer.Length)
+                    if (!PartialParsing)
                     {
-                        retVal = null;
-                        if (Index < Buffer.Length)
+                        SkipWhiteSpaces();
+                        if (Index != Buffer.Length)
                         {
-                            RootLog.AddError("End of expression expected, but found " + Buffer[Index]);
-                        }
-                        else
-                        {
-                            RootLog.AddError("End of expression expected, but found EOF");
+                            retVal = null;
+                            if (Index < Buffer.Length)
+                            {
+                                RootLog.AddError("End of expression expected, but found " + Buffer[Index]);
+                            }
+                            else
+                            {
+                                RootLog.AddError("End of expression expected, but found EOF");
+                            }
                         }
                     }
+
                     if (retVal != null && doSemanticalAnalysis)
                     {
                         if (filter == null)
@@ -1442,12 +1471,15 @@ namespace DataDictionary.Interpreter
                         PartialParsing = partial;
                         retVal = Statement(root);
 
-                        SkipWhiteSpaces();
-                        if (Index != Buffer.Length)
+                        if (!PartialParsing)
                         {
-                            if (Index < Buffer.Length)
+                            SkipWhiteSpaces();
+                            if (Index != Buffer.Length)
                             {
-                                throw new ParseErrorException("End of statement expected", Index, Buffer);
+                                if (Index < Buffer.Length)
+                                {
+                                    throw new ParseErrorException("End of statement expected", Index, Buffer);
+                                }
                             }
                         }
 

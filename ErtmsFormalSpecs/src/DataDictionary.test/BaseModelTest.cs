@@ -361,14 +361,18 @@ namespace DataDictionary.test
         ///     Creates a colleciton in the namespace provided
         /// </summary>
         /// <param name="enclosing"></param>
-        /// <param name="name"></param>
+        /// <param name="name">The name of the collection</param>
+        /// <param name="typeName">The name of the type of the elements in the collection</param>
+        /// <param name="maxSize">The maximum collection size</param>
         /// <returns></returns>
-        protected Collection CreateCollection(NameSpace enclosing, string name)
+        protected Collection CreateCollection(NameSpace enclosing, string name, string typeName, int maxSize)
         {
             Collection retVal = (Collection)Factory.createCollection();
 
             enclosing.appendCollections(retVal);
             retVal.Name = name;
+            retVal.TypeName = typeName;
+            retVal.setMaxSize(maxSize);
 
             return retVal;
         }
