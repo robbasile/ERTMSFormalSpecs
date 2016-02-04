@@ -159,5 +159,39 @@ namespace DataDictionary.test.ParserTest
                 Assert.AreEqual(element.Type, s1);
             }
         }
+
+        [Test]
+        public void TestListExpression()
+        {
+            Dictionary test = CreateDictionary("Test");
+            NameSpace n1 = CreateNameSpace(test, "N1");
+            Structure s1 = CreateStructure(n1, "S1");
+            StructureElement el1 = CreateStructureElement(s1, "E1", "Boolean");
+            Structure s2 = CreateStructure(n1, "S2");
+            StructureElement el2 = CreateStructureElement(s2, "E2", "S1");
+            Function function = CreateFunction(n1, "f", "S1");
+
+            Collection collection = CreateCollection(n1, "Col", "S1", 10);
+            Variable v = CreateVariable(n1, "V", "Col");
+
+            Compiler.Compile_Synchronous(true, true);
+
+            RuleCondition rc = CreateRuleAndCondition(n1, "Rule1");
+            Parser parser = new Parser();
+
+            {
+                VariableUpdateStatement statement = parser.Statement(rc, "V <- [S1 { E1 => Tr", true, true) as VariableUpdateStatement;
+                Assert.IsNotNull(statement);
+
+                UnaryExpression unaryExpression = statement.Expression as UnaryExpression;
+                Assert.IsNotNull(unaryExpression);
+                ListExpression listExpression = unaryExpression.Term.LiteralValue as ListExpression;
+                Assert.IsNotNull(listExpression);
+                Assert.AreEqual(listExpression.ListElements.Count, 1);
+
+                StructExpression structExpression = listExpression.ListElements[0] as StructExpression;
+                Assert.IsNotNull(structExpression);
+            }
+        }
     }
 }

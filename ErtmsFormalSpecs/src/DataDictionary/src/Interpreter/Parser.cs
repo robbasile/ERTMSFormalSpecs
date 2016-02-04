@@ -100,7 +100,7 @@ namespace DataDictionary.Interpreter
         /// <summary>
         /// The keywords, which should not be taken as identifiers
         /// </summary>
-        private static string[] Keywords = {
+        private static readonly string[] Keywords = {
             "OR", "AND", "in", "not in", "is", "as", 
             "LET", 
             "STABILIZE", "INITIAL_VALUE", "STOP_CONDITION", 
