@@ -384,11 +384,13 @@ Keep the reason for it to be displayed to the driver.</Comment>
  Guid="35c7ae19-379e-4fe1-9f80-bbfeed7fb8e3"
 >EURORADIO.TrainTripDueToMaxTimeBetweenMessagesExceeded &lt;- True</Action><Action
  Guid="df2fb773-415b-49bc-8066-df20f0a0c275"
->INSERT Kernel.BrakeCommands.EmergencyStopStruct{
+>INSERT Kernel.BrakeCommands.EmergencyStopStruct
+{
     IsConditional =&gt; False,
     Id =&gt; 0,
     StopLocation =&gt; 0.0,
-    Reason =&gt; Kernel.BrakeCommands.BrakeReasonEnum.NoRadioMessageInDueTime
+    Reason =&gt; Kernel.BrakeCommands.BrakeReasonEnum.NoRadioMessageInDueTime,
+    StartTime =&gt; Kernel.DateAndTime.Now()
 }
 IN Kernel.BrakeCommands.EmergencyStops</Action></Actions>
 </RuleCondition><RuleCondition

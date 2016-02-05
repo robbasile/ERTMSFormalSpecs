@@ -205,6 +205,15 @@
  Name="Reason"
  Guid="3f89f43d-554f-45d9-b2ea-ad274c34225c"
 >
+</StructureElement><StructureElement
+ TypeName="DateAndTimeStruct"
+ Default="EMPTY"
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="StartTime"
+ Guid="8215949b-bf40-4b92-81f8-c7edb06a6c55"
+>
+<Comment>Used to display the time of reception of that emergency stop on the DMI.</Comment>
 </StructureElement></Structure><Structure
  Default=""
  X="530"
@@ -231,8 +240,8 @@
  Guid="81a4aaf2-1fc6-42d5-8b22-a408898ecdf2"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="BaseTypes.Time"
- Default="BaseTypes.Time.NA"
+ TypeName="DateAndTimeStruct"
+ Default="EMPTY"
  Mode="Internal"
  Implemented="TRUE"
  Name="StartTime"
@@ -388,7 +397,8 @@
     Reason =&gt; BrakeReasonEnum.OrderFromRBC,
     IsConditional =&gt; aIsConditional,
     Id =&gt; aId,
-    StopLocation =&gt; aStopLocation
+    StopLocation =&gt; aStopLocation,
+    StartTime =&gt; Kernel.DateAndTime.Now()
  }</Expression>
 </Case></Cases>
 </Function><Function
@@ -861,7 +871,7 @@ Kernel.BrakeCommands.EmergencyStops</Action></Actions>
 BrakeCommandStruct
 {
   Reason =&gt; Reason,
-  StartTime =&gt; DateAndTime.CurrentTime
+  StartTime =&gt; DateAndTime.Now()
 }
 IN
 Kernel.BrakeCommands.ServiceBrakeCommands</Action></Actions>
@@ -1095,7 +1105,7 @@ Kernel.BrakeCommands.ServiceBrakeCommands</Action></Actions>
 BrakeCommandStruct
 {
   Reason =&gt; Reason,
-  StartTime =&gt; DateAndTime.CurrentTime
+  StartTime =&gt; DateAndTime.Now()
 }
 IN Kernel.BrakeCommands.EmergencyBrakeCommands</Action></Actions>
 </RuleCondition></Conditions>
@@ -1480,7 +1490,6 @@ IN Kernel.BrakeCommands.EmergencyBrakeCommands</Action></Actions>
  Y="430"
  Width="100"
  Height="50"
- Implemented="TRUE"
  Name="ServiceBrakeCommands"
  Guid="61248a07-d7a9-462c-b84e-8b9fbf6afbc0"
 >
@@ -1492,6 +1501,7 @@ IN Kernel.BrakeCommands.EmergencyBrakeCommands</Action></Actions>
  Y="430"
  Width="100"
  Height="50"
+ Implemented="TRUE"
  Name="EmergencyBrakeCommands"
  Guid="2c62a443-23eb-49af-b793-919347857f3f"
 >
@@ -1541,7 +1551,8 @@ IN Kernel.BrakeCommands.EmergencyBrakeCommands</Action></Actions>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="149b1ae8-f5ad-440e-8f10-e48a9c0e5c3a"
 >
-</ReqRef><SubRules></SubRules>
+</ReqRef><Comment>Displays the trip reason on the DMI.</Comment>
+<SubRules></SubRules>
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
@@ -1558,7 +1569,8 @@ IN Kernel.BrakeCommands.EmergencyBrakeCommands</Action></Actions>
 <Action
  Guid="a3fc4c17-da7a-44f6-a07b-e0a9591ad4dc"
 >DMI.MasterDMI().Out_TripReason.Display(
-    reason =&gt; (FIRST X IN Kernel.BrakeCommands.EmergencyStops).Reason
+    aReason =&gt; (FIRST X IN Kernel.BrakeCommands.EmergencyStops).Reason,
+    aStartTime =&gt; (FIRST X IN Kernel.BrakeCommands.EmergencyStops).StartTime
 )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>

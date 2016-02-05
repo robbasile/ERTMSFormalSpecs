@@ -3425,14 +3425,17 @@ RevSupPacketAvailable( aPacket =&gt; Packet.TRACK_TO_TRAIN.REVERSING_SUPERVISION
 <Actions>
 <Action
  Guid="64a5b203-43ab-41ec-b698-757a66aa1143"
->Kernel.BrakeCommands.EmergencyStops &lt;- MAP Kernel.BrakeCommands.EmergencyStops USING X IN Kernel.BrakeCommands.EmergencyStopStruct{
+>Kernel.BrakeCommands.EmergencyStops &lt;- MAP Kernel.BrakeCommands.EmergencyStops USING X IN Kernel.BrakeCommands.EmergencyStopStruct
+{
     IsConditional =&gt; X.IsConditional,
     Id =&gt; X.Id,
-    StopLocation =&gt; BaseTypes.OffsetDistance(
+    StopLocation =&gt; BaseTypes.OffsetDistance
+    (
         aDistance =&gt; X.StopLocation
         aOffset =&gt; DistanceFromLRBG
     ),
-    Reason =&gt; X.Reason
+    Reason =&gt; X.Reason,
+    StartTime =&gt; X.StartTime
 }</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule

@@ -1118,8 +1118,13 @@ TODO</Comment>
 <Parameters>
 <Parameter
  Type="Kernel.BrakeCommands.BrakeReasonEnum"
- Name="reason"
+ Name="aReason"
  Guid="1c80bc76-35ec-4d87-9998-d6a3b0a48f28"
+>
+</Parameter><Parameter
+ Type="DateAndTimeStruct"
+ Name="aStartTime"
+ Guid="fc6aeb9f-5d1b-41cc-b202-efa0eb85185a"
 >
 </Parameter></Parameters>
 <Rules>
@@ -1145,7 +1150,9 @@ TODO</Comment>
  Guid="42e147cb-8693-4572-b0e8-39e4df8bb560"
 >THIS.OutputInformation.RequestDisplay()</Action><Action
  Guid="65b41d3f-e4e0-4c36-9305-9b7d2998a325"
->THIS.Reason &lt;- reason</Action></Actions>
+>THIS.Reason &lt;- aReason</Action><Action
+ Guid="6f2afe6e-abaa-48c9-9719-8a997ec6b73f"
+>THIS.DisplayStartTime &lt;- aStartTime</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -1203,6 +1210,15 @@ TODO</Comment>
  Guid="8907e62f-bb99-488d-b77b-cea1ebaf9f7a"
 >
 </ReqRef><Comment>The trip reason</Comment>
+</StructureElement><StructureElement
+ TypeName="DateAndTimeStruct"
+ Default="EMPTY"
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="DisplayStartTime"
+ Guid="b3a86010-7ba6-4227-90ad-ddd491f97485"
+>
+<Comment>Indicates the time at which the display of this information started.</Comment>
 </StructureElement></Structure><Structure
  Default=""
  X="111"
@@ -2529,11 +2545,11 @@ TODO</Comment>
 <PreConditions>
 <PreCondition
  Guid="afbda743-c4f0-42da-adcb-98001fc4398c"
->THIS.DisplayStartTime == BaseTypes.Time.NA</PreCondition></PreConditions>
+>THIS.DisplayStartTime == EMPTY</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="2b20f49c-0090-4f0d-9b6b-e3d5e5adfe94"
->THIS.DisplayStartTime &lt;- Kernel.DateAndTime.CurrentTime</Action></Actions>
+>THIS.DisplayStartTime &lt;- Kernel.DateAndTime.Now()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition><RuleCondition
@@ -2575,8 +2591,8 @@ This procedure does not do anything. The mode tracking is not necessary for this
 >
 <Comment>The RBC refused a request to enter shunting mode</Comment>
 </StructureElement><StructureElement
- TypeName="BaseTypes.Time"
- Default="BaseTypes.Time.NA"
+ TypeName="DateAndTimeStruct"
+ Default="EMPTY"
  Mode="Internal"
  Implemented="TRUE"
  Name="DisplayStartTime"
@@ -2650,7 +2666,7 @@ TODO</Comment>
  Guid="6b7140f5-6446-42c9-b1e8-1954d25f7d48"
 >THIS.OutputInformation.RequestDisplay()</Action><Action
  Guid="f00e12d0-bb4a-476a-95e3-9d2dc4832e68"
->THIS.DisplayStartTime &lt;- Kernel.DateAndTime.CurrentTime</Action></Actions>
+>THIS.DisplayStartTime &lt;- Kernel.DateAndTime.Now()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -2703,8 +2719,8 @@ TODO</Comment>
 >
 <Comment>The RBC has not answered a request to begin shunting</Comment>
 </StructureElement><StructureElement
- TypeName="BaseTypes.Time"
- Default="BaseTypes.Time.NA"
+ TypeName="DateAndTimeStruct"
+ Default="EMPTY"
  Mode="Internal"
  Implemented="TRUE"
  Name="DisplayStartTime"
@@ -2922,7 +2938,7 @@ Kernel.TrainPosition.RearEndPosition(DistanceIntervalEnum.Nom) &lt; (FIRST X IN 
  Guid="15e7d241-d0a9-4e0a-9407-d7f1fb5c72d6"
 >THIS.OutputInformation.RequestDisplay()</Action><Action
  Guid="3cd08e63-0f53-4075-a854-4e4d691edc22"
->THIS.DisplayStartTime &lt;- Kernel.DateAndTime.CurrentTime</Action><Action
+>THIS.DisplayStartTime &lt;- Kernel.DateAndTime.Now()</Action><Action
  Guid="23aa238b-eaa8-4478-b4b4-12bcba5f9aee"
 >THIS.Mode &lt;- aMode</Action></Actions>
 </RuleCondition><RuleCondition
@@ -2964,8 +2980,8 @@ This procedure does not do anything. The mode tracking is not necessary for this
  Guid="ec13b56c-9a0c-43f3-96f8-d20052458f8f"
 >
 </StructureElement><StructureElement
- TypeName="BaseTypes.Time"
- Default="BaseTypes.Time.NA"
+ TypeName="DateAndTimeStruct"
+ Default="EMPTY"
  Mode="Internal"
  Implemented="TRUE"
  Name="DisplayStartTime"
@@ -3322,7 +3338,7 @@ TODO</Comment>
  Guid="bde5049d-59cd-4e59-9aae-8ced22704724"
 >THIS.OutputInformation.RequestDisplay()</Action><Action
  Guid="ec207f74-86f8-4a10-8e13-59383f48d81e"
->THIS.DisplayStartTime &lt;- Kernel.DateAndTime.CurrentTime</Action></Actions>
+>THIS.DisplayStartTime &lt;- Kernel.DateAndTime.Now()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -3375,8 +3391,8 @@ TODO</Comment>
 >
 <Comment>Indicates a malfunction on the trackside end</Comment>
 </StructureElement><StructureElement
- TypeName="BaseTypes.Time"
- Default="BaseTypes.Time.NA"
+ TypeName="DateAndTimeStruct"
+ Default="EMPTY"
  Mode="Internal"
  Implemented="TRUE"
  Name="DisplayStartTime"
@@ -3458,7 +3474,7 @@ TODO</Comment>
  Guid="12f9e7a5-3fe2-41c1-8604-7f696c3bb86b"
 >THIS.OutputInformation.RequestDisplay()</Action><Action
  Guid="87ebef27-ae9a-458e-9c32-f008f6edc880"
->THIS.DisplayStartTime &lt;- Kernel.DateAndTime.CurrentTime</Action></Actions>
+>THIS.DisplayStartTime &lt;- Kernel.DateAndTime.Now()</Action></Actions>
 </RuleCondition><RuleCondition
  Name="Hide otherwise"
  Guid="80698cbe-5fc3-4132-b115-a4cea806bdfb"
@@ -3489,8 +3505,8 @@ This procedure does not do anything. The mode tracking is not necessary for this
  Guid="ec81639d-9bcb-4916-9b0e-324ac904099f"
 >
 </StructureElement><StructureElement
- TypeName="BaseTypes.Time"
- Default="BaseTypes.Time.NA"
+ TypeName="DateAndTimeStruct"
+ Default="EMPTY"
  Mode="Internal"
  Implemented="TRUE"
  Name="DisplayStartTime"
@@ -4581,7 +4597,7 @@ TODO</Comment>
  Guid="7fb8d48f-64df-4c74-aad2-1430fab74b86"
 >THIS.OutputInformation.RequestDisplay()</Action><Action
  Guid="a71e856c-bb65-43cd-ba86-ccc883e15ffe"
->THIS.DisplayStartTime &lt;- Kernel.DateAndTime.CurrentTime</Action></Actions>
+>THIS.DisplayStartTime &lt;- Kernel.DateAndTime.Now()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -4634,8 +4650,8 @@ TODO</Comment>
 >
 <Comment>The train is incompatible with a trackside system</Comment>
 </StructureElement><StructureElement
- TypeName="BaseTypes.Time"
- Default="BaseTypes.Time.NA"
+ TypeName="DateAndTimeStruct"
+ Default="EMPTY"
  Mode="Internal"
  Implemented="TRUE"
  Name="DisplayStartTime"
@@ -4709,7 +4725,7 @@ TODO</Comment>
  Guid="e993ab6a-febe-4ee2-ab6d-b068d8799f1e"
 >THIS.OutputInformation.RequestDisplay()</Action><Action
  Guid="742916b4-353c-4b2b-8a77-54161eeeb7e8"
->THIS.DisplayStartTime &lt;- Kernel.DateAndTime.CurrentTime</Action></Actions>
+>THIS.DisplayStartTime &lt;- Kernel.DateAndTime.Now()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -4762,8 +4778,8 @@ TODO</Comment>
 >
 <Comment>When in Standby mode, the train must be accepted by the RBC to start the mission (in level 2)</Comment>
 </StructureElement><StructureElement
- TypeName="BaseTypes.Time"
- Default="BaseTypes.Time.NA"
+ TypeName="DateAndTimeStruct"
+ Default="EMPTY"
  Mode="Internal"
  Implemented="TRUE"
  Name="DisplayStartTime"
