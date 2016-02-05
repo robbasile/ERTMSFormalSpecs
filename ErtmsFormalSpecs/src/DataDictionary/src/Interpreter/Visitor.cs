@@ -60,7 +60,7 @@ namespace DataDictionary.Interpreter
         /// <summary>
         ///     Visits a designator
         /// </summary>
-        /// <param name="?"></param>
+        /// <param name="designator"></param>
         protected virtual void VisitDesignator(Designator designator)
         {
         }
@@ -68,7 +68,7 @@ namespace DataDictionary.Interpreter
         /// <summary>
         ///     Visits a term
         /// </summary>
-        /// <param name="?"></param>
+        /// <param name="term"></param>
         protected virtual void VisitTerm(Term term)
         {
             if (term != null)
@@ -88,7 +88,7 @@ namespace DataDictionary.Interpreter
         /// <summary>
         ///     Visits an expression
         /// </summary>
-        /// <param name="?"></param>
+        /// <param name="expression"></param>
         protected virtual void VisitExpression(Expression expression)
         {
             if (expression != null)
