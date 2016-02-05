@@ -2162,7 +2162,10 @@ Kernel.TrainPosition.Position.DataState == DataStateEnum.Unknown</PreCondition><
  Guid="0d13890a-fdb8-4bb2-a3c5-978e1acfb39f"
 >THIS &lt;- Kernel.HandleModeChangeSM.StartOfMission.S3.ReceiveNetworkIDs.DriverSelection</Action><Action
  Guid="4b5b8b50-d10d-4d84-a0e9-46e32601d7c0"
->DMI.MasterDMI().In_RBCContactInformation.SelectNetworkId(EURORADIO.AvailableNetworks.Networks)</Action></Actions>
+>DMI.MasterDMI().In_RBCContactInformation.PursueNetworkIDRequest(
+    EURORADIO.GetRBCContactInfoForSoM(),
+    EURORADIO.AvailableNetworks.Networks
+)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition></Conditions>
@@ -2214,7 +2217,9 @@ Kernel.TrainPosition.Position.DataState == DataStateEnum.Unknown</PreCondition><
 <Actions>
 <Action
  Guid="cb962547-e788-46e1-b257-5e6b0bf8e644"
->THIS &lt;- Kernel.HandleModeChangeSM.StartOfMission.S3.ReceiveNetworkIDs.Registration</Action></Actions>
+>THIS &lt;- Kernel.HandleModeChangeSM.StartOfMission.S3.ReceiveNetworkIDs.Registration</Action><Action
+ Guid="cfc2525a-8610-41b5-a1cc-a4ab529c69a8"
+>DMI.MasterDMI().In_RBCContactInformation.WaitForSystemRequest(EURORADIO.GetRBCContactInfoForSoM())</Action></Actions>
 <SubRules>
 <Rule
  Priority="Processing"
@@ -2306,7 +2311,13 @@ Kernel.TrainPosition.Position.DataState == DataStateEnum.Unknown</PreCondition><
 <Actions>
 <Action
  Guid="923250f3-997b-4a5f-a8ac-29986744abdb"
->THIS &lt;- Kernel.HandleModeChangeSM.StartOfMission.S3.ProposeDriverActions</Action></Actions>
+>THIS &lt;- Kernel.HandleModeChangeSM.StartOfMission.S3.ProposeDriverActions</Action><Action
+ Guid="41418547-9fa9-476e-b31b-ecc725e0e008"
+>DMI.MasterDMI().In_RBCContactInformation.PursueRBCContactRequest(
+    Actions =&gt; EURORADIO.GetDriverActionsForSoM(),
+    anRBCContactInformation =&gt; EURORADIO.GetRBCContactInfoForSoM(),
+    AvailableNetworks =&gt; EURORADIO.AvailableNetworks.Networks
+)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </StateMachine></State></States>
@@ -2394,7 +2405,9 @@ Kernel.TrainPosition.Position.DataState == DataStateEnum.Unknown</PreCondition><
  Guid="7b7d924d-761b-47f8-be56-b474e1f1ca84"
 >EURORADIO.AvailableNetworks.RequestState &lt;- RequestEnum.Request</Action><Action
  Guid="77eb59b8-5cb4-49e8-a2cc-2b2e2f7fa9a4"
->THIS &lt;- Kernel.HandleModeChangeSM.StartOfMission.S3.ReceiveNetworkIDs</Action></Actions>
+>THIS &lt;- Kernel.HandleModeChangeSM.StartOfMission.S3.ReceiveNetworkIDs</Action><Action
+ Guid="e5d6779b-57f1-40bc-84f9-0a94c117e215"
+>DMI.MasterDMI().In_RBCContactInformation.WaitForSystemRequest(EURORADIO.GetRBCContactInfoForSoM())</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  NeedsRequirement="FALSE"
