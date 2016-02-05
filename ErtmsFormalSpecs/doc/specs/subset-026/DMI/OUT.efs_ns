@@ -3647,11 +3647,11 @@ This procedure does not do anything. The mode tracking is not necessary for this
 <PreConditions>
 <PreCondition
  Guid="5daab069-431b-453a-b9e5-1411ee1ab67a"
->THIS.DisplayStartTime == BaseTypes.Time.NA</PreCondition></PreConditions>
+>NOT Available( THIS.DisplayStartTime )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="4a875a45-008f-4e83-af4d-9bb451c5fff2"
->THIS.DisplayStartTime &lt;- Kernel.DateAndTime.CurrentTime</Action></Actions>
+>THIS.DisplayStartTime &lt;- Kernel.DateAndTime.Now()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition><RuleCondition
@@ -3665,7 +3665,7 @@ This procedure does not do anything. The mode tracking is not necessary for this
  Guid="29999877-5fc3-45ee-8a3b-ec84730924c3"
 >THIS.OutputInformation.DoNotDisplay()</Action><Action
  Guid="d5b933f7-efe8-4c4e-bcf5-5952a995cc68"
->THIS.DisplayStartTime &lt;- Default.BaseTypes.Time.NA</Action></Actions>
+>THIS.DisplayStartTime &lt;- EMPTY</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -3695,8 +3695,8 @@ This procedure does not do anything. The mode tracking is not necessary for this
 >
 <Comment>Indicates that registration to a radio network has failed</Comment>
 </StructureElement><StructureElement
- TypeName="BaseTypes.Time"
- Default="BaseTypes.Time.NA"
+ TypeName="DateAndTimeStruct"
+ Default="EMPTY"
  Mode="Internal"
  Implemented="TRUE"
  Name="DisplayStartTime"

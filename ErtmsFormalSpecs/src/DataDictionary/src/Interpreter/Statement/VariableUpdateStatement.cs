@@ -15,6 +15,7 @@
 // ------------------------------------------------------------------------------
 
 using System.Collections.Generic;
+using DataDictionary.Generated;
 using DataDictionary.Interpreter.Filter;
 using DataDictionary.Rules;
 using DataDictionary.Tests.Runner;
@@ -22,6 +23,10 @@ using DataDictionary.Types;
 using DataDictionary.Values;
 using DataDictionary.Variables;
 using Utils;
+using Collection = DataDictionary.Types.Collection;
+using Range = DataDictionary.Types.Range;
+using StructureElement = DataDictionary.Types.StructureElement;
+using Type = DataDictionary.Types.Type;
 
 namespace DataDictionary.Interpreter.Statement
 {
@@ -235,6 +240,15 @@ namespace DataDictionary.Interpreter.Statement
             else
             {
                 Root.AddError("Invalid expression in assignment");
+            }
+            // Check that the incoming variables are not modified
+            if (EnclosingFinder<DataDictionary.Types.NameSpace>.find(Root, true) != null)
+            {
+                IVariable variable = VariableIdentification.Ref as IVariable;
+                if (variable != null && variable.Mode == acceptor.VariableModeEnumType.aIncoming)
+                {
+                    Root.AddError("An incoming variable cannot be written");
+                }
             }
         }
 

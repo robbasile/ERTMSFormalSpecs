@@ -839,15 +839,6 @@ namespace DataDictionary
                                             preCondition.AddError("An outgoing variable cannot be read");
                                         }
                                     }
-
-                                    // Check that the incoming variables are not modified
-                                    if (variable.Mode == acceptor.VariableModeEnumType.aIncoming)
-                                    {
-                                        if (ruleCondition.Modifies(variable) != null)
-                                        {
-                                            preCondition.AddError("An incoming variable cannot be written");
-                                        }
-                                    }
                                 }
                             }
                         }
