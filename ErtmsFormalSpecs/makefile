@@ -36,7 +36,10 @@ test:
 	bin/EFSTester.exe "doc/specs/subset-026.efs" 
 	bin/EFSTester.exe "doc/specs/subset-026.efs" "doc/specs/braking curves verification.efs"
 
-nightbuild: release test
+unit_test:
+	../../tools/NUnit-2.6.3/bin/nunit-console.exe src/DataDictionary.test/bin/Release/DataDictionary.test.dll /xml=nunit-result.xml
+
+nightbuild: release test unit_test
 	echo "done."
 
 clean:
