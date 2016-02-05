@@ -2144,6 +2144,62 @@ Fetches the time from the kernel and adjusts according to the current country id
  Guid="d4aef1ea-0f47-47ec-85a8-02d7fecf3b6e"
 >Out_ShuntingRefusedByRbc.Display(Kernel.HandleModeChange in [Kernel.HandleModeChangeSM.ShuntingInitiatedByDriver.A220])</Action></Actions>
 </RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Update Track conditions without sound horn"
+ Guid="b643e214-3f98-401c-b21b-2f7ea3f982b1"
+>
+<Comment>Updates the display of planning information and active track conditions for the following:
+ - Turn off main power switch
+ - Lower pantograph
+ - Air tightness
+ - Radio hole
+ - Brake inhibition.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Update Track conditions without sound horn"
+ Guid="10988328-9db9-4e29-aec1-bca77739ca9a"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="29b82fe5-cb63-4e0c-ab9c-ed959c805970"
+>Out_TrackConditionsWithoutSoundHorn.Display(
+    aPlanningInformation =&gt; Kernel.TrackDescription.TrackConditions.Display.BrakeInhibitionConditions.DisplayedPlanningInformation(),
+    aActiveConditions =&gt; Kernel.TrackDescription.TrackConditions.Display.BrakeInhibitionConditions.DisplayedAnnouncements()
+)</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Update Track conditions with sound horn"
+ Guid="b8847b2c-c64b-4715-b9f3-4a37b23fd312"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Update Track conditions with sound horn"
+ Guid="a3834feb-91f8-4cd7-bb0f-557088ffad3f"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="fbae4759-ccbd-4e31-aa5b-21b186762c84"
+>Out_TrackConditionsWithSoundHorn.Display(
+    aPlanningInformation =&gt; Kernel.TrackDescription.TrackConditions.Display.SoundHornConditions.DisplayedPlanningInformation(),
+    aActiveConditions =&gt; Kernel.TrackDescription.TrackConditions.Display.SoundHornConditions.DisplayedAnnouncements()
+)</Action></Actions>
+</RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
  Implemented="TRUE"

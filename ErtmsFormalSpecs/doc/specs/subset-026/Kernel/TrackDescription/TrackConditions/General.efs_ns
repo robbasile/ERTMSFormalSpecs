@@ -7,11 +7,7 @@
  Guid="001c183d-5aef-4e1a-8af5-a5486825cba9"
 >
 <NameSpaces>
-<NameSpaceRef
- Name="TCDisplay"
- Guid="39d59acd-4065-49f2-b9b1-f7ba48445dc2"
->
-</NameSpaceRef></NameSpaces>
+</NameSpaces>
 <Structures>
 <Structure
  Default=""
@@ -1143,66 +1139,6 @@ IN
     TCType=&gt;TCType
 )</Action></Actions>
 </RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- Implemented="TRUE"
- Name="Display on DMI"
- Guid="d9eb2ecf-9250-456e-b3c4-b75145be794a"
->
-<ReqRef
- Id="f1130a3d-ce18-4a20-9daa-8951a06f2d27"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="31cbc5c4-e549-4ab2-bb2d-45ace8dabd4c"
->
-</ReqRef><ReqRef
- Id="e7b803d0-32ff-44d5-ae54-a7a3a3cac6fd"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="12e87c52-218c-46ce-8214-855b385e0d2a"
->
-</ReqRef><Comment>Once the track condition has been received, indicate it on the DMI</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Track conditions excluding sound horn, non stopping areas and tunnel stopping areas"
- Guid="664d8815-3fd6-47a5-b29a-f6a1eb4cc82d"
->
-<Comment>There is a separate procedure for Sound Horn, Non Stopping Area and Tunnel Stopping Area, so first attempt the general procedure</Comment>
-<PreConditions>
-<PreCondition
- Guid="fa4c8eba-afbc-47bf-a0f0-7a8aec19022b"
->TCType != Messages.M_TRACKCOND.Non_stopping_area___tunnel__Initial_state__stopping_permitted</PreCondition><PreCondition
- Guid="a71e3e2f-ad4a-47b4-95e8-3b5e12b06253"
->TCType != Messages.M_TRACKCOND.Tunnel_stopping_area__Initial_state__no_tunnel_stopping_area</PreCondition><PreCondition
- Guid="199f198b-3353-4ac6-9d05-ed0f4321d9fd"
->TCType != Messages.M_TRACKCOND.Sound_horn__Initial_state__no_request_for_sound_horn</PreCondition><PreCondition
- Guid="da1b9f0e-1a85-4867-a50e-fe97f1d42e95"
->Kernel.ActiveFunctions.ManageTrackConditions_BrakeInhibition()</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="87add067-1441-4e70-9892-e85aea063d0a"
->DMI.MasterDMI().Out_TrackConditionsWithoutSoundHorn.Display()</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- Name="Track conditions sound horn, non stopping areas and tunnel stopping areas"
- Guid="fe54fa1a-143b-4f67-9e3d-fdf06d6f0f9b"
->
-<Comment>If the</Comment>
-<PreConditions>
-<PreCondition
- Guid="1c45e183-0768-4fb1-8443-db846aa4639d"
->TCType == Messages.M_TRACKCOND.Sound_horn__Initial_state__no_request_for_sound_horn
-  OR  
-TCType == Messages.M_TRACKCOND.Non_stopping_area___tunnel__Initial_state__stopping_permitted
-  OR  
-TCType == Messages.M_TRACKCOND.Tunnel_stopping_area__Initial_state__no_tunnel_stopping_area</PreCondition><PreCondition
- Guid="0c1981b8-9279-45e1-a6ed-70133e96cbd0"
->Kernel.ActiveFunctions.ManageTrackConditions_SoundHorn()</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="9757d5ac-fb18-48e5-86cb-b62d50641ec1"
->DMI.MasterDMI().Out_TrackConditionsWithSoundHorn.Display()</Action></Actions>
-</RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
  X="110"
@@ -1262,8 +1198,8 @@ The handling of track conditions is decribed in  ErtmsFormalSpecs/doc/specs/Mode
 >REMOVE ALL X.Location &gt;= NewInfoStartLocation(Packet) 
     IN TCProfile</Action><Action
  Guid="ad4e2691-c733-4e4d-8db1-ff6fd0667df6"
->REMOVE ALL X.Location &gt;= TCDisplay.AnnouncementLocation(TrackCondition=&gt;TrackConditionStruct{}, Distance =&gt; NewInfoStartLocation(Packet))
-    IN TCDisplay.Announcements</Action></Actions>
+>REMOVE ALL X.Location &gt;Display.AnnouncementLocation(aTrackCondition=&gt;TrackConditionStruct{}, aDistance =&gt; NewInfoStartLocation(Packet))
+    IN Display.ActiveConditions</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -1321,7 +1257,7 @@ The handling of track conditions is decribed in  ErtmsFormalSpecs/doc/specs/Mode
     TCType=&gt;Packet.M_TRACKCOND
 )</Action><Action
  Guid="476cb606-a0af-42f5-b297-1cf9bb8e1672"
->Kernel.TrackDescription.TrackConditions.General.TCDisplay.MakeAnnouncement(
+>Display.MakeAnnouncements(
     TCType=&gt;Packet.M_TRACKCOND,
     Distance=&gt;MessageTypes.QScaleDistance(
         distance=&gt;Packet.D_TRACKCOND,
@@ -1360,7 +1296,7 @@ ON
     Packet.Sequence1</Action><Action
  Guid="afebcc0b-73d8-47ef-b24b-7b726330c6b0"
 >APPLY
-    Kernel.TrackDescription.TrackConditions.General.TCDisplay.MakeAnnouncement(
+    Display.MakeAnnouncements(
         TCType=&gt;X.M_TRACKCOND
         ,
         Distance=&gt;MessageTypes.QScaleDistance(

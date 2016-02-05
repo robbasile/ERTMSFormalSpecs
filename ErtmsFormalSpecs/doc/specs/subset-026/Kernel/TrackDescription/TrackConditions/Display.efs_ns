@@ -1,0 +1,1445 @@
+<NameSpace
+ X="1"
+ Y="1"
+ Width="100"
+ Height="50"
+ Name="Display"
+ Guid="0ea9771b-d543-4079-8aff-b0d76bc2816f"
+>
+<NameSpaces>
+<NameSpaceRef
+ Name="SoundHornConditions"
+ Guid="b5a59f97-844d-4ca3-8b87-1d82bb0fca1f"
+>
+</NameSpaceRef><NameSpaceRef
+ Name="BrakeInhibitionConditions"
+ Guid="b4bf2ed6-2b29-4057-809e-2e0e219b9c09"
+>
+</NameSpaceRef></NameSpaces>
+<Enumerations>
+<Enum
+ Default="Kernel.TrackDescription.TrackConditions.Display.TCTypeEnum.LowerPantograph"
+ X="510"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="TCTypeEnum"
+ Guid="4410ca44-83d3-4da7-8d02-18e9894d1bf3"
+>
+<Comment>Enumeration of the different types of track condition that can be announced on the DMI.</Comment>
+<Values>
+<EnumValue
+ Value=""
+ Name="LowerPantograph"
+ Guid="58e99abc-9654-462a-8214-8626c9957c48"
+>
+</EnumValue><EnumValue
+ Value=""
+ Name="TurnOffMainSwitch"
+ Guid="119c065b-43f0-4113-9656-42063f12d7f7"
+>
+</EnumValue><EnumValue
+ Value=""
+ Name="NonStoppingArea"
+ Guid="4297b5ef-8499-482b-a9c4-f533e8dd7a03"
+>
+</EnumValue><EnumValue
+ Value=""
+ Name="RadioHole"
+ Guid="aba681ca-6b1b-4ba0-b379-921ff0343518"
+>
+</EnumValue><EnumValue
+ Value=""
+ Name="AirTightness"
+ Guid="fe97fb7d-baa5-4121-9dd5-71b649ebe32e"
+>
+</EnumValue><EnumValue
+ Value=""
+ Name="EddyCurrentBrakeForEB"
+ Guid="cdf9db7a-8dce-453b-bd74-4f7daa9842ee"
+>
+</EnumValue><EnumValue
+ Value=""
+ Name="MagneticShoeBrake"
+ Guid="14c66e13-e890-4f58-90cb-7e191ab59f0c"
+>
+</EnumValue><EnumValue
+ Value=""
+ Name="RegenerativeBrake"
+ Guid="9be8e253-d4bf-48b7-966d-921ef7a92bf1"
+>
+</EnumValue><EnumValue
+ Value=""
+ Name="TunnelStoppingArea"
+ Guid="8e191726-7933-4f7f-afc9-efade435ba61"
+>
+</EnumValue><EnumValue
+ Value=""
+ Name="SoundHorn"
+ Guid="c948d278-5b71-4e8e-99fa-f33cef27ebb2"
+>
+</EnumValue><EnumValue
+ Value=""
+ Name="EddyCurrentBrakeForSB"
+ Guid="32a5301e-d4f9-41f9-959d-96ffb7cf9a02"
+>
+</EnumValue><EnumValue
+ Value=""
+ Name="TractionSystem__none"
+ Guid="cf5598f7-af09-40fb-9380-502729892df6"
+>
+</EnumValue><EnumValue
+ Value=""
+ Name="TractionSystem__AC25kV"
+ Guid="531f5034-4b79-4e73-80a2-63307cb248a1"
+>
+</EnumValue><EnumValue
+ Value=""
+ Name="TractionSystem__AC15kV"
+ Guid="8bcf9538-f14e-4ca5-a7c3-0d1df683ea2f"
+>
+</EnumValue><EnumValue
+ Value=""
+ Name="TractionSystem__DC3kV"
+ Guid="9b954826-91c3-47c0-b276-93e281b3d8c8"
+>
+</EnumValue><EnumValue
+ Value=""
+ Name="TractionSystem__DC1_5kV"
+ Guid="0e56ca98-1d15-4871-bd49-5af64d7adf31"
+>
+</EnumValue><EnumValue
+ Value=""
+ Name="TractionSystem__DC600_750V"
+ Guid="db3f2d46-9ebe-4129-ae04-b30da831fd63"
+>
+</EnumValue></Values>
+</Enum></Enumerations>
+<Structures>
+<Structure
+ Default=""
+ X="340"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="ActiveConditionStruct"
+ Guid="5027d2de-d609-42ac-affc-25d2447b5369"
+>
+<Comment>Contains the information needed to announce an upcoming track condition</Comment>
+<StructureElement
+ TypeName="TCTypeEnum"
+ Default=""
+ Mode="Internal"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Type"
+ Guid="5a887a9d-1213-40a1-a7e7-b898e427de10"
+>
+<Comment>The type of announcement displayed</Comment>
+</StructureElement><StructureElement
+ TypeName="BaseTypes.Distance"
+ Default="0.0"
+ Mode="Internal"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Location"
+ Guid="d8ef9e3f-8c92-4a0d-8423-53947c440ba1"
+>
+<Comment>Distance at which the announcement becomes displayed</Comment>
+</StructureElement><StructureElement
+ TypeName="BaseTypes.Length"
+ Default="BaseTypes.Length.Infinity"
+ Mode="Internal"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Length"
+ Guid="8b8ca15d-3a98-4430-b3a6-cc71adabe7b3"
+>
+<Comment>Length over which the announcement is displayed (not used for all announcements - some are displayed for a fixed time. In that case, the length is given as NA)</Comment>
+</StructureElement><StructureElement
+ TypeName="BaseTypes.Time"
+ Default="BaseTypes.Time.Infinity"
+ Mode="Internal"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Time"
+ Guid="1b973fea-c77e-454e-9315-5f94a2b8cf45"
+>
+<Comment>Time for which the announcement is displayed (not used for all announcements - some are displayed for a fixed length. In that case, the time is given as Infinity)</Comment>
+</StructureElement><StructureElement
+ TypeName="Boolean"
+ Default="False"
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="Automatic"
+ Guid="6b4715e7-bdec-477d-89ca-2f88dfbae6f5"
+>
+<ReqRef
+ Id="66551c91-ee6f-4402-b569-a9ff81c8d821"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="187007a9-1161-4f86-9f85-3713a963c475"
+>
+</ReqRef><ReqRef
+ Id="9dd79c32-df2a-4434-b913-50640beb4281"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0f448162-e37c-4894-a870-18a9c7443fb8"
+>
+</ReqRef><ReqRef
+ Id="b04158a3-35ce-4257-b43e-1d9716f76f93"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="38d5e632-b1f4-44b2-8352-25ebbd30a06c"
+>
+</ReqRef><ReqRef
+ Id="54fc1b2f-383b-4d7f-8d4a-91173fd494a8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="26f85fbd-3f06-4e45-82b1-82e6d2280418"
+>
+</ReqRef><ReqRef
+ Id="cd230e40-3098-4fd4-94b2-cc5f04fa5d77"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="420fecb4-778a-4df4-8ae7-ed8d032d1885"
+>
+</ReqRef><ReqRef
+ Id="ac29e88f-6252-4dc2-ba81-7dde4deecdc7"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="2b4a1a3c-0367-4667-872c-764a357cd4bc"
+>
+</ReqRef><ReqRef
+ Id="41d40a52-5363-4cb6-925a-671d1d925ce8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d3637433-5749-47cc-891a-90598f6cf13b"
+>
+</ReqRef><ReqRef
+ Id="40a60899-55f1-47d6-b778-f25fc8357903"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="7f57bbdc-bede-4839-9d98-e6be2a0d4047"
+>
+</ReqRef><Comment>Indicates whether the announced condition requires manual action or the train will handle it automatically</Comment>
+</StructureElement><StructureElement
+ TypeName="Boolean"
+ Default="False"
+ Mode="Internal"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="IsAnnouncement"
+ Guid="b17eebed-bc9a-4c23-81a0-ffbcf01a9a10"
+>
+<Comment>Indicates whether it is an announced condition or a current condition</Comment>
+</StructureElement><Interfaces>
+<StructureRef
+ Name="BaseTypes.LocationInterface"
+ Guid="11611f88-f43d-4d3b-a21d-f86ebab292ff"
+>
+</StructureRef></Interfaces>
+</Structure></Structures>
+<Collections>
+<Collection
+ TypeName="ActiveConditionStruct"
+ MaxSize="20"
+ Default="[]"
+ X="190"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="ActiveConditionsCol"
+ Guid="b0efb494-7f23-4cbd-8e54-bbbfccfa3d29"
+>
+<Comment>Collection used to hold the list of announcements the train will display</Comment>
+</Collection></Collections>
+<Functions>
+<Function
+ Type="BaseTypes.Distance"
+ Default=""
+ X="390"
+ Y="400"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="AnnouncementLocation"
+ Guid="5080f214-5c31-4f7a-95b0-956b3f6e88cc"
+>
+<ReqRef
+ Id="c5c7a634-701c-4959-ae64-0522e9a953bd"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="604399d8-c79d-4655-acb2-893cc2efde8f"
+>
+</ReqRef><ReqRef
+ Id="221528df-6eae-4bf3-a88b-d972fde73639"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="4de3885b-8ed7-46e5-8800-0b15f6f3a489"
+>
+</ReqRef><ReqRef
+ Id="6cbde49b-37af-4487-8711-54e2b5be1b1a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="95542c8d-45e0-4a6d-9467-7fbf3345b7e0"
+>
+</ReqRef><ReqRef
+ Id="dd85b47a-25d2-4054-8287-3bd39b7603c3"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="00d16d20-15fc-437e-bf9b-208f40124290"
+>
+</ReqRef><ReqRef
+ Id="37680a2a-2a2a-4293-b7b9-642b8326a938"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e7df1291-d486-4be1-8581-c966758b5abc"
+>
+</ReqRef><ReqRef
+ Id="3ccdba0f-1071-42c1-ba41-099fa2560e4b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="86e1b8cf-442d-4eb8-a491-ede90d98e4e9"
+>
+</ReqRef><ReqRef
+ Id="dd85a59f-1d9f-471f-a5df-61f76a51d906"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="25296f50-0ca3-4560-b920-ea411a795b0a"
+>
+</ReqRef><ReqRef
+ Id="d7fe1340-3fcf-4243-abc7-a8d81ae032de"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a5a6adc5-8b7a-46fa-a29c-761c0c638472"
+>
+</ReqRef><ReqRef
+ Id="6397141d-8f7d-40fd-a8c6-d323c724d0bd"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f97c04e3-da5e-4b8a-aba2-ea114dffd65f"
+>
+</ReqRef><ReqRef
+ Id="4c148829-6224-4b0d-b6f5-d506545632eb"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="52af0d5d-cb6c-4952-9e46-e623ddbde146"
+>
+</ReqRef><ReqRef
+ Id="d27ff68d-c1f1-4be1-a66f-a4a03d05148b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="43a80109-e15b-4696-aad2-3f03ad32759c"
+>
+</ReqRef><ReqRef
+ Id="c2822061-e212-40f4-9036-6b28ec8567ea"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="67dbe0a3-2849-4b19-84a8-e82f04c9b0d2"
+>
+</ReqRef><Comment>Calculates the announcement location (used in the DMI) of a track condition at the train&apos;s current speed</Comment>
+<Parameters>
+<Parameter
+ Type="BaseTypes.Distance"
+ Name="aDistance"
+ Guid="00bb0340-e1cd-4be5-b2b5-ee143c7846bf"
+>
+</Parameter><Parameter
+ Type="General.TrackConditionStruct"
+ Name="aTrackCondition"
+ Guid="a48b6dcd-1f31-433c-8089-6568a0810217"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="9a9bfe54-98fb-4549-b01b-8d6d86f4ac13"
+>
+<Expression>aDistance - BaseTypes.SpeedToMS( Odometry.TrainSpeed() ) * DriverReactionTime(aTrackCondition)</Expression>
+</Case></Cases>
+</Function><Function
+ Type="BaseTypes.Time"
+ Default=""
+ X="390"
+ Y="470"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="DriverReactionTime"
+ Guid="e3f12503-0282-4f78-b89d-6aeb18a434bb"
+>
+<ReqRef
+ Id="c8c32754-763b-4a64-a632-32a3602c83c1"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="681391e4-93e4-4a7d-a3e4-1f034671808f"
+>
+</ReqRef><ReqRef
+ Id="221528df-6eae-4bf3-a88b-d972fde73639"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="acd47eb2-fd46-4bbe-95b0-5cbc532c1bb8"
+>
+</ReqRef><ReqRef
+ Id="dd85b47a-25d2-4054-8287-3bd39b7603c3"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f2073c1e-05f7-49b7-a5d8-91208f182ff3"
+>
+</ReqRef><ReqRef
+ Id="3ccdba0f-1071-42c1-ba41-099fa2560e4b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d4c905c4-5618-4414-aa84-d91b84bb3446"
+>
+</ReqRef><ReqRef
+ Id="d7fe1340-3fcf-4243-abc7-a8d81ae032de"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b9863755-a516-44cb-9db1-6409950d868a"
+>
+</ReqRef><ReqRef
+ Id="f6b3f58f-5fb2-453a-958e-a1a861d66a2f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="da7dce44-01cc-457d-af85-1f6254663855"
+>
+</ReqRef><ReqRef
+ Id="6397141d-8f7d-40fd-a8c6-d323c724d0bd"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="243c65de-dc0d-4106-9bce-e49c15f6c5a4"
+>
+</ReqRef><ReqRef
+ Id="d27ff68d-c1f1-4be1-a66f-a4a03d05148b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a9d46eeb-ac4c-4534-be96-0ed0ef75a9e6"
+>
+</ReqRef><ReqRef
+ Id="c2822061-e212-40f4-9036-6b28ec8567ea"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="2900e7c1-95f9-4e73-9c17-7cc9824958e8"
+>
+</ReqRef><ReqRef
+ Id="1584ea94-55a5-467d-80a1-4927882da658"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="43dc9db3-1fae-471b-a8b3-e5e0f726f5eb"
+>
+</ReqRef><Comment>TODO: find actual reaction times for the different track conditions.
+
+Returns the time required by the driver to performs the necessary tasks before a track condition is applied</Comment>
+<Parameters>
+<Parameter
+ Type="General.TrackConditionStruct"
+ Name="aTrackConditionType"
+ Guid="393a54a0-4d3b-4cfa-9f61-101631555fe6"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Tunnel stopping area"
+ Guid="b8ca737e-3a1a-4d04-a845-5f30b1f05413"
+>
+<PreConditions>
+<PreCondition
+ Guid="55797e16-d9ea-4780-a757-c930df7d7c9f"
+>aTrackConditionType.TunnelStoppingArea</PreCondition></PreConditions>
+<Expression>0.0</Expression>
+</Case><Case
+ Name="Sounding the horn"
+ Guid="ba722393-81a5-4e9c-8dc7-3808166946f3"
+>
+<PreConditions>
+<PreCondition
+ Guid="5dc2dba3-88ef-4e7e-a907-49e99db414f0"
+>aTrackConditionType.SoundHorn</PreCondition></PreConditions>
+<Expression>Kernel.TrackDescription.TrackConditions.General.T_SoundHorn</Expression>
+</Case><Case
+ Name="Value"
+ Guid="ba6b8ce6-862a-4bc4-9bad-e2f0f28df467"
+>
+<Expression>5.0</Expression>
+</Case></Cases>
+</Function><Function
+ Type="ActiveConditionStruct"
+ Default=""
+ X="390"
+ Y="540"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="NewAnnouncement"
+ Guid="b24560ed-6adb-4343-aef8-254717c1d11d"
+>
+<Comment>Returns a new announcement with the data provided</Comment>
+<Parameters>
+<Parameter
+ Type="TCTypeEnum"
+ Name="TCType"
+ Guid="ae9f629f-5e3b-486f-a916-3f678296fd7c"
+>
+</Parameter><Parameter
+ Type="BaseTypes.Distance"
+ Name="Distance"
+ Guid="13d9fa29-7670-4a17-9113-cba4196da35f"
+>
+</Parameter><Parameter
+ Type="BaseTypes.Length"
+ Name="Length"
+ Guid="319d953c-72c3-4efb-9f7f-a2c2b4c35c27"
+>
+</Parameter><Parameter
+ Type="Boolean"
+ Name="Announcement"
+ Guid="597c9b78-8617-457c-9358-eee342e32281"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Make a new struct"
+ Guid="527c8c9f-dc30-4ae8-aae0-75ed499011a7"
+>
+<Expression>ActiveConditionStruct{
+    Type =&gt; TCType,
+    Location =&gt; Distance,
+    Length =&gt; Length,
+    Time =&gt; BaseTypes.Time.Infinity,
+    IsAnnouncement =&gt; Announcement
+}</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="150"
+ Y="470"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="IsInSoundHornGroup"
+ Guid="2863ee58-24b2-4bbe-a13b-2a733b3dddd8"
+>
+<ReqRef
+ Id="88a9ba90-6c1e-47f7-bced-85484113e0fa"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="2d1c7062-81e8-4d9a-9af3-a6c4fc661ccc"
+>
+</ReqRef><ReqRef
+ Id="72d98796-7871-4e90-85df-298a95950478"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="4fda1294-6654-4abb-9536-a5dd629286f8"
+>
+</ReqRef><ReqRef
+ Id="6dae5e9c-2f5e-4dd2-89ec-096e89a76644"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="3f54f37c-5068-415e-9fee-0b859f0f93b6"
+>
+</ReqRef><Comment>Indicates whether the given track condition is displayed in the same modes as sound horn</Comment>
+<Parameters>
+<Parameter
+ Type="ActiveConditionStruct"
+ Name="aCondition"
+ Guid="5fb4ebe7-9f67-4b63-8953-3ec42f1e3f78"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="ddce2fbb-4875-4cea-ad35-a640d8550664"
+>
+<Expression>aCondition.Type in [
+  TCTypeEnum.SoundHorn,
+  TCTypeEnum.NonStoppingArea,
+  TCTypeEnum.TunnelStoppingArea,
+  TCTypeEnum.TractionSystem__none,
+  TCTypeEnum.TractionSystem__AC25kV,
+  TCTypeEnum.TractionSystem__AC15kV,
+  TCTypeEnum.TractionSystem__DC3kV,
+  TCTypeEnum.TractionSystem__DC1_5kV,
+  TCTypeEnum.TractionSystem__DC600_750V]</Expression>
+</Case></Cases>
+</Function><Function
+ Type="ActiveConditionStruct"
+ Default=""
+ X="30"
+ Y="470"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="AnnouncementWithEnd"
+ Guid="da2c8e8e-b0f4-4484-a1fc-bcdcc52ada1f"
+>
+<ReqRef
+ Id="68413353-2dd0-4dd6-ba33-b1b4afb1c586"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="af7b95d0-8ff0-4a0c-90e4-1e284e90f540"
+>
+</ReqRef><ReqRef
+ Id="96e826e2-9907-4faa-a010-bae190ca3e11"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a2ae1668-d169-4dcc-8a6c-48b301cac5e8"
+>
+</ReqRef><ReqRef
+ Id="12c337c0-55dd-4a63-ae32-c7fed0a16df9"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="59b74afc-e549-41d5-b7d9-d9bb5143340b"
+>
+</ReqRef><ReqRef
+ Id="35fce87d-1120-47fb-8478-e9057dbcda67"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="215fbcf4-a2c7-4f16-a3ea-bae3c2287aa4"
+>
+</ReqRef><ReqRef
+ Id="3bc1a1bb-c207-4a66-a42a-62965c4a81cf"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0b201546-0a06-4e5c-b243-0982c198156f"
+>
+</ReqRef><ReqRef
+ Id="02fc4b04-89a4-4fac-b594-da0bd5d3d31b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="41dfe058-6369-4873-a81c-80f766c6b135"
+>
+</ReqRef><Comment>Modifies the announcement structures to include end conditions</Comment>
+<Parameters>
+<Parameter
+ Type="ActiveConditionStruct"
+ Name="Announcement"
+ Guid="5dd0b869-a7c9-435f-80b3-b38a724e8314"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Start"
+ Guid="aa1dd969-f923-4ff9-be32-77c1fa6fd7ac"
+>
+<PreConditions>
+<PreCondition
+ Guid="574650f4-d4be-4607-aae6-1f497f219d1b"
+>Announcement.Length != BaseTypes.Length.NA</PreCondition></PreConditions>
+<Expression>Announcement</Expression>
+</Case><Case
+ Name="End - air tightness and brake inhibition"
+ Guid="8356d99a-80de-4db1-b269-62b8bee53cf2"
+>
+<PreConditions>
+<PreCondition
+ Guid="3c1a78a8-b08f-4d9a-af7d-c504ef7b81f9"
+>Announcement.Type == Display.TCTypeEnum.AirTightness
+  OR  
+Announcement.Type == Display.TCTypeEnum.EddyCurrentBrakeForEB
+  OR  
+Announcement.Type == Display.TCTypeEnum.EddyCurrentBrakeForSB
+  OR  
+Announcement.Type == Display.TCTypeEnum.MagneticShoeBrake
+  OR  
+Announcement.Type == Display.TCTypeEnum.RegenerativeBrake</PreCondition></PreConditions>
+<Expression>ActiveConditionStruct{
+    Type =&gt; Announcement.Type,
+    Location =&gt; Announcement.Location,
+    Length =&gt; Announcement.Length,
+    Time =&gt; DateAndTime.CurrentTime + TimeToKeepAnnouncementsInRear
+}</Expression>
+</Case><Case
+ Name="End"
+ Guid="c46e3fa1-e865-42e0-a198-544bbdbe0281"
+>
+<Expression>ActiveConditionStruct{
+    Type =&gt; Announcement.Type,
+    Location =&gt; Announcement.Location,
+    Length =&gt; Announcement.Length,
+    Time =&gt; DateAndTime.CurrentTime + TimeToKeepAnnouncementsInRear
+}</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="150"
+ Y="330"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="AnnouncementHasEndCondition"
+ Guid="9339a946-34c6-41ed-993a-77e6ce1bdcb8"
+>
+<Comment>Checks whether the announcement or track condition has an end condition</Comment>
+<Parameters>
+<Parameter
+ Type="ActiveConditionStruct"
+ Name="Announcement"
+ Guid="2117075f-d95c-40b1-9be8-887b514cf56e"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="24c7e14b-3f38-48ae-92f1-c3766a900d6f"
+>
+<Expression>Announcement.Length != BaseTypes.Length.NA
+  OR  
+Announcement.Time != BaseTypes.Time.Infinity</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="30"
+ Y="330"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="AnnouncementIsNoLongerRelevant"
+ Guid="37d09035-d113-4a4b-9dad-6ae860d80926"
+>
+<Comment>For a given track condition or announcement, determines whether the train has passed the end of its applicability.</Comment>
+<Parameters>
+<Parameter
+ Type="ActiveConditionStruct"
+ Name="Announcement"
+ Guid="06d3a838-5962-4f5d-8014-1d5fc92caa17"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="End in distance"
+ Guid="8e1222a8-4838-4fb9-88b3-af03bfbebf98"
+>
+<PreConditions>
+<PreCondition
+ Guid="3399256f-06ab-4f11-b072-4833279d0fed"
+>Announcement.Length != BaseTypes.Length.NA</PreCondition></PreConditions>
+<Expression>Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Min) &gt; Announcement.Location + BaseTypes.LengthToDistance(Announcement.Length)</Expression>
+</Case><Case
+ Name="End in time"
+ Guid="38a7cde2-afeb-4dd5-85f0-a60e4dcc0c88"
+>
+<Expression>Kernel.DateAndTime.CurrentTime &gt; Announcement.Time</Expression>
+</Case></Cases>
+</Function></Functions>
+<Procedures>
+<Procedure
+ X="150"
+ Y="650"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="MakeAnnouncements"
+ Guid="773d168c-d251-419a-8a80-b38047c9b630"
+>
+<ReqRef
+ Id="c5c7a634-701c-4959-ae64-0522e9a953bd"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e068e870-ce69-49e6-bfa6-8fc880dc50b5"
+>
+</ReqRef><ReqRef
+ Id="6cbde49b-37af-4487-8711-54e2b5be1b1a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="316748d3-018c-4758-9686-55eb5a996c4f"
+>
+</ReqRef><ReqRef
+ Id="76e592ed-ed99-43e7-914d-f61ca2620144"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="36f516fe-ec00-46c2-956c-7287991e0dba"
+>
+</ReqRef><ReqRef
+ Id="a8ccc78f-09d7-4eed-b28f-c54108243648"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="39530206-03d7-4c0b-bd4b-0de602644bce"
+>
+</ReqRef><ReqRef
+ Id="37680a2a-2a2a-4293-b7b9-642b8326a938"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="632e6813-02ff-4d0d-9c38-c299da415653"
+>
+</ReqRef><ReqRef
+ Id="dd85a59f-1d9f-471f-a5df-61f76a51d906"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9a9aab5e-877c-4237-8dba-a91bfd08442e"
+>
+</ReqRef><ReqRef
+ Id="4c148829-6224-4b0d-b6f5-d506545632eb"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="55a9dc1d-0a74-42f2-87b8-be0e138b693c"
+>
+</ReqRef><Comment>Create a start announcement and an end (if necessary) corresponding to a recently received track condition</Comment>
+<Parameters>
+<Parameter
+ Type="Messages.M_TRACKCOND"
+ Name="TCType"
+ Guid="a0acc450-81bf-483c-8e8f-b3ddc7413426"
+>
+</Parameter><Parameter
+ Type="BaseTypes.Distance"
+ Name="Distance"
+ Guid="944681be-ed77-428d-8dea-9ce0baf3f986"
+>
+</Parameter><Parameter
+ Type="BaseTypes.Length"
+ Name="Length"
+ Guid="5498fbcf-248e-4e57-a49a-3d6b7241f69e"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Announcement before the TC"
+ Guid="393ba3e2-b5e3-4b80-ae5a-fd17cbb63761"
+>
+<Comment>Make new start of track condition announcement</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Air tightness"
+ Guid="5792b6f7-6adf-4e6e-9d49-9185a746957f"
+>
+<Comment>Close air intake for air conditioning announcement</Comment>
+<PreConditions>
+<PreCondition
+ Guid="427a6812-d486-4f22-b7c2-37b8807f34ac"
+>TCType == Messages.M_TRACKCOND.Air_tightness__Initial_state__no_request_for_air_tightness</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="546cd297-955f-444f-8d22-b8f9fd70b613"
+>INSERT Display.NewAnnouncement(
+    TCType=&gt;Display.TCTypeEnum.AirTightness,
+    Distance=&gt;Display.AnnouncementLocation(aTrackCondition =&gt; Kernel.TrackDescription.TrackConditions.General.TrackConditionStruct{AirTightness =&gt; True}, aDistance =&gt; Distance),
+    Length=&gt;BaseTypes.DistanceToLength(Distance - Display.AnnouncementLocation(aTrackCondition =&gt; Kernel.TrackDescription.TrackConditions.General.TrackConditionStruct{AirTightness =&gt; True}, aDistance =&gt; Distance)),
+    Announcement =&gt; True
+)
+IN ActiveConditions</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Eddy current brake for EB inhibited"
+ Guid="e75d59b6-f365-4120-bd50-99d7335f2faf"
+>
+<Comment>Inhibition of eddy current brake for the emergency brake announcement</Comment>
+<PreConditions>
+<PreCondition
+ Guid="c9521eae-5f8b-44ce-bd80-38b914aedd00"
+>TCType == Messages.M_TRACKCOND.Switch_off_eddy_current_brake_for_emergency_brake__Initial_state__eddy_current_brake_for_emergency_brake_on</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="85a0948f-1d9c-4cab-bf12-37a4ddf0a300"
+>INSERT Display.NewAnnouncement(
+    TCType=&gt;Display.TCTypeEnum.EddyCurrentBrakeForEB,
+    Distance=&gt;Display.AnnouncementLocation(aTrackCondition =&gt; Kernel.TrackDescription.TrackConditions.General.TrackConditionStruct{SwitchOffEddyCurrentBrakeForEB =&gt; True}, aDistance =&gt; Distance),
+    Length=&gt;BaseTypes.DistanceToLength(Distance - Display.AnnouncementLocation(aTrackCondition =&gt; Kernel.TrackDescription.TrackConditions.General.TrackConditionStruct{SwitchOffEddyCurrentBrakeForEB =&gt; True}, aDistance =&gt; Distance)),
+    Announcement =&gt; True
+)
+IN ActiveConditions</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Eddy current brake for SB inhibited"
+ Guid="d07dc9d3-8de3-44bd-9345-da359323a103"
+>
+<Comment>Inhibition of eddy current brake for the service brake announcement</Comment>
+<PreConditions>
+<PreCondition
+ Guid="1269e690-bf92-4fdd-8657-c5ce2d284505"
+>TCType == Messages.M_TRACKCOND.Switch_off_eddy_current_brake_for_service_brake__Initial_state__eddy_current_brake_for_service_brake_on</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="ac6e5758-3e61-4776-bcfb-524f3b05d73c"
+>INSERT Display.NewAnnouncement(
+    TCType=&gt;Display.TCTypeEnum.EddyCurrentBrakeForSB,
+    Distance=&gt;Display.AnnouncementLocation(aTrackCondition =&gt; Kernel.TrackDescription.TrackConditions.General.TrackConditionStruct{SwitchOffEddyCurrentBrakeForSB =&gt; True}, aDistance =&gt; Distance),
+    Length=&gt;BaseTypes.DistanceToLength(Distance - Display.AnnouncementLocation(aTrackCondition =&gt; Kernel.TrackDescription.TrackConditions.General.TrackConditionStruct{SwitchOffEddyCurrentBrakeForSB =&gt; True}, aDistance =&gt; Distance)),
+    Announcement =&gt; True
+)
+IN ActiveConditions</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Lower pantograph"
+ Guid="1850fb27-dd99-4552-838a-6e5021c59fbc"
+>
+<Comment>Lower pantograph announcement</Comment>
+<PreConditions>
+<PreCondition
+ Guid="cf90b65b-87a3-4e31-99ce-0a8b5ac9571c"
+>TCType == Messages.M_TRACKCOND.Powerless_section___lower_pantograph__Initial_state__not_powerless_section</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="9392e167-71c3-4d68-a559-63642bd48557"
+>INSERT Display.NewAnnouncement(
+    TCType=&gt;Display.TCTypeEnum.LowerPantograph,
+    Distance=&gt;Display.AnnouncementLocation(aTrackCondition =&gt; Kernel.TrackDescription.TrackConditions.General.TrackConditionStruct{PowerlessSection_LowerPantograph =&gt; True}, aDistance =&gt; Distance),
+    Length=&gt;BaseTypes.DistanceToLength(Distance - Display.AnnouncementLocation(aTrackCondition =&gt; Kernel.TrackDescription.TrackConditions.General.TrackConditionStruct{PowerlessSection_LowerPantograph =&gt; True}, aDistance =&gt; Distance)),
+    Announcement =&gt; True
+)
+IN ActiveConditions</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Magnetic shoe brake inhibition"
+ Guid="df2fa0db-eac2-4409-b354-79a502f9731e"
+>
+<Comment>Inhibition of magnetic shoe brake announcement</Comment>
+<PreConditions>
+<PreCondition
+ Guid="beef047a-088a-496d-a290-5ede84fe76d3"
+>TCType == Messages.M_TRACKCOND.Switch_off_magnetic_shoe_brake__Initial_state__magnetic_shoe_brake_on</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="57592127-9e52-4396-aea6-5310995f0887"
+>INSERT Display.NewAnnouncement(
+    TCType=&gt;Display.TCTypeEnum.MagneticShoeBrake,
+    Distance=&gt;Display.AnnouncementLocation(aTrackCondition =&gt; Kernel.TrackDescription.TrackConditions.General.TrackConditionStruct{SwitchOffMagneticShoeBrake =&gt; True}, aDistance =&gt; Distance),
+    Length=&gt;BaseTypes.DistanceToLength(Distance - Display.AnnouncementLocation(aTrackCondition =&gt; Kernel.TrackDescription.TrackConditions.General.TrackConditionStruct{SwitchOffMagneticShoeBrake =&gt; True}, aDistance =&gt; Distance)),
+    Announcement =&gt; True
+)
+IN ActiveConditions</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="NonStoppingArea"
+ Guid="3096ef95-664d-4e3f-9bfa-a86c05c0ea80"
+>
+<Comment>Non stopping area announcement</Comment>
+<PreConditions>
+<PreCondition
+ Guid="5bd5c76a-c6eb-47ce-bba1-cdba35115828"
+>TCType == Messages.M_TRACKCOND.Non_stopping_area___tunnel__Initial_state__stopping_permitted</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="46f0625a-6ab1-4ce8-ade6-9c33ba9da756"
+>INSERT Display.NewAnnouncement(
+    TCType=&gt;Display.TCTypeEnum.NonStoppingArea,
+    Distance=&gt;Display.AnnouncementLocation(aTrackCondition =&gt; Kernel.TrackDescription.TrackConditions.General.TrackConditionStruct{NonStoppingArea =&gt; True}, aDistance =&gt; Distance),
+    Length=&gt;BaseTypes.DistanceToLength(Distance - Display.AnnouncementLocation(aTrackCondition =&gt; Kernel.TrackDescription.TrackConditions.General.TrackConditionStruct{NonStoppingArea =&gt; True}, aDistance =&gt; Distance)),
+    Announcement =&gt; True
+)
+IN ActiveConditions</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Regenerative brake inhibition"
+ Guid="121dd115-40eb-45e1-9135-07222919b127"
+>
+<Comment>Inhibition of regenerative brake announcement</Comment>
+<PreConditions>
+<PreCondition
+ Guid="4dc26b8a-a7e2-42a1-8204-bd59482d1fe8"
+>TCType == Messages.M_TRACKCOND.Switch_off_regenerative_brake__Initial_state__regenerative_brake_on</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="912d4674-e6c2-469b-9e78-fc95e2754131"
+>INSERT Display.NewAnnouncement(
+    TCType=&gt;Display.TCTypeEnum.RegenerativeBrake,
+    Distance=&gt;Display.AnnouncementLocation(aTrackCondition =&gt; Kernel.TrackDescription.TrackConditions.General.TrackConditionStruct{SwitchOffRegenerativeBrake =&gt; True}, aDistance =&gt; Distance),
+    Length=&gt;BaseTypes.DistanceToLength(Distance - Display.AnnouncementLocation(aTrackCondition =&gt; Kernel.TrackDescription.TrackConditions.General.TrackConditionStruct{SwitchOffRegenerativeBrake =&gt; True}, aDistance =&gt; Distance)),
+    Announcement =&gt; True
+)
+IN ActiveConditions</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Tunnel stopping area"
+ Guid="78897ba3-ce37-42c3-918e-60efcec433c7"
+>
+<Comment>Tunnel stopping area announcement</Comment>
+<PreConditions>
+<PreCondition
+ Guid="1ef8cf9f-b365-4544-8bf2-d1e65cb9a6f2"
+>TCType == Messages.M_TRACKCOND.Tunnel_stopping_area__Initial_state__no_tunnel_stopping_area</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="8ac4a9fa-54bc-40b3-99d1-a7675c9cf70f"
+>INSERT Display.NewAnnouncement(
+    TCType=&gt;Display.TCTypeEnum.TunnelStoppingArea,
+    Distance=&gt;Display.AnnouncementLocation(aDistance=&gt;Distance, aTrackCondition=&gt;Kernel.TrackDescription.TrackConditions.General.TrackConditionStruct{TunnelStoppingArea =&gt; True}),
+    Length=&gt; BaseTypes.DistanceToLength(Distance - Display.AnnouncementLocation(aDistance=&gt;Distance, aTrackCondition=&gt;Kernel.TrackDescription.TrackConditions.General.TrackConditionStruct{TunnelStoppingArea =&gt; True})),
+    Announcement =&gt; True
+)
+IN ActiveConditions</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Turn off main power"
+ Guid="bdfca02c-5caa-4f5f-870c-18353f05bb10"
+>
+<Comment>Turn off main power switch announcement</Comment>
+<PreConditions>
+<PreCondition
+ Guid="6d3e6e73-0af5-4783-ae3c-4e7d8c363a19"
+>TCType == Messages.M_TRACKCOND.Powerless_section___switch_off_the_main_power_switch__Initial_state__not_powerless_section</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="d67a9eaf-803f-41e3-8dd8-09bdc24c02ad"
+>INSERT Display.NewAnnouncement(
+    TCType=&gt;Display.TCTypeEnum.TurnOffMainSwitch,
+    Distance=&gt;Display.AnnouncementLocation(aTrackCondition =&gt; Kernel.TrackDescription.TrackConditions.General.TrackConditionStruct{PowerlessSection_SwitchOffTheMainPowerSwitch =&gt; True}, aDistance =&gt; Distance),
+    Length=&gt;BaseTypes.DistanceToLength(Distance - Display.AnnouncementLocation(aTrackCondition =&gt; Kernel.TrackDescription.TrackConditions.General.TrackConditionStruct{PowerlessSection_SwitchOffTheMainPowerSwitch =&gt; True}, aDistance =&gt; Distance)),
+    Announcement =&gt; True
+)
+IN ActiveConditions</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="During the TC"
+ Guid="bb7c8b87-7aa4-4b60-a7e3-4a9ebb919e9e"
+>
+<Comment>Make new start of track condition announcement</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Air tightness"
+ Guid="59a9c79c-3778-4a12-a091-941c524518ed"
+>
+<Comment>Close air intake for air conditioning track condition</Comment>
+<PreConditions>
+<PreCondition
+ Guid="9293e873-ddb8-48c2-a3af-fbf8b311813a"
+>TCType == Messages.M_TRACKCOND.Air_tightness__Initial_state__no_request_for_air_tightness</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="d338542a-7ae0-47f1-9a0a-a8c1d3d53b35"
+>INSERT Display.NewAnnouncement(
+    TCType=&gt;Display.TCTypeEnum.AirTightness,
+    Distance=&gt; Distance,
+    Length=&gt;Length + TrainData.TrainData.Value.TrainLength,
+    Announcement =&gt; False
+)
+IN ActiveConditions</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Eddy current brake for EB inhibited"
+ Guid="e8d52288-ee3b-48ea-96c8-81356cc3445c"
+>
+<Comment>Inhibition of eddy current brake for the emergency brake track condition</Comment>
+<PreConditions>
+<PreCondition
+ Guid="90fe3a4a-0beb-4582-b244-247f0915cebe"
+>TCType == Messages.M_TRACKCOND.Switch_off_eddy_current_brake_for_emergency_brake__Initial_state__eddy_current_brake_for_emergency_brake_on</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="038c8fc1-c228-4ec1-8bff-6ad8529d7100"
+>INSERT Display.NewAnnouncement(
+    TCType=&gt;Display.TCTypeEnum.EddyCurrentBrakeForEB,
+    Distance=&gt; Distance,
+    Length=&gt;Length + TrainData.TrainData.Value.TrainLength,
+    Announcement =&gt; False
+)
+IN ActiveConditions</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Eddy current brake for SB inhibited"
+ Guid="ce66c32a-cd45-4063-b0d2-ce900d77b715"
+>
+<Comment>Inhibition of eddy current brake for the service brake track condition</Comment>
+<PreConditions>
+<PreCondition
+ Guid="e9e124d2-0181-441a-8573-1b1a75f3320d"
+>TCType == Messages.M_TRACKCOND.Switch_off_eddy_current_brake_for_service_brake__Initial_state__eddy_current_brake_for_service_brake_on</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="7a46b91d-9f75-4be7-b9c4-3752def292e3"
+>INSERT Display.NewAnnouncement(
+    TCType=&gt;Display.TCTypeEnum.EddyCurrentBrakeForSB,
+    Distance=&gt; Distance,
+    Length=&gt;Length + TrainData.TrainData.Value.TrainLength,
+    Announcement =&gt; False
+)
+IN ActiveConditions</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Lower pantograph"
+ Guid="9d91b4eb-fde7-439f-8071-3d36e6051f14"
+>
+<Comment>Lower pantograph track condition</Comment>
+<PreConditions>
+<PreCondition
+ Guid="c6e5ebb8-ab6b-4086-bda9-48cf326cddfc"
+>TCType == Messages.M_TRACKCOND.Powerless_section___lower_pantograph__Initial_state__not_powerless_section</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="24102fe1-9b3e-4a7e-b259-59131134abaf"
+>INSERT Display.NewAnnouncement(
+    TCType=&gt;Display.TCTypeEnum.LowerPantograph,
+    Distance=&gt; Distance,
+    Length=&gt;Length,
+    Announcement =&gt; False
+)
+IN ActiveConditions</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Magnetic shoe brake inhibition"
+ Guid="9b6876fa-e0b3-4757-a8aa-4f4bdba6dcf6"
+>
+<Comment>Inhibition of magnetic shoe brake track condition</Comment>
+<PreConditions>
+<PreCondition
+ Guid="75316fb8-355f-45a4-b78e-7b0f635e5a37"
+>TCType == Messages.M_TRACKCOND.Switch_off_magnetic_shoe_brake__Initial_state__magnetic_shoe_brake_on</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="ef4fccec-3811-4ce3-9da3-1b46e98f5d92"
+>INSERT Display.NewAnnouncement(
+    TCType=&gt;Display.TCTypeEnum.MagneticShoeBrake,
+    Distance=&gt; Distance,
+    Length=&gt;Length + TrainData.TrainData.Value.TrainLength,
+    Announcement =&gt; False
+)
+IN ActiveConditions</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="NonStoppingArea"
+ Guid="8c974909-04fa-42aa-bb79-2f8e3e3e9655"
+>
+<Comment>Non stopping area track condition</Comment>
+<PreConditions>
+<PreCondition
+ Guid="925b3c53-c6df-4478-a185-03e028ca46ca"
+>TCType == Messages.M_TRACKCOND.Non_stopping_area___tunnel__Initial_state__stopping_permitted</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="66fa938d-0c1d-4ee2-a3ed-61c81a682de0"
+>INSERT Display.NewAnnouncement(
+    TCType =&gt; Display.TCTypeEnum.NonStoppingArea,
+    Distance =&gt; Distance,
+    Length =&gt; Length + TrainData.TrainData.Value.TrainLength,
+    Announcement =&gt; False
+)
+IN ActiveConditions</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Regenerative brake inhibition"
+ Guid="e12a2054-5abf-4219-8a8f-d7b6b3611b7b"
+>
+<Comment>Inhibition of regenerative brake track condition</Comment>
+<PreConditions>
+<PreCondition
+ Guid="27849f33-3b86-45bd-bdd1-e191ebf6df76"
+>TCType == Messages.M_TRACKCOND.Switch_off_regenerative_brake__Initial_state__regenerative_brake_on</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="2f0ac3ce-3f7a-4a07-be3f-b0603300e1cd"
+>INSERT Display.NewAnnouncement(
+    TCType=&gt;Display.TCTypeEnum.NonStoppingArea,
+    Distance=&gt; Distance,
+    Length=&gt;Length + TrainData.TrainData.Value.TrainLength,
+    Announcement =&gt; False
+)
+IN ActiveConditions</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Sound horn"
+ Guid="aae11a69-e3f5-4a38-bd6d-76f15d875aa2"
+>
+<Comment>Sound horn track condition</Comment>
+<PreConditions>
+<PreCondition
+ Guid="85dfa7ee-270d-491f-93fa-94330dbf5ddf"
+>TCType == Messages.M_TRACKCOND.Sound_horn__Initial_state__no_request_for_sound_horn</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="29a7d128-8f8d-4279-8062-ee877dbe399f"
+>INSERT Display.NewAnnouncement(
+    TCType=&gt;Display.TCTypeEnum.SoundHorn,
+    Distance=&gt;Display.AnnouncementLocation(aTrackCondition =&gt; Kernel.TrackDescription.TrackConditions.General.TrackConditionStruct{SoundHorn =&gt; True}, aDistance =&gt; Distance),
+    Length=&gt;BaseTypes.DistanceToLength(Distance - Display.AnnouncementLocation(aTrackCondition =&gt; Kernel.TrackDescription.TrackConditions.General.TrackConditionStruct{SoundHorn =&gt; True}, aDistance =&gt; Distance)) + Length,
+    Announcement =&gt; False
+)
+IN ActiveConditions</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Tunnel stopping area"
+ Guid="73d38ecf-84b0-41f7-8834-32b811d7f227"
+>
+<Comment>Tunnel stopping area track condition</Comment>
+<PreConditions>
+<PreCondition
+ Guid="50ef7040-2ca5-44bb-90d2-65180a71485d"
+>TCType == Messages.M_TRACKCOND.Tunnel_stopping_area__Initial_state__no_tunnel_stopping_area</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="f2ce3e39-ba2f-4091-a282-34ad40517055"
+>INSERT Display.NewAnnouncement(
+    TCType =&gt; Display.TCTypeEnum.TunnelStoppingArea,
+    Distance =&gt; Distance,
+    Length =&gt; Length,
+    Announcement =&gt; False
+)
+IN ActiveConditions</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Turn off main power"
+ Guid="ccef8d89-abac-41f9-a955-821420a11aff"
+>
+<Comment>Turn off main power switch track condition</Comment>
+<PreConditions>
+<PreCondition
+ Guid="579f27a7-4bd2-4afd-94bf-bb97738d0490"
+>TCType == Messages.M_TRACKCOND.Powerless_section___switch_off_the_main_power_switch__Initial_state__not_powerless_section</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="d1efdecc-f5ca-409e-9b2d-f28b630d392f"
+>INSERT Display.NewAnnouncement(
+    TCType=&gt;Display.TCTypeEnum.TurnOffMainSwitch,
+    Distance=&gt; Distance,
+    Length=&gt;Length,
+    Announcement =&gt; False
+)
+IN ActiveConditions</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Radio Hole"
+ Guid="9e4b8ce2-975f-4648-9d0f-9270b8c08b82"
+>
+<Comment>Radio hole track condition</Comment>
+<PreConditions>
+<PreCondition
+ Guid="91c8c656-7304-4ffa-aaf3-e80b97208f89"
+>TCType == Messages.M_TRACKCOND.Radio_hole__stop_supervising_T_NVCONTACT___Initial_state__supervise_T_NVCONTACT</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="1025b93e-f7b6-4f2e-a619-7ae60a61bb96"
+>INSERT Display.NewAnnouncement(
+    TCType=&gt;Display.TCTypeEnum.RadioHole,
+    Distance=&gt; Distance,
+    Length=&gt;Length + TrainData.TrainData.Value.TrainLength,
+    Announcement =&gt; False
+)
+IN ActiveConditions</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Announcement after the TC"
+ Guid="e464ffc8-4a79-4891-a95b-62a86f23ad23"
+>
+<Comment>Make new end of track condition announcement</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Air tightness"
+ Guid="db8a722b-6f89-41a7-8501-7b39456cf412"
+>
+<Comment>Open air intake for air conditioning</Comment>
+<PreConditions>
+<PreCondition
+ Guid="cc33fa10-8f1e-4f8b-bc70-a667c2e5aac6"
+>TCType == Messages.M_TRACKCOND.Air_tightness__Initial_state__no_request_for_air_tightness</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="ddc4d325-00e3-48ba-851d-e912e3fd8525"
+>INSERT Display.NewAnnouncement(
+    TCType=&gt;Display.TCTypeEnum.AirTightness,
+    Distance=&gt;Distance + BaseTypes.LengthToDistance(Length),
+    Length=&gt;BaseTypes.Length.NA,
+    Announcement =&gt; True
+)
+IN ActiveConditions</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Lower pantograph"
+ Guid="58b850dc-8c38-4ce6-a31f-ae670c948a02"
+>
+<Comment>Raise pantograph</Comment>
+<PreConditions>
+<PreCondition
+ Guid="c68d40ee-f5a4-4f8e-ba80-2fc479e333b6"
+>TCType == Messages.M_TRACKCOND.Powerless_section___lower_pantograph__Initial_state__not_powerless_section</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="9dfb5fcc-fb6f-48fa-88d8-65cdd277f680"
+>INSERT Display.NewAnnouncement(
+    TCType=&gt;Display.TCTypeEnum.LowerPantograph,
+    Distance=&gt;Distance + BaseTypes.LengthToDistance(Length),
+    Length=&gt;BaseTypes.Length.NA,
+    Announcement =&gt; True
+)
+IN ActiveConditions</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Turn off main power"
+ Guid="5c6b105e-f22d-44ef-bacb-40a10c83e0c1"
+>
+<Comment>Turn main power switch back on</Comment>
+<PreConditions>
+<PreCondition
+ Guid="8051c6f3-0064-47f9-a1be-683845a5d447"
+>TCType == Messages.M_TRACKCOND.Powerless_section___switch_off_the_main_power_switch__Initial_state__not_powerless_section</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="e4f845be-fcf3-41ee-b0b6-9042032e5440"
+>INSERT Display.NewAnnouncement(
+    TCType=&gt;Display.TCTypeEnum.TurnOffMainSwitch,
+    Distance=&gt;Distance + BaseTypes.LengthToDistance(Length),
+    Length=&gt;BaseTypes.Length.NA,
+    Announcement =&gt; True
+)
+IN ActiveConditions</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="150"
+ Y="590"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="EnsureEndCondition"
+ Guid="f3dadbdd-4cda-4509-b6cf-37735c6f952e"
+>
+<ReqRef
+ Id="35fce87d-1120-47fb-8478-e9057dbcda67"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c2ec64fa-5f2e-4bdf-ad98-cfdbf96f6428"
+>
+</ReqRef><ReqRef
+ Id="68413353-2dd0-4dd6-ba33-b1b4afb1c586"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="4034a7b1-2da0-4e69-aed9-6cb231d9df08"
+>
+</ReqRef><ReqRef
+ Id="96e826e2-9907-4faa-a010-bae190ca3e11"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="79b23c61-c1c7-4473-8b80-9f117691e2dc"
+>
+</ReqRef><ReqRef
+ Id="02fc4b04-89a4-4fac-b594-da0bd5d3d31b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="31818621-4b24-4e96-8e38-f7840de315e4"
+>
+</ReqRef><Comment>Creates an end condition for the display of the received Active Condition.</Comment>
+<Parameters>
+<Parameter
+ Type="Kernel.TrackDescription.TrackConditions.Display.ActiveConditionStruct"
+ Name="aCondition"
+ Guid="97067b45-f914-4ff9-8c61-bbd14ca32cdf"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Check end condition for display"
+ Guid="dd357f7c-03a5-4fb3-b743-d4bbd080e522"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Check end condition for display"
+ Guid="0157409c-1fb8-4ecd-ae94-d55344739321"
+>
+<PreConditions>
+<PreCondition
+ Guid="3276eef1-5667-4a41-965b-c25ccfb8316e"
+>NOT AnnouncementHasEndCondition(aCondition)</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="811406de-db29-48c2-a3f7-6ab60f9ce1f4"
+>REPLACE X == aCondition IN ActiveConditions BY AnnouncementWithEnd(X)</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure></Procedures>
+<Variables>
+<Variable
+ Type="ActiveConditionsCol"
+ DefaultValue="[]"
+ VariableMode="Internal"
+ X="30"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="ActiveConditions"
+ Guid="6fc7bd4f-eb71-4e1a-85e6-deb728a602ed"
+>
+<ReqRef
+ Id="3c13572d-5841-4b36-8f01-b73857688c4b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0536a3bb-920a-4187-a6db-23ba703423d9"
+>
+</ReqRef><Comment>List containing announcements for all the upcoming track conditions</Comment>
+</Variable><Variable
+ Type="BaseTypes.Time"
+ DefaultValue="5.0"
+ VariableMode="Internal"
+ X="30"
+ Y="100"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="TimeToKeepAnnouncementsInRear"
+ Guid="c125b9c1-22e6-400f-82bb-e8aabed65601"
+>
+<ReqRef
+ Id="10983fc8-b583-4843-84ff-07a943d53256"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="1586212b-499e-411f-9b1b-77a41d8a3a4e"
+>
+</ReqRef><ReqRef
+ Id="35fce87d-1120-47fb-8478-e9057dbcda67"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="bd4dcd63-91a9-4bc5-983b-1b921d8c3b29"
+>
+</ReqRef><ReqRef
+ Id="96e826e2-9907-4faa-a010-bae190ca3e11"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="4ffb297f-9643-4fd3-96aa-1c2c8bd75ae7"
+>
+</ReqRef><ReqRef
+ Id="68413353-2dd0-4dd6-ba33-b1b4afb1c586"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a9b01e2e-45ba-41e9-810b-11223c94103b"
+>
+</ReqRef><ReqRef
+ Id="02fc4b04-89a4-4fac-b594-da0bd5d3d31b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="4aa5a015-e426-4432-a7bb-c60372a54a45"
+>
+</ReqRef></Variable></Variables>
+<Rules>
+<Rule
+ Priority="CleanUp"
+ X="350"
+ Y="290"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="Remove passed Announcements"
+ Guid="58dd4d7e-0d30-4d5b-ad53-8c4faef0f291"
+>
+<ReqRef
+ Id="7ff9da00-1e5b-46f1-b270-f5f14d810fd9"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e0102d8b-68c8-44d0-b295-fa493fc5216b"
+>
+</ReqRef><ReqRef
+ Id="68413353-2dd0-4dd6-ba33-b1b4afb1c586"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a01aa6e1-ddbd-4a65-9f29-f4d1058d1a2e"
+>
+</ReqRef><ReqRef
+ Id="2aea8a30-ac5d-4fd5-baa8-d160b7b48ee7"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="278304d5-f03a-4cd6-b0ae-4c3b5a853954"
+>
+</ReqRef><ReqRef
+ Id="96e826e2-9907-4faa-a010-bae190ca3e11"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="10ccba0e-eccc-4879-a93f-879f7f008a02"
+>
+</ReqRef><ReqRef
+ Id="3622dce7-f18b-4dc7-8539-e2f01da0803b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6a837d16-f354-4dd7-b656-5a4bab2bc52b"
+>
+</ReqRef><ReqRef
+ Id="b68f5cf2-721d-45e0-bb47-eebf53ac6cfb"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="bf1d8ab0-5594-4bdb-861d-1054e9fd8e0e"
+>
+</ReqRef><ReqRef
+ Id="35fce87d-1120-47fb-8478-e9057dbcda67"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="efc284a6-ee52-4758-bbac-832540ac0032"
+>
+</ReqRef><ReqRef
+ Id="44386e14-f70e-4a34-ae1a-c1ebbc2ca149"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="12abe94f-979e-440d-af45-d690c4409f88"
+>
+</ReqRef><ReqRef
+ Id="a42d1ba3-faa3-4d96-9ea1-a86b6415e23d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="11772f9b-f086-4dc2-98c2-1264fd0b581f"
+>
+</ReqRef><Comment>Deletes the announcements from the list that could not be displayed again (when the train has passed the end of the section)</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Delete announcements that are no longer relevant"
+ Guid="595e6ec6-ded9-4549-aaba-e6d6e4aa8461"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="4b87bbab-6d17-4ca9-b6c8-10fa403b29d1"
+>REMOVE ALL AnnouncementIsNoLongerRelevant(X) IN ActiveConditions</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</NameSpace>

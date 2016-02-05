@@ -1,0 +1,1000 @@
+<NameSpace
+ X="331"
+ Y="601"
+ Width="100"
+ Height="50"
+ Name="SoundHornConditions"
+ Guid="a5e553d0-3347-4c4d-92ef-56f012a4cab1"
+>
+<NameSpaces>
+</NameSpaces>
+<Structures>
+<Structure
+ Default=""
+ X="340"
+ Y="180"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="PlanningInformationStruct"
+ Guid="4bfc7dd3-7985-4f2a-8bcf-cf0866594af4"
+>
+<ReqRef
+ Id="72d98796-7871-4e90-85df-298a95950478"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b2c762dc-5512-49db-a293-3b0f0bd38a23"
+>
+</ReqRef><Comment>For use in the DMI, this structure contains the track conditions sound horn, non stopping area and tunnel stopping area</Comment>
+<StructureElement
+ TypeName="Boolean"
+ Default="Boolean.False"
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="SoundHorn"
+ Guid="775d6c62-5964-4706-a9da-ce9f34fc4e09"
+>
+<ReqRef
+ Id="55f1d2d0-00ef-4dfe-82a4-6a5f97d8f297"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="8a432bc0-3365-4c8b-8a75-3789ba2f0cf5"
+>
+</ReqRef><Comment>The driver should sound the horn as long as the train is in this section</Comment>
+</StructureElement><StructureElement
+ TypeName="Boolean"
+ Default="Boolean.False"
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="TunnelStoppingArea"
+ Guid="127ffa9a-f81b-4076-aed8-0979eb0af484"
+>
+<ReqRef
+ Id="e99e7257-597e-43d5-a002-54bb45f5028c"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="488b15f4-ead6-4f01-abee-efbf97f801ea"
+>
+</ReqRef><Comment>Area in a tunnel where the train is permitted to stop</Comment>
+</StructureElement><StructureElement
+ TypeName="Boolean"
+ Default="Boolean.False"
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="NonStoppingArea"
+ Guid="a4ba630f-f470-4638-83e1-22d9cba859d6"
+>
+<ReqRef
+ Id="4fa2b4ab-63de-48d0-8aab-49412bba6dbd"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="5539cdf7-103b-4ad3-a89d-c18bbc59cd20"
+>
+</ReqRef><Comment>Area where the train is not permitted to stop</Comment>
+</StructureElement><StructureElement
+ TypeName="BaseTypes.Distance"
+ Default=""
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="Location"
+ Guid="d5f0710e-527b-4947-a7f9-731bcb5db201"
+>
+<ReqRef
+ Id="c514bd3c-cce6-498e-97b5-6418e2ac6fcf"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="66fc6c3c-a730-422c-b00d-3f2789766377"
+>
+</ReqRef><Comment>Start location of the track condition</Comment>
+</StructureElement><StructureElement
+ TypeName="TractionSystems.TractionSystemStruct"
+ Default=""
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="TractionSystem"
+ Guid="9a98a7d7-1c4e-4659-9fbf-017d9f348018"
+>
+<ReqRef
+ Id="6dae5e9c-2f5e-4dd2-89ec-096e89a76644"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="90f2dbb5-f0a2-494d-b739-45bc5acd86d0"
+>
+</ReqRef><Comment>Traction system in application</Comment>
+</StructureElement><Interfaces>
+<StructureRef
+ Name="BaseTypes.LocationInterface"
+ Guid="78808e06-f1f6-4285-94eb-a460f650a7ae"
+>
+</StructureRef></Interfaces>
+</Structure></Structures>
+<Collections>
+<Collection
+ TypeName="PlanningInformationStruct"
+ MaxSize="20"
+ Default="[]"
+ X="190"
+ Y="180"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="PlanningInformationCol"
+ Guid="e148decc-b70e-4ea3-b3ce-6aaea53f3415"
+>
+<ReqRef
+ Id="72d98796-7871-4e90-85df-298a95950478"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d80cc302-d4ec-483e-86f8-2d03ea56df5f"
+>
+</ReqRef><Comment>Collection used to pass track condition information including sound horn to the DMI</Comment>
+</Collection></Collections>
+<Functions>
+<Function
+ Type="PlanningInformationStruct"
+ Default=""
+ X="510"
+ Y="470"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="MapGeneralToSoundHorn"
+ Guid="7259b677-9bd3-4142-9650-821d01dcc539"
+>
+<Comment>Maps the track condition profile to the format of the sound horn group of track conditions in the DMI</Comment>
+<Parameters>
+<Parameter
+ Type="General.TrackConditionInformationStruct"
+ Name="aTCPoint"
+ Guid="cc645dd6-0bc6-4bba-aa94-47d870925bde"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="5476e3dc-171a-41f6-829f-107d66d9e964"
+>
+<Expression>PlanningInformationStruct{
+    TractionSystem =&gt; TractionSystems.TSAtDistance(aTCPoint.Location),
+    SoundHorn =&gt; aTCPoint.Value.SoundHorn,
+    TunnelStoppingArea =&gt; aTCPoint.Value.TunnelStoppingArea,
+    NonStoppingArea =&gt; NonStoppingAreaRelevant(aTCPoint),
+    Location =&gt; BaseTypes.OffsetDistance(
+      aDistance =&gt; aTCPoint.Location,
+      aOffset =&gt; TrainPosition.FrontEndPosition( PointOfInterest =&gt; Default.DistanceIntervalEnum.Nom )
+    )
+}</Expression>
+</Case></Cases>
+</Function><Function
+ Type="PlanningInformationCol"
+ Default=""
+ X="1"
+ Y="181"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="DisplayedPlanningInformation"
+ Guid="269fa5c3-74d5-43c9-8dbd-3ab93dc1ae3e"
+>
+<ReqRef
+ Id="72d98796-7871-4e90-85df-298a95950478"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="63522c84-cdbc-4e7f-a912-70556a4fd5e5"
+>
+</ReqRef><ReqRef
+ Id="6dae5e9c-2f5e-4dd2-89ec-096e89a76644"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="959b45e7-253c-4767-9277-8be1457c4d33"
+>
+</ReqRef><Comment>The collection of track conditions to be displayer in advance in the &quot;Sound Horn&quot; group to de displayed on the DMI.</Comment>
+<Cases>
+<Case
+ Name="Value"
+ Guid="3fca258a-de1c-4a3d-96c0-038725660a8b"
+>
+<Expression>LET profile &lt;- (MAP General.TCProfile USING aGeneralTrackCondition IN MapGeneralToSoundHorn(aGeneralTrackCondition))
+ + 
+(MAP TractionSystems.TCTractionSystems USING aTractionTrackCondition IN MapTractionToSoundHorn(aTractionTrackCondition)) IN
+
+FILTER profile |
+  IsChange(
+    aPlanningCondition =&gt; X,
+    aPlanningInformation =&gt; profile
+  )
+    AND  
+  X.Location &gt;= 0.0
+ USING X</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="30"
+ Y="260"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="DisplayTrackConditions"
+ Guid="e82b2b41-c7b5-417d-bcb4-67a3c7341732"
+>
+<ReqRef
+ Id="f1130a3d-ce18-4a20-9daa-8951a06f2d27"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="74d80fce-07a6-4679-a83b-73771ed7e2dd"
+>
+</ReqRef><ReqRef
+ Id="e7b803d0-32ff-44d5-ae54-a7a3a3cac6fd"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f743edb1-054f-417f-b81c-3ae08ec261e0"
+>
+</ReqRef><Comment>Indicates whether the track conditions of the &quot;Sound Horn&quot; group should be sent to the DMI.
+Parameter aPlanning differentiates between display of active conditions and planning information or just active functions.</Comment>
+<Parameters>
+<Parameter
+ Type="Boolean"
+ Name="aPlanning"
+ Guid="6543bfd0-18f8-4b03-8c1a-a67ffbcbeec7"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="29a098f1-11a6-4d4a-8210-d96593034d44"
+>
+<Expression>Kernel.ActiveFunctions.ManageTrackConditions_SoundHorn()
+
+  AND  
+
+(
+  NOT aPlanning
+    OR  
+  Kernel.ActiveFunctions.DisplayRouteInformationInAdvance()
+)
+
+  AND  
+
+(
+  (THERE_IS X IN ActiveConditions | IsInSoundHornGroup(X))
+    OR  
+  THERE_IS X IN DisplayedPlanningInformation()
+)</Expression>
+</Case></Cases>
+</Function><Function
+ Type="ActiveConditionsCol"
+ Default=""
+ X="111"
+ Y="1"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="DisplayedAnnouncements"
+ Guid="9eccbb0b-5f12-4309-a8a2-5cf233b6e543"
+>
+<ReqRef
+ Id="a155d204-c214-45ff-a2b4-045e5aa12ba8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="2534569c-129d-4c96-b365-fcefd2da2ff8"
+>
+</ReqRef><ReqRef
+ Id="46ca4ea8-b495-4b75-8ec7-60ccf9444a55"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6b0dab5f-df6d-4a53-8e5a-a678b0057e4c"
+>
+</ReqRef><ReqRef
+ Id="22cbd162-caa0-4e5a-a581-176fc2b4b8bb"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="68c0fbb8-b153-4fc8-b98b-9a7868f3403e"
+>
+</ReqRef><ReqRef
+ Id="555c0388-8b13-4052-acc3-48e9e785af1a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ddd7a086-5af9-47fb-a27d-50576b7f1e9c"
+>
+</ReqRef><Comment>The collection of track condition announcements in the &quot;Sound Horn&quot; group to de displayed on the DMI.</Comment>
+<Cases>
+<Case
+ Name="Value"
+ Guid="77b719e5-bde9-4948-a772-3681d68ee4e3"
+>
+<Expression>FILTER ActiveConditions | 
+  (
+    IsInSoundHornGroup(X)
+      AND  
+    ActiveConditionStart(X)
+      AND  
+    NOT ActiveConditionEnd(X)
+  )
+ USING X</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="150"
+ Y="400"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="ActiveConditionEnd"
+ Guid="350875d4-66ec-4eaf-b954-e763b237a8cf"
+>
+<ReqRef
+ Id="3622dce7-f18b-4dc7-8539-e2f01da0803b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="88ce953b-de84-4831-9fe1-a5f3b9bef7c0"
+>
+</ReqRef><ReqRef
+ Id="a42d1ba3-faa3-4d96-9ea1-a86b6415e23d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6a248985-907a-4108-a8f5-e4d97e212036"
+>
+</ReqRef><ReqRef
+ Id="a155d204-c214-45ff-a2b4-045e5aa12ba8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ed8122fd-c9c8-49a6-ae08-bd97ec5d66d4"
+>
+</ReqRef><ReqRef
+ Id="22cbd162-caa0-4e5a-a581-176fc2b4b8bb"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9ecc4b27-fdaf-46a9-91f5-f1401b021e4e"
+>
+</ReqRef><ReqRef
+ Id="555c0388-8b13-4052-acc3-48e9e785af1a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="3ce2cd62-0f37-4d92-a60e-d50c1c25a350"
+>
+</ReqRef><ReqRef
+ Id="280a63e0-22df-4f00-8510-44fdf99aa05f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ba4f0096-64b2-4bec-8c41-0bbc282e4833"
+>
+</ReqRef><ReqRef
+ Id="ac29655f-87cc-4309-b3bc-4d0736a743ad"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d5282b15-6932-4fc2-b604-a2521f12b76e"
+>
+</ReqRef><Comment>Determines whether the train&apos;s front end has passed the end of the announcement (depending on the track condition announced and whether the announcement is at the start or the end of a track condition)</Comment>
+<Parameters>
+<Parameter
+ Type="ActiveConditionStruct"
+ Name="aCondition"
+ Guid="4044d402-5eb4-4458-a9c9-4b9900c9ce58"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="End announcement"
+ Guid="1d7db37b-d17c-447d-9a09-08813c84396e"
+>
+<PreConditions>
+<PreCondition
+ Guid="950e5d7e-2733-4b57-99ea-67afded8e8f0"
+>aCondition.Length == BaseTypes.Length.NA</PreCondition></PreConditions>
+<Expression>False</Expression>
+</Case><Case
+ Name="sound horn - TC"
+ Guid="16793590-aa89-4df2-92d4-d4200df02408"
+>
+<PreConditions>
+<PreCondition
+ Guid="4d55a5a0-252b-40d7-aca2-f250e5eea64c"
+>aCondition.Type == Display.TCTypeEnum.SoundHorn</PreCondition><PreCondition
+ Guid="056f2b1c-6b4a-4e87-947f-ccd35902b247"
+>NOT aCondition.IsAnnouncement</PreCondition></PreConditions>
+<Expression>Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom) &gt;= aCondition.Location + BaseTypes.LengthToDistance(aCondition.Length)</Expression>
+</Case><Case
+ Name="Tunnel Stopping area - TC"
+ Guid="b03c3fd7-a86f-4497-b8c2-f990764fa024"
+>
+<PreConditions>
+<PreCondition
+ Guid="46a2309e-001b-4157-9b58-eefd870ff7bf"
+>aCondition.Type == Display.TCTypeEnum.TunnelStoppingArea</PreCondition><PreCondition
+ Guid="3858c210-5ab7-48a1-a21e-9e326ba91909"
+>NOT aCondition.IsAnnouncement</PreCondition></PreConditions>
+<Expression>Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom) &gt; SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_SBI1_Target(
+    aTarget =&gt; TargetStruct{
+        Location =&gt; aCondition.Location + BaseTypes.LengthToDistance(aCondition.Length),
+        Speed =&gt; 0.0,
+        Length =&gt; 1.0,
+        Type =&gt; TargetTypeEnum.EOA
+    },
+    Vest =&gt; Odometry.TrainSpeed()
+) - BaseTypes.SpeedToMS ( Odometry.TrainSpeed() ) * Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.T_driver</Expression>
+</Case><Case
+ Name="Non stopping area - TC"
+ Guid="3df70146-82dc-4145-83ac-5d66b4842495"
+>
+<PreConditions>
+<PreCondition
+ Guid="dd6e476a-075d-4b5c-8f3d-6ba637e97a50"
+>aCondition.Type == Display.TCTypeEnum.NonStoppingArea</PreCondition><PreCondition
+ Guid="bc57717c-4d76-47cc-850f-da6f12062c99"
+>NOT aCondition.IsAnnouncement</PreCondition></PreConditions>
+<Expression>Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Min) &gt; SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_SBI1_Target(
+    Vest =&gt; Odometry.TrainSpeed(),
+    aTarget =&gt; TargetStruct{
+        Location =&gt; aCondition.Location + BaseTypes.LengthToDistance(aCondition.Length),
+        Speed =&gt; 0.0,
+        Length =&gt; 0.0,
+        Type =&gt; TargetTypeEnum.EOA
+    }
+)</Expression>
+</Case><Case
+ Name="Other conditions, except traction system - TC"
+ Guid="9d2833cb-4955-4eb4-bb97-3b63e2f99ae9"
+>
+<PreConditions>
+<PreCondition
+ Guid="c206fd07-3e25-4b60-96bb-274ce34cc517"
+>NOT aCondition.IsAnnouncement</PreCondition><PreCondition
+ Guid="71d949b9-c2e2-4049-b724-4ec9523067cf"
+>aCondition.Type != Display.TCTypeEnum.TractionSystem__AC15kV
+  AND  
+aCondition.Type != Display.TCTypeEnum.TractionSystem__AC25kV
+  AND  
+aCondition.Type != Display.TCTypeEnum.TractionSystem__DC1_5kV
+  AND  
+aCondition.Type != Display.TCTypeEnum.TractionSystem__DC3kV
+  AND  
+aCondition.Type != Display.TCTypeEnum.TractionSystem__DC600_750V
+  AND  
+aCondition.Type != Display.TCTypeEnum.TractionSystem__none</PreCondition></PreConditions>
+<Expression>Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Min) &gt;= aCondition.Location + BaseTypes.LengthToDistance(aCondition.Length)</Expression>
+</Case><Case
+ Name="Tunnel stopping area - start"
+ Guid="716374c5-4f36-428a-a4a1-86fb297309f4"
+>
+<PreConditions>
+<PreCondition
+ Guid="1c713b41-8617-430e-a228-0143071d3404"
+>aCondition.Type == Display.TCTypeEnum.TunnelStoppingArea</PreCondition></PreConditions>
+<Expression>Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom) &gt;= aCondition.Location + BaseTypes.LengthToDistance(aCondition.Length)</Expression>
+</Case><Case
+ Name="Other types - start"
+ Guid="7965a6a4-1f24-40c5-b623-32892a992bfa"
+>
+<Expression>Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &gt;= aCondition.Location + BaseTypes.LengthToDistance(aCondition.Length)</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="30"
+ Y="400"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="ActiveConditionStart"
+ Guid="551a8c1e-f182-44c8-b7fb-8c6926db8492"
+>
+<ReqRef
+ Id="728d48f2-61c9-4dad-9800-8a9daa1cfbf9"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="42b0ac6b-3602-4b73-93c7-32eb7a03eb3f"
+>
+</ReqRef><ReqRef
+ Id="f6b3f58f-5fb2-453a-958e-a1a861d66a2f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="1ef9e2fd-2f8f-44fb-9f7f-e969a2aaacde"
+>
+</ReqRef><ReqRef
+ Id="4c148829-6224-4b0d-b6f5-d506545632eb"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="996c01e1-5f95-4391-b21c-91ebe5cc2ec6"
+>
+</ReqRef><ReqRef
+ Id="a155d204-c214-45ff-a2b4-045e5aa12ba8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f9db3cd7-6cd3-4dc9-80d7-e65b80653ebd"
+>
+</ReqRef><ReqRef
+ Id="3c13572d-5841-4b36-8f01-b73857688c4b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a1b7e46a-64a9-4dc8-b134-af45a3a70407"
+>
+</ReqRef><ReqRef
+ Id="9ca199da-b431-4208-bbb1-61052c8839e8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="bf7cb675-2148-4d17-943f-c78c67ecdc9b"
+>
+</ReqRef><ReqRef
+ Id="46ca4ea8-b495-4b75-8ec7-60ccf9444a55"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="cd305909-2cec-40bc-9bb3-5c4f63621c6b"
+>
+</ReqRef><ReqRef
+ Id="22cbd162-caa0-4e5a-a581-176fc2b4b8bb"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="24f43caf-abc8-43d4-b564-482d85b3a19c"
+>
+</ReqRef><ReqRef
+ Id="280a63e0-22df-4f00-8510-44fdf99aa05f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="2a830669-29b5-4751-91ce-02804b497e19"
+>
+</ReqRef><Comment>Indicates whether the train has reached the location where the given announcement should start to be displayed</Comment>
+<Parameters>
+<Parameter
+ Type="ActiveConditionStruct"
+ Name="aCondition"
+ Guid="ea64b366-1b29-4689-830c-ea6c019f7f83"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Tunnel stopping area, sound horn - TC"
+ Guid="2380f02e-c029-43df-a6fa-e2201a597584"
+>
+<PreConditions>
+<PreCondition
+ Guid="0bc54b56-072f-421b-b498-fe11e372c0de"
+>NOT aCondition.IsAnnouncement</PreCondition><PreCondition
+ Guid="16856320-3b2a-4716-be02-9be9642746af"
+>aCondition.Type == Display.TCTypeEnum.TunnelStoppingArea
+  OR  
+aCondition.Type == Display.TCTypeEnum.SoundHorn</PreCondition></PreConditions>
+<Expression>Kernel.TrainPosition.FrontEndPosition( PointOfInterest=&gt;DistanceIntervalEnum.Nom ) &gt;= aCondition.Location</Expression>
+</Case><Case
+ Name="Other TC"
+ Guid="1a1229a7-8ad3-4bff-a0f3-212e7d8a9faa"
+>
+<PreConditions>
+<PreCondition
+ Guid="c63e9068-9937-4bfe-9fee-b359faad97a5"
+>NOT aCondition.IsAnnouncement</PreCondition></PreConditions>
+<Expression>Kernel.TrainPosition.FrontEndPosition( PointOfInterest=&gt;DistanceIntervalEnum.Max ) &gt;= aCondition.Location</Expression>
+</Case><Case
+ Name="Non stopping area Announcement - start"
+ Guid="873ea663-7256-4f44-89ec-fd78b96620ff"
+>
+<Comment>This case is for the start of the &quot;Non Stopping Area&quot; announcement. A SBI curve is calculated ending at the start of the non stopping area (at Announcement.Distance + Announcement.Length). If the train&apos;s current speed is greater than the curve at the train&apos;s current position, then the announcement should be displayed</Comment>
+<PreConditions>
+<PreCondition
+ Guid="f6afee15-fc7a-47e4-a6f5-05176ac7fa9e"
+>aCondition.Type == Display.TCTypeEnum.NonStoppingArea</PreCondition></PreConditions>
+<Expression>Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &gt; SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_SBI1_Target(
+    Vest =&gt; Odometry.TrainSpeed(),
+    aTarget =&gt; TargetStruct{
+        Location =&gt; aCondition.Location,
+        Speed =&gt; 0.0,
+        Length =&gt; 0.0,
+        Type =&gt; TargetTypeEnum.EOA
+    }
+)</Expression>
+</Case><Case
+ Name="Tunnel stopping area - start"
+ Guid="028d9395-6dc0-4cc4-b49d-d78fe9db2603"
+>
+<PreConditions>
+<PreCondition
+ Guid="c70f9ca9-e9b7-4414-938a-38e428031c96"
+>aCondition.Type == Display.TCTypeEnum.TunnelStoppingArea</PreCondition></PreConditions>
+<Expression>True</Expression>
+</Case><Case
+ Name="Sound horn - start"
+ Guid="7eb91f50-22d5-43e7-9396-0085e2da4f45"
+>
+<PreConditions>
+<PreCondition
+ Guid="c3790b14-c687-4d89-885d-72e39767003f"
+>aCondition.Type == Display.TCTypeEnum.SoundHorn</PreCondition></PreConditions>
+<Expression>Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom) &gt;= aCondition.Location</Expression>
+</Case><Case
+ Name="Conditions - end"
+ Guid="43cc02b3-c997-4f1d-b0eb-494230903fc3"
+>
+<PreConditions>
+<PreCondition
+ Guid="2ebc94ea-dc49-4889-8574-ac261cead9dd"
+>aCondition.Length == BaseTypes.Length.NA</PreCondition></PreConditions>
+<Expression>Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Min) &gt;= aCondition.Location</Expression>
+</Case><Case
+ Name="Other conditions - start"
+ Guid="2712b1ff-1b3d-4999-b9f2-a740966c7e91"
+>
+<Expression>Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &gt;= aCondition.Location</Expression>
+</Case></Cases>
+</Function><Function
+ Type="PlanningInformationStruct"
+ Default=""
+ X="1"
+ Y="601"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="PreviousPlanningCondition"
+ Guid="d757e258-f9d8-4ec9-9836-457da39036d2"
+>
+<Comment>Finds the closest track condition in rear of the provided one in the profile.</Comment>
+<Parameters>
+<Parameter
+ Type="PlanningInformationStruct"
+ Name="aPlanningCondition"
+ Guid="ec059ea0-2a4f-4182-8547-259e124279f5"
+>
+</Parameter><Parameter
+ Type="PlanningInformationCol"
+ Name="aPlanningInformation"
+ Guid="f28d06c1-b938-4a1d-b604-3c7662d59659"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="f778ba57-5692-4928-a326-65cc647e3626"
+>
+<Expression>REDUCE aPlanningInformation | X.Location &lt; aPlanningCondition.Location 
+  USING X IN 
+    FurtherPlanningCondition(
+      X1 =&gt; X,
+      X2 =&gt; RESULT
+    )
+  INITIAL_VALUE EMPTY</Expression>
+</Case></Cases>
+</Function><Function
+ Type="PlanningInformationStruct"
+ Default=""
+ X="221"
+ Y="1"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="FurtherPlanningCondition"
+ Guid="eff9660b-0b5b-43e7-ac34-1cde714c41be"
+>
+<Comment>Returns the planned track condition that is furthest from the train&apos;s front end.</Comment>
+<Parameters>
+<Parameter
+ Type="PlanningInformationStruct"
+ Name="X1"
+ Guid="f2e36578-3018-43dc-a2d0-161226a89467"
+>
+</Parameter><Parameter
+ Type="PlanningInformationStruct"
+ Name="X2"
+ Guid="04b562bc-a4e1-4539-b99e-a1c99d9882b5"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="X1 empty"
+ Guid="aa1e90b1-f46f-416e-af08-1f4128c51bee"
+>
+<PreConditions>
+<PreCondition
+ Guid="9d0bf074-1c2f-4d4d-843c-39df75786c8a"
+>NOT Available( X1 )</PreCondition></PreConditions>
+<Expression>X2</Expression>
+</Case><Case
+ Name="X2 empty"
+ Guid="d5931dc1-cf47-4ab8-a262-b3586a5197a6"
+>
+<PreConditions>
+<PreCondition
+ Guid="fbb631d3-16aa-46c0-ad1f-e834b9abed08"
+>NOT Available ( X2 )</PreCondition></PreConditions>
+<Expression>X1</Expression>
+</Case><Case
+ Name="X1 further"
+ Guid="41b80084-f852-4d6a-97af-c0aca26b5aac"
+>
+<PreConditions>
+<PreCondition
+ Guid="fe96992e-ef17-43c7-8e94-a9f11f51ce0a"
+>X1.Location &gt; X2.Location</PreCondition></PreConditions>
+<Expression>X1</Expression>
+</Case><Case
+ Name="X2 further"
+ Guid="d415c7d1-90c9-48cb-9998-ec0c218d021c"
+>
+<Expression>X2</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Display.SoundHornConditions.PlanningInformationStruct"
+ Default=""
+ X="440"
+ Y="180"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="MapTractionToSoundHorn"
+ Guid="40957cec-4fd2-4ffe-8836-98f451fcafd5"
+>
+<ReqRef
+ Id="6dae5e9c-2f5e-4dd2-89ec-096e89a76644"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b6af7bc3-b31c-465f-85de-69f9325e8917"
+>
+</ReqRef><Comment>Takes a change of traction system information and provides it as DMI information</Comment>
+<Parameters>
+<Parameter
+ Type="TractionSystems.TractionSystemInformationStruct"
+ Name="TractionSystem"
+ Guid="0c0a19c4-86c3-4674-b1d0-68c1838d55fd"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Convert type"
+ Guid="1d32a1d4-af2e-4812-b39b-e0999d2d11d3"
+>
+<Expression>LET generalTrackConditions &lt;- General.ProfileAtDistance(TractionSystem.Location) IN
+
+Display.SoundHornConditions.PlanningInformationStruct{
+    SoundHorn =&gt; generalTrackConditions.SoundHorn,
+    TunnelStoppingArea =&gt; generalTrackConditions.TunnelStoppingArea,
+    NonStoppingArea =&gt; generalTrackConditions.NonStoppingArea,
+    Location =&gt; TractionSystem.Location,
+    TractionSystem =&gt; TractionSystem.Value
+}</Expression>
+</Case></Cases>
+</Function><Function
+ Type="SoundHornConditions.PlanningInformationStruct"
+ Default=""
+ X="510"
+ Y="400"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="HideTCInformation"
+ Guid="43c1e2b3-87e0-4736-a2ff-e720461ac353"
+>
+<ReqRef
+ Id="ac29655f-87cc-4309-b3bc-4d0736a743ad"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="67e6ede4-f075-4dd8-ada3-0a4ab2fa5d20"
+>
+</ReqRef><ReqRef
+ Id="555c0388-8b13-4052-acc3-48e9e785af1a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="67b62f20-6af1-4081-8a15-2119e15f5092"
+>
+</ReqRef><Comment>Removes the tunnel stopping area and non stopping area information from the displayed track conditions when the ends are passed (these conditions do not end at a fixed location, so this must be done dynamically)</Comment>
+<Parameters>
+<Parameter
+ Type="BaseTypes.Distance"
+ Name="Distance"
+ Guid="f7c2579a-aaa5-4a0b-aa28-ac3d48ef713b"
+>
+</Parameter><Parameter
+ Type="PlanningInformationStruct"
+ Name="ProfilePoint"
+ Guid="98e51548-5b4f-4bf6-8a04-04f775eaa648"
+>
+</Parameter><Parameter
+ Type="TCTypeEnum"
+ Name="TCType"
+ Guid="4761551b-fdd6-4b04-bb33-0c438ac93d33"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="In non stopping area"
+ Guid="464a85f9-9645-4466-993d-99d5a7f3483a"
+>
+<PreConditions>
+<PreCondition
+ Guid="147dc229-5272-4fe1-968f-ea42ee8344b3"
+>ProfilePoint.Location &lt; Distance</PreCondition><PreCondition
+ Guid="0beb59e2-d413-413a-96be-e935e92a36c7"
+>TCType == Display.TCTypeEnum.NonStoppingArea</PreCondition></PreConditions>
+<Expression>SoundHornConditions.PlanningInformationStruct{
+    SoundHorn =&gt; ProfilePoint.SoundHorn,
+    TunnelStoppingArea =&gt; ProfilePoint.TunnelStoppingArea,
+    NonStoppingArea =&gt; False,
+    Location =&gt; ProfilePoint.Location
+}</Expression>
+</Case><Case
+ Name="In tunnel stopping area"
+ Guid="d80151e2-822b-469b-ba02-3bee6ca4cb4b"
+>
+<PreConditions>
+<PreCondition
+ Guid="68a5334c-effd-4849-9229-fd4b39e19564"
+>TCType == Display.TCTypeEnum.TunnelStoppingArea</PreCondition><PreCondition
+ Guid="d39b4d44-f5c2-4bd8-b14b-a067c3cea797"
+>ProfilePoint.Location &lt; Distance</PreCondition></PreConditions>
+<Expression>SoundHornConditions.PlanningInformationStruct{
+    SoundHorn =&gt; ProfilePoint.SoundHorn,
+    TunnelStoppingArea =&gt; False,
+    NonStoppingArea =&gt; ProfilePoint.NonStoppingArea,
+    Location =&gt; ProfilePoint.Location
+}</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="935730e5-8459-4ec3-9428-c1f261dbe4d9"
+>
+<Expression>ProfilePoint</Expression>
+</Case></Cases>
+</Function><Function
+ Type="BaseTypes.Distance"
+ Cacheable="TRUE"
+ Default=""
+ X="270"
+ Y="470"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="EndOfTC"
+ Guid="921c1626-64ff-49fb-82a0-f21559d43682"
+>
+<ReqRef
+ Id="3c13572d-5841-4b36-8f01-b73857688c4b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e573e0df-0292-4fdd-a38b-1cf97ed0c721"
+>
+</ReqRef><ReqRef
+ Id="ac29655f-87cc-4309-b3bc-4d0736a743ad"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="fbb0de79-19e8-4803-8e89-1650fac6b9eb"
+>
+</ReqRef><ReqRef
+ Id="a155d204-c214-45ff-a2b4-045e5aa12ba8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="3d3a2d85-dbf2-4f24-bb4d-d234ad9221a7"
+>
+</ReqRef><ReqRef
+ Id="22cbd162-caa0-4e5a-a581-176fc2b4b8bb"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="30d98990-505e-475e-8a14-1636b3f25adb"
+>
+</ReqRef><ReqRef
+ Id="555c0388-8b13-4052-acc3-48e9e785af1a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d4353b0a-634d-4643-b9f8-c658d2496764"
+>
+</ReqRef><Comment>Returns the end distance of a currently active track condition</Comment>
+<Parameters>
+<Parameter
+ Type="TCTypeEnum"
+ Name="TCType"
+ Guid="e1e7afab-436c-4c9a-a774-4f3518a988ca"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Return distance at end of non stopping area"
+ Guid="286e67de-61a6-4819-9924-a2e75457c7c5"
+>
+<PreConditions>
+<PreCondition
+ Guid="85fce91e-776f-4f8e-9eb4-16352c6f1505"
+>TCType == Display.TCTypeEnum.NonStoppingArea</PreCondition></PreConditions>
+<Expression>REDUCE Kernel.TrackDescription.TrackConditions.General.TCProfile | (NOT X.Value.NonStoppingArea)
+USING X IN BaseTypes.MinDistance(
+    X1=&gt;X.Location,
+    X2=&gt;RESULT
+)
+INITIAL_VALUE BaseTypes.Distance.Infinity</Expression>
+</Case><Case
+ Name="Return distance at end of tunnel stopping area"
+ Guid="cf4151e9-81f1-4fb2-90a8-e7e43e1d67b0"
+>
+<PreConditions>
+<PreCondition
+ Guid="f091ee4d-ca51-40a7-8b31-d640d6048e68"
+>TCType == Display.TCTypeEnum.TunnelStoppingArea</PreCondition></PreConditions>
+<Expression>REDUCE Kernel.TrackDescription.TrackConditions.General.TCProfile | (NOT X.Value.TunnelStoppingArea)
+USING X IN BaseTypes.MinDistance(
+    X1=&gt;X.Location,
+    X2=&gt;RESULT
+)
+INITIAL_VALUE BaseTypes.Distance.Infinity</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="8c66f8c2-3fc8-4236-947e-f995fe044d7f"
+>
+<Expression>BaseTypes.Distance.Infinity</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="331"
+ Y="1"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="NonStoppingAreaRelevant"
+ Guid="845ddb80-33be-41d6-9c0e-11a475b33620"
+>
+<ReqRef
+ Id="a155d204-c214-45ff-a2b4-045e5aa12ba8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d3043a42-4b6d-45b5-99d3-4a030ecf87bf"
+>
+</ReqRef><ReqRef
+ Id="555c0388-8b13-4052-acc3-48e9e785af1a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="656884e9-9e88-45ec-a01c-8b052cb81a6b"
+>
+</ReqRef><ReqRef
+ Id="22cbd162-caa0-4e5a-a581-176fc2b4b8bb"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d5e8aebb-9ef7-4822-b83d-19b752fca93d"
+>
+</ReqRef><Comment>Checks the train&apos;s min safe front end against the SBI calculated from the end of the non stopping area. If the front end is in advance of the SBI curve for the train&apos;s speed, no non stopping area information is displayed.</Comment>
+<Parameters>
+<Parameter
+ Type="General.TrackConditionInformationStruct"
+ Name="aTrackCondition"
+ Guid="8c1f997c-a2de-42f9-95cb-e9bf8e13de67"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="No non stopping area"
+ Guid="f40bb113-6a24-4833-9840-a904c20be83e"
+>
+<PreConditions>
+<PreCondition
+ Guid="044655f2-d3d6-4b8c-b5b1-636240991664"
+>NOT Available( aTrackCondition )
+  OR  
+NOT aTrackCondition.Value.NonStoppingArea</PreCondition></PreConditions>
+<Expression>False</Expression>
+</Case><Case
+ Name="Otherwise check train front end against the SBI, if there is an end"
+ Guid="305dd9c9-eb62-45b8-beda-48064e8c0a5a"
+>
+<PreConditions>
+<PreCondition
+ Guid="6a51a517-f1e6-47ba-aea5-8173b8b7309b"
+>THERE_IS X IN General.TCProfile | (X.Location &gt; aTrackCondition.Location AND NOT X.Value.NonStoppingArea)</PreCondition></PreConditions>
+<Expression>LET nonStoppingAreaEnd &lt;- (FIRST X IN General.TCProfile | X.Location &gt; aTrackCondition.Location AND NOT X.Value.NonStoppingArea).Location IN
+
+SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_SBI1_Target(
+    Vest =&gt; Odometry.TrainSpeed(),
+    aTarget =&gt; TargetStruct{
+    Location =&gt; nonStoppingAreaEnd,
+    Speed =&gt; 0.0,
+    Length =&gt; 0.0,
+    Type =&gt; TargetTypeEnum.EOA
+  }
+) &gt; TrainPosition.FrontEndPosition( PointOfInterest =&gt; Default.DistanceIntervalEnum.Min )</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="5912cc1b-bc6d-4c2a-9003-2c76d59415e3"
+>
+<Expression>True</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="331"
+ Y="1"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="IsChange"
+ Guid="1a55d345-cb8c-4bce-a548-7ae253995509"
+>
+<Comment>Indicates whether the provided track condition profile point is a change from the previous one.</Comment>
+<Parameters>
+<Parameter
+ Type="PlanningInformationStruct"
+ Name="aPlanningCondition"
+ Guid="173ada8e-e0e8-43c4-8a13-7162818e19d2"
+>
+</Parameter><Parameter
+ Type="PlanningInformationCol"
+ Name="aPlanningInformation"
+ Guid="ec8ef152-3919-4e53-b7b8-e3b3b178fb45"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="de3fc5fc-609e-4a11-8dac-95ddc278cd72"
+>
+<Expression>LET previousPlanningCondition &lt;- PreviousPlanningCondition(
+    aPlanningCondition =&gt; aPlanningCondition,
+    aPlanningInformation =&gt; aPlanningInformation
+) IN
+
+aPlanningCondition.SoundHorn != previousPlanningCondition.SoundHorn
+  OR  
+aPlanningCondition.TunnelStoppingArea != previousPlanningCondition.TunnelStoppingArea
+  OR  
+aPlanningCondition.NonStoppingArea != previousPlanningCondition.NonStoppingArea
+  OR  
+aPlanningCondition.TractionSystem != previousPlanningCondition.TractionSystem</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>
