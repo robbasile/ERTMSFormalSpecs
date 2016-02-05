@@ -107,7 +107,16 @@ namespace DataDictionary.Interpreter
 
         public int CompareTo(Usage other)
         {
-            int retVal = other.Referenced.FullName.CompareTo(Referenced.FullName);
+            int retVal = -1;
+
+            if (other.Referenced.FullName == null)
+            {
+                retVal = 1;
+            }
+            else if ( Referenced.FullName != null)
+            {
+                retVal = other.Referenced.FullName.CompareTo(Referenced.FullName);
+            }
 
             if (retVal == 0)
             {
