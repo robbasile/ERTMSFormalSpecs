@@ -2669,7 +2669,12 @@ Kernel.TrainPosition.Position.DataState == DataStateEnum.Unknown</PreCondition><
  Name="DriverSelectionRequested"
  Guid="4a974a0c-ef4f-4a91-9394-ea51a6ebc724"
 >
-<StateMachine
+<ReqRef
+ Id="d1306277-a43c-43f0-8e13-1a614a2dcac5"
+ SpecId="7976a642-eab5-431b-a656-44fc19d26d62"
+ Guid="a37083b2-3d29-4039-8f0d-d7cc69a777bc"
+>
+</ReqRef><StateMachine
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Guid="d742b653-940b-4fa0-a5cc-be0779cd20ee"
@@ -2701,7 +2706,9 @@ Kernel.TrainPosition.Position.DataState == DataStateEnum.Unknown</PreCondition><
 <Actions>
 <Action
  Guid="95ad63ec-6c25-4487-9483-5761e7f0231f"
->THIS &lt;- Kernel.HandleModeChangeSM.StartOfMission.S12</Action></Actions>
+>THIS &lt;- Kernel.HandleModeChangeSM.StartOfMission.S12</Action><Action
+ Guid="72007b2f-cf4d-4e5f-bad8-659edc1cc4da"
+>DMI.MasterDMI().Out_RadioNetworkRegistrationFailed.DisplayStartTime &lt;- EMPTY</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -2750,7 +2757,9 @@ Kernel.TrainPosition.Position.DataState == DataStateEnum.Unknown</PreCondition><
  Guid="85d5c94d-3176-4321-980a-89906a0a0b71"
 >DMI.MasterDMI().In_TrainData.InputInformation.Disable()</Action><Action
  Guid="463167fb-e523-4010-bd09-8a3064471d6d"
->EURORADIO.OpenRBCSession()</Action></Actions>
+>EURORADIO.OpenRBCSession()</Action><Action
+ Guid="33febeaf-0fb0-4ba2-966e-0d11369dbf64"
+>DMI.MasterDMI().Out_RadioNetworkRegistrationFailed.DisplayStartTime &lt;- EMPTY</Action></Actions>
 <SubRules>
 <Rule
  Priority="Processing"
