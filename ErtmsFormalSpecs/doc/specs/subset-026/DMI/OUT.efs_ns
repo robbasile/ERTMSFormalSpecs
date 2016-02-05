@@ -3701,7 +3701,11 @@ This procedure does not do anything. The mode tracking is not necessary for this
  Guid="5b81ab11-e877-4a99-97b9-44ced052e330"
 >RadioNetworkRegistrationFailedAvailable()</PreCondition><PreCondition
  Guid="063b8625-ffdd-4f3f-8316-1b0301485e83"
->Kernel.DateAndTime.T1LaterThanT2
+>aRegistrationFailed
+OR
+(Available( THIS.DisplayStartTime) 
+AND
+Kernel.DateAndTime.T1LaterThanT2
 (
     AddToDate
     (
@@ -3710,8 +3714,7 @@ This procedure does not do anything. The mode tracking is not necessary for this
     ),
     Kernel.DateAndTime.Now()
 ) 
-OR 
-aRegistrationFailed</PreCondition></PreConditions>
+)</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="ddee3ba4-6861-4af9-89f2-f010fa09828d"
