@@ -717,6 +717,7 @@ namespace DataDictionary.Interpreter
         {
             Expression retVal = null;
 
+            SkipWhiteSpaces();
             if (expressionLevel == 0 && LookAhead("LET"))
             {
                 int start = Index;
@@ -1289,6 +1290,7 @@ namespace DataDictionary.Interpreter
         {
             Statement.Statement retVal = null;
 
+            SkipWhiteSpaces();
             int start = Index;
             if (LookAhead("APPLY"))
             {
