@@ -95,19 +95,25 @@ namespace DataDictionary.Interpreter
             if (ShouldCheck(designator))
             {
                 Type type = designator.Ref as Type;
-                if ( type != null )
+                if ( Context == null && type != null )
                 {
                     Context = type;
                 }
 
                 ITypedElement element = designator.Ref as ITypedElement;
-                if (element != null)
+                if (Context == null && element != null)
                 {
-                    Context = element.Type;
+                    Context = element;
+                }
+
+                ICallable callable = designator.Ref as ICallable;
+                if (Context == null && callable != null)
+                {
+                    Context = callable;
                 }
 
                 NameSpace nameSpace = designator.Ref as NameSpace;
-                if (nameSpace != null)
+                if (Context == null && nameSpace != null)
                 {
                     Context = nameSpace;
                 }

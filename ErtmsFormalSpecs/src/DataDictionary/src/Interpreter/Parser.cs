@@ -728,26 +728,10 @@ namespace DataDictionary.Interpreter
                 string assignOp = LookAhead(AssignOps);
                 if (assignOp != null)
                 {
-                    Match(assignOp);
-                    Expression bindinExpression = Expression(0);
-                    if (bindinExpression != null)
-                    {
-                        Match("IN");
-                        Expression expression = Expression(0);
-                        if (expression != null)
-                        {
-                            retVal = new LetExpression(Root, RootLog, boundVariable, bindinExpression, expression,
-                                CreateParsingData(start, Index));
-                        }
-                        else
-                        {
-                            RootLog.AddError("Cannot parse expression after IN keyword");
-                        }
-                    }
-                    else
-                    {
-                        RootLog.AddError("Cannot parse expression after " + boundVariable + " " + assignOp + " ");
-                    }
+                    Expression bindinExpression = MandatoryParse(() => Expression(0), assignOp);
+                    Expression expression = MandatoryParse(() => Expression(0), "IN");
+                    retVal = new LetExpression(Root, RootLog, boundVariable, bindinExpression, expression,
+                        CreateParsingData(start, Index));
                 }
                 else
                 {

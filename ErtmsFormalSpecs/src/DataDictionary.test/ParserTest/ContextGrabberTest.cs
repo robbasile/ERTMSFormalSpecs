@@ -34,8 +34,8 @@ namespace DataDictionary.test.ParserTest
                 const string text = "V <- N1.S";
                 VariableUpdateStatement statement = parser.Statement(rc, text, true, true) as VariableUpdateStatement;
                 ContextGrabber grabber = new ContextGrabber();
-                Assert.AreEqual(s1, grabber.GetContext(0, statement));
-                Assert.AreEqual(s1, grabber.GetContext(1, statement));
+                Assert.AreEqual(v, grabber.GetContext(0, statement));
+                Assert.AreEqual(v, grabber.GetContext(1, statement));
                 Assert.IsNull(grabber.GetContext(2, statement));
                 Assert.IsNull(grabber.GetContext(3, statement));
                 Assert.IsNull(grabber.GetContext(4, statement));
@@ -52,7 +52,7 @@ namespace DataDictionary.test.ParserTest
                 const string text = "V <- N1.";
                 VariableUpdateStatement statement = parser.Statement(rc, text, true, true) as VariableUpdateStatement;
                 ContextGrabber grabber = new ContextGrabber();
-                Assert.AreEqual(s1, grabber.GetContext(0, statement));
+                Assert.AreEqual(v, grabber.GetContext(0, statement));
                 Assert.AreEqual(n1, grabber.GetContext(6, statement));
             }
         }
@@ -81,8 +81,8 @@ namespace DataDictionary.test.ParserTest
                 const string text = "V <- f().S";
                 VariableUpdateStatement statement = parser.Statement(rc, text, true, true) as VariableUpdateStatement;
                 ContextGrabber grabber = new ContextGrabber();
-                Assert.AreEqual(s1, grabber.GetContext(0, statement));
-                Assert.AreEqual(s1, grabber.GetContext(1, statement));
+                Assert.AreEqual(v, grabber.GetContext(0, statement));
+                Assert.AreEqual(v, grabber.GetContext(1, statement));
                 Assert.IsNull(grabber.GetContext(2, statement));
                 Assert.IsNull(grabber.GetContext(3, statement));
                 Assert.IsNull(grabber.GetContext(4, statement));
@@ -100,8 +100,8 @@ namespace DataDictionary.test.ParserTest
                 const string text = "V <- f().";
                 VariableUpdateStatement statement = parser.Statement(rc, text, true, true) as VariableUpdateStatement;
                 ContextGrabber grabber = new ContextGrabber();
-                Assert.AreEqual(s1, grabber.GetContext(0, statement));
-                Assert.AreEqual(s1, grabber.GetContext(1, statement));
+                Assert.AreEqual(v, grabber.GetContext(0, statement));
+                Assert.AreEqual(v, grabber.GetContext(1, statement));
                 Assert.IsNull(grabber.GetContext(2, statement));
                 Assert.IsNull(grabber.GetContext(3, statement));
                 Assert.IsNull(grabber.GetContext(4, statement));
@@ -137,6 +137,7 @@ namespace DataDictionary.test.ParserTest
                 //                   012345678901234567890123
                 const string text = "APPLY X <- X ON V | X.";
                 ApplyStatement statement = parser.Statement(rc, text, true, true) as ApplyStatement;
+                Assert.IsNotNull(statement);
                 ContextGrabber grabber = new ContextGrabber();
                 Assert.IsNull(grabber.GetContext(0, statement));
                 Assert.IsNull(grabber.GetContext(1, statement));
@@ -144,22 +145,22 @@ namespace DataDictionary.test.ParserTest
                 Assert.IsNull(grabber.GetContext(3, statement));
                 Assert.IsNull(grabber.GetContext(4, statement));
                 Assert.IsNull(grabber.GetContext(5, statement));
-                Assert.AreEqual(s1, grabber.GetContext(6, statement));
-                Assert.AreEqual(s1, grabber.GetContext(7, statement));
+                Assert.AreEqual(statement.IteratorVariable, grabber.GetContext(6, statement));
+                Assert.AreEqual(statement.IteratorVariable, grabber.GetContext(7, statement));
                 Assert.IsNull(grabber.GetContext(8, statement));
                 Assert.IsNull(grabber.GetContext(9, statement));
                 Assert.IsNull(grabber.GetContext(10, statement));
-                Assert.AreEqual(s1, grabber.GetContext(11, statement));
-                Assert.AreEqual(s1, grabber.GetContext(12, statement));
+                Assert.AreEqual(statement.IteratorVariable, grabber.GetContext(11, statement));
+                Assert.AreEqual(statement.IteratorVariable, grabber.GetContext(12, statement));
                 Assert.IsNull(grabber.GetContext(13, statement));
                 Assert.IsNull(grabber.GetContext(14, statement));
                 Assert.IsNull(grabber.GetContext(15, statement));
-                Assert.AreEqual(collection, grabber.GetContext(16, statement));
-                Assert.AreEqual(collection, grabber.GetContext(17, statement));
+                Assert.AreEqual(v, grabber.GetContext(16, statement));
+                Assert.AreEqual(v, grabber.GetContext(17, statement));
                 Assert.IsNull(grabber.GetContext(18, statement));
                 Assert.IsNull(grabber.GetContext(19, statement));
-                Assert.AreEqual(s1, grabber.GetContext(20, statement));
-                Assert.AreEqual(s1, grabber.GetContext(21, statement));
+                Assert.AreEqual(statement.IteratorVariable, grabber.GetContext(20, statement));
+                Assert.AreEqual(statement.IteratorVariable, grabber.GetContext(21, statement));
                 Assert.IsNull(grabber.GetContext(22, statement));
             }
         }
@@ -188,17 +189,18 @@ namespace DataDictionary.test.ParserTest
                 //                   012345678901234567890123456
                 const string text = "MAP V | X. USING X IN X.E1";
                 MapExpression expression = parser.Expression(rc, text, null, true, null, true, true) as MapExpression;
+                Assert.IsNotNull(expression);
                 ContextGrabber grabber = new ContextGrabber();
                 Assert.IsNull(grabber.GetContext(0, expression));
                 Assert.IsNull(grabber.GetContext(1, expression));
                 Assert.IsNull(grabber.GetContext(2, expression));
                 Assert.IsNull(grabber.GetContext(3, expression));
-                Assert.AreEqual(collection, grabber.GetContext(4, expression));
-                Assert.AreEqual(collection, grabber.GetContext(5, expression));
+                Assert.AreEqual(v, grabber.GetContext(4, expression));
+                Assert.AreEqual(v, grabber.GetContext(5, expression));
                 Assert.IsNull(grabber.GetContext(6, expression));
                 Assert.IsNull(grabber.GetContext(7, expression));
-                Assert.AreEqual(s1, grabber.GetContext(8, expression));
-                Assert.AreEqual(s1, grabber.GetContext(9, expression));
+                Assert.AreEqual(expression.IteratorVariable, grabber.GetContext(8, expression));
+                Assert.AreEqual(expression.IteratorVariable, grabber.GetContext(9, expression));
                 Assert.IsNull(grabber.GetContext(10, expression));
                 Assert.IsNull(grabber.GetContext(11, expression));
                 Assert.IsNull(grabber.GetContext(12, expression));
@@ -211,11 +213,11 @@ namespace DataDictionary.test.ParserTest
                 Assert.IsNull(grabber.GetContext(19, expression));
                 Assert.IsNull(grabber.GetContext(20, expression));
                 Assert.IsNull(grabber.GetContext(21, expression));
-                Assert.AreEqual(s1, grabber.GetContext(22, expression));
-                Assert.AreEqual(s1, grabber.GetContext(23, expression));
-                Assert.AreEqual(EfsSystem.Instance.BoolType, grabber.GetContext(24, expression));
-                Assert.AreEqual(EfsSystem.Instance.BoolType, grabber.GetContext(25, expression));
-                Assert.AreEqual(EfsSystem.Instance.BoolType, grabber.GetContext(26, expression));
+                Assert.AreEqual(expression.IteratorVariable, grabber.GetContext(22, expression));
+                Assert.AreEqual(expression.IteratorVariable, grabber.GetContext(23, expression));
+                Assert.AreEqual(el1, grabber.GetContext(24, expression));
+                Assert.AreEqual(el1, grabber.GetContext(25, expression));
+                Assert.AreEqual(el1, grabber.GetContext(26, expression));
                 Assert.IsNull(grabber.GetContext(27, expression));
             }
         }
@@ -245,8 +247,8 @@ namespace DataDictionary.test.ParserTest
                 const string text = "V <- [S1 { E1 => Tr";
                 VariableUpdateStatement statement = parser.Statement(rc, text, true, true) as VariableUpdateStatement;
                 ContextGrabber grabber = new ContextGrabber();
-                Assert.AreEqual(collection, grabber.GetContext(0, statement));
-                Assert.AreEqual(collection, grabber.GetContext(1, statement));
+                Assert.AreEqual(v, grabber.GetContext(0, statement));
+                Assert.AreEqual(v, grabber.GetContext(1, statement));
                 Assert.IsNull(grabber.GetContext(2, statement));
                 Assert.IsNull(grabber.GetContext(3, statement));
                 Assert.IsNull(grabber.GetContext(4, statement));

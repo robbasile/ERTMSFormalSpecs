@@ -40,8 +40,6 @@ namespace DataDictionary.Variables
             Enclosing = enclosing;
             Name = name;
             Type = type;
-
-            DeclaredElements = null;
         }
 
         public object Enclosing { get; set; }
@@ -177,7 +175,20 @@ namespace DataDictionary.Variables
         /// <summary>
         /// The sub fields of this field
         /// </summary>
-        public Dictionary<string, List<INamable>> DeclaredElements { get; private set; }
+        public Dictionary<string, List<INamable>> DeclaredElements {
+            get
+            {
+                Dictionary<string, List<INamable>> retVal = null;
+
+                StructureValue structureValue = Value as StructureValue;
+                if (structureValue != null)
+                {
+                    retVal = structureValue.DeclaredElements;
+                }
+
+                return retVal;
+            }
+        }
 
         /// <summary>
         /// Reset the declared elements
@@ -217,7 +228,6 @@ namespace DataDictionary.Variables
                 {
                     _value.Enclosing = this;
                 }
-                DeclaredElements = null;
             }
         }
 

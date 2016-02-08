@@ -94,10 +94,10 @@ namespace GUI.EditorView
         {
             if (ModifierKeys == Keys.Control)
             {
-                List<INamable> instances = GetInstances(mouseEventArgs.Location);
-                if (instances.Count == 1)
+                INamable instance = GetInstance(mouseEventArgs.Location);
+                if (instance != null)
                 {
-                    IModelElement modelElement = instances[0] as IModelElement;
+                    IModelElement modelElement = instance as IModelElement;
                     if (modelElement != null)
                     {
                         Context.SelectionCriteria criteria = GuiUtils.SelectionCriteriaBasedOnMouseEvent(mouseEventArgs);

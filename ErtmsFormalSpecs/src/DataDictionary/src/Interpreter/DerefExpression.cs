@@ -203,6 +203,11 @@ namespace DataDictionary.Interpreter
                     {
                         AddError("Cannot find " + Arguments[i] + " in " + Arguments[i - 1]);
                     }
+
+                    if (retVal.IsUnique)
+                    {
+                        Arguments[i].Ref = retVal.Values[0].Value;
+                    }
                 }
             }
             else
