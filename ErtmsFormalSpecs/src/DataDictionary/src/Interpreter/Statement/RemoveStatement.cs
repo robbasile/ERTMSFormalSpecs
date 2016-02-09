@@ -375,11 +375,11 @@ namespace DataDictionary.Interpreter.Statement
 
             if (Condition != null)
             {
-                Condition.GetExplain(explanation);
+                explanation.Write(Condition);
             }
 
             explanation.Write(" IN ");
-            ListExpression.GetExplain(explanation);
+            explanation.Write(ListExpression);
         }
 
         /// <summary>

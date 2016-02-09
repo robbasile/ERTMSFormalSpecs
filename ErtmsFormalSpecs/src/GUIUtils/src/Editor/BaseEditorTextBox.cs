@@ -499,21 +499,24 @@ namespace GUIUtils.Editor
                 ISubDeclarator subDeclarator = GetInstance(index) as ISubDeclarator;
                 if (subDeclarator == null)
                 {
-                    // Out of context search, create the corresponding context according to the current instance
-                    subDeclarator = EnclosingSubDeclarator(Instance as IModelElement);
-                    while (subDeclarator != null)
+                    if (Text[index] != '.')
                     {
-                        ConsiderSubDeclarator(prefix, subDeclarator, retVal);
-                        subDeclarator =
-                            EnclosingSubDeclarator(((IModelElement)subDeclarator).Enclosing as IModelElement);
-                    }
-
-                    // Also add the templates
-                    foreach (string template in Templates)
-                    {
-                        if (template.StartsWith(prefix))
+                        // Out of context search, create the corresponding context according to the current instance
+                        subDeclarator = EnclosingSubDeclarator(Instance as IModelElement);
+                        while (subDeclarator != null)
                         {
-                            retVal.Add(new ObjectReference(template, null));
+                            ConsiderSubDeclarator(prefix, subDeclarator, retVal);
+                            subDeclarator =
+                                EnclosingSubDeclarator(((IModelElement) subDeclarator).Enclosing as IModelElement);
+                        }
+
+                        // Also add the templates
+                        foreach (string template in Templates)
+                        {
+                            if (template.StartsWith(prefix))
+                            {
+                                retVal.Add(new ObjectReference(template, null));
+                            }
                         }
                     }
                 }
@@ -567,7 +570,8 @@ namespace GUIUtils.Editor
             int index = EditionTextBox.SelectionStart - 1;
 
             string prefix = CurrentPrefix(index).Trim();
-            List<ObjectReference> allChoices = AllChoices(index - prefix.Length, prefix);
+            index = Math.Max(0, index - prefix.Length);
+            List<ObjectReference> allChoices = AllChoices(index, prefix);
 
             if (prefix.Length <= EditionTextBox.SelectionStart)
             {

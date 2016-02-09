@@ -412,24 +412,24 @@ namespace DataDictionary.Types
 
                 foreach (StructureElement element in Elements)
                 {
-                    element.GetExplain(explanation, explainSubElements);
+                    explanation.Write(element, explainSubElements);
                 }
 
                 if (!IsAbstract)
                 {
                     foreach (Procedure procedure in Procedures)
                     {
-                        procedure.GetExplain(explanation, explainSubElements);
+                        explanation.Write(procedure, explainSubElements);
                     }
 
                     foreach (StateMachine stateMachine in StateMachines)
                     {
-                        stateMachine.GetExplain(explanation, explainSubElements);
+                        explanation.Write(stateMachine, explainSubElements);
                     }
 
                     foreach (Rule rule in Rules)
                     {
-                        rule.GetExplain(explanation, explainSubElements);
+                        explanation.Write(rule, explainSubElements);
                     }
                 }
             });

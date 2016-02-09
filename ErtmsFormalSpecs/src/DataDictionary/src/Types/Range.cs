@@ -693,6 +693,7 @@ namespace DataDictionary.Types
         public override void GetExplain(TextualExplanation explanation, bool explainSubElements)
         {
             base.GetExplain(explanation, explainSubElements);
+
             explanation.Write("RANGE ");
             explanation.Write(Name);
             explanation.Write(" FROM ");
@@ -704,7 +705,7 @@ namespace DataDictionary.Types
             {
                 foreach (EnumValue enumValue in SpecialValues)
                 {
-                    enumValue.GetExplain(explanation, explainSubElements);
+                    explanation.Write(enumValue, explainSubElements);
                 }
             });
         }

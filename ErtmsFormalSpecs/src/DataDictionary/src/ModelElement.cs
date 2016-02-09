@@ -656,7 +656,14 @@ namespace DataDictionary
                 Data.Append(IndentString);
                 NewLine = false;
             }
-            Data.Append(data);
+            if (data != null)
+            {
+                Data.Append(data);
+            }
+            else
+            {
+                Data.Append("<Unknown>");
+            }
         }
 
         /// <summary>
@@ -669,6 +676,41 @@ namespace DataDictionary
             Data.Append("\n");
             NewLine = true;
         }
+
+        /// <summary>
+        /// Provides an explanation of an interpreter tree node, if it is not null
+        /// </summary>
+        /// <param name="node"></param>
+        /// <param name="explainSubElements"></param>
+        public void Write(InterpreterTreeNode node, bool explainSubElements = true)
+        {
+            if (node != null)
+            {
+                node.GetExplain(this, explainSubElements);
+            }
+            else
+            {
+                Data.Append("<Unknown>");
+            }
+        }
+
+        /// <summary>
+        /// Provides an explanation of explainable, if it is not null
+        /// </summary>
+        /// <param name="explainable"></param>
+        /// <param name="explainSubElements"></param>
+        public void Write(ITextualExplain explainable, bool explainSubElements = true)
+        {
+            if (explainable != null)
+            {
+                explainable.GetExplain(this, explainSubElements);
+            }
+            else
+            {
+                Data.Append("<Unknown>");
+            }
+        }
+
 
         /// <summary>
         ///     Provides the expression

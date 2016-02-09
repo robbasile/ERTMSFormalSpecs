@@ -273,11 +273,11 @@ namespace DataDictionary.Interpreter
         {
             if (Designator != null)
             {
-                Designator.GetExplain(explanation);
+                explanation.Write(Designator);
             }
             else if (LiteralValue != null)
             {
-                LiteralValue.GetExplain(explanation);
+                explanation.Write(LiteralValue);
             }
         }
 

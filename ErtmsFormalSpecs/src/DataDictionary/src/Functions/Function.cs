@@ -1251,7 +1251,7 @@ namespace DataDictionary.Functions
                         {
                             explanation.WriteLine(",");
                         }
-                        parameter.GetExplain(explanation, true);
+                        explanation.Write(parameter);
                     }
                 });
             }
@@ -1267,7 +1267,7 @@ namespace DataDictionary.Functions
                     {
                         explanation.Write("ELSE ");
                     }
-                    cas.GetExplain(explanation, explainSubElements);
+                    explanation.Write(cas, explainSubElements);
                     explanation.WriteLine();
                     first = false;
                 }

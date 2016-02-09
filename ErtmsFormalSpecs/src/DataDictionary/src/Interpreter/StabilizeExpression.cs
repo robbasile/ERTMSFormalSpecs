@@ -267,11 +267,11 @@ namespace DataDictionary.Interpreter
         public override void GetExplain(TextualExplanation explanation, bool explainSubElements = true)
         {
             explanation.Write("STABILIZE ");
-            Expression.GetExplain(explanation);
+            explanation.Write(Expression);
             explanation.Write(" INITIAL_VALUE ");
-            InitialValue.GetExplain(explanation);
+            explanation.Write(InitialValue);
             explanation.Write(" STOP_CONDITION ");
-            Condition.GetExplain(explanation);
+            explanation.Write(Condition);
         }
 
         /// <summary>

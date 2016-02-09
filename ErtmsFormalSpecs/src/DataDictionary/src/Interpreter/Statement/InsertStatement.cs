@@ -305,14 +305,14 @@ namespace DataDictionary.Interpreter.Statement
         public override void GetExplain(TextualExplanation explanation, bool explainSubElements = true)
         {
             explanation.Write("INSERT ");
-            Value.GetExplain(explanation);
+            explanation.Write(Value);
             explanation.Write(" IN ");
-            ListExpression.GetExplain(explanation);
+            explanation.Write(ListExpression);
 
             if (ReplaceElement != null)
             {
                 explanation.Write(" WHEN FULL REPLACE");
-                ReplaceElement.GetExplain(explanation);
+                explanation.Write(ReplaceElement);
             }
         }
 

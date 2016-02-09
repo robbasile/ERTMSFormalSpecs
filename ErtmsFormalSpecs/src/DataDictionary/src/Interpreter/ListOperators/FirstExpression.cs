@@ -110,12 +110,12 @@ namespace DataDictionary.Interpreter.ListOperators
             explanation.Write(" ");
             explanation.Write(IteratorVariable.Name);
             explanation.Write(" IN ");
-            ListExpression.GetExplain(explanation);
+            explanation.Write(ListExpression);
 
             if (Condition != null)
             {
                 explanation.Write(" | ");
-                Condition.GetExplain(explanation);
+                explanation.Write(Condition);
             }
         }
     }

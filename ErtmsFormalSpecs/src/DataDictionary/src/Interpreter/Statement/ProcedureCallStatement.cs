@@ -374,7 +374,7 @@ namespace DataDictionary.Interpreter.Statement
         /// <param name="explainSubElements">Precises if we need to explain the sub elements (if any)</param>
         public override void GetExplain(TextualExplanation explanation, bool explainSubElements = true)
         {
-            Call.GetExplain(explanation);
+            explanation.Write(Call);
         }
 
         /// <summary>

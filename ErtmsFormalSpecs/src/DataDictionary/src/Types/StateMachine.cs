@@ -1109,17 +1109,18 @@ namespace DataDictionary.Types
         public override void GetExplain(TextualExplanation explanation, bool explainSubElements)
         {
             base.GetExplain(explanation, explainSubElements);
+
             explanation.Write("STATE MACHINE ");
             explanation.WriteLine(Name);
             explanation.Indent(2, () =>
             {
                 foreach (State state in States)
                 {
-                    state.GetExplain(explanation, false);
+                    explanation.Write(state, false);
                 }
                 foreach (Rule rule in Rules)
                 {
-                    rule.GetExplain(explanation, explainSubElements);
+                    explanation.Write(rule, explainSubElements);
                 }
             });
         }

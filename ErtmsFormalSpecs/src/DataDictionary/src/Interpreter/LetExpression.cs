@@ -203,9 +203,9 @@ namespace DataDictionary.Interpreter
             explanation.Write("LET ");
             explanation.Write(BoundVariable.Name);
             explanation.Write(" <- ");
-            BindingExpression.GetExplain(explanation);
+            explanation.Write(BindingExpression);
             explanation.Write(" IN ");
-            Expression.GetExplain(explanation);
+            explanation.Write(Expression);
         }
     }
 }

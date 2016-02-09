@@ -305,9 +305,9 @@ namespace DataDictionary.Interpreter.Statement
         /// <param name="explainSubElements">Precises if we need to explain the sub elements (if any)</param>
         public override void GetExplain(TextualExplanation explanation, bool explainSubElements = true)
         {
-            VariableIdentification.GetExplain(explanation);
+            explanation.Write(VariableIdentification);
             explanation.Write(" <- ");
-            Expression.GetExplain(explanation);
+            explanation.Write(Expression);
         }
 
         /// <summary>

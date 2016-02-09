@@ -248,7 +248,7 @@ namespace DataDictionary.Interpreter
                 explanation.Write(parameter.TypeName);
             });
             explanation.Write(" => ");
-            Expression.GetExplain(explanation);
+            explanation.Write(Expression);
         }
 
         /// <summary>

@@ -410,7 +410,7 @@ namespace DataDictionary.Interpreter
         {
             if (Term != null)
             {
-                Term.GetExplain(explanation);
+                explanation.Write(Term);
             }
             else
             {
@@ -420,13 +420,13 @@ namespace DataDictionary.Interpreter
                     if (Expression != null)
                     {
                         explanation.Write(" ");
-                        Expression.GetExplain(explanation);
+                        explanation.Write(Expression);
                     }
                 }
                 else if (Expression != null)
                 {
                     explanation.Write(" (");
-                    Expression.GetExplain(explanation);
+                    explanation.Write(Expression);
                     explanation.Write(" )");
                 }
             }

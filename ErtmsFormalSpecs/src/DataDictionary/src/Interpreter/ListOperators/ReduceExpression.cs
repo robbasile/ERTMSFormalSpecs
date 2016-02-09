@@ -212,20 +212,20 @@ namespace DataDictionary.Interpreter.ListOperators
         {
             explanation.Write(Operator);
             explanation.Write(" ");
-            ListExpression.GetExplain(explanation);
+            explanation.Write(ListExpression);
 
             if (Condition != null)
             {
                 explanation.Write(" | ");
-                Condition.GetExplain(explanation);
+                explanation.Write(Condition);
             }
 
             explanation.Write(" USING ");
             explanation.Write(IteratorVariable.Name);
             explanation.Write(" IN ");
-            IteratorExpression.GetExplain(explanation);
+            explanation.Write(IteratorExpression);
             explanation.Write(" INITIAL_VALUE ");
-            InitialValue.GetExplain(explanation);
+            explanation.Write(InitialValue);
         }
 
         /// <summary>

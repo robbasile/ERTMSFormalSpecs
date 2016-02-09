@@ -356,11 +356,11 @@ namespace DataDictionary.Interpreter.Statement
         public override void GetExplain(TextualExplanation explanation, bool explainSubElements = true)
         {
             explanation.Write("REPLACE ");
-            Condition.GetExplain(explanation);
+            explanation.Write(Condition);
             explanation.Write(" IN ");
-            ListExpression.GetExplain(explanation);
+            explanation.Write(ListExpression);
             explanation.Write(" BY ");
-            Value.GetExplain(explanation);
+            explanation.Write(Value);
         }
 
         /// <summary>

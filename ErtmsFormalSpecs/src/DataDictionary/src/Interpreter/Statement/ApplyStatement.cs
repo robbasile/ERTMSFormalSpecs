@@ -313,13 +313,13 @@ namespace DataDictionary.Interpreter.Statement
         public override void GetExplain(TextualExplanation explanation, bool explainSubElements = true)
         {
             explanation.Write("APPLY ");
-            AppliedStatement.GetExplain(explanation);
+            explanation.Write(AppliedStatement);
             explanation.Write(" ON ");
-            ListExpression.GetExplain(explanation);
+            explanation.Write(ListExpression);
             if (ConditionExpression != null)
             {
                 explanation.Write(" | ");
-                ConditionExpression.GetExplain(explanation);
+                explanation.Write(ConditionExpression);
             }
         }
 
