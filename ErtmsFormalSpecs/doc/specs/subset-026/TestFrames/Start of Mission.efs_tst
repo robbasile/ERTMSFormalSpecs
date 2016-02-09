@@ -277,7 +277,7 @@
  ModeIN="NA"
  ModeOUT="NA"
  TranslationRequired="FALSE"
- Name="Step1 - Offer possibility to reenter Radio Network ID"
+ Name="Step1 - In S3, driver selected to Reenter Network Id"
  Guid="2e142fb0-1c4c-4c02-af4a-15bfa2706813"
 >
 <SubSteps>
@@ -289,14 +289,77 @@
 <Actions>
 <Action
  Guid="2bba0433-c5b1-4921-8098-770edaee6221"
->Kernel.HandleModeChange &lt;- Kernel.HandleModeChange.StartOfMission.A29</Action></Actions>
+>Kernel.HandleModeChange &lt;- Kernel.HandleModeChange.StartOfMission.S3.ReceiveNetworkIDs
+
+</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step 2 - Network Ids received"
+ Guid="0e2a2a33-4063-4bcb-8a73-0eca7b483974"
+>
+<SubSteps>
+<SubStep
+ Name="SubStep1"
+ Guid="988f953c-6691-46e5-85c1-8740d36bb6dc"
+>
+<Actions>
+<Action
+ Guid="9cf3b353-7289-430b-8f50-39b252038193"
+>EURORADIO.AvailableNetworks.RequestState &lt;- RequestEnum.Response</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step 3 - No network available"
+ Guid="1c6d162b-4c9e-41e3-882e-64ecc75e014d"
+>
+<SubSteps>
+<SubStep
+ Name="SubStep1"
+ Guid="6ddda927-89de-4339-bd89-5cc8cd220eab"
+>
+<Actions>
+<Action
+ Guid="63d60975-3824-403a-ac79-1f98d6f85c45"
+>EURORADIO.AvailableNetworks.Networks &lt;-  []</Action></Actions>
 <Expectations>
 <Expectation
  Kind="Instantaneous"
- Guid="8617977d-7add-4d47-b7c4-4f9489a8328a"
+ Guid="815c187c-cdf9-40b2-9cf2-f8e73e807409"
+>Kernel.HandleModeChange in Kernel.HandleModeChange.StartOfMission.A29</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step 3 - Display request and move to S10"
+ Guid="70a439d4-a49d-420a-8903-8aba559a24a7"
+>
+<SubSteps>
+<SubStep
+ Name="SubStep1"
+ Guid="7b38f193-ba0d-4d2a-81b2-bfa738c678e2"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="26660473-3874-45db-a8bd-70ccb7aadeb6"
 >DMI.MasterDMI(). Out_RadioNetworkRegistrationFailed.OutputInformation.DisplayRequested</Expectation><Expectation
  Kind="Instantaneous"
- Guid="95548fa6-9b12-439c-b05d-3a941f04f468"
+ Guid="13c3350b-6661-4fe6-8c76-1ac63f7ffec7"
 >Kernel.HandleModeChange in Kernel.HandleModeChange.StartOfMission.S10</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step></Steps>
