@@ -95,6 +95,7 @@ namespace GUIUtils.Editor
             SelectionComboBox.LocationChanged += SelectionComboBox_LocationChanged;
         }
 
+        #region Explanation using the explain rich text box
         /// <summary>
         ///     Takes case of the mouse move to hide the explain text box, if needed
         /// </summary>
@@ -115,7 +116,27 @@ namespace GUIUtils.Editor
                 }
             }
         }
-        
+
+        /// <summary>
+        ///     Displays the help associated to a location in the text box
+        /// </summary>
+        /// <param name="location"></param>
+        private void DisplayHelp(Point location)
+        {
+            INamable instance = GetInstance(location);
+
+            if (instance != null)
+            {
+                location.Offset(10, 10);
+                const bool considerMouseMove = true;
+                ExplainAndShow(instance, location, considerMouseMove);
+            }
+            else
+            {
+                contextMenuStrip1.Show(PointToScreen(MouseLocation));
+            }
+        }
+
         private void EditionTextBox_MouseClick(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right)
@@ -210,6 +231,9 @@ namespace GUIUtils.Editor
                 EditionTextBox.SendToBack();
             }
         }
+        #endregion
+
+        #region Reference to the textbox itself
 
         /// <summary>
         ///     The text box
@@ -273,6 +297,32 @@ namespace GUIUtils.Editor
             Redo();
         }
 
+        public bool ReadOnly
+        {
+            get { return EditionTextBox.ReadOnly; }
+            set { EditionTextBox.ReadOnly = value; }
+        }
+
+        public override string Text
+        {
+            get { return EditionTextBox.Text; }
+            set
+            {
+                if (value != EditionTextBox.Text)
+                {
+                    EditionTextBox.Text = value.Trim();
+                    EditionTextBox.ProcessAllLines();
+                }
+            }
+        }
+
+        private void indentToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            EditionTextBox.Indent();
+        }
+
+        #endregion
+
         /// <summary>
         ///     Provides the current prefix, according to the selection position
         /// </summary>
@@ -304,55 +354,6 @@ namespace GUIUtils.Editor
                 retVal = EditionTextBox.Text.Substring(start, end - start + 1);
             }
             return retVal;
-        }
-
-        /// <summary>
-        ///     A reference to an object, displayed in the combo box
-        /// </summary>
-        private class ObjectReference : IComparable<ObjectReference>
-        {
-            /// <summary>
-            ///     The display name of the object reference
-            /// </summary>
-            public string DisplayName { get; private set; }
-
-            /// <summary>
-            ///     The model elements referenced by this object reference
-            /// </summary>
-            public INamable Model { get; private set; }
-
-            /// <summary>
-            ///     Constructor
-            /// </summary>
-            /// <param name="model"></param>
-            /// <param name="name"></param>
-            public ObjectReference(string name, INamable model)
-            {
-                DisplayName = name;
-                Model = model;
-            }
-
-            public override string ToString()
-            {
-                return DisplayName;
-            }
-
-            // Summary:
-            //     Compares the current object with another object of the same type.
-            //
-            // Parameters:
-            //   other:
-            //     An object to compare with this object.
-            //
-            // Returns:
-            //     A value that indicates the relative order of the objects being compared.
-            //     The return value has the following meanings: Value Meaning Less than zero
-            //     This object is less than the other parameter.Zero This object is equal to
-            //     other. Greater than zero This object is greater than other.
-            public int CompareTo(ObjectReference other)
-            {
-                return String.Compare(DisplayName, other.DisplayName, StringComparison.Ordinal);
-            }
         }
 
         /// <summary>
@@ -400,28 +401,6 @@ namespace GUIUtils.Editor
             "%Step_Messages_7"
         };
 
-
-        /// <summary>
-        ///     Displays the help associated to a location in the text box
-        /// </summary>
-        /// <param name="location"></param>
-        private void DisplayHelp(Point location)
-        {
-            INamable instance = GetInstance(location);
-
-            if (instance != null)
-            {
-                location.Offset(10, 10);
-                const bool considerMouseMove = true;
-                ExplainAndShow(instance, location, considerMouseMove);
-            }
-            else
-            {
-                contextMenuStrip1.Show(PointToScreen(MouseLocation));
-            }
-        }
-
-
         /// <summary>
         /// Parses the current statement or expression and returns the interpreter tree node
         /// </summary>
@@ -434,10 +413,10 @@ namespace GUIUtils.Editor
             if (!String.IsNullOrEmpty(text))
             {
                 Parser parser = new Parser();
-                retVal = parser.Expression(Instance as ModelElement, text, AllMatches.INSTANCE, true, null, true, true);
+                retVal = parser.Statement(Instance as ModelElement, EditionTextBox.Text, true, true);
                 if (retVal == null)
                 {
-                    retVal = parser.Statement(Instance as ModelElement, EditionTextBox.Text, true, true);
+                    retVal = parser.Expression(Instance as ModelElement, text, AllMatches.INSTANCE, true, null, true, true);
                 }
             }
 
@@ -489,7 +468,7 @@ namespace GUIUtils.Editor
         /// </summary>
         /// <param name="modelElement"></param>
         /// <returns></returns>
-        private ISubDeclarator EnclosingSubDeclarator(IModelElement modelElement)
+        private static ISubDeclarator EnclosingSubDeclarator(IModelElement modelElement)
         {
             ISubDeclarator retVal = null;
 
@@ -508,7 +487,7 @@ namespace GUIUtils.Editor
         /// <param name="index">The location of the cursor in the text box</param>
         /// <param name="prefix">The prefix used to reduce the choices</param>
         /// <returns></returns>
-        private List<ObjectReference> AllChoices(int index, string prefix)
+        public List<ObjectReference> AllChoices(int index, string prefix)
         {
             List<ObjectReference> retVal = new List<ObjectReference>();
 
@@ -1029,30 +1008,6 @@ namespace GUIUtils.Editor
             }
 
             return retVal;
-        }
-
-        public bool ReadOnly
-        {
-            get { return EditionTextBox.ReadOnly; }
-            set { EditionTextBox.ReadOnly = value; }
-        }
-
-        public override string Text
-        {
-            get { return EditionTextBox.Text; }
-            set
-            {
-                if (value != EditionTextBox.Text)
-                {
-                    EditionTextBox.Text = value.Trim();
-                    EditionTextBox.ProcessAllLines();
-                }
-            }
-        }
-
-        private void indentToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            EditionTextBox.Indent();
         }
     }
 }
