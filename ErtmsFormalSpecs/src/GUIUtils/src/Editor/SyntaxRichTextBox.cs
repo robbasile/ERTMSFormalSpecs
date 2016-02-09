@@ -221,7 +221,9 @@ namespace GUIUtils.Editor
         /// <summary>
         ///     Processes all lines in the text box
         /// </summary>
-        public void ProcessAllLines()
+        /// <param name="force">Forces the recoloring of all lines. 
+        /// Otherwise, already colored lines are not processed again</param>
+        public void ProcessAllLines(bool force = false)
         {
             if (ApplyPatterns)
             {
@@ -229,6 +231,11 @@ namespace GUIUtils.Editor
 
                 if (Lines.Count() < 300)
                 {
+                    if (force)
+                    {
+                        _processedLines.Clear();
+                    }
+
                     int lineNumber = 0;
                     int start = 0;
                     foreach (string line in Lines)

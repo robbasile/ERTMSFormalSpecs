@@ -754,7 +754,7 @@ namespace GUIUtils.Editor
                                 text.WriteLine("{");
                                 CreateDefaultStructureValue(text, structure, false);
                                 EditionTextBox.SelectedText = text.Text;
-                                EditionTextBox.ProcessAllLines();
+                                EditionTextBox.ProcessAllLines(true);
                                 e.Handled = true;
                             }
                             break;
@@ -766,7 +766,7 @@ namespace GUIUtils.Editor
                                 TextualExplanation text = new TextualExplanation();
                                 CreateCallableParameters(text, callable);
                                 EditionTextBox.SelectedText = text.Text;
-                                EditionTextBox.ProcessAllLines();
+                                EditionTextBox.ProcessAllLines(true);
                                 e.Handled = true;
                             }
                             break;
