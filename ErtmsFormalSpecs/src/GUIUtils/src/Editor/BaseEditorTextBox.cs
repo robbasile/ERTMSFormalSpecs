@@ -404,12 +404,12 @@ namespace GUIUtils.Editor
         /// <summary>
         /// Parses the current statement or expression and returns the interpreter tree node
         /// </summary>
+        /// <param name="text">The text to parse</param>
         /// <returns></returns>
-        private InterpreterTreeNode Parse()
+        private InterpreterTreeNode Parse(string text)
         {
             InterpreterTreeNode retVal = null;
 
-            string text = EditionTextBox.Text;
             if (!String.IsNullOrEmpty(text))
             {
                 Parser parser = new Parser();
@@ -440,6 +440,42 @@ namespace GUIUtils.Editor
         }
 
         /// <summary>
+        /// Indicates whether the character provided is a valid expression character
+        /// </summary>
+        /// <param name="c"></param>
+        /// <returns></returns>
+        private bool IsValidExpressionChar(char c)
+        {
+            return char.IsLetterOrDigit(c) || c == '.' || c == '_';
+        }
+
+        /// <summary>
+        /// Try to extract an expression at the location provided
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        private string GetExpressionText(string text, int index)
+        {
+            int start = index;
+
+            while (start > 0 && IsValidExpressionChar(text[start]))
+            {
+                start = start - 1;
+            }
+            start = start + 1;
+
+            int end = index;
+            while (end <= text.Length && IsValidExpressionChar(text[end]))
+            {
+                end = end + 1;
+            }
+            end = end - 1;
+
+            return text.Substring(start, end - start + 1);
+        }
+
+        /// <summary>
         ///     Provides the instance related to a character index in the textbox
         /// </summary>
         /// <param name="index"></param>
@@ -450,7 +486,14 @@ namespace GUIUtils.Editor
 
             if (Model != null)
             {
-                InterpreterTreeNode node = Parse();
+                InterpreterTreeNode node = Parse(EditionTextBox.Text);
+                if (node == null)
+                {
+                    // Perform a fuzzy search by trying to find the corresponding expression text
+                    string text = GetExpressionText(EditionTextBox.Text, index); 
+                    node = Parse(text);
+                    index = text.Length - 1;
+                }
 
                 if (node != null)
                 {
@@ -695,7 +738,6 @@ namespace GUIUtils.Editor
             {
                 if (AutoComplete)
                 {
-                    string prefix;
                     switch (e.KeyChar)
                     {
                         case '.':
@@ -705,21 +747,15 @@ namespace GUIUtils.Editor
                             break;
 
                         case '{':
-                            prefix = CurrentPrefix(EditionTextBox.SelectionStart - 1).Trim();
-                            Expression structureTypeExpression = new Parser().Expression(Instance as ModelElement,
-                                prefix, IsStructure.INSTANCE, true, null, true);
-                            if (structureTypeExpression != null)
+                            Structure structure = GetInstance(EditionTextBox.SelectionStart-1) as Structure;
+                            if (structure != null)
                             {
-                                Structure structure = structureTypeExpression.Ref as Structure;
-                                if (structure != null)
-                                {
-                                    TextualExplanation text = new TextualExplanation();
-                                    text.WriteLine("{");
-                                    CreateDefaultStructureValue(text, structure, false);
-                                    EditionTextBox.SelectedText = text.Text;
-                                    EditionTextBox.ProcessAllLines();
-                                    e.Handled = true;
-                                }
+                                TextualExplanation text = new TextualExplanation();
+                                text.WriteLine("{");
+                                CreateDefaultStructureValue(text, structure, false);
+                                EditionTextBox.SelectedText = text.Text;
+                                EditionTextBox.ProcessAllLines();
+                                e.Handled = true;
                             }
                             break;
 
@@ -737,20 +773,15 @@ namespace GUIUtils.Editor
 
                         case '>':
                         case '-':
-                            prefix = CurrentPrefix(EditionTextBox.SelectionStart - 2).Trim();
                             char prev = EditionTextBox.Text[EditionTextBox.SelectionStart - 1];
                             if ((prev == '<' && e.KeyChar == '-') || (prev == '=' && e.KeyChar == '>'))
                             {
-                                Expression variableExpression = new Parser().Expression(Instance as ModelElement,
-                                    prefix, IsTypedElement.INSTANCE, true, null, true);
-                                if (variableExpression != null)
+                                ITypedElement typedElement =
+                                    GetInstance(EditionTextBox.SelectionStart - 2) as ITypedElement;
+                                if (typedElement != null)
                                 {
-                                    ITypedElement typedElement = variableExpression.Ref as ITypedElement;
-                                    if (typedElement != null)
-                                    {
-                                        EditionTextBox.SelectedText = e.KeyChar + " " + typedElement.Type.FullName;
-                                        e.Handled = true;
-                                    }
+                                    EditionTextBox.SelectedText = e.KeyChar + " " + typedElement.Type.FullName;
+                                    e.Handled = true;
                                 }
                             }
                             break;
