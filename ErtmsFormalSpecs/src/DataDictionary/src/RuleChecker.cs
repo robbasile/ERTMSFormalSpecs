@@ -94,7 +94,7 @@ namespace DataDictionary
         /// <param name="model">The model element on which the expression is defined</param>
         /// <param name="expression">The expression to check</param>
         /// <returns>the expression parse tree</returns>
-        private Expression checkExpression(ModelElement model, string expression)
+        public Expression CheckExpression(ModelElement model, string expression)
         {
             Expression retVal = null;
 
@@ -112,7 +112,7 @@ namespace DataDictionary
                         Type type = retVal.GetExpressionType();
                         if (type == null)
                         {
-                            model.AddError("Cannot determine expression type (5) for " + retVal.ToString());
+                            model.AddError("Cannot determine expression type (5) for " + retVal);
                         }
                         DerefExpression derefExpression = retVal as DerefExpression;
                         if (derefExpression != null && !derefExpression.IsValidExpressionComponent())
@@ -140,7 +140,7 @@ namespace DataDictionary
         /// <param name="model">The model element on which the expression is defined</param>
         /// <param name="expression">The expression to check</param>
         /// <returns>the expression parse tree</returns>
-        private Statement checkStatement(ModelElement model, string expression)
+        public Statement CheckStatement(ModelElement model, string expression)
         {
             Statement retVal = null;
 
@@ -195,7 +195,7 @@ namespace DataDictionary
 
         public override void visit(BaseModelElement obj, bool visitSubNodes)
         {
-            checkComment(obj as ICommentable);
+            CheckComment(obj as ICommentable);
 
             ModelElement model = obj as ModelElement;
             if (model != null)
@@ -212,7 +212,7 @@ namespace DataDictionary
 
             if (frame != null)
             {
-                checkExpression(frame, frame.getCycleDuration());
+                CheckExpression(frame, frame.getCycleDuration());
 
                 Type type = frame.CycleDuration.GetExpressionType();
                 if (type != null)
@@ -365,7 +365,7 @@ namespace DataDictionary
                 {
                     namable.AddWarning(namable.Name + " has the same name as type " + conflictingType.FullName);
                 }
-                
+
             }
 
             base.visit(obj, visitSubNodes);
@@ -421,7 +421,7 @@ namespace DataDictionary
         ///     Checks that a comment is attached to this ICommentable
         /// </summary>
         /// <param name="commentable"></param>
-        private static void checkComment(ICommentable commentable)
+        private static void CheckComment(ICommentable commentable)
         {
             if (commentable != null)
             {
@@ -476,9 +476,10 @@ namespace DataDictionary
                         ((ModelElement) commentable).AddInfo("This element should be documented");
                     }
                 }
-                else if (commentable.Comment.Contains("TODO") )
+                else if (commentable.Comment.Contains("TODO"))
                 {
-                    ((ModelElement) commentable).AddInfo("The implementation of this element is unfinished - see comment");
+                    ((ModelElement) commentable).AddInfo(
+                        "The implementation of this element is unfinished - see comment");
                 }
             }
         }
@@ -489,7 +490,7 @@ namespace DataDictionary
 
             if (!Utils.Util.isEmpty(element.getDefault()))
             {
-                checkExpression(element, element.getDefault());
+                CheckExpression(element, element.getDefault());
             }
 
             if (element.DefaultValue != null)
@@ -541,7 +542,7 @@ namespace DataDictionary
 
                 if (!Utils.Util.isEmpty(variable.getDefaultValue()))
                 {
-                    checkExpression(variable, variable.getDefaultValue());
+                    CheckExpression(variable, variable.getDefaultValue());
                 }
 
                 if (variable.DefaultValue != null)
@@ -582,7 +583,7 @@ namespace DataDictionary
                     }
                     if (!Utils.Util.isEmpty(element.getDefault()))
                     {
-                        checkExpression(element, element.getDefault());
+                        CheckExpression(element, element.getDefault());
                     }
                 }
                 foreach (Types.Structure implementedStructure in structure.Interfaces)
@@ -616,12 +617,12 @@ namespace DataDictionary
                     }
                     else
                     {
-                        structure.AddError("Interface not found");                        
+                        structure.AddError("Interface not found");
                     }
                 }
             }
 
-            checkSubElementNames(structure);
+            CheckSubElementNames(structure);
 
             base.visit(obj, visitSubNodes);
         }
@@ -630,7 +631,7 @@ namespace DataDictionary
         ///     Check that all the SubElements of the structure have different names
         /// </summary>
         /// <param name="structure"></param>
-        public void checkSubElementNames(Types.Structure structure)
+        public void CheckSubElementNames(Types.Structure structure)
         {
             Dictionary<string, StructureElement> subElements = new Dictionary<string, StructureElement>();
 
@@ -705,9 +706,8 @@ namespace DataDictionary
 
                 while (current != null && !requirementFound)
                 {
-                    for (int i = 0; i < current.Requirements.Count; i++)
+                    foreach (ReqRef reqRef  in current.Requirements)
                     {
-                        ReqRef reqRef = current.Requirements[i] as ReqRef;
                         if (reqRef.Paragraph == null)
                         {
                             reqRef.AddError("Cannot find paragraph corresponding to " + reqRef.getId());
@@ -732,7 +732,7 @@ namespace DataDictionary
             }
 
             current = reqRelated;
-            if (!current.getImplemented())
+            if (current != null && !current.getImplemented())
             {
                 ModelElement parent = current.getFather() as ModelElement;
                 while (parent != null)
@@ -762,13 +762,12 @@ namespace DataDictionary
             {
                 try
                 {
-                    bool found = false;
                     ruleCondition.Messages.Clear();
 
                     foreach (Rules.PreCondition preCondition in ruleCondition.PreConditions)
                     {
                         BinaryExpression expression =
-                            checkExpression(preCondition, preCondition.ExpressionText) as BinaryExpression;
+                            CheckExpression(preCondition, preCondition.ExpressionText) as BinaryExpression;
                         if (expression != null)
                         {
                             DerefExpression derefExpression = expression.Left as DerefExpression;
@@ -791,41 +790,37 @@ namespace DataDictionary
                                     {
                                         // Check that when preconditions are based on a request, 
                                         // the corresponding action affects the value Request.Disabled to the same variable
-                                        if (variable.Type.Name.Equals("Request") && expression.Right != null &&
-                                            expression.Right is UnaryExpression)
+                                        if (variable.Type.Name.Equals("Request") && expression.Right is UnaryExpression)
                                         {
                                             IValue val2 = expression.Right.Ref as IValue;
                                             if (val2 != null && "Response".CompareTo(val2.Name) == 0)
                                             {
-                                                if (ruleCondition != null)
+                                                bool found = false;
+                                                foreach (Rules.Action action in ruleCondition.Actions)
                                                 {
-                                                    found = false;
-                                                    foreach (Rules.Action action in ruleCondition.Actions)
+                                                    IVariable var = OverallVariableFinder.INSTANCE.findByName(
+                                                        action, preCondition.findVariable());
+                                                    VariableUpdateStatement update = action.Modifies(var);
+                                                    if (update != null)
                                                     {
-                                                        IVariable var = OverallVariableFinder.INSTANCE.findByName(
-                                                            action, preCondition.findVariable());
-                                                        VariableUpdateStatement update = action.Modifies(var);
-                                                        if (update != null)
+                                                        UnaryExpression updateExpr =
+                                                            update.Expression as UnaryExpression;
+                                                        if (updateExpr != null)
                                                         {
-                                                            UnaryExpression updateExpr =
-                                                                update.Expression as UnaryExpression;
-                                                            if (updateExpr != null)
+                                                            IValue val3 = updateExpr.Ref as IValue;
+                                                            if (val3 != null && val3.Name.CompareTo("Disabled") == 0)
                                                             {
-                                                                IValue val3 = updateExpr.Ref as IValue;
-                                                                if (val3 != null && val3.Name.CompareTo("Disabled") == 0)
-                                                                {
-                                                                    found = true;
-                                                                    break;
-                                                                }
+                                                                found = true;
+                                                                break;
                                                             }
                                                         }
                                                     }
+                                                }
 
-                                                    if (!found)
-                                                    {
-                                                        preCondition.AddError(
-                                                            "Rules where the Pre conditions is based on a Request type variable must assign that variable the value 'Request.Disabled'");
-                                                    }
+                                                if (!found)
+                                                {
+                                                    preCondition.AddError(
+                                                        "Rules where the Pre conditions is based on a Request type variable must assign that variable the value 'Request.Disabled'");
                                                 }
                                             }
                                         }
@@ -862,7 +857,7 @@ namespace DataDictionary
                 try
                 {
                     // Check whether the expression is valid
-                    Expression expression = checkExpression(preCondition, preCondition.Condition);
+                    Expression expression = CheckExpression(preCondition, preCondition.Condition);
                     if (expression != null)
                     {
                         if (!preCondition.Dictionary.EFSSystem.BoolType.Match(expression.GetExpressionType()))
@@ -911,7 +906,7 @@ namespace DataDictionary
                     action.Messages.Clear();
                     if (!action.ExpressionText.Contains('%'))
                     {
-                        checkStatement(action, action.ExpressionText);
+                        CheckStatement(action, action.ExpressionText);
                     }
                 }
                 catch (Exception exception)
@@ -939,7 +934,7 @@ namespace DataDictionary
                     expect.Messages.Clear();
                     if (!expect.ExpressionText.Contains("%"))
                     {
-                        Expression expression = checkExpression(expect, expect.ExpressionText);
+                        Expression expression = CheckExpression(expect, expect.ExpressionText);
                         if (expression != null)
                         {
                             if (!expect.EFSSystem.BoolType.Match(expression.GetExpressionType()))
@@ -950,7 +945,7 @@ namespace DataDictionary
                     }
                     if (!string.IsNullOrEmpty(expect.getCondition()) && !expect.getCondition().Contains("%"))
                     {
-                        Expression expression = checkExpression(expect, expect.getCondition());
+                        Expression expression = CheckExpression(expect, expect.getCondition());
                         if (expression != null)
                         {
                             if (!expect.EFSSystem.BoolType.Match(expression.GetExpressionType()))
@@ -1035,40 +1030,38 @@ namespace DataDictionary
                                 type.AddError("Invalid default value");
                             }
                         }
-                        if (type is Types.Range)
+                    }
+                    if (type is Types.Range)
+                    {
+                        Types.Range range = type as Types.Range;
+
+                        decimal val;
+                        if (Decimal.TryParse(range.Default, NumberStyles.Any, CultureInfo.InvariantCulture,
+                            out val))
                         {
-                            Types.Range range = type as Types.Range;
 
-                            try
+                            if ((range.getPrecision() == acceptor.PrecisionEnum.aIntegerPrecision &&
+                                 range.Default != null && range.Default.IndexOf('.') > 0)
+                                ||
+                                (range.getPrecision() == acceptor.PrecisionEnum.aDoublePrecision &&
+                                 range.Default != null && range.Default.IndexOf('.') <= 0))
                             {
-                                Decimal.Parse(range.Default, CultureInfo.InvariantCulture);
-
-                                if ((range.getPrecision() == acceptor.PrecisionEnum.aIntegerPrecision &&
-                                     range.Default != null && range.Default.IndexOf('.') > 0)
-                                    ||
-                                    (range.getPrecision() == acceptor.PrecisionEnum.aDoublePrecision &&
-                                     range.Default != null && range.Default.IndexOf('.') <= 0))
-                                {
-                                    type.AddError(
-                                        "Default value's precision does not correspond to the type's precision");
-                                }
+                                type.AddError(
+                                    "Default value's precision does not correspond to the type's precision");
                             }
-                            catch (Exception)
-                            {
-                            }
+                        }
 
-                            foreach (Constants.EnumValue specValue in range.SpecialValues)
+                        foreach (Constants.EnumValue specValue in range.SpecialValues)
+                        {
+                            String value = specValue.getValue();
+                            if (range.getPrecision() == acceptor.PrecisionEnum.aDoublePrecision &&
+                                value.IndexOf('.') <= 0
+                                ||
+                                range.getPrecision() == acceptor.PrecisionEnum.aIntegerPrecision &&
+                                value.IndexOf('.') > 0)
                             {
-                                String value = specValue.getValue();
-                                if (range.getPrecision() == acceptor.PrecisionEnum.aDoublePrecision &&
-                                    value.IndexOf('.') <= 0
-                                    ||
-                                    range.getPrecision() == acceptor.PrecisionEnum.aIntegerPrecision &&
-                                    value.IndexOf('.') > 0)
-                                {
-                                    type.AddError("Precision of the special value + " + specValue.Name +
-                                                  " does not correspond to the type's precision");
-                                }
+                                type.AddError("Precision of the special value + " + specValue.Name +
+                                              " does not correspond to the type's precision");
                             }
                         }
                     }
@@ -1085,7 +1078,7 @@ namespace DataDictionary
 
                 if (!Utils.Util.isEmpty(type.getDefault()))
                 {
-                    checkExpression(type, type.getDefault());
+                    CheckExpression(type, type.getDefault());
                 }
             }
 
@@ -1096,7 +1089,7 @@ namespace DataDictionary
         /// <summary>
         ///     The sets of defined paragraphs
         /// </summary>
-        private Dictionary<string, Paragraph> Paragraphs = new Dictionary<string, Paragraph>();
+        private readonly Dictionary<string, Paragraph> _paragraphs = new Dictionary<string, Paragraph>();
 
         public override void visit(Generated.Paragraph obj, bool visitSubNodes)
         {
@@ -1105,14 +1098,14 @@ namespace DataDictionary
             if (paragraph != null)
             {
                 Paragraph otherParagraph;
-                if (Paragraphs.TryGetValue(paragraph.Name, out otherParagraph))
+                if (_paragraphs.TryGetValue(paragraph.Name, out otherParagraph))
                 {
                     paragraph.AddError("Duplicate paragraph id " + paragraph.Name);
                     otherParagraph.AddError("Duplicate paragraph id " + paragraph.Name);
                 }
                 else
                 {
-                    Paragraphs.Add(paragraph.Name, paragraph);
+                    _paragraphs.Add(paragraph.Name, paragraph);
                 }
 
                 switch (paragraph.getImplementationStatus())
