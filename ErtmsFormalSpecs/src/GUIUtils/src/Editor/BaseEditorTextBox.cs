@@ -487,18 +487,24 @@ namespace GUIUtils.Editor
             if (Model != null)
             {
                 InterpreterTreeNode node = Parse(EditionTextBox.Text);
-                if (node == null)
-                {
-                    // Perform a fuzzy search by trying to find the corresponding expression text
-                    string text = GetExpressionText(EditionTextBox.Text, index); 
-                    node = Parse(text);
-                    index = text.Length - 1;
-                }
-
                 if (node != null)
                 {
                     ContextGrabber grabber = new ContextGrabber();
                     retVal = grabber.GetContext(index, node);
+                }
+
+                if (retVal == null)
+                {
+                    // Perform a fuzzy search by trying to find the corresponding expression text
+                    string text = GetExpressionText(EditionTextBox.Text, index);
+                    node = Parse(text);
+                    index = text.Length - 1;
+
+                    if ( node != null)
+                    {
+                        ContextGrabber grabber = new ContextGrabber();
+                        retVal = grabber.GetContext(index, node);
+                    }
                 }
             }
 
