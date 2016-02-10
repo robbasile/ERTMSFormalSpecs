@@ -94,6 +94,11 @@
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="d27882a4-83e4-439b-b1e7-6878eea0282a"
 >
+</ReqRef><ReqRef
+ Id="24114d6c-706d-4acb-bc98-e1729e311f76"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="aac3673f-3c03-4241-95eb-c97cf679e02f"
+>
 </ReqRef><Comment>Creates a collection of Balise groups for the expected Balise groups for SR area.</Comment>
 <Parameters>
 <Parameter
@@ -375,11 +380,16 @@ Kernel.Modes.StaffResponsible.SRAuthorisation.Location &lt;= Kernel.TrainPositio
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="0e579716-ebc7-4c46-a2e0-d37c4e2a582e"
 >
+</ReqRef><ReqRef
+ Id="24114d6c-706d-4acb-bc98-e1729e311f76"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="28105603-576f-4157-ba0f-afeb5ab9f066"
+>
 </ReqRef><Comment>Handles reception of authorization to enter SR mode from RBC.</Comment>
 <Parameters>
 <Parameter
  Type="Messages.MESSAGE.TRACK_TO_TRAIN.SR_AUTHORISATION.Message"
- Name="Packet"
+ Name="aMessage"
  Guid="3ad540ec-9a74-4eef-8e3e-cb3bf9152b02"
 >
 </Parameter></Parameters>
@@ -404,9 +414,9 @@ Kernel.Modes.StaffResponsible.SRAuthorisation.Location &lt;= Kernel.TrainPositio
  Guid="342b18cc-bb34-4c17-8157-1bebc9fb9941"
 >Kernel.Modes.StaffResponsible.SRAuthorisation &lt;- Kernel.Modes.StaffResponsible.SRStruct
 {
-    Location =&gt; MessageTypes.QScaleDistance ( distance =&gt; Packet.D_SR, scale =&gt; Packet.Q_SCALE ),
-    BGs =&gt; CreateBaliseGroups ( aBaliseGroups =&gt; Packet.Sequence1 ),
-    BGListReceived =&gt; (Packet.Sequence1 == [])
+    Location =&gt; MessageTypes.QScaleDistance ( distance =&gt; aMessage.D_SR, scale =&gt; aMessage.Q_SCALE ),
+    BGs =&gt; CreateBaliseGroups ( aBaliseGroups =&gt; aMessage.Sequence1 ),
+    BGListReceived =&gt; (aMessage.Sequence1 == [])
 }</Action></Actions>
 <SubRules>
 <Rule

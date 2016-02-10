@@ -8796,7 +8796,7 @@ EURORADIO.Terminal1.RBCConnection.SafeRadioConnectionStatus == EURORADIO.SafeRad
 <Actions>
 <Action
  Guid="80d3a386-cf7c-4ca1-91f3-31d8046462f2"
->Kernel.Modes.StaffResponsible.SRAuthorisationReceived ( Packet =&gt; aMessage.SR_AUTHORISATION )</Action></Actions>
+>Kernel.Modes.StaffResponsible.SRAuthorisationReceived ( aMessage =&gt; aMessage.SR_AUTHORISATION )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="UpdateINTERNAL"
@@ -10106,6 +10106,39 @@ MessageTypes.QScaleDistance(
 <Action
  Guid="fd9f395f-4d3f-45ad-b8bf-3444ca9d3d17"
 >Kernel.LevelTransition.LTOReceived ( Packet =&gt; ( FIRST X IN aMessage.INFILL_MA.Sequence1 | Available ( X.LEVEL_TRANSITION_ORDER )).LEVEL_TRANSITION_ORDER )</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Temporary Speed Restriction available"
+ Guid="1b6bd578-165b-4fb1-9f00-7ab79fcac232"
+>
+<ReqRef
+ Id="37cb1c8d-6ea0-43c6-85a9-6ce724bf590e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="7ce31a7e-9d7d-414b-8150-3ede9f3d4f22"
+>
+</ReqRef><Comment>Handles reception of inhibition of revocable TSRs.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Temporary Speed Restriction available"
+ Guid="476d7583-5d10-415d-b0ed-904df12a1a4d"
+>
+<PreConditions>
+<PreCondition
+ Guid="84ba19f9-9586-4ea4-84c6-0d52ebd85280"
+>THERE_IS X IN aMessage.INFILL_MA.Sequence1 | Available ( X.TEMPORARY_SPEED_RESTRICTION )</PreCondition><PreCondition
+ Guid="8495a813-c5d6-4966-81b6-5fca256033a3"
+>Kernel.AcceptInformation.InhibitionOfRevocableTSRs( Source =&gt; Kernel.AcceptInformation.Source.RBC )</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="842e8657-fcae-4e63-ab39-8b4349754b37"
+>Kernel.TSR.TemporarySpeedRestrictionsReceived
+(
+  Packet =&gt; ( FIRST X IN aMessage.INFILL_MA.Sequence1 | Available ( X.TEMPORARY_SPEED_RESTRICTION ) ).TEMPORARY_SPEED_RESTRICTION
+)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -11591,6 +11624,11 @@ But at the end of the cycle the conditions required for sending of position repo
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="9f384b68-104e-4fb6-902b-d3885fbd50c1"
 >
+</ReqRef><ReqRef
+ Id="21e37f96-9722-47c7-aa9c-e34cbf92f441"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c44b4902-07be-4be3-9b6d-174d46c271c7"
+>
 </ReqRef><Comment>Handles reception of inhibition of revocable TSRs.</Comment>
 <SubRules></SubRules>
 <Conditions>
@@ -11608,7 +11646,43 @@ But at the end of the cycle the conditions required for sending of position repo
 <Actions>
 <Action
  Guid="b8f22304-7266-46ae-a07a-d84a1cdb070d"
->Kernel.TSR.InhibitionOfRevocableTSRsReceived (Packet =&gt; ( FIRST X IN Packets | Available ( X.ROUTE_SUITABILITY_DATA ) ).INHIBITION_OF_REVOCABLE_TSRS_FROM_BALISES_IN_L2_3 )</Action></Actions>
+>Kernel.TSR.InhibitionOfRevocableTSRsReceived
+(
+  Packet =&gt; ( FIRST X IN Packets | Available ( X.INHIBITION_OF_REVOCABLE_TSRS_FROM_BALISES_IN_L2_3 ) ).INHIBITION_OF_REVOCABLE_TSRS_FROM_BALISES_IN_L2_3
+)</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Temporary Speed Restriction available"
+ Guid="982b0f9b-ef83-4321-b09d-b843609ebaa5"
+>
+<ReqRef
+ Id="37cb1c8d-6ea0-43c6-85a9-6ce724bf590e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e2192cd9-c634-45fd-9b05-705ab90717d1"
+>
+</ReqRef><Comment>Handles reception of inhibition of revocable TSRs.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Temporary Speed Restriction available"
+ Guid="425f719d-1058-44ae-9dd2-807e99db6873"
+>
+<PreConditions>
+<PreCondition
+ Guid="5107aa7e-9c90-44b6-843a-954fe5a1bd95"
+>THERE_IS X IN Packets | Available ( X.TEMPORARY_SPEED_RESTRICTION )</PreCondition><PreCondition
+ Guid="92bd4ee7-5990-47e2-bc6b-0447bf292554"
+>Kernel.AcceptInformation.InhibitionOfRevocableTSRs( Source =&gt; Kernel.AcceptInformation.Source.RBC )</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="05b58642-c75d-4adf-af23-b75c499d08ca"
+>Kernel.TSR.TemporarySpeedRestrictionsReceived
+(
+  Packet =&gt; ( FIRST X IN Packets | Available ( X.TEMPORARY_SPEED_RESTRICTION ) ).TEMPORARY_SPEED_RESTRICTION
+)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
