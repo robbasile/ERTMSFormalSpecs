@@ -2708,7 +2708,15 @@ Kernel.TrainPosition.Position.DataState == DataStateEnum.Unknown</PreCondition><
  Guid="95ad63ec-6c25-4487-9483-5761e7f0231f"
 >THIS &lt;- Kernel.HandleModeChangeSM.StartOfMission.S12</Action><Action
  Guid="72007b2f-cf4d-4e5f-bad8-659edc1cc4da"
->DMI.MasterDMI().Out_RadioNetworkRegistrationFailed.DisplayStartTime &lt;- EMPTY</Action></Actions>
+><Comment>Stops displaying the RadioNetworkRegistrationFailed message if it was.</Comment>
+DMI.MasterDMI().Out_RadioNetworkRegistrationFailed.DisplayStartTime &lt;- EMPTY</Action><Action
+ Guid="6a691584-c660-4c88-ad5b-759dc77e46b4"
+><Comment>Stops displaying the TrainIsRejectedMessage if it was.</Comment>
+DMI.MasterDMI().Out_TrainIsRejected.OutputInformation.DoNotDisplay()</Action><Action
+ Guid="08b26d17-2574-48c3-a0bd-812261da4832"
+><Comment>Stops displaying the TracksideNotCompatibleMessage if it was.</Comment>
+
+DMI.MasterDMI().Out_TracksideNotCompatible.OutputInformation.DoNotDisplay()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -2759,7 +2767,16 @@ Kernel.TrainPosition.Position.DataState == DataStateEnum.Unknown</PreCondition><
  Guid="463167fb-e523-4010-bd09-8a3064471d6d"
 >EURORADIO.OpenRBCSession()</Action><Action
  Guid="33febeaf-0fb0-4ba2-966e-0d11369dbf64"
->DMI.MasterDMI().Out_RadioNetworkRegistrationFailed.DisplayStartTime &lt;- EMPTY</Action></Actions>
+><Comment>Stops displaying the RadioNetworkRegistrationFailed message if it was.</Comment>
+DMI.MasterDMI().Out_RadioNetworkRegistrationFailed.DisplayStartTime &lt;- EMPTY</Action><Action
+ Guid="4bbfa649-ae1f-4097-9e2e-481b16018777"
+><Comment>Stops displaying the TracksideNotCompatibleMessage if it was.</Comment>
+DMI.MasterDMI().Out_TracksideNotCompatible.OutputInformation.DoNotDisplay()</Action><Action
+ Guid="16ba5635-5730-4bc7-b514-d336d287837d"
+><Comment>Stops displaying the TrainIsRejectedMessage if it was.</Comment>
+
+
+DMI.MasterDMI().Out_TrainIsRejected.OutputInformation.DoNotDisplay()</Action></Actions>
 <SubRules>
 <Rule
  Priority="Processing"
