@@ -8587,7 +8587,7 @@ EURORADIO.Terminal1.RBCConnection.SafeRadioConnectionStatus == EURORADIO.SafeRad
  Name="Linking in General Message"
  Guid="e2260be2-664f-40d6-af8e-f96ae05315b3"
 >
-<Comment>Checks if Linking information is received in General Message.</Comment>
+<Comment>Checks if Linking information is received in General message.</Comment>
 <PreConditions>
 <PreCondition
  Guid="6f88e63f-f761-40ce-a6fc-0944953d0bfc"
@@ -8605,7 +8605,7 @@ EURORADIO.Terminal1.RBCConnection.SafeRadioConnectionStatus == EURORADIO.SafeRad
  Name="Linking in Movement Authority"
  Guid="afa3411a-f36e-4f60-862e-30c6e8452293"
 >
-<Comment>Checks if Linking information is received in Movement Authority Message.</Comment>
+<Comment>Checks if Linking information is received in Movement Authority message.</Comment>
 <PreConditions>
 <PreCondition
  Guid="52493a22-004e-4d87-881f-b63899908efd"
@@ -8623,7 +8623,7 @@ EURORADIO.Terminal1.RBCConnection.SafeRadioConnectionStatus == EURORADIO.SafeRad
  Name="Linking in MA with Shifted Location Reference"
  Guid="b46d7236-ec5e-4a0f-9553-f5bf804d1e52"
 >
-<Comment>Checks if Linking information is received in MA with Sfifted Location Message.</Comment>
+<Comment>Checks if Linking information is received in MA with shifted location message.</Comment>
 <PreConditions>
 <PreCondition
  Guid="12fd749c-c808-4f2d-a846-287916299175"
@@ -8641,7 +8641,7 @@ EURORADIO.Terminal1.RBCConnection.SafeRadioConnectionStatus == EURORADIO.SafeRad
  Name="Linking in Infill MA"
  Guid="e3d5d867-b2c3-4011-ad85-da2bae9ab5b4"
 >
-<Comment>Checks if Linking information is received in Infill MA Message.</Comment>
+<Comment>Checks if Linking information is received in infill MA Message.</Comment>
 <PreConditions>
 <PreCondition
  Guid="e25ae6f2-0a71-4924-bdc9-bb45782c8449"
@@ -8658,7 +8658,7 @@ EURORADIO.Terminal1.RBCConnection.SafeRadioConnectionStatus == EURORADIO.SafeRad
 </Rule><Rule
  Priority="Processing"
  Implemented="TRUE"
- Name="Level transition"
+ Name="Level transition order available"
  Guid="2de45eff-8689-46b3-81c8-51492ec1fe26"
 >
 <ReqRef
@@ -8676,14 +8676,20 @@ EURORADIO.Terminal1.RBCConnection.SafeRadioConnectionStatus == EURORADIO.SafeRad
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="24e030fe-3725-4d26-b03a-cf76840e60b5"
 >
-</ReqRef><Comment>Handles a new level before any other information, because the other informations may depend in it</Comment>
+</ReqRef><ReqRef
+ Id="6b26f38c-d98d-4eee-a314-ae6b48256d36"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e7317457-5f06-40d0-a649-b09c7a720ad2"
+>
+</ReqRef><Comment>Handles a new level before any other information, because the other informations may depend in it.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
- Name="Level transition"
+ Name="Level transition in General Message"
  Guid="4d20447c-43e0-4db3-aeb9-5bbf7cd1a977"
 >
+<Comment>Checks if level transition order is received in general message.</Comment>
 <PreConditions>
 <PreCondition
  Guid="bb4f2ab9-a9d9-4c4b-bdc5-2ea9011cf544"
@@ -8696,6 +8702,60 @@ EURORADIO.Terminal1.RBCConnection.SafeRadioConnectionStatus == EURORADIO.SafeRad
 >APPLY 
   Kernel.LevelTransition.LTOReceived(X.LEVEL_TRANSITION_ORDER)
   ON aMessage.GENERAL_MESSAGE.Sequence1 | Available(X.LEVEL_TRANSITION_ORDER)</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Level transition in Movement Authority"
+ Guid="f7a1dc51-67c4-425e-9b65-2464734eff10"
+>
+<Comment>Checks if level transition order is received in movement authority message.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="e387efcb-fcd8-4de7-9ccc-b0c1d68a9024"
+>Available(aMessage.MOVEMENT_AUTHORITY)</PreCondition><PreCondition
+ Guid="aedcc7e1-46be-4769-b733-b4f9d59550f0"
+>Kernel.AcceptInformation.LevelTransitionOrder( Source =&gt; Kernel.AcceptInformation.Source.RBC )</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="1fec731b-b9d5-4318-a089-a21fbdc9a1a4"
+>APPLY 
+  Kernel.LevelTransition.LTOReceived(X.LEVEL_TRANSITION_ORDER)
+  ON aMessage.MOVEMENT_AUTHORITY.Sequence1 | Available(X.LEVEL_TRANSITION_ORDER)</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Level transition in MA with Shifted Location Reference"
+ Guid="06a9a23b-27e5-4ceb-8cab-217f2a3e348f"
+>
+<Comment>Checks if level transition order is received in MA with shifted location reference message.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="18604d52-578f-48d1-8e5e-fa7fdab6d166"
+>Available(aMessage.MA_WITH_SHIFTED_LOCATION_REFERENCE)</PreCondition><PreCondition
+ Guid="a92d8bd2-7bef-4175-a80a-e0670e796c19"
+>Kernel.AcceptInformation.LevelTransitionOrder( Source =&gt; Kernel.AcceptInformation.Source.RBC )</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="56138b63-375e-4459-b3a4-e7d18e81eb8b"
+>APPLY 
+  Kernel.LevelTransition.LTOReceived(X.LEVEL_TRANSITION_ORDER)
+  ON aMessage.MA_WITH_SHIFTED_LOCATION_REFERENCE.Sequence1 | Available(X.LEVEL_TRANSITION_ORDER)</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Level transition Infill MA"
+ Guid="9c14853f-280a-4851-b7a2-f1c2e313eded"
+>
+<Comment>Checks if level transition order is received in infill MA message.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="24070c6a-6da6-4fcb-942b-c52a3660d859"
+>Available(aMessage.INFILL_MA)</PreCondition><PreCondition
+ Guid="7935e75b-234e-47d4-8655-b0a0cf804c8f"
+>Kernel.AcceptInformation.LevelTransitionOrder( Source =&gt; Kernel.AcceptInformation.Source.RBC )</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="9717ae2e-d9c1-4070-8f6c-ed149c7c9a84"
+>APPLY 
+  Kernel.LevelTransition.LTOReceived(X.LEVEL_TRANSITION_ORDER)
+  ON aMessage.INFILL_MA.Sequence1 | Available(X.LEVEL_TRANSITION_ORDER)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="UpdateINTERNAL"
@@ -8887,6 +8947,11 @@ EURORADIO.Terminal1.RBCConnection.SafeRadioConnectionStatus == EURORADIO.SafeRad
  Id="8d9ca13d-bff4-486f-9cb1-dc825fd1b8ab"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="6d8a97d8-5e2c-45cf-b9f5-8e90fb857a7f"
+>
+</ReqRef><ReqRef
+ Id="d52b6935-7a67-4676-ae5b-0c905452c8d3"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="1419c8f3-d266-46d9-93e9-687d709a6695"
 >
 </ReqRef><Comment>Handles reception of the list of balises for SH area received with the MA.</Comment>
 <SubRules></SubRules>
@@ -9554,6 +9619,41 @@ MessageTypes.QScaleDistance(
 >Kernel.AcceptInformation.SHAuthorised( Source =&gt; Kernel.AcceptInformation.Source.RBC )</PreCondition></PreConditions>
 <Actions>
 </Actions>
+<SubRules>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="List of Balises for SH Area available"
+ Guid="bab31a37-d08a-4b35-824b-86657028cd02"
+>
+<ReqRef
+ Id="8d9ca13d-bff4-486f-9cb1-dc825fd1b8ab"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="1090654d-d01d-42a4-818f-4a17052ced2a"
+>
+</ReqRef><ReqRef
+ Id="d52b6935-7a67-4676-ae5b-0c905452c8d3"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="55b1c0b6-1e42-4718-839a-5bff9cf957e7"
+>
+</ReqRef><Comment>Handles reception of the list of balises for SH area received with the SH authorized message.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="List of Balises for SH Area available"
+ Guid="6233e753-a04e-4c0f-b2c5-015ebf664b77"
+>
+<PreConditions>
+<PreCondition
+ Guid="921e273d-a33d-440e-be97-1a4e4d049569"
+>THERE_IS X IN aMessage.SH_AUTHORISED.Sequence1 | Available ( X.LIST_OF_BALISES_FOR_SH_AREA)</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="39dae7aa-8f70-4814-8257-74acd3cd2e81"
+>Kernel.Modes.Shunting.HandleNewListOfBaliseGroups ( Packet =&gt; ( FIRST X IN aMessage.SH_AUTHORISED.Sequence1 | Available ( X.LIST_OF_BALISES_FOR_SH_AREA ) ).LIST_OF_BALISES_FOR_SH_AREA )</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></SubRules>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="UpdateINTERNAL"
@@ -9780,6 +9880,44 @@ MessageTypes.QScaleDistance(
 <Action
  Guid="17168c31-dd74-4a16-955d-9457e6b8c283"
 >Kernel.TrackDescription.StaticSpeedProfile.StaticSpeedProfileReceived ( Packet =&gt; ( FIRST X IN aMessage.MA_WITH_SHIFTED_LOCATION_REFERENCE.Sequence1 | Available ( X.INTERNATIONAL_STATIC_SPEED_PROFILE )).INTERNATIONAL_STATIC_SPEED_PROFILE )</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="List of Balises for SH Area available"
+ Guid="a912d48d-042d-4141-9dfa-c604721ebf86"
+>
+<ReqRef
+ Id="4a580e9d-fd64-4951-b7a4-51530d1469e7"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="730778b3-1d19-40be-be00-a57d0c264188"
+>
+</ReqRef><ReqRef
+ Id="8d9ca13d-bff4-486f-9cb1-dc825fd1b8ab"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a84fadee-f346-4d75-89b5-3c3e5a6b6728"
+>
+</ReqRef><ReqRef
+ Id="d52b6935-7a67-4676-ae5b-0c905452c8d3"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9def430a-656d-4fbf-be90-42fbbe5a8174"
+>
+</ReqRef><Comment>Handles reception of the list of balises for SH area received with the MA with shifted location reference.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="List of Balises for SH Area available"
+ Guid="14ee4ae9-28d9-4315-ba82-e446fe5c33b3"
+>
+<PreConditions>
+<PreCondition
+ Guid="2b0920fa-84f2-444d-bb33-ffc6c05d228c"
+>THERE_IS X IN aMessage.MA_WITH_SHIFTED_LOCATION_REFERENCE.Sequence1 | Available ( X.LIST_OF_BALISES_FOR_SH_AREA)</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="976a9269-bc7f-4f83-bd50-8a46545db62f"
+>Kernel.Modes.Shunting.HandleNewListOfBaliseGroups ( Packet =&gt; ( FIRST X IN aMessage.MA_WITH_SHIFTED_LOCATION_REFERENCE.Sequence1 | Available ( X.LIST_OF_BALISES_FOR_SH_AREA ) ).LIST_OF_BALISES_FOR_SH_AREA )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition></Conditions>
@@ -10062,6 +10200,44 @@ RevSupPacketAvailable( aPacket =&gt; ( FIRST X IN aMessage.INFILL_MA.Sequence1 |
 <Action
  Guid="b3cb23ea-9165-4bcb-a880-353cfca91157"
 >Kernel.TrackDescription.StaticSpeedProfile.StaticSpeedProfileReceived ( Packet =&gt; ( FIRST X IN aMessage.INFILL_MA.Sequence1 | Available ( X.INTERNATIONAL_STATIC_SPEED_PROFILE )).INTERNATIONAL_STATIC_SPEED_PROFILE )</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="List of Balises for SH Area available"
+ Guid="e2d83bd2-c2ef-4510-88fa-5f6292e75a18"
+>
+<ReqRef
+ Id="4a580e9d-fd64-4951-b7a4-51530d1469e7"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="bf036364-b9e1-4453-bb0c-eb346d6174fe"
+>
+</ReqRef><ReqRef
+ Id="8d9ca13d-bff4-486f-9cb1-dc825fd1b8ab"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a60107c0-a357-412b-b3f0-d6a4c4139a49"
+>
+</ReqRef><ReqRef
+ Id="d52b6935-7a67-4676-ae5b-0c905452c8d3"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="4b007e56-4b83-41fd-a3d5-e4716d4e0331"
+>
+</ReqRef><Comment>Handles reception of the list of balises for SH area received with the infill MA.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="List of Balises for SH Area available"
+ Guid="8339dfdf-bed3-49c0-92a1-bc0b9c521c0d"
+>
+<PreConditions>
+<PreCondition
+ Guid="8d1d3d3e-10f9-4723-8aa8-2915362a224f"
+>THERE_IS X IN aMessage.INFILL_MA.Sequence1 | Available ( X.LIST_OF_BALISES_FOR_SH_AREA)</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="28f92ddd-95f2-4488-804f-e67699a4bd42"
+>Kernel.Modes.Shunting.HandleNewListOfBaliseGroups ( Packet =&gt; ( FIRST X IN aMessage.INFILL_MA.Sequence1 | Available ( X.LIST_OF_BALISES_FOR_SH_AREA ) ).LIST_OF_BALISES_FOR_SH_AREA )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition></Conditions>
@@ -11073,6 +11249,42 @@ But at the end of the cycle the conditions required for sending of position repo
 </Rule><Rule
  Priority="Processing"
  Implemented="TRUE"
+ Name="Track Condition Change of allowed current consumption available"
+ Guid="974ca5a2-0f52-42a3-bf3d-a560d7f19881"
+>
+<ReqRef
+ Id="3b292c0a-1360-49a7-9047-9707757f6e7b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6787f2d9-3552-4bd4-a354-cbbb400482e4"
+>
+</ReqRef><ReqRef
+ Id="526da681-fc2c-4e56-908e-7d41f5632d7e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a6afff11-11cb-4174-b45a-7021b3f3e9c8"
+>
+</ReqRef><Comment>Handles reception of track condition change of allowed current consumption.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Track Condition Change of allowed current consumption available"
+ Guid="f0870cdd-3869-47f0-8573-3c6a3afe22f1"
+>
+<PreConditions>
+<PreCondition
+ Guid="9b00d3dc-b8f6-4c51-98e5-b7c4ab352160"
+>THERE_IS X IN Packets | Available ( X.TRACK_CONDITION_CHANGE_OF_ALLOWED_CURRENT_CONSUMPTION )</PreCondition><PreCondition
+ Guid="6e85b297-e47e-4d2a-bffc-a895b0aae354"
+>Kernel.AcceptInformation.SessionManagement( Source =&gt; Kernel.AcceptInformation.Source.RBC )</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="18296c11-281d-4b50-8153-6965da91ed47"
+>Kernel.TrackDescription.TrackConditions.CurrentConsumption.HandleNewCCTrackCondition ( Packet =&gt; ( FIRST X IN Packets | Available ( X.TRACK_CONDITION_CHANGE_OF_ALLOWED_CURRENT_CONSUMPTION )).TRACK_CONDITION_CHANGE_OF_ALLOWED_CURRENT_CONSUMPTION )</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
  Name="Session Management available"
  Guid="617c0d85-e001-4ba2-9a2e-7ed40b53d7d6"
 >
@@ -11109,7 +11321,7 @@ But at the end of the cycle the conditions required for sending of position repo
 </Rule><Rule
  Priority="Processing"
  Implemented="TRUE"
- Name="Radio Network Registration available"
+ Name="Radio Network registration available"
  Guid="ed7d1e6a-a0a3-49c9-8fd4-be819eba3a56"
 >
 <ReqRef
