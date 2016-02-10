@@ -1,0 +1,251 @@
+<NameSpace
+ X="111"
+ Y="1"
+ Width="100"
+ Height="50"
+ Name="StartOfMissionvsDMI"
+ Guid="3cd564f3-f4ad-4324-a643-9536a341ec72"
+>
+<NameSpaces>
+</NameSpaces>
+<Variables>
+<Variable
+ Type="Integer"
+ DefaultValue="-1"
+ VariableMode="Internal"
+ X="221"
+ Y="1"
+ Width="100"
+ Height="50"
+ Name="Count"
+ Guid="5862bda9-6974-4f57-ac03-47c5dbae5a21"
+>
+<Comment>Count the number of cycles before executing an action</Comment>
+</Variable></Variables>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="111"
+ Y="1"
+ Width="100"
+ Height="50"
+ Name="StarWaitingForRadio"
+ Guid="f477e240-9bec-4a29-88b8-345c62ea8cd8"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Name="Start waiting for networks"
+ Guid="712acb27-b6e3-438b-99ee-5da0cc5065bf"
+>
+<PreConditions>
+<PreCondition
+ Guid="5d72410f-5dd3-4357-92c9-db4218b9a90f"
+>EURORADIO.AvailableNetworks.RequestState ==  Default.RequestEnum.Request</PreCondition><PreCondition
+ Guid="9a89b9e6-2b59-44a9-a274-4dfd8201c9ee"
+>Count &lt; 0</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="0b3a97f7-234b-4ade-820b-5a3347a06dc1"
+>Count &lt;- 10</Action></Actions>
+</RuleCondition><RuleCondition
+ Name="Start waiting for registration"
+ Guid="d4da033e-f455-45db-a2ac-7502693ed31d"
+>
+<PreConditions>
+<PreCondition
+ Guid="72fd24d3-5426-49e8-b920-536a62653c6c"
+>EURORADIO.CurrentTerminal().RegistrationState == EURORADIO.TerminalStruct.RegistrationStateSM.Registering</PreCondition><PreCondition
+ Guid="a2a208d3-6285-4661-9c0a-0f1c85e9e5da"
+>Count &lt; 0</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="a24620fa-1c09-407b-9c66-00fc553ee1dd"
+>Count &lt;- 10</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ X="331"
+ Y="1"
+ Width="100"
+ Height="50"
+ Name="StopWaitingForRadio"
+ Guid="0762660a-2fed-468c-9855-e0768a393161"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Name="Decrease counter"
+ Guid="55f776d9-9fa0-4c55-9753-0240b014e5e5"
+>
+<PreConditions>
+<PreCondition
+ Guid="096e2046-49df-4640-bb39-098db93630c9"
+>Count &gt; 0</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="631e93bd-7c4c-44ff-a992-808fbf83947a"
+>Count &lt;- Count - 1</Action></Actions>
+</RuleCondition><RuleCondition
+ Name="Send Response and Networks"
+ Guid="5e19ed7b-4d93-4e9c-906e-13463ab7d07a"
+>
+<PreConditions>
+<PreCondition
+ Guid="83e7e2eb-b8a4-406d-bbc2-c2b61cf1f1d3"
+>Count == 0</PreCondition><PreCondition
+ Guid="ff512025-57f6-4af1-998b-9c6a73cb8c71"
+>EURORADIO.AvailableNetworks.RequestState == Default.RequestEnum.Request</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="e95a3fb6-a40f-4d4c-852e-b17a62c72dd6"
+>EURORADIO.AvailableNetworks.RequestState &lt;- Default.RequestEnum.Response</Action><Action
+ Guid="47c917ad-7933-4b16-99d2-d0ad2377a765"
+>Count &lt;- -1</Action><Action
+ Guid="ec285e29-8b1e-4eb4-9f4f-036d65558a57"
+>EURORADIO.AvailableNetworks.Networks &lt;- [&apos;MyNetwork&apos;, &apos;YourNetwork&apos;]</Action></Actions>
+</RuleCondition><RuleCondition
+ Name="Aknowledge Registration"
+ Guid="f531d727-9e38-490d-8219-54cafe2bc6c2"
+>
+<PreConditions>
+<PreCondition
+ Guid="61c7b75e-799a-4ca5-ac2c-1dec951ae643"
+>Count == 0</PreCondition><PreCondition
+ Guid="a0cf0f2f-1814-4330-afeb-421a6d759856"
+>EURORADIO.CurrentTerminal().RegistrationState == EURORADIO.TerminalStruct.RegistrationStateSM.Registering</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="af4e765b-39f6-46f7-bd9c-87ad84595dd8"
+>EURORADIO.CurrentTerminal().RegistrationState &lt;-  EURORADIO.TerminalStruct.RegistrationStateSM.Registered</Action><Action
+ Guid="e743facc-19e0-4a76-bbb0-a2d34b80a41e"
+>Count &lt;- -1</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ X="441"
+ Y="1"
+ Width="100"
+ Height="50"
+ Name="AnswerRBCConnectionRequest"
+ Guid="6feb4ba9-4836-426c-aeb1-d8d46fd4cfbe"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Name="AnswerRBCConnectionRequest_Connection"
+ Guid="a0c595db-4fed-4a48-9331-14e993fd0b80"
+>
+<PreConditions>
+<PreCondition
+ Guid="26dcf0b3-ba34-486f-aa11-40fde6ac439c"
+>Kernel.HandleModeChange in Kernel.HandleModeChange.StartOfMission.D31</PreCondition><PreCondition
+ Guid="5252d24e-cfe0-4c79-8d9b-46883d11a522"
+>EURORADIO.CurrentRBCConnection().SafeRadioConnectionStatus == EURORADIO.SafeRadioConnectionStatusEnum.NoConnection</PreCondition><PreCondition
+ Guid="5a8445bf-0dad-40d4-ad25-704994b81f67"
+>True</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="60aef578-20b7-4a4b-b974-c24affeb3c1d"
+>EURORADIO.CurrentRBCConnection().SafeRadioConnectionStatus &lt;- EURORADIO.SafeRadioConnectionStatusEnum.ConnectionUp</Action></Actions>
+</RuleCondition><RuleCondition
+ Name="AnswerRBCConnectionRequest_NoConnection"
+ Guid="7b8361e3-b248-460a-8dde-cd55651aa418"
+>
+<PreConditions>
+<PreCondition
+ Guid="3c1731ec-ee3b-4117-941a-30ba7f13160e"
+>Kernel.HandleModeChange in Kernel.HandleModeChange.StartOfMission.D31</PreCondition><PreCondition
+ Guid="c3160172-4200-4a2a-b283-b5eb5ab1c004"
+>EURORADIO.CurrentRBCConnection().SafeRadioConnectionStatus == EURORADIO.SafeRadioConnectionStatusEnum.NoConnection</PreCondition><PreCondition
+ Guid="904e442b-68fa-430d-92ff-bd6ad99c0fda"
+>False</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="8ee930e9-2b41-406d-ba3a-6a360fbacd63"
+>EURORADIO.CurrentRBCConnection().SafeRadioConnectionStatus &lt;- EURORADIO.SafeRadioConnectionStatusEnum.ConnectionLostOrSetUpFailed</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Verification"
+ X="551"
+ Y="1"
+ Width="100"
+ Height="50"
+ Name="TrainRejected"
+ Guid="7ce38ac9-94a6-4801-a18d-aa8b8d864637"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Name="RejectsTrain"
+ Guid="e3e6ae98-c5fb-4ffb-9b89-05f9b9c9b9b6"
+>
+<PreConditions>
+<PreCondition
+ Guid="68ba6972-237e-48bf-88d3-0b353f364717"
+>Kernel.HandleModeChange in Kernel.HandleModeChange.StartOfMission.A34.WaitForRBCResponse</PreCondition><PreCondition
+ Guid="2129de25-be34-4a8a-8374-3bee690d0fcf"
+>True</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="4c2e2afd-8c43-44d9-ba74-032855926b78"
+>EURORADIO.CurrentRBCConnection().MessageIn &lt;- Messages.EURORADIO.MessageIn.Message
+{
+    SystemVersion2 =&gt; Messages.MESSAGE.TRACK_TO_TRAIN.Message
+{
+    TRAIN_REJECTED =&gt; Messages.MESSAGE.TRACK_TO_TRAIN.TRAIN_REJECTED.Message{
+    NID_MESSAGE =&gt; 40,
+    L_MESSAGE =&gt; 0,
+    T_TRAIN =&gt; 2000,
+    M_ACK =&gt; Messages.M_ACK.No_acknowledgement_required,
+    NID_LRBG =&gt; Messages.NID_LRBG.Unknown
+}
+},
+    SystemVersion1 =&gt; EMPTY,
+    Priority =&gt; Messages.EURORADIO.MessagePriorityEnum.Normal
+}
+</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Verification"
+ X="551"
+ Y="1"
+ Width="100"
+ Height="50"
+ Name="TrainAccepted"
+ Guid="806a86da-d522-447a-9edd-4df72e4e73be"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Name="AcceptsTrain"
+ Guid="b35ebd55-2ce2-4e19-bbd3-00f13874fce0"
+>
+<PreConditions>
+<PreCondition
+ Guid="ea95c460-e211-47ca-913d-49edfc0e6cb8"
+>Kernel.HandleModeChange in Kernel.HandleModeChange.StartOfMission.A34.WaitForRBCResponse</PreCondition><PreCondition
+ Guid="6f178e12-2483-4cf2-92be-ac60b7d6ac65"
+>False</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="18ff5c6a-7b86-482d-be79-a275b7dd2b14"
+>EURORADIO.CurrentRBCConnection().MessageIn &lt;- Messages.EURORADIO.MessageIn.Message
+{
+    SystemVersion2 =&gt; Messages.MESSAGE.TRACK_TO_TRAIN.Message
+{
+    TRAIN_ACCEPTED =&gt; Messages.MESSAGE.TRACK_TO_TRAIN.TRAIN_ACCEPTED.Message{
+    NID_MESSAGE =&gt; 41,
+    L_MESSAGE =&gt; 0,
+    T_TRAIN =&gt; 1540,
+    M_ACK =&gt; Messages.M_ACK.No_acknowledgement_required,
+    NID_LRBG =&gt; Messages.NID_LRBG.Unknown
+}
+},
+    SystemVersion1 =&gt; EMPTY,
+    Priority =&gt; Messages.EURORADIO.MessagePriorityEnum.Normal
+}
+</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</NameSpace>
