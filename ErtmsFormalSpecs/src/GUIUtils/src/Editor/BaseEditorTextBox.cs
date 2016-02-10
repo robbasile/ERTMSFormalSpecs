@@ -554,11 +554,18 @@ namespace GUIUtils.Editor
                     {
                         // Out of context search, create the corresponding context according to the current instance
                         subDeclarator = EnclosingSubDeclarator(Instance as IModelElement);
-                        while (subDeclarator != null)
+                        while (!(subDeclarator is Dictionary))
                         {
                             ConsiderSubDeclarator(prefix, subDeclarator, retVal);
                             subDeclarator =
                                 EnclosingSubDeclarator(((IModelElement) subDeclarator).Enclosing as IModelElement);
+                        }
+
+                        // Consider toplevel elements
+                        ConsiderSubDeclarator(prefix, EfsSystem.Instance, retVal);
+                        foreach (Dictionary dictionary in EfsSystem.Instance.Dictionaries)
+                        {
+                            ConsiderSubDeclarator(prefix, dictionary, retVal);                            
                         }
 
                         // Also add the templates
