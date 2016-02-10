@@ -14,9 +14,11 @@
 // --
 // ------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using DataDictionary.Types;
 using Utils;
+using Type = DataDictionary.Types.Type;
 
 namespace DataDictionary.Interpreter
 {
@@ -167,7 +169,8 @@ namespace DataDictionary.Interpreter
                 // In all other cases, provide the function that is currently being called
                 if (!stopLooking)
                 {
-                    Context = call.Called.GetExpressionType();
+                    Position = Math.Min(Position, call.Called.End);
+                    VisitExpression(call.Called);
                 }
             }
         }
