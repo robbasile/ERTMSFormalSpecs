@@ -545,8 +545,10 @@ namespace GUIUtils.Editor
 
             if (!isANumber)
             {
-                ISubDeclarator subDeclarator = GetInstance(index) as ISubDeclarator;
-                if (subDeclarator == null)
+                ISubDeclarator subDeclarator = null;
+
+                INamable namable = GetInstance(index);
+                if (namable == null)
                 {
                     if (Text[index] != '.')
                     {
@@ -566,6 +568,18 @@ namespace GUIUtils.Editor
                             {
                                 retVal.Add(new ObjectReference(template, null));
                             }
+                        }
+                    }
+                }
+                else
+                {
+                    subDeclarator = namable as ISubDeclarator;
+                    if (subDeclarator == null)
+                    {
+                        ITypedElement typedElement = namable as ITypedElement;
+                        if (typedElement != null && typedElement.Type is Structure)
+                        {
+                            subDeclarator = typedElement.Type as ISubDeclarator;
                         }
                     }
                 }

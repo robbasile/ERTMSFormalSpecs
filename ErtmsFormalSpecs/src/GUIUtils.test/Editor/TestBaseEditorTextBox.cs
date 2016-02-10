@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using DataDictionary;
+using DataDictionary.Functions;
 using DataDictionary.Rules;
 using DataDictionary.test;
 using DataDictionary.Types;
@@ -179,5 +180,35 @@ namespace GUIUtils.test.Editor
                 Assert.IsTrue(Contains(choices, "TARGETS"));
             }            
         }
+
+        [Test]
+        public void TestFormalParameters()
+        {
+            Dictionary test = CreateDictionary("Test");
+            NameSpace n1 = CreateNameSpace(test, "N1");
+            Structure s1 = CreateStructure(n1, "S1");
+            StructureElement el1 = CreateStructureElement(s1, "E1", "Boolean");
+            Structure s2 = CreateStructure(n1, "S2");
+            StructureElement el2 = CreateStructureElement(s2, "E2", "S1");
+            Function function = CreateFunction(n1, "f", "S2");
+            CreateParameter(function, "p1", "S1");
+
+
+            Compiler.Compile_Synchronous(true, true);
+            Case cas = CreateCase(function, "case", "");
+
+            BaseEditorTextBox textBox = new BaseEditorTextBox();
+            {
+                //              0         1         2
+                //              012345678901234567890123456789
+                textBox.Text = "p1.";
+                textBox.Instance = cas;
+                List<ObjectReference> choices = textBox.AllChoices(2, "");
+                Assert.IsNotNull(choices);
+                Assert.AreEqual(1, choices.Count);
+                Assert.IsTrue(Contains(choices, el1));
+            }
+        }
+
     }
 }
