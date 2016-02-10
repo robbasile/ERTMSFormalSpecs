@@ -10239,6 +10239,78 @@ RevSupPacketAvailable( aPacket =&gt; ( FIRST X IN aMessage.INFILL_MA.Sequence1 |
  Guid="28f92ddd-95f2-4488-804f-e67699a4bd42"
 >Kernel.Modes.Shunting.HandleNewListOfBaliseGroups ( Packet =&gt; ( FIRST X IN aMessage.INFILL_MA.Sequence1 | Available ( X.LIST_OF_BALISES_FOR_SH_AREA ) ).LIST_OF_BALISES_FOR_SH_AREA )</Action></Actions>
 </RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Axle Load Speed Profile available"
+ Guid="2da3df56-f97f-4132-bcb9-3f125bd7d0fe"
+>
+<ReqRef
+ Id="a3345820-31df-4b78-835f-d02b8d42d3bc"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="87ae5fbf-da3e-4c27-9ec5-33b188572d1b"
+>
+</ReqRef><ReqRef
+ Id="9e4cc30b-7c23-4202-aa4b-87839eea29a1"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a8758e3b-cab7-40df-abb4-acba8a6e6027"
+>
+</ReqRef><Comment>Handles reception of axle load speed profile received with the infill MA.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Axle Load Speed Profile available"
+ Guid="5a6d43be-4c48-4591-9ac8-1da28f5da208"
+>
+<PreConditions>
+<PreCondition
+ Guid="558b0d5e-62b6-4ffb-8ee9-ef1aa6a58f16"
+>THERE_IS X IN aMessage.INFILL_MA.Sequence1 | Available ( X.AXLE_LOAD_SPEED_PROFILE )</PreCondition><PreCondition
+ Guid="5f6c012a-e456-42e2-aa5e-7c27ef1f9429"
+>Kernel.AcceptInformation.SessionManagement( Source =&gt; Kernel.AcceptInformation.Source.RBC )</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="e5f68e11-6242-45e0-8deb-9bc9335d325a"
+>Kernel.TrackDescription.AxleLoad.AxleLoadProfileReceived ( Packet =&gt; ( FIRST X IN aMessage.INFILL_MA.Sequence1| Available ( X.AXLE_LOAD_SPEED_PROFILE )).AXLE_LOAD_SPEED_PROFILE )</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Permitted Braking Distance Information available"
+ Guid="b6df4d30-4c3f-4a9f-934d-3aa594e3e8da"
+>
+<ReqRef
+ Id="1b02a3e8-5313-4a1e-8209-c203e96ab40f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="73d23260-02d9-4bd6-a0cf-8464b1764f5c"
+>
+</ReqRef><ReqRef
+ Id="faca2edb-7220-4d55-bebe-f367d8f8d94a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="7c462ab8-8908-4783-94c0-4637c690ff08"
+>
+</ReqRef><Comment>Handles reception of permitted braking distance information with the infill MA.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Permitted Braking Distance Information available"
+ Guid="2cea8dc7-e49e-4495-ab64-e4a9b68556e1"
+>
+<PreConditions>
+<PreCondition
+ Guid="b8f813f2-f279-4d39-ae91-c7323f1d65da"
+>THERE_IS X IN aMessage.INFILL_MA.Sequence1 | Available ( X.PERMITTED_BRAKING_DISTANCE_INFORMATION )</PreCondition><PreCondition
+ Guid="3f657473-2f73-41ca-b89e-0c9a0df91a17"
+>Kernel.AcceptInformation.SessionManagement( Source =&gt; Kernel.AcceptInformation.Source.RBC )</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="93e1181a-16f8-460e-8ca9-87d3734f27d1"
+>Kernel.TrackDescription.PermittedBrakingDistance.PermittedBrakingDistanceReceived ( Packet =&gt; ( FIRST X IN aMessage.INFILL_MA.Sequence1| Available ( X.PERMITTED_BRAKING_DISTANCE_INFORMATION )).PERMITTED_BRAKING_DISTANCE_INFORMATION )</Action></Actions>
+</RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition></Conditions>
 </Rule><Rule
@@ -11361,6 +11433,78 @@ But at the end of the cycle the conditions required for sending of position repo
 </Rule><Rule
  Priority="Processing"
  Implemented="TRUE"
+ Name="Axle Load Speed Profile available"
+ Guid="621adf35-bc20-4f64-b048-4277c918084a"
+>
+<ReqRef
+ Id="a3345820-31df-4b78-835f-d02b8d42d3bc"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="08148ba8-00fe-4e5e-9090-0506ed1cc405"
+>
+</ReqRef><ReqRef
+ Id="9e4cc30b-7c23-4202-aa4b-87839eea29a1"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d9b2294c-13fd-4890-bfba-edbae0200f8d"
+>
+</ReqRef><Comment>Handles reception of axle load speed profile.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Axle Load Speed Profile available"
+ Guid="1e7f5146-366a-46e9-8d04-d83d6c9d4170"
+>
+<PreConditions>
+<PreCondition
+ Guid="d97abedd-8a53-49a6-9359-0ff9d8414ae4"
+>THERE_IS X IN Packets | Available ( X.AXLE_LOAD_SPEED_PROFILE )</PreCondition><PreCondition
+ Guid="f85a9ee5-579c-460a-b7b4-0d29067fe14f"
+>Kernel.AcceptInformation.SessionManagement( Source =&gt; Kernel.AcceptInformation.Source.RBC )</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="cf32b68a-6154-41af-94dc-9f198d2b7632"
+>Kernel.TrackDescription.AxleLoad.AxleLoadProfileReceived ( Packet =&gt; ( FIRST X IN Packets | Available ( X.AXLE_LOAD_SPEED_PROFILE )).AXLE_LOAD_SPEED_PROFILE )</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Permitted Braking Distance Information available"
+ Guid="43242704-87b6-4ec1-91bd-6109fd47ece5"
+>
+<ReqRef
+ Id="1b02a3e8-5313-4a1e-8209-c203e96ab40f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="32ab7057-11e9-4f91-8fe5-3fbbbf7d9df5"
+>
+</ReqRef><ReqRef
+ Id="faca2edb-7220-4d55-bebe-f367d8f8d94a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ae9883dd-6acd-464e-a025-e295bdd271cf"
+>
+</ReqRef><Comment>Handles reception of permitted braking distance information.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Permitted Braking Distance Information available"
+ Guid="2b0c5145-029b-4645-b762-7c08185c6d73"
+>
+<PreConditions>
+<PreCondition
+ Guid="9700ca83-0e34-4954-8d4b-e12a298aaee8"
+>THERE_IS X IN Packets | Available ( X.PERMITTED_BRAKING_DISTANCE_INFORMATION )</PreCondition><PreCondition
+ Guid="dad1a6c8-1e28-4d24-895f-31f31a3e90c7"
+>Kernel.AcceptInformation.SessionManagement( Source =&gt; Kernel.AcceptInformation.Source.RBC )</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="a031e3c7-aff6-4bed-bb49-72084de463ed"
+>Kernel.TrackDescription.PermittedBrakingDistance.PermittedBrakingDistanceReceived ( Packet =&gt; ( FIRST X IN Packets | Available ( X.PERMITTED_BRAKING_DISTANCE_INFORMATION )).PERMITTED_BRAKING_DISTANCE_INFORMATION )</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
  Name="Movement Authority Request Parameters available"
  Guid="d246069e-15d2-49e9-b02f-d74d788b9fd2"
 >
@@ -11368,6 +11512,11 @@ But at the end of the cycle the conditions required for sending of position repo
  Id="0207a978-352d-4243-81cd-c58fb8228dc2"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="3d8034b0-46d6-45ae-8ba2-96929eae8835"
+>
+</ReqRef><ReqRef
+ Id="3a8b8f9a-8f3d-48b3-a57f-4955397ec4cb"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="bb70bb4e-e09c-48ca-958a-1d005561a0fa"
 >
 </ReqRef><Comment>Handles reception of the movement authority request parameters.</Comment>
 <SubRules></SubRules>
@@ -11398,6 +11547,11 @@ But at the end of the cycle the conditions required for sending of position repo
  Id="e832ef89-d8d7-4e89-86eb-ba4c29d6d5fe"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="3e5938e1-3ca7-41d6-ae46-5f9bca5e096f"
+>
+</ReqRef><ReqRef
+ Id="0536f7d3-e066-46cf-b0ad-1cbd509d2e5d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="dc4fb4a5-7c28-4841-9043-01cfd812fde0"
 >
 </ReqRef><Comment>Handles reception of report parameters.</Comment>
 <SubRules></SubRules>
