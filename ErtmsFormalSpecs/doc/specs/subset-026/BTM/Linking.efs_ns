@@ -261,7 +261,7 @@ Since this only stores what is inside Q_LOCACC (which can only be in the range o
  Pinned="TRUE"
  Implemented="TRUE"
  Verified="TRUE"
- Name="Linkings"
+ Name="LinkingsCol"
  Guid="48ad5ac5-7c08-40be-bbfe-3ec8f3f50e7d"
 >
 <ReqRef
@@ -1534,7 +1534,7 @@ This function is called whenever it is appropriate, so it does not need any prec
 <Action
  Guid="d25d0a31-77cf-4f0b-afa9-86acd17caaa8"
 >BTM.Linking.ApplyLinkingReaction(
-    LinkingReaction =&gt; (FIRST X IN BTM.Linking.Linkings).Reaction
+    aLinkingReaction =&gt; (FIRST X IN BTM.Linking.Linkings).Reaction
 )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
@@ -2413,7 +2413,7 @@ As the first part of this procedure deletes the first (inconsistent) BG from the
 <Parameters>
 <Parameter
  Type="Linking.LinkingReaction"
- Name="LinkingReaction"
+ Name="aLinkingReaction"
  Guid="c41689f1-1eb1-48f2-bde6-d55e1c8c8136"
 >
 </Parameter></Parameters>
@@ -2456,7 +2456,7 @@ As the first part of this procedure deletes the first (inconsistent) BG from the
 <PreConditions>
 <PreCondition
  Guid="252f8f77-05b8-42b2-9b28-8f095360190a"
->LinkingReaction == BTM.Linking.LinkingReaction.CommandServiceBrake</PreCondition><PreCondition
+>aLinkingReaction == BTM.Linking.LinkingReaction.CommandServiceBrake</PreCondition><PreCondition
  Guid="e86cfb1e-1261-4602-8104-1c5ffa5e0a36"
 >Kernel.Mode != ModeEnum.RV</PreCondition></PreConditions>
 <Actions>
@@ -2483,7 +2483,7 @@ As the first part of this procedure deletes the first (inconsistent) BG from the
 <PreConditions>
 <PreCondition
  Guid="dc77f423-8ec6-4f72-a26c-5a8f78d45398"
->LinkingReaction == BTM.Linking.LinkingReaction.TrainTrip</PreCondition></PreConditions>
+>aLinkingReaction == BTM.Linking.LinkingReaction.TrainTrip</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="ae19ed3a-7f6d-4b56-88d8-3ad85658ff6d"
@@ -2585,7 +2585,7 @@ IN Kernel.BrakeCommands.EmergencyStops</Action></Actions>
 >
 </ReqRef><Comment>Indicates that the train should be tripped due to a linking consistency error (mode transition condition 17)</Comment>
 </Variable><Variable
- Type="Linkings"
+ Type="LinkingsCol"
  DefaultValue="[]"
  VariableMode="Internal"
  X="10"
