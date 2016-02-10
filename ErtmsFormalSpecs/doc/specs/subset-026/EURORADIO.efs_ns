@@ -8561,7 +8561,7 @@ EURORADIO.Terminal1.RBCConnection.SafeRadioConnectionStatus == EURORADIO.SafeRad
 <Rule
  Priority="Processing"
  Implemented="TRUE"
- Name="Linking"
+ Name="Linking information available"
  Guid="b523ec16-e78f-443e-bc71-c86ea98fb8ce"
 >
 <ReqRef
@@ -8579,14 +8579,15 @@ EURORADIO.Terminal1.RBCConnection.SafeRadioConnectionStatus == EURORADIO.SafeRad
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="c41ff14e-78b1-4f53-9cc0-a7703f6ce438"
 >
-</ReqRef><Comment>Handles a new level before any other information, because the other informations may depend in it</Comment>
+</ReqRef><Comment>Handles a new level before any other information, because the other informations may depend in it.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
- Name="Linking"
+ Name="Linking in General Message"
  Guid="e2260be2-664f-40d6-af8e-f96ae05315b3"
 >
+<Comment>Checks if Linking information is received in General Message.</Comment>
 <PreConditions>
 <PreCondition
  Guid="6f88e63f-f761-40ce-a6fc-0944953d0bfc"
@@ -8599,6 +8600,60 @@ EURORADIO.Terminal1.RBCConnection.SafeRadioConnectionStatus == EURORADIO.SafeRad
 >APPLY 
   BTM.Linking.LinkingInformationReceived(X.LINKING)
   ON aMessage.GENERAL_MESSAGE.Sequence1 | Available(X.LINKING)</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Linking in Movement Authority"
+ Guid="afa3411a-f36e-4f60-862e-30c6e8452293"
+>
+<Comment>Checks if Linking information is received in Movement Authority Message.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="52493a22-004e-4d87-881f-b63899908efd"
+>Available(aMessage.MOVEMENT_AUTHORITY)</PreCondition><PreCondition
+ Guid="91260cde-0a87-47bc-8abe-ba8c921b1c32"
+>Kernel.AcceptInformation.Linking( Source =&gt; Kernel.AcceptInformation.Source.RBC )</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="4a346f7c-0664-47a4-be1f-7144c1c432e6"
+>APPLY 
+  BTM.Linking.LinkingInformationReceived(X.LINKING)
+  ON aMessage.MOVEMENT_AUTHORITY.Sequence1 | Available(X.LINKING)</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Linking in MA with Shifted Location Reference"
+ Guid="b46d7236-ec5e-4a0f-9553-f5bf804d1e52"
+>
+<Comment>Checks if Linking information is received in MA with Sfifted Location Message.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="12fd749c-c808-4f2d-a846-287916299175"
+>Available(aMessage.MA_WITH_SHIFTED_LOCATION_REFERENCE)</PreCondition><PreCondition
+ Guid="68ffd3bf-4c20-4009-bb00-7e6fbeef4dd1"
+>Kernel.AcceptInformation.Linking( Source =&gt; Kernel.AcceptInformation.Source.RBC )</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="92d85109-6e4e-40ca-af96-c6bbcc9c9133"
+>APPLY 
+  BTM.Linking.LinkingInformationReceived(X.LINKING)
+  ON aMessage.MA_WITH_SHIFTED_LOCATION_REFERENCE.Sequence1 | Available(X.LINKING)</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Linking in Infill MA"
+ Guid="e3d5d867-b2c3-4011-ad85-da2bae9ab5b4"
+>
+<Comment>Checks if Linking information is received in Infill MA Message.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="e25ae6f2-0a71-4924-bdc9-bb45782c8449"
+>Available(aMessage.INFILL_MA)</PreCondition><PreCondition
+ Guid="9c5ad4e1-9f90-4943-85cc-6a88fd0e3453"
+>Kernel.AcceptInformation.Linking( Source =&gt; Kernel.AcceptInformation.Source.RBC )</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="103d17ab-78e1-499a-a5f3-2ae782ee0b76"
+>APPLY 
+  BTM.Linking.LinkingInformationReceived(X.LINKING)
+  ON aMessage.INFILL_MA.Sequence1 | Available(X.LINKING)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -9357,6 +9412,65 @@ MessageTypes.QScaleDistance(
  Guid="379edce7-f62e-4d83-8b49-c4b6bf2389a9"
 >Available ( aMessage.GENERAL_MESSAGE )</PreCondition></PreConditions>
 <Actions>
+</Actions>
+<SubRules>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Gradient Profile available"
+ Guid="4a9a4eb7-1bc1-4708-b7c1-58bc9ff5914e"
+>
+<ReqRef
+ Id="d96e7170-b578-4e28-bb03-82d0b7cc6a6d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a2a469db-3a16-4148-bdf6-d07d17599791"
+>
+</ReqRef><ReqRef
+ Id="e1e59e57-94a5-48ea-bb40-d183aa229e20"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="2a24fcee-e40d-498f-8921-716b327d329e"
+>
+</ReqRef><ReqRef
+ Id="91c896f9-c3d0-473b-bb99-e2dfb219ae1d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="5135329e-d60e-41e9-a79f-c33c738decf5"
+>
+</ReqRef><Comment>Handles reception of gradient profile received with the General Message.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Gradient Profile Available"
+ Guid="250d685f-78c7-478a-b4af-068dd2c6b382"
+>
+<PreConditions>
+<PreCondition
+ Guid="bce3c2ab-e40c-4ea5-9fb3-b581ec79fd44"
+>THERE_IS X IN aMessage.GENERAL_MESSAGE.Sequence1 | Available ( X.GRADIENT_PROFILE )</PreCondition><PreCondition
+ Guid="e5348204-a770-4e15-aee7-789452b59e2c"
+>Kernel.AcceptInformation.GradientProfile( Source =&gt; Kernel.AcceptInformation.Source.RBC )</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="b95413c9-b053-461c-a7bb-e31ef156aed8"
+>Kernel.TrackDescription.Gradient.ProfileReceived ( Packet =&gt; ( FIRST X IN aMessage.GENERAL_MESSAGE.Sequence1 | Available ( X.GRADIENT_PROFILE )).GRADIENT_PROFILE )</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Handle common packets"
+ Guid="e4f3055e-8206-43cb-ad1e-69339e7e0c22"
+>
+<Comment>Handle common packets (as described in Subset-026 Paragraph 8.4.4.4.1.1) received with a general message.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Handle common packets"
+ Guid="092cc2ad-1645-4dcf-8469-7fa7fb773205"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
 <Action
  Guid="30b31d73-66f4-4e11-a0ae-a3bf2c3166c3"
 >EURORADIO.HandleCommonPackets
@@ -9364,6 +9478,8 @@ MessageTypes.QScaleDistance(
     Packets =&gt; aMessage.GENERAL_MESSAGE.Sequence1,
     Time =&gt; aMessage.GENERAL_MESSAGE.T_TRAIN
 )</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></SubRules>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="UpdateINTERNAL"
@@ -9542,8 +9658,48 @@ MessageTypes.QScaleDistance(
 >EURORADIO.HandleCommonPackets
 (
     Packets =&gt; aMessage.MA_WITH_SHIFTED_LOCATION_REFERENCE.Sequence1,
-    Time =&gt; aMessage.GENERAL_MESSAGE.T_TRAIN
+    Time =&gt; aMessage.MA_WITH_SHIFTED_LOCATION_REFERENCE.T_TRAIN
 )</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Gradient Profile available"
+ Guid="efd7e4a0-0976-4e75-a0bf-44bf43ea2d60"
+>
+<ReqRef
+ Id="d96e7170-b578-4e28-bb03-82d0b7cc6a6d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="7ff5dcd7-fe8c-4935-a366-45ba90782a7c"
+>
+</ReqRef><ReqRef
+ Id="e1e59e57-94a5-48ea-bb40-d183aa229e20"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="cb1402be-bd1c-4b6d-8595-3da378ee1c86"
+>
+</ReqRef><ReqRef
+ Id="91c896f9-c3d0-473b-bb99-e2dfb219ae1d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0e62eeb4-d58e-4f3a-9b18-e8820c406729"
+>
+</ReqRef><Comment>Handles reception of gradient profile received with the MA with shifted location reference message.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Gradient Profile Available"
+ Guid="e9fe62d0-1640-44f1-9c36-c482cd55f30c"
+>
+<PreConditions>
+<PreCondition
+ Guid="a5e3f812-5a61-4d2a-a9e0-fecf227bd597"
+>THERE_IS X IN aMessage.MA_WITH_SHIFTED_LOCATION_REFERENCE.Sequence1 | Available ( X.GRADIENT_PROFILE )</PreCondition><PreCondition
+ Guid="b77dcd5e-c2c8-4793-a2fe-7b8ca03a5003"
+>Kernel.AcceptInformation.GradientProfile( Source =&gt; Kernel.AcceptInformation.Source.RBC )</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="de6a5e1e-348b-4e9c-bccf-982f442bbe08"
+>Kernel.TrackDescription.Gradient.ProfileReceived ( Packet =&gt; ( FIRST X IN aMessage.MA_WITH_SHIFTED_LOCATION_REFERENCE.Sequence1 | Available ( X.GRADIENT_PROFILE )).GRADIENT_PROFILE )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition></Conditions>
