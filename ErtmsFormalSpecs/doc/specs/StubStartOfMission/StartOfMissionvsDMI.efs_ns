@@ -13,20 +13,42 @@
  Type="Integer"
  DefaultValue="-1"
  VariableMode="Internal"
- X="221"
- Y="1"
+ X="220"
+ Y="230"
  Width="100"
  Height="50"
  Name="Count"
  Guid="5862bda9-6974-4f57-ac03-47c5dbae5a21"
 >
 <Comment>Count the number of cycles before executing an action</Comment>
+</Variable><Variable
+ Type="Boolean"
+ DefaultValue="False"
+ VariableMode="Internal"
+ X="350"
+ Y="230"
+ Width="100"
+ Height="50"
+ Name="Acceptstrain"
+ Guid="859bbbae-e24b-4fa4-8722-5a74e14682da"
+>
+</Variable><Variable
+ Type="EURORADIO.AvailableNetworksCol"
+ DefaultValue="[&apos;MyNetwork&apos;]"
+ VariableMode="Internal"
+ X="80"
+ Y="230"
+ Width="100"
+ Height="50"
+ Name="Networks"
+ Guid="243e392e-4498-4605-a86b-0985d2939351"
+>
 </Variable></Variables>
 <Rules>
 <Rule
  Priority="Processing"
- X="111"
- Y="1"
+ X="50"
+ Y="10"
  Width="100"
  Height="50"
  Name="StarWaitingForRadio"
@@ -65,8 +87,8 @@
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
- X="331"
- Y="1"
+ X="50"
+ Y="70"
  Width="100"
  Height="50"
  Name="StopWaitingForRadio"
@@ -103,7 +125,7 @@
  Guid="47c917ad-7933-4b16-99d2-d0ad2377a765"
 >Count &lt;- -1</Action><Action
  Guid="ec285e29-8b1e-4eb4-9f4f-036d65558a57"
->EURORADIO.AvailableNetworks.Networks &lt;- [&apos;MyNetwork&apos;]</Action></Actions>
+>EURORADIO.AvailableNetworks.Networks &lt;- Networks</Action></Actions>
 </RuleCondition><RuleCondition
  Name="Aknowledge Registration"
  Guid="f531d727-9e38-490d-8219-54cafe2bc6c2"
@@ -123,8 +145,8 @@
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
- X="441"
- Y="1"
+ X="490"
+ Y="70"
  Width="100"
  Height="50"
  Name="AnswerRBCConnectionRequest"
@@ -167,8 +189,8 @@
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Verification"
- X="551"
- Y="1"
+ X="300"
+ Y="70"
  Width="100"
  Height="50"
  Name="TrainRejected"
@@ -185,7 +207,8 @@
  Guid="68ba6972-237e-48bf-88d3-0b353f364717"
 >Kernel.HandleModeChange in Kernel.HandleModeChange.StartOfMission.A34.WaitForRBCResponse</PreCondition><PreCondition
  Guid="2129de25-be34-4a8a-8374-3bee690d0fcf"
->True</PreCondition></PreConditions>
+>NOT Acceptstrain
+</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="4c2e2afd-8c43-44d9-ba74-032855926b78"
@@ -207,8 +230,8 @@
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Verification"
- X="551"
- Y="1"
+ X="190"
+ Y="70"
  Width="100"
  Height="50"
  Name="TrainAccepted"
@@ -225,7 +248,7 @@
  Guid="ea95c460-e211-47ca-913d-49edfc0e6cb8"
 >Kernel.HandleModeChange in Kernel.HandleModeChange.StartOfMission.A34.WaitForRBCResponse</PreCondition><PreCondition
  Guid="6f178e12-2483-4cf2-92be-ac60b7d6ac65"
->False</PreCondition></PreConditions>
+>Acceptstrain</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="18ff5c6a-7b86-482d-be79-a275b7dd2b14"
