@@ -9479,6 +9479,46 @@ MessageTypes.QScaleDistance(
     Time =&gt; aMessage.GENERAL_MESSAGE.T_TRAIN
 )</Action></Actions>
 </RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="International Static Speed Profile available"
+ Guid="e2613834-c158-44ec-aaf6-2f914c3bbeaf"
+>
+<ReqRef
+ Id="7ba0f65c-e1b5-422f-a1fb-e947e73cd4f9"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9a8e2a71-a558-43dc-b72b-605487ba3ee2"
+>
+</ReqRef><ReqRef
+ Id="beb70c99-c336-489a-a97e-b8236a026061"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f74f429a-7c80-47af-990d-a38a3b0ddb8e"
+>
+</ReqRef><ReqRef
+ Id="9570bc20-fe09-49cb-8e1d-d7adbb5fdfbc"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b946f21e-9ee3-4634-abaa-51fd9b4d13bd"
+>
+</ReqRef><Comment>Handles reception of the international static speed profile received with the General Message.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="International Static Speed Profile available"
+ Guid="c401bc07-c5eb-4046-b624-622f53e9dc39"
+>
+<PreConditions>
+<PreCondition
+ Guid="8e8f3f52-d8c0-4552-b7e9-ee1e7968ce73"
+>THERE_IS X IN aMessage.GENERAL_MESSAGE.Sequence1 | Available ( X.INTERNATIONAL_STATIC_SPEED_PROFILE )</PreCondition><PreCondition
+ Guid="e11ca8f5-dd57-467b-96b7-d5c2ad61cb21"
+>Kernel.AcceptInformation.InternationalSSP( Source =&gt; Kernel.AcceptInformation.Source.RBC )</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="50146264-35cc-4101-9232-7100545ee454"
+>Kernel.TrackDescription.StaticSpeedProfile.StaticSpeedProfileReceived ( Packet =&gt; ( FIRST X IN aMessage.GENERAL_MESSAGE.Sequence1 | Available ( X.INTERNATIONAL_STATIC_SPEED_PROFILE )).INTERNATIONAL_STATIC_SPEED_PROFILE )</Action></Actions>
+</RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition></Conditions>
 </Rule><Rule
@@ -9700,6 +9740,46 @@ MessageTypes.QScaleDistance(
 <Action
  Guid="de6a5e1e-348b-4e9c-bccf-982f442bbe08"
 >Kernel.TrackDescription.Gradient.ProfileReceived ( Packet =&gt; ( FIRST X IN aMessage.MA_WITH_SHIFTED_LOCATION_REFERENCE.Sequence1 | Available ( X.GRADIENT_PROFILE )).GRADIENT_PROFILE )</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="International Static Speed Profile available"
+ Guid="49a0e5a1-4301-4f0d-bc43-dde40199e6ea"
+>
+<ReqRef
+ Id="7ba0f65c-e1b5-422f-a1fb-e947e73cd4f9"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a57c4791-c694-4651-b08c-5df6e04bbaf0"
+>
+</ReqRef><ReqRef
+ Id="beb70c99-c336-489a-a97e-b8236a026061"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="43c6e11f-3417-4e26-97b8-c7670a26fc5c"
+>
+</ReqRef><ReqRef
+ Id="9570bc20-fe09-49cb-8e1d-d7adbb5fdfbc"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9b425dba-b901-4b19-a647-e5d3d787cc03"
+>
+</ReqRef><Comment>Handles reception of the international static speed profile received with the MA with Shifted Location Reference Message.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="International Static Speed Profile available"
+ Guid="fd27123e-582d-4239-ac06-c8c812562d93"
+>
+<PreConditions>
+<PreCondition
+ Guid="1e449a09-2d58-4e98-bf96-e4c20fedc9a7"
+>THERE_IS X IN aMessage.MA_WITH_SHIFTED_LOCATION_REFERENCE.Sequence1 | Available ( X.INTERNATIONAL_STATIC_SPEED_PROFILE )</PreCondition><PreCondition
+ Guid="bb21a3a7-49d9-4e2e-9d18-88cde3c927d4"
+>Kernel.AcceptInformation.InternationalSSP( Source =&gt; Kernel.AcceptInformation.Source.RBC )</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="17168c31-dd74-4a16-955d-9457e6b8c283"
+>Kernel.TrackDescription.StaticSpeedProfile.StaticSpeedProfileReceived ( Packet =&gt; ( FIRST X IN aMessage.MA_WITH_SHIFTED_LOCATION_REFERENCE.Sequence1 | Available ( X.INTERNATIONAL_STATIC_SPEED_PROFILE )).INTERNATIONAL_STATIC_SPEED_PROFILE )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition></Conditions>
@@ -9942,6 +10022,46 @@ RevSupPacketAvailable( aPacket =&gt; ( FIRST X IN aMessage.INFILL_MA.Sequence1 |
     RvAreaPacket =&gt; ProvideRevAreaPacketToHandle( aPacket =&gt; ( FIRST X IN aMessage.INFILL_MA.Sequence1 | Available ( X.REVERSING_AREA_INFORMATION )).REVERSING_AREA_INFORMATION ),
     RvSupPacket =&gt; ProvideRevSupPacketToHandle( aPacket =&gt; ( FIRST X IN aMessage.INFILL_MA.Sequence1 | Available ( X.REVERSING_SUPERVISION_INFORMATION)).REVERSING_SUPERVISION_INFORMATION )
 )</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="International Static Speed Profile available"
+ Guid="09c578a2-b125-4623-afb8-2ba76f8bdb6b"
+>
+<ReqRef
+ Id="7ba0f65c-e1b5-422f-a1fb-e947e73cd4f9"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="517c059e-f669-4041-9fbe-8d91259a0f77"
+>
+</ReqRef><ReqRef
+ Id="beb70c99-c336-489a-a97e-b8236a026061"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="060b78b2-fcda-468c-b20a-0ca58063a19a"
+>
+</ReqRef><ReqRef
+ Id="9570bc20-fe09-49cb-8e1d-d7adbb5fdfbc"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="df1a7404-8367-423d-ae16-b80a7dc9b39a"
+>
+</ReqRef><Comment>Handles reception of the international static speed profile received with the infill MA.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="International Static Speed Profile available"
+ Guid="5fb0e108-73b2-4fc9-b70a-4f267c4b45ba"
+>
+<PreConditions>
+<PreCondition
+ Guid="68ee575c-5c2b-46a0-a81b-62544325fcd2"
+>THERE_IS X IN aMessage.INFILL_MA.Sequence1 | Available ( X.INTERNATIONAL_STATIC_SPEED_PROFILE )</PreCondition><PreCondition
+ Guid="4545c7d0-e8f0-4a34-9b7c-56e858fe7d45"
+>Kernel.AcceptInformation.InternationalSSP( Source =&gt; Kernel.AcceptInformation.Source.RBC )</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="b3cb23ea-9165-4bcb-a880-353cfca91157"
+>Kernel.TrackDescription.StaticSpeedProfile.StaticSpeedProfileReceived ( Packet =&gt; ( FIRST X IN aMessage.INFILL_MA.Sequence1 | Available ( X.INTERNATIONAL_STATIC_SPEED_PROFILE )).INTERNATIONAL_STATIC_SPEED_PROFILE )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition></Conditions>
@@ -10915,6 +11035,42 @@ But at the end of the cycle the conditions required for sending of position repo
 </Parameter></Parameters>
 <Rules>
 <Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Track Condition Change of traction system available"
+ Guid="ef60e9d2-c626-4db2-9bfc-e601beb09ca4"
+>
+<ReqRef
+ Id="2559c745-3a6f-444a-b3bd-fb143a2a1fc6"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="fc39bff4-9b4e-4e50-b42b-c7602af7ce5e"
+>
+</ReqRef><ReqRef
+ Id="9221690b-b0bc-4a5c-9307-9de49243cfef"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="93bf4a4e-05e3-43d9-a2bf-d9e4e2738aa2"
+>
+</ReqRef><Comment>Handles reception of track condition change of traction system.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Track Condition Change of traction system available"
+ Guid="0bd4ae3e-c763-487c-8670-1e73fbafd03f"
+>
+<PreConditions>
+<PreCondition
+ Guid="70720265-0006-44bd-b246-632ce82f120e"
+>THERE_IS X IN Packets | Available ( X.TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM )</PreCondition><PreCondition
+ Guid="6ae1cd05-1291-4789-8ae3-8191d4ef694f"
+>Kernel.AcceptInformation.SessionManagement( Source =&gt; Kernel.AcceptInformation.Source.RBC )</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="155bc56d-6739-4e94-a9d6-8092c69923fa"
+>Kernel.TrackDescription.TrackConditions.TractionSystems.HandleNewTractionSystem ( Packet =&gt; ( FIRST X IN Packets | Available ( X.TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM )).TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM )</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
  Priority="Processing"
  Implemented="TRUE"
  Name="Session Management available"
