@@ -466,7 +466,7 @@ namespace GUIUtils.Editor
             start = start + 1;
 
             int end = index;
-            while (end <= text.Length && IsValidExpressionChar(text[end]))
+            while (end < text.Length && IsValidExpressionChar(text[end]))
             {
                 end = end + 1;
             }
