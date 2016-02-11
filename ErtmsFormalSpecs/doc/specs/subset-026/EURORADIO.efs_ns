@@ -9663,6 +9663,39 @@ MessageTypes.QScaleDistance(
  Guid="39dae7aa-8f70-4814-8257-74acd3cd2e81"
 >Kernel.Modes.Shunting.HandleNewListOfBaliseGroups ( Packet =&gt; ( FIRST X IN aMessage.SH_AUTHORISED.Sequence1 | Available ( X.LIST_OF_BALISES_FOR_SH_AREA ) ).LIST_OF_BALISES_FOR_SH_AREA )</Action></Actions>
 </RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="National Values available"
+ Guid="9a3c053d-b15b-46ab-9d8d-50795ecd1cef"
+>
+<ReqRef
+ Id="da594ef9-d8e9-4553-af3e-77f9102ec171"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="05d3a53f-98cd-4182-9aef-f1af7bd320be"
+>
+</ReqRef><ReqRef
+ Id="967fe971-b137-4079-b900-5f6c1f5f25ff"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="925cd921-1d79-4c8e-9183-c03fb78b6525"
+>
+</ReqRef><Comment>Handles reception of the list of balises for SH area received with the SH authorized message.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="National Values available"
+ Guid="6f1b7a50-35b4-4f74-a049-19d708150979"
+>
+<PreConditions>
+<PreCondition
+ Guid="e483a815-f059-4d29-850c-e0bc4283e121"
+>THERE_IS X IN aMessage.SH_AUTHORISED.Sequence1 | Available ( X.NATIONAL_VALUES )</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="c591202a-bf0c-4820-b865-d89a5c3e1eee"
+>Kernel.Modes.Shunting.HandleNewListOfBaliseGroups ( Packet =&gt; ( FIRST X IN aMessage.SH_AUTHORISED.Sequence1 | Available ( X.NATIONAL_VALUES ) ).NATIONAL_VALUES )</Action></Actions>
+</RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition></Conditions>
 </Rule><Rule
@@ -12370,6 +12403,42 @@ RevSupPacketAvailable( aPacket =&gt; ( FIRST X IN Packets | Available ( X.REVERS
 <Action
  Guid="4bf9a490-5b1d-4d14-aca2-9fa5a6d9141c"
 >Kernel.LX.LXReceived ( Packet =&gt; ( FIRST X IN Packets | Available ( X.LEVEL_CROSSING_INFORMATION )).LEVEL_CROSSING_INFORMATION )</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="National Values available"
+ Guid="5543b660-a79f-413a-9bba-34df94308f17"
+>
+<ReqRef
+ Id="da594ef9-d8e9-4553-af3e-77f9102ec171"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b9e0182c-f86c-4f2c-bda7-80ba35ce6df6"
+>
+</ReqRef><ReqRef
+ Id="967fe971-b137-4079-b900-5f6c1f5f25ff"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="82aa2c03-2b25-41e2-9f3d-8867cad45b7c"
+>
+</ReqRef><Comment>Handles reception of track condition change of traction system.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="National Values available"
+ Guid="8990dfe8-2e42-44fd-a3d5-813abd4e5244"
+>
+<PreConditions>
+<PreCondition
+ Guid="e5c45e5b-15af-4382-a588-2852a16aee30"
+>THERE_IS X IN Packets | Available ( X.NATIONAL_VALUES )</PreCondition><PreCondition
+ Guid="b0b21a56-1bd6-4127-b26a-19c46854742a"
+>Kernel.AcceptInformation.SessionManagement( Source =&gt; Kernel.AcceptInformation.Source.RBC )</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="05a22110-495a-43bc-9ff6-c21ba759a0a9"
+>Kernel.NationalValues.NationalValuesReceived ( Packet =&gt; ( FIRST X IN Packets | Available ( X.NATIONAL_VALUES )).NATIONAL_VALUES )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
