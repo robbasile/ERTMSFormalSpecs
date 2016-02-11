@@ -2800,7 +2800,7 @@ Kernel.AcceptInformation.ReversingSupervisionInformation( Source =&gt; Kernel.Ac
 >Kernel.TrackDescription.TrackConditions.StationPlatform.SPTrackConditionReceived ( Packet.TRACK_TO_TRAIN.TRACK_CONDITION_STATION_PLATFORMS)</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
- Name="Route Suitability available"
+ Name="Route Suitability Data available"
  Guid="44902d7c-8bf5-4dc5-bae9-be190af0d975"
 >
 <ReqRef
@@ -2893,7 +2893,7 @@ Kernel.AcceptInformation.ReversingSupervisionInformation( Source =&gt; Kernel.Ac
 >Kernel.TextMessages.FixedTextMessageReceived( aPacket =&gt; Packet.TRACK_TO_TRAIN.PACKET_FOR_SENDING_FIXED_TEXT_MESSAGES )</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
- Name="Adhesion Factor available"
+ Name="Adhesion factor available"
  Guid="d5642e3e-304c-4468-91e2-996697f57585"
 >
 <ReqRef
@@ -2934,13 +2934,18 @@ Kernel.AcceptInformation.ReversingSupervisionInformation( Source =&gt; Kernel.Ac
 >Kernel.TrackDescription.AdhesionFactors.AdhesionFactorReceived ( Packet.TRACK_TO_TRAIN.ADHESION_FACTOR )</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
- Name="Geographical Position available"
+ Name="Geographical Position Information available"
  Guid="58f36235-339e-4d9e-a330-534564370838"
 >
 <ReqRef
  Id="bfb92914-1319-4a13-bb8f-c623e5f7e53a"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="b847fa2e-92db-443a-878c-7e801b35892a"
+>
+</ReqRef><ReqRef
+ Id="16e1df6b-c27b-4c82-8dcf-37b394753241"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="18d0aefc-97f4-4a87-99ea-513e747f15ef"
 >
 </ReqRef><Comment>Handles Geographical Position packet, if available.</Comment>
 <PreConditions>
@@ -3317,10 +3322,15 @@ RevSupPacketAvailable( aPacket =&gt; Packet.TRACK_TO_TRAIN.REVERSING_SUPERVISION
 >Kernel.VirtualBaliseCover.VBCReceivedFromBalise( Packet.TRACK_TO_TRAIN.VIRTUAL_BALISE_COVER_ORDER )</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
- Name="LSSMA available"
+ Name="LSSMA display toggle order available"
  Guid="693073bb-3954-46f2-a554-5ac6a8f876d7"
 >
-<Comment>Handles LSSMA display toggle order packet, if available.</Comment>
+<ReqRef
+ Id="a6eade55-4b84-45f2-a021-fd589f3d1760"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c179bd82-0773-4e55-af7e-4d2770287dee"
+>
+</ReqRef><Comment>Handles LSSMA display toggle order packet, if available.</Comment>
 <PreConditions>
 <PreCondition
  Guid="6849aabe-b0ac-4fbc-8d10-a3200c6580e6"
@@ -5126,7 +5136,12 @@ The parameter DistanceFromLRBG is needed for the case when the handled BG will b
  Name="Message contains default balise information"
  Guid="943f01e2-9679-4524-9ee7-838f59c39f99"
 >
-<PreConditions>
+<ReqRef
+ Id="5c7f8e6f-d144-42ee-91a5-5bc97116d06d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="7e8724cc-a785-4971-9cf7-fcfcfeadb124"
+>
+</ReqRef><PreConditions>
 <PreCondition
  Guid="5d040986-926c-4036-9c26-980d15c5393d"
 >THERE_IS telegram IN BTM.CurrentBaliseGroup | (THERE_IS packet IN telegram.Telegram.Sequence1 | Available(packet.TRACK_TO_TRAIN.DEFAULT_BALISE_LOOP_OR_RIU_INFORMATION) )</PreCondition></PreConditions>
@@ -5175,7 +5190,12 @@ ON BTM.CurrentBaliseGroup | BTM.BaliseTelegramToBeHandled ( X )</Action></Action
  Name="Handle Mode Profile packet in balise telegram"
  Guid="0df23762-fca4-4e00-9a26-27caab55459e"
 >
-<Comment>After the MA has been handled, the Mode Profile can eventually be accepted (only if the MA was accepted).</Comment>
+<ReqRef
+ Id="98b78c68-b649-45c4-9dd8-6bfbf4a8f9c1"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="7b907baf-4341-4167-b523-4aae1850c852"
+>
+</ReqRef><Comment>After the MA has been handled, the Mode Profile can eventually be accepted (only if the MA was accepted).</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
@@ -5235,7 +5255,12 @@ ON BTM.CurrentBaliseGroup | BTM.BaliseTelegramToBeHandled ( X )</Action></Action
  Name="Handle new Mode Profile"
  Guid="8067cb79-ba71-43b8-b67b-e757bdff0e4d"
 >
-<SubRules></SubRules>
+<ReqRef
+ Id="2922527c-9e20-48f5-a094-94014ef0aa69"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0cec26e1-e2c2-492c-a5f0-6d75fe7ab6c5"
+>
+</ReqRef><SubRules></SubRules>
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
@@ -5461,6 +5486,11 @@ ON BTM.CurrentBaliseGroup | BTM.BaliseTelegramToBeHandled ( X )</Action></Action
  Id="bc203fe9-a734-483d-acef-f8bc36a5ce00"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="2edfa02a-d88d-4256-a9ae-217947b96438"
+>
+</ReqRef><ReqRef
+ Id="a75f8e41-42b7-4bc1-a2c2-27a5f6e2b0e2"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="3232392f-a91c-499c-b76d-9dfb71a4b160"
 >
 </ReqRef><Comment>Apply the service brake for an unlinked balise group, unless the BG information includes the packet &quot;Inhibition of the balise group message inconsistency reaction&quot;.</Comment>
 <PreConditions>

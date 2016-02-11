@@ -9079,6 +9079,11 @@ EURORADIO.Terminal1.RBCConnection.SafeRadioConnectionStatus == EURORADIO.SafeRad
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="932794cc-71cd-4b77-87c8-84d7360e01f3"
 >
+</ReqRef><ReqRef
+ Id="98b78c68-b649-45c4-9dd8-6bfbf4a8f9c1"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="fd84685b-2cf9-49e0-a979-a2579c169f6b"
+>
 </ReqRef><Comment>Handles reception of mode profile received with the MA (only if the MA was accepted).</Comment>
 <SubRules></SubRules>
 <Conditions>
@@ -9186,6 +9191,11 @@ EURORADIO.Terminal1.RBCConnection.SafeRadioConnectionStatus == EURORADIO.SafeRad
  Id="8d9ca13d-bff4-486f-9cb1-dc825fd1b8ab"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="b33dc4d8-c13f-4566-83fc-35d50ed9941d"
+>
+</ReqRef><ReqRef
+ Id="98b78c68-b649-45c4-9dd8-6bfbf4a8f9c1"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6a4a31f6-d40d-4641-a969-733606f70c2e"
 >
 </ReqRef><Comment>Handles reception of the mode profile received with the request to shorten MA.</Comment>
 <SubRules></SubRules>
@@ -9756,6 +9766,11 @@ MessageTypes.QScaleDistance(
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="c99cb77c-5ecb-4070-a2bb-c51caf609161"
 >
+</ReqRef><ReqRef
+ Id="98b78c68-b649-45c4-9dd8-6bfbf4a8f9c1"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="009de7e6-01e2-4a88-b881-6f25fba67f45"
+>
 </ReqRef><Comment>Handles reception of mode profile received with MA with shifted location reference message.</Comment>
 <SubRules></SubRules>
 <Conditions>
@@ -10020,6 +10035,11 @@ MessageTypes.QScaleDistance(
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="1aa70151-07e5-4921-beff-f097d27213fd"
 >
+</ReqRef><ReqRef
+ Id="655cd82d-364d-40cf-9540-62e1d8292f94"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b12c597f-dc05-4f1b-970f-b7959d209833"
+>
 </ReqRef><Comment>Handles reception of the route suitability data received with infill MA.</Comment>
 <SubRules></SubRules>
 <Conditions>
@@ -10042,7 +10062,7 @@ MessageTypes.QScaleDistance(
 </Rule><Rule
  Priority="Processing"
  Implemented="TRUE"
- Name="Mode Profile available"
+ Name="Mode profile available"
  Guid="ba5e7903-74f0-416c-ace9-cdc1392a7a73"
 >
 <ReqRef
@@ -10055,12 +10075,17 @@ MessageTypes.QScaleDistance(
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="016e39a9-3d5e-4d6c-b7b4-277c5eb831c0"
 >
+</ReqRef><ReqRef
+ Id="98b78c68-b649-45c4-9dd8-6bfbf4a8f9c1"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="5849976f-31a9-427a-bf65-722539d848e9"
+>
 </ReqRef><Comment>Handles reception of mode profile received with the infill MA.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
- Name="Mode Profile available"
+ Name="Mode profile available"
  Guid="5723e1bb-1530-43ae-b94a-8989fd2a71a0"
 >
 <PreConditions>
@@ -10203,6 +10228,16 @@ MessageTypes.QScaleDistance(
  Id="f3aec789-8e42-4041-befb-bf3d53519577"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="32ef624a-a4cc-426a-931b-7c4f6e927002"
+>
+</ReqRef><ReqRef
+ Id="f32ad7de-67d9-4075-bb38-75a13996ad98"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="2bf1f164-969b-4492-9156-240f05d94b83"
+>
+</ReqRef><ReqRef
+ Id="c93e250c-fc42-406f-9706-6ec7488b8982"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="79a06afb-3269-4e4e-a2ce-e28a5cf657fb"
 >
 </ReqRef><Comment>Handles reception of reversing area information (and possibly reversing supervision information) received with the infill MA.</Comment>
 <SubRules></SubRules>
@@ -10418,7 +10453,7 @@ RevSupPacketAvailable( aPacket =&gt; ( FIRST X IN aMessage.INFILL_MA.Sequence1 |
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="c2ed3082-e73e-450c-a788-b0a7e8e9d8da"
 >
-</ReqRef><Comment>Handles reception of the track condition data received with infill MA.</Comment>
+</ReqRef><Comment>Handles reception of the track condition station platforms data received with infill MA.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
@@ -10436,6 +10471,66 @@ RevSupPacketAvailable( aPacket =&gt; ( FIRST X IN aMessage.INFILL_MA.Sequence1 |
 <Action
  Guid="5aee1fbb-a67c-4c02-b152-8f88f43df22b"
 >Kernel.TrackDescription.TrackConditions.StationPlatform.SPTrackConditionReceived ( Packet =&gt; ( FIRST X IN aMessage.INFILL_MA.Sequence1  | Available ( X.TRACK_CONDITION_STATION_PLATFORMS ) ).TRACK_CONDITION_STATION_PLATFORMS )</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Adhesion factor available"
+ Guid="1cc78b43-035a-41fb-8dfb-df492da7fc7e"
+>
+<ReqRef
+ Id="47c59e98-996c-4daa-84b7-bda20f4e45ac"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="12f10cb6-84aa-4c7e-a98e-87dadde8a205"
+>
+</ReqRef><Comment>Handles reception of the adhesion factor data received with infill MA.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Adhesion factor available"
+ Guid="257ea289-d1d8-49d7-9704-b48712ad8798"
+>
+<PreConditions>
+<PreCondition
+ Guid="80408613-850b-4542-af2f-1b2a0349748d"
+>THERE_IS X IN aMessage.INFILL_MA.Sequence1 | Available ( X.ADHESION_FACTOR )</PreCondition><PreCondition
+ Guid="d4beeaaf-a204-4d36-93ec-efccec1d2c23"
+>Kernel.AcceptInformation.RouteSuitabilityData( Source =&gt; Kernel.AcceptInformation.Source.RBC )</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="9eea0944-023f-458e-b011-51c3a16f9c71"
+>Kernel.TrackDescription.AdhesionFactors.AdhesionFactorReceived ( Packet =&gt; ( FIRST X IN aMessage.INFILL_MA.Sequence1  | Available ( X.ADHESION_FACTOR ) ).ADHESION_FACTOR )</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Level Crossing information available"
+ Guid="83d31b12-3729-4612-a022-6a378471613a"
+>
+<ReqRef
+ Id="8a060a51-4b93-4eb7-aa9b-5b5c264b6820"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="93cd11fc-bb31-4241-a0b8-c95d7b9c0a1b"
+>
+</ReqRef><Comment>Handles reception of the adhesion factor data received with infill MA.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Level Crossing information available"
+ Guid="f1f88752-42c8-46c1-949f-32f54334922e"
+>
+<PreConditions>
+<PreCondition
+ Guid="68268669-c6e7-4284-9590-1d554915b124"
+>THERE_IS X IN aMessage.INFILL_MA.Sequence1 | Available ( X.LEVEL_CROSSING_INFORMATION )</PreCondition><PreCondition
+ Guid="7ab7aa09-5db4-4952-aeea-41dca5bb4a26"
+>Kernel.AcceptInformation.RouteSuitabilityData( Source =&gt; Kernel.AcceptInformation.Source.RBC )</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="3618ea68-ad8e-4bc6-98ef-e85daf77e060"
+>Kernel.LX.LXReceived ( Packet =&gt; ( FIRST X IN aMessage.INFILL_MA.Sequence1  | Available ( X.LEVEL_CROSSING_INFORMATION ) ).LEVEL_CROSSING_INFORMATION )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition></Conditions>
@@ -11821,6 +11916,11 @@ But at the end of the cycle the conditions required for sending of position repo
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="052af9bd-f74a-4e5a-b527-5d0041e154b5"
 >
+</ReqRef><ReqRef
+ Id="655cd82d-364d-40cf-9540-62e1d8292f94"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="2b19d83b-5ecd-4868-bfd9-44b251c125bc"
+>
 </ReqRef><Comment>Handles reception of the route suitability data.</Comment>
 <SubRules></SubRules>
 <Conditions>
@@ -11843,7 +11943,7 @@ But at the end of the cycle the conditions required for sending of position repo
 </Rule><Rule
  Priority="Processing"
  Implemented="TRUE"
- Name="Plain Text Message available"
+ Name="Plain text message available"
  Guid="f949498c-4264-473b-8fe3-dded70bc46b4"
 >
 <ReqRef
@@ -11935,7 +12035,7 @@ But at the end of the cycle the conditions required for sending of position repo
 </Rule><Rule
  Priority="Processing"
  Implemented="TRUE"
- Name="Geographical Position available"
+ Name="Geographical Position Information available"
  Guid="c6392e10-ecba-405d-a76b-2510ba3260e4"
 >
 <ReqRef
@@ -11943,12 +12043,17 @@ But at the end of the cycle the conditions required for sending of position repo
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="494e6f3a-b888-4d5e-87b9-b170d26f9c28"
 >
+</ReqRef><ReqRef
+ Id="16e1df6b-c27b-4c82-8dcf-37b394753241"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ed4a1347-61d7-4482-b12e-d703dc1d1f39"
+>
 </ReqRef><Comment>Handles reception of geographical position information.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
- Name="Geographical Position available"
+ Name="Geographical Position Information available"
  Guid="61fbd0fd-4497-4000-98e8-49e1aeafeb65"
 >
 <PreConditions>
@@ -11977,6 +12082,11 @@ But at the end of the cycle the conditions required for sending of position repo
  Id="fb5cdb2c-826a-4be7-babf-d16c11e9720c"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="c743c8f0-396e-4f62-90ff-46a86510ce47"
+>
+</ReqRef><ReqRef
+ Id="813504ec-6af8-4d96-be72-5e3b6b595a0a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="dcaed946-869b-4bb8-b26b-5cefaa97d851"
 >
 </ReqRef><Comment>Handles reception of RBC transition orders.</Comment>
 <SubRules></SubRules>
@@ -12074,7 +12184,7 @@ RevSupPacketAvailable( aPacket =&gt; ( FIRST X IN Packets | Available ( X.REVERS
 </Rule><Rule
  Priority="Processing"
  Implemented="TRUE"
- Name="LSSMA Display Toggle Order available"
+ Name="LSSMA display toggle order available"
  Guid="cf3b6a56-0f48-4763-a9f3-26f5e0f6b0db"
 >
 <ReqRef
@@ -12086,6 +12196,11 @@ RevSupPacketAvailable( aPacket =&gt; ( FIRST X IN Packets | Available ( X.REVERS
  Id="569567b3-3681-4d80-9bed-9a1376f4cd6f"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="be72b01c-5106-49a0-8a60-afd1ebd352bc"
+>
+</ReqRef><ReqRef
+ Id="a6eade55-4b84-45f2-a021-fd589f3d1760"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a03429b2-9afe-492c-80cc-5f63197dd650"
 >
 </ReqRef><Comment>Handles reception of an LSSMA diplay toggle order.</Comment>
 <SubRules></SubRules>
@@ -12183,6 +12298,78 @@ RevSupPacketAvailable( aPacket =&gt; ( FIRST X IN Packets | Available ( X.REVERS
 <Action
  Guid="5f9d9e00-9e1a-48a5-9383-577cc3c95da6"
 >Kernel.TrackDescription.TrackConditions.StationPlatform.SPTrackConditionReceived ( Packet =&gt; ( FIRST X IN Packets | Available ( X.TRACK_CONDITION_STATION_PLATFORMS )).TRACK_CONDITION_STATION_PLATFORMS )</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Adhesion factor available"
+ Guid="63447451-77ac-451a-8496-dc6f331171c6"
+>
+<ReqRef
+ Id="47c59e98-996c-4daa-84b7-bda20f4e45ac"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="454efff9-903c-446a-bdcb-186af9ecb70f"
+>
+</ReqRef><ReqRef
+ Id="0be2ea06-0c8b-4622-9a32-bd8954c01555"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="81aaa338-0e37-43a9-b7eb-391ef5cb8513"
+>
+</ReqRef><Comment>Handles reception of adhesion factor.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Adhesion factor available"
+ Guid="c3c20079-c231-44d5-b5da-a15e0024e64f"
+>
+<PreConditions>
+<PreCondition
+ Guid="e339049f-b9f2-4ae1-be44-ab5320f968c6"
+>THERE_IS X IN Packets | Available ( X.ADHESION_FACTOR )</PreCondition><PreCondition
+ Guid="9a957fa4-c308-4112-a13d-b66f4cc737e9"
+>Kernel.AcceptInformation.SessionManagement( Source =&gt; Kernel.AcceptInformation.Source.RBC )</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="ea06da48-3ec0-46a1-813d-7a319085cb21"
+>Kernel.TrackDescription.AdhesionFactors.AdhesionFactorReceived ( Packet =&gt; ( FIRST X IN Packets | Available ( X.ADHESION_FACTOR )).ADHESION_FACTOR )</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Level Crossing information available"
+ Guid="4b63cc57-7d42-4bb0-9194-6e6a200dd02e"
+>
+<ReqRef
+ Id="8a060a51-4b93-4eb7-aa9b-5b5c264b6820"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e7b8b268-2da0-45e9-b5f9-ed733f7f1bdb"
+>
+</ReqRef><ReqRef
+ Id="4744429f-fce3-4833-817a-c0cd74ffcd7f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="44ae4d70-e206-406f-b614-ad97efd99e6b"
+>
+</ReqRef><Comment>Handles reception of adhesion factor.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Level Crossing information available"
+ Guid="328e1395-b91e-4ff8-9296-ff357b4876ca"
+>
+<PreConditions>
+<PreCondition
+ Guid="d60b11ed-f8c0-4335-885b-b5c545fb92cd"
+>THERE_IS X IN Packets | Available ( X.LEVEL_CROSSING_INFORMATION )</PreCondition><PreCondition
+ Guid="cfb4b7a4-be2b-4314-828e-318245d38bc5"
+>Kernel.AcceptInformation.SessionManagement( Source =&gt; Kernel.AcceptInformation.Source.RBC )</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="4bf9a490-5b1d-4d14-aca2-9fa5a6d9141c"
+>Kernel.LX.LXReceived ( Packet =&gt; ( FIRST X IN Packets | Available ( X.LEVEL_CROSSING_INFORMATION )).LEVEL_CROSSING_INFORMATION )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
