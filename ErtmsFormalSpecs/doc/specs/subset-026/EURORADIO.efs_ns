@@ -10143,6 +10143,39 @@ MessageTypes.QScaleDistance(
 </Rule><Rule
  Priority="Processing"
  Implemented="TRUE"
+ Name="Temporary Speed Restriction Revocation available"
+ Guid="adaf9552-d0bf-4ffa-9cc0-43e5cc271f17"
+>
+<ReqRef
+ Id="fcf6574b-fd16-4246-81d9-07cda44db502"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9ddc7025-60aa-44fe-a64b-0cd48a6b766c"
+>
+</ReqRef><Comment>Handles reception of inhibition of revocable TSRs.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Temporary Speed Restriction Revocation available"
+ Guid="0dd78097-fd2d-4ca0-bd6f-47fe7a626b7a"
+>
+<PreConditions>
+<PreCondition
+ Guid="24ba1ee6-88bd-42ca-af8a-378c8a906432"
+>THERE_IS X IN aMessage.INFILL_MA.Sequence1 | Available ( X.TEMPORARY_SPEED_RESTRICTION_REVOCATION )</PreCondition><PreCondition
+ Guid="2cc6a543-e080-4624-9a63-b5e9d24f8090"
+>Kernel.AcceptInformation.InhibitionOfRevocableTSRs( Source =&gt; Kernel.AcceptInformation.Source.RBC )</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="a551717a-738e-4270-a6fa-d850669383d4"
+>Kernel.TSR.TemporarySpeedRestrictionRevocationReceived
+(
+  Packet =&gt; ( FIRST X IN aMessage.INFILL_MA.Sequence1 | Available ( X.TEMPORARY_SPEED_RESTRICTION_REVOCATION ) ).TEMPORARY_SPEED_RESTRICTION_REVOCATION
+)</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
  Name="Reversing Area or Supervision Information available"
  Guid="3f894663-c54e-41c2-a609-1a567adb163c"
 >
@@ -10343,6 +10376,66 @@ RevSupPacketAvailable( aPacket =&gt; ( FIRST X IN aMessage.INFILL_MA.Sequence1 |
 <Action
  Guid="93e1181a-16f8-460e-8ca9-87d3734f27d1"
 >Kernel.TrackDescription.PermittedBrakingDistance.PermittedBrakingDistanceReceived ( Packet =&gt; ( FIRST X IN aMessage.INFILL_MA.Sequence1| Available ( X.PERMITTED_BRAKING_DISTANCE_INFORMATION )).PERMITTED_BRAKING_DISTANCE_INFORMATION )</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Track Condition available"
+ Guid="8ad11f95-a253-408a-83a8-df1141565a3d"
+>
+<ReqRef
+ Id="46ff0663-ed84-4dea-af46-b87941a77c51"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="3183b991-9b4f-48d9-b7b3-a5c640c26284"
+>
+</ReqRef><Comment>Handles reception of the track condition data received with infill MA.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Track Condition available"
+ Guid="bd372374-d044-4c4a-b376-b5a25caf3af3"
+>
+<PreConditions>
+<PreCondition
+ Guid="5fb5c054-c0a3-4bd2-820e-bff4cd6e12de"
+>THERE_IS X IN aMessage.INFILL_MA.Sequence1 | Available ( X.TRACK_CONDITION )</PreCondition><PreCondition
+ Guid="8c14af74-7fe8-4240-ac87-1ff0fb823ca6"
+>Kernel.AcceptInformation.RouteSuitabilityData( Source =&gt; Kernel.AcceptInformation.Source.RBC )</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="b18cbdb5-19a4-4699-97c7-9862eea93972"
+>Kernel.TrackDescription.TrackConditions.General.TrackConditionReceived ( Packet =&gt; ( FIRST X IN aMessage.INFILL_MA.Sequence1  | Available ( X.TRACK_CONDITION ) ).TRACK_CONDITION )</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Track Condition Station Platforms available"
+ Guid="eb92efe4-d6f4-4df3-bc7a-218c5505af7c"
+>
+<ReqRef
+ Id="47c59e98-996c-4daa-84b7-bda20f4e45ac"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c2ed3082-e73e-450c-a788-b0a7e8e9d8da"
+>
+</ReqRef><Comment>Handles reception of the track condition data received with infill MA.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Track Condition Station Platforms available"
+ Guid="8b338002-2827-4de2-99a1-9477e7136665"
+>
+<PreConditions>
+<PreCondition
+ Guid="2ebef2d7-48ab-4ab2-bca0-1a8434414856"
+>THERE_IS X IN aMessage.INFILL_MA.Sequence1 | Available ( X.TRACK_CONDITION_STATION_PLATFORMS )</PreCondition><PreCondition
+ Guid="c725eead-ee8d-49e4-b98c-6bac616c815e"
+>Kernel.AcceptInformation.RouteSuitabilityData( Source =&gt; Kernel.AcceptInformation.Source.RBC )</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="5aee1fbb-a67c-4c02-b152-8f88f43df22b"
+>Kernel.TrackDescription.TrackConditions.StationPlatform.SPTrackConditionReceived ( Packet =&gt; ( FIRST X IN aMessage.INFILL_MA.Sequence1  | Available ( X.TRACK_CONDITION_STATION_PLATFORMS ) ).TRACK_CONDITION_STATION_PLATFORMS )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition></Conditions>
@@ -11687,6 +11780,39 @@ But at the end of the cycle the conditions required for sending of position repo
 </Rule><Rule
  Priority="Processing"
  Implemented="TRUE"
+ Name="Temporary Speed Restriction Revocation available"
+ Guid="6cd36c2d-2895-401d-bc81-10615307f39f"
+>
+<ReqRef
+ Id="fcf6574b-fd16-4246-81d9-07cda44db502"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="4013999b-a95f-4c71-a673-b8f0c1aef10f"
+>
+</ReqRef><Comment>Handles reception of inhibition of revocable TSRs.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Temporary Speed Restriction Revocation available"
+ Guid="74ab415e-fc4c-4d58-8563-61e381e1b5e4"
+>
+<PreConditions>
+<PreCondition
+ Guid="ad83b3e8-693e-4d3d-9a21-007f0dee043c"
+>THERE_IS X IN Packets | Available ( X.TEMPORARY_SPEED_RESTRICTION_REVOCATION )</PreCondition><PreCondition
+ Guid="b68c35bc-115b-42ca-9776-4c3354bdd02f"
+>Kernel.AcceptInformation.InhibitionOfRevocableTSRs( Source =&gt; Kernel.AcceptInformation.Source.RBC )</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="e014e166-992c-457a-9206-c0a815239a4b"
+>Kernel.TSR.TemporarySpeedRestrictionRevocationReceived
+(
+  Packet =&gt; ( FIRST X IN Packets | Available ( X.TEMPORARY_SPEED_RESTRICTION_REVOCATION ) ).TEMPORARY_SPEED_RESTRICTION_REVOCATION
+)</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
  Name="Route Suitability Data available"
  Guid="4aa1a01f-4254-4958-b0e8-99b5cb30cc20"
 >
@@ -11985,6 +12111,78 @@ RevSupPacketAvailable( aPacket =&gt; ( FIRST X IN Packets | Available ( X.REVERS
         Increment =&gt; MessageTypes.TimeResolution(Time)
     )
 )</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Track Condition available"
+ Guid="f65aaae4-4084-4485-b4a4-6f2e0de9dec7"
+>
+<ReqRef
+ Id="46ff0663-ed84-4dea-af46-b87941a77c51"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="eea45698-fa70-4b1f-86e8-65dc5ee375e7"
+>
+</ReqRef><ReqRef
+ Id="9eb67bec-5e3a-407d-8b6e-e3d49d57e883"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="101bcaf4-dcec-4cfd-9a2b-cf5b8d1a96fd"
+>
+</ReqRef><Comment>Handles reception of track condition change of traction system.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Track Condition available"
+ Guid="ac43c813-98ab-484f-a349-7869fabac7e2"
+>
+<PreConditions>
+<PreCondition
+ Guid="a7fc3166-13e1-4edc-81d8-755dd4b7d3db"
+>THERE_IS X IN Packets | Available ( X.TRACK_CONDITION )</PreCondition><PreCondition
+ Guid="cb563604-5ce4-4c22-a86d-671b4ef2c5fd"
+>Kernel.AcceptInformation.SessionManagement( Source =&gt; Kernel.AcceptInformation.Source.RBC )</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="e6e8340d-4c48-4759-8a2e-496e884cee9c"
+>Kernel.TrackDescription.TrackConditions.General.TrackConditionReceived ( Packet =&gt; ( FIRST X IN Packets | Available ( X.TRACK_CONDITION )).TRACK_CONDITION )</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Track Condition Station Platforms available"
+ Guid="f8dc9bf5-8f68-449f-8840-106eeb6b3f17"
+>
+<ReqRef
+ Id="47c59e98-996c-4daa-84b7-bda20f4e45ac"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a01eef8c-019f-42b5-bfb7-77b84cd255d3"
+>
+</ReqRef><ReqRef
+ Id="0be2ea06-0c8b-4622-9a32-bd8954c01555"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="13fbb525-221c-42e8-909d-b803d9e33ca7"
+>
+</ReqRef><Comment>Handles reception of track condition change of traction system.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Track Condition Station Platforms available"
+ Guid="822c6587-431c-4aed-b6fb-92a297f20729"
+>
+<PreConditions>
+<PreCondition
+ Guid="4e138a63-72a6-4e2a-a8b1-45407a516372"
+>THERE_IS X IN Packets | Available ( X.TRACK_CONDITION_STATION_PLATFORMS )</PreCondition><PreCondition
+ Guid="823dcdf8-84e6-4b5f-9980-2f1bf623c417"
+>Kernel.AcceptInformation.SessionManagement( Source =&gt; Kernel.AcceptInformation.Source.RBC )</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="5f9d9e00-9e1a-48a5-9383-577cc3c95da6"
+>Kernel.TrackDescription.TrackConditions.StationPlatform.SPTrackConditionReceived ( Packet =&gt; ( FIRST X IN Packets | Available ( X.TRACK_CONDITION_STATION_PLATFORMS )).TRACK_CONDITION_STATION_PLATFORMS )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
