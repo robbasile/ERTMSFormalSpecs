@@ -18,6 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
+using System.Linq;
 using System.Windows.Forms;
 using DataDictionary;
 using DataDictionary.Interpreter;
@@ -455,24 +456,28 @@ namespace GUIUtils.Editor
         /// <param name="text"></param>
         /// <param name="index"></param>
         /// <returns></returns>
-        private string GetExpressionText(string text, int index)
+        public string GetExpressionText(string text, int index)
         {
-            int start = index;
+            string retVal = "";
 
-            while (start > 0 && IsValidExpressionChar(text[start]))
+            if (IsValidExpressionChar(text[index]))
             {
-                start = start - 1;
-            }
-            start = start + 1;
+                int start = index;
+                while (start > 0 && IsValidExpressionChar(text[start-1]))
+                {
+                    start = start - 1;
+                }
 
-            int end = index;
-            while (end < text.Length && IsValidExpressionChar(text[end]))
-            {
-                end = end + 1;
-            }
-            end = end - 1;
+                int end = index;
+                while (end < text.Length - 1 && IsValidExpressionChar(text[end+1]))
+                {
+                    end = end + 1;
+                }
 
-            return text.Substring(start, end - start + 1);
+                retVal = text.Substring(start, end - start + 1);
+            }
+
+            return retVal;
         }
 
         /// <summary>
@@ -536,9 +541,9 @@ namespace GUIUtils.Editor
         /// <param name="index">The location of the cursor in the text box</param>
         /// <param name="prefix">The prefix used to reduce the choices</param>
         /// <returns></returns>
-        public List<ObjectReference> AllChoices(int index, string prefix)
+        public SortedSet<ObjectReference> AllChoices(int index, string prefix)
         {
-            List<ObjectReference> retVal = new List<ObjectReference>();
+            SortedSet<ObjectReference> retVal = new SortedSet<ObjectReference>();
 
             double val;
             bool isANumber = double.TryParse(CurrentPrefix(index - 1).Trim(), NumberStyles.Any, CultureInfo.InvariantCulture, out val);
@@ -641,7 +646,7 @@ namespace GUIUtils.Editor
 
             string prefix = CurrentPrefix(index).Trim();
             index = Math.Max(0, index - prefix.Length);
-            List<ObjectReference> allChoices = AllChoices(index, prefix);
+            SortedSet<ObjectReference> allChoices = AllChoices(index, prefix);
 
             if (prefix.Length <= EditionTextBox.SelectionStart)
             {
@@ -652,7 +657,7 @@ namespace GUIUtils.Editor
                 EditionTextBox.Select(_selectionStart, _selectionLength);
                 if (allChoices.Count == 1)
                 {
-                    EditionTextBox.SelectedText = allChoices[0].DisplayName;
+                    EditionTextBox.SelectedText = allChoices.First().DisplayName;
                 }
                 else if (allChoices.Count > 1)
                 {
@@ -667,7 +672,7 @@ namespace GUIUtils.Editor
                     }
                     else
                     {
-                        SelectionComboBox.Text = allChoices[0].DisplayName;
+                        SelectionComboBox.Text = allChoices.First().DisplayName;
                     }
 
                     // Try to compute the combo box location

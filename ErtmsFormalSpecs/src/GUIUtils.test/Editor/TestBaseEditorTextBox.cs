@@ -14,6 +14,14 @@ namespace GUIUtils.test.Editor
     [TestFixture, RequiresSTA]
     public class TestBaseEditorTextBox : BaseModelTest
     {
+        [Test]
+        public void TestGetExpressionText()
+        {
+            BaseEditorTextBox textBox = new BaseEditorTextBox();
+            Assert.AreEqual("F", textBox.GetExpressionText("(F", 1));
+        }
+
+
         /// <summary>
         /// Indicates whether the list of object references contains the provided model element
         /// </summary>
@@ -77,7 +85,7 @@ namespace GUIUtils.test.Editor
                 //              0123456789
                 textBox.Text = "V <- N1.S";
                 textBox.Instance = rc;
-                List<ObjectReference> choices = textBox.AllChoices(7, "S");
+                SortedSet<ObjectReference> choices = textBox.AllChoices(7, "S");
                 Assert.IsNotNull(choices);
                 Assert.AreEqual(2, choices.Count);
                 Assert.IsTrue(Contains(choices, s1));
@@ -88,12 +96,26 @@ namespace GUIUtils.test.Editor
                 //              0123456789
                 textBox.Text = "V <- N1.";
                 textBox.Instance = rc;
-                List<ObjectReference> choices = textBox.AllChoices(7, "");
+                SortedSet<ObjectReference> choices = textBox.AllChoices(7, "");
                 Assert.IsNotNull(choices);
                 Assert.AreEqual(3, choices.Count);
                 Assert.IsTrue(Contains(choices, s1));
                 Assert.IsTrue(Contains(choices, s2));
                 Assert.IsTrue(Contains(choices, v));
+            }
+
+
+            {
+                //              0123456789
+                textBox.Text = "(F";
+                textBox.Instance = rc;
+                SortedSet<ObjectReference> choices = textBox.AllChoices(1, "F");
+                Assert.IsNotNull(choices);
+                Assert.AreEqual(4, choices.Count);
+                Assert.IsTrue(Contains(choices, "FILTER <collection> | <condition> USING X"));
+                Assert.IsTrue(Contains(choices, "FIRST X IN <collection> | <condition>"));
+                Assert.IsTrue(Contains(choices, "FORALL X IN <collection> | <condition>"));
+                Assert.IsTrue(Contains(choices, EfsSystem.Instance.FullDecelerationForTargetPredefinedFunction));
             }
         }
 
@@ -120,7 +142,7 @@ namespace GUIUtils.test.Editor
                 //              0123456789
                 textBox.Text = "V <- N2.";
                 textBox.Instance = rc;
-                List<ObjectReference> choices = textBox.AllChoices(7, "");
+                SortedSet<ObjectReference> choices = textBox.AllChoices(7, "");
                 Assert.IsNotNull(choices);
                 Assert.AreEqual(0, choices.Count);
             }
@@ -146,7 +168,7 @@ namespace GUIUtils.test.Editor
                 //              012345678901234567890123456789
                 textBox.Text = "LET d <- V.E2 IN d.E ";
                 textBox.Instance = rc;
-                List<ObjectReference> choices = textBox.AllChoices(17, "E");
+                SortedSet<ObjectReference> choices = textBox.AllChoices(17, "E");
                 Assert.IsNotNull(choices);
                 Assert.AreEqual(1, choices.Count);
                 Assert.IsTrue(Contains(choices, el1));
@@ -173,7 +195,7 @@ namespace GUIUtils.test.Editor
                 //              012345678901234567890123456789
                 textBox.Text = "T";
                 textBox.Instance = rc;
-                List<ObjectReference> choices = textBox.AllChoices(0, "T");
+                SortedSet<ObjectReference> choices = textBox.AllChoices(0, "T");
                 Assert.IsNotNull(choices);
                 Assert.AreEqual(2, choices.Count);
                 Assert.IsTrue(Contains(choices, "THERE_IS X IN <collection> | <condition>"));
@@ -203,12 +225,50 @@ namespace GUIUtils.test.Editor
                 //              012345678901234567890123456789
                 textBox.Text = "p1.";
                 textBox.Instance = cas;
-                List<ObjectReference> choices = textBox.AllChoices(2, "");
+                SortedSet<ObjectReference> choices = textBox.AllChoices(2, "");
                 Assert.IsNotNull(choices);
                 Assert.AreEqual(1, choices.Count);
                 Assert.IsTrue(Contains(choices, el1));
             }
         }
 
+        [Test]
+        public void TestFirstExpression()
+        {
+            Dictionary test = CreateDictionary("Test");
+            NameSpace n1 = CreateNameSpace(test, "N1");
+            Structure s1 = CreateStructure(n1, "S1");
+            StructureElement el1 = CreateStructureElement(s1, "E1", "Boolean");
+            Structure s2 = CreateStructure(n1, "S2");
+            StructureElement el2 = CreateStructureElement(s2, "E2", "S1");
+            Collection col = CreateCollection(n1, "Col", "S2", 10);
+            Variable v = CreateVariable(n1, "v", "Col");
+
+            Compiler.Compile_Synchronous(true, true);
+            RuleCondition rc = CreateRuleAndCondition(n1, "Rule1");
+            BaseEditorTextBox textBox = new BaseEditorTextBox();
+            {
+                //              0         1         2
+                //              012345678901234567890123456789
+                textBox.Text = "(FIRST X IN v).";
+                textBox.Instance = rc;
+                SortedSet<ObjectReference> choices = textBox.AllChoices(14, "");
+                Assert.IsNotNull(choices);
+                Assert.AreEqual(1, choices.Count);
+                Assert.IsTrue(Contains(choices, el2));
+            }
+
+            {
+                //              0         1         2
+                //              012345678901234567890123456789
+                textBox.Text = "(FIRST X IN N";
+                textBox.Instance = rc;
+                SortedSet<ObjectReference> choices = textBox.AllChoices(12, "N");
+                Assert.IsNotNull(choices);
+                Assert.AreEqual(2, choices.Count);
+                Assert.IsTrue(Contains(choices, n1));
+                Assert.IsTrue(Contains(choices, "NOT"));
+            }
+        }
     }
 }

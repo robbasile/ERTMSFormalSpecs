@@ -203,5 +203,20 @@ namespace DataDictionary.Interpreter
                 }
             }
         }
+
+        protected override void VisitUnaryExpression(UnaryExpression unaryExpression)
+        {
+            if (ShouldCheck(unaryExpression))
+            {
+                if (unaryExpression.Expression != null && Position > unaryExpression.Expression.End)
+                {
+                    Context = unaryExpression.GetExpressionType();
+                }
+                else
+                {
+                    base.VisitUnaryExpression(unaryExpression);    
+                }                
+            }
+        }
     }
 }
