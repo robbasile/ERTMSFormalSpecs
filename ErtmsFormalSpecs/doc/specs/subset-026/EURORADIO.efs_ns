@@ -584,6 +584,16 @@ Keep the reason for it to be displayed to the driver.</Comment>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="5e111074-2075-4292-9f06-c4171e380ebc"
 >
+</ReqRef><ReqRef
+ Id="c777f0b7-86fb-438a-91dc-20b12ceec0b0"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="721666d4-528a-432f-9242-b334b15978d9"
+>
+</ReqRef><ReqRef
+ Id="bc9d05af-2451-4f8c-8e90-24b256a572fa"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="3bc18cf8-9de1-4584-8d71-57a4196111c4"
+>
 </ReqRef><Comment>Sends the Position report message.</Comment>
 <Rules>
 <Rule
@@ -927,6 +937,11 @@ Keep the reason for it to be displayed to the driver.</Comment>
  Id="c145e7f4-406f-43e2-9d62-1b55e23be537"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="d52e8562-8480-4a9a-a24d-e60bf83cbef5"
+>
+</ReqRef><ReqRef
+ Id="314a65fb-2b09-4631-8372-2420970cec84"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f767a19a-6d4c-402e-b1e4-f0efb5fdf6c3"
 >
 </ReqRef><Comment>Sends the train data message.</Comment>
 <Rules>
@@ -1893,6 +1908,11 @@ ConnectionState in EURORADIO.RBCStruct.ConnectionStateSM.Terminating</PreConditi
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="c0ff2e38-f9f4-4bf6-9147-ec53b040341c"
 >
+</ReqRef><ReqRef
+ Id="a0a1a643-5cf9-4392-b573-9ea14a76a3e7"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="7ffee05d-ac50-4cf2-bf1f-23746a91e6c4"
+>
 </ReqRef><Comment>Sends the Session establishment report message.</Comment>
 <Rules>
 <Rule
@@ -2282,6 +2302,11 @@ THERE_IS X IN UpdatedMessageIn(THIS).SystemVersion2.MA_WITH_SHIFTED_LOCATION_REF
  Id="25a9a61a-cb48-4ecc-9297-199f5897d32b"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="f1969a07-fa08-43d5-9639-941c936dad28"
+>
+</ReqRef><ReqRef
+ Id="65c0616d-9c81-42f1-907b-c71e0d73d3ff"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="5bb17801-cc10-431b-843b-1347d635b114"
 >
 </ReqRef><PreConditions>
 <PreCondition
@@ -8688,7 +8713,7 @@ EURORADIO.Terminal1.RBCConnection.SafeRadioConnectionStatus == EURORADIO.SafeRad
 </Rule><Rule
  Priority="Processing"
  Implemented="TRUE"
- Name="Level transition order available"
+ Name="Level Transition Order available"
  Guid="2de45eff-8689-46b3-81c8-51492ec1fe26"
 >
 <ReqRef
@@ -8711,12 +8736,17 @@ EURORADIO.Terminal1.RBCConnection.SafeRadioConnectionStatus == EURORADIO.SafeRad
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="e7317457-5f06-40d0-a649-b09c7a720ad2"
 >
+</ReqRef><ReqRef
+ Id="3c872475-fbad-4a03-b13a-a6fa51c6a722"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="1f577497-1852-4b09-a497-5d7a862ae1a6"
+>
 </ReqRef><Comment>Handles a new level transition order before any other information, because the other informations may depend in it.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
- Name="Level transition in General Message"
+ Name="Level Transition Order in General Message"
  Guid="4d20447c-43e0-4db3-aeb9-5bbf7cd1a977"
 >
 <Comment>Checks if level transition order is received in general message.</Comment>
@@ -8734,7 +8764,7 @@ EURORADIO.Terminal1.RBCConnection.SafeRadioConnectionStatus == EURORADIO.SafeRad
   ON aMessage.GENERAL_MESSAGE.Sequence1 | Available(X.LEVEL_TRANSITION_ORDER)</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
- Name="Level transition in Movement Authority"
+ Name="Level Transition Order in Movement Authority"
  Guid="f7a1dc51-67c4-425e-9b65-2464734eff10"
 >
 <Comment>Checks if level transition order is received in movement authority message.</Comment>
@@ -8752,7 +8782,7 @@ EURORADIO.Terminal1.RBCConnection.SafeRadioConnectionStatus == EURORADIO.SafeRad
   ON aMessage.MOVEMENT_AUTHORITY.Sequence1 | Available(X.LEVEL_TRANSITION_ORDER)</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
- Name="Level transition in MA with Shifted Location Reference"
+ Name="Level Transition Order in MA with Shifted Location Reference"
  Guid="06a9a23b-27e5-4ceb-8cab-217f2a3e348f"
 >
 <Comment>Checks if level transition order is received in MA with shifted location reference message.</Comment>
@@ -8770,7 +8800,7 @@ EURORADIO.Terminal1.RBCConnection.SafeRadioConnectionStatus == EURORADIO.SafeRad
   ON aMessage.MA_WITH_SHIFTED_LOCATION_REFERENCE.Sequence1 | Available(X.LEVEL_TRANSITION_ORDER)</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
- Name="Level transition Infill MA"
+ Name="Level Transition Order in Infill MA"
  Guid="9c14853f-280a-4851-b7a2-f1c2e313eded"
 >
 <Comment>Checks if level transition order is received in infill MA message.</Comment>
@@ -8812,6 +8842,11 @@ EURORADIO.Terminal1.RBCConnection.SafeRadioConnectionStatus == EURORADIO.SafeRad
  Id="96e35d16-4055-40b8-811e-cb6738efd0c2"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="ab0ef5fe-6a5a-4579-85d2-a7788d9c7135"
+>
+</ReqRef><ReqRef
+ Id="9f918f6f-f470-4613-ab97-374dc595ce7c"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="676ff9f6-361d-43cf-bd00-6a11ba7627eb"
 >
 </ReqRef><Comment>Handles reception of SR authorisation with the corresponding list of balises in SR authority, if any.</Comment>
 <SubRules></SubRules>
@@ -8913,6 +8948,11 @@ EURORADIO.Terminal1.RBCConnection.SafeRadioConnectionStatus == EURORADIO.SafeRad
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="fe5ff221-f09e-41e1-ac39-10691136d712"
 >
+</ReqRef><ReqRef
+ Id="4396f131-3dd7-4601-be15-b4827d98bf32"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="faa74451-ed37-495d-bbad-3e9496933b32"
+>
 </ReqRef><Comment>Handles reception of gradient profile received with the MA.</Comment>
 <SubRules></SubRules>
 <Conditions>
@@ -8953,6 +8993,11 @@ EURORADIO.Terminal1.RBCConnection.SafeRadioConnectionStatus == EURORADIO.SafeRad
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="8ecaa15f-bdde-4f57-a2e5-5abbad0fae88"
 >
+</ReqRef><ReqRef
+ Id="9e0c6d45-0f4a-482d-9a28-dbe1f41746ed"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="2a6d2588-59ba-420a-b38f-09e4a6ea3bad"
+>
 </ReqRef><Comment>Handles reception of the international static speed profile received with the MA.</Comment>
 <SubRules></SubRules>
 <Conditions>
@@ -8992,6 +9037,11 @@ EURORADIO.Terminal1.RBCConnection.SafeRadioConnectionStatus == EURORADIO.SafeRad
  Id="d52b6935-7a67-4676-ae5b-0c905452c8d3"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="1419c8f3-d266-46d9-93e9-687d709a6695"
+>
+</ReqRef><ReqRef
+ Id="e915fc9d-2b27-4f90-b3bb-ca784a55e1ab"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="fde75a6c-145b-40b6-a798-c6d6a379d3a2"
 >
 </ReqRef><Comment>Handles reception of the list of balises for SH area received with the MA.</Comment>
 <SubRules></SubRules>
@@ -9124,6 +9174,11 @@ EURORADIO.Terminal1.RBCConnection.SafeRadioConnectionStatus == EURORADIO.SafeRad
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="fd84685b-2cf9-49e0-a979-a2579c169f6b"
 >
+</ReqRef><ReqRef
+ Id="6f370d19-a99b-404b-9718-80331a17d9d4"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ca503707-aa3a-473a-8823-68128acf21f1"
+>
 </ReqRef><Comment>Handles reception of mode profile received with the MA (only if the MA was accepted).</Comment>
 <SubRules></SubRules>
 <Conditions>
@@ -9194,6 +9249,11 @@ EURORADIO.Terminal1.RBCConnection.SafeRadioConnectionStatus == EURORADIO.SafeRad
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="42cf2326-0760-45c8-bd17-9be6de77bf30"
 >
+</ReqRef><ReqRef
+ Id="9f918f6f-f470-4613-ab97-374dc595ce7c"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0cb0ba2f-8eda-43f6-86c5-9b9e02bf595e"
+>
 </ReqRef><Comment>Handles reception of Request to shorten MA.</Comment>
 <SubRules></SubRules>
 <Conditions>
@@ -9241,6 +9301,11 @@ EURORADIO.Terminal1.RBCConnection.SafeRadioConnectionStatus == EURORADIO.SafeRad
  Id="98b78c68-b649-45c4-9dd8-6bfbf4a8f9c1"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="6a4a31f6-d40d-4641-a969-733606f70c2e"
+>
+</ReqRef><ReqRef
+ Id="6f370d19-a99b-404b-9718-80331a17d9d4"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="260f9f16-e64f-4854-b4ec-57b318be59af"
 >
 </ReqRef><Comment>Handles reception of the mode profile received with the request to shorten MA.</Comment>
 <SubRules></SubRules>
@@ -9572,6 +9637,11 @@ MessageTypes.QScaleDistance(
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="5135329e-d60e-41e9-a79f-c33c738decf5"
 >
+</ReqRef><ReqRef
+ Id="4396f131-3dd7-4601-be15-b4827d98bf32"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a537d8eb-15b6-49a0-8e1f-6a9f3dc6e017"
+>
 </ReqRef><Comment>Handles reception of gradient profile received with the General Message.</Comment>
 <SubRules></SubRules>
 <Conditions>
@@ -9611,6 +9681,11 @@ MessageTypes.QScaleDistance(
  Id="9570bc20-fe09-49cb-8e1d-d7adbb5fdfbc"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="b946f21e-9ee3-4634-abaa-51fd9b4d13bd"
+>
+</ReqRef><ReqRef
+ Id="9e0c6d45-0f4a-482d-9a28-dbe1f41746ed"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d945dae1-9921-4445-90a9-970545a60971"
 >
 </ReqRef><Comment>Handles reception of the international static speed profile received with the General Message.</Comment>
 <SubRules></SubRules>
@@ -9748,6 +9823,11 @@ MessageTypes.QScaleDistance(
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="55b1c0b6-1e42-4718-839a-5bff9cf957e7"
 >
+</ReqRef><ReqRef
+ Id="e915fc9d-2b27-4f90-b3bb-ca784a55e1ab"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="61793a79-ffe4-42c0-9e0f-2b0e30efac70"
+>
 </ReqRef><Comment>Handles reception of the list of balises for SH area received with the SH authorized message.</Comment>
 <SubRules></SubRules>
 <Conditions>
@@ -9862,6 +9942,11 @@ MessageTypes.QScaleDistance(
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="1449571d-031d-41d6-9637-bd816e4f9638"
 >
+</ReqRef><ReqRef
+ Id="9f918f6f-f470-4613-ab97-374dc595ce7c"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f11e6051-1abf-486e-9a3a-e93b03ba2da1"
+>
 </ReqRef><Comment>Handles reception of MA with shifted location reference.</Comment>
 <SubRules></SubRules>
 <Conditions>
@@ -9917,6 +10002,11 @@ MessageTypes.QScaleDistance(
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="0e62eeb4-d58e-4f3a-9b18-e8820c406729"
 >
+</ReqRef><ReqRef
+ Id="4396f131-3dd7-4601-be15-b4827d98bf32"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e4cc24e9-8dc6-4876-9d7b-50056065804b"
+>
 </ReqRef><Comment>Handles reception of gradient profile received with the MA with shifted location reference message.</Comment>
 <SubRules></SubRules>
 <Conditions>
@@ -9956,6 +10046,11 @@ MessageTypes.QScaleDistance(
  Id="9570bc20-fe09-49cb-8e1d-d7adbb5fdfbc"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="9b425dba-b901-4b19-a647-e5d3d787cc03"
+>
+</ReqRef><ReqRef
+ Id="9e0c6d45-0f4a-482d-9a28-dbe1f41746ed"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="33517ac4-079c-406b-b78d-662e175b0540"
 >
 </ReqRef><Comment>Handles reception of the international static speed profile received with the MA with shifted location reference message.</Comment>
 <SubRules></SubRules>
@@ -9997,6 +10092,11 @@ MessageTypes.QScaleDistance(
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="9def430a-656d-4fbf-be90-42fbbe5a8174"
 >
+</ReqRef><ReqRef
+ Id="e915fc9d-2b27-4f90-b3bb-ca784a55e1ab"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0df2b3b7-70f9-4662-9009-e5ff1f7c5c4f"
+>
 </ReqRef><Comment>Handles reception of the list of balises for SH area received with the MA with shifted location reference.</Comment>
 <SubRules></SubRules>
 <Conditions>
@@ -10034,6 +10134,11 @@ MessageTypes.QScaleDistance(
  Id="98b78c68-b649-45c4-9dd8-6bfbf4a8f9c1"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="009de7e6-01e2-4a88-b881-6f25fba67f45"
+>
+</ReqRef><ReqRef
+ Id="6f370d19-a99b-404b-9718-80331a17d9d4"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9a4ec81e-1c59-40cb-aee3-2d648ef31416"
 >
 </ReqRef><Comment>Handles reception of mode profile received with MA with shifted location reference message.</Comment>
 <SubRules></SubRules>
@@ -10244,6 +10349,11 @@ MessageTypes.QScaleDistance(
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="df1a7404-8367-423d-ae16-b80a7dc9b39a"
 >
+</ReqRef><ReqRef
+ Id="9e0c6d45-0f4a-482d-9a28-dbe1f41746ed"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="1f8a3146-5f2a-4c24-9107-0c83d059a02f"
+>
 </ReqRef><Comment>Handles reception of the international static speed profile received with the infill MA.</Comment>
 <SubRules></SubRules>
 <Conditions>
@@ -10301,7 +10411,7 @@ MessageTypes.QScaleDistance(
 </Rule><Rule
  Priority="Processing"
  Implemented="TRUE"
- Name="Track Condition Change of allowed current consumption"
+ Name="Track Condition Change of allowed current consumption available"
  Guid="49a1737e-f58b-41ac-a045-65ff9c2dc65a"
 >
 <ReqRef
@@ -10319,7 +10429,7 @@ MessageTypes.QScaleDistance(
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
- Name="Track Condition Change of allowed current consumption"
+ Name="Track Condition Change of allowed current consumption available"
  Guid="84b6618c-3b05-4dd6-9f7d-8bbe31c3e461"
 >
 <PreConditions>
@@ -10383,6 +10493,11 @@ MessageTypes.QScaleDistance(
  Id="d52b6935-7a67-4676-ae5b-0c905452c8d3"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="4b007e56-4b83-41fd-a3d5-e4716d4e0331"
+>
+</ReqRef><ReqRef
+ Id="e915fc9d-2b27-4f90-b3bb-ca784a55e1ab"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="1a455433-c3fe-46b5-bc9f-655a56809ec5"
 >
 </ReqRef><Comment>Handles reception of the list of balises for SH area received with the infill MA.</Comment>
 <SubRules></SubRules>
@@ -10484,6 +10599,11 @@ MessageTypes.QScaleDistance(
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="7ce31a7e-9d7d-414b-8150-3ede9f3d4f22"
 >
+</ReqRef><ReqRef
+ Id="2d4205fe-a62e-4306-88c0-fa8ed50b9d93"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="4ddbcb61-3169-4872-a64a-5e5ec0ce232c"
+>
 </ReqRef><Comment>Handles reception of temporary speed restrictions received with the infill MA.</Comment>
 <SubRules></SubRules>
 <Conditions>
@@ -10521,6 +10641,11 @@ MessageTypes.QScaleDistance(
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="9ddc7025-60aa-44fe-a64b-0cd48a6b766c"
 >
+</ReqRef><ReqRef
+ Id="a12cbea0-bfe5-4f24-ae74-56261d93466b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="3ec3efb6-a89a-4f3a-9429-73df5c52b48b"
+>
 </ReqRef><Comment>Handles reception of TSR revocation received with the infill MA.</Comment>
 <SubRules></SubRules>
 <Conditions>
@@ -10554,6 +10679,11 @@ MessageTypes.QScaleDistance(
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="3183b991-9b4f-48d9-b7b3-a5c640c26284"
 >
+</ReqRef><ReqRef
+ Id="9eb67bec-5e3a-407d-8b6e-e3d49d57e883"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="526c6ec2-2a18-4432-8cda-e3d9364ef438"
+>
 </ReqRef><Comment>Handles reception of the track condition data received with infill MA.</Comment>
 <SubRules></SubRules>
 <Conditions>
@@ -10583,6 +10713,11 @@ MessageTypes.QScaleDistance(
  Id="47c59e98-996c-4daa-84b7-bda20f4e45ac"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="c2ed3082-e73e-450c-a788-b0a7e8e9d8da"
+>
+</ReqRef><ReqRef
+ Id="0be2ea06-0c8b-4622-9a32-bd8954c01555"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="2647b78f-77cb-451d-a408-5c9a282a1115"
 >
 </ReqRef><Comment>Handles reception of the track condition station platforms data received with the infill MA.</Comment>
 <SubRules></SubRules>
@@ -10619,6 +10754,11 @@ MessageTypes.QScaleDistance(
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="b12c597f-dc05-4f1b-970f-b7959d209833"
 >
+</ReqRef><ReqRef
+ Id="21443e68-000d-4c84-b4f4-17c5373d0a4e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="beb41e31-cb2a-4888-8dce-3f9fa2fdbdd3"
+>
 </ReqRef><Comment>Handles reception of the route suitability data received with the infill MA.</Comment>
 <SubRules></SubRules>
 <Conditions>
@@ -10645,9 +10785,14 @@ MessageTypes.QScaleDistance(
  Guid="1cc78b43-035a-41fb-8dfb-df492da7fc7e"
 >
 <ReqRef
- Id="47c59e98-996c-4daa-84b7-bda20f4e45ac"
+ Id="7ee3b877-7ff2-4541-aa86-6af70c0cb7c6"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="12f10cb6-84aa-4c7e-a98e-87dadde8a205"
+ Guid="8cac07d0-dfd1-48c1-acac-7604cba50859"
+>
+</ReqRef><ReqRef
+ Id="903134a0-7b20-4b2e-ab42-30cae27fea81"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0a5ceb48-4176-42ca-90ff-b2568c293889"
 >
 </ReqRef><Comment>Handles reception of the adhesion factor data received with the infill MA.</Comment>
 <SubRules></SubRules>
@@ -10689,6 +10834,11 @@ MessageTypes.QScaleDistance(
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="5849976f-31a9-427a-bf65-722539d848e9"
 >
+</ReqRef><ReqRef
+ Id="6f370d19-a99b-404b-9718-80331a17d9d4"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="839a263a-042a-4c77-b7f1-60be6a6315af"
+>
 </ReqRef><Comment>Handles reception of mode profile received with the infill MA.</Comment>
 <SubRules></SubRules>
 <Conditions>
@@ -10721,6 +10871,11 @@ MessageTypes.QScaleDistance(
  Id="8a060a51-4b93-4eb7-aa9b-5b5c264b6820"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="93cd11fc-bb31-4241-a0b8-c95d7b9c0a1b"
+>
+</ReqRef><ReqRef
+ Id="4744429f-fce3-4833-817a-c0cd74ffcd7f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="1ade4197-9d72-460f-91cd-d2d2647b5870"
 >
 </ReqRef><Comment>Handles reception of the level crossing data received with the infill MA.</Comment>
 <SubRules></SubRules>
@@ -10781,6 +10936,16 @@ MessageTypes.QScaleDistance(
  Id="c93e250c-fc42-406f-9706-6ec7488b8982"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="79a06afb-3269-4e4e-a2ce-e28a5cf657fb"
+>
+</ReqRef><ReqRef
+ Id="690dfc40-042d-4c8d-9e60-17b85d455fd3"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f7f1b68f-0c7a-4303-889c-6209ea0a101c"
+>
+</ReqRef><ReqRef
+ Id="f08e576d-1c61-4c2b-b742-29f729a5728f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b41b796d-ad7e-48bc-b807-67420d2b64bf"
 >
 </ReqRef><Comment>Handles reception of reversing area information (and possibly reversing supervision information) received with the infill MA.</Comment>
 <SubRules></SubRules>
@@ -12050,6 +12215,11 @@ But at the end of the cycle the conditions required for sending of position repo
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="bb70bb4e-e09c-48ca-958a-1d005561a0fa"
 >
+</ReqRef><ReqRef
+ Id="b67273e4-3130-454e-8325-67246db078fe"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="8857e43a-c3d9-4f4c-a7c1-13d60371874d"
+>
 </ReqRef><Comment>Handles reception of the movement authority request parameters.</Comment>
 <SubRules></SubRules>
 <Conditions>
@@ -12084,6 +12254,11 @@ But at the end of the cycle the conditions required for sending of position repo
  Id="0536f7d3-e066-46cf-b0ad-1cbd509d2e5d"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="dc4fb4a5-7c28-4841-9043-01cfd812fde0"
+>
+</ReqRef><ReqRef
+ Id="45c177ff-55f5-4aec-ae11-0629e0ae14d1"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="3924cfe0-0721-479c-927d-1a240380b0ae"
 >
 </ReqRef><Comment>Handles reception of report parameters.</Comment>
 <SubRules></SubRules>
@@ -12128,6 +12303,11 @@ But at the end of the cycle the conditions required for sending of position repo
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="c44b4902-07be-4be3-9b6d-174d46c271c7"
 >
+</ReqRef><ReqRef
+ Id="cad48305-bd82-4eb5-888a-002e9591ce42"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9d63c839-5df6-447c-b99b-0100bf3680c3"
+>
 </ReqRef><Comment>Handles reception of inhibition of revocable TSRs.</Comment>
 <SubRules></SubRules>
 <Conditions>
@@ -12160,6 +12340,11 @@ But at the end of the cycle the conditions required for sending of position repo
  Id="37cb1c8d-6ea0-43c6-85a9-6ce724bf590e"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="e2192cd9-c634-45fd-9b05-705ab90717d1"
+>
+</ReqRef><ReqRef
+ Id="2d4205fe-a62e-4306-88c0-fa8ed50b9d93"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c80da99e-c445-4c1b-a9f2-159e7394e613"
 >
 </ReqRef><Comment>Handles reception of inhibition of revocable TSRs.</Comment>
 <SubRules></SubRules>
@@ -12197,6 +12382,11 @@ But at the end of the cycle the conditions required for sending of position repo
  Id="fcf6574b-fd16-4246-81d9-07cda44db502"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="4013999b-a95f-4c71-a673-b8f0c1aef10f"
+>
+</ReqRef><ReqRef
+ Id="a12cbea0-bfe5-4f24-ae74-56261d93466b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f2a6fe61-9166-4378-a6eb-edeb5e7add0a"
 >
 </ReqRef><Comment>Handles reception of inhibition of revocable TSRs.</Comment>
 <SubRules></SubRules>
@@ -12308,6 +12498,11 @@ But at the end of the cycle the conditions required for sending of position repo
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="2b19d83b-5ecd-4868-bfd9-44b251c125bc"
 >
+</ReqRef><ReqRef
+ Id="21443e68-000d-4c84-b4f4-17c5373d0a4e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="062aec9c-dd57-4b7d-a94c-5238f37b366c"
+>
 </ReqRef><Comment>Handles reception of the route suitability data.</Comment>
 <SubRules></SubRules>
 <Conditions>
@@ -12334,14 +12529,19 @@ But at the end of the cycle the conditions required for sending of position repo
  Guid="63447451-77ac-451a-8496-dc6f331171c6"
 >
 <ReqRef
- Id="47c59e98-996c-4daa-84b7-bda20f4e45ac"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="454efff9-903c-446a-bdcb-186af9ecb70f"
->
-</ReqRef><ReqRef
  Id="0be2ea06-0c8b-4622-9a32-bd8954c01555"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="81aaa338-0e37-43a9-b7eb-391ef5cb8513"
+>
+</ReqRef><ReqRef
+ Id="7ee3b877-7ff2-4541-aa86-6af70c0cb7c6"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d0db9b95-50bf-4851-b4ce-4fd424c56e2c"
+>
+</ReqRef><ReqRef
+ Id="903134a0-7b20-4b2e-ab42-30cae27fea81"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="54993d3a-2be5-4f19-921b-237cf7d7ad21"
 >
 </ReqRef><Comment>Handles reception of adhesion factor.</Comment>
 <SubRules></SubRules>
@@ -12412,7 +12612,7 @@ But at the end of the cycle the conditions required for sending of position repo
 </Rule><Rule
  Priority="Processing"
  Implemented="TRUE"
- Name="Fixed Text Message available"
+ Name="Fixed text message available"
  Guid="662b0bb6-4120-49dc-885b-a473919c1a4f"
 >
 <ReqRef
@@ -12441,7 +12641,7 @@ But at the end of the cycle the conditions required for sending of position repo
 <RuleCondition
  Implemented="TRUE"
  NeedsRequirement="FALSE"
- Name="Fixed Text Message available"
+ Name="Fixed text message available"
  Guid="5ae23c00-498d-4bca-99ee-98955a460120"
 >
 <PreConditions>
@@ -12470,6 +12670,11 @@ But at the end of the cycle the conditions required for sending of position repo
  Id="16e1df6b-c27b-4c82-8dcf-37b394753241"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="ed4a1347-61d7-4482-b12e-d703dc1d1f39"
+>
+</ReqRef><ReqRef
+ Id="3f471e44-8594-4731-ba67-b7173dc06106"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a3df9cc5-d087-45ea-8563-efa386b40fa4"
 >
 </ReqRef><Comment>Handles reception of geographical position information.</Comment>
 <SubRules></SubRules>
@@ -12546,6 +12751,11 @@ But at the end of the cycle the conditions required for sending of position repo
  Id="813504ec-6af8-4d96-be72-5e3b6b595a0a"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="dcaed946-869b-4bb8-b26b-5cefaa97d851"
+>
+</ReqRef><ReqRef
+ Id="f69899f9-70f7-4f0e-bc95-d9d97964dc81"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6687edaa-37ef-40e7-abd9-d56afc2e3a64"
 >
 </ReqRef><Comment>Handles reception of RBC transition orders.</Comment>
 <SubRules></SubRules>
@@ -12668,6 +12878,11 @@ Kernel.AcceptInformation.ReversingSupervisionInformation( Source =&gt; Kernel.Ac
  Id="a6eade55-4b84-45f2-a021-fd589f3d1760"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="a03429b2-9afe-492c-80cc-5f63197dd650"
+>
+</ReqRef><ReqRef
+ Id="6eeca2b4-7feb-46e5-9918-59197fd2bd89"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="3839e80c-dbe7-49f0-8dad-7573afcffd6e"
 >
 </ReqRef><Comment>Handles reception of an LSSMA diplay toggle order.</Comment>
 <SubRules></SubRules>
