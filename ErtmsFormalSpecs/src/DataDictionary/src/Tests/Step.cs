@@ -26,7 +26,7 @@ using TranslationDictionary = DataDictionary.Tests.Translations.TranslationDicti
 
 namespace DataDictionary.Tests
 {
-    public class Step : Generated.Step, ICommentable, ITextualExplain
+    public class Step : Generated.Step, ITextualExplain
     {
         /// <summary>
         ///     The text displayed for a step that has not been named
@@ -37,19 +37,35 @@ namespace DataDictionary.Tests
         {
             get
             {
-                string retVal = base.Name;
+                string retVal;
 
-                if (Utils.Util.isEmpty(retVal))
+                if (getTCS_Order() != 0)
                 {
-                    retVal = getDescription();
+                    retVal = "Step " + getTCS_Order() + ": " + getDescription();
                 }
-
-                if (Utils.Util.isEmpty(retVal))
+                else
                 {
-                    retVal = DefaultName;
+                    retVal = base.Name;
+
+                    if (Utils.Util.isEmpty(retVal))
+                    {
+                        retVal = getDescription();
+                    }
+
+                    if (Utils.Util.isEmpty(retVal))
+                    {
+                        retVal = DefaultName;
+                    }
                 }
 
                 return retVal;
+            }
+            set
+            {
+                if (getTCS_Order() == 0)
+                {
+                    base.Name = value;
+                }
             }
         }
 
@@ -111,7 +127,8 @@ namespace DataDictionary.Tests
         /// <returns></returns>
         public bool IsEmpty()
         {
-            bool retVal = false;
+            bool retVal;
+
             if (SubSteps.Count == 0)
             {
                 retVal = true;
@@ -128,6 +145,7 @@ namespace DataDictionary.Tests
                     }
                 }
             }
+
             return retVal;
         }
 
@@ -166,7 +184,7 @@ namespace DataDictionary.Tests
         /// <summary>
         ///     Adds a model element in this model element
         /// </summary>
-        /// <param name="copy"></param>
+        /// <param name="element"></param>
         public override void AddModelElement(IModelElement element)
         {
             SubStep item = element as SubStep;
@@ -180,7 +198,7 @@ namespace DataDictionary.Tests
         /// <summary>
         ///     Fills the actual step with information of another test case
         /// </summary>
-        /// <param name="oldTestCase"></param>
+        /// <param name="aStep"></param>
         public void Merge(Step aStep)
         {
             setAllSubSteps(aStep.SubSteps);
@@ -224,10 +242,7 @@ namespace DataDictionary.Tests
         {
             Step retVal = (Step) acceptor.getFactory().createStep();
 
-            Util.DontNotify(() =>
-            {
-                retVal.appendSubSteps(SubStep.CreateDefault(retVal.SubSteps));
-            });
+            Util.DontNotify(() => retVal.appendSubSteps(SubStep.CreateDefault(retVal.SubSteps)));
 
             return retVal;
         }
@@ -255,7 +270,7 @@ namespace DataDictionary.Tests
         ///     Creates the source text which corresponds to this step
         /// </summary>
         /// <returns></returns>
-        public SourceText createSourceText()
+        public SourceText CreateSourceText()
         {
             SourceText retVal = (SourceText) acceptor.getFactory().createSourceText();
             retVal.Name = getDescription();
@@ -319,10 +334,8 @@ namespace DataDictionary.Tests
                             found = true;
                             break;
                         }
-                        else
-                        {
-                            retVal = step;
-                        }
+
+                        retVal = step;
                     }
 
                     if (found)

@@ -98,6 +98,8 @@ namespace GUI.LongOperations
                     importer.Import(frame);
                 }
             }
+
+            RefreshModel.Execute();
         }
     }
 }

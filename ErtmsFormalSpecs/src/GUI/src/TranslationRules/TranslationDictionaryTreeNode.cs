@@ -17,7 +17,6 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using DataDictionary.Generated;
 using GUI.TestRunnerView;
 using Folder = DataDictionary.Tests.Translations.Folder;
 using SourceText = DataDictionary.Tests.Translations.SourceText;
@@ -98,8 +97,8 @@ namespace GUI.TranslationRules
             {
                 DialogResult dialogResult =
                     MessageBox.Show(
-                        "Translation already exists. Do you want to create a new one (Cancel will select the existing translation) ?",
-                        "Already existing translation", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
+                        @"Translation already exists. Do you want to create a new one (Cancel will select the existing translation) ?",
+                        @"Already existing translation", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
                 if (dialogResult == DialogResult.OK)
                 {
                     existingTranslation = null;
@@ -138,7 +137,7 @@ namespace GUI.TranslationRules
         /// <param name="step"></param>
         private void CreateTranslation(Step step)
         {
-            CreateTranslation(Translation.CreateDefault(Item.Translations, step.createSourceText()));
+            CreateTranslation(Translation.CreateDefault(Item.Translations, step.CreateSourceText()));
         }
 
         /// <summary>

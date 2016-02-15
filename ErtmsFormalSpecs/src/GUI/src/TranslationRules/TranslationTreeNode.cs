@@ -199,12 +199,12 @@ namespace GUI.TranslationRules
 
                 if (string.IsNullOrEmpty(step.Item.getDescription()))
                 {
-                    MessageBox.Show("Step has no description and cannot be automatically translated",
-                        "No description available", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(@"Step has no description and cannot be automatically translated",
+                        @"No description available", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 else
                 {
-                    translationTreeNode.Item.appendSourceTexts(step.Item.createSourceText());
+                    translationTreeNode.Item.appendSourceTexts(step.Item.CreateSourceText());
                 }
             }
         }

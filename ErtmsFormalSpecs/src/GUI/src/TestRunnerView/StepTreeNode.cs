@@ -49,14 +49,14 @@ namespace GUI.TestRunnerView
             {
                 get
                 {
-                    string retVal = Item.Name;
-
+                    return Item.Name;
+                }
+                set
+                {
                     if (Item.getTCS_Order() != 0)
                     {
-                        retVal = "Step " + Item.getTCS_Order() + ": " + Item.getDescription();
+                        base.Name = value;
                     }
-
-                    return retVal;
                 }
             }
 
