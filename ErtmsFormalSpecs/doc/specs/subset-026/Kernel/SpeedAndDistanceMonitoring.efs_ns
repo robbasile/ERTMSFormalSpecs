@@ -1449,13 +1449,12 @@ BaseTypes.Distance.Unknown</PreCondition></PreConditions>
  Name="Supervising EBD based target"
  Guid="58163953-79e3-4ee7-8f09-181f91ab9bfd"
 >
-<Expression>LET MRDT &lt;- SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT() IN
-SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationLimitAtSpeed(
-    aTarget =&gt; MRDT,
+<Expression>FORALL aTarget IN TargetsList() | (SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationLimitAtSpeed(
+    aTarget =&gt; aTarget,
     aSpeed =&gt; Kernel.MRSP.V_MRSP()
 ) 
 &gt; 
-TrainFrontRef( MRDT )</Expression>
+TrainFrontRef( aTarget ))</Expression>
 </Case></Cases>
 </Function><Function
  Type="SupervisionStatusEnum"
@@ -2327,7 +2326,11 @@ Odometry.TrainIsAtStandstill()</PreCondition><PreCondition
  Guid="ec31d28f-336f-4960-8170-0278d01ad436"
 >PreviousMonitoring &lt;- GetMonitoringType()</Action><Action
  Guid="bb283a6b-d672-40a0-9fa5-e027239cb8ed"
->Monitoring &lt;- MonitoringTypeSM.Idle</Action></Actions>
+>Monitoring &lt;- MonitoringTypeSM.Idle</Action><Action
+ Guid="8d181cca-db2c-4e51-b2cb-1475e15795f0"
+>Kernel.BrakeCommands.ReleaseEBCommand(BrakeCommands.BrakeReasonEnum.SpeedAndDistanceMonitoring)</Action><Action
+ Guid="c497e39c-3b62-46b1-90f7-0a1ba70b9ad1"
+>Kernel.BrakeCommands.ReleaseSBCommand(BrakeCommands.BrakeReasonEnum.SpeedAndDistanceMonitoring)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
