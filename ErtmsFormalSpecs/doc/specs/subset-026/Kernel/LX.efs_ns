@@ -677,146 +677,72 @@ It is satisfied if the estimated or the max safe front end (depending whether th
 >aLX.StoppingRequired</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
- Name="SBD and EBD undefined"
- Guid="83d483ee-776c-472c-902c-570b69400a57"
+ Name="Estimated or max safe front end past the LX start location"
+ Guid="30e6fd8f-2377-4d1f-af6c-346fceb0514f"
 >
 <PreConditions>
 <PreCondition
- Guid="27fd513f-4347-436d-a985-58b252376701"
->(
-  Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.SBD_Target(
-    Distance =&gt; Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom),
-    aTarget =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT()
-) == BaseTypes.Speed.NA
-  OR
-  Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.SBD_Target(
-    Distance =&gt; Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom),
-    aTarget =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT()
-) &lt; aLX.Speed
-)
-  AND
-Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.EBD_Target
-(
-  Distance =&gt; (Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom)),
-  aTarget =&gt; TargetStruct
-  {
-    Speed =&gt; 0.0,
-    Location =&gt; aLX.Location
-  }
-) &lt; aLX.Speed</PreCondition></PreConditions>
+ Guid="1d1d49fa-3889-4983-8e4b-7db54041df3e"
+>TrainPosition.FrontEndPosition( DistanceIntervalEnum.Nom ) &gt; aLX.Location
+
+  OR  
+
+TrainPosition.FrontEndPosition( DistanceIntervalEnum.Max ) &gt; aLX.Location</PreCondition></PreConditions>
 <Expression>True</Expression>
 </Case><Case
- Name="SBD undefined, EBD defined"
- Guid="ccd0f4e5-00fc-4a54-a191-2361854016d1"
+ Name="EBD or SBD location at permitted speed unknown"
+ Guid="d3a5f195-b595-40c1-b402-17ae66338c75"
 >
 <PreConditions>
 <PreCondition
- Guid="1cd6fd3b-3c25-4162-9e56-b3db1c1933ff"
->(
-  Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.SBD_Target
-  (
-    Distance =&gt; Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom),
-    aTarget =&gt; TargetStruct
-    {
-      Speed =&gt; 0.0,
-      Location =&gt; aLX.Location
+ Guid="bd57b34b-1d16-42c2-8ab7-47e4eb9e8088"
+>SpeedAndDistanceMonitoring.DecelerationCurves.SBD_TargetForSpeed(
+    Vest =&gt; aLX.Speed,
+    aTarget =&gt; TargetStruct{
+        Location =&gt; aLX.Location,
+        Speed =&gt; 0.0,
+        Type =&gt; TargetTypeEnum.EOA
     }
-  ) == BaseTypes.Speed.NA
-  OR
-  Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.SBD_Target
-  (
-    Distance =&gt; Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom),
-    aTarget =&gt; TargetStruct
-    {
-      Speed =&gt; 0.0,
-      Location =&gt; aLX.Location
+) == BaseTypes.Distance.Unknown
+
+  OR  
+
+SpeedAndDistanceMonitoring.DecelerationCurves.EBD_TargetForSpeed(
+    Vest =&gt; aLX.Speed,
+    NoA_est =&gt; False,
+    aTarget =&gt; TargetStruct{
+        Location =&gt; aLX.Location,
+        Speed =&gt; 0.0,
+        Type =&gt; TargetTypeEnum.SvL
     }
-  ) &lt; aLX.Speed
+) == BaseTypes.Distance.Unknown</PreCondition></PreConditions>
+<Expression>True</Expression>
+</Case><Case
+ Name="Value"
+ Guid="83d483ee-776c-472c-902c-570b69400a57"
+>
+<Expression>TrainPosition.FrontEndPosition( DistanceIntervalEnum.Nom ) &gt;=
+SpeedAndDistanceMonitoring.DecelerationCurves.SBD_TargetForSpeed(
+    Vest =&gt; aLX.Speed,
+    aTarget =&gt; TargetStruct{
+        Location =&gt; aLX.Location,
+        Speed =&gt; 0.0,
+        Type =&gt; TargetTypeEnum.EOA
+    }
 )
-  AND
-Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.EBD_Target
-(
-  Distance =&gt; (Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max)),
-  aTarget =&gt; TargetStruct
-  {
-    Speed =&gt; 0.0,
-    Location =&gt; aLX.Location
-  }
-) &gt;= aLX.Speed</PreCondition></PreConditions>
-<Expression>(Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_P(
-    aTarget =&gt; TargetStruct
-    {
-      Speed =&gt; 0.0,
-      Location =&gt; aLX.Location
-    },
-    Vest =&gt; aLX.Speed + Kernel.SpeedAndDistanceMonitoring.f41( V =&gt; aLX.Speed ),
-    NoA_est =&gt; True 
-) &lt;= Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max))</Expression>
-</Case><Case
- Name="EBD undefined, SBD defined"
- Guid="cdef8867-c7f0-4eb2-9299-adc7e8682e22"
->
-<PreConditions>
-<PreCondition
- Guid="6defd243-0751-4c79-a330-29ec47356a78"
->Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.SBD_Target(
-    Distance =&gt; Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom),
-    aTarget =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT()
-) != BaseTypes.Speed.NA
-  AND
-Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.SBD_Target(
-    Distance =&gt; Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom),
-    aTarget =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT()
-) &gt;= aLX.Speed
-  AND
-Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.EBD_Target
-(
-  Distance =&gt; (Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom)),
-  aTarget =&gt; TargetStruct
-  {
-    Speed =&gt; 0.0,
-    Location =&gt; aLX.Location
-  }
-) &lt; aLX.Speed</PreCondition></PreConditions>
-<Expression>(Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_P(
-    aTarget =&gt; TargetStruct
-    {
-      Speed =&gt; 0.0,
-      Location =&gt; aLX.Location
-    },
-    Vest =&gt; aLX.Speed + Kernel.SpeedAndDistanceMonitoring.f41( V =&gt; aLX.Speed ),
-    NoA_est =&gt; True
-) &lt;= Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max))</Expression>
-</Case><Case
- Name="Value for SBI1"
- Guid="f4052748-7c95-42d6-9f60-ff500bf55fd9"
->
-<PreConditions>
-<PreCondition
- Guid="88fcab7b-3381-463b-8e1b-a944094cd598"
->Kernel.LX.SBI1IsMostRestrictive( aLX )</PreCondition></PreConditions>
-<Expression>(Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_P(
-    aTarget =&gt; TargetStruct
-    {
-      Speed =&gt; 0.0,
-      Location =&gt; aLX.Location
-    },
-    Vest =&gt; aLX.Speed + Kernel.SpeedAndDistanceMonitoring.f41( V =&gt; aLX.Speed ),
-    NoA_est =&gt; True
-) &lt;= Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom))</Expression>
-</Case><Case
- Name="Value for SBI2"
- Guid="c43828b7-0d92-4b13-8d55-8c4ef789fb76"
->
-<Expression>(Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_P(
-    aTarget =&gt; TargetStruct
-    {
-      Speed =&gt; 0.0,
-      Location =&gt; aLX.Location
-    },
-    Vest =&gt; aLX.Speed + Kernel.SpeedAndDistanceMonitoring.f41( V =&gt; aLX.Speed ),
-    NoA_est =&gt; True
-) &lt;= Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max))</Expression>
+
+  OR  
+
+TrainPosition.FrontEndPosition( DistanceIntervalEnum.Max ) &gt;=
+SpeedAndDistanceMonitoring.DecelerationCurves.EBD_TargetForSpeed(
+    Vest =&gt; aLX.Speed,
+    NoA_est =&gt; False,
+    aTarget =&gt; TargetStruct{
+        Location =&gt; aLX.Location,
+        Speed =&gt; 0.0,
+        Type =&gt; TargetTypeEnum.SvL
+    }
+)</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -859,7 +785,8 @@ Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.EBD_Target
 {
     Location =&gt; aLX.Location,
     Speed =&gt; 0.0,
-    Length =&gt; aLX.Length
+    Length =&gt; aLX.Length,
+    Type =&gt; TargetTypeEnum.EOA
   }
 )
 &lt;
@@ -870,7 +797,8 @@ Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_SBI2
   {
     Location =&gt; aLX.Location,
     Speed =&gt; 0.0,
-    Length =&gt; aLX.Length
+    Length =&gt; aLX.Length,
+    Type =&gt; TargetTypeEnum.SvL
   },
   NoA_est =&gt; True
 )</Expression>
@@ -914,7 +842,12 @@ Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_SBI2
  Guid="85a39cd2-0e93-44b6-86bb-795272712381"
 >Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.SBD_Target(
     Distance =&gt; Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom),
-    aTarget =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT()
+    aTarget =&gt; TargetStruct{
+        Location =&gt; aLX.Location,
+        Speed =&gt; 0.0,
+        Length =&gt; aLX.Length,
+        Type =&gt; TargetTypeEnum.EOA
+    }
 ) != BaseTypes.Speed.NA
   AND
 Kernel.LX.SBI1IsMostRestrictive( aLX =&gt; aLX )</PreCondition></PreConditions>
@@ -1164,7 +1097,7 @@ NOT SvLisMRDT()</PreCondition></PreConditions>
 >
 <Expression>MA.IsEOA( EOA() )
   AND  
-EOA() == SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT()</Expression>
+EOA() == SpeedAndDistanceMonitoring.Display.MRDT()</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -1204,7 +1137,7 @@ EOA() == SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT()</Expression>
 >
 <Expression>MA.IsSvL( SvL() )
   AND  
-SvL() == SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT()</Expression>
+SvL() == SpeedAndDistanceMonitoring.Display.MRDT()</Expression>
 </Case></Cases>
 </Function></Functions>
 <Procedures>

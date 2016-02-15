@@ -768,7 +768,7 @@ OR TargetSpeedMonitoring.SupervisionStatus.r3( target)
 <Actions>
 <Action
  Guid="9f338464-f144-452f-bb74-9474a9b37a1f"
->TargetSpeedMonitoring.PreviousDisplayedTarget &lt;-  TargetSpeedMonitoring.MRDT()</Action></Actions>
+>TargetSpeedMonitoring.PreviousDisplayedTarget &lt;-  Display.MRDT()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </StateMachine><EnterAction>
@@ -1438,12 +1438,13 @@ SpeedAndDistanceMonitoring.PreIndicationLocation.d_preindication(aTarget) == Bas
 <PreConditions>
 <PreCondition
  Guid="30ecc4c4-3928-4247-aa7a-f4e3ead580a5"
->SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationLimitAtSpeed(
-    aTarget =&gt; SpeedAndDistanceMonitoring.TargetSpeedMonitoring.MRDT(),
+>THERE_IS aTarget IN TargetsList() |
+(
+  SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationLimitAtSpeed(
+    aTarget =&gt; aTarget,
     aSpeed =&gt; Kernel.MRSP.V_MRSP()
-)
-== 
-BaseTypes.Distance.Unknown</PreCondition></PreConditions>
+  ) == BaseTypes.Distance.Unknown
+)</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
  Name="Supervising EBD based target"
