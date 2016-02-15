@@ -12,6 +12,7 @@ distrib:
 	-cp bin/DataDictionary.dll 	../../efs_dlls/released
 	-cp bin/EFSServiceClient.dll 	../../efs_dlls/released
 	-cp bin/ErtmsSolutions.dll 	../../efs_dlls/released
+	-cp bin/log4net.dll	 	../../efs_dlls/released
 	-cp bin/GUIUtils.dll 		../../efs_dlls/released
 	-cp bin/HistoricalData.dll 	../../efs_dlls/released
 	-cp bin/Importer.dll 		../../efs_dlls/released
