@@ -21,7 +21,6 @@ using System.Windows.Forms;
 using BrightIdeasSoftware;
 using DataDictionary;
 using DataDictionary.Interpreter;
-using DataDictionary.Tests.Runner;
 using DataDictionary.Values;
 using DataDictionary.Variables;
 using Utils;
