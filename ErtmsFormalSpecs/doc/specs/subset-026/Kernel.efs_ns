@@ -2683,6 +2683,42 @@ Kernel.TrainPosition.Position.DataState == DataStateEnum.Unknown</PreCondition><
 <Rule
  Priority="Processing"
  Implemented="TRUE"
+ Name="E10"
+ Guid="46843164-eb87-4ea5-890d-7386a7aa3c62"
+>
+<ReqRef
+ Id="2df20d0d-1f50-4e04-aa20-f8d1ab4e0945"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="5dfad688-dd8e-490d-85dd-2ba5d88dee7d"
+>
+</ReqRef><SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="E10: Non leading mode entry selected by driver"
+ Guid="eb42270f-0553-4aa8-b9d0-43a26086ac11"
+>
+<Comment>DMI stops displaying 3 failure messages if they were present. For the transition procedure, see Condition46_SB.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="8a9f122d-645e-4adc-be29-94e2a938646b"
+>DMI.MasterDMI().In_NonLeadingRequest.InputInformation.DriverAnswered</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="fb322063-ab6f-45d4-a3f1-8ed7000acaf7"
+><Comment>Stops displaying the RadioNetworkRegistrationFailed message if it was.</Comment>
+DMI.MasterDMI().Out_RadioNetworkRegistrationFailed.DisplayStartTime &lt;- EMPTY</Action><Action
+ Guid="9d1aa2e5-b30f-4f93-a4d4-559e1bd93ea0"
+><Comment>Stops displaying the TrainIsRejectedMessage if it was.</Comment>
+DMI.MasterDMI().Out_TrainIsRejected.OutputInformation.DoNotDisplay()</Action><Action
+ Guid="5a3aec44-37c6-4383-87c2-84179676cdbc"
+><Comment>Stops displaying the TracksideNotCompatibleMessage if it was.</Comment>
+DMI.MasterDMI().Out_TracksideNotCompatible.OutputInformation.DoNotDisplay()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
  Name="E11"
  Guid="4f406c6d-4bba-47fa-962a-3d1cf1438926"
 >
