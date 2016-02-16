@@ -44,7 +44,7 @@ namespace GUI
         /// <returns>The hosting service</returns>
         private static void HostEfsService()
         {
-            _host = new ServiceHost(EFSService.INSTANCE);
+            _host = new ServiceHost(EFSService.Instance);
             try
             {
                 _host.Open();

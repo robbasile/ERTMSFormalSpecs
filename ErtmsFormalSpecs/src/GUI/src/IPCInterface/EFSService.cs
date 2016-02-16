@@ -125,8 +125,8 @@ namespace GUI.IPCInterface
                 Active = true;
                 Suspended = false;
                 Listener = listener;
-                LastCycleRequest = DateTime.MinValue;
-                LastCycleResume = DateTime.MinValue;
+                LastCycleRequest = DateTime.Now;
+                LastCycleResume = DateTime.Now;
             }
         }
 
@@ -174,7 +174,7 @@ namespace GUI.IPCInterface
         /// <summary>
         ///     The thread which is used to launch the runner
         /// </summary>
-        private LaunchRunner LaunchRunnerSynchronizer { get; set; }
+        internal LaunchRunner LaunchRunnerSynchronizer { get; set; }
 
         /// <summary>
         ///     Constructor
@@ -233,7 +233,7 @@ namespace GUI.IPCInterface
         /// <returns>The client identifier</returns>
         public int ConnectUsingDefaultValues(bool listener)
         {
-            int clientId = -1;
+            int clientId;
             try
             {
                 EfsAccess.WaitOne ();
@@ -257,7 +257,7 @@ namespace GUI.IPCInterface
         /// <param name="keepEventCount">The number of events that should be kept in memory</param>
         public int Connect(bool listener, bool explain, bool logEvents, int cycleDuration, int keepEventCount)
         {
-            int clientId = -1;
+            int clientId;
             try
             {
                 EfsAccess.WaitOne ();
@@ -285,11 +285,9 @@ namespace GUI.IPCInterface
             {
                 throw new FaultException<EFSServiceFault>(new EFSServiceFault("Invalid client id " + clientId));
             }
-            else
-            {
-                // The client is alive again. Reconnect it.
-                Connections[clientId].Active = true;
-            }
+
+            // The client is alive again. Reconnect it.
+            Connections[clientId].Active = true;
         }
 
         /// <summary>
@@ -406,12 +404,14 @@ namespace GUI.IPCInterface
                     {
                         // Let the processes waiting for the end of this step run
                         StepAccess[LastStep].ReleaseMutex();
+                        EfsAccess.ReleaseMutex();
 
                         // Let the other processes wake up
                         Thread.Sleep(1);
 
                         // Wait until all processes for this step have executed their work
                         StepAccess[LastStep].WaitOne();
+                        EfsAccess.WaitOne();
                     }
                 }
             }
@@ -450,7 +450,7 @@ namespace GUI.IPCInterface
         /// <summary>
         ///     Continuously launch the runner when all client have selected their next stop step
         /// </summary>
-        private class LaunchRunner : GenericSynchronizationHandler<EFSService>
+        internal class LaunchRunner : GenericSynchronizationHandler<EFSService>
         {
             /// <summary>
             ///     Constructor
@@ -1024,7 +1024,7 @@ namespace GUI.IPCInterface
         /// <summary>
         ///     The service instance
         /// </summary>
-        public static EFSService INSTANCE
+        public static EFSService Instance
         {
             get
             {

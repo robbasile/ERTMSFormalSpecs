@@ -310,7 +310,7 @@ namespace GUI.TestRunnerView
                 }
                 else
                 {
-                    EfsSystem.Runner = EFSService.INSTANCE.Runner;
+                    EfsSystem.Runner = EFSService.Instance.Runner;
                 }
             }
         }
