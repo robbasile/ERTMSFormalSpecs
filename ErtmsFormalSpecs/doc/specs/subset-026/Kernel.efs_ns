@@ -2715,6 +2715,46 @@ DMI.MasterDMI().Out_TrainIsRejected.OutputInformation.DoNotDisplay()</Action><Ac
  Guid="5a3aec44-37c6-4383-87c2-84179676cdbc"
 ><Comment>Stops displaying the TracksideNotCompatibleMessage if it was.</Comment>
 DMI.MasterDMI().Out_TracksideNotCompatible.OutputInformation.DoNotDisplay()</Action></Actions>
+<SubRules>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Handle train position data state"
+ Guid="5c7d8c32-642f-42fc-af40-01631082304c"
+>
+<ReqRef
+ Id="42a6f10f-1298-4815-a950-88ff26725dd5"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9a7d6d0f-d178-417c-b29a-3901da38376c"
+>
+</ReqRef><ReqRef
+ Id="ebe785eb-406c-4459-b678-43e24f9ace82"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="019a8057-55b7-4789-b604-9f795ff9d386"
+>
+</ReqRef><ReqRef
+ Id="306aeada-d0ba-4101-bb87-96fc5db2a745"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="1fc8bd34-dd41-418f-be12-9a8b87a6d92c"
+>
+</ReqRef><SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Invalid to unknown"
+ Guid="50807050-1584-43b3-8c5c-22288f4c55f7"
+>
+<PreConditions>
+<PreCondition
+ Guid="4ca1c8f8-fe99-434b-bd9f-79110a363508"
+>Kernel.TrainPosition.Position.DataState == DataStateEnum.Invalid</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="79efcaf9-d80b-4d4d-866c-698fc761c324"
+>DeleteInformation(Kernel.TrainPosition.Position)</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></SubRules>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -2876,7 +2916,10 @@ DMI.MasterDMI().Out_TrainIsRejected.OutputInformation.DoNotDisplay()</Action></A
 <PreConditions>
 <PreCondition
  Guid="267dcd69-cf04-4818-90af-fbe4cb809ecc"
->TrainData.TrainData.DataState == DataStateEnum.Valid</PreCondition></PreConditions>
+>TrainData.TrainData.DataState == DataStateEnum.Valid</PreCondition><PreCondition
+ Guid="23faafc8-0efc-4100-bed6-360515d34d9c"
+><Comment>One should not offer the possibility to start the mission in level 2 or 3 if no terminal is registered (A29) or the RBC session could not be opened (A32) or the RBC rejected the train (A39).</Comment>
+NOT (Kernel.Level.Value.Value in [LevelEnum.L2, LevelEnum.L3] AND (NOT EURORADIO.TerminalIsRegistered(EURORADIO.CurrentTerminal()) OR EURORADIO.CurrentRBCConnection().SafeRadioConnectionStatus in [ EURORADIO.SafeRadioConnectionStatusEnum.ConnectionLostOrSetUpFailed, EURORADIO.SafeRadioConnectionStatusEnum.NoConnection] OR Kernel.TrainPosition.Position.DataState == DataStateEnum.Unknown))</PreCondition></PreConditions>
 <Actions>
 </Actions>
 <SubRules>
@@ -11486,7 +11529,7 @@ JRU.SendNewMessage(JRU.JRU1)</PreCondition></PreConditions>
 </ReqRef><Comment>The data state and the value of the driver id.</Comment>
 </Variable><Variable
  Type="LevelData"
- DefaultValue=""
+ DefaultValue="Kernel.LevelData{}"
  VariableMode="Internal"
  X="630"
  Y="580"
