@@ -376,6 +376,11 @@ This procedure does not do anything. The mode tracking is not necessary for this
  Name="aRBCConnection"
  Guid="fe65eb12-1998-4671-b985-e3f2e646f0f3"
 >
+</Parameter><Parameter
+ Type="String"
+ Name="aNetworkId"
+ Guid="8a3612a8-18a6-4359-aabc-68b3b9b43910"
+>
 </Parameter></Parameters>
 <Rules>
 <Rule
@@ -396,13 +401,17 @@ This procedure does not do anything. The mode tracking is not necessary for this
  Guid="0d860bfc-a068-46d2-9c33-d9051d63f6f9"
 >RBCContactInformationAvailable()</PreCondition><PreCondition
  Guid="c93f4903-b117-4618-8f57-dacfb78b8def"
->Available(aRBCConnection)</PreCondition></PreConditions>
+>Available(aRBCConnection)</PreCondition><PreCondition
+ Guid="ea196d3a-3a56-4163-8634-da71452dd81e"
+>Available(aNetworkId)</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="c616e830-2c9c-4a4c-9efc-031bc0324327"
 >THIS.OutputInformation.RequestDisplay()</Action><Action
  Guid="12e79b28-3828-4a47-bc7b-e3e0303f2b5f"
->THIS.RBCContactInformation &lt;- aRBCConnection.ContactData</Action></Actions>
+>THIS.RBCContactInformation &lt;- aRBCConnection.ContactData</Action><Action
+ Guid="56dabfef-4097-49d4-99ff-20704012a8fe"
+>THIS.NetworkId &lt;- aNetworkId</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Hide otherwise"

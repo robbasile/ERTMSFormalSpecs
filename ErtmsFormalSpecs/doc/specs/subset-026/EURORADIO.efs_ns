@@ -7595,6 +7595,37 @@ Priority =&gt; aRBC.MessageIn.Priority
 >
 <Expression>EMPTY</Expression>
 </Case></Cases>
+</Function><Function
+ Type="String"
+ Default=""
+ X="110"
+ Y="540"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="CurrentRBCNetworkId"
+ Guid="8ce01381-8495-492b-979b-c3bb8ed31772"
+>
+<Comment>Provides the current RBC networkID.</Comment>
+<Cases>
+<Case
+ Name="Terminal2"
+ Guid="ec8a5191-ca5e-4b2e-86e4-6de7e7880e40"
+>
+<PreConditions>
+<PreCondition
+ Guid="a24ed2a7-0e10-43dc-9ba4-556f79636f6e"
+>EURORADIO.Terminal2.RBCConnection.SafeRadioConnectionStatus != EURORADIO.SafeRadioConnectionStatusEnum.NoConnection</PreCondition><PreCondition
+ Guid="bd995d7a-98b5-43ad-817b-70639db464c9"
+>EURORADIO.Terminal2.RBCConnection.IsMainConnection</PreCondition></PreConditions>
+<Expression>EURORADIO.Terminal2.NetworkIdToRegister</Expression>
+</Case><Case
+ Name="Terminal1"
+ Guid="8db85771-eb95-4342-b74f-adf4cea4c906"
+>
+<Expression>EURORADIO.Terminal1.NetworkIdToRegister</Expression>
+</Case></Cases>
 </Function></Functions>
 <Procedures>
 <Procedure
