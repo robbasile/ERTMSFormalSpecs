@@ -6461,6 +6461,34 @@ Request driver acknowledgement before starting the mission.</Comment>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Terminal registration failed"
+ Guid="30a4e388-0673-4a4f-bcad-3b8fcdeacdaa"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Registration failed"
+ Guid="cca05ffc-db83-459e-87bf-4d44d849422a"
+>
+<PreConditions>
+<PreCondition
+ Guid="02c842f1-6c18-4c56-a5ba-f9fbac08f891"
+>THIS in [Kernel.HandleModeChangeSM.StartOfMission.S3.ReceiveNetworkIDs.Registration]</PreCondition><PreCondition
+ Guid="5e66f04d-b2b5-4286-8537-6f8ca289813b"
+><Comment>The terminal answered ...</Comment>
+EURORADIO.RegistrationStatus() == True</PreCondition><PreCondition
+ Guid="410d8ef0-d858-41c1-910d-5a6963d9a7da"
+><Comment>... that it could not register.</Comment>
+EURORADIO.RegistrationAnswer() == False</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="c566634d-b45d-4a63-bb0a-e050725b142a"
+>THIS &lt;- Kernel.HandleModeChangeSM.StartOfMission.A29</Action></Actions>
+</RuleCondition></Conditions>
 </Rule></Rules>
 </StateMachine></State><State
  X="320"

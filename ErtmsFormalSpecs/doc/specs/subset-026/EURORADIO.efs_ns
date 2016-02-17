@@ -5419,11 +5419,13 @@ Aftter a defined number of repetitions, if no acknowledgement is received from t
  Guid="6cdf394b-5ffd-4007-96bd-eeab3500fefa"
 >
 <PreConditions>
-</PreConditions>
+<PreCondition
+ Guid="daa5316d-ac57-4417-88bb-cbc142397970"
+>RegistrationRequestState.RequestState == RequestEnum.Response</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="67bdc697-5152-42c0-875d-a9a1b7fd2d46"
->RegistrationRequestIsSent &lt;- False</Action></Actions>
+>RegistrationRequestState.RequestState &lt;- Default.RequestEnum.Disabled</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 <Procedures>
@@ -5588,11 +5590,11 @@ Aftter a defined number of repetitions, if no acknowledgement is received from t
 >
 <Comment>Current state of registration of the terminal.</Comment>
 </StructureElement><StructureElement
- TypeName="Boolean"
- Default="False"
+ TypeName="RegisteringRequestStruct"
+ Default=""
  Mode="Incoming"
  Implemented="TRUE"
- Name="RegistrationIsConfirmed"
+ Name="RegistrationRequestState"
  Guid="e54404f3-0fbf-432d-ae9d-d9cef9d49d41"
 >
 <Comment>Set to True when the mobile terminal was succesfully registered.</Comment>
@@ -5605,15 +5607,6 @@ Aftter a defined number of repetitions, if no acknowledgement is received from t
  Guid="24785dd8-cf71-4f1e-b851-d1636061acba"
 >
 <Comment>Indicates if an order to register the mobile terminal has been received.</Comment>
-</StructureElement><StructureElement
- TypeName="Boolean"
- Default="False"
- Mode="Outgoing"
- Implemented="TRUE"
- Name="RegistrationRequestIsSent"
- Guid="1e98daa6-f5b1-4966-b1e0-819ebee8b313"
->
-<Comment>Set to True when a request to register the mobile terminal is sent.</Comment>
 </StructureElement><StructureElement
  TypeName="String"
  Default="&apos;&apos;"
@@ -5691,7 +5684,7 @@ Aftter a defined number of repetitions, if no acknowledgement is received from t
  Guid="9e7d5d30-f543-42e0-a83f-36e13134cba0"
 >THIS &lt;- EURORADIO.TerminalStruct.RegistrationStateSM.Registering</Action><Action
  Guid="7ef1e2fe-d075-4c5b-becf-9767795c2a0e"
->RegistrationRequestIsSent &lt;- True</Action><Action
+>RegistrationRequestState.RequestState &lt;- RequestEnum.Request</Action><Action
  Guid="03529777-8a74-4e2a-94dc-699b28efc826"
 >RegistrationOrderIsReceived &lt;- False</Action></Actions>
 </RuleCondition></Conditions>
@@ -5728,7 +5721,9 @@ Aftter a defined number of repetitions, if no acknowledgement is received from t
 <PreConditions>
 <PreCondition
  Guid="bd93048d-c524-419d-900c-9922b8ace478"
->RegistrationIsConfirmed</PreCondition></PreConditions>
+>RegistrationRequestState.RequestState == RequestEnum.Response</PreCondition><PreCondition
+ Guid="da51b472-503a-4b81-8f6b-7a8b44fa039e"
+>RegistrationRequestState.Response == True</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="6df5355e-80ab-4d30-9c50-07679b269768"
@@ -5834,7 +5829,7 @@ After that, if an order to contact an Accepting RBC was received, it will be han
  Guid="065155db-ddc9-4232-a264-ba308cf6546f"
 >THIS &lt;- EURORADIO.TerminalStruct.RegistrationStateSM.Registering</Action><Action
  Guid="16d4c11f-71c2-438c-aed7-a3050f42a226"
->RegistrationRequestIsSent &lt;- True</Action><Action
+>RegistrationRequestState.RequestState &lt;- Default.RequestEnum.Request</Action><Action
  Guid="6b794970-4b5b-4735-93d3-112b10af6e7d"
 >RegistrationOrderIsReceived &lt;- False</Action></Actions>
 </RuleCondition><RuleCondition
@@ -5964,7 +5959,38 @@ The default value &apos;My very own network&apos; is used as a patch to avoid A2
  Guid="e414b89e-c084-45db-8800-f92351b16e1f"
 >
 </StructureRef></Interfaces>
-</Structure></Structures>
+</Structure><Structure
+ Default=""
+ X="441"
+ Y="1"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="RegisteringRequestStruct"
+ Guid="aea700ad-b19c-4974-80b6-5d22976aca39"
+>
+<Comment>Structure to store the request of registration to a terminal : its state and response.</Comment>
+<StructureElement
+ TypeName="RequestEnum"
+ Default=""
+ Mode="Internal"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="RequestState"
+ Guid="1674a4ba-821f-42ff-af95-0dd3e0e5d109"
+>
+</StructureElement><StructureElement
+ TypeName="Boolean"
+ Default=""
+ Mode="Internal"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Response"
+ Guid="88f080df-f16a-4dd8-b0d7-d15c99981800"
+>
+<Comment>Contains the answer to the registration request.</Comment>
+</StructureElement></Structure></Structures>
 <Collections>
 <Collection
  TypeName="String"
@@ -7619,12 +7645,70 @@ Priority =&gt; aRBC.MessageIn.Priority
 >EURORADIO.Terminal2.RBCConnection.SafeRadioConnectionStatus != EURORADIO.SafeRadioConnectionStatusEnum.NoConnection</PreCondition><PreCondition
  Guid="bd995d7a-98b5-43ad-817b-70639db464c9"
 >EURORADIO.Terminal2.RBCConnection.IsMainConnection</PreCondition></PreConditions>
-<Expression>EURORADIO.Terminal2.NetworkIdToRegister</Expression>
+<Expression>EURORADIO.Terminal2.NetworkId</Expression>
 </Case><Case
  Name="Terminal1"
  Guid="8db85771-eb95-4342-b74f-adf4cea4c906"
 >
-<Expression>EURORADIO.Terminal1.NetworkIdToRegister</Expression>
+<Expression>EURORADIO.Terminal1.NetworkId</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="111"
+ Y="181"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="RegistrationStatus"
+ Guid="9cd9e082-0ccc-4be4-ac5f-207a724911a6"
+>
+<Comment>Checks whether an answer to the registration request was provided.</Comment>
+<Cases>
+<Case
+ Name="AnswerReceived"
+ Guid="b72bae4c-f483-4e08-9c28-6b2cf2ca6801"
+>
+<PreConditions>
+<PreCondition
+ Guid="9560d358-50ba-4019-aebd-3c00c8619157"
+>EURORADIO.CurrentTerminal().RegistrationRequestState.RequestState == RequestEnum.Response</PreCondition></PreConditions>
+<Expression>True</Expression>
+</Case><Case
+ Name="Default"
+ Guid="67a14467-48f0-4dc2-b67d-4878a8b5a8f6"
+>
+<Expression>False</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="111"
+ Y="181"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="RegistrationAnswer"
+ Guid="307c1f2e-a545-46f3-bf4e-ef6c28767a21"
+>
+<Comment>Checks whether the an answer to the request was provided and give it, otherwise returns False.</Comment>
+<Cases>
+<Case
+ Name="AnswerReceived"
+ Guid="e6f5f504-32e8-4b22-a0d4-6b7b21c5bb85"
+>
+<PreConditions>
+<PreCondition
+ Guid="becf8991-6253-4b25-acd5-f7165f4ca79c"
+>EURORADIO.CurrentTerminal().RegistrationRequestState.RequestState == RequestEnum.Response</PreCondition></PreConditions>
+<Expression>EURORADIO.CurrentTerminal().RegistrationRequestState.Response</Expression>
+</Case><Case
+ Name="Default"
+ Guid="78c9048a-28e4-4e3d-b564-5a4bb8e8c709"
+>
+<Expression>False</Expression>
 </Case></Cases>
 </Function></Functions>
 <Procedures>

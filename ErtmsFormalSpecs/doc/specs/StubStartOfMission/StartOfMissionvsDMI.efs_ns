@@ -23,7 +23,7 @@
 <Comment>Count the number of cycles before executing an action</Comment>
 </Variable><Variable
  Type="Boolean"
- DefaultValue="False"
+ DefaultValue="True"
  VariableMode="Internal"
  X="350"
  Y="230"
@@ -44,6 +44,19 @@
  Height="50"
  Name="Networks"
  Guid="243e392e-4498-4605-a86b-0985d2939351"
+>
+</Variable><Variable
+ Type="Boolean"
+ DefaultValue="True"
+ VariableMode="Internal"
+ X="350"
+ Y="230"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Registration"
+ Guid="5641c6a9-bd83-441a-9645-6a0565b566c3"
 >
 </Variable></Variables>
 <Rules>
@@ -141,7 +154,7 @@
 <Actions>
 <Action
  Guid="af4e765b-39f6-46f7-bd9c-87ad84595dd8"
->EURORADIO.CurrentTerminal().RegistrationState &lt;-  EURORADIO.TerminalStruct.RegistrationStateSM.Registered</Action><Action
+>EURORADIO.CurrentTerminal().RegistrationRequestState &lt;-  Registration</Action><Action
  Guid="e743facc-19e0-4a76-bbb0-a2d34b80a41e"
 >Count &lt;- -1</Action></Actions>
 </RuleCondition></Conditions>
