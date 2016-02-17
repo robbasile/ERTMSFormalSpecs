@@ -1223,7 +1223,7 @@
 <PreConditions>
 <PreCondition
  Guid="44cd6ead-a7cf-48f9-926f-ee2bcd7273ba"
->Speed &lt; BrakingModel.Val1.SpeedStep</PreCondition><PreCondition
+>Speed &lt; SpeedStepUpperLimit(BrakingModel.Val1)</PreCondition><PreCondition
  Guid="39c7a6a6-feb9-4558-acb9-fbd80f8aad4d"
 >BrakingModel.Val0.SpeedStep &lt;= Speed</PreCondition></PreConditions>
 <Expression>BrakingModel.Val0.Acceleration</Expression>
@@ -1236,7 +1236,7 @@
  Guid="05487adb-972c-4b4d-84b3-76e508f4433c"
 >BrakingModel.Val1.SpeedStep &lt;= Speed</PreCondition><PreCondition
  Guid="19ed1f2f-494d-4a88-a9c9-e6c93f5fb217"
->Speed &lt; BrakingModel.Val2.SpeedStep</PreCondition></PreConditions>
+>Speed &lt; SpeedStepUpperLimit(BrakingModel.Val2)</PreCondition></PreConditions>
 <Expression>BrakingModel.Val1.Acceleration</Expression>
 </Case><Case
  Name="AD_2"
@@ -1247,7 +1247,7 @@
  Guid="4ae097f3-4723-4ee4-8864-3ea61295ea8c"
 >BrakingModel.Val2.SpeedStep &lt;= Speed</PreCondition><PreCondition
  Guid="5da4e847-1ae9-49b1-a8bc-3f4ba4a3f917"
->Speed &lt; BrakingModel.Val3.SpeedStep</PreCondition></PreConditions>
+>Speed &lt; SpeedStepUpperLimit(BrakingModel.Val3)</PreCondition></PreConditions>
 <Expression>BrakingModel.Val2.Acceleration</Expression>
 </Case><Case
  Name="AD_3"
@@ -1258,7 +1258,7 @@
  Guid="aade2a6f-57a9-4e96-a81d-3bd624645ed8"
 >BrakingModel.Val3.SpeedStep &lt;= Speed</PreCondition><PreCondition
  Guid="463d1e1a-849a-47e7-b022-9d0d9ec0354a"
->Speed &lt; BrakingModel.Val4.SpeedStep</PreCondition></PreConditions>
+>Speed &lt; SpeedStepUpperLimit(BrakingModel.Val4)</PreCondition></PreConditions>
 <Expression>BrakingModel.Val3.Acceleration</Expression>
 </Case><Case
  Name="AD_4"
@@ -1269,7 +1269,7 @@
  Guid="0f5531bd-0f3b-426f-801b-63d83ea875a5"
 >BrakingModel.Val4.SpeedStep &lt;= Speed</PreCondition><PreCondition
  Guid="db0f2fd8-550c-45af-a20d-a28dd45d257c"
->Speed &lt; BrakingModel.Val5.SpeedStep</PreCondition></PreConditions>
+>Speed &lt; SpeedStepUpperLimit(BrakingModel.Val5)</PreCondition></PreConditions>
 <Expression>BrakingModel.Val4.Acceleration</Expression>
 </Case><Case
  Name="AD_5"
@@ -1280,7 +1280,7 @@
  Guid="b1dd9a18-2187-45e5-a4a3-694ed71d6f50"
 >BrakingModel.Val5.SpeedStep &lt;= Speed</PreCondition><PreCondition
  Guid="fcf881b6-5787-4888-92ea-923ba946bf5b"
->Speed &lt; BrakingModel.Val6.SpeedStep</PreCondition></PreConditions>
+>Speed &lt; SpeedStepUpperLimit(BrakingModel.Val6)</PreCondition></PreConditions>
 <Expression>BrakingModel.Val5.Acceleration</Expression>
 </Case><Case
  Name="AD_6"
@@ -3892,7 +3892,7 @@ Kernel.TrainData.BrakingParameters.A_brake_emergency ( d =&gt; d, V =&gt; V )</E
 >aTrackCondition.Location &lt;= d</PreCondition></PreConditions>
 <Expression>Kernel.TrainData.BrakingParameters.BrakingModelFunction
 (
-    BrakingModel =&gt; Kernel.TrainData.BrakingParameters.SelectBNSBrakingModel_TrackCondition ( aTrackCondition =&gt; aTrackCondition ),
+    BrakingModel =&gt; SelectBNSBrakingModel_TrackCondition ( aTrackCondition =&gt; aTrackCondition ),
     Speed =&gt; V
 )</Expression>
 </Case></Cases>
@@ -4487,6 +4487,59 @@ Kernel.TrainData.BrakingParameters.A_brake_emergency ( d =&gt; d, V =&gt; V )</E
     ),
     Speed =&gt; V
 )</Expression>
+</Case></Cases>
+</Function><Function
+ Type="BaseTypes.Speed"
+ Default=""
+ Implemented="TRUE"
+ Name="SpeedStepUpperLimit"
+ Guid="d7ffb00c-f859-42ec-957c-8e73192d7d22"
+>
+<ReqRef
+ Id="fe4eb49d-9fa5-43a2-94ce-72ecf5388e4f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="76380772-7968-4311-851e-fc45f3804824"
+>
+</ReqRef><ReqRef
+ Id="8bd8a194-41fe-44ef-badc-f16bb96769ac"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c193aa20-7e56-4915-a251-f05351b39abf"
+>
+</ReqRef><ReqRef
+ Id="7c5c2739-3bad-4287-a954-4cc4b88b12aa"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="8b3fe545-c098-4e33-a864-711a84da113c"
+>
+</ReqRef><ReqRef
+ Id="61d20e45-8477-4924-9dc0-26a55acf186e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="54ebc2e0-9af4-419b-a182-e30109cd9d9c"
+>
+</ReqRef><Comment>Provides the end of Speed Step n of the speed dependant deceleration model based on the value of Speed Step n + 1.</Comment>
+<Parameters>
+<Parameter
+ Type="Kernel.TrainData.BrakingParameters.BrakingModelValue"
+ Name="aStep"
+ Guid="169eea3f-cfdb-4fce-8a32-dab82966be32"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Final step"
+ Guid="4af33f4f-0fe0-4388-81a0-90dfdc26f2c3"
+>
+<PreConditions>
+<PreCondition
+ Guid="11856d2a-dc7a-4a8f-8c29-90cb8e89d084"
+>NOT Available( aStep )
+  OR  
+aStep.SpeedStep == 0.0</PreCondition></PreConditions>
+<Expression>BaseTypes.Speed.Infinity</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="94af99f5-c982-4b23-a00d-1f51490318ba"
+>
+<Expression>aStep.SpeedStep</Expression>
 </Case></Cases>
 </Function></Functions>
 <Variables>
