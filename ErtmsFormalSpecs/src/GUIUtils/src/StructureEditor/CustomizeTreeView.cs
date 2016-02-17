@@ -169,15 +169,14 @@ namespace GUIUtils.StructureEditor
         /// </summary>
         /// <param name="obj"></param>
         /// <param name="displayActualDefaultValue">
-        ///     Indicates that the actual default value should be displayed instead of "
-        ///     <default>"
+        ///     Indicates that the actual default value should be displayed instead of 
+        ///     "&lt;default&gt;"
         /// </param>
         /// <returns></returns>
         private static string ValueStringonizer(object obj, bool displayActualDefaultValue)
         {
             string retVal;
 
-            IVariable variable = obj as IVariable;
             IValue value = DerefVariable(obj);
 
             StructureValue structureValue = value as StructureValue;
@@ -213,7 +212,7 @@ namespace GUIUtils.StructureEditor
                 }
                 else
                 {
-                    if (IsDefaultValue(variable, value))
+                    if (IsDefaultValue(value))
                     {
                         retVal = DefaultConst;
                     }
@@ -230,10 +229,9 @@ namespace GUIUtils.StructureEditor
         /// <summary>
         ///     Indicates whether the value provided is the default value for that variable
         /// </summary>
-        /// <param name="variable"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        private static bool IsDefaultValue(IVariable variable, IValue value)
+        private static bool IsDefaultValue(IValue value)
         {
             bool retVal = value is DefaultValue;
 
@@ -386,7 +384,7 @@ namespace GUIUtils.StructureEditor
             if (listValue != null)
             {
                 ArrayList list = new ArrayList();
-                foreach (Value element in listValue.Val)
+                foreach (IValue element in listValue.Val)
                 {
                     if (element != EfsSystem.Instance.EmptyValue)
                     {
@@ -454,12 +452,8 @@ namespace GUIUtils.StructureEditor
             {
                 get
                 {
-                    object retVal = null;
-
                     TreeListView treeListView = (TreeListView) Args.ListView;
-                    retVal = treeListView.GetParent(Args.Model);
-
-                    return retVal;
+                    return treeListView.GetParent(Args.Model);
                 }
             }
         }
@@ -504,8 +498,8 @@ namespace GUIUtils.StructureEditor
                     }
                 }
 
-                Variable.Value = Variable.Value.RightSide(Variable, false, true) as ListValue;
-                ListValue value = Variable.Value as ListValue;
+                ListValue value = Variable.Value.RightSide(Variable, false, true) as ListValue;
+                Variable.Value = value;
                 if (value != null)
                 {
                     value.Val.Add (element);
@@ -699,7 +693,7 @@ namespace GUIUtils.StructureEditor
                 }
             }
 
-            items.Sort(delegate(BaseToolStripButton b1, BaseToolStripButton b2) { return b1.Text.CompareTo(b2.Text); });
+            items.Sort((b1, b2) => String.Compare(b1.Text, b2.Text, StringComparison.Ordinal));
             foreach (BaseToolStripButton menuItem in items)
             {
                 menuStrip.Items.Add(menuItem);
@@ -802,18 +796,19 @@ namespace GUIUtils.StructureEditor
                 IVariable variable = e.RowObject as IVariable;
 
                 string text = e.Control.Text;
-                if (DefaultConst == text)
+                if (variable != null && variable.Type != null)
                 {
-                    variable.Value = variable.Type.DefaultValue;
-                }
-                else
-                {
-                    if (variable != null)
+                    if (DefaultConst == text)
+                    {
+                        variable.Value = variable.Type.DefaultValue;
+                    }
+                    else
                     {
                         variable.Value = variable.Type.getValue(text);
                     }
                 }
             }
+
             ToolTip.RemoveAll();
         }
 
@@ -840,7 +835,11 @@ namespace GUIUtils.StructureEditor
 
                 if ((e.State & DrawItemState.Selected) == DrawItemState.Selected)
                 {
-                    ToolTip.Show(comboBox.Items[e.Index].ToString(), comboBox.FindForm(), p);
+                    Form form = comboBox.FindForm();
+                    if (form != null)
+                    {
+                        ToolTip.Show(comboBox.Items[e.Index].ToString(), form, p);
+                    }
                 }
                 e.DrawBackground();
                 e.Graphics.DrawString(comboBox.Items[e.Index].ToString(), e.Font, Brushes.Black,
