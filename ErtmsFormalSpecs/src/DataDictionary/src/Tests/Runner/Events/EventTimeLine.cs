@@ -183,11 +183,9 @@ namespace DataDictionary.Tests.Runner.Events
                 {
                     break;
                 }
-                else
-                {
-                    evt.RollBack(runner);
-                    Events.Remove(evt);
-                }
+
+                evt.RollBack(runner);
+                Events.Remove(evt);
             }
         }
 
@@ -231,9 +229,12 @@ namespace DataDictionary.Tests.Runner.Events
         {
             bool retVal = false;
 
-            if (SubStepActivationCache.ContainsKey(subStep))
+            if (subStep != null)
             {
-                retVal = SubStepActivationCache[subStep] != null;
+                if (SubStepActivationCache.ContainsKey(subStep))
+                {
+                    retVal = SubStepActivationCache[subStep] != null;
+                }
             }
 
             return retVal;
@@ -263,8 +264,7 @@ namespace DataDictionary.Tests.Runner.Events
         /// <summary>
         ///     Gives the time of activation of a sub-step
         /// </summary>
-        /// <param name="rule"></param>
-        /// <param name="time"></param>
+        /// <param name="aSubStep"></param>
         /// <returns>True if the provided rule has been activated</returns>
         public double GetNextSubStepActivationTime(SubStep aSubStep)
         {
@@ -281,16 +281,15 @@ namespace DataDictionary.Tests.Runner.Events
                         retVal = subStepActivated.Time;
                         break;
                     }
-                    else
+
+                    if (subStepActivated.SubStep == aSubStep)
                     {
-                        if (subStepActivated.SubStep == aSubStep)
-                        {
-                            stepFound = true;
-                        }
+                        stepFound = true;
                     }
                 }
             }
 
+            // ReSharper disable once CompareOfFloatsByEqualityOperator
             if (retVal == -1)
             {
                 retVal = CurrentTime;
@@ -302,8 +301,6 @@ namespace DataDictionary.Tests.Runner.Events
         /// <summary>
         ///     Gets the set of activated rules
         /// </summary>
-        /// <param name="rule"></param>
-        /// <param name="time"></param>
         /// <returns></returns>
         public HashSet<RuleCondition> GetActivatedRules()
         {
@@ -324,8 +321,6 @@ namespace DataDictionary.Tests.Runner.Events
         /// <summary>
         ///     Gets the list of activated rules within the interval [start, end]
         /// </summary>
-        /// <param name="rule"></param>
-        /// <param name="time"></param>
         /// <returns></returns>
         public List<RuleCondition> GetActivatedRulesInRange(double start, double end)
         {

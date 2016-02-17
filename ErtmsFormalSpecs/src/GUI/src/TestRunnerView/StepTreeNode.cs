@@ -385,7 +385,7 @@ namespace GUI.TestRunnerView
                         {
                             if (RunForExpectations)
                             {
-                                runner.RunForBlockingExpectations(true);
+                                runner.RunForExpectations(true);
                             }
                             else
                             {

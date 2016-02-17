@@ -29,15 +29,8 @@ namespace DataDictionary.Tests.Runner.Events
         /// <summary>
         ///     The activated step
         /// </summary>
-        private SubStep subStep;
+        public SubStep SubStep { get; private set; }
 
-        public SubStep SubStep
-        {
-            get { return subStep; }
-            private set { subStep = value; }
-        }
-
-        /// <summary>
         ///     <summary>
         ///         The namespace associated to this event
         ///     </summary>
@@ -51,9 +44,11 @@ namespace DataDictionary.Tests.Runner.Events
         /// </summary>
         public List<VariableUpdate> Updates { get; set; }
 
+        /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="step">The activated step</param>
+        /// <param name="subStep">The activated step</param>
+        /// <param name="priority"></param>
         public SubStepActivated(SubStep subStep, acceptor.RulePriority? priority)
             : base(subStep.Name, subStep, priority)
         {
@@ -73,7 +68,7 @@ namespace DataDictionary.Tests.Runner.Events
             {
                 // Computes the list of variable updates
                 Updates = new List<VariableUpdate>();
-                foreach (Action action in subStep.Actions)
+                foreach (Action action in SubStep.Actions)
                 {
                     if (action.Statement != null)
                     {
@@ -104,7 +99,7 @@ namespace DataDictionary.Tests.Runner.Events
             }
 
             // Store the step corresponding expectations
-            foreach (Expectation expectation in subStep.Expectations)
+            foreach (Expectation expectation in SubStep.Expectations)
             {
                 bool addExpectation = true;
 

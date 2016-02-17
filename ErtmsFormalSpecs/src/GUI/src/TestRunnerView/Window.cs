@@ -263,7 +263,7 @@ namespace GUI.TestRunnerView
                 CheckRunner();
                 if (EfsSystem.Runner != null)
                 {
-                    EfsSystem.Runner.RunUntilTime(EfsSystem.Runner.Time + EfsSystem.Runner.Step);
+                    EfsSystem.Runner.StepOnce();
                     EfsSystem.Instance.Context.HandleEndOfCycle();
                 }
             });

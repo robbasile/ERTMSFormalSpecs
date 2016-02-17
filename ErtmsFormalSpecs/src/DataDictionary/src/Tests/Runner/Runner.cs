@@ -105,6 +105,7 @@ namespace DataDictionary.Tests.Runner
         {
             EventTimeLine = new EventTimeLine();
             SubSequence = subSequence;
+            CompletedSubStep = new HashSet<SubStep>();
             EfsSystem.Instance.Runner = this;
             Explain = explain;
             CheckForCompatibleChanges = checkForCompatibleChanges;
@@ -127,6 +128,7 @@ namespace DataDictionary.Tests.Runner
         {
             EventTimeLine = new EventTimeLine();
             SubSequence = null;
+            CompletedSubStep = new HashSet<SubStep>();
             Step = step;
             EventTimeLine.MaxNumberOfEvents = storeEventCount;
             EfsSystem.Instance.Runner = this;
@@ -807,20 +809,28 @@ namespace DataDictionary.Tests.Runner
         /// <summary>
         ///     Setups the sub-step by applying its actions and adding its expects in the expect list
         /// </summary>
-        public void SetupSubStep(SubStep subStep)
+        /// <returns>True if the substep was not already seetup</returns>
+        public bool SetupSubStep(SubStep subStep)
         {
-            Util.DontNotify(() =>
-            {
-                LogInstance = subStep;
+            bool retVal = false;
 
-                // No setup can occur when some expectations are still active
+            if (subStep != null)
+            {
                 if (!EventTimeLine.ContainsSubStep(subStep))
                 {
-                    CacheImpact = new CacheImpact();
-                    EventTimeLine.AddModelEvent(new SubStepActivated(subStep, CurrentPriority), this, true);
-                    ClearCaches();
+                    Util.DontNotify(() =>
+                    {
+                        LogInstance = subStep;
+                        CacheImpact = new CacheImpact();
+                        EventTimeLine.AddModelEvent(new SubStepActivated(subStep, CurrentPriority), this, true);
+                        ClearCaches();
+                    });
+
+                    retVal = true;
                 }
-            });
+            }
+
+            return retVal;
         }
 
         /// <summary>
@@ -981,22 +991,6 @@ namespace DataDictionary.Tests.Runner
         /// <summary>
         ///     Runs until all expectations are reached or failed
         /// </summary>
-        public void RunForBlockingExpectations(bool performCycle)
-        {
-            if (performCycle)
-            {
-                Cycle();
-            }
-
-            while (ActiveBlockingExpectations().Count > 0)
-            {
-                Cycle();
-            }
-        }
-
-        /// <summary>
-        ///     Runs until all expectations are reached or failed
-        /// </summary>
         public void RunForExpectations(bool performCycle)
         {
             if (performCycle)
@@ -1011,34 +1005,47 @@ namespace DataDictionary.Tests.Runner
         }
 
         /// <summary>
-        ///     Indicates that no test has been run yet
+        /// The list of SubSteps for which expectations have been reached
         /// </summary>
-        private const int TestNotRun = -1;
+        private HashSet<SubStep> CompletedSubStep { get; set; }
 
         /// <summary>
-        ///     Indicates that the current test case & current step & current sub-step must be rebuilt from the time line
+        ///     Provides the current test step
         /// </summary>
-        private const int RebuildCurrentSubStep = -2;
+        /// <returns></returns>
+        public SubStep CurrentSubStep()
+        {
+            if (SubSequence != null)
+            {
+                foreach (TestCase testCase in SubSequence.TestCases)
+                {
+                    foreach (Step step in testCase.Steps)
+                    {
+                        foreach (SubStep subStep in step.SubSteps)
+                        {
+                            if (!CompletedSubStep.Contains(subStep))
+                            {
+                                return subStep;
+                            }
+                        }
+                    }
+                }
+            }
+
+            return null;
+        }
 
         /// <summary>
-        ///     Indicates that the current test case & current step & current sub-step must be rebuilt from the time line
+        ///     Steps to the next sub-step (either in the current test case, or in the next test case)
         /// </summary>
-        private const int NoMoreStep = -3;
-
-        /// <summary>
-        ///     The index of the last activated sub-step in the current test case
-        /// </summary>
-        private int _currentSubStepIndex = TestNotRun;
-
-        /// <summary>
-        ///     The index of the last activated step in the current test case
-        /// </summary>
-        private int _currentStepIndex = TestNotRun;
-
-        /// <summary>
-        ///     The index of the test case in which the last activated step belongs
-        /// </summary>
-        private int _currentTestCaseIndex = TestNotRun;
+        private void NextSubStep()
+        {
+            SubStep current = CurrentSubStep();
+            if (current != null)
+            {
+                CompletedSubStep.Add(current);
+            }
+        }
 
         /// <summary>
         ///     Provides the next test case
@@ -1048,47 +1055,13 @@ namespace DataDictionary.Tests.Runner
         {
             TestCase retVal = null;
 
-            if (SubSequence != null && _currentTestCaseIndex != NoMoreStep)
+            SubStep subStep = CurrentSubStep();
+            if (subStep != null)
             {
-                if (_currentTestCaseIndex >= 0 && _currentTestCaseIndex < SubSequence.TestCases.Count)
-                {
-                    retVal = (TestCase) SubSequence.TestCases[_currentTestCaseIndex];
-                }
+                retVal = subStep.Step.TestCase;
             }
 
             return retVal;
-        }
-
-        /// <summary>
-        ///     steps to the next test case
-        /// </summary>
-        private void NextTestCase()
-        {
-            if (_currentTestCaseIndex != NoMoreStep)
-            {
-                if (_currentTestCaseIndex == RebuildCurrentSubStep)
-                {
-                    _currentStepIndex = RebuildCurrentSubStep;
-                    NextStep();
-                }
-                else
-                {
-                    _currentTestCaseIndex += 1;
-                    TestCase testCase = CurrentTestCase();
-                    while (testCase != null && testCase.Steps.Count == 0 &&
-                           _currentTestCaseIndex < SubSequence.TestCases.Count)
-                    {
-                        _currentTestCaseIndex += 1;
-                        testCase = CurrentTestCase();
-                    }
-
-                    if (testCase == null)
-                    {
-                        _currentTestCaseIndex = NoMoreStep;
-                        _currentStepIndex = NoMoreStep;
-                    }
-                }
-            }
         }
 
         /// <summary>
@@ -1099,148 +1072,13 @@ namespace DataDictionary.Tests.Runner
         {
             Step retVal = null;
 
-            if (_currentStepIndex != NoMoreStep)
+            var subStep = CurrentSubStep();
+            if (subStep != null)
             {
-                TestCase testCase = CurrentTestCase();
-                if (testCase != null)
-                {
-                    if (_currentStepIndex >= 0 && _currentStepIndex < testCase.Steps.Count)
-                    {
-                        retVal = (Step) testCase.Steps[_currentStepIndex];
-                    }
-                }
+                retVal = subStep.Step;
             }
 
             return retVal;
-        }
-
-        /// <summary>
-        ///     Steps to the next step (either in the current test case, or in the next test case)
-        /// </summary>
-        private void NextStep()
-        {
-            if (_currentStepIndex != NoMoreStep)
-            {
-                Step step = CurrentStep();
-
-                do
-                {
-                    if (_currentStepIndex != RebuildCurrentSubStep)
-                    {
-                        _currentStepIndex += 1;
-                        TestCase testCase = CurrentTestCase();
-                        if (testCase == null)
-                        {
-                            NextTestCase();
-                            testCase = CurrentTestCase();
-                        }
-
-                        if (testCase != null && _currentStepIndex >= testCase.Steps.Count)
-                        {
-                            NextTestCase();
-                            testCase = CurrentTestCase();
-                            if (testCase != null)
-                            {
-                                _currentStepIndex = 0;
-                            }
-                            else
-                            {
-                                _currentTestCaseIndex = NoMoreStep;
-                                _currentStepIndex = NoMoreStep;
-                            }
-                        }
-                        step = CurrentStep();
-                    }
-                } while (step != null && step.IsEmpty());
-            }
-        }
-
-        /// <summary>
-        ///     Provides the current test step
-        /// </summary>
-        /// <returns></returns>
-        public SubStep CurrentSubStep()
-        {
-            SubStep retVal = null;
-
-            if (_currentSubStepIndex != NoMoreStep)
-            {
-                if (_currentSubStepIndex == RebuildCurrentSubStep)
-                {
-                    _currentTestCaseIndex = -1;
-                    _currentStepIndex = -1;
-                    _currentSubStepIndex = -1;
-                    int previousTestCaseIndex = _currentTestCaseIndex;
-                    int previousStepIndex = _currentStepIndex;
-                    int previousSubStepIndex = _currentSubStepIndex;
-
-                    NextSubStep();
-                    retVal = CurrentSubStep();
-                    while (retVal != null && EventTimeLine.SubStepActivationCache.ContainsKey(retVal))
-                    {
-                        previousTestCaseIndex = _currentTestCaseIndex;
-                        previousStepIndex = _currentStepIndex;
-                        previousSubStepIndex = _currentSubStepIndex;
-
-                        NextSubStep();
-                        retVal = CurrentSubStep();
-                    }
-
-                    _currentTestCaseIndex = previousTestCaseIndex;
-                    _currentStepIndex = previousStepIndex;
-                    _currentSubStepIndex = previousSubStepIndex;
-                }
-
-                Step step = CurrentStep();
-                if (step != null)
-                {
-                    if (_currentSubStepIndex >= 0 && _currentSubStepIndex < step.SubSteps.Count)
-                    {
-                        retVal = (SubStep) step.SubSteps[_currentSubStepIndex];
-                    }
-                }
-            }
-
-            return retVal;
-        }
-
-        /// <summary>
-        ///     Steps to the next sub-step (either in the current test case, or in the next test case)
-        /// </summary>
-        private void NextSubStep()
-        {
-            if (_currentSubStepIndex != NoMoreStep)
-            {
-                SubStep subStep = CurrentSubStep();
-                Step step;
-
-                do
-                {
-                    _currentSubStepIndex++;
-                    step = CurrentStep();
-                    if (step == null)
-                    {
-                        NextStep();
-                        step = CurrentStep();
-                    }
-
-                    if (step != null && _currentSubStepIndex >= step.SubSteps.Count)
-                    {
-                        NextStep();
-                        step = CurrentStep();
-                        if (step != null)
-                        {
-                            _currentSubStepIndex = 0;
-                        }
-                        else
-                        {
-                            _currentTestCaseIndex = NoMoreStep;
-                            _currentStepIndex = NoMoreStep;
-                        }
-                    }
-                    subStep = CurrentSubStep();
-                } while (step != null && (step.IsEmpty() || subStep.IsEmpty()));
-            }
         }
 
         /// <summary>
@@ -1250,70 +1088,12 @@ namespace DataDictionary.Tests.Runner
         /// <param name="target"></param>
         public void RunUntilStep(Step target)
         {
-            Util.DontNotify(() =>
+            SubStep currentSubStep = CurrentSubStep();
+            while (currentSubStep != null && currentSubStep.Step != target)
             {
-                _currentStepIndex = NoMoreStep;
-                _currentTestCaseIndex = NoMoreStep;
-
-                if (target != null)
-                {
-                    RunForBlockingExpectations(false);
-                }
-                else
-                {
-                    RunForExpectations(false);
-                }
-
-                // Run all following steps until the target step is encountered
-                foreach (TestCase testCase in SubSequence.TestCases)
-                {
-                    foreach (Step step in testCase.Steps)
-                    {
-                        if (step == target)
-                        {
-                            _currentStepIndex = RebuildCurrentSubStep;
-                            _currentTestCaseIndex = RebuildCurrentSubStep;
-                            break;
-                        }
-
-                        if (!EventTimeLine.ContainsStep(step))
-                        {
-                            foreach (SubStep subStep in step.SubSteps)
-                            {
-                                SetupSubStep(subStep);
-                                if (!subStep.getSkipEngine())
-                                {
-                                    if (target != null)
-                                    {
-                                        RunForBlockingExpectations(true);
-                                    }
-                                    else
-                                    {
-                                        RunForExpectations(true);
-                                    }
-                                }
-                                else
-                                {
-                                    foreach (acceptor.RulePriority priority in PrioritiesOrder)
-                                    {
-                                        CheckExpectationsState(priority);
-                                    }
-                                }
-                            }
-
-                            while (EventTimeLine.ActiveBlockingExpectations().Count > 0)
-                            {
-                                Cycle();
-                            }
-                        }
-                    }
-
-                    if (_currentTestCaseIndex == RebuildCurrentSubStep)
-                    {
-                        break;
-                    }
-                }
-            });
+                StepOnce();
+                currentSubStep = CurrentSubStep();
+            }
         }
 
         /// <summary>
@@ -1325,29 +1105,42 @@ namespace DataDictionary.Tests.Runner
         {
             while (EventTimeLine.CurrentTime < targetTime)
             {
-                SubStep subStep = null;
-                if (ActiveBlockingExpectations().Count == 0)
+                StepOnce();
+            }
+        }
+
+        /// <summary>
+        /// Performs a single step
+        /// </summary>
+        public void StepOnce()
+        {
+            SubStep subStep = null;
+
+            if (ActiveBlockingExpectations().Count == 0)
+            {
+                // When no blocking expectation, one can execute the next substep
+                subStep = CurrentSubStep();
+                if (EventTimeLine.ContainsSubStep(subStep))
                 {
                     NextSubStep();
                     subStep = CurrentSubStep();
-                    if (subStep != null)
-                    {
-                        SetupSubStep(subStep);
-                    }
                 }
 
-                if (subStep == null || !subStep.getSkipEngine())
-                {
-                    Cycle();
-                }
-                else
-                {
-                    if (subStep.getSkipEngine())
-                    {
-                        CheckExpectationsState(acceptor.RulePriority.aCleanUp);
-                    }
-                    EventTimeLine.CurrentTime += Step;
-                }
+                SetupSubStep(subStep);
+            }
+
+            if (subStep == null)
+            {
+                Cycle();
+            }
+            else if (!subStep.getSkipEngine())
+            {
+                Cycle();
+            }
+            else
+            {
+                CheckExpectationsState(acceptor.RulePriority.aCleanUp);
+                EventTimeLine.CurrentTime += Step;
             }
         }
 
@@ -1358,10 +1151,28 @@ namespace DataDictionary.Tests.Runner
         {
             CacheImpact = new CacheImpact();
             EventTimeLine.StepBack(this, _step);
+            SynchronizeCompletedSubStepWithTimeLine();
             ClearCaches();
-            _currentSubStepIndex = RebuildCurrentSubStep;
-            _currentStepIndex = RebuildCurrentSubStep;
-            _currentTestCaseIndex = RebuildCurrentSubStep;
+        }
+
+        /// <summary>
+        /// Synchronizes the set of completed substep according to the time line
+        /// </summary>
+        private void SynchronizeCompletedSubStepWithTimeLine()
+        {
+            List<SubStep> toRemove = new List<SubStep>();
+            foreach (SubStep subStep in CompletedSubStep)
+            {
+                if (!EventTimeLine.ContainsSubStep(subStep))
+                {
+                    toRemove.Add(subStep);
+                }
+            }
+
+            foreach (SubStep subStep in toRemove)
+            {
+                CompletedSubStep.Remove(subStep);
+            }
         }
 
         /// <summary>
