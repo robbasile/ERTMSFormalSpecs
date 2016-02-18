@@ -239,7 +239,7 @@ namespace ErtmsSolutions.Etcs.Subset26.BrakingCurves
             SiSpeed refSpeed = current_curve.Get(refLocation);
             result.Add(current_curve.X.X0, current_curve.X.X1, current_acceleration, refSpeed, refLocation);
 
-            result.Dump("result so far ");
+            // result.Dump("result so far ");
         }
 
         /// <summary>
