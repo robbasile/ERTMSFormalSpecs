@@ -516,7 +516,7 @@ namespace GUI.BoxArrowDiagram
                             {
                                 RefactorAndRelocateOperation refactorAndRelocate =
                                     new RefactorAndRelocateOperation(sourceNode.Model as ModelElement);
-                                refactorAndRelocate.ExecuteUsingProgressDialog("Refactoring", false);
+                                refactorAndRelocate.ExecuteUsingProgressDialog(GuiUtils.MdiWindow, "Refactoring", false);
                             }
                         }
                     }

@@ -35,7 +35,7 @@ namespace GUI.LongOperations
         public static void Execute()
         {
             RefreshModel refreshModel = new RefreshModel();
-            refreshModel.ExecuteUsingProgressDialog("Refreshing model", false);
+            refreshModel.ExecuteUsingProgressDialog(GuiUtils.MdiWindow, "Refreshing model", false);
         }
     }
 }

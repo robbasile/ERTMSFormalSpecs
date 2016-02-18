@@ -257,7 +257,7 @@ namespace GUI.TestRunnerView
             ClearMessages();
 
             ExecuteTestsHandler executeTestHandler = new ExecuteTestsHandler(BaseForm as Window, Item);
-            executeTestHandler.ExecuteUsingProgressDialog("Executing test steps");
+            executeTestHandler.ExecuteUsingProgressDialog(GuiUtils.MdiWindow, "Executing test steps");
 
             Window window = BaseForm as Window;
             if (window != null)

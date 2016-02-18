@@ -14,6 +14,7 @@
 // --
 // ------------------------------------------------------------------------------
 
+using System.Windows.Forms;
 using DataDictionary;
 
 namespace GUIUtils.LongOperations
@@ -60,11 +61,12 @@ namespace GUIUtils.LongOperations
         /// <summary>
         ///     Executes the operation in background using a progress handler
         /// </summary>
+        /// <param name="mainForm">The enclosing form</param>
         /// <param name="message">The message to display on the dialog window</param>
         /// <param name="allowCancel">Indicates that the opeation can be canceled</param>
-        public override void ExecuteUsingProgressDialog(string message, bool allowCancel = true)
+        public override void ExecuteUsingProgressDialog(Form mainForm, string message, bool allowCancel = true)
         {
-            base.ExecuteUsingProgressDialog(message, allowCancel);
+            base.ExecuteUsingProgressDialog(mainForm, message, allowCancel);
 
             if (Refresh)
             {

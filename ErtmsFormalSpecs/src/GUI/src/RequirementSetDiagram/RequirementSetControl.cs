@@ -72,7 +72,7 @@ namespace GUI.RequirementSetDiagram
                 GuiUtils.MdiWindow.AddChildWindow(window);
                 window.Text = TypedModel.Name;
                 OpenRequirementSetOperation openRequirementSet = new OpenRequirementSetOperation(window, TypedModel);
-                openRequirementSet.ExecuteUsingProgressDialog("Opening requirement set " + TypedModel.Name);
+                openRequirementSet.ExecuteUsingProgressDialog(GuiUtils.MdiWindow, "Opening requirement set " + TypedModel.Name);
             }
         }
 

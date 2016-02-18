@@ -238,7 +238,7 @@ namespace GUI.TestRunnerView
             ClearMessages();
 
             ExecuteTestsOperation executeTestsOperation = new ExecuteTestsOperation(BaseForm as Window, Item);
-            executeTestsOperation.ExecuteUsingProgressDialog("Executing test sequences");
+            executeTestsOperation.ExecuteUsingProgressDialog(GuiUtils.MdiWindow, "Executing test sequences");
 
             string runtimeErrors = "";
             Util.IsThereAnyError isThereAnyError = new Util.IsThereAnyError();

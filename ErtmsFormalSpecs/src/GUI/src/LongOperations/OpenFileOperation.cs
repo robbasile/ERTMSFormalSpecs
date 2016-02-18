@@ -15,6 +15,7 @@
 // ------------------------------------------------------------------------------
 
 using System.Collections.Generic;
+using System.Windows.Forms;
 using DataDictionary;
 using GUI.Properties;
 using GUIUtils.LongOperations;
@@ -108,6 +109,12 @@ namespace GUI.LongOperations
                 UpdateGuid = UpdateGuid,
                 ConvertObsolete = Settings.Default.ConvertObsoleteVersionOfModelFile
             });
+
+            if (Dictionary == null)
+            {
+                MessageBox.Show(@"An error was detected preventing dictionary " + FileName + @" from loading.", @"File load error");
+                
+            }
         }
     }
 }

@@ -60,9 +60,10 @@ namespace GUIUtils.LongOperations
         /// <summary>
         ///     Executes the operation in background using a progress handler
         /// </summary>
+        /// <param name="mainForm">The enclosing form</param>
         /// <param name="message">The message to display on the dialog window</param>
         /// <param name="allowCancel">Indicates that the opeation can be canceled</param>
-        public virtual void ExecuteUsingProgressDialog(string message, bool allowCancel = true)
+        public virtual void ExecuteUsingProgressDialog(Form mainForm, string message, bool allowCancel = true)
         {
             DateTime start = DateTime.Now;
 
@@ -75,7 +76,7 @@ namespace GUIUtils.LongOperations
                     if (ShowDialog)
                     {
                         Dialog = new ProgressDialog(message, this, allowCancel);
-                        Dialog.ShowDialog ();
+                        Dialog.ShowDialog (mainForm);
                     }
                     else
                     {

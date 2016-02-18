@@ -121,7 +121,7 @@ namespace GUI.ExcelImport
             _brakingCurvesImporter.FillPermitted = CB_Permitted.Checked;
             _brakingCurvesImporter.FillIndication = CB_Indication.Checked;
 
-            _brakingCurvesImporter.ExecuteUsingProgressDialog("Importing excel file....");
+            _brakingCurvesImporter.ExecuteUsingProgressDialog(GuiUtils.MdiWindow, "Importing excel file....");
         }
 
 

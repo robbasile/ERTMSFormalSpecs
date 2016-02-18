@@ -155,7 +155,7 @@ namespace GUI.TestRunnerView
             ClearMessages();
 
             ExecuteTestsHandler executeTestsHandler = new ExecuteTestsHandler(Item);
-            executeTestsHandler.ExecuteUsingProgressDialog("Executing test frames");
+            executeTestsHandler.ExecuteUsingProgressDialog(GuiUtils.MdiWindow, "Executing test frames");
 
             if (!executeTestsHandler.Dialog.Canceled)
             {

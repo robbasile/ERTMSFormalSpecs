@@ -412,7 +412,7 @@ namespace GUI.TestRunnerView
                 MarkingHistory.PerformMark(() =>
                 {
                     ExecuteTestsHandler executeTestHandler = new ExecuteTestsHandler(window, Item, false);
-                    executeTestHandler.ExecuteUsingProgressDialog("Executing test steps");
+                    executeTestHandler.ExecuteUsingProgressDialog(GuiUtils.MdiWindow, "Executing test steps");
                     EfsSystem.Instance.Context.HandleEndOfCycle();
                 });
 
@@ -433,7 +433,7 @@ namespace GUI.TestRunnerView
             if (window != null)
             {
                 ExecuteTestsHandler executeTestHandler = new ExecuteTestsHandler(window, Item, false);
-                executeTestHandler.ExecuteUsingProgressDialog("Executing test steps");
+                executeTestHandler.ExecuteUsingProgressDialog(GuiUtils.MdiWindow, "Executing test steps");
 
                 EfsSystem.Instance.Context.HandleEndOfCycle();
                 window.tabControl1.SelectedTab = window.testExecutionTabPage;

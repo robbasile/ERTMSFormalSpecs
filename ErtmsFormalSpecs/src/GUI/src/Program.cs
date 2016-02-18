@@ -51,7 +51,7 @@ namespace GUI
             }
             catch (CommunicationException exception)
             {
-                Console.WriteLine("An exception occurred: {0}", exception.Message);
+                Console.WriteLine(@"An exception occurred: {0}", exception.Message);
                 _host.Abort();
             }
         }
@@ -98,13 +98,20 @@ namespace GUI
                 {
                     const bool allowErrors = false;
                     OpenFileOperation openFileOperation = new OpenFileOperation(fileName, EfsSystem.Instance, allowErrors, true);
-                    openFileOperation.ExecuteUsingProgressDialog("Opening file", false);
-                    window.SetupWindows(openFileOperation.Dictionary, shouldPlace);
-                    shouldPlace = false;
+                    openFileOperation.ExecuteUsingProgressDialog(GuiUtils.MdiWindow, "Opening file", false);
+                    if (openFileOperation.Dictionary != null)
+                    {
+                        window.SetupWindows(openFileOperation.Dictionary, shouldPlace);
+                        shouldPlace = false;
+                    }
+                    else
+                    {                        
+                        Console.Out.WriteLine("Cannot open dictionary file " + fileName);
+                    }
                 }
 
                 CheckModelOperation checkModel = new CheckModelOperation();
-                checkModel.ExecuteUsingProgressDialog("Checking model");
+                checkModel.ExecuteUsingProgressDialog(GuiUtils.MdiWindow, "Checking model");
 
                 Application.Run(window);
                 CloseEfsService();
@@ -125,7 +132,7 @@ namespace GUI
         private static void HandleInstanceDictionaryChangesOnFileSystem(Dictionary dictionary)
         {
             OpenFileOperation openFile = new OpenFileOperation(dictionary.FilePath, EfsSystem.Instance, false, true);
-            openFile.ExecuteUsingProgressDialog("Refreshing dictionary " +
+            openFile.ExecuteUsingProgressDialog(GuiUtils.MdiWindow, "Refreshing dictionary " +
                                                 Path.GetFileNameWithoutExtension(dictionary.FilePath), false);
 
             RefreshModel.Execute();

@@ -878,7 +878,7 @@ namespace GUI
                     if (Settings.Default.AllowRefactor)
                     {
                         RefactorOperation refactorOperation = new RefactorOperation(Model as ModelElement, newLabel, false);
-                        refactorOperation.ExecuteUsingProgressDialog("Refactoring", false);
+                        refactorOperation.ExecuteUsingProgressDialog(GuiUtils.MdiWindow, "Refactoring", false);
                     }
                     else
                     {
@@ -1138,7 +1138,7 @@ namespace GUI
                             if (Settings.Default.AllowRefactor)
                             {
                                 RefactorOperation refactorOperation = new RefactorOperation(Model as ModelElement, value);
-                                refactorOperation.ExecuteUsingProgressDialog("Refactoring", false);
+                                refactorOperation.ExecuteUsingProgressDialog(GuiUtils.MdiWindow, "Refactoring", false);
                             }
                             else
                             {
