@@ -612,12 +612,6 @@ namespace DataDictionary.Interpreter
                         {
                             CheckActualAgainstFormal(actuals, expression, parameter);
                             i = i + 1;
-
-                            DerefExpression derefExpression = expression as DerefExpression;
-                            if (derefExpression != null && !derefExpression.IsValidExpressionComponent())
-                            {
-                                expression.AddError("Invalid value for the parameter " + parameter.Name);
-                            }
                         }
                     }
 
@@ -640,11 +634,6 @@ namespace DataDictionary.Interpreter
                             else
                             {
                                 CheckActualAgainstFormal(actuals, expression, parameter);
-                            }
-                            DerefExpression derefExpression = expression as DerefExpression;
-                            if (derefExpression != null && !derefExpression.IsValidExpressionComponent())
-                            {
-                                expression.AddError("Invalid value for the parameter " + parameter.Name);
                             }
                         }
                     }
@@ -693,6 +682,15 @@ namespace DataDictionary.Interpreter
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Indicates whether this expression references an instance
+        /// </summary>
+        /// <returns></returns>
+        public override bool IsInstance()
+        {
+            return true;
         }
 
         /// <summary>

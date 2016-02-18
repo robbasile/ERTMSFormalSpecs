@@ -49,6 +49,15 @@ namespace DataDictionary.Interpreter
         }
 
         /// <summary>
+        /// Indicates whether this expression references an instance
+        /// </summary>
+        /// <returns></returns>
+        public bool IsInstance()
+        {
+            return Image == ThisKeyword || Ref is IVariable;
+        }
+
+        /// <summary>
         ///     Indicates whether this designator references
         ///     - an element from the stack
         ///     - an element from the model

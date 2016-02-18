@@ -168,14 +168,6 @@ namespace DataDictionary.Interpreter.Statement
             {
                 Root.AddError("Cannot assign a value to a parameter (" + VariableIdentification + ")");
             }
-            else if (VariableIdentification.Ref is StructureElement)
-            {
-                DerefExpression derefExpression = VariableIdentification as DerefExpression;
-                if (derefExpression != null && !derefExpression.IsValidExpressionComponent())
-                {
-                    Root.AddError("Invalid statement: the left part should be a variable");
-                }
-            }
 
             if (VariableIdentification.Ref == null)
             {

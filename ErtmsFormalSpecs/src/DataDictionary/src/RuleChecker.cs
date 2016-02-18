@@ -114,11 +114,6 @@ namespace DataDictionary
                         {
                             model.AddError("Cannot determine expression type (5) for " + retVal);
                         }
-                        DerefExpression derefExpression = retVal as DerefExpression;
-                        if (derefExpression != null && !derefExpression.IsValidExpressionComponent())
-                        {
-                            model.AddError("Invalid expression");
-                        }
                     }
                     else
                     {
@@ -770,17 +765,6 @@ namespace DataDictionary
                             CheckExpression(preCondition, preCondition.ExpressionText) as BinaryExpression;
                         if (expression != null)
                         {
-                            DerefExpression derefExpression = expression.Left as DerefExpression;
-                            if (derefExpression != null && !derefExpression.IsValidExpressionComponent())
-                            {
-                                preCondition.AddError("Invalid left part");
-                            }
-
-                            derefExpression = expression.Right as DerefExpression;
-                            if (derefExpression != null && !derefExpression.IsValidExpressionComponent())
-                            {
-                                preCondition.AddError("Invalid right part");
-                            }
                             if (expression.IsSimpleEquality())
                             {
                                 ITypedElement variable = expression.Left.Ref as ITypedElement;

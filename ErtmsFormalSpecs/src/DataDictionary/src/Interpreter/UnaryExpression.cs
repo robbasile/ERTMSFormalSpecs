@@ -445,13 +445,26 @@ namespace DataDictionary.Interpreter
             }
             if (Expression != null)
             {
-                DerefExpression derefExpression = Expression as DerefExpression;
-                if (derefExpression != null && !derefExpression.IsValidExpressionComponent())
-                {
-                    Root.AddError("Invalid expression: not a variable");
-                }
                 Expression.CheckExpression();
             }
+        }
+
+        /// <summary>
+        /// Indicates whether this expression references an instance
+        /// </summary>
+        /// <returns></returns>
+        public override bool IsInstance()
+        {
+            bool retVal = false;
+            if (Term != null)
+            {
+                retVal = Term.IsInstance ();
+            }
+            else if (Expression != null)
+            {
+                retVal = Expression.IsInstance ();
+            }
+            return retVal;
         }
 
         /// <summary>

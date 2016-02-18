@@ -148,6 +148,15 @@ namespace DataDictionary.Interpreter
         public virtual INamable Ref { get; set; }
 
         /// <summary>
+        /// Indicates whether this expression references an instance
+        /// </summary>
+        /// <returns></returns>
+        public virtual bool IsInstance ()
+        {
+            return Ref != null && !(Ref is Type) && !(Ref is NameSpace);
+        }
+
+        /// <summary>
         ///     Provides the ICallable that is statically defined
         /// </summary>
         public virtual ICallable GetStaticCallable()

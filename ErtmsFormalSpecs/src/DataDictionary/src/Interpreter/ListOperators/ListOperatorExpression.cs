@@ -141,6 +141,15 @@ namespace DataDictionary.Interpreter.ListOperators
             return retVal;
         }
 
+        /// <summary>
+        /// Indicates whether this expression references an instance
+        /// </summary>
+        /// <returns></returns>
+        public override bool IsInstance()
+        {
+            return true;
+        }
+
         protected bool ElementFound = false;
         protected bool MatchingElementFound = false;
 
@@ -212,12 +221,6 @@ namespace DataDictionary.Interpreter.ListOperators
             if (ListExpression != null)
             {
                 ListExpression.CheckExpression();
-
-                DerefExpression derefExpression = ListExpression as DerefExpression;
-                if (derefExpression != null && !derefExpression.IsValidExpressionComponent())
-                {
-                    ListExpression.AddError("Invalid list value");
-                }
 
                 Type listExpressionType = ListExpression.GetExpressionType();
                 if (!(listExpressionType is Collection))

@@ -62,6 +62,24 @@ namespace DataDictionary.Interpreter
         }
 
         /// <summary>
+        /// Indicates whether this expression references an instance
+        /// </summary>
+        /// <returns></returns>
+        public bool IsInstance ()
+        {
+            bool retVal = false;
+            if (LiteralValue != null)
+            {
+                retVal = true;
+            }
+            else if (Designator != null)
+            {
+                retVal = Designator.IsInstance ();
+            }
+            return retVal;
+        }
+
+        /// <summary>
         ///     Provides the possible references for this term (only available during semantic analysis)
         /// </summary>
         /// <param name="instance">the instance on which this element should be found.</param>

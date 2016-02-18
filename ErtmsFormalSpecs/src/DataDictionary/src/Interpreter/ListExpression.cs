@@ -134,6 +134,15 @@ namespace DataDictionary.Interpreter
         }
 
         /// <summary>
+        /// Indicates whether this expression references an instance
+        /// </summary>
+        /// <returns></returns>
+        public override bool IsInstance()
+        {
+            return true;
+        }
+
+        /// <summary>
         ///     Provides the type of this expression
         /// </summary>
         /// <returns></returns>

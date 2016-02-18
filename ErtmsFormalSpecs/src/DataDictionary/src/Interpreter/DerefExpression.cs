@@ -16,6 +16,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using DataDictionary.Functions;
 using DataDictionary.Interpreter.Filter;
 using DataDictionary.Types;
@@ -269,15 +270,15 @@ namespace DataDictionary.Interpreter
         }
 
         /// <summary>
-        /// Indicates whether this expression references a valid expression component
-        /// (a variable or an enum)
+        /// Indicates whether this expression references an instance
         /// </summary>
         /// <returns></returns>
-        public bool IsValidExpressionComponent()
+        public override bool IsInstance ()
         {
             bool retVal = true;
+
             int count = Arguments.Count;
-            for (int i = count - 1; i > 0; i--)
+            for (int i = count - 1; i >= 0; i--)
             {
                 INamable aNamable = Arguments[i].Ref;
                 if (aNamable is Variable ||
@@ -291,9 +292,11 @@ namespace DataDictionary.Interpreter
                 if ((aNamable is NameSpace) ||
                     (aNamable is Structure))
                 {
-                    retVal = false;
+                    retVal = Arguments [i].IsInstance ();
+                    break;
                 }
             }
+
             return retVal;
         }
 
@@ -426,6 +429,14 @@ namespace DataDictionary.Interpreter
         /// </summary>
         public override void CheckExpression()
         {
+            if (Ref is StructureElement)
+            {
+                if (!IsInstance())
+                {
+                    Root.AddError("Invalid expression (" + Ref.FullName + "): structure should not be used to reference an instance");
+                }
+            }
+
             foreach (Expression subExpression in Arguments)
             {
                 subExpression.CheckExpression();

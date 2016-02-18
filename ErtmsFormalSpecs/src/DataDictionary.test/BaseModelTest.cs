@@ -113,6 +113,27 @@ namespace DataDictionary.test
             return retVal;
         }
 
+        /// <summary>
+        /// Checks that the provided message part is present in the model element messages
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="messagePart"></param>
+        protected bool HasMessagePart(ModelElement model, string messagePart)
+        {
+            bool retVal = false;
+
+            foreach (ElementLog log in model.Messages)
+            {
+                if (log.Log.Contains(messagePart))
+                {
+                    retVal = true;
+                    break;
+                }
+            }
+
+            return retVal;
+        }
+
         #endregion
 
         #region Compiler
