@@ -4848,6 +4848,10 @@ namespace DataDictionary.Compare
             {
                 diff.appendChanges ( new Diff(obj, HistoricalData.Generated.acceptor.ChangeOperationEnum.aChange, "Pinned", other.getPinned().ToString(), obj.getPinned().ToString()) );
             }
+            if ( obj.getApplicable() != other.getApplicable() )
+            {
+                diff.appendChanges ( new Diff(obj, HistoricalData.Generated.acceptor.ChangeOperationEnum.aChange, "Applicable", other.getApplicable().ToString(), obj.getApplicable().ToString()) );
+            }
         }
 
         /// <summary>
@@ -14818,6 +14822,7 @@ namespace DataDictionary.Compare
                 target.setObsoleteRequirementsStatus(source.getObsoleteRequirementsStatus());
                 target.setDefault(source.getDefault());
                 target.setPinned(source.getPinned());
+                target.setApplicable(source.getApplicable());
             }	  
         }
 

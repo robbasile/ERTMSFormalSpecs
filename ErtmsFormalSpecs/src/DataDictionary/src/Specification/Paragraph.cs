@@ -288,7 +288,7 @@ namespace DataDictionary.Specification
         {
             Paragraph retVal = null;
 
-            if (getId().CompareTo(id) == 0)
+            if (String.Compare(getId(), id, StringComparison.Ordinal) == 0)
             {
                 retVal = this;
             }
@@ -317,6 +317,7 @@ namespace DataDictionary.Specification
 
                             if (retVal.getId().Length < id.Length)
                             {
+                                // ReSharper disable once ConditionIsAlwaysTrueOrFalse
                                 retVal = retVal.FindParagraph(id, create);
                             }
                         }
@@ -953,6 +954,27 @@ namespace DataDictionary.Specification
         }
 
         /// <summary>
+        /// Indicates that the paragraph should be considered while computing metrics
+        /// that is, if the paragraph is related to a requirements set with "Applicable" flag set to true
+        /// </summary>
+        /// <returns></returns>
+        private bool ConsiderInMetrics()
+        {
+            bool retVal = false;
+
+            foreach (RequirementSet requirementSet in ApplicableRequirementSets)
+            {
+                if (requirementSet.getApplicable())
+                {
+                    retVal = true;
+                    break;
+                }
+            }
+
+            return retVal;
+        }
+
+        /// <summary>
         ///     Creates the stat message according to the list of paragraphs provided
         /// </summary>
         /// <param name="paragraphs"></param>
@@ -969,53 +991,60 @@ namespace DataDictionary.Specification
                     paragraphsReqRefDictionary = p.Dictionary.ParagraphsReqRefs;
                 }
 
-                switch (p.getImplementationStatus())
+                if (p.ConsiderInMetrics())
                 {
-                    case acceptor.SPEC_IMPLEMENTED_ENUM.Impl_Implemented:
-                        retVal.ImplementableCount += 1;
+                    switch (p.getImplementationStatus())
+                    {
+                        case acceptor.SPEC_IMPLEMENTED_ENUM.Impl_Implemented:
+                            retVal.ImplementableCount += 1;
 
-                        bool implemented = true;
-                        if (paragraphsReqRefDictionary.ContainsKey(p))
-                        {
-                            List<ReqRef> implementations = paragraphsReqRefDictionary[p];
-                            foreach (ReqRef implementation in implementations)
+                            bool implemented = true;
+                            if (paragraphsReqRefDictionary.ContainsKey(p))
                             {
-                                // the implementation may be also a ReqRef
-                                ReqRelated reqRelated = implementation.Enclosing as ReqRelated;
-                                if (reqRelated != null)
+                                List<ReqRef> implementations = paragraphsReqRefDictionary[p];
+                                foreach (ReqRef implementation in implementations)
                                 {
-                                    // Do not consider tests
-                                    if (EnclosingFinder<Frame>.find(reqRelated) == null)
+                                    // the implementation may be also a ReqRef
+                                    ReqRelated reqRelated = implementation.Enclosing as ReqRelated;
+                                    if (reqRelated != null)
                                     {
-                                        implemented = implemented && reqRelated.ImplementationCompleted;
+                                        // Do not consider tests
+                                        if (EnclosingFinder<Frame>.find(reqRelated) == null)
+                                        {
+                                            implemented = implemented && reqRelated.ImplementationCompleted;
+                                        }
                                     }
                                 }
                             }
-                        }
-                        if (implemented)
-                        {
-                            retVal.ImplementedCount += 1;
-                        }
-                        else
-                        {
+                            if (implemented)
+                            {
+                                retVal.ImplementedCount += 1;
+                            }
+                            else
+                            {
+                                retVal.UnImplementedCount += 1;
+                            }
+                            break;
+
+                        case acceptor.SPEC_IMPLEMENTED_ENUM.Impl_NA:
+                        case acceptor.SPEC_IMPLEMENTED_ENUM.defaultSPEC_IMPLEMENTED_ENUM:
+                            retVal.ImplementableCount += 1;
                             retVal.UnImplementedCount += 1;
-                        }
-                        break;
+                            break;
 
-                    case acceptor.SPEC_IMPLEMENTED_ENUM.Impl_NA:
-                    case acceptor.SPEC_IMPLEMENTED_ENUM.defaultSPEC_IMPLEMENTED_ENUM:
-                        retVal.ImplementableCount += 1;
-                        retVal.UnImplementedCount += 1;
-                        break;
+                        case acceptor.SPEC_IMPLEMENTED_ENUM.Impl_NotImplementable:
+                            retVal.NotImplementable += 1;
+                            break;
 
-                    case acceptor.SPEC_IMPLEMENTED_ENUM.Impl_NotImplementable:
-                        retVal.NotImplementable += 1;
-                        break;
-
-                    case acceptor.SPEC_IMPLEMENTED_ENUM.Impl_NewRevisionAvailable:
-                        retVal.ImplementableCount += 1;
-                        retVal.NewRevisionAvailable += 1;
-                        break;
+                        case acceptor.SPEC_IMPLEMENTED_ENUM.Impl_NewRevisionAvailable:
+                            retVal.ImplementableCount += 1;
+                            retVal.NewRevisionAvailable += 1;
+                            break;
+                    }
+                }
+                else
+                {
+                    retVal.NotImplementable += 1;
                 }
             }
 

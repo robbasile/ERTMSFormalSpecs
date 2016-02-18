@@ -47,5 +47,12 @@ namespace GUI.RequirementSetDiagram
             get { return Control.TypedModel.getDefault(); }
             set { Control.TypedModel.setDefault(value); }
         }
+
+        [Category("Related Requirements behaviour")]
+        public bool Applicable
+        {
+            get { return Control.TypedModel.getApplicable(); }
+            set { Control.TypedModel.setApplicable(value); }
+        }
     }
 }

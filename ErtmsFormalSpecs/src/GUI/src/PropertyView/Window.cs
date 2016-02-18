@@ -45,6 +45,7 @@ namespace GUI.PropertyView
             bool retVal = base.HandleSelectionChange(context);
 
             propertyGrid.SelectedObject = null;
+
             BaseTreeNode node = GuiUtils.SourceNode(context);
             if (node != null)
             {

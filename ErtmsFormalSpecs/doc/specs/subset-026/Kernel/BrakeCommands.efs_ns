@@ -698,6 +698,11 @@ DMI.MasterDMI().In_AcknForReversingDistanceExceeded.InputInformation.DriverAnswe
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="d622edaf-ffd8-40b0-b71c-b535341b6463"
 >
+</ReqRef><ReqRef
+ Id="ada86afd-dbbc-4429-a7e3-d9c5ad6c1ff6"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f3365e40-68b2-414a-818c-31c54090b3b2"
+>
 </ReqRef><Comment>Adds an emergency stop item to the list from a conditional emergency stop message or from an unconditional emergency stop message.</Comment>
 <Parameters>
 <Parameter
@@ -708,6 +713,38 @@ DMI.MasterDMI().In_AcknForReversingDistanceExceeded.InputInformation.DriverAnswe
 </Parameter></Parameters>
 <Rules>
 <Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Remove existing emergency stop"
+ Guid="cda2a1f9-a59d-461b-90f3-dfa167a61b71"
+>
+<ReqRef
+ Id="c62046ce-9522-4a89-b586-fc3894167570"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="48405f81-1d83-4b79-a7a6-0da51931c26e"
+>
+</ReqRef><ReqRef
+ Id="1b116737-c74c-4eaf-bcba-9bbddd057b0d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="cc9bd18e-c309-47df-8cc7-d0eabe2518f4"
+>
+</ReqRef><Comment>Removes the emergency stops whose id correspond to the new emergency stop</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Remove existing emergency stop"
+ Guid="60dcacc3-8db7-48b8-8e36-140f6274bc62"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="a3a405df-0628-4ef8-a685-270bd544e97b"
+>REMOVE ALL X.Id == aMessage.CONDITIONAL_EMERGENCY_STOP.NID_EM
+IN Kernel.BrakeCommands.EmergencyStops</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
  Priority="Processing"
  Implemented="TRUE"
  Name="Add emergency stop"
@@ -738,7 +775,6 @@ Kernel.BrakeCommands.CreateEmergencyStop (
         scale =&gt; aMessage.CONDITIONAL_EMERGENCY_STOP.Q_SCALE
      )
  )
-
 IN
 Kernel.BrakeCommands.EmergencyStops</Action></Actions>
 </RuleCondition><RuleCondition
@@ -760,7 +796,6 @@ Kernel.BrakeCommands.CreateEmergencyStop (
     aId =&gt; aMessage.UNCONDITIONAL_EMERGENCY_STOP.NID_EM,
     aStopLocation =&gt; 0.0
  )
-
 IN
 Kernel.BrakeCommands.EmergencyStops</Action></Actions>
 </RuleCondition></Conditions>

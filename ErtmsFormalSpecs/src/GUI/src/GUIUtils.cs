@@ -151,20 +151,25 @@ namespace GUI
 
             if (retVal == null)
             {
-                IBaseForm form = EnclosingFinder<IBaseForm>.Find(selectionContext.Sender as Control);
-                if (form != null && form.TreeView != null)
+                foreach (IBaseForm form in MdiWindow.SubWindows)
                 {
-                    retVal = form.TreeView.FindNode(selectionContext.Element, true);
-
-                    if (retVal != null)
+                    if (form != null && form.TreeView != null)
                     {
-                        BaseTreeNode parent = retVal.Parent as BaseTreeNode;
-                        while (parent != null && parent.Model == retVal.Model)
+                        retVal = form.TreeView.FindNode(selectionContext.Element, true);
+
+                        if (retVal != null)
                         {
-                            retVal = parent;
-                            parent = retVal.Parent as BaseTreeNode;
+                            // Finds the upper node for the same model
+                            BaseTreeNode parent = retVal.Parent as BaseTreeNode;
+                            while (parent != null && parent.Model == retVal.Model)
+                            {
+                                retVal = parent;
+                                parent = retVal.Parent as BaseTreeNode;
+                            }
+
+                            break;
                         }
-                    }
+                    }                    
                 }
             }
 
