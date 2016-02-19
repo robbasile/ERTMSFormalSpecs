@@ -163,6 +163,14 @@ namespace GUI
         }
 
         /// <summary>
+        ///     Provides a navigation view window
+        /// </summary>
+        public NavigationView.Window NavigationWindow
+        {
+            get { return GenericWindowHandling<NavigationView.Window>.Find(SubWindows); }
+        }
+
+        /// <summary>
         ///     Provides a more info view window
         /// </summary>
         public MoreInfoView.Window MoreInfoWindow
@@ -513,17 +521,19 @@ namespace GUI
                 if (dictionary.NameSpaces.Count > 0)
                 {
                     modelWindow = new DataDictionaryView.Window(dictionary);
-                    AddChildWindow(modelWindow, DockAreas.Document);
+                    AddChildWindow(modelWindow);
                 }
                 GenericWindowHandling<TestRunnerView.Window>.AddOrShow(this, TestWindow, DockAreas.Document);
 
-                TranslationRules.Window translationWindow = null;
                 if (dictionary.TranslationDictionary != null &&
                     dictionary.TranslationDictionary.TranslationsCount > 0)
                 {
-                    translationWindow = new TranslationRules.Window(dictionary.TranslationDictionary);
-                    AddChildWindow(translationWindow, DockAreas.Document);
+                    TranslationRules.Window translationWindow = new TranslationRules.Window(dictionary.TranslationDictionary);
+                    AddChildWindow(translationWindow);
                 }
+
+                GenericWindowHandling<NavigationView.Window>.AddOrShow(this, NavigationWindow, DockAreas.DockTop);
+                dockPanel.DockTopPortion = 65;
 
                 // Display the views in the left pane
                 GenericWindowHandling<SpecificationView.Window>.AddOrShow(this, SpecificationWindow,
@@ -1628,6 +1638,11 @@ namespace GUI
                 MergeUpdateOperation merge = new MergeUpdateOperation(dictionarySelector.Selected);
                 merge.ExecuteUsingProgressDialog(GuiUtils.MdiWindow, "Merging", false);
             }
+        }
+
+        private void showNavigationViewToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            GenericWindowHandling<NavigationView.Window>.AddOrShow(this, NavigationWindow, DockAreas.DockTop);
         }
     }
 }

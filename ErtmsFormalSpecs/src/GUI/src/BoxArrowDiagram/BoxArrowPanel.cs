@@ -555,7 +555,7 @@ namespace GUI.BoxArrowDiagram
         /// <summary>
         ///     The dictionary used to keep the relation between boxe controls and their model
         /// </summary>
-        private readonly Dictionary<TBoxModel, BoxControl<TEnclosing, TBoxModel, TArrowModel>> _boxes =
+        protected readonly Dictionary<TBoxModel, BoxControl<TEnclosing, TBoxModel, TArrowModel>> _boxes =
             new Dictionary<TBoxModel, BoxControl<TEnclosing, TBoxModel, TArrowModel>>();
 
         /// <summary>
@@ -581,7 +581,7 @@ namespace GUI.BoxArrowDiagram
         /// <summary>
         ///     The dictionary used to keep the relation between arrows and their model
         /// </summary>
-        private readonly Dictionary<TArrowModel, ArrowControl<TEnclosing, TBoxModel, TArrowModel>> _arrows =
+        protected readonly Dictionary<TArrowModel, ArrowControl<TEnclosing, TBoxModel, TArrowModel>> _arrows =
             new Dictionary<TArrowModel, ArrowControl<TEnclosing, TBoxModel, TArrowModel>>();
 
         /// <summary>
@@ -822,7 +822,7 @@ namespace GUI.BoxArrowDiagram
                 }
             }
 
-            pictureBox.Size = MaxSize(size, Size);
+            pictureBox.Size = size;
         }
 
         /// <summary>
@@ -1038,7 +1038,7 @@ namespace GUI.BoxArrowDiagram
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void PaintContent(object sender, PaintEventArgs e)
+        public void PaintContent(object sender, PaintEventArgs e)
         {
             try
             {
