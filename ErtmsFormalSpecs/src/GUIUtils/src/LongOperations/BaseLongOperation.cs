@@ -76,7 +76,7 @@ namespace GUIUtils.LongOperations
                     if (ShowDialog)
                     {
                         Dialog = new ProgressDialog(message, this, allowCancel);
-                        Dialog.ShowDialog (mainForm);
+                        mainForm.Invoke((MethodInvoker) (() => Dialog.ShowDialog(mainForm)));
                     }
                     else
                     {

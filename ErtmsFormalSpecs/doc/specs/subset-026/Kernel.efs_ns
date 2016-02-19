@@ -2486,35 +2486,15 @@ Kernel.TrainPosition.Position.DataState == DataStateEnum.Unknown</PreCondition><
  Guid="9525b908-7a51-4be2-9ea4-897bf2b5942e"
 >DMI.MasterDMI().In_RBCContactInformation.DriversSelectedAction in [ DMI.RBCContactActionEnum.EnterContactInfo, DMI.RBCContactActionEnum.RevalidateContactInfo ]</PreCondition></PreConditions>
 <Actions>
-</Actions>
-<SubRules>
-<Rule
- Priority="Processing"
- Implemented="TRUE"
- Name="RBC id changed"
- Guid="47e640e2-e929-41e7-bb6c-0f166a59640d"
->
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="RBC id changed"
- Guid="4ed548d4-93df-4a28-90ea-a1593b3f9cee"
->
-<PreConditions>
-<PreCondition
- Guid="ae2a8cea-d2ab-4a99-89c0-67427153c65a"
->DMI.MasterDMI().In_RBCContactInformation.DriversSelectedAction == DMI.RBCContactActionEnum.EnterContactInfo</PreCondition></PreConditions>
-<Actions>
 <Action
  Guid="9de675ca-f9a8-4377-9d0a-27e5939234d9"
 >EURORADIO.CurrentRBCConnection().ContactData &lt;- EURORADIO.RBCContactStruct{
     Id =&gt; DMI.MasterDMI().In_RBCContactInformation.RBCContactInformation.Id,
     PhoneNumber =&gt; DMI.MasterDMI().In_RBCContactInformation.RBCContactInformation.PhoneNumber,
     DataState =&gt; DataStateEnum.Valid
-}</Action></Actions>
-</RuleCondition></Conditions>
-</Rule></SubRules>
+}</Action><Action
+ Guid="9586b968-9340-42d6-807a-e7d9fecf2d34"
+>EURORADIO.ContactOption &lt;- EURORADIO.ContactOptionEnum.RBCIdAndPhoneNumber</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition></Conditions>

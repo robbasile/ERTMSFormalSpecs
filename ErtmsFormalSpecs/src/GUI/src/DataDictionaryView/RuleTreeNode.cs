@@ -133,9 +133,13 @@ namespace GUI.DataDictionaryView
                 {
                     enclosingState.setEnterAction (null);
                 }
-                else if (enclosingState.getLeaveAction () == Item)
+                else if (enclosingState.getLeaveAction() == Item)
                 {
-                    enclosingState.setLeaveAction (null);
+                    enclosingState.setLeaveAction(null);
+                }
+                else
+                {
+                    base.DeleteHandler(sender, args);                    
                 }
             }
             else
