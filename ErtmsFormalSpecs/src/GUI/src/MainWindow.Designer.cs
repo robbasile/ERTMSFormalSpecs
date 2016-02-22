@@ -1309,7 +1309,6 @@ namespace GUI
             this.Name = "MainWindow";
             this.Text = "ERTMSFormalSpecs Workbench";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-            this.Click += new System.EventHandler(this.HandleClick);
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
             this.toolStrip.ResumeLayout(false);
