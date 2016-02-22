@@ -20,8 +20,8 @@
 <Enumerations>
 <Enum
  Default="EURORADIO.SafeRadioConnectionStatusEnum.NoConnection"
- X="510"
- Y="290"
+ X="530"
+ Y="210"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -86,8 +86,8 @@
 </EnumValue></Values>
 </Enum><Enum
  Default="EURORADIO.ContactOptionEnum.None"
- X="930"
- Y="110"
+ X="580"
+ Y="410"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -134,8 +134,8 @@
 </EnumValue></Values>
 </Enum><Enum
  Default="EURORADIO.SpecialCaseSessionEstablishmentReasonEnum.DoNotEstablish"
- X="510"
- Y="200"
+ X="530"
+ Y="110"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -3890,7 +3890,7 @@ SystemVersion1 =&gt; EMPTY
 <PreConditions>
 <PreCondition
  Guid="debc6364-ddf5-4ed8-82bb-c87f6321ac7b"
->EURORADIO.SystemVersionIsCompatible ( SessionManagementData.SystemVersion.Value )</PreCondition></PreConditions>
+>VersionManagement.SystemVersionIsCompatible ( SessionManagementData.SystemVersion.Value )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="b4f25d0d-6815-4c2d-ae03-b9c5f4fe9298"
@@ -5146,7 +5146,7 @@ Aftter a defined number of repetitions, if no acknowledgement is received from t
 >
 <Comment>Set to True when a request to establish a safe radio connection has to be sent.</Comment>
 </StructureElement><StructureElement
- TypeName="SystemVersionStruct"
+ TypeName="VersionManagement.SystemVersionStruct"
  Default=""
  Mode="Incoming"
  Implemented="TRUE"
@@ -5846,7 +5846,7 @@ After that, if an order to contact an Accepting RBC was received, it will be han
 </StateMachine></StateMachines>
 </Structure><Structure
  Default=""
- X="780"
+ X="660"
  Y="110"
  Width="100"
  Height="50"
@@ -5883,48 +5883,8 @@ After that, if an order to contact an Accepting RBC was received, it will be han
 The default value &apos;My very own network&apos; is used as a patch to avoid A29 exit. To remove asap.</Comment>
 </StructureElement></Structure><Structure
  Default=""
- X="480"
- Y="390"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="SystemVersionStruct"
- Guid="d57ddcfd-645d-4096-81d5-c12c41bd57bb"
->
-<ReqRef
- Id="02f20f26-3445-49b9-95cf-a6948ab029b8"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="97b05239-dbfb-447a-953a-e1fbb1608040"
->
-</ReqRef><Comment>Represents the system version received from the trackside.</Comment>
-<StructureElement
- TypeName="VersionManagement.SystemVersionEnum"
- Default="VersionManagement.SystemVersionEnum.Version2_0"
- Mode="Internal"
- Implemented="TRUE"
- Name="Value"
- Guid="6b92d905-fc0e-4c7c-8f01-e8ea9c2663a8"
->
-<Comment>The value of the system version.</Comment>
-</StructureElement><StructureElement
- TypeName="DataStateEnum"
- Default="DataStateEnum.Unknown"
- Mode="Internal"
- Implemented="TRUE"
- Name="DataState"
- Guid="1d98ef8a-fbe4-4fe6-affb-c0d0d99bb986"
->
-<Comment>The data state of the system version.</Comment>
-</StructureElement><Interfaces>
-<StructureRef
- Name="DataStateInterface"
- Guid="e414b89e-c084-45db-8800-f92351b16e1f"
->
-</StructureRef></Interfaces>
-</Structure><Structure
- Default=""
- X="510"
- Y="110"
+ X="530"
+ Y="20"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -5957,7 +5917,7 @@ The default value &apos;My very own network&apos; is used as a patch to avoid A2
 <Collection
  TypeName="String"
  Default="[]"
- X="780"
+ X="660"
  Y="200"
  Width="100"
  Height="50"
@@ -5974,8 +5934,8 @@ The default value &apos;My very own network&apos; is used as a patch to avoid A2
 </Collection><Collection
  TypeName="Messages.MESSAGE.TRACK_TO_TRAIN.Message"
  Default="[]"
- X="630"
- Y="110"
+ X="460"
+ Y="410"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -6359,56 +6319,6 @@ It can only return false if there is no open session or if the last known RBC ha
  Guid="f4f56c58-c98b-415b-b10f-834a43d8bdb0"
 >aVersion == Messages.M_VERSION.Version_2_0__introduced_in_SRS_3_0_0</PreCondition></PreConditions>
 <Expression>VersionManagement.SystemVersionEnum.Version2_0</Expression>
-</Case></Cases>
-</Function><Function
- Type="Boolean"
- Default=""
- X="0"
- Y="720"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="SystemVersionIsCompatible"
- Guid="28b8bd9c-0c28-4b56-8672-4510358507e8"
->
-<ReqRef
- Id="790cf49e-a85c-4110-b567-fc5d57052339"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="408fea0c-e3fd-4aeb-a674-fcefc576398e"
->
-</ReqRef><ReqRef
- Id="25af834a-3a24-459b-b5c8-97b85eddb2e8"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="34ecb0db-985f-4a26-b5a8-0b90794321df"
->
-</ReqRef><ReqRef
- Id="e3806294-c226-451a-b5c2-70b79a84dded"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="b56ecb5f-c7a6-44d0-8bca-a5f1b86c0b35"
->
-</ReqRef><Comment>Indicates if the system version received from the trackside is compatible with the system version of the on-board. The versions are compatible if their first number is the same.</Comment>
-<Parameters>
-<Parameter
- Type="VersionManagement.SystemVersionEnum"
- Name="aVersion"
- Guid="f28983c1-e560-4c9e-8c49-0f46dbbf140a"
->
-</Parameter></Parameters>
-<Cases>
-<Case
- Name="Received version is 1_X"
- Guid="f63fe1f7-e087-4b82-b11a-10d4924c5294"
->
-<PreConditions>
-<PreCondition
- Guid="a8f7b491-13d0-4037-a543-2c2675a56a55"
->aVersion in [VersionManagement.SystemVersionEnum.Version1_0, VersionManagement.SystemVersionEnum.Version1_1]</PreCondition></PreConditions>
-<Expression>THERE_IS X IN VersionManagement.SupportedSystemVersions | ( X == VersionManagement.SystemVersionEnum.Version1_0 OR X == VersionManagement.SystemVersionEnum.Version1_1 )</Expression>
-</Case><Case
- Name="Received version is 2_X"
- Guid="9205843b-d0a1-4198-9aa4-b991f1da5577"
->
-<Expression>THERE_IS X IN VersionManagement.SupportedSystemVersions | X == VersionManagement.SystemVersionEnum.Version2_0</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -7349,8 +7259,8 @@ Priority =&gt; aRBC.MessageIn.Priority
 </Function><Function
  Type="Messages.MESSAGE.TRACK_TO_TRAIN.Message"
  Default=""
- X="330"
- Y="780"
+ X="0"
+ Y="720"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -7455,8 +7365,8 @@ Priority =&gt; aRBC.MessageIn.Priority
 </Function><Function
  Type="Boolean"
  Default=""
- X="770"
- Y="720"
+ X="660"
+ Y="780"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -7527,8 +7437,8 @@ Priority =&gt; aRBC.MessageIn.Priority
 </Function><Function
  Type="Messages.PACKET.TRACK_TO_TRAIN.REVERSING_SUPERVISION_INFORMATION.Message"
  Default=""
- X="770"
- Y="660"
+ X="550"
+ Y="780"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -7594,8 +7504,8 @@ Priority =&gt; aRBC.MessageIn.Priority
 </Function><Function
  Type="Boolean"
  Default=""
- X="770"
- Y="600"
+ X="440"
+ Y="780"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -7623,8 +7533,8 @@ Priority =&gt; aRBC.MessageIn.Priority
 </Function><Function
  Type="Boolean"
  Default=""
- X="770"
- Y="540"
+ X="330"
+ Y="780"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -7652,8 +7562,8 @@ Priority =&gt; aRBC.MessageIn.Priority
 </Function></Functions>
 <Procedures>
 <Procedure
- X="770"
- Y="900"
+ X="0"
+ Y="960"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -7833,8 +7743,8 @@ Priority =&gt; aRBC.MessageIn.Priority
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
- X="770"
- Y="840"
+ X="110"
+ Y="960"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -12024,8 +11934,8 @@ But at the end of the cycle the conditions required for sending of position repo
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
- X="880"
- Y="900"
+ X="220"
+ Y="960"
  Width="100"
  Height="50"
  Name="HandleCommonPackets"
@@ -13074,8 +12984,8 @@ Kernel.AcceptInformation.ReversingSupervisionInformation( Source =&gt; Kernel.Ac
  Type="BaseTypes.Time"
  DefaultValue="15.0"
  VariableMode="Constant"
- X="1170"
- Y="310"
+ X="1050"
+ Y="20"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -13092,8 +13002,8 @@ Kernel.AcceptInformation.ReversingSupervisionInformation( Source =&gt; Kernel.Ac
  Type="Integer"
  DefaultValue="3"
  VariableMode="Constant"
- X="940"
- Y="310"
+ X="790"
+ Y="140"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -13156,8 +13066,8 @@ Kernel.AcceptInformation.ReversingSupervisionInformation( Source =&gt; Kernel.Ac
  Type="String"
  DefaultValue="&apos;&apos;"
  VariableMode="Internal"
- X="1060"
- Y="540"
+ X="910"
+ Y="390"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -13184,8 +13094,8 @@ Kernel.AcceptInformation.ReversingSupervisionInformation( Source =&gt; Kernel.Ac
  Type="String"
  DefaultValue="&apos;&apos;"
  VariableMode="Internal"
- X="1180"
- Y="200"
+ X="1050"
+ Y="140"
  Width="100"
  Height="50"
  Pinned="TRUE"
@@ -13203,7 +13113,7 @@ Kernel.AcceptInformation.ReversingSupervisionInformation( Source =&gt; Kernel.Ac
  Type="AvailableNetworksStruct"
  DefaultValue=""
  VariableMode="InOut"
- X="780"
+ X="660"
  Y="20"
  Width="100"
  Height="50"
@@ -13258,8 +13168,8 @@ Kernel.AcceptInformation.ReversingSupervisionInformation( Source =&gt; Kernel.Ac
  Type="ContactOptionEnum"
  DefaultValue="ContactOptionEnum.None"
  VariableMode="Internal"
- X="930"
- Y="20"
+ X="580"
+ Y="320"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -13286,8 +13196,8 @@ Kernel.AcceptInformation.ReversingSupervisionInformation( Source =&gt; Kernel.Ac
  Type="String"
  DefaultValue="&apos;Default&apos;"
  VariableMode="Internal"
- X="1180"
- Y="430"
+ X="1050"
+ Y="270"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -13309,8 +13219,8 @@ Kernel.AcceptInformation.ReversingSupervisionInformation( Source =&gt; Kernel.Ac
  Type="BaseTypes.Time"
  DefaultValue="300.0"
  VariableMode="Constant"
- X="1060"
- Y="310"
+ X="920"
+ Y="140"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -13332,8 +13242,8 @@ Kernel.AcceptInformation.ReversingSupervisionInformation( Source =&gt; Kernel.Ac
  Type="BaseTypes.Time"
  DefaultValue="45.0"
  VariableMode="Constant"
- X="940"
- Y="200"
+ X="790"
+ Y="20"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -13355,8 +13265,8 @@ Kernel.AcceptInformation.ReversingSupervisionInformation( Source =&gt; Kernel.Ac
  Type="IncomingMessagesCol"
  DefaultValue="[]"
  VariableMode="Internal"
- X="620"
- Y="20"
+ X="460"
+ Y="320"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -13391,8 +13301,8 @@ Kernel.AcceptInformation.ReversingSupervisionInformation( Source =&gt; Kernel.Ac
  Type="Boolean"
  DefaultValue="False"
  VariableMode="Internal"
- X="940"
- Y="430"
+ X="790"
+ Y="270"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -13409,8 +13319,8 @@ Kernel.AcceptInformation.ReversingSupervisionInformation( Source =&gt; Kernel.Ac
  Type="Boolean"
  DefaultValue=""
  VariableMode="Internal"
- X="1060"
- Y="430"
+ X="920"
+ Y="270"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -13432,8 +13342,8 @@ Kernel.AcceptInformation.ReversingSupervisionInformation( Source =&gt; Kernel.Ac
  Type="BaseTypes.Time"
  DefaultValue="60.0"
  VariableMode="Constant"
- X="1060"
- Y="200"
+ X="920"
+ Y="20"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -13450,8 +13360,8 @@ Kernel.AcceptInformation.ReversingSupervisionInformation( Source =&gt; Kernel.Ac
  Type="Integer"
  DefaultValue="3"
  VariableMode="Internal"
- X="940"
- Y="540"
+ X="790"
+ Y="390"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -13468,8 +13378,8 @@ Kernel.AcceptInformation.ReversingSupervisionInformation( Source =&gt; Kernel.Ac
 <Rules>
 <Rule
  Priority="Processing"
- X="970"
- Y="730"
+ X="790"
+ Y="840"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -13500,8 +13410,8 @@ Kernel.AcceptInformation.ReversingSupervisionInformation( Source =&gt; Kernel.Ac
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
- X="1090"
- Y="730"
+ X="790"
+ Y="720"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -13560,8 +13470,8 @@ Kernel.AcceptInformation.ReversingSupervisionInformation( Source =&gt; Kernel.Ac
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
- X="1210"
- Y="730"
+ X="790"
+ Y="780"
  Width="100"
  Height="50"
  Implemented="TRUE"

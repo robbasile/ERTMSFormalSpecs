@@ -8750,6 +8750,7 @@ IN MA.ModeProfile.Profile</Action></Actions>
 </Rule><Rule
  Priority="Processing"
  Implemented="TRUE"
+ NeedsRequirement="FALSE"
  Name="NP"
  Guid="fc0593e9-462b-46ec-bb2a-990b7b72862e"
 >
@@ -8826,7 +8827,85 @@ IN MA.ModeProfile.Profile</Action></Actions>
 <Actions>
 <Action
  Guid="2d1d8caa-9e23-4c49-8716-7a705c3a293e"
->VersionManagement.PreviousSystemVersion &lt;- VersionManagement.OperatedSystemVersion</Action></Actions>
+>VersionManagement.PreviousSystemVersion &lt;- VersionManagement.SystemVersionStruct
+{
+  Value =&gt; VersionManagement.OperatedSystemVersion,
+  DataState =&gt; DataStateEnum.Valid
+}</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></SubRules>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="SB"
+ Guid="f03fb66d-4edf-4d3e-904b-f06dac0b579c"
+>
+<Comment>Handles actions to execute when the system goes to SB mode.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="SB"
+ Guid="47d5eaee-3232-4cb5-b856-8b1513f551e0"
+>
+<PreConditions>
+<PreCondition
+ Guid="ba8d7456-39a8-48fa-b601-286c85cab24e"
+>PrevMode == ModeEnum.NP</PreCondition></PreConditions>
+<Actions>
+</Actions>
+<SubRules>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Select system version"
+ Guid="0b075adc-48cf-4e90-a1a5-8de5cb1f2157"
+>
+<Comment>Selects the system version to use.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Stored system version is valid"
+ Guid="ffd78bf4-88df-4f62-be74-883966d1b23e"
+>
+<ReqRef
+ Id="bd2b56c4-9c42-4f86-9e09-659f7bb9659b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="1bf39297-6978-4b53-983c-f3e5e292627e"
+>
+</ReqRef><Comment>If the system version stored when the system was powered off is valid, use this value.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="eb61b533-86a2-463b-8ef0-8e80432b878a"
+>VersionManagement.PreviousSystemVersion.DataState == DataStateEnum.Valid</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="e528a1cd-4d2f-4e4e-b743-e5a90ebb6a5e"
+>VersionManagement.OperatedSystemVersion &lt;- VersionManagement.PreviousSystemVersion.Value</Action><Action
+ Guid="693ba289-6252-4841-a30f-ce682ace298d"
+>VersionManagement.PreviousSystemVersion.DataState &lt;- Default.DataStateEnum.Invalid</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Otherwise"
+ Guid="2275383c-9762-4e62-8320-a6a29f92b5d3"
+>
+<ReqRef
+ Id="cbff537b-4ec2-4fde-8d63-3a46d748cb74"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b3e3c8a8-e34d-4779-a5f1-17e8350bdad3"
+>
+</ReqRef><Comment>Otherwise, use the highest supported system version.</Comment>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="58c213d1-d36a-46a0-b4e2-2a3b99b2cbce"
+>VersionManagement.OperatedSystemVersion &lt;- VersionManagement.HighestSystemVersion( aSystemVersions =&gt; VersionManagement.SupportedSystemVersions )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition></Conditions>

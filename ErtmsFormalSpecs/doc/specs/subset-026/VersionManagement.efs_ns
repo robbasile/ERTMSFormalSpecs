@@ -15,8 +15,8 @@
 <Enumerations>
 <Enum
  Default="SystemVersionEnum.Version2_0"
- X="10"
- Y="110"
+ X="210"
+ Y="100"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -79,8 +79,8 @@
 </EnumValue></Values>
 </Enum><Enum
  Default="SystemMainVersionEnum.Version2"
- X="260"
- Y="110"
+ X="550"
+ Y="100"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -107,13 +107,55 @@
 >
 </EnumValue></Values>
 </Enum></Enumerations>
+<Structures>
+<Structure
+ Default=""
+ X="380"
+ Y="100"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="SystemVersionStruct"
+ Guid="d57ddcfd-645d-4096-81d5-c12c41bd57bb"
+>
+<ReqRef
+ Id="02f20f26-3445-49b9-95cf-a6948ab029b8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="97b05239-dbfb-447a-953a-e1fbb1608040"
+>
+</ReqRef><Comment>Represents the system version received from the trackside.</Comment>
+<StructureElement
+ TypeName="VersionManagement.SystemVersionEnum"
+ Default="VersionManagement.SystemVersionEnum.Version2_0"
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="Value"
+ Guid="6b92d905-fc0e-4c7c-8f01-e8ea9c2663a8"
+>
+<Comment>The value of the system version.</Comment>
+</StructureElement><StructureElement
+ TypeName="DataStateEnum"
+ Default="DataStateEnum.Unknown"
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="DataState"
+ Guid="1d98ef8a-fbe4-4fe6-affb-c0d0d99bb986"
+>
+<Comment>The data state of the system version.</Comment>
+</StructureElement><Interfaces>
+<StructureRef
+ Name="DataStateInterface"
+ Guid="e414b89e-c084-45db-8800-f92351b16e1f"
+>
+</StructureRef></Interfaces>
+</Structure></Structures>
 <Collections>
 <Collection
  TypeName="SystemVersionEnum"
  MaxSize="3"
  Default="[]"
- X="140"
- Y="110"
+ X="10"
+ Y="100"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -199,10 +241,7 @@
 <PreCondition
  Guid="44831ce4-f7e7-4c49-a206-e73d1663c4b2"
 >Available(aMessage.SystemVersion1)</PreCondition></PreConditions>
-<Expression>HighestSystemVersion(
-    firstSystemVersion =&gt; aSystemVersion,
-    secondSystemVersion =&gt; SystemVersionFromMessageVersion(aMessage.SystemVersion1.M_VERSION)
-)</Expression>
+<Expression>HighestSystemVersion( [aSystemVersion, SystemVersionFromMessageVersion(aMessage.SystemVersion1.M_VERSION ) ] )</Expression>
 </Case><Case
  Name="NoOrder Message  System Version 2 available"
  Guid="c0a69b67-a86f-49fd-bde1-21ae588341b0"
@@ -211,10 +250,7 @@
 <PreCondition
  Guid="c87b1654-d1e1-4210-bae3-001b60cfeded"
 >Available(aMessage.SystemVersion2)</PreCondition></PreConditions>
-<Expression>HighestSystemVersion(
-    firstSystemVersion =&gt; aSystemVersion,
-    secondSystemVersion =&gt; SystemVersionFromMessageVersion(aMessage.SystemVersion2.M_VERSION)
-)</Expression>
+<Expression>HighestSystemVersion( [ aSystemVersion,  SystemVersionFromMessageVersion(aMessage.SystemVersion2.M_VERSION ) ] )</Expression>
 </Case></Cases>
 </Function><Function
  Type="SystemVersionEnum"
@@ -231,14 +267,9 @@
 <Comment>Compares the two received SystemVersions and returns the highest.</Comment>
 <Parameters>
 <Parameter
- Type="SystemVersionEnum"
- Name="firstSystemVersion"
- Guid="d2fc276f-4953-4daa-9253-22b4df064a99"
->
-</Parameter><Parameter
- Type="SystemVersionEnum"
- Name="secondSystemVersion"
- Guid="398593d6-bfd6-4945-b14b-42fb42322a75"
+ Type="SystemVersionsCol"
+ Name="aSystemVersions"
+ Guid="0e2891d5-7a34-4279-a3e1-bb98e31e981b"
 >
 </Parameter></Parameters>
 <Cases>
@@ -249,7 +280,7 @@
 <PreConditions>
 <PreCondition
  Guid="f3506b2e-36b1-48e1-bde4-a9da3a9a4ca6"
->SystemVersionEnum.Version2_0 in [firstSystemVersion, secondSystemVersion]</PreCondition></PreConditions>
+>SystemVersionEnum.Version2_0 in aSystemVersions</PreCondition></PreConditions>
 <Expression>SystemVersionEnum.Version2_0</Expression>
 </Case><Case
  Name="Version2_1"
@@ -258,7 +289,7 @@
 <PreConditions>
 <PreCondition
  Guid="4f3e44d1-1b4f-4171-bf80-c928b2b6597b"
->SystemVersionEnum.Version1_1 in [firstSystemVersion, secondSystemVersion]</PreCondition></PreConditions>
+>SystemVersionEnum.Version1_1 in aSystemVersions</PreCondition></PreConditions>
 <Expression>SystemVersionEnum.Version1_1</Expression>
 </Case><Case
  Name="Version1_0"
@@ -314,7 +345,7 @@
 </Function><Function
  Type="SystemVersionEnum"
  Default=""
- X="120"
+ X="230"
  Y="330"
  Width="100"
  Height="50"
@@ -432,11 +463,52 @@
 >aSystemVersion == SystemVersionEnum.Version1_0</PreCondition></PreConditions>
 <Expression>Messages.M_VERSION.Version_1_0__introduced_in_SRS_1_2_0_and_re_used_in_SRSs_2_0_0__2_2_2__2_3_0</Expression>
 </Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="120"
+ Y="330"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="SystemVersionIsCompatible"
+ Guid="28b8bd9c-0c28-4b56-8672-4510358507e8"
+>
+<ReqRef
+ Id="790cf49e-a85c-4110-b567-fc5d57052339"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="408fea0c-e3fd-4aeb-a674-fcefc576398e"
+>
+</ReqRef><ReqRef
+ Id="25af834a-3a24-459b-b5c8-97b85eddb2e8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="34ecb0db-985f-4a26-b5a8-0b90794321df"
+>
+</ReqRef><ReqRef
+ Id="e3806294-c226-451a-b5c2-70b79a84dded"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b56ecb5f-c7a6-44d0-8bca-a5f1b86c0b35"
+>
+</ReqRef><Comment>Indicates if the system version received from the trackside is compatible with the system version of the on-board. The versions are compatible if their first number is the same.</Comment>
+<Parameters>
+<Parameter
+ Type="VersionManagement.SystemVersionEnum"
+ Name="aVersion"
+ Guid="f28983c1-e560-4c9e-8c49-0f46dbbf140a"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="f88248fd-32a2-4222-ae5e-8f2fe7c60b72"
+>
+<Expression>THERE_IS Version IN SupportedSystemVersions | MainVersionFromDetailledVersion( aDetailledVersion =&gt; Version ) == MainVersionFromDetailledVersion( aDetailledVersion =&gt; aVersion ) </Expression>
+</Case></Cases>
 </Function></Functions>
 <Procedures>
 <Procedure
  X="10"
- Y="400"
+ Y="190"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -538,7 +610,7 @@ This is the default rule which will be called at the beginning of each cycle, be
  Type="SystemVersionEnum"
  DefaultValue="SystemVersionEnum.Version2_0"
  VariableMode="Internal"
- X="10"
+ X="210"
  Y="10"
  Width="100"
  Height="50"
@@ -566,12 +638,17 @@ This is the default rule which will be called at the beginning of each cycle, be
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="0ac89fa4-0b46-4537-8c11-f6a109c32971"
 >
+</ReqRef><ReqRef
+ Id="bd2b56c4-9c42-4f86-9e09-659f7bb9659b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c6d55059-42c6-4942-b33a-c26f90f93b8c"
+>
 </ReqRef><Comment>We interpret the choice of the default value as the implementation of paragraph 3.17.2.9.1 .</Comment>
 </Variable><Variable
  Type="SystemVersionsCol"
  DefaultValue="[SystemVersionEnum.Version2_0]"
  VariableMode="Internal"
- X="140"
+ X="10"
  Y="10"
  Width="100"
  Height="50"
@@ -589,14 +666,20 @@ This is the default rule which will be called at the beginning of each cycle, be
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="e3520cf1-6680-45fb-adc6-d49129321b6d"
 >
+</ReqRef><ReqRef
+ Id="cbff537b-4ec2-4fde-8d63-3a46d748cb74"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="5d95cb12-71aa-4bf5-b2ba-a668081d6306"
+>
 </ReqRef><Comment>System versions supported by the on-board.</Comment>
 </Variable><Variable
- Type="SystemVersionEnum"
+ Type="SystemVersionStruct"
  VariableMode="Internal"
- X="1"
- Y="181"
+ X="380"
+ Y="10"
  Width="100"
  Height="50"
+ Implemented="TRUE"
  Name="PreviousSystemVersion"
  Guid="d76be35c-6351-45cd-847c-a0790ed42d6b"
 >
