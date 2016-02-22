@@ -1352,7 +1352,7 @@ DMI.MasterDMI().In_AcknOfUNMode.InputInformation.DriverAnswered</Expression>
 <PreConditions>
 <PreCondition
  Guid="bf12396e-5c6e-4628-94d7-a4474c2d80d6"
->VersionManagement.MainVersionFromDetailledVersion(VersionManagement.OperatedSystemVersion) == VersionManagement.SystemMainVersion_Enum.Version1</PreCondition></PreConditions>
+>VersionManagement.MainVersionFromDetailledVersion(VersionManagement.OperatedSystemVersion) == VersionManagement.SystemMainVersionEnum.Version1</PreCondition></PreConditions>
 <Expression>Kernel.Modes.StaffResponsible.StopIfInStaffResponsible
   AND  
 NOT Kernel.Override.OverrideIsActive()</Expression>
@@ -8753,34 +8753,82 @@ IN MA.ModeProfile.Profile</Action></Actions>
  Name="NP"
  Guid="fc0593e9-462b-46ec-bb2a-990b7b72862e"
 >
-<ReqRef
- Id="7de74199-8020-4f5b-8325-39e1710d1852"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="35e3fa9c-3bf0-4437-9672-961a18018003"
->
-</ReqRef><ReqRef
- Id="540548ea-106d-4851-b5f3-36d8b06b3f85"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="15f49e22-b9a9-4d43-93f6-605470544c1a"
->
-</ReqRef><Comment>When the on-board equipment is switched off, the not yet applicable national values are deleted.</Comment>
+<Comment>Handles actions to execute when the system is powered off.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
+ NeedsRequirement="FALSE"
  Name="NP"
  Guid="8e0262af-a6e5-41e0-9295-f8d9666e4f3a"
 >
 <PreConditions>
 <PreCondition
  Guid="d3ad200d-8c2a-4b0b-8fea-c9d5fca28168"
->Kernel.Mode == ModeEnum.NP</PreCondition><PreCondition
+>Kernel.Mode == ModeEnum.NP</PreCondition></PreConditions>
+<Actions>
+</Actions>
+<SubRules>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Handle National Values"
+ Guid="51289335-0078-4c9f-a396-b03b6e7f8dbb"
+>
+<ReqRef
+ Id="540548ea-106d-4851-b5f3-36d8b06b3f85"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f0ee9df9-70cd-4783-8fb1-a802ccfb7648"
+>
+</ReqRef><ReqRef
+ Id="7de74199-8020-4f5b-8325-39e1710d1852"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b1efced8-84a8-4adf-af29-1b7e09f15b7f"
+>
+</ReqRef><Comment>When the on-board equipment is switched off, the not yet applicable national values are deleted.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Handle National Values"
+ Guid="bafc6bad-475d-450d-a8ce-3383b9dd2ed4"
+>
+<PreConditions>
+<PreCondition
  Guid="0acdc4bb-6e8b-4d2b-a8b9-df53f392a035"
 >Available(Kernel.NationalValues.NotApplicableNationalValues)</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="26dbeadc-d871-4a38-80b9-b7a5ecb48f98"
 >InvalidateInformation(Kernel.NationalValues.NotApplicableNationalValues)</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Handle System Version"
+ Guid="2c53f757-f900-4cd1-91cb-0e6ccf3c1eda"
+>
+<ReqRef
+ Id="bd2b56c4-9c42-4f86-9e09-659f7bb9659b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="47740edc-8f95-47e2-85cd-61441db6b64e"
+>
+</ReqRef><Comment>Stores the currently used operated system version.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Handle System Version"
+ Guid="4dbac099-8226-4af1-be3d-5b3ecc6dd0e3"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="2d1d8caa-9e23-4c49-8716-7a705c3a293e"
+>VersionManagement.PreviousSystemVersion &lt;- VersionManagement.OperatedSystemVersion</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></SubRules>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition></Conditions>

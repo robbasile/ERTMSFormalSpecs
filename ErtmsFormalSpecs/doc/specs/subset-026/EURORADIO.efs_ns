@@ -85,44 +85,6 @@
 >
 </EnumValue></Values>
 </Enum><Enum
- Default="EURORADIO.SystemVersionEnum.Version2_0"
- X="480"
- Y="470"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="SystemVersionEnum"
- Guid="e434ea8a-ec75-42f9-8347-85f8030caba3"
->
-<ReqRef
- Id="790cf49e-a85c-4110-b567-fc5d57052339"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="a3662f1a-59bd-4477-b564-a2296f7d6fb2"
->
-</ReqRef><ReqRef
- Id="25af834a-3a24-459b-b5c8-97b85eddb2e8"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="2cbb484c-d4dd-4b8a-92b8-7c9588c87ca0"
->
-</ReqRef><Comment>Gives the possible system versions for Euroradio communication.</Comment>
-<Values>
-<EnumValue
- Value="0"
- Name="Version1_0"
- Guid="57240a8e-82c1-4bc2-85a2-0db7d7eca3b9"
->
-</EnumValue><EnumValue
- Value="1"
- Name="Version1_1"
- Guid="0dc39e5e-a3df-4e7b-b900-0faa0a026b92"
->
-</EnumValue><EnumValue
- Value="2"
- Name="Version2_0"
- Guid="27af6815-c66e-44a0-8232-36c46b5f46f1"
->
-</EnumValue></Values>
-</Enum><Enum
  Default="EURORADIO.ContactOptionEnum.None"
  X="930"
  Y="110"
@@ -673,7 +635,7 @@ Keep the reason for it to be displayed to the driver.</Comment>
  Guid="6ae49c95-7d4b-42c1-8330-6a69edd591a3"
 >THERE_IS Fault IN Kernel.SafetyCriticalFaults | Fault.Timestamp == Kernel.DateAndTime.Now()</PreCondition><PreCondition
  Guid="4c9bb920-8b4f-41e8-b06d-5ef689c0e285"
->THIS.SessionManagementData.SystemVersion.Value == SystemVersionEnum.Version2_0</PreCondition></PreConditions>
+>THIS.SessionManagementData.SystemVersion.Value == VersionManagement.SystemVersionEnum.Version2_0</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="e07dcf11-0ce2-47e9-879e-4b160dbf579e"
@@ -2839,7 +2801,7 @@ NOT EURORADIO.IncomingMessageIsConsistent(UpdatedMessageIn(THIS))</PreCondition>
  Guid="a679b477-9031-458d-9c2b-e9610e1441d5"
 >EURORADIO.MessageCanBeSent ( anRBC =&gt; THIS )</PreCondition><PreCondition
  Guid="7c31d7af-e44f-440c-bbef-c3ee741512fc"
->VersionManagement.MainVersionFromDetailledVersion(VersionManagement.SystemVersionFromEURORADIOSystemVersion( THIS.SessionManagementData.SystemVersion.Value)) != VersionManagement.SystemMainVersion_Enum.Version1</PreCondition></PreConditions>
+>VersionManagement.MainVersionFromDetailledVersion( THIS.SessionManagementData.SystemVersion.Value) != VersionManagement.SystemMainVersionEnum.Version1</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="7e439f70-a29e-4ea4-99d1-6a99a4174ea3"
@@ -2877,7 +2839,7 @@ NOT EURORADIO.IncomingMessageIsConsistent(UpdatedMessageIn(THIS))</PreCondition>
 <PreConditions>
 <PreCondition
  Guid="ba3c3dea-31dc-4784-9902-006bec8c32e2"
->THIS.SessionManagementData.SystemVersion.Value in [SystemVersionEnum.Version1_0, SystemVersionEnum.Version1_1]</PreCondition></PreConditions>
+>THIS.SessionManagementData.SystemVersion.Value in [VersionManagement.SystemVersionEnum.Version1_0, VersionManagement.SystemVersionEnum.Version1_1]</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="2ab48f89-e3ba-4b61-9c21-4de648e02cbd"
@@ -5936,8 +5898,8 @@ The default value &apos;My very own network&apos; is used as a patch to avoid A2
 >
 </ReqRef><Comment>Represents the system version received from the trackside.</Comment>
 <StructureElement
- TypeName="SystemVersionEnum"
- Default="EURORADIO.SystemVersionEnum.Version2_0"
+ TypeName="VersionManagement.SystemVersionEnum"
+ Default="VersionManagement.SystemVersionEnum.Version2_0"
  Mode="Internal"
  Implemented="TRUE"
  Name="Value"
@@ -6009,29 +5971,6 @@ The default value &apos;My very own network&apos; is used as a patch to avoid A2
  Guid="8d18e7fe-9416-4292-a792-535d3df5e1e8"
 >
 </ReqRef><Comment>List of available and allowed networks.</Comment>
-</Collection><Collection
- TypeName="SystemVersionEnum"
- MaxSize="3"
- Default="[]"
- X="630"
- Y="470"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="SystemVersionsCol"
- Guid="44ac3d41-0bd0-4d96-b3e0-236b9806487b"
->
-<ReqRef
- Id="790cf49e-a85c-4110-b567-fc5d57052339"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="12a9527d-0bf4-441e-9f73-b172a6a10e83"
->
-</ReqRef><ReqRef
- Id="25af834a-3a24-459b-b5c8-97b85eddb2e8"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="9de807bb-b66f-4d46-9fb0-4bded8376599"
->
-</ReqRef><Comment>Collection system versions supported by on-board.</Comment>
 </Collection><Collection
  TypeName="Messages.MESSAGE.TRACK_TO_TRAIN.Message"
  Default="[]"
@@ -6373,7 +6312,7 @@ It can only return false if there is no open session or if the last known RBC ha
 <Expression>EURORADIO.CurrentRBCConnection().ContactData.Id == newId</Expression>
 </Case></Cases>
 </Function><Function
- Type="SystemVersionEnum"
+ Type="VersionManagement.SystemVersionEnum"
  Default=""
  X="440"
  Y="600"
@@ -6401,7 +6340,7 @@ It can only return false if there is no open session or if the last known RBC ha
 <PreCondition
  Guid="423e3c04-66ea-4d36-94d7-78e0034ef428"
 >aVersion == Messages.M_VERSION.Version_1_0__introduced_in_SRS_1_2_0_and_re_used_in_SRSs_2_0_0__2_2_2__2_3_0</PreCondition></PreConditions>
-<Expression>EURORADIO.SystemVersionEnum.Version1_0</Expression>
+<Expression>VersionManagement.SystemVersionEnum.Version1_0</Expression>
 </Case><Case
  Name="Version1_1"
  Guid="2220f792-2ec9-4a60-87d1-1328f7f93996"
@@ -6410,7 +6349,7 @@ It can only return false if there is no open session or if the last known RBC ha
 <PreCondition
  Guid="a22a98f6-8ad4-4227-b1f9-c618de4f7c04"
 >aVersion == Messages.M_VERSION.Version_1_1__introduced_in_SRS_3_0_0</PreCondition></PreConditions>
-<Expression>EURORADIO.SystemVersionEnum.Version1_1</Expression>
+<Expression>VersionManagement.SystemVersionEnum.Version1_1</Expression>
 </Case><Case
  Name="Version2_0"
  Guid="a98094e3-1ecd-4bcc-a9ec-299b926c0fab"
@@ -6419,7 +6358,7 @@ It can only return false if there is no open session or if the last known RBC ha
 <PreCondition
  Guid="f4f56c58-c98b-415b-b10f-834a43d8bdb0"
 >aVersion == Messages.M_VERSION.Version_2_0__introduced_in_SRS_3_0_0</PreCondition></PreConditions>
-<Expression>EURORADIO.SystemVersionEnum.Version2_0</Expression>
+<Expression>VersionManagement.SystemVersionEnum.Version2_0</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -6450,7 +6389,7 @@ It can only return false if there is no open session or if the last known RBC ha
 </ReqRef><Comment>Indicates if the system version received from the trackside is compatible with the system version of the on-board. The versions are compatible if their first number is the same.</Comment>
 <Parameters>
 <Parameter
- Type="SystemVersionEnum"
+ Type="VersionManagement.SystemVersionEnum"
  Name="aVersion"
  Guid="f28983c1-e560-4c9e-8c49-0f46dbbf140a"
 >
@@ -6463,13 +6402,13 @@ It can only return false if there is no open session or if the last known RBC ha
 <PreConditions>
 <PreCondition
  Guid="a8f7b491-13d0-4037-a543-2c2675a56a55"
->aVersion in [EURORADIO.SystemVersionEnum.Version1_0, EURORADIO.SystemVersionEnum.Version1_1]</PreCondition></PreConditions>
-<Expression>THERE_IS X IN EURORADIO.SupportedSystemVersions | ( X == EURORADIO.SystemVersionEnum.Version1_0 OR X == EURORADIO.SystemVersionEnum.Version1_1 )</Expression>
+>aVersion in [VersionManagement.SystemVersionEnum.Version1_0, VersionManagement.SystemVersionEnum.Version1_1]</PreCondition></PreConditions>
+<Expression>THERE_IS X IN VersionManagement.SupportedSystemVersions | ( X == VersionManagement.SystemVersionEnum.Version1_0 OR X == VersionManagement.SystemVersionEnum.Version1_1 )</Expression>
 </Case><Case
  Name="Received version is 2_X"
  Guid="9205843b-d0a1-4198-9aa4-b991f1da5577"
 >
-<Expression>THERE_IS X IN EURORADIO.SupportedSystemVersions | X == EURORADIO.SystemVersionEnum.Version2_0</Expression>
+<Expression>THERE_IS X IN VersionManagement.SupportedSystemVersions | X == VersionManagement.SystemVersionEnum.Version2_0</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -7360,7 +7299,7 @@ Available(UpdatedReceivedMessage(aRBC).UNCONDITIONAL_EMERGENCY_STOP)</Expression
 <PreConditions>
 <PreCondition
  Guid="d93e10a3-f60a-4838-a1f9-4380368bed3d"
->aRBC.SessionManagementData.SystemVersion.Value == SystemVersionEnum.Version2_0</PreCondition><PreCondition
+>aRBC.SessionManagementData.SystemVersion.Value == VersionManagement.SystemVersionEnum.Version2_0</PreCondition><PreCondition
  Guid="61706c4c-00c8-497f-9455-3ab19998360f"
 >aRBC.SessionManagementData.SystemVersion.DataState == Default.DataStateEnum.Valid</PreCondition></PreConditions>
 <Expression>aRBC.MessageIn</Expression>
@@ -7371,7 +7310,7 @@ Available(UpdatedReceivedMessage(aRBC).UNCONDITIONAL_EMERGENCY_STOP)</Expression
 <PreConditions>
 <PreCondition
  Guid="5b4ae8ca-3693-499a-b2c5-e032b3c04a41"
->aRBC.SessionManagementData.SystemVersion.Value in [SystemVersionEnum.Version1_0, SystemVersionEnum.Version1_1]</PreCondition><PreCondition
+>aRBC.SessionManagementData.SystemVersion.Value in [VersionManagement.SystemVersionEnum.Version1_0, VersionManagement.SystemVersionEnum.Version1_1]</PreCondition><PreCondition
  Guid="f9cc1307-7563-446d-ac74-b1e5ae9b3406"
 >aRBC.SessionManagementData.SystemVersion.DataState == Default.DataStateEnum.Valid</PreCondition></PreConditions>
 <Expression>Messages.EURORADIO.MessageIn.Message{
@@ -13366,29 +13305,6 @@ Kernel.AcceptInformation.ReversingSupervisionInformation( Source =&gt; Kernel.Ac
  Guid="aa7dc0c0-dce3-4fb0-9217-e463d4e2fc72"
 >
 </ReqRef><Comment>Gives the values of the default radio network, to be used when no Radio Network identity was received from trackside or from driver.</Comment>
-</Variable><Variable
- Type="SystemVersionsCol"
- DefaultValue="[EURORADIO.SystemVersionEnum.Version2_0]"
- VariableMode="Internal"
- X="630"
- Y="390"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="SupportedSystemVersions"
- Guid="e9003f47-af6c-4289-a33b-60b830bf4ccc"
->
-<ReqRef
- Id="790cf49e-a85c-4110-b567-fc5d57052339"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="2acdb939-507a-4b5f-999c-19821626b9dd"
->
-</ReqRef><ReqRef
- Id="25af834a-3a24-459b-b5c8-97b85eddb2e8"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="e3520cf1-6680-45fb-adc6-d49129321b6d"
->
-</ReqRef><Comment>System versions supported by the on-board.</Comment>
 </Variable><Variable
  Type="BaseTypes.Time"
  DefaultValue="300.0"
