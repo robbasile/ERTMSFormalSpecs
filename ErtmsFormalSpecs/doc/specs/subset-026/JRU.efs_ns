@@ -109,7 +109,33 @@ GENERAL_MESSAGE =&gt; JRU.CreateGeneralMessage()
 </Rule><Rule
  Priority="Processing"
  Implemented="TRUE"
+ Name="Send Train Data message because of change"
+ Guid="857a5cf4-ca7a-4f49-b751-130e7a923a8f"
+>
+<Comment>Will contain the TrainData information in the JRU</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
  Name="Send Train Data message"
+ Guid="80cf67dd-ada8-49f7-9c43-516824fe5503"
+>
+<Comment>When the function that examines the changes of the TrainDataVerified variable returns true</Comment>
+<PreConditions>
+<PreCondition
+ Guid="ea7dc7fe-3d8b-424b-98dd-bffd722f32ce"
+>THIS.PreviousTrainData != Kernel.TrainData.TrainData.Value</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="2655cb3c-3abc-4978-bcca-7da3bb3c323b"
+>INSERT Messages.JRU.MESSAGE.Message {
+TRAIN_DATA =&gt; JRU.CreateTrainDataMessage()
+} IN JRUMessages</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Send Train Data message sent to RBC"
  Guid="e14c160a-f079-4098-acd4-ae5c59173e72"
 >
 <Comment>Will contain the TrainData information in the JRU</Comment>
@@ -127,8 +153,6 @@ GENERAL_MESSAGE =&gt; JRU.CreateGeneralMessage()
 >JRU.SendTrainDataMessage(THIS)</PreCondition></PreConditions>
 <Actions>
 <Action
- Guid="53c8185c-b1db-4c4c-9778-c8c65d4d4c47"
->Kernel.TrainDataValidated &lt;- False</Action><Action
  Guid="9c53e3cd-d6e0-4d3b-8990-9e9c536431b7"
 >INSERT Messages.JRU.MESSAGE.Message {
 TRAIN_DATA =&gt; JRU.CreateTrainDataMessage()
@@ -1880,7 +1904,7 @@ JRU.ModeChanged(jru)
   OR
 JRU.SystemVersionChanged(jru)
   OR
-( JRU.TrainDataHaveChanged(jru) ) OR (Kernel.TrainDataValidated)
+( JRU.SendTrainDataMessage(jru) ) 
   OR
 JRU.EmergencyBrakeStatusChanged(jru)
   OR
@@ -2340,13 +2364,22 @@ M_BRAKE_COMMAND_STATE=&gt;JRU.TypeConvertors.ToJRUEBCommanded()
 </Parameter></Parameters>
 <Cases>
 <Case
- Name="Send"
+ Name="Send system version 2"
  Guid="b1a189b5-34a9-4b21-b90a-fa8cbcd25387"
 >
 <PreConditions>
 <PreCondition
  Guid="f9f43f6c-751d-4f20-8dd4-15c9cf58523e"
->(JRU.TrainDataHaveChanged(jru) == True) OR (Kernel.TrainDataValidated)</PreCondition></PreConditions>
+>Available ( EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.VALIDATED_TRAIN_DATA )</PreCondition></PreConditions>
+<Expression>True</Expression>
+</Case><Case
+ Name="Send system version 1"
+ Guid="a846afe7-9c05-42a5-873a-253a4876045c"
+>
+<PreConditions>
+<PreCondition
+ Guid="3b00f753-79f7-475a-b91e-6b31d2d24f41"
+>Available ( EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion1.VALIDATED_TRAIN_DATA )</PreCondition></PreConditions>
 <Expression>True</Expression>
 </Case><Case
  Name="Otherwise"
