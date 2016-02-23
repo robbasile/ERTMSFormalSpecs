@@ -201,6 +201,16 @@
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="108e9141-723d-434e-a46f-a2f34e4f636d"
 >
+</ReqRef><ReqRef
+ Id="6b466805-f74c-4207-8050-c9c9d0ea869c"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a0aee605-c16b-49b4-af85-19102ff91c86"
+>
+</ReqRef><ReqRef
+ Id="7a2d478a-8db9-4380-9a12-04cc8d22cf6a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="bca5f50d-c1b1-4b6c-b455-42db5e2d9f21"
+>
 </ReqRef><Comment>Returns the OperatedSystemVersion as computed from BTM informations only.</Comment>
 <Parameters>
 <Parameter
@@ -502,7 +512,7 @@
  Name="Value"
  Guid="f88248fd-32a2-4222-ae5e-8f2fe7c60b72"
 >
-<Expression>THERE_IS Version IN SupportedSystemVersions | MainVersionFromDetailledVersion( aDetailledVersion =&gt; Version ) == MainVersionFromDetailledVersion( aDetailledVersion =&gt; aVersion ) </Expression>
+<Expression>THERE_IS Version IN SupportedSystemVersions | MainVersionFromDetailledVersion( aDetailledVersion =&gt; Version ) == MainVersionFromDetailledVersion( aDetailledVersion =&gt; aVersion )</Expression>
 </Case></Cases>
 </Function></Functions>
 <Procedures>
@@ -519,6 +529,11 @@
  Id="f2f03310-b2fa-4db9-9295-74b339bd6a55"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="e990d3c4-96f5-4265-af26-54c1e3d5b36e"
+>
+</ReqRef><ReqRef
+ Id="fc9c2633-16cf-4cca-9698-93622e8854e0"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="848fbe27-6326-4d1e-8c8e-d66c178150e2"
 >
 </ReqRef><Comment>Procedure called to update the OperatedSystemVersion. Depending on existence of radio connexion and the position of the train with respect to radio coverage zone, the OperatedSystemVersion will be updated using balise message system version or radio system version.
 This is the default rule which will be called at the beginning of each cycle, before message treatment. It is also called at two special occasions: while setting the level to 2/3 and during handover. It is assumed that these two occasions cannot occure at the same cycle.</Comment>
@@ -556,6 +571,11 @@ This is the default rule which will be called at the beginning of each cycle, be
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="871ac40d-0bcb-4865-b32a-846bef63a7ed"
 >
+</ReqRef><ReqRef
+ Id="f2f03310-b2fa-4db9-9295-74b339bd6a55"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f2ee985f-744c-4e0d-8258-335e9b7b39c2"
+>
 </ReqRef><SubRules></SubRules>
 <Conditions>
 <RuleCondition
@@ -580,7 +600,7 @@ This is the default rule which will be called at the beginning of each cycle, be
 <Actions>
 <Action
  Guid="ace87758-9b7f-4c03-95bc-84b7a2173a77"
->OperatedSystemVersion =&gt; OperatedSystemVersionFromRBC(aRBCStruct)</Action></Actions>
+>OperatedSystemVersion &lt;- OperatedSystemVersionFromRBC(aRBCStruct)</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Update Operated System Version BTM"
@@ -590,6 +610,16 @@ This is the default rule which will be called at the beginning of each cycle, be
  Id="67511e6a-424d-4fb0-9f7e-47af313c4532"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="f8358b50-cf37-4906-88f7-48b9541df34c"
+>
+</ReqRef><ReqRef
+ Id="6b466805-f74c-4207-8050-c9c9d0ea869c"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="2e897b74-a81d-4256-a931-897b6cc4c8c9"
+>
+</ReqRef><ReqRef
+ Id="7a2d478a-8db9-4380-9a12-04cc8d22cf6a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="40e2a554-7d96-41f4-a8e8-bc82aa6b0551"
 >
 </ReqRef><Comment>See comments and requireemnts of the calling procedure.</Comment>
 <PreConditions>
@@ -601,7 +631,7 @@ This is the default rule which will be called at the beginning of each cycle, be
 <Actions>
 <Action
  Guid="73e115ff-7d04-42c9-872c-886097c00b5b"
->OperatedSystemVersion =&gt; OperatedSystemVersionFromBTM(BTM.Message,OperatedSystemVersion)</Action></Actions>
+>OperatedSystemVersion &lt;- OperatedSystemVersionFromBTM(BTM.Message,OperatedSystemVersion)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
