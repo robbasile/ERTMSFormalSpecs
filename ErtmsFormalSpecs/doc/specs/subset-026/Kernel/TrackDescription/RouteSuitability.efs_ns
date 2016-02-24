@@ -386,13 +386,14 @@
 )
   AND
 NOT THERE_IS X IN
-  Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.Items |
+  Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.Items | (
     X.Type == Messages.Q_SUITABILITY.Loading_gauge_profile
       AND
     X.Location == anItem.Location
       AND
     Kernel.TrackDescription.RouteSuitability.GaugesMatch ( aLineGauge =&gt; X.LineGauge,
-                             aLoadingGauge =&gt; TrainData.TrainData.Value.LoadingGauge)</Expression>
+                             aLoadingGauge =&gt; TrainData.TrainData.Value.LoadingGauge)
+  )</Expression>
 </Case><Case
  Name="Axle load"
  Guid="2161906b-ab60-44ec-864b-1b522510851f"
@@ -680,6 +681,52 @@ USING X IN
 INITIAL_VALUE
     BaseTypes.Distance.Infinity</Expression>
 </Case></Cases>
+</Function><Function
+ Type="BaseTypes.Distance"
+ Default=""
+ X="551"
+ Y="1"
+ Width="100"
+ Height="50"
+ Name="DistanceToPoint"
+ Guid="f8656b42-7b46-43c5-9648-afd5f042a2f1"
+>
+<Parameters>
+<Parameter
+ Type="Messages.PACKET.TRACK_TO_TRAIN.ROUTE_SUITABILITY_DATA.SubStructure1"
+ Name="aRouteSuitability"
+ Guid="54885c93-f1b1-4b43-9418-a567921032ac"
+>
+</Parameter><Parameter
+ Type="Messages.PACKET.TRACK_TO_TRAIN.ROUTE_SUITABILITY_DATA.Collection1"
+ Name="Collection"
+ Guid="b17c2ea2-057f-437c-9256-7df50a9081ea"
+>
+</Parameter><Parameter
+ Type="Messages.Q_SCALE"
+ Name="Scale"
+ Guid="d04d65c0-f864-4405-8d16-ac36993801f0"
+>
+</Parameter><Parameter
+ Type="BaseTypes.Distance"
+ Name="FirstPointLocation"
+ Guid="a8913c8d-4053-468b-b5a1-88341ed25398"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="13b75dae-de11-4a8b-8fbf-d0d9a2105434"
+>
+<Expression>REDUCE Collection | NOT Before(
+    ExpectedFirst =&gt; aRouteSuitability,
+    ExpectedSecond =&gt; X,
+    Collection =&gt; Collection)
+ USING X IN RESULT + MessageTypes.QScaleDistance(
+    distance =&gt; X.D_SUITABILITY,
+    scale =&gt; Scale )
+ INITIAL_VALUE FirstPointLocation</Expression>
+</Case></Cases>
 </Function></Functions>
 <Procedures>
 <Procedure
@@ -717,6 +764,11 @@ INITIAL_VALUE
  Type="Messages.PACKET.TRACK_TO_TRAIN.ROUTE_SUITABILITY_DATA.Message"
  Name="Packet"
  Guid="f1789fa9-f72a-4111-a7ab-e62062e3646b"
+>
+</Parameter><Parameter
+ Type="BaseTypes.Distance"
+ Name="aDistanceFromRef"
+ Guid="0fc39f7c-dbb4-4caf-bffa-cd969f73f720"
 >
 </Parameter></Parameters>
 <Rules>
@@ -757,7 +809,7 @@ INITIAL_VALUE
  Guid="568dbbb3-66aa-4aaf-b3ae-569b14b7f9a8"
 >Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.InitialState &lt;- Packet.Q_TRACKINIT</Action><Action
  Guid="469b32be-fde5-4ba4-a8fe-823dc9ae9e97"
->Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.EmptyProfileDistance &lt;- MessageTypes.QScaleDistance ( distance =&gt; Packet.D_TRACKINIT, scale =&gt; Packet.Q_SCALE )</Action></Actions>
+>Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.EmptyProfileDistance &lt;- aDistanceFromRef + MessageTypes.QScaleDistance ( distance =&gt; Packet.D_TRACKINIT, scale =&gt; Packet.Q_SCALE )</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  NeedsRequirement="FALSE"
@@ -774,7 +826,7 @@ INITIAL_VALUE
 <Actions>
 <Action
  Guid="9acb85b7-b135-46ee-a759-4b7a46b7022f"
->Kernel.TrackDescription.RouteSuitability.HandleNewRouteSuitabilityProfile ( Packet )</Action></Actions>
+>Kernel.TrackDescription.RouteSuitability.HandleNewRouteSuitabilityProfile ( Packet =&gt; Packet, aDistanceFromRef =&gt; aDistanceFromRef )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -793,6 +845,11 @@ INITIAL_VALUE
  Type="Messages.PACKET.TRACK_TO_TRAIN.ROUTE_SUITABILITY_DATA.Message"
  Name="Packet"
  Guid="ccd04eb9-8da8-4cc7-8f64-1fc4791f4e7d"
+>
+</Parameter><Parameter
+ Type="BaseTypes.Distance"
+ Name="aDistanceFromRef"
+ Guid="f289a8c9-9cb3-4159-9e63-c7f45464bbe0"
 >
 </Parameter></Parameters>
 <Rules>
@@ -927,7 +984,7 @@ THERE_IS X IN Packet.Sequence1 | X.Q_SUITABILITY == Messages.Q_SUITABILITY.Max_a
  Guid="473b1205-1429-4bbd-ab83-a5909aecd1bd"
 >Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile &lt;-Kernel.TrackDescription.RouteSuitability.RouteSuitabilityInformationStruct
  {
-    InitialState =&gt; 1,
+    InitialState =&gt; Messages.Q_TRACKINIT.No_initial_states_to_be_resumed__profile_to_follow,
     EmptyProfileDistance =&gt; 0.0,
     Items =&gt; []
  }</Action></Actions>
@@ -974,12 +1031,13 @@ THERE_IS X IN Packet.Sequence1 | X.Q_SUITABILITY == Messages.Q_SUITABILITY.Max_a
 <Action
  Guid="2ed4cfd1-9270-4adc-b1b9-1667a2e1e93f"
 >INSERT
-    Kernel.TrackDescription.RouteSuitability.CreateRouteSuitabilityItem ( aLocation =&gt; MessageTypes.QScaleDistance ( distance =&gt; Packet.D_SUITABILITY, scale =&gt; Packet.Q_SCALE ),
-                                                 aType =&gt; Packet.Q_SUITABILITY,
-                                                 aLineGauge =&gt; Packet.M_LINEGAUGE,
-                                                 aMaxAxleLoad =&gt; Packet.M_AXLELOADCAT,
-                                                 aTractionSystem =&gt; Packet.M_VOLTAGE,
-                                                 aNidCTraction =&gt; Packet.NID_CTRACTION )
+    Kernel.TrackDescription.RouteSuitability.CreateRouteSuitabilityItem (
+        aLocation =&gt; aDistanceFromRef + MessageTypes.QScaleDistance ( distance =&gt; Packet.D_SUITABILITY, scale =&gt; Packet.Q_SCALE ),
+        aType =&gt; Packet.Q_SUITABILITY,
+        aLineGauge =&gt; Packet.M_LINEGAUGE,
+        aMaxAxleLoad =&gt; Packet.M_AXLELOADCAT,
+        aTractionSystem =&gt; Packet.M_VOLTAGE,
+        aNidCTraction =&gt; Packet.NID_CTRACTION )
 IN
     Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.Items</Action><Action
  Guid="f8786c61-b9c0-4264-9887-6e57bef57302"
@@ -1012,8 +1070,20 @@ IN
 <Action
  Guid="d3f74efb-35e6-4de6-81d4-ad75778cce96"
 >APPLY
-    Kernel.TrackDescription.RouteSuitability.AddRouteSuitability ( aRouteSuitability =&gt; X,
-                                     Scale =&gt; Packet.Q_SCALE )
+    Kernel.TrackDescription.RouteSuitability.AddRouteSuitability(
+        aLocation =&gt; DistanceToPoint(
+            aRouteSuitability =&gt; X,
+            Collection =&gt; Packet.Sequence1,
+            Scale =&gt; Packet.Q_SCALE,
+            FirstPointLocation =&gt; aDistanceFromRef + MessageTypes.QScaleDistance(
+                distance =&gt; Packet.D_SUITABILITY,
+                scale =&gt; Packet.Q_SCALE )
+            ),
+        aType =&gt; X.Q_SUITABILITY,
+        aLineGauge =&gt; X.M_LINEGAUGE,
+        aMaxAxleLoad =&gt; X.M_AXLELOADCAT,
+        aTractionSystem =&gt; X.M_VOLTAGE,
+        aNidCTraction =&gt; X.NID_CTRACTION )
 ON
     Packet.Sequence1</Action></Actions>
 </RuleCondition></Conditions>
@@ -1031,14 +1101,34 @@ ON
 <Comment>Adds a new axle load value to the axle load&apos;s collection.</Comment>
 <Parameters>
 <Parameter
- Type="Messages.PACKET.TRACK_TO_TRAIN.ROUTE_SUITABILITY_DATA.SubStructure1"
- Name="aRouteSuitability"
- Guid="18d7877b-1032-461b-b341-aeb8462918e6"
+ Type="BaseTypes.Distance"
+ Name="aLocation"
+ Guid="668a48cc-a9c1-429e-8740-67472f1012b6"
 >
 </Parameter><Parameter
- Type="Messages.Q_SCALE"
- Name="Scale"
- Guid="7c7c2c88-7c4f-4ede-8c50-f5cfb121ead7"
+ Type="Messages.Q_SUITABILITY"
+ Name="aType"
+ Guid="7ba61b81-a459-4af0-bf10-10d0dd0a85c0"
+>
+</Parameter><Parameter
+ Type="Messages.M_LINEGAUGE"
+ Name="aLineGauge"
+ Guid="901bcc4e-51df-4c90-be25-514a2b6f56de"
+>
+</Parameter><Parameter
+ Type="Messages.M_AXLELOADCAT"
+ Name="aMaxAxleLoad"
+ Guid="cd4c276e-532e-4127-8a7f-e5c217ad2ada"
+>
+</Parameter><Parameter
+ Type="Messages.M_VOLTAGE"
+ Name="aTractionSystem"
+ Guid="d44783b9-2500-46af-9bdd-e18ebd2f4182"
+>
+</Parameter><Parameter
+ Type="Messages.NID_CTRACTION"
+ Name="aNidCTraction"
+ Guid="117bf1f4-5558-4db8-9adf-9459e8fb47d8"
 >
 </Parameter></Parameters>
 <Rules>
@@ -1064,12 +1154,12 @@ ON
  Guid="9aa4fcd8-bf54-45ea-936d-dbd11c18ce5c"
 >INSERT
   Kernel.TrackDescription.RouteSuitability.CreateRouteSuitabilityItem (
-    aLocation =&gt; MessageTypes.QScaleDistance ( distance =&gt; aRouteSuitability.D_SUITABILITY, scale =&gt; Scale ),
-    aType =&gt; aRouteSuitability.Q_SUITABILITY,
-    aLineGauge =&gt; aRouteSuitability.M_LINEGAUGE,
-    aMaxAxleLoad =&gt; aRouteSuitability.M_AXLELOADCAT,
-    aTractionSystem =&gt; aRouteSuitability.M_VOLTAGE,
-    aNidCTraction =&gt; aRouteSuitability.NID_CTRACTION )
+    aLocation =&gt; aLocation,
+    aType =&gt; aType,
+    aLineGauge =&gt; aLineGauge,
+    aMaxAxleLoad =&gt; aMaxAxleLoad,
+    aTractionSystem =&gt; aTractionSystem,
+    aNidCTraction =&gt; aNidCTraction )
 IN
     Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.Items</Action></Actions>
 </RuleCondition></Conditions>

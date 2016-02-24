@@ -1163,6 +1163,11 @@ SvL() == SpeedAndDistanceMonitoring.Display.MRDT()</Expression>
  Name="Packet"
  Guid="0c96d92f-4119-4027-a554-bb5687195b89"
 >
+</Parameter><Parameter
+ Type="BaseTypes.Distance"
+ Name="aDistanceFromRef"
+ Guid="2a9b88d7-43ba-4121-8fd9-86b13da158de"
+>
 </Parameter></Parameters>
 <Rules>
 <Rule
@@ -1219,7 +1224,7 @@ SvL() == SpeedAndDistanceMonitoring.Display.MRDT()</Expression>
 Kernel.LX.LevelCrossingStruct
 {
     Id =&gt; Packet.NID_LX,
-    Location =&gt; MessageTypes.QScaleDistance ( distance =&gt; Packet.D_LX, scale =&gt; Packet.Q_SCALE ),
+    Location =&gt; aDistanceFromRef + MessageTypes.QScaleDistance ( distance =&gt; Packet.D_LX, scale =&gt; Packet.Q_SCALE ),
     Length =&gt; MessageTypes.QScaleLength ( length =&gt; Packet.L_LX, scale =&gt; Packet.Q_SCALE ),
     IsProtected =&gt; True,
     Speed =&gt; BaseTypes.Speed.MaxSpeed,
@@ -1299,7 +1304,7 @@ IN Kernel.LX.MRSPLevelCrossings</Action><Action
 Kernel.LX.LevelCrossingStruct
 {
     Id =&gt; Packet.NID_LX,
-    Location =&gt; MessageTypes.QScaleDistance ( distance =&gt; Packet.D_LX, scale =&gt; Packet.Q_SCALE ),
+    Location =&gt; aDistanceFromRef + MessageTypes.QScaleDistance ( distance =&gt; Packet.D_LX, scale =&gt; Packet.Q_SCALE ),
     Length =&gt; MessageTypes.QScaleLength ( length =&gt; Packet.L_LX, scale =&gt; Packet.Q_SCALE ),
     IsProtected =&gt; False,
     Speed =&gt; MessageTypes.SpeedResolution ( Packet.V_LX, 5.0 ),
@@ -1353,7 +1358,7 @@ IN Kernel.LX.SupervisedLevelCrossings</Action><Action
 Kernel.LX.LevelCrossingStruct
 {
     Id =&gt; Packet.NID_LX,
-    Location =&gt; MessageTypes.QScaleDistance ( distance =&gt; Packet.D_LX, scale =&gt; Packet.Q_SCALE ),
+    Location =&gt; aDistanceFromRef + MessageTypes.QScaleDistance ( distance =&gt; Packet.D_LX, scale =&gt; Packet.Q_SCALE ),
     Length =&gt; MessageTypes.QScaleLength ( length =&gt; Packet.L_LX, scale =&gt; Packet.Q_SCALE ),
     IsProtected =&gt; True,
     Speed =&gt; BaseTypes.Speed.MaxSpeed,
@@ -1401,7 +1406,7 @@ IN Kernel.LX.MRSPLevelCrossings</Action></Actions>
 Kernel.LX.LevelCrossingStruct
 {
     Id =&gt; Packet.NID_LX,
-    Location =&gt; MessageTypes.QScaleDistance ( distance =&gt; Packet.D_LX, scale =&gt; Packet.Q_SCALE ),
+    Location =&gt; aDistanceFromRef + MessageTypes.QScaleDistance ( distance =&gt; Packet.D_LX, scale =&gt; Packet.Q_SCALE ),
     Length =&gt; MessageTypes.QScaleLength ( length =&gt; Packet.L_LX, scale =&gt; Packet.Q_SCALE ),
     IsProtected =&gt; False,
     Speed =&gt; MessageTypes.SpeedResolution ( Packet.V_LX, 5.0 ),

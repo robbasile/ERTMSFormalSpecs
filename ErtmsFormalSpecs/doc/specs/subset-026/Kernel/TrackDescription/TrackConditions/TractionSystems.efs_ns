@@ -348,6 +348,11 @@
  Name="Packet"
  Guid="c984cc7d-0b7f-4d18-a6e1-2eb842442687"
 >
+</Parameter><Parameter
+ Type="BaseTypes.Distance"
+ Name="aDistanceFromRef"
+ Guid="6087e1bd-3dda-45e4-8a21-486c0acbd6d9"
+>
 </Parameter></Parameters>
 <Rules>
 <Rule
@@ -421,7 +426,7 @@
  Guid="999301d6-e625-436c-b54d-0a413831fb96"
 >INSERT Kernel.TrackDescription.TrackConditions.TractionSystems.TractionSystemInformationStruct
 {
-    Location =&gt; MessageTypes.QScaleDistance
+    Location =&gt; aDistanceFromRef + MessageTypes.QScaleDistance
     (
         distance=&gt;Packet.D_TRACTION,
         scale=&gt;Packet.Q_SCALE

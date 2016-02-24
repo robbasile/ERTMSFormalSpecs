@@ -2309,7 +2309,10 @@ Kernel.AcceptInformation.ReversingSupervisionInformation( Source =&gt; Kernel.Ac
 <Actions>
 <Action
  Guid="250427e6-8ddb-431d-a76d-b4432281374f"
->BTM.Linking.LinkingInformationReceived ( Packet.TRACK_TO_TRAIN.LINKING )</Action></Actions>
+>BTM.Linking.LinkingInformationReceived(
+    Packet =&gt; Packet.TRACK_TO_TRAIN.LINKING,
+    aDistanceFromRef =&gt; BGLocationReference.Position.Position - Kernel.ReferenceLocation()
+)</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="National Values available"
@@ -2340,7 +2343,7 @@ Kernel.AcceptInformation.ReversingSupervisionInformation( Source =&gt; Kernel.Ac
 <Actions>
 <Action
  Guid="2719277d-f12f-479c-8278-abb173a2d862"
->Kernel.NationalValues.NationalValuesReceived ( Packet=&gt;Packet.TRACK_TO_TRAIN.NATIONAL_VALUES )</Action></Actions>
+>Kernel.NationalValues.NationalValuesReceived ( Packet=&gt;Packet.TRACK_TO_TRAIN.NATIONAL_VALUES, aDistanceFromRef =&gt; BGLocationReference.Position.Position - Kernel.ReferenceLocation() )</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Repositioning Information available"
@@ -2414,7 +2417,10 @@ Kernel.AcceptInformation.ReversingSupervisionInformation( Source =&gt; Kernel.Ac
 <Actions>
 <Action
  Guid="f8e04781-7b14-4460-bedf-dfcad86bfaf6"
->Kernel.TrackDescription.Gradient.ProfileReceived ( Packet.TRACK_TO_TRAIN.GRADIENT_PROFILE )</Action></Actions>
+>Kernel.TrackDescription.Gradient.ProfileReceived(
+    Packet =&gt; Packet.TRACK_TO_TRAIN.GRADIENT_PROFILE,
+    aDistanceFromRef =&gt; BGLocationReference.Position.Position - Kernel.ReferenceLocation()
+)</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="International Static Speed Profile available"
@@ -2450,7 +2456,7 @@ Kernel.AcceptInformation.ReversingSupervisionInformation( Source =&gt; Kernel.Ac
 <Actions>
 <Action
  Guid="e20f018d-a037-46f0-a3ad-a27b7eb1d05f"
->Kernel.TrackDescription.StaticSpeedProfile.StaticSpeedProfileReceived ( Packet.TRACK_TO_TRAIN.INTERNATIONAL_STATIC_SPEED_PROFILE )</Action></Actions>
+>Kernel.TrackDescription.StaticSpeedProfile.StaticSpeedProfileReceived ( Packet =&gt; Packet.TRACK_TO_TRAIN.INTERNATIONAL_STATIC_SPEED_PROFILE, aDistanceFromRef =&gt; BGLocationReference.Position.Position - Kernel.ReferenceLocation() )</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Track Condition Change of traction system available"
@@ -2481,7 +2487,9 @@ Kernel.AcceptInformation.ReversingSupervisionInformation( Source =&gt; Kernel.Ac
 <Actions>
 <Action
  Guid="0720e95d-207d-40f6-9fb3-40fbbf1628f7"
->Kernel.TrackDescription.TrackConditions.TractionSystems.HandleNewTractionSystem(Packet.TRACK_TO_TRAIN.TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM)</Action></Actions>
+>Kernel.TrackDescription.TrackConditions.TractionSystems.HandleNewTractionSystem(
+    Packet =&gt; Packet.TRACK_TO_TRAIN.TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM, 
+    aDistanceFromRef =&gt; BGLocationReference.Position.Position - Kernel.ReferenceLocation() )</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Track Condition Change of allowed current consumption available"
@@ -2512,7 +2520,7 @@ Kernel.AcceptInformation.ReversingSupervisionInformation( Source =&gt; Kernel.Ac
 <Actions>
 <Action
  Guid="f3afa4bc-a50e-4fbb-818c-4f503b306e90"
->Kernel.TrackDescription.TrackConditions.CurrentConsumption.HandleNewCCTrackCondition(Packet.TRACK_TO_TRAIN.TRACK_CONDITION_CHANGE_OF_ALLOWED_CURRENT_CONSUMPTION)</Action></Actions>
+>Kernel.TrackDescription.TrackConditions.CurrentConsumption.HandleNewCCTrackCondition( Packet =&gt; Packet.TRACK_TO_TRAIN.TRACK_CONDITION_CHANGE_OF_ALLOWED_CURRENT_CONSUMPTION, aDistanceFromRef =&gt; BGLocationReference.Position.Position - Kernel.ReferenceLocation())</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Session Management available"
@@ -2672,7 +2680,7 @@ Kernel.AcceptInformation.ReversingSupervisionInformation( Source =&gt; Kernel.Ac
 <Actions>
 <Action
  Guid="d6ca9514-566f-4887-a3f1-0764c122aa72"
->Kernel.TrackDescription.AxleLoad.AxleLoadProfileReceived ( Packet.TRACK_TO_TRAIN.AXLE_LOAD_SPEED_PROFILE )</Action></Actions>
+>Kernel.TrackDescription.AxleLoad.AxleLoadProfileReceived ( Packet =&gt; Packet.TRACK_TO_TRAIN.AXLE_LOAD_SPEED_PROFILE, aDistanceFromRef =&gt; BGLocationReference.Position.Position - Kernel.ReferenceLocation() )</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Permitted Braking Distance Information available"
@@ -2708,7 +2716,7 @@ Kernel.AcceptInformation.ReversingSupervisionInformation( Source =&gt; Kernel.Ac
 <Actions>
 <Action
  Guid="a7bf6d39-8ef9-4f76-b5e1-4b42aae162ea"
->Kernel.TrackDescription.PermittedBrakingDistance.PermittedBrakingDistanceReceived ( Packet.TRACK_TO_TRAIN.PERMITTED_BRAKING_DISTANCE_INFORMATION )</Action></Actions>
+>Kernel.TrackDescription.PermittedBrakingDistance.PermittedBrakingDistanceReceived ( Packet =&gt; Packet.TRACK_TO_TRAIN.PERMITTED_BRAKING_DISTANCE_INFORMATION, aDistanceFromRef =&gt; BGLocationReference.Position.Position - Kernel.ReferenceLocation() )</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Temporary Speed Restriction available"
@@ -2743,7 +2751,7 @@ Kernel.AcceptInformation.ReversingSupervisionInformation( Source =&gt; Kernel.Ac
 <Actions>
 <Action
  Guid="c77c6a04-53bc-449e-b9d8-d1ccaa963ef5"
->Kernel.TSR.TemporarySpeedRestrictionsReceived ( Packet=&gt;Packet.TRACK_TO_TRAIN.TEMPORARY_SPEED_RESTRICTION )</Action></Actions>
+>Kernel.TSR.TemporarySpeedRestrictionsReceived ( Packet=&gt;Packet.TRACK_TO_TRAIN.TEMPORARY_SPEED_RESTRICTION, aDistanceFromRef =&gt; BGLocationReference.Position.Position - Kernel.ReferenceLocation() )</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Temporary Speed Restriction Revocation available"
@@ -2805,7 +2813,7 @@ Kernel.AcceptInformation.ReversingSupervisionInformation( Source =&gt; Kernel.Ac
 <Actions>
 <Action
  Guid="a8168c14-8dea-4896-9b29-5f71ec706278"
->Kernel.TrackDescription.TrackConditions.BigMetalMasses.HandleNewBMMTrackCondition( Packet.TRACK_TO_TRAIN.TRACK_CONDITION_BIG_METAL_MASSES )</Action></Actions>
+>Kernel.TrackDescription.TrackConditions.BigMetalMasses.HandleNewBMMTrackCondition( Packet.TRACK_TO_TRAIN.TRACK_CONDITION_BIG_METAL_MASSES, aDistanceFromRef =&gt; BGLocationReference.Position.Position - Kernel.ReferenceLocation() )</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Track Condition available"
@@ -2841,7 +2849,7 @@ Kernel.AcceptInformation.ReversingSupervisionInformation( Source =&gt; Kernel.Ac
 <Actions>
 <Action
  Guid="b347e32c-19e6-4ec5-8505-a3bae2deeed2"
->Kernel.TrackDescription.TrackConditions.General.TrackConditionReceived( Packet.TRACK_TO_TRAIN.TRACK_CONDITION )</Action></Actions>
+>Kernel.TrackDescription.TrackConditions.General.TrackConditionReceived( Packet =&gt; Packet.TRACK_TO_TRAIN.TRACK_CONDITION, aDistanceFromRef =&gt; BGLocationReference.Position.Position - Kernel.ReferenceLocation() )</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Track Condition Station Platforms available"
@@ -2872,7 +2880,7 @@ Kernel.AcceptInformation.ReversingSupervisionInformation( Source =&gt; Kernel.Ac
 <Actions>
 <Action
  Guid="e37299ce-6e60-4015-9897-e33c8b3ca56c"
->Kernel.TrackDescription.TrackConditions.StationPlatform.SPTrackConditionReceived ( Packet.TRACK_TO_TRAIN.TRACK_CONDITION_STATION_PLATFORMS)</Action></Actions>
+>Kernel.TrackDescription.TrackConditions.StationPlatform.SPTrackConditionReceived ( Packet =&gt; Packet.TRACK_TO_TRAIN.TRACK_CONDITION_STATION_PLATFORMS, aDistanceFromRef =&gt; BGLocationReference.Position.Position - Kernel.ReferenceLocation())</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Route Suitability Data available"
@@ -2908,7 +2916,7 @@ Kernel.AcceptInformation.ReversingSupervisionInformation( Source =&gt; Kernel.Ac
 <Actions>
 <Action
  Guid="17d0d98e-1746-417e-b3d1-a0409a79647c"
->Kernel.TrackDescription.RouteSuitability.RouteSuitabilityReceived ( Packet.TRACK_TO_TRAIN.ROUTE_SUITABILITY_DATA )</Action></Actions>
+>Kernel.TrackDescription.RouteSuitability.RouteSuitabilityReceived ( Packet.TRACK_TO_TRAIN.ROUTE_SUITABILITY_DATA, aDistanceFromRef =&gt; BGLocationReference.Position.Position - Kernel.ReferenceLocation() )</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Plain text message available"
@@ -2944,7 +2952,7 @@ Kernel.AcceptInformation.ReversingSupervisionInformation( Source =&gt; Kernel.Ac
 <Actions>
 <Action
  Guid="7713bd12-2bc6-49fa-ab02-d4c7ff500cb1"
->Kernel.TextMessages.PlainTextMessageReceived( aPacket =&gt; Packet.TRACK_TO_TRAIN.PACKET_FOR_SENDING_PLAIN_TEXT_MESSAGES )</Action></Actions>
+>Kernel.TextMessages.PlainTextMessageReceived( aPacket =&gt; Packet.TRACK_TO_TRAIN.PACKET_FOR_SENDING_PLAIN_TEXT_MESSAGES, aDistanceFromRef =&gt; BGLocationReference.Position.Position - Kernel.ReferenceLocation() )</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Fixed text message available"
@@ -2980,7 +2988,7 @@ Kernel.AcceptInformation.ReversingSupervisionInformation( Source =&gt; Kernel.Ac
 <Actions>
 <Action
  Guid="1db0e5a3-813a-47ec-82c2-e6aa26ebb770"
->Kernel.TextMessages.FixedTextMessageReceived( aPacket =&gt; Packet.TRACK_TO_TRAIN.PACKET_FOR_SENDING_FIXED_TEXT_MESSAGES )</Action></Actions>
+>Kernel.TextMessages.FixedTextMessageReceived( aPacket =&gt; Packet.TRACK_TO_TRAIN.PACKET_FOR_SENDING_FIXED_TEXT_MESSAGES, aDistanceFromRef =&gt; BGLocationReference.Position.Position - Kernel.ReferenceLocation() )</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Adhesion factor available"
@@ -3026,7 +3034,7 @@ Kernel.AcceptInformation.ReversingSupervisionInformation( Source =&gt; Kernel.Ac
 <Actions>
 <Action
  Guid="962f5801-f0a9-42c3-a4c0-6ea2c50f0797"
->Kernel.TrackDescription.AdhesionFactors.AdhesionFactorReceived ( Packet.TRACK_TO_TRAIN.ADHESION_FACTOR )</Action></Actions>
+>Kernel.TrackDescription.AdhesionFactors.AdhesionFactorReceived ( Packet.TRACK_TO_TRAIN.ADHESION_FACTOR, aDistanceFromRef =&gt; BGLocationReference.Position.Position - Kernel.ReferenceLocation() )</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Geographical Position Information available"
@@ -3090,7 +3098,7 @@ True</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="961a9459-5891-48f0-8de2-eddc845ec82f"
->Kernel.LX.LXReceived ( Packet=&gt;Packet.TRACK_TO_TRAIN.LEVEL_CROSSING_INFORMATION )</Action></Actions>
+>Kernel.LX.LXReceived ( Packet =&gt; Packet.TRACK_TO_TRAIN.LEVEL_CROSSING_INFORMATION, aDistanceFromRef =&gt; BGLocationReference.Position.Position - Kernel.ReferenceLocation() )</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Track Ahead Free up to level 2/3 transition location available"
@@ -3216,7 +3224,7 @@ True</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="05bdf5ca-1d21-43e2-bb2e-7ef9acba75c3"
->EURORADIO.RBCTransitionOrderReceived ( aPacket=&gt;Packet.TRACK_TO_TRAIN.RBC_TRANSITION_ORDER )</Action></Actions>
+>EURORADIO.RBCTransitionOrderReceived ( aPacket =&gt;Packet.TRACK_TO_TRAIN.RBC_TRANSITION_ORDER, aDistanceFromRef  =&gt; BGLocationReference.Position.Position - Kernel.ReferenceLocation())</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Danger for Shunting Information available"
@@ -3386,7 +3394,8 @@ RevSupPacketAvailable( aPacket =&gt; Packet.TRACK_TO_TRAIN.REVERSING_SUPERVISION
 >Kernel.TrackDescription.ReversingArea.ReversingAreaOrSupervisionInformationReceived
 (
   RvAreaPacket =&gt; ProvideRevAreaPacketToHandle( aPacket =&gt; Packet.TRACK_TO_TRAIN.REVERSING_AREA_INFORMATION ),
-  RvSupPacket =&gt; ProvideRevSupPacketToHandle( aPacket =&gt; Packet.TRACK_TO_TRAIN.REVERSING_SUPERVISION_INFORMATION )
+  RvSupPacket =&gt; ProvideRevSupPacketToHandle( aPacket =&gt; Packet.TRACK_TO_TRAIN.REVERSING_SUPERVISION_INFORMATION ),
+  aDistanceFromRef =&gt; BGLocationReference.Position.Position - Kernel.ReferenceLocation()
 )</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
@@ -3535,7 +3544,7 @@ RevSupPacketAvailable( aPacket =&gt; Packet.TRACK_TO_TRAIN.REVERSING_SUPERVISION
 >
 </Parameter><Parameter
  Type="BaseTypes.Distance"
- Name="DistanceFromLRBG"
+ Name="aDistanceFromRef"
  Guid="de3e8c92-4f0c-455c-bda5-61148adb4598"
 >
 </Parameter></Parameters>
@@ -3587,7 +3596,7 @@ RevSupPacketAvailable( aPacket =&gt; Packet.TRACK_TO_TRAIN.REVERSING_SUPERVISION
     StopLocation =&gt; BaseTypes.OffsetDistance
     (
         aDistance =&gt; X.StopLocation
-        aOffset =&gt; DistanceFromLRBG
+        aOffset =&gt; aDistanceFromRef
     ),
     Reason =&gt; X.Reason,
     StartTime =&gt; X.StartTime
@@ -3616,7 +3625,7 @@ RevSupPacketAvailable( aPacket =&gt; Packet.TRACK_TO_TRAIN.REVERSING_SUPERVISION
  Guid="2d236efe-6978-4ec0-880b-fa0d4befa336"
 >Kernel.LevelTransition.LevelTransitionOrder.Location &lt;- BaseTypes.OffsetDistance(
     aDistance =&gt; Kernel.LevelTransition.LevelTransitionOrder.Location,
-    aOffset =&gt; DistanceFromLRBG
+    aOffset =&gt; aDistanceFromRef
 )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
@@ -3645,7 +3654,7 @@ RevSupPacketAvailable( aPacket =&gt; Packet.TRACK_TO_TRAIN.REVERSING_SUPERVISION
     Id =&gt; X.Id,
     Location =&gt; BaseTypes.OffsetDistance(
         aDistance =&gt; X.Location,
-        aOffset =&gt; DistanceFromLRBG
+        aOffset =&gt; aDistanceFromRef
     ),
     Length =&gt; X.Length,
     IsProtected =&gt; X.IsProtected,
@@ -3680,7 +3689,7 @@ RevSupPacketAvailable( aPacket =&gt; Packet.TRACK_TO_TRAIN.REVERSING_SUPERVISION
     Id =&gt; X.Id,
     Location =&gt; BaseTypes.OffsetDistance(
         aDistance =&gt; X.Location,
-        aOffset =&gt; DistanceFromLRBG
+        aOffset =&gt; aDistanceFromRef
     ),
     Length =&gt; X.Length,
     IsProtected =&gt; X.IsProtected,
@@ -3713,7 +3722,7 @@ RevSupPacketAvailable( aPacket =&gt; Packet.TRACK_TO_TRAIN.REVERSING_SUPERVISION
 >Kernel.MA.ModeProfile.Profile &lt;- MAP Kernel.MA.ModeProfile.Profile USING X IN Kernel.MA.ModeProfile.ModeProfileStruct{
     Location =&gt; BaseTypes.OffsetDistance(
         aDistance =&gt; X.Location,
-        aOffset =&gt; DistanceFromLRBG
+        aOffset =&gt; aDistanceFromRef
     ),
     Mode =&gt; X.Mode,
     Speed =&gt; X.Speed,
@@ -3747,7 +3756,7 @@ RevSupPacketAvailable( aPacket =&gt; Packet.TRACK_TO_TRAIN.REVERSING_SUPERVISION
 {
     Location =&gt; BaseTypes.OffsetDistance(
         aDistance =&gt; X.Location,
-        aOffset =&gt; DistanceFromLRBG
+        aOffset =&gt; aDistanceFromRef
     ),
     Length =&gt; X.Length,
     Value =&gt; X.Value
@@ -3781,12 +3790,12 @@ Kernel.TrackDescription.AxleLoad.ASP.ALs != []</PreCondition></PreConditions>
     Length =&gt; X.Length,
     Location =&gt; BaseTypes.OffsetDistance(
         aDistance =&gt; X.Location,
-        aOffset =&gt; DistanceFromLRBG
+        aOffset =&gt; aDistanceFromRef
     ),
     Values =&gt; X.Values
 }</Action><Action
  Guid="a4823d58-e3d0-44d3-a8cb-d3da749c766f"
->Kernel.TrackDescription.AxleLoad.ASP.EmptyProfileDistance &lt;- Kernel.TrackDescription.AxleLoad.ASP.EmptyProfileDistance - DistanceFromLRBG</Action></Actions>
+>Kernel.TrackDescription.AxleLoad.ASP.EmptyProfileDistance &lt;- Kernel.TrackDescription.AxleLoad.ASP.EmptyProfileDistance - aDistanceFromRef</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -3813,7 +3822,7 @@ Kernel.TrackDescription.AxleLoad.ASP.ALs != []</PreCondition></PreConditions>
 {
     Location =&gt; BaseTypes.OffsetDistance(
         aDistance =&gt; X.Location,
-        aOffset =&gt; DistanceFromLRBG
+        aOffset =&gt; aDistanceFromRef
     ),
     Gradient =&gt; X.Gradient
 }</Action></Actions>
@@ -3843,13 +3852,13 @@ Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.SpeedR
  Guid="c600d873-49dc-44dd-8a1a-0bbd72c7bab8"
 >Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.EmptyProfileDistance &lt;- BaseTypes.OffsetDistance(
     aDistance =&gt; Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.EmptyProfileDistance,
-    aOffset =&gt; DistanceFromLRBG
+    aOffset =&gt; aDistanceFromRef
 )</Action><Action
  Guid="bb71241b-e532-4f32-913e-0e64a7e53c01"
 >Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.SpeedRestrictions &lt;- MAP Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.SpeedRestrictions USING X IN Kernel.TrackDescription.PermittedBrakingDistance.SRPBDStruct{
     Location =&gt; BaseTypes.OffsetDistance(
         aDistance =&gt; X.Location,
-        aOffset =&gt; DistanceFromLRBG
+        aOffset =&gt; aDistanceFromRef
     ),
     Length =&gt; X.Length,
     Speed =&gt; X.Speed,
@@ -3881,7 +3890,7 @@ Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.SpeedR
  Guid="a3d612c5-11b4-4469-9b37-1d7eb6af342f"
 >Kernel.TrackDescription.ReversingArea.ReversingAreaProfile.Location &lt;- BaseTypes.OffsetDistance(
     aDistance =&gt; Kernel.TrackDescription.ReversingArea.ReversingAreaProfile.Location,
-    aOffset =&gt; DistanceFromLRBG
+    aOffset =&gt; aDistanceFromRef
 )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
@@ -3909,13 +3918,13 @@ Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.Items != []</Pr
  Guid="d6659a82-85cc-4d35-960a-16813e7c869c"
 >Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.EmptyProfileDistance &lt;- BaseTypes.OffsetDistance(
     aDistance =&gt; Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.EmptyProfileDistance,
-    aOffset =&gt; DistanceFromLRBG
+    aOffset =&gt; aDistanceFromRef
 )</Action><Action
  Guid="2c519ddc-d31a-4a25-a641-3e51f3099427"
 >Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.Items &lt;- MAP Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.Items USING X IN Kernel.TrackDescription.RouteSuitability.RouteSuitabilityItemStruct
 {
     Type =&gt; X.Type,
-    Location =&gt; X.Location - DistanceFromLRBG,
+    Location =&gt; X.Location - aDistanceFromRef,
     LineGauge =&gt; X.LineGauge,
     MaxAxleLoad =&gt; X.MaxAxleLoad,
     TractionSystem =&gt; X.TractionSystem,
@@ -3947,7 +3956,7 @@ Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.Items != []</Pr
 {
     Location =&gt; BaseTypes.OffsetDistance(
         aDistance =&gt; X.Location,
-        aOffset =&gt; DistanceFromLRBG
+        aOffset =&gt; aDistanceFromRef
     ),
     BasicSpeed =&gt; X.BasicSpeed,
     TrainLengthDelay =&gt; X.TrainLengthDelay,
@@ -3979,7 +3988,7 @@ Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.Items != []</Pr
 BaseTypes.MaxDistance(
     X1 =&gt; BaseTypes.OffsetDistance(
     aDistance =&gt; Kernel.NationalValues.ApplicableNationalValues.ApplicableStartLocation,
-    aOffset =&gt; DistanceFromLRBG
+    aOffset =&gt; aDistanceFromRef
 ),
     X2 =&gt; 0.0
 )</Action></Actions>
@@ -4005,9 +4014,9 @@ BaseTypes.MaxDistance(
 <Actions>
 <Action
  Guid="c7f41cd1-a886-4f3c-989f-baaee038bcae"
->Kernel.NationalValues.NotApplicableNationalValues.ApplicableStartLocation &lt;- Kernel.NationalValues.NotApplicableNationalValues.ApplicableStartLocation - DistanceFromLRBG</Action><Action
+>Kernel.NationalValues.NotApplicableNationalValues.ApplicableStartLocation &lt;- Kernel.NationalValues.NotApplicableNationalValues.ApplicableStartLocation - aDistanceFromRef</Action><Action
  Guid="53460ea3-4ef7-4882-8815-e852edc91722"
->Kernel.NationalValues.NotApplicableNationalValues.ApplicableStopLocation &lt;- Kernel.NationalValues.NotApplicableNationalValues.ApplicableStopLocation - DistanceFromLRBG</Action></Actions>
+>Kernel.NationalValues.NotApplicableNationalValues.ApplicableStopLocation &lt;- Kernel.NationalValues.NotApplicableNationalValues.ApplicableStopLocation - aDistanceFromRef</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -4034,7 +4043,7 @@ BaseTypes.MaxDistance(
 {
     Location =&gt; BaseTypes.OffsetDistance(
         aDistance =&gt; X.Location,
-        aOffset =&gt; DistanceFromLRBG
+        aOffset =&gt; aDistanceFromRef
     ),
     Value =&gt; X.Value
 }</Action></Actions>
@@ -4064,7 +4073,7 @@ BaseTypes.MaxDistance(
     Type =&gt; X.Type,
     Location =&gt; BaseTypes.OffsetDistance(
         aDistance =&gt; X.Location,
-        aOffset =&gt; DistanceFromLRBG
+        aOffset =&gt; aDistanceFromRef
     ),
     Length =&gt; X.Length,
     Time =&gt; X.Time,
@@ -4096,7 +4105,7 @@ BaseTypes.MaxDistance(
 {
     Location =&gt; BaseTypes.OffsetDistance(
         aDistance =&gt; X.Location,
-        aOffset =&gt; DistanceFromLRBG
+        aOffset =&gt; aDistanceFromRef
     ),
     Value =&gt; X.Value
 }</Action></Actions>
@@ -4127,7 +4136,7 @@ BaseTypes.MaxDistance(
     Value =&gt; X.Value,
     Location =&gt; BaseTypes.OffsetDistance(
         aDistance =&gt; X.Location,
-        aOffset =&gt; DistanceFromLRBG
+        aOffset =&gt; aDistanceFromRef
     )
 }</Action></Actions>
 </RuleCondition></Conditions>
@@ -4157,7 +4166,7 @@ BaseTypes.MaxDistance(
     Value =&gt; X.Value,
     Location =&gt; BaseTypes.OffsetDistance(
         aDistance =&gt; X.Location,
-        aOffset =&gt; DistanceFromLRBG
+        aOffset =&gt; aDistanceFromRef
     )
 }</Action></Actions>
 </RuleCondition></Conditions>
@@ -4186,7 +4195,7 @@ BaseTypes.MaxDistance(
 {
     Location =&gt; BaseTypes.OffsetDistance(
         aDistance =&gt; X.Location,
-        aOffset =&gt; DistanceFromLRBG
+        aOffset =&gt; aDistanceFromRef
     ),
     Value =&gt; X.Value
 }</Action></Actions>
@@ -4215,7 +4224,7 @@ BaseTypes.MaxDistance(
 >Kernel.TSR.TSRs &lt;- MAP Kernel.TSR.TSRs USING X IN Kernel.TSR.TemporarySpeedRestriction{
     Location =&gt; BaseTypes.OffsetDistance(
         aDistance =&gt; X.Location,
-        aOffset =&gt; DistanceFromLRBG
+        aOffset =&gt; aDistanceFromRef
     ),
     Length =&gt; X.Length,
     Speed =&gt; X.Speed,
@@ -4248,7 +4257,7 @@ The list is updated in case two LRBGs provide the same MRSP, this should count a
 >Kernel.SpeedAndDistanceMonitoring.SupervisedTargets &lt;- MAP Kernel.SpeedAndDistanceMonitoring.SupervisedTargets USING X IN TargetStruct{
     Location =&gt; BaseTypes.OffsetDistance(
         aDistance =&gt; X.Location,
-        aOffset =&gt; DistanceFromLRBG
+        aOffset =&gt; aDistanceFromRef
     ),
     Speed =&gt; X.Speed,
     Length =&gt; X.Length,
@@ -4298,7 +4307,7 @@ The list is updated in case two LRBGs provide the same MRSP, this should count a
 <Actions>
 <Action
  Guid="1a79f6be-8cd7-40c6-9975-e855cdded2c5"
->Kernel.MA.MA.EndSection.Length &lt;- Kernel.MA.MA.EndSection.Length - BaseTypes.DistanceToLength(DistanceFromLRBG)</Action></Actions>
+>Kernel.MA.MA.EndSection.Length &lt;- Kernel.MA.MA.EndSection.Length - BaseTypes.DistanceToLength(aDistanceFromRef)</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="There are sections - train is in the end section"
@@ -4312,7 +4321,7 @@ The list is updated in case two LRBGs provide the same MRSP, this should count a
 <Actions>
 <Action
  Guid="b9ea2e9d-59d1-4ef8-88df-d51843437f9e"
->Kernel.MA.RelocateMAinEndSection(DistanceFromLRBG)</Action></Actions>
+>Kernel.MA.RelocateMAinEndSection(aDistanceFromRef)</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Train is in one of the sections"
@@ -4324,7 +4333,7 @@ The list is updated in case two LRBGs provide the same MRSP, this should count a
 <Actions>
 <Action
  Guid="ed0099d6-3ed8-4657-b337-6d58e3914acb"
->Kernel.MA.MA.Sections &lt;- Kernel.MA.RelocatedSections(DistanceFromLRBG)</Action></Actions>
+>Kernel.MA.MA.Sections &lt;- Kernel.MA.RelocatedSections(aDistanceFromRef)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition></Conditions>
@@ -4369,7 +4378,9 @@ The list is updated in case two LRBGs provide the same MRSP, this should count a
   Orientation =&gt; BaliseGroupOrientation()
 }</Action><Action
  Guid="9ea8e191-ce41-4e2f-8bab-49b9a8bbbde8"
->Kernel.TrainPosition.Position.DirectionalPositionInformation.TrainOrientation &lt;- BTM.BaliseGroupOrientation()</Action></Actions>
+>Kernel.TrainPosition.Position.DirectionalPositionInformation.TrainOrientation &lt;- BTM.BaliseGroupOrientation()</Action><Action
+ Guid="d4709923-6e3a-4170-a807-7cd47e242466"
+>UnlinkedBGPosition &lt;- EMPTY</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -4431,7 +4442,7 @@ The list is updated in case two LRBGs provide the same MRSP, this should count a
 <Actions>
 <Action
  Guid="fc7c3af7-269c-418d-b2fd-6be29f8bd92b"
->BTM.UnlinkedBGPosition &lt;- AntennaPositionFromOdometry()</Action></Actions>
+>BTM.UnlinkedBGPosition &lt;- BGLocationReference.Position</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -4454,11 +4465,6 @@ The list is updated in case two LRBGs provide the same MRSP, this should count a
  Type="Messages.EUROBALISE.Message"
  Name="Message"
  Guid="a26ba75b-6d2a-41ca-ab13-bd5ff4eb3365"
->
-</Parameter><Parameter
- Type="BaseTypes.Distance"
- Name="DistanceFromLRBG"
- Guid="1710621e-09dd-41b0-bcb5-76def8b0b4e3"
 >
 </Parameter></Parameters>
 <Rules>
@@ -5058,10 +5064,11 @@ IN BTM.CurrentBaliseGroup</Action></Actions>
 <Actions>
 <Action
  Guid="e8f2e263-eb09-49d0-93f3-2f4d98af2694"
->Kernel.MA.MALvl1Received
+>Kernel.MA.MALvl1ProfileReceived
 (
     Packet =&gt; aPacket.TRACK_TO_TRAIN.LEVEL_1_MOVEMENT_AUTHORITY,
-    NID_BG =&gt; NID_BG
+    NID_BG =&gt; NID_BG,
+    aDistanceFromRef =&gt; BGLocationReference.Position.Position - Kernel.ReferenceLocation()
 )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
@@ -5085,9 +5092,9 @@ IN BTM.CurrentBaliseGroup</Action></Actions>
 The parameter DistanceFromLRBG is needed for the case when the handled BG will become the new LRBG. All stored distances in the EVC will need to be updated by this distance.</Comment>
 <Parameters>
 <Parameter
- Type="BaseTypes.Distance"
- Name="DistanceFromLRBG"
- Guid="00cc1678-5c47-4c30-bd58-4999361f7398"
+ Type="Boolean"
+ Name="aLinkingUsed"
+ Guid="c45a5f69-5ef0-413f-bf79-21b6c6001536"
 >
 </Parameter></Parameters>
 <Rules>
@@ -5131,7 +5138,10 @@ The parameter DistanceFromLRBG is needed for the case when the handled BG will b
 <Actions>
 <Action
  Guid="3c939d6a-99af-451a-b12d-368fece30c2a"
->BTM.HandleNewLRBG(BG_To_LRBG(Nid_BG =&gt; (LAST X IN CurrentBaliseGroup).Telegram.NID_BG), DistanceFromLRBG =&gt; DistanceFromLRBG)</Action><Action
+>BTM.HandleNewLRBG(
+    BG_To_LRBG( (LAST X IN CurrentBaliseGroup).Telegram.NID_BG),
+    aDistanceFromRef =&gt; Linking.DistanceFromReference( aLinkingUsed )
+)</Action><Action
  Guid="eec330f2-bae4-4027-998f-3bed4d222121"
 >INSERT
   BTM.PreviousBaliseGroupStruct
@@ -5239,7 +5249,7 @@ The parameter DistanceFromLRBG is needed for the case when the handled BG will b
 </Rule><Rule
  Priority="Processing"
  Implemented="TRUE"
- Name="Handle packets in balise telegrams"
+ Name="Handle general packets in balise telegrams"
  Guid="afdc7b3a-9acf-4598-a628-bdf218a7beb3"
 >
 <Comment>First, handle the &quot;non-MA&quot; packets in all the telegrams.</Comment>
@@ -5247,7 +5257,7 @@ The parameter DistanceFromLRBG is needed for the case when the handled BG will b
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
- Name="Handle packets in balise telegrams"
+ Name="Handle general packets in balise telegrams"
  Guid="e7516273-ac16-4172-b145-c531401e38e3"
 >
 <PreConditions>
@@ -5255,7 +5265,7 @@ The parameter DistanceFromLRBG is needed for the case when the handled BG will b
 <Actions>
 <Action
  Guid="71fe05ea-2e2a-441e-a4c5-fa8e04162cb8"
->APPLY BTM.HandleBaliseTelegram ( Message =&gt; X.Telegram, DistanceFromLRBG =&gt; DistanceFromLRBG ) ON BTM.CurrentBaliseGroup | BTM.BaliseTelegramToBeHandled ( Message =&gt; X )</Action></Actions>
+>APPLY BTM.HandleBaliseTelegram ( X.Telegram ) ON BTM.CurrentBaliseGroup | BTM.BaliseTelegramToBeHandled ( Message =&gt; X )</Action></Actions>
 <SubRules>
 <Rule
  Priority="Processing"
@@ -5460,8 +5470,9 @@ ON BTM.CurrentBaliseGroup | BTM.BaliseTelegramToBeHandled ( X )</Action></Action
 >Kernel.MA.ModeProfile.ModeProfileReceived (
     Packet =&gt; aPacket.TRACK_TO_TRAIN.MODE_PROFILE,
     GenericLSMarker =&gt; Kernel.Modes.LimitedSupervision.LSMarkerPresent(
-    Messages=&gt;BTM.CurrentBaliseGroup
-)
+    Messages =&gt; BTM.CurrentBaliseGroup
+    ),
+    aDistanceFromRef =&gt; BGLocationReference.Position.Position - Kernel.ReferenceLocation()
 )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
@@ -5557,11 +5568,6 @@ ON BTM.CurrentBaliseGroup | BTM.BaliseTelegramToBeHandled ( X )</Action></Action
 </ReqRef><Comment>Check the contents of the message before the contents are handled by the on-board.</Comment>
 <Parameters>
 <Parameter
- Type="BaseTypes.Distance"
- Name="DistanceFromLRBG"
- Guid="d26b4561-9b2c-4e0b-8088-f7fe08665fd3"
->
-</Parameter><Parameter
  Type="Boolean"
  Name="LinkingUsed"
  Guid="218ab384-067e-4bd6-b26e-9b940b2bb330"
@@ -5875,7 +5881,7 @@ LinkingUsed</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="c46af0a5-54dd-4e2d-adbb-afc3406c6de9"
->BTM.HandleBaliseMessage(DistanceFromLRBG)</Action></Actions>
+>BTM.HandleBaliseMessage(LinkingUsed)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -6104,7 +6110,7 @@ IN BTM.CurrentBaliseGroup</Action></Actions>
 <Actions>
 <Action
  Guid="b24735ff-a130-4d30-8fe1-8cb69420ff6b"
->Kernel.LevelTransition.LTOReceived ( Packet=&gt;aPacket.TRACK_TO_TRAIN.LEVEL_TRANSITION_ORDER )</Action></Actions>
+>Kernel.LevelTransition.LTOReceived ( Packet=&gt;aPacket.TRACK_TO_TRAIN.LEVEL_TRANSITION_ORDER, aDistanceFromRef =&gt; BGLocationReference.Position.Position - Kernel.ReferenceLocation() )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>

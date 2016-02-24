@@ -10389,6 +10389,48 @@ Odometry.NominalDistance &gt; Override.OverrideSupervision.StartLocation + Natio
 >
 <Expression>True</Expression>
 </Case></Cases>
+</Function><Function
+ Type="BaseTypes.Distance"
+ Default=""
+ X="881"
+ Y="1"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="ReferenceLocation"
+ Guid="3810f1d9-1f85-449d-9383-64b695af39ff"
+>
+<ReqRef
+ Id="ffdc9150-a628-4750-a762-a41c20c3dd26"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="bbeb21fc-9612-481f-9b18-314fc777ef0e"
+>
+</ReqRef><Comment>Provides the reference location of profile data used on-board.</Comment>
+<Cases>
+<Case
+ Name="LRBG position, if available"
+ Guid="4e1eb547-3533-4606-9332-11256fbf90e6"
+>
+<PreConditions>
+<PreCondition
+ Guid="3034a046-5335-4291-b268-c1be131e240f"
+>Available( BTM.LRBG.Position )</PreCondition></PreConditions>
+<Expression>BTM.LRBG.Position.Position</Expression>
+</Case><Case
+ Name="Unlinked BG position, if available"
+ Guid="c7809cb9-9c62-4095-9b96-e614e1d0d144"
+>
+<PreConditions>
+<PreCondition
+ Guid="50d72afc-1431-4cb8-b388-1ad295a75ab0"
+>Available ( BTM.UnlinkedBGPosition )</PreCondition></PreConditions>
+<Expression>BTM.UnlinkedBGPosition.Position</Expression>
+</Case><Case
+ Name="0 otherwise"
+ Guid="0c0f178c-cfeb-4493-8e8e-b2a2847791e1"
+>
+<Expression>0.0</Expression>
+</Case></Cases>
 </Function></Functions>
 <Procedures>
 <Procedure

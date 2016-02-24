@@ -347,6 +347,11 @@ INITIAL_VALUE BaseTypes.MaxSpeedFunction) (Distance)</Expression>
  Name="Packet"
  Guid="6810735f-1a43-4f03-bb7d-7e67d6053887"
 >
+</Parameter><Parameter
+ Type="BaseTypes.Distance"
+ Name="aDistanceFromRef"
+ Guid="ff2fe3af-991b-4d18-b7cb-1865aae1cb1d"
+>
 </Parameter></Parameters>
 <Rules>
 <Rule
@@ -411,7 +416,7 @@ INITIAL_VALUE BaseTypes.MaxSpeedFunction) (Distance)</Expression>
         Length =&gt; MessageTypes.QScaleLength ( length =&gt; Packet.L_TSR, scale =&gt; Packet.Q_SCALE ),
         TrainLengthDelay =&gt; Packet.Q_FRONT
     ),
-    Location =&gt; MessageTypes.QScaleDistance ( distance =&gt; Packet.D_TSR, scale =&gt; Packet.Q_SCALE ),
+    Location =&gt; aDistanceFromRef + MessageTypes.QScaleDistance ( distance =&gt; Packet.D_TSR, scale =&gt; Packet.Q_SCALE ),
     Speed =&gt; MessageTypes.SpeedResolution ( speed =&gt; Packet.V_TSR, resolution =&gt; 5.0 )
 }</Action></Actions>
 </RuleCondition><RuleCondition
@@ -443,7 +448,7 @@ INITIAL_VALUE BaseTypes.MaxSpeedFunction) (Distance)</Expression>
         Length =&gt; MessageTypes.QScaleLength ( length =&gt; Packet.L_TSR, scale =&gt; Packet.Q_SCALE ),
         TrainLengthDelay =&gt; Packet.Q_FRONT
     ),
-    Location =&gt; MessageTypes.QScaleDistance ( distance =&gt; Packet.D_TSR, scale =&gt; Packet.Q_SCALE ),
+    Location =&gt; aDistanceFromRef + MessageTypes.QScaleDistance ( distance =&gt; Packet.D_TSR, scale =&gt; Packet.Q_SCALE ),
     Speed =&gt; MessageTypes.SpeedResolution ( speed =&gt; Packet.V_TSR, resolution =&gt; 5.0 )
 }
 IN Kernel.TSR.TSRs</Action></Actions>

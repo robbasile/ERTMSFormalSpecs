@@ -55,15 +55,6 @@
     aTrainPosition =&gt; 100.0,
     aMode =&gt; ModeEnum.FS
 )</Action></Actions>
-</SubStep><SubStep
- TimeDelay="NotDelayed"
- Name="Sub-step2 - Initialize elements to receive MA"
- Guid="ae90ab5e-aac6-455b-b9b3-4ac0a0f95a62"
->
-<Actions>
-<Action
- Guid="9e76a834-5e5f-40c8-9386-211efa715484"
->Testing.InitializeElementsForMA()</Action></Actions>
 </SubStep></SubSteps>
 </Step><Step
  IO="NA"
@@ -412,15 +403,6 @@ NID_BG =&gt; 1313
     aTrainPosition =&gt; 100.0,
     aMode =&gt; ModeEnum.FS
 )</Action></Actions>
-</SubStep><SubStep
- TimeDelay="NotDelayed"
- Name="Sub-step2 - Initialize elements to receive MA"
- Guid="c6b1d20e-93cf-4170-92f8-01f7543f51c6"
->
-<Actions>
-<Action
- Guid="4cede54b-e052-4e0c-9897-6af845ddbc4f"
->Testing.InitializeElementsForMA()</Action></Actions>
 </SubStep></SubSteps>
 </Step><Step
  IO="NA"
@@ -747,44 +729,8 @@ IN Kernel.MA.ModeProfile.Profile</Action><Action
 >Testing.InitializeTestEnvironment
 (
     aTrainPosition =&gt; 100.0,
-    aMode =&gt; ModeEnum.FS
+    aMode =&gt; ModeEnum.SR
 )</Action></Actions>
-</SubStep><SubStep
- TimeDelay="NotDelayed"
- Name="Sub-step2 - Initialize elements to receive MA"
- Guid="6636b65c-bc42-42c5-bea6-170a24409260"
->
-<Actions>
-<Action
- Guid="4ef3f678-1ac8-49ab-a1a7-035df96727f8"
->Testing.InitializeElementsForMA()</Action></Actions>
-</SubStep></SubSteps>
-</Step><Step
- IO="NA"
- LevelIN="NA"
- LevelOUT="NA"
- ModeIN="NA"
- ModeOUT="NA"
- TranslationRequired="FALSE"
- Name="Step2 - Mode Setup"
- Guid="334d9f88-d825-492f-892d-ed5fef1095ff"
->
-<SubSteps>
-<SubStep
- TimeDelay="NotDelayed"
- Name="Sub-step1"
- Guid="4c6ec885-ff24-4330-ab8a-b7657b82e1e0"
->
-<Actions>
-<Action
- Guid="fa1e73ff-180d-4691-be9d-3d44e9e6552a"
->Testing.SetSRMode(False)</Action></Actions>
-<Expectations>
-<Expectation
- Kind="Instantaneous"
- DeadLine="1"
- Guid="d495096a-4c55-4265-a695-178c31e53881"
->Kernel.Mode == ModeEnum.SR</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step><Step
  IO="NA"
@@ -807,73 +753,214 @@ IN Kernel.MA.ModeProfile.Profile</Action><Action
  Guid="985e6633-a15f-4931-89b9-9c51c94c7a00"
 >BTM.Message.SystemVersion2 &lt;- Messages.EUROBALISE.Message
 {
-    Q_UPDOWN=&gt; Messages.Q_UPDOWN.Up_link_telegram,
-    M_VERSION=&gt;32,
-    Q_MEDIA=&gt;Messages.Q_MEDIA.Balise,
-    N_PIG=&gt;0,
-    N_TOTAL=&gt;0,
-    M_DUP=&gt;Messages.M_DUP.No_duplicates,
-    M_MCOUNT=&gt;4,
-    NID_C=&gt;140,
-    NID_BG=&gt;2124,
-    Q_LINK=&gt;Messages.Q_LINK.Unlinked,
-    Sequence1=&gt;
-    [ 
-       Messages.EUROBALISE.SubStructure1
+  Q_UPDOWN =&gt; Messages.Q_UPDOWN.Up_link_telegram, 
+  M_VERSION =&gt; 32, 
+  Q_MEDIA =&gt; Messages.Q_MEDIA.Balise, 
+  N_PIG =&gt; 0, 
+  N_TOTAL =&gt; 0, 
+  M_DUP =&gt; Messages.M_DUP.No_duplicates, 
+  M_MCOUNT =&gt; 4, 
+  NID_C =&gt; 140, 
+  NID_BG =&gt; 2124, 
+  Q_LINK =&gt; Messages.Q_LINK.Unlinked, 
+  Sequence1 =&gt; [Messages.EUROBALISE.SubStructure1
+    {
+      TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message
+      {
+        MODE_PROFILE =&gt; Messages.PACKET.TRACK_TO_TRAIN.MODE_PROFILE.Message
         {
-            TRACK_TO_TRAIN=&gt;Messages.PACKET.TRACK_TO_TRAIN.Message
-            {
-                MODE_PROFILE=&gt;Messages.PACKET.TRACK_TO_TRAIN.MODE_PROFILE.Message
-                {
-                   D_MAMODE=&gt;50,
-                   L_ACKMAMODE=&gt;500,
-                   L_MAMODE=&gt;200,
-                   L_PACKET=&gt;0,
-                   M_MAMODE=&gt; Messages.M_MAMODE.On_Sight,               
-                   N_ITER=&gt;0,
-                   NID_PACKET=&gt;80,
-                   Q_DIR=&gt; Messages.Q_DIR.Both_directions,
-                   Q_MAMODE=&gt; Messages.Q_MAMODE.as_both_the_EOA_and_SvL__instead_of_the_EOA_and_SvL_given_by_the_MA,
-                   Q_SCALE=&gt;Messages.Q_SCALE._1_m_scaleC,
-                   V_MAMODE=&gt;10,
-                   Sequence1=&gt; [] 
-                }
-           }
-               },
-     Messages.EUROBALISE.SubStructure1
+          D_MAMODE =&gt; 50, 
+          L_ACKMAMODE =&gt; 500, 
+          L_MAMODE =&gt; 200, 
+          L_PACKET =&gt; 0, 
+          M_MAMODE =&gt; Messages.M_MAMODE.On_Sight, 
+          N_ITER =&gt; 0, 
+          NID_PACKET =&gt; 80, 
+          Q_DIR =&gt; Messages.Q_DIR.Both_directions, 
+          Q_MAMODE =&gt; Messages.Q_MAMODE.as_both_the_EOA_and_SvL__instead_of_the_EOA_and_SvL_given_by_the_MA, 
+          Q_SCALE =&gt; Messages.Q_SCALE._1_m_scaleC, 
+          V_MAMODE =&gt; 10, 
+          Sequence1 =&gt; []
+        }, 
+        VIRTUAL_BALISE_COVER_MARKER =&gt; EMPTY, 
+        SYSTEM_VERSION_ORDER =&gt; EMPTY, 
+        NATIONAL_VALUES =&gt; EMPTY, 
+        LINKING =&gt; EMPTY, 
+        LEVEL_1_MOVEMENT_AUTHORITY =&gt; EMPTY, 
+        STAFF_RESPONSIBLE_DISTANCE_INFORMATION_FROM_LOOP =&gt; EMPTY, 
+        LEVEL_2_3_MOVEMENT_AUTHORITY =&gt; EMPTY, 
+        REPOSITIONING_INFORMATION =&gt; EMPTY, 
+        GRADIENT_PROFILE =&gt; EMPTY, 
+        INTERNATIONAL_STATIC_SPEED_PROFILE =&gt; EMPTY, 
+        TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM =&gt; EMPTY, 
+        TRACK_CONDITION_CHANGE_OF_ALLOWED_CURRENT_CONSUMPTION =&gt; EMPTY, 
+        LEVEL_TRANSITION_ORDER =&gt; EMPTY, 
+        SESSION_MANAGEMENT =&gt; EMPTY, 
+        RADIO_NETWORK_REGISTRATION =&gt; EMPTY, 
+        CONDITIONAL_LEVEL_TRANSITION_ORDER =&gt; EMPTY, 
+        LIST_OF_BALISES_FOR_SH_AREA =&gt; EMPTY, 
+        AXLE_LOAD_SPEED_PROFILE =&gt; EMPTY, 
+        PERMITTED_BRAKING_DISTANCE_INFORMATION =&gt; EMPTY, 
+        MOVEMENT_AUTHORITY_REQUEST_PARAMETERS =&gt; EMPTY, 
+        POSITION_REPORT_PARAMETERS =&gt; EMPTY, 
+        LIST_OF_BALISES_IN_SR_AUTHORITY =&gt; EMPTY, 
+        INHIBITION_OF_REVOCABLE_TSRS_FROM_BALISES_IN_L2_3 =&gt; EMPTY, 
+        TEMPORARY_SPEED_RESTRICTION =&gt; EMPTY, 
+        TEMPORARY_SPEED_RESTRICTION_REVOCATION =&gt; EMPTY, 
+        TRACK_CONDITION_BIG_METAL_MASSES =&gt; EMPTY, 
+        TRACK_CONDITION =&gt; EMPTY, 
+        TRACK_CONDITION_STATION_PLATFORMS =&gt; EMPTY, 
+        ROUTE_SUITABILITY_DATA =&gt; EMPTY, 
+        ADHESION_FACTOR =&gt; EMPTY, 
+        PACKET_FOR_SENDING_PLAIN_TEXT_MESSAGES =&gt; EMPTY, 
+        PACKET_FOR_SENDING_FIXED_TEXT_MESSAGES =&gt; EMPTY, 
+        GEOGRAPHICAL_POSITION_INFORMATION =&gt; EMPTY, 
+        LEVEL_CROSSING_INFORMATION =&gt; EMPTY, 
+        TRACK_AHEAD_FREE_UP_TO_LEVEL_2_3_TRANSITION_LOCATION =&gt; EMPTY, 
+        RBC_TRANSITION_ORDER =&gt; EMPTY, 
+        DANGER_FOR_SHUNTING_INFORMATION =&gt; EMPTY, 
+        RADIO_INFILL_AREA_INFORMATION =&gt; EMPTY, 
+        SESSION_MANAGEMENT_WITH_NEIGHBOURING_RADIO_INFILL_UNIT =&gt; EMPTY, 
+        EOLM_PACKET =&gt; EMPTY, 
+        STOP_SHUNTING_ON_DESK_OPENING =&gt; EMPTY, 
+        INFILL_LOCATION_REFERENCE =&gt; EMPTY, 
+        STOP_IF_IN_STAFF_RESPONSIBLE =&gt; EMPTY, 
+        REVERSING_AREA_INFORMATION =&gt; EMPTY, 
+        REVERSING_SUPERVISION_INFORMATION =&gt; EMPTY, 
+        TRAIN_RUNNING_NUMBER_FROM_RBC =&gt; EMPTY, 
+        DEFAULT_GRADIENT_FOR_TEMPORARY_SPEED_RESTRICTION =&gt; EMPTY, 
+        INHIBITION_OF_BALISE_GROUP_MESSAGE_CONSISTENCY_REACTION =&gt; EMPTY, 
+        DEFAULT_BALISE_LOOP_OR_RIU_INFORMATION =&gt; EMPTY, 
+        DATA_USED_BY_APPLICATIONS_OUTSIDE_THE_ERTMS_ETCS_SYSTEM =&gt; EMPTY, 
+        VIRTUAL_BALISE_COVER_ORDER =&gt; EMPTY, 
+        LSSMA_DISPLAY_TOGGLE_ORDER =&gt; EMPTY, 
+        GENERIC_LS_FUNCTION_MARKER =&gt; EMPTY, 
+        END_OF_INFORMATION =&gt; EMPTY
+      }
+    }, Messages.EUROBALISE.SubStructure1
+    {
+      TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message
+      {
+        LEVEL_1_MOVEMENT_AUTHORITY =&gt; Messages.PACKET.TRACK_TO_TRAIN.LEVEL_1_MOVEMENT_AUTHORITY.Message
         {
-            TRACK_TO_TRAIN=&gt;Messages.PACKET.TRACK_TO_TRAIN.Message
-            {
-                 LEVEL_1_MOVEMENT_AUTHORITY=&gt;Messages.PACKET.TRACK_TO_TRAIN.LEVEL_1_MOVEMENT_AUTHORITY.Message
-                {
-                    NID_PACKET=&gt;12,
-                    Q_DIR=&gt;Messages.Q_DIR.Both_directions,
-                    L_PACKET=&gt;400,
-                    Q_SCALE=&gt;Messages.Q_SCALE._1_m_scaleC,
-                    V_MAIN=&gt;16,
-                    V_LOA=&gt;8,
-                    T_LOA=&gt;200,
-                    N_ITER=&gt;0,
-                    Sequence1=&gt;[],
-                    L_ENDSECTION=&gt;1000,
-                    Q_SECTIONTIMER=&gt;Messages.Q_SECTIONTIMER.No_Section_Timer_information,
-                    T_SECTIONTIMER=&gt;0,
-                    D_SECTIONTIMERSTOPLOC=&gt;0,
-                    Q_ENDTIMER=&gt;Messages.Q_ENDTIMER.No_End_section_timer_information,
-                    T_ENDTIMER=&gt;0,
-                    D_ENDTIMERSTARTLOC=&gt;0,
-                    Q_DANGERPOINT=&gt;Messages.Q_DANGERPOINT.Danger_point_information_to_follow,
-                    D_DP=&gt;12000,
-                    V_RELEASEDP=&gt;5,
-                    Q_OVERLAP=&gt;Messages.Q_OVERLAP.No_overlap_information,
-                    D_STARTOL=&gt;0,
-                    T_OL=&gt;0,
-                    D_OL=&gt;0,
-                    V_RELEASEOL=&gt;0
-                }
-            }
-         }
-                           ]
+          NID_PACKET =&gt; 12, 
+          Q_DIR =&gt; Messages.Q_DIR.Both_directions, 
+          L_PACKET =&gt; 400, 
+          Q_SCALE =&gt; Messages.Q_SCALE._1_m_scaleC, 
+          V_MAIN =&gt; 16, 
+          V_LOA =&gt; 8, 
+          T_LOA =&gt; 200, 
+          N_ITER =&gt; 0, 
+          Sequence1 =&gt; [], 
+          L_ENDSECTION =&gt; 1000, 
+          Q_SECTIONTIMER =&gt; Messages.Q_SECTIONTIMER.No_Section_Timer_information, 
+          T_SECTIONTIMER =&gt; 0, 
+          D_SECTIONTIMERSTOPLOC =&gt; 0, 
+          Q_ENDTIMER =&gt; Messages.Q_ENDTIMER.No_End_section_timer_information, 
+          T_ENDTIMER =&gt; 0, 
+          D_ENDTIMERSTARTLOC =&gt; 0, 
+          Q_DANGERPOINT =&gt; Messages.Q_DANGERPOINT.Danger_point_information_to_follow, 
+          D_DP =&gt; 12000, 
+          V_RELEASEDP =&gt; 5, 
+          Q_OVERLAP =&gt; Messages.Q_OVERLAP.No_overlap_information, 
+          D_STARTOL =&gt; 0, 
+          T_OL =&gt; 0, 
+          D_OL =&gt; 0, 
+          V_RELEASEOL =&gt; 0
+        }, 
+        VIRTUAL_BALISE_COVER_MARKER =&gt; EMPTY, 
+        SYSTEM_VERSION_ORDER =&gt; EMPTY, 
+        NATIONAL_VALUES =&gt; EMPTY, 
+        LINKING =&gt; EMPTY, 
+        STAFF_RESPONSIBLE_DISTANCE_INFORMATION_FROM_LOOP =&gt; EMPTY, 
+        LEVEL_2_3_MOVEMENT_AUTHORITY =&gt; EMPTY, 
+        REPOSITIONING_INFORMATION =&gt; EMPTY, 
+        GRADIENT_PROFILE =&gt; EMPTY, 
+        INTERNATIONAL_STATIC_SPEED_PROFILE =&gt; EMPTY, 
+        TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM =&gt; EMPTY, 
+        TRACK_CONDITION_CHANGE_OF_ALLOWED_CURRENT_CONSUMPTION =&gt; EMPTY, 
+        LEVEL_TRANSITION_ORDER =&gt; EMPTY, 
+        SESSION_MANAGEMENT =&gt; EMPTY, 
+        RADIO_NETWORK_REGISTRATION =&gt; EMPTY, 
+        CONDITIONAL_LEVEL_TRANSITION_ORDER =&gt; EMPTY, 
+        LIST_OF_BALISES_FOR_SH_AREA =&gt; EMPTY, 
+        AXLE_LOAD_SPEED_PROFILE =&gt; EMPTY, 
+        PERMITTED_BRAKING_DISTANCE_INFORMATION =&gt; EMPTY, 
+        MOVEMENT_AUTHORITY_REQUEST_PARAMETERS =&gt; EMPTY, 
+        POSITION_REPORT_PARAMETERS =&gt; EMPTY, 
+        LIST_OF_BALISES_IN_SR_AUTHORITY =&gt; EMPTY, 
+        INHIBITION_OF_REVOCABLE_TSRS_FROM_BALISES_IN_L2_3 =&gt; EMPTY, 
+        TEMPORARY_SPEED_RESTRICTION =&gt; EMPTY, 
+        TEMPORARY_SPEED_RESTRICTION_REVOCATION =&gt; EMPTY, 
+        TRACK_CONDITION_BIG_METAL_MASSES =&gt; EMPTY, 
+        TRACK_CONDITION =&gt; EMPTY, 
+        TRACK_CONDITION_STATION_PLATFORMS =&gt; EMPTY, 
+        ROUTE_SUITABILITY_DATA =&gt; EMPTY, 
+        ADHESION_FACTOR =&gt; EMPTY, 
+        PACKET_FOR_SENDING_PLAIN_TEXT_MESSAGES =&gt; EMPTY, 
+        PACKET_FOR_SENDING_FIXED_TEXT_MESSAGES =&gt; EMPTY, 
+        GEOGRAPHICAL_POSITION_INFORMATION =&gt; EMPTY, 
+        MODE_PROFILE =&gt; EMPTY, 
+        LEVEL_CROSSING_INFORMATION =&gt; EMPTY, 
+        TRACK_AHEAD_FREE_UP_TO_LEVEL_2_3_TRANSITION_LOCATION =&gt; EMPTY, 
+        RBC_TRANSITION_ORDER =&gt; EMPTY, 
+        DANGER_FOR_SHUNTING_INFORMATION =&gt; EMPTY, 
+        RADIO_INFILL_AREA_INFORMATION =&gt; EMPTY, 
+        SESSION_MANAGEMENT_WITH_NEIGHBOURING_RADIO_INFILL_UNIT =&gt; EMPTY, 
+        EOLM_PACKET =&gt; EMPTY, 
+        STOP_SHUNTING_ON_DESK_OPENING =&gt; EMPTY, 
+        INFILL_LOCATION_REFERENCE =&gt; EMPTY, 
+        STOP_IF_IN_STAFF_RESPONSIBLE =&gt; EMPTY, 
+        REVERSING_AREA_INFORMATION =&gt; EMPTY, 
+        REVERSING_SUPERVISION_INFORMATION =&gt; EMPTY, 
+        TRAIN_RUNNING_NUMBER_FROM_RBC =&gt; EMPTY, 
+        DEFAULT_GRADIENT_FOR_TEMPORARY_SPEED_RESTRICTION =&gt; EMPTY, 
+        INHIBITION_OF_BALISE_GROUP_MESSAGE_CONSISTENCY_REACTION =&gt; EMPTY, 
+        DEFAULT_BALISE_LOOP_OR_RIU_INFORMATION =&gt; EMPTY, 
+        DATA_USED_BY_APPLICATIONS_OUTSIDE_THE_ERTMS_ETCS_SYSTEM =&gt; EMPTY, 
+        VIRTUAL_BALISE_COVER_ORDER =&gt; EMPTY, 
+        LSSMA_DISPLAY_TOGGLE_ORDER =&gt; EMPTY, 
+        GENERIC_LS_FUNCTION_MARKER =&gt; EMPTY, 
+        END_OF_INFORMATION =&gt; EMPTY
+      }
+    }, Messages.EUROBALISE.SubStructure1
+    {
+      TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message
+      {
+        GRADIENT_PROFILE =&gt; Messages.PACKET.TRACK_TO_TRAIN.GRADIENT_PROFILE.Message
+        {
+          NID_PACKET =&gt; 21, 
+          Q_DIR =&gt; Messages.Q_DIR.Both_directions, 
+          L_PACKET =&gt; 0, 
+          Q_SCALE =&gt; Messages.Q_SCALE._1_m_scaleC, 
+          D_GRADIENT =&gt; 0, 
+          Q_GDIR =&gt; Messages.Q_GDIR.downhill, 
+          G_A =&gt; 0, 
+          N_ITER =&gt; 0, 
+          Sequence1 =&gt; []
+        }
+      }
+    }, Messages.EUROBALISE.SubStructure1
+    {
+      TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message
+      {
+        INTERNATIONAL_STATIC_SPEED_PROFILE =&gt; Messages.PACKET.TRACK_TO_TRAIN.INTERNATIONAL_STATIC_SPEED_PROFILE.Message
+        {
+          NID_PACKET =&gt; 27, 
+          Q_DIR =&gt; Messages.Q_DIR.Both_directions, 
+          L_PACKET =&gt; 0, 
+          Q_SCALE =&gt; Messages.Q_SCALE._1_m_scaleC, 
+          D_STATIC =&gt; 0, 
+          V_STATIC =&gt; 40, 
+          Q_FRONT =&gt; Messages.Q_FRONT.No_train_length_delay_on_validity_end_point_of_profile_element, 
+          N_ITER_0 =&gt; 0, 
+          Sequence1 =&gt; [], 
+          N_ITER_1 =&gt; 0, 
+          Sequence3 =&gt; []
+        }
+      }
+    }], 
+  BitField =&gt; &apos;&apos;
 }</Action></Actions>
 </SubStep></SubSteps>
 </Step><Step
@@ -901,7 +988,7 @@ IN Kernel.MA.ModeProfile.Profile</Action><Action
  Kind="Instantaneous"
  DeadLine="1"
  Guid="a999aee5-abd2-4bff-9f63-4098e0f263de"
->(FIRST X IN Kernel.MA.ModeProfile.Profile).Location == 50.0</Expectation><Expectation
+>(FIRST X IN Kernel.MA.ModeProfile.Profile).Location == 145.0</Expectation><Expectation
  Kind="Instantaneous"
  DeadLine="1"
  Guid="5a1d6e40-a375-468f-a52b-80e05bc93205"
@@ -1063,7 +1150,7 @@ IN Kernel.MA.ModeProfile.Profile</Action><Action
  Kind="Instantaneous"
  DeadLine="1"
  Guid="6c939f76-b9fc-4a76-90a5-5dbf1290319c"
->(FIRST X IN Kernel.MA.ModeProfile.Profile).Location == 50.0</Expectation><Expectation
+>(FIRST X IN Kernel.MA.ModeProfile.Profile).Location == 145.0</Expectation><Expectation
  Kind="Instantaneous"
  DeadLine="1"
  Guid="d12eb96d-7078-45e1-8757-0af5ccbbc3ed"
@@ -1120,44 +1207,8 @@ IN Kernel.MA.ModeProfile.Profile</Action><Action
 >Testing.InitializeTestEnvironment
 (
     aTrainPosition =&gt; 100.0,
-    aMode =&gt; ModeEnum.FS
+    aMode =&gt; ModeEnum.SR
 )</Action></Actions>
-</SubStep><SubStep
- TimeDelay="NotDelayed"
- Name="Sub-step2 - Initialize elements to receive MA"
- Guid="82d28114-58ae-4460-862e-602759c73c49"
->
-<Actions>
-<Action
- Guid="656d4871-b2ad-4bfc-b586-8b4ebed338d0"
->Testing.InitializeElementsForMA()</Action></Actions>
-</SubStep></SubSteps>
-</Step><Step
- IO="NA"
- LevelIN="NA"
- LevelOUT="NA"
- ModeIN="NA"
- ModeOUT="NA"
- TranslationRequired="FALSE"
- Name="Step2 - Level and Previous Mode received"
- Guid="c70efc95-737f-4d7b-ba28-0a92610837b1"
->
-<SubSteps>
-<SubStep
- TimeDelay="NotDelayed"
- Name="Sub-step1"
- Guid="dfd05c79-2421-4074-951a-268a582f3ea7"
->
-<Actions>
-<Action
- Guid="946ecb49-8643-49ca-8093-241db29eaba6"
->Testing.SetSRMode(False)</Action></Actions>
-<Expectations>
-<Expectation
- Kind="Instantaneous"
- DeadLine="1"
- Guid="ae4fa91e-aea7-4376-b75b-fe76b057ac0d"
->Kernel.Mode == ModeEnum.SR</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step><Step
  IO="NA"
@@ -1180,95 +1231,286 @@ IN Kernel.MA.ModeProfile.Profile</Action><Action
  Guid="d589225c-d1e4-4d55-99cc-ace77d23c050"
 >BTM.Message.SystemVersion2 &lt;- Messages.EUROBALISE.Message
 {
-    Q_UPDOWN=&gt; Messages.Q_UPDOWN.Up_link_telegram,
-    M_VERSION=&gt;32,
-    Q_MEDIA=&gt;Messages.Q_MEDIA.Balise,
-    N_PIG=&gt;0,
-    N_TOTAL=&gt;0,
-    M_DUP=&gt;Messages.M_DUP.No_duplicates,
-    M_MCOUNT=&gt;4,
-    NID_C=&gt;140,
-    NID_BG=&gt;2124,
-    Q_LINK=&gt;Messages.Q_LINK.Unlinked,
-    Sequence1=&gt;
-    [ 
-       Messages.EUROBALISE.SubStructure1
+  Q_UPDOWN =&gt; Messages.Q_UPDOWN.Up_link_telegram, 
+  M_VERSION =&gt; 32, 
+  Q_MEDIA =&gt; Messages.Q_MEDIA.Balise, 
+  N_PIG =&gt; 0, 
+  N_TOTAL =&gt; 0, 
+  M_DUP =&gt; Messages.M_DUP.No_duplicates, 
+  M_MCOUNT =&gt; 4, 
+  NID_C =&gt; 140, 
+  NID_BG =&gt; 2124, 
+  Q_LINK =&gt; Messages.Q_LINK.Unlinked, 
+  Sequence1 =&gt; [Messages.EUROBALISE.SubStructure1
+    {
+      TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message
+      {
+        MODE_PROFILE =&gt; Messages.PACKET.TRACK_TO_TRAIN.MODE_PROFILE.Message
         {
-            TRACK_TO_TRAIN=&gt;Messages.PACKET.TRACK_TO_TRAIN.Message
-            {
-                MODE_PROFILE=&gt;Messages.PACKET.TRACK_TO_TRAIN.MODE_PROFILE.Message
-                {
-                   D_MAMODE=&gt;500,
-                   L_ACKMAMODE=&gt;500,
-                   L_MAMODE=&gt;100,
-                   L_PACKET=&gt;0,
-                   M_MAMODE=&gt;   Messages.M_MAMODE.Shunting,               
-                   N_ITER=&gt;0,
-                   NID_PACKET=&gt;80,
-                   Q_DIR=&gt; Messages.Q_DIR.Both_directions,
-                   Q_MAMODE=&gt; Messages.Q_MAMODE.as_both_the_EOA_and_SvL__instead_of_the_EOA_and_SvL_given_by_the_MA,
-                   Q_SCALE=&gt;Messages.Q_SCALE._1_m_scaleC,
-                   V_MAMODE=&gt;10,
-                   Sequence1=&gt;[] 
-               }
-          }
-      },
-       Messages.EUROBALISE.SubStructure1
+          D_MAMODE =&gt; 500, 
+          L_ACKMAMODE =&gt; 500, 
+          L_MAMODE =&gt; 100, 
+          L_PACKET =&gt; 0, 
+          M_MAMODE =&gt; Messages.M_MAMODE.Shunting, 
+          N_ITER =&gt; 0, 
+          NID_PACKET =&gt; 80, 
+          Q_DIR =&gt; Messages.Q_DIR.Both_directions, 
+          Q_MAMODE =&gt; Messages.Q_MAMODE.as_both_the_EOA_and_SvL__instead_of_the_EOA_and_SvL_given_by_the_MA, 
+          Q_SCALE =&gt; Messages.Q_SCALE._1_m_scaleC, 
+          V_MAMODE =&gt; 10, 
+          Sequence1 =&gt; []
+        }, 
+        VIRTUAL_BALISE_COVER_MARKER =&gt; EMPTY, 
+        SYSTEM_VERSION_ORDER =&gt; EMPTY, 
+        NATIONAL_VALUES =&gt; EMPTY, 
+        LINKING =&gt; EMPTY, 
+        LEVEL_1_MOVEMENT_AUTHORITY =&gt; EMPTY, 
+        STAFF_RESPONSIBLE_DISTANCE_INFORMATION_FROM_LOOP =&gt; EMPTY, 
+        LEVEL_2_3_MOVEMENT_AUTHORITY =&gt; EMPTY, 
+        REPOSITIONING_INFORMATION =&gt; EMPTY, 
+        GRADIENT_PROFILE =&gt; EMPTY, 
+        INTERNATIONAL_STATIC_SPEED_PROFILE =&gt; EMPTY, 
+        TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM =&gt; EMPTY, 
+        TRACK_CONDITION_CHANGE_OF_ALLOWED_CURRENT_CONSUMPTION =&gt; EMPTY, 
+        LEVEL_TRANSITION_ORDER =&gt; EMPTY, 
+        SESSION_MANAGEMENT =&gt; EMPTY, 
+        RADIO_NETWORK_REGISTRATION =&gt; EMPTY, 
+        CONDITIONAL_LEVEL_TRANSITION_ORDER =&gt; EMPTY, 
+        LIST_OF_BALISES_FOR_SH_AREA =&gt; EMPTY, 
+        AXLE_LOAD_SPEED_PROFILE =&gt; EMPTY, 
+        PERMITTED_BRAKING_DISTANCE_INFORMATION =&gt; EMPTY, 
+        MOVEMENT_AUTHORITY_REQUEST_PARAMETERS =&gt; EMPTY, 
+        POSITION_REPORT_PARAMETERS =&gt; EMPTY, 
+        LIST_OF_BALISES_IN_SR_AUTHORITY =&gt; EMPTY, 
+        INHIBITION_OF_REVOCABLE_TSRS_FROM_BALISES_IN_L2_3 =&gt; EMPTY, 
+        TEMPORARY_SPEED_RESTRICTION =&gt; EMPTY, 
+        TEMPORARY_SPEED_RESTRICTION_REVOCATION =&gt; EMPTY, 
+        TRACK_CONDITION_BIG_METAL_MASSES =&gt; EMPTY, 
+        TRACK_CONDITION =&gt; EMPTY, 
+        TRACK_CONDITION_STATION_PLATFORMS =&gt; EMPTY, 
+        ROUTE_SUITABILITY_DATA =&gt; EMPTY, 
+        ADHESION_FACTOR =&gt; EMPTY, 
+        PACKET_FOR_SENDING_PLAIN_TEXT_MESSAGES =&gt; EMPTY, 
+        PACKET_FOR_SENDING_FIXED_TEXT_MESSAGES =&gt; EMPTY, 
+        GEOGRAPHICAL_POSITION_INFORMATION =&gt; EMPTY, 
+        LEVEL_CROSSING_INFORMATION =&gt; EMPTY, 
+        TRACK_AHEAD_FREE_UP_TO_LEVEL_2_3_TRANSITION_LOCATION =&gt; EMPTY, 
+        RBC_TRANSITION_ORDER =&gt; EMPTY, 
+        DANGER_FOR_SHUNTING_INFORMATION =&gt; EMPTY, 
+        RADIO_INFILL_AREA_INFORMATION =&gt; EMPTY, 
+        SESSION_MANAGEMENT_WITH_NEIGHBOURING_RADIO_INFILL_UNIT =&gt; EMPTY, 
+        EOLM_PACKET =&gt; EMPTY, 
+        STOP_SHUNTING_ON_DESK_OPENING =&gt; EMPTY, 
+        INFILL_LOCATION_REFERENCE =&gt; EMPTY, 
+        STOP_IF_IN_STAFF_RESPONSIBLE =&gt; EMPTY, 
+        REVERSING_AREA_INFORMATION =&gt; EMPTY, 
+        REVERSING_SUPERVISION_INFORMATION =&gt; EMPTY, 
+        TRAIN_RUNNING_NUMBER_FROM_RBC =&gt; EMPTY, 
+        DEFAULT_GRADIENT_FOR_TEMPORARY_SPEED_RESTRICTION =&gt; EMPTY, 
+        INHIBITION_OF_BALISE_GROUP_MESSAGE_CONSISTENCY_REACTION =&gt; EMPTY, 
+        DEFAULT_BALISE_LOOP_OR_RIU_INFORMATION =&gt; EMPTY, 
+        DATA_USED_BY_APPLICATIONS_OUTSIDE_THE_ERTMS_ETCS_SYSTEM =&gt; EMPTY, 
+        VIRTUAL_BALISE_COVER_ORDER =&gt; EMPTY, 
+        LSSMA_DISPLAY_TOGGLE_ORDER =&gt; EMPTY, 
+        GENERIC_LS_FUNCTION_MARKER =&gt; EMPTY, 
+        END_OF_INFORMATION =&gt; EMPTY
+      }
+    }, Messages.EUROBALISE.SubStructure1
+    {
+      TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message
+      {
+        LEVEL_1_MOVEMENT_AUTHORITY =&gt; Messages.PACKET.TRACK_TO_TRAIN.LEVEL_1_MOVEMENT_AUTHORITY.Message
         {
-            TRACK_TO_TRAIN=&gt;Messages.PACKET.TRACK_TO_TRAIN.Message
-            {
-                 LEVEL_1_MOVEMENT_AUTHORITY=&gt;Messages.PACKET.TRACK_TO_TRAIN.LEVEL_1_MOVEMENT_AUTHORITY.Message
-                {
-                    NID_PACKET=&gt;12,
-                    Q_DIR=&gt;Messages.Q_DIR.Both_directions,
-                    L_PACKET=&gt;400,
-                    Q_SCALE=&gt;Messages.Q_SCALE._1_m_scaleC,
-                    V_MAIN=&gt;16,
-                    V_LOA=&gt;8,
-                    T_LOA=&gt;200,
-                    N_ITER=&gt;0,
-                    Sequence1=&gt;[],
-                    L_ENDSECTION=&gt;1000,
-                    Q_SECTIONTIMER=&gt;Messages.Q_SECTIONTIMER.No_Section_Timer_information,
-                    T_SECTIONTIMER=&gt;0,
-                    D_SECTIONTIMERSTOPLOC=&gt;0,
-                    Q_ENDTIMER=&gt;Messages.Q_ENDTIMER.No_End_section_timer_information,
-                    T_ENDTIMER=&gt;0,
-                    D_ENDTIMERSTARTLOC=&gt;0,
-                    Q_DANGERPOINT=&gt;Messages.Q_DANGERPOINT.Danger_point_information_to_follow,
-                    D_DP=&gt;12000,
-                    V_RELEASEDP=&gt;5,
-                    Q_OVERLAP=&gt;Messages.Q_OVERLAP.No_overlap_information,
-                    D_STARTOL=&gt;0,
-                    T_OL=&gt;0,
-                    D_OL=&gt;0,
-                    V_RELEASEOL=&gt;0
-                }
-            }
-         },
-           Messages.EUROBALISE.SubStructure1
+          NID_PACKET =&gt; 12, 
+          Q_DIR =&gt; Messages.Q_DIR.Both_directions, 
+          L_PACKET =&gt; 400, 
+          Q_SCALE =&gt; Messages.Q_SCALE._1_m_scaleC, 
+          V_MAIN =&gt; 16, 
+          V_LOA =&gt; 8, 
+          T_LOA =&gt; 200, 
+          N_ITER =&gt; 0, 
+          Sequence1 =&gt; [], 
+          L_ENDSECTION =&gt; 1000, 
+          Q_SECTIONTIMER =&gt; Messages.Q_SECTIONTIMER.No_Section_Timer_information, 
+          T_SECTIONTIMER =&gt; 0, 
+          D_SECTIONTIMERSTOPLOC =&gt; 0, 
+          Q_ENDTIMER =&gt; Messages.Q_ENDTIMER.No_End_section_timer_information, 
+          T_ENDTIMER =&gt; 0, 
+          D_ENDTIMERSTARTLOC =&gt; 0, 
+          Q_DANGERPOINT =&gt; Messages.Q_DANGERPOINT.Danger_point_information_to_follow, 
+          D_DP =&gt; 12000, 
+          V_RELEASEDP =&gt; 5, 
+          Q_OVERLAP =&gt; Messages.Q_OVERLAP.No_overlap_information, 
+          D_STARTOL =&gt; 0, 
+          T_OL =&gt; 0, 
+          D_OL =&gt; 0, 
+          V_RELEASEOL =&gt; 0
+        }, 
+        VIRTUAL_BALISE_COVER_MARKER =&gt; EMPTY, 
+        SYSTEM_VERSION_ORDER =&gt; EMPTY, 
+        NATIONAL_VALUES =&gt; EMPTY, 
+        LINKING =&gt; EMPTY, 
+        STAFF_RESPONSIBLE_DISTANCE_INFORMATION_FROM_LOOP =&gt; EMPTY, 
+        LEVEL_2_3_MOVEMENT_AUTHORITY =&gt; EMPTY, 
+        REPOSITIONING_INFORMATION =&gt; EMPTY, 
+        GRADIENT_PROFILE =&gt; EMPTY, 
+        INTERNATIONAL_STATIC_SPEED_PROFILE =&gt; EMPTY, 
+        TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM =&gt; EMPTY, 
+        TRACK_CONDITION_CHANGE_OF_ALLOWED_CURRENT_CONSUMPTION =&gt; EMPTY, 
+        LEVEL_TRANSITION_ORDER =&gt; EMPTY, 
+        SESSION_MANAGEMENT =&gt; EMPTY, 
+        RADIO_NETWORK_REGISTRATION =&gt; EMPTY, 
+        CONDITIONAL_LEVEL_TRANSITION_ORDER =&gt; EMPTY, 
+        LIST_OF_BALISES_FOR_SH_AREA =&gt; EMPTY, 
+        AXLE_LOAD_SPEED_PROFILE =&gt; EMPTY, 
+        PERMITTED_BRAKING_DISTANCE_INFORMATION =&gt; EMPTY, 
+        MOVEMENT_AUTHORITY_REQUEST_PARAMETERS =&gt; EMPTY, 
+        POSITION_REPORT_PARAMETERS =&gt; EMPTY, 
+        LIST_OF_BALISES_IN_SR_AUTHORITY =&gt; EMPTY, 
+        INHIBITION_OF_REVOCABLE_TSRS_FROM_BALISES_IN_L2_3 =&gt; EMPTY, 
+        TEMPORARY_SPEED_RESTRICTION =&gt; EMPTY, 
+        TEMPORARY_SPEED_RESTRICTION_REVOCATION =&gt; EMPTY, 
+        TRACK_CONDITION_BIG_METAL_MASSES =&gt; EMPTY, 
+        TRACK_CONDITION =&gt; EMPTY, 
+        TRACK_CONDITION_STATION_PLATFORMS =&gt; EMPTY, 
+        ROUTE_SUITABILITY_DATA =&gt; EMPTY, 
+        ADHESION_FACTOR =&gt; EMPTY, 
+        PACKET_FOR_SENDING_PLAIN_TEXT_MESSAGES =&gt; EMPTY, 
+        PACKET_FOR_SENDING_FIXED_TEXT_MESSAGES =&gt; EMPTY, 
+        GEOGRAPHICAL_POSITION_INFORMATION =&gt; EMPTY, 
+        MODE_PROFILE =&gt; EMPTY, 
+        LEVEL_CROSSING_INFORMATION =&gt; EMPTY, 
+        TRACK_AHEAD_FREE_UP_TO_LEVEL_2_3_TRANSITION_LOCATION =&gt; EMPTY, 
+        RBC_TRANSITION_ORDER =&gt; EMPTY, 
+        DANGER_FOR_SHUNTING_INFORMATION =&gt; EMPTY, 
+        RADIO_INFILL_AREA_INFORMATION =&gt; EMPTY, 
+        SESSION_MANAGEMENT_WITH_NEIGHBOURING_RADIO_INFILL_UNIT =&gt; EMPTY, 
+        EOLM_PACKET =&gt; EMPTY, 
+        STOP_SHUNTING_ON_DESK_OPENING =&gt; EMPTY, 
+        INFILL_LOCATION_REFERENCE =&gt; EMPTY, 
+        STOP_IF_IN_STAFF_RESPONSIBLE =&gt; EMPTY, 
+        REVERSING_AREA_INFORMATION =&gt; EMPTY, 
+        REVERSING_SUPERVISION_INFORMATION =&gt; EMPTY, 
+        TRAIN_RUNNING_NUMBER_FROM_RBC =&gt; EMPTY, 
+        DEFAULT_GRADIENT_FOR_TEMPORARY_SPEED_RESTRICTION =&gt; EMPTY, 
+        INHIBITION_OF_BALISE_GROUP_MESSAGE_CONSISTENCY_REACTION =&gt; EMPTY, 
+        DEFAULT_BALISE_LOOP_OR_RIU_INFORMATION =&gt; EMPTY, 
+        DATA_USED_BY_APPLICATIONS_OUTSIDE_THE_ERTMS_ETCS_SYSTEM =&gt; EMPTY, 
+        VIRTUAL_BALISE_COVER_ORDER =&gt; EMPTY, 
+        LSSMA_DISPLAY_TOGGLE_ORDER =&gt; EMPTY, 
+        GENERIC_LS_FUNCTION_MARKER =&gt; EMPTY, 
+        END_OF_INFORMATION =&gt; EMPTY
+      }
+    }, Messages.EUROBALISE.SubStructure1
+    {
+      TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message
+      {
+        LIST_OF_BALISES_FOR_SH_AREA =&gt; Messages.PACKET.TRACK_TO_TRAIN.LIST_OF_BALISES_FOR_SH_AREA.Message
         {
-            TRACK_TO_TRAIN=&gt;Messages.PACKET.TRACK_TO_TRAIN.Message
+          NID_PACKET =&gt; 49, 
+          Q_DIR =&gt; Messages.Q_DIR.Both_directions, 
+          L_PACKET =&gt; 0, 
+          N_ITER =&gt; 1, 
+          Sequence1 =&gt; [Messages.PACKET.TRACK_TO_TRAIN.LIST_OF_BALISES_FOR_SH_AREA.SubStructure1
             {
-                               LIST_OF_BALISES_FOR_SH_AREA =&gt; Messages.PACKET.TRACK_TO_TRAIN.LIST_OF_BALISES_FOR_SH_AREA.Message
-                  {
-                      NID_PACKET =&gt; 49,
-                      Q_DIR =&gt; Messages.Q_DIR.Both_directions,
-                      L_PACKET =&gt; 0,
-                      N_ITER =&gt; 1,
-                      Sequence1 =&gt; 
-                              [
-                                 Messages.PACKET.TRACK_TO_TRAIN.LIST_OF_BALISES_FOR_SH_AREA.SubStructure1
-                                  {
-                                        NID_BG=&gt; 2124,
-                                        NID_C=&gt;140,
-                                        Q_NEWCOUNTRY=&gt;Messages.Q_NEWCOUNTRY.Same_country___railway_administration__no_NID_C_follows
-                                    }
-                              ]
-                   } 
-            }
-         }
-                ]
+              NID_BG =&gt; 2124, 
+              NID_C =&gt; 140, 
+              Q_NEWCOUNTRY =&gt; Messages.Q_NEWCOUNTRY.Same_country___railway_administration__no_NID_C_follows
+            }]
+        }, 
+        VIRTUAL_BALISE_COVER_MARKER =&gt; EMPTY, 
+        SYSTEM_VERSION_ORDER =&gt; EMPTY, 
+        NATIONAL_VALUES =&gt; EMPTY, 
+        LINKING =&gt; EMPTY, 
+        LEVEL_1_MOVEMENT_AUTHORITY =&gt; EMPTY, 
+        STAFF_RESPONSIBLE_DISTANCE_INFORMATION_FROM_LOOP =&gt; EMPTY, 
+        LEVEL_2_3_MOVEMENT_AUTHORITY =&gt; EMPTY, 
+        REPOSITIONING_INFORMATION =&gt; EMPTY, 
+        GRADIENT_PROFILE =&gt; EMPTY, 
+        INTERNATIONAL_STATIC_SPEED_PROFILE =&gt; EMPTY, 
+        TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM =&gt; EMPTY, 
+        TRACK_CONDITION_CHANGE_OF_ALLOWED_CURRENT_CONSUMPTION =&gt; EMPTY, 
+        LEVEL_TRANSITION_ORDER =&gt; EMPTY, 
+        SESSION_MANAGEMENT =&gt; EMPTY, 
+        RADIO_NETWORK_REGISTRATION =&gt; EMPTY, 
+        CONDITIONAL_LEVEL_TRANSITION_ORDER =&gt; EMPTY, 
+        AXLE_LOAD_SPEED_PROFILE =&gt; EMPTY, 
+        PERMITTED_BRAKING_DISTANCE_INFORMATION =&gt; EMPTY, 
+        MOVEMENT_AUTHORITY_REQUEST_PARAMETERS =&gt; EMPTY, 
+        POSITION_REPORT_PARAMETERS =&gt; EMPTY, 
+        LIST_OF_BALISES_IN_SR_AUTHORITY =&gt; EMPTY, 
+        INHIBITION_OF_REVOCABLE_TSRS_FROM_BALISES_IN_L2_3 =&gt; EMPTY, 
+        TEMPORARY_SPEED_RESTRICTION =&gt; EMPTY, 
+        TEMPORARY_SPEED_RESTRICTION_REVOCATION =&gt; EMPTY, 
+        TRACK_CONDITION_BIG_METAL_MASSES =&gt; EMPTY, 
+        TRACK_CONDITION =&gt; EMPTY, 
+        TRACK_CONDITION_STATION_PLATFORMS =&gt; EMPTY, 
+        ROUTE_SUITABILITY_DATA =&gt; EMPTY, 
+        ADHESION_FACTOR =&gt; EMPTY, 
+        PACKET_FOR_SENDING_PLAIN_TEXT_MESSAGES =&gt; EMPTY, 
+        PACKET_FOR_SENDING_FIXED_TEXT_MESSAGES =&gt; EMPTY, 
+        GEOGRAPHICAL_POSITION_INFORMATION =&gt; EMPTY, 
+        MODE_PROFILE =&gt; EMPTY, 
+        LEVEL_CROSSING_INFORMATION =&gt; EMPTY, 
+        TRACK_AHEAD_FREE_UP_TO_LEVEL_2_3_TRANSITION_LOCATION =&gt; EMPTY, 
+        RBC_TRANSITION_ORDER =&gt; EMPTY, 
+        DANGER_FOR_SHUNTING_INFORMATION =&gt; EMPTY, 
+        RADIO_INFILL_AREA_INFORMATION =&gt; EMPTY, 
+        SESSION_MANAGEMENT_WITH_NEIGHBOURING_RADIO_INFILL_UNIT =&gt; EMPTY, 
+        EOLM_PACKET =&gt; EMPTY, 
+        STOP_SHUNTING_ON_DESK_OPENING =&gt; EMPTY, 
+        INFILL_LOCATION_REFERENCE =&gt; EMPTY, 
+        STOP_IF_IN_STAFF_RESPONSIBLE =&gt; EMPTY, 
+        REVERSING_AREA_INFORMATION =&gt; EMPTY, 
+        REVERSING_SUPERVISION_INFORMATION =&gt; EMPTY, 
+        TRAIN_RUNNING_NUMBER_FROM_RBC =&gt; EMPTY, 
+        DEFAULT_GRADIENT_FOR_TEMPORARY_SPEED_RESTRICTION =&gt; EMPTY, 
+        INHIBITION_OF_BALISE_GROUP_MESSAGE_CONSISTENCY_REACTION =&gt; EMPTY, 
+        DEFAULT_BALISE_LOOP_OR_RIU_INFORMATION =&gt; EMPTY, 
+        DATA_USED_BY_APPLICATIONS_OUTSIDE_THE_ERTMS_ETCS_SYSTEM =&gt; EMPTY, 
+        VIRTUAL_BALISE_COVER_ORDER =&gt; EMPTY, 
+        LSSMA_DISPLAY_TOGGLE_ORDER =&gt; EMPTY, 
+        GENERIC_LS_FUNCTION_MARKER =&gt; EMPTY, 
+        END_OF_INFORMATION =&gt; EMPTY
+      }
+    }, Messages.EUROBALISE.SubStructure1
+    {
+      TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message
+      {
+        GRADIENT_PROFILE =&gt; Messages.PACKET.TRACK_TO_TRAIN.GRADIENT_PROFILE.Message
+        {
+          NID_PACKET =&gt; 21, 
+          Q_DIR =&gt; Messages.Q_DIR.Both_directions, 
+          L_PACKET =&gt; 0, 
+          Q_SCALE =&gt; Messages.Q_SCALE._1_m_scaleC, 
+          D_GRADIENT =&gt; 0, 
+          Q_GDIR =&gt; Messages.Q_GDIR.downhill, 
+          G_A =&gt; 0, 
+          N_ITER =&gt; 0, 
+          Sequence1 =&gt; []
+        }
+      }
+    }, Messages.EUROBALISE.SubStructure1
+    {
+      TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message
+      {
+        INTERNATIONAL_STATIC_SPEED_PROFILE =&gt; Messages.PACKET.TRACK_TO_TRAIN.INTERNATIONAL_STATIC_SPEED_PROFILE.Message
+        {
+          NID_PACKET =&gt; 27, 
+          Q_DIR =&gt; Messages.Q_DIR.Both_directions, 
+          L_PACKET =&gt; 0, 
+          Q_SCALE =&gt; Messages.Q_SCALE._1_m_scaleC, 
+          D_STATIC =&gt; 0, 
+          V_STATIC =&gt; 40, 
+          Q_FRONT =&gt; Messages.Q_FRONT.No_train_length_delay_on_validity_end_point_of_profile_element, 
+          N_ITER_0 =&gt; 0, 
+          Sequence1 =&gt; [], 
+          N_ITER_1 =&gt; 0, 
+          Sequence3 =&gt; []
+        }
+      }
+    }], 
+  BitField =&gt; &apos;&apos;
 }</Action><Action
  Guid="0a787737-853c-4581-acb5-cd0b81fa8ee0"
 >Odometry.NominalDistance &lt;- 250.0</Action></Actions>
@@ -1302,7 +1544,7 @@ IN Kernel.MA.ModeProfile.Profile</Action><Action
  Kind="Instantaneous"
  DeadLine="1"
  Guid="6f67534b-0b35-4531-92ef-8dbb48dbae0d"
->(FIRST X IN Kernel.MA.ModeProfile.Profile).Location ==  500.0</Expectation></Expectations>
+>(FIRST X IN Kernel.MA.ModeProfile.Profile).Location ==  745.0</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step><Step
  IO="NA"
@@ -1323,7 +1565,7 @@ IN Kernel.MA.ModeProfile.Profile</Action><Action
 <Actions>
 <Action
  Guid="cb96b3c7-9478-42d8-8768-e8f17a7712d0"
->Odometry.NominalDistance &lt;- 601.0</Action></Actions>
+>Odometry.NominalDistance &lt;- 746.0</Action></Actions>
 <Expectations>
 <Expectation
  Kind="Instantaneous"
@@ -1388,36 +1630,6 @@ IN Kernel.MA.ModeProfile.Profile</Action><Action
     aTrainPosition =&gt; 100.0,
     aMode =&gt; ModeEnum.FS
 )</Action></Actions>
-</SubStep><SubStep
- TimeDelay="NotDelayed"
- Name="Sub-step2 - Initialize elements to receive MA"
- Guid="0c953c0a-5dfb-44f9-a802-9269e2209ac3"
->
-<Actions>
-<Action
- Guid="5d94da00-f947-4386-8f14-1c76a41f9577"
->Testing.InitializeElementsForMA()</Action></Actions>
-</SubStep></SubSteps>
-</Step><Step
- IO="NA"
- LevelIN="NA"
- LevelOUT="NA"
- ModeIN="NA"
- ModeOUT="NA"
- TranslationRequired="FALSE"
- Name="Step2 - Mode FS"
- Guid="da4f66ce-1121-4d4e-8791-e9927035a721"
->
-<SubSteps>
-<SubStep
- TimeDelay="NotDelayed"
- Name="Sub-step1"
- Guid="48a369a0-2ce4-4f05-9871-bce13b0c9235"
->
-<Actions>
-<Action
- Guid="fbedf80d-cba4-44a8-bb88-066be608e7d9"
->Testing.SetFSMode(False)</Action></Actions>
 </SubStep></SubSteps>
 </Step><Step
  IO="NA"
@@ -1719,15 +1931,6 @@ IN Kernel.MA.ModeProfile.Profile</Action><Action
     aTrainPosition =&gt; 100.0,
     aMode =&gt; ModeEnum.SB
 )</Action></Actions>
-</SubStep><SubStep
- TimeDelay="NotDelayed"
- Name="Sub-step2 - Initialize elements to receive MA"
- Guid="b6a3e60e-1851-4b42-87bb-35ba98814813"
->
-<Actions>
-<Action
- Guid="dc2e6e35-822f-4d89-bc54-353f33b550f3"
->Testing.InitializeElementsForMA()</Action></Actions>
 </SubStep></SubSteps>
 </Step><Step
  IO="NA"
@@ -1750,95 +1953,296 @@ IN Kernel.MA.ModeProfile.Profile</Action><Action
  Guid="c93fae71-1d7b-4b86-8ce7-3dfb97070d3d"
 >BTM.Message.SystemVersion2 &lt;- Messages.EUROBALISE.Message
 {
-    Q_UPDOWN=&gt; Messages.Q_UPDOWN.Up_link_telegram,
-    M_VERSION=&gt;32,
-    Q_MEDIA=&gt;Messages.Q_MEDIA.Balise,
-    N_PIG=&gt;0,
-    N_TOTAL=&gt;0,
-    M_DUP=&gt;Messages.M_DUP.No_duplicates,
-    M_MCOUNT=&gt;4,
-    NID_C=&gt;140,
-    NID_BG=&gt;2124,
-    Q_LINK=&gt;Messages.Q_LINK.Unlinked,
-    Sequence1=&gt;
-    [ 
-       Messages.EUROBALISE.SubStructure1
+  Q_UPDOWN =&gt; Messages.Q_UPDOWN.Up_link_telegram, 
+  M_VERSION =&gt; 32, 
+  Q_MEDIA =&gt; Messages.Q_MEDIA.Balise, 
+  N_PIG =&gt; 0, 
+  N_TOTAL =&gt; 0, 
+  M_DUP =&gt; Messages.M_DUP.No_duplicates, 
+  M_MCOUNT =&gt; 4, 
+  NID_C =&gt; 140, 
+  NID_BG =&gt; 2124, 
+  Q_LINK =&gt; Messages.Q_LINK.Unlinked, 
+  Sequence1 =&gt; [Messages.EUROBALISE.SubStructure1
+    {
+      TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message
+      {
+        MODE_PROFILE =&gt; Messages.PACKET.TRACK_TO_TRAIN.MODE_PROFILE.Message
         {
-            TRACK_TO_TRAIN=&gt;Messages.PACKET.TRACK_TO_TRAIN.Message
-            {
-                MODE_PROFILE=&gt;Messages.PACKET.TRACK_TO_TRAIN.MODE_PROFILE.Message
-                {
-                   D_MAMODE=&gt;0,
-                   L_ACKMAMODE=&gt;500,
-                   L_MAMODE=&gt;100,
-                   L_PACKET=&gt;0,
-                   M_MAMODE=&gt;   Messages.M_MAMODE.Shunting,               
-                   N_ITER=&gt;0,
-                   NID_PACKET=&gt;80,
-                   Q_DIR=&gt; Messages.Q_DIR.Both_directions,
-                   Q_MAMODE=&gt; Messages.Q_MAMODE.as_both_the_EOA_and_SvL__instead_of_the_EOA_and_SvL_given_by_the_MA,
-                   Q_SCALE=&gt;Messages.Q_SCALE._1_m_scaleC,
-                   V_MAMODE=&gt;1,
-                   Sequence1=&gt;[] 
-             }
-          }
-               },
-Messages.EUROBALISE.SubStructure1
+          D_MAMODE =&gt; 0, 
+          L_ACKMAMODE =&gt; 500, 
+          L_MAMODE =&gt; 100, 
+          L_PACKET =&gt; 0, 
+          M_MAMODE =&gt; Messages.M_MAMODE.Shunting, 
+          N_ITER =&gt; 0, 
+          NID_PACKET =&gt; 80, 
+          Q_DIR =&gt; Messages.Q_DIR.Both_directions, 
+          Q_MAMODE =&gt; Messages.Q_MAMODE.as_both_the_EOA_and_SvL__instead_of_the_EOA_and_SvL_given_by_the_MA, 
+          Q_SCALE =&gt; Messages.Q_SCALE._1_m_scaleC, 
+          V_MAMODE =&gt; 1, 
+          Sequence1 =&gt; []
+        }, 
+        VIRTUAL_BALISE_COVER_MARKER =&gt; EMPTY, 
+        SYSTEM_VERSION_ORDER =&gt; EMPTY, 
+        NATIONAL_VALUES =&gt; EMPTY, 
+        LINKING =&gt; EMPTY, 
+        LEVEL_1_MOVEMENT_AUTHORITY =&gt; EMPTY, 
+        STAFF_RESPONSIBLE_DISTANCE_INFORMATION_FROM_LOOP =&gt; EMPTY, 
+        LEVEL_2_3_MOVEMENT_AUTHORITY =&gt; EMPTY, 
+        REPOSITIONING_INFORMATION =&gt; EMPTY, 
+        GRADIENT_PROFILE =&gt; EMPTY, 
+        INTERNATIONAL_STATIC_SPEED_PROFILE =&gt; EMPTY, 
+        TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM =&gt; EMPTY, 
+        TRACK_CONDITION_CHANGE_OF_ALLOWED_CURRENT_CONSUMPTION =&gt; EMPTY, 
+        LEVEL_TRANSITION_ORDER =&gt; EMPTY, 
+        SESSION_MANAGEMENT =&gt; EMPTY, 
+        RADIO_NETWORK_REGISTRATION =&gt; EMPTY, 
+        CONDITIONAL_LEVEL_TRANSITION_ORDER =&gt; EMPTY, 
+        LIST_OF_BALISES_FOR_SH_AREA =&gt; EMPTY, 
+        AXLE_LOAD_SPEED_PROFILE =&gt; EMPTY, 
+        PERMITTED_BRAKING_DISTANCE_INFORMATION =&gt; EMPTY, 
+        MOVEMENT_AUTHORITY_REQUEST_PARAMETERS =&gt; EMPTY, 
+        POSITION_REPORT_PARAMETERS =&gt; EMPTY, 
+        LIST_OF_BALISES_IN_SR_AUTHORITY =&gt; EMPTY, 
+        INHIBITION_OF_REVOCABLE_TSRS_FROM_BALISES_IN_L2_3 =&gt; EMPTY, 
+        TEMPORARY_SPEED_RESTRICTION =&gt; EMPTY, 
+        TEMPORARY_SPEED_RESTRICTION_REVOCATION =&gt; EMPTY, 
+        TRACK_CONDITION_BIG_METAL_MASSES =&gt; EMPTY, 
+        TRACK_CONDITION =&gt; EMPTY, 
+        TRACK_CONDITION_STATION_PLATFORMS =&gt; EMPTY, 
+        ROUTE_SUITABILITY_DATA =&gt; EMPTY, 
+        ADHESION_FACTOR =&gt; EMPTY, 
+        PACKET_FOR_SENDING_PLAIN_TEXT_MESSAGES =&gt; EMPTY, 
+        PACKET_FOR_SENDING_FIXED_TEXT_MESSAGES =&gt; EMPTY, 
+        GEOGRAPHICAL_POSITION_INFORMATION =&gt; EMPTY, 
+        LEVEL_CROSSING_INFORMATION =&gt; EMPTY, 
+        TRACK_AHEAD_FREE_UP_TO_LEVEL_2_3_TRANSITION_LOCATION =&gt; EMPTY, 
+        RBC_TRANSITION_ORDER =&gt; EMPTY, 
+        DANGER_FOR_SHUNTING_INFORMATION =&gt; EMPTY, 
+        RADIO_INFILL_AREA_INFORMATION =&gt; EMPTY, 
+        SESSION_MANAGEMENT_WITH_NEIGHBOURING_RADIO_INFILL_UNIT =&gt; EMPTY, 
+        EOLM_PACKET =&gt; EMPTY, 
+        STOP_SHUNTING_ON_DESK_OPENING =&gt; EMPTY, 
+        INFILL_LOCATION_REFERENCE =&gt; EMPTY, 
+        STOP_IF_IN_STAFF_RESPONSIBLE =&gt; EMPTY, 
+        REVERSING_AREA_INFORMATION =&gt; EMPTY, 
+        REVERSING_SUPERVISION_INFORMATION =&gt; EMPTY, 
+        TRAIN_RUNNING_NUMBER_FROM_RBC =&gt; EMPTY, 
+        DEFAULT_GRADIENT_FOR_TEMPORARY_SPEED_RESTRICTION =&gt; EMPTY, 
+        INHIBITION_OF_BALISE_GROUP_MESSAGE_CONSISTENCY_REACTION =&gt; EMPTY, 
+        DEFAULT_BALISE_LOOP_OR_RIU_INFORMATION =&gt; EMPTY, 
+        DATA_USED_BY_APPLICATIONS_OUTSIDE_THE_ERTMS_ETCS_SYSTEM =&gt; EMPTY, 
+        VIRTUAL_BALISE_COVER_ORDER =&gt; EMPTY, 
+        LSSMA_DISPLAY_TOGGLE_ORDER =&gt; EMPTY, 
+        GENERIC_LS_FUNCTION_MARKER =&gt; EMPTY, 
+        END_OF_INFORMATION =&gt; EMPTY
+      }
+    }, Messages.EUROBALISE.SubStructure1
+    {
+      TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message
+      {
+        LEVEL_1_MOVEMENT_AUTHORITY =&gt; Messages.PACKET.TRACK_TO_TRAIN.LEVEL_1_MOVEMENT_AUTHORITY.Message
         {
-            TRACK_TO_TRAIN=&gt;Messages.PACKET.TRACK_TO_TRAIN.Message
-            {
-                 LEVEL_1_MOVEMENT_AUTHORITY=&gt;Messages.PACKET.TRACK_TO_TRAIN.LEVEL_1_MOVEMENT_AUTHORITY.Message
-                {
-                    NID_PACKET=&gt;12,
-                    Q_DIR=&gt;Messages.Q_DIR.Both_directions,
-                    L_PACKET=&gt;400,
-                    Q_SCALE=&gt;Messages.Q_SCALE._1_m_scaleC,
-                    V_MAIN=&gt;16,
-                    V_LOA=&gt;8,
-                    T_LOA=&gt;200,
-                    N_ITER=&gt;0,
-                    Sequence1=&gt;[],
-                    L_ENDSECTION=&gt;10000,
-                    Q_SECTIONTIMER=&gt;Messages.Q_SECTIONTIMER.No_Section_Timer_information,
-                    T_SECTIONTIMER=&gt;0,
-                    D_SECTIONTIMERSTOPLOC=&gt;0,
-                    Q_ENDTIMER=&gt;Messages.Q_ENDTIMER.No_End_section_timer_information,
-                    T_ENDTIMER=&gt;0,
-                    D_ENDTIMERSTARTLOC=&gt;0,
-                    Q_DANGERPOINT=&gt;Messages.Q_DANGERPOINT.Danger_point_information_to_follow,
-                    D_DP=&gt;12000,
-                    V_RELEASEDP=&gt;5,
-                    Q_OVERLAP=&gt;Messages.Q_OVERLAP.No_overlap_information,
-                    D_STARTOL=&gt;0,
-                    T_OL=&gt;0,
-                    D_OL=&gt;0,
-                    V_RELEASEOL=&gt;0
-                }
-            }
-         },
-           Messages.EUROBALISE.SubStructure1
+          NID_PACKET =&gt; 12, 
+          Q_DIR =&gt; Messages.Q_DIR.Both_directions, 
+          L_PACKET =&gt; 400, 
+          Q_SCALE =&gt; Messages.Q_SCALE._1_m_scaleC, 
+          V_MAIN =&gt; 16, 
+          V_LOA =&gt; 8, 
+          T_LOA =&gt; 200, 
+          N_ITER =&gt; 0, 
+          Sequence1 =&gt; [], 
+          L_ENDSECTION =&gt; 10000, 
+          Q_SECTIONTIMER =&gt; Messages.Q_SECTIONTIMER.No_Section_Timer_information, 
+          T_SECTIONTIMER =&gt; 0, 
+          D_SECTIONTIMERSTOPLOC =&gt; 0, 
+          Q_ENDTIMER =&gt; Messages.Q_ENDTIMER.No_End_section_timer_information, 
+          T_ENDTIMER =&gt; 0, 
+          D_ENDTIMERSTARTLOC =&gt; 0, 
+          Q_DANGERPOINT =&gt; Messages.Q_DANGERPOINT.Danger_point_information_to_follow, 
+          D_DP =&gt; 12000, 
+          V_RELEASEDP =&gt; 5, 
+          Q_OVERLAP =&gt; Messages.Q_OVERLAP.No_overlap_information, 
+          D_STARTOL =&gt; 0, 
+          T_OL =&gt; 0, 
+          D_OL =&gt; 0, 
+          V_RELEASEOL =&gt; 0
+        }, 
+        VIRTUAL_BALISE_COVER_MARKER =&gt; EMPTY, 
+        SYSTEM_VERSION_ORDER =&gt; EMPTY, 
+        NATIONAL_VALUES =&gt; EMPTY, 
+        LINKING =&gt; EMPTY, 
+        STAFF_RESPONSIBLE_DISTANCE_INFORMATION_FROM_LOOP =&gt; EMPTY, 
+        LEVEL_2_3_MOVEMENT_AUTHORITY =&gt; EMPTY, 
+        REPOSITIONING_INFORMATION =&gt; EMPTY, 
+        GRADIENT_PROFILE =&gt; EMPTY, 
+        INTERNATIONAL_STATIC_SPEED_PROFILE =&gt; EMPTY, 
+        TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM =&gt; EMPTY, 
+        TRACK_CONDITION_CHANGE_OF_ALLOWED_CURRENT_CONSUMPTION =&gt; EMPTY, 
+        LEVEL_TRANSITION_ORDER =&gt; EMPTY, 
+        SESSION_MANAGEMENT =&gt; EMPTY, 
+        RADIO_NETWORK_REGISTRATION =&gt; EMPTY, 
+        CONDITIONAL_LEVEL_TRANSITION_ORDER =&gt; EMPTY, 
+        LIST_OF_BALISES_FOR_SH_AREA =&gt; EMPTY, 
+        AXLE_LOAD_SPEED_PROFILE =&gt; EMPTY, 
+        PERMITTED_BRAKING_DISTANCE_INFORMATION =&gt; EMPTY, 
+        MOVEMENT_AUTHORITY_REQUEST_PARAMETERS =&gt; EMPTY, 
+        POSITION_REPORT_PARAMETERS =&gt; EMPTY, 
+        LIST_OF_BALISES_IN_SR_AUTHORITY =&gt; EMPTY, 
+        INHIBITION_OF_REVOCABLE_TSRS_FROM_BALISES_IN_L2_3 =&gt; EMPTY, 
+        TEMPORARY_SPEED_RESTRICTION =&gt; EMPTY, 
+        TEMPORARY_SPEED_RESTRICTION_REVOCATION =&gt; EMPTY, 
+        TRACK_CONDITION_BIG_METAL_MASSES =&gt; EMPTY, 
+        TRACK_CONDITION =&gt; EMPTY, 
+        TRACK_CONDITION_STATION_PLATFORMS =&gt; EMPTY, 
+        ROUTE_SUITABILITY_DATA =&gt; EMPTY, 
+        ADHESION_FACTOR =&gt; EMPTY, 
+        PACKET_FOR_SENDING_PLAIN_TEXT_MESSAGES =&gt; EMPTY, 
+        PACKET_FOR_SENDING_FIXED_TEXT_MESSAGES =&gt; EMPTY, 
+        GEOGRAPHICAL_POSITION_INFORMATION =&gt; EMPTY, 
+        MODE_PROFILE =&gt; EMPTY, 
+        LEVEL_CROSSING_INFORMATION =&gt; EMPTY, 
+        TRACK_AHEAD_FREE_UP_TO_LEVEL_2_3_TRANSITION_LOCATION =&gt; EMPTY, 
+        RBC_TRANSITION_ORDER =&gt; EMPTY, 
+        DANGER_FOR_SHUNTING_INFORMATION =&gt; EMPTY, 
+        RADIO_INFILL_AREA_INFORMATION =&gt; EMPTY, 
+        SESSION_MANAGEMENT_WITH_NEIGHBOURING_RADIO_INFILL_UNIT =&gt; EMPTY, 
+        EOLM_PACKET =&gt; EMPTY, 
+        STOP_SHUNTING_ON_DESK_OPENING =&gt; EMPTY, 
+        INFILL_LOCATION_REFERENCE =&gt; EMPTY, 
+        STOP_IF_IN_STAFF_RESPONSIBLE =&gt; EMPTY, 
+        REVERSING_AREA_INFORMATION =&gt; EMPTY, 
+        REVERSING_SUPERVISION_INFORMATION =&gt; EMPTY, 
+        TRAIN_RUNNING_NUMBER_FROM_RBC =&gt; EMPTY, 
+        DEFAULT_GRADIENT_FOR_TEMPORARY_SPEED_RESTRICTION =&gt; EMPTY, 
+        INHIBITION_OF_BALISE_GROUP_MESSAGE_CONSISTENCY_REACTION =&gt; EMPTY, 
+        DEFAULT_BALISE_LOOP_OR_RIU_INFORMATION =&gt; EMPTY, 
+        DATA_USED_BY_APPLICATIONS_OUTSIDE_THE_ERTMS_ETCS_SYSTEM =&gt; EMPTY, 
+        VIRTUAL_BALISE_COVER_ORDER =&gt; EMPTY, 
+        LSSMA_DISPLAY_TOGGLE_ORDER =&gt; EMPTY, 
+        GENERIC_LS_FUNCTION_MARKER =&gt; EMPTY, 
+        END_OF_INFORMATION =&gt; EMPTY
+      }
+    }, Messages.EUROBALISE.SubStructure1
+    {
+      TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message
+      {
+        LIST_OF_BALISES_FOR_SH_AREA =&gt; Messages.PACKET.TRACK_TO_TRAIN.LIST_OF_BALISES_FOR_SH_AREA.Message
         {
-            TRACK_TO_TRAIN=&gt;Messages.PACKET.TRACK_TO_TRAIN.Message
+          NID_PACKET =&gt; 49, 
+          Q_DIR =&gt; Messages.Q_DIR.Both_directions, 
+          L_PACKET =&gt; 0, 
+          N_ITER =&gt; 1, 
+          Sequence1 =&gt; [Messages.PACKET.TRACK_TO_TRAIN.LIST_OF_BALISES_FOR_SH_AREA.SubStructure1
             {
-                               LIST_OF_BALISES_FOR_SH_AREA =&gt; Messages.PACKET.TRACK_TO_TRAIN.LIST_OF_BALISES_FOR_SH_AREA.Message
-                  {
-                      NID_PACKET =&gt; 49,
-                      Q_DIR =&gt; Messages.Q_DIR.Both_directions,
-                      L_PACKET =&gt; 0,
-                      N_ITER =&gt; 1,
-                      Sequence1 =&gt; 
-                              [
-                                 Messages.PACKET.TRACK_TO_TRAIN.LIST_OF_BALISES_FOR_SH_AREA.SubStructure1
-                                  {
-                                        NID_BG=&gt; 2124,
-                                        Q_NEWCOUNTRY=&gt;Messages.Q_NEWCOUNTRY.Same_country___railway_administration__no_NID_C_follows,
-                                        NID_C=&gt;140
-                                    }
-                              ]
-                   } 
-            }
-         }
-                ]
+              NID_BG =&gt; 2124, 
+              Q_NEWCOUNTRY =&gt; Messages.Q_NEWCOUNTRY.Same_country___railway_administration__no_NID_C_follows, 
+              NID_C =&gt; 140
+            }]
+        }, 
+        VIRTUAL_BALISE_COVER_MARKER =&gt; EMPTY, 
+        SYSTEM_VERSION_ORDER =&gt; EMPTY, 
+        NATIONAL_VALUES =&gt; EMPTY, 
+        LINKING =&gt; EMPTY, 
+        LEVEL_1_MOVEMENT_AUTHORITY =&gt; EMPTY, 
+        STAFF_RESPONSIBLE_DISTANCE_INFORMATION_FROM_LOOP =&gt; EMPTY, 
+        LEVEL_2_3_MOVEMENT_AUTHORITY =&gt; EMPTY, 
+        REPOSITIONING_INFORMATION =&gt; EMPTY, 
+        GRADIENT_PROFILE =&gt; EMPTY, 
+        INTERNATIONAL_STATIC_SPEED_PROFILE =&gt; EMPTY, 
+        TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM =&gt; EMPTY, 
+        TRACK_CONDITION_CHANGE_OF_ALLOWED_CURRENT_CONSUMPTION =&gt; EMPTY, 
+        LEVEL_TRANSITION_ORDER =&gt; EMPTY, 
+        SESSION_MANAGEMENT =&gt; EMPTY, 
+        RADIO_NETWORK_REGISTRATION =&gt; EMPTY, 
+        CONDITIONAL_LEVEL_TRANSITION_ORDER =&gt; EMPTY, 
+        AXLE_LOAD_SPEED_PROFILE =&gt; EMPTY, 
+        PERMITTED_BRAKING_DISTANCE_INFORMATION =&gt; EMPTY, 
+        MOVEMENT_AUTHORITY_REQUEST_PARAMETERS =&gt; EMPTY, 
+        POSITION_REPORT_PARAMETERS =&gt; EMPTY, 
+        LIST_OF_BALISES_IN_SR_AUTHORITY =&gt; EMPTY, 
+        INHIBITION_OF_REVOCABLE_TSRS_FROM_BALISES_IN_L2_3 =&gt; EMPTY, 
+        TEMPORARY_SPEED_RESTRICTION =&gt; EMPTY, 
+        TEMPORARY_SPEED_RESTRICTION_REVOCATION =&gt; EMPTY, 
+        TRACK_CONDITION_BIG_METAL_MASSES =&gt; EMPTY, 
+        TRACK_CONDITION =&gt; EMPTY, 
+        TRACK_CONDITION_STATION_PLATFORMS =&gt; EMPTY, 
+        ROUTE_SUITABILITY_DATA =&gt; EMPTY, 
+        ADHESION_FACTOR =&gt; EMPTY, 
+        PACKET_FOR_SENDING_PLAIN_TEXT_MESSAGES =&gt; EMPTY, 
+        PACKET_FOR_SENDING_FIXED_TEXT_MESSAGES =&gt; EMPTY, 
+        GEOGRAPHICAL_POSITION_INFORMATION =&gt; EMPTY, 
+        MODE_PROFILE =&gt; EMPTY, 
+        LEVEL_CROSSING_INFORMATION =&gt; EMPTY, 
+        TRACK_AHEAD_FREE_UP_TO_LEVEL_2_3_TRANSITION_LOCATION =&gt; EMPTY, 
+        RBC_TRANSITION_ORDER =&gt; EMPTY, 
+        DANGER_FOR_SHUNTING_INFORMATION =&gt; EMPTY, 
+        RADIO_INFILL_AREA_INFORMATION =&gt; EMPTY, 
+        SESSION_MANAGEMENT_WITH_NEIGHBOURING_RADIO_INFILL_UNIT =&gt; EMPTY, 
+        EOLM_PACKET =&gt; EMPTY, 
+        STOP_SHUNTING_ON_DESK_OPENING =&gt; EMPTY, 
+        INFILL_LOCATION_REFERENCE =&gt; EMPTY, 
+        STOP_IF_IN_STAFF_RESPONSIBLE =&gt; EMPTY, 
+        REVERSING_AREA_INFORMATION =&gt; EMPTY, 
+        REVERSING_SUPERVISION_INFORMATION =&gt; EMPTY, 
+        TRAIN_RUNNING_NUMBER_FROM_RBC =&gt; EMPTY, 
+        DEFAULT_GRADIENT_FOR_TEMPORARY_SPEED_RESTRICTION =&gt; EMPTY, 
+        INHIBITION_OF_BALISE_GROUP_MESSAGE_CONSISTENCY_REACTION =&gt; EMPTY, 
+        DEFAULT_BALISE_LOOP_OR_RIU_INFORMATION =&gt; EMPTY, 
+        DATA_USED_BY_APPLICATIONS_OUTSIDE_THE_ERTMS_ETCS_SYSTEM =&gt; EMPTY, 
+        VIRTUAL_BALISE_COVER_ORDER =&gt; EMPTY, 
+        LSSMA_DISPLAY_TOGGLE_ORDER =&gt; EMPTY, 
+        GENERIC_LS_FUNCTION_MARKER =&gt; EMPTY, 
+        END_OF_INFORMATION =&gt; EMPTY
+      }
+    }, Messages.EUROBALISE.SubStructure1
+    {
+      TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message
+      {
+        GRADIENT_PROFILE =&gt; Messages.PACKET.TRACK_TO_TRAIN.GRADIENT_PROFILE.Message
+        {
+          NID_PACKET =&gt; 21, 
+          Q_DIR =&gt; Messages.Q_DIR.Both_directions, 
+          L_PACKET =&gt; 0, 
+          Q_SCALE =&gt; Messages.Q_SCALE._1_m_scaleC, 
+          D_GRADIENT =&gt; 0, 
+          Q_GDIR =&gt; Messages.Q_GDIR.uphill, 
+          G_A =&gt; 0, 
+          N_ITER =&gt; 0, 
+          Sequence1 =&gt; []
+        }
+      }
+    }, Messages.EUROBALISE.SubStructure1
+    {
+      TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message
+      {
+        INTERNATIONAL_STATIC_SPEED_PROFILE =&gt; Messages.PACKET.TRACK_TO_TRAIN.INTERNATIONAL_STATIC_SPEED_PROFILE.Message
+        {
+          NID_PACKET =&gt; 27, 
+          Q_DIR =&gt; Messages.Q_DIR.Both_directions, 
+          L_PACKET =&gt; 0, 
+          Q_SCALE =&gt; Messages.Q_SCALE._1_m_scaleC, 
+          D_STATIC =&gt; 0, 
+          V_STATIC =&gt; 40, 
+          Q_FRONT =&gt; Messages.Q_FRONT.No_train_length_delay_on_validity_end_point_of_profile_element, 
+          N_ITER_0 =&gt; 0, 
+          Sequence1 =&gt; [], 
+          N_ITER_1 =&gt; 0, 
+          Sequence3 =&gt; []
+        }
+      }
+    }], 
+  BitField =&gt; &apos;&apos;
+}</Action><Action
+ Guid="ebc6a457-d0e0-40cd-82ab-4ebdb4df7f9a"
+>Kernel.TrainData.TrainData.DataState &lt;- Default.DataStateEnum.Valid</Action><Action
+ Guid="aae111f8-ce3a-4ace-8759-689261a71237"
+>Kernel.Level &lt;- Kernel.LevelData{
+Value =&gt; LevelDataStruct{
+    NTC =&gt; NID_NTC.NOT_APPLICABLE,
+    Value =&gt; LevelEnum.L1
+},
+DataState =&gt; DataStateEnum.Valid
 }</Action></Actions>
 <Expectations>
 <Expectation
@@ -2195,644 +2599,6 @@ Messages.EUROBALISE.SubStructure1
  DeadLine="1"
  Guid="96f71285-245f-42e7-be71-8084d5efc18f"
 >(FIRST X IN Kernel.MA.ModeProfile.Profile).Mode == ModeEnum.ModeProfile.OS</Expectation></Expectations>
-</SubStep></SubSteps>
-</Step></Steps>
-</TestCase></TestCases>
-</SubSequence><SubSequence
- D_LRBG=""
- Level=""
- Mode=""
- NID_LRBG=""
- Q_DIRLRBG=""
- Q_DIRTRAIN=""
- Q_DLRBG=""
- RBC_ID=""
- RBCPhone=""
- Name="The Mode Profile can request OS Mode"
- Guid="2a55ed72-d9f6-4619-b7fe-01e2a3e02596"
->
-<TestCases>
-<TestCase
- Feature="0"
- Case="0"
- Implemented="TRUE"
- Name="OS Mode Profile received"
- Guid="ccd88264-4f06-4553-9a6c-01ca917b5700"
->
-<ReqRef
- Id="cbef1165-fc33-4ac1-994e-5f8a83f5e225"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="762e4312-321a-4576-98b0-c0770d56ec12"
->
-</ReqRef><ReqRef
- Id="2ef2992f-43ce-4f58-abf6-55560cf910bd"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="0c2e8799-449f-463d-a9c8-3bfc35aa6231"
->
-</ReqRef><Steps>
-<Step
- IO="NA"
- LevelIN="NA"
- LevelOUT="NA"
- ModeIN="NA"
- ModeOUT="NA"
- TranslationRequired="FALSE"
- Name="Step1 - Setup"
- Guid="6987ec17-c6d1-4b5f-8022-23f0c370b2d1"
->
-<SubSteps>
-<SubStep
- TimeDelay="NotDelayed"
- Name="Sub-step1 - Initialize test environment"
- Guid="7b9d2fa2-9066-4b41-aab4-26b10610d55d"
->
-<Actions>
-<Action
- Guid="c8ded6f6-b54b-47fa-af26-0ac4b4854213"
->Testing.InitializeTestEnvironment
-(
-    aTrainPosition =&gt; 100.0,
-    aMode =&gt; ModeEnum.FS
-)</Action></Actions>
-</SubStep><SubStep
- TimeDelay="NotDelayed"
- Name="Sub-step2 - Initialize elements to receive MA"
- Guid="78edc3c8-9f55-4a46-95f2-f9bde2d35702"
->
-<Actions>
-<Action
- Guid="56bba492-396e-4133-8f0e-342669487a52"
->Testing.InitializeElementsForMA()</Action></Actions>
-</SubStep></SubSteps>
-</Step><Step
- IO="NA"
- LevelIN="NA"
- LevelOUT="NA"
- ModeIN="NA"
- ModeOUT="NA"
- TranslationRequired="FALSE"
- Name="Step2 - ModeSR"
- Guid="3721a608-f0af-4d29-9f73-8bca8d865d62"
->
-<SubSteps>
-<SubStep
- TimeDelay="NotDelayed"
- Name="Sub-step1"
- Guid="9a40b15c-eb88-466b-a657-75c01df7dd9b"
->
-<Actions>
-<Action
- Guid="f2c57cdf-0dcf-4bb3-b962-004dbab1dee7"
->Testing.SetSRMode(False)</Action></Actions>
-</SubStep></SubSteps>
-</Step><Step
- IO="NA"
- LevelIN="NA"
- LevelOUT="NA"
- ModeIN="NA"
- ModeOUT="NA"
- TranslationRequired="FALSE"
- Name="Step3 - BTM.Message ModeProfile OS + Level.L1"
- Guid="2fd4f08e-a34b-4d75-8b35-53d265ffc2a7"
->
-<SubSteps>
-<SubStep
- TimeDelay="NotDelayed"
- Name="Sub-step1"
- Guid="d07750ce-8cf5-4fe5-b649-d7051caae3b7"
->
-<Actions>
-<Action
- Guid="ae6a3f01-4fa8-404e-b174-7714383ff119"
->BTM.Message.SystemVersion2 &lt;- Messages.EUROBALISE.Message
-{
-    Q_UPDOWN=&gt; Messages.Q_UPDOWN.Up_link_telegram,
-    M_VERSION=&gt;32,
-    Q_MEDIA=&gt;Messages.Q_MEDIA.Balise,
-    N_PIG=&gt;0,
-    N_TOTAL=&gt;0,
-    M_DUP=&gt;Messages.M_DUP.No_duplicates,
-    M_MCOUNT=&gt;4,
-    NID_C=&gt;140,
-    NID_BG=&gt;2124,
-    Q_LINK=&gt;Messages.Q_LINK.Unlinked,
-    Sequence1=&gt;
-    [ 
-       Messages.EUROBALISE.SubStructure1
-        {
-            TRACK_TO_TRAIN=&gt;Messages.PACKET.TRACK_TO_TRAIN.Message
-            {
-                MODE_PROFILE=&gt;Messages.PACKET.TRACK_TO_TRAIN.MODE_PROFILE.Message
-                {
-                   D_MAMODE=&gt;0,
-                   L_ACKMAMODE=&gt;500,
-                   L_MAMODE=&gt;100,
-                   L_PACKET=&gt;0,
-                   M_MAMODE=&gt;Messages.M_MAMODE.On_Sight,               
-                   N_ITER=&gt;0,
-                   NID_PACKET=&gt;80,
-                   Q_DIR=&gt; Messages.Q_DIR.Both_directions,
-                   Q_MAMODE=&gt; Messages.Q_MAMODE.as_both_the_EOA_and_SvL__instead_of_the_EOA_and_SvL_given_by_the_MA,
-                   Q_SCALE=&gt;Messages.Q_SCALE._1_m_scaleC,
-                   V_MAMODE=&gt;10,
-                   Sequence1=&gt;[] 
-                }
-           }
-               },
- Messages.EUROBALISE.SubStructure1
-        {
-            TRACK_TO_TRAIN=&gt;Messages.PACKET.TRACK_TO_TRAIN.Message
-            {
-                 LEVEL_1_MOVEMENT_AUTHORITY=&gt;Messages.PACKET.TRACK_TO_TRAIN.LEVEL_1_MOVEMENT_AUTHORITY.Message
-                {
-                    NID_PACKET=&gt;12,
-                    Q_DIR=&gt;Messages.Q_DIR.Both_directions,
-                    L_PACKET=&gt;400,
-                    Q_SCALE=&gt;Messages.Q_SCALE._1_m_scaleC,
-                    V_MAIN=&gt;16,
-                    V_LOA=&gt;8,
-                    T_LOA=&gt;200,
-                    N_ITER=&gt;0,
-                    Sequence1=&gt;[],
-                    L_ENDSECTION=&gt;1000,
-                    Q_SECTIONTIMER=&gt;Messages.Q_SECTIONTIMER.No_Section_Timer_information,
-                    T_SECTIONTIMER=&gt;0,
-                    D_SECTIONTIMERSTOPLOC=&gt;0,
-                    Q_ENDTIMER=&gt;Messages.Q_ENDTIMER.No_End_section_timer_information,
-                    T_ENDTIMER=&gt;0,
-                    D_ENDTIMERSTARTLOC=&gt;0,
-                    Q_DANGERPOINT=&gt;Messages.Q_DANGERPOINT.Danger_point_information_to_follow,
-                    D_DP=&gt;12000,
-                    V_RELEASEDP=&gt;5,
-                    Q_OVERLAP=&gt;Messages.Q_OVERLAP.No_overlap_information,
-                    D_STARTOL=&gt;0,
-                    T_OL=&gt;0,
-                    D_OL=&gt;0,
-                    V_RELEASEOL=&gt;0
-                }
-            }
-         }
-                           ]
-}</Action><Action
- Guid="74c3d78a-6ba4-47c3-8329-689a10773c47"
->Kernel.Level.DataState &lt;- DataStateEnum.Valid</Action><Action
- Guid="a676a454-eef5-456c-a111-f4bb49fea9d5"
->Kernel.Level.Value.Value &lt;- LevelEnum.L1</Action></Actions>
-</SubStep></SubSteps>
-</Step><Step
- IO="NA"
- LevelIN="NA"
- LevelOUT="NA"
- ModeIN="NA"
- ModeOUT="NA"
- TranslationRequired="FALSE"
- Name="Step4 - Mode Check"
- Guid="9f4aa9c3-b764-42e4-aadc-9452b209d121"
->
-<SubSteps>
-<SubStep
- TimeDelay="NotDelayed"
- Name="Sub-step1"
- Guid="cac622dd-4cd1-4829-9340-5f03024b2a07"
->
-<Expectations>
-<Expectation
- Kind="Instantaneous"
- DeadLine="1"
- Guid="ab028293-2b83-468d-acfc-15e0548ee31b"
->Kernel.Mode == ModeEnum.OS</Expectation><Expectation
- Kind="Instantaneous"
- DeadLine="1"
- Guid="180f03e6-86ac-4f0e-bb56-88e855f0e428"
->Kernel.MA.ModeProfile.CurrentMode() == ModeEnum.ModeProfile.OS</Expectation></Expectations>
-</SubStep></SubSteps>
-</Step></Steps>
-</TestCase></TestCases>
-</SubSequence><SubSequence
- D_LRBG=""
- Level=""
- Mode=""
- NID_LRBG=""
- Q_DIRLRBG=""
- Q_DIRTRAIN=""
- Q_DLRBG=""
- RBC_ID=""
- RBCPhone=""
- Name="The ModeProfile can request LS Mode"
- Guid="915bda91-17d5-4be8-bc11-fd4e38b3187d"
->
-<TestCases>
-<TestCase
- Feature="0"
- Case="0"
- Implemented="TRUE"
- Name="LS Mode Profile received"
- Guid="4b33409c-c8c0-4112-bea3-27f19cc84405"
->
-<ReqRef
- Id="cbef1165-fc33-4ac1-994e-5f8a83f5e225"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="b961ff9c-7785-4ade-b2c4-992d9eedac02"
->
-</ReqRef><Steps>
-<Step
- IO="NA"
- LevelIN="NA"
- LevelOUT="NA"
- ModeIN="NA"
- ModeOUT="NA"
- TranslationRequired="FALSE"
- Name="Step1 - Setup"
- Guid="9dd050ab-b411-45e9-a5a8-8848b63b1665"
->
-<SubSteps>
-<SubStep
- TimeDelay="NotDelayed"
- Name="Sub-step1 - Initialize test environment"
- Guid="921b9d0b-5e63-427a-9de9-9c997bcb5c22"
->
-<Actions>
-<Action
- Guid="f358eae4-295d-439a-b327-4b13f0875b28"
->Testing.InitializeTestEnvironment
-(
-    aTrainPosition =&gt; 100.0,
-    aMode =&gt; ModeEnum.FS
-)</Action></Actions>
-</SubStep><SubStep
- TimeDelay="NotDelayed"
- Name="Sub-step2 - Initialize elements to receive MA"
- Guid="c65ee4cd-4432-4989-9c19-6e64ae6f5582"
->
-<Actions>
-<Action
- Guid="a94b78e4-b907-4e50-ae67-b56503281a90"
->Testing.InitializeElementsForMA()</Action></Actions>
-</SubStep></SubSteps>
-</Step><Step
- IO="NA"
- LevelIN="NA"
- LevelOUT="NA"
- ModeIN="NA"
- ModeOUT="NA"
- TranslationRequired="FALSE"
- Name="Step2 - ModeSR"
- Guid="94f90593-ed34-4bd4-9e73-40c012660f73"
->
-<SubSteps>
-<SubStep
- TimeDelay="NotDelayed"
- Name="Sub-step1"
- Guid="be4a041d-3fbe-4d9d-8d52-29dfa6491aaf"
->
-<Actions>
-<Action
- Guid="a0525c1c-de56-4d44-b52c-b1a5bab7037f"
->Testing.SetSRMode(False)</Action></Actions>
-</SubStep></SubSteps>
-</Step><Step
- IO="NA"
- LevelIN="NA"
- LevelOUT="NA"
- ModeIN="NA"
- ModeOUT="NA"
- TranslationRequired="FALSE"
- Name="Step3 - BTM.Message ModeProfile LS + Level.L1"
- Guid="64600652-fc84-41e4-858b-b4446e0989f1"
->
-<SubSteps>
-<SubStep
- TimeDelay="NotDelayed"
- Name="Sub-step1"
- Guid="360eb4df-9e04-474c-8139-5fec20311591"
->
-<Actions>
-<Action
- Guid="28a25905-eeae-4f7b-bf3e-071e779d2d8d"
->BTM.Message.SystemVersion2 &lt;- Messages.EUROBALISE.Message
-{
-    Q_UPDOWN=&gt; Messages.Q_UPDOWN.Up_link_telegram,
-    M_VERSION=&gt;32,
-    Q_MEDIA=&gt;Messages.Q_MEDIA.Balise,
-    N_PIG=&gt;0,
-    N_TOTAL=&gt;0,
-    M_DUP=&gt;Messages.M_DUP.No_duplicates,
-    M_MCOUNT=&gt;4,
-    NID_C=&gt;140,
-    NID_BG=&gt;2124,
-    Q_LINK=&gt;Messages.Q_LINK.Unlinked,
-    Sequence1=&gt;
-    [ 
-       Messages.EUROBALISE.SubStructure1
-        {
-            TRACK_TO_TRAIN=&gt;Messages.PACKET.TRACK_TO_TRAIN.Message
-            {
-                MODE_PROFILE=&gt;Messages.PACKET.TRACK_TO_TRAIN.MODE_PROFILE.Message
-                {
-                   D_MAMODE=&gt;0,
-                   L_ACKMAMODE=&gt;500,
-                   L_MAMODE=&gt;100,
-                   L_PACKET=&gt;0,
-                   M_MAMODE=&gt;Messages.M_MAMODE.Limited_Supervision,               
-                   N_ITER=&gt;0,
-                   NID_PACKET=&gt;80,
-                   Q_DIR=&gt; Messages.Q_DIR.Both_directions,
-                   Q_MAMODE=&gt; Messages.Q_MAMODE.as_both_the_EOA_and_SvL__instead_of_the_EOA_and_SvL_given_by_the_MA,
-                   Q_SCALE=&gt;Messages.Q_SCALE._1_m_scaleC,
-                   V_MAMODE=&gt;10,
-                   Sequence1=&gt;[] 
-                }
-           }
-               },
- Messages.EUROBALISE.SubStructure1
-        {
-            TRACK_TO_TRAIN=&gt;Messages.PACKET.TRACK_TO_TRAIN.Message
-            {
-                 LEVEL_1_MOVEMENT_AUTHORITY=&gt;Messages.PACKET.TRACK_TO_TRAIN.LEVEL_1_MOVEMENT_AUTHORITY.Message
-                {
-                    NID_PACKET=&gt;12,
-                    Q_DIR=&gt;Messages.Q_DIR.Both_directions,
-                    L_PACKET=&gt;400,
-                    Q_SCALE=&gt;Messages.Q_SCALE._1_m_scaleC,
-                    V_MAIN=&gt;16,
-                    V_LOA=&gt;8,
-                    T_LOA=&gt;200,
-                    N_ITER=&gt;0,
-                    Sequence1=&gt;[],
-                    L_ENDSECTION=&gt;1000,
-                    Q_SECTIONTIMER=&gt;Messages.Q_SECTIONTIMER.No_Section_Timer_information,
-                    T_SECTIONTIMER=&gt;0,
-                    D_SECTIONTIMERSTOPLOC=&gt;0,
-                    Q_ENDTIMER=&gt;Messages.Q_ENDTIMER.No_End_section_timer_information,
-                    T_ENDTIMER=&gt;0,
-                    D_ENDTIMERSTARTLOC=&gt;0,
-                    Q_DANGERPOINT=&gt;Messages.Q_DANGERPOINT.Danger_point_information_to_follow,
-                    D_DP=&gt;12000,
-                    V_RELEASEDP=&gt;5,
-                    Q_OVERLAP=&gt;Messages.Q_OVERLAP.No_overlap_information,
-                    D_STARTOL=&gt;0,
-                    T_OL=&gt;0,
-                    D_OL=&gt;0,
-                    V_RELEASEOL=&gt;0
-                }
-            }
-         }
-                           ]
-}</Action><Action
- Guid="c7e1a96c-8027-45b0-bea3-459324b4fcf8"
->Kernel.Level.Value.Value &lt;- LevelEnum.L1</Action><Action
- Guid="5ff1b196-a35a-4fb9-b795-a9b62bbff45b"
->Kernel.Level.DataState &lt;- DataStateEnum.Valid</Action></Actions>
-</SubStep></SubSteps>
-</Step><Step
- IO="NA"
- LevelIN="NA"
- LevelOUT="NA"
- ModeIN="NA"
- ModeOUT="NA"
- TranslationRequired="FALSE"
- Name="Step4 - Mode Check"
- Guid="7ede0f2c-7d42-40a2-8a74-8bc7d136df0e"
->
-<SubSteps>
-<SubStep
- TimeDelay="NotDelayed"
- Name="Sub-step1"
- Guid="d2d31652-31b0-47ed-8d4f-e50c8b997d0d"
->
-<Expectations>
-<Expectation
- Kind="Instantaneous"
- DeadLine="1"
- Guid="e7b92ed9-255a-4797-bbd0-f6479381d2b3"
->Kernel.Mode == ModeEnum.LS</Expectation><Expectation
- Kind="Instantaneous"
- DeadLine="1"
- Guid="3c72bfee-3386-46e2-a622-680ad76e65b9"
->Kernel.MA.ModeProfile.CurrentMode() == ModeEnum.ModeProfile.LS</Expectation></Expectations>
-</SubStep></SubSteps>
-</Step></Steps>
-</TestCase></TestCases>
-</SubSequence><SubSequence
- D_LRBG=""
- Level=""
- Mode=""
- NID_LRBG=""
- Q_DIRLRBG=""
- Q_DIRTRAIN=""
- Q_DLRBG=""
- RBC_ID=""
- RBCPhone=""
- Name="The ModeProfile can request SH Mode"
- Guid="5725a1f1-2db7-4872-ae7b-dcaabe98891c"
->
-<TestCases>
-<TestCase
- Feature="0"
- Case="0"
- Implemented="TRUE"
- Name="SH Mode Profile received"
- Guid="be69de3e-c9d4-4b77-a51d-c08ae49f5f81"
->
-<ReqRef
- Id="cbef1165-fc33-4ac1-994e-5f8a83f5e225"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="81317d1e-61f1-45f8-b283-87f81b600b53"
->
-</ReqRef><Steps>
-<Step
- IO="NA"
- LevelIN="NA"
- LevelOUT="NA"
- ModeIN="NA"
- ModeOUT="NA"
- TranslationRequired="FALSE"
- Name="Step1 - Setup"
- Guid="1e8a68a1-10e7-4fab-9454-c2ca0271a1e8"
->
-<SubSteps>
-<SubStep
- TimeDelay="NotDelayed"
- Name="Sub-step1 - Initialize test environment"
- Guid="c8af07cd-78c1-4f90-8ce1-a433264d752e"
->
-<Actions>
-<Action
- Guid="36eacec9-9312-43fc-b9e2-e958be491fc4"
->Testing.InitializeTestEnvironment
-(
-    aTrainPosition =&gt; 100.0,
-    aMode =&gt; ModeEnum.FS
-)</Action></Actions>
-</SubStep><SubStep
- TimeDelay="NotDelayed"
- Name="Sub-step2 - Initialize elements to receive MA"
- Guid="39f73505-f76f-4e7a-8773-812441aab469"
->
-<Actions>
-<Action
- Guid="9a7c466b-4c42-48c8-9dd7-3b7cf7aa0e66"
->Testing.InitializeElementsForMA()</Action></Actions>
-</SubStep></SubSteps>
-</Step><Step
- IO="NA"
- LevelIN="NA"
- LevelOUT="NA"
- ModeIN="NA"
- ModeOUT="NA"
- TranslationRequired="FALSE"
- Name="Step2 - ModeSR"
- Guid="72843ce1-3daa-4b37-b240-4765c1fd3d37"
->
-<SubSteps>
-<SubStep
- TimeDelay="NotDelayed"
- Name="Sub-step1"
- Guid="ae2e818b-7c30-4e0b-9caf-3725baf0b551"
->
-<Actions>
-<Action
- Guid="490821c8-1910-411c-9106-eab8f2a4aadb"
->Testing.SetSRMode(False)</Action></Actions>
-</SubStep></SubSteps>
-</Step><Step
- IO="NA"
- LevelIN="NA"
- LevelOUT="NA"
- ModeIN="NA"
- ModeOUT="NA"
- TranslationRequired="FALSE"
- Name="Step3 - BTM.Message ModeProfileSH"
- Guid="dfc896b4-d9e2-4e42-94f5-2f4cd742f898"
->
-<SubSteps>
-<SubStep
- TimeDelay="NotDelayed"
- Name="Sub-step1"
- Guid="7629d782-4325-4e8c-9c46-56c68403ffae"
->
-<Actions>
-<Action
- Guid="fd3e1617-20c8-4a5e-bcfa-fbfa5691fadc"
->BTM.Message.SystemVersion2 &lt;- Messages.EUROBALISE.Message
-{
-    Q_UPDOWN=&gt; Messages.Q_UPDOWN.Up_link_telegram,
-    M_VERSION=&gt;32,
-    Q_MEDIA=&gt;Messages.Q_MEDIA.Balise,
-    N_PIG=&gt;0,
-    N_TOTAL=&gt;0,
-    M_DUP=&gt;Messages.M_DUP.No_duplicates,
-    M_MCOUNT=&gt;4,
-    NID_C=&gt;140,
-    NID_BG=&gt;2124,
-    Q_LINK=&gt;Messages.Q_LINK.Unlinked,
-    Sequence1=&gt;
-    [ 
-       Messages.EUROBALISE.SubStructure1
-        {
-            TRACK_TO_TRAIN=&gt;Messages.PACKET.TRACK_TO_TRAIN.Message
-            {
-                MODE_PROFILE=&gt;Messages.PACKET.TRACK_TO_TRAIN.MODE_PROFILE.Message
-                {
-                   D_MAMODE=&gt;0,
-                   L_ACKMAMODE=&gt;500,
-                   L_MAMODE=&gt;100,
-                   L_PACKET=&gt;0,
-                   M_MAMODE=&gt;   Messages.M_MAMODE.Shunting,               
-                   N_ITER=&gt;0,
-                   NID_PACKET=&gt;80,
-                   Q_DIR=&gt; Messages.Q_DIR.Both_directions,
-                   Q_MAMODE=&gt; Messages.Q_MAMODE.as_both_the_EOA_and_SvL__instead_of_the_EOA_and_SvL_given_by_the_MA,
-                   Q_SCALE=&gt;Messages.Q_SCALE._1_m_scaleC,
-                   V_MAMODE=&gt;10,
-                   Sequence1=&gt;[] 
-               }
-          }
-      },
-       Messages.EUROBALISE.SubStructure1
-        {
-            TRACK_TO_TRAIN=&gt;Messages.PACKET.TRACK_TO_TRAIN.Message
-            {
-                 LEVEL_1_MOVEMENT_AUTHORITY=&gt;Messages.PACKET.TRACK_TO_TRAIN.LEVEL_1_MOVEMENT_AUTHORITY.Message
-                {
-                    NID_PACKET=&gt;12,
-                    Q_DIR=&gt;Messages.Q_DIR.Both_directions,
-                    L_PACKET=&gt;400,
-                    Q_SCALE=&gt;Messages.Q_SCALE._1_m_scaleC,
-                    V_MAIN=&gt;16,
-                    V_LOA=&gt;8,
-                    T_LOA=&gt;200,
-                    N_ITER=&gt;0,
-                    Sequence1=&gt;[],
-                    L_ENDSECTION=&gt;10000,
-                    Q_SECTIONTIMER=&gt;Messages.Q_SECTIONTIMER.No_Section_Timer_information,
-                    T_SECTIONTIMER=&gt;0,
-                    D_SECTIONTIMERSTOPLOC=&gt;0,
-                    Q_ENDTIMER=&gt;Messages.Q_ENDTIMER.No_End_section_timer_information,
-                    T_ENDTIMER=&gt;0,
-                    D_ENDTIMERSTARTLOC=&gt;0,
-                    Q_DANGERPOINT=&gt;Messages.Q_DANGERPOINT.Danger_point_information_to_follow,
-                    D_DP=&gt;12000,
-                    V_RELEASEDP=&gt;5,
-                    Q_OVERLAP=&gt;Messages.Q_OVERLAP.No_overlap_information,
-                    D_STARTOL=&gt;0,
-                    T_OL=&gt;0,
-                    D_OL=&gt;0,
-                    V_RELEASEOL=&gt;0
-                }
-            }
-         },
-           Messages.EUROBALISE.SubStructure1
-        {
-            TRACK_TO_TRAIN=&gt;Messages.PACKET.TRACK_TO_TRAIN.Message
-            {
-                               LIST_OF_BALISES_FOR_SH_AREA =&gt; Messages.PACKET.TRACK_TO_TRAIN.LIST_OF_BALISES_FOR_SH_AREA.Message
-                  {
-                      NID_PACKET =&gt; 49,
-                      Q_DIR =&gt; Messages.Q_DIR.Both_directions,
-                      L_PACKET =&gt; 0,
-                      N_ITER =&gt; 1,
-                      Sequence1 =&gt; 
-                              [
-                                 Messages.PACKET.TRACK_TO_TRAIN.LIST_OF_BALISES_FOR_SH_AREA.SubStructure1
-                                  {
-                                        NID_BG=&gt; 2124,
-                                        NID_C=&gt;140,
-                                        Q_NEWCOUNTRY=&gt;Messages.Q_NEWCOUNTRY.Same_country___railway_administration__no_NID_C_follows
-                                    }
-                              ]
-                   } 
-            }
-         }
-                ]
-}</Action><Action
- Guid="96806aa4-4c43-41fd-abb5-70459d02afe7"
->Kernel.Level.Value.Value &lt;- LevelEnum.L1</Action><Action
- Guid="7ab11c91-1ed6-4075-9e4f-339670218272"
->Kernel.Level.DataState &lt;- DataStateEnum.Valid</Action></Actions>
-</SubStep></SubSteps>
-</Step><Step
- IO="NA"
- LevelIN="NA"
- LevelOUT="NA"
- ModeIN="NA"
- ModeOUT="NA"
- TranslationRequired="FALSE"
- Name="Step4 - Mode Check"
- Guid="edb7d4f2-e844-4b24-a6a2-fd99556784db"
->
-<SubSteps>
-<SubStep
- TimeDelay="NotDelayed"
- Name="Sub-step1"
- Guid="3131d645-8b79-4a88-a031-2e1653cc10bd"
->
-<Expectations>
-<Expectation
- Kind="Instantaneous"
- DeadLine="1"
- Guid="1221095b-aa04-4c1e-9d2c-eb68a697acb9"
->Kernel.Mode == ModeEnum.SH</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step></Steps>
 </TestCase></TestCases>
@@ -3245,6 +3011,617 @@ SupervisionQualifier =&gt; Messages.Q_MAMODE.as_both_the_EOA_and_SvL__instead_of
  Kind="Instantaneous"
  DeadLine="1"
  Guid="085727ad-5b77-4dfc-85e9-f3ae4d55c78c"
+>Kernel.Mode == ModeEnum.SH</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase></TestCases>
+</SubSequence><SubSequence
+ D_LRBG=""
+ Level=""
+ Mode=""
+ NID_LRBG=""
+ Q_DIRLRBG=""
+ Q_DIRTRAIN=""
+ Q_DLRBG=""
+ RBC_ID=""
+ RBCPhone=""
+ Name="The Mode Profile can request OS Mode"
+ Guid="2a55ed72-d9f6-4619-b7fe-01e2a3e02596"
+>
+<TestCases>
+<TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ Name="OS Mode Profile received"
+ Guid="ccd88264-4f06-4553-9a6c-01ca917b5700"
+>
+<ReqRef
+ Id="cbef1165-fc33-4ac1-994e-5f8a83f5e225"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="762e4312-321a-4576-98b0-c0770d56ec12"
+>
+</ReqRef><ReqRef
+ Id="2ef2992f-43ce-4f58-abf6-55560cf910bd"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0c2e8799-449f-463d-a9c8-3bfc35aa6231"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Setup"
+ Guid="6987ec17-c6d1-4b5f-8022-23f0c370b2d1"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1 - Initialize test environment"
+ Guid="7b9d2fa2-9066-4b41-aab4-26b10610d55d"
+>
+<Actions>
+<Action
+ Guid="c8ded6f6-b54b-47fa-af26-0ac4b4854213"
+>Testing.InitializeTestEnvironment
+(
+    aTrainPosition =&gt; 100.0,
+    aMode =&gt; ModeEnum.FS
+)</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step2 - ModeSR"
+ Guid="3721a608-f0af-4d29-9f73-8bca8d865d62"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="9a40b15c-eb88-466b-a657-75c01df7dd9b"
+>
+<Actions>
+<Action
+ Guid="f2c57cdf-0dcf-4bb3-b962-004dbab1dee7"
+>Testing.SetSRMode(False)</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step3 - BTM.Message ModeProfile OS + Level.L1"
+ Guid="2fd4f08e-a34b-4d75-8b35-53d265ffc2a7"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="d07750ce-8cf5-4fe5-b649-d7051caae3b7"
+>
+<Actions>
+<Action
+ Guid="ae6a3f01-4fa8-404e-b174-7714383ff119"
+>BTM.Message.SystemVersion2 &lt;- Messages.EUROBALISE.Message
+{
+    Q_UPDOWN=&gt; Messages.Q_UPDOWN.Up_link_telegram,
+    M_VERSION=&gt;32,
+    Q_MEDIA=&gt;Messages.Q_MEDIA.Balise,
+    N_PIG=&gt;0,
+    N_TOTAL=&gt;0,
+    M_DUP=&gt;Messages.M_DUP.No_duplicates,
+    M_MCOUNT=&gt;4,
+    NID_C=&gt;140,
+    NID_BG=&gt;2124,
+    Q_LINK=&gt;Messages.Q_LINK.Unlinked,
+    Sequence1=&gt;
+    [ 
+       Messages.EUROBALISE.SubStructure1
+        {
+            TRACK_TO_TRAIN=&gt;Messages.PACKET.TRACK_TO_TRAIN.Message
+            {
+                MODE_PROFILE=&gt;Messages.PACKET.TRACK_TO_TRAIN.MODE_PROFILE.Message
+                {
+                   D_MAMODE=&gt;0,
+                   L_ACKMAMODE=&gt;500,
+                   L_MAMODE=&gt;100,
+                   L_PACKET=&gt;0,
+                   M_MAMODE=&gt;Messages.M_MAMODE.On_Sight,               
+                   N_ITER=&gt;0,
+                   NID_PACKET=&gt;80,
+                   Q_DIR=&gt; Messages.Q_DIR.Both_directions,
+                   Q_MAMODE=&gt; Messages.Q_MAMODE.as_both_the_EOA_and_SvL__instead_of_the_EOA_and_SvL_given_by_the_MA,
+                   Q_SCALE=&gt;Messages.Q_SCALE._1_m_scaleC,
+                   V_MAMODE=&gt;10,
+                   Sequence1=&gt;[] 
+                }
+           }
+               },
+ Messages.EUROBALISE.SubStructure1
+        {
+            TRACK_TO_TRAIN=&gt;Messages.PACKET.TRACK_TO_TRAIN.Message
+            {
+                 LEVEL_1_MOVEMENT_AUTHORITY=&gt;Messages.PACKET.TRACK_TO_TRAIN.LEVEL_1_MOVEMENT_AUTHORITY.Message
+                {
+                    NID_PACKET=&gt;12,
+                    Q_DIR=&gt;Messages.Q_DIR.Both_directions,
+                    L_PACKET=&gt;400,
+                    Q_SCALE=&gt;Messages.Q_SCALE._1_m_scaleC,
+                    V_MAIN=&gt;16,
+                    V_LOA=&gt;8,
+                    T_LOA=&gt;200,
+                    N_ITER=&gt;0,
+                    Sequence1=&gt;[],
+                    L_ENDSECTION=&gt;1000,
+                    Q_SECTIONTIMER=&gt;Messages.Q_SECTIONTIMER.No_Section_Timer_information,
+                    T_SECTIONTIMER=&gt;0,
+                    D_SECTIONTIMERSTOPLOC=&gt;0,
+                    Q_ENDTIMER=&gt;Messages.Q_ENDTIMER.No_End_section_timer_information,
+                    T_ENDTIMER=&gt;0,
+                    D_ENDTIMERSTARTLOC=&gt;0,
+                    Q_DANGERPOINT=&gt;Messages.Q_DANGERPOINT.Danger_point_information_to_follow,
+                    D_DP=&gt;12000,
+                    V_RELEASEDP=&gt;5,
+                    Q_OVERLAP=&gt;Messages.Q_OVERLAP.No_overlap_information,
+                    D_STARTOL=&gt;0,
+                    T_OL=&gt;0,
+                    D_OL=&gt;0,
+                    V_RELEASEOL=&gt;0
+                }
+            }
+         }
+                           ]
+}</Action><Action
+ Guid="74c3d78a-6ba4-47c3-8329-689a10773c47"
+>Kernel.Level.DataState &lt;- DataStateEnum.Valid</Action><Action
+ Guid="a676a454-eef5-456c-a111-f4bb49fea9d5"
+>Kernel.Level.Value.Value &lt;- LevelEnum.L1</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step4 - Mode Check"
+ Guid="9f4aa9c3-b764-42e4-aadc-9452b209d121"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="cac622dd-4cd1-4829-9340-5f03024b2a07"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="ab028293-2b83-468d-acfc-15e0548ee31b"
+>Kernel.Mode == ModeEnum.OS</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="180f03e6-86ac-4f0e-bb56-88e855f0e428"
+>Kernel.MA.ModeProfile.CurrentMode() == ModeEnum.ModeProfile.OS</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase></TestCases>
+</SubSequence><SubSequence
+ D_LRBG=""
+ Level=""
+ Mode=""
+ NID_LRBG=""
+ Q_DIRLRBG=""
+ Q_DIRTRAIN=""
+ Q_DLRBG=""
+ RBC_ID=""
+ RBCPhone=""
+ Name="The ModeProfile can request LS Mode"
+ Guid="915bda91-17d5-4be8-bc11-fd4e38b3187d"
+>
+<TestCases>
+<TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ Name="LS Mode Profile received"
+ Guid="4b33409c-c8c0-4112-bea3-27f19cc84405"
+>
+<ReqRef
+ Id="cbef1165-fc33-4ac1-994e-5f8a83f5e225"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b961ff9c-7785-4ade-b2c4-992d9eedac02"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Setup"
+ Guid="9dd050ab-b411-45e9-a5a8-8848b63b1665"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1 - Initialize test environment"
+ Guid="921b9d0b-5e63-427a-9de9-9c997bcb5c22"
+>
+<Actions>
+<Action
+ Guid="f358eae4-295d-439a-b327-4b13f0875b28"
+>Testing.InitializeTestEnvironment
+(
+    aTrainPosition =&gt; 100.0,
+    aMode =&gt; ModeEnum.FS
+)</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step2 - ModeSR"
+ Guid="94f90593-ed34-4bd4-9e73-40c012660f73"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="be4a041d-3fbe-4d9d-8d52-29dfa6491aaf"
+>
+<Actions>
+<Action
+ Guid="a0525c1c-de56-4d44-b52c-b1a5bab7037f"
+>Testing.SetSRMode(False)</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step3 - BTM.Message ModeProfile LS + Level.L1"
+ Guid="64600652-fc84-41e4-858b-b4446e0989f1"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="360eb4df-9e04-474c-8139-5fec20311591"
+>
+<Actions>
+<Action
+ Guid="28a25905-eeae-4f7b-bf3e-071e779d2d8d"
+>BTM.Message.SystemVersion2 &lt;- Messages.EUROBALISE.Message
+{
+    Q_UPDOWN=&gt; Messages.Q_UPDOWN.Up_link_telegram,
+    M_VERSION=&gt;32,
+    Q_MEDIA=&gt;Messages.Q_MEDIA.Balise,
+    N_PIG=&gt;0,
+    N_TOTAL=&gt;0,
+    M_DUP=&gt;Messages.M_DUP.No_duplicates,
+    M_MCOUNT=&gt;4,
+    NID_C=&gt;140,
+    NID_BG=&gt;2124,
+    Q_LINK=&gt;Messages.Q_LINK.Unlinked,
+    Sequence1=&gt;
+    [ 
+       Messages.EUROBALISE.SubStructure1
+        {
+            TRACK_TO_TRAIN=&gt;Messages.PACKET.TRACK_TO_TRAIN.Message
+            {
+                MODE_PROFILE=&gt;Messages.PACKET.TRACK_TO_TRAIN.MODE_PROFILE.Message
+                {
+                   D_MAMODE=&gt;0,
+                   L_ACKMAMODE=&gt;500,
+                   L_MAMODE=&gt;100,
+                   L_PACKET=&gt;0,
+                   M_MAMODE=&gt;Messages.M_MAMODE.Limited_Supervision,               
+                   N_ITER=&gt;0,
+                   NID_PACKET=&gt;80,
+                   Q_DIR=&gt; Messages.Q_DIR.Both_directions,
+                   Q_MAMODE=&gt; Messages.Q_MAMODE.as_both_the_EOA_and_SvL__instead_of_the_EOA_and_SvL_given_by_the_MA,
+                   Q_SCALE=&gt;Messages.Q_SCALE._1_m_scaleC,
+                   V_MAMODE=&gt;10,
+                   Sequence1=&gt;[] 
+                }
+           }
+               },
+ Messages.EUROBALISE.SubStructure1
+        {
+            TRACK_TO_TRAIN=&gt;Messages.PACKET.TRACK_TO_TRAIN.Message
+            {
+                 LEVEL_1_MOVEMENT_AUTHORITY=&gt;Messages.PACKET.TRACK_TO_TRAIN.LEVEL_1_MOVEMENT_AUTHORITY.Message
+                {
+                    NID_PACKET=&gt;12,
+                    Q_DIR=&gt;Messages.Q_DIR.Both_directions,
+                    L_PACKET=&gt;400,
+                    Q_SCALE=&gt;Messages.Q_SCALE._1_m_scaleC,
+                    V_MAIN=&gt;16,
+                    V_LOA=&gt;8,
+                    T_LOA=&gt;200,
+                    N_ITER=&gt;0,
+                    Sequence1=&gt;[],
+                    L_ENDSECTION=&gt;1000,
+                    Q_SECTIONTIMER=&gt;Messages.Q_SECTIONTIMER.No_Section_Timer_information,
+                    T_SECTIONTIMER=&gt;0,
+                    D_SECTIONTIMERSTOPLOC=&gt;0,
+                    Q_ENDTIMER=&gt;Messages.Q_ENDTIMER.No_End_section_timer_information,
+                    T_ENDTIMER=&gt;0,
+                    D_ENDTIMERSTARTLOC=&gt;0,
+                    Q_DANGERPOINT=&gt;Messages.Q_DANGERPOINT.Danger_point_information_to_follow,
+                    D_DP=&gt;12000,
+                    V_RELEASEDP=&gt;5,
+                    Q_OVERLAP=&gt;Messages.Q_OVERLAP.No_overlap_information,
+                    D_STARTOL=&gt;0,
+                    T_OL=&gt;0,
+                    D_OL=&gt;0,
+                    V_RELEASEOL=&gt;0
+                }
+            }
+         }
+                           ]
+}</Action><Action
+ Guid="c7e1a96c-8027-45b0-bea3-459324b4fcf8"
+>Kernel.Level.Value.Value &lt;- LevelEnum.L1</Action><Action
+ Guid="5ff1b196-a35a-4fb9-b795-a9b62bbff45b"
+>Kernel.Level.DataState &lt;- DataStateEnum.Valid</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step4 - Mode Check"
+ Guid="7ede0f2c-7d42-40a2-8a74-8bc7d136df0e"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="d2d31652-31b0-47ed-8d4f-e50c8b997d0d"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="e7b92ed9-255a-4797-bbd0-f6479381d2b3"
+>Kernel.Mode == ModeEnum.LS</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="3c72bfee-3386-46e2-a622-680ad76e65b9"
+>Kernel.MA.ModeProfile.CurrentMode() == ModeEnum.ModeProfile.LS</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase></TestCases>
+</SubSequence><SubSequence
+ D_LRBG=""
+ Level=""
+ Mode=""
+ NID_LRBG=""
+ Q_DIRLRBG=""
+ Q_DIRTRAIN=""
+ Q_DLRBG=""
+ RBC_ID=""
+ RBCPhone=""
+ Name="The ModeProfile can request SH Mode"
+ Guid="5725a1f1-2db7-4872-ae7b-dcaabe98891c"
+>
+<TestCases>
+<TestCase
+ Feature="0"
+ Case="0"
+ Implemented="TRUE"
+ Name="SH Mode Profile received"
+ Guid="be69de3e-c9d4-4b77-a51d-c08ae49f5f81"
+>
+<ReqRef
+ Id="cbef1165-fc33-4ac1-994e-5f8a83f5e225"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="81317d1e-61f1-45f8-b283-87f81b600b53"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Setup"
+ Guid="1e8a68a1-10e7-4fab-9454-c2ca0271a1e8"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1 - Initialize test environment"
+ Guid="c8af07cd-78c1-4f90-8ce1-a433264d752e"
+>
+<Actions>
+<Action
+ Guid="36eacec9-9312-43fc-b9e2-e958be491fc4"
+>Testing.InitializeTestEnvironment
+(
+    aTrainPosition =&gt; 100.0,
+    aMode =&gt; ModeEnum.FS
+)</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step2 - ModeSR"
+ Guid="72843ce1-3daa-4b37-b240-4765c1fd3d37"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="ae2e818b-7c30-4e0b-9caf-3725baf0b551"
+>
+<Actions>
+<Action
+ Guid="490821c8-1910-411c-9106-eab8f2a4aadb"
+>Testing.SetSRMode(False)</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step3 - BTM.Message ModeProfileSH"
+ Guid="dfc896b4-d9e2-4e42-94f5-2f4cd742f898"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="7629d782-4325-4e8c-9c46-56c68403ffae"
+>
+<Actions>
+<Action
+ Guid="fd3e1617-20c8-4a5e-bcfa-fbfa5691fadc"
+>BTM.Message.SystemVersion2 &lt;- Messages.EUROBALISE.Message
+{
+    Q_UPDOWN=&gt; Messages.Q_UPDOWN.Up_link_telegram,
+    M_VERSION=&gt;32,
+    Q_MEDIA=&gt;Messages.Q_MEDIA.Balise,
+    N_PIG=&gt;0,
+    N_TOTAL=&gt;0,
+    M_DUP=&gt;Messages.M_DUP.No_duplicates,
+    M_MCOUNT=&gt;4,
+    NID_C=&gt;140,
+    NID_BG=&gt;2124,
+    Q_LINK=&gt;Messages.Q_LINK.Unlinked,
+    Sequence1=&gt;
+    [ 
+       Messages.EUROBALISE.SubStructure1
+        {
+            TRACK_TO_TRAIN=&gt;Messages.PACKET.TRACK_TO_TRAIN.Message
+            {
+                MODE_PROFILE=&gt;Messages.PACKET.TRACK_TO_TRAIN.MODE_PROFILE.Message
+                {
+                   D_MAMODE=&gt;0,
+                   L_ACKMAMODE=&gt;500,
+                   L_MAMODE=&gt;100,
+                   L_PACKET=&gt;0,
+                   M_MAMODE=&gt;   Messages.M_MAMODE.Shunting,               
+                   N_ITER=&gt;0,
+                   NID_PACKET=&gt;80,
+                   Q_DIR=&gt; Messages.Q_DIR.Both_directions,
+                   Q_MAMODE=&gt; Messages.Q_MAMODE.as_both_the_EOA_and_SvL__instead_of_the_EOA_and_SvL_given_by_the_MA,
+                   Q_SCALE=&gt;Messages.Q_SCALE._1_m_scaleC,
+                   V_MAMODE=&gt;10,
+                   Sequence1=&gt;[] 
+               }
+          }
+      },
+       Messages.EUROBALISE.SubStructure1
+        {
+            TRACK_TO_TRAIN=&gt;Messages.PACKET.TRACK_TO_TRAIN.Message
+            {
+                 LEVEL_1_MOVEMENT_AUTHORITY=&gt;Messages.PACKET.TRACK_TO_TRAIN.LEVEL_1_MOVEMENT_AUTHORITY.Message
+                {
+                    NID_PACKET=&gt;12,
+                    Q_DIR=&gt;Messages.Q_DIR.Both_directions,
+                    L_PACKET=&gt;400,
+                    Q_SCALE=&gt;Messages.Q_SCALE._1_m_scaleC,
+                    V_MAIN=&gt;16,
+                    V_LOA=&gt;8,
+                    T_LOA=&gt;200,
+                    N_ITER=&gt;0,
+                    Sequence1=&gt;[],
+                    L_ENDSECTION=&gt;10000,
+                    Q_SECTIONTIMER=&gt;Messages.Q_SECTIONTIMER.No_Section_Timer_information,
+                    T_SECTIONTIMER=&gt;0,
+                    D_SECTIONTIMERSTOPLOC=&gt;0,
+                    Q_ENDTIMER=&gt;Messages.Q_ENDTIMER.No_End_section_timer_information,
+                    T_ENDTIMER=&gt;0,
+                    D_ENDTIMERSTARTLOC=&gt;0,
+                    Q_DANGERPOINT=&gt;Messages.Q_DANGERPOINT.Danger_point_information_to_follow,
+                    D_DP=&gt;12000,
+                    V_RELEASEDP=&gt;5,
+                    Q_OVERLAP=&gt;Messages.Q_OVERLAP.No_overlap_information,
+                    D_STARTOL=&gt;0,
+                    T_OL=&gt;0,
+                    D_OL=&gt;0,
+                    V_RELEASEOL=&gt;0
+                }
+            }
+         },
+           Messages.EUROBALISE.SubStructure1
+        {
+            TRACK_TO_TRAIN=&gt;Messages.PACKET.TRACK_TO_TRAIN.Message
+            {
+                               LIST_OF_BALISES_FOR_SH_AREA =&gt; Messages.PACKET.TRACK_TO_TRAIN.LIST_OF_BALISES_FOR_SH_AREA.Message
+                  {
+                      NID_PACKET =&gt; 49,
+                      Q_DIR =&gt; Messages.Q_DIR.Both_directions,
+                      L_PACKET =&gt; 0,
+                      N_ITER =&gt; 1,
+                      Sequence1 =&gt; 
+                              [
+                                 Messages.PACKET.TRACK_TO_TRAIN.LIST_OF_BALISES_FOR_SH_AREA.SubStructure1
+                                  {
+                                        NID_BG=&gt; 2124,
+                                        NID_C=&gt;140,
+                                        Q_NEWCOUNTRY=&gt;Messages.Q_NEWCOUNTRY.Same_country___railway_administration__no_NID_C_follows
+                                    }
+                              ]
+                   } 
+            }
+         }
+                ]
+}</Action><Action
+ Guid="96806aa4-4c43-41fd-abb5-70459d02afe7"
+>Kernel.Level.Value.Value &lt;- LevelEnum.L1</Action><Action
+ Guid="7ab11c91-1ed6-4075-9e4f-339670218272"
+>Kernel.Level.DataState &lt;- DataStateEnum.Valid</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step4 - Mode Check"
+ Guid="edb7d4f2-e844-4b24-a6a2-fd99556784db"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="3131d645-8b79-4a88-a031-2e1653cc10bd"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="1221095b-aa04-4c1e-9d2c-eb68a697acb9"
 >Kernel.Mode == ModeEnum.SH</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step></Steps>

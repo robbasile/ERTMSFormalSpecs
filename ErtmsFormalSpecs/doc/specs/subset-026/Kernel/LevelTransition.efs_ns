@@ -372,6 +372,11 @@
  Name="aScale"
  Guid="7e133d04-9468-42a1-86a4-46abfc9a6853"
 >
+</Parameter><Parameter
+ Type="BaseTypes.Distance"
+ Name="aDistanceFromRef"
+ Guid="6dd5a855-6f98-4ab0-b21a-b3717c42ab72"
+>
 </Parameter></Parameters>
 <Cases>
 <Case
@@ -387,7 +392,7 @@
  Name="Otherwise"
  Guid="a0f2f271-9086-4966-8579-24238c7e2adb"
 >
-<Expression>MessageTypes.QScaleDistance ( distance =&gt; aDistance, scale =&gt; aScale )</Expression>
+<Expression>aDistanceFromRef + MessageTypes.QScaleDistance ( distance =&gt; aDistance, scale =&gt; aScale )</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -544,7 +549,7 @@
 <Rule
  Priority="Processing"
  Implemented="TRUE"
- Name="Add new level transition oder"
+ Name="Add new level transition order"
  Guid="3cef57c0-1b62-417d-9593-f4ea8e6ab7e6"
 >
 <SubRules></SubRules>
@@ -644,6 +649,11 @@ IN  Kernel.LevelTransition.LevelTransitionOrder.LevelAndLength</Action></Actions
  Name="Packet"
  Guid="44953883-e910-4506-ae5f-d113f72e9bf9"
 >
+</Parameter><Parameter
+ Type="BaseTypes.Distance"
+ Name="aDistanceFromRef"
+ Guid="aa908325-2a02-4afb-91af-dde15293e4e8"
+>
 </Parameter></Parameters>
 <Rules>
 <Rule
@@ -694,7 +704,7 @@ Packet.D_LEVELTR == 32767</PreCondition></PreConditions>
 {
   CurrentLevel =&gt; Level.Value,
   PositionReportSent =&gt; False,
-  Location =&gt; ComputeLTODistance ( aDistance =&gt; Packet.D_LEVELTR, aScale =&gt; Packet.Q_SCALE ),
+  Location =&gt; ComputeLTODistance ( aDistance =&gt; Packet.D_LEVELTR, aScale =&gt; Packet.Q_SCALE, aDistanceFromRef =&gt; aDistanceFromRef ),
   LevelAndLength =&gt; 
   [ 
       LevelTransitionStruct { 

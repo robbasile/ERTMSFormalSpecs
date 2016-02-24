@@ -1588,6 +1588,11 @@
  Name="aPacket"
  Guid="635c45e3-4045-4c16-9608-0ccc98b7f4cf"
 >
+</Parameter><Parameter
+ Type="BaseTypes.Distance"
+ Name="aDistanceFromRef"
+ Guid="580b51d9-abf3-47b9-9203-68af20cb9f59"
+>
 </Parameter></Parameters>
 <Cases>
 <Case
@@ -1600,6 +1605,7 @@
   FulfillAllTheEvents =&gt; Q_TEXTDISPLAYToBoolean( aValue =&gt; aPacket.Q_TEXTDISPLAY ),
   Location =&gt; ConvertLocation
   (
+    aDistanceFromRef =&gt; aDistanceFromRef,
     aLocation =&gt; aPacket.D_TEXTDISPLAY,
     aScale =&gt; aPacket.Q_SCALE
   ),
@@ -1737,6 +1743,11 @@
  Name="aPacket"
  Guid="0935e5cf-1013-4e3f-a4be-5e8d0f36ee61"
 >
+</Parameter><Parameter
+ Type="BaseTypes.Distance"
+ Name="aDistanceFromRef"
+ Guid="6d113b64-d297-47db-abb7-4fabaee68e0f"
+>
 </Parameter></Parameters>
 <Cases>
 <Case
@@ -1749,6 +1760,7 @@
   FulfillAllTheEvents =&gt; Q_TEXTDISPLAYToBoolean( aValue =&gt; aPacket.Q_TEXTDISPLAY ),
   Location =&gt; ConvertLocation
   (
+    aDistanceFromRef =&gt; aDistanceFromRef,
     aLocation =&gt; aPacket.D_TEXTDISPLAY,
     aScale =&gt; aPacket.Q_SCALE
   ),
@@ -2950,6 +2962,11 @@ AckConditionSatisfied( aMessage=&gt; aMessage )</Expression>
  Name="aScale"
  Guid="79a09796-851e-4acd-8cf5-ce51c9e313de"
 >
+</Parameter><Parameter
+ Type="BaseTypes.Distance"
+ Name="aDistanceFromRef"
+ Guid="0443db5c-caea-4500-875b-d1a2b82505bf"
+>
 </Parameter></Parameters>
 <Cases>
 <Case
@@ -2960,8 +2977,7 @@ AckConditionSatisfied( aMessage=&gt; aMessage )</Expression>
 <PreCondition
  Guid="4ff4258b-e553-48e4-a48b-5432c6c704bd"
 >aLocation != 32767</PreCondition></PreConditions>
-<Expression>MessageTypes.QScaleDistance
-(
+<Expression>aDistanceFromRef + MessageTypes.QScaleDistance(
   distance =&gt; aLocation,
   scale =&gt; aScale
 )</Expression>
@@ -3414,6 +3430,11 @@ IN aMessage</Expression>
  Name="aPacket"
  Guid="681ee632-05ca-4fdf-a52f-2de3e1701cb3"
 >
+</Parameter><Parameter
+ Type="BaseTypes.Distance"
+ Name="aDistanceFromRef"
+ Guid="143aebd2-185a-4b41-be6a-3e7b7388830e"
+>
 </Parameter></Parameters>
 <Rules>
 <Rule
@@ -3437,7 +3458,7 @@ IN aMessage</Expression>
 <Action
  Guid="d6061559-c7de-402a-af86-fd675cfe5e2a"
 >INSERT
-  CreatePlainTextMessage( aPacket =&gt; aPacket)
+  CreatePlainTextMessage( aPacket =&gt; aPacket, aDistanceFromRef =&gt; aDistanceFromRef )
 IN
   PlainTextMessages</Action></Actions>
 <SubRules>
@@ -3498,6 +3519,11 @@ IN
  Name="aPacket"
  Guid="52663d86-4e35-4bb5-a006-dfe0bcf16055"
 >
+</Parameter><Parameter
+ Type="BaseTypes.Distance"
+ Name="aDistanceFromRef"
+ Guid="1005fd50-3b16-4daa-abc8-bb092bc28eca"
+>
 </Parameter></Parameters>
 <Rules>
 <Rule
@@ -3521,7 +3547,7 @@ IN
 <Action
  Guid="f403db65-1f85-45bd-a379-c9f84fe8a63a"
 >INSERT
-  CreateFixedTextMessage( aPacket =&gt; aPacket)
+  CreateFixedTextMessage( aPacket =&gt; aPacket, aDistanceFromRef =&gt; aDistanceFromRef )
 IN
   FixedTextMessages</Action></Actions>
 <SubRules>

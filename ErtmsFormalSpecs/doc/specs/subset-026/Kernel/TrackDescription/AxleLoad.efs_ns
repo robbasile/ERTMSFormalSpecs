@@ -604,6 +604,11 @@ USING X IN
  Name="Packet"
  Guid="39f1c63f-4621-4a8b-87e3-7a0f079235ff"
 >
+</Parameter><Parameter
+ Type="BaseTypes.Distance"
+ Name="aDistanceFromRef"
+ Guid="b23d1f6f-44d0-4a38-abbf-305aef66f2ee"
+>
 </Parameter></Parameters>
 <Rules>
 <Rule
@@ -643,7 +648,7 @@ USING X IN
  Guid="f0af1c31-9fef-4462-8e7c-c02a1a4f3762"
 >Kernel.TrackDescription.AxleLoad.ASP.InitialState &lt;- Packet.Q_TRACKINIT</Action><Action
  Guid="dcd0948f-6491-43bd-bf4a-c6a4af622dda"
->Kernel.TrackDescription.AxleLoad.ASP.EmptyProfileDistance &lt;- MessageTypes.QScaleDistance ( distance =&gt; Packet.D_TRACKINIT, scale =&gt; Packet.Q_SCALE )</Action></Actions>
+>Kernel.TrackDescription.AxleLoad.ASP.EmptyProfileDistance &lt;- aDistanceFromRef + MessageTypes.QScaleDistance ( distance =&gt; Packet.D_TRACKINIT, scale =&gt; Packet.Q_SCALE )</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  NeedsRequirement="FALSE"
@@ -660,7 +665,7 @@ USING X IN
 <Actions>
 <Action
  Guid="ed03174f-9bce-4ab2-ab99-5381a1db832c"
->Kernel.TrackDescription.AxleLoad.HandleNewAxleLoadProfile(Packet)</Action></Actions>
+>Kernel.TrackDescription.AxleLoad.HandleNewAxleLoadProfile(Packet, aDistanceFromRef)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -740,6 +745,11 @@ IN
  Name="Packet"
  Guid="7c1806e0-6b0d-4d1c-837e-4af418170b2c"
 >
+</Parameter><Parameter
+ Type="BaseTypes.Distance"
+ Name="aDistanceFromRef"
+ Guid="cbcaab1a-ddee-4957-b1b1-4fa9a8548831"
+>
 </Parameter></Parameters>
 <Rules>
 <Rule
@@ -773,7 +783,7 @@ IN
 <Actions>
 <Action
  Guid="716a507b-9034-4bd8-871a-e4a4ea4c05f2"
->REMOVE ALL X.Location &gt;= MessageTypes.QScaleDistance ( distance =&gt; Packet.D_AXLELOAD, scale =&gt; Packet.Q_SCALE ) IN ASP.ALs</Action></Actions>
+>REMOVE ALL X.Location &gt;= aDistanceFromRef + MessageTypes.QScaleDistance ( distance =&gt; Packet.D_AXLELOAD, scale =&gt; Packet.Q_SCALE ) IN ASP.ALs</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -819,7 +829,7 @@ IN
 >INSERT
   Kernel.TrackDescription.AxleLoad.CreateFirstAxleLoad
   (
-    NextLocation =&gt; MessageTypes.QScaleDistance ( distance =&gt; Packet.D_AXLELOAD, scale =&gt; Packet.Q_SCALE ),
+    NextLocation =&gt; aDistanceFromRef + MessageTypes.QScaleDistance ( distance =&gt; Packet.D_AXLELOAD, scale =&gt; Packet.Q_SCALE ),
     AxleLoadLength =&gt; MessageTypes.QScaleLength ( length =&gt; Packet.L_AXLELOAD, scale =&gt; Packet.Q_SCALE ),
     TrainLengthDelay =&gt; Packet.Q_FRONT,
     AxleLoadValues =&gt; Packet.Sequence1
@@ -857,7 +867,7 @@ IN
  Guid="08c6ad9c-fe0e-4fae-ba8a-a0a882d8adc1"
 >APPLY
     Kernel.TrackDescription.AxleLoad.AddAxleLoad ( anAxleLoad =&gt; X,
-                            Distance =&gt; Kernel.TrackDescription.AxleLoad.AbsoluteDistance ( AxleLoads =&gt; Packet.Sequence3, anAxleLoad =&gt; X, Scale =&gt; Packet.Q_SCALE) + MessageTypes.QScaleDistance ( distance =&gt; Packet.D_AXLELOAD, scale =&gt; Packet.Q_SCALE),
+                            Distance =&gt; aDistanceFromRef + Kernel.TrackDescription.AxleLoad.AbsoluteDistance ( AxleLoads =&gt; Packet.Sequence3, anAxleLoad =&gt; X, Scale =&gt; Packet.Q_SCALE) + MessageTypes.QScaleDistance ( distance =&gt; Packet.D_AXLELOAD, scale =&gt; Packet.Q_SCALE),
                             Scale =&gt; Packet.Q_SCALE )
 ON
     Packet.Sequence3</Action></Actions>

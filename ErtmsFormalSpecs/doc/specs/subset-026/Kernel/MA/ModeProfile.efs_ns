@@ -729,6 +729,11 @@ aProfile.Mode == ModeEnum.ModeProfile.LS</PreCondition></PreConditions>
  Name="GenericLSMarker"
  Guid="35fc88c4-2b37-44da-a0d2-1ff900415967"
 >
+</Parameter><Parameter
+ Type="BaseTypes.Distance"
+ Name="aDistanceFromRef"
+ Guid="798b3d9e-24be-4f30-81d1-326708b557d4"
+>
 </Parameter></Parameters>
 <Rules>
 <Rule
@@ -759,7 +764,8 @@ aProfile.Mode == ModeEnum.ModeProfile.LS</PreCondition></PreConditions>
     V_MAMODE =&gt; Packet.V_MAMODE,
     Q_MAMODE =&gt; Packet.Q_MAMODE,
     Q_SCALE =&gt; Packet.Q_SCALE,
-    GenericLSMarker =&gt; GenericLSMarker
+    GenericLSMarker =&gt; GenericLSMarker,
+    aDistanceFromRef =&gt; aDistanceFromRef
 )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
@@ -791,7 +797,8 @@ aProfile.Mode == ModeEnum.ModeProfile.LS</PreCondition></PreConditions>
         V_MAMODE =&gt; X.V_MAMODE,
         Q_MAMODE =&gt; X.Q_MAMODE,
         Q_SCALE =&gt; Packet.Q_SCALE,
-        GenericLSMarker =&gt; GenericLSMarker
+        GenericLSMarker =&gt; GenericLSMarker,
+        aDistanceFromRef =&gt; aDistanceFromRef
     )
 ON
     Packet.Sequence1</Action></Actions>
@@ -889,6 +896,11 @@ ON
  Name="GenericLSMarker"
  Guid="c567c2c9-e49e-4c15-ace1-4d019f4ff251"
 >
+</Parameter><Parameter
+ Type="BaseTypes.Distance"
+ Name="aDistanceFromRef"
+ Guid="5cfaadaf-bda0-4acf-a6e6-0d962a868845"
+>
 </Parameter></Parameters>
 <Rules>
 <Rule
@@ -950,7 +962,7 @@ IN
     Kernel.MA.ModeProfile.ModeProfileStruct
     {
         AcknLength =&gt; MessageTypes.QScaleLength ( length =&gt; L_ACKMAMODE, scale =&gt; Q_SCALE ),
-        Location =&gt; MessageTypes.QScaleDistance ( distance =&gt; D_MAMODE, scale =&gt; Q_SCALE ),
+        Location =&gt; aDistanceFromRef + MessageTypes.QScaleDistance ( distance =&gt; D_MAMODE, scale =&gt; Q_SCALE ),
         Length =&gt; BaseTypes.Length.NA,
         Mode =&gt; ERTMS_To_EFS_Mode ( M_MAMODE ),
         Speed =&gt; MessageTypes.SpeedResolution ( speed =&gt; V_MAMODE, resolution =&gt; 5.0 ),
@@ -1034,7 +1046,7 @@ IN
     Kernel.MA.ModeProfile.ModeProfileStruct
     {
         AcknLength =&gt; MessageTypes.QScaleLength ( length =&gt; L_ACKMAMODE, scale =&gt; Q_SCALE ),
-        Location =&gt; MessageTypes.QScaleDistance ( distance =&gt; D_MAMODE, scale =&gt; Q_SCALE ),
+        Location =&gt; aDistanceFromRef + MessageTypes.QScaleDistance ( distance =&gt; D_MAMODE, scale =&gt; Q_SCALE ),
         Length =&gt; MessageTypes.QScaleLength ( length =&gt; L_MAMODE, scale =&gt; Q_SCALE ),
         Mode =&gt; ERTMS_To_EFS_Mode ( M_MAMODE ),
         Speed =&gt; GetSpeedResolution(V_MAMODE),

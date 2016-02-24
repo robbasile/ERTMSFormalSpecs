@@ -1676,5 +1676,250 @@ BTM.StoredBaliseStruct
 </SubStep></SubSteps>
 </Step></Steps>
 </TestCase></TestCases>
+</SubSequence><SubSequence
+ D_LRBG=""
+ Level=""
+ Mode=""
+ NID_LRBG=""
+ Q_DIRLRBG=""
+ Q_DIRTRAIN=""
+ Q_DLRBG=""
+ RBC_ID=""
+ RBCPhone=""
+ Name="Balise reception, unlinked BG with information to do SR -&gt; FS"
+ Guid="17be7778-793c-4a80-9899-c9806bee2276"
+>
+<TestCases>
+<TestCase
+ Name="Configuration"
+ Guid="58f7cc3e-094e-44ff-a004-b9e4845f431d"
+>
+<Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Setup"
+ Guid="631c5144-441b-41b9-b729-f57672a29123"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep1"
+ Guid="fc01d892-7109-4f84-9022-ae7d70eae5fd"
+>
+<Actions>
+<Action
+ Guid="1365ed4c-7445-4519-bbfe-34b9b0be7b25"
+>Testing.InitializeTestEnvironment(
+    aTrainPosition =&gt; 250.0,
+    aMode =&gt; Default.ModeEnum.SR
+)</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Delete the LRBG"
+ Guid="6e9b4669-52b8-42f6-8137-63c5c24fefa9"
+>
+<Actions>
+<Action
+ Guid="d5eb7d56-2495-46dd-8fce-432632fbd516"
+>BTM.LRBG &lt;- EMPTY</Action></Actions>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Name="Receive Unlinked BG"
+ Guid="924fcde7-362a-44ba-b3a1-e946abb10dc8"
+>
+<Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Receive BG"
+ Guid="8015f0b2-9515-4810-b511-93de2db6acb4"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Balise telegram 1"
+ Guid="4f281a8b-d6d9-4d15-9bdc-f32b0b909b5e"
+>
+<Actions>
+<Action
+ Guid="8156da0f-e28d-4ad3-b880-f6fde4a992f7"
+>BTM.Message.SystemVersion2 &lt;- Messages.EUROBALISE.Message
+{
+  Q_UPDOWN =&gt; Messages.Q_UPDOWN.Up_link_telegram, 
+  M_VERSION =&gt; Messages.M_VERSION.Version_2_0__introduced_in_SRS_3_0_0, 
+  Q_MEDIA =&gt; Messages.Q_MEDIA.Balise, 
+  N_PIG =&gt; 0, 
+  N_TOTAL =&gt; 1, 
+  M_DUP =&gt; Messages.M_DUP.No_duplicates, 
+  M_MCOUNT =&gt; Messages.M_MCOUNT.The_telegram_fits_with_all_telegrams_of_the_same_balise_group, 
+  NID_C =&gt; 81, 
+  NID_BG =&gt; 1567, 
+  Q_LINK =&gt; Messages.Q_LINK.Unlinked, 
+  Sequence1 =&gt; [Messages.EUROBALISE.SubStructure1
+    {
+      TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message
+      {
+        LEVEL_1_MOVEMENT_AUTHORITY =&gt; Messages.PACKET.TRACK_TO_TRAIN.LEVEL_1_MOVEMENT_AUTHORITY.Message
+        {
+          NID_PACKET =&gt; 12, 
+          Q_DIR =&gt; Messages.Q_DIR.Nominal, 
+          L_PACKET =&gt; 0, 
+          Q_SCALE =&gt; Messages.Q_SCALE._1_m_scaleC, 
+          V_MAIN =&gt; 40, 
+          V_LOA =&gt; 0, 
+          T_LOA =&gt; 0, 
+          N_ITER =&gt; 0, 
+          Sequence1 =&gt; [], 
+          L_ENDSECTION =&gt; 1200, 
+          Q_SECTIONTIMER =&gt; Messages.Q_SECTIONTIMER.No_Section_Timer_information, 
+          Q_ENDTIMER =&gt; Messages.Q_ENDTIMER.No_End_section_timer_information, 
+          Q_DANGERPOINT =&gt; Messages.Q_DANGERPOINT.No_danger_point_information, 
+          Q_OVERLAP =&gt; Messages.Q_OVERLAP.No_overlap_information
+        }
+      }
+    }, Messages.EUROBALISE.SubStructure1
+    {
+      TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message
+      {
+        GRADIENT_PROFILE =&gt; Messages.PACKET.TRACK_TO_TRAIN.GRADIENT_PROFILE.Message
+        {
+          NID_PACKET =&gt; 21, 
+          Q_DIR =&gt; Messages.Q_DIR.Nominal, 
+          L_PACKET =&gt; 0, 
+          Q_SCALE =&gt; Messages.Q_SCALE._1_m_scaleC, 
+          D_GRADIENT =&gt; 0, 
+          Q_GDIR =&gt; Messages.Q_GDIR.downhill, 
+          G_A =&gt; 0, 
+          N_ITER =&gt; 0, 
+          Sequence1 =&gt; []
+        }
+      }
+    }, Messages.EUROBALISE.SubStructure1
+    {
+      TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message
+      {
+        INTERNATIONAL_STATIC_SPEED_PROFILE =&gt; Messages.PACKET.TRACK_TO_TRAIN.INTERNATIONAL_STATIC_SPEED_PROFILE.Message
+        {
+          NID_PACKET =&gt; 27, 
+          Q_DIR =&gt; Messages.Q_DIR.Nominal, 
+          L_PACKET =&gt; 0, 
+          Q_SCALE =&gt; Messages.Q_SCALE._1_m_scaleC, 
+          D_STATIC =&gt; 0, 
+          V_STATIC =&gt; 20, 
+          Q_FRONT =&gt; Messages.Q_FRONT.No_train_length_delay_on_validity_end_point_of_profile_element, 
+          N_ITER_0 =&gt; 0, 
+          Sequence1 =&gt; [], 
+          N_ITER_1 =&gt; 0, 
+          Sequence3 =&gt; []
+        }
+      }
+    }], 
+  BitField =&gt; &apos;&apos;
+}</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Balise telegram 2"
+ Guid="218f626d-8292-491b-a68b-faf0fba69182"
+>
+<Actions>
+<Action
+ Guid="25af03d7-ebed-434d-89b0-535e57a294c5"
+>BTM.Message.SystemVersion2 &lt;- Messages.EUROBALISE.Message{
+Q_UPDOWN =&gt; Messages.Q_UPDOWN.Up_link_telegram,
+M_VERSION =&gt; Messages.M_VERSION.Version_2_0__introduced_in_SRS_3_0_0,
+Q_MEDIA =&gt; Messages.Q_MEDIA.Balise,
+N_PIG =&gt; 1,
+N_TOTAL =&gt; 1,
+M_DUP =&gt; Messages.M_DUP.No_duplicates,
+M_MCOUNT =&gt; Messages.M_MCOUNT.The_telegram_fits_with_all_telegrams_of_the_same_balise_group,
+NID_C =&gt; 81,
+NID_BG =&gt; 1567,
+Q_LINK =&gt; Messages.Q_LINK.Unlinked,
+Sequence1 =&gt; [],
+BitField =&gt; &apos;&apos;
+}</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="8b2ed750-0c67-4ae8-92e8-cd9ecd4cb7c2"
+>Kernel.Mode == ModeEnum.FS</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Name="Receive new LRBG"
+ Guid="cd4a2eb3-83a9-4d0f-9a06-1087e7272d80"
+>
+<Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Receive Linked BG"
+ Guid="26ab0b70-1728-46ca-ae89-a665ec90d27c"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep1"
+ Guid="41a5ea7e-5d0d-4ad0-911b-80080052110d"
+>
+<Actions>
+<Action
+ Guid="b9a7278a-bbc2-45c0-82cf-8446186ab071"
+>BTM.Message.SystemVersion2 &lt;- Messages.EUROBALISE.Message
+{
+  Q_UPDOWN =&gt; Messages.Q_UPDOWN.Up_link_telegram, 
+  M_VERSION =&gt; Messages.M_VERSION.Version_2_0__introduced_in_SRS_3_0_0, 
+  Q_MEDIA =&gt; Messages.Q_MEDIA.Balise, 
+  N_PIG =&gt; 0, 
+  N_TOTAL =&gt; 1, 
+  M_DUP =&gt; Messages.M_DUP.No_duplicates, 
+  M_MCOUNT =&gt; Messages.M_MCOUNT.The_telegram_fits_with_all_telegrams_of_the_same_balise_group, 
+  NID_C =&gt; 81, 
+  NID_BG =&gt; 1568, 
+  Q_LINK =&gt; Messages.Q_LINK.Linked, 
+  Sequence1 =&gt; []
+}</Action><Action
+ Guid="603726b7-4f52-454f-b32d-ace20afbf418"
+>Odometry.NominalDistance &lt;- Odometry.NominalDistance + 400.0</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep2"
+ Guid="010b2c4b-5d0c-403c-997a-7f72b4f1a87d"
+>
+<Actions>
+<Action
+ Guid="399d6793-879f-4426-b591-c77e82b21137"
+>BTM.Message.SystemVersion2 &lt;- Messages.EUROBALISE.Message
+{
+  Q_UPDOWN =&gt; Messages.Q_UPDOWN.Up_link_telegram, 
+  M_VERSION =&gt; Messages.M_VERSION.Version_2_0__introduced_in_SRS_3_0_0, 
+  Q_MEDIA =&gt; Messages.Q_MEDIA.Balise, 
+  N_PIG =&gt; 1,
+  N_TOTAL =&gt; 1, 
+  M_DUP =&gt; Messages.M_DUP.No_duplicates, 
+  M_MCOUNT =&gt; Messages.M_MCOUNT.The_telegram_fits_with_all_telegrams_of_the_same_balise_group, 
+  NID_C =&gt; 81, 
+  NID_BG =&gt; 1568, 
+  Q_LINK =&gt; Messages.Q_LINK.Linked, 
+  Sequence1 =&gt; []
+}</Action></Actions>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase></TestCases>
 </SubSequence></SubSequences>
 </Frame>

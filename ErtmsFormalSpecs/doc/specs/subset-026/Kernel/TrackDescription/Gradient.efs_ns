@@ -1161,6 +1161,11 @@ Outside the distances provided by the gradient, the gradient value is defined as
  Name="Packet"
  Guid="9402903a-405f-4565-89a5-518bc1ba1cc7"
 >
+</Parameter><Parameter
+ Type="BaseTypes.Distance"
+ Name="aDistanceFromRef"
+ Guid="0f399d09-b385-41da-91c5-d805a12836cd"
+>
 </Parameter></Parameters>
 <Rules>
 <Rule
@@ -1224,7 +1229,8 @@ Outside the distances provided by the gradient, the gradient value is defined as
   {
     Location =&gt; MessageTypes.QScaleDistance ( distance =&gt; Packet.D_GRADIENT, scale =&gt; Packet.Q_SCALE ),
     Gradient =&gt; CreateGradient ( Q_GDIR =&gt; Packet.Q_GDIR, G_A =&gt; Packet.G_A )
-  }
+  },
+  aDistanceFromRef =&gt; aDistanceFromRef
 )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
@@ -1256,7 +1262,8 @@ Outside the distances provided by the gradient, the gradient value is defined as
     {
       Location =&gt; AbsoluteDistance ( Gradients =&gt; Packet.Sequence1, Gradient =&gt; X, Scale =&gt; Packet.Q_SCALE ) + MessageTypes.QScaleDistance ( distance =&gt; Packet.D_GRADIENT,  scale =&gt; Packet.Q_SCALE ),
       Gradient =&gt; CreateGradient ( Q_GDIR =&gt; X.Q_GDIR, G_A =&gt; X.G_A )
-    }
+    },
+   aDistanceFromRef =&gt; 0.0
   )
 ON Packet.Sequence1</Action></Actions>
 </RuleCondition></Conditions>
@@ -1276,6 +1283,11 @@ ON Packet.Sequence1</Action></Actions>
  Type="GradientStruct"
  Name="Info"
  Guid="392cab3e-0003-43de-be28-1b310b5b924f"
+>
+</Parameter><Parameter
+ Type="BaseTypes.Distance"
+ Name="aDistanceFromRef"
+ Guid="3f63f5dc-38df-4331-9e4c-c4a19d0b6b0a"
 >
 </Parameter></Parameters>
 <Rules>

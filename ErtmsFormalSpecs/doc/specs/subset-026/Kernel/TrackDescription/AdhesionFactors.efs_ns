@@ -244,6 +244,11 @@
  Name="Packet"
  Guid="5b56257b-550d-420b-a2b1-65a28684fb11"
 >
+</Parameter><Parameter
+ Type="BaseTypes.Distance"
+ Name="aDistanceFromRef"
+ Guid="617a18f6-7953-420e-8a71-672fa139e110"
+>
 </Parameter></Parameters>
 <Rules>
 <Rule
@@ -266,7 +271,7 @@
 <Actions>
 <Action
  Guid="28507f44-7f78-41c3-a734-268448af9a57"
->Kernel.TrackDescription.AdhesionFactors.HandleNewAdhesionFactor(Packet)</Action></Actions>
+>Kernel.TrackDescription.AdhesionFactors.HandleNewAdhesionFactor( Packet =&gt; Packet, aDistanceFromRef =&gt; aDistanceFromRef )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -285,6 +290,11 @@
  Type="Messages.PACKET.TRACK_TO_TRAIN.ADHESION_FACTOR.Message"
  Name="Packet"
  Guid="5532abf1-f435-4699-9801-be7f2744f2b5"
+>
+</Parameter><Parameter
+ Type="BaseTypes.Distance"
+ Name="aDistanceFromRef"
+ Guid="bcd7c09b-a854-438a-9676-093e3d0fa90d"
 >
 </Parameter></Parameters>
 <Rules>
@@ -323,7 +333,7 @@
 <Actions>
 <Action
  Guid="97493d02-161f-4f42-9e15-655f310d7e55"
->REMOVE ALL X.Location &gt;= MessageTypes.QScaleDistance ( distance =&gt; Packet.D_ADHESION, scale =&gt; Packet.Q_SCALE) IN AdhFactors</Action></Actions>
+>REMOVE ALL X.Location &gt;= aDistanceFromRef + MessageTypes.QScaleDistance ( distance =&gt; Packet.D_ADHESION, scale =&gt; Packet.Q_SCALE) IN AdhFactors</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -368,7 +378,7 @@
 >INSERT
     Kernel.TrackDescription.AdhesionFactors.AdhesionFactorStruct
     {
-        Location =&gt; MessageTypes.QScaleDistance ( distance =&gt; Packet.D_ADHESION, scale =&gt; Packet.Q_SCALE ),
+        Location =&gt; aDistanceFromRef + MessageTypes.QScaleDistance ( distance =&gt; Packet.D_ADHESION, scale =&gt; Packet.Q_SCALE ),
         Length =&gt; MessageTypes.QScaleLength ( length =&gt; Packet.L_ADHESION, scale =&gt; Packet.Q_SCALE ),
         Value =&gt; Packet.M_ADHESION
     }

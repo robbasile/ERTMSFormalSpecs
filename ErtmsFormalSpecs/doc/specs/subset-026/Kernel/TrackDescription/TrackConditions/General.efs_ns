@@ -657,52 +657,6 @@ When the train passes over a profile point, it doesn&apos;t know if that point m
 <Expression>Kernel.TrackDescription.TrackConditions.General.TrackConditionStruct { }</Expression>
 </Case></Cases>
 </Function><Function
- Type="BaseTypes.Distance"
- Default=""
- X="550"
- Y="180"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="NewInfoStartLocation"
- Guid="32f17759-b4e6-455a-8cde-2ee070d684c2"
->
-<ReqRef
- Id="07495681-fe6b-45c8-b0b9-9768f78e0985"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="678df2c8-62d1-4c3d-ac3d-4e5ec542fe72"
->
-</ReqRef><ReqRef
- Id="1cb531d4-2809-484c-bf3f-445bebb332ef"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="704477f2-9cda-4afd-83ba-031e42eed82d"
->
-</ReqRef><Comment>Returns the start location of the first element of a packet of Track Conditions</Comment>
-<Parameters>
-<Parameter
- Type="Messages.PACKET.TRACK_TO_TRAIN.TRACK_CONDITION.Message"
- Name="Packet"
- Guid="114cb9cc-0ba4-4e74-9d8b-4b16f44132b2"
->
-</Parameter></Parameters>
-<Cases>
-<Case
- Name="If the message contains track conditions, return the closest one"
- Guid="eb8730d9-53e8-43b3-8019-faff1a5d60a9"
->
-<Comment>Returns the D_TRACKCOND in the Packet with the lowest value</Comment>
-<PreConditions>
-<PreCondition
- Guid="a1f5b781-33c7-4df7-bebc-eee2ce7afa09"
->Packet.Q_TRACKINIT == Messages.Q_TRACKINIT.No_initial_states_to_be_resumed__profile_to_follow</PreCondition></PreConditions>
-<Expression>REDUCE Packet.Sequence1
-  USING X IN BaseTypes.MinDistance(
-    X1=&gt; MessageTypes.QScaleDistance(distance=&gt;X.D_TRACKCOND, scale=&gt;Packet.Q_SCALE),
-    X2=&gt;RESULT
-)
-  INITIAL_VALUE MessageTypes.QScaleDistance(distance=&gt;Packet.D_TRACKCOND, scale=&gt;Packet.Q_SCALE)</Expression>
-</Case></Cases>
-</Function><Function
  Type="TrackConditionInformationStruct"
  Default=""
  X="1"
@@ -996,6 +950,51 @@ The use of profile points and the functions in this namespace can be found in Er
 <Comment>If the profile point is outside the section, it is unaffected by the new section</Comment>
 <Expression>Profile</Expression>
 </Case></Cases>
+</Function><Function
+ Type="BaseTypes.Distance"
+ Default=""
+ Name="DistanceToPoint"
+ Guid="65f2e012-2f18-4acf-9ca4-83a3bc5dfa2d"
+>
+<Comment>Sums the distances of all points up to the start of the requested track condition.</Comment>
+<Parameters>
+<Parameter
+ Type="Messages.PACKET.TRACK_TO_TRAIN.TRACK_CONDITION.SubStructure1"
+ Name="TrackCondition"
+ Guid="d57c976f-5154-4bdd-81aa-410702be6b62"
+>
+</Parameter><Parameter
+ Type="Messages.PACKET.TRACK_TO_TRAIN.TRACK_CONDITION.Collection1"
+ Name="Conditions"
+ Guid="bb835330-4df1-4323-9928-aa6849a09721"
+>
+</Parameter><Parameter
+ Type="BaseTypes.Distance"
+ Name="FirstPointLocation"
+ Guid="b7916204-d019-4886-a962-dbcb4475ed09"
+>
+</Parameter><Parameter
+ Type="Messages.Q_SCALE"
+ Name="Scale"
+ Guid="a710922d-9883-423b-966c-8e4060d580e2"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="3781fa00-2d52-4cae-b847-30eca03cdbb6"
+>
+<Expression>REDUCE Conditions | NOT Before(
+        ExpectedFirst =&gt; X,
+        ExpectedSecond =&gt; TrackCondition,
+        Collection =&gt; Conditions
+    )
+ USING X IN RESULT + MessageTypes.QScaleDistance(
+        distance =&gt; X.D_TRACKCOND,
+        scale =&gt; Scale
+    )
+ INITIAL_VALUE FirstPointLocation</Expression>
+</Case></Cases>
 </Function></Functions>
 <Procedures>
 <Procedure
@@ -1061,9 +1060,9 @@ If there is already at a point at the end location, the values will not be chang
 <PreCondition
  Guid="5c2fd295-1fa0-4273-8634-53b3ce87e09e"
 >NOT (THERE_IS X IN Kernel.TrackDescription.TrackConditions.General.TCProfile| X.Location == Kernel.TrackDescription.TrackConditions.General.EndSectionDistance(
-    TCType=&gt;TCType,
-    Distance=&gt;Distance,
-    Length=&gt;Length
+    TCType =&gt; TCType,
+    Distance =&gt; Distance,
+    Length =&gt; Length
     )
 )</PreCondition></PreConditions>
 <Actions>
@@ -1073,9 +1072,9 @@ If there is already at a point at the end location, the values will not be chang
 INSERT Kernel.TrackDescription.TrackConditions.General.MakeTCProfilePoint(
 TCType=&gt;TCType,
 Location=&gt;Kernel.TrackDescription.TrackConditions.General.EndSectionDistance(
-    TCType=&gt;TCType,
-    Distance=&gt;Distance,
-    Length=&gt;Length
+    TCType =&gt; TCType,
+    Distance =&gt; Distance,
+    Length =&gt; Length
     ),
 EndOfSection=&gt;True
     )
@@ -1106,9 +1105,9 @@ If there is already a point at the start of the section, its conditions will be 
 <Action
  Guid="be8dab85-6e95-4b9e-b7b4-0a9c8968a606"
 >INSERT Kernel.TrackDescription.TrackConditions.General.MakeTCProfilePoint(
-    TCType=&gt;TCType,
-    Location=&gt;Distance,
-    EndOfSection=&gt;False
+    TCType =&gt; TCType,
+    Location =&gt; Distance,
+    EndOfSection =&gt; False
     )
 IN
     Kernel.TrackDescription.TrackConditions.General.TCProfile</Action></Actions>
@@ -1133,10 +1132,10 @@ IN
 <Action
  Guid="0c73a213-20bf-4acb-9a85-b05e04dcdd19"
 >Kernel.TrackDescription.TrackConditions.General.TCProfile&lt;- MAP Kernel.TrackDescription.TrackConditions.General.TCProfile USING X IN Kernel.TrackDescription.TrackConditions.General.UpdatedTCProfile(
-    Profile=&gt;X,
-    Location=&gt;Distance,
-    Length=&gt;Length,
-    TCType=&gt;TCType
+    Profile =&gt; X,
+    Location =&gt; Distance,
+    Length =&gt; Length,
+    TCType =&gt; TCType
 )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
@@ -1157,6 +1156,11 @@ The handling of track conditions is decribed in  ErtmsFormalSpecs/doc/specs/Mode
  Type="Messages.PACKET.TRACK_TO_TRAIN.TRACK_CONDITION.Message"
  Name="Packet"
  Guid="1d5c9f0a-7cfe-4ea2-8671-1b7b2f77ef0f"
+>
+</Parameter><Parameter
+ Type="BaseTypes.Distance"
+ Name="aDistanceFromRef"
+ Guid="f2ebbcae-8736-492a-8936-6acd40ca0709"
 >
 </Parameter></Parameters>
 <Rules>
@@ -1195,17 +1199,23 @@ The handling of track conditions is decribed in  ErtmsFormalSpecs/doc/specs/Mode
 <Actions>
 <Action
  Guid="e442a836-0892-422d-9982-9577731091f3"
->REMOVE ALL X.Location &gt;= NewInfoStartLocation(Packet) 
+>REMOVE ALL X.Location &gt;= aDistanceFromRef + MessageTypes.QScaleDistance(
+    distance =&gt; Packet.D_TRACKCOND,
+    scale =&gt; Packet.Q_SCALE
+)
     IN TCProfile</Action><Action
  Guid="ad4e2691-c733-4e4d-8db1-ff6fd0667df6"
->REMOVE ALL X.Location &gt;Display.AnnouncementLocation(aTrackCondition=&gt;TrackConditionStruct{}, aDistance =&gt; NewInfoStartLocation(Packet))
+>REMOVE ALL X.Location &gt; Display.AnnouncementLocation(aTrackCondition=&gt;TrackConditionStruct{}, aDistance =&gt; aDistanceFromRef + MessageTypes.QScaleDistance(
+    distance =&gt; Packet.D_TRACKCOND,
+    scale =&gt; Packet.Q_SCALE
+))
     IN Display.ActiveConditions</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
- Name="Add new track conditions + announcements"
+ Name="Add first track condition + announcements"
  Guid="65ddcb36-4bef-42bb-8990-277543a93ade"
 >
 <Comment>Inserts the newly received track conditions in TCProfile</Comment>
@@ -1244,29 +1254,33 @@ The handling of track conditions is decribed in  ErtmsFormalSpecs/doc/specs/Mode
 <Action
  Guid="ac96795b-c14a-4b35-9f61-1888f3f2ce6e"
 >Kernel.TrackDescription.TrackConditions.General.AddSectionToProfile(
-    Distance=&gt;MessageTypes.QScaleDistance(
-        distance=&gt;Packet.D_TRACKCOND,
-        scale=&gt;Packet.Q_SCALE
-    )
-    ,
-    Length=&gt; MessageTypes.QScaleLength(
-        length=&gt;Packet.L_TRACKCOND,
-        scale=&gt;Packet.Q_SCALE
-    )
-    ,
-    TCType=&gt;Packet.M_TRACKCOND
+    Distance =&gt; aDistanceFromRef + MessageTypes.QScaleDistance(
+        distance =&gt; Packet.D_TRACKCOND,
+        scale =&gt; Packet.Q_SCALE ),
+    Length =&gt; MessageTypes.QScaleLength(
+        length =&gt; Packet.L_TRACKCOND,
+        scale =&gt; Packet.Q_SCALE ),
+    TCType =&gt; Packet.M_TRACKCOND
 )</Action><Action
  Guid="476cb606-a0af-42f5-b297-1cf9bb8e1672"
 >Display.MakeAnnouncements(
-    TCType=&gt;Packet.M_TRACKCOND,
-    Distance=&gt;MessageTypes.QScaleDistance(
-        distance=&gt;Packet.D_TRACKCOND,
-        scale=&gt;Packet.Q_SCALE  ),
-    Length=&gt;MessageTypes.QScaleLength(
-        length=&gt;Packet.L_TRACKCOND,
-        scale=&gt;Packet.Q_SCALE  )
+    TCType =&gt; Packet.M_TRACKCOND,
+    Distance =&gt; aDistanceFromRef + MessageTypes.QScaleDistance(
+        distance =&gt; Packet.D_TRACKCOND,
+        scale =&gt; Packet.Q_SCALE  ),
+    Length =&gt; MessageTypes.QScaleLength(
+        length =&gt; Packet.L_TRACKCOND,
+        scale =&gt; Packet.Q_SCALE  )
 )</Action></Actions>
-</RuleCondition><RuleCondition
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Name="Add subsequent track conditions + announcements"
+ Guid="1b213efd-92c3-4280-b0a5-4ab9fa631c4b"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="Insert further points in the track condition and announcements profiles"
@@ -1280,32 +1294,39 @@ The handling of track conditions is decribed in  ErtmsFormalSpecs/doc/specs/Mode
  Guid="9f1d4d9f-5bbe-4618-a012-23fcf1167225"
 >APPLY
     Kernel.TrackDescription.TrackConditions.General.AddSectionToProfile(
-        Distance=&gt;MessageTypes.QScaleDistance(
-        distance=&gt;X.D_TRACKCOND,
-        scale=&gt;Packet.Q_SCALE
-    )
-    ,
-        Length=&gt;MessageTypes.QScaleLength(
-        length=&gt;X.L_TRACKCOND,
-        scale=&gt;Packet.Q_SCALE
-    )
-    ,
-        TCType=&gt;X.M_TRACKCOND
+        Distance =&gt;
+          DistanceToPoint(
+             TrackCondition =&gt; X,
+             Conditions =&gt; Packet.Sequence1,
+             FirstPointLocation =&gt; aDistanceFromRef + MessageTypes.QScaleDistance(
+                 distance =&gt; Packet.D_TRACKCOND,
+                 scale =&gt; Packet.Q_SCALE ),
+             Scale =&gt; Packet.Q_SCALE ),
+        Length =&gt; MessageTypes.QScaleLength(
+            length =&gt; X.L_TRACKCOND,
+            scale =&gt; Packet.Q_SCALE ),
+        TCType =&gt; X.M_TRACKCOND
     )
 ON
     Packet.Sequence1</Action><Action
  Guid="afebcc0b-73d8-47ef-b24b-7b726330c6b0"
 >APPLY
     Display.MakeAnnouncements(
-        TCType=&gt;X.M_TRACKCOND
-        ,
-        Distance=&gt;MessageTypes.QScaleDistance(
-            distance=&gt;X.D_TRACKCOND,
-            scale=&gt;Packet.Q_SCALE  )
-        ,
-        Length=&gt;MessageTypes.QScaleLength(
-            length=&gt;X.L_TRACKCOND,
-            scale=&gt;Packet.Q_SCALE  )
+        TCType =&gt; X.M_TRACKCOND,
+        Distance =&gt; 
+          DistanceToPoint(
+             TrackCondition =&gt; X,
+             Conditions =&gt; Packet.Sequence1,
+             FirstPointLocation =&gt; aDistanceFromRef + MessageTypes.QScaleDistance(
+                 distance =&gt; Packet.D_TRACKCOND,
+                 scale =&gt; Packet.Q_SCALE ),
+             Scale =&gt; Packet.Q_SCALE ) +
+          MessageTypes.QScaleDistance(
+            distance =&gt; X.D_TRACKCOND,
+            scale =&gt; Packet.Q_SCALE ),
+        Length =&gt; MessageTypes.QScaleLength(
+            length =&gt; X.L_TRACKCOND,
+            scale =&gt; Packet.Q_SCALE  )
     )
 ON
    Packet.Sequence1</Action></Actions>
@@ -1343,6 +1364,11 @@ ON
  Type="Messages.PACKET.TRACK_TO_TRAIN.TRACK_CONDITION.Message"
  Name="Packet"
  Guid="d30fa5db-2c47-4413-b475-ba618d5e7a74"
+>
+</Parameter><Parameter
+ Type="BaseTypes.Distance"
+ Name="aDistanceFromRef"
+ Guid="0d4eacb7-dc40-435a-b0d8-b5ef36a21e10"
 >
 </Parameter></Parameters>
 <Rules>
@@ -1383,7 +1409,7 @@ Kernel.ActiveFunctions.ManageTrackConditions_SoundHorn()</PreCondition></PreCond
 <Actions>
 <Action
  Guid="cc227c70-643c-452b-b941-13c9a55589e2"
->REMOVE ALL X.Location &gt;= MessageTypes.QScaleDistance(
+>REMOVE ALL X.Location &gt;= aDistanceFromRef + MessageTypes.QScaleDistance(
     distance=&gt;Packet.D_TRACKINIT,
     scale=&gt;Packet.Q_SCALE
     )
@@ -1392,7 +1418,7 @@ IN
  Guid="b5b87575-a081-4006-956f-527bfabc9dfd"
 >INSERT Kernel.TrackDescription.TrackConditions.General.TrackConditionInformationStruct
 {
-    Location =&gt; MessageTypes.QScaleDistance
+    Location =&gt; aDistanceFromRef + MessageTypes.QScaleDistance
     (
         distance =&gt; Packet.D_TRACKINIT,
         scale =&gt; Packet.Q_SCALE
@@ -1418,7 +1444,8 @@ Kernel.ActiveFunctions.ManageTrackConditions_SoundHorn()</PreCondition></PreCond
 <Actions>
 <Action
  Guid="c78472f5-3741-4e00-a564-1bebf1643278"
->Kernel.TrackDescription.TrackConditions.General.HandleNewTrackCondition( Packet )</Action></Actions>
+>Kernel.TrackDescription.TrackConditions.General.HandleNewTrackCondition( 
+Packet =&gt; Packet, aDistanceFromRef =&gt; aDistanceFromRef )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure

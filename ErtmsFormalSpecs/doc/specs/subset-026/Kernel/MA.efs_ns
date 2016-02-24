@@ -832,35 +832,17 @@ INITIAL_VALUE TargetStruct{
 </Parameter></Parameters>
 <Cases>
 <Case
- Name="TimeOutAvailable"
+ Name="Value"
  Guid="361186d3-3c58-453f-be53-aea46fd7bbe8"
 >
-<PreConditions>
-<PreCondition
- Guid="0a772204-e922-463b-8a9a-6a03d5ca620b"
->ERTMSSection.Q_SECTIONTIMER == Messages.Q_SECTIONTIMER.Section_Timer_information_to_follow</PreCondition></PreConditions>
 <Expression>Kernel.MA.SectionStruct
 {
     Length =&gt; MessageTypes.QScaleLength ( length =&gt; ERTMSSection.L_SECTION, scale =&gt; Scale),
-    TimeOut =&gt;MATimers.TimeOutStruct
-    {
-        Distance =&gt; MessageTypes.QScaleDistance ( distance =&gt; ERTMSSection.D_SECTIONTIMERSTOPLOC, scale =&gt; Scale ),
-        TimeOut =&gt; BaseTypes.Time ( ERTMSSection.T_SECTIONTIMER ),
-        TimerStart =&gt; SectionStartTimer
-    }
-}</Expression>
-</Case><Case
- Name="NoTimeOut"
- Guid="717562e7-6133-4872-9010-77e3897ea6a1"
->
-<PreConditions>
-<PreCondition
- Guid="8fdfbf3a-d43f-4049-9248-8a65ef1a013f"
->ERTMSSection.Q_SECTIONTIMER == Messages.Q_SECTIONTIMER.No_Section_Timer_information</PreCondition></PreConditions>
-<Expression>Kernel.MA.SectionStruct
-{
-    Length =&gt; MessageTypes.QScaleLength ( length =&gt; ERTMSSection.L_SECTION, scale =&gt; Scale),
-    TimeOut =&gt; EMPTY
+    TimeOut =&gt; CreateSectionTimer(
+        ERTMSSection =&gt; ERTMSSection,
+        SectionStartTimer =&gt; SectionStartTimer,
+        Scale =&gt; Scale
+    )
 }</Expression>
 </Case></Cases>
 </Function><Function
@@ -2763,6 +2745,53 @@ Kernel.MA.MATimers.EndSectionTimerStart != BaseTypes.Time.NA
 >
 <Expression>EMPTY</Expression>
 </Case></Cases>
+</Function><Function
+ Type="MATimers.TimeOutStruct"
+ Default=""
+ X="551"
+ Y="481"
+ Width="100"
+ Height="50"
+ Name="CreateSectionTimer"
+ Guid="81cfab67-e1fe-4b2b-91e3-4c599aa30401"
+>
+<Parameters>
+<Parameter
+ Type="Messages.PACKET.TRACK_TO_TRAIN.LEVEL_1_MOVEMENT_AUTHORITY.SubStructure1"
+ Name="ERTMSSection"
+ Guid="bc1d8ded-ed4b-48b5-bd50-3163f572d1d6"
+>
+</Parameter><Parameter
+ Type="BaseTypes.Time"
+ Name="SectionStartTimer"
+ Guid="7df26278-4191-4555-a2c7-e3c3ada72102"
+>
+</Parameter><Parameter
+ Type="Messages.Q_SCALE"
+ Name="Scale"
+ Guid="e7dd4072-4c34-4a1c-b3f3-f2207b0e8006"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Time out available"
+ Guid="808777f7-2046-49cd-b2ec-7e1d9cc033c8"
+>
+<PreConditions>
+<PreCondition
+ Guid="0a772204-e922-463b-8a9a-6a03d5ca620b"
+>ERTMSSection.Q_SECTIONTIMER == Messages.Q_SECTIONTIMER.Section_Timer_information_to_follow</PreCondition></PreConditions>
+<Expression>MATimers.TimeOutStruct{
+    Distance =&gt; MessageTypes.QScaleDistance ( distance =&gt; ERTMSSection.D_SECTIONTIMERSTOPLOC, scale =&gt; Scale ),
+    TimeOut =&gt; BaseTypes.Time ( ERTMSSection.T_SECTIONTIMER ),
+    TimerStart =&gt; SectionStartTimer
+}</Expression>
+</Case><Case
+ Name="No time out"
+ Guid="4b352cc9-f274-4f38-92e1-fc7de00f6894"
+>
+<Expression>EMPTY</Expression>
+</Case></Cases>
 </Function></Functions>
 <Procedures>
 <Procedure
@@ -2772,7 +2801,7 @@ Kernel.MA.MATimers.EndSectionTimerStart != BaseTypes.Time.NA
  Height="50"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
- Name="MALvl2or3Received"
+ Name="MALvl2or3ProfileReceived"
  Guid="378f83b5-170c-4c7f-afd4-18cc1e467fe4"
 >
 <ReqRef
@@ -2831,7 +2860,8 @@ Kernel.MA.MATimers.EndSectionTimerStart != BaseTypes.Time.NA
 (
     Packet =&gt; Kernel.MA.ConvertMALvl2or3_to_MALvl1 ( Packet ),
     NID_BG =&gt; NID_BG,
-    SectionStartTimer =&gt; SectionStartTimer
+    SectionStartTimer =&gt; SectionStartTimer,
+    aDistanceFromRef =&gt; 0.0
 )</Action><Action
  Guid="3e4d5ecc-98c0-4000-9d12-5b63e89e74c7"
 >Kernel.MA.MAIsAccepted &lt;- True</Action></Actions>
@@ -2884,7 +2914,7 @@ Kernel.MA.MATimers.EndSectionTimerStart != BaseTypes.Time.NA
  Height="50"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
- Name="MALvl1Received"
+ Name="MALvl1ProfileReceived"
  Guid="8c3e9d6b-09c9-4fc2-9ccd-c0714332dfae"
 >
 <ReqRef
@@ -2918,6 +2948,11 @@ Kernel.MA.MATimers.EndSectionTimerStart != BaseTypes.Time.NA
  Type="Messages.NID_BG"
  Name="NID_BG"
  Guid="284e8fa0-176d-49b0-850c-13427e6769ec"
+>
+</Parameter><Parameter
+ Type="BaseTypes.Distance"
+ Name="aDistanceFromRef"
+ Guid="61481ee2-2442-47b8-b858-47aac732fa15"
 >
 </Parameter></Parameters>
 <Rules>
@@ -2977,7 +3012,8 @@ Kernel.MA.MATimers.EndSectionTimerStart != BaseTypes.Time.NA
 (
     Packet =&gt; Packet,
     NID_BG =&gt; NID_BG,
-    SectionStartTimer =&gt; Kernel.MA.MATimers.CurrentBGTimeOfPassage
+    SectionStartTimer =&gt; Kernel.MA.MATimers.CurrentBGTimeOfPassage,
+    aDistanceFromRef =&gt; aDistanceFromRef
 )</Action><Action
  Guid="f8a42f47-6bf7-4155-9ad4-52eb896fbff6"
 >Kernel.MA.SignallingRelatedSpeedRestriction.Value &lt;- MessageTypes.SpeedResolution ( speed =&gt; Packet.V_MAIN, resolution =&gt; 5.0 )</Action><Action
@@ -3112,6 +3148,11 @@ Kernel.MA.MATimers.LOATimerStart &lt;- Kernel.MA.MATimers.CurrentBGTimeOfPassage
  Type="BaseTypes.Time"
  Name="SectionStartTimer"
  Guid="2e880274-ffee-4f27-b59e-f1d655b920d1"
+>
+</Parameter><Parameter
+ Type="BaseTypes.Distance"
+ Name="aDistanceFromRef"
+ Guid="f2c9e396-d6e8-43f5-a7ce-d70256f67dd5"
 >
 </Parameter></Parameters>
 <Rules>
@@ -3354,12 +3395,7 @@ Kernel.MA.SvL() != EMPTY</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="12b90b2e-7d29-48ba-9284-89ff10da7e8f"
->Kernel.MA.MA.Sections &lt;- MAP Packet.Sequence1 USING X IN Kernel.MA.CreateEFSSection
-(
-    ERTMSSection =&gt; X,
-    Scale =&gt; Packet.Q_SCALE,
-    SectionStartTimer =&gt; SectionStartTimer
-)</Action></Actions>
+>BuildSections(Packet =&gt; Packet , aDistanceFromRef =&gt; aDistanceFromRef, SectionStartTimer =&gt; SectionStartTimer)</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  NeedsRequirement="FALSE"
@@ -4397,6 +4433,84 @@ IN Kernel.MA.MA.Sections</Action><Action
 <Action
  Guid="975cea16-d2a6-4166-a026-7a7f52e2b184"
 >REMOVE LAST IN Kernel.MA.MA.Sections</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="441"
+ Y="481"
+ Width="100"
+ Height="50"
+ Name="BuildSections"
+ Guid="61564c7a-c255-4f7f-afee-b1727d10c7d3"
+>
+<Parameters>
+<Parameter
+ Type="Messages.PACKET.TRACK_TO_TRAIN.LEVEL_1_MOVEMENT_AUTHORITY.Message"
+ Name="Packet"
+ Guid="ff5172d9-4248-46ae-8ac3-eb9d2e9476e8"
+>
+</Parameter><Parameter
+ Type="BaseTypes.Distance"
+ Name="aDistanceFromRef"
+ Guid="3caf5071-f2f9-4a07-9104-52d25de0f99d"
+>
+</Parameter><Parameter
+ Type="BaseTypes.Time"
+ Name="SectionStartTimer"
+ Guid="7e2afbac-74d8-4b7a-ab08-b9154adbe6d5"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Priority="Processing"
+ Name="Build the first section"
+ Guid="d790284d-740c-4d6a-bfce-b1dd425d4389"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Name="Build the first section"
+ Guid="21f2432e-29a7-4af0-b05d-54181995d2e9"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="0528c758-2f01-4522-bc68-dd8a85068b50"
+>Kernel.MA.MA.Sections &lt;- [
+Kernel.MA.SectionStruct{
+    Length =&gt; aDistanceFromRef + MessageTypes.QScaleLength ( length =&gt; (FIRST X IN Packet.Sequence1).L_SECTION, scale =&gt; Packet.Q_SCALE),
+    TimeOut =&gt; CreateSectionTimer(
+        ERTMSSection =&gt; FIRST X IN Packet.Sequence1,
+        SectionStartTimer =&gt; SectionStartTimer,
+        Scale =&gt; Packet.Q_SCALE
+    )
+}]</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Name="Store the following sections"
+ Guid="a7f631a8-389b-452e-8fca-395fd8d482b5"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Name="Store the following sections"
+ Guid="fbe4de01-feec-4e37-97fb-9ffcd02eeea4"
+>
+<PreConditions>
+<PreCondition
+ Guid="8d1951b4-b82e-4d68-a4ea-e63308d59589"
+>COUNT X IN Packet.Sequence1 &gt; 1</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="5c847fe1-76b8-4971-a64b-919b3337b061"
+>Kernel.MA.MA.Sections &lt;- Kernel.MA.MA.Sections + MAP Packet.Sequence1 | (X != FIRST X IN Packet.Sequence1) USING X IN Kernel.MA.CreateEFSSection
+(
+    ERTMSSection =&gt; X,
+    Scale =&gt; Packet.Q_SCALE,
+    SectionStartTimer =&gt; SectionStartTimer
+)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>

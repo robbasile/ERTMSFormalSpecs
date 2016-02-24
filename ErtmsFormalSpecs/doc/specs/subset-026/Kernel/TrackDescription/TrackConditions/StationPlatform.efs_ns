@@ -379,6 +379,48 @@ Kernel.TrackDescription.TrackConditions.StationPlatform.SPAtDistance(Kernel.Trai
         X2=&gt;RESULT)
   INITIAL_VALUE BaseTypes.Distance.Infinity</Expression>
 </Case></Cases>
+</Function><Function
+ Type="BaseTypes.Distance"
+ Default=""
+ Name="DistanceToPoint"
+ Guid="9ffe6d09-6495-48c5-a199-25a85f53e7af"
+>
+<Parameters>
+<Parameter
+ Type="Messages.PACKET.TRACK_TO_TRAIN.TRACK_CONDITION_STATION_PLATFORMS.Collection1"
+ Name="Conditions"
+ Guid="4a787f14-6166-4e34-84b1-dc90ce7d8013"
+>
+</Parameter><Parameter
+ Type="Messages.PACKET.TRACK_TO_TRAIN.TRACK_CONDITION_STATION_PLATFORMS.SubStructure1"
+ Name="TrackCondition"
+ Guid="8db2c2d7-b326-44ff-993f-7e5d88de4f26"
+>
+</Parameter><Parameter
+ Type="BaseTypes.Distance"
+ Name="FirstPointLocation"
+ Guid="8d2997f9-d544-454a-8f78-4dfdad098a5a"
+>
+</Parameter><Parameter
+ Type="Messages.Q_SCALE"
+ Name="Scale"
+ Guid="a4e89f47-23ac-488d-b15e-7afaa09e30b1"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="88dd4bc8-9795-44f5-aa1c-7430bd222ba0"
+>
+<Expression>REDUCE Conditions | NOT Before(
+    ExpectedFirst =&gt; TrackCondition,
+    ExpectedSecond =&gt; X,
+    Collection =&gt; Conditions)
+ USING X IN RESULT + MessageTypes.QScaleDistance(
+    distance =&gt; X.D_TRACKCOND,
+    scale =&gt; Scale )
+ INITIAL_VALUE FirstPointLocation</Expression>
+</Case></Cases>
 </Function></Functions>
 <Procedures>
 <Procedure
@@ -419,6 +461,11 @@ Kernel.TrackDescription.TrackConditions.StationPlatform.SPAtDistance(Kernel.Trai
  Name="Packet"
  Guid="48fdbd5d-af67-4b35-9910-e8d1a105600a"
 >
+</Parameter><Parameter
+ Type="BaseTypes.Distance"
+ Name="aDistanceFromRef"
+ Guid="cf2b9d1a-72b8-4382-9da7-d0210a6b2659"
+>
 </Parameter></Parameters>
 <Rules>
 <Rule
@@ -444,7 +491,7 @@ Kernel.TrackDescription.TrackConditions.StationPlatform.SPAtDistance(Kernel.Trai
 <Actions>
 <Action
  Guid="af7c9459-722c-4c14-8b2c-79e47721c1d1"
->REMOVE ALL X.Location &gt;= MessageTypes.QScaleDistance(
+>REMOVE ALL X.Location &gt;= aDistanceFromRef + MessageTypes.QScaleDistance(
     distance=&gt;Packet.D_TRACKINIT,
     scale=&gt;Packet.Q_SCALE
     )
@@ -453,7 +500,7 @@ IN
  Guid="b803cea3-2661-496d-8f0e-61206f6bed58"
 >INSERT Kernel.TrackDescription.TrackConditions.StationPlatform.StationPlatformInformationStruct
 {
-    Location =&gt; MessageTypes.QScaleDistance
+    Location =&gt; aDistanceFromRef + MessageTypes.QScaleDistance
     (
         distance =&gt; Packet.D_TRACKINIT,
         scale =&gt; Packet.Q_SCALE
@@ -479,7 +526,7 @@ IN
 <Actions>
 <Action
  Guid="59fc8af2-abfa-4737-91d5-557d93614ec2"
->Kernel.TrackDescription.TrackConditions.StationPlatform.HandleNewSPTrackCondition( Packet )</Action></Actions>
+>Kernel.TrackDescription.TrackConditions.StationPlatform.HandleNewSPTrackCondition( Packet =&gt; Packet, aDistanceFromRef =&gt; aDistanceFromRef)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -499,13 +546,18 @@ IN
  Name="Packet"
  Guid="1c22f726-b8fa-4a4b-b3bf-e4b6fa463797"
 >
+</Parameter><Parameter
+ Type="BaseTypes.Distance"
+ Name="aDistanceFromRef"
+ Guid="6946a29f-599a-4b34-a763-db2a4a05541b"
+>
 </Parameter></Parameters>
 <Rules>
 <Rule
  Priority="Processing"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
- Name="AddNewTrackCondition"
+ Name="Add the first point"
  Guid="1c34422a-33f0-494d-b96d-442eeec98235"
 >
 <Comment>Inserts the newly received track conditions in TCProfile</Comment>
@@ -549,20 +601,24 @@ IN
 <Action
  Guid="b8eee697-8bc2-43f6-826f-5af04be62daa"
 >Kernel.TrackDescription.TrackConditions.StationPlatform.AddSPToProfile(
-    Distance=&gt;MessageTypes.QScaleDistance(
-        distance=&gt;Packet.D_TRACKCOND,
-        scale=&gt;Packet.Q_SCALE
-    )
-    ,
-    Length=&gt; MessageTypes.QScaleLength(
-        length=&gt;Packet.L_TRACKCOND,
-        scale=&gt;Packet.Q_SCALE
-    )
-    ,
+    Distance =&gt; aDistanceFromRef + MessageTypes.QScaleDistance(
+        distance =&gt; Packet.D_TRACKCOND,
+        scale =&gt; Packet.Q_SCALE ),
+    Length =&gt; MessageTypes.QScaleLength(
+        length =&gt; Packet.L_TRACKCOND,
+        scale =&gt; Packet.Q_SCALE ),
     Side =&gt; Packet.Q_PLATFORM,
     Height =&gt; Packet.M_PLATFORM
 )</Action></Actions>
-</RuleCondition><RuleCondition
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Name="Add the rest"
+ Guid="6998a95f-2e0f-4dd9-a4f3-178436d568f9"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="Insert further points in the station platform track condition profile"
@@ -576,16 +632,16 @@ IN
  Guid="941b3372-3df3-4a5d-ab39-3f67acff9ba1"
 >APPLY
     Kernel.TrackDescription.TrackConditions.StationPlatform.AddSPToProfile(
-        Distance=&gt;MessageTypes.QScaleDistance(
-        distance=&gt;X.D_TRACKCOND,
-        scale=&gt;Packet.Q_SCALE
-    )
-    ,
+        Distance =&gt; DistanceToPoint(
+            Conditions =&gt; Packet.Sequence1,
+            TrackCondition =&gt; X,
+            FirstPointLocation =&gt; aDistanceFromRef + MessageTypes.QScaleDistance(
+                distance =&gt; Packet.D_TRACKCOND,
+                scale =&gt; Packet.Q_SCALE ),
+            Scale =&gt; Packet.Q_SCALE ),
         Length=&gt;MessageTypes.QScaleLength(
-        length=&gt;X.L_TRACKCOND,
-        scale=&gt;Packet.Q_SCALE
-    )
-    ,
+            length=&gt;X.L_TRACKCOND,
+            scale=&gt;Packet.Q_SCALE ),
         Side =&gt; X.Q_PLATFORM,
         Height =&gt; X.M_PLATFORM
     )

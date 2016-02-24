@@ -1779,6 +1779,11 @@ A_NVP23 =&gt; BaseTypes.Acceleration.NA
  Name="aPacket"
  Guid="e62ecd1d-56cd-44f1-b01c-5208db3510ec"
 >
+</Parameter><Parameter
+ Type="BaseTypes.Distance"
+ Name="aDistanceFromRef"
+ Guid="378109bf-c160-4b0e-a934-054112697591"
+>
 </Parameter></Parameters>
 <Cases>
 <Case
@@ -1788,7 +1793,7 @@ A_NVP23 =&gt; BaseTypes.Acceleration.NA
 <Expression>Kernel.NationalValues.NationalValuesStruct
 {
     DataState =&gt; DataStateEnum.Valid,
-    ApplicableStartLocation =&gt; MessageTypes.QScaleDistance ( distance =&gt; aPacket.D_VALIDNV, scale =&gt; aPacket.Q_SCALE ),
+    ApplicableStartLocation =&gt; aDistanceFromRef + MessageTypes.QScaleDistance ( distance =&gt; aPacket.D_VALIDNV, scale =&gt; aPacket.Q_SCALE ),
     ApplicableCountries =&gt; [aPacket.NID_C] + MAP aPacket.Sequence1 USING X IN  X.NID_C,
     Value =&gt; NationalDefaultDataStruct
     {
@@ -3515,6 +3520,11 @@ Sequence3 =&gt; MAP aPacket.Sequence2 USING X IN Messages.PACKET.TRACK_TO_TRAIN.
  Name="Packet"
  Guid="73c73be5-6790-4797-81da-79e7d0bf91e2"
 >
+</Parameter><Parameter
+ Type="BaseTypes.Distance"
+ Name="aDistanceFromRef"
+ Guid="3ace713d-3746-4f7b-9bfa-7b9be975858b"
+>
 </Parameter></Parameters>
 <Rules>
 <Rule
@@ -3539,7 +3549,7 @@ Sequence3 =&gt; MAP aPacket.Sequence2 USING X IN Messages.PACKET.TRACK_TO_TRAIN.
 <Actions>
 <Action
  Guid="d415aa33-b4bc-4ba1-8db5-dbd2e13601f3"
->Kernel.NationalValues.ApplicableNationalValues &lt;- Kernel.NationalValues.CreateNewNationalValues(aPacket=&gt;Packet)</Action><Action
+>Kernel.NationalValues.ApplicableNationalValues &lt;- Kernel.NationalValues.CreateNewNationalValues(aPacket=&gt;Packet, aDistanceFromRef=&gt; aDistanceFromRef)</Action><Action
  Guid="f1cc0bbf-6a30-48ec-8c8f-ca1fe1b930a2"
 >InvalidateInformation(Kernel.NationalValues.NotApplicableNationalValues)</Action></Actions>
 </RuleCondition><RuleCondition
@@ -3554,7 +3564,7 @@ Sequence3 =&gt; MAP aPacket.Sequence2 USING X IN Messages.PACKET.TRACK_TO_TRAIN.
 <Actions>
 <Action
  Guid="bef218a7-7827-4209-8533-6afe05207b4c"
->Kernel.NationalValues.NotApplicableNationalValues &lt;- Kernel.NationalValues.CreateNewNationalValues(aPacket=&gt;Packet)</Action></Actions>
+>Kernel.NationalValues.NotApplicableNationalValues &lt;- Kernel.NationalValues.CreateNewNationalValues(aPacket=&gt;Packet, aDistanceFromRef=&gt; aDistanceFromRef)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure

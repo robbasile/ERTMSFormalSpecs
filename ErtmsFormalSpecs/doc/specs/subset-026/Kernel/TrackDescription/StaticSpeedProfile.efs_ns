@@ -484,6 +484,11 @@ INITIAL_VALUE
  Name="Categories"
  Guid="3508a4e8-baea-4e6b-9328-1861b8888426"
 >
+</Parameter><Parameter
+ Type="BaseTypes.Distance"
+ Name="aDistanceFromRef"
+ Guid="134941ae-1481-4334-b669-a6472f89ec8c"
+>
 </Parameter></Parameters>
 <Cases>
 <Case
@@ -492,7 +497,7 @@ INITIAL_VALUE
 >
 <Expression>Kernel.TrackDescription.StaticSpeedProfile.StaticSpeedRestrictionStruct
 {
-    Location =&gt; Location,
+    Location =&gt; aDistanceFromRef + Location,
     BasicSpeed =&gt; BasicSpeed,
     TrainLengthDelay =&gt; TrainLengthDelay,
     Categories =&gt; MAP Categories USING X IN CreateSSPCategory ( Qualifier =&gt; X.Q_DIFF, Speed =&gt;MessageTypes.SpeedResolution ( X.V_DIFF, 5.0 ), CantDeficiency =&gt; X.NC_CDDIFF, OtherSpecific =&gt; ERTMSCategory_To_EFSCategory ( X.NC_DIFF ) )
@@ -991,6 +996,11 @@ INITIAL_VALUE
  Name="Packet"
  Guid="faa5a717-42f5-48f8-991b-8393a7bbf1e9"
 >
+</Parameter><Parameter
+ Type="BaseTypes.Distance"
+ Name="aDistanceFromRef"
+ Guid="aa26ecaf-aea7-4216-aaea-3420279fb9ad"
+>
 </Parameter></Parameters>
 <Rules>
 <Rule
@@ -1079,7 +1089,8 @@ IN
     Location =&gt; MessageTypes.QScaleDistance ( distance =&gt; Packet.D_STATIC, scale =&gt; Packet.Q_SCALE ),
     BasicSpeed =&gt;BaseTypes.Speed.Infinity,
     TrainLengthDelay =&gt; Packet.Q_FRONT,
-    Categories =&gt; Packet.Sequence1
+    Categories =&gt; Packet.Sequence1,
+    aDistanceFromRef  =&gt; aDistanceFromRef 
   )
 IN
     Kernel.TrackDescription.StaticSpeedProfile.SSP</Action></Actions>
@@ -1110,10 +1121,12 @@ IN
 <Action
  Guid="2ec09015-103d-44f3-b420-26001a56aa72"
 >INSERT
-    Kernel.TrackDescription.StaticSpeedProfile.CreateFirstSSP ( Location =&gt; MessageTypes.QScaleDistance ( distance =&gt; Packet.D_STATIC, scale =&gt; Packet.Q_SCALE ),
-                               BasicSpeed =&gt; MessageTypes.SpeedResolution ( speed =&gt; Packet.V_STATIC, resolution =&gt; 5.0),
-                               TrainLengthDelay =&gt; Packet.Q_FRONT,
-                               Categories =&gt; Packet.Sequence1 )
+    Kernel.TrackDescription.StaticSpeedProfile.CreateFirstSSP(
+    Location =&gt; MessageTypes.QScaleDistance ( distance =&gt; Packet.D_STATIC, scale =&gt; Packet.Q_SCALE ),
+    BasicSpeed =&gt; MessageTypes.SpeedResolution ( speed =&gt; Packet.V_STATIC, resolution =&gt; 5.0),
+    TrainLengthDelay =&gt; Packet.Q_FRONT,
+    Categories =&gt; Packet.Sequence1,
+    aDistanceFromRef =&gt; aDistanceFromRef  )
 IN
     Kernel.TrackDescription.StaticSpeedProfile.SSP</Action></Actions>
 </RuleCondition></Conditions>
@@ -1141,7 +1154,7 @@ IN
  Guid="1353f5e7-b5ab-4b5e-9b25-07b8c3448625"
 >APPLY
     Kernel.TrackDescription.StaticSpeedProfile.AddSSP ( aSSP =&gt; X,
-                    Location =&gt; Kernel.TrackDescription.StaticSpeedProfile.AbsoluteDistance ( SSRs =&gt; Packet.Sequence3, aSSR =&gt; X, Scale =&gt; Packet.Q_SCALE ) + MessageTypes.QScaleDistance ( distance =&gt; Packet.D_STATIC, scale =&gt; Packet.Q_SCALE ) )
+                    Location =&gt; aDistanceFromRef + Kernel.TrackDescription.StaticSpeedProfile.AbsoluteDistance ( SSRs =&gt; Packet.Sequence3, aSSR =&gt; X, Scale =&gt; Packet.Q_SCALE ) + MessageTypes.QScaleDistance ( distance =&gt; Packet.D_STATIC, scale =&gt; Packet.Q_SCALE ) )
 ON
     Packet.Sequence3</Action></Actions>
 </RuleCondition></Conditions>

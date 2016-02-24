@@ -247,6 +247,11 @@
  Name="BrakeType"
  Guid="78d8cad5-e785-43f5-b6a9-55d8f20ed39c"
 >
+</Parameter><Parameter
+ Type="BaseTypes.Distance"
+ Name="aDistanceFromRef"
+ Guid="78b0696b-288a-4117-b64f-b79b951aaf28"
+>
 </Parameter></Parameters>
 <Cases>
 <Case
@@ -258,7 +263,7 @@
     BrakingDistance =&gt; PermittedBrakingDistance,
     BrakeType =&gt; BrakeType,
     Gradient =&gt; Gradient,
-    Location =&gt; Location,
+    Location =&gt; aDistanceFromRef + Location,
     Length =&gt; Length,
     Speed =&gt; ComputePermittedSpeed ( PermittedBrakingDistance =&gt; PermittedBrakingDistance, Gradient =&gt; Gradient, BrakeType =&gt; BrakeType )
 }</Expression>
@@ -1698,6 +1703,11 @@ STOP_CONDITION
  Name="Packet"
  Guid="bf458dca-abb3-4313-a6e6-143c19b3a560"
 >
+</Parameter><Parameter
+ Type="BaseTypes.Distance"
+ Name="aDistanceFromRef"
+ Guid="b6f65c8b-e83d-4e25-afab-5595f18be54a"
+>
 </Parameter></Parameters>
 <Rules>
 <Rule
@@ -1735,7 +1745,7 @@ STOP_CONDITION
  Guid="0f51ade6-1ab1-4d5e-a2e6-5ba1d3e16c12"
 >Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.InitialState &lt;- Packet.Q_TRACKINIT</Action><Action
  Guid="e9a968df-9178-43cc-b51e-4bee6b4e4d6f"
->Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.EmptyProfileDistance &lt;- MessageTypes.QScaleDistance ( distance =&gt; Packet.D_TRACKINIT, scale =&gt; Packet.Q_SCALE)</Action></Actions>
+>Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.EmptyProfileDistance &lt;- aDistanceFromRef + MessageTypes.QScaleDistance ( distance =&gt; Packet.D_TRACKINIT, scale =&gt; Packet.Q_SCALE)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -1771,7 +1781,7 @@ STOP_CONDITION
 <Actions>
 <Action
  Guid="a2eaa572-8996-4e14-bb01-e726ed4ecfb1"
->REMOVE ALL X.Location &gt;= MessageTypes.QScaleDistance ( distance =&gt; Packet.D_PBDSR, scale =&gt; Packet.Q_SCALE ) IN SpeedRestrictionsProfile.SpeedRestrictions</Action></Actions>
+>REMOVE ALL X.Location &gt;= aDistanceFromRef + MessageTypes.QScaleDistance ( distance =&gt; Packet.D_PBDSR, scale =&gt; Packet.Q_SCALE ) IN SpeedRestrictionsProfile.SpeedRestrictions</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -1832,14 +1842,16 @@ STOP_CONDITION
     Length =&gt; MessageTypes.QScaleLength ( length =&gt; Packet.L_PBDSR, scale =&gt; Packet.Q_SCALE ),
     PermittedBrakingDistance =&gt;  MessageTypes.QScaleDistance ( distance =&gt; Packet.D_PBD, scale =&gt; Packet.Q_SCALE ),
     Gradient =&gt; Kernel.TrackDescription.Gradient.CreateGradient ( Q_GDIR =&gt; Packet.Q_GDIR, G_A =&gt; Packet.G_PBDSR ),
-    BrakeType =&gt; Packet.Q_PBDSR )</Action><Action
+    BrakeType =&gt; Packet.Q_PBDSR,
+    aDistanceFromRef =&gt; aDistanceFromRef )</Action><Action
  Guid="4acb943c-c5f1-4bae-ac1d-9c276e643663"
 >APPLY
     Kernel.TrackDescription.PermittedBrakingDistance.AddNewSpeedRestriction ( Location =&gt; MessageTypes.QScaleDistance ( distance =&gt; X.D_PBDSR, scale =&gt; Packet.Q_SCALE ),
                                                 Length =&gt; MessageTypes.QScaleLength ( length =&gt; X.L_PBDSR, scale =&gt; Packet.Q_SCALE ),
                                                 PermittedBrakingDistance =&gt;  MessageTypes.QScaleDistance ( distance =&gt; X.D_PBD, scale =&gt; Packet.Q_SCALE ),
                                                 Gradient =&gt; Kernel.TrackDescription.Gradient.CreateGradient ( Q_GDIR =&gt; X.Q_GDIR, G_A =&gt;  X.G_PBDSR ),
-                                                BrakeType =&gt; X.Q_PBDSR )
+                                                BrakeType =&gt; X.Q_PBDSR,
+                                                aDistanceFromRef =&gt; aDistanceFromRef )
 ON
     Packet.Sequence1</Action></Actions>
 </RuleCondition></Conditions>
@@ -1914,6 +1926,11 @@ ON
  Name="BrakeType"
  Guid="0197dd09-5e1a-4133-bc9a-02a2496b4c11"
 >
+</Parameter><Parameter
+ Type="BaseTypes.Distance"
+ Name="aDistanceFromRef"
+ Guid="328d26be-324a-4685-a506-048334f891e6"
+>
 </Parameter></Parameters>
 <Rules>
 <Rule
@@ -1936,7 +1953,7 @@ ON
 <Actions>
 <Action
  Guid="728d9949-d0ea-46e5-b08d-330bc6a880d3"
->INSERT Kernel.TrackDescription.PermittedBrakingDistance.CreateNewSpeedRestriction ( Location =&gt; Location, Length =&gt; Length, PermittedBrakingDistance =&gt; PermittedBrakingDistance, Gradient =&gt; Gradient, BrakeType =&gt; BrakeType )
+>INSERT Kernel.TrackDescription.PermittedBrakingDistance.CreateNewSpeedRestriction ( Location =&gt; Location, Length =&gt; Length, PermittedBrakingDistance =&gt; PermittedBrakingDistance, Gradient =&gt; Gradient, BrakeType =&gt; BrakeType, aDistanceFromRef =&gt; aDistanceFromRef )
 IN Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.SpeedRestrictions</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>

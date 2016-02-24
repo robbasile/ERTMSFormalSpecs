@@ -153,6 +153,22 @@ DMI2 will be the slave and will be connected to the first desk of the CabB.</Com
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ Name="Track description"
+ Guid="51f49745-2137-43cd-92bb-160517b9b447"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Name="Track description"
+ Guid="511cdbc7-42bc-4010-973f-3e67e29da11a"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+</Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
  NeedsRequirement="FALSE"
  Name="Level"
  Guid="23241729-77da-4af7-95bc-a581e75caa00"
@@ -5331,6 +5347,45 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
 <Action
  Guid="24727e78-c449-42d6-84ec-a5afec9d581e"
 >Kernel.TrainData.BrakingParameters.ConversionModel.Initialize()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="441"
+ Y="1"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InitializeTrackDescription"
+ Guid="fa8f1aad-2c4f-4c66-9ce3-fad345208fbc"
+>
+<Comment>Initializes the different components of the track description for the test environment.</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Permitted braking distance"
+ Guid="250f3381-ec03-4d12-9edc-28f4a609582b"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Permitted braking distance"
+ Guid="03fecf32-2668-445e-bcaa-373675cc17a4"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="62e4b6e9-2397-4c30-a416-1c5330c2aa41"
+>Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile &lt;- Kernel.TrackDescription.PermittedBrakingDistance.SRPBDProfileStruct{
+InitialState =&gt; Messages.Q_TRACKINIT.No_initial_states_to_be_resumed__profile_to_follow,
+EmptyProfileDistance =&gt; 0.0,
+SpeedRestrictions =&gt; []
+}</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure

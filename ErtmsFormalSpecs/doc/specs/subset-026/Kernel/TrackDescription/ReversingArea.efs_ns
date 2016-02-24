@@ -326,6 +326,11 @@ Kernel.TrainPosition.FrontEndPosition ( DistanceIntervalEnum.Nom ) &lt; Kernel.T
  Name="RvSupPacket"
  Guid="1ff6d64d-0b80-4a3e-abda-e390e20c9e53"
 >
+</Parameter><Parameter
+ Type="BaseTypes.Distance"
+ Name="aDistanceFromRef"
+ Guid="d9ce8cd7-5c0c-4dc3-ad4c-71f42374cd17"
+>
 </Parameter></Parameters>
 <Rules>
 <Rule
@@ -374,7 +379,7 @@ Kernel.TrainPosition.FrontEndPosition ( DistanceIntervalEnum.Nom ) &lt; Kernel.T
  Guid="c9a4ad75-65e9-41d9-8526-ceb6c810d342"
 >ReversingAreaProfile &lt;-  ReversingAreaStruct
 {
-    Location =&gt; MessageTypes.QScaleDistance ( distance =&gt; RvAreaPacket.D_STARTREVERSE, scale =&gt; RvAreaPacket.Q_SCALE ),
+    Location =&gt; aDistanceFromRef + MessageTypes.QScaleDistance ( distance =&gt; RvAreaPacket.D_STARTREVERSE, scale =&gt; RvAreaPacket.Q_SCALE ),
     Length =&gt; MessageTypes.QScaleLength ( length =&gt; RvAreaPacket.L_REVERSEAREA, scale =&gt; RvAreaPacket.Q_SCALE )
 }</Action></Actions>
 </RuleCondition></Conditions>
@@ -441,7 +446,7 @@ Kernel.TrainPosition.FrontEndPosition ( DistanceIntervalEnum.Nom ) &lt; Kernel.T
 </Rule><Rule
  Priority="Processing"
  Implemented="TRUE"
- Name="Update Fixed Referend Location"
+ Name="Update Fixed Reference Location"
  Guid="20d843a0-7594-431a-8fbb-92e6835ed343"
 >
 <ReqRef
@@ -469,7 +474,7 @@ Kernel.TrainPosition.FrontEndPosition ( DistanceIntervalEnum.Nom ) &lt; Kernel.T
 <Actions>
 <Action
  Guid="0ab15d1c-00e9-4104-b40f-6d39a27d33f5"
->ReferenceLocation &lt;- ReversingAreaProfile.Location + BaseTypes.LengthToDistance( Length =&gt; ReversingAreaProfile.Length)</Action></Actions>
+>ReferenceLocation &lt;- aDistanceFromRef + ReversingAreaProfile.Location + BaseTypes.LengthToDistance( Length =&gt; ReversingAreaProfile.Length)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>

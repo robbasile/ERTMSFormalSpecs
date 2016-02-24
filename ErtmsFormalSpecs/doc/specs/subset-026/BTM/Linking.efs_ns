@@ -318,6 +318,11 @@ Since this only stores what is inside Q_LOCACC (which can only be in the range o
  Name="Q_SCALE"
  Guid="b59713f6-2531-490c-96b0-383fcc726b05"
 >
+</Parameter><Parameter
+ Type="BaseTypes.Distance"
+ Name="aDistanceFromRef"
+ Guid="fa9118c1-9c2f-4dc9-bd3a-84b4266aa242"
+>
 </Parameter></Parameters>
 <Cases>
 <Case
@@ -325,7 +330,7 @@ Since this only stores what is inside Q_LOCACC (which can only be in the range o
  Guid="26c7601d-ea48-4264-a247-cbc27a17b8af"
 >
 <Expression>BTM.Linking.LinkingDataStruct {
-  Distance =&gt; MessageTypes.QScaleDistance ( distance =&gt; D_LINK, scale =&gt; Q_SCALE ),
+  Distance =&gt; aDistanceFromRef + MessageTypes.QScaleDistance ( distance =&gt; D_LINK, scale =&gt; Q_SCALE ),
   BaliseGroupIdentifier =&gt; NID_BG,
   Orientation =&gt; LinkingOrientationConverter ( Q_LINKORIENTATION ),
   Reaction =&gt; ConvertLinkingReaction ( Q_LINKREACTION ),
@@ -1175,6 +1180,35 @@ BTM.Linking.CurrentBGWithinFrame()</PreCondition></PreConditions>
 >
 <Expression>AntennaDistance( DistanceIntervalEnum.Min ) &gt; BTM.Linking.RAMSSupervisedBG.EndOfWindow</Expression>
 </Case></Cases>
+</Function><Function
+ Type="BaseTypes.Distance"
+ Default=""
+ Name="DistanceFromReference"
+ Guid="0ae663a7-8b68-4ccb-8aff-35f888ff9ca9"
+>
+<Parameters>
+<Parameter
+ Type="Boolean"
+ Name="aLinkingUsed"
+ Guid="83fb0854-ba5f-4f0e-bc60-2fc30e474183"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Linking used"
+ Guid="6a733c58-6ee4-4358-a5b5-d7771e02ee5d"
+>
+<PreConditions>
+<PreCondition
+ Guid="74979ccd-2860-4341-a7f9-50ba912f66c8"
+>aLinkingUsed</PreCondition></PreConditions>
+<Expression>CurrentLinking().Distance</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="6666be28-e39d-4e88-a92d-ec5dbfd8069b"
+>
+<Expression>Kernel.TrainPosition.FrontEndPosition( PointOfInterest =&gt; Default.DistanceIntervalEnum.Nom )</Expression>
+</Case></Cases>
 </Function></Functions>
 <Procedures>
 <Procedure
@@ -1198,6 +1232,11 @@ BTM.Linking.CurrentBGWithinFrame()</PreCondition></PreConditions>
  Type="Messages.PACKET.TRACK_TO_TRAIN.LINKING.Message"
  Name="Packet"
  Guid="17d1099f-0a5e-4c5b-9b88-a0edee76fd61"
+>
+</Parameter><Parameter
+ Type="BaseTypes.Distance"
+ Name="aDistanceFromRef"
+ Guid="c8c62761-d16e-4fb2-8e60-7a2674346a05"
 >
 </Parameter></Parameters>
 <Rules>
@@ -1286,12 +1325,13 @@ BTM.Linking.CurrentBGWithinFrame()</PreCondition></PreConditions>
 <Action
  Guid="6ebb24f5-be8d-4df6-87cd-5edc20ff3c03"
 >INSERT BTM.Linking.CreateLinkingData (
-  D_LINK =&gt; Packet.D_LINK,
-  NID_BG =&gt; Packet.NID_BG,
-  Q_LINKORIENTATION =&gt; Packet.Q_LINKORIENTATION,
-  Q_LINKREACTION =&gt; Packet.Q_LINKREACTION,
-  Q_LOCACC =&gt; Packet.Q_LOCACC,
-  Q_SCALE =&gt; Packet.Q_SCALE
+    D_LINK =&gt; Packet.D_LINK,
+    NID_BG =&gt; Packet.NID_BG,
+    Q_LINKORIENTATION =&gt; Packet.Q_LINKORIENTATION,
+    Q_LINKREACTION =&gt; Packet.Q_LINKREACTION,
+    Q_LOCACC =&gt; Packet.Q_LOCACC,
+    Q_SCALE =&gt; Packet.Q_SCALE,
+    aDistanceFromRef =&gt; aDistanceFromRef
 )
 IN BTM.Linking.Linkings</Action></Actions>
 </RuleCondition></Conditions>
@@ -1372,7 +1412,8 @@ IN BTM.Linking.Linkings</Action></Actions>
   Q_LINKORIENTATION =&gt; Data.Q_LINKORIENTATION,
   Q_LINKREACTION =&gt; Data.Q_LINKREACTION,
   Q_LOCACC =&gt; Data.Q_LOCACC,
-  Q_SCALE =&gt; Q_SCALE
+  Q_SCALE =&gt; Q_SCALE,
+  aDistanceFromRef =&gt; 0.0
 ) 
 IN BTM.Linking.Linkings</Action></Actions>
 </RuleCondition></Conditions>
@@ -2022,7 +2063,6 @@ Activate the service brake if a second linked BG in a row is missed.</Comment>
 <Action
  Guid="b5267b4f-321c-48a3-8cb1-b091b3a4496d"
 >BTM.CheckMessageConsistency(
-    DistanceFromLRBG =&gt; Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom),
     LinkingUsed =&gt; False,
     LinkingReaction =&gt; BTM.Linking.LinkingReaction.CommandServiceBrake
 )</Action></Actions>
@@ -2042,7 +2082,6 @@ Activate the service brake if a second linked BG in a row is missed.</Comment>
 <Action
  Guid="bac12566-89d7-4f78-a052-2705f05be489"
 >BTM.CheckMessageConsistency(
-    DistanceFromLRBG =&gt; Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom),
     LinkingUsed =&gt; False,
     LinkingReaction =&gt; BTM.Linking.LinkingReaction.CommandServiceBrake
 )</Action></Actions>
@@ -2178,7 +2217,6 @@ If the BG was passed in the right direction, handle the message. If not, the tra
 <Action
  Guid="6f9ef685-68b5-4cf8-ab5b-fe3765ff7cb1"
 >BTM.CheckMessageConsistency(
-    DistanceFromLRBG =&gt; (FIRST X IN BTM.Linking.Linkings).Distance,
     LinkingUsed =&gt; True,
     LinkingReaction =&gt; (FIRST X IN BTM.Linking.Linkings).Reaction
 )</Action><Action
@@ -2328,7 +2366,6 @@ As the first part of this procedure deletes the first (inconsistent) BG from the
 <Action
  Guid="df96badb-3bc3-40d3-b767-aa2ff7b5b2be"
 >BTM.CheckMessageConsistency(
-    DistanceFromLRBG =&gt; BTM.Linking.CurrentLinking().Distance,
     LinkingUsed =&gt; True,
     LinkingReaction =&gt; BTM.Linking.CurrentLinking().Reaction
 )</Action><Action

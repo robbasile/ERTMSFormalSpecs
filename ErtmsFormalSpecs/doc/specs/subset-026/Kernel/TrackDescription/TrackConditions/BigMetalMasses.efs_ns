@@ -87,48 +87,6 @@
 </Collection></Collections>
 <Functions>
 <Function
- Type="BaseTypes.Distance"
- Default=""
- X="1"
- Y="1"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="BMMSectionEnd"
- Guid="611bd0c2-48fe-489f-8a43-364caca2b92a"
->
-<ReqRef
- Id="00dfa999-7dd3-4fe9-a2d0-8fab1506a7d9"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="e128a5db-3cb5-495c-8f1f-c4395a12c83c"
->
-</ReqRef><ReqRef
- Id="ec6af520-2482-443f-9b90-23eb87eeaf06"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="c07f7075-f456-455e-8ede-2d008722822d"
->
-</ReqRef><Comment>Returns the location of the end of the section, based on the start and the section length</Comment>
-<Parameters>
-<Parameter
- Type="BaseTypes.Distance"
- Name="Distance"
- Guid="f7762c4d-9022-47e3-9d87-d69978b2d7c7"
->
-</Parameter><Parameter
- Type="BaseTypes.Length"
- Name="Length"
- Guid="045fd1b1-bcde-4d28-bf51-ebc09b5149ea"
->
-</Parameter></Parameters>
-<Cases>
-<Case
- Name="Ends when the min safe antenna position passed the end of the section"
- Guid="ea72f321-a666-4fab-a59a-d3c3ba7af32f"
->
-<Comment>Big Metal Masses track conditions start and end when the max and min safe antenna positions pass the section limits</Comment>
-<Expression>Distance + BaseTypes.LengthToDistance(Length) - BTM.ActiveAntennaPosition</Expression>
-</Case></Cases>
-</Function><Function
  Type="Boolean"
  Default=""
  X="110"
@@ -203,48 +161,6 @@
   INITIAL_VALUE BaseTypes.Distance.Infinity</Expression>
 </Case></Cases>
 </Function><Function
- Type="BaseTypes.Distance"
- Default=""
- X="330"
- Y="180"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="NewBMMInfoStartLocation"
- Guid="10813a2a-daf4-4bdd-8981-2f5e866394c7"
->
-<ReqRef
- Id="897e39c6-9f39-4e87-9704-4fa9966c392e"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="fea2b082-3f88-481e-971c-f5ac6d34a75e"
->
-</ReqRef><ReqRef
- Id="1cb531d4-2809-484c-bf3f-445bebb332ef"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="d92b4cbf-3902-4108-be81-257148e31350"
->
-</ReqRef><Comment>Returns the start location of the first element of a packet of Track Conditions Big Metal Masses</Comment>
-<Parameters>
-<Parameter
- Type="Messages.PACKET.TRACK_TO_TRAIN.TRACK_CONDITION_BIG_METAL_MASSES.Message"
- Name="Packet"
- Guid="6f536899-d694-45f1-8ad2-97d8cc34326f"
->
-</Parameter></Parameters>
-<Cases>
-<Case
- Name="Return the closest track condition"
- Guid="e47808d7-2603-4a90-b6f9-9650043f9967"
->
-<Comment>Returns the D_TRACKCOND in the Packet with the lowest value</Comment>
-<Expression>REDUCE Packet.Sequence1
-  USING X IN BaseTypes.MinDistance(
-    X1=&gt; MessageTypes.QScaleDistance(distance=&gt;X.D_TRACKCOND, scale=&gt;Packet.Q_SCALE),
-    X2=&gt;RESULT
-)
-  INITIAL_VALUE MessageTypes.QScaleDistance(distance=&gt;Packet.D_TRACKCOND, scale=&gt;Packet.Q_SCALE)</Expression>
-</Case></Cases>
-</Function><Function
  Type="Boolean"
  Default=""
  X="440"
@@ -284,7 +200,6 @@ Kernel.TrackDescription.TrackConditions.BigMetalMasses.BMMAtDistance(aDistance=&
  Width="100"
  Height="50"
  Implemented="TRUE"
- NeedsRequirement="FALSE"
  Name="HandleNewBMMTrackCondition"
  Guid="64859c59-8b18-4845-b9aa-7000c43e0a63"
 >
@@ -294,6 +209,11 @@ Kernel.TrackDescription.TrackConditions.BigMetalMasses.BMMAtDistance(aDistance=&
  Type="Messages.PACKET.TRACK_TO_TRAIN.TRACK_CONDITION_BIG_METAL_MASSES.Message"
  Name="Packet"
  Guid="08f94df9-0910-4c1e-ac59-35ad942a112f"
+>
+</Parameter><Parameter
+ Type="BaseTypes.Distance"
+ Name="aDistanceFromRef"
+ Guid="1145b83e-83c5-4a40-9d87-2e639e5cf726"
 >
 </Parameter></Parameters>
 <Rules>
@@ -334,14 +254,15 @@ Kernel.TrackDescription.TrackConditions.BigMetalMasses.BMMAtDistance(aDistance=&
 <Actions>
 <Action
  Guid="2e8ac763-7528-4050-b24d-3013d722c50a"
->REMOVE ALL X.Location &gt;= NewBMMInfoStartLocation( Packet =&gt; Packet) 
+>REMOVE ALL X.Location &gt;= aDistanceFromRef + MessageTypes.QScaleDistance(
+    distance =&gt; Packet.D_TRACKCOND ,
+    scale =&gt; Packet.Q_SCALE )
     IN TCBigMetalMasses</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
  Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Add new track condition"
+ Name="Add first track condition"
  Guid="55335876-0359-4fb5-bde2-44596cb52a47"
 >
 <Comment>Inserts the newly received track conditions in TCBigMetalMasses</Comment>
@@ -350,7 +271,7 @@ Kernel.TrackDescription.TrackConditions.BigMetalMasses.BMMAtDistance(aDistance=&
 <RuleCondition
  Implemented="TRUE"
  NeedsRequirement="FALSE"
- Name="Insert first point in the track conditions profile"
+ Name="Add first track condition"
  Guid="43d2e382-569b-4837-b468-df8b119e0a9f"
 >
 <ReqRef
@@ -370,19 +291,28 @@ Kernel.TrackDescription.TrackConditions.BigMetalMasses.BMMAtDistance(aDistance=&
 >Kernel.ActiveFunctions.ManageTrackConditions_BigMetalMAsses()</PreCondition></PreConditions>
 <Actions>
 <Action
- Guid="4456f7d5-5ea0-4224-8e9a-6e99581f4040"
+ Guid="d15b03c1-dab2-4baf-b677-5e47edb533af"
 >Kernel.TrackDescription.TrackConditions.BigMetalMasses.AddSectionToBMMs(
-    Location=&gt;MessageTypes.QScaleDistance(
-        distance=&gt;Packet.D_TRACKCOND,
-        scale=&gt;Packet.Q_SCALE
+    Location =&gt; MessageTypes.QScaleDistance(
+        distance =&gt; Packet.D_TRACKCOND,
+        scale =&gt; Packet.Q_SCALE
     )
     ,
-    Length=&gt; MessageTypes.QScaleLength(
-        length=&gt;Packet.L_TRACKCOND,
-        scale=&gt;Packet.Q_SCALE
-    )
+    Length =&gt; MessageTypes.QScaleLength(
+        length =&gt; Packet.L_TRACKCOND,
+        scale =&gt; Packet.Q_SCALE
+    ),
+    PreviousLocation =&gt; aDistanceFromRef
 )</Action></Actions>
-</RuleCondition><RuleCondition
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Name="Add following track conditions"
+ Guid="e5f98d2a-b77b-432d-ad62-ea41e4ac6326"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="Insert further points in the track condition profile"
@@ -398,11 +328,11 @@ Kernel.TrackDescription.TrackConditions.BigMetalMasses.BMMAtDistance(aDistance=&
  Guid="87f1ee03-d658-40fb-95a6-40fe271fc15e"
 >APPLY
     Kernel.TrackDescription.TrackConditions.BigMetalMasses.AddSectionToBMMs(
-        Location=&gt;MessageTypes.QScaleDistance(distance=&gt;Packet.D_TRACKCOND,scale=&gt;Packet.Q_SCALE) - BTM.ActiveAntennaPosition,
-        Length=&gt; MessageTypes.QScaleLength(
-            length=&gt;Packet.L_TRACKCOND,
-            scale=&gt;Packet.Q_SCALE
-        )
+        Location =&gt; MessageTypes.QScaleDistance(distance=&gt;Packet.D_TRACKCOND,scale=&gt;Packet.Q_SCALE),
+        Length =&gt; MessageTypes.QScaleLength(
+            length =&gt; Packet.L_TRACKCOND,
+            scale =&gt; Packet.Q_SCALE ),
+        PreviousLocation =&gt; (LAST X IN TCBigMetalMasses | X.Value).Location
     )
 ON
     Packet.Sequence1</Action></Actions>
@@ -439,6 +369,11 @@ ON
  Name="Length"
  Guid="f822f960-fc86-47ea-88ce-40320c43da70"
 >
+</Parameter><Parameter
+ Type="BaseTypes.Distance"
+ Name="PreviousLocation"
+ Guid="eccbc26d-f269-4c5a-a842-d9bc3c07d1d8"
+>
 </Parameter></Parameters>
 <Rules>
 <Rule
@@ -464,11 +399,7 @@ ON
 ><Comment>EndSectionDistance provides the end location (in terms of the front end of the train) of the section</Comment>
 INSERT Kernel.TrackDescription.TrackConditions.BigMetalMasses.BigMetalMassesInformationStruct
 {
-    Location =&gt; BMMSectionEnd
-    (
-        Distance =&gt; Location,
-        Length =&gt; Length
-    ),
+    Location =&gt; PreviousLocation + Location + BaseTypes.LengthToDistance(Length),
     Value =&gt; False
 }
 IN
@@ -497,7 +428,7 @@ The train is considered to be in the section starting from when the max antenna 
  Guid="260a89f3-ee3a-4960-a54b-8bb92247e287"
 >INSERT Kernel.TrackDescription.TrackConditions.BigMetalMasses.BigMetalMassesInformationStruct
 {
-    Location =&gt; Location - BTM.ActiveAntennaPosition,
+    Location =&gt; PreviousLocation + Location,
     Value =&gt; True
 }
 IN
