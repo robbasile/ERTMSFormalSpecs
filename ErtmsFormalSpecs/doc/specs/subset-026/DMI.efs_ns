@@ -1553,7 +1553,7 @@ Fetches the time from the kernel and adjusts according to the current country id
  Name="Update MRSP"
  Guid="6a704f40-9de7-4007-a2c3-af80257131d1"
 >
-<Comment>Updates the displayed MRSP</Comment>
+<Comment>Updates the displayed MRSP.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
@@ -2199,6 +2199,52 @@ Fetches the time from the kernel and adjusts according to the current country id
     aPlanningInformation =&gt; Kernel.TrackDescription.TrackConditions.Display.SoundHornConditions.DisplayedPlanningInformation(),
     aActiveConditions =&gt; Kernel.TrackDescription.TrackConditions.Display.SoundHornConditions.DisplayedAnnouncements()
 )</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="UpdateOUT"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Update Plain Text Information"
+ Guid="73c82b6c-667f-4d96-af1e-904c53284842"
+>
+<Comment>Updates the displayed plain text messages.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Update Plain Text Information"
+ Guid="1cbbe667-e8e6-42ab-a37b-2abfff8e2d55"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="bfe554b7-22b2-40f3-8e7e-50dda6b1e895"
+>Out_PlainTextInformation.Display()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="UpdateOUT"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Update Fixed Text Information"
+ Guid="f555d322-4a91-4797-ab6f-95059de8ba27"
+>
+<Comment>Updates the displayed fixed text messages.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Update Fixed Text Information"
+ Guid="d1a32a78-e0da-4282-b841-a50d8860c36f"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="08b54ecd-5df3-4aa9-953a-644b97848a6e"
+>Out_FixedTextInformation.Display()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -3524,7 +3570,6 @@ Fetches the time from the kernel and adjusts according to the current country id
 >
 <Comment>This struct containt all necessary variables for DMI intput structures.
 - RequestStatus (of type Request) is used to request begin displaying of some information that needs user&apos;s input.
-- DisplayRequested (of type Boolean) is the out variable. The information shall be displayed on DMI while DisplayRequested = true.
 - DriverAnswered (of type Boolean) is the in variable. DriverAnswered = true means that driver answered on the displayed request.</Comment>
 <Rules>
 <Rule
@@ -3685,10 +3730,7 @@ Fetches the time from the kernel and adjusts according to the current country id
  Name="OutputInformationStruct"
  Guid="98a57631-9d77-4d57-99ac-f7604b15b67a"
 >
-<Comment>This struct containt all necessary variables for DMI output structures.
-- ShowRequestStatus (of type Request) is used to request begin displaying of some information.
-- HideRequestStatus (of type Request) is used to request stop displaying of the information.
-- DisplayRequested (of type Boolean) is the out variable. The information shall be displayed on DMI while DisplayRequested = true.</Comment>
+<Comment>This struct containt all necessary information and procedures for DMI output structures.</Comment>
 <Procedures>
 <Procedure
  Implemented="TRUE"
@@ -3762,7 +3804,7 @@ Fetches the time from the kernel and adjusts according to the current country id
  Name="DisplayRequested"
  Guid="45ad9df0-52e3-44cf-a6ba-25102de45002"
 >
-<Comment>Indicates that the request should be displayed to the driver</Comment>
+<Comment>Indicates that the request should be displayed to the driver.</Comment>
 </StructureElement></Structure><Structure
  Default=""
  X="620"

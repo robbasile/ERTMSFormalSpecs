@@ -1335,13 +1335,6 @@ This procedure does not do anything. The mode tracking is not necessary for this
  Guid="dcffd8c6-b822-4757-824c-f0e013e19ae8"
 >
 <Comment>Requests to display the corresponding information</Comment>
-<Parameters>
-<Parameter
- Type="Kernel.TextMessages.FixedTextMessageStruct"
- Name="aMessage"
- Guid="ae1899d9-7386-4f97-96c8-936092b44da0"
->
-</Parameter></Parameters>
 <Rules>
 <Rule
  Priority="Processing"
@@ -1365,32 +1358,8 @@ This procedure does not do anything. The mode tracking is not necessary for this
 <Action
  Guid="44c800ec-e25d-4917-be36-00c6244139f4"
 >THIS.OutputInformation.RequestDisplay()</Action><Action
- Guid="d998e2cd-9f0a-4366-bb76-ff996db04b98"
->INSERT aMessage IN THIS.Messages</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- Implemented="TRUE"
- Name="Update the start display time"
- Guid="34996d34-c9cc-4bf3-bd19-5ac48eaba80b"
->
-<Comment>Updates the display start time for all the messages for which this values wasn&apos;t computed yet.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Update the start display time"
- Guid="9ea584dc-d55d-4cfb-9f61-73cb0f3c54cf"
->
-<PreConditions>
-</PreConditions>
-<Actions>
-<Action
- Guid="0c431d1f-e27f-49b0-a975-ecaac3f176ee"
->APPLY
-  X.DisplayStartTime.StartTimer()
-ON
-  THIS.Messages | X.DisplayStartTime.Timer == BaseTypes.Time.NA</Action></Actions>
+ Guid="9c0ccc33-a896-48d5-b2aa-9ee0686c4f24"
+>Messages &lt;- Kernel.TextMessages.FixedTextMessagesToDisplay()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -1465,14 +1434,7 @@ ON
  Name="Display"
  Guid="c5a5379e-10c4-479d-b0d2-c815a6a1437d"
 >
-<Comment>Requests to display the corresponding information</Comment>
-<Parameters>
-<Parameter
- Type="Kernel.TextMessages.PlainTextMessageStruct"
- Name="aMessage"
- Guid="8f093c95-a1a9-41b8-9fcf-62eae3e82a8d"
->
-</Parameter></Parameters>
+<Comment>Requests to display the corresponding information.</Comment>
 <Rules>
 <Rule
  Priority="Processing"
@@ -1496,32 +1458,8 @@ ON
 <Action
  Guid="4363861c-bb80-4be3-9741-10e5036b5c52"
 >THIS.OutputInformation.RequestDisplay()</Action><Action
- Guid="c0458d3c-1475-4aca-a0cb-733f253f4596"
->INSERT aMessage IN THIS.Messages</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- Implemented="TRUE"
- Name="Update the start display time"
- Guid="6fd0556e-d786-45f6-aefe-b24e24c5ccf2"
->
-<Comment>Updates the display start time for all the messages for which this values wasn&apos;t computed yet.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Update the start display time"
- Guid="8b1afda3-6ac9-484d-9edf-33a9ae82556f"
->
-<PreConditions>
-</PreConditions>
-<Actions>
-<Action
- Guid="e6434c05-8e28-40d2-9d21-b1d3d5925f1e"
->APPLY
-  X.DisplayStartTime.StartTimer()
-ON
-  THIS.Messages | X.DisplayStartTime.Timer == BaseTypes.Time.NA</Action></Actions>
+ Guid="4d1d5649-eb1a-4462-a0a6-761bf8381579"
+>Messages &lt;- Kernel.TextMessages.PlainTextMessagesToDisplay()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
