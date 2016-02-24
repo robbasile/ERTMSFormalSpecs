@@ -109,58 +109,6 @@ GENERAL_MESSAGE =&gt; JRU.CreateGeneralMessage()
 </Rule><Rule
  Priority="Processing"
  Implemented="TRUE"
- Name="Send Train Data message because of change"
- Guid="857a5cf4-ca7a-4f49-b751-130e7a923a8f"
->
-<Comment>Will contain the TrainData information in the JRU</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Send Train Data message"
- Guid="80cf67dd-ada8-49f7-9c43-516824fe5503"
->
-<Comment>When the function that examines the changes of the TrainDataVerified variable returns true</Comment>
-<PreConditions>
-<PreCondition
- Guid="ea7dc7fe-3d8b-424b-98dd-bffd722f32ce"
->THIS.PreviousTrainData != Kernel.TrainData.TrainData.Value</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="2655cb3c-3abc-4978-bcca-7da3bb3c323b"
->INSERT Messages.JRU.MESSAGE.Message {
-TRAIN_DATA =&gt; JRU.CreateTrainDataMessage()
-} IN JRUMessages</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- Implemented="TRUE"
- Name="Send Train Data message sent to RBC"
- Guid="e14c160a-f079-4098-acd4-ae5c59173e72"
->
-<Comment>Will contain the TrainData information in the JRU</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Send Train Data message"
- Guid="c851d79b-ccfd-454d-86ec-b0ef6bcdf2e9"
->
-<Comment>When the function that examines the changes of the TrainDataVerified variable returns true</Comment>
-<PreConditions>
-<PreCondition
- Guid="5281ff5a-9ae0-47a7-8732-83dc0445fdc2"
->JRU.SendTrainDataMessage(THIS)</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="9c53e3cd-d6e0-4d3b-8990-9e9c536431b7"
->INSERT Messages.JRU.MESSAGE.Message {
-TRAIN_DATA =&gt; JRU.CreateTrainDataMessage()
-} IN JRUMessages</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- Implemented="TRUE"
  Name="Send Emergency Brake Command State message"
  Guid="a87e6e90-f964-4012-aea8-f4348ed7c5ae"
 >
@@ -950,6 +898,36 @@ IN JRUMessages</Action></Actions>
   LOWEST_SUPERVISED_SPEED_WITHIN_THE_MOVEMENT_AUTHORITY =&gt; CreateLSSMAMessage()
 }
 IN JRUMessages</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Send Train Data"
+ Guid="5ce0960b-b8cb-47e4-9f8b-2c9ebaeff39f"
+>
+<Comment>Will contain the TrainData information in the JRU</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Send Train Data message"
+ Guid="c60a4065-a579-4c6a-ad04-bcf70d2438a9"
+>
+<Comment>When the function that examines the changes of the TrainDataVerified variable returns true</Comment>
+<PreConditions>
+<PreCondition
+ Guid="23bf0fc8-5a34-4e76-8a60-8a1ecf77bf2c"
+>JRU.SendTrainDataChanged(THIS)
+ OR
+JRU.SendTrainDataMessage(THIS)
+ OR
+JRU.SendTrainDataValidated(THIS)</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="5b240b0f-c7fd-4561-a58e-c51fdfc7b5fe"
+>INSERT Messages.JRU.MESSAGE.Message {
+TRAIN_DATA =&gt; JRU.CreateTrainDataMessage()
+} IN JRUMessages</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -1904,7 +1882,11 @@ JRU.ModeChanged(jru)
   OR
 JRU.SystemVersionChanged(jru)
   OR
-( JRU.SendTrainDataMessage(jru) ) 
+SendTrainDataMessage(jru) 
+OR
+SendTrainDataValidated(jru)
+  OR
+SendTrainDataChanged(jru)
   OR
 JRU.EmergencyBrakeStatusChanged(jru)
   OR
@@ -5006,6 +4988,72 @@ V_LSSMA =&gt; TypeConvertors.ToJRULSSMA()
  Guid="dfe28a09-b486-4f73-9df6-026be75f2781"
 >
 <Expression>TypeConvertors.ToJRULSSMA() != jru.PreviousLSSMAValue</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="1"
+ Y="61"
+ Width="100"
+ Height="50"
+ Name="SendTrainDataValidated"
+ Guid="12532c38-48c6-4024-94e1-5532bf4f5c0a"
+>
+<Parameters>
+<Parameter
+ Type="JRUStruct"
+ Name="jru"
+ Guid="5aeded51-7928-4628-ac30-49ad855536bf"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="DriverValidatedTrainData"
+ Guid="4bc45608-b7cc-46ac-8dee-34401598d805"
+>
+<PreConditions>
+<PreCondition
+ Guid="d4338eb5-076f-4293-bffa-a4ed43562f38"
+>DMI.MasterDMI().In_TrainData.InputInformation.DriverAnswered</PreCondition></PreConditions>
+<Expression>True</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="785fe96f-ea6c-475f-879e-f33825b28493"
+>
+<Expression>False</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="111"
+ Y="61"
+ Width="100"
+ Height="50"
+ Name="SendTrainDataChanged"
+ Guid="7103ed8f-7a39-4de7-ab79-03790951dfe7"
+>
+<Parameters>
+<Parameter
+ Type="JRUStruct"
+ Name="jru"
+ Guid="58a3f523-a4e0-4419-affc-722658771ca3"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="TrainDataChanged"
+ Guid="14671651-5866-4598-b32a-f3c3359411cc"
+>
+<PreConditions>
+<PreCondition
+ Guid="2f292a1a-ef98-4ba8-b632-77b2bca1774c"
+>jru.PreviousTrainData != Kernel.TrainData.TrainData.Value</PreCondition></PreConditions>
+<Expression>True</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="c8d0f7a3-1095-448f-a943-55970b3e3e4f"
+>
+<Expression>False</Expression>
 </Case></Cases>
 </Function></Functions>
 <Variables>
