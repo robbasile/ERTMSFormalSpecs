@@ -508,7 +508,12 @@ BTM.BaliseGroupOrientation() == BTM.Linking.CurrentLinking().Orientation</Expres
  Name="DistanceToBaliseGroup"
  Guid="41641768-ba85-4244-bd62-229f518ee854"
 >
-<Comment>Returns the distance to the balise group identifed by NID_BG as it was transmitted in the original Linking-message.</Comment>
+<ReqRef
+ Id="bd3f7106-e2c1-465f-be7e-f47543c5f94b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c07655a5-fa47-4a15-bf0c-14dae1b34c65"
+>
+</ReqRef><Comment>Returns the distance to the balise group identifed by NID_BG as it was transmitted in the original Linking-message.</Comment>
 <Parameters>
 <Parameter
  Type="Messages.NID_BG"
@@ -1186,6 +1191,8 @@ BTM.Linking.CurrentBGWithinFrame()</PreCondition></PreConditions>
  Name="DistanceFromReference"
  Guid="0ae663a7-8b68-4ccb-8aff-35f888ff9ca9"
 >
+<Comment>The distance that the train has covered from its current location reference.
+Used when a new BG is received, the parameter aLinkingUsed indicates whether to reposition the train based on the received linking information or whether to use the odometry distance.</Comment>
 <Parameters>
 <Parameter
  Type="Boolean"
@@ -1218,13 +1225,23 @@ BTM.Linking.CurrentBGWithinFrame()</PreCondition></PreConditions>
  Height="50"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
- Name="LinkingInformationReceived"
+ Name="LinkingProfileReceived"
  Guid="b36d74ff-248d-4a64-ad82-dc33020344e9"
 >
 <ReqRef
  Id="5e8ed861-509f-4d98-8c04-8bea3a8cd6c6"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="f7ca3ea4-f1bb-4242-8e5c-8e8f40ff836f"
+>
+</ReqRef><ReqRef
+ Id="ffdc9150-a628-4750-a762-a41c20c3dd26"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9bda5173-8f16-4349-975c-6e9f78bf442b"
+>
+</ReqRef><ReqRef
+ Id="1800bf83-b2c2-4d37-8406-ca0c31b30f0b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0a34d99a-e804-4c3b-968b-2a7b4e88ce73"
 >
 </ReqRef><Comment>Handles the reception of linking information and stores it in internal variables.</Comment>
 <Parameters>

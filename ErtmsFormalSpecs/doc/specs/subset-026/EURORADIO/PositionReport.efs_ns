@@ -1227,9 +1227,47 @@ EURORADIO.PositionReport.PositionReportParameters.DataState != DataStateEnum.Val
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="4445ed5b-035a-40db-8010-575fed1aaaa0"
 >
+</ReqRef><ReqRef
+ Id="18834f9f-2f32-40fe-9d9a-97c8e2991f93"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="3ef06704-993f-4fdb-8e22-27fd31d0d020"
+>
+</ReqRef><ReqRef
+ Id="e69a91d2-e0c4-4628-9343-c53594060aea"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e8e3eeb9-66b3-4ebb-afd2-6cbb2d9efd10"
+>
 </ReqRef><Comment>Creates a position report packet.</Comment>
 <Cases>
 <Case
+ Name="Position unknown or invalid"
+ Guid="9b80f88d-c73f-43f0-a406-55e94e38c74d"
+>
+<PreConditions>
+<PreCondition
+ Guid="6b6ade76-193c-48ef-8277-5653e0b692b6"
+>Kernel.TrainPosition.Position.DataState in [DataStateEnum.Invalid, DataStateEnum.Unknown]</PreCondition></PreConditions>
+<Expression>Messages.PACKET.TRAIN_TO_TRACK.POSITION_REPORTS.Message
+{
+    POSITION_REPORT=&gt; Messages.PACKET.TRAIN_TO_TRACK.POSITION_REPORT.Message
+    {
+        Q_SCALE =&gt; Messages.Q_SCALE._1_m_scaleC,
+        NID_LRBG =&gt; Messages.NID_LRBG.Unknown,
+        D_LRBG =&gt; EURORADIO.PositionReport.FillDistance(),
+        Q_DIRLRBG =&gt; Default.Q_DIRLRBG ( Kernel.TrainPosition.Position.DirectionalPositionInformation.TrainOrientation ),
+        Q_DLRBG =&gt; Default.Q_DLRBG ( Kernel.TrainPosition.Position.DirectionalPositionInformation.TrainFrontEndPosition ),
+        L_DOUBTOVER =&gt; MessageTypes.UnScaleLength ( Kernel.TrainPosition.ConfidenceInterval.ConfidenceInterval(ConfidenceIntervalEnum.L_DOUBTOVER), Messages.Q_SCALE._1_m_scaleC ),
+        L_DOUBTUNDER =&gt; MessageTypes.UnScaleLength ( Kernel.TrainPosition.ConfidenceInterval.ConfidenceInterval(ConfidenceIntervalEnum.L_DOUBTUNDER), Messages.Q_SCALE._1_m_scaleC ),
+        Q_LENGTH =&gt; TIU.TrainIntegrity.Status,
+        L_TRAININT =&gt; MessageTypes.UnScaleLength ( EURORADIO.PositionReport.FillTrainIntegrityInformation(), Messages.Q_SCALE._1_m_scaleC),
+        V_TRAIN =&gt; MessageTypes.UnResolveSpeed ( Odometry.TrainSpeed(), 5.0 ),
+        Q_DIRTRAIN =&gt; Default.Q_DIRTRAIN ( Kernel.TrainPosition.Position.DirectionalPositionInformation.TrainRunningDirection ),
+        M_MODE =&gt; EFSModeConverter(Kernel.Mode),
+        M_LEVEL =&gt; EFSLevelConverter(Kernel.Level.Value.Value)
+    },
+    POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS =&gt; EMPTY
+}</Expression>
+</Case><Case
  Name="One BG"
  Guid="85eff0a6-7e75-4fd3-9825-9e0a8fbf6192"
 >
@@ -1391,7 +1429,7 @@ EURORADIO.PositionReport.PositionReportParameters.DataState != DataStateEnum.Val
 <PreConditions>
 <PreCondition
  Guid="aaa7bc6b-badb-4e38-9d86-88f46f615afe"
->Kernel.TrainPosition.Position.DataState == DataStateEnum.Unknown</PreCondition></PreConditions>
+>Kernel.TrainPosition.Position.DataState in [DataStateEnum.Unknown, DataStateEnum.Invalid]</PreCondition></PreConditions>
 <Expression>MessageTypes.Distance.Unknown</Expression>
 </Case><Case
  Name="Distance known"

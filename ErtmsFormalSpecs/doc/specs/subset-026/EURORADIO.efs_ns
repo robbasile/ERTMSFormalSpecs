@@ -556,6 +556,11 @@ Keep the reason for it to be displayed to the driver.</Comment>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="3bc18cf8-9de1-4584-8d71-57a4196111c4"
 >
+</ReqRef><ReqRef
+ Id="18834f9f-2f32-40fe-9d9a-97c8e2991f93"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9c23f9da-024a-4809-bf9e-71300155836e"
+>
 </ReqRef><Comment>Sends the Position report message.</Comment>
 <Rules>
 <Rule
@@ -1991,7 +1996,7 @@ ConnectionState in EURORADIO.RBCStruct.ConnectionStateSM.Terminating</PreConditi
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
- Name="Verify connection state"
+ Name="Process received message"
  Guid="349a4108-82e2-4fc6-933a-e986b67dae1b"
 >
 <ReqRef
@@ -7594,6 +7599,70 @@ Priority =&gt; aRBC.MessageIn.Priority
 >
 <Expression>False</Expression>
 </Case></Cases>
+</Function><Function
+ Type="BaseTypes.Distance"
+ Default=""
+ X="111"
+ Y="181"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="LRBGLocationReference"
+ Guid="d5711bb5-91b1-4b84-858d-97c0823ceea1"
+>
+<ReqRef
+ Id="1800bf83-b2c2-4d37-8406-ca0c31b30f0b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="8535ed8e-f473-4bee-9e76-8b375b970eb1"
+>
+</ReqRef><ReqRef
+ Id="59b298a9-850d-49a0-951e-800b41e5878a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6b662311-ace0-4c96-9cb2-98d2574c0125"
+>
+</ReqRef><ReqRef
+ Id="f7fc46b2-db95-4d3a-8dcc-19f1948d1fff"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="15574bd6-9a4d-4635-9607-3fae762b4452"
+>
+</ReqRef><ReqRef
+ Id="28c19fbc-19ff-4bc3-ada2-6a631220fc26"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="2b841adf-70f1-4e60-b3b0-e93eecf1e980"
+>
+</ReqRef><Comment>Returns the reference location of the LRBG that is given as location reference for the received RBC message.</Comment>
+<Parameters>
+<Parameter
+ Type="Messages.NID_LRBG"
+ Name="NID_LRBG"
+ Guid="de85b194-296b-45c4-89a0-12a87d3a6da4"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Unknown LRBG"
+ Guid="a29c35bb-9660-442a-b707-72ac47728acd"
+>
+<PreConditions>
+<PreCondition
+ Guid="d2dce00a-a248-4a05-8b4b-8dc2f15aa7cb"
+>NID_LRBG == Messages.NID_LRBG.Unknown</PreCondition></PreConditions>
+<Expression>0.0</Expression>
+</Case><Case
+ Name="Is the current LRBG"
+ Guid="16202738-a9ab-404a-9ec9-8f4a907a3d5e"
+>
+<PreConditions>
+<PreCondition
+ Guid="359de6da-6fc0-450a-bfb4-2b13dcbfe08c"
+>BTM.LRBG.NID == NID_LRBG</PreCondition></PreConditions>
+<Expression>BTM.LRBG.Position.Position</Expression>
+</Case><Case
+ Name="It is another stored BG"
+ Guid="b55b83c5-cb72-441d-b44a-7d87d82d7878"
+>
+<Expression>(FIRST X IN BTM.PreviousBaliseGroups | (X.BaliseGroup.NID == NID_LRBG) ).BaliseGroup.Position.Position</Expression>
+</Case></Cases>
 </Function></Functions>
 <Procedures>
 <Procedure
@@ -8613,7 +8682,17 @@ EURORADIO.Terminal1.RBCConnection.SafeRadioConnectionStatus == EURORADIO.SafeRad
  Name="ProcessIncomingMessages"
  Guid="b9ea4dd2-c1d7-457b-b33c-62e49af0c65b"
 >
-<Comment>This procedure is called for each message received from the Euroradio. It stores the received information into the internal variables.</Comment>
+<ReqRef
+ Id="1800bf83-b2c2-4d37-8406-ca0c31b30f0b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a606e07e-a10b-4b4e-8603-2f2e83dfbe50"
+>
+</ReqRef><ReqRef
+ Id="28c19fbc-19ff-4bc3-ada2-6a631220fc26"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f30771a6-bf8d-43a2-807f-d2f5707e516c"
+>
+</ReqRef><Comment>This procedure is called for each message received from the Euroradio. It stores the received information into the internal variables.</Comment>
 <Parameters>
 <Parameter
  Type="Messages.MESSAGE.TRACK_TO_TRAIN.Message"
@@ -8662,8 +8741,10 @@ EURORADIO.Terminal1.RBCConnection.SafeRadioConnectionStatus == EURORADIO.SafeRad
 <Action
  Guid="ecfaf44c-80b0-4fa6-b1f1-d6dfaa991828"
 >APPLY 
-  BTM.Linking.LinkingInformationReceived(X.LINKING, 0.0)
-  ON aMessage.GENERAL_MESSAGE.Sequence1 | Available(X.LINKING)</Action></Actions>
+  BTM.Linking.LinkingProfileReceived(
+    Packet =&gt; X.LINKING,
+    aDistanceFromRef =&gt; LRBGLocationReference(aMessage.GENERAL_MESSAGE.NID_LRBG) - Kernel.ReferenceLocation() )
+ ON aMessage.GENERAL_MESSAGE.Sequence1 | Available(X.LINKING)</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Linking in Movement Authority"
@@ -8680,7 +8761,9 @@ EURORADIO.Terminal1.RBCConnection.SafeRadioConnectionStatus == EURORADIO.SafeRad
 <Action
  Guid="4a346f7c-0664-47a4-be1f-7144c1c432e6"
 >APPLY 
-  BTM.Linking.LinkingInformationReceived(X.LINKING, 0.0)
+  BTM.Linking.LinkingProfileReceived(
+    Packet =&gt; X.LINKING,
+    aDistanceFromRef =&gt; LRBGLocationReference(aMessage.MOVEMENT_AUTHORITY.NID_LRBG) - Kernel.ReferenceLocation() )
   ON aMessage.MOVEMENT_AUTHORITY.Sequence1 | Available(X.LINKING)</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
@@ -8698,7 +8781,9 @@ EURORADIO.Terminal1.RBCConnection.SafeRadioConnectionStatus == EURORADIO.SafeRad
 <Action
  Guid="92d85109-6e4e-40ca-af96-c6bbcc9c9133"
 >APPLY 
-  BTM.Linking.LinkingInformationReceived(X.LINKING, 0.0)
+  BTM.Linking.LinkingProfileReceived(
+    Packet =&gt; X.LINKING,
+    aDistanceFromRef =&gt; LRBGLocationReference(aMessage.MA_WITH_SHIFTED_LOCATION_REFERENCE.NID_LRBG) - Kernel.ReferenceLocation())
   ON aMessage.MA_WITH_SHIFTED_LOCATION_REFERENCE.Sequence1 | Available(X.LINKING)</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
@@ -8716,7 +8801,9 @@ EURORADIO.Terminal1.RBCConnection.SafeRadioConnectionStatus == EURORADIO.SafeRad
 <Action
  Guid="103d17ab-78e1-499a-a5f3-2ae782ee0b76"
 >APPLY 
-  BTM.Linking.LinkingInformationReceived(X.LINKING, 0.0)
+  BTM.Linking.LinkingProfileReceived(
+    Packet =&gt; X.LINKING,
+    aDistanceFromRef =&gt; LRBGLocationReference(aMessage.INFILL_MA.NID_LRBG) - Kernel.ReferenceLocation() )
   ON aMessage.INFILL_MA.Sequence1 | Available(X.LINKING)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
@@ -8769,7 +8856,9 @@ EURORADIO.Terminal1.RBCConnection.SafeRadioConnectionStatus == EURORADIO.SafeRad
 <Action
  Guid="f500ee30-e279-4200-a5bf-7fff60a3b433"
 >APPLY 
-  Kernel.LevelTransition.LTOReceived(X.LEVEL_TRANSITION_ORDER, aDistanceFromRef =&gt; 0.0 )
+  Kernel.LevelTransition.LTOReceived(
+    Packet =&gt; X.LEVEL_TRANSITION_ORDER,
+    aDistanceFromRef =&gt; LRBGLocationReference(aMessage.GENERAL_MESSAGE.NID_LRBG) - Kernel.ReferenceLocation() )
   ON aMessage.GENERAL_MESSAGE.Sequence1 | Available(X.LEVEL_TRANSITION_ORDER)</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
@@ -8787,7 +8876,9 @@ EURORADIO.Terminal1.RBCConnection.SafeRadioConnectionStatus == EURORADIO.SafeRad
 <Action
  Guid="1fec731b-b9d5-4318-a089-a21fbdc9a1a4"
 >APPLY 
-  Kernel.LevelTransition.LTOReceived(X.LEVEL_TRANSITION_ORDER, aDistanceFromRef =&gt; 0.0 )
+  Kernel.LevelTransition.LTOReceived(
+    Packet =&gt; X.LEVEL_TRANSITION_ORDER,
+    aDistanceFromRef =&gt; LRBGLocationReference(aMessage.MOVEMENT_AUTHORITY.NID_LRBG) - Kernel.ReferenceLocation() )
   ON aMessage.MOVEMENT_AUTHORITY.Sequence1 | Available(X.LEVEL_TRANSITION_ORDER)</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
@@ -8805,7 +8896,9 @@ EURORADIO.Terminal1.RBCConnection.SafeRadioConnectionStatus == EURORADIO.SafeRad
 <Action
  Guid="56138b63-375e-4459-b3a4-e7d18e81eb8b"
 >APPLY 
-  Kernel.LevelTransition.LTOReceived(X.LEVEL_TRANSITION_ORDER, aDistanceFromRef =&gt; 0.0 )
+  Kernel.LevelTransition.LTOReceived(
+    Packet =&gt; X.LEVEL_TRANSITION_ORDER,
+    aDistanceFromRef =&gt; LRBGLocationReference(aMessage.MA_WITH_SHIFTED_LOCATION_REFERENCE.NID_LRBG) - Kernel.ReferenceLocation() )
   ON aMessage.MA_WITH_SHIFTED_LOCATION_REFERENCE.Sequence1 | Available(X.LEVEL_TRANSITION_ORDER)</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
@@ -8823,7 +8916,9 @@ EURORADIO.Terminal1.RBCConnection.SafeRadioConnectionStatus == EURORADIO.SafeRad
 <Action
  Guid="9717ae2e-d9c1-4070-8f6c-ed149c7c9a84"
 >APPLY 
-  Kernel.LevelTransition.LTOReceived(X.LEVEL_TRANSITION_ORDER, aDistanceFromRef =&gt; 0.0 )
+  Kernel.LevelTransition.LTOReceived(
+    Packet =&gt; X.LEVEL_TRANSITION_ORDER,
+    aDistanceFromRef =&gt; LRBGLocationReference(aMessage.INFILL_MA.NID_LRBG) - Kernel.ReferenceLocation() )
   ON aMessage.INFILL_MA.Sequence1 | Available(X.LEVEL_TRANSITION_ORDER)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
@@ -8981,7 +9076,7 @@ EURORADIO.Terminal1.RBCConnection.SafeRadioConnectionStatus == EURORADIO.SafeRad
  Guid="84783058-b6d8-48dd-8897-dedcf0d04f7f"
 >Kernel.TrackDescription.Gradient.ProfileReceived (
     Packet =&gt; ( FIRST X IN aMessage.MOVEMENT_AUTHORITY.Sequence1 | Available ( X.GRADIENT_PROFILE )).GRADIENT_PROFILE,
-    aDistanceFromRef =&gt; 0.0
+    aDistanceFromRef =&gt; LRBGLocationReference(aMessage.MOVEMENT_AUTHORITY.NID_LRBG) - Kernel.ReferenceLocation()
 )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
@@ -9027,8 +9122,9 @@ EURORADIO.Terminal1.RBCConnection.SafeRadioConnectionStatus == EURORADIO.SafeRad
 <Actions>
 <Action
  Guid="cb35e80d-d855-4a80-9c9a-b44f424b0fc7"
->Kernel.TrackDescription.StaticSpeedProfile.StaticSpeedProfileReceived ( Packet =&gt; ( FIRST X IN aMessage.MOVEMENT_AUTHORITY.Sequence1 | Available ( X.INTERNATIONAL_STATIC_SPEED_PROFILE )).INTERNATIONAL_STATIC_SPEED_PROFILE,
-    aDistanceFromRef =&gt; 0.0 )</Action></Actions>
+>Kernel.TrackDescription.StaticSpeedProfile.StaticSpeedProfileReceived (
+    Packet =&gt; ( FIRST X IN aMessage.MOVEMENT_AUTHORITY.Sequence1 | Available ( X.INTERNATIONAL_STATIC_SPEED_PROFILE )).INTERNATIONAL_STATIC_SPEED_PROFILE,
+    aDistanceFromRef =&gt; LRBGLocationReference(aMessage.MOVEMENT_AUTHORITY.NID_LRBG) - Kernel.ReferenceLocation() )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -9095,7 +9191,8 @@ EURORADIO.Terminal1.RBCConnection.SafeRadioConnectionStatus == EURORADIO.SafeRad
 >EURORADIO.HandleCommonPackets
 (
     Packets =&gt; aMessage.MOVEMENT_AUTHORITY.Sequence1,
-    Time =&gt; aMessage.MOVEMENT_AUTHORITY.T_TRAIN
+    Time =&gt; aMessage.MOVEMENT_AUTHORITY.T_TRAIN,
+    NID_LRBG =&gt; aMessage.MOVEMENT_AUTHORITY.NID_LRBG
 )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
@@ -9151,7 +9248,8 @@ EURORADIO.Terminal1.RBCConnection.SafeRadioConnectionStatus == EURORADIO.SafeRad
 (
     Packet =&gt; aMessage.MOVEMENT_AUTHORITY.LEVEL_2_3_MOVEMENT_AUTHORITY,
     NID_BG =&gt; aMessage.MOVEMENT_AUTHORITY.NID_LRBG,
-    SectionStartTimer =&gt; MessageTypes.TimeResolution ( time =&gt; aMessage.MOVEMENT_AUTHORITY.T_TRAIN )
+    SectionStartTimer =&gt; MessageTypes.TimeResolution ( time =&gt; aMessage.MOVEMENT_AUTHORITY.T_TRAIN ),
+    aDistanceFromRef =&gt; LRBGLocationReference(aMessage.MOVEMENT_AUTHORITY.NID_LRBG) - Kernel.ReferenceLocation() 
 )</Action><Action
  Guid="03bcefd6-b932-4560-84fe-4d09a3f2be6f"
 >Kernel.MA.MATimers.LOATimerStart &lt;- MessageTypes.TimeResolution( time =&gt; aMessage.MOVEMENT_AUTHORITY.T_TRAIN )</Action></Actions>
@@ -9212,7 +9310,7 @@ EURORADIO.Terminal1.RBCConnection.SafeRadioConnectionStatus == EURORADIO.SafeRad
 >Kernel.MA.ModeProfile.ModeProfileReceived (
     Packet =&gt; ( FIRST X IN aMessage.MOVEMENT_AUTHORITY.Sequence1 | Available ( X.MODE_PROFILE)).MODE_PROFILE,
     GenericLSMarker =&gt; False,
-    aDistanceFromRef =&gt; 0.0
+    aDistanceFromRef =&gt; LRBGLocationReference(aMessage.MOVEMENT_AUTHORITY.NID_LRBG) - Kernel.ReferenceLocation() 
 )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
@@ -9341,7 +9439,7 @@ EURORADIO.Terminal1.RBCConnection.SafeRadioConnectionStatus == EURORADIO.SafeRad
 >Kernel.MA.ModeProfile.ModeProfileReceived (
     Packet =&gt; ( FIRST X IN aMessage.REQUEST_TO_SHORTEN_MA.Sequence1 | Available ( X.MODE_PROFILE)).MODE_PROFILE,
     GenericLSMarker =&gt; False,
-    aDistanceFromRef =&gt; 0.0
+    aDistanceFromRef =&gt; LRBGLocationReference(aMessage.REQUEST_TO_SHORTEN_MA.NID_LRBG) - Kernel.ReferenceLocation() 
 )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
@@ -9413,7 +9511,8 @@ Kernel.MA.MATimers.LOATimerStart &lt;- MessageTypes.TimeResolution( time =&gt; a
 (
     Packet =&gt; aMessage.REQUEST_TO_SHORTEN_MA.LEVEL_2_3_MOVEMENT_AUTHORITY,
     NID_BG =&gt; aMessage.MOVEMENT_AUTHORITY.NID_LRBG,
-    SectionStartTimer =&gt; MessageTypes.TimeResolution ( time =&gt; aMessage.MOVEMENT_AUTHORITY.T_TRAIN )
+    SectionStartTimer =&gt; MessageTypes.TimeResolution ( time =&gt; aMessage.MOVEMENT_AUTHORITY.T_TRAIN ),
+    aDistanceFromRef =&gt; LRBGLocationReference(aMessage.REQUEST_TO_SHORTEN_MA.NID_LRBG) - Kernel.ReferenceLocation() 
 )</Action><Action
  Guid="02fcd07f-ac43-4f48-82e0-6a487cf9d95a"
 >Kernel.HandlingOfAcceptedAndStoredInformation.CooperativeMARevocationIsGranted &lt;- True</Action><Action
@@ -9517,8 +9616,7 @@ Kernel.MA.MATimers.LOATimerStart &lt;- MessageTypes.TimeResolution( time =&gt; a
 <PreConditions>
 <PreCondition
  Guid="b45902ce-1ad5-4544-b07a-efd3ce8b7857"
->Kernel.TrainPosition.FrontEndPosition( PointOfInterest=&gt;DistanceIntervalEnum.Min )  &lt; 
-MessageTypes.QScaleDistance(
+>Kernel.TrainPosition.FrontEndPosition( PointOfInterest=&gt;DistanceIntervalEnum.Min )  &lt; LRBGLocationReference(aMessage.GENERAL_MESSAGE.NID_LRBG) + MessageTypes.QScaleDistance(
     distance =&gt; aMessage.CONDITIONAL_EMERGENCY_STOP.D_EMERGENCYSTOP,
     scale =&gt; aMessage.CONDITIONAL_EMERGENCY_STOP.D_EMERGENCYSTOP
 )</PreCondition></PreConditions>
@@ -9542,8 +9640,7 @@ MessageTypes.QScaleDistance(
 <PreConditions>
 <PreCondition
  Guid="d576cf7f-55e9-49ee-8461-75648e378b60"
->Kernel.TrainPosition.FrontEndPosition( PointOfInterest=&gt;DistanceIntervalEnum.Min )  &gt;= 
-MessageTypes.QScaleDistance(
+>Kernel.TrainPosition.FrontEndPosition( PointOfInterest=&gt;DistanceIntervalEnum.Min )  &gt;= LRBGLocationReference(aMessage.GENERAL_MESSAGE.NID_LRBG) + MessageTypes.QScaleDistance(
     distance =&gt; aMessage.CONDITIONAL_EMERGENCY_STOP.D_EMERGENCYSTOP,
     scale =&gt; aMessage.CONDITIONAL_EMERGENCY_STOP.D_EMERGENCYSTOP
 )</PreCondition></PreConditions>
@@ -9769,7 +9866,7 @@ MessageTypes.QScaleDistance(
 <Action
  Guid="b95413c9-b053-461c-a7bb-e31ef156aed8"
 >Kernel.TrackDescription.Gradient.ProfileReceived ( Packet =&gt; ( FIRST X IN aMessage.GENERAL_MESSAGE.Sequence1 | Available ( X.GRADIENT_PROFILE )).GRADIENT_PROFILE,
-    aDistanceFromRef =&gt; 0.0 )</Action></Actions>
+    aDistanceFromRef =&gt; LRBGLocationReference(aMessage.GENERAL_MESSAGE.NID_LRBG) - Kernel.ReferenceLocation() )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -9815,7 +9912,7 @@ MessageTypes.QScaleDistance(
 <Action
  Guid="50146264-35cc-4101-9232-7100545ee454"
 >Kernel.TrackDescription.StaticSpeedProfile.StaticSpeedProfileReceived ( Packet =&gt; ( FIRST X IN aMessage.GENERAL_MESSAGE.Sequence1 | Available ( X.INTERNATIONAL_STATIC_SPEED_PROFILE )).INTERNATIONAL_STATIC_SPEED_PROFILE,
-    aDistanceFromRef  =&gt; 0.0 )</Action></Actions>
+    aDistanceFromRef =&gt; LRBGLocationReference(aMessage.GENERAL_MESSAGE.NID_LRBG) - Kernel.ReferenceLocation() )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -9836,10 +9933,10 @@ MessageTypes.QScaleDistance(
 <Actions>
 <Action
  Guid="30b31d73-66f4-4e11-a0ae-a3bf2c3166c3"
->EURORADIO.HandleCommonPackets
-(
+>EURORADIO.HandleCommonPackets (
     Packets =&gt; aMessage.GENERAL_MESSAGE.Sequence1,
-    Time =&gt; aMessage.GENERAL_MESSAGE.T_TRAIN
+    Time =&gt; aMessage.GENERAL_MESSAGE.T_TRAIN,
+    NID_LRBG =&gt; aMessage.GENERAL_MESSAGE.NID_LRBG
 )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
@@ -9916,7 +10013,9 @@ MessageTypes.QScaleDistance(
 <Actions>
 <Action
  Guid="c591202a-bf0c-4820-b865-d89a5c3e1eee"
->Kernel.NationalValues.NationalValuesReceived ( Packet =&gt; ( FIRST X IN aMessage.SH_AUTHORISED.Sequence1 | Available ( X.NATIONAL_VALUES ) ).NATIONAL_VALUES, aDistanceFromRef =&gt; 0.0 )</Action></Actions>
+>Kernel.NationalValues.NationalValuesReceived (
+    Packet =&gt; ( FIRST X IN aMessage.SH_AUTHORISED.Sequence1 | Available ( X.NATIONAL_VALUES ) ).NATIONAL_VALUES,
+    aDistanceFromRef =&gt; LRBGLocationReference(aMessage.SH_AUTHORISED.NID_LRBG) - Kernel.ReferenceLocation() )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -10083,11 +10182,11 @@ MessageTypes.QScaleDistance(
 <Actions>
 <Action
  Guid="4f874ce0-62dc-4762-ae3b-b8e6efe9f83b"
->Kernel.MA.MALvl2or3ProfileReceived
-(
+>Kernel.MA.MALvl2or3ProfileReceived (
     Packet =&gt; aMessage.MA_WITH_SHIFTED_LOCATION_REFERENCE.LEVEL_2_3_MOVEMENT_AUTHORITY,
     NID_BG =&gt; aMessage.MA_WITH_SHIFTED_LOCATION_REFERENCE.NID_LRBG,
-    SectionStartTimer =&gt; MessageTypes.TimeResolution ( time =&gt; aMessage.MOVEMENT_AUTHORITY.T_TRAIN )
+    SectionStartTimer =&gt; MessageTypes.TimeResolution ( time =&gt; aMessage.MOVEMENT_AUTHORITY.T_TRAIN),
+    aDistanceFromRef =&gt; LRBGLocationReference(aMessage.MA_WITH_SHIFTED_LOCATION_REFERENCE.NID_LRBG) - Kernel.ReferenceLocation()
 )</Action><Action
  Guid="50e62eff-bd12-4fa0-b4e8-45ee5c8367fa"
 >Kernel.MA.MATimers.LOATimerStart &lt;- MessageTypes.TimeResolution( time =&gt; aMessage.MOVEMENT_AUTHORITY.T_TRAIN )</Action></Actions>
@@ -10135,8 +10234,9 @@ MessageTypes.QScaleDistance(
 <Actions>
 <Action
  Guid="de6a5e1e-348b-4e9c-bccf-982f442bbe08"
->Kernel.TrackDescription.Gradient.ProfileReceived ( Packet =&gt; ( FIRST X IN aMessage.MA_WITH_SHIFTED_LOCATION_REFERENCE.Sequence1 | Available ( X.GRADIENT_PROFILE )).GRADIENT_PROFILE,
-    aDistanceFromRef =&gt; 0.0 )</Action></Actions>
+>Kernel.TrackDescription.Gradient.ProfileReceived (
+    Packet =&gt; ( FIRST X IN aMessage.MA_WITH_SHIFTED_LOCATION_REFERENCE.Sequence1 | Available ( X.GRADIENT_PROFILE )).GRADIENT_PROFILE,
+    aDistanceFromRef =&gt; LRBGLocationReference(aMessage.MA_WITH_SHIFTED_LOCATION_REFERENCE.NID_LRBG) - Kernel.ReferenceLocation() )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -10181,8 +10281,9 @@ MessageTypes.QScaleDistance(
 <Actions>
 <Action
  Guid="17168c31-dd74-4a16-955d-9457e6b8c283"
->Kernel.TrackDescription.StaticSpeedProfile.StaticSpeedProfileReceived ( Packet =&gt; ( FIRST X IN aMessage.MA_WITH_SHIFTED_LOCATION_REFERENCE.Sequence1 | Available ( X.INTERNATIONAL_STATIC_SPEED_PROFILE )).INTERNATIONAL_STATIC_SPEED_PROFILE,
-    aDistanceFromRef  =&gt; 0.0 )</Action></Actions>
+>Kernel.TrackDescription.StaticSpeedProfile.StaticSpeedProfileReceived (
+    Packet =&gt; ( FIRST X IN aMessage.MA_WITH_SHIFTED_LOCATION_REFERENCE.Sequence1 | Available ( X.INTERNATIONAL_STATIC_SPEED_PROFILE )).INTERNATIONAL_STATIC_SPEED_PROFILE,
+    aDistanceFromRef =&gt; LRBGLocationReference(aMessage.MA_WITH_SHIFTED_LOCATION_REFERENCE.NID_LRBG) - Kernel.ReferenceLocation() )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -10273,7 +10374,7 @@ MessageTypes.QScaleDistance(
 >Kernel.MA.ModeProfile.ModeProfileReceived (
     Packet =&gt; ( FIRST X IN aMessage.MA_WITH_SHIFTED_LOCATION_REFERENCE.Sequence1 | Available ( X.MODE_PROFILE)).MODE_PROFILE,
     GenericLSMarker =&gt; False,
-    aDistanceFromRef =&gt; 0.0
+    aDistanceFromRef =&gt; LRBGLocationReference(aMessage.MA_WITH_SHIFTED_LOCATION_REFERENCE.NID_LRBG) - Kernel.ReferenceLocation() 
 )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
@@ -10295,10 +10396,10 @@ MessageTypes.QScaleDistance(
 <Actions>
 <Action
  Guid="c7f0a384-3a4a-444b-b3e3-fdb95fb71bd0"
->EURORADIO.HandleCommonPackets
-(
+>EURORADIO.HandleCommonPackets (
     Packets =&gt; aMessage.MA_WITH_SHIFTED_LOCATION_REFERENCE.Sequence1,
-    Time =&gt; aMessage.MA_WITH_SHIFTED_LOCATION_REFERENCE.T_TRAIN
+    Time =&gt; aMessage.MA_WITH_SHIFTED_LOCATION_REFERENCE.T_TRAIN,
+    NID_LRBG =&gt; aMessage.MA_WITH_SHIFTED_LOCATION_REFERENCE.NID_LRBG
 )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
@@ -10441,7 +10542,7 @@ MessageTypes.QScaleDistance(
 <Action
  Guid="a2b38d73-5e60-42ea-9e2c-6a64eaf7cf69"
 >Kernel.TrackDescription.Gradient.ProfileReceived ( Packet =&gt; ( FIRST X IN aMessage.INFILL_MA.Sequence1 | Available ( X.GRADIENT_PROFILE )).GRADIENT_PROFILE,
-    aDistanceFromRef =&gt; 0.0 )</Action></Actions>
+    aDistanceFromRef =&gt; LRBGLocationReference(aMessage.INFILL_MA.NID_LRBG) - Kernel.ReferenceLocation() )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -10486,8 +10587,9 @@ MessageTypes.QScaleDistance(
 <Actions>
 <Action
  Guid="b3cb23ea-9165-4bcb-a880-353cfca91157"
->Kernel.TrackDescription.StaticSpeedProfile.StaticSpeedProfileReceived ( Packet =&gt; ( FIRST X IN aMessage.INFILL_MA.Sequence1 | Available ( X.INTERNATIONAL_STATIC_SPEED_PROFILE )).INTERNATIONAL_STATIC_SPEED_PROFILE,
-    aDistanceFromRef  =&gt; 0.0 )</Action></Actions>
+>Kernel.TrackDescription.StaticSpeedProfile.StaticSpeedProfileReceived (
+    Packet =&gt; ( FIRST X IN aMessage.INFILL_MA.Sequence1 | Available ( X.INTERNATIONAL_STATIC_SPEED_PROFILE )).INTERNATIONAL_STATIC_SPEED_PROFILE,
+    aDistanceFromRef =&gt; LRBGLocationReference(aMessage.INFILL_MA.NID_LRBG) - Kernel.ReferenceLocation() )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -10522,7 +10624,9 @@ MessageTypes.QScaleDistance(
 <Actions>
 <Action
  Guid="fa850432-63d9-48ae-b47d-299243354066"
->Kernel.TrackDescription.TrackConditions.TractionSystems.HandleNewTractionSystem ( Packet =&gt; ( FIRST X IN aMessage.INFILL_MA.Sequence1  | Available ( X.TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM ) ).TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM, aDistanceFromRef =&gt; 0.0 )</Action></Actions>
+>Kernel.TrackDescription.TrackConditions.TractionSystems.HandleTractionSystemProfile (
+    Packet =&gt; ( FIRST X IN aMessage.INFILL_MA.Sequence1  | Available ( X.TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM ) ).TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM,
+    aDistanceFromRef =&gt; LRBGLocationReference(aMessage.INFILL_MA.NID_LRBG) - Kernel.ReferenceLocation() )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -10557,7 +10661,9 @@ MessageTypes.QScaleDistance(
 <Actions>
 <Action
  Guid="4c693d85-576a-4809-a9df-e549a0f76bc1"
->Kernel.TrackDescription.TrackConditions.CurrentConsumption.HandleNewCCTrackCondition ( Packet =&gt; ( FIRST X IN aMessage.INFILL_MA.Sequence1  | Available ( X.TRACK_CONDITION_CHANGE_OF_ALLOWED_CURRENT_CONSUMPTION ) ).TRACK_CONDITION_CHANGE_OF_ALLOWED_CURRENT_CONSUMPTION, aDistanceFromRef =&gt; 0.0 )</Action></Actions>
+>Kernel.TrackDescription.TrackConditions.CurrentConsumption.HandleCCTrackConditionProfile (
+    Packet =&gt; ( FIRST X IN aMessage.INFILL_MA.Sequence1  | Available ( X.TRACK_CONDITION_CHANGE_OF_ALLOWED_CURRENT_CONSUMPTION ) ).TRACK_CONDITION_CHANGE_OF_ALLOWED_CURRENT_CONSUMPTION,
+    aDistanceFromRef =&gt; LRBGLocationReference(aMessage.INFILL_MA.NID_LRBG) - Kernel.ReferenceLocation() )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -10666,7 +10772,9 @@ MessageTypes.QScaleDistance(
 <Actions>
 <Action
  Guid="e5f68e11-6242-45e0-8deb-9bc9335d325a"
->Kernel.TrackDescription.AxleLoad.AxleLoadProfileReceived ( Packet =&gt; ( FIRST X IN aMessage.INFILL_MA.Sequence1| Available ( X.AXLE_LOAD_SPEED_PROFILE )).AXLE_LOAD_SPEED_PROFILE, aDistanceFromRef =&gt; 0.0 )</Action></Actions>
+>Kernel.TrackDescription.AxleLoad.AxleLoadProfileReceived (
+    Packet =&gt; ( FIRST X IN aMessage.INFILL_MA.Sequence1| Available ( X.AXLE_LOAD_SPEED_PROFILE )).AXLE_LOAD_SPEED_PROFILE,
+    aDistanceFromRef =&gt; LRBGLocationReference(aMessage.INFILL_MA.NID_LRBG) - Kernel.ReferenceLocation() )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -10702,7 +10810,9 @@ MessageTypes.QScaleDistance(
 <Actions>
 <Action
  Guid="93e1181a-16f8-460e-8ca9-87d3734f27d1"
->Kernel.TrackDescription.PermittedBrakingDistance.PermittedBrakingDistanceReceived ( Packet =&gt; ( FIRST X IN aMessage.INFILL_MA.Sequence1| Available ( X.PERMITTED_BRAKING_DISTANCE_INFORMATION )).PERMITTED_BRAKING_DISTANCE_INFORMATION, aDistanceFromRef =&gt; 0.0 )</Action></Actions>
+>Kernel.TrackDescription.PermittedBrakingDistance.PermittedBrakingDistanceProfileReceived (
+    Packet =&gt; ( FIRST X IN aMessage.INFILL_MA.Sequence1| Available ( X.PERMITTED_BRAKING_DISTANCE_INFORMATION )).PERMITTED_BRAKING_DISTANCE_INFORMATION,
+    aDistanceFromRef =&gt; LRBGLocationReference(aMessage.INFILL_MA.NID_LRBG) - Kernel.ReferenceLocation() )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -10741,9 +10851,9 @@ MessageTypes.QScaleDistance(
 <Actions>
 <Action
  Guid="842e8657-fcae-4e63-ab39-8b4349754b37"
->Kernel.TSR.TemporarySpeedRestrictionsReceived
-(
-  Packet =&gt; ( FIRST X IN aMessage.INFILL_MA.Sequence1 | Available ( X.TEMPORARY_SPEED_RESTRICTION ) ).TEMPORARY_SPEED_RESTRICTION, aDistanceFromRef =&gt; 0.0
+>Kernel.TSR.TemporarySpeedRestrictionsProfileReceived (
+    Packet =&gt; ( FIRST X IN aMessage.INFILL_MA.Sequence1 | Available ( X.TEMPORARY_SPEED_RESTRICTION ) ).TEMPORARY_SPEED_RESTRICTION,
+    aDistanceFromRef =&gt; LRBGLocationReference(aMessage.INFILL_MA.NID_LRBG) - Kernel.ReferenceLocation() 
 )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
@@ -10817,7 +10927,9 @@ MessageTypes.QScaleDistance(
 <Actions>
 <Action
  Guid="b18cbdb5-19a4-4699-97c7-9862eea93972"
->Kernel.TrackDescription.TrackConditions.General.TrackConditionReceived ( Packet =&gt; ( FIRST X IN aMessage.INFILL_MA.Sequence1  | Available ( X.TRACK_CONDITION ) ).TRACK_CONDITION, aDistanceFromRef =&gt; 0.0 )</Action></Actions>
+>Kernel.TrackDescription.TrackConditions.General.TrackConditionProfileReceived (
+    Packet =&gt; ( FIRST X IN aMessage.INFILL_MA.Sequence1  | Available ( X.TRACK_CONDITION ) ).TRACK_CONDITION,
+    aDistanceFromRef =&gt; LRBGLocationReference(aMessage.INFILL_MA.NID_LRBG) - Kernel.ReferenceLocation() )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -10852,7 +10964,9 @@ MessageTypes.QScaleDistance(
 <Actions>
 <Action
  Guid="5aee1fbb-a67c-4c02-b152-8f88f43df22b"
->Kernel.TrackDescription.TrackConditions.StationPlatform.SPTrackConditionReceived ( Packet =&gt; ( FIRST X IN aMessage.INFILL_MA.Sequence1  | Available ( X.TRACK_CONDITION_STATION_PLATFORMS ) ).TRACK_CONDITION_STATION_PLATFORMS, aDistanceFromRef =&gt; 0.0 )</Action></Actions>
+>Kernel.TrackDescription.TrackConditions.StationPlatform.SPTrackConditionProfileReceived (
+    Packet =&gt; ( FIRST X IN aMessage.INFILL_MA.Sequence1  | Available ( X.TRACK_CONDITION_STATION_PLATFORMS ) ).TRACK_CONDITION_STATION_PLATFORMS,
+    aDistanceFromRef =&gt; LRBGLocationReference(aMessage.INFILL_MA.NID_LRBG) - Kernel.ReferenceLocation() )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -10892,7 +11006,9 @@ MessageTypes.QScaleDistance(
 <Actions>
 <Action
  Guid="7cd439db-30ed-4037-bc40-1110364e540b"
->Kernel.TrackDescription.RouteSuitability.RouteSuitabilityReceived ( Packet =&gt; ( FIRST X IN aMessage.INFILL_MA.Sequence1  | Available ( X.ROUTE_SUITABILITY_DATA ) ).ROUTE_SUITABILITY_DATA, aDistanceFromRef =&gt; 0.0 )</Action></Actions>
+>Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfileReceived (
+    Packet =&gt; ( FIRST X IN aMessage.INFILL_MA.Sequence1  | Available ( X.ROUTE_SUITABILITY_DATA ) ).ROUTE_SUITABILITY_DATA,
+    aDistanceFromRef =&gt; LRBGLocationReference(aMessage.INFILL_MA.NID_LRBG) - Kernel.ReferenceLocation() )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -10927,7 +11043,9 @@ MessageTypes.QScaleDistance(
 <Actions>
 <Action
  Guid="9eea0944-023f-458e-b011-51c3a16f9c71"
->Kernel.TrackDescription.AdhesionFactors.AdhesionFactorReceived ( Packet =&gt; ( FIRST X IN aMessage.INFILL_MA.Sequence1  | Available ( X.ADHESION_FACTOR ) ).ADHESION_FACTOR, aDistanceFromRef =&gt; 0.0 )</Action></Actions>
+>Kernel.TrackDescription.AdhesionFactors.AdhesionFactorReceived (
+    Packet =&gt; ( FIRST X IN aMessage.INFILL_MA.Sequence1  | Available ( X.ADHESION_FACTOR ) ).ADHESION_FACTOR,
+    aDistanceFromRef =&gt; LRBGLocationReference(aMessage.INFILL_MA.NID_LRBG) - Kernel.ReferenceLocation() )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -10975,7 +11093,7 @@ MessageTypes.QScaleDistance(
 >Kernel.MA.ModeProfile.ModeProfileReceived (
     Packet =&gt; ( FIRST X IN aMessage.INFILL_MA.Sequence1 | Available ( X.MODE_PROFILE)).MODE_PROFILE,
     GenericLSMarker =&gt; False,
-    aDistanceFromRef =&gt; 0.0
+    aDistanceFromRef =&gt; LRBGLocationReference(aMessage.INFILL_MA.NID_LRBG) - Kernel.ReferenceLocation() 
 )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
@@ -11011,7 +11129,9 @@ MessageTypes.QScaleDistance(
 <Actions>
 <Action
  Guid="3618ea68-ad8e-4bc6-98ef-e85daf77e060"
->Kernel.LX.LXReceived ( Packet =&gt; ( FIRST X IN aMessage.INFILL_MA.Sequence1  | Available ( X.LEVEL_CROSSING_INFORMATION ) ).LEVEL_CROSSING_INFORMATION, aDistanceFromRef =&gt; 0.0 )</Action></Actions>
+>Kernel.LX.LXReceived (
+    Packet =&gt; ( FIRST X IN aMessage.INFILL_MA.Sequence1  | Available ( X.LEVEL_CROSSING_INFORMATION ) ).LEVEL_CROSSING_INFORMATION,
+    aDistanceFromRef =&gt; LRBGLocationReference(aMessage.INFILL_MA.NID_LRBG) - Kernel.ReferenceLocation() )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -11091,7 +11211,7 @@ Kernel.AcceptInformation.ReversingSupervisionInformation( Source =&gt; Kernel.Ac
 (
     RvAreaPacket =&gt; ProvideRevAreaPacketToHandle( aPacket =&gt; ( FIRST X IN aMessage.INFILL_MA.Sequence1 | Available ( X.REVERSING_AREA_INFORMATION )).REVERSING_AREA_INFORMATION ),
     RvSupPacket =&gt; ProvideRevSupPacketToHandle( aPacket =&gt; ( FIRST X IN aMessage.INFILL_MA.Sequence1 | Available ( X.REVERSING_SUPERVISION_INFORMATION)).REVERSING_SUPERVISION_INFORMATION ),
-    aDistanceFromRef =&gt; 0.0
+    aDistanceFromRef =&gt; LRBGLocationReference(aMessage.INFILL_MA.NID_LRBG) - Kernel.ReferenceLocation() 
 )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
@@ -11594,6 +11714,11 @@ NOT
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="0e668fbc-9415-46c5-acc7-47e7fd756bbc"
 >
+</ReqRef><ReqRef
+ Id="ffdc9150-a628-4750-a762-a41c20c3dd26"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="689b9f41-9865-4b29-b2d0-48cee3db9c64"
+>
 </ReqRef><Comment>Handles the reception of RBC transition order.</Comment>
 <Parameters>
 <Parameter
@@ -12033,6 +12158,11 @@ But at the end of the cycle the conditions required for sending of position repo
  Name="Time"
  Guid="3c06eb6f-b270-4cdc-ba27-ac3485ff984f"
 >
+</Parameter><Parameter
+ Type="Messages.NID_LRBG"
+ Name="NID_LRBG"
+ Guid="ea038611-4249-4e60-9719-4d3ec48059bb"
+>
 </Parameter></Parameters>
 <Rules>
 <Rule
@@ -12069,7 +12199,9 @@ But at the end of the cycle the conditions required for sending of position repo
 <Actions>
 <Action
  Guid="05a22110-495a-43bc-9ff6-c21ba759a0a9"
->Kernel.NationalValues.NationalValuesReceived ( Packet =&gt; ( FIRST X IN Packets | Available ( X.NATIONAL_VALUES )).NATIONAL_VALUES, aDistanceFromRef =&gt; 0.0 )</Action></Actions>
+>Kernel.NationalValues.NationalValuesReceived (
+    Packet =&gt; ( FIRST X IN Packets | Available ( X.NATIONAL_VALUES )).NATIONAL_VALUES,
+    aDistanceFromRef =&gt; LRBGLocationReference(NID_LRBG) - Kernel.ReferenceLocation() )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -12105,7 +12237,9 @@ But at the end of the cycle the conditions required for sending of position repo
 <Actions>
 <Action
  Guid="155bc56d-6739-4e94-a9d6-8092c69923fa"
->Kernel.TrackDescription.TrackConditions.TractionSystems.HandleNewTractionSystem ( Packet =&gt; ( FIRST X IN Packets | Available ( X.TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM )).TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM, aDistanceFromRef =&gt; 0.0 )</Action></Actions>
+>Kernel.TrackDescription.TrackConditions.TractionSystems.HandleTractionSystemProfile (
+    Packet =&gt; ( FIRST X IN Packets | Available ( X.TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM )).TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM,
+    aDistanceFromRef =&gt; LRBGLocationReference(NID_LRBG) - Kernel.ReferenceLocation() )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -12141,7 +12275,9 @@ But at the end of the cycle the conditions required for sending of position repo
 <Actions>
 <Action
  Guid="18296c11-281d-4b50-8153-6965da91ed47"
->Kernel.TrackDescription.TrackConditions.CurrentConsumption.HandleNewCCTrackCondition ( Packet =&gt; ( FIRST X IN Packets | Available ( X.TRACK_CONDITION_CHANGE_OF_ALLOWED_CURRENT_CONSUMPTION )).TRACK_CONDITION_CHANGE_OF_ALLOWED_CURRENT_CONSUMPTION, aDistanceFromRef =&gt; 0.0 )</Action></Actions>
+>Kernel.TrackDescription.TrackConditions.CurrentConsumption.HandleCCTrackConditionProfile (
+    Packet =&gt; ( FIRST X IN Packets | Available ( X.TRACK_CONDITION_CHANGE_OF_ALLOWED_CURRENT_CONSUMPTION )).TRACK_CONDITION_CHANGE_OF_ALLOWED_CURRENT_CONSUMPTION,
+    aDistanceFromRef =&gt; LRBGLocationReference(NID_LRBG) - Kernel.ReferenceLocation() )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -12177,7 +12313,9 @@ But at the end of the cycle the conditions required for sending of position repo
 <Actions>
 <Action
  Guid="cf32b68a-6154-41af-94dc-9f198d2b7632"
->Kernel.TrackDescription.AxleLoad.AxleLoadProfileReceived ( Packet =&gt; ( FIRST X IN Packets | Available ( X.AXLE_LOAD_SPEED_PROFILE )).AXLE_LOAD_SPEED_PROFILE, aDistanceFromRef =&gt; 0.0 )</Action></Actions>
+>Kernel.TrackDescription.AxleLoad.AxleLoadProfileReceived (
+    Packet =&gt; ( FIRST X IN Packets | Available ( X.AXLE_LOAD_SPEED_PROFILE )).AXLE_LOAD_SPEED_PROFILE,
+    aDistanceFromRef =&gt; LRBGLocationReference(NID_LRBG) - Kernel.ReferenceLocation() )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -12213,7 +12351,9 @@ But at the end of the cycle the conditions required for sending of position repo
 <Actions>
 <Action
  Guid="403d7454-90a9-4ecf-917a-a3e89cfbff09"
->Kernel.LevelTransition.LTOReceived( Packet =&gt; ( FIRST X IN Packets | Available ( X.LEVEL_TRANSITION_ORDER )).LEVEL_TRANSITION_ORDER, aDistanceFromRef =&gt; 0.0 )</Action></Actions>
+>Kernel.LevelTransition.LTOReceived(
+    Packet =&gt; ( FIRST X IN Packets | Available ( X.LEVEL_TRANSITION_ORDER )).LEVEL_TRANSITION_ORDER,
+    aDistanceFromRef =&gt; LRBGLocationReference(NID_LRBG) - Kernel.ReferenceLocation() )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -12325,7 +12465,9 @@ But at the end of the cycle the conditions required for sending of position repo
 <Actions>
 <Action
  Guid="a031e3c7-aff6-4bed-bb49-72084de463ed"
->Kernel.TrackDescription.PermittedBrakingDistance.PermittedBrakingDistanceReceived ( Packet =&gt; ( FIRST X IN Packets | Available ( X.PERMITTED_BRAKING_DISTANCE_INFORMATION )).PERMITTED_BRAKING_DISTANCE_INFORMATION, aDistanceFromRef =&gt; 0.0 )</Action></Actions>
+>Kernel.TrackDescription.PermittedBrakingDistance.PermittedBrakingDistanceProfileReceived (
+    Packet =&gt; ( FIRST X IN Packets | Available ( X.PERMITTED_BRAKING_DISTANCE_INFORMATION )).PERMITTED_BRAKING_DISTANCE_INFORMATION,
+    aDistanceFromRef =&gt; LRBGLocationReference(NID_LRBG) - Kernel.ReferenceLocation() )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -12495,9 +12637,9 @@ But at the end of the cycle the conditions required for sending of position repo
 <Actions>
 <Action
  Guid="05b58642-c75d-4adf-af23-b75c499d08ca"
->Kernel.TSR.TemporarySpeedRestrictionsReceived
-(
-  Packet =&gt; ( FIRST X IN Packets | Available ( X.TEMPORARY_SPEED_RESTRICTION ) ).TEMPORARY_SPEED_RESTRICTION, aDistanceFromRef =&gt; 0.0
+>Kernel.TSR.TemporarySpeedRestrictionsProfileReceived (
+    Packet =&gt; ( FIRST X IN Packets | Available ( X.TEMPORARY_SPEED_RESTRICTION ) ).TEMPORARY_SPEED_RESTRICTION,
+    aDistanceFromRef =&gt; LRBGLocationReference(NID_LRBG) - Kernel.ReferenceLocation() 
 )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
@@ -12533,9 +12675,8 @@ But at the end of the cycle the conditions required for sending of position repo
 <Actions>
 <Action
  Guid="e014e166-992c-457a-9206-c0a815239a4b"
->Kernel.TSR.TemporarySpeedRestrictionRevocationReceived
-(
-  Packet =&gt; ( FIRST X IN Packets | Available ( X.TEMPORARY_SPEED_RESTRICTION_REVOCATION ) ).TEMPORARY_SPEED_RESTRICTION_REVOCATION
+>Kernel.TSR.TemporarySpeedRestrictionRevocationReceived (
+    Packet =&gt; ( FIRST X IN Packets | Available ( X.TEMPORARY_SPEED_RESTRICTION_REVOCATION ) ).TEMPORARY_SPEED_RESTRICTION_REVOCATION
 )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
@@ -12572,7 +12713,9 @@ But at the end of the cycle the conditions required for sending of position repo
 <Actions>
 <Action
  Guid="e6e8340d-4c48-4759-8a2e-496e884cee9c"
->Kernel.TrackDescription.TrackConditions.General.TrackConditionReceived ( Packet =&gt; ( FIRST X IN Packets | Available ( X.TRACK_CONDITION )).TRACK_CONDITION, aDistanceFromRef =&gt; 0.0 )</Action></Actions>
+>Kernel.TrackDescription.TrackConditions.General.TrackConditionProfileReceived (
+    Packet =&gt; ( FIRST X IN Packets | Available ( X.TRACK_CONDITION )).TRACK_CONDITION,
+    aDistanceFromRef =&gt; LRBGLocationReference(NID_LRBG) - Kernel.ReferenceLocation() )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -12608,7 +12751,9 @@ But at the end of the cycle the conditions required for sending of position repo
 <Actions>
 <Action
  Guid="5f9d9e00-9e1a-48a5-9383-577cc3c95da6"
->Kernel.TrackDescription.TrackConditions.StationPlatform.SPTrackConditionReceived ( Packet =&gt; ( FIRST X IN Packets | Available ( X.TRACK_CONDITION_STATION_PLATFORMS )).TRACK_CONDITION_STATION_PLATFORMS, aDistanceFromRef =&gt; 0.0 )</Action></Actions>
+>Kernel.TrackDescription.TrackConditions.StationPlatform.SPTrackConditionProfileReceived (
+    Packet =&gt; ( FIRST X IN Packets | Available ( X.TRACK_CONDITION_STATION_PLATFORMS )).TRACK_CONDITION_STATION_PLATFORMS,
+    aDistanceFromRef =&gt; LRBGLocationReference(NID_LRBG) - Kernel.ReferenceLocation() )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -12648,7 +12793,9 @@ But at the end of the cycle the conditions required for sending of position repo
 <Actions>
 <Action
  Guid="1835b379-689c-41b7-82bd-bafdaa9df3c9"
->Kernel.TrackDescription.RouteSuitability.RouteSuitabilityReceived ( Packet =&gt; ( FIRST X IN Packets | Available ( X.ROUTE_SUITABILITY_DATA ) ).ROUTE_SUITABILITY_DATA, aDistanceFromRef =&gt; 0.0 )</Action></Actions>
+>Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfileReceived (
+    Packet =&gt; ( FIRST X IN Packets | Available ( X.ROUTE_SUITABILITY_DATA ) ).ROUTE_SUITABILITY_DATA,
+    aDistanceFromRef =&gt; LRBGLocationReference(NID_LRBG) - Kernel.ReferenceLocation() )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -12689,7 +12836,9 @@ But at the end of the cycle the conditions required for sending of position repo
 <Actions>
 <Action
  Guid="ea06da48-3ec0-46a1-813d-7a319085cb21"
->Kernel.TrackDescription.AdhesionFactors.AdhesionFactorReceived ( Packet =&gt; ( FIRST X IN Packets | Available ( X.ADHESION_FACTOR )).ADHESION_FACTOR, aDistanceFromRef =&gt; 0.0 )</Action></Actions>
+>Kernel.TrackDescription.AdhesionFactors.AdhesionFactorReceived (
+    Packet =&gt; ( FIRST X IN Packets | Available ( X.ADHESION_FACTOR )).ADHESION_FACTOR,
+    aDistanceFromRef =&gt; LRBGLocationReference(NID_LRBG) - Kernel.ReferenceLocation() )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -12735,7 +12884,9 @@ But at the end of the cycle the conditions required for sending of position repo
 <Actions>
 <Action
  Guid="a5309523-8d2a-46aa-b43f-3be0cc08944c"
->Kernel.TextMessages.PlainTextMessageReceived( aPacket =&gt; ( FIRST X IN Packets | Available ( X.PACKET_FOR_SENDING_PLAIN_TEXT_MESSAGES )).PACKET_FOR_SENDING_PLAIN_TEXT_MESSAGES, aDistanceFromRef =&gt; 0.0 )</Action></Actions>
+>Kernel.TextMessages.PlainTextMessageReceived(
+    aPacket =&gt; ( FIRST X IN Packets | Available ( X.PACKET_FOR_SENDING_PLAIN_TEXT_MESSAGES )).PACKET_FOR_SENDING_PLAIN_TEXT_MESSAGES,
+    aDistanceFromRef =&gt; LRBGLocationReference(NID_LRBG) - Kernel.ReferenceLocation() )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -12781,7 +12932,9 @@ But at the end of the cycle the conditions required for sending of position repo
 <Actions>
 <Action
  Guid="ee67f95f-e9e9-4457-b040-45460b5de679"
->Kernel.TextMessages.FixedTextMessageReceived( aPacket =&gt; ( FIRST X IN Packets | Available ( X.PACKET_FOR_SENDING_FIXED_TEXT_MESSAGES )).PACKET_FOR_SENDING_FIXED_TEXT_MESSAGES, aDistanceFromRef =&gt; 0.0 )</Action></Actions>
+>Kernel.TextMessages.FixedTextMessageReceived(
+    aPacket =&gt; ( FIRST X IN Packets | Available ( X.PACKET_FOR_SENDING_FIXED_TEXT_MESSAGES )).PACKET_FOR_SENDING_FIXED_TEXT_MESSAGES,
+    aDistanceFromRef =&gt; LRBGLocationReference(NID_LRBG) - Kernel.ReferenceLocation() )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -12857,7 +13010,9 @@ But at the end of the cycle the conditions required for sending of position repo
 <Actions>
 <Action
  Guid="4bf9a490-5b1d-4d14-aca2-9fa5a6d9141c"
->Kernel.LX.LXReceived ( Packet =&gt; ( FIRST X IN Packets | Available ( X.LEVEL_CROSSING_INFORMATION )).LEVEL_CROSSING_INFORMATION, aDistanceFromRef =&gt; 0.0 )</Action></Actions>
+>Kernel.LX.LXReceived (
+    Packet =&gt; ( FIRST X IN Packets | Available ( X.LEVEL_CROSSING_INFORMATION )).LEVEL_CROSSING_INFORMATION,
+    aDistanceFromRef =&gt; LRBGLocationReference(NID_LRBG) - Kernel.ReferenceLocation() )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -12984,7 +13139,7 @@ Kernel.AcceptInformation.ReversingSupervisionInformation( Source =&gt; Kernel.Ac
 (
     RvAreaPacket =&gt; ProvideRevAreaPacketToHandle( aPacket =&gt; ( FIRST X IN Packets | Available ( X.REVERSING_AREA_INFORMATION )).REVERSING_AREA_INFORMATION ),
     RvSupPacket =&gt; ProvideRevSupPacketToHandle( aPacket =&gt; ( FIRST X IN Packets | Available ( X.REVERSING_SUPERVISION_INFORMATION )).REVERSING_SUPERVISION_INFORMATION),
-    aDistanceFromRef =&gt; 0.0
+    aDistanceFromRef =&gt; LRBGLocationReference(NID_LRBG) - Kernel.ReferenceLocation() 
 )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule

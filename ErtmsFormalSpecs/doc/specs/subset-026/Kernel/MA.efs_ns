@@ -2814,6 +2814,11 @@ Kernel.MA.MATimers.EndSectionTimerStart != BaseTypes.Time.NA
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="e6bcd4eb-a286-47b1-acb0-fb7b0e350571"
 >
+</ReqRef><ReqRef
+ Id="1800bf83-b2c2-4d37-8406-ca0c31b30f0b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="cff68d26-817b-4cd4-895a-0d19b1206836"
+>
 </ReqRef><Comment>Determines for which direction is applicable the received MA and calls the appropriate procedure to update the appropriate MA.</Comment>
 <Parameters>
 <Parameter
@@ -2830,6 +2835,11 @@ Kernel.MA.MATimers.EndSectionTimerStart != BaseTypes.Time.NA
  Type="BaseTypes.Time"
  Name="SectionStartTimer"
  Guid="4dc676aa-f0e6-4858-8811-4526592f5424"
+>
+</Parameter><Parameter
+ Type="BaseTypes.Distance"
+ Name="aDistanceFromRef"
+ Guid="8194573d-515c-40ba-93b2-387b739d29aa"
 >
 </Parameter></Parameters>
 <Rules>
@@ -2861,7 +2871,7 @@ Kernel.MA.MATimers.EndSectionTimerStart != BaseTypes.Time.NA
     Packet =&gt; Kernel.MA.ConvertMALvl2or3_to_MALvl1 ( Packet ),
     NID_BG =&gt; NID_BG,
     SectionStartTimer =&gt; SectionStartTimer,
-    aDistanceFromRef =&gt; 0.0
+    aDistanceFromRef =&gt; aDistanceFromRef
 )</Action><Action
  Guid="3e4d5ecc-98c0-4000-9d12-5b63e89e74c7"
 >Kernel.MA.MAIsAccepted &lt;- True</Action></Actions>
@@ -2936,6 +2946,11 @@ Kernel.MA.MATimers.EndSectionTimerStart != BaseTypes.Time.NA
  Id="f4723221-15fd-4636-851f-08a437cc18e6"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="840ddf85-feab-4bc4-b546-417584b9c55c"
+>
+</ReqRef><ReqRef
+ Id="ffdc9150-a628-4750-a762-a41c20c3dd26"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="7defd0d3-44f4-4598-8654-6615d6a4fffa"
 >
 </ReqRef><Comment>Determines for which direction is applicable the received MA and calls the appropriate procedure to update the appropriate MA.</Comment>
 <Parameters>
@@ -3297,6 +3312,11 @@ Kernel.MA.SvL() != EMPTY</PreCondition></PreConditions>
  Id="60f7510b-3edf-4206-bbd3-f54e49074677"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="5742b033-19c6-4511-8a0a-aa42542b86a9"
+>
+</ReqRef><ReqRef
+ Id="bd3f7106-e2c1-465f-be7e-f47543c5f94b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="67ca2ef6-15b7-40d9-aa71-56c95e6d0ebf"
 >
 </ReqRef><Comment>Fills the collection of Sections in MA regularly or as infill data and updates the reference BG</Comment>
 <SubRules></SubRules>
@@ -3957,6 +3977,11 @@ Kernel.MA.SvL().Location &lt; Kernel.MA.ShorteningHandler.Location</PreCondition
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="f73af415-0314-4a46-8ef8-0d11bfd214ed"
 >
+</ReqRef><ReqRef
+ Id="bd3f7106-e2c1-465f-be7e-f47543c5f94b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="4c1f06a2-de73-4dd2-83ae-8f00affe359e"
+>
 </ReqRef><Comment>This function updates the MA&apos;s sections when an infill MA is received. The following steps are executed:
  - The end section of the previous MA is inserted to the list of the sections;
  - All sections situated after the infill locations are removed (if the infill location is situated in the middle of one of sections, the section is cut at that point);
@@ -4253,6 +4278,11 @@ IN
  Id="9c420bdc-a561-406b-a479-9d6cbde196a6"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="e9002275-a0b0-4033-a673-00ab84e51d81"
+>
+</ReqRef><ReqRef
+ Id="bd3f7106-e2c1-465f-be7e-f47543c5f94b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="3df92029-0f59-4084-80d9-8130c25fb96a"
 >
 </ReqRef><Comment>Merges the end section with the list of the other sections and removes the end section. Then the information beyond the location provided as parameter is removed. Used when the MA has to be &quot;cut&quot;.</Comment>
 <Parameters>

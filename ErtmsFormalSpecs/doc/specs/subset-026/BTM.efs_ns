@@ -2232,7 +2232,7 @@ Kernel.AcceptInformation.ReversingSupervisionInformation( Source =&gt; Kernel.Ac
  Width="100"
  Height="50"
  Pinned="TRUE"
- NeedsRequirement="FALSE"
+ Implemented="TRUE"
  Name="HandleNewPacket"
  Guid="052d0827-c337-4549-9724-72afe831fafd"
 >
@@ -2241,7 +2241,8 @@ Kernel.AcceptInformation.ReversingSupervisionInformation( Source =&gt; Kernel.Ac
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="7d1a8168-b8bc-4b96-af40-5b9e285f9491"
 >
-</ReqRef><Comment>This procedure is called for each packet received with a balise telegram.</Comment>
+</ReqRef><Comment>This procedure is called for each packet received with a balise telegram.
+The relevant procedure is called to store and handle the data contained in the packet.</Comment>
 <Parameters>
 <Parameter
  Type="Messages.EUROBALISE.SubStructure1"
@@ -2257,7 +2258,7 @@ Kernel.AcceptInformation.ReversingSupervisionInformation( Source =&gt; Kernel.Ac
 <Rules>
 <Rule
  Priority="Processing"
- NeedsRequirement="FALSE"
+ Implemented="TRUE"
  Name="Handle new packet"
  Guid="b65b19ff-3968-4c36-8ee8-fc038e0d4821"
 >
@@ -2309,7 +2310,7 @@ Kernel.AcceptInformation.ReversingSupervisionInformation( Source =&gt; Kernel.Ac
 <Actions>
 <Action
  Guid="250427e6-8ddb-431d-a76d-b4432281374f"
->BTM.Linking.LinkingInformationReceived(
+>Linking.LinkingProfileReceived(
     Packet =&gt; Packet.TRACK_TO_TRAIN.LINKING,
     aDistanceFromRef =&gt; BGLocationReference.Position.Position - Kernel.ReferenceLocation()
 )</Action></Actions>
@@ -2487,7 +2488,7 @@ Kernel.AcceptInformation.ReversingSupervisionInformation( Source =&gt; Kernel.Ac
 <Actions>
 <Action
  Guid="0720e95d-207d-40f6-9fb3-40fbbf1628f7"
->Kernel.TrackDescription.TrackConditions.TractionSystems.HandleNewTractionSystem(
+>Kernel.TrackDescription.TrackConditions.TractionSystems.HandleTractionSystemProfile(
     Packet =&gt; Packet.TRACK_TO_TRAIN.TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM, 
     aDistanceFromRef =&gt; BGLocationReference.Position.Position - Kernel.ReferenceLocation() )</Action></Actions>
 </RuleCondition><RuleCondition
@@ -2520,7 +2521,7 @@ Kernel.AcceptInformation.ReversingSupervisionInformation( Source =&gt; Kernel.Ac
 <Actions>
 <Action
  Guid="f3afa4bc-a50e-4fbb-818c-4f503b306e90"
->Kernel.TrackDescription.TrackConditions.CurrentConsumption.HandleNewCCTrackCondition( Packet =&gt; Packet.TRACK_TO_TRAIN.TRACK_CONDITION_CHANGE_OF_ALLOWED_CURRENT_CONSUMPTION, aDistanceFromRef =&gt; BGLocationReference.Position.Position - Kernel.ReferenceLocation())</Action></Actions>
+>Kernel.TrackDescription.TrackConditions.CurrentConsumption.HandleCCTrackConditionProfile( Packet =&gt; Packet.TRACK_TO_TRAIN.TRACK_CONDITION_CHANGE_OF_ALLOWED_CURRENT_CONSUMPTION, aDistanceFromRef =&gt; BGLocationReference.Position.Position - Kernel.ReferenceLocation())</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Session Management available"
@@ -2716,7 +2717,7 @@ Kernel.AcceptInformation.ReversingSupervisionInformation( Source =&gt; Kernel.Ac
 <Actions>
 <Action
  Guid="a7bf6d39-8ef9-4f76-b5e1-4b42aae162ea"
->Kernel.TrackDescription.PermittedBrakingDistance.PermittedBrakingDistanceReceived ( Packet =&gt; Packet.TRACK_TO_TRAIN.PERMITTED_BRAKING_DISTANCE_INFORMATION, aDistanceFromRef =&gt; BGLocationReference.Position.Position - Kernel.ReferenceLocation() )</Action></Actions>
+>Kernel.TrackDescription.PermittedBrakingDistance.PermittedBrakingDistanceProfileReceived ( Packet =&gt; Packet.TRACK_TO_TRAIN.PERMITTED_BRAKING_DISTANCE_INFORMATION, aDistanceFromRef =&gt; BGLocationReference.Position.Position - Kernel.ReferenceLocation() )</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Temporary Speed Restriction available"
@@ -2751,7 +2752,7 @@ Kernel.AcceptInformation.ReversingSupervisionInformation( Source =&gt; Kernel.Ac
 <Actions>
 <Action
  Guid="c77c6a04-53bc-449e-b9d8-d1ccaa963ef5"
->Kernel.TSR.TemporarySpeedRestrictionsReceived ( Packet=&gt;Packet.TRACK_TO_TRAIN.TEMPORARY_SPEED_RESTRICTION, aDistanceFromRef =&gt; BGLocationReference.Position.Position - Kernel.ReferenceLocation() )</Action></Actions>
+>Kernel.TSR.TemporarySpeedRestrictionsProfileReceived ( Packet=&gt;Packet.TRACK_TO_TRAIN.TEMPORARY_SPEED_RESTRICTION, aDistanceFromRef =&gt; BGLocationReference.Position.Position - Kernel.ReferenceLocation() )</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Temporary Speed Restriction Revocation available"
@@ -2813,7 +2814,7 @@ Kernel.AcceptInformation.ReversingSupervisionInformation( Source =&gt; Kernel.Ac
 <Actions>
 <Action
  Guid="a8168c14-8dea-4896-9b29-5f71ec706278"
->Kernel.TrackDescription.TrackConditions.BigMetalMasses.HandleNewBMMTrackCondition( Packet.TRACK_TO_TRAIN.TRACK_CONDITION_BIG_METAL_MASSES, aDistanceFromRef =&gt; BGLocationReference.Position.Position - Kernel.ReferenceLocation() )</Action></Actions>
+>Kernel.TrackDescription.TrackConditions.BigMetalMasses.HandleBMMTrackConditionProfile( Packet.TRACK_TO_TRAIN.TRACK_CONDITION_BIG_METAL_MASSES, aDistanceFromRef =&gt; BGLocationReference.Position.Position - Kernel.ReferenceLocation() )</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Track Condition available"
@@ -2849,7 +2850,7 @@ Kernel.AcceptInformation.ReversingSupervisionInformation( Source =&gt; Kernel.Ac
 <Actions>
 <Action
  Guid="b347e32c-19e6-4ec5-8505-a3bae2deeed2"
->Kernel.TrackDescription.TrackConditions.General.TrackConditionReceived( Packet =&gt; Packet.TRACK_TO_TRAIN.TRACK_CONDITION, aDistanceFromRef =&gt; BGLocationReference.Position.Position - Kernel.ReferenceLocation() )</Action></Actions>
+>Kernel.TrackDescription.TrackConditions.General.TrackConditionProfileReceived( Packet =&gt; Packet.TRACK_TO_TRAIN.TRACK_CONDITION, aDistanceFromRef =&gt; BGLocationReference.Position.Position - Kernel.ReferenceLocation() )</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Track Condition Station Platforms available"
@@ -2880,7 +2881,7 @@ Kernel.AcceptInformation.ReversingSupervisionInformation( Source =&gt; Kernel.Ac
 <Actions>
 <Action
  Guid="e37299ce-6e60-4015-9897-e33c8b3ca56c"
->Kernel.TrackDescription.TrackConditions.StationPlatform.SPTrackConditionReceived ( Packet =&gt; Packet.TRACK_TO_TRAIN.TRACK_CONDITION_STATION_PLATFORMS, aDistanceFromRef =&gt; BGLocationReference.Position.Position - Kernel.ReferenceLocation())</Action></Actions>
+>Kernel.TrackDescription.TrackConditions.StationPlatform.SPTrackConditionProfileReceived ( Packet =&gt; Packet.TRACK_TO_TRAIN.TRACK_CONDITION_STATION_PLATFORMS, aDistanceFromRef =&gt; BGLocationReference.Position.Position - Kernel.ReferenceLocation())</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Route Suitability Data available"
@@ -2916,7 +2917,7 @@ Kernel.AcceptInformation.ReversingSupervisionInformation( Source =&gt; Kernel.Ac
 <Actions>
 <Action
  Guid="17d0d98e-1746-417e-b3d1-a0409a79647c"
->Kernel.TrackDescription.RouteSuitability.RouteSuitabilityReceived ( Packet.TRACK_TO_TRAIN.ROUTE_SUITABILITY_DATA, aDistanceFromRef =&gt; BGLocationReference.Position.Position - Kernel.ReferenceLocation() )</Action></Actions>
+>Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfileReceived ( Packet.TRACK_TO_TRAIN.ROUTE_SUITABILITY_DATA, aDistanceFromRef =&gt; BGLocationReference.Position.Position - Kernel.ReferenceLocation() )</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Plain text message available"
@@ -3258,7 +3259,6 @@ True</PreCondition></PreConditions>
 >Kernel.Modes.Shunting.DangerForShuntingReceived( Packet =&gt; Packet.TRACK_TO_TRAIN.DANGER_FOR_SHUNTING_INFORMATION )</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
- NeedsRequirement="FALSE"
  Name="Infill available"
  Guid="8e2593a0-4d11-4587-9407-2b308ebfcce2"
 >
@@ -6240,6 +6240,11 @@ IN BTM.CurrentBaliseGroup</Action></Actions>
  Id="77e74b63-e8c9-42d5-bcf6-0e5423c75697"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="000ae04c-6645-4522-ac18-7bc3b854db77"
+>
+</ReqRef><ReqRef
+ Id="ffdc9150-a628-4750-a762-a41c20c3dd26"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e3fb7efa-a924-4440-b381-37abe32d0b78"
 >
 </ReqRef><Comment>This is the position of the first balise (N_PIG == 0) in the balise group</Comment>
 </Variable><Variable
