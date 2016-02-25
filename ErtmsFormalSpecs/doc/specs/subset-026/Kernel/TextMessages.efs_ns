@@ -2319,7 +2319,7 @@
  Type="TextReportStruct"
  Default=""
  X="340"
- Y="560"
+ Y="620"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -2433,8 +2433,8 @@
 </Function><Function
  Type="String"
  Default=""
- X="230"
- Y="560"
+ X="10"
+ Y="620"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -2478,8 +2478,8 @@
 </Function><Function
  Type="String"
  Default=""
- X="120"
- Y="560"
+ X="230"
+ Y="620"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -2527,8 +2527,8 @@
 </Function><Function
  Type="String"
  Default=""
- X="10"
- Y="560"
+ X="120"
+ Y="620"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -2608,18 +2608,18 @@
 >aMessage.FulfillAllTheEvents == True</PreCondition></PreConditions>
 <Expression>StartLocationConditionSatisfied( aMessage=&gt; aMessage )
   AND
-ModeConditionSatisfied( aModeCondition =&gt; aMessage.StartModeCondition, isStartCondition =&gt; True )
+StartModeConditionSatisfied( aMessage =&gt; aMessage )
   AND
-LevelConditionSatisfied( aLevelCondition =&gt; aMessage.StartLevelCondition, isStartCondition =&gt; True )</Expression>
+StartLevelConditionSatisfied( aMessage =&gt; aMessage )</Expression>
 </Case><Case
  Name="One condition has to be fulfilled"
  Guid="f9db6c5c-502f-4935-a5cd-4b8f508f9421"
 >
 <Expression>StartLocationConditionSatisfied( aMessage=&gt; aMessage )
   OR
-ModeConditionSatisfied( aModeCondition =&gt; aMessage.StartModeCondition, isStartCondition =&gt; True )
+StartModeConditionSatisfied( aMessage =&gt; aMessage )
   OR
-LevelConditionSatisfied( aLevelCondition =&gt; aMessage.StartLevelCondition, isStartCondition =&gt; True )</Expression>
+StartLevelConditionSatisfied( aMessage =&gt; aMessage )</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -2670,9 +2670,9 @@ EndLocationConditionSatisfied(  aMessage =&gt; aMessage )
   AND
 TimerConditionSatisfied( aMessage=&gt; aMessage )
   AND
-ModeConditionSatisfied( aModeCondition =&gt; aMessage.EndModeCondition, isStartCondition =&gt; False )
+EndModeConditionSatisfied( aMessage =&gt; aMessage )
   AND
-LevelConditionSatisfied( aLevelCondition =&gt; aMessage.EndLevelCondition, isStartCondition =&gt; False )
+EndLevelConditionSatisfied( aMessage =&gt; aMessage )
   AND
 AckConditionSatisfied( aMessage=&gt; aMessage )</Expression>
 </Case><Case
@@ -2686,9 +2686,9 @@ AckConditionSatisfied( aMessage=&gt; aMessage )</Expression>
     OR
   TimerConditionSatisfied( aMessage=&gt; aMessage )
     OR
-  ModeConditionSatisfied( aModeCondition =&gt; aMessage.EndModeCondition, isStartCondition =&gt; False )
+  EndModeConditionSatisfied( aMessage =&gt; aMessage )
     OR
-  LevelConditionSatisfied( aLevelCondition =&gt; aMessage.EndLevelCondition, isStartCondition =&gt; False )
+  EndLevelConditionSatisfied( aMessage =&gt; aMessage )
     OR
   AckConditionSatisfied( aMessage =&gt; aMessage )
 )</Expression>
@@ -2701,7 +2701,7 @@ AckConditionSatisfied( aMessage=&gt; aMessage )</Expression>
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="ModeConditionSatisfied"
+ Name="StartModeConditionSatisfied"
  Guid="b4e5c337-c46c-4e80-9c03-779d5626c1a9"
 >
 <ReqRef
@@ -2714,50 +2714,39 @@ AckConditionSatisfied( aMessage=&gt; aMessage )</Expression>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="219ddf53-7b00-42c1-ad34-6a1190cd4cc2"
 >
-</ReqRef><Comment>Indicates if the condition related to the mode is satisfied. The condition is satisfied in the following cases:
-- for start conditions, the mode has to be the same as in the message
-- for end contisions, the mode has to be different.</Comment>
+</ReqRef><Comment>Indicates if the start condition related to the mode is satisfied, i.e. the onboard mode is the same as specified in the message. If no condition is defined, the value of FulfillAllTheEvents is tested since if only one of the conditions is satisfied, this function should return false.</Comment>
 <Parameters>
 <Parameter
- Type="ModeConditionStruct"
- Name="aModeCondition"
+ Type="TextMessageInterface"
+ Name="aMessage"
  Guid="9f91331e-99f0-49ed-88b0-7587d4038a2d"
->
-</Parameter><Parameter
- Type="Boolean"
- Name="isStartCondition"
- Guid="730aa122-8d7b-4c3b-aec3-d2d26e58a2d6"
 >
 </Parameter></Parameters>
 <Cases>
 <Case
- Name="Start condition"
+ Name="Mode condition defined"
  Guid="d58b1c78-6ae5-4dff-b122-65144dcb11c1"
 >
 <PreConditions>
 <PreCondition
  Guid="3898b240-3167-4758-b17e-3c0949416e00"
->isStartCondition</PreCondition></PreConditions>
-<Expression>aModeCondition.IsLimitedByMode == True
-  AND
-Kernel.Mode == aModeCondition.Mode</Expression>
+>aMessage.StartModeCondition.IsLimitedByMode</PreCondition></PreConditions>
+<Expression>Kernel.Mode == aMessage.StartModeCondition.Mode</Expression>
 </Case><Case
  Name="End condition"
  Guid="aa3a52c2-5f10-4ee6-a278-4098b1ebc259"
 >
-<Expression>aModeCondition.IsLimitedByMode == True
-  AND
-Kernel.Mode == aModeCondition.Mode</Expression>
+<Expression>aMessage.FulfillAllTheEvents</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
  Default=""
- X="340"
+ X="450"
  Y="500"
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="LevelConditionSatisfied"
+ Name="StartLevelConditionSatisfied"
  Guid="583e2333-cb48-445f-b23d-94330cc40fe0"
 >
 <ReqRef
@@ -2770,46 +2759,35 @@ Kernel.Mode == aModeCondition.Mode</Expression>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="2cf7ce06-208d-4832-b162-c8074ae7bfa2"
 >
-</ReqRef><Comment>Indicates if the condition related to the level is satisfied. The condition is satisfied in the following cases:
-- for start conditions, the level has to be the same as in the message
-- for end contisions, the level has to be different.</Comment>
+</ReqRef><Comment>Indicates if the start condition related to the level is satisfied, i.e. the onboard level is the same as specified in the message. If no condition is defined, the value of FulfillAllTheEvents is tested since if only one of the conditions is satisfied, this function should return false.</Comment>
 <Parameters>
 <Parameter
- Type="LevelConditionStruct"
- Name="aLevelCondition"
+ Type="TextMessageInterface"
+ Name="aMessage"
  Guid="a80f1241-9a8b-4afa-9541-325b079973d3"
->
-</Parameter><Parameter
- Type="Boolean"
- Name="isStartCondition"
- Guid="6dbb33a6-edec-45cc-8a3a-13227e4138cb"
 >
 </Parameter></Parameters>
 <Cases>
 <Case
- Name="Start condition"
+ Name="Level condition defined"
  Guid="f58e0d32-75a3-4c02-9984-1d455a0953a3"
 >
 <PreConditions>
 <PreCondition
  Guid="0387b433-fb26-4fe5-9a37-cd621bbcab32"
->isStartCondition</PreCondition></PreConditions>
-<Expression>aLevelCondition.IsLimitedByLevel == True
-  AND
-Kernel.Level.Value.Value == aLevelCondition.Level.Value</Expression>
+>aMessage.StartLevelCondition.IsLimitedByLevel == True</PreCondition></PreConditions>
+<Expression>Kernel.Level.Value == aMessage.StartLevelCondition.Level</Expression>
 </Case><Case
- Name="End condition"
+ Name="Otherwise"
  Guid="2affa7eb-69d7-4cba-8865-ac2bc5d8cb79"
 >
-<Expression>aLevelCondition.IsLimitedByLevel == True
-  AND
-Kernel.Level.Value.Value != aLevelCondition.Level.Value</Expression>
+<Expression>aMessage.FulfillAllTheEvents</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
  Default=""
- X="670"
- Y="500"
+ X="120"
+ Y="560"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -2850,7 +2828,7 @@ Kernel.Level.Value.Value != aLevelCondition.Level.Value</Expression>
 </Function><Function
  Type="Boolean"
  Default=""
- X="450"
+ X="670"
  Y="500"
  Width="100"
  Height="50"
@@ -2895,8 +2873,8 @@ Kernel.Level.Value.Value != aLevelCondition.Level.Value</Expression>
 </Function><Function
  Type="Boolean"
  Default=""
- X="560"
- Y="500"
+ X="10"
+ Y="560"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -3085,8 +3063,8 @@ Kernel.Level.Value.Value != aLevelCondition.Level.Value</Expression>
 </Function><Function
  Type="Boolean"
  Default=""
- X="10"
- Y="620"
+ X="230"
+ Y="560"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -3123,8 +3101,8 @@ aMessage.AckStopsDisplay</Expression>
 </Function><Function
  Type="Boolean"
  Default=""
- X="120"
- Y="620"
+ X="340"
+ Y="560"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -3256,9 +3234,16 @@ FORALL Ack IN DMI.IN.Acknowledgements.Acknowledgements | Ack.FixedTextMessage.Re
  Y="120"
  Width="100"
  Height="50"
+ Implemented="TRUE"
  Name="FixedTextMessagesToDisplay"
  Guid="b79a50de-099d-4444-999e-f82fa3ea9f14"
 >
+<ReqRef
+ Id="490417f6-e82d-4b6a-9740-a42c28b1acda"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="86fda9a5-1997-4cd9-8c47-807f379089e4"
+>
+</ReqRef><Comment>Provides the list of fixed text messages that have to be displayed to the driver, i. e. the messages for which the display start condition is satisfied and for which either no acknowledgement is needed, or the driver has already acknowledged them.</Comment>
 <Cases>
 <Case
  Name="Value"
@@ -3275,41 +3260,22 @@ USING aMessage
 IN aMessage</Expression>
 </Case></Cases>
 </Function><Function
- Type="Boolean"
- Default=""
- X="230"
- Y="620"
- Width="100"
- Height="50"
- Name="MessageCanBeDisplayed"
- Guid="474e94be-ad91-425b-84fd-173336de91f7"
->
-<Parameters>
-<Parameter
- Type="TextMessageInterface"
- Name="aMessage"
- Guid="aede2e5b-4c57-4b63-9165-c1f11f018335"
->
-</Parameter></Parameters>
-<Cases>
-<Case
- Name="Value"
- Guid="f47897a1-2dd4-4f58-99d5-0ff882ee0d44"
->
-<Expression>StartConditionSatisfied( aMessage =&gt; aMessage )
-  AND
-NOT AckStopsDisplay( aMessage =&gt; aMessage )</Expression>
-</Case></Cases>
-</Function><Function
  Type="PlainTextMessagesCol"
  Default=""
  X="620"
  Y="120"
  Width="100"
  Height="50"
+ Implemented="TRUE"
  Name="PlainTextMessagesToDisplay"
  Guid="f71c8efb-464c-4cfd-a7d3-cbf904ccad32"
 >
+<ReqRef
+ Id="490417f6-e82d-4b6a-9740-a42c28b1acda"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="1a8712d6-2d28-4076-9700-22bf7341ae3d"
+>
+</ReqRef><Comment>Provides the list of plain text messages that have to be displayed to the driver, i. e. the messages for which the display start condition is satisfied and for which either no acknowledgement is needed, or the driver has already acknowledged them.</Comment>
 <Cases>
 <Case
  Name="Value"
@@ -3324,6 +3290,97 @@ NOT AckStopsDisplay( aMessage =&gt; aMessage )</Expression>
     aMessage.IsAcknowledged)
 USING aMessage
 IN aMessage</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="560"
+ Y="500"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="EndLevelConditionSatisfied"
+ Guid="09ec9ba6-3234-4bb0-b63a-66b8b4808096"
+>
+<ReqRef
+ Id="87d5613b-8da1-42cf-8b12-597d82ffe263"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6338ba69-a734-499d-9328-831c2e1f0755"
+>
+</ReqRef><ReqRef
+ Id="b7edc2b7-4bf2-4608-ae3f-df5b9ddaa39e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ae0c6483-dc97-4775-acb5-a52d96f78850"
+>
+</ReqRef><Comment>Indicates if the start condition related to the level is satisfied, i.e. the onboard level is different from the value specified in the message. If no condition is defined, the value of FulfillAllTheEvents is tested since if only one of the conditions is satisfied, this function should return false.</Comment>
+<Parameters>
+<Parameter
+ Type="TextMessageInterface"
+ Name="aMessage"
+ Guid="b2ba944d-5b4f-4427-a2a3-05799977149f"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Level condition defined"
+ Guid="ecfbcdd3-e6c3-44b6-a36c-a09dfb80a900"
+>
+<PreConditions>
+<PreCondition
+ Guid="73eba601-52bc-4ff8-a59d-5f915501ea76"
+>aMessage.EndLevelCondition.IsLimitedByLevel == True</PreCondition></PreConditions>
+<Expression>Kernel.Level.Value != aMessage.EndLevelCondition.Level</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="152cba5b-8eff-4741-9686-35280a818553"
+>
+<Expression>aMessage.FulfillAllTheEvents</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="340"
+ Y="500"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="EndModeConditionSatisfied"
+ Guid="afb48bd3-f5e0-48e8-89b1-c6e257d239e0"
+>
+<ReqRef
+ Id="498ad2ad-2817-404e-b61d-20ec57c5d991"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ec93487b-e71c-41bc-ba16-87c7f1098ec3"
+>
+</ReqRef><ReqRef
+ Id="ce94f233-495d-4058-a149-705b10f330a4"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d2345629-ccbe-4e7b-aa9c-1c99730de229"
+>
+</ReqRef><Comment>Indicates if the start condition related to the mode is satisfied, i.e. the onboard mode is different from the value specified in the message. If no condition is defined, the value of FulfillAllTheEvents is tested since if only one of the conditions is satisfied, this function should return false.</Comment>
+<Parameters>
+<Parameter
+ Type="TextMessageInterface"
+ Name="aMessage"
+ Guid="445b637a-693a-4b0a-a734-d1558320ed30"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Mode condition defined"
+ Guid="8778cea8-7482-47c7-b319-09e47780ff40"
+>
+<PreConditions>
+<PreCondition
+ Guid="a7192745-6eae-4049-b3f1-6cb63c3016d9"
+>aMessage.EndModeCondition.IsLimitedByMode</PreCondition></PreConditions>
+<Expression>Kernel.Mode != aMessage.EndModeCondition.Mode</Expression>
+</Case><Case
+ Name="End condition"
+ Guid="36f1d65e-e34e-4617-86da-ea005efa8d1a"
+>
+<Expression>aMessage.FulfillAllTheEvents
+</Expression>
 </Case></Cases>
 </Function></Functions>
 <Procedures>
@@ -3587,7 +3644,8 @@ ON
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="d09d7f5a-4ce0-4065-a2ce-8237c691b98d"
 >
-</ReqRef><SubRules></SubRules>
+</ReqRef><Comment>Delete all the messages requiring the driver&apos;s acknowledgement and which display is stopped after the acknowledgement.</Comment>
+<SubRules></SubRules>
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
@@ -3640,7 +3698,7 @@ IN
   X.DisplayStartTime.StartTimer()
 ON
   FixedTextMessages |
-    MessageCanBeDisplayed(X)
+    StartConditionSatisfied(aMessage =&gt; X)
       AND
     X.DisplayStartTime.Timer == BaseTypes.Time.NA</Action><Action
  Guid="b7af0711-618c-457e-87a9-1247e171fefb"
@@ -3648,7 +3706,7 @@ ON
   X.DisplayStartTime.StartTimer()
 ON
   PlainTextMessages |
-    MessageCanBeDisplayed(X)
+    StartConditionSatisfied(aMessage =&gt; X)
       AND
     X.DisplayStartTime.Timer == BaseTypes.Time.NA</Action></Actions>
 </RuleCondition></Conditions>

@@ -175,7 +175,7 @@
           M_LEVELTEXTDISPLAY_0 =&gt; Messages.M_LEVELTEXTDISPLAY.Level_0, 
           NID_NTC_0 =&gt; 20, 
           L_TEXTDISPLAY =&gt; 1000, 
-          T_TEXTDISPLAY =&gt; 20, 
+          T_TEXTDISPLAY =&gt; 400, 
           M_MODETEXTDISPLAY_1 =&gt; Messages.M_MODETEXTDISPLAY.The_display_of_the_text_shall_not_be_limited_by_the_mode, 
           M_LEVELTEXTDISPLAY_1 =&gt; Messages.M_LEVELTEXTDISPLAY.Level_0, 
           NID_NTC_1 =&gt; 0, 
@@ -282,7 +282,7 @@
  Kind="Instantaneous"
  Blocking="FALSE"
  Guid="e2c7c16a-5bca-430e-b69b-aca952e3c782"
->COUNT X IN Kernel.TextMessages.PlainTextMessages == 0</Expectation></Expectations>
+>COUNT X IN Kernel.TextMessages.PlainTextMessages == 1</Expectation></Expectations>
 </SubStep><SubStep
  TimeDelay="NotDelayed"
  Name="The level changes to L1"
@@ -470,8 +470,8 @@
           M_LEVELTEXTDISPLAY_0 =&gt; Messages.M_LEVELTEXTDISPLAY.The_display_of_the_text_shall_not_be_limited_by_the_level, 
           NID_NTC_0 =&gt; 20, 
           L_TEXTDISPLAY =&gt; 1000, 
-          T_TEXTDISPLAY =&gt; 20, 
-          M_MODETEXTDISPLAY_1 =&gt; Messages.M_MODETEXTDISPLAY.Staff_Responsible, 
+          T_TEXTDISPLAY =&gt; 400, 
+          M_MODETEXTDISPLAY_1 =&gt; Messages.M_MODETEXTDISPLAY.Limited_Supervision, 
           M_LEVELTEXTDISPLAY_1 =&gt; Messages.M_LEVELTEXTDISPLAY.The_display_of_the_text_shall_not_be_limited_by_the_level, 
           NID_NTC_1 =&gt; 0, 
           Q_TEXTCONFIRM =&gt; Messages.Q_TEXTCONFIRM.No_confirmation_required, 
@@ -573,7 +573,7 @@
  Kind="Instantaneous"
  Blocking="FALSE"
  Guid="7089a54a-6a91-4d58-9ea5-156dd15d3dbe"
->COUNT X IN Kernel.TextMessages.PlainTextMessages == 0</Expectation><Expectation
+>COUNT X IN Kernel.TextMessages.PlainTextMessages == 1</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
  Guid="f5717ff5-d7cb-4501-a166-762c82a17bfd"
@@ -889,8 +889,7 @@
  Kind="Instantaneous"
  Blocking="FALSE"
  Guid="57316d8c-ea80-479d-8932-73100a1cd756"
->COUNT X IN Kernel.TextMessages.PlainTextMessages == 1
-</Expectation><Expectation
+>COUNT X IN Kernel.TextMessages.PlainTextMessages == 1</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
  Guid="0bd8ae4e-ba32-4a83-8ba0-f03f71b7bc57"
@@ -1209,7 +1208,12 @@
 <Actions>
 <Action
  Guid="87a69d42-280a-488e-a6d5-c52d06470cbc"
->Kernel.DateAndTime.CurrentTime &lt;- Kernel.DateAndTime.CurrentTime + 19.0</Action></Actions>
+>Kernel.DateAndTime.CurrentTime &lt;-
+( FIRST aMessage1 IN Kernel.TextMessages.PlainTextMessages ).DisplayStartTime.Timer
+  +
+( FIRST aMessage2 IN Kernel.TextMessages.PlainTextMessages ).DisplayDuration
+ -
+1.0</Action></Actions>
 </SubStep><SubStep
  TimeDelay="NotDelayed"
  Name="Check the text is still displayed"
@@ -1220,7 +1224,7 @@
  Kind="Instantaneous"
  Blocking="FALSE"
  Guid="11e626ea-e190-4e59-b58c-67a87ac9372c"
->COUNT X IN Kernel.TextMessages.PlainTextMessages == 0</Expectation><Expectation
+>COUNT X IN Kernel.TextMessages.PlainTextMessages == 1</Expectation><Expectation
  Kind="Instantaneous"
  Blocking="FALSE"
  Guid="a68c2e2f-8fd5-45a0-83b3-0e6d2f35c6b0"
@@ -1402,7 +1406,7 @@
           L_TEXTDISPLAY =&gt; 100, 
           T_TEXTDISPLAY =&gt; 2000, 
           M_MODETEXTDISPLAY_1 =&gt; Messages.M_MODETEXTDISPLAY.The_display_of_the_text_shall_not_be_limited_by_the_mode, 
-          M_LEVELTEXTDISPLAY_1 =&gt; Messages.M_LEVELTEXTDISPLAY.Level_1, 
+          M_LEVELTEXTDISPLAY_1 =&gt; Messages.M_LEVELTEXTDISPLAY.Level_0, 
           NID_NTC_1 =&gt; 0, 
           Q_TEXTCONFIRM =&gt; Messages.Q_TEXTCONFIRM.No_confirmation_required, 
           Q_CONFTEXTDISPLAY =&gt; 0, 
@@ -1575,7 +1579,11 @@
  Kind="Instantaneous"
  Blocking="FALSE"
  Guid="beebd9b2-0213-4a7d-84dc-032355f84157"
->COUNT X IN DMI.MasterDMI().Out_PlainTextInformation.Messages == 1</Expectation></Expectations>
+>COUNT X IN DMI.MasterDMI().Out_PlainTextInformation.Messages == 1</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="4ade0638-9385-483d-b877-9b571ec6edda"
+>COUNT X IN Kernel.TextMessages.PlainTextMessages == 1</Expectation></Expectations>
 </SubStep><SubStep
  TimeDelay="NotDelayed"
  Name="The timer expires"
@@ -1595,7 +1603,11 @@
  Kind="Instantaneous"
  Blocking="FALSE"
  Guid="c9233f72-c669-48df-9997-e5dc4d637de2"
->COUNT X IN DMI.MasterDMI().Out_PlainTextInformation.Messages == 1</Expectation></Expectations>
+>COUNT X IN DMI.MasterDMI().Out_PlainTextInformation.Messages == 1</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="8da86fb0-167f-4c9c-977e-863c0f95522e"
+>COUNT X IN Kernel.TextMessages.PlainTextMessages == 1</Expectation></Expectations>
 </SubStep><SubStep
  TimeDelay="NotDelayed"
  Name="The level changes"
@@ -1615,7 +1627,11 @@
  Kind="Instantaneous"
  Blocking="FALSE"
  Guid="1721dddf-188a-468e-bbb4-805e28c65dd8"
->COUNT X IN DMI.MasterDMI().Out_PlainTextInformation.Messages == 0</Expectation></Expectations>
+>COUNT X IN DMI.MasterDMI().Out_PlainTextInformation.Messages == 0</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="15a184e8-3923-4480-b6f9-c9afaa3d5056"
+>COUNT X IN Kernel.TextMessages.PlainTextMessages == 0</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step></Steps>
 </TestCase></TestCases>
