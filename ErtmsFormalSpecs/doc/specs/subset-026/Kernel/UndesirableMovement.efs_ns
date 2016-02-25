@@ -414,47 +414,6 @@ Kernel.UndesirableMovement.MovedForwardBeyondReference(Kernel.UndesirableMovemen
 >Kernel.UndesirableMovement.ReverseMovementReferencePosition &lt;- Odometry.NominalDistance</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
-</Procedure><Procedure
- X="570"
- Y="130"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="InitializeStandstillSupervision"
- Guid="1843421e-71e3-4672-b981-d01507914941"
->
-<ReqRef
- Id="e87c7aa6-0460-46c8-82ca-66eb5c47b2ae"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="ea11a058-d600-4357-9f71-3cc764c95506"
->
-</ReqRef><Comment>Reinitialises the standstill supervision function.</Comment>
-<Rules>
-<Rule
- Priority="Processing"
- Implemented="TRUE"
- Name="Keep reference position"
- Guid="84aa25b6-f763-4908-ab30-70be284dc5db"
->
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Keep reference position"
- Guid="208718dc-d69b-48c4-a5c0-e6ebb9792480"
->
-<PreConditions>
-<PreCondition
- Guid="5274524d-68cb-45b7-8441-c6ab3454fd69"
->Kernel.ActiveFunctions.SuperviseStandstill()</PreCondition><PreCondition
- Guid="2627650c-d4bb-4df4-bdc3-78aaafd38f18"
->NOT TIU.Brakes.BrakeCommanded()</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="f117494c-22db-43e3-86ca-39ee1ad12b01"
->Kernel.UndesirableMovement.StandstillSupervisionReferencePosition &lt;- Odometry.NominalDistance</Action></Actions>
-</RuleCondition></Conditions>
-</Rule></Rules>
 </Procedure></Procedures>
 <Variables>
 <Variable
@@ -766,6 +725,31 @@ When the standstill supervision is inactive, it is set to the unknown distance.<
 <Action
  Guid="a584993d-4df5-4d15-9b17-5e1dd89d6b43"
 >Kernel.UndesirableMovement.StandstillSupervisionReferencePosition &lt;- BaseTypes.Distance.Unknown</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Initialize Standstill Supervision"
+ Guid="2df0772c-8679-43fe-88be-e8ef74979b9e"
+>
+<ReqRef
+ Id="e87c7aa6-0460-46c8-82ca-66eb5c47b2ae"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="cd02ccec-2a71-4c60-89d8-712182a1277a"
+>
+</ReqRef><Comment>Shall initialize the standstill supervision by setting the reference position to the nominal position.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="c9716104-f9d9-41d0-b9ed-2805bb0878c1"
+>Kernel.ActiveFunctions.SuperviseStandstill()</PreCondition><PreCondition
+ Guid="bdb72f72-fe69-44b6-b9a2-57ff797ff762"
+>NOT TIU.Brakes.BrakeCommanded()</PreCondition><PreCondition
+ Guid="ede31325-50d1-49ed-a398-f86e619b3c7c"
+>Kernel.UndesirableMovement.StandstillSupervisionReferencePosition == BaseTypes.Distance.Unknown</PreCondition><PreCondition
+ Guid="8c7c5875-c8a4-48d6-909f-ed944d28f30e"
+>Kernel.UndesirableMovement.MovementDetected()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="493a960e-5abd-4a09-bbe8-ec46511c74ef"
+>Kernel.UndesirableMovement.StandstillSupervisionReferencePosition &lt;- Odometry.NominalDistance</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </NameSpace>
