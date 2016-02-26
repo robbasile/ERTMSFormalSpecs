@@ -761,7 +761,7 @@ FORALL_IN is defensive programming; if the Collection does not have the same val
  Name="Value"
  Guid="efbb6e0b-2160-4e54-acf9-98923bf5abab"
 >
-<Expression>THERE_IS X IN Message.Sequence1 | BTM.ConsiderPacket ( PacketOrientation =&gt; X.TRACK_TO_TRAIN.REPOSITIONING_INFORMATION.Q_DIR)</Expression>
+<Expression>THERE_IS X IN Message.Sequence1 | ConsiderBTMPacket ( PacketOrientation =&gt; X.TRACK_TO_TRAIN.REPOSITIONING_INFORMATION.Q_DIR)</Expression>
 </Case></Cases>
 </Function><Function
  Type="LinkingErrorEnum"
@@ -1188,6 +1188,10 @@ BTM.Linking.CurrentBGWithinFrame()</PreCondition></PreConditions>
 </Function><Function
  Type="BaseTypes.Distance"
  Default=""
+ X="111"
+ Y="1"
+ Width="100"
+ Height="50"
  Name="DistanceFromReference"
  Guid="0ae663a7-8b68-4ccb-8aff-35f888ff9ca9"
 >
@@ -1242,6 +1246,56 @@ Used when a new BG is received, the parameter aLinkingUsed indicates whether to 
  Id="1800bf83-b2c2-4d37-8406-ca0c31b30f0b"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="0a34d99a-e804-4c3b-968b-2a7b4e88ce73"
+>
+</ReqRef><ReqRef
+ Id="3c43fca9-0194-4760-80c8-6a85be01ba76"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="2ec335e1-5ee3-4dd5-8b5c-726bac04c0ea"
+>
+</ReqRef><ReqRef
+ Id="2a687eea-d3dd-4626-9d3b-b7befc8e354b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="2456abba-f6a6-42e9-bfac-026c3dada689"
+>
+</ReqRef><ReqRef
+ Id="21ba223d-f14f-4cdc-9cef-7559c61b77d1"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e9990694-4047-4b1a-8e82-123b6810be6f"
+>
+</ReqRef><ReqRef
+ Id="88ae9a57-b890-4d8c-9a0e-bfba19896b12"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="5f2722bc-50f8-4500-b722-cae36f6ea1de"
+>
+</ReqRef><ReqRef
+ Id="55b068ea-cee1-4911-bfef-1991df1f43eb"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="920558ad-1a94-466c-8ae5-f64df14d26d9"
+>
+</ReqRef><ReqRef
+ Id="f9cf4b4c-a8b9-4cbd-b8c3-50dfd18b8759"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="23895deb-8b18-484a-a919-115d36b34d7d"
+>
+</ReqRef><ReqRef
+ Id="b0c9286c-ac97-42df-9ba9-0470a17abb2d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a7e49d93-97d6-4f30-8c8d-51ead5aaf397"
+>
+</ReqRef><ReqRef
+ Id="fbdf26e2-fdf7-4341-bd19-8b24ac1e55b9"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="1dc1f82a-27d8-48ab-a97e-362f0a3ab044"
+>
+</ReqRef><ReqRef
+ Id="d50962e9-5c3f-4dd2-84f4-433e1fd62c8d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="66a83a61-40f7-436f-91bf-d2b75a353c2a"
+>
+</ReqRef><ReqRef
+ Id="e4e88926-f23f-436a-9025-ebd70a4df313"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="2a79926a-a7d2-4fbe-adca-0ef1b54af469"
 >
 </ReqRef><Comment>Handles the reception of linking information and stores it in internal variables.</Comment>
 <Parameters>
@@ -1387,7 +1441,27 @@ IN BTM.Linking.Linkings</Action></Actions>
  Name="StoreLinkingInfo"
  Guid="4a96e2f2-1676-4283-8150-5dcce152b97a"
 >
-<Comment>Stores a linking information in the list of available linking informations.</Comment>
+<ReqRef
+ Id="b0c9286c-ac97-42df-9ba9-0470a17abb2d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ce6794c7-6b70-4638-96b8-9a636cc42532"
+>
+</ReqRef><ReqRef
+ Id="fbdf26e2-fdf7-4341-bd19-8b24ac1e55b9"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="3eaf63e6-5bf3-4cb5-baaa-99cc6ad9fc40"
+>
+</ReqRef><ReqRef
+ Id="d50962e9-5c3f-4dd2-84f4-433e1fd62c8d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="45c95512-6e4f-4ea2-b334-a19dfb640419"
+>
+</ReqRef><ReqRef
+ Id="e4e88926-f23f-436a-9025-ebd70a4df313"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ee46c635-4e85-477a-b63e-6259d1c33954"
+>
+</ReqRef><Comment>Stores a linking information in the list of available linking informations.</Comment>
 <Parameters>
 <Parameter
  Type="Messages.PACKET.TRACK_TO_TRAIN.LINKING.SubStructure1"
@@ -2666,6 +2740,56 @@ IN Kernel.BrakeCommands.EmergencyStops</Action></Actions>
  Id="0d145136-9c1d-4c04-bd9a-5987931ed765"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="f58111d4-4a16-4cf6-af03-606a6a43d7cc"
+>
+</ReqRef><ReqRef
+ Id="3c43fca9-0194-4760-80c8-6a85be01ba76"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="cec5dddd-2b23-469d-8395-f86b06d029c9"
+>
+</ReqRef><ReqRef
+ Id="2a687eea-d3dd-4626-9d3b-b7befc8e354b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b2980e56-22a1-428c-a2bd-2bbb3ed19baf"
+>
+</ReqRef><ReqRef
+ Id="21ba223d-f14f-4cdc-9cef-7559c61b77d1"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="addf2bae-4eab-4545-8bfa-efdfd89e455b"
+>
+</ReqRef><ReqRef
+ Id="88ae9a57-b890-4d8c-9a0e-bfba19896b12"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="de907234-82ce-46ed-b52e-7a61fcefe2e9"
+>
+</ReqRef><ReqRef
+ Id="55b068ea-cee1-4911-bfef-1991df1f43eb"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="174ffc9a-2e1c-4e11-b62a-82f099990501"
+>
+</ReqRef><ReqRef
+ Id="f9cf4b4c-a8b9-4cbd-b8c3-50dfd18b8759"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="91c88e19-991f-4fef-a896-f1e1db83d18d"
+>
+</ReqRef><ReqRef
+ Id="b0c9286c-ac97-42df-9ba9-0470a17abb2d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="bae5a9d6-854a-48b2-9b1e-0e5c5c14b497"
+>
+</ReqRef><ReqRef
+ Id="fbdf26e2-fdf7-4341-bd19-8b24ac1e55b9"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="eb9d06f5-8c44-40ba-b2a5-0ef7a9169128"
+>
+</ReqRef><ReqRef
+ Id="d50962e9-5c3f-4dd2-84f4-433e1fd62c8d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b114977d-a170-4590-ba09-ead9340e8950"
+>
+</ReqRef><ReqRef
+ Id="e4e88926-f23f-436a-9025-ebd70a4df313"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ec54fca2-f753-40e9-a45f-c5e0c38b8d50"
 >
 </ReqRef><Comment>Stores the next linking data as provided by the balises</Comment>
 </Variable><Variable

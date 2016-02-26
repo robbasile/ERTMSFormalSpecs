@@ -1728,7 +1728,15 @@ BTM.StoredBaliseStruct
 <Actions>
 <Action
  Guid="d5eb7d56-2495-46dd-8fce-432632fbd516"
->BTM.LRBG &lt;- EMPTY</Action></Actions>
+>BTM.LRBG &lt;- EMPTY</Action><Action
+ Guid="5ed2f194-575b-4e96-bed4-41de8c8bc234"
+>Kernel.Level &lt;- Kernel.LevelData{
+Value =&gt; LevelDataStruct{
+    NTC =&gt; NID_NTC.NOT_APPLICABLE,
+    Value =&gt; LevelEnum.L1
+},
+DataState =&gt; DataStateEnum.Valid
+}</Action></Actions>
 </SubStep></SubSteps>
 </Step></Steps>
 </TestCase><TestCase
@@ -1774,7 +1782,7 @@ BTM.StoredBaliseStruct
         LEVEL_1_MOVEMENT_AUTHORITY =&gt; Messages.PACKET.TRACK_TO_TRAIN.LEVEL_1_MOVEMENT_AUTHORITY.Message
         {
           NID_PACKET =&gt; 12, 
-          Q_DIR =&gt; Messages.Q_DIR.Nominal, 
+          Q_DIR =&gt; Messages.Q_DIR.Both_directions,
           L_PACKET =&gt; 0, 
           Q_SCALE =&gt; Messages.Q_SCALE._1_m_scaleC, 
           V_MAIN =&gt; 40, 
@@ -1796,7 +1804,7 @@ BTM.StoredBaliseStruct
         GRADIENT_PROFILE =&gt; Messages.PACKET.TRACK_TO_TRAIN.GRADIENT_PROFILE.Message
         {
           NID_PACKET =&gt; 21, 
-          Q_DIR =&gt; Messages.Q_DIR.Nominal, 
+          Q_DIR =&gt; Messages.Q_DIR.Both_directions,
           L_PACKET =&gt; 0, 
           Q_SCALE =&gt; Messages.Q_SCALE._1_m_scaleC, 
           D_GRADIENT =&gt; 0, 
@@ -1813,7 +1821,7 @@ BTM.StoredBaliseStruct
         INTERNATIONAL_STATIC_SPEED_PROFILE =&gt; Messages.PACKET.TRACK_TO_TRAIN.INTERNATIONAL_STATIC_SPEED_PROFILE.Message
         {
           NID_PACKET =&gt; 27, 
-          Q_DIR =&gt; Messages.Q_DIR.Nominal, 
+          Q_DIR =&gt; Messages.Q_DIR.Both_directions,
           L_PACKET =&gt; 0, 
           Q_SCALE =&gt; Messages.Q_SCALE._1_m_scaleC, 
           D_STATIC =&gt; 0, 

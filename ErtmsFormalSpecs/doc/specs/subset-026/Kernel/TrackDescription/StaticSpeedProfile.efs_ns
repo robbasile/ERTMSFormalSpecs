@@ -538,11 +538,17 @@ INITIAL_VALUE
  Name="Value"
  Guid="408ad485-2dd6-4279-a542-443ea10f6e5c"
 >
-<Expression>SUM
+<Expression>(
+SUM
     SSRs |
-        Before ( ExpectedFirst =&gt; X, ExpectedSecond =&gt; aSSR, Collection =&gt; SSRs ) OR ( X == aSSR )
+        Before ( ExpectedFirst =&gt; X, ExpectedSecond =&gt; aSSR, Collection =&gt; SSRs )
 USING X IN
-    MessageTypes.QScaleDistance ( distance =&gt; X.D_STATIC, scale =&gt; Scale)</Expression>
+    MessageTypes.QScaleDistance ( distance =&gt; X.D_STATIC, scale =&gt; Scale)
+)
++ MessageTypes.QScaleDistance(
+        distance =&gt; aSSR.D_STATIC,
+        scale =&gt; Scale
+    )</Expression>
 </Case></Cases>
 </Function><Function
  Type="SSPCategory"
@@ -999,6 +1005,36 @@ INITIAL_VALUE
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="84f6df78-2a38-4d8d-b18b-70aa1183720e"
 >
+</ReqRef><ReqRef
+ Id="3c43fca9-0194-4760-80c8-6a85be01ba76"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a66ce65c-2e71-4027-8e2a-552bd02bf0ec"
+>
+</ReqRef><ReqRef
+ Id="2a687eea-d3dd-4626-9d3b-b7befc8e354b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="99f4627d-e942-490e-a9ac-39f20915d5a5"
+>
+</ReqRef><ReqRef
+ Id="21ba223d-f14f-4cdc-9cef-7559c61b77d1"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="36f96352-4846-40c6-a2e5-f0cc53755146"
+>
+</ReqRef><ReqRef
+ Id="88ae9a57-b890-4d8c-9a0e-bfba19896b12"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0bd7ed8c-5ea5-43ff-acf7-20e0156d1852"
+>
+</ReqRef><ReqRef
+ Id="55b068ea-cee1-4911-bfef-1991df1f43eb"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="57f189f7-4b16-4070-873d-c91b07b61370"
+>
+</ReqRef><ReqRef
+ Id="f9cf4b4c-a8b9-4cbd-b8c3-50dfd18b8759"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="4ef510a8-4905-4ac7-a058-6532fc3215c7"
+>
 </ReqRef><Comment>This procedure is called when a new static speed profile is received. If an other static speed profile has already been received, all the information from the start location of the new information is deleted.</Comment>
 <Parameters>
 <Parameter
@@ -1050,7 +1086,7 @@ INITIAL_VALUE
 <Action
  Guid="cc434071-3c30-4ef5-ac05-dfbaaf5a9c9c"
 >REMOVE ALL
-    X.Location &gt;= MessageTypes.QScaleDistance ( distance =&gt; Packet.D_STATIC, scale =&gt; Packet.Q_SCALE)
+    X.Location &gt;= aDistanceFromRef + MessageTypes.QScaleDistance ( distance =&gt; Packet.D_STATIC, scale =&gt; Packet.Q_SCALE)
 IN
     SSP</Action></Actions>
 </RuleCondition></Conditions>
@@ -1208,6 +1244,36 @@ ON
  Id="3dfb6b48-a52e-4097-89f5-65ada9dbcbe5"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="c627aeea-8329-4479-980e-2f3d186c0daa"
+>
+</ReqRef><ReqRef
+ Id="3c43fca9-0194-4760-80c8-6a85be01ba76"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="04936154-e9e1-4202-9da7-87730b15384b"
+>
+</ReqRef><ReqRef
+ Id="2a687eea-d3dd-4626-9d3b-b7befc8e354b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="04e3b70b-e334-4aa4-aaa7-421a51a5ef81"
+>
+</ReqRef><ReqRef
+ Id="21ba223d-f14f-4cdc-9cef-7559c61b77d1"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="10fdef69-d97c-483c-a62b-3287fc1b21f1"
+>
+</ReqRef><ReqRef
+ Id="88ae9a57-b890-4d8c-9a0e-bfba19896b12"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="2c186ab2-bb28-45ed-844b-e0e66584de1e"
+>
+</ReqRef><ReqRef
+ Id="55b068ea-cee1-4911-bfef-1991df1f43eb"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f8456690-532b-4ca3-90f3-8ee2f83586c8"
+>
+</ReqRef><ReqRef
+ Id="f9cf4b4c-a8b9-4cbd-b8c3-50dfd18b8759"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6719d055-df25-4879-a1c5-ed998105c851"
 >
 </ReqRef><Comment>Adds a new static speed restriction to the axle load profile.</Comment>
 <Parameters>
@@ -1427,6 +1493,36 @@ IN
  Id="9e0c6d45-0f4a-482d-9a28-dbe1f41746ed"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="abaa0044-790e-40f7-95d2-303c34216e05"
+>
+</ReqRef><ReqRef
+ Id="3c43fca9-0194-4760-80c8-6a85be01ba76"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="3c6de040-f440-40c7-8e0d-a57e54d94a42"
+>
+</ReqRef><ReqRef
+ Id="2a687eea-d3dd-4626-9d3b-b7befc8e354b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="df51d40a-e69a-4049-b23c-2a43fdd4ab18"
+>
+</ReqRef><ReqRef
+ Id="21ba223d-f14f-4cdc-9cef-7559c61b77d1"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="fa615337-5055-4d8b-af9f-86727a6546a3"
+>
+</ReqRef><ReqRef
+ Id="88ae9a57-b890-4d8c-9a0e-bfba19896b12"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9c888f0e-21bd-4378-bfb5-a8ae78c47fa1"
+>
+</ReqRef><ReqRef
+ Id="55b068ea-cee1-4911-bfef-1991df1f43eb"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="fcfd4bd2-5814-4efa-8e7f-6470ce7c1686"
+>
+</ReqRef><ReqRef
+ Id="f9cf4b4c-a8b9-4cbd-b8c3-50dfd18b8759"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a80df857-2d6f-4e90-82f0-c5af5a4401d5"
 >
 </ReqRef><Comment>Represent the set of static speed restrictions.</Comment>
 </Variable></Variables>

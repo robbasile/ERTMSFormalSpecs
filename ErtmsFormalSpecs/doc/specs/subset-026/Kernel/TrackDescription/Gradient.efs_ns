@@ -478,11 +478,19 @@ Outside the distances provided by the gradient, the gradient value is defined as
  Name="Value"
  Guid="1312bbb8-8336-43b7-b0ad-aad728fe5af2"
 >
-<Expression>SUM
+<Expression>(
+SUM
     Gradients |
-        Before(ExpectedFirst =&gt; X, ExpectedSecond =&gt; Gradient, Collection =&gt; Gradients) OR ( X == Gradient )
+        Before(ExpectedFirst =&gt; X, ExpectedSecond =&gt; Gradient, Collection =&gt; Gradients)
 USING X IN
-    MessageTypes.QScaleDistance (X.D_GRADIENT, Scale)</Expression>
+    MessageTypes.QScaleDistance (X.D_GRADIENT, Scale)
+)
++ MessageTypes.QScaleDistance(
+        distance =&gt; Gradient.D_GRADIENT,
+        scale =&gt; Scale
+    )
+
+</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Gradient"
@@ -1132,7 +1140,7 @@ Outside the distances provided by the gradient, the gradient value is defined as
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="ProfileReceived"
+ Name="GradientProfileReceived"
  Guid="86fab488-8ba2-4158-839e-28fbba11aaf2"
 >
 <ReqRef
@@ -1164,6 +1172,36 @@ Outside the distances provided by the gradient, the gradient value is defined as
  Id="1800bf83-b2c2-4d37-8406-ca0c31b30f0b"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="d124666d-804a-4b23-a8d0-b56313e7278c"
+>
+</ReqRef><ReqRef
+ Id="3c43fca9-0194-4760-80c8-6a85be01ba76"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="8b1eeadb-e8af-433c-8072-e24e7b5deadb"
+>
+</ReqRef><ReqRef
+ Id="2a687eea-d3dd-4626-9d3b-b7befc8e354b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a9e9bfa6-272c-4614-9eae-89a9943d3753"
+>
+</ReqRef><ReqRef
+ Id="21ba223d-f14f-4cdc-9cef-7559c61b77d1"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="45c4eaf8-8990-4971-9d21-e96238f6903c"
+>
+</ReqRef><ReqRef
+ Id="88ae9a57-b890-4d8c-9a0e-bfba19896b12"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="dcb12074-9c62-4f27-b2ea-1db8e66450dc"
+>
+</ReqRef><ReqRef
+ Id="55b068ea-cee1-4911-bfef-1991df1f43eb"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a840b4d1-afb8-410b-8c94-ecb72c50222c"
+>
+</ReqRef><ReqRef
+ Id="f9cf4b4c-a8b9-4cbd-b8c3-50dfd18b8759"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="603165d7-2510-4c31-a877-cdd269c66d08"
 >
 </ReqRef><Parameters>
 <Parameter
@@ -1209,7 +1247,7 @@ Outside the distances provided by the gradient, the gradient value is defined as
 <Actions>
 <Action
  Guid="879d940c-79ed-4325-8e15-cfe834f37953"
->REMOVE ALL X.Location &gt;= MessageTypes.QScaleDistance ( distance =&gt; Packet.D_GRADIENT, scale =&gt; Packet.Q_SCALE) IN Gradients</Action></Actions>
+>REMOVE ALL X.Location &gt;= aDistanceFromRef + MessageTypes.QScaleDistance ( distance =&gt; Packet.D_GRADIENT, scale =&gt; Packet.Q_SCALE) IN Gradients</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -1237,10 +1275,9 @@ Outside the distances provided by the gradient, the gradient value is defined as
 ( 
   Kernel.TrackDescription.Gradient.GradientStruct
   {
-    Location =&gt; MessageTypes.QScaleDistance ( distance =&gt; Packet.D_GRADIENT, scale =&gt; Packet.Q_SCALE ),
+    Location =&gt; aDistanceFromRef + MessageTypes.QScaleDistance ( distance =&gt; Packet.D_GRADIENT, scale =&gt; Packet.Q_SCALE ),
     Gradient =&gt; CreateGradient ( Q_GDIR =&gt; Packet.Q_GDIR, G_A =&gt; Packet.G_A )
-  },
-  aDistanceFromRef =&gt; aDistanceFromRef
+  }
 )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
@@ -1270,10 +1307,9 @@ Outside the distances provided by the gradient, the gradient value is defined as
   ( 
     Kernel.TrackDescription.Gradient.GradientStruct
     {
-      Location =&gt; AbsoluteDistance ( Gradients =&gt; Packet.Sequence1, Gradient =&gt; X, Scale =&gt; Packet.Q_SCALE ) + MessageTypes.QScaleDistance ( distance =&gt; Packet.D_GRADIENT,  scale =&gt; Packet.Q_SCALE ),
+      Location =&gt; aDistanceFromRef + AbsoluteDistance ( Gradients =&gt; Packet.Sequence1, Gradient =&gt; X, Scale =&gt; Packet.Q_SCALE ) + MessageTypes.QScaleDistance ( distance =&gt; Packet.D_GRADIENT,  scale =&gt; Packet.Q_SCALE ),
       Gradient =&gt; CreateGradient ( Q_GDIR =&gt; X.Q_GDIR, G_A =&gt; X.G_A )
-    },
-   aDistanceFromRef =&gt; 0.0
+    }
   )
 ON Packet.Sequence1</Action></Actions>
 </RuleCondition></Conditions>
@@ -1288,16 +1324,41 @@ ON Packet.Sequence1</Action></Actions>
  Name="StoreSingleProfileInfo"
  Guid="d8b750c8-4a05-44f4-ae7f-bff26cb1228f"
 >
-<Parameters>
+<ReqRef
+ Id="3c43fca9-0194-4760-80c8-6a85be01ba76"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="fdf39cb6-6720-46db-84f4-c69e88fe8491"
+>
+</ReqRef><ReqRef
+ Id="2a687eea-d3dd-4626-9d3b-b7befc8e354b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f8dee57a-a906-413e-a620-67134eb9fe59"
+>
+</ReqRef><ReqRef
+ Id="21ba223d-f14f-4cdc-9cef-7559c61b77d1"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="63484bd9-8138-46e3-bba3-f70cb08cf51a"
+>
+</ReqRef><ReqRef
+ Id="88ae9a57-b890-4d8c-9a0e-bfba19896b12"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="acc98a01-d95a-4133-aa09-5bf56ee80518"
+>
+</ReqRef><ReqRef
+ Id="55b068ea-cee1-4911-bfef-1991df1f43eb"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="453540f4-ffa8-4792-9329-2f82e1ebc904"
+>
+</ReqRef><ReqRef
+ Id="f9cf4b4c-a8b9-4cbd-b8c3-50dfd18b8759"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="4c87106c-1803-456c-a121-e4ddccc14913"
+>
+</ReqRef><Parameters>
 <Parameter
  Type="GradientStruct"
  Name="Info"
  Guid="392cab3e-0003-43de-be28-1b310b5b924f"
->
-</Parameter><Parameter
- Type="BaseTypes.Distance"
- Name="aDistanceFromRef"
- Guid="3f63f5dc-38df-4331-9e4c-c4a19d0b6b0a"
 >
 </Parameter></Parameters>
 <Rules>
@@ -1532,6 +1593,36 @@ IN
  Id="e1e65985-7379-4bca-be54-78d665b5f59b"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="d420543a-2cc7-4085-991f-2887b82d8846"
+>
+</ReqRef><ReqRef
+ Id="3c43fca9-0194-4760-80c8-6a85be01ba76"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6ee02b9e-1f34-48f9-9e04-7f1f4b3aa635"
+>
+</ReqRef><ReqRef
+ Id="2a687eea-d3dd-4626-9d3b-b7befc8e354b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6f2ba2ef-96fe-4214-a1bd-c0f95091e678"
+>
+</ReqRef><ReqRef
+ Id="21ba223d-f14f-4cdc-9cef-7559c61b77d1"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d2309a05-8f89-4d14-a4ae-24eb1a4d9b49"
+>
+</ReqRef><ReqRef
+ Id="88ae9a57-b890-4d8c-9a0e-bfba19896b12"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="15d0c19b-e30f-4d47-9093-9f4137093325"
+>
+</ReqRef><ReqRef
+ Id="55b068ea-cee1-4911-bfef-1991df1f43eb"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="214caa7a-901e-4692-9d5d-27959d51f25d"
+>
+</ReqRef><ReqRef
+ Id="f9cf4b4c-a8b9-4cbd-b8c3-50dfd18b8759"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="70cb1d8a-0e37-4ca0-82b6-f1017b08bbad"
 >
 </ReqRef><Comment>Holds the gradient information received from trackside</Comment>
 </Variable><Variable

@@ -148,7 +148,9 @@
  Guid="fc29eb32-ad70-4d95-b74a-1f88f165ec6d"
 >Odometry.EstimatedSpeed &lt;- 40.0</Action><Action
  Guid="f2dbdcd5-36d5-40f0-8e40-9400ecbaf3a0"
->Kernel.Level.Value.Value &lt;- LevelEnum.L1</Action></Actions>
+>Kernel.Level.Value.Value &lt;- LevelEnum.L1</Action><Action
+ Guid="806dac37-d400-49f6-9a79-8112a9d5f136"
+>Odometry.NominalDistance &lt;- 4105.0</Action></Actions>
 </SubStep></SubSteps>
 </Step><Step
  IO="NA"
@@ -246,7 +248,7 @@
  Kind="Instantaneous"
  DeadLine="1"
  Guid="9cc2a57d-541f-4ffa-87fe-b90a13da07bc"
->( THERE_IS X IN Kernel.TrackDescription.Gradient.Gradients | X.Location == 4000.0 )</Expectation></Expectations>
+>( THERE_IS X IN Kernel.TrackDescription.Gradient.Gradients | X.Location == 4100.0 )</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step><Step
  IO="NA"
@@ -269,29 +271,29 @@
  Kind="Instantaneous"
  Guid="93d1b55e-8e1b-4383-9ab6-1190f0c45e9b"
 >Kernel.TrackDescription.Gradient.GradientEnd ( 
-  Current =&gt; FIRST X IN Kernel.TrackDescription.Gradient.Gradients | X.Location == 4000.0 
-) == 6000.0</Expectation><Expectation
+  Current =&gt; FIRST X IN Kernel.TrackDescription.Gradient.Gradients | X.Location == 4100.0 
+) == 6100.0</Expectation><Expectation
  Kind="Instantaneous"
  Guid="8d5e3344-3819-4400-8a33-003150adeed3"
 >Kernel.TrackDescription.Gradient.GradientInfoProfile (
-  GradientInfo =&gt;  FIRST X IN Kernel.TrackDescription.Gradient.Gradients | X.Location == 4000.0,
+  GradientInfo =&gt;  FIRST X IN Kernel.TrackDescription.Gradient.Gradients | X.Location == 4100.0,
   Distance =&gt; 7000.0
 ) == BaseTypes.Gradient.Indefinite</Expectation><Expectation
  Kind="Instantaneous"
  Guid="a5d28ba0-a7c8-411e-9b21-c7a6fc399990"
 >Kernel.TrackDescription.Gradient.GradientInfoProfile (
-  GradientInfo =&gt;  FIRST X IN Kernel.TrackDescription.Gradient.Gradients | X.Location == 4000.0,
+  GradientInfo =&gt;  FIRST X IN Kernel.TrackDescription.Gradient.Gradients | X.Location == 4100.0,
   Distance =&gt; 5000.0
 ) &lt; 0.002 
 AND
 Kernel.TrackDescription.Gradient.GradientInfoProfile (
-  GradientInfo =&gt;  FIRST X IN Kernel.TrackDescription.Gradient.Gradients | X.Location == 4000.0,
+  GradientInfo =&gt;  FIRST X IN Kernel.TrackDescription.Gradient.Gradients | X.Location == 4100.0,
   Distance =&gt; 5000.0
 ) &gt; 0.0018</Expectation><Expectation
  Kind="Instantaneous"
  Guid="9b4217f9-7059-4ad1-b8a9-d8b1fe6f4d7e"
 >Kernel.TrackDescription.Gradient.GradientInfoProfile (
-  GradientInfo =&gt;  FIRST X IN Kernel.TrackDescription.Gradient.Gradients | X.Location == 4000.0,
+  GradientInfo =&gt;  FIRST X IN Kernel.TrackDescription.Gradient.Gradients | X.Location == 4100.0,
   Distance =&gt; 3000.0
 ) == BaseTypes.Gradient.Indefinite</Expectation></Expectations>
 </SubStep></SubSteps>
@@ -323,7 +325,7 @@ Kernel.TrackDescription.Gradient.GradientInfoProfile (
  Guid="b27318c5-9ac4-4bb1-9475-00117e663e02"
 >Kernel.TrackDescription.Gradient.GradientInfoProfile (
   GradientInfo =&gt;  LAST X IN Kernel.TrackDescription.Gradient.Gradients,
-  Distance =&gt; 12000.0
+  Distance =&gt; 12100.0
 ) == BaseTypes.Gradient.Indefinite</Expectation><Expectation
  Kind="Instantaneous"
  Guid="3197224b-c79c-4ba1-8102-43600861888c"
@@ -335,7 +337,7 @@ Kernel.TrackDescription.Gradient.GradientInfoProfile (
  Guid="61ef0c7c-1423-4b27-8104-ccb644dd6106"
 >Kernel.TrackDescription.Gradient.GradientEnd ( 
   Current =&gt; LAST X IN Kernel.TrackDescription.Gradient.Gradients
-) == 12000.0</Expectation></Expectations>
+) == 12100.0</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step><Step
  IO="NA"
@@ -357,34 +359,36 @@ Kernel.TrackDescription.Gradient.GradientInfoProfile (
 <Expectation
  Kind="Instantaneous"
  Guid="e5edeec8-b615-4211-bb19-390eaccb1e77"
->Kernel.TrackDescription.Gradient.GradientProfile ( Distance =&gt; 3999.0 ) == 0.0</Expectation><Expectation
+>Kernel.TrackDescription.Gradient.GradientProfile ( Distance =&gt; 4099.0 ) == 0.0</Expectation><Expectation
  Kind="Instantaneous"
  Guid="4a75f342-d2c3-41d1-9c00-abb6fe00f521"
->( Kernel.TrackDescription.Gradient.GradientProfile ( Distance =&gt; 4000.0 ) &lt; 0.002 ) AND
-( Kernel.TrackDescription.Gradient.GradientProfile ( Distance =&gt; 4000.0 ) &gt; 0.0018 )</Expectation><Expectation
+>( Kernel.TrackDescription.Gradient.GradientProfile ( Distance =&gt; 4100.0 ) &lt; 0.002 ) AND
+( Kernel.TrackDescription.Gradient.GradientProfile ( Distance =&gt; 4100.0 ) &gt; 0.0018 )</Expectation><Expectation
  Kind="Instantaneous"
  Guid="a2dc9101-c683-475d-80b0-d1371adec17d"
->( Kernel.TrackDescription.Gradient.GradientProfile ( Distance =&gt; 5999.0 ) &lt; 0.002 ) AND
-( Kernel.TrackDescription.Gradient.GradientProfile ( Distance =&gt; 5999.0 ) &gt; 0.0018 )</Expectation><Expectation
+>( Kernel.TrackDescription.Gradient.GradientProfile ( Distance =&gt; 6099.0 ) &lt; 0.002 ) AND
+( Kernel.TrackDescription.Gradient.GradientProfile ( Distance =&gt; 6099.0 ) &gt; 0.0018 )</Expectation><Expectation
  Kind="Instantaneous"
  Guid="c3894549-1ead-4e96-8088-edf556da77a4"
->( Kernel.TrackDescription.Gradient.GradientProfile ( Distance =&gt; 6000.0 ) &gt; -0.001 ) AND
-( Kernel.TrackDescription.Gradient.GradientProfile ( Distance =&gt; 6000.0 ) &lt; -0.0009 )</Expectation><Expectation
+>( Kernel.TrackDescription.Gradient.GradientProfile ( Distance =&gt; 6100.0 ) &gt; -0.001 ) AND
+( Kernel.TrackDescription.Gradient.GradientProfile ( Distance =&gt; 6100.0 ) &lt; -0.0009 )</Expectation><Expectation
  Kind="Instantaneous"
  Guid="530f2959-1e82-46d9-896c-8b8f63ffafec"
->( Kernel.TrackDescription.Gradient.GradientProfile ( Distance =&gt; 6999.0 ) &gt; -0.001 ) AND 
-( Kernel.TrackDescription.Gradient.GradientProfile ( Distance =&gt; 6999.0 ) &lt; -0.0009 )</Expectation><Expectation
+>( Kernel.TrackDescription.Gradient.GradientProfile ( Distance =&gt; 7099.0 ) &gt; -0.001 ) AND 
+( Kernel.TrackDescription.Gradient.GradientProfile ( Distance =&gt; 7099.0 ) &lt; -0.0009 )</Expectation><Expectation
  Kind="Instantaneous"
  Guid="b021ea68-435c-4d32-b68d-2ab8cd14b8ac"
->( Kernel.TrackDescription.Gradient.GradientProfile ( Distance =&gt; 7000.0 ) &gt; -0.004 ) AND
-( Kernel.TrackDescription.Gradient.GradientProfile ( Distance =&gt; 7000.0 ) &lt; -0.0036 )</Expectation><Expectation
+>( Kernel.TrackDescription.Gradient.GradientProfile ( Distance =&gt; 7100.0 ) &gt; -0.004 ) AND
+( Kernel.TrackDescription.Gradient.GradientProfile ( Distance =&gt; 7100.0 ) &lt; -0.0036 )</Expectation><Expectation
  Kind="Instantaneous"
  Guid="890b9f1d-c6b9-48a9-b112-f6411db5d115"
 >( Kernel.TrackDescription.Gradient.GradientProfile ( Distance =&gt; 12099.0 ) &gt; -0.004 ) AND
 ( Kernel.TrackDescription.Gradient.GradientProfile ( Distance =&gt; 12099.0 ) &lt; -0.0036 )</Expectation><Expectation
  Kind="Instantaneous"
  Guid="beb5eee2-ec1d-48f2-9a17-598fb3a9597b"
->( Kernel.TrackDescription.Gradient.GradientProfile ( Distance =&gt; 12100.0 ) ) == 0.0</Expectation><Expectation
+>( Kernel.TrackDescription.Gradient.GradientProfile ( Distance =&gt; Kernel.TrackDescription.Gradient.GradientEnd ( 
+  Current =&gt; LAST X IN Kernel.TrackDescription.Gradient.Gradients
+) + BaseTypes.LengthToDistance(Kernel.TrainData.TrainData.Value.TrainLength)) ) == 0.0</Expectation><Expectation
  Kind="Instantaneous"
  Guid="b14b16a7-aee4-4b1d-a29b-cf7200ccca5c"
 >( Kernel.TrackDescription.Gradient.GradientProfile ( Distance =&gt; 16000.0 ) ) == 0.0</Expectation></Expectations>
@@ -496,31 +500,31 @@ Kernel.TrackDescription.Gradient.GradientInfoProfile (
 <Expectation
  Kind="Instantaneous"
  Guid="b9396ef7-2602-4b54-b68e-8d47bf640c80"
->( Kernel.TrackDescription.Gradient.GradientProfile ( Distance =&gt; 5100.0 ) &lt; 0.003 ) AND 
-( Kernel.TrackDescription.Gradient.GradientProfile ( Distance =&gt; 5100.0 ) &gt; 0.0027 )</Expectation><Expectation
+>( Kernel.TrackDescription.Gradient.GradientProfile ( Distance =&gt; 5200.0 ) &lt; 0.003 ) AND 
+( Kernel.TrackDescription.Gradient.GradientProfile ( Distance =&gt; 5200.0 ) &gt; 0.0027 )</Expectation><Expectation
  Kind="Instantaneous"
  Guid="b16d6a9d-22d8-44ab-996b-1d6abf2a079b"
->( Kernel.TrackDescription.Gradient.GradientProfile ( Distance =&gt; 5099.0 ) &lt; 0.002 ) AND 
-( Kernel.TrackDescription.Gradient.GradientProfile ( Distance =&gt; 5099.0 ) &gt; 0.0018 )</Expectation><Expectation
+>( Kernel.TrackDescription.Gradient.GradientProfile ( Distance =&gt; 5199.0 ) &lt; 0.002 ) AND 
+( Kernel.TrackDescription.Gradient.GradientProfile ( Distance =&gt; 5199.0 ) &gt; 0.0018 )</Expectation><Expectation
  Kind="Instantaneous"
  Guid="cfcaf736-89fd-4474-bc1d-7ec78e5cc81c"
->( Kernel.TrackDescription.Gradient.GradientProfile ( Distance =&gt; 4000.0 ) &lt; 0.002 ) AND 
-( Kernel.TrackDescription.Gradient.GradientProfile ( Distance =&gt; 4000.0 ) &gt; 0.0018 )</Expectation><Expectation
+>( Kernel.TrackDescription.Gradient.GradientProfile ( Distance =&gt; 4100.0 ) &lt; 0.002 ) AND 
+( Kernel.TrackDescription.Gradient.GradientProfile ( Distance =&gt; 4100.0 ) &gt; 0.0018 )</Expectation><Expectation
  Kind="Instantaneous"
  Guid="b82675d8-81f5-4059-8a19-aa5c9881689c"
->Kernel.TrackDescription.Gradient.GradientProfile ( Distance =&gt; 3999.0 ) == 0.0</Expectation><Expectation
+>Kernel.TrackDescription.Gradient.GradientProfile ( Distance =&gt; 4099.0 ) == 0.0</Expectation><Expectation
  Kind="Instantaneous"
  Guid="73c74257-e22c-463b-9389-6b426b31f1a3"
->( Kernel.TrackDescription.Gradient.GradientProfile ( Distance =&gt; 8999.0 ) &lt; 0.003 ) AND 
-( Kernel.TrackDescription.Gradient.GradientProfile ( Distance =&gt; 8999.0 ) &gt; 0.0027 )</Expectation><Expectation
+>( Kernel.TrackDescription.Gradient.GradientProfile ( Distance =&gt; 9099.0 ) &lt; 0.003 ) AND 
+( Kernel.TrackDescription.Gradient.GradientProfile ( Distance =&gt; 9099.0 ) &gt; 0.0027 )</Expectation><Expectation
  Kind="Instantaneous"
  Guid="8c4279d0-7ccf-4b11-bc30-041e776abcd3"
->( Kernel.TrackDescription.Gradient.GradientProfile ( Distance =&gt; 9000.0 ) &gt; -0.002 ) AND 
-( Kernel.TrackDescription.Gradient.GradientProfile ( Distance =&gt; 9000.0 ) &lt; -0.0018 )</Expectation><Expectation
+>( Kernel.TrackDescription.Gradient.GradientProfile ( Distance =&gt; 9100.0 ) &gt; -0.002 ) AND 
+( Kernel.TrackDescription.Gradient.GradientProfile ( Distance =&gt; 9100.0 ) &lt; -0.0018 )</Expectation><Expectation
  Kind="Instantaneous"
  Guid="c60ccd42-a9cc-4b58-8fa4-2dc9c70d6176"
->( Kernel.TrackDescription.Gradient.GradientProfile ( Distance =&gt; 11099.0 ) &gt; -0.002 ) AND 
-( Kernel.TrackDescription.Gradient.GradientProfile ( Distance =&gt; 11099.0 ) &lt; -0.0018 )</Expectation><Expectation
+>( Kernel.TrackDescription.Gradient.GradientProfile ( Distance =&gt; 11199.0 ) &gt; -0.002 ) AND 
+( Kernel.TrackDescription.Gradient.GradientProfile ( Distance =&gt; 11199.0 ) &lt; -0.0018 )</Expectation><Expectation
  Kind="Instantaneous"
  Guid="996be7bf-e2a5-4929-b71c-1c86ec23fad1"
 >Kernel.TrackDescription.Gradient.GradientProfile ( Distance =&gt; 16000.0 ) == 0.0</Expectation></Expectations>
