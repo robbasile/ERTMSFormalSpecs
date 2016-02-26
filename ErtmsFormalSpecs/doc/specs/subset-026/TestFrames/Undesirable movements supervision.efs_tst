@@ -1,0 +1,344 @@
+<Frame
+ CycleDuration="0.1"
+ Name="Undesirable movements supervision"
+ Guid="2642b6b9-4490-4bde-9b25-9e810ef03306"
+>
+<SubSequences>
+<SubSequence
+ D_LRBG=""
+ Level=""
+ Mode=""
+ NID_LRBG=""
+ Q_DIRLRBG=""
+ Q_DIRTRAIN=""
+ Q_DLRBG=""
+ RBC_ID=""
+ RBCPhone=""
+ Name="Standstill supervision"
+ Guid="4ee3155c-aee5-474a-b79f-392c9a80472e"
+>
+<TestCases>
+<TestCase
+ Implemented="TRUE"
+ Name="Full Standstill supervision sequence"
+ Guid="2efde04d-8f6c-46bd-a30f-ff2a209f86e7"
+>
+<ReqRef
+ Id="c4a4386b-4dc3-4967-aaef-4485fe5a5adf"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b55ca2df-1b19-46b2-8f9b-01e68d634edc"
+>
+</ReqRef><ReqRef
+ Id="b883cf61-7caf-4980-becb-9096c165864d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9e9c229b-d9fc-4c99-bad9-a33c10bcf567"
+>
+</ReqRef><ReqRef
+ Id="ade33b4f-310e-406d-b308-3be003251c25"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="7d7aaceb-2bd1-4a30-957f-a1bc44daa92e"
+>
+</ReqRef><ReqRef
+ Id="f4fbf115-c910-46e8-b6e7-bf1fb0f8a4b3"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="14e1efc6-46a5-4a5e-a509-e9de1c7c4b2a"
+>
+</ReqRef><ReqRef
+ Id="ba7f8c98-781f-404a-b7b8-e679b92c5448"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="5b20b45a-6973-42eb-98f3-39389dc257ad"
+>
+</ReqRef><ReqRef
+ Id="171a7439-f829-4c74-b166-72756245c015"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d3ebf37a-7e9b-4e10-bf4d-9b2dd95e16ab"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Setup"
+ Guid="727ea634-c8cd-47ce-9536-1c6ccb34444a"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep1"
+ Guid="7db99589-80a3-45e4-b2da-9e15a88a8d5f"
+>
+<Actions>
+<Action
+ Guid="74b44265-3396-4f8c-b087-753e5bb4af0c"
+>Testing.InitializeTestEnvironment
+(
+    aTrainPosition =&gt; 100.0,
+    aMode =&gt; ModeEnum.SB
+)</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="6306d123-f080-453f-9326-9377f6337521"
+>Kernel.UndesirableMovement.StandstillSupervisionReferencePosition == BaseTypes.Distance.Unknown</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step2 - Detect movement"
+ Guid="9c9c08cd-d0aa-48c1-886b-17545ca63d02"
+>
+<ReqRef
+ Id="c4a4386b-4dc3-4967-aaef-4485fe5a5adf"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ff543e72-3eab-48a0-81b6-7091e198a8ac"
+>
+</ReqRef><SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep1"
+ Guid="d41c7307-eb48-47da-bd68-73f578a70f2e"
+>
+<Actions>
+<Action
+ Guid="9c7888aa-fde5-4a2e-a16a-52abd1ea7b82"
+>Odometry.EstimatedSpeed &lt;- 2.0</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="f1397fae-c8f3-4e8b-aa85-0042c224f3c0"
+>Kernel.UndesirableMovement.StandstillSupervisionReferencePosition == 100.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step3 - Apply service brake if standtill distance exceeded"
+ Guid="43cc983a-a050-4be1-8f5f-c8eb6963c246"
+>
+<ReqRef
+ Id="b883cf61-7caf-4980-becb-9096c165864d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e35f5197-8141-4559-9f7e-7f1b2002e44e"
+>
+</ReqRef><ReqRef
+ Id="c4a4386b-4dc3-4967-aaef-4485fe5a5adf"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="2420b745-9957-41ff-a5f3-a7fce8afb834"
+>
+</ReqRef><ReqRef
+ Id="ade33b4f-310e-406d-b308-3be003251c25"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0885084a-5960-4dcc-9e3d-3a1c63157374"
+>
+</ReqRef><SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="No brake (forward movement)"
+ Guid="dd8218c8-6799-42a7-a9da-cf3e09fc9242"
+>
+<Actions>
+<Action
+ Guid="3d2d710d-1d25-498c-ac3f-598321f4a5e7"
+>Odometry.NominalDistance &lt;- Kernel.UndesirableMovement.StandstillSupervisionReferencePosition + Kernel.NationalValues.ApplicableNationalValues.Value.DistToBeUsedInRollAwayProt_RevMvtProt_StandstillSup - 0.5</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="e3e17027-9d2a-4451-91a6-fd5c2e2a4aec"
+>NOT Kernel.UndesirableMovement.StandstillDistanceExceeded()</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="c3e084dd-7f28-47ca-8321-09ee208c8139"
+>FORALL X IN Kernel.BrakeCommands.ServiceBrakeCommands | X.Reason != Kernel.BrakeCommands.BrakeReasonEnum.SupervisingStandstill</Expectation></Expectations>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="No brake (backward movement)"
+ Guid="b1824385-90ed-439e-9286-da1240a2d082"
+>
+<Actions>
+<Action
+ Guid="84306e4c-4b10-4ff7-875f-5bcbe172eed1"
+>Odometry.NominalDistance &lt;- Kernel.UndesirableMovement.StandstillSupervisionReferencePosition - Kernel.NationalValues.ApplicableNationalValues.Value.DistToBeUsedInRollAwayProt_RevMvtProt_StandstillSup + 0.5</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="b8b5460f-70fd-4391-8450-9ce6c412d88a"
+>NOT Kernel.UndesirableMovement.StandstillDistanceExceeded()</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="6e6694c1-c9a0-4c19-80b6-fb41ee3d02e5"
+>FORALL X IN Kernel.BrakeCommands.ServiceBrakeCommands | X.Reason != Kernel.BrakeCommands.BrakeReasonEnum.SupervisingStandstill</Expectation></Expectations>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Brake (forward movement)"
+ Guid="6eba1eff-ac7c-4f80-b686-333bde320167"
+>
+<Actions>
+<Action
+ Guid="8893bfd7-ee68-4591-ae3e-67a6487d1867"
+>Odometry.NominalDistance &lt;- Kernel.UndesirableMovement.StandstillSupervisionReferencePosition + Kernel.NationalValues.ApplicableNationalValues.Value.DistToBeUsedInRollAwayProt_RevMvtProt_StandstillSup + 0.1</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="bd63c139-613e-4004-9a46-f9e6cf881f88"
+>Kernel.UndesirableMovement.StandstillDistanceExceeded()</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="9dc18511-373b-4180-a6f5-d892e0b77b37"
+>THERE_IS X IN 
+DMI.MasterDMI().Out_BrakeReason.Reasons | X.Reason == Kernel.BrakeCommands.BrakeReasonEnum.SupervisingStandstill</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="737e14e4-313a-41f9-9ec9-b8b200c1a226"
+>THERE_IS X IN Kernel.BrakeCommands.ServiceBrakeCommands | X.Reason == Kernel.BrakeCommands.BrakeReasonEnum.SupervisingStandstill</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="7494ea8d-921f-4a1c-91b0-8ad5ad050e1a"
+>DMI.MasterDMI().Out_BrakeReason.OutputInformation.DisplayRequested == True</Expectation></Expectations>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Brake (backward movement)"
+ Guid="42ef95a4-619a-465a-a9ea-64a581d40ed2"
+>
+<Actions>
+<Action
+ Guid="7bea0370-815b-4802-9efe-400cf0b1d5ff"
+>Odometry.NominalDistance &lt;- Kernel.UndesirableMovement.StandstillSupervisionReferencePosition - Kernel.NationalValues.ApplicableNationalValues.Value.DistToBeUsedInRollAwayProt_RevMvtProt_StandstillSup - 0.1</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="f6334d04-b0ce-4760-b9ef-1c2d3ae7609c"
+>Kernel.UndesirableMovement.StandstillDistanceExceeded()</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="24c9c705-b694-4035-9699-c993703260b7"
+>THERE_IS X IN Kernel.BrakeCommands.ServiceBrakeCommands | X.Reason == Kernel.BrakeCommands.BrakeReasonEnum.SupervisingStandstill</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="039cab0f-939e-490e-b1a8-6e5deb47431a"
+>THERE_IS X IN 
+DMI.MasterDMI().Out_BrakeReason.Reasons | X.Reason == Kernel.BrakeCommands.BrakeReasonEnum.SupervisingStandstill</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="91a013e2-f9e1-4e2d-87e6-eda91656120d"
+>DMI.MasterDMI().Out_BrakeReason.OutputInformation.DisplayRequested == True</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step4 - Ask for acknowledgement when at standstill"
+ Guid="6b763b57-5b42-4801-ae27-90263b37a37b"
+>
+<ReqRef
+ Id="f4fbf115-c910-46e8-b6e7-bf1fb0f8a4b3"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ad6f69df-5306-473f-9249-9d628511bf36"
+>
+</ReqRef><ReqRef
+ Id="ba7f8c98-781f-404a-b7b8-e679b92c5448"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="2ae2ded8-d829-4bb6-94b3-4b184b6aeb16"
+>
+</ReqRef><SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Movement"
+ Guid="5554892b-978d-403c-b181-f2d9481a90a7"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="3ffb51f0-d94c-499f-8a92-9d46321ea0ed"
+>DMI.MasterDMI().In_AcknForStandstillSupervision.InputInformation.RequestStatus == RequestEnum.Disabled AND FORALL X IN DMI.IN.Acknowledgements.Acknowledgements | X.Type != DMI.IN.Acknowledgements.AckTypeEnum.StandstillSupervision</Expectation></Expectations>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Standstill"
+ Guid="995d2e4f-8502-4dc9-b280-3c3eebca4ffe"
+>
+<Actions>
+<Action
+ Guid="5a77afa8-af9b-46e9-8b4e-3bf0e083cb48"
+>Odometry.EstimatedSpeed &lt;- 0.0</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="7497cc85-04da-44ef-84c9-0c68a8b7e89b"
+>DMI.MasterDMI().In_AcknForStandstillSupervision.InputInformation.RequestStatus != RequestEnum.Disabled OR THERE_IS X IN DMI.IN.Acknowledgements.Acknowledgements | X.Type == DMI.IN.Acknowledgements.AckTypeEnum.StandstillSupervision</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step5 - Release brake when acknowledgement is received"
+ Guid="b7f86715-4ea9-435b-88bd-e59da0a86185"
+>
+<ReqRef
+ Id="ba7f8c98-781f-404a-b7b8-e679b92c5448"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="5515bd21-ba5b-47b0-8d33-4c13fdc8aa2c"
+>
+</ReqRef><ReqRef
+ Id="f4fbf115-c910-46e8-b6e7-bf1fb0f8a4b3"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="90c2f8cd-ff8b-4007-a422-da3bdb08ed7d"
+>
+</ReqRef><SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="No acknowledgement"
+ Guid="b5628e11-4643-4717-8f52-cfb87005d45f"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="551030e0-ad68-4b05-af7b-010a0bb5fbf8"
+>THERE_IS X IN Kernel.BrakeCommands.ServiceBrakeCommands | X.Reason == Kernel.BrakeCommands.BrakeReasonEnum.SupervisingStandstill</Expectation></Expectations>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Acknowledgement received"
+ Guid="0f7e102c-19b1-4910-a8b0-7fbd8ab9d0fc"
+>
+<Actions>
+<Action
+ Guid="323623f0-8b30-4ffe-a1d3-8c716a8863b0"
+>DMI.MasterDMI().In_AcknForStandstillSupervision.InputInformation.DriverAnswered &lt;- True</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="e6d0b9e8-7727-4848-875c-71dc052d0196"
+>FORALL X IN Kernel.BrakeCommands.ServiceBrakeCommands | X.Reason != Kernel.BrakeCommands.BrakeReasonEnum.SupervisingStandstill</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="5706af90-6856-49bd-b4d2-cb5310b2c2b0"
+>DMI.MasterDMI().Out_BrakeReason.OutputInformation.DisplayRequested == False</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase></TestCases>
+</SubSequence></SubSequences>
+</Frame>

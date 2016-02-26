@@ -751,9 +751,25 @@ When the standstill supervision is inactive, it is set to the unknown distance.<
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="UpdateOUT"
+ X="331"
+ Y="1"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
  Name="Ask for acknowledgement"
  Guid="d56e63fc-0e31-4345-8978-bbb421970232"
 >
+<ReqRef
+ Id="f4fbf115-c910-46e8-b6e7-bf1fb0f8a4b3"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="39fc52ac-e31d-4c5e-80a5-d70623fade8b"
+>
+</ReqRef><ReqRef
+ Id="ba7f8c98-781f-404a-b7b8-e679b92c5448"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0043b6a6-5115-47cf-ab6c-cf350c29478e"
+>
+</ReqRef><Comment>The driver has to acknowledge when the train is at standstill.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
@@ -766,6 +782,11 @@ When the standstill supervision is inactive, it is set to the unknown distance.<
  SpecId="7976a642-eab5-431b-a656-44fc19d26d62"
  Guid="643732f2-0f8c-4722-ac83-130749382623"
 >
+</ReqRef><ReqRef
+ Id="ba7f8c98-781f-404a-b7b8-e679b92c5448"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d55d2109-6f0f-4374-a1e8-d1ee11101f01"
+>
 </ReqRef><PreConditions>
 <PreCondition
  Guid="721cd70e-b818-42be-aa85-d90586c9c1d2"
@@ -777,7 +798,7 @@ When the standstill supervision is inactive, it is set to the unknown distance.<
  Guid="6b176fa5-fa74-4009-930d-fa911e5944d6"
 >Kernel.UndesirableMovement.StandstillSupervisionReferencePosition != BaseTypes.Distance.Unknown</PreCondition><PreCondition
  Guid="639be53c-8c8c-46ef-9fb4-2460a5690913"
->DMI.MasterDMI().In_AcknForStandstillSupervision.InputInformation.RequestStatus == RequestEnum.Disabled AND FORALL X IN DMI.IN.Acknowledgements.Acknowledgements | X.Type != DMI.IN.Acknowledgements.AckTypeEnum.StandstillSupervision </PreCondition></PreConditions>
+>DMI.MasterDMI().In_AcknForStandstillSupervision.InputInformation.RequestStatus == RequestEnum.Disabled AND FORALL X IN DMI.IN.Acknowledgements.Acknowledgements | X.Type != DMI.IN.Acknowledgements.AckTypeEnum.StandstillSupervision</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="8a6b3eef-c48c-4582-944b-9de1cdc8b635"
