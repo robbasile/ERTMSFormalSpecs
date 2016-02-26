@@ -1201,6 +1201,11 @@ IN Kernel.BrakeCommands.EmergencyBrakeCommands</Action></Actions>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="bd4fa408-e5ed-40df-ac15-e404afccf231"
 >
+</ReqRef><ReqRef
+ Id="ade33b4f-310e-406d-b308-3be003251c25"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="1a805a58-2798-4e2f-b832-f49522c3baae"
+>
 </ReqRef><Comment>Handles the display of the received brake reason.</Comment>
 <Parameters>
 <Parameter
@@ -1412,25 +1417,6 @@ IN Kernel.BrakeCommands.EmergencyBrakeCommands</Action></Actions>
 <Actions>
 </Actions>
 </RuleCondition><RuleCondition
- Implemented="TRUE"
- Name="Display standstill supervision"
- Guid="22baceee-bd47-4938-8117-96ad5e6a6166"
->
-<ReqRef
- Id="e87c7aa6-0460-46c8-82ca-66eb5c47b2ae"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="409468b4-7a70-4c45-bb4e-70974c43f1ab"
->
-</ReqRef><Comment>Display the acknowledgement request for braking due to standstill supervision.</Comment>
-<PreConditions>
-<PreCondition
- Guid="dde5c0f6-c0c0-4bd2-9988-21ca98690bdd"
->aBrakeCommand.Reason == BrakeReasonEnum.SupervisingStandstill</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="26884755-3320-44ea-8154-9fc876cfda5c"
->DMI.MasterDMI().In_AcknForStandstillSupervision.InitiateRequest()</Action></Actions>
-</RuleCondition><RuleCondition
  Name="Display time-out of text message ackn"
  Guid="088053a7-cc7b-41a0-912f-b083aad3310c"
 >
@@ -1555,6 +1541,11 @@ IN Kernel.BrakeCommands.EmergencyBrakeCommands</Action></Actions>
  Id="f4fbf115-c910-46e8-b6e7-bf1fb0f8a4b3"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="f81a422b-b9b9-4cd0-922c-2d805004083d"
+>
+</ReqRef><ReqRef
+ Id="ade33b4f-310e-406d-b308-3be003251c25"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="70905bba-03aa-4d63-8829-bc44befa1167"
 >
 </ReqRef><Comment>If any brakes are applied, display the reason and possibly an acknowledgement for the driver.</Comment>
 <SubRules></SubRules>

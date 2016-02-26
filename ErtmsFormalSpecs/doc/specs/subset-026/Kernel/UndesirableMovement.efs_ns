@@ -693,40 +693,6 @@ When the standstill supervision is inactive, it is set to the unknown distance.<
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
- Name="Activate standstill supervision"
- Guid="b5cdb86f-355b-470b-ae56-732df8feb980"
->
-<Comment>If the stadstill supervision is active, and is has seen that the train moved too far, activate the brakes.</Comment>
-<PreConditions>
-<PreCondition
- Guid="fd366256-6d69-49d3-a6f8-2649f21ee80b"
->Kernel.ActiveFunctions.SuperviseStandstill()</PreCondition><PreCondition
- Guid="af30998a-3c30-48e0-9180-d6c4605fe503"
->Kernel.UndesirableMovement.StandstillDistanceExceeded()</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="f6af442d-0105-4145-8995-0b16908289d8"
->Kernel.BrakeCommands.CommandServiceBrake(BrakeCommands.BrakeReasonEnum.SupervisingStandstill)</Action><Action
- Guid="0e6c282e-efb8-4d05-8119-60324a07328f"
->DMI.MasterDMI().In_AcknForStandstillSupervision.InitiateRequest()</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- Name="Deactivate standstill supervision"
- Guid="32dff1b0-f265-475d-b54c-c632c3592624"
->
-<Comment>If the staqndstill supervision function becomes inactive, reset the reference location.</Comment>
-<PreConditions>
-<PreCondition
- Guid="4265196d-7cfb-4131-852f-29322d24888b"
->Kernel.UndesirableMovement.StandstillSupervisionReferencePosition != BaseTypes.Distance.Unknown</PreCondition><PreCondition
- Guid="11a3ba35-439e-4115-a21b-1fe8697ba5f4"
->NOT Kernel.ActiveFunctions.SuperviseStandstill()</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="a584993d-4df5-4d15-9b17-5e1dd89d6b43"
->Kernel.UndesirableMovement.StandstillSupervisionReferencePosition &lt;- BaseTypes.Distance.Unknown</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
  Name="Initialize Standstill Supervision"
  Guid="2df0772c-8679-43fe-88be-e8ef74979b9e"
 >
@@ -750,6 +716,72 @@ When the standstill supervision is inactive, it is set to the unknown distance.<
 <Action
  Guid="493a960e-5abd-4a09-bbe8-ec46511c74ef"
 >Kernel.UndesirableMovement.StandstillSupervisionReferencePosition &lt;- Odometry.NominalDistance</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Activate standstill supervision"
+ Guid="b5cdb86f-355b-470b-ae56-732df8feb980"
+>
+<Comment>If the stadstill supervision is active, and it has seen that the train moved too far, it activate the brakes. Rmk: CommandServiceBrake prevents inserting twice the same brake reason. Does not apply the brakes if the train is at standstill (implicitely cheked in StandstillDistanceExceeded).</Comment>
+<PreConditions>
+<PreCondition
+ Guid="fd366256-6d69-49d3-a6f8-2649f21ee80b"
+>Kernel.ActiveFunctions.SuperviseStandstill()</PreCondition><PreCondition
+ Guid="af30998a-3c30-48e0-9180-d6c4605fe503"
+>Kernel.UndesirableMovement.StandstillDistanceExceeded()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="f6af442d-0105-4145-8995-0b16908289d8"
+>Kernel.BrakeCommands.CommandServiceBrake(BrakeCommands.BrakeReasonEnum.SupervisingStandstill)</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Deactivate standstill supervision"
+ Guid="32dff1b0-f265-475d-b54c-c632c3592624"
+>
+<Comment>If the staqndstill supervision function becomes inactive, reset the reference location.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="4265196d-7cfb-4131-852f-29322d24888b"
+>Kernel.UndesirableMovement.StandstillSupervisionReferencePosition != BaseTypes.Distance.Unknown</PreCondition><PreCondition
+ Guid="11a3ba35-439e-4115-a21b-1fe8697ba5f4"
+>NOT Kernel.ActiveFunctions.SuperviseStandstill()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="a584993d-4df5-4d15-9b17-5e1dd89d6b43"
+>Kernel.UndesirableMovement.StandstillSupervisionReferencePosition &lt;- BaseTypes.Distance.Unknown</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="UpdateOUT"
+ Name="Ask for acknowledgement"
+ Guid="d56e63fc-0e31-4345-8978-bbb421970232"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Ask for driver acknowledgement"
+ Guid="263dedae-1bf6-4e3f-a161-29d6553de33c"
+>
+<ReqRef
+ Id="19625797-aac0-439f-95cc-90c2272fe103"
+ SpecId="7976a642-eab5-431b-a656-44fc19d26d62"
+ Guid="643732f2-0f8c-4722-ac83-130749382623"
+>
+</ReqRef><PreConditions>
+<PreCondition
+ Guid="721cd70e-b818-42be-aa85-d90586c9c1d2"
+>Odometry.TrainIsAtStandstill()</PreCondition><PreCondition
+ Guid="8f96b28e-6cf9-4947-96b0-057fcae378b6"
+>Kernel.ActiveFunctions.SuperviseStandstill()</PreCondition><PreCondition
+ Guid="d123bae0-fd7a-4496-b658-b468d9603d82"
+>THERE_IS X IN Kernel.BrakeCommands.ServiceBrakeCommands | X.Reason == BrakeCommands.BrakeReasonEnum.SupervisingStandstill</PreCondition><PreCondition
+ Guid="6b176fa5-fa74-4009-930d-fa911e5944d6"
+>Kernel.UndesirableMovement.StandstillSupervisionReferencePosition != BaseTypes.Distance.Unknown</PreCondition><PreCondition
+ Guid="639be53c-8c8c-46ef-9fb4-2460a5690913"
+>DMI.MasterDMI().In_AcknForStandstillSupervision.InputInformation.RequestStatus == RequestEnum.Disabled AND FORALL X IN DMI.IN.Acknowledgements.Acknowledgements | X.Type != DMI.IN.Acknowledgements.AckTypeEnum.StandstillSupervision </PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="8a6b3eef-c48c-4582-944b-9de1cdc8b635"
+>DMI.MasterDMI().In_AcknForStandstillSupervision.InitiateRequest()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </NameSpace>
