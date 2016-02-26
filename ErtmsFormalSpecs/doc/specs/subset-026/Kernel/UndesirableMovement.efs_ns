@@ -791,18 +791,99 @@ When the standstill supervision is inactive, it is set to the unknown distance.<
 <PreCondition
  Guid="721cd70e-b818-42be-aa85-d90586c9c1d2"
 >Odometry.TrainIsAtStandstill()</PreCondition><PreCondition
- Guid="8f96b28e-6cf9-4947-96b0-057fcae378b6"
+ Guid="57c78cfc-03c2-448c-81a7-448e418cd737"
+>Available(Kernel.BrakeCommands.ServiceBrakeCommands)</PreCondition></PreConditions>
+<Actions>
+</Actions>
+<SubRules>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Standstill supervision acknowledgement"
+ Guid="1fe98808-0a86-4111-b4b2-1bb15557109b"
+>
+<Comment>Standstill supervision specificities.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Standstill supervision"
+ Guid="d42110f0-8ca0-4d2c-9155-7d52a02719a1"
+>
+<PreConditions>
+<PreCondition
+ Guid="17d91e30-618f-4463-bfa1-84ad031ecbfe"
 >Kernel.ActiveFunctions.SuperviseStandstill()</PreCondition><PreCondition
  Guid="d123bae0-fd7a-4496-b658-b468d9603d82"
 >THERE_IS X IN Kernel.BrakeCommands.ServiceBrakeCommands | X.Reason == BrakeCommands.BrakeReasonEnum.SupervisingStandstill</PreCondition><PreCondition
- Guid="6b176fa5-fa74-4009-930d-fa911e5944d6"
->Kernel.UndesirableMovement.StandstillSupervisionReferencePosition != BaseTypes.Distance.Unknown</PreCondition><PreCondition
  Guid="639be53c-8c8c-46ef-9fb4-2460a5690913"
->DMI.MasterDMI().In_AcknForStandstillSupervision.InputInformation.RequestStatus == RequestEnum.Disabled AND FORALL X IN DMI.IN.Acknowledgements.Acknowledgements | X.Type != DMI.IN.Acknowledgements.AckTypeEnum.StandstillSupervision</PreCondition></PreConditions>
+>DMI.MasterDMI().In_AcknForStandstillSupervision.InputInformation.RequestStatus == RequestEnum.Disabled AND FORALL X IN DMI.IN.Acknowledgements.Acknowledgements | X.Type != DMI.IN.Acknowledgements.AckTypeEnum.StandstillSupervision</PreCondition><PreCondition
+ Guid="6b176fa5-fa74-4009-930d-fa911e5944d6"
+>Kernel.UndesirableMovement.StandstillSupervisionReferencePosition != BaseTypes.Distance.Unknown</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="8a6b3eef-c48c-4582-944b-9de1cdc8b635"
 >DMI.MasterDMI().In_AcknForStandstillSupervision.InitiateRequest()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Roll away protection acknowledgement"
+ Guid="f1fd430f-40d1-458a-9a5a-bb6cbf45f888"
+>
+<Comment>Roll away protection specificities.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Roll away protection"
+ Guid="c4f6b2bb-2064-49b1-bb1a-96c7a073c657"
+>
+<PreConditions>
+<PreCondition
+ Guid="8180225c-f9e7-4536-b21d-83fa1996249b"
+>Kernel.ActiveFunctions.ProtectAgainstRollAway()</PreCondition><PreCondition
+ Guid="79b64615-021c-461f-922b-70211add0563"
+>THERE_IS X IN Kernel.BrakeCommands.ServiceBrakeCommands | X.Reason == BrakeCommands.BrakeReasonEnum.RollAwayProtection</PreCondition><PreCondition
+ Guid="50f77114-17c7-4b24-8640-58273ce3b188"
+>DMI.MasterDMI().In_AcknForRollAwayProtection.InputInformation.RequestStatus == RequestEnum.Disabled AND FORALL X IN DMI.IN.Acknowledgements.Acknowledgements | X.Type != DMI.IN.Acknowledgements.AckTypeEnum.RollAwayProtection</PreCondition><PreCondition
+ Guid="52b70b3f-eb59-4ab3-825e-16ad66356ba5"
+>Kernel.UndesirableMovement.RollAwayReferencePosition != BaseTypes.Distance.Unknown</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="8bddf8a3-0d95-411b-87af-28edd2e3585c"
+>DMI.MasterDMI().In_AcknForRollAwayProtection.InitiateRequest()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Reverse movement protection acknowledgement"
+ Guid="43c432a6-95f8-4553-93b7-f168a22a9f5b"
+>
+<Comment>Reverse movement protection specificities.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Reverse movement protection"
+ Guid="501b712a-032e-4543-ba81-c72ee68e017c"
+>
+<PreConditions>
+<PreCondition
+ Guid="ceb0e655-6a89-4765-9708-fb7e4e0dad90"
+>Kernel.ActiveFunctions.ProtectAgainstReverseMovement()</PreCondition><PreCondition
+ Guid="c8234130-9c13-4619-a14b-7d643d0a9165"
+>THERE_IS X IN Kernel.BrakeCommands.ServiceBrakeCommands | X.Reason == BrakeCommands.BrakeReasonEnum.ReverseMovementProtection</PreCondition><PreCondition
+ Guid="9fecd08d-fe6b-4d63-8994-857c5f6198a1"
+>DMI.MasterDMI().In_AcknForReverseMovementProtection.InputInformation.RequestStatus == RequestEnum.Disabled AND FORALL X IN DMI.IN.Acknowledgements.Acknowledgements | X.Type != DMI.IN.Acknowledgements.AckTypeEnum.ReverseMovementProtection</PreCondition><PreCondition
+ Guid="b5c0c710-6f12-46ac-8a3b-fb0f0df2a53c"
+>Kernel.UndesirableMovement.ReverseMovementReferencePosition!= BaseTypes.Distance.Unknown</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="b3ca7842-6e1a-4c54-a6f7-bf8c419a9b3f"
+>DMI.MasterDMI().In_AcknForReverseMovementProtection.InitiateRequest()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></SubRules>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </NameSpace>
