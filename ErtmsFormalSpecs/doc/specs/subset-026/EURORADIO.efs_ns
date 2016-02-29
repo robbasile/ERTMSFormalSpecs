@@ -7905,6 +7905,21 @@ NID_LRBG == Messages.NID_LRBG.Unknown</PreCondition></PreConditions>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="e0369855-7602-43a1-b8d2-cbf5dd0a8ddc"
 >
+</ReqRef><ReqRef
+ Id="afb44275-4d8c-4d1d-9caf-212e30e4ec9b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f8be3e28-1ae2-4325-ada7-85770df60a7d"
+>
+</ReqRef><ReqRef
+ Id="ee60d01b-a74d-40b9-88b2-c24f3198e572"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="cfc9d49c-3c26-4d27-b3a2-c863c0945258"
+>
+</ReqRef><ReqRef
+ Id="762a9a50-d079-460f-80fd-c72d91c43331"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a2688878-3587-43c1-9119-cabc7e67f0a0"
+>
 </ReqRef><Comment>Provides the difference between the location reference of the data transmitted in the RBGC message and the train&apos;s on-board location reference.</Comment>
 <Parameters>
 <Parameter
@@ -8935,7 +8950,6 @@ EURORADIO.Terminal1.RBCConnection.SafeRadioConnectionStatus == EURORADIO.SafeRad
  Width="100"
  Height="50"
  Implemented="TRUE"
- NeedsRequirement="FALSE"
  Name="ProcessIncomingMessages"
  Guid="b9ea4dd2-c1d7-457b-b33c-62e49af0c65b"
 >
@@ -8948,6 +8962,21 @@ EURORADIO.Terminal1.RBCConnection.SafeRadioConnectionStatus == EURORADIO.SafeRad
  Id="28c19fbc-19ff-4bc3-ada2-6a631220fc26"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="f30771a6-bf8d-43a2-807f-d2f5707e516c"
+>
+</ReqRef><ReqRef
+ Id="afb44275-4d8c-4d1d-9caf-212e30e4ec9b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9b8db74b-36ab-465e-afb5-17914182c6c6"
+>
+</ReqRef><ReqRef
+ Id="ee60d01b-a74d-40b9-88b2-c24f3198e572"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="cf1b65d0-79fd-45a4-bb33-2c5683f5d14e"
+>
+</ReqRef><ReqRef
+ Id="762a9a50-d079-460f-80fd-c72d91c43331"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9c0077fd-9971-4836-af4c-c0520c4e5bf7"
 >
 </ReqRef><Comment>This procedure is called for each message received from the Euroradio. It stores the received information into the internal variables.</Comment>
 <Parameters>
@@ -12790,6 +12819,7 @@ But at the end of the cycle the conditions required for sending of position repo
  Y="960"
  Width="100"
  Height="50"
+ Implemented="TRUE"
  Name="HandleCommonPackets"
  Guid="267eb360-7542-46af-9267-a8a6f93e5227"
 >
@@ -12812,6 +12842,21 @@ But at the end of the cycle the conditions required for sending of position repo
  Id="17ca4691-52af-4571-83b8-d4e345bcc557"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="06805ccb-d5d2-4c46-a67a-b35f59a88410"
+>
+</ReqRef><ReqRef
+ Id="afb44275-4d8c-4d1d-9caf-212e30e4ec9b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="5988b45d-f09b-4508-a009-0fadfe105c23"
+>
+</ReqRef><ReqRef
+ Id="ee60d01b-a74d-40b9-88b2-c24f3198e572"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6dcd5652-6ac9-42d7-bafe-9d0887d96dee"
+>
+</ReqRef><ReqRef
+ Id="762a9a50-d079-460f-80fd-c72d91c43331"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="649146d3-75f5-4542-aa75-ff1f09f2286e"
 >
 </ReqRef><Comment>Handles reception of common packets as described in Subset-026 Paragraph 8.4.4.4.1.1.</Comment>
 <Parameters>
@@ -13261,10 +13306,9 @@ But at the end of the cycle the conditions required for sending of position repo
 <Actions>
 <Action
  Guid="066e716a-07aa-4d5a-a10b-7fc517f0f0b2"
->EURORADIO.PositionReport.UpdatePositionReportParameters
-(
-  ( FIRST X IN Packets | Available ( X.POSITION_REPORT_PARAMETERS ) ).POSITION_REPORT_PARAMETERS
-)</Action></Actions>
+>EURORADIO.PositionReport.UpdatePositionReportParameters(
+    Packet =&gt; ( FIRST X IN Packets | Available ( X.POSITION_REPORT_PARAMETERS ) ).POSITION_REPORT_PARAMETERS,
+    aDistanceFromRef =&gt; DistanceFromCurrentLRBG( NID_LRBG ) )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"

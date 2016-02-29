@@ -10,13 +10,13 @@
 </NameSpaces>
 <Enumerations>
 <Enum
- Default="EURORADIO.PositionReport.PositionReportSpecialLocation.DoNotSend"
+ Default="EURORADIO.PositionReport.PositionReportSpecialMoment.DoNotSend"
  X="190"
  Y="100"
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="PositionReportSpecialLocation"
+ Name="PositionReportSpecialMoment"
  Guid="476931ac-c736-436a-8d31-ea5db2a0e915"
 >
 <ReqRef
@@ -231,12 +231,12 @@
 >
 </ReqRef><Comment>The periodic distance interval when a position report has to be sent.</Comment>
 </StructureElement><StructureElement
- TypeName="PositionReportSpecialLocation"
+ TypeName="PositionReportSpecialMoment"
  Default=""
  Mode="Internal"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
- Name="SpecialLocation"
+ Name="SpecialMoment"
  Guid="c76f861d-b33d-48e7-8f7f-a6ebd3e6b90e"
 >
 <ReqRef
@@ -257,12 +257,12 @@
 <Comment>This requirement is always satisfied because the value of the field PositionReportSpecialLocation can be either LRBG or Now and never the both together.</Comment>
 </ReqRef><Comment>A special location when a position report has to be sent.</Comment>
 </StructureElement><StructureElement
- TypeName="PositionReportLocations"
+ TypeName="PositionReportSpecialLocations"
  Default=""
  Mode="Incoming"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
- Name="Locations"
+ Name="SpecialLocations"
  Guid="fdd2c7b2-cab4-4f62-9a29-a8f986e6016f"
 >
 <ReqRef
@@ -375,7 +375,7 @@
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="PositionLocation"
+ Name="PositionReportSpecialLocation"
  Guid="22647d7a-ba05-4975-8cb5-f8392fab6640"
 >
 <ReqRef
@@ -417,14 +417,15 @@
 </StructureElement></Structure></Structures>
 <Collections>
 <Collection
- TypeName="PositionLocation"
+ TypeName="PositionReportSpecialLocation"
  MaxSize="32"
  Default="[]"
  X="370"
  Y="10"
  Width="100"
  Height="50"
- Name="PositionReportLocations"
+ Implemented="TRUE"
+ Name="PositionReportSpecialLocations"
  Guid="65a363a1-fc0b-412a-8b6f-2d68bc7fe4d4"
 >
 <ReqRef
@@ -672,7 +673,13 @@ EURORADIO.PositionReport.PositionReportEventsTracker.Mode != Kernel.Mode</Expres
 <PreCondition
  Guid="ded1f57a-2222-476e-9e6a-7f7b23864b98"
 >Kernel.ActiveFunctions.ReportPosition_RBCRequest()</PreCondition></PreConditions>
-<Expression>(Odometry.NominalDistance &gt;= (EURORADIO.PositionReport.LastPositionReport.Position + EURORADIO.PositionReport.PositionReportParameters.Values.DistanceInterval)) AND (EURORADIO.PositionReport.PositionReportParameters.DataState == DataStateEnum.Valid) AND (EURORADIO.PositionReport.PositionReportParameters.Values.DistanceInterval != BaseTypes.Distance.Infinity)</Expression>
+<Expression>(
+  Odometry.NominalDistance &gt;= (EURORADIO.PositionReport.LastPositionReport.Position + EURORADIO.PositionReport.PositionReportParameters.Values.DistanceInterval)
+)
+  AND  
+(EURORADIO.PositionReport.PositionReportParameters.DataState == DataStateEnum.Valid)
+  AND  
+(EURORADIO.PositionReport.PositionReportParameters.Values.DistanceInterval != BaseTypes.Distance.Unknown)</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="e6f3fb27-51a4-4dd5-b8db-26b3ba5c437a"
@@ -687,7 +694,7 @@ EURORADIO.PositionReport.PositionReportEventsTracker.Mode != Kernel.Mode</Expres
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="SendReportDueToSpecialLocationNow"
+ Name="SendReportDueToSpecialMomentNow"
  Guid="84d7f642-0a9a-46ca-b0e3-977a5fe3ec73"
 >
 <ReqRef
@@ -701,7 +708,7 @@ EURORADIO.PositionReport.PositionReportEventsTracker.Mode != Kernel.Mode</Expres
  Name="Value"
  Guid="d39cbac2-cb23-4eef-a013-bccca1716554"
 >
-<Expression>EURORADIO.PositionReport.PositionReportParameters.Values.SpecialLocation == EURORADIO.PositionReport.PositionReportSpecialLocation.Now</Expression>
+<Expression>EURORADIO.PositionReport.PositionReportParameters.Values.SpecialMoment == PositionReportSpecialMoment.Now</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -780,7 +787,7 @@ TIU.TrainIntegrity.Status in [
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="SendReportDueToPositionReportSpecialLocationReached"
+ Name="SendReportDueToPositionReportSpecialMoment"
  Guid="466e4d39-37fb-47a7-bb94-61b8beb9c698"
 >
 <ReqRef
@@ -799,7 +806,7 @@ TIU.TrainIntegrity.Status in [
  Name="Value"
  Guid="8e7cde14-f71d-4b3b-afd0-3d60e81ba553"
 >
-<Expression>EURORADIO.PositionReport.SendReportDueToSpecialLocationNow() OR EURORADIO.PositionReport.SendReportDueToSpecialLocationLRBGCompliantBG()</Expression>
+<Expression>SendReportDueToSpecialMomentNow() OR SendReportDueToSpecialMomentLRBGCompliantBG()</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -878,7 +885,7 @@ EURORADIO.PositionReport.PositionReportParameters.DataState != DataStateEnum.Val
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="SendReportDueToSpecialLocationLRBGCompliantBG"
+ Name="SendReportDueToSpecialMomentLRBGCompliantBG"
  Guid="d82afd23-bb03-4a72-8cbf-8733bb209752"
 >
 <ReqRef
@@ -1027,6 +1034,7 @@ EURORADIO.PositionReport.PositionReportParameters.DataState != DataStateEnum.Val
     EURORADIO.PositionReport.SendReportDueToCommunicationSessionIsEstablished() OR 
     EURORADIO.PositionReport.SendReportDueToLRBGCompliantBGPassed() OR 
     EURORADIO.PositionReport.SendReportDueToPositionReportDistanceReached() OR 
+    EURORADIO.PositionReport.SendReportDueToPositionReportSpecialMoment() OR
     EURORADIO.PositionReport.SendReportDueToPositionReportSpecialLocationReached() OR
     EURORADIO.PositionReport.SendReportDueToPositionReportTimeReached()  OR 
     EURORADIO.PositionReport.SendReportDueToNotConsistentMessageReceived()
@@ -1034,7 +1042,7 @@ EURORADIO.PositionReport.PositionReportParameters.DataState != DataStateEnum.Val
 )</Expression>
 </Case></Cases>
 </Function><Function
- Type="PositionReportSpecialLocation"
+ Type="PositionReportSpecialMoment"
  Default=""
  X="340"
  Y="420"
@@ -1042,7 +1050,7 @@ EURORADIO.PositionReport.PositionReportParameters.DataState != DataStateEnum.Val
  Height="50"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
- Name="ERTMSSpecialLocationConverter"
+ Name="ERTMSSpecialMomentConverter"
  Guid="2520f1c3-f3e2-4a0b-a0a7-5a80ee8960a5"
 >
 <Comment>Used to convert M_LOC values to PositionReport.SpecialLocation values.</Comment>
@@ -1062,7 +1070,7 @@ EURORADIO.PositionReport.PositionReportParameters.DataState != DataStateEnum.Val
 <PreCondition
  Guid="35c794c0-5225-4e97-b992-64e1cc0f9013"
 >M_LOC == 0</PreCondition></PreConditions>
-<Expression>EURORADIO.PositionReport.PositionReportSpecialLocation.Now</Expression>
+<Expression>PositionReportSpecialMoment.Now</Expression>
 </Case><Case
  Name="LRBG"
  Guid="94794676-4b38-47b1-bdc8-7d102b9b4ab7"
@@ -1071,7 +1079,7 @@ EURORADIO.PositionReport.PositionReportParameters.DataState != DataStateEnum.Val
 <PreCondition
  Guid="7a286dfe-aba0-4dbf-84ec-4a50e6e6f4ae"
 >M_LOC == 1</PreCondition></PreConditions>
-<Expression>EURORADIO.PositionReport.PositionReportSpecialLocation.LRBG</Expression>
+<Expression>PositionReportSpecialMoment.LRBG</Expression>
 </Case><Case
  Name="DoNotSend"
  Guid="5f8d4ff4-9ae7-4625-b2fa-8bf772e3d0e7"
@@ -1080,7 +1088,7 @@ EURORADIO.PositionReport.PositionReportParameters.DataState != DataStateEnum.Val
 <PreCondition
  Guid="95161b86-ce17-4022-8323-28087be8111d"
 >M_LOC == 2</PreCondition></PreConditions>
-<Expression>EURORADIO.PositionReport.PositionReportSpecialLocation.DoNotSend</Expression>
+<Expression>PositionReportSpecialMoment.DoNotSend</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Length"
@@ -1466,6 +1474,287 @@ EURORADIO.PositionReport.PositionReportParameters.DataState != DataStateEnum.Val
 >
 <Expression>NOT EURORADIO.IncomingMessageIsConsistent(UpdatedMessageIn(EURORADIO.CurrentRBCConnection()))</Expression>
 </Case></Cases>
+</Function><Function
+ Type="BaseTypes.Time"
+ Default=""
+ X="1"
+ Y="61"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="ConvertT_CYCLOCToTime"
+ Guid="24ebe065-3505-4c39-bafd-06e625910671"
+>
+<ReqRef
+ Id="158a4560-10f9-449d-a58b-02c43291845a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f3524258-e34b-4646-a2ee-1ae88219e7ea"
+>
+</ReqRef><ReqRef
+ Id="52dafb9f-086a-448d-97b4-b73cb0bb4607"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0b3f5bcd-cb86-4f99-9a4e-92cbe3c21237"
+>
+</ReqRef><Comment>Converts the value of T_CYCLOC received in a Position Report Parameters packet to Time.</Comment>
+<Parameters>
+<Parameter
+ Type="MessageTypes.Time"
+ Name="T_CYCLOC"
+ Guid="11f91877-2ff5-4212-8a33-f3f692386d16"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Special value: infinity"
+ Guid="e4e57f2a-a86a-47ec-80d9-4dcf131612f8"
+>
+<PreConditions>
+<PreCondition
+ Guid="9c24aa72-ef3d-4218-b54f-748b2146994c"
+>T_CYCLOC == 255</PreCondition></PreConditions>
+<Expression>BaseTypes.Time.Infinity</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="8b5bb541-ecbe-40f3-9c9e-08bde92e10ff"
+>
+<Expression>BaseTypes.Time (T_CYCLOC)</Expression>
+</Case></Cases>
+</Function><Function
+ Type="BaseTypes.Distance"
+ Default=""
+ X="1"
+ Y="121"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="ConvertD_CYCLOCToDistance"
+ Guid="130a3a09-4e46-4f4d-9050-89d41cfda88b"
+>
+<ReqRef
+ Id="58b84566-cf66-4195-ae7a-4520abe69a4b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6a501652-7d2b-41d6-b10d-585ee01f984c"
+>
+</ReqRef><ReqRef
+ Id="9b3441a8-e9f9-4454-9abf-615f89ed85bc"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="8ee45f2f-c324-41fb-a46b-e90a35176177"
+>
+</ReqRef><Comment>Converts the value of D_CYCLOC received in a Position Report Parameters packet to Distance.</Comment>
+<Parameters>
+<Parameter
+ Type="MessageTypes.Distance"
+ Name="D_CYCLOC"
+ Guid="bc123820-b05a-4ae0-8e31-edeb28a25450"
+>
+</Parameter><Parameter
+ Type="Messages.Q_SCALE"
+ Name="Scale"
+ Guid="6994d903-ed83-49fc-9832-7550cea70559"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Special value: unknown"
+ Guid="ba558eaa-717f-4518-a555-5ed515902e6d"
+>
+<PreConditions>
+<PreCondition
+ Guid="30b67844-f058-40d5-8f99-d8b863692563"
+>D_CYCLOC == 32767</PreCondition></PreConditions>
+<Expression>BaseTypes.Distance.Unknown</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="8a18c6b7-8bfd-4b88-89cb-eb8a10fb61c3"
+>
+<Expression>MessageTypes.QScaleDistance(
+    distance =&gt; D_CYCLOC,
+    scale =&gt; Scale
+)</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="230"
+ Y="360"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="SendReportDueToPositionReportSpecialLocationReached"
+ Guid="8354be9c-29b1-42d2-a15c-1450f88da1d6"
+>
+<ReqRef
+ Id="12080437-12c5-47ab-9aec-ceced6bba68f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="821c2fa3-6d73-4b43-963c-26d406ebf4c3"
+>
+</ReqRef><Comment>Indicates if a position report has to be sent due to position report special location reached.</Comment>
+<Cases>
+<Case
+ Name="No special locations"
+ Guid="8e48380a-1c14-4d9a-86ca-8d73e0c1d1a3"
+>
+<PreConditions>
+<PreCondition
+ Guid="b70a0104-423b-461f-9a0d-73445322b661"
+>NOT Available( PositionReportParameters.Values )
+  OR  
+PositionReportParameters.Values.SpecialLocations == []</PreCondition></PreConditions>
+<Expression>False</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="904d9d0b-0340-4bb4-ada9-ee993ccc743e"
+>
+<Expression>THERE_IS X IN PositionReportParameters.Values.SpecialLocations | SpecialLocationPassed(X)</Expression>
+</Case></Cases>
+</Function><Function
+ Type="BaseTypes.Distance"
+ Default=""
+ X="1"
+ Y="241"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="AbsoluteDistance"
+ Guid="b395583e-08ca-4895-8709-836cf0c9903e"
+>
+<ReqRef
+ Id="26b2f0b0-1aee-4778-99cf-b5d01eb56627"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="fd2ea972-bbf0-4c15-b4c4-7211c4605b12"
+>
+</ReqRef><Comment>Converts the incremental ditances to the special locations for sending a position report, received in the POSITION_REPORT_PARAMETERS packet, to absolute distances.</Comment>
+<Parameters>
+<Parameter
+ Type="Messages.PACKET.TRACK_TO_TRAIN.POSITION_REPORT_PARAMETERS.SubStructure1"
+ Name="aSpecialLocation"
+ Guid="afa7e80e-8b66-4d90-b578-96b358f2f392"
+>
+</Parameter><Parameter
+ Type="Messages.PACKET.TRACK_TO_TRAIN.POSITION_REPORT_PARAMETERS.Collection1"
+ Name="SpecialLocations"
+ Guid="d1f244c0-2820-4782-a2a1-3f872f0bccfa"
+>
+</Parameter><Parameter
+ Type="Messages.Q_SCALE"
+ Name="Scale"
+ Guid="58a6d42f-6aaf-4304-9f1d-9125324f3412"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="77bbebe6-0ccd-479d-972c-ea13aff47eef"
+>
+<Expression>(
+SUM SpecialLocations | Before(
+    ExpectedFirst =&gt; X,
+    ExpectedSecond =&gt; aSpecialLocation,
+    Collection =&gt; SpecialLocations )
+ USING X IN 
+    MessageTypes.QScaleDistance(
+        distance =&gt; X.D_LOC,
+        scale =&gt; Scale
+    )
+)
++ MessageTypes.QScaleDistance(
+        distance =&gt; aSpecialLocation.D_LOC,
+        scale =&gt; Scale
+    )</Expression>
+</Case></Cases>
+</Function><Function
+ Type="EURORADIO.TrainData.TrainEndEnum"
+ Default=""
+ X="111"
+ Y="241"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="ConvertTrainEnd"
+ Guid="ad06b98b-bebb-428c-b0a9-f2a9c38213aa"
+>
+<ReqRef
+ Id="e5ec5ab9-bbf7-43ce-aee2-703517236f43"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="8bbef523-6988-4b52-a621-5c2a49923d6d"
+>
+</ReqRef><ReqRef
+ Id="0d6b6822-0e2f-4bd0-b806-8a68da523bed"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="cb91cdc3-8115-45ee-a2ff-1e5336624fcd"
+>
+</ReqRef><Comment>Converts the train front end indication received in the message to an </Comment>
+<Parameters>
+<Parameter
+ Type="Messages.Q_LGTLOC"
+ Name="Q_LGTLOC"
+ Guid="5ae47b6c-73f3-4320-a58f-54cc96660988"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Max safe front end"
+ Guid="b2ca925e-9fe3-4e6a-86a7-7d02c48f98b8"
+>
+<PreConditions>
+<PreCondition
+ Guid="21812200-e0ae-4331-b417-f9a87ed7fbdd"
+>Q_LGTLOC == Messages.Q_LGTLOC.Max_safe_front_end</PreCondition></PreConditions>
+<Expression>TrainData.TrainEndEnum.MaxSafeFrontEnd</Expression>
+</Case><Case
+ Name="Min safe rear end"
+ Guid="60e4a24c-4660-48d5-a9f1-2b2f670244f9"
+>
+<PreConditions>
+<PreCondition
+ Guid="e53cc31e-a654-447c-b638-0e346a6d60fc"
+>Q_LGTLOC == Messages.Q_LGTLOC.Min_safe_rear_end</PreCondition></PreConditions>
+<Expression>TrainData.TrainEndEnum.MinSafeRearEnd</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="1"
+ Y="661"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="SpecialLocationPassed"
+ Guid="6c24dafd-4ee5-4daf-84aa-ed9818b4139b"
+>
+<ReqRef
+ Id="12080437-12c5-47ab-9aec-ceced6bba68f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="1e937e64-321c-431d-b431-58dfee0f7888"
+>
+</ReqRef><Comment>Indicates whether the provided special location has been passed.</Comment>
+<Parameters>
+<Parameter
+ Type="PositionReportSpecialLocation"
+ Name="aSpecialLocation"
+ Guid="ae4aa5d6-ff8a-4b95-a21a-e53f2ec98ac1"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Max safe front end"
+ Guid="7097611f-db64-4a5c-8a5f-ad162132a09b"
+>
+<PreConditions>
+<PreCondition
+ Guid="a89d95f1-3e1b-4683-9b05-3b0e16491e18"
+>aSpecialLocation.TrainEnd == TrainData.TrainEndEnum.MaxSafeFrontEnd</PreCondition></PreConditions>
+<Expression>Kernel.TrainPosition.FrontEndPosition( PointOfInterest =&gt; Default.DistanceIntervalEnum.Max ) &gt; aSpecialLocation.Distance</Expression>
+</Case><Case
+ Name="Min safe rear end"
+ Guid="f0269c08-72b5-4c3a-86b5-cc0a8f721ef8"
+>
+<PreConditions>
+<PreCondition
+ Guid="cf347ec3-a69a-4461-8659-f97db01b1f6c"
+>aSpecialLocation.TrainEnd == TrainData.TrainEndEnum.MinSafeRearEnd</PreCondition></PreConditions>
+<Expression>Kernel.TrainPosition.RearEndPosition( PointOfInterest =&gt; Default.DistanceIntervalEnum.Min ) &gt; aSpecialLocation.Distance</Expression>
+</Case></Cases>
 </Function></Functions>
 <Procedures>
 <Procedure
@@ -1488,6 +1777,11 @@ EURORADIO.PositionReport.PositionReportParameters.DataState != DataStateEnum.Val
  Type="Messages.PACKET.TRACK_TO_TRAIN.POSITION_REPORT_PARAMETERS.Message"
  Name="Packet"
  Guid="06599896-903e-405e-83bb-f4e083cfa85b"
+>
+</Parameter><Parameter
+ Type="BaseTypes.Distance"
+ Name="aDistanceFromRef"
+ Guid="afdea4eb-8dd0-423f-8923-1818ea200c7b"
 >
 </Parameter></Parameters>
 <Rules>
@@ -1516,11 +1810,21 @@ EURORADIO.PositionReport.PositionReportParameters.DataState != DataStateEnum.Val
  Guid="bb7d9795-fec8-42f3-a619-fb767260a89d"
 >ValidateInformation(EURORADIO.PositionReport.PositionReportParameters)</Action><Action
  Guid="f3e0c810-5538-4ebf-b190-2e4fa7161c79"
->EURORADIO.PositionReport.PositionReportParameters.Values.TimeInterval &lt;- BaseTypes.Time ( Packet.T_CYCLOC )</Action><Action
+>EURORADIO.PositionReport.PositionReportParameters.Values.TimeInterval &lt;- ConvertT_CYCLOCToTime ( Packet.T_CYCLOC )</Action><Action
  Guid="bbed578f-bec0-45d5-a457-6c3e192bcb6b"
->EURORADIO.PositionReport.PositionReportParameters.Values.DistanceInterval &lt;- MessageTypes.QScaleDistance ( Packet.D_CYCLOC, Packet.Q_SCALE)</Action><Action
+>EURORADIO.PositionReport.PositionReportParameters.Values.DistanceInterval &lt;- ConvertD_CYCLOCToDistance ( Packet.D_CYCLOC, Packet.Q_SCALE)</Action><Action
  Guid="89290f52-e348-42cd-abb6-f2b2841c62fb"
->EURORADIO.PositionReport.PositionReportParameters.Values.SpecialLocation &lt;- EURORADIO.PositionReport.ERTMSSpecialLocationConverter(Packet.M_LOC)</Action></Actions>
+>EURORADIO.PositionReport.PositionReportParameters.Values.SpecialMoment &lt;- ERTMSSpecialMomentConverter(Packet.M_LOC)</Action><Action
+ Guid="3156f7b5-5a53-41f5-98c4-ad13723fc669"
+>PositionReportParameters.Values.SpecialLocations
+ &lt;- 
+MAP Packet.Sequence1 USING X IN PositionReportSpecialLocation{
+        Distance =&gt; aDistanceFromRef + AbsoluteDistance(
+            aSpecialLocation =&gt; X,
+            SpecialLocations =&gt; Packet.Sequence1,
+            Scale =&gt; Packet.Q_SCALE),
+        TrainEnd =&gt; ConvertTrainEnd(X.Q_LGTLOC)
+    }</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -2407,7 +2711,7 @@ Kernel.TrainPosition.RearEndPosition ( PointOfInterest =&gt; DistanceIntervalEnu
  Priority="CleanUp"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
- Name="CommunicationSessionState"
+ Name="Communication Session State"
  Guid="fa75f6c0-aad1-4de7-adb8-492e75acb2e8"
 >
 <Comment>Updates the state of the communication session.</Comment>
@@ -2482,7 +2786,7 @@ Kernel.TrainPosition.RearEndPosition ( PointOfInterest =&gt; DistanceIntervalEnu
  Priority="CleanUp"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
- Name="TrainIntegrity"
+ Name="Train Integrity"
  Guid="f163185a-7782-4814-bf5d-1e1dafbe8b9f"
 >
 <Comment>Updates the value of the train integrity.</Comment>
@@ -2532,36 +2836,59 @@ Kernel.TrainPosition.RearEndPosition ( PointOfInterest =&gt; DistanceIntervalEnu
  Priority="CleanUp"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
- Name="SpecialLocation"
+ Name="Special Moment"
  Guid="49997566-1993-4362-a440-57073f46cf9b"
 >
-<Comment>If a position report was sent due to a special location Now, retain that it doesn&apos;t have to be sent again due to this event.</Comment>
+<Comment>If a position report was sent due to a special moment Now, retain that it doesn&apos;t have to be sent again due to this event.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
  NeedsRequirement="FALSE"
- Name="SpecialLocation"
+ Name="SpecialMoment"
  Guid="0aeae08a-4952-4b7e-8391-3a741e289b7d"
 >
 <PreConditions>
 <PreCondition
  Guid="01e9965d-e63e-492a-8fd6-d2abb46ca74d"
->EURORADIO.PositionReport.PositionReportParameters.Values.SpecialLocation == EURORADIO.PositionReport.PositionReportSpecialLocation.Now</PreCondition></PreConditions>
+>EURORADIO.PositionReport.PositionReportParameters.Values.SpecialMoment == PositionReportSpecialMoment.Now</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="ce1b2dac-1a95-4367-9e31-0328b192cae8"
->EURORADIO.PositionReport.PositionReportParameters.Values.SpecialLocation &lt;- EURORADIO.PositionReport.PositionReportSpecialLocation.DoNotSend</Action><Action
+>EURORADIO.PositionReport.PositionReportParameters.Values.SpecialMoment &lt;- PositionReportSpecialMoment.DoNotSend</Action><Action
  Guid="465e9a0b-308d-4a86-a7e3-75ee18e0f703"
 >EURORADIO.PositionReport.LastPositionReport.Time &lt;- Kernel.DateAndTime.CurrentTime</Action><Action
  Guid="6541046c-0889-4cf3-9a50-e0778f68cb93"
 >EURORADIO.PositionReport.LastPositionReport.Position &lt;- Odometry.NominalDistance</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Special Location"
+ Guid="dfb0aeb0-04f2-4555-9f1f-6721517a1ad2"
+>
+<Comment>If a position report was sent due to passing special location, remove that location from the list of special locations.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Special Location"
+ Guid="47dcca8f-353d-4adf-9ed4-0510e84a4afd"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="99c02fe0-765e-4b3d-b9db-7981339dc4a9"
+>REMOVE ALL SpecialLocationPassed(X) IN PositionReportParameters.Values.SpecialLocations</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
  Priority="CleanUp"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
- Name="PositionReportTimeInterval"
+ Name="Position Report Time Interval"
  Guid="9e80ddfb-8e45-4e20-a552-20cfbf31531e"
 >
 <Comment>If a position report was sent due to the position report time interval reached, the current time is stored.</Comment>
@@ -2586,7 +2913,7 @@ Kernel.TrainPosition.RearEndPosition ( PointOfInterest =&gt; DistanceIntervalEnu
  Priority="CleanUp"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
- Name="PositionReportDistanceInterval"
+ Name="Position Report Distance Interval"
  Guid="d04487bb-928e-4ac0-a152-e5eee431f3c9"
 >
 <Comment>If a position report was sent due to the position report distance interval reached, the current distance is stored.</Comment>
