@@ -1342,41 +1342,24 @@ This procedure does not do anything. The mode tracking is not necessary for this
  Name="Updates the request status"
  Guid="6830768e-799d-4864-9239-cbe2466815c9"
 >
-<Comment>Updates the request status and the value to display.</Comment>
+<Comment>Updates the request status and inserts the new message to the list of displayed messages.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
- Name="Display if required"
+ Name="Updates the request status"
  Guid="f54af30f-be4c-44ee-b4a4-f0d2e0413b9c"
 >
-<Comment>If the fixed text information can be displayed and there are messages to display, then update the out variable and request the display.</Comment>
 <PreConditions>
 <PreCondition
  Guid="e9ef0638-e784-4c12-96b9-f84c01b3a1f5"
->FixedTextInformationAvailable()</PreCondition><PreCondition
- Guid="beadbb4a-3f8f-46f6-8e83-74434d4b20aa"
->COUNT X IN Kernel.TextMessages.FixedTextMessagesToDisplay() &gt; 0</PreCondition></PreConditions>
+>FixedTextInformationAvailable()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="44c800ec-e25d-4917-be36-00c6244139f4"
 >THIS.OutputInformation.RequestDisplay()</Action><Action
  Guid="9c0ccc33-a896-48d5-b2aa-9ee0686c4f24"
 >Messages &lt;- Kernel.TextMessages.FixedTextMessagesToDisplay()</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- Name="Hide otherwise"
- Guid="701ee347-3d07-468d-b9be-27dd6d15bc56"
->
-<Comment>Otherwise, eraze the out variable and stop the display.</Comment>
-<PreConditions>
-</PreConditions>
-<Actions>
-<Action
- Guid="c0e6f678-be53-43b3-9880-010a4b8c7afe"
->Messages &lt;- []</Action><Action
- Guid="12ae9eb5-aeeb-40eb-afe3-2c6c34e50c9a"
->THIS.OutputInformation.DoNotDisplay()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -1459,41 +1442,24 @@ This procedure does not do anything. The mode tracking is not necessary for this
  Name="Updates the request status"
  Guid="a8eaa78f-f047-4d99-a8fb-2f35d678f31e"
 >
-<Comment>Updates the request status and the value to display.</Comment>
+<Comment>Updates the request status and inserts the new message to the list of displayed messages.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
- Name="Display if required"
+ Name="Updates the request status"
  Guid="3c8c7d01-c85d-46c6-878f-cef3a991013e"
 >
-<Comment>If the plain text information can be displayed and there are messages to display, then update the out variable and request the display.</Comment>
 <PreConditions>
 <PreCondition
  Guid="632c7675-7d50-488d-89c8-e3d86c4f1f14"
->PlainTextInformationAvailable()</PreCondition><PreCondition
- Guid="a69c7969-ae23-466b-a332-da067fe50dd8"
->COUNT X IN Kernel.TextMessages.PlainTextMessagesToDisplay() &gt; 0</PreCondition></PreConditions>
+>PlainTextInformationAvailable()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="4363861c-bb80-4be3-9741-10e5036b5c52"
 >THIS.OutputInformation.RequestDisplay()</Action><Action
  Guid="4d1d5649-eb1a-4462-a0a6-761bf8381579"
 >Messages &lt;- Kernel.TextMessages.PlainTextMessagesToDisplay()</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- Name="Hide otherwise"
- Guid="b9f70685-f4aa-4acb-95ea-142c4c6ace5f"
->
-<Comment>Otherwise, eraze the out variable and stop the display.</Comment>
-<PreConditions>
-</PreConditions>
-<Actions>
-<Action
- Guid="08e82a9a-f255-40ff-8bc0-9e907d798e8f"
->THIS.OutputInformation.DoNotDisplay()</Action><Action
- Guid="1afddf09-843b-46f8-b0f2-7121122e914a"
->Messages &lt;- []</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure

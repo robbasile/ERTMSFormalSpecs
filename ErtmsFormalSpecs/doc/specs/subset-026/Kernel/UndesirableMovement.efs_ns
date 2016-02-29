@@ -246,7 +246,7 @@ Kernel.UndesirableMovement.MovedForwardBeyondReference(Kernel.UndesirableMovemen
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="ReverseMovementDetected"
+ Name="ReverseDistanceExceeded"
  Guid="1eae931b-97b2-44f2-8b27-7a7a41f66bb4"
 >
 <ReqRef
@@ -278,9 +278,7 @@ Kernel.UndesirableMovement.MovedForwardBeyondReference(Kernel.UndesirableMovemen
 <PreConditions>
 <PreCondition
  Guid="61498722-a67c-4166-be89-5ca3d444d4ac"
->NOT Kernel.UndesirableMovement.MovementDetected()
-  OR  
-Kernel.UndesirableMovement.ReverseMovementReferencePosition == BaseTypes.Distance.Unknown</PreCondition></PreConditions>
+>Kernel.UndesirableMovement.ReverseMovementReferencePosition == BaseTypes.Distance.Unknown</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
  Name="Value"
@@ -329,6 +327,42 @@ Kernel.UndesirableMovement.StandstillSupervisionReferencePosition == BaseTypes.D
 <Expression>Kernel.UndesirableMovement.MovedBackwardBeyondReference(Kernel.UndesirableMovement.StandstillSupervisionReferencePosition)
   OR  
 Kernel.UndesirableMovement.MovedForwardBeyondReference(Kernel.UndesirableMovement.StandstillSupervisionReferencePosition)</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="10"
+ Y="230"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="ReverseMovementDetected"
+ Guid="53f66f1e-470f-4c8c-8dcf-4890c31a397a"
+>
+<Comment>Indicates whether the train detected any movement in the current cycle.</Comment>
+<Parameters>
+<Parameter
+ Type="BaseTypes.Distance"
+ Name="aReferenceDistance"
+ Guid="e0739573-fa68-4c29-bf72-6599281124a5"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Reversing mode"
+ Guid="5fb606db-eb04-421a-b669-eacb34a9c0d9"
+>
+<PreConditions>
+<PreCondition
+ Guid="b637bd5d-b539-45b5-ad4b-b3aeec79ae48"
+>Kernel.Mode == ModeEnum.RV</PreCondition></PreConditions>
+<Expression>Odometry.NominalDistance - aReferenceDistance &gt; 0.0</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="3cca33cd-f2b4-41d6-80a6-f743238df421"
+>
+<Expression>aReferenceDistance - Odometry.NominalDistance &gt; 0.0</Expression>
 </Case></Cases>
 </Function></Functions>
 <Procedures>
@@ -614,25 +648,7 @@ When the standstill supervision is inactive, it is set to the unknown distance.<
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
- Name="Activate reverse movement protection"
- Guid="26e91524-cade-4dd0-8eb8-78b1abd4746f"
->
-<Comment>If the reverse movement protection is active, and is has seen that the train moved too far backwards, activate the brakes.</Comment>
-<PreConditions>
-<PreCondition
- Guid="f458803f-bee8-41ab-a12c-ebdd4b17eab2"
->Kernel.ActiveFunctions.ProtectAgainstReverseMovement()</PreCondition><PreCondition
- Guid="f1e1e1b5-4431-4675-9594-1b40a1a62c4f"
->Kernel.UndesirableMovement.ReverseMovementDetected()</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="561a2dd6-7297-4e3a-97be-9a179920b3be"
->DMI.MasterDMI().In_AcknForReverseMovementProtection.InitiateRequest()</Action><Action
- Guid="c534b70e-481b-4dc6-8782-d5a0e030ab01"
->Kernel.BrakeCommands.CommandServiceBrake(BrakeCommands.BrakeReasonEnum.ReverseMovementProtection)</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- Name="Keep reference to current location"
+ Name="No reverse movement detected"
  Guid="ff067774-6620-4b1d-aebc-0b76dd47959d"
 >
 <Comment>If the reverse movement protection function is active, keep the current location as reference location as long as the train keeps moving forwards.</Comment>
@@ -641,27 +657,55 @@ When the standstill supervision is inactive, it is set to the unknown distance.<
  Guid="f2a93777-1fe1-491b-a310-1971976bf15c"
 >Kernel.ActiveFunctions.ProtectAgainstReverseMovement()</PreCondition><PreCondition
  Guid="239c0111-a2f7-42fc-9086-d938ac14c156"
->Odometry.NominalDistance &gt; Kernel.UndesirableMovement.ReverseMovementReferencePosition</PreCondition></PreConditions>
+>NOT Kernel.UndesirableMovement.ReverseMovementDetected(Kernel.UndesirableMovement.ReverseMovementReferencePosition)</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="79b16cfb-cc72-4039-a21f-1186a0ceeca8"
 >Kernel.UndesirableMovement.ReverseMovementReferencePosition &lt;- Odometry.NominalDistance</Action></Actions>
 </RuleCondition><RuleCondition
- Implemented="TRUE"
- Name="Deactivate reverse movement protection"
- Guid="6a2c780c-aa07-4cd0-bf60-05985b7e46b3"
+ Name="Handling reverse movement situation"
+ Guid="180bfd4c-7d48-4485-b6fd-d5f8c00fd340"
 >
-<Comment>If the reverse movement protection function becomes inactive, reset the reference location.</Comment>
 <PreConditions>
 <PreCondition
- Guid="508fe116-e7da-42df-82e4-1d722aa7cd0e"
->NOT Kernel.ActiveFunctions.ProtectAgainstReverseMovement()</PreCondition><PreCondition
- Guid="7a0048e5-0cfa-4d1a-854e-7a0f3da2e490"
->Kernel.UndesirableMovement.ReverseMovementReferencePosition != BaseTypes.Distance.Unknown</PreCondition></PreConditions>
+ Guid="4f6c9237-5d9f-47b1-88be-b61516506a3c"
+>Kernel.ActiveFunctions.ProtectAgainstReverseMovement()</PreCondition><PreCondition
+ Guid="a2f73e40-2b66-4ee5-a491-0e1ac70bbc65"
+>Kernel.UndesirableMovement.ReverseMovementDetected(Kernel.UndesirableMovement.ReverseMovementReferencePosition)</PreCondition><PreCondition
+ Guid="f1e1e1b5-4431-4675-9594-1b40a1a62c4f"
+>ReverseDistanceExceeded()</PreCondition></PreConditions>
+<Actions>
+</Actions>
+<SubRules>
+<Rule
+ Priority="Processing"
+ Name="Applying brakes"
+ Guid="5026f2b9-cfb2-4dcd-a4f1-d698aa16587e"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Name="Applying brakes"
+ Guid="34b1c322-eb9a-4613-bae9-dd6d3ee76490"
+>
+<PreConditions>
+<PreCondition
+ Guid="27d209eb-61e5-421a-abfa-45da1c3f6740"
+>Kernel.UndesirableMovement.MovementDetected()</PreCondition></PreConditions>
 <Actions>
 <Action
- Guid="2cd611ba-4b36-42b4-b4fd-24071cf4c33b"
->Kernel.UndesirableMovement.ReverseMovementReferencePosition &lt;-  BaseTypes.Distance.Unknown</Action></Actions>
+ Guid="c534b70e-481b-4dc6-8782-d5a0e030ab01"
+>Kernel.BrakeCommands.CommandServiceBrake(BrakeCommands.BrakeReasonEnum.ReverseMovementProtection)</Action></Actions>
+</RuleCondition><RuleCondition
+ Name="Reset reference position after driver µacknowledgement"
+ Guid="7e5266ce-b56b-4b44-b580-e2097d50a5ad"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+</Actions>
+</RuleCondition></Conditions>
+</Rule></SubRules>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
