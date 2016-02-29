@@ -408,49 +408,6 @@ Kernel.UndesirableMovement.MovedForwardBeyondReference(RollAwayMovementReference
 <Expression>Kernel.UndesirableMovement.MovedForwardBeyondReference(RollAwayMovementReferencePosition)</Expression>
 </Case></Cases>
 </Function></Functions>
-<Procedures>
-<Procedure
- X="570"
- Y="10"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="InitializeRollAwayProtection"
- Guid="8a6ff73d-85b8-466c-86e8-072baa2254f8"
->
-<ReqRef
- Id="5b878cb7-bb66-41bb-96dc-6089f53c8f01"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="30e3221c-dc9a-4b8d-8f33-e1b24fa79b11"
->
-</ReqRef><Comment>Reinitialises the roll away protection function.</Comment>
-<Rules>
-<Rule
- Priority="Processing"
- Implemented="TRUE"
- Name="Keep reference position"
- Guid="70725519-d632-42dc-af86-d61478b52d25"
->
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Keep reference position"
- Guid="9a2c406a-f92b-40de-8cb9-851e2d78e16a"
->
-<PreConditions>
-<PreCondition
- Guid="e85b1a0a-47e5-4f60-b155-dd4a9f5db4ab"
->ActiveFunctions.ProtectAgainstRollAwayMovement()</PreCondition><PreCondition
- Guid="e7e6bdc0-6334-4e18-b09e-28a3961ac5e7"
->NOT TIU.Brakes.BrakeCommanded()</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="7757da04-e9f4-4648-ac19-0a1bd75224bf"
->RollAwayMovementReferencePosition &lt;- Odometry.NominalDistance</Action></Actions>
-</RuleCondition></Conditions>
-</Rule></Rules>
-</Procedure></Procedures>
 <Variables>
 <Variable
  Type="BaseTypes.Distance"
