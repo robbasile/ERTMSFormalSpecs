@@ -350,6 +350,15 @@ Kernel.UndesirableMovement.MovedForwardBeyondReference(Kernel.UndesirableMovemen
 </Parameter></Parameters>
 <Cases>
 <Case
+ Name="Wrong reference distance"
+ Guid="96e7df59-7201-44ac-808c-809c0412c2f4"
+>
+<PreConditions>
+<PreCondition
+ Guid="b7ef8d30-cd8e-45a8-a976-ade1489798b1"
+>aReferenceDistance == Default.BaseTypes.Distance.Unknown</PreCondition></PreConditions>
+<Expression>False</Expression>
+</Case><Case
  Name="Reversing mode"
  Guid="5fb606db-eb04-421a-b669-eacb34a9c0d9"
 >
@@ -666,6 +675,8 @@ When the standstill supervision is inactive, it is set to the unknown distance.<
  Name="Handling reverse movement situation"
  Guid="180bfd4c-7d48-4485-b6fd-d5f8c00fd340"
 >
+<Comment>As soon as reverse movement is detected, stop updating the reference position 
+but applies brakes only if the permitted reverse distance is exceeded.</Comment>
 <PreConditions>
 <PreCondition
  Guid="4f6c9237-5d9f-47b1-88be-b61516506a3c"
@@ -688,6 +699,7 @@ When the standstill supervision is inactive, it is set to the unknown distance.<
  Name="Applying brakes"
  Guid="34b1c322-eb9a-4613-bae9-dd6d3ee76490"
 >
+<Comment>If the permitted  reverse distance has been exceeded, applies the brakes if currently moving (in no matter what direction).</Comment>
 <PreConditions>
 <PreCondition
  Guid="27d209eb-61e5-421a-abfa-45da1c3f6740"
@@ -697,13 +709,22 @@ When the standstill supervision is inactive, it is set to the unknown distance.<
  Guid="c534b70e-481b-4dc6-8782-d5a0e030ab01"
 >Kernel.BrakeCommands.CommandServiceBrake(BrakeCommands.BrakeReasonEnum.ReverseMovementProtection)</Action></Actions>
 </RuleCondition><RuleCondition
- Name="Reset reference position after driver µacknowledgement"
+ Name="Reset reference position after driver acknowledgement"
  Guid="7e5266ce-b56b-4b44-b580-e2097d50a5ad"
 >
+<Comment>If the train is at standstill, without reverse movement protection brakes and if the driver has aknowledge the reverse movement protection, resets the reference position at the present position.</Comment>
 <PreConditions>
-</PreConditions>
+<PreCondition
+ Guid="d7c9e302-deb5-4efd-a352-d2e9fb0024c8"
+>Odometry.TrainIsAtStandstill()</PreCondition><PreCondition
+ Guid="21103a43-cbb9-4fc1-ada4-1307748bd908"
+>DMI.MasterDMI().In_AcknForReverseMovementProtection.InputInformation.DriverAnswered == True</PreCondition><PreCondition
+ Guid="11eca3dd-c536-4780-a360-e3fcd7287ced"
+>FORALL X IN Kernel.BrakeCommands.ServiceBrakeCommands | X.Reason != BrakeCommands.BrakeReasonEnum.ReverseMovementProtection</PreCondition></PreConditions>
 <Actions>
-</Actions>
+<Action
+ Guid="722861a7-48fe-49f8-9479-be85f2df2670"
+>Kernel.UndesirableMovement.ReverseMovementReferencePosition &lt;- Odometry.NominalDistance</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition></Conditions>
