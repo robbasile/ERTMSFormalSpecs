@@ -407,47 +407,6 @@ Kernel.UndesirableMovement.MovedForwardBeyondReference(Kernel.UndesirableMovemen
 >Kernel.UndesirableMovement.RollAwayReferencePosition &lt;- Odometry.NominalDistance</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
-</Procedure><Procedure
- X="570"
- Y="70"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="InitializeReverseMovementProtection"
- Guid="4f370c7d-6f84-4dbf-be91-c866b9e8a3fb"
->
-<ReqRef
- Id="de3edf27-2461-48e2-9737-d2e812684d28"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="371dfad3-405e-420a-b429-21d7dc55730b"
->
-</ReqRef><Comment>Reinitialises the reverse movement protection function.</Comment>
-<Rules>
-<Rule
- Priority="Processing"
- Implemented="TRUE"
- Name="Keep reference position"
- Guid="fa694bf6-acbc-4966-a2e3-f69390ceb025"
->
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Keep reference position"
- Guid="248fb477-e241-4bf0-8af3-7b5363924f6e"
->
-<PreConditions>
-<PreCondition
- Guid="4dbbb739-53cc-48ac-985f-3c0726da56b1"
->Kernel.ActiveFunctions.ProtectAgainstReverseMovement()</PreCondition><PreCondition
- Guid="207c3b0e-0a80-4cff-84d7-b11fc0004e37"
->NOT TIU.Brakes.BrakeCommanded()</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="96f5433c-1e64-4ac9-a274-6e8045aee8e0"
->Kernel.UndesirableMovement.ReverseMovementReferencePosition &lt;- Odometry.NominalDistance</Action></Actions>
-</RuleCondition></Conditions>
-</Rule></Rules>
 </Procedure></Procedures>
 <Variables>
 <Variable
