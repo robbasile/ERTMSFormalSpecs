@@ -50,7 +50,11 @@
  Guid="28bef3be-c802-44a6-9898-c5ac64cf2df8"
 >Kernel.UndesirableMovement.ReverseMovementReferencePosition &lt;- Odometry.NominalDistance</Action><Action
  Guid="104ed018-c2e4-4170-9322-0c5b4ef00013"
->Odometry.EstimatedSpeed &lt;- 1.0</Action></Actions>
+>Odometry.EstimatedSpeed &lt;- 1.0</Action><Action
+ Guid="53720474-c786-4f77-a0fe-71c162ef2a51"
+>BTM.PreviousBaliseGroups &lt;- []</Action><Action
+ Guid="2a965159-d1eb-44e4-ab57-5b965cf32f66"
+>BTM.LRBG &lt;- EMPTY</Action></Actions>
 <Expectations>
 <Expectation
  Kind="Instantaneous"
@@ -65,7 +69,7 @@
  ModeIN="NA"
  ModeOUT="NA"
  TranslationRequired="FALSE"
- Name="Step2 - Reverse movement detected"
+ Name="Step2 - Reverse movement detected and BTM refused"
  Guid="2f01c654-f7ef-4e57-9947-f3533efd6137"
 >
 <SubSteps>
@@ -79,7 +83,26 @@
  Guid="3641c9b8-2083-4da6-bb8e-61c631e596df"
 >Odometry.NominalDistance &lt;- Odometry.NominalDistance - 0.5 * Kernel.NationalValues.ApplicableNationalValues.Value.DistToBeUsedInRollAwayProt_RevMvtProt_StandstillSup </Action><Action
  Guid="7c5099a6-7664-4ce6-bea6-c8f97be482a6"
->Odometry.EstimatedSpeed &lt;-  -1.0</Action></Actions>
+>Odometry.EstimatedSpeed &lt;-  -1.0</Action><Action
+ Guid="20370cef-006e-49b3-b29d-57d011caa603"
+>BTM.Message.SystemVersion2  &lt;- Messages.EUROBALISE.Message
+{
+    Q_UPDOWN =&gt; Messages.Q_UPDOWN.Up_link_telegram,
+    M_VERSION =&gt; 32,
+    Q_MEDIA =&gt; Messages.Q_MEDIA.Balise,
+    N_PIG =&gt; 0,
+    N_TOTAL =&gt; 0,
+    M_DUP =&gt; Messages.M_DUP.No_duplicates,
+    M_MCOUNT =&gt; 4,
+    NID_C =&gt; 140,
+    NID_BG =&gt; 2124,
+    Q_LINK =&gt; Messages.Q_LINK.Linked,
+    Sequence1 =&gt; 
+    [
+        
+    ]
+}
+</Action></Actions>
 <Expectations>
 <Expectation
  Kind="Instantaneous"
@@ -89,7 +112,11 @@
  Kind="Instantaneous"
  DeadLine="1"
  Guid="f6460c90-5211-408b-b093-f7db57cf55c4"
->NOT Kernel.UndesirableMovement.ReverseDistanceExceeded()</Expectation></Expectations>
+>NOT Kernel.UndesirableMovement.ReverseDistanceExceeded()</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="571de55d-7633-47a1-9049-60e397859517"
+>BTM.CurrentBaliseGroup == []</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step><Step
  IO="NA"
