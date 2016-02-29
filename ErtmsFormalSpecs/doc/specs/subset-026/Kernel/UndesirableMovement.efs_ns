@@ -697,13 +697,23 @@ When the standstill supervision is inactive, it is set to the unknown distance.<
  Guid="c534b70e-481b-4dc6-8782-d5a0e030ab01"
 >Kernel.BrakeCommands.CommandServiceBrake(BrakeCommands.BrakeReasonEnum.ReverseMovementProtection)</Action></Actions>
 </RuleCondition><RuleCondition
- Name="Reset reference position after driver µacknowledgement"
+ Name="Reset reference position after driver acknowledgement"
  Guid="7e5266ce-b56b-4b44-b580-e2097d50a5ad"
 >
 <PreConditions>
-</PreConditions>
+<PreCondition
+ Guid="3708003e-027b-4ee8-bcb5-01b373a89b89"
+>Odometry.TrainIsAtStandstill()</PreCondition><PreCondition
+ Guid="67f60954-321a-4416-a800-d9e44ae19e10"
+>FORALL X IN Kernel.BrakeCommands.ServiceBrakeCommands | X.Reason != BrakeCommands.BrakeReasonEnum.ReverseMovementProtection</PreCondition><PreCondition
+ Guid="d2a392e6-fcb0-4902-b3ed-69df734d5e87"
+>DMI.MasterDMI().Out_BrakeReason.OutputInformation.DisplayRequested == False</PreCondition><PreCondition
+ Guid="77870667-47f1-4357-81ce-758eeae835a7"
+>NOT TIU.Brakes.BrakeCommanded()</PreCondition></PreConditions>
 <Actions>
-</Actions>
+<Action
+ Guid="70cde7b1-38fa-4d34-9644-fe3b2eb819b4"
+>Kernel.UndesirableMovement.ReverseMovementReferencePosition &lt;- Odometry.NominalDistance</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition></Conditions>

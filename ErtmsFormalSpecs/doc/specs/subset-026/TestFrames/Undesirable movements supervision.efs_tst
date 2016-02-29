@@ -14,6 +14,281 @@
  Q_DLRBG=""
  RBC_ID=""
  RBCPhone=""
+ Name="Reverse movement protection"
+ Guid="cbae7868-1a70-411e-936c-308a6f4667e3"
+>
+<TestCases>
+<TestCase
+ Name="Full reverse protection sequence"
+ Guid="27456b31-5e39-4467-908c-2cf177b547bf"
+>
+<Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Setup"
+ Guid="472e61ca-433a-4214-8434-f73478404491"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep1"
+ Guid="54e67b3e-1379-41b1-8c02-a216fcf8c46f"
+>
+<Actions>
+<Action
+ Guid="2d8ff9d0-3e6e-4409-87a6-3d5c499cfe86"
+>Testing.InitializeTestEnvironment
+(
+    aTrainPosition =&gt; 100.0,
+    aMode =&gt; ModeEnum.FS
+)</Action><Action
+ Guid="28bef3be-c802-44a6-9898-c5ac64cf2df8"
+>Kernel.UndesirableMovement.ReverseMovementReferencePosition &lt;- Odometry.NominalDistance</Action><Action
+ Guid="104ed018-c2e4-4170-9322-0c5b4ef00013"
+>Odometry.EstimatedSpeed &lt;- 1.0</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="7c234b61-ed7f-4616-a75f-ecd38a97f52c"
+>Kernel.UndesirableMovement.ReverseMovementReferencePosition == Odometry.NominalDistance</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step2 - Reverse movement detected"
+ Guid="2f01c654-f7ef-4e57-9947-f3533efd6137"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep1"
+ Guid="5f3bb0b7-0b51-4d93-99bc-709ce69b035b"
+>
+<Actions>
+<Action
+ Guid="3641c9b8-2083-4da6-bb8e-61c631e596df"
+>Odometry.NominalDistance &lt;- Odometry.NominalDistance - 0.5 * Kernel.NationalValues.ApplicableNationalValues.Value.DistToBeUsedInRollAwayProt_RevMvtProt_StandstillSup </Action><Action
+ Guid="7c5099a6-7664-4ce6-bea6-c8f97be482a6"
+>Odometry.EstimatedSpeed &lt;-  -1.0</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="fe89aa9e-44e6-492c-989d-a94c5606ae8a"
+>Kernel.UndesirableMovement.ReverseMovementReferencePosition == 100.0</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="f6460c90-5211-408b-b093-f7db57cf55c4"
+>NOT Kernel.UndesirableMovement.ReverseDistanceExceeded()</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step3 - Keep going in the right direction"
+ Guid="3239561e-3e6e-4136-8098-b7c51aeeafdc"
+>
+<SubSteps>
+<SubStep
+ Name="SubStep1"
+ Guid="d31266c4-1fea-473c-a7be-52c2d56ca162"
+>
+<Actions>
+<Action
+ Guid="a221fcca-6e3a-440a-a3d3-deefc46865c6"
+>Odometry.NominalDistance &lt;- 110.0</Action><Action
+ Guid="4e86aaad-9e1a-4e87-ae79-e5ad14c954a0"
+>Odometry.EstimatedSpeed &lt;- 1.0</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="c5aab527-f224-49cb-bdb2-fa2530f3cb11"
+>Kernel.UndesirableMovement.ReverseMovementReferencePosition == Odometry.NominalDistance</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="287121c6-a9e1-4b02-8223-a84a16fe210d"
+>FORALL X IN Kernel.BrakeCommands.ServiceBrakeCommands | X.Reason != Kernel.BrakeCommands.BrakeReasonEnum.ReverseMovementProtection</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step4 - Reverse movement detected - Apply brakes"
+ Guid="8af00f4a-fc22-467f-b246-e4812a7a6d09"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep1"
+ Guid="24d07d04-b0c4-4409-81de-b94fe9968dfb"
+>
+<Actions>
+<Action
+ Guid="68e06d97-40e8-4db3-8eb7-d9e21c42199d"
+>Odometry.NominalDistance &lt;- Odometry.NominalDistance - 1.5 * Kernel.NationalValues.ApplicableNationalValues.Value.DistToBeUsedInRollAwayProt_RevMvtProt_StandstillSup </Action><Action
+ Guid="9094f542-724c-4398-a35a-d14d146d3a6a"
+>Odometry.EstimatedSpeed &lt;-  -1.0</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="0638c315-b5d2-4c4f-ac0d-4142b2c3695e"
+>Kernel.UndesirableMovement.ReverseMovementReferencePosition == 110.0</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="07c81b6d-f478-4108-8a0d-bba4063fa55a"
+>Kernel.UndesirableMovement.ReverseDistanceExceeded()</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="2471554d-ee88-4f95-b6f8-24f02c7f4270"
+>THERE_IS X IN 
+DMI.MasterDMI().Out_BrakeReason.Reasons | X.Reason == Kernel.BrakeCommands.BrakeReasonEnum.ReverseMovementProtection</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="d76d15ef-14cf-4b27-8e32-02fe59b98c17"
+>THERE_IS X IN Kernel.BrakeCommands.ServiceBrakeCommands | X.Reason == Kernel.BrakeCommands.BrakeReasonEnum.ReverseMovementProtection</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="a7a08ce9-ff81-4105-b40c-f06840a10b87"
+>DMI.MasterDMI().Out_BrakeReason.OutputInformation.DisplayRequested == True</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step5 - Ask for acknowledgement when at standstill"
+ Guid="3f9e2447-9fca-4c94-b7aa-ee086998daef"
+>
+<ReqRef
+ Id="f4fbf115-c910-46e8-b6e7-bf1fb0f8a4b3"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="55ea65e9-8e9d-41a4-a7fe-6628c5af30df"
+>
+</ReqRef><ReqRef
+ Id="ba7f8c98-781f-404a-b7b8-e679b92c5448"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="fd9cf419-0cfc-4640-b40f-d0fdf32a7f9c"
+>
+</ReqRef><SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Movement"
+ Guid="ed2bb9a8-6df6-491b-8a97-f83942b3b4b9"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="9644ed20-fbb4-4d2d-8a0e-0b789e928244"
+>DMI.MasterDMI().In_AcknForReverseMovementProtection.InputInformation.RequestStatus == RequestEnum.Disabled AND FORALL X IN DMI.IN.Acknowledgements.Acknowledgements | X.Type != DMI.IN.Acknowledgements.AckTypeEnum.ReverseMovementProtection</Expectation></Expectations>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Standstill"
+ Guid="0f9a4c65-dc9b-47c5-bc01-2a8bc127b503"
+>
+<Actions>
+<Action
+ Guid="ccdbab7c-aa80-4ed3-bdb3-e42bb6b3fbe8"
+>Odometry.EstimatedSpeed &lt;- 0.0</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="312dc7a2-2168-4023-85c6-b13624ee2379"
+>DMI.MasterDMI().In_AcknForReverseMovementProtection.InputInformation.RequestStatus != RequestEnum.Disabled OR THERE_IS X IN DMI.IN.Acknowledgements.Acknowledgements | X.Type == DMI.IN.Acknowledgements.AckTypeEnum.ReverseMovementProtection</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step6 - Release brake when acknowledgement is received"
+ Guid="1c7642f8-8954-4674-b877-a687f543dd10"
+>
+<ReqRef
+ Id="ba7f8c98-781f-404a-b7b8-e679b92c5448"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="cd28b4ce-5409-4f3a-8516-e0f280224a66"
+>
+</ReqRef><ReqRef
+ Id="f4fbf115-c910-46e8-b6e7-bf1fb0f8a4b3"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a4438f4e-86df-42d2-93b2-07a5577a69b4"
+>
+</ReqRef><SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="No acknowledgement"
+ Guid="64baf738-32ab-44e1-b112-a8ab7894b24b"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="b6b65ea5-eb67-462b-b364-7c66e2e57b27"
+>THERE_IS X IN Kernel.BrakeCommands.ServiceBrakeCommands | X.Reason == Kernel.BrakeCommands.BrakeReasonEnum.ReverseMovementProtection</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="82e901e5-44bd-44ee-a23f-4144093c6b38"
+>Kernel.UndesirableMovement.ReverseMovementReferencePosition == 110.0</Expectation></Expectations>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Acknowledgement received"
+ Guid="6ec8cb4f-b6e5-4ba5-b06e-605faaf589fb"
+>
+<Actions>
+<Action
+ Guid="8eb9b7d3-2587-48d9-aaed-36708a3a69ef"
+>DMI.MasterDMI().In_AcknForReverseMovementProtection.InputInformation.DriverAnswered &lt;- True</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="0b1c88cc-1f4c-473a-8432-a022f72aa7d1"
+>FORALL X IN Kernel.BrakeCommands.ServiceBrakeCommands | X.Reason != Kernel.BrakeCommands.BrakeReasonEnum.ReverseMovementProtection</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="e36e4bdb-b53f-452e-8697-ccb897a66de1"
+>DMI.MasterDMI().Out_BrakeReason.OutputInformation.DisplayRequested == False</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="91437277-734a-4211-898a-f0bb63b7370e"
+>Kernel.UndesirableMovement.ReverseMovementReferencePosition == Odometry.NominalDistance</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase></TestCases>
+</SubSequence><SubSequence
+ D_LRBG=""
+ Level=""
+ Mode=""
+ NID_LRBG=""
+ Q_DIRLRBG=""
+ Q_DIRTRAIN=""
+ Q_DLRBG=""
+ RBC_ID=""
+ RBCPhone=""
  Name="Standstill supervision"
  Guid="4ee3155c-aee5-474a-b79f-392c9a80472e"
 >
