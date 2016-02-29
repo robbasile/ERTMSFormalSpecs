@@ -37,7 +37,7 @@
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="RollAwayDetected"
+ Name="RollAwayMovementDetected"
  Guid="c64922f5-2092-423b-8647-32ba492c6078"
 >
 <ReqRef
@@ -56,19 +56,15 @@
  Guid="c275eec0-1da1-4600-b42f-97d8cb0201a4"
 >
 </ReqRef><Comment>Indicates whether the conditions to trigger a brake command due to the roll away protection have been fulfilled.</Comment>
+<Parameters>
+<Parameter
+ Type="BaseTypes.Distance"
+ Name="aReferenceDistance"
+ Guid="d1fb43b7-a014-4b7c-8685-058ea727edfd"
+>
+</Parameter></Parameters>
 <Cases>
 <Case
- Name="No movement detected"
- Guid="8e0242c6-82ec-4faa-8c76-4558f4cdaff3"
->
-<PreConditions>
-<PreCondition
- Guid="2f19251e-f175-4db7-8e29-28aa35096116"
->NOT Kernel.UndesirableMovement.MovementDetected()
-  OR  
-Kernel.UndesirableMovement.RollAwayReferencePosition == BaseTypes.Distance.Unknown</PreCondition></PreConditions>
-<Expression>False</Expression>
-</Case><Case
  Name="Direction controller in Neutral"
  Guid="cb8203ba-93fa-4bd9-a996-e08256c6db55"
 >
@@ -76,9 +72,7 @@ Kernel.UndesirableMovement.RollAwayReferencePosition == BaseTypes.Distance.Unkno
 <PreCondition
  Guid="97d9a3ea-c214-4b26-aa7b-693ecba1ffc5"
 >TIU.DirectionControllerInformation == TIU.DirectionControllerEnum.Neutral</PreCondition></PreConditions>
-<Expression>Kernel.UndesirableMovement.MovedBackwardBeyondReference(Kernel.UndesirableMovement.RollAwayReferencePosition)
-  OR  
-Kernel.UndesirableMovement.MovedForwardBeyondReference(Kernel.UndesirableMovement.RollAwayReferencePosition)</Expression>
+<Expression>MovementDetected()</Expression>
 </Case><Case
  Name="Direction controller in forward"
  Guid="7cf9f355-4388-430f-a696-2f039b3e2d06"
@@ -87,7 +81,7 @@ Kernel.UndesirableMovement.MovedForwardBeyondReference(Kernel.UndesirableMovemen
 <PreCondition
  Guid="2f2dc6ce-2437-470c-99df-8941fafd463e"
 >TIU.DirectionControllerInformation == TIU.DirectionControllerEnum.Forward</PreCondition></PreConditions>
-<Expression>Kernel.UndesirableMovement.MovedBackwardBeyondReference(Kernel.UndesirableMovement.RollAwayReferencePosition)</Expression>
+<Expression>aReferenceDistance - Odometry.NominalDistance &gt; 0.0</Expression>
 </Case><Case
  Name="Direction controller in backward"
  Guid="0ab5651a-90d3-4a02-97b6-ce3d69a9b1da"
@@ -96,7 +90,7 @@ Kernel.UndesirableMovement.MovedForwardBeyondReference(Kernel.UndesirableMovemen
 <PreCondition
  Guid="58a98f42-a2c6-4a27-a041-eaee8e274c43"
 >TIU.DirectionControllerInformation == TIU.DirectionControllerEnum.Backward</PreCondition></PreConditions>
-<Expression>Kernel.UndesirableMovement.MovedForwardBeyondReference(Kernel.UndesirableMovement.RollAwayReferencePosition)</Expression>
+<Expression>Odometry.NominalDistance - aReferenceDistance &gt; 0.0</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -355,6 +349,64 @@ Kernel.UndesirableMovement.MovedForwardBeyondReference(Kernel.UndesirableMovemen
 >
 <Expression>aReferenceDistance - Odometry.NominalDistance &gt; 0.0</Expression>
 </Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="120"
+ Y="230"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="RollAwayDistanceExceeded"
+ Guid="f9f576fe-a388-4f3f-8dd5-10100d5e27c7"
+>
+<ReqRef
+ Id="507e945d-af5e-4721-af02-3f87008198c9"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="763f7766-723c-4da6-b45a-7213a2f6365d"
+>
+</ReqRef><ReqRef
+ Id="6f923071-4cba-403c-9510-8aa3b5a4d6c2"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ab1844c4-5174-46c3-8235-df7f05d68151"
+>
+</ReqRef><ReqRef
+ Id="1058129e-e8d2-4dda-992f-3f44ebb4a754"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0f01168f-d9ab-4990-96b8-70e30ba446a6"
+>
+</ReqRef><Comment>Indicates whether the conditions to trigger a brake command due to the roll away protection have been fulfilled.</Comment>
+<Cases>
+<Case
+ Name="Direction controller in Neutral"
+ Guid="493cfe9d-4379-42c2-ba6a-22f3da13b4f9"
+>
+<PreConditions>
+<PreCondition
+ Guid="efe6c87e-30a4-4860-b0e1-541105a3d196"
+>TIU.DirectionControllerInformation == TIU.DirectionControllerEnum.Neutral</PreCondition></PreConditions>
+<Expression>Kernel.UndesirableMovement.MovedBackwardBeyondReference(RollAwayMovementReferencePosition)
+  OR  
+Kernel.UndesirableMovement.MovedForwardBeyondReference(RollAwayMovementReferencePosition)</Expression>
+</Case><Case
+ Name="Direction controller in forward"
+ Guid="125749c0-698b-44eb-b30b-e2cfe24344ea"
+>
+<PreConditions>
+<PreCondition
+ Guid="a8da17ac-472c-4f65-a3f5-2e4e00978249"
+>TIU.DirectionControllerInformation == TIU.DirectionControllerEnum.Forward</PreCondition></PreConditions>
+<Expression>Kernel.UndesirableMovement.MovedBackwardBeyondReference(RollAwayMovementReferencePosition)</Expression>
+</Case><Case
+ Name="Direction controller in backward"
+ Guid="ef7049c3-4c8b-4922-a545-ad76b1a26d1d"
+>
+<PreConditions>
+<PreCondition
+ Guid="d264d10d-2834-40a9-8d4a-fa0acbf240b5"
+>TIU.DirectionControllerInformation == TIU.DirectionControllerEnum.Backward</PreCondition></PreConditions>
+<Expression>Kernel.UndesirableMovement.MovedForwardBeyondReference(RollAwayMovementReferencePosition)</Expression>
+</Case></Cases>
 </Function></Functions>
 <Procedures>
 <Procedure
@@ -389,27 +441,27 @@ Kernel.UndesirableMovement.MovedForwardBeyondReference(Kernel.UndesirableMovemen
 <PreConditions>
 <PreCondition
  Guid="e85b1a0a-47e5-4f60-b155-dd4a9f5db4ab"
->Kernel.ActiveFunctions.ProtectAgainstRollAway()</PreCondition><PreCondition
+>ActiveFunctions.ProtectAgainstRollAwayMovement()</PreCondition><PreCondition
  Guid="e7e6bdc0-6334-4e18-b09e-28a3961ac5e7"
 >NOT TIU.Brakes.BrakeCommanded()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="7757da04-e9f4-4648-ac19-0a1bd75224bf"
->Kernel.UndesirableMovement.RollAwayReferencePosition &lt;- Odometry.NominalDistance</Action></Actions>
+>RollAwayMovementReferencePosition &lt;- Odometry.NominalDistance</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
 <Variables>
 <Variable
  Type="BaseTypes.Distance"
- DefaultValue="BaseTypes.Distance.Unknown"
+ DefaultValue="0.0"
  VariableMode="Internal"
  X="10"
  Y="10"
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="RollAwayReferencePosition"
+ Name="RollAwayMovementReferencePosition"
  Guid="8144b376-47f6-4524-86cb-9381567478a6"
 >
 <ReqRef
@@ -485,90 +537,6 @@ When the standstill supervision is inactive, it is set to the unknown distance.<
 </Variable></Variables>
 <Rules>
 <Rule
- Priority="Processing"
- X="10"
- Y="360"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="Roll away protection"
- Guid="7d13d063-2c51-48ab-b5d1-25703079dde2"
->
-<ReqRef
- Id="507e945d-af5e-4721-af02-3f87008198c9"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="8e3706a6-177f-4e8f-8c38-f2448680364b"
->
-</ReqRef><ReqRef
- Id="1058129e-e8d2-4dda-992f-3f44ebb4a754"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="929ebc96-e9b2-4d36-8215-12b52de51393"
->
-</ReqRef><ReqRef
- Id="8fae9656-3172-4724-ac7f-6cde69800d28"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="53170447-0db9-4b1c-b5bb-278e36f01b4b"
->
-</ReqRef><ReqRef
- Id="6f89de18-e407-4737-90cf-efd9d8a3b178"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="303d29ed-4ce5-4435-9498-008ac04d3c34"
->
-</ReqRef><Comment>Handles the roll away protection function.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Activate roll away protection"
- Guid="5256c27a-290e-4764-bbf5-adb58a8695e8"
->
-<Comment>If the roll away protection is active, and is has seen that the train moved too far in an undesirable direction, activate the brakes.</Comment>
-<PreConditions>
-<PreCondition
- Guid="d469d334-1f38-4e89-8cb8-b382b99545f0"
->Kernel.ActiveFunctions.ProtectAgainstRollAway()</PreCondition><PreCondition
- Guid="b8153d2f-fcbc-4626-bcb0-8fb26e9a59d9"
->Kernel.UndesirableMovement.RollAwayDetected()</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="0b025c0e-91b1-4731-b56c-68d0de455a67"
->DMI.MasterDMI().In_AcknForRollAwayProtection.InitiateRequest()</Action><Action
- Guid="833cd1b9-16fb-483d-a5f4-93ed6d584f77"
->Kernel.BrakeCommands.CommandServiceBrake(BrakeCommands.BrakeReasonEnum.RollAwayProtection)</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- Name="Keep reference to current location"
- Guid="97ecbe71-53ba-4537-a7fb-4e7df5c19703"
->
-<Comment>If the roll away protection function is active, keep the current location as reference location as long as the train keeps moving in the desired direction.</Comment>
-<PreConditions>
-<PreCondition
- Guid="18530cba-36e0-45e0-9a60-7552ea0639b9"
->Kernel.UndesirableMovement.MovedInDirectionOfController(Kernel.UndesirableMovement.RollAwayReferencePosition)</PreCondition><PreCondition
- Guid="1576486f-c20c-4e5f-a070-7f1d7e747443"
->Kernel.ActiveFunctions.ProtectAgainstRollAway()</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="289769a9-262d-4546-83bd-81d79963581a"
->Kernel.UndesirableMovement.RollAwayReferencePosition &lt;- Odometry.NominalDistance</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- Name="Deactivate roll away protection"
- Guid="e43434c5-eee0-4f4c-b534-39b50762bd7d"
->
-<Comment>If the roll away protection function becomes inactive, reset the reference location.</Comment>
-<PreConditions>
-<PreCondition
- Guid="ba0b7670-711e-4b67-9f19-31db6982419c"
->Kernel.UndesirableMovement.RollAwayReferencePosition != BaseTypes.Distance.Unknown</PreCondition><PreCondition
- Guid="199b9539-c029-4292-8e4a-81950c515c48"
->NOT Kernel.ActiveFunctions.ProtectAgainstRollAway()</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="63e0b9d7-1838-43d8-980f-944496c58e3f"
->Kernel.UndesirableMovement.RollAwayReferencePosition &lt;- BaseTypes.Distance.Unknown</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
  Priority="Processing"
  X="120"
  Y="360"
@@ -846,13 +814,13 @@ When the standstill supervision is inactive, it is set to the unknown distance.<
 <PreConditions>
 <PreCondition
  Guid="8180225c-f9e7-4536-b21d-83fa1996249b"
->Kernel.ActiveFunctions.ProtectAgainstRollAway()</PreCondition><PreCondition
+>ActiveFunctions.ProtectAgainstRollAwayMovement()</PreCondition><PreCondition
  Guid="79b64615-021c-461f-922b-70211add0563"
 >THERE_IS X IN Kernel.BrakeCommands.ServiceBrakeCommands | X.Reason == BrakeCommands.BrakeReasonEnum.RollAwayProtection</PreCondition><PreCondition
  Guid="50f77114-17c7-4b24-8640-58273ce3b188"
 >DMI.MasterDMI().In_AcknForRollAwayProtection.InputInformation.RequestStatus == RequestEnum.Disabled AND FORALL X IN DMI.IN.Acknowledgements.Acknowledgements | X.Type != DMI.IN.Acknowledgements.AckTypeEnum.RollAwayProtection</PreCondition><PreCondition
  Guid="52b70b3f-eb59-4ab3-825e-16ad66356ba5"
->Kernel.UndesirableMovement.RollAwayReferencePosition != BaseTypes.Distance.Unknown</PreCondition></PreConditions>
+>RollAwayMovementReferencePosition != BaseTypes.Distance.Unknown</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="8bddf8a3-0d95-411b-87af-28edd2e3585c"
@@ -886,6 +854,86 @@ When the standstill supervision is inactive, it is set to the unknown distance.<
 <Action
  Guid="b3ca7842-6e1a-4c54-a6f7-bf8c419a9b3f"
 >DMI.MasterDMI().In_AcknForReverseMovementProtection.InitiateRequest()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></SubRules>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ X="441"
+ Y="1"
+ Width="100"
+ Height="50"
+ Name="Roll away protection"
+ Guid="7b0a5686-f01f-4452-ad73-92ce382f5a43"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Name="No roll away movement detected"
+ Guid="9b319d79-67d0-4c97-bf9e-33fb1af440ae"
+>
+<PreConditions>
+<PreCondition
+ Guid="00235ef9-59d2-4a62-b4ed-8bd0bcc3d769"
+>ActiveFunctions.ProtectAgainstRollAwayMovement()</PreCondition><PreCondition
+ Guid="0a7ce73f-8f50-48a6-a4a8-425d5f20c5a1"
+>NOT Kernel.UndesirableMovement.RollAwayMovementDetected(Kernel.UndesirableMovement.RollAwayMovementReferencePosition)</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="244ec5bb-c453-4023-89e1-d56ab26c0f13"
+>Kernel.UndesirableMovement.RollAwayMovementReferencePosition &lt;- Odometry.NominalDistance</Action></Actions>
+</RuleCondition><RuleCondition
+ Name="Handling roll away movement situation"
+ Guid="3b5d89ee-1cce-41e4-9f2e-f93046ef0bb1"
+>
+<PreConditions>
+<PreCondition
+ Guid="80a27b77-a7db-4048-a032-bf4aa4e1e85d"
+>Kernel.ActiveFunctions.ProtectAgainstRollAwayMovement()</PreCondition><PreCondition
+ Guid="b932cf16-df5d-43e2-ae8a-ba1aa2c6ac4e"
+>Kernel.UndesirableMovement.RollAwayMovementDetected(Kernel.UndesirableMovement.RollAwayMovementReferencePosition)</PreCondition><PreCondition
+ Guid="6b6e2b90-b7c2-432e-a51b-ec5e180d7043"
+>RollAwayDistanceExceeded()</PreCondition></PreConditions>
+<Actions>
+</Actions>
+<SubRules>
+<Rule
+ Priority="Processing"
+ Name="Applying brakes"
+ Guid="289981f5-2b4c-46e4-ba9f-c9204f5492d3"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Name="Applying brakes"
+ Guid="916b925f-96f0-4833-85d7-775d84291cfc"
+>
+<PreConditions>
+<PreCondition
+ Guid="605d3828-c54e-489c-96f3-529653e12d05"
+>Kernel.UndesirableMovement.MovementDetected()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="b1243751-1d52-4bdf-a962-851687ab5c62"
+>Kernel.BrakeCommands.CommandServiceBrake(BrakeCommands.BrakeReasonEnum.RollAwayProtection)</Action></Actions>
+</RuleCondition><RuleCondition
+ Name="Reset reference position after driver acknowledgement"
+ Guid="205d5af0-20ba-46dd-b02a-e6faf8ce8c7e"
+>
+<PreConditions>
+<PreCondition
+ Guid="1b3f7f9f-2dee-4322-880e-c97c0baad847"
+>Odometry.TrainIsAtStandstill()</PreCondition><PreCondition
+ Guid="04f65081-e63f-4ba8-872f-7f8dde688fa9"
+>FORALL X IN Kernel.BrakeCommands.ServiceBrakeCommands | X.Reason != BrakeCommands.BrakeReasonEnum.RollAwayProtection</PreCondition><PreCondition
+ Guid="100c2586-6faa-4a16-a703-85bc8fe75d7e"
+>DMI.MasterDMI().Out_BrakeReason.OutputInformation.DisplayRequested == False</PreCondition><PreCondition
+ Guid="9bfc1cb4-321d-4a9e-8549-9bd3147d9037"
+>NOT TIU.Brakes.BrakeCommanded()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="63908923-22d9-455a-807a-32bd03e4a077"
+>Kernel.UndesirableMovement.RollAwayMovementReferencePosition &lt;- Odometry.NominalDistance</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition></Conditions>
