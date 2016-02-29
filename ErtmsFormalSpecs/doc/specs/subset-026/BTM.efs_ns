@@ -6375,12 +6375,33 @@ Available(Message.SystemVersion2)</PreCondition></PreConditions>
 >
 <PreConditions>
 <PreCondition
+ Guid="1815d0f4-a07e-4fde-b122-562327b7db22"
+><Comment>This precondition is necessary since in some cases, e.g. during unauthorised reverse movement, balise messages may be refused.</Comment>
+CurrentBaliseGroup != []</PreCondition></PreConditions>
+<Actions>
+</Actions>
+<SubRules>
+<Rule
+ Priority="Processing"
+ Name="Rule1"
+ Guid="17bcfcf2-3688-4f18-a9c1-82cb23a61784"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Name="Clear current balises from current balise group"
+ Guid="d3bd4ad8-f46c-4cb9-862b-bc71aed28bbc"
+>
+<PreConditions>
+<PreCondition
  Guid="80faa721-59ed-4ef4-a364-af49f0e5d159"
 >( COUNT X IN BTM.CurrentBaliseGroup ) == LastReceivedBalise().N_TOTAL + 1</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="74d5488e-85d4-48e9-8de8-43a12dd4b955"
 >BTM.CurrentBaliseGroup &lt;- []</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></SubRules>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition></Conditions>
