@@ -48,7 +48,7 @@
  Guid="8c129deb-34fc-4ca5-8ab7-da58dabaf1fa"
 >Testing.InitializeTestEnvironment
 (
-    aTrainPosition =&gt; 100.0,
+    aTrainPosition =&gt; 10.0,
     aMode =&gt; ModeEnum.SR
 )</Action></Actions>
 </SubStep></SubSteps>
@@ -1943,24 +1943,26 @@ Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_SBI2 (
  Guid="a52b761f-0185-40ed-ab0e-02bb104feff4"
 >Odometry.NominalDistance &lt;- 2000.0</Action><Action
  Guid="39ab1e56-4acd-44e8-9ec2-e6f269b43bf0"
->Odometry.EstimatedSpeed &lt;- 74.0</Action></Actions>
+>Odometry.EstimatedSpeed &lt;- 74.0</Action><Action
+ Guid="2ab71d9d-79a9-4873-b42a-9ed088e07ceb"
+>Testing.SetUndesiredMovementReferences(2000.0)</Action></Actions>
 <Expectations>
 <Expectation
  Kind="Instantaneous"
- Guid="376769c4-d04c-456e-8d6c-2a8a6f0a5bb5"
->Kernel.TrainPosition.FrontEndPosition ( DistanceIntervalEnum.Nom ) == 2000.0</Expectation><Expectation
- Kind="Instantaneous"
- Guid="e80e649a-c27d-4725-a5e0-19b03b43f779"
->Kernel.TrainPosition.FrontEndPosition ( DistanceIntervalEnum.Nom ) + Odometry.EstimatedSpeed * Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.T_bs1 == 2053.28</Expectation><Expectation
- Kind="Instantaneous"
- Guid="d222657c-2e41-4095-9602-4ac34a7e2165"
->Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Vsbi1 ( Kernel.TrainPosition.FrontEndPosition ( DistanceIntervalEnum.Nom ) ) &gt;= 40.3473</Expectation><Expectation
+ Guid="a3a89dc8-1c88-4830-89e1-651afbe24a25"
+>Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Vsbi1 ( 10000.0 ) == 0.0</Expectation><Expectation
  Kind="Instantaneous"
  Guid="23d88e4e-6a40-4543-adcc-915d59cc55c1"
 >Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Vsbi1 ( Kernel.TrainPosition.FrontEndPosition ( DistanceIntervalEnum.Nom ) ) &lt;= 40.3474</Expectation><Expectation
  Kind="Instantaneous"
- Guid="a3a89dc8-1c88-4830-89e1-651afbe24a25"
->Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Vsbi1 ( 10000.0 ) == 0.0</Expectation></Expectations>
+ Guid="d222657c-2e41-4095-9602-4ac34a7e2165"
+>Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.Vsbi1 ( Kernel.TrainPosition.FrontEndPosition ( DistanceIntervalEnum.Nom ) ) &gt;= 40.3473</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="e80e649a-c27d-4725-a5e0-19b03b43f779"
+>Kernel.TrainPosition.FrontEndPosition ( DistanceIntervalEnum.Nom ) + Odometry.EstimatedSpeed * Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.T_bs1 == 2053.28</Expectation><Expectation
+ Kind="Instantaneous"
+ Guid="376769c4-d04c-456e-8d6c-2a8a6f0a5bb5"
+>Kernel.TrainPosition.FrontEndPosition ( DistanceIntervalEnum.Nom ) == 2000.0</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step></Steps>
 </TestCase><TestCase
@@ -2326,7 +2328,7 @@ Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_P  ( aTarget =&gt; Ker
  Guid="047e5d96-20fe-4e3c-8b70-75db90e929c4"
 >Testing.SetFSMode(False)</Action><Action
  Guid="4c4606d8-b723-4842-a97a-7bc3214eb7df"
->Odometry.NominalDistance &lt;-991.0</Action><Action
+>Testing.SetUndesiredMovementReferences(991.0)</Action><Action
  Guid="c646b091-5694-477f-9b26-d7862f591a02"
 >Kernel.TrackDescription.Gradient.Gradients &lt;- [Kernel.TrackDescription.Gradient.GradientStruct{
 Location =&gt; 0.0,
@@ -2339,7 +2341,9 @@ Sections =&gt; [],
 EndSection =&gt; Kernel.MA.EndSectionStruct{
     Length =&gt; 10000.0
 }
-}</Action></Actions>
+}</Action><Action
+ Guid="b6e1fae4-d4d0-45c5-97ca-d86787c13332"
+>Odometry.NominalDistance &lt;-991.0</Action></Actions>
 </SubStep></SubSteps>
 </Step></Steps>
 </TestCase><TestCase

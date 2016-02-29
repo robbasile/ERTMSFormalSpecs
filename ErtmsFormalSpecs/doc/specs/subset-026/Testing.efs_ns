@@ -128,9 +128,7 @@ DMI2 will be the slave and will be connected to the first desk of the CabB.</Com
  Guid="35f34f07-d5ae-493e-8f02-ef3b67c0d497"
 >Kernel.TrainPosition.Position.DirectionalPositionInformation.TrainOrientation &lt;- OrientationEnum.Nominal</Action><Action
  Guid="1291a54b-c79c-48e9-bcc8-72ceb3a1f21f"
->Kernel.UndesirableMovement.ReverseMovementReferencePosition &lt;- aTrainPosition</Action><Action
- Guid="86b82c21-1f07-4ba1-b4e6-d988bc641262"
->Kernel.UndesirableMovement.RollAwayMovementReferencePosition &lt;- aTrainPosition</Action></Actions>
+>SetUndesiredMovementReferences(aTrainPosition)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -5333,6 +5331,39 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
 <Action
  Guid="24727e78-c449-42d6-84ec-a5afec9d581e"
 >Kernel.TrainData.BrakingParameters.ConversionModel.Initialize()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ Name="SetUndesiredMovementReferences"
+ Guid="29717919-ce20-4cb7-a091-6d0b448b1c3d"
+>
+<Parameters>
+<Parameter
+ Type="Default.BaseTypes.Distance"
+ Name="aDistance"
+ Guid="84ffdd60-db82-4084-90e4-56a03fdc3857"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Priority="Processing"
+ Name="Rule1"
+ Guid="0b3f620e-ec23-4eee-9945-fe866845ba26"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Name="Undesired movement references"
+ Guid="69ff22e8-4117-4e03-844a-e65d87611dbf"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="63b56f82-5741-4427-ae8a-143eec725013"
+>Kernel.UndesirableMovement.ReverseMovementReferencePosition &lt;- aDistance</Action><Action
+ Guid="7ca859da-6492-49ff-a26a-69fac4711f24"
+>Kernel.UndesirableMovement.RollAwayMovementReferencePosition &lt;- aDistance</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
